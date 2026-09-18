@@ -7202,6 +7202,9 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 .bd-oyuncu-eylemler.tek { grid-template-columns: 1fr; }
 .bd-oyuncu-eylemler > .btn:last-child:nth-child(odd) { grid-column: 1 / -1; }
 .bd-oyuncu-eylemler .btn { width: 100%; min-height: 46px; padding: 10px 8px; font-size: 15px; gap: 6px; }
+/* ".bd-modal-katman .btn:not(.tehlike):not(.basari)" (satır ~4475) her modal düğmesini
+   turuncuya boyuyor — ikincil ondan güçlü seçiciyle beyaz kalır. */
+.bd-modal-katman .bd-oyuncu-eylemler .btn.ikincil,
 .bd-oyuncu-eylemler .btn.ikincil {
   background: #FFFFFF; color: #C4530F; text-shadow: none;
   border: 2px solid var(--bd-vurgu);
@@ -7257,4 +7260,167 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 @media (prefers-reduced-motion: reduce) {
   .app .bd-meydan-serit { animation: none; }
   .bd-meydan-serit-nokta i { animation: none; opacity: 0.8; }
+}
+
+/* ============================================================
+   Paket 35 E — MESAJLAŞMA
+   Sohbet katmanı body'ye portal ile basılır (".app" öneki YOK) ve
+   kendisinde transform YOK (iOS: fixed + transform aynı öğede olmaz).
+   Kontrast: beyaz yazı #F4701F üstünde 2.98:1 (AA değil) → kendi balonunda
+   yazı #1B1B1B (≈ 6.3:1). Karşı taraf: beyaz zemin, koyu metin.
+   ============================================================ */
+.bd-sohbet {
+  position: fixed; left: 0; right: 0; top: 0; z-index: 90;
+  height: 100dvh;
+  margin-inline: auto; width: 100%; max-width: 540px;
+  display: flex; flex-direction: column;
+  background: var(--bd-zemin);
+  color: var(--bd-metin);
+  font-family: var(--bd-f-govde);
+}
+.bd-sohbet-ust {
+  display: flex; align-items: center; gap: 8px;
+  padding: max(10px, env(safe-area-inset-top)) 12px 10px;
+  background: var(--bd-yuzey-1);
+  border-bottom: 2px solid var(--bd-kart-alt);
+}
+.bd-sohbet-geri, .bd-sohbet-kisi {
+  border: 0; background: none; color: inherit; font: inherit; cursor: pointer;
+  min-height: 44px; border-radius: 12px;
+}
+.bd-sohbet-geri { width: 44px; display: grid; place-items: center; color: var(--bd-vurgu-2); }
+.bd-sohbet-kisi { display: flex; align-items: center; gap: 10px; padding: 0 6px; min-width: 0; text-align: left; }
+.bd-sohbet-ad {
+  font-family: var(--bd-f-baslik); font-weight: 800; font-size: 18px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.bd-sohbet-geri:focus-visible, .bd-sohbet-kisi:focus-visible { outline: 3px solid var(--bd-vurgu); outline-offset: 2px; }
+
+.bd-sohbet-liste {
+  flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: 12px 12px 8px;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.bd-sohbet-bilgi { text-align: center; font-size: 13px; font-weight: 700; color: var(--bd-metin-2); padding: 8px 0; }
+.bd-balon-satir { display: flex; }
+.bd-balon-satir.ben { justify-content: flex-end; }
+.bd-balon {
+  max-width: 78%;
+  padding: 8px 12px 6px;
+  border-radius: 16px;
+  display: flex; flex-direction: column; gap: 2px;
+  animation: bd-balon-gel 0.16s ease-out;
+  box-shadow: 0 2px 0 rgba(32, 50, 74, 0.08);
+}
+@keyframes bd-balon-gel { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.bd-balon-satir.ben .bd-balon { background: var(--bd-vurgu); color: #1B1B1B; border-bottom-right-radius: 4px; }
+.bd-balon-satir.o .bd-balon { background: var(--bd-yuzey-1); color: var(--bd-metin); border-bottom-left-radius: 4px; }
+.bd-balon-metin { font-size: 15px; font-weight: 600; line-height: 1.4; white-space: pre-wrap; overflow-wrap: anywhere; }
+.bd-balon-saat { align-self: flex-end; font-size: 11px; font-weight: 700; }
+.bd-balon-satir.ben .bd-balon-saat { color: #3A1600; }
+.bd-balon-satir.o .bd-balon-saat { color: var(--bd-metin-2); }
+
+.bd-sohbet-yeni {
+  align-self: center; margin: -44px 0 8px; position: relative; z-index: 1;
+  border: 0; border-radius: 999px; padding: 8px 14px; min-height: 36px;
+  background: var(--bd-vurgu); color: #1B1B1B; font: inherit; font-size: 13px; font-weight: 900;
+  box-shadow: 0 4px 0 var(--bd-vurgu-2); cursor: pointer;
+}
+.bd-sohbet-yeni:active { transform: translateY(4px); box-shadow: none; }
+.bd-sohbet-hata {
+  margin: 0 12px 6px; padding: 8px 10px; border-radius: 10px;
+  background: #FFE9E9; color: #9B1C1C; font-size: 13px; font-weight: 800;
+}
+.bd-sohbet-kapali {
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px));
+  background: var(--bd-yuzey-1); border-top: 2px solid var(--bd-kart-alt);
+  font-size: 13px; font-weight: 800; color: var(--bd-metin-2); text-align: center;
+}
+
+.bd-sohbet-alt {
+  position: relative;
+  background: var(--bd-yuzey-1); border-top: 2px solid var(--bd-kart-alt);
+  padding: 8px 10px calc(8px + env(safe-area-inset-bottom, 0px));
+}
+.bd-sohbet-giris { display: flex; align-items: flex-end; gap: 8px; }
+.bd-sohbet-metin {
+  flex: 1; min-width: 0; resize: none;
+  font: inherit; font-size: 16px;   /* 16px: iOS odakta yakınlaştırmasın */
+  line-height: 1.35; padding: 9px 12px;
+  border-radius: 18px; border: 2px solid var(--bd-kenar);
+  background: #FFFFFF; color: var(--bd-metin);
+  overflow-y: auto;
+}
+.bd-sohbet-metin:focus { outline: none; border-color: var(--bd-vurgu); }
+.bd-sohbet-emoji, .bd-sohbet-gonder {
+  flex: none; width: 44px; height: 44px; border-radius: 50%;
+  display: grid; place-items: center; border: 0; cursor: pointer;
+}
+.bd-sohbet-emoji { background: var(--bd-zemin); color: var(--bd-vurgu-2); }
+.bd-sohbet-emoji.acik { background: #FFE3CC; }
+.bd-sohbet-gonder {
+  background: var(--bd-vurgu); color: #1B1B1B;
+  box-shadow: 0 4px 0 var(--bd-vurgu-2);
+  transition: transform 0.08s ease, box-shadow 0.08s ease, opacity 0.15s ease;
+}
+.bd-sohbet-gonder:active:not(:disabled) { transform: translateY(4px); box-shadow: none; }
+.bd-sohbet-gonder:disabled { opacity: 0.45; cursor: not-allowed; }
+.bd-sohbet-gonder.calisiyor:disabled { opacity: 1; }
+.bd-sohbet-donen {
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 3px solid rgba(27, 27, 27, 0.25); border-top-color: #1B1B1B;
+  animation: bd-sohbet-don 0.7s linear infinite;
+}
+@keyframes bd-sohbet-don { to { transform: rotate(360deg); } }
+.bd-sohbet-sayac { text-align: right; font-size: 11px; font-weight: 800; color: var(--bd-metin-2); margin-top: 4px; }
+.bd-sohbet-sayac.asti { color: #B42318; }
+
+/* Emoji seçici: metin kutusunun üstünde, 6 sütun */
+.bd-emoji-secici {
+  position: absolute; left: 8px; right: 8px; bottom: calc(100% + 6px);
+  background: var(--bd-yuzey-1); border-radius: 16px;
+  border: 2px solid var(--bd-kart-alt); box-shadow: 0 4px 0 var(--bd-kart-alt), 0 8px 20px rgba(32, 50, 74, 0.16);
+  padding: 8px;
+}
+.bd-emoji-sekmeler { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; margin-bottom: 6px; }
+.bd-emoji-sekme {
+  min-height: 36px; border: 0; border-radius: 10px; background: none; font-size: 18px; cursor: pointer;
+}
+.bd-emoji-sekme.aktif { background: #FFE3CC; box-shadow: inset 0 -3px 0 var(--bd-vurgu); }
+.bd-emoji-izgara { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; }
+.bd-emoji {
+  min-height: 44px; border: 0; border-radius: 12px; background: var(--bd-zemin);
+  font-size: 24px; line-height: 1; cursor: pointer;
+}
+.bd-emoji:active { transform: translateY(2px); }
+.bd-emoji:focus-visible, .bd-emoji-sekme:focus-visible { outline: 3px solid var(--bd-vurgu); outline-offset: 1px; }
+
+/* Sohbet listesi */
+.app .bd-dm-satir {
+  width: 100%; border: 0; font: inherit; color: inherit; text-align: left; cursor: pointer;
+}
+.app .bd-dm-satir:active { transform: translateY(2px); }
+.app .bd-dm-onizleme { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.app .bd-dm-satir.okunmamis .isim, .app .bd-dm-satir.okunmamis .bd-dm-onizleme { font-weight: 900; color: var(--bd-metin); }
+.app .bd-dm-sag { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex: none; }
+.app .bd-dm-saat { font-size: 12px; font-weight: 700; color: var(--bd-metin-2); }
+
+/* Okunmamış rozeti: turuncu zemin, beyaz 11px kalın, 999px, min 18px.
+   Beyaz / #F4701F 2.98:1 — 11px metin için AA değil → zemin marka turuncusunun
+   koyu tonu (#C4530F, 4.9:1). */
+.bd-dm-rozet {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 18px; height: 18px; padding: 0 5px;
+  border-radius: 999px; background: var(--bd-vurgu-2); color: #FFFFFF;
+  font-size: 11px; font-weight: 900; line-height: 1; font-family: var(--bd-f-govde);
+}
+.app .bd-mesajlar-dugme { margin-bottom: 12px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .bd-balon { animation: none; }
+  .bd-sohbet-donen { animation: none; }
+  .bd-sohbet-gonder, .bd-sohbet-yeni { transition: none; }
+  .bd-sohbet-gonder:active:not(:disabled), .bd-sohbet-yeni:active, .bd-emoji:active,
+  .app .bd-dm-satir:active { transform: none; }
 }

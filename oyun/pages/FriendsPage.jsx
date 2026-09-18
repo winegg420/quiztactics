@@ -12,6 +12,7 @@ import { facebookArkadasOnerileri, facebookDavetAc } from "../lib/facebookArkada
 import { tt } from "../lib/dil.js";
 import ModSecimPenceresi from "../components/ModSecimPenceresi.jsx";
 import OyuncuKarti from "../components/OyuncuKarti.jsx";
+import { useDmOkunmamis, rozetMetni } from "../lib/mesajlar.js";
 
 const DOSTLUK_SECIMI = `id, requester, addressee, durum,
   req:profiles!friendships_requester_fkey(id, gorunen_ad, gorunen_avatar, gorunum, puan),
@@ -30,6 +31,7 @@ export default function FriendsPage() {
   const [silOnay, setSilOnay] = useState(null);
   const [modHedef, setModHedef] = useState(null);   // Paket 30 B: mod penceresi açık olan arkadaş
   const [kartHedef, setKartHedef] = useState(null); // Paket 35 C: profil kartı açık olan arkadaş
+  const dmOkunmamis = useDmOkunmamis(user?.id);     // Paket 35 E: Mesajlar düğmesindeki rozet
   // Paket 35 D: gönderdiğim, yanıt bekleyen meydan okumalar — rakip id → { tur, id }.
   // Sayfa açılınca sunucudan okunur (yenileyince kaybolmaz); kabul/red/geri çekme realtime ile düşer.
   const [bekleyenMeydan, setBekleyenMeydan] = useState(() => new Map());
@@ -275,6 +277,16 @@ export default function FriendsPage() {
   return (
     <div>
       <h1 className="baslik">{tt("Arkadaşlar")}</h1>
+      {/* Paket 35 E: alt çubuğa yedinci sekme yerine buradan (okunmamış varsa rozet) */}
+      <button
+        type="button"
+        className="btn ikincil bd-mesajlar-dugme"
+        onClick={() => navigate(y("/mesajlar"))}
+        aria-label={dmOkunmamis > 0 ? tt("Mesajlar, {0} okunmamış", { 0: dmOkunmamis }) : tt("Mesajlar")}
+      >
+        <Ikon ad="mesaj" boyut={18} /> {tt("Mesajlar")}
+        {dmOkunmamis > 0 && <span className="bd-dm-rozet" aria-hidden="true">{rozetMetni(dmOkunmamis)}</span>}
+      </button>
       {hata && <div className="hata-kutu">{hata}</div>}
       {bilgi && <div className="bd-bilgi-kutu">{bilgi}</div>}
       {/* Paket 35 C: satıra dokununca profil kartı; kart yalnız verilen eylemleri çizer */}

@@ -6,6 +6,7 @@ import { useAuth } from "../../src/context/AuthContext.jsx";
 import Ikon from "./Ikon.jsx";
 import { y } from "../lib/yol.js";
 import { tt, ttSunucu } from "../lib/dil.js";
+import { useDmOkunmamis } from "../lib/mesajlar.js";
 
 const TIP_IKON = {
   mac_daveti: "kilic",
@@ -111,6 +112,10 @@ export default function BildirimZili() {
   const [acik, setAcik] = useState(false);
   const [liste, setListe] = useState([]);
   const [okunmamis, setOkunmamis] = useState(0);
+  // Paket 35 E: okunmamış direkt mesajlar zilde AYRICA sayılır (bildirimler tablosuna yazılmaz;
+  // yazılsaydı çift sayılırdı). Zili açmak onları okundu yapmaz — sohbeti açmak yapar.
+  const dmOkunmamis = useDmOkunmamis(user?.id);
+  const toplam = okunmamis + dmOkunmamis;
   // Panel body'ye portallanır; konumu zil düğmesinin ekrandaki yerine göre hesaplanır.
   const zilRef = useRef(null);
   const [konum, setKonum] = useState(null);
@@ -202,7 +207,18 @@ export default function BildirimZili() {
         style={konum ? { top: konum.ust } : undefined}
       >
         <div className="bd-zil-baslik">{tt("Bildirimler")}</div>
-        {liste.length === 0 ? (
+        {dmOkunmamis > 0 && (
+          <button
+            className="bd-zil-satir"
+            onClick={() => { setAcik(false); navigate(y("/mesajlar")); }}
+          >
+            <span className="ikon" aria-hidden="true"><Ikon ad="mesaj" boyut={18} /></span>
+            <span className="govde">
+              <span className="metin">{tt("{0} okunmamış mesaj", { 0: dmOkunmamis })}</span>
+            </span>
+          </button>
+        )}
+        {liste.length === 0 && dmOkunmamis === 0 ? (
           <div className="bd-zil-bos">
             {tt("Henüz bildirim yok.")}<br />
             {tt("Maç davetleri, lig hareketleri ve arkadaşlık istekleri burada görünür.")}
@@ -234,10 +250,10 @@ export default function BildirimZili() {
       <button
         className="bd-zil"
         onClick={ac}
-        aria-label={`${tt("Bildirimler")}${okunmamis > 0 ? tt(", {0} okunmamış", { 0: okunmamis }) : ""}`}
+        aria-label={`${tt("Bildirimler")}${toplam > 0 ? tt(", {0} okunmamış", { 0: toplam }) : ""}`}
       >
         <Ikon ad="zil" boyut={19} />
-        {okunmamis > 0 && <span className="bd-zil-rozet">{okunmamis > 9 ? "9+" : okunmamis}</span>}
+        {toplam > 0 && <span className="bd-zil-rozet">{toplam > 9 ? "9+" : toplam}</span>}
       </button>
 
       {acik && typeof document !== "undefined" && createPortal(panel, document.body)}

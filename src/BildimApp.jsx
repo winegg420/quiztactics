@@ -28,6 +28,7 @@ import GroupMatchPage from "../oyun/pages/GroupMatchPage.jsx";
 const TournamentPage = lazy(() => import("../oyun/pages/TournamentPage.jsx"));
 const LeaderboardPage = lazy(() => import("../oyun/pages/LeaderboardPage.jsx"));
 const FriendsPage = lazy(() => import("../oyun/pages/FriendsPage.jsx"));
+const MesajlarPage = lazy(() => import("../oyun/pages/MesajlarPage.jsx"));   // Paket 35 E
 const ProfilePage = lazy(() => import("../oyun/pages/ProfilePage.jsx"));
 const DavetPage = lazy(() => import("../oyun/pages/DavetPage.jsx"));
 const JokerDukkani = lazy(() => import("../oyun/pages/JokerDukkani.jsx"));
@@ -120,6 +121,8 @@ export default function BildimApp() {
           <Route path="hizli-mac/:id" element={<Navigate to="/bildim" replace />} />
           <Route path="siralama" element={<LeaderboardPage />} />
           <Route path="arkadaslar" element={<FriendsPage />} />
+          <Route path="mesajlar" element={<MesajlarPage />} />
+          <Route path="mesajlar/:kisi" element={<MesajlarPage />} />
           <Route path="davet/:kod" element={<DavetPage />} />
           <Route path="joker" element={<JokerDukkani />} />
           <Route path="hizli-mod" element={<Navigate to="/bildim" replace />} />
