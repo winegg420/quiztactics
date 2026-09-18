@@ -11,10 +11,10 @@
 // (`/avatars/kNN.svg`) ya da onaylanmış Google fotoğrafı. Yoksa baş harf.
 //
 // BURADA 3B KARAKTER ÇİZİLMEZ. 3B karakter YALNIZ MEYDANDA yaşar
-// (`bildim/avatar3d/`); listelerde, maç ekranında, lig tablosunda,
+// (`oyun/avatar3d/`); listelerde, maç ekranında, lig tablosunda,
 // turnuva podyumunda işi yoktur.
 //
-// 2B PatiRun karakter sistemi (`bildim/karakter/`) de buradan ÇIKTI.
+// 2B PatiRun karakter sistemi (`oyun/karakter/`) de buradan ÇIKTI.
 // Dosyalar depoda duruyor ama hiçbir ekran onları çağırmıyor.
 // ============================================================
 

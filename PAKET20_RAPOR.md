@@ -305,7 +305,7 @@ cannot be represented accurately in double precision   (+4 benzer satır)
 ```
 - **Kaynak:** three.js'in **kendi** `PMREMGGXConvolution` ShaderMaterial'ı (ortam haritası ön-filtreleme; `#define SHADER_NAME PMREMGGXConvolution`). Bizim shader'ımız değil.
 - **Neden:** Windows'ta Chrome GLSL'i HLSL'e çeviriyor; Direct3D derleyicisi bir kayan nokta sabitini "tam gösterilemez" diye uyarıyor. Program bağlanıyor, görüntü doğru. macOS / iOS / Android'de bu yol yok.
-- **Düzeltme:** `bildim/lib/threeKonsol.js`, three.js'in resmi `setConsoleFunction` kancasıyla **tek dar kural** koyuyor: WebGLProgram "Program Info Log" uyarısı **ve** günlüğün bütün satırları X4122 ise yazılmaz.
+- **Düzeltme:** `oyun/lib/threeKonsol.js`, three.js'in resmi `setConsoleFunction` kancasıyla **tek dar kural** koyuyor: WebGLProgram "Program Info Log" uyarısı **ve** günlüğün bütün satırları X4122 ise yazılmaz.
   - Bağlanamayan program (three.js `error` ile bildirir) ve başka her uyarı aynen konsola gider.
   - Ölçülen tuzak: ANGLE günlüğün sonuna **NUL karakteri** ekliyor, `trim()` onu silmiyor; ilk sürüm bu yüzden süzmüyordu, denetim karakterleri de atıldı.
   - `harita/dunya.js` ve `vitrin/vitrinSahne.js`'e **yalnız birer import satırı** eklendi; görsele dokunulmadı.
@@ -337,7 +337,7 @@ Kabuk düzeneğinin **üretim derlemesi**, iPhone görünümü. Toplanan: `warni
 | Vitrin (3B) | 0 | 0 |
 | Hatalarım · Profil · Dükkân · Arkadaşlar | 0 | 0 |
 | Meydan (3B, ayrı düzenek) | 1 · X4122 | 0 |
-| **Canlı** quiztactics.vercel.app giriş + /bildim/meydan (oturumsuz) | 0 | — |
+| **Canlı** quiztactics.vercel.app giriş + /oyun/meydan (oturumsuz) | 0 | — |
 
 **Bulunan 3. uyarı:** bitmiş bir maç linkle (dokunmadan) açılınca sonuç sesi ve titreşim deneniyordu. `ses.js › ton()` ve `geriBildirim.js › titret()` artık `navigator.userActivation.hasBeenActive` yoksa denemiyor; eski tarayıcıda (`userActivation` yok) davranış aynı. Titreşim çağrısı tek yerden geçiyordu, başka yer yok.
 

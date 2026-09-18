@@ -90,7 +90,7 @@ Sınama düzeneğinde (gerçek `Layout` + vitrin, geliştirme ve **üretim derle
 - **Kalıcı** T-pozu ise ne geliştirme ne üretim düzeneğinde yeniden üretilebildi: üç türde de `Idle` oynuyor, kollar aşağıda (önce görselleri).
 - Canlıda kalıcı görüldüyse sebebi bu ölçümlerin dışında. Olası bir açıklama da `Idle`'ın kendisinin çok az hareketli olması: bacaklar açık, kollar hafif yanda duran "manken" duruşu.
 
-### Düzeltme (`bildim/vitrin/vitrinSahne.js`, `KarakterVitrini.jsx`)
+### Düzeltme (`oyun/vitrin/vitrinSahne.js`, `KarakterVitrini.jsx`)
 - `goster()` **her çağrıda** `Idle`'ı **zamanla** bağlıyor (`klip(k, "Idle", 0)` → `mixer.update(0)`). Karakter kurulduğu anda doğru pozda, T karesi yok.
 - **Selam (isteğe bağlı madde, eklendi):**
   - İlk açılışta Idle; oyuncu **tür seçince ya da kozmetik takınca/çıkarınca** bir kez `Selam` (tek sefer, sonunda donar), bitince 0,35 sn geçişle `Idle`.
@@ -110,7 +110,7 @@ Betikler: `.tmp/p19/c_kanca.mjs`, `c_dogrula.mjs`, `c_poz.mjs`, `c_selam.mjs`.
 ## D — Dükkân › Görünüm artık kozmetik vitrini
 
 ### Yapılan
-- **Yeni `bildim/vitrin/GorunumVitrini.jsx`**, Dükkân › Görünüm sekmesinde tek "Karakterim" satırının yerine geçti.
+- **Yeni `oyun/vitrin/GorunumVitrini.jsx`**, Dükkân › Görünüm sekmesinde tek "Karakterim" satırının yerine geçti.
   - `vitrin_katalogum()`'daki bütün kozmetikler kart olarak listeleniyor: **oyuncunun kendi karakteri (kendi türü) üstünde portre + ad + durum**.
   - Durum dili vitrinle aynı: **fiyat** (turuncu, `2.000 coin` binlik ayraçlı), **"Sahipsin"** rozeti, **"Satılmaz · turnuva ödülü"** kilidi, **"Yakında"** kilidi.
   - Karta dokununca `/gorunum` vitrinine gider. Altta "Karakterime git" düğmesi.
@@ -126,7 +126,7 @@ Betikler: `.tmp/p19/c_kanca.mjs`, `c_dogrula.mjs`, `c_poz.mjs`, `c_selam.mjs`.
 | Sayfadaki `<canvas>` | 0 | 0 |
 | Kartlar | 10 (7 portreli + 3 Yakında) | 10 |
 | Sekmedeki satın alma düğmesi | 0 | 0 |
-| Kart bağlantı hedefi | `/bildim/gorunum` (uygulamada `y()` önekini çözüyor) | aynı |
+| Kart bağlantı hedefi | `/gorunum` (uygulamada `y()` önekini çözüyor) | aynı |
 | Yatay taşma | 0 | 0 |
 
 Kart durumları (sahte katalog: şapka + atkı sahip): Şapka → Sahipsin · Gözlük → 350 coin · Güneş gözlüğü → 450 coin · Taç → Satılmaz · Pelerin → Satılmaz · Atkı → Sahipsin · Kanat → 2.000 coin · Saç / Elbise / Alt → Yakında.
@@ -143,7 +143,7 @@ Görseller: `gorsel/paket19/d-1-dukkan-gorunum-masaustu.jpg`, `d-2-dukkan-gorunu
 
 **Düzeltme** (`.app` genişliği 620 değişmedi):
 1. `src/styles.css` (≥1024 px): `.sayfa { display:flex; flex-direction:column; justify-content: safe center; }` — kısa sayfa dikeyde ortalanır; `safe` sayesinde uzun sayfa üstten başlar, yukarı kesilmez. Telefon düzeni değişmedi.
-2. `bildim/styles/tema.css` `body`: zemin rengi `--bd-zemin-2` + degrade `no-repeat` — degrade bittiği yerde aynı krem renkle kesintisiz sürer; masaüstünde (fixed çalışıyor) görünüm aynı.
+2. `oyun/styles/tema.css` `body`: zemin rengi `--bd-zemin-2` + degrade `no-repeat` — degrade bittiği yerde aynı krem renkle kesintisiz sürer; masaüstünde (fixed çalışıyor) görünüm aynı.
 
 **Ölçüm (sonra)**
 
@@ -170,7 +170,7 @@ Görseller (`gorsel/paket19/`): `e-once-*` / `e-sonra-*` × `masaustu|iphone` ×
 
 ### F.1 Ölçüm
 
-**Kart ne zaman çıkıyor** (`bildim/components/BildirimIzniSor.jsx`, Paket 17 §B hali):
+**Kart ne zaman çıkıyor** (`oyun/components/BildirimIzniSor.jsx`, Paket 17 §B hali):
 | Koşul | Değer |
 |---|---|
 | Nerede | Yalnız maç **sonuç** ekranı: Normal Maç (`MatchPage`), Düello (`DuelloPage`), Hızlı Mod (`HizliModPage`). Başka giriş yok (Profil › Bildirimler hariç) |

@@ -12,9 +12,6 @@ supabase/.branches
 .vercel
 .env*
 !.env.example
-# Sır içermez, yalnız derleme modunu seçer; izlenmeli ki
-# `npm run build:bildim` temiz klonda da çalışsın.
-!.env.bildim
 
 # wrangler pages dev yerel önbelleği
 .wrangler/
@@ -23,4 +20,4 @@ supabase/.branches
 .tmp/
 
 # Aşama 1E muayene: ham görünümler ara üründür (her çalıştırmada yeniden üretilir); kontakt sayfası + adaylar.json commit edilir
-bildim/harita/muayene/cikti/**/*.png
+oyun/harita/muayene/cikti/**/*.png

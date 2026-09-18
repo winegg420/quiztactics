@@ -1,6 +1,6 @@
 import { Component } from "react";
 import { hataBildir } from "../lib/hataIzleme.js";
-import { tt } from "../../bildim/lib/dil.js";
+import { tt } from "../../oyun/lib/dil.js";
 
 /**
  * Uygulama genelinde hata sınırı.

@@ -4,61 +4,22 @@ import fs from "node:fs";
 import path from "node:path";
 
 // ============================================================
-// BİLDİM MODU EKLENTİSİ
+// TEK SİTE — Quiz Tactics
 //
-// Aynı depo iki site yayınlıyor. Kod tarafını src/main.jsx seçiyor; ama
-// index.html, manifest, robots ve sitemap statik dosyalar — onları da moda
-// göre uyarlamak gerekiyor. Bu eklenti YALNIZ VITE_MOD=bildim iken devreye
-// girer; hub derlemesi (Vercel) hiç etkilenmez.
+// Bu depo eskiden İKİ Vercel projesini besliyordu (idaGG Game Center hub +
+// Quiz Tactics) ve ayrımı `VITE_MOD` yapıyordu. Quiz Tactics kendi deposuna
+// taşındı; `VITE_MOD` ve moda bağlı bütün dallanmalar kalktı.
 //
-// Site adresi VITE_SITE_URL ile verilir (Cloudflare panelinden). Verilmezse
-// robots'a Sitemap satırı yazılmaz ve sitemap üretilmez — yanlış adres
-// yayınlamaktansa hiç yayınlamamak doğrusu.
+// Site kimliği (başlık, paylaşım kartları, manifest, ikon) artık `index.html`
+// içinde STATİK duruyor — derleme sırasında hiçbir şey değiştirilmiyor.
+// Aşağıdaki eklentinin tek işi, adrese bağlı olduğu için elle yazılamayan iki
+// dosyayı üretmek: robots.txt ve sitemap.xml.
 // ============================================================
-// KÖK `index.html` HUB'IN (idaGG Game Center) KİMLİĞİNİ TAŞIR: başlık,
-// açıklama, og/twitter alanları ve manifest oradaki hâliyle hub'ındır.
-// Quiz Tactics derlemesinde (VITE_MOD=bildim) aşağıdaki eklenti hepsini
-// kendi değerleriyle DEĞİŞTİRİR. Yani iki sitenin kimliği iki yerde:
-//   hub          → index.html (statik)
-//   Quiz Tactics  → bu eklenti
-function bildimModuEklentisi(mod, siteUrl) {
-  const aktif = mod === "bildim";
+function yayinDosyalari(siteUrl) {
   return {
-    name: "bildim-modu",
+    name: "yayin-dosyalari",
     apply: "build",
-
-    // ---- index.html: başlık, paylaşım kartı, manifest, tema ----
-    transformIndexHtml(html) {
-      if (!aktif) return html;
-      const ad = "Quiz Tactics — Bilgi Yarışması";
-      const aciklama =
-        "Türkçe bilgi yarışması: 1v1 meydan okuma, günlük turnuvalar, şehir ve ülke ligleri. Binlerce soru, ücretsiz.";
-      const gorsel = siteUrl ? `${siteUrl}/bildim-icon-512.png` : "/bildim-icon-512.png";
-      let c = html;
-      c = c.replace(/<title>[\s\S]*?<\/title>/, `<title>${ad}</title>`);
-      c = c.replace(/(<meta name="description" content=")[^"]*(")/, `$1${aciklama}$2`);
-      c = c.replace(/(<meta property="og:site_name" content=")[^"]*(")/, `$1Quiz Tactics$2`);
-      c = c.replace(/(<meta property="og:title" content=")[^"]*(")/, `$1${ad}$2`);
-      c = c.replace(/(<meta property="og:description" content=")[^"]*(")/, `$1${aciklama}$2`);
-      c = c.replace(/(<meta name="twitter:title" content=")[^"]*(")/, `$1${ad}$2`);
-      c = c.replace(/(<meta name="twitter:description" content=")[^"]*(")/, `$1${aciklama}$2`);
-      c = c.replace(/(<meta property="og:image" content=")[^"]*(")/, `$1${gorsel}$2`);
-      c = c.replace(/(<meta name="twitter:image" content=")[^"]*(")/, `$1${gorsel}$2`);
-      c = c.replace(/(<meta name="apple-mobile-web-app-title" content=")[^"]*(")/, `$1Quiz Tactics$2`);
-      c = c.replace(/(<link rel="manifest" href=")[^"]*(")/, `$1/bildim.webmanifest$2`);
-      c = c.replace(/(<link rel="icon" type="image\/png" href=")[^"]*(")/, `$1/bildim-icon-192.png$2`);
-      c = c.replace(/(<link rel="apple-touch-icon" href=")[^"]*(")/, `$1/bildim-icon-192.png$2`);
-      if (siteUrl) {
-        c = c.replace(/(<meta property="og:url" content=")[^"]*(")/, `$1${siteUrl}/$2`);
-        // Yinelenen içerik: aynı oyun hub'da /bildim altında da duruyor.
-        c = c.replace(/<\/head>/, `  <link rel="canonical" href="${siteUrl}/" />\n  </head>`);
-      }
-      return c;
-    },
-
-    // ---- statik dosyalar: manifest / robots / sitemap ----
     writeBundle(secenekler) {
-      if (!aktif) return;
       const kok = secenekler.dir || "dist";
       const yaz = (ad, icerik) => {
         try {
@@ -68,20 +29,6 @@ function bildimModuEklentisi(mod, siteUrl) {
         }
       };
 
-      // Manifest: start_url ve kısayollar /bildim önekinden arındırılır.
-      try {
-        const my = path.join(kok, "bildim.webmanifest");
-        const m = JSON.parse(fs.readFileSync(my, "utf8"));
-        const sil = (u) => (typeof u === "string" ? u.replace(/^\/bildim/, "") || "/" : u);
-        m.start_url = sil(m.start_url);
-        m.scope = "/";
-        if (Array.isArray(m.shortcuts)) m.shortcuts = m.shortcuts.map((k) => ({ ...k, url: sil(k.url) }));
-        fs.writeFileSync(my, JSON.stringify(m, null, 2));
-      } catch (e) {
-        this.warn(`bildim.webmanifest uyarlanamadı: ${e.message}`);
-      }
-
-      // robots.txt
       yaz(
         "robots.txt",
         "User-agent: *\nAllow: /\n" + (siteUrl ? `\nSitemap: ${siteUrl}/sitemap.xml\n` : "")
@@ -100,7 +47,7 @@ function bildimModuEklentisi(mod, siteUrl) {
             "\n</urlset>\n"
         );
       } else {
-        // Adres bilinmiyorsa hub'ın sitemap'ini yayınlamak yanlış olur.
+        // Adres bilinmiyorsa yanlış bir sitemap yayınlamaktansa hiç yayınlama.
         try {
           fs.rmSync(path.join(kok, "sitemap.xml"), { force: true });
         } catch {
@@ -112,108 +59,95 @@ function bildimModuEklentisi(mod, siteUrl) {
 }
 
 export default defineConfig(({ mode }) => {
-  // İki kaynak birden okunur:
-  //   • .env.bildim dosyası  → yerelde `npm run build:bildim` (her işletim sisteminde)
-  //   • gerçek ortam değişkeni → Cloudflare Pages paneli (öncelikli)
   const env = { ...loadEnv(mode, process.cwd(), ""), ...process.env };
-  const uygulamaModu = env.VITE_MOD || "";
-  // Quiz Tactics'in yayın adresi. VITE_SITE_URL verilmezse bu kullanılır:
-  // robots/sitemap ve og:url "adres bilinmiyor" diye boş kalmaz.
+  // Yayın adresi. VITE_SITE_URL verilmezse bu kullanılır; robots/sitemap
+  // "adres bilinmiyor" diye boş kalmasın.
   //
   // DİKKAT — burada ÇALIŞAN bir adres olmalı. Bir süre `quizsquare.app`
-  // yazıyordu ama o alan adı HENÜZ SATIN ALINMADI (nslookup: NXDOMAIN);
-  // ortam değişkeni silinseydi sitemap ve paylaşım kartları var olmayan bir
-  // adresi duyuracaktı. Gerçek alan adı (quiztactics.com) alınınca hem burası
-  // hem Vercel'deki VITE_SITE_URL güncellenmeli.
-  //
-  // 17 Eyl 2026: Vercel projesi quizsquare → quiztactics oldu; yeni yayın
-  // adresi quiztactics.vercel.app. Eski quizsquare.vercel.app alan adı
-  // projede DURUYOR (eski paylaşılmış linkler kırılmasın diye), ama
-  // duyurulan adres artık yeni olan.
+  // yazıyordu ama o alan adı hiç alınmamıştı (nslookup: NXDOMAIN) ve sitemap
+  // var olmayan bir adresi duyuruyordu. Gerçek alan adı (quiztactics.com)
+  // alınınca hem burası hem Vercel'deki VITE_SITE_URL güncellenmeli.
   const VARSAYILAN_SITE = "https://quiztactics.vercel.app";
-  const siteUrl = (env.VITE_SITE_URL || (uygulamaModu === "bildim" ? VARSAYILAN_SITE : ""))
-    .replace(/\/+$/, "");
+  const siteUrl = (env.VITE_SITE_URL || VARSAYILAN_SITE).replace(/\/+$/, "");
+
   return {
-  plugins: [react(), bildimModuEklentisi(uygulamaModu, siteUrl)],
+    plugins: [react(), yayinDosyalari(siteUrl)],
 
-  build: {
-    // ============================================================
-    // DERLEME HEDEFİ — iPhone'larda beyaz ekranın sebebi buydu.
-    //
-    // Vite'ın varsayılan hedefi "modules" = safari14. Bu yüzden paketlere
-    // `?.` (optional chaining) ve `??` HAM olarak yazılıyordu (canlı pakette
-    // ölçüldü: 12.693 adet `?.`, 27 adet `??`). Bu iki sözdizimi Safari
-    // 13.1 ile geldi; iOS 13.3 ve altındaki iPhone'lar dosyayı AYRIŞTIRAMIYOR
-    // ve uygulama hiç çalışmadan BEMBEYAZ SAYFA çıkıyor. Hata konsola bile
-    // düşmüyor çünkü kod hiç çalışmıyor.
-    //
-    // safari12 = iOS 12.2 (iPhone 5s/6 dahil hâlâ ayakta olan en eski cihazlar).
-    // esbuild bu hedefte `?.`, `??`, sınıf alanları ve mantıksal atamaları
-    // aşağı çeviriyor. Kullanılan çalışma-zamanı API'lerinin hepsi iOS 12.2'de
-    // var (globalThis, Object.fromEntries, queueMicrotask); daha yenileri
-    // (BroadcastChannel, ResizeObserver) zaten korumalı çağrılıyor.
-    //
-    // DEĞİŞTİRME: hedefi yükseltmek eski iPhone'ları yeniden dışarı atar.
-    // `npm run tarayici-testi` bunu her derlemede denetliyor.
-    target: ["es2019", "safari12", "chrome64", "firefox67", "edge79"],
-    cssTarget: ["safari12", "chrome64", "firefox67", "edge79"],
-
-    rollupOptions: {
+    build: {
       // ============================================================
-      // GİRİŞ NOKTALARI — MODA BAĞLI
+      // DERLEME HEDEFİ — iPhone'larda beyaz ekranın sebebi buydu.
       //
-      // Bu depo İKİ Vercel projesini besler ve ayrımı YALNIZ `VITE_MOD`
-      // yapar (bkz. CLAUDE.md "İKİ VERCEL PROJESİ"):
-      //   • VITE_MOD tanımsız → idaGG Game Center (hub). TEK giriş:
-      //     index.html. Gardırop/atölye/meydan HTML'leri hub'a girmez.
-      //   • VITE_MOD=bildim   → Quiz Tactics. index.html'in yanına
-      //     bildim/avatar3d/ altındaki üç sayfa da derlenir; yoksa
-      //     gardırop ve meydan canlıdan silinir.
+      // Vite'ın varsayılan hedefi "modules" = safari14. Bu yüzden paketlere
+      // `?.` (optional chaining) ve `??` HAM olarak yazılıyordu (canlı pakette
+      // ölçüldü: 12.693 adet `?.`, 27 adet `??`). Bu iki sözdizimi Safari
+      // 13.1 ile geldi; iOS 13.3 ve altındaki iPhone'lar dosyayı AYRIŞTIRAMIYOR
+      // ve uygulama hiç çalışmadan BEMBEYAZ SAYFA çıkıyor. Hata konsola bile
+      // düşmüyor çünkü kod hiç çalışmıyor.
       //
-      // BU LİSTE `vercel.json`'a TAŞINMAZ. Orada `--mode bildim` yazmak
-      // hub'ı da Quiz Tactics'e çevirir (12 Eylül'de tam olarak bu oldu:
-      // idagg-game-center adresinde gardırop açıldı, diğer oyunlar
-      // kayboldu). Moda bağlı her şey burada, `VITE_MOD` kontrolüyle.
-      // ============================================================
-      input: uygulamaModu === "bildim"
-        ? {
-            oyun: "index.html",
-            atolye: "bildim/avatar3d/index.html",
-            meydan: "bildim/avatar3d/meydan.html",
-            gardrop: "bildim/avatar3d/gardrop.html",
-          }
-        : "index.html",
+      // safari12 = iOS 12.2 (iPhone 5s/6 dahil hâlâ ayakta olan en eski cihazlar).
+      // esbuild bu hedefte `?.`, `??`, sınıf alanları ve mantıksal atamaları
+      // aşağı çeviriyor. Kullanılan çalışma-zamanı API'lerinin hepsi iOS 12.2'de
+      // var (globalThis, Object.fromEntries, queueMicrotask); daha yenileri
+      // (BroadcastChannel, ResizeObserver) zaten korumalı çağrılıyor.
+      //
+      // DEĞİŞTİRME: hedefi yükseltmek eski iPhone'ları yeniden dışarı atar.
+      // `npm run uyumluluk` bunu her derlemede denetliyor.
+      target: ["es2019", "safari12", "chrome64", "firefox67", "edge79"],
+      cssTarget: ["safari12", "chrome64", "firefox67", "edge79"],
 
-      output: {
-        // Satıcı kodunu ayır: uygulama her deploy'da değişse de bu parçalar
-        // tarayıcı önbelleğinde kalır; ilk açılışta indirilen paket küçülür.
-        manualChunks(id) {
-          if (!id.includes("node_modules")) return;
-          if (id.includes("react-router")) return "router";
-          if (
-            id.includes("/react/") ||
-            id.includes("/react-dom/") ||
-            id.includes("scheduler")
-          ) {
-            return "react";
-          }
-          if (
-            id.includes("@supabase") ||
-            id.includes("postgrest") ||
-            id.includes("realtime-js") ||
-            id.includes("gotrue") ||
-            id.includes("storage-js") ||
-            id.includes("functions-js")
-          ) {
-            return "supabase";
-          }
-          // Geri kalan satıcı kodu Rollup'un kendi bölmesinde kalır: lazy
-          // yüklenen oyunların ağır bağımlılıkları (three.js gibi) ilk
-          // açılış paketine sızmasın.
-          return undefined;
+      rollupOptions: {
+        // ============================================================
+        // GİRİŞ NOKTALARI — DÖRT TANE, DOKUNMA
+        //
+        // `index.html` oyunun kendisi; diğer üçü `oyun/avatar3d/` altındaki
+        // ayrı sayfalardır (atölye, meydan denemesi, gardırop). Bu liste
+        // bozulursa o üç sayfa derlemeye GİRMEZ ve canlıdan SİLİNİR: istekler
+        // SPA kabuğuna düşer, sayfa yokmuş gibi davranır. 12 Eylül 2026'da tam
+        // olarak bu oldu.
+        //
+        // Üç sayfa bugün DONDURULMUŞ durumda (Paket 17 §D) — açılınca
+        // `/gorunum`'a yönlendiriyorlar — ama dosyalar ve giriş listesi
+        // duruyor; geri açmak tek satırlık iş.
+        //
+        // BU LİSTE `vercel.json`'A TAŞINMAZ. Derlemeye ait her şey burada.
+        // ============================================================
+        input: {
+          oyun: "index.html",
+          atolye: "oyun/avatar3d/index.html",
+          meydan: "oyun/avatar3d/meydan.html",
+          gardrop: "oyun/avatar3d/gardrop.html",
+        },
+
+        output: {
+          // Satıcı kodunu ayır: uygulama her deploy'da değişse de bu parçalar
+          // tarayıcı önbelleğinde kalır; ilk açılışta indirilen paket küçülür.
+          manualChunks(id) {
+            if (!id.includes("node_modules")) return;
+            if (id.includes("react-router")) return "router";
+            if (
+              id.includes("/react/") ||
+              id.includes("/react-dom/") ||
+              id.includes("scheduler")
+            ) {
+              return "react";
+            }
+            if (
+              id.includes("@supabase") ||
+              id.includes("postgrest") ||
+              id.includes("realtime-js") ||
+              id.includes("gotrue") ||
+              id.includes("storage-js") ||
+              id.includes("functions-js")
+            ) {
+              return "supabase";
+            }
+            // Geri kalan satıcı kodu Rollup'un kendi bölmesinde kalır: lazy
+            // yüklenen ağır bağımlılıklar (three.js gibi) ilk açılış paketine
+            // sızmasın.
+            return undefined;
+          },
         },
       },
     },
-  },
-};
+  };
 });

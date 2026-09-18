@@ -4,24 +4,38 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />
     <meta name="theme-color" content="#CDEEFF" />
-    <meta name="description" content="idaGG Game Center — birçok oyun tek çatı altında: Quiz Tactics bilgi yarışması, Kafa Topu, Meyve Kes, DidaGP ve daha fazlası." />
+    <!--
+      KİMLİK ARTIK BURADA, STATİK.
+
+      Eskiden bu dosya hub'ın (idaGG Game Center) kimliğini taşırdı ve Quiz
+      Tactics'in başlık/paylaşım/manifest alanlarını `vite.config.js`'teki
+      "bildim-modu" eklentisi derleme sırasında DEĞİŞTİRİRDİ. İki site tek
+      depodan çıktığı için öyleydi. Quiz Tactics kendi deposuna taşındı;
+      kimlik tek yerde, gözle görülür biçimde duruyor.
+    -->
+    <meta name="description" content="Türkçe bilgi yarışması: 1v1 meydan okuma, günlük turnuvalar, şehir ve ülke ligleri. Binlerce soru, ücretsiz." />
     <!-- Paylaşım kartları (WhatsApp, X, Facebook) -->
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="idaGG Game Center" />
-    <meta property="og:title" content="idaGG Game Center" />
-    <meta property="og:description" content="Quiz Tactics bilgi yarışması, Kafa Topu, Meyve Kes, DidaGP ve daha fazlası — hepsi tek çatı altında, ücretsiz." />
-    <meta property="og:url" content="https://idagg-game-center.vercel.app/" />
-    <meta property="og:image" content="https://idagg-game-center.vercel.app/icon-512.png" />
+    <meta property="og:site_name" content="Quiz Tactics" />
+    <meta property="og:title" content="Quiz Tactics — Bilgi Yarışması" />
+    <meta property="og:description" content="Türkçe bilgi yarışması: 1v1 meydan okuma, günlük turnuvalar, şehir ve ülke ligleri. Binlerce soru, ücretsiz." />
+    <meta property="og:url" content="https://quiztactics.vercel.app/" />
+    <meta property="og:image" content="https://quiztactics.vercel.app/bildim-icon-512.png" />
     <meta property="og:locale" content="tr_TR" />
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="idaGG Game Center" />
-    <meta name="twitter:description" content="Quiz Tactics bilgi yarışması, Kafa Topu, Meyve Kes ve daha fazlası." />
-    <meta name="twitter:image" content="https://idagg-game-center.vercel.app/icon-512.png" />
-    <link rel="manifest" href="/manifest.webmanifest" />
-    <link rel="icon" type="image/png" href="/icon-192.png" />
-    <link rel="apple-touch-icon" href="/icon-192.png" />
+    <meta name="twitter:title" content="Quiz Tactics — Bilgi Yarışması" />
+    <meta name="twitter:description" content="Türkçe bilgi yarışması: 1v1 meydan okuma, günlük turnuvalar, şehir ve ülke ligleri." />
+    <meta name="twitter:image" content="https://quiztactics.vercel.app/bildim-icon-512.png" />
+    <!--
+      Dosya adları (bildim.webmanifest, bildim-icon-*) BİLEREK DEĞİŞMEDİ:
+      yüklü PWA'ların ve paylaşılmış linklerin işaret ettiği adresler bunlar.
+      Marka adı "Quiz Tactics"; dosya adı yalnız eski bir kod adı.
+    -->
+    <link rel="manifest" href="/bildim.webmanifest" />
+    <link rel="icon" type="image/png" href="/bildim-icon-192.png" />
+    <link rel="apple-touch-icon" href="/bildim-icon-192.png" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-title" content="idaGG Game Center" />
+    <meta name="apple-mobile-web-app-title" content="Quiz Tactics" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <!-- Şenlik tasarım dili: başlık/buton/skor Baloo 2, gövde metni Nunito.
          İkisi de Türkçe karakterleri tam destekliyor. -->
@@ -31,7 +45,7 @@
       href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@600;700;800;900&display=swap"
       rel="stylesheet"
     />
-    <title>idaGG Game Center</title>
+    <title>Quiz Tactics — Bilgi Yarışması</title>
   </head>
   <body>
     <div id="root"></div>

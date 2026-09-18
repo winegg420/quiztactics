@@ -2,7 +2,7 @@
   "name": "Quiz Tactics — Bilgi Yarışması",
   "short_name": "Quiz Tactics",
   "description": "Quiz Tactics: Türkçe bilgi yarışması — 1v1 meydan okuma, günlük turnuvalar, şehir ve ülke ligleri. Binlerce soru.",
-  "start_url": "/bildim",
+  "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "any",
@@ -39,19 +39,19 @@
     {
       "name": "Hemen Oyna",
       "short_name": "Oyna",
-      "url": "/bildim",
+      "url": "/",
       "description": "Rakip bul ve hemen başla"
     },
     {
       "name": "Meydan Oku",
       "short_name": "Meydan",
-      "url": "/bildim/meydan",
+      "url": "/meydan",
       "description": "Arkadaşına meydan oku"
     },
     {
       "name": "Turnuva",
       "short_name": "Turnuva",
-      "url": "/bildim/turnuva",
+      "url": "/turnuva",
       "description": "Günlük turnuva lobisi"
     }
   ]

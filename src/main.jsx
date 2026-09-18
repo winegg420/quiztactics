@@ -1,25 +1,22 @@
-import React, { lazy, Suspense } from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-// KÖK UYGULAMA SEÇİMİ — aynı depo, iki site:
-//   VITE_MOD tanımsız → App.jsx      (idaGG Game Center hub; quiz /bildim/* altında)
-//   VITE_MOD=bildim   → BildimApp.jsx (yalnız Bildim; rotalar kökte)
-// lazy kullanılıyor ki seçilmeyen taraf paketlenmesin (hub'ın 3D oyunları
-// Bildim sitesinin paketine sızmasın).
-const BILDIM_MOD = import.meta.env.VITE_MOD === "bildim";
-const KokUygulama = lazy(() =>
-  BILDIM_MOD ? import("./BildimApp.jsx") : import("./App.jsx")
-);
+// KÖK UYGULAMA — tek site, tek giriş.
+//
+// Eskiden bu depo iki siteyi besliyordu (hub + Quiz Tactics) ve seçimi
+// VITE_MOD yapıyordu. Quiz Tactics kendi deposuna taşındı; hub yönlendirmesi
+// ve VITE_MOD kalktı. lazy de gereksiz — seçilecek ikinci bir taraf yok.
+import KokUygulama from "./BildimApp.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import HataSiniri from "./components/HataSiniri.jsx";
 import { hataIzlemeKur } from "./lib/hataIzleme.js";
 import "./styles.css";
 // Bildim görsel dili (tema tokenları) — global stillerden SONRA yüklenir
-import "../bildim/styles/tema.css";
+import "../oyun/styles/tema.css";
 // Koyu tema tema.css'ten SONRA: kaskadda sonra gelip acik temayi ezer.
-import "../bildim/styles/koyu.css";
-import { temaBaslat } from "../bildim/lib/tema.js";
-import { cubukBaslat } from "../bildim/lib/kaydirmaCubugu.js";
+import "../oyun/styles/koyu.css";
+import { temaBaslat } from "../oyun/lib/tema.js";
+import { cubukBaslat } from "../oyun/lib/kaydirmaCubugu.js";
 
 // Tema ilk boyadan ONCE uygulanir: koyu tema secen oyuncu bir kare beyaz
 // ekran gormesin.

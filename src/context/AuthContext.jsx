@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, useCallback } from "react";
 import { supabase, supabaseHazir } from "../lib/supabase.js";
-import { fbBelirteciSakla, fbKimligiKaydet, facebookOturumuMu } from "../../bildim/lib/facebookArkadas.js";
+import { fbBelirteciSakla, fbKimligiKaydet, facebookOturumuMu } from "../../oyun/lib/facebookArkadas.js";
 
 const AuthContext = createContext(null);
 
@@ -48,7 +48,7 @@ export function AuthProvider({ children }) {
       }
     };
 
-    // Davet linkiyle gelindiyse (/bildim/davet/:kod) kod saklanır; giriş
+    // Davet linkiyle gelindiyse (/oyun/davet/:kod) kod saklanır; giriş
     // yapılınca arkadaşlık isteği otomatik gönderilir.
     const davetKoduUygula = async (userId) => {
       let kod = null;

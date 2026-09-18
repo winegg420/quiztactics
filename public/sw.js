@@ -21,8 +21,8 @@ self.addEventListener("push", (event) => {
   event.waitUntil(
     self.registration.showNotification(veri.baslik ?? "Quiz Tactics", {
       body: veri.govde ?? "",
-      icon: "/icon-192.png",
-      badge: "/icon-192.png",
+      icon: "/bildim-icon-192.png",
+      badge: "/bildim-icon-192.png",
       data: { url: veri.url ?? "/" },
     })
   );

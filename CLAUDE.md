@@ -8,7 +8,7 @@ Bu dosya, bu depoda çalışan Claude Code (ve diğer AI ajanları) için proje 
 ## ÇALIŞMA KLASÖRÜ — TEK KURAL
 
 Bu depoda **yalnız tek bir çalışma klasörü** vardır:
-`C:UsersidaDesktopidagggamecenter`
+`C:\Users\ida\Desktop\quiztactics`
 
 Codex, Claude Code ve diğer tüm araçlar **bu klasörde** çalışır.
 Ayrı worktree, ayrı kopya, `DocumentsCodex...` altında klasör **açılmaz**.
@@ -62,17 +62,20 @@ sonraki normal push'ta sessizce silinir — 13 Eyl'de tam olarak bu oldu.
 Aynı anda **tek araç** çalışır. Codex çalışırken Claude Code'a görev
 verilmez, tersi de geçerli. Biri işini bitirip push etmeden diğeri başlamaz.
 
-### İki Vercel projesi
-Bu depo iki projeyi besler: `idagg-game-center` (hub) ve `quiztactics`.
-Ayrımı **`VITE_MOD`** env değişkeni yapar (quiztactics'te `bildim`, hub'da
-tanımsız). `vercel.json`'daki `buildCommand` **moda özel olmamalıdır**.
-Ayrıntı: aşağıdaki "İKİ VERCEL PROJESİ" bölümü.
+### Tek proje, tek site
+Bu depo **tek** Vercel projesini besler: `quiztactics` → quiztactics.vercel.app.
+`VITE_MOD` ve iki-mod ayrımı **KALKTI** (18 Eyl 2026, kendi deposuna taşınma).
+Kimlik `index.html` içinde statik durur; `vite.config.js` yalnız robots/sitemap üretir.
 
 ## Proje
 
-**IDA GG Game Center** (GitHub: `idagggamecenter`) — birçok oyunu tek çatı altında toplayan bir oyun portalı (PWA). Site adı artık "Bildim" değil; **Quiz Tactics yalnızca hub içindeki oyunlardan biridir** (bilgi yarışması; klasör adı geriye uyum için `bildim/`). Tüm oyunlar tek kimliği (`profiles`: username + avatar) ve tek Supabase projesini paylaşır; her oyun kendi klasöründe **bağımsız geliştirilebilir izole bir modüldür** ve her an ayrı repoya taşınabilir.
+**Quiz Tactics** (GitHub: `winegg420/quiztactics`) — Türkçe bilgi yarışması (PWA).
+Gece turnuvası, Klasik Mod (1v1), Düello, grup maçı, arkadaş sistemi, lig,
+3B meydan. 18 Eyl 2026'da `idagggamecenter` hub'ından ayrıldı; **Supabase aynı**
+projedir (veri taşınmadı). Oyun kodu `oyun/` altında, paylaşılan kabuk `src/`.
 
-**Her modülün kendi `CLAUDE.md` + `PROGRESS.md` dosyası vardır** (o klasörde). Bu kök dosyalar hub geneli içindir; modülde çalışırken önce o modülün `CLAUDE.md`'sini oku.
+`oyun/CLAUDE.md` ve `oyun/harita/CLAUDE.md` alt rehberlerdir; o alanda
+çalışırken önce onları oku.
 
 ## Teknoloji Yığını
 
@@ -97,56 +100,59 @@ npx supabase db push                            # Migration'ları uygula
 npx supabase functions deploy generate-questions
 ```
 
-## İKİ VERCEL PROJESİ — `vercel.json`'a MOD GÖMME
+## TEK SİTE — `VITE_MOD` KALKTI
 
-Bu depo **iki Vercel projesini** besler:
+18 Eylül 2026'da Quiz Tactics `idagggamecenter` hub'ından **kendi deposuna**
+taşındı (`winegg420/quiztactics`). Supabase **değişmedi**: aynı proje, aynı veri,
+aynı anahtarlar.
 
 | Proje | Adres | Ne derlenir |
 |---|---|---|
-| `idagg-game-center` | idagg-game-center.vercel.app | **Hub** — tüm oyunlar |
-| `quiztactics` | quiztactics.vercel.app | **Yalnız Quiz Tactics** |
+| `quiztactics` | quiztactics.vercel.app | Bu depo — tek site |
 
-Ayrımı **tek şey** yapar: `VITE_MOD` ortam değişkeni. quiztactics
-projesinde `bildim` olarak tanımlıdır; hub projesinde **tanımsızdır**.
+Eskiden bu depo İKİ projeyi besliyordu ve ayrımı `VITE_MOD` yapıyordu. O yapı
+tamamen kalktı: `VITE_MOD`, mod eklentisi, `.env.bildim` ve `src/App.jsx`
+yönlendiricisi yok. `src/main.jsx` doğrudan `BildimApp`'i açar.
 
-> 17 Eyl 2026: Vercel projesi `quizsquare` → **`quiztactics`** olarak
-> yeniden adlandırıldı; yayın adresi **quiztactics.vercel.app**. Eski
-> `quizsquare.vercel.app` alan adı projede duruyor (eski linkler çalışsın
-> diye), ama duyurulan/varsayılan adres yenisidir.
+Site kimliği (başlık, paylaşım kartları, manifest, ikon) artık **`index.html`**
+içinde statik durur — derleme sırasında hiçbir şey değiştirilmez. Eskiden bunu
+`vite.config.js`'teki "bildim-modu" eklentisi yapıyordu; o eklenti silindi.
+`vite.config.js`'te kalan tek üretim işi robots.txt ve sitemap.xml.
 
-`vercel.json`'daki `buildCommand` **moda özel olmamalıdır.** İki proje de
-aynı `vercel.json`'u okur ve oradaki komut panel ayarını **ezer**; oraya
-`--mode bildim` yazmak hub'ı da Quiz Tactics'e çevirir. 12 Eylül 2026'da
-tam olarak bu oldu: idagg-game-center adresinde Quiz Tactics'in gardırobu
-açıldı, Kafa Topu / DidaGP / Meyve Kes / PatiRun / RUN / Gladius canlıdan
-erişilemez oldu.
+### Giriş noktaları — DÖRT TANE
 
-Moda bağlı **her şey** `vite.config.js` içinde `VITE_MOD` kontrolüyle
-yapılır — giriş noktaları (`rollupOptions.input`) dahil. Quiz Tactics'te
-`index.html`'in yanına `bildim/avatar3d/` altındaki üç sayfa da
-(gardrop, meydan, atölye) girer; hub'da yalnız `index.html` vardır.
+`vite.config.js › rollupOptions.input` dört giriş taşır ve **koşulsuzdur**:
 
-Kökteki `index.html` **hub'ın kimliğini** taşır; Quiz Tactics'in başlık ve
-paylaşım alanlarını `vite.config.js`'teki "bildim-modu" eklentisi yazar.
+```
+oyun:    index.html
+atolye:  oyun/avatar3d/index.html
+meydan:  oyun/avatar3d/meydan.html
+gardrop: oyun/avatar3d/gardrop.html
+```
+
+Bu liste bozulursa üç sayfa derlemeye girmez ve **canlıdan silinir**; istekler
+SPA kabuğuna düşer ve sayfa yokmuş gibi davranır. 12 Eylül 2026'da tam olarak
+bu oldu. Liste **`vercel.json`'a taşınmaz** — derlemeye ait her şey
+`vite.config.js`'te durur.
+
+(Üç avatar3d sayfası bugün **dondurulmuş** durumda — açılınca `/gorunum`'a
+yönlendiriyorlar — ama dosyalar ve giriş listesi duruyor.)
 
 ## 3B AVATAR SİSTEMİ — DERLEME AYARINA DOKUNMA
 
-Quiz Tactics'in 3B avatar sistemi `bildim/avatar3d/` altındadır. O sayfaların
+Quiz Tactics'in 3B avatar sistemi `oyun/avatar3d/` altındadır. O sayfaların
 (`atolye` + `meydan` + `gardrop`) derlemeye girmesi **çok girişli**
 yapılandırmaya bağlıdır ve bu yapılandırma `vite.config.js` içindeki
-`rollupOptions.input` bloğundadır — **yalnız `VITE_MOD === 'bildim'` iken**.
+`rollupOptions.input` bloğundadır — **dört giriş, koşulsuz**.
 Orası bozulursa gardırop/atölye/meydan sayfaları canlıdan silinir; istekler
 SPA kabuğuna düşer ve sayfa yokmuş gibi davranır. 12 Eylül 2026'da tam olarak
 bu oldu.
 
-Giriş listesi **`vercel.json`'a taşınmaz** — sebebi yukarıdaki
-"İKİ VERCEL PROJESİ" bölümünde.
+Giriş listesi **`vercel.json`'a taşınmaz** — derlemeye ait her şey
+`vite.config.js`'te durur.
 
-`npm run build:bildim` (`bildim/avatar3d/vite.prototip.config.js`) yerel
+`npm run prototip` (`oyun/avatar3d/vite.prototip.config.js`) yerel
 geliştirme için durur; canlı derlemeyle aynı girişleri üretir.
-
-Depo dışındaki Codex worktree'si **artık kaynak değildir**; her şey bu
-depodadır.
 
 ## Dizin Yapısı
 
@@ -162,7 +168,7 @@ Paylaşılan kabuk (`src/` — tüm oyunlar buna bağlıdır, tersi değil):
 - `src/styles.css` — Global stiller (`.gc-*` Game Center dahil)
 
 Oyun modülleri (her biri izole; `app/` + `engine/` + gerektikçe `shared/`/`net/`/`lib/`):
-- `bildim/` — **Bildim!** bilgi yarışması (`pages/`, `components/` [Layout, QuestionCard, RankBadge, Countdown, RankUpOverlay], `lib/` [ranks, push, zaman]). Route: `/bildim` ve quiz alt rotaları.
+- `oyun/` — **Bildim!** bilgi yarışması (`pages/`, `components/` [Layout, QuestionCard, RankBadge, Countdown, RankUpOverlay], `lib/` [ranks, push, zaman]). Route: `/bildim` ve quiz alt rotaları.
 - `kafatopu/` — Kafa Topu (2D fizik futbol, multiplayer). Route: `/kafatopu/*`. DB öneki `kafatopu_`.
 - `meyvekes/` — Meyve Kes (kamera + MediaPipe el takibi). Route: `/meyvekes/*`. DB öneki `meyvekes_`.
 - `run/` — RUN (karanlık labirent kaçış, tek-oyunculu prototip). Route: `/run/*`. Backend yok. **DEMO**.
@@ -358,12 +364,12 @@ dosyalar · geri açma adımları). Dağınık not bırakma, buraya ekle.
 
 | Modül | Tarih | Paket | Dosyalar | Sunucu kapısı | Geri açma |
 |---|---|---|---|---|---|
-| **Hızlı Mod** | 18 Eyl 2026 | 24 B | `bildim/pages/HizliModPage.jsx` | `oyun_ayarlari.hizli_mod_acik = false` + tabloda BEFORE INSERT kapısı | Ayarı `true` yap · rotayı, ana sayfa düğmesini ve harita binasını geri koy · joker testindeki TEST 9 yorumunu aç |
-| **"Hızlı Olan Kazanır"** | 15 Eyl 2026 | 14 | `bildim/pages/HizliMacPage.jsx` | `oyun_ayarlari.hizli_mac_acik = false` + BEFORE INSERT kapısı | Ayarı `true` yap · `/hizli-mac/:id` rotasını geri bağla · davet akışındaki `hizli` türünü aç |
-| **Eski 3B gardırop / atölye / yerel meydan** | 17 Eyl 2026 | 17 §D | `bildim/avatar3d/**` | yok (HTML girişleri yönlendiriyor) | Üç HTML'deki `location.replace` satırını kaldır · `/gorunum` ve `/gorunum-3b` rotalarını geri bağla · Dükkân › Görünüm sekmesini geri koy |
+| **Hızlı Mod** | 18 Eyl 2026 | 24 B | `oyun/pages/HizliModPage.jsx` | `oyun_ayarlari.hizli_mod_acik = false` + tabloda BEFORE INSERT kapısı | Ayarı `true` yap · rotayı, ana sayfa düğmesini ve harita binasını geri koy · joker testindeki TEST 9 yorumunu aç |
+| **"Hızlı Olan Kazanır"** | 15 Eyl 2026 | 14 | `oyun/pages/HizliMacPage.jsx` | `oyun_ayarlari.hizli_mac_acik = false` + BEFORE INSERT kapısı | Ayarı `true` yap · `/hizli-mac/:id` rotasını geri bağla · davet akışındaki `hizli` türünü aç |
+| **Eski 3B gardırop / atölye / yerel meydan** | 17 Eyl 2026 | 17 §D | `oyun/avatar3d/**` | yok (HTML girişleri yönlendiriyor) | Üç HTML'deki `location.replace` satırını kaldır · `/gorunum` ve `/gorunum-3b` rotalarını geri bağla · Dükkân › Görünüm sekmesini geri koy |
 
 **Donmuş rotaların davranışı tutarlıdır (ölçüldü):** donmuş oyun modları `/bildim`'e,
-donmuş gardırop sayfaları `/bildim/gorunum`'a gider — her biri kendi modülünün
+donmuş gardırop sayfaları `/gorunum`'a gider — her biri kendi modülünün
 yerine geçen sayfaya. Dört giriş de (iki React rotası + üç HTML) aynı biçimde
 `replace` ile yönlendirir, geri tuşuna basınca döngü olmaz.
 
@@ -374,7 +380,7 @@ Paket 26'da canlıdan ölçüldü, önceki varsayım doğru çıkmadı:
 - `matches` tablosunda **48 satırın tamamı `senkron = true`**; `senkron = false` olan
   **hiç maç yok** (son 30 günde de 0).
 - Ama dal **ölü değil, erişilebilir**: `mac_asenkrona_gec()` `senkron = false` yazan tek
-  canlı yoldur ve `bildim/pages/MatchPage.jsx:428` üzerinden, rakip maça gelmediğinde
+  canlı yoldur ve `oyun/pages/MatchPage.jsx:428` üzerinden, rakip maça gelmediğinde
   (rakip bot değilse) oyuncuya düğme olarak sunulur.
 
 Yani "kimse kullanmamış" ile "çağrılamaz" ayrı şeylerdir. Dalı kaldırmadan önce o

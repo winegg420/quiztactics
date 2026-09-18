@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase.js";
-import Logo from "../../bildim/components/Logo.jsx";
+import Logo from "../../oyun/components/Logo.jsx";
 import { girisHedefiniKaydet } from "../lib/girisHedefi.js";
-import { useDil } from "../../bildim/lib/dilKanca.js";
-import { DILLER } from "../../bildim/lib/dil.js";
-import { BILDIM_MOD } from "../../bildim/lib/yol.js";
+import { useDil } from "../../oyun/lib/dilKanca.js";
+import { DILLER } from "../../oyun/lib/dil.js";
+
 import { ACIK_SAGLAYICILAR, acikSaglayicilariOku } from "../lib/saglayicilar.js";
 
 // Supabase'in İngilizce hata metinlerini oyuncuya anlaşılır Türkçeye çevirir.
@@ -158,28 +158,13 @@ export default function Login() {
         ))}
       </div>
 
-      {/* GİRİŞ EKRANI MARKASI SİTEYE GÖRE DEĞİŞİR.
-          quiztactics.vercel.app (VITE_MOD=bildim) → Quiz Tactics wordmark,
-          aynen eskisi gibi. idagg-game-center.vercel.app (hub) → hub
-          kendi adıyla karşılar; Quiz Tactics orada oyunlardan biridir. */}
-      {BILDIM_MOD ? (
-        <div className="buyuk-logo"><Logo boyut={44} /></div>
-      ) : (
-        <div className="buyuk-logo gc-giris-marka">
-          <span className="gc-giris-ad">idaGG</span>
-          <span className="gc-giris-alt">GAME CENTER</span>
-        </div>
-      )}
+      {/* Tek site, tek marka. Eskiden burada hub ile Quiz Tactics ayrımı
+          vardı (VITE_MOD); Quiz Tactics kendi deposuna taşınınca kalktı. */}
+      <div className="buyuk-logo"><Logo boyut={44} /></div>
       <div className="slogan">
-        {BILDIM_MOD ? (<>
-          {ceviri("Her gün 13:00 ve 21:50'de (Türkiye saati) büyük turnuva.")}
-          <br />
-          {ceviri("7/24 meydan okumalar. Sen de yerini al.")}
-        </>) : (<>
-          {ceviri("Bilgi yarışması, kafa topu, drift, meyve kes ve daha fazlası.")}
-          <br />
-          {ceviri("Hepsi tek çatı altında, tek hesapla.")}
-        </>)}
+        {ceviri("Her gün 13:00 ve 21:50'de (Türkiye saati) büyük turnuva.")}
+        <br />
+        {ceviri("7/24 meydan okumalar. Sen de yerini al.")}
       </div>
 
       {hata && <div className="hata-kutu">{hata}</div>}

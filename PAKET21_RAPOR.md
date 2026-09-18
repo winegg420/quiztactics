@@ -17,8 +17,8 @@
 **Ölçülen sorun:** taç ve pelerin `meydanAvatar.js` içinde çalışma anında kodla üretiliyordu; muayene yalnız `public/meydan/deneme/*.glb` dosyalarına bakıyordu. Sahibinin en çok şikâyet ettiği iki parça **hiç denetlenmemişti**.
 
 **Yapılan:**
-- Taç ve pelerin geometrisi + yerleşim matrisi `bildim/harita/karakter/ekKozmetik.js`'e ayrıldı. **Tek kaynak, üç tüketici:** oyun (`meydanAvatar.js` paylaşımlı InstancedMesh), dışa aktarım, muayene. Oyunun yerleşimi ile muayenenin ölçtüğü yerleşim artık aynı fonksiyondan (`ekMatris`) geliyor.
-- `bildim/harita/muayene/takili.mjs` kod kozmetiklerini GLB'ye yazıyor (`muayene/uretilen/kozmetik_tac.glb`, `kozmetik_pelerin.glb`), atlas dokusunu oyundaki atlasa bağlayarak (yeni doku yok).
+- Taç ve pelerin geometrisi + yerleşim matrisi `oyun/harita/karakter/ekKozmetik.js`'e ayrıldı. **Tek kaynak, üç tüketici:** oyun (`meydanAvatar.js` paylaşımlı InstancedMesh), dışa aktarım, muayene. Oyunun yerleşimi ile muayenenin ölçtüğü yerleşim artık aynı fonksiyondan (`ekMatris`) geliyor.
+- `oyun/harita/muayene/takili.mjs` kod kozmetiklerini GLB'ye yazıyor (`muayene/uretilen/kozmetik_tac.glb`, `kozmetik_pelerin.glb`), atlas dokusunu oyundaki atlasa bağlayarak (yeni doku yok).
 - `npm run muayene` **her koşuda önce bu GLB'leri yeniden üretiyor** → bayat dosya muayene edilemez. Varsayılan varlık listesine (`calistir.mjs › TUM`) eklendiler; kendi üstverileri `ustveri/kozmetik_tac.json`, `kozmetik_pelerin.json`.
 - Eşikler koda gömülmedi: `ustveri/_esikler.json` (her eşiğin gerekçesiyle).
 
@@ -136,7 +136,7 @@ Kâğıt gibi durup da yakalanmayan tek şey **pelerin**: kavisli olduğu için 
 | taç kadrajın tepesinden kesiliyordu | taşma %3 (üç tür) | §F'de taç kafaya oturunca kendiliğinden geçti |
 | kanat kartta seçilemiyordu | görünen alan %3,1–3,9 < %4 | §F'de hacim + kanata özel kadraj → eşik üstü, taşma %0 |
 
-Kadraj tablosu tek kaynağa taşındı (`bildim/vitrin/kadraj.js`); iki vitrin ekranı ve muayene aynı tablodan okur.
+Kadraj tablosu tek kaynağa taşındı (`oyun/vitrin/kadraj.js`); iki vitrin ekranı ve muayene aynı tablodan okur.
 
 ---
 
@@ -173,7 +173,7 @@ robot kafası basık ve ekran yüzü öne çıkık olduğundan robot kubbesi dah
 
 ### Bütçe — 3A-2 ölçüm rig'iyle önce/sonra
 
-Sahne: `bildim/harita/olcum/meydan-test` üretim derlemesi + `?otomasyon=1`, `katman2c.js`; İstiklal ucu en kötü açı,
+Sahne: `oyun/harita/olcum/meydan-test` üretim derlemesi + `?otomasyon=1`, `katman2c.js`; İstiklal ucu en kötü açı,
 **25 karakter**, 1536×791, piksel oranı 1, gölge açık, 120 kare ısınma + 300 örnek (medyan / p95).
 
 | ölçü | ÖNCE (Paket 21 öncesi geometri) | SONRA | fark |
@@ -221,7 +221,7 @@ Chrome'da yok**, o yüzden ayrı GPU sütunu verilmedi; "kare" sütunu `gl.finis
 3. hiç kapsanmayanlar: harita yerleşimi (Boğaz, cepheler, yapılar) ayrı komutla denetlenir; ışık, gölge, animasyon hiç ölçülmez,
 4. **muayenenin ölçemedikleri:** estetik, oran, stil, renk uyumu.
 
-Aynı kural `bildim/harita/CLAUDE.md`'ye yazıldı: bir muayene sonucu hiçbir yerde tek başına "0 aday" diye yazılamaz.
+Aynı kural `oyun/harita/CLAUDE.md`'ye yazıldı: bir muayene sonucu hiçbir yerde tek başına "0 aday" diye yazılamaz.
 **0 aday = "bu testlerden geçti", "güzel oldu" değil.** Görsel yargı sahibinindir.
 
 ---

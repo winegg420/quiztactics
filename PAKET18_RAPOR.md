@@ -78,7 +78,7 @@ Test betiği `.tmp/p18/test217.mjs`. Migration kalıcı olarak uygulandı; test 
 
 ## B — Kozmetik çizim çağrısı kaldıracı
 
-### Yapılan (`bildim/harita/karakter/meydanAvatar.js`)
+### Yapılan (`oyun/harita/karakter/meydanAvatar.js`)
 `kozmetik.js` ve `karakter.js` **değişmedi**. Klon mimarisi yerinde kaldı; yalnız çizim yolu değişti:
 - `kozmetikTak`'ın karaktere taktığı her klon (`kozmetik_*`, kaplan kuyruğu dahil) **görünmez** yapılır ama yerinde kalır. Böylece yuvaya bağlılık, **tür–kozmetik sözleşmesi** (`bicimlendir` ölçek/öteleme, `it` öteleme — kaplan burnu, robot anteni; `gizle` zaten gövdede çalışıyor), **kanat çırpma** ve **kuyruk sallama** animasyonu (`karakter.js › kare` klonun rotasyon/ölçeğini yazıyor) aynen işler.
 - Çizimi **kaynak geometri başına tek paylaşımlı InstancedMesh** yapar. Örnek matrisi = klonun dünya matrisi → yer, açı ve ölçek birebir aynı.

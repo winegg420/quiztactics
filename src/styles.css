@@ -3,7 +3,7 @@
 /* Palet: gece lacivert + altın sarısı. Mor (#F2B23C ailesi) tamamen kaldırıldı. */
 /* ŞENLİK revizyonu: koyu tema kaldırıldı, açık gökyüzü paletine geçildi.
    Token ADLARI korundu — bu dosyadaki ~2300 satır ve tüm bileşenler tek
-   yerden dönüşsün diye. Değerler bildim/styles/tema.css ile aynı paletten. */
+   yerden dönüşsün diye. Değerler oyun/styles/tema.css ile aynı paletten. */
 :root {
   --bg: #EAF7FF;
   --bg-2: #FFF6E8;
@@ -85,7 +85,7 @@ button, a, .secenek {
    Ortalama artık `left/right: 0 + margin-inline: auto` ile yapılıyor —
    transform yok, containing block bozulmuyor.
    Aynı sebeple atalarda da transform/filter/perspective olmamalı
-   (bkz. bildim/styles/tema.css › sayfa geçişi keyframe'i). */
+   (bkz. oyun/styles/tema.css › sayfa geçişi keyframe'i). */
 .tabbar {
   position: fixed; bottom: 0; left: 0; right: 0;
   margin-inline: auto;

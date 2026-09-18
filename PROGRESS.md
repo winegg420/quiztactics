@@ -349,14 +349,14 @@ Kullanıcı: siteye girince direkt Bildim çıkmasın; A-kalite profesyonel bir 
 - **Stiller:** `src/styles.css`'e kapsamlı `.gc-*` bloğu (animasyonlu radial-glow arka plan, cam efektli sticky header, gradient kartlar, parlama animasyonu, 520px/360px kırılımlarıyla mobil grid).
 - Doğrulama: build OK; **görsel doğrulama** — gerçek CSS ile bağımsız statik önizleme yerel sunucuda Chrome'la ekran görüntüsü alındı (marka, hero, 5 kart, rozetler, etiketler A-kalite render oldu). Canlı siteyi kullanıcı giriş yaparak doğrulayacak.
 
-## 2026-07-22 (4. oturum) — Bildim quiz kendi bildim/ klasörüne taşındı (tam modül izolasyonu)
+## 2026-07-22 (4. oturum) — Bildim quiz kendi oyun/ klasörüne taşındı (tam modül izolasyonu)
 Kullanıcı: her oyun ayrı klasörde, bağımsız geliştirilebilir, aynı depoda farklı klasörde, birbirine karışmasın.
 - **Doğrulama:** 4 aksiyon oyunu (gladius/run/kafatopu/meyvekes) zaten izoleydi — çapraz import yok; her biri kabuğa tek lazy route ile bağlı; ortak yalnız supabase client + AuthContext + Avatar (bilinçli paylaşım). Tek istisna: Bildim quiz `src/` içinde kabukla karışıktı.
-- **Taşındı (`git mv`, geçmiş korundu):** quiz sayfaları → `bildim/pages/` (Home, MatchPage, GroupMatchPage, HizliMacPage, ChallengesPage, TournamentPage, LeaderboardPage, FriendsPage, ProfilePage); quiz bileşenleri → `bildim/components/` (Layout, QuestionCard, RankBadge, Countdown, RankUpOverlay); quiz lib → `bildim/lib/` (ranks, push, zaman).
+- **Taşındı (`git mv`, geçmiş korundu):** quiz sayfaları → `oyun/pages/` (Home, MatchPage, GroupMatchPage, HizliMacPage, ChallengesPage, TournamentPage, LeaderboardPage, FriendsPage, ProfilePage); quiz bileşenleri → `oyun/components/` (Layout, QuestionCard, RankBadge, Countdown, RankUpOverlay); quiz lib → `oyun/lib/` (ranks, push, zaman).
 - **`src/`'de kalan (paylaşılan kabuk):** main.jsx, App.jsx, context/AuthContext, lib/supabase, components/Avatar, pages/GameCenter, pages/Login, styles.css.
-- **Import düzeltmeleri:** taşınan dosyalarda paylaşılan referanslar `../../src/...`, kardeş referanslar `../components|../lib`; App.jsx quiz sayfaları + Layout `../bildim/...`. Route yapısı/URL'ler değişmedi (quiz rotaları hâlâ top-level; `/bildim` = quiz ana sayfası).
-- **Sonuç:** 5/5 modül izole (hiçbir oyun başkasının klasöründen import etmiyor); `bildim/` yalnız `../../src` (paylaşılan) + kendi içine bağlı. CLAUDE.md "Dizin Yapısı" yeni portal yapısına göre güncellendi.
-- Doğrulama: `npm run build` OK (176 modül, hata yok), çapraz-import taraması temiz. Not: gladius tasarım dokümanındaki `src/lib/ranks.js`/`push.js` referansları artık `bildim/lib/`'de (sadece prose, kod değil).
+- **Import düzeltmeleri:** taşınan dosyalarda paylaşılan referanslar `../../src/...`, kardeş referanslar `../components|../lib`; App.jsx quiz sayfaları + Layout `../oyun/...`. Route yapısı/URL'ler değişmedi (quiz rotaları hâlâ top-level; `/bildim` = quiz ana sayfası).
+- **Sonuç:** 5/5 modül izole (hiçbir oyun başkasının klasöründen import etmiyor); `oyun/` yalnız `../../src` (paylaşılan) + kendi içine bağlı. CLAUDE.md "Dizin Yapısı" yeni portal yapısına göre güncellendi.
+- Doğrulama: `npm run build` OK (176 modül, hata yok), çapraz-import taraması temiz. Not: gladius tasarım dokümanındaki `src/lib/ranks.js`/`push.js` referansları artık `oyun/lib/`'de (sadece prose, kod değil).
 
 ## 2026-07-22 (5. oturum) — IDA GG Game Center entegrasyonu: Faz 0/1/7
 
@@ -371,10 +371,10 @@ Büyük çok-fazlı entegrasyon görevi başladı (Meyve Kes düzeltme + PatiRun
 - **Kalıcı test:** `meyvekes/_test/motor-test.mjs` (Node, 11 test) — faz makinesi, kesim, statik el kesmez, hızlı savurma keser, 4'lü combo, 60sn tam oyun. **11/11 geçti.** CDN URL'leri (vision_bundle.mjs + wasm + model.task) HTTP 200 doğrulandı. Build temiz (MeyveKesApp ~22 kB; MediaPipe CDN'den, bundle'a girmiyor).
 - **Kalan:** gerçek kamera+el testi kullanıcıda (otomasyonda kamera yok).
 
-### FAZ 1 — Bildim quiz'i /bildim/* altına taşı
-- Tüm quiz rotaları `/bildim/*` altına nest edildi (App.jsx: `/bildim` = Layout, index=Home, alt: turnuva/meydan/mac/:id/grup-mac/:id/hizli-mac/:id/siralama/arkadaslar/profil).
-- **Geriye uyumluluk:** eski top-level yollar için `BildimeYonlendir` bileşeni (parametre+query korunarak `/bildim/*`'a yönlendirir) → push bildirimi deep-link'leri, bookmark, eski linkler kırılmaz.
-- Tüm iç navigasyon (`bildim/pages/*` + `bildim/components/Layout.jsx`, ~33 kullanım) `/bildim/*` önekine güncellendi. İş mantığı/auth/RLS'e dokunulmadı (saf route taşıma). Build temiz.
+### FAZ 1 — Bildim quiz'i /oyun/* altına taşı
+- Tüm quiz rotaları `/oyun/*` altına nest edildi (App.jsx: `/bildim` = Layout, index=Home, alt: turnuva/meydan/mac/:id/grup-mac/:id/hizli-mac/:id/siralama/arkadaslar/profil).
+- **Geriye uyumluluk:** eski top-level yollar için `BildimeYonlendir` bileşeni (parametre+query korunarak `/oyun/*`'a yönlendirir) → push bildirimi deep-link'leri, bookmark, eski linkler kırılmaz.
+- Tüm iç navigasyon (`oyun/pages/*` + `oyun/components/Layout.jsx`, ~33 kullanım) `/oyun/*` önekine güncellendi. İş mantığı/auth/RLS'e dokunulmadı (saf route taşıma). Build temiz.
 
 ### FAZ 7 — Tek PWA kimliği
 - `public/manifest.webmanifest`: name "IDA GG Game Center", short_name "IDA GG". `index.html`: title + description + apple-mobile-web-app-title "IDA GG Game Center". Tek manifest, tüm oyunlar paylaşır.
@@ -454,9 +454,9 @@ DriftGP (~9.400 satır TS, three.js/R3F 3D drift yarışı) IDA GG Game Center'a
 ## 2026-07-22 (9. oturum) — FAZ 8: otomatik test + doğrulama
 
 - **Motor testleri:** Meyve Kes 11/11 ✓, Kafa Topu 27/27 ✓ (entegrasyon sonrası regresyon yok).
-- **Çapraz-import izolasyonu:** 7 oyun (bildim/kafatopu/meyvekes/run/gladius/patirun/driftgp) taranıp doğrulandı — **hiçbir oyun başka oyunun klasöründen import etmiyor**. PatiRun/DriftGP yalnız `../../src/context/AuthContext` + `../../src/lib/supabase` paylaşıyor (tek kimlik için bilinçli paylaşım).
+- **Çapraz-import izolasyonu:** 7 oyun (oyun/kafatopu/meyvekes/run/gladius/patirun/driftgp) taranıp doğrulandı — **hiçbir oyun başka oyunun klasöründen import etmiyor**. PatiRun/DriftGP yalnız `../../src/context/AuthContext` + `../../src/lib/supabase` paylaşıyor (tek kimlik için bilinçli paylaşım).
 - **Build:** temiz (846 modül); 6 oyun ayrı lazy chunk (DriftGp/Gladius/KafaTopu/MeyveKes/PatiRun/Run) — birbirini şişirmiyor; three.js yalnız DriftGP chunk'ında.
-- **Route'lar:** /, /bildim/*, /kafatopu, /meyvekes, /patirun, /driftgp, /run, /gladius, /siralama-genel + eski Bildim yolları geriye uyumlu.
+- **Route'lar:** /, /oyun/*, /kafatopu, /meyvekes, /patirun, /driftgp, /run, /gladius, /siralama-genel + eski Bildim yolları geriye uyumlu.
 - **Gerçek cihaz testleri kullanıcıda:** Meyve Kes kamera, DriftGP eğim sensörü (HTTPS), PatiRun/DriftGP/Kafa Topu multiplayer.
 
 ### Faz durumu özeti
@@ -903,26 +903,26 @@ Yeni cron: `bildim-hafta-kapat` (Pazar 21:00 UTC) ve `bildim-hafta-bildir` (Paza
 
 ## 2026-09-08 — Bildim: Faz 2 — Lig ve kategori arayüzü
 
-**Yeni dosyalar:** `bildim/lib/konum.js` (bayrak emojisi ISO kodundan, konum kilidi kalan
+**Yeni dosyalar:** `oyun/lib/konum.js` (bayrak emojisi ISO kodundan, konum kilidi kalan
 süre, hafta bitişi = Pazar 21:00 UTC — sunucudaki cron ile aynı an, kısa süre metni),
-`bildim/components/KonumSecici.jsx` (mod="modal" zorunlu ilk giriş / mod="kart" profil).
+`oyun/components/KonumSecici.jsx` (mod="modal" zorunlu ilk giriş / mod="kart" profil).
 
 **Değişen dosyalar:**
-- `bildim/pages/Home.jsx` — ilk girişte `profile.ulke` boşsa kapatılamayan konum modalı;
+- `oyun/pages/Home.jsx` — ilk girişte `profile.ulke` boşsa kapatılamayan konum modalı;
   hero altında şehir/ülke/dünya sıra rozetleri (`benim_lig_durumum` RPC, tek satır — 3 ayrı
   sıralama çekmemek için); haftalık lig geri sayımı + şehrin ülke içi sırası; `lig_arsiv`ten
   okunan "geçen hafta X. oldun" uygulama içi şeridi (localStorage ile bir kez gösterilir).
-- `bildim/pages/LeaderboardPage.jsx` — yeni sayfa açılmadı, mevcut sayfa genişletildi.
+- `oyun/pages/LeaderboardPage.jsx` — yeni sayfa açılmadı, mevcut sayfa genişletildi.
   Üst sekmeler ŞEHİR / ÜLKE / DÜNYA / ARKADAŞ (arkadaş sekmesi eski davranışını korudu),
   alt sekmeler BU HAFTA / TÜM ZAMANLAR. İlk 3 podyum, satırlarda avatar + rütbe rozeti +
   ülke bayrağı + şehir, kendi satırı vurgulu ve **sticky olarak altta sabit**. Şehir
   sekmesinde `sehir_lig_sirasi` ile "Balıkesir bu hafta ülkende 12." şeridi. Konumu olmayan
   oyuncuya şehir/ülke sekmesinde seçim çağrısı gösteriliyor.
-- `bildim/pages/ChallengesPage.jsx` — kategori çipleri kategori **kartlarına** dönüştü:
+- `oyun/pages/ChallengesPage.jsx` — kategori çipleri kategori **kartlarına** dönüştü:
   kategorideki toplam soru sayısı + oyuncunun çözdüğü yüzde (ilerleme çubuğuyla).
   Seçimin 1v1/grup/hızlı modun hepsinde geçerli olduğu başlıkta yazıyor (kod zaten aynı
   `kategori` state'ini üçünde de kullanıyordu).
-- `bildim/pages/ProfilePage.jsx` — konum özeti kartı + değiştirme; haftalık kilit kalan süresi.
+- `oyun/pages/ProfilePage.jsx` — konum özeti kartı + değiştirme; haftalık kilit kalan süresi.
 - `src/styles.css` — sonuna `bd-*` katmanı eklendi (eski sınıflar silinmedi). CSS değişkenleri
   (boşluk/yarıçap/gölge/dokunma hedefi) `:root` üzerine yazıldı.
 
@@ -946,7 +946,7 @@ JSX'te yeni sınıflara geçirildi, eski CSS geriye uyumlu duruyor (diğer sayfa
   nabız), üstte ilerleme çubuğu, şıklarda **anında yeşil/kırmızı geri bildirim** (doğru:
   hafif büyüme; yanlış: sallanma), doğru/yanlış işaretleri (✓/✕), seçilmeyen şıklar solar.
   Tüm mantık (joker, basılı tut, oy verme, süre) aynen korundu.
-- **Mikro etkileşim:** `bildim/components/PuanSayaci.jsx` — üst bardaki puan değişince
+- **Mikro etkileşim:** `oyun/components/PuanSayaci.jsx` — üst bardaki puan değişince
   easeOutCubic ile sayıyor ve "+N" baloncuğu yükseliyor. `prefers-reduced-motion` tercihine
   saygılı (hem bileşen içinde hem global CSS kuralıyla). Rütbe atlama zaten `RankUpOverlay`.
 - **Erişilebilirlik:** `--text-dim` #9b94c4 → **#a9a2d2** (koyu zeminde kontrast 4.5:1 eşiğini
@@ -954,7 +954,7 @@ JSX'te yeni sınıflara geçirildi, eski CSS geriye uyumlu duruyor (diğer sayfa
   `:focus-visible` çerçevesi, ikon butonlarda `aria-label`, modallarda `role="dialog"`.
 
 **Play Store gereklilikleri:**
-- **`/gizlilik`** statik sayfası (`bildim/pages/GizlilikPage.jsx`). Türkçe gizlilik politikası
+- **`/gizlilik`** statik sayfası (`oyun/pages/GizlilikPage.jsx`). Türkçe gizlilik politikası
   **taslağı**: e-posta + kullanıcı adı toplandığı, şehir/ülkenin **kullanıcı beyanı** olduğu
   (GPS alınmadığı), verilerin satılmadığı, Supabase/Vercel'in işleyici olduğu, silme hakkı.
   İletişim: idagureli@gmail.com. **Rota giriş duvarının ÖNÜNDE** (`src/App.jsx` içindeki
@@ -966,9 +966,9 @@ JSX'te yeni sınıflara geçirildi, eski CSS geriye uyumlu duruyor (diğer sayfa
   service_role ile çalışan bir Edge Function gerekir; bu dosyanın başına not düşüldü.
   Profil sayfasında kullanıcı adını yazdırarak onaylatan modal + ardından `signOut()`.
 
-**Değişen/eklenen dosyalar (Faz 3):** `bildim/components/QuestionCard.jsx`,
-`bildim/components/PuanSayaci.jsx` (yeni), `bildim/components/Layout.jsx`,
-`bildim/pages/ProfilePage.jsx`, `bildim/pages/GizlilikPage.jsx` (yeni), `src/App.jsx`,
+**Değişen/eklenen dosyalar (Faz 3):** `oyun/components/QuestionCard.jsx`,
+`oyun/components/PuanSayaci.jsx` (yeni), `oyun/components/Layout.jsx`,
+`oyun/pages/ProfilePage.jsx`, `oyun/pages/GizlilikPage.jsx` (yeni), `src/App.jsx`,
 `src/styles.css`, `supabase/migrations/20260612000046_hesap_silme.sql` (yeni).
 `npm run build` temiz.
 
@@ -1125,7 +1125,7 @@ Meydan okuma push'u (`notify_new_challenge`) aynen korundu.
 - `genel` kategorisine **dokunulmadı**. Yeni anahtar `genel_kultur`; `get_categories`
   sıralaması `order by (kategori = 'genel_kultur') desc, count(*) desc` ile onu her zaman
   başa alıyor. Soruları Faz 3'te geldiği için şu an listede görünmüyor (`having count >= 15`).
-- Etiketler tek dosyaya taşındı: `bildim/lib/kategoriler.js` (`kategoriEtiket`,
+- Etiketler tek dosyaya taşındı: `oyun/lib/kategoriler.js` (`kategoriEtiket`,
   `kategorileriSirala`). ChallengesPage'deki yerel `KATEGORI_ETIKET` haritası buraya geçti;
   eksik olan sinema/müzik/teknoloji/karışık etiketleri de eklendi.
 - **Keşif:** `matchmaking_queue` tablosuna bugüne kadar **hiçbir yer satır eklemiyordu** —
@@ -1134,7 +1134,7 @@ Meydan okuma push'u (`notify_new_challenge`) aynen korundu.
   gerçekten kullanılıyor.
 - Eşleştirme kuralı: önce **aynı kategoride** bekleyen rakip; yoksa **20 saniyedir** bekleyen
   herhangi bir rakip (karışığa düşer); o da yoksa kuyrukta kalınır. İstemci
-  (`bildim/components/RakipAra.jsx`) 2 saniyede bir yokluyor, 20 saniye dolunca
+  (`oyun/components/RakipAra.jsx`) 2 saniyede bir yokluyor, 20 saniye dolunca
   `quick_match` ile bota/karışığa düşüyor. Böylece oyun asla 20 saniyeden fazla bekletmiyor.
 - `quick_match` imzası korundu; `p_kategori` verilmezse `profiles.tercih_kategori` kullanılıyor.
 
@@ -1197,9 +1197,9 @@ Migration'lar **uygulanmadı**. `npm run build` temiz.
 
 ## 2026-09-08 — Bildim Faz 4: gizlilik akışı, davet ve bildirim arayüzü
 
-**Yeni dosyalar:** `bildim/components/KurulumSihirbazi.jsx` (3 adımlı zorunlu akış),
-`bildim/components/BildirimZili.jsx`, `bildim/components/BildirimIzniSor.jsx`,
-`bildim/components/ProfilAyarlari.jsx`, `bildim/pages/DavetPage.jsx`,
+**Yeni dosyalar:** `oyun/components/KurulumSihirbazi.jsx` (3 adımlı zorunlu akış),
+`oyun/components/BildirimZili.jsx`, `oyun/components/BildirimIzniSor.jsx`,
+`oyun/components/ProfilAyarlari.jsx`, `oyun/pages/DavetPage.jsx`,
 `public/avatars/av1–av8.svg` (hazır anonim avatar seti).
 
 - **Zorunlu kurulum akışı** `Layout` içine alındı: `takma_ad_secildi`, `avatar_onayli` ya da
@@ -1210,7 +1210,7 @@ Migration'lar **uygulanmadı**. `npm run build` temiz.
   RPC'si adresi `^(/…|https://…)$` ile doğruluyor; `data:` URI kabul etmiyor. Dosya yolu
   hem doğrulamadan geçiyor hem önbelleğe alınabiliyor.
 - **Arkadaş arama kaldırıldı.** FriendsPage artık davet kodu + davet linki üzerine kurulu.
-  `/bildim/davet/:kod` rotası eklendi; giriş yoksa kod `localStorage`'a yazılıyor ve
+  `/oyun/davet/:kod` rotası eklendi; giriş yoksa kod `localStorage`'a yazılıyor ve
   `AuthContext` oturum açılışında `arkadas_davet_kodu_ile_ekle` ile otomatik uyguluyor.
 - **ChallengesPage rakip listesi** artık `friendships` üzerinden yalnız arkadaşlar + botlar
   (sunucu tarafı `oynanabilir_mi` zaten zorunlu kılıyor; arayüz de buna uyduruldu).
@@ -1241,7 +1241,7 @@ Migration'lar **uygulanmadı**. `npm run build` temiz.
   Altında **2 sütun mod kartları** (ikon + iki kelime), sonra **ayrı turnuva bandı**,
   sonra görevler ve En İyiler. Eski `hero-panel` / `mod-kart` bloklarının JSX'i yeni
   sınıflara geçirildi; **eski CSS sınıfları silinmedi**.
-- **İkonlar:** `bildim/components/Ikon.jsx` — 20 parçalık **inline SVG** seti
+- **İkonlar:** `oyun/components/Ikon.jsx` — 20 parçalık **inline SVG** seti
   (bağımlılık eklenmedi, `currentColor` devralır). Alt sekme çubuğu, bildirim zili ve
   mod kartları emojiden SVG'ye geçti. Aktif sekmenin üstüne vurgu çizgisi eklendi.
 - **Rütbe rozetleri özelleştirildi:** `RankBadge` artık her rütbe için ayrı SVG biçim
@@ -1348,7 +1348,7 @@ Migration'lar: `20260612000052_joker_ekonomisi.sql`, `…053_seri_rovans_ustalik
 
 ### Doğrulama
 
-`bildim/_test/joker-kurallari-test.sql` + `…test.mjs` yazıldı ve canlı veritabanında
+`oyun/_test/joker-kurallari-test.sql` + `…test.mjs` yazıldı ve canlı veritabanında
 **tek transaction içinde çalıştırılıp rollback edildi** (canlı veri değişmedi):
 **14/14 test geçti** — lig maçında 3. joker reddi, arkadaş maçında sınırsızlık, ücretsiz
 elli tükenmesi, günde 6. reklam ödülü reddi, aynı reklam referansının tekrarlanamaması,
@@ -1361,10 +1361,10 @@ hızlı modun lig puanını değiştirmemesi.
 
 ## 2026-09-08 — Bildim Görev 2 / Faz 2: Joker, seri, rövanş, ustalık, hızlı mod arayüzü
 
-**Yeni dosyalar:** `bildim/lib/jokerler.js`, `bildim/lib/h5ads.js`, `bildim/lib/playFatura.js`,
-`bildim/components/JokerCubugu.jsx`, `SeriRozeti.jsx`, `EzeliRakip.jsx`,
-`MacSonuEklentisi.jsx`, `UstalikIzgarasi.jsx`, `bildim/pages/JokerDukkani.jsx`,
-`bildim/pages/HizliModPage.jsx`, `supabase/migrations/20260612000055_seri_hatirlatma.sql`.
+**Yeni dosyalar:** `oyun/lib/jokerler.js`, `oyun/lib/h5ads.js`, `oyun/lib/playFatura.js`,
+`oyun/components/JokerCubugu.jsx`, `SeriRozeti.jsx`, `EzeliRakip.jsx`,
+`MacSonuEklentisi.jsx`, `UstalikIzgarasi.jsx`, `oyun/pages/JokerDukkani.jsx`,
+`oyun/pages/HizliModPage.jsx`, `supabase/migrations/20260612000055_seri_hatirlatma.sql`.
 
 - **Joker çubuğu** `QuestionCard`'a **eski çubuğu bozmadan** eklendi: `macTur`+`macId`
   verilirse yeni sunucu tabanlı çubuk, verilmezse eski `jokerler` prop'u çalışır.
@@ -1372,7 +1372,7 @@ hızlı modun lig puanını değiştirmemesi.
   Adet rozeti, "ÜCRETSİZ" işareti ve pasiflik nedeni (sınır doldu / final / jokerin yok)
   sunucudan gelen `joker_mac_durumu` + `envanterim` ile çiziliyor; 50:50'de silinecek
   şıklar sunucudan gelir, istemci hesaplamaz.
-- **Joker Dükkânı** (`/bildim/joker`): envanter, ödüllü video (sayaç `bugün 3/5`),
+- **Joker Dükkânı** (`/oyun/joker`): envanter, ödüllü video (sayaç `bugün 3/5`),
   Play paketleri, gizlilik/iade notu.
   - **Reklam:** Google H5 Games Ads (`adBreak({type:'reward'})`). `VITE_H5_ADS_CLIENT`
     boşsa buton **pasif** ve "test modu" notu; **sahte ödül verilmez**. Reklam
@@ -1387,7 +1387,7 @@ hızlı modun lig puanını değiştirmemesi.
   kartı (skor + tek tık meydan okuma).
 - **Profil:** güncel/en uzun seri, kullanılan joker ve izlenen video sayısı, envanter
   çipleri ve **kategori ustalığı ızgarası** (seviye rengi + ilerleme çubuğu + kalan doğru).
-- **Hızlı Mod ekranı** (`/bildim/hizli-mod`): kategori seçimi → 60 sn çubuk + 5 sn halka →
+- **Hızlı Mod ekranı** (`/oyun/hizli-mod`): kategori seçimi → 60 sn çubuk + 5 sn halka →
   skor + haftalık sıralama (şehir/ülke/dünya sekmeleri). Süre ve puan sunucuda.
 - **Bildirimler:** ustalık seviye atlama ve rövanş isteği 053'te; **akşam 20:00 seri
   hatırlatması** yeni `055_seri_hatirlatma.sql` ile (pg_cron `0 17 * * *` = 20:00 TSİ,
@@ -1403,7 +1403,7 @@ testleri yeniden çalıştırıldı: **14/14**.
 
 ### Sunucu kuralı testleri — 14/14 GEÇTİ
 
-`npm run test:bildim` (→ `bildim/_test/joker-kurallari-test.mjs` + `…test.sql`).
+`npm run test:bildim` (→ `oyun/_test/joker-kurallari-test.mjs` + `…test.sql`).
 Test, migration'ları ve senaryoları **tek transaction içinde çalıştırıp ROLLBACK eder**;
 canlı veri değişmez. Kanıtlananlar:
 
@@ -1536,7 +1536,7 @@ Seçicide "Karışık" + `karisik` (36 soru) + `genel` (221 soru) yan yana duruy
 sessizce `genel_kultur`'a çeviriyor. Sonuç: **genel_kultur 1.154 soru**, listede ilk.
 
 ### 3) Meydan okuma akışı
-Bota meydan okununca artık doğrudan `/bildim/mac/:id`'ye gidiliyor (bot daveti
+Bota meydan okununca artık doğrudan `/oyun/mac/:id`'ye gidiliyor (bot daveti
 saniyeler içinde kabul ediyor, maç ekranı "bekliyor" durumunu zaten gösteriyor).
 İnsan rakipte **"Davet gönderildi" toast'ı** çıkıyor ve sayfa bekleyenler listesine kayıyor.
 
@@ -1584,7 +1584,7 @@ gösteriyor. Sayaç ve lobiye katıl butonu korundu.
 
 **Sorun:** her şey aynı kenarlıklı mor karttı; ekran boş, doku/karakter/derinlik yoktu.
 
-- **`bildim/styles/tema.css`** (yeni, `src/styles.css`'ten SONRA yüklenir): zemin 2 ton,
+- **`oyun/styles/tema.css`** (yeni, `src/styles.css`'ten SONRA yüklenir): zemin 2 ton,
   yüzey 3 ton, anlam renkleri (mor vurgu / altın **yalnız ödül-puan** / yeşil / kırmızı /
   mavi), yarıçap (12/16/24), gölge (yumuşak + derin + renkli glow + iç parlaklık) ve
   tipografi ölçeği (Baloo 2 başlık 28/22/18, gövde 15/13/11).
@@ -1593,7 +1593,7 @@ gösteriyor. Sayaç ve lobiye katıl butonu korundu.
   Görsel dosya eklenmedi, tamamı CSS.
 - **Kartlar zeminden ayrıştı:** kenarlık yerine yüzey gradyanı + `inset` iç parlaklık +
   yumuşak gölge. Mevcut `.kart` sınıfının görünümü de güncellendi (sınıf silinmedi).
-- **Maskot "Bilge"** (`bildim/components/Maskot.jsx`): tamamen inline SVG baykuş, üç poz —
+- **Maskot "Bilge"** (`oyun/components/Maskot.jsx`): tamamen inline SVG baykuş, üç poz —
   `selam` (hafif sallanma), `dusunuyor` (düşünce baloncukları), `kutluyor` (zıplama +
   parıltı). Rütbe sistemindeki 🦉 "Bilge" ile aynı kimlikten geliyor.
   Kullanıldığı yerler: ana sayfa hero, maç sonucu (kazandın/berabere/kaybettin pozları),
@@ -1662,12 +1662,12 @@ ilettiği 4 madde. Görev listesi: `BILDIM_GOREV6.md`.
   düğmesinin `getBoundingClientRect()` değerinden hesaplanıp `position: fixed`
   ile çiziliyor (`z-index: 1201`). Yükseklik `calc(100dvh - 96px - safe-area)`
   ile alt menü payını da düşüyor. Kaydırma/yeniden boyutlandırmada konum tazeleniyor.
-- **Dosyalar:** `bildim/components/BildirimZili.jsx`, `src/styles.css`.
+- **Dosyalar:** `oyun/components/BildirimZili.jsx`, `src/styles.css`.
 
 ### B) Maçta son 5 saniyede ses yoktu
 - **Bulgu:** projede hiç ses kodu yoktu (`grep -i audio` → 0 sonuç). Son 5 saniyenin
   yalnızca görsel efekti vardı (kızaran kenar + büyük geri sayım).
-- **Çözüm:** `bildim/lib/ses.js` — WebAudio osilatörüyle üretilen tonlar (ses
+- **Çözüm:** `oyun/lib/ses.js` — WebAudio osilatörüyle üretilen tonlar (ses
   dosyası yok, PWA önbelleğine yük binmiyor). `sesTik` (son 5 sn, azaldıkça
   tizleşir), `sesSureDoldu`, `sesDogru`, `sesYanlis`.
 - iOS/Android kuralı gereği AudioContext ilk kullanıcı hareketinde açılıyor
@@ -1724,7 +1724,7 @@ ilettiği 4 madde. Görev listesi: `BILDIM_GOREV6.md`.
   - Aynı düzeltme 1v1 bot gecikmesine de uygulandı.
 - **Bot atamaları:** ÇaylakBot + AcemiBot = kolay, BilgeBot + KurtBot = orta,
   UstaBot = zor.
-- **DOĞRULAMA** (`node bildim/_test/hizli-bot-simulasyon.mjs`, 20 soru × 3000 tur,
+- **DOĞRULAMA** (`node oyun/_test/hizli-bot-simulasyon.mjs`, 20 soru × 3000 tur,
   oyuncu 2 sn'de basıyor ve soruyu biliyor):
 
   | Senaryo | ESKİ | YENİ |
@@ -1769,7 +1769,7 @@ ilettiği 4 madde. Görev listesi: `BILDIM_GOREV6.md`.
   emniyet ağı olarak duruyor (T-30'da eksik kalan olursa tamamlar).
 
 ### 4) Hızlı Mod'da süre bitişi sertti
-- Yeni bileşen `bildim/components/SureDolduGecis.jsx`: maskot (Bilge, "düşünüyor"
+- Yeni bileşen `oyun/components/SureDolduGecis.jsx`: maskot (Bilge, "düşünüyor"
   pozu) + `PuanSayaci` ile sayılan skor + bitiş sesi, **0.8 sn**.
 - Hızlı Mod'a `gecis` aşaması eklendi; perde `hizli_mod_bitir` RPC'si dönmeden
   ÖNCE açılıyor (donukluk zaten RPC beklerken oluşuyordu), RPC dönünce kalan
@@ -1788,7 +1788,7 @@ ilettiği 4 madde. Görev listesi: `BILDIM_GOREV6.md`.
   kullanıcının gördüğü birikmiş davetlerin kaynağı buydu.
 
 ### 6) Sıralamada kendi satırı yazımı
-- Yeni bileşen `bildim/components/SenRozeti.jsx`; tüm liste/sıralama ekranlarında
+- Yeni bileşen `oyun/components/SenRozeti.jsx`; tüm liste/sıralama ekranlarında
   ad ile "sen" artık **ayrı düğümler** (metin birleştirme yok).
 - Değiştirilen yerler: `LeaderboardPage`, `HizliModPage`, `HizliMacPage` (3 yer),
   `GroupMatchPage` (3 yer), `MatchPage` (3 yer) — hepsi "(sen)" ya da
@@ -1871,7 +1871,7 @@ arkadaş ekleme doğrulaması, manifest, grup maçı bot ilerlemesi.
 ## 2026-09-09 (3. tur) — "AI yapımı" görünümünü kırma paketi (kozmetik)
 
 Görev listesi: `BILDIM_GOREV7.md`. Migration YOK — tamamı arayüz.
-Kapsam yalnız `bildim/` + paylaşılan giriş sayfası ve manifest dosyaları.
+Kapsam yalnız `oyun/` + paylaşılan giriş sayfası ve manifest dosyaları.
 (`src/pages/GameCenter.jsx` ve `BirlesikSiralama.jsx` hub'a ait; dokunulmadı.)
 
 ### 1) Palet — mor tamamen kaldırıldı
@@ -1907,7 +1907,7 @@ Kapsam yalnız `bildim/` + paylaşılan giriş sayfası ve manifest dosyaları.
 - `theme-color` meta + `manifest.webmanifest` + `bildim.webmanifest` + JS'teki
   `BILDIM_TEMA` → `#0B1220`.
 - **DOĞRULAMA:** `grep -ri "7c4dff|8b5cf6|a78bfa|6d28d9|c4b5fd|5b21b6|46179c|1c1642|
-  rgb(139,92,246)|rgb(167,139,250)|rgb(109,40,217)" bildim/ src/styles.css src/pages`
+  rgb(139,92,246)|rgb(167,139,250)|rgb(109,40,217)" oyun/ src/styles.css src/pages`
   → **0 sonuç**. Tarayıcıda çalışan stil sayfalarında mor kural sayısı: **0**.
   Hesaplanan `body` zemini: `rgb(11, 18, 32)`.
   (Ara adımda gözden kaçan 8 alfa'lı mor yüzey — `rgba(26,20,54,…)` gibi — ve
@@ -1915,13 +1915,13 @@ Kapsam yalnız `bildim/` + paylaşılan giriş sayfası ve manifest dosyaları.
 
 ### 2) Emojiler silindi, yerine özel ikon seti
 
-- **`bildim/components/Ikon.jsx` — 41 çizgi ikon** (2px kontur, yuvarlak uç,
+- **`oyun/components/Ikon.jsx` — 41 çizgi ikon** (2px kontur, yuvarlak uç,
   `currentColor`, 24px kutu, dolgu yok): ev, kupa, kılıç, oyun kolu, grafik,
   kişiler, kişi, kişi ekle, zil, yıldız, ateş, kalkan, madalya, uyarı, terazi,
   saat, ileri atla, hızlı, soru, robot, sohbet, şehir, dünya, harita pini,
   bayrak, kilit, onay, çarpı, ok, geri, artı, yenile, çöp, paylaş, ayar,
   hediye, ses açık, ses kapalı, liste, kalem, çıkış.
-- **`bildim/components/KategoriIkon.jsx` — 12 dolgu kategori ikonu** (beyin,
+- **`oyun/components/KategoriIkon.jsx` — 12 dolgu kategori ikonu** (beyin,
   atom, sütun, küre, kitap, top, palet, film şeridi, nota, çip, kadeh),
   her biri kendi kategori renginde plakada (`plaka` özelliği).
 - **Emoji sayımı: 309 satır → 15 satır.** Kalan 15'in tamamı bilinçli:
@@ -1972,7 +1972,7 @@ Kapsam yalnız `bildim/` + paylaşılan giriş sayfası ve manifest dosyaları.
   maskeli sönüm. Görsel dosya eklenmedi.
 
 ### 6) Logo
-- `bildim/components/Logo.jsx`: gradient renkli düz metin yerine **çizilmiş
+- `oyun/components/Logo.jsx`: gradient renkli düz metin yerine **çizilmiş
   SVG wordmark** — kalın harfler, altın ve 8° eğik "!" (ayrı iki dikdörtgen),
   harflerin altında ince altın çizgi. Üst çubukta (24px) ve giriş ekranında (44px).
 
@@ -1984,7 +1984,7 @@ Kapsam yalnız `bildim/` + paylaşılan giriş sayfası ve manifest dosyaları.
 - Varsayılan boyut **96 → 64**; bitiş perdesinde 92 → 64. Artık odak değil aksan.
 
 ### 8) Ses
-- `bildim/lib/ses.js` genişletildi (WebAudio, ses dosyası yok):
+- `oyun/lib/ses.js` genişletildi (WebAudio, ses dosyası yok):
   `sesDokunus` (kısa klik), `sesDogru` (yükselen üçlü), `sesYanlis` (alçalan tek
   nota), `sesTik` (son 5 sn), `sesSureDoldu`, `sesKazandin` (üç notalı arpej),
   `sesRutbeAtladi` (yükselen dörtlü).
@@ -2083,7 +2083,7 @@ profil, 1v1 maç) ölçüldü:
   (podyum puanı 4.37, "sen" rozeti 1.87) — ikisi de düzeltildi.
 - Yatay taşma: hiçbir sayfada yok.
 - Etiketsiz ikon butonu taraması: düzeltmeden sonra **0**.
-- Mor tonu taraması (hue 245-315, doygunluk > 0.18) `bildim/`, `src/styles.css`
+- Mor tonu taraması (hue 245-315, doygunluk > 0.18) `oyun/`, `src/styles.css`
   ve `public/avatars/` üzerinde: **kapsam içinde 0 sonuç**
   (kalan tek yer `.run-serit` — RUN oyununun hub kartı, Bildim kapsamı dışı).
 
@@ -2115,7 +2115,7 @@ aşçı, profesör, viking, hayalet, zombi, mumya, kahraman, palyaço, kral.
 - Toplam **~130 KB**, hepsi **yerel** (dış servis / CDN yok).
 - 34px avatarda da 92px profil resminde de okunur (ikisi de önizlemede ölçüldü).
 - Palet gece lacivert + altın ailesiyle uyumlu; **mor kullanılmadı**.
-- Üretici `bildim/_test/avatar-uret.mjs` olarak repoda: göz / ağız / kulak /
+- Üretici `oyun/_test/avatar-uret.mjs` olarak repoda: göz / ağız / kulak /
   şapka gibi **parça fonksiyonlarından** kuruluyor, yeni karakter eklemek tek
   satırlık bir tanım.
 
@@ -2266,7 +2266,7 @@ botlar ve silinmiş sorular dışarıda bırakıldı.
 genel_kultur 42, edebiyat 35, sanat 32, … (`hizli_mod_oturumlar` soru bazlı cevap tutmadığı için
 Hızlı Mod geçmişi doldurmaya dahil edilemedi; o mod bugünden itibaren birikiyor.)
 
-### Doğrulama — `node bildim/_test/hatalarim-test.mjs`
+### Doğrulama — `node oyun/_test/hatalarim-test.mjs`
 
 Geçici test kullanıcısı açılır, `request.jwt.claims` ile `auth.uid()` taklit edilir, sonda silinir.
 
@@ -2295,7 +2295,7 @@ sorguya taşındı (**20260612000106**).
 
 ### Arayüz
 
-- **`bildim/pages/CalismaPage.jsx`** (yeni) — `/bildim/calisma`. Banka özeti (bekleyen/öğrenilen +
+- **`oyun/pages/CalismaPage.jsx`** (yeni) — `/oyun/calisma`. Banka özeti (bekleyen/öğrenilen +
   kategori mini çubukları), kategori seçici, soru sayısı 10/20/30, "Çalışmaya başla".
   Banka boşsa maskot + "Henüz yanlışın yok…" ama tur yine başlatılabiliyor.
 - Çalışma ekranı: üstte **"ÇALIŞMA · PUAN VERİLMEZ"** şeridi, süre **20 sn** (rahat), joker yok,
@@ -2304,7 +2304,7 @@ sorguya taşındı (**20260612000106**).
   öğrenilmiş sayılacak" / "Öğrenildi! Bankadan çıktı" (konfeti + ses).
 - Sonuç ekranı: öğrenilen sayısı büyük, doğru/yanlış/bankada kalan, toplam öğrenilen ve
   "kategori ustalığına işlendi" notu. **Lig puanı yazmıyor.**
-- **`bildim/components/YanlisSatiri.jsx`** (yeni) — "N soruyu yanlış bildin — Hatalarım'a eklendi".
+- **`oyun/components/YanlisSatiri.jsx`** (yeni) — "N soruyu yanlış bildin — Hatalarım'a eklendi".
   1v1 (`MacSonuEklentisi` içinden), grup maçı, turnuva ve hızlı maç sonuç ekranlarına eklendi.
 - Home'a **Hatalarım** mod kartı (kendi rengi #2FBF71, açıklamasız) + köşede bankadaki soru rozeti.
 - Profil sayfasına "Öğrenilen soru: N · Bankada: M" satırı + Hatalarım'a link.
@@ -2341,7 +2341,7 @@ bulunan 4 hata düzeltildi ve 1 yayın engelleyici eksik kapatıldı.
 | # | Hata | Kök neden | Etki | Düzeltme |
 |---|---|---|---|---|
 | 1 | `yildiz`, `hizli`, `onay` ikonları **hiç çizilmiyordu** | `Ikon.jsx` yolu `split("M")` ile bölüp her parçaya `"M"` ekliyordu; küçük `m` ile başlayan yollar `"Mm…"` olup geçersizleşiyordu | Joker Dükkânı kartında ikon yerine boş kırmızı plaka, başlıktaki puan yıldızı ve Hızlı Mod onay işareti görünmüyordu | `split(/(?=M)/)` — komut harfi korunuyor |
-| 2 | Hatalarım mod kartı Lig ile **aynı yeşil** (#2FBF71) | Yeni tema `styles.css`'e yazılmıştı; mod temaları `bildim/styles/tema.css` içinde `--tema-ikon` ile tanımlı | Alt alta iki tam genişlik kart ayırt edilemiyordu | `.bd-mod.tema-hatalarim` → **#20A4A0** camgöbeği |
+| 2 | Hatalarım mod kartı Lig ile **aynı yeşil** (#2FBF71) | Yeni tema `styles.css`'e yazılmıştı; mod temaları `oyun/styles/tema.css` içinde `--tema-ikon` ile tanımlı | Alt alta iki tam genişlik kart ayırt edilemiyordu | `.bd-mod.tema-hatalarim` → **#20A4A0** camgöbeği |
 | 3 | Banka özeti satırı ikiye bölünüyordu | `.ayrac` sınıfı global **yatay ayraç çizgisi** (max-width 340px); noktayı 340px genişletiyordu | Özet kartı bozuk görünüyordu | `.bd-calisma-ayrac` olarak yeniden adlandırıldı |
 | 4 | Profil ve maç sonu satırları **altın + altı çizili ham bağlantı** gibi görünüyordu | `.app a` (özgüllük 0,1,1) kendi kurallarımızı (0,1,0) eziyordu | İki yeni satır tasarımdan kopuktu | Kurallar `.app a.<sınıf>` ile aynı özgüllüğe çıkarıldı |
 
@@ -2353,7 +2353,7 @@ mor bandı (hue 245-315) dışında. İkon düzeltmesi 42 ikonun tamamında doğ
 ### Yayın engelleyici eksik kapatıldı
 
 `YAYIN_KONTROL.md` B4: "Kullanım Koşulları sayfası hiç yok."
-→ **`bildim/pages/KosullarPage.jsx`** yazıldı (17 madde): taraflar, hesap, yaş sınırı,
+→ **`oyun/pages/KosullarPage.jsx`** yazıldı (17 madde): taraflar, hesap, yaş sınırı,
 kabul edilebilir kullanım (hile/taciz), kullanıcı içeriği, sanal öğeler ve Play
 faturalandırması, reklamlar, soru doğruluğu, askıya alma, garanti reddi, sorumluluk
 sınırı, fikri mülkiyet, uygulanacak hukuk (TR; tüketici hakları saklı).
@@ -2417,7 +2417,7 @@ Supabase Auth izin listesi ölçüldü (`/auth/v1/verify` ucu, geçersiz token):
 |---|---|
 | `idagg-game-center.vercel.app/` | **RED** → `bildim.vercel.app`'e düşüyor |
 | `idagg-game-center.vercel.app/bildim` | **RED** |
-| `idagg-game-center.vercel.app/bildim/davet/ABC` | **RED** |
+| `idagg-game-center.vercel.app/oyun/davet/ABC` | **RED** |
 | `bildim.vercel.app/` | İZİNLİ |
 | `bildim.vercel.app/bildim` | İZİNLİ |
 
@@ -2448,7 +2448,7 @@ yazılır, 307 sonrası yine idagg'da okunur.
 
 | Test | Sonuç |
 |---|---|
-| `/` → saklanan `/bildim/calisma` hedefine dönüldü | ✔ |
+| `/` → saklanan `/oyun/calisma` hedefine dönüldü | ✔ |
 | Hedef tek kullanımlık (anahtar silindi) | ✔ |
 | `//kotu-site.example.com` hedefi reddedildi, kendi alan adında kalındı | ✔ |
 | 20 dk önceki (süresi geçmiş) hedef yok sayıldı | ✔ |
@@ -2473,7 +2473,7 @@ düzeltildi**, 1 yayın eksiği kapatıldı.
 |---|---|---|---|
 | 1 | **Buton kontrastı** — `.app .btn` altın zemine **beyaz** yazı kullanıyordu. "Lobiye katıl" ve "Meydan oku" solgun/okunaksızdı; aynı sayfadaki "Hemen oyna" doğru şekilde koyu yazı kullanıyor. | **1.87:1** (WCAG eşiği 4.5) | `color: #3a2400` → **7.83:1**, `.bd-ana-eylem` ile aynı |
 | 1b | `.btn.tehlike` mercan zemine beyaz | **3.64:1** | zemin `#E8543F` → `#C43A26` → **5.28:1** |
-| 2 | **Sitemap var olmayan adres bildiriyordu:** `/bildim/gizlilik` — böyle bir rota yok, canlıda ana sayfaya düşüyor (soft-404, yanlış kanonik sinyal) | canlıda doğrulandı | `/gizlilik` olarak düzeltildi; `/kosullar` + 7 oyun rotası eklendi (3 → 11 adres) |
+| 2 | **Sitemap var olmayan adres bildiriyordu:** `/oyun/gizlilik` — böyle bir rota yok, canlıda ana sayfaya düşüyor (soft-404, yanlış kanonik sinyal) | canlıda doğrulandı | `/gizlilik` olarak düzeltildi; `/kosullar` + 7 oyun rotası eklendi (3 → 11 adres) |
 | 3 | **Kilitli rozet okunaksız** — `opacity: 0.45`, 10px açıklama | **2.96:1** | `opacity: 0.65` → **4.72:1** (kilitli hissi korunuyor) |
 | 4 | Hub alt bilgisinde yasal bağlantı yoktu | — | Gizlilik + Kullanım koşulları eklendi (mağaza/reklam ağı şartı) |
 
@@ -2517,7 +2517,7 @@ Vercel'e dokunulmadı; aynı depo iki yerde birden yayınlanabilir durumda.
 
 | Dosya | Neden |
 |---|---|
-| `public/_redirects` | SPA yönlendirmesi. Olmadan `/bildim/calisma` gibi **tüm derin bağlantılar Cloudflare'de 404** döner. Vercel bu dosyayı yok sayar (o `vercel.json` kullanıyor). |
+| `public/_redirects` | SPA yönlendirmesi. Olmadan `/oyun/calisma` gibi **tüm derin bağlantılar Cloudflare'de 404** döner. Vercel bu dosyayı yok sayar (o `vercel.json` kullanıyor). |
 | `public/_headers` | `sw.js` → `no-cache` (eski service worker takılı kalmasın), `/assets/*` → 1 yıl `immutable` (Vite hash'li ad üretiyor), `nosniff` + `Referrer-Policy` + `X-Frame-Options`. |
 | `.node-version` → `22` | **Kritik.** Vite 7 Node `^20.19 \|\| >=22.12` istiyor; Cloudflare Pages varsayılanı daha eski — sabitlenmezse **ilk derleme patlar.** Vercel de aynı dosyayı okuyor, uyumlu. |
 | `wrangler.toml` | CLI dağıtımı için (`pages_build_output_dir = "dist"`). Panelden bağlanırsa gerekmez. |
@@ -2529,17 +2529,17 @@ Cloudflare'in kendi çalışma zamanı yerelde ayağa kaldırıldı (hesap gerek
 
 | Test | Sonuç |
 |---|---|
-| `/`, `/bildim`, `/bildim/calisma`, `/bildim/mac/abc-123`, `/kosullar`, `/gizlilik`, `/kafatopu` | 7/7 **200** + `text/html` |
+| `/`, `/bildim`, `/oyun/calisma`, `/oyun/mac/abc-123`, `/kosullar`, `/gizlilik`, `/kafatopu` | 7/7 **200** + `text/html` |
 | `/sitemap.xml`, `/robots.txt`, `/manifest.webmanifest`, `/sw.js`, `/icon-192.png` | 5/5 **200** |
 | `sw.js` → `Cache-Control: no-cache, no-store, must-revalidate` | ✔ |
 | `/assets/*.js` → `public, max-age=31536000, immutable` | ✔ |
 | `x-content-type-options: nosniff` | ✔ |
-| Uygulama tarayıcıda `/bildim/calisma` derin bağlantısından açıldı | ✔ |
+| Uygulama tarayıcıda `/oyun/calisma` derin bağlantısından açıldı | ✔ |
 
 ### Vercel regresyon kontrolü
 
 `.node-version` eklemek Vercel derlemesini de etkilediği için canlı doğrulandı:
-site açılıyor, `/bildim/calisma` render ediliyor, önceki CSS düzeltmeleri
+site açılıyor, `/oyun/calisma` render ediliyor, önceki CSS düzeltmeleri
 (buton `#3a2400`, rozet `0.65`) yerinde, sitemap 11 adres. `_redirects`
 Vercel'de statik dosya olarak servis ediliyor (200) — zararsız.
 
@@ -2569,9 +2569,9 @@ aynen eskisi gibi derlenir. `src/App.jsx`'e hiç dokunulmadı.
 
 | Dosya | Değişiklik |
 |---|---|
-| `bildim/lib/yol.js` | **yeni** — `y()` yol yardımcısı, tek doğruluk kaynağı |
-| 22 bileşen/sayfa | 76 sabit `/bildim/...` yolu `y("/...")` çağrısına çevrildi |
-| `src/BildimApp.jsx` | **yeni** — Bildim rotaları kökte + eski `/bildim/*` → kök yönlendirmesi |
+| `oyun/lib/yol.js` | **yeni** — `y()` yol yardımcısı, tek doğruluk kaynağı |
+| 22 bileşen/sayfa | 76 sabit `/oyun/...` yolu `y("/...")` çağrısına çevrildi |
+| `src/BildimApp.jsx` | **yeni** — Bildim rotaları kökte + eski `/oyun/*` → kök yönlendirmesi |
 | `src/main.jsx` | moda göre `App` / `BildimApp` (lazy — seçilmeyen taraf paketlenmez) |
 | `vite.config.js` | `bildimModuEklentisi`: index.html meta/manifest/ikon/canonical + çıktıdaki manifest, robots, sitemap |
 | `.env.bildim` | `npm run build:bildim` her işletim sisteminde çalışsın diye |
@@ -2579,8 +2579,8 @@ aynen eskisi gibi derlenir. `src/App.jsx`'e hiç dokunulmadı.
 
 ### Doğrulama (yerel, derlenmiş çıktı + Chromium)
 
-**Bildim modu** — `/`, `/gizlilik`, `/kosullar`, `/calisma`, `/bildim/meydan`,
-`/bildim/mac/abc-123`, `/olmayan-sayfa`: 7/7 render, **JS hatası yok**.
+**Bildim modu** — `/`, `/gizlilik`, `/kosullar`, `/calisma`, `/oyun/meydan`,
+`/oyun/mac/abc-123`, `/olmayan-sayfa`: 7/7 render, **JS hatası yok**.
 Statik dosyalar: `bildim.webmanifest` `start_url: "/"`, kısayollar
 `/`, `/meydan`, `/turnuva`; robots + sitemap `VITE_SITE_URL`'den üretildi;
 `<title>` "Bildim! — Bilgi Yarışması", manifest/ikon/apple başlığı Bildim,
@@ -2588,7 +2588,7 @@ Statik dosyalar: `bildim.webmanifest` `start_url: "/"`, kısayollar
 Paket denetimi: `DriftGpApp` (1.086 kB), KafaTopu, PatiRun, Boks, Gladius,
 RUN, MeyveKes parçalarının **hiçbiri çıktıda yok**.
 
-**Hub regresyonu** — `/`, `/bildim`, `/bildim/calisma`, `/gizlilik`,
+**Hub regresyonu** — `/`, `/bildim`, `/oyun/calisma`, `/gizlilik`,
 `/kafatopu`: 5/5 render, JS hatası yok; `<title>` "IDA GG Game Center",
 manifest `manifest.webmanifest`, `bildim.webmanifest` `start_url: "/bildim"`,
 robots/sitemap Vercel adresinde, canonical eklenmedi. Yani hub bozulmadı.
@@ -2613,7 +2613,7 @@ Site canlıda gerçek hesapla (idagg, 350 puan) baştan sona gezildi.
 ### Çalışan (doğrulandı)
 
 - SPA fallback: 12 rota (`/turnuva`, `/siralama`, `/calisma`, `/profil`,
-  `/gizlilik`, `/kosullar` …) hepsi 200; `/bildim/*` kök rotalara yönleniyor.
+  `/gizlilik`, `/kosullar` …) hepsi 200; `/oyun/*` kök rotalara yönleniyor.
 - **Hatalarım / Çalışma modu uçtan uca**: 10 soruluk tur oynandı → 10 doğru,
   6 soru "öğrenildi", banka 169 → 163 düştü, **`puan` 350'de kaldı**
   (puansız çalışma kuralı canlıda da doğru işliyor).
@@ -2625,7 +2625,7 @@ Site canlıda gerçek hesapla (idagg, 350 puan) baştan sona gezildi.
 
 ### Bulunan ve düzeltilen 2 hata
 
-1. **"Merkez" sekmesi** (`bildim/components/Layout.jsx`) — `to="/"` sabit
+1. **"Merkez" sekmesi** (`oyun/components/Layout.jsx`) — `to="/"` sabit
    yazılmıştı. Quizador'un kendi sitesinde `/` zaten Ana Sayfa olduğundan
    sekme kendini tekrar ediyordu; ayrıca `end` yokluğundan NavLink her yolla
    eşleşip sekme **her sayfada "aktif"** görünüyordu (hub'da da aynı hata).
@@ -2663,7 +2663,7 @@ kendi önerisini gösterirken iPhone kullanıcısı hiçbir davet almıyordu.
 PWA altyapısı zaten doğruydu (`apple-touch-icon`, `apple-mobile-web-app-*`,
 manifest); eksik olan tek şey kullanıcıya bunu söyleyen yönlendirmeydi.
 
-**Yeni:** `bildim/components/AnaEkranaEkle.jsx` — alttan giren kart, modal
+**Yeni:** `oyun/components/AnaEkranaEkle.jsx` — alttan giren kart, modal
 değil. 3 adım + Safari paylaş / artı-kutu ikonları. Kapatılınca localStorage
 ile bir daha çıkmaz.
 
@@ -2803,9 +2803,9 @@ Realtime **presence** eklendi (projede ilk kez kullanıldı).
 
 ### Yeni dosyalar
 
-- `bildim/lib/sesliSohbet.js` — WebRTC motoru (UI bilmez): mikrofon,
+- `oyun/lib/sesliSohbet.js` — WebRTC motoru (UI bilmez): mikrofon,
   teklif/cevap/ICE, aday sıraya alma, susturma, zaman aşımı, temizlik.
-- `bildim/components/SesliSohbet.jsx` — onay akışı, sinyalleşme, durumlar.
+- `oyun/components/SesliSohbet.jsx` — onay akışı, sinyalleşme, durumlar.
 - Migration 113 — `sesli_sohbet_izni` RPC: arkadaşlık + maçta olma + maç
   aktif + bot değil. Kural tek yerde.
 
@@ -3460,9 +3460,9 @@ vercel'den paylaşan vercel linki paylaşıyor.
 
 Bildim'e **Harita** sekmesi: three.js ile 3B meydan, Supabase Realtime
 presence + broadcast ile canlı çok oyunculu (konum 8/sn, lerp; emoji 2 sn/1).
-İzole modül `bildim/harita/`, lazy route — three.js yalnız girince iniyor
+İzole modül `oyun/harita/`, lazy route — three.js yalnız girince iniyor
 (733 kB / gzip 190 kB ayrı chunk). DB değişikliği yok. Ayrıntı ve test
-sonuçları: `bildim/PROGRESS.md` (11 Eylül (5)) ve `bildim/harita/CLAUDE.md`.
+sonuçları: `oyun/PROGRESS.md` (11 Eylül (5)) ve `oyun/harita/CLAUDE.md`.
 Commit edildi, **push edilmedi** — sahibinin onayını bekliyor.
 
 ---
@@ -3516,7 +3516,7 @@ migration (141–148) **canlıya uygulandı**.
     20, reklam 25 (günde 5), başlangıç 500, günlük tavan 400. Günlük seri
     artık coin de veriyor (5/10/15/25). Joker birim fiyatları 40/60/80 ve
     paketler 400/1.000/3.000; tek joker alma RPC'si + dükkân bölümü eklendi.
-    İstemci `bildim/lib/ayarlar.js` ile tablodan okuyor. Geçiş reklamı artık
+    İstemci `oyun/lib/ayarlar.js` ile tablodan okuyor. Geçiş reklamı artık
     **ilk 3 gün** muaf (önceden ilk 3 maç).
 11. **Yatay ekran**: teşhis satırı, "yatay moda geç" düğmesi, yatay ölçek ve
     FOV 42→48 zaten yerindeydi; eksik olan topuzun konumuydu (madde 8 ile
@@ -3583,7 +3583,7 @@ sistemle karışırdı.
 5. **Maç bitince meydana dönüş.** Meydandan giren oyuncu maç bitince
    haritaya döner ve **ayrıldığı noktada** doğar (x, z, dönüş açısı;
    sessionStorage). Ana menüden girenler normal akışta kalır. Mantık
-   `bildim/harita/donus.js`'te — 3B modelden bağımsız.
+   `oyun/harita/donus.js`'te — 3B modelden bağımsız.
 6. **Meydanda oyuncuya dokunma**: meydan oku / kahve (5 coin) / balon
    (5 coin). Kahvede iki karakter karşı karşıya gelip 15 sn fincan kaldırır,
    aralarda kahkaha atar; balonda veren elini uzatır, 3–5 balon alanın
@@ -3686,7 +3686,7 @@ meydanda da görünüyor. Yöntem: SVG → 256×256 tuval → `THREE.Sprite`
 (Don't Starve / Paper Mario yöntemi; sprite hep kameraya baktığı için
 döndürme derdi yok).
 
-- Yeni modül `bildim/harita/karakterGorsel.js` — **görünüm kaydı → doku**
+- Yeni modül `oyun/harita/karakterGorsel.js` — **görünüm kaydı → doku**
   işinin tek yeri. Sahne (dunya.js) yalnız ekleyip çıkarıyor. Harita
   ileride baştan çizilecek; modeller değişince burası değişir.
 - Eski 3B gövde **silinmedi**: `avatar.js` + `esyalar.js` yerinde,
@@ -3735,7 +3735,7 @@ Canlı DB'de rollback'li ölçüm: `dereceli=false` → coin 155→155, puan 0�
 coin hareketi 0. `dereceli=true` → coin 155→180, puan 0→20, hareket 1.
 
 ### 2. Meydanda zıplama
-Yeni modül `bildim/harita/ziplama.js` — **saf mantık**, three.js/DOM/ağ
+Yeni modül `oyun/harita/ziplama.js` — **saf mantık**, three.js/DOM/ağ
 bilmiyor. Yükseklik (1.9) ve süre (0.62 sn) `oyun_ayarlari`'nda değil
 burada: oyun dengesi değil, his meselesi (sahibinin kararı).
 
@@ -3753,15 +3753,15 @@ dönüyor. Uzak oyuncularda yükseklik de ara değerlemeye giriyor; paketinde
 `prefers-reduced-motion` altında zıplama kalıyor.
 
 ### 3. Arayüz çoklu dil — Aşama 1
-`bildim/lib/dil.js` (düz JS sözlük + `t()`, kütüphane yok) ve React
-kancası `bildim/lib/dilKanca.js`. Kural sıralı: **profil tercihi >
+`oyun/lib/dil.js` (düz JS sözlük + `t()`, kütüphane yok) ve React
+kancası `oyun/lib/dilKanca.js`. Kural sıralı: **profil tercihi >
 bu tarayıcıdaki seçim (localStorage) > `navigator.language`**
 ("tr" ile başlıyorsa Türkçe, başka her şey İngilizce). **IP/ülkeye
 bakılmıyor** — Almanya'daki Türk Türkçe, Türkiye'deki yabancı İngilizce
 görsün diye.
 
 Çevrilen ekranlar (Aşama 1 kapsamı): `src/pages/Login.jsx` ve
-`bildim/components/KurulumSihirbazi.jsx`. Giriş ekranının üstüne TR/EN
+`oyun/components/KurulumSihirbazi.jsx`. Giriş ekranının üstüne TR/EN
 değiştirici eklendi. Sözlükte olmayan anahtar Türkçe metnin kendisine
 düşüyor, yani yarım çeviri boş ekran üretmiyor.
 
@@ -3813,7 +3813,7 @@ kod depoda, dağıtım bekliyor.
 
 ### Doğrulama
 - `npm run build` temiz; tarayıcı uyumluluk denetimi TEMİZ.
-- Testler: `kalite-test.mjs` 38/38, yeni `bildim/_test/ziplama-test.mjs`,
+- Testler: `kalite-test.mjs` 38/38, yeni `oyun/_test/ziplama-test.mjs`,
   `ziplama-ag-test.mjs` (h paketle gidiyor, hız sınırı yutmuyor),
   `dil-test.mjs` (dil kuralının üç katmanı).
 - Canlı sitede: iki ayrı düğme görünüyor, giriş ekranı tarayıcı diline
@@ -3883,20 +3883,20 @@ spor 765.
 
 ## 13 Eylül 2026 — Codex'in 3B avatar sistemi depoya alındı ve asıl sistem oldu
 
-**Ne olmuştu:** Codex'in 3B avatar işi (`bildim/avatar3d/`) hiç GitHub'a
+**Ne olmuştu:** Codex'in 3B avatar işi (`oyun/avatar3d/`) hiç GitHub'a
 gönderilmemiş, doğrudan Vercel'e kaynak dağıtımı yapılmıştı. Depo dışındaki
 worktree'de duruyordu. `main`'e yapılan bir push canlıyı GitHub'dan yeniden
-kurunca 3B sayfalar canlıdan silindi; `/bildim/avatar3d/gardrop.html`
+kurunca 3B sayfalar canlıdan silindi; `/oyun/avatar3d/gardrop.html`
 istekleri SPA kabuğuna düşüyordu.
 
 **Kök sebep:** `vercel.json` içindeki `buildCommand`. 3B sayfaların var
 olmasının tek sebebi Codex'in oraya koyduğu çok girişli derlemeydi; o satır
 eski hâline dönünce sayfalar dist'e hiç girmedi.
 
-- **Aşama 1:** `bildim/avatar3d/` (22 dosya) aynen aktarıldı, `vercel.json`
+- **Aşama 1:** `oyun/avatar3d/` (22 dosya) aynen aktarıldı, `vercel.json`
   çok girişli derlemeye alındı. `package.json > build:bildim` de aynı
   config'e bağlandı — yerel derleme ile canlı derleme ayrışmasın.
-- **Aşama 2:** `/bildim/gorunum` artık 3B gardıroba gidiyor
+- **Aşama 2:** `/gorunum` artık 3B gardıroba gidiyor
   (`GardropaGit.jsx`; gardırop ayrı giriş noktası olduğu için rota bileşeni
   olamaz). Eski sayfalar `/gorunum-2b` ve `/gorunum-3b`'de yedekte,
   menülerden bağlantısız. Meydandaki "dans al" bağlantısı `/gorunum-3b`'de
@@ -3921,7 +3921,7 @@ eski hâline dönünce sayfalar dist'e hiç girmedi.
   koyuyor; meydan `gorunum`u zaten realtime ile yayınladığı için öteki
   oyuncular da doğru kıyafeti görüyor. **Gerçek ekonomiye bağlanınca bu
   köprü kalkmalı.**
-- Yeni test: `bildim/_test/meydan-3b-test.mjs` — meydan sekmesi gizliyken
+- Yeni test: `oyun/_test/meydan-3b-test.mjs` — meydan sekmesi gizliyken
   tarayıcı render'ı durdurduğu için ekrandan doğrulanamıyor; kurulum,
   yürüme, zıplama, 14 dans, görünüm değişimi ve bellek bırakma burada
   ölçülüyor.
@@ -3934,7 +3934,7 @@ seçilen avatar eski görseller — meydanda çıkan görseller değil."
 
 **Kök sebep (ölçüldü):** depoda üç avatar sistemi birden canlıydı —
 (A) 31 düz SVG ikon (kurulum sihirbazı), (B) 2B PatiRun karakterleri
-(`bildim/karakter/`), (C) Codex'in 3B sistemi. `src/components/Avatar.jsx`
+(`oyun/karakter/`), (C) Codex'in 3B sistemi. `src/components/Avatar.jsx`
 (18 dosyada kullanılıyor) yalnız B ve A'ya bakıyordu; C hiç yoktu.
 
 - **Migration 165:** `avatar3d_parcalar` (12 parça), `avatar3d_sahip`,
@@ -3980,19 +3980,19 @@ portre" kararını **iptal eder**.
 Çıkarılan yerler:
 - `src/components/Avatar.jsx` → yalnız `gorunen_avatar`/`avatar_url` →
   baş harf. 3B portre dalı da kalktı (yalnızca meydan 3B çizer).
-- `bildim/pages/ProfilePage.jsx` → 2B vitrin kalktı. **Şikayetin asıl
+- `oyun/pages/ProfilePage.jsx` → 2B vitrin kalktı. **Şikayetin asıl
   kaynağı buydu:** profilde hâlâ PatiRun karakteri çiziliyordu.
-- `bildim/harita/karakterGorsel.js` → billboard artık `avatarUri` yerine
+- `oyun/harita/karakterGorsel.js` → billboard artık `avatarUri` yerine
   `yeniPortre` kullanıyor. Meydanda hiç 2B görsel yok: yakındakiler gerçek
   3B gövde, uzaktakiler aynı modelin fotoğrafı.
 - `/gorunum-2b` rotası kalktı (App.jsx + BildimApp.jsx).
-- Üç ölü dosya `bildim/karakter/` altına taşındı (silinmedi):
+- Üç ölü dosya `oyun/karakter/` altına taşındı (silinmedi):
   AvatarVitrin, GorunumDukkani, KarakterPage.
 - `GorunumPage` (yedek /gorunum-3b) artık profil fotoğrafının üstüne
   3B render yazmıyor — `fotografiYukle` duruyor ama çağrılmıyor.
 
 **Süpürme grep'i boş:**
-`grep -rn "karakter/gorunum\|avatarUri" bildim/ src/ | grep -v bildim/karakter/`
+`grep -rn "karakter/gorunum\|avatarUri" oyun/ src/ | grep -v oyun/karakter/`
 
 **Ölçüm — billboard portreye geçince:**
 - Çizim maliyeti DEĞİŞMEDİ: billboard başına 2 çizim çağrısı, 16 üçgen.
@@ -4126,7 +4126,7 @@ metni o klasörün dosya adlarını kullandığı için yanlış sistem gelişti
 **Yapılan:**
 1. İki klasördeki commit edilmemiş iş `arsiv/` altına alındı ve commit
    edildi (`b916855`). `quizsquare` kopyasında **git geçmişinde hiç yer
-   almamış** iki dosya çıktı: `bildim/styles/square.css` (181 satırlık
+   almamış** iki dosya çıktı: `oyun/styles/square.css` (181 satırlık
    görsel katman denemesi) ve `DEVAM_TASARIM.md`. Notunda *"kullanıcı
    tasarımı görüp beğenmeden push ve yayın YAPILMAYACAK"* yazdığı için
    uygulanmadı, yalnız saklandı — karar sahibinin.
@@ -4162,7 +4162,7 @@ cevap anından sayılıyordu. 2. saniyede cevaplayan için kalan 0, 14.
 saniyede cevaplayan için tam 1000 ms → hızlı cevaplayan sonraki soruyu
 **1 saniye önce** görüyordu. Artık pencere ilerlemenin görüldüğü andan
 sayılıyor (effect zaten o an çalışıyor, iki istemcide de aynı).
-Yeni test: `bildim/_test/mac-senkron-test.mjs`.
+Yeni test: `oyun/_test/mac-senkron-test.mjs`.
 
 **Ders:** "sunucu doğru" ile "ekranda aynı anda görünüyor" aynı şey
 değil. Senkron, sunucu durumu kadar istemcinin o durumu ne zaman
@@ -4655,7 +4655,7 @@ Tek oturum, alt ajansız. Migration yok.
 
 ### Madde 1 — Görünüm öne çıktı (öncesi → sonrası, canlı ölçüm, 1389×960)
 - **Üst bar:** öncesi zil · coin · profil (gardırop bağlantısı yok) → sonrası zil · coin ·
-  **tişört ikonu** (44×44, `/bildim/avatar3d/gardrop.html`) · profil. Her ekrandan 1 tık.
+  **tişört ikonu** (44×44, `/oyun/avatar3d/gardrop.html`) · profil. Her ekrandan 1 tık.
   390 px'te öğeler 161-359 px arasında, bar sağ kenarı 375, yatay taşma 0.
 - **Dükkân:** öncesi varsayılan sekme Joker → sonrası **Görünüm** (`?sekme=` bağlantıları aynı).
 - **Profil → Ayarlar:** öncesi Görünüm kartı 6. sırada, sayfanın 1242. pikselinde
@@ -5061,7 +5061,7 @@ Not: görevde "son migration 191, yeniler 192'den" yazıyordu; depoda 199'a kada
 ### Aşama 1 — Marka: Quiz Square → Quiz Tactics (`92dfb1a`)
 Kullanıcıya görünen tüm metinler (vite "bildim-modu" başlık/og/apple-title, `bildim.webmanifest`, `manifest.webmanifest`, `index.html` meta,
 Logo/Login/Kurulum sihirbazı, dil.js TR+EN, paylaşım/push metinleri, sw.js bildirim başlığı, Gizlilik/Koşullar, README/CLAUDE/AGENTS başlıkları).
-Teknik adlar (`bildim/`, `VITE_MOD=bildim`, `quizsquare.vercel.app`, localStorage anahtarları) değişmedi. Logo ölçüldü: "Quiz Tactics" 157.4 birim
+Teknik adlar (`oyun/`, `VITE_MOD=bildim`, `quizsquare.vercel.app`, localStorage anahtarları) değişmedi. Logo ölçüldü: "Quiz Tactics" 157.4 birim
 (eski 157.2) → viewBox 160 aynen. Eski migration yorumları ve PROGRESS geçmişi bilerek bırakıldı. Canlı: başlık + manifest "Quiz Tactics".
 
 ### Aşama 2 — Hızlı Mod 10 sn / 90 sn (migration 200, `2d4cb24`, `f93fc96`)
@@ -5164,7 +5164,7 @@ en küçük TR 761 (spor), EN 476 (tarih) — hiçbiri 300 altı değil. Sayfa s
   sayfa içinde görünürlük taklit edildi. Gerçek cihazı etkilemez.
 
 ### Aşama 6 — Dil sözlüğü
-- Paketteki tüm yeni kullanıcı metinleri (`ceviri(...)`) `bildim/lib/dil.js`'e TR anahtar + EN karşılıkla eklendi: Dereceli
+- Paketteki tüm yeni kullanıcı metinleri (`ceviri(...)`) `oyun/lib/dil.js`'e TR anahtar + EN karşılıkla eklendi: Dereceli
   anahtarı, ödül satırları, arkadaş maçı notu, Düello ekranları, joker adları/açıklamaları, unvanlar, kategori adları, Düello sunucu
   hata mesajları, kategori profili, sesli sohbet geri sayımı. Otomatik tarama (`.tmp/eksik_ceviri.cjs`) eksik 0.
 
@@ -5221,7 +5221,7 @@ en küçük TR 761 (spor), EN 476 (tarih) — hiçbiri 300 altı değil. Sayfa s
 - Pasif 2985 soru çevrilmedi; aktifleştirilirse `.tmp/ceviri_disa.mjs` akışıyla çevrilebilir.
 
 ## Harita Yenileme (Taksim) — Aşama 0: stil tarifi + şartname + ölçüm (16 Eyl 2026)
-- `bildim/harita/STIL.md` yazıldı: stil tarifi, palet, tek ortak Mixamo iskeleti + 14 kozmetik yuvası, ölçek
+- `oyun/harita/STIL.md` yazıldı: stil tarifi, palet, tek ortak Mixamo iskeleti + 14 kozmetik yuvası, ölçek
   (1 birim = 1 m, boy 1,80, kök ayak altında), çizim bütçesi, instancing/atlas/ışık şartı, GLB boru hattı, kabul kriterleri.
 - Mevcut sahne ölçüldü (`.tmp/harita-test`, renderer.info, 1920×988, gölge açık): yalnız harita 277 çağrı / 14,9k üçgen
   (gölgeyle 654 / 41,9k; 596 mesh, 383 gölge veren); 3B karakter +61 çağrı / ~30k üçgen (81 mesh); portre billboard +9;
@@ -5230,7 +5230,7 @@ en küçük TR 761 (spor), EN 476 (tarih) — hiçbiri 300 altı değil. Sayfa s
 - Kod değişmedi. **Onay kapısı:** Aşama 1 (tek karakter + tek bina test sahnesi) onay bekliyor.
 
 ## Harita Yenileme — Aşama 1: tek karakter + tek bina test sahnesi (16 Eyl 2026)
-- Blender yok; `bildim/harita/varlik/uret.mjs` varlıkları kodla kurup tek mesh + tek atlas (512², `atlas.mjs`, saf Node PNG
+- Blender yok; `oyun/harita/varlik/uret.mjs` varlıkları kodla kurup tek mesh + tek atlas (512², `atlas.mjs`, saf Node PNG
   yazıcı `png.mjs`) ile **GLB** dışa aktarır (GLTFExporter Node'da `polyfill.mjs` ile). Bütçe aşılırsa üretici reddeder.
 - İskelet: three.js Soldier örneğinden çıkarılmış Mixamo rig (`mixamo.json`, 22 kemik, parmaksız) + Idle/Walk/Run klipleri;
   "Selam" türetildi. 15 kozmetik yuvası dünya hizalı, rig'in 0,01 ölçeğini geri alır (bulunan hata: yuva ölçeği 0,009 →
@@ -5252,7 +5252,7 @@ en küçük TR 761 (spor), EN 476 (tarih) — hiçbiri 300 altı değil. Sayfa s
   ölçülüp 1,15π/0,45π, ortam 0,25 yapıldı. Bina tessellation ilk denemede 17k üçgen → pah 1 bölüm + 0,5 m ızgara ile 9,8k.
   Atlas A/B ilk sürümde yalnız ilk malzemeyi değiştiriyordu (her GLB kendi Texture nesnesini getiriyor) → malzeme başına saklandı.
   Kozmetik ve küçük prop'lar gölge atmaz (bütçe): 25 karakter 97 çağrı / 314k üçgen.
-- AO A/B sonucu dürüst: fark var ama orta; asıl sıçrama atlas + ışık ayarından. Rapor: `bildim/harita/ASAMA_1B_RAPOR.md`.
+- AO A/B sonucu dürüst: fark var ama orta; asıl sıçrama atlas + ışık ayarından. Rapor: `oyun/harita/ASAMA_1B_RAPOR.md`.
   STIL.md §2.3 bütçe tablosu kilitlendi (karakterler ≤143 / ≤340k, çevre ≤60 / ≤80k, toplam ≤220 / ≤420k).
 - Toplam ölçüm: 25 karakter + çevre + bina 111 çağrı · 381.904 üçgen · 2,45 ms (masaüstü). Telefon FPS ölçülmedi.
 - **DUR NOKTASI:** Aşama 2 (13 karakter) sahibinin onayını bekliyor; otomatik devam edilmedi.
@@ -5272,7 +5272,7 @@ en küçük TR 761 (spor), EN 476 (tarih) — hiçbiri 300 altı değil. Sayfa s
   döşeli zemin GLB (karo, bordür, yaya geçidi, çim) 1 çağrı; bina 0,8 m yalnız ön cephe 9.840→4.804 üçgen.
 - Ölçüm (Geniş): karakterler 88 çağrı / 275.160 üçgen (≤143/≤340k) · çevre+bina+kedi 14 / 67.890 (≤60/≤80k) ·
   toplam **102 / 343.050** (≤220/≤420k), 2,14 ms masaüstü. Telefon ölçülmedi. Konsol hatası 0.
-- Rapor `bildim/harita/ASAMA_1C_RAPOR.md`, görseller `.tmp/asama1c-gorseller/`. STIL.md: §1.4 çevre kuralı, §2.3 1C
+- Rapor `oyun/harita/ASAMA_1C_RAPOR.md`, görseller `.tmp/asama1c-gorseller/`. STIL.md: §1.4 çevre kuralı, §2.3 1C
   sütunu, §6 tür/bölge sözleşmesi + tessellation kararı.
 - **DUR NOKTASI:** 13 karakter üretimine geçilmedi; sahibinin onayı bekleniyor.
 
@@ -5289,7 +5289,7 @@ en küçük TR 761 (spor), EN 476 (tarih) — hiçbiri 300 altı değil. Sayfa s
 - D Prop: taç gölgesi küre vekili (visible getter = getRenderTarget()!==null; ana geçişe girmez, çağrı aynı), bank 972→320
   (ucuz pah 68 üçgen), saksı 528→256, lamba 500→220. Çevre 67.890 → 43.722 etkin üçgen, 14 çağrı.
 - Ölçüm (Geniş, 25 karakter): 102 çağrı · 349.054 üçgen (karakter 305.332 · çevre 43.722) · 2,8–3,2 ms. Telefon ölçülmedi.
-- Ek görev: `bildim/harita/ASAMA_2_BUTCE_NOTU.md` yazıldı; Aşama 2 işlerine başlanmadı. Rapor `ASAMA_1D_RAPOR.md`,
+- Ek görev: `oyun/harita/ASAMA_2_BUTCE_NOTU.md` yazıldı; Aşama 2 işlerine başlanmadı. Rapor `ASAMA_1D_RAPOR.md`,
   görseller `.tmp/asama1d-gorseller/`. Kamera en yakın mesafe 0,5 m (yüz kontrolü için).
 - **DUR NOKTASI:** İstiklal / 13 karakter yapılmadı; kalite değerlendirmesi sahibinde.
 
@@ -5302,13 +5302,13 @@ en küçük TR 761 (spor), EN 476 (tarih) — hiçbiri 300 altı değil. Sayfa s
   Fark üç çiftte de aynı yönde; GPU zamanlayıcı (EXT_disjoint_timer_query_webgl2, destekleniyor) +%6,5 → küçük ama gerçek ~0,2 ms.
   Eski "2,14 ↔ 2,8–3,2" farkının büyük kısmı ölçüm koşuluydu (aynı koşulda 1C de 2,7–2,8).
 - rAF toplam kare süresi ölçülmedi (gizli otomasyon sekmesi). HUD'a çift etiketli ms eklenmedi (kod kapsam dışı).
-- Rapor `bildim/harita/ASAMA_2_S0_OLCUM.md`. Ölçüm düzeneği `.tmp/olcum/` (git dışı).
+- Rapor `oyun/harita/ASAMA_2_S0_OLCUM.md`. Ölçüm düzeneği `.tmp/olcum/` (git dışı).
 
 ## Harita Yenileme — Aşama 1E: muayene altyapısı (16 Eyl 2026)
-- Adım 0: ölçüm düzeneği depoya (`bildim/harita/olcum/`: `hazirla.mjs` commit çıkar → üretim derlemesi → preview; `olcum.js`;
+- Adım 0: ölçüm düzeneği depoya (`oyun/harita/olcum/`: `hazirla.mjs` commit çıkar → üretim derlemesi → preview; `olcum.js`;
   README zorunlu sabitler). HUD iki metrik etiketli: `CPU … ms` (sürekli, yalnız gönderim) · `CPU+GPU … ms (saat)` (düğmeyle,
   120 ısınma + 300 kare medyan, gl.finish) · `GPU … ms` (EXT_disjoint_timer_query_webgl2). `window.__deneme.kareOlc()`.
-- Adım 1–3: `bildim/harita/muayene/` — `npm run muayene` (ya da `uret.mjs --muayene`): Node mekanik testler + vite + headless
+- Adım 1–3: `oyun/harita/muayene/` — `npm run muayene` (ya da `uret.mjs --muayene`): Node mekanik testler + vite + headless
   Chrome (`playwright-core` devDep, kurulu Chrome, indirme yok) → varlık başına 6 ortografik + 3 yakın + 1 beauty PNG (git dışı)
   + tek kontakt JPEG + `adaylar.json` (commit). Commit edilen çıktı 25 dosya / ~3 MB.
 - Testler: havada · simetri · icice · gomulu · kozmetik. "Ada" = konumla kaynaşan üçgen kümesi, etiket bölge:hücre + merkez.
@@ -5316,7 +5316,7 @@ en küçük TR 761 (spor), EN 476 (tarih) — hiçbiri 300 altı değil. Sayfa s
   örnekliyordu (tek bölümlü silindir "%100 gömülü") → köşe + üçgen merkezi + kenar ortası.
 - Tuzak: `skeleton.pose()` kök kemiğin ebeveyni ölçekli `Rig` düğümü olduğunda rig dönüşümünü ikinci kez uygular (karakter yatık,
   100× büyük) → bağlama pozu kemik yerel TRS'si saklanıp geri yüklenerek kurulur.
-- Adım 4 sonucu (`bildim/harita/MUAYENE_RAPORU.md`): bilinen 7 hatadan mekanik 4/7, görsel 6/7, toplam 6/7 (şartlar ≥5 ve ≥2
+- Adım 4 sonucu (`oyun/harita/MUAYENE_RAPORU.md`): bilinen 7 hatadan mekanik 4/7, görsel 6/7, toplam 6/7 (şartlar ≥5 ve ≥2
   karşılandı). Kapı kolu havada hatası mevcut GLB'de yeniden üretilemedi (kol kapıya 4 cm gömülü, 3/4 yandan bağlı görünüyor).
   16 yeni bulgu: bank sırtlığı 7 cm havada (yüksek), bina cephe saksıları plakanın dışında havada, robot elleri 2 cm kopuk,
   robot yüz ekranında beyaz çizgi izleri, bordür dokusu uzamış, robot bel/boyun halkaları gömülü, lamba/ağaç küçük kopukluklar.
@@ -5325,7 +5325,7 @@ en küçük TR 761 (spor), EN 476 (tarih) — hiçbiri 300 altı değil. Sayfa s
 - **DUR NOKTASI:** hata düzeltme, karakter işi, CC0 çevre, İstiklal başlamadı.
 
 ## 16 Eyl 2026 — Harita yenileme Aşama 1G-7..12: VFX kiti, alevli gömlek, kanat, premium gözlük, pet ×3, vitrin (Fable)
-- `bildim/harita/deneme/vfx.js`: TEK InstancedMesh + TEK ShaderMaterial VFX kiti; 5 parametrik modül (alev·parıltı·iz·parlama·duman),
+- `oyun/harita/deneme/vfx.js`: TEK InstancedMesh + TEK ShaderMaterial VFX kiti; 5 parametrik modül (alev·parıltı·iz·parlama·duman),
   reçete = kozmetik (`RECETE`), LOD (en yakın 6 grup tam · 14 m orta · 28 m uzak, `VFX_AYAR`). Stres 0/1/6/12/25 alevli: 3,1 ms sabit.
 - Alevli gömlek = kıyafet seti 4 (`alevKumas` hücresi, eski gozBeyaz) + reçete; hız klipten (Idle/Walk/Run), `zipla()` dağılma.
 - Kanat (`kozmetik_kanat`, sirtYuva, 364 üçgen) + süzülme %100 kozmetik (kök sabit, çocuklar +12 cm, çırpma, bacak sarkma, gölge zeminde).
@@ -5333,34 +5333,34 @@ en küçük TR 761 (spor), EN 476 (tarih) — hiçbiri 300 altı değil. Sayfa s
 - `pet.js`: kedi/köpek/kuş, tür başına 1 InstancedMesh (3 çağrı, 25 pet 13.262 üçgen), yaylı takip, boşta davranış, ağ durumu yok.
 - Vitrin: koyu fon + kaide + arka ışık + otomatik dönen kamera; karakter ekranın ~%53'ü.
 - Kapılar: 25 karakter Geniş 3,4 → 3,6 ms (≤4,0), 113 çağrı, 401k üçgen (HUD, gölge dahil); muayene 0/0/0 aday (1E: 4/7/41).
-- Rapor: `bildim/harita/ASAMA_1G_RAPOR.md`; görseller `bildim/harita/gorsel/1g/`.
+- Rapor: `oyun/harita/ASAMA_1G_RAPOR.md`; görseller `oyun/harita/gorsel/1g/`.
 - Açık soru (sahibine): kanatla havalanan sahibin peti — varsayılan yerde takip, kuş +30 cm; alternatif öneri raporda.
 - DUR: 25 karaktere/kataloğa yayma yok. Ölçüm not: otomasyon sekmesi düzeneği, S0 düzeneğiyle mutlak değer karşılaştırılmaz.
 
 ## 17 Eyl 2026 — Harita yenileme Aşama 1H: gövde karşılaştırması (body bake-off) (Opus 5)
-- **A (Universal Base Regular) ve B (Teen) indirilemedi:** yalnız ücretli Source sürümünde (itch.io 19,99 $). Ücretsiz Standard pakette sadece Superhero gövdeleri var. Satın alma sahibinin kararı; dosyalar `bildim/harita/varlik/aday/{a_regular,b_teen}/kaynak/` klasörüne konunca hat tek komutla yeniden üretilir.
+- **A (Universal Base Regular) ve B (Teen) indirilemedi:** yalnız ücretli Source sürümünde (itch.io 19,99 $). Ücretsiz Standard pakette sadece Superhero gövdeleri var. Satın alma sahibinin kararı; dosyalar `oyun/harita/varlik/aday/{a_regular,b_teen}/kaynak/` klasörüne konunca hat tek komutla yeniden üretilir.
 - Karşılaştırılan: A0 Superhero erkek (aynı kit, ücretsiz; A/B yerine DEĞİL, hat/topoloji öngörüsü), C mevcut gövde (kontrol), D Ultimate Modular Men Beach (pakette çıplak gövde yok; şort geometride).
 - `varlik/aday/hazirla.mjs`: boy normalize, kök y=0, dokular sökülür → düz ten, çıplak, meshoptimizer simplify (konum kaynaştırma + alt küme köşe), yeniden okunan GLB'de skin doğrulaması, dünya uzayı yön hizalamalı retarget (Idle/Walk/Run/Selam + nötr "Dur" pozu).
 - Sonuç: A0 13.334 → 5.908 üçgen, JOINTS/WEIGHTS değişen köşe 0, doğrulama geçti, retarget 22 kemik. D 4.762 (sadeleştirme gerekmedi), retarget 20 kemik; D rig'inde ayak Root'a, uyluk Body'ye bağlı (IK) → konum aktarımı eklendi.
 - A0 omuz çökmesi (Selam) araç kaynaklı değil: ham = sade; bizim Selam klibindeki ~80° kol burulması + twist kemiksiz rig.
 - Muayene hattı genişletildi (yeni araç yazılmadı): aday klasörü, düz ten/çıplak mod, klip karesi, rol hedefli kamera, sabit kamera, `--karsilastir` sayfası.
-- Öneri: hedef kalite = A0'daki kit topolojisi; ama stil için B (Teen) görülmeden karar verilmemeli. D bütçe dostu ama fasetli/giyimli. KARAR SAHİBİNDE. Rapor: `bildim/harita/ASAMA_1H_BAKEOFF.md`.
+- Öneri: hedef kalite = A0'daki kit topolojisi; ama stil için B (Teen) görülmeden karar verilmemeli. D bütçe dostu ama fasetli/giyimli. KARAR SAHİBİNDE. Rapor: `oyun/harita/ASAMA_1H_BAKEOFF.md`.
 - DUR: kazanan seçilmedi, yuva/kaplan/robot/25 karakter yok.
 
 ## 17 Eyl 2026 — Harita Aşama 2A: Taksim greybox + yerleşim manifesti (Opus 5)
-- `bildim/harita/yerlesim.json` haritanın tek doğruluk kaynağı: sınır (plaza r42 + İstiklal 12 m koridor), 3 bölge, 27 parsel (9 girilebilir dükkân = oyun modları), 4 nokta, 11 alan, tramvay (2 durak), arka plan kuşağı (Boğaz, köprü silueti).
+- `oyun/harita/yerlesim.json` haritanın tek doğruluk kaynağı: sınır (plaza r42 + İstiklal 12 m koridor), 3 bölge, 27 parsel (9 girilebilir dükkân = oyun modları), 4 nokta, 11 alan, tramvay (2 durak), arka plan kuşağı (Boğaz, köprü silueti).
 - `yerlesimDunya.js` manifestten bilerek çirkin greybox kurar (gri tonlar, etiketler); `dunya.js` manifest verilirse onu, verilmezse Paket 13 dünyasını kurar. Oynanış katmanına dokunulmadı.
 - Canlı: `/harita?harita=taksim` (quizsquare) · `?harita=eski` geri döner; seçim cihazda hatırlanır. Canlı sayfa girişli olduğu için Claude tarafından görülmedi; ölçümler aynı dünya koduyla yerel ölçüm sayfasında (`olcum/greybox.*`, üretim derlemesi).
 - Ölçüm: greybox yalnız en kötü açıda 165 çağrı (sınırın %75'i — nesne sayısı: 121 mesh + gölge), 2,6k üçgen, 1,7 ms. 25 mevcut meydan avatarı ~580 çağrı ekliyor (eski avatar sistemi, 1G hattı değil) → 924 çağrı, 8,6 ms.
 - §7: hız 9 m/s · İstiklal 9,83 sn · taş meydan 5,87 sn, plaza 9,2 sn · 25 oyuncu 81 m²/kişi, komşu 5,5 m · kamera sokak boyunca temiz, SON 10–19 m'de kapanış binası oyuncuyu kapatıyor (Stüdyo/Ayarlar) · doğuştan en uzak dükkân 13,28 sn.
-- Karar bekleyen: kapanış binası (kaldır / 20 m geri çek), meydan yarıçapı. DUR — sanat başlamadı. Rapor: `bildim/harita/ASAMA_2A_GREYBOX.md`.
+- Karar bekleyen: kapanış binası (kaldır / 20 m geri çek), meydan yarıçapı. DUR — sanat başlamadı. Rapor: `oyun/harita/ASAMA_2A_GREYBOX.md`.
 
 ## 17 Eyl 2026 — Harita Aşama 2B: yeni karakter + proplar gerçek haritada, eski harita kalktı
-- Adımlar ayrı commit: 2B-1 modül (`bildim/harita/karakter/`), 2B-2/3 oyuncular, 2B-4 proplar, 2B-5 kediler, 2B-6 botlar, 2B-7 boya, 2B-8 eski harita + balıkçı/su silindi, 2B-9 ölçüm + rapor.
+- Adımlar ayrı commit: 2B-1 modül (`oyun/harita/karakter/`), 2B-2/3 oyuncular, 2B-4 proplar, 2B-5 kediler, 2B-6 botlar, 2B-7 boya, 2B-8 eski harita + balıkçı/su silindi, 2B-9 ölçüm + rapor.
 - Tek harita Taksim; `?harita=` seçimi yok. Balıkçı/olta/su istemciden silindi (**iptal, geri gelmez**); sunucu RPC/tabloları duruyor (ayrı temizlik). `avatar.js` duruyor (portre.js, onizleme.js).
 - **§6 kapısı PASS DEĞİL:** en kötü açıda (İstiklal ucu, 25 oyuncu) 25 tam karakter 5,8 ms > 4,0. `meydan_uc_boyutlu_sinir` = 8 (3,7–3,8 ms). Doğuş kamerasında sınır 8 ile 3,9–4,0 ms — sınırda; kalan maliyet iskeletli karakter sayısının kendisi (LOD/animasyon seyreltme kararı gerekiyor). Migration 209 (oyun_ayarlari: sınır 8, kedi 8) uygulandı.
 - Bilinen tutarsızlık: harita yeni karakter, gardırop/portre eski avatar. Tür seçimi arayüzü yok; bot kaplan/robot olabiliyor → gizli bot riski (rapora yazıldı).
-- Ölçüm düzeneği: `olcum/meydan-test/` (sahte Supabase, `--uretim`), `__kare.durdur/olc`, `sahne2b.js`. Rapor: `bildim/harita/ASAMA_2B_RAPOR.md`. DUR.
+- Ölçüm düzeneği: `olcum/meydan-test/` (sahte Supabase, `--uretim`), `__kare.durdur/olc`, `sahne2b.js`. Rapor: `oyun/harita/ASAMA_2B_RAPOR.md`. DUR.
 
 ## 17 Eyl 2026 — Aşama 2C: canlı test hazırlığı + bekleyen işler (Opus 5)
 - **A (canlıda):** `/harita?olcum=1` ölçüm göstergesi (cihazda hatırlanır, `?olcum=0` kapatır): çağrı · üçgen · fps · `CPU` (yalnız gönderim, sürekli) · `CPU+GPU` (gl.finish, düğmeyle, 120+300 medyan/p95) · GPU zamanlayıcı · tam 3B karakter · oyuncu. `olcumSayaci.js` + `OlcumGostergesi.jsx`. Canlı pakette doğrulandı.
@@ -5368,7 +5368,7 @@ en küçük TR 761 (spor), EN 476 (tarih) — hiçbiri 300 altı değil. Sayfa s
 - **C (canlıda):** Düello ekran kenarı halesi (portal, fixed, transform yok): saldırı turuncu sabit, savunma mavi → kırmızı (sayacın ≤3 sn kritik eşiğiyle aynı an, nabız), ikonlu SALDIRIYORSUN/SAVUNUYORSUN bandı (TR+EN), 0,3 sn giriş, reduced-motion'da animasyon yok.
 - **D:** generate-questions çeviri hattı (`ceviri.ts`): bağlamla çeviri → makine kontrolleri (şık sayısı/sırası, eşanlamlı şık, özel isim, sayı biçimi) → GERİ KONTROL (yalnız İngilizce, aynı indeks) → yaz / `ceviri_atlanan` (kod + ayrıntı). Geriye dönük `{"mod":"ceviri"}` ve `kuru` modu. Migration 210 uygulandı: `ceviri_atlanan` PK (question_id, dil), `ceviri_dil_kurallari` (kurallar/sözlük veride), 4 ayar, `ceviri_uyari_raporu()` / `ceviri_atlanan_dagilim()`. Testler 20/20 + 38/38.
 - **AÇIK:** Edge Function DAĞITILAMADI (CLI 403, Chrome eklentisi bağlı değildi) → canlıda eski sürüm; örnek parti (geri kontrol sayısı) ölçülemedi. Dağıtınca: panelde `ceviri.ts` dahil 3 dosya, sonra `{"mod":"ceviri","dil":"en","adet":20,"kuru":true}`. Şu an en: 9.290 aktif, 9.267 çevirili, 23 atlanan, 0 çevirisiz.
-- Rapor: `bildim/harita/ASAMA_2C_RAPOR.md`, görseller `bildim/harita/gorsel/2c/`. DUR — optimizasyon/harita içeriği/karakter gövdesi yok.
+- Rapor: `oyun/harita/ASAMA_2C_RAPOR.md`, görseller `oyun/harita/gorsel/2c/`. DUR — optimizasyon/harita içeriği/karakter gövdesi yok.
 
 ## 17 Eyl 2026 — Aşama 2D: sınır, optimizasyon, çeviri dağıtımı + ödüller (Opus 5)
 - **A:** `meydan_uc_boyutlu_sinir` 8 → 20 (migration 211; S24 FE 2,20 ms). Yayından önce orta-alt telefonda `?olcum=1` ölçümü şart.
@@ -5376,13 +5376,13 @@ en küçük TR 761 (spor), EN 476 (tarih) — hiçbiri 300 altı değil. Sayfa s
 - **C:** generate-questions panelden dağıtıldı (CLI 403; canlı sürüm depoyla karşılaştırıldı). Kuru çalıştırma YAPILAMADI: Supabase secrets'ta `ANTHROPIC_API_KEY` YOK. Cron `bildim-soru-uret` aslında açık (saatlik) ama her çağrı 500 → son soru 11 Eyl. Anahtar eklenince üretim + çeviri kendiliğinden başlar.
 - **D:** Hızlı Mod `hizli_mod_soru_tavani` 9 (migration 212; cevap/soru/başlat, istemci perdesi "Sorular tamamlandı!"). Turnuva katılan +10: karar değişiklik yok.
 - **E:** `lig_cerceveleri` (ayrı tablo; lig kapanışında verilir, kalıcı, seçim `lig_cerceve_sec`, seçili `gorunum.lig_cerceve`, geriye dönük 271, botlar dahil) — AvatarCerceve halkası + meydan isim etiketi kenarı + Profil'de seçici. `turnuva_giysi_odulu` haftalık ilk-3 giysisi (bu hafta Pelerin), sahipse tekrar yok (`turnuva_giysi_tekrar_coin` 0). `avatar3d_satin_al` etkinlik eşyasını bedava testte de reddeder. Migration 213.
-- Açık: meydan Taç/Pelerin çizmiyor; "Uzay Kıyafeti" yok; turnuva günde 7 (haftalık = haftanın tüm turnuvaları). Rapor `bildim/harita/ASAMA_2D_RAPOR.md`. DUR.
+- Açık: meydan Taç/Pelerin çizmiyor; "Uzay Kıyafeti" yok; turnuva günde 7 (haftalık = haftanın tüm turnuvaları). Rapor `oyun/harita/ASAMA_2D_RAPOR.md`. DUR.
 
 ## 17 Eyl 2026 — Aşama 3A-1: Boğaz + İstiklal cepheleri (Fable 5.1)
 - **B (`ff6901f`):** `bogaz.js` — kamera ufku görmediği için (üst kenar ufkun 11–14° altı) Boğaz y=0'da hiçbir yerden görünmüyordu → plato kenarından 6 teraslı VADİ (çatı şelalesi), deniz y=−60 (#4FC3E8→#9ED9F0, cam bölgesi), karşı kıyı, zorlanmış perspektifli stilize asma köprü. 0 ek çağrı, 2.700 üçgen. Manifest `arkaplan` yeniden tanımlandı; dış zemin vadide delikli; Gezi ağaç kuşağının doğu yarısı vadiye bırakıldı.
 - **C (`464ca88`):** `cephe.js` — modüler parça havuzu (8 aile, 25 varyant), 25 bina manifest reçetesinden (`parsel.cephe`); girilebilir = tabela + ışıyan aplik + kapı + tente, girilemez = kepenk/sağır (kod kuralı). 3 LOD (38/85 m, `kurallar.cephe_lod`), bina başına 1 çağrı, gölgeyi yalnız kütle vekili atar. Gömülü AO ayrı pişer: `npm run cephe-ao` → `cephe_ao.bin` (reçete değişince yeniden!). Muayene: 27 havada adayı geometride düzeltildi → 0 aday / 0 susturulan. Cami/minare boyalı kütle olarak kaldı.
 - **D:** 167 çağrı ✅, 385k üçgen ✅, CPU+GPU 4,5–5,6 ms ❌ — ama taban (2D, sınır 20) zaten 4,1–5,5 ms; cephe etkisi +0,3…1,6 ms, LOD sıkılaştırma (28/70, 22/60) ölçülebilir kazanç vermedi (saçılma etkiden büyük). Telefonda İstiklal ucunda `?olcum=1` şart.
-- Açık: sokak ucunda kamera kapanış binasına giriyor (2A'dan beri); tabela yazısı hâlâ çatı üstü sprite; plaza güneyinde bina arka yüzleri. Rapor `bildim/harita/ASAMA_3A1_RAPOR.md`, görseller `gorsel/3a1/`. DUR.
+- Açık: sokak ucunda kamera kapanış binasına giriyor (2A'dan beri); tabela yazısı hâlâ çatı üstü sprite; plaza güneyinde bina arka yüzleri. Rapor `oyun/harita/ASAMA_3A1_RAPOR.md`, görseller `gorsel/3a1/`. DUR.
 
 ## 17 Eyl 2026 — Aşama 3A-2: yapılar ve kimlik (Opus 5)
 - **A (`a5bf7d4`):** her parsel/nokta/alan/tramvay `bolge` taşır; `bolgeler[*].kaydir` bütün bölgeyi (zemin, bina, çarpışma, sınır, prop) öteler — tek yer `yerlesimCoz.js`. Sınır parçaları bölgeden türetilir. Bilinmeyen bölge → konsol hatası. `kaydir [4,0]` ile doğrulandı, geri alındı.
@@ -5391,7 +5391,7 @@ en küçük TR 761 (spor), EN 476 (tarih) — hiçbiri 300 altı değil. Sayfa s
 - **C (`8a1caef`):** `yapilar.js` — AKM (cam cephe + kırmızı küre + harfler), Taksim Camii (kaburgalı kubbe, iki minare, revak, avlu), Cumhuriyet Anıtı (heykeller SİLUET — yüz detayı hiçbir LOD'da yok, sahibi kararı), Galatasaray Lisesi (`dukkan_ayarlar` yerine, /profil korunur, boşalan uç arsasıyla birleşti; stilize amblem, gerçek arma değil). `landmark_minare` silindi. Muayene dört yapıda 0 aday / 0 susturulan (düzeltmeler geometride).
 - **Düzeltme (`244c6b0`):** Boğaz vadisi dış zeminle örtülüyordu (vadi deliği ±700 kareyi kesiyordu; metro deliği eklenince tamamen) — D/E'den beri canlıda deniz/köprü görünmüyordu. Kare ±900'e büyütüldü, görüntüyle doğrulandı.
 - **F:** 167 çağrı ✅, 439.794 üçgen ✅ (hepsi yakın LOD'da 458.493 — pay dar), CPU+GPU ❌ 5,7–6,0 ms — taban (3A-1) da aynı; katmanlar arası fark ölçülemez (0,0–0,3). Basamak yine binaların yakın/orta LOD'da çizilmesinde (uzak/gizli ~4,0–4,7). Telefon ölçümü gerekli.
-- Açık: lise etiketi "Ayarlar"; metro yalnız kozmetik. Rapor `bildim/harita/ASAMA_3A2_RAPOR.md`, görseller `gorsel/3a2/`. DUR — tramvay/kedi/bot/seyyar satıcı yok.
+- Açık: lise etiketi "Ayarlar"; metro yalnız kozmetik. Rapor `oyun/harita/ASAMA_3A2_RAPOR.md`, görseller `gorsel/3a2/`. DUR — tramvay/kedi/bot/seyyar satıcı yok.
 
 ## 17 Eyl 2026 — Paket 16: dört bağımsız iş (Opus 5)
 - **A (`07d905d`, migration 214 uygulandı):** push'lar alıcının dilinde. `push_metinleri(anahtar, dil)` + `push_metni` (dil.js ttSunucu ile aynı `%`/`%2` kalıbı, parametre terimleri çevrilir) + `bildirim_anahtarla` (uygulama içi metin Türkçe kalır, push `profiles.dil`'de) + `turnuva_hatirlat` (dile göre gruplu). 13 canlı fonksiyon anahtara geçti. Ölçümde çift push bulundu ve kaldırıldı: meydan okuma daveti, grup daveti, seri hatırlatma. Ölüler dokunulmadı: Hızlı Olan Kazanır daveti, `haftalik_sonuc_bildir`. Doğrulama işlem içinde + ROLLBACK (en → İngilizce, tr → Türkçe, de/null → tr).
@@ -5409,7 +5409,7 @@ en küçük TR 761 (spor), EN 476 (tarih) — hiçbiri 300 altı değil. Sayfa s
 - **A (`376f453`, `6042c32`, `4a71af1`):** taç + pelerin dalı main'e birleşti, canlı pakette doğrulandı. 152 ↔ 167 çağrı farkı kapandı: iki sahnenin kozmetiksiz tabanı aynı (142); fark tohumdan gelen rastgele kozmetik klonlarından (25 çağrı). Ölçümlerde sahne kurulumu rapora yazılmalı.
 - **B (`e56caaa`):** push zinciri ölçüldü — sw, VAPID, RPC, FCM çalışıyor (gerçek Chrome'da bildirim geldi). Kopmalar: izin kartı yalnız Normal Maç sonucunda (15 oyuncudan 5'i görmüş), kart hatayı yutup "bir daha sorma" işareti koyuyordu, iPhone Safari sekmesinde hiçbir giriş yoktu. Düzeltildi + Düello/Hızlı Mod sonucuna eklendi + iPhone ipucu. Ağ çağrısını sessizce yutan 21 catch'e konsol kaydı.
 - **C (`a13562a`, kod yok):** lig_arsiv boş çünkü kapanan tek haftada (7–13 Eyl) puanlı gerçek oyuncu yoktu; fonksiyon çalışıyor (kuru çalıştırma 4 satır). 5 kademeli lig kapanışı çalışıyor (1 yükselme). **Karar bekleyen iki kusur:** pasif sayacı haftadan haftaya taşınmıyor (2 hafta pasif düşme hiç tetiklenmez); aktiflik yalnız Normal Maç'ı sayıyor (Düello oynayan "pasif" → yükselemez).
-- **D (migration 216 uygulandı):** eski gardırop donduruldu (kod ve veri duruyor, arayüzden giriş yok, eski HTML'ler vitrine yönlenir, rollupOptions'a dokunulmadı). Yeni vitrin `/gorunum` (`bildim/vitrin/`): meydanın kendi karakter kodu, tek WebGL bağlamı, tür + şapka/gözlük/güneş gözlüğü (eski sahiplik ve fiyatla) + Taç/Pelerin (satılmaz) + Yakında kilitleri (Saç, Elbise, Alt, Atkı, Kanat). Kayıt `profiles.gorunum.harita`; meydan onu eski kayıttan önce okur, aynı görünüm iki ekranda aynı çıktı. Geri dönüş yolu `bildim/CLAUDE.md`.
+- **D (migration 216 uygulandı):** eski gardırop donduruldu (kod ve veri duruyor, arayüzden giriş yok, eski HTML'ler vitrine yönlenir, rollupOptions'a dokunulmadı). Yeni vitrin `/gorunum` (`oyun/vitrin/`): meydanın kendi karakter kodu, tek WebGL bağlamı, tür + şapka/gözlük/güneş gözlüğü (eski sahiplik ve fiyatla) + Taç/Pelerin (satılmaz) + Yakında kilitleri (Saç, Elbise, Alt, Atkı, Kanat). Kayıt `profiles.gorunum.harita`; meydan onu eski kayıttan önce okur, aynı görünüm iki ekranda aynı çıktı. Geri dönüş yolu `oyun/CLAUDE.md`.
 - Rapor `PAKET17_RAPOR.md`, görseller `gorsel/paket17/`.
 
 ## 17 Eyl 2026 — Paket 18: lig kapanışı · kozmetik çağrı kaldıracı · vitrin tamamlama (Opus 5)
@@ -5451,7 +5451,7 @@ altı delik, kanatlar kâğıt şeritleri gibi, atkı kartında hiç görünmüy
 takılı hâlde ölçülmüyordu.
 
 **Yapılanlar (A–G, her biri ayrı commit):**
-- **A** Kodla çizilen kozmetikler (taç, pelerin) `bildim/harita/karakter/ekKozmetik.js`'e tek kaynak olarak ayrıldı;
+- **A** Kodla çizilen kozmetikler (taç, pelerin) `oyun/harita/karakter/ekKozmetik.js`'e tek kaynak olarak ayrıldı;
   oyun, dışa aktarım ve muayene aynı geometriyi ve aynı yerleşim matrisini (`ekMatris`) kullanıyor. Kural: oyunda
   görünen hiçbir geometri muayene dışında kalamaz.
 - **B** Yeni test `oturma` — kozmetiğin gövdeye bakan yüzeyi gerçekten yaslanıyor mu.
@@ -5730,7 +5730,7 @@ gönderebilir. Döndürme iki adımdır ve biri panelden yapılır (bu yüzden a
 2. Hemen ardından `update sunucu_gizli set deger='<yeni>' where anahtar='cron_secret';`
 
 Arada kalan kısa pencerede push bildirimleri 401 döner; veri kaybı olmaz.
-Depoda başka düz metin sır yok (tarandı; `bildim/lib/push.js`'teki VAPID anahtarı
+Depoda başka düz metin sır yok (tarandı; `oyun/lib/push.js`'teki VAPID anahtarı
 zaten **açık** anahtardır).
 
 ### B — Gece yedeği
@@ -5774,7 +5774,7 @@ koşar ve CI'da da koşar.
 ### D — Dondurulmuş kod düzeni
 
 Beş dosyanın başına aynı biçimde blok kondu (neden · tarih · paket · dosyalar ·
-geri açma adımları); kök `CLAUDE.md`, `AGENTS.md` ve `bildim/CLAUDE.md`'ye tek
+geri açma adımları); kök `CLAUDE.md`, `AGENTS.md` ve `oyun/CLAUDE.md`'ye tek
 "Dondurulmuşlar" tablosu yazıldı. Hiçbir dosya silinmedi.
 
 **Asenkron 1v1 dalı için önceki varsayım ölçüldü ve DOĞRU ÇIKMADI.** `matches`
@@ -5851,7 +5851,7 @@ rotalar (`/mac/:id`) **aynen** kaldı — link kırılmadı.
 
 **Ölçüm paketin verdiğinden bir fazla çıktı.** Pakette altı yer sayılıyordu; kaynakta
 altısı da bulundu ama derlenmiş pakette ad **hâlâ görünüyordu**: harita binasının
-etiketi `bildim/harita/dunya.js`'in YORUMUNDA değil, `bildim/harita/yerlesim.json`
+etiketi `oyun/harita/dunya.js`'in YORUMUNDA değil, `oyun/harita/yerlesim.json`
 içinde **veri** olarak duruyordu (`"ad": "Normal Maç"`). Yalnız kaynağa bakıp
 "bitti" denseydi meydandaki tabela eski adı göstermeye devam edecekti. Derlenmiş
 `dist/` taranarak yakalandı; şimdi orada yalnız `dil.js`'in geriye uyum eşlemesi
@@ -5992,7 +5992,7 @@ sayılıyor ve nabız orada **bilerek** durur (oyuncu bakmıyorsa nabız atılma
 Paket 27'de kurallar değişti, metin değişmedi. Canlıda hâlâ "maç başına en fazla
 2 joker, arkadaş maçlarında sınırsız" yazıyordu; ikisi de artık yanlıştı.
 
-Kural artık **tek kaynakta**: `bildim/lib/jokerKurallari.js`. Dükkân oradan
+Kural artık **tek kaynakta**: `oyun/lib/jokerKurallari.js`. Dükkân oradan
 okuyor, sayıyı `oyun_ayarlari.duello_joker_hak`'tan alıyor — koda gömülü değil.
 Düello tanıtımı da güncellendi ama **sayıları tekrarlamıyor**; yalnız düelloya
 özel olanı anlatıyor (hiçbir joker ücretsiz değil, maç içinden alınabilir).

@@ -129,7 +129,7 @@ curl -s -o /dev/null -w "%{http_code}\n" \
 ```
 
 Sonra tarayıcıda: çıkış yap → davet linkiyle gir
-(`/bildim/davet/<kod>`) → Facebook/X ile giriş yap → **davet sayfasına**
+(`/oyun/davet/<kod>`) → Facebook/X ile giriş yap → **davet sayfasına**
 dönmelisin, ana sayfaya değil. Ana sayfaya düşüyorsan 0. adımdaki
 Redirect URLs eksiktir.
 
@@ -203,7 +203,7 @@ yalnız **uygulamayı da kullanan** arkadaşları döndürür ve `user_friends`
 izni **App Review** ister.
 
 - ✅ Yapıldı: "Facebook arkadaşların Quiz Tactics'te" listesi — eşleşenler
-  arkadaş önerisi olarak çıkar (`bildim/lib/facebookArkadas.js`,
+  arkadaş önerisi olarak çıkar (`oyun/lib/facebookArkadas.js`,
   `facebook_arkadas_onerileri` RPC).
 - ❌ Yapılamaz: "tüm FB arkadaşlarını davet et". Onun yerine **Facebook'ta
   paylaş** düğmesi davet bağlantısını paylaşım diyaloğuyla yayar.
@@ -230,7 +230,7 @@ hata verir.
 - `src/context/AuthContext.jsx` — Facebook ile girildiğinde `provider_token`
   oturumluk saklanır ve FB kimliği profile yazılır (yalnız eşleştirme için;
   hiçbir yerde gösterilmez).
-- `bildim/lib/facebookArkadas.js` — arkadaş önerisi ve paylaşım diyaloğu.
+- `oyun/lib/facebookArkadas.js` — arkadaş önerisi ve paylaşım diyaloğu.
   İzin yoksa **sessizce** boş döner.
 - Migration `20260612000154_facebook_arkadaslari.sql` — `profiles.facebook_id`
   + `facebook_kimligi_kaydet` + `facebook_arkadas_onerileri`.

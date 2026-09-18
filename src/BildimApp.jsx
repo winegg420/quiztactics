@@ -2,12 +2,12 @@
 // BİLDİM — BAĞIMSIZ SİTE KÖKÜ
 //
 // Aynı depo iki siteyi besler:
-//   • VITE_MOD tanımsız  → src/App.jsx  (idaGG Game Center hub, quiz /bildim/*)
+//   • VITE_MOD tanımsız  → src/App.jsx  (idaGG Game Center hub, quiz /oyun/*)
 //   • VITE_MOD=bildim    → BU DOSYA     (yalnız Bildim, rotalar KÖKTE)
 //
 // App.jsx'e hiç dokunulmadı: hub aynen çalışmaya devam eder. Buradaki rota
 // ağacı App.jsx'teki /bildim bloğunun birebir aynısıdır, yalnız kökte durur.
-// Linkler bildim/lib/yol.js içindeki y() ile üretildiği için ikisi de doğru.
+// Linkler oyun/lib/yol.js içindeki y() ile üretildiği için ikisi de doğru.
 // ============================================================
 
 import { lazy, Suspense, useEffect } from "react";
@@ -17,47 +17,47 @@ import { useAuth } from "./context/AuthContext.jsx";
 import { supabaseHazir } from "./lib/supabase.js";
 import Login from "./pages/Login.jsx";
 
-import Layout from "../bildim/components/Layout.jsx";
-import AnaEkranaEkle from "../bildim/components/AnaEkranaEkle.jsx";
-import Home from "../bildim/pages/Home.jsx";
-import ChallengesPage from "../bildim/pages/ChallengesPage.jsx";
-import MatchPage from "../bildim/pages/MatchPage.jsx";
-import GroupMatchPage from "../bildim/pages/GroupMatchPage.jsx";
+import Layout from "../oyun/components/Layout.jsx";
+import AnaEkranaEkle from "../oyun/components/AnaEkranaEkle.jsx";
+import Home from "../oyun/pages/Home.jsx";
+import ChallengesPage from "../oyun/pages/ChallengesPage.jsx";
+import MatchPage from "../oyun/pages/MatchPage.jsx";
+import GroupMatchPage from "../oyun/pages/GroupMatchPage.jsx";
 // DONDURULDU (Paket 24 B): HizliMacPage dosyasi duruyor, hicbir rota cagirmiyor.
 // Geri acmak: bu import + asagidaki rotayi geri koy, oyun_ayarlari.hizli_mac_acik = true.
-const TournamentPage = lazy(() => import("../bildim/pages/TournamentPage.jsx"));
-const LeaderboardPage = lazy(() => import("../bildim/pages/LeaderboardPage.jsx"));
-const FriendsPage = lazy(() => import("../bildim/pages/FriendsPage.jsx"));
-const ProfilePage = lazy(() => import("../bildim/pages/ProfilePage.jsx"));
-const DavetPage = lazy(() => import("../bildim/pages/DavetPage.jsx"));
-const JokerDukkani = lazy(() => import("../bildim/pages/JokerDukkani.jsx"));
+const TournamentPage = lazy(() => import("../oyun/pages/TournamentPage.jsx"));
+const LeaderboardPage = lazy(() => import("../oyun/pages/LeaderboardPage.jsx"));
+const FriendsPage = lazy(() => import("../oyun/pages/FriendsPage.jsx"));
+const ProfilePage = lazy(() => import("../oyun/pages/ProfilePage.jsx"));
+const DavetPage = lazy(() => import("../oyun/pages/DavetPage.jsx"));
+const JokerDukkani = lazy(() => import("../oyun/pages/JokerDukkani.jsx"));
 // DONDURULDU (Paket 24 B): HizliModPage dosyasi duruyor, hicbir rota cagirmiyor.
 // Geri acmak: bu satir + rota geri konur, oyun_ayarlari.hizli_mod_acik = true.
-const DuelloPage = lazy(() => import("../bildim/pages/DuelloPage.jsx"));
-const CalismaPage = lazy(() => import("../bildim/pages/CalismaPage.jsx"));
+const DuelloPage = lazy(() => import("../oyun/pages/DuelloPage.jsx"));
+const CalismaPage = lazy(() => import("../oyun/pages/CalismaPage.jsx"));
 // Meydan (3B): three.js yalniz bu rotaya girilince iner (ayri chunk)
-const HaritaSayfasi = lazy(() => import("../bildim/harita/HaritaSayfasi.jsx"));
+const HaritaSayfasi = lazy(() => import("../oyun/harita/HaritaSayfasi.jsx"));
 // Harita yenileme Aşama 1 test sahnesi (STIL.md) — oyunu etkilemez, ayrı rota
-const HaritaDeneme = lazy(() => import("../bildim/harita/deneme/DenemeSayfasi.jsx"));
-const HazirInsanPrototipi = lazy(() => import("../bildim/harita/aday/HazirInsanPrototipi.jsx"));
-// Görünüm = 3B GARDIROP (bildim/avatar3d/gardrop.html). Ayrı giriş noktası
+const HaritaDeneme = lazy(() => import("../oyun/harita/deneme/DenemeSayfasi.jsx"));
+const HazirInsanPrototipi = lazy(() => import("../oyun/harita/aday/HazirInsanPrototipi.jsx"));
+// Görünüm = 3B GARDIROP (oyun/avatar3d/gardrop.html). Ayrı giriş noktası
 // olduğu için rota bileşen değil, yönlendirmedir (bkz. GardropaGit.jsx).
 // 2B KARAKTER SİSTEMİ TAMAMEN KALKTI: sayfası da rotadan çıktı, dosyaları
-// bildim/karakter/ altında duruyor. Eski 3B görünüm sayfası yedekte:
+// oyun/karakter/ altında duruyor. Eski 3B görünüm sayfası yedekte:
 //   /gorunum-3b  → eski 3B görünüm sayfası
 // Paket 17 §D: eski gardırop DONDURULDU (dosyalar duruyor, arayüzden giriş yok). /gorunum yeni karakter vitrini;
-// /gorunum-3b ve eski HTML girişleri (bildim/avatar3d/*.html) buraya yönlenir. Geri açma: bildim/CLAUDE.md.
-const KarakterVitrini = lazy(() => import("../bildim/vitrin/KarakterVitrini.jsx"));
-const GorunumPage = lazy(() => import("../bildim/pages/GorunumPage.jsx"));
+// /gorunum-3b ve eski HTML girişleri (oyun/avatar3d/*.html) buraya yönlenir. Geri açma: oyun/CLAUDE.md.
+const KarakterVitrini = lazy(() => import("../oyun/vitrin/KarakterVitrini.jsx"));
+const GorunumPage = lazy(() => import("../oyun/pages/GorunumPage.jsx"));
 // Yasal metinler giriş duvarının ÖNÜNDE olmalı (Play Store + reklam ağları).
-const GizlilikPage = lazy(() => import("../bildim/pages/GizlilikPage.jsx"));
-const KosullarPage = lazy(() => import("../bildim/pages/KosullarPage.jsx"));
+const GizlilikPage = lazy(() => import("../oyun/pages/GizlilikPage.jsx"));
+const KosullarPage = lazy(() => import("../oyun/pages/KosullarPage.jsx"));
 
-// Eski hub adresleri (/bildim/...) bu sitede köke indirilir. Bookmark, push
+// Eski hub adresleri (/oyun/...) bu sitede köke indirilir. Bookmark, push
 // bildirimi deep-link'i ve paylaşılmış davet linkleri kırılmasın diye.
 function OnekiAt() {
   const { pathname, search } = useLocation();
-  const kalan = pathname.replace(/^\/bildim/, "") || "/";
+  const kalan = pathname.replace(/^\/oyun/, "") || "/";
   return <Navigate to={kalan + search} replace />;
 }
 
@@ -134,7 +134,7 @@ export default function BildimApp() {
         </Route>
 
         {/* Geriye uyumluluk: hub adresleri → kök */}
-        <Route path="/bildim/*" element={<OnekiAt />} />
+        <Route path="/oyun/*" element={<OnekiAt />} />
         <Route path="/bildim" element={<OnekiAt />} />
 
         <Route path="*" element={<Navigate to="/" replace />} />

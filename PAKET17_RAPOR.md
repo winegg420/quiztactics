@@ -113,7 +113,7 @@ Görseller: `gorsel/paket17/b-1-izin-karti.jpg`, `b-2-abone-olundu.jpg`, `b-3-bi
 - **VFX reçeteleri** (`vfx.js › RECETE`, tam liste): `alevliGomlek` (11 yayıcı: omuz, göğüs, sırt, ön kol, el izi, ısı halesi, kıvılcım, duman) · `kanat` (3: iki parıltı + parlama) · `buzluKanat` (4: sınav örneği, hiçbir kozmetiğe bağlı değil).
 - **Petler** (`pet.js`): kedi · köpek (kedinin yeniden derisi) · kuş (kod geometrisi). Meydanda **kullanılmıyor**, yalnız deneme sayfasında.
 - **Boş yuvalar** (GLB'de): sacYuva · sakalYuva · elbiseYuva · altYuva · efektYuva · kulakYuva L/R · bilekYuva L/R · ayakYuva L/R.
-- **Eski kutu karakteri gösteren ekranlar (tarandı):** Dükkân › Görünüm sekmesi (`GardropVitrini` → `KarakterPortresi` + eski katalog portreleri), `/gorunum` → `bildim/avatar3d/gardrop.html` (eski 3B gardırop), `/gorunum-3b` (`GorunumPage` + `EsyaPortresi`), atölye (`avatar3d/index.html`), eski yerel meydan denemesi (`avatar3d/meydan.html`).
+- **Eski kutu karakteri gösteren ekranlar (tarandı):** Dükkân › Görünüm sekmesi (`GardropVitrini` → `KarakterPortresi` + eski katalog portreleri), `/gorunum` → `oyun/avatar3d/gardrop.html` (eski 3B gardırop), `/gorunum-3b` (`GorunumPage` + `EsyaPortresi`), atölye (`avatar3d/index.html`), eski yerel meydan denemesi (`avatar3d/meydan.html`).
 - **Temiz çıkanlar:** Ana sayfa, profil, lig, maç ekranı, arkadaşlar, oyuncu kartı, kurulum sihirbazı, bildirim ve paylaşım görselleri. Hepsi `src/components/Avatar.jsx` kullanıyor, o da yalnız seçilen avatar resmi ya da baş harf çiziyor (13 Eylül kararı, 3B yok).
 - **Kurulum sihirbazı:** kendisi 2B avatar seçtiriyor. Bitince `Layout` oyuncuyu `/gorunum`'a gönderiyordu, orası eski gardıroptu → artık yeni vitrin.
 
@@ -126,17 +126,17 @@ Hiçbir tablo/kolon silinmedi, boşaltılmadı. Migration 216 yalnız **ekler**:
 |---|---|---|
 | `/gorunum` | `GardropaGit` → eski gardırop HTML'i | **Yeni vitrin** (`KarakterVitrini`) |
 | `/gorunum-3b` | eski 3B görünüm sayfası | `/gorunum`'a yönlenir |
-| `bildim/avatar3d/gardrop.html`, `index.html` (atölye), `meydan.html` | eski sayfalar | açılınca `/bildim/gorunum`'a yönlenir; **derleme girişleri aynen duruyor** (`rollupOptions.input`'a dokunulmadı) |
+| `oyun/avatar3d/gardrop.html`, `index.html` (atölye), `meydan.html` | eski sayfalar | açılınca `/gorunum`'a yönlenir; **derleme girişleri aynen duruyor** (`rollupOptions.input`'a dokunulmadı) |
 | Üst çubuk tişört kısayolu | eski gardırop HTML'ine düz bağlantı | vitrine rota bağlantısı |
 | Dükkân › Görünüm sekmesi | `GardropVitrini` (eski portre + eski katalog) | vitrine giden kart |
 | Meydan kapısı ("Önce karakterini oluştur") | yalnız eski `avatar3d` kaydı geçer; "Gardıroba git" | eski kayıt **ya da** vitrin kaydı geçer; "Karakterimi seç" → vitrin |
 | Kurulum sonrası yönlendirme | eski gardırop | vitrin |
 | Profil › Görünüm kartı | "Saç, şapka, gözlük, kıyafet ve efektleri…" | "Türünü seç, kozmetiklerini tak…" (rota aynı) |
 
-**Kod durur:** `bildim/avatar3d/*`, `bildim/karakter/*`, `GardropVitrini`, `KarakterPortresi`, `EsyaPortresi`, `GorunumPage`, `GardropaGit`, `harita/avatar.js`, `portre.js`, `onizleme.js` silinmedi.
+**Kod durur:** `oyun/avatar3d/*`, `oyun/karakter/*`, `GardropVitrini`, `KarakterPortresi`, `EsyaPortresi`, `GorunumPage`, `GardropaGit`, `harita/avatar.js`, `portre.js`, `onizleme.js` silinmedi.
 
 ### D.3 Yeni vitrin
-- `bildim/vitrin/KarakterVitrini.jsx` + `vitrinSahne.js` + `vitrin.css`. Meydanın kendi `KarakterSistemi` + `MeydanAvatarlari`'sı: **tek WebGL bağlamı**. Canlı önizleme ve 8 kart portresi aynı renderer'la çiziliyor (sayfada 1 `<canvas>`, ölçüldü).
+- `oyun/vitrin/KarakterVitrini.jsx` + `vitrinSahne.js` + `vitrin.css`. Meydanın kendi `KarakterSistemi` + `MeydanAvatarlari`'sı: **tek WebGL bağlamı**. Canlı önizleme ve 8 kart portresi aynı renderer'la çiziliyor (sayfada 1 `<canvas>`, ölçüldü).
 - **Tür seçimi** (insan / kaplan / robot) + **kozmetikler:**
   - Şapka: eski Kep/Bere sahipliği; Kep ücretsiz.
   - Gözlük: Kare/Okuma/Yuvarlak sahipliği; Kare gözlük 350 coin.
@@ -153,7 +153,7 @@ Hiçbir tablo/kolon silinmedi, boşaltılmadı. Migration 216 yalnız **ekler**:
   - Katalog ve tablo `anon`'a kapalı.
 - **Bilinmeyen anahtar:** `vitrinKozmetikleri()` yalnız beyaz listedeki 7 anahtarı okur. Eski kayıttaki `sac`, `efekt`, `portre_url`, `kozmetik`… vitrinde sessizce atlanır.
 - **Lig çerçeveleri** etkilenmedi (ayrı tablo, Profil'deki seçici aynen).
-- **Geri dönüş yolu:** `bildim/CLAUDE.md › Eski gardırop dondurma (17 Eyl 2026)`.
+- **Geri dönüş yolu:** `oyun/CLAUDE.md › Eski gardırop dondurma (17 Eyl 2026)`.
 
 ### D.5 Vitrin ↔ meydan aynı mı (test edildi)
 Aynı `profiles.gorunum` (eski `avatar3d` gövdesi + vitrin kaydı: kaplan, şapka, güneş gözlüğü, pelerin) iki ekranda:

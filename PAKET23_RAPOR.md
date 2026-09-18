@@ -9,7 +9,7 @@
 | E — yüz hacmi | ✅ derinlikler 1,5–3 mm → 5–16 mm | `9201e97` |
 | F — muayene revizyonu (3 yeni test) | ✅ `parca_butunlugu` · `siluet_profili` · `durus_ekseni` | `5a98d6f` |
 
-**Çalıştırma sırası her değişiklikte uygulandı:** `node bildim/harita/varlik/uret.mjs` → `npm run cephe-ao` → `npm run muayene`.
+**Çalıştırma sırası her değişiklikte uygulandı:** `node oyun/harita/varlik/uret.mjs` → `npm run cephe-ao` → `npm run muayene`.
 
 ---
 
@@ -171,14 +171,14 @@ raporlanır, daha derini saplanmadır ve aday olur.
 Kozmetik dışı 8 aday (bina/prop `havada` + `simetri`) Paket 21'den beri duruyor ve bu paketin kapsamı dışında.
 
 ### F.4 Rapor kuralı
-`bildim/harita/CLAUDE.md`'deki kurala eklendi: **"0 aday" bir kalite kapısı değildir, geometrik tutarlılık kapısıdır.
+`oyun/harita/CLAUDE.md`'deki kurala eklendi: **"0 aday" bir kalite kapısı değildir, geometrik tutarlılık kapısıdır.
 Estetik, oran, stil uyumu ve "inandırıcı mı" sorusu göz kararıdır ve muayene bunu hiçbir zaman ölçmeyecek.**
 
 ---
 
 ## Bütçe — 3A-2 rig ile önce/sonra
 
-Sahne: `bildim/harita/olcum/meydan-test` üretim derlemesi + `?otomasyon=1`, `katman2c.js`; İstiklal ucu en kötü açı,
+Sahne: `oyun/harita/olcum/meydan-test` üretim derlemesi + `?otomasyon=1`, `katman2c.js`; İstiklal ucu en kötü açı,
 25 karakter, 1536×791, gölge açık, 120 kare ısınma + 300 örnek (medyan / p95).
 
 | Ölçü | ÖNCE | SONRA | fark |

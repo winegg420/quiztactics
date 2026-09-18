@@ -1,35 +1,31 @@
 {
-  "name": "bildim",
+  "name": "quiztactics",
   "private": true,
   "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "build:bildim": "vite build --mode bildim --config bildim/avatar3d/vite.prototip.config.js",
     "preview": "vite preview",
-    "test:bildim": "node bildim/_test/joker-kurallari-test.mjs",
+    "prototip": "vite build --config oyun/avatar3d/vite.prototip.config.js",
     "uyumluluk": "node araclar/tarayici-uyumluluk.mjs",
     "postbuild": "node araclar/tarayici-uyumluluk.mjs",
-    "test:dans": "node bildim/_test/dans-testi.mjs",
-    "muayene": "node bildim/harita/muayene/calistir.mjs",
-    "cephe-ao": "node bildim/harita/varlik/cephe_ao.mjs",
+    "test": "node --test --test-concurrency=1 \"_test/sunucu/*.test.mjs\" && npm run test:kurallar && npm run test:dans",
+    "test:kurallar": "node oyun/_test/joker-kurallari-test.mjs",
+    "test:dans": "node oyun/_test/dans-testi.mjs",
     "test:ios:kur": "playwright-core install webkit",
+    "muayene": "node oyun/harita/muayene/calistir.mjs",
+    "cephe-ao": "node oyun/harita/varlik/cephe_ao.mjs",
     "soru:disari": "node araclar/soru_denetim/disari.mjs",
-    "soru:iceri": "node araclar/soru_denetim/iceri.mjs",
-    "test": "node --test --test-concurrency=1 \"_test/sunucu/*.test.mjs\" && npm run test:bildim && npm run test:dans"
+    "soru:iceri": "node araclar/soru_denetim/iceri.mjs"
   },
   "dependencies": {
-    "@react-three/drei": "^10.7.7",
-    "@react-three/fiber": "^9.6.1",
     "@sentry/react": "^10.74.0",
     "@supabase/supabase-js": "^2.49.0",
-    "matter-js": "^0.20.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.1.0",
-    "three": "^0.185.1",
-    "zustand": "^5.0.14"
+    "three": "^0.185.1"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^5.0.0",
