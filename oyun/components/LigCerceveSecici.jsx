@@ -47,12 +47,12 @@ export default function LigCerceveSecici({ profile, userId }) {
   return (
     <div className="kart bd-lig-cerceve-secici">
       <h2>{tt("Lig çerçevelerim")}</h2>
-      <p className="alt-yazi">{tt("Lig atlayınca o ligin çerçevesini kazanırsın. Ligden düşsen de çerçeve sende kalır. Satılmaz.")}</p>
+      <p className="alt-yazi">{tt("Lig atlayınca o ligin çerçevesini kazanırsın. Ligden düşsen de çerçeve sende kalır. Satılmaz.")} {tt("Bronz ligin çerçevesi yoktur; ilk çerçeve Gümüş'te açılır.")}</p>
       <div className="bd-lig-cerceve-liste">
         <button type="button" className="bd-lig-cerceve-sec" aria-pressed={secili === null}
                 disabled={mesgul} onClick={() => sec(null)}>
           <span className="bd-cerceve bd-cerceve-sirali" style={{ width: 48, height: 48 }}><Avatar profile={profile} boyut={48} /></span>
-          {tt("Çerçevesiz")}
+          {tt("Çerçeve takma")}
         </button>
         {LIG_CERCEVELERI.map((lig) => {
           const var_ = kazanilan.has(lig);
