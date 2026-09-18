@@ -7,11 +7,13 @@ import { useEffect, useRef, useState } from "react";
  * deger : gösterilecek sayı
  * sure  : geçiş süresi (ms, varsayılan 300)
  *
+ * bicim : (sayı) => metin — isteğe bağlı biçim (ör. binlik ayırıcı)
+ *
  * prefers-reduced-motion: reduce açıksa anında yazar.
  * PuanSayaci'dan farkı: "+N" baloncuğu yok — tablo/skor gibi yerlerde
  * yalnız sayının kendisi gerekiyor.
  */
-export default function SayanSayi({ deger = 0, sure = 300, className = "" }) {
+export default function SayanSayi({ deger = 0, sure = 300, className = "", bicim }) {
   const [gosterilen, setGosterilen] = useState(deger);
   const oncekiRef = useRef(deger);
   const cerceveRef = useRef(0);
@@ -45,5 +47,5 @@ export default function SayanSayi({ deger = 0, sure = 300, className = "" }) {
 
   useEffect(() => () => cancelAnimationFrame(cerceveRef.current), []);
 
-  return <span className={className}>{gosterilen}</span>;
+  return <span className={className}>{bicim ? bicim(gosterilen) : gosterilen}</span>;
 }

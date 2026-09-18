@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import Ikon from "./Ikon.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { useNavigate } from "react-router-dom";
@@ -16,8 +17,12 @@ import { tt } from "../lib/dil.js";
  *    eskiden ikisi birden görünüyor ve oyuncu hangisine basacağını
  *    bilemiyordu (10 Eylül canlı testi).
  *  - güncel günlük seri
+ *
+ * Paket 36: rovansYuva (DOM düğümü) verilirse Rövanş isteği düğmesi, notu ve
+ * hatası oraya (MacSonuSahnesi eylem çubuğuna) portal ile çizilir. Mantık aynı.
+ * onYanlisAdet: YanlisSatiri'nın saydığı yanlış sayısı (Detay rozeti için).
  */
-export default function MacSonuEklentisi({ macTur, macId, kaybettim, rakipBot = false }) {
+export default function MacSonuEklentisi({ macTur, macId, kaybettim, rakipBot = false, rovansYuva = null, onYanlisAdet }) {
   const navigate = useNavigate();
   const [jokerler, setJokerler] = useState([]);
   const [seri, setSeri] = useState(null);
@@ -68,7 +73,7 @@ export default function MacSonuEklentisi({ macTur, macId, kaybettim, rakipBot = 
   return (
     <div className="bd-mac-sonu-ek">
       {/* Yanlışlar Hatalarım bankasına eklendi */}
-      <YanlisSatiri macTur={macTur} macId={macId} />
+      <YanlisSatiri macTur={macTur} macId={macId} onAdet={onYanlisAdet} />
 
       {seri && (seri.seri_gun ?? 0) > 0 && (
         <div className="bd-sonuc-seri">
@@ -92,7 +97,7 @@ export default function MacSonuEklentisi({ macTur, macId, kaybettim, rakipBot = 
 
       {/* Rövanş İSTEĞİ yalnız gerçek oyuncuya karşı. Bot rakipte doğrudan
           rövanş MatchPage'de çizilir; ikisi aynı anda görünmez. */}
-      {kaybettim && macTur === "1v1" && !rakipBot && (
+      {kaybettim && macTur === "1v1" && !rakipBot && !rovansYuva && (
         <>
           <button className="bd-rovans" disabled={calisiyor} onClick={rovans}>
             {tt("Rövanş")}
@@ -103,7 +108,18 @@ export default function MacSonuEklentisi({ macTur, macId, kaybettim, rakipBot = 
         </>
       )}
 
-      {hata && <div className="hata-kutu">{hata}</div>}
+      {kaybettim && macTur === "1v1" && !rakipBot && rovansYuva && createPortal(
+        <>
+          <button className="btn bd-rovans-tek mss-tam" disabled={calisiyor} aria-busy={calisiyor} onClick={rovans}>
+            {calisiyor ? "…" : tt("Rövanş")}
+          </button>
+          <div className="mss-eylem-not">{tt("Rakibine istek gönderilir · aynı kategori · 24 saat geçerli")}</div>
+          {hata && <div className="hata-kutu mss-tam">{hata}</div>}
+        </>,
+        rovansYuva
+      )}
+
+      {hata && !rovansYuva && <div className="hata-kutu">{hata}</div>}
     </div>
   );
 }

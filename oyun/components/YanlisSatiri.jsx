@@ -12,7 +12,7 @@ import { tt } from "../lib/dil.js";
  *
  * macTur: '1v1' | 'grup' | 'turnuva' | 'hizli'
  */
-export default function YanlisSatiri({ macTur, macId }) {
+export default function YanlisSatiri({ macTur, macId, onAdet }) {
   const [adet, setAdet] = useState(0);
 
   useEffect(() => {
@@ -25,7 +25,8 @@ export default function YanlisSatiri({ macTur, macId }) {
           p_mac_id: macId,
         });
         if (error) throw error;
-        if (aktif) setAdet(typeof data === "number" ? data : 0);
+        const n = typeof data === "number" ? data : 0;
+        if (aktif) { setAdet(n); onAdet?.(n); }   // onAdet (Paket 36): sonuç sahnesinin "Detay (n)" rozeti
       } catch (e) { console.warn("[Bildim] mac_yanlis_sayim başarısız:", e?.message ?? e);
         /* migration bekliyor olabilir — satır gizli kalır */
       }

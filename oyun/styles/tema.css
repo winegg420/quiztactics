@@ -7424,3 +7424,322 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   .bd-sohbet-gonder:active:not(:disabled), .bd-sohbet-yeni:active, .bd-emoji:active,
   .app .bd-dm-satir:active { transform: none; }
 }
+
+/* ============================================================
+   PAKET 36 — MAÇ SONU SAHNESİ (oyun/components/MacSonuSahnesi.jsx)
+   Beş modun ortak sonuç iskeleti. Yukarıdaki FAZ 4 `.bd-sonuc-ekran`
+   kuralları SİLİNMEDİ; sahne kökü de o sınıfı taşır, burada genişletilir.
+
+   Sıralı açılış (animation-delay):
+     0 zemin · 150 banner · 450 avatarlar+VS · 750 kalpler (90 ms arayla)
+     · 1050 ödül hapları · 1350 coin uçuşu · 1650 detay · 1900 eylem çubuğu
+   `.atla` (dokunma/Esc) ve prefers-reduced-motion: hepsi son hâlinde.
+   Animasyonlar YALNIZ transform + opacity (max-height yalnız Detay'da).
+   iOS: fixed öğelerde (zemin, coin uçuşu kapsayıcısı) transform YOK.
+   ============================================================ */
+.app .mss {
+  position: relative;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 4px 0 0;
+  text-align: center;
+  --mss-zemin: radial-gradient(120% 80% at 50% 0%, #F7F7F5 0%, #EBEBE7 55%, #DEDEDA 100%);
+}
+.app .mss.kazandi { --mss-zemin: radial-gradient(120% 80% at 50% 0%, #FFF6E6 0%, #FFE6BE 55%, #FFD79A 100%); }
+.app .mss.kaybetti { --mss-zemin: radial-gradient(120% 80% at 50% 0%, #F2F5FB 0%, #E1E7F3 55%, #D2DAEA 100%); }
+:root[data-tema="koyu"] .app .mss { --mss-zemin: radial-gradient(120% 80% at 50% 0%, #1E1E1C 0%, #161614 60%, #101010 100%); }
+:root[data-tema="koyu"] .app .mss.kazandi { --mss-zemin: radial-gradient(120% 80% at 50% 0%, #2E2210 0%, #1E1608 60%, #140F05 100%); }
+:root[data-tema="koyu"] .app .mss.kaybetti { --mss-zemin: radial-gradient(120% 80% at 50% 0%, #161D2B 0%, #10151F 60%, #0B0F16 100%); }
+
+/* FAZ 4 perdesi sahnede zeminin işini tekrar ediyordu; sahnede kapalı. */
+.app .mss.bd-sonuc-ekran::before { display: none; }
+
+/* Zemin: tüm ekran, içeriğin arkasında. Üst bar kendi zeminiyle üstünde durur. */
+.app .mss > .mss-zemin {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: var(--mss-zemin);
+  pointer-events: none;
+  animation: mss-sol 200ms ease-out both;
+}
+/* Kazanma ışıması: üstten çok hafif beyaz, 8 sn'de bir nefes alır. */
+.app .mss-isima {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(90% 55% at 50% 0%, #FFFFFF 0%, transparent 70%);
+  opacity: 0.18;
+  animation: mss-nefes 8s ease-in-out infinite;
+}
+@keyframes mss-nefes { 0%, 100% { opacity: 0.12; } 50% { opacity: 0.22; } }
+@keyframes mss-sol { from { opacity: 0; } to { opacity: 1; } }
+
+/* ---------- Banner ---------- */
+.app .mss > .mss-banner {
+  outline: none;
+  padding: 10px 12px 4px;
+  animation: mss-dus 320ms cubic-bezier(.2, .9, .3, 1.2) 150ms both;
+}
+@keyframes mss-dus { from { opacity: 0; transform: translateY(-40px); } to { opacity: 1; transform: none; } }
+.app .mss-baslik {
+  margin: 0;
+  font-family: var(--bd-f-baslik);
+  font-weight: 800;
+  font-size: 36px;
+  line-height: 1.1;
+  color: var(--bd-metin);
+}
+.app .mss.kazandi .mss-baslik { color: var(--bd-vurgu-2); }
+:root[data-tema="koyu"] .app .mss.kazandi .mss-baslik { color: var(--bd-vurgu-acik); }
+.app .mss-alt { margin: 6px 0 0; font-size: 15px; font-weight: 700; color: var(--bd-metin-2); }
+
+/* ---------- Karşılaşma ---------- */
+.app .mss > .mss-karsilasma {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 10px;
+  margin: 18px 0 6px;
+}
+.app .mss > .mss-karsilasma.serbest {
+  display: block;
+  animation: mss-yuksel 280ms cubic-bezier(.2, .8, .3, 1) 450ms both;
+}
+.app .mss-taraf {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  animation: mss-soldan 280ms cubic-bezier(.2, .8, .3, 1) 450ms both;
+}
+.app .mss-taraf.sag { animation-name: mss-sagdan; }
+.app .mss-karsilasma.tek .mss-taraf { flex: 0 1 auto; animation-name: mss-yuksel; }
+@keyframes mss-soldan { from { opacity: 0; transform: translateX(-32px); } to { opacity: 1; transform: none; } }
+@keyframes mss-sagdan { from { opacity: 0; transform: translateX(32px); } to { opacity: 1; transform: none; } }
+@keyframes mss-yuksel { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+/* Kazanan 96 · kaybeden 72 (geri çekilir ama RENKLİ kalır) · berabere 84 */
+.app .mss-avatar {
+  position: relative;
+  width: var(--boyut);
+  height: var(--boyut);
+  margin-top: 10px;
+}
+.app .mss-taraf.kaybeden .mss-avatar { opacity: 0.72; margin-top: 34px; }
+.app .mss-taraf.esit .mss-avatar { margin-top: 22px; }
+.app .mss-tac {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  z-index: 2;
+  width: 24px;
+  height: 24px;
+  margin-left: -12px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--bd-yuzey-1);
+  color: #B7790B;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.12);
+}
+/* Kazananın çevresinde dönen yumuşak ışık halkası */
+.app .mss-hale {
+  position: absolute;
+  inset: -7px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, transparent 0deg, #FFB347 70deg, #FFE08A 140deg, transparent 220deg, #FF9A4D 300deg, transparent 360deg);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 4px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 4px));
+  opacity: 0.5;
+  animation: mss-don 3s linear infinite;
+  pointer-events: none;
+}
+@keyframes mss-don { to { transform: rotate(360deg); } }
+
+.app .mss-isim {
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-weight: 800;
+  font-size: 15px;
+  color: var(--bd-metin);
+}
+.app .mss-isim-metin { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.app .mss-skor {
+  font-family: var(--bd-f-baslik);
+  font-weight: 800;
+  font-size: 28px;
+  line-height: 1;
+  color: var(--bd-metin);
+  font-variant-numeric: tabular-nums;
+}
+.app .mss-taraf-ek { font-size: 13px; font-weight: 700; color: var(--bd-metin-2); }
+
+.app .mss > .mss-karsilasma > .mss-vs {
+  align-self: center;
+  margin-top: 8px;
+  flex: none;
+  font-family: var(--bd-f-baslik);
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: var(--bd-vurgu);
+  animation: mss-vs-otur 280ms cubic-bezier(.2, .8, .3, 1) 450ms both;
+}
+@keyframes mss-vs-otur { from { opacity: 0; transform: scale(1.6); } to { opacity: 1; transform: none; } }
+
+/* Kalpler (düello): dolu = turuncu dolgu, boş = yalnız kenar */
+.app .mss-kalpler { display: inline-flex; gap: 4px; }
+.app .mss-kalp { display: block; transform-box: fill-box; transform-origin: center; }
+.app .mss-kalp path { stroke-width: 2; stroke-linejoin: round; }
+.app .mss-kalp.dolu path { fill: var(--bd-vurgu); stroke: var(--bd-vurgu); }
+.app .mss-kalp.bos { opacity: 0.35; }
+.app .mss-kalp.bos path { fill: none; stroke: var(--bd-vurgu); }
+.app .mss-kalp.dolu { animation: mss-kalp-dol 180ms ease-out both; }
+@keyframes mss-kalp-dol { from { opacity: 0.35; transform: scale(0.5); } to { opacity: 1; transform: none; } }
+
+/* ---------- Ödül hapları ---------- */
+.app .mss > .mss-oduller {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 14px 0 4px;
+  animation: mss-yuksel 240ms ease-out both;
+}
+.app .mss-odul {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--bd-vurgu);
+  background: rgba(244, 112, 31, 0.1);
+  color: var(--bd-metin);
+  font-size: 15px;
+}
+.app .mss-odul > svg { color: var(--bd-vurgu-2); }
+.app .mss-odul b { font-family: var(--bd-f-baslik); font-weight: 800; font-size: 18px; font-variant-numeric: tabular-nums; }
+.app .mss-odul-etiket { font-weight: 700; color: var(--bd-metin-2); }
+:root[data-tema="koyu"] .app .mss-odul > svg { color: var(--bd-vurgu-acik); }
+.app .mss > .mss-odul-notu { margin: 12px auto 0; animation: mss-yuksel 240ms ease-out 1050ms both; }
+.app .mss-odul-notu .bd-odulsuz-not { display: inline-block; }
+
+/* Coin uçuşu: fixed kapsayıcı yerinde durur; x ve y ayrı eğriyle → yay. */
+.mss-coin-ucus {
+  position: fixed;
+  z-index: 1000;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+}
+.mss-coin-x {
+  position: absolute;
+  inset: 0;
+  animation: mss-coin-x 500ms cubic-bezier(.4, 0, .2, 1) both;
+}
+.mss-coin-y {
+  display: grid;
+  place-items: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #FFD54A;
+  color: #7A4B00;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+  animation: mss-coin-y 500ms cubic-bezier(.15, .75, .35, 1) both;
+}
+.mss-coin-y svg { width: 12px; height: 12px; }
+@keyframes mss-coin-x { from { transform: none; } to { transform: translateX(var(--dx)); } }
+@keyframes mss-coin-y {
+  0% { transform: none; opacity: 0; }
+  12% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { transform: translateY(var(--dy)) scale(0.7); opacity: 0; }
+}
+
+/* ---------- Detay (katlanır, varsayılan kapalı) ---------- */
+.app .mss > .mss-detay {
+  margin: 16px 0 0;
+  animation: mss-detay-gir 240ms ease-out 1650ms both;
+}
+@keyframes mss-detay-gir { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+.app .mss-detay-dugme {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 8px 18px;
+  border: 2px solid rgba(32, 50, 74, 0.12);
+  border-radius: 999px;
+  background: var(--bd-yuzey-1);
+  color: var(--bd-metin);
+  font: inherit;
+  font-weight: 800;
+  font-size: 15px;
+  cursor: pointer;
+}
+.app .mss-detay-dugme:focus-visible { outline: 3px solid var(--bd-vurgu); outline-offset: 2px; }
+.app .mss-detay-rozet { color: var(--bd-vurgu-2); font-weight: 900; }
+.app .mss-detay-ok { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform 240ms ease-out; }
+.app .mss-detay.acik .mss-detay-ok { transform: rotate(180deg); }
+.app .mss-detay-govde {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 240ms ease-out, opacity 240ms ease-out;
+}
+.app .mss-detay.acik .mss-detay-govde { max-height: 6000px; opacity: 1; }
+.app .mss-detay-ic { padding-top: 12px; text-align: left; }
+.app .mss-detay-ic > * + * { margin-top: 12px; }
+
+.app .mss > .mss-ek { margin-top: 14px; animation: mss-sol 240ms ease-out 1650ms both; }
+
+/* ---------- Eylem çubuğu: her zaman görünür ----------
+   Sonuç ekranında alt sekme çubuğu açık (oyun modu kapalı); çubuk onun
+   hemen üstüne yapışır (--mss-eylem-alt). */
+.app .mss > .mss-eylem {
+  position: sticky;
+  bottom: var(--mss-eylem-alt, 0px);
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 16px -12px 0;
+  padding: 12px 12px calc(12px + env(safe-area-inset-bottom));
+  background: rgba(255, 255, 255, 0.72);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(32, 50, 74, 0.12);
+  animation: mss-sol 200ms ease-out 1900ms both;
+}
+:root[data-tema="koyu"] .app .mss > .mss-eylem { background: rgba(16, 20, 28, 0.72); border-top-color: rgba(255, 255, 255, 0.12); }
+.app .mss-eylem > * { flex: 1 1 calc(50% - 5px); min-width: 0; margin: 0; }
+.app .mss-eylem > .mss-tam { flex-basis: 100%; }
+.app .mss-eylem .btn { margin: 0; width: 100%; }
+.app .mss-eylem .btn:active:not(:disabled) { transform: translateY(4px); box-shadow: none; }
+.app .mss-eylem .btn:disabled { opacity: 0.45; filter: none; cursor: not-allowed; }
+.app .mss-eylem .btn[aria-busy="true"] { pointer-events: none; }
+.app .mss-eylem .mss-eylem-not { flex-basis: 100%; font-size: 13px; font-weight: 700; color: var(--bd-metin-2); }
+
+/* Atlama: her şey anında son hâline. Dönen hale ve ışıma sürer. */
+.app .mss.atla .mss-sira,
+.app .mss.atla > .mss-zemin,
+.app .mss.atla > .mss-ek { animation: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .app .mss .mss-sira,
+  .app .mss > .mss-zemin,
+  .app .mss > .mss-ek,
+  .app .mss-isima,
+  .app .mss-hale,
+  .mss-coin-x,
+  .mss-coin-y { animation: none !important; }
+  .app .mss-isima { opacity: 0.18; }
+  .app .mss-detay-govde, .app .mss-detay-ok { transition: none; }
+}
+
