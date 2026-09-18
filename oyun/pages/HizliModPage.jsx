@@ -17,7 +17,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import KategoriIkon from "../components/KategoriIkon.jsx";
-import BildirimIzniSor from "../components/BildirimIzniSor.jsx";
+import MacSonuSahnesi from "../components/MacSonuSahnesi.jsx";
 import OdulDokumu from "../components/OdulDokumu.jsx";
 import MacSorulari from "../components/MacSorulari.jsx";
 import SureDolduGecis from "../components/SureDolduGecis.jsx";
@@ -34,7 +34,6 @@ import { y } from "../lib/yol.js";
 import { useGorunurlukTazele } from "../lib/gorunurluk.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import { ayar } from "../lib/ayarlar.js";
-import { coinTazele } from "../lib/coin.js";
 import DereceliAnahtari from "../components/DereceliAnahtari.jsx";
 import { useDereceliTercih } from "../lib/dereceli.js";
 import { useDil } from "../lib/dilKanca.js";
@@ -183,8 +182,8 @@ export default function HizliModPage() {
         });
         if (error) throw error;
         setSonuc(Array.isArray(data) ? data[0] : data);
-        // Kazanılan coin ve lig puanı üst çubuğa/ana sayfaya hemen yansısın
-        coinTazele();
+        // Lig puanı ana sayfaya hemen yansısın. Coin sayacını MacSonuSahnesi
+        // coin uçuşu bitince tazeler (Paket 36).
         refreshProfile?.(user?.id);
       } catch (e) {
         setHata(hataMesaji(e, tt("Oturum kapatılamadı.")));
@@ -430,35 +429,41 @@ export default function HizliModPage() {
   }
 
   // ---------- Sonuç ----------
+  // Paket 36: ortak sonuç sahnesi. Rakip yok → tek avatar; haftanın rekoru
+  // kırıldıysa "kazandı" tonu, değilse nötr.
+  const toplamDogru = sonuc?.dogru ?? skor;
+  const rekor = (sonuc?.skor ?? skor) > 0 && (sonuc?.skor ?? skor) >= (sonuc?.en_iyi_hafta ?? Infinity);
+  const oduller = [
+    ...(sonuc?.dereceli !== false
+      ? [{ ikon: "yildiz", deger: dokumToplam?.lig ?? sonuc?.lig_puan ?? 0, etiket: tt("lig puanı") }]
+      : []),
+    { ikon: "coin", deger: dokumToplam?.coin ?? sonuc?.kazanilan_coin ?? 0, etiket: tt("coin") },
+  ];
   return (
-    <div>
-      <div className="kart bd-hizli-sonuc">
-        <div className="bd-hizli-buyuk">{sonuc?.skor ?? skor}</div>
-        <div className="alt-yazi">{tt("doğru cevap")}</div>
-        <div className="bd-hizli-ozet" style={{ marginTop: 14 }}>
-          <div><b>{sonuc?.dogru ?? skor}</b><span>{tt("doğru")}</span></div>
-          <div><b>{sonuc?.yanlis ?? 0}</b><span>{tt("yanlış")}</span></div>
-          <div><b>{sonuc?.en_iyi_hafta ?? skor}</b><span>{tt("hafta en iyi")}</span></div>
-        </div>
-        <div className="bd-kazanc-satiri">
-          {sonuc?.dereceli !== false && (
-            <span className="bd-sonuc-kazanc">
-              {ceviri("+{puan} lig puanı", { puan: dokumToplam?.lig ?? sonuc?.lig_puan ?? 0 })}
-            </span>
-          )}
-          <span className="bd-sonuc-kazanc">
-            {ceviri("+{coin} coin", { coin: dokumToplam?.coin ?? sonuc?.kazanilan_coin ?? 0 })}
-          </span>
-        </div>
-        {oturum?.oturum_id && sonuc && <OdulDokumu kaynak={`hizli:${oturum.oturum_id}`} onToplam={setDokumToplam} />}
-        {oturum?.oturum_id && sonuc && <MacSorulari kaynak={`hizli:${oturum.oturum_id}`} />}
-        <BildirimIzniSor />
-        <div className="bd-konum-butonlar" style={{ marginTop: 16 }}>
-          <button className="btn" onClick={() => setAsama("secim")}>{tt("Tekrar oyna")}</button>
+    <MacSonuSahnesi
+      durum={rekor ? "kazandi" : "berabere"}
+      baslik={rekor ? tt("Haftanın en iyisi!") : tt("Oturum bitti")}
+      ben={{ profil: profile, skor: sonuc?.skor ?? skor, ek: `${toplamDogru} ${tt("doğru")} · ${sonuc?.yanlis ?? 0} ${tt("yanlış")}` }}
+      oduller={oduller}
+      ozet={
+        <>
+          <div className="kart bd-hizli-sonuc">
+            <div className="bd-hizli-ozet">
+              <div><b>{toplamDogru}</b><span>{tt("doğru")}</span></div>
+              <div><b>{sonuc?.yanlis ?? 0}</b><span>{tt("yanlış")}</span></div>
+              <div><b>{sonuc?.en_iyi_hafta ?? skor}</b><span>{tt("hafta en iyi")}</span></div>
+            </div>
+          </div>
+          {oturum?.oturum_id && sonuc && <OdulDokumu kaynak={`hizli:${oturum.oturum_id}`} onToplam={setDokumToplam} />}
+          {oturum?.oturum_id && sonuc && <MacSorulari kaynak={`hizli:${oturum.oturum_id}`} />}
+        </>
+      }
+      eylemler={
+        <>
+          <button className="btn mss-tam" onClick={() => setAsama("secim")}>{tt("Tekrar oyna")}</button>
           <button className="btn ikincil" onClick={() => navigate(y())}>{tt("Ana sayfa")}</button>
-        </div>
-      </div>
-
-    </div>
+        </>
+      }
+    />
   );
 }
