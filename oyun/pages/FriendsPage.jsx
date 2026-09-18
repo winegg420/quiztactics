@@ -10,6 +10,7 @@ import { y } from "../lib/yol.js";
 import DavetKodu from "../components/DavetKodu.jsx";
 import { facebookArkadasOnerileri, facebookDavetAc } from "../lib/facebookArkadas.js";
 import { tt } from "../lib/dil.js";
+import ModSecimPenceresi from "../components/ModSecimPenceresi.jsx";
 
 const DOSTLUK_SECIMI = `id, requester, addressee, durum,
   req:profiles!friendships_requester_fkey(id, gorunen_ad, gorunen_avatar, gorunum, puan),
@@ -26,6 +27,7 @@ export default function FriendsPage() {
   const [calisiyor, setCalisiyor] = useState(false);
   // Arkadaş silme geri alınamaz: tek dokunuşla değil, onaylı iki adımda.
   const [silOnay, setSilOnay] = useState(null);
+  const [modHedef, setModHedef] = useState(null);   // Paket 30 B: mod penceresi açık olan arkadaş
 
   const yukle = useCallback(async () => {
     try {
@@ -164,14 +166,18 @@ export default function FriendsPage() {
     }
   };
 
+  // Paket 30 B: iki davet de mod seçim penceresinden çağrılır. Hata sayfanın üstüne
+  // değil pencerenin İÇİNE düşsün diye metin olarak döner (null = başarılı).
   const meydanOku = async (hedefId) => {
     setHata(null);
     try {
       const { error, data } = await supabase.rpc("create_challenge", { p_rakip: hedefId });
       if (error) throw error;
+      setModHedef(null);
       if (data) navigate(y("/meydan"));
+      return null;
     } catch (e) {
-      setHata(hataMesaji(e, tt("Meydan okuma başlatılamadı.")));
+      return hataMesaji(e, tt("Meydan okuma başlatılamadı."));
     }
   };
 
@@ -183,13 +189,15 @@ export default function FriendsPage() {
     try {
       const { data, error } = await supabase.rpc("duello_davet_et", { p_rakip: hedefId });
       if (error) throw error;
+      setModHedef(null);
       if (data?.duello_id) {
         navigate(y(`/duello/${data.duello_id}`));
-        return;
+        return null;
       }
       setBilgi(tt("Düello daveti gönderildi — rakip kabul edince düello başlayacak."));
+      return null;
     } catch (e) {
-      setHata(hataMesaji(e, tt("Düello daveti gönderilemedi.")));
+      return hataMesaji(e, tt("Düello daveti gönderilemedi."));
     }
   };
 
@@ -207,6 +215,13 @@ export default function FriendsPage() {
       <h1 className="baslik">{tt("Arkadaşlar")}</h1>
       {hata && <div className="hata-kutu">{hata}</div>}
       {bilgi && <div className="bd-bilgi-kutu">{bilgi}</div>}
+      {modHedef && (
+        <ModSecimPenceresi
+          profil={modHedef}
+          onSec={(mod) => (mod === "duello" ? duelloyaCagir(modHedef.id) : meydanOku(modHedef.id))}
+          onKapat={() => setModHedef(null)}
+        />
+      )}
 
       {/* SIRA (Paket 8): arkadaş listesi ve istekler ÜSTTE. Davet kartları
           sayfanın başındaydı; arkadaşı olan oyuncu her girişte onları
@@ -251,21 +266,14 @@ export default function FriendsPage() {
               <div className="isim">{p?.gorunen_ad}</div>
               <div className="detay"><Ikon ad="yildiz" boyut={13} /> {p?.puan} {tt("puan")}</div>
             </div>
+            {/* Paket 30 B: kılıç (Klasik) + kalkan (Düello) yerine tek düğme → mod seçim penceresi */}
             <button
-              className="btn kucuk"
-              onClick={() => meydanOku(p.id)}
-              aria-label={(p?.gorunen_ad ?? tt("Arkadaşına")) + tt(" meydan oku")}
-              title={tt("Meydan oku")}
+              className="btn kucuk bd-oyna-dugme"
+              onClick={() => setModHedef(p)}
+              aria-label={tt("{ad} ile oyna", { ad: p?.gorunen_ad ?? tt("Arkadaşın") })}
+              aria-haspopup="dialog"
             >
-              <Ikon ad="kilic" boyut={17} />
-            </button>
-            <button
-              className="btn kucuk bd-duello-cagir"
-              onClick={() => duelloyaCagir(p.id)}
-              aria-label={(p?.gorunen_ad ?? tt("Arkadaşını")) + tt(" düelloya çağır")}
-              title={tt("Düelloya çağır")}
-            >
-              <Ikon ad="kalkan" boyut={17} />
+              <Ikon ad="kilic" boyut={16} /> {tt("Oyna")}
             </button>
             {silOnay === f.id ? (
               <>

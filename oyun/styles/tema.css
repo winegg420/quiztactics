@@ -6625,3 +6625,69 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   background: rgba(255, 255, 255, 0.14);
   font-size: 13.5px; font-weight: 700;
 }
+
+/* ============================================================
+   Paket 30 B — arkadaşla oyna: mod seçim penceresi
+   İki büyük kart (Klasik / Düello). Dar ekranda tek sütun.
+   Kartlar kabartmalı (Şenlik): basınca translateY(4px), gölge kalkar.
+   ============================================================ */
+.bd-modal.bd-mod-secim {
+  max-width: 540px;
+  display: flex; flex-direction: column; gap: var(--bd-b-3);
+}
+.bd-mod-secim-ust { display: flex; align-items: center; gap: var(--bd-b-3); }
+.bd-mod-secim-ust .bd-modal-baslik { margin: 0; line-height: 1.2; }
+.bd-mod-secim-liste {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--bd-b-3);
+}
+@media (max-width: 480px) {
+  .bd-mod-secim-liste { grid-template-columns: 1fr; }
+}
+.bd-mod-secim-kart {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 6px;
+  min-height: 44px;
+  padding: var(--bd-b-4) var(--bd-b-3);
+  text-align: left;
+  font-family: var(--bd-f-govde);
+  color: var(--bd-metin);
+  background: var(--bd-yuzey-1);
+  border: 2px solid var(--bd-kart-alt);
+  border-radius: var(--bd-r-l);
+  box-shadow: 0 4px 0 var(--bd-kart-alt);
+  cursor: pointer;
+  transition: transform 0.08s ease, box-shadow 0.08s ease, border-color 0.15s ease;
+}
+.bd-mod-secim-kart:hover:not(:disabled),
+.bd-mod-secim-kart:focus-visible { border-color: var(--bd-vurgu); }
+.bd-mod-secim-kart:focus-visible { outline: 3px solid var(--bd-vurgu); outline-offset: 2px; }
+.bd-mod-secim-kart:active:not(:disabled) { transform: translateY(4px); box-shadow: none; }
+.bd-mod-secim-kart:disabled { cursor: default; opacity: 0.65; }
+.bd-mod-secim-kart[aria-busy="true"] { opacity: 1; border-color: var(--bd-vurgu); }
+.bd-mod-secim-ikon {
+  display: grid; place-items: center;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: #FFE3CC; color: var(--bd-vurgu-metin, #C4530F);
+}
+.bd-mod-secim-klasik .bd-mod-secim-ikon { background: #DCEBFA; color: #2A6CB0; }
+.bd-mod-secim-ad {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+  font-family: var(--bd-f-baslik); font-size: 18px; font-weight: 800; line-height: 1.2;
+}
+.bd-mod-secim-rozet {
+  padding: 2px 8px; border-radius: 999px;
+  font-family: var(--bd-f-govde); font-size: 12px; font-weight: 900;
+  background: #C4530F; color: #fff;             /* AA: beyaz / #C4530F ≈ 4.9:1 (12px metin) */
+}
+.bd-mod-secim-aciklama { font-size: 14px; font-weight: 600; line-height: 1.45; color: var(--bd-metin-2); }
+.bd-mod-secim-odul {
+  display: inline-flex; align-items: center; gap: 4px;
+  margin-top: auto;
+  font-size: 13px; font-weight: 800; color: var(--bd-metin);
+}
+.bd-mod-secim-bekle { font-size: 13px; font-weight: 800; color: #C4530F; }
+@media (prefers-reduced-motion: reduce) {
+  .bd-mod-secim-kart { transition: none; }
+  .bd-mod-secim-kart:active:not(:disabled) { transform: none; }
+}
