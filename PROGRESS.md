@@ -6097,3 +6097,119 @@ yani kurala göre gerçek katılımcı; onu ayıklamak sahibinin kararı. ✅
   görünen ama yanlış bir teşhisti: grup 22 kişilik, görünürlük süzgeci 12
   gösteriyordu. Ölçmeden "grup kuralı bozuk" diye düzeltmeye kalkılsaydı
   çalışan bir mekanizma bozulacaktı.
+
+---
+
+## Kendi deposuna taşınma — AŞAMA A (18 Eylül 2026)
+
+Quiz Tactics `idagggamecenter` hub'ından çıkıp **kendi deposuna** taşındı:
+`winegg420/quiztactics`. **Supabase'e hiç dokunulmadı** — aynı proje, aynı veri,
+aynı anahtarlar, hiç migration yok.
+
+### Nasıl taşındı
+
+Kopyala-yapıştır yapılmadı: eski depo yeni klasöre **klonlandı**, uzak adres
+değiştirildi, temizlik commit'lendi. **Commit geçmişi korundu** — `git log`
+Paket 1'e kadar geriye gidiyor.
+
+### Silinenler ve neden güvenli olduğu
+
+`kafatopu · meyvekes · run · gladius · patirun · driftgp · boks · store · arsiv`
+`src/App.jsx` (hub yönlendiricisi) · `src/pages/GameCenter.jsx` ·
+`src/pages/BirlesikSiralama.jsx` · `public/heads` · `public/meyve` · `public/map` ·
+hub manifesti ve ikonları · eskimiş belgeler (`BILDIM_GOREV*`, `QUIZADOR_*`,
+`CLOUDFLARE_DAGITIM`, `.env.bildim`).
+
+**Silmeden önce ölçüldü:** Quiz Tactics kodu (`oyun/` + taşınan `src/`) bu
+klasörlerin **hiçbirine** referans vermiyordu. İlk taramada 7 klasör için
+"2 referans" çıktı ama bakınca hepsinin `src/App.jsx`, `GameCenter.jsx` ve
+`BirlesikSiralama.jsx`'ten — yani zaten silinecek üç hub dosyasından — geldiği
+görüldü. Sayıya bakıp durmak yanlış olurdu; referansın **nereden** geldiği
+önemliydi.
+
+Toplam: 896 dosya değişti, ~64.000 satır silindi.
+
+### `bildim/` → `oyun/`
+
+526 dosya tarandı, **115'inde** yol güncellendi. Ayrıca 9 dosyada
+`/bildim/gorunum` rotası `/gorunum`'a çekildi (site artık kökte yayınlanıyor;
+bu, dondurulmuş avatar3d sayfalarının yönlendirmesini de düzeltti).
+
+**Klasör adı neden `oyun/`:** `src/`'yle birleştirmek düşünüldü ama reddedildi.
+`src/` gerçek bir ayrımı taşıyor — kimlik, Supabase istemcisi, kabuk, hata
+sınırı; yani oyundan bağımsız altyapı. Birleştirmek koca bir fark üretir ve
+hiçbir şey kazandırmaz.
+
+### DEĞİŞMEYENLER (bilerek)
+
+- **localStorage anahtarları**: `bildim_dil`, `bildim_tanitim`,
+  `bildim_karakter_secildi`, `bildim_davet`, `bildim_davet_kodu`,
+  `bildim_hafta_okundu`, `quizsquare_avatar3d_prototip_v1`.
+  Değiştirilseydi **mevcut oyuncuların dil tercihi ve tanıtım durumu sıfırlanırdı.**
+- **Public dosya adları**: `bildim.webmanifest`, `bildim-icon-*`. Yüklü PWA'ların
+  ve paylaşılmış linklerin işaret ettiği adresler bunlar. Marka "Quiz Tactics";
+  dosya adı yalnız eski bir kod adı.
+- **Supabase** tablo/fonksiyon/cron adları (`bildim-*` cron'ları dahil).
+- **Rota adları** (`/duello`, `/joker`, `/calisma`, `/harita`, `/gorunum` …).
+- **Eşya id'leri ve yuva adları.**
+- **Uygulanmış migration'lar** — içlerindeki `bildim/` geçen yorumlara bile
+  dokunulmadı (append-only).
+
+### Sadeleştirme
+
+- **`VITE_MOD` kalktı.** İki-mod eklentisi (`bildim-modu`) silindi.
+- **Site kimliği artık `index.html`'de STATİK.** Eskiden kök `index.html` hub'ın
+  kimliğini taşıyor, Quiz Tactics'in başlık/paylaşım/manifest alanlarını
+  `vite.config.js` derleme sırasında değiştiriyordu. Şimdi kimlik tek yerde ve
+  gözle görülür.
+- `vite.config.js`'te kalan tek üretim işi **robots.txt + sitemap.xml**.
+- **`rollupOptions.input` dört girişi koşulsuz taşıyor.** Derlemeden sonra
+  sayıldı: `dist/` içinde **4 HTML** — `index.html`, `oyun/avatar3d/index.html`,
+  `oyun/avatar3d/meydan.html`, `oyun/avatar3d/gardrop.html`. ✅
+- `src/main.jsx` doğrudan `BildimApp`'i açıyor; `lazy` dallanma yok.
+- `oyun/lib/yol.js` kök moduna sabitlendi. **`y()` kasıtlı olarak duruyor** —
+  200'den fazla çağrı yeri var, hepsini elle yola çevirmek koca bir fark üretir
+  ve hiçbir şey kazandırmaz.
+- `Login.jsx`'teki hub markası dalı kalktı (derleme onu yakaladı: `BILDIM_MOD`
+  artık `yol.js`'ten dışa verilmiyordu).
+- `package.json` adı `quiztactics`. **Kullanılmadığı doğrulanan** bağımlılıklar
+  kaldırıldı: `matter-js` (Kafa Topu), `zustand` (PatiRun/DidaGP) ve
+  — pakette istenmemişti ama ölçüm gösterdi — `@react-three/fiber`,
+  `@react-three/drei` (DidaGP; depoda **0 kullanım**). Quiz Tactics ham
+  `three`ile çalışıyor (41 dosya).
+- `manifest` `start_url`/`scope` köke çekildi, kısayollar `/meydan` ve
+  `/turnuva` oldu; `sw.js` bildirim ikonu Quiz Tactics ikonuna bağlandı.
+
+### Doğrulama
+
+| Ne | Sonuç |
+|---|---|
+| `npm install` | temiz |
+| `npm run build` | hatasız, uyumluluk denetimi TEMİZ |
+| `dist/` giriş sayısı | **4** ✅ |
+| `npm test` | 44 sunucu testi + 13 joker kuralı, hepsi geçti |
+| `npm run muayene` | çalışıyor (36 varlık + 21 portre) |
+| Yerel `npm run dev` | açılıyor, konsol **hatasız** |
+| Giriş ekranı | Quiz Tactics markası, hub markası yok; başlık/manifest/ikon doğru |
+| Rotalar | `/gizlilik` ve `/kosullar` açılıyor; `/turnuva`, `/duello`, `/joker`, `/siralama`, `/harita` giriş kapısına düşüyor — yani rota ağacı kökte doğru çözülüyor |
+| Push | `main` yeni depoda |
+| `SUPABASE_DB_URL` sırrı | kuruldu (değer yalnız borudan geçti, hiçbir yere yazılmadı) |
+| Gece yedeği | yeni depoda **çalıştırıldı ve geçti**: 44.037 → 44.037 satır (fark 0), hesaplar 205 → 205, "Geri yükleme doğrulandı." |
+
+**Yerelde giriş yapılmadı** — giriş Google/Facebook OAuth ile oluyor ve
+kimlik bilgisi girmek ajanın yapmayacağı iştir. Giriş gerektiren sayfalar
+Aşama B'de, sahibinin Vercel önizlemesinde gerçek hesapla doğrulanacak; o adım
+zaten listede var.
+
+### Bir not: avatar3d sayfalarının adresi değişti
+
+Dondurulmuş üç sayfa artık `/oyun/avatar3d/*` altında derleniyor (eskiden
+`/bildim/avatar3d/*`). Üçü de `noindex,nofollow` ve açılınca `/gorunum`'a
+yönlendiriyor; hiçbir yerden link verilmiyor. Yine de eski adresler artık 404
+döner — bilinerek yapıldı.
+
+### Aşama C bekliyor
+
+Eski depodaki Quiz Tactics'e **dokunulmadı**. Alan adı hâlâ eski depodan
+derleniyor; erken kaldırmak canlı siteyi düşürürdü. Sahibinin "alan adı taşındı,
+yeni site çalışıyor" onayı bekleniyor.
