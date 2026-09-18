@@ -70,6 +70,38 @@ test('başlangıç stoğu ikinci kez verilmez (eski hesaplar etkilenmez)', sec, 
   });
 });
 
+// Paket 29 D: Paket 27 öncesi hesaplara geriye dönük dağıtım (migration 244).
+test('geriye dönük dağıtım: eski hesap bir kez alır, yeni hesap çift almaz, bot almaz', sec, async () => {
+  await islem(async (c) => {
+    const adet = Number(await c.tek(`select public.ayar_sayi('baslangic_joker_adet', 2)`));
+    // Eski hesap taklidi: tetikleyicinin verdiği stok ve kaydı silinir, yerine
+    // "önceden satın alınmış" bir joker konur (238'in envanter kuralı onu atlardı).
+    const eski = await oyuncuKur(c, 'jeski');
+    await c.sorgu(`delete from public.joker_islemleri where user_id = ${a(eski)}`);
+    await c.sorgu(`delete from public.joker_envanter where user_id = ${a(eski)}`);
+    await c.sorgu(`select public.joker_hareket(${a(eski)}, 'elli', 1, 'satin_alma', null)`);
+
+    const yeni = await oyuncuKur(c, 'jyeni');            // tetikleyiciden zaten aldı
+    const yeniOnce = await envanter(c, yeni);
+    const bot = await oyuncuKur(c, 'jbot2', { is_bot: true, bot_turu: 'gizli' });
+    await c.sorgu(`delete from public.joker_islemleri where user_id = ${a(bot)}`);
+    await c.sorgu(`delete from public.joker_envanter where user_id = ${a(bot)}`);
+
+    const ilk = (await c.sorgu(`select * from public.baslangic_jokerleri_toplu_ver()`))[0];
+    assert.ok(Number(ilk.oyuncu) >= 1, 'eski hesap dağıtıma girmeli');
+    const env = await envanter(c, eski);
+    for (const tur of KULLANIMDA) {
+      assert.equal(env[tur], tur === 'elli' ? adet + 1 : adet, `${tur}: eski stok korunup üstüne eklenmeli`);
+    }
+    assert.deepEqual(await envanter(c, yeni), yeniOnce, 'yeni hesap ikinci kez almamalı');
+    assert.deepEqual(await envanter(c, bot), {}, 'bota verilmemeli');
+
+    const ikinci = (await c.sorgu(`select * from public.baslangic_jokerleri_toplu_ver()`))[0];
+    assert.equal(Number(ikinci.oyuncu), 0, 'ikinci çalıştırma hiçbir şey dağıtmamalı');
+    assert.equal(Number(ikinci.joker), 0);
+  });
+});
+
 // ---------------------------------------------------------------- B
 test('SERBEST Klasik Mod: ilk 50:50 ücretsiz, envanterden düşmez', sec, async () => {
   await islem(async (c) => {
