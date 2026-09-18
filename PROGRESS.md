@@ -6609,3 +6609,57 @@ provası + tek işlem; `db push` bu depoda bağlı değil).
   transform yok, yatay taşma yok, konsol hatası yok.
 - Doğrulanamayan: iki gerçek hesapla canlı mesajlaşma ve gerçek maçta joker çubuğunun görünümü (OAuth, ajan giriş
   yapmaz); JokerCubugu fiyat rozeti tarayıcıda gösterilmedi, yalnız derleme + sunucu testleri. iOS: bu makinede WebKit yok.
+
+## Paket 36 — Maç sonu ekranı (19 Eyl 2026)
+
+SQL değişikliği yok, migration yok. Her aşama ayrı commit + push (0b100e9 → 6fa126a).
+
+### A — Ölçüm (satır numaraları)
+Tablo doğruydu, küçük kaymalar: MatchPage sonuç bloğu 744-927 (sohbet dahil; paketteki 744-880 sohbetsiz),
+BildirimIzniSor 866 ✓; DuelloPage 503-575 (BildirimIzniSor 569 ✓); GroupMatchPage 464-512; TournamentPage 376-400 ✓
+(sonuç ekranı yoktu, "Lobi yok / sıradaki turnuva" dalının içinde kart); HizliModPage 437-463 (BildirimIzniSor 455 ✓).
+
+### Aşama 1 — `oyun/components/MacSonuSahnesi.jsx`
+- İskelet: sabit zemin (durum başına radyal, kazanmada 8 sn nefes alan ışıma) · banner (role=status, odak alır) ·
+  karşılaşma (AvatarCerceve; kazanan 96 + dönen hale + kupa, kaybeden 72 @ .72, berabere 84/84; VS; skor ya da kalp) ·
+  ödül hapları (SayanSayi) · katlanır Detay (varsayılan kapalı, max-height+opacity 240 ms, ok 180°, "Detay (n)") ·
+  children · yapışkan eylem çubuğu. `karsilasma` prop'u podyum/şampiyon gibi serbest orta sahne için.
+- Sekans: tek `adim` (0-8), tek rAF döngüsü (sökülünce iptal), görseller CSS animation-delay. Dokunma/Esc → `.atla`,
+  her şey son hâlinde. reduced-motion → hiç animasyon, coin uçuşu yok.
+- Coin uçuşu: hedef `.bd-coin-hap` (Layout › CoinHapi) BULUNDU. 3 coin, fixed kapsayıcı transformsuz, x/y ayrı eğri → yay.
+  Uçuş bitince `coinTazele()`; CoinHapi artık `SayanSayi` ile sayarak geçer (SayanSayi'ye `bicim` prop'u).
+  Bu yüzden MatchPage (mac_odulum sonrası), DuelloPage (bitiş efekti) ve HizliModPage (hizli_mod_bitir sonrası)
+  içindeki erken `coinTazele()` çağrıları kaldırıldı — yoksa sayı coinler varmadan değişiyordu.
+- Eylem çubuğu sonuç ekranında AÇIK olan alt sekme çubuğunun altına giriyordu (ölçüldü: 794 > 735). Çubuk artık
+  `.tabbar` yüksekliğini ölçüp (`--mss-eylem-alt`) tam üstüne yapışıyor; sekme çubuğu yoksa güvenli alanı kendisi bırakır.
+- Küçük eklemeler (mantık aynı): MacSonuEklentisi `rovansYuva` (rövanş isteği düğmesi portal ile çubuğa) + `onYanlisAdet`;
+  YanlisSatiri `onAdet`; OdulDokumu `onDokum` (turnuva sırası sunucunun `turnuva_derece.detay.sira` kaleminden).
+
+### Aşama 2 — sayfalar
+- MatchPage: sahne + Detay'da OdulDokumu · MacSonuDokum · MacSorulari · MacSonuEklentisi · paylaş. Çubuk: bot → Rövanş
+  (doğrudan maç, artık "…" çalışıyor hâli + try/catch); gerçek rakip + kaybettim → istek düğmesi (portal); ikisi aynı anda yok.
+  Rövanş yoksa (gerçek rakibi yendin/berabere) birincil "Meydan okumalara dön". Yakınlık: "{n} soru farkla"
+  (kazanınca her zaman, kaybedince yalnız 1-2 soru). SORU_PUANI = 10 sabiti sunucudaki cevap_ver'i yansıtır (yalnız metin).
+- DuelloPage: kalpler (DUELLO_CAN = 3), rövanş dört durumu çubukta; istek gönderilince pasif "Rövanş bekleniyor…" +
+  mevcut RovansBekleme penceresi. Kaybedince "Son canına kadar götürdün" (rakip 1 can) / "{n} tur sürdü" (2 can) / yok (3 can).
+- HizliModPage (dondurulmuş): tek avatar, haftalık rekorsa "kazandı" tonu ("Haftanın en iyisi!"), değilse nötr "Oturum bitti".
+- GroupMatchPage: podyum 2-1-3, ödülsüz notu, sıralama Detay'da, yeni "Ana sayfa" düğmesi.
+- TournamentPage: katıldığın biten turnuvada şampiyon ortada + "{n}. oldun"; 1. isen "Kazandın!", değilse nötr
+  "Turnuva bitti". "Turnuvalara dön" sahneyi kapatıp mevcut lobi görünümünü açar (sessionStorage, turnuva başına).
+- H: BildirimIzniSor beş sonuç ekranından çıktı; sahne `sessionStorage.bildim_bildirim_mac_sonrasi` bırakır,
+  Home hero'nun altında (turnuva şeridinin üstünde) kartı çizer. Kartın kendi kuralları aynen.
+
+### Kararlar (sorulmadı, gerekçeli)
+- VS rengi açık temada `--bd-vurgu-2` (#F4701F 2,41:1 ölçüldü, 22px kalın için 3,0 gerekir; #C4530F 3,77:1). Koyuda #F4701F 6,2:1.
+- Birincil düğmeler mevcut `.btn` (turuncu, koyu yazı 5+:1). Bot rövanşının eski mercan `.bd-rovans-tek` görünümü çubukta kullanılmadı.
+- Konfeti eklenmedi (paket isteğe bağlı bırakmıştı).
+- Kabartma gölgesi mevcut `.btn`'in 5px'i kaldı (pakette 4px yazıyor); tasarım dilindeki tüm düğmelerle aynı olsun diye.
+
+### Doğrulama
+- Vite dev + Playwright Chromium, Supabase SAHTE yanıtlarla (canlıya yazılmadı). Klasik: kazan (bot) / kaybet (gerçek) /
+  berabere 360px / reduced-motion; Düello: kazan, kaybet+Esc, rakip rövanş istiyor; Grup 390+360; Turnuva (kapat → lobi,
+  yenileyince sahne yok); ana sayfada bildirim kartı. Sekans zamanları, coin uçuşu ve sayaç (1.200→1.250 uçuştan sonra),
+  kaybedende 72px/.72/filtre yok, yatay taşma 0, sabit öğede/atasında transform yok, konsol hatası yok.
+- Koyu tema: KOYU_TEMA_KAPALI olduğu için data-tema elle "koyu" yapılarak ölçüldü (başlık 14,6:1, VS 6,2:1).
+- Yapılamayan: Hızlı Mod tarayıcıda açılamadı (rota dondurulmuş) — yalnız derleme. Gerçek hesapla canlı maç (OAuth).
+  iOS: bu makinede WebKit yok; Chromium'da iPhone boyutu denetimi yapıldı.

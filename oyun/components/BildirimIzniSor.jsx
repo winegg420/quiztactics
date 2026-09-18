@@ -12,7 +12,8 @@ const oku = (k) => { try { return localStorage.getItem(k); } catch { return null
 const yaz = (k) => { try { localStorage.setItem(k, "1"); } catch { /* özel mod */ } };
 
 /**
- * Bildirim izni ilk açılışta DEĞİL, maç sonucu ekranında sorulur (Klasik Mod, Düello, Hızlı Mod).
+ * Bildirim izni ilk açılışta DEĞİL, maç sonucundan ana sayfaya dönünce sorulur (Paket 36 H: Home.jsx,
+ * MacSonuSahnesi oturum işareti bırakır). Önceden sonuç ekranının ortasındaydı; ödül anını kesiyordu.
  * (Oyuncu oyunu görmeden izin istemek reddedilme oranını artırıyordu.)
  *
  * Paket 17 §B: eskiden hata `catch {}` ile yutuluyor VE "bir daha sorma" işareti yine konuyordu —
