@@ -4,7 +4,7 @@ import { hataMesaji } from "../lib/hata.js";
 import { Link, useSearchParams } from "react-router-dom";
 import GorunumVitrini from "../vitrin/GorunumVitrini.jsx";
 import { supabase } from "../../src/lib/supabase.js";
-import { JOKER_BILGI, KLASIK_BILGI, KLASIK_JOKERLER, envanterNesne } from "../lib/jokerler.js";
+import { JOKER_BILGI, KLASIK_BILGI, KLASIK_JOKERLER, jokerBilgi, envanterNesne } from "../lib/jokerler.js";
 import { jokerKurallari } from "../lib/jokerKurallari.js";
 import { h5AdsYapilandirildi, odulluVideoGoster } from "../lib/h5ads.js";
 import { desteklenirMi, fiyatlariAl, satinAl, tuket } from "../lib/playFatura.js";
@@ -23,7 +23,9 @@ import { tt, ttSunucu } from "../lib/dil.js";
 // yalnız tablo okunamazsa kullanılan varsayılanlardır (bkz. lib/ayarlar.js).
 const ODUL_COIN_VARSAYILAN = 25;
 const TEK_JOKER_VARSAYILAN = { elli: 40, sure: 60, soru_degistir: 80,
-  zaman_baskisi: 60, saldiri_degistir: 60, savunma_kilidi: 80 };
+  zaman_baskisi: 60, saldiri_degistir: 60, savunma_kilidi: 80, sis: 80 };
+// Paket 32: Sis yalnız Klasik Mod'da (düelloda yok)
+const YALNIZ_KLASIK = ["sis"];
 
 const SEKMELER = [
   { kod: "kiyafet", ad: tt("Görünüm"), ikon: "tisort" },
@@ -47,11 +49,13 @@ export default function JokerDukkani() {
   // Coin rakamları koda gömülmez: oyun_ayarlari'ndan okunur.
   const [odulCoin, setOdulCoin] = useState(ODUL_COIN_VARSAYILAN);
   const [tekFiyat, setTekFiyat] = useState(TEK_JOKER_VARSAYILAN);
+  const [ayar, setAyar] = useState(null);   // Paket 32 C: açıklamalardaki sayılar oyun_ayarlari'ndan
 
   useEffect(() => {
     let aktif = true;
     ayarlar().then((o) => {
       if (!aktif || !o) return;
+      setAyar(o);
       if (Number.isFinite(Number(o.coin_reklam))) setOdulCoin(Number(o.coin_reklam));
       // Maç başına joker hakkı: kural metni bunu kullanır (Paket 28 B).
       if (Number(o.duello_joker_hak) > 0) setJokerHak(Number(o.duello_joker_hak));
@@ -63,6 +67,7 @@ export default function JokerDukkani() {
         zaman_baskisi: Number(o.coin_joker_zaman_baskisi ?? TEK_JOKER_VARSAYILAN.zaman_baskisi),
         saldiri_degistir: Number(o.coin_joker_saldiri_degistir ?? TEK_JOKER_VARSAYILAN.saldiri_degistir),
         savunma_kilidi: Number(o.coin_joker_savunma_kilidi ?? TEK_JOKER_VARSAYILAN.savunma_kilidi),
+        sis: Number(o.coin_joker_sis ?? TEK_JOKER_VARSAYILAN.sis),
       });
     });
     return () => { aktif = false; };
@@ -278,17 +283,22 @@ export default function JokerDukkani() {
           </span>
         </div>
         <div className="bd-paket-liste">
-          {["elli", "sure", "soru_degistir", "zaman_baskisi", "saldiri_degistir", "savunma_kilidi"].map((tur) => (
+          {["elli", "sure", "soru_degistir", "zaman_baskisi", "sis", "saldiri_degistir", "savunma_kilidi"].map((tur) => (
             <div key={tur} className="bd-paket">
               <div className="bd-paket-bilgi">
                 <div className="bd-paket-ad">
                   <Ikon ad={JOKER_BILGI[tur].ikon} boyut={15} /> {JOKER_BILGI[tur].ad}
                 </div>
-                <div className="alt-yazi">{JOKER_BILGI[tur].aciklama}</div>
+                {/* Paket 32: Sis yalnız Klasik — tek açıklama, sayılar ayardan */}
+                <div className="alt-yazi">
+                  {YALNIZ_KLASIK.includes(tur) ? jokerBilgi(tur, "1v1", ayar).aciklama : JOKER_BILGI[tur].aciklama}
+                </div>
                 {/* Paket 31 C: aynı joker Klasik Mod'da farklı çalışıyorsa okunarak anlaşılsın */}
-                {KLASIK_BILGI[tur] ? (
+                {YALNIZ_KLASIK.includes(tur) ? (
+                  <div className="alt-yazi bd-paket-klasik">{tt("Yalnız Klasik Mod'da")}</div>
+                ) : KLASIK_BILGI[tur] ? (
                   <div className="alt-yazi bd-paket-klasik">
-                    {tt("Klasik Mod'da: {0}", { 0: KLASIK_BILGI[tur].aciklama })}
+                    {tt("Klasik Mod'da: {0}", { 0: jokerBilgi(tur, "1v1", ayar).aciklama })}
                   </div>
                 ) : !KLASIK_JOKERLER.includes(tur) ? (
                   <div className="alt-yazi bd-paket-klasik">{tt("Yalnız Düello'da")}</div>
