@@ -6533,3 +6533,79 @@ Sahibinin talimatı: "bütün jokerleri ful sınırsız yap, bedava ücretsiz ya
   (4 test: stok/coin düşmez, 5. joker kabul, aynı soruda ikinci kez red, sonraki soruda yine kullanılır, düello
   savunma Soru Değiştir koruması, anahtar kapalıyken eski ekonomi). 64/64 (dosya dosya; tam paket bir kez
   bağlantıda takıldı — veritabanı "istemciyi bekliyor"du, tekrar koşuda sorun yok).
+
+## 19 Eylül 2026 — Paket 35 (ekonomi testi, Hemen oyna mod seçimi, profil kartı, meydan okuma şeridi, mesajlaşma)
+
+Commit'ler: `4754f16` A · `dc95b64` B · `2971a7e` C · `14bd046` D · `7346a65` E.
+Migration: **252** (A), **253** (E) — ikisi de canlıya uygulandı ve `schema_migrations`'a yazıldı (rollback
+provası + tek işlem; `db push` bu depoda bağlı değil).
+
+### YAYIN ÖNCESİ ZORUNLU
+- [ ] `baslangic_coin` gerçek değere çekilecek (şu an test için 10.000)
+
+### A — Jokerler yine coin ile, herkes 10.000 coin
+- **Karar:** Paket 34'ün ücretsiz modu kapatıldı (`jokerler_ucretsiz = 0`); kod silinmedi. Anahtar yeniden 1 olursa
+  artık yalnız STOK/COIN serbest — hak kuralları anahtardan bağımsız.
+- **Eşitleme:** 206 profilin hepsi (46 gerçek + 160 bot) 10.000'e çekildi. Defter: `coin_hareketleri` kolonları
+  okundu (id, user_id, miktar, tur, referans, bakiye_sonra, olusturuldu). `tur='baslangic'` KULLANILAMADI
+  (`coin_hareketleri_baslangic_tek` hesap başına tek satır kısıtı) → yeni tür `ekonomi_esitleme`, referans `paket35`,
+  miktar = 10000 − eski bakiye. Bu tür `coin_gunluk_kalan` hariç listesine eklendi; eklenmeseydi +9.500'lük satır
+  bugünkü 400'lük kazanç tavanını doldurur, kimse maçtan coin alamazdı.
+- **Yeni hesap:** `handle_new_user` artık `ayar_sayi('baslangic_coin', 10000)` okuyor; eski `coin_baslangic`
+  anahtarı "KULLANILMIYOR" notuyla duruyor.
+- **A.3 hak kuralları:** `joker_hak_kontrol` — "aynı joker maçta bir kez" ve toplam hak sınırı `jokerler_serbest()`
+  koşulsuz. `joker_kullan` — Paket 34'ün "aynı joker aynı soruda bir kez" bloğu kaldırıldı. `duello_savunma_jokeri` —
+  Paket 34'ün "bu soruda Soru Değiştir zaten kullanıldı" satırı kaldırıldı. Düelloda "bu soruda HERHANGİ bir joker"
+  kontrolü YOKTU; kalan satırlar ("Bu soruda 50:50 zaten kullanıldı", "Bu joker bu saldırıda zaten kullanıldı",
+  "Yeni gelen soru ikinci kez değiştirilemez") aynı jokerin tekrarını engelliyor, maçta-bir-kez kuralıyla örtüşüyor,
+  farklı jokerleri engellemiyor → dokunulmadı.
+- **İstemci:** `JokerCubugu` — stok yoksa sağ üstte coin + fiyat rozeti (turuncu zemin, koyu yazı); coin yetmiyorsa
+  rozet soluk (.5), düğme pasif, dokununca "Yetersiz coin" (pencere açılmaz). Ücretsiz 50:50 rozeti kaldı. Satın
+  almadan sonra `coinTazele()` → üst çubuk anında güncellenir (önceden çağrılmıyordu). Serbest mod hak/kullanıldı
+  kurallarını artık ezmiyor. `DuelloPage` paneli aynı kurallar. `JokerDukkani` tek tek alımda bakiye yetmiyorsa
+  düğme pasif + "Yetersiz coin". Joker PAKETLERİ düğmesi bilerek pasif yapılmadı (eski kural: basınca Coin sekmesine götürür).
+- `QUIZ_TACTICS_PAKET34_DUZELTME.md` (izlenmeyen dosya) aynı işi 252 numarasıyla istiyordu; Paket 35 A.3 bunu kapsıyor, ayrıca uygulanmadı.
+
+### B — Hemen oyna → mod seçimi
+- `ModSecimPenceresi`'ne `baslik`, `bekleMetni`, `alttan` prop'ları; `profil` null ise avatar yok. Seçim sürerken
+  öteki kartlar .45. Home: "Hemen oyna" pencereyi açar; Klasik → `hemenOyna(dereceli)`, Saf Bilgi →
+  `hemenOyna(dereceli, true)`, Düello → `/duello`. Pencere seçimde kapanır (arama ekranı/yarım maç sorusu yerine açılır).
+- Not: düğmenin altındaki "Klasik Mod — kazanırsan…" satırı artık tam doğru değil (değiştirilmedi).
+- Modal içindeki "Vazgeç" bu pencerede turuncu görünüyor — `.bd-modal-katman .btn` genel kuralı; önceden de böyleydi.
+
+### C — Profil kartı
+- `OyuncuKarti`: `onOyna`, `onMesaj`, `onArkadasEkle`, `oynaPasifNeden`, `bilgiNotu`; 2×2 ızgara, ilk düğme birincil,
+  ötekiler beyaz + turuncu kenar; dört hal; 180 ms açılış. Arkadaşlar: satır (avatar+ad) kartı açar, "Oyna" kısayol
+  kaldı. Lig + Turnuva: yeni `lib/arkadaslik.js` kancası → arkadaşsa Mesaj at, değilse Arkadaş ekle (istek bekliyorsa not).
+- İkon: `oyna`, `mesaj`, `gonder` eklendi.
+- **Tuzak:** `.bd-modal-katman .btn:not(.tehlike):not(.basari)` her modal düğmesini turuncuya boyuyor; ikincil stil
+  daha güçlü seçiciyle yazıldı.
+
+### D — Meydan okuma şeridi
+- Meydan okumadan sonra sayfadan çıkılmıyor. Bekleyenler sunucudan: `matches` (oyuncu1 = ben, durum bekliyor) +
+  `duello_davetleri` (kuran = ben, bekliyor); realtime ile yenilenir. Geri çek: `mac_iptal` / `duello_davet_iptal`
+  (Meydan sayfasıyla aynı). Bekleyen varken Oyna ve kartta Oyna/Meydan oku pasif, sebebi yazıyor. Açık bot anında
+  kabul ederse doğrudan maça girilir.
+
+### E — Mesajlaşma
+- Migration 253: `direkt_mesajlar` (paketteki şema), RLS select yalnız taraflar, insert/update/delete yetkisi yok,
+  realtime yayınında. RPC: `dm_gonder` (arkadaşlık sunucuda, 20/60 sn, 1-500), `dm_sohbetlerim`, `dm_sohbet`,
+  `dm_okundu`, `dm_okunmamis_sayim`.
+- **Bildirim altyapısı bulundu:** `push_metni` + `push_gonder` (bildirim_anahtarla'nın kullandığı yol). Yeni metin
+  `dm_yeni` (tr/en). `bildirimler` tablosuna SATIR YAZILMIYOR (zil DM'yi ayrıca sayıyor, yoksa çift sayılırdı).
+  Push yalnız o kişiden gelen İLK okunmamış mesajda gider.
+- Arayüz: `/mesajlar` + `/mesajlar/:kisi` (push buraya getirir), `SohbetKutusu` (body'ye portal, visualViewport ile
+  klavye üstünde, realtime, "Yeni mesaj ↓", yukarı kaydırınca eski sayfa), `EmojiSecici` (60 emoji / 6 kategori,
+  seçim kapanmaz, dışarı/Esc kapatır). Arkadaşlar üstünde "Mesajlar" + rozet; zil rozetine DM eklendi + zilde satır.
+- Kontrast: beyaz / #F4701F 2.98 → kendi balonunda yazı #1B1B1B; okunmamış rozet zemini #C4530F (beyaz 4.9:1).
+
+### Doğrulama
+- Sunucu testleri (işlem + rollback): yeni `ekonomi-testi` (3), `mesajlasma` (4), `joker-serbest` yeni kurala göre
+  güncellendi. `npm test` 71/71 + kurallar + dans. RLS elle: yabancı 0 satır görüyor, doğrudan insert "permission denied".
+- Arayüz: Vite dev + Playwright Chromium 390×844, Supabase istekleri SAHTE yanıtlarla (canlıya yazılmadı):
+  B (3 kart, alttan, odak ilk kartta, Esc kapatıyor, arama başlamıyor), C (Oyna/Meydan oku/Mesaj at; bekleyen varken
+  ilk ikisi pasif + sebep), D (şerit, Oyna pasif), E (liste rozeti, okundu çağrısı, 3 emoji art arda + seçici açık,
+  Esc, metin kutusu 4 satırda duruyor, HTML metin olarak basılıyor, 501 karakter hatası). Sabit öğede/atasında
+  transform yok, yatay taşma yok, konsol hatası yok.
+- Doğrulanamayan: iki gerçek hesapla canlı mesajlaşma ve gerçek maçta joker çubuğunun görünümü (OAuth, ajan giriş
+  yapmaz); JokerCubugu fiyat rozeti tarayıcıda gösterilmedi, yalnız derleme + sunucu testleri. iOS: bu makinede WebKit yok.
