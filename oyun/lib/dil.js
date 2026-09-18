@@ -253,6 +253,13 @@ const SOZLUK = {
     "Galibiyet: +{lig} lig puanı · {coin} coin": "Win: +{lig} league points · {coin} coins",
     "En çok ödül": "Top rewards",
     "Davet gönderiliyor…": "Sending invite…",
+    // Paket 30 C: rövanş bekleme penceresi
+    "Rövanş isteği gönderildi": "Rematch request sent",
+    "Rövanş isteği gönderildi — {ad} yanıtlıyor…": "Rematch request sent — {ad} is responding…",
+    "{0} sn": "{0} s",
+    "{ad} yanıt vermedi.": "{ad} didn't respond.",
+    "{ad} rövanşı kabul etmedi.": "{ad} declined the rematch.",
+    "Tekrar rövanş iste": "Ask for a rematch again",
     "Düello'ya dön": "Back to Duel",
     "Bu oyuncuyla {ben}-{rakip} öndesin": "You lead this player {ben}-{rakip}",
     "Bu oyuncuyla {ben}-{rakip} geridesin": "You trail this player {ben}-{rakip}",

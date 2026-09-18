@@ -36,6 +36,8 @@ import { unvanAdi } from "../lib/unvanlar.js";
 import { JOKER_BILGI, SALDIRI_JOKERLERI, MAC_ICI_JOKERLER } from "../lib/jokerler.js";
 import { y } from "../lib/yol.js";
 import { coinTazele } from "../lib/coin.js";
+import { ayar } from "../lib/ayarlar.js";
+import Modal from "../components/Modal.jsx";
 import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesJoker, sesKazandin, sesKaybettin, sesDokunus, sesRakipBulundu, sesCanKaybi } from "../lib/ses.js";
 import { titret } from "../lib/geriBildirim.js";
 import { tt } from "../lib/dil.js";
@@ -172,6 +174,43 @@ function DuelloArama({ dereceli, onBulundu, onIptal }) {
   );
 }
 
+// ------------------------------------------------------------ rövanş bekleme (Paket 30 C)
+// Eskiden istek gidince büyük düğme kayboluyor, yerine soluk tek satır geliyordu
+// ("her şey silindi"). Şimdi arama ekranıyla aynı dilde bir bekleme penceresi:
+// rakibin avatarı, geri sayım halkası (süre oyun_ayarlari.duello_rovans_sn), Vazgeç.
+// Sunucuda isteği geri çeken bir RPC YOK — Vazgeç yalnız pencereyi kapatır.
+const ROVANS_HALKA_R = 44;
+const ROVANS_HALKA_CEVRE = 2 * Math.PI * ROVANS_HALKA_R;
+
+function RovansBekleme({ rakip, baslangic, sureSn, simdi, ceviri, onVazgec }) {
+  const kalanMs = Math.max(0, baslangic + sureSn * 1000 - simdi);
+  const kalanSn = Math.ceil(kalanMs / 1000);
+  const oran = sureSn > 0 ? kalanMs / (sureSn * 1000) : 0;
+  return (
+    <Modal onKapat={onVazgec} etiket={ceviri("Rövanş isteği gönderildi")}>
+      <div className="bd-modal bd-rovans-bekleme" aria-live="polite">
+        <div className="bd-rovans-halka">
+          <svg viewBox="0 0 100 100" aria-hidden="true">
+            <circle className="iz" cx="50" cy="50" r={ROVANS_HALKA_R} />
+            <circle className="dolu" cx="50" cy="50" r={ROVANS_HALKA_R}
+                    strokeDasharray={ROVANS_HALKA_CEVRE}
+                    strokeDashoffset={ROVANS_HALKA_CEVRE * (1 - oran)} />
+          </svg>
+          <Avatar profile={rakip} boyut={72} />
+        </div>
+        <div className="bd-rovans-ad">{rakip?.gorunen_ad}</div>
+        <div className="bd-rovans-metin">
+          {ceviri("Rövanş isteği gönderildi — {ad} yanıtlıyor…", { ad: rakip?.gorunen_ad ?? "" })}
+        </div>
+        <div className="bd-rovans-sayac" role="timer" aria-label={ceviri("{0} saniye kaldı", { 0: kalanSn })}>
+          {ceviri("{0} sn", { 0: kalanSn })}
+        </div>
+        <button type="button" className="btn ikincil" onClick={onVazgec}>{ceviri("Vazgeç")}</button>
+      </div>
+    </Modal>
+  );
+}
+
 // ------------------------------------------------------------ maç
 function DuelloMac({ id }) {
   const navigate = useNavigate();
@@ -190,6 +229,11 @@ function DuelloMac({ id }) {
   // joker envantere girer, kullanımı Saldırı Hazırlığı'nda yapılır.
   const [satinAlinacak, setSatinAlinacak] = useState(null);
   const [dokumToplam, setDokumToplam] = useState(null);   // Paket 20 I.3: sunucu dökümünün toplamı
+  // Paket 30 C: rövanş bekleme penceresi — yalnız arayüz durumu (sunucuya dokunmaz)
+  const [rovBas, setRovBas] = useState(null);          // bekleme başladığı yerel an (ms)
+  const [rovVazgec, setRovVazgec] = useState(false);   // "Vazgeç" — sunucuda geri çekme yok, yalnız pencere kapanır
+  const [rovSonuc, setRovSonuc] = useState(null);      // null | "cevapsiz" | "red"
+  const [rovSn, setRovSn] = useState(60);              // oyun_ayarlari.duello_rovans_sn
   const farkRef = useRef(0); // sunucu saati - istemci saati (ms)
   const yukleniyorRef = useRef(false);
   const sonHamleRef = useRef(null);
@@ -314,6 +358,38 @@ function DuelloMac({ id }) {
     if (d?.rovans?.id && d.rovans.id !== id) navigate(y(`/duello/${d.rovans.id}`), { replace: true });
   }, [d?.rovans?.id, id, navigate]);
 
+  // Paket 30 C: rövanş süresi koda gömülmez — sunucunun kullandığı ayar okunur.
+  useEffect(() => {
+    let aktif = true;
+    ayar("duello_rovans_sn", 60).then((sn) => { if (aktif && sn > 0) setRovSn(sn); }, () => {});
+    return () => { aktif = false; };
+  }, []);
+
+  // Paket 30 C: bekleme başladı / bitti. Bitişin iki sebebi ayrılır:
+  //   - isteyen hâlâ ben ama `gecerli` düştü → süre doldu, rakip yanıt vermedi
+  //   - isteyen boşaldı → rakip reddetti (duello_rovans_yanitla false)
+  // Kabul edilirse `rovans.id` gelir ve yukarıdaki etki yeni düelloya geçirir.
+  const rovIsteyen = d?.rovans?.isteyen ?? null;
+  const rovGecerli = Boolean(d?.rovans?.gecerli);
+  const rovId = d?.rovans?.id ?? null;
+  const benIstedim = Boolean(d && rovIsteyen === d.ben && rovGecerli && !rovId);
+  useEffect(() => {
+    if (benIstedim) {
+      if (rovBas == null && !rovVazgec) setRovBas(Date.now());   // sayfa yeniden açıldıysa ilk görüldüğü an
+      return;
+    }
+    if (rovBas == null || rovId) { if (rovId) setRovBas(null); return; }
+    setRovBas(null);
+    if (!rovVazgec) setRovSonuc(rovIsteyen == null ? "red" : "cevapsiz");
+  }, [benIstedim, rovBas, rovVazgec, rovId, rovIsteyen]);
+
+  const rovansIste = () => {
+    setRovVazgec(false);
+    setRovSonuc(null);
+    setRovBas(Date.now());
+    eylem("rovans", "duello_rovans_iste", {}).then((tamam) => { if (!tamam) setRovBas(null); });
+  };
+
   const kalanSn = useMemo(() => {
     if (!d?.faz_bitis) return 0;
     return Math.max(0, (new Date(d.faz_bitis).getTime() - (simdi + farkRef.current)) / 1000);
@@ -408,9 +484,10 @@ function DuelloMac({ id }) {
           <div className="bd-duello-rovans">
             {rov.id ? (
               <button className="btn" onClick={() => navigate(y(`/duello/${rov.id}`))}>{ceviri("Rövanşa git")}</button>
-            ) : rov.isteyen && rov.gecerli && rov.isteyen === d.ben ? (
-              <div className="alt-yazi">{ceviri("Rövanş isteği gönderildi, rakip bekleniyor…")}</div>
-            ) : rov.isteyen && rov.gecerli ? (
+            ) : rov.isteyen && rov.gecerli && rov.isteyen === d.ben && !rovVazgec ? (
+              <RovansBekleme rakip={rakip} baslangic={rovBas ?? Date.now()} sureSn={rovSn} simdi={simdi}
+                             ceviri={ceviri} onVazgec={() => { setRovVazgec(true); setRovBas(null); }} />
+            ) : rov.isteyen && rov.gecerli && rov.isteyen !== d.ben ? (
               <>
                 <div className="bd-duello-rovans-soru">{ceviri("{ad} rövanş istiyor!", { ad: rakip.gorunen_ad })}</div>
                 <div className="bd-konum-butonlar">
@@ -425,9 +502,18 @@ function DuelloMac({ id }) {
                 </div>
               </>
             ) : d.durum === "bitti" ? (
-              <button className="btn" disabled={!!calisan} onClick={() => eylem("rovans", "duello_rovans_iste", {})}>
-                <Ikon ad="yenile" boyut={16} /> {ceviri("Rövanş")}
-              </button>
+              <>
+                {rovSonuc && (
+                  <div className="bd-rovans-sonuc" role="status">
+                    {rovSonuc === "red"
+                      ? ceviri("{ad} rövanşı kabul etmedi.", { ad: rakip.gorunen_ad })
+                      : ceviri("{ad} yanıt vermedi.", { ad: rakip.gorunen_ad })}
+                  </div>
+                )}
+                <button className="btn" disabled={!!calisan} onClick={rovansIste}>
+                  <Ikon ad="yenile" boyut={16} /> {rovSonuc ? ceviri("Tekrar rövanş iste") : ceviri("Rövanş")}
+                </button>
+              </>
             ) : null}
           </div>
           {hata && <div className="hata-kutu">{hata}</div>}

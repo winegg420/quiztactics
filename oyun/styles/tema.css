@@ -6691,3 +6691,46 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   .bd-mod-secim-kart { transition: none; }
   .bd-mod-secim-kart:active:not(:disabled) { transform: none; }
 }
+
+/* ============================================================
+   Paket 30 C — rövanş bekleme penceresi (arama ekranıyla aynı dil)
+   Halka geri sayımı stroke-dashoffset ile; süre oyun_ayarlari'ndan.
+   ============================================================ */
+.bd-modal.bd-rovans-bekleme {
+  max-width: 360px;
+  display: flex; flex-direction: column; align-items: center; gap: var(--bd-b-2);
+  text-align: center;
+}
+.bd-rovans-halka {
+  position: relative;
+  width: 120px; height: 120px;
+  display: grid; place-items: center;
+}
+.bd-rovans-halka svg {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  transform: rotate(-90deg);          /* halka tepeden başlasın (fixed öğe değil) */
+}
+.bd-rovans-halka circle { fill: none; stroke-width: 6; }
+.bd-rovans-halka .iz { stroke: var(--bd-kart-alt); }
+.bd-rovans-halka .dolu {
+  stroke: var(--bd-vurgu);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.2s linear;
+}
+.bd-rovans-ad { font-family: var(--bd-f-baslik); font-size: 20px; font-weight: 800; }
+.bd-rovans-metin { font-size: 14.5px; font-weight: 700; line-height: 1.45; color: var(--bd-metin-2); }
+.bd-rovans-sayac {
+  font-variant-numeric: tabular-nums;
+  font-size: 15px; font-weight: 900; color: #C4530F;   /* AA: beyazda ≈ 4.9:1 */
+}
+.bd-rovans-bekleme .btn { width: 100%; margin-top: var(--bd-b-1); }
+.app .bd-rovans-sonuc {
+  margin-bottom: var(--bd-b-2);
+  padding: 8px 12px; border-radius: var(--bd-r-m);
+  background: #FFE3CC; color: #7A3300;
+  font-size: 14px; font-weight: 800;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bd-rovans-halka .dolu { transition: none; }
+}
