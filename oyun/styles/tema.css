@@ -1180,13 +1180,13 @@ body { overflow-x: clip; }
   content: "";
   position: absolute; inset: 0;
   border-radius: 50%;
-  border: 2px solid rgba(247, 203, 119, 0.55);
+  border: 3px solid var(--bd-vurgu);   /* Paket 29 B: soluk altın açık zeminde görünmüyordu */
   animation: bd-arama-dalga 1.8s ease-out infinite;
 }
 .bd-arama-halka::after { animation-delay: 0.9s; }
 @keyframes bd-arama-dalga {
-  0% { transform: scale(0.62); opacity: 0.9; }
-  100% { transform: scale(1); opacity: 0; }
+  0% { transform: scale(0.62); opacity: 0.85; }
+  100% { transform: scale(1.18); opacity: 0; }
 }
 .bd-arama-baslik {
   font-family: var(--bd-f-baslik);
@@ -1207,9 +1207,28 @@ body { overflow-x: clip; }
   from { transform: scale(0.8); opacity: 0; }
   to { transform: none; opacity: 1; }
 }
+/* Paket 29 B: arama ekranı "donmuş" görünmesin — maskot hafifçe süzülür,
+   ipucu satırı her değişimde yumuşakça girer. Katman fixed; transform yalnız
+   İÇ öğelerde, fixed öğenin kendisinde/atasında değil. */
+.bd-arama-halka > .bd-maskot { animation: bd-arama-suzul 2.4s ease-in-out infinite; }
+@keyframes bd-arama-suzul {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+.bd-arama-ipucu {
+  min-height: 3em;                     /* satır sayısı değişince düzen zıplamasın */
+  max-width: 320px;
+  font-weight: 700;
+  animation: bd-arama-ipucu-gir 0.35s ease-out both;
+}
+@keyframes bd-arama-ipucu-gir {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
 
 @media (prefers-reduced-motion: reduce) {
-  .bd-arama-halka::before, .bd-arama-halka::after { animation: none; }
+  .bd-arama-halka::before, .bd-arama-halka::after,
+  .bd-arama-halka > .bd-maskot, .bd-arama-ipucu, .bd-arama-bulundu { animation: none; }
 }
 
 /* ---------- Lig boş durumu ---------- */

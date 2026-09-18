@@ -109,9 +109,21 @@ function DuelloGiris() {
   );
 }
 
+// Arama ekranında dönen ipuçları (Paket 29 B) — yalnız sunum, eşleştirmeye dokunmaz.
+// "15 sn'yi geçerse botla eşleştireceğiz" satırı BİLEREK yok: rakip gizli bot olur
+// ve bu sayfa botu asla ele vermez (bkz. dosya başı gizlilik notu).
+const ARAMA_IPUCLARI = [
+  "Rakibinin zayıf kategorisini bul, oradan vur.",
+  "Aynı kategoriyi üst üste seçemezsin.",
+  "Rakip en zayıf kategorisinde bilirse canı SEN kaybedersin",
+  "Saldırı hazırlığında joker kullanabilirsin.",
+];
+const IPUCU_SN = 3;
+
 function DuelloArama({ dereceli, onBulundu, onIptal }) {
   const { ceviri } = useDil();
   const [gecen, setGecen] = useState(0);
+  const ipucu = Math.floor(gecen / IPUCU_SN) % ARAMA_IPUCLARI.length;
   const [hata, setHata] = useState(null);
   const bittiRef = useRef(false);
   const bulunduRef = useRef(onBulundu);
@@ -147,7 +159,11 @@ function DuelloArama({ dereceli, onBulundu, onIptal }) {
       <div className="bd-arama-kutu">
         <div className="bd-arama-halka" aria-hidden="true"><Maskot poz="dusunuyor" boyut={84} /></div>
         <div className="bd-arama-baslik">{ceviri("Düello rakibi aranıyor…")}</div>
-        <div className="alt-yazi">{gecen} {tt("sn")}</div>
+        {/* key değişince satır yeniden takılır → giriş animasyonu her ipucunda oynar */}
+        <div key={ipucu} className="bd-arama-alt bd-arama-ipucu" aria-live="polite">
+          {ceviri(ARAMA_IPUCLARI[ipucu])}
+        </div>
+        <div className="bd-arama-sayac">{ceviri("{0} sn · rakip aranıyor", { 0: gecen })}</div>
         {hata && <div className="hata-kutu">{hata}</div>}
         <button className="btn ikincil" onClick={onIptal}>{ceviri("Vazgeç")}</button>
       </div>
