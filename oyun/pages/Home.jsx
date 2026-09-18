@@ -11,6 +11,7 @@ import { siradakiLobi } from "../lib/zaman.js";
 import { rutbeBul, sonrakiRutbe } from "../lib/ranks.js";
 import { bayrak, haftaBitisi, sureMetni } from "../lib/konum.js";
 import RakipAra from "../components/RakipAra.jsx";
+import YarimMacPenceresi from "../components/YarimMac.jsx";
 import Ikon from "../components/Ikon.jsx";
 import RankBadge from "../components/RankBadge.jsx";
 import SeriRozeti from "../components/SeriRozeti.jsx";
@@ -314,11 +315,44 @@ export default function Home() {
 
   // Hemen Oyna: önce tercih edilen kategoride insan rakip aranır (20 sn),
   // bulunamazsa karışığa/bota düşülür. Akış RakipAra bileşeninde.
-  const hemenOyna = (dereceli = true, jokersiz = false) => {
-    setMesaj(null);
+  const aramayiAc = (dereceli, jokersiz) => {
     setDereceliAra(dereceli);
     setJokersizAra(jokersiz);
     setRakipAra(true);
+  };
+
+  // Paket 32 D: yarım maç varsa sessizce oraya sokma — önce sor.
+  // Sorgu okunamazsa eski akış sürer (sunucu yine aktif maça yönlendirir).
+  const [yarimMac, setYarimMac] = useState(null);   // { id, rakipAd, soru, toplam, dereceli, jokersiz }
+  const hemenOyna = async (dereceli = true, jokersiz = false) => {
+    setMesaj(null);
+    try {
+      const { data, error } = await supabase
+        .from("matches")
+        .select(`id, oyuncu1, oyuncu2, aktif_soru, soru_ids,
+                 p1:profiles!matches_oyuncu1_fkey(gorunen_ad),
+                 p2:profiles!matches_oyuncu2_fkey(gorunen_ad)`)
+        .eq("durum", "aktif")
+        .or(`oyuncu1.eq.${user.id},oyuncu2.eq.${user.id}`)
+        .limit(1);
+      if (error) throw error;
+      const m = data?.[0];
+      if (m) {
+        const toplam = m.soru_ids?.length ?? 0;
+        setYarimMac({
+          id: m.id,
+          rakipAd: (m.oyuncu1 === user.id ? m.p2 : m.p1)?.gorunen_ad ?? null,
+          soru: Math.min(toplam, (m.aktif_soru ?? 0) + 1),
+          toplam,
+          dereceli,
+          jokersiz,
+        });
+        return;
+      }
+    } catch (e) {
+      console.warn("[Bildim] yarım maç kontrolü:", e?.message ?? e);
+    }
+    aramayiAc(dereceli, jokersiz);
   };
 
   const puan = profile?.puan ?? 0;
@@ -347,6 +381,14 @@ export default function Home() {
         </Link>
       ))}
 
+      {yarimMac && (
+        <YarimMacPenceresi
+          mac={yarimMac}
+          onDevam={() => { const id = yarimMac.id; setYarimMac(null); navigate(y(`/mac/${id}`)); }}
+          onYeni={() => { const { dereceli, jokersiz } = yarimMac; setYarimMac(null); aramayiAc(dereceli, jokersiz); }}
+          onKapat={() => setYarimMac(null)}
+        />
+      )}
       {rakipAra && (
         <RakipAra
           kategori={profile?.tercih_kategori ?? null}
