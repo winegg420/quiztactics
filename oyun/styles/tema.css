@@ -7754,3 +7754,27 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   .app .mss-detay-govde, .app .mss-detay-ok { transition: none; }
 }
 
+
+/* Paket 36 C.3 — grup maçı podyumu: 2. solda, 1. ortada ve büyük, 3. sağda */
+.app .mss-podyum { display: flex; align-items: flex-end; justify-content: center; gap: 8px; }
+.app .mss-podyum-yer { flex: 1 1 0; min-width: 0; max-width: 132px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.app .mss-podyum-yer.s1 { order: 2; }
+.app .mss-podyum-yer.s2 { order: 1; }
+.app .mss-podyum-yer.s3 { order: 3; }
+.app .mss-podyum-yer .mss-skor { font-size: 22px; }
+.app .mss-podyum-basamak {
+  width: 100%;
+  display: grid;
+  place-items: center;
+  margin-top: 4px;
+  border-radius: 10px 10px 0 0;
+  background: var(--bd-yuzey-1);
+  box-shadow: 0 4px 0 rgba(32, 50, 74, 0.12);
+  font-family: var(--bd-f-baslik);
+  font-weight: 800;
+  font-size: 20px;
+  color: var(--bd-metin);
+}
+.app .mss-podyum-yer.s1 .mss-podyum-basamak { height: 56px; color: var(--bd-vurgu-2); }
+.app .mss-podyum-yer.s2 .mss-podyum-basamak { height: 40px; }
+.app .mss-podyum-yer.s3 .mss-podyum-basamak { height: 28px; }

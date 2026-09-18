@@ -6,6 +6,7 @@ import YanlisSatiri from "../components/YanlisSatiri.jsx";
 import OdulDokumu from "../components/OdulDokumu.jsx";
 import MacSorulari from "../components/MacSorulari.jsx";
 import SureDolduGecis from "../components/SureDolduGecis.jsx";
+import MacSonuSahnesi from "../components/MacSonuSahnesi.jsx";
 import MacYukleniyor from "../components/MacYukleniyor.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { useOyunModu } from "../lib/oyunModu.js";
@@ -68,6 +69,8 @@ export default function GroupMatchPage() {
   const kanalKurRef = useRef(null);
   // Maç bitişinde sonuç ekranından önce 0.8 sn'lik "Maç bitti!" perdesi
   const [gecisBitti, setGecisBitti] = useState(false);
+  // Paket 36: sonuç sahnesinin "Detay (n)" rozeti (YanlisSatiri sayar)
+  const [yanlisAdet, setYanlisAdet] = useState(0);
   const balonTimer = useRef({});
 
   const balonGoster = useCallback((kimden, mesaj) => {
@@ -466,37 +469,62 @@ export default function GroupMatchPage() {
   if (mac.durum === "bitti") {
     const kazandim = mac.kazanan === user.id;
     const berabere = mac.kazanan === null;
+    // Paket 36 C.3: podyum dizilişi — 2. solda, 1. ortada ve büyük, 3. sağda.
+    const podyum = [siraliSkor[1], siraliSkor[0], siraliSkor[2]]
+      .map((k, i) => (k ? { k, sira: [2, 1, 3][i] } : null))
+      .filter(Boolean);
     return (
-      <div className="buyuk-mesaj">
-        <div className="emoji"><Ikon ad={berabere ? "kisiler" : kazandim ? "kupa" : "kalkan"} boyut={40} /></div>
-        <h2>
-          {berabere ? tt("Berabere!") : kazandim ? tt("Kazandın!") : tt("Kaybettin")}
-        </h2>
-        <div className="bd-odulsuz-not" style={{ display: "inline-block" }}>
-          {ceviri("Arkadaş maçı — ödül ve puan yok.")}
-        </div>
-        <div className="kart" style={{ maxWidth: 340, margin: "20px auto 0" }}>
-          {siraliSkor.map((k, i) => (
-            <div key={k.user_id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "6px 0" }}>
-              <span className={`sira-no ${i < 1 ? "ilk3" : ""}`}>{i + 1}</span>
-              <AvatarCerceve profile={k.profil} boyut={34} userId={k.user_id} />
-              <span style={{ flex: 1, fontWeight: 600, textAlign: "left" }}>
-                {k.profil?.gorunen_ad}{k.user_id === user.id && <SenRozeti />}
-              </span>
-              <span style={{ fontWeight: 800 }}>{k.skor}</span>
+      <MacSonuSahnesi
+        durum={berabere ? "berabere" : kazandim ? "kazandi" : "kaybetti"}
+        baslik={berabere ? tt("Berabere!") : kazandim ? tt("Kazandın!") : tt("Kaybettin")}
+        odulNotu={<div className="bd-odulsuz-not">{ceviri("Arkadaş maçı — ödül ve puan yok.")}</div>}
+        karsilasma={
+          <div className="mss-podyum">
+            {podyum.map(({ k, sira }) => (
+              <div key={k.user_id} className={`mss-podyum-yer s${sira}`}>
+                <div className="mss-avatar" style={{ "--boyut": `${sira === 1 ? 88 : 64}px` }}>
+                  {sira === 1 && <span className="mss-hale" aria-hidden="true" />}
+                  {sira === 1 && <span className="mss-tac" aria-hidden="true"><Ikon ad="kupa" boyut={18} /></span>}
+                  <AvatarCerceve profile={k.profil} boyut={sira === 1 ? 88 : 64} userId={k.user_id} />
+                </div>
+                <div className="mss-isim">
+                  <span className="mss-isim-metin">{k.profil?.gorunen_ad}</span>
+                  {k.user_id === user.id && <SenRozeti />}
+                </div>
+                <div className="mss-skor">{k.skor}</div>
+                <div className="mss-podyum-basamak" aria-label={tt("{n}. sıra", { n: sira })}>{sira}</div>
+              </div>
+            ))}
+          </div>
+        }
+        detayRozet={yanlisAdet}
+        ozet={
+          <>
+            <div className="kart">
+              {siraliSkor.map((k, i) => (
+                <div key={k.user_id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "6px 0" }}>
+                  <span className={`sira-no ${i < 1 ? "ilk3" : ""}`}>{i + 1}</span>
+                  <AvatarCerceve profile={k.profil} boyut={34} userId={k.user_id} />
+                  <span style={{ flex: 1, fontWeight: 600, textAlign: "left" }}>
+                    {k.profil?.gorunen_ad}{k.user_id === user.id && <SenRozeti />}
+                  </span>
+                  <span style={{ fontWeight: 800 }}>{k.skor}</span>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-        {/* Paket 20 I.3: ödülsüz mod — döküm yalnız açılan rozet + günlük görev ilerlemesini gösterir */}
-        <OdulDokumu kaynak={`grup:${id}`} />
-        <MacSorulari kaynak={`grup:${id}`} />
-        <div style={{ maxWidth: 340, margin: "12px auto 0" }}>
-          <YanlisSatiri macTur="grup" macId={id} />
-        </div>
-        <button className="btn ikincil" style={{ marginTop: 16, maxWidth: 340, margin: "16px auto 0" }} onClick={() => navigate(y("/meydan"))}>
-          {tt("Meydan okumalara dön")}
-        </button>
-
+                {/* Paket 20 I.3: ödülsüz mod — döküm yalnız açılan rozet + günlük görev ilerlemesini gösterir */}
+            <OdulDokumu kaynak={`grup:${id}`} />
+            <MacSorulari kaynak={`grup:${id}`} />
+            <YanlisSatiri macTur="grup" macId={id} onAdet={setYanlisAdet} />
+          </>
+        }
+        eylemler={
+          <>
+            <button className="btn mss-tam" onClick={() => navigate(y("/meydan"))}>{tt("Meydan okumalara dön")}</button>
+            <button className="btn ikincil" onClick={() => navigate(y())}>{tt("Ana sayfa")}</button>
+          </>
+        }
+      >
         {/* MAÇ BİTTİ AMA OTURUM KAPANMAZ — herkes isterse kalıp konuşur. */}
         <div className="bd-oturum-notu">
           {tt("Maç bitti ama oturum açık: istersen burada kalıp konuşmaya devam edebilirsin. Çıkmak sana kalmış.")}
@@ -518,7 +546,7 @@ export default function GroupMatchPage() {
             ))}
           </div>
         )}
-      </div>
+      </MacSonuSahnesi>
     );
   }
 
