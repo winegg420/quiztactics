@@ -279,6 +279,11 @@ const SOZLUK = {
     "Sis kalkınca cevaplayabilirsin": "You can answer once the fog lifts",
     "Rakibin sis gönderdi": "Your opponent sent fog",
     "Yalnız Klasik Mod'da": "Classic Mode only",
+    // Paket 34: jokerler geçici olarak ücretsiz ve sınırsız
+    "Jokerler şimdilik ücretsiz ve sınırsız": "Jokers are free and unlimited for now",
+    "Jokerler şimdilik ücretsiz ve sınırsız — maçta stok gerekmez, satın almana gerek yok.": "Jokers are free and unlimited for now — no stock needed in matches, no need to buy.",
+    "Bu jokeri bu soruda zaten kullandın": "You already used this joker on this question",
+    "Bu soruda Soru Değiştir zaten kullanıldı": "Swap Question was already used on this question",
     // Paket 32 D: yarım maç uyarısı
     "Devam eden maçın var": "You have a match in progress",
     "{ad} ile oynadığın maç {soru}. soruda kaldı ({toplam} sorudan).": "Your match with {ad} stopped at question {soru} (of {toplam}).",

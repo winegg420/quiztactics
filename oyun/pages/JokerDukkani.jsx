@@ -50,6 +50,7 @@ export default function JokerDukkani() {
   const [odulCoin, setOdulCoin] = useState(ODUL_COIN_VARSAYILAN);
   const [tekFiyat, setTekFiyat] = useState(TEK_JOKER_VARSAYILAN);
   const [ayar, setAyar] = useState(null);   // Paket 32 C: açıklamalardaki sayılar oyun_ayarlari'ndan
+  const jokerSerbest = Number(ayar?.jokerler_ucretsiz ?? 0) > 0;   // Paket 34
 
   useEffect(() => {
     let aktif = true;
@@ -256,6 +257,12 @@ export default function JokerDukkani() {
       {/* ---------- Envanter ---------- */}
       {sekme === "joker" && (
       <div className="kart">
+        {/* Paket 34: jokerler geçici olarak ücretsiz ve sınırsız — coin harcatma */}
+        {jokerSerbest && (
+          <div className="bd-bilgi-kutu bd-joker-serbest-not" role="status">
+            {tt("Jokerler şimdilik ücretsiz ve sınırsız — maçta stok gerekmez, satın almana gerek yok.")}
+          </div>
+        )}
         <div className="bd-kat-baslik"><span>{tt("Envanterin")}</span></div>
         <div className="bd-envanter-grid">
           {Object.entries(JOKER_BILGI).map(([tur, b]) => (
@@ -306,7 +313,7 @@ export default function JokerDukkani() {
               </div>
               <button
                 className="btn kucuk"
-                disabled={alinan === `tek:${tur}`}
+                disabled={jokerSerbest || alinan === `tek:${tur}`}
                 onClick={() => jokerTekAl(tur)}
               >
                 {alinan === `tek:${tur}`
@@ -383,7 +390,7 @@ export default function JokerDukkani() {
                   sekmesine götürür (görev kuralı). */}
               <button
                 className="btn kucuk"
-                disabled={alinan === p.urun_id}
+                disabled={jokerSerbest || alinan === p.urun_id}
                 onClick={() => jokerCoinIleAl(p.urun_id)}
               >
                 {alinan === p.urun_id

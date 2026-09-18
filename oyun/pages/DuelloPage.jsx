@@ -276,6 +276,13 @@ function DuelloMac({ id }) {
   const [rovVazgec, setRovVazgec] = useState(false);   // "Vazgeç" — sunucuda geri çekme yok, yalnız pencere kapanır
   const [rovSonuc, setRovSonuc] = useState(null);      // null | "cevapsiz" | "red"
   const [rovSn, setRovSn] = useState(60);              // oyun_ayarlari.duello_rovans_sn
+  // Paket 34: jokerler geçici olarak ücretsiz ve sınırsız (oyun_ayarlari.jokerler_ucretsiz)
+  const [jokerSerbest, setJokerSerbest] = useState(false);
+  useEffect(() => {
+    let aktif = true;
+    ayar("jokerler_ucretsiz", 0).then((v) => { if (aktif) setJokerSerbest(Number(v) > 0); }, () => {});
+    return () => { aktif = false; };
+  }, []);
   const farkRef = useRef(0); // sunucu saati - istemci saati (ms)
   const yukleniyorRef = useRef(false);
   const sonHamleRef = useRef(null);
@@ -804,6 +811,7 @@ function DuelloMac({ id }) {
         <JokerAlani
           set={jokerSeti}
           d={d}
+          serbest={jokerSerbest}
           calisan={calisan}
           onKullan={async (tur) => {
             const ok = await eylem(`joker-${tur}`,
@@ -913,7 +921,7 @@ function AltinSonucu({ h, ben, soru, secenekler, ceviri }) {
   );
 }
 
-function JokerAlani({ set, d, calisan, onKullan, onSatinAl, ceviri }) {
+function JokerAlani({ set, d, calisan, onKullan, onSatinAl, ceviri, serbest = false }) {
   const j = d.jokerler ?? {};
   const env = j.envanter ?? {};
   const k = j.kullanim ?? {};
@@ -928,13 +936,15 @@ function JokerAlani({ set, d, calisan, onKullan, onSatinAl, ceviri }) {
   const saldiriAlinabilir = benSaldiran && (d.faz === "hazirlik" || d.faz === "kategori");
   const savunmaAcik = !benSaldiran && d.faz === "cevap" && !d.savunma_kilidi;
   // Paket 27 B: saldırı ve savunma ayrı ayrı değil, TEK toplam hak sayılır.
-  const hakKaldi = Number(j.kullanilan ?? 0) < Number(j.hak ?? 0);
+  // Paket 34: ücretsiz/sınırsız modda maç başına hak yok (sunucu da uygulamıyor)
+  const hakKaldi = serbest || Number(j.kullanilan ?? 0) < Number(j.hak ?? 0);
   const saldiriHakKaldi = hakKaldi;
   const savunmaHakKaldi = hakKaldi;
   // Düelloda hiçbir joker artık ücretsiz değil (Paket 27 B.1.1 / B.1.4).
   const ucretsizSaldiri = false;
   // Maçta zaten kullanılmış türler — aynı joker maç başına bir kez.
-  const kullanilanTurler = Array.isArray(k.turler) ? k.turler : [];
+  // Ücretsiz modda "maçta bir kez" yok → yalnız bu saldırı/soru bayrakları geçerli
+  const kullanilanTurler = serbest ? [] : (Array.isArray(k.turler) ? k.turler : []);
   const fiyatlar = j.fiyatlar ?? {};
   const setAcik = set === "saldiri" ? saldiriAcik : savunmaAcik;
   // Paket 20 IV.4: jokerler "yok" sanılıyordu — kapalıyken NEDEN kapalı olduğu yazılır
@@ -979,8 +989,8 @@ function JokerAlani({ set, d, calisan, onKullan, onSatinAl, ceviri }) {
           // Saldırıda kategori ekranı da dahil (20 sn); kullanım yine Hazırlık'ta.
           const alimFazi = set === "saldiri" ? saldiriAlinabilir : savunmaAcik;
           const kullanimFazi = set === "saldiri" ? saldiriAcik : savunmaAcik;
-          const satilik = !kullanildi && adet <= 0 && fiyat > 0 && hakKaldi && alimFazi;
-          acik = (kullanimFazi && hakKaldi && !kullanildi && (ucretsiz || adet > 0)) || satilik;
+          const satilik = !serbest && !kullanildi && adet <= 0 && fiyat > 0 && hakKaldi && alimFazi;
+          acik = (kullanimFazi && hakKaldi && !kullanildi && (serbest || ucretsiz || adet > 0)) || satilik;
           const ad = set === "saldiri" ? SALDIRI_AD[tur] : SAVUNMA_AD[tur];
           const aciklama = set === "saldiri" ? JOKER_BILGI[tur]?.aciklama : SAVUNMA_ACIKLAMA[tur];
           return (
@@ -995,7 +1005,7 @@ function JokerAlani({ set, d, calisan, onKullan, onSatinAl, ceviri }) {
               <Ikon ad={JOKER_BILGI[tur]?.ikon ?? "soru"} boyut={20} />
               <span className="bd-duello-joker-ad">{ceviri(ad)}</span>
               <span className={`bd-duello-joker-adet ${satilik ? "fiyat" : ""}`}>
-                {satilik ? `${fiyat}` : `×${adet}`}
+                {satilik ? `${fiyat}` : serbest ? "∞" : `×${adet}`}
               </span>
             </button>
           );

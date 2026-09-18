@@ -6511,3 +6511,25 @@ Commit'ler: `918ba5d` A · `bbc3d8e` B · `c35c434` C · `839b583` D. Migration 
   kendisini JSX'e basan yer bulunmadı.
 - Paket dosyasında B bölümü ve RAPOR maddeleri yok (sahibinin mesajı "A ve B" diyordu) — B uygulanmadı, soruldu.
 - Build TEMİZ · `npm test` 60/60.
+
+## 18 Eylül 2026 — Paket 34: BÜTÜN JOKERLER GEÇİCİ OLARAK ÜCRETSİZ VE SINIRSIZ
+
+Sahibinin talimatı: "bütün jokerleri ful sınırsız yap, bedava ücretsiz yap, sonra söyleyeceğim ücretlendireceksin."
+
+- **Tek anahtar:** `oyun_ayarlari.jokerler_ucretsiz` = 1 (açık). **Geri almak:**
+  `update oyun_ayarlari set deger = '0' where anahtar = 'jokerler_ucretsiz';` — kod değişmez, dağıtım gerekmez;
+  eski ekonomi (stok, 4 hak, maçta bir kez, satın alma) aynen döner. İstemci ayarı sayfa açılışında okur.
+- Migration **251** (canlıda): `jokerler_serbest()`; `joker_hak_kontrol` (maçta-bir-kez ve 4 hak açıkken yok),
+  `joker_kullan` (envanterden düşmez), `joker_al_ve_kullan` (satın alma/coin yok), `duello_saldiri_jokeri` /
+  `duello_savunma_jokeri` (envanterden düşmez).
+- **Kalan tek sınır:** aynı joker AYNI SORUDA bir kez — yoksa +10 sn / Soru Değiştir sonsuz basılıp maç
+  kilitlenirdi. Düelloda savunmadaki Soru Değiştir'e aynı soru koruması eklendi (normal modda zaten maçta bir kez,
+  davranış değişmedi).
+- Değişmeyen mod kuralları: Saf Bilgi'de joker yok; turnuva finali/altın soruda joker yok; turnuvada Soru Değiştir
+  yok; Sis'in son 6 sn kuralı; Savunma Kilidi. Botların joker sınırları değişmedi.
+- İstemci: Klasik/Grup/Turnuva çubuğu "∞", satın alma yok, başlık "Jokerler şimdilik ücretsiz ve sınırsız";
+  "kullanıldı" soru başına. Düello paneli aynı. Dükkânda joker alımı kapalı + not (coin boşa gitmesin).
+- Testler: `yardim.mjs` her işlemi normal modla başlatır (ekonomi testleri korunur); yeni `joker-serbest.test.mjs`
+  (4 test: stok/coin düşmez, 5. joker kabul, aynı soruda ikinci kez red, sonraki soruda yine kullanılır, düello
+  savunma Soru Değiştir koruması, anahtar kapalıyken eski ekonomi). 64/64 (dosya dosya; tam paket bir kez
+  bağlantıda takıldı — veritabanı "istemciyi bekliyor"du, tekrar koşuda sorun yok).

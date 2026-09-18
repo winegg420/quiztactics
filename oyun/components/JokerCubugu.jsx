@@ -104,7 +104,10 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
 
   if (!durum) return null;
 
-  const sinirDoldu =
+  // Paket 34: jokerler geçici olarak ücretsiz ve sınırsız (oyun_ayarlari.jokerler_ucretsiz).
+  // Sunucu kuralı: stok/hak/satın alma yok; aynı joker aynı soruda bir kez.
+  const serbestMod = Number(ayar?.jokerler_ucretsiz ?? 0) > 0;
+  const sinirDoldu = !serbestMod &&
     durum.sinir !== null && durum.sinir !== undefined && durum.kullanilan >= durum.sinir;
   const finalYasak = durum.sinir === 0;
   // Paket 31 A.3: rakip bu soruda Savunma Kilidi bastı — sessiz düğme olmasın, açık mesaj
@@ -149,7 +152,7 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
 
   /** Envanterde yok, ücretsiz hakkı da yok ama maç içinde satın alınabilir mi? */
   const satinAlinabilir = (tur) => {
-    if (kilit || finalYasak || sinirDoldu || rakipKilitledi) return false;
+    if (serbestMod || kilit || finalYasak || sinirDoldu || rakipKilitledi) return false;
     if (macTur === "turnuva" && tur === "soru_degistir") return false;
     if (kullanilanlar.has(tur)) return false;
     if (tur === "sis" && sisGec) return false;
@@ -170,7 +173,11 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
     return jokerBilgi(tur, macTur, a).ad;
   };
 
-  const kullanilanlar = new Set([...(durum.kullanilan_turler ?? []), ...kullandigim]);
+  // Ücretsiz modda "kullanıldı" SORU başına (bileşen her soruda yeniden kurulur → yerel liste);
+  // normal modda maç başına (sunucudan).
+  const kullanilanlar = serbestMod
+    ? new Set(kullandigim)
+    : new Set([...(durum.kullanilan_turler ?? []), ...kullandigim]);
   // Sis'in son-N-saniye kuralı (YALNIZ Sis) — sunucu da reddediyor, düğme önceden söylesin
   const sisGec = macTur === "1v1" && kalanSn <= sisAyari(ayar).esik;
 
@@ -186,7 +193,7 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
     if (tur === "sis" && sisGec) return tt("Son {0} saniyede Sis kullanılamaz.", { 0: sisAyari(ayar).esik });
     const ucretsiz = tur === "elli" && durum.ucretsiz_elli_kaldi;
     // Envanterde yoksa artık "kalmadı" demiyoruz: maç içinde satın alınabiliyor.
-    if (!ucretsiz && (envanter[tur] ?? 0) <= 0 && !satinAlinabilir(tur)) return tt("Jokerin kalmadı");
+    if (!serbestMod && !ucretsiz && (envanter[tur] ?? 0) <= 0 && !satinAlinabilir(tur)) return tt("Jokerin kalmadı");
     return null;
   };
 
@@ -205,7 +212,9 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
       {/* B.5: kaç hak kaldığı tek satırda görünür */}
       {!finalYasak && (
         <div className="bd-joker-hak" aria-live="polite">
-          {durum.sinir === null || durum.sinir === undefined
+          {serbestMod
+            ? tt("Jokerler şimdilik ücretsiz ve sınırsız")
+            : durum.sinir === null || durum.sinir === undefined
             ? tt("Arkadaş maçı: joker hakkın sınırsız")
             : tt("Bu maçta {0} joker hakkın kaldı", { 0: Math.max(0, durum.sinir - durum.kullanilan) })}
         </div>
@@ -241,7 +250,7 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
               <span className="bd-jk-rozet onay" aria-hidden="true"><Ikon ad="onay" boyut={11} kalinlik={3} /></span>
             ) : (
               <span className={`bd-jk-rozet adet ${ucretsiz ? "bedava" : ""}`} aria-hidden="true">
-                {calisan === tur ? "…" : ucretsiz ? tt("ÜCRETSİZ") : adet}
+                {calisan === tur ? "…" : serbestMod ? "∞" : ucretsiz ? tt("ÜCRETSİZ") : adet}
               </span>
             )}
             <span className="bd-joker-ikon" aria-hidden="true"><Ikon ad={bilgi.ikon} boyut={20} /></span>

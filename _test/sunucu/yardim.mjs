@@ -34,6 +34,10 @@ export async function islem(f) {
         const fs = await import('node:fs');
         await c.sorgu(fs.readFileSync(process.env.TEST_ONCE_SQL, 'utf8'));
       }
+      // Paket 34: canlıda jokerler geçici olarak ücretsiz/sınırsız olabilir. Testler NORMAL
+      // ekonomiyi korur (4 hak, stoktan düşme, satın alma) → her işlem normal modla başlar;
+      // ücretsiz modu test eden dosya (joker-serbest) anahtarı kendisi açar. Rollback ile geri gelir.
+      await c.sorgu(`update public.oyun_ayarlari set deger = '0'::jsonb where anahtar = 'jokerler_ucretsiz'`);
       await f(c);
     } finally {
       await c.sorgu('rollback');
