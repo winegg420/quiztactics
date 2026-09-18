@@ -6909,3 +6909,11 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 .bd-mod-secim .bd-mod-joker { font-size: 12.5px; }
 /* Paket 31 C: dükkânda jokerin Klasik Mod davranışı (ikinci satır) */
 .app .bd-paket-klasik { margin-top: 2px; font-weight: 800; color: #7A3300; }   /* beyazda ≈ 9:1 */
+/* Paket 31: üç kartla dar ekranda Vazgeç kaydırmadan görünsün (ölçüm: 765 px içerik / 741 px kutu) */
+@media (max-width: 560px) {
+  .bd-mod-secim-kart { padding: 10px 12px; gap: 3px; }
+  .bd-mod-secim-ikon { width: 34px; height: 34px; }
+  .bd-mod-secim-ikon svg { width: 18px; height: 18px; }
+  .bd-mod-secim-ad { font-size: 16px; }
+  .bd-mod-secim-aciklama { font-size: 13px; line-height: 1.35; }
+}
