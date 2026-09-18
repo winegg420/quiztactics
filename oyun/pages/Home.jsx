@@ -12,6 +12,7 @@ import { rutbeBul, sonrakiRutbe } from "../lib/ranks.js";
 import { bayrak, haftaBitisi, sureMetni } from "../lib/konum.js";
 import RakipAra from "../components/RakipAra.jsx";
 import YarimMacPenceresi from "../components/YarimMac.jsx";
+import ModSecimPenceresi from "../components/ModSecimPenceresi.jsx";
 import Ikon from "../components/Ikon.jsx";
 import RankBadge from "../components/RankBadge.jsx";
 import SeriRozeti from "../components/SeriRozeti.jsx";
@@ -324,6 +325,8 @@ export default function Home() {
   // Paket 32 D: yarım maç varsa sessizce oraya sokma — önce sor.
   // Sorgu okunamazsa eski akış sürer (sunucu yine aktif maça yönlendirir).
   const [yarimMac, setYarimMac] = useState(null);   // { id, rakipAd, soru, toplam, dereceli, jokersiz }
+  // Paket 35 B: "Hemen oyna" önce mod sorar (Klasik / Düello / Saf Bilgi)
+  const [modSecimAcik, setModSecimAcik] = useState(false);
   const hemenOyna = async (dereceli = true, jokersiz = false) => {
     setMesaj(null);
     try {
@@ -387,6 +390,22 @@ export default function Home() {
           onDevam={() => { const id = yarimMac.id; setYarimMac(null); navigate(y(`/mac/${id}`)); }}
           onYeni={() => { const { dereceli, jokersiz } = yarimMac; setYarimMac(null); aramayiAc(dereceli, jokersiz); }}
           onKapat={() => setYarimMac(null)}
+        />
+      )}
+      {modSecimAcik && (
+        <ModSecimPenceresi
+          profil={null}
+          alttan
+          baslik={tt("Nasıl oynamak istersin?")}
+          bekleMetni={tt("Rakip aranıyor…")}
+          onSec={async (mod) => {
+            // Pencere önce kapanır: arama ekranı ya da yarım maç sorusu onun yerine açılır
+            setModSecimAcik(false);
+            if (mod === "duello") { navigate(y("/duello")); return null; }
+            await hemenOyna(dereceliTercih, mod === "saf");
+            return null;
+          }}
+          onKapat={() => setModSecimAcik(false)}
         />
       )}
       {rakipAra && (
@@ -525,7 +544,7 @@ export default function Home() {
           </Modal>
         )}
         <DereceliAnahtari dereceli={dereceliTercih} onDegistir={setDereceliTercih} />
-        <button className="bd-ana-eylem" onClick={() => hemenOyna(dereceliTercih)}>
+        <button className="bd-ana-eylem" onClick={() => setModSecimAcik(true)}>
           <Ikon ad="hizli" boyut={22} />
           <span>{tt("Hemen oyna")}</span>
           <Ikon ad="ok" boyut={20} className="bd-ana-eylem-ok" />

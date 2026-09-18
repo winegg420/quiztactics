@@ -6693,7 +6693,22 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   font-size: 13px; font-weight: 800; color: var(--bd-metin);
 }
 .bd-mod-secim-bekle { font-size: 13px; font-weight: 800; color: #C4530F; }
+/* Paket 35 B: seçim sürerken öteki kartlar soluk ve pasif */
+.bd-mod-secim-kart.soluk:disabled { opacity: 0.45; }
+/* Paket 35 B: ana sayfa "Hemen oyna" — alttan açılan sayfa (JokerSatinAlModal gibi), kartlar dikey */
+.bd-modal.bd-mod-secim.alttan {
+  width: 100%; max-width: 520px; max-height: 92dvh; overflow-y: auto;
+  border-radius: 22px 22px 0 0;
+  padding: 10px 16px calc(16px + env(safe-area-inset-bottom, 0px));
+  box-shadow: 0 -6px 24px rgba(32, 50, 74, 0.22);
+  animation: bd-sheet-gel 0.18s ease-out;
+  gap: 10px;
+}
+.bd-modal.bd-mod-secim.alttan .bd-joker-sat-tutamac { margin-bottom: 2px; }
+.bd-modal.bd-mod-secim.alttan .bd-mod-secim-liste { grid-template-columns: 1fr; gap: 10px; }
+.bd-modal.bd-mod-secim.alttan .bd-mod-secim-kart { padding: 10px 12px; gap: 3px; }
 @media (prefers-reduced-motion: reduce) {
+  .bd-modal.bd-mod-secim.alttan { animation: none; }
   .bd-mod-secim-kart { transition: none; }
   .bd-mod-secim-kart:active:not(:disabled) { transform: none; }
 }

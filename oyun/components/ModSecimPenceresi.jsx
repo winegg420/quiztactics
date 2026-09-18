@@ -20,8 +20,13 @@ import { tt } from "../lib/dil.js";
  * @param {(mod: "klasik"|"duello"|"saf") => Promise<string|null>} props.onSec
  *        null dönerse iş bitti (pencere sayfa tarafından kapatılır); metin dönerse hata.
  * @param {() => void} props.onKapat
+ * @param {string}  [props.baslik]     Paket 35 B: verilirse "{ad} ile nasıl oynamak istersin?" yerine
+ * @param {string}  [props.bekleMetni] Paket 35 B: seçim sürerken kartta (varsayılan "Davet gönderiliyor…")
+ * @param {boolean} [props.alttan]     Paket 35 B: pencere alttan açılır (ana sayfa, tek elle erişim)
+ *
+ * `profil` null ise (ana sayfa "Hemen oyna") avatar çizilmez, başlık tek satır.
  */
-export default function ModSecimPenceresi({ profil, onSec, onKapat }) {
+export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekleMetni, alttan = false }) {
   const [calisan, setCalisan] = useState(null);   // "klasik" | "duello" | null
   const [hata, setHata] = useState(null);
   const [odul, setOdul] = useState(null);
@@ -96,12 +101,17 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat }) {
   ];
 
   return (
-    <Modal onKapat={calisan ? undefined : onKapat} etiket={tt("{ad} ile oyun modu seç", { ad })}>
-      <div className="bd-modal bd-mod-secim">
+    <Modal
+      onKapat={calisan ? undefined : onKapat}
+      etiket={baslik ?? tt("{ad} ile oyun modu seç", { ad })}
+      ekSinif={alttan ? "bd-alttan" : ""}
+    >
+      <div className={`bd-modal bd-mod-secim${alttan ? " alttan" : ""}${calisan ? " seciliyor" : ""}`}>
+        {alttan && <div className="bd-joker-sat-tutamac" aria-hidden="true" />}
         <div className="bd-mod-secim-ust">
-          <AvatarCerceve profile={profil ?? {}} boyut={44} />
+          {profil && <AvatarCerceve profile={profil} boyut={44} />}
           <h2 className="bd-modal-baslik" id="bd-mod-secim-baslik">
-            {tt("{ad} ile nasıl oynamak istersin?", { ad })}
+            {baslik ?? tt("{ad} ile nasıl oynamak istersin?", { ad })}
           </h2>
         </div>
 
@@ -111,7 +121,7 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat }) {
               key={s.mod}
               ref={i === 0 ? ilkRef : undefined}
               type="button"
-              className={`bd-mod-secim-kart bd-mod-secim-${s.mod}`}
+              className={`bd-mod-secim-kart bd-mod-secim-${s.mod}${calisan && calisan !== s.mod ? " soluk" : ""}`}
               onClick={() => sec(s.mod)}
               disabled={Boolean(calisan)}
               aria-busy={calisan === s.mod}
@@ -124,7 +134,7 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat }) {
               <span className="bd-mod-secim-aciklama">{s.aciklama}</span>
               <span className="bd-mod-joker">{s.joker}</span>
               {s.odul && <span className="bd-mod-secim-odul"><Ikon ad="coin" boyut={14} /> {s.odul}</span>}
-              {calisan === s.mod && <span className="bd-mod-secim-bekle">{tt("Davet gönderiliyor…")}</span>}
+              {calisan === s.mod && <span className="bd-mod-secim-bekle">{bekleMetni ?? tt("Davet gönderiliyor…")}</span>}
             </button>
           ))}
         </div>
