@@ -6280,3 +6280,85 @@ Commit'ler: `c4b6cb9` A · `bd3d8da` B · `577eb16` C · `61da9a4` D · `df10fc7
 
 ### Build / test
 `npm run build` TEMİZ, `npm test` geçti.
+
+## 18 Eylül 2026 — Paket 30 (meydan okuma, mod seçimi, rövanş, hazırlık, eşleşme)
+
+Commit'ler: `2c767d8` A · `ac656fa` B · `04c221f` C · `489aa67` D · `1680aab` E.
+Migration: **245** (A), **246** (D) — ikisi de canlıya uygulandı ve `schema_migrations`'a yazıldı
+(bu depo Supabase'e `link`li değil; `db push --include-all` eski dosyaları koşardı →
+rollback provası + tek işlem, `scratchpad/mig.mjs` kalıbı).
+
+### A — create_challenge HTTP 300 (ACİL)
+- **Canlı pg_proc:** `create_challenge(uuid,text)` ve `create_challenge(uuid,text,boolean)` — iki imza,
+  ikisinin de `p_kategori` ve üçlünün `p_dereceli` varsayılanı var → `{p_rakip}` ikisine de uyuyor.
+- **Paketin görmediği fark:** gövdeler aynı değildi. 2'li sürümde Paket 24 A.2'nin
+  `davet_siniri_kontrol(p_rakip)` (modlar toplamı bekleyen davet sınırı) vardı, 3'lüde YOKTU.
+  Yalnız 2'liyi düşürmek bu kuralı sessizce kaldırırdı. 245: 3'lü canlı gövdesi + o satır
+  yeniden kuruldu, sonra 2'li düştü. Grant: yalnız authenticated (+postgres/service_role).
+- Doğrulama: PostgREST artık 300 değil (anon → 401 "permission denied", yani imza çözülüyor).
+  Test: tek imza, ilk davet açılıyor (dereceli=true), ikinci davette sunucunun mesajı
+  "Bu oyuncuyla zaten devam eden bir meydan okuman var", serbest davet dereceli=false.
+  `hataMesaji` bu mesajı olduğu gibi geçiriyor (teknik kalıba uymuyor).
+- `hizli_mod_baslat`: canlıda **tek imza** `(text, boolean)` → sorun yok.
+- **Bütün public şemada aynı adlı fonksiyonlar (yalnız raporlandı):**
+  `bot_gecikme_sn` (4 ve 5 parametre, varsayılansız) ve `mac_sayaci_arttir` (1 ve 2 parametre,
+  varsayılansız). İkisi de istemciye kapalı (yalnız postgres/service_role) ve varsayılan
+  olmadığı için belirsizlik üretmez. Dokunulmadı.
+
+### B — Tek "Oyna" + mod seçim penceresi
+- `ModSecimPenceresi.jsx` (Modal üstüne). Kılıç + kalkan kalktı. RPC'ler aynı.
+- Ödül satırı `oyun_ayarlari`'ndan: Klasik +25 lig · 25 coin, Düello +50 · 50.
+- **Paketteki "Sırayla 10 soru" metni yanlış:** canlıda Klasik maçlar 20 soru (41 maçın hepsi).
+  Sayı gömmeyen metin kullanıldı: "İkiniz aynı soruları cevaplarsınız, en çok doğru bilen kazanır."
+- Ölçüldü (390 px iframe, gerçek bileşen): tek sütun, kutu 16–373 px, yatay taşma yok, açılışta
+  odak ilk kartta, Esc kapatıyor, hata pencere içinde ve pencere açık kalıyor.
+- **Aynı hatanın başka yerde bulunan hâli:** portal ile body'ye basılan katmanlarda `.hata-kutu`
+  `.app` dışında kaldığı için koyu tema rengini (#FCA5A5, açık zeminde okunmaz) alıyordu —
+  OyuncuKarti, KonumSecici, KurulumSihirbazi, RakipAra, DuelloArama dahil. Kural
+  `.bd-modal-katman .hata-kutu`, `.bd-arama-katman .hata-kutu`'yu da kapsayacak şekilde
+  genişletildi (açık + koyu). (E commit'ine girdi.)
+
+### C — Rövanş bekleme penceresi
+- **Önce ölçüm:** (1) istek gidince sonuç ekranının tamamı duruyordu, yalnız "Rövanş" düğmesi soluk
+  tek satıra dönüyordu; (2) 60 sn dolunca `gecerli=false` → düğme SESSİZCE geri geliyordu;
+  (3) `duello_rovans_iste` **bildirim_yaz çağırmıyor** — rakip yalnız sonuç ekranındaysa
+  (`duello_sinyal` + 1 sn yoklama) görür. Push/zil bildirimi yok (sunucuya dokunma yasağı
+  nedeniyle eklenmedi — ayrı karar).
+- Pencere: rakip avatarı + halka geri sayım (`duello_rovans_sn` istemciden okunur), metin, Vazgeç.
+  Süre dolunca "{ad} yanıt vermedi.", reddedilince "{ad} rövanşı kabul etmedi." + "Tekrar rövanş iste".
+- **Sunucuda geri çekme RPC'si yok** → Vazgeç yalnız pencereyi kapatır; rakip süre içinde kabul
+  ederse yine yeni düelloya geçilir. Sayfa yeniden açılırsa geri sayım ilk görüldüğü andan başlar
+  (sunucu `rovans_at`'ı istemciye vermiyor); bitişi yine sunucunun `gecerli`si belirler.
+
+### D — Saldırı Hazırlığı 4 → 6 sn
+- Süre zaten ayardaydı (`duello_hazirlik_sn`); 246 yalnız ayarı 6 yaptı.
+- Ölçüldü (işlem içinde, sabit now()): hazırlık fazı **6 sn**, ardından savunanın cevap fazı
+  **15 sn**; Zaman Baskısı ayarı 10 değişmedi. Test eklendi.
+- **Bot:** `duello_tik_hepsi` hazırlıkta yalnız joker kararı verir (anında), fazı erken bitirmez;
+  faz `faz_bitis`'te `duello_ilerlet` ile ilerler → bot da aynı 6 sn'yi bekler, tempo simetrik.
+- Arayüz sayacı `faz_bitis`'ten sayıyor, ek değişiklik gerekmedi. CLAUDE.md/AGENTS.md "6 sn".
+
+### E — Karşılaşma sahnesi
+- Bu yapıyı kullanan ekranlar: **DuelloArama** (DuelloPage) ve **RakipAra** (Klasik, Home.jsx'ten).
+  İkisine de uygulandı; ortak bileşen `KarsilasmaSahnesi.jsx`.
+- Sol kart: çerçeveli avatar, ad, rütbe rozeti, kategori unvanı (açılışta TEK `oyuncu_kategori_profili`
+  çağrısı), günlük seri. Sağ: siluet + "?" → bulununca gerçek avatar. Orta: VS + nabız.
+- Bulunma anı 1000 ms (`KARSILASMA_ANIM_MS`): kartlar yaklaşır, VS bir kez parlar, `sesRakipBulundu`.
+- **Ezeli satırı:** düelloda `duello_durum().ezeli`'den (sunucu yalnız arkadaşlar için tutuyor).
+  **Klasik'te atlandı:** klasik maç yükünde ezeli verisi yok; yeni sorgu yazmamak için.
+- Eşleşme mantığı aynı (aynı RPC'ler, aynı 1 sn aralık). Fark: düelloda bulunduktan sonra maça
+  geçiş **+1,0 sn** (animasyon; paketin istediği 800–1200 ms). Klasik zaten 1 sn bekliyordu.
+  Giriş gerektirdiği için canlı öncesi/sonrası eşleşme süresi ölçülemedi; kod yolu değişmedi.
+- Ölçüm (390 px): ben 24–155, VS 163–211, rakip 219–350 px; yan yana, taşma yok; katman `fixed`,
+  kendisinde transform yok. Eklenen: bileşen 3,96 KB kaynak; CSS 5,8 KB (gzip ≈ 1,8 KB).
+- Dark tema: `koyu.css`'in `.bd-arama-katman` kuralı daha özgül, koyu zemin korunuyor.
+
+### Kontrol edilen CSS seçicileri
+`.bd-mod-secim*`, `.bd-rovans-*`, `.bd-karsilasma*` yeni ve yalnız yeni bileşenlerde.
+`.bd-arama-katman.bd-karsilasma-katman` ve `.bd-arama-kutu.bd-arama-kutu-genis` çift sınıf —
+yalnız iki arama ekranında. `.hata-kutu` genişletmesi yalnız portal katmanlarını etkiler
+(`.app` içindekiler zaten aynı kuralı alıyordu). `.liste-satir .btn.kucuk.bd-duello-cagir`
+artık kullanılmıyor (bırakıldı, zararsız).
+
+### Build / test
+`npm run build` TEMİZ · `npm test` 47/47 + kurallar + dans.
