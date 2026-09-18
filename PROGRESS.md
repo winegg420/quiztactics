@@ -6430,3 +6430,66 @@ Klasik: `elli · sure · soru_degistir (ORTAK) · zaman_baskisi (Süreyi Kısalt
 
 ### Build / test
 `npm run build` TEMİZ · `npm test` 57/57.
+
+## 18 Eylül 2026 — Paket 32 (Sis jokeri, joker tasarımı, sayılı açıklamalar, yarım maç uyarısı)
+
+Commit'ler: `918ba5d` A · `bbc3d8e` B · `c35c434` C · `839b583` D. Migration **250** canlıda
+(istemci yayınlandıktan SONRA uygulandı — bot Sis basınca eski ekran sisi göstermezdi).
+
+### A — Sis (Klasik'te Savunma Kilidi'nin yerine)
+- Sunucu (250): `joker_envanter_tur_check`'e `sis`; ayarlar `klasik_sis_sn=3`, `klasik_sis_son_esik_sn=6`,
+  `coin_joker_sis=80`; `joker_fiyati/fiyatlari`'na sis. `joker_kullan` 1v1 listesi: zaman_baskisi + sis
+  (savunma_kilidi Klasik'ten çıktı; düello fonksiyonları DEĞİŞMEDİ, tür ve envanter adetleri duruyor).
+- Son 6 sn kuralı YALNIZ Sis: "Son % saniyede Sis kullanılamaz" (sayı ayardan). Test: Süreyi Kısalt aynı anda kullanılabiliyor.
+- Etki `joker_kullanimlari` üzerinden (Paket 31 deseni, yeni tablo yok). `joker_mac_durumu` + `sis_bitis`, `sunucu_zamani`,
+  `kullanilan_turler`. **Sunucu güvencesi eklendi:** sis sürerken `submit_match_answer` rakibin cevabını reddediyor
+  ("Sis kalkınca cevaplayabilirsin"); insan sis gönderdiyse bot da o sürede cevaplamıyor.
+- Bot: `bot_klasik_joker_tik` listesi zaman_baskisi / sis / soru_degistir; son-6-sn kuralı bota da.
+- Dağıtım: `baslangic_jokerleri_ver` listesine sis (yeni hesaplar); `sis_baslangic_dagit()` tek seferlik —
+  **46 gerçek hesap × 2 = 92 Sis**, botlara 0; ikinci çağrı 0/0 (canlıda ve testte).
+- Rakibin ekranı (`Sis.jsx › SisPerdesi`): fixed tam ekran, kendisinde transform yok; iki katman (arka #1C1A3F tam
+  örtücü koyu mor-lacivert + ön açık bulut kümeleri, blur + yatay kayma), vinyet; iniş 400 ms / kalkış 500 ms
+  ease-in-out (iç katman translateY + opacity). Ölçüldü: şıkkın üstündeki en üst öğe perde (tıklama kilitli),
+  soru ve şıklar görünmüyor, "Rakibin sis gönderdi" + geri sayım sisin üstünde. Reduced-motion: hareket yok,
+  kapatma aynı.
+- Gönderenin ekranı (`SisKenar`): yalnız kenarlarda, pointer-events: none (ölçüldü: şık tıklanabilir).
+  **Bulgu:** kenar katmanında `filter: blur` bazı GPU'larda HİÇ çizilmedi (ölçüldü, filtre kalkınca görünüyordu) →
+  yumuşaklık filtre yerine gradyanla verildi (düşük donanımda da ucuz). Perdenin arka katmanı düz renk tabanlı,
+  blur çizilmese de tam örter.
+- Ses: `sesSis()` — `joker.mp3` inişte 0.7×, kalkışta 1.25× hızla (yeni dosya yok).
+
+### B — Joker düğmesi
+- Hepsi turuncu, ayrım ikon + ad. Dört durum: hazır (dolu turuncu, 0 4px 0) · kullanıldı (soluk + yeşil onay) ·
+  satın alınabilir (beyaz iç, turuncu kenar, altın "+", fiyat) · pasif (gri; basınca sebebi yazar).
+- **Kontrast kararı:** beyaz metin #F4701F üstünde 2.98:1 (AA küçük metin 4.5 ister). Zemin turuncu kaldı; ikon
+  koyu turuncu (#C4530F) dairede beyaz (4.9:1), ad koyu metin (#2B1100, ≈5.6:1).
+- "Kullanıldı" artık sunucudan (`kullanilan_turler`) — eskiden bileşen her soruda sıfırlanıyordu, kullanılmış joker
+  sonraki soruda basılabilir görünüp sunucu hatası veriyordu.
+- Kullanım anı: düğme parlaması + ekran ortasında 850 ms şerit (ikon + ad + etki: "Rakibin süresi 5 saniye kısaldı").
+- Başlık: "Bu maçta N joker hakkın kaldı" (arkadaş maçında "sınırsız"). 360 px'te beşi tek satır, kaydırma yok.
+- Ekran görüntüleri (390 px, gerçek bileşen, RPC yanıtları taklit): dört durum, şerit, sis perdesi, kenar sisi,
+  yarım maç penceresi — raporda.
+
+### C — Açıklamalarda sayı
+- Süreyi Kısalt: "Rakibin süresini {n} saniye kısaltır. Seninki aynı kalır." (n = `klasik_zaman_baskisi_sn`),
+  Sis: "Rakibin ekranını {n} saniye sise boğar. Son {m} saniyede kullanılamaz." (ayarlardan), Soru Değiştir:
+  "…süre 15 saniyeden yeniden başlar." (15 sunucuda sabit). Dükkân da aynı kaynaktan okuyor; Sis "Yalnız Klasik Mod'da".
+
+### D — Yarım maç uyarısı
+- **Ölçüm:** `kuyruga_gir` ve `quick_match` aktif maç görünce sessizce onun id'sini döndürüyordu → oyuncu eşleşme
+  ekranını görmeden yarım maça düşüyordu.
+- "Yeni maç" `mac_iptal`'i çağırır. **Ölçülen kural:** rakip gerçek oyuncu VE maçta en az bir cevap varsa hükmen
+  yenilgi (rakip kazanır, bildirim gider); rakip bot ya da hiç cevap yoksa sonuçsuz iptal. Kaybedenden lig puanı
+  ya da coin DÜŞÜLMEZ (`coin_mac_maglubiyet=0`, `mac_sonuclandir` kesinti yapmıyor). Yeni bir ceza yok — aynı
+  kapatma maç ekranında zaten vardı; bu yüzden seçenek açık bırakıldı.
+- **Gizlilik:** metin iki durumu AYIRMIYOR (ayırsa gizli botun bot olduğu anlaşılırdı) → en kötü sonuç yazılıyor:
+  "Yeni maça geçersen bu maç biter ve yenilgi sayılabilir. Lig puanı ya da coin kaybetmezsin."
+- Yarım maç yokken akış aynı (sorgu okunamazsa da eski akış).
+
+### Doğrulanamayanlar
+- İki tarayıcıyla gerçek Klasik maç ve düello maçı oynanamadı (Google/Facebook OAuth; ajan giriş yapmaz). Sunucu
+  tarafı iki test kullanıcısıyla (`olarak()`) test edildi; düellonun 8 testi değişmeden geçiyor; canlı cron
+  (`bot_oyna`, `duello_tik`) migration sonrası 5 dk'da 296 koşu, hepsi başarılı.
+
+### Build / test
+`npm run build` TEMİZ · `npm test` 60/60.
