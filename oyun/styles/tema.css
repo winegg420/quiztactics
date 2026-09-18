@@ -7226,3 +7226,35 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 }
 .app .bd-arkadas-ac:focus-visible { outline: 3px solid var(--bd-vurgu); outline-offset: 2px; }
 .app .bd-arkadas-ac:active .isim { color: var(--bd-vurgu-metin, #C4530F); }
+
+/* ============================================================
+   Paket 35 D — arkadaş satırının altında bekleyen meydan okuma şeridi
+   Zemin marka turuncusunun %8'i, solda 3px turuncu çizgi; metin koyu (AA).
+   ============================================================ */
+.app .bd-meydan-serit {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  margin: -2px 0 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border-left: 3px solid var(--bd-vurgu);
+  background: rgba(244, 112, 31, 0.08);
+  overflow: hidden;
+  animation: bd-meydan-serit-ac 0.2s ease-out;
+}
+@keyframes bd-meydan-serit-ac { from { max-height: 0; opacity: 0; } to { max-height: 120px; opacity: 1; } }
+.app .bd-meydan-serit-metin { flex: 1 1 160px; min-width: 0; font-size: 13px; font-weight: 800; color: #5C2700; }
+.app .bd-meydan-serit .btn.kucuk { padding: 6px 10px; font-size: 12.5px; }
+.app .bd-meydan-serit .btn.kucuk:disabled { filter: none; opacity: 0.45; }
+.bd-meydan-serit-nokta { display: inline-flex; gap: 3px; flex: none; }
+.bd-meydan-serit-nokta i {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--bd-vurgu);
+  animation: bd-meydan-nokta 1.4s ease-in-out infinite;
+}
+.bd-meydan-serit-nokta i:nth-child(2) { animation-delay: 0.2s; }
+.bd-meydan-serit-nokta i:nth-child(3) { animation-delay: 0.4s; }
+@keyframes bd-meydan-nokta { 0%, 80%, 100% { opacity: 0.25; } 40% { opacity: 1; } }
+.app .bd-oyna-dugme:disabled { filter: none; opacity: 0.45; }
+@media (prefers-reduced-motion: reduce) {
+  .app .bd-meydan-serit { animation: none; }
+  .bd-meydan-serit-nokta i { animation: none; opacity: 0.8; }
+}

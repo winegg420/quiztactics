@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import Ikon from "../components/Ikon.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { useNavigate } from "react-router-dom";
@@ -30,6 +30,59 @@ export default function FriendsPage() {
   const [silOnay, setSilOnay] = useState(null);
   const [modHedef, setModHedef] = useState(null);   // Paket 30 B: mod penceresi açık olan arkadaş
   const [kartHedef, setKartHedef] = useState(null); // Paket 35 C: profil kartı açık olan arkadaş
+  // Paket 35 D: gönderdiğim, yanıt bekleyen meydan okumalar — rakip id → { tur, id }.
+  // Sayfa açılınca sunucudan okunur (yenileyince kaybolmaz); kabul/red/geri çekme realtime ile düşer.
+  const [bekleyenMeydan, setBekleyenMeydan] = useState(() => new Map());
+  const [geriCekilen, setGeriCekilen] = useState(null);
+
+  const bekleyenleriYukle = useCallback(async () => {
+    try {
+      // Klasik / Saf Bilgi: create_challenge → matches (durum 'bekliyor', kuran oyuncu1)
+      // Düello: duello_davet_et → duello_davetleri (durum 'bekliyor', kuran)
+      const [mac, duello] = await Promise.all([
+        supabase.from("matches").select("id, oyuncu2")
+          .eq("oyuncu1", user.id).eq("durum", "bekliyor").limit(50),
+        supabase.from("duello_davetleri").select("id, rakip")
+          .eq("kuran", user.id).eq("durum", "bekliyor").limit(50),
+      ]);
+      if (mac.error) throw mac.error;
+      const m = new Map();
+      for (const r of mac.data ?? []) m.set(r.oyuncu2, { tur: "klasik", id: r.id });
+      // Düello tablosu okunamazsa klasik şeritler yine görünür
+      if (!duello.error) for (const r of duello.data ?? []) m.set(r.rakip, { tur: "duello", id: r.id });
+      setBekleyenMeydan(m);
+    } catch (e) {
+      console.warn("[Bildim] bekleyen meydan okumalar okunamadı:", e?.message ?? e);
+    }
+  }, [user.id]);
+
+  useEffect(() => {
+    bekleyenleriYukle();
+    const kanal = supabase
+      .channel("arkadas-meydan")
+      .on("postgres_changes", { event: "*", schema: "public", table: "matches" }, bekleyenleriYukle)
+      .on("postgres_changes", { event: "*", schema: "public", table: "duello_davetleri" }, bekleyenleriYukle)
+      .subscribe();
+    return () => supabase.removeChannel(kanal);
+  }, [bekleyenleriYukle]);
+
+  /** Bekleyen meydan okumayı geri çeker (Meydan sayfasındaki "Geri al" ile aynı RPC'ler). */
+  const meydanGeriCek = async (b) => {
+    setHata(null);
+    setGeriCekilen(b.id);
+    try {
+      const { error } = b.tur === "duello"
+        ? await supabase.rpc("duello_davet_iptal", { p_id: b.id })
+        : await supabase.rpc("mac_iptal", { p_match_id: b.id });
+      if (error) throw error;
+      await bekleyenleriYukle();
+    } catch (e) {
+      setHata(hataMesaji(e, tt("Meydan okuma geri çekilemedi.")));
+    } finally {
+      setGeriCekilen(null);
+    }
+  };
+  const BEKLEYEN_NEDEN = tt("Bu arkadaşına gönderdiğin meydan okuma yanıt bekliyor. Önce yanıtını bekle ya da geri çek.");
 
   const yukle = useCallback(async () => {
     try {
@@ -176,7 +229,13 @@ export default function FriendsPage() {
       const { error, data } = await supabase.rpc("create_challenge", { p_rakip: hedefId, p_jokersiz: jokersiz });
       if (error) throw error;
       setModHedef(null);
-      if (data) navigate(y("/meydan"));
+      // Paket 35 D: sayfadan ÇIKMA — satırın altında bekleyen şerit görünür.
+      // Rakip anında kabul ettiyse (açık bot) maç zaten başlamıştır → maça gir.
+      if (data) {
+        const { data: m } = await supabase.from("matches").select("durum").eq("id", data).maybeSingle();
+        if (m?.durum === "aktif") { navigate(y(`/mac/${data}`)); return null; }
+      }
+      await bekleyenleriYukle();
       return null;
     } catch (e) {
       return hataMesaji(e, tt("Meydan okuma başlatılamadı."));
@@ -197,6 +256,7 @@ export default function FriendsPage() {
         return null;
       }
       setBilgi(tt("Düello daveti gönderildi — rakip kabul edince düello başlayacak."));
+      await bekleyenleriYukle();   // Paket 35 D: şerit düello davetinde de görünür
       return null;
     } catch (e) {
       return hataMesaji(e, tt("Düello daveti gönderilemedi."));
@@ -224,6 +284,7 @@ export default function FriendsPage() {
           onIzleme={kartHedef}
           onKapat={() => setKartHedef(null)}
           onOyna={kartHedef.id === user.id ? undefined : () => { setKartHedef(null); setModHedef(kartHedef); }}
+          oynaPasifNeden={bekleyenMeydan.has(kartHedef.id) ? BEKLEYEN_NEDEN : null}
           onMeydanOku={kartHedef.id === user.id ? undefined : async (id) => {
             const m = await meydanOku(id);
             if (m) throw new Error(m);
@@ -276,8 +337,10 @@ export default function FriendsPage() {
       )}
       {arkadaslar.map((f) => {
         const p = digerProfil(f);
+        const bekleyen = bekleyenMeydan.get(p?.id);
         return (
-          <div key={f.id} className="liste-satir">
+          <Fragment key={f.id}>
+          <div className="liste-satir">
             {/* Paket 35 C: satıra (avatar + ad) dokunmak profil kartını açar; "Oyna" kısayol olarak kalır */}
             <button
               type="button"
@@ -296,6 +359,9 @@ export default function FriendsPage() {
             <button
               className="btn kucuk bd-oyna-dugme"
               onClick={() => setModHedef(p)}
+              // Paket 35 D: bekleyen meydan okuma varken ikinci kez meydan okunamaz (sebep şeritte + title)
+              disabled={Boolean(bekleyen)}
+              title={bekleyen ? BEKLEYEN_NEDEN : undefined}
               aria-label={tt("{ad} ile oyna", { ad: p?.gorunen_ad ?? tt("Arkadaşın") })}
               aria-haspopup="dialog"
             >
@@ -324,6 +390,28 @@ export default function FriendsPage() {
               </button>
             )}
           </div>
+          {bekleyen && (
+            <div className="bd-meydan-serit" role="status">
+              <span className="bd-meydan-serit-nokta" aria-hidden="true"><i /><i /><i /></span>
+              <span className="bd-meydan-serit-metin">
+                {bekleyen.tur === "duello"
+                  ? tt("Düello daveti gönderildi · yanıt bekleniyor")
+                  : tt("Meydan okuma gönderildi · yanıt bekleniyor")}
+              </span>
+              <button type="button" className="btn kucuk" onClick={() => navigate(y("/meydan"))}>
+                {tt("Maça git")}
+              </button>
+              <button
+                type="button"
+                className="btn kucuk tehlike"
+                disabled={geriCekilen === bekleyen.id}
+                onClick={() => meydanGeriCek(bekleyen)}
+              >
+                {geriCekilen === bekleyen.id ? "…" : tt("Geri çek")}
+              </button>
+            </div>
+          )}
+          </Fragment>
         );
       })}
 
