@@ -163,7 +163,9 @@
 :root[data-tema="koyu"] .app .bd-dokum-anahtar i.sure { background: #46536B; }
 
 /* Hata kutusu */
-:root[data-tema="koyu"] .app .hata-kutu {
+:root[data-tema="koyu"] .app .hata-kutu,
+:root[data-tema="koyu"] .bd-modal-katman .hata-kutu,
+:root[data-tema="koyu"] .bd-arama-katman .hata-kutu {
   background: #3A1D1D; color: #FF9A9A; box-shadow: 0 3px 0 #24110F;
 }
 

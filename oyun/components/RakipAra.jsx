@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import { kategoriEtiket } from "../lib/kategoriler.js";
-import Maskot from "./Maskot.jsx";
+import KarsilasmaSahnesi, { KARSILASMA_ANIM_MS } from "./KarsilasmaSahnesi.jsx";
 import { botZorluk } from "../lib/botZorluk.js";
 import { tt } from "../lib/dil.js";
 import { sesRakipBulundu } from "../lib/ses.js";
@@ -33,6 +33,8 @@ export default function RakipAra({ kategori, dereceli = true, onBulundu, onIptal
   // Açık bot yolu ayrı tutulur: ekrandaki yazı dürüst olsun (o maçta coin yarıya iner).
   const [botYolu, setBotYolu] = useState(false);
   const [rakipAdi, setRakipAdi] = useState(null);
+  const [rakipProfil, setRakipProfil] = useState(null);
+  const [bulundu, setBulundu] = useState(false);
   // Bot seçimi (Paket 12, madde 6): null = liste kapalı, "yukleniyor", dizi = açık botlar.
   const [botListesi, setBotListesi] = useState(null);
   const [secilenBot, setSecilenBot] = useState(null);
@@ -59,8 +61,8 @@ export default function RakipAra({ kategori, dereceli = true, onBulundu, onIptal
           .from("matches")
           .select(
             `oyuncu1, oyuncu2,
-             p1:profiles!matches_oyuncu1_fkey(gorunen_ad),
-             p2:profiles!matches_oyuncu2_fkey(gorunen_ad)`
+             p1:profiles!matches_oyuncu1_fkey(id, gorunen_ad, gorunen_avatar, puan),
+             p2:profiles!matches_oyuncu2_fkey(id, gorunen_ad, gorunen_avatar, puan)`
           )
           .eq("id", macId)
           .maybeSingle();
@@ -68,13 +70,15 @@ export default function RakipAra({ kategori, dereceli = true, onBulundu, onIptal
         if (data) {
           const rakip = data.oyuncu1 === user?.id ? data.p2 : data.p1;
           setRakipAdi(rakip?.gorunen_ad ?? null);
+          setRakipProfil(rakip ?? null);   // Paket 30 E: karşılaşma sahnesinin sağ kartı
         }
       } catch (e) {
         // Ad alınamadı — maça yine de geçilir, ama sebep sessizce yutulmasın.
         console.error("[Bildim] rakip adı alınamadı:", e);
       }
+      setBulundu(true);
       sesRakipBulundu();   // Paket 29 E.2: "Rakip bulundu" yazısıyla aynı an
-      window.setTimeout(() => onBulundu(macId), 1000);
+      window.setTimeout(() => onBulundu(macId), KARSILASMA_ANIM_MS);
     },
     [onBulundu, user?.id]
   );
@@ -231,21 +235,20 @@ export default function RakipAra({ kategori, dereceli = true, onBulundu, onIptal
   }, [kategori, dereceli, bitir, sonCare]);
 
   const govde = (
-    <div className="bd-arama-katman" role="dialog" aria-modal="true" aria-label={tt("Rakip aranıyor")}>
-      <div className="bd-arama-kutu">
-        <div className="bd-arama-halka" aria-hidden="true">
-          <Maskot poz={rakipAdi ? "kutluyor" : "dusunuyor"} boyut={84} />
-        </div>
-
-        {rakipAdi ? (
-          <div className="bd-arama-bulundu">{tt("Rakip bulundu:")} {rakipAdi}</div>
-        ) : (
-          <div className="bd-arama-baslik">
-            {Array.isArray(botListesi) && !secilenBot
-              ? tt("Rakip botunu seç")
-              : botaDusuldu ? tt("Maç hazırlanıyor…") : tt("Rakip aranıyor…")}
-          </div>
-        )}
+    <div className="bd-arama-katman bd-karsilasma-katman" role="dialog" aria-modal="true" aria-label={tt("Rakip aranıyor")}>
+      <div className="bd-arama-kutu bd-arama-kutu-genis">
+        {/* Paket 30 E: maskot yerine karşılaşma sahnesi (sol: sen · VS · sağ: rakip) */}
+        <KarsilasmaSahnesi
+          rakip={rakipProfil}
+          bulundu={bulundu}
+          baslik={rakipAdi
+            ? `${tt("Rakip bulundu:")} ${rakipAdi}`
+            : bulundu
+              ? tt("Rakip bulundu!")
+              : Array.isArray(botListesi) && !secilenBot
+                ? tt("Rakip botunu seç")
+                : botaDusuldu ? tt("Maç hazırlanıyor…") : tt("Rakip aranıyor…")}
+        >
 
         <div className="bd-arama-alt">
           {kategori ? kategoriEtiket(kategori) : tt("Karışık")} {tt("kategorisinde")}
@@ -306,6 +309,7 @@ export default function RakipAra({ kategori, dereceli = true, onBulundu, onIptal
             </button>
           </div>
         )}
+        </KarsilasmaSahnesi>
       </div>
     </div>
   );

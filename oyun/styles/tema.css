@@ -4421,7 +4421,10 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   background: transparent;
   font-weight: 700;
 }
-.app .hata-kutu {
+.app .hata-kutu,
+/* Paket 30 B: portal katmanları .app dışında — açık tema hata rengi onlarda da geçerli */
+.bd-modal-katman .hata-kutu,
+.bd-arama-katman .hata-kutu {
   background: #FFE6E2;
   color: #B62F2F;
   border: 0;
@@ -6733,4 +6736,131 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 }
 @media (prefers-reduced-motion: reduce) {
   .bd-rovans-halka .dolu { transition: none; }
+}
+
+/* ============================================================
+   Paket 30 E — KARŞILAŞMA SAHNESİ (rakip arama ekranı)
+   Solda oyuncu, sağda rakip yeri, ortada VS. Dar ekranda kartlar ÜST ÜSTE
+   değil, yan yana küçülerek sığar. Katman (.bd-arama-katman) fixed kalır;
+   transform'lu animasyonlar yalnız iç öğelerde — fixed öğede/atasında YOK.
+   ============================================================ */
+.bd-arama-kutu.bd-arama-kutu-genis { width: min(520px, 100%); }
+
+/* Arka plan: yavaş kayan ışık + marka turuncusunda nabız (Şenlik — neon değil) */
+.bd-arama-katman.bd-karsilasma-katman {
+  background:
+    radial-gradient(60% 45% at 50% 38%, rgba(244, 112, 31, 0.16), rgba(244, 112, 31, 0) 70%),
+    linear-gradient(115deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, 0.55) 50%, rgba(255, 255, 255, 0) 70%),
+    linear-gradient(180deg, var(--bd-gok) 0%, var(--bd-zemin) 35%, var(--bd-zemin-2) 100%);
+  background-size: 100% 100%, 260% 100%, 100% 100%;
+  background-position: 0 0, 120% 0, 0 0;
+  animation: bd-arama-gir 0.2s ease-out both, bd-karsilasma-isik 7s linear infinite;
+}
+@keyframes bd-karsilasma-isik {
+  from { background-position: 0 0, 120% 0, 0 0; }
+  to   { background-position: 0 0, -120% 0, 0 0; }
+}
+
+.bd-karsilasma { width: 100%; display: flex; flex-direction: column; align-items: center; gap: var(--bd-b-3); }
+.bd-karsilasma-baslik {
+  font-family: var(--bd-f-baslik);
+  font-size: 21px; font-weight: 800; text-align: center;
+}
+.bd-karsilasma-sahne {
+  width: 100%;
+  display: flex; align-items: stretch; justify-content: center;
+  gap: var(--bd-b-2);
+}
+.bd-karsilasma-kart {
+  flex: 1 1 0; min-width: 0; max-width: 200px;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: var(--bd-b-4) var(--bd-b-2) var(--bd-b-3);
+  background: var(--bd-yuzey-1);
+  border-radius: var(--bd-r-l);
+  box-shadow: 0 4px 0 var(--bd-kart-alt);
+  text-align: center;
+  transition: transform 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+.bd-karsilasma-kart.ben { border: 2px solid var(--bd-vurgu); box-shadow: 0 4px 0 #C4530F; }
+.bd-karsilasma-kart.rakip.bos { border: 2px dashed var(--bd-kart-alt); background: rgba(255, 255, 255, 0.7); }
+.bd-karsilasma-kart.rakip.dolu { border: 2px solid #2A6CB0; box-shadow: 0 4px 0 #2A6CB0; }
+.bd-karsilasma-ad {
+  max-width: 100%;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-family: var(--bd-f-baslik); font-size: 17px; font-weight: 800;
+}
+.bd-karsilasma-ad.soluk { font-family: var(--bd-f-govde); font-size: 14px; font-weight: 800; color: var(--bd-metin-2); }
+.bd-karsilasma-unvan,
+.bd-karsilasma-seri {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 12.5px; font-weight: 800; color: var(--bd-metin-2);
+}
+.bd-karsilasma-seri { color: #C4530F; }
+.bd-karsilasma-siluet {
+  width: 72px; height: 72px; border-radius: 50%;
+  display: grid; place-items: center;
+  font-family: var(--bd-f-baslik); font-size: 34px; font-weight: 800;
+  color: var(--bd-metin-2);
+  background: linear-gradient(180deg, #E4EEF6, #CBDBE8);
+  animation: bd-karsilasma-bekle 1.6s ease-in-out infinite;
+}
+@keyframes bd-karsilasma-bekle {
+  0%, 100% { opacity: 0.65; }
+  50% { opacity: 1; }
+}
+.bd-karsilasma-vs {
+  flex: none; align-self: center;
+  position: relative;
+  width: 48px; height: 48px;
+  display: grid; place-items: center;
+}
+.bd-karsilasma-vs::before {           /* yavaş nabız halkası */
+  content: ""; position: absolute; inset: -6px; border-radius: 50%;
+  border: 3px solid var(--bd-vurgu);
+  animation: bd-arama-dalga 1.8s ease-out infinite;
+}
+.bd-karsilasma-vs span {
+  position: relative;
+  width: 48px; height: 48px; border-radius: 50%;
+  display: grid; place-items: center;
+  font-family: var(--bd-f-baslik); font-size: 18px; font-weight: 900;
+  color: #fff; background: #C4530F;             /* AA: beyaz/#C4530F ≈ 4.9:1 */
+  box-shadow: 0 4px 0 #8F3A08;
+}
+.bd-karsilasma-ezeli {
+  padding: 6px 12px; border-radius: 999px;
+  background: #FFE3CC; color: #7A3300;
+  font-size: 13.5px; font-weight: 800;
+}
+.bd-karsilasma .bd-arama-ipucu { max-width: 360px; text-align: center; }
+.bd-karsilasma .bd-arama-sayac { font-size: 13px; color: var(--bd-metin-2); }
+
+/* Rakip bulunma anı (~1 sn): kartlar yaklaşır, VS bir kez parlar, rakip avatarı belirir */
+.bd-karsilasma.bulundu .bd-karsilasma-kart.ben { transform: translateX(10px); }
+.bd-karsilasma.bulundu .bd-karsilasma-kart.rakip { transform: translateX(-10px); }
+.bd-karsilasma.bulundu .bd-karsilasma-vs::before { animation: none; opacity: 0; }
+.bd-karsilasma.bulundu .bd-karsilasma-vs span { animation: bd-karsilasma-vs-parla 0.7s ease-out both; }
+@keyframes bd-karsilasma-vs-parla {
+  0%   { transform: scale(1);    box-shadow: 0 4px 0 #8F3A08, 0 0 0 0 rgba(244, 112, 31, 0.6); }
+  40%  { transform: scale(1.28); box-shadow: 0 4px 0 #8F3A08, 0 0 0 14px rgba(244, 112, 31, 0.25); }
+  100% { transform: scale(1);    box-shadow: 0 4px 0 #8F3A08, 0 0 0 22px rgba(244, 112, 31, 0); }
+}
+.bd-karsilasma-kart.rakip.dolu > .avatar,
+.bd-karsilasma-kart.rakip.dolu > :first-child { animation: bd-arama-pop 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.4) both; }
+
+@media (max-width: 380px) {
+  .bd-karsilasma-kart { padding: var(--bd-b-3) 6px var(--bd-b-2); }
+  .bd-karsilasma-ad { font-size: 15px; }
+  .bd-karsilasma-vs, .bd-karsilasma-vs span { width: 40px; height: 40px; font-size: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bd-arama-katman.bd-karsilasma-katman { animation: none; }
+  .bd-karsilasma-kart { transition: none; }
+  .bd-karsilasma.bulundu .bd-karsilasma-kart.ben,
+  .bd-karsilasma.bulundu .bd-karsilasma-kart.rakip { transform: none; }
+  .bd-karsilasma-siluet,
+  .bd-karsilasma-vs::before,
+  .bd-karsilasma.bulundu .bd-karsilasma-vs span,
+  .bd-karsilasma-kart.rakip.dolu > :first-child { animation: none; }
 }

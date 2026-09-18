@@ -38,6 +38,7 @@ import { y } from "../lib/yol.js";
 import { coinTazele } from "../lib/coin.js";
 import { ayar } from "../lib/ayarlar.js";
 import Modal from "../components/Modal.jsx";
+import KarsilasmaSahnesi, { KARSILASMA_ANIM_MS } from "../components/KarsilasmaSahnesi.jsx";
 import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesJoker, sesKazandin, sesKaybettin, sesDokunus, sesRakipBulundu, sesCanKaybi } from "../lib/ses.js";
 import { titret } from "../lib/geriBildirim.js";
 import { tt } from "../lib/dil.js";
@@ -103,7 +104,7 @@ function DuelloGiris() {
       {arama && (
         <DuelloArama
           dereceli={dereceli}
-          onBulundu={(id) => { sesRakipBulundu(); navigate(y(`/duello/${id}`)); }}
+          onBulundu={(id) => navigate(y(`/duello/${id}`))}
           onIptal={() => setArama(false)}
         />
       )}
@@ -127,9 +128,41 @@ function DuelloArama({ dereceli, onBulundu, onIptal }) {
   const [gecen, setGecen] = useState(0);
   const ipucu = Math.floor(gecen / IPUCU_SN) % ARAMA_IPUCLARI.length;
   const [hata, setHata] = useState(null);
+  // Paket 30 E: bulunma anı — rakip kartı dolar, ~1 sn sonra düelloya geçilir
+  const [bulundu, setBulundu] = useState(false);
+  const [rakip, setRakip] = useState(null);
+  const [ezeli, setEzeli] = useState(null);
   const bittiRef = useRef(false);
   const bulunduRef = useRef(onBulundu);
   bulunduRef.current = onBulundu;
+  const gecisRef = useRef(null);
+
+  // Eşleşme mantığı DEĞİŞMEDİ: aynı RPC, aynı 1 sn aralık. Yalnız bulunduktan sonra
+  // rakibin kartı bir kez (duello_durum — oyuncuya süzülmüş görünüm) okunur.
+  const karsilas = useCallback(async (duelloId) => {
+    setBulundu(true);
+    sesRakipBulundu();
+    gecisRef.current = window.setTimeout(() => bulunduRef.current(duelloId), KARSILASMA_ANIM_MS);
+    try {
+      const { data, error } = await supabase.rpc("duello_durum", { p_id: duelloId });
+      if (error) throw error;
+      const r = data?.oyuncular?.find((o) => o.id !== data.ben);
+      if (r) setRakip(r);
+      const e = data?.ezeli;
+      if (e && Number(e.ben) + Number(e.rakip) > 0) {
+        setEzeli(e.ben > e.rakip
+          ? ceviri("Bu oyuncuyla {ben}-{rakip} öndesin", e)
+          : e.ben < e.rakip
+            ? ceviri("Bu oyuncuyla {ben}-{rakip} geridesin", e)
+            : ceviri("Bu oyuncuyla {ben}-{rakip} berabersiniz", e));
+      }
+    } catch (e) {
+      // Kart dolmasa da düelloya geçilir (zamanlayıcı zaten kurulu).
+      console.warn("[Bildim] karşılaşma kartı okunamadı:", e?.message ?? e);
+    }
+  }, [ceviri]);
+
+  useEffect(() => () => window.clearTimeout(gecisRef.current), []);
 
   useEffect(() => {
     let iptal = false;
@@ -140,7 +173,7 @@ function DuelloArama({ dereceli, onBulundu, onIptal }) {
         if (error) throw error;
         if (data && !bittiRef.current) {
           bittiRef.current = true;
-          bulunduRef.current(data);
+          karsilas(data);
         }
       } catch (e) {
         setHata(ceviri(hataMesaji(e, "Rakip aranamadı. Bağlantını kontrol edip tekrar dene.")));
@@ -154,20 +187,29 @@ function DuelloArama({ dereceli, onBulundu, onIptal }) {
       clearInterval(zaman);
       if (!bittiRef.current) supabase.rpc("duello_aramadan_cik").then(() => {}, () => {});
     };
-  }, [dereceli, ceviri]);
+  }, [dereceli, ceviri, karsilas]);
 
   return createPortal(
-    <div className="bd-arama-katman" role="dialog" aria-modal="true" aria-label={ceviri("Rakip aranıyor")}>
-      <div className="bd-arama-kutu">
-        <div className="bd-arama-halka" aria-hidden="true"><Maskot poz="dusunuyor" boyut={84} /></div>
-        <div className="bd-arama-baslik">{ceviri("Düello rakibi aranıyor…")}</div>
-        {/* key değişince satır yeniden takılır → giriş animasyonu her ipucunda oynar */}
-        <div key={ipucu} className="bd-arama-alt bd-arama-ipucu" aria-live="polite">
-          {ceviri(ARAMA_IPUCLARI[ipucu])}
-        </div>
-        <div className="bd-arama-sayac">{ceviri("{0} sn · rakip aranıyor", { 0: gecen })}</div>
-        {hata && <div className="hata-kutu">{hata}</div>}
-        <button className="btn ikincil" onClick={onIptal}>{ceviri("Vazgeç")}</button>
+    <div className="bd-arama-katman bd-karsilasma-katman" role="dialog" aria-modal="true" aria-label={ceviri("Rakip aranıyor")}>
+      <div className="bd-arama-kutu bd-arama-kutu-genis">
+        <KarsilasmaSahnesi
+          rakip={rakip}
+          bulundu={bulundu}
+          ezeli={ezeli}
+          baslik={bulundu ? ceviri("Rakip bulundu!") : ceviri("Düello rakibi aranıyor…")}
+        >
+          {!bulundu && (
+            <>
+              {/* key değişince satır yeniden takılır → giriş animasyonu her ipucunda oynar */}
+              <div key={ipucu} className="bd-arama-alt bd-arama-ipucu" aria-live="polite">
+                {ceviri(ARAMA_IPUCLARI[ipucu])}
+              </div>
+              <div className="bd-arama-sayac">{ceviri("{0} sn · rakip aranıyor", { 0: gecen })}</div>
+            </>
+          )}
+          {hata && <div className="hata-kutu">{hata}</div>}
+          <button className="btn ikincil" onClick={onIptal} disabled={bulundu}>{ceviri("Vazgeç")}</button>
+        </KarsilasmaSahnesi>
       </div>
     </div>,
     document.body
