@@ -21,7 +21,7 @@ import Avatar from "../../src/components/Avatar.jsx";
 import Ikon from "../components/Ikon.jsx";
 import KategoriIkon from "../components/KategoriIkon.jsx";
 import Maskot from "../components/Maskot.jsx";
-import BildirimIzniSor from "../components/BildirimIzniSor.jsx";
+import MacSonuSahnesi from "../components/MacSonuSahnesi.jsx";
 import OdulDokumu from "../components/OdulDokumu.jsx";
 import DuelloOzet from "../components/DuelloOzet.jsx";
 import DuelloTanitim, { duelloTanitimGoruldu } from "../components/DuelloTanitim.jsx";
@@ -54,7 +54,10 @@ const SAVUNMA_ACIKLAMA = {
 };
 const SALDIRI_AD = { zaman_baskisi: tt("Zaman Baskısı"), saldiri_degistir: tt("Soru Değiştir"), savunma_kilidi: tt("Savunma Kilidi") };
 
-function Kalpler({ can, max = 3, sonCan }) {
+// Düelloda can sayısı (sunucu 3 canla başlatır; Kalpler'in varsayılanıyla aynı)
+const DUELLO_CAN = 3;
+
+function Kalpler({ can, max = DUELLO_CAN, sonCan }) {
   return (
     <span className={`bd-duello-kalpler ${sonCan ? "son" : ""}`} aria-label={`${can}`}>
       {Array.from({ length: Math.max(max, can) }).map((_, i) => (
@@ -398,7 +401,7 @@ function DuelloMac({ id }) {
     if (!d || d.durum !== "bitti" || bitisSesRef.current) return;
     bitisSesRef.current = true;
     if (d.kazanan === d.ben) sesKazandin(); else sesKaybettin();
-    coinTazele();
+    // Paket 36: coin sayacını MacSonuSahnesi coin uçuşu bitince tazeler (coinTazele)
     refreshProfile?.(user?.id);
   }, [d, refreshProfile, user?.id]);
 
@@ -502,77 +505,86 @@ function DuelloMac({ id }) {
   if (d.durum !== "aktif") {
     const kazandim = d.kazanan === d.ben;
     const rov = d.rovans ?? {};
+    const durum = d.durum === "iptal" ? "berabere" : kazandim ? "kazandi" : "kaybetti";
+    // Paket 36 I: yakınlık satırı veriden — rakibin 1 canı kaldıysa "son canına kadar",
+    // 2 canı kaldıysa tur sayısı; rakip hiç can kaybetmediyse satır çizilmez.
+    const altYazi = d.durum !== "bitti" || kazandim
+      ? null
+      : rakip.can === 1
+        ? ceviri("Son canına kadar götürdün")
+        : rakip.can === 2 && d.tur
+          ? ceviri("{n} tur sürdü", { n: d.tur })
+          : null;
+    const o = dokumToplam ? { lig_puan: dokumToplam.lig, coin: dokumToplam.coin } : d.odul;
+    const oduller = [
+      { ikon: "yildiz", deger: o?.lig_puan ?? 0, etiket: ceviri("lig puanı") },
+      { ikon: "coin", deger: o?.coin ?? 0, etiket: ceviri("coin") },
+    ];
     return (
       <div className="bd-duello">
-        <div className={`buyuk-mesaj bd-sonuc-ekran ${d.durum === "iptal" ? "berabere" : kazandim ? "kazandi" : "kaybetti"}`}>
-          <Maskot poz={kazandim ? "kutluyor" : "dusunuyor"} boyut={100} className="bd-sonuc-maskot" />
-          <h2 className={`bd-sonuc-baslik ${kazandim ? "kazandi" : "kaybetti"}`}>
-            {d.durum === "iptal" ? ceviri("Düello iptal edildi") : kazandim ? ceviri("Kazandın!") : ceviri("Kaybettin")}
-          </h2>
-          <div className="bd-duello-sonuc-canlar">
-            <span>{ben.gorunen_ad}</span> <Kalpler can={Math.max(0, ben.can)} />
-            <span className="vs">VS</span>
-            <Kalpler can={Math.max(0, rakip.can)} /> <span>{rakip.gorunen_ad}</span>
-          </div>
-          {(() => {
-            const o = dokumToplam ? { lig_puan: dokumToplam.lig, coin: dokumToplam.coin } : d.odul;
-            return o && (o.lig_puan > 0 || o.coin > 0) && (
-              <div className="bd-kazanc-satiri">
-                {o.lig_puan > 0 && <span className="bd-sonuc-kazanc">{ceviri("+{puan} lig puanı", { puan: o.lig_puan })}</span>}
-                {o.coin > 0 && <span className="bd-sonuc-kazanc">{ceviri("+{coin} coin", { coin: o.coin })}</span>}
-              </div>
-            );
-          })()}
-          {d.durum === "bitti" && <OdulDokumu kaynak={`duello:${d.id}`} onToplam={setDokumToplam} />}
-          {d.durum === "bitti" && d.son_hamle?.altin && secenekler.length > 0 && (
-            <AltinSonucu h={d.son_hamle} ben={d.ben} soru={d.soru?.soru} secenekler={secenekler} ceviri={ceviri} />
-          )}
-          {d.durum === "bitti" && <DuelloOzet id={d.id} />}
-          {ezeliMetin && <div className="bd-duello-ezeli">{ezeliMetin}</div>}
-
-          <div className="bd-duello-rovans">
-            {rov.id ? (
-              <button className="btn" onClick={() => navigate(y(`/duello/${rov.id}`))}>{ceviri("Rövanşa git")}</button>
-            ) : rov.isteyen && rov.gecerli && rov.isteyen === d.ben && !rovVazgec ? (
-              <RovansBekleme rakip={rakip} baslangic={rovBas ?? Date.now()} sureSn={rovSn} simdi={simdi}
-                             ceviri={ceviri} onVazgec={() => { setRovVazgec(true); setRovBas(null); }} />
-            ) : rov.isteyen && rov.gecerli && rov.isteyen !== d.ben ? (
-              <>
-                <div className="bd-duello-rovans-soru">{ceviri("{ad} rövanş istiyor!", { ad: rakip.gorunen_ad })}</div>
-                <div className="bd-konum-butonlar">
-                  <button className="btn" disabled={!!calisan}
+        <MacSonuSahnesi
+          durum={durum}
+          baslik={d.durum === "iptal" ? ceviri("Düello iptal edildi") : kazandim ? ceviri("Kazandın!") : ceviri("Kaybettin")}
+          altYazi={altYazi}
+          ben={{ profil: ben, can: ben.can }}
+          rakip={{ profil: rakip, can: rakip.can }}
+          canToplam={DUELLO_CAN}
+          oduller={oduller}
+          ozet={d.durum === "bitti" || ezeliMetin ? (
+            <>
+              {d.durum === "bitti" && <OdulDokumu kaynak={`duello:${d.id}`} onToplam={setDokumToplam} />}
+              {d.durum === "bitti" && d.son_hamle?.altin && secenekler.length > 0 && (
+                <AltinSonucu h={d.son_hamle} ben={d.ben} soru={d.soru?.soru} secenekler={secenekler} ceviri={ceviri} />
+              )}
+              {d.durum === "bitti" && <DuelloOzet id={d.id} />}
+              {ezeliMetin && <div className="bd-duello-ezeli">{ezeliMetin}</div>}
+            </>
+          ) : null}
+          eylemler={
+            <>
+              {rov.id ? (
+                <button className="btn mss-tam" onClick={() => navigate(y(`/duello/${rov.id}`))}>{ceviri("Rövanşa git")}</button>
+              ) : rov.isteyen && rov.gecerli && rov.isteyen === d.ben && !rovVazgec ? (
+                <>
+                  {/* İstek gönderildi: bekleme penceresi (Modal, body'ye portal) açık; çubukta pasif düğme */}
+                  <button className="btn mss-tam" disabled>{ceviri("Rövanş bekleniyor…")}</button>
+                  <RovansBekleme rakip={rakip} baslangic={rovBas ?? Date.now()} sureSn={rovSn} simdi={simdi}
+                                 ceviri={ceviri} onVazgec={() => { setRovVazgec(true); setRovBas(null); }} />
+                </>
+              ) : rov.isteyen && rov.gecerli && rov.isteyen !== d.ben ? (
+                <>
+                  <div className="bd-duello-rovans-soru mss-tam">{ceviri("{ad} rövanş istiyor!", { ad: rakip.gorunen_ad })}</div>
+                  <button className="btn" disabled={!!calisan} aria-busy={calisan === "rovans"}
                           onClick={() => eylem("rovans", "duello_rovans_yanitla", { p_kabul: true })}>
-                    {ceviri("Kabul et")}
+                    {calisan === "rovans" ? "…" : ceviri("Kabul et")}
                   </button>
                   <button className="btn ikincil" disabled={!!calisan}
                           onClick={() => eylem("rovans", "duello_rovans_yanitla", { p_kabul: false })}>
                     {ceviri("Reddet")}
                   </button>
-                </div>
-              </>
-            ) : d.durum === "bitti" ? (
-              <>
-                {rovSonuc && (
-                  <div className="bd-rovans-sonuc" role="status">
-                    {rovSonuc === "red"
-                      ? ceviri("{ad} rövanşı kabul etmedi.", { ad: rakip.gorunen_ad })
-                      : ceviri("{ad} yanıt vermedi.", { ad: rakip.gorunen_ad })}
-                  </div>
-                )}
-                <button className="btn" disabled={!!calisan} onClick={rovansIste}>
-                  <Ikon ad="yenile" boyut={16} /> {rovSonuc ? ceviri("Tekrar rövanş iste") : ceviri("Rövanş")}
-                </button>
-              </>
-            ) : null}
-          </div>
-          {hata && <div className="hata-kutu">{hata}</div>}
-          <BildirimIzniSor />
+                </>
+              ) : d.durum === "bitti" ? (
+                <>
+                  {rovSonuc && (
+                    <div className="bd-rovans-sonuc mss-tam" role="status">
+                      {rovSonuc === "red"
+                        ? ceviri("{ad} rövanşı kabul etmedi.", { ad: rakip.gorunen_ad })
+                        : ceviri("{ad} yanıt vermedi.", { ad: rakip.gorunen_ad })}
+                    </div>
+                  )}
+                  <button className="btn mss-tam" disabled={!!calisan} aria-busy={!!calisan} onClick={rovansIste}>
+                    {calisan ? "…" : <><Ikon ad="yenile" boyut={16} /> {rovSonuc ? ceviri("Tekrar rövanş iste") : ceviri("Rövanş")}</>}
+                  </button>
+                </>
+              ) : null}
+              {hata && <div className="hata-kutu mss-tam">{hata}</div>}
+              <button className="btn ikincil" onClick={() => navigate(y("/duello"))}>{ceviri("Yeni düello")}</button>
+              <button className="btn ikincil" onClick={() => navigate(y())}>{ceviri("Ana sayfa")}</button>
+            </>
+          }
+        >
           <HesapGuvenceOnerisi kazandim={d.durum === "bitti" && kazandim} />
-          <div className="bd-konum-butonlar" style={{ marginTop: 12 }}>
-            <button className="btn ikincil" onClick={() => navigate(y("/duello"))}>{ceviri("Yeni düello")}</button>
-            <button className="btn ikincil" onClick={() => navigate(y())}>{ceviri("Ana sayfa")}</button>
-          </div>
-        </div>
+        </MacSonuSahnesi>
       </div>
     );
   }

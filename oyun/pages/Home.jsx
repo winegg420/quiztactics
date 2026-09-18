@@ -21,6 +21,8 @@ import { y } from "../lib/yol.js";
 import { kategoriEtiket, kategorileriSirala } from "../lib/kategoriler.js";
 import KategoriIkon from "../components/KategoriIkon.jsx";
 import Modal from "../components/Modal.jsx";
+import BildirimIzniSor from "../components/BildirimIzniSor.jsx";
+import { BILDIRIM_SONRA_ANAHTAR } from "../components/MacSonuSahnesi.jsx";
 import DereceliAnahtari from "../components/DereceliAnahtari.jsx";
 import { useDereceliTercih } from "../lib/dereceli.js";
 import { useDil } from "../lib/dilKanca.js";
@@ -33,6 +35,11 @@ export default function Home() {
   const [lobiSayisi, setLobiSayisi] = useState(0);
   const [canliTurnuva, setCanliTurnuva] = useState(false);
   const [mesaj, setMesaj] = useState(null);
+  // Paket 36 H: bildirim izni maç sonucunun ortasında değil, sonuç ekranından
+  // ana sayfaya dönünce sorulur. Kartın "ne zaman" kararı BildirimIzniSor'da.
+  const [bildirimSor] = useState(() => {
+    try { return sessionStorage.getItem(BILDIRIM_SONRA_ANAHTAR) === "1"; } catch { return false; }
+  });
   const [gorevler, setGorevler] = useState([]);
   const [ligDurum, setLigDurum] = useState(null);
   const [gecenHafta, setGecenHafta] = useState(null);
@@ -557,6 +564,7 @@ export default function Home() {
         </div>
         {mesaj && <div className="hata-kutu" style={{ marginTop: 10 }}>{mesaj}</div>}
       </section>
+      {bildirimSor && <BildirimIzniSor />}
       {/* KATMAN 1 BİTTİ.
           Lig sıralaması ve haftalık geri sayım buradan 2. katmana taşındı:
           aynı bilgi sayfanın hem en üstünde hem en altında iki kez duruyordu. */}
