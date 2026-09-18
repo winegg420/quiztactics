@@ -6907,3 +6907,5 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 }
 .bd-mod-secim-saf .bd-mod-secim-ikon { background: #D5F5EF; color: #0B6B60; }
 .bd-mod-secim .bd-mod-joker { font-size: 12.5px; }
+/* Paket 31 C: dükkânda jokerin Klasik Mod davranışı (ikinci satır) */
+.app .bd-paket-klasik { margin-top: 2px; font-weight: 800; color: #7A3300; }   /* beyazda ≈ 9:1 */

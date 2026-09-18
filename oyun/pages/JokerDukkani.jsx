@@ -4,7 +4,7 @@ import { hataMesaji } from "../lib/hata.js";
 import { Link, useSearchParams } from "react-router-dom";
 import GorunumVitrini from "../vitrin/GorunumVitrini.jsx";
 import { supabase } from "../../src/lib/supabase.js";
-import { JOKER_BILGI, envanterNesne } from "../lib/jokerler.js";
+import { JOKER_BILGI, KLASIK_BILGI, KLASIK_JOKERLER, envanterNesne } from "../lib/jokerler.js";
 import { jokerKurallari } from "../lib/jokerKurallari.js";
 import { h5AdsYapilandirildi, odulluVideoGoster } from "../lib/h5ads.js";
 import { desteklenirMi, fiyatlariAl, satinAl, tuket } from "../lib/playFatura.js";
@@ -285,6 +285,14 @@ export default function JokerDukkani() {
                   <Ikon ad={JOKER_BILGI[tur].ikon} boyut={15} /> {JOKER_BILGI[tur].ad}
                 </div>
                 <div className="alt-yazi">{JOKER_BILGI[tur].aciklama}</div>
+                {/* Paket 31 C: aynı joker Klasik Mod'da farklı çalışıyorsa okunarak anlaşılsın */}
+                {KLASIK_BILGI[tur] ? (
+                  <div className="alt-yazi bd-paket-klasik">
+                    {tt("Klasik Mod'da: {0}", { 0: KLASIK_BILGI[tur].aciklama })}
+                  </div>
+                ) : !KLASIK_JOKERLER.includes(tur) ? (
+                  <div className="alt-yazi bd-paket-klasik">{tt("Yalnız Düello'da")}</div>
+                ) : null}
               </div>
               <button
                 className="btn kucuk"

@@ -278,6 +278,8 @@ const SOZLUK = {
     "5 joker · aynı anda": "5 jokers · at the same time",
     "6 joker · sıra sende": "6 jokers · take turns",
     "joker yok": "no jokers",
+    "Klasik Mod'da: {0}": "In Classic Mode: {0}",
+    "Yalnız Düello'da": "Duel only",
     // Paket 30 E: karşılaşma sahnesi
     "Sen": "You",
     "Rakip bulundu!": "Opponent found!",
