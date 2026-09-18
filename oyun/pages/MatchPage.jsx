@@ -394,6 +394,37 @@ export default function MatchPage() {
     return () => { iptal = true; clearTimeout(zamanlayici); };
   }, [mac?.id, mac?.durum, kendiIndeks, mac?.soru_ids?.length, senkronBekliyor, duraklamaTuru, sonKartBekliyor]);
 
+  // ---- RAKİBİN JOKERİ (Paket 31 A) ----
+  // Klasik Mod'da rakibin Soru Değiştir'i (ortak) ve Süreyi Kısalt'ı BENİM sorumu /
+  // sayacımı değiştirir. Soru yukarıda yalnız indeks değişince çekiliyordu; sunucu bu
+  // jokerlerde `joker_surum`'u artırıyor (Realtime + 2 sn yoklama) → soruyu yeniden oku.
+  // Yalnız gerçekten değiştiyse state'e yaz: kart boşuna sıfırlanmasın.
+  const jokerSurum = mac?.joker_surum ?? 0;
+  const ilkSurumRef = useRef(null);
+  useEffect(() => {
+    if (!mac || mac.durum !== "aktif" || !senkron) return undefined;
+    if (ilkSurumRef.current === null) { ilkSurumRef.current = jokerSurum; return undefined; }
+    if (cevapladim) return undefined;
+    let iptal = false;
+    (async () => {
+      try {
+        const { data, error } = await supabase.rpc("get_match_question", { p_match_id: mac.id });
+        if (error) throw error;
+        const yeni = data?.[0];
+        if (iptal || !yeni) return;
+        setSoru((eski) =>
+          eski && eski.question_id === yeni.question_id && eski.baslangic === yeni.baslangic
+            && eski.soru_index === yeni.soru_index
+            ? eski
+            : yeni
+        );
+      } catch (e) {
+        console.warn("[Bildim] rakip jokeri sonrası soru okunamadı:", e?.message ?? e);
+      }
+    })();
+    return () => { iptal = true; };
+  }, [jokerSurum]); // eslint-disable-line react-hooks/exhaustive-deps
+
   // ---- NABIZ ----
   // 3 sn'de bir "buradayım" der, "Hazır"a basıldığını iletir ve ekranın ne
   // çizeceğini (kapı / kilit / oyun) sunucudan öğrenir. Sekme arka planda
@@ -1052,6 +1083,7 @@ export default function MatchPage() {
             onCevapla={cevapla}
             onSureDoldu={sureDoldu}
             macTur={"1v1"}
+            jokerSurum={jokerSurum}
             macId={id}
             kategori={mac.kategori}
           />

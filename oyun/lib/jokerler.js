@@ -55,6 +55,27 @@ export const JOKER_BILGI = {
 };
 
 export const MAC_ICI_JOKERLER = ["elli", "sure", "soru_degistir"];
+
+// Paket 31 A — Klasik Mod (1v1) jokerleri. Sahibinin kararı: 5 joker, tek "Soru Değiştir"
+// (Klasik'te ORTAK: iki oyuncuda da değişir). 'saldiri_degistir' Klasik'te yok.
+// Aynı jokerin iki modda farklı çalıştığı OKUNARAK anlaşılsın diye açıklamalar ayrı.
+export const KLASIK_JOKERLER = ["elli", "sure", "soru_degistir", "zaman_baskisi", "savunma_kilidi"];
+export const KLASIK_BILGI = {
+  soru_degistir: { aciklama: tt("Soru ikinizde de değişir.") },
+  zaman_baskisi: { ad: tt("Süreyi Kısalt"), aciklama: tt("Rakibinin süresi kısalır, seninki aynı kalır.") },
+  savunma_kilidi: { aciklama: tt("Rakip bu soruda joker kullanamaz.") },
+};
+
+/** Maç türüne göre çubukta gösterilecek jokerler. */
+export function macJokerleri(macTur) {
+  return macTur === "1v1" ? KLASIK_JOKERLER : MAC_ICI_JOKERLER;
+}
+
+/** Maç türüne göre joker bilgisi (Klasik'te ad/açıklama farklı olabilir). */
+export function jokerBilgi(tur, macTur) {
+  const temel = JOKER_BILGI[tur] ?? {};
+  return macTur === "1v1" && KLASIK_BILGI[tur] ? { ...temel, ...KLASIK_BILGI[tur] } : temel;
+}
 export const SALDIRI_JOKERLERI = ["zaman_baskisi", "saldiri_degistir", "savunma_kilidi"];
 
 export function jokerAdi(tur) {

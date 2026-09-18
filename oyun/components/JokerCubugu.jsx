@@ -3,7 +3,7 @@ import Ikon from "./Ikon.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { Link } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
-import { MAC_ICI_JOKERLER, JOKER_BILGI, envanterNesne } from "../lib/jokerler.js";
+import { macJokerleri, jokerBilgi, envanterNesne } from "../lib/jokerler.js";
 import JokerSatinAlModal from "./JokerSatinAlModal.jsx";
 import { y } from "../lib/yol.js";
 import { sesJoker } from "../lib/ses.js";
@@ -16,7 +16,7 @@ import { tt } from "../lib/dil.js";
  *
  * onEtki(sonuc): { tur, kapali? , uzatildi?, atlandi?, dogru_cevap? }
  */
-export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit }) {
+export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, surum = 0 }) {
   const [envanter, setEnvanter] = useState({ elli: 0, sure: 0, soru_degistir: 0, seri_koruma: 0 });
   const [durum, setDurum] = useState(null); // { sinir, kullanilan, ucretsiz_elli_kaldi }
   const [hata, setHata] = useState(null);
@@ -65,13 +65,17 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit })
 
   useEffect(() => {
     yukle();
-  }, [yukle, soruIndex]);
+    // Paket 31 A: rakibin jokeri (surum) kilit/kısaltma durumunu değiştirir → yeniden oku
+  }, [yukle, soruIndex, surum]);
 
   if (!durum) return null;
 
   const sinirDoldu =
     durum.sinir !== null && durum.sinir !== undefined && durum.kullanilan >= durum.sinir;
   const finalYasak = durum.sinir === 0;
+  // Paket 31 A.3: rakip bu soruda Savunma Kilidi bastı — sessiz düğme olmasın, açık mesaj
+  const rakipKilitledi = Boolean(durum.kilitli);
+  const rakipKisaltti = Boolean(durum.kisaltildi);
 
   /**
    * Joker kullan. `satinAl` true ise satın alma + kullanım TEK RPC'de yapılır
@@ -109,7 +113,7 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit })
 
   /** Envanterde yok, ücretsiz hakkı da yok ama maç içinde satın alınabilir mi? */
   const satinAlinabilir = (tur) => {
-    if (kilit || finalYasak || sinirDoldu) return false;
+    if (kilit || finalYasak || sinirDoldu || rakipKilitledi) return false;
     if (macTur === "turnuva" && tur === "soru_degistir") return false;
     if (kullandigim.includes(tur)) return false;
     if (tur === "elli" && durum?.ucretsiz_elli_kaldi) return false;
@@ -119,6 +123,7 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit })
 
   const neden = (tur) => {
     if (kilit) return tt("Bu soruyu zaten cevapladın");
+    if (rakipKilitledi) return tt("Rakibin savunma jokerlerini kilitledi.");
     if (finalYasak) return tt("Turnuva finalinde joker kullanılamaz");
     if (sinirDoldu) return tt("Bu maçta en fazla {0} joker", { 0: durum.sinir });
     // Turnuva herkese AYNI soruyu sorar ve elemelidir: soru değiştirilemez.
@@ -132,9 +137,19 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit })
   };
 
   return (
-    <div className="bd-joker-cubuk">
-      {MAC_ICI_JOKERLER.map((tur) => {
-        const bilgi = JOKER_BILGI[tur];
+    <div className={`bd-joker-cubuk${macJokerleri(macTur).length > 3 ? " bd-joker-cubuk-genis" : ""}`}>
+      {rakipKilitledi && (
+        <div className="bd-joker-not uyari" role="status">
+          <Ikon ad="kilit" boyut={14} /> {tt("Rakibin savunma jokerlerini kilitledi.")}
+        </div>
+      )}
+      {rakipKisaltti && (
+        <div className="bd-joker-not uyari" role="status">
+          <Ikon ad="hizli" boyut={14} /> {tt("Rakibin süreni kısalttı!")}
+        </div>
+      )}
+      {macJokerleri(macTur).map((tur) => {
+        const bilgi = jokerBilgi(tur, macTur);
         const ucretsiz = tur === "elli" && durum.ucretsiz_elli_kaldi;
         const engel = neden(tur);
         const adet = envanter[tur] ?? 0;

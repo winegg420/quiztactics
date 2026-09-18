@@ -6864,3 +6864,23 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   .bd-karsilasma.bulundu .bd-karsilasma-vs span,
   .bd-karsilasma-kart.rakip.dolu > :first-child { animation: none; }
 }
+
+/* ============================================================
+   Paket 31 A — Klasik Mod joker çubuğu: 5 joker (3 savunma + 2 saldırı).
+   Tek satır; çok dar ekranda (≤360 px) 3 + 2. Rakip etkisi notu turuncu.
+   ============================================================ */
+.bd-joker-cubuk.bd-joker-cubuk-genis { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+.bd-joker-cubuk.bd-joker-cubuk-genis .bd-joker { padding: 8px 3px; }
+.bd-joker-cubuk.bd-joker-cubuk-genis .bd-joker-ad {
+  font-size: 10.5px; line-height: 1.15; text-align: center;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 360px) {
+  .bd-joker-cubuk.bd-joker-cubuk-genis { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+.app .bd-joker-not.uyari {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 6px 10px; border-radius: var(--bd-r-m);
+  background: #FFE3CC; color: #7A3300;               /* AA: ≈ 8:1 */
+  font-size: 13px; font-weight: 800;
+}

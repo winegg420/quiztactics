@@ -260,6 +260,16 @@ const SOZLUK = {
     "{ad} yanıt vermedi.": "{ad} didn't respond.",
     "{ad} rövanşı kabul etmedi.": "{ad} declined the rematch.",
     "Tekrar rövanş iste": "Ask for a rematch again",
+    // Paket 31 A / C: Klasik Mod saldırı jokerleri
+    "Soru ikinizde de değişir.": "The question changes for both of you.",
+    "Süreyi Kısalt": "Cut the Clock",
+    "Rakibinin süresi kısalır, seninki aynı kalır.": "Your opponent's time gets shorter; yours stays the same.",
+    "Rakip bu soruda joker kullanamaz.": "Your opponent can't use jokers on this question.",
+    "Rakibin savunma jokerlerini kilitledi.": "Your opponent locked your defensive jokers.",
+    "Rakibin savunma jokerlerini kilitledi": "Your opponent locked your defensive jokers",
+    "Rakibin süreni kısalttı!": "Your opponent cut your time!",
+    "Rakibin bu soruyu zaten cevapladı": "Your opponent has already answered this question",
+    "Bu joker yalnız eş zamanlı maçta kullanılabilir": "This joker can only be used in a live match",
     // Paket 30 E: karşılaşma sahnesi
     "Sen": "You",
     "Rakip bulundu!": "Opponent found!",

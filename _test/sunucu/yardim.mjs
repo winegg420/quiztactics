@@ -27,6 +27,13 @@ export async function islem(f) {
   try {
     await c.sorgu('begin');
     try {
+      // Migration PROVASI: `TEST_ONCE_SQL=supabase/migrations/…sql npm test` — dosya bu
+      // işlemin içinde uygulanır ve testle birlikte geri alınır. Canlıya uygulamadan önce
+      // yeni sunucu mantığını test etmek için (Paket 31).
+      if (process.env.TEST_ONCE_SQL) {
+        const fs = await import('node:fs');
+        await c.sorgu(fs.readFileSync(process.env.TEST_ONCE_SQL, 'utf8'));
+      }
       await f(c);
     } finally {
       await c.sorgu('rollback');

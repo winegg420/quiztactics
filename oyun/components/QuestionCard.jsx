@@ -31,6 +31,8 @@ export default function QuestionCard({
   jokerler,
   // Yeni joker ekonomisi: macTur + macId verilirse sunucu tabanlı çubuk çizilir.
   macTur,
+  // Paket 31 A: rakibin jokeri benim soruma dokunduğunda artar → joker çubuğu yeniden okur
+  jokerSurum = 0,
   macId,
   onPas,
   // Kazanılan puanı uçan rozet olarak göstermek için. null verilirse rozet
@@ -360,6 +362,7 @@ export default function QuestionCard({
           macTur={macTur}
           macId={macId}
           soruIndex={soru.soru_index}
+          surum={jokerSurum}
           onEtki={jokerEtkisi}
         />
       )}
