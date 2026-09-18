@@ -183,6 +183,7 @@ export default function MacSonuSahnesi({
   const [baslangic] = useState(() => performance.now());
   const [coinHap, setCoinHap] = useState(null);
   const bannerRef = useRef(null);
+  const kokRef = useRef(null);
   const tamam = adim >= 8;
 
   // Tek rAF döngüsü: geçen süreye göre adımı ilerletir; sökülünce iptal.
@@ -212,6 +213,22 @@ export default function MacSonuSahnesi({
     window.addEventListener("keydown", tus);
     return () => window.removeEventListener("keydown", tus);
   }, [tamam, atla]);
+
+  // Eylem çubuğu alt sekme çubuğunun hemen üstüne yapışır. Sekme çubuğu
+  // (fixed) güvenli alanı zaten kapsıyor; yoksa çubuk güvenli alanı kendisi bırakır.
+  useLayoutEffect(() => {
+    const kok = kokRef.current;
+    if (!kok) return undefined;
+    const olc = () => {
+      const tb = document.querySelector(".tabbar");
+      const h = tb && getComputedStyle(tb).display !== "none" ? tb.getBoundingClientRect().height : 0;
+      kok.style.setProperty("--mss-eylem-alt", `${Math.round(h)}px`);
+      kok.style.setProperty("--mss-guvenli", h ? "0px" : "env(safe-area-inset-bottom)");
+    };
+    olc();
+    window.addEventListener("resize", olc);
+    return () => window.removeEventListener("resize", olc);
+  }, []);
 
   // Odak banner'a: ekran okuyucu sonucu bir kez okur. Ana sayfada bildirim
   // izni bu maçtan sonra sorulsun diye oturum işareti bırakılır.
@@ -250,6 +267,7 @@ export default function MacSonuSahnesi({
 
   return (
     <div
+      ref={kokRef}
       className={`mss bd-sonuc-ekran ${durum}${atlandi ? " atla" : ""}${tamam ? " tamam" : ""}`}
       onClick={tamam ? undefined : atla}
     >

@@ -7587,9 +7587,11 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   font-size: 22px;
   font-weight: 900;
   letter-spacing: 1px;
-  color: var(--bd-vurgu);
+  /* Açık zeminde #F4701F 2,4:1 (22px kalın için 3,0 gerekir) → koyu marka tonu 4,0:1; koyuda #F4701F 6,2:1 */
+  color: var(--bd-vurgu-2);
   animation: mss-vs-otur 280ms cubic-bezier(.2, .8, .3, 1) 450ms both;
 }
+:root[data-tema="koyu"] .app .mss > .mss-karsilasma > .mss-vs { color: var(--bd-vurgu); }
 @keyframes mss-vs-otur { from { opacity: 0; transform: scale(1.6); } to { opacity: 1; transform: none; } }
 
 /* Kalpler (düello): dolu = turuncu dolgu, boş = yalnız kenar */
@@ -7710,7 +7712,7 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   flex-wrap: wrap;
   gap: 10px;
   margin: 16px -12px 0;
-  padding: 12px 12px calc(12px + env(safe-area-inset-bottom));
+  padding: 12px 12px calc(12px + var(--mss-guvenli, env(safe-area-inset-bottom)));
   background: rgba(255, 255, 255, 0.72);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
@@ -7718,9 +7720,18 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   animation: mss-sol 200ms ease-out 1900ms both;
 }
 :root[data-tema="koyu"] .app .mss > .mss-eylem { background: rgba(16, 20, 28, 0.72); border-top-color: rgba(255, 255, 255, 0.12); }
-.app .mss-eylem > * { flex: 1 1 calc(50% - 5px); min-width: 0; margin: 0; }
-.app .mss-eylem > .mss-tam { flex-basis: 100%; }
-.app .mss-eylem .btn { margin: 0; width: 100%; }
+.app .mss-eylem > *, .app .mss-eylem-yuva > * { flex: 1 1 calc(50% - 5px); min-width: 0; margin: 0; }
+.app .mss-eylem-yuva { display: contents; }
+.app .mss-eylem .mss-tam { flex-basis: 100%; }
+.app .mss .mss-eylem .btn,
+.app .mss .mss-eylem .btn.ikincil {
+  margin: 0;
+  width: 100%;
+  min-height: 50px;
+  padding: 12px 14px;
+  font-size: 16px;
+  line-height: 1.2;
+}
 .app .mss-eylem .btn:active:not(:disabled) { transform: translateY(4px); box-shadow: none; }
 .app .mss-eylem .btn:disabled { opacity: 0.45; filter: none; cursor: not-allowed; }
 .app .mss-eylem .btn[aria-busy="true"] { pointer-events: none; }

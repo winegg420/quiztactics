@@ -2140,6 +2140,18 @@ const SOZLUK = {
     "Kendine mesaj atamazsın": "You can't message yourself",
     "Mesaj boş olamaz": "Message can't be empty",
     "Mesaj en fazla 500 karakter olabilir": "Messages can be at most 500 characters",
+    // Paket 36 — maç sonu sahnesi
+    "{n} soru farkla": "by {n} questions",
+    "lig puanı": "league points",
+    "Detay": "Details",
+    "{can}/{toplam} can": "{can}/{toplam} lives",
+    "Son canına kadar götürdün": "You took it to their last life",
+    "{n} tur sürdü": "It lasted {n} rounds",
+    "Rövanş bekleniyor…": "Waiting for rematch…",
+    "Turnuvalara dön": "Back to tournaments",
+    "{n}. oldun": "You finished {n}.",
+    "Turnuva bitti": "Tournament over",
+    "Haftanın en iyisi!": "Best of the week!",
   },
 };
 

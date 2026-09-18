@@ -9,7 +9,7 @@ import { useAuth } from "../../src/context/AuthContext.jsx";
 import Avatar from "../../src/components/Avatar.jsx";
 import AvatarCerceve from "../components/AvatarCerceve.jsx";
 import QuestionCard from "../components/QuestionCard.jsx";
-import BildirimIzniSor from "../components/BildirimIzniSor.jsx";
+import MacSonuSahnesi from "../components/MacSonuSahnesi.jsx";
 import MacSonuEklentisi from "../components/MacSonuEklentisi.jsx";
 import MacSonuDokum from "../components/MacSonuDokum.jsx";
 import OdulDokumu from "../components/OdulDokumu.jsx";
@@ -29,8 +29,11 @@ import { macBittiReklam } from "../lib/reklam.js";
 import { y } from "../lib/yol.js";
 import { GB_MS } from "../lib/geriBildirim.js";
 import { useDil } from "../lib/dilKanca.js";
-import { coinTazele } from "../lib/coin.js";
 import { tt } from "../lib/dil.js";
+
+// Sunucu her doğru cevaba 10 puan yazar (cevap_ver, migration 250). Yalnız
+// sonuç ekranındaki "n soru farkla" metni için; puanlama sunucuda kalır.
+const SORU_PUANI = 10;
 
 // acik_bot: maç sonunda hangi rövanş eyleminin gösterileceğini belirler.
 // `is_bot` BİLEREK KULLANILMIYOR (kolon istemciye kapalı, migration 155):
@@ -119,6 +122,10 @@ export default function MatchPage() {
   const [sonucHazir, setSonucHazir] = useState(false);
   // Maç sonu gerçek kazanç (sunucudan: dereceli/serbest, çift çarpanı, günlük tavan)
   const [odulum, setOdulum] = useState(null);
+  // Paket 36: sonuç sahnesi — rövanş isteği yuvası (eylem çubuğu), Detay rozeti, bot rövanşı çalışıyor
+  const [rovansYuva, setRovansYuva] = useState(null);
+  const [yanlisAdet, setYanlisAdet] = useState(0);
+  const [botRovans, setBotRovans] = useState(false);
   const { ceviri } = useDil();
   // Uygulanmış en ileri damga (bkz. ilerlemeDamgasi)
   const damgaRef = useRef(-1);
@@ -634,7 +641,8 @@ export default function MatchPage() {
         const o = Array.isArray(data) ? data[0] : data;
         if (aktif && o) {
           setOdulum(o);
-          if (o.coin > 0) coinTazele();
+          // Paket 36: üst bar coin sayacını MacSonuSahnesi coin uçuşu bitince tazeler
+          // (coinTazele); burada çağrılsaydı sayı coinler varmadan değişirdi.
         }
       } catch (e) {
         console.error("[Bildim] mac odulu alinamadi:", e);
@@ -745,131 +753,132 @@ export default function MatchPage() {
       const kazandim = mac.kazanan === user.id;
       const berabere = mac.kazanan === null;
       const durumSinifi = kazandim ? "kazandi" : berabere ? "berabere" : "kaybetti";
+      // Paket 36 I: yakınlık satırı veriden. Sunucu her doğruya SORU_PUANI verir
+      // (cevap_ver, migration 250); fark 1-2 soru değilse kaybetmede satır hiç çizilmez.
+      const farkSoru = Math.round(Math.abs((benimSkor ?? 0) - (rakipSkor ?? 0)) / SORU_PUANI);
+      const altYazi = mac.terk_eden
+        ? mac.terk_eden === user.id
+          ? tt("Maçtan ayrıldığın için hükmen mağlup sayıldın.")
+          : tt("{0} maçı terk etti — hükmen kazandın.", { 0: rakipProfil?.gorunen_ad })
+        : berabere || farkSoru < 1
+          ? null
+          : kazandim || farkSoru <= 2
+            ? tt("{n} soru farkla", { n: farkSoru })
+            : null;
+      // Rövanş: bot rakipte doğrudan yeni maç (burada), gerçek oyuncuda istek
+      // (MacSonuEklentisi, portal ile eylem çubuğuna). İkisi aynı anda ASLA görünmez.
+      const rovansVar = rakipBot || (!kazandim && !berabere);
+      const oduller = [
+        { ikon: "yildiz", deger: odulum?.lig_puan ?? 0, etiket: tt("lig puanı") },
+        { ikon: "coin", deger: odulum?.coin ?? 0, etiket: tt("coin") },
+      ];
       return (
-        /* bd-sonuc-ekran + durum sınıfı: kazanmada altın parıltı, kaybetmede
-           sönük mercan, berabere nötr (bkz. tema.css FAZ 4). */
-        <div className={`buyuk-mesaj bd-sonuc-ekran ${durumSinifi}`}>
-          <Maskot
-            poz={kazandim ? "kutluyor" : berabere ? "selam" : "dusunuyor"}
-            boyut={110}
-            className="bd-sonuc-maskot"
-          />
-          <h2 className={`bd-sonuc-baslik ${kazandim ? "kazandi" : berabere ? "" : "kaybetti"}`}>
-            {berabere ? tt("Berabere!") : kazandim ? tt("Kazandın!") : tt("Kaybettin")}
-          </h2>
-          {mac.terk_eden && (
-            <p className="alt-yazi" style={{ marginTop: -4 }}>
-              {mac.terk_eden === user.id
-                ? tt("Maçtan ayrıldığın için hükmen mağlup sayıldın.")
-                : tt("{0} maçı terk etti — hükmen kazandın.", { 0: rakipProfil?.gorunen_ad })}
-            </p>
-          )}
-          {odulum && (odulum.lig_puan > 0 || odulum.coin > 0) && (
-            <div className="bd-kazanc-satiri">
-              {odulum.lig_puan > 0 && (
-                <span className="bd-sonuc-kazanc">{ceviri("+{puan} lig puanı", { puan: odulum.lig_puan })}</span>
+        <MacSonuSahnesi
+          durum={durumSinifi}
+          baslik={berabere ? tt("Berabere!") : kazandim ? tt("Kazandın!") : tt("Kaybettin")}
+          altYazi={altYazi}
+          ben={{ profil: benimProfil, skor: benimSkor, ek: `${ilerleme.ben}/${toplamSoru}` }}
+          rakip={{ profil: rakipProfil, skor: rakipSkor, ek: `${ilerleme.rakip}/${toplamSoru}` }}
+          oduller={oduller}
+          detayRozet={yanlisAdet}
+          ozet={
+            <>
+              {/* Paket 20 I.3: satır satır döküm; üstteki ödül hapları da aynı sunucu toplamını gösterir */}
+              <OdulDokumu kaynak={`mac:${id}`} onToplam={(t) => setOdulum((o) => ({ ...(o ?? {}), lig_puan: t.lig, coin: t.coin }))} />
+              <MacSonuDokum macId={id} kazanilanPuan={odulum?.lig_puan ?? 0} />
+              <MacSorulari kaynak={`mac:${id}`} />
+              <MacSonuEklentisi
+                macTur="1v1"
+                macId={id}
+                kaybettim={!kazandim && !berabere}
+                rakipBot={rakipBot}
+                rovansYuva={rovansYuva}
+                onYanlisAdet={setYanlisAdet}
+              />
+              {(() => {
+                const sonucYazi = berabere
+                  ? tt("{0} ile {1}-{2} berabere kaldım", { 0: rakipProfil?.gorunen_ad, 1: benimSkor, 2: rakipSkor })
+                  : kazandim
+                    ? `${rakipProfil?.gorunen_ad}'i ${benimSkor}-${rakipSkor} yendim!`
+                    : tt("{0} karşısında kıl payı kaybettim", { 0: rakipProfil?.gorunen_ad });
+                const mesaj = tt("Quiz Tactics'te {0} Sen de gel, kapışalım: {1}/?davet={2}", { 0: sonucYazi, 1: window.location.origin, 2: user.id });
+                const enc = encodeURIComponent(mesaj);
+                return (
+                  <div className="paylas-bar">
+                    <a
+                      className="paylas wa"
+                      href={`https://wa.me/?text=${enc}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      WhatsApp
+                    </a>
+                    <a
+                      className="paylas x"
+                      href={`https://twitter.com/intent/tweet?text=${enc}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {tt("𝕏 Paylaş")}
+                    </a>
+                    <button
+                      className="paylas diger"
+                      onClick={async () => {
+                        if (navigator.share) {
+                          try {
+                            await navigator.share({ title: "Quiz Tactics", text: mesaj });
+                          } catch { /* vazgeçti */ }
+                        } else {
+                          await navigator.clipboard.writeText(mesaj);
+                        }
+                      }}
+                    >
+                      {tt("Diğer")}
+                    </button>
+                  </div>
+                );
+              })()}
+            </>
+          }
+          eylemler={
+            <>
+              {rakipBot && (
+                <button
+                  className="btn mss-tam"
+                  disabled={botRovans}
+                  aria-busy={botRovans}
+                  onClick={async () => {
+                    setBotRovans(true);
+                    try {
+                      const { data, error } = await supabase.rpc("create_challenge", {
+                        p_rakip: rakipProfil.id,
+                        p_kategori: mac.kategori,
+                      });
+                      if (error) throw error;
+                      navigate(y(data ? `/mac/${data}` : "/meydan"));
+                    } catch (e) {
+                      console.error("[Bildim] bot rövanşı kurulamadı:", e);
+                      navigate(y("/meydan"));
+                    } finally {
+                      setBotRovans(false);
+                    }
+                  }}
+                >
+                  {botRovans ? "…" : tt("Rövanş")}
+                </button>
               )}
-              {odulum.coin > 0 && (
-                <span className="bd-sonuc-kazanc">{ceviri("+{coin} coin", { coin: odulum.coin })}</span>
-              )}
-            </div>
-          )}
-          {/* Paket 20 I.3: satır satır döküm; üstteki kazanç satırı da aynı sunucu toplamını gösterir */}
-          <OdulDokumu kaynak={`mac:${id}`} onToplam={(t) => setOdulum((o) => ({ ...(o ?? {}), lig_puan: t.lig, coin: t.coin }))} />
-          <div className="skor-tabela" style={{ marginTop: 20 }}>
-            <div className="taraf">
-              <div className="isim">{benimProfil?.gorunen_ad}<SenRozeti /></div>
-              <div className="skor"><SayanSayi deger={benimSkor} /></div>
-              <div className="bd-vs-ilerleme">{ilerleme.ben}/{toplamSoru}</div>
-            </div>
-            <div className="vs">VS</div>
-            <div className="taraf">
-              <div className="isim">{rakipProfil?.gorunen_ad}</div>
-              <div className="skor"><SayanSayi deger={rakipSkor} /></div>
-              <div className="bd-vs-ilerleme">{ilerleme.rakip}/{toplamSoru}</div>
-            </div>
-          </div>
+              {/* Gerçek rakipte Rövanş isteği MacSonuEklentisi'nden buraya çizilir */}
+              <div className="mss-eylem-yuva" ref={setRovansYuva} />
+              <button className={`btn${rovansVar ? " ikincil" : " mss-tam"}`} onClick={() => navigate(y("/meydan"))}>
+                {tt("Meydan okumalara dön")}
+              </button>
+              <button className="btn ikincil" onClick={() => navigate(y())}>{tt("Ana sayfa")}</button>
+            </>
+          }
+        >
           {/* Meydandan girilmişse maç bitince oraya dönülür (harita/donus.js) */}
           <MeydanaDonus />
-          <MacSonuDokum macId={id} kazanilanPuan={odulum?.lig_puan ?? 0} />
-          <MacSorulari kaynak={`mac:${id}`} />
-          <MacSonuEklentisi
-            macTur="1v1"
-            macId={id}
-            kaybettim={!kazandim && !berabere}
-            rakipBot={rakipBot}
-          />
-
-          <div style={{ display: "flex", flexDirection: "column", gap: 10, maxWidth: 340, margin: "20px auto 0" }}>
-            {/* TEK rövanş butonu. Bot rakipte doğrudan yeni maç kurulur; gerçek
-                oyuncuda istek gönderilir ve o buton MacSonuEklentisi'nde çizilir
-                (zorla maça sokulamaz). İkisi aynı anda ASLA görünmez. */}
-            {rakipBot && (
-              <button
-                className="btn bd-rovans-tek"
-                onClick={async () => {
-                  const { data, error } = await supabase.rpc("create_challenge", {
-                    p_rakip: rakipProfil.id,
-                    p_kategori: mac.kategori,
-                  });
-                  if (!error && data) navigate(y(`/mac/${data}`));
-                  else navigate(y("/meydan"));
-                }}
-              >
-                {tt("Rövanş")}
-              </button>
-            )}
-            {(() => {
-              const sonucYazi = berabere
-                ? tt("{0} ile {1}-{2} berabere kaldım", { 0: rakipProfil?.gorunen_ad, 1: benimSkor, 2: rakipSkor })
-                : kazandim
-                  ? `${rakipProfil?.gorunen_ad}'i ${benimSkor}-${rakipSkor} yendim!`
-                  : tt("{0} karşısında kıl payı kaybettim", { 0: rakipProfil?.gorunen_ad });
-              const mesaj = tt("Quiz Tactics'te {0} Sen de gel, kapışalım: {1}/?davet={2}", { 0: sonucYazi, 1: window.location.origin, 2: user.id });
-              const enc = encodeURIComponent(mesaj);
-              return (
-                <div className="paylas-bar">
-                  <a
-                    className="paylas wa"
-                    href={`https://wa.me/?text=${enc}`}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    WhatsApp
-                  </a>
-                  <a
-                    className="paylas x"
-                    href={`https://twitter.com/intent/tweet?text=${enc}`}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {tt("𝕏 Paylaş")}
-                  </a>
-                  <button
-                    className="paylas diger"
-                    onClick={async () => {
-                      if (navigator.share) {
-                        try {
-                          await navigator.share({ title: "Quiz Tactics", text: mesaj });
-                        } catch { /* vazgeçti */ }
-                      } else {
-                        await navigator.clipboard.writeText(mesaj);
-                      }
-                    }}
-                  >
-                    {tt("Diğer")}
-                  </button>
-                </div>
-              );
-            })()}
-            {/* Bildirim izni ilk açılışta değil, maç sonucunda sorulur (Düello ve Hızlı Mod sonucunda da). */}
-            <BildirimIzniSor />
-            <HesapGuvenceOnerisi kazandim={kazandim} />
-            <button className="btn ikincil" onClick={() => navigate(y("/meydan"))}>
-              {tt("Meydan okumalara dön")}
-            </button>
-          </div>
-
+          <HesapGuvenceOnerisi kazandim={kazandim} />
           {/* MAÇ BİTTİ AMA OTURUM KAPANMAZ.
               Sayfa kendiliğinden kapanmıyor; oyuncular isterlerse burada kalıp
               konuşmaya devam eder, çıkmaya kendileri karar verir. Sohbet ve
@@ -923,7 +932,7 @@ export default function MatchPage() {
               ))}
             </div>
           )}
-        </div>
+        </MacSonuSahnesi>
       );
     }
 

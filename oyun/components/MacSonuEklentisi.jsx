@@ -110,7 +110,7 @@ export default function MacSonuEklentisi({ macTur, macId, kaybettim, rakipBot = 
 
       {kaybettim && macTur === "1v1" && !rakipBot && rovansYuva && createPortal(
         <>
-          <button className="btn bd-rovans-tek mss-tam" disabled={calisiyor} aria-busy={calisiyor} onClick={rovans}>
+          <button className="btn mss-tam" disabled={calisiyor} aria-busy={calisiyor} onClick={rovans}>
             {calisiyor ? "…" : tt("Rövanş")}
           </button>
           <div className="mss-eylem-not">{tt("Rakibine istek gönderilir · aynı kategori · 24 saat geçerli")}</div>
