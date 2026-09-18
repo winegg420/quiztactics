@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Ikon from "./Ikon.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { Link } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
-import { macJokerleri, jokerBilgi, envanterNesne } from "../lib/jokerler.js";
+import { macJokerleri, jokerBilgi, envanterNesne, sisAyari } from "../lib/jokerler.js";
+import { ayarlar } from "../lib/ayarlar.js";
 import JokerSatinAlModal from "./JokerSatinAlModal.jsx";
 import { y } from "../lib/yol.js";
 import { sesJoker } from "../lib/ses.js";
@@ -14,9 +16,16 @@ import { tt } from "../lib/dil.js";
  * Maç içi joker çubuğu. Tüm kararlar sunucudadır (joker_kullan RPC);
  * burası yalnız adet rozetini, ücretsiz hakkı ve pasiflik nedenini gösterir.
  *
- * onEtki(sonuc): { tur, kapali? , uzatildi?, atlandi?, dogru_cevap? }
+ * onEtki(sonuc): { tur, kapali? , uzatildi?, atlandi?, dogru_cevap?, sis_sn? }
+ *
+ * Paket 32 B — dört durum, hepsi marka turuncusu (renk değil ikon + metin ayırır):
+ *   hazir      dolu turuncu, beyaz ikon, 0 4px 0 alt gölge, sağ üstte adet
+ *   kullanildi soluk + onay işareti, basılamaz (sunucudan: kullanilan_turler)
+ *   satilik    turuncu kenarlık, içi boş, sağ üstte altın "+" → satın alma penceresi
+ *   pasif      gri; basınca SEBEBİNİ yazar (ör. "Son 6 saniyede Sis kullanılamaz.")
+ * @param {number} [kalanSn] sorunun kalan saniyesi (Sis'in son-N-saniye kuralı için)
  */
-export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, surum = 0 }) {
+export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, surum = 0, kalanSn = 15 }) {
   const [envanter, setEnvanter] = useState({ elli: 0, sure: 0, soru_degistir: 0, seri_koruma: 0 });
   const [durum, setDurum] = useState(null); // { sinir, kullanilan, ucretsiz_elli_kaldi }
   const [hata, setHata] = useState(null);
@@ -29,6 +38,26 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
   const [coin, setCoin] = useState(null);
   const [satinAlinacak, setSatinAlinacak] = useState(null);
   const hataRef = useRef(null);
+  // Paket 32: açıklamalardaki sayılar ve Sis eşiği oyun_ayarlari'ndan
+  const [ayar, setAyar] = useState(null);
+  useEffect(() => {
+    let aktif = true;
+    ayarlar().then((a) => { if (aktif) setAyar(a); }, () => {});
+    return () => { aktif = false; };
+  }, []);
+  // B.4: kullanım anı — düğme parlaması + ekran ortasında şerit (≈850 ms)
+  const [parlayan, setParlayan] = useState(null);
+  const [serit, setSerit] = useState(null);   // { tur, metin }
+  useEffect(() => {
+    if (!serit) return undefined;
+    const t = setTimeout(() => setSerit(null), 850);
+    return () => clearTimeout(t);
+  }, [serit]);
+  useEffect(() => {
+    if (!parlayan) return undefined;
+    const t = setTimeout(() => setParlayan(null), 650);
+    return () => clearTimeout(t);
+  }, [parlayan]);
 
   // Joker çubuğu ekranın EN ALTINDA duruyor; hata notu düğmelerin altına
   // düştüğü için görünür alanın dışında kalıyordu (ölçüm: not y=817, pencere
@@ -94,6 +123,8 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
       sesJoker();
       titret(10);
       setKullandigim((k) => (k.includes(tur) ? k : [...k, tur]));
+      setParlayan(tur);
+      setSerit({ tur, metin: etkiMetni(tur) });
       if (data && typeof data.coin === "number") setCoin(data.coin);
       onEtki?.(data);
       await yukle();
@@ -115,11 +146,28 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
   const satinAlinabilir = (tur) => {
     if (kilit || finalYasak || sinirDoldu || rakipKilitledi) return false;
     if (macTur === "turnuva" && tur === "soru_degistir") return false;
-    if (kullandigim.includes(tur)) return false;
+    if (kullanilanlar.has(tur)) return false;
+    if (tur === "sis" && sisGec) return false;
     if (tur === "elli" && durum?.ucretsiz_elli_kaldi) return false;
     if ((envanter[tur] ?? 0) > 0) return false;
     return Number(fiyatlar?.[tur] ?? 0) > 0;
   };
+
+  /** B.4: ekranda ne olduğu yazsın (sayılar ayardan). */
+  const etkiMetni = (tur) => {
+    const a = ayar ?? {};
+    if (tur === "elli") return tt("İki yanlış şık silindi.");
+    if (tur === "sure") return tt("Sürene 10 saniye eklendi.");
+    if (tur === "soru_degistir") return macTur === "1v1" ? tt("Soru ikinizde de değişti.") : tt("Soru değişti.");
+    if (tur === "zaman_baskisi")
+      return tt("Rakibin süresi {0} saniye kısaldı.", { 0: Number(a.klasik_zaman_baskisi_sn ?? 5) });
+    if (tur === "sis") return tt("Rakibin ekranı {0} saniye siste.", { 0: sisAyari(a).sn });
+    return jokerBilgi(tur, macTur, a).ad;
+  };
+
+  const kullanilanlar = new Set([...(durum.kullanilan_turler ?? []), ...kullandigim]);
+  // Sis'in son-N-saniye kuralı (YALNIZ Sis) — sunucu da reddediyor, düğme önceden söylesin
+  const sisGec = macTur === "1v1" && kalanSn <= sisAyari(ayar).esik;
 
   const neden = (tur) => {
     if (kilit) return tt("Bu soruyu zaten cevapladın");
@@ -129,7 +177,8 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
     // Turnuva herkese AYNI soruyu sorar ve elemelidir: soru değiştirilemez.
     if (macTur === "turnuva" && tur === "soru_degistir") return tt("Turnuvada soru değiştirilemez");
     // Paket 27 B: aynı joker maç başına bir kez — her tür için. Sunucu da aynı kuralı uygular.
-    if (kullandigim.includes(tur)) return tt("Bu jokeri bu maçta zaten kullandın");
+    if (kullanilanlar.has(tur)) return tt("Bu jokeri bu maçta zaten kullandın");
+    if (tur === "sis" && sisGec) return tt("Son {0} saniyede Sis kullanılamaz.", { 0: sisAyari(ayar).esik });
     const ucretsiz = tur === "elli" && durum.ucretsiz_elli_kaldi;
     // Envanterde yoksa artık "kalmadı" demiyoruz: maç içinde satın alınabiliyor.
     if (!ucretsiz && (envanter[tur] ?? 0) <= 0 && !satinAlinabilir(tur)) return tt("Jokerin kalmadı");
@@ -148,37 +197,68 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
           <Ikon ad="hizli" boyut={14} /> {tt("Rakibin süreni kısalttı!")}
         </div>
       )}
+      {/* B.5: kaç hak kaldığı tek satırda görünür */}
+      {!finalYasak && (
+        <div className="bd-joker-hak" aria-live="polite">
+          {durum.sinir === null || durum.sinir === undefined
+            ? tt("Arkadaş maçı: joker hakkın sınırsız")
+            : tt("Bu maçta {0} joker hakkın kaldı", { 0: Math.max(0, durum.sinir - durum.kullanilan) })}
+        </div>
+      )}
       {macJokerleri(macTur).map((tur) => {
-        const bilgi = jokerBilgi(tur, macTur);
+        const bilgi = jokerBilgi(tur, macTur, ayar);
         const ucretsiz = tur === "elli" && durum.ucretsiz_elli_kaldi;
         const engel = neden(tur);
         const adet = envanter[tur] ?? 0;
         const satilik = satinAlinabilir(tur);
         const fiyat = Number(fiyatlar?.[tur] ?? 0);
+        const kullanildi = kullanilanlar.has(tur);
+        const durumSinifi = kullanildi ? "kullanildi" : satilik ? "satilik" : engel ? "pasif" : "hazir";
+        const aciklama = engel ?? (satilik ? tt("{0} coin — dokun, al ve kullan", { 0: fiyat }) : bilgi.aciklama);
         return (
           <button
             key={tur}
-            className={`bd-joker ${ucretsiz ? "ucretsiz" : ""} ${satilik ? "satilik" : ""}`}
-            disabled={Boolean(engel) || calisan !== null}
-            title={engel ?? (satilik ? tt("{0} coin — dokun, al ve kullan", { 0: fiyat }) : bilgi.aciklama)}
-            aria-label={`${bilgi.ad} — ${engel ?? (satilik ? tt("{0} coin — dokun, al ve kullan", { 0: fiyat }) : bilgi.aciklama)}`}
-            onClick={() => bas(tur)}
+            type="button"
+            className={`bd-joker bd-jk ${durumSinifi} ${ucretsiz ? "ucretsiz" : ""} ${parlayan === tur ? "parla" : ""}`}
+            // Pasif düğme BASILABİLİR kalır ama joker kullanmaz: sebebini yazar (B.2.4).
+            aria-disabled={Boolean(engel) || calisan !== null}
+            title={aciklama}
+            aria-label={`${bilgi.ad} — ${aciklama}`}
+            onClick={() => {
+              if (calisan !== null) return;
+              if (engel) { setHata(engel); return; }
+              bas(tur);
+            }}
           >
-            {/* Paket 27 C: envanterde 0 varsa düğmenin üstünde altın simgesi —
-                "bu joker satın alınabilir" işareti. */}
-            {satilik && (
-              <span className="bd-joker-satilik" aria-hidden="true">
-                <Ikon ad="coin" boyut={12} />
+            {satilik ? (
+              <span className="bd-jk-rozet arti" aria-hidden="true"><Ikon ad="arti" boyut={11} kalinlik={3} /></span>
+            ) : kullanildi ? (
+              <span className="bd-jk-rozet onay" aria-hidden="true"><Ikon ad="onay" boyut={11} kalinlik={3} /></span>
+            ) : (
+              <span className={`bd-jk-rozet adet ${ucretsiz ? "bedava" : ""}`} aria-hidden="true">
+                {calisan === tur ? "…" : ucretsiz ? tt("ÜCRETSİZ") : adet}
               </span>
             )}
-            <span className="bd-joker-ikon" aria-hidden="true"><Ikon ad={bilgi.ikon} boyut={18} /></span>
+            <span className="bd-joker-ikon" aria-hidden="true"><Ikon ad={bilgi.ikon} boyut={20} /></span>
             <span className="bd-joker-ad">{bilgi.ad}</span>
-            <span className={`bd-joker-adet ${ucretsiz ? "bedava" : ""} ${satilik ? "fiyat" : ""}`}>
-              {calisan === tur ? "…" : ucretsiz ? tt("ÜCRETSİZ") : satilik ? fiyat : adet}
-            </span>
+            {satilik && <span className="bd-jk-fiyat"><Ikon ad="coin" boyut={11} /> {fiyat}</span>}
           </button>
         );
       })}
+
+      {/* B.4: kullanım anında ekran ortasında şerit — ne olduğu yazsın */}
+      {serit && typeof document !== "undefined" && createPortal(
+        <div className="bd-jk-serit" role="status" aria-live="polite" key={serit.tur + serit.metin}>
+          <span className="bd-jk-serit-ikon" aria-hidden="true">
+            <Ikon ad={jokerBilgi(serit.tur, macTur, ayar).ikon} boyut={22} />
+          </span>
+          <span className="bd-jk-serit-metin">
+            <b>{jokerBilgi(serit.tur, macTur, ayar).ad}</b>
+            <span>{serit.metin}</span>
+          </span>
+        </div>,
+        document.body
+      )}
 
       {(sinirDoldu || finalYasak) && (
         <div className="bd-joker-not">
