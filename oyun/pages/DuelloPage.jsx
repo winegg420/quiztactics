@@ -36,7 +36,7 @@ import { unvanAdi } from "../lib/unvanlar.js";
 import { JOKER_BILGI, SALDIRI_JOKERLERI, MAC_ICI_JOKERLER } from "../lib/jokerler.js";
 import { y } from "../lib/yol.js";
 import { coinTazele } from "../lib/coin.js";
-import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesJoker, sesKazandin, sesKaybettin, sesDokunus } from "../lib/ses.js";
+import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesJoker, sesKazandin, sesKaybettin, sesDokunus, sesRakipBulundu, sesCanKaybi } from "../lib/ses.js";
 import { titret } from "../lib/geriBildirim.js";
 import { tt } from "../lib/dil.js";
 
@@ -101,7 +101,7 @@ function DuelloGiris() {
       {arama && (
         <DuelloArama
           dereceli={dereceli}
-          onBulundu={(id) => navigate(y(`/duello/${id}`))}
+          onBulundu={(id) => { sesRakipBulundu(); navigate(y(`/duello/${id}`)); }}
           onIptal={() => setArama(false)}
         />
       )}
@@ -296,6 +296,8 @@ function DuelloMac({ id }) {
     sonHamleRef.current = anahtar;
     const benKaybettim = h.can_kaybeden === d.ben;
     if (benKaybettim) { sesYanlis(); titret(40); } else { sesDogru(); titret(10); }
+    // Paket 29 E.2: can eksildiyse cevap sesinin hemen ardından can sesi (kendi canın daha yüksek)
+    if (h.can_kaybeden) setTimeout(() => sesCanKaybi(benKaybettim), 220);
   }, [d]);
 
   // Maç sonu sesi + coin/profil tazeleme

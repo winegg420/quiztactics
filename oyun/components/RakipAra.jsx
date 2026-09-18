@@ -6,6 +6,7 @@ import { kategoriEtiket } from "../lib/kategoriler.js";
 import Maskot from "./Maskot.jsx";
 import { botZorluk } from "../lib/botZorluk.js";
 import { tt } from "../lib/dil.js";
+import { sesRakipBulundu } from "../lib/ses.js";
 
 const BEKLEME_SN = 8; // bu süre içinde insan rakip aranır, sonra bota düşülür
 
@@ -72,6 +73,7 @@ export default function RakipAra({ kategori, dereceli = true, onBulundu, onIptal
         // Ad alınamadı — maça yine de geçilir, ama sebep sessizce yutulmasın.
         console.error("[Bildim] rakip adı alınamadı:", e);
       }
+      sesRakipBulundu();   // Paket 29 E.2: "Rakip bulundu" yazısıyla aynı an
       window.setTimeout(() => onBulundu(macId), 1000);
     },
     [onBulundu, user?.id]
