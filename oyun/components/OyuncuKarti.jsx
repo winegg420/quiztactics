@@ -32,11 +32,43 @@ const ALANLAR =
  * @param {object} [o.onIzleme]   listede elimizde olan bilgi (kart boş açılmasın)
  * @param {() => void} o.onKapat
  * @param {(id:string) => void} [o.onMeydanOku]  verilmezse düğme çizilmez
+ * Paket 35 C — kart "arkadaş mıyım" BİLMEZ; karar veren sayfadır. Verilmeyen prop'un düğmesi çizilmez:
+ * @param {(id:string) => void|Promise} [o.onOyna]        "Oyna" → mod seçim penceresi (yalnız arkadaş)
+ * @param {(id:string) => void|Promise} [o.onMesaj]       "Mesaj at" (yalnız arkadaş)
+ * @param {(id:string) => void|Promise} [o.onArkadasEkle] "Arkadaş ekle" (arkadaş DEĞİLSE)
+ * @param {string} [o.oynaPasifNeden] verilirse Oyna + Meydan oku pasif, sebebi kartta yazar
+ *                                    (Paket 35 D: bu kişiye bekleyen meydan okuma var)
+ * @param {string} [o.bilgiNotu]      eylemlerin altında kısa durum (ör. "Arkadaşlık isteği gönderildi")
  */
-export default function OyuncuKarti({ userId, onIzleme = null, onKapat, onMeydanOku }) {
+export default function OyuncuKarti({
+  userId, onIzleme = null, onKapat, onMeydanOku, onOyna, onMesaj, onArkadasEkle, oynaPasifNeden = null,
+  bilgiNotu = null,
+}) {
   const [p, setP] = useState(onIzleme);
   const [hata, setHata] = useState(null);
   const [yukleniyor, setYukleniyor] = useState(true);
+  const [calisan, setCalisan] = useState(null);   // hangi eylem sürüyor ("…" + kilit)
+
+  // Eylem düğmesi: çalışırken metin "…", hepsi kilitli; hata kartın içinde yazar.
+  const eylem = async (kod, f) => {
+    if (calisan) return;
+    setHata(null);
+    setCalisan(kod);
+    try {
+      await f(userId);
+    } catch (e) {
+      setHata(hataMesaji(e, tt("İşlem yapılamadı.")));
+    } finally {
+      setCalisan(null);
+    }
+  };
+  // Birincil: Oyna varsa o, yoksa Meydan oku — dolu turuncu; ötekiler ikincil
+  const eylemler = [
+    onOyna && { kod: "oyna", ikon: "oyna", ad: tt("Oyna"), f: onOyna, pasif: Boolean(oynaPasifNeden) },
+    onMeydanOku && { kod: "meydan", ikon: "kilic", ad: tt("Meydan oku"), f: onMeydanOku, pasif: Boolean(oynaPasifNeden) },
+    onMesaj && { kod: "mesaj", ikon: "mesaj", ad: tt("Mesaj at"), f: onMesaj },
+    onArkadasEkle && { kod: "ekle", ikon: "arti", ad: tt("Arkadaş ekle"), f: onArkadasEkle },
+  ].filter(Boolean);
 
   useEffect(() => {
     let aktif = true;
@@ -96,11 +128,26 @@ export default function OyuncuKarti({ userId, onIzleme = null, onKapat, onMeydan
         {/* Kaç maç yaptı, kaç maçın istatistiği var, kategori yüzdeleri (Paket 14) */}
         <KategoriProfili userId={userId} kucuk />
 
-        {onMeydanOku && (
-          <button type="button" className="btn" onClick={() => onMeydanOku(userId)}>
-            <Ikon ad="kilic" boyut={16} /> {tt("Meydan oku")}
-          </button>
+        {eylemler.length > 0 && (
+          <div className={`bd-oyuncu-eylemler${eylemler.length === 1 ? " tek" : ""}`}>
+            {eylemler.map((e, i) => (
+              <button
+                key={e.kod}
+                type="button"
+                className={`btn${i === 0 ? "" : " ikincil"}`}
+                disabled={Boolean(calisan) || e.pasif}
+                aria-busy={calisan === e.kod}
+                onClick={() => eylem(e.kod, e.f)}
+              >
+                <Ikon ad={e.ikon} boyut={16} /> {calisan === e.kod ? "…" : e.ad}
+              </button>
+            ))}
+          </div>
         )}
+        {oynaPasifNeden && (onOyna || onMeydanOku) && (
+          <div className="bd-oyuncu-eylem-not" role="status">{oynaPasifNeden}</div>
+        )}
+        {bilgiNotu && <div className="bd-oyuncu-eylem-not" role="status">{bilgiNotu}</div>}
       </div>
     </Modal>
   );

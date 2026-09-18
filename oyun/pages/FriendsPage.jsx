@@ -11,6 +11,7 @@ import DavetKodu from "../components/DavetKodu.jsx";
 import { facebookArkadasOnerileri, facebookDavetAc } from "../lib/facebookArkadas.js";
 import { tt } from "../lib/dil.js";
 import ModSecimPenceresi from "../components/ModSecimPenceresi.jsx";
+import OyuncuKarti from "../components/OyuncuKarti.jsx";
 
 const DOSTLUK_SECIMI = `id, requester, addressee, durum,
   req:profiles!friendships_requester_fkey(id, gorunen_ad, gorunen_avatar, gorunum, puan),
@@ -28,6 +29,7 @@ export default function FriendsPage() {
   // Arkadaş silme geri alınamaz: tek dokunuşla değil, onaylı iki adımda.
   const [silOnay, setSilOnay] = useState(null);
   const [modHedef, setModHedef] = useState(null);   // Paket 30 B: mod penceresi açık olan arkadaş
+  const [kartHedef, setKartHedef] = useState(null); // Paket 35 C: profil kartı açık olan arkadaş
 
   const yukle = useCallback(async () => {
     try {
@@ -215,6 +217,21 @@ export default function FriendsPage() {
       <h1 className="baslik">{tt("Arkadaşlar")}</h1>
       {hata && <div className="hata-kutu">{hata}</div>}
       {bilgi && <div className="bd-bilgi-kutu">{bilgi}</div>}
+      {/* Paket 35 C: satıra dokununca profil kartı; kart yalnız verilen eylemleri çizer */}
+      {kartHedef && (
+        <OyuncuKarti
+          userId={kartHedef.id}
+          onIzleme={kartHedef}
+          onKapat={() => setKartHedef(null)}
+          onOyna={kartHedef.id === user.id ? undefined : () => { setKartHedef(null); setModHedef(kartHedef); }}
+          onMeydanOku={kartHedef.id === user.id ? undefined : async (id) => {
+            const m = await meydanOku(id);
+            if (m) throw new Error(m);
+            setKartHedef(null);
+          }}
+          onMesaj={kartHedef.id === user.id ? undefined : (id) => { setKartHedef(null); navigate(y(`/mesajlar/${id}`)); }}
+        />
+      )}
       {modHedef && (
         <ModSecimPenceresi
           profil={modHedef}
@@ -261,11 +278,20 @@ export default function FriendsPage() {
         const p = digerProfil(f);
         return (
           <div key={f.id} className="liste-satir">
-            <AvatarCerceve profile={p} />
-            <div className="bilgi">
-              <div className="isim">{p?.gorunen_ad}</div>
-              <div className="detay"><Ikon ad="yildiz" boyut={13} /> {p?.puan} {tt("puan")}</div>
-            </div>
+            {/* Paket 35 C: satıra (avatar + ad) dokunmak profil kartını açar; "Oyna" kısayol olarak kalır */}
+            <button
+              type="button"
+              className="bd-arkadas-ac"
+              onClick={() => setKartHedef(p)}
+              aria-haspopup="dialog"
+              aria-label={tt("{ad} profilini aç", { ad: p?.gorunen_ad ?? tt("Arkadaşın") })}
+            >
+              <AvatarCerceve profile={p} />
+              <div className="bilgi">
+                <div className="isim">{p?.gorunen_ad}</div>
+                <div className="detay"><Ikon ad="yildiz" boyut={13} /> {p?.puan} {tt("puan")}</div>
+              </div>
+            </button>
             {/* Paket 30 B: kılıç (Klasik) + kalkan (Düello) yerine tek düğme → mod seçim penceresi */}
             <button
               className="btn kucuk bd-oyna-dugme"

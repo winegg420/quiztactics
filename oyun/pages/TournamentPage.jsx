@@ -16,6 +16,7 @@ import MeydanaDonus from "../components/MeydanaDonus.jsx";
 import QuestionCard from "../components/QuestionCard.jsx";
 import Avatar from "../../src/components/Avatar.jsx";
 import OyuncuKarti from "../components/OyuncuKarti.jsx";
+import { useArkadaslik } from "../lib/arkadaslik.js";
 import AvatarCerceve from "../components/AvatarCerceve.jsx";
 import { useNavigate } from "react-router-dom";
 import { y } from "../lib/yol.js";
@@ -34,6 +35,8 @@ export default function TournamentPage() {
   const [hata, setHata] = useState(null);
   // Lobide bir oyuncuya dokununca açılan kart
   const [kartOyuncu, setKartOyuncu] = useState(null);
+  // Paket 35 C: kartta arkadaşsa "Mesaj at", değilse "Arkadaş ekle" — kararı sayfa verir
+  const arkadaslik = useArkadaslik(user?.id);
   // Paket 26 · F — lobi filtreleri. Hepsi MEVCUT listenin üstünde çalışır;
   // her tuşa basışta sunucuya gitmez. "Arkadaşlarım" için arkadaş kimlikleri
   // yalnız o filtre İLK KEZ seçildiğinde bir kez okunur ve oturum boyunca durur.
@@ -447,6 +450,12 @@ export default function TournamentPage() {
               onIzleme={kartOyuncu}
               onKapat={() => setKartOyuncu(null)}
               onMeydanOku={kartOyuncu.id === user.id ? undefined : meydanOku}
+            onMesaj={kartOyuncu.id !== user.id && arkadaslik.arkadasMi(kartOyuncu.id)
+              ? (id) => { setKartOyuncu(null); navigate(y(`/mesajlar/${id}`)); } : undefined}
+            onArkadasEkle={kartOyuncu.id !== user.id && !arkadaslik.arkadasMi(kartOyuncu.id)
+              && !arkadaslik.istekVar(kartOyuncu.id) ? arkadaslik.arkadasEkle : undefined}
+            bilgiNotu={kartOyuncu.id !== user.id && arkadaslik.istekVar(kartOyuncu.id)
+              ? tt("Arkadaşlık isteği bekliyor.") : null}
             />
           )}
           <div className="baslik">

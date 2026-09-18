@@ -13,6 +13,7 @@ import KonumSecici from "../components/KonumSecici.jsx";
 import Maskot from "../components/Maskot.jsx";
 import { bayrak, haftaBitisi, sureMetni } from "../lib/konum.js";
 import OyuncuKarti from "../components/OyuncuKarti.jsx";
+import { useArkadaslik } from "../lib/arkadaslik.js";
 import AvatarCerceve from "../components/AvatarCerceve.jsx";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
@@ -67,6 +68,8 @@ export default function LeaderboardPage() {
 
   // Kartı açık olan oyuncu (satıra dokununca açılır)
   const [kartOyuncu, setKartOyuncu] = useState(null);
+  // Paket 35 C: kartta arkadaşsa "Mesaj at", değilse "Arkadaş ekle" — kararı sayfa verir
+  const arkadaslik = useArkadaslik(user?.id);
 
   const meydanOku = async (hedefId) => {
     setHata(null);
@@ -259,6 +262,12 @@ export default function LeaderboardPage() {
           onIzleme={kartOyuncu}
           onKapat={() => setKartOyuncu(null)}
           onMeydanOku={kartOyuncu.id === user.id ? undefined : meydanOku}
+        onMesaj={kartOyuncu.id !== user.id && arkadaslik.arkadasMi(kartOyuncu.id)
+          ? (id) => { setKartOyuncu(null); navigate(y(`/mesajlar/${id}`)); } : undefined}
+        onArkadasEkle={kartOyuncu.id !== user.id && !arkadaslik.arkadasMi(kartOyuncu.id)
+          && !arkadaslik.istekVar(kartOyuncu.id) ? arkadaslik.arkadasEkle : undefined}
+        bilgiNotu={kartOyuncu.id !== user.id && arkadaslik.istekVar(kartOyuncu.id)
+          ? tt("Arkadaşlık isteği bekliyor.") : null}
         />
       )}
 

@@ -74,6 +74,10 @@ const YOLLAR = {
   ok: "M5 12h14M13 6l6 6-6 6",
   geri: "M19 12H5M11 6l-6 6 6 6",
   arti: "M12 5v14M5 12h14",
+  // Paket 35: oyuncu kartı eylemleri ve mesajlaşma
+  oyna: "M8 5v14l11-7z",
+  mesaj: "M5 4h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-7l-5 4v-4H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zM8 9h8M8 12.5h5",
+  gonder: "M22 2 11 13M22 2l-7 20-4-9-9-4z",
   yenile: "M21 12a9 9 0 1 1-2.6-6.4M21 3v6h-6",
   cop: "M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M6 7l1 13a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-13M10 11v6M14 11v6",
   paylas:

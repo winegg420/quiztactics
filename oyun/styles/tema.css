@@ -7186,3 +7186,43 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   background: #FFE3CC; color: #C4530F;
 }
 .bd-yarim-mac-not { margin: var(--bd-b-1) 0 0; font-size: 13px; font-weight: 700; line-height: 1.45; color: var(--bd-metin-2); }
+
+/* ============================================================
+   Paket 35 C — oyuncu kartı eylemleri: 2×2 ızgara, eşit genişlik, 8px ara.
+   Birincil (ilk düğme) marka .btn'i; ötekiler beyaz zemin + turuncu kenarlık/yazı
+   (#C4530F beyazda ≈ 4.9:1, AA). Modal body'ye basıldığı için ".app" öneki YOK.
+   Dört hal: normal / basılı (translateY 4px) / pasif (.45) / çalışıyor ("…", kilitli).
+   ============================================================ */
+.bd-modal.bd-oyuncu-karti { animation: bd-oyuncu-gel 0.18s ease-out; }
+@keyframes bd-oyuncu-gel { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: none; } }
+.bd-oyuncu-eylemler {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+  margin-top: 12px;
+}
+.bd-oyuncu-eylemler.tek { grid-template-columns: 1fr; }
+.bd-oyuncu-eylemler > .btn:last-child:nth-child(odd) { grid-column: 1 / -1; }
+.bd-oyuncu-eylemler .btn { width: 100%; min-height: 46px; padding: 10px 8px; font-size: 15px; gap: 6px; }
+.bd-oyuncu-eylemler .btn.ikincil {
+  background: #FFFFFF; color: #C4530F; text-shadow: none;
+  border: 2px solid var(--bd-vurgu);
+  box-shadow: 0 4px 0 #F3C9A8;
+}
+.bd-oyuncu-eylemler .btn:active:not(:disabled) { transform: translateY(4px); box-shadow: none; }
+.bd-oyuncu-eylemler .btn:disabled { filter: none; opacity: 0.45; cursor: not-allowed; }
+.bd-oyuncu-eylemler .btn[aria-busy="true"] { opacity: 1; }
+.bd-oyuncu-eylem-not {
+  margin-top: 8px; font-size: 13px; font-weight: 800; color: #7A3300;   /* beyazda ≈ 9:1 */
+}
+@media (prefers-reduced-motion: reduce) {
+  .bd-modal.bd-oyuncu-karti { animation: none; }
+  .bd-oyuncu-eylemler .btn:active:not(:disabled) { transform: none; }
+}
+/* Paket 35 C: arkadaş satırında avatar + ad tek dokunma alanı (profil kartını açar) */
+.app .bd-arkadas-ac {
+  flex: 1; min-width: 0;
+  display: flex; align-items: center; gap: 12px;
+  padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left;
+  cursor: pointer; border-radius: 12px;
+}
+.app .bd-arkadas-ac:focus-visible { outline: 3px solid var(--bd-vurgu); outline-offset: 2px; }
+.app .bd-arkadas-ac:active .isim { color: var(--bd-vurgu-metin, #C4530F); }
