@@ -205,3 +205,29 @@ test('nabız aralığı kopukluk eşiğinin yarısından küçük kalır', sec, 
     assert.ok(yeni <= 4, `eşik 8 sn olunca nabız en çok 4 sn olmalı, gelen: ${yeni}`);
   });
 });
+
+// Paket 30 D: Saldırı Hazırlığı ayardan gelir (6 sn); savunanın 15 sn'si değişmez.
+test('hazırlık süresi duello_hazirlik_sn kadar, savunanın cevap süresi duello_cevap_sn kadar', sec, async () => {
+  await islem(async (c) => {
+    const { x, id } = await duelloKur(c);
+    const hazirlik = Number(await c.tek(`select public.ayar_sayi('duello_hazirlik_sn', 4)`));
+    const cevap = Number(await c.tek(`select public.ayar_sayi('duello_cevap_sn', 15)`));
+    assert.equal(hazirlik, 6, 'Paket 30 D: hazırlık 6 sn');
+    assert.equal(cevap, 15, 'savunanın süresi 15 sn kalmalı');
+
+    const kategori = await c.tek(`select k from unnest(public.duello_kategorileri()) k limit 1`);
+    await olarak(c, x);
+    await c.sorgu(`select public.duello_kategori_sec(${a(id)}, ${a(kategori)})`);
+    // İşlem içinde now() sabit → fark tam saniye çıkar
+    const hSn = Number(await c.tek(`select extract(epoch from faz_bitis - now()) from public.duellolar where id = ${a(id)}`));
+    assert.equal(Math.round(hSn), hazirlik);
+
+    // Hazırlık bitmiş gibi: faz ilerleyince savunana tam cevap süresi verilir
+    await c.sorgu(`update public.duellolar set faz_bitis = now() - interval '2 seconds' where id = ${a(id)}`);
+    await c.sorgu(`select public.duello_ilerlet(${a(id)})`);
+    const d = await duello(c, id);
+    assert.equal(d.faz, 'cevap');
+    const cSn = Number(await c.tek(`select extract(epoch from faz_bitis - now()) from public.duellolar where id = ${a(id)}`));
+    assert.equal(Math.round(cSn), cevap);
+  });
+});

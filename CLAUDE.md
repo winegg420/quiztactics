@@ -288,7 +288,7 @@ Bunlar onaylanmış kararlardır, aksini yapma:
   (puan yok, coin %50). Arayüzde tek "Dereceli" anahtarı, son tercih
   hatırlanır (localStorage + `profiles.dereceli_tercih`).
 - Hızlı Mod (dondurulmuş): soru 10 sn, oturum 90 sn, okuma tavanı 170 karakter.
-- **Düello:** 3 can, en çok 10 tur (çift hamle — eşit hamle kuralı); 4 sn
+- **Düello:** 3 can, en çok 10 tur (çift hamle — eşit hamle kuralı); 6 sn
   Saldırı Hazırlığı; savunan 15 sn (Zaman Baskısı 10). Saldırı jokerleri:
   Zaman Baskısı, Soru Değiştir (bir kez), Savunma Kilidi. **Saldırı riski:**
   savunan kendi EN ZAYIF kategorisinde (maç başında sabitlenir) bilirse

@@ -880,7 +880,7 @@ function JokerAlani({ set, d, calisan, onKullan, onSatinAl, ceviri }) {
 
   const saldiriAcik = benSaldiran && d.faz === "hazirlik";
   // Paket 28 D: saldırı jokerleri KATEGORİ ekranında da SATIN ALINABİLİR.
-  // Hazırlık yalnız 4 saniye; jokeri olmayan oyuncunun o sürede altın rozeti
+  // Hazırlık yalnız 6 saniye (Paket 30 D; ayar duello_hazirlik_sn); jokeri olmayan oyuncunun o sürede altın rozeti
   // fark edip onayı okuyup onaylaması çok dardı. Satın alma kategori seçerken
   // (20 sn) yapılır, KULLANIM yine Hazırlık'ta kalır — maç ritmi uzamaz.
   const saldiriAlinabilir = benSaldiran && (d.faz === "hazirlik" || d.faz === "kategori");
