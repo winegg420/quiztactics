@@ -7778,3 +7778,13 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 .app .mss-podyum-yer.s1 .mss-podyum-basamak { height: 56px; color: var(--bd-vurgu-2); }
 .app .mss-podyum-yer.s2 .mss-podyum-basamak { height: 40px; }
 .app .mss-podyum-yer.s3 .mss-podyum-basamak { height: 28px; }
+
+/* Paket 36 C.3 — turnuva: şampiyon tek başına ortada, altında kendi sıran */
+.app .mss-sampiyon { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.app .mss-sampiyon-sira {
+  margin-top: 8px;
+  font-family: var(--bd-f-baslik);
+  font-weight: 800;
+  font-size: 24px;
+  color: var(--bd-metin);
+}

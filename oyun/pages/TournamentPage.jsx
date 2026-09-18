@@ -13,6 +13,7 @@ import YanlisSatiri from "../components/YanlisSatiri.jsx";
 import OdulDokumu from "../components/OdulDokumu.jsx";
 import MacSorulari from "../components/MacSorulari.jsx";
 import MeydanaDonus from "../components/MeydanaDonus.jsx";
+import MacSonuSahnesi from "../components/MacSonuSahnesi.jsx";
 import QuestionCard from "../components/QuestionCard.jsx";
 import Avatar from "../../src/components/Avatar.jsx";
 import OyuncuKarti from "../components/OyuncuKarti.jsx";
@@ -53,6 +54,12 @@ export default function TournamentPage() {
   const [haftalikGiysi, setHaftalikGiysi] = useState(null);
   const navigate = useNavigate();
   const advanceKilidi = useRef(false);
+  // Paket 36: biten turnuvanın sonuç sahnesi. Ödül toplamı ve sıra SUNUCUNUN
+  // yazdığı dökümden (odul_dokumu › turnuva_derece.detay.sira) gelir; istemci sıralamaz.
+  const [turnuvaDokum, setTurnuvaDokum] = useState(null);
+  const [turnuvaYanlis, setTurnuvaYanlis] = useState(0);
+  // "Turnuvalara dön" sahneyi kapatır; bu oturumda aynı turnuva için bir daha açılmaz.
+  const [sonucKapandi, setSonucKapandi] = useState(0);
 
   /** Lobideki oyuncuya meydan okuma — kart da buradan kapanır. */
   const meydanOku = async (hedefId) => {
@@ -378,6 +385,66 @@ export default function TournamentPage() {
       turnuva?.durum === "bitti"
         ? oyuncular.find((o) => o.user_id === turnuva.kazanan)
         : null;
+    const katildim = oyuncular.some((o) => o.user_id === user?.id);
+    const kapanmaAnahtari = turnuva ? `bildim_turnuva_sonuc_kapandi:${turnuva.id}` : null;
+    let kapandi = sonucKapandi > 0;
+    try { kapandi = kapandi || (kapanmaAnahtari && sessionStorage.getItem(kapanmaAnahtari) === "1"); } catch { /* özel mod */ }
+    if (turnuva?.durum === "bitti" && katildim && !kapandi) {
+      const ben = turnuvaDokum?.kalemler?.find((k) => k.kalem === "turnuva_derece");
+      const sira = ben?.detay?.sira ?? null;
+      const sampiyonBenim = turnuva.kazanan === user?.id;
+      const toplam = turnuvaDokum?.toplam ?? {};
+      return (
+        <MacSonuSahnesi
+          durum={sampiyonBenim ? "kazandi" : "berabere"}
+          baslik={sampiyonBenim ? tt("Kazandın!") : tt("Turnuva bitti")}
+          oduller={[
+            { ikon: "yildiz", deger: toplam.lig ?? 0, etiket: tt("lig puanı") },
+            { ikon: "coin", deger: toplam.coin ?? 0, etiket: tt("coin") },
+          ]}
+          karsilasma={
+            <div className="mss-sampiyon">
+              {kazanan && (
+                <>
+                  <div className="mss-avatar" style={{ "--boyut": "96px" }}>
+                    <span className="mss-hale" aria-hidden="true" />
+                    <span className="mss-tac" aria-hidden="true"><Ikon ad="kupa" boyut={18} /></span>
+                    <AvatarCerceve profile={kazanan.profil} boyut={96} userId={kazanan.user_id} />
+                  </div>
+                  <div className="mss-isim"><span className="mss-isim-metin">{kazanan.profil?.gorunen_ad}</span></div>
+                  <div className="mss-taraf-ek">{tt("Şampiyon")}</div>
+                </>
+              )}
+              {sira != null && !sampiyonBenim && (
+                <div className="mss-sampiyon-sira">{tt("{n}. oldun", { n: sira })}</div>
+              )}
+            </div>
+          }
+          detayRozet={turnuvaYanlis}
+          ozet={
+            <>
+              <OdulDokumu kaynak={`turnuva:${turnuva.id}`} onDokum={setTurnuvaDokum} />
+              <MacSorulari kaynak={`turnuva:${turnuva.id}`} />
+              <YanlisSatiri macTur="turnuva" macId={turnuva.id} onAdet={setTurnuvaYanlis} />
+            </>
+          }
+          eylemler={
+            <>
+              <button className="btn mss-tam" onClick={() => {
+                try { sessionStorage.setItem(kapanmaAnahtari, "1"); } catch { /* özel mod */ }
+                setSonucKapandi((x) => x + 1);
+              }}>
+                {tt("Turnuvalara dön")}
+              </button>
+              <button className="btn ikincil" onClick={() => navigate(y())}>{tt("Ana sayfa")}</button>
+            </>
+          }
+        >
+          {/* Meydandan girilmişse turnuva bitince oraya dönülür */}
+          <MeydanaDonus />
+        </MacSonuSahnesi>
+      );
+    }
     return (
       <div>
         {kazanan && (
