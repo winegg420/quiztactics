@@ -85,9 +85,12 @@ test('create_challenge tek imza: davet açılır, ikinci davette sunucunun mesaj
       `select p.oid::regprocedure::text s from pg_proc p join pg_namespace n on n.oid = p.pronamespace
         where n.nspname = 'public' and p.proname = 'create_challenge'`
     );
-    assert.deepEqual(imzalar.map((r) => r.s), ['create_challenge(uuid,text,boolean)'], 'tek imza kalmalı');
+    // Paket 31 B: imza p_jokersiz ile büyüdü; kural "TEK imza" (sayı değil) — HTTP 300 olmasın
+    assert.equal(imzalar.length, 1, 'tek imza kalmalı');
     assert.ok(
-      await c.tek(`select pg_get_functiondef('public.create_challenge(uuid,text,boolean)'::regprocedure) like '%davet_siniri_kontrol%'`) === 't',
+      await c.tek(`select pg_get_functiondef(p.oid) like '%davet_siniri_kontrol%'
+                     from pg_proc p join pg_namespace n on n.oid = p.pronamespace
+                    where n.nspname = 'public' and p.proname = 'create_challenge'`) === 't',
       'davet sınırı kuralı 3 parametreli sürümde olmalı'
     );
 

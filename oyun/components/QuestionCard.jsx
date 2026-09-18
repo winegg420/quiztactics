@@ -33,6 +33,8 @@ export default function QuestionCard({
   macTur,
   // Paket 31 A: rakibin jokeri benim soruma dokunduğunda artar → joker çubuğu yeniden okur
   jokerSurum = 0,
+  // Paket 31 B: Saf Bilgi — joker alanı hiç çizilmez (kapalı/soluk değil, YOK)
+  jokerYok = false,
   macId,
   onPas,
   // Kazanılan puanı uçan rozet olarak göstermek için. null verilirse rozet
@@ -357,7 +359,7 @@ export default function QuestionCard({
           üzerine kurulu; 50:50 ya da +10 sn adaleti doğrudan bozar. Meydan Oku
           açıklamasındaki "Joker yok!" cümlesiyle tutarlı olsun diye çubuk
           bu modda hiç çizilmez. */}
-      {macTur && macTur !== "hizli" && macId && !sonuc && secim === null && kalan > 0 && (
+      {macTur && macTur !== "hizli" && !jokerYok && macId && !sonuc && secim === null && kalan > 0 && (
         <JokerCubugu
           macTur={macTur}
           macId={macId}

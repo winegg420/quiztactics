@@ -120,6 +120,7 @@ export default function ChallengesPage() {
   const [hizliAcik, setHizliAcik] = useState(false);
   const [dereceli, setDereceli] = useDereceliTercih();
   // Meydan okuma modu: normal 1v1 maç ya da düello (Taktik Maçı). Düelloda kategoriyi saldıran tur başında seçer.
+  // Paket 31 B: "saf" = Saf Bilgi (jokersiz Klasik Mod).
   const [meydanModu, setMeydanModu] = useState("normal");
   const [duelloDavetleri, setDuelloDavetleri] = useState([]);
   const { ceviri } = useDil();
@@ -498,6 +499,7 @@ export default function ChallengesPage() {
         p_rakip: hedefId,
         p_kategori: kategori,
         p_dereceli: dereceli,
+        p_jokersiz: meydanModu === "saf",
       });
       if (error) throw error;
       const botMu = botlar.some((b) => b.id === hedefId);
@@ -813,7 +815,7 @@ export default function ChallengesPage() {
           onClick={() => setMeydanModu("normal")}
         >
           <b>{tt("Klasik Mod")}</b>
-          <span className="alt-yazi">{tt("5 soru · seçtiğin kategori")}</span>
+          <span className="alt-yazi">{tt("5 joker · aynı anda")}</span>
         </button>
         <button
           className={`bd-mod-sec ${meydanModu === "duello" ? "aktif" : ""}`}
@@ -822,7 +824,16 @@ export default function ChallengesPage() {
           onClick={() => setMeydanModu("duello")}
         >
           <b>{tt("Düello")}</b>
-          <span className="alt-yazi">{tt("3 can · kategoriyi saldıran seçer")}</span>
+          <span className="alt-yazi">{tt("6 joker · sıra sende")}</span>
+        </button>
+        <button
+          className={`bd-mod-sec ${meydanModu === "saf" ? "aktif" : ""}`}
+          role="radio"
+          aria-checked={meydanModu === "saf"}
+          onClick={() => setMeydanModu("saf")}
+        >
+          <b>{tt("Saf Bilgi")}</b>
+          <span className="alt-yazi">{tt("joker yok")}</span>
         </button>
       </div>
 

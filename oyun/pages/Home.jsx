@@ -38,6 +38,7 @@ export default function Home() {
   // Aranan maçın türü: dereceli (puan/lig etkiler, seviyeye göre eşleşme)
   // ya da normal (puan yok, serbest rakip).
   const [dereceliAra, setDereceliAra] = useState(true);
+  const [jokersizAra, setJokersizAra] = useState(false);   // Paket 31 B: Saf Bilgi araması
   // Paket 14 (3.1): mod seçiminin üstünde tek "Dereceli" anahtarı, son tercih hatırlanır.
   const [dereceliTercih, setDereceliTercih] = useDereceliTercih();
   const { ceviri } = useDil();
@@ -313,9 +314,10 @@ export default function Home() {
 
   // Hemen Oyna: önce tercih edilen kategoride insan rakip aranır (20 sn),
   // bulunamazsa karışığa/bota düşülür. Akış RakipAra bileşeninde.
-  const hemenOyna = (dereceli = true) => {
+  const hemenOyna = (dereceli = true, jokersiz = false) => {
     setMesaj(null);
     setDereceliAra(dereceli);
+    setJokersizAra(jokersiz);
     setRakipAra(true);
   };
 
@@ -349,6 +351,7 @@ export default function Home() {
         <RakipAra
           kategori={profile?.tercih_kategori ?? null}
           dereceli={dereceliAra}
+          jokersiz={jokersizAra}
           onBulundu={(macId) => {
             setRakipAra(false);
             navigate(y(`/mac/${macId}`));
@@ -489,6 +492,7 @@ export default function Home() {
           {dereceliTercih
             ? ceviri("Klasik Mod — kazanırsan lig puanı ve coin")
             : ceviri("Serbest maç — keyfine bak, hiçbir şey kaybetmezsin")}
+          {" · "}{ceviri("5 joker · aynı anda")}
         </div>
         {mesaj && <div className="hata-kutu" style={{ marginTop: 10 }}>{mesaj}</div>}
       </section>
@@ -670,6 +674,19 @@ export default function Home() {
             <span className="bd-mod-ikon"><Ikon ad="kilic" boyut={28} /></span>
             <span className="bd-mod-ad">{ceviri("Düello")}</span>
             <span className="bd-mod-not">{ceviri("Taktik Maçı")}</span>
+            <span className="bd-mod-joker">{ceviri("6 joker · sıra sende")}</span>
+          </button>
+          {/* SAF BİLGİ (Paket 31 B): jokersiz Klasik Mod. Ödül Klasik ile aynı;
+              kuyrukta yalnız jokersiz oyuncularla eşleşir. Dereceli anahtarı hero'daki. */}
+          <button
+            className="bd-mod tema-saf"
+            title={ceviri("Joker yok. Sadece bilgi ve hız.")}
+            onClick={() => hemenOyna(dereceliTercih, true)}
+          >
+            <span className="bd-mod-ikon"><Ikon ad="soru" boyut={26} /></span>
+            <span className="bd-mod-ad">{ceviri("Saf Bilgi")}</span>
+            <span className="bd-mod-not">{ceviri("Joker yok. Sadece bilgi ve hız.")}</span>
+            <span className="bd-mod-joker">{ceviri("joker yok")}</span>
           </button>
           <button className="bd-mod tema-grup" title={tt("Arkadaşına davet gönder · tekli ya da grup")} onClick={() => navigate(y("/meydan"))}>
             <span className="bd-mod-ikon"><Ikon ad="kisiler" boyut={26} /></span>

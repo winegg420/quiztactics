@@ -25,7 +25,8 @@ const BEKLEME_SN = 8; // bu süre içinde insan rakip aranır, sonra bota düş�
  * oyuncu gibi görünmeli (bkz. migration 155). Açık bot yolunda geçer —
  * oyuncu bilerek seçiyor ve o maçta coin yarıya iniyor.
  */
-export default function RakipAra({ kategori, dereceli = true, onBulundu, onIptal }) {
+// Paket 31 B: jokersiz = Saf Bilgi. Kuyruk ve bot maçı bayrağı taşır; jokerli ile eşleşmez.
+export default function RakipAra({ kategori, dereceli = true, jokersiz = false, onBulundu, onIptal }) {
   const { user } = useAuth();
   const [kalan, setKalan] = useState(BEKLEME_SN);
   const [hata, setHata] = useState(null);
@@ -97,6 +98,7 @@ export default function RakipAra({ kategori, dereceli = true, onBulundu, onIptal
       const { data, error } = await supabase.rpc("hemen_bot_mac", {
         p_kategori: kategori ?? null,
         p_dereceli: dereceli,
+        p_jokersiz: jokersiz,
       });
       if (error) throw error;
       if (data) { bitir(data); return; }
@@ -105,7 +107,7 @@ export default function RakipAra({ kategori, dereceli = true, onBulundu, onIptal
       setHata(tt("Maç başlatılamadı. Bağlantını kontrol edip tekrar dene."));
       console.error("[Bildim] hemen_bot_mac:", e);
     }
-  }, [kategori, dereceli, bitir]);
+  }, [kategori, dereceli, jokersiz, bitir]);
 
   // BOT SEÇİMİ (Paket 12, madde 6): "Beklemeden bot ile oyna" önce açık
   // botları ad + zorlukla listeler; oyuncu seçtiği botla oynar. Zorluk,
@@ -144,6 +146,7 @@ export default function RakipAra({ kategori, dereceli = true, onBulundu, onIptal
         p_bot: botId,
         p_kategori: kategori ?? null,
         p_dereceli: dereceli,
+        p_jokersiz: jokersiz,
       });
       if (error) throw error;
       if (data) { bitir(data); return; }
@@ -154,7 +157,7 @@ export default function RakipAra({ kategori, dereceli = true, onBulundu, onIptal
       console.error("[Bildim] hemen_bot_mac_sec:", e);
       setSecilenBot(null);
     }
-  }, [kategori, dereceli, bitir]);
+  }, [kategori, dereceli, jokersiz, bitir]);
 
   // Son çare: 8 sn dolunca sunucu rakip kursun.
   //
@@ -174,6 +177,7 @@ export default function RakipAra({ kategori, dereceli = true, onBulundu, onIptal
         const { data, error } = await supabase.rpc("quick_match", {
           p_kategori: kategori ?? null,
           p_dereceli: dereceli,
+          p_jokersiz: jokersiz,
         });
         if (error) throw error;
         if (data) { bitir(data); return true; }
@@ -189,7 +193,7 @@ export default function RakipAra({ kategori, dereceli = true, onBulundu, onIptal
     zamanlayiciRef.current = setInterval(async () => {
       if (await dene()) clearInterval(zamanlayiciRef.current);
     }, 1000);
-  }, [kategori, dereceli, bitir]);
+  }, [kategori, dereceli, jokersiz, bitir]);
 
   useEffect(() => {
     let iptal = false;
@@ -200,6 +204,7 @@ export default function RakipAra({ kategori, dereceli = true, onBulundu, onIptal
         const { data, error } = await supabase.rpc("kuyruga_gir", {
           p_kategori: kategori ?? null,
           p_dereceli: dereceli,
+          p_jokersiz: jokersiz,
         });
         if (error) throw error;
         if (data) bitir(data);
@@ -232,7 +237,7 @@ export default function RakipAra({ kategori, dereceli = true, onBulundu, onIptal
       // ekranı boş bırakıyordu. then'in ikinci argümanı hatayı güvenle yutar.
       if (!bittiRef.current) supabase.rpc("kuyruktan_cik").then(() => {}, () => {});
     };
-  }, [kategori, dereceli, bitir, sonCare]);
+  }, [kategori, dereceli, jokersiz, bitir, sonCare]);
 
   const govde = (
     <div className="bd-arama-katman bd-karsilasma-katman" role="dialog" aria-modal="true" aria-label={tt("Rakip aranıyor")}>

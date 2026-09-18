@@ -1084,6 +1084,7 @@ export default function MatchPage() {
             onSureDoldu={sureDoldu}
             macTur={"1v1"}
             jokerSurum={jokerSurum}
+            jokerYok={Boolean(mac.jokersiz)}
             macId={id}
             kategori={mac.kategori}
           />

@@ -6884,3 +6884,26 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   background: #FFE3CC; color: #7A3300;               /* AA: ≈ 8:1 */
   font-size: 13px; font-weight: 800;
 }
+
+/* ============================================================
+   Paket 31 B / C — Saf Bilgi kartı + modların joker satırı
+   Izgara çift değilse son kart tam satır (5 kart: 2 + 2 + 1).
+   ============================================================ */
+.app .anasayfa .bd-mod-grid > .bd-mod:last-child:nth-child(odd) { grid-column: 1 / -1; }
+.app .anasayfa .bd-mod-grid .tema-saf .bd-mod-ikon { background: #0E9384; color: #fff; }   /* beyaz/teal ≈ 3.7:1, ikon */
+.app .anasayfa .bd-mod-grid .bd-mod-joker,
+.app .bd-mod-joker {
+  display: block;
+  font-size: 11.5px; font-weight: 800; line-height: 1.2;
+  color: var(--bd-metin-2);
+}
+/* Paket 31 B: /meydan mod seçimi artık üç seçenek (Klasik · Düello · Saf Bilgi) */
+.bd-mod-secim[role="radiogroup"] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.bd-mod-secim[role="radiogroup"] .bd-mod-sec { padding: 10px 8px; }
+/* Paket 31: arkadaş penceresi üç kart — geniş ekranda 3 sütun, dar ekranda tek sütun */
+.bd-mod-secim-liste { grid-template-columns: repeat(3, minmax(0, 1fr)); }   /* :has() yok — eski Safari */
+@media (max-width: 560px) {
+  .bd-mod-secim-liste { grid-template-columns: 1fr; }
+}
+.bd-mod-secim-saf .bd-mod-secim-ikon { background: #D5F5EF; color: #0B6B60; }
+.bd-mod-secim .bd-mod-joker { font-size: 12.5px; }

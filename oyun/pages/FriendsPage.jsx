@@ -168,10 +168,10 @@ export default function FriendsPage() {
 
   // Paket 30 B: iki davet de mod seçim penceresinden çağrılır. Hata sayfanın üstüne
   // değil pencerenin İÇİNE düşsün diye metin olarak döner (null = başarılı).
-  const meydanOku = async (hedefId) => {
+  const meydanOku = async (hedefId, jokersiz = false) => {
     setHata(null);
     try {
-      const { error, data } = await supabase.rpc("create_challenge", { p_rakip: hedefId });
+      const { error, data } = await supabase.rpc("create_challenge", { p_rakip: hedefId, p_jokersiz: jokersiz });
       if (error) throw error;
       setModHedef(null);
       if (data) navigate(y("/meydan"));
@@ -218,7 +218,7 @@ export default function FriendsPage() {
       {modHedef && (
         <ModSecimPenceresi
           profil={modHedef}
-          onSec={(mod) => (mod === "duello" ? duelloyaCagir(modHedef.id) : meydanOku(modHedef.id))}
+          onSec={(mod) => (mod === "duello" ? duelloyaCagir(modHedef.id) : meydanOku(modHedef.id, mod === "saf"))}
           onKapat={() => setModHedef(null)}
         />
       )}

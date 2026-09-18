@@ -17,7 +17,7 @@ import { tt } from "../lib/dil.js";
  *
  * @param {object}   props
  * @param {object}   props.profil   arkadaşın profili (gorunen_ad, avatar…)
- * @param {(mod: "klasik"|"duello") => Promise<string|null>} props.onSec
+ * @param {(mod: "klasik"|"duello"|"saf") => Promise<string|null>} props.onSec
  *        null dönerse iş bitti (pencere sayfa tarafından kapatılır); metin dönerse hata.
  * @param {() => void} props.onKapat
  */
@@ -72,6 +72,7 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat }) {
       ikon: "soru",
       ad: tt("Klasik Maç"),
       aciklama: tt("İkiniz aynı soruları cevaplarsınız, en çok doğru bilen kazanır."),
+      joker: tt("5 joker · aynı anda"),
       odul: odulMetni(odul?.klasik),
     },
     {
@@ -79,8 +80,18 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat }) {
       ikon: "kilic",
       ad: tt("Düello (Taktik Maçı)"),
       aciklama: tt("Rakibinin zayıf kategorisini bul, oradan vur. 3 can, en çok 10 tur."),
+      joker: tt("6 joker · sıra sende"),
       odul: odulMetni(odul?.duello),
       rozet: tt("En çok ödül"),
+    },
+    // Paket 31 B: Saf Bilgi — jokersiz Klasik; ödül Klasik ile aynı
+    {
+      mod: "saf",
+      ikon: "yildiz",
+      ad: tt("Saf Bilgi"),
+      aciklama: tt("Joker yok. Sadece bilgi ve hız."),
+      joker: tt("joker yok"),
+      odul: odulMetni(odul?.klasik),
     },
   ];
 
@@ -111,6 +122,7 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat }) {
                 {s.rozet && <span className="bd-mod-secim-rozet">{s.rozet}</span>}
               </span>
               <span className="bd-mod-secim-aciklama">{s.aciklama}</span>
+              <span className="bd-mod-joker">{s.joker}</span>
               {s.odul && <span className="bd-mod-secim-odul"><Ikon ad="coin" boyut={14} /> {s.odul}</span>}
               {calisan === s.mod && <span className="bd-mod-secim-bekle">{tt("Davet gönderiliyor…")}</span>}
             </button>

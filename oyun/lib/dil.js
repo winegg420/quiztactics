@@ -270,6 +270,14 @@ const SOZLUK = {
     "Rakibin süreni kısalttı!": "Your opponent cut your time!",
     "Rakibin bu soruyu zaten cevapladı": "Your opponent has already answered this question",
     "Bu joker yalnız eş zamanlı maçta kullanılabilir": "This joker can only be used in a live match",
+    // Paket 31 B: Saf Bilgi modu
+    "Saf Bilgi": "Pure Knowledge",
+    "Joker yok. Sadece bilgi ve hız.": "No jokers. Just knowledge and speed.",
+    "Bu modda joker kullanılamaz": "Jokers can't be used in this mode",
+    // Paket 31 C.5: her modun joker durumu tek satır
+    "5 joker · aynı anda": "5 jokers · at the same time",
+    "6 joker · sıra sende": "6 jokers · take turns",
+    "joker yok": "no jokers",
     // Paket 30 E: karşılaşma sahnesi
     "Sen": "You",
     "Rakip bulundu!": "Opponent found!",
