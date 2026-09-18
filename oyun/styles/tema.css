@@ -5334,7 +5334,7 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   color: var(--bd-metin);
 }
 .app .bd-lobi-oyuncu:hover { background: var(--bd-yuzey-2); }
-.app .bd-lobi-oyuncu > span:first-of-type { flex: 1; min-width: 0; }
+.app .bd-lobi-oyuncu > .bd-lobi-ad { flex: 1; min-width: 0; }
 .app .bd-lobi-kilic {
   flex: none; display: inline-flex; align-items: center; justify-content: center;
   width: 32px; height: 32px; border-radius: 50%;
@@ -5685,7 +5685,7 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   min-height: 44px;                               /* dokunma hedefi */
   padding: var(--bd-b-2) var(--bd-b-1);
 }
-.app .bd-lobi-oyuncu > span:not(.bd-lobi-kilic) {
+.app .bd-lobi-oyuncu > .bd-lobi-ad {
   flex: 1;
   min-width: 0;
   overflow: hidden;

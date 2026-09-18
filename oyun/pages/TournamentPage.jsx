@@ -516,7 +516,7 @@ export default function TournamentPage() {
               title={tt("{0} — kartını aç", { 0: o.profil?.gorunen_ad ?? tt("Oyuncu") })}
             >
               <AvatarCerceve profile={o.profil} boyut={32} userId={o.user_id} />
-              <span>{o.profil?.gorunen_ad}</span>
+              <span className="bd-lobi-ad">{o.profil?.gorunen_ad}</span>
               {o.user_id !== user.id && (
                 <span
                   className="bd-lobi-kilic"
