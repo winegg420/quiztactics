@@ -401,6 +401,9 @@ export default function MatchPage() {
   // Yalnız gerçekten değiştiyse state'e yaz: kart boşuna sıfırlanmasın.
   const jokerSurum = mac?.joker_surum ?? 0;
   const ilkSurumRef = useRef(null);
+  // Paket 32 A: rakibin Sisi — kalkacağı an (istemci saatine çevrilmiş ms). Soru değişince sıfır.
+  const [sisBitis, setSisBitis] = useState(null);
+  useEffect(() => { setSisBitis(null); }, [kendiIndeks]);
   useEffect(() => {
     if (!mac || mac.durum !== "aktif" || !senkron) return undefined;
     if (ilkSurumRef.current === null) { ilkSurumRef.current = jokerSurum; return undefined; }
@@ -418,6 +421,14 @@ export default function MatchPage() {
             ? eski
             : yeni
         );
+        // Paket 32 A: Sis — bitişi sunucu saatinden istemci saatine çevir
+        const { data: jd, error: je } = await supabase.rpc("joker_mac_durumu", { p_mac_tur: "1v1", p_mac_id: mac.id });
+        if (je) throw je;
+        const d = Array.isArray(jd) ? jd[0] : jd;
+        if (!iptal && d?.sis_bitis && d?.sunucu_zamani) {
+          const bitis = Date.parse(d.sis_bitis) - Date.parse(d.sunucu_zamani) + Date.now();
+          if (bitis > Date.now()) setSisBitis(bitis);
+        }
       } catch (e) {
         console.warn("[Bildim] rakip jokeri sonrası soru okunamadı:", e?.message ?? e);
       }
@@ -1085,6 +1096,7 @@ export default function MatchPage() {
             macTur={"1v1"}
             jokerSurum={jokerSurum}
             jokerYok={Boolean(mac.jokersiz)}
+            sisBitis={sisBitis}
             macId={id}
             kategori={mac.kategori}
           />

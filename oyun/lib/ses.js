@@ -28,7 +28,12 @@ const HACIM = {
   kaybettin: 0.9,
   kazandin: 1.0,
   rutbe: 1.0,
+  sis: 0.9,
 };
+// Rolün çaldığı dosya adı rolle aynı değilse (Paket 32: Sis için yeni dosya indirilmedi,
+// mevcut joker.mp3 yavaşlatılıp/hızlandırılıp kullanılıyor).
+const DOSYA = { sis: "joker" };
+const dosyaAdi = (rol) => DOSYA[rol] ?? rol;
 const ARKA_ARKAYA_MS = 40;         // aynı rol bu süreden sık tetiklenirse atlanır
 const ILK_CALMA_SINIRI_MS = 250;   // ilk indirme bundan uzun sürerse o çalış atlanır
 const SES_KLASORU = `${import.meta.env?.BASE_URL ?? "/"}ses/`;
@@ -218,7 +223,8 @@ function calabilir() {
 }
 
 /** Rolün dosyasını bir kez indirip decode eder; sonraki istekler aynı sözü paylaşır. */
-function yukle(c, rol) {
+function yukle(c, rolAdi) {
+  const rol = dosyaAdi(rolAdi);   // önbellek DOSYA başına: iki rol aynı dosyayı iki kez indirmesin
   let s = yuklemeler.get(rol);
   if (s) return s;
   s = (async () => {
@@ -272,12 +278,12 @@ function cal(rol, yedek, { carpan = 1, hiz = 1 } = {}) {
   if (simdi - (sonCalma.get(rol) ?? -Infinity) < ARKA_ARKAYA_MS) return;
   sonCalma.set(rol, simdi);
 
-  if (bozuk.has(rol)) { yedek(); return; }
+  if (bozuk.has(dosyaAdi(rol))) { yedek(); return; }
   const c = context();
   if (!c) return;
   const hacim = (HACIM[rol] ?? 0.8) * carpan;
 
-  const hazir = tamponlar.get(rol);
+  const hazir = tamponlar.get(dosyaAdi(rol));
   if (hazir) { tamponCal(c, hazir, hacim, hiz); return; }
 
   yukle(c, rol).then(
@@ -341,4 +347,14 @@ export function sesCanKaybi(kendi = true) {
   cal("can_kaybi", () => {
     ton({ frekans: 180, sure: 0.22, hacim: kendi ? 0.16 : 0.09, tip: "sawtooth" });
   }, { carpan: kendi ? 1 : 0.55 });
+}
+
+/**
+ * Sis (Paket 32 A.5): inerken koyu ve yavaş, kalkarken açık ve hızlı. Dosya: joker.mp3.
+ * @param {boolean} [kalkis=false]
+ */
+export function sesSis(kalkis = false) {
+  cal("sis", () => {
+    ton({ frekans: kalkis ? 520 : 240, sure: 0.35, hacim: 0.12, tip: "triangle" });
+  }, { hiz: kalkis ? 1.25 : 0.7, carpan: kalkis ? 0.7 : 1 });
 }

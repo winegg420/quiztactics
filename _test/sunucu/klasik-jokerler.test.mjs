@@ -3,7 +3,8 @@
 // NE KORUYOR:
 //   1. Soru Değiştir Klasik'te ORTAK: iki oyuncu da aynı yeni soruyu, aynı başlangıçla alır.
 //   2. Süreyi Kısalt yalnız rakibin süresini kısaltır; basanın süresi aynı kalır.
-//   3. Savunma Kilidi: rakip o soruda hiçbir joker kullanamaz, sunucu açık mesaj verir.
+//   3. Sis (Paket 32, Savunma Kilidi'nin yerine): rakibin ekranı sis süresince kapanır,
+//      sunucu o sürede rakibin cevabını reddeder; son 6 saniyede Sis kullanılamaz.
 //   4. Maç başına 4 joker ve aynı jokerden bir kez (Paket 27) Klasik'te de geçerli.
 //   5. Düello saldırı jokeri ('saldiri_degistir') Klasik'te kabul edilmez.
 // Kırılırsa Klasik taktiği ya sahte olur (etki yok) ya da tek taraflı bozulur.
@@ -70,18 +71,53 @@ test('Süreyi Kısalt yalnız rakibin süresini kısaltır', sec, async () => {
   });
 });
 
-test('Savunma Kilidi: rakip o soruda joker kullanamaz ve açık mesaj alır', sec, async () => {
+test('Sis: rakibin ekranı sis süresince kapanır, cevabı sunucu da reddeder', sec, async () => {
   await islem(async (c) => {
     const { x, y, id } = await klasikMac(c);
-    await joker(c, id, x, 'savunma_kilidi');
+    const sisSn = Number(await c.tek(`select public.ayar_sayi('klasik_sis_sn', 3)`));
+    await joker(c, id, x, 'sis');
     await olarak(c, y);
-    const d = (await c.sorgu(`select * from public.joker_mac_durumu('1v1', ${a(id)})`))[0];
-    assert.equal(d.kilitli, 't');
-    const hata = await hataVerir(c, `select public.joker_kullan('1v1', ${a(id)}, 0, 'elli')`);
-    assert.match(hata, /savunma jokerlerini kilitledi/i);
-    // Kilidi basan kendisi etkilenmez
+    const d = (await c.sorgu(`select extract(epoch from sis_bitis - sunucu_zamani)::float8 kalan
+                               from public.joker_mac_durumu('1v1', ${a(id)})`))[0];
+    assert.equal(Math.round(Number(d.kalan)), sisSn, 'rakibe sis_bitis = şimdi + sis süresi');
+    const hata = await hataVerir(c, `select * from public.submit_match_answer(${a(id)}, 0::smallint)`);
+    assert.match(hata, /sis kalkınca/i);
+    // Gönderen etkilenmez: kendi cevabını verebilir
     await olarak(c, x);
-    await c.sorgu(`select public.joker_kullan('1v1', ${a(id)}, 0, 'elli')`);
+    await c.sorgu(`select * from public.submit_match_answer(${a(id)}, 0::smallint)`);
+  });
+});
+
+test("Klasik'te Savunma Kilidi artık yok; düello türü olarak envanterde duruyor", sec, async () => {
+  await islem(async (c) => {
+    const { x, id } = await klasikMac(c);
+    await olarak(c, x);
+    const hata = await hataVerir(c, `select public.joker_kullan('1v1', ${a(id)}, 0, 'savunma_kilidi')`);
+    assert.match(hata, /maç içinde kullanılamaz/i);
+    assert.equal(Number(await c.tek(`select adet from public.joker_envanter where user_id = ${a(x)} and tur = 'savunma_kilidi'`)) > 0, true);
+  });
+});
+
+test('Sis son 6 saniyede reddedilir; diğer jokerler kullanılabilir', sec, async () => {
+  await islem(async (c) => {
+    const { x, id } = await klasikMac(c);
+    await c.sorgu(`update public.matches set soru_baslangic = now() - interval '10 seconds' where id = ${a(id)}`);
+    await olarak(c, x);
+    const hata = await hataVerir(c, `select public.joker_kullan('1v1', ${a(id)}, 0, 'sis')`);
+    assert.match(hata, /son 6 saniyede sis kullanılamaz/i);
+    await joker(c, id, x, 'zaman_baskisi');   // kural yalnız Sis için
+  });
+});
+
+test('Sis başlangıç stoğu: yeni hesap alır, toplu dağıtım ikinci kez vermez', sec, async () => {
+  await islem(async (c) => {
+    const adet = Number(await c.tek(`select public.ayar_sayi('baslangic_joker_adet', 2)`));
+    const o = await oyuncuKur(c, 'sisyeni');
+    assert.equal(Number(await c.tek(`select adet from public.joker_envanter where user_id = ${a(o)} and tur = 'sis'`)), adet);
+    await c.sorgu(`select * from public.sis_baslangic_dagit()`);
+    const ikinci = (await c.sorgu(`select * from public.sis_baslangic_dagit()`))[0];
+    assert.equal(Number(ikinci.oyuncu), 0, 'ikinci çalıştırma kimseye vermemeli');
+    assert.equal(Number(await c.tek(`select adet from public.joker_envanter where user_id = ${a(o)} and tur = 'sis'`)), adet, 'yeni hesap çift almamalı');
   });
 });
 
@@ -95,7 +131,7 @@ test('Klasik: maç başına 4 joker, aynı jokerden bir kez; saldiri_degistir yo
     assert.match(hata, /maç içinde kullanılamaz/i);
     await joker(c, id, x, 'sure');
     await joker(c, id, x, 'zaman_baskisi');
-    await joker(c, id, x, 'savunma_kilidi');
+    await joker(c, id, x, 'sis');
     hata = await hataVerir(c, `select public.joker_kullan('1v1', ${a(id)}, 0, 'soru_degistir')`);
     assert.match(hata, /en fazla 4 joker/i);
   });
@@ -128,7 +164,7 @@ test('Bot simetrisi: Klasik maçta bot da saldırı jokeri basar, insanı etkile
     await c.sorgu(`select public.bot_klasik_joker_tik()`);
     const tur = await c.tek(`select tur from public.joker_kullanimlari
                               where mac_tur = '1v1' and mac_id = ${a(id)} and user_id = ${a(bot)}`);
-    assert.ok(['zaman_baskisi', 'savunma_kilidi', 'soru_degistir'].includes(tur), `bot joker basmalı (${tur})`);
+    assert.ok(['zaman_baskisi', 'sis', 'soru_degistir'].includes(tur), `bot joker basmalı (${tur})`);
     assert.equal(Number(await c.tek(`select joker_surum from public.matches where id = ${a(id)}`)), 1);
     // İkinci tik aynı soruda ikinci joker basmaz
     await c.sorgu(`select public.bot_klasik_joker_tik()`);

@@ -25,7 +25,7 @@ test('jokersiz maçta her joker reddedilir', sec, async () => {
        returning id`
     );
     await olarak(c, x);
-    for (const tur of ['elli', 'sure', 'soru_degistir', 'zaman_baskisi', 'savunma_kilidi']) {
+    for (const tur of ['elli', 'sure', 'soru_degistir', 'zaman_baskisi', 'sis']) {
       const hata = await hataVerir(c, `select public.joker_kullan('1v1', ${a(id)}, 0, ${a(tur)})`);
       assert.match(hata, /bu modda joker kullanılamaz/i, tur);
     }

@@ -3,6 +3,7 @@ import Ikon from "./Ikon.jsx";
 import { supabase } from "../../src/lib/supabase.js";
 import { kalanSure, sunucuOffsetMs } from "../lib/zaman.js";
 import JokerCubugu from "./JokerCubugu.jsx";
+import { SisPerdesi, SisKenar } from "./Sis.jsx";
 import Konfeti from "./Konfeti.jsx";
 import CevapEfekti from "./CevapEfekti.jsx";
 import { sesTik, sesSureDoldu, sesDogru, sesYanlis, sesDokunus, sesKilidiAc } from "../lib/ses.js";
@@ -35,6 +36,8 @@ export default function QuestionCard({
   jokerSurum = 0,
   // Paket 31 B: Saf Bilgi — joker alanı hiç çizilmez (kapalı/soluk değil, YOK)
   jokerYok = false,
+  // Paket 32 A: rakibin Sisi — sisin kalkacağı an (istemci ms). O ana kadar şık kilitli.
+  sisBitis = null,
   macId,
   onPas,
   // Kazanılan puanı uçan rozet olarak göstermek için. null verilirse rozet
@@ -73,6 +76,8 @@ export default function QuestionCard({
   // aşağıdaki sıfırlama effect'i question_id değiştiği an sayacı, seçimi ve
   // 50:50 kapatmalarını temizliyor.
   const [degisenSoru, setDegisenSoru] = useState(null);
+  // Paket 32 A.3: gönderenin ekranında kenar sisi (oynamayı engellemez)
+  const [sisGonderdimBitis, setSisGonderdimBitis] = useState(null);
   const soru = degisenSoru ?? soruProp;
   useEffect(() => { setDegisenSoru(null); }, [soruProp]);
 
@@ -177,8 +182,13 @@ export default function QuestionCard({
 
   if (!soru) return null;
 
+  // Paket 32 A.2: sis sürerken şıkka basılamaz (perde olayları yutar; bu ikinci güvence,
+  // sunucu da reddeder). Sis kalkınca kilit kendiliğinden açılır (kalan her tikte yenilenir).
+  const sisKilit = Boolean(sisBitis) && Date.now() < sisBitis;
+
   const cevapla = async (i) => {
     if (secim !== null || kalan <= 0) return;
+    if (sisKilit) return;
     const kalanAn = kalanRef.current;
     setSecim(i);
     cevapVerildiRef.current = true;
@@ -228,6 +238,9 @@ export default function QuestionCard({
       setDegisenSoru(sonuc.soru);
       onPas?.(sonuc);
     }
+    if (sonuc.tur === "sis") {
+      setSisGonderdimBitis(Date.now() + 1000 * (Number(sonuc.sis_sn) > 0 ? Number(sonuc.sis_sn) : 3));
+    }
     // 'sure' etkisi sunucuda soru_baslangic'ı uzatır; sayaç bir sonraki
     // yoklamada kendiliğinden güncellenir.
   };
@@ -263,6 +276,10 @@ export default function QuestionCard({
       className={`bd-soru bd-soru-giris ${dogruCevapVerdim ? "bd-dogru-cevap" : ""} ${yanlisCevapVerdim ? "bd-yanlis-cevap" : ""} ${sonDuzluk ? "bd-son-saniyeler" : ""} ${sarsil ? "bd-sarsil" : ""} ${className}`}
     >
       <Konfeti aktif={dogruCevapVerdim} />
+      {/* Paket 32 A: sis YİYEN — tam ekran perde (sayaç sisin üstünde) */}
+      {sisBitis && Date.now() < sisBitis + 600 && <SisPerdesi key={sisBitis} bitis={sisBitis} kalan={kalan} />}
+      {/* Paket 32 A.3: sis GÖNDEREN — yalnız kenarlardan hafif efekt */}
+      {sisGonderdimBitis && <SisKenar key={sisGonderdimBitis} bitis={sisGonderdimBitis} />}
       <CevapEfekti dogru={dogruCevapVerdim} puan={puan} seri={seri} />
 
       {/* Zaman aşımı bilgisi — geri bildirim penceresi boyunca durur */}
@@ -365,6 +382,7 @@ export default function QuestionCard({
           macId={macId}
           soruIndex={soru.soru_index}
           surum={jokerSurum}
+          kalanSn={kalan}
           onEtki={jokerEtkisi}
         />
       )}
