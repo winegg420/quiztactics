@@ -6337,6 +6337,9 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 .bd-duello-joker.kullanildi { opacity: .35; }
 .bd-duello-joker-ad { font-size: 12px; font-weight: 900; text-align: center; line-height: 1.15; }
 .bd-duello-joker-adet { font-size: 11px; font-weight: 800; color: var(--bd-metin-2); }
+/* Paket 35 A.2: stok yoksa fiyat (koyu turuncu, beyazda ≈ 5:1); coin yetmiyorsa soluk */
+.bd-duello-joker-adet.fiyat { color: #A8450B; font-weight: 900; }
+.bd-duello-joker-adet.fiyat.soluk { opacity: 0.5; }
 
 .bd-duello-terk { display: block; margin: 16px auto 0; background: none; border: 0; color: var(--bd-metin-2); font-weight: 800; text-decoration: underline; cursor: pointer; min-height: 44px; }
 .bd-duello-terk-onay { margin-top: 12px; padding: 10px; border-radius: 12px; background: var(--bd-yuzey, #fff); text-align: center; font-weight: 800; }
@@ -6909,6 +6912,7 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 .bd-mod-secim .bd-mod-joker { font-size: 12.5px; }
 /* Paket 31 C: dükkânda jokerin Klasik Mod davranışı (ikinci satır) */
 .app .bd-paket-klasik { margin-top: 2px; font-weight: 800; color: #7A3300; }   /* beyazda ≈ 9:1 */
+.app .bd-paket-yetersiz { margin-top: 2px; font-weight: 800; color: #B42318; }   /* Paket 35 A.2 — beyazda ≈ 6.5:1 */
 /* Paket 31: üç kartla dar ekranda Vazgeç kaydırmadan görünsün (ölçüm: 765 px içerik / 741 px kutu) */
 @media (max-width: 560px) {
   .bd-mod-secim-kart { padding: 10px 12px; gap: 3px; }
@@ -7089,6 +7093,13 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 .bd-jk-rozet.bedava { background: #FFD23F; color: #3A2400; border-color: #FFFFFF; font-size: 8.5px; }
 .bd-jk-rozet.arti { background: #F5B301; color: #3A2400; }
 .bd-jk-rozet.onay { background: #1F9D5B; color: #FFFFFF; }
+/* Paket 35 A.2: stok yoksa fiyat rozeti — marka turuncusu zemin, koyu yazı (≈5.6:1, AA) */
+.bd-jk-rozet.fiyat {
+  gap: 2px; right: -7px; padding: 0 6px 0 4px;
+  background: var(--bd-vurgu); color: #2B1100; border-color: #FFFFFF;
+  font-size: 10.5px;
+}
+.bd-jk-rozet.fiyat.soluk { opacity: 0.5; }   /* coin yetmiyor / şu an alınamaz */
 .bd-jk-fiyat {
   display: inline-flex; align-items: center; gap: 2px;
   font-size: 10.5px; font-weight: 900; color: #7A3300;

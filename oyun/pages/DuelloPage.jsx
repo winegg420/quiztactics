@@ -936,15 +936,15 @@ function JokerAlani({ set, d, calisan, onKullan, onSatinAl, ceviri, serbest = fa
   const saldiriAlinabilir = benSaldiran && (d.faz === "hazirlik" || d.faz === "kategori");
   const savunmaAcik = !benSaldiran && d.faz === "cevap" && !d.savunma_kilidi;
   // Paket 27 B: saldırı ve savunma ayrı ayrı değil, TEK toplam hak sayılır.
-  // Paket 34: ücretsiz/sınırsız modda maç başına hak yok (sunucu da uygulamıyor)
-  const hakKaldi = serbest || Number(j.kullanilan ?? 0) < Number(j.hak ?? 0);
+  // Paket 35 A.3: maç başına hak ücretsiz modda da geçerli (sunucu anahtardan bağımsız uygular)
+  const hakKaldi = Number(j.kullanilan ?? 0) < Number(j.hak ?? 0);
   const saldiriHakKaldi = hakKaldi;
   const savunmaHakKaldi = hakKaldi;
   // Düelloda hiçbir joker artık ücretsiz değil (Paket 27 B.1.1 / B.1.4).
   const ucretsizSaldiri = false;
   // Maçta zaten kullanılmış türler — aynı joker maç başına bir kez.
-  // Ücretsiz modda "maçta bir kez" yok → yalnız bu saldırı/soru bayrakları geçerli
-  const kullanilanTurler = serbest ? [] : (Array.isArray(k.turler) ? k.turler : []);
+  // Paket 35 A.3: "maçta bir kez" ücretsiz modda da geçerli
+  const kullanilanTurler = Array.isArray(k.turler) ? k.turler : [];
   const fiyatlar = j.fiyatlar ?? {};
   const setAcik = set === "saldiri" ? saldiriAcik : savunmaAcik;
   // Paket 20 IV.4: jokerler "yok" sanılıyordu — kapalıyken NEDEN kapalı olduğu yazılır
@@ -989,7 +989,10 @@ function JokerAlani({ set, d, calisan, onKullan, onSatinAl, ceviri, serbest = fa
           // Saldırıda kategori ekranı da dahil (20 sn); kullanım yine Hazırlık'ta.
           const alimFazi = set === "saldiri" ? saldiriAlinabilir : savunmaAcik;
           const kullanimFazi = set === "saldiri" ? saldiriAcik : savunmaAcik;
-          const satilik = !serbest && !kullanildi && adet <= 0 && fiyat > 0 && hakKaldi && alimFazi;
+          // Paket 35 A.2: stok yoksa fiyat hep görünür; coin yetmiyorsa alınamaz (soluk fiyat)
+          const fiyatGoster = !serbest && !kullanildi && adet <= 0 && fiyat > 0;
+          const coinYetmez = j.coin !== null && j.coin !== undefined && Number(j.coin) < fiyat;
+          const satilik = fiyatGoster && !coinYetmez && hakKaldi && alimFazi;
           acik = (kullanimFazi && hakKaldi && !kullanildi && (serbest || ucretsiz || adet > 0)) || satilik;
           const ad = set === "saldiri" ? SALDIRI_AD[tur] : SAVUNMA_AD[tur];
           const aciklama = set === "saldiri" ? JOKER_BILGI[tur]?.aciklama : SAVUNMA_ACIKLAMA[tur];
@@ -997,15 +1000,16 @@ function JokerAlani({ set, d, calisan, onKullan, onSatinAl, ceviri, serbest = fa
             <button key={tur} type="button"
                     className={`bd-duello-joker ${kullanildi ? "kullanildi" : ""} ${satilik ? "satilik" : ""}`}
                     disabled={!acik || !!calisan}
-                    title={satilik ? ceviri("{0} coin — dokun, al ve kullan").replace("{0}", fiyat) : ceviri(aciklama)}
+                    title={satilik ? ceviri("{0} coin — dokun, al ve kullan").replace("{0}", fiyat)
+                      : fiyatGoster && coinYetmez ? ceviri("Yetersiz coin") : ceviri(aciklama)}
                     onClick={() => (satilik ? onSatinAl?.(tur, !kullanimFazi) : onKullan(tur))}>
               {satilik && (
                 <span className="bd-joker-satilik" aria-hidden="true"><Ikon ad="coin" boyut={12} /></span>
               )}
               <Ikon ad={JOKER_BILGI[tur]?.ikon ?? "soru"} boyut={20} />
               <span className="bd-duello-joker-ad">{ceviri(ad)}</span>
-              <span className={`bd-duello-joker-adet ${satilik ? "fiyat" : ""}`}>
-                {satilik ? `${fiyat}` : serbest ? "∞" : `×${adet}`}
+              <span className={`bd-duello-joker-adet ${fiyatGoster ? "fiyat" : ""} ${fiyatGoster && !satilik ? "soluk" : ""}`}>
+                {fiyatGoster ? `${fiyat}` : serbest ? "∞" : `×${adet}`}
               </span>
             </button>
           );

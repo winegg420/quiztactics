@@ -310,10 +310,16 @@ export default function JokerDukkani() {
                 ) : !KLASIK_JOKERLER.includes(tur) ? (
                   <div className="alt-yazi bd-paket-klasik">{tt("Yalnız Düello'da")}</div>
                 ) : null}
+                {/* Paket 35 A.2: bakiye fiyata yetmiyorsa düğme pasif + sebebi yazar */}
+                {bakiye !== null && bakiye < Number(tekFiyat[tur] ?? 0) && (
+                  <div className="alt-yazi bd-paket-yetersiz">{tt("Yetersiz coin")}</div>
+                )}
               </div>
               <button
                 className="btn kucuk"
-                disabled={jokerSerbest || alinan === `tek:${tur}`}
+                disabled={jokerSerbest || alinan === `tek:${tur}` ||
+                  (bakiye !== null && bakiye < Number(tekFiyat[tur] ?? 0))}
+                aria-label={tt("{0} — {1} coin", { 0: JOKER_BILGI[tur].ad, 1: tekFiyat[tur] })}
                 onClick={() => jokerTekAl(tur)}
               >
                 {alinan === `tek:${tur}`

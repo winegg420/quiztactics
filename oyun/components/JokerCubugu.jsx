@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import { macJokerleri, jokerBilgi, envanterNesne, sisAyari } from "../lib/jokerler.js";
 import { ayarlar } from "../lib/ayarlar.js";
+import { coinTazele } from "../lib/coin.js";
 import JokerSatinAlModal from "./JokerSatinAlModal.jsx";
 import { y } from "../lib/yol.js";
 import { sesJoker } from "../lib/ses.js";
@@ -104,10 +105,10 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
 
   if (!durum) return null;
 
-  // Paket 34: jokerler geçici olarak ücretsiz ve sınırsız (oyun_ayarlari.jokerler_ucretsiz).
-  // Sunucu kuralı: stok/hak/satın alma yok; aynı joker aynı soruda bir kez.
+  // Paket 34: jokerler geçici olarak ücretsiz (oyun_ayarlari.jokerler_ucretsiz; Paket 35'ten beri 0).
+  // Açıkken yalnız STOK/COIN serbest; maç içi hak kuralları (Paket 35 A.3) her zaman geçerli.
   const serbestMod = Number(ayar?.jokerler_ucretsiz ?? 0) > 0;
-  const sinirDoldu = !serbestMod &&
+  const sinirDoldu =
     durum.sinir !== null && durum.sinir !== undefined && durum.kullanilan >= durum.sinir;
   const finalYasak = durum.sinir === 0;
   // Paket 31 A.3: rakip bu soruda Savunma Kilidi bastı — sessiz düğme olmasın, açık mesaj
@@ -134,6 +135,8 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
       setParlayan(tur);
       setSerit({ tur, metin: etkiMetni(tur) });
       if (data && typeof data.coin === "number") setCoin(data.coin);
+      // Paket 35 A: satın alma sonrası üst çubuktaki bakiye de anında yenilensin
+      if (satinAl) coinTazele();
       onEtki?.(data);
       await yukle();
     } catch (e) {
@@ -150,8 +153,8 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
     else kullan(tur).catch(() => {});
   };
 
-  /** Envanterde yok, ücretsiz hakkı da yok ama maç içinde satın alınabilir mi? */
-  const satinAlinabilir = (tur) => {
+  /** Envanterde yok, ücretsiz hakkı da yok ama maç içinde satın alınabilir mi? (coin'e bakmadan) */
+  const alinabilirMi = (tur) => {
     if (serbestMod || kilit || finalYasak || sinirDoldu || rakipKilitledi) return false;
     if (macTur === "turnuva" && tur === "soru_degistir") return false;
     if (kullanilanlar.has(tur)) return false;
@@ -160,6 +163,10 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
     if ((envanter[tur] ?? 0) > 0) return false;
     return Number(fiyatlar?.[tur] ?? 0) > 0;
   };
+  /** Paket 35 A.2: alınabilir ama bakiye fiyata yetmiyor → pencere açılmaz, "Yetersiz coin" */
+  const coinYetmez = (tur) =>
+    alinabilirMi(tur) && coin !== null && coin !== undefined && Number(coin) < Number(fiyatlar?.[tur] ?? 0);
+  const satinAlinabilir = (tur) => alinabilirMi(tur) && !coinYetmez(tur);
 
   /** B.4: ekranda ne olduğu yazsın (sayılar ayardan). */
   const etkiMetni = (tur) => {
@@ -173,11 +180,8 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
     return jokerBilgi(tur, macTur, a).ad;
   };
 
-  // Ücretsiz modda "kullanıldı" SORU başına (bileşen her soruda yeniden kurulur → yerel liste);
-  // normal modda maç başına (sunucudan).
-  const kullanilanlar = serbestMod
-    ? new Set(kullandigim)
-    : new Set([...(durum.kullanilan_turler ?? []), ...kullandigim]);
+  // "Kullanıldı" maç başına (sunucudan) — Paket 35 A.3: ücretsiz modda da aynı.
+  const kullanilanlar = new Set([...(durum.kullanilan_turler ?? []), ...kullandigim]);
   // Sis'in son-N-saniye kuralı (YALNIZ Sis) — sunucu da reddediyor, düğme önceden söylesin
   const sisGec = macTur === "1v1" && kalanSn <= sisAyari(ayar).esik;
 
@@ -192,6 +196,7 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
     if (kullanilanlar.has(tur)) return tt("Bu jokeri bu maçta zaten kullandın");
     if (tur === "sis" && sisGec) return tt("Son {0} saniyede Sis kullanılamaz.", { 0: sisAyari(ayar).esik });
     const ucretsiz = tur === "elli" && durum.ucretsiz_elli_kaldi;
+    if (!serbestMod && !ucretsiz && (envanter[tur] ?? 0) <= 0 && coinYetmez(tur)) return tt("Yetersiz coin");
     // Envanterde yoksa artık "kalmadı" demiyoruz: maç içinde satın alınabiliyor.
     if (!serbestMod && !ucretsiz && (envanter[tur] ?? 0) <= 0 && !satinAlinabilir(tur)) return tt("Jokerin kalmadı");
     return null;
@@ -227,6 +232,8 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
         const satilik = satinAlinabilir(tur);
         const fiyat = Number(fiyatlar?.[tur] ?? 0);
         const kullanildi = kullanilanlar.has(tur);
+        // Paket 35 A.2: stok yoksa fiyat rozeti HER ZAMAN görünür (alınamıyorsa soluk)
+        const fiyatRozeti = !serbestMod && !ucretsiz && adet <= 0 && fiyat > 0;
         const durumSinifi = kullanildi ? "kullanildi" : satilik ? "satilik" : engel ? "pasif" : "hazir";
         const aciklama = engel ?? (satilik ? tt("{0} coin — dokun, al ve kullan", { 0: fiyat }) : bilgi.aciklama);
         return (
@@ -244,10 +251,12 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
               bas(tur);
             }}
           >
-            {satilik ? (
-              <span className="bd-jk-rozet arti" aria-hidden="true"><Ikon ad="arti" boyut={11} kalinlik={3} /></span>
-            ) : kullanildi ? (
+            {kullanildi ? (
               <span className="bd-jk-rozet onay" aria-hidden="true"><Ikon ad="onay" boyut={11} kalinlik={3} /></span>
+            ) : fiyatRozeti ? (
+              <span className={`bd-jk-rozet fiyat${satilik ? "" : " soluk"}`} aria-hidden="true">
+                {calisan === tur ? "…" : <><Ikon ad="coin" boyut={11} /> {fiyat}</>}
+              </span>
             ) : (
               <span className={`bd-jk-rozet adet ${ucretsiz ? "bedava" : ""}`} aria-hidden="true">
                 {calisan === tur ? "…" : serbestMod ? "∞" : ucretsiz ? tt("ÜCRETSİZ") : adet}
@@ -255,7 +264,6 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
             )}
             <span className="bd-joker-ikon" aria-hidden="true"><Ikon ad={bilgi.ikon} boyut={20} /></span>
             <span className="bd-joker-ad">{bilgi.ad}</span>
-            {satilik && <span className="bd-jk-fiyat"><Ikon ad="coin" boyut={11} /> {fiyat}</span>}
           </button>
         );
       })}

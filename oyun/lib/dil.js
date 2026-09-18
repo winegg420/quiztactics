@@ -2098,6 +2098,8 @@ const SOZLUK = {
     "Pratik turu — bankan temizdi.": "Practice round — your bank was clear.",
     // ---- Paket 20 V — Hatalarım (ek)
     "En kısa tur": "Shortest round",
+    // ---- Paket 35
+    "{0} — {1} coin": "{0} — {1} coins",
   },
 };
 
