@@ -6362,3 +6362,71 @@ artık kullanılmıyor (bırakıldı, zararsız).
 
 ### Build / test
 `npm run build` TEMİZ · `npm test` 47/47 + kurallar + dans.
+
+## 18 Eylül 2026 — Paket 31 (Klasik Mod saldırı jokerleri + Saf Bilgi modu)
+
+Commit'ler: `e1c25df` A · `6bed89b` B · `03e350e` + `468a1e9` C.
+Migration: **247** (A), **248** (B), **249** (bot jokerini aç) — üçü de canlıda, `schema_migrations`'ta.
+Her biri önce `TEST_ONCE_SQL` ile tam test paketinde işlem içinde denendi (yeni: `_test/sunucu/yardim.mjs`
+bu ortam değişkeniyle migration'ı test işleminin başında uygulayıp geri alıyor).
+
+### Sahibine soruldu — karar
+Paket hem "6 joker (3+3)" hem "Klasik'teki Soru Değiştir iki oyuncuda değişsin" diyordu; bugün Klasik'te
+zaten bir Soru Değiştir vardı → iki aynı adlı düğme çıkacaktı. **Karar: 5 joker, tek ortak Soru Değiştir.**
+Klasik: `elli · sure · soru_degistir (ORTAK) · zaman_baskisi (Süreyi Kısalt) · savunma_kilidi`.
+`saldiri_degistir` Klasik'te yok (dükkânda "Yalnız Düello'da" yazıyor).
+
+### A — ölçümler
+- **A.2 süre kaynağı:** senkron 1v1'de süre ORTAK `matches.soru_baslangic`'tan sayılır (canlıdaki 48+ maçın
+  hepsi senkron). `oyuncuN_baslangic` yalnız kullanılmayan asenkron dalda. AMA kişi bazlı geçersiz kılma
+  zaten var: `soru_degisimleri.baslangic` — `submit_match_answer`, `mac_soruyu_atla`, `joker_kullan`,
+  `get_match_question` hepsi `soru_baslangic_coz` ile onu okuyor. **Yeni tablo GEREKMEDİ**: Süreyi Kısalt
+  rakibin kişisel satırını (aynı soru, 5 sn erken başlangıç) yazıyor. İlerleme `soru_son_baslangic` = en GEÇ
+  başlangıç → rakibin erken bitmesi turu kısaltmıyor, rakip farkı bekleme ekranında geçiriyor.
+  Taban: rakibe en az 3 sn kalır (`klasik_zaman_baskisi_taban_sn`), anında sıfırlanmaz.
+- **A.1:** `mac_soru_degistir` 1v1'de zaten iki oyuncuyu da `soru_sec`'e veriyor ve maçın bütün `soru_ids` +
+  `soru_degisimleri`'ni dışlıyor → seçilen soru ikisi için de görülmemiş. Basanın satırı rakibe kopyalanıyor
+  (aynı `question_id`, aynı `baslangic`); metin kişinin dilinde `soru_dilinde` ile dönüyor. Rakip soruyu
+  zaten cevapladıysa yalnız basanın sorusu değişir.
+- **Rakibin ekranı:** soru yalnız indeks değişince çekiliyordu → tek şema eki `matches.joker_surum`; rakibi
+  etkileyen her jokerde artar, Realtime/2 sn yoklamayla gelir, istemci soruyu/sayacı ve joker durumunu yeniden okur.
+- **A.3:** `joker_hak_kontrol` 1v1'de aktif soruda rakibin `savunma_kilidi` kaydı varsa "Rakibin savunma
+  jokerlerini kilitledi" der; `joker_mac_durumu` artık `kilitli` ve `kisaltildi` döndürüyor, çubukta turuncu not.
+- **A.5 bot:** yeni `bot_klasik_joker_tik()` (bot_oyna'dan çağrılır): karar ve an (2–8 sn) `bot_rasgele` ile
+  (maç, soru) için sabit; sınırlar insanla aynı (4 joker, türde bir kez, insanın kilidine uyar). Bot cevaplarken
+  kendi kişisel soru/başlangıcını kullanıyor (eskiden hep orijinal soruyu cevaplıyordu).
+  **Olasılık 247'de 0 başladı**, istemci yayınlandıktan sonra 249 ile **15** (düellodakiyle aynı) yapıldı —
+  aksi hâlde bot soruyu değiştirince eski ekran yeni soruyu göstermeden yeni soruya göre puanlanırdı.
+  Canlı cron sağlığı: son 40 dk'da `bot_oyna` 1184 koşu, hepsi başarılı.
+- Testler (`klasik-jokerler.test.mjs`, 6): ortak soru değişimi, yalnız rakibin süresi, kilit + açık mesaj,
+  4/tür-bir-kez/saldiri_degistir yok, rakip cevapladıysa kısaltma reddi, bot simetrisi. Düello testleri değişmeden geçiyor.
+- **İki tarayıcıyla gerçek maç oynanamadı:** giriş Google/Facebook OAuth; ajan kimlik bilgisi girmez.
+  Aynı akış iki test kullanıcısıyla sunucuda (`olarak()` ile iki oturum) test edildi. Canlı iki-oyunculu
+  deneme sahibinde.
+
+### B — Saf Bilgi
+- Kuyruk bugün `kategori` + `dereceli` + seviye basamağına göre eşleştiriyor. Bayrak: `matches.jokersiz`,
+  `matchmaking_queue.jokersiz`; kuyrukta 2 koşul + 2 insert satırı.
+- **Kuyruk bölünmesi ölçümü:** son 30 günde 50 Klasik maç — **33 botlu, 17 arkadaş, insan–insan rastgele 0**.
+  Her rastgele arama zaten bekleme sonunda bota düşüyor; bugün bekleme süresi ve bot oranı fiilen değişmez.
+- İmzası değişen 5 RPC (`kuyruga_gir`, `quick_match`, `hemen_bot_mac`, `hemen_bot_mac_sec`, `create_challenge`)
+  **eski imza düşürülüp** tek imza kuruldu (Paket 30 A'nın HTTP 300 hatası tekrarlanmasın); test var.
+  Yan bulgu düzeltildi: `kuyruga_gir` ve `quick_match` PUBLIC/anon'a da açıktı → yalnız authenticated.
+- Eski `use_joker` yolu da jokersiz maçta reddediyor. Rövanş aynı modda açılıyor. Ödül Klasik ile aynı
+  (`mac_sonuclandir` değişmedi).
+- Arayüz: ana sayfa ızgarasında Saf Bilgi kartı (5 kart: 2+2+1), `/meydan` üçüncü seçenek, arkadaş penceresi
+  üçüncü kart, maç ekranında joker alanı hiç çizilmiyor.
+
+### C — metinler
+- Klasik açıklamaları (`KLASIK_BILGI`): "Soru ikinizde de değişir." · "Rakibinin süresi kısalır, seninki aynı kalır."
+  · "Rakip bu soruda joker kullanamaz." Düello metinleri değişmedi.
+- Mod kartları: Düello "6 joker · sıra sende" · Klasik "5 joker · aynı anda" (karar gereği 6 değil) · Saf Bilgi "joker yok".
+- Dükkân: her jokerin altında Klasik'teki farkı ya da "Yalnız Düello'da".
+- `/meydan`'daki Klasik kartı "5 soru" yazıyordu — yanlıştı (maçlar 20 soru); joker satırıyla değişti.
+
+### Kontrol edilen düzenler (390 px, gerçek CSS)
+5'li joker çubuğu tek satır (64 px düğmeler), ana sayfa ızgarası 2+2+1, `/meydan` 3 sütun, arkadaş penceresi
+3 kart tek sütun — içerik 765 → 642 px'e indirildi, Vazgeç kaydırmasız. Yatay taşma yok. `:has()` kullanılmadı.
+
+### Build / test
+`npm run build` TEMİZ · `npm test` 57/57.
