@@ -85,7 +85,12 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
       setDurum(Array.isArray(mac.data) ? (mac.data[0] ?? null) : (mac.data ?? null));
       // Fiyat/coin alınamazsa satın alma gizlenir, oyun akışı bozulmaz.
       if (!fiy.error) setFiyatlar(fiy.data ?? null);
-      if (!bak.error) setCoin(Array.isArray(bak.data) ? bak.data[0] : bak.data);
+      // Paket 33: coin_bakiyem TABLO döndürür → [{ bakiye, hareketler }]. Nesneyi state'e
+      // yazmak satın alma penceresinde React #31 ile ekranı beyaza düşürüyordu. Hep sayı ya da null.
+      if (!bak.error) {
+        const satir = Array.isArray(bak.data) ? bak.data[0] : bak.data;
+        setCoin(typeof satir === "number" ? satir : (satir?.bakiye ?? null));
+      }
     } catch {
       // Migration henüz uygulanmadıysa çubuk gizlenir; oyun akışı bozulmaz.
       setDurum(null);

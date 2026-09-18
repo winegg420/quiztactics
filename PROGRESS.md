@@ -6493,3 +6493,21 @@ Commit'ler: `918ba5d` A · `bbc3d8e` B · `c35c434` C · `839b583` D. Migration 
 
 ### Build / test
 `npm run build` TEMİZ · `npm test` 60/60.
+
+## 18 Eylül 2026 — Paket 33 (ACİL): maç içi joker satın alma penceresi çökmesi
+
+- **Kök sebep (paketteki ölçüm doğrulandı):** `coin_bakiyem` tablo döndürür → `[{ bakiye, hareketler }]`.
+  `JokerCubugu` satırın KENDİSİNİ `coin` state'ine yazıyordu; `JokerSatinAlModal` `{coin ?? 0}` ile nesneyi
+  render edince React #31 → ağaç düştü, ekran beyaz. Aynı nesne `Number(coin)` = NaN olduğu için
+  "yeterli coin" kontrolü de hep yanlıştı.
+- **Düzeltme:** `JokerCubugu` satırdan `bakiye` alıyor; `coin` artık hep sayı ya da null. Modal değişmedi.
+- **Doğrulama (tarayıcı, gerçek bileşen, sunucunun gerçek dönüş biçimi taklit edildi):** adedi 0 olan Sis'e basınca
+  pencere açılıyor, çubuk yerinde, React hatası yok; bakiye 979 → "Coin'in 979", onay aktif; bakiye 50 (fiyat 80)
+  → "Yetersiz coin", onay pasif.
+- **Aynı hata taraması:** `coin_bakiyem` çağıran diğer tek yer `oyun/lib/coin.js` — zaten `r.bakiye` okuyor, doğru.
+  Düello penceresi coin'i `duello_durum().jokerler.coin`'den alıyor; o alan `profiles.coin` sayısı — doğru.
+- **Genel tarama (yalnız rapor):** RPC satırını state'e yazan 5 yer daha var (`CalismaPage`, `HizliModPage`,
+  `MacSonuEklentisi`, `GorunumDukkani`, `UstalikIzgarasi`); hepsi nesnenin ALANLARINI render ediyor, nesnenin
+  kendisini JSX'e basan yer bulunmadı.
+- Paket dosyasında B bölümü ve RAPOR maddeleri yok (sahibinin mesajı "A ve B" diyordu) — B uygulanmadı, soruldu.
+- Build TEMİZ · `npm test` 60/60.
