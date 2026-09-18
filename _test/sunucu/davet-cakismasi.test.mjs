@@ -76,3 +76,35 @@ test('çakışma sayımı düello ve grup maçını da kapsar', sec, async () =>
     assert.equal((await cakisma(c, x, y)).aktif, true, 'aktif grup maçı çakışma sayılmalı');
   });
 });
+
+// Paket 30 A: create_challenge'ın iki imzası PostgREST'te HTTP 300 veriyordu.
+// Tek imza kalmalı ve 2'li sürümdeki davet sınırı kuralı kaybolmamalı.
+test('create_challenge tek imza: davet açılır, ikinci davette sunucunun mesajı döner', sec, async () => {
+  await islem(async (c) => {
+    const imzalar = await c.sorgu(
+      `select p.oid::regprocedure::text s from pg_proc p join pg_namespace n on n.oid = p.pronamespace
+        where n.nspname = 'public' and p.proname = 'create_challenge'`
+    );
+    assert.deepEqual(imzalar.map((r) => r.s), ['create_challenge(uuid,text,boolean)'], 'tek imza kalmalı');
+    assert.ok(
+      await c.tek(`select pg_get_functiondef('public.create_challenge(uuid,text,boolean)'::regprocedure) like '%davet_siniri_kontrol%'`) === 't',
+      'davet sınırı kuralı 3 parametreli sürümde olmalı'
+    );
+
+    const [x, y] = [await oyuncuKur(c, 'cc1'), await oyuncuKur(c, 'cc2')];
+    await c.sorgu(`insert into public.friendships (requester, addressee, durum) values (${a(x)}, ${a(y)}, 'arkadas')`);
+    await olarak(c, x);
+
+    // İstemcinin gönderdiği biçim: yalnız p_rakip → dereceli varsayılanı true
+    const mac = await c.tek(`select public.create_challenge(p_rakip => ${a(y)})`);
+    assert.equal(await c.tek(`select dereceli from public.matches where id = ${a(mac)}`), 't');
+
+    const hata = await hataVerir(c, `select public.create_challenge(p_rakip => ${a(y)})`);
+    assert.match(hata, /zaten devam eden bir meydan okuman var/i);
+
+    // Serbest davet de açılabiliyor (dereceli/serbest ayrımı)
+    await c.sorgu(`update public.matches set durum = 'bitti' where id = ${a(mac)}`);
+    const serbest = await c.tek(`select public.create_challenge(p_rakip => ${a(y)}, p_dereceli => false)`);
+    assert.equal(await c.tek(`select dereceli from public.matches where id = ${a(serbest)}`), 'f');
+  });
+});
