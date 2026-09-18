@@ -6213,3 +6213,70 @@ döner — bilinerek yapıldı.
 Eski depodaki Quiz Tactics'e **dokunulmadı**. Alan adı hâlâ eski depodan
 derleniyor; erken kaldırmak canlı siteyi düşürürdü. Sahibinin "alan adı taşındı,
 yeni site çalışıyor" onayı bekleniyor.
+
+## 18 Eylül 2026 — Paket 29 (dört hata + ses dosyaları)
+
+Commit'ler: `c4b6cb9` A · `bd3d8da` B · `577eb16` C · `61da9a4` D · `df10fc7` E.
+
+### A — Turnuva lobisinde avatar ezilmesi
+- Kök sebep **iki** kural (paket yalnız birini söylüyordu): `tema.css:5337`
+  `> span:first-of-type` ve `tema.css:5688` `> span:not(.bd-lobi-kilic)`. İkincisi
+  daha güçlüydü ve `overflow:hidden` da veriyordu, halkanın kırpılması buradan geliyordu.
+  İkisi de artık `> .bd-lobi-ad`'ı hedefliyor. İsim span'ine `bd-lobi-ad` sınıfı verildi.
+- Taranan kurallar: `oyun/` + `src/` CSS'lerinde `span:first-of-type`, `span:first-child`,
+  `> span:not(` kalıpları. Kalan tek eşleşme `.bd-kat-baslik > span:first-child` (yalnız
+  letter-spacing/line-height; o başlıklarda avatar yok) → dokunulmadı. `.bd-kopuk-kutu > span`
+  (MacHazirlik) avatar içermiyor.
+- Ölçüldü (gerçek CSS, 340 px satır): çerçeve 32×32, `flex: 0 0 auto`, `overflow: visible`;
+  uzun ad `ellipsis` ile kısalıyor, satır taşmıyor. `.bd-lobi-oyuncu` yalnız TournamentPage'de
+  kullanılıyor, arkadaşlar/sıralama/profil/maç şeridi bu seçicilere girmiyor.
+
+### B — Düello arama ekranı
+- Nabız halkaları zaten vardı ama soluk altın (`rgba(247,203,119,.55)`) açık zeminde
+  görünmüyordu → `--bd-vurgu`, 3 px, ölçek 0.62→1.18. Maskot süzülür, ipucu 3 sn'de bir döner
+  (dil.js TR+EN), sayaç "12 sn · rakip aranıyor". Reduced-motion'da hepsi kapalı.
+  Halkanın renk değişikliği klasik arama (`RakipAra`) ekranına da geçti, bilinerek.
+- **15 sn "botla eşleştireceğiz" satırı EKLENMEDİ.** `duello_ara` gerçekten
+  `duello_arama_sn` (8) + insan gibi gecikmeden sonra bota bağlıyor, ama bu **gizli
+  bot**. CLAUDE.md: gizli botun bot olduğu anlaşılmamalı. Satır ürün kuralını çiğnerdi.
+- Eşleşme mantığı değişmedi: `duello_ara` / `duello_aramadan_cik` çağrıları ve 1 sn
+  aralık byte byte aynı (diff yalnız JSX + CSS). Giriş gerektirdiği için canlı öncesi/sonrası
+  süre ölçümü yapılamadı; mantık farkı yok.
+
+### C — "Çerçevesiz" → "Çerçeve takma" (EN "No frame") + Bronz açıklama cümlesi (TR+EN).
+
+### D — Başlangıç jokerleri mevcut oyunculara (sahibi "evet" dedi)
+- Migration **244** `baslangic_jokerleri_toplu_ver()` (yalnız sahibi/service_role) + tek çağrı.
+  Ayrım `joker_islemleri.kaynak='baslangic'` (paket `joker_hareketleri` diyordu; tablo adı
+  `joker_islemleri`). ref = `paket29_geriye_donuk`.
+- **Ölçüm, öncesi:** 205 profil = **45 gerçek** (24 kayıtlı + 21 anonim/misafir) + 160 bot.
+  Paketteki "~205 hesap" botları da sayıyordu. `baslangic` hareketi olan: 0. `joker_islemleri`
+  toplam satır: **0** (canlıda hiç joker hareketi olmamış). Silinmiş/yasaklı hesap: 0.
+- **Sonrası:** 45 oyuncu × 7 tür × 2 = **630 joker**; 7 türün her birinde 45 satır, hepsi 2.
+  İkinci çağrı 0/0 (işlem içinde denendi).
+- Anonim hesaplar da aldı (yeni misafir hesap tetikleyiciden zaten alıyor, tutarlı olsun diye).
+- `db push` bu depoda bağlı değil ("Cannot find project ref") ve `--include-all` eski
+  dosyaları yeniden koşardı → önceki paketlerin yolu: önce rollback provası, sonra tek
+  işlemde uygula + `schema_migrations`'a 244 kaydı.
+- Test eklendi (joker-ekonomisi): eski hesap alır, yeni hesap çift almaz, bot almaz, ikinci
+  çalıştırma 0. `npm test`: 45/45 + kurallar + dans geçti.
+
+### E — Ses dosyaları
+- `public/ses/` 12 mp3 + LISANS.txt (Kenney, CC0). Dosyaların toplamı **116.865 B ≈ 114 KB**
+  (paketteki 47 KB ve 170 KB değerleri tutmuyor).
+- `ses.js`: tembel yükleme, `Map<rol, AudioBuffer>`, 40 ms tekrar koruması, `HACIM` sabiti
+  (dokunus 0.35, kazandin/rutbe 1.0), ilk indirme 250 ms'yi geçerse o çalış atlanır. Eski ton
+  fonksiyonları `ton*` adıyla yedek olarak duruyor. Dışa açık adlar değişmedi.
+- Yeni: `sesRakipBulundu` (düello: bulunduğu an; klasik: "Rakip bulundu" yazısıyla aynı an),
+  `sesCanKaybi(kendi)` (düello hamle sonucu, cevap sesinden 220 ms sonra; rakibinki ×0.55).
+- `geri.mp3` hiçbir role bağlanmadı (pakette karşılığı yok).
+- `sw.js` hiçbir şeyi önbelleğe almıyor → değiştirilmedi.
+- **Ölçüm (Chrome, yerel):** açılışta ses isteği **0**; ses kapalıyken 5 ses çağrısı → **0**
+  istek; açıkken 11 rolün hepsi → 11 istek, **109.138 B**; ikinci tur + 10 hızlı dokunuş →
+  yeni istek **0**. Bir maçta indirilen en fazla ≈ 109 KB (tüm roller), tipik düello daha az.
+  404 benzetimi: ilk çağrıda eski ton çaldı (3 osilatör), sonraki çağrılar doğrudan tona düştü.
+- iOS Safari: bu makinede WebKit çalışmıyor (CLAUDE.md). Kilit açma yolu (`sesKilidiAc`,
+  `userActivation` kontrolü) aynı; gerçek iPhone kontrolü sahibinde.
+
+### Build / test
+`npm run build` TEMİZ, `npm test` geçti.
