@@ -127,6 +127,8 @@ const ARAMA_IPUCLARI = [
   "Saldırı hazırlığında joker kullanabilirsin.",
 ];
 const IPUCU_SN = 3;
+// Paket 41 F: düello aramasının üst sınırı (Klasik'teki gibi sonsuz bekleme yok)
+const DUELLO_ARAMA_SINIR_SN = 60;
 
 function DuelloArama({ dereceli, onBulundu, onIptal }) {
   const { ceviri } = useDil();
@@ -138,6 +140,7 @@ function DuelloArama({ dereceli, onBulundu, onIptal }) {
   const [rakip, setRakip] = useState(null);
   const [ezeli, setEzeli] = useState(null);
   const bittiRef = useRef(false);
+  const [deneme, setDeneme] = useState(0);   // Paket 41 F: Tekrar dene aramayı baştan başlatır
   const bulunduRef = useRef(onBulundu);
   bulunduRef.current = onBulundu;
   const gecisRef = useRef(null);
@@ -181,18 +184,33 @@ function DuelloArama({ dereceli, onBulundu, onIptal }) {
           karsilas(data);
         }
       } catch (e) {
-        setHata(ceviri(hataMesaji(e, "Rakip aranamadı. Bağlantını kontrol edip tekrar dene.")));
+        console.error("[Bildim] duello_ara:", e);
+        setHata(ceviri("Rakip aranamadı. Bağlantını kontrol edip tekrar dene."));
         bittiRef.current = true;
+        clearInterval(zaman);   // hata: sayaç ve yoklama durur
       }
     };
     dene();
-    const zaman = setInterval(() => { setGecen((g) => g + 1); dene(); }, 1000);
+    let sn = 0;
+    const zaman = setInterval(() => {
+      sn += 1;
+      if (sn >= DUELLO_ARAMA_SINIR_SN && !bittiRef.current) {
+        clearInterval(zaman);
+        bittiRef.current = true;
+        setHata(ceviri("Şu an rakip bulunamadı. Birazdan tekrar dene."));
+        supabase.rpc("duello_aramadan_cik").then(() => {}, () => {});
+        return;
+      }
+      setGecen((g) => g + 1); dene();
+    }, 1000);
     return () => {
       iptal = true;
       clearInterval(zaman);
       if (!bittiRef.current) supabase.rpc("duello_aramadan_cik").then(() => {}, () => {});
     };
-  }, [dereceli, ceviri, karsilas]);
+  }, [dereceli, ceviri, karsilas, deneme]);
+
+  const yenidenDene = () => { bittiRef.current = false; setHata(null); setGecen(0); setDeneme((n) => n + 1); };
 
   return createPortal(
     <div className="bd-arama-katman bd-karsilasma-katman" role="dialog" aria-modal="true" aria-label={ceviri("Rakip aranıyor")}>
@@ -201,9 +219,9 @@ function DuelloArama({ dereceli, onBulundu, onIptal }) {
           rakip={rakip}
           bulundu={bulundu}
           ezeli={ezeli}
-          baslik={bulundu ? ceviri("Rakip bulundu!") : ceviri("Düello rakibi aranıyor…")}
+          baslik={bulundu ? ceviri("Rakip bulundu!") : hata ? ceviri("Rakip bulunamadı") : ceviri("Düello rakibi aranıyor…")}
         >
-          {!bulundu && (
+          {!bulundu && !hata && (
             <>
               {/* key değişince satır yeniden takılır → giriş animasyonu her ipucunda oynar */}
               <div key={ipucu} className="bd-arama-alt bd-arama-ipucu" aria-live="polite">
@@ -213,6 +231,7 @@ function DuelloArama({ dereceli, onBulundu, onIptal }) {
             </>
           )}
           {hata && <div className="hata-kutu">{hata}</div>}
+          {hata && <button className="btn" onClick={yenidenDene}>{ceviri("Tekrar dene")}</button>}
           <button className="btn ikincil" onClick={onIptal} disabled={bulundu}>{ceviri("Vazgeç")}</button>
         </KarsilasmaSahnesi>
       </div>

@@ -9,6 +9,9 @@ import { tt } from "../lib/dil.js";
 import { sesRakipBulundu } from "../lib/ses.js";
 
 const BEKLEME_SN = 8; // bu süre içinde insan rakip aranır, sonra bota düşülür
+// Paket 41 F: "Maç hazırlanıyor…" hâlinin üst sınırı. Dolunca yoklama durur, oyuncuya
+// Tekrar dene / Bot ile oyna / Vazgeç sunulur (eskiden sonsuza dek bekliyordu).
+const HAZIRLIK_SINIR_MS = 30000;
 
 /**
  * "Hemen Oyna" eşleştirme ekranı.
@@ -41,6 +44,8 @@ export default function RakipAra({ kategori, dereceli = true, jokersiz = false, 
   const [secilenBot, setSecilenBot] = useState(null);
   const bittiRef = useRef(false);
   const zamanlayiciRef = useRef(null);
+  // Paket 41 F: "Tekrar dene" aramayı baştan başlatır (effect bu sayaca bağlı)
+  const [deneme, setDeneme] = useState(0);
 
   const temizle = useCallback(async () => {
     clearInterval(zamanlayiciRef.current);
@@ -190,10 +195,31 @@ export default function RakipAra({ kategori, dereceli = true, jokersiz = false, 
     };
 
     if (await dene()) return;
+    const baslangic = Date.now();
     zamanlayiciRef.current = setInterval(async () => {
+      if (Date.now() - baslangic > HAZIRLIK_SINIR_MS) {
+        clearInterval(zamanlayiciRef.current);
+        if (!bittiRef.current) {
+          console.error("[Bildim] quick_match: üst sınır doldu, maç kimliği gelmedi");
+          setHata(tt("Maç başlatılamadı. Bağlantını kontrol edip tekrar dene."));
+        }
+        return;
+      }
       if (await dene()) clearInterval(zamanlayiciRef.current);
     }, 1000);
   }, [kategori, dereceli, jokersiz, bitir]);
+
+  const yenidenDene = useCallback(() => {
+    clearInterval(zamanlayiciRef.current);
+    bittiRef.current = false;
+    setHata(null);
+    setBotaDusuldu(false);
+    setBotYolu(false);
+    setBotListesi(null);
+    setSecilenBot(null);
+    setKalan(BEKLEME_SN);
+    setDeneme((n) => n + 1);
+  }, []);
 
   useEffect(() => {
     let iptal = false;
@@ -237,7 +263,7 @@ export default function RakipAra({ kategori, dereceli = true, jokersiz = false, 
       // ekranı boş bırakıyordu. then'in ikinci argümanı hatayı güvenle yutar.
       if (!bittiRef.current) supabase.rpc("kuyruktan_cik").then(() => {}, () => {});
     };
-  }, [kategori, dereceli, jokersiz, bitir, sonCare]);
+  }, [kategori, dereceli, jokersiz, bitir, sonCare, deneme]);
 
   const govde = (
     <div className="bd-arama-katman bd-karsilasma-katman" role="dialog" aria-modal="true" aria-label={tt("Rakip aranıyor")}>
@@ -250,7 +276,9 @@ export default function RakipAra({ kategori, dereceli = true, jokersiz = false, 
             ? `${tt("Rakip bulundu:")} ${rakipAdi}`
             : bulundu
               ? tt("Rakip bulundu!")
-              : Array.isArray(botListesi) && !secilenBot
+              : hata
+                ? tt("Maç başlatılamadı")
+                : Array.isArray(botListesi) && !secilenBot
                 ? tt("Rakip botunu seç")
                 : botaDusuldu ? tt("Maç hazırlanıyor…") : tt("Rakip aranıyor…")}
         >
@@ -266,7 +294,7 @@ export default function RakipAra({ kategori, dereceli = true, jokersiz = false, 
               : tt(" seninle aynı seviyede birini arıyoruz.")}
         </div>
 
-        {!botaDusuldu && !rakipAdi && (
+        {!botaDusuldu && !rakipAdi && !hata && (
           <div className="bd-arama-sayac">{kalan} {tt("sn")}</div>
         )}
 
@@ -298,9 +326,15 @@ export default function RakipAra({ kategori, dereceli = true, jokersiz = false, 
 
         {!rakipAdi && (
           <div className="bd-arama-eylem">
-            {!botaDusuldu && (
-              <button className="btn" onClick={botlariGoster}>
-                {tt("Beklemeden bot ile oyna")}
+            {/* Paket 41 F: hata/sınır dolunca Tekrar dene birincil; bot seçeneği HER hâlde durur */}
+            {hata && (
+              <button className="btn" onClick={yenidenDene}>
+                {tt("Tekrar dene")}
+              </button>
+            )}
+            {!Array.isArray(botListesi) && botListesi !== "yukleniyor" && (
+              <button className={hata ? "btn ikincil" : "btn"} onClick={() => { setHata(null); bittiRef.current = false; botlariGoster(); }}>
+                {hata ? tt("Bot ile oyna") : tt("Beklemeden bot ile oyna")}
               </button>
             )}
             <button
