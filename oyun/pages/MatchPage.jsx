@@ -681,6 +681,25 @@ export default function MatchPage() {
           <div className="emoji"><Ikon ad="saat" boyut={44} /></div>
           <h2>{tt("Cevap bekleniyor")}</h2>
           <p className="alt-yazi">{rakipProfil?.gorunen_ad} {tt("henüz kabul etmedi.")}</p>
+          {/* Paket 41 M.4: kalan süre (cevapsız davet 24 saatte düşer — eski_davetleri_temizle) + geri çekme */}
+          {mac.created_at && (() => {
+            const kalanDk = Math.max(0, Math.round((new Date(mac.created_at).getTime() + 24 * 3600000 - Date.now()) / 60000));
+            return (
+              <p className="alt-yazi">
+                {kalanDk >= 60
+                  ? tt("Davet {0} saat daha geçerli.", { 0: Math.floor(kalanDk / 60) })
+                  : tt("Davet {0} dakika daha geçerli.", { 0: kalanDk })}
+              </p>
+            );
+          })()}
+          {mac.oyuncu1 === user.id && (
+            <button className="btn ikincil" style={{ marginTop: 12, maxWidth: 280 }} onClick={maciIptalEt}>
+              {tt("Daveti geri çek")}
+            </button>
+          )}
+          <button className="btn" style={{ marginTop: 10, maxWidth: 280 }} onClick={() => navigate(y("/meydan"))}>
+            {tt("Meydan okumalara dön")}
+          </button>
         </div>
       );
     }

@@ -8081,3 +8081,5 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 /* Paket 41 M.2 — turnuvada izleyici sayacı */
 .app .bd-izleyici-sayac { margin-top: 8px; font-family: var(--bd-f-baslik); font-weight: 900; font-size: 22px; color: var(--bd-metin); font-variant-numeric: tabular-nums; }
 .app .bd-izleyici-sayac.kritik { color: #B01F19; }
+/* Paket 41 M.6 — davet kodu alınamadı */
+.app .bd-davet-kod-yok { display: grid; gap: 8px; justify-items: center; padding: 12px; font-size: 13px; font-weight: 700; color: var(--bd-metin-2); text-align: center; }

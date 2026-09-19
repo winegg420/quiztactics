@@ -10,6 +10,7 @@
 // ============================================================
 import { useCallback, useEffect, useRef, useState } from "react";
 import { tt } from "../lib/dil.js";
+import { useAuth } from "../../src/context/AuthContext.jsx";
 
 /**
  * Panoya yazar. `navigator.clipboard` yalnız güvenli bağlamda ve izin
@@ -48,6 +49,7 @@ async function panoyaYaz(metin) {
 }
 
 export default function DavetKodu({ kod }) {
+  const { user, refreshProfile } = useAuth();
   const [durum, setDurum] = useState(null); // 'oldu' | 'olmadi'
   const saatRef = useRef(null);
 
@@ -61,7 +63,17 @@ export default function DavetKodu({ kod }) {
     saatRef.current = setTimeout(() => setDurum(null), 2200);
   }, [kod]);
 
-  if (!kod) return <div className="bd-davet-kod">—</div>;
+  // Paket 41 M.6: kod gelmediyse "—" yerine sebep + Tekrar dene (paylaş düğmeleri bu yüzden pasif)
+  if (!kod) {
+    return (
+      <div className="bd-davet-kod-yok" role="status">
+        <span>{tt("Davet kodun şu an alınamadı; paylaşma düğmeleri bu yüzden kapalı.")}</span>
+        <button type="button" className="btn kucuk ikincil" onClick={() => refreshProfile?.(user?.id)}>
+          {tt("Tekrar dene")}
+        </button>
+      </div>
+    );
+  }
 
   return (
     <button

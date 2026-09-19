@@ -13,6 +13,7 @@ import { facebookArkadasOnerileri, facebookDavetAc } from "../lib/facebookArkada
 import { tt } from "../lib/dil.js";
 import ModSecimPenceresi from "../components/ModSecimPenceresi.jsx";
 import OyuncuKarti from "../components/OyuncuKarti.jsx";
+import Modal from "../components/Modal.jsx";
 import { useDmOkunmamis, rozetMetni } from "../lib/mesajlar.js";
 
 const DOSTLUK_SECIMI = `id, requester, addressee, durum,
@@ -310,6 +311,26 @@ export default function FriendsPage() {
           onMesaj={kartHedef.id === user.id ? undefined : (id) => { setKartHedef(null); navigate(y(`/mesajlar/${id}`)); }}
         />
       )}
+      {silOnay && (() => {
+        const sf = dostluklar.find((x) => x.id === silOnay);
+        const sp = sf ? digerProfil(sf) : null;
+        return (
+          <Modal onKapat={() => setSilOnay(null)} etiket={tt("Arkadaşlıktan çıkar")}>
+            <div className="bd-modal">
+              <h2 className="bd-modal-baslik">
+                {tt("{ad} arkadaşlıktan çıkarılsın mı?", { ad: sp?.gorunen_ad ?? tt("Arkadaşın") })}
+              </h2>
+              <p className="alt-yazi">{tt("Birbirinize artık doğrudan meydan okuyamaz ve mesaj atamazsınız. İstersen sonra yeniden ekleyebilirsin.")}</p>
+              <div className="bd-joker-sat-dugmeler">
+                <button type="button" className="btn ikincil" onClick={() => setSilOnay(null)}>{tt("Vazgeç")}</button>
+                <button type="button" className="btn tehlike" onClick={() => { const id = silOnay; setSilOnay(null); cikar(id); }}>
+                  {tt("Çıkar")}
+                </button>
+              </div>
+            </div>
+          </Modal>
+        );
+      })()}
       {modHedef && (
         <ModSecimPenceresi
           profil={modHedef}
@@ -387,19 +408,8 @@ export default function FriendsPage() {
             >
               <Ikon ad="kilic" boyut={16} /> {tt("Oyna")}
             </button>
-            {silOnay === f.id ? (
-              <>
-                <button
-                  className="btn kucuk tehlike"
-                  onClick={() => { setSilOnay(null); cikar(f.id); }}
-                >
-                  {tt("Sil")}
-                </button>
-                <button className="btn kucuk ikincil" onClick={() => setSilOnay(null)}>
-                  {tt("Vazgeç")}
-                </button>
-              </>
-            ) : (
+            {/* Paket 41 M.5: onay artık satır içinde değil, küçük pencerede (aşağıda) */}
+            {(
               <button
                 className="btn kucuk ikincil bd-arkadas-cikar"
                 onClick={() => setSilOnay(f.id)}
