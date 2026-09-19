@@ -29,6 +29,19 @@ export default function CalismaPage() {
   const [banka, setBanka] = useState(null); // { toplam, ogrenilen, bekleyen, kategoriler[] }
   const [kategoriler, setKategoriler] = useState([]);
   const [kategori, setKategori] = useState(null);
+  // Paket 37 G: kategori şeridi sağdan kesiliyordu — kaydırılacak içerik kaldıkça sağ kenar solar.
+  const seritRef = useRef(null);
+  const [seritDevam, setSeritDevam] = useState(false);
+  const seritOlc = useCallback(() => {
+    const e = seritRef.current;
+    if (!e) return;
+    setSeritDevam(e.scrollWidth - e.clientWidth - e.scrollLeft > 2);
+  }, []);
+  useEffect(() => {
+    seritOlc();
+    window.addEventListener("resize", seritOlc);
+    return () => window.removeEventListener("resize", seritOlc);
+  }, [seritOlc, kategoriler]);
   const [soruSayisi, setSoruSayisi] = useState(10);
   const [oturum, setOturum] = useState(null);
   const [soru, setSoru] = useState(null);
@@ -290,7 +303,7 @@ export default function CalismaPage() {
         <div className="bd-kat-baslik">
           <span>{tt("Kategori")}</span>
         </div>
-        <div className="bd-kat-grid">
+        <div className={`bd-kat-grid${seritDevam ? " bd-serit-solma" : ""}`} ref={seritRef} onScroll={seritOlc}>
           <button
             className={`bd-kat-kart ${kategori === null ? "aktif" : ""}`}
             onClick={() => setKategori(null)}

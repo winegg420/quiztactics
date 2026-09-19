@@ -2335,8 +2335,9 @@ body.bd-oyun-modu .bd-joker-cubuk {
 .bd-calisma-bos-metin { font-size: 13.5px; line-height: 1.6; color: var(--text-dim); }
 
 /* ---- Soru sayısı seçici ---- */
+/* Paket 37 G: iki sütun — dört düğme 2×2 dengeli durur (üç sütunda dördüncüsü tek kalıyordu) */
 .bd-calisma-adet {
-  display: grid; grid-template-columns: repeat(3, 1fr);
+  display: grid; grid-template-columns: repeat(2, 1fr);
   gap: 8px; margin-bottom: var(--bd-bosluk-3, 14px);
 }
 .bd-calisma-adet-btn {
