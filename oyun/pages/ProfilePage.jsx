@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import DurumKutusu, { useZamanAsimi } from "../components/DurumKutusu.jsx";
 import Ikon from "../components/Ikon.jsx";
-import { sesAcikMi, sesAyarla, sesTik } from "../lib/ses.js";
+import { sesAcikMi, sesAyarla, sesDinle, sesTik } from "../lib/ses.js";
 import Modal from "../components/Modal.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { Link } from "react-router-dom";
@@ -44,6 +44,7 @@ export default function ProfilePage() {
   const [sekme, setSekme] = useState("istatistik");
   const [bildirim, setBildirim] = useState("kapali");
   const [ses, setSes] = useState(() => sesAcikMi());
+  useEffect(() => sesDinle(setSes), []);   // Paket 41 B: maç şeridi/avatar menüsüyle eşit
   const [bildirimHata, setBildirimHata] = useState(null);
   const [konumDuzenle, setKonumDuzenle] = useState(false);
   const [silOnay, setSilOnay] = useState(false);

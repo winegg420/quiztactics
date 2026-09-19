@@ -61,6 +61,15 @@ export function sesAyarla(acik) {
   } catch {
     /* özel mod — tercih saklanamaz, oturum boyunca varsayılan geçerli */
   }
+  // Paket 41 B/C: maç şeridi, avatar menüsü ve Profil › Ayarlar aynı anda eşitlensin
+  try { window.dispatchEvent(new CustomEvent("bildim-ses", { detail: Boolean(acik) })); } catch { /* eski tarayıcı */ }
+}
+
+/** Ses tercihi değişince haber verir (aynı sekme). Aboneliği bırakan fonksiyon döner. */
+export function sesDinle(cb) {
+  const f = (e) => cb(Boolean(e.detail));
+  window.addEventListener("bildim-ses", f);
+  return () => window.removeEventListener("bildim-ses", f);
 }
 
 function context() {

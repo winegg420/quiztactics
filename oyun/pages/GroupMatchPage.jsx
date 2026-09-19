@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Ikon from "../components/Ikon.jsx";
+import MacUstSerit from "../components/MacUstSerit.jsx";
 import { TEPKILER, tepkiIkonu } from "../lib/tepkiler.js";
 import SenRozeti from "../components/SenRozeti.jsx";
 import YanlisSatiri from "../components/YanlisSatiri.jsx";
@@ -560,6 +561,9 @@ export default function GroupMatchPage() {
       {duraklatildi && (
         <KopukPerde bekleyenAdlar={nabiz?.bekleyenler ?? []} gecenSn={nabiz?.duraklama_sn ?? 0} />
       )}
+
+      {/* Paket 41 B/E/H: Klasik ile aynı çıkış (X), mod rozeti ve ses */}
+      <MacUstSerit onCik={() => navigate(y("/meydan"))} rozet={tt("Grup Maçı · ödülsüz")} />
 
       <div className="grup-skor-listesi">
         <div className="alt-yazi" style={{ textAlign: "center", marginBottom: 8 }}>

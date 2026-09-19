@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Ikon from "../components/Ikon.jsx";
+import MacUstSerit from "../components/MacUstSerit.jsx";
 import Maskot from "../components/Maskot.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { useOyunModu } from "../lib/oyunModu.js";
@@ -623,6 +624,8 @@ export default function TournamentPage() {
   return (
     <div>
       <h1 className="baslik bd-gorsel-gizli">{tt("Turnuva")}</h1>
+      {/* Paket 41 B/E/H: Klasik ile aynı çıkış (X), mod rozeti ve ses */}
+      <MacUstSerit onCik={() => navigate(y())} rozet={soru?.altin ? tt("Turnuva · altın soru") : tt("Turnuva")} />
       {/* ALTIN SORU: sorular bitti, hayatta kalanlar eşit. Eleme turnuvası
           berabere bitemez — biri kazanana kadar yeni soru gelir. */}
       {soru?.altin ? (

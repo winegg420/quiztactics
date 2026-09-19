@@ -18,6 +18,7 @@ import HesapGuvenceOnerisi from "../components/HesapGuvence.jsx";
 import MeydanaDonus from "../components/MeydanaDonus.jsx";
 import Maskot from "../components/Maskot.jsx";
 import Ikon from "../components/Ikon.jsx";
+import MacUstSerit from "../components/MacUstSerit.jsx";
 import { TEPKILER, tepkiIkonu } from "../lib/tepkiler.js";
 import MacYukleniyor from "../components/MacYukleniyor.jsx";
 import SesliSohbet from "../components/SesliSohbet.jsx";
@@ -995,14 +996,12 @@ export default function MatchPage() {
           />
         )}
 
-        {/* Maç ekranında alt menü gizli; çıkış sol üstte */}
-        <button
-          className="bd-mac-cikis"
-          aria-label={tt("Maçtan çık")}
-          onClick={() => navigate(y("/meydan"))}
-        >
-          <Ikon ad="carpi" boyut={18} />
-        </button>
+        {/* Maç ekranında alt menü gizli; çıkış sol üstte.
+            Paket 41 B/E/H: ortak üst şerit — çıkış (aynı davranış) + mod rozeti + ses. */}
+        <MacUstSerit
+          onCik={() => navigate(y("/meydan"))}
+          rozet={mac.jokersiz ? tt("Saf Bilgi · jokersiz") : tt("Klasik Mod")}
+        />
 
         {rakipOnde && !bilgiKapandi && (
           <div className="bd-mac-bilgi">

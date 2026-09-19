@@ -7990,3 +7990,26 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   display: inline-flex; align-items: center; min-height: 44px; padding: 0 4px;
   font-weight: 900; color: #C4530F; text-decoration: none; white-space: nowrap;
 }
+
+/* ============================================================
+   PAKET 41 B/E/H — maç üst şeridi: X · mod rozeti · ses (her modda aynı)
+   ============================================================ */
+.app .bd-mac-ust-serit {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  margin-bottom: var(--bd-b-2);
+}
+.app .bd-mac-ust-serit .bd-mac-cikis { width: 44px; height: 44px; margin-bottom: 0; flex: 0 0 auto; }
+.app .bd-mac-ust-bosluk { width: 44px; height: 44px; flex: 0 0 auto; }
+.app .bd-mac-ses {
+  width: 44px; height: 44px; min-width: 44px; padding: 0; flex: 0 0 auto;
+  border-radius: 50%; border: 0;
+  background: var(--bd-yuzey-1); color: var(--bd-metin);
+  box-shadow: 0 3px 0 var(--bd-kart-alt);
+}
+.app .bd-mac-ses.kapali { color: #B01F19; }
+.app .bd-mac-mod-rozet {
+  min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  padding: 5px 12px; border-radius: 999px;
+  background: var(--bd-yuzey-1); box-shadow: 0 2px 0 var(--bd-kart-alt);
+  font-size: 12px; font-weight: 900; letter-spacing: 0.3px; color: var(--bd-metin-2);
+}

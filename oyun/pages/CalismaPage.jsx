@@ -4,6 +4,7 @@ import KategoriIkon from "../components/KategoriIkon.jsx";
 import Maskot from "../components/Maskot.jsx";
 import DurumKutusu from "../components/DurumKutusu.jsx";
 import Ikon from "../components/Ikon.jsx";
+import MacUstSerit from "../components/MacUstSerit.jsx";
 import Konfeti from "../components/Konfeti.jsx";
 import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesKazandin, sesDokunus } from "../lib/ses.js";
 import CevapEfekti from "../components/CevapEfekti.jsx";
@@ -15,6 +16,7 @@ import { y } from "../lib/yol.js";
 import { useGorunurlukTazele } from "../lib/gorunurluk.js";
 import { tt } from "../lib/dil.js";
 import MacSorulari from "../components/MacSorulari.jsx";
+import { useOyunModu } from "../lib/oyunModu.js";
 
 const SORU_SN = 20;
 const HARFLER = ["A", "B", "C", "D"];
@@ -57,6 +59,8 @@ export default function CalismaPage() {
   const [sonucSoru, setSonucSoru] = useState(null);
   const [kalan, setKalan] = useState(SORU_SN);
   const [sonuc, setSonuc] = useState(null);
+  // Paket 41 B/E: tur sürerken öteki modlar gibi çubuklar gizlenir, üst şerit aynı yerde durur
+  useOyunModu(Boolean(oturum) && !sonuc);
   // Paket 20 II.1: tur sonunda her soru için "Soruyu bildir" (soru ekranı otomatik geçtiği için listede)
   const [cevaplananlar, setCevaplananlar] = useState([]);
   const [kutlama, setKutlama] = useState(false);
@@ -412,6 +416,9 @@ export default function CalismaPage() {
     return (
       <div className={`bd-calisma-oyun ${sarsil ? "bd-sarsil" : ""}`}>
         <Konfeti aktif={kutlama} />
+        {/* Paket 41 B/E: öteki modlarla aynı üst şerit; X turu bitirip sonucu gösterir.
+            Rozet yok — "ÇALIŞMA · PUAN VERİLMEZ" bandı zaten bunu söylüyor. */}
+        <MacUstSerit onCik={oturum?.oturum_id ? () => bitir(oturum.oturum_id) : undefined} cikisEtiketi={tt("Turu bitir")} />
         {/* Çalışma modunda puan verilmez — uçan rozet yok, yalnız seri bandı */}
         <CevapEfekti dogru={Boolean(sonucSoru?.dogru)} puan={0} seri={seri} />
         {secim === -1 && (

@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Ikon from "./Ikon.jsx";
-import { sesAcikMi, sesAyarla, sesDokunus, sesKilidiAc } from "../lib/ses.js";
+import { sesAcikMi, sesAyarla, sesDinle, sesDokunus, sesKilidiAc } from "../lib/ses.js";
 import { tt } from "../lib/dil.js";
 
 /**
@@ -8,8 +8,10 @@ import { tt } from "../lib/dil.js";
  * Tercih localStorage'da (bildim_ses), varsayılan AÇIK.
  * Açarken kısa bir dokunuş sesi çalar — düğmenin çalıştığı duyulsun.
  */
-export default function SesDugmesi() {
+export default function SesDugmesi({ className = "" }) {
   const [acik, setAcik] = useState(() => sesAcikMi());
+  // Başka yerden (Profil › Ayarlar, avatar menüsü) değişirse bu düğme de güncellensin
+  useEffect(() => sesDinle(setAcik), []);
 
   const degistir = () => {
     try {
@@ -28,7 +30,7 @@ export default function SesDugmesi() {
   return (
     <button
       type="button"
-      className={`bd-ses-dugme ${acik ? "" : "kapali"}`}
+      className={`bd-ses-dugme ${acik ? "" : "kapali"} ${className}`}
       onClick={degistir}
       aria-pressed={acik}
       aria-label={acik ? tt("Sesi kapat") : tt("Sesi aç")}

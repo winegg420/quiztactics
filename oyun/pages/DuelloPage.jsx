@@ -19,6 +19,7 @@ import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import Avatar from "../../src/components/Avatar.jsx";
 import Ikon from "../components/Ikon.jsx";
+import MacUstSerit from "../components/MacUstSerit.jsx";
 import KategoriIkon from "../components/KategoriIkon.jsx";
 import Maskot from "../components/Maskot.jsx";
 import MacSonuSahnesi from "../components/MacSonuSahnesi.jsx";
@@ -783,6 +784,11 @@ function DuelloMac({ id }) {
   return (
     <div className={`bd-duello ${sonCan ? "son-can" : ""}`}>
       {hale}
+      {/* Paket 41 B/H: öteki modlarla aynı üst şerit; X mevcut "Düellodan çık" onayını açar */}
+      {d.durum === "aktif" && (
+        <MacUstSerit onCik={() => setTerkOnay(true)} cikisEtiketi={ceviri("Düellodan çık")}
+                     rozet={ceviri("Düello · Taktik Maçı")} />
+      )}
       <div className="bd-duello-ust">
         {oyuncuKart(ben, "sol")}
         <div className="bd-duello-tur">

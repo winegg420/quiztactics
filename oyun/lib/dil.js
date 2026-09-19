@@ -701,6 +701,12 @@ const SOZLUK = {
     "Maç ve davet listen alınamadı.": "Your match and invite list couldn't be loaded.",
     "Hatalarım bankan alınamadı; genel havuzdan pratik turu yine açılabilir.": "Your mistake bank couldn't be loaded; you can still start a practice round from the general pool.",
     "Arkadaşların": "Your friends",
+    // ---- Paket 41 B/E/H ----
+    "Saf Bilgi · jokersiz": "Pure Knowledge · no jokers",
+    "Düello · Taktik Maçı": "Duel · Tactics Match",
+    "Grup Maçı · ödülsüz": "Group Match · no rewards",
+    "Turnuva · altın soru": "Tournament · golden question",
+    "Turu bitir": "End round",
     "{0} seri bildirimi": "{0} streak notifications",
     "{0} arkadaşlık isteği": "{0} friend requests",
     "az önce": "just now",
