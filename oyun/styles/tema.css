@@ -7228,6 +7228,23 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   box-shadow: 0 4px 0 #F3C9A8;
 }
 .bd-oyuncu-eylemler .btn:active:not(:disabled) { transform: translateY(4px); box-shadow: none; }
+/* Paket 37 E — "Vazgeç" iki pencerede de aynı nedenle turuncuydu (mod seçimi + joker satın alma):
+   ikincil beyaz kalır, asıl eylem turuncu. Dört hâl: normal / basılı / pasif / çalışıyor
+   (çalışırken Vazgeç pasiftir: `disabled={calisan}` / `disabled={calisiyor}`). */
+.bd-modal-katman .bd-mod-secim .btn.ikincil,
+.bd-modal-katman .bd-joker-sat-dugmeler .btn.ikincil {
+  background: #FFFFFF; color: #C4530F; text-shadow: none;
+  border: 2px solid var(--bd-vurgu);
+  box-shadow: 0 4px 0 #F3C9A8;
+}
+.bd-modal-katman .bd-mod-secim .btn.ikincil:active:not(:disabled),
+.bd-modal-katman .bd-joker-sat-dugmeler .btn.ikincil:active:not(:disabled) { transform: translateY(4px); box-shadow: none; }
+.bd-modal-katman .bd-mod-secim .btn.ikincil:disabled,
+.bd-modal-katman .bd-joker-sat-dugmeler .btn.ikincil:disabled { filter: none; opacity: 0.45; cursor: not-allowed; }
+@media (prefers-reduced-motion: reduce) {
+  .bd-modal-katman .bd-mod-secim .btn.ikincil:active:not(:disabled),
+  .bd-modal-katman .bd-joker-sat-dugmeler .btn.ikincil:active:not(:disabled) { transform: none; }
+}
 .bd-oyuncu-eylemler .btn:disabled { filter: none; opacity: 0.45; cursor: not-allowed; }
 .bd-oyuncu-eylemler .btn[aria-busy="true"] { opacity: 1; }
 .bd-oyuncu-eylem-not {
