@@ -168,3 +168,35 @@ rakiparama-hata-390-acik.png · rakiparama-bot-hata-390-acik.png · rakiparama-v
 - Bot yolu dürüst: "Bot maçında coin ödülü yarıya iner" yazıyor (rakiparama-bot-hata-390-acik.png).
 - Vazgeç ana sayfaya temiz dönüyor, kuyruktan çıkış çağrısı yapılıyor (rakiparama-vazgec-sonrasi-390-acik.png).
 - Hata mesajı Şenlik kırmızısında ve okunur (bu katmanda `tema.css:4434` düzeltmesi geçerli).
+
+---
+
+## 5. Maç hazırlık ("Hazır mısın?")
+Görüntüler: machazirlik-bekliyor-{390,1280}-{acik,koyu}.png · machazirlik-bekliyor-390-en.png · machazirlik-ben-hazir-390-acik.png ·
+machazirlik-geri-sayim-390-acik.png · machazirlik-geri-sayim2-390-acik.png · machazirlik-davet-bekliyor-390-acik.png ·
+machazirlik-yukleme-hatasi-390-acik.png
+
+### 🔴 Hata
+- Maç başındaki 3-2-1 geri sayımı görünmüyor. `.bd-geri-sayim` iki kez tanımlı: `oyun/styles/tema.css:2143` (eski kural:
+  `position:absolute; transform:translate(-50%,-50%)` + `bd-sayim-vur` animasyonu, sonunda opaklık 0) ve `tema.css:5099`
+  (yeni kural: `position:fixed; inset:0`). İkisi birleşince katman `fixed` + `transform` oluyor. Ölçüldü: katman
+  `matrix(0.86,0,0,0.86,-195,-422)` ile ekranın sol üstüne, dışına itilmiş; kutu x=−168, y=−363; opaklık 0.
+  Oyuncuya etkisi: "Hazır ol!" ve sayı hiç görünmüyor, soru hazırlıksız anda beliriyor. CLAUDE.md'nin "fixed ile transform aynı
+  öğede olmaz" kuralını da çiğniyor. Kanıt: machazirlik-geri-sayim-390-acik.png ve -geri-sayim2- (sayım sürerken çekildi, katman yok).
+
+### 🟡 Eksik
+- Davet gönderilmiş, rakip henüz kabul etmemiş maçta ekran yalnız "Cevap bekleniyor — Sıla henüz kabul etmedi." diyor.
+  Daveti geri çekme, geri dönme ya da süre bilgisi yok. Nerede: `oyun/pages/MatchPage.jsx:677-685`. Kanıt: machazirlik-davet-bekliyor-390-acik.png.
+- Maç açılamayınca ham sunucu mesajı gösteriliyor (sahte ortamda "sahte hata"; canlıda İngilizce/teknik metin olabilir).
+  Nerede: `MacYukleniyor` `hata` prop'u (`MatchPage.jsx:662-665`). "Tekrar dene" ve "Meydan okumalara dön" var — iyi.
+
+### 🔵 Kozmetik
+- İki oyuncu da hazır değilken alt satır "Beklenen: Sıla" diyor; asıl beklenen oyuncunun kendisi de olduğu hâlde yalnız rakip adı yazıyor.
+  Kanıt: machazirlik-bekliyor-390-acik.png.
+- Kendi adının altında "bekleniyor…", rakibin altında "ekranda": iki farklı durum dili aynı satırda; hangisinin iyi olduğu belli değil.
+
+### ✅ İyi olan
+- Kural bir cümlede anlatılıyor ("eş zamanlı… hepiniz hazır olunca başlar"), sayaç "0/2 hazır", tek birincil "Hazırım".
+- Hazıra basınca düğme "Hazırsın — diğerleri bekleniyor" durum satırına dönüşüyor; maskot da değişiyor (machazirlik-ben-hazir-390-acik.png).
+- Yükleme hatasında "Tekrar dene" + çıkış yolu var.
+- İngilizce'de yalnız oyuncu adı ("Sıla") Türkçe — doğru.
