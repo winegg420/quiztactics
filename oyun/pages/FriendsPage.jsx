@@ -371,10 +371,9 @@ export default function FriendsPage() {
       {listeDurum === "hazir" && arkadaslar.length === 0 && (
         <div className="bd-bos-durum">
           <Maskot poz="selam" boyut={86} />
-          <p>{tt("Henüz arkadaşın yok — davet linkini paylaş, birlikte yarışın.")}</p>
-          <button className="btn" onClick={linkPaylas} disabled={!davetLinki}>
-            {tt("Davet linkini paylaş")}
-          </button>
+          {/* Paket 42 I: paylaş düğmesi hemen alttaki "Arkadaş davet et" kartında da vardı (iki kez);
+              burada yalnız yönlendirme metni kaldı */}
+          <p>{tt("Henüz arkadaşın yok — aşağıdaki davet linkini paylaş, birlikte yarışın.")}</p>
         </div>
       )}
       {arkadaslar.map((f) => {
