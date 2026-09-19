@@ -60,3 +60,59 @@ giris-yukleniyor-390-acik.png · giris-eposta-gecersiz-390-acik.png · giris-epo
 - İngilizce çeviri eksiksiz (görünür Türkçe kalıntı yok; "Türkiye" özel isim).
 - Misafir notu dürüst ("bu cihaza bağlıdır… sonra bağlayabilirsin"); gizlilik/koşullar bağlantıları var.
 - Koyu tema okunur, düğmeler ayrışıyor.
+
+---
+
+## 2. Ana Sayfa (`/`)
+Görüntüler: anasayfa-dolu-{390,1280}-{acik,koyu}.png · anasayfa-dolu-390-en.png · anasayfa-tam-*.png (tam sayfa) ·
+anasayfa-alt-390-acik.png · anasayfa-taskin-390-acik.png · anasayfa-yeni-oyuncu-390-acik.png · anasayfa-yukleniyor-390-acik.png ·
+anasayfa-hata-390-acik.png · anasayfa-bildirim-izni-390-acik.png
+
+### 🔴 Hata
+- Gelen davet bandında (üst çubuğun altında "X sana meydan okudu! · Kabul Et") davet edenin adı ve metin görünmüyor:
+  beyaz yazı beyaz zeminde. Nerede: `oyun/styles/tema.css:566-576` (`.bd-davet-bandi` `color:#fff`, `background: var(--bd-yuzey-2)`)
+  + `tema.css:4516` ("zemini kendi renkli gradyanı" yorumu var ama gradyan uygulanmıyor). Oyuncuya etkisi: kimin, hangi modda
+  davet ettiğini göremeden yalnız "Kabul Et" düğmesini görüyor; Reddet de seçilemiyor gibi. Kanıt: ölçüldü "sana meydan okudu!"
+  **1,00:1**, "Bir oyuncu" 1,00:1, "Karışık" 1,00:1 — anasayfa-taskin-390-acik.png (üstteki bant).
+- (Yalnız koyu tema) "Dereceli" kartı koyu temada beyaz kalıyor, üstündeki açık renk yazı okunmuyor. Nerede: `DereceliAnahtari`
+  (yer: tema.css'te kartın zemin kuralı bulunamadı). Kanıt: "Dereceli" **1,14:1**, "Lig puanı + tam coin" 2,01:1,
+  rütbe rozeti "Üstat" 1,51:1 — anasayfa-dolu-390-koyu.png. Koyu tema bugün kapalı olduğu için oyuncuyu etkilemiyor.
+
+### 🟡 Eksik
+- Veri gelmezse ya da hata dönerse hata mesajı yok; sayfa sahte bir profil çiziyor: "Oyuncu", **0 PUAN**, "Çaylak",
+  "?" avatar. Üst çubukta zil ve coin kayboluyor. Oyuncuya etkisi: puanının ve rütbesinin sıfırlandığını sanır, yenileme önerisi yok.
+  Kanıt: anasayfa-hata-390-acik.png (bütün istekler 400).
+- Yüklenirken iskelet ya da gösterge yok: aynı sahte "Oyuncu / 0 PUAN / Çaylak" görünüp sonra gerçek değere atlıyor.
+  Kanıt: anasayfa-yukleniyor-390-acik.png (istekler 5 sn geciktirildi).
+- "Seni bekleyenler" başlığı altında bekleyen davet yokken yalnız "Günlük Görevler" satırı var; boş durum metni ya da
+  "arkadaşına meydan oku" gibi bir eylem yok. Nerede: `oyun/pages/Home.jsx:614-619`. Kanıt: anasayfa-alt-390-acik.png.
+- Üst çubukta ses kapatma yok (`Layout.jsx:152-157` yorumu: tema ve ses üst bardan kaldırılmış). Ses yalnız Profil › Ayarlar'da;
+  maç ortasında kapatmanın yolu bu denetimde bulunamadı (bkz. §6).
+- Profil (D) ve Görünüm (tişört) düğmeleri 40×44 px (hedef 44×44). Kanıt: otomatik ölçüm, 390.
+- Aktif sekme etiketi "Ana Sayfa" 9,5 px turuncu, açık zeminde **2,92:1** (eşik 4,5). Nerede: `tema.css:881` / `tema.css:4219`.
+  Bütün sekme etiketleri 9,5 px — telefonda zor okunur.
+
+### 🔵 Kozmetik
+- Mod kartları ızgarası dengesiz: Düello tam genişlik; Saf Bilgi ile Meydan Oku yan yana ama farklı yükseklikte (Meydan Oku'nun alt satırı yok);
+  Turnuva yarım genişlikte tek başına kalıyor, sağı boş; Hatalarım yine tam genişlik. Nerede: `Home.jsx` "Başka nasıl oynanır" bloğu,
+  `tema.css:2373`. Kanıt: anasayfa-alt-390-acik.png.
+- İki birincil düğme yan yana yarışıyor: "Hemen oyna" sarı (`.bd-ana-eylem`, `tema.css:273`), hemen altındaki "Lobiye katıl"
+  turuncu. Marka vurgusu turuncu olduğu hâlde ana eylem sarı; hangisinin asıl eylem olduğu belirsizleşiyor.
+- Masaüstünde (1280) içerik 600 px'lik dar bir sütun, alt sekme çubuğu da telefon düzeninde ortada; iki yan boş.
+  Masaüstüne özel gezinme yok. Kanıt: anasayfa-dolu-1280-acik.png.
+- "Haftalık lig bitimine 1 gün 13 saat" satırı ayrı, soluk bir kartta; neye ait olduğu belli değil (lig kartı değil).
+
+### ❔ Şüpheli
+- Turnuva saatleri: ana sayfa "12:30 · 15:00 · 18:00 · 20:00 · 22:00 · 24:00" gösteriyor. Bu, sunucu ayarı okunamayınca devreye giren
+  kod varsayılanı (`oyun/lib/zaman.js:15`). Giriş sayfası ise sabit metinle "Her gün 13:00 ve 21:50" diyor
+  (`src/pages/Login.jsx:165`); CLAUDE.md de 13:00 ve 21:50 diyor. Canlı `oyun_ayarlari.turnuva_saatleri` değeri anonim
+  okunamadı. Hangisi doğruysa öteki yanlış.
+- Bildirim izni kartı çizilmedi (oturum işareti verildi); headless Chromium'da bildirim izni "denied" döndüğü için kartın
+  kendi kuralı onu gizliyor olabilir. Doğrulanamadı.
+
+### ✅ İyi olan
+- Hiçbir durumda yatay taşma yok; 16 karakterlik ad, 9.999 puan, 99.999 coin sığıyor (anasayfa-taskin-390-acik.png).
+- İlk ekranın bilgi hiyerarşisi net: kim olduğun → puan ve rütbe ilerlemesi → rakip kategorisi → Dereceli → tek büyük "Hemen oyna".
+- Rütbe ilerleme metni somut ("Kahin rütbesine 50 puan"); en üst rütbede "En yüksek rütbedesin".
+- Turnuva geri sayımı ve "Lobiye katıl" görünür; Hatalarım kartında banka sayısı rozeti var.
+- İngilizce'de görünür Türkçe kalıntı yok.
