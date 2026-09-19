@@ -6663,3 +6663,27 @@ BildirimIzniSor 866 ✓; DuelloPage 503-575 (BildirimIzniSor 569 ✓); GroupMatc
 - Koyu tema: KOYU_TEMA_KAPALI olduğu için data-tema elle "koyu" yapılarak ölçüldü (başlık 14,6:1, VS 6,2:1).
 - Yapılamayan: Hızlı Mod tarayıcıda açılamadı (rota dondurulmuş) — yalnız derleme. Gerçek hesapla canlı maç (OAuth).
   iOS: bu makinede WebKit yok; Chromium'da iPhone boyutu denetimi yapıldı.
+
+## Paket 37 — Canlı geziden düzeltmeler (19 Eyl 2026)
+
+SQL yok, migration yok. Her madde ayrı commit + push (4bb973c → 6cff99f).
+
+- **A** Profil › Rozetler: kilitli rozet gerçek emojisini gösteriyor (grayscale + .55), sağ altta 12 px kilit rozeti. `.rozet.kilitli { opacity:.65 }` korundu.
+- **B** Lig çerçevesi seçici: 56 px, halka 4/2/3 px (yalnız `.bd-lig-cerceve-secici`), çerçeveye 9 px pay. Ad `--lc-dis` tonunda AMA
+  %75 koyulaştırılmış (ham renkler beyazda 2,9–4,0:1; AA için ≥4,89:1). `--lc-*` değişkenleri `.bd-lig-renk-*` sınıfına da açıldı.
+  Koyu temada düğme zemini #fff kalıyordu (`--bd-yuzey` tanımsız) → `--bd-yuzey-2`.
+- **C** Bildirim zili: okunmuş tekrarlar ayrı grupta tek satır (`toplu-okundu-${tip}`), en fazla 20 okunmuş satır çizilir.
+  "sana meydan okudu" = `mac_daveti` (migration 063 tetikleyicisi), zaten TOPLAMA'daydı. `duello_daveti` TOPLAMA'da yok — dokunulmadı, soruldu.
+- **D.1** MacSonuSahnesi `gorevler` prop'u; `OdulDokumu › onGorevler` (alınmamış görevler). En çok ilerlemiş 2 görev, ilerleme 0 ise çizilmez,
+  1050 ms'de girer. Beş sayfada `gorevleriGoster={false}` → Detay'dan çıktı.
+- **D.2** Açık Detay'ın altına `padding-bottom: var(--mss-eylem-alt)`. Ölçüm: 390×844 ve 1280×720'de kaydırma sonunda çubuk içeriği örtmüyordu.
+- **E** Kök sebep: `.bd-modal-katman .btn:not(.tehlike):not(.basari)` modal içi her düğmeyi turuncuya boyuyor. Mod seçimi + joker satın alma
+  pencerelerinde `btn ikincil` beyaz/turuncu kenar (oyuncu kartındaki desen). Diğer modallardaki ikincil düğmeler hâlâ turuncu — soruldu.
+- **F** `.bd-sohbet` ≥700 px: `inset:0`, `max-width:none`, içerik 620 px sütun (padding-inline), zemin opak. Telefonda aynı.
+- **G** Çalışma: adet ızgarası 2 sütun; kategori şeridi yalnız kaydırılacak içerik varken sağ 24 px solar (`bd-serit-solma`).
+- **H** Ayarlar › Avatarın: 36 px AvatarCerceve.
+- **I** (rapor) Kanat kartı canlı 3B render: `oyun/vitrin/vitrinSahne.js › portre()` tek WebGL renderer'la 192 px kare çizip PNG data URL yapar;
+  çağıran `GorunumVitrini.jsx:71`, kadraj `kadraj.js › kanat` → `vitrinSahne.js:25 KADRAJ.kanat`. Model: `karakter_<tur>.glb` içindeki `kozmetik_kanat` mesh'i.
+
+Doğrulama: Vite dev + Playwright Chromium, Supabase sahte yanıtlarla (canlıya yazılmadı). A/B/D açık+koyu, D reduced-motion, E ölçüldü,
+F 1280 ve 390, G maske aç/kapa, H ekran görüntüsü, C mantığı düğüm testiyle. Joker satın alma penceresi tarayıcıda açılmadı (maç içi), CSS seçicisi aynı.
