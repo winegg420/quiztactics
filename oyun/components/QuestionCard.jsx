@@ -25,6 +25,18 @@ const YENIDEN_DENE_MS = 1500;
  * onCevapla(cevapIndex) -> { dogru, dogru_cevap } döndüren async fonksiyon
  * onSureDoldu() -> süre bitince çağrılır (advance tetikler)
  */
+/**
+ * Paket 41 M.7: uzun soru/şıkta yazı kademeli küçülür ki şıklar ve joker çubuğu
+ * telefonda ekrana sığsın (390×844'te ölçüldü). Eşikler karakter sayısı.
+ */
+function uzunlukSinifi(soru) {
+  const s = String(soru?.soru ?? "").length;
+  const enUzunSik = Math.max(0, ...(soru?.secenekler ?? []).map((x) => String(x ?? "").length));
+  if (s > 170 || enUzunSik > 48) return "bd-soru-cok-uzun";
+  if (s > 100 || enUzunSik > 30) return "bd-soru-uzun";
+  return "";
+}
+
 export default function QuestionCard({
   soru: soruProp,
   onCevapla,
@@ -273,7 +285,7 @@ export default function QuestionCard({
   return (
     <div
       key={`${soru.question_id}-${soru.soru_index}`}
-      className={`bd-soru bd-soru-giris ${dogruCevapVerdim ? "bd-dogru-cevap" : ""} ${yanlisCevapVerdim ? "bd-yanlis-cevap" : ""} ${sonDuzluk ? "bd-son-saniyeler" : ""} ${sarsil ? "bd-sarsil" : ""} ${className}`}
+      className={`bd-soru bd-soru-giris ${uzunlukSinifi(soru)} ${dogruCevapVerdim ? "bd-dogru-cevap" : ""} ${yanlisCevapVerdim ? "bd-yanlis-cevap" : ""} ${sonDuzluk ? "bd-son-saniyeler" : ""} ${sarsil ? "bd-sarsil" : ""} ${className}`}
     >
       <Konfeti aktif={dogruCevapVerdim} />
       {/* Paket 32 A: sis YİYEN — tam ekran perde (sayaç sisin üstünde) */}
