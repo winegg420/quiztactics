@@ -612,7 +612,8 @@ export default function ChallengesPage() {
     return () => clearInterval(tik);
   }, [grupKuyrukAcMi, kategori, navigate]);
 
-  useEffect(() => () => { supabase.rpc("grup_aramadan_cik").catch(() => {}); }, []);
+  // Supabase sorgusu thenable'dır ama .catch'i yoktur: .catch her çıkışta TypeError fırlatıyordu.
+  useEffect(() => () => { supabase.rpc("grup_aramadan_cik").then(() => {}, () => {}); }, []);
 
   const grupCevapVer = async (grupMacId, kabul) => {
     setGrupHata(null);

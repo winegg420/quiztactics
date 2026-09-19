@@ -58,7 +58,9 @@ const KosullarPage = lazy(() => import("../oyun/pages/KosullarPage.jsx"));
 // bildirimi deep-link'i ve paylaşılmış davet linkleri kırılmasın diye.
 function OnekiAt() {
   const { pathname, search } = useLocation();
-  const kalan = pathname.replace(/^\/oyun/, "") || "/";
+  // Sunucu bildirim yollarını hâlâ eski hub önekiyle yazıyor ('/bildim/duello', '/bildim/mac/…');
+  // o önek de atılır (Paket 38 A — önceden '/bildim/*' ana sayfaya düşüyordu).
+  const kalan = pathname.replace(/^\/(oyun|bildim)(?=\/|$)/, "") || "/";
   return <Navigate to={kalan + search} replace />;
 }
 
@@ -138,7 +140,7 @@ export default function BildimApp() {
 
         {/* Geriye uyumluluk: hub adresleri → kök */}
         <Route path="/oyun/*" element={<OnekiAt />} />
-        <Route path="/bildim" element={<OnekiAt />} />
+        <Route path="/bildim/*" element={<OnekiAt />} />
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
