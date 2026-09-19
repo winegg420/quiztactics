@@ -366,3 +366,47 @@ grup-mac-390-en · grup-mac-uzun-ad-390-acik · grup-sohbet-acik-390-acik · gru
 - Davet lobisi net: kimin kabul ettiği etiketle, Kabul Et (turuncu) / Reddet (kırmızı) / Geri dön (beyaz) ayrışıyor.
 - Maçta canlı sıralama tablosu (sen vurgulu) + "Soru 3/10"; 16 karakterlik ad sığıyor.
 - Sonuç podyumu (2-1-3) güzel; "Arkadaş maçı — ödül ve puan yok." dürüst; görev ilerlemesi yine görünüyor.
+
+---
+
+## 11. Hızlı Mod (dondurulmuş)
+Görüntüler: hizlimod-rota-{390,1280}-acik.png · hizlimod-mac-rotasi-390-acik.png
+
+### ✅ İyi olan
+- `/hizli-mod` ve `/hizli-mac/:id` ana sayfaya `replace` ile yönleniyor (ölçüldü: ikisi de `/`); kırık sayfa, boş ekran, konsol hatası yok.
+  Ana sayfada ve mod seçim penceresinde Hızlı Mod'a giriş yok. Dondurma CLAUDE.md'de yazıldığı gibi.
+
+### 🔵 Kozmetik
+- Eski bir bağlantıdan (bildirim, paylaşım) gelen oyuncu hiçbir açıklama görmeden ana sayfaya düşüyor; "Bu mod şu an kapalı" gibi tek satırlık bir not yok.
+
+---
+
+## 12. Turnuva
+Görüntüler: turnuva-yok-{390,1280}-{acik,koyu}.png · turnuva-yok-390-en.png · turnuva-lobi-katilmadin · turnuva-lobi-katildin · turnuva-lobi-bos ·
+turnuva-mac-{390-acik,390-koyu,1280-acik} · turnuva-altin-soru · turnuva-elendin · turnuva-sonuc-{390,1280}-acik
+
+### 🟡 Eksik
+- **Mod paritesi:** turnuva maçında çıkış düğmesi yok (Klasik'te X var). Kanıt: turnuva-mac-390-acik.png.
+- Canlı bant "CANLI · 3 oyuncu hayatta · Soru 7/15" yeşil yazı / açık yeşil zemin **1,94:1** (14 px). Nerede: `TournamentPage.jsx:635`.
+- "Hayatta Kalanlar" çipleri ("Sıla (5 doğru)") yeşil yazı **2,17:1** (12 px). Nerede: `TournamentPage.jsx:670` altı.
+- "Elendin. Kalan oyuncuları izlemeye devam edebilirsin." kırmızı yazı / pembe zemin **2,75:1**. Nerede: `TournamentPage.jsx:642`.
+- Elenen oyuncu izlerken soru için kalan süreyi görmüyor ("Oyuncular cevaplıyor…" var, sayaç yok). Kanıt: turnuva-elendin-390-acik.png.
+- Maç sırasında ses kapatma yok (§6).
+
+### 🔵 Kozmetik
+- Lobi listesinde kendi satırında "sen" rozeti yok (maç ve sonuç ekranlarında var). Kanıt: turnuva-lobi-katildin-390-acik.png.
+- Sonuç ekranında içerik kısa kaldığı için eylem çubuğu ekranın ortasında, altında ~150 px boş gri alan (düello ile aynı). Kanıt: turnuva-sonuc-390-acik.png.
+- "Lobiden Ayrıl" krem renkli düz kutu; ne birincil ne `.btn.ikincil` gibi görünüyor.
+
+### ❔ Şüpheli
+- Turnuva saatleri yine üç ayrı yerde farklı: "Nasıl oynanır?" kartı "her gün 10:00, 12:30, 15:00, 18:00, 20:00, 22:00, 24:00" diyor
+  (kod varsayılanı, `oyun/lib/zaman.js:15`); giriş sayfası "13:00 ve 21:50"; CLAUDE.md "13:00 ve 21:50, sabit". Canlı ayar okunamadı (bkz. §2).
+- CLAUDE.md "Toplam oyuncu sayısı hiçbir yerde gösterilmez" diyor; turnuvada "Lobideki Oyuncular (3)", "0 kişi lobide" (ana sayfa) ve
+  "3 oyuncu hayatta" gösteriliyor. Bunlar toplam oyuncu sayısı değil ama düşük sayılar (0-3) oyunun boş olduğu izlenimini aynı şekilde veriyor.
+- Turnuva maçında joker çubuğu çizilmedi; kural "finalde joker yok" diyor, öncesi için ne olması gerektiği doğrulanamadı.
+
+### ✅ İyi olan
+- "Sıradaki turnuva" geri sayımı büyük ve okunur; "Nasıl oynanır?" üç adımda anlatılıyor.
+- Lobide Tümü / Arkadaşlarım / Kendi Ligim süzgeci + ada göre arama + kişiye meydan okuma kısayolu.
+- Altın soru bandı ("ALTIN SORU · 3 oyuncu başa baş — biri bilene kadar sürer") ayırt edici.
+- Sonuç: şampiyon ortada, "2. oldun", ödül hapları; "Turnuvalara dön" birincil.
