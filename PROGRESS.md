@@ -6740,3 +6740,9 @@ SQL/migration yok. Commit'ler 41202c8 → rapor. Rapor: `PAKET41_RAPOR.md`.
 - I: 404 (`BulunamadiPage`), donmuş rotalarda "Bu mod şu an kapalı" notu, `bilinenYol()`.
 - J: 44 px hedefler. K: giriş e-posta akışı; **Facebook canlıda kapalı — sahibine soruldu**. L: 2 düello bildirim kalıbı eklendi (gerisi zaten vardı).
 - M: grup hazır listesi nabızdan; turnuva izleyici sayacı; ödül satırı "…/—"; bekleyen davette geri çekme + süre; arkadaş çıkarma penceresi; davet kodu yok durumu; uzun soru küçülmesi; yasal sayfalarda Geri. İletişim adresi değiştirilmedi (sahibi verecek).
+
+## 19 Eylül 2026 — Paket 42 (Kozmetik)
+- A–T uygulandı, her madde ayrı commit (61291ef … 4f1d73f), migration yok. Rapor: `PAKET42_RAPOR.md`, görüntüler `denetim/goruntuler/p42-*`.
+- Öne çıkanlar: tek düğme dili (birincil/ikincil/tehlike); ana sayfa mod ızgarası 2×2; alttan açılan pencereler sürüklenerek kapanır (`Modal.jsx`, `bd-alttan`); maç sonu çubuğu 135→113 px ve kısa içerikte en altta; Meydan okumalar katlanır bölümler; sohbette gün ayırıcı; dükkânda paketler üstte + coin uyarısı; bildirim zilinde ✕ ve solma; Gizlilik/Koşullar içindekiler (`Icindekiler.jsx`); giriş sayfasında maskot, form yazı tipi, hata düğme yanında; kalan dört kontrast ≥ 4,5.
+- Kararlar/gözlemler: EN çeviride kalın sonrası boşluk kaybı yalnız 2 anahtardaydı (tarayıcı betiğiyle 2013 anahtar tarandı). Lig arkadaş sekmesi oyuncunun kendisini zaten içeriyordu (denetim sahte veriden yanıldı; `profiles_select=true`). "Tümünü okundu say" eklenmedi — zil açılınca zaten hepsi okundu oluyor.
+- Açık sorular (sahibine): K.2 bayrak emojisi Windows'ta, U masaüstü düzeni, P.2 okundu davranışı.
