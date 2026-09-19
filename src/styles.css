@@ -131,10 +131,12 @@ button, a, .secenek {
   border: none; cursor: pointer;
   border-radius: var(--radius); padding: 14px 18px;
   font-family: "Baloo 2", "Trebuchet MS", system-ui, sans-serif;
-  font-size: 17px; font-weight: 800; color: #fff;
+  /* Paket 40 E: turuncu dolgu üstünde beyaz 2,1–2,9:1 idi. .app içinde Şenlik kuralı koyu yazı veriyordu,
+     portal katmanlarında (arama, tanıtım…) taban geçerli kalıyordu. Tek kaynak: taban da koyu (5,4–7,5:1). */
+  font-size: 17px; font-weight: 800; color: var(--bd-vurgu-ustu, #3A1A04);
   background: linear-gradient(180deg, #FF9A4D, var(--primary));
   box-shadow: 0 5px 0 var(--primary-2), 0 9px 14px rgba(32, 50, 74, 0.18);
-  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.22);
+  text-shadow: none;
   transition: transform 0.08s ease, box-shadow 0.08s ease;
   width: 100%;
 }
@@ -149,11 +151,13 @@ button, a, .secenek {
 }
 .btn.ikincil:active { box-shadow: 0 1px 0 var(--card-alt); }
 .btn.basari {
+  color: var(--bd-basari-ustu, #0B3A22);
   background: linear-gradient(180deg, #57D795, var(--success));
   box-shadow: 0 5px 0 var(--success-2), 0 9px 14px rgba(32, 50, 74, 0.18);
 }
 .btn.basari:active { box-shadow: 0 1px 0 var(--success-2); }
 .btn.tehlike {
+  color: #fff;   /* Paket 40 E: taban koyulaşınca kırmızı düğmenin önceki beyaz yazısı korunur */
   background: linear-gradient(180deg, #F97070, var(--danger));
   box-shadow: 0 5px 0 var(--danger-2), 0 9px 14px rgba(32, 50, 74, 0.18);
 }
