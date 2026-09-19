@@ -8298,3 +8298,23 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 
 /* PAKET 42 O — Çalışma soru sayısı: tek sayıda düğme varken 3 sütun (L şekli yok) */
 .app .bd-calisma-adet.uc { grid-template-columns: repeat(3, 1fr); }
+
+/* ============================================================
+   PAKET 42 P — bildirim zili paneli
+   ============================================================ */
+/* P.3 başlıkta kapatma düğmesi (44×44) */
+.bd-zil-baslik { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-top: 4px; padding-bottom: 4px; }
+.bd-zil-kapat {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; margin-right: -8px; flex: none;
+  border: 0; border-radius: 12px; background: transparent; color: var(--bd-metin-2); cursor: pointer;
+}
+.bd-zil-kapat:hover { background: rgba(32, 50, 74, 0.06); color: var(--bd-metin); }
+.bd-zil-kapat:focus-visible { outline: 3px solid var(--bd-vurgu); outline-offset: 2px; }
+/* P.2 liste kaydırılabiliyorsa alt kenarda solma: kaydırılabildiği belli olsun (tıklamayı engellemez) */
+.bd-zil-liste::after {
+  content: ""; position: sticky; bottom: 0; display: block;
+  height: 28px; margin-top: -28px; pointer-events: none;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), var(--bd-yuzey-1, #FFFFFF));
+}
+:root[data-tema="koyu"] .bd-zil-liste::after { background: linear-gradient(to bottom, rgba(0, 0, 0, 0), var(--bd-yuzey-1)); }

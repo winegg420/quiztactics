@@ -61,7 +61,8 @@ const oncelikSirala = (liste) =>
 // Aynı türden birden fazla OKUNMAMIŞ bildirim varsa tek satırda toplanır.
 const TOPLAMA = {
   sira_sende: { metin: (n) => tt("{0} maçta sıra sende", { 0: n }), yol: y("/meydan") },
-  mac_daveti: { metin: (n) => tt("{0} yeni meydan okuma", { 0: n }), yol: y("/meydan") },
+  // Paket 42 P.1: okunmuş grupta "yeni" yanıltıcıydı ("2 yeni meydan okuma · 1 gün önce") → okunmusMetin
+  mac_daveti: { metin: (n) => tt("{0} yeni meydan okuma", { 0: n }), okunmusMetin: (n) => tt("{0} meydan okuma", { 0: n }), yol: y("/meydan") },
   rovans: { metin: (n) => tt("{0} rövanş isteği", { 0: n }), yol: y("/meydan") },
   grup_daveti: { metin: (n) => tt("{0} grup maçı daveti", { 0: n }), yol: y("/meydan") },
   hizli_daveti: { metin: (n) => tt("{0} hızlı maç daveti", { 0: n }), yol: y("/meydan") },
@@ -97,7 +98,7 @@ function gruplaOkunmus(liste) {
       sonuc.push({
         ...b,
         id: `toplu-okundu-${b.tip}`,
-        metin: TOPLAMA[b.tip].metin(n),
+        metin: (TOPLAMA[b.tip].okunmusMetin ?? TOPLAMA[b.tip].metin)(n),
         yol: TOPLAMA[b.tip].yol,
         okundu: true,
         adet: n,
@@ -262,7 +263,13 @@ export default function BildirimZili() {
         aria-label={tt("Bildirimler")}
         style={konum ? { top: konum.ust } : undefined}
       >
-        <div className="bd-zil-baslik">{tt("Bildirimler")}</div>
+        {/* Paket 42 P.3: panelin kendi kapatma düğmesi (eskiden yalnız dışarı dokununca kapanıyordu) */}
+        <div className="bd-zil-baslik">
+          <span>{tt("Bildirimler")}</span>
+          <button type="button" className="bd-zil-kapat" onClick={() => setAcik(false)} aria-label={tt("Kapat")}>
+            <Ikon ad="carpi" boyut={18} />
+          </button>
+        </div>
         {dmOkunmamis > 0 && (
           <button
             className="bd-zil-satir"

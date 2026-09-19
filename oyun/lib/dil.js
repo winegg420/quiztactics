@@ -710,6 +710,7 @@ const SOZLUK = {
     "Maç başlatılamadı": "Couldn't start the match",
     "Bot ile oyna": "Play a bot",
     "Rakip bulunamadı": "No opponent found",
+    "{0} meydan okuma": "{0} challenges",
     "Coin'in şu an hiçbir jokere yetmiyor.": "You don't have enough coins for any joker right now.",
     "Coin kazan": "Earn coins",
     "Bugün": "Today",
