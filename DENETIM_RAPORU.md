@@ -462,3 +462,46 @@ arkadaslar-hata · arkadaslar-cikarma-onayi · arkadaslar-davet-kodu-hata (hepsi
 - Gelen istekler en üstte, sonra arkadaşlar, bekleyen istekler (Geri çek), davet — sıra mantıklı. 22 kişilik listede taşma yok.
 - Davet kodu istemcide doğrulanıyor ("Davet kodu 8 karakter olmalı.").
 - Satıra dokununca profil kartı açılıyor (Paket 35 C); "Mesajlar" girişi sayfanın başında.
+
+---
+
+## 15. Mesajlar
+Görüntüler: mesajlar-liste-{390,1280}-{acik,koyu}.png · mesajlar-liste-390-en · mesajlar-bos · mesajlar-hata · mesajlar-yukleniyor ·
+sohbet-dolu-{390,1280}-{acik,koyu}.png · sohbet-dolu-390-en · sohbet-bos · sohbet-emoji · sohbet-yazarken · sohbet-arkadas-degil ·
+sohbet-gonderme-hatasi (hepsi -390-acik aksi yazılmadıkça)
+
+### 🟡 Eksik
+- Sohbet listesi yüklenemezse yalnız ham sunucu mesajı ("sahte hata"); boş durum, açıklama ve "Tekrar dene" yok. Kanıt: mesajlar-hata-390-acik.png.
+- Mesaj gönderilemezse de ham sunucu metni çıkıyor (sohbet-gonderme-hatasi-390-acik.png). Yazılan metin kutuda kalıyor — bu iyi.
+- Mesaj yazma kutusu 40 px yüksekliğinde (hedef 44). Kanıt: otomatik ölçüm (390: 266×40, 1280: 496×40).
+
+### 🔵 Kozmetik
+- Artık arkadaş olmayan kişiyle boş sohbette üstte "İlk mesajı sen at." yazarken altta "Artık arkadaş değilsiniz — yeni mesaj gönderemezsin." yazıyor;
+  iki cümle çelişiyor. Kanıt: sohbet-arkadas-degil-390-acik.png.
+- Sohbette gün ayırıcı yok ("Dün", "18 Eyl"); yalnız saat yazıyor, eski konuşmalarda hangi gün olduğu anlaşılmıyor. Kanıt: sohbet-dolu-390-acik.png.
+- Liste ekranında geri/başlık çubuğu yok; sohbet başlığında kişiye dokunmanın profil açtığını gösteren işaret yok.
+
+### ✅ İyi olan
+- Liste: okunmamış sayısı turuncu rozetle, "Sen:" öneki, uzun son mesaj üç noktayla kısalıyor, saat/tarih sağda. Zil rozeti DM'leri de sayıyor.
+- Boş durum doğru yapılmış: maskot + "Henüz mesajın yok. Arkadaşlarına ilk mesajı sen at." + "Arkadaşlar" düğmesi (mesajlar-bos-390-acik.png).
+- 500 karakterlik mesaj ve bölünmeyen uzun bağlantı balona sığıyor; yazarken "459/500" sayacı, kutu 4 satıra kadar büyüyor.
+- Emoji seçici kategorili ve dokunma hedefleri büyük; masaüstünde sohbet artık tam ekran (Paket 37 F).
+
+---
+
+## 16. Profil kartı
+Görüntüler: profilkarti-arkadas-{390,1280}-{acik,koyu}.png · profilkarti-hata-390-acik.png
+(390-en kurulamadı: İngilizce düğme adı farklı olduğu için satıra dokunulamadı — düzenek sınırı.)
+
+### 🟡 Eksik
+- Kart verisi alınamazsa hata gösterilmiyor; kart listedeki puanla açılıp "0 MAÇ · 0 KUPA · 0 GÜN SERİ" çiziyor. Oyuncuya etkisi:
+  arkadaşının hiç oynamadığını sanır. Kanıt: profilkarti-hata-390-acik.png (konsolda "oyuncu karti alinamadi").
+- Kapat (✕) düğmesi 30×30 px (hedef 44).
+
+### 🔵 Kozmetik
+- İstatistik satırı ile düğmeler arasında ~90 px boşluk kalıyor (kategori profili bloğu boşken yer tutuyor). Kanıt: profilkarti-arkadas-390-acik.png.
+- Ülke bayrağı Windows'ta "TR" harfleriyle çiziliyor (bayrak emojisi yok). Telefonda sorun olmayabilir.
+
+### ✅ İyi olan
+- Tek birincil ("Oyna", turuncu), ikincil "Meydan oku" ve "Mesaj at" beyaz + turuncu kenar — Paket 38 kuralı burada da tutarlı.
+- Büyük avatar, rütbe rozeti, şehir, dört temel istatistik — ilk bakışta okunuyor.
