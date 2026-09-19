@@ -51,7 +51,7 @@ export default function LigCerceveSecici({ profile, userId }) {
       <div className="bd-lig-cerceve-liste">
         <button type="button" className="bd-lig-cerceve-sec" aria-pressed={secili === null}
                 disabled={mesgul} onClick={() => sec(null)}>
-          <span className="bd-cerceve bd-cerceve-sirali" style={{ width: 48, height: 48 }}><Avatar profile={profile} boyut={48} /></span>
+          <span className="bd-cerceve bd-cerceve-sirali" style={{ width: 56, height: 56 }}><Avatar profile={profile} boyut={56} /></span>
           {tt("Çerçeve takma")}
         </button>
         {LIG_CERCEVELERI.map((lig) => {
@@ -60,10 +60,10 @@ export default function LigCerceveSecici({ profile, userId }) {
             <button key={lig} type="button" className="bd-lig-cerceve-sec" aria-pressed={secili === lig}
                     disabled={mesgul || !var_} onClick={() => sec(lig)}
                     aria-label={var_ ? LIG_CERCEVE_ADI[lig] : tt("{lig} — kilitli, lig atlayınca kazanılır", { lig: LIG_CERCEVE_ADI[lig] })}>
-              <span className={`bd-cerceve bd-lig-cerceve bd-lig-cerceve-${lig}`} style={{ width: 48, height: 48 }}>
-                <Avatar profile={profile} boyut={48} />
+              <span className={`bd-cerceve bd-lig-cerceve bd-lig-cerceve-${lig}`} style={{ width: 56, height: 56 }}>
+                <Avatar profile={profile} boyut={56} />
               </span>
-              {LIG_CERCEVE_ADI[lig]}
+              <span className={`bd-lig-cerceve-ad bd-lig-renk-${lig}`}>{LIG_CERCEVE_ADI[lig]}</span>
               {!var_ && <span className="kilit">🔒 {tt("lig atla")}</span>}
             </button>
           );

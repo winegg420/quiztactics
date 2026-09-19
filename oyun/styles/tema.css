@@ -5413,10 +5413,10 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
    yavaş parıltı; reduced-motion'da kapalı). */
 .bd-lig-cerceve .avatar { box-shadow: 0 0 0 3px var(--lc-ic), 0 0 0 5px #fff, 0 0 0 7px var(--lc-dis); }
 .bd-lig-cerceve::after { display: none; }
-.bd-lig-cerceve-gumus  { --lc-ic: #A9B8C6; --lc-dis: #6F8296; }
-.bd-lig-cerceve-altin  { --lc-ic: #FFC53D; --lc-dis: #C98A22; }
-.bd-lig-cerceve-elmas  { --lc-ic: #5BD1F5; --lc-dis: #2A8CC4; }
-.bd-lig-cerceve-efsane { --lc-ic: #B86BFF; --lc-dis: #F4701F; }
+.bd-lig-cerceve-gumus,  .bd-lig-renk-gumus { --lc-ic: #A9B8C6; --lc-dis: #6F8296; }
+.bd-lig-cerceve-altin,  .bd-lig-renk-altin { --lc-ic: #FFC53D; --lc-dis: #C98A22; }
+.bd-lig-cerceve-elmas,  .bd-lig-renk-elmas { --lc-ic: #5BD1F5; --lc-dis: #2A8CC4; }
+.bd-lig-cerceve-efsane, .bd-lig-renk-efsane { --lc-ic: #B86BFF; --lc-dis: #F4701F; }
 .bd-lig-cerceve-efsane .avatar {
   box-shadow: 0 0 0 3px var(--lc-ic), 0 0 0 5px #fff, 0 0 0 7px var(--lc-dis), 0 0 14px rgba(184, 107, 255, 0.5);
 }
@@ -5456,6 +5456,17 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 .bd-lig-cerceve-sec[aria-pressed="true"] { border-color: var(--bd-vurgu); }
 .bd-lig-cerceve-sec:disabled { opacity: 0.55; cursor: default; }
 .bd-lig-cerceve-sec .kilit { font-size: 11px; color: var(--bd-metin-2); font-weight: 800; }
+/* Paket 37 B — seçicide çerçeveler 56 px ve halka kalın (iç 4 · beyaz 2 · dış 3):
+   dördü yan yana bir bakışta ayrışsın. Yalnız seçici; diğer yerlerdeki halkalar aynı. */
+.bd-lig-cerceve-secici .bd-lig-cerceve .avatar { box-shadow: 0 0 0 4px var(--lc-ic), 0 0 0 6px #fff, 0 0 0 9px var(--lc-dis); }
+.bd-lig-cerceve-secici .bd-lig-cerceve-efsane .avatar {
+  box-shadow: 0 0 0 4px var(--lc-ic), 0 0 0 6px #fff, 0 0 0 9px var(--lc-dis), 0 0 14px rgba(184, 107, 255, 0.5);
+}
+.bd-lig-cerceve-secici .bd-lig-cerceve-efsane::before { inset: -11px; }
+/* Ad çerçevenin dış tonunda. Ham --lc-dis beyazda 2,9–4,0:1 (13 px için AA 4,5 ister);
+   aynı ton %75'e koyulaştırıldı → en düşük 4,89:1. Koyu temada beyaza doğru açılır. */
+.bd-lig-cerceve-ad { font-weight: 800; color: color-mix(in srgb, var(--lc-dis) 75%, #000); }
+:root[data-tema="koyu"] .bd-lig-cerceve-ad { color: color-mix(in srgb, var(--lc-dis) 75%, #fff); }
 /* ============================================================
    BASILABİLİR HER ŞEY — kabartma + çok hafif küçülme
 
