@@ -2139,8 +2139,10 @@ body::before { will-change: opacity; }
   60% { opacity: 0.35; }
 }
 
-/* Ortadaki büyük geri sayım rakamı — her saniye yeniden basar */
-.bd-geri-sayim {
+/* Ortadaki büyük geri sayım rakamı — her saniye yeniden basar.
+   Paket 40 A: eskiden 3-2-1 perdesiyle (.bd-baslangic-sayimi) aynı sınıf adını taşıyordu;
+   iki kural birleşip öğe fixed+transform olup ekran dışına kayıyordu. */
+.bd-son-saniye {
   position: absolute;
   left: 50%; top: 42%;
   transform: translate(-50%, -50%);
@@ -2150,7 +2152,9 @@ body::before { will-change: opacity; }
   font-size: 132px;
   font-weight: 800;
   line-height: 1;
-  color: rgba(255, 255, 255, 0.14);
+  /* Beyaz %14 açık zeminde görünmüyordu. Vurgu turuncusu %45: soru metnini örtmeyen bir filigran,
+     açık zeminde de koyu zeminde de seçiliyor (aria-hidden; asıl süre bilgisi halkada). */
+  color: rgba(244, 112, 31, 0.45);
   text-shadow: 0 0 40px rgba(255, 90, 95, 0.55);
   animation: bd-sayim-vur 1s cubic-bezier(0.2, 0.9, 0.3, 1) both;
 }
@@ -2184,7 +2188,7 @@ body::before { will-change: opacity; }
 
 @media (prefers-reduced-motion: reduce) {
   .bd-son-perde { animation: none; opacity: 0.5; }
-  .bd-geri-sayim { animation: none; opacity: 0.6; }
+  .bd-son-saniye { animation: none; opacity: 0.6; }
   .bd-son-saniyeler .bd-sure-halka { animation: none; }
 }
 
@@ -5096,7 +5100,8 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 /* ============================================================
    3-2-1 GERİ SAYIM + LOBİDE ASENKRON SEÇENEĞİ
    ============================================================ */
-.bd-geri-sayim {
+/* Paket 40 A: son-5-sn sayısıyla (.bd-son-saniye) aynı sınıf adını taşıyordu, ayrıldı */
+.bd-baslangic-sayimi {
   position: fixed; inset: 0; z-index: 130;
   display: grid; place-items: center;
   background: var(--bd-zemin);
@@ -5104,8 +5109,8 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
 }
-.bd-geri-sayim-kutu { text-align: center; }
-.bd-geri-sayim-sayi {
+.bd-baslangic-sayimi-kutu { text-align: center; }
+.bd-baslangic-sayimi-sayi {
   display: block;
   font-family: var(--bd-f-baslik); font-weight: 800;
   font-size: 96px; line-height: 1;
@@ -5113,7 +5118,7 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   text-shadow: 0 6px 0 var(--bd-vurgu-2);
   animation: bd-sayim-zipla 0.9s ease-out;
 }
-.bd-geri-sayim-not {
+.bd-baslangic-sayimi-not {
   display: block; margin-top: 8px;
   font-family: var(--bd-f-baslik); font-weight: 800; font-size: 18px;
   color: var(--bd-metin-2);
@@ -5137,7 +5142,7 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 .app .bd-lobi-secenek .btn { margin-top: 10px; }
 
 @media (prefers-reduced-motion: reduce) {
-  .bd-geri-sayim-sayi { animation: none; }
+  .bd-baslangic-sayimi-sayi { animation: none; }
 }
 
 /* ============================================================

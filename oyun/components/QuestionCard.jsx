@@ -293,7 +293,7 @@ export default function QuestionCard({
       {sonDuzluk && (
         <>
           <div className="bd-son-perde" aria-hidden="true" />
-          <div className="bd-geri-sayim" key={geriSayim} aria-hidden="true">
+          <div className="bd-son-saniye" key={geriSayim} aria-hidden="true">
             {geriSayim}
           </div>
         </>

@@ -96,10 +96,10 @@ export function HazirKapisi({
 export function GeriSayim({ kalan }) {
   const n = Math.max(1, Math.ceil(kalan));
   return (
-    <div className="bd-geri-sayim" role="status" aria-live="assertive">
-      <div className="bd-geri-sayim-kutu">
-        <span className="bd-geri-sayim-sayi" key={n}>{n}</span>
-        <span className="bd-geri-sayim-not">{tt("Hazır ol!")}</span>
+    <div className="bd-baslangic-sayimi" role="status" aria-live="assertive">
+      <div className="bd-baslangic-sayimi-kutu">
+        <span className="bd-baslangic-sayimi-sayi" key={n}>{n}</span>
+        <span className="bd-baslangic-sayimi-not">{tt("Hazır ol!")}</span>
       </div>
     </div>
   );
