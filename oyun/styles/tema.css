@@ -8053,3 +8053,22 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   align-items: center; justify-content: center; font: inherit; color: inherit;
 }
 .bd-avatar-dugmesi:focus-visible { outline: 3px solid var(--bd-vurgu); outline-offset: 3px; }
+
+/* ============================================================
+   PAKET 41 J — dokunma hedefleri ≥ 44×44 (görsel boyut aynı kalabilir)
+   ============================================================ */
+.app .bd-profil-link,
+.app .bd-topbar-sag .bd-profil-link { min-width: 44px; min-height: 44px; }
+@media (max-width: 400px) {
+  .app .bd-topbar-sag .bd-profil-link { min-width: 44px; min-height: 44px; }
+}
+.giris-dil-btn { min-height: 44px; }
+.giris-yasal a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 6px; }
+.app .sohbet-bar button { min-width: 44px; min-height: 44px; }
+.bd-oyuncu-kapat { width: 44px; height: 44px; top: -6px; right: -6px; }
+.app .bd-dukkan-sekme { min-height: 44px; }
+.bd-sohbet-metin { min-height: 44px; }
+.app .bd-duello-kurallar { display: inline-flex; align-items: center; min-height: 44px; }
+/* Arkadaş çıkar (✕): 44×44 ve "Oyna"dan ayrık — yanlış dokunma olmasın */
+.app .bd-arkadas-cikar { min-width: 44px; min-height: 44px; margin-left: 12px; padding: 0; }
+.app .bd-arkadas-ac { min-height: 44px; }

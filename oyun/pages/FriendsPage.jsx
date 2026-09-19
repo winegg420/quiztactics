@@ -401,7 +401,7 @@ export default function FriendsPage() {
               </>
             ) : (
               <button
-                className="btn kucuk ikincil"
+                className="btn kucuk ikincil bd-arkadas-cikar"
                 onClick={() => setSilOnay(f.id)}
                 aria-label={(p?.gorunen_ad ?? tt("Arkadaşını")) + tt(" arkadaşlıktan çıkar")}
                 title={tt("Arkadaşlıktan çıkar")}
