@@ -4477,9 +4477,11 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   border: 2px solid var(--bd-kenar);
   box-shadow: 0 3px 0 #CFE0EE;
 }
-/* Ana sayfa ve modal içindeki ikincil butonlar da beyaz saydamdı */
+/* Ana sayfa ve modal içindeki ikincil butonlar da beyaz saydamdı.
+   Paket 38 B: modalda .ikincil bu boyamanın DIŞINDA (vazgeç asıl eylemle aynı görünmesin);
+   tanımı aşağıda "Paket 38 B" bloğunda. Yukarıdaki (~3236) nötr kural koyu temadan kalma. */
 .app .anasayfa .btn:not(.tehlike):not(.basari),
-.bd-modal-katman .btn:not(.tehlike):not(.basari),
+.bd-modal-katman .btn:not(.tehlike):not(.basari):not(.ikincil),
 .app .bd-izin-butonlar .btn.ikincil {
   background: linear-gradient(180deg, var(--bd-vurgu-acik), var(--bd-vurgu));
   color: #fff;
@@ -6567,7 +6569,7 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 
 /* A. Turuncu dolgu üstündeki yazı */
 .app .btn, .app .bd-ana-eylem, .giris .btn,
-.app .anasayfa .btn:not(.tehlike):not(.basari), .bd-modal-katman .btn:not(.tehlike):not(.basari),
+.app .anasayfa .btn:not(.tehlike):not(.basari), .bd-modal-katman .btn:not(.tehlike):not(.basari):not(.ikincil),
 .app .bd-secenek.secili, .app .bd-sekme.aktif, .app .bd-alt-sekme.aktif,
 .app .bd-sekme-ust > .aktif, .app .bd-sekme-alt > .aktif,
 .app .bd-calisma-adet-btn.aktif, .bd-calisma-adet-btn.aktif,
@@ -7235,22 +7237,24 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   box-shadow: 0 4px 0 #F3C9A8;
 }
 .bd-oyuncu-eylemler .btn:active:not(:disabled) { transform: translateY(4px); box-shadow: none; }
-/* Paket 37 E — "Vazgeç" iki pencerede de aynı nedenle turuncuydu (mod seçimi + joker satın alma):
-   ikincil beyaz kalır, asıl eylem turuncu. Dört hâl: normal / basılı / pasif / çalışıyor
-   (çalışırken Vazgeç pasiftir: `disabled={calisan}` / `disabled={calisiyor}`). */
-.bd-modal-katman .bd-mod-secim .btn.ikincil,
-.bd-modal-katman .bd-joker-sat-dugmeler .btn.ikincil {
+/* Paket 38 B — modaldaki HER ikincil düğme (Paket 37 E'deki iki pencereye özel tanımın yerine):
+   beyaz zemin, turuncu kenar + yazı; asıl eylem turuncu dolgu kalır. Oyuncu kartı deseni.
+   Dört hâl: normal / basılı / pasif / çalışıyor (aria-busy: soluklaşmaz, tıklanmaz).
+   Kontrast: #C4530F beyazda 4,57:1; koyuda yazı #FF9A4D, --bd-yuzey-2 üstünde 6,27:1. */
+.bd-modal-katman .btn.ikincil {
   background: #FFFFFF; color: #C4530F; text-shadow: none;
   border: 2px solid var(--bd-vurgu);
   box-shadow: 0 4px 0 #F3C9A8;
 }
-.bd-modal-katman .bd-mod-secim .btn.ikincil:active:not(:disabled),
-.bd-modal-katman .bd-joker-sat-dugmeler .btn.ikincil:active:not(:disabled) { transform: translateY(4px); box-shadow: none; }
-.bd-modal-katman .bd-mod-secim .btn.ikincil:disabled,
-.bd-modal-katman .bd-joker-sat-dugmeler .btn.ikincil:disabled { filter: none; opacity: 0.45; cursor: not-allowed; }
+.bd-modal-katman .btn.ikincil:active:not(:disabled) { transform: translateY(4px); box-shadow: none; }
+.bd-modal-katman .btn.ikincil:disabled { filter: none; opacity: 0.45; cursor: not-allowed; }
+.bd-modal-katman .btn.ikincil[aria-busy="true"] { opacity: 1; pointer-events: none; }
+:root[data-tema="koyu"] .bd-modal-katman .btn.ikincil {
+  background: var(--bd-yuzey-2); color: var(--bd-vurgu-acik);
+  box-shadow: 0 4px 0 #101A2C;
+}
 @media (prefers-reduced-motion: reduce) {
-  .bd-modal-katman .bd-mod-secim .btn.ikincil:active:not(:disabled),
-  .bd-modal-katman .bd-joker-sat-dugmeler .btn.ikincil:active:not(:disabled) { transform: none; }
+  .bd-modal-katman .btn.ikincil:active:not(:disabled) { transform: none; }
 }
 .bd-oyuncu-eylemler .btn:disabled { filter: none; opacity: 0.45; cursor: not-allowed; }
 .bd-oyuncu-eylemler .btn[aria-busy="true"] { opacity: 1; }
