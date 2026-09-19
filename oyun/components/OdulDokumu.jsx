@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
-import { tt } from "../lib/dil.js";
+import { tt, ttSunucu } from "../lib/dil.js";
 
 /**
  * Paket 20 I.3 — Maç sonu ödül dökümü (satır satır).
@@ -103,7 +103,7 @@ export default function OdulDokumu({ kaynak, onToplam, onDokum, onGorevler, gore
       ))}
       {gorevler.map((g) => (
         <div key={g.id} className="bd-odul-satir bilgi">
-          <span className="ad">{tt("Günlük görev: {ad}", { ad: tt(g.ad) })}</span>
+          <span className="ad">{tt("Günlük görev: {ad}", { ad: ttSunucu(g.ad) })}</span>
           <span className="deger">{g.ilerleme}/{g.hedef}</span>
         </div>
       ))}

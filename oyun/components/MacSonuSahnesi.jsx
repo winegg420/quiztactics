@@ -24,7 +24,7 @@ import Ikon from "./Ikon.jsx";
 import SayanSayi from "./SayanSayi.jsx";
 import SenRozeti from "./SenRozeti.jsx";
 import { coinTazele } from "../lib/coin.js";
-import { tt } from "../lib/dil.js";
+import { tt, ttSunucu } from "../lib/dil.js";
 
 // Adım eşikleri (ms). i. eşik geçilince adim = i + 1.
 // 1 zemin · 2 banner · 3 avatarlar · 4 kalp/skor · 5 ödül sayımı ·
@@ -134,9 +134,9 @@ function GorevIlerlemesi({ gorevler, atlandi, baslangic }) {
         const bitti = g.ilerleme >= g.hedef;
         return (
           <div key={g.id} className={`mss-gorev${bitti ? " bitti" : ""}`}>
-            <span className="mss-gorev-ad">{tt(g.ad)}</span>
+            <span className="mss-gorev-ad">{ttSunucu(g.ad)}</span>
             <span className="mss-gorev-cubuk" role="progressbar" aria-valuemin={0} aria-valuemax={g.hedef}
-                  aria-valuenow={Math.min(g.ilerleme, g.hedef)} aria-label={tt(g.ad)}>
+                  aria-valuenow={Math.min(g.ilerleme, g.hedef)} aria-label={ttSunucu(g.ad)}>
               <span style={{ width: `${oran(g) * 100}%` }} />
             </span>
             <b className="mss-gorev-sayi">{Math.min(g.ilerleme, g.hedef)}/{g.hedef}</b>

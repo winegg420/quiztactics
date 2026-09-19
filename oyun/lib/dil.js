@@ -1968,6 +1968,9 @@ const SOZLUK = {
     "% seni hızlı maça çağırdı! ⚡": "% invited you to a quick match! ⚡",
     "🎖️ % kategorisinde % oldun!": "🎖️ You became %2 in %1!",
     "% arkadaşın oldu! 🤝": "% is now your friend! 🤝",
+    // Paket 41 L: düello bildirimleri (migration 228) sözlükte yoktu
+    "% seni düelloya çağırdı!": "% invited you to a duel!",
+    "% düello davetini kabul etti - düello başlıyor!": "% accepted your duel invite — the duel is starting!",
     "% sana arkadaşlık isteği gönderdi.": "% sent you a friend request.",
     "% maçı iptal etti — hükmen kazandın! 🏆": "% cancelled the match — you win by forfeit! 🏆",
     "% maçı iptal etti. Kimseye puan yazılmadı.": "% cancelled the match. Nobody got any points.",
