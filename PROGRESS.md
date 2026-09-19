@@ -6707,3 +6707,11 @@ SQL yok, migration yok. Commit'ler: 426e556 A · 46b41cf A (ek) · 45818b1 B · 
   (DuelloPage kendi çubuğu); bildirim izni kartı sonuçtan ÇIKMIŞ; giriş yolları diğer modlarla aynı (Hemen oyna penceresi,
   ana sayfa kartı, arkadaş → mod penceresi, meydan mod anahtarı). Profil kartı hiçbir modun sonuç ekranında yok (Paket 35 C
   yalnız Arkadaşlar/Lig/Turnuva/Sohbet) — soruldu.
+
+## Paket 39 — Kalite denetimi, yalnız rapor (19 Eyl 2026)
+
+Kod değişmedi. Çıktı: `DENETIM_RAPORU.md` + `denetim/goruntuler/` (266 PNG, ~25 MB, DPR 1). Her ekran ayrı commit (556d68f → a503503).
+Yöntem: Vite dev + Playwright Chromium, Supabase sahte yanıtlarla; otomatik ölçüm (yatay taşma, <44 px hedef, kontrast, EN'de Türkçe kalıntı, konsol).
+Sonuç: 6 🔴 · 71 🟡 · 53 🔵. Öne çıkan 🔴'ler: davet bandı yazısı görünmüyor (1,00:1), giriş hata kutusu 1,49:1,
+`.bd-geri-sayim` sınıf çakışması (3-2-1 ve son-5-sn sayısı görünmüyor, fixed+transform), düello maçında `useOyunModu` yok (sekme çubuğu jokerleri örtüyor).
+Ortak 🟡: hata durumlarında sahte veri/boş durum/sonsuz yükleniyor. Düzeltmeler ayrı pakette.
