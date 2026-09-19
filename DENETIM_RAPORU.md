@@ -116,3 +116,55 @@ anasayfa-hata-390-acik.png · anasayfa-bildirim-izni-390-acik.png
 - Rütbe ilerleme metni somut ("Kahin rütbesine 50 puan"); en üst rütbede "En yüksek rütbedesin".
 - Turnuva geri sayımı ve "Lobiye katıl" görünür; Hatalarım kartında banka sayısı rozeti var.
 - İngilizce'de görünür Türkçe kalıntı yok.
+
+---
+
+## 3. Mod seçim penceresi ("Hemen oyna")
+Görüntüler: modsecim-acik-{390,1280}-{acik,koyu}.png · modsecim-acik-390-en.png · modsecim-seciliyor-390-acik.png
+
+### 🟡 Eksik
+- Pencerede ödül bilgisi görünmüyor: kod her mod için ödül satırı çiziyor ama ayar (`oyun_ayarlari`) okunamazsa satır tamamen
+  kayboluyor, yerine "—" ya da bekleme metni yok. Nerede: `oyun/components/ModSecimPenceresi.jsx:43,84-89`.
+  Oyuncuya etkisi: "En çok ödül" rozeti var ama ne kadar olduğu yazmıyor. (Sahte ortamda ayar boştu — canlıda dolu olabilir, ❔.)
+
+### 🔵 Kozmetik
+- Pencere açılınca ilk kart (Klasik Maç) odak halkasıyla turuncu çerçeveli çiziliyor; seçilmiş gibi görünüyor.
+  Nerede: `ModSecimPenceresi.jsx:51` (`ilkRef.current?.focus()`). Masaüstünde fare hangi kartın üstündeyse o da turuncu,
+  iki kart aynı anda "seçili" görünebiliyor. Kanıt: modsecim-acik-390-acik.png, modsecim-acik-1280-acik.png.
+- Üstte sürükleme tutamacı çiziliyor ama pencere sürüklenerek kapanmıyor (kodda dokunma/sürükleme işleyicisi yok,
+  `ModSecimPenceresi.jsx:110`). Tutamaç bir hareket vaat ediyor.
+- Masaüstünde alttan açılan pencere ekranın altına yapışık, "Vazgeç"in altında boşluk yok. Nerede: `tema.css:6725`.
+  Kanıt: modsecim-acik-1280-acik.png.
+
+### ✅ İyi olan
+- Üç mod tek bakışta ayrışıyor: ikon + ad + tek cümle kural + joker satırı; Düello'da "En çok ödül" rozeti.
+- Vazgeç artık beyaz ikincil (Paket 38); seçim sürerken diğer kartlar soluklaşıyor (modsecim-seciliyor-390-acik.png).
+- İngilizce'de Türkçe kalıntı yok; yatay taşma yok.
+
+---
+
+## 4. Rakip arama
+Görüntüler: rakiparama-aranıyor-{390,1280}-{acik,koyu}.png · rakiparama-aranıyor-390-en.png · rakiparama-15sn-390-acik.png ·
+rakiparama-hata-390-acik.png · rakiparama-bot-hata-390-acik.png · rakiparama-vazgec-sonrasi-390-acik.png
+
+### 🟡 Eksik
+- Arama hatası mesajı çıkıyor ama ekran aynı anda "Rakip aranıyor…" demeye ve saniye saymaya devam ediyor; "Tekrar dene" düğmesi yok.
+  Kanıt: rakiparama-hata-390-acik.png. Oyuncuya etkisi: aramanın sürüp sürmediği anlaşılmıyor.
+- Bot maçı açılamazsa ("Maç başlatılamadı…") ekranda yalnız "Vazgeç" kalıyor; "Beklemeden bot ile oyna" düğmesi de kayboluyor.
+  Tekrar deneme yolu yok. Kanıt: rakiparama-bot-hata-390-acik.png.
+- ~15 sn sonra ekran "Maç hazırlanıyor…" hâline geçiyor ve maç kimliği gelene kadar saniyede bir yokluyor; üst sınır yok.
+  Nerede: `oyun/components/RakipAra.jsx:~193` (`setInterval`, sınırsız). Sunucu hiç dönmezse oyuncu sonsuza dek bekler;
+  "Beklemeden bot ile oyna" düğmesi de bu hâlde kayboluyor. Kanıt: rakiparama-15sn-390-acik.png.
+- "Beklemeden bot ile oyna" düğmesinde beyaz yazı turuncu zeminde: yaklaşık **2,1:1** (17 px kalın; eşik 4,5). Arama katmanı `.app`
+  dışında olduğu için Şenlik'in "turuncu üstünde koyu yazı" kuralı uygulanmıyor, taban `.btn` (`src/styles.css:129-134`, `color:#fff`) geçerli.
+
+### 🔵 Kozmetik
+- Aynı birincil düğme burada beyaz yazılı, ana sayfada ve pencerelerde koyu yazılı (`--bd-vurgu-ustu`) — iki farklı turuncu düğme var.
+- Rakip kutusu ile başlık çelişiyor: başlık "Maç hazırlanıyor…" derken kutu hâlâ "Rakip aranıyor" yazıyor (rakiparama-15sn-390-acik.png).
+- (Koyu tema) "Rakip aranıyor" ~1,0:1 ve "Vazgeç" 1,14:1 — koyu temada arama katmanı açık zeminini koruyor, yazılar kayboluyor.
+
+### ✅ İyi olan
+- Sahne sade ve anlaşılır: sen ↔ VS ↔ "?" kutusu, kategori açıklaması, geçen süre sayacı, belirgin bir birincil ve bir ikincil düğme.
+- Bot yolu dürüst: "Bot maçında coin ödülü yarıya iner" yazıyor (rakiparama-bot-hata-390-acik.png).
+- Vazgeç ana sayfaya temiz dönüyor, kuyruktan çıkış çağrısı yapılıyor (rakiparama-vazgec-sonrasi-390-acik.png).
+- Hata mesajı Şenlik kırmızısında ve okunur (bu katmanda `tema.css:4434` düzeltmesi geçerli).
