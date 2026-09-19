@@ -8099,3 +8099,10 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   .app .bd-secenek { min-height: 50px; }
   .app .bd-secenekler { gap: 8px; }
 }
+/* Paket 41 M.9 — yasal sayfalarda üst geri düğmesi */
+.bd-geri-dugmesi {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 12px 0 6px; margin-bottom: 6px;
+  border: 0; border-radius: 999px; background: #fff; color: #20324A; cursor: pointer;
+  font: inherit; font-weight: 800; box-shadow: 0 3px 0 #D3E3F0;
+}
+.bd-geri-dugmesi:focus-visible { outline: 3px solid #F4701F; outline-offset: 2px; }

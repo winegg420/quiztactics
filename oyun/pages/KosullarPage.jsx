@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import GeriDugmesi from "../components/GeriDugmesi.jsx";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
 
@@ -12,6 +13,7 @@ const ILETISIM = "idagureli@gmail.com";
 export default function KosullarPage() {
   return (
     <div className="bd-metin-sayfa">
+      <GeriDugmesi />
       <h1 className="baslik">{tt("Kullanım koşulları")}</h1>
       <div className="alt-yazi" style={{ marginBottom: 18 }}>
         {tt("Son güncelleme:")} {GUNCELLEME}
