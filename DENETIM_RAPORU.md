@@ -200,3 +200,64 @@ machazirlik-yukleme-hatasi-390-acik.png
 - Hazıra basınca düğme "Hazırsın — diğerleri bekleniyor" durum satırına dönüşüyor; maskot da değişiyor (machazirlik-ben-hazir-390-acik.png).
 - Yükleme hatasında "Tekrar dene" + çıkış yolu var.
 - İngilizce'de yalnız oyuncu adı ("Sıla") Türkçe — doğru.
+
+---
+
+## 6. Maç ekranı (Klasik)
+Görüntüler: mac-soru-basi-{390,1280}-{acik,koyu}.png · mac-soru-basi-390-en.png · mac-yari-sure-390-acik.png · mac-son5sn-390-acik.png ·
+mac-son5sn-an-390-acik.png · mac-sure-doldu-390-acik.png · mac-dogru-390-acik.png · mac-dogru-anında-390-acik.png · mac-yanlis-390-acik.png ·
+mac-uzun-soru-390-acik.png · mac-joker-5050-390-acik.png · mac-joker-satinal-390-{acik,koyu}.png · mac-joker-coin-yetmez-390-acik.png ·
+mac-rakip-sis-390-acik.png · mac-saf-bilgi-390-{acik,koyu}.png
+
+### 🔴 Hata
+- Son 5 saniyedeki büyük sayı görünmüyor ve kayık. §5'teki aynı sınıf çakışması: soru kartındaki son-5-sn sayısı da
+  `.bd-geri-sayim` sınıfını kullanıyor. Hazırlık ekranı için yazılan `tema.css:5099` kuralı onu da `position:fixed`,
+  bulanık zeminli, tam ekran bir katmana çeviriyor, eski kuralın `transform`'u yerinde kalıyor. Ölçüldü: x=−160
+  (yarısı ekran dışında), yazı rengi `rgba(255,255,255,.14)`; açık zeminde görünmez. Oyuncuya etkisi: "son saniyeler" uyarısı yok,
+  yalnız halka kırmızıya dönüyor. Kanıt: mac-son5sn-an-390-acik.png. (Tek düzeltme iki ekranı birden çözer: iki öğeye ayrı sınıf.)
+
+### 🟡 Eksik
+- Maç sırasında sesi kapatmanın yolu yok (üst çubukta ses düğmesi yok; ses yalnız Profil › Ayarlar'da).
+- 1280×800'de joker çubuğu ve sohbet düğmesi ekranın altında kalıyor: joker etiketleri (50:50, +10 sn…) kesik. Oyuncu 15 saniyelik
+  soruda kaydırmak zorunda. Kanıt: mac-soru-basi-1280-acik.png. 390×844'te de sohbet düğmesi kıvrımın altında.
+- Uzun soruda (5 satır) şıklar ve joker çubuğu ekranın altına iniyor; D şıkkı ve jokerler için kaydırmak gerekiyor.
+  Kanıt: mac-uzun-soru-390-acik.png. Yazı boyutu uzun soruda küçülmüyor.
+- Üst çubuk (zil, coin, tişört, profil) maç boyunca açık ve dokunulabilir; soru ortasında zile ya da profile basıp maçtan çıkılabiliyor.
+  Alt sekme çubuğu maçta gizleniyor (`useOyunModu`) ama üst çubuk gizlenmiyor.
+- Maçtan çık (X) düğmesi 36×36 px (hedef 44). Nerede: `MatchPage.jsx:~1001`.
+- "3/10" ilerleme yazısı 11 px, **2,55:1** (`tema.css:3899`, `--bd-metin-2` açık mavi zeminde); rakip adı "Sıla" 12,5 px **3,87:1**
+  (rakip tarafı soluk çiziliyor). Eşik 4,5.
+
+### 🔵 Kozmetik
+- Doğru cevaptaki "+10" uçuşu sarı (#FFC53D) ve açık yeşil şıkkın üstünde çıkıyor; kontrastı çok düşük, anlık da olsa okunmuyor.
+  Nerede: `tema.css:2891` (`.bd-puan-ucus`). Kanıt: mac-dogru-anında-390-acik.png.
+- (Koyu tema) Kullanılamaz jokerlerin etiketleri ("+10 sn", "Süreyi Kısalt", "Sis") 11 px, **1,57:1**; satın alma penceresinde fiyat "40" 2,40:1.
+- Joker çubuğundaki sayı rozetleri ("1", "2") ile fiyat rozetleri ("🪙 40") aynı köşede ve aynı biçimde; "elinde var" ile
+  "satın alınır" ancak rengin tonundan ayrılıyor.
+
+### ❔ Şüpheli / kurulamadı
+- Süre doldu: sayaç "0" oluyor, şıklar dokunulabilir görünüyor, "Süre doldu" satırı çıkmadı. Sahte sunucu `mac_soruyu_atla`ya boş döndüğü için
+  istemci "yeniden denenecek" döngüsüne girdi (konsol). Canlıda ne göründüğü doğrulanamadı (mac-sure-doldu-390-acik.png).
+- Rakibin Sis jokeri: `joker_surum` artışı sahte ortamda tetiklenmedi, sis efekti görülemedi (mac-rakip-sis-390-acik.png).
+- Coin yetmezken joker: düğme pasif olduğu için dokunulamadı (beklenen). Satın alma penceresinin "yetersiz" hâli açılamadı.
+
+### ✅ İyi olan
+- Doğru/yanlış geri bildirimi çok net: seçilen yanlış şık kırmızı + ✕, doğru şık yeşil + ✓, öteki şıklar soluyor; konfeti var
+  (mac-dogru/mac-yanlis). "Sıla cevaplayınca soru geçecek…" beklemeyi açıklıyor; "Bu soru adil miydi?" oylaması yerinde.
+- Süre hem halka hem çubukla gösteriliyor; yarıda turuncuya, son saniyelerde kırmızıya dönüyor (mac-yari-sure, mac-son5sn).
+- 50:50 sonrası elenen iki şık üstü çizili ve soluk, joker düğmesinde onay işareti (mac-joker-5050).
+- Joker satın alma penceresi temiz: ne işe yaradığı, fiyat, bakiye, Vazgeç ikincil, "Al ve kullan" birincil (mac-joker-satinal-390-acik.png).
+- "Bu maçta 3 joker hakkın kaldı" satırı hakkı görünür kılıyor. 390'da yatay taşma yok.
+- İngilizce'de yalnız soru metni ve şıklar Türkçe kaldı — soru bankası Türkçe, beklenen (bkz. §sonu).
+
+---
+
+## 8. Saf Bilgi (maç ekranı)
+Görüntüler: mac-saf-bilgi-390-{acik,koyu}.png (sonuç ekranı Klasik ile aynı bileşen — §7)
+
+### 🟡 Eksik
+- Maç ekranında bunun Saf Bilgi (jokersiz) maçı olduğunu söyleyen hiçbir şey yok: joker çubuğu yalnızca kayboluyor; başlıkta ya da
+  skor tabelasında mod adı/rozeti yok. Oyuncuya etkisi: jokerlerin neden gittiğini "hata" sanabilir. Kanıt: mac-saf-bilgi-390-acik.png.
+
+### ✅ İyi olan
+- Jokersiz ekran daha sade; soru ve şıklar ekrana tam sığıyor, kaydırma gerekmiyor.
