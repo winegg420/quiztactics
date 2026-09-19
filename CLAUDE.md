@@ -334,7 +334,12 @@ Bunlar onaylanmış kararlardır, aksini yapma:
 
 ### Meydan (3B harita)
 
-- Turnuva saatleri **13:00 ve 21:50 TSİ**, sabit
+- Turnuva saatleri: **günde 7 seans, TSİ — 10:00 · 12:30 · 15:00 · 18:00 · 20:00 · 22:00 · 24:00**
+  (Paket 43 D, 19 Eyl 2026 — sahibinin kararı). Tek kaynak `oyun_ayarlari.turnuva_saatleri`;
+  kod varsayılanı aynı liste (`oyun/lib/zaman.js › VARSAYILAN_LISTE`). Eski `turnuva_saat_sabah`
+  ("13:00") / `turnuva_saat_aksam` ("21:50") satırları veritabanında DURUR ama kullanılmaz:
+  sunucu migration 198'den beri okumuyor; istemcide `Layout.jsx` onları yalnız dışarıdan
+  çağrılmayan eski yardımcılara yazıyor. Silinmez.
 - Yön topuzu sol altta, eylem düğmeleri sağ altta
 - **MİMARİ ŞARTI:** haritanın görseli ve karakterler ileride baştan
   değişecek. Meydan özellikleri (kahve/balon ikramı, emoji, dans,
