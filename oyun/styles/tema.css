@@ -7677,6 +7677,7 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 .app .mss-gorev-cubuk > span { display: block; height: 100%; border-radius: 999px; background: var(--bd-vurgu); }
 .app .mss-gorev-sayi { font-size: 12px; font-weight: 800; font-variant-numeric: tabular-nums; }
 .app .mss-gorev-onay { display: inline-flex; color: var(--bd-basari-2); }
+:root[data-tema="koyu"] .app .mss-gorev-onay { color: var(--bd-basari); }
 
 /* Coin uçuşu: fixed kapsayıcı yerinde durur; x ve y ayrı eğriyle → yay. */
 .mss-coin-ucus {
@@ -7745,6 +7746,9 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 .app .mss-detay.acik .mss-detay-govde { max-height: 6000px; opacity: 1; }
 .app .mss-detay-ic { padding-top: 12px; text-align: left; }
 .app .mss-detay-ic > * + * { margin-top: 12px; }
+/* Paket 37 D.2 — açık Detay'ın son kartı yapışkan eylem çubuğunun arkasında kalmasın:
+   çubuğun konum ölçüsü (--mss-eylem-alt, MacSonuSahnesi ölçer) kadar alt boşluk. */
+.app .mss-detay.acik .mss-detay-ic { padding-bottom: var(--mss-eylem-alt, 0px); }
 
 .app .mss > .mss-ek { margin-top: 14px; animation: mss-sol 240ms ease-out 1650ms both; }
 
