@@ -710,6 +710,7 @@ const SOZLUK = {
     "Maç başlatılamadı": "Couldn't start the match",
     "Bot ile oyna": "Play a bot",
     "Rakip bulunamadı": "No opponent found",
+    "Maç bilgisi alınamadı. Bağlantını kontrol edip tekrar dene.": "Couldn't load the match. Check your connection and try again.",
     "Şu an rakip bulunamadı. Birazdan tekrar dene.": "No opponent found right now. Try again shortly.",
     "{0} seri bildirimi": "{0} streak notifications",
     "{0} arkadaşlık isteği": "{0} friend requests",

@@ -20,6 +20,7 @@ import { useAuth } from "../../src/context/AuthContext.jsx";
 import Avatar from "../../src/components/Avatar.jsx";
 import Ikon from "../components/Ikon.jsx";
 import MacUstSerit from "../components/MacUstSerit.jsx";
+import MacYukleniyor from "../components/MacYukleniyor.jsx";
 import KategoriIkon from "../components/KategoriIkon.jsx";
 import Maskot from "../components/Maskot.jsx";
 import MacSonuSahnesi from "../components/MacSonuSahnesi.jsx";
@@ -340,7 +341,8 @@ function DuelloMac({ id }) {
         setBaglanti(baglantiCevap?.data ?? null);
       }
     } catch (e) {
-      setYuklemeHatasi(ceviri(hataMesaji(e, "Düello yüklenemedi.")));
+      console.error("[Bildim] düello yüklenemedi:", e);
+      setYuklemeHatasi(true);
     } finally {
       yukleniyorRef.current = false;
     }
@@ -497,11 +499,10 @@ function DuelloMac({ id }) {
   if (!d) {
     return (
       <div className="bd-duello">
+        {/* Paket 41 G: Klasik ile aynı kalıp — Tekrar dene + çıkış, ham metin yok */}
         {yuklemeHatasi ? (
-          <div className="kart">
-            <div className="hata-kutu">{yuklemeHatasi}</div>
-            <button className="btn" onClick={() => navigate(y("/duello"))}>{ceviri("Düello'ya dön")}</button>
-          </div>
+          <MacYukleniyor hata={yuklemeHatasi} onTekrarDene={() => { setYuklemeHatasi(null); yukle(); }}
+                         donusYolu={y("/duello")} donusMetni={ceviri("Düello'ya dön")} />
         ) : (
           <div className="bd-duello-yukleniyor"><Maskot poz="dusunuyor" boyut={80} /></div>
         )}

@@ -14,7 +14,7 @@ const ZAMAN_ASIMI_MS = 8000;
  * (konsolda bile iz yoktu). Artık 8 saniyede veri gelmezse kullanıcı Türkçe
  * bir açıklama, "Tekrar dene" ve "Maçı iptal et" görüyor.
  */
-export default function MacYukleniyor({ hata, onTekrarDene, onIptal }) {
+export default function MacYukleniyor({ hata, onTekrarDene, onIptal, donusYolu, donusMetni }) {
   const navigate = useNavigate();
   const [gecikti, setGecikti] = useState(false);
 
@@ -31,9 +31,10 @@ export default function MacYukleniyor({ hata, onTekrarDene, onIptal }) {
     <div className="bd-hata-kart">
       <Maskot poz="dusunuyor" boyut={78} />
       <div className="bd-hata-baslik">{tt("Maç açılamadı")}</div>
+      {/* Paket 41 G: ham sunucu metni oyuncuya gösterilmez (çağıran console'a yazar) */}
       <div className="bd-hata-metin">
         {hata
-          ? hata
+          ? tt("Maç bilgisi alınamadı. Bağlantını kontrol edip tekrar dene.")
           : tt("Maç bilgisi gelmedi. Bağlantın kesilmiş olabilir ya da maç artık geçerli değil.")}
       </div>
       <div style={{ display: "flex", gap: 8, flexWrap: "wrap", justifyContent: "center" }}>
@@ -53,8 +54,8 @@ export default function MacYukleniyor({ hata, onTekrarDene, onIptal }) {
             {tt("Maçı iptal et")}
           </button>
         )}
-        <button className="btn ikincil" onClick={() => navigate(y("/meydan"))}>
-          {tt("Meydan okumalara dön")}
+        <button className="btn ikincil" onClick={() => navigate(donusYolu ?? y("/meydan"))}>
+          {donusMetni ?? tt("Meydan okumalara dön")}
         </button>
       </div>
     </div>

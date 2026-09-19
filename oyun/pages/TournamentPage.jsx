@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Ikon from "../components/Ikon.jsx";
 import MacUstSerit from "../components/MacUstSerit.jsx";
+import DurumKutusu from "../components/DurumKutusu.jsx";
 import Maskot from "../components/Maskot.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { useOyunModu } from "../lib/oyunModu.js";
@@ -86,6 +87,8 @@ export default function TournamentPage() {
   const yenidenBaglaRef = useRef(null);
   const kanalKurRef = useRef(null);
 
+  // Paket 41 G: turnuva okunamadıysa "sıradaki turnuva" (turnuva yok) görünümü çizilmez
+  const [turnuvaHata, setTurnuvaHata] = useState(false);
   const turnuvaYukle = useCallback(async () => {
     // error okunmazsa turnuva hiç yüklenmemiş gibi görünür ve sebebi
     // hiçbir yere düşmez; kullanıcıya da gösterilecek bir mesaj kalmaz.
@@ -114,7 +117,7 @@ export default function TournamentPage() {
       }
     } catch (e) {
       console.error("[Bildim] turnuvalar alınamadı:", e);
-      setHata(hataMesaji(e, tt("Turnuva bilgisi alınamadı.")));
+      setTurnuvaHata(true);
     }
     const liste = data ?? [];
     const secilen =
@@ -380,7 +383,14 @@ export default function TournamentPage() {
 
   useOyunModu(Boolean(soru) && turnuva?.durum === "aktif");
 
-  if (yukleniyor) return <div className="yukleniyor">{tt("Yükleniyor…")}</div>;
+  if (yukleniyor) return <div className="kart"><DurumKutusu durum="yukleniyor" satir={4} /></div>;
+  if (turnuvaHata) {
+    return (
+      <div className="kart">
+        <DurumKutusu durum="hata" onTekrar={() => { setTurnuvaHata(false); turnuvaYukle(); }} />
+      </div>
+    );
+  }
 
   // ---- Lobi yok / sıradaki turnuva ----
   if (!turnuva || turnuva.durum === "bitti" || turnuva.durum === "iptal") {
