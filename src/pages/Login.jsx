@@ -4,6 +4,7 @@ import Logo from "../../oyun/components/Logo.jsx";
 import { girisHedefiniKaydet } from "../lib/girisHedefi.js";
 import { useDil } from "../../oyun/lib/dilKanca.js";
 import { DILLER } from "../../oyun/lib/dil.js";
+import { turnuvaSaatleri } from "../../oyun/lib/zaman.js";
 
 import { ACIK_SAGLAYICILAR, acikSaglayicilariOku } from "../lib/saglayicilar.js";
 
@@ -162,7 +163,14 @@ export default function Login() {
           vardı (VITE_MOD); Quiz Tactics kendi deposuna taşınınca kalktı. */}
       <div className="buyuk-logo"><Logo boyut={44} /></div>
       <div className="slogan">
-        {ceviri("Her gün 13:00 ve 21:50'de (Türkiye saati) büyük turnuva.")}
+        {/* Paket 40 G: saatler sabit yazılıydı ("13:00 ve 21:50"); artık oyunun kullandığı tek listeden
+            (oyun_ayarlari.turnuva_saatleri → zaman.js). Giriş öncesi ayar okunamazsa kod varsayılanı. */}
+        {(() => {
+          const s = turnuvaSaatleri();
+          return s.length === 1
+            ? ceviri("Her gün {saat}'de (Türkiye saati) turnuva.", { saat: s[0] })
+            : ceviri("Her gün {n} turnuva: ilki {ilk}, sonuncusu {son} (Türkiye saati).", { n: s.length, ilk: s[0], son: s[s.length - 1] });
+        })()}
         <br />
         {ceviri("7/24 meydan okumalar. Sen de yerini al.")}
       </div>
