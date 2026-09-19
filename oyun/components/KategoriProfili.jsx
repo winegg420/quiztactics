@@ -13,7 +13,9 @@ import { useDil } from "../lib/dilKanca.js";
 
 export default function KategoriProfili({ userId, profil: disaridan = null, kucuk = false }) {
   const { ceviri } = useDil();
-  const [profil, setProfil] = useState(disaridan);
+  // Paket 42 K.1: undefined = yükleniyor, null = veri yok. Eskiden RPC boş dönünce iskelet
+  // (60 px + kenar boşlukları ≈ 90 px) sonsuza dek yer tutuyordu; artık blok hiç çizilmez.
+  const [profil, setProfil] = useState(disaridan ?? undefined);
   const [hata, setHata] = useState(false);
 
   useEffect(() => {
@@ -33,8 +35,9 @@ export default function KategoriProfili({ userId, profil: disaridan = null, kucu
     return () => { aktif = false; };
   }, [userId, disaridan]);
 
-  if (hata) return null;
-  if (!profil) return <div className="bd-kprofil bd-kprofil-yukleniyor" aria-busy="true" />;
+  if (hata || (!userId && !disaridan)) return null;
+  if (profil === undefined) return <div className="bd-kprofil bd-kprofil-yukleniyor" aria-busy="true" />;
+  if (!profil) return null;
 
   const toplamMac = Number(profil.toplam_mac ?? 0);
   const istatistikli = Number(profil.istatistikli_mac ?? 0);

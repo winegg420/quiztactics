@@ -8269,3 +8269,6 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 }
 /* J.3 sohbet başlığında kişiye dokununca profil açılır — ok ipucu */
 .bd-sohbet-kisi-ok { font-size: 22px; line-height: 1; color: var(--bd-metin-2); margin-left: 2px; }
+
+/* PAKET 42 K.1 — içi boş kalan kart (ör. kategori profili verisi yok) yer tutmasın */
+.app .kart:empty { display: none; }
