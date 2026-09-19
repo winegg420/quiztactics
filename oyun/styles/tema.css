@@ -4486,7 +4486,7 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 /* Ana sayfa ve modal içindeki ikincil butonlar da beyaz saydamdı.
    Paket 38 B: modalda .ikincil bu boyamanın DIŞINDA (vazgeç asıl eylemle aynı görünmesin);
    tanımı aşağıda "Paket 38 B" bloğunda. Yukarıdaki (~3236) nötr kural koyu temadan kalma. */
-.app .anasayfa .btn:not(.tehlike):not(.basari),
+.app .anasayfa .btn:not(.tehlike):not(.basari):not(.ikincil),
 .bd-modal-katman .btn:not(.tehlike):not(.basari):not(.ikincil),
 .app .bd-izin-butonlar .btn.ikincil {
   background: linear-gradient(180deg, var(--bd-vurgu-acik), var(--bd-vurgu));
@@ -6619,8 +6619,8 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 }
 
 /* A. Turuncu dolgu üstündeki yazı */
-.app .btn, .app .bd-ana-eylem, .giris .btn,
-.app .anasayfa .btn:not(.tehlike):not(.basari), .bd-modal-katman .btn:not(.tehlike):not(.basari):not(.ikincil),
+.app .btn:not(.ikincil):not(.tehlike), .app .bd-ana-eylem, .giris .btn:not(.ikincil),
+.app .anasayfa .btn:not(.tehlike):not(.basari):not(.ikincil), .bd-modal-katman .btn:not(.tehlike):not(.basari):not(.ikincil),
 .app .bd-secenek.secili, .app .bd-sekme.aktif, .app .bd-alt-sekme.aktif,
 .app .bd-sekme-ust > .aktif, .app .bd-sekme-alt > .aktif,
 .app .bd-calisma-adet-btn.aktif, .bd-calisma-adet-btn.aktif,
@@ -8106,3 +8106,35 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   font: inherit; font-weight: 800; box-shadow: 0 3px 0 #D3E3F0;
 }
 .bd-geri-dugmesi:focus-visible { outline: 3px solid #F4701F; outline-offset: 2px; }
+
+/* ============================================================
+   PAKET 42 A — DÜĞME DİLİ: tek kural, her yerde
+   Birincil: turuncu dolu, koyu yazı (ekranda tek) · İkincil: beyaz + turuncu kenar + turuncu yazı
+   Tehlike (geri alınamaz): kırmızı KENARLI, dolu değil — dolu kırmızı yalnız onay penceresinde
+   (.bd-modal-katman .btn.tehlike, tema.css ~3247) · Sessiz: düz metin bağlantı.
+   Kontrast: #C4530F beyazda 4,57:1 · #B01F19 beyazda 6,87:1 · koyu yazı turuncuda 5,4–7,5:1
+   ============================================================ */
+.app .btn.ikincil,
+.app .anasayfa .btn.ikincil,
+.app .anasayfa .bd-turnuva-sag .btn.ikincil,
+.giris .btn.ikincil {
+  background: #FFFFFF; color: #C4530F; text-shadow: none;
+  border: 2px solid var(--bd-vurgu);
+  box-shadow: 0 4px 0 #F3C9A8;
+}
+.app .btn.ikincil:active:not(:disabled),
+.giris .btn.ikincil:active:not(:disabled) { transform: translateY(4px); box-shadow: none; }
+.app .btn.ikincil:disabled { filter: none; opacity: 0.45; }
+.app .btn.tehlike {
+  background: #FFFFFF; color: #B01F19; text-shadow: none;
+  border: 2px solid #B01F19;
+  box-shadow: 0 4px 0 #F3C9C2;
+}
+.app .btn.tehlike:active:not(:disabled) { transform: translateY(4px); box-shadow: none; }
+/* "Hemen oyna" sarıydı; marka vurgusuyla aynı turuncu birincil */
+.app .anasayfa .bd-ana-eylem {
+  background: linear-gradient(180deg, var(--bd-vurgu-acik), var(--bd-vurgu));
+  color: var(--bd-vurgu-ustu, #3A1A04);
+  box-shadow: 0 4px 0 var(--bd-vurgu-2), 0 9px 14px rgba(32, 50, 74, 0.18);
+}
+.app .anasayfa .bd-ana-eylem:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--bd-vurgu-2); }

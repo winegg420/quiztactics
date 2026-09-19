@@ -400,8 +400,9 @@ export default function ProfilePage() {
           {tt("Kullanım koşulları")}
         </Link>
 
+        {/* Paket 42 A: geri alınamaz eylem kırmızı KENARLI ve küçük; sayfanın en belirgin öğesi değil */}
         <button
-          className="btn tehlike"
+          className="btn kucuk tehlike"
           style={{ marginTop: 12 }}
           onClick={() => {
             setSilHata(null);
@@ -415,7 +416,8 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      <button className="btn tehlike" onClick={signOut}>
+      {/* Paket 42 A: çıkış geri alınabilir — ikincil */}
+      <button className="btn ikincil" onClick={signOut}>
         {tt("Çıkış Yap")}
       </button>
       </>)}

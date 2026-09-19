@@ -355,8 +355,9 @@ export default function FriendsPage() {
               <button className="btn kucuk" onClick={() => cevapla(f.id, true)}>
                 {tt("Kabul")}
               </button>
+              {/* Paket 42 A: arkadaşlık isteği/davet reddi her yerde "Reddet" (kayıt silme "Sil") */}
               <button className="btn kucuk tehlike" onClick={() => cevapla(f.id, false)}>
-                {tt("Sil")}
+                {tt("Reddet")}
               </button>
             </div>
           ))}
@@ -398,7 +399,7 @@ export default function FriendsPage() {
             </button>
             {/* Paket 30 B: kılıç (Klasik) + kalkan (Düello) yerine tek düğme → mod seçim penceresi */}
             <button
-              className="btn kucuk bd-oyna-dugme"
+              className="btn kucuk ikincil bd-oyna-dugme"
               onClick={() => setModHedef(p)}
               // Paket 35 D: bekleyen meydan okuma varken ikinci kez meydan okunamaz (sebep şeritte + title)
               disabled={Boolean(bekleyen)}

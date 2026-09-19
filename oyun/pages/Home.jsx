@@ -610,7 +610,7 @@ export default function Home() {
             <Ikon ad="kisiler" boyut={13} /> {lobiSayisi} {tt("kişi lobide")}
           </div>
           {canliTurnuva ? (
-            <button className="btn kucuk" onClick={() => navigate(y("/turnuva"))}>
+            <button className="btn kucuk ikincil" onClick={() => navigate(y("/turnuva"))}>
               {tt("Katıl")}
             </button>
           ) : lobide ? (
@@ -618,7 +618,7 @@ export default function Home() {
               {tt("Lobidesin")}
             </button>
           ) : (
-            <button className="btn kucuk" onClick={lobiyeKatil}>
+            <button className="btn kucuk ikincil" onClick={lobiyeKatil}>{/* Paket 42 A: tek birincil "Hemen oyna" */}
               {tt("Lobiye katıl")}
             </button>
           )}
