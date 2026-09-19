@@ -8162,3 +8162,19 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 }
 .app .anasayfa .bd-hero-hafta-metin { flex: 1; display: inline-flex; align-items: center; gap: 4px; flex-wrap: wrap; }
 .app .anasayfa a.bd-hero-hafta:active { transform: translateY(4px); box-shadow: none; }
+
+/* ============================================================
+   PAKET 42 C — mod seçim penceresi / alttan açılan pencereler
+   ============================================================ */
+/* C.1 pencerenin kendisi programla odaklanır; halka gösterilmez */
+.bd-modal.bd-mod-secim:focus { outline: none; }
+/* C.2 tutamaç sürüklenebilir: dokunma alanı büyür, imleç ipucu verir */
+.bd-alttan .bd-joker-sat-tutamac,
+.bd-alttan .bd-kategori-sheet-tutamac { cursor: grab; touch-action: none; }
+/* C.3 masaüstünde alttan pencere ekranın dibine yapışmasın: alttan boşluk + dört köşe yuvarlak */
+@media (min-width: 700px) {
+  .bd-modal-katman.bd-alttan { padding: 0 16px 24px; }
+  .bd-alttan .bd-modal.bd-mod-secim.alttan,
+  .bd-alttan .bd-kategori-sheet,
+  .bd-alttan .bd-joker-sat { border-radius: 22px; }
+}

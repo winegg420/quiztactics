@@ -49,8 +49,16 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
     return () => { aktif = false; };
   }, []);
 
-  // Klavyeyle açılınca odak ilk seçeneğe gelsin
-  useEffect(() => { ilkRef.current?.focus(); }, []);
+  // Klavyeyle açılınca odak ilk seçeneğe gelsin.
+  // Paket 42 C.1: fareyle/dokunarak açılınca ilk kart odak halkasıyla "seçili" görünüyordu
+  // (fare başka kartın üstündeyken iki kart turuncu). Açan düğme klavye odağındaysa ilk
+  // karta, değilse pencerenin kendisine (halkasız) odaklanılır.
+  const pencereRef = useRef(null);
+  useEffect(() => {
+    const klavye = document.activeElement?.matches?.(":focus-visible");
+    if (klavye) ilkRef.current?.focus();
+    else pencereRef.current?.focus({ preventScroll: true });
+  }, []);
 
   const sec = async (mod) => {
     if (calisan) return;
@@ -111,7 +119,7 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
       etiket={baslik ?? tt("{ad} ile oyun modu seç", { ad })}
       ekSinif={alttan ? "bd-alttan" : ""}
     >
-      <div className={`bd-modal bd-mod-secim${alttan ? " alttan" : ""}${calisan ? " seciliyor" : ""}`}>
+      <div ref={pencereRef} tabIndex={-1} className={`bd-modal bd-mod-secim${alttan ? " alttan" : ""}${calisan ? " seciliyor" : ""}`}>
         {alttan && <div className="bd-joker-sat-tutamac" aria-hidden="true" />}
         <div className="bd-mod-secim-ust">
           {profil && <AvatarCerceve profile={profil} boyut={44} />}

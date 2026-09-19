@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { tt } from "../lib/dil.js";
 
@@ -52,6 +52,68 @@ export default function Modal({ children, onKapat, etiket = tt("İletişim kutus
     };
   }, []);
 
+  // Paket 42 C.2: alttan açılan pencere (`bd-alttan`) aşağı sürüklenerek kapanır.
+  // Tutamaç "sürükle" vaat ediyordu ama dokunma işleyicisi yoktu. Sürükleme yalnız
+  // tutamaçtan ya da pencerenin üst 56 px'inden ve içerik en üstteyken başlar (liste
+  // kaydırmasıyla karışmasın); yüksekliğin %25'i (en çok 120 px) aşılırsa kapanır,
+  // aşılmazsa yerine döner. Dönüşüm yalnız panelde — sabit katmanda değil (iOS kuralı).
+  const katmanRef = useRef(null);
+  const kapatRef = useRef(onKapat);
+  kapatRef.current = onKapat;
+  const alttan = ekSinif.split(/s+/).includes("bd-alttan");
+  useEffect(() => {
+    const panel = katmanRef.current?.firstElementChild;
+    if (!alttan || !panel) return undefined;
+    let basY = null;
+    let fark = 0;
+    const basla = (y, hedef) => {
+      if (!kapatRef.current || panel.scrollTop > 0) return false;
+      const ust = y - panel.getBoundingClientRect().top;
+      if (!hedef?.closest?.("[class*='tutamac']") && ust > 56) return false;
+      basY = y; fark = 0;
+      panel.style.transition = "none";
+      return true;
+    };
+    const kay = (y) => {
+      if (basY == null) return;
+      fark = Math.max(0, y - basY);
+      panel.style.transform = fark ? `translateY(${fark}px)` : "";
+    };
+    const bitir = () => {
+      if (basY == null) return;
+      basY = null;
+      const azalt = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+      panel.style.transition = azalt ? "none" : "transform .16s ease-out";
+      if (fark > Math.min(120, panel.offsetHeight * 0.25)) { kapatRef.current?.(); return; }
+      panel.style.transform = "";
+      // Sürükleme sonrası parmağın altındaki düğmeye tıklama düşmesin
+      if (fark > 8) window.addEventListener("click", (e) => { e.stopPropagation(); e.preventDefault(); }, { capture: true, once: true });
+    };
+    const dokunBas = (e) => { basla(e.touches[0].clientY, e.target); };
+    const dokunKay = (e) => { if (basY == null) return; kay(e.touches[0].clientY); if (fark > 0) e.preventDefault(); };
+    const fareKay = (e) => kay(e.clientY);
+    const fareBit = () => { window.removeEventListener("pointermove", fareKay); bitir(); };
+    const fareBas = (e) => {
+      if (e.pointerType !== "mouse" || e.button !== 0 || !basla(e.clientY, e.target)) return;
+      window.addEventListener("pointermove", fareKay);
+      window.addEventListener("pointerup", fareBit, { once: true });
+    };
+    panel.addEventListener("touchstart", dokunBas, { passive: true });
+    panel.addEventListener("touchmove", dokunKay, { passive: false });
+    panel.addEventListener("touchend", bitir);
+    panel.addEventListener("touchcancel", bitir);
+    panel.addEventListener("pointerdown", fareBas);
+    return () => {
+      panel.removeEventListener("touchstart", dokunBas);
+      panel.removeEventListener("touchmove", dokunKay);
+      panel.removeEventListener("touchend", bitir);
+      panel.removeEventListener("touchcancel", bitir);
+      panel.removeEventListener("pointerdown", fareBas);
+      window.removeEventListener("pointermove", fareKay);
+      window.removeEventListener("pointerup", fareBit);
+    };
+  }, [alttan]);
+
   // Esc ile kapat
   useEffect(() => {
     if (!onKapat) return undefined;
@@ -64,6 +126,7 @@ export default function Modal({ children, onKapat, etiket = tt("İletişim kutus
 
   const govde = (
     <div
+      ref={katmanRef}
       className={"bd-modal-katman" + (ekSinif ? " " + ekSinif : "")}
       role="dialog"
       aria-modal="true"
