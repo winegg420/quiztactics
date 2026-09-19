@@ -114,7 +114,9 @@ export default function UstalikIzgarasi() {
                   <div className="bd-ustalik-ust">
                     {/* Paket 20 VII: kategori rengi Düello / profil / soru kartıyla aynı (KategoriIkon) */}
                     <span className="bd-ustalik-ad"><KategoriIkon anahtar={s.kategori} boyut={18} plaka /> {kategoriEtiket(s.kategori)}</span>
-                    <span className="bd-ustalik-seviye" style={{ color: renk }}>
+                    {/* Paket 43 A.2: seviye rengi yazı olarak beyazda 1,87–3,01 kalıyordu. Çubuk rengi aynı,
+                        yazı rengin metin rengiyle karışımı (%45) — her seviye kendi tonunda, hepsi ≥ 4,5 */}
+                    <span className="bd-ustalik-seviye" style={{ color: `color-mix(in srgb, ${renk} 45%, var(--bd-metin))` }}>
                       {s.seviye ? ttSunucu(s.seviye) : "—"}
                     </span>
                   </div>

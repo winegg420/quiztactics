@@ -2080,7 +2080,7 @@ body::before {
 .app .alt-yazi a,
 .app .bd-gizlilik-not a,
 .app .bd-joker-not a,
-.app .bd-metin-sayfa a {
+.app .bd-metin-sayfa a:not(.btn):not(.bd-icindekiler a) {
   color: var(--bd-baglanti);
   font-weight: 800;
   text-decoration: underline;
@@ -8355,3 +8355,18 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 .app .bd-lig-cizgi.dusme { color: var(--bd-hata-metin, #B01F19); }
 /* Maç tabelası: geride olan tarafın avatarı 0,62 soluyordu — içindeki baş harf 3,86 → 0,85 */
 .app .bd-vs-taraf.geride > .bd-cerceve { opacity: 0.85; }
+
+/* ============================================================
+   PAKET 43 A — kontrast
+   ============================================================ */
+/* A.1 7+ günlük serinin sayısı #FF8A6B beyazda 2,31 → koyu kırmızı-turuncu (sıcaklık hissi korunur) */
+.app .bd-seri.isi-sicak .bd-seri-sayi { color: var(--bd-hata-2); }
+/* A.3 Gizlilik / Koşullar `.app` DIŞINDA çiziliyor (Layout'suz rotalar): `.app .bd-metin-sayfa a`
+   hiç eşleşmiyor, src/styles.css'teki `--primary` (2,68) kalıyordu. Aynı kural `.app` önekisiz. */
+.bd-metin-sayfa a:not(.btn):not(.bd-icindekiler a) {
+  color: var(--bd-baglanti);
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.bd-metin-sayfa a:not(.btn):not(.bd-icindekiler a):hover { color: var(--bd-baglanti-vurgu); }
