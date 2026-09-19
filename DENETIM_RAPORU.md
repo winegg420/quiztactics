@@ -410,3 +410,55 @@ turnuva-mac-{390-acik,390-koyu,1280-acik} · turnuva-altin-soru · turnuva-elend
 - Lobide Tümü / Arkadaşlarım / Kendi Ligim süzgeci + ada göre arama + kişiye meydan okuma kısayolu.
 - Altın soru bandı ("ALTIN SORU · 3 oyuncu başa baş — biri bilene kadar sürer") ayırt edici.
 - Sonuç: şampiyon ortada, "2. oldun", ödül hapları; "Turnuvalara dön" birincil.
+
+---
+
+## 13. Meydan okumalar (`/meydan`, ChallengesPage)
+Görüntüler: meydan-dolu-{390,1280}-{acik,koyu}.png · meydan-dolu-390-en.png · meydan-tam-*.png (tam sayfa) · meydan-bos-390-acik ·
+meydan-hata-390-acik · meydan-duello-modu-390-acik
+
+### 🟡 Eksik
+- Veri gelmezse hata mesajı yok; ekran boş durumla aynı: "0 arkadaş — Henüz arkadaşın yok." Oyuncuya etkisi: arkadaşları silindi sanır.
+  Kanıt: meydan-hata-390-acik.png ile meydan-bos-390-acik.png birebir aynı (istekler 400).
+- Kategori kartlarındaki "0 soru · %0 çözüldü" 9,5 px, **2,34:1** (Düello modunda soluk hâlde 1,42:1). Nerede: `ChallengesPage.jsx:870`.
+
+### 🔵 Kozmetik
+- Sayfa 390'da ~2.000 px uzunluğunda: davetler, mod seçimi, kategori şeridi, bot listesi, Dereceli, arkadaşlar, Grup Maçı Kur, Oyuncular,
+  Gönderdiğin, Bitenler alt alta. Onlarca turuncu "Meydan oku" düğmesi var; birincil eylem tek ve belirgin değil. Kanıt: meydan-tam-390-acik.png.
+- Üstteki açıklama ("Bu sayfa bota ya da arkadaşına meydan okumak içindir. 'Hemen oyna' ve 'Dereceli Maç'ın…") üç satır ve teknik;
+  "Dereceli Maç" diye bir düğme artık yok.
+- Davet kartlarında "Reddet" kırmızı dolu, "Kabul" turuncu dolu — iki dolu düğme yan yana; geri alınamaz eylem de birincil kadar ağır.
+
+### ❔ Şüpheli
+- Konsolda "Encountered two children with the same key" uyarısı (5+ kez). Sahte veride aynı maç satırları iki sorguya da döndüğü için
+  olabilir (listelerde tekrar eden satırlar bundan). Canlıda tekrar ediyorsa listede satır kaybı/çiftlenme olur — izlenmeli.
+
+### ✅ İyi olan
+- Mod anahtarı (Klasik / Düello / Saf Bilgi) sayfanın üstünde; Düello seçilince kategori şeridi soluklaşıp "düelloda kullanılmaz" diyor.
+- Boş durumda arkadaş kartı yol gösteriyor ("Arkadaşlar sekmesinden davet linkini paylaş"). Gönderilen davet geri çekilebiliyor (✕).
+- Kategori şeridi Paket 37'deki gibi sağdan soluyor ve ok ipucu var.
+
+---
+
+## 14. Arkadaşlar (`/arkadaslar`)
+Görüntüler: arkadaslar-dolu-{390,1280}-{acik,koyu}.png · arkadaslar-dolu-390-en · arkadaslar-bos · arkadaslar-22-kisi (+ -tam) ·
+arkadaslar-hata · arkadaslar-cikarma-onayi · arkadaslar-davet-kodu-hata (hepsi -390-acik)
+
+### 🟡 Eksik
+- Liste yüklenemezse ham sunucu mesajı ("sahte hata") ve hemen altında "Henüz arkadaşın yok" boş durumu aynı anda çiziliyor; "Tekrar dene" yok.
+  Kanıt: arkadaslar-hata-390-acik.png.
+- Arkadaş çıkarma onayı satır içinde: "Oyna | Sil | Vazgeç" üç düğme sıkışıyor, "437 puan" iki satıra kırılıyor, "Mert arkadaşlıktan çıkarılsın mı?"
+  gibi bir soru cümlesi yok. Kanıt: arkadaslar-cikarma-onayi-390-acik.png.
+- Çıkarma (✕) düğmesi 44×36 px ve "Oyna"nın hemen yanında; yanlış dokunma riski. Nerede: `FriendsPage.jsx:398`.
+- Davet kodu yüklenemezse kutuda yalnız "–" görünüyor; iki paylaş düğmesi soluk (pasif gibi), neden olduğu yazmıyor. (Sahte ortamda kod yoktu; ❔.)
+
+### 🔵 Kozmetik
+- Boş durumda "Davet linkini paylaş" iki kez (boş durum kartı + hemen altta "Arkadaş davet et" kartı).
+- Gelen istek ve çıkarma onayında red düğmesi "Sil" diyor (`FriendsPage.jsx:333,388`); arkadaşlık isteği için "Reddet" daha doğru ve
+  Meydan sayfasıyla tutarlı olur.
+
+### ✅ İyi olan
+- Boş durum örnek gibi: maskot + "Henüz arkadaşın yok — davet linkini paylaş, birlikte yarışın." + eylem düğmesi (arkadaslar-bos-390-acik.png).
+- Gelen istekler en üstte, sonra arkadaşlar, bekleyen istekler (Geri çek), davet — sıra mantıklı. 22 kişilik listede taşma yok.
+- Davet kodu istemcide doğrulanıyor ("Davet kodu 8 karakter olmalı.").
+- Satıra dokununca profil kartı açılıyor (Paket 35 C); "Mesajlar" girişi sayfanın başında.
