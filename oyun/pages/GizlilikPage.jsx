@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import GeriDugmesi from "../components/GeriDugmesi.jsx";
+import Icindekiler from "../components/Icindekiler.jsx";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
 
@@ -17,6 +18,7 @@ export default function GizlilikPage() {
       <div className="alt-yazi" style={{ marginBottom: 18 }}>
         {tt("Son güncelleme:")} {GUNCELLEME}
       </div>
+      <Icindekiler />
 
       <h2>{tt("Kısaca")}</h2>
       <p>
