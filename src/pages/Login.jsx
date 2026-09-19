@@ -122,9 +122,18 @@ export default function Login() {
     }
   };
 
+  // Paket 41 K.2: tarayıcının kendi (tarayıcı dilindeki) balonu yerine uygulama içi mesaj
+  const [epostaHata, setEpostaHata] = useState(null);
+  const epostaGecerli = (x) => /^[^s@]+@[^s@]+.[^s@]{2,}$/.test(String(x).trim());
+
   const epostaGiris = async (e) => {
     e.preventDefault();
     setHata(null);
+    if (!epostaGecerli(email)) {
+      setEpostaHata(ceviri("Geçerli bir e-posta adresi yaz (ör. ad@ornek.com)."));
+      return;
+    }
+    setEpostaHata(null);
     setBekleyen("eposta");
     girisHedefiniKaydet();
     try {
@@ -209,16 +218,29 @@ export default function Login() {
       {gonderildi ? (
         <div className="kart" style={{ maxWidth: 340, textAlign: "center" }}>
           {ceviri("Giriş bağlantısı {eposta} adresine gönderildi. E-postanı kontrol et.", { eposta: email })}
+          {/* Paket 41 K.1: adresi düzeltme ya da yeniden gönderme yolu */}
+          <div className="giris-gonderildi-eylem">
+            <button type="button" className="btn ikincil" disabled={bekleyen !== null} onClick={epostaGiris}>
+              {bekleyen === "eposta" ? ceviri("Gönderiliyor…") : ceviri("Yeniden gönder")}
+            </button>
+            <button type="button" className="giris-metin-dugme" onClick={() => { setGonderildi(false); setHata(null); }}>
+              {ceviri("Adresi değiştir")}
+            </button>
+          </div>
         </div>
       ) : (
-        <form onSubmit={epostaGiris} style={{ width: "100%", maxWidth: 340, display: "flex", flexDirection: "column", gap: 10 }}>
+        <form onSubmit={epostaGiris} noValidate style={{ width: "100%", maxWidth: 340, display: "flex", flexDirection: "column", gap: 10 }}>
           <input
             type="email"
+            inputMode="email"
+            autoComplete="email"
             placeholder={ceviri("E-posta adresin")}
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
+            onChange={(e) => { setEmail(e.target.value); if (epostaHata) setEpostaHata(null); }}
+            aria-invalid={Boolean(epostaHata)}
+            aria-describedby={epostaHata ? "giris-eposta-hata" : undefined}
           />
+          {epostaHata && <div className="hata-kutu" id="giris-eposta-hata" role="alert">{epostaHata}</div>}
           <button type="submit" className="btn ikincil" disabled={bekleyen !== null}>
             {bekleyen === "eposta" ? ceviri("Gönderiliyor…") : ceviri("E-posta ile giriş bağlantısı al")}
           </button>

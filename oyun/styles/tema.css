@@ -8072,3 +8072,9 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 /* Arkadaş çıkar (✕): 44×44 ve "Oyna"dan ayrık — yanlış dokunma olmasın */
 .app .bd-arkadas-cikar { min-width: 44px; min-height: 44px; margin-left: 12px; padding: 0; }
 .app .bd-arkadas-ac { min-height: 44px; }
+/* Paket 41 K — giriş: bağlantı gönderildi hâlinin eylemleri */
+.giris-gonderildi-eylem { display: grid; gap: 6px; margin-top: 12px; }
+.giris-metin-dugme {
+  min-height: 44px; border: 0; background: none; cursor: pointer;
+  font: inherit; font-weight: 800; color: #C4530F; text-decoration: underline;
+}
