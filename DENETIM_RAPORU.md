@@ -610,3 +610,59 @@ calisma-tur-sonuc · calisma-hata (hepsi -390-acik aksi yazılmadıkça)
 - Banka özeti kategori çubuklarıyla ("Bankanda 18 soru var · 5 tanesini öğrendin"); "Bankan kadar · 18" seçeneği.
 - Boş banka durumu iyi: maskot + açıklama + "Pratik turuna başla" (bankasız da çalışılabiliyor).
 - Yanlış cevap geri bildirimi Klasik ile aynı dilde (kırmızı seçim, yeşil doğru) + "Hatalarım'a eklendi".
+
+---
+
+## 21. Bildirim zili
+Görüntüler: zil-karisik-{390,1280}-{acik,koyu}.png · zil-karisik-390-en · zil-bos · zil-cok-uzun · zil-hata (hepsi -390-acik aksi yazılmadıkça)
+
+### 🟡 Eksik
+- Bildirimler alınamazsa panel "Henüz bildirim yok" diyor; hata bilgisi yok (kod bilerek sessiz geçiyor, `BildirimZili.jsx` `yukle` › `catch {}`).
+  Kanıt: zil-hata-390-acik.png.
+- İngilizce'de sunucudan gelen bildirim metinleri Türkçe kalıyor ("Ayşe arkadaşlık isteğini kabul etti", "Tarih kategorisinde Usta oldun!…").
+  Yalnız bazı türler (meydan okuma) çevriliyor. Kanıt: zil-karisik-390-en.png.
+
+### 🔵 Kozmetik
+- Okunmuş gruplanmış satır "2 **yeni** meydan okuma · 1 gün önce" diyor — okunmuş ve bir günlük satırda "yeni" yanıltıcı (Paket 37 C'de not edildi).
+- Panelde "tümünü okundu say" ya da "hepsini gör" yok; 30 bildirimde panel içinde kaydırılıyor ama kaydırılabildiği belli değil (alt kenarda solma yok).
+  Kanıt: zil-cok-uzun-390-acik.png.
+- Panelde kapatma düğmesi yok; yalnız dışarı dokunarak kapanıyor.
+
+### ✅ İyi olan
+- Karışık listede okunmamışlar üstte, türüne göre ikon (kılıç, kişiler, madalya), göreli zaman ("3 dk önce"), uzun metin iki satıra kırılıyor.
+- Paket 37/38 çalışıyor: iki düello daveti "2 düello daveti" tek satır; okunmuş tekrarlar ayrı tek satır; en üstte "2 okunmamış mesaj".
+- Boş durum açıklayıcı: "Henüz bildirim yok. Maç davetleri, lig hareketleri ve arkadaşlık istekleri burada görünür."
+
+---
+
+## 22. Gizlilik ve Kullanım koşulları
+Görüntüler: gizlilik-sayfa-{390,1280}-acik · gizlilik-sayfa-390-en · gizlilik-oturumsuz-390-acik · gizlilik-tam-390-acik · kosullar-sayfa-{390,1280}-acik · kosullar-sayfa-390-en
+
+### 🟡 Eksik
+- İletişim adresi kişisel bir Gmail hesabı (`oyun/pages/GizlilikPage.jsx` `ILETISIM`); yayındaki bir oyun için kurumsal/oyuna ait bir adres beklenir.
+- Sayfaların üstünde geri yolu yok; tek çıkış en alttaki "Ana sayfaya dön" (2.700 px aşağıda). Oturumsuz gelen oyuncu da ana sayfaya (giriş) döner, geldiği yere değil.
+
+### 🔵 Kozmetik
+- İngilizce metinde kalın ile düz metin arasında boşluk düşmüş: "the **city and country**you choose", "We **don't collect**your device's GPS".
+  Kanıt: gizlilik-sayfa-390-en.png. (Çeviri anahtarlarının sonundaki boşluk kaybolmuş.)
+- Uzun metinde bölüm atlama/içindekiler yok.
+
+### ✅ İyi olan
+- Dil sade ve dürüst ("Verilerini satmıyoruz", GPS kullanılmıyor, sesli sohbet kaydedilmiyor, 13 yaş sınırı, hesap silme yolu); İngilizce tam çevrilmiş.
+- Oturum açmadan da açılıyor; alt sekme çubuğu yok, okuma alanı temiz. Son güncelleme tarihi var.
+
+---
+
+## 23. Bilinmeyen rota
+Görüntüler: 404-oturumlu-390-acik.png · 404-oturumsuz-390-acik.png · 404-gecersiz-mac-390-acik.png
+
+### 🟡 Eksik
+- 404 sayfası yok. Oturum açıkken `/asdasd` sessizce ana sayfaya yönleniyor (`src/BildimApp.jsx` `path="*"` → `/`); oyuncuya "bu sayfa yok" denmiyor.
+  Oturumsuzken adres `/asdasd` kalıyor ve giriş ekranı çiziliyor; giriş yapınca hangi sayfaya gideceği belirsiz.
+
+### ❔ Şüpheli
+- Var olmayan maç kimliğiyle (`/mac/olmayan-id`) ekran "Yükleniyor…" hâlinde kaldı. Sahte sunucu boş satırı hata olmadan döndürdüğü için olabilir;
+  gerçek Supabase `.single()` boş sonuçta hata döndürür ve "Maç açılamadı · Tekrar dene" ekranı çıkmalı. Doğrulanamadı.
+
+### ✅ İyi olan
+- Kırık bağlantı beyaz ekrana ya da çökme ekranına düşmüyor; eski `/bildim/...` ve `/oyun/...` bağlantıları köke açılıyor (Paket 38).
