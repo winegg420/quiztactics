@@ -343,7 +343,8 @@ export default function CalismaPage() {
         <div className="bd-kat-baslik">
           <span>{tt("Soru sayısı")}</span>
         </div>
-        <div className="bd-calisma-adet">
+        {/* Paket 42 O: "Bankan kadar" yokken üç düğme 2 sütunda L yapıyordu → düğme sayısı tekse 3 sütun */}
+        <div className={`bd-calisma-adet${(SORU_SECENEKLERI.length + (bankaKat > 0 && !SORU_SECENEKLERI.includes(bankaKadar) ? 1 : 0)) % 2 ? " uc" : ""}`}>
           {bankaKat > 0 && !SORU_SECENEKLERI.includes(bankaKadar) && (
             <button
               className={`bd-calisma-adet-btn ${soruSayisi === bankaKadar ? "aktif" : ""}`}

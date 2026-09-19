@@ -8295,3 +8295,6 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 
 /* PAKET 42 N — profil istatistik kutusunda hedef cümlesi: büyük harf/aralık yok, okunur boy */
 .app .bd-istatistik .etiket.cumle { text-transform: none; letter-spacing: 0; font-size: 12px; line-height: 1.25; color: var(--bd-metin-2); }
+
+/* PAKET 42 O — Çalışma soru sayısı: tek sayıda düğme varken 3 sütun (L şekli yok) */
+.app .bd-calisma-adet.uc { grid-template-columns: repeat(3, 1fr); }
