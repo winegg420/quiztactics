@@ -6687,3 +6687,23 @@ SQL yok, migration yok. Her madde ayrı commit + push (4bb973c → 6cff99f).
 
 Doğrulama: Vite dev + Playwright Chromium, Supabase sahte yanıtlarla (canlıya yazılmadı). A/B/D açık+koyu, D reduced-motion, E ölçüldü,
 F 1280 ve 390, G maske aç/kapa, H ekran görüntüsü, C mantığı düğüm testiyle. Joker satın alma penceresi tarayıcıda açılmadı (maç içi), CSS seçicisi aynı.
+
+## Paket 38 — Düello paritesi ve modal düğmeleri (19 Eyl 2026)
+
+SQL yok, migration yok. Commit'ler: 426e556 A · 46b41cf A (ek) · 45818b1 B · bu commit (C raporu + kalıcı kural).
+**Kalıcı kural** (CLAUDE.md + AGENTS.md › "Mod paritesi"): bir moda yapılan arayüz düzeltmesi bütün modlara, düello dahil.
+
+- **A** BildirimZili: `duello_daveti` (kilic, öncelik 0, TOPLAMA → `y("/duello")`), `duello_kabul` (ates, öncelik 1, toplanmaz).
+  dil.js: "{0} düello daveti" → "{0} duel invites". Sunucu yolu `'/bildim/duello'` (migration 228).
+- **A (ek) — yol hatası:** sunucu BÜTÜN bildirim yollarını eski `/bildim/...` önekiyle yazıyor; `BildimApp` yalnız tam `/bildim`
+  ve `/oyun/*`'u karşılıyordu → gruplanmamış tek bildirime dokunmak ana sayfaya düşürüyordu (ölçüldü). `/bildim/*` rotası +
+  `OnekiAt` iki öneki de atar (`/bildim/duello → /duello`, `/bildim/mac/x → /mac/x`, `/bildimx` etkilenmez).
+  Yan bulgu: `ChallengesPage` çıkışta `supabase.rpc(...).catch` → TypeError (Supabase sorgusunda .catch yok) → `.then(ok, hata)`.
+- **B** `.bd-modal-katman .btn:not(.tehlike):not(.basari)` (turuncu, ~4482) ve yazı rengi grubu (~6570) artık `:not(.ikincil)`.
+  ~3236'daki nötr kural koyu temadan kalma ("iptal bir kazanım değil"); sonra gelen turuncu kural onu her düğmede eziyordu.
+  Yeni tek tanım `.bd-modal-katman .btn.ikincil`: beyaz, #C4530F yazı (4,57:1), turuncu kenar; koyu: `--bd-yuzey-2` + #FF9A4D (6,27:1).
+  Paket 37 E'nin iki pencereye özel kuralları silindi. Ölçüldü (açık+koyu): mod seçimi, yarım maç, kurulum sihirbazı.
+- **C** Düello parite: sonuç sahnesi / kalpler / ödül hapları / görev satırı / Detay boşluğu VAR; joker fiyat rozeti + soluk VAR
+  (DuelloPage kendi çubuğu); bildirim izni kartı sonuçtan ÇIKMIŞ; giriş yolları diğer modlarla aynı (Hemen oyna penceresi,
+  ana sayfa kartı, arkadaş → mod penceresi, meydan mod anahtarı). Profil kartı hiçbir modun sonuç ekranında yok (Paket 35 C
+  yalnız Arkadaşlar/Lig/Turnuva/Sohbet) — soruldu.

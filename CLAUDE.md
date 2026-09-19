@@ -350,6 +350,12 @@ Bunlar onaylanmış kararlardır, aksini yapma:
   bakılmaz.
 - Özel isimler asla çevrilmez (şair "Cami" → "Jami", "Mosque" DEĞİL)
 
+### Mod paritesi — KALICI KURAL (Paket 38, 19 Eyl 2026)
+
+- Bir moda yapılan kozmetik/arayüz düzeltmesi, aynı sorunun bulunduğu **bütün modlara**
+  aynen uygulanır. **Düello da diğer modlar gibidir, ayrı tutulmaz.** Her düzeltmede
+  "düelloda (ve öteki modlarda) da var mı" diye bak, varsa aynısını orada da yap. Sorma.
+
 ### Reddedilmiş fikirler — tekrar önerme
 
 - "Hızlı cevap modu" (herkese aynı anda aynı soru)
