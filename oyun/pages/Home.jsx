@@ -696,7 +696,7 @@ export default function Home() {
                         </div>
                       </div>
                       {g.alindi ? (
-                        <span className="rutbe-chip" style={{ color: "var(--success)" }}>+{g.odul}</span>
+                        <span className="rutbe-chip" style={{ color: "var(--bd-basari-metin, #177A45)" }}>+{g.odul}</span>
                       ) : tamam ? (
                         <button className="btn kucuk" onClick={() => odulAl(g.quest_id)}>
                           {`+${g.odul} al`}

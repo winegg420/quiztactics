@@ -7929,3 +7929,38 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   font-size: 24px;
   color: var(--bd-metin);
 }
+
+/* ============================================================
+   PAKET 40 J — OKUNMAYAN YAZILAR (Paket 39 denetimi, 3:1 altı ölçülenler)
+   Renkler Şenlik paletinin metin tonlarından: --bd-basari-metin #177A45,
+   --bd-hata-metin #B01F19, koyu turuncu #A8450C. Ölçümler PAKET40_RAPOR.md'de.
+   ============================================================ */
+/* Turnuva canlı bandı ve "Elendin" (1,94 / 2,75) */
+.app .durum-bandi.canli { color: #0F5F34; }   /* #177A45 yeşil zeminde 4,38 kaldı */
+.app .durum-bandi.elendi { color: #B01F19; }
+/* Çalışma bandı, "bankandan · n kez yanlış", cevap sonrası satırlar (1,99 / 2,82 / 2,89) */
+.app .bd-calisma-serit { color: #177A45; }
+.app .bd-calisma-rozet { color: #B01F19; }
+.app .bd-calisma-geri.uyari { color: #B01F19; }
+.app .bd-calisma-geri.iyi { color: #177A45; }
+/* Meydan kategori kartı "0 soru · %0 çözüldü" (2,34) — opaklıkla soluyordu */
+.app .bd-kat-yuzde { opacity: 1; color: var(--bd-metin-2); }
+/* Grup skor tablosunda kendi adın turuncu/krem (2,73) */
+.app .grup-skor-satir.sen .isim { color: #A8450C; }
+/* Kilitli rozet açıklaması (2,73): kartın 0.65 opaklığı kalır, açıklama koyu metin */
+.app .rozet.kilitli .rozet-aciklama { color: var(--bd-metin); }
+/* Kartın 0.65 opaklığı krem zeminde koyu metni bile 4,26'ya çekiyordu; 0.8 kilitli hissini koruyor */
+.app .rozet.kilitli { opacity: 0.8; }
+/* Maç tabelası: geride olan taraf bütünüyle 0.62 soluyordu — "3/10" 2,55, ad 3,87.
+   Sönüklük ipucu avatar ve skorda kalır, yazılar tam opak. */
+.app .bd-vs-taraf.geride { opacity: 1; }
+.app .bd-vs-taraf.geride > .bd-cerceve,
+.app .bd-vs-taraf.geride > .skor { opacity: 0.62; }
+/* Alt sekme etiketleri 9,5 px → 11 px; aktif etiket turuncusu koyulaştı (2,92 → ≥4,5) */
+.app .tabbar a { font-size: 11px; }
+.app .tabbar a.aktif { color: #C4530F; }
+/* 360 px'te 11 px "Arkadaşlar" sekmeye sığmıyordu: dar ekranda iç boşluk ve harf aralığı daralır */
+@media (max-width: 374px) {
+  .app .tabbar { padding-left: 0; padding-right: 0; }
+  .app .tabbar a { padding-left: 0; padding-right: 0; letter-spacing: -0.04em; }
+}

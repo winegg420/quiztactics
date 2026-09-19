@@ -670,7 +670,7 @@ export default function TournamentPage() {
         <div className="baslik">{tt("Hayatta Kalanlar")}</div>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
           {hayatta.map((o) => (
-            <span key={o.user_id} className="rutbe-chip" style={{ color: "var(--success)" }}>
+            <span key={o.user_id} className="rutbe-chip" style={{ color: "var(--bd-basari-metin, #177A45)" }}>
               {o.profil?.gorunen_ad} ({o.dogru_sayisi} {tt("doğru)")}
             </span>
           ))}

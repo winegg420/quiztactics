@@ -1210,8 +1210,8 @@ export default function ChallengesPage() {
                     color: berabere
                       ? "var(--text-dim)"
                       : kazandim
-                        ? "var(--success)"
-                        : "var(--danger)",
+                        ? "var(--bd-basari-metin, #177A45)"
+                        : "var(--bd-hata-metin, #B01F19)",
                   }}
                 >
                   {berabere ? tt("Berabere") : kazandim ? tt("Kazandın") : tt("Kaybettin")}
@@ -1382,8 +1382,8 @@ export default function ChallengesPage() {
                     color: berabere
                       ? "var(--text-dim)"
                       : kazandim
-                        ? "var(--success)"
-                        : "var(--danger)",
+                        ? "var(--bd-basari-metin, #177A45)"
+                        : "var(--bd-hata-metin, #B01F19)",
                   }}
                 >
                   {berabere ? tt("Berabere") : kazandim ? tt("Kazandın") : tt("Kaybettin")}
@@ -1418,8 +1418,8 @@ export default function ChallengesPage() {
                     color: berabere
                       ? "var(--text-dim)"
                       : kazandim
-                        ? "var(--success)"
-                        : "var(--danger)",
+                        ? "var(--bd-basari-metin, #177A45)"
+                        : "var(--bd-hata-metin, #B01F19)",
                   }}
                 >
                   {berabere ? tt("Berabere") : kazandim ? tt("Kazandın +{0}", { 0: odul }) : tt("Kaybettin")}

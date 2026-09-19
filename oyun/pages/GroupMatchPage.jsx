@@ -384,10 +384,11 @@ export default function GroupMatchPage() {
                 className="rutbe-chip"
                 style={{
                   color:
+                    // Paket 40 J: --success/--danger yazı olarak 2,2:1 idi; paletin metin tonları
                     k.davet_durumu === "kabul"
-                      ? "var(--success)"
+                      ? "var(--bd-basari-metin, #177A45)"
                       : k.davet_durumu === "red"
-                        ? "var(--danger)"
+                        ? "var(--bd-hata-metin, #B01F19)"
                         : "var(--text-dim)",
                 }}
               >
