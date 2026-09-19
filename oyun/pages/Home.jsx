@@ -742,9 +742,14 @@ export default function Home() {
             sekmesinin birebir aynısıydı; sekme zaten alt çubukta duruyor.
             Şerit kaldırıldı, haftalık geri sayım kaldı (zamana bağlı bilgi,
             başka yerde yok). */}
-        <div className="bd-hero-hafta">
-          <Ikon ad="saat" boyut={13} /> {tt("Haftalık lig bitimine")} <b>{sureMetni(haftaKalan)}</b>
-        </div>
+        {/* Paket 42 B.2: başıboş soluk satır yerine başlıklı, Lig sekmesine götüren şerit */}
+        <Link to={y("/siralama")} className="bd-hero-hafta">
+          <span className="bd-hero-hafta-baslik"><Ikon ad="kupa" boyut={14} /> {tt("Lig")}</span>
+          <span className="bd-hero-hafta-metin">
+            <Ikon ad="saat" boyut={13} /> {tt("Haftalık lig bitimine")} <b>{sureMetni(haftaKalan)}</b>
+          </span>
+          <Ikon ad="ok" boyut={14} />
+        </Link>
       </section>
 
       {/* ============ KATMAN 3 — BAŞKA NASIL OYNANIR ============

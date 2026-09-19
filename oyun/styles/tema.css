@@ -8138,3 +8138,27 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   box-shadow: 0 4px 0 var(--bd-vurgu-2), 0 9px 14px rgba(32, 50, 74, 0.18);
 }
 .app .anasayfa .bd-ana-eylem:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--bd-vurgu-2); }
+
+/* ============================================================
+   PAKET 42 B — ana sayfa mod ızgarası dengeli
+   Düello tam genişlik; kalan dört kart 2×2 (Saf Bilgi | Meydan Oku, Turnuva | Hatalarım).
+   Eski ":last-child:nth-child(odd)" kuralı Düello'yu saymadığı için Hatalarım'ı
+   tam genişliğe çekiyor, Turnuva tek kalıyordu. Yan yana kartlar eşit yükseklikte.
+   ============================================================ */
+.app .anasayfa .bd-mod-grid { align-items: stretch; grid-auto-rows: 1fr; }
+.app .anasayfa .bd-mod-grid > .bd-mod-duello ~ .bd-mod:last-child:nth-child(odd) { grid-column: auto; }
+.app .anasayfa .bd-mod-grid .bd-mod { height: 100%; max-height: none; min-height: 104px; }
+/* B.2 — "Haftalık lig bitimine" başlıklı şerit (Lig sekmesine gider) */
+.app .anasayfa a.bd-hero-hafta {
+  display: flex; align-items: center; gap: 8px; justify-content: flex-start;
+  min-height: 44px; margin-top: var(--bd-bosluk-3); padding: 8px 12px;
+  background: #FFFFFF; border: 1px solid var(--bd-kenar); border-radius: 14px;
+  box-shadow: 0 4px 0 rgba(32, 50, 74, .10);
+  color: var(--bd-metin-2); text-decoration: none; font-size: 12.5px;
+}
+.app .anasayfa .bd-hero-hafta-baslik {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-family: "Baloo 2", system-ui, sans-serif; font-weight: 800; font-size: 14px; color: var(--bd-metin);
+}
+.app .anasayfa .bd-hero-hafta-metin { flex: 1; display: inline-flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+.app .anasayfa a.bd-hero-hafta:active { transform: translateY(4px); box-shadow: none; }
