@@ -4520,6 +4520,42 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 .app .bd-davet-bandi {
   color: #fff;   /* ikisinin de zemini kendi renkli gradyanı */
 }
+/* Paket 40 B — davet bandının renkli gradyanı hiç uygulanmıyordu: zemin --bd-yuzey-2 (açık)
+   üstünde beyaz yazı 1,00:1 idi. Tür başına gerçek zemin + ona göre yazı rengi (iki temada aynı,
+   sabit renkler). Ölçülen en düşük: düello beyaz/#C4530F 4,57:1. */
+.app .bd-davet-bandi.tur-mac,
+.app .bd-davet-bandi.tur-rovans,
+.app .bd-davet-bandi.tur-hizli {
+  background: linear-gradient(135deg, #FFD27A, #F2B23C);   /* yazı #3A1A04: 8,4–11,1:1 */
+  color: #3A1A04;
+}
+.app .bd-davet-bandi.tur-grup {
+  background: linear-gradient(135deg, #0A6FAE, #035B8C);   /* beyaz: 5,4–7,3:1 */
+  color: #fff;
+}
+.app .bd-davet-bandi.tur-duello {
+  background: linear-gradient(135deg, #C4530F, #9A2D0B);   /* beyaz: 4,6–7,6:1 */
+  color: #fff;
+}
+/* Alt satır opaklıkla soluyordu (0.8) — renkli zeminde AA'nın altına düşüyor */
+.app .bd-davet-bandi .bd-davet-alt { opacity: 1; }
+/* Kabul: bandın üstünde beyaz, koyu yazı (15,8:1). Reddet: yarı saydam beyaz daire + bandın yazı rengi. */
+.app .bd-davet-bandi .bd-davet-btn.kabul { background: #fff; color: #3A1A04; }
+.app .bd-davet-bandi .bd-davet-btn.ret {
+  background: rgba(255, 255, 255, 0.35);
+  border: 2px solid currentColor;
+  color: inherit;
+}
+/* Beyaz yazılı bantlarda açık daire ✕'yi soldururdu (≈2,6:1); koyulaştırılmış daire */
+.app .bd-davet-bandi.tur-grup .bd-davet-btn.ret,
+.app .bd-davet-bandi.tur-duello .bd-davet-btn.ret { background: rgba(0, 0, 0, 0.22); }
+/* Aynı hata üst bildirim şeridinde de vardı (--ts-1/--ts-2 tanımlı, hiç kullanılmıyor; beyaz / açık zemin 1,14:1). */
+.app .bd-ust-toast.onemli,
+.app .bd-ust-toast.odul { background: linear-gradient(135deg, #FFD27A, #F2B23C); color: #3A1A04; }   /* 8,4–11,1:1 */
+.app .bd-ust-toast.uyari { background: linear-gradient(135deg, #B45309, #92400E); color: #fff; }       /* 5,0–7,1:1 */
+.app .bd-ust-toast.bilgi { background: linear-gradient(135deg, #0A6FAE, #035B8C); color: #fff; }       /* 5,4–7,3:1 */
+.app .bd-ust-toast.kabul { background: linear-gradient(135deg, #C4530F, #9A2D0B); color: #fff; }       /* 4,6–7,6:1 */
+.app .bd-ust-toast .bd-toast-baslik { opacity: 1; }
 
 /* Bildirim zili rozeti */
 .app .bd-zil-rozet {
