@@ -715,7 +715,8 @@ export default function ChallengesPage() {
       <h1 className="baslik">{tt("Meydan Okuma")}</h1>
       {/* Paket 9: sahibi otomatik eşleştirmenin kategorisini burada aradı. */}
       <p className="alt-yazi" style={{ marginTop: -6, marginBottom: 12 }}>
-        {tt("Bu sayfa bota ya da arkadaşına meydan okumak içindir. \"Hemen oyna\" ve \"Dereceli Maç\"ın rakip arayacağı kategori Ana Sayfa'dan seçilir.")}
+        {/* Paket 42 H.2: tek cümle; artık olmayan "Dereceli Maç" düğmesinden bahsetmiyor */}
+        {tt("Bota ya da bir arkadaşına meydan oku.")}
       </p>
       {hata && <div className="hata-kutu">{hata}</div>}
       {macHata && (
@@ -919,7 +920,7 @@ export default function ChallengesPage() {
                   {tt("Zorluk:")} <span style={{ color: z.renk, fontWeight: 700 }}>{z.etiket}</span> {tt("· her zaman hazır")}
                 </div>
               </div>
-              <button className="btn kucuk" onClick={() => meydanOku(b.id)}>
+              <button className="btn kucuk ikincil" onClick={() => meydanOku(b.id)}>
                 {tt("Meydan oku")}
               </button>
             </div>
@@ -944,7 +945,7 @@ export default function ChallengesPage() {
             <div key={p.id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 0" }}>
               <AvatarCerceve profile={p} boyut={34} />
               <span style={{ flex: 1, fontWeight: 600 }}>{p.gorunen_ad}</span>
-              <button className="btn kucuk" onClick={() => meydanOku(p.id)}>
+              <button className="btn kucuk ikincil" onClick={() => meydanOku(p.id)}>
                 {tt("Meydan oku")}
               </button>
             </div>
@@ -1083,8 +1084,8 @@ export default function ChallengesPage() {
       )}
 
       {oyuncular.length > 0 && (
-        <>
-          <div className="baslik">{tt("Oyuncular")}</div>
+        <details className="bd-katlanir">
+          <summary className="baslik">{tt("Oyuncular")} <span className="bd-katlanir-sayi">({oyuncular.length})</span></summary>
           {oyuncular.map((p) => {
             const mevcutMac = maclar.some(
               (m) =>
@@ -1099,14 +1100,14 @@ export default function ChallengesPage() {
                   <div className="detay"><Ikon ad="yildiz" boyut={13} /> {p.puan}</div>
                 </div>
                 {!mevcutMac && (
-                  <button className="btn kucuk" onClick={() => meydanOku(p.id)}>
+                  <button className="btn kucuk ikincil" onClick={() => meydanOku(p.id)}>
                     {tt("Meydan oku")}
                   </button>
                 )}
               </div>
             );
           })}
-        </>
+        </details>
       )}
 
       {/* Kurduğun düello davetleri — rakip yanıtlayana kadar burada durur, geri alınabilir */}
@@ -1209,8 +1210,8 @@ export default function ChallengesPage() {
       )}
 
       {hizliBiten.length > 0 && (
-        <>
-          <div className="baslik">{tt("Biten hızlı yarışlar")}</div>
+        <details className="bd-katlanir">
+          <summary className="baslik">{tt("Biten hızlı yarışlar")} <span className="bd-katlanir-sayi">({hizliBiten.length})</span></summary>
           {hizliBiten.map((hm) => {
             const kazandim = hm.kazanan === user.id;
             const berabere = hm.kazanan === null;
@@ -1240,7 +1241,7 @@ export default function ChallengesPage() {
               </div>
             );
           })}
-        </>
+        </details>
       )}
 
       {grupAktif.length > 0 && (
@@ -1380,8 +1381,8 @@ export default function ChallengesPage() {
       })()}
 
       {biten.length > 0 && (
-        <>
-          <div className="baslik">{tt("Bitenler")}</div>
+        <details className="bd-katlanir">
+          <summary className="baslik">{tt("Bitenler")} <span className="bd-katlanir-sayi">({biten.length})</span></summary>
           {biten.map((m) => {
             const kazandim = m.kazanan === user.id;
             const berabere = m.kazanan === null;
@@ -1412,12 +1413,12 @@ export default function ChallengesPage() {
               </div>
             );
           })}
-        </>
+        </details>
       )}
 
       {grupBiten.length > 0 && (
-        <>
-          <div className="baslik">{tt("Biten grup maçları")}</div>
+        <details className="bd-katlanir">
+          <summary className="baslik">{tt("Biten grup maçları")} <span className="bd-katlanir-sayi">({grupBiten.length})</span></summary>
           {grupBiten.map((gm) => {
             const kazandim = gm.kazanan === user.id;
             const berabere = gm.kazanan === null;
@@ -1448,7 +1449,7 @@ export default function ChallengesPage() {
               </div>
             );
           })}
-        </>
+        </details>
       )}
     </div>
   );

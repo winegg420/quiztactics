@@ -8235,3 +8235,23 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 .app .bd-duello-kural-detay { font-weight: 800; color: #C4530F; text-decoration: underline; text-underline-offset: 2px; }
 .app .bd-duello-kural-kisa[open] .bd-duello-kural-detay { text-decoration: none; }
 .app .bd-duello-kural-kisa > summary:focus-visible { outline: 3px solid var(--bd-vurgu); outline-offset: 2px; border-radius: 8px; }
+
+/* ============================================================
+   PAKET 42 H — Meydan okumalar: uzun sayfa katlanır bölümlere bölündü
+   "Oyuncular" (üstteki arkadaş listesinin puanlı hâli) ve biten maç listeleri
+   varsayılan KAPALI; başlığa dokununca açılır. Davetler ve devam edenler açık kalır.
+   ============================================================ */
+.app details.bd-katlanir { margin-bottom: 4px; }
+.app details.bd-katlanir > summary.baslik {
+  display: flex; align-items: center; gap: 6px; min-height: 44px;
+  cursor: pointer; list-style: none;
+}
+.app details.bd-katlanir > summary::-webkit-details-marker { display: none; }
+.app details.bd-katlanir > summary.baslik::after {
+  content: "›"; margin-left: auto; font-size: 22px; line-height: 1; color: var(--bd-metin-2);
+  transition: transform .18s ease-out;
+}
+.app details.bd-katlanir[open] > summary.baslik::after { transform: rotate(90deg); }
+.app .bd-katlanir-sayi { font-weight: 700; color: var(--bd-metin-2); }
+.app details.bd-katlanir > summary:focus-visible { outline: 3px solid var(--bd-vurgu); outline-offset: 2px; border-radius: 8px; }
+@media (prefers-reduced-motion: reduce) { .app details.bd-katlanir > summary.baslik::after { transition: none; } }
