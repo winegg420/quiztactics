@@ -8201,3 +8201,26 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 .app .bd-hazir-etiket.hazir { color: var(--bd-basari-metin); font-weight: 800; }
 .app .bd-vs-ilerleme.hazir::before,
 .app .bd-hazir-etiket.hazir::before { content: "✓ "; }
+
+/* ============================================================
+   PAKET 42 E — maç sonu
+   ============================================================ */
+/* E.4 kısa içerikte çubuk ekranın ortasında kalmasın: sahne sekme çubuğuna kadar uzar
+   (--mss-min, MacSonuSahnesi ölçer), çubuk en alta iner. */
+.app .mss { display: flex; flex-direction: column; min-height: var(--mss-min, auto); }
+.app .mss > .mss-eylem { margin-top: auto; }
+/* margin-top: auto eski 16 px aralığı yuttu; çubuktan önceki öğe aralığı kendisi bırakır */
+.app .mss > :has(+ .mss-eylem) { margin-bottom: 16px; }
+/* E.1 çubuk inceldi (135 px ≈ ekranın %16'sı): düğme 50 → 44 px, iç boşluk 12 → 8 px */
+.app .mss > .mss-eylem { padding: 8px 12px calc(8px + var(--mss-guvenli, env(safe-area-inset-bottom))); gap: 8px; }
+.app .mss .mss-eylem .btn,
+.app .mss .mss-eylem .btn.ikincil { min-height: 44px; padding: 9px 14px; font-size: 15px; }
+/* E.2 masaüstünde çubuk içerikten dar, yüzen kutu gibi duruyordu: zemini alt sekme çubuğu
+   genişliğine (620 px) uzar — gölge yayılımı + yatay kırpma; yerleşim değişmez. */
+.app .mss > .mss-eylem {
+  box-shadow: 0 0 0 100vmax rgba(255, 255, 255, 0.72);
+  clip-path: inset(0 min(0px, calc((100% - 620px) / 2)));
+}
+:root[data-tema="koyu"] .app .mss > .mss-eylem { box-shadow: 0 0 0 100vmax rgba(16, 20, 28, 0.72); }
+/* E.3 tamamlanan görev: ödül nereden alınır */
+.app .mss-gorev-ipucu { margin: 2px 0 0; font-size: 12px; font-weight: 700; color: var(--bd-basari-metin); text-align: left; }

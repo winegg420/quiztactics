@@ -1502,6 +1502,7 @@ const SOZLUK = {
     "daveti görmedi — bekleniyor": "hasn't seen the invite yet — waiting",
     "Daveti geri çek": "Withdraw invite",
     "Günlük Görevler": "Daily Quests",
+    "Ödülünü ana sayfadaki Günlük Görevler'den al": "Claim your reward from Daily Quests on the home page",
     "{0} ödül hazır!": "{0} rewards ready!",
     "Haftalık lig bitimine": "Weekly league ends in",
     "Başka nasıl oynanır": "Other ways to play",

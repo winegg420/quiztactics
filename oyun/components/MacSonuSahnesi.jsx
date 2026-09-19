@@ -127,6 +127,8 @@ function GorevIlerlemesi({ gorevler, atlandi, baslangic }) {
     .sort((a, b) => oran(b) - oran(a))
     .slice(0, 2);
   if (!secilen.length) return null;
+  // Paket 42 E.3: tamamlanan görevin ödülü kendiliğinden gelmiyor — nereden alınacağını söyle
+  const alinacak = secilen.some((g) => g.ilerleme >= g.hedef && !g.alindi);
   return (
     <div className="mss-gorevler mss-sira" aria-label={tt("Günlük görevler")}
          style={atlandi ? undefined : { animationDelay: `${gecikme}ms` }}>
@@ -144,6 +146,7 @@ function GorevIlerlemesi({ gorevler, atlandi, baslangic }) {
           </div>
         );
       })}
+      {alinacak && <p className="mss-gorev-ipucu">{tt("Ödülünü ana sayfadaki Günlük Görevler'den al")}</p>}
     </div>
   );
 }
@@ -264,6 +267,10 @@ export default function MacSonuSahnesi({
       const h = tb && getComputedStyle(tb).display !== "none" ? tb.getBoundingClientRect().height : 0;
       kok.style.setProperty("--mss-eylem-alt", `${Math.round(h)}px`);
       kok.style.setProperty("--mss-guvenli", h ? "0px" : "env(safe-area-inset-bottom)");
+      // Paket 42 E.4: içerik kısa kalınca eylem çubuğu ekranın ortasında kalıyordu. Sahne en az
+      // "sahnenin başından sekme çubuğuna kadar" uzar; çubuk en alta iner (margin-top: auto).
+      const ust = kok.getBoundingClientRect().top + window.scrollY;
+      kok.style.setProperty("--mss-min", `calc(100dvh - ${Math.round(ust + h)}px)`);
     };
     olc();
     window.addEventListener("resize", olc);
@@ -347,7 +354,16 @@ export default function MacSonuSahnesi({
       {ozet && (
         <div className={`mss-detay mss-sira${detayAcik ? " acik" : ""}`}>
           <button type="button" className="mss-detay-dugme" aria-expanded={detayAcik}
-                  onClick={(e) => { e.stopPropagation(); setDetayAcik((a) => !a); }}>
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    // Paket 42 E.1: açılınca Detay başa kaydırılır; içerik çubuğun arkasında kalmaz
+                    if (!detayAcik) {
+                      const dugme = e.currentTarget;
+                      const azalt = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+                      requestAnimationFrame(() => dugme.scrollIntoView({ block: "start", behavior: azalt ? "auto" : "smooth" }));
+                    }
+                    setDetayAcik((a) => !a);
+                  }}>
             <span>{tt("Detay")}</span>
             {detayRozet > 0 && <span className="mss-detay-rozet">({detayRozet})</span>}
             <svg className="mss-detay-ok" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
