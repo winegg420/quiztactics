@@ -42,6 +42,7 @@ import KarsilasmaSahnesi, { KARSILASMA_ANIM_MS } from "../components/KarsilasmaS
 import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesJoker, sesKazandin, sesKaybettin, sesDokunus, sesRakipBulundu, sesCanKaybi } from "../lib/ses.js";
 import { titret } from "../lib/geriBildirim.js";
 import { tt } from "../lib/dil.js";
+import { useOyunModu } from "../lib/oyunModu.js";
 
 const HARFLER = ["A", "B", "C", "D"];
 
@@ -274,6 +275,8 @@ function DuelloMac({ id }) {
   // joker envantere girer, kullanımı Saldırı Hazırlığı'nda yapılır.
   const [satinAlinacak, setSatinAlinacak] = useState(null);
   const [dokumToplam, setDokumToplam] = useState(null);   // Paket 20 I.3: sunucu dökümünün toplamı
+  // Paket 40 D: öteki modlar gibi maç sürerken sekme/üst çubuk gizlenir (jokerleri örtüyordu).
+  useOyunModu(d?.durum === "aktif");
   const [gorevler, setGorevler] = useState([]);   // Paket 37 D.1: sahnede Detay'ın üstünde
   // Paket 30 C: rövanş bekleme penceresi — yalnız arayüz durumu (sunucuya dokunmaz)
   const [rovBas, setRovBas] = useState(null);          // bekleme başladığı yerel an (ms)

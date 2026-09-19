@@ -2201,6 +2201,10 @@ input:focus { border-color: var(--primary); }
 
 /* ---------- Oyun modu: soru ekranında alt sekme çubuğu gizlenir ---------- */
 body.bd-oyun-modu .tabbar { display: none; }
+/* Paket 40 D: maç sürerken üst çubuk (zil, coin, görünüm, profil) da gizlenir — soru ortasında
+   zile/profile basıp maçtan çıkılabiliyordu. Tek nokta: useOyunModu'nun koyduğu body sınıfı.
+   Maçın kendi çıkış düğmesi (X / Düellodan çık) sayfanın içinde, etkilenmez. */
+body.bd-oyun-modu .bd-ust-blok { display: none; }
 body.bd-oyun-modu .app { padding-bottom: calc(120px + env(safe-area-inset-bottom)); }
 
 /* Joker çubuğu ekranın altına sabitlenir (dikkat soruda kalsın) */
