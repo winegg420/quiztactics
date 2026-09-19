@@ -15,6 +15,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import AvatarCerceve from "../components/AvatarCerceve.jsx";
+import AvatarDugmesi from "../components/AvatarDugmesi.jsx";
 import QuestionCard from "../components/QuestionCard.jsx";
 import { y } from "../lib/yol.js";
 import { useGorunurlukTazele, zamanAsimiyla } from "../lib/gorunurluk.js";
@@ -488,7 +489,9 @@ export default function GroupMatchPage() {
                 <div className="mss-avatar" style={{ "--boyut": `${sira === 1 ? 88 : 64}px` }}>
                   {sira === 1 && <span className="mss-hale" aria-hidden="true" />}
                   {sira === 1 && <span className="mss-tac" aria-hidden="true"><Ikon ad="kupa" boyut={18} /></span>}
-                  <AvatarCerceve profile={k.profil} boyut={sira === 1 ? 88 : 64} userId={k.user_id} />
+                  <AvatarDugmesi userId={k.user_id} profil={k.profil} kendi={k.user_id === user.id}>
+                    <AvatarCerceve profile={k.profil} boyut={sira === 1 ? 88 : 64} userId={k.user_id} />
+                  </AvatarDugmesi>
                 </div>
                 <div className="mss-isim">
                   <span className="mss-isim-metin">{k.profil?.gorunen_ad}</span>
@@ -508,7 +511,9 @@ export default function GroupMatchPage() {
               {siraliSkor.map((k, i) => (
                 <div key={k.user_id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "6px 0" }}>
                   <span className={`sira-no ${i < 1 ? "ilk3" : ""}`}>{i + 1}</span>
-                  <AvatarCerceve profile={k.profil} boyut={34} userId={k.user_id} />
+                  <AvatarDugmesi userId={k.user_id} profil={k.profil} kendi={k.user_id === user.id}>
+                    <AvatarCerceve profile={k.profil} boyut={34} userId={k.user_id} />
+                  </AvatarDugmesi>
                   <span style={{ flex: 1, fontWeight: 600, textAlign: "left" }}>
                     {k.profil?.gorunen_ad}{k.user_id === user.id && <SenRozeti />}
                   </span>

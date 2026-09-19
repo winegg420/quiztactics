@@ -8046,3 +8046,10 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 .app .bd-avatar-menu-dil > button.aktif { background: var(--bd-vurgu); color: var(--bd-vurgu-ustu, #3A1A04); }
 .app .bd-avatar-menu-dil > button:focus-visible { outline: 3px solid var(--bd-vurgu); outline-offset: 2px; }
 .app .bd-avatar-menu > button.cikis { color: #B01F19; border-top: 1px solid var(--bd-kenar); border-radius: 0 0 12px 12px; }
+/* Paket 41 D — maç sonunda başka oyuncunun avatarı profil kartını açar */
+.bd-avatar-dugmesi {
+  display: inline-flex; padding: 0; margin: 0; border: 0; background: none;
+  border-radius: 50%; cursor: pointer; min-width: 44px; min-height: 44px;
+  align-items: center; justify-content: center; font: inherit; color: inherit;
+}
+.bd-avatar-dugmesi:focus-visible { outline: 3px solid var(--bd-vurgu); outline-offset: 3px; }

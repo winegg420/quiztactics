@@ -20,6 +20,7 @@ import Avatar from "../../src/components/Avatar.jsx";
 import OyuncuKarti from "../components/OyuncuKarti.jsx";
 import { useArkadaslik } from "../lib/arkadaslik.js";
 import AvatarCerceve from "../components/AvatarCerceve.jsx";
+import AvatarDugmesi from "../components/AvatarDugmesi.jsx";
 import { useNavigate } from "react-router-dom";
 import { y } from "../lib/yol.js";
 import { useGorunurlukTazele, zamanAsimiyla } from "../lib/gorunurluk.js";
@@ -411,7 +412,9 @@ export default function TournamentPage() {
                   <div className="mss-avatar" style={{ "--boyut": "96px" }}>
                     <span className="mss-hale" aria-hidden="true" />
                     <span className="mss-tac" aria-hidden="true"><Ikon ad="kupa" boyut={18} /></span>
-                    <AvatarCerceve profile={kazanan.profil} boyut={96} userId={kazanan.user_id} />
+                    <AvatarDugmesi userId={kazanan.user_id} profil={kazanan.profil} kendi={kazanan.user_id === user?.id}>
+                      <AvatarCerceve profile={kazanan.profil} boyut={96} userId={kazanan.user_id} />
+                    </AvatarDugmesi>
                   </div>
                   <div className="mss-isim"><span className="mss-isim-metin">{kazanan.profil?.gorunen_ad}</span></div>
                   <div className="mss-taraf-ek">{tt("Şampiyon")}</div>

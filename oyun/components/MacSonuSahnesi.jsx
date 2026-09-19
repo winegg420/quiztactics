@@ -19,6 +19,7 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import AvatarCerceve from "./AvatarCerceve.jsx";
+import AvatarDugmesi from "./AvatarDugmesi.jsx";
 import Ikon from "./Ikon.jsx";
 import SayanSayi from "./SayanSayi.jsx";
 import SenRozeti from "./SenRozeti.jsx";
@@ -76,7 +77,10 @@ function Taraf({ kisi, rol, yan, adim, atlandi, canToplam, sen }) {
         {rol === "kazanan" && (
           <span className="mss-tac" aria-hidden="true"><Ikon ad="kupa" boyut={18} /></span>
         )}
-        <AvatarCerceve profile={kisi?.profil} boyut={boyut} userId={kisi?.profil?.id} />
+        {/* Paket 41 D: rakibin avatarına dokununca profil kartı (kendi avatarın düz kalır) */}
+        <AvatarDugmesi userId={kisi?.profil?.id} profil={kisi?.profil} kendi={Boolean(sen) || yan === "sol"}>
+          <AvatarCerceve profile={kisi?.profil} boyut={boyut} userId={kisi?.profil?.id} />
+        </AvatarDugmesi>
       </div>
       <div className="mss-isim">
         <span className="mss-isim-metin">{kisi?.profil?.gorunen_ad ?? ""}</span>
