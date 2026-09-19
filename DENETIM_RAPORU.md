@@ -555,3 +555,58 @@ dukkan-joker-coin-az-390-acik · dukkan-coin-{390,1280}-acik · dukkan-hata-390-
 - Coin sekmesi dürüst: "Satın alma yalnızca Android uygulamasında yapılabilir", paketlerde "Uygulamada" düğmesi, günlük reklam sayacı "bugün 0/5".
 - Ödeme ve iade notu + Gizlilik Politikası bağlantısı her sekmede.
 - Joker kuralları dört maddede açık ("Bir maçta en çok 4 joker…", "Turnuva finalinde… kullanılamaz").
+
+---
+
+## 19. Profil (`/profil`)
+Görüntüler: profil-istatistik-{390,1280}-{acik,koyu}.png · profil-istatistik-390-en · profil-*-tam-*.png · profil-ayarlar-390-{acik,koyu} ·
+profil-rozetler-390-acik · profil-davet-390-acik · profil-hata-390-acik
+
+### 🟡 Eksik
+- Profil verisi gelmezse sayfa sonsuza dek "Yükleniyor…" diyor; hata mesajı ve "Tekrar dene" yok. Nerede: `oyun/pages/ProfilePage.jsx:84`
+  (`if (!profile) return … "Yükleniyor…"`). Kanıt: profil-hata-390-acik.png.
+- Sekmeler (İstatistiklerim / Ayarlar / Rozetler / Davet) sayfanın ikinci ekranında: üstte kimlik kartı, lig çerçeveleri ve istatistik kutuları var.
+  Ayarlara ulaşmak: Profil sekmesi → ~900 px kaydır → Ayarlar (kaydırma dahil 3 adım). Ses ve dil de burada. Kanıt: profil-ayarlar-tam-390-acik.png.
+- Kilitli rozetlerin açıklaması **2,73:1** (10 px), adı 4,26:1 (12 px). Paket 37'deki 4,72:1 ölçümü beyaz kart içindi; kilitli rozet kartı krem zeminde.
+  Kanıt: profil-rozetler-390-acik.png.
+- Ayarlar'daki davet kodu kutusu "–" ve "Davet linkini kopyala" soluk: kod gelmezse neden olduğu yazmıyor (❔ sahte ortamda kod yoktu).
+
+### 🔵 Kozmetik
+- İstatistik kutularının etiketleri anlaşılmıyor: "1 — TURNUVAYA KALDI", "1 — MAÇ İLE SERİ BAŞLAR" (`ProfilePage.jsx:135,146`). Sayı ile etiket arasındaki
+  ilişki belirsiz (bir turnuva mı kaldı, bir saat mi?).
+- Ayarların sonunda iki büyük dolu kırmızı düğme alt alta: "Hesabımı sil" ve "Çıkış Yap". Çıkış geri alınabilir bir eylem ama silme kadar ağır görünüyor;
+  silme de sayfanın en belirgin düğmesi. Kanıt: profil-ayarlar-tam-390-acik.png.
+- (Koyu tema) Rütbe rozeti "Çaylak" 1,47:1.
+
+### ✅ İyi olan
+- Ayarlar eksiksiz: takma ad (günde bir kez), avatar önizlemesi, varsayılan kategori, şehir, bildirim izni açıklaması ("tarayıcı ayarlarından engellenmiş…"),
+  oyun sesleri, dil (TR/EN), gizlilik, koşullar, hesabı silme uyarısı ("kalıcı olarak silinir. Bu işlem geri alınamaz."), çıkış.
+- Rozetler Paket 37 A'daki gibi: kilitli ikon görünür ama gri, köşede kilit. Davet sekmesi ödülü net söylüyor ("ikiniz de 200 coin").
+- Lig çerçevesi seçicisi (Paket 37 B) dört çerçeveyi ayırt edilir çiziyor.
+
+---
+
+## 20. Çalışma — Hatalarım (`/calisma`)
+Görüntüler: calisma-secim-{390,1280}-{acik,koyu}.png · calisma-secim-390-en · calisma-banka-bos · calisma-tur-soru · calisma-tur-yanlis ·
+calisma-tur-sonuc · calisma-hata (hepsi -390-acik aksi yazılmadıkça)
+
+### 🟡 Eksik
+- Banka okunamazsa ham hata + "Henüz yanlışın yok — maç yaptıkça burada birikecek." aynı anda çıkıyor; oyuncu bankasının silindiğini sanır.
+  Kanıt: calisma-hata-390-acik.png.
+- Tur ekranında "ÇALIŞMA · PUAN VERİLMEZ" bandı yeşil **1,99:1** (10,5 px); "bankandan · 2 kez yanlış" etiketi 2,82:1; "Yanlış — Hatalarım'a eklendi" 2,89:1.
+- Tur sırasında turdan çıkış düğmesi görünmüyor (ekranda X ya da "Turu bitir" yok; yalnız alt sekme çubuğu). Kanıt: calisma-tur-soru-390-acik.png.
+
+### 🔵 Kozmetik
+- Banka boşken üç adet düğmesi (10 / 20 / 30) iki sütunlu ızgarada yine L şekli yapıyor — Paket 37 G ızgarayı dört düğmeye göre 2 sütun yaptı;
+  "Bankan kadar" gizlenince 30 tek başına kalıyor. Kanıt: calisma-banka-bos-390-acik.png.
+- (Koyu tema) "Bu tur: 10 sorunun hepsi bankandan." bandı **1,07:1**.
+
+### ❔ Şüpheli / kurulamadı
+- Tur başlığında "Bu turdaki **undefined** sorunun hepsi bankandan." ve "1/0 · 0 soru kaldı" göründü. Sahte `calisma_baslat` yanıtında
+  `bankadan`/soru sayısı alanları yoktu; ama kod (`CalismaPage.jsx:423`) alan eksikse "undefined" yazdırıyor, koruması yok.
+- Tur sonucu ekranı çekilemedi (sahte akışta ikinci soru boş dönünce "Soru gelmedi" hatası çıktı).
+
+### ✅ İyi olan
+- Banka özeti kategori çubuklarıyla ("Bankanda 18 soru var · 5 tanesini öğrendin"); "Bankan kadar · 18" seçeneği.
+- Boş banka durumu iyi: maskot + açıklama + "Pratik turuna başla" (bankasız da çalışılabiliyor).
+- Yanlış cevap geri bildirimi Klasik ile aynı dilde (kırmızı seçim, yeşil doğru) + "Hatalarım'a eklendi".
