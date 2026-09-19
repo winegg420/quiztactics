@@ -374,6 +374,10 @@ dosyalar · geri açma adımları). Dağınık not bırakma, buraya ekle.
 | **"Hızlı Olan Kazanır"** | 15 Eyl 2026 | 14 | `oyun/pages/HizliMacPage.jsx` | `oyun_ayarlari.hizli_mac_acik = false` + BEFORE INSERT kapısı | Ayarı `true` yap · `/hizli-mac/:id` rotasını geri bağla · davet akışındaki `hizli` türünü aç |
 | **Eski 3B gardırop / atölye / yerel meydan** | 17 Eyl 2026 | 17 §D | `oyun/avatar3d/**` | yok (HTML girişleri yönlendiriyor) | Üç HTML'deki `location.replace` satırını kaldır · `/gorunum` ve `/gorunum-3b` rotalarını geri bağla · Dükkân › Görünüm sekmesini geri koy |
 
+**Paket 41 I (19 Eyl 2026):** donmuş oyun modu rotaları (`/hizli-mod`, `/hizli-mac/:id`) artık önce
+"Bu mod şu an kapalı." notunu gösterip 2,5 sn sonra ana sayfaya `replace` ile yönlenir
+(`oyun/pages/BulunamadiPage.jsx` `kapaliMod`); bilinmeyen adresler 404 sayfasına düşer.
+
 **Donmuş rotaların davranışı tutarlıdır (ölçüldü):** donmuş oyun modları `/bildim`'e,
 donmuş gardırop sayfaları `/gorunum`'a gider — her biri kendi modülünün
 yerine geçen sayfaya. Dört giriş de (iki React rotası + üç HTML) aynı biçimde

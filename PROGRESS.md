@@ -6728,3 +6728,15 @@ SQL/migration yok. 10 madde ayrı commit (34421f3 → 65dab5d), rapor `PAKET40_R
 - G giriş sayfası saatleri `turnuvaSaatleri()`'nden. **Canlı turnuva_saatleri = 7 seans (10:00…24:00); CLAUDE.md "13:00 ve 21:50" diyor — sahibine soruldu, varsayılan değiştirilmedi.**
 - H lig sekme şeridi kayar + solma ipucu. I çalışma "undefined" koruması + `t()` null-güvenli.
 - J 12 kontrast satırı ≥4,5; sekme etiketi 11 px (≤374 px'te sıkıştırılmış).
+
+## Paket 41 — Eksikler (19 Eyl 2026)
+
+SQL/migration yok. Commit'ler 41202c8 → rapor. Rapor: `PAKET41_RAPOR.md`.
+- A: ortak `DurumKutusu` (yukleniyor/hata/bos) + `useZamanAsimi`; AuthContext `profilHata`. 12 ekranda hata boş durumla karışmıyor, sahte "0 puan" yok.
+- B+E+H: ortak `MacUstSerit` (X 44px · mod rozeti · ses) altı modda aynı yerde; `ses.js › sesDinle` ile Ayarlar eşit. Çalışma turu da `useOyunModu`.
+- C: `AvatarMenu` (Profilim · Ayarlar · Ses · Dil · Çıkış), `/profil?sekme=ayarlar`.
+- D: `AvatarDugmesi` — maç sonunda rakip avatarı profil kartı açar (5 mod).
+- F: rakip arama 30 sn üst sınır + Tekrar dene/Bot/Vazgeç; düello araması 60 sn + Tekrar dene. G: yükleme hatası paritesi.
+- I: 404 (`BulunamadiPage`), donmuş rotalarda "Bu mod şu an kapalı" notu, `bilinenYol()`.
+- J: 44 px hedefler. K: giriş e-posta akışı; **Facebook canlıda kapalı — sahibine soruldu**. L: 2 düello bildirim kalıbı eklendi (gerisi zaten vardı).
+- M: grup hazır listesi nabızdan; turnuva izleyici sayacı; ödül satırı "…/—"; bekleyen davette geri çekme + süre; arkadaş çıkarma penceresi; davet kodu yok durumu; uzun soru küçülmesi; yasal sayfalarda Geri. İletişim adresi değiştirilmedi (sahibi verecek).
