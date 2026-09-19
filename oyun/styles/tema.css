@@ -8078,3 +8078,6 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   min-height: 44px; border: 0; background: none; cursor: pointer;
   font: inherit; font-weight: 800; color: #C4530F; text-decoration: underline;
 }
+/* Paket 41 M.2 — turnuvada izleyici sayacı */
+.app .bd-izleyici-sayac { margin-top: 8px; font-family: var(--bd-f-baslik); font-weight: 900; font-size: 22px; color: var(--bd-metin); font-variant-numeric: tabular-nums; }
+.app .bd-izleyici-sayac.kritik { color: #B01F19; }

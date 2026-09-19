@@ -10,7 +10,7 @@ import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import Countdown from "../components/Countdown.jsx";
 import { BugunKalanTurnuvalar } from "../components/TurnuvaSaatleri.jsx";
-import { siradakiLobi } from "../lib/zaman.js";
+import { siradakiLobi, kalanSure } from "../lib/zaman.js";
 import YanlisSatiri from "../components/YanlisSatiri.jsx";
 import OdulDokumu from "../components/OdulDokumu.jsx";
 import MacSorulari from "../components/MacSorulari.jsx";
@@ -27,6 +27,24 @@ import { y } from "../lib/yol.js";
 import { useGorunurlukTazele, zamanAsimiyla } from "../lib/gorunurluk.js";
 import { GB_MS } from "../lib/geriBildirim.js";
 import { tt } from "../lib/dil.js";
+
+/** Elenen/izleyen oyuncuya soru sayacı (Paket 41 M.2). Sunucu saatiyle hizalı. */
+function IzleyiciSayac({ soru }) {
+  const [fark] = useState(() => (soru?.sunucu_zamani ? new Date(soru.sunucu_zamani).getTime() - Date.now() : 0));
+  const [kalan, setKalan] = useState(() => (soru?.baslangic ? kalanSure(soru.baslangic, fark) : 0));
+  useEffect(() => {
+    if (!soru?.baslangic) return undefined;
+    const t = setInterval(() => setKalan(kalanSure(soru.baslangic, fark)), 250);
+    return () => clearInterval(t);
+  }, [soru?.baslangic, fark]);
+  if (!soru?.baslangic) return null;
+  const sn = Math.ceil(kalan);
+  return (
+    <div className={`bd-izleyici-sayac${sn <= 5 ? " kritik" : ""}`} role="timer" aria-label={tt("{0} saniye kaldı", { 0: sn })}>
+      {tt("{0} sn", { 0: sn })}
+    </div>
+  );
+}
 
 export default function TournamentPage() {
   const { user, refreshProfile } = useAuth();
@@ -678,6 +696,8 @@ export default function TournamentPage() {
           <div className="kart">
             <div className="soru-metin">{soru.soru}</div>
             <div className="alt-yazi">{tt("Oyuncular cevaplıyor…")}</div>
+            {/* Paket 41 M.2: izleyen/elenen oyuncu da kalan süreyi görsün */}
+            <IzleyiciSayac key={soru.soru_index ?? turnuva.aktif_soru} soru={soru} />
           </div>
         )
       )}

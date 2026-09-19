@@ -435,7 +435,13 @@ export default function GroupMatchPage() {
                 <span style={{ flex: 1, fontWeight: 600, textAlign: "left" }}>
                   {k.profil?.gorunen_ad}{k.user_id === user.id && <SenRozeti />}
                 </span>
-                <span className="alt-yazi">{k.hazir ? "hazır" : "bekleniyor…"}</span>
+                {/* Paket 41 M.1: satır durumu da sayaç gibi YALNIZ nabızdan (tek kaynak). Tablodaki
+                    hazir sütunu botların hazır sayılmasını bilmiyordu; sayaç "0/4" derken liste "hazır" diyordu. */}
+                <span className="alt-yazi">
+                  {k.user_id === user.id
+                    ? (nabiz?.ben_hazir ? tt("hazır") : tt("bekleniyor…"))
+                    : (nabiz?.bekleyenler ?? []).includes(k.profil?.gorunen_ad) ? tt("bekleniyor…") : tt("ekranda")}
+                </span>
               </div>
             ))}
           </div>

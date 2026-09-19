@@ -30,6 +30,7 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
   const [calisan, setCalisan] = useState(null);   // "klasik" | "duello" | null
   const [hata, setHata] = useState(null);
   const [odul, setOdul] = useState(null);
+  const [odulDurum, setOdulDurum] = useState("yukleniyor");   // yukleniyor | hazir | yok
   const ilkRef = useRef(null);
 
   useEffect(() => {
@@ -42,8 +43,9 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
           klasik: { lig: s("lig_mac_galibiyet"), coin: s("coin_mac_galibiyet") },
           duello: { lig: s("lig_duello_galibiyet"), coin: s("coin_duello_galibiyet") },
         });
+        setOdulDurum("hazir");
       })
-      .catch(() => { /* ödül satırı gösterilmez, seçim yine çalışır */ });
+      .catch((e) => { console.error("[Bildim] ödül ayarları okunamadı:", e); if (aktif) setOdulDurum("yok"); });
     return () => { aktif = false; };
   }, []);
 
@@ -66,10 +68,13 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
   };
 
   const ad = profil?.gorunen_ad ?? tt("Arkadaşın");
+  // Paket 41 M.3: ayar okunamazsa satır yok olmasın — yüklenirken "…", okunamazsa "—"
   const odulMetni = (o) =>
     o && o.lig != null && o.coin != null
       ? tt("Galibiyet: +{lig} lig puanı · {coin} coin", { lig: o.lig, coin: o.coin })
-      : null;
+      : odulDurum === "yukleniyor"
+        ? tt("Ödül: …")
+        : tt("Ödül: —");
 
   const SECENEKLER = [
     {
