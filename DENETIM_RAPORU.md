@@ -261,3 +261,34 @@ Görüntüler: mac-saf-bilgi-390-{acik,koyu}.png (sonuç ekranı Klasik ile ayn�
 
 ### ✅ İyi olan
 - Jokersiz ekran daha sade; soru ve şıklar ekrana tam sığıyor, kaydırma gerekmiyor.
+
+---
+
+## 7. Maç sonu (Klasik)
+Görüntüler: macsonu-kazandi-{390,1280}-{acik,koyu}.png · macsonu-kazandi-390-en.png · macsonu-kazandi-detay-390-acik.png ·
+macsonu-kaybetti-390-{acik,koyu}.png · macsonu-berabere-390-acik.png · macsonu-taskin-390-acik.png · macsonu-odul-hata-390-acik.png
+
+### 🟡 Eksik
+- Ödül dökümü alınamazsa ekranda ödül hapları, görev satırları ve Detay'daki döküm tamamen kayboluyor, "ödül bilgisi alınamadı" gibi bir satır yok.
+  Oyuncuya etkisi: kazandığı hâlde hiçbir kazanım görmüyor, ödül verilmedi sanıyor. Kanıt: macsonu-odul-hata-390-acik.png
+  (`odul_dokumu` + `mac_odulum` hata döndü; konsolda iki hata, ekranda hiçbir şey).
+- Tepki emojileri (👍 😄 😮 😠 🔥 😎 💬) 34×34 px (hedef 44). Kanıt: otomatik ölçüm.
+- İngilizce'de günlük görev adları Türkçe kalıyor ("10 doğru cevap ver") — ad sunucudan geliyor, `tt()` sözlüğünde karşılığı yok.
+  Kanıt: macsonu-kazandi-390-en.png.
+
+### 🔵 Kozmetik
+- 390'da yapışkan eylem çubuğu (iki büyük düğme + not satırı) ekranın ~%25'ini kaplıyor. Detay açılınca yalnız ilk iki satır görünüyor,
+  gerisi çubuğun arkasında; kaydırmadan okunmuyor. Kanıt: macsonu-kazandi-detay-390-acik.png.
+- Masaüstünde eylem çubuğu içerikten dar, "Maç bitti ama oturum açık…" kartının alt kenarı çubuğun arkasında kalıyor.
+  Kanıt: macsonu-kazandi-1280-acik.png.
+- Görev satırı "10 doğru cevap ver · 10/10 ✓" tamamlanmış ama "ödülünü al" yönlendirmesi yok; ödül ana sayfadaki Günlük Görevler'den alınıyor.
+
+### ❔ Şüpheli
+- Skorların altındaki "3/10" maç bittiği hâlde çiziliyor. Sahte veride `oyuncuN_soru = 3` verildiği için olabilir; canlıda bitmiş maçta 10/10 mu yazıyor, doğrulanamadı.
+
+### ✅ İyi olan
+- Kazan/kaybet/berabere üç ayrı ton: turuncu sıcak zemin + kupa + hale / soğuk mavi zemin + küçük soluk avatar / nötr.
+  "3 soru farkla", "2 soru farkla" yakınlık satırı iyi.
+- Ödül hapları + günlük görev çubuğu Detay açmadan görünüyor (Paket 37 D.1 çalışıyor). Kaybedince de görev ilerlemesi var — eli boş çıkılmıyor.
+- Kaybedince "Rövanş" birincil + koşulları tek satırda ("aynı kategori · 24 saat geçerli").
+- 16 karakterlik rakip adı ve 100 puan sığıyor; yatay taşma yok.
