@@ -7312,6 +7312,17 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   color: var(--bd-metin);
   font-family: var(--bd-f-govde);
 }
+/* Paket 37 F — masaüstünde katman tüm ekranı opak kaplar (arkadaki sayfa iki yandan
+   sızıyordu); içerik ortada 620 px sütun, iki yan uygulamanın zemin rengiyle dolu.
+   Telefonda (< 700 px) hiçbir şey değişmez. */
+@media (min-width: 700px) {
+  .bd-sohbet {
+    inset: 0;
+    max-width: none;
+    padding-inline: max(0px, calc((100% - 620px) / 2));
+    background: var(--bd-zemin);
+  }
+}
 .bd-sohbet-ust {
   display: flex; align-items: center; gap: 8px;
   padding: max(10px, env(safe-area-inset-top)) 12px 10px;
