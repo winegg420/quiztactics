@@ -666,3 +666,109 @@ Görüntüler: 404-oturumlu-390-acik.png · 404-oturumsuz-390-acik.png · 404-ge
 
 ### ✅ İyi olan
 - Kırık bağlantı beyaz ekrana ya da çökme ekranına düşmüyor; eski `/bildim/...` ve `/oyun/...` bağlantıları köke açılıyor (Paket 38).
+
+---
+
+## Genel — "Olması gereken ama yok" kontrol listesi (D)
+
+| Soru | Cevap |
+|---|---|
+| Sesi kapatma yolu | **Yalnız Profil › Ayarlar › Oyun sesleri.** Üst çubukta yok; maç, düello ve turnuva sırasında kapatılamıyor. 🟡 |
+| Dil değiştirme (giriş sonrası) | Var: Profil › Ayarlar › Dil (TR/EN). ✅ |
+| Çıkış yapma | Var: Profil › Ayarlar, sayfanın en altında ("Çıkış Yap"). Bulmak için uzun kaydırma gerekiyor. 🔵 |
+| Ayarlara ulaşmak | Profil sekmesi (1) → ~900 px kaydır (2) → "Ayarlar" sekmesi (3). 🟡 |
+| Her alt ekranda geri yolu | Klasik maçta X var; **Grup ve Turnuva maçında yok**, Çalışma turunda görünmüyor, yasal sayfalarda yalnız en altta. 🟡 |
+| "Şimdi ne yapmalıyım" | Ana sayfa, hazırlık, düello rolleri ve boş durumlar çoğunlukla net. ✅ İstisna: hata durumları (aşağıda). |
+| Boş listede metin + eylem | Arkadaşlar, Mesajlar, Lig, Çalışma, Zil: var ✅. Ana sayfa "Seni bekleyenler": yok 🟡. |
+| Hata durumunda okunur mesaj | **Tutarsız.** Rakip arama ve maç yükleme iyi. Ana sayfa, Meydan, Profil kartı, Zil sessiz kalıp sahte veri ya da boş durum gösteriyor. Arkadaşlar, Lig, Çalışma, Dükkân ham sunucu metnini boş durumla birlikte gösteriyor. Profil sonsuza dek "Yükleniyor…" diyor. 🟡 |
+| Yüklenirken gösterge | Çoğu sayfada yok ya da yalnız "Yükleniyor…" metni var; ana sayfa sahte "Oyuncu / 0 puan" çiziyor. İskelet hiçbir yerde yok. 🟡 |
+| Yatay kaydırma (390) | **Hiçbir ekranda yok** (bütün ölçümler 0). ✅ |
+| Dokunma hedefleri ≥ 44 | Tekrarlayan ihlaller: üst çubuk Profil/Görünüm 40×44, TR/EN 44×30, tepki emojileri 34×34, maçtan çık 36×36, profil kartı kapat 30×30, arkadaş çıkar 44×36, dükkân sekmeleri 115×40, sohbet kutusu 40 px yükseklik, metin bağlantıları 16-18 px. 🟡 |
+| Klavye açılınca alan görünür mü | Masaüstü tarayıcıda ölçülemez. Sohbet katmanı `visualViewport` ile boyutlanıyor (`SohbetKutusu.jsx:17-60`); kurgu doğru, telefonda denenmeli. ❔ |
+| Metin taşıyor/kırpılıyor mu | Lig sekmeleri 390'da üst üste biniyor 🟡; geri kalan her yerde 16 karakterlik ad ve 4-5 haneli sayılar sığıyor ✅. |
+| Alt sekme çubuğu içeriği örtüyor mu | **Düello maçında örtüyor** (jokerler çubuğun arkasında kalıyor) 🔴 — §9. Maç sonu eylem çubuğu sekme çubuğunun üstünde duruyor ✅. |
+| Aynı işi yapan düğmeler aynı mı | Hayır. Portal katmanlarında (arama, tanıtım) birincil düğme beyaz yazılı (~2,1:1), uygulama içinde koyu yazılı. "Hemen oyna" sarı, öteki birincil düğmeler turuncu. Ret düğmesi bir yerde "Sil", bir yerde "Reddet". 🔵 |
+| Birincil eylem tek ve belirgin mi | Ana sayfa (Hemen oyna + Lobiye katıl) ve Meydan (onlarca "Meydan oku") dışında evet. |
+| Çevrilmemiş sabit metin | Her ekran İngilizce'de tarandı; arayüz metninde görünür Türkçe kalıntı **bulunmadı**. Türkçe kalanlar: soru bankası, sunucudan gelen görev adları ve bildirim metinleri, oyuncu adları. |
+| Kontrast AA | Ölçülen ihlaller her bölümde oranıyla yazıldı. En ağırları: davet bandı 1,00 · giriş hatası 1,49 · turnuva canlı bandı 1,94 · çalışma bandı 1,99 · "0 soru · %0" 2,34 · sekme etiketi 2,92. |
+| `prefers-reduced-motion` | **Ölçüldü:** ana sayfa, maç, maç sonu, düello ve girişte çalışan animasyon sayısı 0. ✅ (hareket-azalt-duello-390-acik.png) |
+
+**Koyu tema (bugün kapalı):** kartların bir kısmı koyu temada beyaz kalıyor, üstlerindeki açık renk yazı kayboluyor. Örnekler: Dereceli kartı 1,14:1, düello kategori/oyuncu kartları 1,14:1, rütbe rozetleri 1,2-1,5:1, çalışma bandı 1,07:1, arama katmanı 1,01:1. Tema açılmadan önce ayrı bir tur gerekir.
+
+---
+
+## Özet tablo
+
+| # | Ekran | 🔴 | 🟡 | 🔵 |
+|---|---|---|---|---|
+| 1 | Giriş | 1 | 4 | 2 |
+| 2 | Ana Sayfa | 2¹ | 6 | 4 |
+| 3 | Mod seçim penceresi | 0 | 1 | 3 |
+| 4 | Rakip arama | 0 | 4 | 3 |
+| 5 | Maç hazırlık | 1 | 2 | 2 |
+| 6 | Maç ekranı (Klasik) | 1 | 6 | 3 |
+| 7 | Maç sonu (Klasik) | 0 | 3 | 3 |
+| 8 | Saf Bilgi | 0 | 1 | 0 |
+| 9 | Düello | 1 | 4 | 3 |
+| 10 | Grup maçı | 0 | 4 | 2 |
+| 11 | Hızlı Mod | 0 | 0 | 1 |
+| 12 | Turnuva | 0 | 6 | 3 |
+| 13 | Meydan okumalar | 0 | 2 | 3 |
+| 14 | Arkadaşlar | 0 | 4 | 2 |
+| 15 | Mesajlar | 0 | 3 | 3 |
+| 16 | Profil kartı | 0 | 2 | 2 |
+| 17 | Lig | 0 | 4 | 2 |
+| 18 | Dükkân | 0 | 3 | 2 |
+| 19 | Profil | 0 | 4 | 3 |
+| 20 | Çalışma | 0 | 3 | 2 |
+| 21 | Bildirim zili | 0 | 2 | 3 |
+| 22 | Gizlilik / Koşullar | 0 | 2 | 2 |
+| 23 | Bilinmeyen rota | 0 | 1 | 0 |
+| | **Toplam** | **6** | **71** | **53** |
+
+¹ Biri yalnız koyu temada (bugün kapalı).
+
+### Yayına çıkmadan mutlaka düzelmeli
+1. **Davet bandında davet edenin adı ve metin görünmüyor** (beyaz üstünde beyaz, 1,00:1) — §2, `tema.css:566-576`.
+2. **Giriş sayfasındaki hata mesajları okunmuyor** (1,49:1) — §1, `src/styles.css:415`.
+3. **3-2-1 geri sayımı ve son 5 saniye sayısı görünmüyor** — `.bd-geri-sayim` sınıf çakışması, aynı öğede `fixed` + `transform` — §5, §6, `tema.css:2143` / `:5099`.
+4. **Düello maçında alt sekme çubuğu açık kalıyor ve jokerleri örtüyor** — `useOyunModu` çağrılmıyor — §9.
+5. **Hata durumlarında sahte veri ya da boş durum gösteriliyor:** ana sayfa "0 puan / Çaylak", profil sonsuz "Yükleniyor…", arkadaşlar/lig/banka/meydan "henüz yok", dükkân "0 joker", profil kartı "0 maç". Oyuncu verisini kaybettiğini sanar. Ortak bir "yüklenemedi · Tekrar dene" durumu gerekiyor — §2, 13, 14, 16-20.
+6. **Dükkândaki geliştirici metni:** "Reklam kimliği tanımlı değil (test modu)…" — §18, `JokerDukkani.jsx:352`.
+7. **Turnuva saatleri üç yerde üç farklı:** giriş "13:00 ve 21:50", ana sayfa/turnuva "12:30…24:00", CLAUDE.md "13:00 ve 21:50". Canlı ayar kontrol edilmeli — §2, §12.
+8. **Lig sekmeleri 390'da üst üste biniyor** — §17.
+9. **Maç sırasında sesi kapatma yolu yok** — §6 ve Genel.
+10. **Rakip aramada sınırsız bekleme:** "Maç hazırlanıyor…" hâlinin üst sınırı yok — §4.
+11. **Grup ve Turnuva maçında çıkış düğmesi yok** (Klasik ile parite) — §10, §12.
+12. **İletişim adresi kişisel bir Gmail hesabı** — §22.
+
+---
+
+## Rapor sonu
+
+### 1. Girilebilen / girilemeyen ekranlar
+- **Girildi (23/23):** hepsi en az 390 açık temada; ana durumları beş görünümde (390/1280 × açık/koyu + 390 İngilizce).
+- **Kısmen girildi:**
+  - Düello rakip arama sahnesi: tanıtım penceresi geçilemedi.
+  - Dükkân › Görünüm kartları: "Vitrin hazırlanıyor…"da kaldı (3B/WebGL).
+  - Lig › Şehir sekmesi (konumsuz hâl): sekmeye dokunulamadı.
+- **Kural gereği girilmedi:** Gardırop (`/gorunum`) ve Meydan 3B haritası (`/harita`). Bu ekranlara giden "Karakterime git" ve "Görünüm" düğmelerinin var olduğu görüldü, hedeflerine girilmedi.
+
+### 2. Kurulamayan durumlar (C)
+- **Maç:** gerçek "süre doldu" akışı (sahte `mac_soruyu_atla` boş döndü), rakibin Sis jokeri, coin yetmezken satın alma penceresi.
+- **Düello:** joker kullanımı ve satın alma (sahte veride `jokerler.hak` eksikti), rakip arama.
+- **Grup maçı:** sohbet penceresinin açık hâli, grup maçında joker çubuğu.
+- **Çalışma:** tur sonucu ekranı.
+- **Ana sayfa:** bildirim izni kartı. Headless tarayıcı izni "denied" veriyor olabilir.
+- **Ortam sınırı:**
+  - Klavye açıkken görünüm: masaüstü Chromium'da ölçülemiyor.
+  - Gerçek iOS Safari: bu makinede WebKit çalışmıyor (CLAUDE.md).
+- **Canlı `oyun_ayarlari` değerleri:** anonim anahtarla okunamıyor. Turnuva saatleri ve ödül satırları bu yüzden doğrulanamadı.
+
+### 3. Hangi başlığa koyacağımı bilemediklerim
+- **Düşük sayılar:** "0 kişi lobide", "Lobideki Oyuncular (3)", "3 oyuncu hayatta". Kural "toplam oyuncu sayısı gösterilmez" diyor; bunlar toplam değil ama yeni bir oyunda boşluk hissi veriyor. Ürün kararı.
+- **Soru bankası yalnız Türkçe:** İngilizce arayüzde soru ve şıklar Türkçe geliyor. "İlk yayın TR + EN" kararıyla çelişiyor mu, yoksa İngilizce soru bankası ayrı bir iş mi, bilinmiyor.
+- **Sunucu metinleri:** görev adlarının ve bildirimlerin bir kısmı sunucudan Türkçe geliyor. Çevirinin istemcide mi sunucuda mı yapılacağına karar gerekiyor.
+- **Koyu tema:** 20'den fazla kontrast bulgusu yalnız koyu temada. Tema kapalı olduğu için 🔴 sayılmadı; tema açılırsa hepsi hata olur.
+- **Konsoldaki "aynı anahtar" uyarısı** (Meydan): sahte veriden mi, gerçek bir liste hatasından mı kaynaklandığı ayrıştırılamadı.
+- **Masaüstü düzeni:** her ekran 600 px'lik telefon sütunu ve ortada telefon sekme çubuğu. Hata değil (telefon oyunu), ama masaüstü oyuncusu için ayrı bir düzen hiç yok.
