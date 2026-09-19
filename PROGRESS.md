@@ -6715,3 +6715,16 @@ Yöntem: Vite dev + Playwright Chromium, Supabase sahte yanıtlarla; otomatik ö
 Sonuç: 6 🔴 · 71 🟡 · 53 🔵. Öne çıkan 🔴'ler: davet bandı yazısı görünmüyor (1,00:1), giriş hata kutusu 1,49:1,
 `.bd-geri-sayim` sınıf çakışması (3-2-1 ve son-5-sn sayısı görünmüyor, fixed+transform), düello maçında `useOyunModu` yok (sekme çubuğu jokerleri örtüyor).
 Ortak 🟡: hata durumlarında sahte veri/boş durum/sonsuz yükleniyor. Düzeltmeler ayrı pakette.
+
+## Paket 40 — Kırık olanlar (19 Eyl 2026)
+
+SQL/migration yok. 10 madde ayrı commit (34421f3 → 65dab5d), rapor `PAKET40_RAPOR.md`.
+- A `.bd-geri-sayim` → `.bd-baslangic-sayimi` (3-2-1) + `.bd-son-saniye` (son 5 sn); fixed+transform çakışması bitti.
+- B davet bandı + üst bildirim şeridi tür başına gerçek zemin (beyaz/beyaz 1,00 idi).
+- C `.hata-kutu` tabanı açık tema renkleri (giriş 1,49 → 5,14).
+- D Düello `useOyunModu`; maç sürerken `.bd-ust-blok` de gizli (tek nokta body.bd-oyun-modu).
+- E `.btn` tabanı turuncu üstünde koyu yazı (portallar 2,1 → 5,4-7,5).
+- F dükkân geliştirici metni kaldırıldı.
+- G giriş sayfası saatleri `turnuvaSaatleri()`'nden. **Canlı turnuva_saatleri = 7 seans (10:00…24:00); CLAUDE.md "13:00 ve 21:50" diyor — sahibine soruldu, varsayılan değiştirilmedi.**
+- H lig sekme şeridi kayar + solma ipucu. I çalışma "undefined" koruması + `t()` null-güvenli.
+- J 12 kontrast satırı ≥4,5; sekme etiketi 11 px (≤374 px'te sıkıştırılmış).
