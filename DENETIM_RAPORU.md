@@ -292,3 +292,47 @@ macsonu-kaybetti-390-{acik,koyu}.png · macsonu-berabere-390-acik.png · macsonu
 - Ödül hapları + günlük görev çubuğu Detay açmadan görünüyor (Paket 37 D.1 çalışıyor). Kaybedince de görev ilerlemesi var — eli boş çıkılmıyor.
 - Kaybedince "Rövanş" birincil + koşulları tek satırda ("aynı kategori · 24 saat geçerli").
 - 16 karakterlik rakip adı ve 100 puan sığıyor; yatay taşma yok.
+
+---
+
+## 9. Düello
+Görüntüler: duello-lobi-{390,1280}-{acik,koyu}.png · duello-lobi-390-en.png · duello-tanitim-390-acik.png · duello-kategori-sec-{390,1280}-{acik,koyu}.png ·
+duello-kategori-sec-390-en.png · duello-kategori-bekle · duello-saldiri-hazirligi · duello-saldiri-geliyor · duello-savunma-390-{acik,koyu} ·
+duello-savunma-son-can-baski · duello-rakip-dusunuyor · duello-tur-gecisi · duello-sonuc-kazandi-{390,1280}-acik · duello-sonuc-kaybetti ·
+duello-rovans-geldi · duello-yukleme-hatasi (hepsi -390-acik aksi yazılmadıkça)
+
+### 🔴 Hata
+- **Mod paritesi:** düello maçı sırasında alt sekme çubuğu ve üst çubuk açık kalıyor. Klasik, Grup, Turnuva maçları `useOyunModu(...)` ile
+  sekme çubuğunu gizliyor; `DuelloPage.jsx` bu kancayı hiç çağırmıyor (`grep useOyunModu`: MatchPage:525, GroupMatchPage:347,
+  TournamentPage:379 — DuelloPage yok). Oyuncuya etkisi: savunma ve saldırı jokerleri sekme çubuğunun arkasında kalıyor
+  (duello-savunma-son-can-baski-390-acik.png: "SAVUNMA JOKERLERİ" başlığından sonrası görünmüyor), maç ortasında yanlışlıkla
+  Ana Sayfa'ya basılabiliyor.
+
+### 🟡 Eksik
+- Düello açılamazsa ham sunucu mesajı ("sahte hata") ve yalnız "Düello'ya dön" var; "Tekrar dene" yok (Klasik'te var — parite).
+  Kanıt: duello-yukleme-hatasi-390-acik.png.
+- Tanıtım penceresindeki "İleri" düğmesi beyaz yazı / turuncu zemin ~**2,1:1** (portal katmanında taban `.btn` rengi; §4 ile aynı kök).
+  Kanıt: duello-tanitim-390-acik.png.
+- "Kurallar nasıl işliyor?" bağlantısı 32 px yüksekliğinde (hedef 44).
+- Maç sırasında ses kapatma yolu yok (§6 ile aynı).
+
+### 🔵 Kozmetik
+- Kategori seçim ekranında üç satırlık kural açıklaması ("En zayıf kategori maç başında sabitlenir; yüzdeler eşitse…") her turda tekrar
+  okunuyor; ilk turdan sonra kısaltılabilir. Kanıt: duello-kategori-sec-390-acik.png.
+- Rövanş isteği gelince eylem çubuğu ekranın ortasında kalıyor, altında ~120 px boş turuncu alan var (içerik ekrandan kısa).
+  Kanıt: duello-rovans-geldi-390-acik.png.
+- (Koyu tema) Kategori kartları, oyuncu kartları ve sayaç koyu temada beyaz kalıyor, üstlerindeki yazılar **1,14:1** ("Tarih", "Deneme", "9").
+  Kanıt: duello-kategori-sec-390-koyu.png.
+
+### ❔ Kurulamadı
+- Rakip arama ekranı: tanıtım penceresi geçilemedi (hangi localStorage anahtarının "görüldü" saydığı sahte ortamda tutturulamadı),
+  arama sahnesi çekilemedi. Arama bileşeni Klasik'teki `RakipAra`'dan ayrı (`DuelloPage.jsx:~175`, `duello_ara`).
+- Joker kullanımı ve joker satın alma: sahte veride `jokerler.hak` alanı eksik kaldı, jokerler "hakkın doldu" ile pasif çizildi;
+  dokunma ve satın alma penceresi açılamadı. (Canlı sorunu değil, düzenek eksiği.)
+
+### ✅ İyi olan
+- Roller çok net: büyük "SALDIRIYORSUN" (turuncu) / "SAVUNUYORSUN" (mavi) şeridi, kenarlarda rol rengi parıltısı, sırası gelen oyuncu turuncu çerçeveli.
+- Kategori seçimi taktik bilgisini veriyor: rakibin kategori yüzdeleri, "veri yok", kullanım sayacı (0/2), kırmızı "RİSKLİ" rozeti.
+- Tur geçişinde son hamlenin özeti ("İsabet! Rakip can kaybetti."); savunmada Zaman Baskısı ve Savunma Kilidi bantları okunur.
+- Sonuç ekranı ortak `MacSonuSahnesi`: kalpler, ödül hapları, görev satırı, rövanş Kabul/Reddet (Paket 36-38 paritesi tamam).
+- Lobi sayfası kuralları üç maddede anlatıyor, ödülü ("Galibiyet: +50 lig puanı ve 50 coin") birincil düğmenin hemen üstünde veriyor.
