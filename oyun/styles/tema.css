@@ -8255,3 +8255,17 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 .app .bd-katlanir-sayi { font-weight: 700; color: var(--bd-metin-2); }
 .app details.bd-katlanir > summary:focus-visible { outline: 3px solid var(--bd-vurgu); outline-offset: 2px; border-radius: 8px; }
 @media (prefers-reduced-motion: reduce) { .app details.bd-katlanir > summary.baslik::after { transition: none; } }
+
+/* ============================================================
+   PAKET 42 J — mesajlar
+   ============================================================ */
+/* J.2 gün ayırıcı ("Bugün", "Dün", "18 Eyl") — balon grubu yerleşimi değiştirmez */
+.bd-balon-grup { display: contents; }
+.bd-sohbet-gun { display: flex; justify-content: center; margin: 8px 0 2px; }
+.bd-sohbet-gun > span {
+  padding: 3px 10px; border-radius: 999px;
+  background: var(--bd-yuzey-1); border: 1px solid var(--bd-kenar);
+  font-size: 12px; font-weight: 800; color: var(--bd-metin-2);
+}
+/* J.3 sohbet başlığında kişiye dokununca profil açılır — ok ipucu */
+.bd-sohbet-kisi-ok { font-size: 22px; line-height: 1; color: var(--bd-metin-2); margin-left: 2px; }

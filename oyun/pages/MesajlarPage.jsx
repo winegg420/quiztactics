@@ -11,6 +11,7 @@ import { hataMesaji } from "../lib/hata.js";
 import { rozetMetni } from "../lib/mesajlar.js";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
+import GeriDugmesi from "../components/GeriDugmesi.jsx";
 
 // ============================================================
 // MESAJLAR — sohbet listesi (Paket 35 E.3.1)
@@ -73,6 +74,8 @@ export default function MesajlarPage() {
 
   return (
     <div className="bd-mesajlar">
+      {/* Paket 42 J.3: liste ekranında geri yolu yoktu (alt sekmede Mesajlar yok) */}
+      <GeriDugmesi />
       <h1 className="baslik">{tt("Mesajlar")}</h1>
       {yukleniyor && liste.length === 0 && <DurumKutusu durum="yukleniyor" satir={4} />}
       {hata && <DurumKutusu durum="hata" onTekrar={() => { setHata(null); setYukleniyor(true); yukle(); }} />}

@@ -710,6 +710,8 @@ const SOZLUK = {
     "Maç başlatılamadı": "Couldn't start the match",
     "Bot ile oyna": "Play a bot",
     "Rakip bulunamadı": "No opponent found",
+    "Bugün": "Today",
+    "Dün": "Yesterday",
     "Henüz arkadaşın yok — aşağıdaki davet linkini paylaş, birlikte yarışın.": "No friends yet — share your invite link below and play together.",
     "Bota ya da bir arkadaşına meydan oku.": "Challenge a bot or a friend.",
     "Kırmızı çerçeve: riskli kategori": "Red frame: risky category",

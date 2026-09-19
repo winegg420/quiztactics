@@ -8,7 +8,7 @@ import EmojiSecici from "./EmojiSecici.jsx";
 import Ikon from "./Ikon.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { dmTazele } from "../lib/mesajlar.js";
-import { tt } from "../lib/dil.js";
+import { tt, aktifDil } from "../lib/dil.js";
 
 // ============================================================
 // SOHBET KUTUSU — bire bir mesajlaşma ekranı (Paket 35 E.3.2)
@@ -28,6 +28,23 @@ const SINIR = 500;
 const saatMetni = (iso) => {
   try {
     return new Date(iso).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  } catch {
+    return "";
+  }
+};
+
+// Paket 42 J.2: gün ayırıcı — eski konuşmada hangi gün olduğu yalnız saatten anlaşılmıyordu
+const gunAnahtari = (t) => { const d = new Date(t); return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`; };
+const gunMetni = (iso) => {
+  try {
+    const d = new Date(iso);
+    const bugun = new Date();
+    const dun = new Date(); dun.setDate(bugun.getDate() - 1);
+    if (gunAnahtari(d) === gunAnahtari(bugun)) return tt("Bugün");
+    if (gunAnahtari(d) === gunAnahtari(dun)) return tt("Dün");
+    return d.toLocaleDateString(aktifDil() === "en" ? "en-GB" : "tr-TR", {
+      day: "numeric", month: "short", ...(d.getFullYear() !== bugun.getFullYear() ? { year: "numeric" } : {}),
+    });
   } catch {
     return "";
   }
@@ -293,24 +310,31 @@ export default function SohbetKutusu({ benId, kisiId, onGeri }) {
         >
           <AvatarCerceve profile={kisi ?? {}} boyut={36} userId={kisiId} />
           <span className="bd-sohbet-ad">{kisi?.gorunen_ad ?? "…"}</span>
+          {/* Paket 42 J.3: dokununca profil açıldığını belli eden ok */}
+          <span className="bd-sohbet-kisi-ok" aria-hidden="true">›</span>
         </button>
       </header>
 
       <div className="bd-sohbet-liste" ref={listeRef} onScroll={kaydirildi} aria-live="polite">
         {eskiYukleniyor && <div className="bd-sohbet-bilgi">{tt("Eski mesajlar yükleniyor…")}</div>}
         {gecmisHata && <DurumKutusu durum="hata" kucuk onTekrar={() => setDeneme((n) => n + 1)} />}
-        {!yukleniyor && mesajlar.length === 0 && !hata && !gecmisHata && (
+        {/* Paket 42 J.1: arkadaş değilken "İlk mesajı sen at." çizilmez (alttaki "yeni mesaj gönderemezsin" ile çelişiyordu) */}
+        {!yukleniyor && mesajlar.length === 0 && !hata && !gecmisHata && arkadas !== false && (
           <div className="bd-sohbet-bilgi">{tt("İlk mesajı sen at.")}</div>
         )}
         {yukleniyor && <div className="bd-sohbet-bilgi">{tt("Yükleniyor…")}</div>}
-        {mesajlar.map((m) => {
+        {mesajlar.map((m, i) => {
           const benden = m.gonderen_id === benId;
+          const yeniGun = i === 0 || gunAnahtari(m.created_at) !== gunAnahtari(mesajlar[i - 1].created_at);
           return (
-            <div key={m.id} className={`bd-balon-satir ${benden ? "ben" : "o"}`}>
+            <div key={m.id} className="bd-balon-grup">
+            {yeniGun && <div className="bd-sohbet-gun" role="separator"><span>{gunMetni(m.created_at)}</span></div>}
+            <div className={`bd-balon-satir ${benden ? "ben" : "o"}`}>
               <div className="bd-balon">
                 <span className="bd-balon-metin">{m.metin}</span>
                 <span className="bd-balon-saat">{saatMetni(m.created_at)}</span>
               </div>
+            </div>
             </div>
           );
         })}
