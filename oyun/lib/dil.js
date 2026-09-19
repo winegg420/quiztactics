@@ -1443,6 +1443,8 @@ const SOZLUK = {
     "Maç bilgisi alınamadı.": "Match info couldn't be loaded.",
     "Grup maçı bekleniyor": "Waiting for the group match",
     "{0} henüz kabul etmedi.": "{0} hasn't accepted yet.",
+    "Sen ve {0} henüz kabul etmediniz.": "You and {0} haven't accepted yet.",
+    "Sen henüz kabul etmedin.": "You haven't accepted yet.",
     "Herkes hazır olunca maç otomatik başlayacak.": "The match will start automatically when everyone is ready.",
     "Hazır": "Ready",
     "Reddetti": "Declined",

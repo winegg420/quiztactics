@@ -371,9 +371,15 @@ export default function GroupMatchPage() {
         <div className="emoji"><Ikon ad="saat" boyut={44} /></div>
         <h2>{tt("Grup maçı bekleniyor")}</h2>
         <p className="alt-yazi" style={{ marginBottom: 16 }}>
-          {bekleyenler.length > 0
-            ? tt("{0} henüz kabul etmedi.", { 0: bekleyenler.map((b) => b.profil?.gorunen_ad).join(", ") })
-            : tt("Herkes hazır olunca maç otomatik başlayacak.")}
+          {/* Paket 42 G.1: oyuncu kendi adını üçüncü şahıs gibi okumasın ("Deneme, Ayşe…" → "Sen ve Ayşe…") */}
+          {(() => {
+            if (!bekleyenler.length) return tt("Herkes hazır olunca maç otomatik başlayacak.");
+            const ben = bekleyenler.some((b) => b.user_id === user.id);
+            const digerleri = bekleyenler.filter((b) => b.user_id !== user.id).map((b) => b.profil?.gorunen_ad).join(", ");
+            if (ben && digerleri) return tt("Sen ve {0} henüz kabul etmediniz.", { 0: digerleri });
+            if (ben) return tt("Sen henüz kabul etmedin.");
+            return tt("{0} henüz kabul etmedi.", { 0: digerleri });
+          })()}
         </p>
         <div className="kart" style={{ maxWidth: 340, margin: "0 auto" }}>
           {katilimcilar.map((k) => (
@@ -601,6 +607,30 @@ export default function GroupMatchPage() {
         ))}
       </div>
 
+      {jokerHata && <div className="hata-kutu">{jokerHata}</div>}
+
+      {soru && (
+        <QuestionCard
+          // Key gösterilen soruya bağlı: aktif_soru ilerleyince kart eski soruyla
+          // yeniden bindirilip geri bildirim silinmesin (Paket 14, 5.2).
+          key={`${mac.id}-${soru.soru_index ?? mac.aktif_soru}`}
+          soru={soru}
+          onCevapla={cevapla}
+          onSureDoldu={sureDoldu}
+          macTur={"grup"}
+          macId={id}
+          kategori={mac.kategori}
+        />
+      )}
+
+      {cevapladim && (
+        <div className="alt-yazi" style={{ textAlign: "center", marginTop: 14 }}>
+          {tt("Diğer oyuncuların cevaplaması bekleniyor…")}
+        </div>
+      )}
+
+      {/* Paket 42 G.2: tepki şeridi skor tablosu ile soru kartının arasına sıkışıp soruyu aşağı
+          itiyordu; soru kartının ALTINA taşındı (Klasik'te de şerit sorunun altında). */}
       <div className="sohbet-bar">
         {TEPKILER.map((t) => (
           <button
@@ -629,27 +659,6 @@ export default function GroupMatchPage() {
         </div>
       )}
 
-      {jokerHata && <div className="hata-kutu">{jokerHata}</div>}
-
-      {soru && (
-        <QuestionCard
-          // Key gösterilen soruya bağlı: aktif_soru ilerleyince kart eski soruyla
-          // yeniden bindirilip geri bildirim silinmesin (Paket 14, 5.2).
-          key={`${mac.id}-${soru.soru_index ?? mac.aktif_soru}`}
-          soru={soru}
-          onCevapla={cevapla}
-          onSureDoldu={sureDoldu}
-          macTur={"grup"}
-          macId={id}
-          kategori={mac.kategori}
-        />
-      )}
-
-      {cevapladim && (
-        <div className="alt-yazi" style={{ textAlign: "center", marginTop: 14 }}>
-          {tt("Diğer oyuncuların cevaplaması bekleniyor…")}
-        </div>
-      )}
     </div>
   );
 }
