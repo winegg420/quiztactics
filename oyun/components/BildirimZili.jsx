@@ -64,8 +64,53 @@ const TOPLAMA = {
   arkadas_istek: { metin: (n) => tt("{0} arkadaşlık isteği", { 0: n }), yol: y("/arkadaslar") },
 };
 
-/** Okunmamış tekrarları tek satıra indirger; okunmuşlara dokunmaz. */
+/** Tekrarları tek satıra indirger: okunmamışlar ve okunmuşlar AYRI gruplanır. */
 function grupla(liste) {
+  return gruplaOkunmus(gruplaOkunmamis(liste));
+}
+
+// Paket 37 C: okunmuş tekrarlar da kendi aralarında tek satıra iner (okunmamışla ASLA
+// aynı satırda birleşmez; okunmamışlar yukarıda ayrıca toplanır).
+function gruplaOkunmus(liste) {
+  const sayac = new Map();
+  for (const b of liste) {
+    if (!b.okundu || !TOPLAMA[b.tip]) continue;
+    sayac.set(b.tip, (sayac.get(b.tip) ?? 0) + 1);
+  }
+  const toplanan = new Set([...sayac.entries()].filter(([, n]) => n > 1).map(([t]) => t));
+  if (toplanan.size === 0) return liste;
+
+  const sonuc = [];
+  const yazildi = new Set();
+  for (const b of liste) {
+    if (b.okundu && toplanan.has(b.tip)) {
+      if (yazildi.has(b.tip)) continue;
+      yazildi.add(b.tip);
+      const n = sayac.get(b.tip);
+      sonuc.push({
+        ...b,
+        id: `toplu-okundu-${b.tip}`,
+        metin: TOPLAMA[b.tip].metin(n),
+        yol: TOPLAMA[b.tip].yol,
+        okundu: true,
+        adet: n,
+      });
+      continue;
+    }
+    sonuc.push(b);
+  }
+  return sonuc;
+}
+
+// Panelde en fazla bu kadar okunmuş satır çizilir (silinmez, yalnız gösterilmez).
+const OKUNMUS_SATIR_SINIRI = 20;
+function okunmuslariSinirla(liste) {
+  let okunmus = 0;
+  return liste.filter((b) => !b.okundu || ++okunmus <= OKUNMUS_SATIR_SINIRI);
+}
+
+/** Okunmamış tekrarları tek satıra indirger; okunmuşlara dokunmaz. */
+function gruplaOkunmamis(liste) {
   const sayac = new Map();
   for (const b of liste) {
     if (b.okundu || !TOPLAMA[b.tip]) continue;
@@ -129,7 +174,7 @@ export default function BildirimZili() {
         .order("created_at", { ascending: false })
         .limit(30);
       if (error) throw error;
-      setListe(grupla(oncelikSirala(data ?? [])));
+      setListe(okunmuslariSinirla(grupla(oncelikSirala(data ?? []))));
       setOkunmamis((data ?? []).filter((b) => !b.okundu).length);
     } catch {
       /* tablo henüz yok (migration bekliyor) veya ağ hatası — sessiz geç */
