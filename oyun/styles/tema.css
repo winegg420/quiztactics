@@ -8292,3 +8292,6 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   margin-bottom: 12px; font-weight: 800; color: var(--bd-metin);
 }
 .app .bd-coin-yetersiz .btn { margin: 0; }
+
+/* PAKET 42 N — profil istatistik kutusunda hedef cümlesi: büyük harf/aralık yok, okunur boy */
+.app .bd-istatistik .etiket.cumle { text-transform: none; letter-spacing: 0; font-size: 12px; line-height: 1.25; color: var(--bd-metin-2); }

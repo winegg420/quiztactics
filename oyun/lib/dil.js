@@ -1672,6 +1672,8 @@ const SOZLUK = {
     "Turnuvaya kaldı": "Until tournament",
     "Günlük Seri": "Daily Streak",
     "Maç ile seri başlar": "A match starts your streak",
+    "turnuva kazan, ilk kupan gelsin": "tournament win gets your first cup",
+    "maç oyna, serin başlasın": "match starts your streak",
     "Profil bölümleri": "Profile sections",
     "İstatistiklerim": "My stats",
     "Ayarlar": "Settings",

@@ -157,8 +157,9 @@ export default function ProfilePage() {
             {/* ÜÇ KUTU AYNI TÜRDE: sayı + etiket. Eskiden ortadaki bir
                 cümleydi ("İlk şampiyonluğuna / 1 turnuva kaldı") ve aynı
                 hizada üç farklı tür bilgi duruyordu; kutu taşıyordu. */}
+            {/* Paket 42 N: "1 — TURNUVAYA KALDI" ne dediği anlaşılmıyordu; sayı + etiket tam cümle okunur */}
             <span className="deger">1</span>
-            <span className="etiket">{tt("Turnuvaya kaldı")}</span>
+            <span className="etiket cumle">{tt("turnuva kazan, ilk kupan gelsin")}</span>
           </div>
         )}
         {(profile.seri ?? 0) > 0 ? (
@@ -169,7 +170,7 @@ export default function ProfilePage() {
         ) : (
           <div className="bd-istatistik">
             <span className="deger">1</span>
-            <span className="etiket">{tt("Maç ile seri başlar")}</span>
+            <span className="etiket cumle">{tt("maç oyna, serin başlasın")}</span>
           </div>
         )}
       </div>
