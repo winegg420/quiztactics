@@ -8285,3 +8285,10 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 .app .bd-lig .bd-lig-satir .bd-ikon-btn:hover,
 .app .bd-lig .bd-lig-satir .bd-ikon-btn:focus-visible { color: #C4530F; border-color: var(--bd-vurgu); }
 .app .bd-lig .bd-lig-satir .bd-ikon-btn:active { transform: translateY(2px); box-shadow: none; }
+
+/* PAKET 42 M.2 — Joker sekmesinin üstünde "coin yetmiyor" satırı */
+.app .bd-coin-yetersiz {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;
+  margin-bottom: 12px; font-weight: 800; color: var(--bd-metin);
+}
+.app .bd-coin-yetersiz .btn { margin: 0; }

@@ -87,6 +87,11 @@ export default function JokerDukkani() {
     ? arama.get("sekme")
     : "kiyafet";
   const sekmeSec = (kod) => setArama({ sekme: kod }, { replace: true });
+  // Paket 42 M.2: en ucuz joker (tek tek ya da paket) — bakiye bunun altındaysa üstte uyarı
+  const enUcuzJoker = Math.min(
+    ...Object.values(tekFiyat ?? {}).map(Number).filter((n) => Number.isFinite(n) && n > 0),
+    ...(paketler ?? []).map((p) => Number(p.coin_fiyat)).filter((n) => Number.isFinite(n) && n > 0),
+  );
 
   const { bakiye, tazele: coinOku } = useCoin();
   const playVar = desteklenirMi();
@@ -265,6 +270,56 @@ export default function JokerDukkani() {
           <DurumKutusu durum={dukkanDurum} satir={4} onTekrar={() => { setDukkanDurum("yukleniyor"); yukle(); }} />
         </div>
       )}
+      {/* Paket 42 M.2: coin en ucuz jokere bile yetmiyorsa üstte tek satır uyarı (eskiden paketlere inince görülüyordu) */}
+      {sekme === "joker" && dukkanDurum === "hazir" && !jokerSerbest && bakiye !== null && Number.isFinite(enUcuzJoker) && bakiye < enUcuzJoker && (
+        <div className="bd-bilgi-kutu bd-coin-yetersiz" role="status">
+          <span>{tt("Coin'in şu an hiçbir jokere yetmiyor.")}</span>
+          <button type="button" className="btn kucuk ikincil" onClick={() => sekmeSec("coin")}>{tt("Coin kazan")}</button>
+        </div>
+      )}
+
+      {/* Paket 42 M.1: dükkânda ilk görülen "satın al" olsun — paketler en üstte */}
+      {/* ---------- Joker paketleri (COİN ile) ---------- */}
+      {sekme === "joker" && dukkanDurum === "hazir" && (
+      <div className="kart">
+        <div className="bd-kat-baslik">
+          <span>{tt("Joker paketleri")}</span>
+          <span className="alt-yazi">
+            <Ikon ad="coin" boyut={14} /> {(bakiye ?? 0).toLocaleString("tr-TR")}
+          </span>
+        </div>
+
+        <div className="bd-paket-liste">
+          {paketler.filter((p) => p.coin_fiyat != null).map((p) => (
+            <div key={p.urun_id} className="bd-paket">
+              <div className="bd-paket-bilgi">
+                <div className="bd-paket-ad">{ttSunucu(p.ad)}</div>
+                <div className="alt-yazi">{ttSunucu(p.aciklama)}</div>
+                <div className="bd-paket-icerik">
+                  {Object.entries(p.icerik ?? {}).map(([tur, adet]) => (
+                    <span key={tur} className="bd-paket-parca">
+                      <Ikon ad={JOKER_BILGI[tur]?.ikon ?? "soru"} boyut={15} /> {adet}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              {/* Buton PASİF DEĞİL: coin yetmezse basınca söyler ve Coin
+                  sekmesine götürür (görev kuralı). */}
+              <button
+                className="btn kucuk"
+                disabled={jokerSerbest || alinan === p.urun_id}
+                onClick={() => jokerCoinIleAl(p.urun_id)}
+              >
+                {alinan === p.urun_id
+                  ? "…"
+                  : <><Ikon ad="coin" boyut={14} /> {Number(p.coin_fiyat).toLocaleString("tr-TR")}</>}
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+      )}
+
       {sekme === "joker" && dukkanDurum === "hazir" && (
       <div className="kart">
         {/* Paket 34: jokerler geçici olarak ücretsiz ve sınırsız — coin harcatma */}
@@ -273,25 +328,6 @@ export default function JokerDukkani() {
             {tt("Jokerler şimdilik ücretsiz ve sınırsız — maçta stok gerekmez, satın almana gerek yok.")}
           </div>
         )}
-        <div className="bd-kat-baslik"><span>{tt("Envanterin")}</span></div>
-        <div className="bd-envanter-grid">
-          {Object.entries(JOKER_BILGI).map(([tur, b]) => (
-            <div key={tur} className="bd-envanter-kutu">
-              <span className="bd-envanter-ikon" aria-hidden="true"><Ikon ad={b.ikon} boyut={20} /></span>
-              <span className="bd-envanter-adet">{envanter[tur] ?? 0}</span>
-              <span className="bd-envanter-ad">{b.ad}</span>
-            </div>
-          ))}
-        </div>
-        {/* Kural metni TEK KAYNAKTAN: oyun/lib/jokerKurallari.js.
-            Paket 27'de kurallar değişmiş ama burası eski metinle kalmıştı
-            (canlıda görüldü); bir daha iki yerde iki kural olmasın. */}
-        <ul className="bd-joker-kurallar">
-          {jokerKurallari(jokerHak).map((k) => (
-            <li key={k}>{k}</li>
-          ))}
-        </ul>
-
         {/* Tek tek alım: paket almak istemeyene birim fiyat. */}
         <div className="bd-kat-baslik" style={{ marginTop: 14 }}>
           <span>{tt("Tek tek al")}</span>
@@ -339,6 +375,28 @@ export default function JokerDukkani() {
             </div>
           ))}
         </div>
+
+        {/* Paket 42 M.1: envanter ve kurallar satın alma listelerinin ALTINDA */}
+        <div style={{ marginTop: 14 }} />
+        <div className="bd-kat-baslik"><span>{tt("Envanterin")}</span></div>
+        <div className="bd-envanter-grid">
+          {Object.entries(JOKER_BILGI).map(([tur, b]) => (
+            <div key={tur} className="bd-envanter-kutu">
+              <span className="bd-envanter-ikon" aria-hidden="true"><Ikon ad={b.ikon} boyut={20} /></span>
+              <span className="bd-envanter-adet">{envanter[tur] ?? 0}</span>
+              <span className="bd-envanter-ad">{b.ad}</span>
+            </div>
+          ))}
+        </div>
+        {/* Kural metni TEK KAYNAKTAN: oyun/lib/jokerKurallari.js.
+            Paket 27'de kurallar değişmiş ama burası eski metinle kalmıştı
+            (canlıda görüldü); bir daha iki yerde iki kural olmasın. */}
+        <ul className="bd-joker-kurallar">
+          {jokerKurallari(jokerHak).map((k) => (
+            <li key={k}>{k}</li>
+          ))}
+        </ul>
+
       </div>
       )}
 
@@ -376,47 +434,6 @@ export default function JokerDukkani() {
                 : tt("Video izle (+{0} coin)", { 0: odulCoin })}
           </button>
         )}
-      </div>
-      )}
-
-      {/* ---------- Joker paketleri (COİN ile) ---------- */}
-      {sekme === "joker" && dukkanDurum === "hazir" && (
-      <div className="kart">
-        <div className="bd-kat-baslik">
-          <span>{tt("Joker paketleri")}</span>
-          <span className="alt-yazi">
-            <Ikon ad="coin" boyut={14} /> {(bakiye ?? 0).toLocaleString("tr-TR")}
-          </span>
-        </div>
-
-        <div className="bd-paket-liste">
-          {paketler.filter((p) => p.coin_fiyat != null).map((p) => (
-            <div key={p.urun_id} className="bd-paket">
-              <div className="bd-paket-bilgi">
-                <div className="bd-paket-ad">{ttSunucu(p.ad)}</div>
-                <div className="alt-yazi">{ttSunucu(p.aciklama)}</div>
-                <div className="bd-paket-icerik">
-                  {Object.entries(p.icerik ?? {}).map(([tur, adet]) => (
-                    <span key={tur} className="bd-paket-parca">
-                      <Ikon ad={JOKER_BILGI[tur]?.ikon ?? "soru"} boyut={15} /> {adet}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              {/* Buton PASİF DEĞİL: coin yetmezse basınca söyler ve Coin
-                  sekmesine götürür (görev kuralı). */}
-              <button
-                className="btn kucuk"
-                disabled={jokerSerbest || alinan === p.urun_id}
-                onClick={() => jokerCoinIleAl(p.urun_id)}
-              >
-                {alinan === p.urun_id
-                  ? "…"
-                  : <><Ikon ad="coin" boyut={14} /> {Number(p.coin_fiyat).toLocaleString("tr-TR")}</>}
-              </button>
-            </div>
-          ))}
-        </div>
       </div>
       )}
 
