@@ -688,8 +688,19 @@ function DuelloMac({ id }) {
             <h2>{ceviri("Saldırı kategorini seç")}</h2>
             {sayac(false)}
           </div>
-          <p className="alt-yazi">{ceviri("Rakibinin kategori başarısı. Kırmızı çerçeve: en zayıf kategorisi — bilirse canı sen kaybedersin.")}</p>
-          <p className="alt-yazi bd-duello-kural-not">{ceviri("En zayıf kategori maç başında sabitlenir; yüzdeler eşitse biri seçilip kilitlenir. Bu yüzden eşit görünen kategorilerden yalnız biri riskli.")}</p>
+          {/* Paket 42 F: kural ilk turda tam okunur; sonraki turlarda tek satır + "Detay" ile açılır */}
+          {(d.tur ?? 1) <= 1 ? (
+            <>
+              <p className="alt-yazi">{ceviri("Rakibinin kategori başarısı. Kırmızı çerçeve: en zayıf kategorisi — bilirse canı sen kaybedersin.")}</p>
+              <p className="alt-yazi bd-duello-kural-not">{ceviri("En zayıf kategori maç başında sabitlenir; yüzdeler eşitse biri seçilip kilitlenir. Bu yüzden eşit görünen kategorilerden yalnız biri riskli.")}</p>
+            </>
+          ) : (
+            <details className="bd-duello-kural-kisa">
+              <summary className="alt-yazi">{ceviri("Kırmızı çerçeve: riskli kategori")} <span className="bd-duello-kural-detay">{ceviri("Detay")}</span></summary>
+              <p className="alt-yazi">{ceviri("Rakibinin kategori başarısı. Kırmızı çerçeve: en zayıf kategorisi — bilirse canı sen kaybedersin.")}</p>
+              <p className="alt-yazi bd-duello-kural-not">{ceviri("En zayıf kategori maç başında sabitlenir; yüzdeler eşitse biri seçilip kilitlenir. Bu yüzden eşit görünen kategorilerden yalnız biri riskli.")}</p>
+            </details>
+          )}
           <div className="bd-duello-kat-grid">
             {d.kategoriler.map((k) => {
               const adet = Number(kullanim.sayim?.[k] ?? 0);

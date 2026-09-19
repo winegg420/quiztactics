@@ -8224,3 +8224,14 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 :root[data-tema="koyu"] .app .mss > .mss-eylem { box-shadow: 0 0 0 100vmax rgba(16, 20, 28, 0.72); }
 /* E.3 tamamlanan görev: ödül nereden alınır */
 .app .mss-gorev-ipucu { margin: 2px 0 0; font-size: 12px; font-weight: 700; color: var(--bd-basari-metin); text-align: left; }
+
+/* PAKET 42 F — Düello kategori kuralı: 2. turdan sonra tek satır, "Detay" ile açılır */
+.app .bd-duello-kural-kisa { margin: 0 0 8px; }
+.app .bd-duello-kural-kisa > summary {
+  display: flex; align-items: center; gap: 6px; min-height: 44px; margin: 0;
+  cursor: pointer; list-style: none;
+}
+.app .bd-duello-kural-kisa > summary::-webkit-details-marker { display: none; }
+.app .bd-duello-kural-detay { font-weight: 800; color: #C4530F; text-decoration: underline; text-underline-offset: 2px; }
+.app .bd-duello-kural-kisa[open] .bd-duello-kural-detay { text-decoration: none; }
+.app .bd-duello-kural-kisa > summary:focus-visible { outline: 3px solid var(--bd-vurgu); outline-offset: 2px; border-radius: 8px; }
