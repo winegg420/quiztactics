@@ -412,10 +412,13 @@ input:focus { border-color: var(--primary); }
 
 .yukleniyor { display: flex; justify-content: center; padding: 48px; color: var(--text-dim); }
 
+/* Paket 40 C: taban renkleri eski koyu temadandı (#fca5a5 açık pembe) — .app ve modal dışındaki
+   yerlerde (giriş sayfası, BildimApp kurulum hatası) 1,49:1 okunuyordu. Şenlik açık tema
+   değerleri artık tabanda (tema.css'teki .app/modal kuralıyla aynı): #B62F2F / #FFE6E2 ≈ 5,2:1. */
 .hata-kutu {
-  background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.4);
-  color: #fca5a5; padding: 12px 14px; border-radius: 12px;
-  font-size: 13px; margin-bottom: 12px;
+  background: #FFE6E2; border: 0;
+  color: #B62F2F; padding: 12px 14px; border-radius: 12px;
+  font-size: 13px; font-weight: 800; margin-bottom: 12px;
 }
 
 @keyframes nabiz { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
@@ -2002,7 +2005,7 @@ input:focus { border-color: var(--primary); }
   grid-column: 1 / -1;
   font-size: 11.5px; line-height: 1.45; color: var(--text-dim); text-align: center;
 }
-.bd-joker-not.hata { color: #fca5a5; }
+.bd-joker-not.hata { color: #B62F2F; }   /* Paket 40 C: #fca5a5 açık zeminde okunmuyordu */
 .bd-joker-not a { color: var(--primary); font-weight: 700; }
 
 /* ---------- Joker dükkânı ---------- */
