@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Ikon from "../components/Ikon.jsx";
 import MacUstSerit from "../components/MacUstSerit.jsx";
+import Modal from "../components/Modal.jsx";
 import DurumKutusu from "../components/DurumKutusu.jsx";
 import Maskot from "../components/Maskot.jsx";
 import { hataMesaji } from "../lib/hata.js";
@@ -49,6 +50,8 @@ function IzleyiciSayac({ soru }) {
 export default function TournamentPage() {
   const { user, refreshProfile } = useAuth();
   const [turnuva, setTurnuva] = useState(null);
+  // Paket 43 C: turnuvada maçtan çıkmak elenmek demek — X onay ister (Düello'daki terkOnay kalıbı)
+  const [cikisOnay, setCikisOnay] = useState(false);
   const [oyuncular, setOyuncular] = useState([]);
   const [soru, setSoru] = useState(null);
   // Kendi son cevabımızın zamanı (geri bildirim penceresi için)
@@ -655,7 +658,26 @@ export default function TournamentPage() {
     <div>
       <h1 className="baslik bd-gorsel-gizli">{tt("Turnuva")}</h1>
       {/* Paket 41 B/E/H: Klasik ile aynı çıkış (X), mod rozeti ve ses */}
-      <MacUstSerit onCik={() => navigate(y())} rozet={soru?.altin ? tt("Turnuva · altın soru") : tt("Turnuva")} />
+      {/* Paket 43 C: hâlâ yarışan oyuncu için çıkış onaylı; elenmiş oyuncu / izleyici doğrudan çıkar.
+          Vazgeç'te maç duraklamaz — soru sayacı sunucu saatinden akmaya devam eder. */}
+      <MacUstSerit
+        onCik={() => (!elendim && !izleyiciyim ? setCikisOnay(true) : navigate(y()))}
+        rozet={soru?.altin ? tt("Turnuva · altın soru") : tt("Turnuva")}
+      />
+      {cikisOnay && (
+        <Modal onKapat={() => setCikisOnay(false)} etiket={tt("Turnuvadan çık")}>
+          <div className="bd-modal">
+            <h2 className="bd-modal-baslik">{tt("Turnuvadan çıkarsan elenirsin.")}</h2>
+            <p className="alt-yazi">{tt("Bu turnuvaya geri dönemezsin.")}</p>
+            <div className="bd-joker-sat-dugmeler">
+              <button type="button" className="btn ikincil" onClick={() => setCikisOnay(false)}>{tt("Vazgeç")}</button>
+              <button type="button" className="btn tehlike" onClick={() => { setCikisOnay(false); navigate(y()); }}>
+                {tt("Çık ve elen")}
+              </button>
+            </div>
+          </div>
+        </Modal>
+      )}
       {/* ALTIN SORU: sorular bitti, hayatta kalanlar eşit. Eleme turnuvası
           berabere bitemez — biri kazanana kadar yeni soru gelir. */}
       {soru?.altin ? (
