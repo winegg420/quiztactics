@@ -712,9 +712,10 @@ export default function MatchPage() {
           benHazir={Boolean(nabiz?.ben_hazir)}
           hazirSayisi={(nabiz?.ben_hazir ? 1 : 0) + (nabiz?.rakip_hazir ? 1 : 0)}
           toplamOyuncu={2}
+          // Paket 42 D.4: tek durum dili — "Beklenen" hazır olmayan HERKESİ sayar, kendisi dahil ("Sen")
           bekleyenAdlar={
-            nabiz && !nabiz.rakip_hazir && rakipProfil?.gorunen_ad
-              ? [rakipProfil.gorunen_ad]
+            nabiz
+              ? [!nabiz.ben_hazir && tt("Sen"), !nabiz.rakip_hazir && rakipProfil?.gorunen_ad].filter(Boolean)
               : []
           }
           onHazir={hazirla}
@@ -729,14 +730,14 @@ export default function MatchPage() {
               <div className="taraf bd-vs-taraf">
                 <Avatar profile={benimProfil} boyut={44} />
                 <div className="isim">{benimProfil?.gorunen_ad}<SenRozeti /></div>
-                <div className="bd-vs-ilerleme">{nabiz?.ben_hazir ? "hazır" : "bekleniyor…"}</div>
+                <div className={"bd-vs-ilerleme" + (nabiz?.ben_hazir ? " hazir" : "")}>{nabiz?.ben_hazir ? tt("hazır") : tt("hazır değil")}</div>
               </div>
               <div className="vs bd-vs-rozet">VS</div>
               <div className="taraf bd-vs-taraf">
                 <Avatar profile={rakipProfil} boyut={44} />
                 <div className="isim">{rakipProfil?.gorunen_ad}</div>
-                <div className="bd-vs-ilerleme">
-                  {nabiz?.rakip_hazir ? "hazır" : nabiz?.rakip_baglantili ? "ekranda" : "bekleniyor…"}
+                <div className={"bd-vs-ilerleme" + (nabiz?.rakip_hazir ? " hazir" : "")}>
+                  {nabiz?.rakip_hazir ? tt("hazır") : tt("hazır değil")}
                 </div>
               </div>
             </div>

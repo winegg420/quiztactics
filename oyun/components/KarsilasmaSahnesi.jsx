@@ -32,7 +32,9 @@ export const KARSILASMA_ANIM_MS = 1000;
  * @param {string}  o.baslik      üst başlık ("Düello rakibi aranıyor…")
  * @param {React.ReactNode} [o.children]  alt satırlar (ipucu, sayaç, düğmeler)
  */
-export default function KarsilasmaSahnesi({ rakip, bulundu, ezeli, baslik, children }) {
+// Paket 42 D.1: bosEtiket — rakip kartı boşken altındaki yazı başlıkla aynı durumu söylesin
+// (başlık "Maç hazırlanıyor…" derken kutu "Rakip aranıyor" diyordu).
+export default function KarsilasmaSahnesi({ rakip, bulundu, ezeli, baslik, bosEtiket, children }) {
   const { user, profile } = useAuth();
   const [unvan, setUnvan] = useState(null);
 
@@ -78,7 +80,7 @@ export default function KarsilasmaSahnesi({ rakip, bulundu, ezeli, baslik, child
           ) : (
             <>
               <div className="bd-karsilasma-siluet" aria-hidden="true">?</div>
-              <div className="bd-karsilasma-ad soluk">{bulundu ? tt("Rakip bulundu!") : tt("Rakip aranıyor")}</div>
+              <div className="bd-karsilasma-ad soluk">{bulundu ? tt("Rakip bulundu!") : bosEtiket ?? tt("Rakip aranıyor")}</div>
             </>
           )}
         </div>

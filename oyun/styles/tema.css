@@ -8178,3 +8178,26 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   .bd-alttan .bd-kategori-sheet,
   .bd-alttan .bd-joker-sat { border-radius: 22px; }
 }
+
+/* ============================================================
+   PAKET 42 D — rakip arama ve maç ekranı
+   ============================================================ */
+/* D.2 "+10" uçuşu açık yeşil şıkkın üstünde sarı (#FFC53D) okunmuyordu.
+   Koyu altın yazı + beyaz hale + hafif gölge: her zeminde seçilir. */
+.bd-puan-ucus {
+  color: var(--bd-odul-metin);
+  text-shadow: 0 0 2px #FFFFFF, 0 0 2px #FFFFFF, 0 0 4px #FFFFFF, 0 2px 0 #FFFFFF, 0 4px 10px rgba(32, 50, 74, 0.35);
+}
+/* D.3 "elinde var" ile "satın alınır" aynı köşede, aynı biçimdeydi.
+   Adet: sağ üst yuvarlak (değişmedi). Fiyat: ALT ORTADA köşeli etiket, coin ikonlu. */
+.app .bd-joker-cubuk .bd-jk-rozet.fiyat,
+.bd-jk-rozet.fiyat {
+  top: auto; bottom: -9px; right: auto; left: 50%;
+  transform: translateX(-50%);
+  height: 18px; border-radius: 6px; white-space: nowrap;
+}
+/* D.4 hazırlık kapısı: herkes için aynı etiket — hazır (yeşil, onaylı) / hazır değil (ikincil metin) */
+.app .bd-vs-ilerleme.hazir,
+.app .bd-hazir-etiket.hazir { color: var(--bd-basari-metin); font-weight: 800; }
+.app .bd-vs-ilerleme.hazir::before,
+.app .bd-hazir-etiket.hazir::before { content: "✓ "; }

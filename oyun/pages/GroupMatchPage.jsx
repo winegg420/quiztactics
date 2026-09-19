@@ -424,7 +424,9 @@ export default function GroupMatchPage() {
         benHazir={Boolean(nabiz?.ben_hazir)}
         hazirSayisi={nabiz?.hazir_sayisi ?? 0}
         toplamOyuncu={nabiz?.toplam_oyuncu ?? siraliSkor.length}
-        bekleyenAdlar={nabiz?.bekleyenler ?? []}
+        // Paket 42 D.4: kendi adı "Sen" olarak yazılır (tek durum dili, Klasik ile aynı)
+        bekleyenAdlar={(nabiz?.bekleyenler ?? []).map((ad) =>
+          ad === siraliSkor.find((k) => k.user_id === user.id)?.profil?.gorunen_ad ? tt("Sen") : ad)}
         onHazir={hazirla}
         onCik={() => navigate(y("/meydan"))}
         tabela={
@@ -437,11 +439,13 @@ export default function GroupMatchPage() {
                 </span>
                 {/* Paket 41 M.1: satır durumu da sayaç gibi YALNIZ nabızdan (tek kaynak). Tablodaki
                     hazir sütunu botların hazır sayılmasını bilmiyordu; sayaç "0/4" derken liste "hazır" diyordu. */}
-                <span className="alt-yazi">
-                  {k.user_id === user.id
-                    ? (nabiz?.ben_hazir ? tt("hazır") : tt("bekleniyor…"))
-                    : (nabiz?.bekleyenler ?? []).includes(k.profil?.gorunen_ad) ? tt("bekleniyor…") : tt("ekranda")}
-                </span>
+                {/* Paket 42 D.4: "bekleniyor…"/"ekranda" iki ayrı dil yerine herkes için hazır / hazır değil */}
+                {(() => {
+                  const hazir = k.user_id === user.id
+                    ? Boolean(nabiz?.ben_hazir)
+                    : !(nabiz?.bekleyenler ?? []).includes(k.profil?.gorunen_ad);
+                  return <span className={"alt-yazi bd-hazir-etiket" + (hazir ? " hazir" : "")}>{hazir ? tt("hazır") : tt("hazır değil")}</span>;
+                })()}
               </div>
             ))}
           </div>

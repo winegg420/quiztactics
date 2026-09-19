@@ -272,6 +272,9 @@ export default function RakipAra({ kategori, dereceli = true, jokersiz = false, 
         <KarsilasmaSahnesi
           rakip={rakipProfil}
           bulundu={bulundu}
+          bosEtiket={hata ? tt("Rakip bulunamadı")
+            : Array.isArray(botListesi) && !secilenBot ? tt("Botunu seç")
+            : botaDusuldu ? tt("Hazırlanıyor…") : undefined}
           baslik={rakipAdi
             ? `${tt("Rakip bulundu:")} ${rakipAdi}`
             : bulundu

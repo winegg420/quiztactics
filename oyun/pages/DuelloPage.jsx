@@ -220,6 +220,7 @@ function DuelloArama({ dereceli, onBulundu, onIptal }) {
           rakip={rakip}
           bulundu={bulundu}
           ezeli={ezeli}
+          bosEtiket={hata ? ceviri("Rakip bulunamadı") : undefined}
           baslik={bulundu ? ceviri("Rakip bulundu!") : hata ? ceviri("Rakip bulunamadı") : ceviri("Düello rakibi aranıyor…")}
         >
           {!bulundu && !hata && (
