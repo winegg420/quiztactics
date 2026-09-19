@@ -6746,3 +6746,10 @@ SQL/migration yok. Commit'ler 41202c8 → rapor. Rapor: `PAKET41_RAPOR.md`.
 - Öne çıkanlar: tek düğme dili (birincil/ikincil/tehlike); ana sayfa mod ızgarası 2×2; alttan açılan pencereler sürüklenerek kapanır (`Modal.jsx`, `bd-alttan`); maç sonu çubuğu 135→113 px ve kısa içerikte en altta; Meydan okumalar katlanır bölümler; sohbette gün ayırıcı; dükkânda paketler üstte + coin uyarısı; bildirim zilinde ✕ ve solma; Gizlilik/Koşullar içindekiler (`Icindekiler.jsx`); giriş sayfasında maskot, form yazı tipi, hata düğme yanında; kalan dört kontrast ≥ 4,5.
 - Kararlar/gözlemler: EN çeviride kalın sonrası boşluk kaybı yalnız 2 anahtardaydı (tarayıcı betiğiyle 2013 anahtar tarandı). Lig arkadaş sekmesi oyuncunun kendisini zaten içeriyordu (denetim sahte veriden yanıldı; `profiles_select=true`). "Tümünü okundu say" eklenmedi — zil açılınca zaten hepsi okundu oluyor.
 - Açık sorular (sahibine): K.2 bayrak emojisi Windows'ta, U masaüstü düzeni, P.2 okundu davranışı.
+
+## 19 Eylül 2026 — Paket 43 (Kalan maddeler)
+- A kontrast: 7+ gün seri sayısı 2,31→6,11; ustalık seviye yazıları (5 seviye, hepsi eşik altıydı) → 5,11–6,51; Gizlilik/Koşullar bağlantıları 2,68→5,00 (kök sebep: yasal sayfalar `.app` dışında, `.app` önekli kural eşleşmiyordu).
+- B: turnuva lobisi kılıcı gerçek `<button>`, 44×44, soluk görünüm; satır kapsayıcı + iki kardeş düğme (iç içe düğme yok), satır 48 px korundu. Lig satırı da aynı yapıya geçti; podyum `role="button"` kaldı (blok içerik, iç içe etkileşim yok).
+- C: turnuva maçından çıkış onaylı (yalnız yarışan oyuncu; elenmiş/izleyici doğrudan çıkar). Aktif turnuvada sunucuda "ayrıl" RPC'si yok — elenme eskisi gibi cevapsız soruyla.
+- D: CLAUDE.md/AGENTS.md turnuva saatleri = canlı 7 seans; eski sabah/akşam ayarları DB'de duruyor, kullanılmıyor (not düşüldü, silinmedi).
+- Rapor: `PAKET43_RAPOR.md`.
