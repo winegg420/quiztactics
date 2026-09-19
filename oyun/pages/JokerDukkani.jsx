@@ -349,7 +349,8 @@ export default function JokerDukkani() {
               {tt("Reklam şu an kullanılamıyor")}
             </button>
             <div className="alt-yazi" style={{ marginTop: 8 }}>
-              {tt("Reklam kimliği tanımlı değil (test modu). Sahte ödül verilmez.")}
+              {/* Paket 40 F: eskiden geliştirici metniydi ("Reklam kimliği tanımlı değil (test modu)…"). */}
+              {tt("Şimdilik maç oynayarak ve günlük görevlerle coin kazanabilirsin.")}
             </div>
           </>
         ) : (

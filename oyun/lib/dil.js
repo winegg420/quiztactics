@@ -1491,6 +1491,7 @@ const SOZLUK = {
     "ödül.": "rewards a day.",
     "Reklam şu an kullanılamıyor": "Ads are unavailable right now",
     "Reklam kimliği tanımlı değil (test modu). Sahte ödül verilmez.": "No ad ID configured (test mode). No fake rewards are given.",
+    "Şimdilik maç oynayarak ve günlük görevlerle coin kazanabilirsin.": "For now you can earn coins by playing matches and daily quests.",
     "Reklam açılıyor…": "Opening ad…",
     "Bugünlük hakkın doldu": "You've used today's allowance",
     "Video izle (+{0} coin)": "Watch video (+{0} coins)",
