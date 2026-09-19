@@ -13,6 +13,7 @@ import BildirimToast from "./BildirimToast.jsx";
 import Ikon from "./Ikon.jsx";
 import CoinHapi from "./CoinHapi.jsx";
 import Avatar from "../../src/components/Avatar.jsx";
+import AvatarMenu from "./AvatarMenu.jsx";
 import Logo from "./Logo.jsx";
 // SADELEŞTİRME: tema ve ses düğmeleri üst bardan Profil sayfasına
 // taşındı (sadeleştirme). Bileşenler silinmedi; geri istenirse tek satır.
@@ -167,9 +168,8 @@ export default function Layout() {
                     aria-label={tt("Görünüm — karakterini giydir")} title={tt("Görünüm")}>
                 <Ikon ad="tisort" boyut={20} />
               </Link>
-              <Link to={y("/profil")} className="bd-profil-link" aria-label={tt("Profilim ve ayarlar")} title={tt("Profilim")}>
-                <Avatar profile={profile} boyut={34} />
-              </Link>
+              {/* Paket 41 C: avatar artık kısayol menüsü açar (Profilim · Ayarlar · Ses · Dil · Çıkış) */}
+              <AvatarMenu profile={profile} />
             </div>
           )}
         </header>

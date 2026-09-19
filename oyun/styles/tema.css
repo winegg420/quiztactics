@@ -8013,3 +8013,36 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   background: var(--bd-yuzey-1); box-shadow: 0 2px 0 var(--bd-kart-alt);
   font-size: 12px; font-weight: 900; letter-spacing: 0.3px; color: var(--bd-metin-2);
 }
+
+/* ============================================================
+   PAKET 41 C — avatar menüsü (üst çubuk)
+   ============================================================ */
+.bd-avatar-menu-kap { position: relative; }
+.app .bd-avatar-menu-dugme { cursor: pointer; font: inherit; padding: 0; }
+.app .bd-avatar-menu {
+  position: absolute; right: 0; top: calc(100% + 8px); z-index: 80;
+  min-width: 220px; padding: 6px;
+  display: flex; flex-direction: column; gap: 2px;
+  background: var(--bd-yuzey-1); border-radius: 16px;
+  box-shadow: 0 4px 0 var(--bd-kart-alt), 0 12px 28px rgba(32, 50, 74, 0.18);
+}
+.app .bd-avatar-menu > button,
+.app .bd-avatar-menu-dil {
+  display: flex; align-items: center; gap: 10px;
+  min-height: 44px; padding: 0 12px; border: 0; border-radius: 12px;
+  background: transparent; color: var(--bd-metin);
+  font: inherit; font-size: 15px; font-weight: 800; text-align: left; cursor: pointer;
+}
+.app .bd-avatar-menu > button:hover,
+.app .bd-avatar-menu > button:focus-visible { background: var(--bd-zemin); outline: none; }
+.app .bd-avatar-menu > button:focus-visible { box-shadow: inset 0 0 0 2px var(--bd-vurgu); }
+.app .bd-avatar-menu-durum { margin-left: auto; font-size: 13px; color: var(--bd-metin-2); }
+.app .bd-avatar-menu-dil { cursor: default; }
+.app .bd-avatar-menu-dil > button {
+  min-width: 44px; min-height: 44px; border: 0; border-radius: 10px;
+  background: var(--bd-zemin); color: var(--bd-metin-2);
+  font: inherit; font-weight: 900; cursor: pointer;
+}
+.app .bd-avatar-menu-dil > button.aktif { background: var(--bd-vurgu); color: var(--bd-vurgu-ustu, #3A1A04); }
+.app .bd-avatar-menu-dil > button:focus-visible { outline: 3px solid var(--bd-vurgu); outline-offset: 2px; }
+.app .bd-avatar-menu > button.cikis { color: #B01F19; border-top: 1px solid var(--bd-kenar); border-radius: 0 0 12px 12px; }

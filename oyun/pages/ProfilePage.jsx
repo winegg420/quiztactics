@@ -4,7 +4,7 @@ import Ikon from "../components/Ikon.jsx";
 import { sesAcikMi, sesAyarla, sesDinle, sesTik } from "../lib/ses.js";
 import Modal from "../components/Modal.jsx";
 import { hataMesaji } from "../lib/hata.js";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import Avatar from "../../src/components/Avatar.jsx";
@@ -42,6 +42,21 @@ export default function ProfilePage() {
   const [kopyalandi, setKopyalandi] = useState(false);
   // Profil dört sekmeye ayrıldı; varsayılan İstatistiklerim.
   const [sekme, setSekme] = useState("istatistik");
+  // Paket 41 C: avatar menüsündeki "Ayarlar" → /profil?sekme=ayarlar doğrudan Ayarlar sekmesini açar
+  const konum = useLocation();
+  useEffect(() => {
+    const s = new URLSearchParams(konum.search).get("sekme");
+    if (!s || !["istatistik", "ayarlar", "rozet", "davet"].includes(s)) return;
+    setSekme(s);
+    const t = setTimeout(() => {
+      // Üst çubuk yapışkan: sekmeler onun hemen altına gelsin
+      const el = document.getElementById("profil-sekmeler");
+      if (!el) return;
+      const ust = document.querySelector(".bd-ust-blok")?.getBoundingClientRect().height ?? 0;
+      window.scrollTo({ top: Math.max(0, el.getBoundingClientRect().top + window.scrollY - ust - 8), behavior: "auto" });
+    }, 150);
+    return () => clearTimeout(t);
+  }, [konum.search, konum.key]);
   const [bildirim, setBildirim] = useState("kapali");
   const [ses, setSes] = useState(() => sesAcikMi());
   useEffect(() => sesDinle(setSes), []);   // Paket 41 B: maç şeridi/avatar menüsüyle eşit
@@ -163,7 +178,7 @@ export default function ProfilePage() {
           Sayfa 3890 px'ti: kimlik, istatistik, sekiz ayar kartı, rozetler
           ve davet arka arkaya tek sütundaydı. Bloklar AYNEN korundu,
           yalnız dört sekmeye ayrıldı. */}
-      <div className="bd-profil-sekmeler" role="tablist" aria-label={tt("Profil bölümleri")}>
+      <div className="bd-profil-sekmeler" id="profil-sekmeler" role="tablist" aria-label={tt("Profil bölümleri")}>
         {[["istatistik", tt("İstatistiklerim")], ["ayarlar", tt("Ayarlar")],
           ["rozet", tt("Rozetler")], ["davet", tt("Davet")]].map(([id, ad]) => (
           <button
