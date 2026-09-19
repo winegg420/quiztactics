@@ -40,7 +40,8 @@ body {
   overscroll-behavior-y: contain; /* maç sırasında yanlışlıkla sayfa yenilenmesin */
 }
 
-button { font-family: inherit; }
+/* Paket 42 S.1: form öğeleri tarayıcı yazı tipini (Arial) değil sayfanınkini (Nunito) kullanır */
+button, input, textarea, select { font-family: inherit; }
 
 /* Dokunmatikte çift dokunma yakınlaştırmasını ve seçim vurgusunu kapat */
 button, a, .secenek {

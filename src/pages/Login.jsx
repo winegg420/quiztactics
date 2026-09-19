@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase.js";
 import Logo from "../../oyun/components/Logo.jsx";
+import Maskot from "../../oyun/components/Maskot.jsx";
 import { girisHedefiniKaydet } from "../lib/girisHedefi.js";
 import { useDil } from "../../oyun/lib/dilKanca.js";
 import { DILLER } from "../../oyun/lib/dil.js";
@@ -44,6 +45,8 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [gonderildi, setGonderildi] = useState(false);
   const [hata, setHata] = useState(null);
+  // Paket 42 S.2: hata basılan düğmenin yanında açılır (eskiden formun en üstünde, sayfayı ~46 px itiyordu)
+  const [hataYeri, setHataYeri] = useState("sosyal");   // sosyal | eposta | misafir
   const [bekleyen, setBekleyen] = useState(null); // hangi düğme çalışıyor
   // Supabase'de gerçekten açık olan sağlayıcılar (null = henüz bilinmiyor)
   const [acikListe, setAcikListe] = useState(null);
@@ -66,6 +69,7 @@ export default function Login() {
    */
   const facebookGiris = () => {
     if (acikListe && !acikListe.facebook) {
+      setHataYeri("sosyal");
       setHata(ceviri("Facebook girişi henüz açılmadı. Google veya e-posta ile devam edebilirsin."));
       return;
     }
@@ -100,6 +104,7 @@ export default function Login() {
       });
       if (error) throw error;
     } catch (e) {
+      setHataYeri("sosyal");
       setHata(girisHatasi(e, SAGLAYICI_AD[provider] ?? provider, ceviri));
     } finally {
       setBekleyen(null);
@@ -116,6 +121,7 @@ export default function Login() {
       const { error } = await supabase.auth.signInAnonymously();
       if (error) throw error;
     } catch (e) {
+      setHataYeri("misafir");
       setHata(girisHatasi(e, "Misafir", ceviri));
     } finally {
       setBekleyen(null);
@@ -144,6 +150,7 @@ export default function Login() {
       if (error) throw error;
       setGonderildi(true);
     } catch (err) {
+      setHataYeri("eposta");
       setHata(girisHatasi(err, "E-posta", ceviri));
     } finally {
       setBekleyen(null);
@@ -171,6 +178,8 @@ export default function Login() {
       {/* Tek site, tek marka. Eskiden burada hub ile Quiz Tactics ayrımı
           vardı (VITE_MOD); Quiz Tactics kendi deposuna taşınınca kalktı. */}
       <div className="buyuk-logo"><Logo boyut={44} /></div>
+      {/* Paket 42 S.3: ilk ekranda oyunun yüzü — mevcut maskot Bilge (yeni görsel yok) */}
+      <Maskot poz="selam" boyut={88} className="giris-maskot" />
       <div className="slogan">
         {/* Paket 40 G: saatler sabit yazılıydı ("13:00 ve 21:50"); artık oyunun kullandığı tek listeden
             (oyun_ayarlari.turnuva_saatleri → zaman.js). Giriş öncesi ayar okunamazsa kod varsayılanı. */}
@@ -183,8 +192,6 @@ export default function Login() {
         <br />
         {ceviri("7/24 meydan okumalar. Sen de yerini al.")}
       </div>
-
-      {hata && <div className="hata-kutu">{hata}</div>}
 
       <button
         className="sosyal-btn"
@@ -212,6 +219,8 @@ export default function Login() {
         {bekleyen === "twitter" ? ceviri("Yönlendiriliyor…") : ceviri("X (Twitter) ile devam et")}
       </button>
       )}
+
+      {hata && hataYeri === "sosyal" && <div className="hata-kutu giris-hata" role="alert">{hata}</div>}
 
       <div className="ayrac">{ceviri("veya")}</div>
 
@@ -246,6 +255,7 @@ export default function Login() {
           </button>
         </form>
       )}
+      {hata && hataYeri === "eposta" && <div className="hata-kutu giris-hata" role="alert">{hata}</div>}
 
       <div className="ayrac">{ceviri("hesap açmadan")}</div>
 
@@ -256,6 +266,7 @@ export default function Login() {
       >
         {bekleyen === "misafir" ? ceviri("Giriş yapılıyor…") : ceviri("Misafir olarak dene")}
       </button>
+      {hata && hataYeri === "misafir" && <div className="hata-kutu giris-hata" role="alert">{hata}</div>}
       {/* Kapalı sağlayıcıyı vaat etmeyelim: liste GERÇEKTEN açık olan
           sağlayıcılardan üretilir (panelden okunur). */}
       <div className="giris-not">

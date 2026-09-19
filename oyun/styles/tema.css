@@ -8338,3 +8338,11 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 .bd-icindekiler a:hover, .bd-icindekiler a:focus-visible { text-decoration: underline; text-underline-offset: 2px; }
 .bd-icindekiler a:focus-visible { outline: 3px solid var(--bd-vurgu); outline-offset: 2px; border-radius: 6px; }
 .bd-metin-sayfa > h2 { scroll-margin-top: 80px; }
+
+/* ============================================================
+   PAKET 42 S — giriş sayfası
+   ============================================================ */
+/* S.3 maskot: logo ile slogan arasında, oyunun yüzü */
+.giris .giris-maskot { display: block; margin: 4px auto 6px; }
+/* S.2 hata basılan düğmenin hemen altında; tam genişlik, formla aynı en */
+.giris .giris-hata { width: 100%; max-width: 340px; margin: 8px 0 0; }
