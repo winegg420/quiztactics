@@ -505,3 +505,53 @@ Görüntüler: profilkarti-arkadas-{390,1280}-{acik,koyu}.png · profilkarti-hat
 ### ✅ İyi olan
 - Tek birincil ("Oyna", turuncu), ikincil "Meydan oku" ve "Mesaj at" beyaz + turuncu kenar — Paket 38 kuralı burada da tutarlı.
 - Büyük avatar, rütbe rozeti, şehir, dört temel istatistik — ilk bakışta okunuyor.
+
+---
+
+## 17. Lig (`/siralama`)
+Görüntüler: lig-ligim-{390,1280}-{acik,koyu}.png · lig-ligim-390-en · lig-ligim-tam-*.png · lig-ulke · lig-dunya · lig-arkadas · lig-ligim-bos · lig-hata
+(hepsi -390-acik aksi yazılmadıkça)
+
+### 🟡 Eksik
+- 390'da beş sekme sığmıyor: "DÜNYA" ile "ARKADAŞ" üst üste biniyor, ARKADAŞ'ın sonu kesiliyor; kaydırılabilir olduğuna dair ipucu yok.
+  Nerede: `LeaderboardPage.jsx:278` (`.bd-sekme-ust`). Kanıt: lig-dunya-390-acik.png, lig-arkadas-390-acik.png.
+- Liste yüklenemezse ham hata ("sahte hata") ile boş durum ("Bu ligde henüz kimse yarışmıyor — ilk sırayı sen kap." + Hemen oyna) aynı anda çıkıyor.
+  Nerede: `LeaderboardPage.jsx:355`. Kanıt: lig-hata-390-acik.png. Oyuncuya etkisi: ligini kaybettiğini sanır.
+- "↑ YÜKSELME SINIRI" yeşil çizgi etiketi 11,5 px **3,02:1**; lig rozeti "Efsane" 11 px **3,59:1** (koyu temada 1,22:1).
+- Şehir sekmesi konum yokken denetlenemedi (sekmeye dokunulamadı — düzenek); konum isteyen boş durum görülmedi.
+
+### 🔵 Kozmetik
+- Arkadaş sekmesinde oyuncunun kendisi listede yok, yalnız arkadaşlar var; kendini kıyaslayamıyor. (Sahte veride kendi satırı dönmediyse kaynağı bu olabilir — ❔.)
+- Ligim listesinde her satırda aynı turuncu kılıç düğmesi (24 tane); "sen" satırında yok — iyi, ama liste gürültülü.
+
+### ✅ İyi olan
+- Grup başlığı tek satırda her şeyi söylüyor: "Altın Lig · 12/25 · ↑ ilk 5 yükselir · ↓ son 5 düşer · 1 gün 23 saat kaldı".
+- Yükselme ve düşme sınırı çizgileri listenin içinde; kendi satırın "sen" rozetiyle ayrışıyor. 9.999 puan, 16 karakterlik ad sığıyor.
+- Dünya/Ülke'de podyum (2-1-3), "Bu hafta / Tüm zamanlar" anahtarı, "ilk 3 rozet kazanır" teşviki.
+- Toplam oyuncu sayısı gösterilmiyor (CLAUDE.md kuralı) — grup 25 kişi olarak kalıyor.
+
+---
+
+## 18. Dükkân (`/joker`)
+Görüntüler: dukkan-gorunum-{390,1280}-{acik,koyu}.png · dukkan-gorunum-390-en · dukkan-joker-{390-acik,390-koyu,1280-acik} ·
+dukkan-joker-coin-az-390-acik · dukkan-coin-{390,1280}-acik · dukkan-hata-390-acik
+
+### 🟡 Eksik
+- Coin sekmesinde geliştirici metni oyuncuya görünüyor: "Reklam kimliği tanımlı değil (test modu). Sahte ödül verilmez."
+  Nerede: `oyun/pages/JokerDukkani.jsx:352`. Yayından önce kaldırılmalı ya da oyuncu diline çevrilmeli. Kanıt: dukkan-coin-390-acik.png.
+- Envanter/paketler yüklenemezse ham hata + bütün jokerler "0" çiziliyor; oyuncu jokerlerinin silindiğini sanır. Kanıt: dukkan-hata-390-acik.png.
+- Dükkân sekmeleri (Görünüm/Joker/Coin) 115×40 px (hedef 44).
+
+### 🔵 Kozmetik
+- Joker sekmesi envanterle (8 kutu) ve kurallar listesiyle açılıyor; satın alınabilir paketler ekranın altında, kaydırmadan görünmüyor.
+  Dükkânda ilk görülen şey "satın al" olmalıydı. Kanıt: dukkan-joker-390-acik.png.
+- Coin azken (20) Joker sekmesinin ilk ekranında bir fark yok; "yetersiz" durumu ancak paketlere inince görülebilir (bu denetimde paket kartları görüntülenmedi).
+
+### ❔ Şüpheli
+- Görünüm sekmesi "Vitrin hazırlanıyor…" metninde kaldı, kozmetik kartları çizilmedi (headless tarayıcıda WebGL/3B yükleme olabilir).
+  Kural gereği Gardırop ekranına girilmedi; "Karakterime git" düğmesi var.
+
+### ✅ İyi olan
+- Coin sekmesi dürüst: "Satın alma yalnızca Android uygulamasında yapılabilir", paketlerde "Uygulamada" düğmesi, günlük reklam sayacı "bugün 0/5".
+- Ödeme ve iade notu + Gizlilik Politikası bağlantısı her sekmede.
+- Joker kuralları dört maddede açık ("Bir maçta en çok 4 joker…", "Turnuva finalinde… kullanılamaz").
