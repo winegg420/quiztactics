@@ -2171,7 +2171,10 @@ export function t(dil, anahtar, degerler) {
   const metin = (dil !== "tr" && SOZLUK[dil]?.[anahtar]) || anahtar.split("|")[0];
   if (!degerler) return metin;
   return metin.replace(/\{(\w+)\}/g, (tam, ad) =>
-    Object.prototype.hasOwnProperty.call(degerler, ad) ? String(degerler[ad]) : tam
+    // Paket 40 I: sunucudan eksik gelen alan ekrana "undefined"/"null" diye basılmasın
+    Object.prototype.hasOwnProperty.call(degerler, ad)
+      ? (degerler[ad] === undefined || degerler[ad] === null ? "" : String(degerler[ad]))
+      : tam
   );
 }
 

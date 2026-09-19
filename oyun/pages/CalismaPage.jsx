@@ -23,6 +23,9 @@ const SORU_SECENEKLERI = [10, 20, 30];
  * Hatalarım — puansız, tek kişilik çalışma modu.
  * Lig puanı vermez; yalnız kategori ustalığına ve öğrenilen soru sayacına işler.
  */
+/** Sunucudan gelen sayı alanı gerçekten sayı mı (eksik/null/undefined değil). */
+const sayiMi = (x) => x !== null && x !== undefined && x !== "" && Number.isFinite(Number(x));
+
 export default function CalismaPage() {
   const navigate = useNavigate();
   const [asama, setAsama] = useState("secim"); // secim | oyun | sonuc
@@ -370,7 +373,7 @@ export default function CalismaPage() {
         ? soru.secenekler
         : JSON.parse(soru.secenekler)
       : [];
-    const toplam = soru?.toplam ?? oturum?.soru_sayisi ?? 0;
+    const toplam = Number(soru?.toplam ?? oturum?.soru_sayisi ?? 0) || 0;
     const sirada = (soru?.soru_index ?? 0) + 1;
     const oran = toplam > 0 ? (sirada / toplam) * 100 : 0;
 
@@ -414,7 +417,10 @@ export default function CalismaPage() {
         </div>
 
         {/* Paket 20 V: dağılım sunucudan (calisma_baslat: bankadan / havuzdan) */}
-        {oturum && (
+        {/* Paket 40 I: alan eksikse cümle hiç çizilmez ("Bu turdaki undefined sorunun…" görünüyordu) */}
+        {oturum && sayiMi(oturum.bankadan)
+          && (oturum.bankadan !== 0 || sayiMi(oturum.soru_sayisi))
+          && (oturum.bankadan === 0 || !(oturum.havuzdan > 0) || sayiMi(oturum.havuzdan)) && (
           <div className="bd-calisma-dagilim" role="status">
             {oturum.bankadan === 0
               ? tt("Bankan temiz — pratik turu: {n} yeni soru.", { n: oturum.soru_sayisi })
@@ -428,9 +434,12 @@ export default function CalismaPage() {
           <div className="iz">
             <div className="dolgu" style={{ width: `${oran}%` }} />
           </div>
-          <span className="bd-calisma-kalan">
-            {sirada}/{toplam} · {Math.max(0, toplam - sirada)} {tt("soru kaldı")}
-          </span>
+          {/* Paket 40 I: toplam bilinmiyorsa "1/0 · 0 soru kaldı" yazmasın */}
+          {toplam > 0 && (
+            <span className="bd-calisma-kalan">
+              {sirada}/{toplam} · {Math.max(0, toplam - sirada)} {tt("soru kaldı")}
+            </span>
+          )}
         </div>
 
         {soru && (
