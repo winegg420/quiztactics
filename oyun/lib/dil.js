@@ -689,6 +689,7 @@ const SOZLUK = {
     "{0} rövanş isteği": "{0} rematch requests",
     "{0} grup maçı daveti": "{0} group match invites",
     "{0} hızlı maç daveti": "{0} quick match invites",
+    "{0} düello daveti": "{0} duel invites",
     "{0} seri bildirimi": "{0} streak notifications",
     "{0} arkadaşlık isteği": "{0} friend requests",
     "az önce": "just now",
