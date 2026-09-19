@@ -444,6 +444,8 @@ export default function LeaderboardPage() {
                           <Ikon ad="robot" boyut={12} />
                         </span>
                       )}
+                      {/* Paket 42 L.1: podyumda da kendi yeri "sen" rozetiyle belli olsun (listede zaten vardı) */}
+                      {p.user_id === user.id && <SenRozeti />}
                     </div>
                     <div className="bd-podyum-puan"><SayanSayi deger={p.puan} /></div>
                     <div className="bd-podyum-kaide">{basamak}</div>

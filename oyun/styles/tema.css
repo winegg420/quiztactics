@@ -8272,3 +8272,16 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 
 /* PAKET 42 K.1 — içi boş kalan kart (ör. kategori profili verisi yok) yer tutmasın */
 .app .kart:empty { display: none; }
+
+/* ============================================================
+   PAKET 42 L.2 — Lig listesinde her satırdaki turuncu kılıç gürültüydü (24 tane).
+   Kılıç ikincil/soluk: zeminsiz, ince kenar, gri ikon (beyazda ≈3,7:1, ikon eşiği 3:1);
+   üstüne gelince / odakta marka turuncusu. Dokunma alanı değişmedi.
+   ============================================================ */
+.app .bd-lig .bd-lig-satir .bd-ikon-btn {
+  background: transparent; color: var(--bd-metin-3);
+  border: 1px solid var(--bd-kenar); box-shadow: none;
+}
+.app .bd-lig .bd-lig-satir .bd-ikon-btn:hover,
+.app .bd-lig .bd-lig-satir .bd-ikon-btn:focus-visible { color: #C4530F; border-color: var(--bd-vurgu); }
+.app .bd-lig .bd-lig-satir .bd-ikon-btn:active { transform: translateY(2px); box-shadow: none; }
