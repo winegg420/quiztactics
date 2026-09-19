@@ -125,6 +125,7 @@ export default function MatchPage() {
   // Paket 36: sonuç sahnesi — rövanş isteği yuvası (eylem çubuğu), Detay rozeti, bot rövanşı çalışıyor
   const [rovansYuva, setRovansYuva] = useState(null);
   const [yanlisAdet, setYanlisAdet] = useState(0);
+  const [gorevler, setGorevler] = useState([]);   // Paket 37 D.1: sahnede Detay'ın üstünde
   const [botRovans, setBotRovans] = useState(false);
   const { ceviri } = useDil();
   // Uygulanmış en ileri damga (bkz. ilerlemeDamgasi)
@@ -780,11 +781,12 @@ export default function MatchPage() {
           ben={{ profil: benimProfil, skor: benimSkor, ek: `${ilerleme.ben}/${toplamSoru}` }}
           rakip={{ profil: rakipProfil, skor: rakipSkor, ek: `${ilerleme.rakip}/${toplamSoru}` }}
           oduller={oduller}
+          gorevler={gorevler}
           detayRozet={yanlisAdet}
           ozet={
             <>
               {/* Paket 20 I.3: satır satır döküm; üstteki ödül hapları da aynı sunucu toplamını gösterir */}
-              <OdulDokumu kaynak={`mac:${id}`} onToplam={(t) => setOdulum((o) => ({ ...(o ?? {}), lig_puan: t.lig, coin: t.coin }))} />
+              <OdulDokumu kaynak={`mac:${id}`} onGorevler={setGorevler} gorevleriGoster={false} onToplam={(t) => setOdulum((o) => ({ ...(o ?? {}), lig_puan: t.lig, coin: t.coin }))} />
               <MacSonuDokum macId={id} kazanilanPuan={odulum?.lig_puan ?? 0} />
               <MacSorulari kaynak={`mac:${id}`} />
               <MacSonuEklentisi

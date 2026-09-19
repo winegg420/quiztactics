@@ -10,6 +10,8 @@ import { tt } from "../lib/dil.js";
  * kaynak: "mac:<id>" · "duello:<id>" · "hizli:<id>" · "turnuva:<id>" · "grup:<id>"
  * onToplam({lig, coin}): sayfanın üstteki kazanç satırı aynı toplamı göstersin diye.
  * onDokum(dokum): isteğe bağlı, hazır dökümün tamamı (Paket 36: turnuva sırası `turnuva_derece.detay.sira`).
+ * onGorevler(gorevler): isteğe bağlı (Paket 37 D.1), alınmamış günlük görevler [{id, ad, ilerleme, hedef}];
+ *   maç sonu sahnesi bunları Detay'ın üstünde gösterir — o zaman gorevleriGoster={false} ile Detay'dan çıkar.
  */
 const INDIRIM = {
   serbest: "serbest maç — coin yarı",
@@ -39,7 +41,7 @@ function miktar(k) {
   return p.length ? p.join(" · ") : "0";
 }
 
-export default function OdulDokumu({ kaynak, onToplam, onDokum, gorevleriGoster = true }) {
+export default function OdulDokumu({ kaynak, onToplam, onDokum, onGorevler, gorevleriGoster = true }) {
   const [dokum, setDokum] = useState(null);
 
   useEffect(() => {
@@ -56,6 +58,7 @@ export default function OdulDokumu({ kaynak, onToplam, onDokum, gorevleriGoster 
         setDokum(data);
         if (data?.hazir && data.toplam && onToplam) onToplam(data.toplam);
         if (data?.hazir && onDokum) onDokum(data);
+        if (onGorevler) onGorevler((data?.gorevler ?? []).filter((g) => !g.alindi));
         if (!data?.hazir && i + 1 < bekle.length) zamanlayici = setTimeout(() => dene(i + 1), bekle[i + 1]);
       } catch (e) {
         console.error("[Bildim] odul_dokumu başarısız:", e);

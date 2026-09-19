@@ -110,6 +110,40 @@ function OdulSatiri({ oduller, adim, atlandi, baslangic, hapRef }) {
   );
 }
 
+/**
+ * Paket 37 D.1 — günlük görev ilerlemesi (ödül haplarının altında, Detay'ın üstünde).
+ * En çok ilerlemiş iki görev; hiçbiri ilerlemediyse hiç çizilmez. Ödül haplarıyla aynı anda
+ * (5. adım) girer; veri geç gelirse kalan gecikmeyle.
+ */
+function GorevIlerlemesi({ gorevler, atlandi, baslangic }) {
+  const [gecikme] = useState(() => kalanGecikme(baslangic, ESIKLER[4]));
+  const oran = (g) => (g.hedef > 0 ? Math.min(1, g.ilerleme / g.hedef) : 0);
+  const secilen = gorevler
+    .filter((g) => g && g.ilerleme > 0 && g.hedef > 0)
+    .sort((a, b) => oran(b) - oran(a))
+    .slice(0, 2);
+  if (!secilen.length) return null;
+  return (
+    <div className="mss-gorevler mss-sira" aria-label={tt("Günlük görevler")}
+         style={atlandi ? undefined : { animationDelay: `${gecikme}ms` }}>
+      {secilen.map((g) => {
+        const bitti = g.ilerleme >= g.hedef;
+        return (
+          <div key={g.id} className={`mss-gorev${bitti ? " bitti" : ""}`}>
+            <span className="mss-gorev-ad">{tt(g.ad)}</span>
+            <span className="mss-gorev-cubuk" role="progressbar" aria-valuemin={0} aria-valuemax={g.hedef}
+                  aria-valuenow={Math.min(g.ilerleme, g.hedef)} aria-label={tt(g.ad)}>
+              <span style={{ width: `${oran(g) * 100}%` }} />
+            </span>
+            <b className="mss-gorev-sayi">{Math.min(g.ilerleme, g.hedef)}/{g.hedef}</b>
+            {bitti && <span className="mss-gorev-onay" role="img" aria-label={tt("Tamamlandı")}><Ikon ad="onay" boyut={12} /></span>}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 /** Ödül hapından üst bardaki coin sayacına uçan 3 coin. Hedef yoksa hiç çizilmez. */
 function CoinUcusu({ kaynak, hedef, onBitti }) {
   const [yol, setYol] = useState(null);
@@ -152,6 +186,7 @@ function CoinUcusu({ kaynak, hedef, onBitti }) {
  * @param {object} [rakip]             { profil, skor, can, ek }  — sağdaki taraf; yoksa tek avatar
  * @param {number} [canToplam]         düelloda 3; verilmezse kalp çizilmez
  * @param {Array}  [oduller]           [{ ikon:"coin", deger:50, etiket:"coin" }, …]
+ * @param {Array}  [gorevler]          günlük görevler [{id, ad, ilerleme, hedef}] (OdulDokumu › onGorevler)
  * @param {ReactNode} [odulNotu]       ödül yoksa hap satırının yerine (ör. "Arkadaş maçı — ödül ve puan yok.")
  * @param {ReactNode} [karsilasma]     ben/rakip yerine serbest orta sahne (podyum, şampiyon, tek avatar)
  * @param {ReactNode} [ozet]           "Detay" içine girecek mod-özel bölüm
@@ -168,6 +203,7 @@ export default function MacSonuSahnesi({
   rakip,
   canToplam,
   oduller,
+  gorevler,
   odulNotu,
   karsilasma,
   ozet,
@@ -299,6 +335,10 @@ export default function MacSonuSahnesi({
       ) : odulNotu ? (
         <div className="mss-odul-notu mss-sira">{odulNotu}</div>
       ) : null}
+
+      {gorevler?.length > 0 && (
+        <GorevIlerlemesi gorevler={gorevler} atlandi={atlandi} baslangic={baslangic} />
+      )}
 
       {ozet && (
         <div className={`mss-detay mss-sira${detayAcik ? " acik" : ""}`}>

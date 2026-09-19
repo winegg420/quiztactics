@@ -7642,6 +7642,36 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 .app .mss > .mss-odul-notu { margin: 12px auto 0; animation: mss-yuksel 240ms ease-out 1050ms both; }
 .app .mss-odul-notu .bd-odulsuz-not { display: inline-block; }
 
+/* Paket 37 D.1 — günlük görev ilerlemesi: kaybedince de eli boş çıkılmasın.
+   Ödül haplarıyla aynı anda (1050 ms) girer. En çok iki satır. */
+.app .mss > .mss-gorevler {
+  display: grid;
+  gap: 6px;
+  max-width: 320px;
+  margin: 10px auto 0;
+  animation: mss-yuksel 240ms ease-out both;
+}
+.app .mss-gorev {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 72px auto 14px;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  text-align: left;
+  color: var(--bd-metin);
+}
+.app .mss-gorev-ad { font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.app .mss-gorev-cubuk {
+  display: block;
+  height: 4px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(244, 112, 31, 0.15);
+}
+.app .mss-gorev-cubuk > span { display: block; height: 100%; border-radius: 999px; background: var(--bd-vurgu); }
+.app .mss-gorev-sayi { font-size: 12px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.app .mss-gorev-onay { display: inline-flex; color: var(--bd-basari-2); }
+
 /* Coin uçuşu: fixed kapsayıcı yerinde durur; x ve y ayrı eğriyle → yay. */
 .mss-coin-ucus {
   position: fixed;

@@ -73,6 +73,7 @@ export default function HizliModPage() {
   const [kalanSoru, setKalanSoru] = useState(VARSAYILAN_SORU_SN);
   const [sonuc, setSonuc] = useState(null);
   const [dokumToplam, setDokumToplam] = useState(null);   // Paket 20 I.3
+  const [gorevler, setGorevler] = useState([]);   // Paket 37 D.1: sahnede Detay'ın üstünde
   const [dereceli, setDereceli] = useDereceliTercih();
   const [odul, setOdul] = useState({ dogru: 3, tavan: 25 });
   const { ceviri } = useDil();
@@ -445,6 +446,7 @@ export default function HizliModPage() {
       baslik={rekor ? tt("Haftanın en iyisi!") : tt("Oturum bitti")}
       ben={{ profil: profile, skor: sonuc?.skor ?? skor, ek: `${toplamDogru} ${tt("doğru")} · ${sonuc?.yanlis ?? 0} ${tt("yanlış")}` }}
       oduller={oduller}
+      gorevler={gorevler}
       ozet={
         <>
           <div className="kart bd-hizli-sonuc">
@@ -454,7 +456,7 @@ export default function HizliModPage() {
               <div><b>{sonuc?.en_iyi_hafta ?? skor}</b><span>{tt("hafta en iyi")}</span></div>
             </div>
           </div>
-          {oturum?.oturum_id && sonuc && <OdulDokumu kaynak={`hizli:${oturum.oturum_id}`} onToplam={setDokumToplam} />}
+          {oturum?.oturum_id && sonuc && <OdulDokumu kaynak={`hizli:${oturum.oturum_id}`} onToplam={setDokumToplam} onGorevler={setGorevler} gorevleriGoster={false} />}
           {oturum?.oturum_id && sonuc && <MacSorulari kaynak={`hizli:${oturum.oturum_id}`} />}
         </>
       }

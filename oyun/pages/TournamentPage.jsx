@@ -57,6 +57,7 @@ export default function TournamentPage() {
   // Paket 36: biten turnuvanın sonuç sahnesi. Ödül toplamı ve sıra SUNUCUNUN
   // yazdığı dökümden (odul_dokumu › turnuva_derece.detay.sira) gelir; istemci sıralamaz.
   const [turnuvaDokum, setTurnuvaDokum] = useState(null);
+  const [gorevler, setGorevler] = useState([]);   // Paket 37 D.1: sahnede Detay'ın üstünde
   const [turnuvaYanlis, setTurnuvaYanlis] = useState(0);
   // "Turnuvalara dön" sahneyi kapatır; bu oturumda aynı turnuva için bir daha açılmaz.
   const [sonucKapandi, setSonucKapandi] = useState(0);
@@ -420,10 +421,11 @@ export default function TournamentPage() {
               )}
             </div>
           }
+          gorevler={gorevler}
           detayRozet={turnuvaYanlis}
           ozet={
             <>
-              <OdulDokumu kaynak={`turnuva:${turnuva.id}`} onDokum={setTurnuvaDokum} />
+              <OdulDokumu kaynak={`turnuva:${turnuva.id}`} onDokum={setTurnuvaDokum} onGorevler={setGorevler} gorevleriGoster={false} />
               <MacSorulari kaynak={`turnuva:${turnuva.id}`} />
               <YanlisSatiri macTur="turnuva" macId={turnuva.id} onAdet={setTurnuvaYanlis} />
             </>

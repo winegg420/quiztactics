@@ -71,6 +71,7 @@ export default function GroupMatchPage() {
   const [gecisBitti, setGecisBitti] = useState(false);
   // Paket 36: sonuç sahnesinin "Detay (n)" rozeti (YanlisSatiri sayar)
   const [yanlisAdet, setYanlisAdet] = useState(0);
+  const [gorevler, setGorevler] = useState([]);   // Paket 37 D.1: sahnede Detay'ın üstünde
   const balonTimer = useRef({});
 
   const balonGoster = useCallback((kimden, mesaj) => {
@@ -497,6 +498,7 @@ export default function GroupMatchPage() {
             ))}
           </div>
         }
+        gorevler={gorevler}
         detayRozet={yanlisAdet}
         ozet={
           <>
@@ -513,7 +515,7 @@ export default function GroupMatchPage() {
               ))}
             </div>
                 {/* Paket 20 I.3: ödülsüz mod — döküm yalnız açılan rozet + günlük görev ilerlemesini gösterir */}
-            <OdulDokumu kaynak={`grup:${id}`} />
+            <OdulDokumu kaynak={`grup:${id}`} onGorevler={setGorevler} gorevleriGoster={false} />
             <MacSorulari kaynak={`grup:${id}`} />
             <YanlisSatiri macTur="grup" macId={id} onAdet={setYanlisAdet} />
           </>

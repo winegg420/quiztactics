@@ -274,6 +274,7 @@ function DuelloMac({ id }) {
   // joker envantere girer, kullanımı Saldırı Hazırlığı'nda yapılır.
   const [satinAlinacak, setSatinAlinacak] = useState(null);
   const [dokumToplam, setDokumToplam] = useState(null);   // Paket 20 I.3: sunucu dökümünün toplamı
+  const [gorevler, setGorevler] = useState([]);   // Paket 37 D.1: sahnede Detay'ın üstünde
   // Paket 30 C: rövanş bekleme penceresi — yalnız arayüz durumu (sunucuya dokunmaz)
   const [rovBas, setRovBas] = useState(null);          // bekleme başladığı yerel an (ms)
   const [rovVazgec, setRovVazgec] = useState(false);   // "Vazgeç" — sunucuda geri çekme yok, yalnız pencere kapanır
@@ -530,9 +531,10 @@ function DuelloMac({ id }) {
           rakip={{ profil: rakip, can: rakip.can }}
           canToplam={DUELLO_CAN}
           oduller={oduller}
+          gorevler={gorevler}
           ozet={d.durum === "bitti" || ezeliMetin ? (
             <>
-              {d.durum === "bitti" && <OdulDokumu kaynak={`duello:${d.id}`} onToplam={setDokumToplam} />}
+              {d.durum === "bitti" && <OdulDokumu kaynak={`duello:${d.id}`} onToplam={setDokumToplam} onGorevler={setGorevler} gorevleriGoster={false} />}
               {d.durum === "bitti" && d.son_hamle?.altin && secenekler.length > 0 && (
                 <AltinSonucu h={d.son_hamle} ben={d.ben} soru={d.soru?.soru} secenekler={secenekler} ceviri={ceviri} />
               )}
