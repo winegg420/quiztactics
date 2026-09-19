@@ -404,7 +404,12 @@ export default function ProfilePage() {
             const var_mi = kazanilan.has(r.id);
             return (
               <div key={r.id} className={`rozet ${var_mi ? "" : "kilitli"}`}>
-                <div className="rozet-ikon">{var_mi ? r.ikon : <Ikon ad="kilit" boyut={18} />}</div>
+                <div className="rozet-ikon">
+                  <span className="rozet-emoji">{r.ikon}</span>
+                  {!var_mi && (
+                    <span className="rozet-kilit" aria-hidden="true"><Ikon ad="kilit" boyut={9} /></span>
+                  )}
+                </div>
                 <div className="rozet-ad">{ttSunucu(r.ad)}</div>
                 <div className="rozet-aciklama">{ttSunucu(r.aciklama)}</div>
               </div>
