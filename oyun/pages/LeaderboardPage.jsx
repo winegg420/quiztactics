@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Ikon from "../components/Ikon.jsx";
 import SenRozeti from "../components/SenRozeti.jsx";
 import Modal from "../components/Modal.jsx";
@@ -46,6 +46,20 @@ export default function LeaderboardPage() {
   const { user, profile } = useAuth();
   const navigate = useNavigate();
   const [kapsam, setKapsam] = useState("lig");
+  // Paket 40 H: 390 px'te beş sekme sığmıyordu (DÜNYA ile ARKADAŞ üst üste). Şerit kayar; kaydırılacak
+  // içerik kaldıkça sağ kenar solar — Çalışma sayfasının kategori şeridiyle (Paket 37 G) aynı desen.
+  const sekmeSeritRef = useRef(null);
+  const [sekmeDevam, setSekmeDevam] = useState(false);
+  const sekmeSeritOlc = useCallback(() => {
+    const e = sekmeSeritRef.current;
+    if (!e) return;
+    setSekmeDevam(e.scrollWidth - e.clientWidth - e.scrollLeft > 2);
+  }, []);
+  useEffect(() => {
+    sekmeSeritOlc();
+    window.addEventListener("resize", sekmeSeritOlc);
+    return () => window.removeEventListener("resize", sekmeSeritOlc);
+  }, [sekmeSeritOlc]);
   // Kendi lig grubumun üst bilgisi (lig adı, grup boyu, sınırlar, sezon sonu)
   const [grupBilgi, setGrupBilgi] = useState(null);
   const [donem, setDonem] = useState("hafta");
@@ -275,7 +289,8 @@ export default function LeaderboardPage() {
 
       {hata && <div className="hata-kutu">{hata}</div>}
 
-      <div className="bd-sekme-ust">
+      <div className={`bd-sekme-ust bd-lig-kapsam${sekmeDevam ? " bd-serit-solma" : ""}`}
+           ref={sekmeSeritRef} onScroll={sekmeSeritOlc}>
         {KAPSAMLAR.map((k) => (
           <button
             key={k.id}

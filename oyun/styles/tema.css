@@ -1975,7 +1975,9 @@ body::before {
 }
 /* Paket 37 H — Ayarlar › Avatarın: 36 px önizleme; halka dışa taştığı için 4 px pay */
 .bd-ayar-avatar-onizleme { flex: none; display: inline-flex; margin: 4px; }
-/* Paket 37 G — Çalışma sayfası: yalnız kaydırılacak içerik varken sağ 24 px solar */
+/* Paket 37 G — Çalışma sayfası: yalnız kaydırılacak içerik varken sağ 24 px solar
+   (Paket 40 H: aynı ipucu Lig sekme şeridinde de) */
+.bd-sekme-ust.bd-serit-solma,
 .bd-kat-grid.bd-serit-solma {
   mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent);
   -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent);
@@ -4653,6 +4655,14 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   box-shadow: 0 3px 0 var(--bd-kart-alt);
   font-weight: 900;
 }
+/* Paket 40 H — Lig kapsam şeridi yatay kayar; sekmeler büzülmez, yer varsa büyür */
+.app .bd-sekme-ust.bd-lig-kapsam {
+  overflow-x: auto; overscroll-behavior-x: contain;
+  scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  padding-bottom: 6px;   /* sekmelerin 3 px alt kalınlığı kırpılmasın */
+}
+.app .bd-sekme-ust.bd-lig-kapsam::-webkit-scrollbar { display: none; }
+.app .bd-sekme-ust.bd-lig-kapsam > .bd-sekme { flex: 1 0 auto; white-space: nowrap; padding: 8px 12px; }
 .app .bd-sekme-ust > .aktif,
 .app .bd-sekme-alt > .aktif {
   background: linear-gradient(180deg, var(--bd-vurgu-acik), var(--bd-vurgu));
