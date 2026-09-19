@@ -8346,3 +8346,12 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 .giris .giris-maskot { display: block; margin: 4px auto 6px; }
 /* S.2 hata basılan düğmenin hemen altında; tam genişlik, formla aynı en */
 .giris .giris-hata { width: 100%; max-width: 340px; margin: 8px 0 0; }
+
+/* ============================================================
+   PAKET 42 T — 3:1–4,5:1 arası kalan kontrastlar → ≥ 4,5:1
+   ============================================================ */
+/* Lig "↑ yükselme sınırı" #16A34A açık zeminde 3,02 → koyu yeşil; düşme çizgisi de koyu kırmızı */
+.app .bd-lig-cizgi.yukselme { color: var(--bd-basari-metin); }
+.app .bd-lig-cizgi.dusme { color: var(--bd-hata-metin, #B01F19); }
+/* Maç tabelası: geride olan tarafın avatarı 0,62 soluyordu — içindeki baş harf 3,86 → 0,85 */
+.app .bd-vs-taraf.geride > .bd-cerceve { opacity: 0.85; }

@@ -4,7 +4,8 @@ import { tt } from "./dil.js";
 // Rütbe kimliği korunsun diye renk aynı kalır; metin için rengin metin
 // rengiyle yarı yarıya karışımı kullanılır. Açık temada koyulaşır (≥ 4.6),
 // koyu temada açılır (≥ 8.0) — tek tanım iki temada da doğru.
-const metinRengi = (renk) => `color-mix(in srgb, ${renk} 50%, var(--bd-metin))`;
+// Paket 42 T: %50 karışım rütbe etiketinin tint zemininde Efsane için 3,59:1 kalıyordu → %35 (≥ 4,5).
+const metinRengi = (renk) => `color-mix(in srgb, ${renk} 35%, var(--bd-metin))`;
 
 // SQL tarafındaki public.rutbe() ile aynı eşikler
 export const RUTBELER = [
