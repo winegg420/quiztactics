@@ -5463,10 +5463,16 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   box-shadow: 0 0 0 4px var(--lc-ic), 0 0 0 6px #fff, 0 0 0 9px var(--lc-dis), 0 0 14px rgba(184, 107, 255, 0.5);
 }
 .bd-lig-cerceve-secici .bd-lig-cerceve-efsane::before { inset: -11px; }
+/* Halka box-shadow ile dışa taşar (9 px); kartın kenarına ve ada değmesin diye aynı kadar yer açılır. */
+.bd-lig-cerceve-secici .bd-lig-cerceve-sec > .bd-cerceve { margin: 9px; }
+.bd-lig-cerceve-secici .bd-lig-cerceve-sec { padding-top: 8px; gap: 4px; }
 /* Ad çerçevenin dış tonunda. Ham --lc-dis beyazda 2,9–4,0:1 (13 px için AA 4,5 ister);
    aynı ton %75'e koyulaştırıldı → en düşük 4,89:1. Koyu temada beyaza doğru açılır. */
 .bd-lig-cerceve-ad { font-weight: 800; color: color-mix(in srgb, var(--lc-dis) 75%, #000); }
 :root[data-tema="koyu"] .bd-lig-cerceve-ad { color: color-mix(in srgb, var(--lc-dis) 75%, #fff); }
+/* --bd-yuzey hiçbir yerde tanımlı değil → düğme koyu temada da #fff kalıyordu ("Çerçeve takma"
+   görünmüyordu). Koyuda kart yüzeyi: açılmış lig adları burada en az 5,0:1. */
+:root[data-tema="koyu"] .bd-lig-cerceve-sec { background: var(--bd-yuzey-2); }
 /* ============================================================
    BASILABİLİR HER ŞEY — kabartma + çok hafif küçülme
 
