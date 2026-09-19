@@ -12,7 +12,7 @@
 
 import { lazy, Suspense, useEffect } from "react";
 import { Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
-import { girisHedefiniAl } from "./lib/girisHedefi.js";
+import { girisHedefiniAl, bilinenYol } from "./lib/girisHedefi.js";
 import { useAuth } from "./context/AuthContext.jsx";
 import { supabaseHazir } from "./lib/supabase.js";
 import Login from "./pages/Login.jsx";
@@ -30,6 +30,7 @@ const LeaderboardPage = lazy(() => import("../oyun/pages/LeaderboardPage.jsx"));
 const FriendsPage = lazy(() => import("../oyun/pages/FriendsPage.jsx"));
 const MesajlarPage = lazy(() => import("../oyun/pages/MesajlarPage.jsx"));   // Paket 35 E
 const ProfilePage = lazy(() => import("../oyun/pages/ProfilePage.jsx"));
+const BulunamadiPage = lazy(() => import("../oyun/pages/BulunamadiPage.jsx"));   // Paket 41 I
 const DavetPage = lazy(() => import("../oyun/pages/DavetPage.jsx"));
 const JokerDukkani = lazy(() => import("../oyun/pages/JokerDukkani.jsx"));
 // DONDURULDU (Paket 24 B): HizliModPage dosyasi duruyor, hicbir rota cagirmiyor.
@@ -98,6 +99,11 @@ export default function BildimApp() {
 
   // iPhone yönlendirmesi giriş ekranında da çıkmalı: kullanıcı Safari'de
   // siteyi ilk açtığında karşılaştığı ekran burası.
+  // Paket 41 I: oturumsuzken bilinmeyen adrese gelen giriş ekranını kökte görür;
+  // giriş sonrası ana sayfaya iner (adres /asdasd'de kalıp belirsizleşmez).
+  if (!session && !bagimsizModul && !bilinenYol(pathname))
+    return <Navigate to="/" replace />;
+
   if (!session && !bagimsizModul)
     return (
       <>
@@ -120,14 +126,15 @@ export default function BildimApp() {
           <Route path="mac/:id" element={<MatchPage />} />
           <Route path="grup-mac/:id" element={<GroupMatchPage />} />
           {/* DONDURULDU (Paket 24 B): sayfa duruyor, giris yok - ana sayfaya yonlendirir. */}
-          <Route path="hizli-mac/:id" element={<Navigate to="/bildim" replace />} />
+          {/* Paket 41 I: sessiz yönlendirme yerine "Bu mod şu an kapalı" notu, sonra ana sayfa */}
+          <Route path="hizli-mac/:id" element={<BulunamadiPage kapaliMod />} />
           <Route path="siralama" element={<LeaderboardPage />} />
           <Route path="arkadaslar" element={<FriendsPage />} />
           <Route path="mesajlar" element={<MesajlarPage />} />
           <Route path="mesajlar/:kisi" element={<MesajlarPage />} />
           <Route path="davet/:kod" element={<DavetPage />} />
           <Route path="joker" element={<JokerDukkani />} />
-          <Route path="hizli-mod" element={<Navigate to="/bildim" replace />} />
+          <Route path="hizli-mod" element={<BulunamadiPage kapaliMod />} />
           <Route path="duello" element={<DuelloPage />} />
           <Route path="duello/:id" element={<DuelloPage />} />
           <Route path="calisma" element={<CalismaPage />} />
@@ -136,6 +143,8 @@ export default function BildimApp() {
           <Route path="gorunum" element={<KarakterVitrini />} />
           <Route path="gorunum-3b" element={<Navigate to="../gorunum" replace />} />
           <Route path="profil" element={<ProfilePage />} />
+          {/* Paket 41 I: bilinmeyen adres → 404 (eskiden sessizce ana sayfa) */}
+          <Route path="*" element={<BulunamadiPage />} />
         </Route>
 
         {/* Geriye uyumluluk: hub adresleri → kök */}

@@ -12,10 +12,21 @@ const ANAHTAR = "idagg_giris_hedefi";
 // Eski bir hedefin çok sonra tetiklenmemesi için kısa ömür.
 const OMUR_MS = 15 * 60 * 1000;
 
+// Paket 41 I: uygulamanın tanıdığı ilk yol parçaları (BildimApp rotalarıyla aynı).
+// Bilinmeyen adres hedef olarak saklanmaz; giriş sonrası ana sayfaya inilir.
+const BILINEN = new Set(["", "turnuva", "meydan", "mac", "grup-mac", "hizli-mac", "siralama", "arkadaslar",
+  "mesajlar", "davet", "joker", "hizli-mod", "duello", "calisma", "harita", "harita-deneme", "gorunum",
+  "gorunum-3b", "profil", "gizlilik", "kosullar", "insan-prototip", "oyun", "bildim"]);
+export function bilinenYol(yol) {
+  if (typeof yol !== "string") return false;
+  return BILINEN.has(yol.split("?")[0].split("/")[1] ?? "");
+}
+
 // Giriş ekranına yönlendiren yollar hedef olarak saklanmaz.
 function hedefeUygunMu(yol) {
   if (typeof yol !== "string" || !yol.startsWith("/")) return false;
   if (yol.startsWith("//")) return false; // protokolsüz dış adres
+  if (!bilinenYol(yol)) return false;
   return yol !== "/";
 }
 
