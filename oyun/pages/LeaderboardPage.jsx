@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Ikon from "../components/Ikon.jsx";
 import SenRozeti from "../components/SenRozeti.jsx";
 import Modal from "../components/Modal.jsx";
+import DurumKutusu from "../components/DurumKutusu.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
@@ -67,6 +68,9 @@ export default function LeaderboardPage() {
   const [sehirSirasi, setSehirSirasi] = useState(null);
   const [yukleniyor, setYukleniyor] = useState(true);
   const [hata, setHata] = useState(null);
+  // Paket 41 A: sıralama okunamadıysa boş durum ("henüz kimse yarışmıyor") çizilmez
+  const [listeHata, setListeHata] = useState(false);
+  const [deneme, setDeneme] = useState(0);
   const [konumAc, setKonumAc] = useState(false);
   const [kalanHafta, setKalanHafta] = useState(() => haftaBitisi().getTime() - Date.now());
 
@@ -141,6 +145,7 @@ export default function LeaderboardPage() {
     const yukle = async () => {
       setYukleniyor(true);
       setHata(null);
+      setListeHata(false);
       setSehirSirasi(null);
       try {
         if (kapsam === "lig") {
@@ -180,8 +185,9 @@ export default function LeaderboardPage() {
         }
       } catch (e) {
         if (aktif) {
+          console.error("[Bildim] sıralama alınamadı:", e);
           setListe([]);
-          setHata(hataMesaji(e, tt("Sıralama yüklenemedi.")));
+          setListeHata(true);
         }
       } finally {
         if (aktif) setYukleniyor(false);
@@ -191,7 +197,7 @@ export default function LeaderboardPage() {
     return () => {
       aktif = false;
     };
-  }, [kapsam, donem, konumVar, arkadasListesi]);
+  }, [kapsam, donem, konumVar, arkadasListesi, deneme]);
 
   // Kendi sıram ve sezon bitişine kalan süre (kademeli lig şeridi için)
   const benimSiram = liste.find((s) => s.ben || s.user_id === user.id)?.sira ?? null;
@@ -363,7 +369,9 @@ export default function LeaderboardPage() {
           </button>
         </div>
       ) : yukleniyor ? (
-        <div className="yukleniyor">{tt("Yükleniyor…")}</div>
+        <DurumKutusu durum="yukleniyor" satir={5} />
+      ) : listeHata ? (
+        <DurumKutusu durum="hata" onTekrar={() => setDeneme((n) => n + 1)} />
       ) : ilk100.length === 0 ? (
         <div className="bd-bos-durum">
           <Maskot poz="dusunuyor" boyut={90} />

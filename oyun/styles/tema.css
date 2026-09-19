@@ -7964,3 +7964,29 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   .app .tabbar { padding-left: 0; padding-right: 0; }
   .app .tabbar a { padding-left: 0; padding-right: 0; letter-spacing: -0.04em; }
 }
+
+/* ============================================================
+   PAKET 41 A — ortak durum kutusu (DurumKutusu.jsx)
+   ============================================================ */
+.bd-durum-yukleniyor { display: grid; gap: 10px; padding: 14px 0; }
+.bd-durum-yukleniyor.kucuk { gap: 8px; padding: 8px 0; }
+.bd-iskelet {
+  display: block; height: 18px; border-radius: 10px;
+  background: linear-gradient(90deg, #E3EEF7 0%, #F4F9FD 50%, #E3EEF7 100%);
+  background-size: 200% 100%;
+  animation: bd-iskelet-akis 1.2s ease-in-out infinite;
+}
+.bd-iskelet:first-of-type { height: 26px; width: 60%; }
+.bd-iskelet:last-child { width: 80%; }
+@keyframes bd-iskelet-akis { from { background-position: 100% 0; } to { background-position: -100% 0; } }
+@media (prefers-reduced-motion: reduce) { .bd-iskelet { animation: none; } }
+.bd-durum-hata p { color: var(--bd-metin-2); }
+.bd-durum-hata p b { color: var(--bd-metin); }
+.bd-durum-hata.kucuk { padding: 10px 0; }
+/* Ana sayfa "Seni bekleyenler" boş satırı (Paket 41 A.5) */
+.app .bd-bekleyen-bos { color: var(--bd-metin-2); }
+.app .bd-bekleyen-bos-eylem {
+  margin-left: auto; flex: 0 0 auto;
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 4px;
+  font-weight: 900; color: #C4530F; text-decoration: none; white-space: nowrap;
+}

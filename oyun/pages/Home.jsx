@@ -17,6 +17,7 @@ import Ikon from "../components/Ikon.jsx";
 import RankBadge from "../components/RankBadge.jsx";
 import SeriRozeti from "../components/SeriRozeti.jsx";
 import Maskot from "../components/Maskot.jsx";
+import DurumKutusu, { useZamanAsimi } from "../components/DurumKutusu.jsx";
 import { y } from "../lib/yol.js";
 import { kategoriEtiket, kategorileriSirala } from "../lib/kategoriler.js";
 import KategoriIkon from "../components/KategoriIkon.jsx";
@@ -29,7 +30,9 @@ import { useDil } from "../lib/dilKanca.js";
 import { tt, ttSunucu } from "../lib/dil.js";
 
 export default function Home() {
-  const { user, profile, refreshProfile } = useAuth();
+  const { user, profile, refreshProfile, profilHata } = useAuth();
+  // Paket 41 A: profil hiç gelmezse sonsuz bekleme yerine hata durumu
+  const profilGecikti = useZamanAsimi(!profile);
   const navigate = useNavigate();
   const [lobide, setLobide] = useState(false);
   const [lobiSayisi, setLobiSayisi] = useState(0);
@@ -365,6 +368,19 @@ export default function Home() {
     aramayiAc(dereceli, jokersiz);
   };
 
+  // Paket 41 A: profil yokken sahte "Oyuncu · 0 PUAN · Çaylak" çizilmez
+  if (!profile) {
+    return (
+      <div className="anasayfa">
+        <h1 className="baslik bd-gorsel-gizli">{tt("Ana sayfa")}</h1>
+        <div className="kart">
+          <DurumKutusu durum={profilHata || profilGecikti ? "hata" : "yukleniyor"} satir={4}
+                       onTekrar={() => refreshProfile(user?.id)} />
+        </div>
+      </div>
+    );
+  }
+
   const puan = profile?.puan ?? 0;
   const rutbe = rutbeBul(puan);
   const sonraki = sonrakiRutbe(puan);
@@ -632,6 +648,15 @@ export default function Home() {
             <span className="ok" aria-hidden="true">›</span>
           </Link>
         ))}
+
+        {/* Paket 41 A.5: bekleyen maç/davet yokken başlık boş kalmasın */}
+        {siraSendeMaclar.length === 0 && bekleyenDavetlerim.length === 0 && (
+          <div className="bd-devam-eden bd-bekleyen-bos">
+            <Ikon ad="kilic" boyut={17} />
+            <span>{tt("Şu an seni bekleyen maç yok.")}</span>
+            <Link to={y("/meydan")} className="bd-bekleyen-bos-eylem">{tt("Arkadaşına meydan oku")}</Link>
+          </div>
+        )}
 
         {/* Gönderdiğim davetler: karşı taraf henüz cevaplamadı. */}
         {bekleyenDavetlerim.map((d) => (

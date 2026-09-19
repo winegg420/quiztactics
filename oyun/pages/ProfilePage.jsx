@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import DurumKutusu, { useZamanAsimi } from "../components/DurumKutusu.jsx";
 import Ikon from "../components/Ikon.jsx";
 import { sesAcikMi, sesAyarla, sesTik } from "../lib/ses.js";
 import Modal from "../components/Modal.jsx";
@@ -32,7 +33,9 @@ import { useDil } from "../lib/dilKanca.js";
 import { HesapGuvenceKarti, misafirMi } from "../components/HesapGuvence.jsx";
 
 export default function ProfilePage() {
-  const { user, profile, refreshProfile, signOut } = useAuth();
+  const { user, profile, refreshProfile, signOut, profilHata } = useAuth();
+  // Paket 41 A: profil hiç gelmezse sonsuza dek "Yükleniyor…" kalınmaz
+  const profilGecikti = useZamanAsimi(!profile);
   const { dil, dilDegistir } = useDil();
   const [rozetler, setRozetler] = useState([]);
   const [kazanilan, setKazanilan] = useState(new Set());
@@ -81,7 +84,14 @@ export default function ProfilePage() {
       .then(({ data }) => setKazanilan(new Set((data ?? []).map((b) => b.badge_id))));
   }, [user.id]);
 
-  if (!profile) return <div className="yukleniyor">{tt("Yükleniyor…")}</div>;
+  if (!profile) {
+    return (
+      <div className="kart">
+        <DurumKutusu durum={profilHata || profilGecikti ? "hata" : "yukleniyor"} satir={4}
+                     onTekrar={() => refreshProfile(user?.id)} />
+      </div>
+    );
+  }
 
   const r = rutbeBul(profile.puan);
   const sonraki = sonrakiRutbe(profile.puan);

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import Ikon from "./Ikon.jsx";
+import DurumKutusu from "./DurumKutusu.jsx";
 import { y } from "../lib/yol.js";
 import { tt, ttSunucu } from "../lib/dil.js";
 import { useDmOkunmamis } from "../lib/mesajlar.js";
@@ -171,6 +172,8 @@ export default function BildirimZili() {
   const zilRef = useRef(null);
   const [konum, setKonum] = useState(null);
 
+  // Paket 41 A: okunamadıysa "Henüz bildirim yok" denmez
+  const [yuklemeHata, setYuklemeHata] = useState(false);
   const yukle = useCallback(async () => {
     if (!user) return;
     try {
@@ -182,8 +185,10 @@ export default function BildirimZili() {
       if (error) throw error;
       setListe(okunmuslariSinirla(grupla(oncelikSirala(data ?? []))));
       setOkunmamis((data ?? []).filter((b) => !b.okundu).length);
-    } catch {
-      /* tablo henüz yok (migration bekliyor) veya ağ hatası — sessiz geç */
+      setYuklemeHata(false);
+    } catch (e) {
+      console.error("[Bildim] bildirimler alınamadı:", e);
+      setYuklemeHata(true);
     }
   }, [user]);
 
@@ -269,7 +274,9 @@ export default function BildirimZili() {
             </span>
           </button>
         )}
-        {liste.length === 0 && dmOkunmamis === 0 ? (
+        {yuklemeHata ? (
+          <DurumKutusu durum="hata" kucuk onTekrar={yukle} />
+        ) : liste.length === 0 && dmOkunmamis === 0 ? (
           <div className="bd-zil-bos">
             {tt("Henüz bildirim yok.")}<br />
             {tt("Maç davetleri, lig hareketleri ve arkadaşlık istekleri burada görünür.")}

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import KategoriIkon from "../components/KategoriIkon.jsx";
 import Ikon from "../components/Ikon.jsx";
 import Modal from "../components/Modal.jsx";
+import DurumKutusu from "../components/DurumKutusu.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
@@ -103,6 +104,9 @@ export default function ChallengesPage() {
   const bekleyenlerRef = useRef(null);
   const [botlar, setBotlar] = useState([]);
   const [oyuncular, setOyuncular] = useState([]);
+  // Paket 41 A: arkadaş ve maç listeleri için ayrı durum — hata boş durumla karışmasın
+  const [oyuncuDurum, setOyuncuDurum] = useState("yukleniyor");   // yukleniyor | hata | hazir
+  const [macHata, setMacHata] = useState(false);
   const [kategoriler, setKategoriler] = useState([]);
   const [kategori, setKategori] = useState(null); // null = karışık
   const [grupMaclar, setGrupMaclar] = useState([]);
@@ -269,7 +273,15 @@ export default function ChallengesPage() {
       .not("acik_bot_isabet", "is", null)
       .order("acik_bot_isabet", { ascending: true })
       .then(({ data }) => setBotlar(data ?? []));
-    // Rakip olabilecekler: YALNIZ arkadaşlar (sunucu da bunu zorunlu kılıyor).
+    arkadaslariYukle();
+    supabase
+      .rpc("get_categories")
+      .then(({ data }) => setKategoriler(data ?? []));
+  }, [user.id]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Rakip olabilecekler: YALNIZ arkadaşlar (sunucu da bunu zorunlu kılıyor).
+  const arkadaslariYukle = useCallback(() => {
+    setOyuncuDurum("yukleniyor");
     (async () => {
       try {
         const { data: dostluklar, error } = await supabase
@@ -285,6 +297,7 @@ export default function ChallengesPage() {
         ];
         if (idler.length === 0) {
           setOyuncular([]);
+          setOyuncuDurum("hazir");
           return;
         }
         const { data, error: hata2 } = await supabase
@@ -294,13 +307,13 @@ export default function ChallengesPage() {
           .order("puan", { ascending: false });
         if (hata2) throw hata2;
         setOyuncular(data ?? []);
-      } catch {
+        setOyuncuDurum("hazir");
+      } catch (e) {
+        console.error("[Bildim] meydan arkadaşları alınamadı:", e);
         setOyuncular([]);
+        setOyuncuDurum("hata");
       }
     })();
-    supabase
-      .rpc("get_categories")
-      .then(({ data }) => setKategoriler(data ?? []));
   }, [user.id]);
 
   const yukle = useCallback(async () => {
@@ -308,7 +321,7 @@ export default function ChallengesPage() {
     // o 30'un içindeydi; oyuncu 30 maçı geçince eski DEVAM EDEN maçları
     // listede göremiyordu (maç veritabanında duruyor, sadece görünmüyordu).
     // Süren işler asla listeden düşmemeli, biten maçlar kısıtlanabilir.
-    const [{ data: suren }, { data: biten }] = await Promise.all([
+    const [{ data: suren, error: h1 }, { data: biten, error: h2 }] = await Promise.all([
       supabase
         .from("matches")
         .select(MAC_SECIMI)
@@ -324,6 +337,9 @@ export default function ChallengesPage() {
         .order("created_at", { ascending: false })
         .limit(BITEN_LIMIT),
     ]);
+    // Paket 41 A: okunamadıysa listeler boş kalır ama bunun hata olduğu ayrıca söylenir
+    if (h1 || h2) console.error("[Bildim] meydan maçları alınamadı:", h1 ?? h2);
+    setMacHata(Boolean(h1 || h2));
     setMaclar([...(suren ?? []), ...(biten ?? [])]);
   }, [user.id]);
 
@@ -702,6 +718,9 @@ export default function ChallengesPage() {
         {tt("Bu sayfa bota ya da arkadaşına meydan okumak içindir. \"Hemen oyna\" ve \"Dereceli Maç\"ın rakip arayacağı kategori Ana Sayfa'dan seçilir.")}
       </p>
       {hata && <div className="hata-kutu">{hata}</div>}
+      {macHata && (
+        <div className="kart"><DurumKutusu durum="hata" kucuk metin={tt("Maç ve davet listen alınamadı.")} onTekrar={yukle} /></div>
+      )}
       {toast && <div className="bd-toast">{toast}</div>}
 
       {/* Sana gelen davetler EN ÜSTTE — aşağıda kalıp gözden kaçmasınlar */}
@@ -912,9 +931,11 @@ export default function ChallengesPage() {
       <div className="kart">
         <div className="bd-kat-baslik">
           <span>{tt("Arkadaşlarına meydan oku")}</span>
-          <span className="alt-yazi">{oyuncular.length} {tt("arkadaş")}</span>
+          {oyuncuDurum === "hazir" && <span className="alt-yazi">{oyuncular.length} {tt("arkadaş")}</span>}
         </div>
-        {oyuncular.length === 0 ? (
+        {oyuncuDurum !== "hazir" ? (
+          <DurumKutusu durum={oyuncuDurum} kucuk satir={2} onTekrar={arkadaslariYukle} />
+        ) : oyuncular.length === 0 ? (
           <div className="alt-yazi">
             {tt("Henüz arkadaşın yok.")} <b>{tt("Arkadaşlar")}</b> {tt("sekmesinden davet linkini paylaş.")}
           </div>

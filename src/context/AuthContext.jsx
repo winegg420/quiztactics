@@ -9,6 +9,8 @@ export function AuthProvider({ children }) {
   const [session, setSession] = useState(null);
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
+  // Paket 41 A: profil okunamadıysa sayfalar sahte "0 puan" yerine hata durumu çizsin
+  const [profilHata, setProfilHata] = useState(false);
 
   // Kendi profilimiz RPC ile gelir. Tablodan `select("*")` çekmek, gerçek addan
   // türeyen `username` ve Google fotoğrafı gibi özel alanları istemciye açmak
@@ -19,7 +21,9 @@ export function AuthProvider({ children }) {
       const { data, error } = await supabase.rpc("profilim");
       if (error) throw error;
       if (data) setProfile(data);
+      setProfilHata(false);
     } catch (e) { console.warn("[Auth] profilim başarısız:", e?.message ?? e);
+      setProfilHata(true);
       /* ağ hatası ya da RPC yoksa profil önceki hâlinde kalır */
     }
   }, []);
@@ -132,6 +136,7 @@ export function AuthProvider({ children }) {
         loading,
         refreshProfile,
         signOut,
+        profilHata,
       }}
     >
       {children}

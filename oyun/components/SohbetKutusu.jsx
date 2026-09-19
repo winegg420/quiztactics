@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import AvatarCerceve from "./AvatarCerceve.jsx";
 import OyuncuKarti from "./OyuncuKarti.jsx";
+import DurumKutusu from "./DurumKutusu.jsx";
 import EmojiSecici from "./EmojiSecici.jsx";
 import Ikon from "./Ikon.jsx";
 import { hataMesaji } from "../lib/hata.js";
@@ -42,6 +43,9 @@ export default function SohbetKutusu({ benId, kisiId, onGeri }) {
   const [metin, setMetin] = useState("");
   const [gonderiliyor, setGonderiliyor] = useState(false);
   const [hata, setHata] = useState(null);
+  // Paket 41 A: geçmiş okunamadıysa "İlk mesajı sen at" yerine hata + Tekrar dene (ham metin yok)
+  const [gecmisHata, setGecmisHata] = useState(false);
+  const [deneme, setDeneme] = useState(0);
   const [yeniVar, setYeniVar] = useState(false);      // aşağıda okunmamış yeni mesaj şeridi
   const [emojiAcik, setEmojiAcik] = useState(false);
   const [kartAcik, setKartAcik] = useState(false);
@@ -110,6 +114,7 @@ export default function SohbetKutusu({ benId, kisiId, onGeri }) {
     (async () => {
       setYukleniyor(true);
       setHata(null);
+      setGecmisHata(false);
       try {
         const [pr, ms] = await Promise.all([
           supabase.from("profiles").select("id, gorunen_ad, gorunen_avatar, gorunum").eq("id", kisiId).maybeSingle(),
@@ -123,7 +128,8 @@ export default function SohbetKutusu({ benId, kisiId, onGeri }) {
         setBitti(liste.length < SAYFA);
         kaydirAlta.current = true;
       } catch (e) {
-        if (aktif) setHata(hataMesaji(e, tt("Mesajlar yüklenemedi.")));
+        console.error("[Bildim] sohbet geçmişi alınamadı:", e);
+        if (aktif) setGecmisHata(true);
       } finally {
         if (aktif) setYukleniyor(false);
       }
@@ -131,7 +137,7 @@ export default function SohbetKutusu({ benId, kisiId, onGeri }) {
     arkadasligiOku();
     okunduIsaretle();
     return () => { aktif = false; };
-  }, [kisiId, arkadasligiOku, okunduIsaretle]);
+  }, [kisiId, arkadasligiOku, okunduIsaretle, deneme]);
 
   // ---- Realtime: bu kişiyle olan yeni mesajlar (iki yön) + arkadaşlık değişimi
   useEffect(() => {
@@ -292,7 +298,8 @@ export default function SohbetKutusu({ benId, kisiId, onGeri }) {
 
       <div className="bd-sohbet-liste" ref={listeRef} onScroll={kaydirildi} aria-live="polite">
         {eskiYukleniyor && <div className="bd-sohbet-bilgi">{tt("Eski mesajlar yükleniyor…")}</div>}
-        {!yukleniyor && mesajlar.length === 0 && !hata && (
+        {gecmisHata && <DurumKutusu durum="hata" kucuk onTekrar={() => setDeneme((n) => n + 1)} />}
+        {!yukleniyor && mesajlar.length === 0 && !hata && !gecmisHata && (
           <div className="bd-sohbet-bilgi">{tt("İlk mesajı sen at.")}</div>
         )}
         {yukleniyor && <div className="bd-sohbet-bilgi">{tt("Yükleniyor…")}</div>}

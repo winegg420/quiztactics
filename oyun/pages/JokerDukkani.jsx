@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import Ikon from "../components/Ikon.jsx";
+import DurumKutusu from "../components/DurumKutusu.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { Link, useSearchParams } from "react-router-dom";
 import GorunumVitrini from "../vitrin/GorunumVitrini.jsx";
@@ -36,6 +37,8 @@ const SEKMELER = [
 export default function JokerDukkani() {
   const { profile } = useAuth();
   const [envanter, setEnvanter] = useState({ elli: 0, sure: 0, soru_degistir: 0, seri_koruma: 0 });
+  // Paket 41 A: envanter okunamadıysa jokerler "0" gösterilmez (oyuncu silindi sanıyordu)
+  const [dukkanDurum, setDukkanDurum] = useState("yukleniyor");   // yukleniyor | hata | hazir
   const [reklam, setReklam] = useState({ bugun: 0, tavan: 5 });
   // Maç başına joker hakkı ayardan okunur; koda gömülmez (Paket 28 B).
   const [jokerHak, setJokerHak] = useState(4);
@@ -104,8 +107,10 @@ export default function JokerDukkani() {
       }
       if (!pak.error) setPaketler(pak.data ?? []);
       if (!cpak.error) setCoinPaketleri(cpak.data ?? []);
+      setDukkanDurum("hazir");
     } catch (e) {
-      setHata(hataMesaji(e, tt("Dükkân yüklenemedi.")));
+      console.error("[Bildim] dükkân alınamadı:", e);
+      setDukkanDurum("hata");
     }
   }, []);
 
@@ -255,7 +260,12 @@ export default function JokerDukkani() {
       {sekme === "kiyafet" && <GorunumVitrini />}
 
       {/* ---------- Envanter ---------- */}
-      {sekme === "joker" && (
+      {(sekme === "joker" || sekme === "coin") && dukkanDurum !== "hazir" && (
+        <div className="kart">
+          <DurumKutusu durum={dukkanDurum} satir={4} onTekrar={() => { setDukkanDurum("yukleniyor"); yukle(); }} />
+        </div>
+      )}
+      {sekme === "joker" && dukkanDurum === "hazir" && (
       <div className="kart">
         {/* Paket 34: jokerler geçici olarak ücretsiz ve sınırsız — coin harcatma */}
         {jokerSerbest && (
@@ -333,7 +343,7 @@ export default function JokerDukkani() {
       )}
 
       {/* ---------- Ödüllü video (Coin sekmesinin en üstünde) ---------- */}
-      {sekme === "coin" && (
+      {sekme === "coin" && dukkanDurum === "hazir" && (
       <div className="kart">
         <div className="bd-kat-baslik">
           <span>{tt("Video izle, coin kazan")}</span>
@@ -370,7 +380,7 @@ export default function JokerDukkani() {
       )}
 
       {/* ---------- Joker paketleri (COİN ile) ---------- */}
-      {sekme === "joker" && (
+      {sekme === "joker" && dukkanDurum === "hazir" && (
       <div className="kart">
         <div className="bd-kat-baslik">
           <span>{tt("Joker paketleri")}</span>
@@ -411,7 +421,7 @@ export default function JokerDukkani() {
       )}
 
       {/* ---------- Coin paketleri (gerçek para) ---------- */}
-      {sekme === "coin" && (
+      {sekme === "coin" && dukkanDurum === "hazir" && (
       <div className="kart">
         <div className="bd-kat-baslik">
           <span>{tt("Coin paketleri")}</span>

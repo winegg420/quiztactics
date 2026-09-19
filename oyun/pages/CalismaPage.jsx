@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import KategoriIkon from "../components/KategoriIkon.jsx";
 import Maskot from "../components/Maskot.jsx";
+import DurumKutusu from "../components/DurumKutusu.jsx";
 import Ikon from "../components/Ikon.jsx";
 import Konfeti from "../components/Konfeti.jsx";
 import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesKazandin, sesDokunus } from "../lib/ses.js";
@@ -30,6 +31,8 @@ export default function CalismaPage() {
   const navigate = useNavigate();
   const [asama, setAsama] = useState("secim"); // secim | oyun | sonuc
   const [banka, setBanka] = useState(null); // { toplam, ogrenilen, bekleyen, kategoriler[] }
+  // Paket 41 A: banka okunamadıysa "Henüz yanlışın yok" boş durumu çizilmez
+  const [bankaHata, setBankaHata] = useState(false);
   const [kategoriler, setKategoriler] = useState([]);
   const [kategori, setKategori] = useState(null);
   // Paket 37 G: kategori şeridi sağdan kesiliyordu — kaydırılacak içerik kaldıkça sağ kenar solar.
@@ -84,10 +87,12 @@ export default function CalismaPage() {
         bekleyen: ilk.bekleyen ?? 0,
         kategoriler: satirlar.filter((s) => s.kategori),
       });
+      setBankaHata(false);
     } catch (e) {
-      // Banka okunamazsa mod yine açılabilmeli
+      // Banka okunamazsa mod yine açılabilmeli (pratik turu), ama boş banka gibi gösterilmez
+      console.error("[Bildim] yanlış bankası alınamadı:", e);
       setBanka({ toplam: 0, ogrenilen: 0, bekleyen: 0, kategoriler: [] });
-      setHata(hataMesaji(e, tt("Banka özeti alınamadı.")));
+      setBankaHata(true);
     } finally {
       setYukleniyor(false);
     }
@@ -260,6 +265,11 @@ export default function CalismaPage() {
         {yukleniyor ? (
           <div className="kart alt-yazi" style={{ textAlign: "center", padding: 22 }}>
             {tt("Yükleniyor…")}
+          </div>
+        ) : bankaHata ? (
+          <div className="kart">
+            <DurumKutusu durum="hata" kucuk metin={tt("Hatalarım bankan alınamadı; genel havuzdan pratik turu yine açılabilir.")}
+                         onTekrar={() => { setYukleniyor(true); bankaYukle(); }} />
           </div>
         ) : bos ? (
           <div className="kart bd-calisma-bos">

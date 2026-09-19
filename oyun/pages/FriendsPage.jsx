@@ -6,6 +6,7 @@ import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import AvatarCerceve from "../components/AvatarCerceve.jsx";
 import Maskot from "../components/Maskot.jsx";
+import DurumKutusu from "../components/DurumKutusu.jsx";
 import { y } from "../lib/yol.js";
 import DavetKodu from "../components/DavetKodu.jsx";
 import { facebookArkadasOnerileri, facebookDavetAc } from "../lib/facebookArkadas.js";
@@ -24,6 +25,8 @@ export default function FriendsPage() {
   const [dostluklar, setDostluklar] = useState([]);
   const [kod, setKod] = useState("");
   const [hata, setHata] = useState(null);
+  // Paket 41 A: liste okunamadıysa "Henüz arkadaşın yok" yerine hata + Tekrar dene
+  const [listeDurum, setListeDurum] = useState("yukleniyor");   // yukleniyor | hata | hazir
   const [bilgi, setBilgi] = useState(null);
   const [kopyalandi, setKopyalandi] = useState(false);
   const [calisiyor, setCalisiyor] = useState(false);
@@ -94,8 +97,10 @@ export default function FriendsPage() {
         .or(`requester.eq.${user.id},addressee.eq.${user.id}`);
       if (error) throw error;
       setDostluklar(data ?? []);
+      setListeDurum("hazir");
     } catch (e) {
-      setHata(hataMesaji(e, tt("Arkadaş listesi yüklenemedi.")));
+      console.error("[Bildim] arkadaş listesi alınamadı:", e);
+      setListeDurum("hata");
     }
   }, [user.id]);
 
@@ -337,8 +342,11 @@ export default function FriendsPage() {
         </>
       )}
 
-      <div className="baslik">{tt("Arkadaşların (")}{arkadaslar.length})</div>
-      {arkadaslar.length === 0 && (
+      <div className="baslik">{tt("Arkadaşların")}{listeDurum === "hazir" ? ` (${arkadaslar.length})` : ""}</div>
+      {listeDurum !== "hazir" && (
+        <DurumKutusu durum={listeDurum} onTekrar={() => { setListeDurum("yukleniyor"); yukle(); }} />
+      )}
+      {listeDurum === "hazir" && arkadaslar.length === 0 && (
         <div className="bd-bos-durum">
           <Maskot poz="selam" boyut={86} />
           <p>{tt("Henüz arkadaşın yok — davet linkini paylaş, birlikte yarışın.")}</p>

@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
 import AvatarCerceve from "./AvatarCerceve.jsx";
 import Modal from "./Modal.jsx";
+import DurumKutusu from "./DurumKutusu.jsx";
 import Ikon from "./Ikon.jsx";
 import RankBadge from "./RankBadge.jsx";
 import { hataMesaji } from "../lib/hata.js";
@@ -48,6 +49,9 @@ export default function OyuncuKarti({
   const [hata, setHata] = useState(null);
   const [yukleniyor, setYukleniyor] = useState(true);
   const [calisan, setCalisan] = useState(null);   // hangi eylem sürüyor ("…" + kilit)
+  // Paket 41 A: kart verisi okunamazsa sahte "0 maç · 0 kupa" yerine hata + Tekrar dene
+  const [kartHata, setKartHata] = useState(false);
+  const [deneme, setDeneme] = useState(0);
 
   // Eylem düğmesi: çalışırken metin "…", hepsi kilitli; hata kartın içinde yazar.
   const eylem = async (kod, f) => {
@@ -72,6 +76,8 @@ export default function OyuncuKarti({
 
   useEffect(() => {
     let aktif = true;
+    setKartHata(false);
+    setYukleniyor(true);
     (async () => {
       try {
         const { data, error } = await supabase
@@ -84,13 +90,13 @@ export default function OyuncuKarti({
       } catch (e) {
         // Önizleme varsa kart yine de dolu görünür; sessiz kalmıyoruz.
         console.error("[Bildim] oyuncu karti alinamadi:", e);
-        if (aktif && !onIzleme) setHata(hataMesaji(e, tt("Oyuncu bilgisi alınamadı.")));
+        if (aktif) setKartHata(true);
       } finally {
         if (aktif) setYukleniyor(false);
       }
     })();
     return () => { aktif = false; };
-  }, [userId, onIzleme]);
+  }, [userId, onIzleme, deneme]);
 
   const online = p?.last_seen && Date.now() - new Date(p.last_seen).getTime() < 120000;
 
@@ -118,6 +124,11 @@ export default function OyuncuKarti({
 
         {hata && <div className="hata-kutu">{hata}</div>}
 
+        {kartHata ? (
+          <DurumKutusu durum="hata" kucuk onTekrar={() => setDeneme((n) => n + 1)} />
+        ) : yukleniyor ? (
+          <DurumKutusu durum="yukleniyor" kucuk satir={2} />
+        ) : (<>
         <div className="bd-oyuncu-sayilar">
           <div><b>{Number(p?.puan ?? 0).toLocaleString("tr-TR")}</b><span>{tt("puan")}</span></div>
           <div><b>{Number(p?.toplam_mac ?? 0).toLocaleString("tr-TR")}</b><span>{tt("maç")}</span></div>
@@ -127,6 +138,7 @@ export default function OyuncuKarti({
 
         {/* Kaç maç yaptı, kaç maçın istatistiği var, kategori yüzdeleri (Paket 14) */}
         <KategoriProfili userId={userId} kucuk />
+        </>)}
 
         {eylemler.length > 0 && (
           <div className={`bd-oyuncu-eylemler${eylemler.length === 1 ? " tek" : ""}`}>

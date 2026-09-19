@@ -5,6 +5,7 @@ import { useAuth } from "../../src/context/AuthContext.jsx";
 import AvatarCerceve from "../components/AvatarCerceve.jsx";
 import SohbetKutusu from "../components/SohbetKutusu.jsx";
 import Maskot from "../components/Maskot.jsx";
+import DurumKutusu from "../components/DurumKutusu.jsx";
 import Ikon from "../components/Ikon.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { rozetMetni } from "../lib/mesajlar.js";
@@ -45,7 +46,9 @@ export default function MesajlarPage() {
       setListe(data ?? []);
       setHata(null);
     } catch (e) {
-      setHata(hataMesaji(e, tt("Mesajlar yüklenemedi.")));
+      // Paket 41 A: ham sunucu metni gösterilmez
+      console.error("[Bildim] sohbet listesi alınamadı:", e);
+      setHata(true);
     } finally {
       setYukleniyor(false);
     }
@@ -71,7 +74,8 @@ export default function MesajlarPage() {
   return (
     <div className="bd-mesajlar">
       <h1 className="baslik">{tt("Mesajlar")}</h1>
-      {hata && <div className="hata-kutu" role="alert">{hata}</div>}
+      {yukleniyor && liste.length === 0 && <DurumKutusu durum="yukleniyor" satir={4} />}
+      {hata && <DurumKutusu durum="hata" onTekrar={() => { setHata(null); setYukleniyor(true); yukle(); }} />}
 
       {!yukleniyor && !hata && liste.length === 0 && (
         <div className="bd-bos-durum">
