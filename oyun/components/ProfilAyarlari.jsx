@@ -7,6 +7,7 @@ import { kategoriEtiket, kategorileriSirala } from "../lib/kategoriler.js";
 import { sureMetni } from "../lib/konum.js";
 import { y } from "../lib/yol.js";
 import DavetKodu from "./DavetKodu.jsx";
+import AvatarCerceve from "./AvatarCerceve.jsx";
 import { tt } from "../lib/dil.js";
 
 // 31 karakter avatarı (özgün çizim SVG, tamamı yerel — dış servis yok).
@@ -287,6 +288,10 @@ export default function ProfilAyarlari() {
           </>
         ) : (
           <div className="bd-konum-ozet">
+            {/* Paket 37 H: neyi değiştireceğin görünsün (lig çerçevesi dahil) */}
+            <span className="bd-ayar-avatar-onizleme">
+              <AvatarCerceve profile={profile} boyut={36} userId={profile.id} />
+            </span>
             <div style={{ flex: 1 }} className="alt-yazi">
               {profile.avatar_onayli
                 ? tt("Avatarın diğer oyunculara görünüyor.")

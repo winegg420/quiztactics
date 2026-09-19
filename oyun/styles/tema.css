@@ -1973,6 +1973,8 @@ body::before {
   -webkit-mask-image: linear-gradient(90deg, #000 0, #000 82%, transparent 100%);
   transition: mask-image 0.2s;
 }
+/* Paket 37 H — Ayarlar › Avatarın: 36 px önizleme; halka dışa taştığı için 4 px pay */
+.bd-ayar-avatar-onizleme { flex: none; display: inline-flex; margin: 4px; }
 /* Paket 37 G — Çalışma sayfası: yalnız kaydırılacak içerik varken sağ 24 px solar */
 .bd-kat-grid.bd-serit-solma {
   mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent);
