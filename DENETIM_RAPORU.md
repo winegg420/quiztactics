@@ -336,3 +336,33 @@ duello-rovans-geldi · duello-yukleme-hatasi (hepsi -390-acik aksi yazılmadık�
 - Tur geçişinde son hamlenin özeti ("İsabet! Rakip can kaybetti."); savunmada Zaman Baskısı ve Savunma Kilidi bantları okunur.
 - Sonuç ekranı ortak `MacSonuSahnesi`: kalpler, ödül hapları, görev satırı, rövanş Kabul/Reddet (Paket 36-38 paritesi tamam).
 - Lobi sayfası kuralları üç maddede anlatıyor, ödülü ("Galibiyet: +50 lig puanı ve 50 coin") birincil düğmenin hemen üstünde veriyor.
+
+---
+
+## 10. Grup maçı
+Görüntüler: grup-davet-lobi-390-acik · grup-lobi-bekliyor-390-acik · grup-hazir-kapisi-390-acik · grup-mac-{390,1280}-{acik,koyu} ·
+grup-mac-390-en · grup-mac-uzun-ad-390-acik · grup-sohbet-acik-390-acik · grup-sonuc-kazandi-{390-acik,1280-acik,390-koyu} · grup-sonuc-kaybetti-390-acik
+
+### 🟡 Eksik
+- **Mod paritesi:** grup maçı sırasında maçtan çıkış düğmesi yok (Klasik'te sol üstte X var, Düello'da "Düellodan çık").
+  Nerede: `GroupMatchPage.jsx` soru ekranı (çıkış yalnız hazır kapısındaki "Vazgeç"te, `:145`). Kanıt: grup-mac-390-acik.png.
+- Davet lobisindeki yeşil "Hazır" etiketi 12 px, **2,17:1**. Kanıt: grup-davet-lobi-390-acik.png.
+- Skor tablosunda kendi adın turuncu, krem zeminde **2,73:1** (14 px). Kanıt: grup-mac-390-acik.png.
+- Tepki emojileri 34×34 px (hedef 44). Maç sırasında ses kapatma yok (§6).
+
+### 🔵 Kozmetik
+- Davet lobisinde "Deneme, Ayşe henüz kabul etmedi." — oyuncu kendi adını üçüncü şahıs gibi okuyor; "Sen ve Ayşe" daha doğal.
+  Nerede: `GroupMatchPage.jsx:373`.
+- Sohbet/tepki şeridi skor tablosu ile soru kartının arasına sıkışmış; soru kartını aşağı itiyor.
+
+### ❔ Şüpheli / kurulamadı
+- Grup maçında joker çubuğu hiç çizilmedi (`macTur="grup"` veriliyor, `GroupMatchPage.jsx:622`). Sahte `joker_mac_durumu` boş döndüğü için
+  olabilir; grup maçında joker olup olmadığı bu denetimde doğrulanamadı.
+- Hazır kapısında liste herkesi "hazır" gösterirken sayaç "0/4 hazır" diyor. Liste `group_match_players.hazir`'dan, sayaç nabızdan besleniyor;
+  sahte veride ikisi tutarsız verildi. Canlıda iki kaynak ayrışırsa aynı görüntü çıkar — izlenmeli.
+- Sohbet düğmesi dokunulabilir bulunamadı; sohbet penceresi açılmış hâli çekilemedi.
+
+### ✅ İyi olan
+- Davet lobisi net: kimin kabul ettiği etiketle, Kabul Et (turuncu) / Reddet (kırmızı) / Geri dön (beyaz) ayrışıyor.
+- Maçta canlı sıralama tablosu (sen vurgulu) + "Soru 3/10"; 16 karakterlik ad sığıyor.
+- Sonuç podyumu (2-1-3) güzel; "Arkadaş maçı — ödül ve puan yok." dürüst; görev ilerlemesi yine görünüyor.
