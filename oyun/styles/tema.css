@@ -8370,3 +8370,39 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   text-underline-offset: 2px;
 }
 .bd-metin-sayfa a:not(.btn):not(.bd-icindekiler a):hover { color: var(--bd-baglanti-vurgu); }
+
+/* ============================================================
+   PAKET 43 B — turnuva lobisi satırı: kart düğmesi + kılıç düğmesi (kardeş)
+   Kılıç 34×34 → 44×44 ve görünümü Paket 42 L.2 lig kılıcıyla aynı: zeminsiz, ince kenar,
+   gri ikon, üstüne gelince / odakta turuncu. İkon 15 px kaldı.
+   ============================================================ */
+.app .bd-lobi-oyuncu-ac {
+  display: flex; align-items: center; gap: var(--bd-b-3);
+  flex: 1; min-width: 0; min-height: 44px; padding: 0;
+  border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer;
+  border-radius: 10px;
+}
+.app .bd-lobi-oyuncu-ac > .bd-lobi-ad { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.app .bd-lobi-oyuncu-ac:focus-visible { outline: 3px solid var(--bd-vurgu); outline-offset: 2px; }
+.app .bd-lobi-oyuncu .bd-lobi-kilic {
+  width: 44px; height: 44px; padding: 0; cursor: pointer;
+  background: transparent; color: var(--bd-metin-3);
+  border: 1px solid var(--bd-kenar); border-radius: var(--bd-r-s); box-shadow: none;
+}
+.app .bd-lobi-oyuncu .bd-lobi-kilic::after { content: none; }
+.app .bd-lobi-oyuncu:hover .bd-lobi-kilic { color: var(--bd-metin-3); }
+.app .bd-lobi-oyuncu .bd-lobi-kilic:hover,
+.app .bd-lobi-oyuncu .bd-lobi-kilic:focus-visible { color: #C4530F; border-color: var(--bd-vurgu); }
+.app .bd-lobi-oyuncu .bd-lobi-kilic:focus-visible { outline: 3px solid var(--bd-vurgu); outline-offset: 2px; }
+.app .bd-lobi-oyuncu .bd-lobi-kilic:active { transform: translateY(2px); }
+/* Satır yüksekliği bozulmasın (önce 48 px): iki düğme 44 px dokunma alanını taşır ama
+   dikeyde -6 px kenar boşluğuyla satıra 32 px (avatar boyu) yer kaplar. */
+.app .bd-lobi-oyuncu .bd-lobi-kilic,
+.app .bd-lobi-oyuncu-ac { margin-block: -6px; }
+/* B.4 Lig satırı: kartı açan gerçek düğme satırın düzenini aynen taşır (eski div'in çocukları) */
+.bd-lig-satir-ac {
+  display: flex; align-items: center; gap: 11px; flex: 1; min-width: 0; min-height: 44px;
+  margin: 0; padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer;
+  border-radius: 10px;
+}
+.bd-lig-satir-ac:focus-visible { outline: 3px solid var(--bd-vurgu); outline-offset: 2px; }

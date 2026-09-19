@@ -617,31 +617,30 @@ export default function TournamentPage() {
           )}
           {/* Satıra dokunmak oyuncu kartını açar: avatar, rütbe, puan ve
               (kendisi değilse) meydan okuma düğmesi. */}
+          {/* Paket 43 B: kılıç gerçek <button> oldu. Düğme içinde düğme geçersiz HTML olduğu için
+              satır bir kapsayıcı; içinde iki KARDEŞ düğme var: kartı açan (ad + avatar) ve meydan okuyan. */}
           {suzulmusOyuncular.map((o) => (
-            <button
-              key={o.user_id}
-              type="button"
-              className="bd-lobi-oyuncu"
-              onClick={() => setKartOyuncu({ id: o.user_id, ...(o.profil ?? {}) })}
-              title={tt("{0} — kartını aç", { 0: o.profil?.gorunen_ad ?? tt("Oyuncu") })}
-            >
-              <AvatarCerceve profile={o.profil} boyut={32} userId={o.user_id} />
-              <span className="bd-lobi-ad">{o.profil?.gorunen_ad}</span>
+            <div key={o.user_id} className="bd-lobi-oyuncu">
+              <button
+                type="button"
+                className="bd-lobi-oyuncu-ac"
+                onClick={() => setKartOyuncu({ id: o.user_id, ...(o.profil ?? {}) })}
+                title={tt("{0} — kartını aç", { 0: o.profil?.gorunen_ad ?? tt("Oyuncu") })}
+              >
+                <AvatarCerceve profile={o.profil} boyut={32} userId={o.user_id} />
+                <span className="bd-lobi-ad">{o.profil?.gorunen_ad}</span>
+              </button>
               {o.user_id !== user.id && (
-                <span
+                <button
+                  type="button"
                   className="bd-lobi-kilic"
-                  role="button"
-                  tabIndex={0}
                   aria-label={tt("{0} oyuncusuna meydan oku", { 0: o.profil?.gorunen_ad ?? tt("Oyuncu") })}
                   onClick={(e) => { e.stopPropagation(); meydanOku(o.user_id); }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.stopPropagation(); meydanOku(o.user_id); }
-                  }}
                 >
                   <Ikon ad="kilic" boyut={15} />
-                </span>
+                </button>
               )}
-            </button>
+            </div>
           ))}
         </div>
       </div>

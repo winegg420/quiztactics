@@ -219,9 +219,6 @@ export default function LeaderboardPage() {
     <div
       key={`${s.user_id}-${vurgu ? "ben" : "liste"}`}
       className={`bd-lig-satir tiklanir ${s.user_id === user.id ? "ben" : ""}`}
-      role="button"
-      tabIndex={0}
-      title={tt("{0} — kartını aç", { 0: s.gorunen_ad })}
       onClick={() => setKartOyuncu({
         id: s.user_id,
         gorunen_ad: s.gorunen_ad,
@@ -232,13 +229,11 @@ export default function LeaderboardPage() {
         sehir: s.sehir,
         ulke: s.ulke,
       })}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          setKartOyuncu({ id: s.user_id, gorunen_ad: s.gorunen_ad, gorunen_avatar: s.gorunen_avatar, puan: s.puan, is_bot: s.bot, sehir: s.sehir, ulke: s.ulke });
-        }
-      }}
     >
+      {/* Paket 43 B.4: satır div role="button" idi ve İÇİNDE gerçek kılıç düğmesi vardı (iç içe
+          etkileşim). Kartı açan kısım gerçek <button>; tıklama satıra kabarcıklanır (satırın boş
+          kenarına dokunmak da kartı açar), kılıç KARDEŞ düğme olarak kaldı. */}
+      <button type="button" className="bd-lig-satir-ac" title={tt("{0} — kartını aç", { 0: s.gorunen_ad })}>
       <span className="bd-sira">{s.sira}</span>
       <AvatarCerceve
         profile={{ gorunen_ad: s.gorunen_ad, gorunen_avatar: s.gorunen_avatar, gorunum: s.gorunum }}
@@ -261,6 +256,7 @@ export default function LeaderboardPage() {
         </div>
       </div>
       <span className="bd-lig-puan"><SayanSayi deger={s.puan} /></span>
+      </button>
       {s.user_id !== user.id && (
         <button
           className="bd-ikon-btn"
