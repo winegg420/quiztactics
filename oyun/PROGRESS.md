@@ -2684,3 +2684,42 @@ Yeni testler: `_test/ziplama-test.mjs`, `_test/ziplama-ag-test.mjs`,
 - Tam 7,62 MB hareket paketi 645 KB'a indirildi; tüm prototip varlıkları 9,09
   MiB. Kaynak CC0 lisans dosyaları varlıklarla birlikte tutuluyor.
 - Ayrıntılı rapor: `harita/aday/PROTOTIP_RAPORU.md`.
+
+## 20 Eylül 2026 — Skill hardening ve Düello sadeleştirmesi
+
+- Üretim şeması doğrudan denetlendi: migration 254 ledger'da kayıtlıydı;
+  `oyuncu_skill_setleri`, `skill_setim`, `skill_setimi_kaydet` ve
+  `skill_kullanim_kapisi_trg` gerçekten kurulu bulundu.
+- Migration `20260612000255_skill_hardening.sql` önce transaction içinde
+  prova edildi, sonra üretime uygulandı ve ledger/nesne/ayar denetimi tekrar
+  geçti.
+- Klasik skill sınırları sunucu ayarlarına ayrıldı: toplam **6**, tür başına
+  **2**, soru başına **1**. Seçili set, aktif maç/soru, cevap durumu, rakibin
+  cevabı ve envanter tüketimi aynı transaction içindeki ortak kapıda korunur.
+  Düello'nun `duello_joker_hak` ayarı Klasik için kullanılmaz.
+- Botun kullanım olasılığı değiştirilmedi; bot da aynı 6/2/1 kapısından geçer.
+- Skill setinde sunucu tek kaynak oldu. Supabase `{ data, error }` sonucu açıkça
+  kontrol edilir; kayıt hatasında iyimser seçim geri alınır ve oyuncuya hata
+  gösterilir. İlk varsayılan set de sunucuda gerçek satır olarak kalıcılaştırılır.
+- Klasik çubuk türü ilk kullanımda maç boyunca kapatmaz; her skill için kalan
+  maç hakkı envanter adedinden ayrı gösterilir ve yeni soruda ikinci kullanım
+  açılır.
+- Düello saldırı alanı loadout filtresinden ayrıldı ve yalnız aktif
+  `zaman_baskisi` kaynağından çizilir. Sunucu saldırıda yalnız Zaman Baskısı;
+  savunmada yalnız 50:50, Ek Süre ve Soru Değiştir kabul eder. Sis,
+  Savunma Kilidi ve Saldırı Değiştir aktif RPC/UI akışından çıkarıldı.
+- Eşleştirme incelemesinde sunucunun gerçek oyuncu önceliği, kendini dışlama,
+  90 sn eski kuyruk temizliği ve bot havuzu doğrulandı. İstemcideki erken bot
+  geçişinin kökü 8 sn sabitiydi; gizli fallback **15 sn** yapıldı.
+- Sayaç sapmasının kökü sunucu saatinin yanıt alındığı ana göre çevrilmesiydi;
+  ağ gidiş-dönüş süresi artık istek orta noktasıyla dengeleniyor. Rastgele
+  +1/+2 sn eklenmedi. Ek Süre transaction testi +10 sn'nin yalnız kullanıcıya
+  uygulandığını ve rakibin başlangıcını değiştirmediğini doğruladı.
+- Kritik skill/dükkân yükleme hataları artık görünür; sessiz Supabase sonuçları
+  konsol + oyuncu mesajıyla ele alınıyor.
+- `skill-shop-hero.png` (1.543.248 bayt, 1697×927) kaldırıldı;
+  `skill-shop-hero.webp` (61.160 bayt, 600×328) kullanılıyor.
+- Doğrulama: üretim migration denetimi; hardening 7/7; etkilenen ekonomi ve
+  Klasik/Düello regresyonları 33/33; canlı DB kural paketi 13/13; production
+  build; iOS 12.2 ayrıştırma denetimi; skill kuralları 6/6; dans paketi geçti.
+- Üretim commit'i: push sonrasında bu bölümün altındaki yayın kaydında belirtilir.
