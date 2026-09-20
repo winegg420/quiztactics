@@ -7055,3 +7055,24 @@ yüksekliği 62 px; "CEVABI KİLİTLE" yok.
   İnsan, T-Rex ve Kaplan için dört özgün stil denemesi hazırlandı.
 - İlk preview lab korunarak yeni sayfa `/preview/avatar-lab-v2` rotasına eklendi;
   menüye ve canlı avatar sistemine bağlanmadı.
+
+## 20 Eylül 2026 — Profesyonel Avatar Preview (yerel)
+
+- Mevcut hazır avatarların düz renk, yuvarlatılmış kare, lacivert kontur ve komik
+  karakter ruhu korundu; yüz oranları, siluetler ve küçük boyut okunurluğu geliştirildi.
+- 3 insan, 3 hayvan, 2 fantastik/maskot ve 2 eğlenceli meslek/karakter olmak üzere
+  toplam 10 katmanlı SVG profil denemesi hazırlandı. AI renderı, plastik yüzey,
+  stok degrade ve isim etiketleri kullanılmadı.
+- Preview rotası: `/preview/avatar-pro`. Ana menüye ve mevcut avatar seçicisine
+  bağlanmadı; production görselleri değiştirilmedi.
+- Sahibinin açık talebi gereği bu çalışma canlıya alınmadı; yalnız yerel preview
+  dalında tutuldu.
+
+### Düzeltme — kaynak avatarlar
+
+- İlk denemede önceki lab için çizilmiş karakterler yanlışlıkla kaynak alınmıştı.
+  Preview seti canlıdaki gerçek hazır avatar kimliklerine göre baştan kuruldu:
+  `k01` Kedi, `k05` Panda, `k10` Dinozor, `k15` Robot, `k16` Uzaylı,
+  `k17` Astronot, `k19` Korsan, `k23` Aşçı, `k24` Profesör ve `k29` Kahraman.
+- Her karakterin canlı setteki zemin rengi, temel paleti ve ayırt edici aksesuarı
+  korunurken kontur, yüz oranı, ifade ve küçük boyut okunurluğu iyileştirildi.
