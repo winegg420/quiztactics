@@ -21,3 +21,7 @@ supabase/.branches
 
 # Aşama 1E muayene: ham görünümler ara üründür (her çalıştırmada yeniden üretilir); kontakt sayfası + adaylar.json commit edilir
 oyun/harita/muayene/cikti/**/*.png
+
+# Arayuz denetimi (araclar/arayuz-denetim.mjs) ciktilari
+.arayuz-denetim-oturum.json
+arayuz-denetim-gorseller/

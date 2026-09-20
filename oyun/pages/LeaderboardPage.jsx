@@ -19,14 +19,10 @@ import AvatarCerceve from "../components/AvatarCerceve.jsx";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
 
-// Lig adları — sunucudaki `lig` kolonuyla birebir (bkz. migration 151).
-export const LIG_ADLARI = {
-  bronz: tt("Bronz"),
-  gumus: tt("Gümüş"),
-  altin: tt("Altın"),
-  elmas: tt("Elmas"),
-  efsane: tt("Efsane"),
-};
+// Lig adları oyun/lib/lig.js'e taşındı (Arayüz Yenileme, 20 Eyl 2026);
+// buradan yeniden dışa verilir ki eski import'lar kırılmasın.
+export { LIG_ADLARI } from "../lib/lig.js";
+import { LIG_ADLARI } from "../lib/lig.js";
 
 const KAPSAMLAR = [
   // Kademeli lig: oyuncunun kendi 25 kişilik grubu. İlk sekme bu —

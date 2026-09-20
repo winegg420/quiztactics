@@ -9,11 +9,11 @@ import { tt, ttSunucu } from "../lib/dil.js";
 // Arayüz Yenileme (20 Eyl 2026): satır içi hex yerine token
 // (oyun/styles/yeni.css › RÜTBE VE USTALIK RENKLERİ). Değerler aynı.
 const SEVIYE_RENK = {
-  "Çırak": "var(--ustalik-cirak)",
-  "Kalfa": "var(--ustalik-kalfa)",
-  "Usta": "var(--ustalik-usta)",
-  "Üstat": "var(--ustalik-ustat)",
-  "Efsane": "var(--ustalik-efsane)",
+  "Çırak": "var(--ustalik-cirak, #8496B2)",
+  "Kalfa": "var(--ustalik-kalfa, #2FBF71)",
+  "Usta": "var(--ustalik-usta, #4A9DD9)",
+  "Üstat": "var(--ustalik-ustat, #3FA9A0)",
+  "Efsane": "var(--ustalik-efsane, #F2B23C)",
 };
 
 /** Profil sayfası: kategori ustalığı, en uzun seri ve joker istatistikleri. */

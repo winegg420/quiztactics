@@ -9,14 +9,13 @@ import AvatarCerceve from "../components/AvatarCerceve.jsx";
 import { TurnuvaSaatEtiketi, BugunKalanTurnuvalar } from "../components/TurnuvaSaatleri.jsx";
 import { siradakiLobi } from "../lib/zaman.js";
 import { rutbeBul, sonrakiRutbe } from "../lib/ranks.js";
-import { bayrak, haftaBitisi, sureMetni } from "../lib/konum.js";
+import { haftaBitisi, sureMetni } from "../lib/konum.js";
 import RakipAra from "../components/RakipAra.jsx";
 import YarimMacPenceresi from "../components/YarimMac.jsx";
 import ModSecimPenceresi from "../components/ModSecimPenceresi.jsx";
 import Ikon from "../components/Ikon.jsx";
 import RankBadge from "../components/RankBadge.jsx";
 import SeriRozeti from "../components/SeriRozeti.jsx";
-import Maskot from "../components/Maskot.jsx";
 import DurumKutusu, { useZamanAsimi } from "../components/DurumKutusu.jsx";
 import { y } from "../lib/yol.js";
 import { kategoriEtiket, kategorileriSirala } from "../lib/kategoriler.js";
@@ -28,6 +27,8 @@ import DereceliAnahtari from "../components/DereceliAnahtari.jsx";
 import { useDereceliTercih } from "../lib/dereceli.js";
 import { useDil } from "../lib/dilKanca.js";
 import { tt, ttSunucu } from "../lib/dil.js";
+import { KLASIK_JOKERLER, MAC_ICI_JOKERLER, SALDIRI_JOKERLERI } from "../lib/jokerler.js";
+import { LIG_ADLARI } from "../lib/lig.js";
 
 export default function Home() {
   const { user, profile, refreshProfile, profilHata } = useAuth();
@@ -190,13 +191,28 @@ export default function Home() {
     }
   };
 
-  // SADELEŞTİRME: lig şeridi ana ekrandan kalkınca bu RPC'yi çağırmak
-  // için sebep kalmadı — ekranda gösterilmeyen veri için ağ isteği
-  // yapılmaz (ekranda gösterilmeyen veri için istek atılmaz). Durum yine de
-  // tutuluyor ki şerit geri istenirse tek satırla geri gelsin.
+  // Arayüz Yenileme (20 Eyl 2026): yeni tasarımda ana sayfanın sağ sütununda
+  // LİG KARTI var, dolayısıyla veri yine gerekiyor. Kaynak Lig sayfasıyla
+  // AYNI: `lig_grubum` (migration 151). Rütbe ile karıştırılmaz — rütbe
+  // puandan hesaplanır (ranks.js), lig sunucudaki `lig` kolonudur.
   const ligYukle = useCallback(async () => {
-    setLigDurum(null);
-  }, []);
+    try {
+      const { data, error } = await supabase.rpc("lig_grubum");
+      if (error) throw error;
+      const satirlar = data ?? [];
+      if (!satirlar.length) { setLigDurum(null); return; }
+      const sira = satirlar.findIndex((s) => s.user_id === user.id) + 1;
+      setLigDurum({
+        lig: satirlar[0].lig,
+        grupBoyu: satirlar[0].grup_boyu,
+        yukselen: satirlar[0].yukselen,
+        sira: sira > 0 ? sira : null,
+      });
+    } catch (e) {
+      console.warn("[Bildim] lig_grubum başarısız:", e?.message ?? e);
+      setLigDurum(null);   // migration bekliyor olabilir — kart sade görünür
+    }
+  }, [user.id]);
 
   useEffect(() => {
     ligYukle();
@@ -389,24 +405,10 @@ export default function Home() {
     : 100;
 
   return (
-    <div className="anasayfa">
+    <div className="bd-anasayfa">
       <h1 className="baslik bd-gorsel-gizli">{tt("Ana sayfa")}</h1>
 
-      {/* ======== EN ÜST: RAKİP SENİ BEKLİYOR ========
-          Meydan okuman kabul edildi ve karşı taraf ŞU AN maç ekranında
-          bekliyor. Sayfanın en görünür yeri burası: kahraman bölümünün bile
-          önünde, çünkü bu iş saniyeler içinde yapılmalı. */}
-      {yeniKabuller.map((m) => (
-        <Link key={m.id} to={y("/mac/") + m.id} className="bd-rakip-bekliyor">
-          <span className="bd-rakip-bekliyor-nokta" aria-hidden="true" />
-          <span className="bd-rakip-bekliyor-metin">
-            <b>{m.rakipAd || tt("Rakibin")}</b> {tt("meydan okumanı kabul etti")}
-            <small>{tt("Maç ekranında seni bekliyor — hemen gir")}</small>
-          </span>
-          <span className="bd-rakip-bekliyor-btn">{tt("Maça gir")}</span>
-        </Link>
-      ))}
-
+      {/* ---------- Katmanlar (modal / tam ekran) ---------- */}
       {yarimMac && (
         <YarimMacPenceresi
           mac={yarimMac}
@@ -443,6 +445,82 @@ export default function Home() {
           onIptal={() => setRakipAra(false)}
         />
       )}
+      {kategoriSheet && (
+        <Modal etiket={tt("Rakip kategorisi seç")} ekSinif="bd-alttan" onKapat={() => setKategoriSheet(false)}>
+          <div className="bd-kategori-sheet">
+            <div className="bd-kategori-sheet-tutamac" aria-hidden="true" />
+            <h2>{tt("Rakip kategorisi")}</h2>
+            <p>{tt("\"Hemen oyna\" bu kategoride rakip arar.")}</p>
+            <div className="bd-kategori-sheet-liste">
+              {[{ kategori: "", soru_sayisi: null }, ...kategorileriSirala(kategoriler)].map((k) => {
+                const secili = (profile?.tercih_kategori ?? "") === k.kategori;
+                return (
+                  <button
+                    key={k.kategori || "karisik"}
+                    type="button"
+                    className={"bd-kategori-secenek" + (secili ? " aktif" : "")}
+                    aria-pressed={secili}
+                    onClick={async () => {
+                      setKategoriSheet(false);
+                      if (!secili) await aramaKategorisiSec(k.kategori);
+                    }}
+                  >
+                    <KategoriIkon anahtar={k.kategori || "karisik"} boyut={24} plaka />
+                    <span className="bd-kategori-secenek-ad">{k.kategori ? kategoriEtiket(k.kategori) : tt("Karışık")}</span>
+                    <span className="bd-kategori-secenek-alt">
+                      {k.kategori ? `${k.soru_sayisi} soru` : tt("Tüm kategoriler")}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </Modal>
+      )}
+
+      {/* ---------- OYUNCU ŞERİDİ ----------
+          Rütbe ve lig AYRI iki sistemdir: burada RÜTBE var (puandan
+          hesaplanır, ranks.js). Lig sağ sütundaki lig kartında. */}
+      <section className="player-strip">
+        <div className="player-main">
+          <span className="player-avatar">
+            <AvatarCerceve profile={profile} boyut={58} userId={user.id} />
+          </span>
+          <div>
+            <span className="eyebrow">{tt("HOŞ GELDİN")}</span>
+            <h1>{profile?.gorunen_ad ?? tt("Oyuncu")}</h1>
+            <span className="rank">
+              <RankBadge puan={puan} sadeceRozet boyut={15} /> {rutbe.ad}
+            </span>
+          </div>
+        </div>
+        <div className="player-stats">
+          <div><b>{puan}</b><span>{tt("Puan")}</span></div>
+          <SeriRozeti bicim="serit" />
+          <div className="next-rank">
+            <span>
+              {sonraki
+                ? tt("{0} rütbesine {1} puan", { 0: sonraki.ad, 1: sonraki.min - puan })
+                : tt("En yüksek rütbedesin")}
+            </span>
+            <i><em style={{ width: `${ilerleme}%` }} /></i>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- ACİL: rakip seni bekliyor ----------
+          Meydan okuman kabul edildi ve karşı taraf ŞU AN maç ekranında.
+          Sayfanın en görünür yerinde durur; saniyeler içinde yapılacak iş. */}
+      {yeniKabuller.map((m) => (
+        <Link key={m.id} to={y("/mac/") + m.id} className="bd-rakip-bekliyor">
+          <span className="bd-rakip-bekliyor-nokta" aria-hidden="true" />
+          <span className="bd-rakip-bekliyor-metin">
+            <b>{m.rakipAd || tt("Rakibin")}</b> {tt("meydan okumanı kabul etti")}
+            <small>{tt("Maç ekranında seni bekliyor — hemen gir")}</small>
+          </span>
+          <span className="bd-rakip-bekliyor-btn">{tt("Maça gir")}</span>
+        </Link>
+      ))}
 
       {/* Haftalık sonuç bildirimi (push kapalıysa da görünür) */}
       {gecenHafta && (
@@ -470,351 +548,284 @@ export default function Home() {
         </div>
       )}
 
-      {/* ---------- HERO: tek odak — rütbe, haftalık sıra, birincil eylem ---------- */}
-      {/* --rutbe: rütbe çubuğu, rütbe adı ve avatar halkası aynı rengi kullanır */}
-      <section className="bd-hero bd-giris-1" style={{ "--rutbe": rutbe.renk }}>
-        <div className="bd-hero-isik" aria-hidden="true" />
-
-        <div className="bd-hero-kimlik">
-          <Maskot poz="selam" boyut={78} className="bd-hero-maskot" />
-          <div className="bd-hero-ad-blok">
-            <div className="bd-hero-selam">{tt("Hoş geldin,")}</div>
-            <div className="bd-hero-ad">{profile?.gorunen_ad ?? tt("Oyuncu")}</div>
-            <RankBadge puan={puan} />
-          </div>
-          <div className="bd-hero-halka" style={{ "--halka": rutbe.renk }}>
-            <AvatarCerceve profile={profile} boyut={54} userId={user.id} />
-          </div>
-        </div>
-
-        <div className="bd-hero-puan">
-          <span className="bd-hero-puan-sayi">{puan}</span>
-          <span className="bd-hero-puan-etiket">{tt("puan")}</span>
-        </div>
-
-        <div className="bd-hero-ilerleme">
-          <div className="bd-hero-bar">
-            <div className="dolgu" style={{ width: `${ilerleme}%` }} />
-          </div>
-          <div className="bd-hero-ilerleme-yazi">
-            {sonraki ? (
-              <>
-                <b style={{ color: sonraki.metinRenk }}>{sonraki.ad}</b> {tt("rütbesine")}{" "}
-                {sonraki.min - puan} {tt("puan")}
-              </>
-            ) : (
-              <>{tt("En yüksek rütbedesin")}</>
-            )}
-          </div>
-        </div>
-
-        <SeriRozeti />
-
-        {/* TEK GİRİŞ + DERECELİ ANAHTARI (Paket 14, 3.1):
-            · Dereceli → lig puanı + tam coin
-            · Serbest  → puan yok, coin yarı
-            Kural sunucuda (migration 201): `matches.dereceli` false ise
-            `mac_sonuclandir` lig puanı yazmaz, coin %50 verir. */}
-        {/* RAKİP KATEGORİSİ KARTI (Paket 10): çıplak <select> yerine kart;
-            satırın tamamı dokunma alanı, liste alttan açılır. Kayıt mantığı
-            (aramaKategorisiSec) aynı. */}
-        <button
-          type="button"
-          className="bd-kategori-kart"
-          disabled={kategoriKaydediliyor}
-          aria-haspopup="dialog"
-          onClick={() => setKategoriSheet(true)}
-        >
-          <KategoriIkon anahtar={profile?.tercih_kategori || "karisik"} boyut={24} plaka />
-          <span className="bd-kategori-kart-metin">
-            <span className="bd-kategori-kart-etiket">{tt("Rakip kategorisi")}</span>
-            <span className="bd-kategori-kart-deger">
-              {kategoriKaydediliyor ? tt("Kaydediliyor…") : profile?.tercih_kategori ? kategoriEtiket(profile.tercih_kategori) : tt("Karışık")}
-            </span>
-          </span>
-          <span className="bd-kategori-kart-degistir" aria-hidden="true">{tt("Değiştir ›")}</span>
-        </button>
-        {kategoriSheet && (
-          <Modal etiket={tt("Rakip kategorisi seç")} ekSinif="bd-alttan" onKapat={() => setKategoriSheet(false)}>
-            <div className="bd-kategori-sheet">
-              <div className="bd-kategori-sheet-tutamac" aria-hidden="true" />
-              <h2>{tt("Rakip kategorisi")}</h2>
-              <p>{tt("\"Hemen oyna\" bu kategoride rakip arar.")}</p>
-              <div className="bd-kategori-sheet-liste">
-                {[{ kategori: "", soru_sayisi: null }, ...kategorileriSirala(kategoriler)].map((k) => {
-                  const secili = (profile?.tercih_kategori ?? "") === k.kategori;
-                  return (
-                    <button
-                      key={k.kategori || "karisik"}
-                      type="button"
-                      className={"bd-kategori-secenek" + (secili ? " aktif" : "")}
-                      aria-pressed={secili}
-                      onClick={async () => {
-                        setKategoriSheet(false);
-                        if (!secili) await aramaKategorisiSec(k.kategori);
-                      }}
-                    >
-                      <KategoriIkon anahtar={k.kategori || "karisik"} boyut={24} plaka />
-                      <span className="bd-kategori-secenek-ad">{k.kategori ? kategoriEtiket(k.kategori) : tt("Karışık")}</span>
-                      <span className="bd-kategori-secenek-alt">
-                        {k.kategori ? `${k.soru_sayisi} soru` : tt("Tüm kategoriler")}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          </Modal>
-        )}
-        <DereceliAnahtari dereceli={dereceliTercih} onDegistir={setDereceliTercih} />
-        <button className="bd-ana-eylem" onClick={() => setModSecimAcik(true)}>
-          <Ikon ad="hizli" boyut={22} />
-          <span>{tt("Hemen oyna")}</span>
-          <Ikon ad="ok" boyut={20} className="bd-ana-eylem-ok" />
-        </button>
-        <div className="bd-ana-eylem-not">
-          {dereceliTercih
-            ? ceviri("Klasik Mod — kazanırsan lig puanı ve coin")
-            : ceviri("Serbest maç — keyfine bak, hiçbir şey kaybetmezsin")}
-          {" · "}{ceviri("5 joker · aynı anda")}
-        </div>
-        {mesaj && <div className="hata-kutu" style={{ marginTop: 10 }}>{mesaj}</div>}
-      </section>
       {bildirimSor && <BildirimIzniSor />}
-      {/* KATMAN 1 BİTTİ.
-          Lig sıralaması ve haftalık geri sayım buradan 2. katmana taşındı:
-          aynı bilgi sayfanın hem en üstünde hem en altında iki kez duruyordu. */}
 
-      {/* ============ TURNUVA — hero'nun hemen altında, ilk sırada ============
-          Referans tasarım: günün ana olayı "Seni bekleyenler" listesinin
-          içinde değil, hero'dan hemen sonra ayrı kart. Katılım sayısı
-          butondan ayrı satırda ("N kişi lobide"); buton metni sade.
-          tema-turnuva kaldırıldı: butonu mor yapıyordu, referansta turuncu.
-          Canlıyken kart nabız atar (bd-turnuva-vurgu.canli). */}
-      <div className={`bd-turnuva-serit bd-turnuva-vurgu${canliTurnuva ? " canli" : ""}`}>
-        <div className="bd-turnuva-sol">
-          <div className="bd-turnuva-etiket">
-            {canliTurnuva ? "TURNUVA" : <TurnuvaSaatEtiketi />}
-          </div>
-          {canliTurnuva ? (
-            <div className="bd-turnuva-canli">
-              <span className="canli-nokta" />
-              {tt("Şu an canlı")}
+      <div className="dashboard">
+        <div className="primary-column">
+
+          {/* ---------- ANA EYLEM KARTI ---------- */}
+          <section className="play-card">
+            <div className="play-glow" aria-hidden="true" />
+            <div className="play-copy">
+              <span className="live-label"><i aria-hidden="true" /> {tt("HIZLI EŞLEŞME")}</span>
+              <h2>{tt("Bilgini konuştur.")}<br /><strong>{tt("Tahtaya çık.")}</strong></h2>
+              <p>{tt("Senin seviyendeki rakiplerle canlı mücadele.")}</p>
             </div>
-          ) : (
-            <Countdown />
-          )}
-        </div>
-        <div className="bd-turnuva-sag">
-          <div className="bd-turnuva-katilim">
-            <Ikon ad="kisiler" boyut={13} /> {lobiSayisi} {tt("kişi lobide")}
-          </div>
-          {canliTurnuva ? (
-            <button className="btn kucuk ikincil" onClick={() => navigate(y("/turnuva"))}>
-              {tt("Katıl")}
+
+            <div className="versus" aria-label={tt("Rakip eşleşmesi ön izlemesi")}>
+              <div className="fighter you">
+                <Avatar profile={profile} boyut={54} />
+                <span>{tt("SEN")}</span>
+              </div>
+              <div className="vs-badge">VS</div>
+              <div className="fighter mystery"><span>?</span><small>{tt("RAKİP")}</small></div>
+            </div>
+
+            {/* Kategori ve dereceli/serbest — ikisi de mevcut mekanizma:
+                tercih_kategori (tercih_kategori_kaydet) ve dereceli tercihi
+                (localStorage + profiles.dereceli_tercih). */}
+            <div className="match-settings">
+              <button
+                type="button"
+                className="setting"
+                disabled={kategoriKaydediliyor}
+                aria-haspopup="dialog"
+                onClick={() => setKategoriSheet(true)}
+              >
+                <span className="setting-icon">
+                  <KategoriIkon anahtar={profile?.tercih_kategori || "karisik"} boyut={20} />
+                </span>
+                <span>
+                  <small>{tt("KATEGORİ")}</small>
+                  <b>
+                    {kategoriKaydediliyor
+                      ? tt("Kaydediliyor…")
+                      : profile?.tercih_kategori ? kategoriEtiket(profile.tercih_kategori) : tt("Karışık")}
+                  </b>
+                </span>
+                <span className="chevron" aria-hidden="true">⌄</span>
+              </button>
+
+              <button
+                type="button"
+                className={`setting ranked${dereceliTercih ? "" : " serbest"}`}
+                role="switch"
+                aria-checked={dereceliTercih}
+                onClick={() => setDereceliTercih(!dereceliTercih)}
+              >
+                <span className="setting-icon"><Ikon ad="kupa" boyut={20} /></span>
+                <span>
+                  <small>{tt("MAÇ TÜRÜ")}</small>
+                  <b>{dereceliTercih ? ceviri("Dereceli") : ceviri("Serbest")}</b>
+                </span>
+                <span className={`switch${dereceliTercih ? " on" : ""}`} aria-hidden="true"><i /></span>
+              </button>
+            </div>
+
+            <button className="play-button" onClick={() => setModSecimAcik(true)}>
+              <span><Ikon ad="hizli" boyut={20} /></span> {tt("RAKİP BUL")} <b>→</b>
             </button>
-          ) : lobide ? (
-            <button className="btn kucuk ikincil" onClick={() => navigate(y("/turnuva"))}>
-              {tt("Lobidesin")}
-            </button>
-          ) : (
-            <button className="btn kucuk ikincil" onClick={lobiyeKatil}>{/* Paket 42 A: tek birincil "Hemen oyna" */}
-              {tt("Lobiye katıl")}
-            </button>
-          )}
-        </div>
-        <BugunKalanTurnuvalar />
-        {mesaj && <div className="hata-kutu" style={{ flexBasis: "100%" }}>{mesaj}</div>}
-      </div>
+            <div className="play-meta">
+              <span>{dereceliTercih ? ceviri("Lig puanı + tam coin") : ceviri("Serbest — puan yok, coin yarı")}</span>
+              <i aria-hidden="true" />
+              <span>{KLASIK_JOKERLER.length} {tt("joker")}</span>
+              <i aria-hidden="true" />
+              <span>{tt("Canlı maç")}</span>
+            </div>
+            {mesaj && <div className="hata-kutu" style={{ marginTop: 10 }}>{mesaj}</div>}
+          </section>
 
-      {/* ============ KATMAN 2 — SENİ BEKLEYENLER ============
-          Zaman baskılı işlerin hepsi tek başlık altında toplandı: sıra sende
-          olan maçlar, turnuva geri sayımı, ezeli rakip, günlük görevler ve
-          haftalık lig durumu. */}
-      <section className="bd-katman bd-giris-2">
-        <h2 className="bd-katman-baslik">{tt("Seni bekleyenler")}</h2>
+          {/* ---------- SENİ BEKLEYENLER ---------- */}
+          <section className="section">
+            <div className="section-head">
+              <div>
+                <span className="eyebrow">{tt("SIRA SENDE")}</span>
+                <h2>{tt("Seni bekleyenler")}</h2>
+              </div>
+            </div>
 
+            {siraSendeMaclar.map((m) => (
+              <Link key={m.id} to={y("/mac/") + m.id} className="bd-devam-eden">
+                <Ikon ad="saat" boyut={17} />
+                <span>
+                  <b>{m.rakipAd || tt("Rakibin")}</b> {tt("ile maçın yarım — sıra sende")}
+                  {m.rakipBot && <span className="bd-satir-not">{tt("bot")}</span>}
+                </span>
+                <span className="ok" aria-hidden="true">›</span>
+              </Link>
+            ))}
 
-        {/* Yarım kalan maçlar — HER MAÇ AYRI SATIR ve KİMİNLE olduğu yazılı.
-            Eskiden tek satırda "3 maçta sıra sende" yazıyordu; oyuncu hangi
-            maça gireceğini bilmiyordu. */}
-        {siraSendeMaclar.map((m) => (
-          <Link key={m.id} to={y("/mac/") + m.id} className="bd-devam-eden">
-            <Ikon ad="saat" boyut={17} />
-            <span>
-              <b>{m.rakipAd || tt("Rakibin")}</b> {tt("ile maçın yarım — sıra sende")}
-              {m.rakipBot && <span className="bd-satir-not">{tt("bot")}</span>}
-            </span>
-            <span className="ok" aria-hidden="true">›</span>
-          </Link>
-        ))}
-
-        {/* Paket 41 A.5: bekleyen maç/davet yokken başlık boş kalmasın */}
-        {siraSendeMaclar.length === 0 && bekleyenDavetlerim.length === 0 && (
-          <div className="bd-devam-eden bd-bekleyen-bos">
-            <Ikon ad="kilic" boyut={17} />
-            <span>{tt("Şu an seni bekleyen maç yok.")}</span>
-            <Link to={y("/meydan")} className="bd-bekleyen-bos-eylem">{tt("Arkadaşına meydan oku")}</Link>
-          </div>
-        )}
-
-        {/* Gönderdiğim davetler: karşı taraf henüz cevaplamadı. */}
-        {bekleyenDavetlerim.map((d) => (
-          <div key={d.tur + d.kayit_id} className="bd-devam-eden bd-davet-bekliyor">
-            <span className="bd-bekleme-nokta" aria-hidden="true" />
-            <span>
-              {d.tur === "grup" || d.tur === "hizli" ? (
-                <>{tt("Davetin gönderildi —")} <b>{d.bekleyen_sayisi} {tt("kişi")}</b> {tt("bekleniyor")}</>
-              ) : (
-                <><b>{d.gorunen_ad || tt("Rakibin")}</b> {tt("daveti görmedi — bekleniyor")}</>
-              )}
-            </span>
-            {/* Fikir değişebilir: cevaplanmamış davet geri alınabilir. */}
-            <button
-              type="button"
-              className="bd-davet-geri"
-              onClick={() => davetiGeriCek(d)}
-              disabled={geriCekilen === d.tur + d.kayit_id}
-              aria-label={tt("Daveti geri çek")}
-            >
-              {geriCekilen === d.tur + d.kayit_id ? "…" : tt("Geri çek")}
-            </button>
-          </div>
-        ))}
-
-        {/* Günlük Görevler — tema-joker: "+N al" butonu joker magentasını alır */}
-        {gorevler.length > 0 && (
-          <div className="bd-gorev-acilir tema-joker">
-            <button
-              className={`bd-gorev-basi ${gorevlerAcik ? "acik" : ""}`}
-              onClick={() => setGorevlerAcik((a) => !a)}
-              aria-expanded={gorevlerAcik}
-            >
-              <Ikon ad="liste" boyut={17} />
-              <span>{tt("Günlük Görevler")}</span>
-              <span className="sayac">
-                {hazirOdul > 0
-                  ? tt("{0} ödül hazır!", { 0: hazirOdul })
-                  : `${gorevler.filter((g) => g.alindi).length}/${gorevler.length}`}
-              </span>
-              <span className="ok" aria-hidden="true">›</span>
-            </button>
-            {gorevlerAcik && (
-              <div className="bd-gorev-govde">
-                {gorevler.map((g) => {
-                  const tamam = g.ilerleme >= g.hedef;
-                  return (
-                    <div key={g.quest_id} className="gorev-satir">
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, fontWeight: 800, marginBottom: 4 }}>
-                          <span>{ttSunucu(g.ad)}</span>
-                          <span className="alt-yazi">{g.ilerleme}/{g.hedef}</span>
-                        </div>
-                        <div className="bd-gorev-bar">
-                          <div
-                            className="dolgu"
-                            style={{
-                              width: `${Math.min(100, (g.ilerleme / g.hedef) * 100)}%`,
-                              background: g.alindi ? "var(--bd-basari)" : "var(--bd-odul)",
-                            }}
-                          />
-                        </div>
-                      </div>
-                      {g.alindi ? (
-                        <span className="rutbe-chip" style={{ color: "var(--bd-basari-metin, #177A45)" }}>+{g.odul}</span>
-                      ) : tamam ? (
-                        <button className="btn kucuk" onClick={() => odulAl(g.quest_id)}>
-                          {`+${g.odul} al`}
-                        </button>
-                      ) : (
-                        <span className="rutbe-chip">+{g.odul}</span>
-                      )}
-                    </div>
-                  );
-                })}
+            {siraSendeMaclar.length === 0 && bekleyenDavetlerim.length === 0 && (
+              <div className="bd-devam-eden bd-bekleyen-bos">
+                <Ikon ad="kilic" boyut={17} />
+                <span>{tt("Şu an seni bekleyen maç yok.")}</span>
+                <Link to={y("/meydan")} className="bd-bekleyen-bos-eylem">{tt("Arkadaşına meydan oku")}</Link>
               </div>
             )}
-          </div>
-        )}
 
-        {/* SADELEŞTİRME — "Aynı işi yapan birden fazla yol
-            varsa birini bırak." Üç hücreli Şehir/Ülke/Dünya şeridi Lig
-            sekmesinin birebir aynısıydı; sekme zaten alt çubukta duruyor.
-            Şerit kaldırıldı, haftalık geri sayım kaldı (zamana bağlı bilgi,
-            başka yerde yok). */}
-        {/* Paket 42 B.2: başıboş soluk satır yerine başlıklı, Lig sekmesine götüren şerit */}
-        <Link to={y("/siralama")} className="bd-hero-hafta">
-          <span className="bd-hero-hafta-baslik"><Ikon ad="kupa" boyut={14} /> {tt("Lig")}</span>
-          <span className="bd-hero-hafta-metin">
-            <Ikon ad="saat" boyut={13} /> {tt("Haftalık lig bitimine")} <b>{sureMetni(haftaKalan)}</b>
-          </span>
-          <Ikon ad="ok" boyut={14} />
-        </Link>
-      </section>
+            {/* Gönderdiğim davetler: karşı taraf henüz cevaplamadı. */}
+            {bekleyenDavetlerim.map((d) => (
+              <div key={d.tur + d.kayit_id} className="bd-devam-eden bd-davet-bekliyor">
+                <span className="bd-bekleme-nokta" aria-hidden="true" />
+                <span>
+                  {d.tur === "grup" || d.tur === "hizli" ? (
+                    <>{tt("Davetin gönderildi —")} <b>{d.bekleyen_sayisi} {tt("kişi")}</b> {tt("bekleniyor")}</>
+                  ) : (
+                    <><b>{d.gorunen_ad || tt("Rakibin")}</b> {tt("daveti görmedi — bekleniyor")}</>
+                  )}
+                </span>
+                {/* Fikir değişebilir: cevaplanmamış davet geri alınabilir. */}
+                <button
+                  type="button"
+                  className="bd-davet-geri"
+                  onClick={() => davetiGeriCek(d)}
+                  disabled={geriCekilen === d.tur + d.kayit_id}
+                  aria-label={tt("Daveti geri çek")}
+                >
+                  {geriCekilen === d.tur + d.kayit_id ? "…" : tt("Geri çek")}
+                </button>
+              </div>
+            ))}
+          </section>
 
-      {/* ============ KATMAN 3 — BAŞKA NASIL OYNANIR ============
-          SADELEŞTİRME. Izgarada dokuz düğme vardı; üçü
-          başka bir yolun kopyasıydı ve kaldırıldı:
-            · "Joker Dükkânı" → alt sekmede zaten var.
-            · "Lig"           → alt sekmede zaten var.
-          Hiçbir ekran erişilemez olmadı; yalnız ikinci kapılar kapandı.
-          Başlık da somutlaştı ("Modlar" → ne olduğunu söyleyen bir cümle).
+          {/* ---------- OYUN MODLARI ----------
+              Yalnız GERÇEKTEN VAR OLAN modlar. Dondurulmuş modlar (Hızlı Mod,
+              "Hızlı Olan Kazanır") burada yoktur. */}
+          <section className="section modes">
+            <div className="section-head">
+              <div>
+                <span className="eyebrow">{tt("OYUN MODLARI")}</span>
+                <h2>{tt("Nasıl oynamak istersin?")}</h2>
+              </div>
+              <button type="button" onClick={() => navigate(y("/modlar"))}>{tt("Tümünü gör")} →</button>
+            </div>
+            <div className="mode-grid">
+              <button className="mode-card duel" onClick={() => navigate(y("/duello"))}>
+                <span className="mode-icon"><Ikon ad="kilic" boyut={22} /></span>
+                <span>
+                  <b>{ceviri("Düello")}</b>
+                  <small>{ceviri("Taktik Maçı")}</small>
+                </span>
+                <em>{MAC_ICI_JOKERLER.length + SALDIRI_JOKERLERI.length} {tt("JOKER")}</em>
+              </button>
 
-          "Dereceli Maç" düğmesi Paket 14'te KALKTI: dereceli/serbest ayrımı
-          artık hero'daki tek "Dereceli" anahtarıyla seçiliyor (3 mod × 2
-          giriş = 6 düğme olmasın). */}
-      <section className="bd-katman bd-giris-3">
-        <h2 className="bd-katman-baslik">{tt("Başka nasıl oynanır")}</h2>
-        <div className="bd-mod-grid">
-          {/* Kompakt 2×2 ızgara (referans tasarım): bd-mod-genis bu ızgaradan
-              çıktı, açıklama satırı gizli — bilgi title'da duruyor. */}
-          {/* DÜELLO (Paket 14): oyunun ana taktik modu, ızgarada ilk sırada */}
-          <button className="bd-mod tema-lig bd-mod-duello" title={ceviri("Taktik Maçı")} onClick={() => navigate(y("/duello"))}>
-            <span className="bd-mod-ikon"><Ikon ad="kilic" boyut={28} /></span>
-            <span className="bd-mod-ad">{ceviri("Düello")}</span>
-            <span className="bd-mod-not">{ceviri("Taktik Maçı")}</span>
-            <span className="bd-mod-joker">{ceviri("6 joker · sıra sende")}</span>
-          </button>
-          {/* SAF BİLGİ (Paket 31 B): jokersiz Klasik Mod. Ödül Klasik ile aynı;
-              kuyrukta yalnız jokersiz oyuncularla eşleşir. Dereceli anahtarı hero'daki. */}
-          <button
-            className="bd-mod tema-saf"
-            title={ceviri("Joker yok. Sadece bilgi ve hız.")}
-            onClick={() => hemenOyna(dereceliTercih, true)}
-          >
-            <span className="bd-mod-ikon"><Ikon ad="soru" boyut={26} /></span>
-            <span className="bd-mod-ad">{ceviri("Saf Bilgi")}</span>
-            <span className="bd-mod-not">{ceviri("Joker yok. Sadece bilgi ve hız.")}</span>
-            <span className="bd-mod-joker">{ceviri("joker yok")}</span>
-          </button>
-          <button className="bd-mod tema-grup" title={tt("Arkadaşına davet gönder · tekli ya da grup")} onClick={() => navigate(y("/meydan"))}>
-            <span className="bd-mod-ikon"><Ikon ad="kisiler" boyut={26} /></span>
-            <span className="bd-mod-ad">{tt("Meydan Oku")}</span>
-            {/* "Grup Maçı" düğmesi buradan kalktı: aynı sayfaya (/meydan)
-                gidiyordu, grup maçı kurma zaten o sayfanın içinde. */}
-            <span className="bd-mod-not">{tt("Arkadaşına davet gönder · tekli ya da grup")}</span>
-          </button>
-          {/* HIZLI MOD (Paket 24 · B): DONDURULDU — sahibinin kararı. Düğme kaldırıldı,
-              sayfa ve rota duruyor (/hizli-mod → ana sayfaya yönlenir), veri silinmedi.
-              Geri açmak: bu düğmeyi geri koy + oyun_ayarlari.hizli_mod_acik = true.
-              Izgara 5 → 4 düğme; 2×2 düzen zaten buna göre, kartlar gerilmez. */}
+              {/* SAF BİLGİ: jokersiz Klasik Mod (Paket 31 B) — kodda var. */}
+              <button className="mode-card pure" onClick={() => hemenOyna(dereceliTercih, true)}>
+                <span className="mode-icon"><Ikon ad="soru" boyut={22} /></span>
+                <span>
+                  <b>{ceviri("Saf Bilgi")}</b>
+                  <small>{ceviri("Joker yok. Sadece bilgi ve hız.")}</small>
+                </span>
+                <em>{tt("JOKERSİZ")}</em>
+              </button>
 
-          <button className="bd-mod tema-turnuva" onClick={() => navigate(y("/turnuva"))}>
-            <span className="bd-mod-ikon"><Ikon ad="kupa" boyut={26} /></span>
-            <span className="bd-mod-ad">{tt("Turnuva")}</span>
-          </button>
-          <button
-            className="bd-mod tema-hatalarim"
-            onClick={() => navigate(y("/calisma"))}
-          >
-            <span className="bd-mod-ikon hatalarim"><Ikon ad="kitap" boyut={26} /></span>
-            <span className="bd-mod-ad">{tt("Hatalarım")}</span>
-            {bankaBekleyen > 0 && (
-              <span className="bd-mod-rozet">{bankaBekleyen}</span>
-            )}
-          </button>
+              <button className="mode-card challenge" onClick={() => navigate(y("/meydan"))}>
+                <span className="mode-icon"><Ikon ad="kisiler" boyut={22} /></span>
+                <span>
+                  <b>{tt("Meydan Oku")}</b>
+                  <small>{tt("Arkadaşına davet gönder · tekli ya da grup")}</small>
+                </span>
+                <em>1V1</em>
+              </button>
+
+              <button className="mode-card practice" onClick={() => navigate(y("/calisma"))}>
+                <span className="mode-icon"><Ikon ad="kitap" boyut={22} /></span>
+                <span>
+                  <b>{tt("Hatalarım")}</b>
+                  <small>{tt("Kaçırdığın soruları çalış")}</small>
+                </span>
+                {bankaBekleyen > 0 && <em className="alert">{bankaBekleyen}</em>}
+              </button>
+            </div>
+          </section>
         </div>
-      </section>
+
+        <aside className="side-column">
+          {/* ---------- TURNUVA ----------
+              Saat ve geri sayım oyun_ayarlari.turnuva_saatleri'nden
+              (lib/zaman.js). Prototipteki "Bu akşam · 20:00" sabiti KULLANILMADI. */}
+          <section className={`tournament-card${canliTurnuva ? " canli" : ""}`}>
+            <div className="trophy"><Ikon ad="kupa" boyut={30} /></div>
+            <span className="event-label">
+              {canliTurnuva ? tt("ŞU AN CANLI") : <TurnuvaSaatEtiketi />}
+            </span>
+            <h2>{tt("Turnuva")}</h2>
+            <p>{tt("Son kalan oyuncu ol, büyük ödülü kap.")}</p>
+            {canliTurnuva ? (
+              <div className="bd-turnuva-canli">
+                <span className="canli-nokta" />
+                {tt("Şu an canlı")}
+              </div>
+            ) : (
+              <Countdown bicim="prototip" />
+            )}
+            <div className="event-bottom">
+              <span><b>{lobiSayisi}</b> {tt("oyuncu lobide")}</span>
+              {canliTurnuva ? (
+                <button onClick={() => navigate(y("/turnuva"))}>{tt("KATIL")}</button>
+              ) : lobide ? (
+                <button onClick={() => navigate(y("/turnuva"))}>{tt("LOBİDESİN")}</button>
+              ) : (
+                <button onClick={lobiyeKatil}>{tt("LOBİYE KATIL")}</button>
+              )}
+            </div>
+            <BugunKalanTurnuvalar />
+          </section>
+
+          {/* ---------- GÜNLÜK GÖREVLER (gerçek: get_daily_quests) ---------- */}
+          {gorevler.length > 0 && (
+            <section className="side-card missions">
+              <div className="side-title">
+                <span>{tt("GÜNLÜK GÖREVLER")}</span>
+                <b>{gorevler.filter((g) => g.alindi).length}/{gorevler.length}</b>
+              </div>
+              {(gorevlerAcik ? gorevler : gorevler.slice(0, 2)).map((g) => {
+                const tamam = g.ilerleme >= g.hedef;
+                return (
+                  <div key={g.quest_id} className="mission">
+                    <span className={`mission-icon${tamam ? "" : " orange"}`}>
+                      <Ikon ad={tamam ? "tik" : "hizli"} boyut={14} />
+                    </span>
+                    <div>
+                      <b>{ttSunucu(g.ad)}</b>
+                      <small>{g.ilerleme}/{g.hedef}</small>
+                    </div>
+                    {g.alindi ? (
+                      <strong>+{g.odul}</strong>
+                    ) : tamam ? (
+                      <button type="button" className="btn kucuk" onClick={() => odulAl(g.quest_id)}>
+                        +{g.odul} {tt("al")}
+                      </button>
+                    ) : (
+                      <strong>+{g.odul}</strong>
+                    )}
+                  </div>
+                );
+              })}
+              {gorevler.length > 2 && (
+                <button
+                  type="button"
+                  className="text-button"
+                  onClick={() => setGorevlerAcik((a) => !a)}
+                  aria-expanded={gorevlerAcik}
+                >
+                  {gorevlerAcik
+                    ? tt("Daha az göster")
+                    : hazirOdul > 0
+                      ? tt("{0} ödül hazır!", { 0: hazirOdul })
+                      : tt("Tüm görevleri gör →")}
+                </button>
+              )}
+            </section>
+          )}
+
+          {/* ---------- LİG (gerçek: lig_grubum) ----------
+              RÜTBE DEĞİL. Rütbe oyuncu şeridinde. */}
+          <Link to={y("/siralama")} className="league-card">
+            <div className="league-medal"><Ikon ad="kupa" boyut={20} /></div>
+            <div>
+              <span>{tt("HAFTALIK LİG")}</span>
+              <b>{ligDurum ? `${LIG_ADLARI[ligDurum.lig] ?? ligDurum.lig} ${tt("Lig")}` : tt("Lig")}</b>
+              <small>
+                {ligDurum?.sira
+                  ? tt("{0}/{1} · bitimine {2}", { 0: ligDurum.sira, 1: ligDurum.grupBoyu, 2: sureMetni(haftaKalan) })
+                  : tt("Bitimine {0}", { 0: sureMetni(haftaKalan) })}
+              </small>
+            </div>
+            <span className="ok" aria-hidden="true">→</span>
+          </Link>
+        </aside>
+      </div>
     </div>
   );
 }

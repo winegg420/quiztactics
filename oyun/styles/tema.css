@@ -2100,20 +2100,21 @@ html {
 }
 body { background-color: var(--bd-zemin); }
 
-/* Sabit üst blok kendi kompozisyon katmanında kalsın: blur her karede
-   yeniden hesaplanmasın, altındaki içerik flaş yapmasın. */
-.bd-ust-blok {
-  will-change: transform;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-}
+/* KALDIRILDI (Arayüz Yenileme, 20 Eyl 2026) — iOS tuzağı.
+   Burada `.bd-ust-blok` hem `position: sticky` hem `transform: translateZ(0)`
+   idi. Kök CLAUDE.md'nin iOS kuralı tam bunu yasaklıyor: `position: fixed`
+   ya da `sticky` ile `transform` AYNI ÖĞEDE kullanılmaz — iOS Safari'de
+   daralıp genişleyen adres çubuğuyla birleşince sabitleme bozulur, üst
+   çubuk kaydırma sırasında yerinden oynar. Üstelik transform'lu bir öğe
+   içindeki `position: fixed` katmanları (modal, joker çubuğu, toast)
+   kendine göre konumlandırır.
+   `will-change: transform` de aynı etkiyi yapabildiği için birlikte kalktı.
+   Blur'un her karede hesaplanmaması isteniyorsa çözüm transform değil,
+   `contain: paint` gibi ayrı bir araçtır — ölçülmeden eklenmez.
+   Araç: node araclar/arayuz-denetim.mjs (sabit-transform kontrolü). */
 
 /* Nokta dokusu katmanı da sabit; kendi katmanında kalsın */
 body::before { will-change: opacity; }
-
-@media (prefers-reduced-motion: reduce) {
-  .bd-ust-blok { will-change: auto; }
-}
 
 /* ============================================================
    SON 5 SANİYE — heyecan

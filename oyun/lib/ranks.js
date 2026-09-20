@@ -11,11 +11,11 @@ const metinRengi = (renk) => `color-mix(in srgb, ${renk} 35%, var(--bd-metin))`;
 export const RUTBELER = [
   // Arayüz Yenileme (20 Eyl 2026): renkler artık token üzerinden gelir
   // (oyun/styles/yeni.css › RÜTBE VE USTALIK RENKLERİ). Değerler aynı.
-  { ad: tt("Çaylak"), min: 0, renk: "var(--rutbe-caylak)", ikon: "kisi" },
-  { ad: tt("Bilge"), min: 100, renk: "var(--rutbe-bilge)", ikon: "kalkan" },
-  { ad: tt("Üstat"), min: 500, renk: "var(--rutbe-ustat)", ikon: "kilic" },
-  { ad: tt("Kahin"), min: 1500, renk: "var(--rutbe-kahin)", ikon: "yildiz" },
-  { ad: tt("Efsane"), min: 5000, renk: "var(--rutbe-efsane)", ikon: "kupa" },
+  { ad: tt("Çaylak"), min: 0, renk: "var(--rutbe-caylak, #8496B2)", ikon: "kisi" },
+  { ad: tt("Bilge"), min: 100, renk: "var(--rutbe-bilge, #2FBF71)", ikon: "kalkan" },
+  { ad: tt("Üstat"), min: 500, renk: "var(--rutbe-ustat, #4A9DD9)", ikon: "kilic" },
+  { ad: tt("Kahin"), min: 1500, renk: "var(--rutbe-kahin, #3FA9A0)", ikon: "yildiz" },
+  { ad: tt("Efsane"), min: 5000, renk: "var(--rutbe-efsane, #F2B23C)", ikon: "kupa" },
 ].map((r) => ({ ...r, metinRenk: metinRengi(r.renk) }));
 
 export function rutbeBul(puan) {

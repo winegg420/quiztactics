@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { sonrakiTurnuvaZamani, geriSayim } from "../lib/zaman.js";
 import { tt } from "../lib/dil.js";
 
-export default function Countdown({ onSifir }) {
+// `bicim="prototip"` (Arayüz Yenileme, 20 Eyl 2026): turnuva kartındaki
+// `.countdown` işaretlemesi. Sayaç mantığı aynı — yalnız kabuk değişir.
+export default function Countdown({ onSifir, bicim = "klasik" }) {
   const [kalan, setKalan] = useState(() => geriSayim(sonrakiTurnuvaZamani()));
 
   useEffect(() => {
@@ -15,6 +17,18 @@ export default function Countdown({ onSifir }) {
   }, [onSifir]);
 
   const pad = (n) => String(n).padStart(2, "0");
+
+  if (bicim === "prototip") {
+    return (
+      <div className="countdown" aria-label={tt("Turnuvaya kalan süre")}>
+        <div><b>{pad(kalan.saat)}</b><small>{tt("SAAT")}</small></div>
+        <span>:</span>
+        <div><b>{pad(kalan.dakika)}</b><small>{tt("DAKİKA")}</small></div>
+        <span>:</span>
+        <div><b>{pad(kalan.saniye)}</b><small>{tt("SANİYE")}</small></div>
+      </div>
+    );
+  }
 
   return (
     <div className="geri-sayim-rakamlar">
