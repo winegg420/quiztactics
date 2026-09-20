@@ -8,41 +8,19 @@ import { bayrak } from "../lib/konum.js";
 import { useDil } from "../lib/dilKanca.js";
 import { tt } from "../lib/dil.js";
 
-// 31 karakter avatarı (özgün çizim SVG, tamamı yerel — dış servis yok).
-// Üretici: scratchpad/avatar-uret.mjs. Eski düz siluetler (av1-av8) listeden
-// çıkarıldı; dosyalar duruyor ki eski profiller kırılmasın.
+// Profesyonel avatar seti (20 Eyl 2026). Eski 31 SVG silinmedi; donduruldu
+// ve seçim listesinden çıkarıldı. Kaynak: AvatarProIllustrations.jsx.
 const HAZIR_AVATARLAR = [
-  { url: "/avatars/k01.svg", ad: tt("Kedi") },
-  { url: "/avatars/k02.svg", ad: tt("Köpek") },
-  { url: "/avatars/k03.svg", ad: tt("Baykuş") },
-  { url: "/avatars/k04.svg", ad: tt("Tilki") },
-  { url: "/avatars/k05.svg", ad: tt("Panda") },
-  { url: "/avatars/k06.svg", ad: tt("Penguen") },
-  { url: "/avatars/k07.svg", ad: tt("Kurbağa") },
-  { url: "/avatars/k08.svg", ad: tt("Ayı") },
-  { url: "/avatars/k09.svg", ad: tt("Maymun") },
-  { url: "/avatars/k10.svg", ad: tt("Dinozor") },
-  { url: "/avatars/k11.svg", ad: tt("Ejderha") },
-  { url: "/avatars/k12.svg", ad: tt("Köpekbalığı") },
-  { url: "/avatars/k13.svg", ad: tt("Ahtapot") },
-  { url: "/avatars/k14.svg", ad: tt("Arı") },
-  { url: "/avatars/k15.svg", ad: tt("Robot") },
-  { url: "/avatars/k16.svg", ad: tt("Uzaylı") },
-  { url: "/avatars/k17.svg", ad: tt("Astronot") },
-  { url: "/avatars/k18.svg", ad: tt("Ninja") },
-  { url: "/avatars/k19.svg", ad: tt("Korsan") },
-  { url: "/avatars/k20.svg", ad: tt("Şövalye") },
-  { url: "/avatars/k21.svg", ad: tt("Büyücü") },
-  { url: "/avatars/k22.svg", ad: tt("Dedektif") },
-  { url: "/avatars/k23.svg", ad: tt("Aşçı") },
-  { url: "/avatars/k24.svg", ad: tt("Profesör") },
-  { url: "/avatars/k25.svg", ad: tt("Viking") },
-  { url: "/avatars/k26.svg", ad: tt("Hayalet") },
-  { url: "/avatars/k27.svg", ad: tt("Zombi") },
-  { url: "/avatars/k28.svg", ad: tt("Mumya") },
-  { url: "/avatars/k29.svg", ad: tt("Kahraman") },
-  { url: "/avatars/k30.svg", ad: tt("Palyaço") },
-  { url: "/avatars/k31.svg", ad: tt("Kral") },
+  { url: "/avatars/pro/kedi-k01.svg", ad: tt("Kedi") },
+  { url: "/avatars/pro/panda-k05.svg", ad: tt("Panda") },
+  { url: "/avatars/pro/dinozor-k10.svg", ad: tt("Dinozor") },
+  { url: "/avatars/pro/robot-k15.svg", ad: tt("Robot") },
+  { url: "/avatars/pro/uzayli-k16.svg", ad: tt("Uzaylı") },
+  { url: "/avatars/pro/astronot-k17.svg", ad: tt("Astronot") },
+  { url: "/avatars/pro/korsan-k19.svg", ad: tt("Korsan") },
+  { url: "/avatars/pro/asci-k23.svg", ad: tt("Aşçı") },
+  { url: "/avatars/pro/profesor-k24.svg", ad: tt("Profesör") },
+  { url: "/avatars/pro/kahraman-k29.svg", ad: tt("Kahraman") },
 ];
 
 /**

@@ -7076,3 +7076,17 @@ yüksekliği 62 px; "CEVABI KİLİTLE" yok.
   `k17` Astronot, `k19` Korsan, `k23` Aşçı, `k24` Profesör ve `k29` Kahraman.
 - Her karakterin canlı setteki zemin rengi, temel paleti ve ayırt edici aksesuarı
   korunurken kontur, yüz oranı, ifade ve küçük boyut okunurluğu iyileştirildi.
+
+## 20 Eylül 2026 — Profesyonel Avatar Seti canlı entegrasyonu
+
+- Sahibinin onayladığı 10 çizim, `public/avatars/pro/` altında statik SVG olarak
+  üretildi ve kurulum/profil seçim ekranlarındaki resmi avatar seti oldu.
+- Eski 31 avatar silinmedi; dosyaları ve üreticisi donduruldu, seçimden çıkarıldı.
+  Böylece gerektiğinde geri dönüş mümkün, fakat yeni oyuncular eski seti seçemez.
+- Migration `20260612000256_profesyonel_avatar_seti.sql`, eski yerel avatar kullanan
+  mevcut hesapları karakter yakınlığına göre yeni sete taşır. Google ve diğer
+  `https` profil fotoğraflarına dokunmaz. `avatar_onayla` yerel adresleri yalnız
+  onaylı 10 yeni SVG ile sınırlar.
+- Gelecek avatarlar için tek çizim kaynağı `AvatarProIllustrations.jsx`, üretici
+  `avatar-pro-uret.mjs` olarak belgelendi. Kalın lacivert kontur, sıcak düz renk,
+  güçlü siluet, hafif asimetri ve küçük boyutta okunurluk aynı kalacak.

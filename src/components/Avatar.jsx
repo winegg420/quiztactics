@@ -8,7 +8,7 @@
 // AVATAR = SEÇİLEN AVATAR FOTOĞRAFI (13 Eylül 2026 kararı)
 //
 // Oyunda ve profilde görünen şey, kurulumda seçilen hazır avatar ikonudur
-// (`/avatars/kNN.svg`) ya da onaylanmış Google fotoğrafı. Yoksa baş harf.
+// (`/avatars/pro/*.svg`) ya da onaylanmış Google fotoğrafı. Yoksa baş harf.
 //
 // BURADA 3B KARAKTER ÇİZİLMEZ. 3B karakter YALNIZ MEYDANDA yaşar
 // (`oyun/avatar3d/`); listelerde, maç ekranında, lig tablosunda,

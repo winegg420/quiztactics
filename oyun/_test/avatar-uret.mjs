@@ -1,4 +1,9 @@
-// Bildim avatar üreteci — 30 karakterli, komik çizim avatar (128x128 SVG).
+// DONDURULDU — 20 Eylül 2026, Profesyonel Avatar Seti.
+// Bu dosya yalnız eski 31 avatarı geri üretmek için saklanır; normal akışta
+// çalıştırılmaz. Yeni resmi setin kaynağı AvatarProIllustrations.jsx, üreticisi
+// avatar-pro-uret.mjs'dir.
+//
+// Bildim avatar üreteci — 31 karakterli, komik çizim avatar (128x128 SVG).
 // Tamamı özgün çizim: telifli fotoğraf ya da gerçek kişi benzerliği yok.
 // Palet gece lacivert + altın ailesiyle uyumlu; mor kullanılmıyor.
 

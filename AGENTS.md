@@ -388,6 +388,14 @@ dosyalar · geri açma adımları). Dağınık not bırakma, buraya ekle.
 | **Eski 3B gardırop / atölye / yerel meydan** | 17 Eyl 2026 | 17 §D | `oyun/avatar3d/**` | yok (HTML girişleri yönlendiriyor) | Üç HTML'deki `location.replace` satırını kaldır · `/gorunum` ve `/gorunum-3b` rotalarını geri bağla · Dükkân › Görünüm sekmesini geri koy |
 | **Meydan (3B harita)** | 20 Eyl 2026 | Arayüz Yenileme | `oyun/harita/**` | yok (bayrak istemcide) | `oyun/lib/ozellikBayraklari.js` › `MEYDAN_ACIK = true` |
 | **Gardırop / karakter vitrini** | 20 Eyl 2026 | Arayüz Yenileme | `oyun/vitrin/**`, `oyun/pages/GorunumPage.jsx` | yok (bayrak istemcide) | `oyun/lib/ozellikBayraklari.js` › `GARDIROP_ACIK = true` |
+| **Eski 31 profil avatarı** | 20 Eyl 2026 | Profesyonel Avatar Seti | `public/avatars/k01.svg`…`k31.svg`, `oyun/_test/avatar-uret.mjs` | `avatar_onayla` yalnız yeni `/avatars/pro/**` listesini kabul eder | Eski listeyi iki avatar seçiciye geri koy · RPC izin listesini yeni migration ile genişlet |
+
+**Resmi profil avatarı çizim dili (20 Eylül 2026):** tek kaynak
+`oyun/components/AvatarProIllustrations.jsx`, statik üretici
+`oyun/_test/avatar-pro-uret.mjs`, canlı dosyalar `public/avatars/pro/`.
+Yeni avatarlar aynı düz/katmanlı SVG dilinde; kalın lacivert kontur, sıcak düz
+renk, güçlü siluet, hafif asimetri ve küçük boyutta net yüz ilkeleriyle çizilir.
+Plastik 3B render, stok degrade ve jenerik AI avatar görünümü kullanılmaz.
 
 **Arayüz Yenileme (20 Eyl 2026) — meydan ve gardırop:** tek anahtar
 `oyun/lib/ozellikBayraklari.js`. Bayrak kapalıyken gizlenenler: alt menüdeki
