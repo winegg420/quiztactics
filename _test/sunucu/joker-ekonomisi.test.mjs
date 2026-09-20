@@ -12,7 +12,7 @@
 
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { islem, oyuncuKur, olarak, baglantiVarMi, hataVerir, alintila as a } from './yardim.mjs';
+import { islem, oyuncuKur, olarak, skillSetiKur, ayarla, baglantiVarMi, hataVerir, alintila as a } from './yardim.mjs';
 
 const atla = !(await baglantiVarMi());
 const sec = { skip: atla ? 'veritabanı bağlantısı yok (SUPABASE_DB_URL / .env.local)' : false };
@@ -142,6 +142,7 @@ test('düelloda saldırı jokeri ücretsiz değil, envanterden düşer', sec, as
   await islem(async (c) => {
     const x = await oyuncuKur(c, 'dsal1');
     const y = await oyuncuKur(c, 'dsal2');
+    await skillSetiKur(c, x, ['zaman_baskisi']);
     const id = await c.tek(`select public.duello_olustur(${a(x)}, ${a(y)}, true, null)`);
     const kategori = await c.tek(`select k from unnest(public.duello_kategorileri()) k limit 1`);
     await olarak(c, x);
@@ -161,14 +162,18 @@ test('düelloda saldırı jokeri ücretsiz değil, envanterden düşer', sec, as
 
 test('maç başına toplam hak dolunca yeni joker reddedilir', sec, async () => {
   await islem(async (c) => {
-    const hak = Number(await c.tek(`select public.ayar_sayi('duello_joker_hak', 4)`));
+    // Skill v1 üç slot verir. Toplam hak kontrolünü erişilebilir üç farklı
+    // skill ile sınamak için bu transaction'da hakkı üçe indiririz.
+    await ayarla(c, 'duello_joker_hak', 3);
+    const hak = 3;
     const x = await oyuncuKur(c, 'hak1');
     const y = await oyuncuKur(c, 'hak2');
+    const turler = ['elli', 'sure', 'soru_degistir'];
+    await skillSetiKur(c, x, turler);
     const id = await c.tek(`select public.duello_olustur(${a(x)}, ${a(y)}, true, null)`);
     await olarak(c, x);
 
     // Hakkı dolduracak kadar FARKLI türü doğrudan kullanım kaydına yaz.
-    const turler = ['elli', 'sure', 'soru_degistir', 'zaman_baskisi', 'saldiri_degistir', 'savunma_kilidi'];
     for (let i = 0; i < hak; i++) {
       await c.sorgu(
         `insert into public.joker_kullanimlari (user_id, mac_tur, mac_id, soru_index, tur, ucretsiz)
@@ -177,7 +182,7 @@ test('maç başına toplam hak dolunca yeni joker reddedilir', sec, async () => 
     }
     const hata = await hataVerir(
       c,
-      `select public.joker_hak_kontrol('duello', ${a(id)}, ${a(turler[hak])})`
+      `select public.joker_hak_kontrol('duello', ${a(id)}, 'zaman_baskisi')`
     );
     assert.match(hata, new RegExp(`en fazla ${hak} joker`, 'i'));
   });
@@ -323,9 +328,11 @@ test('maç içi satın almada hız sınırı var', sec, async () => {
 test('fiyatlar sunucudan gelir; satın alınamayan tür null döner', sec, async () => {
   await islem(async (c) => {
     const f = JSON.parse(await c.tek(`select public.joker_fiyatlari()::text`));
-    for (const tur of ['elli', 'sure', 'soru_degistir', 'zaman_baskisi', 'saldiri_degistir', 'savunma_kilidi']) {
+    for (const tur of ['elli', 'sure', 'soru_degistir', 'zaman_baskisi']) {
       assert.ok(Number(f[tur]) > 0, `${tur} fiyatı oyun_ayarlari'nda tanımlı olmalı`);
     }
+    assert.equal(await c.tek(`select public.joker_fiyati('saldiri_degistir')`), null, 'kaldırılan tür satılmaz');
+    assert.equal(await c.tek(`select public.joker_fiyati('savunma_kilidi')`), null, 'kaldırılan tür satılmaz');
     assert.equal(await c.tek(`select public.joker_fiyati('seri_koruma')`), null, 'maç içi satılmaz');
     assert.equal(await c.tek(`select public.joker_fiyati('pas')`), null, 'ölü tür satılmaz');
   });

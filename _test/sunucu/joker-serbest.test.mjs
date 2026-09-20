@@ -9,7 +9,7 @@
 
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { islem, oyuncuKur, olarak, baglantiVarMi, hataVerir, alintila as a } from './yardim.mjs';
+import { islem, oyuncuKur, olarak, skillSetiKur, baglantiVarMi, hataVerir, alintila as a } from './yardim.mjs';
 
 const atla = !(await baglantiVarMi());
 const sec = { skip: atla ? 'veritabanı bağlantısı yok (SUPABASE_DB_URL / .env.local)' : false };
@@ -49,17 +49,17 @@ test('ücretsiz mod: stok yokken joker kullanılır, envanter ve coin değişmez
   });
 });
 
-test('ücretsiz modda da hak kuralları: 4 farklı joker tek soruda, 5. ve tekrar reddedilir', sec, async () => {
+test('ücretsiz modda da set kuralı ve aynı skillin maçta bir kez kullanımı korunur', sec, async () => {
   await islem(async (c) => {
     await serbest(c);
     const { x, id } = await klasikMac(c);
+    await skillSetiKur(c, x, ['elli', 'sure', 'zaman_baskisi']);
     await olarak(c, x);
-    // Paket 35 A.3: aynı soruda dört FARKLI joker arka arkaya kullanılabilir
-    for (const tur of ['elli', 'sure', 'zaman_baskisi', 'sis']) {
+    for (const tur of ['elli', 'sure', 'zaman_baskisi']) {
       await c.sorgu(`select public.joker_kullan('1v1', ${a(id)}, 0, ${a(tur)})`);
     }
-    const hata5 = await hataVerir(c, `select public.joker_kullan('1v1', ${a(id)}, 0, 'soru_degistir')`);
-    assert.match(hata5, /en fazla 4 joker/i);
+    const setHatasi = await hataVerir(c, `select public.joker_kullan('1v1', ${a(id)}, 0, 'soru_degistir')`);
+    assert.match(setHatasi, /maç setinde değil/i);
     // Sonraki soruda aynı joker: maçta bir kez
     await c.sorgu(`update public.matches set aktif_soru = 1, soru_baslangic = now() where id = ${a(id)}`);
     const hata = await hataVerir(c, `select public.joker_kullan('1v1', ${a(id)}, 1, 'sure')`);
@@ -72,6 +72,8 @@ test('ücretsiz mod düello: stoktan düşmez; savunmada Soru Değiştir maçta 
     await serbest(c);
     const x = await oyuncuKur(c, 'jsd1');
     const y = await oyuncuKur(c, 'jsd2');
+    await skillSetiKur(c, x, ['zaman_baskisi']);
+    await skillSetiKur(c, y, ['soru_degistir']);
     const id = await c.tek(`select public.duello_olustur(${a(x)}, ${a(y)}, true, null)`);
     const kategori = await c.tek(`select k from unnest(public.duello_kategorileri()) k limit 1`);
     await olarak(c, x);

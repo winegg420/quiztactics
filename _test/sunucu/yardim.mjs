@@ -74,6 +74,16 @@ export async function sunucuOlarak(c) {
   await c.sorgu(`select set_config('request.jwt.claims', '', true)`);
 }
 
+/** Skill v1: test oyuncusunun maç setini transaction içinde açıkça belirler. */
+export async function skillSetiKur(c, id, skiller) {
+  const dizi = `array[${skiller.map(alintila).join(',')}]::text[]`;
+  await c.sorgu(
+    `insert into public.oyuncu_skill_setleri (user_id, skiller, guncellendi)
+     values (${alintila(id)}, ${dizi}, now())
+     on conflict (user_id) do update set skiller = excluded.skiller, guncellendi = now()`
+  );
+}
+
 /**
  * Bir çağrının hata verdiğini doğrula; hata metnini döndürür.
  *

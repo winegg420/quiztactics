@@ -11,7 +11,7 @@
 
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { islem, oyuncuKur, olarak, baglantiVarMi, hataVerir, alintila as a } from './yardim.mjs';
+import { islem, oyuncuKur, olarak, skillSetiKur, baglantiVarMi, hataVerir, alintila as a } from './yardim.mjs';
 
 const atla = !(await baglantiVarMi());
 const sec = { skip: atla ? 'veritabanı bağlantısı yok (SUPABASE_DB_URL / .env.local)' : false };
@@ -41,24 +41,26 @@ async function joker(c, id, kim, tur) {
   return c.tek(`select public.joker_kullan('1v1', ${a(id)}, 0, ${a(tur)})::text`);
 }
 
-test('Klasik Soru Değiştir iki oyuncuda da aynı yeni soruyu açar', sec, async () => {
+test('Klasik Soru Değiştir yalnız kullananın sorusunu değiştirir', sec, async () => {
   await islem(async (c) => {
     const { x, y, id } = await klasikMac(c);
+    await skillSetiKur(c, x, ['soru_degistir']);
     const once = await soru(c, id, y);
     await joker(c, id, x, 'soru_degistir');
     const sx = await soru(c, id, x);
     const sy = await soru(c, id, y);
     assert.notEqual(sx.question_id, once.question_id, 'basanın sorusu değişmeli');
-    assert.equal(sy.question_id, sx.question_id, 'rakip AYNI yeni soruyu almalı');
-    assert.equal(sy.bas, sx.bas, 'başlangıç ikisinde de aynı olmalı');
+    assert.equal(sy.question_id, once.question_id, 'rakibin sorusu değişmemeli');
+    assert.notEqual(sy.question_id, sx.question_id, 'kişisel yeni soru rakibe taşmamalı');
     const surum = Number(await c.tek(`select joker_surum from public.matches where id = ${a(id)}`));
-    assert.ok(surum >= 1, 'rakibin ekranı için joker_surum artmalı');
+    assert.equal(surum, 0, 'rakibe gereksiz joker sinyali gitmemeli');
   });
 });
 
 test('Süreyi Kısalt yalnız rakibin süresini kısaltır', sec, async () => {
   await islem(async (c) => {
     const { x, y, id } = await klasikMac(c);
+    await skillSetiKur(c, x, ['zaman_baskisi']);
     const kisalt = Number(await c.tek(`select public.ayar_sayi('klasik_zaman_baskisi_sn', 5)`));
     const bx = (await soru(c, id, x)).bas;
     const by = (await soru(c, id, y)).bas;
@@ -71,20 +73,12 @@ test('Süreyi Kısalt yalnız rakibin süresini kısaltır', sec, async () => {
   });
 });
 
-test('Sis: rakibin ekranı sis süresince kapanır, cevabı sunucu da reddeder', sec, async () => {
+test('Kaldırılan Sis skilli sunucu tarafından reddedilir', sec, async () => {
   await islem(async (c) => {
-    const { x, y, id } = await klasikMac(c);
-    const sisSn = Number(await c.tek(`select public.ayar_sayi('klasik_sis_sn', 3)`));
-    await joker(c, id, x, 'sis');
-    await olarak(c, y);
-    const d = (await c.sorgu(`select extract(epoch from sis_bitis - sunucu_zamani)::float8 kalan
-                               from public.joker_mac_durumu('1v1', ${a(id)})`))[0];
-    assert.equal(Math.round(Number(d.kalan)), sisSn, 'rakibe sis_bitis = şimdi + sis süresi');
-    const hata = await hataVerir(c, `select * from public.submit_match_answer(${a(id)}, 0::smallint)`);
-    assert.match(hata, /sis kalkınca/i);
-    // Gönderen etkilenmez: kendi cevabını verebilir
+    const { x, id } = await klasikMac(c);
     await olarak(c, x);
-    await c.sorgu(`select * from public.submit_match_answer(${a(id)}, 0::smallint)`);
+    const hata = await hataVerir(c, `select public.joker_kullan('1v1', ${a(id)}, 0, 'sis')`);
+    assert.match(hata, /artık aktif değil|maç içinde kullanılamaz/i);
   });
 });
 
@@ -98,14 +92,12 @@ test("Klasik'te Savunma Kilidi artık yok; düello türü olarak envanterde duru
   });
 });
 
-test('Sis son 6 saniyede reddedilir; diğer jokerler kullanılabilir', sec, async () => {
+test('Aktif skill son saniyelerde de kendi sunucu kuralına göre kullanılabilir', sec, async () => {
   await islem(async (c) => {
     const { x, id } = await klasikMac(c);
+    await skillSetiKur(c, x, ['sure']);
     await c.sorgu(`update public.matches set soru_baslangic = now() - interval '10 seconds' where id = ${a(id)}`);
-    await olarak(c, x);
-    const hata = await hataVerir(c, `select public.joker_kullan('1v1', ${a(id)}, 0, 'sis')`);
-    assert.match(hata, /son 6 saniyede sis kullanılamaz/i);
-    await joker(c, id, x, 'zaman_baskisi');   // kural yalnız Sis için
+    await joker(c, id, x, 'sure');
   });
 });
 
@@ -121,25 +113,26 @@ test('Sis başlangıç stoğu: yeni hesap alır, toplu dağıtım ikinci kez ver
   });
 });
 
-test('Klasik: maç başına 4 joker, aynı jokerden bir kez; saldiri_degistir yok', sec, async () => {
+test('Klasik: seçili üç skill çalışır; tekrar, seçilmeyen ve kaldırılan tür reddedilir', sec, async () => {
   await islem(async (c) => {
     const { x, id } = await klasikMac(c);
+    await skillSetiKur(c, x, ['elli', 'sure', 'zaman_baskisi']);
     await joker(c, id, x, 'elli');
     let hata = await hataVerir(c, `select public.joker_kullan('1v1', ${a(id)}, 0, 'elli')`);
     assert.match(hata, /zaten kullandın/i);
     hata = await hataVerir(c, `select public.joker_kullan('1v1', ${a(id)}, 0, 'saldiri_degistir')`);
-    assert.match(hata, /maç içinde kullanılamaz/i);
+    assert.match(hata, /artık aktif değil|maç içinde kullanılamaz/i);
     await joker(c, id, x, 'sure');
     await joker(c, id, x, 'zaman_baskisi');
-    await joker(c, id, x, 'sis');
     hata = await hataVerir(c, `select public.joker_kullan('1v1', ${a(id)}, 0, 'soru_degistir')`);
-    assert.match(hata, /en fazla 4 joker/i);
+    assert.match(hata, /maç setinde değil/i);
   });
 });
 
 test('Rakip cevapladıktan sonra Süreyi Kısalt reddedilir (boşa harcanmaz)', sec, async () => {
   await islem(async (c) => {
     const { x, y, id } = await klasikMac(c);
+    await skillSetiKur(c, x, ['zaman_baskisi']);
     await olarak(c, y);
     await c.sorgu(`select * from public.submit_match_answer(${a(id)}, 0::smallint)`);
     await olarak(c, x);

@@ -7036,5 +7036,9 @@ yüksekliği 62 px; "CEVABI KİLİTLE" yok.
   destek uyarısı sürüyor). `npm run test:kurallar` 17/17 geçti.
 - Oturumlu arayüz denetimi 16 sayfa × 1440/850/560/360/390/412/430 genişlikte
   geçti: yatay taşma yok, sabit öğe kayması yok, dokunma hedefleri ≥44 px,
-  konsol temiz. Tam eski sunucu paketi 57 geçti / 14 kaldı: kalanlar önceki
-  joker sistemini bekliyor ve Skill v1 seçim/pasif tür kurallarıyla güncel değil.
+  konsol temiz.
+- Eski joker beklentileri taşıyan sunucu testleri Skill v1 ürün kurallarına
+  güncellendi: üç slot, kişisel Soru Değiştir, seçili set kapısı ve kaldırılan
+  türlerin satılmaması artık doğrudan sınanıyor. Tam paket sonucu: 71 geçti,
+  0 kaldı, yalnız migration provasına ait 4 test normal koşuda bilinçli atlandı;
+  kural testleri 17/17 ve dans kontrolleri tamamen geçti.
