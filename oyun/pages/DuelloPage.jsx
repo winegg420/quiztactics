@@ -669,7 +669,6 @@ function DuelloMac({ id }) {
         <div className="bd-soru-metin bd-soru-giris">{d.soru?.soru}</div>
         <div className="bd-secenekler">
           {secenekler.map((s, i) => {
-            if (kapali.includes(i) && !sonucMu) return <div key={i} className={`bd-secenek ${skillEfekt?.tur === "elli" ? "elendi" : "bd-secenek-bos"}`} aria-hidden="true" />;
             let sinif = "bd-secenek";
             if (sonucMu) {
               if (i === h.dogru_cevap) sinif += " dogru";
@@ -678,9 +677,10 @@ function DuelloMac({ id }) {
             } else if (altinMi && benimAltin !== undefined && benimAltin !== null) {
               if (i === Number(benimAltin)) sinif += " secili";
             } else if (i === secim) sinif += " secili";
+            if (kapali.includes(i) && !sonucMu) sinif += " elendi";
             return (
               <button key={i} className={sinif}
-                      disabled={!tiklanabilir || secim !== null || !!calisan}
+                      disabled={!tiklanabilir || secim !== null || !!calisan || kapali.includes(i)}
                       onClick={async () => {
                         sesDokunus(); titret(10);
                         setSecim(i);

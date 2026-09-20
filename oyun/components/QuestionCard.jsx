@@ -265,8 +265,24 @@ export default function QuestionCard({
   };
   const basiliTutmayiBirak = () => clearTimeout(basiliTutTimer.current);
 
-  // Sunucudan gelen joker etkisini uygula
-  const jokerEtkisi = (sonuc) => {
+  // Ek Süre sunucuda oyuncuya özel soru başlangıcını değiştirir. Yerel sayacı
+  // tahminen artırmak yerine aynı soru RPC'sinden yetkili başlangıcı yeniden
+  // okuyup kartı o veriyle besleriz. Böylece yenileme/yeniden bağlanma da aynı
+  // değeri gösterir; rakibin başlangıcına istemeden dokunulmaz.
+  const yetkiliSoruyuTazele = async () => {
+    const istek = {
+      "1v1": ["get_match_question", { p_match_id: macId }],
+      grup: ["get_group_match_question", { p_group_match_id: macId }],
+      turnuva: ["get_tournament_question", { p_tournament_id: macId }],
+    }[macTur];
+    if (!istek || !macId) return null;
+    const { data, error } = await supabase.rpc(istek[0], istek[1]);
+    if (error) throw error;
+    return Array.isArray(data) ? data[0] : data;
+  };
+
+  // Sunucudan gelen skill etkisini uygula
+  const jokerEtkisi = async (sonuc) => {
     if (!sonuc) return;
     if (sonuc.tur === "elli" && Array.isArray(sonuc.kapali)) {
       setKapali(sonuc.kapali);
@@ -277,6 +293,14 @@ export default function QuestionCard({
       setSkillEfekt({ tur: "sure", deger: Number(sonuc.eklenen_sn ?? 10) });
       clearTimeout(skillTimer.current);
       skillTimer.current = setTimeout(() => setSkillEfekt(null), 800);
+      try {
+        const yetkiliSoru = await yetkiliSoruyuTazele();
+        if (yetkiliSoru?.question_id) setDegisenSoru(yetkiliSoru);
+      } catch (e) {
+        // Skill sunucuda başarıyla işlendi; geçici ağ hatasında bir sonraki
+        // sayfa/Realtime yenilemesi yetkili başlangıcı zaten getirecek.
+        console.warn("[Bildim] Ek Süre sonrası soru tazelenemedi:", e?.message ?? e);
+      }
     } else if (sonuc.tur === "soru_degistir" && sonuc.soru) {
       // Sunucu kabulünden sonra kısa çıkış/giriş; rakibin kartına dokunulmaz.
       setSkillEfekt({ tur: "soru_degistir", asama: "cikiyor" });
@@ -295,8 +319,6 @@ export default function QuestionCard({
     if (sonuc.tur === "sis") {
       setSisGonderdimBitis(Date.now() + 1000 * (Number(sonuc.sis_sn) > 0 ? Number(sonuc.sis_sn) : 3));
     }
-    // 'sure' etkisi sunucuda soru_baslangic'ı uzatır; sayaç bir sonraki
-    // yoklamada kendiliğinden güncellenir.
   };
 
   const oyVer = async (adil) => {
