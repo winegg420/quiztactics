@@ -63,6 +63,7 @@ const GizlilikPage = lazy(() => import("../oyun/pages/GizlilikPage.jsx"));
 const KosullarPage = lazy(() => import("../oyun/pages/KosullarPage.jsx"));
 // Üretim akışından bağımsız, menüde görünmeyen avatar görsel laboratuvarı.
 const AvatarLabPage = lazy(() => import("../oyun/pages/AvatarLabPage.jsx"));
+const AvatarLabV2Page = lazy(() => import("../oyun/pages/AvatarLabV2Page.jsx"));
 
 // Eski hub adresleri (/oyun/...) bu sitede köke indirilir. Bookmark, push
 // bildirimi deep-link'i ve paylaşılmış davet linkleri kırılmasın diye.
@@ -129,6 +130,7 @@ export default function BildimApp() {
         <Route path="/kosullar" element={<KosullarPage />} />
         <Route path="/insan-prototip" element={<HazirInsanPrototipi />} />
         <Route path="/preview/avatar-lab" element={<AvatarLabPage />} />
+        <Route path="/preview/avatar-lab-v2" element={<AvatarLabV2Page />} />
 
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />

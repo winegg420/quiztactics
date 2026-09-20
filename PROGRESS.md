@@ -7048,3 +7048,10 @@ yüksekliği 62 px; "CEVABI KİLİTLE" yok.
 - Avatar preview lab oluşturuldu.
 - Aynı stil ailesinde 10 özgün örnek avatar üretildi.
 - Preview route: `/preview/avatar-lab`.
+
+## 20 Eylül 2026 — Avatar Preview Lab v2
+
+- Parlak 3D/AI renderı yerine elle kurgulanmış katmanlı SVG yaklaşımıyla Panda,
+  İnsan, T-Rex ve Kaplan için dört özgün stil denemesi hazırlandı.
+- İlk preview lab korunarak yeni sayfa `/preview/avatar-lab-v2` rotasına eklendi;
+  menüye ve canlı avatar sistemine bağlanmadı.
