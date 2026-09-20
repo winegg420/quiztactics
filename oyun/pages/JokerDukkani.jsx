@@ -245,9 +245,25 @@ export default function JokerDukkani() {
 
   return (
     <div className="bd-dukkan">
-      <h1 className="baslik">{tt("Dükkân")}</h1>
+      {/* ---------- DÜKKÂN BAŞLIĞI (Arayüz Yenileme, 20 Eyl 2026) ----------
+          Prototipteki `shop-heading` + `wallet-card`. Bakiye GERÇEK
+          (useCoin → coin_bakiyem). Prototipteki "Haftanın Paketi" kahraman
+          kartı ALINMADI: öyle bir kampanya ürünü yok; gerçek paketler
+          aşağıda zaten listeleniyor. */}
+      <section className="shop-heading">
+        <div>
+          <span className="eyebrow">{tt("DÜKKÂN")}</span>
+          <h1>{tt("Gücünü seç.")}</h1>
+          <p>{tt("Jokerlerini coin ile al, doğru anda kullan.")}</p>
+        </div>
+        <div className="wallet-card">
+          <span>{tt("BAKİYEN")}</span>
+          <b><Ikon ad="coin" boyut={16} /> {(bakiye ?? 0).toLocaleString("tr-TR")}</b>
+          <button type="button" onClick={() => sekmeSec("coin")}>{tt("COIN AL")} +</button>
+        </div>
+      </section>
 
-      <div className="bd-dukkan-sekmeler" role="tablist">
+      <div className="bd-dukkan-sekmeler store-tabs" role="tablist">
         {SEKMELER.map((x) => (
           <button
             key={x.kod}

@@ -133,28 +133,52 @@ const KAYDIR_OLC = () => {
   return Math.round(menu.getBoundingClientRect().top);
 };
 
+/** Tanıtım perdesi açıksa kapatır (ölçüm modal altında yapılmasın). */
+async function tanitimiKapat(sayfa) {
+  for (let i = 0; i < 8; i++) {
+    const atla = sayfa.getByRole("button", { name: /^Atla$/ });
+    if (await atla.count()) { await atla.first().click(); await sayfa.waitForTimeout(500); return; }
+    const basla = sayfa.getByRole("button", { name: /Hadi başlayalım/i });
+    if (await basla.count()) { await basla.first().click(); await sayfa.waitForTimeout(500); return; }
+    await sayfa.waitForTimeout(300);
+  }
+}
+
+/** Kurulum sihirbazını (takma ad → avatar → şehir) baştan sona doldurur. */
+async function kurulumuTamamla(sayfa) {
+  await tanitimiKapat(sayfa);
+  // 1) Takma ad
+  const alan = sayfa.locator(".bd-modal-katman input").first();
+  if (await alan.count()) {
+    await alan.fill("ArayuzDenetim" + Math.floor(Math.random() * 900 + 100));
+    await sayfa.getByRole("button", { name: /^Devam$/ }).first().click();
+    await sayfa.waitForTimeout(1800);
+  }
+  // 2) Avatar — hazır ikonlardan ilki
+  const ikon = sayfa.locator(".bd-modal-katman .bd-avatar-secenek, .bd-modal-katman img[src*='/avatars/']").first();
+  if (await ikon.count()) { await ikon.click(); await sayfa.waitForTimeout(400); }
+  const kullan = sayfa.getByRole("button", { name: /Bu avatarı kullan/i });
+  const avatarsiz = sayfa.getByRole("button", { name: /Avatarsız devam et/i });
+  if (await kullan.count()) { await kullan.first().click(); await sayfa.waitForTimeout(1800); }
+  else if (await avatarsiz.count()) { await avatarsiz.first().click(); await sayfa.waitForTimeout(1800); }
+  // 3) Şehir
+  const sehir = sayfa.locator(".bd-modal-katman select").last();
+  if (await sehir.count()) {
+    const secenekler = await sehir.locator("option").count();
+    if (secenekler > 1) await sehir.selectOption({ index: 1 });
+    await sayfa.getByRole("button", { name: /Oyuna başla/i }).first().click();
+    await sayfa.waitForTimeout(2500);
+  }
+  await tanitimiKapat(sayfa);
+}
+
 async function misafirGiris(sayfa) {
   await sayfa.goto(ADRES + "/", { waitUntil: "networkidle" });
   const dugme = sayfa.getByRole("button", { name: /Misafir olarak dene/i });
   if (!(await dugme.count())) return false;
   await dugme.click();
-  // Kurulum sihirbazı: takma ad → avatar → şehir
   await sayfa.waitForTimeout(2500);
-  const alan = sayfa.locator(".bd-modal-katman input[type=text], .bd-modal-katman input").first();
-  if (await alan.count()) {
-    await alan.fill("ArayuzDenetim" + Math.floor(Math.random() * 900 + 100));
-    await sayfa.getByRole("button", { name: /^Devam$/ }).click();
-    await sayfa.waitForTimeout(1200);
-  }
-  const avatarsiz = sayfa.getByRole("button", { name: /Avatarsız devam et/i });
-  if (await avatarsiz.count()) { await avatarsiz.click(); await sayfa.waitForTimeout(1200); }
-  const sehir = sayfa.locator(".bd-modal-katman select").last();
-  if (await sehir.count()) {
-    const secenekler = await sehir.locator("option").allTextContents();
-    if (secenekler.length > 1) await sehir.selectOption({ index: 1 });
-    await sayfa.getByRole("button", { name: /Oyuna başla/i }).click();
-    await sayfa.waitForTimeout(2500);
-  }
+  await kurulumuTamamla(sayfa);
   return true;
 }
 
@@ -176,6 +200,19 @@ async function misafirGiris(sayfa) {
     await misafirGiris(sayfa);
     await baglam.storageState({ path: OTURUM });
     console.log("· Oturum kaydedildi:", OTURUM);
+  } else {
+    // Kayıtlı oturumda kurulum yarım kalmış olabilir: modal açıksa ölçüm
+    // onun altında yapılır ve sayfa hiç görünmez. Önce kapat.
+    await kurulumuTamamla(sayfa);
+  }
+
+  // Ölçümden önce hiçbir tam ekran katman açık olmamalı.
+  const katman = await sayfa.locator(".bd-modal-katman, .bd-tanitim-katman").count();
+  if (katman) {
+    console.log("! UYARI: tam ekran katman hâlâ açık — ölçüm güvenilmez.");
+    process.exitCode = 1;
+    await tarayici.close();
+    return;
   }
 
   if (GORSEL && !fs.existsSync(GORSEL_DIZIN)) fs.mkdirSync(GORSEL_DIZIN, { recursive: true });

@@ -264,7 +264,14 @@ export default function CalismaPage() {
     const tahminYeni = Math.max(0, soruSayisi - tahminBanka);
     return (
       <div>
-        <h1 className="baslik">{tt("Hatalarım")}</h1>
+      {/* Sayfa başlığı — prototipin `page-heading` bloğu (Arayüz Yenileme) */}
+      <section className="page-heading">
+        <div>
+          <span className="eyebrow">{tt("KİŞİSEL ÇALIŞMA")}</span>
+          <h1>{tt("Hatalarım")}</h1>
+          <p>{tt("Yanlış yaptığın soruları tekrar et, açığını kapat.")}</p>
+        </div>
+      </section>
 
         {yukleniyor ? (
           <div className="kart alt-yazi" style={{ textAlign: "center", padding: 22 }}>

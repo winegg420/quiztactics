@@ -534,3 +534,315 @@ body.bd-oyun-modu .bd-jk-rozet {
   border: 2px solid #fff; border-radius: 50%;
   background: var(--purple); color: #fff;
 }
+
+/* ============================================================
+   H) LİG SAYFASI (prototip `league.html`)
+   İşaretleme mevcut bileşenlerden geliyor; prototip sınıf adlarıyla
+   (scope-tabs / period-tabs / podium / rank-row) yan yana kullanılıyor.
+   Uygulamada aktif sekme sınıfı `.aktif`, prototipte `.active` — ikisi de
+   aynı görünümü alsın diye çift seçici yazıldı.
+   ============================================================ */
+
+.app .league-tabs { flex-wrap: wrap; }
+.app .scope-tabs { overflow-x: auto; scrollbar-width: none; }
+.app .scope-tabs::-webkit-scrollbar { display: none; }
+.app .scope-tabs .bd-sekme,
+.app .period-tabs .bd-alt-sekme {
+  height: 44px;                 /* prototip 39/33; dokunma hedefi 44 */
+  padding: 0 15px;
+  border: 0;
+  border-radius: 11px;
+  background: transparent;
+  color: #77859e;
+  font-size: 11px;
+  font-weight: 900;
+  box-shadow: none;
+  white-space: nowrap;
+}
+.app .scope-tabs .bd-sekme.aktif {
+  background: var(--navy);
+  color: #fff;
+  box-shadow: 0 3px 0 #0b1329;
+}
+.app .period-tabs { padding: 3px; border-radius: 11px; background: #edf2f9; }
+.app .period-tabs .bd-alt-sekme.aktif {
+  background: #fff;
+  color: var(--ink);
+  box-shadow: 0 2px 7px rgba(30, 48, 82, .1);
+}
+
+/* Lig satırı */
+.app .bd-lig-satir.rank-row {
+  display: flex; align-items: center; gap: 12px;
+  min-height: 62px; padding: 8px 12px;
+  border: 1px solid #e4eaf3; border-radius: 15px; background: #fff;
+  box-shadow: none;
+}
+.app .bd-lig-satir.rank-row.ben { border: 2px solid #ff8a50; background: #fff6f0; }
+.app .bd-lig-satir.rank-row .bd-sira {
+  width: 22px; text-align: center;
+  font: 800 14px "Baloo 2", system-ui, sans-serif; color: #75839e;
+}
+.app .bd-lig-satir.rank-row .bd-lig-isim { font: 800 14px "Baloo 2", system-ui, sans-serif; }
+.app .bd-lig-satir.rank-row .bd-lig-puan { font: 800 15px "Baloo 2", system-ui, sans-serif; }
+.app .ranking-list { display: flex; flex-direction: column; gap: 9px; }
+
+/* Podyum */
+.app .bd-podyum.podium {
+  display: flex; align-items: flex-end; justify-content: center;
+  gap: 14px; padding: 16px 10px 0;
+  background: none; box-shadow: none;
+}
+.app .bd-podyum.podium .bd-podyum-yer {
+  position: relative; width: 155px;
+  display: flex; align-items: center; flex-direction: column;
+  padding-top: 9px;
+  border: 1px solid var(--line);
+  border-radius: 24px 24px 8px 8px;
+  background: linear-gradient(#fff, #f2f6fc);
+  box-shadow: none;
+}
+.app .bd-podyum.podium .yer-1 {
+  border-color: #efd47a;
+  background: linear-gradient(#fff9df, #fff);
+  box-shadow: 0 9px 30px rgba(223, 174, 42, .14);
+}
+.app .bd-podyum.podium .bd-podyum-ad { margin-top: 13px; font: 800 14px "Baloo 2", system-ui, sans-serif; }
+.app .bd-podyum.podium .bd-podyum-puan { font-size: 11px; font-weight: 900; color: #7d8ba4; }
+
+/* Pankart: prototipte kalkan görseli vardı; oyunda lig kimliği yazıyla
+   veriliyor (rütbe rozetiyle karışmasın diye ayrı bir kalkan çizilmedi). */
+.app .league-banner { grid-template-columns: 1.4fr .8fr; }
+.app .league-banner h1 { color: #fff; }
+.app .season-time span { color: #fff; }
+
+@media (max-width: 850px) {
+  .app .league-banner { grid-template-columns: 1fr; min-height: 0; padding: 20px; }
+  .app .bd-podyum.podium .bd-podyum-yer { width: auto; flex: 1; min-width: 0; }
+}
+
+/* ============================================================
+   I) PAYLAŞILAN BİLEŞENLER — eski sınıflar yeni tasarım diline
+   ============================================================
+   Prototipte her sayfa kendi sınıflarıyla yazılmıştı; uygulamada aynı işi
+   BİR AVUÇ paylaşılan sınıf yapıyor (`kart`, `baslik`, `btn`, `liste-satir`,
+   `alt-yazi`, form alanları). Burada o sınıflar prototipin görünümüne
+   bağlanıyor — böylece henüz elden geçmemiş ekranlar da (mesajlar, davet,
+   turnuva, çalışma, gizlilik, koşullar, 404) aynı dili konuşuyor.
+   Hiçbir sınıf silinmedi; yalnız yeniden giydirildi.
+   ============================================================ */
+
+/* ---- Kart (prototip `.surface-card` / `.section`) ---- */
+.app .kart {
+  padding: 22px;
+  border: 1px solid rgba(206, 218, 237, .9);
+  border-radius: 26px;
+  background: rgba(255, 255, 255, .9);
+  box-shadow: var(--shadow);
+}
+.app .surface-card {
+  background: rgba(255, 255, 255, .9);
+  border: 1px solid rgba(206, 218, 237, .9);
+  border-radius: 26px;
+  box-shadow: var(--shadow);
+}
+
+/* ---- Başlıklar ----
+   `.baslik` iki işte kullanılıyor: sayfa başlığı (h1) ve bölüm başlığı
+   (div/summary). Prototipte ikisi ayrı ölçekte — burada da öyle. */
+.app h1.baslik {
+  font: 800 30px/1.1 "Baloo 2", system-ui, sans-serif;
+  letter-spacing: -.4px;
+  color: var(--ink);
+}
+.app div.baslik,
+.app summary.baslik {
+  font: 800 17px/1.2 "Baloo 2", system-ui, sans-serif;
+  color: var(--ink);
+  margin: 18px 0 10px;
+}
+.app .page-heading h1 { color: var(--ink); }
+.app .alt-yazi { color: var(--muted); font-weight: 700; }
+
+/* ---- Düğmeler ----
+   Şenlik dilinin kabartması (0 4px 0 + basınca translateY) KORUNUYOR;
+   prototipin rengi ve yarıçapı geliyor. */
+.app .btn {
+  border-radius: 13px;
+  background: var(--orange);
+  color: #fff;
+  box-shadow: 0 4px 0 var(--orange2);
+  font-weight: 900;
+}
+.app .btn.ikincil {
+  background: #fff;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  box-shadow: 0 4px 0 #dce5f1;
+}
+.app .btn.tehlike { background: #e4404f; box-shadow: 0 4px 0 #a4202d; color: #fff; }
+.app .btn:active { transform: translateY(4px); box-shadow: none; }
+.app .btn:disabled { background: #c5cdd9; color: #fff; box-shadow: 0 4px 0 #9fa9b9; }
+
+/* ---- Liste satırı (prototip `.friend-row`) ---- */
+.app .liste-satir {
+  display: flex; align-items: center; gap: 11px;
+  min-height: 75px; padding: 10px 12px;
+  border: 1px solid #e4eaf3; border-radius: 17px; background: #fff;
+  box-shadow: none;
+}
+.app .liste-satir + .liste-satir { margin-top: 9px; }
+.app .liste-satir .isim { font: 800 15px/1.15 "Baloo 2", system-ui, sans-serif; }
+.app .liste-satir .detay { font-size: 11px; font-weight: 800; color: #7c89a1; }
+
+/* ---- Form alanları (prototip `.friend-search` / ayar alanları) ---- */
+.app input[type="text"],
+.app input[type="email"],
+.app input[type="search"],
+.app input:not([type]),
+.app select,
+.app textarea {
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: #f9fbff;
+  color: var(--ink);
+  font-weight: 700;
+}
+.app input:focus-visible,
+.app select:focus-visible,
+.app textarea:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
+
+/* ---- Mesajlar düğmesi (arkadaşlar sayfası başlığı) ---- */
+.app .bd-mesajlar-dugme.messages-button {
+  height: 48px; padding: 0 16px;
+  border: 1px solid var(--line); border-radius: 15px;
+  background: #fff; color: var(--ink);
+  box-shadow: 0 4px 0 #dce5f1;
+  font-weight: 900;
+}
+.app .bd-mesajlar-dugme.messages-button b {
+  display: inline-grid; place-items: center;
+  min-width: 20px; height: 20px; margin-left: 7px;
+  border-radius: 20px; background: #eb3f57; color: #fff; font-size: 10px;
+}
+
+/* ---- Sekme şeritleri (genel) ---- */
+.app .bd-sekme-ust, .app .bd-sekme-alt {
+  display: flex; gap: 5px; padding: 4px;
+  border-radius: 14px; background: #edf2fa;
+  border: 0; box-shadow: none;
+}
+.app .bd-sekme, .app .bd-alt-sekme {
+  min-height: 44px; padding: 0 14px;
+  border: 0; border-radius: 11px; background: transparent;
+  color: #71809b; font-size: 11px; font-weight: 900; box-shadow: none;
+}
+.app .bd-sekme.aktif, .app .bd-alt-sekme.aktif {
+  background: #fff; color: var(--ink); box-shadow: 0 2px 7px rgba(35, 53, 92, .1);
+}
+
+/* ---- Boş durum / maskot kutuları ---- */
+.app .bd-bos-durum, .app .bd-bos, .app .bd-lig-bos {
+  padding: 28px 20px;
+  border: 1px solid rgba(206, 218, 237, .9);
+  border-radius: 26px;
+  background: rgba(255, 255, 255, .9);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+/* ---- Yeni iskeletin bağlantıları alt çizgisiz ----
+   tema.css'te `.app a` bağlantılara alt çizgi veriyor ve muafiyet listesi
+   var; yeni iskeletin sınıfları o listede yok. Buraya eklendi (liste
+   yerinde duruyor, dokunulmadı). */
+.app .brand,
+.app .brand *,
+.app .desktop-nav a,
+.app .mobile-nav a,
+.app .top-actions a,
+.app a.league-card,
+.app a.catalog-card,
+.app a.rank-row,
+.app a.friend-row,
+.app a.bd-bekleyen-bos-eylem {
+  text-decoration: none;
+}
+.app .brand { color: var(--ink); }
+.app .brand b { color: var(--orange); }
+.app .desktop-nav a { color: #66738f; }
+.app .desktop-nav a.active { color: var(--ink); }
+.app .mobile-nav a { color: #7c8aa4; }
+.app .mobile-nav a.active { color: var(--orange); }
+
+/* ============================================================
+   J) DÜKKÂN (prototip `shop.html`)
+   Sekmeler uygulamada <button role=tab>; prototipte <a>. Aynı görünüm.
+   ============================================================ */
+.app .bd-dukkan-sekmeler.store-tabs {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px; margin-bottom: 16px; padding: 6px;
+  border: 1px solid var(--line); border-radius: 18px;
+  background: rgba(255, 255, 255, .75);
+  overflow: visible;
+}
+.app .bd-dukkan-sekmeler.store-tabs .bd-dukkan-sekme {
+  display: flex; align-items: center; gap: 10px;
+  min-height: 52px; padding: 10px 13px;
+  border: 0; border-radius: 13px; background: transparent;
+  color: #6c7b95; font-size: 12px; font-weight: 900;
+  box-shadow: none;
+}
+.app .bd-dukkan-sekmeler.store-tabs .bd-dukkan-sekme.aktif {
+  background: var(--navy); color: #fff; box-shadow: 0 3px 0 #0a1327;
+}
+.app .wallet-card {
+  display: flex; flex-direction: column; align-items: flex-start;
+  padding: 12px 16px; border-radius: 18px;
+  background: #fff7dd; border: 1px solid #f2dfa4;
+  box-shadow: 0 4px 0 #f0dca0;
+}
+.app .wallet-card > span { font-size: 9px; font-weight: 900; letter-spacing: 1.2px; color: #9b7c2d; }
+.app .wallet-card > b {
+  display: flex; align-items: center; gap: 6px;
+  font: 800 22px/1 "Baloo 2", system-ui, sans-serif; color: #775710; margin: 4px 0;
+}
+.app .wallet-card > button {
+  min-height: 32px; padding: 0 10px;
+  border: 0; border-radius: 9px; background: #b27400; color: #fff;
+  font-size: 10px; font-weight: 900;
+}
+.app .shop-heading h1 { color: var(--ink); }
+
+@media (max-width: 560px) {
+  .app .shop-heading, .app .page-heading { flex-direction: column; align-items: stretch; }
+  .app .wallet-card { align-items: stretch; }
+}
+
+/* ============================================================
+   K) GİRİŞ EKRANI (prototip `login.html`)
+   Mevcut `.giris` kuralları tema.css'te duruyor; iki panelli düzen
+   buradan geliyor. Hata kutusu koyu panelde de okunur kalır.
+   ============================================================ */
+.giris.auth-body { display: block; padding: 0; max-width: none; }
+.giris.auth-body .giris-dil { position: absolute; top: 16px; right: 16px; z-index: 2; }
+.giris.auth-body .auth-card > .sosyal-btn,
+.giris.auth-body .auth-card > form,
+.giris.auth-body .auth-card > .kart { width: 100%; max-width: none; }
+.giris.auth-body .auth-card .ayrac { margin: 14px 0; }
+.giris.auth-body .auth-showcase .slogan {
+  margin: 10px 0 0; color: #c3cfe8; font-size: 13px; font-weight: 700;
+}
+.giris.auth-body .auth-showcase h1 { color: #fff; }
+.giris.auth-body .auth-showcase .giris-maskot { margin: 16px 0 6px; }
+.giris.auth-body .auth-legal { margin-top: 14px; }
+.giris.auth-body .auth-legal a { color: #b3480c; }
+.giris.auth-body .hata-kutu { width: 100%; }
+.giris.auth-body .giris-not { margin-top: 12px; font-size: 11px; color: var(--muted); }
+.giris.auth-body .auth-card .giris-gonderildi-eylem { display: flex; gap: 8px; margin-top: 10px; }
+
+/* Dar ekranda prototip vitrini GİZLEMEZ, alta alır (marka ve slogan
+   kaybolmasın). Kurallar prototipin kendi kırılma noktalarından. */
+@media (max-width: 850px) {
+  .giris.auth-body .auth-showcase { min-height: 0; padding: 28px 8vw; }
+  .giris.auth-body .auth-showcase .slogan { font-size: 12px; }
+}

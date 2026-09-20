@@ -76,7 +76,14 @@ export default function MesajlarPage() {
     <div className="bd-mesajlar">
       {/* Paket 42 J.3: liste ekranında geri yolu yoktu (alt sekmede Mesajlar yok) */}
       <GeriDugmesi />
-      <h1 className="baslik">{tt("Mesajlar")}</h1>
+      {/* Sayfa başlığı — prototipin `page-heading` bloğu (Arayüz Yenileme) */}
+      <section className="page-heading">
+        <div>
+          <span className="eyebrow">{tt("SOSYAL MERKEZ")}</span>
+          <h1>{tt("Mesajlar")}</h1>
+          <p>{tt("Arkadaşlarınla yazış, maç ayarla.")}</p>
+        </div>
+      </section>
       {yukleniyor && liste.length === 0 && <DurumKutusu durum="yukleniyor" satir={4} />}
       {hata && <DurumKutusu durum="hata" onTekrar={() => { setHata(null); setYukleniyor(true); yukle(); }} />}
 
