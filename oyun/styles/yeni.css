@@ -194,3 +194,105 @@ body.bd-oyun-modu .shell { padding-top: 16px; }
   --ustalik-ustat: var(--rutbe-kahin);
   --ustalik-efsane: var(--rutbe-efsane);
 }
+
+/* ---------- E) İSKELET DEVRALMA ----------
+   Eski iskelet kuralları `.app` önekliydi (özgüllük 0,2,0) ve prototipin
+   `.topbar` / `.shell` kurallarının (0,1,0) üstüne çıkıyordu. Eski kurallar
+   SİLİNMEDİ; prototip değerleri burada aynı özgüllükle yeniden veriliyor. */
+.app {
+  max-width: none;
+  margin: 0;
+  min-height: 100dvh;
+  display: block;
+  padding-bottom: 0;
+}
+
+/* Sticky kabuk: davet bandı ve bildirim toast'ı burada duruyor.
+   Eski koyu zemin/altın çizgi kalktı — prototip beyaz saydam çubuk. */
+.app .bd-ust-blok,
+.app .bd-ust-blok:has(.bd-davet-bandi),
+.app .bd-ust-blok:has(.bd-toast-kat) {
+  background: rgba(255, 255, 255, .88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(214, 225, 242, .9);
+}
+.app .bd-ust-blok::after { content: none; }
+
+/* Üst çubuk sticky'liği dıştaki bloğa ait; header akışta durur. */
+.app .topbar {
+  position: static;
+  background: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.app .topbar::after { content: none; }
+
+/* Üst çubuk eylemleri: mevcut bileşenler prototip sınıflarını da taşıyor
+   (bd-zil + circle-btn, bd-coin-hap + coin-pill, avatar-button). Eski
+   `.app .bd-*` kuralları daha özgül olduğu için burada geri alınıyor. */
+.app .bd-zil.circle-btn,
+.app .bd-coin-hap.coin-pill,
+.app .bd-profil-link.avatar-button {
+  border-radius: 14px;
+  height: 42px;
+  min-width: 42px;
+}
+.app .bd-zil.circle-btn {
+  width: 42px; padding: 0;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+  box-shadow: 0 3px 0 #d4deed;
+}
+.app .bd-coin-hap.coin-pill {
+  border: 0; padding: 0 14px;
+  background: #fff4cf;
+  color: #775710;
+  font-weight: 900;
+  box-shadow: 0 3px 0 #f1d882;
+}
+.app .bd-profil-link.avatar-button {
+  width: 42px; padding: 3px;
+  border: 1px solid #a9b9d2;
+  background: #fff;
+  box-shadow: 0 3px 0 #d4deed;
+}
+.app .bd-zil-rozet.dot {
+  right: -4px; top: -5px;
+  background: #ec3c55; color: #fff;
+  border: 2px solid #fff; border-radius: 99px;
+  padding: 1px 5px; font-size: 10px; font-weight: 900;
+  min-width: 0; height: auto;
+}
+
+/* Menüde bekleyen istek noktası (alt menü + masaüstü menü) */
+.mobile-nav a, .desktop-nav a { position: relative; }
+.bd-menu-nokta {
+  position: absolute; top: 2px; right: -8px;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #ec3c55; box-shadow: 0 0 0 2px rgba(255, 255, 255, .95);
+}
+.mobile-nav .bd-menu-nokta { top: 6px; right: calc(50% - 16px); }
+
+/* Alt menüde dokunma hedefi ≥ 44 px (doğrulama listesi). Prototipin
+   yüksekliği ve yazı boyu korundu; yalnız tıklanan alan büyüdü. */
+.mobile-nav a {
+  min-width: 56px;
+  min-height: 44px;
+  justify-content: center;
+}
+
+/* Bildirim zili 560 px altında GİZLENMEZ.
+   Prototip `.circle-btn{display:none}` diyor; telefonda bildirimlere
+   başka giriş olmadığı için işlev kaybı olurdu (mevcut işlev silinmez). */
+@media (max-width: 560px) {
+  .app .bd-zil.circle-btn { display: grid; width: 38px; min-width: 38px; height: 38px; }
+  .app .bd-profil-link.avatar-button { width: 38px; min-width: 38px; height: 38px; }
+  .app .bd-coin-hap.coin-pill { height: 38px; padding: 0 9px; font-size: 11px; }
+}
+
+/* Sayfa geçişi: eski `.sayfa > *` animasyonu yeni kabukta da sürsün. */
+.shell > * { animation: bd-sayfa-gir 0.18s ease-out both; }

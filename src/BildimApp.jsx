@@ -16,6 +16,10 @@ import { girisHedefiniAl, bilinenYol } from "./lib/girisHedefi.js";
 import { useAuth } from "./context/AuthContext.jsx";
 import { supabaseHazir } from "./lib/supabase.js";
 import Login from "./pages/Login.jsx";
+// Meydan (3B harita) ve gardırop DONDURULDU (Arayüz Yenileme, 20 Eyl 2026).
+// Rotalar SİLİNMEDİ; bayrak kapalıyken "Bu bölüm şu an kapalı" notu gösterip
+// ana sayfaya yönlendiriyorlar. Geri açma: oyun/lib/ozellikBayraklari.js.
+import { MEYDAN_ACIK, GARDIROP_ACIK } from "../oyun/lib/ozellikBayraklari.js";
 
 import Layout from "../oyun/components/Layout.jsx";
 import AnaEkranaEkle from "../oyun/components/AnaEkranaEkle.jsx";
@@ -33,6 +37,9 @@ const ProfilePage = lazy(() => import("../oyun/pages/ProfilePage.jsx"));
 const BulunamadiPage = lazy(() => import("../oyun/pages/BulunamadiPage.jsx"));   // Paket 41 I
 const DavetPage = lazy(() => import("../oyun/pages/DavetPage.jsx"));
 const JokerDukkani = lazy(() => import("../oyun/pages/JokerDukkani.jsx"));
+// Arayüz Yenileme (20 Eyl 2026): prototipin "Oyun Modları" sayfası.
+// YENİ MOD YOK — yalnız var olan rotalara götüren bir katalog sayfası.
+const ModlarPage = lazy(() => import("../oyun/pages/ModlarPage.jsx"));
 // DONDURULDU (Paket 24 B): HizliModPage dosyasi duruyor, hicbir rota cagirmiyor.
 // Geri acmak: bu satir + rota geri konur, oyun_ayarlari.hizli_mod_acik = true.
 const DuelloPage = lazy(() => import("../oyun/pages/DuelloPage.jsx"));
@@ -138,10 +145,12 @@ export default function BildimApp() {
           <Route path="duello" element={<DuelloPage />} />
           <Route path="duello/:id" element={<DuelloPage />} />
           <Route path="calisma" element={<CalismaPage />} />
-          <Route path="harita" element={<HaritaSayfasi />} />
-          <Route path="harita-deneme" element={<HaritaDeneme />} />
-          <Route path="gorunum" element={<KarakterVitrini />} />
-          <Route path="gorunum-3b" element={<Navigate to="../gorunum" replace />} />
+          <Route path="modlar" element={<ModlarPage />} />
+          {/* DONDURULDU — dosyalar ve veri yerinde; yalnız giriş kapalı. */}
+          <Route path="harita" element={MEYDAN_ACIK ? <HaritaSayfasi /> : <BulunamadiPage kapaliMod kapaliOzellik />} />
+          <Route path="harita-deneme" element={MEYDAN_ACIK ? <HaritaDeneme /> : <BulunamadiPage kapaliMod kapaliOzellik />} />
+          <Route path="gorunum" element={GARDIROP_ACIK ? <KarakterVitrini /> : <BulunamadiPage kapaliMod kapaliOzellik />} />
+          <Route path="gorunum-3b" element={GARDIROP_ACIK ? <Navigate to="../gorunum" replace /> : <BulunamadiPage kapaliMod kapaliOzellik />} />
           <Route path="profil" element={<ProfilePage />} />
           {/* Paket 41 I: bilinmeyen adres → 404 (eskiden sessizce ana sayfa) */}
           <Route path="*" element={<BulunamadiPage />} />

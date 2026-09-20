@@ -57,7 +57,7 @@ export default function AvatarMenu({ profile }) {
 
   return (
     <div className="bd-avatar-menu-kap" ref={kapRef}>
-      <button type="button" ref={dugmeRef} className="bd-profil-link bd-avatar-menu-dugme"
+      <button type="button" ref={dugmeRef} className="bd-profil-link bd-avatar-menu-dugme avatar-button"
               aria-haspopup="menu" aria-expanded={acik} aria-label={tt("Profilim ve ayarlar")}
               onClick={() => setAcik((a) => !a)}>
         <Avatar profile={profile} boyut={34} />

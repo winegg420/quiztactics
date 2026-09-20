@@ -12,6 +12,7 @@ import { desteklenirMi, fiyatlariAl, satinAl, tuket } from "../lib/playFatura.js
 import { useCoin, coinTazele, coinHatasi } from "../lib/coin.js";
 import CoinGorseli, { coinBoyutu } from "../components/CoinGorseli.jsx";
 import { y } from "../lib/yol.js";
+import { GARDIROP_ACIK } from "../lib/ozellikBayraklari.js";
 // 2B vitrin ve 2B katalog SEKMEDEN ÇIKTI (tek karakter sistemi).
 // Dosyalar silinmedi, yalnız buradan çağrılmıyorlar.
 import { useAuth } from "../../src/context/AuthContext.jsx";
@@ -28,11 +29,17 @@ const TEK_JOKER_VARSAYILAN = { elli: 40, sure: 60, soru_degistir: 80,
 // Paket 32: Sis yalnız Klasik Mod'da (düelloda yok)
 const YALNIZ_KLASIK = ["sis"];
 
-const SEKMELER = [
+// GARDIROP DONDURULDU (Arayüz Yenileme, 20 Eyl 2026): "Görünüm" sekmesi
+// bayrak kapalıyken listeye hiç girmez ve varsayılan sekme "Joker" olur.
+// Sekme tanımı SİLİNMEDİ; bayrak true olunca eski haline döner.
+// Geri açma: oyun/lib/ozellikBayraklari.js › GARDIROP_ACIK = true
+const TUM_SEKMELER = [
   { kod: "kiyafet", ad: tt("Görünüm"), ikon: "tisort" },
   { kod: "joker",   ad: tt("Joker"),   ikon: "hediye" },
   { kod: "coin",    ad: tt("Coin"),    ikon: "coin" },
 ];
+const SEKMELER = TUM_SEKMELER.filter((x) => x.kod !== "kiyafet" || GARDIROP_ACIK);
+const VARSAYILAN_SEKME = GARDIROP_ACIK ? "kiyafet" : "joker";
 
 export default function JokerDukkani() {
   const { profile } = useAuth();
@@ -85,7 +92,7 @@ export default function JokerDukkani() {
   // ?sekme=coin gibi doğrudan bağlantılar etkilenmez.
   const sekme = SEKMELER.some((x) => x.kod === arama.get("sekme"))
     ? arama.get("sekme")
-    : "kiyafet";
+    : VARSAYILAN_SEKME;
   const sekmeSec = (kod) => setArama({ sekme: kod }, { replace: true });
   // Paket 42 M.2: en ucuz joker (tek tek ya da paket) — bakiye bunun altındaysa üstte uyarı
   const enUcuzJoker = Math.min(

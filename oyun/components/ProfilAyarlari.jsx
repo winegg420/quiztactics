@@ -6,6 +6,7 @@ import { useAuth } from "../../src/context/AuthContext.jsx";
 import { kategoriEtiket, kategorileriSirala } from "../lib/kategoriler.js";
 import { sureMetni } from "../lib/konum.js";
 import { y } from "../lib/yol.js";
+import { MEYDAN_ACIK } from "../lib/ozellikBayraklari.js";
 import DavetKodu from "./DavetKodu.jsx";
 import AvatarCerceve from "./AvatarCerceve.jsx";
 import { tt } from "../lib/dil.js";
@@ -157,7 +158,11 @@ export default function ProfilAyarlari() {
 
   return (
     <>
-      {/* ---------- Meydanda rahatsız etme ---------- */}
+      {/* ---------- Meydanda rahatsız etme ----------
+          DONDURULDU (Arayüz Yenileme, 20 Eyl 2026): 3B meydan kapalıyken
+          ikram diye bir şey olmuyor, ayar da görünmüyor. Kod ve sunucu
+          tarafı (migration 153) yerinde — oyun/lib/ozellikBayraklari.js. */}
+      {MEYDAN_ACIK && (
       <div className="kart">
         <div className="bd-kat-baslik"><span>{tt("Meydanda ikramlar")}</span></div>
         <div className="bd-konum-ozet">
@@ -179,6 +184,7 @@ export default function ProfilAyarlari() {
         </div>
         {ikramHata && <div className="hata-kutu" style={{ marginTop: 8 }}>{ikramHata}</div>}
       </div>
+      )}
 
       {/* ---------- Takma ad ---------- */}
       <div className="kart">

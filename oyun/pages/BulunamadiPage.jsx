@@ -8,7 +8,9 @@ import Maskot from "../components/Maskot.jsx";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
 
-export default function BulunamadiPage({ kapaliMod = false }) {
+// `kapaliOzellik` (Arayüz Yenileme, 20 Eyl 2026): dondurulmuş bir MOD değil,
+// dondurulmuş bir BÖLÜM (meydan / gardırop). Metin ona göre değişir.
+export default function BulunamadiPage({ kapaliMod = false, kapaliOzellik = false }) {
   const navigate = useNavigate();
   useEffect(() => {
     if (!kapaliMod) return undefined;
@@ -19,7 +21,11 @@ export default function BulunamadiPage({ kapaliMod = false }) {
     <div className="kart bd-bos-durum" role="status">
       <Maskot poz="dusunuyor" boyut={86} />
       <h1 className="baslik" style={{ marginTop: 8 }}>
-        {kapaliMod ? tt("Bu mod şu an kapalı.") : tt("Bu sayfa yok.")}
+        {kapaliOzellik
+          ? tt("Bu bölüm şu an kapalı.")
+          : kapaliMod
+            ? tt("Bu mod şu an kapalı.")
+            : tt("Bu sayfa yok.")}
       </h1>
       <p>
         {kapaliMod
