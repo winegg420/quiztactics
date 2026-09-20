@@ -795,7 +795,6 @@ function DuelloMac({ id }) {
           {sayac(sonCan)}
         </div>
         {d.zaman_baskisi && <div className="bd-duello-bant baski">{ceviri("Zaman Baskısı: cevap süresi 10 saniye")}</div>}
-        {d.savunma_kilidi && <div className="bd-duello-bant kilit">{ceviri("Bu soruda skill kullanılamaz")}</div>}
         {benSavunan && savunanOyuncu?.zayif === d.kategori && (
           <div className="bd-duello-bant firsat">{ceviri("En zayıf kategorin! Bilirsen saldıran can kaybeder.")}</div>
         )}
@@ -1016,7 +1015,11 @@ function JokerAlani({ set, d, calisan, onKullan, onSatinAl, ceviri, serbest = fa
   const k = j.kullanim ?? {};
   const benSaldiran = d.saldiran === d.ben;
   const seciliSet = new Set(skillSetiOku());
-  const liste = (set === "saldiri" ? SALDIRI_JOKERLERI : MAC_ICI_JOKERLER).filter((id) => seciliSet.has(id));
+  // Saldırı alanı aktif saldırı registry'sinden gelir; varsayılan savunma
+  // loadout'unda Zaman Baskısı seçili değil diye alan boş bırakılamaz.
+  const liste = set === "saldiri"
+    ? SALDIRI_JOKERLERI
+    : MAC_ICI_JOKERLER.filter((id) => seciliSet.has(id));
 
   const saldiriAcik = benSaldiran && d.faz === "hazirlik";
   // Paket 28 D: saldırı jokerleri KATEGORİ ekranında da SATIN ALINABİLİR.
@@ -1024,7 +1027,7 @@ function JokerAlani({ set, d, calisan, onKullan, onSatinAl, ceviri, serbest = fa
   // fark edip onayı okuyup onaylaması çok dardı. Satın alma kategori seçerken
   // (20 sn) yapılır, KULLANIM yine Hazırlık'ta kalır — maç ritmi uzamaz.
   const saldiriAlinabilir = benSaldiran && (d.faz === "hazirlik" || d.faz === "kategori");
-  const savunmaAcik = !benSaldiran && d.faz === "cevap" && !d.savunma_kilidi;
+  const savunmaAcik = !benSaldiran && d.faz === "cevap";
   // Paket 27 B: saldırı ve savunma ayrı ayrı değil, TEK toplam hak sayılır.
   // Paket 35 A.3: maç başına hak ücretsiz modda da geçerli (sunucu anahtardan bağımsız uygular)
   const hakKaldi = Number(j.kullanilan ?? 0) < Number(j.hak ?? 0);
@@ -1047,15 +1050,12 @@ function JokerAlani({ set, d, calisan, onKullan, onSatinAl, ceviri, serbest = fa
             // Paket 28 D: kategori seçerken kullanılamaz ama SATIN ALINABİLİR.
             ? ceviri("Skill'in yoksa şimdi alabilirsin; kullanımı Saldırı Hazırlığı'nda açılır.")
             : ceviri("Saldırı sırasında, soruyu gördüğün Saldırı Hazırlığı'nda açılır."))
-      : d.faz === "cevap" && d.savunma_kilidi
-        ? ceviri("Bu soruda savunma skill'i kullanılamaz.")
-        : (setAcik ? ceviri("Şimdi kullanabilirsin.") : ceviri("Soru sana gelince açılır."));
+      : (setAcik ? ceviri("Şimdi kullanabilirsin.") : ceviri("Soru sana gelince açılır."));
 
   return (
     <div className={`bd-duello-jokerler ${set} ${(setAcik || (set === "saldiri" && saldiriAlinabilir)) && hakKaldi ? "acik" : "kapali"}`} key={`${set}-${setAcik && hakKaldi}`} aria-label={set === "saldiri" ? ceviri("Saldırı skilleri") : ceviri("Savunma skilleri")}>
       <div className="bd-duello-joker-baslik">
         {set === "saldiri" ? ceviri("Saldırı skilleri") : ceviri("Savunma skilleri")}
-        {set === "savunma" && d.savunma_kilidi && d.faz === "cevap" && <span className="kilitli"><Ikon ad="kilit" boyut={13} /></span>}
       </div>
       <div className="bd-duello-joker-ipucu" role="status">{ipucu}</div>
       <div className="bd-duello-joker-sira">
@@ -1067,9 +1067,7 @@ function JokerAlani({ set, d, calisan, onKullan, onSatinAl, ceviri, serbest = fa
           let acik;
           if (set === "saldiri") {
             ucretsiz = ucretsizSaldiri;
-            kullanildi = (tur === "zaman_baskisi" && d.zaman_baskisi) || (tur === "savunma_kilidi" && d.savunma_kilidi)
-              || (tur === "saldiri_degistir" && d.soru_degisti_saldiri)
-              || kullanilanTurler.includes(tur);
+            kullanildi = (tur === "zaman_baskisi" && d.zaman_baskisi) || kullanilanTurler.includes(tur);
           } else {
             kullanildi = (tur === "elli" && (d.elli_kapali ?? []).length > 0) || (tur === "sure" && d.ek_sure)
               || kullanilanTurler.includes(tur);

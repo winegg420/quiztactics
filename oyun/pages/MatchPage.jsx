@@ -425,9 +425,13 @@ export default function MatchPage() {
     let iptal = false;
     (async () => {
       try {
+        const gonderildiMs = Date.now();
         const { data, error } = await supabase.rpc("get_match_question", { p_match_id: mac.id });
+        const alindiMs = Date.now();
         if (error) throw error;
-        const yeni = data?.[0];
+        const ham = data?.[0];
+        const yeni = ham ? { ...ham, _saat_ornek_ms: (gonderildiMs + alindiMs) / 2,
+          _ag_gecikmesi_ms: alindiMs - gonderildiMs } : null;
         if (iptal || !yeni) return;
         setSoru((eski) =>
           eski && eski.question_id === yeni.question_id && eski.baslangic === yeni.baslangic

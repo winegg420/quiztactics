@@ -127,7 +127,7 @@ export default function QuestionCard({
     if (!soru) return;
     // Saat farkını soru geldiği anda bir kez sabitle; tik başına yeniden
     // hesaplanırsa sayaç donar.
-    const offset = sunucuOffsetMs(soru.sunucu_zamani);
+    const offset = sunucuOffsetMs(soru.sunucu_zamani, soru._saat_ornek_ms ?? Date.now());
     let id;
     const tik = () => {
       const k = kalanSure(soru.baslangic, offset, SURE);
@@ -276,9 +276,13 @@ export default function QuestionCard({
       turnuva: ["get_tournament_question", { p_tournament_id: macId }],
     }[macTur];
     if (!istek || !macId) return null;
+    const gonderildiMs = Date.now();
     const { data, error } = await supabase.rpc(istek[0], istek[1]);
+    const alindiMs = Date.now();
     if (error) throw error;
-    return Array.isArray(data) ? data[0] : data;
+    const s = Array.isArray(data) ? data[0] : data;
+    return s ? { ...s, _saat_ornek_ms: (gonderildiMs + alindiMs) / 2,
+      _ag_gecikmesi_ms: alindiMs - gonderildiMs } : null;
   };
 
   // Sunucudan gelen skill etkisini uygula
@@ -306,7 +310,7 @@ export default function QuestionCard({
       setSkillEfekt({ tur: "soru_degistir", asama: "cikiyor" });
       clearTimeout(skillTimer.current);
       skillTimer.current = setTimeout(() => {
-        setDegisenSoru(sonuc.soru);
+        setDegisenSoru({ ...sonuc.soru, _saat_ornek_ms: Date.now() });
         onPas?.(sonuc);
         setSkillEfekt({ tur: "soru_degistir", asama: "giriyor" });
         skillTimer.current = setTimeout(() => setSkillEfekt(null), 390);

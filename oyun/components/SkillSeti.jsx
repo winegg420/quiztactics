@@ -8,30 +8,42 @@ import {
   SKILL_TANIMLARI,
   skillSetiKaydet,
   skillSetiOku,
+  skillSetiTemizle,
   skillSlotSayisi,
 } from "../lib/jokerler.js";
 import { tt } from "../lib/dil.js";
+import { hataMesaji } from "../lib/hata.js";
 
 /** Maç akışının içinde kalan, hafif skill seti seçimi. */
 export default function SkillSeti({ macTur = "1v1" }) {
   const [slot, setSlot] = useState(SKILL_SLOT_VARSAYILAN);
   const [secili, setSecili] = useState(() => skillSetiOku());
   const [acik, setAcik] = useState(false);
+  const [hata, setHata] = useState(null);
+  const [kaydediliyor, setKaydediliyor] = useState(false);
   const uygunlar = AKTIF_MAC_SKILLERI.filter((id) => SKILL_TANIMLARI[id].allowedModes?.includes(macTur));
 
   useEffect(() => {
     let aktif = true;
-    Promise.all([
-      ayarlar(),
-      supabase.rpc("skill_setim"),
-    ]).then(([a, sonuc]) => {
-      if (!aktif) return;
-      const n = skillSlotSayisi(a);
-      setSlot(n);
-      const uzak = Array.isArray(sonuc?.data) ? sonuc.data : sonuc?.data?.skiller;
-      const ilk = Array.isArray(uzak) && uzak.length ? uzak : skillSetiOku(n);
-      setSecili(skillSetiKaydet(ilk, n));
-    }).catch(() => {});
+    (async () => {
+      try {
+        const [a, sonuc] = await Promise.all([ayarlar(), supabase.rpc("skill_setim")]);
+        if (sonuc.error) throw sonuc.error;
+        const n = skillSlotSayisi(a);
+        const uzak = Array.isArray(sonuc.data) ? sonuc.data : sonuc.data?.skiller;
+        const ilk = skillSetiTemizle(
+          Array.isArray(uzak) && uzak.length ? uzak : skillSetiOku(n), n
+        );
+        // RPC varsayılan döndürmüş olsa bile gerçek sunucu satırını oluştur.
+        const kayit = await supabase.rpc("skill_setimi_kaydet", { p_skiller: ilk });
+        if (kayit.error) throw kayit.error;
+        if (!aktif) return;
+        setSlot(n);
+        setSecili(skillSetiKaydet(ilk, n));
+      } catch (e) {
+        if (aktif) setHata(hataMesaji(e, tt("Skill setin yüklenemedi. Tekrar dene.")));
+      }
+    })();
     return () => { aktif = false; };
   }, []);
 
@@ -40,9 +52,21 @@ export default function SkillSeti({ macTur = "1v1" }) {
     if (secili.includes(id)) yeni = secili.filter((x) => x !== id);
     else if (secili.length < slot) yeni = [...secili, id];
     else yeni = [...secili.slice(1), id];
-    yeni = skillSetiKaydet(yeni, slot);
+    yeni = skillSetiTemizle(yeni, slot);
+    const onceki = secili;
     setSecili(yeni);
-    await supabase.rpc("skill_setimi_kaydet", { p_skiller: yeni }).catch(() => {});
+    setHata(null);
+    setKaydediliyor(true);
+    try {
+      const { data, error } = await supabase.rpc("skill_setimi_kaydet", { p_skiller: yeni });
+      if (error) throw error;
+      setSecili(skillSetiKaydet(Array.isArray(data) ? data : yeni, slot));
+    } catch (e) {
+      setSecili(onceki);
+      setHata(hataMesaji(e, tt("Skill setin kaydedilemedi; önceki seçim geri yüklendi.")));
+    } finally {
+      setKaydediliyor(false);
+    }
   };
 
   return (
@@ -66,13 +90,14 @@ export default function SkillSeti({ macTur = "1v1" }) {
           );
         })}
       </div>
+      {hata && <div className="hata-kutu" role="alert">{hata}</div>}
       {acik && (
         <div className="bd-skill-secim-listesi">
           {uygunlar.map((id) => {
             const s = SKILL_TANIMLARI[id];
             const aktif = secili.includes(id);
             return (
-              <button type="button" key={id} className={aktif ? "secili" : ""}
+              <button type="button" key={id} className={aktif ? "secili" : ""} disabled={kaydediliyor}
                       aria-pressed={aktif} onClick={() => degistir(id)}>
                 <Ikon ad={s.ikon} boyut={18} />
                 <span><b>{s.ad}</b><small>{s.aciklama}</small></span>

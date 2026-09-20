@@ -155,9 +155,9 @@ export function geriSayim(hedef) {
 // Sunucu-istemci saat farkı (ms). Soru verisi geldiği anda BİR KEZ hesaplanmalı;
 // her tikte sabit sunucu_zamani ile yeniden hesaplanırsa Date.now() sadeleşir
 // ve kalan süre donar.
-export function sunucuOffsetMs(sunucuZamaniIso) {
+export function sunucuOffsetMs(sunucuZamaniIso, istemciOrnekMs = Date.now()) {
   return sunucuZamaniIso
-    ? new Date(sunucuZamaniIso).getTime() - Date.now()
+    ? new Date(sunucuZamaniIso).getTime() - istemciOrnekMs
     : 0;
 }
 

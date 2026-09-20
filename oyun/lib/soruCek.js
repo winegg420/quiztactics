@@ -53,6 +53,7 @@ export function soruCek({
   const dene = async (n) => {
     if (iptal) return;
     try {
+      const gonderildiMs = Date.now();
       // Sekme arka plandayken açılan RPC'nin soketi kopabiliyor ve istek ne
       // çözülüyor ne reddediliyor (bkz. mac_soruyu_atla'daki aynı tuzak).
       const { data, error } = await zamanAsimiyla(
@@ -60,11 +61,18 @@ export function soruCek({
         10000,
         rpcAdi
       );
+      const alindiMs = Date.now();
       if (iptal) return;
       if (error) throw error;
       const s = Array.isArray(data) ? data[0] : data;
       if (!s) throw new Error("boş yanıt");
-      onSoru(s);
+      // Sunucu saati istek dönüşünde ölçülürse ağ gecikmesinin tamamı saat
+      // farkına eklenir. NTP yaklaşımıyla gidiş-dönüşün orta noktasını kullan.
+      onSoru({
+        ...s,
+        _saat_ornek_ms: (gonderildiMs + alindiMs) / 2,
+        _ag_gecikmesi_ms: alindiMs - gonderildiMs,
+      });
     } catch (e) {
       if (iptal) return;
       console.warn(

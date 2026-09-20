@@ -30,9 +30,9 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
   const [envanter, setEnvanter] = useState({ elli: 0, sure: 0, soru_degistir: 0, seri_koruma: 0 });
   const [durum, setDurum] = useState(null); // { sinir, kullanilan, ucretsiz_elli_kaldi }
   const [hata, setHata] = useState(null);
+  const [yuklemeHatasi, setYuklemeHatasi] = useState(null);
   const [calisan, setCalisan] = useState(null);
-  // Paket 27 B: ARTIK HER TÜR maç başına bir kez. Sunucu da aynı kuralı uygular;
-  // burada yalnız düğmeyi kapatmak için tutuluyor.
+  // İstek sürerken çift basmayı ve aynı soruda ikinci skill'i önlemek için yerel iz.
   const [kullandigim, setKullandigim] = useState([]);
   // Paket 27 C: maç içi satın alma — fiyatlar ve coin sunucudan.
   const [fiyatlar, setFiyatlar] = useState(null);
@@ -53,6 +53,7 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
     window.addEventListener("skill-seti-degisti", yenile);
     return () => window.removeEventListener("skill-seti-degisti", yenile);
   }, []);
+  useEffect(() => { setKullandigim([]); }, [soruIndex]);
   // B.4: kullanım anı — düğme parlaması + ekran ortasında şerit (≈850 ms)
   const [parlayan, setParlayan] = useState(null);
   const [serit, setSerit] = useState(null);   // { tur, metin }
@@ -81,6 +82,7 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
 
   const yukle = useCallback(async () => {
     try {
+      setYuklemeHatasi(null);
       const [env, mac, fiy, bak] = await Promise.all([
         supabase.rpc("envanterim"),
         supabase.rpc("joker_mac_durumu", { p_mac_tur: macTur, p_mac_id: macId }),
@@ -99,9 +101,9 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
         const satir = Array.isArray(bak.data) ? bak.data[0] : bak.data;
         setCoin(typeof satir === "number" ? satir : (satir?.bakiye ?? null));
       }
-    } catch {
-      // Migration henüz uygulanmadıysa çubuk gizlenir; oyun akışı bozulmaz.
+    } catch (e) {
       setDurum(null);
+      setYuklemeHatasi(hataMesaji(e, tt("Skill bilgileri alınamadı. Tekrar dene.")));
     }
   }, [macTur, macId]);
 
@@ -120,7 +122,11 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
     }
   }, [rakipKisaltti, soruIndex, surum, ayar, onEtki]);
 
-  if (!durum) return null;
+  if (!durum) return yuklemeHatasi ? (
+    <div className="bd-joker-not hata" role="alert">
+      {yuklemeHatasi} <button type="button" className="btn kucuk ikincil" onClick={yukle}>{tt("Tekrar dene")}</button>
+    </div>
+  ) : null;
 
   // Paket 34: jokerler geçici olarak ücretsiz (oyun_ayarlari.jokerler_ucretsiz; Paket 35'ten beri 0).
   // Açıkken yalnız STOK/COIN serbest; maç içi hak kuralları (Paket 35 A.3) her zaman geçerli.
@@ -130,6 +136,11 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
   const finalYasak = durum.sinir === 0;
   // Paket 31 A.3: rakip bu soruda Savunma Kilidi bastı — sessiz düğme olmasın, açık mesaj
   const rakipKilitledi = Boolean(durum.kilitli);
+  const turSayilari = durum.kullanim_sayilari ?? {};
+  const turSiniri = Number(durum.tur_basi_sinir ?? 1);
+  const sorudaKullanildi = Boolean(durum.soruda_kullanildi) || kullandigim.length > 0;
+  const turKullanimi = (tur) => Number(turSayilari?.[tur] ?? 0);
+  const turDoldu = (tur) => turKullanimi(tur) >= turSiniri;
 
   /**
    * Joker kullan. `satinAl` true ise satın alma + kullanım TEK RPC'de yapılır
@@ -175,7 +186,7 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
   const alinabilirMi = (tur) => {
     if (serbestMod || kilit || finalYasak || sinirDoldu || rakipKilitledi) return false;
     if (macTur === "turnuva" && tur === "soru_degistir") return false;
-    if (kullanilanlar.has(tur)) return false;
+    if (turDoldu(tur) || (macTur === "1v1" && sorudaKullanildi)) return false;
     if (tur === "elli" && durum?.ucretsiz_elli_kaldi) return false;
     if ((envanter[tur] ?? 0) > 0) return false;
     return Number(fiyatlar?.[tur] ?? 0) > 0;
@@ -196,8 +207,6 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
     return jokerBilgi(tur, macTur, a).ad;
   };
 
-  // "Kullanıldı" maç başına (sunucudan) — Paket 35 A.3: ücretsiz modda da aynı.
-  const kullanilanlar = new Set([...(durum.kullanilan_turler ?? []), ...kullandigim]);
   // Sis'in son-N-saniye kuralı (YALNIZ Sis) — sunucu da reddediyor, düğme önceden söylesin
 
   const neden = (tur) => {
@@ -205,10 +214,11 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
     if (rakipKilitledi) return tt("Bu soruda skill kullanılamaz.");
     if (finalYasak) return tt("Turnuva finalinde skill kullanılamaz");
     if (sinirDoldu) return tt("Bu maçta en fazla {0} skill", { 0: durum.sinir });
+    if (macTur === "1v1" && sorudaKullanildi) return tt("Bu sorudaki skill hakkını kullandın");
     // Turnuva herkese AYNI soruyu sorar ve elemelidir: soru değiştirilemez.
     if (macTur === "turnuva" && tur === "soru_degistir") return tt("Turnuvada soru değiştirilemez");
     // Paket 27 B: aynı joker maç başına bir kez — her tür için. Sunucu da aynı kuralı uygular.
-    if (kullanilanlar.has(tur)) return tt("Bu skill'i bu maçta zaten kullandın");
+    if (turDoldu(tur)) return tt("Bu skill için maç hakkın doldu");
     const ucretsiz = tur === "elli" && durum.ucretsiz_elli_kaldi;
     if (!serbestMod && !ucretsiz && (envanter[tur] ?? 0) <= 0 && coinYetmez(tur)) return tt("Yetersiz coin");
     // Envanterde yoksa artık "kalmadı" demiyoruz: maç içinde satın alınabiliyor.
@@ -245,7 +255,8 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
         const adet = envanter[tur] ?? 0;
         const satilik = satinAlinabilir(tur);
         const fiyat = Number(fiyatlar?.[tur] ?? 0);
-        const kullanildi = kullanilanlar.has(tur);
+        const kullanildi = turDoldu(tur);
+        const macHakKaldi = Math.max(0, turSiniri - turKullanimi(tur));
         // Paket 35 A.2: stok yoksa fiyat rozeti HER ZAMAN görünür (alınamıyorsa soluk)
         const fiyatRozeti = !serbestMod && !ucretsiz && adet <= 0 && fiyat > 0;
         const durumSinifi = kullanildi ? "kullanildi" : satilik ? "satilik" : engel ? "pasif" : "hazir";
@@ -278,6 +289,7 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
             )}
             <span className="bd-joker-ikon" aria-hidden="true"><Ikon ad={bilgi.ikon} boyut={20} /></span>
             <span className="bd-joker-ad">{bilgi.ad}</span>
+            {macTur === "1v1" && <small className="bd-joker-mac-hak">{tt("Maç hakkı: {0}", { 0: macHakKaldi })}</small>}
           </button>
         );
       })}

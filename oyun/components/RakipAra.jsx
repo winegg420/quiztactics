@@ -8,7 +8,7 @@ import { botZorluk } from "../lib/botZorluk.js";
 import { tt } from "../lib/dil.js";
 import { sesRakipBulundu } from "../lib/ses.js";
 
-const BEKLEME_SN = 8; // bu süre içinde insan rakip aranır, sonra bota düşülür
+const BEKLEME_SN = 15; // bu süre içinde insan rakip aranır, sonra gizli bota düşülür
 // Paket 41 F: "Maç hazırlanıyor…" hâlinin üst sınırı. Dolunca yoklama durur, oyuncuya
 // Tekrar dene / Bot ile oyna / Vazgeç sunulur (eskiden sonsuza dek bekliyordu).
 const HAZIRLIK_SINIR_MS = 30000;
@@ -18,7 +18,7 @@ const HAZIRLIK_SINIR_MS = 30000;
  * Tam ekran katman olarak `document.body`'ye portal ile basılır — daha önce
  * ana sayfanın içinde konumlandığı için hiç görünmüyordu.
  *
- * Akış: kuyruğa gir → 8 sn gerçek rakip ara → bulunamazsa sunucu bir rakip
+ * Akış: kuyruğa gir → 15 sn gerçek rakip ara → bulunamazsa sunucu bir rakip
  * kurar. Rakip bulununca 1 sn "Rakip bulundu: X" gösterilip maça geçilir.
  *
  * Beklemek istemeyen "Beklemeden bot ile oyna"ya basar: seviyesine yakın
@@ -164,7 +164,7 @@ export default function RakipAra({ kategori, dereceli = true, jokersiz = false, 
     }
   }, [kategori, dereceli, jokersiz, bitir]);
 
-  // Son çare: 8 sn dolunca sunucu rakip kursun.
+  // Son çare: 15 sn dolunca sunucu rakip kursun.
   //
   // `quick_match` BOŞ dönebilir: sunucu, gerçekten aranmış gibi görünsün
   // diye botu kurmadan önce 2-5 sn bekletiyor (bkz. migration 155). Bu
@@ -250,7 +250,7 @@ export default function RakipAra({ kategori, dereceli = true, jokersiz = false, 
           sonCare();
           return 0;
         }
-        dene(); // her saniye kuyruğu yokla (8 sn kısa, sık bakmak gerek)
+        dene(); // her saniye kuyruğu yokla; gerçek oyuncuya öncelik verilir
         return yeni;
       });
     }, 1000);

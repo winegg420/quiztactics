@@ -55,7 +55,7 @@ export default function JokerDukkani() {
   const [dukkanDurum, setDukkanDurum] = useState("yukleniyor");   // yukleniyor | hata | hazir
   const [reklam, setReklam] = useState({ bugun: 0, tavan: 5 });
   // Maç başına joker hakkı ayardan okunur; koda gömülmez (Paket 28 B).
-  const [jokerHak, setJokerHak] = useState(4);
+  const [jokerHak, setJokerHak] = useState(6);
   const [paketler, setPaketler] = useState([]);
   const [fiyatlar, setFiyatlar] = useState({});
   const [hata, setHata] = useState(null);
@@ -76,7 +76,7 @@ export default function JokerDukkani() {
       setAyar(o);
       if (Number.isFinite(Number(o.coin_reklam))) setOdulCoin(Number(o.coin_reklam));
       // Maç başına joker hakkı: kural metni bunu kullanır (Paket 28 B).
-      if (Number(o.duello_joker_hak) > 0) setJokerHak(Number(o.duello_joker_hak));
+      if (Number(o.klasik_skill_toplam_hak) > 0) setJokerHak(Number(o.klasik_skill_toplam_hak));
       setTekFiyat({
         elli: Number(o.coin_joker_elli ?? TEK_JOKER_VARSAYILAN.elli),
         sure: Number(o.coin_joker_sure ?? TEK_JOKER_VARSAYILAN.sure),
@@ -117,6 +117,11 @@ export default function JokerDukkani() {
       ]);
       if (env.error) throw env.error;
       setEnvanter(envanterNesne(env.data));
+      const ikincilHata = rek.error ?? pak.error ?? cpak.error;
+      if (ikincilHata) {
+        console.error("[Bildim] dükkân verilerinin bir bölümü alınamadı:", ikincilHata);
+        setHata(hataMesaji(ikincilHata, tt("Dükkânın bazı bölümleri yüklenemedi. Tekrar dene.")));
+      }
       if (!rek.error) {
         const r = Array.isArray(rek.data) ? rek.data[0] : rek.data;
         if (r) setReklam({ bugun: r.bugun ?? 0, tavan: r.tavan ?? 5 });
@@ -140,7 +145,10 @@ export default function JokerDukkani() {
     let aktif = true;
     fiyatlariAl(coinPaketleri.map((p) => p.urun_id))
       .then((f) => aktif && setFiyatlar(f))
-      .catch(() => {});
+      .catch((e) => {
+        console.error("[Bildim] mağaza fiyatları alınamadı:", e);
+        if (aktif) setHata(hataMesaji(e, tt("Satın alma fiyatları alınamadı. Tekrar dene.")));
+      });
     return () => {
       aktif = false;
     };
@@ -263,7 +271,7 @@ export default function JokerDukkani() {
         {sekme === "joker" && (
           <img
             className="bd-shop-skill-hero"
-            src="/skill-shop-hero.png"
+            src="/skill-shop-hero.webp"
             alt={tt("Skill kartlarıyla açılan ödül sandığı")}
           />
         )}

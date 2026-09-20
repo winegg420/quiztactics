@@ -63,12 +63,19 @@ export function skillSetiOku(slot = SKILL_SLOT_VARSAYILAN) {
 }
 
 export function skillSetiKaydet(ids, slot = SKILL_SLOT_VARSAYILAN) {
-  const temiz = [...new Set(ids)].filter((id) => AKTIF_MAC_SKILLERI.includes(id)).slice(0, slot);
+  const temiz = skillSetiTemizle(ids, slot);
   if (typeof localStorage !== "undefined") {
     localStorage.setItem(SKILL_SETI_ANAHTARI, JSON.stringify(temiz));
     window.dispatchEvent(new CustomEvent("skill-seti-degisti", { detail: temiz }));
   }
   return temiz;
+}
+
+/** Kalıcı depoya dokunmadan geçerli, tekrarsız bir skill seti üretir. */
+export function skillSetiTemizle(ids, slot = SKILL_SLOT_VARSAYILAN) {
+  return [...new Set(Array.isArray(ids) ? ids : [])]
+    .filter((id) => AKTIF_MAC_SKILLERI.includes(id))
+    .slice(0, slot);
 }
 
 export function skillModdaKullanilabilir(skill, macTur) {

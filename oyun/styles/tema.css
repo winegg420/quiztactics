@@ -7154,6 +7154,10 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   font-size: 11px; font-weight: 900; line-height: 1.15; text-align: center;
   color: inherit; overflow-wrap: anywhere;
 }
+.app .bd-joker-cubuk .bd-joker.bd-jk .bd-joker-mac-hak {
+  display: block; font-size: 9px; font-weight: 800; line-height: 1;
+  color: currentColor; opacity: 0.76; white-space: nowrap;
+}
 /* 1) Kullanılabilir — basınca iner */
 .app .bd-joker-cubuk .bd-joker.bd-jk.hazir:active { transform: translateY(4px); box-shadow: 0 0 0 #A8450B; }
 /* 2) Kullanıldı — soluk + onay işareti */
