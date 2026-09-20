@@ -28,4 +28,3 @@
 
 export const MEYDAN_ACIK = false;
 export const GARDIROP_ACIK = false;
-
