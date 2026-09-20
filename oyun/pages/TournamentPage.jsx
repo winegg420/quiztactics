@@ -6,6 +6,7 @@ import DurumKutusu from "../components/DurumKutusu.jsx";
 import Maskot from "../components/Maskot.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { useOyunModu } from "../lib/oyunModu.js";
+import { soruCek } from "../lib/soruCek.js";
 import TurnuvaTanitim from "../components/TurnuvaTanitim.jsx";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
@@ -54,6 +55,10 @@ export default function TournamentPage() {
   const [cikisOnay, setCikisOnay] = useState(false);
   const [oyuncular, setOyuncular] = useState([]);
   const [soru, setSoru] = useState(null);
+  // Soru bütün denemelere rağmen gelmedi mi? (sessiz donma yerine görünür hata)
+  const [soruHatasi, setSoruHatasi] = useState(false);
+  // "Tekrar dene" bunu artırır; soru çekme effect'i yeniden koşar.
+  const [soruDeneme, setSoruDeneme] = useState(0);
   // Kendi son cevabımızın zamanı (geri bildirim penceresi için)
   const cevapZamaniRef = useRef(0);
   const [yukleniyor, setYukleniyor] = useState(true);
@@ -261,20 +266,23 @@ export default function TournamentPage() {
     // Son cevaplayanın geri bildirimi GB_MS kalsın (Paket 14, 5.2 — grup maçıyla aynı hata)
     const bekle = Math.max(0, GB_MS - (Date.now() - cevapZamaniRef.current));
     let iptal = false;
+    let durdur = null;
     const zamanlayici = setTimeout(() => {
       if (iptal) return;
       advanceKilidi.current = false;
       bekleyenIlerletme.current = false;
-      supabase
-        .rpc("get_tournament_question", { p_tournament_id: turnuva.id })
-        .then(({ data, error }) => {
-          if (iptal) return;
-          if (error) { console.error("[Bildim] turnuva sorusu alinamadi:", error); return; }
-          if (data?.[0]) setSoru(data[0]);
-        });
+      setSoruHatasi(false);
+      // PES ETMEYEN İSTEK (oyun/lib/soruCek.js) — Klasik maçtaki donma
+      // hatasının aynısı buradaydı: tek deneme, hata olunca sessizce boş ekran.
+      durdur = soruCek({
+        rpcAdi: "get_tournament_question",
+        param: { p_tournament_id: turnuva.id },
+        onSoru: setSoru,
+        onVazgecti: () => setSoruHatasi(true),
+      });
     }, bekle);
-    return () => { iptal = true; clearTimeout(zamanlayici); };
-  }, [turnuva?.id, turnuva?.durum, turnuva?.aktif_soru]);
+    return () => { iptal = true; clearTimeout(zamanlayici); durdur?.(); };
+  }, [turnuva?.id, turnuva?.durum, turnuva?.aktif_soru, soruDeneme]);
 
   // Turnuva bitince puanlar değişmiş olabilir
   useEffect(() => {
@@ -699,6 +707,23 @@ export default function TournamentPage() {
       )}
       {izleyiciyim && (
         <div className="durum-bandi elendi">{tt("İzleyici modundasın.")}</div>
+      )}
+
+      {/* Soru gelmedi: sessizce donmak yerine sebebini söyle ve yol ver.
+          (Denemeler oyun/lib/soruCek.js'te; buraya düşmesi hepsinin
+          tükendiği anlamına gelir.) */}
+      {soruHatasi && !soru && (
+        <div className="kart bd-soru-hata" role="alert">
+          <Ikon ad="saat" boyut={24} />
+          <p>{tt("Soru gelmedi. Bağlantını kontrol edip tekrar dene.")}</p>
+          <button
+            type="button"
+            className="btn"
+            onClick={() => { setSoruHatasi(false); setSoruDeneme((n) => n + 1); }}
+          >
+            {tt("Tekrar dene")}
+          </button>
+        </div>
       )}
 
       {soru && !elendim && !izleyiciyim ? (

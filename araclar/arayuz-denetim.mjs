@@ -18,6 +18,10 @@
 //   npm run dev            (başka bir kabukta)
 //   node araclar/arayuz-denetim.mjs [--gorsel] [--adres=http://localhost:5173]
 //
+// NOT: sayfalar "networkidle" ile beklenmez — Supabase Realtime kalıcı bir
+// bağlantı açtığı için ağ hiç boşa çıkmıyor ve bekleme takılıyordu (ölçüldü,
+// 20 Eyl 2026). "domcontentloaded" + sabit bekleme kullanılıyor.
+//
 // Oturum: ilk çalıştırmada "Misafir olarak dene" ile bir misafir hesabı açar
 // ve oturumu `.arayuz-denetim-oturum.json` dosyasına yazar (git'e girmez).
 // Sonraki çalıştırmalar o oturumu kullanır — her seferinde yeni hesap açılmaz.
@@ -173,7 +177,7 @@ async function kurulumuTamamla(sayfa) {
 }
 
 async function misafirGiris(sayfa) {
-  await sayfa.goto(ADRES + "/", { waitUntil: "networkidle" });
+  await sayfa.goto(ADRES + "/", { waitUntil: "domcontentloaded" });
   const dugme = sayfa.getByRole("button", { name: /Misafir olarak dene/i });
   if (!(await dugme.count())) return false;
   await dugme.click();
@@ -193,7 +197,7 @@ async function misafirGiris(sayfa) {
   sayfa.on("console", (m) => { if (m.type() === "error") konsolHatalari.push(m.text().slice(0, 160)); });
   sayfa.on("pageerror", (e) => konsolHatalari.push("pageerror: " + String(e).slice(0, 160)));
 
-  await sayfa.goto(ADRES + "/", { waitUntil: "networkidle" });
+  await sayfa.goto(ADRES + "/", { waitUntil: "domcontentloaded" });
   const girisVar = await sayfa.getByRole("button", { name: /Misafir olarak dene/i }).count();
   if (girisVar) {
     console.log("· Oturum yok — misafir hesabı açılıyor…");
@@ -223,7 +227,7 @@ async function misafirGiris(sayfa) {
     for (const s of SAYFALAR) {
       konsolHatalari.length = 0;
       try {
-        await sayfa.goto(ADRES + s.yol, { waitUntil: "networkidle", timeout: 20000 });
+        await sayfa.goto(ADRES + s.yol, { waitUntil: "domcontentloaded", timeout: 20000 });
       } catch {
         bulgular.push({ genislik: g.ad, sayfa: s.ad, tur: "acilmadi" });
         continue;

@@ -82,6 +82,9 @@ export default function QuestionCard({
   const tikRef = useRef(null);
   // Atlama başarısız olduysa en erken bu ana kadar yeniden denenmez.
   const yenidenDeneRef = useRef(0);
+  // Cevap sunucuya gitmedi: kısa uyarı (seçim geri alınır, tekrar dokunulabilir)
+  const [cevapHatasi, setCevapHatasi] = useState(false);
+  const cevapHataTimer = useRef(null);
 
   // SORU DEĞİŞTİR jokeri: soru YERİNDE değişir, indeks aynı kalır. Kart
   // sökülmediği için (key indekse bağlı) yeni soruyu burada tutuyoruz;
@@ -112,7 +115,10 @@ export default function QuestionCard({
   // İlk kullanıcı hareketinde ses motoru açılsın (mobil tarayıcı kuralı)
   useEffect(() => { sesKilidiAc(); }, []);
 
-  useEffect(() => () => clearTimeout(basiliTutTimer.current), []);
+  useEffect(() => () => {
+    clearTimeout(basiliTutTimer.current);
+    clearTimeout(cevapHataTimer.current);
+  }, []);
 
   useEffect(() => {
     if (!soru) return;
@@ -228,8 +234,24 @@ export default function QuestionCard({
           setTimeout(() => setSarsil(false), 380);
         }
       }
-    } catch {
-      // süre dolmuş olabilir; sonuç ekranı advance ile gelir
+    } catch (e) {
+      // CEVAP SUNUCUYA GİTMEDİ (ağ dalgalanması, "Maç başlamak üzere",
+      // süre dolmuş…). Eskiden hata TAMAMEN yutuluyordu; oysa yukarıda
+      // `setSecim(i)` çoktan çalışmıştı: şık seçili kalıyor, `secim !== null`
+      // yüzünden başka şıkka da dokunulamıyor ve soru süre bitene kadar
+      // öylece duruyordu. Oyuncunun gördüğü "soru takıldı" buydu (20 Eyl 2026).
+      //
+      // Süre zaten bittiyse sonuç advance ile gelir, dokunma: seçimi geri
+      // almak doğru cevabın işaretlenmesini bozar. Süre varsa seçim geri
+      // alınır, kısa bir not çıkar ve oyuncu yeniden dokunabilir.
+      console.warn("[Bildim] cevap gönderilemedi:", e?.message ?? e);
+      if (kalanRef.current > 0 && !sureDolduMu.current) {
+        setSecim(null);
+        cevapVerildiRef.current = false;
+        setCevapHatasi(true);
+        clearTimeout(cevapHataTimer.current);
+        cevapHataTimer.current = setTimeout(() => setCevapHatasi(false), 2600);
+      }
     }
   };
 
@@ -294,6 +316,13 @@ export default function QuestionCard({
       {sisGonderdimBitis && <SisKenar key={sisGonderdimBitis} bitis={sisGonderdimBitis} />}
       <CevapEfekti dogru={dogruCevapVerdim} puan={puan} seri={seri} />
 
+      {/* Cevap sunucuya gitmedi — seçim geri alındı, tekrar dokunulabilir */}
+      {cevapHatasi && (
+        <div className="bd-sure-doldu-bant bd-cevap-hata" role="alert">
+          <Ikon ad="yenile" boyut={15} /> {tt("Cevabın gitmedi — tekrar dokun")}
+        </div>
+      )}
+
       {/* Zaman aşımı bilgisi — geri bildirim penceresi boyunca durur */}
       {zamanAsimi && (
         <div className="bd-sure-doldu-bant" role="status">
@@ -301,15 +330,10 @@ export default function QuestionCard({
         </div>
       )}
 
-      {/* Son 5 saniye: kızaran kenarlar + ortada büyük geri sayım */}
-      {sonDuzluk && (
-        <>
-          <div className="bd-son-perde" aria-hidden="true" />
-          <div className="bd-son-saniye" key={geriSayim} aria-hidden="true">
-            {geriSayim}
-          </div>
-        </>
-      )}
+      {/* Son 5 saniye: kızaran kenarlar (büyük geri sayım rakamı soru
+          metninin İÇİNDE — aşağıya bak; kartın ortasına konunca şıkların
+          üstüne biniyordu, hata gibi görünüyordu). */}
+      {sonDuzluk && <div className="bd-son-perde" aria-hidden="true" />}
 
       {/* Üst şerit: soru numarası + kalan süre halkası + ilerleme çubuğu */}
       <div className="bd-soru-ust">
@@ -347,7 +371,15 @@ export default function QuestionCard({
         />
       </div>
 
-      <div className="bd-soru-metin">{soru.soru}</div>
+      <div className="bd-soru-metin">
+        {/* Son 5 saniyenin büyük rakamı: soru metninin arkasında filigran.
+            Kartın ortasına (%42) konumlandırılmıştı; yeni tasarımda kart
+            uzayınca şıkların üstüne biniyordu. Artık metne bağlı. */}
+        {sonDuzluk && (
+          <span className="bd-son-saniye" key={geriSayim} aria-hidden="true">{geriSayim}</span>
+        )}
+        {soru.soru}
+      </div>
 
       <div className="bd-secenekler">
         {secenekler.map((s, i) => {

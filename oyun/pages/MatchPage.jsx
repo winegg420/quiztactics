@@ -23,6 +23,7 @@ import { TEPKILER, tepkiIkonu } from "../lib/tepkiler.js";
 import MacYukleniyor from "../components/MacYukleniyor.jsx";
 import SesliSohbet from "../components/SesliSohbet.jsx";
 import { useOyunModu } from "../lib/oyunModu.js";
+import { soruCek } from "../lib/soruCek.js";
 import { useGorunurlukTazele, zamanAsimiyla } from "../lib/gorunurluk.js";
 import { useMacNabiz } from "../lib/nabiz.js";
 import { HazirKapisi, KopukPerde, GeriSayim } from "../components/MacHazirlik.jsx";
@@ -109,8 +110,11 @@ export default function MatchPage() {
   // düzen kayması yüzünden şıkka tıklanamıyordu).
   const ilkGirisRef = useRef(null);
   const [yuklemeHatasi, setYuklemeHatasi] = useState(null);
-  // Duraklama bitince soruyu yeniden çekmek için sayaç (saat ileri kaydı)
+  // Duraklama bitince soruyu yeniden çekmek için sayaç (saat ileri kaydı).
+  // "Tekrar dene" düğmesi de bunu artırır: soru çekme effect'i yeniden koşar.
   const [duraklamaTuru, setDuraklamaTuru] = useState(0);
+  // Soru bütün denemelere rağmen gelmedi mi? (sessiz donma yerine görünür hata)
+  const [soruHatasi, setSoruHatasi] = useState(false);
   // Kendi cevabımızın/atlamamızın zamanı. Sonraki soru bu andan GB_MS
   // geçmeden ekrana gelmez: bot anında cevaplayınca sunucu soruyu hemen
   // ilerletiyor ve Realtime paketiyle kart göz açıp kapayana kadar
@@ -385,22 +389,23 @@ export default function MatchPage() {
       ? (kendiIndeks === 0 ? 0 : GB_MS)
       : Math.max(0, GB_MS - (Date.now() - cevapZamaniRef.current));
     let iptal = false;
+    let durdur = null;
     const zamanlayici = setTimeout(() => {
       if (iptal) return;
       advanceKilidi.current = false;
       setCevapladim(false);
-      supabase
-        .rpc("get_match_question", { p_match_id: mac.id })
-        .then(({ data, error }) => {
-          if (iptal) return;
-          if (error) {
-            console.error("[Bildim] soru alinamadi:", error);
-            return;
-          }
-          if (data?.[0]) setSoru(data[0]);
-        });
+      setSoruHatasi(false);
+      // PES ETMEYEN İSTEK (bkz. oyun/lib/soruCek.js): eskiden tek seferlik
+      // `.then` vardı; istek hata verince ya da boş dönünce soru hiç gelmiyor,
+      // effect de yeniden çalışmadığı için ekran donuyordu ("soru takıldı").
+      durdur = soruCek({
+        rpcAdi: "get_match_question",
+        param: { p_match_id: mac.id },
+        onSoru: setSoru,
+        onVazgecti: () => setSoruHatasi(true),
+      });
     }, kalanGB);
-    return () => { iptal = true; clearTimeout(zamanlayici); };
+    return () => { iptal = true; clearTimeout(zamanlayici); durdur?.(); };
   }, [mac?.id, mac?.durum, kendiIndeks, mac?.soru_ids?.length, senkronBekliyor, duraklamaTuru, sonKartBekliyor]);
 
   // ---- RAKİBİN JOKERİ (Paket 31 A) ----
@@ -625,7 +630,14 @@ export default function MatchPage() {
       // Kilidi AÇ: atlama olmadı, soru hâlâ sunucuda duruyor. Kapalı bırakılsaydı
       // oyuncu sekmeden döndüğünde ne ilerleme ne yeniden deneme olurdu.
       advanceKilidi.current = false;
-      console.error("[Bildim] soru atlanamadi:", e);
+      // "yeniden denenecek" BEKLENEN bir durum (saat farkı): kendiliğinden
+      // düzeliyor. console.error olarak basılınca gerçek hatalar günlükte
+      // kayboluyordu; o dal uyarı, gerisi hata.
+      if (/yeniden denenecek/.test(String(e?.message ?? ""))) {
+        console.warn("[Bildim] soru atlama yeniden denenecek (saat farkı):", e.message);
+      } else {
+        console.error("[Bildim] soru atlanamadi:", e);
+      }
       macYukle();
       throw e; // QuestionCard hatayı görüp kendi kilidini de açsın
     }
@@ -1097,6 +1109,23 @@ export default function MatchPage() {
         )}
 
         {jokerHata && <div className="hata-kutu">{jokerHata}</div>}
+
+        {/* Soru gelmedi: sessizce donmak yerine sebebini söyle ve yol ver.
+            (Denemeler oyun/lib/soruCek.js'te; buraya düşmesi hepsinin
+            tükendiği anlamına gelir.) */}
+        {soruHatasi && !soru && (
+          <div className="kart bd-soru-hata" role="alert">
+            <Ikon ad="saat" boyut={24} />
+            <p>{tt("Soru gelmedi. Bağlantını kontrol edip tekrar dene.")}</p>
+            <button
+              type="button"
+              className="btn"
+              onClick={() => { setSoruHatasi(false); setDuraklamaTuru((n) => n + 1); macYukle(); }}
+            >
+              {tt("Tekrar dene")}
+            </button>
+          </div>
+        )}
 
         {soru && (
           <QuestionCard

@@ -6890,3 +6890,94 @@ kapalı"). Öncesinde bu metinler EN modunda Türkçe kalıyordu — sözlükte
 olmayan anahtar Türkçe metnin kendisine düştüğü için ekran bozulmuyordu ama
 yarı Türkçe görünüyordu. Ölçüldü: profil dili EN iken ana sayfa, menü ve
 giriş ekranı tamamen İngilizce; sayfa hatası yok.
+
+### 20 Eylül 2026 — maç ekranı düzeltmeleri (sahibinin ekran görüntüsü üzerine)
+
+Sahibi canlıda oynarken dört şey bildirdi: süre halkası yamuk, şıkların
+altında açıklanamayan gri şerit, bir sorunun takılması, genel "senkron
+hataları". Hepsi ölçülerek bulundu ve düzeltildi.
+
+**1. Gri şerit — kök sebep `height: 100%`**
+`src/styles.css` › `html, body, #root { height: 100% }` gövde kutusunu ekran
+boyuna kilitliyordu. Gövdenin zemini (maç ekranında koyu degrade) yalnız kendi
+kutusuna boyanır; sayfa ekrandan uzun olunca altta `html`in açık rengi
+görünüyordu. Ölçüm (390×844): gövde 844 px, belge 1018 px → 174 px'lik seam.
+Eski açık temada iki renk de açık olduğu için yıllardır fark edilmemişti.
+Düzeltme: `height: auto` + `min-height` (yeni.css). Doğrulandı: dört
+genişlikte, uzun sayfalar dahil, gövde = belge yüksekliği.
+
+**2. Süre halkası yamuk**
+`src/styles.css` SVG'yi 48×48 sabitliyor. Arayüz Yenileme kabı 66 px yapınca
+halka kutunun sol üstünde kaldı, `inset: 0` ile ortalanan rakam halkanın sağ
+altına düştü. Düzeltme: maç ekranında SVG kapla eşitlendi (62 px).
+
+**3. "SORU 1" iki satıra düşüyordu**
+Prototipin üç sütunlu `question-meta` düzeni (1fr 80px 1fr) burada
+çalışmıyor: prototipte sağda "+100 PUAN" vardı, bizde sağ hücre boş ve sol
+hücre 120 px'e sıkışıyordu. Tek satırlı esnek düzene geçildi; kategori çipi
+taşmıyor.
+
+**4. Son 5 saniyenin büyük rakamı şıkların üstüne biniyordu**
+`.bd-son-saniye` kartın %42'sine konumlanmıştı; yeni kart uzayınca şıkların
+arasına düşüyor, hata gibi görünüyordu. Rakam soru metninin İÇİNE alındı
+(QuestionCard) — artık her zaman soru metninin arkasında filigran.
+
+**5. SORU TAKILMASI — iki ayrı kök sebep**
+
+a) `QuestionCard.cevapla` cevabı gönderirken `catch {}` ile hatayı TAMAMEN
+yutuyordu. Oysa `setSecim(i)` çoktan çalışmıştı: şık seçili kalıyor,
+`secim !== null` yüzünden başka şıkka da dokunulamıyor, soru süre bitene
+kadar öylece duruyordu. Ölçüldü: 3-2-1 perdesi sırasında dokunulunca sunucu
+`400 "Maç başlamak üzere"` dönüyor ve ekran kilitleniyor. Düzeltme: süre
+varsa seçim geri alınır, "Cevabın gitmedi — tekrar dokun" uyarısı çıkar,
+oyuncu yeniden dokunabilir. Süre bittiyse dokunulmaz (doğru cevabın
+işaretlenmesi bozulmasın).
+
+b) Soruyu çeken RPC üç ekranda da tek seferlikti:
+`.then(({data,error}) => { if (error) return; ... })`. İstek hata verirse ya
+da boş dönerse soru hiç gelmiyor, effect de yeniden çalışmadığı için ekran
+boş kalıyordu. Yeni `oyun/lib/soruCek.js`: üstel geri çekilmeli beş deneme,
+zaman aşımı korumalı; hepsi biterse ekran "Soru gelmedi — Tekrar dene"
+gösteriyor. Klasik, Grup ve Turnuva ekranlarının üçüne de uygulandı.
+
+**6. Maç sonu ekranı — kendi eklediğim iki hata, geri alındı**
+Prototipin `result.html`i koyu zemin + beyaz karttır. Sahneyi öyle giydirme
+denemesi: (i) `.mss-zemin`e `background: inherit` yazılmıştı, `.mss`ten
+beyazı miras alıp sonuç ekranını komple beyaza çeviriyordu; (ii) zemin
+koyulaşınca MacSonuSahnesi'nin metin renkleri (oyuncu adları, günlük
+görevler) koyu üstünde koyu kalıyordu — o renkler Paket 36/42/43'te AÇIK
+zemine göre ölçülmüştü. Bölüm tamamen geri alındı, sahne özgün haliyle
+çalışıyor. **Ders: kontrastı ölçülmüş bir ekranın zemin rengi tek başına
+değiştirilmez.**
+
+**7. Joker düğmeleri**
+Arayüz Yenileme prototipin soluk gri joker fişlerini getirmeye çalışıyordu;
+o kural Paket 32 B'nin ölçülmüş kararını ("hepsi marka turuncusu, dört
+durum") geri alıyordu. Kaldırıldı, mevcut tasarım yürürlükte.
+
+**8. Küçük temizlik**
+`yeni.css`in ortasındaki başıboş `@import url('./shop-mobile.css')`
+kaldırıldı (dosya ortasındaki @import yok sayılıyor ve her derlemede uyarı
+veriyordu; içerik zaten birebir eklenmişti). `mac_soruyu_atla`nın beklenen
+"yeniden denenecek" dalı `console.error` yerine `console.warn` — gerçek
+hatalar günlükte kaybolmasın.
+
+**Nasıl doğrulandı**
+20 soruluk Klasik maç uçtan uca oynandı (ölçüm betiği, 390 px): her soru
+ilerledi, 50:50 jokeri iki şık eledi, maç sonu ekranı tam içerikle geldi,
+konsol temiz. Yatay taşma yok; maç ekranında üst/alt çubuk gizli; şık
+yüksekliği 62 px; "CEVABI KİLİTLE" yok.
+
+**Ida'ya iki not**
+- **Düello arenası test edilemedi:** yeni bir hesap 60–90 sn aradığı hâlde
+  rakip bulamadı (kod notu "15 sn'yi geçerse botla eşleştireceğiz" diyor).
+  İki misafir hesabı aynı anda aratıldığında da eşleşmediler. Sunucu tarafı
+  bir eşleşme konusu olabilir; arayüz tarafında hata yok (giriş ekranı,
+  kurallar kartı, Dereceli anahtarı ve arama akışı sorunsuz çizildi).
+  Düello arenası zaten Klasik ile AYNI bileşenleri kullanıyor (QuestionCard,
+  joker çubuğu, MacUstSerit, maç sonu sahnesi) — yukarıdaki düzeltmeler
+  oraya da geçerli.
+- **Saat farkı:** bir maçta 6 kez "soru atlama yeniden denenecek" düştü.
+  Kendiliğinden düzeliyor (tasarlanmış yeniden deneme), ama istemci sayacı
+  sunucununkinden birkaç saniye önce bitiyor demektir. Oynanışı bozmuyor,
+  ayrı bir paket konusu.

@@ -11,6 +11,7 @@ import MacSonuSahnesi from "../components/MacSonuSahnesi.jsx";
 import MacYukleniyor from "../components/MacYukleniyor.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { useOyunModu } from "../lib/oyunModu.js";
+import { soruCek } from "../lib/soruCek.js";
 import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
@@ -54,6 +55,10 @@ export default function GroupMatchPage() {
   const [mac, setMac] = useState(null);
   const [yuklemeHatasi, setYuklemeHatasi] = useState(null);
   const [soru, setSoru] = useState(null);
+  // Soru bütün denemelere rağmen gelmedi mi? (sessiz donma yerine görünür hata)
+  const [soruHatasi, setSoruHatasi] = useState(false);
+  // "Tekrar dene" bunu artırır; soru çekme effect'i yeniden koşar.
+  const [soruDeneme, setSoruDeneme] = useState(0);
   // Kendi son cevabımızın zamanı (geri bildirim penceresi için)
   const cevapZamaniRef = useRef(0);
   const [cevapladim, setCevapladim] = useState(false);
@@ -243,22 +248,25 @@ export default function GroupMatchPage() {
     // işaret ~300 ms'de siliniyordu (Paket 14, 5.2).
     const bekle = Math.max(0, GB_MS - (Date.now() - cevapZamaniRef.current));
     let iptal = false;
+    let durdur = null;
     const zamanlayici = setTimeout(() => {
       if (iptal) return;
       advanceKilidi.current = false;
       bekleyenIlerletme.current = false;
       setCevapladim(false);
+      setSoruHatasi(false);
       if (pollRef.current) clearInterval(pollRef.current);
-      supabase
-        .rpc("get_group_match_question", { p_group_match_id: mac.id })
-        .then(({ data, error }) => {
-          if (iptal) return;
-          if (error) { console.error("[Bildim] grup sorusu alinamadi:", error); return; }
-          if (data?.[0]) setSoru(data[0]);
-        });
+      // PES ETMEYEN İSTEK (oyun/lib/soruCek.js) — Klasik maçtaki donma
+      // hatasının aynısı buradaydı: tek deneme, hata olunca sessizce boş ekran.
+      durdur = soruCek({
+        rpcAdi: "get_group_match_question",
+        param: { p_group_match_id: mac.id },
+        onSoru: setSoru,
+        onVazgecti: () => setSoruHatasi(true),
+      });
     }, bekle);
-    return () => { iptal = true; clearTimeout(zamanlayici); };
-  }, [mac?.id, mac?.durum, mac?.aktif_soru, mac?.soru_baslangic, mac?.basladi, mac?.duraklatildi_at]);
+    return () => { iptal = true; clearTimeout(zamanlayici); durdur?.(); };
+  }, [mac?.id, mac?.durum, mac?.aktif_soru, mac?.soru_baslangic, mac?.basladi, mac?.duraklatildi_at, soruDeneme]);
 
   // ---- NABIZ ----
   // Hazır kapısı + varlık bildirimi (bkz. lib/nabiz.js). Biri ekrandan
@@ -608,6 +616,23 @@ export default function GroupMatchPage() {
       </div>
 
       {jokerHata && <div className="hata-kutu">{jokerHata}</div>}
+
+      {/* Soru gelmedi: sessizce donmak yerine sebebini söyle ve yol ver.
+          (Denemeler oyun/lib/soruCek.js'te; buraya düşmesi hepsinin
+          tükendiği anlamına gelir.) */}
+      {soruHatasi && !soru && (
+        <div className="kart bd-soru-hata" role="alert">
+          <Ikon ad="saat" boyut={24} />
+          <p>{tt("Soru gelmedi. Bağlantını kontrol edip tekrar dene.")}</p>
+          <button
+            type="button"
+            className="btn"
+            onClick={() => { setSoruHatasi(false); setSoruDeneme((n) => n + 1); }}
+          >
+            {tt("Tekrar dene")}
+          </button>
+        </div>
+      )}
 
       {soru && (
         <QuestionCard

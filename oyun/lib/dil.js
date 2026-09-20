@@ -2332,6 +2332,8 @@ const SOZLUK = {
     "Kaldığın yerden devam et.": "Pick up where you left off.",
     // Dondurulmuş bölümler
     "Bu bölüm şu an kapalı.": "This section is closed for now.",
+    "Soru gelmedi. Bağlantını kontrol edip tekrar dene.": "The question did not arrive. Check your connection and try again.",
+    "Cevabın gitmedi — tekrar dokun": "Your answer did not go through — tap again",
   },
 };
 
