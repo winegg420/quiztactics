@@ -39,12 +39,12 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <!-- Şenlik tasarım dili: başlık/buton/skor Baloo 2, gövde metni Nunito.
          İkisi de Türkçe karakterleri tam destekliyor. -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@600;700;800;900&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Arayuz Yenileme (20 Eyl 2026): yazi tipleri YEREL paketlendi
+         (public/fonts/). Google Fonts baglantisi kaldirildi - dis bagimlilik
+         ve ilk yukleme gecikmesi istenmiyor. -->
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/baloo-2-latin.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/nunito-latin.woff2" crossorigin />
+    <link rel="stylesheet" href="/fonts/yazitipleri.css" />
     <title>Quiz Tactics — Bilgi Yarışması</title>
   </head>
   <body>

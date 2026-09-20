@@ -6,12 +6,14 @@ import KategoriIkon from "./KategoriIkon.jsx";
 import { JOKER_BILGI } from "../lib/jokerler.js";
 import { tt, ttSunucu } from "../lib/dil.js";
 
+// Arayüz Yenileme (20 Eyl 2026): satır içi hex yerine token
+// (oyun/styles/yeni.css › RÜTBE VE USTALIK RENKLERİ). Değerler aynı.
 const SEVIYE_RENK = {
-  "Çırak": "#8496B2",
-  "Kalfa": "#2FBF71",
-  "Usta": "#4A9DD9",
-  "Üstat": "#3FA9A0",
-  "Efsane": "#F2B23C",
+  "Çırak": "var(--ustalik-cirak)",
+  "Kalfa": "var(--ustalik-kalfa)",
+  "Usta": "var(--ustalik-usta)",
+  "Üstat": "var(--ustalik-ustat)",
+  "Efsane": "var(--ustalik-efsane)",
 };
 
 /** Profil sayfası: kategori ustalığı, en uzun seri ve joker istatistikleri. */

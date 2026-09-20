@@ -15,6 +15,9 @@ import "./styles.css";
 import "../oyun/styles/tema.css";
 // Koyu tema tema.css'ten SONRA: kaskadda sonra gelip acik temayi ezer.
 import "../oyun/styles/koyu.css";
+// Arayuz Yenileme (20 Eyl 2026): prototip temasi EN SONDA - palet ve iskelet
+// kurallari eskisini ezer. Eski token/sinif adlari silinmedi, yeni palete baglandi.
+import "../oyun/styles/yeni.css";
 import { temaBaslat } from "../oyun/lib/tema.js";
 import { cubukBaslat } from "../oyun/lib/kaydirmaCubugu.js";
 
