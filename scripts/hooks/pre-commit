@@ -1,0 +1,41 @@
+#!/bin/sh
+# PROGRESS.md hatırlatıcısı.
+#
+# Commit koda dokunuyorsa (oyun/ src/ supabase/migrations/ araclar/)
+# PROGRESS.md de değişmiş olmalı. Yalnız .md, kilit dosyası ya da
+# biçimlendirme değişiyorsa zorunlu değil.
+#
+# Kaçış kapısı: commit mesajında [progress-yok] geçerse hook geçer.
+#
+# Bu hook YALNIZ yerel commit'te çalışır. Bulut ortamında atılan commit,
+# GitHub arayüzünden yapılan düzenleme veya `npm install` hiç
+# çalışmamış bir kopya için devreye girmez. Hook bir garanti değil,
+# hatırlatıcıdır; asıl güvence CLAUDE.md / AGENTS.md talimatıdır.
+
+degisen=$(git diff --cached --name-only --diff-filter=ACMR)
+[ -z "$degisen" ] && exit 0
+
+tetikleyen=$(printf '%s\n' "$degisen" | grep -E '^(oyun/|src/|supabase/migrations/|araclar/)')
+[ -z "$tetikleyen" ] && exit 0
+
+printf '%s\n' "$degisen" | grep -qx 'PROGRESS.md' && exit 0
+
+# Commit mesajı kaçış kapısı — -m, -F ve şablon dosyası için.
+mesaj=""
+for kaynak in "$GIT_COMMIT_MESSAGE_FILE" .git/COMMIT_EDITMSG "$(git rev-parse --git-dir)/COMMIT_EDITMSG"; do
+  [ -n "$kaynak" ] && [ -f "$kaynak" ] && mesaj="$mesaj$(cat "$kaynak")"
+done
+case "$mesaj" in *'[progress-yok]'*) exit 0 ;; esac
+
+echo ""
+echo "  COMMIT REDDEDILDI — PROGRESS.md guncellenmemis."
+echo ""
+echo "  Bu commit izlenen klasorlere dokunuyor:"
+printf '%s\n' "$tetikleyen" | sed 's/^/    · /'
+echo ""
+echo "  Yapilacak: PROGRESS.md'nin SONUNA bu isin kaydini ekle"
+echo "  (sablon dosyanin basinda), sonra commit'i tekrarla."
+echo ""
+echo "  Gercekten gerekmiyorsa commit mesajina [progress-yok] yaz."
+echo ""
+exit 1

@@ -1,5 +1,16 @@
 # Quiz Tactics — Proje İlerleme Kaydı
 
+> Bu dosya kronolojik çalışma günlüğüdür. Yeni kayıtlar SONA eklenir.
+> Projenin bugünkü gerçeği için PROJECT_CONTEXT.md'ye bak.
+> Yeni kayıt şablonu:
+>
+> ## <tarih> — <başlık>
+> **Araç:** Claude Code | Codex
+> **Neden:** <tek cümle: bu iş neden yapıldı>
+>
+> Ardından: ne değişti, hangi dosyalar, varsa kök sebep, test sonuçları,
+> dağıtım durumu.
+
 ## 2026-07-05 — 3 Revizyon + Ana Sayfa Yeniden Tasarımı
 
 ### 1) Grup Maçı 5 kişiye çıkarıldı
