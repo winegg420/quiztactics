@@ -7159,3 +7159,29 @@ yüksekliği 62 px; "CEVABI KİLİTLE" yok.
 - Not: bu dalın başında Codex'in commit edilmemiş avatar işi duruyordu;
   kaybolmasın diye sahibinin onayıyla önce kendi dalında commit edildi,
   hafıza çalışması onun üstüne kuruldu.
+
+## 21 Eylül 2026 — Avatar migration'ı canlıya uygulandı + migration geçmişi ölçüldü
+**Araç:** Claude Code
+**Neden:** Profesyonel avatar seti main'e alındı; kodu migration olmadan yayınlamak avatar seçimini kırardı. Sahibi veritabanına bakamadığı için ölçüm de bu oturumda yapıldı.
+
+- **Ölçüm (salt okunur, canlı DB):** `20260612000165`–`179` arası 15 migration
+  `schema_migrations`'ta kayıtlı DEĞİLDİ ama nesneleri canlıda VARDI
+  (`avatar3d_parcalar` + `avatar3d_sahip` tabloları, 58 parça, 160 bot). Yani
+  elle uygulanmış, geçmişe yazılmamışlar. `npx supabase migration repair
+  --status applied` ile 15'i işaretlendi; hiçbiri tekrar çalıştırılmadı.
+- **Kök sebep — `db push` neden çalışmıyor:** `20260612000074`–`082` arası
+  dokuz sürüm canlıda KAYITLI ama **adları yerel dosya adlarıyla uyuşmuyor**
+  (uzak `...076` = `basit_soru_temizligi` ↔ yerel `isim_sehir_degistirme`;
+  uzak `...079` = `soru_cografya_3` ↔ yerel `yeni_karakter_avatarlari`).
+  Geçmişte dosyalar yeniden adlandırılmış. CLI bunu "eklenmemiş dosya" sanıp
+  `--include-all` istiyor. Hangi SQL'in gerçekten çalıştığı belirsiz olduğu
+  için bu dokuza DOKUNULMADI; `PROJECT_CONTEXT.md` › Açık İşler'e yazıldı.
+- **`20260612000256_profesyonel_avatar_seti.sql` uygulandı.** Önce transaction
+  içinde prova edilip geri alındı, sonra tek işlemde uygulanıp
+  `schema_migrations`'a yazıldı (`db push` yukarıdaki tutarsızlık yüzünden
+  kullanılamadı). Sonuç canlıda doğrulandı: 109 profil `/avatars/pro/**`
+  setine taşındı, eski `k##.svg` kullanan 0 profil kaldı, 18 Google/https
+  fotoğrafına dokunulmadı, `avatar_onayla` yeni listeyi kabul ediyor.
+- **Push ve dağıtım:** `main` → `9b4a3d1` push edildi, Vercel dağıtımı
+  doğrulandı. On pro avatarın onu da canlıdan `<svg` olarak dönüyor
+  (`https://quiztactics.vercel.app/avatars/pro/*.svg`), ana sayfa HTTP 200.
