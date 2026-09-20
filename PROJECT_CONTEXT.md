@@ -264,14 +264,3 @@ altta, eylem düğmeleri sağ altta.
   tek canlı yoldur ve `oyun/pages/MatchPage.jsx:428` üzerinden, rakip maça
   gelmediğinde (rakip bot değilse) oyuncuya düğme olarak sunulur. Dalı
   kaldırmadan önce o düğmenin ne olacağına karar verilmelidir.
-
-- **Migration geçmişi 074-082 arasında tutarsız.** Bu dokuz sürüm canlıda
-  KAYITLI ama adları yerel dosya adlarıyla uyuşmuyor (ör. uzak `...076` =
-  `basit_soru_temizligi`, yerel dosya `isim_sehir_degistirme`; uzak `...079` =
-  `soru_cografya_3`, yerel `yeni_karakter_avatarlari`). Geçmişte dosyalar
-  yeniden adlandırılmış. Sonuç: `npx supabase db push` bu dokuzunu her seferinde
-  "eklenmemiş" sanıp `--include-all` istiyor ve normal yoldan migration
-  uygulanamıyor. Hangi SQL'in gerçekten çalıştığı belirsiz olduğu için
-  dokunulmadı. Çözülene kadar yeni migration'lar tek işlemde elle uygulanıp
-  `supabase_migrations.schema_migrations`'a yazılmalıdır (20 Eyl 2026'da 256
-  böyle uygulandı).

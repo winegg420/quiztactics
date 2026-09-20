@@ -7185,3 +7185,31 @@ yüksekliği 62 px; "CEVABI KİLİTLE" yok.
 - **Push ve dağıtım:** `main` → `9b4a3d1` push edildi, Vercel dağıtımı
   doğrulandı. On pro avatarın onu da canlıdan `<svg` olarak dönüyor
   (`https://quiztactics.vercel.app/avatars/pro/*.svg`), ana sayfa HTTP 200.
+
+## 21 Eylül 2026 — Migration numara çakışması çözüldü
+**Araç:** Claude Code
+**Neden:** `npx supabase db push` her çağrıda `--include-all` isteyip duruyordu; bu yüzden avatar migration'ı normal yoldan uygulanamamıştı.
+
+- **Kök sebep:** `20260612000074`–`082` aralığında **her numarada İKİ dosya**
+  vardı — geçmişte iki iş kolu paralel yürümüş ve aynı numara aralığını
+  kullanmış. Defterde (`supabase_migrations.schema_migrations`) çiftin yalnız
+  biri kayıtlıydı; CLI eşi görüp "hiç uygulanmamış" sanıyordu. Önceki kayıtta
+  bu "ad uyuşmazlığı" olarak yazılmıştı — asıl sebep numara çakışmasıymış.
+- **Ölçüldü:** kayıtsız kalan dokuz dosyanın içeriği de canlıda MEVCUT —
+  `bot_oyna()`, `turnuva_lobi_botlari()`, `bildirimleri_oku()`,
+  `takma_ad_sec()`, `profil_konum_kaydet()`, `gizli_al()`, `profilim()` ve
+  `profiles_select` politikası. Yani dokuzu da uygulanmış, sadece defterde
+  yer bulamamışlar.
+- **Yapılan:** dokuz dosya `git mv` ile boş aralığa taşındı
+  (`...257`–`...265`), sonra `migration repair --status applied` ile deftere
+  yazıldı. **Hiçbir SQL yeniden çalıştırılmadı, canlı veriye dokunulmadı**
+  — taşımadan sonra aynı nesneler ve aynı avatar dağılımı (109 pro / 0 eski /
+  18 https) ölçülerek doğrulandı.
+- **Sona taşımak neden güvenli:** dokuz dosyanın tamamı `create or replace`,
+  `if not exists` ve `drop ... if exists` ile korumalı yazılmış; sıraya
+  duyarlı ham `create table` / `insert` yok. Ayrıca çakışma dururken sıfırdan
+  kurulum ZATEN yapılamıyordu (aynı numarada iki dosya) — taşıma bunu
+  bozmadı, düzeltti.
+- **Sonuç:** `npx supabase db push` artık **"Remote database is up to date."**
+  diyor. Dosya adı çakışması sıfır. `PROJECT_CONTEXT.md` › Açık İşler'deki
+  ilgili madde çözüldüğü için silindi.
