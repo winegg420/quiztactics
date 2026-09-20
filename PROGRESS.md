@@ -1,5 +1,16 @@
 # Quiz Tactics — Proje İlerleme Kaydı
 
+> Bu dosya kronolojik çalışma günlüğüdür. Yeni kayıtlar SONA eklenir.
+> Projenin bugünkü gerçeği için PROJECT_CONTEXT.md'ye bak.
+> Yeni kayıt şablonu:
+>
+> ## <tarih> — <başlık>
+> **Araç:** Claude Code | Codex
+> **Neden:** <tek cümle: bu iş neden yapıldı>
+>
+> Ardından: ne değişti, hangi dosyalar, varsa kök sebep, test sonuçları,
+> dağıtım durumu.
+
 ## 2026-07-05 — 3 Revizyon + Ana Sayfa Yeniden Tasarımı
 
 ### 1) Grup Maçı 5 kişiye çıkarıldı
@@ -7055,3 +7066,96 @@ yüksekliği 62 px; "CEVABI KİLİTLE" yok.
   İnsan, T-Rex ve Kaplan için dört özgün stil denemesi hazırlandı.
 - İlk preview lab korunarak yeni sayfa `/preview/avatar-lab-v2` rotasına eklendi;
   menüye ve canlı avatar sistemine bağlanmadı.
+
+## 20 Eylül 2026 — Profesyonel Avatar Preview (yerel)
+
+- Mevcut hazır avatarların düz renk, yuvarlatılmış kare, lacivert kontur ve komik
+  karakter ruhu korundu; yüz oranları, siluetler ve küçük boyut okunurluğu geliştirildi.
+- 3 insan, 3 hayvan, 2 fantastik/maskot ve 2 eğlenceli meslek/karakter olmak üzere
+  toplam 10 katmanlı SVG profil denemesi hazırlandı. AI renderı, plastik yüzey,
+  stok degrade ve isim etiketleri kullanılmadı.
+- Preview rotası: `/preview/avatar-pro`. Ana menüye ve mevcut avatar seçicisine
+  bağlanmadı; production görselleri değiştirilmedi.
+- Sahibinin açık talebi gereği bu çalışma canlıya alınmadı; yalnız yerel preview
+  dalında tutuldu.
+
+### Düzeltme — kaynak avatarlar
+
+- İlk denemede önceki lab için çizilmiş karakterler yanlışlıkla kaynak alınmıştı.
+  Preview seti canlıdaki gerçek hazır avatar kimliklerine göre baştan kuruldu:
+  `k01` Kedi, `k05` Panda, `k10` Dinozor, `k15` Robot, `k16` Uzaylı,
+  `k17` Astronot, `k19` Korsan, `k23` Aşçı, `k24` Profesör ve `k29` Kahraman.
+- Her karakterin canlı setteki zemin rengi, temel paleti ve ayırt edici aksesuarı
+  korunurken kontur, yüz oranı, ifade ve küçük boyut okunurluğu iyileştirildi.
+
+## 20 Eylül 2026 — Profesyonel Avatar Seti canlı entegrasyonu
+
+- Sahibinin onayladığı 10 çizim, `public/avatars/pro/` altında statik SVG olarak
+  üretildi ve kurulum/profil seçim ekranlarındaki resmi avatar seti oldu.
+- Eski 31 avatar silinmedi; dosyaları ve üreticisi donduruldu, seçimden çıkarıldı.
+  Böylece gerektiğinde geri dönüş mümkün, fakat yeni oyuncular eski seti seçemez.
+- Migration `20260612000256_profesyonel_avatar_seti.sql`, eski yerel avatar kullanan
+  mevcut hesapları karakter yakınlığına göre yeni sete taşır. Google ve diğer
+  `https` profil fotoğraflarına dokunmaz. `avatar_onayla` yerel adresleri yalnız
+  onaylı 10 yeni SVG ile sınırlar.
+- Gelecek avatarlar için tek çizim kaynağı `AvatarProIllustrations.jsx`, üretici
+  `avatar-pro-uret.mjs` olarak belgelendi. Kalın lacivert kontur, sıcak düz renk,
+  güçlü siluet, hafif asimetri ve küçük boyutta okunurluk aynı kalacak.
+
+## 20 Eylül 2026 — Ortak Proje Hafızası Kurulumu
+**Araç:** Claude Code
+**Neden:** İki ajan (Claude Code, Codex) aynı depoda çalışıyor ama kararların gerekçesini ve güncel durumu hiçbiri tek yerden okuyamıyordu; PROGRESS.md 7.000 satıra çıkıp fiilen arşive dönmüştü.
+
+- **`PROJECT_CONTEXT.md` açıldı (266 satır, altı bölüm).** Ürün kararları
+  `CLAUDE.md` ve `AGENTS.md`'den buraya TAŞINDI (kopyalanmadı) — artık tek
+  kaynak burası. Bölümler: Mevcut Ürün · Oyun Modları · Skill ve Ekonomi ·
+  Arayüz ve Görsel Kararlar · Reddedilenler ve Dondurulanlar · Açık İşler.
+  Dosya kendi kuralını başında taşıyor: karar değişince eski satır silinir,
+  tarihçe buraya yazılmaz.
+- **Taşırken düzeltilen bayat bilgiler:** (1) "Joker" dili "Skill" oldu;
+  aktif dört skill `elli`, `sure`, `soru_degistir`, `zaman_baskisi`, pasif
+  üçü `sis`, `savunma_kilidi`, `saldiri_degistir`. Düello'nun üç saldırı
+  jokeri anlatan eski satırı düzeltildi — saldırı skill'inin teke inmesi
+  sahibinin kararıdır. (2) Meydan (3B harita), gardırop ve karakter
+  oluşturma ürün kararları arasından Dondurulanlar bölümüne geçti; profilde
+  yalnız sabit avatar fotoğrafı seçimi var. (3) Arayüz yenilemesi "bekleyen"
+  değil, canlı olarak yazıldı; kontrast düzeltmesi Açık İşler'de tek madde.
+- **`CLAUDE.md` 469 → 157 satır, `AGENTS.md` 445 → 158 satır.** İkisinde de
+  ürün kararı kalmadı; geriye araca özel teknik bilgi kaldı (çalışma
+  klasörü, komutlar, dizin, dört derleme girişi, iOS/WebKit durumu, arayüz
+  denetimi, yayın, kurallar, çalışma düzeni). Başlarına ortak "Proje
+  hafızası — HER OTURUMDA" okuma sırası eklendi.
+  **AGENTS zinciri 24.387 → 7.490 bayt** — Codex'in 32 KiB talimat sınırı
+  %71 doluluktan %23'e indi.
+- **`PROGRESS.md`** içeriğine dokunulmadı; yalnız başına 11 satırlık kullanım
+  notu ve yeni kayıt şablonu eklendi (bu kayıt şablonun ilk örneğidir).
+- **Git hook:** `scripts/hooks/commit-msg` — commit `oyun/`, `src/`,
+  `supabase/migrations/` ya da `araclar/` klasörlerine dokunuyorsa
+  `PROGRESS.md` de değişmiş olmalı; değilse reddeder ve tetikleyen dosyaları
+  yazar. Kaçış kapısı `[progress-yok]`. `package.json`'a tek satır eklendi
+  (`"prepare": "git config core.hooksPath scripts/hooks"`); yeni bağımlılık
+  yok, Husky kurulmadı.
+  **Kök sebep — neden `pre-commit` değil:** kaçış kapısı commit mesajında ve
+  `pre-commit` aşamasında mesaj henüz yazılmamıştır; `.git/COMMIT_EDITMSG`
+  o sırada BİR ÖNCEKİ commit'in mesajını taşır. İlk denemede kapı bu yüzden
+  yanlışlıkla açıldı ve koda dokunan bir commit sessizce geçti. `commit-msg`
+  aşamasında mesaj dosyası `$1` olarak geldiği için kapı doğru çalışıyor.
+  **Dürüst sınır:** hook yalnız yerel commit'te çalışır — bulut ortamı,
+  GitHub arayüzünden düzenleme veya `npm install` hiç çalışmamış bir kopya
+  için devreye girmez. Garanti değil, hatırlatıcıdır; asıl güvence
+  `CLAUDE.md` / `AGENTS.md` talimatıdır.
+- **Kök dizin temizliği:** 26 tek seferlik rapor (`PAKET*_RAPOR.md`,
+  `QUIZ_TACTICS_PAKET*.md`, `DENETIM_RAPORU.md`) `git mv` ile
+  `docs/paketler/` altına taşındı, hiçbiri silinmedi. Kökte kalıcı sekiz
+  dosya kaldı. `docs/paketler/OKU.md`, bu kayıtlardaki eski kök adlarının
+  artık nerede aranacağını söylüyor. `oyun/harita/CLAUDE.md`'deki tek
+  bağlantı güncellendi.
+- **Doğrulama:** `npm run build` temiz (6 uyarı önceden var olan
+  ResizeObserver/randomUUID/color-mix bildirimleri). `npm run test:kurallar`
+  6/6 geçti. Hook testi üç senaryoda beklendiği gibi: kod + PROGRESS'siz →
+  reddedildi, `[progress-yok]` ile → geçti, yalnız `.md` ile → geçti; test
+  commit'leri geri alındı. `git log --diff-filter=D` boş — hiçbir dosya
+  silinmedi. `PROGRESS.md` diff'i yalnız ekleme.
+- Not: bu dalın başında Codex'in commit edilmemiş avatar işi duruyordu;
+  kaybolmasın diye sahibinin onayıyla önce kendi dalında commit edildi,
+  hafıza çalışması onun üstüne kuruldu.

@@ -1,178 +1,122 @@
 # AGENTS.md
 
-Bu dosya, bu depoda çalışan AI ajanları (Codex, Claude Code, vb.) için
-proje rehberidir. **Her oturuma başlarken oku.**
+Codex ve diğer AI ajanları için depo rehberi. Claude Code karşılığı
+`CLAUDE.md`'dir; **ürün kararları ikisinde de TEKRAR ETMEZ** — tek kaynak
+`PROJECT_CONTEXT.md`. **Her oturuma başlarken oku.**
 
-Claude Code kullanıcısıysan `CLAUDE.md` de aynı içeriği taşır; ikisi
-senkron tutulur. Bir kural değişirse **ikisini birden güncelle**.
+## Proje hafızası — HER OTURUMDA
 
-## ÇALIŞMA KLASÖRÜ — TEK KURAL
+Okuma sırası:
+1. PROJECT_CONTEXT.md — tamamını oku. Projenin bugünkü gerçeği burada.
+2. PROGRESS.md — son 300 satır.
+3. git log -30
+4. Görev belirli bir konuya dokunuyorsa (ör. skill, lig, turnuva,
+   harita, düello): PROGRESS.md içinde o anahtar kelimeyi ARA. İlgili
+   eski karar 300 satırın dışında kalmış olabilir.
 
-Bu depoda **yalnız tek bir çalışma klasörü** vardır:
-`C:\Users\ida\Desktop\quiztactics`
+Yazma:
+- İş bitince PROGRESS.md'nin SONUNA yeni kayıt ekle (şablon o dosyanın başında).
+- Projenin güncel gerçeğini değiştiren bir karar alındıysa
+  PROJECT_CONTEXT.md'yi de güncelle — eski satırı silip yenisini yazarak.
+- Eski kayıtları silme veya yeniden yazma.
 
-Codex, Claude Code ve diğer tüm araçlar **bu klasörde** çalışır.
-Ayrı worktree, ayrı kopya, `DocumentsCodex...` altında klasör **açılmaz**.
-13 Eyl 2026'da ayrık worktree yüzünden 26 commitlik iş görünmez oldu,
-canlıdaki 3B sayfalar silindi ve yanlış sistem geliştirildi.
-(O klasörlerden kurtarılan iş: `arsiv/OKU.md`.)
+`oyun/AGENTS.md` ve `oyun/harita/` alt rehberlere yönlendirir; o alanda
+çalışırken önce onları oku.
 
-### Her oturumun başı
-1. `git pull` — başka araç ne yaptıysa al.
-2. `git log --oneline -5` — son ne olmuş, gör.
-3. `PROGRESS.md`'nin sonunu oku.
+## Çalışma klasörü — TEK KURAL
 
-### Her oturumun sonu
-1. `npm run build` hatasız.
-2. Commit et (Türkçe mesaj), **`main`'e push et**.
-3. `PROGRESS.md`'ye ne yapıldığını ekle.
+Tek çalışma klasörü: `C:\Users\ida\Desktop\quiztactics`. Ayrı worktree,
+ayrı kopya, `DocumentsCodex...` altında klasör **açılmaz**. 13 Eyl
+2026'da ayrık worktree yüzünden 26 commitlik iş görünmez oldu ve
+canlıdaki 3B sayfalar silindi. (Kurtarılan iş: `arsiv/OKU.md`.)
 
-**Commit edilmemiş iş bırakma.** Yarım kalsa bile commit et.
-
-### iOS Safari kontrolü — her arayüz değişikliğinden sonra
-
-**Her arayüz değişikliğinden sonra iOS Safari kontrolü yapılır.**
-Özellikle sabitlenmiş alt menü ve üst çubuk, sayfa aşağı-yukarı
-kaydırılırken test edilir. `position: fixed` ile `transform` **aynı öğede
-kullanılmaz**; yükseklikte `100vh` yerine `100dvh` tercih edilir.
-
-Sebep: iOS'ta bu ikisi birlikte sabitlemeyi bozar ve daralıp genişleyen
-adres çubuğuyla birleşince menü kaydırma sırasında yerinden oynar.
-13 Eyl 2026'da `.tabbar` bu yüzden "sayfayı bölüyordu".
-Aynı tuzak **atalarda** da geçerlidir: `transform`, `filter`,
-`perspective` ya da transform'lu bir animasyon içeren bir ata, içindeki
-`position: fixed` katmanları kendine göre konumlandırır.
-
-**Bu makinede WebKit ÇALIŞMIYOR (17 Eyl 2026, Paket 18 E):** `npm run test:ios:kur`
-Playwright WebKit'i kurar, ama Windows 11 **Akıllı Uygulama Denetimi** açık
-(`HKLM\SYSTEM\CurrentControlSet\Control\CI\Policy › VerifiedAndReputablePolicyState = 1`)
-ve imzasız WebKit DLL'lerini engelliyor (Kod Bütünlüğü günlüğü olay 3077/3033,
-süreç çıkış kodu `0xC0E90002`). Denetimi kapatmak güvenlik ayarıdır ve geri açılamaz
-— yapılmaz. WSL de yok. Bu yüzden "WebKit kurulu değil" cümlesi raporlara TEKRAR
-yazılmaz. Yerine kontrol listesi Chromium'da iPhone boyutunda hesaplanmış stillerle
-denetlenir (sabit öğede transform, dönüşümlü ata, kaydırınca kayan sabit öğe, yatay
-taşma) ve gerçek iOS kontrolü sahibinin telefonunda yapılır. Başka makinede
-(macOS / Linux / Akıllı Uygulama Denetimi kapalı Windows) `npm run test:ios:kur` yeter.
-
-### Yayın
-Canlıya çıkış **yalnız GitHub üzerinden** olur (push → Vercel derler).
-**Vercel'e doğrudan kaynak dağıtımı yapılmaz.** Öyle bir dağıtım, bir
-sonraki normal push'ta sessizce silinir — 13 Eyl'de tam olarak bu oldu.
-
-### Aynı anda çalışma
-Aynı anda **tek araç** çalışır. Codex çalışırken Claude Code'a görev
-verilmez, tersi de geçerli. Biri işini bitirip push etmeden diğeri başlamaz.
-
-### Tek proje, tek site
-Bu depo **tek** Vercel projesini besler: `quiztactics` → quiztactics.vercel.app.
-`VITE_MOD` ve iki-mod ayrımı **KALKTI** (18 Eyl 2026, kendi deposuna taşınma).
-Kimlik `index.html` içinde statik durur; `vite.config.js` yalnız robots/sitemap üretir.
-
-## Proje
-
-**Quiz Tactics** (GitHub: `winegg420/quiztactics`) — Türkçe bilgi yarışması (PWA).
-Gece turnuvası, Klasik Mod (1v1), Düello, grup maçı, arkadaş sistemi, lig,
-3B meydan. 18 Eyl 2026'da `idagggamecenter` hub'ından ayrıldı; **Supabase aynı**
-projedir (veri taşınmadı). Oyun kodu `oyun/` altında, paylaşılan kabuk `src/`.
-portalı (PWA). **Quiz Tactics** hub içindeki bilgi yarışması oyunudur
-(klasör adı geriye uyum için `oyun/`). Tüm oyunlar tek kimliği
-(`profiles`) ve tek Supabase projesini paylaşır; her oyun kendi
-klasöründe bağımsız, izole bir modüldür.
-
-Her modülün kendi `CLAUDE.md` + `PROGRESS.md` dosyası vardır.
-**Bir modülde çalışırken önce o modülün `CLAUDE.md`'sini oku.**
-
-## Teknoloji
-
-- React 19 + Vite 7, React Router 7
-- Supabase (Auth, Postgres, Realtime, RLS, Edge Functions, pg_cron)
-- three.js (3B meydan — `oyun/harita/`)
-- Vercel — `main`'e push **otomatik canlı dağıtım** tetikler
-- Arayüz, değişken/fonksiyon adları ve yorumlar **Türkçe**
+Aynı anda **tek araç** çalışır. Biri işini bitirip push etmeden diğeri
+başlamaz. Oturum başında `git pull`, sonunda commit + `main`'e push.
+**Commit edilmemiş iş bırakma** — yarım kalsa bile commit et.
 
 ## Komutlar
 
 ```bash
-npm run dev        # geliştirme sunucusu
-npm run build      # production derlemesi — her değişiklikten sonra çalıştır
-npm run preview    # derlemeyi yerel önizle
-
-npx supabase db push                             # migration'ları uygula
+npm run dev        # Geliştirme sunucusu (Vite)
+npm run build      # Production derlemesi (dist/) — değişiklikten sonra doğrula
+npm run preview    # Derlemeyi yerel önizle
+npx supabase db push                            # Migration'ları uygula
 npx supabase functions deploy generate-questions
 ```
 
-## TEK SİTE — `VITE_MOD` KALKTI
+## Teknoloji ve dizin
 
-18 Eylül 2026'da Quiz Tactics `idagggamecenter` hub'ından **kendi deposuna**
-taşındı (`winegg420/quiztactics`). Supabase **değişmedi**: aynı proje, aynı veri,
-aynı anahtarlar.
+React 19 + Vite 7 + React Router 7 · Supabase (Auth, Postgres, Realtime,
+RLS, Edge Functions, pg_cron) · three.js (`oyun/harita/`) · Vercel.
 
-| Proje | Adres | Ne derlenir |
-|---|---|---|
-| `quiztactics` | quiztactics.vercel.app | Bu depo — tek site |
+Paylaşılan kabuk `src/`: `main.jsx` (giriş; BrowserRouter + AuthProvider),
+`App.jsx` (route tanımları), `context/AuthContext.jsx`, `lib/supabase.js`,
+`components/Avatar.jsx`, `styles.css`.
 
-Eskiden bu depo İKİ projeyi besliyordu ve ayrımı `VITE_MOD` yapıyordu. O yapı
-tamamen kalktı: `VITE_MOD`, mod eklentisi, `.env.bildim` ve `src/App.jsx`
-yönlendiricisi yok. `src/main.jsx` doğrudan `BildimApp`'i açar.
+Oyun modülleri — her biri izole, kabuğa tek lazy route satırıyla bağlı,
+hiçbiri diğerinin klasöründen import etmez: `oyun/` (Quiz Tactics, DB
+öneksiz) · `kafatopu/` (`kafatopu_`) · `meyvekes/` (`meyvekes_`) · `run/`
+(backend yok, DEMO) · `gladius/` (`gl_`, DEMO) · `patirun/` (`pr_`) ·
+`driftgp/` (`dg_`; kullanıcıya görünen ad **DidaGP**).
 
-Site kimliği (başlık, paylaşım kartları, manifest, ikon) artık **`index.html`**
-içinde statik durur — derleme sırasında hiçbir şey değiştirilmez. Eskiden bunu
-`vite.config.js`'teki "bildim-modu" eklentisi yapıyordu; o eklenti silindi.
-`vite.config.js`'te kalan tek üretim işi robots.txt ve sitemap.xml.
+Ortak: `supabase/migrations/` (sıralı SQL) · `supabase/functions/` ·
+`public/` (PWA varlıkları; oyun varlıkları namespace'li).
 
-### Giriş noktaları — DÖRT TANE
+## Ortam değişkenleri
+
+`.env` içinde: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`
+(bkz. `.env.example`). Edge Function gizli anahtarları Supabase
+secrets'ta: `ANTHROPIC_API_KEY`, `CRON_SECRET`. `.env` varyantları ve
+`.vercel` git'e **girmez**; yalnız `.env.example` istisna.
+
+## Derleme — DÖRT GİRİŞ, DOKUNMA
 
 `vite.config.js › rollupOptions.input` dört giriş taşır ve **koşulsuzdur**:
 
 ```
-oyun:    index.html
-atolye:  oyun/avatar3d/index.html
-meydan:  oyun/avatar3d/meydan.html
-gardrop: oyun/avatar3d/gardrop.html
+oyun: index.html · atolye: oyun/avatar3d/index.html
+meydan: oyun/avatar3d/meydan.html · gardrop: oyun/avatar3d/gardrop.html
 ```
 
-Bu liste bozulursa üç sayfa derlemeye girmez ve **canlıdan silinir**; istekler
-SPA kabuğuna düşer ve sayfa yokmuş gibi davranır. 12 Eylül 2026'da tam olarak
-bu oldu. Liste **`vercel.json`'a taşınmaz** — derlemeye ait her şey
-`vite.config.js`'te durur.
+Liste bozulursa üç sayfa derlemeye girmez ve **canlıdan silinir**;
+istekler SPA kabuğuna düşer. 12 Eylül 2026'da tam olarak bu oldu.
+Liste **`vercel.json`'a taşınmaz** — derlemeye ait her şey
+`vite.config.js`'te durur; oradaki tek üretim işi robots.txt + sitemap.xml.
+(Üç avatar3d sayfası dondurulmuştur ama dosyalar ve giriş listesi durur.)
 
-(Üç avatar3d sayfası bugün **dondurulmuş** durumda — açılınca `/gorunum`'a
-yönlendiriyorlar — ama dosyalar ve giriş listesi duruyor.)
+`VITE_MOD` ve iki-mod ayrımı KALKTI. Site kimliği `index.html` içinde
+statiktir; derleme sırasında değiştirilmez.
 
-## 3B AVATAR SİSTEMİ — DERLEME AYARINA DOKUNMA
+## iOS Safari kontrolü — her arayüz değişikliğinden sonra
 
-Quiz Tactics'in 3B avatar sistemi `oyun/avatar3d/` altındadır. O sayfaların
-(`atolye` + `meydan` + `gardrop`) derlemeye girmesi **çok girişli**
-yapılandırmaya bağlıdır ve bu yapılandırma `vite.config.js` içindeki
-`rollupOptions.input` bloğundadır — **dört giriş, koşulsuz**.
-Orası bozulursa gardırop/atölye/meydan sayfaları canlıdan silinir; istekler
-SPA kabuğuna düşer ve sayfa yokmuş gibi davranır. 12 Eylül 2026'da tam olarak
-bu oldu.
+`position: fixed` ile `transform` **aynı öğede kullanılmaz**; yükseklikte
+`100vh` yerine `100dvh`. iOS'ta bu ikisi birlikte sabitlemeyi bozar; 13
+Eyl 2026'da `.tabbar` bu yüzden sayfayı bölüyordu. Aynı tuzak
+**atalarda** da geçerlidir: `transform`, `filter`, `perspective` ya da
+transform'lu animasyon içeren bir ata, içindeki `fixed` katmanları
+kendine göre konumlandırır.
 
-Giriş listesi **`vercel.json`'a taşınmaz** — derlemeye ait her şey
-`vite.config.js`'te durur.
+**Bu makinede WebKit ÇALIŞMIYOR** (17 Eyl 2026): Windows 11 Akıllı
+Uygulama Denetimi imzasız WebKit DLL'lerini engelliyor (çıkış kodu
+`0xC0E90002`). Denetimi kapatmak geri alınamaz bir güvenlik ayarıdır —
+yapılmaz, WSL de yok. Bu cümle raporlara TEKRAR yazılmaz. Yerine:
 
-`npm run prototip` (`oyun/avatar3d/vite.prototip.config.js`) yerel
-geliştirme için durur; canlı derlemeyle aynı girişleri üretir.
+```bash
+npm run dev                      # başka bir kabukta
+node araclar/arayuz-denetim.mjs  # --gorsel: ekran görüntüsü de alır
+```
 
-## Çalışma düzeni — SAHİBİNİN İSTEDİĞİ AKIŞ
+16 sayfayı dört genişlikte (1440 · 850 · 560 · 390) açar ve ölçer: yatay
+taşma · sabit öğede transform · transform'lu ata · kaydırınca kayan sabit
+menü · 44 px altı dokunma hedefi · konsol hatası. İlk çalışmada "Misafir
+olarak dene" ile oturum açıp `.arayuz-denetim-oturum.json`'a yazar (git'e
+girmez). Gerçek iOS kontrolü sahibinin telefonunda yapılır.
 
-Sahibi kod yazmaz, dosya taşımaz. Verilen görevi baştan sona kendin
-bitirirsin:
+## Yayın
 
-- **Durma, adım adım onay isteme.** Görev bitene kadar devam et.
-- Her mantıksal adım **ayrı commit**, commit mesajları Türkçe.
-- `npm run build` hatasız olmalı.
-- Migration'ları **canlıya uygula** (`npx supabase db push`).
-- İşi bitirince `main`'e **push et**. Push = canlıya dağıtım;
-  dağıtımın başarılı bittiğini doğrula.
-- **Kendi kendini test et.** Sahibinden bir şey kontrol etmesini isteme.
-  Tarayıcı testi gerekiyorsa Playwright kurulu (`/opt/pw-browsers`).
-- Bitince **tek kısa özet**: hangi dosyalar değişti, kaç migration
-  eklendi ve uygulandı, build sonucu, push/dağıtım durumu, ne doğrulandı.
-
-**İstisna:** yalnızca sahibinin bilebileceği bir şey varsa (gerçek bir
-şifre, API anahtarı doğruluğu, ürün kararı) sor. Onun dışında sorma.
+Canlıya çıkış **yalnız GitHub üzerinden** olur (push → Vercel derler).
+**Vercel'e doğrudan kaynak dağıtımı yapılmaz** — bir sonraki normal
+push'ta sessizce silinir; 13 Eyl'de tam olarak bu oldu.
 
 ## Kurallar
 
@@ -182,256 +126,33 @@ bitirirsin:
 - **Hata için özür dileme.** Doğrudan bul ve düzelt. Bir hatayı
   düzelttikten sonra aynı hatayı başka dosyalarda da ara.
 - Tüm Supabase/API çağrılarında **try-catch** ve hata yönetimi.
-- **Emin değilsen tahmin etme — ölç.** "Muhtemelen şudur" diye düzeltme
-  yapma; tarayıcıda/veritabanında doğrula, kök sebebi raporla.
+- **Emin değilsen tahmin etme — ölç.** Tarayıcıda/veritabanında doğrula,
+  kök sebebi raporla.
 - **DB güvenliği:** RLS + RPC'ler `security definer`, yalnız
   `authenticated` rolü. İstemciye güvenme; kritik mantığı (satın alma,
   puanlama, maç durumu) `FOR UPDATE` kilidiyle sunucuda çöz.
 - **Migration'lar sıralıdır** — mevcut migration'ı düzenleme, yeni
   numaralı dosya ekle (`20260612000NNN_ad.sql`). Soru eklerken `soru`
   kolonu UNIQUE olduğundan `on conflict (soru) do nothing`.
-- **Rakamları koda gömme** — oyun ayarları `oyun_ayarlari` tablosunda,
-  eşya kataloğu `esyalar` / `karakterler` tablolarında durur. Yayından
-  sonra SQL ile değiştirilebilmeli.
 - **Yeni paket kurma.** Tailwind, Framer Motion, styled-components ve
   benzeri yasak. Mevcut yapı: düz CSS + CSS değişkenleri.
-- Büyük değişiklikleri küçük adımlara böl, her adımı açıkla.
 - Git/teknik terim kullanırken kısa bir sadeleştirme ekle
   (ör. "rebase yaptım (commit'ini güncel hale getirdim)").
 
-## Tasarım dili — ARAYÜZ YENİLEME (20 Eylül 2026)
+## Çalışma düzeni — SAHİBİNİN İSTEDİĞİ AKIŞ
 
-**Tek görsel kaynak: `tasarim/home-prototype/`** (ChatGPT ile yapılan 24
-sayfalık saf HTML/CSS prototip, depoya kopyalandı). Prototip YALNIZCA görsel
-tasarım kaynağıdır: içindeki örnek metinler, oyuncu verileri, jokerler,
-modlar, fiyatlar, rütbeler, turnuva saatleri ve oyun mekanikleri
-**doğru kabul edilmez**. Bütün işlevlerde mevcut kod, veritabanı ve bu
-dosyadaki ürün kararları tek doğru kaynaktır.
+Sahibi kod yazmaz, dosya taşımaz. Verilen görevi baştan sona kendin
+bitirirsin:
 
-Uygulanışı: `oyun/styles/yeni.css` — prototipin paleti ve stil sayfası
-birebir, üstüne eski `--bd-*` token'larının yeni palete bağlandığı bir
-alias katmanı. Eski sınıflar SİLİNMEDİ; hepsi yeni palete döner.
-Yükleme sırası (`src/main.jsx`): styles.css → tema.css → koyu.css → yeni.css.
+- **Durma, adım adım onay isteme.** Görev bitene kadar devam et.
+  Dosya silme, deploy ve migration uygulama için **kalıcı onay** verildi;
+  yalnız bu listede olmayan geri dönüşsüz bir işlem çıkarsa sor.
+- Her mantıksal adım **ayrı commit**, mesajlar Türkçe.
+- `npm run build` hatasız olmalı; migration'ları canlıya uygula.
+- İşi bitirince `main`'e push et ve dağıtımın bittiğini doğrula.
+- **Kendi kendini test et.** Sahibinden bir şey kontrol etmesini isteme.
+- Bitince **tek kısa özet**: hangi dosyalar değişti, kaç migration
+  eklendi/uygulandı, build sonucu, push/dağıtım durumu, ne doğrulandı.
 
-Palet (değiştirme):
-
-```
---ink:#17213c  --muted:#71809f  --line:#dbe4f3  --paper:#fff  --bg:#eef4ff
---orange:#ff6b2c  --orange2:#e95114  --navy:#172549  --gold:#ffca45
---purple:#7c55ec  --green:#20b874  --blue:#3b91e8
---shadow:0 16px 42px rgba(36,58,103,.12)
-```
-
-- Kabuk 1180 px (`.shell`); üstte yatay menü, 850 px altında alt menü.
-- Baloo 2 başlık / Nunito gövde — **yerel paketli** (`public/fonts/`,
-  `@font-face`). Google Fonts bağlantısı YOK, geri de eklenmez.
-- Kabartmalı buton dili korundu (`0 4px 0` + basınca `translateY(4px)`).
-- Maç ekranları koyu zemin (`body.bd-oyun-modu`) — altı mod birden.
-- Koyu tema PALETİ YOK; ayardaki düğme mevcut davranışını korur.
-
-Oyun, bilgi yarışması gibi görünmeli; sakin/nötr "uygulama" estetiğine
-kaydırma. Kontrast WCAG AA: küçük metin ≥ 4.5, 24px+ veya 19px+ kalın
-metin ≥ 3.0. `prefers-reduced-motion` ve `prefers-reduced-transparency`
-desteklenir.
-
-**BEKLEYEN İŞ — kontrast.** Prototipin paleti bilerek aynen alındı; ölçülen
-düşük kontrastlar ayrı bir pakette düzeltilecek, şimdi dokunulmadı. Liste
-`PROGRESS.md` › Arayüz Yenileme.
-
-### Arayüz denetimi — her arayüz değişikliğinden sonra
-
-```bash
-npm run dev                      # başka bir kabukta
-node araclar/arayuz-denetim.mjs  # --gorsel eklersen ekran görüntüsü de alır
-```
-
-16 sayfayı dört genişlikte (1440 · 850 · 560 · 390) açar ve ölçer: yatay
-taşma · sabit öğede transform (iOS tuzağı) · transform'lu ata · kaydırınca
-kayan sabit menü · 44 px altı dokunma hedefi · konsol hatası. İlk çalışmada
-"Misafir olarak dene" ile bir oturum açıp `.arayuz-denetim-oturum.json`
-dosyasına yazar (git'e girmez). WebKit bu makinede çalışmadığı için
-(bkz. iOS bölümü) kontrol listesi böyle denetlenir; gerçek iOS kontrolü
-sahibinin telefonunda yapılır.
-
-## Quiz Tactics — yerleşik ürün kararları
-
-Bunlar onaylanmış kararlardır, aksini yapma:
-
-### Oyun mekaniği
-
-- **Hız bonusu yok** — süre içinde doğru cevaplayan herkes aynı puanı alır
-- Normal maçta **berabere olabilir**; turnuvada **altın soru**
-  (biri kazanana kadar, jokersiz, kullanılmamış sorulardan)
-- "Pas" jokeri **"Soru Değiştir"** oldu — maç başına 1 kez
-- Turnuvada ilk 5 soru en kolaydan, sonra zorlaşır (`questions.zorluk`)
-- Yanlış cevap sonrası bekleme **1 sn**
-
-### Sosyal
-
-- **Oyuncular sadece arkadaşlarıyla da oynayabilir** — biri bu oyunu
-  yalnızca arkadaşlarıyla maç yapmak için oynuyor olabilir.
-  Arkadaşlar alt sekmeden kaldırılmaz, hiçbir limit onu cezalandırmaz.
-- "Ezeli rakip" istatistiği yalnız arkadaşlar için tutulur
-- Aynı çift aynı gün: 1-5. maç tam ödül, 6-10. %50, 11+ ödülsüz.
-  Aynı cihaz/IP'den iki hesap arasında sıralı maç hiç ödül vermez.
-
-### Modlar (Paket 14, 15 Eyl 2026)
-
-- **2 mod (Paket 24, 18 Eyl 2026): Klasik Mod ve Düello (Taktik Maçı).**
-  Turnuva mod değil, etkinlik. **Grup Maçı ödülsüz arkadaş modu**
-  (coin/lig/seri yok, rozet var).
-- **DONDURULMUŞ İKİ MOD** — dosyalar ve veri durur, arayüzden giriş yoktur:
-  **Hızlı Mod** (Paket 24) ve **"Hızlı Olan Kazanır"** (Paket 14).
-  Dondurma yöntemi: ana sayfa düğmesi ve harita binası kaldırıldı, rotalar
-  (`/hizli-mod`, `/hizli-mac/:id`) ana sayfaya yönlendiriyor, sayfa dosyaları
-  (`HizliModPage.jsx`, `HizliMacPage.jsx`) SİLİNMEDİ, tablolar
-  (`hizli_mod_oturumlar`, `hizli_mod_skorlar`, `hizli_maclar`, `hizli_oyuncular`)
-  boşaltılmadı. Sunucu kapısı: `hizli_mod_acik` / `hizli_mac_acik` ayarları false;
-  tablolardaki BEFORE INSERT tetikleyicisi yeni oturumu reddeder, devam eden
-  oturum sorunsuz biter. **Geri açmak:** ayarı `true` yap + ana sayfa düğmesini,
-  harita binasını ve rotayı geri koy (her birinin yanında yorum var).
-  Ölçüldü (18 Eyl 2026): Hızlı Mod son 30 günde 4 oturum / 2 oyuncu,
-  "Hızlı Olan Kazanır" 0 kayıt — kapanışın denge etkisi ölçülebilir değil.
-- Her mod iki girişli: **Dereceli** (lig puanı + tam coin) / **Serbest**
-  (puan yok, coin %50). Arayüzde tek "Dereceli" anahtarı, son tercih
-  hatırlanır (localStorage + `profiles.dereceli_tercih`).
-- Hızlı Mod (dondurulmuş): soru 10 sn, oturum 90 sn, okuma tavanı 170 karakter.
-- **Düello:** 3 can, en çok 10 tur (çift hamle — eşit hamle kuralı); 6 sn
-  Saldırı Hazırlığı; savunan 15 sn (Zaman Baskısı 10). Saldırı jokerleri:
-  Zaman Baskısı, Soru Değiştir (bir kez), Savunma Kilidi. **Saldırı riski:**
-  savunan kendi EN ZAYIF kategorisinde (maç başında sabitlenir) bilirse
-  SALDIRAN can kaybeder. Aynı kategori üst üste yok, maçta en çok 2 kez.
-  Eşitlikte turnuvanın altın soru mekaniği. Botlar kategoriye göre isabetle
-  cevaplar (`bot_kategori_sapma`) — profil hem görünen hem gerçek.
-- Kategori yüzdesi için asgari örneklem 10 soru; altı "veri yok".
-
-### Ekonomi (hepsi `oyun_ayarlari`'nda)
-
-- Lig = birikimli emek, **günlük lig tavanı yok**
-- Klasik Mod galibiyet 25 · berabere 10 · mağlubiyet 0 (teselli yok) — lig ve coin
-- Düello galibiyet +50 lig / 50 coin (en çok veren mod)
-- Hızlı Mod doğru×3 lig ve coin, oturum başına tavan 25 — **mod dondurulduğu için bu kaynak kapalı** (ayarlar duruyor, değiştirilmedi)
-- Turnuva lig: 1. 150 · 2. 80 · 3. 40 · 4-10. 20 · diğer katılan 10
-- Günlük seri bonusu `least(gün×3, 15)`
-- Arkadaş daveti lig puanı VERMEZ — iki tarafa 200 coin
-- İndirimler çarpılmaz: çift koruması / serbest / açık bot → en düşüğü
-- Çift koruması (1-5 tam, 6-10 %50, 11+ yok) lig puanına da uygulanır
-- Günlük tavan 400 · başlangıç 500 · reklam 25 (günde 5)
-- Turnuva 150/75/40 + katılana 10 · meydandan katılma 20
-- Eşya: sıradan 300–600, özel 1.200–2.500
-- **Etkinlik eşyaları satılmaz** (Taç, Pelerin, Uzay Kıyafeti) —
-  yalnız turnuva ödülü. Dükkânda kilitli görünür.
-- Dükkândaki her şey yalnız coin ile alınır
-
-### Botlar
-
-- İki katman: **açık botlar** (adında "Bot" geçer, %50 coin, anında
-  cevaplar) ve **gizli botlar** (gerçek oyuncu gibi, tam coin,
-  gerçekçi sürede cevaplar)
-- `is_bot` istemciye **ASLA sızmaz** — gizli botun bot olduğu
-  anlaşılmamalı
-- Gizli botlar arkadaşlık kabul etmez, lig değiştirmez
-
-### Lig
-
-- 5 kademe: Bronz → Gümüş → Altın → Elmas → Efsane
-- 25 kişilik gruplar; grup = yalnız sıralama tablosu, eşleşmeyle
-  ilgisi yok. İlk 5 yükselir, son 5 düşer. Pazartesi 00:00 (TSİ) sıfırlanır
-- Eşleşme kendi ligi ± 1 lig ile sınırlı
-- **Toplam oyuncu sayısı hiçbir yerde gösterilmez**
-
-### Meydan (3B harita)
-
-- Turnuva saatleri: **günde 7 seans, TSİ — 10:00 · 12:30 · 15:00 · 18:00 · 20:00 · 22:00 · 24:00**
-  (Paket 43 D, 19 Eyl 2026 — sahibinin kararı). Tek kaynak `oyun_ayarlari.turnuva_saatleri`;
-  kod varsayılanı aynı liste (`oyun/lib/zaman.js › VARSAYILAN_LISTE`). Eski `turnuva_saat_sabah`
-  ("13:00") / `turnuva_saat_aksam` ("21:50") satırları veritabanında DURUR ama kullanılmaz:
-  sunucu migration 198'den beri okumuyor; istemcide `Layout.jsx` onları yalnız dışarıdan
-  çağrılmayan eski yardımcılara yazıyor. Silinmez.
-- Yön topuzu sol altta, eylem düğmeleri sağ altta
-- **MİMARİ ŞARTI:** haritanın görseli ve karakterler ileride baştan
-  değişecek. Meydan özellikleri (kahve/balon ikramı, emoji, dans,
-  meydan okuma, zıplama) görselden bağımsız yazılır: mantık + ağ
-  katmanı bir yerde, 3B modeller başka yerde.
-
-### Dil
-
-- Marka adı her dilde **"Quiz Tactics"**, çevrilmez
-- İlk yayın: Türkçe + İngilizce
-- Dil kuralı: giriş yapmışsa profildeki tercih; yoksa tarayıcı dili
-  `tr` ile başlıyorsa Türkçe, başka her şeyde İngilizce. IP/ülkeye
-  bakılmaz.
-- Özel isimler asla çevrilmez (şair "Cami" → "Jami", "Mosque" DEĞİL)
-
-### Mod paritesi — KALICI KURAL (Paket 38, 19 Eyl 2026)
-
-- Bir moda yapılan kozmetik/arayüz düzeltmesi, aynı sorunun bulunduğu **bütün modlara**
-  aynen uygulanır. **Düello da diğer modlar gibidir, ayrı tutulmaz.** Her düzeltmede
-  "düelloda (ve öteki modlarda) da var mı" diye bak, varsa aynısını orada da yap. Sorma.
-
-### Reddedilmiş fikirler — tekrar önerme
-
-- "Hızlı cevap modu" (herkese aynı anda aynı soru)
-- Loot box / şans kutusu
-- Nötr gri/mavi palet, düzleşmiş butonlar
-
-## DONDURULMUŞLAR — tek liste (Paket 26 D, 18 Eyl 2026)
-
-**Hiçbiri silinmez.** Dosyalar ve veri yerinde durur; yalnız arayüzden girişi yoktur.
-Her dosyanın başında aynı biçimde bir dondurma bloğu vardır (neden · tarih · paket ·
-dosyalar · geri açma adımları). Dağınık not bırakma, buraya ekle.
-
-| Modül | Tarih | Paket | Dosyalar | Sunucu kapısı | Geri açma |
-|---|---|---|---|---|---|
-| **Hızlı Mod** | 18 Eyl 2026 | 24 B | `oyun/pages/HizliModPage.jsx` | `oyun_ayarlari.hizli_mod_acik = false` + tabloda BEFORE INSERT kapısı | Ayarı `true` yap · rotayı, ana sayfa düğmesini ve harita binasını geri koy · joker testindeki TEST 9 yorumunu aç |
-| **"Hızlı Olan Kazanır"** | 15 Eyl 2026 | 14 | `oyun/pages/HizliMacPage.jsx` | `oyun_ayarlari.hizli_mac_acik = false` + BEFORE INSERT kapısı | Ayarı `true` yap · `/hizli-mac/:id` rotasını geri bağla · davet akışındaki `hizli` türünü aç |
-| **Eski 3B gardırop / atölye / yerel meydan** | 17 Eyl 2026 | 17 §D | `oyun/avatar3d/**` | yok (HTML girişleri yönlendiriyor) | Üç HTML'deki `location.replace` satırını kaldır · `/gorunum` ve `/gorunum-3b` rotalarını geri bağla · Dükkân › Görünüm sekmesini geri koy |
-| **Meydan (3B harita)** | 20 Eyl 2026 | Arayüz Yenileme | `oyun/harita/**` | yok (bayrak istemcide) | `oyun/lib/ozellikBayraklari.js` › `MEYDAN_ACIK = true` |
-| **Gardırop / karakter vitrini** | 20 Eyl 2026 | Arayüz Yenileme | `oyun/vitrin/**`, `oyun/pages/GorunumPage.jsx` | yok (bayrak istemcide) | `oyun/lib/ozellikBayraklari.js` › `GARDIROP_ACIK = true` |
-
-**Arayüz Yenileme (20 Eyl 2026) — meydan ve gardırop:** tek anahtar
-`oyun/lib/ozellikBayraklari.js`. Bayrak kapalıyken gizlenenler: alt menüdeki
-Meydan sekmesi, üst çubuktaki Görünüm kısayolu, Dükkân › Görünüm sekmesi
-(varsayılan sekme Joker olur), Profil › Görünüm kartı, Profil › Ayarlar ›
-"Meydanda ikramlar", ilk girişteki `/gorunum` yönlendirmesi. Rotalar
-(`/harita`, `/harita-deneme`, `/gorunum`, `/gorunum-3b`) SİLİNMEDİ: "Bu bölüm
-şu an kapalı." notunu gösterip ana sayfaya dönüyorlar.
-`vite.config.js`'e ve veritabanına DOKUNULMADI — meydan bot cron işleri
-çalışmaya devam ediyor (kapatma kararı sahibinin), meydandan turnuvaya katılma
-yolu (`meydan_turnuva_damgasi`, +20 coin) yalnız harita sayfasından
-çağrıldığı için kendiliğinden erişilemez durumda.
-
-**Paket 41 I (19 Eyl 2026):** donmuş oyun modu rotaları (`/hizli-mod`, `/hizli-mac/:id`) artık önce
-"Bu mod şu an kapalı." notunu gösterip 2,5 sn sonra ana sayfaya `replace` ile yönlenir
-(`oyun/pages/BulunamadiPage.jsx` `kapaliMod`); bilinmeyen adresler 404 sayfasına düşer.
-
-**Donmuş rotaların davranışı tutarlıdır:** donmuş oyun modları ve — Arayüz
-Yenileme'den (20 Eyl 2026) sonra — donmuş meydan/gardırop rotaları ana sayfaya
-gider. Eski `avatar3d` HTML girişleri hâlâ `/gorunum`'a yönlendiriyor; `/gorunum`
-de artık kapalı olduğu için oradan ana sayfaya düşüyorlar (iki adımlı ama
-döngüsüz, hepsi `replace`).
-
-### Asenkron 1v1 maç dalı — DONDURULMUŞ DEĞİL, KULLANILMIYOR
-
-Paket 26'da canlıdan ölçüldü, önceki varsayım doğru çıkmadı:
-
-- `matches` tablosunda **48 satırın tamamı `senkron = true`**; `senkron = false` olan
-  **hiç maç yok** (son 30 günde de 0).
-- Ama dal **ölü değil, erişilebilir**: `mac_asenkrona_gec()` `senkron = false` yazan tek
-  canlı yoldur ve `oyun/pages/MatchPage.jsx:428` üzerinden, rakip maça gelmediğinde
-  (rakip bot değilse) oyuncuya düğme olarak sunulur.
-
-Yani "kimse kullanmamış" ile "çağrılamaz" ayrı şeylerdir. Dalı kaldırmadan önce o
-düğmenin ne olacağına karar verilmelidir; bu pakette **dokunulmadı**.
-
-## Ortam değişkenleri
-
-`.env` içinde: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`.
-Edge Function gizli anahtarları Supabase secrets'ta: `ANTHROPIC_API_KEY`,
-`CRON_SECRET`. `.env` varyantları ve `.vercel` git'e girmez.
-
-## Proje hafızası
-
-**PROGRESS.md** — yapılan işler, kararlar ve nedenleri. Oturuma
-başlarken oku, oturum sonunda **ekleme yaparak** güncelle
-(üzerine yazma). Modül klasörlerinde de kendi `PROGRESS.md` dosyaları var.
+**İstisna:** yalnızca sahibinin bilebileceği bir şey varsa (gerçek şifre,
+API anahtarı doğruluğu, ürün kararı) sor.
