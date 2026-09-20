@@ -83,7 +83,7 @@ export default function MacSonuEklentisi({ macTur, macId, kaybettim, rakipBot = 
 
       {jokerler.length > 0 && (
         <div className="bd-sonuc-jokerler">
-          <span className="alt-yazi">{tt("Bu maçta kullandığın jokerler:")}</span>
+          <span className="alt-yazi">{tt("Bu maçta kullandığın skiller:")}</span>
           <span className="bd-sonuc-joker-liste">
             {jokerler.map((j, i) => (
               <span key={i} className="bd-sonuc-joker">

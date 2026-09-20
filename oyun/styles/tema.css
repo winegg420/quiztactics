@@ -7981,6 +7981,53 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 .bd-iskelet:last-child { width: 80%; }
 @keyframes bd-iskelet-akis { from { background-position: 100% 0; } to { background-position: -100% 0; } }
 @media (prefers-reduced-motion: reduce) { .bd-iskelet { animation: none; } }
+
+/* Skill sistemi v1 — kompakt maç seti ve server sonucunu izleyen mikro animasyonlar. */
+.bd-skill-seti { width:min(100%,560px); margin:12px auto; padding:12px; border:1px solid var(--bd-kenar); border-radius:16px; background:var(--bd-yuzey); text-align:left; }
+.bd-skill-seti-baslik { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.bd-skill-seti-baslik > div { display:grid; gap:2px; }
+.bd-skill-seti-baslik span { color:var(--bd-soluk); font-size:12px; }
+.bd-skill-slotlar { display:grid; grid-template-columns:repeat(var(--skill-slot),minmax(0,1fr)); gap:7px; margin-top:10px; }
+.bd-skill-slot { min-width:0; min-height:50px; display:flex; align-items:center; justify-content:center; gap:6px; padding:7px 5px; border:1px solid var(--bd-kenar); border-radius:12px; background:var(--bd-zemin); color:var(--bd-metin); font-size:11px; font-weight:800; text-align:center; }
+.bd-skill-slot.dolu { border-color:var(--bd-vurgu); background:var(--bd-zemin); }
+.bd-skill-slot.bos { border-style:dashed; color:var(--bd-soluk); font-size:20px; }
+.bd-skill-secim-listesi { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:7px; margin-top:10px; }
+.bd-skill-secim-listesi button { min-width:0; display:flex; align-items:center; gap:8px; padding:9px; border:1px solid var(--bd-kenar); border-radius:12px; background:var(--bd-yuzey); color:var(--bd-metin); text-align:left; }
+.bd-skill-secim-listesi button.secili { border-color:var(--bd-vurgu); box-shadow:inset 0 0 0 1px var(--bd-vurgu); }
+.bd-skill-secim-listesi button > span { min-width:0; flex:1; display:grid; }
+.bd-skill-secim-listesi small { overflow:hidden; color:var(--bd-soluk); font-size:10px; text-overflow:ellipsis; white-space:nowrap; }
+
+.bd-skill-elli .bd-secenek.elendi { animation:bd-skill-kiril 580ms cubic-bezier(.2,.8,.2,1) both; transform-origin:center; }
+@keyframes bd-skill-kiril { 0%{opacity:1;transform:translateY(0) scale(1)} 18%{transform:translateX(-2px) rotate(-.5deg) scale(1.02)} 36%{transform:translateX(2px) rotate(.5deg) scale(.98)} 100%{opacity:.12;transform:translateY(16px) scale(.78)} }
+.bd-skill-sure .bd-sure-halka { animation:bd-skill-zaman-arti 680ms ease-out; }
+.bd-skill-zaman_baskisi .bd-sure-halka { animation:bd-skill-zaman-eksi 620ms ease-out; }
+.bd-duello-sayac.bd-skill-sure { position:relative; animation:bd-skill-zaman-arti 680ms ease-out; }
+.bd-duello-sayac.bd-skill-zaman_baskisi { position:relative; animation:bd-skill-zaman-eksi 620ms ease-out; }
+@keyframes bd-skill-zaman-arti { 0%,100%{transform:scale(1)} 35%{transform:scale(1.18);filter:drop-shadow(0 0 8px var(--bd-basari))} }
+@keyframes bd-skill-zaman-eksi { 0%,100%{transform:translateX(0) scale(1)} 20%{transform:translateX(-3px) scale(.94)} 40%{transform:translateX(3px) scale(1.08)} 60%{transform:translateX(-2px)} }
+.bd-skill-sure-deger { position:absolute; left:50%; top:-17px; z-index:3; transform:translateX(-50%); padding:2px 6px; border-radius:999px; color:#fff; font-size:11px; font-weight:900; white-space:nowrap; animation:bd-skill-deger 760ms ease-out both; }
+.bd-skill-sure-deger.arti { background:var(--bd-basari); }
+.bd-skill-sure-deger.eksi { background:var(--bd-hata); }
+@keyframes bd-skill-deger { 0%{opacity:0;transform:translate(-50%,8px) scale(.8)} 22%{opacity:1;transform:translate(-50%,0) scale(1.08)} 100%{opacity:0;transform:translate(-50%,-12px) scale(1)} }
+.bd-skill-soru_degistir.bd-skill-cikiyor .bd-soru-metin,
+.bd-skill-soru_degistir.bd-skill-cikiyor .bd-secenekler { animation:bd-skill-soru-cik 270ms ease-in both; }
+.bd-skill-soru_degistir.bd-skill-giriyor .bd-soru-metin,
+.bd-skill-soru_degistir.bd-skill-giriyor .bd-secenekler { animation:bd-skill-soru-gir 380ms cubic-bezier(.2,.8,.2,1) both; }
+@keyframes bd-skill-soru-cik { to{opacity:0;transform:translateX(-28px) scale(.98)} }
+@keyframes bd-skill-soru-gir { from{opacity:0;transform:translateX(28px) scale(.98)} to{opacity:1;transform:none} }
+
+@media (max-width:430px) {
+  .bd-skill-seti { padding:10px; }
+  .bd-skill-slot { min-height:46px; font-size:10px; }
+  .bd-skill-secim-listesi { grid-template-columns:1fr; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .bd-skill-elli .bd-secenek.elendi { animation:bd-skill-sol 160ms linear both; }
+  .bd-skill-sure .bd-sure-halka,.bd-skill-zaman_baskisi .bd-sure-halka,.bd-duello-sayac.bd-skill-sure,.bd-duello-sayac.bd-skill-zaman_baskisi { animation:none; }
+  .bd-skill-soru_degistir.bd-skill-cikiyor .bd-soru-metin,.bd-skill-soru_degistir.bd-skill-cikiyor .bd-secenekler,
+  .bd-skill-soru_degistir.bd-skill-giriyor .bd-soru-metin,.bd-skill-soru_degistir.bd-skill-giriyor .bd-secenekler { animation:bd-skill-sol 140ms linear both; }
+}
+@keyframes bd-skill-sol { from{opacity:1} to{opacity:.15} }
 .bd-durum-hata p { color: var(--bd-metin-2); }
 .bd-durum-hata p b { color: var(--bd-metin); }
 .bd-durum-hata.kucuk { padding: 10px 0; }

@@ -78,7 +78,7 @@ export default function TurnuvaTanitim() {
           <li>
             <span className="bd-nasil-no">3</span>
             <span>
-              <b>{tt("Son kalan kazanır")}</b> {tt("ve")} <b>{tt("+150 lig puanı")}</b> {tt("alır; ilk 10'a giren ve katılan herkes de puan kazanır. Finalde joker kullanılamaz — sadece bilgi.")}
+              <b>{tt("Son kalan kazanır")}</b> {tt("ve")} <b>{tt("+150 lig puanı")}</b> {tt("alır; ilk 10'a giren ve katılan herkes de puan kazanır. Finalde skill kullanılamaz — sadece bilgi.")}
             </span>
           </li>
         </ol>

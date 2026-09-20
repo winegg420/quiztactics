@@ -1,128 +1,114 @@
 import { tt } from "./dil.js";
-// Joker türleri ve arayüz bilgileri (tek kaynak).
-// Kurallar ve envanter SUNUCUDA; burası yalnız gösterim.
 
-export const JOKER_BILGI = {
+// Oyuncuya gösterilen Skill sisteminin tek kayıt kaynağı. Veritabanındaki
+// joker_* adları geriye uyumluluk için bilinçli olarak korunur.
+export const SKILL_SLOT_VARSAYILAN = 3;
+export const SKILL_SETI_ANAHTARI = "quiztactics:skill-seti:v1";
+
+export const SKILL_TANIMLARI = {
   elli: {
-    ad: "50:50",
-    aciklama: tt("İki yanlış şık silinir"),
-    ikon: "terazi",
-    macIci: true,
+    id: "elli", ad: "50:50", aciklama: tt("İki yanlış şık elenir"), ikon: "terazi",
+    kategori: "bilgi", allowedModes: ["1v1", "grup", "turnuva", "duello"],
+    allowedPhases: ["cevap"], target: "self", animation: "fifty-fifty",
+    aktif: true, shopVisible: true,
   },
   sure: {
-    ad: tt("+10 sn"),
-    aciklama: tt("Soruya 10 saniye ekler"),
-    ikon: "saat",
-    macIci: true,
+    id: "sure", ad: tt("Ek Süre"), aciklama: tt("Cevap sürene zaman ekler"), ikon: "saat",
+    kategori: "destek", allowedModes: ["1v1", "grup", "turnuva", "duello"],
+    allowedPhases: ["cevap"], target: "self", animation: "extra-time",
+    aktif: true, shopVisible: true,
   },
-  // "Pas" idi: yanlış cevabın cezası olmadığı için soruyu atlamak her zaman
-  // rastgele bir şıkka basmaktan kötüydü, joker işlevsizdi. Artık soru
-  // atlanmaz; yerine yeni bir soru gelir ve süre baştan başlar.
   soru_degistir: {
-    ad: tt("Soru Değiştir"),
-    aciklama: tt("Soruyu değiştirir; süre 15 saniyeden yeniden başlar."),   // Paket 32 C: sayı
-    ikon: "ileriAtla",
-    macIci: true,
+    id: "soru_degistir", ad: tt("Soru Değiştir"),
+    aciklama: tt("Kendi sorunu aynı kategoriden yenisiyle değiştirir; süre yeniden başlar."),
+    ikon: "ileriAtla", kategori: "taktik", allowedModes: ["1v1", "grup", "duello"],
+    allowedPhases: ["cevap"], target: "self", animation: "question-swap",
+    aktif: true, shopVisible: true,
   },
-  // ---- Düello saldırı jokerleri (Paket 14, 4.5) — yalnız Saldırı Hazırlığı'nda ----
   zaman_baskisi: {
-    ad: tt("Zaman Baskısı"),
-    aciklama: tt("Rakibin cevap süresi 15 sn'den 10 sn'ye düşer"),
-    ikon: "hizli",
-    macIci: false,
-    saldiri: true,
+    id: "zaman_baskisi", ad: tt("Zaman Baskısı"),
+    aciklama: tt("Rakibin cevap süresini kısaltır"), ikon: "hizli",
+    kategori: "saldırı", allowedModes: ["1v1", "duello"],
+    allowedPhases: ["cevap", "hazirlik"], target: "opponent", animation: "time-pressure",
+    aktif: true, shopVisible: true,
   },
-  saldiri_degistir: {
-    ad: tt("Soru Değiştir (saldırı)"),
-    aciklama: tt("Aynı kategoriden başka bir soru gönderir"),
-    ikon: "yenile",
-    macIci: false,
-    saldiri: true,
-  },
-  savunma_kilidi: {
-    ad: tt("Savunma Kilidi"),
-    aciklama: tt("Rakip bu soruda savunma jokeri kullanamaz"),
-    ikon: "kilit",
-    macIci: false,
-    saldiri: true,
-  },
-  // Paket 32 A: Sis — yalnız Klasik Mod (Savunma Kilidi'nin yerine). Açıklama sayıyı
-  // ayardan alır: bkz. jokerBilgi(). Buradaki metin ayar okunamazsa kullanılan yedektir.
-  sis: {
-    ad: tt("Sis"),
-    aciklama: tt("Rakibin ekranını 3 saniye sise boğar."),
-    ikon: "sis",
-    macIci: true,
-    saldiri: true,
-  },
-  seri_koruma: {
-    ad: tt("Seri Koruma"),
-    aciklama: tt("Kaçırdığın bir günü telafi eder"),
-    ikon: "kalkan",
-    macIci: false,
-  },
+  // Geçmiş envanter/kullanım kayıtları silinmez; bu üç kayıt yalnız görünmez
+  // uyumluluk girdileridir ve hiçbir aktif listeye girmez.
+  sis: { id: "sis", ad: tt("Sis"), ikon: "sis", kategori: "saldırı", aktif: false, shopVisible: false },
+  savunma_kilidi: { id: "savunma_kilidi", ad: tt("Savunma Kilidi"), ikon: "kilit", kategori: "saldırı", aktif: false, shopVisible: false },
+  saldiri_degistir: { id: "saldiri_degistir", ad: tt("Soru Değiştir (eski)"), ikon: "yenile", kategori: "taktik", aktif: false, shopVisible: false },
+  // Maç skill'i değildir; günlük seri mekanizması için ayrı kalır.
+  seri_koruma: { id: "seri_koruma", ad: tt("Seri Koruma"), aciklama: tt("Kaçırdığın bir günü telafi eder"), ikon: "kalkan", kategori: "yardimci", aktif: true, shopVisible: false, macIci: false },
 };
 
-export const MAC_ICI_JOKERLER = ["elli", "sure", "soru_degistir"];
+export const AKTIF_MAC_SKILLERI = Object.values(SKILL_TANIMLARI)
+  .filter((s) => s.aktif && s.allowedModes)
+  .map((s) => s.id);
+export const VARSAYILAN_SKILL_SETI = ["elli", "sure", "soru_degistir"];
 
-// Paket 31 A — Klasik Mod (1v1) jokerleri. Sahibinin kararı: 5 joker, tek "Soru Değiştir"
-// (Klasik'te ORTAK: iki oyuncuda da değişir). 'saldiri_degistir' Klasik'te yok.
-// Paket 32 A: beşinci joker Savunma Kilidi → SİS (Savunma Kilidi düelloda duruyor).
-// Aynı jokerin iki modda farklı çalıştığı OKUNARAK anlaşılsın diye açıklamalar ayrı.
-// Paket 32 C: açıklamalarda SAYI var ve sayı oyun_ayarlari'ndan gelir (ayar değişirse yazı da).
-export const KLASIK_JOKERLER = ["elli", "sure", "soru_degistir", "zaman_baskisi", "sis"];
+export function skillSlotSayisi(ayar) {
+  const n = Number(ayar?.skill_seti_slot);
+  return Number.isInteger(n) && n > 0 ? n : SKILL_SLOT_VARSAYILAN;
+}
+
+export function skillSetiOku(slot = SKILL_SLOT_VARSAYILAN) {
+  if (typeof localStorage === "undefined") return VARSAYILAN_SKILL_SETI.slice(0, slot);
+  try {
+    const ids = JSON.parse(localStorage.getItem(SKILL_SETI_ANAHTARI) ?? "[]");
+    const temiz = [...new Set(ids)].filter((id) => AKTIF_MAC_SKILLERI.includes(id));
+    return (temiz.length ? temiz : VARSAYILAN_SKILL_SETI).slice(0, slot);
+  } catch {
+    return VARSAYILAN_SKILL_SETI.slice(0, slot);
+  }
+}
+
+export function skillSetiKaydet(ids, slot = SKILL_SLOT_VARSAYILAN) {
+  const temiz = [...new Set(ids)].filter((id) => AKTIF_MAC_SKILLERI.includes(id)).slice(0, slot);
+  if (typeof localStorage !== "undefined") {
+    localStorage.setItem(SKILL_SETI_ANAHTARI, JSON.stringify(temiz));
+    window.dispatchEvent(new CustomEvent("skill-seti-degisti", { detail: temiz }));
+  }
+  return temiz;
+}
+
+export function skillModdaKullanilabilir(skill, macTur) {
+  return Boolean(skill?.aktif && skill?.allowedModes?.includes(macTur));
+}
+
+export function macJokerleri(macTur, secili = skillSetiOku()) {
+  if (macTur === "hizli") return [];
+  return secili.filter((id) => skillModdaKullanilabilir(SKILL_TANIMLARI[id], macTur));
+}
+
 const ayarSayi = (a, k, v) => (Number.isFinite(Number(a?.[k])) ? Number(a[k]) : v);
-export const KLASIK_BILGI = {
-  soru_degistir: { aciklama: () => tt("Soru ikinizde de değişir; süre 15 saniyeden yeniden başlar.") },
-  zaman_baskisi: {
-    ad: tt("Süreyi Kısalt"),
-    aciklama: (a) => tt("Rakibin süresini {0} saniye kısaltır. Seninki aynı kalır.",
-                        { 0: ayarSayi(a, "klasik_zaman_baskisi_sn", 5) }),
-  },
-  sis: {
-    aciklama: (a) => tt("Rakibin ekranını {0} saniye sise boğar. Son {1} saniyede kullanılamaz.",
-                        { 0: ayarSayi(a, "klasik_sis_sn", 3), 1: ayarSayi(a, "klasik_sis_son_esik_sn", 6) }),
-  },
-};
-/** Klasik Mod Sis ayarları (ayar okunamazsa sunucunun varsayılanları). */
-export function sisAyari(a) {
-  return { sn: ayarSayi(a, "klasik_sis_sn", 3), esik: ayarSayi(a, "klasik_sis_son_esik_sn", 6) };
-}
-
-/** Maç türüne göre çubukta gösterilecek jokerler. */
-export function macJokerleri(macTur) {
-  return macTur === "1v1" ? KLASIK_JOKERLER : MAC_ICI_JOKERLER;
-}
-
-/**
- * Maç türüne göre joker bilgisi (Klasik'te ad/açıklama farklı olabilir).
- * @param {object} [ayar] oyun_ayarlari (ayarlar()); açıklamadaki sayılar buradan
- */
 export function jokerBilgi(tur, macTur, ayar) {
-  const temel = JOKER_BILGI[tur] ?? {};
-  const k = macTur === "1v1" ? KLASIK_BILGI[tur] : null;
-  if (!k) return temel;
-  return {
-    ...temel,
-    ...(k.ad ? { ad: k.ad } : {}),
-    aciklama: typeof k.aciklama === "function" ? k.aciklama(ayar) : (k.aciklama ?? temel.aciklama),
-  };
-}
-export const SALDIRI_JOKERLERI = ["zaman_baskisi", "saldiri_degistir", "savunma_kilidi"];
-
-export function jokerAdi(tur) {
-  return JOKER_BILGI[tur]?.ad ?? tur;
+  const temel = SKILL_TANIMLARI[tur] ?? {};
+  if (tur === "sure") {
+    const sn = macTur === "duello" ? ayarSayi(ayar, "duello_ek_sure_sn", 5) : ayarSayi(ayar, "skill_ek_sure_sn", 10);
+    return { ...temel, ad: tt("Ek Süre"), aciklama: tt("Cevap sürene {0} saniye ekler", { 0: sn }), etkiDegeri: sn };
+  }
+  if (tur === "zaman_baskisi") {
+    const sn = macTur === "duello" ? Math.max(0, 15 - ayarSayi(ayar, "duello_zaman_baskisi_sn", 10)) : ayarSayi(ayar, "klasik_zaman_baskisi_sn", 5);
+    return { ...temel, ad: macTur === "1v1" ? tt("Süreyi Kısalt") : temel.ad,
+      aciklama: tt("Rakibin süresini {0} saniye kısaltır", { 0: sn }), etkiDegeri: sn };
+  }
+  return temel;
 }
 
-// Artık emoji değil, <Ikon ad={...} /> için ikon ADI döner.
-export function jokerIkon(tur) {
-  return JOKER_BILGI[tur]?.ikon ?? "soru";
-}
+// Eski import adları uygulama içi uyumluluk için kalır; yeni UI aynı registry'yi okur.
+export const JOKER_BILGI = SKILL_TANIMLARI;
+export const MAC_ICI_JOKERLER = AKTIF_MAC_SKILLERI.filter((id) =>
+  SKILL_TANIMLARI[id].allowedPhases?.includes("cevap") && SKILL_TANIMLARI[id].target === "self");
+export const KLASIK_JOKERLER = AKTIF_MAC_SKILLERI.filter((id) => SKILL_TANIMLARI[id].allowedModes?.includes("1v1"));
+export const SALDIRI_JOKERLERI = AKTIF_MAC_SKILLERI.filter((id) =>
+  SKILL_TANIMLARI[id].allowedPhases?.includes("hazirlik") && SKILL_TANIMLARI[id].target === "opponent");
+export const KLASIK_BILGI = Object.fromEntries(KLASIK_JOKERLER.map((id) => [id, SKILL_TANIMLARI[id]]));
+export const sisAyari = () => ({ sn: 0, esik: 0 });
+export const jokerAdi = (tur) => SKILL_TANIMLARI[tur]?.ad ?? tur;
+export const jokerIkon = (tur) => SKILL_TANIMLARI[tur]?.ikon ?? "soru";
 
-/** RPC'den gelen envanter dizisini { tur: adet } nesnesine çevirir. */
 export function envanterNesne(satirlar) {
-  const cikti = { elli: 0, sure: 0, soru_degistir: 0, seri_koruma: 0,
-    zaman_baskisi: 0, saldiri_degistir: 0, savunma_kilidi: 0, sis: 0 };
+  const cikti = Object.fromEntries(Object.keys(SKILL_TANIMLARI).map((id) => [id, 0]));
   for (const s of satirlar ?? []) cikti[s.tur] = s.adet ?? 0;
   return cikti;
 }

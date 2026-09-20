@@ -6,6 +6,7 @@
 import Maskot from "./Maskot.jsx";
 import Ikon from "./Ikon.jsx";
 import { tt } from "../lib/dil.js";
+import SkillSeti from "./SkillSeti.jsx";
 
 /** Rakip dönmezse maçın hükmen biteceği süre (sunucudaki değerle aynı). */
 export const TERK_SN = 45;
@@ -35,6 +36,8 @@ export function HazirKapisi({
   onAsenkron = null,
   bekleyenSn = 0,
   tabela = null,
+  skillSecimi = true,
+  macTur = "1v1",
 }) {
   const hepsiHazir = toplamOyuncu > 0 && hazirSayisi >= toplamOyuncu;
   return (
@@ -46,6 +49,8 @@ export function HazirKapisi({
       </p>
 
       {tabela}
+
+      {skillSecimi && <SkillSeti macTur={macTur} />}
 
       <div className="bd-hazir-durum">
         <span className={"bd-hazir-sayac" + (hepsiHazir ? " tamam" : "")}>

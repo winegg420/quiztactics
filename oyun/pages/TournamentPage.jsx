@@ -19,6 +19,7 @@ import MacSorulari from "../components/MacSorulari.jsx";
 import MeydanaDonus from "../components/MeydanaDonus.jsx";
 import MacSonuSahnesi from "../components/MacSonuSahnesi.jsx";
 import QuestionCard from "../components/QuestionCard.jsx";
+import SkillSeti from "../components/SkillSeti.jsx";
 import Avatar from "../../src/components/Avatar.jsx";
 import OyuncuKarti from "../components/OyuncuKarti.jsx";
 import { useArkadaslik } from "../lib/arkadaslik.js";
@@ -545,6 +546,7 @@ export default function TournamentPage() {
           <Countdown bicim="prototip" onSifir={turnuvaYukle} />
           <BugunKalanTurnuvalar />
           {hata && <div className="hata-kutu">{hata}</div>}
+          <SkillSeti macTur="turnuva" />
           {benimKayit ? (
             <button className="btn ikincil" onClick={lobidenAyril}>
               {tt("Lobiden Ayrıl")}

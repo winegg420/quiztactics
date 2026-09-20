@@ -5,7 +5,7 @@ import { hataMesaji } from "../lib/hata.js";
 import { Link, useSearchParams } from "react-router-dom";
 import GorunumVitrini from "../vitrin/GorunumVitrini.jsx";
 import { supabase } from "../../src/lib/supabase.js";
-import { JOKER_BILGI, KLASIK_BILGI, KLASIK_JOKERLER, jokerBilgi, envanterNesne } from "../lib/jokerler.js";
+import { JOKER_BILGI, AKTIF_MAC_SKILLERI, jokerBilgi, envanterNesne } from "../lib/jokerler.js";
 import { jokerKurallari } from "../lib/jokerKurallari.js";
 import { h5AdsYapilandirildi, odulluVideoGoster } from "../lib/h5ads.js";
 import { desteklenirMi, fiyatlariAl, satinAl, tuket } from "../lib/playFatura.js";
@@ -24,10 +24,7 @@ import { tt, ttSunucu } from "../lib/dil.js";
 // Bütün rakamlar sunucudaki oyun_ayarlari tablosundan gelir; aşağıdakiler
 // yalnız tablo okunamazsa kullanılan varsayılanlardır (bkz. lib/ayarlar.js).
 const ODUL_COIN_VARSAYILAN = 25;
-const TEK_JOKER_VARSAYILAN = { elli: 40, sure: 60, soru_degistir: 80,
-  zaman_baskisi: 60, saldiri_degistir: 60, savunma_kilidi: 80, sis: 80 };
-// Paket 32: Sis yalnız Klasik Mod'da (düelloda yok)
-const YALNIZ_KLASIK = ["sis"];
+const TEK_JOKER_VARSAYILAN = { elli: 40, sure: 60, soru_degistir: 80, zaman_baskisi: 60 };
 
 // GARDIROP DONDURULDU (Arayüz Yenileme, 20 Eyl 2026): "Görünüm" sekmesi
 // bayrak kapalıyken listeye hiç girmez ve varsayılan sekme "Joker" olur.
@@ -35,7 +32,7 @@ const YALNIZ_KLASIK = ["sis"];
 // Geri açma: oyun/lib/ozellikBayraklari.js › GARDIROP_ACIK = true
 const TUM_SEKMELER = [
   { kod: "kiyafet", ad: tt("Görünüm"), ikon: "tisort" },
-  { kod: "joker",   ad: tt("Joker"),   ikon: "hediye" },
+  { kod: "joker",   ad: tt("Skill"),   ikon: "hediye" },
   { kod: "coin",    ad: tt("Coin"),    ikon: "coin" },
 ];
 const SEKMELER = TUM_SEKMELER.filter((x) => x.kod !== "kiyafet" || GARDIROP_ACIK);
@@ -76,9 +73,6 @@ export default function JokerDukkani() {
         soru_degistir: Number(o.coin_joker_soru_degistir ?? TEK_JOKER_VARSAYILAN.soru_degistir),
         // Düello saldırı jokerleri (Paket 14)
         zaman_baskisi: Number(o.coin_joker_zaman_baskisi ?? TEK_JOKER_VARSAYILAN.zaman_baskisi),
-        saldiri_degistir: Number(o.coin_joker_saldiri_degistir ?? TEK_JOKER_VARSAYILAN.saldiri_degistir),
-        savunma_kilidi: Number(o.coin_joker_savunma_kilidi ?? TEK_JOKER_VARSAYILAN.savunma_kilidi),
-        sis: Number(o.coin_joker_sis ?? TEK_JOKER_VARSAYILAN.sis),
       });
     });
     return () => { aktif = false; };
@@ -206,7 +200,7 @@ export default function JokerDukkani() {
     try {
       const { error } = await supabase.rpc("joker_coin_ile_al", { p_urun_id: urunId });
       if (error) throw error;
-      setBilgi(tt("Jokerler hesabına eklendi."));
+      setBilgi(tt("Skiller hesabına eklendi."));
       coinTazele();
       coinOku();
       await yukle();
@@ -254,7 +248,7 @@ export default function JokerDukkani() {
         <div>
           <span className="eyebrow">{tt("DÜKKÂN")}</span>
           <h1>{tt("Gücünü seç.")}</h1>
-          <p>{tt("Jokerlerini coin ile al, doğru anda kullan.")}</p>
+          <p>{tt("Skillerini coin ile al, doğru anda kullan.")}</p>
         </div>
         <div className="wallet-card">
           <span>{tt("BAKİYEN")}</span>
@@ -296,7 +290,7 @@ export default function JokerDukkani() {
       {/* Paket 42 M.2: coin en ucuz jokere bile yetmiyorsa üstte tek satır uyarı (eskiden paketlere inince görülüyordu) */}
       {sekme === "joker" && dukkanDurum === "hazir" && !jokerSerbest && bakiye !== null && Number.isFinite(enUcuzJoker) && bakiye < enUcuzJoker && (
         <div className="bd-bilgi-kutu bd-coin-yetersiz" role="status">
-          <span>{tt("Coin'in şu an hiçbir jokere yetmiyor.")}</span>
+          <span>{tt("Coin'in şu an hiçbir skill'e yetmiyor.")}</span>
           <button type="button" className="btn kucuk ikincil" onClick={() => sekmeSec("coin")}>{tt("Coin kazan")}</button>
         </div>
       )}
@@ -306,14 +300,14 @@ export default function JokerDukkani() {
       {sekme === "joker" && dukkanDurum === "hazir" && (
       <div className="kart">
         <div className="bd-kat-baslik">
-          <span>{tt("Joker paketleri")}</span>
+          <span>{tt("Skill paketleri")}</span>
           <span className="alt-yazi">
             <Ikon ad="coin" boyut={14} /> {(bakiye ?? 0).toLocaleString("tr-TR")}
           </span>
         </div>
 
         <div className="bd-paket-liste">
-          {paketler.filter((p) => p.coin_fiyat != null).map((p) => (
+          {paketler.filter((p) => p.coin_fiyat != null && Object.keys(p.icerik ?? {}).every((id) => AKTIF_MAC_SKILLERI.includes(id) || id === "seri_koruma")).map((p) => (
             <div key={p.urun_id} className="bd-paket">
               <div className="bd-paket-bilgi">
                 <div className="bd-paket-ad">{ttSunucu(p.ad)}</div>
@@ -348,7 +342,7 @@ export default function JokerDukkani() {
         {/* Paket 34: jokerler geçici olarak ücretsiz ve sınırsız — coin harcatma */}
         {jokerSerbest && (
           <div className="bd-bilgi-kutu bd-joker-serbest-not" role="status">
-            {tt("Jokerler şimdilik ücretsiz ve sınırsız — maçta stok gerekmez, satın almana gerek yok.")}
+            {tt("Skiller şimdilik ücretsiz ve sınırsız — maçta stok gerekmez, satın almana gerek yok.")}
           </div>
         )}
         {/* Tek tek alım: paket almak istemeyene birim fiyat. */}
@@ -359,7 +353,7 @@ export default function JokerDukkani() {
           </span>
         </div>
         <div className="bd-paket-liste">
-          {["elli", "sure", "soru_degistir", "zaman_baskisi", "sis", "saldiri_degistir", "savunma_kilidi"].map((tur) => (
+          {AKTIF_MAC_SKILLERI.map((tur) => (
             <div key={tur} className="bd-paket">
               <div className="bd-paket-bilgi">
                 <div className="bd-paket-ad">
@@ -367,18 +361,9 @@ export default function JokerDukkani() {
                 </div>
                 {/* Paket 32: Sis yalnız Klasik — tek açıklama, sayılar ayardan */}
                 <div className="alt-yazi">
-                  {YALNIZ_KLASIK.includes(tur) ? jokerBilgi(tur, "1v1", ayar).aciklama : JOKER_BILGI[tur].aciklama}
+                  {jokerBilgi(tur, "1v1", ayar).aciklama}
                 </div>
                 {/* Paket 31 C: aynı joker Klasik Mod'da farklı çalışıyorsa okunarak anlaşılsın */}
-                {YALNIZ_KLASIK.includes(tur) ? (
-                  <div className="alt-yazi bd-paket-klasik">{tt("Yalnız Klasik Mod'da")}</div>
-                ) : KLASIK_BILGI[tur] ? (
-                  <div className="alt-yazi bd-paket-klasik">
-                    {tt("Klasik Mod'da: {0}", { 0: jokerBilgi(tur, "1v1", ayar).aciklama })}
-                  </div>
-                ) : !KLASIK_JOKERLER.includes(tur) ? (
-                  <div className="alt-yazi bd-paket-klasik">{tt("Yalnız Düello'da")}</div>
-                ) : null}
                 {/* Paket 35 A.2: bakiye fiyata yetmiyorsa düğme pasif + sebebi yazar */}
                 {bakiye !== null && bakiye < Number(tekFiyat[tur] ?? 0) && (
                   <div className="alt-yazi bd-paket-yetersiz">{tt("Yetersiz coin")}</div>
@@ -403,7 +388,7 @@ export default function JokerDukkani() {
         <div style={{ marginTop: 14 }} />
         <div className="bd-kat-baslik"><span>{tt("Envanterin")}</span></div>
         <div className="bd-envanter-grid">
-          {Object.entries(JOKER_BILGI).map(([tur, b]) => (
+          {Object.entries(JOKER_BILGI).filter(([tur, b]) => b.shopVisible || tur === "seri_koruma").map(([tur, b]) => (
             <div key={tur} className="bd-envanter-kutu">
               <span className="bd-envanter-ikon" aria-hidden="true"><Ikon ad={b.ikon} boyut={20} /></span>
               <span className="bd-envanter-adet">{envanter[tur] ?? 0}</span>

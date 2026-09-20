@@ -618,7 +618,7 @@ export default function Home() {
             <div className="play-meta">
               <span>{dereceliTercih ? ceviri("Lig puanı + tam coin") : ceviri("Serbest — puan yok, coin yarı")}</span>
               <i aria-hidden="true" />
-              <span>{KLASIK_JOKERLER.length} {tt("joker")}</span>
+              <span>{KLASIK_JOKERLER.length} {tt("skill")}</span>
               <i aria-hidden="true" />
               <span>{tt("Canlı maç")}</span>
             </div>
@@ -704,7 +704,7 @@ export default function Home() {
                 <span className="mode-icon"><Ikon ad="soru" boyut={22} /></span>
                 <span>
                   <b>{ceviri("Saf Bilgi")}</b>
-                  <small>{ceviri("Joker yok. Sadece bilgi ve hız.")}</small>
+                  <small>{ceviri("Skill yok. Sadece bilgi ve hız.")}</small>
                 </span>
                 <em>{tt("JOKERSİZ")}</em>
               </button>
@@ -833,8 +833,8 @@ export default function Home() {
             <div className="league-medal"><Ikon ad="hediye" boyut={20} /></div>
             <div>
               <span>{tt("DÜKKÂN")}</span>
-              <b>{tt("Joker ve coin")}</b>
-              <small>{tt("Jokerlerini tazele, coin kazan")}</small>
+              <b>{tt("Skill ve coin")}</b>
+              <small>{tt("Skillerini tazele, coin kazan")}</small>
             </div>
             <span className="ok" aria-hidden="true"><Ikon ad="ok" boyut={16} /></span>
           </Link>

@@ -843,7 +843,7 @@ export default function ChallengesPage() {
           onClick={() => setMeydanModu("normal")}
         >
           <b>{tt("Klasik Mod")}</b>
-          <span className="alt-yazi">{tt("5 joker · aynı anda")}</span>
+          <span className="alt-yazi">{tt("4 skill · aynı anda")}</span>
         </button>
         <button
           className={`bd-mod-sec ${meydanModu === "duello" ? "aktif" : ""}`}
@@ -852,7 +852,7 @@ export default function ChallengesPage() {
           onClick={() => setMeydanModu("duello")}
         >
           <b>{tt("Düello")}</b>
-          <span className="alt-yazi">{tt("6 joker · sıra sende")}</span>
+          <span className="alt-yazi">{tt("4 skill · sıra sende")}</span>
         </button>
         <button
           className={`bd-mod-sec ${meydanModu === "saf" ? "aktif" : ""}`}
@@ -861,7 +861,7 @@ export default function ChallengesPage() {
           onClick={() => setMeydanModu("saf")}
         >
           <b>{tt("Saf Bilgi")}</b>
-          <span className="alt-yazi">{tt("joker yok")}</span>
+          <span className="alt-yazi">{tt("skill yok")}</span>
         </button>
       </div>
 
@@ -1054,7 +1054,7 @@ export default function ChallengesPage() {
         {hizliAcik && (
         <div className="bd-panel-govde">
         <div className="alt-yazi" style={{ marginBottom: 10 }}>
-          {tt("Herkese aynı soru aynı anda. Sadece")} <b>{tt("ilk doğru cevabı")}</b> {tt("veren puan alır. Joker yok!")}
+          {tt("Herkese aynı soru aynı anda. Sadece")} <b>{tt("ilk doğru cevabı")}</b> {tt("veren puan alır. Skill yok!")}
         </div>
         <div className="alt-yazi" style={{ marginBottom: 8 }}>
           {hizliSecili.length}/{hizliGerekli} {tt("rakip seçildi (botlar dahil)")}

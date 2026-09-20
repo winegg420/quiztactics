@@ -85,6 +85,8 @@ export default function QuestionCard({
   // Cevap sunucuya gitmedi: kısa uyarı (seçim geri alınır, tekrar dokunulabilir)
   const [cevapHatasi, setCevapHatasi] = useState(false);
   const cevapHataTimer = useRef(null);
+  const [skillEfekt, setSkillEfekt] = useState(null); // { tur, deger?, asama? }
+  const skillTimer = useRef(null);
 
   // SORU DEĞİŞTİR jokeri: soru YERİNDE değişir, indeks aynı kalır. Kart
   // sökülmediği için (key indekse bağlı) yeni soruyu burada tutuyoruz;
@@ -118,6 +120,7 @@ export default function QuestionCard({
   useEffect(() => () => {
     clearTimeout(basiliTutTimer.current);
     clearTimeout(cevapHataTimer.current);
+    clearTimeout(skillTimer.current);
   }, []);
 
   useEffect(() => {
@@ -267,10 +270,27 @@ export default function QuestionCard({
     if (!sonuc) return;
     if (sonuc.tur === "elli" && Array.isArray(sonuc.kapali)) {
       setKapali(sonuc.kapali);
+      setSkillEfekt({ tur: "elli" });
+      clearTimeout(skillTimer.current);
+      skillTimer.current = setTimeout(() => setSkillEfekt(null), 650);
+    } else if (sonuc.tur === "sure") {
+      setSkillEfekt({ tur: "sure", deger: Number(sonuc.eklenen_sn ?? 10) });
+      clearTimeout(skillTimer.current);
+      skillTimer.current = setTimeout(() => setSkillEfekt(null), 800);
     } else if (sonuc.tur === "soru_degistir" && sonuc.soru) {
-      // Soru atlanmaz: yerine yenisi gelir, süre baştan başlar.
-      setDegisenSoru(sonuc.soru);
-      onPas?.(sonuc);
+      // Sunucu kabulünden sonra kısa çıkış/giriş; rakibin kartına dokunulmaz.
+      setSkillEfekt({ tur: "soru_degistir", asama: "cikiyor" });
+      clearTimeout(skillTimer.current);
+      skillTimer.current = setTimeout(() => {
+        setDegisenSoru(sonuc.soru);
+        onPas?.(sonuc);
+        setSkillEfekt({ tur: "soru_degistir", asama: "giriyor" });
+        skillTimer.current = setTimeout(() => setSkillEfekt(null), 390);
+      }, 260);
+    } else if (sonuc.tur === "zaman_baskisi" && sonuc.rakip) {
+      setSkillEfekt({ tur: "zaman_baskisi", deger: Number(sonuc.azaltildi ?? 5) });
+      clearTimeout(skillTimer.current);
+      skillTimer.current = setTimeout(() => setSkillEfekt(null), 750);
     }
     if (sonuc.tur === "sis") {
       setSisGonderdimBitis(Date.now() + 1000 * (Number(sonuc.sis_sn) > 0 ? Number(sonuc.sis_sn) : 3));
@@ -307,7 +327,7 @@ export default function QuestionCard({
   return (
     <div
       key={`${soru.question_id}-${soru.soru_index}`}
-      className={`bd-soru bd-soru-giris ${uzunlukSinifi(soru)} ${dogruCevapVerdim ? "bd-dogru-cevap" : ""} ${yanlisCevapVerdim ? "bd-yanlis-cevap" : ""} ${sonDuzluk ? "bd-son-saniyeler" : ""} ${sarsil ? "bd-sarsil" : ""} ${className}`}
+      className={`bd-soru bd-soru-giris ${uzunlukSinifi(soru)} ${dogruCevapVerdim ? "bd-dogru-cevap" : ""} ${yanlisCevapVerdim ? "bd-yanlis-cevap" : ""} ${sonDuzluk ? "bd-son-saniyeler" : ""} ${sarsil ? "bd-sarsil" : ""} ${skillEfekt ? `bd-skill-${skillEfekt.tur} ${skillEfekt.asama ? `bd-skill-${skillEfekt.asama}` : ""}` : ""} ${className}`}
     >
       <Konfeti aktif={dogruCevapVerdim} />
       {/* Paket 32 A: sis YİYEN — tam ekran perde (sayaç sisin üstünde) */}
@@ -361,6 +381,11 @@ export default function QuestionCard({
           <span className={`bd-sure-sayi ${kalan <= 5 ? "kritik" : ""}`}>
             {Math.ceil(kalan)}
           </span>
+          {(skillEfekt?.tur === "sure" || skillEfekt?.tur === "zaman_baskisi") && (
+            <span className={`bd-skill-sure-deger ${skillEfekt.tur === "zaman_baskisi" ? "eksi" : "arti"}`} aria-live="polite">
+              {skillEfekt.tur === "zaman_baskisi" ? "−" : "+"}{skillEfekt.deger} sn
+            </span>
+          )}
         </div>
       </div>
       <div className="bd-soru-bar">

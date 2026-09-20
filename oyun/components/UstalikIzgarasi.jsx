@@ -68,7 +68,7 @@ export default function UstalikIzgarasi() {
     <>
       {/* ---------- Seri + joker istatistikleri ---------- */}
       <div className="kart">
-        <div className="bd-kat-baslik"><span>{tt("Seri ve jokerler")}</span></div>
+        <div className="bd-kat-baslik"><span>{tt("Seri ve skiller")}</span></div>
         <div className="bd-istatistik-grid">
           <div>
             <b>{seri?.seri_gun ?? 0}</b>
@@ -80,7 +80,7 @@ export default function UstalikIzgarasi() {
           </div>
           <div>
             <b>{istatistik?.kullanilan ?? 0}</b>
-            <span>{tt("kullanılan joker")}</span>
+            <span>{tt("kullanılan skill")}</span>
           </div>
           <div>
             <b>{istatistik?.reklam ?? 0}</b>

@@ -721,6 +721,8 @@ export default function MatchPage() {
     if (senkronBekliyor) {
       return (
         <HazirKapisi
+          skillSecimi={!mac.jokersiz}
+          macTur="1v1"
           benHazir={Boolean(nabiz?.ben_hazir)}
           hazirSayisi={(nabiz?.ben_hazir ? 1 : 0) + (nabiz?.rakip_hazir ? 1 : 0)}
           toplamOyuncu={2}
@@ -1032,7 +1034,7 @@ export default function MatchPage() {
             Paket 41 B/E/H: ortak üst şerit — çıkış (aynı davranış) + mod rozeti + ses. */}
         <MacUstSerit
           onCik={() => navigate(y("/meydan"))}
-          rozet={mac.jokersiz ? tt("Saf Bilgi · jokersiz") : tt("Klasik Mod")}
+          rozet={mac.jokersiz ? tt("Saf Bilgi · skillsiz") : tt("Klasik Mod")}
         />
 
         {rakipOnde && !bilgiKapandi && (

@@ -35,7 +35,7 @@ import { useDil } from "../lib/dilKanca.js";
 import { hataMesaji } from "../lib/hata.js";
 import { kategoriAdi } from "../lib/kategoriler.js";
 import { unvanAdi } from "../lib/unvanlar.js";
-import { JOKER_BILGI, SALDIRI_JOKERLERI, MAC_ICI_JOKERLER } from "../lib/jokerler.js";
+import { JOKER_BILGI, SALDIRI_JOKERLERI, MAC_ICI_JOKERLER, skillSetiOku } from "../lib/jokerler.js";
 import { y } from "../lib/yol.js";
 import { coinTazele } from "../lib/coin.js";
 import { ayar } from "../lib/ayarlar.js";
@@ -45,6 +45,7 @@ import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesJoker, sesKazandin, sesKay
 import { titret } from "../lib/geriBildirim.js";
 import { tt } from "../lib/dil.js";
 import { useOyunModu } from "../lib/oyunModu.js";
+import SkillSeti from "../components/SkillSeti.jsx";
 
 const HARFLER = ["A", "B", "C", "D"];
 
@@ -55,7 +56,7 @@ const SAVUNMA_ACIKLAMA = {
   sure: tt("Cevap süresine 5 saniye ekler"),
   soru_degistir: tt("Aynı kategoriden başka soru gelir"),
 };
-const SALDIRI_AD = { zaman_baskisi: tt("Zaman Baskısı"), saldiri_degistir: tt("Soru Değiştir"), savunma_kilidi: tt("Savunma Kilidi") };
+const SALDIRI_AD = { zaman_baskisi: tt("Zaman Baskısı") };
 
 // Düelloda can sayısı (sunucu 3 canla başlatır; Kalpler'in varsayılanıyla aynı)
 const DUELLO_CAN = 3;
@@ -88,7 +89,7 @@ function DuelloGiris() {
         <div>
           <span className="eyebrow">{tt("ÖNE ÇIKAN MOD")}</span>
           <h1>{tt("Düello")}</h1>
-          <p>{tt("Jokerlerini doğru anda kullan, rakibinin planını boz.")}</p>
+          <p>{tt("Skillerini doğru anda kullan, rakibinin planını boz.")}</p>
         </div>
       </section>
       <div className="kart bd-duello-tanit">
@@ -104,6 +105,7 @@ function DuelloGiris() {
         </div>
       </div>
       <DereceliAnahtari dereceli={dereceli} onDegistir={setDereceli} />
+      <SkillSeti macTur="duello" />
       <div className="bd-ana-eylem-not">
         {dereceli ? ceviri("Galibiyet: +50 lig puanı ve 50 coin") : ceviri("Serbest: lig puanı yok, coin yarı.")}
       </div>
@@ -314,9 +316,15 @@ function DuelloMac({ id }) {
   const [rovSn, setRovSn] = useState(60);              // oyun_ayarlari.duello_rovans_sn
   // Paket 34: jokerler geçici olarak ücretsiz ve sınırsız (oyun_ayarlari.jokerler_ucretsiz)
   const [jokerSerbest, setJokerSerbest] = useState(false);
+  const [skillEfekt, setSkillEfekt] = useState(null);
+  const [skillDeger, setSkillDeger] = useState({ ek: 5, baski: 5 });
+  const skillDurumRef = useRef(null);
+  const skillTimerRef = useRef(null);
   useEffect(() => {
     let aktif = true;
     ayar("jokerler_ucretsiz", 0).then((v) => { if (aktif) setJokerSerbest(Number(v) > 0); }, () => {});
+    Promise.all([ayar("duello_ek_sure_sn", 5), ayar("duello_zaman_baskisi_sn", 10)])
+      .then(([ek, toplam]) => { if (aktif) setSkillDeger({ ek: Number(ek), baski: Math.max(0, 15 - Number(toplam)) }); });
     return () => { aktif = false; };
   }, []);
   const farkRef = useRef(0); // sunucu saati - istemci saati (ms)
@@ -339,6 +347,19 @@ function DuelloMac({ id }) {
       const { data, error } = durumCevap;
       if (error) throw error;
       if (data) {
+        const onceki = skillDurumRef.current;
+        const faz = `${data.tur}:${data.saldiri_sirasi}:${data.faz}`;
+        let efekt = null;
+        if (onceki?.faz === faz && !onceki.zaman_baskisi && data.zaman_baskisi) efekt = { tur: "zaman_baskisi", deger: skillDeger.baski };
+        else if (onceki?.faz === faz && !onceki.ek_sure && data.ek_sure) efekt = { tur: "sure", deger: skillDeger.ek };
+        else if (onceki?.faz === faz && !(onceki.elli_kapali?.length) && data.elli_kapali?.length) efekt = { tur: "elli" };
+        else if (onceki?.faz === faz && onceki.soru_anahtar && data.soru?.soru && onceki.soru_anahtar !== data.soru.soru) efekt = { tur: "soru_degistir", asama: "giriyor" };
+        skillDurumRef.current = { faz, zaman_baskisi: Boolean(data.zaman_baskisi), ek_sure: Boolean(data.ek_sure), elli_kapali: data.elli_kapali, soru_anahtar: data.soru?.soru };
+        if (efekt) {
+          setSkillEfekt(efekt);
+          clearTimeout(skillTimerRef.current);
+          skillTimerRef.current = setTimeout(() => setSkillEfekt(null), 720);
+        }
         farkRef.current = new Date(data.sunucu_zamani).getTime() - Date.now();
         setD(data);
         setYuklemeHatasi(null);
@@ -354,7 +375,7 @@ function DuelloMac({ id }) {
     } finally {
       yukleniyorRef.current = false;
     }
-  }, [id, ceviri]);
+  }, [id, ceviri, skillDeger]);
 
   // İlk yükleme + Realtime sinyali + yoklama
   useEffect(() => {
@@ -373,6 +394,7 @@ function DuelloMac({ id }) {
     return () => {
       clearInterval(yoklama);
       clearInterval(saat);
+      clearTimeout(skillTimerRef.current);
       supabase.removeChannel(kanal);
     };
   }, [id, yukle]);
@@ -643,11 +665,11 @@ function DuelloMac({ id }) {
     const kapali = d.elli_kapali ?? [];
     const benimAltin = d.altin?.benim_cevabim;
     return (
-      <div className="bd-duello-soru">
+      <div className={`bd-duello-soru ${skillEfekt ? `bd-skill-${skillEfekt.tur} ${skillEfekt.asama ? `bd-skill-${skillEfekt.asama}` : ""}` : ""}`}>
         <div className="bd-soru-metin bd-soru-giris">{d.soru?.soru}</div>
         <div className="bd-secenekler">
           {secenekler.map((s, i) => {
-            if (kapali.includes(i) && !sonucMu) return <div key={i} className="bd-secenek bd-secenek-bos" aria-hidden="true" />;
+            if (kapali.includes(i) && !sonucMu) return <div key={i} className={`bd-secenek ${skillEfekt?.tur === "elli" ? "elendi" : "bd-secenek-bos"}`} aria-hidden="true" />;
             let sinif = "bd-secenek";
             if (sonucMu) {
               if (i === h.dogru_cevap) sinif += " dogru";
@@ -677,8 +699,13 @@ function DuelloMac({ id }) {
   };
 
   const sayac = (buyuk) => (
-    <div className={`bd-duello-sayac ${buyuk ? "buyuk" : ""} ${kalanSn <= 3 ? "kritik" : ""}`} role="timer">
+    <div className={`bd-duello-sayac ${buyuk ? "buyuk" : ""} ${kalanSn <= 3 ? "kritik" : ""} ${skillEfekt?.tur === "sure" ? "bd-skill-sure" : ""} ${skillEfekt?.tur === "zaman_baskisi" ? "bd-skill-zaman_baskisi" : ""}`} role="timer">
       {Math.ceil(kalanSn)}
+      {(skillEfekt?.tur === "sure" || skillEfekt?.tur === "zaman_baskisi") && (
+        <span className={`bd-skill-sure-deger ${skillEfekt.tur === "sure" ? "arti" : "eksi"}`}>
+          {skillEfekt.tur === "sure" ? "+" : "−"}{skillEfekt.deger} sn
+        </span>
+      )}
     </div>
   );
 
@@ -750,7 +777,7 @@ function DuelloMac({ id }) {
           <h2>{ceviri("Saldırı Hazırlığı")} · {katAdi}</h2>
           {sayac(false)}
         </div>
-        <p className="alt-yazi">{ceviri("Soruyu gör, istersen saldırı jokeri kullan. Süre dolunca soru rakibe gider.")}</p>
+        <p className="alt-yazi">{ceviri("Soruyu gör, istersen saldırı skill'i kullan. Süre dolunca soru rakibe gider.")}</p>
         {soruBlogu(false)}
       </div>
     ) : (
@@ -768,7 +795,7 @@ function DuelloMac({ id }) {
           {sayac(sonCan)}
         </div>
         {d.zaman_baskisi && <div className="bd-duello-bant baski">{ceviri("Zaman Baskısı: cevap süresi 10 saniye")}</div>}
-        {d.savunma_kilidi && <div className="bd-duello-bant kilit">{ceviri("Rakip bu soruda savunma jokeri kullanamaz")}</div>}
+        {d.savunma_kilidi && <div className="bd-duello-bant kilit">{ceviri("Bu soruda skill kullanılamaz")}</div>}
         {benSavunan && savunanOyuncu?.zayif === d.kategori && (
           <div className="bd-duello-bant firsat">{ceviri("En zayıf kategorin! Bilirsen saldıran can kaybeder.")}</div>
         )}
@@ -793,7 +820,7 @@ function DuelloMac({ id }) {
         <p className="alt-yazi">
           {d.altin?.ben_cevapladim
             ? ceviri("Cevabın kilitlendi. Rakip bekleniyor…")
-            : ceviri("Can ve doğru sayısı eşit. Tek doğru bilen kazanır — joker yok.")}
+            : ceviri("Can ve doğru sayısı eşit. Tek doğru bilen kazanır — skill yok.")}
         </p>
         {soruBlogu(!d.altin?.ben_cevapladim)}
       </div>
@@ -988,7 +1015,8 @@ function JokerAlani({ set, d, calisan, onKullan, onSatinAl, ceviri, serbest = fa
   const env = j.envanter ?? {};
   const k = j.kullanim ?? {};
   const benSaldiran = d.saldiran === d.ben;
-  const liste = set === "saldiri" ? SALDIRI_JOKERLERI : MAC_ICI_JOKERLER;
+  const seciliSet = new Set(skillSetiOku());
+  const liste = (set === "saldiri" ? SALDIRI_JOKERLERI : MAC_ICI_JOKERLER).filter((id) => seciliSet.has(id));
 
   const saldiriAcik = benSaldiran && d.faz === "hazirlik";
   // Paket 28 D: saldırı jokerleri KATEGORİ ekranında da SATIN ALINABİLİR.
@@ -1011,22 +1039,22 @@ function JokerAlani({ set, d, calisan, onKullan, onSatinAl, ceviri, serbest = fa
   const setAcik = set === "saldiri" ? saldiriAcik : savunmaAcik;
   // Paket 20 IV.4: jokerler "yok" sanılıyordu — kapalıyken NEDEN kapalı olduğu yazılır
   const ipucu = !hakKaldi
-    ? ceviri("Bu maçtaki joker hakkın doldu.")
+    ? ceviri("Bu maçtaki skill hakkın doldu.")
     : set === "saldiri"
       ? (setAcik
           ? ceviri("Şimdi kullanabilirsin — soru rakibe gitmeden.")
           : saldiriAlinabilir
             // Paket 28 D: kategori seçerken kullanılamaz ama SATIN ALINABİLİR.
-            ? ceviri("Jokerin yoksa şimdi alabilirsin; kullanımı Saldırı Hazırlığı'nda açılır.")
+            ? ceviri("Skill'in yoksa şimdi alabilirsin; kullanımı Saldırı Hazırlığı'nda açılır.")
             : ceviri("Saldırı sırasında, soruyu gördüğün Saldırı Hazırlığı'nda açılır."))
       : d.faz === "cevap" && d.savunma_kilidi
-        ? ceviri("Rakip Savunma Kilidi kullandı: bu soruda savunma jokeri yok.")
+        ? ceviri("Bu soruda savunma skill'i kullanılamaz.")
         : (setAcik ? ceviri("Şimdi kullanabilirsin.") : ceviri("Soru sana gelince açılır."));
 
   return (
-    <div className={`bd-duello-jokerler ${set} ${(setAcik || (set === "saldiri" && saldiriAlinabilir)) && hakKaldi ? "acik" : "kapali"}`} key={`${set}-${setAcik && hakKaldi}`} aria-label={set === "saldiri" ? ceviri("Saldırı jokerleri") : ceviri("Savunma jokerleri")}>
+    <div className={`bd-duello-jokerler ${set} ${(setAcik || (set === "saldiri" && saldiriAlinabilir)) && hakKaldi ? "acik" : "kapali"}`} key={`${set}-${setAcik && hakKaldi}`} aria-label={set === "saldiri" ? ceviri("Saldırı skilleri") : ceviri("Savunma skilleri")}>
       <div className="bd-duello-joker-baslik">
-        {set === "saldiri" ? ceviri("Saldırı jokerleri") : ceviri("Savunma jokerleri")}
+        {set === "saldiri" ? ceviri("Saldırı skilleri") : ceviri("Savunma skilleri")}
         {set === "savunma" && d.savunma_kilidi && d.faz === "cevap" && <span className="kilitli"><Ikon ad="kilit" boyut={13} /></span>}
       </div>
       <div className="bd-duello-joker-ipucu" role="status">{ipucu}</div>

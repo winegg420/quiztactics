@@ -4,7 +4,7 @@ import Ikon from "./Ikon.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { Link } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
-import { macJokerleri, jokerBilgi, envanterNesne, sisAyari } from "../lib/jokerler.js";
+import { macJokerleri, jokerBilgi, envanterNesne, skillSetiOku } from "../lib/jokerler.js";
 import { ayarlar } from "../lib/ayarlar.js";
 import { coinTazele } from "../lib/coin.js";
 import JokerSatinAlModal from "./JokerSatinAlModal.jsx";
@@ -41,10 +41,17 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
   const hataRef = useRef(null);
   // Paket 32: açıklamalardaki sayılar ve Sis eşiği oyun_ayarlari'ndan
   const [ayar, setAyar] = useState(null);
+  const [skillSeti, setSkillSeti] = useState(() => skillSetiOku());
+  const sonRakipBaskisi = useRef(null);
   useEffect(() => {
     let aktif = true;
     ayarlar().then((a) => { if (aktif) setAyar(a); }, () => {});
     return () => { aktif = false; };
+  }, []);
+  useEffect(() => {
+    const yenile = () => setSkillSeti(skillSetiOku());
+    window.addEventListener("skill-seti-degisti", yenile);
+    return () => window.removeEventListener("skill-seti-degisti", yenile);
   }, []);
   // B.4: kullanım anı — düğme parlaması + ekran ortasında şerit (≈850 ms)
   const [parlayan, setParlayan] = useState(null);
@@ -103,6 +110,16 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
     // Paket 31 A: rakibin jokeri (surum) kilit/kısaltma durumunu değiştirir → yeniden oku
   }, [yukle, soruIndex, surum]);
 
+  const rakipKisaltti = Boolean(durum?.kisaltildi);
+  useEffect(() => {
+    const anahtar = rakipKisaltti ? `${soruIndex}:${surum}` : null;
+    if (anahtar && sonRakipBaskisi.current !== anahtar) {
+      sonRakipBaskisi.current = anahtar;
+      onEtki?.({ tur: "zaman_baskisi", rakip: true,
+        azaltildi: Number(ayar?.klasik_zaman_baskisi_sn ?? 5) });
+    }
+  }, [rakipKisaltti, soruIndex, surum, ayar, onEtki]);
+
   if (!durum) return null;
 
   // Paket 34: jokerler geçici olarak ücretsiz (oyun_ayarlari.jokerler_ucretsiz; Paket 35'ten beri 0).
@@ -113,7 +130,6 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
   const finalYasak = durum.sinir === 0;
   // Paket 31 A.3: rakip bu soruda Savunma Kilidi bastı — sessiz düğme olmasın, açık mesaj
   const rakipKilitledi = Boolean(durum.kilitli);
-  const rakipKisaltti = Boolean(durum.kisaltildi);
 
   /**
    * Joker kullan. `satinAl` true ise satın alma + kullanım TEK RPC'de yapılır
@@ -137,10 +153,12 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
       if (data && typeof data.coin === "number") setCoin(data.coin);
       // Paket 35 A: satın alma sonrası üst çubuktaki bakiye de anında yenilensin
       if (satinAl) coinTazele();
-      onEtki?.(data);
+      onEtki?.(data?.tur === "sure" && data.eklenen_sn == null
+        ? { ...data, eklenen_sn: jokerBilgi("sure", macTur, ayar).etkiDegeri }
+        : data);
       await yukle();
     } catch (e) {
-      setHata(hataMesaji(e, tt("Joker kullanılamadı.")));
+      setHata(hataMesaji(e, tt("Skill kullanılamadı.")));
       throw e;   // satın alma penceresi hatayı kendi içinde göstersin
     } finally {
       setCalisan(null);
@@ -158,7 +176,6 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
     if (serbestMod || kilit || finalYasak || sinirDoldu || rakipKilitledi) return false;
     if (macTur === "turnuva" && tur === "soru_degistir") return false;
     if (kullanilanlar.has(tur)) return false;
-    if (tur === "sis" && sisGec) return false;
     if (tur === "elli" && durum?.ucretsiz_elli_kaldi) return false;
     if ((envanter[tur] ?? 0) > 0) return false;
     return Number(fiyatlar?.[tur] ?? 0) > 0;
@@ -172,41 +189,38 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
   const etkiMetni = (tur) => {
     const a = ayar ?? {};
     if (tur === "elli") return tt("İki yanlış şık silindi.");
-    if (tur === "sure") return tt("Sürene 10 saniye eklendi.");
-    if (tur === "soru_degistir") return macTur === "1v1" ? tt("Soru ikinizde de değişti.") : tt("Soru değişti.");
+    if (tur === "sure") return tt("Sürene {0} saniye eklendi.", { 0: jokerBilgi(tur, macTur, a).etkiDegeri });
+    if (tur === "soru_degistir") return tt("Sorun değişti.");
     if (tur === "zaman_baskisi")
       return tt("Rakibin süresi {0} saniye kısaldı.", { 0: Number(a.klasik_zaman_baskisi_sn ?? 5) });
-    if (tur === "sis") return tt("Rakibin ekranı {0} saniye siste.", { 0: sisAyari(a).sn });
     return jokerBilgi(tur, macTur, a).ad;
   };
 
   // "Kullanıldı" maç başına (sunucudan) — Paket 35 A.3: ücretsiz modda da aynı.
   const kullanilanlar = new Set([...(durum.kullanilan_turler ?? []), ...kullandigim]);
   // Sis'in son-N-saniye kuralı (YALNIZ Sis) — sunucu da reddediyor, düğme önceden söylesin
-  const sisGec = macTur === "1v1" && kalanSn <= sisAyari(ayar).esik;
 
   const neden = (tur) => {
     if (kilit) return tt("Bu soruyu zaten cevapladın");
-    if (rakipKilitledi) return tt("Rakibin savunma jokerlerini kilitledi.");
-    if (finalYasak) return tt("Turnuva finalinde joker kullanılamaz");
-    if (sinirDoldu) return tt("Bu maçta en fazla {0} joker", { 0: durum.sinir });
+    if (rakipKilitledi) return tt("Bu soruda skill kullanılamaz.");
+    if (finalYasak) return tt("Turnuva finalinde skill kullanılamaz");
+    if (sinirDoldu) return tt("Bu maçta en fazla {0} skill", { 0: durum.sinir });
     // Turnuva herkese AYNI soruyu sorar ve elemelidir: soru değiştirilemez.
     if (macTur === "turnuva" && tur === "soru_degistir") return tt("Turnuvada soru değiştirilemez");
     // Paket 27 B: aynı joker maç başına bir kez — her tür için. Sunucu da aynı kuralı uygular.
-    if (kullanilanlar.has(tur)) return tt("Bu jokeri bu maçta zaten kullandın");
-    if (tur === "sis" && sisGec) return tt("Son {0} saniyede Sis kullanılamaz.", { 0: sisAyari(ayar).esik });
+    if (kullanilanlar.has(tur)) return tt("Bu skill'i bu maçta zaten kullandın");
     const ucretsiz = tur === "elli" && durum.ucretsiz_elli_kaldi;
     if (!serbestMod && !ucretsiz && (envanter[tur] ?? 0) <= 0 && coinYetmez(tur)) return tt("Yetersiz coin");
     // Envanterde yoksa artık "kalmadı" demiyoruz: maç içinde satın alınabiliyor.
-    if (!serbestMod && !ucretsiz && (envanter[tur] ?? 0) <= 0 && !satinAlinabilir(tur)) return tt("Jokerin kalmadı");
+    if (!serbestMod && !ucretsiz && (envanter[tur] ?? 0) <= 0 && !satinAlinabilir(tur)) return tt("Skill'in kalmadı");
     return null;
   };
 
   return (
-    <div className={`bd-joker-cubuk${macJokerleri(macTur).length > 3 ? " bd-joker-cubuk-genis" : ""}`}>
+    <div className={`bd-joker-cubuk${macJokerleri(macTur, skillSeti).length > 3 ? " bd-joker-cubuk-genis" : ""}`}>
       {rakipKilitledi && (
         <div className="bd-joker-not uyari" role="status">
-          <Ikon ad="kilit" boyut={14} /> {tt("Rakibin savunma jokerlerini kilitledi.")}
+          <Ikon ad="kilit" boyut={14} /> {tt("Bu soruda skill kullanılamaz.")}
         </div>
       )}
       {rakipKisaltti && (
@@ -218,13 +232,13 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
       {!finalYasak && (
         <div className="bd-joker-hak" aria-live="polite">
           {serbestMod
-            ? tt("Jokerler şimdilik ücretsiz ve sınırsız")
+            ? tt("Skiller şimdilik ücretsiz ve sınırsız")
             : durum.sinir === null || durum.sinir === undefined
-            ? tt("Arkadaş maçı: joker hakkın sınırsız")
-            : tt("Bu maçta {0} joker hakkın kaldı", { 0: Math.max(0, durum.sinir - durum.kullanilan) })}
+            ? tt("Arkadaş maçı: skill hakkın sınırsız")
+            : tt("Bu maçta {0} skill hakkın kaldı", { 0: Math.max(0, durum.sinir - durum.kullanilan) })}
         </div>
       )}
-      {macJokerleri(macTur).map((tur) => {
+      {macJokerleri(macTur, skillSeti).map((tur) => {
         const bilgi = jokerBilgi(tur, macTur, ayar);
         const ucretsiz = tur === "elli" && durum.ucretsiz_elli_kaldi;
         const engel = neden(tur);
@@ -285,8 +299,8 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
       {(sinirDoldu || finalYasak) && (
         <div className="bd-joker-not">
           {finalYasak
-            ? tt("Finalde joker yok — sadece bilgi.")
-            : tt("Bu maçta joker hakkın doldu ({0}/{1}).", { 0: durum.kullanilan, 1: durum.sinir })}
+            ? tt("Finalde skill yok — sadece bilgi.")
+            : tt("Bu maçta skill hakkın doldu ({0}/{1}).", { 0: durum.kullanilan, 1: durum.sinir })}
         </div>
       )}
 
@@ -296,7 +310,7 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
           {/kalmadı/i.test(hata) && (
             <>
               {" "}
-              <Link to={y("/joker")}>{tt("Joker al")}</Link>
+              <Link to={y("/joker")}>{tt("Skill al")}</Link>
             </>
           )}
         </div>

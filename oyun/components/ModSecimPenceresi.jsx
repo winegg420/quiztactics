@@ -90,7 +90,7 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
       ikon: "soru",
       ad: tt("Klasik Maç"),
       aciklama: tt("İkiniz aynı soruları cevaplarsınız, en çok doğru bilen kazanır."),
-      joker: tt("5 joker · aynı anda"),
+      joker: tt("4 skill · aynı anda"),
       odul: odulMetni(odul?.klasik),
     },
     {
@@ -98,7 +98,7 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
       ikon: "kilic",
       ad: tt("Düello (Taktik Maçı)"),
       aciklama: tt("Rakibinin zayıf kategorisini bul, oradan vur. 3 can, en çok 10 tur."),
-      joker: tt("6 joker · sıra sende"),
+      joker: tt("4 skill · sıra sende"),
       odul: odulMetni(odul?.duello),
       rozet: tt("En çok ödül"),
     },
@@ -107,8 +107,8 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
       mod: "saf",
       ikon: "yildiz",
       ad: tt("Saf Bilgi"),
-      aciklama: tt("Joker yok. Sadece bilgi ve hız."),
-      joker: tt("joker yok"),
+      aciklama: tt("Skill yok. Sadece bilgi ve hız."),
+      joker: tt("skill yok"),
       odul: odulMetni(odul?.klasik),
     },
   ];

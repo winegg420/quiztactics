@@ -337,6 +337,7 @@ export default function HizliMacPage() {
   if (mac.durum === "aktif" && !(mac.basladi ?? true)) {
     return (
       <HazirKapisi
+        skillSecimi={false}
         benHazir={Boolean(nabiz?.ben_hazir)}
         hazirSayisi={nabiz?.hazir_sayisi ?? 0}
         toplamOyuncu={nabiz?.toplam_oyuncu ?? siraliSkor.length}

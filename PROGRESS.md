@@ -6981,3 +6981,32 @@ yüksekliği 62 px; "CEVABI KİLİTLE" yok.
   Kendiliğinden düzeliyor (tasarlanmış yeniden deneme), ama istemci sayacı
   sunucununkinden birkaç saniye önce bitiyor demektir. Oynanışı bozmuyor,
   ayrı bir paket konusu.
+
+---
+
+## 20 Eylül 2026 — Skill Sistemi v1 (branch: `codex/skill-system-v1`)
+
+- Oyuncu arayüzündeki “Joker” dili “Skill” olarak yenilendi; veritabanındaki
+  `joker_*` adları eski istemci ve geçmiş kayıt uyumluluğu için korundu.
+- Tek registry eklendi: aktif maç skilleri `elli`, `sure`, `soru_degistir`,
+  `zaman_baskisi`. `sis`, `savunma_kilidi`, `saldiri_degistir` geçmiş veri
+  için kayıtlı fakat pasif ve dükkânda gizli. `seri_koruma` maç setine girmez.
+- Maç hazırlığına ağır bir sayfa açmadan, ayardan gelen slot sayısıyla çalışan
+  “Maç Skillerin” seçimi eklendi. Saf Bilgi ve Hızlı yarışta gösterilmez.
+- Yeni migration `20260612000254_skill_sistemi_v1.sql`: skill setini saklar ve
+  kullanımda sunucu tarafında doğrular; kaldırılan türleri reddeder; paket ve
+  tekil satışlarını kapatır; aynı kategoriden kişisel Soru Değiştir davranışını
+  uygular. Eski veri silinmez.
+- 50:50, Ek Süre, kişisel Soru Değiştir ve Zaman Baskısı için 350–800 ms
+  aralığında, oyunu kilitlemeyen mikro animasyonlar ve reduced-motion karşılığı
+  eklendi. Gösterilen süre değerleri oyun ayarından okunur.
+- `npm run build`: geçti. Tarayıcı uyumluluk denetimi temiz; kalan 6 uyarı
+  önceden var olan ResizeObserver/randomUUID/color-mix bildirimleri.
+- Skill mimarisi statik testleri: 4/4 geçti. Migration canlı veritabanına
+  uygulanmadan transaction + rollback içinde prova edildi: migration kurulumu,
+  kişisel/aynı kategorili Soru Değiştir, kişisel Ek Süre ve server seçim kapısı
+  testleri 4/4 geçti; kalıcı canlı veri değişmedi. Tam mevcut paket: 71/71,
+  joker kuralları 13/13 ve dans testleri geçti.
+- 360/390/412/430 px yerel tarayıcı taşma kontrolü: dört genişlikte de yatay
+  taşma yok. Giriş gerektiren gerçek maç kabul testi preview üzerinde ürün
+  sahibine bırakıldı; production ve main değiştirilmedi.

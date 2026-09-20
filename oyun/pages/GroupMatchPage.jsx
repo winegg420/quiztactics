@@ -435,6 +435,7 @@ export default function GroupMatchPage() {
   if (mac.durum === "aktif" && !(mac.basladi ?? true)) {
     return (
       <HazirKapisi
+        macTur="grup"
         benHazir={Boolean(nabiz?.ben_hazir)}
         hazirSayisi={nabiz?.hazir_sayisi ?? 0}
         toplamOyuncu={nabiz?.toplam_oyuncu ?? siraliSkor.length}

@@ -61,7 +61,7 @@ export default function ModlarPage() {
         <div>
           <span className="eyebrow light">{tt("ÖNE ÇIKAN MOD")}</span>
           <h2>{tt("Düello")}</h2>
-          <p>{tt("Jokerlerini doğru anda kullan. Rakibinin planını boz ve taktik üstünlük kur.")}</p>
+          <p>{tt("Skillerini doğru anda kullan. Rakibinin planını boz ve taktik üstünlük kur.")}</p>
           <div className="feature-tags">
             <span>{tt("SIRA TABANLI")}</span>
             <span>{DUELLO_JOKER} {tt("JOKER")}</span>
@@ -84,7 +84,7 @@ export default function ModlarPage() {
           <div>
             <small>{tt("CANLI")} · {KLASIK_JOKER} {tt("JOKER")}</small>
             <h3>{tt("Klasik Maç")}</h3>
-            <p>{tt("Hızlı cevap ver, jokerlerini kullan ve rakibini geç.")}</p>
+            <p>{tt("Hızlı cevap ver, skillerini kullan ve rakibini geç.")}</p>
           </div>
           <b>{tt("OYNA")} →</b>
         </button>

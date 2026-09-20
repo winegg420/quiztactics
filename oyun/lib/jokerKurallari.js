@@ -25,15 +25,15 @@ import { tt } from "./dil.js";
  */
 export function jokerKurallari(hak = 4) {
   return [
-    tt("Bir maçta en çok {0} joker kullanabilirsin.", { 0: hak }),
-    tt("Aynı jokeri bir maçta yalnız bir kez kullanabilirsin — hakkını farklı jokerlere dağıt."),
-    tt("Ücretsiz 50:50 yalnız Serbest Klasik Mod'da; Dereceli maçta ve Düello'da hiçbir joker ücretsiz değil."),
-    tt("Turnuva finalinde ve altın soruda joker kullanılamaz."),
-    tt("Jokerin bittiyse maçın içinden alabilirsin — dükkâna gitmene gerek yok."),
+    tt("Bir maçta en çok {0} skill kullanabilirsin.", { 0: hak }),
+    tt("Aynı skill'i bir maçta yalnız bir kez kullanabilirsin — hakkını farklı skill'lere dağıt."),
+    tt("Ücretsiz 50:50 yalnız Serbest Klasik Mod'da; Dereceli maçta ve Düello'da hiçbir skill ücretsiz değil."),
+    tt("Turnuva finalinde ve altın soruda skill kullanılamaz."),
+    tt("Skill'in bittiyse maçın içinden alabilirsin — dükkâna gitmene gerek yok."),
   ];
 }
 
 /** Tek satırlık kısa özet (dar alanlar için). */
 export function jokerKuraliOzet(hak = 4) {
-  return tt("Maç başına en çok {0} joker · aynı joker bir kez", { 0: hak });
+  return tt("Maç başına en çok {0} skill · aynı skill bir kez", { 0: hak });
 }

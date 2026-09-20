@@ -74,10 +74,10 @@ export default function KosullarPage() {
         <b>{tt("Sesli sohbet bunun dışındadır:")}</b> {tt("ses doğrudan iki cihaz arasında gider, bize hiç ulaşmaz ve kaydedilmez. Bu yüzden sesli sohbet içeriğini göremez, denetleyemez ve şikâyet hâlinde inceleyemeyiz. Sesli sohbeti yalnız arkadaş olduğun ve güvendiğin kişilerle aç; rahatsız edilirsen görüşmeyi kapat ve kişiyi arkadaşlıktan çıkar.")}
       </p>
 
-      <h2>{tt("6. Sanal öğeler, jokerler ve satın almalar")}</h2>
+      <h2>{tt("6. Sanal öğeler, skiller ve satın almalar")}</h2>
       <ul>
         <li>
-          {tt("Puan, rütbe, rozet ve jokerler")} <b>{tt("sanal öğelerdir")}</b>{tt("; gerçek para değeri taşımaz, nakde çevrilemez, devredilemez ve hesap dışında kullanılamaz.")}
+          {tt("Puan, rütbe, rozet ve skiller")} <b>{tt("sanal öğelerdir")}</b>{tt("; gerçek para değeri taşımaz, nakde çevrilemez, devredilemez ve hesap dışında kullanılamaz.")}
         </li>
         <li>
           {tt("Uygulama içi satın alma yalnızca Android uygulamasında ve Google Play faturalandırması üzerinden yapılır. İade talepleri Google Play'in iade politikasına tabidir.")}
