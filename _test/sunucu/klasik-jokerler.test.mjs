@@ -3,9 +3,8 @@
 // NE KORUYOR:
 //   1. Soru Değiştir Klasik'te ORTAK: iki oyuncu da aynı yeni soruyu, aynı başlangıçla alır.
 //   2. Süreyi Kısalt yalnız rakibin süresini kısaltır; basanın süresi aynı kalır.
-//   3. Sis (Paket 32, Savunma Kilidi'nin yerine): rakibin ekranı sis süresince kapanır,
-//      sunucu o sürede rakibin cevabını reddeder; son 6 saniyede Sis kullanılamaz.
-//   4. Maç başına 4 joker ve aynı jokerden bir kez (Paket 27) Klasik'te de geçerli.
+//   3. Kaldırılan Sis ve Savunma Kilidi sunucuda reddedilir.
+//   4. Maç başına 6, tür başına 2, soru başına 1 skill geçerlidir.
 //   5. Düello saldırı jokeri ('saldiri_degistir') Klasik'te kabul edilmez.
 // Kırılırsa Klasik taktiği ya sahte olur (etki yok) ya da tek taraflı bozulur.
 
@@ -16,7 +15,7 @@ import { islem, oyuncuKur, olarak, skillSetiKur, baglantiVarMi, hataVerir, alint
 const atla = !(await baglantiVarMi());
 const sec = { skip: atla ? 'veritabanı bağlantısı yok (SUPABASE_DB_URL / .env.local)' : false };
 
-/** Aktif, senkron Klasik maç (arkadaş DEĞİL → sınır 4). */
+/** Aktif, senkron Klasik maç. */
 async function klasikMac(c) {
   const x = await oyuncuKur(c, 'kj1');
   const y = await oyuncuKur(c, 'kj2');
@@ -36,9 +35,9 @@ async function soru(c, id, kim) {
                            from public.get_match_question(${a(id)})`))[0];
 }
 
-async function joker(c, id, kim, tur) {
+async function joker(c, id, kim, tur, index = 0) {
   await olarak(c, kim);
-  return c.tek(`select public.joker_kullan('1v1', ${a(id)}, 0, ${a(tur)})::text`);
+  return c.tek(`select public.joker_kullan('1v1', ${a(id)}, ${index}, ${a(tur)})::text`);
 }
 
 test('Klasik Soru Değiştir yalnız kullananın sorusunu değiştirir', sec, async () => {
@@ -113,18 +112,21 @@ test('Sis başlangıç stoğu: yeni hesap alır, toplu dağıtım ikinci kez ver
   });
 });
 
-test('Klasik: seçili üç skill çalışır; tekrar, seçilmeyen ve kaldırılan tür reddedilir', sec, async () => {
+test('Klasik: seçili skiller farklı sorularda çalışır; seçilmeyen ve kaldırılan tür reddedilir', sec, async () => {
   await islem(async (c) => {
     const { x, id } = await klasikMac(c);
     await skillSetiKur(c, x, ['elli', 'sure', 'zaman_baskisi']);
     await joker(c, id, x, 'elli');
-    let hata = await hataVerir(c, `select public.joker_kullan('1v1', ${a(id)}, 0, 'elli')`);
-    assert.match(hata, /zaten kullandın/i);
+    let hata = await hataVerir(c, `select public.joker_kullan('1v1', ${a(id)}, 0, 'sure')`);
+    assert.match(hata, /soruda skill hakkını kullandın/i);
     hata = await hataVerir(c, `select public.joker_kullan('1v1', ${a(id)}, 0, 'saldiri_degistir')`);
     assert.match(hata, /artık aktif değil|maç içinde kullanılamaz/i);
-    await joker(c, id, x, 'sure');
-    await joker(c, id, x, 'zaman_baskisi');
-    hata = await hataVerir(c, `select public.joker_kullan('1v1', ${a(id)}, 0, 'soru_degistir')`);
+    await c.sorgu(`update public.matches set aktif_soru=1,soru_baslangic=now() where id=${a(id)}`);
+    await joker(c, id, x, 'sure', 1);
+    await c.sorgu(`update public.matches set aktif_soru=2,soru_baslangic=now() where id=${a(id)}`);
+    await joker(c, id, x, 'zaman_baskisi', 2);
+    await c.sorgu(`update public.matches set aktif_soru=3,soru_baslangic=now() where id=${a(id)}`);
+    hata = await hataVerir(c, `select public.joker_kullan('1v1', ${a(id)}, 3, 'soru_degistir')`);
     assert.match(hata, /maç setinde değil/i);
   });
 });
@@ -157,8 +159,8 @@ test('Bot simetrisi: Klasik maçta bot da saldırı jokeri basar, insanı etkile
     await c.sorgu(`select public.bot_klasik_joker_tik()`);
     const tur = await c.tek(`select tur from public.joker_kullanimlari
                               where mac_tur = '1v1' and mac_id = ${a(id)} and user_id = ${a(bot)}`);
-    assert.ok(['zaman_baskisi', 'sis', 'soru_degistir'].includes(tur), `bot joker basmalı (${tur})`);
-    assert.equal(Number(await c.tek(`select joker_surum from public.matches where id = ${a(id)}`)), 1);
+    assert.ok(['zaman_baskisi', 'soru_degistir'].includes(tur), `bot skill basmalı (${tur})`);
+    assert.equal(Number(await c.tek(`select joker_surum from public.matches where id = ${a(id)}`)), tur === 'zaman_baskisi' ? 1 : 0);
     // İkinci tik aynı soruda ikinci joker basmaz
     await c.sorgu(`select public.bot_klasik_joker_tik()`);
     assert.equal(Number(await c.tek(`select count(*) from public.joker_kullanimlari

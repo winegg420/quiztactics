@@ -2,8 +2,7 @@
 //
 // NE KORUYOR:
 //   1. Anahtar açıkken stok gerekmez, envanterden düşülmez, coin düşmez.
-//   2. Paket 35 A.3: maç içi HAK kuralları anahtardan bağımsız — açıkken de maç başına 4 hak
-//      ve "aynı joker maçta bir kez" geçerli. "Aynı soruda tek joker" kuralı YOK.
+//   2. Ücretsiz modda da Klasik 6/2/1 hakları aynen geçerli.
 //   3. Düelloda da aynı; savunmadaki Soru Değiştir ikinci kez "maçta zaten kullandın" der.
 //   4. Anahtar kapanınca eski ekonomi aynen döner (diğer test dosyaları normal modu koruyor).
 
@@ -42,28 +41,32 @@ test('ücretsiz mod: stok yokken joker kullanılır, envanter ve coin değişmez
     const coin = await c.tek(`select coin from public.profiles where id = ${a(x)}`);
     await olarak(c, x);
     await c.sorgu(`select public.joker_kullan('1v1', ${a(id)}, 0, 'elli')`);
-    await c.sorgu(`select public.joker_al_ve_kullan('1v1', ${a(id)}, 0, 'sure')`);
+    await c.sorgu(`update public.matches set aktif_soru=1,soru_baslangic=now() where id=${a(id)}`);
+    await c.sorgu(`select public.joker_al_ve_kullan('1v1', ${a(id)}, 1, 'sure')`);
     assert.equal(await adet(c, x, 'elli'), 0, 'envanterden düşmemeli (eksiye de inmemeli)');
     assert.equal(await adet(c, x, 'sure'), 0, 'satın alma yapılmamalı');
     assert.equal(await c.tek(`select coin from public.profiles where id = ${a(x)}`), coin, 'coin düşmemeli');
   });
 });
 
-test('ücretsiz modda da set kuralı ve aynı skillin maçta bir kez kullanımı korunur', sec, async () => {
+test('ücretsiz modda da set ve Klasik 6/2/1 kuralları korunur', sec, async () => {
   await islem(async (c) => {
     await serbest(c);
     const { x, id } = await klasikMac(c);
     await skillSetiKur(c, x, ['elli', 'sure', 'zaman_baskisi']);
     await olarak(c, x);
-    for (const tur of ['elli', 'sure', 'zaman_baskisi']) {
-      await c.sorgu(`select public.joker_kullan('1v1', ${a(id)}, 0, ${a(tur)})`);
+    const turler=['elli','sure','zaman_baskisi'];
+    for (let i=0;i<turler.length;i++) {
+      await c.sorgu(`update public.matches set aktif_soru=${i},soru_baslangic=now() where id=${a(id)}`);
+      await c.sorgu(`select public.joker_kullan('1v1', ${a(id)}, ${i}, ${a(turler[i])})`);
     }
-    const setHatasi = await hataVerir(c, `select public.joker_kullan('1v1', ${a(id)}, 0, 'soru_degistir')`);
+    await c.sorgu(`update public.matches set aktif_soru=3,soru_baslangic=now() where id=${a(id)}`);
+    const setHatasi = await hataVerir(c, `select public.joker_kullan('1v1', ${a(id)}, 3, 'soru_degistir')`);
     assert.match(setHatasi, /maç setinde değil/i);
-    // Sonraki soruda aynı joker: maçta bir kez
-    await c.sorgu(`update public.matches set aktif_soru = 1, soru_baslangic = now() where id = ${a(id)}`);
-    const hata = await hataVerir(c, `select public.joker_kullan('1v1', ${a(id)}, 1, 'sure')`);
-    assert.match(hata, /bu maçta zaten kullandın/i);
+    await c.sorgu(`select public.joker_kullan('1v1', ${a(id)}, 3, 'sure')`);
+    await c.sorgu(`update public.matches set aktif_soru=4,soru_baslangic=now() where id=${a(id)}`);
+    const hata = await hataVerir(c, `select public.joker_kullan('1v1', ${a(id)}, 4, 'sure')`);
+    assert.match(hata, /skill için maç hakkın doldu/i);
   });
 });
 
@@ -85,7 +88,7 @@ test('ücretsiz mod düello: stoktan düşmez; savunmada Soru Değiştir maçta 
     await olarak(c, y);
     await c.sorgu(`select public.duello_savunma_jokeri(${a(id)}, 'soru_degistir')`);
     const hata = await hataVerir(c, `select public.duello_savunma_jokeri(${a(id)}, 'soru_degistir')`);
-    assert.match(hata, /bu maçta zaten kullandın/i);
+    assert.match(hata, /bu maçta zaten kullandın|bu soruda Soru Değiştir zaten kullanıldı/i);
     assert.equal(await adet(c, x, 'zaman_baskisi'), 0);
     assert.equal(await adet(c, y, 'soru_degistir'), 0);
   });

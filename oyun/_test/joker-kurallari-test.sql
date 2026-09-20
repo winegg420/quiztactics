@@ -54,26 +54,28 @@ begin
   perform public.joker_hareket(v_u1, 'elli', 50, 'hediye', 'test');
   perform public.joker_hareket(v_u1, 'sure', 50, 'hediye', 'test');
   perform public.joker_hareket(v_u1, 'soru_degistir', 50, 'hediye', 'test');
+  insert into public.oyuncu_skill_setleri(user_id,skiller,guncellendi)
+  values(v_u1,array['elli','sure','soru_degistir']::text[],now())
+  on conflict(user_id) do update set skiller=excluded.skiller,guncellendi=now();
 
   -- ---------- Aktif bir lig maçı (bota karşı) ----------
   insert into public.matches (oyuncu1, oyuncu2, durum, kategori, soru_ids, aktif_soru, soru_baslangic)
   values (v_u1, v_bot, 'aktif', null, public.soru_sec(null, 20, array[v_u1]), 0, now())
   returning id into v_mac;
 
-  -- === TEST 1: aynı joker maçta iki kez kullanılamaz ===
-  -- PAKET 27 B: maç başına toplam hak 2 değil, duello_joker_hak (4) oldu ve
-  -- "aynı tür bir kez" kuralı BÜTÜN türlere yayıldı. Klasik Mod'un seti üç tür
-  -- olduğu için oradaki fiilî tavan zaten 3'tür — eski "3. joker reddedilir"
-  -- beklentisi artık yanlış. Asıl korunacak kural aynı türün tekrarı.
+  -- === TEST 1: aynı skill iki kez kullanılabilir, üçüncü reddedilir ===
   perform public.joker_kullan('1v1', v_mac, 0, 'elli');   -- 1.
-  perform public.joker_kullan('1v1', v_mac, 0, 'sure');   -- 2.
+  update public.matches set aktif_soru=1,soru_baslangic=now() where id=v_mac;
+  perform public.joker_kullan('1v1', v_mac, 1, 'elli');   -- 2.
+  update public.matches set aktif_soru=2,soru_baslangic=now() where id=v_mac;
   begin
-    perform public.joker_kullan('1v1', v_mac, 0, 'elli');  -- aynı tür → reddedilmeli
-    perform pg_temp.kontrol('Aynı joker maçta iki kez kullanılamaz', 'HATA', 'kabul edildi');
+    perform public.joker_kullan('1v1', v_mac, 2, 'elli');  -- üçüncü → reddedilmeli
+    perform pg_temp.kontrol('Aynı skill üçüncü kez kullanılamaz', 'HATA', 'kabul edildi');
   exception when others then
     v_hata := sqlerrm;
-    perform pg_temp.kontrol('Aynı joker maçta iki kez kullanılamaz', 'zaten kullandın', v_hata);
+    perform pg_temp.kontrol('Aynı skill üçüncü kez kullanılamaz', 'skill için maç hakkın doldu', v_hata);
   end;
+  perform public.joker_kullan('1v1', v_mac, 2, 'sure');
 
   -- === TEST 1b: arkadaş maçında sınır yok ===
   insert into public.friendships (requester, addressee, durum)

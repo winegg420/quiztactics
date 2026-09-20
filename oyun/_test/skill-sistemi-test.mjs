@@ -9,6 +9,7 @@ import {
   VARSAYILAN_SKILL_SETI,
   skillSlotSayisi,
 } from "../lib/jokerler.js";
+import { kalanSure, sunucuOffsetMs } from "../lib/zaman.js";
 
 test("aktif maç skill listesi yalnız v1 dört skillini içerir", () => {
   assert.deepEqual(AKTIF_MAC_SKILLERI, ["elli", "sure", "soru_degistir", "zaman_baskisi"]);
@@ -38,4 +39,24 @@ test("migration seçim kapısını ve kişisel soru değişimini server-side uyg
   assert.match(sql, /if p_tur <> 'zaman_baskisi' then return/);
   assert.doesNotMatch(sql, /values\('1v1',p_mac_id,v_rakip,p_index,v_ben_soru/);
   assert.match(sql, /array\['zaman_baskisi','soru_degistir'\]/);
+});
+
+test("hardening migrationı Klasik 6/2/1 ve tek Düello saldırısını uygular", async () => {
+  const sql = await readFile(new URL("../../supabase/migrations/20260612000255_skill_hardening.sql", import.meta.url), "utf8");
+  assert.match(sql, /klasik_skill_toplam_hak', '6'/);
+  assert.match(sql, /klasik_skill_tur_basi_hak', '2'/);
+  assert.match(sql, /klasik_skill_soru_basi_hak', '1'/);
+  assert.match(sql, /if p_tur <> 'zaman_baskisi'/);
+  assert.match(sql, /p_tur not in \('elli','sure','soru_degistir'\)/);
+});
+
+test("sunucu saat farkı ağ isteğinin orta noktasından hesaplanır", () => {
+  const sunucu = "2026-09-20T12:00:00.000Z";
+  const ornek = Date.parse(sunucu) - 250;
+  assert.equal(sunucuOffsetMs(sunucu, ornek), 250);
+  const baslangic = "2026-09-20T11:59:50.000Z";
+  const gercekNow = Date.now;
+  Date.now = () => Date.parse(sunucu) - 250;
+  try { assert.equal(kalanSure(baslangic, 250, 15), 5); }
+  finally { Date.now = gercekNow; }
 });

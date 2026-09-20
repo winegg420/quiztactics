@@ -3,8 +3,7 @@
 // NE KORUYOR:
 //   1. Yeni hesap baslangic_coin (10.000) ile açılır.
 //   2. Normal ekonomi: stok yokken joker coin ile alınır, coin düşer.
-//   3. Aynı soruda üç FARKLI joker kullanılabilir ("aynı soruda tek joker" kuralı yok).
-//   4. Aynı joker maçta ikinci kez: "Bu jokeri bu maçta zaten kullandın".
+//   3. Klasik'te soru başına bir, tür başına iki skill kullanılabilir.
 //   5. Düelloda aynı iki kural (saldırı ve savunma).
 
 import test from 'node:test';
@@ -25,7 +24,7 @@ test('yeni hesap baslangic_coin ile açılır', sec, async () => {
   });
 });
 
-test('klasik: stok yokken üç farklı joker aynı soruda alınır, coin düşer; tekrar reddedilir', sec, async () => {
+test('klasik: stok yokken üç farklı soruda skill alınır ve coin düşer', sec, async () => {
   await islem(async (c) => {
     const x = await oyuncuKur(c, 'ek1');
     const y = await oyuncuKur(c, 'ek2');
@@ -43,12 +42,13 @@ test('klasik: stok yokken üç farklı joker aynı soruda alınır, coin düşer
     let toplam = 0;
     for (const t of turler) toplam += await fiyat(c, t);
     await olarak(c, x);
-    for (const t of turler) {
-      await c.sorgu(`select public.joker_al_ve_kullan('1v1', ${a(id)}, 0, ${a(t)})`);
+    for (let i=0;i<turler.length;i++) {
+      await c.sorgu(`update public.matches set aktif_soru=${i},soru_baslangic=now() where id=${a(id)}`);
+      await c.sorgu(`select public.joker_al_ve_kullan('1v1', ${a(id)}, ${i}, ${a(turler[i])})`);
     }
     assert.equal(await coin(c, x), once - toplam, 'üç jokerin fiyatı düşmeli');
-    const hata = await hataVerir(c, `select public.joker_al_ve_kullan('1v1', ${a(id)}, 0, 'elli')`);
-    assert.match(hata, /bu maçta zaten kullandın/i);
+    const hata = await hataVerir(c, `select public.joker_al_ve_kullan('1v1', ${a(id)}, 2, 'elli')`);
+    assert.match(hata, /soruda skill hakkını kullandın/i);
     assert.equal(await coin(c, x), once - toplam, 'reddedilen alımda coin düşmemeli');
   });
 });

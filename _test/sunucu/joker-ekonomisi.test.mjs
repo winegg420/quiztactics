@@ -127,14 +127,17 @@ test('DERECELİ Klasik Mod: 50:50 ücretlidir, envanterden düşer', sec, async 
   });
 });
 
-test('aynı joker aynı maçta iki kez kullanılamaz', sec, async () => {
+test('Klasik aynı skill farklı sorularda iki kez kullanılabilir, üçüncü reddedilir', sec, async () => {
   await islem(async (c) => {
     const [x, y] = [await oyuncuKur(c, 'ayni1'), await oyuncuKur(c, 'ayni2')];
     const mac = await klasikMac(c, x, y, true);
     await olarak(c, x);
     await c.sorgu(`select public.joker_kullan('1v1', ${a(mac)}, 0, 'elli')`);
-    const hata = await hataVerir(c, `select public.joker_kullan('1v1', ${a(mac)}, 0, 'elli')`);
-    assert.match(hata, /zaten kullandın/i);
+    await c.sorgu(`update public.matches set aktif_soru=1,soru_baslangic=now() where id=${a(mac)}`);
+    await c.sorgu(`select public.joker_kullan('1v1', ${a(mac)}, 1, 'elli')`);
+    await c.sorgu(`update public.matches set aktif_soru=2,soru_baslangic=now() where id=${a(mac)}`);
+    const hata = await hataVerir(c, `select public.joker_kullan('1v1', ${a(mac)}, 2, 'elli')`);
+    assert.match(hata, /skill için maç hakkın doldu/i);
   });
 });
 
@@ -184,7 +187,7 @@ test('maç başına toplam hak dolunca yeni joker reddedilir', sec, async () => 
       c,
       `select public.joker_hak_kontrol('duello', ${a(id)}, 'zaman_baskisi')`
     );
-    assert.match(hata, new RegExp(`en fazla ${hak} joker`, 'i'));
+    assert.match(hata, new RegExp(`en fazla ${hak} (joker|skill)`, 'i'));
   });
 });
 
@@ -291,9 +294,9 @@ test('arka arkaya basmak çift satın alma yapmaz', sec, async () => {
     const coinOnce = Number(await c.tek(`select coin from public.profiles where id = ${a(x)}`));
 
     await c.sorgu(`select public.joker_al_ve_kullan('1v1', ${a(mac)}, 0, 'sure')`);
-    // İkinci basış: "aynı joker maçta bir kez" kapısı satın almadan ÖNCE çalışır.
+    // Aynı sorudaki ikinci basış soru başına bir kapısında, satın almadan önce durur.
     const hata = await hataVerir(c, `select public.joker_al_ve_kullan('1v1', ${a(mac)}, 0, 'sure')`);
-    assert.match(hata, /zaten kullandın/i);
+    assert.match(hata, /soruda skill hakkını kullandın/i);
 
     assert.equal(
       Number(await c.tek(`select coin from public.profiles where id = ${a(x)}`)),
