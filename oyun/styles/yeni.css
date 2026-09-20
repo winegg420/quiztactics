@@ -846,3 +846,135 @@ body.bd-oyun-modu .bd-jk-rozet {
   .giris.auth-body .auth-showcase { min-height: 0; padding: 28px 8vw; }
   .giris.auth-body .auth-showcase .slogan { font-size: 12px; }
 }
+
+/* ============================================================
+   L) MAÇ SONU SAHNESİ (prototip `result.html`)
+   MacSonuSahnesi yeniden yazılmadı — sahne aynı, kabuk prototipin
+   koyu zemin + beyaz kart görünümüne çevrildi. Rakip adına/avatarına
+   dokununca OyuncuKarti açılması AYNEN duruyor (bileşende).
+   ============================================================ */
+.app .mss.bd-sonuc-ekran {
+  max-width: 640px;
+  padding: 35px 28px;
+  border-radius: 31px;
+  background: #fff;
+  box-shadow: 0 30px 75px rgba(0, 0, 0, .35);
+  margin: 24px auto;
+}
+.app .mss > .mss-zemin {
+  background: radial-gradient(circle at 50% 30%, rgba(255, 204, 77, .18), transparent 23%),
+              linear-gradient(145deg, #16284f, #0c1428);
+}
+.app .mss.kazandi > .mss-zemin,
+.app .mss.kaybetti > .mss-zemin { background: inherit; }
+.app .mss-baslik {
+  margin: 10px 0 0;
+  color: #f26122;
+  font: 800 44px/.9 "Baloo 2", system-ui, sans-serif;
+}
+.app .mss-alt { margin: 8px 0; color: var(--muted); font-size: 12px; font-weight: 700; }
+.app .mss-oduller {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  gap: 8px; padding: 10px; border-radius: 17px; background: #fff6d7;
+}
+.app .mss-odul { display: flex; flex-direction: column; align-items: center; padding: 7px; }
+.app .mss-odul-etiket { color: #88733a; font-size: 9px; font-weight: 900; }
+.app .mss-isim-metin { font-size: 13px; font-weight: 900; }
+.app .mss-skor { font: 800 22px/1 "Baloo 2", system-ui, sans-serif; }
+
+@media (max-width: 560px) {
+  .app .mss.bd-sonuc-ekran { padding: 26px 18px; border-radius: 26px; }
+  .app .mss-baslik { font-size: 34px; }
+}
+
+/* ============================================================
+   M) OYUNCU KARTI · BİLDİRİMLER · DAVET
+   Üçü de mevcut bileşenler (OyuncuKarti, BildirimZili, DavetKodu /
+   DavetPage). Prototipteki karşılıkları ayrı sayfalardı; burada yalnız
+   görünümleri devralınıyor, işleyişleri aynı.
+   ============================================================ */
+
+/* ---- Oyuncu kartı (prototip `player.html`) ---- */
+.app .bd-oyuncu-karti {
+  border-radius: 28px;
+  overflow: hidden;
+  padding: 0 0 20px;
+}
+.app .bd-oyuncu-karti .bd-oyuncu-ust {
+  position: relative;
+  padding: 58px 22px 16px;
+  background: linear-gradient(145deg, #1d2f60, #111b38);
+  color: #fff;
+}
+.app .bd-oyuncu-karti .bd-oyuncu-ad,
+.app .bd-oyuncu-karti .bd-oyuncu-konum { color: #fff; }
+.app .bd-oyuncu-karti .bd-oyuncu-avatar {
+  border: 4px solid #fff; border-radius: 22px; background: #eaf0fa;
+}
+.app .bd-oyuncu-karti .bd-oyuncu-sayilar {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 8px; margin: 16px 18px 0;
+}
+.app .bd-oyuncu-karti .bd-oyuncu-sayilar > * {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 10px; border-radius: 12px; background: #f3f6fa;
+}
+.app .bd-oyuncu-karti .bd-oyuncu-eylemler { margin: 14px 18px 0; gap: 9px; }
+.app .bd-oyuncu-kapat { color: #fff; z-index: 2; }
+
+/* ---- Bildirim paneli (prototip `notifications.html`) ---- */
+.app .bd-zil-liste {
+  border-radius: 22px;
+  border: 1px solid rgba(206, 218, 237, .9);
+  background: #fff;
+  box-shadow: var(--shadow);
+}
+.app .bd-zil-satir {
+  min-height: 62px;
+  border-radius: 14px;
+  border: 1px solid #eef2f8;
+  background: #fff;
+}
+.app .bd-zil-satir + .bd-zil-satir { margin-top: 7px; }
+
+/* ---- Davet kodu (prototip `invite.html`) ---- */
+.app .bd-davet-kod {
+  border-radius: 15px;
+  border: 1px dashed var(--line);
+  background: #f9fbff;
+}
+.app .bd-davet-kod-metin {
+  font: 800 20px/1 "Baloo 2", system-ui, sans-serif; letter-spacing: 2px; color: var(--ink);
+}
+
+/* ============================================================
+   N) TURNUVA (prototip `tournament.html`)
+   `geri-sayim-kart` prototipteki `event-hero`nun karşılığı. Saatler ve
+   geri sayım oyun_ayarlari.turnuva_saatleri'nden (lib/zaman.js);
+   prototipteki "BU AKŞAM · 20:00" sabiti KULLANILMADI.
+   ============================================================ */
+.app .geri-sayim-kart {
+  position: relative;
+  overflow: hidden;
+  padding: 28px;
+  border-radius: 30px;
+  border: 0;
+  background: radial-gradient(circle at 78% 20%, rgba(255, 205, 86, .2), transparent 26%),
+              linear-gradient(145deg, #1d2f60, #111b38);
+  color: #fff;
+  box-shadow: 0 22px 54px rgba(24, 39, 79, .2);
+  text-align: center;
+}
+.app .geri-sayim-kart > div:first-child { color: var(--gold) !important; letter-spacing: 1.4px; }
+.app .geri-sayim-kart .bd-turnuva-kalanlar { color: rgba(255, 255, 255, .82); font-size: 11px; font-weight: 800; }
+.app .geri-sayim-kart .bd-turnuva-kalanlar b { color: var(--gold); }
+.app .geri-sayim-kart .btn { margin-top: 16px; }
+.app .geri-sayim-kart .countdown { justify-content: center; margin: 16px 0; }
+.app .bd-haftalik-giysi { color: rgba(255, 255, 255, .85); font-size: 12px; margin-top: 10px; }
+
+/* Turnuva durum bantları */
+.app .durum-bandi {
+  border-radius: 15px;
+  font-weight: 900;
+  font-size: 12px;
+}

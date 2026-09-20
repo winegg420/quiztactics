@@ -508,7 +508,7 @@ export default function TournamentPage() {
           <div style={{ fontSize: 14, fontWeight: 700, color: "var(--bd-odul-metin)" }}>
             {tt("SIRADAKİ TURNUVA")}
           </div>
-          <Countdown />
+          <Countdown bicim="prototip" />
           <BugunKalanTurnuvalar />
           {haftalikGiysi?.ad && (
             <div className="bd-haftalik-giysi">
@@ -534,7 +534,7 @@ export default function TournamentPage() {
           <div style={{ fontSize: 14, fontWeight: 700, color: "var(--bd-odul-metin)" }}>
             {tt("TURNUVA LOBİSİ")}
           </div>
-          <Countdown onSifir={turnuvaYukle} />
+          <Countdown bicim="prototip" onSifir={turnuvaYukle} />
           <BugunKalanTurnuvalar />
           {hata && <div className="hata-kutu">{hata}</div>}
           {benimKayit ? (
