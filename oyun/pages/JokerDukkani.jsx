@@ -254,12 +254,19 @@ export default function JokerDukkani() {
           (useCoin → coin_bakiyem). Prototipteki "Haftanın Paketi" kahraman
           kartı ALINMADI: öyle bir kampanya ürünü yok; gerçek paketler
           aşağıda zaten listeleniyor. */}
-      <section className="shop-heading">
+      <section className={`shop-heading${sekme === "joker" ? " bd-shop-skill-baslik" : ""}`}>
         <div>
           <span className="eyebrow">{tt("DÜKKÂN")}</span>
           <h1>{tt("Gücünü seç.")}</h1>
           <p>{tt("Skillerini coin ile al, doğru anda kullan.")}</p>
         </div>
+        {sekme === "joker" && (
+          <img
+            className="bd-shop-skill-hero"
+            src="/skill-shop-hero.png"
+            alt={tt("Skill kartlarıyla açılan ödül sandığı")}
+          />
+        )}
         <div className="wallet-card">
           <span>{tt("BAKİYEN")}</span>
           <b><Ikon ad="coin" boyut={16} /> {(bakiye ?? 0).toLocaleString("tr-TR")}</b>

@@ -7029,6 +7029,9 @@ yüksekliği 62 px; "CEVABI KİLİTLE" yok.
 - Dükkâna CSS + mevcut inline SVG ikon setiyle paket sandığı ve skill kartı
   illüstrasyonları eklendi. Sunucudan gelebilen eski “joker” ürün metinleri
   kullanıcıya “skill” olarak gösteriliyor; veri ve RPC adları değiştirilmedi.
+- Skill sekmesinin üstüne dört aktif skilli tek bakışta anlatan, şeffaf
+  arka planlı özgün sandık/kart kahraman illüstrasyonu eklendi. Coin sekmesinde
+  görünmez; 390 px ölçümünde 300×150 px çizildi ve yatay taşma oluşturmadı.
 - `npm run build` geçti; uyumluluk denetimi temiz (önceden var olan altı
   destek uyarısı sürüyor). `npm run test:kurallar` 17/17 geçti.
 - Oturumlu arayüz denetimi 16 sayfa × 1440/850/560/360/390/412/430 genişlikte

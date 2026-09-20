@@ -1261,6 +1261,31 @@ body.bd-oyun-modu .bd-duello-jokerler {
 .bd-skill-kartlar i:nth-child(2) { transform:translateY(-2px); background:#f36b2b; }
 .bd-skill-kartlar i:nth-child(3) { background:#6d50d8; }
 
+/* Skill dükkânı kahraman görseli: üretilmiş şeffaf oyun illüstrasyonu.
+   Coin sekmesinde gösterilmez; görsel ürünün ne sattığını tek bakışta anlatır. */
+.app .shop-heading.bd-shop-skill-baslik {
+  position: relative;
+  min-height: 220px;
+  align-items: center;
+  overflow: hidden;
+  padding: 24px 28px;
+  border: 1px solid #d8e3f0;
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 68% 45%,rgba(255,190,69,.23),transparent 30%),
+    linear-gradient(135deg,rgba(255,255,255,.92),rgba(239,246,255,.92));
+  box-shadow: 0 14px 36px rgba(36,61,104,.1);
+}
+.app .bd-shop-skill-hero {
+  align-self: center;
+  width: min(38vw, 360px);
+  max-height: 205px;
+  object-fit: contain;
+  filter: drop-shadow(0 15px 18px rgba(31,51,91,.18));
+}
+.app .shop-heading.bd-shop-skill-baslik > div:first-child { min-width: 225px; }
+.app .shop-heading.bd-shop-skill-baslik .wallet-card { flex: 0 0 auto; }
+
 @media (max-width: 560px) {
   body.bd-oyun-modu .shell { padding-inline: 10px; }
   body.bd-oyun-modu .bd-mac-ust-serit { padding-inline: 4px; }
@@ -1272,4 +1297,25 @@ body.bd-oyun-modu .bd-duello-jokerler {
   .app .bd-paket > .bd-skill-gorsel { flex-basis: 58px; width:58px; height:58px; border-radius:15px; }
   .bd-skill-sandik { left:11px; right:11px; }
   .bd-skill-kartlar i { width:21px; height:23px; }
+  .app .shop-heading.bd-shop-skill-baslik {
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 6px 10px;
+    padding: 18px 16px 14px;
+  }
+  .app .shop-heading.bd-shop-skill-baslik > div:first-child { min-width: 0; }
+  .app .bd-shop-skill-hero {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    width: min(100%, 300px);
+    max-height: 150px;
+    justify-self: center;
+    margin: -8px 0 -4px;
+  }
+  .app .shop-heading.bd-shop-skill-baslik .wallet-card {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: start;
+  }
 }
