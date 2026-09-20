@@ -2215,6 +2215,123 @@ const SOZLUK = {
     "{n}. oldun": "You finished {n}.",
     "Turnuva bitti": "Tournament over",
     "Haftanın en iyisi!": "Best of the week!",
+    // ---- Arayüz Yenileme (20 Eylül 2026) — yeni tasarımın metinleri ----
+    // İskelet ve menüler
+    "Ana menü": "Main menu",
+    "Mobil menü": "Mobile menu",
+    "Oyun Modları": "Game Modes",
+    "DÜKKÂN": "SHOP",
+    "Joker ve coin": "Jokers and coins",
+    "Jokerlerini tazele, coin kazan": "Restock jokers, earn coins",
+    "bekleyen": "pending",
+    // Ana sayfa
+    "HOŞ GELDİN": "WELCOME",
+    "HIZLI EŞLEŞME": "QUICK MATCH",
+    "Bilgini konuştur.": "Let your knowledge speak.",
+    "Tahtaya çık.": "Take the stage.",
+    "Senin seviyendeki rakiplerle canlı mücadele.": "A live contest against opponents at your level.",
+    "Rakip eşleşmesi ön izlemesi": "Opponent matchup preview",
+    "SEN": "YOU",
+    "RAKİP": "OPPONENT",
+    "KATEGORİ": "CATEGORY",
+    "MAÇ TÜRÜ": "MATCH TYPE",
+    "RAKİP BUL": "FIND OPPONENT",
+    "Canlı maç": "Live match",
+    "joker": "jokers",
+    "Günlük seri": "Daily streak",
+    "Bugün oynamadın": "You haven't played today",
+    "{0} rütbesine {1} puan": "{1} points to {0}",
+    "OYUN MODLARI": "GAME MODES",
+    "Tümünü gör": "See all",
+    "Kaçırdığın soruları çalış": "Study the questions you missed",
+    "GÜNLÜK GÖREVLER": "DAILY QUESTS",
+    "Tüm görevleri gör →": "See all quests →",
+    "Daha az göster": "Show less",
+    "al": "claim",
+    "HAFTALIK LİG": "WEEKLY LEAGUE",
+    "Bitimine {0}": "{0} left",
+    "{0}/{1} · bitimine {2}": "{0}/{1} · {2} left",
+    // Turnuva kartı
+    "Son kalan oyuncu ol, büyük ödülü kap.": "Be the last one standing and take the big prize.",
+    "Turnuvaya kalan süre": "Time left until the tournament",
+    "oyuncu lobide": "players in the lobby",
+    "LOBİYE KATIL": "JOIN LOBBY",
+    "LOBİDESİN": "YOU'RE IN",
+    "KATIL": "JOIN",
+    "ŞU AN CANLI": "LIVE NOW",
+    // Oyun modları sayfası (/modlar)
+    "Tarzını seç, bilgini göster": "Pick your style, show what you know",
+    "Taktik ya da saf bilgi. Her mücadelede başka bir yol var.":
+      "Tactics or pure knowledge. Every contest has another way.",
+    "ÖNE ÇIKAN MOD": "FEATURED MODE",
+    "Jokerlerini doğru anda kullan. Rakibinin planını boz ve taktik üstünlük kur.":
+      "Use your jokers at the right moment. Break your opponent's plan and take the tactical edge.",
+    "Jokerlerini doğru anda kullan, rakibinin planını boz.":
+      "Use your jokers at the right moment, break your opponent's plan.",
+    "SIRA TABANLI": "TURN BASED",
+    "JOKER": "JOKERS",
+    "3 CAN": "3 LIVES",
+    "DÜELLOYA GİR": "ENTER THE DUEL",
+    "CANLI": "LIVE",
+    "Hızlı cevap ver, jokerlerini kullan ve rakibini geç.":
+      "Answer fast, use your jokers and pass your opponent.",
+    "JOKERSİZ": "NO JOKERS",
+    "Yardım yok. Sadece bilgi, dikkat ve hız.": "No help. Just knowledge, focus and speed.",
+    "OYNA": "PLAY",
+    "HER GÜN": "EVERY DAY",
+    "Elene elene sona kal ve büyük ödülü kazan.":
+      "Survive the eliminations and win the big prize.",
+    "İNCELE": "VIEW",
+    "ARKADAŞLAR": "FRIENDS",
+    "Bir arkadaşını seç ve bire bir kapış.": "Pick a friend and go one on one.",
+    "SEÇ": "PICK",
+    "KİŞİSEL ÇALIŞMA": "PERSONAL PRACTICE",
+    "Yanlış yaptığın soruları tekrar et, açığını kapat.":
+      "Review the questions you got wrong and close the gap.",
+    "ÇALIŞ": "PRACTICE",
+    "DERECELİ": "RANKED",
+    "Maç kazan, yüksel ve hafta sonunda sıranı gör.":
+      "Win matches, climb and see your place at the end of the week.",
+    "LİGE BAK": "VIEW LEAGUE",
+    "3–5 ARKADAŞ · ÖDÜLSÜZ": "3–5 FRIENDS · NO REWARDS",
+    "Arkadaş grubunu kur, aynı sorularda eğlencesine yarış.":
+      "Gather your group and race on the same questions, just for fun.",
+    "GRUP MAÇI KUR": "START A GROUP MATCH",
+    // Lig sayfası
+    "SIRALAMA": "RANKING",
+    "HAFTALIK SEZON": "WEEKLY SEASON",
+    "Ligi": "League",
+    "İlk {0}'e gir ve yüksel; son {1} düşer.":
+      "Finish in the top {0} to move up; the bottom {1} go down.",
+    "sezonun bitmesine kaldı": "left in the season",
+    "ŞU ANKİ SIRAN": "YOUR PLACE",
+    "Henüz sıralamada değilsin": "You're not ranked yet",
+    "Zirvedekiler": "At the top",
+    "Canlı sıralama": "Live ranking",
+    // Arkadaşlar / mesajlar / meydan okuma
+    "SOSYAL MERKEZ": "SOCIAL HUB",
+    "Arkadaşlarınla yarış": "Compete with your friends",
+    "Arkadaşlarını bul, meydan oku ve kimin daha bilgili olduğunu göster.":
+      "Find your friends, challenge them and show who knows more.",
+    "Arkadaşlarınla yazış, maç ayarla.": "Message your friends and set up matches.",
+    "Bir arkadaşını seç ve bire bir kapış; ya da grup maçı kur.":
+      "Pick a friend and go one on one — or start a group match.",
+    "Davet geri alınamadı.": "The invite could not be withdrawn.",
+    // Dükkân
+    "Gücünü seç.": "Choose your edge.",
+    "Jokerlerini coin ile al, doğru anda kullan.":
+      "Buy your jokers with coins and use them at the right moment.",
+    "BAKİYEN": "YOUR BALANCE",
+    "COIN AL": "GET COINS",
+    // Giriş ekranı
+    "BİLGİ · TAKTİK · REKABET": "KNOWLEDGE · TACTICS · COMPETITION",
+    "Bilgini oyuna": "Turn what you know",
+    "dönüştür.": "into a game.",
+    "TEKRAR HOŞ GELDİN": "WELCOME BACK",
+    "Oyuna giriş yap": "Sign in to play",
+    "Kaldığın yerden devam et.": "Pick up where you left off.",
+    // Dondurulmuş bölümler
+    "Bu bölüm şu an kapalı.": "This section is closed for now.",
   },
 };
 

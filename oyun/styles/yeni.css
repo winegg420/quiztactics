@@ -1043,3 +1043,13 @@ body.bd-oyun-modu .bd-jk-rozet {
 /* Yasal bağlantılar 8 px'e düşmesin (okunabilirlik). */
 .giris.auth-body .auth-legal,
 .giris.auth-body .auth-legal a { font-size: 11px; }
+
+/* Dükkân kısayolu — lig kartıyla aynı biçim, turuncu/altın vurgu.
+   (20 Eyl 2026: joker ve coin alma yolu masaüstünde görünmüyordu.) */
+.app a.league-card.bd-dukkan-kisayol {
+  background: linear-gradient(135deg, #fff, #fff6e3);
+  border-color: #f0dfb4;
+}
+.app .bd-dukkan-kisayol .league-medal { background: #ffeec2; color: #a4700a; }
+.app .bd-dukkan-kisayol > div > span { color: #a48a4a; }
+.app .bd-dukkan-kisayol .ok { color: #a4700a; }

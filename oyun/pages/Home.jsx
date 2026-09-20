@@ -822,7 +822,21 @@ export default function Home() {
                   : tt("Bitimine {0}", { 0: sureMetni(haftaKalan) })}
               </small>
             </div>
-            <span className="ok" aria-hidden="true">→</span>
+            <span className="ok" aria-hidden="true"><Ikon ad="ok" boyut={16} /></span>
+          </Link>
+
+          {/* ---------- DÜKKÂN KISAYOLU (20 Eyl 2026) ----------
+              Joker ve coin buradan alınır. Alt menüdeki Dükkân sekmesi
+              850 px üstünde gizlendiği için ana sayfada da açık bir giriş
+              duruyor; coin hapı zaten doğrudan Coin sekmesine gidiyor. */}
+          <Link to={y("/joker")} className="league-card bd-dukkan-kisayol">
+            <div className="league-medal"><Ikon ad="hediye" boyut={20} /></div>
+            <div>
+              <span>{tt("DÜKKÂN")}</span>
+              <b>{tt("Joker ve coin")}</b>
+              <small>{tt("Jokerlerini tazele, coin kazan")}</small>
+            </div>
+            <span className="ok" aria-hidden="true"><Ikon ad="ok" boyut={16} /></span>
           </Link>
         </aside>
       </div>

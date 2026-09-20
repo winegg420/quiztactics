@@ -6863,3 +6863,30 @@ düzeltilecek, bu pakette DOKUNULMADI:
 | `.eyebrow #8190ad` | 3,22 |
 | Turuncu yazı beyaz üstünde | 2,84 |
 | Görev ödülü `#bd8b09` | 3,06 |
+
+### 20 Eylül 2026 — ek: dükkâna giriş (sahibinin uyarısı)
+Arayüz Yenileme'den sonra sahibi "insanlar joker/coin nasıl alacak" diye
+sordu. Dükkân dondurulmamıştı (yalnız içindeki **Görünüm** sekmesi kapandı),
+ama **masaüstünde girişi yoktu**: alt menü 850 px üstünde gizlendiği için
+büyük ekranda "Dükkân" kelimesi hiçbir yerde görünmüyor, tek yol üst çubuktaki
+coin hapına basmaktı (o da doğrudan Coin sekmesine gider, Joker sekmesi bir
+tık daha uzakta).
+
+Yapılan:
+- Masaüstü menüsüne **Dükkân** eklendi (Ana Sayfa · Oyun Modları · Lig ·
+  Arkadaşlar · Dükkân).
+- Ana sayfanın sağ sütununa **Dükkân kısayolu** kartı (lig kartıyla aynı
+  biçim, altın vurgu).
+
+Dükkâna giden yollar artık beş tane: masaüstü menü · alt menü sekmesi ·
+coin hapı (Coin sekmesi) · ana sayfa kısayolu · maç içi joker çubuğundaki
+"Joker al". Joker paketleri, tek tek joker alımı, ödüllü video ve coin
+paketleri (Play Billing) olduğu gibi çalışıyor — hiçbirine dokunulmadı.
+
+Ayrıca bu ekte: Arayüz Yenileme'nin getirdiği **95 yeni metnin İngilizcesi**
+`oyun/lib/dil.js`'e eklendi (menü, ana sayfa, /modlar, lig pankartı,
+arkadaşlar/mesajlar başlıkları, dükkân başlığı, giriş ekranı, "Bu bölüm şu an
+kapalı"). Öncesinde bu metinler EN modunda Türkçe kalıyordu — sözlükte
+olmayan anahtar Türkçe metnin kendisine düştüğü için ekran bozulmuyordu ama
+yarı Türkçe görünüyordu. Ölçüldü: profil dili EN iken ana sayfa, menü ve
+giriş ekranı tamamen İngilizce; sayfa hatası yok.

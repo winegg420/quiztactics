@@ -177,6 +177,13 @@ export default function Layout() {
                 {tt("Arkadaşlar")}
                 {bekleyen > 0 && <span className="bd-menu-nokta" aria-label={`${bekleyen} ${tt("bekleyen")}`} />}
               </NavLink>
+              {/* DÜKKÂN — masaüstünde de menüde (20 Eyl 2026).
+                  Alt menü 850 px üstünde gizli olduğu için büyük ekranda
+                  "Dükkân" kelimesi hiçbir yerde görünmüyordu; joker ve coin
+                  almanın tek yolu coin hapına basmaktı. */}
+              <NavLink to={y("/joker")} className={({ isActive }) => (isActive ? "active" : "")}>
+                {tt("Dükkân")}
+              </NavLink>
             </nav>
 
             {profile && (
