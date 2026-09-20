@@ -2722,4 +2722,8 @@ Yeni testler: `_test/ziplama-test.mjs`, `_test/ziplama-ag-test.mjs`,
 - Doğrulama: üretim migration denetimi; hardening 7/7; etkilenen ekonomi ve
   Klasik/Düello regresyonları 33/33; canlı DB kural paketi 13/13; production
   build; iOS 12.2 ayrıştırma denetimi; skill kuralları 6/6; dans paketi geçti.
-- Üretim commit'i: push sonrasında bu bölümün altındaki yayın kaydında belirtilir.
+- Canlı smoke: ana sayfa + 11 temel rota, yeni WebP, yeni JS/CSS ve manifest
+  olmak üzere 16/16 HTTP kontrolü geçti; canlı JS içinde yeni hak ve hata
+  metinleri doğrulandı.
+- Frontend feature SHA: `bad28ca`; doğrulanmış ilk production rollout SHA:
+  `1c83912`.
