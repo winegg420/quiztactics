@@ -712,7 +712,14 @@ export default function ChallengesPage() {
 
   return (
     <div>
-      <h1 className="baslik">{tt("Meydan Okuma")}</h1>
+      {/* Sayfa başlığı — prototipin `page-heading` bloğu (Arayüz Yenileme) */}
+      <section className="page-heading">
+        <div>
+          <span className="eyebrow">{tt("ARKADAŞLAR")}</span>
+          <h1>{tt("Meydan Oku")}</h1>
+          <p>{tt("Bir arkadaşını seç ve bire bir kapış; ya da grup maçı kur.")}</p>
+        </div>
+      </section>
       {/* Paket 9: sahibi otomatik eşleştirmenin kategorisini burada aradı. */}
       <p className="alt-yazi" style={{ marginTop: -6, marginBottom: 12 }}>
         {/* Paket 42 H.2: tek cümle; artık olmayan "Dereceli Maç" düğmesinden bahsetmiyor */}

@@ -231,19 +231,59 @@ düzelttikten sonra aynı hatayı başka dosyalarda da ara. Büyük
 değişiklikleri küçük adımlara böl. Git/teknik terim kullanırken kısa bir
 sadeleştirme ekle (ör. "rebase yaptım (commit'ini güncel hale getirdim)").
 
-## Tasarım dili — "Şenlik"
+## Tasarım dili — ARAYÜZ YENİLEME (20 Eylül 2026)
 
-Değiştirme, koru:
+**Tek görsel kaynak: `tasarim/home-prototype/`** (ChatGPT ile yapılan 24
+sayfalık saf HTML/CSS prototip, depoya kopyalandı). Prototip YALNIZCA görsel
+tasarım kaynağıdır: içindeki örnek metinler, oyuncu verileri, jokerler,
+modlar, fiyatlar, rütbeler, turnuva saatleri ve oyun mekanikleri
+**doğru kabul edilmez**. Bütün işlevlerde mevcut kod, veritabanı ve bu
+dosyadaki ürün kararları tek doğru kaynaktır.
 
-- Açık gökyüzü zemin, beyaz kartlar + alt kalınlık (`0 4px 0`)
-- Kabartmalı butonlar (basınca `translateY(4px)`)
-- Baloo 2 başlık / Nunito gövde
-- Turuncu vurgu (`--bd-vurgu: #F4701F`) — marka rengi
+Uygulanışı: `oyun/styles/yeni.css` — prototipin paleti ve stil sayfası
+birebir, üstüne eski `--bd-*` token'larının yeni palete bağlandığı bir
+alias katmanı. Eski sınıflar SİLİNMEDİ; hepsi yeni palete döner.
+Yükleme sırası (`src/main.jsx`): styles.css → tema.css → koyu.css → yeni.css.
+
+Palet (değiştirme):
+
+```
+--ink:#17213c  --muted:#71809f  --line:#dbe4f3  --paper:#fff  --bg:#eef4ff
+--orange:#ff6b2c  --orange2:#e95114  --navy:#172549  --gold:#ffca45
+--purple:#7c55ec  --green:#20b874  --blue:#3b91e8
+--shadow:0 16px 42px rgba(36,58,103,.12)
+```
+
+- Kabuk 1180 px (`.shell`); üstte yatay menü, 850 px altında alt menü.
+- Baloo 2 başlık / Nunito gövde — **yerel paketli** (`public/fonts/`,
+  `@font-face`). Google Fonts bağlantısı YOK, geri de eklenmez.
+- Kabartmalı buton dili korundu (`0 4px 0` + basınca `translateY(4px)`).
+- Maç ekranları koyu zemin (`body.bd-oyun-modu`) — altı mod birden.
+- Koyu tema PALETİ YOK; ayardaki düğme mevcut davranışını korur.
 
 Oyun, bilgi yarışması gibi görünmeli; sakin/nötr "uygulama" estetiğine
 kaydırma. Kontrast WCAG AA: küçük metin ≥ 4.5, 24px+ veya 19px+ kalın
 metin ≥ 3.0. `prefers-reduced-motion` ve `prefers-reduced-transparency`
 desteklenir.
+
+**BEKLEYEN İŞ — kontrast.** Prototipin paleti bilerek aynen alındı; ölçülen
+düşük kontrastlar ayrı bir pakette düzeltilecek, şimdi dokunulmadı. Liste
+`PROGRESS.md` › Arayüz Yenileme.
+
+### Arayüz denetimi — her arayüz değişikliğinden sonra
+
+```bash
+npm run dev                      # başka bir kabukta
+node araclar/arayuz-denetim.mjs  # --gorsel eklersen ekran görüntüsü de alır
+```
+
+16 sayfayı dört genişlikte (1440 · 850 · 560 · 390) açar ve ölçer: yatay
+taşma · sabit öğede transform (iOS tuzağı) · transform'lu ata · kaydırınca
+kayan sabit menü · 44 px altı dokunma hedefi · konsol hatası. İlk çalışmada
+"Misafir olarak dene" ile bir oturum açıp `.arayuz-denetim-oturum.json`
+dosyasına yazar (git'e girmez). WebKit bu makinede çalışmadığı için
+(bkz. iOS bölümü) kontrol listesi böyle denetlenir; gerçek iOS kontrolü
+sahibinin telefonunda yapılır.
 
 ## Quiz Tactics — yerleşik ürün kararları
 
@@ -378,15 +418,30 @@ dosyalar · geri açma adımları). Dağınık not bırakma, buraya ekle.
 | **Hızlı Mod** | 18 Eyl 2026 | 24 B | `oyun/pages/HizliModPage.jsx` | `oyun_ayarlari.hizli_mod_acik = false` + tabloda BEFORE INSERT kapısı | Ayarı `true` yap · rotayı, ana sayfa düğmesini ve harita binasını geri koy · joker testindeki TEST 9 yorumunu aç |
 | **"Hızlı Olan Kazanır"** | 15 Eyl 2026 | 14 | `oyun/pages/HizliMacPage.jsx` | `oyun_ayarlari.hizli_mac_acik = false` + BEFORE INSERT kapısı | Ayarı `true` yap · `/hizli-mac/:id` rotasını geri bağla · davet akışındaki `hizli` türünü aç |
 | **Eski 3B gardırop / atölye / yerel meydan** | 17 Eyl 2026 | 17 §D | `oyun/avatar3d/**` | yok (HTML girişleri yönlendiriyor) | Üç HTML'deki `location.replace` satırını kaldır · `/gorunum` ve `/gorunum-3b` rotalarını geri bağla · Dükkân › Görünüm sekmesini geri koy |
+| **Meydan (3B harita)** | 20 Eyl 2026 | Arayüz Yenileme | `oyun/harita/**` | yok (bayrak istemcide) | `oyun/lib/ozellikBayraklari.js` › `MEYDAN_ACIK = true` |
+| **Gardırop / karakter vitrini** | 20 Eyl 2026 | Arayüz Yenileme | `oyun/vitrin/**`, `oyun/pages/GorunumPage.jsx` | yok (bayrak istemcide) | `oyun/lib/ozellikBayraklari.js` › `GARDIROP_ACIK = true` |
+
+**Arayüz Yenileme (20 Eyl 2026) — meydan ve gardırop:** tek anahtar
+`oyun/lib/ozellikBayraklari.js`. Bayrak kapalıyken gizlenenler: alt menüdeki
+Meydan sekmesi, üst çubuktaki Görünüm kısayolu, Dükkân › Görünüm sekmesi
+(varsayılan sekme Joker olur), Profil › Görünüm kartı, Profil › Ayarlar ›
+"Meydanda ikramlar", ilk girişteki `/gorunum` yönlendirmesi. Rotalar
+(`/harita`, `/harita-deneme`, `/gorunum`, `/gorunum-3b`) SİLİNMEDİ: "Bu bölüm
+şu an kapalı." notunu gösterip ana sayfaya dönüyorlar.
+`vite.config.js`'e ve veritabanına DOKUNULMADI — meydan bot cron işleri
+çalışmaya devam ediyor (kapatma kararı sahibinin), meydandan turnuvaya katılma
+yolu (`meydan_turnuva_damgasi`, +20 coin) yalnız harita sayfasından
+çağrıldığı için kendiliğinden erişilemez durumda.
 
 **Paket 41 I (19 Eyl 2026):** donmuş oyun modu rotaları (`/hizli-mod`, `/hizli-mac/:id`) artık önce
 "Bu mod şu an kapalı." notunu gösterip 2,5 sn sonra ana sayfaya `replace` ile yönlenir
 (`oyun/pages/BulunamadiPage.jsx` `kapaliMod`); bilinmeyen adresler 404 sayfasına düşer.
 
-**Donmuş rotaların davranışı tutarlıdır (ölçüldü):** donmuş oyun modları `/bildim`'e,
-donmuş gardırop sayfaları `/gorunum`'a gider — her biri kendi modülünün
-yerine geçen sayfaya. Dört giriş de (iki React rotası + üç HTML) aynı biçimde
-`replace` ile yönlendirir, geri tuşuna basınca döngü olmaz.
+**Donmuş rotaların davranışı tutarlıdır:** donmuş oyun modları ve — Arayüz
+Yenileme'den (20 Eyl 2026) sonra — donmuş meydan/gardırop rotaları ana sayfaya
+gider. Eski `avatar3d` HTML girişleri hâlâ `/gorunum`'a yönlendiriyor; `/gorunum`
+de artık kapalı olduğu için oradan ana sayfaya düşüyorlar (iki adımlı ama
+döngüsüz, hepsi `replace`).
 
 ### Asenkron 1v1 maç dalı — DONDURULMUŞ DEĞİL, KULLANILMIYOR
 

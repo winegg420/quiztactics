@@ -2100,20 +2100,21 @@ html {
 }
 body { background-color: var(--bd-zemin); }
 
-/* Sabit üst blok kendi kompozisyon katmanında kalsın: blur her karede
-   yeniden hesaplanmasın, altındaki içerik flaş yapmasın. */
-.bd-ust-blok {
-  will-change: transform;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-}
+/* KALDIRILDI (Arayüz Yenileme, 20 Eyl 2026) — iOS tuzağı.
+   Burada `.bd-ust-blok` hem `position: sticky` hem `transform: translateZ(0)`
+   idi. Kök CLAUDE.md'nin iOS kuralı tam bunu yasaklıyor: `position: fixed`
+   ya da `sticky` ile `transform` AYNI ÖĞEDE kullanılmaz — iOS Safari'de
+   daralıp genişleyen adres çubuğuyla birleşince sabitleme bozulur, üst
+   çubuk kaydırma sırasında yerinden oynar. Üstelik transform'lu bir öğe
+   içindeki `position: fixed` katmanları (modal, joker çubuğu, toast)
+   kendine göre konumlandırır.
+   `will-change: transform` de aynı etkiyi yapabildiği için birlikte kalktı.
+   Blur'un her karede hesaplanmaması isteniyorsa çözüm transform değil,
+   `contain: paint` gibi ayrı bir araçtır — ölçülmeden eklenmez.
+   Araç: node araclar/arayuz-denetim.mjs (sabit-transform kontrolü). */
 
 /* Nokta dokusu katmanı da sabit; kendi katmanında kalsın */
 body::before { will-change: opacity; }
-
-@media (prefers-reduced-motion: reduce) {
-  .bd-ust-blok { will-change: auto; }
-}
 
 /* ============================================================
    SON 5 SANİYE — heyecan
@@ -5417,12 +5418,12 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 }
 .app .bd-lobi-oyuncu:hover { background: var(--bd-yuzey-2); }
 .app .bd-lobi-oyuncu > .bd-lobi-ad { flex: 1; min-width: 0; }
-.app .bd-lobi-kilic {
-  flex: none; display: inline-flex; align-items: center; justify-content: center;
-  width: 32px; height: 32px; border-radius: 50%;
-  background: var(--bd-yuzey-2); color: var(--bd-metin-2);
-}
-.app .bd-lobi-oyuncu:hover .bd-lobi-kilic { color: var(--bd-vurgu); }
+/* .bd-lobi-kilic BURADA TANIMLIYDI — KALDIRILDI (Arayüz Yenileme, 20 Eyl 2026).
+   Aynı seçici üç kez tanımlıydı (bu satır, ~5790 ve ~8387). Üçü de aynı
+   özgüllükte olduğu için yalnız EN SONDAKİ (Paket 43 B'nin 44×44 soluk
+   kılıcı) uygulanıyordu; buradaki 32 px yuvarlak tanım ölü koddu ve
+   dosyayı okuyanı yanıltıyordu. Yürürlükteki tek tanım: aşağıda
+   "LOBİ KILICI — tek tanım" başlığı (~8387). */
 
 /* ============================================================
    NADİRLİK ÇERÇEVESİ — giyilen en değerli eşyanın rengi

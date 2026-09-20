@@ -83,7 +83,14 @@ function DuelloGiris() {
 
   return (
     <div className="bd-duello-giris">
-      <h1 className="baslik">{ceviri("Düello")}</h1>
+      {/* Sayfa başlığı — prototipin `page-heading` bloğu (Arayüz Yenileme) */}
+      <section className="page-heading">
+        <div>
+          <span className="eyebrow">{tt("ÖNE ÇIKAN MOD")}</span>
+          <h1>{tt("Düello")}</h1>
+          <p>{tt("Jokerlerini doğru anda kullan, rakibinin planını boz.")}</p>
+        </div>
+      </section>
       <div className="kart bd-duello-tanit">
         <Maskot poz="selam" boyut={72} />
         <div className="bd-duello-tanit-metin">

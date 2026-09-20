@@ -313,12 +313,12 @@ export default function BildirimZili() {
   return (
     <div className="bd-zil-sarmal" ref={zilRef}>
       <button
-        className="bd-zil"
+        className="bd-zil circle-btn"
         onClick={ac}
         aria-label={`${tt("Bildirimler")}${toplam > 0 ? tt(", {0} okunmamış", { 0: toplam }) : ""}`}
       >
         <Ikon ad="zil" boyut={19} />
-        {toplam > 0 && <span className="bd-zil-rozet">{toplam > 9 ? "9+" : toplam}</span>}
+        {toplam > 0 && <span className="bd-zil-rozet dot">{toplam > 9 ? "9+" : toplam}</span>}
       </button>
 
       {acik && typeof document !== "undefined" && createPortal(panel, document.body)}

@@ -12,12 +12,12 @@ import { useBildimManifest } from "../lib/manifest.js";
 import BildirimToast from "./BildirimToast.jsx";
 import Ikon from "./Ikon.jsx";
 import CoinHapi from "./CoinHapi.jsx";
-import Avatar from "../../src/components/Avatar.jsx";
 import AvatarMenu from "./AvatarMenu.jsx";
-import Logo from "./Logo.jsx";
 // SADELEŞTİRME: tema ve ses düğmeleri üst bardan Profil sayfasına
 // taşındı (sadeleştirme). Bileşenler silinmedi; geri istenirse tek satır.
 import { y } from "../lib/yol.js";
+// Meydan/gardirop dondurma bayraklari (Arayuz Yenileme, 20 Eyl 2026)
+import { GARDIROP_ACIK } from "../lib/ozellikBayraklari.js";
 import { cihazBildir } from "../lib/cihaz.js";
 import { ayarlar } from "../lib/ayarlar.js";
 import { turnuvaSaatleriniAyarla, turnuvaListesiniAyarla } from "../lib/zaman.js";
@@ -58,6 +58,9 @@ export default function Layout() {
   // sayfası altında açılırsa kartlar görünür ama tıklama sihirbaza gider —
   // oyuncu "karakter seçemiyorum" der. Önce sihirbaz bitsin.
   useEffect(() => {
+    // GARDIROP DONDURULDU (Arayüz Yenileme, 20 Eyl 2026): görünüm sayfası
+    // kapalıyken ilk girişte oraya yönlendirme de yapılmaz.
+    if (!GARDIROP_ACIK) return;
     if (!profile) return;
     if (!profile.takma_ad_secildi || !profile.avatar_onayli || !profile.ulke) return;
     let gosterildi = true;
@@ -144,74 +147,89 @@ export default function Layout() {
       ) : (
         kurulumEksik && <KurulumSihirbazi />
       )}
+
+      {/* ============ ÜST ÇUBUK (Arayüz Yenileme, 20 Eyl 2026) ============
+          Prototipin iskeleti: marka + masaüstü menü + sağda eylemler.
+          Sticky kabuk `.bd-ust-blok` KORUNDU — davet bandı ve bildirim
+          toast'ı onun içinde duruyor; kaldırılsa ikisi de akışta kayardı.
+          Maç ekranlarında gizlenir: body.bd-oyun-modu (oyun/lib/oyunModu.js). */}
       <div className="bd-ust-blok">
         <header className="topbar">
-          <Link to={y()} style={{ textDecoration: "none" }} aria-label={tt("Quiz Tactics ana sayfa")}>
-            <Logo boyut={24} />
-          </Link>
-          {/* SADELEŞTİRME (12 Eylül 2026).
-              Üst barda beş kontrol vardı: tema · ses · zil · coin · puan
-              · avatar. Tema ve ses AYARDIR, her ekranda görünmesi gerekmez
-              — ikisi de Profil sayfasında zaten duruyor (bileşenler
-              silinmedi, yalnız bu barda çizilmiyor). Puan çipi de kalktı:
-              aynı sayı hemen altındaki kartta büyük büyük yazıyor.
-              Kalan üç öğe: bildirim, coin, profil. */}
-          {profile && (
-            <div className="bd-topbar-sag">
-              <BildirimZili />
-              <CoinHapi />
-              {/* GÖRÜNÜM KISAYOLU (Paket 8): 3B karakter özelliği Profil →
-                  Ayarlar'ın dibinde gizli kalıyordu. Gardırop ayrı bir HTML
-                  sayfası (SPA rotası değil) → düz bağlantı. Profil düğmesiyle
-                  aynı sınıf: aynı boy/renk, dar ekran kuralları da geçerli. */}
-              <Link to={y("/gorunum")} className="bd-profil-link bd-gorunum-kisayol"
-                    aria-label={tt("Görünüm — karakterini giydir")} title={tt("Görünüm")}>
-                <Ikon ad="tisort" boyut={20} />
-              </Link>
-              {/* Paket 41 C: avatar artık kısayol menüsü açar (Profilim · Ayarlar · Ses · Dil · Çıkış) */}
-              <AvatarMenu profile={profile} />
-            </div>
-          )}
+          <div className="topbar-inner">
+            <Link className="brand" to={y()} aria-label={tt("Quiz Tactics ana sayfa")}>
+              <span className="brand-mark" aria-hidden="true">Q</span>
+              <span>QUIZ <b>TACTICS</b></span>
+            </Link>
+
+            {/* Masaüstü menü — 850 px altında gizlenir, yerini alt menü alır.
+                Dördü de var olan rotalar; yeni rota açılmadı. */}
+            <nav className="desktop-nav" aria-label={tt("Ana menü")}>
+              <NavLink to={y()} end className={({ isActive }) => (isActive ? "active" : "")}>
+                {tt("Ana Sayfa")}
+              </NavLink>
+              <NavLink to={y("/modlar")} className={({ isActive }) => (isActive ? "active" : "")}>
+                {tt("Oyun Modları")}
+              </NavLink>
+              <NavLink to={y("/siralama")} className={({ isActive }) => (isActive ? "active" : "")}>
+                {tt("Lig")}
+              </NavLink>
+              <NavLink to={y("/arkadaslar")} className={({ isActive }) => (isActive ? "active" : "")}>
+                {tt("Arkadaşlar")}
+                {bekleyen > 0 && <span className="bd-menu-nokta" aria-label={`${bekleyen} ${tt("bekleyen")}`} />}
+              </NavLink>
+            </nav>
+
+            {profile && (
+              <div className="top-actions">
+                <BildirimZili />
+                <CoinHapi />
+                {/* GÖRÜNÜM KISAYOLU — gardırop DONDURULDU (bkz.
+                    oyun/lib/ozellikBayraklari.js). Bayrak true olunca geri gelir. */}
+                {GARDIROP_ACIK && (
+                  <Link to={y("/gorunum")} className="circle-btn bd-gorunum-kisayol"
+                        aria-label={tt("Görünüm — karakterini giydir")} title={tt("Görünüm")}>
+                    <Ikon ad="tisort" boyut={20} />
+                  </Link>
+                )}
+                {/* Avatar kısayol menüsü (Profilim · Ayarlar · Ses · Dil · Çıkış) */}
+                <AvatarMenu profile={profile} />
+              </div>
+            )}
+          </div>
         </header>
 
         {profile && <DavetBandi />}
         <BildirimToast />
       </div>
 
-      <main className="sayfa">
+      {/* Kabuk 1180 px (prototip `.shell`). Eski 540 px `.app` sınırı
+          oyun/styles/yeni.css'te kaldırıldı. */}
+      <main className="shell">
         <Outlet />
       </main>
 
-      {/* SADELEŞTİRME (12 Eylül 2026) — yedi sekme ALTIYA indi.
-          Kaldırılan tek sekme "Merkez": Quiz Tactics kendi sitesinde "/"
-          zaten Ana Sayfa olduğu için sekme kendini tekrar ediyordu.
-          "Harita" → "Meydan": oyun içindeki adı bu.
-          ARKADAŞLAR SEKMESİ KALDI — bu oyunda arkadaşlar ikincil ekran
-          değil: oyuncular yalnız arkadaşlarıyla maç yapabiliyor, biri
-          oyunu sırf bunun için oynuyor olabilir.
-          Yeni rota açılmadı; hepsi var olan yollar. */}
-      <nav className="tabbar">
-        <NavLink to={y()} end className={({ isActive }) => (isActive ? "aktif" : "")}>
-          <span className="ikon"><Ikon ad="ev" boyut={26} /></span>{tt("Ana Sayfa")}
+      {/* ============ ALT MENÜ — yalnız 850 px altında ============
+          Beş sekme: Ana Sayfa · Arkadaşlar · Lig · Dükkân · Profil.
+          MEYDAN SEKMESİ YOK — 3B meydan donduruldu (ozellikBayraklari.js).
+          iOS: `position: fixed` ile `transform` aynı öğede KULLANILMAZ;
+          güvenli alan payı prototipten geldiği gibi korundu. */}
+      <nav className="mobile-nav" aria-label={tt("Mobil menü")}>
+        <NavLink to={y()} end className={({ isActive }) => (isActive ? "active" : "")}>
+          <span><Ikon ad="ev" boyut={22} /></span>{tt("Ana Sayfa")}
         </NavLink>
-        <NavLink to={y("/arkadaslar")} className={({ isActive }) => (isActive ? "aktif" : "")}>
-          <span className="ikon"><Ikon ad="kisiler" boyut={26} /></span>{tt("Arkadaşlar")}
+        <NavLink to={y("/arkadaslar")} className={({ isActive }) => (isActive ? "active" : "")}>
+          <span><Ikon ad="kisiler" boyut={22} /></span>{tt("Arkadaşlar")}
           {/* Bekleyen meydan okuma/arkadaş isteği: sayı değil nokta */}
-          {bekleyen > 0 && <span className="rozet nokta" aria-label={`${bekleyen} bekleyen`} />}
+          {bekleyen > 0 && <span className="bd-menu-nokta" aria-label={`${bekleyen} ${tt("bekleyen")}`} />}
         </NavLink>
-        <NavLink to={y("/siralama")} className={({ isActive }) => (isActive ? "aktif" : "")}>
-          <span className="ikon"><Ikon ad="grafik" boyut={26} /></span>{tt("Lig")}
+        <NavLink to={y("/siralama")} className={({ isActive }) => (isActive ? "active" : "")}>
+          <span><Ikon ad="grafik" boyut={22} /></span>{tt("Lig")}
         </NavLink>
-        <NavLink to={y("/joker")} className={({ isActive }) => (isActive ? "aktif" : "")}>
-          <span className="ikon"><Ikon ad="yildiz" boyut={26} /></span>{tt("Dükkân")}
+        <NavLink to={y("/joker")} className={({ isActive }) => (isActive ? "active" : "")}>
+          <span><Ikon ad="yildiz" boyut={22} /></span>{tt("Dükkân")}
         </NavLink>
-        {/* Meydan (3B buluşma alanı) — sahne lazy yüklenir, sekmeye
-            basılmadan three.js inmez. */}
-        <NavLink to={y("/harita")} className={({ isActive }) => (isActive ? "aktif" : "")}>
-          <span className="ikon"><Ikon ad="haritaPini" boyut={26} /></span>{tt("Meydan")}
-        </NavLink>
-        <NavLink to={y("/profil")} className={({ isActive }) => (isActive ? "aktif" : "")}>
-          <span className="ikon"><Ikon ad="kisi" boyut={26} /></span>{tt("Profil")}
+        <NavLink to={y("/profil")} className={({ isActive }) => (isActive ? "active" : "")}>
+          <span><Ikon ad="kisi" boyut={22} /></span>{tt("Profil")}
         </NavLink>
       </nav>
     </div>

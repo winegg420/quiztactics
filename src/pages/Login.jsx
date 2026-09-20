@@ -158,7 +158,7 @@ export default function Login() {
   };
 
   return (
-    <div className="giris">
+    <div className="giris auth-body">
       {/* TR / EN değiştirici — en üstte, giriş yapmadan da erişilebilir.
           Seçim localStorage'a, giriş yapılmışsa profile de yazılır. */}
       <div className="giris-dil" role="group" aria-label={ceviri("Dil")}>
@@ -175,11 +175,24 @@ export default function Login() {
         ))}
       </div>
 
-      {/* Tek site, tek marka. Eskiden burada hub ile Quiz Tactics ayrımı
-          vardı (VITE_MOD); Quiz Tactics kendi deposuna taşınınca kalktı. */}
-      <div className="buyuk-logo"><Logo boyut={44} /></div>
-      {/* Paket 42 S.3: ilk ekranda oyunun yüzü — mevcut maskot Bilge (yeni görsel yok) */}
-      <Maskot poz="selam" boyut={88} className="giris-maskot" />
+      {/* ---------- GİRİŞ (Arayüz Yenileme, 20 Eyl 2026) ----------
+          Prototipteki iki panelli `auth-shell`: solda vitrin, sağda giriş
+          kartı. Sağlayıcılar ve e-posta akışı AYNEN korundu; canlıda kapalı
+          olan sağlayıcının düğmesi zaten çizilmiyor (saglayiciAcik). */}
+      <main className="auth-shell">
+      <section className="auth-showcase">
+        {/* Tek site, tek marka. Eskiden burada hub ile Quiz Tactics ayrımı
+            vardı (VITE_MOD); Quiz Tactics kendi deposuna taşınınca kalktı. */}
+        <span className="brand auth-brand">
+          <span className="brand-mark" aria-hidden="true">Q</span>
+          <span>QUIZ <b>TACTICS</b></span>
+        </span>
+        <div>
+          <span className="event-kicker">{ceviri("BİLGİ · TAKTİK · REKABET")}</span>
+          <h1>{ceviri("Bilgini oyuna")}<br /><strong>{ceviri("dönüştür.")}</strong></h1>
+          {/* Paket 42 S.3: ilk ekranda oyunun yüzü — mevcut maskot Bilge */}
+          <Maskot poz="selam" boyut={88} className="giris-maskot" />
+          <div className="buyuk-logo bd-gorsel-gizli"><Logo boyut={44} /></div>
       <div className="slogan">
         {/* Paket 40 G: saatler sabit yazılıydı ("13:00 ve 21:50"); artık oyunun kullandığı tek listeden
             (oyun_ayarlari.turnuva_saatleri → zaman.js). Giriş öncesi ayar okunamazsa kod varsayılanı. */}
@@ -192,9 +205,17 @@ export default function Login() {
         <br />
         {ceviri("7/24 meydan okumalar. Sen de yerini al.")}
       </div>
+        </div>
+      </section>
+
+      <section className="auth-panel">
+      <div className="auth-card">
+        <span className="eyebrow">{ceviri("TEKRAR HOŞ GELDİN")}</span>
+        <h2>{ceviri("Oyuna giriş yap")}</h2>
+        <p>{ceviri("Kaldığın yerden devam et.")}</p>
 
       <button
-        className="sosyal-btn"
+        className="sosyal-btn social-login"
         disabled={bekleyen !== null}
         onClick={() => sosyalGiris("google")}
       >
@@ -281,13 +302,17 @@ export default function Login() {
         )}
       </div>
 
+      </div>
+
       {/* Yasal metinler giriş duvarının ÖNÜNDE erişilebilir olmalı
           (Google Play ve reklam ağları şartı). */}
-      <div className="giris-yasal">
+      <div className="giris-yasal auth-legal">
         <a href="/gizlilik">{ceviri("Gizlilik politikası")}</a>
         <span aria-hidden="true">·</span>
         <a href="/kosullar">{ceviri("Kullanım koşulları")}</a>
       </div>
+      </section>
+      </main>
     </div>
   );
 }

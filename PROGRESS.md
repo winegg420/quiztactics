@@ -6753,3 +6753,113 @@ SQL/migration yok. Commit'ler 41202c8 → rapor. Rapor: `PAKET41_RAPOR.md`.
 - C: turnuva maçından çıkış onaylı (yalnız yarışan oyuncu; elenmiş/izleyici doğrudan çıkar). Aktif turnuvada sunucuda "ayrıl" RPC'si yok — elenme eskisi gibi cevapsız soruyla.
 - D: CLAUDE.md/AGENTS.md turnuva saatleri = canlı 7 seans; eski sabah/akşam ayarları DB'de duruyor, kullanılmıyor (not düşüldü, silinmedi).
 - Rapor: `PAKET43_RAPOR.md`.
+
+## 20 Eylül 2026 — Arayüz Yenileme (prototip entegrasyonu + meydan/gardırop dondurma)
+
+**Ne yapıldı.** Sitenin arayüzü ChatGPT ile hazırlanan 24 sayfalık HTML/CSS
+prototipe geçirildi. Prototip depoya alındı: `tasarim/home-prototype/`
+(ana depo dışındaki klasörde çalışılmadı). Dal: `arayuze-yenileme` → `main`.
+
+### Kalıcı karar — prototipin yeri
+Prototip **yalnızca görsel tasarım kaynağıdır**. İçindeki metin, oyuncu
+verisi, joker listesi, fiyat, mod, rütbe, turnuva saati ve mekanikler
+geçersizdir; işlevlerde mevcut kod + veritabanı + CLAUDE.md ürün kararları
+tek doğru kaynaktır. Bu kural CLAUDE.md › "Tasarım dili — ARAYÜZ YENİLEME"
+bölümüne yazıldı.
+
+### Yapılanlar
+- **Yazı tipleri yerel:** Baloo 2 + Nunito (latin + latin-ext, 4 woff2,
+  152 KB) `public/fonts/` altında; `index.html` ve `oyun/avatar3d/gardrop.html`
+  içindeki Google Fonts bağlantıları kaldırıldı, preload eklendi.
+- **Tema katmanı:** `oyun/styles/yeni.css` — prototip paleti + stil sayfası
+  birebir; eski `--bd-*` token'ları yeni palete alias'landı (eski sınıflar
+  silinmedi, hepsi yeni renge döndü). `src/main.jsx`'te en son yüklenir.
+- **Satır içi hex renkler tokena bağlandı:** `oyun/lib/ranks.js` rütbe
+  renkleri, `UstalikIzgarasi.jsx` seviye renkleri (değerler aynı, yedekli
+  `var(--x, #hex)`).
+- **İskelet:** üst çubuk (marka + masaüstü menü + zil/coin/avatar) ve alt
+  mobil menü (5 sekme). Kabuk 1180 px; `.app`'in 540 px sınırı kalktı.
+  `AvatarMenu`, `BildirimZili`, `CoinHapi`, `DavetBandi`, `BildirimToast`,
+  `MacUstSerit`, `DurumKutusu`, ses düğmesi ve TR/EN korundu.
+- **Yeni sayfa:** `/modlar` (prototipin `modes.html`'i). Yeni mod açmaz;
+  yalnız var olan rotalara götürür, joker sayılarını `jokerler.js`'ten
+  hesaplar.
+- **Sayfalar:** ana sayfa, lig, arkadaşlar, dükkân, giriş, maç ekranları,
+  maç sonu, oyuncu kartı, turnuva, bildirimler, davet, mesajlar, hatalarım,
+  meydan okuma, düello, 404, gizlilik, koşullar.
+
+### Kararlar ve nedenleri
+- **"CEVABI KİLİTLE" eklenmedi.** Prototipte vardı; oyunda şıkka basınca
+  cevap gidiyor ve geri bildirim `geriBildirim.js`/`GB_MS`'ten geliyor.
+  `answer-feedback` bloğu da alınmadı.
+- **Maç ekranı tek yerden giydirildi** (`body.bd-oyun-modu`). Altı ekran
+  birden değişti: Klasik, Saf Bilgi, Düello, Grup, Turnuva, Çalışma turu —
+  mod paritesi kuralının gereği.
+- **Bildirim zili telefonda gizlenmedi.** Prototip 560 px altında
+  `.circle-btn{display:none}` diyor; telefonda bildirimlere başka giriş
+  olmadığı için işlev kaybı olurdu.
+- **Dokunma hedefleri 44 px.** Prototip 38–42 px veriyordu; üst çubuk
+  düğmeleri, sekmeler ve alt menü 44'e çıkarıldı (iki piksellik sapma
+  bilinçli).
+- **Uydurulmayanlar (prototipte var, kodda karşılığı yok):**
+  `coin-checkout.html` (Play Billing akışı — sayfa açılmadı),
+  arkadaşlar `social-stats` şeridi (dört sayıdan üçünün karşılığı yok),
+  dükkân "Haftanın Paketi" kahraman kartı (öyle bir kampanya ürünü yok),
+  maç sonu "XP" ve "ort. süre" göstergeleri (XP sistemi yok),
+  oyuncu kartı "alıntı/söz" satırı ve rakiplik yüzdeleri prototipteki
+  biçimiyle. Hiçbirine sahte sayı yazılmadı.
+- **Lig kartı gerçek veriye bağlandı.** Ana sayfadaki `ligYukle` daha önce
+  `setLigDurum(null)` yapıyordu (kart çizilmiyordu); artık Lig sayfasıyla
+  aynı kaynağı okuyor: `lig_grubum`. Lig ile rütbe ayrı gösteriliyor —
+  rütbe oyuncu şeridinde (`ranks.js`), lig sağ sütundaki kartta.
+- **`LIG_ADLARI` `oyun/lib/lig.js`'e taşındı.** Ana sayfa onu
+  `LeaderboardPage.jsx`'ten import edince koca lider tablosu ana sayfa
+  paketine giriyordu. Eski import yolu `export { … } from` ile korundu.
+
+### Bulunan ve düzeltilen hatalar
+- **iOS tuzağı (tema.css):** `.bd-ust-blok` hem `position: sticky` hem
+  `transform: translateZ(0)` idi — kök CLAUDE.md'nin iOS kuralının birebir
+  ihlali. `transform` ve `will-change: transform` kaldırıldı. Bu, üst
+  çubuğun iOS'ta kaymasına ve içindeki `position: fixed` katmanların
+  (modal, toast) yanlış konumlanmasına yol açan sınıftı.
+- **Üç kez tanımlı seçici (tema.css):** `.app .bd-lobi-kilic` aynı
+  özgüllükte üç kez tanımlıydı; yalnız sonuncusu (Paket 43 B'nin 44×44
+  kılıcı) uygulanıyordu. Ölü olan 32 px'lik tanım kaldırıldı, yerine
+  neden kaldırıldığını anlatan not bırakıldı.
+
+### Dondurulanlar (silinmedi)
+Tek anahtar: `oyun/lib/ozellikBayraklari.js` → `MEYDAN_ACIK = false`,
+`GARDIROP_ACIK = false`. Geri açmak için ikisini `true` yapmak yeterli.
+Gizlenenler: alt menü Meydan sekmesi, üst çubuk Görünüm kısayolu, Dükkân ›
+Görünüm sekmesi (varsayılan sekme Joker oldu), Profil › Görünüm kartı,
+Profil › Ayarlar › "Meydanda ikramlar", ilk girişteki `/gorunum`
+yönlendirmesi. Rotalar (`/harita`, `/harita-deneme`, `/gorunum`,
+`/gorunum-3b`) duruyor; "Bu bölüm şu an kapalı." notunu gösterip ana
+sayfaya dönüyorlar. `vite.config.js`'e ve veritabanına dokunulmadı.
+
+**Ida'ya not:** meydan bot cron işleri boşa çalışmaya devam ediyor
+(`pg_cron`). Kapatma kararı senin; kod tarafında hiçbir migration yazılmadı.
+Meydandan turnuvaya katılma (+20 coin, `meydan_turnuva_damgasi`) yalnız
+harita sayfasından çağrıldığı için kendiliğinden erişilemez durumda;
+turnuvaya klasik düğmeden giriş aynen çalışıyor.
+
+### Yeni araç
+`araclar/arayuz-denetim.mjs` — 16 sayfayı dört genişlikte (1440 · 850 ·
+560 · 390) açar; yatay taşma, sabit öğede transform, transform'lu ata,
+kaydırınca kayan sabit menü, 44 px altı dokunma hedefi ve konsol hatası
+ölçer. `--gorsel` ile ekran görüntüsü de alır. İlk çalışmada misafir
+oturumu açıp `.arayuz-denetim-oturum.json`'a yazar (git'e girmez).
+WebKit bu makinede çalışmadığı için iOS kontrol listesi böyle denetleniyor.
+
+### BEKLEYEN İŞ — arayüz yenileme sonrası kontrast
+Palet bilerek aynen alındı; aşağıdaki ölçümler ayrı bir pakette
+düzeltilecek, bu pakette DOKUNULMADI:
+
+| Yer | Oran |
+|---|---|
+| Turuncu düğme üstünde beyaz yazı | 2,38 |
+| `--muted #71809f` küçük metinler | 3,60 |
+| `.play-meta #9dacca` | 2,29 |
+| `.eyebrow #8190ad` | 3,22 |
+| Turuncu yazı beyaz üstünde | 2,84 |
+| Görev ödülü `#bd8b09` | 3,06 |

@@ -3,8 +3,12 @@ import Ikon from "./Ikon.jsx";
 import { supabase } from "../../src/lib/supabase.js";
 import { tt } from "../lib/dil.js";
 
-/** Ana sayfa hero'sundaki günlük seri sayacı + koruma durumu. */
-export default function SeriRozeti() {
+/**
+ * Günlük seri sayacı + koruma durumu.
+ * `bicim="serit"` (Arayüz Yenileme, 20 Eyl 2026): oyuncu şeridindeki
+ * istatistik hücresi. Veri kaynağı aynı RPC — ikinci bir sorgu açılmadı.
+ */
+export default function SeriRozeti({ bicim = "rozet" }) {
   const [durum, setDurum] = useState(null);
 
   const yukle = useCallback(async () => {
@@ -30,6 +34,15 @@ export default function SeriRozeti() {
   // Alev, serinin uzunluğuna göre ısınır. Seri oyuncunun kaybetmek
   // istemeyeceği tek şey — görsel olarak da öyle dursun.
   const isi = gun >= 7 ? "sicak" : gun >= 3 ? "orta" : gun >= 1 ? "sonuk" : "yok";
+
+  if (bicim === "serit") {
+    return (
+      <div className={`bd-seri-serit isi-${isi}`}>
+        <b><Ikon ad="ates" boyut={14} /> {gun}</b>
+        <span>{bugunOynadi || gun === 0 ? tt("Günlük seri") : tt("Bugün oynamadın")}</span>
+      </div>
+    );
+  }
 
   return (
     <div className={`bd-seri isi-${isi} ${bugunOynadi ? "aktif" : "bekliyor"}`}>

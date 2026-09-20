@@ -13,7 +13,7 @@ export default function CoinHapi() {
   const { bakiye } = useCoin();
   if (bakiye === null) return null;
   return (
-    <Link to={y("/joker?sekme=coin")} className="bd-coin-hap" aria-label={`${bakiye} ${tt("coin")}`}>
+    <Link to={y("/joker?sekme=coin")} className="bd-coin-hap coin-pill" aria-label={`${bakiye} ${tt("coin")}`}>
       <Ikon ad="coin" boyut={15} />
       {/* Paket 36: maç sonu coin uçuşu bitince bakiye sayarak yeni değerine geçer */}
       <SayanSayi deger={bakiye} sure={500} bicim={binlik} />

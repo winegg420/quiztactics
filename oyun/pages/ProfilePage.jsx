@@ -21,6 +21,7 @@ import KategoriProfili from "../components/KategoriProfili.jsx";
 import { bayrak, konumKilidiKalan, sureMetni } from "../lib/konum.js";
 import { rutbeBul, sonrakiRutbe } from "../lib/ranks.js";
 import { y } from "../lib/yol.js";
+import { GARDIROP_ACIK } from "../lib/ozellikBayraklari.js";
 import {
   pushDestekleniyor,
   iosSekmesi,
@@ -244,19 +245,23 @@ export default function ProfilePage() {
       <HesapGuvenceKarti />
       {/* ---------- Görünüm (3B karakter) — EN ÜSTTE (Paket 8) ----------
           Eskiden ProfilAyarlari'nın beş kartının ALTINDAYDI; önemli bir
-          özellik 6 kaydırma arkasında kalıyordu. */}
-      <Link to={y("/gorunum")} className="kart bd-profil-hatalarim">
-        <span className="bd-mod-ikon" style={{ background: "var(--bd-vurgu)" }}>
-          <Ikon ad="tisort" boyut={20} />
-        </span>
-        <div className="bd-profil-hatalarim-metin">
-          <div className="ad">{tt("Görünüm")}</div>
-          <div className="alt-yazi">
-            {tt("Türünü seç, kozmetiklerini tak. Meydanda böyle görünürsün.")}
+          özellik 6 kaydırma arkasında kalıyordu.
+          DONDURULDU (Arayüz Yenileme, 20 Eyl 2026): kart bayrak kapalıyken
+          çizilmez. Kod silinmedi — oyun/lib/ozellikBayraklari.js. */}
+      {GARDIROP_ACIK && (
+        <Link to={y("/gorunum")} className="kart bd-profil-hatalarim">
+          <span className="bd-mod-ikon" style={{ background: "var(--bd-vurgu)" }}>
+            <Ikon ad="tisort" boyut={20} />
+          </span>
+          <div className="bd-profil-hatalarim-metin">
+            <div className="ad">{tt("Görünüm")}</div>
+            <div className="alt-yazi">
+              {tt("Türünü seç, kozmetiklerini tak. Meydanda böyle görünürsün.")}
+            </div>
           </div>
-        </div>
-        <span className="ok" aria-hidden="true">›</span>
-      </Link>
+          <span className="ok" aria-hidden="true">›</span>
+        </Link>
+      )}
 
       <ProfilAyarlari />
 

@@ -282,17 +282,28 @@ export default function FriendsPage() {
 
   return (
     <div>
-      <h1 className="baslik">{tt("Arkadaşlar")}</h1>
-      {/* Paket 35 E: alt çubuğa yedinci sekme yerine buradan (okunmamış varsa rozet) */}
-      <button
-        type="button"
-        className="btn ikincil bd-mesajlar-dugme"
-        onClick={() => navigate(y("/mesajlar"))}
-        aria-label={dmOkunmamis > 0 ? tt("Mesajlar, {0} okunmamış", { 0: dmOkunmamis }) : tt("Mesajlar")}
-      >
-        <Ikon ad="mesaj" boyut={18} /> {tt("Mesajlar")}
-        {dmOkunmamis > 0 && <span className="bd-dm-rozet" aria-hidden="true">{rozetMetni(dmOkunmamis)}</span>}
-      </button>
+      {/* ---------- SAYFA BAŞLIĞI (Arayüz Yenileme, 20 Eyl 2026) ----------
+          Prototipteki `page-heading` + `messages-button`.
+          `social-stats` şeridi ALINMADI: prototipteki dört sayıdan
+          (çevrimiçi · arkadaş · bu hafta maç · galibiyet) yalnız biri
+          gerçek veriden gelebiliyor; sahte sayı yazılmaz. */}
+      <section className="page-heading">
+        <div>
+          <span className="eyebrow">{tt("SOSYAL MERKEZ")}</span>
+          <h1>{tt("Arkadaşlarınla yarış")}</h1>
+          <p>{tt("Arkadaşlarını bul, meydan oku ve kimin daha bilgili olduğunu göster.")}</p>
+        </div>
+        {/* Paket 35 E: alt çubuğa yedinci sekme yerine buradan (okunmamış varsa rozet) */}
+        <button
+          type="button"
+          className="btn ikincil bd-mesajlar-dugme messages-button"
+          onClick={() => navigate(y("/mesajlar"))}
+          aria-label={dmOkunmamis > 0 ? tt("Mesajlar, {0} okunmamış", { 0: dmOkunmamis }) : tt("Mesajlar")}
+        >
+          <Ikon ad="mesaj" boyut={18} /> <span>{tt("Mesajlar")}</span>
+          {dmOkunmamis > 0 && <b aria-hidden="true">{rozetMetni(dmOkunmamis)}</b>}
+        </button>
+      </section>
       {hata && <div className="hata-kutu">{hata}</div>}
       {bilgi && <div className="bd-bilgi-kutu">{bilgi}</div>}
       {/* Paket 35 C: satıra dokununca profil kartı; kart yalnız verilen eylemleri çizer */}

@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz Tactics — Ana Sayfa Tasarım Prototipi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#" aria-label="Quiz Tactics ana sayfa">
+        <span class="brand-mark">Q</span>
+        <span>QUIZ <b>TACTICS</b></span>
+      </a>
+      <nav class="desktop-nav" aria-label="Ana menü">
+        <a class="active" href="./index.html">Ana Sayfa</a>
+        <a href="./modes.html">Oyun Modları</a>
+        <a href="./league.html">Lig</a>
+        <a href="./friends.html">Arkadaşlar</a>
+      </nav>
+      <div class="top-actions">
+        <button class="circle-btn" aria-label="Bildirimler"><span class="dot">3</span>♢</button>
+        <button class="coin-pill" aria-label="Coin bakiyesi"><span>●</span> 10.000</button>
+        <a class="avatar-button" href="./profile.html" aria-label="Profil ve avatar seçimi">
+          <img id="headerAvatar" src="./avatars/k05.svg" alt="Seçili avatar" />
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="player-strip">
+      <div class="player-main">
+        <img id="playerAvatar" class="player-avatar" src="./avatars/k05.svg" alt="Oyuncu avatarı" />
+        <div>
+          <span class="eyebrow">HOŞ GELDİN</span>
+          <h1>TestOyuncu917</h1>
+          <span class="rank"><i></i> ÇAYLAK LİGİ</span>
+        </div>
+      </div>
+      <div class="player-stats">
+        <div><b>53</b><span>Lig puanı</span></div>
+        <div><b>🔥 1</b><span>Günlük seri</span></div>
+        <div class="next-rank"><span>Bilge'ye 47 puan</span><i><em></em></i></div>
+      </div>
+    </section>
+
+    <div class="dashboard">
+      <div class="primary-column">
+        <section class="play-card">
+          <div class="play-glow"></div>
+          <div class="play-copy">
+            <span class="live-label"><i></i> HIZLI EŞLEŞME</span>
+            <h2>Bilgini konuştur.<br><strong>Tahtaya çık.</strong></h2>
+            <p>Senin seviyendeki rakiplerle 10 soruluk canlı mücadele.</p>
+          </div>
+
+          <div class="versus" aria-label="Rakip eşleşmesi ön izlemesi">
+            <div class="fighter you"><img src="./avatars/k05.svg" alt="Sen"/><span>SEN</span></div>
+            <div class="vs-badge">VS</div>
+            <div class="fighter mystery"><span>?</span><small>RAKİP</small></div>
+          </div>
+
+          <div class="match-settings">
+            <button class="setting" id="categoryButton">
+              <span class="setting-icon">▦</span>
+              <span><small>KATEGORİ</small><b id="categoryText">Karışık</b></span>
+              <span class="chevron">⌄</span>
+            </button>
+            <button class="setting ranked" id="rankedButton" aria-pressed="true">
+              <span class="setting-icon">♛</span>
+              <span><small>MAÇ TÜRÜ</small><b id="rankedText">Dereceli</b></span>
+              <span class="switch on"><i></i></span>
+            </button>
+          </div>
+
+          <button class="play-button" id="playButton"><span>⚡</span> RAKİP BUL <b>→</b></button>
+          <div class="play-meta"><span>10 soru</span><i></i><span>5 joker</span><i></i><span>Canlı maç</span></div>
+        </section>
+
+        <section class="section modes" id="modes">
+          <div class="section-head">
+            <div><span class="eyebrow">OYUN MODLARI</span><h2>Nasıl oynamak istersin?</h2></div>
+            <button>Tümünü gör →</button>
+          </div>
+          <div class="mode-grid">
+            <button class="mode-card duel">
+              <span class="mode-icon">⚔</span><span><b>Düello</b><small>Jokerlerle taktik savaşı</small></span><em>6 JOKER</em>
+            </button>
+            <button class="mode-card pure">
+              <span class="mode-icon">◎</span><span><b>Saf Bilgi</b><small>Jokersiz, sadece bilgi</small></span><em>KLASİK</em>
+            </button>
+            <button class="mode-card challenge">
+              <span class="mode-icon">♟</span><span><b>Meydan Oku</b><small>Arkadaşını maça çağır</small></span><em>1V1</em>
+            </button>
+            <button class="mode-card practice">
+              <span class="mode-icon">▤</span><span><b>Hatalarım</b><small>Kaçırdığın soruları çalış</small></span><em class="alert">1</em>
+            </button>
+          </div>
+        </section>
+      </div>
+
+      <aside class="side-column">
+        <section class="tournament-card">
+          <div class="trophy">🏆</div>
+          <span class="event-label">BU AKŞAM · 20:00</span>
+          <h2>Gece Turnuvası</h2>
+          <p>Son kalan oyuncu ol, büyük ödülü kap.</p>
+          <div class="countdown" aria-label="Turnuvaya kalan süre">
+            <div><b id="hours">01</b><small>SAAT</small></div><span>:</span>
+            <div><b id="minutes">28</b><small>DAKİKA</small></div><span>:</span>
+            <div><b id="seconds">42</b><small>SANİYE</small></div>
+          </div>
+          <div class="event-bottom"><span><b>12</b> oyuncu lobide</span><button>LOBIYE KATIL</button></div>
+        </section>
+
+        <section class="side-card missions">
+          <div class="side-title"><span>GÜNLÜK GÖREVLER</span><b>0/3</b></div>
+          <div class="mission"><span class="mission-icon">✓</span><div><b>İlk galibiyet</b><small>Bir maç kazan</small></div><strong>+50</strong></div>
+          <div class="mission"><span class="mission-icon orange">⚡</span><div><b>Hızlı düşün</b><small>3 soruyu 5 sn altında bil</small></div><strong>+30</strong></div>
+          <button class="text-button">Tüm görevleri gör →</button>
+        </section>
+
+        <section class="league-card" id="league">
+          <div class="league-medal">♛</div>
+          <div><span>HAFTALIK LİG</span><b>Çaylak Ligi</b><small>47 puan sonra Bilge</small></div>
+          <button>→</button>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <nav class="mobile-nav" aria-label="Mobil menü">
+    <a class="active" href="./index.html"><span>⌂</span>Ana Sayfa</a>
+    <a href="./friends.html"><span>♙</span>Arkadaşlar</a>
+    <a href="./league.html"><span>▥</span>Lig</a>
+    <a href="./shop.html"><span>●</span>Dükkân</a>
+    <a href="./profile.html"><span>◉</span>Profil</a>
+  </nav>
+
+  <div class="sheet-backdrop" id="categorySheet" hidden>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+      <div class="sheet-handle"></div>
+      <h2 id="sheetTitle">Kategori seç</h2>
+      <p>Rakip bu kategoride aranacak.</p>
+      <div class="category-grid">
+        <button class="selected" data-category="Karışık">▦ <span>Karışık</span></button>
+        <button data-category="Genel Kültür">◈ <span>Genel Kültür</span></button>
+        <button data-category="Tarih">⌛ <span>Tarih</span></button>
+        <button data-category="Bilim">⚗ <span>Bilim</span></button>
+        <button data-category="Spor">◉ <span>Spor</span></button>
+        <button data-category="Coğrafya">⌖ <span>Coğrafya</span></button>
+      </div>
+      <button class="sheet-close" id="sheetClose">Kapat</button>
+    </div>
+  </div>
+
+  <div class="match-overlay" id="matchOverlay" hidden>
+    <div class="search-orbit"><img src="./avatars/k05.svg" alt="Oyuncu avatarı" /></div>
+    <span>RAKİP ARANIYOR</span><h2>Sana uygun rakip bulunuyor…</h2>
+    <button id="cancelSearch">Aramayı iptal et</button>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>

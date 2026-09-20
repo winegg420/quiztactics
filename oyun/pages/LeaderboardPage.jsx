@@ -19,14 +19,10 @@ import AvatarCerceve from "../components/AvatarCerceve.jsx";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
 
-// Lig adları — sunucudaki `lig` kolonuyla birebir (bkz. migration 151).
-export const LIG_ADLARI = {
-  bronz: tt("Bronz"),
-  gumus: tt("Gümüş"),
-  altin: tt("Altın"),
-  elmas: tt("Elmas"),
-  efsane: tt("Efsane"),
-};
+// Lig adları oyun/lib/lig.js'e taşındı (Arayüz Yenileme, 20 Eyl 2026);
+// buradan yeniden dışa verilir ki eski import'lar kırılmasın.
+export { LIG_ADLARI } from "../lib/lig.js";
+import { LIG_ADLARI } from "../lib/lig.js";
 
 const KAPSAMLAR = [
   // Kademeli lig: oyuncunun kendi 25 kişilik grubu. İlk sekme bu —
@@ -218,7 +214,7 @@ export default function LeaderboardPage() {
   const satir = (s, vurgu = false) => (
     <div
       key={`${s.user_id}-${vurgu ? "ben" : "liste"}`}
-      className={`bd-lig-satir tiklanir ${s.user_id === user.id ? "ben" : ""}`}
+      className={`bd-lig-satir rank-row tiklanir ${s.user_id === user.id ? "ben" : ""}`}
       onClick={() => setKartOyuncu({
         id: s.user_id,
         gorunen_ad: s.gorunen_ad,
@@ -287,11 +283,50 @@ export default function LeaderboardPage() {
         />
       )}
 
-      <h1 className="baslik">{tt("Lig")}</h1>
+      {/* ---------- LİG PANKARTI (Arayüz Yenileme, 20 Eyl 2026) ----------
+          Prototipteki `league-banner`. Bütün sayılar `lig_grubum`'dan:
+          lig adı, sıram, grup boyu, yükselme sınırı, sezon süresi.
+          RÜTBE DEĞİL — rütbe satırlarda RankBadge ile ayrıca duruyor. */}
+      {kapsam === "lig" && grupBilgi ? (
+        <section className="league-banner">
+          <div className="league-copy">
+            <span className="eyebrow light">{tt("HAFTALIK SEZON")}</span>
+            <h1>{LIG_ADLARI[grupBilgi.lig] ?? grupBilgi.lig} {tt("Ligi")}</h1>
+            <p>
+              {tt("İlk {0}'e gir ve yüksel; son {1} düşer.",
+                  { 0: grupBilgi.yukselen, 1: grupBilgi.dusen })}
+            </p>
+            <div className="season-time">
+              <span><Ikon ad="saat" boyut={15} /></span>
+              <b>{sureMetni(kalanSezon)}</b>
+              <small>{tt("sezonun bitmesine kaldı")}</small>
+            </div>
+          </div>
+          <div className="my-progress">
+            <span>{tt("ŞU ANKİ SIRAN")}</span>
+            <b>#{benimSiram ?? "—"}</b>
+            <small>{benimSiram ? `${benimSiram}/${grupBilgi.grup_boyu}` : tt("Henüz sıralamada değilsin")}</small>
+            <i>
+              <em style={{
+                width: `${Math.max(4, Math.min(100, Math.round(100 * (1 - ((benimSiram ?? grupBilgi.grup_boyu) - 1) / Math.max(1, grupBilgi.grup_boyu - 1)))))}%`,
+              }} />
+            </i>
+          </div>
+        </section>
+      ) : (
+        <section className="page-heading">
+          <div>
+            <span className="eyebrow">{tt("SIRALAMA")}</span>
+            <h1>{tt("Lig")}</h1>
+            <p>{tt("Maç kazan, yüksel ve hafta sonunda sıranı gör.")}</p>
+          </div>
+        </section>
+      )}
 
       {hata && <div className="hata-kutu">{hata}</div>}
 
-      <div className={`bd-sekme-ust bd-lig-kapsam${sekmeDevam ? " bd-serit-solma" : ""}`}
+      <div className="league-tabs surface-card">
+      <div className={`bd-sekme-ust bd-lig-kapsam scope-tabs${sekmeDevam ? " bd-serit-solma" : ""}`}
            ref={sekmeSeritRef} onScroll={sekmeSeritOlc}>
         {KAPSAMLAR.map((k) => (
           <button
@@ -308,7 +343,7 @@ export default function LeaderboardPage() {
       {/* Dönem sekmeleri yalnız gurur tablolarında anlamlı: kademeli lig
           zaten haftalık. */}
       {kapsam !== "lig" && (
-        <div className="bd-sekme-alt">
+        <div className="bd-sekme-alt period-tabs">
           {DONEMLER.map((d) => (
             <button
               key={d.id}
@@ -320,6 +355,7 @@ export default function LeaderboardPage() {
           ))}
         </div>
       )}
+      </div>
 
       {/* Kademeli lig şeridi: "Gümüş Lig · 7/25 · ↑ ilk 5 · ↓ son 5 · süre" */}
       {kapsam === "lig" && grupBilgi && (
@@ -392,9 +428,20 @@ export default function LeaderboardPage() {
           </button>
         </div>
       ) : (
-        <>
+        <section className="leaderboard surface-card">
+          <div className="board-heading">
+            <div>
+              <span className="eyebrow">
+                {kapsam === "lig" && grupBilgi
+                  ? `${LIG_ADLARI[grupBilgi.lig] ?? grupBilgi.lig} ${tt("Ligi")}`
+                  : KAPSAMLAR.find((k) => k.id === kapsam)?.etiket}
+              </span>
+              <h2>{tt("Zirvedekiler")}</h2>
+            </div>
+            <span className="updated">{tt("Canlı sıralama")}</span>
+          </div>
           {podyum.length === 3 && (
-            <div className="bd-podyum">
+            <div className="bd-podyum podium">
               {[podyum[1], podyum[0], podyum[2]].map((p, i) => {
                 const basamak = [2, 1, 3][i];
                 return (
@@ -451,7 +498,7 @@ export default function LeaderboardPage() {
             </div>
           )}
 
-          <div className="bd-lig-liste">
+          <div className="bd-lig-liste ranking-list">
             {(podyum.length === 3 ? kalanlar : ilk100).map((s) => {
               // Kademeli ligde sınır çizgileri: kimin yükseleceği ve
               // kimin düşeceği listeye bakınca görünsün.
@@ -470,7 +517,7 @@ export default function LeaderboardPage() {
               );
             })}
           </div>
-        </>
+        </section>
       )}
 
       {benimSatirim && !yukleniyor && (
