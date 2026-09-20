@@ -7042,3 +7042,9 @@ yüksekliği 62 px; "CEVABI KİLİTLE" yok.
   türlerin satılmaması artık doğrudan sınanıyor. Tam paket sonucu: 71 geçti,
   0 kaldı, yalnız migration provasına ait 4 test normal koşuda bilinçli atlandı;
   kural testleri 17/17 ve dans kontrolleri tamamen geçti.
+
+## 20 Eylül 2026 — Avatar Preview Lab
+
+- Avatar preview lab oluşturuldu.
+- Aynı stil ailesinde 10 özgün örnek avatar üretildi.
+- Preview route: `/preview/avatar-lab`.

@@ -1,0 +1,139 @@
+.avatar-lab {
+  position: relative;
+  isolation: isolate;
+  min-height: 100dvh;
+  overflow: hidden;
+  padding: clamp(40px, 6vw, 76px) clamp(18px, 4vw, 48px) 52px;
+  color: #17213c;
+  background:
+    radial-gradient(circle at 50% -10%, rgba(255, 202, 69, 0.34), transparent 34%),
+    linear-gradient(155deg, #f8fbff 0%, #eef4ff 46%, #f7f1ff 100%);
+}
+
+.avatar-lab__isik {
+  position: absolute;
+  z-index: -1;
+  width: min(440px, 58vw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  filter: blur(3px);
+  opacity: 0.58;
+  pointer-events: none;
+}
+
+.avatar-lab__isik--sol {
+  top: 24%;
+  left: -18%;
+  background: radial-gradient(circle, rgba(255, 107, 44, 0.18), transparent 68%);
+}
+
+.avatar-lab__isik--sag {
+  right: -16%;
+  bottom: 2%;
+  background: radial-gradient(circle, rgba(124, 85, 236, 0.2), transparent 68%);
+}
+
+.avatar-lab__baslik {
+  width: min(760px, 100%);
+  margin: 0 auto clamp(30px, 5vw, 52px);
+  text-align: center;
+}
+
+.avatar-lab__etiket {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 5px 13px;
+  border: 1px solid rgba(124, 85, 236, 0.18);
+  border-radius: 999px;
+  color: #6640d5;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 8px 24px rgba(66, 53, 126, 0.08);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+}
+
+.avatar-lab__baslik h1 {
+  margin: 14px 0 6px;
+  color: #172549;
+  font-family: "Baloo 2", system-ui, sans-serif;
+  font-size: clamp(34px, 6vw, 58px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+
+.avatar-lab__baslik p {
+  margin: 0;
+  color: #62718f;
+  font-size: clamp(15px, 2vw, 18px);
+  font-weight: 700;
+}
+
+.avatar-lab__grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(18px, 2.4vw, 30px);
+  width: min(1180px, 100%);
+  margin: 0 auto;
+}
+
+.avatar-lab__kart {
+  min-width: 0;
+  text-align: center;
+}
+
+.avatar-lab__kart img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: clamp(20px, 2.2vw, 30px);
+  background: #fff;
+  box-shadow: 0 18px 42px rgba(36, 58, 103, 0.16);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.avatar-lab__kart h2 {
+  margin: 12px 0 0;
+  color: #24345e;
+  font-family: "Baloo 2", system-ui, sans-serif;
+  font-size: clamp(16px, 1.7vw, 20px);
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.avatar-lab__dipnot {
+  margin: 34px auto 0;
+  color: #71809f;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .avatar-lab__kart:hover img {
+    transform: translateY(-5px) scale(1.015);
+    box-shadow: 0 24px 52px rgba(36, 58, 103, 0.22);
+  }
+}
+
+@media (max-width: 900px) {
+  .avatar-lab__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 560px) {
+  .avatar-lab { padding-inline: 14px; }
+  .avatar-lab__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 12px; }
+  .avatar-lab__kart img { border-radius: 22px; }
+}
+
+@media (max-width: 340px) {
+  .avatar-lab__grid { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .avatar-lab__kart img { transition: none; }
+}

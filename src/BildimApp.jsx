@@ -61,6 +61,8 @@ const GorunumPage = lazy(() => import("../oyun/pages/GorunumPage.jsx"));
 // Yasal metinler giriş duvarının ÖNÜNDE olmalı (Play Store + reklam ağları).
 const GizlilikPage = lazy(() => import("../oyun/pages/GizlilikPage.jsx"));
 const KosullarPage = lazy(() => import("../oyun/pages/KosullarPage.jsx"));
+// Üretim akışından bağımsız, menüde görünmeyen avatar görsel laboratuvarı.
+const AvatarLabPage = lazy(() => import("../oyun/pages/AvatarLabPage.jsx"));
 
 // Eski hub adresleri (/oyun/...) bu sitede köke indirilir. Bookmark, push
 // bildirimi deep-link'i ve paylaşılmış davet linkleri kırılmasın diye.
@@ -87,6 +89,7 @@ export default function BildimApp() {
 
   const bagimsizModul =
     pathname.startsWith("/insan-prototip") ||
+    pathname.startsWith("/preview/avatar-lab") ||
     pathname.startsWith("/gizlilik") || pathname.startsWith("/kosullar");
 
   if (!supabaseHazir && !bagimsizModul) {
@@ -125,6 +128,7 @@ export default function BildimApp() {
         <Route path="/gizlilik" element={<GizlilikPage />} />
         <Route path="/kosullar" element={<KosullarPage />} />
         <Route path="/insan-prototip" element={<HazirInsanPrototipi />} />
+        <Route path="/preview/avatar-lab" element={<AvatarLabPage />} />
 
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
