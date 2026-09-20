@@ -7,10 +7,22 @@
 #
 # Kaçış kapısı: commit mesajında [progress-yok] geçerse hook geçer.
 #
+# Neden commit-msg, pre-commit değil: kaçış kapısı commit mesajında.
+# pre-commit aşamasında mesaj henüz yazılmamıştır ve .git/COMMIT_EDITMSG
+# bir önceki commit'in mesajını taşır — kapı yanlış açılır. commit-msg
+# aşamasında mesaj dosyası $1 olarak gelir ve doğru okunur.
+#
 # Bu hook YALNIZ yerel commit'te çalışır. Bulut ortamında atılan commit,
-# GitHub arayüzünden yapılan düzenleme veya `npm install` hiç
-# çalışmamış bir kopya için devreye girmez. Hook bir garanti değil,
-# hatırlatıcıdır; asıl güvence CLAUDE.md / AGENTS.md talimatıdır.
+# GitHub arayüzünden yapılan düzenleme veya `npm install` hiç çalışmamış
+# bir kopya için devreye girmez. Hook bir garanti değil, hatırlatıcıdır;
+# asıl güvence CLAUDE.md / AGENTS.md talimatıdır.
+
+mesaj_dosyasi="$1"
+
+# Kaçış kapısı önce — gereksiz iş yapma.
+if [ -f "$mesaj_dosyasi" ] && grep -qF '[progress-yok]' "$mesaj_dosyasi"; then
+  exit 0
+fi
 
 degisen=$(git diff --cached --name-only --diff-filter=ACMR)
 [ -z "$degisen" ] && exit 0
@@ -19,13 +31,6 @@ tetikleyen=$(printf '%s\n' "$degisen" | grep -E '^(oyun/|src/|supabase/migration
 [ -z "$tetikleyen" ] && exit 0
 
 printf '%s\n' "$degisen" | grep -qx 'PROGRESS.md' && exit 0
-
-# Commit mesajı kaçış kapısı — -m, -F ve şablon dosyası için.
-mesaj=""
-for kaynak in "$GIT_COMMIT_MESSAGE_FILE" .git/COMMIT_EDITMSG "$(git rev-parse --git-dir)/COMMIT_EDITMSG"; do
-  [ -n "$kaynak" ] && [ -f "$kaynak" ] && mesaj="$mesaj$(cat "$kaynak")"
-done
-case "$mesaj" in *'[progress-yok]'*) exit 0 ;; esac
 
 echo ""
 echo "  COMMIT REDDEDILDI — PROGRESS.md guncellenmemis."
