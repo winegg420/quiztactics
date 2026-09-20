@@ -7010,3 +7010,28 @@ yüksekliği 62 px; "CEVABI KİLİTLE" yok.
 - 360/390/412/430 px yerel tarayıcı taşma kontrolü: dört genişlikte de yatay
   taşma yok. Giriş gerektiren gerçek maç kabul testi preview üzerinde ürün
   sahibine bırakıldı; production ve main değiştirilmedi.
+
+---
+
+## 20 Eylül 2026 — Revizyon 2: oyun hissi, skill eşitliği ve mobil düzeltmeler
+
+- Dal: `codex/ui-gamefeel-fixes-v2`. `main` ve production değiştirilmedi.
+- Klasik/Grup/Turnuva maç kabuğu koyu dashboard görünümünden açık, katmanlı
+  mobil oyun arenasına geçirildi. Düello aynı yüzey, seçenek ve vurgu diline
+  çekildi; saldırı/savunma rengi korunurken sert ekran halesi azaltıldı.
+- Ek Süre sonrasında istemci artık sayacı tahminen oynatmıyor; maç türünün
+  yetkili soru RPC'sini yeniden çağırıp oyuncuya özel `baslangic` değerini
+  kullanıyor. Yenileme ve yeniden bağlantı aynı sunucu gerçeğine dayanıyor.
+- Düello 50:50, ortak QuestionCard gibi gerçek fakat pasif/elenmiş seçenek
+  düğmeleri çiziyor; aynı kırılma-solma animasyonu ve erişilebilir sıra korunuyor.
+- Mobil üst çubuk 360/390/412/430 px'de Q solda, bildirim/coin/avatar sağda
+  sabitlendi. Lig listesinin dar ekranda genişlik/akış kuralları açıkça verildi.
+- Dükkâna CSS + mevcut inline SVG ikon setiyle paket sandığı ve skill kartı
+  illüstrasyonları eklendi. Sunucudan gelebilen eski “joker” ürün metinleri
+  kullanıcıya “skill” olarak gösteriliyor; veri ve RPC adları değiştirilmedi.
+- `npm run build` geçti; uyumluluk denetimi temiz (önceden var olan altı
+  destek uyarısı sürüyor). `npm run test:kurallar` 17/17 geçti.
+- Oturumlu arayüz denetimi 16 sayfa × 1440/850/560/360/390/412/430 genişlikte
+  geçti: yatay taşma yok, sabit öğe kayması yok, dokunma hedefleri ≥44 px,
+  konsol temiz. Tam eski sunucu paketi 57 geçti / 14 kaldı: kalanlar önceki
+  joker sistemini bekliyor ve Skill v1 seçim/pasif tür kurallarıyla güncel değil.

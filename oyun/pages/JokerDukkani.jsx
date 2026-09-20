@@ -11,6 +11,7 @@ import { h5AdsYapilandirildi, odulluVideoGoster } from "../lib/h5ads.js";
 import { desteklenirMi, fiyatlariAl, satinAl, tuket } from "../lib/playFatura.js";
 import { useCoin, coinTazele, coinHatasi } from "../lib/coin.js";
 import CoinGorseli, { coinBoyutu } from "../components/CoinGorseli.jsx";
+import SkillGorseli from "../components/SkillGorseli.jsx";
 import { y } from "../lib/yol.js";
 import { GARDIROP_ACIK } from "../lib/ozellikBayraklari.js";
 // 2B vitrin ve 2B katalog SEKMEDEN ÇIKTI (tek karakter sistemi).
@@ -37,6 +38,15 @@ const TUM_SEKMELER = [
 ];
 const SEKMELER = TUM_SEKMELER.filter((x) => x.kod !== "kiyafet" || GARDIROP_ACIK);
 const VARSAYILAN_SEKME = GARDIROP_ACIK ? "kiyafet" : "joker";
+
+// Paket adları/açıklamaları sunucudan gelir. Eski kayıtlar kullanıcıya
+// “joker” diyebilir; ürün dilinde mekanik değişmeden “skill” olarak gösterilir.
+function skillDilineCevir(metin) {
+  return String(ttSunucu(metin) ?? "")
+    .replace(/karışık\s+joker/gi, (x) => x[0] === "K" ? "Karışık skill" : "karışık skill")
+    .replace(/jokerler/gi, "skiller")
+    .replace(/joker/gi, "skill");
+}
 
 export default function JokerDukkani() {
   const { profile } = useAuth();
@@ -309,9 +319,10 @@ export default function JokerDukkani() {
         <div className="bd-paket-liste">
           {paketler.filter((p) => p.coin_fiyat != null && Object.keys(p.icerik ?? {}).every((id) => AKTIF_MAC_SKILLERI.includes(id) || id === "seri_koruma")).map((p) => (
             <div key={p.urun_id} className="bd-paket">
+              <SkillGorseli tur="paket" icerik={p.icerik} />
               <div className="bd-paket-bilgi">
-                <div className="bd-paket-ad">{ttSunucu(p.ad)}</div>
-                <div className="alt-yazi">{ttSunucu(p.aciklama)}</div>
+                <div className="bd-paket-ad">{skillDilineCevir(p.ad)}</div>
+                <div className="alt-yazi">{skillDilineCevir(p.aciklama)}</div>
                 <div className="bd-paket-icerik">
                   {Object.entries(p.icerik ?? {}).map(([tur, adet]) => (
                     <span key={tur} className="bd-paket-parca">
@@ -355,6 +366,7 @@ export default function JokerDukkani() {
         <div className="bd-paket-liste">
           {AKTIF_MAC_SKILLERI.map((tur) => (
             <div key={tur} className="bd-paket">
+              <SkillGorseli tur={tur} />
               <div className="bd-paket-bilgi">
                 <div className="bd-paket-ad">
                   <Ikon ad={JOKER_BILGI[tur].ikon} boyut={15} /> {JOKER_BILGI[tur].ad}

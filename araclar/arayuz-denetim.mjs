@@ -45,7 +45,10 @@ const GENISLIKLER = [
   { ad: "masaustu", w: 1440, h: 900 },
   { ad: "kirilma-850", w: 850, h: 900 },
   { ad: "kirilma-560", w: 560, h: 900 },
+  { ad: "telefon-360", w: 360, h: 800 },
   { ad: "telefon-390", w: 390, h: 844 },
+  { ad: "telefon-412", w: 412, h: 915 },
+  { ad: "telefon-430", w: 430, h: 932 },
 ];
 
 const SAYFALAR = [

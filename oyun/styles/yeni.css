@@ -1083,3 +1083,193 @@ body.bd-oyun-modu .bd-joker-cubuk { justify-content: center; }
   box-shadow: 0 4px 0 #b36800;
   color: #2b1100;
 }
+
+/* ============================================================
+   REVİZYON 2 — DAHA AÇIK, MOBİL OYUN HİSSİ
+   İşlev ve maç kuralları değişmez; bu bölüm yalnız son görsel katmandır.
+   ============================================================ */
+
+/* Üst çubuk: dar ekranlarda marka gerçek sol ankraja, işlemler sağ ankraja. */
+@media (max-width: 850px) {
+  .app .topbar,
+  .app .topbar-inner { width: 100%; max-width: none; }
+  .app .topbar-inner { justify-content: flex-start; overflow: visible; }
+  .app .brand { flex: 0 0 auto; min-width: 0; margin-right: auto; }
+  .app .top-actions { flex: 0 0 auto; margin-left: auto; min-width: 0; }
+}
+@media (max-width: 430px) {
+  .app .topbar-inner { padding-inline: 12px; gap: 7px; }
+  .app .top-actions { gap: 6px; }
+  .app .coin-pill { padding-inline: 8px; }
+}
+
+/* Klasik, Grup ve Turnuva ortak maç kabuğu. Koyu dashboard kaldırıldı;
+   lacivert artık yalnız kimlik/kontrast vurgusu. */
+body.bd-oyun-modu {
+  background:
+    radial-gradient(circle at 8% 4%, rgba(255, 178, 88, .22), transparent 24rem),
+    radial-gradient(circle at 92% 18%, rgba(80, 140, 235, .17), transparent 26rem),
+    linear-gradient(180deg, #f7faff 0%, #edf4ff 58%, #f8fbff 100%) no-repeat;
+  background-attachment: fixed;
+  color: var(--ink);
+}
+body.bd-oyun-modu .bd-mac-ust-serit {
+  height: 62px;
+  margin-bottom: 4px;
+}
+body.bd-oyun-modu .bd-mac-cikis,
+body.bd-oyun-modu .bd-mac-ses {
+  border-color: #d7e1ef;
+  background: rgba(255,255,255,.9);
+  color: #25365d;
+  box-shadow: 0 4px 0 #d9e3f0;
+}
+body.bd-oyun-modu .bd-mac-mod-rozet {
+  color: #536481;
+  background: rgba(255,255,255,.82);
+  border: 1px solid #dae4f1;
+  border-radius: 999px;
+  padding: 7px 13px;
+}
+body.bd-oyun-modu .skor-tabela.bd-vs {
+  max-width: 820px;
+  margin: 5px auto 14px;
+  padding: 12px 16px;
+  border: 1px solid rgba(205,218,237,.95);
+  border-radius: 22px;
+  background: rgba(255,255,255,.84);
+  box-shadow: 0 10px 28px rgba(40,67,113,.08);
+}
+body.bd-oyun-modu .skor-tabela .taraf .isim { color: #17264a; }
+body.bd-oyun-modu .skor-tabela .taraf .bd-vs-ilerleme { color: #70809c; }
+body.bd-oyun-modu .skor-tabela .taraf .skor { color: #e35a1d; }
+body.bd-oyun-modu .bd-vs-rozet {
+  color: #fff;
+  background: linear-gradient(145deg,#273b6a,#17264a);
+  border: 0;
+  box-shadow: 0 4px 0 #0d1832;
+}
+body.bd-oyun-modu .bd-soru {
+  border: 1px solid #dce6f2;
+  background: rgba(255,255,255,.97);
+  box-shadow: 0 18px 46px rgba(37,61,104,.14), 0 5px 0 #dfe8f4;
+}
+body.bd-oyun-modu .bd-secenek {
+  border-color: #dce5f1;
+  box-shadow: 0 4px 0 #dce5f1;
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+body.bd-oyun-modu .bd-secenek:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 6px 0 #d4dfed; }
+body.bd-oyun-modu .bd-secenek:not(:disabled):active { transform: translateY(3px); box-shadow: 0 1px 0 #dce5f1; }
+body.bd-oyun-modu .bd-joker-cubuk {
+  margin-top: 14px;
+  padding: 10px;
+  border: 1px solid #dce5f1;
+  border-radius: 18px;
+  background: rgba(255,255,255,.76);
+}
+
+/* Düello: arena hissi korunur, ağır karanlık panel ve sert kenar halesi azalır. */
+body.bd-oyun-modu .bd-duello { max-width: 880px; margin-inline: auto; }
+body.bd-oyun-modu .bd-duello-ust {
+  padding: 10px;
+  border: 1px solid #d9e4f1;
+  border-radius: 20px;
+  background: rgba(255,255,255,.85);
+  box-shadow: 0 9px 24px rgba(42,68,111,.08);
+}
+body.bd-oyun-modu .bd-duello-oyuncu {
+  min-width: 0;
+  border: 1px solid transparent;
+  border-radius: 15px;
+  padding: 7px;
+  background: #f5f8fd;
+}
+body.bd-oyun-modu .bd-duello-oyuncu.saldiriyor { background: #fff3e9; border-color: #ffbd91; }
+body.bd-oyun-modu .bd-duello-rol { margin-bottom: 11px; padding: 6px 17px; }
+body.bd-oyun-modu .bd-duello-sahne {
+  padding: clamp(15px, 3vw, 25px);
+  border: 1px solid #dbe5f1;
+  border-radius: 26px;
+  background: rgba(255,255,255,.96);
+  box-shadow: 0 18px 45px rgba(38,62,105,.13), 0 5px 0 #dce6f2;
+}
+body.bd-oyun-modu .bd-duello-baslik-satir h2,
+body.bd-oyun-modu .bd-duello-soru .bd-soru-metin { color: #17264a; }
+body.bd-oyun-modu .bd-duello-kat {
+  min-height: 64px;
+  border-color: #dbe5f1;
+  background: #fff;
+  box-shadow: 0 4px 0 #dce5f1;
+}
+body.bd-oyun-modu .bd-duello-jokerler {
+  border: 1px solid #dbe5f1;
+  background: rgba(255,255,255,.9);
+  box-shadow: 0 5px 0 #dce6f2;
+}
+.bd-duello-hale.saldiri::before { box-shadow: inset 0 0 30px 5px rgba(244,112,31,.28); }
+.bd-duello-hale.savunma::before { box-shadow: inset 0 0 30px 5px rgba(62,143,208,.25); }
+.bd-duello-hale.savunma::after { box-shadow: inset 0 0 34px 6px rgba(239,75,75,.32); }
+
+/* 50:50 aynı bileşen dili: her modda iki yanlış şık kırılıp soluklaşır. */
+.app .bd-secenek.elendi {
+  pointer-events: none;
+  color: transparent;
+  border-style: dashed;
+  border-color: #cad5e4;
+  background: repeating-linear-gradient(135deg,#f2f5f9,#f2f5f9 8px,#e8edf4 8px,#e8edf4 16px);
+  box-shadow: none;
+}
+
+/* Lig mobil boşluk düzeltmesi: liste satırı ve iç düğme akışta gerçek genişlik
+   alır; masaüstü prototipinin sabit/örtüşen kutu davranışı dar ekrana taşınmaz. */
+@media (max-width: 560px) {
+  .app .leaderboard { overflow: visible; min-width: 0; }
+  .app .bd-lig-liste { display: flex; width: 100%; min-width: 0; }
+  .app .bd-lig-satir.rank-row { position: relative; width: 100%; min-width: 0; opacity: 1; visibility: visible; }
+  .app .bd-lig-satir-ac { width: 100%; min-width: 0; color: var(--ink); }
+  .app .bd-lig-bilgi { flex: 1; min-width: 0; }
+  .app .bd-lig-isim { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+}
+
+/* Dükkân skill illüstrasyonları — tamamı CSS + mevcut SVG ikon seti. */
+.app .bd-paket > .bd-skill-gorsel { flex: 0 0 72px; }
+.bd-skill-gorsel {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 66px;
+  overflow: hidden;
+  border: 1px solid #dce5f1;
+  border-radius: 18px;
+  background: radial-gradient(circle at 70% 18%,rgba(255,255,255,.92),transparent 24%),linear-gradient(145deg,#fff3d6,#ffd99a);
+  color: #9c570c;
+  box-shadow: inset 0 1px 0 #fff,0 4px 0 #e2c47e;
+}
+.bd-skill-gorsel.tek[data-tur="sure"] { background: linear-gradient(145deg,#e6f8ff,#bfe9ff); color:#167aaa; box-shadow:0 4px 0 #9ccfe8; }
+.bd-skill-gorsel.tek[data-tur="soru_degistir"] { background: linear-gradient(145deg,#eee8ff,#d7c8ff); color:#6744c9; box-shadow:0 4px 0 #b9a5ec; }
+.bd-skill-gorsel.tek[data-tur="zaman_baskisi"] { background: linear-gradient(145deg,#ffe9e3,#ffc6b5); color:#b83b1e; box-shadow:0 4px 0 #e7a18d; }
+.bd-skill-gorsel.tek[data-tur="seri_koruma"] { background: linear-gradient(145deg,#e2f8ec,#bcebcf); color:#168357; box-shadow:0 4px 0 #90cdaa; }
+.bd-skill-parilti { position:absolute; width:38px; height:38px; border:1px solid currentColor; border-radius:50%; opacity:.18; box-shadow:0 0 0 9px currentColor; }
+.bd-skill-gorsel > svg { position:relative; z-index:1; filter:drop-shadow(0 2px 0 rgba(255,255,255,.8)); }
+.bd-skill-sandik { position:absolute; left:15px; right:15px; bottom:10px; height:29px; border-radius:7px 7px 10px 10px; background:linear-gradient(#f39836,#c96318); border:2px solid #9f4712; box-shadow:0 4px 0 rgba(117,52,12,.24); }
+.bd-skill-sandik::before { content:""; position:absolute; left:-3px; right:-3px; top:-8px; height:12px; border:2px solid #9f4712; border-radius:8px 8px 4px 4px; background:#ffad49; }
+.bd-skill-sandik span { position:absolute; z-index:2; left:50%; top:5px; width:10px; height:11px; transform:translateX(-50%); border-radius:3px; background:#ffe277; border:2px solid #9f6511; }
+.bd-skill-kartlar { position:absolute; inset:5px 7px auto; display:flex; justify-content:center; gap:2px; }
+.bd-skill-kartlar i { display:grid; place-items:center; width:24px; height:26px; border-radius:7px; color:#fff; background:#254175; border:2px solid #fff; box-shadow:0 2px 3px rgba(22,40,76,.24); }
+.bd-skill-kartlar i:nth-child(2) { transform:translateY(-2px); background:#f36b2b; }
+.bd-skill-kartlar i:nth-child(3) { background:#6d50d8; }
+
+@media (max-width: 560px) {
+  body.bd-oyun-modu .shell { padding-inline: 10px; }
+  body.bd-oyun-modu .bd-mac-ust-serit { padding-inline: 4px; }
+  body.bd-oyun-modu .skor-tabela.bd-vs { padding: 9px; border-radius: 17px; }
+  body.bd-oyun-modu .bd-soru { padding: 18px 14px; box-shadow:0 12px 32px rgba(37,61,104,.12),0 4px 0 #dfe8f4; }
+  body.bd-oyun-modu .bd-duello-sahne { padding: 14px 11px; border-radius: 21px; }
+  body.bd-oyun-modu .bd-duello-ust { padding: 7px; gap: 5px; }
+  body.bd-oyun-modu .bd-duello-oyuncu { padding: 5px; }
+  .app .bd-paket > .bd-skill-gorsel { flex-basis: 58px; width:58px; height:58px; border-radius:15px; }
+  .bd-skill-sandik { left:11px; right:11px; }
+  .bd-skill-kartlar i { width:21px; height:23px; }
+}
