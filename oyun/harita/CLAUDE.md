@@ -43,7 +43,7 @@ three.js indirmez — `three.module-*.js` ayrı chunk'tır (driftgp ile paylaş�
 ## MUAYENE RAPORLAMA KURALI (Paket 21 §G)
 
 Bir muayene sonucu **hiçbir yerde tek başına "0 aday" diye yazılamaz.** Her rapor
-(sohbet özeti, PAKET*_RAPOR.md, PROGRESS.md, commit mesajı) şu dördünü birlikte taşır:
+(sohbet özeti, `docs/paketler/` altındaki paket raporu, PROGRESS.md, commit mesajı) şu dördünü birlikte taşır:
 
 1. **Hangi testler, hangi eşiklerle çalıştı.** Eşikler `muayene/ustveri/_esikler.json`'dadır
    ve sayı olarak yazılır ("oturma: yaslanma ≤ 0,8 cm ve temas ≥ %15, arama 2 cm").
