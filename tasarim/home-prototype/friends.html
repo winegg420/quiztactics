@@ -1,0 +1,29 @@
+<!doctype html><html lang="tr"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><title>Quiz Tactics — Arkadaşlar Prototipi</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet"><link rel="stylesheet" href="./styles.css"/></head>
+<body>
+<header class="topbar"><div class="topbar-inner"><a class="brand" href="./index.html"><span class="brand-mark">Q</span><span>QUIZ <b>TACTICS</b></span></a><nav class="desktop-nav"><a href="./index.html">Ana Sayfa</a><a href="./modes.html">Oyun Modları</a><a href="./league.html">Lig</a><a class="active" href="./friends.html">Arkadaşlar</a></nav><div class="top-actions"><a class="circle-btn messages-button" href="./messages.html"><span class="dot">3</span>♢</a><button class="coin-pill"><span>●</span> 10.000</button><a class="avatar-button" href="./profile.html"><img id="headerAvatar" src="./avatars/k05.svg" alt="Seçili avatar"/></a></div></div></header>
+<main class="shell social-shell">
+  <section class="page-heading"><div><span class="eyebrow">SOSYAL MERKEZ</span><h1>Arkadaşlarınla yarış</h1><p>Arkadaşlarını bul, meydan oku ve kimin daha bilgili olduğunu göster.</p></div><button class="messages-button">✉ <span>Mesajlar</span><b>2</b></button></section>
+  <section class="social-stats"><div><span class="stat-icon green">●</span><b>3</b><small>Çevrimiçi</small></div><div><span class="stat-icon blue">♙</span><b>12</b><small>Arkadaş</small></div><div><span class="stat-icon purple">⚔</span><b>4</b><small>Bu hafta maç</small></div><div><span class="stat-icon orange">★</span><b>3</b><small>Galibiyet</small></div></section>
+  <div class="social-grid">
+    <section class="friends-panel surface-card">
+      <div class="friends-toolbar"><div class="segmented" data-tab-group><button class="active">Arkadaşlar <b>12</b></button><button>İstekler <b class="request-count">2</b></button></div><label class="friend-search">⌕ <input placeholder="Arkadaş ara"/></label></div>
+      <div class="online-heading"><span><i></i> ÇEVRİMİÇİ</span><small>3 kişi</small></div>
+      <div class="friend-list">
+        <article class="friend-row"><div class="avatar-wrap online"><img src="./avatars/k12.svg" alt="Serena"/></div><div class="friend-info"><b>serena</b><span><em>ÜSTAT</em> 752 puan</span><small>Şu an ana sayfada</small></div><button class="friend-message" aria-label="Mesaj gönder">✉</button><button class="challenge-btn">⚔ OYNA</button></article>
+        <article class="friend-row"><div class="avatar-wrap online"><img src="./avatars/k18.svg" alt="Kaptan61"/></div><div class="friend-info"><b>kaptan61</b><span><em>BİLGE</em> 252 puan</span><small>3 dakikadır çevrimiçi</small></div><button class="friend-message">✉</button><button class="challenge-btn">⚔ OYNA</button></article>
+        <article class="friend-row"><div class="avatar-wrap online"><img src="./avatars/k24.svg" alt="Ayşeglm"/></div><div class="friend-info"><b>ayşeglm</b><span><em>BİLGE</em> 220 puan</span><small>Düello oynuyor</small></div><button class="friend-message">✉</button><button class="challenge-btn">⚔ OYNA</button></article>
+      </div>
+      <div class="online-heading muted-heading"><span>SON GÖRÜLENLER</span><small>9 kişi</small></div>
+      <div class="friend-list compact-list">
+        <article class="friend-row"><div class="avatar-wrap"><img src="./avatars/k31.svg" alt="Mrkaya"/></div><div class="friend-info"><b>mrkaya</b><span>Bilge · 166 puan</span><small>2 saat önce</small></div><button class="friend-message">✉</button><button class="challenge-btn ghost">DAVET ET</button></article>
+        <article class="friend-row"><div class="avatar-wrap"><img src="./avatars/k05.svg" alt="Priya"/></div><div class="friend-info"><b>priya</b><span>Bilge · 128 puan</span><small>Dün çevrimiçiydi</small></div><button class="friend-message">✉</button><button class="challenge-btn ghost">DAVET ET</button></article>
+      </div>
+    </section>
+    <aside class="social-side">
+      <section class="invite-card"><span class="eyebrow light">ARKADAŞLARINI ÇAĞIR</span><h2>Birlikte daha eğlenceli.</h2><p>Davet kodunu paylaş; arkadaşın katıldığında birbirinizi anında bulun.</p><div class="invite-code"><span>MMKPJ83N</span><button>⧉ KOPYALA</button></div><button class="share-button">↗ DAVET LİNKİNİ PAYLAŞ</button></section>
+      <section class="surface-card add-card"><div><span class="eyebrow">KODLA EKLE</span><h3>Bir arkadaşın mı çağırdı?</h3></div><div class="code-entry"><input maxlength="8" placeholder="8 haneli kod"/><button>EKLE</button></div></section>
+      <section class="surface-card requests-card"><div class="side-title"><span>GELEN İSTEKLER</span><b>2 YENİ</b></div><div class="mini-person"><img src="./avatars/k18.svg" alt="Elifx"/><span><b>elifx</b><small>186 puan</small></span><button>✓</button><button class="decline">×</button></div><div class="mini-person"><img src="./avatars/k24.svg" alt="BilgeCan"/><span><b>bilgecan</b><small>94 puan</small></span><button>✓</button><button class="decline">×</button></div></section>
+    </aside>
+  </div>
+</main>
+<nav class="mobile-nav"><a href="./index.html"><span>⌂</span>Ana Sayfa</a><a class="active" href="./friends.html"><span>♙</span>Arkadaşlar</a><a href="./league.html"><span>▥</span>Lig</a><a href="./shop.html"><span>●</span>Dükkân</a><a href="./profile.html"><span>◉</span>Profil</a></nav><script src="./app.js"></script></body></html>
