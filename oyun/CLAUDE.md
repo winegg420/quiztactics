@@ -55,6 +55,8 @@ güncellenir. Her dondurulmuş dosyanın başında aynı biçimde bir blok vard�
 | Hızlı Mod | 18 Eyl 2026 | 24 B | `pages/HizliModPage.jsx` | `hizli_mod_acik = false` + BEFORE INSERT | ayarı `true` · rota + ana sayfa düğmesi + harita binası · joker testi TEST 9 |
 | "Hızlı Olan Kazanır" | 15 Eyl 2026 | 14 | `pages/HizliMacPage.jsx` | `hizli_mac_acik = false` + BEFORE INSERT | ayarı `true` · `/hizli-mac/:id` rotası · davet türü |
 | Eski 3B gardırop / atölye / yerel meydan | 17 Eyl 2026 | 17 §D | `avatar3d/**` | yok | aşağıdaki bölüm |
+| Meydan (3B harita) | 20 Eyl 2026 | Arayüz Yenileme | `harita/**` | yok | `lib/ozellikBayraklari.js` › `MEYDAN_ACIK = true` |
+| Gardırop / karakter vitrini | 20 Eyl 2026 | Arayüz Yenileme | `vitrin/**`, `pages/GorunumPage.jsx` | yok | `lib/ozellikBayraklari.js` › `GARDIROP_ACIK = true` |
 
 **Asenkron 1v1 dalı dondurulmuş DEĞİL:** hiç kullanılmamış (48 maçın hepsi
 `senkron = true`) ama `MatchPage.jsx:428` › `mac_asenkrona_gec()` ile hâlâ
