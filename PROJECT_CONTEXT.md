@@ -210,6 +210,13 @@ kalın lacivert kontur, sıcak düz renk, güçlü siluet, hafif asimetri, küç
 boyutta net yüz. Plastik 3B render, stok degrade ve jenerik AI avatar
 görünümü kullanılmaz.
 
+Canlı profesyonel set **31 avatardır**. İlk 10 karaktere ek olarak Köpek,
+Baykuş, Tilki, Penguen, Kurbağa, Ayı, Maymun, Ejderha, Köpekbalığı, Ahtapot,
+Arı, Ninja, Şövalye, Büyücü, Dedektif, Viking, Hayalet, Zombi, Mumya,
+Palyaço ve Kral aynı çizim dilinde yeniden yapılmıştır. Eski `k01.svg`…
+`k31.svg` dosyaları yalnız tarihsel geri dönüş için dondurulmuş kalır;
+seçimde yalnız `/avatars/pro/**` kullanılır.
+
 ### Mod paritesi — KALICI KURAL
 
 Bir moda yapılan kozmetik/arayüz düzeltmesi, aynı sorunun bulunduğu
@@ -241,7 +248,7 @@ bırakma, buraya ekle.
 | **Meydan (3B harita)** | `oyun/harita/**` | yok (bayrak istemcide) | `oyun/lib/ozellikBayraklari.js` › `MEYDAN_ACIK = true` |
 | **Gardırop / karakter vitrini** | `oyun/vitrin/**`, `oyun/pages/GorunumPage.jsx` | yok (bayrak istemcide) | `oyun/lib/ozellikBayraklari.js` › `GARDIROP_ACIK = true` |
 | **Eski 3B gardırop / atölye / yerel meydan** | `oyun/avatar3d/**` | yok (HTML girişleri yönlendiriyor) | Üç HTML'deki `location.replace` satırını kaldır · `/gorunum` ve `/gorunum-3b` rotalarını geri bağla · Dükkân › Görünüm sekmesini geri koy |
-| **Eski 31 profil avatarı** | `public/avatars/k01.svg`…`k31.svg`, `oyun/_test/avatar-uret.mjs` | `avatar_onayla` yalnız yeni `/avatars/pro/**` listesini kabul eder | Eski listeyi iki avatar seçiciye geri koy · RPC izin listesini yeni migration ile genişlet |
+| **Eski düşük ayrıntılı profil avatarları** | `public/avatars/k01.svg`…`k31.svg`, `oyun/_test/avatar-uret.mjs` | `avatar_onayla` yalnız profesyonel `/avatars/pro/**` listesini kabul eder | Eski dosyalar geri açılmaz; karakter fikirlerinin 31'i de profesyonel sette yeniden çizildi |
 
 **Meydan ve gardırop bayrağı** — tek anahtar `oyun/lib/ozellikBayraklari.js`.
 Bayrak kapalıyken gizlenenler: alt menüdeki Meydan sekmesi, üst çubuktaki

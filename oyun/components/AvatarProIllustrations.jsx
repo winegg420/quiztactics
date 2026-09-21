@@ -106,15 +106,193 @@ function Kahraman() {
   </svg>;
 }
 
+function Kopek() {
+  return <svg viewBox="0 0 320 320" role="img" aria-label="Neşeli köpek avatarı">
+    <Sahne renk="#4a9dd9" vurgu="#cfeeff" /><path d="M67 108Q24 84 42 168q8 34 38 17M253 108q43-24 25 60-8 34-38 17" fill="#8a5f16" {...CIZGI} />
+    <path d="M56 300q10-70 104-79 94 9 104 79" fill="#c98a22" {...CIZGI} /><path d="M72 148q0-91 88-99 88 8 88 99-2 91-88 100-86-9-88-100Z" fill="#c98a22" {...CIZGI} />
+    <path d="M97 143q18-14 38 1M184 143q19-13 39 2" fill="none" {...CIZGI} /><ellipse cx="123" cy="161" rx="14" ry="16" fill="#fff8ec" {...CIZGI} /><circle cx="128" cy="164" r="7" fill="#0b1220" /><ellipse cx="201" cy="160" rx="14" ry="16" fill="#fff8ec" {...CIZGI} /><circle cx="197" cy="163" r="7" fill="#0b1220" />
+    <ellipse cx="160" cy="201" rx="48" ry="35" fill="#e6c79a" {...CIZGI} /><path d="M145 185q15-11 30 0-1 17-15 18-14-1-15-18Z" fill="#0b1220" /><path d="M160 203q-2 22-22 21M160 203q3 22 23 20" fill="none" {...CIZGI} /><path d="M149 220q12 24 25 0" fill="#e8543f" {...CIZGI} />
+  </svg>;
+}
+
+function Baykus() {
+  return <svg viewBox="0 0 320 320" role="img" aria-label="Bilge baykuş avatarı">
+    <Sahne renk="#3fa9a0" vurgu="#c6f1ef" /><path d="M61 93 75 35l39 35M259 93l-14-58-39 35" fill="#26365a" {...CIZGI} /><path d="M55 300q8-72 105-82 97 10 105 82" fill="#26365a" {...CIZGI} />
+    <path d="M69 145q0-91 91-98 91 7 91 98-3 83-91 109-88-26-91-109Z" fill="#3b4a6b" {...CIZGI} /><path d="M83 137q40-44 77 1 37-45 77-1-4 69-77 71-73-2-77-71Z" fill="#fff8ec" {...CIZGI} />
+    <circle cx="124" cy="152" r="28" fill="#f2b23c" {...CIZGI} /><circle cx="196" cy="152" r="28" fill="#f2b23c" {...CIZGI} /><circle cx="129" cy="155" r="10" fill="#0b1220" /><circle cx="191" cy="155" r="10" fill="#0b1220" /><path d="m160 162-16 22 16 12 16-12Z" fill="#e8543f" {...CIZGI} /><path d="M121 224q39 22 78 0" fill="none" stroke="#4fb3c9" strokeWidth="10" strokeLinecap="round" />
+  </svg>;
+}
+
+function Tilki() {
+  return <svg viewBox="0 0 320 320" role="img" aria-label="Kurnaz tilki avatarı">
+    <Sahne renk="#4fb3c9" vurgu="#d5f5f0" /><path d="M68 112 76 30l68 58M252 112l-8-82-68 58" fill="#ee8b3c" {...CIZGI} /><path d="m84 88 3-38 34 32M236 88l-3-38-34 32" fill="#26365a" {...CIZGI} />
+    <path d="M55 300q10-70 105-80 95 10 105 80" fill="#26365a" {...CIZGI} /><path d="M70 145q0-88 90-96 90 8 90 96-6 76-90 111-84-35-90-111Z" fill="#ee8b3c" {...CIZGI} /><path d="M81 183q79-23 158 0-17 65-79 73-62-8-79-73Z" fill="#fff8ec" {...CIZGI} />
+    <path d="M103 145q19-13 38 1M179 145q19-13 38 1" fill="none" {...CIZGI} /><path d="M106 159q17 15 34 0M180 159q17 15 34 0" fill="none" {...CIZGI} /><path d="M145 184q15-10 30 0-2 16-15 16t-15-16Z" fill="#0b1220" /><path d="M160 201q0 21-28 25M160 201q0 21 28 25" fill="none" {...CIZGI} />
+  </svg>;
+}
+
+function Penguen() {
+  return <svg viewBox="0 0 320 320" role="img" aria-label="Şık penguen avatarı">
+    <Sahne renk="#f2b23c" vurgu="#fff1b8" /><path d="M55 300q8-70 105-80 97 10 105 80" fill="#26365a" {...CIZGI} /><path d="M72 147q0-92 88-101 88 9 88 101-2 91-88 103-86-12-88-103Z" fill="#26365a" {...CIZGI} />
+    <path d="M99 130q8-62 61-63 53 1 61 63l-7 81q-22 34-54 39-32-5-54-39Z" fill="#fff8ec" {...CIZGI} /><path d="M112 145q17-13 34 2M175 145q17-13 34 2" fill="none" {...CIZGI} /><circle cx="130" cy="160" r="8" fill="#0b1220" /><circle cx="192" cy="160" r="8" fill="#0b1220" /><path d="m160 170-22 20 22 12 22-12Z" fill="#ee8b3c" {...CIZGI} />
+    <path d="m127 235 33 18 33-18-13 42-20-14-20 14Z" fill="#e8543f" {...CIZGI} /><circle cx="160" cy="253" r="8" fill="#f2b23c" {...CIZGI} />
+  </svg>;
+}
+
+function Kurbaga() {
+  return <svg viewBox="0 0 320 320" role="img" aria-label="Rahat kurbağa avatarı">
+    <Sahne renk="#4fb3c9" vurgu="#c9f3ef" /><path d="M54 300q9-69 106-79 97 10 106 79" fill="#278d62" {...CIZGI} /><circle cx="111" cy="91" r="39" fill="#2fbf71" {...CIZGI} /><circle cx="209" cy="91" r="39" fill="#2fbf71" {...CIZGI} />
+    <path d="M69 149q0-85 91-91 91 6 91 91-2 91-91 101-89-10-91-101Z" fill="#2fbf71" {...CIZGI} /><circle cx="111" cy="96" r="24" fill="#fff8ec" {...CIZGI} /><circle cx="209" cy="96" r="24" fill="#fff8ec" {...CIZGI} /><circle cx="116" cy="101" r="10" fill="#0b1220" /><circle cx="204" cy="101" r="10" fill="#0b1220" />
+    <circle cx="133" cy="168" r="5" fill="#218452" /><circle cx="187" cy="168" r="5" fill="#218452" /><path d="M110 191q50 45 100 0-8 58-50 58-42 0-50-58Z" fill="#0b1220" {...CIZGI} /><path d="M127 210q33 19 66 0" fill="none" stroke="#e8543f" strokeWidth="12" strokeLinecap="round" /><circle cx="89" cy="181" r="13" fill="#e8543f" opacity=".45" /><circle cx="231" cy="181" r="13" fill="#e8543f" opacity=".45" />
+  </svg>;
+}
+
+function Ayi() {
+  return <svg viewBox="0 0 320 320" role="img" aria-label="Sıcakkanlı ayı avatarı">
+    <Sahne renk="#57c9a0" vurgu="#d9f7e6" /><circle cx="91" cy="87" r="39" fill="#8a5f16" {...CIZGI} /><circle cx="229" cy="87" r="39" fill="#8a5f16" {...CIZGI} /><circle cx="91" cy="87" r="20" fill="#c98a22" /><circle cx="229" cy="87" r="20" fill="#c98a22" />
+    <path d="M55 300q10-69 105-79 95 10 105 79" fill="#8a5f16" {...CIZGI} /><path d="M71 151q0-94 89-102 89 8 89 102-2 89-89 100-87-11-89-100Z" fill="#8a5f16" {...CIZGI} /><ellipse cx="160" cy="193" rx="57" ry="47" fill="#c98a22" {...CIZGI} />
+    <ellipse cx="125" cy="153" rx="14" ry="16" fill="#fff8ec" {...CIZGI} /><circle cx="129" cy="157" r="7" fill="#0b1220" /><ellipse cx="197" cy="153" rx="14" ry="16" fill="#fff8ec" {...CIZGI} /><circle cx="193" cy="157" r="7" fill="#0b1220" /><path d="M143 181q17-13 34 0-2 18-17 18t-17-18Z" fill="#0b1220" /><path d="M160 200v12M160 212q-18 14-32 0M160 212q18 14 32 0" fill="none" {...CIZGI} />
+  </svg>;
+}
+
+function Maymun() {
+  return <svg viewBox="0 0 320 320" role="img" aria-label="Muzip maymun avatarı">
+    <Sahne renk="#e0729a" vurgu="#ffd0df" /><circle cx="75" cy="151" r="42" fill="#c98a22" {...CIZGI} /><circle cx="245" cy="151" r="42" fill="#c98a22" {...CIZGI} /><path d="M55 300q8-70 105-79 97 9 105 79" fill="#8a5f16" {...CIZGI} />
+    <path d="M72 146q0-91 88-99 88 8 88 99-2 94-88 105-86-11-88-105Z" fill="#8a5f16" {...CIZGI} /><path d="M100 130q13-62 60-55 47-7 60 55l-3 78q-23 42-57 43-34-1-57-43Z" fill="#e6c79a" {...CIZGI} />
+    <ellipse cx="128" cy="151" rx="13" ry="15" fill="#fff8ec" {...CIZGI} /><circle cx="132" cy="154" r="7" fill="#0b1220" /><ellipse cx="195" cy="151" rx="13" ry="15" fill="#fff8ec" {...CIZGI} /><circle cx="191" cy="154" r="7" fill="#0b1220" /><circle cx="145" cy="183" r="5" fill="#8a5f16" /><circle cx="176" cy="183" r="5" fill="#8a5f16" /><path d="M122 205q38 32 77-4-6 47-39 48-32-1-38-44Z" fill="#0b1220" {...CIZGI} /><path d="M136 211h49" stroke="#fff8ec" strokeWidth="10" strokeLinecap="round" />
+  </svg>;
+}
+
+function Ejderha() {
+  return <svg viewBox="0 0 320 320" role="img" aria-label="Ateşli ejderha avatarı">
+    <Sahne renk="#26365a" vurgu="#5c7fa8" /><path d="m96 83-22-54 47 31M224 83l22-54-47 31" fill="#f2b23c" {...CIZGI} /><path d="m118 62 13-38 29 31 28-33 15 42" fill="#d9536a" {...CIZGI} />
+    <path d="M53 300q8-71 107-80 99 9 107 80" fill="#b93737" {...CIZGI} /><path d="M70 136q4-82 90-89 86 7 90 89l5 55q-9 57-95 65-86-8-95-65Z" fill="#e8543f" {...CIZGI} /><path d="M85 125q75 30 150 0" fill="none" stroke="#b93737" strokeWidth="13" strokeLinecap="round" />
+    <path d="M101 145q21-16 42 2M177 147q21-18 43-1" fill="none" {...CIZGI} /><ellipse cx="125" cy="160" rx="15" ry="14" fill="#f2b23c" {...CIZGI} /><circle cx="131" cy="162" r="6" fill="#0b1220" /><ellipse cx="200" cy="160" rx="15" ry="14" fill="#f2b23c" {...CIZGI} /><circle cx="194" cy="162" r="6" fill="#0b1220" /><circle cx="146" cy="188" r="5" fill="#0b1220" /><circle cx="178" cy="188" r="5" fill="#0b1220" /><path d="M114 207q46 33 94-2-5 41-48 45-42-4-46-43Z" fill="#0b1220" {...CIZGI} /><path d="m131 214 11 18 12-17 12 18 12-18 11 15" fill="#fff8ec" />
+  </svg>;
+}
+
+function Kopekbaligi() {
+  return <svg viewBox="0 0 320 320" role="img" aria-label="Havalı köpekbalığı avatarı">
+    <Sahne renk="#4fb3c9" vurgu="#c6f1ef" /><path d="m130 69 30-54 31 55" fill="#5c7fa8" {...CIZGI} /><path d="M47 300q12-68 113-79 101 11 113 79" fill="#3b4a6b" {...CIZGI} /><path d="M65 139q3-83 95-91 92 8 95 91l5 61q-19 52-100 57-81-5-100-57Z" fill="#5c7fa8" {...CIZGI} />
+    <path d="M87 193q73-37 146 0-13 63-73 64-60-1-73-64Z" fill="#cfe3f5" {...CIZGI} /><path d="M99 142q21-14 42 3M180 144q21-16 43-1" fill="none" {...CIZGI} /><path d="M108 158h39M176 158h39" stroke="#0b1220" strokeWidth="9" strokeLinecap="round" /><circle cx="145" cy="181" r="4" fill="#26365a" /><circle cx="177" cy="181" r="4" fill="#26365a" /><path d="M111 205q49 31 99-2-7 45-50 47-42-2-49-45Z" fill="#0b1220" {...CIZGI} /><path d="m127 211 11 18 12-17 12 18 12-18 11 16 10-18" fill="#fff8ec" />
+  </svg>;
+}
+
+function Ahtapot() {
+  return <svg viewBox="0 0 320 320" role="img" aria-label="Şaşkın ahtapot avatarı">
+    <Sahne renk="#f2b23c" vurgu="#fff0b2" /><path d="M47 300q8-70 113-79 105 9 113 79" fill="#b83e60" {...CIZGI} /><path d="M68 151q0-96 92-103 92 7 92 103v76l-20-16-18 21-18-21-18 21-18-21-18 21-18-21-20 16Z" fill="#d9536a" {...CIZGI} />
+    <ellipse cx="122" cy="153" rx="19" ry="23" fill="#fff8ec" {...CIZGI} /><circle cx="128" cy="157" r="9" fill="#0b1220" /><ellipse cx="199" cy="153" rx="19" ry="23" fill="#fff8ec" {...CIZGI} /><circle cx="193" cy="157" r="9" fill="#0b1220" /><ellipse cx="160" cy="202" rx="17" ry="21" fill="#0b1220" {...CIZGI} /><path d="M91 126q25-25 50-3M179 123q25-22 50 3" fill="none" {...CIZGI} /><circle cx="91" cy="191" r="11" fill="#e88aa2" /><circle cx="229" cy="191" r="11" fill="#e88aa2" />
+  </svg>;
+}
+
+function Ari() {
+  return <svg viewBox="0 0 320 320" role="img" aria-label="Çalışkan arı avatarı">
+    <Sahne renk="#26365a" vurgu="#5c7fa8" /><path d="M121 72 99 35M199 72l22-37" fill="none" stroke="#0b1220" strokeWidth="8" strokeLinecap="round" /><circle cx="95" cy="29" r="13" fill="#f2b23c" {...CIZGI} /><circle cx="225" cy="29" r="13" fill="#f2b23c" {...CIZGI} />
+    <path d="M51 300q9-70 109-80 100 10 109 80" fill="#f2b23c" {...CIZGI} /><path d="M70 148q0-93 90-101 90 8 90 101-2 91-90 102-88-11-90-102Z" fill="#f2b23c" {...CIZGI} /><path d="M77 112h166M70 198h180" stroke="#0b1220" strokeWidth="19" />
+    <ellipse cx="124" cy="153" rx="15" ry="18" fill="#fff8ec" {...CIZGI} /><circle cx="129" cy="156" r="7" fill="#0b1220" /><ellipse cx="198" cy="153" rx="15" ry="18" fill="#fff8ec" {...CIZGI} /><circle cx="194" cy="156" r="7" fill="#0b1220" /><path d="M128 178q32 30 65-2" fill="none" {...CIZGI} /><path d="M91 239q69 27 138 0" fill="none" stroke="#0b1220" strokeWidth="15" />
+  </svg>;
+}
+
+function Ninja() {
+  return <svg viewBox="0 0 320 320" role="img" aria-label="Sessiz ninja avatarı">
+    <Sahne renk="#e8543f" vurgu="#ffb7a6" /><path d="M52 300q9-70 108-80 99 10 108 80" fill="#0b1220" {...CIZGI} /><path d="M70 147q0-92 90-101 90 9 90 101-2 91-90 102-88-11-90-102Z" fill="#26365a" {...CIZGI} />
+    <path d="M83 132q77-33 154 0l-7 59q-70 34-140 0Z" fill="#e6c79a" {...CIZGI} /><path d="M105 148q21-15 43 2M174 150q21-17 43-1" fill="none" {...CIZGI} /><path d="M107 165q20 15 40 0M175 165q20 15 40 0" fill="none" {...CIZGI} /><path d="M70 102h180v27H70Z" fill="#d9536a" {...CIZGI} /><path d="m244 109 49 16-47 21" fill="#d9536a" {...CIZGI} /><path d="M121 224h78" stroke="#5c7fa8" strokeWidth="9" strokeLinecap="round" />
+  </svg>;
+}
+
+function Sovalye() {
+  return <svg viewBox="0 0 320 320" role="img" aria-label="Cesur şövalye avatarı">
+    <Sahne renk="#c98a22" vurgu="#ffe19b" /><path d="M50 300q10-69 110-80 100 11 110 80" fill="#5c7fa8" {...CIZGI} /><path d="M70 131q0-74 90-82 90 8 90 82v106H70Z" fill="#8496b2" {...CIZGI} /><path d="M91 100q18-52 69-54 51 2 69 54" fill="#5c7fa8" {...CIZGI} />
+    <path d="M83 130h154v66H83Z" fill="#26365a" {...CIZGI} /><rect x="102" y="148" width="45" height="24" rx="8" fill="#0b1220" /><rect x="174" y="148" width="45" height="24" rx="8" fill="#0b1220" /><rect x="116" y="155" width="18" height="10" rx="4" fill="#4fb3c9" /><rect x="188" y="155" width="18" height="10" rx="4" fill="#4fb3c9" /><path d="M151 160h18M126 218q34 19 69-2" fill="none" stroke="#26365a" strokeWidth="8" strokeLinecap="round" /><path d="M155 47v75" stroke="#f2b23c" strokeWidth="9" />
+  </svg>;
+}
+
+function Buyucu() {
+  return <svg viewBox="0 0 320 320" role="img" aria-label="Bilge büyücü avatarı">
+    <Sahne renk="#3fa9a0" vurgu="#c8f3e9" /><path d="m86 105 74-94 75 94Z" fill="#26365a" {...CIZGI} /><path d="M63 100h194v28H63Z" fill="#26365a" {...CIZGI} /><circle cx="177" cy="55" r="10" fill="#f2b23c" /><path d="m198 77 8-18 8 18 18 8-18 8-8 18-8-18-18-8Z" fill="#f2b23c" />
+    <path d="M54 300q8-70 106-79 98 9 106 79" fill="#26365a" {...CIZGI} /><path d="M86 145q0-78 74-85 74 7 74 85-2 74-74 83-72-9-74-83Z" fill="#e6c79a" {...CIZGI} /><path d="M105 151q18-14 37 1M178 151q19-14 38 1" fill="none" {...CIZGI} /><path d="M109 165q17 15 34 0M178 165q17 15 34 0" fill="none" {...CIZGI} /><path d="M110 195q50 82 100 0-3 77-50 91-47-14-50-91Z" fill="#fff8ec" {...CIZGI} /><path d="M135 204q25 18 50-2" fill="none" {...CIZGI} />
+  </svg>;
+}
+
+function Dedektif() {
+  return <svg viewBox="0 0 320 320" role="img" aria-label="Meraklı dedektif avatarı">
+    <Sahne renk="#8496b2" vurgu="#dce4ef" /><path d="M54 300q8-69 106-79 98 10 106 79" fill="#8a5f16" {...CIZGI} /><path d="M88 145q0-83 72-90 72 7 72 90-2 82-72 91-70-9-72-91Z" fill="#e6c79a" {...CIZGI} />
+    <path d="M70 89h180M100 89q8-54 60-55 52 1 60 55" fill="#8a5f16" {...CIZGI} /><path d="M112 144q16-10 32 2M177 145q16-11 33 1" fill="none" {...CIZGI} /><circle cx="128" cy="160" r="25" fill="#fff8ec" fillOpacity=".45" stroke="#26365a" strokeWidth="7" /><circle cx="200" cy="160" r="25" fill="#fff8ec" fillOpacity=".45" stroke="#26365a" strokeWidth="7" /><path d="M153 160h22" fill="none" {...CIZGI} /><circle cx="131" cy="162" r="6" fill="#0b1220" /><circle cx="197" cy="162" r="6" fill="#0b1220" /><path d="M160 165q-6 24 6 27l10-2" fill="none" {...CIZGI} /><path d="M126 206q34-17 68 0-34 13-68 0Z" fill="#3b4a6b" {...CIZGI} />
+  </svg>;
+}
+
+function Viking() {
+  return <svg viewBox="0 0 320 320" role="img" aria-label="Gür sakallı Viking avatarı">
+    <Sahne renk="#5aa9e6" vurgu="#d5efff" /><path d="M92 95Q31 89 31 27q43 9 61 48M228 95q61-6 61-68-43 9-61 48" fill="#fff8ec" {...CIZGI} /><path d="M53 300q9-70 107-80 98 10 107 80" fill="#3b4a6b" {...CIZGI} />
+    <path d="M84 147q0-86 76-94 76 8 76 94-2 83-76 92-74-9-76-92Z" fill="#e6c79a" {...CIZGI} /><path d="M75 115q11-70 85-73 74 3 85 73Z" fill="#8496b2" {...CIZGI} /><path d="M111 146q18-13 37 2M174 148q18-15 38-1" fill="none" {...CIZGI} /><circle cx="130" cy="162" r="8" fill="#0b1220" /><circle cx="194" cy="162" r="8" fill="#0b1220" /><path d="M111 194q49 86 98 0-3 88-49 103-46-15-49-103Z" fill="#ee8b3c" {...CIZGI} /><path d="M129 208q31 22 63-3" fill="none" {...CIZGI} /><path d="M160 231v56M128 246l32 14 32-14" fill="none" stroke="#c96c2a" strokeWidth="9" />
+  </svg>;
+}
+
+function Hayalet() {
+  return <svg viewBox="0 0 320 320" role="img" aria-label="Utangaç hayalet avatarı">
+    <Sahne renk="#26365a" vurgu="#5c7fa8" /><path d="M64 300V145q0-95 96-99 96 4 96 99v155l-24-22-24 22-24-22-24 22-24-22-24 22-24-22Z" fill="#fff8ec" {...CIZGI} />
+    <ellipse cx="124" cy="153" rx="18" ry="24" fill="#26365a" /><ellipse cx="198" cy="153" rx="18" ry="24" fill="#26365a" /><circle cx="119" cy="146" r="5" fill="#fff8ec" /><circle cx="193" cy="146" r="5" fill="#fff8ec" /><ellipse cx="160" cy="209" rx="16" ry="20" fill="#26365a" {...CIZGI} /><path d="M93 116q28-25 55-2M174 114q28-23 55 2" fill="none" stroke="#c9d3e2" strokeWidth="9" strokeLinecap="round" />
+  </svg>;
+}
+
+function Zombi() {
+  return <svg viewBox="0 0 320 320" role="img" aria-label="Şaşkın zombi avatarı">
+    <Sahne renk="#8cbf3f" vurgu="#dff0a8" /><path d="M53 300q9-70 107-80 98 10 107 80" fill="#3b4a6b" {...CIZGI} /><path d="M73 147q0-91 87-100 87 9 87 100-2 92-87 103-85-11-87-103Z" fill="#57c9a0" {...CIZGI} />
+    <path d="M86 101q18-62 74-60 54-2 72 45-47-12-71 12-37-20-75 3Z" fill="#278d62" {...CIZGI} /><path d="M102 139q21-13 41 4M178 145q18-17 40-3" fill="none" {...CIZGI} /><ellipse cx="126" cy="160" rx="17" ry="20" fill="#fff8ec" {...CIZGI} /><circle cx="121" cy="161" r="7" fill="#0b1220" /><ellipse cx="200" cy="160" rx="14" ry="16" fill="#fff8ec" {...CIZGI} /><circle cx="205" cy="163" r="6" fill="#0b1220" /><path d="M115 204q46 31 93-3-5 44-48 49-41-5-45-46Z" fill="#0b1220" {...CIZGI} /><path d="m130 211 12 18 13-17 13 18 12-18 11 15" fill="#fff8ec" /><path d="m84 179 22 8M214 126l20-17" fill="none" stroke="#218452" strokeWidth="7" strokeLinecap="round" />
+  </svg>;
+}
+
+function Mumya() {
+  return <svg viewBox="0 0 320 320" role="img" aria-label="Eski mumya avatarı">
+    <Sahne renk="#c98a22" vurgu="#ffe1a2" /><path d="M53 300q9-70 107-80 98 10 107 80" fill="#cdc6b4" {...CIZGI} /><path d="M73 147q0-91 87-100 87 9 87 100-2 92-87 103-85-11-87-103Z" fill="#b8b0a0" {...CIZGI} />
+    <path d="M82 94h155M74 132h174M73 176h174M83 219h154M101 55l130 51M80 154l158 49M105 236l98 39" fill="none" stroke="#fff8ec" strokeWidth="22" strokeLinecap="round" /><path d="M104 139q22-14 42 4M176 143q21-17 43-2" fill="none" {...CIZGI} /><ellipse cx="127" cy="159" rx="13" ry="15" fill="#0b1220" /><circle cx="123" cy="154" r="4" fill="#fff8ec" /><ellipse cx="200" cy="159" rx="13" ry="15" fill="#0b1220" /><circle cx="196" cy="154" r="4" fill="#fff8ec" /><path d="M132 211q28 18 57-3" fill="none" {...CIZGI} />
+  </svg>;
+}
+
+function Palyaco() {
+  return <svg viewBox="0 0 320 320" role="img" aria-label="Neşeli palyaço avatarı">
+    <Sahne renk="#4a9dd9" vurgu="#bce7ff" /><circle cx="90" cy="96" r="44" fill="#e8543f" {...CIZGI} /><circle cx="160" cy="67" r="49" fill="#f2b23c" {...CIZGI} /><circle cx="230" cy="96" r="44" fill="#e8543f" {...CIZGI} /><path d="M53 300q9-70 107-80 98 10 107 80" fill="#d9536a" {...CIZGI} />
+    <path d="M78 150q0-88 82-96 82 8 82 96-2 88-82 99-80-11-82-99Z" fill="#fff8ec" {...CIZGI} /><path d="M104 139q20-14 40 3M177 142q20-17 41-1" fill="none" stroke="#4a9dd9" strokeWidth="10" strokeLinecap="round" /><circle cx="127" cy="160" r="8" fill="#0b1220" /><circle cx="198" cy="160" r="8" fill="#0b1220" /><circle cx="161" cy="185" r="17" fill="#e8543f" {...CIZGI} /><path d="M116 207q44 42 89-3-7 54-45 57-37-3-44-54Z" fill="#0b1220" {...CIZGI} /><path d="M132 214q28 20 57-3" fill="none" stroke="#fff8ec" strokeWidth="10" strokeLinecap="round" /><path d="m111 258 49 29 49-29-12 42h-74Z" fill="#f2b23c" {...CIZGI} />
+  </svg>;
+}
+
+function Kral() {
+  return <svg viewBox="0 0 320 320" role="img" aria-label="Kendinden emin kral avatarı">
+    <Sahne renk="#26365a" vurgu="#5c7fa8" /><path d="m76 92 12-62 42 34 30-51 31 51 41-34 12 62Z" fill="#f2b23c" {...CIZGI} /><circle cx="160" cy="45" r="10" fill="#e8543f" /><circle cx="99" cy="62" r="8" fill="#4fb3c9" /><circle cx="220" cy="62" r="8" fill="#4fb3c9" />
+    <path d="M52 300q9-70 108-80 99 10 108 80" fill="#d9536a" {...CIZGI} /><path d="M83 146q0-86 77-94 77 8 77 94-2 84-77 93-75-9-77-93Z" fill="#e6c79a" {...CIZGI} /><path d="M106 145q18-13 37 2M178 147q18-15 38-1" fill="none" {...CIZGI} /><circle cx="128" cy="161" r="8" fill="#0b1220" /><circle cx="198" cy="161" r="8" fill="#0b1220" /><path d="M108 192q52 82 104 0-4 87-52 104-48-17-52-104Z" fill="#fff8ec" {...CIZGI} /><path d="M130 204q30 21 61-3" fill="none" {...CIZGI} /><path d="M104 266h112" stroke="#f2b23c" strokeWidth="11" strokeLinecap="round" />
+  </svg>;
+}
+
 export const AVATAR_PRO = [
   { anahtar: "kedi-k01", Bilesen: Kedi },
+  { anahtar: "kopek-k02", Bilesen: Kopek },
+  { anahtar: "baykus-k03", Bilesen: Baykus },
+  { anahtar: "tilki-k04", Bilesen: Tilki },
   { anahtar: "panda-k05", Bilesen: Panda },
+  { anahtar: "penguen-k06", Bilesen: Penguen },
+  { anahtar: "kurbaga-k07", Bilesen: Kurbaga },
+  { anahtar: "ayi-k08", Bilesen: Ayi },
+  { anahtar: "maymun-k09", Bilesen: Maymun },
   { anahtar: "dinozor-k10", Bilesen: Dinozor },
+  { anahtar: "ejderha-k11", Bilesen: Ejderha },
+  { anahtar: "kopekbaligi-k12", Bilesen: Kopekbaligi },
+  { anahtar: "ahtapot-k13", Bilesen: Ahtapot },
+  { anahtar: "ari-k14", Bilesen: Ari },
   { anahtar: "robot-k15", Bilesen: Robot },
   { anahtar: "uzayli-k16", Bilesen: Uzayli },
   { anahtar: "astronot-k17", Bilesen: Astronot },
+  { anahtar: "ninja-k18", Bilesen: Ninja },
   { anahtar: "korsan-k19", Bilesen: Korsan },
+  { anahtar: "sovalye-k20", Bilesen: Sovalye },
+  { anahtar: "buyucu-k21", Bilesen: Buyucu },
+  { anahtar: "dedektif-k22", Bilesen: Dedektif },
   { anahtar: "asci-k23", Bilesen: Asci },
   { anahtar: "profesor-k24", Bilesen: Profesor },
+  { anahtar: "viking-k25", Bilesen: Viking },
+  { anahtar: "hayalet-k26", Bilesen: Hayalet },
+  { anahtar: "zombi-k27", Bilesen: Zombi },
+  { anahtar: "mumya-k28", Bilesen: Mumya },
   { anahtar: "kahraman-k29", Bilesen: Kahraman },
+  { anahtar: "palyaco-k30", Bilesen: Palyaco },
+  { anahtar: "kral-k31", Bilesen: Kral },
 ];

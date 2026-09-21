@@ -17,7 +17,7 @@ export default function AvatarPreviewProPage() {
         <p>Mevcut Quiz Tactics ruhunun daha temiz, karakterli ve profesyonel yorumu.</p>
       </header>
 
-      <section className="avatar-pro__grid" aria-label="On yeni avatar önizlemesi">
+      <section className="avatar-pro__grid" aria-label="Otuz bir profesyonel avatar">
         {AVATAR_PRO.map(({ anahtar, Bilesen }) => (
           <article className="avatar-pro__kart" key={anahtar}>
             <Bilesen />
@@ -25,7 +25,7 @@ export default function AvatarPreviewProPage() {
         ))}
       </section>
 
-      <footer>Yalnızca sanat yönü değerlendirmesi için hazırlanmıştır.</footer>
+      <footer>Quiz Tactics profesyonel profil avatarı koleksiyonu.</footer>
     </main>
   );
 }

@@ -3,8 +3,13 @@ import fs from "node:fs";
 import path from "node:path";
 
 const avatarlar = [
-  "kedi-k01", "panda-k05", "dinozor-k10", "robot-k15", "uzayli-k16",
-  "astronot-k17", "korsan-k19", "asci-k23", "profesor-k24", "kahraman-k29",
+  "kedi-k01", "kopek-k02", "baykus-k03", "tilki-k04", "panda-k05",
+  "penguen-k06", "kurbaga-k07", "ayi-k08", "maymun-k09", "dinozor-k10",
+  "ejderha-k11", "kopekbaligi-k12", "ahtapot-k13", "ari-k14", "robot-k15",
+  "uzayli-k16", "astronot-k17", "ninja-k18", "korsan-k19", "sovalye-k20",
+  "buyucu-k21", "dedektif-k22", "asci-k23", "profesor-k24", "viking-k25",
+  "hayalet-k26", "zombi-k27", "mumya-k28", "kahraman-k29", "palyaco-k30",
+  "kral-k31",
 ];
 const adresler = avatarlar.map((ad) => `/avatars/pro/${ad}.svg`);
 
@@ -27,9 +32,8 @@ for (const ad of avatarlar) {
   assert.match(svg, /<\/svg>$/);
 }
 
-const migration = fs.readFileSync("supabase/migrations/20260612000256_profesyonel_avatar_seti.sql", "utf8");
+const migration = fs.readFileSync("supabase/migrations/20260612000267_profesyonel_avatar_seti_31.sql", "utf8");
 for (const adres of adresler) assert.ok(migration.includes(`'${adres}'`), `RPC listesinde yok: ${adres}`);
-assert.match(migration, /where avatar_url ~ '\^\/avatars\/k\(\[0-9\]\{2\}\)\[\.\]svg\$'/);
 assert.match(migration, /if left\(v_url, 1\) = '\/' and v_url not in/);
 
-console.log("Profesyonel avatar testleri: 10/10 geçti");
+console.log("Profesyonel avatar testleri: 31/31 geçti");

@@ -57,10 +57,11 @@ güncellenir. Her dondurulmuş dosyanın başında aynı biçimde bir blok vard�
 | Eski 3B gardırop / atölye / yerel meydan | 17 Eyl 2026 | 17 §D | `avatar3d/**` | yok | aşağıdaki bölüm |
 | Meydan (3B harita) | 20 Eyl 2026 | Arayüz Yenileme | `harita/**` | yok | `lib/ozellikBayraklari.js` › `MEYDAN_ACIK = true` |
 | Gardırop / karakter vitrini | 20 Eyl 2026 | Arayüz Yenileme | `vitrin/**`, `pages/GorunumPage.jsx` | yok | `lib/ozellikBayraklari.js` › `GARDIROP_ACIK = true` |
-| Eski 31 profil avatarı | 20 Eyl 2026 | Profesyonel Avatar Seti | `../public/avatars/k01.svg`…`k31.svg`, `_test/avatar-uret.mjs` | `avatar_onayla` yeni listeyle sınırlı | eski seçim listesini ve RPC izinlerini yeni migration ile geri aç |
+| Eski düşük ayrıntılı profil avatarları | 20 Eyl 2026 | Profesyonel Avatar Seti | `../public/avatars/k01.svg`…`k31.svg`, `_test/avatar-uret.mjs` | `avatar_onayla` yalnız profesyonel listeyle sınırlı | eski dosyalar geri açılmaz; 31 karakter fikri profesyonel sette yeniden çizildi |
 
-**Resmi profil avatarı çizim dili:** `components/AvatarProIllustrations.jsx`
-tek görsel kaynaktır; `_test/avatar-pro-uret.mjs` buradan statik SVG üretir.
+**Resmi profil avatarı çizim dili:** 31 karakterli
+`components/AvatarProIllustrations.jsx` tek görsel kaynaktır;
+`_test/avatar-pro-uret.mjs` buradan statik SVG üretir.
 Yeni karakterlerde kalın lacivert kontur, sıcak düz renk, güçlü siluet, hafif
 asimetri ve küçük boyutta okunur yüz korunur; plastik 3B/AI render dili kullanılmaz.
 

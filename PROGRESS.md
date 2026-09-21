@@ -7267,3 +7267,21 @@ yüksekliği 62 px; "CEVABI KİLİTLE" yok.
 - Son build, skill testleri, transaction DB testleri ve 360/390/412/430
   arayüz denetimi yayın öncesinde temizdi. `main` GitHub'a push edilerek
   Vercel production dağıtımı başlatıldı.
+
+## 21 Eylül 2026 — Profesyonel avatar seti 31 karaktere tamamlandı
+**Araç:** Codex
+
+- Dondurulmuş eski sette bulunup ilk profesyonel turda yapılmayan 21 karakter,
+  mevcut 10 avatarın düz/katmanlı SVG çizim diliyle yeniden çizildi: Köpek,
+  Baykuş, Tilki, Penguen, Kurbağa, Ayı, Maymun, Ejderha, Köpekbalığı, Ahtapot,
+  Arı, Ninja, Şövalye, Büyücü, Dedektif, Viking, Hayalet, Zombi, Mumya,
+  Palyaço ve Kral.
+- Eski düşük ayrıntılı `k01.svg`…`k31.svg` dosyaları açılmadı; tarihsel geri
+  dönüş için dondurulmuş kaldı. Canlı seçim yalnız `public/avatars/pro/`
+  altındaki 31 profesyonel SVG'yi kullanır.
+- Kurulum sihirbazı ve Profil › Avatar seçimi 31 karaktere genişletildi.
+  Migration `20260612000267_profesyonel_avatar_seti_31.sql`, sunucudaki
+  `avatar_onayla` izin listesini aynı 31 güvenli yerel adrese çıkarır.
+- Kaynak `AvatarProIllustrations.jsx`, üretici `avatar-pro-uret.mjs` ve statik
+  dosyalar birlikte tutuldu. Görsel grid masaüstünde denetlendi; karakterler
+  birbirinden ayırt ediliyor ve mevcut koleksiyon dili korunuyor.
