@@ -7252,3 +7252,5 @@ yüksekliği 62 px; "CEVABI KİLİTLE" yok.
 - **Canlıya alınmadı:** main'e merge/push yok, production migration yok,
   production deploy yok. Mobil görünüm ve maç içi skill animasyonları sahibin
   manuel görsel onayını bekliyor.
+- Mobil oyun katmanı kodu ayrı `style: mobil oyun arayüzünü yenile` commitinde
+  tutuldu; böylece skill/DB mantığı görsel revizyondan bağımsız incelenebilir.

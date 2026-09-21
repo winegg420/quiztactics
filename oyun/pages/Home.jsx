@@ -553,6 +553,31 @@ export default function Home() {
       <div className="dashboard">
         <div className="primary-column">
 
+          {/* Mobilde Klasik ve Düello iki eşit kardeş ana mod olarak açılır.
+              Masaüstündeki ayrıntılı ana kart korunur. */}
+          <section className="mobile-core-modes" aria-label={tt("Ana oyun modları")}>
+            <button type="button" className="mobile-core-mode klasik" onClick={() => setModSecimAcik(true)}>
+              <span className="mobile-core-mode-icon"><Ikon ad="hizli" boyut={27} /></span>
+              <span><small>{tt("KLASİK")}</small><b>{tt("Bilgini yarıştır")}</b><em>{tt("20 soru · canlı rakip")}</em></span>
+              <i aria-hidden="true">›</i>
+            </button>
+            <button type="button" className="mobile-core-mode duello" onClick={() => navigate(y("/duello"))}>
+              <span className="mobile-core-mode-icon"><Ikon ad="kilic" boyut={27} /></span>
+              <span><small>{tt("DÜELLO")}</small><b>{tt("Taktiğini konuştur")}</b><em>{tt("3 can · saldırı ve savunma")}</em></span>
+              <i aria-hidden="true">›</i>
+            </button>
+            <div className="mobile-core-settings">
+              <button type="button" disabled={kategoriKaydediliyor} onClick={() => setKategoriSheet(true)}>
+                <KategoriIkon anahtar={profile?.tercih_kategori || "karisik"} boyut={19} />
+                <span><small>{tt("Kategori")}</small><b>{profile?.tercih_kategori ? kategoriEtiket(profile.tercih_kategori) : tt("Karışık")}</b></span>
+              </button>
+              <button type="button" role="switch" aria-checked={dereceliTercih} onClick={() => setDereceliTercih(!dereceliTercih)}>
+                <Ikon ad="kupa" boyut={19} />
+                <span><small>{tt("Maç türü")}</small><b>{dereceliTercih ? ceviri("Dereceli") : ceviri("Serbest")}</b></span>
+              </button>
+            </div>
+          </section>
+
           {/* ---------- ANA EYLEM KARTI ---------- */}
           <section className="play-card">
             <div className="play-glow" aria-hidden="true" />

@@ -18,6 +18,8 @@ import "../oyun/styles/koyu.css";
 // Arayuz Yenileme (20 Eyl 2026): prototip temasi EN SONDA - palet ve iskelet
 // kurallari eskisini ezer. Eski token/sinif adlari silinmedi, yeni palete baglandi.
 import "../oyun/styles/yeni.css";
+// Mobil oyun katmanı: yalnız dar ekranlarda çalışır, masaüstü düzenini değiştirmez.
+import "../oyun/styles/mobile-game.css";
 import { temaBaslat } from "../oyun/lib/tema.js";
 import { cubukBaslat } from "../oyun/lib/kaydirmaCubugu.js";
 
