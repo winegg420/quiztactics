@@ -7290,6 +7290,18 @@ yüksekliği 62 px; "CEVABI KİLİTLE" yok.
   31/31 avatar testi ve tam arayüz denetimi temiz geçti; `main` push'u Vercel
   production dağıtımını başlatır.
 
+## 21 Eylül 2026 — Logo Exploration Pack (yalnız yerel preview)
+**Araç:** Codex
+**Dal:** `codex/logo-exploration-preview`
+
+- Quiz Tactics için birbirinden farklı 10 düzenlenebilir SVG logo yönü üretildi:
+  güçlü Q, Tactics vurgusu, QT monogram, taktik tipografi, modern oyun,
+  minimal app icon, premium, rekabetçi, renk kontrastı ve quiz/hamle hibriti.
+- `/preview/logo-exploration` rotasında her konsept ana logo, app icon, açık
+  zemin ve koyu zemin olarak gösterilir; kısa açıklama ve final adayları vardır.
+- Mevcut logo, menüler ve production akışı değiştirilmedi. **Canlıya alınmadı,
+  push/deploy yapılmadı; yalnız yerel önizlemedir.**
+
 ## 2026-09-21 — Jev deneme testi
 **Araç:** Claude Code
 **Neden:** Jev'in soru doğruluğu, kategori ve zorluk kontrolünde işe yarayıp yaramadığını ölçmek.

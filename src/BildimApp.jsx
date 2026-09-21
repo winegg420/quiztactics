@@ -65,6 +65,7 @@ const KosullarPage = lazy(() => import("../oyun/pages/KosullarPage.jsx"));
 const AvatarLabPage = lazy(() => import("../oyun/pages/AvatarLabPage.jsx"));
 const AvatarLabV2Page = lazy(() => import("../oyun/pages/AvatarLabV2Page.jsx"));
 const AvatarPreviewProPage = lazy(() => import("../oyun/pages/AvatarPreviewProPage.jsx"));
+const LogoExplorationPage = lazy(() => import("../oyun/pages/LogoExplorationPage.jsx"));
 
 // Eski hub adresleri (/oyun/...) bu sitede köke indirilir. Bookmark, push
 // bildirimi deep-link'i ve paylaşılmış davet linkleri kırılmasın diye.
@@ -93,6 +94,7 @@ export default function BildimApp() {
     pathname.startsWith("/insan-prototip") ||
     pathname.startsWith("/preview/avatar-lab") ||
     pathname.startsWith("/preview/avatar-pro") ||
+    pathname.startsWith("/preview/logo-exploration") ||
     pathname.startsWith("/gizlilik") || pathname.startsWith("/kosullar");
 
   if (!supabaseHazir && !bagimsizModul) {
@@ -134,6 +136,7 @@ export default function BildimApp() {
         <Route path="/preview/avatar-lab" element={<AvatarLabPage />} />
         <Route path="/preview/avatar-lab-v2" element={<AvatarLabV2Page />} />
         <Route path="/preview/avatar-pro" element={<AvatarPreviewProPage />} />
+        <Route path="/preview/logo-exploration" element={<LogoExplorationPage />} />
 
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
