@@ -13,6 +13,7 @@ import BildirimToast from "./BildirimToast.jsx";
 import Ikon from "./Ikon.jsx";
 import CoinHapi from "./CoinHapi.jsx";
 import AvatarMenu from "./AvatarMenu.jsx";
+import Logo from "./Logo.jsx";
 // SADELEŞTİRME: tema ve ses düğmeleri üst bardan Profil sayfasına
 // taşındı (sadeleştirme). Bileşenler silinmedi; geri istenirse tek satır.
 import { y } from "../lib/yol.js";
@@ -157,8 +158,8 @@ export default function Layout() {
         <header className="topbar">
           <div className="topbar-inner">
             <Link className="brand" to={y()} aria-label={tt("Quiz Tactics ana sayfa")}>
-              <span className="brand-mark" aria-hidden="true">Q</span>
-              <span>QUIZ <b>TACTICS</b></span>
+              <Logo boyut={42} className="brand-logo brand-logo--tam" />
+              <Logo boyut={36} className="brand-logo brand-logo--ikon" sadeceIkon />
             </Link>
 
             {/* Masaüstü menü — 850 px altında gizlenir, yerini alt menü alır.

@@ -36,6 +36,17 @@
   --kabuk: 1180px;
 }
 
+/* Resmi marka — vNext 08 Master Balance (21 Eyl 2026).
+   Masaüstünde tam wordmark, dar üst çubukta aynı sistemin Q app icon'u. */
+.brand .brand-logo{display:block;flex:none;height:auto}
+.brand .brand-logo--ikon{display:none}
+.auth-brand .bd-logo{width:auto;max-width:min(190px,52vw)}
+@media(max-width:560px){
+  .app .brand .brand-logo--tam{display:none}
+  .app .brand .brand-logo--ikon{display:block;width:36px;height:36px}
+  .giris.auth-body .auth-brand .bd-logo{display:block;width:auto;height:50px;max-width:55vw}
+}
+
 /* Eski Şenlik token'ları KALDIRILMADI, yeni palete bağlandı.
    Böylece henüz elden geçmemiş ekranlar da aynı paleti kullanır. */
 :root {

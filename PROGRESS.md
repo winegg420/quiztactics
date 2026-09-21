@@ -7358,6 +7358,19 @@ yüksekliği 62 px; "CEVABI KİLİTLE" yok.
 - Önerilen üçlü: 01 Hero Q (ikon), 04 Tactics Stack (wordmark), 08 Master
   Balance (en dengeli). Production marka dosyaları değiştirilmedi.
 
+## 21 Eylül 2026 — 08 Master Balance resmi marka entegrasyonu
+**Araç:** Codex
+
+- Sahibinin seçimiyle vNext 08 Master Balance resmi Quiz Tactics logosu oldu.
+  Q + TACTICS ana ağırlık, küçük ama okunur UIZ hiyerarşisi korundu.
+- Tek canlı React kaynağı `oyun/components/Logo.jsx` olarak yenilendi; üst
+  çubuk, mobil Q işareti, giriş ekranı, yapılandırma hata ekranı ve ana ekrana
+  ekleme penceresi aynı marka sistemini kullanır.
+- PWA dosya adları geriye uyumluluk için korunarak `bildim-icon.svg`, 192 px,
+  512 px ve maskable 512 px ikonları yeni Q işaretiyle yenilendi. Manifest,
+  favicon, Apple touch icon ve paylaşım görseli mevcut yollar üzerinden yeni
+  simgeyi alır.
+
 ## 2026-09-21 — Jev deneme testi
 **Araç:** Claude Code
 **Neden:** Jev'in soru doğruluğu, kategori ve zorluk kontrolünde işe yarayıp yaramadığını ölçmek.

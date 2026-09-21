@@ -16,6 +16,7 @@ import { girisHedefiniAl, bilinenYol } from "./lib/girisHedefi.js";
 import { useAuth } from "./context/AuthContext.jsx";
 import { supabaseHazir } from "./lib/supabase.js";
 import Login from "./pages/Login.jsx";
+import Logo from "../oyun/components/Logo.jsx";
 // Meydan (3B harita) ve gardırop DONDURULDU (Arayüz Yenileme, 20 Eyl 2026).
 // Rotalar SİLİNMEDİ; bayrak kapalıyken "Bu bölüm şu an kapalı" notu gösterip
 // ana sayfaya yönlendiriyorlar. Geri açma: oyun/lib/ozellikBayraklari.js.
@@ -105,7 +106,7 @@ export default function BildimApp() {
   if (!supabaseHazir && !bagimsizModul) {
     return (
       <div className="giris">
-        <div className="buyuk-logo">Quiz Tactics</div>
+        <div className="buyuk-logo"><Logo boyut={56} /></div>
         <div className="hata-kutu">
           Supabase yapılandırması eksik. <code>.env</code> dosyasına
           VITE_SUPABASE_URL ve VITE_SUPABASE_ANON_KEY ekleyin.

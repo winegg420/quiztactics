@@ -1,45 +1,34 @@
 /**
- * QUIZ TACTICS wordmark — çizilmiş logo (gradient renkli düz metin değil).
- *
- * Harfler kalın ve sıkı; altta ince altın çizgi. Markada ünlem işareti yok.
- * Marka adı hiçbir dile ÇEVRİLMEZ; Türkçe arayüzde de "Quiz Tactics".
- *
- * ÖLÇÜLER TAHMİN DEĞİL: metin genişliği Baloo 2 800 ile tarayıcıda
- * getComputedTextLength() / getBBox() ile ölçüldü (fontSize 30, letterSpacing -0.6).
- * viewBox görsel kutuya göre kurulur: "Q" kuyruğu ilerleme genişliğini aşıyor,
- * dar viewBox kırpardı.
- *   "Bildim"      : metin  83.4 · viewBox 172 · oran 4.3 (sağda uzun çizgi + ünlem)
- *   "QuizzExam"   : metin 144.5 · viewBox 148 · oran 3.7
- *   "Quizador"    : metin 121.6 · viewBox 124 · oran 3.1
- *   "Quiz Square" : metin 157.2 · viewBox 160 · oran 4.0
- *   "Quiz Tactics": metin 157.4 · viewBox 160 · oran 4.0  ← güncel
+ * Quiz Tactics resmi logosu — vNext 08 Master Balance.
+ * Q ve TACTICS ana ağırlığı taşır; UIZ küçük ama okunur kalır.
  */
-export default function Logo({ boyut = 26, className = "" }) {
-  // Yükseklikten genişlik: wordmark oranı 160/40 = 4.0:1
-  const g = Math.round(boyut * 4);
-  return (
-    <svg
-      className={`bd-logo ${className}`}
-      width={g}
-      height={boyut}
-      viewBox="0 0 160 40"
-      role="img"
-      aria-label="Quiz Tactics"
-      focusable="false"
-    >
-      <text
-        x="0"
-        y="28"
-        fill="var(--bd-metin)"
-        fontFamily='"Baloo 2", system-ui, "Segoe UI", sans-serif'
-        fontSize="30"
-        fontWeight="800"
-        letterSpacing="-0.6"
-      >
-        Quiz Tactics
-      </text>
-      {/* Harflerin altında ince altın çizgi (kelime genişliğince: ilerleme 157.1) */}
-      <rect x="1" y="33.5" width="155" height="2.6" rx="1.3" fill="var(--bd-odul)" opacity="0.9" />
-    </svg>
-  );
+export default function Logo({ boyut = 38, className = "", koyu = false, sadeceIkon = false }) {
+  const genislik = sadeceIkon ? boyut : Math.round(boyut * 3.26);
+  const ana = koyu ? "#ffffff" : "#17213c";
+  const ikincil = koyu ? "#c8d2e7" : "#657493";
+  const kontur = koyu ? "#0a1330" : "#17213c";
+  const filtre = sadeceIkon ? "bd-logo-golge-ikon" : "bd-logo-golge";
+  const q = <g transform={sadeceIkon ? "translate(10 10)" : "translate(18 22) scale(1.4)"}>
+    <path d="M18 16Q30 6 52 7q40 2 40 41T51 90Q9 89 8 49 8 29 18 16Zm21 15q-11 5-11 18 0 20 22 20t22-20q0-20-22-21-6 0-11 3Z"
+      fill={ana} stroke={kontur} strokeWidth="7" strokeLinejoin="round" fillRule="evenodd" />
+    <path d="m51 61 18 8 24-4-14 14 12 12-24-5-29-18Z"
+      fill="#ff6b2c" stroke={kontur} strokeWidth="7" strokeLinejoin="round" />
+  </g>;
+
+  return <svg className={`bd-logo ${className}`} width={genislik} height={boyut}
+    viewBox={sadeceIkon ? "0 0 120 120" : "0 0 620 190"} role="img"
+    aria-label="Quiz Tactics" focusable="false">
+    <defs><filter id={filtre} x="-20%" y="-20%" width="150%" height="160%">
+      <feDropShadow dx="0" dy="6" stdDeviation="1.2" floodColor="#0a1330" floodOpacity=".22" />
+    </filter></defs>
+    <g filter={`url(#${filtre})`}>
+      {q}
+      {!sadeceIkon && <>
+        <text x="154" y="91" fill={ikincil} fontFamily="'Baloo 2', system-ui, sans-serif"
+          fontSize="48" fontWeight="900" letterSpacing="-1">UIZ</text>
+        <text x="164" y="168" fill="#ff6b2c" stroke={kontur} strokeWidth="6" paintOrder="stroke fill"
+          fontFamily="'Baloo 2', system-ui, sans-serif" fontSize="92" fontWeight="900" letterSpacing="-2">TACTICS</text>
+      </>}
+    </g>
+  </svg>;
 }

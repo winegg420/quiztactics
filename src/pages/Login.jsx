@@ -184,15 +184,13 @@ export default function Login() {
         {/* Tek site, tek marka. Eskiden burada hub ile Quiz Tactics ayrımı
             vardı (VITE_MOD); Quiz Tactics kendi deposuna taşınınca kalktı. */}
         <span className="brand auth-brand">
-          <span className="brand-mark" aria-hidden="true">Q</span>
-          <span>QUIZ <b>TACTICS</b></span>
+          <Logo boyut={54} koyu />
         </span>
         <div>
           <span className="event-kicker">{ceviri("BİLGİ · TAKTİK · REKABET")}</span>
           <h1>{ceviri("Bilgini oyuna")}<br /><strong>{ceviri("dönüştür.")}</strong></h1>
           {/* Paket 42 S.3: ilk ekranda oyunun yüzü — mevcut maskot Bilge */}
           <Maskot poz="selam" boyut={88} className="giris-maskot" />
-          <div className="buyuk-logo bd-gorsel-gizli"><Logo boyut={44} /></div>
       <div className="slogan">
         {/* Paket 40 G: saatler sabit yazılıydı ("13:00 ve 21:50"); artık oyunun kullandığı tek listeden
             (oyun_ayarlari.turnuva_saatleri → zaman.js). Giriş öncesi ayar okunamazsa kod varsayılanı. */}
