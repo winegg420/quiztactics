@@ -7344,6 +7344,20 @@ yüksekliği 62 px; "CEVABI KİLİTLE" yok.
 - Preview rotası `/preview/logo-exploration-v5`. Production logosu, header,
   metadata ve canlı app icon dosyaları değiştirilmedi.
 
+## 21 Eylül 2026 — Logo Finalistleri vNext
+**Araç:** Codex
+**Dal:** `codex/logo-exploration-preview`
+
+- Marka hiyerarşisi Q + TACTICS ön planda, UIZ küçük fakat okunur olacak
+  şekilde sekiz disiplinli finalistte uygulandı.
+- Adaylar aynı lacivert-turuncu ailede; Q odaklı, wordmark odaklı ve dengeli
+  hibrit eksenlerine ayrıldı. Maskot, 3B/plastik efekt, slogan ve gereksiz
+  dekor kullanılmadı.
+- Her aday büyük logo, Q app icon, açık/koyu zemin ve küçük mağaza/header
+  testiyle `/preview/logo-finalists-vnext` rotasında gösterilir.
+- Önerilen üçlü: 01 Hero Q (ikon), 04 Tactics Stack (wordmark), 08 Master
+  Balance (en dengeli). Production marka dosyaları değiştirilmedi.
+
 ## 2026-09-21 — Jev deneme testi
 **Araç:** Claude Code
 **Neden:** Jev'in soru doğruluğu, kategori ve zorluk kontrolünde işe yarayıp yaramadığını ölçmek.

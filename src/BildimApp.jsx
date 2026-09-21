@@ -69,6 +69,7 @@ const LogoExplorationPage = lazy(() => import("../oyun/pages/LogoExplorationPage
 const LogoExplorationV2Page = lazy(() => import("../oyun/pages/LogoExplorationV2Page.jsx"));
 const LogoExplorationV4Page = lazy(() => import("../oyun/pages/LogoExplorationV4Page.jsx"));
 const LogoExplorationV5Page = lazy(() => import("../oyun/pages/LogoExplorationV5Page.jsx"));
+const LogoFinalistsVNextPage = lazy(() => import("../oyun/pages/LogoFinalistsVNextPage.jsx"));
 
 // Eski hub adresleri (/oyun/...) bu sitede köke indirilir. Bookmark, push
 // bildirimi deep-link'i ve paylaşılmış davet linkleri kırılmasın diye.
@@ -98,6 +99,7 @@ export default function BildimApp() {
     pathname.startsWith("/preview/avatar-lab") ||
     pathname.startsWith("/preview/avatar-pro") ||
     pathname.startsWith("/preview/logo-exploration") ||
+    pathname.startsWith("/preview/logo-finalists") ||
     pathname.startsWith("/gizlilik") || pathname.startsWith("/kosullar");
 
   if (!supabaseHazir && !bagimsizModul) {
@@ -143,6 +145,7 @@ export default function BildimApp() {
         <Route path="/preview/logo-exploration-v2" element={<LogoExplorationV2Page />} />
         <Route path="/preview/logo-exploration-v4" element={<LogoExplorationV4Page />} />
         <Route path="/preview/logo-exploration-v5" element={<LogoExplorationV5Page />} />
+        <Route path="/preview/logo-finalists-vnext" element={<LogoFinalistsVNextPage />} />
 
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
