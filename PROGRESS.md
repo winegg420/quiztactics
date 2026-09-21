@@ -7285,3 +7285,7 @@ yüksekliği 62 px; "CEVABI KİLİTLE" yok.
 - Kaynak `AvatarProIllustrations.jsx`, üretici `avatar-pro-uret.mjs` ve statik
   dosyalar birlikte tutuldu. Görsel grid masaüstünde denetlendi; karakterler
   birbirinden ayırt ediliyor ve mevcut koleksiyon dili korunuyor.
+- Migration `20260612000267` production Supabase'e `db push` ile uygulandı;
+  31 profesyonel avatarın tamamı sunucu tarafından kabul edilir. Build,
+  31/31 avatar testi ve tam arayüz denetimi temiz geçti; `main` push'u Vercel
+  production dağıtımını başlatır.
