@@ -7316,6 +7316,20 @@ yüksekliği 62 px; "CEVABI KİLİTLE" yok.
 - V1 rotası korunmuştur. Mevcut logo ve production branding değişmedi;
   **push/deploy yapılmadı, yalnız yerel preview hazırlandı.**
 
+## 21 Eylül 2026 — Logo Exploration V4 / Mobile Game Title Logos
+**Araç:** Codex
+**Dal:** `codex/logo-exploration-preview`
+
+- V1 ve V2'nin kurumsal/SaaS hissi terk edilerek 20 yeni mobil oyun title-logo
+  yönü hazırlandı. Ana kelime yapısı her örnekte tek parça `[özel Q][UIZ]
+  TACTICS`; ayrı Q ikonu + tekrar QUIZ hatası kullanılmadı.
+- Kalın kontur, 2B katman, gölge, eğim, iki satırlı siluet ve güçlü renk
+  ayrımı; mobile-store küçük ön izlemesinde okunacak şekilde çeşitlendirildi.
+- Her konsept büyük wordmark, bağımsız Q app icon, açık/koyu zemin ve mock app
+  header içinde `/preview/logo-exploration-v4` rotasında sunulur.
+- Mevcut production logosu, header, metadata ve app icon dosyaları değişmedi.
+  Çalışma yalnız preview dalına bağlıdır; production deploy yapılmayacaktır.
+
 ## 2026-09-21 — Jev deneme testi
 **Araç:** Claude Code
 **Neden:** Jev'in soru doğruluğu, kategori ve zorluk kontrolünde işe yarayıp yaramadığını ölçmek.
