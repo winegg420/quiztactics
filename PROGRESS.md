@@ -7330,6 +7330,20 @@ yüksekliği 62 px; "CEVABI KİLİTLE" yok.
 - Mevcut production logosu, header, metadata ve app icon dosyaları değişmedi.
   Çalışma yalnız preview dalına bağlıdır; production deploy yapılmayacaktır.
 
+## 21 Eylül 2026 — Logo Exploration V5 / Final Refinement
+**Araç:** Codex
+**Dal:** `codex/logo-exploration-preview`
+
+- Yeni keşif açılmadı; V4'teki 18 Super Quiz ana bazına 08 Quiz Knockout'ın
+  kontrollü enerjisi ve 05 Golden Play'in okunaklılığı taşındı.
+- Lacivert + turuncu ekseninde altı final adayı üretildi: iki Q odaklı, iki
+  wordmark odaklı ve iki dengeli hibrit. Alt çizgi, hız çizgisi, maskot,
+  slogan ve yarış/e-spor dekoru kullanılmadı.
+- Her adayda `QUIZ TACTICS` eksiksiz ve tek Q ile gösterilir; özel Q, QUIZ
+  kelimesinin parçasıdır ve ayrıca app icon ön izlemesinde tek başına denenir.
+- Preview rotası `/preview/logo-exploration-v5`. Production logosu, header,
+  metadata ve canlı app icon dosyaları değiştirilmedi.
+
 ## 2026-09-21 — Jev deneme testi
 **Araç:** Claude Code
 **Neden:** Jev'in soru doğruluğu, kategori ve zorluk kontrolünde işe yarayıp yaramadığını ölçmek.

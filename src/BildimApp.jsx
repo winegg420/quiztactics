@@ -68,6 +68,7 @@ const AvatarPreviewProPage = lazy(() => import("../oyun/pages/AvatarPreviewProPa
 const LogoExplorationPage = lazy(() => import("../oyun/pages/LogoExplorationPage.jsx"));
 const LogoExplorationV2Page = lazy(() => import("../oyun/pages/LogoExplorationV2Page.jsx"));
 const LogoExplorationV4Page = lazy(() => import("../oyun/pages/LogoExplorationV4Page.jsx"));
+const LogoExplorationV5Page = lazy(() => import("../oyun/pages/LogoExplorationV5Page.jsx"));
 
 // Eski hub adresleri (/oyun/...) bu sitede köke indirilir. Bookmark, push
 // bildirimi deep-link'i ve paylaşılmış davet linkleri kırılmasın diye.
@@ -141,6 +142,7 @@ export default function BildimApp() {
         <Route path="/preview/logo-exploration" element={<LogoExplorationPage />} />
         <Route path="/preview/logo-exploration-v2" element={<LogoExplorationV2Page />} />
         <Route path="/preview/logo-exploration-v4" element={<LogoExplorationV4Page />} />
+        <Route path="/preview/logo-exploration-v5" element={<LogoExplorationV5Page />} />
 
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
