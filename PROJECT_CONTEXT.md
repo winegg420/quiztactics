@@ -69,9 +69,8 @@ tercih hatırlanır (localStorage + `profiles.dereceli_tercih`).
 - Gerçek rakip bulunmazsa fallback, `duello_arama_sn=8` + oyuncuya sabitlenen
   2–5 sn bot gecikmesiyle **10–13 sn** aralığındadır. 21 Eylül 2026 yerel
   uçtan uca ölçümünde arama → bot maçı → maç ekranı **12,56 sn** sürdü.
-- Rövanş bekleme penceresindeki “Vazgeç” canlı sürümde yalnız pencereyi
-  kapatır. `codex/skill-mobile-game-revision` preview dalında sunucu isteğini
-  de iptal eden `duello_rovans_iptal` hazırlanmıştır; henüz canlı değildir.
+- Rövanş bekleme penceresindeki “Vazgeç”, `duello_rovans_iptal` ile sunucu
+  isteğini de geri çeker; yalnız pencereyi kapatıp hayalet istek bırakmaz.
 
 ### Turnuva
 
@@ -107,9 +106,7 @@ Oyuncuya görünen ad **"Skill"**. Veritabanındaki `joker_*` adları eski
 istemci ve geçmiş kayıt uyumluluğu için **bilerek korunur** — yeniden
 adlandırılmaz. Tek kayıt kaynağı `oyun/lib/jokerler.js`.
 
-Canlıda ilk dört skill aktiftir. Aşağıdaki son üç skill
-`codex/skill-mobile-game-revision` preview dalında hazırdır; migration canlıya
-uygulanmamıştır.
+Aktif yedi maç skill'i vardır:
 
 | id | Ad | Mod | Davranış |
 |---|---|---|---|
@@ -117,9 +114,9 @@ uygulanmamıştır.
 | `sure` | Ek Süre | Klasik · Grup · Turnuva · Düello | kişisel cevap süresini uzatır |
 | `soru_degistir` | Soru Değiştir | Klasik · Grup · Düello | aynı kategoriden kendi sorusunu değiştirir |
 | `zaman_baskisi` | Zaman Baskısı | Klasik · Düello | rakibin süresini kısaltır |
-| `sigorta` | Sigorta | yalnız Klasik, preview | yanlışta 5; doğruda normal 10 |
-| `cifte_puan` | 2X | yalnız Klasik, preview | doğruda 20; yanlışta 0 |
-| `ikinci_sans` | İkinci Şans | Klasik · Düello, preview | ilk yanlışta aynı sayaçla bir ikinci cevap |
+| `sigorta` | Sigorta | yalnız Klasik | yanlışta 5; doğruda normal 10 |
+| `cifte_puan` | 2X | yalnız Klasik | doğruda 20; yanlışta 0 |
+| `ikinci_sans` | İkinci Şans | Klasik · Düello | ilk yanlışta aynı sayaçla bir ikinci cevap |
 
 - Oyuncu maç öncesi **3 slotluk** bir set seçer (slot sayısı
   `oyun_ayarlari.skill_seti_slot`'tan okunur). Sunucu kullanımda seti doğrular.
@@ -132,11 +129,11 @@ uygulanmamıştır.
 ### Ekonomi (bütün rakamlar `oyun_ayarlari` tablosunda)
 
 - Lig = birikimli emek. **Günlük lig tavanı yok.**
-- Klasik Mod canlı standardı: galibiyet 25 · berabere 10 · mağlubiyet 0
+- Klasik Mod standardı: galibiyet 25 · berabere 10 · mağlubiyet 0
   (teselli yok) — hem lig hem coin.
-- Preview dalında Düello galibiyet ödülü Klasik galibiyet ayarından alınır;
+- Düello galibiyet ödülü Klasik galibiyet ayarından alınır;
   iki ana mod eşit ödül verir. Yeni sayı hardcode edilmez.
-- Preview dalında Saf Bilgi/skillsiz Klasik, standart ödülün **%50**'sini
+- Saf Bilgi/skillsiz Klasik, standart ödülün **%50**'sini
   verir. Serbest ayrı kavramdır; iki indirim üst üste çarpılıp %25 olmaz.
 - Turnuva lig: 1. 150 · 2. 80 · 3. 40 · 4-10. 20 · diğer katılan 10.
   Coin: 150/75/40 + katılana 10.
@@ -175,11 +172,11 @@ Canlı uygulanışı: `oyun/styles/yeni.css` — prototipin paleti birebir, üst
 sınıflar SİLİNMEDİ; hepsi yeni palete döner. Yükleme sırası
 (`src/main.jsx`): styles.css → tema.css → koyu.css → yeni.css.
 
-`codex/skill-mobile-game-revision` preview dalında `mobile-game.css` en son
+`mobile-game.css` en son
 yüklenir. 560 px ve altında Klasik/Düello eşit ana mod kartları, oyun HUD'ı
 alt navigasyonu, azaltılmış panel içi panel görünümü, 44 px dokunma hedefleri,
 telefon maç sahnesi ve reduced-motion uyumlu mikroanimasyonlar getirir. Bu
-mobil revizyon **henüz canlı değildir**.
+mobil revizyon canlıdadır.
 
 Palet (değiştirme):
 

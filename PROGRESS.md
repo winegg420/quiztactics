@@ -7254,3 +7254,16 @@ yüksekliği 62 px; "CEVABI KİLİTLE" yok.
   manuel görsel onayını bekliyor.
 - Mobil oyun katmanı kodu ayrı `style: mobil oyun arayüzünü yenile` commitinde
   tutuldu; böylece skill/DB mantığı görsel revizyondan bağımsız incelenebilir.
+
+## 21 Eylül 2026 — Skill + mobil revizyon canlıya alındı
+**Araç:** Codex
+
+- Sahibinin açık onayıyla `codex/skill-mobile-game-revision` dalındaki iki
+  commit `main`e hızlı ileri alındı.
+- `20260612000266_skill_mobil_deneyim.sql` production Supabase'e normal
+  `db push` akışıyla uygulandı ve migration defterinde `266/266` doğrulandı.
+- Canlı DB doğrulaması: Sigorta, 2X ve İkinci Şans aktif; Klasik/Düello lig
+  galibiyeti 25/25; Saf Bilgi çarpanı 0.5; `duello_rovans_iptal` mevcut.
+- Son build, skill testleri, transaction DB testleri ve 360/390/412/430
+  arayüz denetimi yayın öncesinde temizdi. `main` GitHub'a push edilerek
+  Vercel production dağıtımı başlatıldı.
