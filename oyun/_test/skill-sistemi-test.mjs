@@ -11,11 +11,17 @@ import {
 } from "../lib/jokerler.js";
 import { kalanSure, sunucuOffsetMs } from "../lib/zaman.js";
 
-test("aktif maç skill listesi yalnız v1 dört skillini içerir", () => {
-  assert.deepEqual(AKTIF_MAC_SKILLERI, ["elli", "sure", "soru_degistir", "zaman_baskisi"]);
+test("aktif maç skill listesi yeni Klasik skilllerini içerir", () => {
+  assert.deepEqual(AKTIF_MAC_SKILLERI, ["elli", "sure", "soru_degistir", "zaman_baskisi", "sigorta", "cifte_puan", "ikinci_sans"]);
   assert.deepEqual(KLASIK_JOKERLER, AKTIF_MAC_SKILLERI);
   assert.deepEqual(SALDIRI_JOKERLERI, ["zaman_baskisi"]);
   assert.deepEqual(VARSAYILAN_SKILL_SETI, ["elli", "sure", "soru_degistir"]);
+});
+
+test("Sigorta ve 2X yalnız Klasik, İkinci Şans Klasik ve Düello içindir", () => {
+  assert.deepEqual(SKILL_TANIMLARI.sigorta.allowedModes, ["1v1"]);
+  assert.deepEqual(SKILL_TANIMLARI.cifte_puan.allowedModes, ["1v1"]);
+  assert.deepEqual(SKILL_TANIMLARI.ikinci_sans.allowedModes, ["1v1", "duello"]);
 });
 
 test("kaldırılan combat skillleri geçmiş uyumluluğu için kayıtlı ama pasif ve mağazada gizli", () => {
@@ -48,6 +54,17 @@ test("hardening migrationı Klasik 6/2/1 ve tek Düello saldırısını uygular"
   assert.match(sql, /klasik_skill_soru_basi_hak', '1'/);
   assert.match(sql, /if p_tur <> 'zaman_baskisi'/);
   assert.match(sql, /p_tur not in \('elli','sure','soru_degistir'\)/);
+});
+
+test("genişletme migrationı puanları, ikinci seçimi ve rövanş iptalini sunucuda uygular", async () => {
+  const sql = await readFile(new URL("../../supabase/migrations/20260612000266_skill_mobil_deneyim.sql", import.meta.url), "utf8");
+  assert.match(sql, /v_skill='cifte_puan' then 20/);
+  assert.match(sql, /v_skill='sigorta' then 5/);
+  assert.match(sql, /tekrar_hakki boolean/);
+  assert.match(sql, /skill_ikinci_sans_denemeleri/);
+  assert.match(sql, /Bu skill Düello modunda kullanılamaz/);
+  assert.match(sql, /duello_rovans_iptal/);
+  assert.match(sql, /least\(v_carpan,public\.ayar_ondalik\('saf_bilgi_odul_carpani',0\.5\)\)/);
 });
 
 test("sunucu saat farkı ağ isteğinin orta noktasından hesaplanır", () => {

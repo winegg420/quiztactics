@@ -32,6 +32,24 @@ export const SKILL_TANIMLARI = {
     allowedPhases: ["cevap", "hazirlik"], target: "opponent", animation: "time-pressure",
     aktif: true, shopVisible: true,
   },
+  sigorta: {
+    id: "sigorta", ad: tt("Sigorta"),
+    aciklama: tt("Yanlış cevapta normal puanın yarısını kurtarır"), ikon: "sigorta",
+    kategori: "destek", allowedModes: ["1v1"], allowedPhases: ["cevap"],
+    target: "self", animation: "insurance", aktif: true, shopVisible: true,
+  },
+  cifte_puan: {
+    id: "cifte_puan", ad: "2X",
+    aciklama: tt("Doğru cevabın puanını ikiye katlar"), ikon: "cifte",
+    kategori: "taktik", allowedModes: ["1v1"], allowedPhases: ["cevap"],
+    target: "self", animation: "double-score", aktif: true, shopVisible: true,
+  },
+  ikinci_sans: {
+    id: "ikinci_sans", ad: tt("İkinci Şans"),
+    aciklama: tt("İlk yanlışta aynı soruda bir kez daha cevaplatır"), ikon: "ikinciSans",
+    kategori: "bilgi", allowedModes: ["1v1", "duello"], allowedPhases: ["cevap"],
+    target: "self", animation: "second-chance", aktif: true, shopVisible: true,
+  },
   // Geçmiş envanter/kullanım kayıtları silinmez; bu üç kayıt yalnız görünmez
   // uyumluluk girdileridir ve hiçbir aktif listeye girmez.
   sis: { id: "sis", ad: tt("Sis"), ikon: "sis", kategori: "saldırı", aktif: false, shopVisible: false },

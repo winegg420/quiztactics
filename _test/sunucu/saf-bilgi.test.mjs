@@ -27,7 +27,7 @@ test('jokersiz maçta her joker reddedilir', sec, async () => {
     await olarak(c, x);
     for (const tur of ['elli', 'sure', 'soru_degistir', 'zaman_baskisi', 'sis']) {
       const hata = await hataVerir(c, `select public.joker_kullan('1v1', ${a(id)}, 0, ${a(tur)})`);
-      assert.match(hata, /bu modda joker kullanılamaz/i, tur);
+      assert.match(hata, /bu modda (?:skill|joker) kullanılamaz/i, tur);
     }
     const eski = await hataVerir(c, `select public.use_joker(${a(id)}, 'elli')`);
     assert.match(eski, /bu modda joker kullanılamaz/i, 'eski use_joker yolu da kapalı');

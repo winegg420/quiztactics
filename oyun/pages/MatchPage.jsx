@@ -571,13 +571,16 @@ export default function MatchPage() {
       p_cevap: i,
     });
     if (error) throw error;
+    const satir = data?.[0];
+    // İkinci Şans'ın ilk yanlışında soru ilerlemez; aynı sayaçla ikinci
+    // seçim açılır. Bu dönüş final cevap değildir ve skor tazelenmez.
+    if (satir?.tekrar_hakki) return satir;
     cevapZamaniRef.current = Date.now();
     setCevapladim(true);
 
     // Skor tabelası ANINDA güncellensin: sunucu kazanılan puanla birlikte
     // güncel iki skoru da döndürüyor (migration 137). Eskiden tabela
     // Realtime'ı ya da yoklamayı bekliyordu; puan bir tur geç görünüyordu.
-    const satir = data?.[0];
     if (satir && Number.isFinite(Number(satir.benim_skor))) {
       setMac((m) => {
         if (!m) return m;

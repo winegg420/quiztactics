@@ -22,7 +22,6 @@ import Ikon from "../components/Ikon.jsx";
 import MacUstSerit from "../components/MacUstSerit.jsx";
 import MacYukleniyor from "../components/MacYukleniyor.jsx";
 import KategoriIkon from "../components/KategoriIkon.jsx";
-import Maskot from "../components/Maskot.jsx";
 import MacSonuSahnesi from "../components/MacSonuSahnesi.jsx";
 import OdulDokumu from "../components/OdulDokumu.jsx";
 import DuelloOzet from "../components/DuelloOzet.jsx";
@@ -35,7 +34,7 @@ import { useDil } from "../lib/dilKanca.js";
 import { hataMesaji } from "../lib/hata.js";
 import { kategoriAdi } from "../lib/kategoriler.js";
 import { unvanAdi } from "../lib/unvanlar.js";
-import { JOKER_BILGI, SALDIRI_JOKERLERI, MAC_ICI_JOKERLER, skillSetiOku } from "../lib/jokerler.js";
+import { JOKER_BILGI, SALDIRI_JOKERLERI, macJokerleri, skillSetiOku } from "../lib/jokerler.js";
 import { y } from "../lib/yol.js";
 import { coinTazele } from "../lib/coin.js";
 import { ayar } from "../lib/ayarlar.js";
@@ -50,11 +49,12 @@ import SkillSeti from "../components/SkillSeti.jsx";
 const HARFLER = ["A", "B", "C", "D"];
 
 // Savunma jokerlerinin Düello'daki adları (Ek Süre +5 sn; sunucu ayarı duello_ek_sure_sn)
-const SAVUNMA_AD = { elli: "50:50", sure: tt("Ek Süre"), soru_degistir: tt("Soru Değiştir") };
+const SAVUNMA_AD = { elli: "50:50", sure: tt("Ek Süre"), soru_degistir: tt("Soru Değiştir"), ikinci_sans: tt("İkinci Şans") };
 const SAVUNMA_ACIKLAMA = {
   elli: tt("İki yanlış şık silinir"),
   sure: tt("Cevap süresine 5 saniye ekler"),
   soru_degistir: tt("Aynı kategoriden başka soru gelir"),
+  ikinci_sans: tt("İlk yanlışta aynı süre içinde bir kez daha denersin"),
 };
 const SALDIRI_AD = { zaman_baskisi: tt("Zaman Baskısı") };
 
@@ -93,7 +93,7 @@ function DuelloGiris() {
         </div>
       </section>
       <div className="kart bd-duello-tanit">
-        <Maskot poz="selam" boyut={72} />
+        <span className="bd-duello-tanit-ikon" aria-hidden="true"><Ikon ad="kilic" boyut={34} /></span>
         <div className="bd-duello-tanit-metin">
           <b>{ceviri("Taktik Maçı")}</b>
           <p>{ceviri("Sırayla birbirinize soru gönderin. Rakibin zayıf kategorisini bul, oradan vur.")}</p>
@@ -107,7 +107,7 @@ function DuelloGiris() {
       <DereceliAnahtari dereceli={dereceli} onDegistir={setDereceli} />
       <SkillSeti macTur="duello" />
       <div className="bd-ana-eylem-not">
-        {dereceli ? ceviri("Galibiyet: +50 lig puanı ve 50 coin") : ceviri("Serbest: lig puanı yok, coin yarı.")}
+        {dereceli ? ceviri("Klasik ile aynı lig puanı ve coin ödülü") : ceviri("Serbest: lig puanı yok, coin yarı.")}
       </div>
       <button className="bd-ana-eylem" onClick={() => { sesKilidiAc(); if (duelloTanitimGoruldu()) setArama(true); else setTanitim("arama"); }}>
         <Ikon ad="kilic" boyut={22} />
@@ -299,6 +299,7 @@ function DuelloMac({ id }) {
   const [baglanti, setBaglanti] = useState(null);   // Paket 24 · A.4: rakip kopuk mu
   const [simdi, setSimdi] = useState(Date.now());
   const [secim, setSecim] = useState(null);
+  const [ikinciSansElendi, setIkinciSansElendi] = useState([]);
   const [calisan, setCalisan] = useState(null);
   const [terkOnay, setTerkOnay] = useState(false);
   // Paket 27 C: maç içinde satın alınacak joker türü (null = pencere kapalı)
@@ -309,9 +310,9 @@ function DuelloMac({ id }) {
   // Paket 40 D: öteki modlar gibi maç sürerken sekme/üst çubuk gizlenir (jokerleri örtüyordu).
   useOyunModu(d?.durum === "aktif");
   const [gorevler, setGorevler] = useState([]);   // Paket 37 D.1: sahnede Detay'ın üstünde
-  // Paket 30 C: rövanş bekleme penceresi — yalnız arayüz durumu (sunucuya dokunmaz)
+  // Rövanş bekleme penceresi ve sunucu tarafındaki geri çekme durumu.
   const [rovBas, setRovBas] = useState(null);          // bekleme başladığı yerel an (ms)
-  const [rovVazgec, setRovVazgec] = useState(false);   // "Vazgeç" — sunucuda geri çekme yok, yalnız pencere kapanır
+  const [rovVazgec, setRovVazgec] = useState(false);
   const [rovSonuc, setRovSonuc] = useState(null);      // null | "cevapsiz" | "red"
   const [rovSn, setRovSn] = useState(60);              // oyun_ayarlari.duello_rovans_sn
   // Paket 34: jokerler geçici olarak ücretsiz ve sınırsız (oyun_ayarlari.jokerler_ucretsiz)
@@ -437,7 +438,7 @@ function DuelloMac({ id }) {
 
   // Faz değişince yerel seçim sıfırlanır
   const fazAnahtari = d ? `${d.tur}-${d.saldiri_sirasi}-${d.faz}-${d.soru?.soru ?? ""}` : "";
-  useEffect(() => { setSecim(null); setHata(null); }, [fazAnahtari]);
+  useEffect(() => { setSecim(null); setIkinciSansElendi([]); setHata(null); }, [fazAnahtari]);
 
   // Hamle sonucu sesi
   useEffect(() => {
@@ -526,6 +527,14 @@ function DuelloMac({ id }) {
     }
   };
 
+  const rovansVazgec = async () => {
+    const tamam = await eylem("rovans-iptal", "duello_rovans_iptal", {});
+    if (tamam) {
+      setRovVazgec(true);
+      setRovBas(null);
+    }
+  };
+
   if (!d) {
     return (
       <div className="bd-duello">
@@ -534,7 +543,7 @@ function DuelloMac({ id }) {
           <MacYukleniyor hata={yuklemeHatasi} onTekrarDene={() => { setYuklemeHatasi(null); yukle(); }}
                          donusYolu={y("/duello")} donusMetni={ceviri("Düello'ya dön")} />
         ) : (
-          <div className="bd-duello-yukleniyor"><Maskot poz="dusunuyor" boyut={80} /></div>
+          <div className="bd-duello-yukleniyor"><span className="bd-duello-yukleniyor-ikon"><Ikon ad="kilic" boyut={34} /></span></div>
         )}
       </div>
     );
@@ -605,7 +614,7 @@ function DuelloMac({ id }) {
                   {/* İstek gönderildi: bekleme penceresi (Modal, body'ye portal) açık; çubukta pasif düğme */}
                   <button className="btn mss-tam" disabled>{ceviri("Rövanş bekleniyor…")}</button>
                   <RovansBekleme rakip={rakip} baslangic={rovBas ?? Date.now()} sureSn={rovSn} simdi={simdi}
-                                 ceviri={ceviri} onVazgec={() => { setRovVazgec(true); setRovBas(null); }} />
+                                 ceviri={ceviri} onVazgec={rovansVazgec} />
                 </>
               ) : rov.isteyen && rov.gecerli && rov.isteyen !== d.ben ? (
                 <>
@@ -677,15 +686,36 @@ function DuelloMac({ id }) {
             } else if (altinMi && benimAltin !== undefined && benimAltin !== null) {
               if (i === Number(benimAltin)) sinif += " secili";
             } else if (i === secim) sinif += " secili";
-            if (kapali.includes(i) && !sonucMu) sinif += " elendi";
+            const ikinciSanslaElendi = ikinciSansElendi.includes(i);
+            if ((kapali.includes(i) || ikinciSanslaElendi) && !sonucMu) {
+              sinif += ikinciSanslaElendi ? " elendi ikinci-sans-elendi" : " elendi";
+            }
             return (
               <button key={i} className={sinif}
-                      disabled={!tiklanabilir || secim !== null || !!calisan || kapali.includes(i)}
+                      disabled={!tiklanabilir || secim !== null || !!calisan || kapali.includes(i) || ikinciSanslaElendi}
                       onClick={async () => {
                         sesDokunus(); titret(10);
                         setSecim(i);
-                        const ok = await eylem("cevap", "duello_cevap", { p_cevap: i });
-                        if (!ok) setSecim(null);
+                        setHata(null);
+                        setCalisan("cevap");
+                        try {
+                          const { data, error } = await supabase.rpc("duello_cevap", { p_id: id, p_cevap: i });
+                          if (error) throw error;
+                          if (data?.tekrar_hakki) {
+                            sesYanlis(); titret(18);
+                            setIkinciSansElendi((onceki) => [...new Set([...onceki, i])]);
+                            setSkillEfekt({ tur: "ikinci_sans" });
+                            clearTimeout(skillTimerRef.current);
+                            skillTimerRef.current = setTimeout(() => setSkillEfekt(null), 680);
+                            setTimeout(() => setSecim(null), 260);
+                          }
+                          await yukle();
+                        } catch (e) {
+                          setHata(ceviri(hataMesaji(e)));
+                          setSecim(null);
+                        } finally {
+                          setCalisan(null);
+                        }
                       }}>
                 <span className="bd-harf">{HARFLER[i]}</span>
                 <span className="bd-secenek-metin">{s}</span>
@@ -763,7 +793,7 @@ function DuelloMac({ id }) {
     } else {
       sahne = (
         <div className="bd-duello-bekle">
-          <Maskot poz="dusunuyor" boyut={72} />
+          <span className="bd-duello-bekle-ikon" aria-hidden="true"><Ikon ad="saat" boyut={30} /></span>
           <h2>{ceviri("{ad} saldırı kategorisini seçiyor…", { ad: rakip.gorunen_ad })}</h2>
           {sayac(false)}
           {d.son_hamle && !d.son_hamle.altin && <SonHamleOzet h={d.son_hamle} ben={d.ben} ceviri={ceviri} />}
@@ -929,7 +959,8 @@ function DuelloMac({ id }) {
             } else {
               // Satın alma + kullanım TEK RPC: araya girip coin düşüp jokerin
               // kullanılmaması diye bir durum oluşmaz.
-              const { error } = await supabase.rpc("joker_al_ve_kullan", {
+              const yeniSkill = satinAlinacak.tur === "ikinci_sans";
+              const { error } = await supabase.rpc(yeniSkill ? "skill_al_ve_hazirla" : "joker_al_ve_kullan", {
                 p_mac_tur: "duello",
                 p_mac_id: id,
                 p_soru_index: null,
@@ -1019,7 +1050,7 @@ function JokerAlani({ set, d, calisan, onKullan, onSatinAl, ceviri, serbest = fa
   // loadout'unda Zaman Baskısı seçili değil diye alan boş bırakılamaz.
   const liste = set === "saldiri"
     ? SALDIRI_JOKERLERI
-    : MAC_ICI_JOKERLER.filter((id) => seciliSet.has(id));
+    : macJokerleri("duello", [...seciliSet]).filter((id) => JOKER_BILGI[id]?.target === "self");
 
   const saldiriAcik = benSaldiran && d.faz === "hazirlik";
   // Paket 28 D: saldırı jokerleri KATEGORİ ekranında da SATIN ALINABİLİR.

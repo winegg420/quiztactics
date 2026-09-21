@@ -7213,3 +7213,42 @@ yüksekliği 62 px; "CEVABI KİLİTLE" yok.
 - **Sonuç:** `npx supabase db push` artık **"Remote database is up to date."**
   diyor. Dosya adı çakışması sıfır. `PROJECT_CONTEXT.md` › Açık İşler'deki
   ilgili madde çözüldüğü için silindi.
+
+## 21 Eylül 2026 — Skill genişletme + mobil oyun deneyimi (preview, canlı değil)
+**Araç:** Codex
+**Dal:** `codex/skill-mobile-game-revision`
+
+- Klasik'e üç sunucu yetkili skill hazırlandı: **Sigorta** (yanlış 5 / doğru
+  10), **2X** (doğru 20 / yanlış 0), **İkinci Şans** (ilk yanlış final cevap
+  sayılmaz; sayaç sıfırlanmadan başka şık açılır). Mevcut 3 slot, toplam 6,
+  tür başına 2, soru başına 1 ve envanterden tüketim kapıları korunur.
+- Düello can sistemi olduğu için Sigorta ve 2X'e sahte puan mekaniği
+  uydurulmadı; yalnız İkinci Şans normal savunma sorusunda kullanılabilir.
+- Migration `20260612000266_skill_mobil_deneyim.sql`: yeni envanter türleri,
+  atomik hazırlama/satın alma RPC'leri, İkinci Şans deneme tablosu, Klasik ve
+  Düello cevap kuralları, rövanş iptal RPC'si ve ödül dengesi. **Production
+  DB'ye uygulanmadı.** DB testi migration'ı transaction içinde çalıştırıp
+  sonunda rollback yaptı (5/5 geçti).
+- Ödül preview kararı: Düello galibiyeti Klasik baseline ayarına bağlandı;
+  Saf Bilgi %50. Serbest ve skillsiz indirimleri çarpılmıyor.
+- Mobilde `mobile-game.css` en son katman olarak eklendi. 360/390/412/430
+  px hedefleri; eşit Klasik/Düello ana kartları, oyun HUD'ı alt menü, daha az
+  iç içe panel, güçlü butonlar, maç/skill/mağaza/lig/turnuva/profil/arkadaş/
+  boş-hata-sonuç yüzeyleri ve reduced-motion desteği. Düello girişindeki
+  maskot kaldırıldı; yeni logo/maskot/bağımlılık eklenmedi.
+- Skill ikonları kod içi özgün SVG yollarıdır; Sigorta, 2X ve İkinci Şans
+  birbirinden ayrılır. Mikroanimasyonlar 620–680 ms, oyunu kilitlemez.
+- Düello bot fallback uçtan uca tarayıcı testinde arama → bot eşleşmesi →
+  maç ekranı **12.558 ms** sürdü; gerçek kural 8 sn arama + 2–5 sn gecikme,
+  yani 10–13 sn. Konsol hatası yoktu.
+- Rövanş “Vazgeç” kusuru doğrulandı: eski istemci yalnız pencereyi kapatıyordu.
+  Preview dalında düğme `duello_rovans_iptal` çağırır; transaction testinde
+  `rovans_isteyen` ve `rovans_at` gerçekten temizlendi.
+- Mobil arayüz denetimi 16 sayfa × 7 genişlikte temiz: yatay taşma yok,
+  sabit/sticky öğe kayması yok, ölçülen dokunma hedefleri ≥44 px, konsol
+  hatası yok. Masaüstü düzeni media-query dışında bırakıldı.
+- Doğrulama: build + eski tarayıcı ayrıştırma denetimi temiz (6 önceden var
+  olan uyumluluk uyarısı), skill statik testleri 8/8, yeni DB testleri 5/5.
+- **Canlıya alınmadı:** main'e merge/push yok, production migration yok,
+  production deploy yok. Mobil görünüm ve maç içi skill animasyonları sahibin
+  manuel görsel onayını bekliyor.

@@ -27,7 +27,10 @@ import { tt } from "../lib/dil.js";
  * @param {number} [kalanSn] sorunun kalan saniyesi (Sis'in son-N-saniye kuralı için)
  */
 export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, surum = 0, kalanSn = 15 }) {
-  const [envanter, setEnvanter] = useState({ elli: 0, sure: 0, soru_degistir: 0, seri_koruma: 0 });
+  const [envanter, setEnvanter] = useState({
+    elli: 0, sure: 0, soru_degistir: 0, zaman_baskisi: 0,
+    sigorta: 0, cifte_puan: 0, ikinci_sans: 0, seri_koruma: 0,
+  });
   const [durum, setDurum] = useState(null); // { sinir, kullanilan, ucretsiz_elli_kaldi }
   const [hata, setHata] = useState(null);
   const [yuklemeHatasi, setYuklemeHatasi] = useState(null);
@@ -151,8 +154,11 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
     setHata(null);
     setCalisan(tur);
     try {
+      const yeniSkill = ["sigorta", "cifte_puan", "ikinci_sans"].includes(tur);
       const { data, error } = await supabase.rpc(
-        satinAl ? "joker_al_ve_kullan" : "joker_kullan",
+        yeniSkill
+          ? (satinAl ? "skill_al_ve_hazirla" : "skill_hazirla")
+          : (satinAl ? "joker_al_ve_kullan" : "joker_kullan"),
         { p_mac_tur: macTur, p_mac_id: macId, p_soru_index: soruIndex, p_tur: tur }
       );
       if (error) throw error;
@@ -204,6 +210,9 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
     if (tur === "soru_degistir") return tt("Sorun değişti.");
     if (tur === "zaman_baskisi")
       return tt("Rakibin süresi {0} saniye kısaldı.", { 0: Number(a.klasik_zaman_baskisi_sn ?? 5) });
+    if (tur === "sigorta") return tt("Sigorta aktif — yanlışta 5 puan korunur.");
+    if (tur === "cifte_puan") return tt("2X aktif — doğru cevap 20 puan.");
+    if (tur === "ikinci_sans") return tt("İkinci Şans aktif.");
     return jokerBilgi(tur, macTur, a).ad;
   };
 

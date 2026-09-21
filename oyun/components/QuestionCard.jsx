@@ -66,6 +66,7 @@ export default function QuestionCard({
   const [sonuc, setSonuc] = useState(null); // { dogru, dogru_cevap }
   const [oy, setOy] = useState(null);
   const [kapali, setKapali] = useState([]); // 50:50 ile elenen şıklar
+  const [ikinciSansElendi, setIkinciSansElendi] = useState([]);
   // Geri bildirim penceresi: kazanılan puan + üst üste doğru serisi
   const [puan, setPuan] = useState(0);
   const [seri, setSeri] = useState(0);
@@ -104,6 +105,7 @@ export default function QuestionCard({
     setSonuc(null);
     setOy(null);
     setKapali([]);
+    setIkinciSansElendi([]);
     setPuan(0);
     setSarsil(false);
     setZamanAsimi(false);
@@ -219,6 +221,19 @@ export default function QuestionCard({
     try {
       const r = await onCevapla(i);
       if (r) {
+        if (r.tekrar_hakki) {
+          sesYanlis();
+          titret(18);
+          setIkinciSansElendi((onceki) => [...new Set([...onceki, i])]);
+          setSkillEfekt({ tur: "ikinci_sans" });
+          clearTimeout(skillTimer.current);
+          skillTimer.current = setTimeout(() => setSkillEfekt(null), 680);
+          setTimeout(() => {
+            setSecim(null);
+            cevapVerildiRef.current = false;
+          }, 260);
+          return;
+        }
         setSonuc(r);
         const dogruMu = r.dogru_cevap === i;
         // 120 ms: renk geri bildirimi CSS'te; ses ve seri burada
@@ -434,7 +449,8 @@ export default function QuestionCard({
 
       <div className="bd-secenekler">
         {secenekler.map((s, i) => {
-          const elendi = kapali.includes(i);
+          const ikinciSanslaElendi = ikinciSansElendi.includes(i);
+          const elendi = kapali.includes(i) || ikinciSanslaElendi;
           let sinif = "bd-secenek";
           if (sonuc) {
             if (i === sonuc.dogru_cevap) sinif += " dogru";
@@ -443,7 +459,7 @@ export default function QuestionCard({
           } else if (i === secim) {
             sinif += " secili";
           }
-          if (elendi) sinif += " elendi";
+          if (elendi) sinif += ikinciSanslaElendi ? " elendi ikinci-sans-elendi" : " elendi";
           return (
             <button
               key={i}

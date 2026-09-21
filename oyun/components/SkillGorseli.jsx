@@ -5,6 +5,9 @@ const IKON = {
   sure: "saat",
   soru_degistir: "yenile",
   zaman_baskisi: "hizli",
+  sigorta: "sigorta",
+  cifte_puan: "cifte",
+  ikinci_sans: "ikinciSans",
   seri_koruma: "kalkan",
 };
 
