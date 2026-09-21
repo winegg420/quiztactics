@@ -7289,3 +7289,39 @@ yüksekliği 62 px; "CEVABI KİLİTLE" yok.
   31 profesyonel avatarın tamamı sunucu tarafından kabul edilir. Build,
   31/31 avatar testi ve tam arayüz denetimi temiz geçti; `main` push'u Vercel
   production dağıtımını başlatır.
+
+## 2026-09-21 — Jev deneme testi
+**Araç:** Claude Code
+**Neden:** Jev'in soru doğruluğu, kategori ve zorluk kontrolünde işe yarayıp yaramadığını ölçmek.
+
+Oyuna entegrasyon, DB yazması, migration ve arayüz değişikliği **yok**; tek
+amaç ölçümdü. Rapor: `araclar/jev-test-sonuc.md`.
+
+- **API:** `POST https://api.typesafe.ai/v1/systemone`, `{state, model, questions}`;
+  üç tipli soru (`noul` · `choice` · `score`), cevaplar olasılık dağılımı +
+  `confidence` ile dönüyor. Fiyat yalnız girdi jetonundan, 42 $/Btok.
+  Resmi JS SDK'sı (`@typesafe-ai/sdk`) **kurulmadı** — depo kuralı gereği yeni
+  npm paketi yok; REST biçimi `araclar/jev.mjs` içinde Node'un `fetch`'iyle
+  çağrıldı (try-catch, zaman aşımı, 429/5xx için üstel geri çekilmeli 3 deneme).
+- **Örneklem:** canlı `public.questions` tablosundan **salt okuma**, sabit
+  tohumla 80 normal (10 kategoriden 8'er) + 20 çapa. Şıklar karıştırıldı;
+  doğru cevap ve kategori Jev'e verilmedi.
+- **Sonuç:** 99/100 doğru. `>0,9` güven kovası 93 soru ve **%100 doğru** →
+  ölçüt %95'ti, Jev "ikinci görüş" kontrolcüsü olarak **geçti**. Tek yanlış
+  ('Anayurt Oteli' → bizim cevabımız Yusuf Atılgan doğru) **0,05 güvenle**
+  geldi; yüksek güvenle bizim cevabımıza karşı çıkılan hiç soru yok. Bu
+  testte bizim yanlış cevaplı sorumuz çıkmadı.
+- **Zorluk:** çapa ortalaması 1,25 · normal 2,46 → belirgin ayrım, kullanılabilir.
+  Yan bulgu: normal havuz Jev'e göre 2'de yığılıyor, yani "orta" dediğimiz
+  sorular aslında kolay tarafta.
+- **Kategori:** 89/100 uyum; uyuşmayan 11 sorunun 10'u **bizim** etiket
+  hatamız — `genel_kultur` fiilen çöp kutusu kategori olmuş. Otomatik
+  değiştirme için değil, temizlik önerisi üretmek için uygun.
+- **İki düzeltme:** kategori sayısı 13 değil **10** (`genel` ve `karisik` oyun
+  kipi anahtarı, soru kategorisi değil). Çapa migration'ı `20260612000082`
+  değil **`20260612000265_asiri_basit_sorular.sql`**; o 53 soru bugün pasif
+  değil, `20260612000147` onları `zorluk = 1` ile yeniden aktif etmiş.
+- **Maliyet:** 100 soru 0,004 $, ortalama çağrı 410 ms. Havuzun tamamı
+  (12.454 soru) ~0,50 $ eder. Bütçe koruması (1 $) devreye girmedi.
+- Anahtar `.env` içinde `TYPESAFE_API_KEY`, `VITE_` öneki yok, git'e girmedi,
+  hiçbir çıktıya yazılmadı.

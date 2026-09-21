@@ -1,0 +1,2812 @@
+{
+  "tarih": "2026-09-21T14:12:59.289Z",
+  "model": "jev-1.13.0",
+  "tohum": 20260921,
+  "toplamJeton": 94555,
+  "maliyetUsd": 0.0039713100000000005,
+  "ortSureMs": 410,
+  "duvarSaatiMs": 10391,
+  "hatalar": [],
+  "sonuclar": [
+    {
+      "id": "6c9f1ce3-4ff0-4846-9bb5-37a7c6668223",
+      "soru": "Kansızlığın tıptaki adı nedir?",
+      "bizimKategori": "genel_kultur",
+      "bizimCevap": "Anemi",
+      "gonderilenSiklar": [
+        "Migren",
+        "Astım",
+        "Diyabet",
+        "Anemi"
+      ],
+      "jevCevap": "Anemi",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Anemi": 1,
+        "Astım": 0,
+        "Diyabet": 0,
+        "Migren": 0
+      },
+      "jevKategori": "bilim",
+      "jevKategoriGuven": 0.99,
+      "jevZorluk": 2.12,
+      "jevZorlukGuven": 0.8,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 927,
+      "sureMs": 1105,
+      "kume": "normal"
+    },
+    {
+      "id": "13921d97-f542-4a18-8bc4-694dbee746c2",
+      "soru": "Osmanlı'da \"Divan-ı Hümayun\" ne işlevi görürdü?",
+      "bizimKategori": "genel_kultur",
+      "bizimCevap": "Devlet meclisi",
+      "gonderilenSiklar": [
+        "Devlet meclisi",
+        "Kütüphane binası",
+        "Askerî okul yapısı",
+        "Hastane kurumu"
+      ],
+      "jevCevap": "Devlet meclisi",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Hastane kurumu": 0,
+        "Devlet meclisi": 1,
+        "Kütüphane binası": 0,
+        "Askerî okul yapısı": 0
+      },
+      "jevKategori": "tarih",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 2.62,
+      "jevZorlukGuven": 0.63,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 971,
+      "sureMs": 1352,
+      "kume": "normal"
+    },
+    {
+      "id": "1e6effca-a125-4c0d-a11c-fe2781ff35d2",
+      "soru": "Osmanlı'da \"şehzade\" kime denirdi?",
+      "bizimKategori": "genel_kultur",
+      "bizimCevap": "Padişahın oğluna",
+      "gonderilenSiklar": [
+        "Padişahın oğluna",
+        "Kadıya",
+        "Komutana",
+        "Vezire"
+      ],
+      "jevCevap": "Padişahın oğluna",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Kadıya": 0,
+        "Komutana": 0,
+        "Padişahın oğluna": 1,
+        "Vezire": 0
+      },
+      "jevKategori": "tarih",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 1.8399999999999999,
+      "jevZorlukGuven": 0.78,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 945,
+      "sureMs": 1357,
+      "kume": "normal"
+    },
+    {
+      "id": "97e5ea63-39b0-4ed5-9c49-57ea60161a7e",
+      "soru": "Denizde yön bulmada yıldızlardan yararlanmaya ne denir?",
+      "bizimKategori": "genel_kultur",
+      "bizimCevap": "Gök seyri",
+      "gonderilenSiklar": [
+        "Karasal seyir",
+        "Sonar",
+        "Gök seyri",
+        "Radar"
+      ],
+      "jevCevap": "Gök seyri",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Gök seyri": 1,
+        "Karasal seyir": 0,
+        "Sonar": 0,
+        "Radar": 0
+      },
+      "jevKategori": "cografya",
+      "jevKategoriGuven": 0.56,
+      "jevZorluk": 2.88,
+      "jevZorlukGuven": 0.69,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 939,
+      "sureMs": 1385,
+      "kume": "normal"
+    },
+    {
+      "id": "50c60897-b933-4f38-8ce1-6061ccc92c4e",
+      "soru": "Tam bir çember kaç derecedir?",
+      "bizimKategori": "genel_kultur",
+      "bizimCevap": "360",
+      "gonderilenSiklar": [
+        "270",
+        "360",
+        "180",
+        "90"
+      ],
+      "jevCevap": "360",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "90": 0,
+        "180": 0,
+        "270": 0,
+        "360": 1
+      },
+      "jevKategori": "bilim",
+      "jevKategoriGuven": 0.96,
+      "jevZorluk": 1.01,
+      "jevZorlukGuven": 0.99,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 926,
+      "sureMs": 330,
+      "kume": "normal"
+    },
+    {
+      "id": "0db76a59-df58-457c-8d5e-be2dd86e35ab",
+      "soru": "Rüzgâr enerjisinde en önemli koşul nedir?",
+      "bizimKategori": "genel_kultur",
+      "bizimCevap": "Sürekli rüzgâr",
+      "gonderilenSiklar": [
+        "Bol yağmur suyu",
+        "Yüksek sıcaklık",
+        "Sürekli rüzgâr",
+        "Yoğun kar yağışı"
+      ],
+      "jevCevap": "Sürekli rüzgâr",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Bol yağmur suyu": 0,
+        "Yoğun kar yağışı": 0,
+        "Yüksek sıcaklık": 0,
+        "Sürekli rüzgâr": 1
+      },
+      "jevKategori": "bilim",
+      "jevKategoriGuven": 0.4,
+      "jevZorluk": 1.49,
+      "jevZorlukGuven": 0.59,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 971,
+      "sureMs": 323,
+      "kume": "normal"
+    },
+    {
+      "id": "4e8aec4b-555a-40fc-bbb3-a9025a1baff2",
+      "soru": "Köpekbalıkları hangi hayvan grubundandır?",
+      "bizimKategori": "genel_kultur",
+      "bizimCevap": "Balıklar",
+      "gonderilenSiklar": [
+        "Kuşlar",
+        "Balıklar",
+        "Memeliler",
+        "Sürüngenler"
+      ],
+      "jevCevap": "Balıklar",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Memeliler": 0,
+        "Sürüngenler": 0,
+        "Kuşlar": 0,
+        "Balıklar": 1
+      },
+      "jevKategori": "bilim",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 1.09,
+      "jevZorlukGuven": 0.93,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 940,
+      "sureMs": 342,
+      "kume": "normal"
+    },
+    {
+      "id": "77cd4ef2-92e0-4e77-b44b-690cc9babfb0",
+      "soru": "Alternatif akım çalışmalarıyla tanınan mucit kimdir?",
+      "bizimKategori": "bilim",
+      "bizimCevap": "Nikola Tesla",
+      "gonderilenSiklar": [
+        "Michael Faraday",
+        "James Watt",
+        "Nikola Tesla",
+        "Thomas Edison"
+      ],
+      "jevCevap": "Nikola Tesla",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Michael Faraday": 0,
+        "James Watt": 0,
+        "Nikola Tesla": 1,
+        "Thomas Edison": 0
+      },
+      "jevKategori": "bilim",
+      "jevKategoriGuven": 0.81,
+      "jevZorluk": 2.09,
+      "jevZorlukGuven": 0.86,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 935,
+      "sureMs": 295,
+      "kume": "normal"
+    },
+    {
+      "id": "179d0757-f5af-479f-827a-e94a7e92a2a8",
+      "soru": "Fields Madalyası hangi alanda verilir?",
+      "bizimKategori": "genel_kultur",
+      "bizimCevap": "Matematik",
+      "gonderilenSiklar": [
+        "Matematik",
+        "Müzik",
+        "Barış",
+        "Edebiyat"
+      ],
+      "jevCevap": "Matematik",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Edebiyat": 0,
+        "Matematik": 1,
+        "Barış": 0,
+        "Müzik": 0
+      },
+      "jevKategori": "bilim",
+      "jevKategoriGuven": 0.84,
+      "jevZorluk": 2.67,
+      "jevZorlukGuven": 0.65,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 929,
+      "sureMs": 881,
+      "kume": "normal"
+    },
+    {
+      "id": "fad8ecd7-2a9d-458d-8a83-cb5decb6f67f",
+      "soru": "'Deprem dalgalarından' P dalgası nasıldır?",
+      "bizimKategori": "bilim",
+      "bizimCevap": "Boyuna ve en hızlı",
+      "gonderilenSiklar": [
+        "Enine",
+        "Yüzey dalgası",
+        "Boyuna ve en hızlı",
+        "Durgun"
+      ],
+      "jevCevap": "Boyuna ve en hızlı",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Durgun": 0,
+        "Yüzey dalgası": 0,
+        "Boyuna ve en hızlı": 1,
+        "Enine": 0
+      },
+      "jevKategori": "bilim",
+      "jevKategoriGuven": 0.99,
+      "jevZorluk": 3.12,
+      "jevZorlukGuven": 0.62,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 944,
+      "sureMs": 337,
+      "kume": "normal"
+    },
+    {
+      "id": "52e8ef96-f6e8-4a52-864b-6f4f47f6f868",
+      "soru": "'Kara delik' hangi özelliğe sahiptir?",
+      "bizimKategori": "bilim",
+      "bizimCevap": "Işığın kaçamadığı çekim",
+      "gonderilenSiklar": [
+        "Düşük kütle",
+        "Işığın kaçamadığı çekim",
+        "Genişleme",
+        "Şeffaflık"
+      ],
+      "jevCevap": "Işığın kaçamadığı çekim",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Işığın kaçamadığı çekim": 1,
+        "Şeffaflık": 0,
+        "Genişleme": 0,
+        "Düşük kütle": 0
+      },
+      "jevKategori": "bilim",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 1.92,
+      "jevZorlukGuven": 0.89,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 968,
+      "sureMs": 377,
+      "kume": "normal"
+    },
+    {
+      "id": "5cc7a98f-4ec6-482c-a8c3-7250d341d354",
+      "soru": "Oda sıcaklığında sıvı olan tek metal hangisidir?",
+      "bizimKategori": "bilim",
+      "bizimCevap": "Cıva",
+      "gonderilenSiklar": [
+        "Cıva",
+        "Kurşun",
+        "Sodyum",
+        "Galyum"
+      ],
+      "jevCevap": "Cıva",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Galyum": 0,
+        "Kurşun": 0,
+        "Sodyum": 0,
+        "Cıva": 1
+      },
+      "jevKategori": "bilim",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 2.08,
+      "jevZorlukGuven": 0.81,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 939,
+      "sureMs": 335,
+      "kume": "normal"
+    },
+    {
+      "id": "828caccb-452a-4516-87c6-75e5c359759d",
+      "soru": "Ekosistemde 'popülasyon' ne demektir?",
+      "bizimKategori": "bilim",
+      "bizimCevap": "Aynı türün bir alandaki bireyleri",
+      "gonderilenSiklar": [
+        "Farklı türlerin toplamı",
+        "Besin zinciri",
+        "Cansız çevre",
+        "Aynı türün bir alandaki bireyleri"
+      ],
+      "jevCevap": "Aynı türün bir alandaki bireyleri",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Besin zinciri": 0,
+        "Farklı türlerin toplamı": 0,
+        "Cansız çevre": 0,
+        "Aynı türün bir alandaki bireyleri": 1
+      },
+      "jevKategori": "bilim",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 1.75,
+      "jevZorlukGuven": 0.79,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 975,
+      "sureMs": 337,
+      "kume": "normal"
+    },
+    {
+      "id": "ef46f329-17f1-43d1-bcaf-3519edeed490",
+      "soru": "Depremleri inceleyen bilim dalı hangisidir?",
+      "bizimKategori": "bilim",
+      "bizimCevap": "Sismoloji",
+      "gonderilenSiklar": [
+        "Sismoloji",
+        "Astronomi",
+        "Meteoroloji",
+        "Jeoloji"
+      ],
+      "jevCevap": "Sismoloji",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Meteoroloji": 0,
+        "Astronomi": 0,
+        "Jeoloji": 0,
+        "Sismoloji": 1
+      },
+      "jevKategori": "bilim",
+      "jevKategoriGuven": 0.97,
+      "jevZorluk": 2.05,
+      "jevZorlukGuven": 0.87,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 936,
+      "sureMs": 400,
+      "kume": "normal"
+    },
+    {
+      "id": "af3f3ce7-1a86-471f-8b46-9a89236c5339",
+      "soru": "'Fenotip' neyle belirlenir?",
+      "bizimKategori": "bilim",
+      "bizimCevap": "Gen ve çevre etkileşimiyle",
+      "gonderilenSiklar": [
+        "Yalnız genle",
+        "Yalnız çevreyle",
+        "Rastgele",
+        "Gen ve çevre etkileşimiyle"
+      ],
+      "jevCevap": "Gen ve çevre etkileşimiyle",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Yalnız genle": 0,
+        "Yalnız çevreyle": 0,
+        "Gen ve çevre etkileşimiyle": 1,
+        "Rastgele": 0
+      },
+      "jevKategori": "bilim",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 2.17,
+      "jevZorlukGuven": 0.84,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 960,
+      "sureMs": 338,
+      "kume": "normal"
+    },
+    {
+      "id": "073855cb-0849-46e4-96af-c1f9919d3940",
+      "soru": "Ölçümde 'hassasiyet' neyi ifade eder?",
+      "bizimKategori": "bilim",
+      "bizimCevap": "Tekrarlı ölçümlerin yakınlığını",
+      "gonderilenSiklar": [
+        "Ölçümün toplam süresini",
+        "Ölçüm aletinin fiyatını",
+        "Gerçek değere olan yakınlığı",
+        "Tekrarlı ölçümlerin yakınlığını"
+      ],
+      "jevCevap": "Tekrarlı ölçümlerin yakınlığını",
+      "jevCevapGuven": 0.75,
+      "jevCevapOlasiliklar": {
+        "Tekrarlı ölçümlerin yakınlığını": 0.82,
+        "Gerçek değere olan yakınlığı": 0.18,
+        "Ölçüm aletinin fiyatını": 0,
+        "Ölçümün toplam süresini": 0
+      },
+      "jevKategori": "bilim",
+      "jevKategoriGuven": 0.99,
+      "jevZorluk": 2.63,
+      "jevZorlukGuven": 0.47,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 1011,
+      "sureMs": 357,
+      "kume": "normal"
+    },
+    {
+      "id": "794e77e3-3cd1-4cb5-b912-217999362a5d",
+      "soru": "'Boksör Ayaklanması' hangi ülkede yaşanmıştır?",
+      "bizimKategori": "tarih",
+      "bizimCevap": "Çin",
+      "gonderilenSiklar": [
+        "Kore",
+        "Çin",
+        "Hindistan",
+        "Japonya"
+      ],
+      "jevCevap": "Çin",
+      "jevCevapGuven": 0.59,
+      "jevCevapOlasiliklar": {
+        "Japonya": 0.02,
+        "Kore": 0.28,
+        "Çin": 0.69,
+        "Hindistan": 0.01
+      },
+      "jevKategori": "tarih",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 3.13,
+      "jevZorlukGuven": 0.66,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 935,
+      "sureMs": 380,
+      "kume": "normal"
+    },
+    {
+      "id": "809f95b4-f693-4e17-90de-e7b93f18c9ce",
+      "soru": "Pompeii şehrini yok eden olay nedir?",
+      "bizimKategori": "tarih",
+      "bizimCevap": "Vezüv Yanardağı patlaması",
+      "gonderilenSiklar": [
+        "Savaş",
+        "Sel",
+        "Vezüv Yanardağı patlaması",
+        "Deprem"
+      ],
+      "jevCevap": "Vezüv Yanardağı patlaması",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Savaş": 0,
+        "Deprem": 0,
+        "Vezüv Yanardağı patlaması": 1,
+        "Sel": 0
+      },
+      "jevKategori": "tarih",
+      "jevKategoriGuven": 0.98,
+      "jevZorluk": 1.32,
+      "jevZorlukGuven": 0.74,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 942,
+      "sureMs": 331,
+      "kume": "normal"
+    },
+    {
+      "id": "f5087292-99ec-4b05-ba46-6fa6b16943d4",
+      "soru": "Talas Savaşı hangi iki güç arasında olmuştur?",
+      "bizimKategori": "tarih",
+      "bizimCevap": "Araplar ve Çinliler",
+      "gonderilenSiklar": [
+        "Araplar ve Çinliler",
+        "Türkler ve Persler",
+        "Moğollar ve Ruslar",
+        "Roma ve Kartaca"
+      ],
+      "jevCevap": "Araplar ve Çinliler",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Moğollar ve Ruslar": 0,
+        "Roma ve Kartaca": 0,
+        "Araplar ve Çinliler": 1,
+        "Türkler ve Persler": 0
+      },
+      "jevKategori": "tarih",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 2.8,
+      "jevZorlukGuven": 0.64,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 959,
+      "sureMs": 468,
+      "kume": "normal"
+    },
+    {
+      "id": "28a45963-f41c-4e2e-9a9b-0fd7ab405b49",
+      "soru": "Osmanlı'da yükseköğretim kurumu Darülfünun neye dönüştü?",
+      "bizimKategori": "tarih",
+      "bizimCevap": "İstanbul Üniversitesi",
+      "gonderilenSiklar": [
+        "Ankara Üniversitesi",
+        "İstanbul Üniversitesi",
+        "ODTÜ",
+        "Boğaziçi"
+      ],
+      "jevCevap": "İstanbul Üniversitesi",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Boğaziçi": 0,
+        "Ankara Üniversitesi": 0,
+        "ODTÜ": 0,
+        "İstanbul Üniversitesi": 1
+      },
+      "jevKategori": "tarih",
+      "jevKategoriGuven": 0.98,
+      "jevZorluk": 2.56,
+      "jevZorlukGuven": 0.58,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 950,
+      "sureMs": 381,
+      "kume": "normal"
+    },
+    {
+      "id": "360105dd-cf28-4693-8dc1-6b1c36fbde6e",
+      "soru": "Dolmabahçe Sarayı hangi yüzyılda yapılmıştır?",
+      "bizimKategori": "tarih",
+      "bizimCevap": "19. yüzyıl",
+      "gonderilenSiklar": [
+        "17. yüzyıl",
+        "15. yüzyıl",
+        "19. yüzyıl",
+        "20. yüzyıl"
+      ],
+      "jevCevap": "19. yüzyıl",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "15. yüzyıl": 0,
+        "20. yüzyıl": 0,
+        "19. yüzyıl": 1,
+        "17. yüzyıl": 0
+      },
+      "jevKategori": "tarih",
+      "jevKategoriGuven": 0.91,
+      "jevZorluk": 2.3200000000000003,
+      "jevZorlukGuven": 0.72,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 970,
+      "sureMs": 348,
+      "kume": "normal"
+    },
+    {
+      "id": "a395e6a0-bca2-4b5b-b8d9-227884a45bf9",
+      "soru": "'Anal' adı verilen yıllıkları hangi uygarlık tutmuştur?",
+      "bizimKategori": "tarih",
+      "bizimCevap": "Hititler",
+      "gonderilenSiklar": [
+        "Lidyalılar",
+        "Frigler",
+        "Hititler",
+        "Urartular"
+      ],
+      "jevCevap": "Hititler",
+      "jevCevapGuven": 0.52,
+      "jevCevapOlasiliklar": {
+        "Lidyalılar": 0.09,
+        "Urartular": 0.13,
+        "Hititler": 0.64,
+        "Frigler": 0.14
+      },
+      "jevKategori": "tarih",
+      "jevKategoriGuven": 0.98,
+      "jevZorluk": 4,
+      "jevZorlukGuven": 0.68,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 942,
+      "sureMs": 359,
+      "kume": "normal"
+    },
+    {
+      "id": "6157ad65-6b13-4eb7-84c4-602e40982c5a",
+      "soru": "'Yüzey araştırması' ne sağlar?",
+      "bizimKategori": "tarih",
+      "bizimCevap": "Kazısız ön belirleme",
+      "gonderilenSiklar": [
+        "Kazı",
+        "Sergileme",
+        "Restorasyon",
+        "Kazısız ön belirleme"
+      ],
+      "jevCevap": "Kazısız ön belirleme",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Kazısız ön belirleme": 1,
+        "Restorasyon": 0,
+        "Sergileme": 0,
+        "Kazı": 0
+      },
+      "jevKategori": "tarih",
+      "jevKategoriGuven": 0.8,
+      "jevZorluk": 3.65,
+      "jevZorlukGuven": 0.64,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 941,
+      "sureMs": 320,
+      "kume": "normal"
+    },
+    {
+      "id": "46802d7e-3c57-4a81-a2ac-76a52a6d8772",
+      "soru": "Dünyanın en uzun kıyı şeridine sahip ülkesi hangisidir?",
+      "bizimKategori": "cografya",
+      "bizimCevap": "Kanada",
+      "gonderilenSiklar": [
+        "Avustralya",
+        "Rusya",
+        "Çin",
+        "Kanada"
+      ],
+      "jevCevap": "Kanada",
+      "jevCevapGuven": 0.99,
+      "jevCevapOlasiliklar": {
+        "Rusya": 0.01,
+        "Kanada": 0.99,
+        "Avustralya": 0,
+        "Çin": 0
+      },
+      "jevKategori": "cografya",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 2.94,
+      "jevZorlukGuven": 0.78,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 933,
+      "sureMs": 347,
+      "kume": "normal"
+    },
+    {
+      "id": "64750611-08b1-4e36-85ce-7bd317691979",
+      "soru": "'Düzenli ordunun kurulması' neyi sağladı?",
+      "bizimKategori": "tarih",
+      "bizimCevap": "Merkezî ve sürekli askerî gücü",
+      "gonderilenSiklar": [
+        "Yerel direnişi",
+        "Barışı",
+        "Merkezî ve sürekli askerî gücü",
+        "Ateşkesi"
+      ],
+      "jevCevap": "Merkezî ve sürekli askerî gücü",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Ateşkesi": 0,
+        "Merkezî ve sürekli askerî gücü": 1,
+        "Yerel direnişi": 0,
+        "Barışı": 0
+      },
+      "jevKategori": "tarih",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 2.41,
+      "jevZorlukGuven": 0.62,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 960,
+      "sureMs": 379,
+      "kume": "normal"
+    },
+    {
+      "id": "07e02e22-8516-469b-99e3-f93cd6a2baba",
+      "soru": "Rüzgâr enerjisi Türkiye'de en çok hangi bölgede üretilir?",
+      "bizimKategori": "cografya",
+      "bizimCevap": "Ege",
+      "gonderilenSiklar": [
+        "Ege",
+        "Karadeniz",
+        "Doğu Anadolu",
+        "Güneydoğu Anadolu"
+      ],
+      "jevCevap": "Ege",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Ege": 1,
+        "Doğu Anadolu": 0,
+        "Güneydoğu Anadolu": 0,
+        "Karadeniz": 0
+      },
+      "jevKategori": "cografya",
+      "jevKategoriGuven": 0.97,
+      "jevZorluk": 2.77,
+      "jevZorlukGuven": 0.73,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 944,
+      "sureMs": 382,
+      "kume": "normal"
+    },
+    {
+      "id": "eb78b2b5-bcea-4b4d-8d37-1c5fd1a69def",
+      "soru": "Türkiye'nin en çok ada barındıran denizi hangisidir?",
+      "bizimKategori": "cografya",
+      "bizimCevap": "Ege",
+      "gonderilenSiklar": [
+        "Akdeniz",
+        "Marmara",
+        "Karadeniz",
+        "Ege"
+      ],
+      "jevCevap": "Ege",
+      "jevCevapGuven": 0.98,
+      "jevCevapOlasiliklar": {
+        "Karadeniz": 0,
+        "Marmara": 0.01,
+        "Ege": 0.98,
+        "Akdeniz": 0.01
+      },
+      "jevKategori": "cografya",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 2.44,
+      "jevZorlukGuven": 0.59,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 936,
+      "sureMs": 417,
+      "kume": "normal"
+    },
+    {
+      "id": "df530716-5973-486c-a1ca-ec34821135ba",
+      "soru": "İskenderun Limanı hangi ilimizdedir?",
+      "bizimKategori": "cografya",
+      "bizimCevap": "Hatay",
+      "gonderilenSiklar": [
+        "Mersin",
+        "Adana",
+        "Hatay",
+        "Osmaniye"
+      ],
+      "jevCevap": "Hatay",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Hatay": 1,
+        "Adana": 0,
+        "Osmaniye": 0,
+        "Mersin": 0
+      },
+      "jevKategori": "cografya",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 2.3899999999999997,
+      "jevZorlukGuven": 0.65,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 927,
+      "sureMs": 328,
+      "kume": "normal"
+    },
+    {
+      "id": "92e5c116-cfef-49ce-aabd-6552afa68595",
+      "soru": "Yeraltı suyunun beslenmesi öncelikle neyle olur?",
+      "bizimKategori": "cografya",
+      "bizimCevap": "Yağış sızmasıyla",
+      "gonderilenSiklar": [
+        "Yağış sızmasıyla",
+        "Deniz suyuyla",
+        "Rüzgârla",
+        "Buharlaşmayla"
+      ],
+      "jevCevap": "Yağış sızmasıyla",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Rüzgârla": 0,
+        "Yağış sızmasıyla": 1,
+        "Deniz suyuyla": 0,
+        "Buharlaşmayla": 0
+      },
+      "jevKategori": "cografya",
+      "jevKategoriGuven": 0.96,
+      "jevZorluk": 1.8599999999999999,
+      "jevZorlukGuven": 0.84,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 960,
+      "sureMs": 370,
+      "kume": "normal"
+    },
+    {
+      "id": "2f2ae679-fde5-4f01-9c77-019eb1d802da",
+      "soru": "Sulak alanların ekolojik önemi nedir?",
+      "bizimKategori": "cografya",
+      "bizimCevap": "Kuş ve canlı yaşam alanı",
+      "gonderilenSiklar": [
+        "Konut alanı",
+        "Kuş ve canlı yaşam alanı",
+        "Maden kaynağı",
+        "Yol güzergâhı"
+      ],
+      "jevCevap": "Kuş ve canlı yaşam alanı",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Konut alanı": 0,
+        "Yol güzergâhı": 0,
+        "Kuş ve canlı yaşam alanı": 1,
+        "Maden kaynağı": 0
+      },
+      "jevKategori": "bilim",
+      "jevKategoriGuven": 0.89,
+      "jevZorluk": 1.79,
+      "jevZorlukGuven": 0.81,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 957,
+      "sureMs": 359,
+      "kume": "normal"
+    },
+    {
+      "id": "bfbecca8-3096-458b-9e2c-3ae15d9f92f4",
+      "soru": "Dağınık yerleşmenin görüldüğü koşul nedir?",
+      "bizimKategori": "cografya",
+      "bizimCevap": "Su ve arazinin bol olması",
+      "gonderilenSiklar": [
+        "Su ve arazinin bol olması",
+        "Su kıtlığı",
+        "Buzul",
+        "Çöl"
+      ],
+      "jevCevap": "Su ve arazinin bol olması",
+      "jevCevapGuven": 0.92,
+      "jevCevapOlasiliklar": {
+        "Su kıtlığı": 0.04,
+        "Su ve arazinin bol olması": 0.94,
+        "Çöl": 0.02,
+        "Buzul": 0
+      },
+      "jevKategori": "cografya",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 2.41,
+      "jevZorlukGuven": 0.62,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 953,
+      "sureMs": 392,
+      "kume": "normal"
+    },
+    {
+      "id": "b3f8b942-e034-46d9-a005-a73c42b2b5c3",
+      "soru": "Olayı aktaran sese ne ad verilir?",
+      "bizimKategori": "edebiyat",
+      "bizimCevap": "Anlatıcı",
+      "gonderilenSiklar": [
+        "Yayıncı",
+        "Anlatıcı",
+        "Eleştirmen",
+        "Kahraman"
+      ],
+      "jevCevap": "Anlatıcı",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Kahraman": 0,
+        "Yayıncı": 0,
+        "Anlatıcı": 1,
+        "Eleştirmen": 0
+      },
+      "jevKategori": "edebiyat",
+      "jevKategoriGuven": 0.98,
+      "jevZorluk": 1.56,
+      "jevZorlukGuven": 0.6,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 939,
+      "sureMs": 350,
+      "kume": "normal"
+    },
+    {
+      "id": "6b8cfd1a-7b8c-470f-b23d-9221e25093a4",
+      "soru": "Türkiye'de lif bitkisi olarak öne çıkan ürün hangisidir?",
+      "bizimKategori": "cografya",
+      "bizimCevap": "Pamuk",
+      "gonderilenSiklar": [
+        "Pamuk",
+        "Fındık",
+        "Çay",
+        "Şeker pancarı"
+      ],
+      "jevCevap": "Pamuk",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Pamuk": 1,
+        "Çay": 0,
+        "Fındık": 0,
+        "Şeker pancarı": 0
+      },
+      "jevKategori": "cografya",
+      "jevKategoriGuven": 0.73,
+      "jevZorluk": 1.78,
+      "jevZorlukGuven": 0.69,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 939,
+      "sureMs": 394,
+      "kume": "normal"
+    },
+    {
+      "id": "d3a4325e-3f9b-4a03-8ff2-faada04e5c5a",
+      "soru": "Halk edebiyatında doğa ve güzellik konulu şiirlere ne denir?",
+      "bizimKategori": "edebiyat",
+      "bizimCevap": "Güzelleme",
+      "gonderilenSiklar": [
+        "Taşlama",
+        "Ağıt",
+        "Koçaklama",
+        "Güzelleme"
+      ],
+      "jevCevap": "Güzelleme",
+      "jevCevapGuven": 0.88,
+      "jevCevapOlasiliklar": {
+        "Ağıt": 0,
+        "Koçaklama": 0.08,
+        "Taşlama": 0,
+        "Güzelleme": 0.92
+      },
+      "jevKategori": "edebiyat",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 2.77,
+      "jevZorlukGuven": 0.57,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 944,
+      "sureMs": 359,
+      "kume": "normal"
+    },
+    {
+      "id": "a1b8ce29-c1c1-4c69-8b0b-03cbf523fa83",
+      "soru": "'İlyada' ve 'Odysseia' destanları kime atfedilir?",
+      "bizimKategori": "edebiyat",
+      "bizimCevap": "Homeros",
+      "gonderilenSiklar": [
+        "Sofokles",
+        "Euripides",
+        "Homeros",
+        "Aiskhylos"
+      ],
+      "jevCevap": "Homeros",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Homeros": 1,
+        "Sofokles": 0,
+        "Aiskhylos": 0,
+        "Euripides": 0
+      },
+      "jevKategori": "edebiyat",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 1.8900000000000001,
+      "jevZorlukGuven": 0.83,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 946,
+      "sureMs": 346,
+      "kume": "normal"
+    },
+    {
+      "id": "b97101c3-b42a-4a68-8174-68ef31452ce0",
+      "soru": "'Anayurt Oteli' kime aittir?",
+      "bizimKategori": "edebiyat",
+      "bizimCevap": "Yusuf Atılgan",
+      "gonderilenSiklar": [
+        "Yusuf Atılgan",
+        "Adalet Ağaoğlu",
+        "Leyla Erbil",
+        "Oğuz Atay"
+      ],
+      "jevCevap": "Adalet Ağaoğlu",
+      "jevCevapGuven": 0.05,
+      "jevCevapOlasiliklar": {
+        "Adalet Ağaoğlu": 0.28,
+        "Yusuf Atılgan": 0.28,
+        "Leyla Erbil": 0.24,
+        "Oğuz Atay": 0.2
+      },
+      "jevKategori": "edebiyat",
+      "jevKategoriGuven": 0.97,
+      "jevZorluk": 3.69,
+      "jevZorlukGuven": 0.7,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 949,
+      "sureMs": 352,
+      "kume": "normal"
+    },
+    {
+      "id": "09c3af7d-5395-4734-a2fd-9d2d8dd54778",
+      "soru": "İnsanlık Komedyası dizisinin yazarı kimdir?",
+      "bizimKategori": "edebiyat",
+      "bizimCevap": "Balzac",
+      "gonderilenSiklar": [
+        "Balzac",
+        "Stendhal",
+        "Hugo",
+        "Zola"
+      ],
+      "jevCevap": "Balzac",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Hugo": 0,
+        "Balzac": 1,
+        "Stendhal": 0,
+        "Zola": 0
+      },
+      "jevKategori": "edebiyat",
+      "jevKategoriGuven": 0.99,
+      "jevZorluk": 3.05,
+      "jevZorlukGuven": 0.77,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 930,
+      "sureMs": 411,
+      "kume": "normal"
+    },
+    {
+      "id": "15532af7-83d4-4d6b-b7d7-46aff5ceb49d",
+      "soru": "Romanda \"kahraman anlatıcı\" hangi kişi ağzından anlatır?",
+      "bizimKategori": "edebiyat",
+      "bizimCevap": "Birinci kişi",
+      "gonderilenSiklar": [
+        "İkinci kişi",
+        "Üçüncü kişi",
+        "Birinci kişi",
+        "Anlatıcısız"
+      ],
+      "jevCevap": "Birinci kişi",
+      "jevCevapGuven": 0.93,
+      "jevCevapOlasiliklar": {
+        "İkinci kişi": 0,
+        "Anlatıcısız": 0,
+        "Birinci kişi": 0.95,
+        "Üçüncü kişi": 0.05
+      },
+      "jevKategori": "edebiyat",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 2.19,
+      "jevZorlukGuven": 0.7,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 952,
+      "sureMs": 338,
+      "kume": "normal"
+    },
+    {
+      "id": "f9ab3b32-9766-440a-bd2b-b604c0bd5ffd",
+      "soru": "'Monolog' nedir?",
+      "bizimKategori": "edebiyat",
+      "bizimCevap": "Tek kişinin uzun konuşması",
+      "gonderilenSiklar": [
+        "İki kişinin konuşması",
+        "Tek kişinin uzun konuşması",
+        "Betimleme",
+        "Koro"
+      ],
+      "jevCevap": "Tek kişinin uzun konuşması",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "İki kişinin konuşması": 0,
+        "Koro": 0,
+        "Tek kişinin uzun konuşması": 1,
+        "Betimleme": 0
+      },
+      "jevKategori": "edebiyat",
+      "jevKategoriGuven": 0.98,
+      "jevZorluk": 1.87,
+      "jevZorlukGuven": 0.85,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 939,
+      "sureMs": 325,
+      "kume": "normal"
+    },
+    {
+      "id": "b8278808-b09e-43fa-96ff-cffccdaae616",
+      "soru": "'Yeni Lisan' makalesi neyi savunur?",
+      "bizimKategori": "edebiyat",
+      "bizimCevap": "Sade Türkçeyi",
+      "gonderilenSiklar": [
+        "Farsçayı",
+        "Osmanlıcayı",
+        "Arapçayı",
+        "Sade Türkçeyi"
+      ],
+      "jevCevap": "Sade Türkçeyi",
+      "jevCevapGuven": 0.95,
+      "jevCevapOlasiliklar": {
+        "Farsçayı": 0,
+        "Arapçayı": 0,
+        "Sade Türkçeyi": 0.97,
+        "Osmanlıcayı": 0.03
+      },
+      "jevKategori": "edebiyat",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 3.48,
+      "jevZorlukGuven": 0.53,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 955,
+      "sureMs": 352,
+      "kume": "normal"
+    },
+    {
+      "id": "f0c4d58f-897c-4275-a1f4-939645715d12",
+      "soru": "'Sokak basketbolu' kaç potayla oynanır?",
+      "bizimKategori": "spor",
+      "bizimCevap": "Bir",
+      "gonderilenSiklar": [
+        "İki",
+        "Bir",
+        "Üç",
+        "Dört"
+      ],
+      "jevCevap": "Bir",
+      "jevCevapGuven": 0.67,
+      "jevCevapOlasiliklar": {
+        "Bir": 0.76,
+        "Dört": 0,
+        "İki": 0.22,
+        "Üç": 0.02
+      },
+      "jevKategori": "spor",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 2.0700000000000003,
+      "jevZorlukGuven": 0.62,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 926,
+      "sureMs": 418,
+      "kume": "normal"
+    },
+    {
+      "id": "216f24a8-562e-4ca7-9a9e-e2247d05b046",
+      "soru": "Bir ligde 'averaj' neye göre hesaplanır?",
+      "bizimKategori": "spor",
+      "bizimCevap": "Atılan ve yenilen gol farkına",
+      "gonderilenSiklar": [
+        "Seyirci sayısına",
+        "Maç sayısına",
+        "Kart sayısına",
+        "Atılan ve yenilen gol farkına"
+      ],
+      "jevCevap": "Atılan ve yenilen gol farkına",
+      "jevCevapGuven": 0.98,
+      "jevCevapOlasiliklar": {
+        "Kart sayısına": 0,
+        "Maç sayısına": 0.02,
+        "Atılan ve yenilen gol farkına": 0.98,
+        "Seyirci sayısına": 0
+      },
+      "jevKategori": "spor",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 2.0700000000000003,
+      "jevZorlukGuven": 0.78,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 967,
+      "sureMs": 370,
+      "kume": "normal"
+    },
+    {
+      "id": "66bfec7f-0d0d-47e1-968c-f24505d8e6c9",
+      "soru": "Futbolda \"duran top\" ne anlama gelir?",
+      "bizimKategori": "spor",
+      "bizimCevap": "Serbest vuruş, korner gibi durumlar",
+      "gonderilenSiklar": [
+        "Uzatma",
+        "Oyun içi pas",
+        "Ofsayt",
+        "Serbest vuruş, korner gibi durumlar"
+      ],
+      "jevCevap": "Serbest vuruş, korner gibi durumlar",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Oyun içi pas": 0,
+        "Uzatma": 0,
+        "Serbest vuruş, korner gibi durumlar": 1,
+        "Ofsayt": 0
+      },
+      "jevKategori": "spor",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 1.78,
+      "jevZorlukGuven": 0.77,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 954,
+      "sureMs": 417,
+      "kume": "normal"
+    },
+    {
+      "id": "29acdb46-0e7a-46f7-aab5-899cc4acbd17",
+      "soru": "Atletizmde 'steeplechase' hangi engelleri içerir?",
+      "bizimKategori": "spor",
+      "bizimCevap": "Çit ve su çukuru",
+      "gonderilenSiklar": [
+        "Yalnız duvar",
+        "Yalnız kum",
+        "Yalnız çit",
+        "Çit ve su çukuru"
+      ],
+      "jevCevap": "Çit ve su çukuru",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Yalnız çit": 0,
+        "Yalnız duvar": 0,
+        "Yalnız kum": 0,
+        "Çit ve su çukuru": 1
+      },
+      "jevKategori": "spor",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 2.8200000000000003,
+      "jevZorlukGuven": 0.74,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 960,
+      "sureMs": 368,
+      "kume": "normal"
+    },
+    {
+      "id": "6bcc89d5-5d5c-47fe-9e26-c361373dc40c",
+      "soru": "'Motokros' hangi zeminde yapılır?",
+      "bizimKategori": "spor",
+      "bizimCevap": "Toprak parkur",
+      "gonderilenSiklar": [
+        "Buz",
+        "Toprak parkur",
+        "Asfalt",
+        "Su"
+      ],
+      "jevCevap": "Toprak parkur",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Su": 0,
+        "Toprak parkur": 1,
+        "Buz": 0,
+        "Asfalt": 0
+      },
+      "jevKategori": "spor",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 2.0700000000000003,
+      "jevZorlukGuven": 0.83,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 923,
+      "sureMs": 314,
+      "kume": "normal"
+    },
+    {
+      "id": "b2701d28-8adc-44b9-9096-c903349e2d96",
+      "soru": "Bisiklette 'sprinter' hangi özelliğiyle öne çıkar?",
+      "bizimKategori": "spor",
+      "bizimCevap": "Kısa mesafede patlayıcı hızda",
+      "gonderilenSiklar": [
+        "Kısa mesafede patlayıcı hızda",
+        "Uzun mesafede",
+        "Zamana karşı",
+        "Tırmanışta"
+      ],
+      "jevCevap": "Kısa mesafede patlayıcı hızda",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Uzun mesafede": 0,
+        "Tırmanışta": 0,
+        "Kısa mesafede patlayıcı hızda": 1,
+        "Zamana karşı": 0
+      },
+      "jevKategori": "spor",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 2.2,
+      "jevZorlukGuven": 0.73,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 964,
+      "sureMs": 344,
+      "kume": "normal"
+    },
+    {
+      "id": "66cc21fb-5eb1-4577-904d-dc92a33896dd",
+      "soru": "Sporcularda \"rehabilitasyon\" ne demektir?",
+      "bizimKategori": "spor",
+      "bizimCevap": "Sakatlık sonrası toparlanma süreci",
+      "gonderilenSiklar": [
+        "Sakatlık sonrası toparlanma süreci",
+        "Antrenman artışı",
+        "Transfer",
+        "Ceza"
+      ],
+      "jevCevap": "Sakatlık sonrası toparlanma süreci",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Antrenman artışı": 0,
+        "Transfer": 0,
+        "Sakatlık sonrası toparlanma süreci": 1,
+        "Ceza": 0
+      },
+      "jevKategori": "spor",
+      "jevKategoriGuven": 0.99,
+      "jevZorluk": 1.85,
+      "jevZorlukGuven": 0.82,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 954,
+      "sureMs": 351,
+      "kume": "normal"
+    },
+    {
+      "id": "3b27bcb8-7993-4ef3-b1b1-fd2bd94c9587",
+      "soru": "Atletizmde 'sırıkla yüksek atlama' neyi ölçer?",
+      "bizimKategori": "spor",
+      "bizimCevap": "Aşılan yükseklik",
+      "gonderilenSiklar": [
+        "Ağırlık",
+        "Mesafe",
+        "Süre",
+        "Aşılan yükseklik"
+      ],
+      "jevCevap": "Aşılan yükseklik",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Süre": 0,
+        "Ağırlık": 0,
+        "Mesafe": 0,
+        "Aşılan yükseklik": 1
+      },
+      "jevKategori": "spor",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 1.3,
+      "jevZorlukGuven": 0.75,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 949,
+      "sureMs": 310,
+      "kume": "normal"
+    },
+    {
+      "id": "ea296c44-9bd6-4c1d-a2ee-24b8781381c8",
+      "soru": "'Sanatçıların Hayatları' adlı yapıtın yazarı kimdir?",
+      "bizimKategori": "sanat",
+      "bizimCevap": "Giorgio Vasari",
+      "gonderilenSiklar": [
+        "Alberti",
+        "Palladio",
+        "Giorgio Vasari",
+        "Cellini"
+      ],
+      "jevCevap": "Giorgio Vasari",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Cellini": 0,
+        "Alberti": 0,
+        "Giorgio Vasari": 1,
+        "Palladio": 0
+      },
+      "jevKategori": "sanat",
+      "jevKategoriGuven": 0.98,
+      "jevZorluk": 3.2,
+      "jevZorlukGuven": 0.73,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 943,
+      "sureMs": 357,
+      "kume": "normal"
+    },
+    {
+      "id": "891c99ce-5a5d-495f-96bc-5da3f31c1855",
+      "soru": "'Art Nouveau' hangi biçimleri sever?",
+      "bizimKategori": "sanat",
+      "bizimCevap": "Kıvrımlı doğa biçimlerini",
+      "gonderilenSiklar": [
+        "Simetriyi",
+        "Sert köşeleri",
+        "Kıvrımlı doğa biçimlerini",
+        "Geometriyi"
+      ],
+      "jevCevap": "Kıvrımlı doğa biçimlerini",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Kıvrımlı doğa biçimlerini": 1,
+        "Sert köşeleri": 0,
+        "Geometriyi": 0,
+        "Simetriyi": 0
+      },
+      "jevKategori": "sanat",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 2.9,
+      "jevZorlukGuven": 0.81,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 955,
+      "sureMs": 348,
+      "kume": "normal"
+    },
+    {
+      "id": "090b1e74-7f48-40b5-80f7-9d5f44f13b02",
+      "soru": "Kuzey Rönesansı hangi teknikte öne çıkar?",
+      "bizimKategori": "sanat",
+      "bizimCevap": "Yağlı boyada ayrıntı",
+      "gonderilenSiklar": [
+        "Mozaik döşeme işi",
+        "Yağlı boyada ayrıntı",
+        "Bronz heykel dökümü",
+        "Fresk duvar resmi"
+      ],
+      "jevCevap": "Yağlı boyada ayrıntı",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Yağlı boyada ayrıntı": 1,
+        "Mozaik döşeme işi": 0,
+        "Bronz heykel dökümü": 0,
+        "Fresk duvar resmi": 0
+      },
+      "jevKategori": "sanat",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 3.39,
+      "jevZorlukGuven": 0.65,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 977,
+      "sureMs": 354,
+      "kume": "normal"
+    },
+    {
+      "id": "373a8179-4e08-471b-911d-87993a000d30",
+      "soru": "'Karakalem' çalışmada tonu ne belirler?",
+      "bizimKategori": "sanat",
+      "bizimCevap": "Kalem sertliği ve baskı",
+      "gonderilenSiklar": [
+        "Kalem sertliği ve baskı",
+        "Renk",
+        "Boyut",
+        "Kağıt"
+      ],
+      "jevCevap": "Kalem sertliği ve baskı",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Boyut": 0,
+        "Kağıt": 0,
+        "Renk": 0,
+        "Kalem sertliği ve baskı": 1
+      },
+      "jevKategori": "sanat",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 2.6,
+      "jevZorlukGuven": 0.43,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 940,
+      "sureMs": 390,
+      "kume": "normal"
+    },
+    {
+      "id": "71fde9b0-07c9-4bb8-ae73-6577b5166ef8",
+      "soru": "Yağlıboyada bağlayıcı nedir?",
+      "bizimKategori": "sanat",
+      "bizimCevap": "Bitkisel yağ",
+      "gonderilenSiklar": [
+        "Bal",
+        "Süt",
+        "Su",
+        "Bitkisel yağ"
+      ],
+      "jevCevap": "Bitkisel yağ",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Bitkisel yağ": 1,
+        "Süt": 0,
+        "Bal": 0,
+        "Su": 0
+      },
+      "jevKategori": "sanat",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 3.04,
+      "jevZorlukGuven": 0.65,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 924,
+      "sureMs": 336,
+      "kume": "normal"
+    },
+    {
+      "id": "515ae4fe-5f05-44e2-83ca-969cdb629d7d",
+      "soru": "Kemerin mimarideki işlevi nedir?",
+      "bizimKategori": "sanat",
+      "bizimCevap": "Açıklığı geçip yükü aktarmak",
+      "gonderilenSiklar": [
+        "Isı yalıtımı",
+        "Su geçirmezlik",
+        "Açıklığı geçip yükü aktarmak",
+        "Süsleme yalnızca"
+      ],
+      "jevCevap": "Açıklığı geçip yükü aktarmak",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Isı yalıtımı": 0,
+        "Süsleme yalnızca": 0,
+        "Açıklığı geçip yükü aktarmak": 1,
+        "Su geçirmezlik": 0
+      },
+      "jevKategori": "sanat",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 2.26,
+      "jevZorlukGuven": 0.71,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 978,
+      "sureMs": 352,
+      "kume": "normal"
+    },
+    {
+      "id": "d10c268e-9105-4e3f-be90-973774d36b07",
+      "soru": "Tezhip sanatı ne yapar?",
+      "bizimKategori": "sanat",
+      "bizimCevap": "El yazmalarını altın ve boyayla süsler",
+      "gonderilenSiklar": [
+        "Heykel yontar",
+        "Cam üfler",
+        "El yazmalarını altın ve boyayla süsler",
+        "Halı dokur"
+      ],
+      "jevCevap": "El yazmalarını altın ve boyayla süsler",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Cam üfler": 0,
+        "El yazmalarını altın ve boyayla süsler": 1,
+        "Heykel yontar": 0,
+        "Halı dokur": 0
+      },
+      "jevKategori": "sanat",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 3.27,
+      "jevZorlukGuven": 0.67,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 960,
+      "sureMs": 382,
+      "kume": "normal"
+    },
+    {
+      "id": "6d87a36c-d292-4754-b443-fa764fae43f9",
+      "soru": "'Dağıtımcı' filmde ne yapar?",
+      "bizimKategori": "sinema",
+      "bizimCevap": "Filmi salonlara ulaştırır",
+      "gonderilenSiklar": [
+        "Filmi salonlara ulaştırır",
+        "Film çeker",
+        "Kurgu yapar",
+        "Senaryo yazar"
+      ],
+      "jevCevap": "Filmi salonlara ulaştırır",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Filmi salonlara ulaştırır": 1,
+        "Senaryo yazar": 0,
+        "Kurgu yapar": 0,
+        "Film çeker": 0
+      },
+      "jevKategori": "sinema",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 2.1100000000000003,
+      "jevZorlukGuven": 0.78,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 948,
+      "sureMs": 309,
+      "kume": "normal"
+    },
+    {
+      "id": "6eddeda7-9b98-4bb3-a6db-1bdff83da1ab",
+      "soru": "'Rocky' filminin başrol oyuncusu ve senaristi kimdir?",
+      "bizimKategori": "sinema",
+      "bizimCevap": "Sylvester Stallone",
+      "gonderilenSiklar": [
+        "Dolph Lundgren",
+        "Arnold Schwarzenegger",
+        "Chuck Norris",
+        "Sylvester Stallone"
+      ],
+      "jevCevap": "Sylvester Stallone",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Dolph Lundgren": 0,
+        "Sylvester Stallone": 1,
+        "Arnold Schwarzenegger": 0,
+        "Chuck Norris": 0
+      },
+      "jevKategori": "sinema",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 1.9,
+      "jevZorlukGuven": 0.83,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 955,
+      "sureMs": 371,
+      "kume": "normal"
+    },
+    {
+      "id": "25c86c14-bf28-4293-bf16-5a4e0f66ebc4",
+      "soru": "'İki kişilik plan' ne gösterir?",
+      "bizimKategori": "sinema",
+      "bizimCevap": "Kadrajda iki karakteri",
+      "gonderilenSiklar": [
+        "Kalabalığı",
+        "Kadrajda iki karakteri",
+        "Nesneyi",
+        "Tek kişiyi"
+      ],
+      "jevCevap": "Kadrajda iki karakteri",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Nesneyi": 0,
+        "Kalabalığı": 0,
+        "Tek kişiyi": 0,
+        "Kadrajda iki karakteri": 1
+      },
+      "jevKategori": "sinema",
+      "jevKategoriGuven": 0.97,
+      "jevZorluk": 2.38,
+      "jevZorlukGuven": 0.49,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 948,
+      "sureMs": 342,
+      "kume": "normal"
+    },
+    {
+      "id": "2b82d393-9916-4a76-b6ef-861c1fa08201",
+      "soru": "Animasyon filmde hareket nasıl yaratılır?",
+      "bizimKategori": "sinema",
+      "bizimCevap": "Ardışık kareleri sıralayarak",
+      "gonderilenSiklar": [
+        "Ardışık kareleri sıralayarak",
+        "Renk vererek",
+        "Tek kare çekerek",
+        "Ses ekleyerek"
+      ],
+      "jevCevap": "Ardışık kareleri sıralayarak",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Tek kare çekerek": 0,
+        "Renk vererek": 0,
+        "Ardışık kareleri sıralayarak": 1,
+        "Ses ekleyerek": 0
+      },
+      "jevKategori": "sinema",
+      "jevKategoriGuven": 0.96,
+      "jevZorluk": 1.4,
+      "jevZorlukGuven": 0.67,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 957,
+      "sureMs": 360,
+      "kume": "normal"
+    },
+    {
+      "id": "5cb385bd-925c-4b8d-973e-6f6360de9616",
+      "soru": "Botticelli hangi dönemin ressamıdır?",
+      "bizimKategori": "sanat",
+      "bizimCevap": "Rönesans",
+      "gonderilenSiklar": [
+        "Rokoko",
+        "Empresyonizm",
+        "Barok",
+        "Rönesans"
+      ],
+      "jevCevap": "Rönesans",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Rokoko": 0,
+        "Barok": 0,
+        "Rönesans": 1,
+        "Empresyonizm": 0
+      },
+      "jevKategori": "sanat",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 2.31,
+      "jevZorlukGuven": 0.71,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 934,
+      "sureMs": 1118,
+      "kume": "normal"
+    },
+    {
+      "id": "58a968e3-4be7-4471-b8ab-c89484ffa9bd",
+      "soru": "'Göstergebilim' filmde neyi çözümler?",
+      "bizimKategori": "sinema",
+      "bizimCevap": "İşaret ve anlam düzenini",
+      "gonderilenSiklar": [
+        "Kadroyu",
+        "Süreyi",
+        "İşaret ve anlam düzenini",
+        "Bütçeyi"
+      ],
+      "jevCevap": "İşaret ve anlam düzenini",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Kadroyu": 0,
+        "Bütçeyi": 0,
+        "İşaret ve anlam düzenini": 1,
+        "Süreyi": 0
+      },
+      "jevKategori": "sinema",
+      "jevKategoriGuven": 0.93,
+      "jevZorluk": 3.81,
+      "jevZorlukGuven": 0.76,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 951,
+      "sureMs": 415,
+      "kume": "normal"
+    },
+    {
+      "id": "e7b0f2cc-8d06-44ba-b5b0-debe12db08bb",
+      "soru": "'Auteur eleştirisi' neye odaklanır?",
+      "bizimKategori": "sinema",
+      "bizimCevap": "Yönetmenin kişisel imzasına",
+      "gonderilenSiklar": [
+        "Gişeye",
+        "Bütçeye",
+        "Oyuncuya",
+        "Yönetmenin kişisel imzasına"
+      ],
+      "jevCevap": "Yönetmenin kişisel imzasına",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Gişeye": 0,
+        "Yönetmenin kişisel imzasına": 1,
+        "Oyuncuya": 0,
+        "Bütçeye": 0
+      },
+      "jevKategori": "sinema",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 3.55,
+      "jevZorlukGuven": 0.62,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 951,
+      "sureMs": 305,
+      "kume": "normal"
+    },
+    {
+      "id": "7476011a-c0a3-444e-a141-91333560a6e4",
+      "soru": "'Anamorfik lens' neyi sağlar?",
+      "bizimKategori": "sinema",
+      "bizimCevap": "Geniş perde oranını",
+      "gonderilenSiklar": [
+        "Yavaş çekimi",
+        "Geniş perde oranını",
+        "Yüksek sesi",
+        "Renk doygunluğunu"
+      ],
+      "jevCevap": "Geniş perde oranını",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Yüksek sesi": 0,
+        "Geniş perde oranını": 1,
+        "Renk doygunluğunu": 0,
+        "Yavaş çekimi": 0
+      },
+      "jevKategori": "sinema",
+      "jevKategoriGuven": 0.98,
+      "jevZorluk": 3.96,
+      "jevZorlukGuven": 0.87,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 955,
+      "sureMs": 350,
+      "kume": "normal"
+    },
+    {
+      "id": "24ae2f64-cf65-4839-8c7f-b8de751aa23b",
+      "soru": "'Dolly zoom' etkisi izleyicide ne yaratır?",
+      "bizimKategori": "sinema",
+      "bizimCevap": "Mekânın kayması hissi",
+      "gonderilenSiklar": [
+        "Renk kayması",
+        "Görüntü donması",
+        "Ses yankısı",
+        "Mekânın kayması hissi"
+      ],
+      "jevCevap": "Mekânın kayması hissi",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Ses yankısı": 0,
+        "Mekânın kayması hissi": 1,
+        "Görüntü donması": 0,
+        "Renk kayması": 0
+      },
+      "jevKategori": "sinema",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 3.56,
+      "jevZorlukGuven": 0.63,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 961,
+      "sureMs": 333,
+      "kume": "normal"
+    },
+    {
+      "id": "52471386-9020-4543-8c58-9c4539fa655f",
+      "soru": "'Anadolu rock' neyi birleştirir?",
+      "bizimKategori": "muzik",
+      "bizimCevap": "Türk halk müziği ile rock",
+      "gonderilenSiklar": [
+        "Cazla klasiği",
+        "Tango ile blues",
+        "Opera ile halk",
+        "Türk halk müziği ile rock"
+      ],
+      "jevCevap": "Türk halk müziği ile rock",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Cazla klasiği": 0,
+        "Opera ile halk": 0,
+        "Türk halk müziği ile rock": 1,
+        "Tango ile blues": 0
+      },
+      "jevKategori": "muzik",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 2.9299999999999997,
+      "jevZorlukGuven": 0.7,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 954,
+      "sureMs": 340,
+      "kume": "normal"
+    },
+    {
+      "id": "a37f1942-ed1e-4c70-915a-49ae66a44cee",
+      "soru": "'Konser piyanosu' hangi türdedir?",
+      "bizimKategori": "muzik",
+      "bizimCevap": "Kuyruklu piyano",
+      "gonderilenSiklar": [
+        "Dik piyano",
+        "Elektronik",
+        "Kuyruklu piyano",
+        "Klavsen"
+      ],
+      "jevCevap": "Kuyruklu piyano",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Klavsen": 0,
+        "Kuyruklu piyano": 1,
+        "Dik piyano": 0,
+        "Elektronik": 0
+      },
+      "jevKategori": "muzik",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 2.19,
+      "jevZorlukGuven": 0.72,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 939,
+      "sureMs": 370,
+      "kume": "normal"
+    },
+    {
+      "id": "a9f3b3d4-7efd-4a7e-9c14-3c0c139735b3",
+      "soru": "Diminuendo işareti neyi belirtir?",
+      "bizimKategori": "muzik",
+      "bizimCevap": "Sesin giderek azalmasını",
+      "gonderilenSiklar": [
+        "Duraklamayı",
+        "Sesin giderek azalmasını",
+        "Sesin güçlenmesini",
+        "Hızlanmayı"
+      ],
+      "jevCevap": "Sesin giderek azalmasını",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Duraklamayı": 0,
+        "Sesin giderek azalmasını": 1,
+        "Sesin güçlenmesini": 0,
+        "Hızlanmayı": 0
+      },
+      "jevKategori": "muzik",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 3.11,
+      "jevZorlukGuven": 0.65,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 961,
+      "sureMs": 348,
+      "kume": "normal"
+    },
+    {
+      "id": "489ae20b-bb9b-47fd-b43f-7ff17161fb3a",
+      "soru": "Stüdyo kayıtlarında mikrofon ne işe yarar?",
+      "bizimKategori": "muzik",
+      "bizimCevap": "Sesi kaydetmek",
+      "gonderilenSiklar": [
+        "Işık vermek",
+        "Notaları yazmak",
+        "Sesi kaydetmek",
+        "Tempo tutmak"
+      ],
+      "jevCevap": "Sesi kaydetmek",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Tempo tutmak": 0,
+        "Işık vermek": 0,
+        "Notaları yazmak": 0,
+        "Sesi kaydetmek": 1
+      },
+      "jevKategori": "muzik",
+      "jevKategoriGuven": 0.94,
+      "jevZorluk": 1.03,
+      "jevZorlukGuven": 0.97,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 947,
+      "sureMs": 323,
+      "kume": "normal"
+    },
+    {
+      "id": "1a61e8ed-2755-448e-b161-985fa911dbbd",
+      "soru": "Paganini hangi çalgının virtüözü olarak bilinir?",
+      "bizimKategori": "muzik",
+      "bizimCevap": "Keman",
+      "gonderilenSiklar": [
+        "Keman",
+        "Flüt",
+        "Gitar",
+        "Piyano"
+      ],
+      "jevCevap": "Keman",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Piyano": 0,
+        "Keman": 1,
+        "Gitar": 0,
+        "Flüt": 0
+      },
+      "jevKategori": "muzik",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 2.23,
+      "jevZorlukGuven": 0.71,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 928,
+      "sureMs": 487,
+      "kume": "normal"
+    },
+    {
+      "id": "1864db5e-ecbb-444c-a936-063ef40a3fce",
+      "soru": "'Darbuka' hangi çalgı grubundadır?",
+      "bizimKategori": "muzik",
+      "bizimCevap": "Vurmalı",
+      "gonderilenSiklar": [
+        "Yaylı",
+        "Vurmalı",
+        "Telli",
+        "Üflemeli"
+      ],
+      "jevCevap": "Vurmalı",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Telli": 0,
+        "Vurmalı": 1,
+        "Yaylı": 0,
+        "Üflemeli": 0
+      },
+      "jevKategori": "muzik",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 2.83,
+      "jevZorlukGuven": 0.67,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 936,
+      "sureMs": 343,
+      "kume": "normal"
+    },
+    {
+      "id": "330262b5-99d2-4c55-bf17-bed606d2f1c0",
+      "soru": "Vivaldi'nin en tanınmış eseri hangisidir?",
+      "bizimKategori": "muzik",
+      "bizimCevap": "Dört Mevsim",
+      "gonderilenSiklar": [
+        "Dört Mevsim",
+        "Ay Işığı Sonatı",
+        "Kuğu Gölü",
+        "Fındıkkıran"
+      ],
+      "jevCevap": "Dört Mevsim",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Fındıkkıran": 0,
+        "Ay Işığı Sonatı": 0,
+        "Dört Mevsim": 1,
+        "Kuğu Gölü": 0
+      },
+      "jevKategori": "muzik",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 1.99,
+      "jevZorlukGuven": 0.79,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 965,
+      "sureMs": 353,
+      "kume": "normal"
+    },
+    {
+      "id": "96041f6e-e3bb-439c-9f31-18cbd442d32f",
+      "soru": "Rap müziği hangi türün alt dalıdır?",
+      "bizimKategori": "muzik",
+      "bizimCevap": "Hip hop",
+      "gonderilenSiklar": [
+        "Klasik",
+        "Country",
+        "Opera",
+        "Hip hop"
+      ],
+      "jevCevap": "Hip hop",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Country": 0,
+        "Klasik": 0,
+        "Opera": 0,
+        "Hip hop": 1
+      },
+      "jevKategori": "muzik",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 1.8,
+      "jevZorlukGuven": 0.78,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 923,
+      "sureMs": 328,
+      "kume": "normal"
+    },
+    {
+      "id": "d38e9df6-b76f-4eaa-baa9-0493bbc48cd3",
+      "soru": "Bulut bilişimde \"ölçeklenebilirlik\" ne demektir?",
+      "bizimKategori": "teknoloji",
+      "bizimCevap": "Kaynakların ihtiyaca göre artırılabilmesi",
+      "gonderilenSiklar": [
+        "Donanım azlığı",
+        "Kaynakların ihtiyaca göre artırılabilmesi",
+        "Ağ kesintisi",
+        "Sabit kapasite"
+      ],
+      "jevCevap": "Kaynakların ihtiyaca göre artırılabilmesi",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Kaynakların ihtiyaca göre artırılabilmesi": 1,
+        "Ağ kesintisi": 0,
+        "Sabit kapasite": 0,
+        "Donanım azlığı": 0
+      },
+      "jevKategori": "teknoloji",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 3.04,
+      "jevZorlukGuven": 0.75,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 975,
+      "sureMs": 367,
+      "kume": "normal"
+    },
+    {
+      "id": "87cf1cb3-c3c7-41f3-889f-f53954ced7a3",
+      "soru": "Yedeklilik (redundancy) neyi sağlar?",
+      "bizimKategori": "teknoloji",
+      "bizimCevap": "Arıza durumunda hizmetin sürmesini",
+      "gonderilenSiklar": [
+        "Hızın artmasını",
+        "Maliyetin düşmesini",
+        "Verinin silinmesini",
+        "Arıza durumunda hizmetin sürmesini"
+      ],
+      "jevCevap": "Arıza durumunda hizmetin sürmesini",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Hızın artmasını": 0,
+        "Arıza durumunda hizmetin sürmesini": 1,
+        "Verinin silinmesini": 0,
+        "Maliyetin düşmesini": 0
+      },
+      "jevKategori": "teknoloji",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 2.8,
+      "jevZorlukGuven": 0.61,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 975,
+      "sureMs": 371,
+      "kume": "normal"
+    },
+    {
+      "id": "db1df786-e9f2-4cb8-a121-9f6d311174a0",
+      "soru": "Paket yöneticisinin işlevi nedir?",
+      "bizimKategori": "teknoloji",
+      "bizimCevap": "Kütüphaneleri kurup güncellemek",
+      "gonderilenSiklar": [
+        "Kütüphaneleri kurup güncellemek",
+        "Tasarım yapmak",
+        "Test yazmak",
+        "Kod yazmak"
+      ],
+      "jevCevap": "Kütüphaneleri kurup güncellemek",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Kod yazmak": 0,
+        "Test yazmak": 0,
+        "Tasarım yapmak": 0,
+        "Kütüphaneleri kurup güncellemek": 1
+      },
+      "jevKategori": "teknoloji",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 3.86,
+      "jevZorlukGuven": 0.85,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 952,
+      "sureMs": 367,
+      "kume": "normal"
+    },
+    {
+      "id": "056e7094-596e-4e44-956e-8275a4067373",
+      "soru": "'Geri besleme döngüsü' denetimde ne sağlar?",
+      "bizimKategori": "teknoloji",
+      "bizimCevap": "Çıktının girdiyi düzeltmesini",
+      "gonderilenSiklar": [
+        "İşlem hızının artışını",
+        "Sistemde rastgeleliği",
+        "Çıktının girdiyi düzeltmesini",
+        "Fazla veri depolamayı"
+      ],
+      "jevCevap": "Çıktının girdiyi düzeltmesini",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Sistemde rastgeleliği": 0,
+        "Çıktının girdiyi düzeltmesini": 1,
+        "Fazla veri depolamayı": 0,
+        "İşlem hızının artışını": 0
+      },
+      "jevKategori": "teknoloji",
+      "jevKategoriGuven": 0.86,
+      "jevZorluk": 2.7,
+      "jevZorlukGuven": 0.62,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 989,
+      "sureMs": 324,
+      "kume": "normal"
+    },
+    {
+      "id": "f5d2ec9d-f4db-48cb-9953-b0eefbcdebba",
+      "soru": "Kuantum bilgisayarın klasikten farkı nedir?",
+      "bizimKategori": "teknoloji",
+      "bizimCevap": "Kübit ile üst üste durum kullanması",
+      "gonderilenSiklar": [
+        "Yazılım gerektirmemesi",
+        "Elektriksiz çalışması",
+        "Kübit ile üst üste durum kullanması",
+        "Daha büyük olması"
+      ],
+      "jevCevap": "Kübit ile üst üste durum kullanması",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Yazılım gerektirmemesi": 0,
+        "Kübit ile üst üste durum kullanması": 1,
+        "Elektriksiz çalışması": 0,
+        "Daha büyük olması": 0
+      },
+      "jevKategori": "teknoloji",
+      "jevKategoriGuven": 0.96,
+      "jevZorluk": 3.15,
+      "jevZorlukGuven": 0.8,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 978,
+      "sureMs": 365,
+      "kume": "normal"
+    },
+    {
+      "id": "c2a86d50-b207-422a-91dd-1f1ebe4f83e0",
+      "soru": "Bir web adresinin başındaki güvenli protokol kısaltması hangisidir?",
+      "bizimKategori": "teknoloji",
+      "bizimCevap": "HTTPS",
+      "gonderilenSiklar": [
+        "FTP",
+        "SMTP",
+        "HTTPS",
+        "POP3"
+      ],
+      "jevCevap": "HTTPS",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "SMTP": 0,
+        "POP3": 0,
+        "HTTPS": 1,
+        "FTP": 0
+      },
+      "jevKategori": "teknoloji",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 1.95,
+      "jevZorlukGuven": 0.92,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 929,
+      "sureMs": 337,
+      "kume": "normal"
+    },
+    {
+      "id": "f5b40b80-a674-484c-8db8-2d6b51da5f04",
+      "soru": "PDF formatının amacı nedir?",
+      "bizimKategori": "teknoloji",
+      "bizimCevap": "Belgeyi biçimi bozulmadan taşımak",
+      "gonderilenSiklar": [
+        "Kod derlemek",
+        "Video oynatmak",
+        "Belgeyi biçimi bozulmadan taşımak",
+        "Ağ kurmak"
+      ],
+      "jevCevap": "Belgeyi biçimi bozulmadan taşımak",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Ağ kurmak": 0,
+        "Video oynatmak": 0,
+        "Belgeyi biçimi bozulmadan taşımak": 1,
+        "Kod derlemek": 0
+      },
+      "jevKategori": "teknoloji",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 1.87,
+      "jevZorlukGuven": 0.87,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 951,
+      "sureMs": 322,
+      "kume": "normal"
+    },
+    {
+      "id": "ca95f94d-9ebb-4aa5-95af-25b2dc71a3e3",
+      "soru": "Doğal dil işleme neyle ilgilenir?",
+      "bizimKategori": "teknoloji",
+      "bizimCevap": "Metin ve konuşmanın işlenmesi",
+      "gonderilenSiklar": [
+        "Metin ve konuşmanın işlenmesi",
+        "Görüntü sıkıştırma",
+        "Ağ yönlendirme",
+        "Disk biçimlendirme"
+      ],
+      "jevCevap": "Metin ve konuşmanın işlenmesi",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Metin ve konuşmanın işlenmesi": 1,
+        "Ağ yönlendirme": 0,
+        "Görüntü sıkıştırma": 0,
+        "Disk biçimlendirme": 0
+      },
+      "jevKategori": "teknoloji",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 2.6399999999999997,
+      "jevZorlukGuven": 0.61,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 975,
+      "sureMs": 453,
+      "kume": "normal"
+    },
+    {
+      "id": "dd5966c0-e77b-4dfd-8cf6-95e0c8959327",
+      "soru": "İtalya'nın başkenti neresidir?",
+      "bizimKategori": "cografya",
+      "bizimCevap": "Roma",
+      "gonderilenSiklar": [
+        "Milano",
+        "Roma",
+        "Venedik",
+        "Napoli"
+      ],
+      "jevCevap": "Roma",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Venedik": 0,
+        "Napoli": 0,
+        "Milano": 0,
+        "Roma": 1
+      },
+      "jevKategori": "cografya",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 1.06,
+      "jevZorlukGuven": 0.95,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 922,
+      "sureMs": 367,
+      "kume": "capa"
+    },
+    {
+      "id": "7b5e9b5e-98f7-4998-8dc8-6e16857db48b",
+      "soru": "İspanya'nın başkenti neresidir?",
+      "bizimKategori": "cografya",
+      "bizimCevap": "Madrid",
+      "gonderilenSiklar": [
+        "Sevilla",
+        "Barselona",
+        "Madrid",
+        "Valencia"
+      ],
+      "jevCevap": "Madrid",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Barselona": 0,
+        "Valencia": 0,
+        "Sevilla": 0,
+        "Madrid": 1
+      },
+      "jevKategori": "cografya",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 1.27,
+      "jevZorlukGuven": 0.78,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 926,
+      "sureMs": 409,
+      "kume": "capa"
+    },
+    {
+      "id": "0905f8b0-78f1-46cc-95f2-9a54e1f56ce9",
+      "soru": "Böceklerin kaç bacağı vardır?",
+      "bizimKategori": "bilim",
+      "bizimCevap": "6",
+      "gonderilenSiklar": [
+        "6",
+        "10",
+        "4",
+        "8"
+      ],
+      "jevCevap": "6",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "4": 0,
+        "6": 1,
+        "8": 0,
+        "10": 0
+      },
+      "jevKategori": "bilim",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 1.02,
+      "jevZorlukGuven": 0.99,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 914,
+      "sureMs": 395,
+      "kume": "capa"
+    },
+    {
+      "id": "f1e39d4e-195b-4650-9711-f6891f7aa99d",
+      "soru": "Pusulada kuzeyin kısaltması hangisidir?",
+      "bizimKategori": "genel_kultur",
+      "bizimCevap": "K",
+      "gonderilenSiklar": [
+        "K",
+        "D",
+        "G",
+        "B"
+      ],
+      "jevCevap": "K",
+      "jevCevapGuven": 0.93,
+      "jevCevapOlasiliklar": {
+        "D": 0.01,
+        "G": 0.03,
+        "K": 0.95,
+        "B": 0.01
+      },
+      "jevKategori": "genel_kultur",
+      "jevKategoriGuven": 0.62,
+      "jevZorluk": 1.47,
+      "jevZorlukGuven": 0.61,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 918,
+      "sureMs": 346,
+      "kume": "capa"
+    },
+    {
+      "id": "0117c539-60e1-4012-8c8f-083ec59b5d00",
+      "soru": "Su kaç derecede kaynar (deniz seviyesinde)?",
+      "bizimKategori": "bilim",
+      "bizimCevap": "100°C",
+      "gonderilenSiklar": [
+        "110°C",
+        "100°C",
+        "120°C",
+        "90°C"
+      ],
+      "jevCevap": "100°C",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "90°C": 0,
+        "120°C": 0,
+        "100°C": 1,
+        "110°C": 0
+      },
+      "jevKategori": "bilim",
+      "jevKategoriGuven": 0.98,
+      "jevZorluk": 1.03,
+      "jevZorlukGuven": 0.98,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 938,
+      "sureMs": 356,
+      "kume": "capa"
+    },
+    {
+      "id": "829986bb-0f4f-48ab-a62a-7ebb486017c0",
+      "soru": "İnsanda kaç duyu organı vardır?",
+      "bizimKategori": "bilim",
+      "bizimCevap": "5",
+      "gonderilenSiklar": [
+        "6",
+        "4",
+        "7",
+        "5"
+      ],
+      "jevCevap": "5",
+      "jevCevapGuven": 0.9,
+      "jevCevapOlasiliklar": {
+        "4": 0,
+        "5": 0.92,
+        "6": 0.07,
+        "7": 0.01
+      },
+      "jevKategori": "bilim",
+      "jevKategoriGuven": 0.99,
+      "jevZorluk": 1.11,
+      "jevZorlukGuven": 0.91,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 913,
+      "sureMs": 360,
+      "kume": "capa"
+    },
+    {
+      "id": "4d5c643d-9e5b-4e51-bc7e-213eb4fc6915",
+      "soru": "Başlangıç meridyeni kaç derecedir?",
+      "bizimKategori": "cografya",
+      "bizimCevap": "0",
+      "gonderilenSiklar": [
+        "180",
+        "90",
+        "45",
+        "0"
+      ],
+      "jevCevap": "0",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "0": 1,
+        "45": 0,
+        "90": 0,
+        "180": 0
+      },
+      "jevKategori": "cografya",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 1.8199999999999998,
+      "jevZorlukGuven": 0.79,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 923,
+      "sureMs": 340,
+      "kume": "capa"
+    },
+    {
+      "id": "ab81d5bb-977e-463d-b478-457c17df7856",
+      "soru": "Dünya kendi ekseni etrafında bir turunu yaklaşık kaç saatte tamamlar?",
+      "bizimKategori": "bilim",
+      "bizimCevap": "24 saat",
+      "gonderilenSiklar": [
+        "24 saat",
+        "36 saat",
+        "48 saat",
+        "12 saat"
+      ],
+      "jevCevap": "24 saat",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "48 saat": 0,
+        "24 saat": 1,
+        "12 saat": 0,
+        "36 saat": 0
+      },
+      "jevKategori": "bilim",
+      "jevKategoriGuven": 0.91,
+      "jevZorluk": 1.01,
+      "jevZorlukGuven": 0.99,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 939,
+      "sureMs": 343,
+      "kume": "capa"
+    },
+    {
+      "id": "f5d35384-9f42-4cba-aaf1-ff8d5d10ac09",
+      "soru": "Futbolda bir maç kaç dakikadır (normal süre)?",
+      "bizimKategori": "genel_kultur",
+      "bizimCevap": "90",
+      "gonderilenSiklar": [
+        "90",
+        "80",
+        "100",
+        "60"
+      ],
+      "jevCevap": "90",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "60": 0,
+        "80": 0,
+        "90": 1,
+        "100": 0
+      },
+      "jevKategori": "spor",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 1.28,
+      "jevZorlukGuven": 0.76,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 927,
+      "sureMs": 311,
+      "kume": "capa"
+    },
+    {
+      "id": "39ae2c8c-b54d-4e46-8d22-05e3371cf7e4",
+      "soru": "Futbolda bir devre kaç dakikadır?",
+      "bizimKategori": "spor",
+      "bizimCevap": "45",
+      "gonderilenSiklar": [
+        "50",
+        "40",
+        "45",
+        "30"
+      ],
+      "jevCevap": "45",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "30": 0,
+        "40": 0,
+        "45": 1,
+        "50": 0
+      },
+      "jevKategori": "spor",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 1.45,
+      "jevZorlukGuven": 0.63,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 923,
+      "sureMs": 324,
+      "kume": "capa"
+    },
+    {
+      "id": "0f117374-dd67-4bdd-a131-8c2ff4ac34d2",
+      "soru": "Hollanda'nın başkenti neresidir?",
+      "bizimKategori": "cografya",
+      "bizimCevap": "Amsterdam",
+      "gonderilenSiklar": [
+        "Lahey",
+        "Utrecht",
+        "Rotterdam",
+        "Amsterdam"
+      ],
+      "jevCevap": "Amsterdam",
+      "jevCevapGuven": 0.96,
+      "jevCevapOlasiliklar": {
+        "Amsterdam": 0.97,
+        "Lahey": 0.03,
+        "Rotterdam": 0,
+        "Utrecht": 0
+      },
+      "jevKategori": "cografya",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 1.98,
+      "jevZorlukGuven": 0.69,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 928,
+      "sureMs": 385,
+      "kume": "capa"
+    },
+    {
+      "id": "b0e3f438-71b2-4b41-af85-491e46178b64",
+      "soru": "Işığın aynadan geri dönmesine ne denir?",
+      "bizimKategori": "genel_kultur",
+      "bizimCevap": "Yansıma",
+      "gonderilenSiklar": [
+        "Yansıma",
+        "Emilim",
+        "Kırılma",
+        "Kırınım"
+      ],
+      "jevCevap": "Yansıma",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Emilim": 0,
+        "Kırınım": 0,
+        "Yansıma": 1,
+        "Kırılma": 0
+      },
+      "jevKategori": "bilim",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 1.17,
+      "jevZorlukGuven": 0.86,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 938,
+      "sureMs": 385,
+      "kume": "capa"
+    },
+    {
+      "id": "6c72f4ec-7106-4c2d-90a4-af4fb937b828",
+      "soru": "Su deniz seviyesinde kaç derecede kaynar?",
+      "bizimKategori": "bilim",
+      "bizimCevap": "100",
+      "gonderilenSiklar": [
+        "110",
+        "120",
+        "90",
+        "100"
+      ],
+      "jevCevap": "100",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "90": 0,
+        "100": 1,
+        "110": 0,
+        "120": 0
+      },
+      "jevKategori": "bilim",
+      "jevKategoriGuven": 0.99,
+      "jevZorluk": 1.03,
+      "jevZorlukGuven": 0.98,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 929,
+      "sureMs": 307,
+      "kume": "capa"
+    },
+    {
+      "id": "ead2ce39-a123-476d-b2ba-1ca3e95ea2b1",
+      "soru": "En küçük asal sayı hangisidir?",
+      "bizimKategori": "bilim",
+      "bizimCevap": "2",
+      "gonderilenSiklar": [
+        "1",
+        "2",
+        "0",
+        "3"
+      ],
+      "jevCevap": "2",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "0": 0,
+        "1": 0,
+        "2": 1,
+        "3": 0
+      },
+      "jevKategori": "bilim",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 1.09,
+      "jevZorlukGuven": 0.92,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 911,
+      "sureMs": 347,
+      "kume": "capa"
+    },
+    {
+      "id": "8b019f2a-afc1-44cb-b1ac-686ab71d3b64",
+      "soru": "Suyun kaç santigrat derecede kaynadığı bilinir (deniz seviyesinde)?",
+      "bizimKategori": "bilim",
+      "bizimCevap": "100",
+      "gonderilenSiklar": [
+        "120",
+        "90",
+        "80",
+        "100"
+      ],
+      "jevCevap": "100",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "80": 0,
+        "90": 0,
+        "100": 1,
+        "120": 0
+      },
+      "jevKategori": "bilim",
+      "jevKategoriGuven": 0.96,
+      "jevZorluk": 1.01,
+      "jevZorlukGuven": 0.99,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 938,
+      "sureMs": 384,
+      "kume": "capa"
+    },
+    {
+      "id": "22fbee72-6705-40b5-a026-7729ca282c62",
+      "soru": "Sesi algılayan duyu organı hangisidir?",
+      "bizimKategori": "bilim",
+      "bizimCevap": "Kulak",
+      "gonderilenSiklar": [
+        "Göz",
+        "Kulak",
+        "Burun",
+        "Dil"
+      ],
+      "jevCevap": "Kulak",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Dil": 0,
+        "Burun": 0,
+        "Kulak": 1,
+        "Göz": 0
+      },
+      "jevKategori": "bilim",
+      "jevKategoriGuven": 0.99,
+      "jevZorluk": 1,
+      "jevZorlukGuven": 1,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 923,
+      "sureMs": 363,
+      "kume": "capa"
+    },
+    {
+      "id": "b2f5e4ef-5ac7-4bcf-bd84-7549566a6308",
+      "soru": "Trafikte kırmızı ışıkta ne yapılır?",
+      "bizimKategori": "genel_kultur",
+      "bizimCevap": "Durulur",
+      "gonderilenSiklar": [
+        "Hızlanılır",
+        "Korna çalınır",
+        "Geçilir",
+        "Durulur"
+      ],
+      "jevCevap": "Durulur",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Geçilir": 0,
+        "Korna çalınır": 0,
+        "Hızlanılır": 0,
+        "Durulur": 1
+      },
+      "jevKategori": "genel_kultur",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 1,
+      "jevZorlukGuven": 1,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 944,
+      "sureMs": 421,
+      "kume": "capa"
+    },
+    {
+      "id": "2619aa7c-7483-4707-8a13-5e9332aa840f",
+      "soru": "Dünya üzerindeki kıta sayısı kaçtır?",
+      "bizimKategori": "cografya",
+      "bizimCevap": "7",
+      "gonderilenSiklar": [
+        "7",
+        "5",
+        "6",
+        "8"
+      ],
+      "jevCevap": "7",
+      "jevCevapGuven": 0.87,
+      "jevCevapOlasiliklar": {
+        "5": 0,
+        "6": 0.09,
+        "7": 0.9,
+        "8": 0.01
+      },
+      "jevKategori": "cografya",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 1.5,
+      "jevZorlukGuven": 0.58,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 920,
+      "sureMs": 422,
+      "kume": "capa"
+    },
+    {
+      "id": "acaec160-0452-4aaa-9c55-d34c6031aa7c",
+      "soru": "Türkiye'nin kaç ili vardır?",
+      "bizimKategori": "cografya",
+      "bizimCevap": "81",
+      "gonderilenSiklar": [
+        "80",
+        "81",
+        "82",
+        "78"
+      ],
+      "jevCevap": "81",
+      "jevCevapGuven": 0.98,
+      "jevCevapOlasiliklar": {
+        "78": 0,
+        "80": 0.01,
+        "81": 0.99,
+        "82": 0
+      },
+      "jevKategori": "cografya",
+      "jevKategoriGuven": 0.93,
+      "jevZorluk": 1.63,
+      "jevZorlukGuven": 0.64,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 920,
+      "sureMs": 336,
+      "kume": "capa"
+    },
+    {
+      "id": "089be8ad-ba14-4a9b-a765-bd8c87c5068c",
+      "soru": "Trafik ışığında kırmızı ne anlama gelir?",
+      "bizimKategori": "genel_kultur",
+      "bizimCevap": "Dur",
+      "gonderilenSiklar": [
+        "Geç",
+        "Yavaşla",
+        "Dur",
+        "Bekle"
+      ],
+      "jevCevap": "Dur",
+      "jevCevapGuven": 1,
+      "jevCevapOlasiliklar": {
+        "Geç": 0,
+        "Yavaşla": 0,
+        "Bekle": 0,
+        "Dur": 1
+      },
+      "jevKategori": "genel_kultur",
+      "jevKategoriGuven": 1,
+      "jevZorluk": 1,
+      "jevZorlukGuven": 1,
+      "model": "jev-1.13.0",
+      "girdiJetonu": 932,
+      "sureMs": 361,
+      "kume": "capa"
+    }
+  ]
+}
