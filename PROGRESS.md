@@ -7302,6 +7302,20 @@ yüksekliği 62 px; "CEVABI KİLİTLE" yok.
 - Mevcut logo, menüler ve production akışı değiştirilmedi. **Canlıya alınmadı,
   push/deploy yapılmadı; yalnız yerel önizlemedir.**
 
+## 21 Eylül 2026 — Logo Exploration V2 / Custom Wordmark (yerel preview)
+**Araç:** Codex
+**Dal:** `codex/logo-exploration-preview`
+
+- İlk turun generic ikon + yazı yaklaşımı terk edildi. V2'de özgünlük, hazır
+  ikonlardan değil özel çizilmiş Q ve özel vektör harf sisteminden gelir.
+- Birbirinden farklı 10 custom wordmark yönü `/preview/logo-exploration-v2`
+  rotasında hazırlandı. Her kartta büyük wordmark, yalnız Q'dan oluşan app icon,
+  açık zemin ve koyu zemin kullanımı bulunur.
+- Büyüteç, tik, soru işareti, konuşma balonu, satranç/beyin/roket/kalkan ve
+  klasik e-spor amblemi kullanılmadı. Q kuyruğundaki hamle hissi soyut tutuldu.
+- V1 rotası korunmuştur. Mevcut logo ve production branding değişmedi;
+  **push/deploy yapılmadı, yalnız yerel preview hazırlandı.**
+
 ## 2026-09-21 — Jev deneme testi
 **Araç:** Claude Code
 **Neden:** Jev'in soru doğruluğu, kategori ve zorluk kontrolünde işe yarayıp yaramadığını ölçmek.
