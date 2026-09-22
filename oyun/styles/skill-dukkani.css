@@ -1,0 +1,34 @@
+/* Paket 2 · Şerit B — Dükkân skill satırı: tek hak + 10'lu paket düğmeleri ve kilit durumu.
+   Yalnız JokerDukkani.jsx yükler. Sabit konum / transform yok (iOS kuralı). */
+
+.app .bd-skill-al-dugmeler {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 0 0 auto;
+  align-items: stretch;
+}
+.app .bd-skill-al-dugmeler .btn.kucuk {
+  min-height: 44px;
+  min-width: 84px;
+  justify-content: center;
+  white-space: nowrap;
+}
+.app .bd-skill-adet {
+  font-weight: 900;
+  margin-right: 4px;
+  opacity: .85;
+}
+.app .bd-skill-kilitli > .bd-skill-gorsel,
+.app .bd-skill-kilitli .bd-paket-ad {
+  opacity: .6;
+}
+.app .bd-skill-kilit-not {
+  margin-top: 2px;
+  font-weight: 800;
+  color: var(--bd-metin-2, #5A7089);
+}
+
+@media (max-width: 400px) {
+  .app .bd-skill-al-dugmeler .btn.kucuk { min-width: 76px; padding-inline: 10px; }
+}

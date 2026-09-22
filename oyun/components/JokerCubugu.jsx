@@ -4,7 +4,7 @@ import Ikon from "./Ikon.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { Link } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
-import { macJokerleri, jokerBilgi, envanterNesne, skillSetiOku } from "../lib/jokerler.js";
+import { macJokerleri, jokerBilgi, envanterNesne, skillSetiOku, skillSetiKaydet, skillSlotSayisi, skillLoadoutKapali } from "../lib/jokerler.js";
 import { ayarlar } from "../lib/ayarlar.js";
 import { coinTazele } from "../lib/coin.js";
 import JokerSatinAlModal from "./JokerSatinAlModal.jsx";
@@ -48,7 +48,21 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
   const sonRakipBaskisi = useRef(null);
   useEffect(() => {
     let aktif = true;
-    ayarlar().then((a) => { if (aktif) setAyar(a); }, () => {});
+    (async () => {
+      try {
+        const a = await ayarlar();
+        if (!aktif) return;
+        setAyar(a);
+        // Paket 2 B3: loadout kapalıyken çubuk yerel 3'lü seti değil, sunucunun tam setini
+        // (bütün açık skill'ler) gösterir — oyuncu seçim ekranını hiç açmamış olsa bile.
+        if (!skillLoadoutKapali(a)) return;
+        const { data, error } = await supabase.rpc("skill_setim");
+        if (error) throw error;
+        if (aktif && Array.isArray(data)) setSkillSeti(skillSetiKaydet(data, skillSlotSayisi(a)));
+      } catch (e) {
+        console.error("[Bildim] skill seti alınamadı:", e);   // yerel setle devam edilir
+      }
+    })();
     return () => { aktif = false; };
   }, []);
   useEffect(() => {

@@ -10,12 +10,20 @@ import {
   skillSetiOku,
   skillSetiTemizle,
   skillSlotSayisi,
+  skillLoadoutKapali,
 } from "../lib/jokerler.js";
 import { tt } from "../lib/dil.js";
 import { hataMesaji } from "../lib/hata.js";
 
-/** Maç akışının içinde kalan, hafif skill seti seçimi. */
+/**
+ * Maç akışının içinde kalan, hafif skill seti seçimi.
+ *
+ * Paket 2 B3: loadout kapalıyken (yuva sayısı >= aktif skill sayısı) seçim ekranı HİÇ
+ * çizilmez; sunucunun döndürdüğü tam set (bütün açık skill'ler) yerel kayda yazılır ki
+ * maç çubuğu hepsini göstersin. Karar bilinmeden de çizilmez (kapalıyken bir an görünmesin).
+ */
 export default function SkillSeti({ macTur = "1v1" }) {
+  const [kapali, setKapali] = useState(null);   // null: henüz bilinmiyor
   const [slot, setSlot] = useState(SKILL_SLOT_VARSAYILAN);
   const [secili, setSecili] = useState(() => skillSetiOku());
   const [acik, setAcik] = useState(false);
@@ -31,6 +39,12 @@ export default function SkillSeti({ macTur = "1v1" }) {
         if (sonuc.error) throw sonuc.error;
         const n = skillSlotSayisi(a);
         const uzak = Array.isArray(sonuc.data) ? sonuc.data : sonuc.data?.skiller;
+        if (skillLoadoutKapali(a)) {
+          if (!aktif) return;
+          skillSetiKaydet(Array.isArray(uzak) ? uzak : [], n);
+          setKapali(true);
+          return;
+        }
         const ilk = skillSetiTemizle(
           Array.isArray(uzak) && uzak.length ? uzak : skillSetiOku(n), n
         );
@@ -40,7 +54,9 @@ export default function SkillSeti({ macTur = "1v1" }) {
         if (!aktif) return;
         setSlot(n);
         setSecili(skillSetiKaydet(ilk, n));
+        setKapali(false);
       } catch (e) {
+        if (aktif) setKapali(false);
         if (aktif) setHata(hataMesaji(e, tt("Skill setin yüklenemedi. Tekrar dene.")));
       }
     })();
@@ -68,6 +84,8 @@ export default function SkillSeti({ macTur = "1v1" }) {
       setKaydediliyor(false);
     }
   };
+
+  if (kapali !== false) return null;
 
   return (
     <section className="bd-skill-seti" aria-label={tt("Maç Skillerin")}>

@@ -19,13 +19,14 @@ import { GARDIROP_ACIK } from "../lib/ozellikBayraklari.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import { ayarlar } from "../lib/ayarlar.js";
 import { tt, ttSunucu } from "../lib/dil.js";
+import "../styles/skill-dukkani.css";
 
 // Dükkân üç sekme: Kıyafet (avatar eşyaları + danslar) / Joker / Coin.
 // Kıyafet sekmesinin içeriği Görünüm sayfasında; buradan oraya köprü var.
 // Bütün rakamlar sunucudaki oyun_ayarlari tablosundan gelir; aşağıdakiler
 // yalnız tablo okunamazsa kullanılan varsayılanlardır (bkz. lib/ayarlar.js).
 const ODUL_COIN_VARSAYILAN = 25;
-const TEK_JOKER_VARSAYILAN = { elli: 40, sure: 60, soru_degistir: 80, zaman_baskisi: 60 };
+const TEK_JOKER_VARSAYILAN = { elli: 20, sure: 20, soru_degistir: 30, zaman_baskisi: 30 };
 
 // GARDIROP DONDURULDU (Arayüz Yenileme, 20 Eyl 2026): "Görünüm" sekmesi
 // bayrak kapalıyken listeye hiç girmez ve varsayılan sekme "Joker" olur.
@@ -67,6 +68,9 @@ export default function JokerDukkani() {
   const [odulCoin, setOdulCoin] = useState(ODUL_COIN_VARSAYILAN);
   const [tekFiyat, setTekFiyat] = useState(TEK_JOKER_VARSAYILAN);
   const [ayar, setAyar] = useState(null);   // Paket 32 C: açıklamalardaki sayılar oyun_ayarlari'ndan
+  // Paket 2 B1/B2: skill_dukkani() — tür başına tek fiyat, 10'lu paket, kilit ve level (tek çağrı).
+  // Okunamazsa dükkân eski haliyle (tek fiyat ayardan, kilitsiz) çalışır.
+  const [skillDukkan, setSkillDukkan] = useState(null);
   const jokerSerbest = Number(ayar?.jokerler_ucretsiz ?? 0) > 0;   // Paket 34
 
   useEffect(() => {
@@ -77,13 +81,14 @@ export default function JokerDukkani() {
       if (Number.isFinite(Number(o.coin_reklam))) setOdulCoin(Number(o.coin_reklam));
       // Maç başına joker hakkı: kural metni bunu kullanır (Paket 28 B).
       if (Number(o.klasik_skill_toplam_hak) > 0) setJokerHak(Number(o.klasik_skill_toplam_hak));
-      setTekFiyat({
-        elli: Number(o.coin_joker_elli ?? TEK_JOKER_VARSAYILAN.elli),
-        sure: Number(o.coin_joker_sure ?? TEK_JOKER_VARSAYILAN.sure),
-        soru_degistir: Number(o.coin_joker_soru_degistir ?? TEK_JOKER_VARSAYILAN.soru_degistir),
-        // Düello saldırı jokerleri (Paket 14)
-        zaman_baskisi: Number(o.coin_joker_zaman_baskisi ?? TEK_JOKER_VARSAYILAN.zaman_baskisi),
-      });
+      // Paket 2 B1: bütün aktif skill'ler kendi coin_joker_<tür> anahtarından (İkinci Şans,
+      // Sigorta, 2X dahil — önceden bu üçünün fiyatı dükkânda boş görünüyordu).
+      setTekFiyat((onceki) => ({
+        ...onceki,
+        ...Object.fromEntries(AKTIF_MAC_SKILLERI
+          .filter((t) => Number.isFinite(Number(o[`coin_joker_${t}`] ?? TEK_JOKER_VARSAYILAN[t])))
+          .map((t) => [t, Number(o[`coin_joker_${t}`] ?? TEK_JOKER_VARSAYILAN[t])])),
+      }));
     });
     return () => { aktif = false; };
   }, []);
@@ -109,14 +114,25 @@ export default function JokerDukkani() {
 
   const yukle = useCallback(async () => {
     try {
-      const [env, rek, pak, cpak] = await Promise.all([
+      const [env, rek, pak, cpak, sdk] = await Promise.all([
         supabase.rpc("envanterim"),
         supabase.rpc("reklam_durumum"),
         supabase.from("joker_paketleri").select("*").order("sira"),
         supabase.from("coin_paketleri").select("*").eq("aktif", true).order("sira"),
+        supabase.rpc("skill_dukkani"),
       ]);
       if (env.error) throw env.error;
       setEnvanter(envanterNesne(env.data));
+      if (sdk.error) {
+        console.error("[Bildim] skill dükkânı okunamadı:", sdk.error);
+      } else if (Array.isArray(sdk.data?.skiller)) {
+        const harita = Object.fromEntries(sdk.data.skiller.map((s) => [s.tur, s]));
+        setSkillDukkan({ level: Number(sdk.data.level ?? 1), skiller: harita });
+        setTekFiyat((onceki) => ({
+          ...onceki,
+          ...Object.fromEntries(sdk.data.skiller.filter((s) => s.fiyat != null).map((s) => [s.tur, Number(s.fiyat)])),
+        }));
+      }
       const ikincilHata = rek.error ?? pak.error ?? cpak.error;
       if (ikincilHata) {
         console.error("[Bildim] dükkân verilerinin bir bölümü alınamadı:", ikincilHata);
@@ -253,6 +269,27 @@ export default function JokerDukkani() {
     }
   };
 
+  /** Paket 2 B2: skill kilidini coin ile bir kez açar. Level ve coin kontrolü sunucuda. */
+  const skillKilidiAc = async (tur) => {
+    setHata(null);
+    setBilgi(null);
+    setAlinan(`kilit:${tur}`);
+    try {
+      const { error } = await supabase.rpc("skill_kilidi_ac", { p_tur: tur });
+      if (error) throw error;
+      setBilgi(tt("{0} kilidi açıldı.", { 0: JOKER_BILGI[tur]?.ad ?? tur }));
+      coinTazele();
+      coinOku();
+      await yukle();
+    } catch (e) {
+      const m = coinHatasi(e);
+      setHata(ttSunucu(m));
+      if (m === "Coin yetmiyor") sekmeSec("coin");
+    } finally {
+      setAlinan(null);
+    }
+  };
+
   const reklamKaldi = Math.max(0, (reklam.tavan ?? 5) - (reklam.bugun ?? 0));
 
   return (
@@ -332,7 +369,8 @@ export default function JokerDukkani() {
         </div>
 
         <div className="bd-paket-liste">
-          {paketler.filter((p) => p.coin_fiyat != null && Object.keys(p.icerik ?? {}).every((id) => AKTIF_MAC_SKILLERI.includes(id) || id === "seri_koruma")).map((p) => (
+          {/* Paket 2 B1: tek skill'lik 10'lu paketler (fiyat_anahtari dolu) aşağıda kendi skill satırında */}
+          {paketler.filter((p) => p.coin_fiyat != null && !p.fiyat_anahtari && Object.keys(p.icerik ?? {}).every((id) => AKTIF_MAC_SKILLERI.includes(id) || id === "seri_koruma")).map((p) => (
             <div key={p.urun_id} className="bd-paket">
               <SkillGorseli tur="paket" icerik={p.icerik} />
               <div className="bd-paket-bilgi">
@@ -379,36 +417,84 @@ export default function JokerDukkani() {
           </span>
         </div>
         <div className="bd-paket-liste">
-          {AKTIF_MAC_SKILLERI.map((tur) => (
-            <div key={tur} className="bd-paket">
+          {AKTIF_MAC_SKILLERI.map((tur) => {
+            // Paket 2 B1/B2: sunucudan gelen satır (fiyat, 10'lu paket, kilit). Yoksa eski davranış.
+            const sd = skillDukkan?.skiller?.[tur] ?? null;
+            const kilitli = Boolean(sd && sd.acik === false);
+            const levelYetmez = kilitli && Number(sd.gereken_level ?? 1) > Number(skillDukkan?.level ?? 1);
+            const kilitFiyat = Number(sd?.kilit_fiyati ?? 0);
+            const paket10 = sd?.paket ?? null;
+            const tek = Number(tekFiyat[tur] ?? 0);
+            return (
+            <div key={tur} className={"bd-paket" + (kilitli ? " bd-skill-kilitli" : "")}>
               <SkillGorseli tur={tur} />
               <div className="bd-paket-bilgi">
                 <div className="bd-paket-ad">
-                  <Ikon ad={JOKER_BILGI[tur].ikon} boyut={15} /> {JOKER_BILGI[tur].ad}
+                  <Ikon ad={kilitli ? "kilit" : JOKER_BILGI[tur].ikon} boyut={15} /> {JOKER_BILGI[tur].ad}
                 </div>
                 {/* Paket 32: Sis yalnız Klasik — tek açıklama, sayılar ayardan */}
                 <div className="alt-yazi">
                   {jokerBilgi(tur, "1v1", ayar).aciklama}
                 </div>
-                {/* Paket 31 C: aynı joker Klasik Mod'da farklı çalışıyorsa okunarak anlaşılsın */}
+                {/* Paket 2 B2: kilitli skill görünür; level şartı parayla atlanamaz */}
+                {kilitli && (
+                  <div className="alt-yazi bd-skill-kilit-not">
+                    {levelYetmez
+                      ? tt("Level {0} gerekir", { 0: sd.gereken_level })
+                      : tt("Kilitli — bir kez açılır")}
+                  </div>
+                )}
                 {/* Paket 35 A.2: bakiye fiyata yetmiyorsa düğme pasif + sebebi yazar */}
-                {bakiye !== null && bakiye < Number(tekFiyat[tur] ?? 0) && (
+                {!kilitli && bakiye !== null && bakiye < tek && (
                   <div className="alt-yazi bd-paket-yetersiz">{tt("Yetersiz coin")}</div>
                 )}
               </div>
-              <button
-                className="btn kucuk"
-                disabled={jokerSerbest || alinan === `tek:${tur}` ||
-                  (bakiye !== null && bakiye < Number(tekFiyat[tur] ?? 0))}
-                aria-label={tt("{0} — {1} coin", { 0: JOKER_BILGI[tur].ad, 1: tekFiyat[tur] })}
-                onClick={() => jokerTekAl(tur)}
-              >
-                {alinan === `tek:${tur}`
-                  ? "…"
-                  : <><Ikon ad="coin" boyut={14} /> {tekFiyat[tur]}</>}
-              </button>
+              <div className="bd-skill-al-dugmeler">
+                {kilitli ? (
+                  <button
+                    className="btn kucuk"
+                    disabled={levelYetmez || alinan === `kilit:${tur}`}
+                    aria-label={levelYetmez
+                      ? tt("Level {0} gerekir", { 0: sd.gereken_level })
+                      : tt("{0} kilidini aç — {1} coin", { 0: JOKER_BILGI[tur].ad, 1: kilitFiyat })}
+                    onClick={() => skillKilidiAc(tur)}
+                  >
+                    {alinan === `kilit:${tur}`
+                      ? "…"
+                      : levelYetmez
+                        ? <><Ikon ad="kilit" boyut={14} /> {tt("Lv {0}", { 0: sd.gereken_level })}</>
+                        : <><Ikon ad="kilit" boyut={14} /> {kilitFiyat > 0 ? kilitFiyat : tt("Kilidi aç")}</>}
+                  </button>
+                ) : (
+                  <>
+                    <button
+                      className="btn kucuk"
+                      disabled={jokerSerbest || alinan === `tek:${tur}` || (bakiye !== null && bakiye < tek)}
+                      aria-label={tt("{0} — {1} coin", { 0: JOKER_BILGI[tur].ad, 1: tekFiyat[tur] })}
+                      onClick={() => jokerTekAl(tur)}
+                    >
+                      {alinan === `tek:${tur}`
+                        ? "…"
+                        : <><span className="bd-skill-adet">1×</span><Ikon ad="coin" boyut={14} /> {tekFiyat[tur]}</>}
+                    </button>
+                    {paket10 && (
+                      <button
+                        className="btn kucuk ikincil"
+                        disabled={jokerSerbest || alinan === paket10.urun_id}
+                        aria-label={tt("{0} × {1} — {2} coin", { 0: paket10.adet, 1: JOKER_BILGI[tur].ad, 2: paket10.fiyat })}
+                        onClick={() => jokerCoinIleAl(paket10.urun_id)}
+                      >
+                        {alinan === paket10.urun_id
+                          ? "…"
+                          : <><span className="bd-skill-adet">{paket10.adet}×</span><Ikon ad="coin" boyut={14} /> {Number(paket10.fiyat).toLocaleString("tr-TR")}</>}
+                      </button>
+                    )}
+                  </>
+                )}
+              </div>
             </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Paket 42 M.1: envanter ve kurallar satın alma listelerinin ALTINDA */}

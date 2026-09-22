@@ -8,7 +8,7 @@
 
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { islem, oyuncuKur, olarak, skillSetiKur, baglantiVarMi, hataVerir, alintila as a } from './yardim.mjs';
+import { islem, oyuncuKur, olarak, skillSetiKur, baglantiVarMi, hataVerir, ayarla, alintila as a } from './yardim.mjs';
 
 const atla = !(await baglantiVarMi());
 const sec = { skip: atla ? 'veritabanı bağlantısı yok (SUPABASE_DB_URL / .env.local)' : false };
@@ -53,6 +53,9 @@ test('ücretsiz modda da set ve Klasik 6/2/1 kuralları korunur', sec, async () 
   await islem(async (c) => {
     await serbest(c);
     const { x, id } = await klasikMac(c);
+    // Paket 2 B3: loadout canlıda kapalı (skill_seti_slot >= aktif skill); set kapısını
+    // sınamak için yuva sayısı bu işlemde düşürülür (rollback ile geri gelir).
+    await ayarla(c, 'skill_seti_slot', 3);
     await skillSetiKur(c, x, ['elli', 'sure', 'zaman_baskisi']);
     await olarak(c, x);
     const turler=['elli','sure','zaman_baskisi'];

@@ -69,7 +69,28 @@ export function skillSlotSayisi(ayar) {
   return Number.isInteger(n) && n > 0 ? n : SKILL_SLOT_VARSAYILAN;
 }
 
-export function skillSetiOku(slot = SKILL_SLOT_VARSAYILAN) {
+/**
+ * Paket 2 B3: yuva sayısı (oyun_ayarlari.skill_seti_slot) aktif skill sayısına eşit ya da
+ * büyükse loadout KAPALI — seçim ekranı gizlenir, herkes bütün açık skill'leri kullanır.
+ * Sunucu karşılığı: skill_loadout_acik(). İleride açmak = skill_seti_slot'u düşürmek.
+ */
+export function skillLoadoutKapali(ayar) {
+  return skillSlotSayisi(ayar) >= AKTIF_MAC_SKILLERI.length;
+}
+
+// Son bilinen yuva sayısı: skillSetiOku() slot verilmeden çağrıldığında (maç çubuğu,
+// eski Düello alanı) kayıtlı set 3'e kırpılmasın.
+const SKILL_SLOT_ANAHTARI = "quiztactics:skill-slot:v1";
+function kayitliSlot() {
+  try {
+    const n = Number(localStorage.getItem(SKILL_SLOT_ANAHTARI));
+    return Number.isInteger(n) && n > 0 ? n : SKILL_SLOT_VARSAYILAN;
+  } catch {
+    return SKILL_SLOT_VARSAYILAN;
+  }
+}
+
+export function skillSetiOku(slot = kayitliSlot()) {
   if (typeof localStorage === "undefined") return VARSAYILAN_SKILL_SETI.slice(0, slot);
   try {
     const ids = JSON.parse(localStorage.getItem(SKILL_SETI_ANAHTARI) ?? "[]");
@@ -84,6 +105,7 @@ export function skillSetiKaydet(ids, slot = SKILL_SLOT_VARSAYILAN) {
   const temiz = skillSetiTemizle(ids, slot);
   if (typeof localStorage !== "undefined") {
     localStorage.setItem(SKILL_SETI_ANAHTARI, JSON.stringify(temiz));
+    try { localStorage.setItem(SKILL_SLOT_ANAHTARI, String(slot)); } catch { /* depolama kapalı */ }
     window.dispatchEvent(new CustomEvent("skill-seti-degisti", { detail: temiz }));
   }
   return temiz;
