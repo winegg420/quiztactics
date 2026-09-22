@@ -32,6 +32,7 @@ import { y } from "../lib/yol.js";
 import { GB_MS } from "../lib/geriBildirim.js";
 import { useDil } from "../lib/dilKanca.js";
 import { tt } from "../lib/dil.js";
+import { rpcDene } from "../lib/rpcDene.js";
 
 // Sunucu her doğru cevaba 10 puan yazar (cevap_ver, migration 250). Yalnız
 // sonuç ekranındaki "n soru farkla" metni için; puanlama sunucuda kalır.
@@ -165,7 +166,8 @@ export default function MatchPage() {
   const mesajGonder = async (mesaj) => {
     setKaliplarAcik(false);
     balonGoster(user.id, mesaj);
-    await supabase.rpc("send_match_message", { p_match_id: id, p_mesaj: mesaj });
+    const { error } = await supabase.rpc("send_match_message", { p_match_id: id, p_mesaj: mesaj });
+    if (error) console.error("[Bildim] mesaj gönderilemedi:", error.message);
   };
 
   useEffect(() => {
@@ -174,7 +176,8 @@ export default function MatchPage() {
       .select("tip")
       .eq("match_id", id)
       .eq("user_id", user.id)
-      .then(({ data }) => {
+      .then(({ data, error }) => {
+        if (error) console.error("[Bildim] kullanılan skill'ler okunamadı:", error.message);
         const k = { elli: false, sure: false };
         (data ?? []).forEach((j) => (k[j.tip] = true));
         setJokerKullanildi(k);
@@ -551,7 +554,7 @@ export default function MatchPage() {
       if (!reklamGosterildiRef.current) {
         reklamGosterildiRef.current = true;
         // İlk 3 gün reklamsız: hesabın açılış tarihi reklam.js'e verilir.
-        macBittiReklam(profile?.created_at).catch(() => {}); // oyunu asla bloklamaz
+        macBittiReklam(profile?.created_at).catch((e) => console.warn("[Bildim] reklam gösterilemedi:", e?.message ?? e)); // oyunu asla bloklamaz
       }
     }
   }, [mac?.durum, refreshProfile, user.id]);
@@ -559,10 +562,8 @@ export default function MatchPage() {
   // Asenkron akışta ortak ilerletme yok; advance_match yalnız BİTİŞ kontrolü
   // yapıyor. Rakip kendi bölümünü bitirmiş olabilir diye ara ara yoklanır.
   const ilerletmeyiDene = useCallback(() => {
-    supabase
-      .rpc("advance_match", { p_match_id: id })
-      .then(() => macYukle())
-      .catch((e) => console.warn("[Bildim] advance_match başarısız:", e?.message ?? e));
+    // Hata olsa da maç tazelenir (rpcDene hatayı konsola yazar, reddetmez).
+    rpcDene("advance_match", { p_match_id: id }).then(() => macYukle());
   }, [id, macYukle]);
 
   const cevapla = async (i) => {

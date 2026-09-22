@@ -7,6 +7,7 @@ import KarsilasmaSahnesi, { KARSILASMA_ANIM_MS } from "./KarsilasmaSahnesi.jsx";
 import { botZorluk } from "../lib/botZorluk.js";
 import { tt } from "../lib/dil.js";
 import { sesRakipBulundu } from "../lib/ses.js";
+import { rpcDene } from "../lib/rpcDene.js";
 
 const BEKLEME_SN = 15; // bu süre içinde insan rakip aranır, sonra gizli bota düşülür
 // Paket 41 F: "Maç hazırlanıyor…" hâlinin üst sınırı. Dolunca yoklama durur, oyuncuya
@@ -261,7 +262,7 @@ export default function RakipAra({ kategori, dereceli = true, jokersiz = false, 
       // supabase.rpc() bir PostgrestFilterBuilder döndürür: thenable ama Promise
       // DEĞİL, .catch() metodu yok. Doğrudan .catch çağrısı TypeError atıp
       // ekranı boş bırakıyordu. then'in ikinci argümanı hatayı güvenle yutar.
-      if (!bittiRef.current) supabase.rpc("kuyruktan_cik").then(() => {}, () => {});
+      if (!bittiRef.current) rpcDene("kuyruktan_cik");
     };
   }, [kategori, dereceli, jokersiz, bitir, sonCare, deneme]);
 

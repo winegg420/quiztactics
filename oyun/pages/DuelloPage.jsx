@@ -48,6 +48,7 @@ import SkillSeti from "../components/SkillSeti.jsx";
 // Düello 1.0 (surum = 2) arayüzü — eski arayüz aşağıda aynen durur.
 import { tt2, useV2Ceviri, V2Kategori, V2Cevap, V2Sonuc, V2Skill, V2Gecmis, V2SureCubugu } from "../components/DuelloV2.jsx";
 import "../styles/duello-v2.css";
+import { rpcDene } from "../lib/rpcDene.js";
 
 const HARFLER = ["A", "B", "C", "D"];
 
@@ -250,7 +251,7 @@ function DuelloArama({ dereceli, onBulundu, onIptal, ipuclari = ARAMA_IPUCLARI }
         clearInterval(zaman);
         bittiRef.current = true;
         setHata(ceviri("Şu an rakip bulunamadı. Birazdan tekrar dene."));
-        supabase.rpc("duello_aramadan_cik").then(() => {}, () => {});
+        rpcDene("duello_aramadan_cik");
         return;
       }
       setGecen((g) => g + 1); dene();
@@ -258,7 +259,7 @@ function DuelloArama({ dereceli, onBulundu, onIptal, ipuclari = ARAMA_IPUCLARI }
     return () => {
       iptal = true;
       clearInterval(zaman);
-      if (!bittiRef.current) supabase.rpc("duello_aramadan_cik").then(() => {}, () => {});
+      if (!bittiRef.current) rpcDene("duello_aramadan_cik");
     };
   }, [dereceli, ceviri, karsilas, deneme]);
 

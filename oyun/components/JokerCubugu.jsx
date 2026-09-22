@@ -199,7 +199,7 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
   /** Envanterde 0 varken düğmeye basılınca: önce onay penceresi. */
   const bas = (tur) => {
     if (satinAlinabilir(tur)) setSatinAlinacak(tur);
-    else kullan(tur).catch(() => {});
+    else kullan(tur).catch((e) => console.error("[Bildim] skill kullanılamadı:", e?.message ?? e));
   };
 
   /** Envanterde yok, ücretsiz hakkı da yok ama maç içinde satın alınabilir mi? (coin'e bakmadan) */

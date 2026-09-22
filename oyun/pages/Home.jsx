@@ -29,6 +29,7 @@ import { useDil } from "../lib/dilKanca.js";
 import { tt, ttSunucu } from "../lib/dil.js";
 import { KLASIK_JOKERLER, MAC_ICI_JOKERLER, SALDIRI_JOKERLERI } from "../lib/jokerler.js";
 import { LIG_ADLARI } from "../lib/lig.js";
+import { rpcDene } from "../lib/rpcDene.js";
 
 export default function Home() {
   const { user, profile, refreshProfile, profilHata } = useAuth();
@@ -72,7 +73,7 @@ export default function Home() {
   );
 
   const gorevleriYukle = useCallback(() => {
-    supabase.rpc("get_daily_quests").then(({ data }) => setGorevler(data ?? []));
+    rpcDene("get_daily_quests").then(({ data }) => setGorevler(data ?? []));
   }, []);
 
   useEffect(() => {

@@ -39,6 +39,7 @@ import DereceliAnahtari from "../components/DereceliAnahtari.jsx";
 import { useDereceliTercih } from "../lib/dereceli.js";
 import { useDil } from "../lib/dilKanca.js";
 import { tt } from "../lib/dil.js";
+import { rpcDene } from "../lib/rpcDene.js";
 
 // "Hızlı Olan Kazanır" DONDURULDU (Paket 14, 3.6): kurulum paneli arayüzden
 // kaldırıldı; hizli_maclar / hizli_oyuncular ve /hizli-mac/:id rotası duruyor.
@@ -274,9 +275,7 @@ export default function ChallengesPage() {
       .order("acik_bot_isabet", { ascending: true })
       .then(({ data }) => setBotlar(data ?? []));
     arkadaslariYukle();
-    supabase
-      .rpc("get_categories")
-      .then(({ data }) => setKategoriler(data ?? []));
+    rpcDene("get_categories").then(({ data }) => setKategoriler(data ?? []));
   }, [user.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Rakip olabilecekler: YALNIZ arkadaşlar (sunucu da bunu zorunlu kılıyor).
@@ -629,7 +628,7 @@ export default function ChallengesPage() {
   }, [grupKuyrukAcMi, kategori, navigate]);
 
   // Supabase sorgusu thenable'dır ama .catch'i yoktur: .catch her çıkışta TypeError fırlatıyordu.
-  useEffect(() => () => { supabase.rpc("grup_aramadan_cik").then(() => {}, () => {}); }, []);
+  useEffect(() => () => { rpcDene("grup_aramadan_cik"); }, []);
 
   const grupCevapVer = async (grupMacId, kabul) => {
     setGrupHata(null);

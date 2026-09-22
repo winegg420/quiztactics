@@ -17,6 +17,7 @@ import { useGorunurlukTazele } from "../lib/gorunurluk.js";
 import { tt } from "../lib/dil.js";
 import MacSorulari from "../components/MacSorulari.jsx";
 import { useOyunModu } from "../lib/oyunModu.js";
+import { rpcDene } from "../lib/rpcDene.js";
 
 const SORU_SN = 20;
 const HARFLER = ["A", "B", "C", "D"];
@@ -104,10 +105,7 @@ export default function CalismaPage() {
 
   useEffect(() => {
     bankaYukle();
-    supabase
-      .rpc("get_categories")
-      .then(({ data }) => setKategoriler(data ?? []))
-      .catch(() => setKategoriler([]));
+    rpcDene("get_categories").then(({ data }) => setKategoriler(data ?? []));
   }, [bankaYukle]);
 
   // ---------- Soru getir ----------

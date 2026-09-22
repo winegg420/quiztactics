@@ -99,7 +99,8 @@ export default function GroupMatchPage() {
   const mesajGonder = async (mesaj) => {
     setKaliplarAcik(false);
     balonGoster(user.id, mesaj);
-    await supabase.rpc("send_group_match_message", { p_group_match_id: id, p_mesaj: mesaj });
+    const { error } = await supabase.rpc("send_group_match_message", { p_group_match_id: id, p_mesaj: mesaj });
+    if (error) console.error("[Bildim] mesaj gönderilemedi:", error.message);
   };
 
   useEffect(() => {
@@ -108,7 +109,8 @@ export default function GroupMatchPage() {
       .select("tip")
       .eq("group_match_id", id)
       .eq("user_id", user.id)
-      .then(({ data }) => {
+      .then(({ data, error }) => {
+        if (error) console.error("[Bildim] kullanılan skill'ler okunamadı:", error.message);
         const k = { elli: false, sure: false };
         (data ?? []).forEach((j) => (k[j.tip] = true));
         setJokerKullanildi(k);

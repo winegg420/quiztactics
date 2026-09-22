@@ -95,12 +95,18 @@ export default function ProfilePage() {
   }, []);
 
   useEffect(() => {
-    supabase.from("badges").select("*").then(({ data }) => setRozetler(data ?? []));
+    supabase.from("badges").select("*").then(({ data, error }) => {
+      if (error) console.error("[Bildim] rozetler okunamadı:", error.message);
+      setRozetler(data ?? []);
+    });
     supabase
       .from("user_badges")
       .select("badge_id")
       .eq("user_id", user.id)
-      .then(({ data }) => setKazanilan(new Set((data ?? []).map((b) => b.badge_id))));
+      .then(({ data, error }) => {
+        if (error) console.error("[Bildim] kazanılan rozetler okunamadı:", error.message);
+        setKazanilan(new Set((data ?? []).map((b) => b.badge_id)));
+      });
   }, [user.id]);
 
   if (!profile) {

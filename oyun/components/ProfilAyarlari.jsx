@@ -10,6 +10,7 @@ import { MEYDAN_ACIK } from "../lib/ozellikBayraklari.js";
 import DavetKodu from "./DavetKodu.jsx";
 import AvatarCerceve from "./AvatarCerceve.jsx";
 import { tt } from "../lib/dil.js";
+import { rpcDene } from "../lib/rpcDene.js";
 
 // Profesyonel avatar seti. Eski düşük ayrıntılı SVG'ler donduruldu; 31 karakter
 // aynı çizim dilinde yeniden üretildi. Kaynak: AvatarProIllustrations.jsx.
@@ -90,10 +91,7 @@ export default function ProfilAyarlari() {
   };
 
   useEffect(() => {
-    supabase
-      .rpc("get_categories")
-      .then(({ data }) => setKategoriler(data ?? []))
-      .catch(() => setKategoriler([]));
+    rpcDene("get_categories").then(({ data }) => setKategoriler(data ?? []));
   }, []);
 
   if (!profile) return null;

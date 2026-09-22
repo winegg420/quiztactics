@@ -38,6 +38,7 @@ import DereceliAnahtari from "../components/DereceliAnahtari.jsx";
 import { useDereceliTercih } from "../lib/dereceli.js";
 import { useDil } from "../lib/dilKanca.js";
 import { tt } from "../lib/dil.js";
+import { rpcDene } from "../lib/rpcDene.js";
 
 // Süreler sunucudan gelir (oyun_ayarlari: hizli_mod_sure_sn / hizli_mod_soru_sure_sn;
 // oturum açılınca hizli_mod_baslat da döndürür). Bunlar yalnız ilk çizim içindir.
@@ -108,8 +109,8 @@ export default function HizliModPage() {
   }, []);
 
   useEffect(() => {
-    supabase.rpc("get_categories").then(({ data }) => setKategoriler(data ?? []));
-    supabase.rpc("hizli_mod_ozetim").then(({ data }) => {
+    rpcDene("get_categories").then(({ data }) => setKategoriler(data ?? []));
+    rpcDene("hizli_mod_ozetim").then(({ data }) => {
       const o = Array.isArray(data) ? data[0] : data;
       if (o) setOzet(o);
     });
@@ -191,7 +192,7 @@ export default function HizliModPage() {
       }
       const perdeKalan = Math.max(0, 800 - (Date.now() - perdeBasi));
       setTimeout(() => setAsama("sonuc"), perdeKalan);
-      macBittiReklam(profile?.created_at).catch(() => {}); // sıklık kuralı reklam.js'te
+      macBittiReklam(profile?.created_at).catch((e) => console.warn("[Bildim] reklam gösterilemedi:", e?.message ?? e)); // sıklık kuralı reklam.js'te
       // Paket 14 (3.9): Hızlı Mod artık ana lige puan yazıyor; ayrı haftalık
       // skor tablosu arayüzde gösterilmez (hizli_mod_skorlar yazılmaya devam eder).
       try {
