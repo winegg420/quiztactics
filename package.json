@@ -15,6 +15,7 @@
     "test:kurallar": "node oyun/_test/joker-kurallari-test.mjs && node --test oyun/_test/skill-sistemi-test.mjs",
     "test:skill-db": "node oyun/_test/skill-db-calistir.mjs",
     "test:duello2": "node oyun/_test/duello2-db-calistir.mjs",
+    "test:duello2bot": "node oyun/_test/duello2-bot-db-calistir.mjs",
     "test:dans": "node oyun/_test/dans-testi.mjs",
     "test:ios:kur": "playwright-core install webkit",
     "muayene": "node oyun/harita/muayene/calistir.mjs",
