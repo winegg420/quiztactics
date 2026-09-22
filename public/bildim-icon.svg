@@ -4,10 +4,10 @@
   </style>
   <rect width="512" height="512" rx="112" fill="#eef4ff"/>
   <rect x="18" y="18" width="476" height="476" rx="98" fill="none" stroke="#dbe4f3" stroke-width="12"/>
-  <g transform="translate(38 54) scale(2.55) translate(7 -1) skewX(-7)">
+  <g transform="translate(54 67) scale(2.18) translate(7 -1) skewX(-7)">
     <path d="M56 10C28 10 10 29 10 58s18 48 46 48c10 0 19-2 27-7l12 11h21L94 88c7-8 10-18 10-30 0-29-19-48-48-48Zm0 23c15 0 25 10 25 25S71 83 56 83 33 73 33 58s8-25 23-25Z" fill="#17213c" fill-rule="evenodd"/>
     <path d="m73 78 21 10 15 15H94L69 85Z" fill="#ff6b2c"/>
   </g>
-  <text x="286" y="201" fill="#657493" font-family="Baloo2,Arial Rounded MT Bold,sans-serif" font-size="72" font-weight="900" letter-spacing="-2">UIZ</text>
-  <text x="54" y="401" fill="#ff6b2c" stroke="#17213c" stroke-width="10" paint-order="stroke fill" font-family="Baloo2,Arial Rounded MT Bold,sans-serif" font-size="94" font-weight="900" letter-spacing="-3">TACTICS</text>
+  <text x="280" y="193" fill="#657493" font-family="Baloo2,Arial Rounded MT Bold,sans-serif" font-size="62" font-weight="900" letter-spacing="-2">UIZ</text>
+  <text x="70" y="383" fill="#ff6b2c" stroke="#17213c" stroke-width="8" paint-order="stroke fill" font-family="Baloo2,Arial Rounded MT Bold,sans-serif" font-size="80" font-weight="900" letter-spacing="-2">TACTICS</text>
 </svg>

@@ -7454,3 +7454,11 @@ sonraki pakette.
   favicon, Apple touch icon, sosyal paylaşım ve kurulum penceresi yolları yeni
   `quiztactics-wordmark-*` dosya adlarına geçirildi. Eski `bildim-icon-*`
   dosyaları geriye uyumluluk için silinmedi.
+
+## 22 Eylül 2026 — Mobil uygulama ikonu kompaktlaştırıldı
+**Araç:** Codex
+
+- Uygulama ikonundaki Q + UIZ + TACTICS grubu yaklaşık %15 küçültülüp merkeze
+  alındı. Android'in daire/squircle maskesinde yazının kenarlara sıkışmaması
+  için güvenli alan büyütüldü; aktif ikon URL'lerinin sürümü yenilendi.
+- Oyun içi mobil üst bar logosu sahibinin isteğiyle aynen korundu.

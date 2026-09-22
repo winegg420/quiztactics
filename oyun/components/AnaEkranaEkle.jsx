@@ -172,7 +172,7 @@ export default function AnaEkranaEkle() {
 
         <div className="bd-ekle-ust">
           <img
-            src="/quiztactics-wordmark-icon-192.png"
+            src="/quiztactics-wordmark-icon-192.png?v=20260922-compact"
             alt=""
             width="52"
             height="52"
