@@ -7443,3 +7443,14 @@ sonraki pakette.
   adı yer alır. Geriye uyumlu `bildim-icon-*` dosya yolları korunmuştur.
 - Q laboratuvarı seçim geçmişi olarak ayrı rotada kalır; production akışına
   menü bağlantısı eklenmemiştir.
+
+## 22 Eylül 2026 — Mobil tam logo ve PWA ikon önbelleği düzeltmesi
+**Araç:** Codex
+
+- Mobil CSS'de tam wordmarkı gizleyip yalnız Q'yu gösteren kural kaldırıldı.
+  Telefon Chrome'u ve kurulu PWA üst barı artık masaüstüyle aynı tam
+  `QUIZ TACTICS` logosunu gösterir.
+- Android'in eski ikonu agresif önbellekten getirmemesi için aktif manifest,
+  favicon, Apple touch icon, sosyal paylaşım ve kurulum penceresi yolları yeni
+  `quiztactics-wordmark-*` dosya adlarına geçirildi. Eski `bildim-icon-*`
+  dosyaları geriye uyumluluk için silinmedi.

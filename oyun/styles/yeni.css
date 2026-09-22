@@ -42,8 +42,8 @@
 .brand .brand-logo--ikon{display:none}
 .auth-brand .bd-logo{width:auto;max-width:min(190px,52vw)}
 @media(max-width:560px){
-  .app .brand .brand-logo--tam{display:none}
-  .app .brand .brand-logo--ikon{display:block;width:36px;height:36px}
+  .app .brand .brand-logo--tam{display:block;width:120px;height:auto}
+  .app .brand .brand-logo--ikon{display:none}
   .giris.auth-body .auth-brand .bd-logo{display:block;width:auto;height:50px;max-width:55vw}
 }
 

@@ -191,7 +191,8 @@ Palet (değiştirme):
 - Resmi marka işareti Q Logo Lab **03 Forward Pulse** Q'sudur: hafif öne
   eğimli, kısa ve gövdeyle bütünleşik turuncu kuyruklu vektör form. Header,
   giriş ve splash aynı `Logo.jsx` kaynağını kullanır; PWA/app ikonunda yalnız
-  Q değil tam `QUIZ TACTICS` wordmarkı bulunur.
+  Q değil tam `QUIZ TACTICS` wordmarkı bulunur. Mobil web ve kurulu PWA üst
+  barı da dar ekranda yalnız Q'ya düşmez; tam wordmarkı gösterir.
 - Baloo 2 başlık / Nunito gövde — **yerel paketli** (`public/fonts/`,
   `@font-face`). Google Fonts bağlantısı YOK, geri de eklenmez.
 - Kabartmalı buton dili korundu (`0 4px 0` + basınca `translateY(4px)`).
