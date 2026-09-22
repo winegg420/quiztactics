@@ -7420,3 +7420,15 @@ uyuşmazlığı cografya→bilim ve genel_kultur→bilim (198'er).
 **Not:** Jev'in `noul` cevabı olasılıktır (`{noul:0.87}`), `score` sürekli
 puandır (0–4); eşik 0,5, zorluk yuvarlanarak sayıldı. İngilizce kontrol
 sonraki pakette.
+
+## 22 Eylül 2026 — Q Logo İşareti Laboratuvarı (preview)
+**Araç:** Codex
+**Dal:** `codex/q-logo-lab`
+
+- Production markasına dokunmadan yalnız Q işareti için beş ayrı vektör
+  çözüm hazırlandı: yuvarlak, geometrik, enerjik/eğimli, kompakt app icon ve
+  açık halkalı özgün yön.
+- `/preview/q-logo-lab` rotasında her aday büyük, 64 px, 32 px, açık/koyu
+  zemin, uygulama ikonu ve mevcut `UIZ + TACTICS` tipografisi içinde gösterilir.
+- Mevcut `Logo.jsx`, header ve PWA ikonları değiştirilmedi. Çalışma seçim
+  laboratuvarıdır; üretim markasına ancak sahibinin seçimi sonrası bağlanacaktır.
