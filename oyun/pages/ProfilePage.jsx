@@ -18,7 +18,8 @@ import TemaDugmesi from "../components/TemaDugmesi.jsx";
 import { KOYU_TEMA_KAPALI } from "../lib/tema.js";
 import UstalikIzgarasi from "../components/UstalikIzgarasi.jsx";
 import KategoriProfili from "../components/KategoriProfili.jsx";
-import { bayrak, konumKilidiKalan, sureMetni } from "../lib/konum.js";
+import { konumKilidiKalan, sureMetni } from "../lib/konum.js";
+import Bayrak from "../components/Bayrak.jsx";
 import { rutbeBul, sonrakiRutbe } from "../lib/ranks.js";
 import { y } from "../lib/yol.js";
 import { GARDIROP_ACIK } from "../lib/ozellikBayraklari.js";
@@ -274,7 +275,7 @@ export default function ProfilePage() {
             <div style={{ fontWeight: 700, fontSize: 14 }}>{tt("Yarıştığın şehir")}</div>
             <div className="alt-yazi">
               {profile.ulke
-                ? `${bayrak(profile.ulke)} ${profile.sehir ?? "—"}`
+                ? <><Bayrak kod={profile.ulke} /> {profile.sehir ?? "—"}</>
                 : tt("Henüz seçmedin — şehir ve ülke liglerine giremezsin.")}
             </div>
             {konumKilidiKalan(profile.konum_degisti_at) > 0 && (

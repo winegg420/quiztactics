@@ -7,7 +7,7 @@ import Ikon from "./Ikon.jsx";
 import DurumKutusu from "./DurumKutusu.jsx";
 import { y } from "../lib/yol.js";
 import { tt, ttSunucu } from "../lib/dil.js";
-import { useDmOkunmamis } from "../lib/mesajlar.js";
+import { useDmOkunmamis, dmTazele } from "../lib/mesajlar.js";
 
 const TIP_IKON = {
   mac_daveti: "kilic",
@@ -245,13 +245,57 @@ export default function BildirimZili() {
     setAcik(yeniDurum);
     if (yeniDurum && okunmamis > 0) {
       try {
-        await supabase.rpc("bildirimleri_oku");
+        // supabase-js hatada reject ETMEZ; {error} dönen değerden okunur.
+        const { error } = await supabase.rpc("bildirimleri_oku");
+        if (error) throw error;
         setOkunmamis(0);
         setListe((l) => l.map((b) => ({ ...b, okundu: true })));
       } catch (e) { console.warn("[Bildim] bildirimleri_oku başarısız:", e?.message ?? e);
         /* sessiz geç */
       }
     }
+  };
+
+  // "Tümünü okundu say": bildirimler (bildirimleri_oku) + okunmamış direkt
+  // mesajlar (her sohbet için dm_okundu — sohbeti açınca çağrılan aynı RPC).
+  // Zili açmak bildirimleri zaten okur; DM'ler yalnız burada ya da sohbette okunur.
+  const [tumuIsleniyor, setTumuIsleniyor] = useState(false);
+  const [tumuHata, setTumuHata] = useState(false);
+  const tumunuOku = async () => {
+    if (tumuIsleniyor) return;
+    setTumuIsleniyor(true);
+    setTumuHata(false);
+    let hataVar = false;
+    if (okunmamis > 0) {
+      try {
+        const { error } = await supabase.rpc("bildirimleri_oku");
+        if (error) throw error;
+        setOkunmamis(0);
+        setListe((l) => l.map((b) => ({ ...b, okundu: true })));
+      } catch (e) {
+        hataVar = true;
+        console.warn("[Bildim] bildirimleri_oku başarısız:", e?.message ?? e);
+      }
+    }
+    if (dmOkunmamis > 0) {
+      try {
+        const { data, error } = await supabase.rpc("dm_sohbetlerim");
+        if (error) throw error;
+        const kisiler = (data ?? []).filter((s) => Number(s.okunmamis) > 0).map((s) => s.kisi_id);
+        const sonuclar = await Promise.all(
+          kisiler.map((k) => supabase.rpc("dm_okundu", { p_kisi: k }))
+        );
+        const ilkHata = sonuclar.find((r) => r?.error)?.error;
+        if (ilkHata) throw ilkHata;
+      } catch (e) {
+        hataVar = true;
+        console.warn("[Bildim] mesajlar okundu işaretlenemedi:", e?.message ?? e);
+      } finally {
+        dmTazele();   // rozet sunucudaki gerçek sayıyı yeniden okusun
+      }
+    }
+    setTumuHata(hataVar);
+    setTumuIsleniyor(false);
   };
 
   const panel = (
@@ -266,10 +310,29 @@ export default function BildirimZili() {
         {/* Paket 42 P.3: panelin kendi kapatma düğmesi (eskiden yalnız dışarı dokununca kapanıyordu) */}
         <div className="bd-zil-baslik">
           <span>{tt("Bildirimler")}</span>
+          <button
+            type="button"
+            className="bd-zil-tumu"
+            onClick={tumunuOku}
+            disabled={tumuIsleniyor || toplam === 0}
+            style={{
+              marginLeft: "auto", minHeight: 44, padding: "0 10px", border: 0, borderRadius: 12,
+              background: "transparent", color: toplam === 0 ? "var(--bd-metin-2)" : "var(--bd-vurgu, currentColor)",
+              font: "inherit", fontSize: 13, fontWeight: 800, cursor: toplam === 0 ? "default" : "pointer",
+              opacity: toplam === 0 ? 0.6 : 1, whiteSpace: "nowrap",
+            }}
+          >
+            {tumuIsleniyor ? tt("İşaretleniyor…") : tt("Tümünü okundu say")}
+          </button>
           <button type="button" className="bd-zil-kapat" onClick={() => setAcik(false)} aria-label={tt("Kapat")}>
             <Ikon ad="carpi" boyut={18} />
           </button>
         </div>
+        {tumuHata && (
+          <div className="hata-kutu" role="alert" style={{ margin: "4px 0 8px", fontSize: 13 }}>
+            {tt("Okundu işaretlenemedi. Tekrar dene.")}
+          </div>
+        )}
         {dmOkunmamis > 0 && (
           <button
             className="bd-zil-satir"

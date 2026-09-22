@@ -12,7 +12,8 @@ import RankBadge from "../components/RankBadge.jsx";
 import SayanSayi from "../components/SayanSayi.jsx";
 import KonumSecici from "../components/KonumSecici.jsx";
 import Maskot from "../components/Maskot.jsx";
-import { bayrak, haftaBitisi, sureMetni } from "../lib/konum.js";
+import { haftaBitisi, sureMetni } from "../lib/konum.js";
+import Bayrak from "../components/Bayrak.jsx";
 import OyuncuKarti from "../components/OyuncuKarti.jsx";
 import { useArkadaslik } from "../lib/arkadaslik.js";
 import AvatarCerceve from "../components/AvatarCerceve.jsx";
@@ -247,7 +248,7 @@ export default function LeaderboardPage() {
           <RankBadge puan={s.puan} />
           {s.ulke && (
             <span className="bd-konum-etiket">
-              {bayrak(s.ulke)} {s.sehir ?? ""}
+              <Bayrak kod={s.ulke} /> {s.sehir ?? ""}
             </span>
           )}
         </div>
@@ -378,7 +379,7 @@ export default function LeaderboardPage() {
 
       {kapsam === "sehir" && sehirSirasi && (
         <div className="bd-sehir-serit">
-          {bayrak(sehirSirasi.ulke)} <b>{sehirSirasi.sehir}</b>{" "}
+          <Bayrak kod={sehirSirasi.ulke} /> <b>{sehirSirasi.sehir}</b>{" "}
           {/* Oyuncu sayısı BİLEREK yazılmıyor: oyunun kalabalığı hiçbir
               ekranda açık edilmiyor (bkz. kademeli lig kuralları). */}
           {tt(donem === "hafta"

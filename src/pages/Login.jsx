@@ -67,17 +67,28 @@ export default function Login() {
    * `signInWithOAuth` sağlayıcıyı doğrulamadan gittiği için oyuncu ham
    * JSON hata sayfasında kalıyordu. Bunun yerine Türkçe açıklama.
    */
-  const facebookGiris = () => {
-    if (acikListe && !acikListe.facebook) {
-      setHataYeri("sosyal");
-      setHata(ceviri("Facebook girişi henüz açılmadı. Google veya e-posta ile devam edebilirsin."));
+  // Bilgi notu (hata değil): kapalı Facebook düğmesine basınca kısa, kibar açıklama.
+  const [fbBilgi, setFbBilgi] = useState(false);
+  const facebookGiris = async () => {
+    setHata(null);
+    // Liste henüz gelmediyse (ya da okunamadıysa) şimdi sor; hâlâ bilinmiyorsa
+    // yönlendirme YAPILMAZ — kapalı sağlayıcı ham JSON sayfasına düşürür.
+    let liste = acikListe;
+    if (!liste) {
+      liste = await acikSaglayicilariOku();
+      if (liste) setAcikListe(liste);
+    }
+    if (!liste?.facebook) {
+      setFbBilgi(true);
       return;
     }
+    setFbBilgi(false);
     sosyalGiris("facebook");
   };
 
   const sosyalGiris = async (provider) => {
     setHata(null);
+    if (provider !== "facebook") setFbBilgi(false);
     setBekleyen(provider);
     // Supabase izin listesi redirectTo'yu reddederse Site URL'ine düşer;
     // hedefi burada saklarız ki derin bağlantı kaybolmasın.
@@ -239,6 +250,12 @@ export default function Login() {
       </button>
       )}
 
+      {fbBilgi && !hata && (
+        <div className="bd-bilgi-kutu giris-hata" role="status"
+          style={{ color: "var(--bd-metin, #20324A)", background: "var(--bd-yuzey-2, #fff)", border: "1px solid var(--bd-kenar, #D6E6F2)" }}>
+          {ceviri("Facebook ile giriş yakında. Şimdilik Google, e-posta ya da misafir girişiyle devam edebilirsin.")}
+        </div>
+      )}
       {hata && hataYeri === "sosyal" && <div className="hata-kutu giris-hata" role="alert">{hata}</div>}
 
       <div className="ayrac">{ceviri("veya")}</div>

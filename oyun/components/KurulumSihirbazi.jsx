@@ -4,7 +4,7 @@ import { hataMesaji } from "../lib/hata.js";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import Avatar from "../../src/components/Avatar.jsx";
-import { bayrak } from "../lib/konum.js";
+import Bayrak from "./Bayrak.jsx";
 import { useDil } from "../lib/dilKanca.js";
 import { tt } from "../lib/dil.js";
 
@@ -287,7 +287,7 @@ export default function KurulumSihirbazi({ onTamam }) {
             </div>
 
             <label className="bd-alan">
-              <span>{ceviri("Ülke")}</span>
+              <span>{ceviri("Ülke")} {ulke && <Bayrak kod={ulke} />}</span>
               <select
                 value={ulke}
                 onChange={(e) => {
@@ -297,7 +297,7 @@ export default function KurulumSihirbazi({ onTamam }) {
               >
                 {ulkeler.map((u) => (
                   <option key={u.kod} value={u.kod}>
-                    {bayrak(u.kod)} {u.ad}
+                    {u.ad}
                   </option>
                 ))}
               </select>

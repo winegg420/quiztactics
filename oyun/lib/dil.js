@@ -121,6 +121,8 @@ const SOZLUK = {
     "Giriş yapılamadı. Tekrar dene.": "Sign-in failed. Please try again.",
     "Facebook girişi henüz açılmadı. Google veya e-posta ile devam edebilirsin.":
       "Facebook sign-in is not open yet. You can continue with Google or email.",
+    "Facebook ile giriş yakında. Şimdilik Google, e-posta ya da misafir girişiyle devam edebilirsin.":
+      "Facebook sign-in is coming soon. For now, you can continue with Google, email or as a guest.",
     "Giriş bağlantısı {eposta} adresine gönderildi. E-postanı kontrol et.":
       "A sign-in link was sent to {eposta}. Please check your email.",
     "Misafir hesabı bu cihaza bağlıdır. Puanların kaybolmasın diye daha sonra {liste} veya e-posta hesabını bağlayabilirsin.":
@@ -750,6 +752,9 @@ const SOZLUK = {
     "{0} gün önce": "{0} d ago",
     "Bildirimler": "Notifications",
     "Henüz bildirim yok.": "No notifications yet.",
+    "Tümünü okundu say": "Mark all as read",
+    "İşaretleniyor…": "Marking…",
+    "Okundu işaretlenemedi. Tekrar dene.": "Couldn't mark as read. Try again.",
     "Maç davetleri, lig hareketleri ve arkadaşlık istekleri burada görünür.": "Match invites, league changes and friend requests show up here.",
     ", {0} okunmamış": ", {0} unread",
     "ÜST ÜSTE!": "IN A ROW!",
@@ -1665,6 +1670,9 @@ const SOZLUK = {
     "kendi zamanında oynayınca maç sonuçlanacak — bittiğinde sana haber vereceğiz.": "will play in their own time, then the match will be decided — we'll let you know when it's over.",
     "Yeni maça başla": "Start a new match",
     "Maçtan çık": "Leave match",
+    "Maçtan çıkmak istiyor musun?": "Do you want to leave the match?",
+    "Çıkarsan maç diğer oyuncular için duraklar. 45 saniye içinde dönmezsen maçtan ayrılmış sayılırsın: kazanan belirlenirken hesaba katılmazsın ve maç kalanlarla devam eder.":
+      "If you leave, the match pauses for the other players. If you don't come back within 45 seconds, you'll count as having left: you won't be considered for the win and the match continues with the rest.",
     "senden önde. Bu maç sıra beklemeden oynanır — sen kendi hızında devam et, rakibin de kendi zamanında oynar.": "is ahead of you. This match has no turns to wait for — carry on at your own pace, and your opponent plays in their own time.",
     "Bugün bu rakiple {0}. maçın — bu bir dostluk maçı, puan ve coin vermez.": "This is match #{0} with this opponent today — it's a friendly, with no points or coins.",
     "Bugün bu rakiple {0}. maçın — ödül yarıya düşecek.": "This is match #{0} with this opponent today — rewards will be halved.",

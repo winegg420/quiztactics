@@ -3,7 +3,8 @@ import Modal from "./Modal.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
-import { bayrak, konumKilidiKalan, sureMetni } from "../lib/konum.js";
+import { konumKilidiKalan, sureMetni } from "../lib/konum.js";
+import Bayrak from "./Bayrak.jsx";
 import { tt } from "../lib/dil.js";
 
 /**
@@ -106,7 +107,7 @@ export default function KonumSecici({ mod = "kart", onKapat, onKaydedildi }) {
       </div>
 
       <label className="bd-alan">
-        <span>{tt("Ülke")}</span>
+        <span>{tt("Ülke")} {ulke && <Bayrak kod={ulke} />}</span>
         <select
           value={ulke}
           disabled={kilitli}
@@ -117,7 +118,7 @@ export default function KonumSecici({ mod = "kart", onKapat, onKaydedildi }) {
         >
           {ulkeler.map((u) => (
             <option key={u.kod} value={u.kod}>
-              {bayrak(u.kod)} {u.ad}
+              {u.ad}
             </option>
           ))}
         </select>

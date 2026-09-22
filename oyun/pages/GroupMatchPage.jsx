@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Ikon from "../components/Ikon.jsx";
 import MacUstSerit from "../components/MacUstSerit.jsx";
+import Modal from "../components/Modal.jsx";
 import { TEPKILER, tepkiIkonu } from "../lib/tepkiler.js";
 import SenRozeti from "../components/SenRozeti.jsx";
 import YanlisSatiri from "../components/YanlisSatiri.jsx";
@@ -66,6 +67,8 @@ export default function GroupMatchPage() {
   const [jokerHata, setJokerHata] = useState(null);
   const [balonlar, setBalonlar] = useState({}); // { [user_id]: mesaj }
   const [kaliplarAcik, setKaliplarAcik] = useState(false);
+  // Maç içi çıkış (X) onay kapısı — çıkış mantığı aynı, yalnız önce sorulur.
+  const [cikisOnay, setCikisOnay] = useState(false);
   const advanceKilidi = useRef(false);
   // Süre doldu ama ilerletme henüz başarılı olmadı mı? Dönüşte hemen denenir.
   const bekleyenIlerletme = useRef(false);
@@ -593,7 +596,26 @@ export default function GroupMatchPage() {
       )}
 
       {/* Paket 41 B/E/H: Klasik ile aynı çıkış (X), mod rozeti ve ses */}
-      <MacUstSerit onCik={() => navigate(y("/meydan"))} rozet={tt("Grup Maçı · ödülsüz")} />
+      <MacUstSerit onCik={() => setCikisOnay(true)} rozet={tt("Grup Maçı · ödülsüz")} />
+      {/* Çıkış onayı. Sonuç sunucudan (grup_mac_nabiz): sayfadan çıkan oyuncunun nabzı
+          12 sn kesilince maç herkes için duraklar; 45 sn içinde dönmezse terk_at yazılır,
+          kazanan hesabına girmez ve maç kalanlarla sürer. Vazgeç'te hiçbir şey değişmez. */}
+      {cikisOnay && (
+        <Modal onKapat={() => setCikisOnay(false)} etiket={tt("Maçtan çık")}>
+          <div className="bd-modal">
+            <h2 className="bd-modal-baslik">{tt("Maçtan çıkmak istiyor musun?")}</h2>
+            <p className="alt-yazi">
+              {tt("Çıkarsan maç diğer oyuncular için duraklar. 45 saniye içinde dönmezsen maçtan ayrılmış sayılırsın: kazanan belirlenirken hesaba katılmazsın ve maç kalanlarla devam eder.")}
+            </p>
+            <div className="bd-joker-sat-dugmeler">
+              <button type="button" className="btn ikincil" autoFocus onClick={() => setCikisOnay(false)}>{tt("Vazgeç")}</button>
+              <button type="button" className="btn tehlike" onClick={() => { setCikisOnay(false); navigate(y("/meydan")); }}>
+                {tt("Maçtan çık")}
+              </button>
+            </div>
+          </div>
+        </Modal>
+      )}
 
       <div className="grup-skor-listesi">
         <div className="alt-yazi" style={{ textAlign: "center", marginBottom: 8 }}>

@@ -17,7 +17,7 @@ import DurumKutusu from "./DurumKutusu.jsx";
 import Ikon from "./Ikon.jsx";
 import RankBadge from "./RankBadge.jsx";
 import { hataMesaji } from "../lib/hata.js";
-import { bayrak } from "../lib/konum.js";
+import Bayrak from "./Bayrak.jsx";
 import KategoriProfili from "./KategoriProfili.jsx";
 import { tt } from "../lib/dil.js";
 
@@ -118,7 +118,7 @@ export default function OyuncuKarti({
           </div>
           {p && <RankBadge puan={p.puan ?? 0} />}
           {p?.ulke && (
-            <div className="bd-oyuncu-konum">{bayrak(p.ulke)} {p.sehir ?? ""}</div>
+            <div className="bd-oyuncu-konum"><Bayrak kod={p.ulke} /> {p.sehir ?? ""}</div>
           )}
         </div>
 
