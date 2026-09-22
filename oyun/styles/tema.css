@@ -2156,7 +2156,11 @@ body::before { will-change: opacity; }
   font-weight: 800;
   line-height: 1;
   /* Beyaz %14 açık zeminde görünmüyordu. Vurgu turuncusu %45: soru metnini örtmeyen bir filigran,
-     açık zeminde de koyu zeminde de seçiliyor (aria-hidden; asıl süre bilgisi halkada). */
+     açık zeminde de koyu zeminde de seçiliyor (aria-hidden; asıl süre bilgisi halkada).
+     KONTRAST BİLİNÇLİ DÜŞÜK (22 Eyl 2026 kararı): ölçülen 1,57–1,62:1. Bu yazı DEKORATİF
+     filigrandır (WCAG 1.4.3 "salt süsleme" istisnası): tek kaynağı QuestionCard.jsx'te
+     aria-hidden="true", aynı sayı .bd-sure-sayi.kritik'te okunur biçimde duruyor.
+     3:1'e çıkarmak (≈%80 opak) soru metninin üstüne binip onu okunmaz yapar — yapma. */
   color: rgba(244, 112, 31, 0.45);
   text-shadow: 0 0 40px rgba(255, 90, 95, 0.55);
   animation: bd-sayim-vur 1s cubic-bezier(0.2, 0.9, 0.3, 1) both;
@@ -5423,7 +5427,7 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
    özgüllükte olduğu için yalnız EN SONDAKİ (Paket 43 B'nin 44×44 soluk
    kılıcı) uygulanıyordu; buradaki 32 px yuvarlak tanım ölü koddu ve
    dosyayı okuyanı yanıltıyordu. Yürürlükteki tek tanım: aşağıda
-   "LOBİ KILICI — tek tanım" başlığı (~8387). */
+   "PAKET 43 B — turnuva lobisi satırı" bloğu (.app .bd-lobi-oyuncu .bd-lobi-kilic). */
 
 /* ============================================================
    NADİRLİK ÇERÇEVESİ — giyilen en değerli eşyanın rengi
@@ -5794,14 +5798,10 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
   text-align: left;
   font-weight: 800;
 }
-.app .bd-lobi-kilic {
-  flex: none;
-  width: 34px; height: 34px;
-  display: grid; place-items: center;
-  border-radius: var(--bd-r-s);
-  background: rgba(244, 112, 31, 0.12);
-  color: var(--bd-vurgu-2);
-}
+/* .bd-lobi-kilic BURADA da tanımlıydı (34×34, turuncu zemin) — KALDIRILDI (22 Eyl 2026).
+   Boyut/renk/zemin zaten "PAKET 43 B" bloğundaki daha özgül seçiciyle
+   (.app .bd-lobi-oyuncu .bd-lobi-kilic) eziliyordu; buradan yalnız
+   flex:none + display:grid + place-items:center etkiliydi, onlar tek tanıma taşındı. */
 
 /* ============================================================
    2. TİPOGRAFİ DİSİPLİNİ
@@ -5916,16 +5916,16 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 .app .bd-ses-dugme,
 .app .bd-zil,
 .app .bd-harita-yuvarlak,
-.app .sohbet-bar button,
-.app .bd-lobi-kilic {
+.app .sohbet-bar button {
   position: relative;
 }
+/* .bd-lobi-kilic bu iki listeden çıkarıldı (22 Eyl 2026): kılıç artık gerçekten
+   44×44 ve ::after'ı PAKET 43 B bloğunda zaten kapatılıyordu. */
 .app .bd-ust-dugme::after,
 .app .bd-tema-dugme::after,
 .app .bd-ses-dugme::after,
 .app .bd-zil::after,
-.app .sohbet-bar button::after,
-.app .bd-lobi-kilic::after {
+.app .sohbet-bar button::after {
   content: "";
   position: absolute;
   left: 50%; top: 50%;
@@ -8436,12 +8436,16 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 }
 .app .bd-lobi-oyuncu-ac > .bd-lobi-ad { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .app .bd-lobi-oyuncu-ac:focus-visible { outline: 3px solid var(--bd-vurgu); outline-offset: 2px; }
+/* .bd-lobi-kilic'in TEK tanımı (22 Eyl 2026 tekilleştirme). Eskiden üç yerde
+   yazılıydı (~5420, ~5797, ~5920 dokunma listesi); bu daha özgül seçici hepsini
+   eziyordu. Hesaplanan stil tekilleştirmeden önce/sonra birebir aynı ölçüldü. */
 .app .bd-lobi-oyuncu .bd-lobi-kilic {
+  flex: none; position: relative;
+  display: grid; place-items: center;
   width: 44px; height: 44px; padding: 0; cursor: pointer;
   background: transparent; color: var(--bd-metin-3);
   border: 1px solid var(--bd-kenar); border-radius: var(--bd-r-s); box-shadow: none;
 }
-.app .bd-lobi-oyuncu .bd-lobi-kilic::after { content: none; }
 .app .bd-lobi-oyuncu:hover .bd-lobi-kilic { color: var(--bd-metin-3); }
 .app .bd-lobi-oyuncu .bd-lobi-kilic:hover,
 .app .bd-lobi-oyuncu .bd-lobi-kilic:focus-visible { color: #C4530F; border-color: var(--bd-vurgu); }
