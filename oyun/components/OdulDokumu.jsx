@@ -30,6 +30,9 @@ function kalemAdi(k) {
     case "turnuva_derece": return tt("Turnuva: {sira}. sıra", { sira: d.sira ?? "?" });
     case "turnuva_katilim": return tt("Turnuvaya katılım");
     case "turnuva_giysi_tekrar": return tt("Turnuva giysisi zaten sende");
+    // P2A: level atlama ödülleri (coin_ekle 'seviye' — günlük tavan dışı)
+    case "seviye": return tt("Level ödülü");
+    case "rutbe": return tt("Rütbe ödülü");
     default: return k.kalem;
   }
 }

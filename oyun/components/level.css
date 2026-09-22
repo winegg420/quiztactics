@@ -1,0 +1,59 @@
+/* P2A — Level / XP göstergeleri (işlevsel minimum). Maç sonu (LevelKazanci), profil ve ana
+   sayfa (LevelCubugu). Çubuk görseli tema.css › .bd-sonuc-rutbe-bar sınıflarını yeniden kullanır.
+   iOS: bu bloklarda position:fixed yok; animasyon yalnız opacity/transform ve fixed ata değil. */
+
+.app .mss > .bd-level-kazanc {
+  width: 100%;
+  max-width: 340px;
+  margin: 10px auto 0;
+  animation: mss-yuksel 240ms ease-out 1050ms both;
+}
+.app .bd-level-kazanc,
+.app .bd-level-cubuk {
+  display: grid;
+  gap: 6px;
+  text-align: left;
+}
+.app .bd-level-ust {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 10px;
+  font-size: 14px;
+}
+.app .bd-level-ad {
+  font-weight: 800;
+  color: var(--rutbe-metin, var(--bd-metin));
+}
+.app .bd-level-xp {
+  font-family: var(--bd-f-baslik);
+  font-weight: 800;
+  font-size: 18px;
+  font-variant-numeric: tabular-nums;
+  color: var(--bd-metin);
+}
+.app .bd-level-kalan {
+  font-size: 13px;
+  color: var(--bd-metin-2);
+}
+.app .bd-level-not {
+  font-size: 13px;
+  color: var(--bd-metin-2);
+}
+/* Level atlama bildirimi: tek kısa satır, süsleme yok. */
+.app .bd-level-atlama {
+  display: grid;
+  gap: 2px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--rutbe, var(--bd-vurgu));
+  background: color-mix(in srgb, var(--rutbe, var(--bd-vurgu)) 12%, transparent);
+  color: var(--bd-metin);
+  font-size: 14px;
+}
+.app .bd-level-atlama b { font-weight: 800; }
+/* Açık zemin (profil, ana sayfa) çubuğu: tema.css'teki koyu zemin izi burada okunmuyor */
+.app .bd-level-cubuk .bd-sonuc-rutbe-bar { background: var(--line, #dbe4f3); }
+/* Profil üst bloğu ortalı sütun: çubuk sınırlı genişlikte ve ortada */
+.app .bd-profil-level { width: 100%; max-width: 320px; margin: 12px auto 0; }

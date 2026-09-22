@@ -445,6 +445,7 @@ export default function TournamentPage() {
             { ikon: "yildiz", deger: toplam.lig ?? 0, etiket: tt("lig puanı") },
             { ikon: "coin", deger: toplam.coin ?? 0, etiket: tt("coin") },
           ]}
+          levelKaynak={`turnuva:${turnuva.id}`}
           karsilasma={
             <div className="mss-sampiyon">
               {kazanan && (

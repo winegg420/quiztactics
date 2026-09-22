@@ -11,6 +11,7 @@ import Avatar from "../../src/components/Avatar.jsx";
 import AvatarCerceve from "../components/AvatarCerceve.jsx";
 import LigCerceveSecici from "../components/LigCerceveSecici.jsx";
 import RankBadge from "../components/RankBadge.jsx";
+import LevelCubugu from "../components/LevelCubugu.jsx";
 import SayanSayi from "../components/SayanSayi.jsx";
 import KonumSecici from "../components/KonumSecici.jsx";
 import ProfilAyarlari from "../components/ProfilAyarlari.jsx";
@@ -111,11 +112,10 @@ export default function ProfilePage() {
     );
   }
 
-  const r = rutbeBul(profile.puan);
-  const sonraki = sonrakiRutbe(profile.puan);
-  const ilerleme = sonraki
-    ? Math.min(100, ((profile.puan - r.min) / (sonraki.min - r.min)) * 100)
-    : 100;
+  // P2A: rütbe LEVEL'e bağlı (lig puanı ayrı: "Puan" plakası ve Lig sayfası).
+  const level = Number(profile.level) || 1;
+  const r = rutbeBul(level);
+  const sonraki = sonrakiRutbe(level);
 
 
   return (
@@ -134,7 +134,11 @@ export default function ProfilePage() {
         {misafirMi(user) && <span className="bd-misafir-etiket">{tt("Misafir")}</span>}
 
         <div style={{ marginTop: 12 }}>
-          <RankBadge puan={profile.puan} />
+          <RankBadge level={level} />
+        </div>
+        {/* P2A: level + bir sonraki level'e XP çubuğu */}
+        <div className="bd-profil-level">
+          <LevelCubugu profile={profile} />
         </div>
       </div>
 
@@ -225,14 +229,14 @@ export default function ProfilePage() {
               {tt("Sonraki rütbe:")} <Ikon ad={sonraki.ikon} boyut={15} /> {sonraki.ad}
             </span>
             <span className="alt-yazi">
-              {profile.puan}/{sonraki.min}
+              {tt("Level {n}", { n: level })}/{sonraki.min}
             </span>
           </div>
           <div className="soru-sayac">
             <div
               className="dolgu"
               style={{
-                width: `${ilerleme}%`,
+                width: `${Math.min(100, ((level - r.min) / Math.max(1, sonraki.min - r.min)) * 100)}%`,
                 background: `linear-gradient(90deg, ${r.renk}, ${sonraki.renk})`,
               }}
             />

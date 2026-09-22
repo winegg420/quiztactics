@@ -8,7 +8,7 @@ import Avatar from "../../src/components/Avatar.jsx";
 import AvatarCerceve from "../components/AvatarCerceve.jsx";
 import { TurnuvaSaatEtiketi, BugunKalanTurnuvalar } from "../components/TurnuvaSaatleri.jsx";
 import { siradakiLobi } from "../lib/zaman.js";
-import { rutbeBul, sonrakiRutbe } from "../lib/ranks.js";
+import { rutbeBul } from "../lib/ranks.js";
 import { haftaBitisi, sureMetni } from "../lib/konum.js";
 import RakipAra from "../components/RakipAra.jsx";
 import YarimMacPenceresi from "../components/YarimMac.jsx";
@@ -194,7 +194,7 @@ export default function Home() {
   // Arayüz Yenileme (20 Eyl 2026): yeni tasarımda ana sayfanın sağ sütununda
   // LİG KARTI var, dolayısıyla veri yine gerekiyor. Kaynak Lig sayfasıyla
   // AYNI: `lig_grubum` (migration 151). Rütbe ile karıştırılmaz — rütbe
-  // puandan hesaplanır (ranks.js), lig sunucudaki `lig` kolonudur.
+  // level'den hesaplanır (ranks.js, P2A), lig sunucudaki `lig` kolonudur.
   const ligYukle = useCallback(async () => {
     try {
       const { data, error } = await supabase.rpc("lig_grubum");
@@ -397,12 +397,12 @@ export default function Home() {
     );
   }
 
-  const puan = profile?.puan ?? 0;
-  const rutbe = rutbeBul(puan);
-  const sonraki = sonrakiRutbe(puan);
-  const ilerleme = sonraki
-    ? Math.min(100, Math.round(((puan - rutbe.min) / (sonraki.min - rutbe.min)) * 100))
-    : 100;
+  // P2A: hero paneli LEVEL gösterir (rütbe level'e bağlı; lig puanı lig kartında).
+  const level = Number(profile?.level) || 1;
+  const levelXp = Math.max(0, Number(profile?.level_xp) || 0);
+  const levelGereken = Number(profile?.level_gereken) || 0;
+  const rutbe = rutbeBul(level);
+  const ilerleme = levelGereken > 0 ? Math.min(100, Math.round((levelXp / levelGereken) * 100)) : 0;
 
   return (
     <div className="bd-anasayfa">
@@ -479,8 +479,8 @@ export default function Home() {
       )}
 
       {/* ---------- OYUNCU ŞERİDİ ----------
-          Rütbe ve lig AYRI iki sistemdir: burada RÜTBE var (puandan
-          hesaplanır, ranks.js). Lig sağ sütundaki lig kartında. */}
+          Rütbe ve lig AYRI iki sistemdir: burada RÜTBE + LEVEL var (P2A: rütbe
+          level'den, ranks.js). Lig sağ sütundaki lig kartında. */}
       <section className="player-strip">
         <div className="player-main">
           <span className="player-avatar">
@@ -490,18 +490,18 @@ export default function Home() {
             <span className="eyebrow">{tt("HOŞ GELDİN")}</span>
             <h1>{profile?.gorunen_ad ?? tt("Oyuncu")}</h1>
             <span className="rank">
-              <RankBadge puan={puan} sadeceRozet boyut={15} /> {rutbe.ad}
+              <RankBadge level={level} sadeceRozet boyut={15} /> {rutbe.ad} · {tt("Level {n}", { n: level })}
             </span>
           </div>
         </div>
         <div className="player-stats">
-          <div><b>{puan}</b><span>{tt("Puan")}</span></div>
+          <div><b>{level}</b><span>{tt("Level")}</span></div>
           <SeriRozeti bicim="serit" />
           <div className="next-rank">
             <span>
-              {sonraki
-                ? tt("{0} rütbesine {1} puan", { 0: sonraki.ad, 1: sonraki.min - puan })
-                : tt("En yüksek rütbedesin")}
+              {levelGereken > 0
+                ? tt("Level {n} için {xp} XP", { n: level + 1, xp: Math.max(0, levelGereken - levelXp) })
+                : tt("Level {n}", { n: level })}
             </span>
             <i><em style={{ width: `${ilerleme}%` }} /></i>
           </div>

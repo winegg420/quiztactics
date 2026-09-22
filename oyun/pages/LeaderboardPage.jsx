@@ -245,7 +245,7 @@ export default function LeaderboardPage() {
           {s.user_id === user.id && <SenRozeti />}
         </div>
         <div className="bd-lig-detay">
-          <RankBadge puan={s.puan} />
+          <RankBadge level={s.level} userId={s.user_id} />
           {s.ulke && (
             <span className="bd-konum-etiket">
               <Bayrak kod={s.ulke} /> {s.sehir ?? ""}

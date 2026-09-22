@@ -1,22 +1,21 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
-import { rutbeBul, sonrakiRutbe } from "../lib/ranks.js";
-import { hareketAzalt } from "../lib/geriBildirim.js";
 import { tt } from "../lib/dil.js";
 
 /**
  * Maç sonu ekranındaki döküm bloğu:
  *  - tur tur doğru/yanlış noktaları
- *  - rütbe ilerleme çubuğu ve bu maçla gelen artış
+ *  - (P2A) rütbe/level ilerlemesi artık LevelKazanci'de (MacSonuSahnesi)
  *
  * NOT: match_answers RLS'i yalnız KENDİ cevaplarını gösteriyor (bkz.
  * match_answers_select_own), bu yüzden döküm oyuncunun kendi turlarıdır.
  * Rakibin tur dökümü için ayrı bir RPC gerekirdi; bu görev arayüz işi
  * olduğu için sunucu tarafına dokunulmadı.
  */
+// kazanilanPuan: KULLANIM DIŞI (P2A) — çağıran yer bozulmasın diye imzada kaldı.
+// eslint-disable-next-line no-unused-vars
 export default function MacSonuDokum({ macId, kazanilanPuan = 0 }) {
   const [turlar, setTurlar] = useState(null);
-  const [puan, setPuan] = useState(null);
 
   useEffect(() => {
     let aktif = true;
@@ -31,18 +30,6 @@ export default function MacSonuDokum({ macId, kazanilanPuan = 0 }) {
       } catch {
         /* migration/RLS engeli — blok sessizce gizlenir */
       }
-      try {
-        const { data, error } = await supabase.auth.getUser();
-        if (error || !data?.user) return;
-        const p = await supabase
-          .from("profiles")
-          .select("puan")
-          .eq("id", data.user.id)
-          .maybeSingle();
-        if (!p.error && aktif) setPuan(p.data?.puan ?? null);
-      } catch (e) { console.warn("[Bildim] supabase.auth.getUser başarısız:", e?.message ?? e);
-        /* sessiz geç */
-      }
     })();
     return () => {
       aktif = false;
@@ -53,46 +40,8 @@ export default function MacSonuDokum({ macId, kazanilanPuan = 0 }) {
 
   const dogruSayisi = turlar.filter((t) => t.dogru).length;
 
-  // Rütbe ilerlemesi: çubuk maç ÖNCESİ değerden başlar, sonra bu maçın
-  // kazancı kadar dolar — artış gözle görülsün.
-  let ilerlemeBlok = null;
-  if (puan != null) {
-    const oncesi = Math.max(0, puan - kazanilanPuan);
-    const rutbe = rutbeBul(puan);
-    const sonraki = sonrakiRutbe(puan);
-    const yuzde = (p) => {
-      if (!sonraki) return 100;
-      const aralik = sonraki.min - rutbe.min;
-      if (aralik <= 0) return 100;
-      return Math.max(0, Math.min(100, ((p - rutbe.min) / aralik) * 100));
-    };
-    ilerlemeBlok = (
-      <div className="bd-sonuc-rutbe" style={{ "--rutbe": rutbe.renk }}>
-        <div className="bd-sonuc-rutbe-ust">
-          <span className="bd-sonuc-rutbe-ad">{rutbe.ad}</span>
-          {sonraki ? (
-            <span className="bd-sonuc-rutbe-kalan">
-              {sonraki.ad} {tt("rütbesine")} {Math.max(0, sonraki.min - puan)} {tt("puan")}
-            </span>
-          ) : (
-            <span className="bd-sonuc-rutbe-kalan">{tt("En yüksek rütbe")}</span>
-          )}
-        </div>
-        <div className="bd-sonuc-rutbe-bar">
-          {/* Önceki seviye sabit; üstündeki katman animasyonla yeni değere gider */}
-          <div className="eski" style={{ width: `${yuzde(oncesi)}%` }} />
-          <div
-            className={`dolgu ${hareketAzalt() ? "" : "artiyor"}`}
-            style={{
-              "--baslangic": `${yuzde(oncesi)}%`,
-              "--bitis": `${yuzde(puan)}%`,
-              width: `${yuzde(puan)}%`,
-            }}
-          />
-        </div>
-      </div>
-    );
-  }
+  // P2A: buradaki lig-puanı rütbe çubuğu kalktı — rütbe artık LEVEL'e bağlı ve level/XP
+  // ilerlemesi bütün modlarda MacSonuSahnesi › LevelKazanci'de gösteriliyor (çift çubuk olmasın).
 
   return (
     <div className="bd-sonuc-dokum">
@@ -121,7 +70,6 @@ export default function MacSonuDokum({ macId, kazanilanPuan = 0 }) {
         <span><i className="yanlis" />{tt("Yanlış")}</span>
         <span><i className="sure" />{tt("Süre doldu")}</span>
       </div>
-      {ilerlemeBlok}
     </div>
   );
 }

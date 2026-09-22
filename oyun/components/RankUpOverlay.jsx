@@ -7,32 +7,39 @@ import { tt } from "../lib/dil.js";
 
 /**
  * Rütbe atlanınca tam ekran kutlama gösterir.
- * Son görülen rütbe localStorage'da tutulur; puan yeni rütbeye
- * geçtiyse 3,5 saniyelik bir animasyon oynar.
+ * P2A: rütbe LEVEL'e bağlı (profiles.level). Son görülen rütbe localStorage'da rütbe
+ * id'siyle tutulur (dilden bağımsız); level yeni rütbeye geçtiyse 3,5 sn'lik animasyon oynar.
+ * Anahtar yeni (`bildim_rutbe_lvl_`): eski puan-rütbesi kaydı sahte kutlama tetiklemesin.
  */
 export default function RankUpOverlay() {
   const { user, profile } = useAuth();
   const [goster, setGoster] = useState(null); // rütbe objesi
 
   useEffect(() => {
-    if (!user || !profile) return;
-    const anahtar = `bildim_rutbe_${user.id}`;
-    const yeni = rutbeBul(profile.puan);
-    const eskiAd = localStorage.getItem(anahtar);
-    if (eskiAd && eskiAd !== yeni.ad) {
-      const eskiIdx = RUTBELER.findIndex((r) => r.ad === eskiAd);
-      const yeniIdx = RUTBELER.findIndex((r) => r.ad === yeni.ad);
-      // Dil değişince kayıtlı ad başka dilde kalır (eskiIdx -1): kutlama değil, yalnız güncelle.
+    if (!user || !profile || profile.level == null) return;
+    const anahtar = `bildim_rutbe_lvl_${user.id}`;
+    const yeni = rutbeBul(profile.level);
+    let eskiId = null;
+    try { eskiId = localStorage.getItem(anahtar); } catch { /* özel mod */ }
+    if (eskiId && eskiId !== yeni.id) {
+      const eskiIdx = RUTBELER.findIndex((r) => r.id === eskiId);
+      const yeniIdx = RUTBELER.findIndex((r) => r.id === yeni.id);
       if (eskiIdx >= 0 && yeniIdx > eskiIdx) {
         setGoster(yeni);
         try { sesRutbeAtladi(); } catch { /* ses kapalı olabilir */ }
-        const id = setTimeout(() => setGoster(null), 3500);
-        localStorage.setItem(anahtar, yeni.ad);
-        return () => clearTimeout(id);
       }
     }
-    localStorage.setItem(anahtar, yeni.ad);
-  }, [user, profile?.puan]);
+    try { localStorage.setItem(anahtar, yeni.id); } catch { /* özel mod */ }
+  }, [user, profile?.level]);
+
+  // Kapanma zamanlayıcısı YALNIZ kutlamaya bağlı. Eskiden [user, profile?.puan] efektinin
+  // temizleyicisindeydi: 3,5 sn içinde profil tazelenince zamanlayıcı iptal olur, kutlama
+  // ekranda asılı kalırdı.
+  useEffect(() => {
+    if (!goster) return undefined;
+    const id = setTimeout(() => setGoster(null), 3500);
+    return () => clearTimeout(id);
+  }, [goster]);
 
   if (!goster) return null;
 

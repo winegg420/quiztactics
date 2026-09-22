@@ -23,6 +23,7 @@ import AvatarDugmesi from "./AvatarDugmesi.jsx";
 import Ikon from "./Ikon.jsx";
 import SayanSayi from "./SayanSayi.jsx";
 import SenRozeti from "./SenRozeti.jsx";
+import LevelKazanci from "./LevelKazanci.jsx";
 import { coinTazele } from "../lib/coin.js";
 import { tt, ttSunucu } from "../lib/dil.js";
 
@@ -193,6 +194,7 @@ function CoinUcusu({ kaynak, hedef, onBitti }) {
  * @param {object} [rakip]             { profil, skor, can, ek }  — sağdaki taraf; yoksa tek avatar
  * @param {number} [canToplam]         düelloda 3; verilmezse kalp çizilmez
  * @param {Array}  [oduller]           [{ ikon:"coin", deger:50, etiket:"coin" }, …]
+ * @param {string} [levelKaynak]       P2A: "mac:<id>" · "duello:<id>" · "turnuva:<id>" — kazanılan XP / level atlama (LevelKazanci)
  * @param {Array}  [gorevler]          günlük görevler [{id, ad, ilerleme, hedef}] (OdulDokumu › onGorevler)
  * @param {ReactNode} [odulNotu]       ödül yoksa hap satırının yerine (ör. "Arkadaş maçı — ödül ve puan yok.")
  * @param {ReactNode} [karsilasma]     ben/rakip yerine serbest orta sahne (podyum, şampiyon, tek avatar)
@@ -210,6 +212,7 @@ export default function MacSonuSahnesi({
   rakip,
   canToplam,
   oduller,
+  levelKaynak,
   gorevler,
   odulNotu,
   karsilasma,
@@ -346,6 +349,9 @@ export default function MacSonuSahnesi({
       ) : odulNotu ? (
         <div className="mss-odul-notu mss-sira">{odulNotu}</div>
       ) : null}
+
+      {/* P2A: XP + level (Klasik, Düello v1/v2, turnuva — mod paritesi) */}
+      {levelKaynak && <LevelKazanci kaynak={levelKaynak} />}
 
       {gorevler?.length > 0 && (
         <GorevIlerlemesi gorevler={gorevler} atlandi={atlandi} baslangic={baslangic} />

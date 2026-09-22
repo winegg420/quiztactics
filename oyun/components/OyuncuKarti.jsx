@@ -116,7 +116,7 @@ export default function OyuncuKarti({
               <span className="bd-bot-rozet" title={tt("Yapay rakip")}><Ikon ad="robot" boyut={13} /></span>
             )}
           </div>
-          {p && <RankBadge puan={p.puan ?? 0} />}
+          {p && <RankBadge level={p.level} userId={p.id} />}
           {p?.ulke && (
             <div className="bd-oyuncu-konum"><Bayrak kod={p.ulke} /> {p.sehir ?? ""}</div>
           )}

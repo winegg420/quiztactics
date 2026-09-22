@@ -63,7 +63,7 @@ export default function KarsilasmaSahnesi({ rakip, bulundu, ezeli, baslik, bosEt
         <div className="bd-karsilasma-kart ben">
           <AvatarCerceve profile={profile ?? {}} boyut={72} userId={user?.id} />
           <div className="bd-karsilasma-ad">{profile?.gorunen_ad ?? tt("Sen")}</div>
-          <RankBadge puan={profile?.puan ?? 0} />
+          <RankBadge level={profile?.level ?? 1} />
           {unvan && <div className="bd-karsilasma-unvan">{unvan}</div>}
           {seri > 0 && <div className="bd-karsilasma-seri"><Ikon ad="ates" boyut={14} /> {tt("{0} gün seri", { 0: seri })}</div>}
         </div>
@@ -75,7 +75,8 @@ export default function KarsilasmaSahnesi({ rakip, bulundu, ezeli, baslik, bosEt
             <>
               <Avatar profile={rakip} boyut={72} />
               <div className="bd-karsilasma-ad">{rakip.gorunen_ad}</div>
-              {rakip.puan != null && <RankBadge puan={rakip.puan} />}
+              {/* P2A: rütbe level'den; rakibin verisinde level yoksa id ile okunur */}
+              {(rakip.level != null || rakip.id) && <RankBadge level={rakip.level} userId={rakip.id} />}
             </>
           ) : (
             <>

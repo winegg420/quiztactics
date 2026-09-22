@@ -719,6 +719,7 @@ function DuelloMac({ id }) {
           rakip={{ profil: rakip, can: rakip.can }}
           canToplam={DUELLO_CAN}
           oduller={oduller}
+          levelKaynak={d.durum === "bitti" ? `duello:${d.id}` : undefined}
           gorevler={gorevler}
           ozet={d.durum === "bitti" || ezeliMetin || (d.surum === 2 && d.gecmis?.length) ? (
             <>

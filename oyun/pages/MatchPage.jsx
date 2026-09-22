@@ -823,6 +823,7 @@ export default function MatchPage() {
           ben={{ profil: benimProfil, skor: benimSkor, ek: `${ilerleme.ben}/${toplamSoru}` }}
           rakip={{ profil: rakipProfil, skor: rakipSkor, ek: `${ilerleme.rakip}/${toplamSoru}` }}
           oduller={oduller}
+          levelKaynak={`mac:${id}`}
           gorevler={gorevler}
           detayRozet={yanlisAdet}
           ozet={
