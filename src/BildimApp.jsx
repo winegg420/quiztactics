@@ -24,6 +24,7 @@ import { MEYDAN_ACIK, GARDIROP_ACIK } from "../oyun/lib/ozellikBayraklari.js";
 
 import Layout from "../oyun/components/Layout.jsx";
 import AnaEkranaEkle from "../oyun/components/AnaEkranaEkle.jsx";
+import TaniPaneli from "../oyun/components/TaniPaneli.jsx";
 import Home from "../oyun/pages/Home.jsx";
 import ChallengesPage from "../oyun/pages/ChallengesPage.jsx";
 import MatchPage from "../oyun/pages/MatchPage.jsx";
@@ -189,6 +190,8 @@ export default function BildimApp() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <AnaEkranaEkle />
+      {/* Yalnız ?tani=1 ile açılır (telefonda dokunma tanısı) */}
+      <TaniPaneli />
     </Suspense>
   );
 }

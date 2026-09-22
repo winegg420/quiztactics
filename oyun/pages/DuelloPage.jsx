@@ -564,6 +564,18 @@ function DuelloMac({ id }) {
     return Math.max(0, (new Date(hedefBitis).getTime() - (simdi + farkRef.current)) / 1000);
   }, [hedefBitis, simdi]);
 
+  // Tanı paneli (?tani=1): şıkları kapatan koşullar her an okunabilsin.
+  useEffect(() => {
+    if (!d) return undefined;
+    window.__bdTani = {
+      mod: "duello", surum: d.surum, faz: d.faz,
+      kilitli: Boolean(d.cevap?.ben_cevapladim), sureBitti: kalanSn <= 0,
+      secim, calisan, kalanSn: Math.round(kalanSn * 10) / 10,
+      benimBitis: d.cevap?.benim_bitis ?? null, farkMs: Math.round(farkRef.current),
+    };
+    return () => { delete window.__bdTani; };
+  }, [d, kalanSn, secim, calisan]);
+
   // Son 3 saniyede tik
   useEffect(() => {
     if (!d || !["cevap", "altin"].includes(d.faz)) return;
