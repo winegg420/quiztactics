@@ -16,6 +16,8 @@ const HARFLER = ["A", "B", "C", "D"];
 const SURE = 15;
 // Atlama basarisiz olursa bu kadar bekleyip yeniden denenir (ag istek yagmuru olmasin).
 const YENIDEN_DENE_MS = 1500;
+// Süre dolunca sunucuya gitmeden önce beklenen saat/ağ farkı payı (bkz. tik).
+const SAAT_PAYI_SN = 0.6;
 
 /**
  * Ortak soru ekranı (turnuva + 1v1).
@@ -143,7 +145,12 @@ export default function QuestionCard({
           sesTik(sn);
         }
       }
-      if (k <= 0 && !sureDolduMu.current && Date.now() >= yenidenDeneRef.current) {
+      // Saat farkı payı: sunucu soruyu ancak başlangıç + 15 sn GEÇİNCE kapatır. Saat
+      // tahmini (istek/yanıt ortalaması) birkaç yüz ms önde olabildiği için sayaç 0'a
+      // değer değmez istek gidince sunucu reddediyor, istemci saniyede bir yeniden
+      // deniyordu ("soru atlama yeniden denenecek"). Sayaç yine 0'da görünür.
+      const gecenSn = (Date.now() + offset - new Date(soru.baslangic).getTime()) / 1000;
+      if (k <= 0 && gecenSn >= SURE + SAAT_PAYI_SN && !sureDolduMu.current && Date.now() >= yenidenDeneRef.current) {
         sureDolduMu.current = true;
         // Interval BİLEREK durdurulmuyor: atlama başarısız olursa kilit
         // yeniden açılıyor ve sonraki tik işi tekrar deniyor. Eskiden burada
