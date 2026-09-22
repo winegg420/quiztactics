@@ -45,6 +45,9 @@ import { titret } from "../lib/geriBildirim.js";
 import { tt } from "../lib/dil.js";
 import { useOyunModu } from "../lib/oyunModu.js";
 import SkillSeti from "../components/SkillSeti.jsx";
+// Düello 1.0 (surum = 2) arayüzü — eski arayüz aşağıda aynen durur.
+import { tt2, useV2Ceviri, V2Kategori, V2Cevap, V2Sonuc, V2Skill, V2Gecmis, V2SureCubugu } from "../components/DuelloV2.jsx";
+import "../styles/duello-v2.css";
 
 const HARFLER = ["A", "B", "C", "D"];
 
@@ -81,6 +84,16 @@ function DuelloGiris() {
   const [dereceli, setDereceli] = useDereceliTercih();
   const [arama, setArama] = useState(false);
   const [tanitim, setTanitim] = useState(null);   // null | "arama" (bitince aramaya geç) | "kurallar"
+  // Düello 1.0 bayrağı (oyun_ayarlari.duello_surum). Yeni maç bu sürümle kurulur;
+  // giriş metinleri ve tanıtım ona göre. Okunamazsa eski kurallar (1) gösterilir.
+  const [surum, setSurum] = useState(1);
+  useEffect(() => {
+    let aktif = true;
+    ayar("duello_surum", 1).then((v) => { if (aktif) setSurum(Number(v) === 2 ? 2 : 1); },
+      (e) => console.warn("[Bildim] duello_surum okunamadı:", e?.message ?? e));
+    return () => { aktif = false; };
+  }, []);
+  const v2 = surum === 2;
 
   return (
     <div className="bd-duello-giris">
@@ -96,12 +109,26 @@ function DuelloGiris() {
         <span className="bd-duello-tanit-ikon" aria-hidden="true"><Ikon ad="kilic" boyut={34} /></span>
         <div className="bd-duello-tanit-metin">
           <b>{ceviri("Taktik Maçı")}</b>
-          <p>{ceviri("Sırayla birbirinize soru gönderin. Rakibin zayıf kategorisini bul, oradan vur.")}</p>
-          <ul>
-            <li>{ceviri("3 can, en çok 10 tur")}</li>
-            <li>{ceviri("Rakip en zayıf kategorisinde bilirse canı SEN kaybedersin")}</li>
-            <li>{ceviri("Aynı kategori üst üste seçilemez, maçta en çok 2 kez")}</li>
-          </ul>
+          {v2 ? (
+            <>
+              <p>{tt2("Sırayla kategori seçin, aynı soruyu aynı anda cevaplayın. Yalnız biri bilirse öteki can kaybeder.")}</p>
+              <ul>
+                <li>{tt2("3 can, en çok 10 tur")}</li>
+                <li>{tt2("Biri doğru öteki yanlış/yanıtsız → yanlış olan 1 can kaybeder; ikisi aynıysa nötr")}</li>
+                <li>{tt2("Beraberlik yok: can eşitse uzatma, kategori rastgele")}</li>
+                <li>{tt2("Maçta 4 skill: aynı skill en çok 2 kez, soru başına 1")}</li>
+              </ul>
+            </>
+          ) : (
+            <>
+              <p>{ceviri("Sırayla birbirinize soru gönderin. Rakibin zayıf kategorisini bul, oradan vur.")}</p>
+              <ul>
+                <li>{ceviri("3 can, en çok 10 tur")}</li>
+                <li>{ceviri("Rakip en zayıf kategorisinde bilirse canı SEN kaybedersin")}</li>
+                <li>{ceviri("Aynı kategori üst üste seçilemez, maçta en çok 2 kez")}</li>
+              </ul>
+            </>
+          )}
         </div>
       </div>
       <DereceliAnahtari dereceli={dereceli} onDegistir={setDereceli} />
@@ -109,16 +136,17 @@ function DuelloGiris() {
       <div className="bd-ana-eylem-not">
         {dereceli ? ceviri("Klasik ile aynı lig puanı ve coin ödülü") : ceviri("Serbest: lig puanı yok, coin yarı.")}
       </div>
-      <button className="bd-ana-eylem" onClick={() => { sesKilidiAc(); if (duelloTanitimGoruldu()) setArama(true); else setTanitim("arama"); }}>
+      <button className="bd-ana-eylem" onClick={() => { sesKilidiAc(); if (duelloTanitimGoruldu(surum)) setArama(true); else setTanitim("arama"); }}>
         <Ikon ad="kilic" boyut={22} />
         <span>{ceviri("Rakip ara")}</span>
       </button>
       {/* Paket 20 IV.1: kurallar her zaman yeniden açılabilir */}
       <button type="button" className="bd-bildir-ac bd-duello-kurallar" onClick={() => setTanitim("kurallar")}>{ceviri("Kurallar nasıl işliyor?")}</button>
-      {tanitim && <DuelloTanitim onKapat={() => { const aramaya = tanitim === "arama"; setTanitim(null); if (aramaya) setArama(true); }} />}
+      {tanitim && <DuelloTanitim surum={surum} onKapat={() => { const aramaya = tanitim === "arama"; setTanitim(null); if (aramaya) setArama(true); }} />}
       {arama && (
         <DuelloArama
           dereceli={dereceli}
+          ipuclari={v2 ? ARAMA_IPUCLARI_V2 : ARAMA_IPUCLARI}
           onBulundu={(id) => navigate(y(`/duello/${id}`))}
           onIptal={() => setArama(false)}
         />
@@ -136,14 +164,21 @@ const ARAMA_IPUCLARI = [
   "Rakip en zayıf kategorisinde bilirse canı SEN kaybedersin",
   "Saldırı hazırlığında joker kullanabilirsin.",
 ];
+// Düello 1.0 ipuçları (metinler DuelloV2 yerel sözlüğünde; tt2 ile çevrilir).
+const ARAMA_IPUCLARI_V2 = [
+  "Aynı soruyu aynı anda cevaplarsınız.",
+  "Rakibin ne cevapladığını göremezsin, yalnız cevapladığını görürsün.",
+  "Beraberlik yok: can eşitse uzatma.",
+  "Kategori seçerken süre dolarsa rastgele gelir.",
+];
 const IPUCU_SN = 3;
 // Paket 41 F: düello aramasının üst sınırı (Klasik'teki gibi sonsuz bekleme yok)
 const DUELLO_ARAMA_SINIR_SN = 60;
 
-function DuelloArama({ dereceli, onBulundu, onIptal }) {
+function DuelloArama({ dereceli, onBulundu, onIptal, ipuclari = ARAMA_IPUCLARI }) {
   const { ceviri } = useDil();
   const [gecen, setGecen] = useState(0);
-  const ipucu = Math.floor(gecen / IPUCU_SN) % ARAMA_IPUCLARI.length;
+  const ipucu = Math.floor(gecen / IPUCU_SN) % ipuclari.length;
   const [hata, setHata] = useState(null);
   // Paket 30 E: bulunma anı — rakip kartı dolar, ~1 sn sonra düelloya geçilir
   const [bulundu, setBulundu] = useState(false);
@@ -236,7 +271,7 @@ function DuelloArama({ dereceli, onBulundu, onIptal }) {
             <>
               {/* key değişince satır yeniden takılır → giriş animasyonu her ipucunda oynar */}
               <div key={ipucu} className="bd-arama-alt bd-arama-ipucu" aria-live="polite">
-                {ceviri(ARAMA_IPUCLARI[ipucu])}
+                {ipuclari === ARAMA_IPUCLARI ? ceviri(ipuclari[ipucu]) : tt2(ipuclari[ipucu])}
               </div>
               <div className="bd-arama-sayac">{ceviri("{0} sn · rakip aranıyor", { 0: gecen })}</div>
             </>
@@ -292,7 +327,8 @@ function RovansBekleme({ rakip, baslangic, sureSn, simdi, ceviri, onVazgec }) {
 function DuelloMac({ id }) {
   const navigate = useNavigate();
   const { user, refreshProfile } = useAuth();
-  const { ceviri } = useDil();
+  const { dil, ceviri } = useDil();
+  const c2 = useV2Ceviri(dil, ceviri);   // Düello 1.0 metinleri (yerel İngilizce sözlük + ortak çeviri)
   const [d, setD] = useState(null);
   const [hata, setHata] = useState(null);
   const [yuklemeHatasi, setYuklemeHatasi] = useState(null);
@@ -351,11 +387,23 @@ function DuelloMac({ id }) {
         const onceki = skillDurumRef.current;
         const faz = `${data.tur}:${data.saldiri_sirasi}:${data.faz}`;
         let efekt = null;
-        if (onceki?.faz === faz && !onceki.zaman_baskisi && data.zaman_baskisi) efekt = { tur: "zaman_baskisi", deger: skillDeger.baski };
+        if (data.surum === 2) {
+          // Düello 1.0: skill izleri kişisel bitişten ve cevap nesnesinden okunur.
+          const cv = data.cevap ?? {};
+          const bitis = cv.benim_bitis ? new Date(cv.benim_bitis).getTime() : null;
+          const elli = Array.isArray(cv.elli_kapali) ? cv.elli_kapali.length : 0;
+          if (onceki?.faz === faz) {
+            if (onceki.soru_anahtar && data.soru?.soru && onceki.soru_anahtar !== data.soru.soru) efekt = { tur: "soru_degistir", asama: "giriyor" };
+            else if (!onceki.elli && elli) efekt = { tur: "elli" };
+            else if (onceki.bitis && bitis && bitis - onceki.bitis > 1500) efekt = { tur: "sure", deger: Number(data.sureler?.ek_sure ?? skillDeger.ek) };
+            else if (onceki.bitis && bitis && onceki.bitis - bitis > 1500) efekt = { tur: "zaman_baskisi", deger: Math.round((onceki.bitis - bitis) / 1000) };
+          }
+          skillDurumRef.current = { faz, bitis, elli, soru_anahtar: data.soru?.soru };
+        } else if (onceki?.faz === faz && !onceki.zaman_baskisi && data.zaman_baskisi) efekt = { tur: "zaman_baskisi", deger: skillDeger.baski };
         else if (onceki?.faz === faz && !onceki.ek_sure && data.ek_sure) efekt = { tur: "sure", deger: skillDeger.ek };
         else if (onceki?.faz === faz && !(onceki.elli_kapali?.length) && data.elli_kapali?.length) efekt = { tur: "elli" };
         else if (onceki?.faz === faz && onceki.soru_anahtar && data.soru?.soru && onceki.soru_anahtar !== data.soru.soru) efekt = { tur: "soru_degistir", asama: "giriyor" };
-        skillDurumRef.current = { faz, zaman_baskisi: Boolean(data.zaman_baskisi), ek_sure: Boolean(data.ek_sure), elli_kapali: data.elli_kapali, soru_anahtar: data.soru?.soru };
+        if (data.surum !== 2) skillDurumRef.current = { faz, zaman_baskisi: Boolean(data.zaman_baskisi), ek_sure: Boolean(data.ek_sure), elli_kapali: data.elli_kapali, soru_anahtar: data.soru?.soru };
         if (efekt) {
           setSkillEfekt(efekt);
           clearTimeout(skillTimerRef.current);
@@ -448,7 +496,9 @@ function DuelloMac({ id }) {
     if (sonHamleRef.current === anahtar) return;
     sonHamleRef.current = anahtar;
     const benKaybettim = h.can_kaybeden === d.ben;
-    if (benKaybettim) { sesYanlis(); titret(40); } else { sesDogru(); titret(10); }
+    // Düello 1.0: ses kendi cevabına göre (nötr turda da yanlışsan yanlış sesi).
+    const iyiSes = d.surum === 2 ? Boolean(h.cevaplar?.[d.ben]?.dogru) : !benKaybettim;
+    if (!iyiSes) { sesYanlis(); titret(40); } else { sesDogru(); titret(10); }
     // Paket 29 E.2: can eksildiyse cevap sesinin hemen ardından can sesi (kendi canın daha yüksek)
     if (h.can_kaybeden) setTimeout(() => sesCanKaybi(benKaybettim), 220);
   }, [d]);
@@ -499,14 +549,18 @@ function DuelloMac({ id }) {
     eylem("rovans", "duello_rovans_iste", {}).then((tamam) => { if (!tamam) setRovBas(null); });
   };
 
+  // Düello 1.0 cevap fazında sayaç KİŞİSEL bitiştir (Ek Süre / Zaman Baskısı kişiye özel);
+  // öteki fazlarda ortak faz_bitis. İkisi de sunucu saatine göre (farkRef).
+  const hedefBitis = d?.surum === 2 && d?.faz === "cevap" && d?.cevap?.benim_bitis ? d.cevap.benim_bitis : d?.faz_bitis;
   const kalanSn = useMemo(() => {
-    if (!d?.faz_bitis) return 0;
-    return Math.max(0, (new Date(d.faz_bitis).getTime() - (simdi + farkRef.current)) / 1000);
-  }, [d?.faz_bitis, simdi]);
+    if (!hedefBitis) return 0;
+    return Math.max(0, (new Date(hedefBitis).getTime() - (simdi + farkRef.current)) / 1000);
+  }, [hedefBitis, simdi]);
 
   // Son 3 saniyede tik
   useEffect(() => {
     if (!d || !["cevap", "altin"].includes(d.faz)) return;
+    if (d.surum === 2 && d.cevap?.ben_cevapladim) return;   // cevabı kilitleyene tik çalınmaz
     const sn = Math.ceil(kalanSn);
     if (sn > 0 && sn <= 3 && sonTikRef.current !== sn) { sonTikRef.current = sn; sesTik(sn); }
   }, [kalanSn, d]);
@@ -522,6 +576,58 @@ function DuelloMac({ id }) {
     } catch (e) {
       setHata(ceviri(hataMesaji(e)));
       return false;
+    } finally {
+      setCalisan(null);
+    }
+  };
+
+  // Cevap gönderimi — eski ve Düello 1.0 arayüzü aynı RPC'yi (duello_cevap) çağırır.
+  // v2'de sunucu doğru/yanlışı burada SÖYLEMEZ; yalnız İkinci Şans'ın tekrar hakkı döner.
+  const cevapVer = async (i) => {
+    sesDokunus(); titret(10);
+    setSecim(i);
+    setHata(null);
+    setCalisan("cevap");
+    try {
+      const { data, error } = await supabase.rpc("duello_cevap", { p_id: id, p_cevap: i });
+      if (error) throw error;
+      if (data?.tekrar_hakki) {
+        sesYanlis(); titret(18);
+        setIkinciSansElendi((onceki) => [...new Set([...onceki, i])]);
+        setSkillEfekt({ tur: "ikinci_sans" });
+        clearTimeout(skillTimerRef.current);
+        skillTimerRef.current = setTimeout(() => setSkillEfekt(null), 680);
+        setTimeout(() => setSecim(null), 260);
+      }
+      await yukle();
+    } catch (e) {
+      setHata(ceviri(hataMesaji(e)));
+      setSecim(null);
+    } finally {
+      setCalisan(null);
+    }
+  };
+
+  // Düello 1.0 skill kullanımı. Envanterde varsa (ya da skill'ler serbestse) doğrudan
+  // kullanılır; yoksa satın alma onayı açılır (JokerSatinAlModal → al + kullan tek RPC).
+  const v2SkillKullan = async (tur, { satinAl }) => {
+    if (satinAl) { setSatinAlinacak({ tur, yalnizAl: false }); return; }
+    setHata(null);
+    setCalisan(`joker-${tur}`);
+    try {
+      let sonuc;
+      if (tur === "ikinci_sans") {
+        sonuc = await supabase.rpc("skill_hazirla", { p_mac_tur: "duello", p_mac_id: id, p_soru_index: null, p_tur: tur });
+      } else {
+        // Envanterde var ya da serbest mod: joker_al_ve_kullan'ın kullanım kolunun aynısı
+        // (surum = 2 maçta ikisi de duello2_skill'e gider). Satın alma yalnız onaylı pencereden.
+        sonuc = await supabase.rpc(tur === "zaman_baskisi" ? "duello_saldiri_jokeri" : "duello_savunma_jokeri", { p_id: id, p_tur: tur });
+      }
+      if (sonuc.error) throw sonuc.error;
+      sesJoker(); titret(10);
+      await yukle();
+    } catch (e) {
+      setHata(ceviri(hataMesaji(e)));
     } finally {
       setCalisan(null);
     }
@@ -595,13 +701,15 @@ function DuelloMac({ id }) {
           canToplam={DUELLO_CAN}
           oduller={oduller}
           gorevler={gorevler}
-          ozet={d.durum === "bitti" || ezeliMetin ? (
+          ozet={d.durum === "bitti" || ezeliMetin || (d.surum === 2 && d.gecmis?.length) ? (
             <>
               {d.durum === "bitti" && <OdulDokumu kaynak={`duello:${d.id}`} onToplam={setDokumToplam} onGorevler={setGorevler} gorevleriGoster={false} />}
-              {d.durum === "bitti" && d.son_hamle?.altin && secenekler.length > 0 && (
+              {d.surum !== 2 && d.durum === "bitti" && d.son_hamle?.altin && secenekler.length > 0 && (
                 <AltinSonucu h={d.son_hamle} ben={d.ben} soru={d.soru?.soru} secenekler={secenekler} ceviri={ceviri} />
               )}
-              {d.durum === "bitti" && <DuelloOzet id={d.id} />}
+              {d.surum !== 2 && d.durum === "bitti" && <DuelloOzet id={d.id} />}
+              {/* Düello 1.0: her soru, doğru cevap ve "şık işaretlenmedi" notu (sunucu: gecmis) */}
+              {d.surum === 2 && <V2Gecmis gecmis={d.gecmis} maxTur={d.max_tur} benId={d.ben} c={c2} />}
               {ezeliMetin && <div className="bd-duello-ezeli">{ezeliMetin}</div>}
             </>
           ) : null}
@@ -693,30 +801,7 @@ function DuelloMac({ id }) {
             return (
               <button key={i} className={sinif}
                       disabled={!tiklanabilir || secim !== null || !!calisan || kapali.includes(i) || ikinciSanslaElendi}
-                      onClick={async () => {
-                        sesDokunus(); titret(10);
-                        setSecim(i);
-                        setHata(null);
-                        setCalisan("cevap");
-                        try {
-                          const { data, error } = await supabase.rpc("duello_cevap", { p_id: id, p_cevap: i });
-                          if (error) throw error;
-                          if (data?.tekrar_hakki) {
-                            sesYanlis(); titret(18);
-                            setIkinciSansElendi((onceki) => [...new Set([...onceki, i])]);
-                            setSkillEfekt({ tur: "ikinci_sans" });
-                            clearTimeout(skillTimerRef.current);
-                            skillTimerRef.current = setTimeout(() => setSkillEfekt(null), 680);
-                            setTimeout(() => setSecim(null), 260);
-                          }
-                          await yukle();
-                        } catch (e) {
-                          setHata(ceviri(hataMesaji(e)));
-                          setSecim(null);
-                        } finally {
-                          setCalisan(null);
-                        }
-                      }}>
+                      onClick={() => cevapVer(i)}>
                 <span className="bd-harf">{HARFLER[i]}</span>
                 <span className="bd-secenek-metin">{s}</span>
                 {sonucMu && i === h.dogru_cevap && <Ikon ad="onay" boyut={18} className="bd-secenek-isaret" />}
@@ -742,8 +827,32 @@ function DuelloMac({ id }) {
   // ---------------- faz içeriği ----------------
   let sahne = null;
   const katAdi = d.kategori ? ceviri(kategoriAdi(d.kategori)) : "";
+  // Düello 1.0: aynı soru aynı anda; Saldırı Hazırlığı ve Altın Soru fazı yok.
+  const v2 = d.surum === 2;
+  const v2Toplam = d.faz === "kategori"
+    ? Number(d.sureler?.kategori ?? 8)
+    : Math.max(Number(d.sureler?.cevap ?? 15), Math.ceil(kalanSn));
+  const v2Cubuk = <V2SureCubugu kalanSn={kalanSn} toplamSn={v2Toplam} />;
 
-  if (d.faz === "kategori") {
+  if (v2) {
+    if (d.faz === "kategori") {
+      sahne = (
+        <V2Kategori d={d} benSaldiran={benSaldiran} rakip={rakip} calisan={calisan}
+                    sayac={sayac(false)} cubuk={v2Cubuk} c={c2}
+                    onSec={(k) => { sesDokunus(); eylem("kategori", "duello_kategori_sec", { p_kategori: k }); }} />
+      );
+    } else if (d.faz === "cevap") {
+      sahne = (
+        <V2Cevap d={d} rakip={rakip} secenekler={secenekler} secim={secim}
+                 ikinciSansElendi={ikinciSansElendi} calisan={calisan} kalanSn={kalanSn}
+                 sayac={sayac(sonCan)} cubuk={v2Cubuk} c={c2}
+                 skillEfektSinif={skillEfekt ? `bd-skill-${skillEfekt.tur} ${skillEfekt.asama ? `bd-skill-${skillEfekt.asama}` : ""}` : ""}
+                 onCevap={cevapVer} />
+      );
+    } else if (d.faz === "sonuc") {
+      sahne = <V2Sonuc d={d} rakip={rakip} secenekler={secenekler} c={c2} />;
+    }
+  } else if (d.faz === "kategori") {
     if (benSaldiran) {
       const profil = rakip.profil?.kategoriler ?? [];
       sahne = (
@@ -856,28 +965,31 @@ function DuelloMac({ id }) {
     );
   }
 
-  const jokerSeti = d.faz === "altin" ? null : benSaldiran ? "saldiri" : "savunma";
+  const jokerSeti = v2 || d.faz === "altin" ? null : benSaldiran ? "saldiri" : "savunma";
 
   // ---------------- faz halesi (2C-C) ----------------
   // Ekran kenarında: saldırıda turuncu (sabit), savunmada mavi → süre azaldıkça kırmızı.
   // Kırmızıya tam geçiş sayacın "kritik" eşiğiyle (≤3 sn) aynı an. Renk tek başına yetmez:
   // yanında ikonlu metin bandı var. Hale portal + position:fixed, transform YOK (iOS).
   const rolFazi = ["kategori", "hazirlik", "cevap"].includes(d.faz);
+  // Düello 1.0: cevapta iki oyuncu da "savunur" (aynı soru) → mavi hale ikisine de.
+  const haleSavunma = v2 ? d.faz === "cevap" && !d.cevap?.ben_cevapladim : benSavunan;
+  const haleVar = v2 ? (d.faz === "kategori" && benSaldiran) || haleSavunma : rolFazi;
   let kirmizilik = 0;
-  if (rolFazi && benSavunan && d.faz === "cevap") {
+  if (rolFazi && haleSavunma && d.faz === "cevap") {
     const hs = haleSureRef.current;
     if (hs.anahtar !== fazAnahtari) { hs.anahtar = fazAnahtari; hs.sn = kalanSn; } else hs.sn = Math.max(hs.sn, kalanSn);
     kirmizilik = kalanSn <= 3 ? 1 : Math.min(1, Math.max(0, (hs.sn - kalanSn) / Math.max(1, hs.sn - 3))) * 0.7;
   }
-  const hale = rolFazi && createPortal(
+  const hale = rolFazi && haleVar && createPortal(
     <div key={`${d.faz}-${d.tur}-${d.saldiri_sirasi}-${benSaldiran}`}
-         className={`bd-duello-hale ${benSaldiran ? "saldiri" : "savunma"} ${kirmizilik >= 1 ? "kritik" : ""}`}
+         className={`bd-duello-hale ${(v2 ? !haleSavunma : benSaldiran) ? "saldiri" : "savunma"} ${kirmizilik >= 1 ? "kritik" : ""}`}
          style={{ "--hale-kirmizi": kirmizilik.toFixed(2) }} aria-hidden="true" />,
     document.body,
   );
 
   return (
-    <div className={`bd-duello ${sonCan ? "son-can" : ""}`}>
+    <div className={`bd-duello ${v2 ? "bd-d2" : ""} ${sonCan ? "son-can" : ""}`}>
       {hale}
       {/* Paket 41 B/H: öteki modlarla aynı üst şerit; X mevcut "Düellodan çık" onayını açar */}
       {d.durum === "aktif" && (
@@ -886,14 +998,20 @@ function DuelloMac({ id }) {
       )}
       <div className="bd-duello-ust">
         {oyuncuKart(ben, "sol")}
-        <div className="bd-duello-tur">
-          <span>{ceviri("Tur")}</span>
-          <b>{d.tur}/{d.max_tur}</b>
+        <div className={`bd-duello-tur ${v2 && d.uzatma ? "uzatma" : ""}`}>
+          {!(v2 && d.uzatma) && <span>{ceviri("Tur")}</span>}
+          <b>{v2 && d.uzatma ? c2("UZATMA") : `${d.tur}/${d.max_tur}`}</b>
           {!d.dereceli && <small>{ceviri("Serbest")}</small>}
         </div>
         {oyuncuKart(rakip, "sag")}
       </div>
-      {rolFazi && (
+      {v2 && d.faz === "kategori" && benSaldiran && (
+        <div className="bd-d2-rol kategori"><Ikon ad="kilic" boyut={18} /><span>{c2("Kategori seçme sırası sende")}</span></div>
+      )}
+      {v2 && d.faz === "cevap" && (
+        <div className="bd-d2-rol"><Ikon ad="kalkan" boyut={18} /><span>{c2("Aynı soru · aynı anda")}</span></div>
+      )}
+      {!v2 && rolFazi && (
         <div className={`bd-duello-rol ${benSaldiran ? "saldiri" : "savunma"} ${kirmizilik >= 1 ? "kritik" : ""}`}>
           <Ikon ad={benSaldiran ? "kilic" : "kalkan"} boyut={20} />
           <span>{benSaldiran ? ceviri("SALDIRIYORSUN") : ceviri("SAVUNUYORSUN")}</span>
@@ -925,6 +1043,11 @@ function DuelloMac({ id }) {
 
       {hata && <div className="hata-kutu">{hata}</div>}
 
+      {v2 && (
+        <V2Skill d={d} calisan={calisan} kalanSn={kalanSn} serbest={jokerSerbest}
+                 onKullan={v2SkillKullan} c={c2} />
+      )}
+
       {jokerSeti && (
         <JokerAlani
           set={jokerSeti}
@@ -947,8 +1070,8 @@ function DuelloMac({ id }) {
         <JokerSatinAlModal
           tur={satinAlinacak.tur}
           yalnizAl={satinAlinacak.yalnizAl}
-          fiyat={Number(d.jokerler?.fiyatlar?.[satinAlinacak.tur] ?? 0)}
-          coin={Number(d.jokerler?.coin ?? 0)}
+          fiyat={Number((v2 ? d.skill : d.jokerler)?.fiyatlar?.[satinAlinacak.tur] ?? 0)}
+          coin={Number((v2 ? d.skill : d.jokerler)?.coin ?? 0)}
           onKapat={() => setSatinAlinacak(null)}
           onOnay={async () => {
             if (satinAlinacak.yalnizAl) {
