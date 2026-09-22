@@ -29,3 +29,5 @@ arayuz-denetim-gorseller/
 # Jev tam havuz taramasi: ham cikti ve calisma gunlugu (repoya girmez)
 araclar/jev-tarama/ham.jsonl
 araclar/jev-tarama/calisma.log
+araclar/jev-tarama/ham-en.jsonl
+araclar/jev-tarama/calisma-en.log

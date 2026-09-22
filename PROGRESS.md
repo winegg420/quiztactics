@@ -7462,3 +7462,7 @@ sonraki pakette.
   alındı. Android'in daire/squircle maskesinde yazının kenarlara sıkışmaması
   için güvenli alan büyütüldü; aktif ikon URL'lerinin sürümü yenilendi.
 - Oyun içi mobil üst bar logosu sahibinin isteğiyle aynen korundu.
+
+## 2026-09-22 — Jev İngilizce çeviri taraması
+**Araç:** Claude Code
+**Neden:** İngilizce çevirilerin anlamı bozup bozmadığını tespit etmek; sonuç dosyada, canlıya uygulanmadı.
