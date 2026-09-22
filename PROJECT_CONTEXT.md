@@ -27,6 +27,9 @@ başka oyun modülleri de (`kafatopu/`, `meyvekes/`, `run/`, `gladius/`,
 `patirun/`, `driftgp/`) durur; her biri kabuğa tek lazy route satırıyla
 bağlıdır ve hiçbiri diğerinin klasöründen import etmez.
 
+Araçlar: **Jev (TypeSafe)** — toplu soru/çeviri kalite değerlendirmesi
+için; kullanım kuralı AGENTS.md'de.
+
 ### Dil
 
 - Marka adı her dilde **"Quiz Tactics"**, çevrilmez.

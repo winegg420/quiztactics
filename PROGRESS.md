@@ -7466,3 +7466,8 @@ sonraki pakette.
 ## 2026-09-22 — Jev İngilizce çeviri taraması
 **Araç:** Claude Code
 **Neden:** İngilizce çevirilerin anlamı bozup bozmadığını tespit etmek; sonuç dosyada, canlıya uygulanmadı.
+
+## 22 Eylül 2026 — TypeSafe (Jev) skill'i kuruldu
+**Araç:** Claude Code
+**Neden:** Jev'in doğru çağrılması ve toplu değerlendirme işlerinde
+otomatik akla gelmesi için; proje kapsamında kuruldu.

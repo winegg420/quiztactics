@@ -139,6 +139,35 @@ push'ta sessizce silinir; 13 Eyl'de tam olarak bu oldu.
 - Git/teknik terim kullanırken kısa bir sadeleştirme ekle
   (ör. "rebase yaptım (commit'ini güncel hale getirdim)").
 
+## Jev (TypeSafe) ne zaman kullanılır
+
+Jev metin üretmez; kapalı uçlu bir soruya güven skoruyla cevap verir.
+Maliyeti LLM'in yüzde biri kadardır. Amaç: toplu değerlendirme işini
+Claude Code'un bağlamından çıkarmak.
+
+**Kural:** Yüzlerce kalemi tek tek okuyup değerlendirmen gerekiyorsa,
+işe başlamadan önce "bu Jev'e verilebilir mi?" diye sor.
+
+Jev'e ver — üçü birden doğruysa:
+1. Soru kapalı uçlu (şıklardan biri, evet/hayır, sabit liste)
+2. Cevap nesnel olarak doğru/yanlış ayrılabiliyor (zevk meselesi değil)
+3. Kalem sayısı çok (onlarca, yüzlerce)
+
+Jev'e verme: kod, tasarım, metin yazımı, "hangisi daha iyi" kararları,
+5-10 kalemlik küçük işler.
+
+Somut örnekler: yeni soruların kalite kapısı, kategori/zorluk atama,
+çeviri kontrolü, muğlak soru tespiti, şık ipucu taraması.
+
+Nasıl çağrılacağı: typesafe skill'i kurulu (`/typesafe:typesafe-ai`).
+Mevcut araçlar: `araclar/jev.mjs`, `araclar/jev-tarama.mjs`,
+`araclar/jev-tarama-en.mjs`. Anahtar `.env` içinde `TYPESAFE_API_KEY`
+(VITE_ öneki YOK — istemciye sızmamalı).
+
+Sınır: Jev yalnız geliştirme/kalite işlerinde kullanılır. Oyunun içine
+(mesaj filtresi, takma ad moderasyonu vb.) yayından önce KONULMAYACAK —
+Ida'nın kararı.
+
 ## Çalışma düzeni — SAHİBİNİN İSTEDİĞİ AKIŞ
 
 Sahibi kod yazmaz, dosya taşımaz. Verilen görevi baştan sona kendin
