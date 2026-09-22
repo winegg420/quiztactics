@@ -469,10 +469,9 @@ begin
   perform public.gorulen_kaydet(d.soru_id);
   if not v_dogru then perform public.yanlis_kaydet(d.soru_id); end if;
 
-  select * into d from public.duellolar where id = p_id;
-  if (d.cevaplar ? d.oyuncu1::text) and (d.cevaplar ? d.oyuncu2::text) then
-    perform public.duello2_cozumle(p_id);
-  end if;
+  -- İkisi de cevapladıysa ya da rakibin süresi dolduysa soru hemen çözümlenir
+  -- (koşul tek yerde: duello2_ilerlet).
+  perform public.duello2_ilerlet(p_id);
   perform public.duello_sinyal_ver(p_id);
   -- Doğru/yanlış burada SÖYLENMEZ: rakip daha cevaplamamış olabilir.
   return jsonb_build_object('tekrar_hakki', false, 'cevaplandi', true);
