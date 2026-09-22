@@ -62,8 +62,9 @@ export function HazirKapisi({
       </div>
 
       {/* Rakip 2 dakikadır gelmedi: oyuncu seçsin — iptal mi, sıra tabanlı
-          (asenkron) oyun mu. Beklemeye mahkûm bırakılmıyor. */}
-      {onAsenkron && bekleyenSn >= LOBI_BEKLEME_SN && !hepsiHazir && (
+          (asenkron) oyun mu. Beklemeye mahkûm bırakılmıyor. Yalnız BEN hazırken:
+          hazır olmayan bensem "rakibin gelmedi" demek yanlış (rakip hazırken çıkıyordu). */}
+      {onAsenkron && benHazir && bekleyenSn >= LOBI_BEKLEME_SN && !hepsiHazir && (
         <div className="bd-lobi-secenek">
           <b>{tt("Rakibin {0} dakikadır gelmedi.", { 0: Math.floor(bekleyenSn / 60) })}</b>
           <span>
