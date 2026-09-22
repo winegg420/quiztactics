@@ -7432,3 +7432,14 @@ sonraki pakette.
   zemin, uygulama ikonu ve mevcut `UIZ + TACTICS` tipografisi içinde gösterilir.
 - Mevcut `Logo.jsx`, header ve PWA ikonları değiştirilmedi. Çalışma seçim
   laboratuvarıdır; üretim markasına ancak sahibinin seçimi sonrası bağlanacaktır.
+
+## 22 Eylül 2026 — Forward Pulse Q resmi markaya alındı
+**Araç:** Codex
+
+- Sahibinin seçtiği Q Logo Lab 03 **Forward Pulse**, resmi `Logo.jsx`
+  işaretine uygulandı. Logoyu kullanan üst menü, mobil başlık, giriş,
+  yapılandırma ekranı ve ana ekrana ekleme penceresi tek kaynaktan güncellenir.
+- PWA/app simgesinde sahibinin isteğiyle yalnız Q değil tam `QUIZ TACTICS`
+  adı yer alır. Geriye uyumlu `bildim-icon-*` dosya yolları korunmuştur.
+- Q laboratuvarı seçim geçmişi olarak ayrı rotada kalır; production akışına
+  menü bağlantısı eklenmemiştir.
