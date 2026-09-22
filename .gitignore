@@ -25,3 +25,7 @@ oyun/harita/muayene/cikti/**/*.png
 # Arayuz denetimi (araclar/arayuz-denetim.mjs) ciktilari
 .arayuz-denetim-oturum.json
 arayuz-denetim-gorseller/
+
+# Jev tam havuz taramasi: ham cikti ve calisma gunlugu (repoya girmez)
+araclar/jev-tarama/ham.jsonl
+araclar/jev-tarama/calisma.log

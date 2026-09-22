@@ -7406,3 +7406,17 @@ amaç ölçümdü. Rapor: `araclar/jev-test-sonuc.md`.
   (12.454 soru) ~0,50 $ eder. Bütçe koruması (1 $) devreye girmedi.
 - Anahtar `.env` içinde `TYPESAFE_API_KEY`, `VITE_` öneki yok, git'e girmedi,
   hiçbir çıktıya yazılmadı.
+
+## 2026-09-22 — Jev tam havuz taraması
+**Araç:** Claude Code
+**Neden:** Zorluk, kategori ve soru kalitesi verisini tek seferde
+toplamak; sonuç dosyada, canlıya henüz uygulanmadı.
+**Yapılan:** `araclar/jev-tarama.mjs` (jev-test.mjs temelli, devam edebilir;
+ham çıktı `araclar/jev-tarama/ham.jsonl` git dışı). 9290 aktif TR soru,
+0 hata, $0,45, 11 dk. Özet: `araclar/jev-tarama/ozet.md` + `ozet.csv`.
+**Sonuç:** >0,8 güvenle itiraz 21 · zorluk 1–5: 580/4645/3210/855/0 ·
+eskiyebilir 103 · çoklu doğru 115 · hassas 77. En büyük kategori
+uyuşmazlığı cografya→bilim ve genel_kultur→bilim (198'er).
+**Not:** Jev'in `noul` cevabı olasılıktır (`{noul:0.87}`), `score` sürekli
+puandır (0–4); eşik 0,5, zorluk yuvarlanarak sayıldı. İngilizce kontrol
+sonraki pakette.
