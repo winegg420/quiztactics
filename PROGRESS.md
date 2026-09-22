@@ -7471,3 +7471,29 @@ sonraki pakette.
 **Araç:** Claude Code
 **Neden:** Jev'in doğru çağrılması ve toplu değerlendirme işlerinde
 otomatik akla gelmesi için; proje kapsamında kuruldu.
+
+## 2026-09-22 — Vercel depolama + gelistirme dalı
+**Araç:** Claude Code
+**Neden:** Vercel Deployment Storage %75'e çıktı; ayrıca işler canlıya otomatik yansımasın, önce önizlemede görünsün.
+
+- **Dal düzeni:** `gelistirme` dalı `main`'den açıldı ve push edildi. Kural
+  CLAUDE.md + AGENTS.md › "Dal düzeni"ne yazıldı (main = canlı, yalnız Ida
+  "canlıya al" deyince). Önizleme linki:
+  https://quiztactics-app-git-gelistirme-idagureli-4647s-projects.vercel.app
+  (Vercel Deployment Protection açık: Vercel'e giriş yapmamış tarayıcıda
+  302 → giriş sayfası). Önizleme aynı Supabase'e bağlı — migration dal
+  ayrımı tanımaz.
+- **dist ölçümü:** 19,4 MB, 286 dosya. `dist/meydan` 13,7 MB (%70) —
+  dondurulmuş meydanın `public/meydan/aday-quaternius` (9,1 MB) ve
+  `public/meydan/deneme` (4,5 MB) varlıkları `public/` altında olduğu için
+  bayraktan bağımsız her derlemeye kopyalanıyor. `public/sounds` (1,8 MB,
+  26 wav) DidaGP ayrıldıktan sonra sahipsiz; kodda referansı yok.
+  `public/avatar-lab` 0,9 MB (AvatarLab sayfaları kullanıyor). three.js
+  (619 KB) lazy chunk'ta, `index.html` modulepreload listesinde yok.
+  Hiçbir şey silinmedi/değiştirilmedi — karar Ida'nın.
+- **Vercel temizliği (yalnız `quiztactics-app` projesi):** 135 dağıtım
+  (18–22 Eyl) vardı; canlı + en yeni 5 korunup **130 silindi**, hata 0.
+  Canlı 200 döndü. Takımdaki diğer projelere dokunulmadı: `idagg-game-center`
+  361, eski `quiztactics` (hub reposu) 233, `basketlig` 157, `y` 19,
+  `stratejioyunu` 18, `dist` 1 dağıtım — depolamanın büyük kısmı muhtemelen
+  bunlarda. Depolama rakamı GB-ay hesabıyla gecikmeli düşer.
