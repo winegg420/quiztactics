@@ -84,13 +84,20 @@ function DuelloGiris() {
   const [dereceli, setDereceli] = useDereceliTercih();
   const [arama, setArama] = useState(false);
   const [tanitim, setTanitim] = useState(null);   // null | "arama" (bitince aramaya geç) | "kurallar"
-  // Düello 1.0 bayrağı (oyun_ayarlari.duello_surum). Yeni maç bu sürümle kurulur;
-  // giriş metinleri ve tanıtım ona göre. Okunamazsa eski kurallar (1) gösterilir.
+  // Düello 1.0: oyuncunun yeni maçının sürümü (genel bayrak ya da test listesi —
+  // duello_surum_benim). Giriş metinleri ve tanıtım ona göre. Okunamazsa eski kurallar (1).
   const [surum, setSurum] = useState(1);
   useEffect(() => {
     let aktif = true;
-    ayar("duello_surum", 1).then((v) => { if (aktif) setSurum(Number(v) === 2 ? 2 : 1); },
-      (e) => console.warn("[Bildim] duello_surum okunamadı:", e?.message ?? e));
+    (async () => {
+      try {
+        const { data, error } = await supabase.rpc("duello_surum_benim");
+        if (error) throw error;
+        if (aktif) setSurum(Number(data) === 2 ? 2 : 1);
+      } catch (e) {
+        console.warn("[Bildim] duello sürümü okunamadı:", e?.message ?? e);
+      }
+    })();
     return () => { aktif = false; };
   }, []);
   const v2 = surum === 2;
