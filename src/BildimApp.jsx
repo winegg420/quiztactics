@@ -140,7 +140,8 @@ export default function BildimApp() {
       <Routes>
         <Route path="/gizlilik" element={<GizlilikPage />} />
         <Route path="/kosullar" element={<KosullarPage />} />
-        <Route path="/insan-prototip" element={<HazirInsanPrototipi />} />
+        {/* Dondurulmuş (22 Eyl 2026): meydan prototipi; varlıkları varliklar-dondurulmus/meydan/. Geri açma: MEYDAN_ACIK + klasörü public/meydan/ olarak geri taşı. */}
+        <Route path="/insan-prototip" element={MEYDAN_ACIK ? <HazirInsanPrototipi /> : <BulunamadiPage kapaliMod kapaliOzellik />} />
         <Route path="/preview/avatar-lab" element={<AvatarLabPage />} />
         <Route path="/preview/avatar-lab-v2" element={<AvatarLabV2Page />} />
         <Route path="/preview/avatar-pro" element={<AvatarPreviewProPage />} />
