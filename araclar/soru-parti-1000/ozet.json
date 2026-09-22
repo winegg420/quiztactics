@@ -1,0 +1,61 @@
+{
+  "tarih": "2026-09-22",
+  "taslak": 1161,
+  "net": 1000,
+  "eksik": {},
+  "elenen_sebep": {
+    "jev_itiraz": 1,
+    "eskiyebilir": 1,
+    "kota_fazlasi": 159
+  },
+  "kova": {
+    "sinema": 130,
+    "teknoloji": 130,
+    "muzik": 120,
+    "sanat": 120,
+    "spor": 110,
+    "edebiyat": 100,
+    "bilim": 100,
+    "tarih": 90,
+    "yerel/genel_kultur": 3,
+    "yerel/edebiyat": 12,
+    "yerel/tarih": 10,
+    "yerel/spor": 8,
+    "yerel/sinema": 9,
+    "yerel/sanat": 6,
+    "yerel/muzik": 12,
+    "genel_kultur": 40
+  },
+  "zorluk": [
+    1,
+    5,
+    125,
+    402,
+    467
+  ],
+  "zor_orani": 0.869,
+  "cevrilmeyen": 0,
+  "jev": {
+    "cagri": 2336,
+    "girdi_jetonu": 1863833,
+    "usd": 0.0783,
+    "not": "jev.jsonl içindeki tüm denemeler dahil (düzeltilip yeniden sorulanlar da)"
+  },
+  "elenenler": [
+    {
+      "sebep": "jev_itiraz",
+      "kova": "sanat",
+      "s": "Paleolitik 'Willendorf Venüsü' heykelciği hangi malzemeden yapılmıştır?",
+      "d": "Kireçtaşı",
+      "jev": "Sabuntaşı",
+      "guven": 0.93
+    },
+    {
+      "sebep": "eskiyebilir",
+      "kova": "yerel",
+      "s": "İstanbul Film Festivali'nin ana ödülünün adı nedir?",
+      "d": "Altın Lale",
+      "not": "Festival ödülünün adı değişebilir (Jev eskiyebilir 0,56)"
+    }
+  ]
+}

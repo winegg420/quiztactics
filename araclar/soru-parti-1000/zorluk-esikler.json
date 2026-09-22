@@ -1,0 +1,24 @@
+{
+  "kaynak": "araclar/jev-tarama/ozet.csv (Jev havuz taraması, 22 Eyl 2026)",
+  "paylar": [
+    0.1,
+    0.2,
+    0.4,
+    0.2,
+    0.1
+  ],
+  "esikler": {
+    "2": 1.66,
+    "3": 2.03,
+    "4": 2.82,
+    "5": 3.46
+  },
+  "aciklama": "Jev puanı >= esikler[s] ise seviye en az s. Eşitlik blokları bölünmedi.",
+  "dagilim": [
+    938,
+    1841,
+    3736,
+    1839,
+    936
+  ]
+}
