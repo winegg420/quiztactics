@@ -74,6 +74,12 @@ tercih hatırlanır (localStorage + `profiles.dereceli_tercih`).
   uçtan uca ölçümünde arama → bot maçı → maç ekranı **12,56 sn** sürdü.
 - Rövanş bekleme penceresindeki “Vazgeç”, `duello_rovans_iptal` ile sunucu
   isteğini de geri çeker; yalnız pencereyi kapatıp hayalet istek bırakmaz.
+- **Düello 1.0 hazırlanıyor (canlı DEĞİL):** aynı soru aynı anda, simetrik can
+  tablosu, uzatma, skill 4/2/1. Sunucu: migration `…268_duello_v2_sunucu.sql`
+  (uygulanmadı). Bayrak `oyun_ayarlari.duello_surum` (1 eski · 2 yeni),
+  varsayılan 1; sürüm maç oluşurken `duellolar.surum`'a yazılır. Arayüz
+  (oturum 2) ve bot (oturum 3) bitmeden bayrak 2 yapılmaz — v2 botu henüz
+  cevap vermez. Yukarıdaki maddeler bayrak 2 olana kadar geçerlidir.
 
 ### Turnuva
 

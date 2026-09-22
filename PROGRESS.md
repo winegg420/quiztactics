@@ -7497,3 +7497,71 @@ otomatik akla gelmesi için; proje kapsamında kuruldu.
   361, eski `quiztactics` (hub reposu) 233, `basketlig` 157, `y` 19,
   `stratejioyunu` 18, `dist` 1 dağıtım — depolamanın büyük kısmı muhtemelen
   bunlarda. Depolama rakamı GB-ay hesabıyla gecikmeli düşer.
+
+## 2026-09-22 — Aşama 1: Vercel temizliği + derleme küçültme
+**Araç:** Claude Code
+**Neden:** Vercel Deployment Storage %75'teydi; eski dağıtımlar ve derlemeye giren kullanılmayan varlıklar kalıcı yük.
+
+- **Dağıtım temizliği** (canlı + en yeni 5 korundu, Vercel API; saatte 200 silme
+  sınırına takıldı, betik 10 dk bekleyip sürdürdü): idagg-game-center 356,
+  eski quiztactics (hub reposu) 228, basketlig 152, y 14, stratejioyunu 13,
+  dist 0 → **763 silindi, 0 hata**. Altı projenin canlı adresi 200 döndü.
+  Önceki oturumda quiztactics-app'ten 130 silinmişti; toplam 893.
+- **Meydan varlıkları TAŞINMADI** (talimat: canlı referans varsa atla). `/insan-prototip`
+  rotası bayraksız açık ve `/meydan/aday-quaternius/` yüklüyor
+  (`oyun/harita/aday/HazirInsanPrototipi.jsx:8`, rota `src/BildimApp.jsx:143`).
+  Hiçbir sayfa bu rotaya bağlantı vermiyor. `public/meydan/deneme`'ye giden bütün
+  referanslar dondurulmuş özelliklerde (MEYDAN_ACIK / GARDIROP_ACIK arkasında).
+  Karar Ida'da: rotayı da dondurup iki klasörü taşımak ya da yalnız `deneme`'yi taşımak.
+- **Sesler taşındı:** `public/sounds` (26 wav, 1,8 MB, DidaGP) → `varliklar-dondurulmus/sounds/`
+  + README. Her dosya adı kodda arandı, çağrılan yok (`pop` eşleşmesi logo adıydı).
+- **Doğrulama:** dist 19,40 MB → **17,63 MB** (286 → 260 dosya). Önizleme linki
+  Chrome'da açıldı: konsol hatası yok, kırık kaynak yok. Oturumlu sayfalar
+  `araclar/arayuz-denetim.mjs` ile aynı derleme üzerinde (vite preview) 16 sayfa ×
+  4 genişlik: TEMİZ. Önizlemede "Misafir olarak dene" basılmadı (ortak
+  veritabanında hesap açardı). Maç ekranı açılmadı; seslere kodda referans olmadığı
+  için etkilenmez.
+
+## 2026-09-22 — Aşama 2: Düello 1.0 · oturum 1/3 (sunucu)
+**Araç:** Claude Code
+**Neden:** Ida onaylı Düello 1.0 kurallarının sunucu tarafı; bayrak arkasında, canlı eski akışta kalır.
+
+- **Ölçüm:** migration 254 (ve 250–267'nin hepsi) canlıda UYGULANMIŞ —
+  `schema_migrations` + `joker_hak_kontrol`/`skill_kullanim_kapisi` var. Görevdeki
+  "254 uygulanmamış" notu güncel değil.
+- **Eski akış özeti:** `duello_olustur` (davet eden ilk saldıran) → `kategori`
+  (`duello_kategori_sec`, süre dolarsa `duello_ilerlet` zayıf olmayan rastgele) →
+  `duello_kategori_uygula` → `hazirlik` (6 sn, yalnız saldıran soruyu görür,
+  `duello_saldiri_jokeri`) → `cevap` (yalnız savunan: `duello_cevap` →
+  `duello_cozumle`, zayıf kategori riski) → `sonuc` → ikinci saldırı →
+  `duello_tur_sonu` (can → doğru sayısı → `altin` soru) → `duello_bitir` (ödül).
+  Her eylem `duello_kilitle` (FOR UPDATE + `duello_ilerlet`) içinden geçer;
+  cron `duello_tik_hepsi` ilerletir ve botu oynatır. Skill: `joker_al_ve_kullan`
+  → saldırı/savunma jokeri; kapı `joker_hak_kontrol` + `skill_kullanim_kapisi`.
+- **Migration `20260612000268_duello_v2_sunucu.sql` — CANLIYA UYGULANMADI.**
+  Bayrak `duello_surum` = 1. Sürüm maç oluşurken `duellolar.surum`'a yazılır.
+  Yeni kolonlar: `duellolar` (surum, uzatma, cevaplar, soru_baslangic, bitis1/2,
+  elli1/2, kopuk_kalan1/2), `duello_hamleler` (surum, uzatma, saldıranın cevabı,
+  yanıtsız bayrakları). 12 yeni `duello2_*` fonksiyonu (istemciye kapalı);
+  eski 11 giriş noktası canlı tanımın birebir kopyası + başta "surum = 2 ise
+  yeni fonksiyona git" satırı. Yeni ayarlar: `duello2_kategori_sn` 8,
+  `duello2_cevap_sn` 15, `duello2_cevap_tolerans_sn` 1,
+  `duello2_zaman_baskisi_eksi_sn` 5, `duello2_zaman_baskisi_taban_sn` 3,
+  `duello2_skill_toplam_hak` 4, `_tur_basi_hak` 2, `_soru_basi_hak` 1.
+- **Yorumla verilen kararlar (Ida değiştirebilir):** "kategori maçta 2 kez" =
+  iki oyuncunun saldırıları birlikte (eskisi saldıran başınaydı); "aynı kategori
+  üst üste gelmez" korundu; Zaman Baskısı rakibin kalan süresinden 5 sn düşer
+  (en az 3 sn kalır); uzatmada roller sırayla, kategori fazı yok; can 0'ın
+  altına inmez; ilk maçtaki +5 sn kategori payı v2'de yok; rövanşta da ilk
+  saldıran rastgele.
+- **Bot:** bot mantığına dokunulmadı. v2 maçında bot kategori seçer (eski yol
+  v2 kuralına uyarlanır) ama CEVAP VERMEZ (eski çözümleyici v2'de etkisiz) →
+  oturum 3 bitmeden bayrak 2 yapılmamalı.
+- **Testler:** `_test/sunucu/duello-v2.test.mjs`, `npm run test:duello2`
+  (migration işlem içinde uygulanır, geri alınır): 26/26. Mevcut sunucu
+  testleri 268 uygulanmış hâlde 97 geçti / 0 hata (16 atlanan: yalnız 255/266
+  provasına özel). Gerçek iki bağlantılı eşzamanlılık testi yapılamadı:
+  migration uygulanmadan iki ayrı bağlantı yeni fonksiyonları göremiyor.
+  Sıralama FOR UPDATE ile sağlanıyor; tek bağlantıda ikinci cevap, geç cevap,
+  çözümden sonra cevap ve tekrar eden ilerletmenin tek hamle yazması test edildi.
+- `npm run build` temiz.
