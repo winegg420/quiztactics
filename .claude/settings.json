@@ -1,6 +1,5 @@
 {
   "permissions": {
-    "defaultMode": "bypassPermissions",
     "allow": [
       "PowerShell(Get-Process *)",
       "PowerShell(Get-Content *)",
@@ -13,6 +12,10 @@
       "PowerShell(Test-Path *)",
       "PowerShell(Write-Output *)",
       "Bash(tasklist *)"
-    ]
+    ],
+    "defaultMode": "bypassPermissions"
+  },
+  "enabledPlugins": {
+    "typesafe@typesafe-ai": true
   }
 }
