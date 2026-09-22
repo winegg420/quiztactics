@@ -1,13 +1,14 @@
-// npm run soru:iceri -- parti_NN_sonuc.json [--kuru]
+// npm run soru:iceri -- parti_NN_sonuc.json [--kuru] [--yalniz-kapi] [--zorla]
 // --kuru: her satır işlenir ve raporlanır, sonra hepsi geri alınır (hiçbir şey yazılmaz)
 // Denetim sonucunu veritabanına işler. Her satır ayrı doğrulanır; bozuk satır atlanır ve raporlanır,
 // parti düşmez. Düzeltmede eski hâl soru_surum'a yazılır, çeviri "eskidi" işaretlenir; kaldırma = aktif=false.
 import fs from "node:fs";
 import path from "node:path";
 import { KLASOR, sorgu, jsonSabit } from "./ortak.mjs";
+import { duzeltmeKapiSorgusu } from "./kapi.mjs";
 
 const kuru = process.argv.includes("--kuru");
-const arg = process.argv.slice(2).find((a) => a !== "--kuru");
+const arg = process.argv.slice(2).find((a) => !a.startsWith("--"));
 if (!arg) {
   console.error("Kullanım: npm run soru:iceri -- parti_NN_sonuc.json");
   process.exit(1);
@@ -36,39 +37,45 @@ const parti = path.basename(dosya).replace(/_sonuc\.json$|\.json$/, "");
 // Paket 25 — kalite kapısı: düzeltilmiş şıklar "doğru şık kendini ele veriyor" kuralına
 // takılıyorsa sessizce alınmasın. Kural veritabanında tek yerde tanımlı
 // (soru_kural_isaretleri); burada yalnız çağrılır, eşik kopyalanmaz.
-// Engellemez — düzeltme yine işlenir; ama denetleyen uyarıyı görür ve çeldiricileri
-// doğru şıkla aynı biçime getirebilir.
+// ENGELLER (22 Eyl 2026, Şerit D): eskiden yalnız uyarıydı ve uyarı metni yanlıştı
+// ("rekabetçi havuza girmez"): düzeltilen soru 'duzeltildi' olur, soru_sec ise işaretli
+// soruyu yalnız denetim_durumu = 'bekliyor' iken dışlar → dengesiz düzeltme doğrudan
+// rekabetçi havuza giriyordu. Artık takılan düzeltme yazılmaz; bilerek geçirmek için --zorla.
+// Kapı çalıştırılamazsa (bağlantı vb.) hiçbir şey yazılmaz. SQL: kapi.mjs.
+// --yalniz-kapi: yalnız kapıyı çalıştırır, veritabanına hiçbir şey yazmaz.
+const zorla = process.argv.includes("--zorla");
+const yalnizKapi = process.argv.includes("--yalniz-kapi");
 const duzeltmeler = temiz.filter((k) => k.karar === "duzelt" && k.id);
+const engellenen = new Set();
 if (duzeltmeler.length) {
   try {
-    const takilan = sorgu(`
-      with g as (
-        select * from jsonb_to_recordset(${jsonSabit(duzeltmeler)})
-                 as x(id uuid, soru text, secenekler jsonb, dogru_cevap smallint)
-      ), b as (
-        select g.id, public.soru_kural_isaretleri(
-                 coalesce(g.soru, q.soru),
-                 coalesce(g.secenekler, q.secenekler),
-                 coalesce(g.dogru_cevap, q.dogru_cevap)) isaret
-          from g join public.questions q on q.id = g.id
-      )
-      select b.id::text id, string_agg(i, ', ') isaretler
-        from b, unnest(b.isaret) i
-       where public.soru_isaret_agirligi(i) >= 2
-       group by b.id;
-    `);
+    const takilan = sorgu(duzeltmeKapiSorgusu(duzeltmeler));
     if (takilan.length) {
-      console.warn(`UYARI — ${takilan.length} düzeltme kalite kapısına takılıyor (rekabetçi havuza girmez):`);
-      for (const t of takilan) console.warn(`  ${t.id}: ${t.isaretler}`);
+      console.warn(`${zorla ? "UYARI (--zorla)" : "ENGELLENDİ"} — ${takilan.length} düzeltme şık denge kapısına takılıyor:`);
+      for (const t of takilan) {
+        console.warn(`  ${t.id}: ${t.isaretler}`);
+        if (!zorla) engellenen.add(t.id);
+      }
       console.warn("  Doğru hamle: çeldiricileri doğru şıkla aynı uzunluk/kelime biçimine getir.");
+    } else {
+      console.log(`Şık denge kapısı: ${duzeltmeler.length} düzeltmenin hepsi geçti.`);
     }
   } catch (e) {
-    console.warn("[soru:iceri] kalite kapısı kontrol edilemedi:", e.message.slice(0, 200));
+    console.error("[soru:iceri] şık denge kapısı çalıştırılamadı:", e.message.slice(0, 200));
+    if (!zorla) {
+      console.error("Kapı doğrulanmadan hiçbir şey yazılmaz (bilerek geçirmek için --zorla).");
+      process.exit(1);
+    }
   }
 }
+if (yalnizKapi) {
+  console.log(`--yalniz-kapi: veritabanına hiçbir şey yazılmadı · engellenecek düzeltme ${engellenen.size}`);
+  process.exit(engellenen.size ? 2 : 0);
+}
+const islenecek = temiz.filter((k) => !(k.karar === "duzelt" && engellenen.has(k.id)));
 
 try {
-  const [satir] = sorgu(`select public.soru_denetim_ice_aktar(${jsonSabit(temiz)}, 'sahip', '${parti.replace(/[^a-zA-Z0-9_-]/g, "")}', ${kuru}) as rapor;`);
+  const [satir] = sorgu(`select public.soru_denetim_ice_aktar(${jsonSabit(islenecek)}, 'sahip', '${parti.replace(/[^a-zA-Z0-9_-]/g, "")}', ${kuru}) as rapor;`);
   const rapor = satir?.rapor;
   const raporDosya = dosya.replace(/\.json$/, "") + (kuru ? "_kuru_rapor.json" : "_rapor.json");
   fs.writeFileSync(raporDosya, JSON.stringify(rapor, null, 2));
@@ -76,6 +83,7 @@ try {
   if (kuru) console.log("KURU ÇALIŞMA — veritabanına hiçbir şey yazılmadı.");
   console.log(`${rapor?.toplam ?? 0} kayıt: onay ${i.onayla ?? 0} · düzeltme ${i.duzelt ?? 0} · kaldırma ${i.kaldir ?? 0} · atlanan ${rapor?.atlanan?.length ?? 0}`);
   for (const a of rapor?.atlanan ?? []) console.log(`  atlandı #${a.sira} ${a.id ?? "-"}: ${a.sebep}`);
+  if (engellenen.size) console.log(`  şık denge kapısı: ${engellenen.size} düzeltme yazılmadı (liste yukarıda)`);
   console.log("Rapor:", raporDosya);
 } catch (e) {
   console.error("[soru:iceri]", e.message);

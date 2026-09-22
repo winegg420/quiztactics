@@ -29,6 +29,7 @@ Dosyayı Claude oturumuna ver; dosyanın `talimat` alanı yeterli. Sonuç **dizi
 npm run soru:iceri -- parti_NN_sonuc.json --kuru   # önce dene: hiçbir şey yazılmaz, rapor çıkar
 npm run soru:iceri -- parti_NN_sonuc.json
 ```
+- **Şık denge kapısı** (`soru_kural_isaretleri`, ağırlık ≥ 2: doğru şık uzun / çok kelimeli, cevap sızması, hepsi-hiçbiri, aynı şık): kapıya takılan `duzelt` satırı **yazılmaz** ve listelenir. Bilerek geçirmek için `--zorla`. Kapı çalışamazsa hiçbir şey yazılmaz. Yalnız kapıyı denemek (salt okuma): `--yalniz-kapi` (takılan varsa çıkış kodu 2). SQL tek yerde: `kapi.mjs`. (Eskiden yalnız uyarıydı; ama düzeltilen soru `duzeltildi` olduğu için `soru_sec`'in "işaretli soru rekabetçi havuza girmez" dışlaması — yalnız `bekliyor` durumuna bakar — işlemiyordu.)
 - Bozuk satır (bilinmeyen id, 4'ten farklı şık, 0-3 dışı indeks, bilinmeyen karar) **atlanır ve raporlanır**, parti düşmez.
 - `duzelt`: eski hâl `soru_surum`'a yazılır, `surum` artar, İngilizce çeviri **eskidi** işaretlenir (yeniden çevrilene kadar o dilde sorulmaz).
 - `kaldir`: `aktif = false` — satır silinmez.
