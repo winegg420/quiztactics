@@ -74,12 +74,14 @@ tercih hatırlanır (localStorage + `profiles.dereceli_tercih`).
   uçtan uca ölçümünde arama → bot maçı → maç ekranı **12,56 sn** sürdü.
 - Rövanş bekleme penceresindeki “Vazgeç”, `duello_rovans_iptal` ile sunucu
   isteğini de geri çeker; yalnız pencereyi kapatıp hayalet istek bırakmaz.
-- **Düello 1.0 hazırlanıyor (canlı DEĞİL):** aynı soru aynı anda, simetrik can
-  tablosu, uzatma, skill 4/2/1. Sunucu: migration `…268_duello_v2_sunucu.sql`
-  (uygulanmadı). Bayrak `oyun_ayarlari.duello_surum` (1 eski · 2 yeni),
-  varsayılan 1; sürüm maç oluşurken `duellolar.surum`'a yazılır. Arayüz
-  (oturum 2) ve bot (oturum 3) bitmeden bayrak 2 yapılmaz — v2 botu henüz
-  cevap vermez. Yukarıdaki maddeler bayrak 2 olana kadar geçerlidir.
+- **Düello 1.0 — yalnız test hesaplarında açık:** aynı soru aynı anda,
+  simetrik can tablosu, uzatma (beraberlik yok), skill 4/2/1, Sigorta/2X yok.
+  Sunucu (268), bot (269), test listesi (276) canlı veritabanında; arayüz
+  `gelistirme` dalında (`DuelloV2.jsx`). Genel bayrak `duello_surum` = **1**.
+  `oyun_ayarlari.duello_v2_test_kullanicilari` listesindeki hesap, karşısında
+  test hesabı ya da bot varsa sürüm 2 maç alır; canlı sitedeki gerçek oyuncuyla
+  eşleşme sürüm 1 kalır. Herkese açılış = `gelistirme` → `main` birleştirmesiyle
+  aynı anda `duello_surum` = 2. O güne kadar yukarıdaki maddeler canlıda geçerli.
 
 ### Turnuva
 
@@ -94,6 +96,8 @@ tercih hatırlanır (localStorage + `profiles.dereceli_tercih`).
 - 25 kişilik gruplar. Grup = yalnız sıralama tablosu, eşleşmeyle ilgisi yok.
   İlk 5 yükselir, son 5 düşer. Pazartesi 00:00 (TSİ) sıfırlanır.
 - Eşleşme kendi ligi ± 1 lig ile sınırlıdır.
+- Misafir (anonim) hesap ligde ancak `lig_misafir_min_mac` (5) maçtan sonra
+  görünür; oyuncu kendi satırını her zaman görür. Hesap silinmez.
 - **Toplam oyuncu sayısı hiçbir yerde gösterilmez.**
 
 ### Sosyal
@@ -259,7 +263,7 @@ bırakma, buraya ekle.
 |---|---|---|---|
 | **Hızlı Mod** | `oyun/pages/HizliModPage.jsx` | `oyun_ayarlari.hizli_mod_acik = false` + tabloda BEFORE INSERT kapısı | Ayarı `true` yap · rotayı, ana sayfa düğmesini ve harita binasını geri koy · skill testindeki TEST 9 yorumunu aç |
 | **"Hızlı Olan Kazanır"** | `oyun/pages/HizliMacPage.jsx` | `oyun_ayarlari.hizli_mac_acik = false` + BEFORE INSERT kapısı | Ayarı `true` yap · `/hizli-mac/:id` rotasını geri bağla · davet akışındaki `hizli` türünü aç |
-| **Meydan (3B harita)** | `oyun/harita/**` | yok (bayrak istemcide) | `oyun/lib/ozellikBayraklari.js` › `MEYDAN_ACIK = true` |
+| **Meydan (3B harita)** + `/insan-prototip` | `oyun/harita/**`; varlıkları `varliklar-dondurulmus/meydan/` (derleme dışında) | yok (bayrak istemcide) | `oyun/lib/ozellikBayraklari.js` › `MEYDAN_ACIK = true` · varlık klasörlerini `public/meydan/` altına geri taşı (README) |
 | **Gardırop / karakter vitrini** | `oyun/vitrin/**`, `oyun/pages/GorunumPage.jsx` | yok (bayrak istemcide) | `oyun/lib/ozellikBayraklari.js` › `GARDIROP_ACIK = true` |
 | **Eski 3B gardırop / atölye / yerel meydan** | `oyun/avatar3d/**` | yok (HTML girişleri yönlendiriyor) | Üç HTML'deki `location.replace` satırını kaldır · `/gorunum` ve `/gorunum-3b` rotalarını geri bağla · Dükkân › Görünüm sekmesini geri koy |
 | **Eski düşük ayrıntılı profil avatarları** | `public/avatars/k01.svg`…`k31.svg`, `oyun/_test/avatar-uret.mjs` | `avatar_onayla` yalnız profesyonel `/avatars/pro/**` listesini kabul eder | Eski dosyalar geri açılmaz; karakter fikirlerinin 31'i de profesyonel sette yeniden çizildi |
@@ -291,6 +295,12 @@ altta, eylem düğmeleri sağ altta.
 ---
 
 ## Açık İşler
+
+- **1000 soru partisi + Jev zorluk (270–274) beklemede.** Üretildi ve provadan
+  geçti ama Ida "soru üretimini durdur" dedi; uygulanmadı. Dosyalar
+  `araclar/soru-parti-1000/bekleyen-migrationlar/` (migrations klasörü
+  dışında). 274 havuzun en kolay %10'unu zorluk 1 yapar → `soru_sec` onları
+  Klasik/Düello/Grup'tan çıkarır; açmadan önce karar gerekir.
 
 - **Kontrast düzeltmesi.** Arayüz yenilemesinde prototipin paleti bilerek
   aynen alındı; ölçülen düşük kontrastlar henüz düzeltilmedi. Ölçüm listesi

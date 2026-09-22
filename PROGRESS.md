@@ -7565,3 +7565,58 @@ otomatik akla gelmesi için; proje kapsamında kuruldu.
   Sıralama FOR UPDATE ile sağlanıyor; tek bağlantıda ikinci cevap, geç cevap,
   çözümden sonra cevap ve tekrar eden ilerletmenin tek hamle yazması test edildi.
 - `npm run build` temiz.
+
+## 2026-09-23 — Büyük paket: Düello 1.0 tamamlama · sorular · mobil lig · mod testi
+**Araç:** Claude Code (ana ajan + 6 paralel şerit alt ajanı)
+**Neden:** Düello 1.0'ı test hesaplarında açmak, mobil lig hatasını kapatmak, küçük arayüz borçlarını ödemek, bütün modları uçtan uca denemek.
+
+- **Faz 0:** `/insan-prototip` `MEYDAN_ACIK` bayrağına bağlandı; `public/meydan/{deneme,aday-quaternius}`
+  → `varliklar-dondurulmus/meydan/` (README). dist 17,63 → **4,10 MB** (son build 4,14).
+- **Şerit A (Düello arayüz):** `DuelloV2.jsx` + `duello-v2.css`; `surum === 2` maçta yeni ekranlar
+  (8 sn kategori + n/2 sayacı, eşzamanlı cevap, "rakip cevapladı", simetrik sonuç, Yanıtsız,
+  uzatma, skill şeridi 4/2/1 + Soru Değiştir kilit metni, maç sonu geçmişi). v1 aynen.
+  Giriş ekranı sürümü `duello_surum_benim()` RPC'sinden okur.
+- **Şerit B (bot, 269):** `duello2_bot_tik` — güçlü kategori, kategoriye göre isabet, açık bot
+  0,3–0,8 sn / gizli bot `bot_gecikme_sn`, uzatmada oynar, Klasik bot skill deseni (%15).
+- **Şerit C (kontrast/turnuva):** 7 maddenin 5'i Paket 43'te zaten yapılmıştı (ölçüldü).
+  `.bd-lobi-kilic` üç tanımdan teke indi (kazanan `.app .bd-lobi-oyuncu .bd-lobi-kilic`,
+  hesaplanan stil birebir aynı). Son 5 sn filigranı dekoratif bırakıldı (aria-hidden,
+  aynı sayı süre göstergesinde 3,63:1), gerekçe tema.css'te.
+- **Şerit D (sorular):** 1000 soru (≥%87 zor), EN çeviri, Jev kapısı (2.336 çağrı, 0,078 $),
+  274 zorluk. **Ida durdurdu — 270–274 uygulanmadı**, `araclar/soru-parti-1000/bekleyen-migrationlar/`.
+  Kalıcı kazanç: `soru:iceri` şık denge kapısı gerçekten engelliyor (`kapi.mjs`; eskiden yalnız uyarıydı).
+- **Şerit E (mobil lig, 275) — kök sebep iki:** (1) `yeni.css:137` 560 px altında
+  `.rank-row>button{display:none}` — 19 Eyl'de satırın tamamı bu düğmenin içine alınmıştı →
+  satırlar boş kutu; `oyun/pages/lig.css` ile düzeldi. (2) 243'te `lig_grubum`'dan
+  `lig_uyeligim_kur` çağrısı düşmüştü → yeni hesaplar hafta sonuna kadar boş lig. Misafir
+  hesap ligde 5 maçtan sonra görünür (görünür misafir 8 → 1).
+- **Şerit F:** SVG `Bayrak` (87+1 ülke; profil, kart, konum, kurulum, lig), zilde "Tümünü
+  okundu say", grup maçı çıkış onayı, Facebook "yakında" notu, `oyun/CLAUDE.md` turnuva ifadesi.
+- **Ida'nın ek talimatı:** `duello_surum` herkese 2 YAPILMADI. Migration 276:
+  `duello_v2_test_kullanicilari` (Ida + 3 denetim hesabı). Test hesabı + test hesabı/bot → v2;
+  test hesabı + canlı gerçek oyuncu → v1 (canlı oyuncu eski arayüzde v2'ye düşmesin).
+- **Faz 2:** 268, 269, 275, 276 canlıya uygulandı (öncesinde 268'in kopyaladığı 12 canlı
+  fonksiyonun değişmediği doğrulandı; birleşik prova + 127 sunucu testi 0 hata). Canlıda
+  cron hatasız. **İlk gerçek iki bağlantılı test** (iki test hesabı, maç sonra iptal):
+  eşzamanlı doğru+doğru → nötr, tek çözüm; doğru/yanlış → doğru can; aynı oyuncu çift cevap →
+  biri reddedildi; Soru Değiştir ∥ rakip cevabı → cevap önce, Soru Değiştir kilitli.
+- **Faz 3 (yerel dev sunucu, canlı DB, test hesabı):** Düello v2 bota karşı iki tam maç
+  (eşleşme 16,6/16,8 sn, skill, can tablosu, geçmiş, konsol temiz); Düello v1 altın soruya
+  kadar; Klasik dereceli (60–90) ve serbest (ücretsiz 50:50) sonuna kadar; Çalışma, turnuva
+  lobisi, Hızlı Mod kapalı notu, lig; arayüz denetimi 16 sayfa × 4 genişlik TEMİZ.
+  Turnuva canlı seans saatinde değildi, grup maçı arkadaşlık ister — ikisi sunucu testleriyle.
+- **Düzeltilen hatalar:** saat sapması — sunucu soruyu başlangıç + 15 sn GEÇİNCE kapatıyor,
+  istemci 0'da istek atınca reddediliyordu ("soru atlama yeniden denenecek") → 0,6 sn pay
+  (`QuestionCard`, bütün modlar). `HazirKapisi` "Rakibin N dakikadır gelmedi" uyarısını
+  bekleyen oyuncunun kendisiyken de gösteriyordu → yalnız oyuncu hazırken. Soru bildir
+  düğmeleri 32 → 44 px.
+- **Düello eşleşme şikâyeti:** sunucu yeni hesabı işlem içinde ~10 sn'de bota eşledi, e2e 16 sn.
+  `rpc_sayac`'ta son günlerde `duello_ara` çağıran yalnız 4 hesap var, hepsi düello aldı —
+  şikâyetteki deneme sunucuya hiç ulaşmamış. Yeniden üretilemedi.
+- **Ida'nın takılan maçı** (`a76f2752`, 22 Eyl 20:21 UTC, v1): istemci 56. sn'de nabzı kesti,
+  sunucu 45 sn bekleyip maçı bota verdi (`bitti`). Aktif kalmadı. Temiz istemciyle v1 akışı
+  sonuna kadar oynandı, takılma üretilemedi; en olası sebep sekmenin/telefonun arka plana alınması.
+- **.catch deseni raporu (düzeltilmedi):** RPC hatası yutulan: `DuelloPage.jsx` (duello_aramadan_cik ×2),
+  `ChallengesPage.jsx:632`, `RakipAra.jsx:264`; `{error}` kontrolü yok: `ProfilAyarlari.jsx:94`,
+  `CalismaPage.jsx:108`, `MatchPage.jsx:563`, `HizliModPage.jsx:111`, `ChallengesPage.jsx:278`,
+  `Home.jsx:75`; RPC dışı: `JokerCubugu.jsx:188`, `MatchPage.jsx:554`, `HizliModPage.jsx:194`.
