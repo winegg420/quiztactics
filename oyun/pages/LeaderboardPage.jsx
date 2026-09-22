@@ -18,6 +18,7 @@ import { useArkadaslik } from "../lib/arkadaslik.js";
 import AvatarCerceve from "../components/AvatarCerceve.jsx";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
+import "./lig.css";
 
 // Lig adları oyun/lib/lig.js'e taşındı (Arayüz Yenileme, 20 Eyl 2026);
 // buradan yeniden dışa verilir ki eski import'lar kırılmasın.

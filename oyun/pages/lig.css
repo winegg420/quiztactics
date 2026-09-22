@@ -1,0 +1,13 @@
+/* Lig (Sıralama) sayfasının kendi kuralları — yalnız LeaderboardPage içe aktarır.
+
+   MOBİLDE BOŞ LİG (Şerit E, 22 Eyl 2026) — ölçülen kök sebep:
+   yeni.css'in 560 px altı prototip bloğunda `.rank-row>button{display:none}`
+   var (prototipte satırın sağındaki küçük düğmeyi gizliyordu). Paket 43 B.4'ten
+   (19 Eyl) beri lig satırının BÜTÜN içeriği (sıra, avatar, ad, puan) bir
+   `<button class="bd-lig-satir-ac">` içinde ve bu düğme `.rank-row`'un doğrudan
+   çocuğu. 20 Eyl'de yeni.css gelince 560 px altında satırlar içi boş kutu
+   olarak çizildi: veri geliyor (11 satır, 62 px), ad/puan kutusu 0×0.
+   Kılıç düğmesi de aynı kuraldan gizleniyordu; masaüstüyle aynı davranış için
+   geri açıldı (44×44 dokunma alanı src/styles.css'ten). */
+.app .bd-lig .bd-lig-satir.rank-row > .bd-lig-satir-ac { display: flex; }
+.app .bd-lig .bd-lig-satir.rank-row > .bd-ikon-btn { display: flex; flex: 0 0 auto; }
