@@ -1,10 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import KategoriIkon from "../components/KategoriIkon.jsx";
-import Ikon from "../components/Ikon.jsx";
-import Modal from "../components/Modal.jsx";
+import {
+  QtKart, QtDugme, QtIkonDugme, QtIkon, QtModKart, QtListe, QtListeSatiri, QtRozet, QtCip, QtIlerleme,
+  QtBosDurum, QtModal, QtToast, QtToastYuvasi, sinif,
+} from "../tasarim/index.js";
+import "../tasarim/ekranlar/a-meydan.css";
 import DurumKutusu from "../components/DurumKutusu.jsx";
 import { hataMesaji } from "../lib/hata.js";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import AvatarCerceve from "../components/AvatarCerceve.jsx";
@@ -35,6 +38,9 @@ const HIZLI_SECIMI = `*,
 
 // Bot zorluk etiketi ortak dosyada (RakipAra'daki bot seçimi de kullanır).
 import { botZorluk } from "../lib/botZorluk.js";
+
+// Açık bot zorluğu → rozet tonu (eşikler lib/botZorluk.js ile aynı)
+const zorlukTonu = (i) => (i <= 0.45 ? "dogru" : i <= 0.6 ? "uyari" : i <= 0.75 ? "vurgu" : "yanlis");
 import DereceliAnahtari from "../components/DereceliAnahtari.jsx";
 import { useDereceliTercih } from "../lib/dereceli.js";
 import { useDil } from "../lib/dilKanca.js";
@@ -51,48 +57,41 @@ const HIZLI_OLAN_KAZANIR_ACIK = false;
 function BekleyenKurulum({ baslik, kategori, katilimcilar, onIptal, iptalEdilen, id }) {
   const hazir = katilimcilar.filter((k) => k.davet_durumu === "kabul").length;
   return (
-    <div className="bd-bekleyen-kurulum">
-      <div className="bd-bk-ust">
-        <div className="bd-bk-baslik">{baslik}</div>
-        <div className="bd-bk-alt">
-          {kategori ? kategoriEtiket(kategori) : tt("Karışık")} · {hazir}/
-          {katilimcilar.length} {tt("hazır")}
+    <QtKart className="a-meydan-kurulum">
+      <div className="a-meydan-kurulum-ust">
+        <div className="a-meydan-kurulum-metin">
+          <b>{baslik}</b>
+          <span>
+            {kategori ? kategoriEtiket(kategori) : tt("Karışık")} · {hazir}/{katilimcilar.length} {tt("hazır")}
+          </span>
         </div>
+        <QtDugme tur="ikincil" boyut="k" yukleniyor={iptalEdilen === id} onClick={onIptal}>
+          {iptalEdilen === id ? tt("İptal ediliyor…") : tt("İptal et")}
+        </QtDugme>
       </div>
 
-      <div className="bd-bk-oyuncular">
-        {katilimcilar.map((k) => (
-          <div
-            key={k.user_id}
-            className={`bd-bk-oyuncu ${k.davet_durumu === "kabul" ? "hazir" : "bekliyor"}`}
-            title={`${oyuncuAdi(k.profil, k.user_id)} — ${
-              k.davet_durumu === "kabul" ? tt("hazır") : "bekliyor"
-            }`}
-          >
-            <AvatarCerceve
-              userId={k.user_id}
-              profile={{
-                gorunen_ad: oyuncuAdi(k.profil, k.user_id),
-                gorunen_avatar: k.profil?.gorunen_avatar,
-              }}
-              boyut={34}
-            />
-            <span className="bd-bk-durum" aria-hidden="true">
-              {k.davet_durumu === "kabul" ? tt("hazır") : "…"}
-            </span>
-            <span className="bd-bk-ad">{oyuncuAdi(k.profil, k.user_id)}</span>
-          </div>
-        ))}
-      </div>
-
-      <button
-        className="btn kucuk ikincil"
-        disabled={iptalEdilen === id}
-        onClick={onIptal}
-      >
-        {iptalEdilen === id ? tt("İptal ediliyor…") : tt("İptal et")}
-      </button>
-    </div>
+      <ul className="a-meydan-kurulum-oyuncular">
+        {katilimcilar.map((k) => {
+          const kabul = k.davet_durumu === "kabul";
+          return (
+            <li key={k.user_id} className={sinif("a-meydan-kurulum-oyuncu", kabul && "a-meydan-kurulum-oyuncu--hazir")}>
+              <AvatarCerceve
+                userId={k.user_id}
+                profile={{
+                  gorunen_ad: oyuncuAdi(k.profil, k.user_id),
+                  gorunen_avatar: k.profil?.gorunen_avatar,
+                }}
+                boyut={36}
+              />
+              <span className="a-meydan-kurulum-ad">{oyuncuAdi(k.profil, k.user_id)}</span>
+              <QtRozet ton={kabul ? "dogru" : "notr"} ikon={kabul ? "onay" : "saat"} boyut="k">
+                {kabul ? tt("hazır") : tt("bekliyor")}
+              </QtRozet>
+            </li>
+          );
+        })}
+      </ul>
+    </QtKart>
   );
 }
 
@@ -136,6 +135,13 @@ export default function ChallengesPage() {
   const katSeritRef = useRef(null);
   const [seritSonda, setSeritSonda] = useState(false);
 
+  // Bildirim şeridi (QtToast) ~4 sn sonra kendiliğinden kapanır; zamanlama ekranın işi.
+  useEffect(() => {
+    if (!toast) return undefined;
+    const t = setTimeout(() => setToast(null), 4000);
+    return () => clearTimeout(t);
+  }, [toast]);
+
   // Şerit sona geldiğinde sağdaki sönümleme ve "›" ipucu kaybolur
   const seritKaydi = useCallback(() => {
     const e = katSeritRef.current;
@@ -147,7 +153,7 @@ export default function ChallengesPage() {
   useEffect(() => {
     const e = katSeritRef.current;
     if (!e) return;
-    const secili = e.querySelector(".bd-kat-kart.aktif");
+    const secili = e.querySelector(".a-meydan-kat--secili");
     try {
       secili?.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" });
     } catch {
@@ -709,669 +715,557 @@ export default function ChallengesPage() {
 
   const rakip = (m) => (m.oyuncu1 === user.id ? m.p2 : m.p1);
 
+  // Maç sonucu rozeti (bitenler listeleri)
+  const sonucRozeti = (kazandim, berabere, metin) => (
+    <QtRozet ton={berabere ? "notr" : kazandim ? "dogru" : "yanlis"} ikon={berabere ? undefined : kazandim ? "onay" : "carpi"} boyut="k">
+      {metin ?? (berabere ? tt("Berabere") : kazandim ? tt("Kazandın") : tt("Kaybettin"))}
+    </QtRozet>
+  );
+  const adlar = (liste, skorlu = false) => (liste ?? [])
+    .filter((k) => k.user_id !== user.id)
+    .map((k) => (skorlu ? `${k.profil?.gorunen_ad} (${k.skor})` : oyuncuAdi(k.profil, k.user_id)))
+    .join(", ");
+  // Kabul / Reddet çifti (gelen davet satırları)
+  const cevapDugmeleri = (kabul, ret) => (
+    <>
+      <QtDugme boyut="k" tur="mor" onClick={kabul}>{tt("Kabul")}</QtDugme>
+      <QtIkonDugme ikon="carpi" etiket={tt("Reddet")} onClick={ret} className="a-meydan-ret" />
+    </>
+  );
+
   return (
-    <div>
-      {/* Sayfa başlığı — prototipin `page-heading` bloğu (Arayüz Yenileme) */}
-      <section className="page-heading">
-        <div>
-          <span className="eyebrow">{tt("ARKADAŞLAR")}</span>
-          <h1>{tt("Meydan Oku")}</h1>
-          <p>{tt("Bir arkadaşını seç ve bire bir kapış; ya da grup maçı kur.")}</p>
-        </div>
-      </section>
-      {/* Paket 9: sahibi otomatik eşleştirmenin kategorisini burada aradı. */}
-      <p className="alt-yazi" style={{ marginTop: -6, marginBottom: 12 }}>
+    <div className="a-meydan">
+      {/* Sayfa başlığı */}
+      <header className="a-meydan-bas">
+        <h1 className="qt-baslik-1">{tt("Meydan Oku")}</h1>
         {/* Paket 42 H.2: tek cümle; artık olmayan "Dereceli Maç" düğmesinden bahsetmiyor */}
-        {tt("Bota ya da bir arkadaşına meydan oku.")}
-      </p>
-      {hata && <div className="hata-kutu">{hata}</div>}
+        <p className="qt-govde qt-soluk-zemin">{tt("Bir arkadaşını seç ve bire bir kapış; ya da grup maçı kur.")}</p>
+      </header>
+      {hata && <p className="a-meydan-hata" role="alert">{hata}</p>}
       {macHata && (
-        <div className="kart"><DurumKutusu durum="hata" kucuk metin={tt("Maç ve davet listen alınamadı.")} onTekrar={yukle} /></div>
+        <QtKart><DurumKutusu durum="hata" kucuk metin={tt("Maç ve davet listen alınamadı.")} onTekrar={yukle} /></QtKart>
       )}
-      {toast && <div className="bd-toast">{toast}</div>}
+      {toast && (
+        <QtToastYuvasi>
+          <QtToast ton="bilgi" baslik={toast} onKapat={() => setToast(null)} />
+        </QtToastYuvasi>
+      )}
 
       {/* Sana gelen davetler EN ÜSTTE — aşağıda kalıp gözden kaçmasınlar */}
-      <div className="bd-gelen-davetler">
-      {duelloGelen.length > 0 && (
-        <>
-          <div className="baslik">{tt("Düello davetlerin (")}{duelloGelen.length})</div>
-          {duelloGelen.map((d) => (
-            <div key={d.id} className="liste-satir">
-              <AvatarCerceve profile={kisi(d.kuran)} />
-              <div className="bilgi">
-                <div className="isim">{kisi(d.kuran)?.gorunen_ad ?? tt("Rakip")}</div>
-                <div className="detay">
-                  {tt("seni düelloya çağırdı")} · {d.dereceli ? tt("Dereceli") : tt("Serbest")}
-                </div>
-              </div>
-              <button className="btn kucuk" onClick={() => duelloDavetCevap(d.id, true)}>
-                {tt("Kabul")}
-              </button>
-              <button className="btn kucuk tehlike" onClick={() => duelloDavetCevap(d.id, false)}>
-                {tt("Reddet")}
-              </button>
-            </div>
-          ))}
-        </>
+      {(duelloGelen.length > 0 || gelen.length > 0 || hizliGelen.length > 0 || grupGelen.length > 0) && (
+        <section className="a-meydan-bolum" aria-labelledby="a-meydan-gelen-b">
+          <h2 id="a-meydan-gelen-b" className="qt-baslik-2">
+            {tt("Sana gelen davetler")}{" "}
+            <QtRozet ton="yanlis" boyut="k">{duelloGelen.length + gelen.length + hizliGelen.length + grupGelen.length}</QtRozet>
+          </h2>
+          <QtListe etiket={tt("Sana gelen davetler")}>
+            {duelloGelen.map((d) => (
+              <QtListeSatiri
+                key={d.id}
+                vurgulu
+                bas={<AvatarCerceve profile={kisi(d.kuran)} />}
+                baslik={kisi(d.kuran)?.gorunen_ad ?? tt("Rakip")}
+                alt={`${tt("seni düelloya çağırdı")} · ${d.dereceli ? tt("Dereceli") : tt("Serbest")}`}
+                sag={cevapDugmeleri(() => duelloDavetCevap(d.id, true), () => duelloDavetCevap(d.id, false))}
+              />
+            ))}
+            {gelen.map((m) => (
+              <QtListeSatiri
+                key={m.id}
+                vurgulu
+                bas={<AvatarCerceve profile={m.p1} />}
+                baslik={m.p1?.gorunen_ad}
+                alt={tt("sana meydan okudu!")}
+                sag={cevapDugmeleri(() => cevapVer(m.id, true), () => cevapVer(m.id, false))}
+              />
+            ))}
+            {hizliGelen.map((hm) => (
+              <QtListeSatiri
+                key={hm.id}
+                vurgulu
+                ikon="hizli"
+                ikonTon="vurgu"
+                baslik={adlar(hm.katilimcilar)}
+                alt={tt("Hızlı Olan Kazanır — 5 kişilik yarış")}
+                sag={cevapDugmeleri(() => hizliCevapVer(hm.id, true), () => hizliCevapVer(hm.id, false))}
+              />
+            ))}
+            {grupGelen.map((gm) => (
+              <QtListeSatiri
+                key={gm.id}
+                vurgulu
+                ikon="kisiler"
+                ikonTon="dogru"
+                baslik={adlar(gm.katilimcilar)}
+                alt={`${gm.oyuncu_sayisi} ${tt("kişilik gruba davet edildin")}`}
+                sag={cevapDugmeleri(() => grupCevapVer(gm.id, true), () => grupCevapVer(gm.id, false))}
+              />
+            ))}
+          </QtListe>
+        </section>
       )}
 
-      {gelen.length > 0 && (
-        <>
-          <div className="baslik">{tt("Sana gelen (")}{gelen.length})</div>
-          {gelen.map((m) => (
-            <div key={m.id} className="liste-satir">
-              <AvatarCerceve profile={m.p1} />
-              <div className="bilgi">
-                <div className="isim">{m.p1?.gorunen_ad}</div>
-                <div className="detay">{tt("sana meydan okudu!")}</div>
-              </div>
-              <button className="btn kucuk" onClick={() => cevapVer(m.id, true)}>
-                {tt("Kabul")}
-              </button>
-              <button className="btn kucuk tehlike" onClick={() => cevapVer(m.id, false)}>
-                {tt("Reddet")}
-              </button>
-            </div>
-          ))}
-        </>
-      )}
-
-      {hizliGelen.length > 0 && (
-        <>
-          <div className="baslik">{tt("Hızlı yarış davetlerin (")}{hizliGelen.length})</div>
-          {hizliGelen.map((hm) => (
-            <div key={hm.id} className="liste-satir">
-              <div className="bilgi">
-                <div className="isim">
-                  {hm.katilimcilar
-                    ?.filter((k) => k.user_id !== user.id)
-                    .map((k) => k.profil?.gorunen_ad)
-                    .join(", ")}
-                </div>
-                <div className="detay">{tt("Hızlı Olan Kazanır — 5 kişilik yarış")}</div>
-              </div>
-              <button className="btn kucuk" onClick={() => hizliCevapVer(hm.id, true)}>
-                {tt("Kabul")}
-              </button>
-              <button className="btn kucuk tehlike" onClick={() => hizliCevapVer(hm.id, false)}>
-                {tt("Reddet")}
-              </button>
-            </div>
-          ))}
-        </>
-      )}
-
-      {grupGelen.length > 0 && (
-        <>
-          <div className="baslik">{tt("Grup davetlerin (")}{grupGelen.length})</div>
-          {grupGelen.map((gm) => (
-            <div key={gm.id} className="liste-satir">
-              <div className="bilgi">
-                <div className="isim">
-                  {gm.katilimcilar
-                    ?.filter((k) => k.user_id !== user.id)
-                    .map((k) => k.profil?.gorunen_ad)
-                    .join(", ")}
-                </div>
-                <div className="detay">{gm.oyuncu_sayisi} {tt("kişilik gruba davet edildin")}</div>
-              </div>
-              <button className="btn kucuk" onClick={() => grupCevapVer(gm.id, true)}>
-                {tt("Kabul")}
-              </button>
-              <button className="btn kucuk tehlike" onClick={() => grupCevapVer(gm.id, false)}>
-                {tt("Reddet")}
-              </button>
-            </div>
-          ))}
-        </>
-      )}
-
-      </div>
-
-
-      {/* Meydan okuma modu: Klasik Mod ya da Düello. Seçim hem botlara hem arkadaşlara geçerli. */}
-      <div className="bd-kat-baslik">
-        <span>{tt("Meydan okuma modu")}</span>
-        <span className="alt-yazi">{tt("bota ve arkadaşına")}</span>
-      </div>
-      <div className="bd-mod-secim" role="radiogroup" aria-label={tt("Meydan okuma modu")}>
-        <button
-          className={`bd-mod-sec ${meydanModu === "normal" ? "aktif" : ""}`}
-          role="radio"
-          aria-checked={meydanModu === "normal"}
-          onClick={() => setMeydanModu("normal")}
-        >
-          <b>{tt("Klasik Mod")}</b>
-          <span className="alt-yazi">{tt("4 skill · aynı anda")}</span>
-        </button>
-        <button
-          className={`bd-mod-sec ${meydanModu === "duello" ? "aktif" : ""}`}
-          role="radio"
-          aria-checked={meydanModu === "duello"}
-          onClick={() => setMeydanModu("duello")}
-        >
-          <b>{tt("Düello")}</b>
-          <span className="alt-yazi">{tt("4 skill · sıra sende")}</span>
-        </button>
-        <button
-          className={`bd-mod-sec ${meydanModu === "saf" ? "aktif" : ""}`}
-          role="radio"
-          aria-checked={meydanModu === "saf"}
-          onClick={() => setMeydanModu("saf")}
-        >
-          <b>{tt("Saf Bilgi")}</b>
-          <span className="alt-yazi">{tt("skill yok")}</span>
-        </button>
-      </div>
+      {/* Meydan okuma modu: Klasik Mod, Düello ya da Saf Bilgi. Seçim hem botlara hem arkadaşlara geçerli. */}
+      <section className="a-meydan-bolum" aria-labelledby="a-meydan-mod-b">
+        <div className="a-meydan-bolum-bas">
+          <h2 id="a-meydan-mod-b" className="qt-baslik-2">{tt("Meydan okuma modu")}</h2>
+          <span className="qt-kucuk qt-soluk-zemin">{tt("bota ve arkadaşına")}</span>
+        </div>
+        <div className="a-meydan-modlar" role="group" aria-labelledby="a-meydan-mod-b">
+          <QtModKart mod="klasik" ad={tt("Klasik Mod")} alt={tt("4 skill · aynı anda")}
+                     secili={meydanModu === "normal"} onClick={() => setMeydanModu("normal")} />
+          <QtModKart mod="duello" ad={tt("Düello")} alt={tt("4 skill · sıra sende")}
+                     secili={meydanModu === "duello"} onClick={() => setMeydanModu("duello")} />
+          <QtModKart mod="saf" ad={tt("Saf Bilgi")} alt={tt("skill yok")}
+                     secili={meydanModu === "saf"} onClick={() => setMeydanModu("saf")} />
+        </div>
+      </section>
 
       {/* Kategori seçimi 1v1, grup ve hızlı modun HEPSİ için geçerlidir. Düelloda kategoriyi saldıran tur başında seçer. */}
-      <div className="bd-kat-baslik">
-        <span>{tt("Kategori")}</span>
-        <span className="alt-yazi">{meydanModu === "duello" ? tt("düelloda kullanılmaz") : tt("1v1 · grup · hızlı mod için")}</span>
-      </div>
-      <div className={`bd-kat-serit ${seritSonda ? "sonda" : ""} ${meydanModu === "duello" ? "bd-sonuk" : ""}`}>
-      <div className="bd-kat-grid" ref={katSeritRef} onScroll={seritKaydi}>
-        <button
-          className={`bd-kat-kart ${kategori === null ? "aktif" : ""}`}
-          onClick={() => setKategori(null)}
-        >
-          <KategoriIkon anahtar="karisik" boyut={26} plaka />
-          <span className="bd-kat-ad">{tt("Karışık")}</span>
-          <span className="bd-kat-alt">{tt("Tüm kategoriler")}</span>
-        </button>
-        {kategorileriSirala(kategoriler).map((k) => {
-          const toplam = Number(k.soru_sayisi ?? 0);
-          const gorulen = Number(k.gorulen_sayisi ?? 0);
-          const yuzde = toplam > 0 ? Math.round((gorulen / toplam) * 100) : 0;
-          return (
+      <section className="a-meydan-bolum" aria-labelledby="a-meydan-kat-b">
+        <div className="a-meydan-bolum-bas">
+          <h2 id="a-meydan-kat-b" className="qt-baslik-2">{tt("Kategori")}</h2>
+          <span className="qt-kucuk qt-soluk-zemin">{meydanModu === "duello" ? tt("düelloda kullanılmaz") : tt("1v1 · grup · hızlı mod için")}</span>
+        </div>
+        <div className={sinif("a-meydan-kat-serit", seritSonda && "a-meydan-kat-serit--sonda", meydanModu === "duello" && "a-meydan-kat-serit--sonuk")}>
+          <div className="a-meydan-kat-liste" ref={katSeritRef} onScroll={seritKaydi} role="group" aria-labelledby="a-meydan-kat-b">
             <button
-              key={k.kategori}
-              className={`bd-kat-kart kat-${k.kategori} ${kategori === k.kategori ? "aktif" : ""}`}
-              onClick={() => setKategori(k.kategori)}
+              type="button"
+              className={sinif("a-meydan-kat", kategori === null && "a-meydan-kat--secili")}
+              aria-pressed={kategori === null}
+              onClick={() => setKategori(null)}
             >
-              <KategoriIkon anahtar={k.kategori} boyut={26} plaka />
-              <span className="bd-kat-ad">{kategoriAdi(k.kategori)}</span>
-              <span className="bd-kat-alt">
-                {toplam} {tt("soru")}
-                <span className="bd-kat-yuzde"> · {tt("%{0}", { 0: yuzde })} {tt("çözüldü")}</span>
-              </span>
-              <span className="bd-kat-bar">
-                <span className="dolgu" style={{ width: `${yuzde}%` }} />
-              </span>
+              <KategoriIkon anahtar="karisik" boyut={26} plaka />
+              <span className="a-meydan-kat-ad">{tt("Karışık")}</span>
+              <span className="a-meydan-kat-alt">{tt("Tüm kategoriler")}</span>
             </button>
-          );
-        })}
-      </div>
-        {/* Kaydırılabilir olduğunu belli eden ipucu; sona gelince kaybolur */}
-        <span className="bd-kat-ipucu" aria-hidden="true">›</span>
-      </div>
-
-      {botlar
-        .filter(
-          (b) =>
-            !maclar.some(
-              (m) =>
-                (m.oyuncu1 === b.id || m.oyuncu2 === b.id) &&
-                ["bekliyor", "aktif"].includes(m.durum)
-            )
-        )
-        .map((b) => {
-          const z = botZorluk(Number(b.acik_bot_isabet));
-          return (
-            <div key={b.id} className="liste-satir">
-              <AvatarCerceve profile={b} />
-              <div className="bilgi">
-                <div className="isim">{b.gorunen_ad} <Ikon ad="robot" boyut={14} /></div>
-                <div className="detay">
-                  {tt("Zorluk:")} <span style={{ color: z.renk, fontWeight: 700 }}>{z.etiket}</span> {tt("· her zaman hazır")}
-                </div>
-              </div>
-              <button className="btn kucuk ikincil" onClick={() => meydanOku(b.id)}>
-                {tt("Meydan oku")}
-              </button>
-            </div>
-          );
-        })}
+            {kategorileriSirala(kategoriler).map((k) => {
+              const toplam = Number(k.soru_sayisi ?? 0);
+              const gorulen = Number(k.gorulen_sayisi ?? 0);
+              const yuzde = toplam > 0 ? Math.round((gorulen / toplam) * 100) : 0;
+              return (
+                <button
+                  key={k.kategori}
+                  type="button"
+                  className={sinif("a-meydan-kat", kategori === k.kategori && "a-meydan-kat--secili")}
+                  aria-pressed={kategori === k.kategori}
+                  onClick={() => setKategori(k.kategori)}
+                >
+                  <KategoriIkon anahtar={k.kategori} boyut={26} plaka />
+                  <span className="a-meydan-kat-ad">{kategoriAdi(k.kategori)}</span>
+                  <span className="a-meydan-kat-alt">
+                    {toplam} {tt("soru")} · {tt("%{0}", { 0: yuzde })} {tt("çözüldü")}
+                  </span>
+                  <QtIlerleme deger={yuzde} en={100} ton="dogru" etiket={tt("Çözülen sorular")} className="a-meydan-kat-bar" />
+                </button>
+              );
+            })}
+          </div>
+          {/* Kaydırılabilir olduğunu belli eden ipucu; sona gelince kaybolur */}
+          <span className="a-meydan-kat-ipucu" aria-hidden="true"><QtIkon ad="ileri" boyut={20} /></span>
+        </div>
+      </section>
 
       <DereceliAnahtari dereceli={dereceli} onDegistir={setDereceli} />
 
-      <div className="kart">
-        <div className="bd-kat-baslik">
-          <span>{tt("Arkadaşlarına meydan oku")}</span>
-          {oyuncuDurum === "hazir" && <span className="alt-yazi">{oyuncular.length} {tt("arkadaş")}</span>}
+      {/* Açık botlar: adları zaten "…Bot"; oyuncu bilerek seçer */}
+      {botlar.some((b) => !maclar.some((m) => (m.oyuncu1 === b.id || m.oyuncu2 === b.id) && ["bekliyor", "aktif"].includes(m.durum))) && (
+        <section className="a-meydan-bolum" aria-labelledby="a-meydan-bot-b">
+          <h2 id="a-meydan-bot-b" className="qt-baslik-2">{tt("Her zaman hazır rakipler")}</h2>
+          <QtListe etiket={tt("Her zaman hazır rakipler")}>
+            {botlar
+              .filter(
+                (b) =>
+                  !maclar.some(
+                    (m) =>
+                      (m.oyuncu1 === b.id || m.oyuncu2 === b.id) &&
+                      ["bekliyor", "aktif"].includes(m.durum)
+                  )
+              )
+              .map((b) => {
+                const isabet = Number(b.acik_bot_isabet);
+                const z = botZorluk(isabet);
+                return (
+                  <QtListeSatiri
+                    key={b.id}
+                    bas={<AvatarCerceve profile={b} />}
+                    baslik={<span className="a-meydan-bot-ad">{b.gorunen_ad} <QtIkon ad="robot" boyut={16} /></span>}
+                    alt={<><QtRozet ton={zorlukTonu(isabet)} boyut="k">{z.etiket}</QtRozet> {tt("· her zaman hazır")}</>}
+                    sag={<QtDugme boyut="k" tur="ikincil" onClick={() => meydanOku(b.id)}>{tt("Meydan oku")}</QtDugme>}
+                  />
+                );
+              })}
+          </QtListe>
+        </section>
+      )}
+
+      <section className="a-meydan-bolum" aria-labelledby="a-meydan-ark-b">
+        <div className="a-meydan-bolum-bas">
+          <h2 id="a-meydan-ark-b" className="qt-baslik-2">{tt("Arkadaşlarına meydan oku")}</h2>
+          {oyuncuDurum === "hazir" && <span className="qt-kucuk qt-soluk-zemin">{oyuncular.length} {tt("arkadaş")}</span>}
         </div>
         {oyuncuDurum !== "hazir" ? (
-          <DurumKutusu durum={oyuncuDurum} kucuk satir={2} onTekrar={arkadaslariYukle} />
+          <QtKart><DurumKutusu durum={oyuncuDurum} kucuk satir={2} onTekrar={arkadaslariYukle} /></QtKart>
         ) : oyuncular.length === 0 ? (
-          <div className="alt-yazi">
-            {tt("Henüz arkadaşın yok.")} <b>{tt("Arkadaşlar")}</b> {tt("sekmesinden davet linkini paylaş.")}
-          </div>
+          <QtKart dolgu="yok">
+            <QtBosDurum
+              ikon="kisiler"
+              baslik={tt("Henüz arkadaşın yok.")}
+              metin={tt("Arkadaşlar sekmesinden davet linkini paylaş.")}
+              eylem={<QtDugme as={Link} to={y("/arkadaslar")} tur="ikincil" boyut="k">{tt("Arkadaşlar")}</QtDugme>}
+            />
+          </QtKart>
         ) : (
-          oyuncular.map((p) => (
-            <div key={p.id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 0" }}>
-              <AvatarCerceve profile={p} boyut={34} />
-              <span style={{ flex: 1, fontWeight: 600 }}>{p.gorunen_ad}</span>
-              <button className="btn kucuk ikincil" onClick={() => meydanOku(p.id)}>
-                {tt("Meydan oku")}
-              </button>
-            </div>
-          ))
+          <QtListe etiket={tt("Arkadaşlarına meydan oku")}>
+            {oyuncular.map((p) => {
+              const mevcutMac = maclar.some(
+                (m) =>
+                  (m.oyuncu1 === p.id || m.oyuncu2 === p.id) &&
+                  ["bekliyor", "aktif"].includes(m.durum)
+              );
+              return (
+                <QtListeSatiri
+                  key={p.id}
+                  bas={<AvatarCerceve profile={p} boyut={40} />}
+                  baslik={p.gorunen_ad}
+                  alt={p.puan != null ? <span className="a-meydan-puan"><QtIkon ad="yildiz" boyut={14} /> {p.puan}</span> : null}
+                  sag={mevcutMac
+                    ? <QtRozet ton="bilgi" boyut="k">{tt("Maçınız var")}</QtRozet>
+                    : <QtDugme boyut="k" tur="ikincil" onClick={() => meydanOku(p.id)}>{tt("Meydan oku")}</QtDugme>}
+                />
+              );
+            })}
+          </QtListe>
         )}
-      </div>
+      </section>
 
       {/* Grup ve hızlı mod kurulumu açılır panelde: sayfa uzayıp dağılmasın */}
-      <div className="bd-panel">
+      <QtKart dolgu="yok" className="a-meydan-panel">
         <button
-          className={`bd-panel-basi ${grupAcik ? "acik" : ""}`}
+          type="button"
+          className="a-meydan-panel-bas"
           onClick={() => setGrupAcik((a) => !a)}
           aria-expanded={grupAcik}
+          aria-controls="a-meydan-grup-govde"
         >
-          <Ikon ad="kisiler" boyut={18} />
-          <span>{tt("Grup Maçı Kur (3-5 kişi)")}</span>
-          <span className="ok" aria-hidden="true">›</span>
+          <span className="a-meydan-panel-ikon"><QtIkon ad="grup" boyut={24} /></span>
+          <span className="a-meydan-panel-metin">
+            <b>{tt("Grup Maçı Kur (3-5 kişi)")}</b>
+            <span>{ceviri("Arkadaş maçı — ödül ve puan yok.")}</span>
+          </span>
+          <QtIkon ad="asagi" boyut={22} className="a-meydan-panel-ok" />
         </button>
         {grupAcik && (
-        <div className="bd-panel-govde">
-        <div className="bd-odulsuz-not">{ceviri("Arkadaş maçı — ödül ve puan yok.")}</div>
-
-        {/* Paket 24 · C: arkadaş çağırmadan grup maçı. Kuyruğa girilir, yeterli
-            oyuncu toplanınca grup kurulur; toplanmazsa kalan yerler doldurulur.
-            Ödül kuralı değişmez — grup maçı ödülsüzdür. */}
-        <div className="bd-grup-kuyruk">
-          <button
-            className="btn"
-            onClick={grupKuyrukAcMi ? grupAramadanCik : grupAramaBaslat}
-            disabled={grupAramaCalisiyor}
-          >
-            {grupKuyrukAcMi ? tt("Aramayı durdur") : tt("Rastgele oyuncularla oyna")}
-          </button>
-          {grupKuyrukAcMi && (
-            <div className="alt-yazi" role="status">
-              {tt("Oyuncu aranıyor…")} {grupKuyrukSn > 0 ? `(${grupKuyrukSn} ${tt("sn")})` : ""}
-            </div>
-          )}
-        </div>
-        <div className="alt-yazi" style={{ margin: "10px 0" }}>{tt("ya da arkadaşlarını seç:")}</div>
-        <div style={{ display: "flex", gap: 8, marginBottom: 10 }}>
-          {[3, 4, 5].map((n) => (
-            <button
-              key={n}
-              className={`oyuncu-secim-cip ${grupOyuncuSayisi === n ? "secili" : ""}`}
-              onClick={() => {
-                setGrupOyuncuSayisi(n);
-                setGrupSecili((s) => s.slice(0, n - 1));
-              }}
+          <div className="a-meydan-panel-govde" id="a-meydan-grup-govde">
+            {/* Paket 24 · C: arkadaş çağırmadan grup maçı. Kuyruğa girilir, yeterli
+                oyuncu toplanınca grup kurulur; toplanmazsa kalan yerler doldurulur.
+                Ödül kuralı değişmez — grup maçı ödülsüzdür. */}
+            <QtDugme
+              tur={grupKuyrukAcMi ? "ikincil" : "mor"}
+              tamGenislik
+              ikon={grupKuyrukAcMi ? "carpi" : "oyna"}
+              onClick={grupKuyrukAcMi ? grupAramadanCik : grupAramaBaslat}
+              yukleniyor={grupAramaCalisiyor}
             >
-              {n} {tt("Kişi")}
-            </button>
-          ))}
-        </div>
-        <div className="alt-yazi" style={{ marginBottom: 8 }}>
-          {grupSecili.length}/{grupGerekli} {tt("rakip seçildi (botlar dahil)")}
-        </div>
-        <div>
-          {grupAday.map((p) => {
-            const secili = grupSecili.includes(p.id);
-            const dolu = !secili && grupSecili.length >= grupGerekli;
-            return (
-              <button
-                key={p.id}
-                className={`oyuncu-secim-cip ${secili ? "secili" : ""}`}
-                disabled={dolu}
-                onClick={() => grupSecimToggle(p.id)}
-              >
-                {p.gorunen_ad}
-                {p.bot_isabet != null && <Ikon ad="robot" boyut={13} />}
-              </button>
-            );
-          })}
-        </div>
-        {grupHata && <div className="hata-kutu" style={{ marginTop: 10 }}>{grupHata}</div>}
-        <button
-          className="btn"
-          style={{ marginTop: 12 }}
-          disabled={grupSecili.length !== grupGerekli}
-          onClick={grubuKur}
-        >
-          {tt("Grubu kur ve davet et")}
-        </button>
-        </div>
-        )}
-      </div>
-
-      {HIZLI_OLAN_KAZANIR_ACIK && (
-      <div className="bd-panel">
-        <button
-          className={`bd-panel-basi ${hizliAcik ? "acik" : ""}`}
-          onClick={() => setHizliAcik((a) => !a)}
-          aria-expanded={hizliAcik}
-        >
-          <Ikon ad="hizli" boyut={18} />
-          <span>{tt("Hızlı Olan Kazanır (5 kişi)")}</span>
-          <span className="ok" aria-hidden="true">›</span>
-        </button>
-        {hizliAcik && (
-        <div className="bd-panel-govde">
-        <div className="alt-yazi" style={{ marginBottom: 10 }}>
-          {tt("Herkese aynı soru aynı anda. Sadece")} <b>{tt("ilk doğru cevabı")}</b> {tt("veren puan alır. Skill yok!")}
-        </div>
-        <div className="alt-yazi" style={{ marginBottom: 8 }}>
-          {hizliSecili.length}/{hizliGerekli} {tt("rakip seçildi (botlar dahil)")}
-        </div>
-        <div>
-          {grupAday.map((p) => {
-            const secili = hizliSecili.includes(p.id);
-            const dolu = !secili && hizliSecili.length >= hizliGerekli;
-            return (
-              <button
-                key={p.id}
-                className={`oyuncu-secim-cip ${secili ? "secili" : ""}`}
-                disabled={dolu}
-                onClick={() => hizliSecimToggle(p.id)}
-              >
-                {p.gorunen_ad}
-                {p.bot_isabet != null && <Ikon ad="robot" boyut={13} />}
-              </button>
-            );
-          })}
-        </div>
-        {hizliHata && <div className="hata-kutu" style={{ marginTop: 10 }}>{hizliHata}</div>}
-        <button
-          className="btn"
-          style={{ marginTop: 12 }}
-          disabled={hizliSecili.length !== hizliGerekli}
-          onClick={hizliKur}
-        >
-          {tt("Yarışı kur ve davet et")}
-        </button>
-        </div>
-        )}
-      </div>
-      )}
-
-      {oyuncular.length > 0 && (
-        <details className="bd-katlanir">
-          <summary className="baslik">{tt("Oyuncular")} <span className="bd-katlanir-sayi">({oyuncular.length})</span></summary>
-          {oyuncular.map((p) => {
-            const mevcutMac = maclar.some(
-              (m) =>
-                (m.oyuncu1 === p.id || m.oyuncu2 === p.id) &&
-                ["bekliyor", "aktif"].includes(m.durum)
-            );
-            return (
-              <div key={p.id} className="liste-satir">
-                <AvatarCerceve profile={p} boyut={38} />
-                <div className="bilgi">
-                  <div className="isim">{p.gorunen_ad}</div>
-                  <div className="detay"><Ikon ad="yildiz" boyut={13} /> {p.puan}</div>
-                </div>
-                {!mevcutMac && (
-                  <button className="btn kucuk ikincil" onClick={() => meydanOku(p.id)}>
-                    {tt("Meydan oku")}
-                  </button>
-                )}
-              </div>
-            );
-          })}
-        </details>
-      )}
-
-      {/* Kurduğun düello davetleri — rakip yanıtlayana kadar burada durur, geri alınabilir */}
-      {duelloBeklenen.length > 0 && (
-        <>
-          <div className="baslik">{tt("Gönderdiğin düello davetleri")}</div>
-          {duelloBeklenen.map((d) => (
-            <div key={d.id} className="liste-satir">
-              <AvatarCerceve profile={kisi(d.rakip)} boyut={34} />
-              <div className="bilgi">
-                <div className="isim">{kisi(d.rakip)?.gorunen_ad ?? tt("Rakip")}</div>
-                <div className="detay">{tt("Düello · yanıt bekleniyor")} · {d.dereceli ? tt("Dereceli") : tt("Serbest")}</div>
-              </div>
-              <button
-                className="btn kucuk tehlike"
-                disabled={iptalEdilen === d.id}
-                onClick={() => duelloDavetIptal(d.id)}
-              >
-                {iptalEdilen === d.id ? tt("Geri alınıyor…") : tt("Geri al")}
-              </button>
-            </div>
-          ))}
-        </>
-      )}
-
-      {/* Kurduğun ve yanıt bekleyen davetler — düz metin yerine kart listesi */}
-      {(grupBeklenen.length > 0 || hizliBeklenen.length > 0) && (
-        <>
-          <div className="baslik">{tt("Bekleyen davetlerin")}</div>
-          {(grupBeklenenTum.length + hizliBeklenenTum.length) > 5 && (
-            <div className="alt-yazi" style={{ marginBottom: 8 }}>
-              {tt("Son 5 davet gösteriliyor (")}{grupBeklenenTum.length + hizliBeklenenTum.length} {tt("bekleyen davet var).")}
-            </div>
-          )}
-          {grupBeklenen.map((gm) => (
-            <BekleyenKurulum
-              key={gm.id}
-              tur="grup"
-              baslik={tt("{0} kişilik grup maçı", { 0: gm.oyuncu_sayisi })}
-              kategori={gm.kategori}
-              katilimcilar={(gm.katilimcilar ?? []).filter((k) => k.user_id !== user.id)}
-              onIptal={() => davetIptal("grup", gm.id)}
-              iptalEdilen={iptalEdilen}
-              id={gm.id}
-            />
-          ))}
-          {hizliBeklenen.map((hm) => (
-            <BekleyenKurulum
-              key={hm.id}
-              tur="hizli"
-              baslik={tt("Hızlı Olan Kazanır")}
-              kategori={hm.kategori}
-              katilimcilar={(hm.katilimcilar ?? []).filter((k) => k.user_id !== user.id)}
-              onIptal={() => davetIptal("hizli", hm.id)}
-              iptalEdilen={iptalEdilen}
-              id={hm.id}
-            />
-          ))}
-          {(grupBeklenenTum.length + hizliBeklenenTum.length) > 1 && (
-            <button
-              className="btn ikincil kucuk"
-              style={{ width: "100%", marginTop: 4 }}
-              disabled={iptalEdilen !== null}
-              onClick={tumDavetleriIptal}
-            >
-              {iptalEdilen === "tumu" ? tt("İptal ediliyor…") : tt("Tümünü iptal et")}
-            </button>
-          )}
-          {iptalHata && <div className="hata-kutu">{iptalHata}</div>}
-        </>
-      )}
-
-      {hizliAktif.length > 0 && (
-        <>
-          <div className="baslik">{tt("Devam eden hızlı yarışlar")}</div>
-          {hizliAktif.map((hm) => (
-            <div key={hm.id} className="liste-satir">
-              <div className="bilgi">
-                <div className="isim">
-                  {hm.katilimcilar
-                    ?.filter((k) => k.user_id !== user.id)
-                    .map((k) => oyuncuAdi(k.profil, k.user_id))
-                    .join(", ")}
-                </div>
-                <div className="detay">{tt("Hızlı Olan Kazanır")}</div>
-              </div>
-              <button className="btn kucuk" onClick={() => navigate(y(`/hizli-mac/${hm.id}`))}>
-                {tt("Oyna")}
-              </button>
-              <button
-                className="btn kucuk ikincil"
-                disabled={iptalEdilen === hm.id}
-                onClick={() => davetIptal("hizli", hm.id)}
-              >
-                {iptalEdilen === hm.id ? "…" : tt("İptal")}
-              </button>
-            </div>
-          ))}
-        </>
-      )}
-
-      {hizliBiten.length > 0 && (
-        <details className="bd-katlanir">
-          <summary className="baslik">{tt("Biten hızlı yarışlar")} <span className="bd-katlanir-sayi">({hizliBiten.length})</span></summary>
-          {hizliBiten.map((hm) => {
-            const kazandim = hm.kazanan === user.id;
-            const berabere = hm.kazanan === null;
-            return (
-              <div key={hm.id} className="liste-satir">
-                <div className="bilgi">
-                  <div className="isim">
-                    {hm.katilimcilar
-                      ?.filter((k) => k.user_id !== user.id)
-                      .map((k) => `${k.profil?.gorunen_ad} (${k.skor})`)
-                      .join(", ")}
-                  </div>
-                  <div className="detay">{tt("senin skorun:")} {hizliBenimKaydim(hm)?.skor ?? 0}</div>
-                </div>
-                <span
-                  className="rutbe-chip"
-                  style={{
-                    color: berabere
-                      ? "var(--text-dim)"
-                      : kazandim
-                        ? "var(--bd-basari-metin, #177A45)"
-                        : "var(--bd-hata-metin, #B01F19)",
+              {grupKuyrukAcMi ? tt("Aramayı durdur") : tt("Rastgele oyuncularla oyna")}
+            </QtDugme>
+            {grupKuyrukAcMi && (
+              <p className="a-meydan-durum" role="status">
+                <span className="qt-donen" aria-hidden="true" />
+                {tt("Oyuncu aranıyor…")} {grupKuyrukSn > 0 ? `(${grupKuyrukSn} ${tt("sn")})` : ""}
+              </p>
+            )}
+            <p className="a-meydan-ara">{tt("ya da arkadaşlarını seç:")}</p>
+            <div className="a-meydan-cipler" role="group" aria-label={tt("Kişi")}>
+              {[3, 4, 5].map((n) => (
+                <QtCip
+                  key={n}
+                  secili={grupOyuncuSayisi === n}
+                  onClick={() => {
+                    setGrupOyuncuSayisi(n);
+                    setGrupSecili((s) => s.slice(0, n - 1));
                   }}
                 >
-                  {berabere ? tt("Berabere") : kazandim ? tt("Kazandın") : tt("Kaybettin")}
-                </span>
-              </div>
-            );
-          })}
-        </details>
-      )}
-
-      {grupAktif.length > 0 && (
-        <>
-          <div className="baslik">{tt("Devam eden grup maçları")}</div>
-          {grupAktif.map((gm) => (
-            <div key={gm.id} className="liste-satir">
-              <div className="bilgi">
-                <div className="isim">
-                  {gm.katilimcilar
-                    ?.filter((k) => k.user_id !== user.id)
-                    .map((k) => oyuncuAdi(k.profil, k.user_id))
-                    .join(", ")}
-                </div>
-                <div className="detay">{gm.oyuncu_sayisi} {tt("kişilik grup maçı")}</div>
-              </div>
-              <button className="btn kucuk" onClick={() => navigate(y(`/grup-mac/${gm.id}`))}>
-                {tt("Oyna")}
-              </button>
-              {/* Yarım kalmış maçları temizlemek için */}
-              <button
-                className="btn kucuk ikincil"
-                disabled={iptalEdilen === gm.id}
-                onClick={() => davetIptal("grup", gm.id)}
-              >
-                {iptalEdilen === gm.id ? "…" : tt("İptal")}
-              </button>
+                  {n} {tt("Kişi")}
+                </QtCip>
+              ))}
             </div>
-          ))}
-        </>
-      )}
-
-      {aktif.length > 0 && (
-        <>
-          <div className="baslik">{tt("Devam eden")}</div>
-          {aktif.map((m) => {
-            // Asenkron maç: herkes kendi hızında oynar. Kendi sıramız bitmediyse
-            // "sıra sende" — yarım kalan müsabaka buradan sürdürülür.
-            const benP1 = m.oyuncu1 === user.id;
-            const benimSoru = benP1 ? (m.oyuncu1_soru ?? 0) : (m.oyuncu2_soru ?? 0);
-            const toplam = m.soru_ids?.length ?? 20;
-            const siraSende = benimSoru < toplam;
-            return (
-              <div key={m.id} className={`liste-satir ${siraSende ? "sirasende" : ""}`}>
-                <AvatarCerceve profile={rakip(m)} />
-                <div className="bilgi">
-                  <div className="isim">
-                    {oyuncuAdi(rakip(m), benP1 ? m.oyuncu2 : m.oyuncu1)}
-                    {siraSende && <span className="bd-sira-sende">{tt("SIRA SENDE")}</span>}
-                  </div>
-                  <div className="detay">
-                    {/* Skor DAİMA "senin - rakibin" sırasında. Konumsal yazılırsa
-                        (oyuncu1 - oyuncu2) rakip seni davet ettiğinde sen sağa
-                        geçiyorsun ve satır tersine okunuyor. */}
-                    {benP1 ? m.oyuncu1_skor : m.oyuncu2_skor} -{" "}
-                    {benP1 ? m.oyuncu2_skor : m.oyuncu1_skor} · {benimSoru}/{toplam} {tt("soru")}
-                    {!siraSende && tt(" · rakip oynuyor")}
-                  </div>
-                </div>
-                <button className="btn kucuk" onClick={() => navigate(y(`/mac/${m.id}`))}>
-                  {siraSende ? tt("Devam et") : tt("Gör")}
-                </button>
-                {/* İptal: altın DEĞİL, sade. Yanlışlıkla basılmasın diye
-                    "Devam et"ten ayrı ve küçük; onay penceresi zorunlu. */}
-                <button
-                  className="bd-mac-iptal"
-                  aria-label={tt("Maçı iptal et")}
-                  title={tt("Maçı iptal et")}
-                  disabled={iptalEdilen === m.id}
-                  onClick={() => setIptalSorulan(m)}
-                >
-                  <Ikon ad="carpi" boyut={15} />
-                </button>
-              </div>
-            );
-          })}
-        </>
-      )}
-
-      {giden.length > 0 && (
-        <>
-          <div className="baslik">{tt("Gönderdiğin")}</div>
-          {giden.map((m) => (
-            <div key={m.id} className="liste-satir">
-              <AvatarCerceve profile={m.p2} />
-              <div className="bilgi">
-                <div className="isim">{m.p2?.gorunen_ad}</div>
-                <div className="detay">{tt("cevap bekleniyor…")}</div>
-              </div>
-              <button
-                className="bd-mac-iptal"
-                aria-label={tt("Daveti geri al")}
-                title={tt("Daveti geri al")}
-                disabled={iptalEdilen === m.id}
-                onClick={() => setIptalSorulan(m)}
-              >
-                <Ikon ad="carpi" boyut={15} />
-              </button>
+            <p className="a-meydan-sayac" aria-live="polite">
+              {grupSecili.length}/{grupGerekli} {tt("rakip seçildi (botlar dahil)")}
+            </p>
+            <div className="a-meydan-cipler">
+              {grupAday.map((p) => {
+                const secili = grupSecili.includes(p.id);
+                const dolu = !secili && grupSecili.length >= grupGerekli;
+                return (
+                  <QtCip
+                    key={p.id}
+                    secili={secili}
+                    disabled={dolu}
+                    ikon={p.bot_isabet != null ? "robot" : undefined}
+                    onClick={() => grupSecimToggle(p.id)}
+                  >
+                    {p.gorunen_ad}
+                  </QtCip>
+                );
+              })}
             </div>
-          ))}
-        </>
+            {grupHata && <p className="a-meydan-hata" role="alert">{grupHata}</p>}
+            <QtDugme
+              tamGenislik
+              devreDisi={grupSecili.length !== grupGerekli}
+              onClick={grubuKur}
+            >
+              {tt("Grubu kur ve davet et")}
+            </QtDugme>
+          </div>
+        )}
+      </QtKart>
+
+      {HIZLI_OLAN_KAZANIR_ACIK && (
+        <QtKart dolgu="yok" className="a-meydan-panel">
+          <button
+            type="button"
+            className="a-meydan-panel-bas"
+            onClick={() => setHizliAcik((a) => !a)}
+            aria-expanded={hizliAcik}
+          >
+            <span className="a-meydan-panel-ikon"><QtIkon ad="hizli" boyut={24} /></span>
+            <span className="a-meydan-panel-metin"><b>{tt("Hızlı Olan Kazanır (5 kişi)")}</b></span>
+            <QtIkon ad="asagi" boyut={22} className="a-meydan-panel-ok" />
+          </button>
+          {hizliAcik && (
+            <div className="a-meydan-panel-govde">
+              <p className="a-meydan-ara">
+                {tt("Herkese aynı soru aynı anda. Sadece")} <b>{tt("ilk doğru cevabı")}</b> {tt("veren puan alır. Skill yok!")}
+              </p>
+              <p className="a-meydan-sayac">{hizliSecili.length}/{hizliGerekli} {tt("rakip seçildi (botlar dahil)")}</p>
+              <div className="a-meydan-cipler">
+                {grupAday.map((p) => {
+                  const secili = hizliSecili.includes(p.id);
+                  const dolu = !secili && hizliSecili.length >= hizliGerekli;
+                  return (
+                    <QtCip key={p.id} secili={secili} disabled={dolu}
+                           ikon={p.bot_isabet != null ? "robot" : undefined}
+                           onClick={() => hizliSecimToggle(p.id)}>
+                      {p.gorunen_ad}
+                    </QtCip>
+                  );
+                })}
+              </div>
+              {hizliHata && <p className="a-meydan-hata" role="alert">{hizliHata}</p>}
+              <QtDugme tamGenislik devreDisi={hizliSecili.length !== hizliGerekli} onClick={hizliKur}>
+                {tt("Yarışı kur ve davet et")}
+              </QtDugme>
+            </div>
+          )}
+        </QtKart>
       )}
+
+      {/* ---------- Süren işler: devam eden maçlar, gönderdiğin davetler ---------- */}
+      <div ref={bekleyenlerRef} className="a-meydan-suren">
+        {aktif.length > 0 && (
+          <section className="a-meydan-bolum" aria-labelledby="a-meydan-aktif-b">
+            <h2 id="a-meydan-aktif-b" className="qt-baslik-2">{tt("Devam eden")}</h2>
+            <QtListe etiket={tt("Devam eden")}>
+              {aktif.map((m) => {
+                // Asenkron maç: herkes kendi hızında oynar. Kendi sıramız bitmediyse
+                // "sıra sende" — yarım kalan müsabaka buradan sürdürülür.
+                const benP1 = m.oyuncu1 === user.id;
+                const benimSoru = benP1 ? (m.oyuncu1_soru ?? 0) : (m.oyuncu2_soru ?? 0);
+                const toplam = m.soru_ids?.length ?? 20;
+                const siraSende = benimSoru < toplam;
+                return (
+                  <QtListeSatiri
+                    key={m.id}
+                    vurgulu={siraSende}
+                    bas={<AvatarCerceve profile={rakip(m)} />}
+                    baslik={
+                      <span className="a-meydan-bot-ad">
+                        {oyuncuAdi(rakip(m), benP1 ? m.oyuncu2 : m.oyuncu1)}
+                        {siraSende && <QtRozet ton="vurgu" boyut="k">{tt("Sıra sende")}</QtRozet>}
+                      </span>
+                    }
+                    /* Skor DAİMA "senin - rakibin" sırasında. Konumsal yazılırsa
+                       (oyuncu1 - oyuncu2) rakip seni davet ettiğinde sen sağa
+                       geçiyorsun ve satır tersine okunuyor. */
+                    alt={`${benP1 ? m.oyuncu1_skor : m.oyuncu2_skor} - ${benP1 ? m.oyuncu2_skor : m.oyuncu1_skor} · ${benimSoru}/${toplam} ${tt("soru")}${!siraSende ? tt(" · rakip oynuyor") : ""}`}
+                    sag={
+                      <>
+                        <QtDugme boyut="k" tur={siraSende ? "mor" : "ikincil"} onClick={() => navigate(y(`/mac/${m.id}`))}>
+                          {siraSende ? tt("Devam et") : tt("Gör")}
+                        </QtDugme>
+                        {/* İptal: sade ve ayrı; onay penceresi zorunlu */}
+                        <QtIkonDugme
+                          ikon="carpi"
+                          tur="saydam"
+                          etiket={tt("Maçı iptal et")}
+                          disabled={iptalEdilen === m.id}
+                          onClick={() => setIptalSorulan(m)}
+                          className="a-meydan-iptal"
+                        />
+                      </>
+                    }
+                  />
+                );
+              })}
+            </QtListe>
+          </section>
+        )}
+
+        {grupAktif.length > 0 && (
+          <section className="a-meydan-bolum" aria-labelledby="a-meydan-grupaktif-b">
+            <h2 id="a-meydan-grupaktif-b" className="qt-baslik-2">{tt("Devam eden grup maçları")}</h2>
+            <QtListe etiket={tt("Devam eden grup maçları")}>
+              {grupAktif.map((gm) => (
+                <QtListeSatiri
+                  key={gm.id}
+                  ikon="kisiler"
+                  ikonTon="dogru"
+                  baslik={adlar(gm.katilimcilar)}
+                  alt={`${gm.oyuncu_sayisi} ${tt("kişilik grup maçı")}`}
+                  sag={
+                    <>
+                      <QtDugme boyut="k" tur="mor" onClick={() => navigate(y(`/grup-mac/${gm.id}`))}>{tt("Oyna")}</QtDugme>
+                      {/* Yarım kalmış maçları temizlemek için */}
+                      <QtIkonDugme ikon="carpi" tur="saydam" etiket={tt("İptal")}
+                                   disabled={iptalEdilen === gm.id} onClick={() => davetIptal("grup", gm.id)}
+                                   className="a-meydan-iptal" />
+                    </>
+                  }
+                />
+              ))}
+            </QtListe>
+          </section>
+        )}
+
+        {hizliAktif.length > 0 && (
+          <section className="a-meydan-bolum" aria-labelledby="a-meydan-hizliaktif-b">
+            <h2 id="a-meydan-hizliaktif-b" className="qt-baslik-2">{tt("Devam eden hızlı yarışlar")}</h2>
+            <QtListe etiket={tt("Devam eden hızlı yarışlar")}>
+              {hizliAktif.map((hm) => (
+                <QtListeSatiri
+                  key={hm.id}
+                  ikon="hizli"
+                  ikonTon="vurgu"
+                  baslik={adlar(hm.katilimcilar)}
+                  alt={tt("Hızlı Olan Kazanır")}
+                  sag={
+                    <>
+                      <QtDugme boyut="k" tur="mor" onClick={() => navigate(y(`/hizli-mac/${hm.id}`))}>{tt("Oyna")}</QtDugme>
+                      <QtIkonDugme ikon="carpi" tur="saydam" etiket={tt("İptal")}
+                                   disabled={iptalEdilen === hm.id} onClick={() => davetIptal("hizli", hm.id)}
+                                   className="a-meydan-iptal" />
+                    </>
+                  }
+                />
+              ))}
+            </QtListe>
+          </section>
+        )}
+
+        {(giden.length > 0 || duelloBeklenen.length > 0) && (
+          <section className="a-meydan-bolum" aria-labelledby="a-meydan-giden-b">
+            <h2 id="a-meydan-giden-b" className="qt-baslik-2">{tt("Gönderdiğin")}</h2>
+            <QtListe etiket={tt("Gönderdiğin")}>
+              {/* Kurduğun düello davetleri — rakip yanıtlayana kadar burada durur, geri alınabilir */}
+              {duelloBeklenen.map((d) => (
+                <QtListeSatiri
+                  key={d.id}
+                  bas={<AvatarCerceve profile={kisi(d.rakip)} boyut={40} />}
+                  baslik={kisi(d.rakip)?.gorunen_ad ?? tt("Rakip")}
+                  alt={`${tt("Düello · yanıt bekleniyor")} · ${d.dereceli ? tt("Dereceli") : tt("Serbest")}`}
+                  sag={
+                    <QtDugme boyut="k" tur="ikincil" yukleniyor={iptalEdilen === d.id} onClick={() => duelloDavetIptal(d.id)}>
+                      {iptalEdilen === d.id ? tt("Geri alınıyor…") : tt("Geri al")}
+                    </QtDugme>
+                  }
+                />
+              ))}
+              {giden.map((m) => (
+                <QtListeSatiri
+                  key={m.id}
+                  bas={<AvatarCerceve profile={m.p2} />}
+                  baslik={m.p2?.gorunen_ad}
+                  alt={tt("cevap bekleniyor…")}
+                  sag={
+                    <QtIkonDugme ikon="carpi" tur="saydam" etiket={tt("Daveti geri al")}
+                                 disabled={iptalEdilen === m.id} onClick={() => setIptalSorulan(m)}
+                                 className="a-meydan-iptal" />
+                  }
+                />
+              ))}
+            </QtListe>
+          </section>
+        )}
+
+        {/* Kurduğun ve yanıt bekleyen grup/hızlı davetler */}
+        {(grupBeklenen.length > 0 || hizliBeklenen.length > 0) && (
+          <section className="a-meydan-bolum" aria-labelledby="a-meydan-kurulum-b">
+            <h2 id="a-meydan-kurulum-b" className="qt-baslik-2">{tt("Bekleyen davetlerin")}</h2>
+            {(grupBeklenenTum.length + hizliBeklenenTum.length) > 5 && (
+              <p className="qt-kucuk qt-soluk-zemin">
+                {tt("Son 5 davet gösteriliyor (")}{grupBeklenenTum.length + hizliBeklenenTum.length} {tt("bekleyen davet var).")}
+              </p>
+            )}
+            {grupBeklenen.map((gm) => (
+              <BekleyenKurulum
+                key={gm.id}
+                tur="grup"
+                baslik={tt("{0} kişilik grup maçı", { 0: gm.oyuncu_sayisi })}
+                kategori={gm.kategori}
+                katilimcilar={(gm.katilimcilar ?? []).filter((k) => k.user_id !== user.id)}
+                onIptal={() => davetIptal("grup", gm.id)}
+                iptalEdilen={iptalEdilen}
+                id={gm.id}
+              />
+            ))}
+            {hizliBeklenen.map((hm) => (
+              <BekleyenKurulum
+                key={hm.id}
+                tur="hizli"
+                baslik={tt("Hızlı Olan Kazanır")}
+                kategori={hm.kategori}
+                katilimcilar={(hm.katilimcilar ?? []).filter((k) => k.user_id !== user.id)}
+                onIptal={() => davetIptal("hizli", hm.id)}
+                iptalEdilen={iptalEdilen}
+                id={hm.id}
+              />
+            ))}
+            {(grupBeklenenTum.length + hizliBeklenenTum.length) > 1 && (
+              <QtDugme
+                tur="ikincil"
+                boyut="k"
+                tamGenislik
+                devreDisi={iptalEdilen !== null}
+                yukleniyor={iptalEdilen === "tumu"}
+                onClick={tumDavetleriIptal}
+              >
+                {iptalEdilen === "tumu" ? tt("İptal ediliyor…") : tt("Tümünü iptal et")}
+              </QtDugme>
+            )}
+            {iptalHata && <p className="a-meydan-hata" role="alert">{iptalHata}</p>}
+          </section>
+        )}
+      </div>
 
       {/* 1v1 iptal onayı — hükmen mağlubiyet uyarısı burada verilir */}
       {iptalSorulan && (() => {
         const bilgi = iptalMetni(iptalSorulan);
         return (
-          <Modal onKapat={() => setIptalSorulan(null)} etiket={bilgi.baslik}>
-            <div className="bd-modal">
-              <div className="bd-modal-baslik">{bilgi.baslik}</div>
-              <p className={`bd-modal-metin ${bilgi.tehlike ? "tehlike" : ""}`}>
-                {bilgi.metin}
-              </p>
-              {iptalHata && <div className="hata-kutu">{iptalHata}</div>}
-              <div className="bd-modal-eylemler">
-                <button
-                  className="btn kucuk ikincil"
-                  onClick={() => setIptalSorulan(null)}
-                >
+          <QtModal
+            acik
+            onKapat={() => setIptalSorulan(null)}
+            baslik={bilgi.baslik}
+            className="a-meydan-onay"
+            altlik={
+              <>
+                <QtDugme tur="ikincil" onClick={() => setIptalSorulan(null)} data-qt-ilk-odak="">
                   {tt("Vazgeç")}
-                </button>
-                <button
-                  className={`btn kucuk ${bilgi.tehlike ? "tehlike" : ""}`}
-                  disabled={iptalEdilen === iptalSorulan.id}
+                </QtDugme>
+                <QtDugme
+                  tur={bilgi.tehlike ? "tehlike" : "mor"}
+                  yukleniyor={iptalEdilen === iptalSorulan.id}
                   onClick={macIptalOnayla}
                 >
                   {iptalEdilen === iptalSorulan.id
@@ -1379,82 +1273,76 @@ export default function ChallengesPage() {
                     : bilgi.tehlike
                       ? tt("Evet, yenik say")
                       : tt("İptal et")}
-                </button>
-              </div>
-            </div>
-          </Modal>
+                </QtDugme>
+              </>
+            }
+          >
+            <p className={sinif("a-meydan-onay-metin", bilgi.tehlike && "a-meydan-onay-metin--tehlike")}>{bilgi.metin}</p>
+            {iptalHata && <p className="a-meydan-hata" role="alert">{iptalHata}</p>}
+          </QtModal>
         );
       })()}
 
+      {/* ---------- Geçmiş (katlanır) ---------- */}
       {biten.length > 0 && (
-        <details className="bd-katlanir">
-          <summary className="baslik">{tt("Bitenler")} <span className="bd-katlanir-sayi">({biten.length})</span></summary>
-          {biten.map((m) => {
-            const kazandim = m.kazanan === user.id;
-            const berabere = m.kazanan === null;
-            const benP1 = m.oyuncu1 === user.id;
-            return (
-              <div key={m.id} className="liste-satir">
-                <AvatarCerceve profile={rakip(m)} />
-                <div className="bilgi">
-                  <div className="isim">{rakip(m)?.gorunen_ad}</div>
-                  <div className="detay">
-                    {/* "Senin - rakibin" sırası; bkz. Devam eden bloğundaki not. */}
-                    {benP1 ? m.oyuncu1_skor : m.oyuncu2_skor} -{" "}
-                    {benP1 ? m.oyuncu2_skor : m.oyuncu1_skor}
-                  </div>
-                </div>
-                <span
-                  className="rutbe-chip"
-                  style={{
-                    color: berabere
-                      ? "var(--text-dim)"
-                      : kazandim
-                        ? "var(--bd-basari-metin, #177A45)"
-                        : "var(--bd-hata-metin, #B01F19)",
-                  }}
-                >
-                  {berabere ? tt("Berabere") : kazandim ? tt("Kazandın") : tt("Kaybettin")}
-                </span>
-              </div>
-            );
-          })}
+        <details className="a-meydan-katlanir">
+          <summary>{tt("Bitenler")} <QtRozet boyut="k">{biten.length}</QtRozet></summary>
+          <QtListe etiket={tt("Bitenler")}>
+            {biten.map((m) => {
+              const benP1 = m.oyuncu1 === user.id;
+              return (
+                <QtListeSatiri
+                  key={m.id}
+                  bas={<AvatarCerceve profile={rakip(m)} />}
+                  baslik={rakip(m)?.gorunen_ad}
+                  /* "Senin - rakibin" sırası; bkz. Devam eden bloğundaki not. */
+                  alt={`${benP1 ? m.oyuncu1_skor : m.oyuncu2_skor} - ${benP1 ? m.oyuncu2_skor : m.oyuncu1_skor}`}
+                  sag={sonucRozeti(m.kazanan === user.id, m.kazanan === null)}
+                />
+              );
+            })}
+          </QtListe>
         </details>
       )}
 
       {grupBiten.length > 0 && (
-        <details className="bd-katlanir">
-          <summary className="baslik">{tt("Biten grup maçları")} <span className="bd-katlanir-sayi">({grupBiten.length})</span></summary>
-          {grupBiten.map((gm) => {
-            const kazandim = gm.kazanan === user.id;
-            const berabere = gm.kazanan === null;
-            const odul = 10 * gm.oyuncu_sayisi;
-            return (
-              <div key={gm.id} className="liste-satir">
-                <div className="bilgi">
-                  <div className="isim">
-                    {gm.katilimcilar
-                      ?.filter((k) => k.user_id !== user.id)
-                      .map((k) => `${k.profil?.gorunen_ad} (${k.skor})`)
-                      .join(", ")}
-                  </div>
-                  <div className="detay">{tt("senin skorun:")} {grupBenimKaydim(gm)?.skor ?? 0}</div>
-                </div>
-                <span
-                  className="rutbe-chip"
-                  style={{
-                    color: berabere
-                      ? "var(--text-dim)"
-                      : kazandim
-                        ? "var(--bd-basari-metin, #177A45)"
-                        : "var(--bd-hata-metin, #B01F19)",
-                  }}
-                >
-                  {berabere ? tt("Berabere") : kazandim ? tt("Kazandın +{0}", { 0: odul }) : tt("Kaybettin")}
-                </span>
-              </div>
-            );
-          })}
+        <details className="a-meydan-katlanir">
+          <summary>{tt("Biten grup maçları")} <QtRozet boyut="k">{grupBiten.length}</QtRozet></summary>
+          <QtListe etiket={tt("Biten grup maçları")}>
+            {grupBiten.map((gm) => {
+              const kazandim = gm.kazanan === user.id;
+              const berabere = gm.kazanan === null;
+              const odul = 10 * gm.oyuncu_sayisi;
+              return (
+                <QtListeSatiri
+                  key={gm.id}
+                  ikon="kisiler"
+                  ikonTon="dogru"
+                  baslik={adlar(gm.katilimcilar, true)}
+                  alt={`${tt("senin skorun:")} ${grupBenimKaydim(gm)?.skor ?? 0}`}
+                  sag={sonucRozeti(kazandim, berabere, !berabere && kazandim ? tt("Kazandın +{0}", { 0: odul }) : undefined)}
+                />
+              );
+            })}
+          </QtListe>
+        </details>
+      )}
+
+      {hizliBiten.length > 0 && (
+        <details className="a-meydan-katlanir">
+          <summary>{tt("Biten hızlı yarışlar")} <QtRozet boyut="k">{hizliBiten.length}</QtRozet></summary>
+          <QtListe etiket={tt("Biten hızlı yarışlar")}>
+            {hizliBiten.map((hm) => (
+              <QtListeSatiri
+                key={hm.id}
+                ikon="hizli"
+                ikonTon="vurgu"
+                baslik={adlar(hm.katilimcilar, true)}
+                alt={`${tt("senin skorun:")} ${hizliBenimKaydim(hm)?.skor ?? 0}`}
+                sag={sonucRozeti(hm.kazanan === user.id, hm.kazanan === null)}
+              />
+            ))}
+          </QtListe>
         </details>
       )}
     </div>

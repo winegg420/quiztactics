@@ -34,4 +34,13 @@ export default {
   "3–5 arkadaş · ödülsüz. Aynı sorularda eğlencesine yarış.": "3–5 friends · just for fun. Same questions, pure bragging rights.",
   "Kur": "Set up",
   "Arkadaşların ve sen": "You and your friends",
+  // Meydan okumalar
+  "bekliyor": "waiting",
+  "Sana gelen davetler": "Invites for you",
+  "Çözülen sorular": "Questions solved",
+  "Her zaman hazır rakipler": "Always-ready opponents",
+  "Arkadaşlar sekmesinden davet linkini paylaş.": "Share your invite link from the Friends tab.",
+  "Maçınız var": "Match on",
+  "veren puan alır. Skill yok!": "scores. No skills!",
+  "Sıra sende": "Your turn",
 };

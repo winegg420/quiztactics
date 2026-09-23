@@ -27,6 +27,7 @@ body.bd-oyun-modu .a-kabuk .a-ust-blok { display: none; }
 /* ---------- Coin hapı ---------- */
 /* Eski `.app .bd-coin-hap` kuralı (0,2,0) qt-coin'i eziyordu: token değerleri geri verilir. */
 .app .qt-coin.a-coin-hap {
+  min-height: var(--qt-dokunma); /* dokunma hedefi 44 px (ölçüm araçları kutuya bakar) */
   gap: 5px;
   padding: 0 12px 0 8px;
   border-radius: var(--qt-r-hap);
