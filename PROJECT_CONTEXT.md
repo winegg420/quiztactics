@@ -93,10 +93,14 @@ tercih hatırlanır (localStorage + `profiles.dereceli_tercih`).
 
 ### Turnuva
 
-- Günde 7 seans, TSİ: **10:00 · 12:30 · 15:00 · 18:00 · 20:00 · 22:00 · 24:00**
+- Günde 5 seans, TSİ: **10:00 · 14:00 · 18:00 · 20:00 · 24:00** (24:00 = ertesi gün 00:00)
 - Tek kaynak `oyun_ayarlari.turnuva_saatleri`; kod varsayılanı aynı liste
   (`oyun/lib/zaman.js › VARSAYILAN_LISTE`). Eski `turnuva_saat_sabah` /
   `turnuva_saat_aksam` satırları veritabanında DURUR ama okunmaz. Silinmez.
+- Dakikalık zamanlayıcı (`turnuva_zamanlayici_tik`) listeyi `turnuva_saatleri_listesi()` ile okur.
+  Lobi başlangıçtan `turnuva_lobi_acilis_dk` (120) önce "açık" sayılır: botlar dolar, ana sayfa
+  şeridi nabız atar. Hatırlatma push'u 14:00 ve 20:00 seanslarından 45 dk önce (günde 2).
+- Turnuva önemli etkinliktir: ana sayfa oyuncuyu katılmaya iter (avatar kartı altındaki şerit).
 
 ### Lig
 

@@ -1,18 +1,18 @@
-// Günde iki turnuva. Saatler SABİT ve TÜRKİYE saatine göre (oyuncunun
+// Günlük turnuvalar. Saatler SABİT ve TÜRKİYE saatine göre (oyuncunun
 // yerel saatine göre DEĞİL): yerel saate göre olsaydı zaten ince olan
 // oyuncu havuzu saat dilimlerine bölünür, turnuvalar boş kalırdı.
 //
-// Tek kaynak sunucudaki oyun_ayarlari (turnuva_saat_sabah/aksam). Buradaki
-// değerler yalnız sunucuya ulaşılamadığında kullanılan varsayılan.
-// Türkiye yıl boyu UTC+3: 13:00 TSİ = 10:00 UTC, 21:50 TSİ = 18:50 UTC.
+// ESKİ sabah/akşam ayarları (turnuva_saat_sabah/aksam) yalnız eski satırların
+// anını çözmek için; saat listesi aşağıda (turnuva_saatleri).
+// Türkiye yıl boyu UTC+3 (aşağıdaki değerler UTC).
 const VARSAYILAN = { sabah: [10, 0], aksam: [18, 50] };   // UTC
 let saatler = VARSAYILAN;
 
-// ---- GÜNDE 7 TURNUVA (Paket 12, madde 7) ----
+// ---- GÜNLÜK TURNUVA LİSTESİ (Paket 12, madde 7; 23 Eyl 2026: günde 5) ----
 // Tek kaynak artık oyun_ayarlari.turnuva_saatleri: TSİ "HH:MM" dizisi,
 // "24:00" o günün gece yarısı. Yukarıdaki sabah/akşam değerleri eski
 // çağrılar kırılmasın diye duruyor; sıradaki turnuva hesabı listeden.
-const VARSAYILAN_LISTE = ["10:00", "12:30", "15:00", "18:00", "20:00", "22:00", "24:00"];
+const VARSAYILAN_LISTE = ["10:00", "14:00", "18:00", "20:00", "24:00"];
 let turnuvaListesi = VARSAYILAN_LISTE;
 const TSI_MS = 3 * 3600 * 1000;   // Türkiye yıl boyu UTC+3
 const GUN_MS = 24 * 3600 * 1000;
@@ -86,8 +86,8 @@ export function turnuvaAniMs(tarih, seans) {
 }
 
 /**
- * Açık lobilerden EN ERKEN başlayacak olanı. Günde 7 turnuvada aynı gün
- * iki lobi bulunabilir (ör. geçişte taşınan 22:00 + yeni 20:00); "ilk
+ * Açık lobilerden EN ERKEN başlayacak olanı. Günde birden çok turnuvada aynı gün
+ * iki lobi bulunabilir (ör. saat listesi değişince eski + yeni lobi); "ilk
  * bulunan lobi" yanlış lobinin oyuncu sayısını gösteriyordu.
  */
 export function siradakiLobi(liste) {

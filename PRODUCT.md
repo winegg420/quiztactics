@@ -23,7 +23,7 @@ web
 ## Product Purpose
 
 Gerçek zamanlı 1v1 ve grup bilgi yarışması: Klasik Mod (20 soru), Düello (taktik maçı:
-kategori seçimi, aynı soru aynı anda, 3 can, uzatma), günde 7 seanslık turnuva, grup maçı
+kategori seçimi, aynı soru aynı anda, 3 can, uzatma), günde 5 seanslık turnuva, grup maçı
 (3–5 kişi, ödülsüz), haftalık lig (Bronz → Efsane), skill'ler ve coin ekonomisi.
 Başarı: oyuncunun maça hızla girip adil, gergin, eğlenceli bir yarış yaşaması ve geri gelmesi.
 
@@ -37,7 +37,7 @@ lig. Hız bonusu yok — süre içinde doğru cevaplayan herkes aynı puanı al�
 
 - Maçlar senkron ve sunucu yetkili (Supabase RPC + realtime); istemci yalnız çizer.
 - Botlar eşleşme açığını kapatır; gizli botun bot olduğu arayüzde asla sızmaz.
-- Turnuva seans saatleri: 10:00 · 12:30 · 15:00 · 18:00 · 20:00 · 22:00 · 24:00 (TSİ).
+- Turnuva seans saatleri: 10:00 · 14:00 · 18:00 · 20:00 · 24:00 (TSİ).
 
 ## Capabilities and Constraints
 

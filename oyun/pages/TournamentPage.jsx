@@ -119,7 +119,7 @@ export default function TournamentPage() {
     // hiçbir yere düşmez; kullanıcıya da gösterilecek bir mesaj kalmaz.
     let data = null;
     try {
-      // Günde 7 turnuva (Paket 12, madde 7): önce açık turnuvalar; yoksa
+      // Günde birden çok turnuva (Paket 12, madde 7): önce açık turnuvalar; yoksa
       // son biten. "Son 3 satır" bitmiş turnuvalarla dolup lobiyi
       // gizleyebiliyordu; aynı gün iki lobide de en erken başlayan seçilir.
       const sonuc = await supabase

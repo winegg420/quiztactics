@@ -258,7 +258,7 @@ export default function Home() {
       // turnuva şeridi sessizce boş kalır ve nedeni hiçbir yere düşmez.
       let tlar = null;
       try {
-        // Günde 7 turnuva (Paket 12, madde 7): "son 2 satır" artık bitmiş
+        // Günde birden çok turnuva (Paket 12, madde 7): "son 2 satır" artık bitmiş
         // turnuvalardan oluşabiliyor; yalnız açık olanlar çekilir ve lobi
         // olarak EN ERKEN başlayacak olan seçilir.
         const { data, error } = await supabase

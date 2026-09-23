@@ -93,8 +93,6 @@ export function dilCoz(profil) {
 const SOZLUK = {
   en: {
     // ---- Giriş ekranı (Login.jsx) ----
-    "Her gün 13:00 ve 21:50'de (Türkiye saati) büyük turnuva.":
-      "Big tournament every day at 13:00 and 21:50 (Türkiye time).",
     "Her gün {saat}'de (Türkiye saati) turnuva.": "A tournament every day at {saat} (Türkiye time).",
     "Her gün {n} turnuva: ilki {ilk}, sonuncusu {son} (Türkiye saati).":
       "{n} tournaments every day: the first at {ilk}, the last at {son} (Türkiye time).",

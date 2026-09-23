@@ -79,7 +79,7 @@ export default function Layout() {
   useEffect(() => {
     ayarlar()
       .then((o) => {
-        // Günde 7 turnuva (Paket 12, madde 7): liste tek kaynak. Eski
+        // Günde birden çok turnuva (Paket 12, madde 7): liste tek kaynak. Eski
         // sabah/akşam değerleri yalnız eski çağrılar için saklanır.
         if (Array.isArray(o?.turnuva_saatleri)) turnuvaListesiniAyarla(o.turnuva_saatleri);
         if (o?.turnuva_saat_sabah && o?.turnuva_saat_aksam) {
