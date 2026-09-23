@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import Maskot from "./Maskot.jsx";
 import PuanSayaci from "./PuanSayaci.jsx";
 import { sesSureDoldu, sesKazandin, sesKaybettin, sesBeraberlik } from "../lib/ses.js";
@@ -32,6 +32,11 @@ export default function SureDolduGecis({
   // Ajan H: maç berabere bittiyse beraberlik sesi.
   berabere = false,
 }) {
+  // Ajan H: ebeveyn her render'da yeni onBitti verdiği için (satır içi ok fonksiyonu) etki her
+  // render'da yeniden koşuyor, sonuç sesi 9 kez baştan çalıyor ve 0,8 sn'lik perde uzuyordu
+  // (canlı Klasik testi). onBitti ref'te; ses ve zamanlayıcı perde başına BİR kez.
+  const bittiRef = useRef(onBitti);
+  bittiRef.current = onBitti;
   useEffect(() => {
     try {
       if (kazandi) {
@@ -47,9 +52,10 @@ export default function SureDolduGecis({
     } catch {
       /* ses çalınamadı — geçiş yine de görünür */
     }
-    const t = setTimeout(() => onBitti?.(), sure);
+    const t = setTimeout(() => bittiRef.current?.(), sure);
     return () => clearTimeout(t);
-  }, [onBitti, sure, kazandi, kaybetti, berabere]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sure]);
 
   return (
     <div className="m1-gecis" role="status" aria-live="polite">
