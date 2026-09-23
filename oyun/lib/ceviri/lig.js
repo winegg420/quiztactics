@@ -30,4 +30,14 @@ export default {
     "#{sira} in your country this week (of {sayi} cities) · {puan} pts",
   "tüm zamanlarda ülkende {sira}. sırada ({sayi} şehir içinde) · {puan} puan":
     "#{sira} in your country all time (of {sayi} cities) · {puan} pts",
+
+  // ---------- Arkadaşlar / Davet ----------
+  "{ad} isteğini reddet": "Decline {ad}'s request",
+  "Aşağıdaki davet linkini paylaş, birlikte yarışın.": "Share your invite link below and start playing together.",
+  "{n} puan": "{n} pts",
+  "{ad} arkadaşlıktan çıkar": "Remove {ad} from friends",
+  "{ad} kişisine gönderilen isteği geri çek": "Cancel your request to {ad}",
+  "Kodunu ya da linkini paylaş; arkadaşın seni tek dokunuşla ekler.": "Share your code or link — your friend adds you in one tap.",
+  "Arkadaşının davet kodu": "Your friend's invite code",
+  "Dokun, kopyala": "Tap to copy",
 };

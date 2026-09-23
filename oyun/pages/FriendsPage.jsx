@@ -1,20 +1,22 @@
-import { Fragment, useCallback, useEffect, useState } from "react";
-import Ikon from "../components/Ikon.jsx";
+import { useCallback, useEffect, useState } from "react";
 import { hataMesaji } from "../lib/hata.js";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import AvatarCerceve from "../components/AvatarCerceve.jsx";
-import Maskot from "../components/Maskot.jsx";
-import DurumKutusu from "../components/DurumKutusu.jsx";
 import { y } from "../lib/yol.js";
 import DavetKodu from "../components/DavetKodu.jsx";
 import { facebookArkadasOnerileri, facebookDavetAc } from "../lib/facebookArkadas.js";
 import { tt } from "../lib/dil.js";
 import ModSecimPenceresi from "../components/ModSecimPenceresi.jsx";
 import OyuncuKarti from "../components/OyuncuKarti.jsx";
-import Modal from "../components/Modal.jsx";
-import { useDmOkunmamis, rozetMetni } from "../lib/mesajlar.js";
+import { useDmOkunmamis } from "../lib/mesajlar.js";
+import {
+  QtIkon, QtDugme, QtIkonDugme, QtKart, QtListe, QtListeSatiri, QtBosDurum,
+  QtIskelet, QtModal, QtSayiRozeti, sayiBicim,
+} from "../tasarim/index.js";
+// Tasarım A (Faz 2, şerit L): Arkadaşlar · Davet · Mesajlar ortak stilleri
+import "../tasarim/ekranlar/l-sosyal.css";
 
 const DOSTLUK_SECIMI = `id, requester, addressee, durum,
   req:profiles!friendships_requester_fkey(id, gorunen_ad, gorunen_avatar, gorunum, puan),
@@ -280,32 +282,45 @@ export default function FriendsPage() {
   );
   const arkadaslar = dostluklar.filter((f) => f.durum === "arkadas");
 
+
+  const silinecek = silOnay ? dostluklar.find((x) => x.id === silOnay) : null;
+  const silinecekProfil = silinecek ? digerProfil(silinecek) : null;
+
   return (
-    <div>
-      {/* ---------- SAYFA BAŞLIĞI (Arayüz Yenileme, 20 Eyl 2026) ----------
-          Prototipteki `page-heading` + `messages-button`.
-          `social-stats` şeridi ALINMADI: prototipteki dört sayıdan
-          (çevrimiçi · arkadaş · bu hafta maç · galibiyet) yalnız biri
-          gerçek veriden gelebiliyor; sahte sayı yazılmaz. */}
-      <section className="page-heading">
-        <div>
-          <span className="eyebrow">{tt("SOSYAL MERKEZ")}</span>
-          <h1>{tt("Arkadaşlarınla yarış")}</h1>
-          <p>{tt("Arkadaşlarını bul, meydan oku ve kimin daha bilgili olduğunu göster.")}</p>
+    <div className="ls-sayfa ar-sayfa">
+      {/* ---------- SAYFA BAŞLIĞI (Tasarım A) ----------
+          Sahte sayı yok: çevrimiçi / haftalık maç gibi şeritler gerçek veriden
+          gelmediği için çizilmez. Mesajlar alt menüde değil, buradan açılır. */}
+      <header className="ls-baslik">
+        <div className="ls-baslik-metin">
+          <h1 className="qt-baslik-1">{tt("Arkadaşlar")}</h1>
+          <p className="qt-soluk-zemin">{tt("Arkadaşlarını bul, meydan oku ve kimin daha bilgili olduğunu göster.")}</p>
         </div>
         {/* Paket 35 E: alt çubuğa yedinci sekme yerine buradan (okunmamış varsa rozet) */}
-        <button
-          type="button"
-          className="btn ikincil bd-mesajlar-dugme messages-button"
+        <QtDugme
+          tur="ikincil"
+          boyut="k"
+          ikon="mesaj"
+          className="ls-mesaj-dugme"
           onClick={() => navigate(y("/mesajlar"))}
           aria-label={dmOkunmamis > 0 ? tt("Mesajlar, {0} okunmamış", { 0: dmOkunmamis }) : tt("Mesajlar")}
         >
-          <Ikon ad="mesaj" boyut={18} /> <span>{tt("Mesajlar")}</span>
-          {dmOkunmamis > 0 && <b aria-hidden="true">{rozetMetni(dmOkunmamis)}</b>}
-        </button>
-      </section>
-      {hata && <div className="hata-kutu">{hata}</div>}
-      {bilgi && <div className="bd-bilgi-kutu">{bilgi}</div>}
+          {tt("Mesajlar")}
+          <QtSayiRozeti sayi={dmOkunmamis} />
+        </QtDugme>
+      </header>
+
+      {hata && (
+        <p className="ls-uyari ls-uyari-hata" role="alert">
+          <QtIkon ad="uyari" boyut={18} /> <span>{hata}</span>
+        </p>
+      )}
+      {bilgi && (
+        <p className="ls-uyari ls-uyari-bilgi" role="status">
+          <QtIkon ad="onay" boyut={18} /> <span>{bilgi}</span>
+        </p>
+      )}
+
       {/* Paket 35 C: satıra dokununca profil kartı; kart yalnız verilen eylemleri çizer */}
       {kartHedef && (
         <OyuncuKarti
@@ -322,26 +337,23 @@ export default function FriendsPage() {
           onMesaj={kartHedef.id === user.id ? undefined : (id) => { setKartHedef(null); navigate(y(`/mesajlar/${id}`)); }}
         />
       )}
-      {silOnay && (() => {
-        const sf = dostluklar.find((x) => x.id === silOnay);
-        const sp = sf ? digerProfil(sf) : null;
-        return (
-          <Modal onKapat={() => setSilOnay(null)} etiket={tt("Arkadaşlıktan çıkar")}>
-            <div className="bd-modal">
-              <h2 className="bd-modal-baslik">
-                {tt("{ad} arkadaşlıktan çıkarılsın mı?", { ad: sp?.gorunen_ad ?? tt("Arkadaşın") })}
-              </h2>
-              <p className="alt-yazi">{tt("Birbirinize artık doğrudan meydan okuyamaz ve mesaj atamazsınız. İstersen sonra yeniden ekleyebilirsin.")}</p>
-              <div className="bd-joker-sat-dugmeler">
-                <button type="button" className="btn ikincil" onClick={() => setSilOnay(null)}>{tt("Vazgeç")}</button>
-                <button type="button" className="btn tehlike" onClick={() => { const id = silOnay; setSilOnay(null); cikar(id); }}>
-                  {tt("Çıkar")}
-                </button>
-              </div>
-            </div>
-          </Modal>
-        );
-      })()}
+
+      {/* Arkadaş silme geri alınamaz: onaylı iki adım (Paket 41 M.5) */}
+      <QtModal
+        acik={Boolean(silOnay)}
+        onKapat={() => setSilOnay(null)}
+        baslik={tt("{ad} arkadaşlıktan çıkarılsın mı?", { ad: silinecekProfil?.gorunen_ad ?? tt("Arkadaşın") })}
+        aciklama={tt("Birbirinize artık doğrudan meydan okuyamaz ve mesaj atamazsınız. İstersen sonra yeniden ekleyebilirsin.")}
+        altlik={
+          <div className="ls-modal-dugmeler">
+            <QtDugme tur="ikincil" data-qt-ilk-odak onClick={() => setSilOnay(null)}>{tt("Vazgeç")}</QtDugme>
+            <QtDugme tur="tehlike" ikon="carpi" onClick={() => { const id = silOnay; setSilOnay(null); cikar(id); }}>
+              {tt("Çıkar")}
+            </QtDugme>
+          </div>
+        }
+      />
+
       {modHedef && (
         <ModSecimPenceresi
           profil={modHedef}
@@ -350,209 +362,263 @@ export default function FriendsPage() {
         />
       )}
 
-      {/* SIRA (Paket 8): arkadaş listesi ve istekler ÜSTTE. Davet kartları
-          sayfanın başındaydı; arkadaşı olan oyuncu her girişte onları
-          geçiyordu. Kartlar AYNEN korundu, sayfanın sonuna taşındı. */}
+      {/* SIRA (Paket 8): arkadaş listesi ve istekler ÜSTTE, davet kartları sonda. */}
       {gelenIstekler.length > 0 && (
-        <>
-          <div className="baslik">{tt("Gelen istekler")}</div>
-          {gelenIstekler.map((f) => (
-            <div key={f.id} className="liste-satir">
-              <AvatarCerceve profile={f.req} />
-              <div className="bilgi">
-                <div className="isim">{f.req?.gorunen_ad}</div>
-                <div className="detay">{tt("arkadaşlık isteği gönderdi")}</div>
-              </div>
-              <button className="btn kucuk" onClick={() => cevapla(f.id, true)}>
-                {tt("Kabul")}
-              </button>
-              {/* Paket 42 A: arkadaşlık isteği/davet reddi her yerde "Reddet" (kayıt silme "Sil") */}
-              <button className="btn kucuk tehlike" onClick={() => cevapla(f.id, false)}>
-                {tt("Reddet")}
-              </button>
-            </div>
-          ))}
-        </>
+        <section className="ls-bolum" aria-labelledby="ar-gelen">
+          <h2 id="ar-gelen" className="qt-baslik-3 ls-bolum-baslik">
+            {tt("Gelen istekler")} <span className="ls-sayi">{gelenIstekler.length}</span>
+          </h2>
+          <QtListe etiket={tt("Gelen istekler")}>
+            {gelenIstekler.map((f) => (
+              <QtListeSatiri
+                key={f.id}
+                bas={<AvatarCerceve profile={f.req} boyut={44} />}
+                baslik={<span className="ls-ad">{f.req?.gorunen_ad}</span>}
+                alt={tt("arkadaşlık isteği gönderdi")}
+                sag={
+                  <>
+                    <QtDugme tur="mor" boyut="k" ikon="onay" onClick={() => cevapla(f.id, true)}>
+                      {tt("Kabul")}
+                    </QtDugme>
+                    {/* Paket 42 A: arkadaşlık isteği/davet reddi her yerde "Reddet" (kayıt silme "Sil") */}
+                    <QtIkonDugme
+                      ikon="carpi"
+                      tur="saydam"
+                      className="ls-reddet"
+                      etiket={tt("{ad} isteğini reddet", { ad: f.req?.gorunen_ad ?? tt("Oyuncu") })}
+                      onClick={() => cevapla(f.id, false)}
+                    />
+                  </>
+                }
+              />
+            ))}
+          </QtListe>
+        </section>
       )}
 
-      <div className="baslik">{tt("Arkadaşların")}{listeDurum === "hazir" ? ` (${arkadaslar.length})` : ""}</div>
-      {listeDurum !== "hazir" && (
-        <DurumKutusu durum={listeDurum} onTekrar={() => { setListeDurum("yukleniyor"); yukle(); }} />
-      )}
-      {listeDurum === "hazir" && arkadaslar.length === 0 && (
-        <div className="bd-bos-durum">
-          <Maskot poz="selam" boyut={86} />
-          {/* Paket 42 I: paylaş düğmesi hemen alttaki "Arkadaş davet et" kartında da vardı (iki kez);
-              burada yalnız yönlendirme metni kaldı */}
-          <p>{tt("Henüz arkadaşın yok — aşağıdaki davet linkini paylaş, birlikte yarışın.")}</p>
-        </div>
-      )}
-      {arkadaslar.map((f) => {
-        const p = digerProfil(f);
-        const bekleyen = bekleyenMeydan.get(p?.id);
-        return (
-          <Fragment key={f.id}>
-          <div className="liste-satir">
-            {/* Paket 35 C: satıra (avatar + ad) dokunmak profil kartını açar; "Oyna" kısayol olarak kalır */}
-            <button
-              type="button"
-              className="bd-arkadas-ac"
-              onClick={() => setKartHedef(p)}
-              aria-haspopup="dialog"
-              aria-label={tt("{ad} profilini aç", { ad: p?.gorunen_ad ?? tt("Arkadaşın") })}
-            >
-              <AvatarCerceve profile={p} />
-              <div className="bilgi">
-                <div className="isim">{p?.gorunen_ad}</div>
-                <div className="detay"><Ikon ad="yildiz" boyut={13} /> {p?.puan} {tt("puan")}</div>
-              </div>
-            </button>
-            {/* Paket 30 B: kılıç (Klasik) + kalkan (Düello) yerine tek düğme → mod seçim penceresi */}
-            <button
-              className="btn kucuk ikincil bd-oyna-dugme"
-              onClick={() => setModHedef(p)}
-              // Paket 35 D: bekleyen meydan okuma varken ikinci kez meydan okunamaz (sebep şeritte + title)
-              disabled={Boolean(bekleyen)}
-              title={bekleyen ? BEKLEYEN_NEDEN : undefined}
-              aria-label={tt("{ad} ile oyna", { ad: p?.gorunen_ad ?? tt("Arkadaşın") })}
-              aria-haspopup="dialog"
-            >
-              <Ikon ad="kilic" boyut={16} /> {tt("Oyna")}
-            </button>
-            {/* Paket 41 M.5: onay artık satır içinde değil, küçük pencerede (aşağıda) */}
-            {(
-              <button
-                className="btn kucuk ikincil bd-arkadas-cikar"
-                onClick={() => setSilOnay(f.id)}
-                aria-label={(p?.gorunen_ad ?? tt("Arkadaşını")) + tt(" arkadaşlıktan çıkar")}
-                title={tt("Arkadaşlıktan çıkar")}
-              >
-                <Ikon ad="carpi" boyut={16} />
-              </button>
-            )}
-          </div>
-          {bekleyen && (
-            <div className="bd-meydan-serit" role="status">
-              <span className="bd-meydan-serit-nokta" aria-hidden="true"><i /><i /><i /></span>
-              <span className="bd-meydan-serit-metin">
-                {bekleyen.tur === "duello"
-                  ? tt("Düello daveti gönderildi · yanıt bekleniyor")
-                  : tt("Meydan okuma gönderildi · yanıt bekleniyor")}
-              </span>
-              <button type="button" className="btn kucuk" onClick={() => navigate(y("/meydan"))}>
-                {tt("Maça git")}
-              </button>
-              <button
-                type="button"
-                className="btn kucuk tehlike"
-                disabled={geriCekilen === bekleyen.id}
-                onClick={() => meydanGeriCek(bekleyen)}
-              >
-                {geriCekilen === bekleyen.id ? "…" : tt("Geri çek")}
-              </button>
-            </div>
+      <section className="ls-bolum" aria-labelledby="ar-arkadaslar">
+        <h2 id="ar-arkadaslar" className="qt-baslik-3 ls-bolum-baslik">
+          {tt("Arkadaşların")}
+          {listeDurum === "hazir" && arkadaslar.length > 0 && (
+            <span className="ls-sayi">{sayiBicim(arkadaslar.length)}</span>
           )}
-          </Fragment>
-        );
-      })}
+        </h2>
+
+        {listeDurum === "yukleniyor" && (
+          <div className="qt-liste ls-iskelet" role="status" aria-busy="true">
+            <span className="qt-gizli">{tt("Yükleniyor…")}</span>
+            <QtIskelet tur="satir" adet={4} />
+          </div>
+        )}
+        {listeDurum === "hata" && (
+          <QtKart>
+            <QtBosDurum
+              ikon="uyari"
+              ton="yanlis"
+              baslik={tt("Yüklenemedi.")}
+              metin={tt("Bağlantını kontrol edip tekrar dene.")}
+              eylem={
+                <QtDugme tur="ikincil" ikon="yenile" onClick={() => { setListeDurum("yukleniyor"); yukle(); }}>
+                  {tt("Tekrar dene")}
+                </QtDugme>
+              }
+            />
+          </QtKart>
+        )}
+        {listeDurum === "hazir" && arkadaslar.length === 0 && (
+          <QtKart>
+            {/* Paket 42 I: paylaş düğmesi alttaki davet kartında; burada yönlendirme var */}
+            <QtBosDurum
+              ikon="kisiler"
+              baslik={tt("Henüz arkadaşın yok")}
+              metin={tt("Aşağıdaki davet linkini paylaş, birlikte yarışın.")}
+            />
+          </QtKart>
+        )}
+
+        {listeDurum === "hazir" && arkadaslar.length > 0 && (
+          <QtListe etiket={tt("Arkadaşların")}>
+            {arkadaslar.map((f) => {
+              const p = digerProfil(f);
+              const bekleyen = bekleyenMeydan.get(p?.id);
+              return (
+                <div key={f.id} role="listitem" className="qt-satir-kap ar-kap">
+                  <div className="ar-satir">
+                    {/* Paket 35 C: satıra (avatar + ad) dokunmak profil kartını açar; "Oyna" kısayol olarak kalır */}
+                    <button
+                      type="button"
+                      className="ar-ac"
+                      onClick={() => setKartHedef(p)}
+                      aria-haspopup="dialog"
+                      aria-label={tt("{ad} profilini aç", { ad: p?.gorunen_ad ?? tt("Arkadaşın") })}
+                    >
+                      <AvatarCerceve profile={p} boyut={44} />
+                      <span className="ar-bilgi">
+                        <span className="ls-ad">{p?.gorunen_ad}</span>
+                        <span className="ar-detay">
+                          <QtIkon ad="yildiz" boyut={14} /> {tt("{n} puan", { n: sayiBicim(p?.puan ?? 0) })}
+                        </span>
+                      </span>
+                    </button>
+                    {/* Paket 30 B: tek "Oyna" düğmesi → mod seçim penceresi.
+                        Paket 35 D: bekleyen meydan okuma varken ikinci kez meydan okunamaz. */}
+                    <QtDugme
+                      tur="mor"
+                      boyut="k"
+                      ikon="oyna"
+                      className="ar-oyna"
+                      onClick={() => setModHedef(p)}
+                      devreDisi={Boolean(bekleyen)}
+                      title={bekleyen ? BEKLEYEN_NEDEN : undefined}
+                      aria-label={tt("{ad} ile oyna", { ad: p?.gorunen_ad ?? tt("Arkadaşın") })}
+                      aria-haspopup="dialog"
+                    >
+                      {tt("Oyna")}
+                    </QtDugme>
+                    <QtIkonDugme
+                      ikon="carpi"
+                      tur="saydam"
+                      className="ar-cikar"
+                      etiket={tt("{ad} arkadaşlıktan çıkar", { ad: p?.gorunen_ad ?? tt("Arkadaşını") })}
+                      onClick={() => setSilOnay(f.id)}
+                    />
+                  </div>
+                  {bekleyen && (
+                    <div className="ar-bekleyen" role="status">
+                      <span className="ar-noktalar" aria-hidden="true"><i /><i /><i /></span>
+                      <span className="ar-bekleyen-metin">
+                        {bekleyen.tur === "duello"
+                          ? tt("Düello daveti gönderildi · yanıt bekleniyor")
+                          : tt("Meydan okuma gönderildi · yanıt bekleniyor")}
+                      </span>
+                      <span className="ar-bekleyen-dugmeler">
+                        <QtDugme tur="ikincil" boyut="k" onClick={() => navigate(y("/meydan"))}>
+                          {tt("Maça git")}
+                        </QtDugme>
+                        <QtDugme
+                          tur="hayalet"
+                          boyut="k"
+                          className="ar-geri-cek"
+                          yukleniyor={geriCekilen === bekleyen.id}
+                          onClick={() => meydanGeriCek(bekleyen)}
+                        >
+                          {tt("Geri çek")}
+                        </QtDugme>
+                      </span>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </QtListe>
+        )}
+      </section>
 
       {gidenIstekler.length > 0 && (
-        <>
-          <div className="baslik" style={{ marginTop: 14 }}>
-            {tt("Bekleyen istekler")}
-          </div>
-          {gidenIstekler.map((f) => (
-            <div key={f.id} className="liste-satir">
-              <AvatarCerceve profile={f.add} />
-              <div className="bilgi">
-                <div className="isim">{f.add?.gorunen_ad}</div>
-                <div className="detay">{tt("cevap bekleniyor…")}</div>
-              </div>
-              {/* Paket 13: meydan okumadaki "Geri çek" gibi, gönderilen istek de geri alınır. */}
-              <button
-                className="btn kucuk ikincil"
-                onClick={() => geriCek(f.id)}
-                aria-label={(f.add?.gorunen_ad ?? tt("Bu kişiye")) + tt(" gönderilen isteği geri çek")}
-              >
-                {tt("Geri çek")}
-              </button>
-            </div>
-          ))}
-        </>
+        <section className="ls-bolum" aria-labelledby="ar-giden">
+          <h2 id="ar-giden" className="qt-baslik-3 ls-bolum-baslik">{tt("Bekleyen istekler")}</h2>
+          <QtListe etiket={tt("Bekleyen istekler")}>
+            {gidenIstekler.map((f) => (
+              <QtListeSatiri
+                key={f.id}
+                bas={<AvatarCerceve profile={f.add} boyut={44} />}
+                baslik={<span className="ls-ad">{f.add?.gorunen_ad}</span>}
+                alt={tt("cevap bekleniyor…")}
+                sag={
+                  /* Paket 13: meydan okumadaki "Geri çek" gibi, gönderilen istek de geri alınır. */
+                  <QtDugme
+                    tur="ikincil"
+                    boyut="k"
+                    onClick={() => geriCek(f.id)}
+                    aria-label={tt("{ad} kişisine gönderilen isteği geri çek", { ad: f.add?.gorunen_ad ?? tt("Oyuncu") })}
+                  >
+                    {tt("Geri çek")}
+                  </QtDugme>
+                }
+              />
+            ))}
+          </QtListe>
+        </section>
       )}
 
       {/* ---------- Davet (listenin altında) ---------- */}
-      <div className="baslik" style={{ marginTop: 18 }}>{tt("Arkadaş davet et")}</div>
-      <div className="kart bd-davet-kart">
-        <div className="bd-kat-baslik">
-          <span>{tt("Davet kodun")}</span>
-        </div>
-        {/* Kodun kendisi düğme: dokununca YALNIZ kod panoya gider. */}
-        <DavetKodu kod={profile?.davet_kodu} />
-        <button className="btn" onClick={linkPaylas} disabled={!davetLinki}>
-          {kopyalandi ? tt("Kopyalandı") : tt("Davet linkini paylaş")}
-        </button>
-        {/* Facebook'ta "tüm arkadaşlarını davet et" MÜMKÜN DEĞİL (2014'ten
-            beri kapalı); onun yerine paylaşım diyaloğu açılır. */}
-        <button
-          className="btn ikincil"
-          disabled={!davetLinki}
-          onClick={() => facebookDavetAc(davetLinki)}
-        >
-          {tt("Facebook'ta paylaş")}
-        </button>
-      </div>
+      <section className="ls-bolum" aria-labelledby="ar-davet">
+        <h2 id="ar-davet" className="qt-baslik-3 ls-bolum-baslik">{tt("Arkadaş davet et")}</h2>
+        <QtKart className="ar-davet-kart">
+          <p className="ar-davet-aciklama">
+            {tt("Kodunu ya da linkini paylaş; arkadaşın seni tek dokunuşla ekler.")}
+          </p>
+          {/* Kodun kendisi düğme: dokununca YALNIZ kod panoya gider. */}
+          <DavetKodu kod={profile?.davet_kodu} />
+          <div className="ar-davet-dugmeler">
+            <QtDugme tamGenislik ikon="paylas" onClick={linkPaylas} devreDisi={!davetLinki}>
+              {kopyalandi ? tt("Kopyalandı") : tt("Davet linkini paylaş")}
+            </QtDugme>
+            {/* Facebook'ta "tüm arkadaşlarını davet et" MÜMKÜN DEĞİL (2014'ten
+                beri kapalı); onun yerine paylaşım diyaloğu açılır. */}
+            <QtDugme tur="ikincil" tamGenislik devreDisi={!davetLinki} onClick={() => facebookDavetAc(davetLinki)}>
+              {tt("Facebook'ta paylaş")}
+            </QtDugme>
+          </div>
+        </QtKart>
+      </section>
 
       {/* ---------- Facebook arkadaşların ----------
           `user_friends` izni App Review ister; onay yoksa liste boş döner
           ve bu bölüm HİÇ ÇİZİLMEZ (giriş akışı etkilenmez). */}
       {fbOnerileri.length > 0 && (
-        <div className="kart">
-          <div className="bd-kat-baslik">
-            <span>{tt("Facebook arkadaşların Quiz Tactics'te")}</span>
-          </div>
-          {fbOnerileri.map((o) => (
-            <div key={o.user_id} className="liste-satir">
-              <AvatarCerceve profile={o} boyut={38} userId={o.user_id ?? o.id} />
-              <div className="bilgi">
-                <div className="isim">{o.gorunen_ad}</div>
-                <div className="detay">{tt("Facebook arkadaşın")}</div>
-              </div>
-              <button
-                className="btn kucuk"
-                disabled={calisiyor}
-                onClick={() => fbArkadasEkle(o.user_id)}
-              >
-                {tt("Ekle")}
-              </button>
-            </div>
-          ))}
-        </div>
+        <section className="ls-bolum" aria-labelledby="ar-fb">
+          <h2 id="ar-fb" className="qt-baslik-3 ls-bolum-baslik">{tt("Facebook arkadaşların Quiz Tactics'te")}</h2>
+          <QtListe etiket={tt("Facebook arkadaşların Quiz Tactics'te")}>
+            {fbOnerileri.map((o) => (
+              <QtListeSatiri
+                key={o.user_id}
+                bas={<AvatarCerceve profile={o} boyut={44} userId={o.user_id ?? o.id} />}
+                baslik={<span className="ls-ad">{o.gorunen_ad}</span>}
+                alt={tt("Facebook arkadaşın")}
+                sag={
+                  <QtDugme tur="mor" boyut="k" ikon="kisiEkle" devreDisi={calisiyor} onClick={() => fbArkadasEkle(o.user_id)}>
+                    {tt("Ekle")}
+                  </QtDugme>
+                }
+              />
+            ))}
+          </QtListe>
+        </section>
       )}
 
-      <div className="kart">
-        <div className="bd-kat-baslik">
-          <span>{tt("Davet koduyla ekle")}</span>
-        </div>
-        <div className="bd-kod-satir">
-          <input
-            type="text"
-            className="bd-kod-giris"
-            placeholder={tt("8 haneli kod")}
-            maxLength={8}
-            value={kod}
-            onChange={(e) => setKod(e.target.value.toUpperCase())}
-            onKeyDown={(e) => e.key === "Enter" && kodlaEkle()}
-          />
-          <button
-            className="btn kucuk"
-            disabled={calisiyor || kod.trim().length !== 8}
-            onClick={() => kodlaEkle()}
+      <section className="ls-bolum" aria-labelledby="ar-kodla">
+        <h2 id="ar-kodla" className="qt-baslik-3 ls-bolum-baslik">{tt("Davet koduyla ekle")}</h2>
+        <QtKart>
+          <form
+            className="ar-kod-satir"
+            onSubmit={(e) => { e.preventDefault(); kodlaEkle(); }}
           >
-            {calisiyor ? "…" : tt("Ekle")}
-          </button>
-        </div>
-      </div>
+            <label className="qt-gizli" htmlFor="ar-kod-giris">{tt("Arkadaşının davet kodu")}</label>
+            <input
+              id="ar-kod-giris"
+              type="text"
+              className="ar-kod-giris"
+              placeholder={tt("8 haneli kod")}
+              maxLength={8}
+              autoComplete="off"
+              autoCapitalize="characters"
+              spellCheck={false}
+              value={kod}
+              onChange={(e) => setKod(e.target.value.toUpperCase())}
+            />
+            <QtDugme
+              type="submit"
+              tur="mor"
+              ikon="kisiEkle"
+              yukleniyor={calisiyor}
+              devreDisi={kod.trim().length !== 8}
+            >
+              {tt("Ekle")}
+            </QtDugme>
+          </form>
+        </QtKart>
+      </section>
     </div>
   );
 }

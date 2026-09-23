@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import Ikon from "../components/Ikon.jsx";
+import { QtKart, QtBosDurum, QtDugme } from "../tasarim/index.js";
+import "../tasarim/ekranlar/l-sosyal.css";
 import { hataMesaji } from "../lib/hata.js";
 import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
@@ -85,18 +86,25 @@ export default function DavetPage() {
     })();
   }, [kod, user, profile, navigate]);
 
+  const ikon = durum === "basarili" ? "onay" : durum === "hata" ? "uyari" : "hediye";
+  const ton = durum === "basarili" ? "dogru" : durum === "hata" ? "yanlis" : "mor";
   return (
-    <div className="kart bd-davet-sonuc">
-      <div style={{ fontSize: 40, marginBottom: 10 }}>
-        <Ikon ad={durum === "basarili" ? "onay" : durum === "hata" ? "uyari" : "hediye"} boyut={34} />
-      </div>
-      <div style={{ fontWeight: 800, fontSize: 17, marginBottom: 8 }}>
-        {durum === "basarili" ? tt("Davet uygulandı") : tt("Arkadaş daveti")}
-      </div>
-      <div className="alt-yazi" style={{ marginBottom: 14 }}>{mesaj}</div>
-      <button className="btn ikincil" onClick={() => navigate(y("/arkadaslar"))}>
-        {tt("Arkadaşlara git")}
-      </button>
+    <div className="ls-sayfa dv-sayfa">
+      <QtKart dolgu="b" className="dv-kart">
+        <div role={durum === "hata" ? "alert" : "status"} aria-live="polite">
+          <QtBosDurum
+            ikon={ikon}
+            ton={ton}
+            baslik={durum === "basarili" ? tt("Davet uygulandı") : tt("Arkadaş daveti")}
+            metin={mesaj}
+            eylem={
+              <QtDugme tur={durum === "hata" ? "birincil" : "ikincil"} ikon="kisiler" onClick={() => navigate(y("/arkadaslar"))}>
+                {tt("Arkadaşlara git")}
+              </QtDugme>
+            }
+          />
+        </div>
+      </QtKart>
     </div>
   );
 }

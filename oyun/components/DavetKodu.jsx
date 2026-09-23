@@ -11,6 +11,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { tt } from "../lib/dil.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
+import { QtIkon, QtDugme } from "../tasarim/index.js";
+import "../tasarim/ekranlar/l-sosyal.css";
 
 /**
  * Panoya yazar. `navigator.clipboard` yalnız güvenli bağlamda ve izin
@@ -66,11 +68,12 @@ export default function DavetKodu({ kod }) {
   // Paket 41 M.6: kod gelmediyse "—" yerine sebep + Tekrar dene (paylaş düğmeleri bu yüzden pasif)
   if (!kod) {
     return (
-      <div className="bd-davet-kod-yok" role="status">
+      <div className="ls-kod-yok" role="status">
+        <QtIkon ad="uyari" boyut={20} />
         <span>{tt("Davet kodun şu an alınamadı; paylaşma düğmeleri bu yüzden kapalı.")}</span>
-        <button type="button" className="btn kucuk ikincil" onClick={() => refreshProfile?.(user?.id)}>
+        <QtDugme tur="ikincil" boyut="k" ikon="yenile" onClick={() => refreshProfile?.(user?.id)}>
           {tt("Tekrar dene")}
-        </button>
+        </QtDugme>
       </div>
     );
   }
@@ -78,15 +81,17 @@ export default function DavetKodu({ kod }) {
   return (
     <button
       type="button"
-      className={"bd-davet-kod bd-davet-kod-btn" + (durum === "oldu" ? " kopyalandi" : "")}
+      className={"ls-kod" + (durum === "oldu" ? " ls-kod--oldu" : "")}
       onClick={kopyala}
       title={tt("Kodu kopyala")}
       aria-label={tt("Davet kodun {0} — kopyalamak için dokun", { 0: kod })}
     >
-      <span className="bd-davet-kod-metin">{kod}</span>
-      <span className="bd-davet-kod-ipucu" aria-hidden="true">
-        {durum === "oldu" ? tt("kopyalandı ✓") : durum === "olmadi" ? tt("elle seç") : tt("dokun, kopyala")}
+      <span className="ls-kod-metin qt-sayi">{kod}</span>
+      <span className="ls-kod-ipucu" aria-hidden="true">
+        <QtIkon ad={durum === "oldu" ? "onay" : "kopyala"} boyut={16} />
+        {durum === "oldu" ? tt("Kopyalandı") : durum === "olmadi" ? tt("elle seç") : tt("Dokun, kopyala")}
       </span>
+      <span className="qt-gizli" aria-live="polite">{durum === "oldu" ? tt("Kopyalandı") : ""}</span>
     </button>
   );
 }
