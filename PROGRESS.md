@@ -7620,3 +7620,49 @@ otomatik akla gelmesi için; proje kapsamında kuruldu.
   `ChallengesPage.jsx:632`, `RakipAra.jsx:264`; `{error}` kontrolü yok: `ProfilAyarlari.jsx:94`,
   `CalismaPage.jsx:108`, `MatchPage.jsx:563`, `HizliModPage.jsx:111`, `ChallengesPage.jsx:278`,
   `Home.jsx:75`; RPC dışı: `JokerCubugu.jsx:188`, `MatchPage.jsx:554`, `HizliModPage.jsx:194`.
+
+## 2026-09-23 — Paket 2 kapanışı: ekonomi · level/rütbe · skill envanteri · son test
+**Araç:** Claude Code (ana ajan + Şerit A/B ve Faz 5 alt ajanları)
+**Neden:** Oyun mantığındaki kod işini bitirmek; sonraki aşama arayüzün baştan tasarımı.
+
+- **Faz 0A (telefonda Düello'da şıka basılamıyor) — AÇIK.** Önizleme + Android/iPhone
+  taklidi (dokunuşla, 390/360/412 px, taze oturum, yenileme, arka plan, yavaş 3G, Ida'nın
+  skill seti) → hepsinde şıklar dokunulabilir, üstteki öğe şıkın kendisi. Kanıt (Ida'nın
+  maçı b7c0a0a5): maç boyunca sunucuya tek eylem ulaştı — 21:33:41,9 kategori seçimi
+  (`duello_eylem` sayacı; otomatik atlama değil, Düello QuestionCard kullanmaz); sonra
+  hiç cevap isteği yok, durum sorguları sürüyor (40), kopukluk yok, terk 21:34:07.
+  Elenen adaylar: hale/`AnaEkranaEkle` (pointer-events:none), arama katmanı (unmount),
+  RankUpOverlay (opak, dokununca kapanır), `calisan` (çıkış onayı çalıştı). **`?tani=1`
+  paneli eklendi** (`TaniPaneli.jsx`): dokunulan noktadaki en üst öğe, tam ekran sabit
+  katmanlar, Düello kilit koşulları. Ida'nın telefonda denemesi bekleniyor.
+  Klasik'te ilk soruda 3-2-1 sayımı şıkları kısa süre kapatıyor (tasarım gereği).
+- **Şerit A (277–279):** coin Klasik 30/12/0, Düello 45/0 (serbest ve Saf Bilgi mevcut
+  %50 mekanizmasıyla 15/6); XP Klasik 30/15/10, Düello 45/15, turnuva 20 + ilk 3'e 50;
+  `profiles.level/level_xp/xp`, `xp_hareketleri`, `xp_ver` (level 20 coin, 5 levelde
+  skill hakkı, rütbe 100 coin; tavan dışı); rütbe level'e bağlı, Efsane → Dâhi (EN
+  Genius); bot level'i seviye puanı × 0,6–1,1 (tohumlu, sabit); RankUpOverlay kapanmama
+  hatası düzeldi; profil/ana sayfa/maç sonu level göstergeleri.
+- **Şerit B (281–284):** `skill_katalogu` + kilit + `skill_kilidi_ac`; fiyatlar 20/20/30/30/30,
+  10'lu paket 170/255; `skill_seti_slot` 3 → 7 (loadout kapalı); `envanterim` artık bütün
+  türleri döndürüyor (eskiden 4 tür; maç çubuğu hak varken satın alma açıyordu);
+  `skill_dukkani()`.
+- **Birleştirme (285):** `oyuncu_level()` → `profiles.level`.
+- **Faz 2:** 277–279, 281–285 prova (birleşik, 152 test / 0 hata) → canlıya → doğrulandı
+  (insanlar L1, botlar L1–102, coin değişmedi, cron temiz). 270–274 bekleyen soru dosyaları
+  hâlâ `araclar/soru-parti-1000/bekleyen-migrationlar/`.
+- **Faz 3:** 19 sessiz hata yeri düzeldi; yeni `oyun/lib/rpcDene.js`.
+- **Faz 4 (önizleme + Android taklidi, dokunuş, gerçek akış, sonuç DB'den):** Düello v2
+  mağlubiyet 15 XP / 0 coin, 50:50 envanter 4→3; Düello v1 (listeden geçici çıkarılarak)
+  bozulmadı; Klasik serbest mağlubiyet 10 XP / 0 coin; dereceli galibiyet +25 lig / +30
+  coin / +30 XP; serbest galibiyet +15 coin + Level 2 (+20 coin); Saf Bilgi galibiyet +12
+  lig / +15 coin / +30 XP; bot testleri 48/48; arayüz denetimi 16 sayfa TEMİZ; konsol/ağ
+  temiz. Turnuva canlı seans dışında, grup arkadaşlık ister → sunucu testleriyle.
+  Maç sonu ekranında dinleyici sayısı artışı ölçüldü → zorunlu GC sonrası sabit, sızıntı değil.
+- **Level eğrisi:** L100 = 25.691 XP; günde 10 maç (karışık, %50 galibiyet, ort. 25 XP)
+  → ~103 gün (~3,4 ay; hedef ~4 ay). Katsayıya dokunulmadı.
+- **Faz 5:** `docs/TASARIM_HAZIRLIK.md` (ekran envanteri, paylaşılan bileşenler, metinler,
+  CSS, veri kaynakları, dondurulanlar, Paket 2 ekleri).
+- **Karar bekleyen:** maç içi "hak yoksa al ve kullan" akışı; Sigorta/2X fiyatı (60) ve
+  10'lu paketleri; level eğrisi hızı; A'nın eklediği kurallar (oynamayan kaybedene XP yok,
+  kazanansız Düello'da iki tarafa 15 XP, level coini tavan dışı); lig "n/60" gösterimi;
+  iletişim e-postası.

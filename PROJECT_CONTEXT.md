@@ -131,8 +131,20 @@ Aktif yedi maç skill'i vardır:
 | `cifte_puan` | 2X | yalnız Klasik | doğruda 20; yanlışta 0 |
 | `ikinci_sans` | İkinci Şans | Klasik · Düello | ilk yanlışta aynı sayaçla bir ikinci cevap |
 
-- Oyuncu maç öncesi **3 slotluk** bir set seçer (slot sayısı
-  `oyun_ayarlari.skill_seti_slot`'tan okunur). Sunucu kullanımda seti doğrular.
+- **Loadout (skill seti) fiilen kapalı:** `oyun_ayarlari.skill_seti_slot` = 7
+  = aktif skill sayısı → seçim ekranı çizilmez, herkes bütün aktif skill'leri
+  kullanır; sunucu set kontrolünü atlar. Altyapı (tablo, RPC, kapı) duruyor;
+  açmak = `skill_seti_slot`'u aktif skill sayısının altına çekmek. Kataloğa yeni
+  aktif skill eklenince bu değer de artırılmalı.
+- **Skill kataloğu ve kilit:** `skill_katalogu` (tur, aktif, kilit_fiyati,
+  gereken_level). Bugünkü 7 skill fiyat 0 · level 1 (açık). Yeni skill'in kilidi
+  coin'le bir kez açılır (`skill_kilidi_ac`); level şartı coinle atlanamaz.
+  Kapı (`skill_kullanim_kapisi`) kilitli skill'i reddeder.
+- **Kullanım hakkı:** skill envanterdeki haktan düşer. Fiyatlar
+  `coin_joker_<tür>` (tek) ve `coin_joker_<tür>_10` (10'lu paket, %15 indirim).
+  Maç içinde hak yoksa onaylı "al ve kullan" akışı hâlâ var (karar bekliyor).
+- Maç içi sınırlar herkese eşit: Klasik 6 / aynı skill 2 / soruda 1 · Düello
+  4 / 2 / 1. Level ödülünden gelen haklar sınırları artırmaz.
 - `sis`, `savunma_kilidi`, `saldiri_degistir` **pasiftir** — geçmiş veri için
   kayıtlı, dükkânda gizli, yeniden açılmayacak. Kayıtları silinmez.
 - `seri_koruma` maç skill'i değildir; günlük seri mekanizması için ayrı durur.
@@ -142,10 +154,20 @@ Aktif yedi maç skill'i vardır:
 ### Ekonomi (bütün rakamlar `oyun_ayarlari` tablosunda)
 
 - Lig = birikimli emek. **Günlük lig tavanı yok.**
-- Klasik Mod standardı: galibiyet 25 · berabere 10 · mağlubiyet 0
-  (teselli yok) — hem lig hem coin.
-- Düello galibiyet ödülü Klasik galibiyet ayarından alınır;
-  iki ana mod eşit ödül verir. Yeni sayı hardcode edilmez.
+- **Coin (test değerleri):** Klasik galibiyet 30 · berabere 12 · mağlubiyet 0
+  (`coin_mac_*`); Düello galibiyet 45 · mağlubiyet 0 (`coin_duello_galibiyet`) —
+  Düello daha uzun sürdüğü için daha çok verir. Lig puanı ayrı: Klasik 25/10/0.
+- **XP ve level (test değerleri):** Klasik 30/15/10, Düello 45/15 (galibiyet/
+  mağlubiyet), turnuva katılım 20 + ilk 3'e 50. Serbest ve Saf Bilgi'de XP tam.
+  Kaybeden ancak oynadıysa XP alır. Grup maçı XP vermez. Level ligden ayrı,
+  kalıcı, sınırsız; herkes Level 1'den başladı (23 Eyl 2026). Gereken XP =
+  round(`level_xp_taban` + `level_xp_katsayi` × level^`level_xp_us`) = 60 + 0,5 ×
+  L^1,5. Level ödülü 20 coin; her 5 levelde 1 rastgele aktif skill hakkı; rütbe
+  atlamada 100 coin (bu coinler günlük tavana sayılmaz). Botların level'i
+  seviye puanından tohumlu türetilir, XP almaz.
+- **Rütbe level'e bağlı:** Çaylak L1 · Bilge L10 · Üstat L25 · Kahin L50 ·
+  **Dâhi** L100 (eski "Efsane" rütbesi; Efsane Lig ile karışmasın). Eski puan
+  eşikleri kullanım dışı. Lig (Bronz → Efsane) ayrı rekabet göstergesi.
 - Saf Bilgi/skillsiz Klasik, standart ödülün **%50**'sini
   verir. Serbest ayrı kavramdır; iki indirim üst üste çarpılıp %25 olmaz.
 - Turnuva lig: 1. 150 · 2. 80 · 3. 40 · 4-10. 20 · diğer katılan 10.
@@ -295,6 +317,10 @@ altta, eylem düğmeleri sağ altta.
 ---
 
 ## Açık İşler
+
+- **Telefonda Düello'da şıka dokunamama (Ida, Android) — açık.** Taklitte
+  üretilemedi. Ida önizlemede `/duello?tani=1` ile oynayıp tanı panelinin
+  ekran görüntüsünü alacak (panel: en üst öğe, katmanlar, kilit koşulları).
 
 - **1000 soru partisi + Jev zorluk (270–274) beklemede.** Üretildi ve provadan
   geçti ama Ida "soru üretimini durdur" dedi; uygulanmadı. Dosyalar
