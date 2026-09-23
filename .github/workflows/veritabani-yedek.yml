@@ -26,12 +26,9 @@ permissions:
   issues: write
 
 jobs:
-  testler:
-    uses: ./.github/workflows/testler.yml
-    # Yeniden kullanılan iş, çağıranın sırlarını KENDİLİĞİNDEN ALMAZ.
-    # Bu satır olmadan sunucu testleri sessizce atlanıyordu (18 Eyl 2026'da ölçüldü:
-    # "43 skipped" — yani iş yeşil görünürken hiçbir şey denenmemişti).
-    secrets: inherit
+  # Sunucu testleri (testler.yml) buradan ÇAĞRILMAZ (23 Eyl 2026): canlı veritabanında
+  # işlem açıp ~20 dk yük bindiriyor, Supabase Disk IO bütçesini tüketiyordu. Ayrı bir test
+  # ortamına (yerel `supabase start` / ayrı proje) taşınana kadar yalnız elle çalıştırılır.
 
   yedek:
     name: Döküm + geri yükleme doğrulaması
