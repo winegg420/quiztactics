@@ -1,0 +1,99 @@
+{
+  "aciklama": "Paket 3 soru üretimi — kesintiye dayanıklı durum. Her parti 7 adımı (üret, kalite kapısı, EN çeviri, migration, prova→uygula→doğrula, durum.json, commit+push) bitirince buraya yazılır. Yeni oturum bu dosyayı okuyup siradaki_parti ile devam eder; biten parti tekrar üretilmez.",
+  "faz0": {
+    "durum": "bitti",
+    "tarih": "2026-09-23",
+    "migrationlar": [
+      "20260612000286_soru_parti_1000_a",
+      "20260612000287_soru_parti_1000_b",
+      "20260612000288_soru_parti_1000_c",
+      "20260612000289_soru_parti_1000_d",
+      "20260612000290_soru_zorluk_jev"
+    ],
+    "soru": 1000,
+    "kategori": {
+      "sinema": 139,
+      "teknoloji": 130,
+      "muzik": 132,
+      "sanat": 126,
+      "spor": 118,
+      "edebiyat": 112,
+      "bilim": 100,
+      "tarih": 100,
+      "genel_kultur": 43,
+      "yerel_tr_icinde": 60
+    },
+    "zorluk": {
+      "1": 1,
+      "2": 5,
+      "3": 125,
+      "4": 402,
+      "5": 467
+    },
+    "havuz_aktif_sonra": 10290,
+    "havuz_zorluk_sonra": {
+      "1": 939,
+      "2": 1846,
+      "3": 3861,
+      "4": 2241,
+      "5": 1403
+    }
+  },
+  "hedef": {
+    "toplam": 5000,
+    "parti_boyu": 250,
+    "kategori": {
+      "sinema": 650,
+      "teknoloji": 650,
+      "muzik": 600,
+      "sanat": 600,
+      "spor": 550,
+      "edebiyat": 500,
+      "bilim": 500,
+      "tarih": 450,
+      "yerel_tr": 300,
+      "genel_kultur": 200
+    },
+    "zorluk": {
+      "3": 1500,
+      "4": 1750,
+      "5": 1000,
+      "1-2": 750
+    },
+    "cografya": 0
+  },
+  "siradaki_parti": 1,
+  "siradaki_migration_no": 291,
+  "partiler": [],
+  "atlanan_partiler": [],
+  "sayac": {
+    "soru": 0,
+    "kategori": {
+      "sinema": 0,
+      "teknoloji": 0,
+      "muzik": 0,
+      "sanat": 0,
+      "spor": 0,
+      "edebiyat": 0,
+      "bilim": 0,
+      "tarih": 0,
+      "yerel_tr": 0,
+      "genel_kultur": 0
+    },
+    "zorluk": {
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "1-2": 0
+    }
+  },
+  "jev": {
+    "cagri": 0,
+    "girdi_jeton": 0,
+    "maliyet_usd": 0
+  },
+  "elenen": 0,
+  "zorluk_etiket_duzeltme": 0,
+  "cevrilmeyen": 0,
+  "ardisik_uygulama_hatasi": 0
+}
