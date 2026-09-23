@@ -62,8 +62,8 @@
     },
     "cografya": 0
   },
-  "siradaki_parti": 10,
-  "siradaki_migration_no": 313,
+  "siradaki_parti": 11,
+  "siradaki_migration_no": 314,
   "partiler": [
     {
       "no": 1,
@@ -662,38 +662,104 @@
         "2": 22,
         "3": 23
       }
+    },
+    {
+      "no": 10,
+      "ajan": 2,
+      "kategoriler": [
+        "teknoloji",
+        "edebiyat",
+        "bilim",
+        "tarih",
+        "genel_kultur"
+      ],
+      "soru": 100,
+      "migration": "20260612000313_soru_uretim_parti_10",
+      "commit": null,
+      "tarih": "2026-09-23",
+      "kategori_kova": {
+        "teknoloji": 28,
+        "edebiyat": 22,
+        "bilim": 22,
+        "tarih": 19,
+        "genel_kultur": 9
+      },
+      "kategori_db": {
+        "teknoloji": 28,
+        "edebiyat": 22,
+        "tarih": 19,
+        "genel_kultur": 9,
+        "bilim": 22
+      },
+      "zorluk": {
+        "3": 27,
+        "4": 38,
+        "5": 20,
+        "1-2": 15
+      },
+      "zorluk_1_5": [
+        3,
+        12,
+        27,
+        38,
+        20
+      ],
+      "jev": {
+        "cagri": 812,
+        "girdi_jeton": 547603,
+        "maliyet_usd": 0.023
+      },
+      "taslak": 140,
+      "elenen": {
+        "kalite_sonrasi": 8,
+        "kota_fazlasi": 40,
+        "not": "Ajan 2, 100'lük parti (teknoloji 28 · edebiyat 22 · bilim 22 · tarih 19 · genel kültür 9). Parti 8'den kota fazlası 28 taslak (Jev sonuçlarıyla) + 113 yeni taslak. Fikirler yazılmadan önce güncel havuz + diğer ajanın partileri/taslakları anahtar kelimeyle tarandı. Jev öncesi elle: 6 havuz tekrarı (Denizatı, Bolívar/El Libertador, Takrir-i Sükûn, son halife Abdülmecid, Ralph Baer/Magnavox, Sinekkuşları) çıkarıldı; ~20 şık denge düzeltmesi. Şık ipucu kapısı takılan 6 taslak çıkarıldı (Barnard, Kamikaze/Moğol, Proxima Centauri, İvo Andriç; Riemann hipotezi çeldiricileri Milenyum problemleriyle değiştirildi ama yine takıldı → çıkarıldı). Hassas: Oswald/JFK (0,73) çıkarıldı. Zorluk dengesi için 16 çok zor taslak eklendi. Jev'in <0,9 güvenle farklı dediği doğru sorular (İçimizdeki Şeytan/Ömer-Macide, Bandırma vapuru, Prolog/Fransa, Yaprak Dökümü, Ece Ayhan) kontrol edilip tutuldu."
+      },
+      "zorluk_etiket_duzeltme": 6,
+      "cevrilmeyen": 2,
+      "en_ceviri_db": 98,
+      "havuz_aktif": {
+        "once": 11940,
+        "sonra": 12040
+      },
+      "dogru_cevap_dagilimi": {
+        "0": 31,
+        "1": 25,
+        "2": 23,
+        "3": 21
+      }
     }
   ],
   "atlanan_partiler": [],
   "sayac": {
-    "soru": 1650,
+    "soru": 1750,
     "kategori": {
       "sinema": 235,
-      "teknoloji": 190,
+      "teknoloji": 218,
       "muzik": 216,
       "sanat": 216,
       "spor": 201,
-      "edebiyat": 147,
-      "bilim": 147,
-      "tarih": 131,
+      "edebiyat": 169,
+      "bilim": 169,
+      "tarih": 150,
       "yerel_tr": 108,
-      "genel_kultur": 59
+      "genel_kultur": 68
     },
     "zorluk": {
-      "3": 491,
-      "4": 582,
-      "5": 327,
-      "1-2": 250
+      "3": 518,
+      "4": 620,
+      "5": 347,
+      "1-2": 265
     }
   },
   "jev": {
-    "cagri": 6465,
-    "girdi_jeton": 4840993,
-    "maliyet_usd": 0.2034
+    "cagri": 7277,
+    "girdi_jeton": 5388596,
+    "maliyet_usd": 0.2264
   },
-  "elenen": 18,
-  "zorluk_etiket_duzeltme": 89,
-  "cevrilmeyen": 28,
+  "elenen": 26,
+  "zorluk_etiket_duzeltme": 95,
+  "cevrilmeyen": 30,
   "ardisik_uygulama_hatasi": 0,
   "migration_no_notu": "296 (skill satın alma kilit sırası) ve 297 (duello_surum herkese) Paket 3 dışı işlere verildi, 23 Eyl 2026. Parti 6 yeniden üretilince 298 kullanılır."
 }

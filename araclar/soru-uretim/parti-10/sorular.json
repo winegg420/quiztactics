@@ -1,0 +1,2088 @@
+[
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Kuru fotokopi (kserografi) yöntemini 1938'de icat eden mucit kimdir?",
+  "d": "Chester Carlson",
+  "y": [
+   "George Eastman",
+   "Lewis Waterman",
+   "Herman Hollerith"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which inventor created dry photocopying (xerography) in 1938?",
+   "d": "Chester Carlson",
+   "y": [
+    "George Eastman",
+    "Lewis Waterman",
+    "Herman Hollerith"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "'Metal Gear' oyun serisinin yaratıcısı kimdir?",
+  "d": "Hideo Kojima",
+  "y": [
+   "Shinji Mikami",
+   "Hironobu Sakaguchi",
+   "Keiji Inafune"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Who created the 'Metal Gear' video game series?",
+   "d": "Hideo Kojima",
+   "y": [
+    "Shinji Mikami",
+    "Hironobu Sakaguchi",
+    "Keiji Inafune"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "'Resident Evil' serisini geliştiren Japon şirketi hangisidir?",
+  "d": "Capcom",
+  "y": [
+   "Konami",
+   "Sega",
+   "Namco"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which Japanese company developed the 'Resident Evil' series?",
+   "d": "Capcom",
+   "y": [
+    "Konami",
+    "Sega",
+    "Namco"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "'Counter-Strike' ilk olarak hangi oyunun modu (eklentisi) olarak ortaya çıkmıştır?",
+  "d": "Half-Life",
+  "y": [
+   "Quake III",
+   "Unreal Tournament",
+   "Doom"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "'Counter-Strike' began as a mod of which game?",
+   "d": "Half-Life",
+   "y": [
+    "Quake III",
+    "Unreal Tournament",
+    "Doom"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Sony'nin 1999'da piyasaya sürdüğü robot köpeğin adı nedir?",
+  "d": "AIBO",
+  "y": [
+   "QRIO",
+   "Pepper",
+   "Nao"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "What is the name of the robot dog Sony launched in 1999?",
+   "d": "AIBO",
+   "y": [
+    "QRIO",
+    "Pepper",
+    "Nao"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "'Dota' ilk olarak hangi strateji oyunu için hazırlanmış bir harita modudur?",
+  "d": "Warcraft III",
+  "y": [
+   "StarCraft",
+   "Age of Empires II",
+   "Command & Conquer"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "'Dota' started as a custom map mod for which strategy game?",
+   "d": "Warcraft III",
+   "y": [
+    "StarCraft",
+    "Age of Empires II",
+    "Command & Conquer"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "'Assassin's Creed' serisinin yayıncısı olan oyun şirketi hangisidir?",
+  "d": "Ubisoft",
+  "y": [
+   "Electronic Arts",
+   "Activision",
+   "Square Enix"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which company publishes the 'Assassin's Creed' series?",
+   "d": "Ubisoft",
+   "y": [
+    "Electronic Arts",
+    "Activision",
+    "Square Enix"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Anında fotoğraf veren makineleri geliştiren Polaroid şirketinin kurucusu kimdir?",
+  "d": "Edwin Land",
+  "y": [
+   "George Eastman",
+   "Oskar Barnack",
+   "Louis Daguerre"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Who founded Polaroid, the company that developed instant cameras?",
+   "d": "Edwin Land",
+   "y": [
+    "George Eastman",
+    "Oskar Barnack",
+    "Louis Daguerre"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Akıllı telefonlarda kullanılan Snapdragon işlemcilerini tasarlayan şirket hangisidir?",
+  "d": "Qualcomm",
+  "y": [
+   "MediaTek",
+   "Nvidia",
+   "Broadcom"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which company designs the Snapdragon processors used in smartphones?",
+   "d": "Qualcomm",
+   "y": [
+    "MediaTek",
+    "Nvidia",
+    "Broadcom"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "1961'de General Motors fabrikasında çalışmaya başlayan ilk endüstriyel robot hangisidir?",
+  "d": "Unimate",
+  "y": [
+   "Shakey",
+   "Elektro",
+   "ASIMO"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which was the first industrial robot, put to work at a General Motors plant in 1961?",
+   "d": "Unimate",
+   "y": [
+    "Shakey",
+    "Elektro",
+    "ASIMO"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "1962'de MIT'te PDP-1 bilgisayarında geliştirilen, ilk dijital video oyunlarından sayılan uzay oyunu hangisidir?",
+  "d": "Spacewar!",
+  "y": [
+   "Pong",
+   "Computer Space",
+   "Asteroids"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which space game, developed at MIT on a PDP-1 computer in 1962, is one of the first digital video games?",
+   "d": "Spacewar!",
+   "y": [
+    "Pong",
+    "Computer Space",
+    "Asteroids"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "ARPANET'in 1969'da kurulan ilk düğümü hangi üniversitedeydi?",
+  "d": "UCLA",
+  "y": [
+   "MIT",
+   "Harvard",
+   "Carnegie Mellon"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "At which university was the first ARPANET node installed in 1969?",
+   "d": "UCLA",
+   "y": [
+    "MIT",
+    "Harvard",
+    "Carnegie Mellon"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "1926'da Londra'da hareketli görüntü ileten televizyon sistemini ilk kez gösteren İskoç mucit kimdir?",
+  "d": "John Logie Baird",
+  "y": [
+   "Philo Taylor Farnsworth",
+   "Vladimir Zworykin",
+   "Paul Nipkow"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which Scottish inventor first demonstrated a television system transmitting moving images in London in 1926?",
+   "d": "John Logie Baird",
+   "y": [
+    "Philo Taylor Farnsworth",
+    "Vladimir Zworykin",
+    "Paul Nipkow"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Atari şirketi adını hangi masa oyunundaki bir terimden almıştır?",
+  "d": "Go",
+  "y": [
+   "Şogi",
+   "Mahjong",
+   "Satranç"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "The company Atari took its name from a term in which board game?",
+   "d": "Go",
+   "y": [
+    "Shogi",
+    "Mahjong",
+    "Chess"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "QWERTY klavye düzenini 1870'lerde daktilo için geliştiren Amerikalı mucit kimdir?",
+  "d": "Christopher Sholes",
+  "y": [
+   "Charles Thurber",
+   "Rasmus Malling-Hansen",
+   "Samuel Morse"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which American inventor devised the QWERTY layout for typewriters in the 1870s?",
+   "d": "Christopher Sholes",
+   "y": [
+    "Charles Thurber",
+    "Rasmus Malling-Hansen",
+    "Samuel Morse"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Çocuklara programlamayı ekrandaki bir 'kaplumbağa'yı yönlendirerek öğreten Logo dilinin tasarımcılarından olan eğitimci kimdir?",
+  "d": "Seymour Papert",
+  "y": [
+   "Alan Kay",
+   "Jean Piaget",
+   "Maria Montessori"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which educator co-designed Logo, the language that teaches children programming by steering an on-screen 'turtle'?",
+   "d": "Seymour Papert",
+   "y": [
+    "Alan Kay",
+    "Jean Piaget",
+    "Maria Montessori"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Tetris'te yukarıdan düşen her parça kaç kareden oluşur?",
+  "d": "4",
+  "y": [
+   "3",
+   "5",
+   "6"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In Tetris, how many squares make up each falling piece?",
+   "d": "4",
+   "y": [
+    "3",
+    "5",
+    "6"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Blizzard'ın 'StarCraft' oyunu profesyonel e-spor olarak en çok hangi ülkede yaygınlaşmıştır?",
+  "d": "Güney Kore",
+  "y": [
+   "Birleşik Krallık",
+   "Çin",
+   "Japonya"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "In which country did Blizzard's 'StarCraft' become hugely popular as a professional esport?",
+   "d": "South Korea",
+   "y": [
+    "United Kingdom",
+    "China",
+    "Japan"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Sony'nin PlayStation'ı ilk olarak hangi şirketin konsolu için bir CD eklentisi olarak planlanmıştı?",
+  "d": "Nintendo",
+  "y": [
+   "Panasonic",
+   "Atari",
+   "Commodore"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Sony's PlayStation was originally planned as a CD add-on for which company's console?",
+   "d": "Nintendo",
+   "y": [
+    "Panasonic",
+    "Atari",
+    "Commodore"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Sony'nin 1992'de tanıttığı, kartuş içindeki küçük bir optik diske kayıt yapan ses biçimi hangisidir?",
+  "d": "MiniDisc",
+  "y": [
+   "Digital Audio Tape",
+   "Digital Compact Cassette",
+   "Betamax"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which audio format, introduced by Sony in 1992, recorded onto a small optical disc inside a cartridge?",
+   "d": "MiniDisc",
+   "y": [
+    "Digital Audio Tape",
+    "Digital Compact Cassette",
+    "Betamax"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Unix işletim sisteminin ilk sürümü 1969'da hangi bilgisayar için yazılmıştır?",
+  "d": "PDP-7",
+  "y": [
+   "PDP-11",
+   "IBM 360",
+   "VAX-11"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "The first version of the Unix operating system was written in 1969 for which computer?",
+   "d": "PDP-7",
+   "y": [
+    "PDP-11",
+    "IBM 360",
+    "VAX-11"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Nesne yönelimli programlamanın öncüsü sayılan Simula dili 1960'larda hangi ülkede geliştirilmiştir?",
+  "d": "Norveç",
+  "y": [
+   "İsveç",
+   "Danimarka",
+   "Finlandiya"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Simula, regarded as the pioneer of object-oriented programming, was developed in the 1960s in which country?",
+   "d": "Norway",
+   "y": [
+    "Sweden",
+    "Denmark",
+    "Finland"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Cırt cırt bant, İsviçreli mühendis George de Mestral'ın hangi bitkinin tohumlarını incelemesiyle icat edilmiştir?",
+  "d": "Dulavratotu",
+  "y": [
+   "Böğürtlen",
+   "Devedikeni",
+   "Isırgan"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Swiss engineer George de Mestral invented Velcro after studying the seed heads of which plant?",
+   "d": "Burdock",
+   "y": [
+    "Blackberry",
+    "Thistle",
+    "Nettle"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "İlk bilgisayar solucanı sayılan Creeper'ı ağdan silmek için yazılan programın adı nedir?",
+  "d": "Reaper",
+  "y": [
+   "Hunter",
+   "Sweeper",
+   "Cleaner"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "What was the name of the program written to delete Creeper, regarded as the first computer worm, from the network?",
+   "d": "Reaper",
+   "y": [
+    "Hunter",
+    "Sweeper",
+    "Cleaner"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Mantık programlama dili Prolog 1972'de hangi ülkede geliştirilmiştir?",
+  "d": "Fransa",
+  "y": [
+   "Almanya",
+   "İtalya",
+   "Hollanda"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "The logic programming language Prolog was developed in 1972 in which country?",
+   "d": "France",
+   "y": [
+    "Germany",
+    "Italy",
+    "Netherlands"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "DeepMind'ın AlphaFold sistemi hangi bilimsel problemde çığır açmıştır?",
+  "d": "Protein katlanması",
+  "y": [
+   "Hava tahmini",
+   "Deprem öngörüsü",
+   "Kanser taraması"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "DeepMind's AlphaFold system made a breakthrough on which scientific problem?",
+   "d": "Protein folding",
+   "y": [
+    "Weather forecasting",
+    "Earthquake prediction",
+    "Cancer screening"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "'Japon yapıştırıcısı' olarak bilinen siyanoakrilat yapıştırıcıyı ilk kez 1942'de keşfeden kimyager kimdir?",
+  "d": "Harry Coover",
+  "y": [
+   "Spencer Silver",
+   "Leo Baekeland",
+   "Percy Julian"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which chemist first discovered cyanoacrylate, the basis of 'super glue', in 1942?",
+   "d": "Harry Coover",
+   "y": [
+    "Spencer Silver",
+    "Leo Baekeland",
+    "Percy Julian"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "'The Legend of Zelda' serisinde Link'in ezeli düşmanı olan kötü karakter kimdir?",
+  "d": "Ganon",
+  "y": [
+   "Bowser",
+   "Ridley",
+   "Dr. Eggman"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In 'The Legend of Zelda' series, who is Link's archenemy?",
+   "d": "Ganon",
+   "y": [
+    "Bowser",
+    "Ridley",
+    "Dr. Eggman"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Seçilmeyen Yol' (The Road Not Taken) şiirinin şairi kimdir?",
+  "d": "Robert Frost",
+  "y": [
+   "Walt Whitman",
+   "Emily Dickinson",
+   "T. S. Eliot"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Who wrote the poem 'The Road Not Taken'?",
+   "d": "Robert Frost",
+   "y": [
+    "Walt Whitman",
+    "Emily Dickinson",
+    "T. S. Eliot"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Jules Verne'in 'Denizler Altında Yirmi Bin Fersah'ında Kaptan Nemo'nun denizaltısının adı nedir?",
+  "d": "Nautilus",
+  "y": [
+   "Albatros",
+   "Hispaniola",
+   "Argo"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In Jules Verne's 'Twenty Thousand Leagues Under the Seas', what is Captain Nemo's submarine called?",
+   "d": "Nautilus",
+   "y": [
+    "Albatross",
+    "Hispaniola",
+    "Argo"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Madde 22' (Catch-22) romanının yazarı kimdir?",
+  "d": "Joseph Heller",
+  "y": [
+   "Kurt Vonnegut",
+   "Norman Mailer",
+   "Thomas Pynchon"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Who wrote the novel 'Catch-22'?",
+   "d": "Joseph Heller",
+   "y": [
+    "Kurt Vonnegut",
+    "Norman Mailer",
+    "Thomas Pynchon"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Yol' ve 'İhtiyarlara Yer Yok' romanlarının yazarı kimdir?",
+  "d": "Cormac McCarthy",
+  "y": [
+   "Don DeLillo",
+   "Philip Roth",
+   "Paul Auster"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Who wrote the novels 'The Road' and 'No Country for Old Men'?",
+   "d": "Cormac McCarthy",
+   "y": [
+    "Don DeLillo",
+    "Philip Roth",
+    "Paul Auster"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Harry Potter serisinde Lord Voldemort'un gerçek adı nedir?",
+  "d": "Tom Riddle",
+  "y": [
+   "Gellert Grindelwald",
+   "Salazar Slytherin",
+   "Regulus Black"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In the Harry Potter series, what is Lord Voldemort's real name?",
+   "d": "Tom Riddle",
+   "y": [
+    "Gellert Grindelwald",
+    "Salazar Slytherin",
+    "Regulus Black"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Pinokyo'nun burnu ne zaman uzar?",
+  "d": "Yalan söyleyince",
+  "y": [
+   "Hapşırınca",
+   "Çok korkunca",
+   "Karnı acıkınca"
+  ],
+  "zorluk": 1,
+  "en": {
+   "s": "When does Pinocchio's nose grow?",
+   "d": "When he lies",
+   "y": [
+    "When he sneezes",
+    "When he is scared",
+    "When he is hungry"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Sefiller'de Jean Valjean'ın annesi öldükten sonra yanına alıp büyüttüğü kız kimdir?",
+  "d": "Cosette",
+  "y": [
+   "Éponine",
+   "Fantine",
+   "Esmeralda"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In 'Les Misérables', which girl does Jean Valjean raise after her mother's death?",
+   "d": "Cosette",
+   "y": [
+    "Éponine",
+    "Fantine",
+    "Esmeralda"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Mark Twain takma adını kullanan yazarın gerçek adı nedir?",
+  "d": "Samuel Langhorne Clemens",
+  "y": [
+   "William Sydney Porter",
+   "Eric Arthur Blair",
+   "Charles Lutwidge Dodgson"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "What was the real name of the writer known as Mark Twain?",
+   "d": "Samuel Langhorne Clemens",
+   "y": [
+    "William Sydney Porter",
+    "Eric Arthur Blair",
+    "Charles Lutwidge Dodgson"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Açlık Oyunları'nda Katniss Everdeen hangi mıntıkadandır?",
+  "d": "12. Mıntıka",
+  "y": [
+   "1. Mıntıka",
+   "7. Mıntıka",
+   "13. Mıntıka"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In 'The Hunger Games', which district is Katniss Everdeen from?",
+   "d": "District 12",
+   "y": [
+    "District 1",
+    "District 7",
+    "District 13"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Bitmemiş dev romanı 'Niteliksiz Adam'ın yazarı olan Avusturyalı yazar kimdir?",
+  "d": "Robert Musil",
+  "y": [
+   "Hermann Broch",
+   "Joseph Roth",
+   "Stefan Zweig"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which Austrian writer wrote the vast unfinished novel 'The Man Without Qualities'?",
+   "d": "Robert Musil",
+   "y": [
+    "Hermann Broch",
+    "Joseph Roth",
+    "Stefan Zweig"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "1955 Nobel Edebiyat Ödülü'nü alan İzlandalı yazar kimdir?",
+  "d": "Halldór Laxness",
+  "y": [
+   "Knut Hamsun",
+   "Pär Lagerkvist",
+   "Sigrid Undset"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which Icelandic writer won the 1955 Nobel Prize in Literature?",
+   "d": "Halldór Laxness",
+   "y": [
+    "Knut Hamsun",
+    "Pär Lagerkvist",
+    "Sigrid Undset"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "1990'da Nobel Edebiyat Ödülü'nü alan, 'Yalnızlık Labirenti'nin yazarı Meksikalı şair kimdir?",
+  "d": "Octavio Paz",
+  "y": [
+   "Carlos Fuentes",
+   "Juan Rulfo",
+   "Pablo Neruda"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which Mexican poet, author of 'The Labyrinth of Solitude', won the 1990 Nobel Prize in Literature?",
+   "d": "Octavio Paz",
+   "y": [
+    "Carlos Fuentes",
+    "Juan Rulfo",
+    "Pablo Neruda"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "H. G. Wells'in 'Dünyalar Savaşı'nda istilacı Marslıları sonunda ne yok eder?",
+  "d": "Mikroplar",
+  "y": [
+   "Toplar",
+   "Fırtınalar",
+   "Yangınlar"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In H. G. Wells's 'The War of the Worlds', what finally destroys the Martian invaders?",
+   "d": "Germs",
+   "y": [
+    "Artillery",
+    "Storms",
+    "Fires"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "1986'da Nobel Edebiyat Ödülü'nü alarak bu ödülü kazanan ilk Sahra altı Afrikalı yazar olan Nijeryalı kimdir?",
+  "d": "Wole Soyinka",
+  "y": [
+   "Chinua Achebe",
+   "Ben Okri",
+   "Ngugi wa Thiongo"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which Nigerian writer, winning the 1986 Nobel Prize in Literature, became the first sub-Saharan African laureate?",
+   "d": "Wole Soyinka",
+   "y": [
+    "Chinua Achebe",
+    "Ben Okri",
+    "Ngugi wa Thiongo"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Jules Verne'in 'Dünyanın Merkezine Yolculuk' romanında kahramanlar yeraltına hangi ülkedeki bir yanardağdan iner?",
+  "d": "İzlanda",
+  "y": [
+   "Norveç",
+   "İrlanda",
+   "Grönland"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "In Jules Verne's 'Journey to the Centre of the Earth', the explorers descend through a volcano in which country?",
+   "d": "Iceland",
+   "y": [
+    "Norway",
+    "Ireland",
+    "Greenland"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Dickens'ın kendi hayatından en çok iz taşıyan ve 'en sevdiğim çocuğum' dediği romanı hangisidir?",
+  "d": "David Copperfield",
+  "y": [
+   "Büyük Umutlar",
+   "Oliver Twist",
+   "Martin Chuzzlewit"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which Dickens novel, the most autobiographical, did he call his 'favourite child'?",
+   "d": "David Copperfield",
+   "y": [
+    "Great Expectations",
+    "Oliver Twist",
+    "Martin Chuzzlewit"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Tolkien'in yarattığı, Fince'den esinlenen Yüksek Elf dilinin adı nedir?",
+  "d": "Quenya",
+  "y": [
+   "Sindarin",
+   "Khuzdul",
+   "Klingon"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "What is the name of the High-Elven language created by Tolkien and inspired by Finnish?",
+   "d": "Quenya",
+   "y": [
+    "Sindarin",
+    "Khuzdul",
+    "Klingon"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Yaşlı Kadının Ziyareti' oyununun yazarı İsviçreli yazar kimdir?",
+  "d": "Friedrich Dürrenmatt",
+  "y": [
+   "Max Frisch",
+   "Ödön von Horváth",
+   "Hugo von Hofmannsthal"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which Swiss writer wrote the play 'The Visit'?",
+   "d": "Friedrich Dürrenmatt",
+   "y": [
+    "Max Frisch",
+    "Ödön von Horváth",
+    "Hugo von Hofmannsthal"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Paddington Ayı Londra'ya hangi ülkeden gelmiştir?",
+  "d": "Peru",
+  "y": [
+   "Bolivya",
+   "Şili",
+   "Kolombiya"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Paddington Bear came to London from which country?",
+   "d": "Peru",
+   "y": [
+    "Bolivia",
+    "Chile",
+    "Colombia"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Beat kuşağının manifestosu sayılan 1956 tarihli 'Uluma' şiirinin şairi kimdir?",
+  "d": "Allen Ginsberg",
+  "y": [
+   "Jack Kerouac",
+   "Gregory Corso",
+   "Gary Snyder"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Who wrote 'Howl' (1956), the poem seen as a manifesto of the Beat Generation?",
+   "d": "Allen Ginsberg",
+   "y": [
+    "Jack Kerouac",
+    "Gregory Corso",
+    "Gary Snyder"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Hawthorne'un 'Kızıl Damga' romanında Hester Prynne'in göğsüne takmak zorunda kaldığı harf hangisidir?",
+  "d": "A",
+  "y": [
+   "B",
+   "H",
+   "S"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In Hawthorne's 'The Scarlet Letter', which letter is Hester Prynne forced to wear on her chest?",
+   "d": "A",
+   "y": [
+    "B",
+    "H",
+    "S"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Kınar Hanımın Denizleri' ve 'Bakışsız Bir Kedi Kara' kitaplarının şairi kimdir?",
+  "d": "Ece Ayhan",
+  "y": [
+   "Sezai Karakoç",
+   "İlhan Berk",
+   "Ülkü Tamer"
+  ],
+  "zorluk": 5,
+  "en": null,
+  "en_neden": "Türkçe şiir kitabı adlarına dayanıyor; İngilizce oyuncu için anlamlı değil."
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Laktoz intoleransı olan kişiler hangi besindeki şekeri sindirmekte zorlanır?",
+  "d": "Süt",
+  "y": [
+   "Buğday",
+   "Yumurta",
+   "Fıstık"
+  ],
+  "zorluk": 1,
+  "en": {
+   "s": "People with lactose intolerance have trouble digesting the sugar in which food?",
+   "d": "Milk",
+   "y": [
+    "Wheat",
+    "Eggs",
+    "Peanuts"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "1994'te parçalara ayrılıp Jüpiter'e çarpan kuyruklu yıldız hangisidir?",
+  "d": "Shoemaker-Levy 9",
+  "y": [
+   "Hale-Bopp",
+   "67P/Churyumov-Gerasimenko",
+   "Swift-Tuttle"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which comet broke apart and crashed into Jupiter in 1994?",
+   "d": "Shoemaker-Levy 9",
+   "y": [
+    "Hale-Bopp",
+    "67P/Churyumov-Gerasimenko",
+    "Swift-Tuttle"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "2017'de Satürn'ün atmosferine dalarak görevini sona erdiren uzay sondası hangisidir?",
+  "d": "Cassini",
+  "y": [
+   "Galileo",
+   "Juno",
+   "Voyager 2"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which space probe ended its mission in 2017 by plunging into Saturn's atmosphere?",
+   "d": "Cassini",
+   "y": [
+    "Galileo",
+    "Juno",
+    "Voyager 2"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Stetoskobu 1816'da icat eden Fransız hekim kimdir?",
+  "d": "René Laennec",
+  "y": [
+   "Louis Pasteur",
+   "Claude Bernard",
+   "Jean-Martin Charcot"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which French physician invented the stethoscope in 1816?",
+   "d": "René Laennec",
+   "y": [
+    "Louis Pasteur",
+    "Claude Bernard",
+    "Jean-Martin Charcot"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Bir asteroitten örnek alıp Dünya'ya getiren ilk uzay aracı Hayabusa hangi ülkeye aittir?",
+  "d": "Japonya",
+  "y": [
+   "Hindistan",
+   "Çin",
+   "Rusya"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Hayabusa, the first spacecraft to bring back a sample from an asteroid, belonged to which country?",
+   "d": "Japan",
+   "y": [
+    "India",
+    "China",
+    "Russia"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Güneş'ten çıkan ışığın Dünya'ya ulaşması yaklaşık ne kadar sürer?",
+  "d": "8 dakika",
+  "y": [
+   "8 saniye",
+   "1 saat",
+   "3 gün"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Roughly how long does light from the Sun take to reach Earth?",
+   "d": "8 minutes",
+   "y": [
+    "8 seconds",
+    "1 hour",
+    "3 days"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Çocukken 1'den 100'e kadar olan sayıların toplamını bir anda bulduğu anlatılan 'matematiğin prensi' kimdir?",
+  "d": "Carl Friedrich Gauss",
+  "y": [
+   "Leonhard Euler",
+   "Pierre de Fermat",
+   "Gottfried Wilhelm Leibniz"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which 'prince of mathematics' is said to have instantly summed the numbers from 1 to 100 as a child?",
+   "d": "Carl Friedrich Gauss",
+   "y": [
+    "Leonhard Euler",
+    "Pierre de Fermat",
+    "Gottfried Wilhelm Leibniz"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Sesleri renk olarak algılamak gibi duyuların birbirine karıştığı duruma ne ad verilir?",
+  "d": "Sinestezi",
+  "y": [
+   "Hiperestezi",
+   "Parestezi",
+   "Anestezi"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "What is the condition in which the senses blend, such as perceiving sounds as colours, called?",
+   "d": "Synaesthesia",
+   "y": [
+    "Hyperaesthesia",
+    "Paraesthesia",
+    "Anaesthesia"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Enzim gibi davranabilen RNA'ların keşfiyle 1989 Nobel Kimya Ödülü'nü Sidney Altman ile paylaşan bilim insanı kimdir?",
+  "d": "Thomas Cech",
+  "y": [
+   "Kary Mullis",
+   "Walter Gilbert",
+   "Frederick Sanger"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which scientist shared the 1989 Nobel Prize in Chemistry with Sidney Altman for discovering that RNA can act as an enzyme?",
+   "d": "Thomas Cech",
+   "y": [
+    "Kary Mullis",
+    "Walter Gilbert",
+    "Frederick Sanger"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Down sendromu hangi kromozomun fazladan bir kopyasından kaynaklanır?",
+  "d": "21",
+  "y": [
+   "13",
+   "18",
+   "23"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Down syndrome is caused by an extra copy of which chromosome?",
+   "d": "21",
+   "y": [
+    "13",
+    "18",
+    "23"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Programlanmış hücre ölümüne ne ad verilir?",
+  "d": "Apoptoz",
+  "y": [
+   "Nekroz",
+   "Mitoz",
+   "Fagositoz"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "What is programmed cell death called?",
+   "d": "Apoptosis",
+   "y": [
+    "Necrosis",
+    "Mitosis",
+    "Phagocytosis"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Uygarlıkları kullanabildikleri enerji miktarına göre sınıflandıran ölçek kimin adını taşır?",
+  "d": "Kardaşev",
+  "y": [
+   "Drake",
+   "Fermi",
+   "Sagan"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "The scale that classifies civilisations by the amount of energy they can use is named after whom?",
+   "d": "Kardashev",
+   "y": [
+    "Drake",
+    "Fermi",
+    "Sagan"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Gökyüzünün mavi görünmesini açıklayan ışık saçılmasına ne ad verilir?",
+  "d": "Rayleigh saçılması",
+  "y": [
+   "Mie saçılması",
+   "Compton saçılması",
+   "Raman saçılması"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "What is the light scattering that explains why the sky looks blue called?",
+   "d": "Rayleigh scattering",
+   "y": [
+    "Mie scattering",
+    "Compton scattering",
+    "Raman scattering"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Ahtapot ve kalamarların tehlike anında suya püskürttüğü koyu sıvıya ne ad verilir?",
+  "d": "Mürekkep",
+  "y": [
+   "Zehirli salgı",
+   "Sindirim sıvısı",
+   "Salya"
+  ],
+  "zorluk": 1,
+  "en": {
+   "s": "What is the dark liquid octopuses and squid squirt into the water when in danger?",
+   "d": "Ink",
+   "y": [
+    "Venom",
+    "Digestive fluid",
+    "Saliva"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Yüzleri tanıyamama durumuna verilen tıbbi ad nedir?",
+  "d": "Prozopagnozi",
+  "y": [
+   "Aleksitimi",
+   "Anozognozi",
+   "Disleksi"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "What is the medical name for the inability to recognise faces?",
+   "d": "Prosopagnosia",
+   "y": [
+    "Alexithymia",
+    "Anosognosia",
+    "Dyslexia"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "1848'de kafasından demir bir çubuk geçip kişiliği değişen, beyin bilimi tarihinin ünlü vakası kimdir?",
+  "d": "Phineas Gage",
+  "y": [
+   "Henry Molaison",
+   "Louis Leborgne",
+   "Kaspar Hauser"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Who is the famous case in brain science whose personality changed after an iron rod passed through his head in 1848?",
+   "d": "Phineas Gage",
+   "y": [
+    "Henry Molaison",
+    "Louis Leborgne",
+    "Kaspar Hauser"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Doğada bulunan en yoğun element hangisidir?",
+  "d": "Osmiyum",
+  "y": [
+   "Platin",
+   "Altın",
+   "Uranyum"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which naturally occurring element is the densest?",
+   "d": "Osmium",
+   "y": [
+    "Platinum",
+    "Gold",
+    "Uranium"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Einsteinyum ve fermiyum elementleri ilk kez neyin kalıntılarında bulunmuştur?",
+  "d": "Hidrojen bombası denemesi",
+  "y": [
+   "Süpernova patlaması gözlemi",
+   "Göktaşı düşüşü",
+   "Reaktör kazası"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Einsteinium and fermium were first found in the debris of what?",
+   "d": "A hydrogen bomb test",
+   "y": [
+    "A distant supernova explosion",
+    "A meteorite fall",
+    "A reactor accident"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Samanyolu'na en yakın büyük sarmal gökada hangisidir?",
+  "d": "Andromeda",
+  "y": [
+   "Üçgen Gökadası",
+   "Girdap Gökadası",
+   "Sombrero Gökadası"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which is the nearest large spiral galaxy to the Milky Way?",
+   "d": "Andromeda",
+   "y": [
+    "Triangulum Galaxy",
+    "Whirlpool Galaxy",
+    "Sombrero Galaxy"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Einstein'ın alan denklemlerinin ilk tam çözümünü 1916'da Birinci Dünya Savaşı cephesindeyken bulan Alman fizikçi kimdir?",
+  "d": "Karl Schwarzschild",
+  "y": [
+   "Arthur Eddington",
+   "Hermann Minkowski",
+   "David Hilbert"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which German physicist found the first exact solution of Einstein's field equations in 1916 while serving on the First World War front?",
+   "d": "Karl Schwarzschild",
+   "y": [
+    "Arthur Eddington",
+    "Hermann Minkowski",
+    "David Hilbert"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "1846'da Boston'da eterle ilk halka açık cerrahi anestezi gösterisini yapan diş hekimi kimdir?",
+  "d": "William Morton",
+  "y": [
+   "Horace Wells",
+   "Crawford Long",
+   "Joseph Lister"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which dentist gave the first public demonstration of surgical anaesthesia with ether in Boston in 1846?",
+   "d": "William Morton",
+   "y": [
+    "Horace Wells",
+    "Crawford Long",
+    "Joseph Lister"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Anders Celsius'un 1742'de önerdiği ilk ölçekte suyun donma noktası kaç dereceydi?",
+  "d": "100",
+  "y": [
+   "0",
+   "32",
+   "273"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "On the original scale Anders Celsius proposed in 1742, what was the freezing point of water?",
+   "d": "100",
+   "y": [
+    "0",
+    "32",
+    "273"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "1876 Little Bighorn Savaşı'nda Siu ve Çeyen savaşçılarına yenilip ölen ABD'li komutan kimdir?",
+  "d": "George Custer",
+  "y": [
+   "Ulysses Grant",
+   "William Sherman",
+   "Philip Sheridan"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which US commander was defeated and killed by Sioux and Cheyenne warriors at the Battle of the Little Bighorn in 1876?",
+   "d": "George Custer",
+   "y": [
+    "Ulysses Grant",
+    "William Sherman",
+    "Philip Sheridan"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Süveyş Kanalı'nın yapımını yöneten Fransız diplomat kimdir?",
+  "d": "Ferdinand de Lesseps",
+  "y": [
+   "Gustave Eiffel",
+   "Georges-Eugène Haussmann",
+   "Sadi Carnot"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which French diplomat led the construction of the Suez Canal?",
+   "d": "Ferdinand de Lesseps",
+   "y": [
+    "Gustave Eiffel",
+    "Georges-Eugène Haussmann",
+    "Sadi Carnot"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "1940'ta Meksika'da buz kazmasıyla öldürülen Sovyet devrimcisi kimdir?",
+  "d": "Lev Troçki",
+  "y": [
+   "Nikolay Buharin",
+   "Grigori Zinovyev",
+   "Lev Kamenev"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which Soviet revolutionary was killed with an ice axe in Mexico in 1940?",
+   "d": "Leon Trotsky",
+   "y": [
+    "Nikolai Bukharin",
+    "Grigory Zinoviev",
+    "Lev Kamenev"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "'Mozole' kelimesine adını veren, Halikarnas'taki anıt mezarı yapılan Karya kralı kimdir?",
+  "d": "Mausolos",
+  "y": [
+   "Kroisos",
+   "Midas",
+   "Kandaules"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which Carian king, whose monumental tomb at Halicarnassus gave us the word 'mausoleum', was it?",
+   "d": "Mausolus",
+   "y": [
+    "Croesus",
+    "Midas",
+    "Candaules"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Son Rus Çarı II. Nikolay'ın ailesi üzerinde büyük etki kuran ve 1916'da öldürülen mistik kimdir?",
+  "d": "Grigori Rasputin",
+  "y": [
+   "Sergey Witte",
+   "Pyotr Stolıpin",
+   "Konstantin Pobedonostsev"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which mystic, who gained great influence over the family of the last Tsar Nicholas II, was murdered in 1916?",
+   "d": "Grigori Rasputin",
+   "y": [
+    "Sergei Witte",
+    "Pyotr Stolypin",
+    "Konstantin Pobedonostsev"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Powhatan kabilesinden Pocahontas'ın evlendiği İngiliz kolonist kimdir?",
+  "d": "John Rolfe",
+  "y": [
+   "John Smith",
+   "John Winthrop",
+   "William Bradford"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which English colonist did Pocahontas of the Powhatan people marry?",
+   "d": "John Rolfe",
+   "y": [
+    "John Smith",
+    "John Winthrop",
+    "William Bradford"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "'Bakire Kraliçe' lakabıyla anılan İngiltere hükümdarı kimdir?",
+  "d": "I. Elizabeth",
+  "y": [
+   "I. Mary",
+   "Victoria",
+   "Aragonlu Catherine"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which English monarch was known as 'the Virgin Queen'?",
+   "d": "Elizabeth I",
+   "y": [
+    "Mary I",
+    "Victoria",
+    "Catherine of Aragon"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Eski Farsça, Elamca ve Babilce metinleriyle çivi yazısının çözülmesini sağlayan kaya yazıtı hangisidir?",
+  "d": "Behistun Yazıtı",
+  "y": [
+   "Rosetta Taşı",
+   "Orhun Yazıtları",
+   "Kültepe Tabletleri"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which rock inscription, with texts in Old Persian, Elamite and Babylonian, made it possible to decipher cuneiform?",
+   "d": "Behistun Inscription",
+   "y": [
+    "Rosetta Stone",
+    "Orkhon Inscriptions",
+    "Kültepe Tablets"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Küba Devrimi'nin simge isimlerinden Che Guevara hangi ülkede doğmuştur?",
+  "d": "Arjantin",
+  "y": [
+   "Küba",
+   "Bolivya",
+   "Venezuela"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In which country was Che Guevara, an icon of the Cuban Revolution, born?",
+   "d": "Argentina",
+   "y": [
+    "Cuba",
+    "Bolivia",
+    "Venezuela"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "1851 Londra Büyük Sergisi için camdan ve demirden inşa edilen dev yapı hangisidir?",
+  "d": "Kristal Saray",
+  "y": [
+   "Albert Salonu",
+   "Buckingham Sarayı",
+   "Kew Serası"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which huge glass and iron building was erected for the Great Exhibition in London in 1851?",
+   "d": "The Crystal Palace",
+   "y": [
+    "The Albert Hall",
+    "Buckingham Palace",
+    "The Kew Palm House"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Rivayete göre Jül Sezar, suikastçıları arasında gördüğü kime 'Sen de mi …?' demiştir?",
+  "d": "Brutus",
+  "y": [
+   "Cassius",
+   "Antonius",
+   "Octavianus"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "According to tradition, which of his assassins did Julius Caesar address with 'You too…?'",
+   "d": "Brutus",
+   "y": [
+    "Cassius",
+    "Antony",
+    "Octavian"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Ünlü olmak için MÖ 356'da Efes'teki Artemis Tapınağı'nı yakan kişi kimdir?",
+  "d": "Herostratos",
+  "y": [
+   "Pausanias",
+   "Empedokles",
+   "Kleomenes"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Who burned down the Temple of Artemis at Ephesus in 356 BC in order to become famous?",
+   "d": "Herostratus",
+   "y": [
+    "Pausanias",
+    "Empedocles",
+    "Cleomenes"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Kanuni Sultan Süleyman'ın sadrazamı olup 1536'da idam ettirilen, 'Makbul' ve 'Maktul' lakaplarıyla anılan kişi kimdir?",
+  "d": "Pargalı İbrahim Paşa",
+  "y": [
+   "Rüstem Paşa",
+   "Kara Ahmed Paşa",
+   "Sokullu Mehmed Paşa"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which grand vizier of Suleiman the Magnificent, executed in 1536, is remembered as both 'the Favourite' and 'the Executed'?",
+   "d": "Pargalı Ibrahim Pasha",
+   "y": [
+    "Rüstem Pasha",
+    "Kara Ahmed Pasha",
+    "Sokollu Mehmed Pasha"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "1833'te Osmanlı ile Rusya arasında imzalanan ve Boğazları Rusya dışındaki devletlerin savaş gemilerine kapatan antlaşma hangisidir?",
+  "d": "Hünkâr İskelesi",
+  "y": [
+   "Edirne",
+   "Balta Limanı",
+   "Londra Boğazlar"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which 1833 treaty between the Ottoman Empire and Russia closed the Straits to the warships of all states except Russia?",
+   "d": "Treaty of Hünkâr İskelesi",
+   "y": [
+    "Treaty of Adrianople",
+    "Treaty of Balta Liman",
+    "London Straits Convention"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Kanuni Sultan Süleyman'ın tahta çıktıktan sonraki ilk seferinde 1521'de aldığı kale hangisidir?",
+  "d": "Belgrad",
+  "y": [
+   "Rodos",
+   "Budin",
+   "Estergon"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which fortress did Suleiman the Magnificent capture in 1521, on his first campaign as sultan?",
+   "d": "Belgrade",
+   "y": [
+    "Rhodes",
+    "Buda",
+    "Esztergom"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Hint Okyanusu seferinden karadan dönerek 'Mir'atü'l-Memalik'i yazan Osmanlı amirali kimdir?",
+  "d": "Seydi Ali Reis",
+  "y": [
+   "Piri Reis",
+   "Murat Reis",
+   "Hadım Süleyman Paşa"
+  ],
+  "zorluk": 5,
+  "en": null,
+  "en_neden": "Osmanlıca eser adına dayanıyor; İngilizce oyuncu için anlamlı değil."
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Topkapı Sarayı'ndaki Revan Köşkü hangi padişahın doğu seferindeki zaferinin anısına yaptırılmıştır?",
+  "d": "IV. Murad",
+  "y": [
+   "Yavuz Sultan Selim",
+   "III. Murad",
+   "IV. Mehmed"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "The Revan (Yerevan) Pavilion in Topkapı Palace commemorates the eastern campaign victory of which sultan?",
+   "d": "Murad IV",
+   "y": [
+    "Selim I",
+    "Murad III",
+    "Mehmed IV"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Kadeş Antlaşması'nın ardından Mısır kraliçesi Nefertari ile mektuplaşan Hitit kraliçesi kimdir?",
+  "d": "Puduhepa",
+  "y": [
+   "Asmunikal",
+   "Gassulawiya",
+   "Danuhepa"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which Hittite queen corresponded with the Egyptian queen Nefertari after the Treaty of Kadesh?",
+   "d": "Puduhepa",
+   "y": [
+    "Asmunikal",
+    "Gassulawiya",
+    "Danuhepa"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "MÖ 1274'teki Kadeş Savaşı'nda II. Ramses'e karşı savaşan Hitit kralı kimdir?",
+  "d": "II. Muvatalli",
+  "y": [
+   "I. Şuppiluliuma",
+   "III. Hattuşili",
+   "I. Murşili"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which Hittite king fought against Ramesses II at the Battle of Kadesh in 1274 BC?",
+   "d": "Muwatalli II",
+   "y": [
+    "Suppiluliuma I",
+    "Hattusili III",
+    "Mursili I"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Katılımcıların birbirine domates fırlattığı 'La Tomatina' festivali hangi ülkede düzenlenir?",
+  "d": "İspanya",
+  "y": [
+   "İtalya",
+   "Portekiz",
+   "Meksika"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In which country is 'La Tomatina', the festival where people throw tomatoes at each other, held?",
+   "d": "Spain",
+   "y": [
+    "Italy",
+    "Portugal",
+    "Mexico"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Dünyanın en büyük bira festivali Oktoberfest her yıl hangi şehirde düzenlenir?",
+  "d": "Münih",
+  "y": [
+   "Berlin",
+   "Köln",
+   "Frankfurt"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In which city is Oktoberfest, the world's largest beer festival, held every year?",
+   "d": "Munich",
+   "y": [
+    "Berlin",
+    "Cologne",
+    "Frankfurt"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Bolonez sos adını hangi İtalyan şehrinden alır?",
+  "d": "Bologna",
+  "y": [
+   "Napoli",
+   "Milano",
+   "Torino"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Bolognese sauce takes its name from which Italian city?",
+   "d": "Bologna",
+   "y": [
+    "Naples",
+    "Milan",
+    "Turin"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Monopoly'nin atası sayılan 'The Landlord's Game'i 1904'te tasarlayan kişi kimdir?",
+  "d": "Elizabeth Magie",
+  "y": [
+   "Charles Darrow",
+   "Milton Bradley",
+   "Alfred Butts"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Who designed 'The Landlord's Game' in 1904, regarded as the forerunner of Monopoly?",
+   "d": "Elizabeth Magie",
+   "y": [
+    "Charles Darrow",
+    "Milton Bradley",
+    "Alfred Butts"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Japon içkisi sake hangi tahıldan yapılır?",
+  "d": "Pirinç",
+  "y": [
+   "Arpa",
+   "Buğday",
+   "Darı"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which grain is Japanese sake made from?",
+   "d": "Rice",
+   "y": [
+    "Barley",
+    "Wheat",
+    "Millet"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Köpüklü şarap 'şampanya' adını nereden alır?",
+  "d": "Bir Fransız bölgesinden",
+  "y": [
+   "Bir keşişin adından",
+   "Bir üzüm türünden",
+   "Bir İtalyan kentinden"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Where does sparkling 'champagne' get its name from?",
+   "d": "A region of France",
+   "y": [
+    "A monk's name",
+    "A grape variety",
+    "An Italian town"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Meksika içkisi tekila hangi bitkiden elde edilir?",
+  "d": "Mavi agav",
+  "y": [
+   "Kaktüs",
+   "Şeker kamışı",
+   "Mısır"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which plant is Mexican tequila made from?",
+   "d": "Blue agave",
+   "y": [
+    "Cactus",
+    "Sugar cane",
+    "Maize"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "'Sabotaj' kelimesi hangi nesnenin Fransızca adından türemiştir?",
+  "d": "Tahta ayakkabı",
+  "y": [
+   "Demir çekiç",
+   "Çelik anahtar",
+   "Ahşap tokmak"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "The word 'sabotage' comes from the French name of which object?",
+   "d": "Wooden shoe",
+   "y": [
+    "Iron hammer",
+    "Steel spanner",
+    "Wooden mallet"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Kruvasanın atası sayılan hilal biçimli 'kipferl' hangi ülkenin mutfağından gelir?",
+  "d": "Avusturya",
+  "y": [
+   "İsviçre",
+   "Belçika",
+   "Macaristan"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "The crescent-shaped 'kipferl', seen as the ancestor of the croissant, comes from which country's cuisine?",
+   "d": "Austria",
+   "y": [
+    "Switzerland",
+    "Belgium",
+    "Hungary"
+   ]
+  }
+ }
+]

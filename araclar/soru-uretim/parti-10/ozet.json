@@ -1,0 +1,102 @@
+{
+  "parti": 10,
+  "tarih": "2026-09-23",
+  "taslak": 140,
+  "net": 100,
+  "kota": {
+    "teknoloji": 28,
+    "edebiyat": 22,
+    "bilim": 22,
+    "tarih": 19,
+    "genel_kultur": 9
+  },
+  "zorluk_hedef": {
+    "3": 30,
+    "4": 35,
+    "5": 20,
+    "1-2": 15
+  },
+  "eksik": {},
+  "elenen_sebep": {
+    "kota_fazlasi": 40
+  },
+  "kova": {
+    "teknoloji": 28,
+    "edebiyat": 22,
+    "bilim": 22,
+    "tarih": 19,
+    "genel_kultur": 9
+  },
+  "kategori": {
+    "teknoloji": 28,
+    "edebiyat": 22,
+    "bilim": 22,
+    "tarih": 19,
+    "genel_kultur": 9
+  },
+  "zorluk": [
+    3,
+    12,
+    27,
+    38,
+    20
+  ],
+  "zorluk_kova": {
+    "3": 27,
+    "4": 38,
+    "5": 20,
+    "1-2": 15
+  },
+  "cevrilmeyen": 2,
+  "jev": {
+    "cagri": 812,
+    "girdi_jetonu": 547603,
+    "usd": 0.023,
+    "not": "jev.jsonl içindeki tüm denemeler dahil (düzeltilip yeniden sorulanlar da)"
+  },
+  "zorluk_etiket_duzeltme": [
+    {
+      "s": "Japon içkisi sake hangi tahıldan yapılır?",
+      "d": "Pirinç",
+      "eski": 1,
+      "yeni": 2,
+      "neden": "yazar 1, Jev seviye 3 (puan 2.55)"
+    },
+    {
+      "s": "1940'ta Meksika'da buz kazmasıyla öldürülen Sovyet devrimcisi kimdir?",
+      "d": "Lev Troçki",
+      "eski": 3,
+      "yeni": 4,
+      "neden": "yazar 3, Jev seviye 5 (puan 3.59)"
+    },
+    {
+      "s": "Topkapı Sarayı'ndaki Revan Köşkü hangi padişahın doğu seferindeki zaferinin anısına yaptırılmıştır?",
+      "d": "IV. Murad",
+      "eski": 3,
+      "yeni": 4,
+      "neden": "yazar 3, Jev seviye 5 (puan 3.83)"
+    },
+    {
+      "s": "'Counter-Strike' ilk olarak hangi oyunun modu (eklentisi) olarak ortaya çıkmıştır?",
+      "d": "Half-Life",
+      "eski": 3,
+      "yeni": 4,
+      "neden": "yazar 3, Jev seviye 5 (puan 3.46)"
+    },
+    {
+      "s": "'Metal Gear' oyun serisinin yaratıcısı kimdir?",
+      "d": "Hideo Kojima",
+      "eski": 3,
+      "yeni": 4,
+      "neden": "yazar 3, Jev seviye 5 (puan 3.61)"
+    },
+    {
+      "s": "'Resident Evil' serisini geliştiren Japon şirketi hangisidir?",
+      "d": "Capcom",
+      "eski": 2,
+      "yeni": 3,
+      "neden": "yazar 2, Jev seviye 4 (puan 2.92)"
+    }
+  ],
+  "elenenler": []
+}
