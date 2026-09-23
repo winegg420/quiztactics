@@ -201,15 +201,28 @@ Aktif yedi maç skill'i vardır:
 - Turnuva lig: 1. 150 · 2. 80 · 3. 40 · 4-10. 20 · diğer katılan 10.
   Coin: 150/75/40 + katılana 10.
 - Günlük seri bonusu `least(gün×3, 15)`.
-- Arkadaş daveti lig puanı VERMEZ — iki tarafa 200 coin.
+- **Arkadaş daveti (335):** kalıcı kod + `/davet/KOD`. Davet edilen +100 coin ve otomatik arkadaş;
+  davet eden 300 coin, davet edilen **Level 5'e** ulaşınca. Aynı cihaz/IP ödülsüz (`gecersiz`), ayda
+  en çok 10 ödüllü davet (fazlası `sinir_asildi`). Lig puanı vermez. Eski `arkadas_davet_kodu_ile_ekle`
+  aynı iç mantığa bağlı (eski anında 200+200 kalktı).
 - İndirimler çarpılmaz: çift koruması / serbest / açık bot → en düşüğü uygulanır.
 - Çift koruması (1-5 tam, 6-10 %50, 11+ yok) lig puanına da uygulanır.
 - Günlük tavan 400 · başlangıç **10.000 (test; `baslangic_coin`)** · reklam 25
   (günde 5). `coin_baslangic` (500) satırı DB'de durur ama okunmaz.
 - Eşya: sıradan 300–600, özel 1.200–2.500.
-- **Coin paketleri (328):** küçükten büyüğe Avuç / Kese / Sandık / Hazine (EN Handful / Pouch /
-  Chest / Treasure); "Define" (Hoard) 5. paket için ayrıldı — paket yok, fiyat kararı bekliyor.
-  Bonus etiketi `coin_paketleri.bonus`tan yüzde olarak hesaplanır; en büyükte "En iyi değer".
+- **Coin paketleri (328/336):** Avuç / Kese / Sandık / Hazine / Define (EN Handful / Pouch / Chest /
+  Treasure / Hoard); bonus %0/%10/%15/%20/%30; Define `coin_16000` = 16.000 + 4.800. Etiket
+  `coin_paketleri.bonus`tan hesaplanır; en büyükte "En iyi değer". Gerçek fiyatlar Play Console'da
+  (henüz tanımlı değil) — kural ve ad güncellemesi `docs/YAYIN_ONCESI.md`.
+- **Rozetler (331–333):** 101 rozet (`rozet_tanimlari`: level, Klasik/Düello galibiyet, seri, 10
+  kategori × 4 ustalık, turnuva, lig, özel an, sosyal, 5 gizli), kazanma sunucuda olay anında; coin
+  bronz 10 · gümüş 25 · altın 50 · elmas 100 (günlük tavana sayılmaz). Geriye dönük verilenler
+  coin'siz (`geriye_donuk`). Vitrin `profiles.vitrin_rozetleri` (en çok 3). Level 25/50/75/100
+  rozeti level çerçevesini de verir. Sözleşme `docs/SOZLESME_ROZET_CERCEVE.md`.
+- **Çerçeveler (331/334):** 20 (`cerceveler`: 4 lig, 4 level, 12 dükkân); dükkân fiyatı sıradan 400 ·
+  nadir 1.000 · epik 2.500 · efsanevi 6.000; lig/level/etkinlik satılmaz. Sahiplik `oyuncu_cerceveleri`,
+  takılı `profiles.takili_cerceve` (eski lig çerçeveleri taşındı; eski `lig_cerceve_*` çalışır).
+  Görünüm `oyun/tasarim/cerceveler/`, her avatar `CerceveliAvatar`; önizleme `/kozmetik-onizleme`.
 - **Etkinlik eşyaları satılmaz** (Taç, Pelerin, Uzay Kıyafeti) — yalnız
   turnuva ödülüdür. Dükkânda kilitli görünür.
 - Dükkândaki her şey yalnız coin ile alınır.
@@ -280,8 +293,10 @@ karakter, Hızlı Mod hariç — dondurulmuş) bu sistemle yeniden yazıldı.
   100dvh esnek sütun + overflow hidden + overscroll-behavior none; sahne kalan alanı doldurur,
   kısa ekranda avatar küçülür (container query). Diğer sayfalar kaydırılır.
 - **Ana sayfa = seçenek A (lobi, kaydırmasız)** — `oyun/pages/anasayfa/AnaSayfaA.jsx`, veri `veri.jsx`,
-  parçalar `parcalar.jsx`. Sıra: lig/seri → avatar kartı → turnuva şeridi → OYNA/DÜELLO → kısayollar
-  (Meydan Okumalar · Grup Maçı · Saf Bilgi · Hatalarım). Coin yalnız üst çubukta. Eski `pages/Home.jsx`
+  parçalar `parcalar.jsx`. Sıra: kompakt oyuncu kartı (çerçeveli avatar, level + XP, lig, seri) → canlı
+  lig kartı (`lig_grubum_ozet`: üstümdeki 2 · ben · altımdaki 2, yükselme/düşme çizgisi, fark) → turnuva
+  şeridi → OYNA/DÜELLO → kısayollar (Meydan Okumalar · Grup Maçı · Saf Bilgi · Hatalarım) → görev şeridi.
+  Sığmazsa önce görev şeridi gizlenir, sonra lig kartı 3 satıra iner. Masaüstü üç sütun. Coin yalnız üst çubukta. Eski `pages/Home.jsx`
   ve B/C/seçim dosyaları duruyor, rotasız. Meydan Okumalar `/meydan`, Grup Maçı `/meydan?bolum=grup`.
 - **Tasarım skill'leri (proje içi):** `.claude/skills/impeccable` (pbakaus/impeccable; ikili
   dosyası git'e girmez; otomatik hook YOK — denetim elle, `impeccable.cmd detect`) ve

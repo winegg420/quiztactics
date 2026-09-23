@@ -7890,3 +7890,26 @@ otomatik akla gelmesi için; proje kapsamında kuruldu.
 - **Not (önceden var):** `kuyruga_gir` hız sınırı dakikada 30; arama saniyede bir çağırıyor (15 sn → 15 çağrı) — bir dakikada
   iki aramadan sonra "Rakip aranamadı". Geliştirme sunucusunda StrictMode yüzünden tek aramada doluyor.
 - **Test (canlı):** Klasik 20/20; Düello 4 saldıran / 5 savunan (önceki koşu 5/5); build temiz.
+
+## 2026-09-23 — Rozet + çerçeve + ana sayfa + davet paketi (Ajan A sunucu, Ajan B arayüz)
+**Araç:** Claude Code (yönetici + 2 alt ajan; ortak klasör, dizin kilidi `araclar/soru-uretim/yazim.lock`)
+**Neden:** Ida'nın "rozet + çerçeve + ana sayfa + davet" paketi; kozmetik ekonomi ve oyuncu kimliği.
+
+- **A (331–337, uygulandı):** sözleşme `docs/SOZLESME_ROZET_CERCEVE.md` (tablolar, RPC'ler, `oyun/lib/{rozet,cerceve,davet,lig}.js`);
+  101 rozet + olay anında kazanma (tetikleyici hatası maçı bozmaz); geriye dönük 57 rozet / 16 oyuncu, coin 0; 20 çerçeve,
+  273 eski lig çerçevesi sahipliği + 122 takılı çerçeve taşındı; davet 300 / +100 (Level 5, aynı IP ödülsüz, ayda 10 →
+  `sinir_asildi`, 13 hesapla işlem içinde test); coin bonusları %0/10/15/20/30 + Define `coin_16000`; RakipAra yoklaması
+  `rakip_ara_yoklama_ms` ≈ 3 sn, hız sınırı hatası aramayı düşürmez. Kararlar: "3 gerideyken" → "2 can gerideyken" (3 can
+  kuralı), 2.000 doğru "Efsane" ustalığı rozet dışı, gizli 5: Rövanşçı · Uzatmaların Adamı · Kaşif · İlk Söz · Her Saatin Oyuncusu.
+- **B:** `/kozmetik-onizleme` (20 çerçeve + rozet kademeleri, 24/40/64/120 px); `CerceveliAvatar` (eski `AvatarCerceve` ona yönlenir →
+  ana sayfa, üst çubuk, profil, lig, arkadaşlar, meydan okumalar, mesajlar, maç sonu, podyumlar, karşılaşma sahnesi); maç
+  şeritlerinde (Klasik, Düello v1/v2, Grup, Turnuva) çerçeve + Lv + lig; Profil › Rozetler + vitrin + Çerçevelerim + yeni rozet tostu;
+  Dükkân › Çerçeve (önizleme, satın al → tak); ana sayfa yeni düzen; davet kartı (Arkadaşlar + Profil) + kurulumda kod alanı.
+  Görseller CSS + Phosphor (MIT) + Noto Emoji 3D (Apache 2.0, `public/kozmetik/`); Lottie yok (paket kurulmaz).
+- **Yönetici testi (canlı):** arayüz denetimi 16 sayfa TEMİZ (araç canlı origin için yeni misafir test hesabı açtı →
+  `.arayuz-denetim-oturum.json` artık canlıya ait); ana sayfa 6 boyut (+güvenli alan) belge = görünür, scrollY 0, OYNA ve
+  kısayollar menünün üstünde; art arda iki rakip araması ~3 sn aralık, hepsi 200, hata yok; rozet coin denetimi (geriye dönük 57 → 0,
+  canlı kazanılan 2 → 20); build temiz, giriş paketi 337.702 → 364.383 B (gzip 107.443 → 116.313).
+- **Karar bekleyen:** Define gerçek fiyatı (Play Console'da ürün yok); renk adlı dükkân çerçeveleri (Nane, Mercan…) nadirlik rengiyle
+  çiziliyor — ad mı değişsin, vurgu mu eklensin; ana sayfada yalnız oyuncu kartı çerçevesi hareketli; kullanılmayan
+  `LigCerceveSecici.jsx` + `bd-cerceve` CSS silinsin mi.
