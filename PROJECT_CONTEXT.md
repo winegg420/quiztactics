@@ -103,6 +103,12 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
   Yukarıdaki "Saldırı riski" / "6 sn Saldırı Hazırlığı" maddeleri v1 içindir.
   İstemci tanımadığı bir sürüm görürse maçı çizmez, yenileme ister
   (`DUELLO_EN_YUKSEK_SURUM`).
+- **Strateji penceresi (351):** kategori süresi `duello2_kategori_sn` **15 sn**, son 3 sn renk + ses.
+  Saldıranın her kartında rakibin ve kendi doğru oranı + kalan hak; savunan "Rakip düşünüyor…" +
+  kendi en güçlü/zayıf 3 kategorisi. Oranlar maç başında `duello_olustur`'da bir kez
+  (`profil1/2.oranlar`; kategori_istatistik = bütün modlar; `duello_oran_min_cevap` 5 altı "—").
+  Bot seçimi 3–8 sn (tik 2 sn); %65 rakibin en zayıf iki kategorisinden biri
+  (`duello2_bot_zayif_secim_yuzde`), %20 kendi güçlüsü, kalan rastgele.
 
 ### Turnuva
 
@@ -243,6 +249,12 @@ Aktif yedi maç skill'i vardır:
   ve **gizli botlar** (gerçek oyuncu gibi, tam coin, gerçekçi sürede cevaplar).
 - `is_bot` istemciye **ASLA sızmaz** — gizli botun bot olduğu anlaşılmamalı.
 - Gizli botlar arkadaşlık kabul etmez, lig değiştirmez.
+- **Bot rozetleri (352/353):** rozet motoru botları atlar; `bot_rozetleri_uret` deterministik
+  (tohum bot id) üretir: level rozetleri level'e göre, Klasik/Düello galibiyet o level için
+  gereken toplam XP'den (`bot_rozet_klasik_carpan` / `bot_rozet_duello_carpan`), seri level'den
+  (`bot_rozet_seri_carpan`), turnuva en çok 2 (şampiyonluk yok). Elmas kademe, gizli, etkinlik,
+  lig, özel, sosyal, ustalık **verilmez**. Vitrin 3 (farklı gruplardan en yüksek kademe).
+  Level değişince tetikleyici yeniden üretir. Botlar etkinlik çerçevesi takamaz (tetikleyici).
 - Botlar soru zorluğuna göre yanılır (`bot_soru_isabet`, 302): isabet = taban + kategori
   sapması + zorluk farkı (`bot_zorluk_fark_1..5` = +15/+8/0/−8/−15, rekabetçi havuza göre
   `bot_zorluk_ofset` ile normalize — ortalama değişmez, gece 04:25 tazelenir), sınır %5–98.
