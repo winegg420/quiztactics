@@ -1,3 +1,42 @@
+Quiz Tactics — public/ses/ ses dosyalarının lisansı
+===================================================
+
+Bu klasördeki bütün ses dosyaları Kenney'in (www.kenney.nl) aşağıdaki
+paketlerinden alınmıştır. Hepsi Creative Commons Zero (CC0) lisanslıdır:
+http://creativecommons.org/publicdomain/zero/1.0/
+Kaynak gösterme zorunlu değildir; yine de teşekkür: Kenney (www.kenney.nl).
+
+Kullanılan paketler (indirme: https://kenney.nl/assets/<paket>):
+  - Interface Sounds (1.0)  — interface-sounds
+  - UI Audio (UI SFX Set)   — ui-audio
+  - Impact Sounds (1.0)     — impact-sounds
+  - Music Jingles           — music-jingles
+
+Dosya → kaynak (WAV'lar Kenney .ogg'undan 32 kHz mono 16 bit PCM'e çevrildi,
+baştaki/sondaki sessizlik kırpıldı, tepe -1 dBFS'e normalize edildi):
+  soru_geldi.wav          Interface Sounds › question_003
+  tur_gecis.wav           Interface Sounds › maximize_006
+  skill_elli.wav          Interface Sounds › minimize_001
+  skill_ek_sure.wav       Interface Sounds › confirmation_004
+  skill_soru_degistir.wav Interface Sounds › maximize_004
+  skill_zaman_baskisi.wav Impact Sounds › impactPunch_medium_000
+  skill_sigorta.wav       Impact Sounds › impactMetal_light_000
+  skill_2x.wav            Music Jingles › 8-Bit jingles › jingles_NES03
+  skill_ikinci_sans.wav   Music Jingles › 8-Bit jingles › jingles_NES16
+  sayim_tik.wav           Interface Sounds › tick_002
+  sayim_son.wav           Interface Sounds › bong_001
+  son_saniyeler.wav       Impact Sounds › impactGlass_light_000
+  coin.wav                Music Jingles › 8-Bit jingles › jingles_NES09
+  level.wav               Music Jingles › 8-Bit jingles › jingles_NES12
+  kazandin.wav            Music Jingles › Steel jingles › jingles_STEEL02
+  kaybettin.wav           Music Jingles › Pizzicato jingles › jingles_PIZZI07
+  turnuva.wav             Music Jingles › Steel jingles › jingles_STEEL10
+  *.mp3 (dokunus, tik, dogru, yanlis, sure_doldu, joker, rakip_bulundu,
+         can_kaybi, rutbe, geri) — Interface Sounds / UI Audio (Paket 29 E)
+
+Paketlerin kendi lisans metinleri aşağıdadır.
+
+----- interface-sounds / License.txt -----
 	
 
 	Interface Sounds (1.0)
@@ -10,7 +49,7 @@
 	License: (Creative Commons Zero, CC0)
 	http://creativecommons.org/publicdomain/zero/1.0/
 
-	This content is free to use in personal, educational and commercial projects.
+	This content is free to use in personal, educational and commercial projects.
 	Support us by crediting Kenney or www.kenney.nl (this is not mandatory)
 
 			------------------------------
@@ -20,3 +59,71 @@
 
 	Follow on Twitter for updates:
 	http://twitter.com/KenneyNL
+----- ui-audio / License.txt -----
+	
+
+	UI SFX Set
+
+	by  Kenney Vleugels (Kenney.nl)
+
+			------------------------------
+
+	License (Creative Commons Zero, CC0)
+	http://creativecommons.org/publicdomain/zero/1.0/
+
+	You may use these assets in personal and commercial projects.
+	Credit (Kenney or www.kenney.nl) would be nice but is not mandatory.
+
+			------------------------------
+
+	Donate:   http://support.kenney.nl
+	Request:  http://request.kenney.nl
+
+	Follow on Twitter for updates:
+	@KenneyNL
+----- impact-sounds / License.txt -----
+	
+
+	Impact Sounds (1.0)
+
+	Created/distributed by Kenney (www.kenney.nl)
+	Creation date: 19-12-2019
+
+			------------------------------
+
+	License: (Creative Commons Zero, CC0)
+	http://creativecommons.org/publicdomain/zero/1.0/
+
+	This content is free to use in personal, educational and commercial projects.
+	Support us by crediting Kenney or www.kenney.nl (this is not mandatory)
+
+			------------------------------
+
+	Donate:   http://support.kenney.nl
+	Request:  http://request.kenney.nl
+	Patreon:  http://patreon.com/kenney/
+
+	Follow on Twitter for updates:
+	http://twitter.com/KenneyNL
+----- music-jingles / License.txt -----
+	
+
+	Music Jingles
+
+	by  Kenney Vleugels (Kenney.nl)
+
+			------------------------------
+
+	License (Creative Commons Zero, CC0)
+	http://creativecommons.org/publicdomain/zero/1.0/
+
+	You may use these assets in personal and commercial projects.
+	Credit (Kenney or www.kenney.nl) would be nice but is not mandatory.
+
+			------------------------------
+
+	Donate:   http://support.kenney.nl
+	Request:  http://request.kenney.nl
+
+	Follow on Twitter for updates:
+	@KenneyNL
