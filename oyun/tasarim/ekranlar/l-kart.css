@@ -239,6 +239,18 @@
 body.bd-oyun-modu .bz-toast { display: none; } /* maç sırasında oyunu bölmez */
 .bz-toast--cikis { animation: bz-toast-cik var(--qt-s-kisa) var(--qt-egri-gecis) forwards; }
 @keyframes bz-toast-cik { to { opacity: 0; transform: translateY(-8px); } }
+/* Coin kazandıran bildirim (davet ödülü): ikon zıplar, çevresine coin saçılır. Sabit öğe değil. */
+.bz-toast--coin .qt-toast-ikon { position: relative; animation: bz-coin-zipla 700ms var(--qt-egri-cikis) both; }
+.bz-toast--coin .qt-toast-ikon::after {
+  content: ""; position: absolute; left: 50%; top: 50%;
+  width: 8px; height: 8px; margin: -4px 0 0 -4px; border-radius: 50%;
+  box-shadow: 0 -24px 0 var(--qt-coin), 21px -12px 0 var(--qt-coin), 21px 12px 0 var(--qt-coin),
+              0 24px 0 var(--qt-coin), -21px 12px 0 var(--qt-coin), -21px -12px 0 var(--qt-coin);
+  pointer-events: none;
+  animation: bz-coin-sac 900ms var(--qt-egri-cikis) 120ms both;
+}
+@keyframes bz-coin-zipla { 0% { transform: scale(0.4) rotate(-20deg); } 55% { transform: scale(1.25) rotate(8deg); } 100% { transform: scale(1) rotate(0); } }
+@keyframes bz-coin-sac { 0% { transform: scale(0.2); opacity: 1; } 70% { opacity: 1; } 100% { transform: scale(1.5); opacity: 0; } }
 
 /* ---------- Bildirim izni kartı ---------- */
 .bi-kart {
@@ -260,6 +272,8 @@ body.bd-oyun-modu .bz-toast { display: none; } /* maç sırasında oyunu bölmez
 @media (prefers-reduced-motion: reduce) {
   .bz-panel { animation: bz-ortu-gel var(--qt-s-kisa) linear; }
   .bz-toast--cikis { animation: bz-ortu-gel 1ms reverse forwards; opacity: 0; }
+  .bz-toast--coin .qt-toast-ikon, .bz-toast--coin .qt-toast-ikon::after { animation: none; }
+  .bz-toast--coin .qt-toast-ikon::after { opacity: 0; }
   .ls-avatar-dugme { transition: none; }
   .ls-avatar-dugme:active { transform: none; }
 }

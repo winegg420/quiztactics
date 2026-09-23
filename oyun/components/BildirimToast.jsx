@@ -5,6 +5,8 @@ import { useAuth } from "../../src/context/AuthContext.jsx";
 import { QtToast, QtToastYuvasi, QtDugme } from "../tasarim/index.js";
 import "../tasarim/ekranlar/l-kart.css";
 import { tt, ttSunucu } from "../lib/dil.js";
+import { coinTazele } from "../lib/coin.js";
+import { sesCoin } from "../lib/ses.js";
 
 // Davet tipleri burada YOK: onları üstteki davet bandı (DavetBandi) gösterir —
 // bandda "Kabul Et" butonu da var, toast aynı şeyi ikinci kez söylemesin.
@@ -20,6 +22,9 @@ const TIP_STIL = {
   meydan_kabul: { ikon: "kilic", sinif: "kabul", baslik: tt("Meydan okuman kabul edildi") },
   duello_kabul: { ikon: "kilic", sinif: "kabul", baslik: tt("Düello kabul edildi") },
   grup_kabul: { ikon: "kisiler", sinif: "kabul", baslik: tt("Grup maçın başlıyor") },
+  // Davet (migration 354): kayıt → davet edene haber; Level 5 → ödül (coin sesi + animasyon).
+  davet_katildi: { ikon: "hediye", sinif: "kabul", baslik: tt("Davetin işe yaradı") },
+  davet_odul: { ikon: "coin", sinif: "odul", baslik: tt("Davet ödülü"), coin: true },
 };
 
 // Tasarım A: eski sınıf → QtToast tonu (uyari/odul/kabul renkleri token’dan)
@@ -87,6 +92,16 @@ export default function BildirimToast() {
     return () => window.clearTimeout(sayacRef.current);
   }, [aktif, kapat, sure]);
 
+  // Coin kazandıran bildirim ekrana geldiği anda: bakiye tazelenir + coin sesi (bir kez;
+  // StrictMode çift efekti ikinci kez çalmasın diye kimlik kümesi).
+  const coinGosterilen = useRef(new Set());
+  useEffect(() => {
+    if (!aktif || !TIP_STIL[aktif.tip]?.coin || coinGosterilen.current.has(aktif.id)) return;
+    coinGosterilen.current.add(aktif.id);
+    coinTazele();
+    if (!document.body.classList.contains("bd-oyun-modu")) sesCoin();
+  }, [aktif]);
+
   if (!aktif) return null;
 
   const stil = TIP_STIL[aktif.tip] ?? { ikon: "zil", sinif: "bilgi", baslik: tt("Bildirim") };
@@ -102,7 +117,7 @@ export default function BildirimToast() {
     <QtToastYuvasi konum="ust">
       <QtToast
         key={aktif.id}
-        className={`bz-toast${kapaniyor ? " bz-toast--cikis" : ""}`}
+        className={`bz-toast${stil.coin ? " bz-toast--coin" : ""}${kapaniyor ? " bz-toast--cikis" : ""}`}
         ton={TON[stil.sinif] ?? "bilgi"}
         ikon={stil.ikon}
         baslik={stil.baslik}

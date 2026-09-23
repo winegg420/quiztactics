@@ -25,6 +25,8 @@ const TIP_IKON = {
   seri_hatirlatma: "ates",
   sira_sende: "saat",
   ustalik: "madalya",
+  davet_katildi: "hediye",
+  davet_odul: "coin",
 };
 
 // Tasarım A: ikon kutusunun rengi (QtListeSatiri ikonTon). Renk tek başına anlam taşımaz; metin var.
@@ -33,6 +35,7 @@ const TIP_TON = {
   grup_daveti: "dogru", arkadas_istek: "mor", arkadas_kabul: "mor",
   seri: "coin", seri_hatirlatma: "coin", hafta_sonuc: "coin", ustalik: "coin",
   lige_girdin: "dogru", gecildin: "yanlis", sira_sende: "bilgi",
+  davet_katildi: "mor", davet_odul: "coin",
 };
 
 // Öncelik: meydan okuma > rozet/seviye > seri > sıra sende.
@@ -49,6 +52,8 @@ const ONCELIK = {
   lige_girdin: 1,
   hafta_sonuc: 1,
   arkadas_kabul: 1,
+  davet_katildi: 1,
+  davet_odul: 1,
   duello_kabul: 1,
   seri: 2,
   seri_hatirlatma: 2,

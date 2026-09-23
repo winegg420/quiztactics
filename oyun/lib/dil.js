@@ -2028,6 +2028,11 @@ const SOZLUK = {
     "% seni hızlı maça çağırdı! ⚡": "% invited you to a quick match! ⚡",
     "🎖️ % kategorisinde % oldun!": "🎖️ You became %2 in %1!",
     "% arkadaşın oldu! 🤝": "% is now your friend! 🤝",
+    // Davet bildirimleri (migration 354). "5'e" → sayı + ek ayrı yakalanır.
+    "% davetinle katıldı! Level %'% ulaşınca +% coin kazanacaksın.": "%1 joined with your invite! Reach Level %2 to earn +%4 coins.",
+    "% Level %'% ulaştı! +% coin": "%1 reached Level %2! +%4 coins",
+    "Davetin işe yaradı": "Your invite worked",
+    "Davet ödülü": "Invite reward",
     // Paket 41 L: düello bildirimleri (migration 228) sözlükte yoktu
     "% seni düelloya çağırdı!": "% invited you to a duel!",
     "% düello davetini kabul etti - düello başlıyor!": "% accepted your duel invite — the duel is starting!",
