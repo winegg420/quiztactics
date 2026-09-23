@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { tt } from "../lib/dil.js";
 import "../tasarim/ekranlar/m1-mac.css";
+import "../tasarim/ekranlar/emoji.css"; // renkli emoji yazı tipi
 
 // ============================================================
 // EMOJİ SEÇİCİ — mesajlaşma (Paket 35 E.3.3)

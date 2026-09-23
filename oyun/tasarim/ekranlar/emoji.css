@@ -1,0 +1,40 @@
+/* =====================================================================
+   EMOJİ — renkli sistem emoji yazı tipi (23 Eyl 2026)
+   Emojiler tek renk/renksiz görünüyordu. Emoji çizilen her yerde renkli
+   emoji yazı tipi önce gelir; metinle karışık alanlarda (mesaj balonu, hazır
+   cümle) yazı tipi aynı kalır, emoji karakterleri renkli yazı tipine düşer.
+   Emojiyi boyayan renk/filtre/metin dolgusu kuralları burada ezilir.
+   Yüklendiği yerler: lib/tepkiler.js (maç içi tepkiler), EmojiSecici.jsx.
+   ===================================================================== */
+
+/* Yalnız emoji: tepki düğmeleri ve balonları (QtIkon ad="emoji:…"), emoji seçici */
+.qt-emoji,
+.m1-emoji .m1-emoji-sekme,
+.m1-emoji .m1-emoji-dugme {
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-variant-emoji: emoji;
+  color: initial;
+  -webkit-text-fill-color: currentColor;
+  filter: none;
+  text-shadow: none;
+}
+.qt-emoji {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  line-height: 1;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Metinle karışık emoji: harfler Nunito'da kalır; Nunito'da olmayan emoji
+   karakterleri system-ui'ye (tek renk sembol yazı tipi) değil renkli emoji
+   yazı tipine düşer — bu yüzden emoji yazı tipleri system-ui'den ÖNCE. */
+.m1-balon,
+.m1-kaliplar .qt-cip,
+.ms-balon-metin,
+.ms-metin {
+  font-family: "Nunito", "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", system-ui, sans-serif;
+}

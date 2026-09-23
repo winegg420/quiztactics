@@ -397,6 +397,19 @@ export const QT_IKON_ADLARI = Object.keys(Y);
  * - Tek başına anlam taşıyorsa `etiket="Bildirimler"` ver (role="img").
  */
 export default function QtIkon({ ad, boyut = 24, etiket, className = "" }) {
+  // Renkli sistem emojisi: ad = "emoji:👍" (maç içi tepkiler, lib/tepkiler.js).
+  // Yazı tipi ve renk kuralları: tasarim/ekranlar/emoji.css (.qt-emoji).
+  if (typeof ad === "string" && ad.startsWith("emoji:")) {
+    return (
+      <span
+        className={`qt-emoji ${className}`.trim()}
+        style={{ width: boyut, height: boyut, fontSize: Math.round(boyut * 0.92) }}
+        {...(etiket ? { role: "img", "aria-label": etiket } : { "aria-hidden": "true" })}
+      >
+        {ad.slice(6)}
+      </span>
+    );
+  }
   const cizim = Y[ad] ?? Y[IKON_TAKMA_AD[ad]];
   if (!cizim) {
     if (import.meta.env?.DEV) console.warn(`[QtIkon] bilinmeyen ikon: "${ad}"`);
