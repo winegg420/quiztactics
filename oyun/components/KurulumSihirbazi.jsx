@@ -8,6 +8,7 @@ import Bayrak from "./Bayrak.jsx";
 import { useDil } from "../lib/dilKanca.js";
 import { tt } from "../lib/dil.js";
 import { QtDugme, QtToast } from "../tasarim/index.js";
+import { DavetKoduGir } from "./DavetKarti.jsx";
 import "../tasarim/ekranlar/g-ortak.css";
 import "../tasarim/ekranlar/g-kurulum.css";
 
@@ -328,6 +329,9 @@ export default function KurulumSihirbazi({ onTamam }) {
                 </select>
               )}
             </label>
+
+            {/* Rozet + çerçeve paketi: davet kodu (isteğe bağlı; /davet/KOD ile gelindiyse dolu gelir) */}
+            <DavetKoduGir />
 
             {hataNotu}
 

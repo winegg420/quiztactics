@@ -5,7 +5,7 @@ import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import AvatarCerceve from "../components/AvatarCerceve.jsx";
 import { y } from "../lib/yol.js";
-import DavetKodu from "../components/DavetKodu.jsx";
+import DavetKarti from "../components/DavetKarti.jsx";
 import { facebookArkadasOnerileri, facebookDavetAc } from "../lib/facebookArkadas.js";
 import { tt } from "../lib/dil.js";
 import ModSecimPenceresi from "../components/ModSecimPenceresi.jsx";
@@ -31,7 +31,6 @@ export default function FriendsPage() {
   // Paket 41 A: liste okunamadıysa "Henüz arkadaşın yok" yerine hata + Tekrar dene
   const [listeDurum, setListeDurum] = useState("yukleniyor");   // yukleniyor | hata | hazir
   const [bilgi, setBilgi] = useState(null);
-  const [kopyalandi, setKopyalandi] = useState(false);
   const [calisiyor, setCalisiyor] = useState(false);
   // Arkadaş silme geri alınamaz: tek dokunuşla değil, onaylı iki adımda.
   const [silOnay, setSilOnay] = useState(null);
@@ -178,22 +177,6 @@ export default function FriendsPage() {
   const davetLinki = profile?.davet_kodu
     ? window.location.origin + y(`/davet/${profile.davet_kodu}`)
     : null;
-
-  const linkPaylas = async () => {
-    if (!davetLinki) return;
-    const mesaj = tt("Quiz Tactics'te benimle yarış — bu linkle beni arkadaş ekleyebilirsin: {0}", { 0: davetLinki });
-    try {
-      if (navigator.share) {
-        await navigator.share({ title: "Quiz Tactics", text: mesaj });
-      } else {
-        await navigator.clipboard.writeText(mesaj);
-        setKopyalandi(true);
-        setTimeout(() => setKopyalandi(false), 2500);
-      }
-    } catch {
-      /* kullanıcı vazgeçti */
-    }
-  };
 
   const cevapla = async (fId, kabul) => {
     try {
@@ -544,23 +527,14 @@ export default function FriendsPage() {
       {/* ---------- Davet (listenin altında) ---------- */}
       <section className="ls-bolum" aria-labelledby="ar-davet">
         <h2 id="ar-davet" className="qt-baslik-3 ls-bolum-baslik">{tt("Arkadaş davet et")}</h2>
-        <QtKart className="ar-davet-kart">
-          <p className="ar-davet-aciklama">
-            {tt("Kodunu ya da linkini paylaş; arkadaşın seni tek dokunuşla ekler.")}
-          </p>
-          {/* Kodun kendisi düğme: dokununca YALNIZ kod panoya gider. */}
-          <DavetKodu kod={profile?.davet_kodu} />
-          <div className="ar-davet-dugmeler">
-            <QtDugme tamGenislik ikon="paylas" onClick={linkPaylas} devreDisi={!davetLinki}>
-              {kopyalandi ? tt("Kopyalandı") : tt("Davet linkini paylaş")}
-            </QtDugme>
-            {/* Facebook'ta "tüm arkadaşlarını davet et" MÜMKÜN DEĞİL (2014'ten
-                beri kapalı); onun yerine paylaşım diyaloğu açılır. */}
-            <QtDugme tur="ikincil" tamGenislik devreDisi={!davetLinki} onClick={() => facebookDavetAc(davetLinki)}>
-              {tt("Facebook'ta paylaş")}
-            </QtDugme>
-          </div>
-        </QtKart>
+        {/* Rozet + çerçeve paketi: kod, bağlantı paylaşımı, ödül (300 / +100) ve davet durumu tek kartta */}
+        <DavetKarti ekDugmeler={
+          /* Facebook'ta "tüm arkadaşlarını davet et" MÜMKÜN DEĞİL (2014'ten
+             beri kapalı); onun yerine paylaşım diyaloğu açılır. */
+          <QtDugme tur="ikincil" tamGenislik devreDisi={!davetLinki} onClick={() => facebookDavetAc(davetLinki)}>
+            {tt("Facebook'ta paylaş")}
+          </QtDugme>
+        } />
       </section>
 
       {/* ---------- Facebook arkadaşların ----------

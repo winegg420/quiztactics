@@ -9,6 +9,7 @@ import AvatarCerceve from "../components/AvatarCerceve.jsx";
 import RozetlerPaneli from "../components/RozetlerPaneli.jsx";
 import CerceveSecici from "../components/CerceveSecici.jsx";
 import VitrinRozetleri from "../components/VitrinRozetleri.jsx";
+import DavetKarti from "../components/DavetKarti.jsx";
 import LevelCubugu from "../components/LevelCubugu.jsx";
 import SayanSayi from "../components/SayanSayi.jsx";
 import KonumSecici from "../components/KonumSecici.jsx";
@@ -22,7 +23,6 @@ import Bayrak from "../components/Bayrak.jsx";
 import { rutbeBul, sonrakiRutbe } from "../lib/ranks.js";
 import { y } from "../lib/yol.js";
 import { GARDIROP_ACIK } from "../lib/ozellikBayraklari.js";
-import { ayarlar } from "../lib/ayarlar.js";
 import {
   pushDestekleniyor,
   iosSekmesi,
@@ -57,7 +57,6 @@ export default function ProfilePage() {
   // Paket 41 A: profil hiç gelmezse sonsuza dek "Yükleniyor…" kalınmaz
   const profilGecikti = useZamanAsimi(!profile);
   const { dil, dilDegistir } = useDil();
-  const [kopyalandi, setKopyalandi] = useState(false);
   // Profil dört sekmeye ayrıldı; varsayılan İstatistiklerim.
   const [sekme, setSekme] = useState("istatistik");
   // Paket 41 C: avatar menüsündeki "Ayarlar" → /profil?sekme=ayarlar doğrudan Ayarlar sekmesini açar
@@ -87,21 +86,9 @@ export default function ProfilePage() {
   const [siliniyor, setSiliniyor] = useState(false);
   // Hatalarım bankası özeti
   const [banka, setBanka] = useState(null);
-  // Davet ödülü koda gömülmez: oyun_ayarlari.davet_coin
-  const [davetCoin, setDavetCoin] = useState(null);
 
   useEffect(() => {
     pushDurumu().then(setBildirim).catch((e) => console.error("[Bildim] bildirim durumu okunamadı:", e));
-  }, []);
-
-  useEffect(() => {
-    let aktif = true;
-    ayarlar()
-      .then((o) => {
-        if (aktif && Number(o?.davet_coin) > 0) setDavetCoin(Number(o.davet_coin));
-      })
-      .catch((e) => console.error("[Bildim] oyun ayarları okunamadı:", e));
-    return () => { aktif = false; };
   }, []);
 
   // Hatalarım: öğrenilen / bankada bekleyen
@@ -170,25 +157,6 @@ export default function ProfilePage() {
           ? tt("Kapalı — izin var ama bu cihaz bağlı değil. Açmak için dokun.")
           : tt("Kapalı — henüz izin verilmedi. Açınca tarayıcı izin isteyecek.");
 
-  const davetPaylas = async () => {
-    const link = `${window.location.origin}/?davet=${user.id}`;
-    const mesaj = davetCoin
-      ? tt("Quiz Tactics'te benimle yarışmaya var mısın? Bu linkle gel, ikimiz de {n} coin kazanalım: {link}", { n: davetCoin, link })
-      : tt("Quiz Tactics'te benimle yarışmaya var mısın? Bu linkle gel, ikimiz de coin kazanalım: {link}", { link });
-    if (navigator.share) {
-      try {
-        await navigator.share({ title: "Quiz Tactics", text: mesaj });
-      } catch { /* vazgeçti */ }
-      return;
-    }
-    try {
-      await navigator.clipboard.writeText(mesaj);
-      setKopyalandi(true);
-      setTimeout(() => setKopyalandi(false), 2500);
-    } catch (e) {
-      console.error("[Bildim] davet linki kopyalanamadı:", e);
-    }
-  };
 
   const silKapat = () => { setSilOnay(false); setSilMetin(""); };
   const hesabiSil = async () => {
@@ -447,21 +415,8 @@ export default function ProfilePage() {
         </>)}
 
         {sekme === "davet" && (
-          <QtKart as="section" className="qt-pf-davet" aria-labelledby="qt-pf-davet">
-            <span className="qt-pf-davet-ikon" aria-hidden="true"><QtIkon ad="hediye" boyut={36} /></span>
-            <h2 id="qt-pf-davet" className="qt-baslik-2">{tt("Arkadaşını davet et")}</h2>
-            <p className="qt-govde qt-soluk">
-              {davetCoin
-                ? tt("Her davet için ikiniz de {n} coin kazanırsınız.", { n: sayiBicim(davetCoin) })
-                : tt("Her davet için ikiniz de coin kazanırsınız.")}
-              {profile.davet_sayisi > 0 && (
-                <> {tt("Şu ana kadar {n} kişi davet ettin.", { n: profile.davet_sayisi })}</>
-              )}
-            </p>
-            <QtDugme ikon={kopyalandi ? "onay" : "paylas"} tamGenislik onClick={davetPaylas}>
-              {kopyalandi ? tt("Kopyalandı") : tt("Davet linkini paylaş")}
-            </QtDugme>
-          </QtKart>
+          /* Rozet + çerçeve paketi: yeni davet sistemi (300 / +100, Level 5, durum listesi) */
+          <DavetKarti />
         )}
       </div>
 

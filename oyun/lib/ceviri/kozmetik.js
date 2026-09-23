@@ -112,6 +112,38 @@ export default {
   "Dereceli bir maç oyna, lig grubuna katıl.": "Play a ranked match to join a league group.",
   "Günlük görevler: {a}/{b} tamam": "Daily quests: {a}/{b} done",
   "Görevler": "Quests",
+  // ——— Davet ———
+  "Arkadaşın": "Your friend",
+  "{ad} seni davet etti: +{n} coin! Artık arkadaşsınız.": "{ad} invited you: +{n} coins! You're now friends.",
+  "{ad} seni davet etti. Artık arkadaşsınız.": "{ad} invited you. You're now friends.",
+  "{ad} ile arkadaş oldunuz. Aynı cihazdan açılan hesaplarda davet ödülü verilmez.":
+    "You and {ad} are now friends. Accounts opened on the same device don't get invite rewards.",
+  "Bu hesap zaten bir davetle bağlı.": "This account is already linked to an invite.",
+  "Davet kodu yalnız yeni hesaplarda (ilk 3 gün) kullanılabilir.": "Invite codes only work on new accounts (first 3 days).",
+  "Bu senin kendi kodun.": "That's your own code.",
+  "Bu davet kodu bulunamadı. Kontrol edip tekrar dene.": "Invite code not found. Check it and try again.",
+  "Davet kodu kullanılamadı.": "Couldn't use the invite code.",
+  "Ödül alındı": "Reward received",
+  "Aylık sınır doldu": "Monthly limit reached",
+  "Ödülsüz": "No reward",
+  "Level {a}/{b}": "Level {a}/{b}",
+  "Davet kodun var mı?": "Have an invite code?",
+  "Örn. J8K2M4PR": "e.g. J8K2M4PR",
+  "Bağla": "Apply",
+  "Davet bilgileri yüklenemedi.": "Couldn't load invite details.",
+  "Quiz Tactics'te benimle yarış! Bu bağlantıyla gel, başlangıçta +{n} coin kazan: {link}":
+    "Play Quiz Tactics with me! Join with this link and get +{n} coins to start: {link}",
+  "Bağlantı kopyalanamadı. Kodu elle paylaşabilirsin.": "Couldn't copy the link. You can share the code by hand.",
+  "Arkadaşın gelince +{b} coin alır; Level {lv}'e ulaşınca sen {a} coin kazanırsın.":
+    "Your friend gets +{b} coins on joining; you earn {a} coins when they reach Level {lv}.",
+  "sana": "for you",
+  "arkadaşına": "for your friend",
+  "Bağlantıyı paylaş": "Share link",
+  "Bu ay ödüllü davet: {a}/{b}. Aynı cihazdan açılan hesaplar sayılmaz.":
+    "Rewarded invites this month: {a}/{b}. Accounts opened on the same device don't count.",
+  "Seni {ad} davet etti.": "{ad} invited you.",
+  "bir arkadaşın": "a friend",
+  "Davet ettiklerin": "People you invited",
   // ——— /kozmetik-onizleme ———
   "Kozmetik Önizleme": "Cosmetics Preview",
   "Bütün çerçeveler ve rozet madalyonları 24 / 40 / 64 / 120 px'te. 40 px altında süs ve hareket kapanır, yalnız renkli halka kalır.":
