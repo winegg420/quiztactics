@@ -13,6 +13,8 @@ export const KENNEY = {
   DA: { ad: "Digital Audio", url: "https://kenney.nl/assets/digital-audio" },
   MJ: { ad: "Music Jingles", url: "https://kenney.nl/assets/music-jingles" },
   CAS: { ad: "Casino Audio", url: "https://kenney.nl/assets/casino-audio" },
+  SF: { ad: "Sci-Fi Sounds", url: "https://kenney.nl/assets/sci-fi-sounds" },
+  RPG: { ad: "RPG Audio", url: "https://kenney.nl/assets/rpg-audio" },
 };
 
 // k: [paket, parça] (Kenney, WAV'a çevrildi) · p: [pixabay id, yazar, sayfa yolu] (mp3, çerçeve sınırından kırpıldı)
@@ -41,8 +43,23 @@ const EFEKT_TANIM = [
     [k("IS", "confirmation_001"), k("IS", "confirmation_003"), k("DA", "twoTone1"), p(6033, "freesound_community", "Correct", "sound-effects/film-special-effects-correct-6033")]],
   ["yanlis", "Yanlış", "Wrong", "Yanlış cevap verince.", "On a wrong answer.", "yanlis.mp3",
     [k("IS", "error_006"), k("IS", "error_008"), k("DA", "lowThreeTone"), p(126515, "Universfield", "Wrong Answer", "sound-effects/film-special-effects-wrong-answer-126515")]],
-  ["skill", "Skill kullanıldı", "Skill used", "Bir skill (50:50, Ek Süre…) kullanılınca — genel ses.", "When a skill (50:50, Extra Time…) is used — general sound.", "joker.mp3",
+  ["skill", "Skill kullanıldı (genel)", "Skill used (general)", "Genel ses: Düello saldırı/savunma jokerleri ve tanınmayan skill. 7 skill'in kendi sesi aşağıda.", "General sound: Duel attack/defence jokers and unknown skills. Each of the 7 skills has its own sound below.", "joker.mp3",
     [k("DA", "powerUp2"), k("DA", "powerUp7"), k("DA", "phaserUp3"), p(177983, "floraphonic", "Power Up Sparkle 1", "sound-effects/film-special-effects-power-up-sparkle-1-177983")]],
+  // Ajan K (24 Eyl 2026): her skill'in kendi anı. An adı = ses.js rolü; "Mevcut" = skill'e özel eski dosya.
+  ["skill_elli", "Skill: 50:50", "Skill: 50:50", "50:50 kullanılınca — iki yanlış şık gider (ikiye bölünme/kırılma).", "When 50:50 is used — two wrong options vanish (split/break).", "skill_elli.wav",
+    [k("RPG", "knifeSlice"), k("IMP", "impactGlass_medium_001"), k("DA", "phaserDown1"), p(454859, "Universfield", "Broken Glass Impact", "sound-effects/broken-glass-impact-454859")]],
+  ["skill_ek_sure", "Skill: Ek Süre", "Skill: Extra Time", "Ek Süre kullanılınca — saat/zaman uzar.", "When Extra Time is used — the clock is extended.", "skill_ek_sure.wav",
+    [k("IS", "maximize_004"), k("DA", "powerUp5"), k("IS", "glass_004"), p(83013, "freesound_community", "alarm-bonus", "sound-effects/film-special-effects-alarm-bonus-83013")]],
+  ["skill_soru_degistir", "Skill: Soru Değiştir", "Skill: Swap Question", "Soru Değiştir kullanılınca — kart karışır, yeni soru gelir.", "When Swap Question is used — cards shuffle, a new question comes.", "skill_soru_degistir.wav",
+    [k("CAS", "card-shuffle"), k("CAS", "card-fan-1"), k("CAS", "card-slide-5"), p(104313, "freesound_community", "Riffle Card Shuffle", "sound-effects/film-special-effects-riffle-card-shuffle-104313")]],
+  ["skill_zaman_baskisi", "Skill: Zaman Baskısı", "Skill: Time Pressure", "Zaman Baskısı atılınca/yenince — gergin tik, uyarı.", "When Time Pressure is cast/received — tense tick, warning.", "skill_zaman_baskisi.wav",
+    [k("IS", "error_005"), k("DA", "zapTwoTone2"), k("IS", "bong_001"), p(376897, "DRAGON-STUDIO", "Clock Ticking Down", "sound-effects/film-special-effects-clock-ticking-down-376897")]],
+  ["skill_ikinci_sans", "Skill: İkinci Şans", "Skill: Second Chance", "İkinci Şans kullanılınca — kalp, yeniden deneme.", "When Second Chance is used — heart, try again.", "skill_ikinci_sans.wav",
+    [k("DA", "phaseJump1"), k("MJ", "jingles_NES10"), k("IMP", "impactSoft_medium_000"), p(153317, "Universfield", "Game Respawn", "sound-effects/film-special-effects-game-respawn-153317")]],
+  ["skill_sigorta", "Skill: Sigorta", "Skill: Insurance", "Sigorta (ve Seri Koruma, biraz tiz) — kalkan, metalik koruma.", "Insurance (and Streak Shield, a bit higher) — shield, metallic guard.", "skill_sigorta.wav",
+    [k("SF", "forceField_000"), k("IMP", "impactMetal_heavy_001"), k("RPG", "metalLatch"), p(333827, "Epic_Stock_Media", "Impact Magic Earth Shield Up Game Sound", "sound-effects/film-special-effects-impact-magic-earth-shield-up-game-sound-333827")]],
+  ["skill_2x", "Skill: 2X", "Skill: 2X", "2X (çifte puan) kullanılınca — güçlenme, parıltı.", "When 2X (double points) is used — power-up, sparkle.", "skill_2x.wav",
+    [k("DA", "powerUp12"), k("DA", "zapThreeToneUp"), k("IS", "glass_002"), p(484722, "EdR", "Power Up 01A", "sound-effects/film-special-effects-power-up-01a-484722")]],
   ["can_kaybi", "Düello can kaybı", "Duel life lost", "Düelloda bir kalp söndüğünde.", "When a heart goes out in a Duel.", "can_kaybi.mp3",
     [k("IMP", "impactPunch_medium_002"), k("IMP", "impactSoft_heavy_001"), k("DA", "phaserDown2")]],
   ["kategori_secildi", "Düello kategori seçildi", "Duel category picked", "Düelloda kategori seçimi kesinleşince.", "When the Duel category pick is locked in.", null,

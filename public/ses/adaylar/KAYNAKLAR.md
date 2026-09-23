@@ -136,7 +136,9 @@ Mevcut: `/ses/yanlis.mp3`
 | `yanlis-k3.wav` | Kenney | Digital Audio › lowThreeTone | Kenney | https://kenney.nl/assets/digital-audio | CC0 | 56.1 |
 | `yanlis-p1.mp3` | Pixabay | Wrong Answer | Universfield | https://pixabay.com/sound-effects/film-special-effects-wrong-answer-126515/ | Pixabay İçerik Lisansı | 44.9 |
 
-## Skill kullanıldı (`skill`)
+## Skill kullanıldı — genel (`skill`)
+
+Artık yalnız `sesJoker()` (Düello saldırı/savunma jokeri, bilinmeyen tür). 7 skill aşağıdaki kendi anını çalar (Ajan K, 24 Eyl 2026).
 
 Mevcut: `/ses/joker.mp3`
 
@@ -146,6 +148,85 @@ Mevcut: `/ses/joker.mp3`
 | `skill-k2.wav` | Kenney | Digital Audio › powerUp7 | Kenney | https://kenney.nl/assets/digital-audio | CC0 | 20.1 |
 | `skill-k3.wav` | Kenney | Digital Audio › phaserUp3 | Kenney | https://kenney.nl/assets/digital-audio | CC0 | 26.1 |
 | `skill-p1.mp3` | Pixabay | Power Up Sparkle 1 | floraphonic | https://pixabay.com/sound-effects/film-special-effects-power-up-sparkle-1-177983/ | Pixabay İçerik Lisansı | 81.0 |
+
+<!-- Ajan K, 24 Eyl 2026: skill başına anlar. Kenney Sci-Fi Sounds ve RPG Audio da CC0. Pixabay parçaları ≤ 3 sn kırpıldı. -->
+
+## Skill: 50:50 (`skill_elli`)
+
+Mevcut: `/ses/skill_elli.wav`
+
+| Dosya | Kaynak | Parça | Yazar | Bağlantı | Lisans | kB |
+|---|---|---|---|---|---|---|
+| `skill_elli-k1.wav` | Kenney | RPG Audio › knifeSlice | Kenney | https://kenney.nl/assets/rpg-audio | CC0 | 25.0 |
+| `skill_elli-k2.wav` | Kenney | Impact Sounds › impactGlass_medium_001 | Kenney | https://kenney.nl/assets/impact-sounds | CC0 | 33.8 |
+| `skill_elli-k3.wav` | Kenney | Digital Audio › phaserDown1 | Kenney | https://kenney.nl/assets/digital-audio | CC0 | 25.9 |
+| `skill_elli-p1.mp3` | Pixabay | Broken Glass Impact | Universfield | https://pixabay.com/sound-effects/broken-glass-impact-454859/ | Pixabay İçerik Lisansı | 85.7 |
+
+## Skill: Ek Süre (`skill_ek_sure`)
+
+Mevcut: `/ses/skill_ek_sure.wav`
+
+| Dosya | Kaynak | Parça | Yazar | Bağlantı | Lisans | kB |
+|---|---|---|---|---|---|---|
+| `skill_ek_sure-k1.wav` | Kenney | Interface Sounds › maximize_004 | Kenney | https://kenney.nl/assets/interface-sounds | CC0 | 25.0 |
+| `skill_ek_sure-k2.wav` | Kenney | Digital Audio › powerUp5 | Kenney | https://kenney.nl/assets/digital-audio | CC0 | 17.2 |
+| `skill_ek_sure-k3.wav` | Kenney | Interface Sounds › glass_004 | Kenney | https://kenney.nl/assets/interface-sounds | CC0 | 42.7 |
+| `skill_ek_sure-p1.mp3` | Pixabay | alarm-bonus | freesound_community | https://pixabay.com/sound-effects/film-special-effects-alarm-bonus-83013/ | Pixabay İçerik Lisansı | 34.7 |
+
+## Skill: Soru Değiştir (`skill_soru_degistir`)
+
+Mevcut: `/ses/skill_soru_degistir.wav`
+
+| Dosya | Kaynak | Parça | Yazar | Bağlantı | Lisans | kB |
+|---|---|---|---|---|---|---|
+| `skill_soru_degistir-k1.wav` | Kenney | Casino Audio › card-shuffle | Kenney | https://kenney.nl/assets/casino-audio | CC0 | 95.8 |
+| `skill_soru_degistir-k2.wav` | Kenney | Casino Audio › card-fan-1 | Kenney | https://kenney.nl/assets/casino-audio | CC0 | 45.1 |
+| `skill_soru_degistir-k3.wav` | Kenney | Casino Audio › card-slide-5 | Kenney | https://kenney.nl/assets/casino-audio | CC0 | 37.6 |
+| `skill_soru_degistir-p1.mp3` | Pixabay | Riffle Card Shuffle | freesound_community | https://pixabay.com/sound-effects/film-special-effects-riffle-card-shuffle-104313/ | Pixabay İçerik Lisansı | 93.0 |
+
+## Skill: Zaman Baskısı (`skill_zaman_baskisi`)
+
+Mevcut: `/ses/skill_zaman_baskisi.wav`
+
+| Dosya | Kaynak | Parça | Yazar | Bağlantı | Lisans | kB |
+|---|---|---|---|---|---|---|
+| `skill_zaman_baskisi-k1.wav` | Kenney | Interface Sounds › error_005 | Kenney | https://kenney.nl/assets/interface-sounds | CC0 | 12.6 |
+| `skill_zaman_baskisi-k2.wav` | Kenney | Digital Audio › zapTwoTone2 | Kenney | https://kenney.nl/assets/digital-audio | CC0 | 69.9 |
+| `skill_zaman_baskisi-k3.wav` | Kenney | Interface Sounds › bong_001 | Kenney | https://kenney.nl/assets/interface-sounds | CC0 | 7.5 |
+| `skill_zaman_baskisi-p1.mp3` | Pixabay | Clock Ticking Down | DRAGON-STUDIO | https://pixabay.com/sound-effects/film-special-effects-clock-ticking-down-376897/ | Pixabay İçerik Lisansı | 93.1 |
+
+## Skill: İkinci Şans (`skill_ikinci_sans`)
+
+Mevcut: `/ses/skill_ikinci_sans.wav`
+
+| Dosya | Kaynak | Parça | Yazar | Bağlantı | Lisans | kB |
+|---|---|---|---|---|---|---|
+| `skill_ikinci_sans-k1.wav` | Kenney | Digital Audio › phaseJump1 | Kenney | https://kenney.nl/assets/digital-audio | CC0 | 23.3 |
+| `skill_ikinci_sans-k2.wav` | Kenney | Music Jingles › jingles_NES10 | Kenney | https://kenney.nl/assets/music-jingles | CC0 | 21.8 |
+| `skill_ikinci_sans-k3.wav` | Kenney | Impact Sounds › impactSoft_medium_000 | Kenney | https://kenney.nl/assets/impact-sounds | CC0 | 7.2 |
+| `skill_ikinci_sans-p1.mp3` | Pixabay | Game Respawn | Universfield | https://pixabay.com/sound-effects/film-special-effects-game-respawn-153317/ | Pixabay İçerik Lisansı | 48.2 |
+
+## Skill: Sigorta (`skill_sigorta`)
+
+Mevcut: `/ses/skill_sigorta.wav`
+
+| Dosya | Kaynak | Parça | Yazar | Bağlantı | Lisans | kB |
+|---|---|---|---|---|---|---|
+| `skill_sigorta-k1.wav` | Kenney | Sci-Fi Sounds › forceField_000 | Kenney | https://kenney.nl/assets/sci-fi-sounds | CC0 | 48.6 |
+| `skill_sigorta-k2.wav` | Kenney | Impact Sounds › impactMetal_heavy_001 | Kenney | https://kenney.nl/assets/impact-sounds | CC0 | 22.3 |
+| `skill_sigorta-k3.wav` | Kenney | RPG Audio › metalLatch | Kenney | https://kenney.nl/assets/rpg-audio | CC0 | 14.8 |
+| `skill_sigorta-p1.mp3` | Pixabay | Impact Magic Earth Shield Up Game Sound | Epic_Stock_Media | https://pixabay.com/sound-effects/film-special-effects-impact-magic-earth-shield-up-game-sound-333827/ | Pixabay İçerik Lisansı | 35.9 |
+
+## Skill: 2X (`skill_2x`)
+
+Mevcut: `/ses/skill_2x.wav`
+
+| Dosya | Kaynak | Parça | Yazar | Bağlantı | Lisans | kB |
+|---|---|---|---|---|---|---|
+| `skill_2x-k1.wav` | Kenney | Digital Audio › powerUp12 | Kenney | https://kenney.nl/assets/digital-audio | CC0 | 42.2 |
+| `skill_2x-k2.wav` | Kenney | Digital Audio › zapThreeToneUp | Kenney | https://kenney.nl/assets/digital-audio | CC0 | 68.9 |
+| `skill_2x-k3.wav` | Kenney | Interface Sounds › glass_002 | Kenney | https://kenney.nl/assets/interface-sounds | CC0 | 7.7 |
+| `skill_2x-p1.mp3` | Pixabay | Power Up 01A | EdR | https://pixabay.com/sound-effects/film-special-effects-power-up-01a-484722/ | Pixabay İçerik Lisansı | 32.7 |
 
 ## Düello can kaybı (`can_kaybi`)
 

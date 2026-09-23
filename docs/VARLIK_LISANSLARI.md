@@ -38,6 +38,14 @@ değiştirmek için), yalnız seçilince indirilir.
 
 Pixabay'de yapay zekâ üretimi ve YouTube Content ID kayıtlı parçalar bilerek elendi.
 
+**Skill başına ses anları (Ajan K, 24 Eyl 2026):** 7 yeni an (`skill_elli`, `skill_ek_sure`,
+`skill_soru_degistir`, `skill_zaman_baskisi`, `skill_ikinci_sans`, `skill_sigorta`, `skill_2x`), 28 dosya:
+
+| Grup | Kaynak | Lisans | Bağlantı |
+|---|---|---|---|
+| 21 efekt adayı (WAV) | Kenney — Interface Sounds, Impact Sounds, Digital Audio, Music Jingles, Casino Audio, **Sci-Fi Sounds**, **RPG Audio** | CC0 1.0 | https://kenney.nl/assets/sci-fi-sounds · https://kenney.nl/assets/rpg-audio (diğerleri yukarıda) |
+| 7 efekt adayı (mp3, ≤ 3 sn kırpılmış) | Pixabay ses efektleri — Universfield, freesound_community, DRAGON-STUDIO, Epic_Stock_Media, EdR (parça parça KAYNAKLAR.md'de) | Pixabay İçerik Lisansı (aynı) | https://pixabay.com/service/license-summary/ |
+
 ## Maç sonu Lottie animasyonları (`/mac-sonu-onizleme`, 23 Eyl 2026)
 
 `public/lottie/mac-sonu/` — LottieFiles ücretsiz animasyonları; her birinin sayfasında
