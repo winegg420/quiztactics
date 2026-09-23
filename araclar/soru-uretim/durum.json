@@ -62,8 +62,8 @@
     },
     "cografya": 0
   },
-  "siradaki_parti": 4,
-  "siradaki_migration_no": 294,
+  "siradaki_parti": 5,
+  "siradaki_migration_no": 295,
   "partiler": [
     {
       "no": 1,
@@ -268,37 +268,105 @@
         "2": 65,
         "3": 59
       }
+    },
+    {
+      "no": 4,
+      "soru": 250,
+      "migration": "20260612000294_soru_uretim_parti_04",
+      "commit": "(bekliyor)",
+      "tarih": "2026-09-23",
+      "kategori_kova": {
+        "sinema": 32,
+        "teknoloji": 33,
+        "muzik": 30,
+        "sanat": 30,
+        "spor": 27,
+        "edebiyat": 25,
+        "bilim": 25,
+        "tarih": 23,
+        "yerel_tr": 15,
+        "genel_kultur": 10
+      },
+      "kategori_db": {
+        "sinema": 36,
+        "teknoloji": 33,
+        "muzik": 33,
+        "sanat": 31,
+        "spor": 31,
+        "edebiyat": 25,
+        "bilim": 25,
+        "tarih": 25,
+        "genel_kultur": 11
+      },
+      "zorluk": {
+        "3": 75,
+        "4": 88,
+        "5": 50,
+        "1-2": 37
+      },
+      "zorluk_1_5": [
+        6,
+        31,
+        75,
+        88,
+        50
+      ],
+      "jev": {
+        "cagri": 804,
+        "girdi_jeton": 648858,
+        "maliyet_usd": 0.0273
+      },
+      "taslak": 397,
+      "elenen": {
+        "kalite_sonrasi": 1,
+        "kota_fazlasi": 147,
+        "taslakta_havuz_tekrari": 23,
+        "not": "Jev >0,9 itirazı elemeye yol açmadı. Golf 'bogey' sorusunda Jev 0,95 güvenle 'Birdie' dedi (Jev yanlış); soru par-4 örneğiyle netleştirilip yeniden soruldu, itiraz kalktı. Kalite sonrası elenen 1: Yunan seramiği 'siyah figür' (soru metni cevabı sezdiriyordu). Düzeltilip yeniden sorulan 6: Bogey (netleştirme), Magritte 'İnsanoğlu' (Jev 0,90 'Kırmızı gül'; güvercin çeldiricisi başka Magritte tablosunu çağrıştırdığı için değiştirildi), Barcelona (EN parantezli Katalanca slogan cevabı ele veriyordu, 0,94), Cadabra (EN/TR 'kadavra' ipucu, 0,92), Cem Karaca (EN Türkçe şarkı adları anlamsız → çevrilmedi), Tiffany (şık denge). Jev öncesi elle: fikirler yazılmadan önce havuzda anahtar kelimeyle arandı (yüzlerce aday elendi); yazılan taslaklardan 23'ü denetle + aynı-cevap taramasıyla havuz tekrarı çıkıp silindi; ~25 soru şık denge kuralı için düzeltildi. Jev'in <0,9 güvenle farklı dediği doğru sorular (Kısa Karşılaşma/Rahmaninov, Peter Falk, Yakul/kızıl geyik, Setsuko/meyve şekeri, MySQL/yunus, Galatasaray-Arsenal, İlhan Mansız, maNga ikincilik, Busenaz/boks) kontrol edilip tutuldu."
+      },
+      "duzeltilen_yeniden_sorulan": 6,
+      "zorluk_etiket_duzeltme": 10,
+      "cevrilmeyen": 4,
+      "havuz_aktif": {
+        "once": 11040,
+        "sonra": 11290
+      },
+      "dogru_cevap_dagilimi": {
+        "0": 57,
+        "1": 52,
+        "2": 66,
+        "3": 75
+      }
     }
   ],
   "atlanan_partiler": [],
   "sayac": {
-    "soru": 750,
+    "soru": 1000,
     "kategori": {
-      "sinema": 98,
-      "teknoloji": 97,
-      "muzik": 90,
-      "sanat": 90,
-      "spor": 83,
-      "edebiyat": 75,
-      "bilim": 75,
-      "tarih": 67,
-      "yerel_tr": 45,
-      "genel_kultur": 30
+      "sinema": 130,
+      "teknoloji": 130,
+      "muzik": 120,
+      "sanat": 120,
+      "spor": 110,
+      "edebiyat": 100,
+      "bilim": 100,
+      "tarih": 90,
+      "yerel_tr": 60,
+      "genel_kultur": 40
     },
     "zorluk": {
-      "3": 225,
-      "4": 262,
-      "5": 150,
-      "1-2": 113
+      "3": 300,
+      "4": 350,
+      "5": 200,
+      "1-2": 150
     }
   },
   "jev": {
-    "cagri": 1976,
-    "girdi_jeton": 1583963,
-    "maliyet_usd": 0.0665
+    "cagri": 2780,
+    "girdi_jeton": 2232821,
+    "maliyet_usd": 0.0938
   },
-  "elenen": 5,
-  "zorluk_etiket_duzeltme": 36,
-  "cevrilmeyen": 5,
+  "elenen": 6,
+  "zorluk_etiket_duzeltme": 46,
+  "cevrilmeyen": 9,
   "ardisik_uygulama_hatasi": 0
 }

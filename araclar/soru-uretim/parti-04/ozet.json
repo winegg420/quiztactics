@@ -1,0 +1,144 @@
+{
+  "parti": 4,
+  "tarih": "2026-09-23",
+  "taslak": 397,
+  "net": 250,
+  "kota": {
+    "sinema": 32,
+    "teknoloji": 33,
+    "muzik": 30,
+    "sanat": 30,
+    "spor": 27,
+    "edebiyat": 25,
+    "bilim": 25,
+    "tarih": 23,
+    "yerel": 15,
+    "genel_kultur": 10
+  },
+  "zorluk_hedef": {
+    "3": 75,
+    "4": 88,
+    "5": 50,
+    "1-2": 37
+  },
+  "eksik": {},
+  "elenen_sebep": {
+    "kota_fazlasi": 147
+  },
+  "kova": {
+    "sinema": 32,
+    "teknoloji": 33,
+    "muzik": 30,
+    "sanat": 30,
+    "spor": 27,
+    "edebiyat": 25,
+    "bilim": 25,
+    "tarih": 23,
+    "yerel_tr": 15,
+    "genel_kultur": 10
+  },
+  "kategori": {
+    "sinema": 36,
+    "teknoloji": 33,
+    "muzik": 33,
+    "sanat": 31,
+    "spor": 31,
+    "edebiyat": 25,
+    "bilim": 25,
+    "tarih": 25,
+    "genel_kultur": 11
+  },
+  "zorluk": [
+    6,
+    31,
+    75,
+    88,
+    50
+  ],
+  "zorluk_kova": {
+    "3": 75,
+    "4": 88,
+    "5": 50,
+    "1-2": 37
+  },
+  "cevrilmeyen": 4,
+  "jev": {
+    "cagri": 804,
+    "girdi_jetonu": 648858,
+    "usd": 0.0273,
+    "not": "jev.jsonl içindeki tüm denemeler dahil (düzeltilip yeniden sorulanlar da)"
+  },
+  "zorluk_etiket_duzeltme": [
+    {
+      "s": "'Waka Waka' şarkısıyla da tanınan Latin pop yıldızı Shakira hangi ülkelidir?",
+      "d": "Kolombiya",
+      "eski": 1,
+      "yeni": 2,
+      "neden": "yazar 1, Jev seviye 3 (puan 2.17)"
+    },
+    {
+      "s": "Yalnızca siyah bir kareden oluşan ve Süprematizmin simgesi sayılan 'Kara Kare' tablosunun ressamı kimdir?",
+      "d": "Kazimir Maleviç",
+      "eski": 3,
+      "yeni": 4,
+      "neden": "yazar 3, Jev seviye 5 (puan 3.50)"
+    },
+    {
+      "s": "'Çılgın Hırsız' filminde Gru dünyaya kendini kanıtlamak için hangi gök cismini çalmayı planlar?",
+      "d": "Ay",
+      "eski": 1,
+      "yeni": 2,
+      "neden": "yazar 1, Jev seviye 3 (puan 2.31)"
+    },
+    {
+      "s": "Isao Takahata'nın 'Ateş Böceklerinin Mezarı' filminde küçük Setsuko'nun hep yanında taşıdığı teneke kutuda ne vardır?",
+      "d": "Meyve şekeri",
+      "eski": 4,
+      "yeni": 5,
+      "neden": "yazar 4, Jev yanlış şık (Pirinç keki, 0.19) ve seviye 5"
+    },
+    {
+      "s": "Apple, Mac OS X'in ilk sürümlerine (Cheetah, Puma, Jaguar...) hangi hayvan ailesinin adlarını vermiştir?",
+      "d": "Kedigiller",
+      "eski": 2,
+      "yeni": 3,
+      "neden": "yazar 2, Jev seviye 5 (puan 3.46)"
+    },
+    {
+      "s": "Apple'ın 2014'te Objective-C'nin yerini alması için tanıttığı programlama dili hangisidir?",
+      "d": "Swift",
+      "eski": 3,
+      "yeni": 4,
+      "neden": "yazar 3, Jev seviye 5 (puan 3.61)"
+    },
+    {
+      "s": "Docker yazılımının logosunda sırtında konteynerler taşıyan hayvan hangisidir?",
+      "d": "Balina",
+      "eski": 3,
+      "yeni": 4,
+      "neden": "yazar 3, Jev seviye 5 (puan 3.83)"
+    },
+    {
+      "s": "MySQL veritabanının logosunda hangi deniz canlısı yer alır?",
+      "d": "Yunus",
+      "eski": 4,
+      "yeni": 5,
+      "neden": "yazar 4, Jev yanlış şık (Balina, 0.16) ve seviye 5"
+    },
+    {
+      "s": "'Türk Yıldız Savaşları' diye de anılan 'Dünyayı Kurtaran Adam' (1982) filminin başrol oyuncusu kimdir?",
+      "d": "Cüneyt Arkın",
+      "eski": 2,
+      "yeni": 3,
+      "neden": "yazar 2, Jev seviye 4 (puan 3.28)"
+    },
+    {
+      "s": "Türkiye, maNga grubunun 'We Could Be the Same' şarkısıyla katıldığı 2010 Eurovision'da kaçıncı olmuştur?",
+      "d": "İkinci",
+      "eski": 4,
+      "yeni": 5,
+      "neden": "yazar 4, Jev yanlış şık (Üçüncü, 0.25) ve seviye 5"
+    }
+  ],
+  "elenenler": []
+}
