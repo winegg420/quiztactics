@@ -119,10 +119,14 @@ const HACIM_ADAY = { dokunus: 0.4, sayfa_gecis: 0.45, tik: 0.7 };
 let muzikKancasi = null;
 export function sesMuzikKancasi(f) { muzikKancasi = f; }
 const kanca = (olay) => { try { muzikKancasi?.(olay); } catch { /* müzik kritik değil */ } };
-// Tanı (yalnız ?tani=1 oturumunda): window.__sesKayit = [{rol, dosya, t}] — test için.
+// Tanı (yalnız ?tani=1 oturumunda ya da test bayrağı sessionStorage.bd_ses_tani=1 iken — ikincisi
+// tanı panelini açmaz): window.__sesKayit = [{rol, dosya, t}] — test için.
+export const sesTaniAcik = () => {
+  try { return sessionStorage.getItem("bd_ses_tani") === "1" || sessionStorage.getItem("bd_tani") === "1" || /[?&]tani=1/.test(location.search); } catch { return false; }
+};
 function taniKaydi(rol, dosya) {
   try {
-    if (sessionStorage.getItem("bd_tani") !== "1" && !/[?&]tani=1/.test(location.search)) return;
+    if (!sesTaniAcik()) return;
     (window.__sesKayit ||= []).push({ rol, dosya, t: Math.round(performance.now()) });
   } catch { /* tanı kritik değil */ }
 }

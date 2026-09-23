@@ -15,7 +15,7 @@
 //    * Dosya arka planda iner; ağ yavaşsa müzik sonra başlar, oyun beklemez.
 
 import { supabase } from "../../src/lib/supabase.js";
-import { adayYolu, muzikAcikMi, muzikDinle, sesBaglami, sesMuzikKancasi, sesSecimi, sesSecimleriniAyarla } from "./ses.js";
+import { adayYolu, muzikAcikMi, muzikDinle, sesBaglami, sesMuzikKancasi, sesSecimi, sesSecimleriniAyarla, sesTaniAcik } from "./ses.js";
 
 const SECIM_ANAHTARI = "bildim_ses_secim";   // ses.js ile aynı anahtar
 const GECIS_SN = 0.8;
@@ -70,9 +70,17 @@ let ana = null;        // müzik ana kazancı (seviye · kısma · aç/kapa)
 let iz = null;         // çalan döngü {dosya, kazanc, kaynaklar, zaman, bitti}
 const tamponlar = new Map();   // dosya → Promise<AudioBuffer> (en çok 2 tutulur)
 
-function taniYaz(durum) {
+/** Tanı (test bayrağı açıkken): window.__muzik = son durum, __muzikGecmis = hepsi. */
+function taniYaz(olay) {
   try {
-    if (sessionStorage.getItem("bd_tani") === "1") window.__muzik = { ...durum, t: Math.round(performance.now()) };
+    if (!sesTaniAcik()) return;
+    const { seviye, kisik: oran } = ayar();
+    window.__muzik = {
+      olay, an: donguSec(rota), dosya: iz?.dosya ?? null, calan: Boolean(iz && !iz.bitti && iz.kaynaklar.length),
+      acik: muzikAcikMi(), kisik, gizli, dokunuldu, baglam: dokunuldu ? (sesBaglami()?.state ?? null) : null,
+      hedef: muzikAcikMi() ? seviye * (kisik ? oran : 1) : 0, t: Math.round(performance.now()),
+    };
+    (window.__muzikGecmis ||= []).push(window.__muzik);
   } catch { /* tanı kritik değil */ }
 }
 
@@ -170,12 +178,18 @@ function izBaslat(c, yeni, tampon) {
     yeni.zaman = setTimeout(bekle, 500);
   };
   planla(c.currentTime + 0.02, true);
+  taniYaz("basladi");
 }
 
 function guncelle() {
+  izSec();
+  taniYaz("guncelle");
+}
+
+/** Rotanın döngüsünü seçer: aynıysa yalnız seviye, farklıysa eskisini söndürüp yenisini başlatır. */
+function izSec() {
   const an = donguSec(rota);
   const dosya = muzikAcikMi() ? secimDosyasi(an) : null;
-  taniYaz({ an, dosya, acik: muzikAcikMi(), kisik, gizli, dokunuldu });
   const c = baglam();
   if (!c) return;
   seviyeUygula();
@@ -215,7 +229,7 @@ if (typeof window !== "undefined") {
     if (yeni === kisik) return;
     kisik = yeni;
     seviyeUygula();
-    taniYaz({ an: donguSec(rota), dosya: iz?.dosya ?? null, acik: muzikAcikMi(), kisik, gizli, dokunuldu });
+    taniYaz("olay");
   });
   muzikDinle(() => guncelle());
   if (!dokunuldu) {
@@ -231,8 +245,7 @@ if (typeof window !== "undefined") {
     gizli = document.hidden;
     try {
       const c = dokunuldu ? sesBaglami() : null;
-      if (c) { if (gizli) c.suspend(); else c.resume(); }
+      if (c) Promise.resolve(gizli ? c.suspend() : c.resume()).then(() => taniYaz("olay"), () => {});
     } catch { /* tarayıcı izin vermedi */ }
-    taniYaz({ an: donguSec(rota), dosya: iz?.dosya ?? null, acik: muzikAcikMi(), kisik, gizli, dokunuldu });
   });
 }
