@@ -62,8 +62,8 @@
     },
     "cografya": 0
   },
-  "siradaki_parti": 8,
-  "siradaki_migration_no": 311,
+  "siradaki_parti": 9,
+  "siradaki_migration_no": 312,
   "partiler": [
     {
       "no": 1,
@@ -532,38 +532,104 @@
         "2": 28,
         "3": 21
       }
+    },
+    {
+      "no": 8,
+      "ajan": 2,
+      "kategoriler": [
+        "teknoloji",
+        "edebiyat",
+        "bilim",
+        "tarih",
+        "genel_kultur"
+      ],
+      "soru": 100,
+      "migration": "20260612000311_soru_uretim_parti_08",
+      "commit": null,
+      "tarih": "2026-09-23",
+      "kategori_kova": {
+        "teknoloji": 28,
+        "edebiyat": 22,
+        "bilim": 22,
+        "tarih": 19,
+        "genel_kultur": 9
+      },
+      "kategori_db": {
+        "teknoloji": 28,
+        "edebiyat": 22,
+        "tarih": 19,
+        "genel_kultur": 9,
+        "bilim": 22
+      },
+      "zorluk": {
+        "3": 28,
+        "4": 37,
+        "5": 20,
+        "1-2": 15
+      },
+      "zorluk_1_5": [
+        3,
+        12,
+        28,
+        37,
+        20
+      ],
+      "jev": {
+        "cagri": 458,
+        "girdi_jeton": 309204,
+        "maliyet_usd": 0.013
+      },
+      "taslak": 127,
+      "elenen": {
+        "kalite_sonrasi": 11,
+        "kota_fazlasi": 28,
+        "not": "Ajan 2, 100'lük parti (teknoloji 28 · edebiyat 22 · bilim 22 · tarih 19 · genel kültür 9). Fikirler yazılmadan önce güncel havuz + diğer ajanın taslakları/partileri anahtar kelimeyle tarandı (yüzlerce aday elendi). Jev öncesi elle: 5 havuz tekrarı (Buckminster Fuller/C60, Orwell 101 odası, Selma Lagerlöf, Masuoka/flaş bellek, Java 'Oak') ve 1 iç tekrar (Hannibal/filler) çıkarıldı; ~15 şık denge düzeltmesi. Şık ipucu kapısı: ilk turda 14 takılma — 7'sinin çeldiricileri eşit bilinirlikte yeniden yazılıp geçti (Carson, Macondo, Shylock, Heathcliff, Gibson, Kösem, Tilasin), 11 taslak çıkarıldı (Beş Şehir, Baker Sokağı 221B, Alcatraz, Nightingale, MATLAB, Archaeopteryx, Chicxulub, Vasa, Noel Ateşkesi, Rudolph; ayrıca Tom Amca hassas 0,68, Silüet cevap sızması). Jev'in <0,9 güvenle farklı dediği doğru sorular (Yaprak Dökümü/Ali Rıza Bey, Ece Ayhan, Behçet Necatigil) kontrol edilip tutuldu; Samsa ve Tazmanya kaplanı çeldiricileri 'diğer doğru' şüphesiyle değiştirildi."
+      },
+      "zorluk_etiket_duzeltme": 6,
+      "cevrilmeyen": 2,
+      "en_ceviri_db": 98,
+      "havuz_aktif": {
+        "once": 11740,
+        "sonra": 11840
+      },
+      "dogru_cevap_dagilimi": {
+        "0": 24,
+        "1": 23,
+        "2": 28,
+        "3": 25
+      }
     }
   ],
   "atlanan_partiler": [],
   "sayac": {
-    "soru": 1450,
+    "soru": 1550,
     "kategori": {
       "sinema": 211,
-      "teknoloji": 162,
+      "teknoloji": 190,
       "muzik": 194,
       "sanat": 194,
       "spor": 180,
-      "edebiyat": 125,
-      "bilim": 125,
-      "tarih": 112,
+      "edebiyat": 147,
+      "bilim": 147,
+      "tarih": 131,
       "yerel_tr": 97,
-      "genel_kultur": 50
+      "genel_kultur": 59
     },
     "zorluk": {
-      "3": 435,
-      "4": 508,
-      "5": 288,
-      "1-2": 219
+      "3": 463,
+      "4": 545,
+      "5": 308,
+      "1-2": 234
     }
   },
   "jev": {
-    "cagri": 4937,
-    "girdi_jeton": 3806553,
-    "maliyet_usd": 0.1599
+    "cagri": 5395,
+    "girdi_jeton": 4115757,
+    "maliyet_usd": 0.1729
   },
-  "elenen": 7,
-  "zorluk_etiket_duzeltme": 76,
-  "cevrilmeyen": 19,
+  "elenen": 18,
+  "zorluk_etiket_duzeltme": 82,
+  "cevrilmeyen": 21,
   "ardisik_uygulama_hatasi": 0,
   "migration_no_notu": "296 (skill satın alma kilit sırası) ve 297 (duello_surum herkese) Paket 3 dışı işlere verildi, 23 Eyl 2026. Parti 6 yeniden üretilince 298 kullanılır."
 }

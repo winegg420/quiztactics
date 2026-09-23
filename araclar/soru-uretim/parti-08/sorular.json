@@ -1,0 +1,2088 @@
+[
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "'World of Warcraft' oyununu geliştiren şirket hangisidir?",
+  "d": "Blizzard",
+  "y": [
+   "BioWare",
+   "Bethesda",
+   "Valve"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which company developed the game 'World of Warcraft'?",
+   "d": "Blizzard",
+   "y": [
+    "BioWare",
+    "Bethesda",
+    "Valve"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Valve'ın 'Portal' oyununda oyuncuyu test odalarında yönlendiren yapay zekânın adı nedir?",
+  "d": "GLaDOS",
+  "y": [
+   "SHODAN",
+   "Cortana",
+   "HAL 9000"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "In Valve's game 'Portal', what is the name of the AI that guides the player through the test chambers?",
+   "d": "GLaDOS",
+   "y": [
+    "SHODAN",
+    "Cortana",
+    "HAL 9000"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Frekans atlamalı haberleşme tekniğinin patentini 1942'de besteci George Antheil ile birlikte alan Hollywood yıldızı kimdir?",
+  "d": "Hedy Lamarr",
+  "y": [
+   "Greta Garbo",
+   "Marlene Dietrich",
+   "Ingrid Bergman"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which Hollywood star patented a frequency-hopping communication system with composer George Antheil in 1942?",
+   "d": "Hedy Lamarr",
+   "y": [
+    "Greta Garbo",
+    "Marlene Dietrich",
+    "Ingrid Bergman"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "BeiDou adlı uydu navigasyon sistemi hangi ülkeye aittir?",
+  "d": "Çin",
+  "y": [
+   "Japonya",
+   "Hindistan",
+   "Güney Kore"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which country operates the BeiDou satellite navigation system?",
+   "d": "China",
+   "y": [
+    "Japan",
+    "India",
+    "South Korea"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "'Among Us' oyununu geliştiren stüdyo hangisidir?",
+  "d": "Innersloth",
+  "y": [
+   "Mediatonic",
+   "Supercell",
+   "Mojang"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which studio developed the game 'Among Us'?",
+   "d": "Innersloth",
+   "y": [
+    "Mediatonic",
+    "Supercell",
+    "Mojang"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "İlk dijital fotoğraf makinesini 1975'te geliştiren mühendis Steven Sasson hangi şirkette çalışıyordu?",
+  "d": "Kodak",
+  "y": [
+   "Polaroid",
+   "Canon",
+   "Fujifilm"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Steven Sasson built the first digital camera in 1975 while working for which company?",
+   "d": "Kodak",
+   "y": [
+    "Polaroid",
+    "Canon",
+    "Fujifilm"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Jupyter projesinin adı hangi üç programlama dilinin adından türetilmiştir?",
+  "d": "Julia, Python ve R",
+  "y": [
+   "Java, Python ve Ruby",
+   "JavaScript, PHP ve R",
+   "Julia, Perl ve Rust"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "The name of Project Jupyter is derived from which three programming languages?",
+   "d": "Julia, Python and R",
+   "y": [
+    "Java, Python and Ruby",
+    "JavaScript, PHP and R",
+    "Julia, Perl and Rust"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "IBM'in ThinkPad dahil kişisel bilgisayar bölümünü 2005'te satın alan şirket hangisidir?",
+  "d": "Lenovo",
+  "y": [
+   "Acer",
+   "Asus",
+   "Dell"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which company bought IBM's personal computer division, including ThinkPad, in 2005?",
+   "d": "Lenovo",
+   "y": [
+    "Acer",
+    "Asus",
+    "Dell"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Debian Linux dağıtımını 1993'te başlatan programcı kimdir?",
+  "d": "Ian Murdock",
+  "y": [
+   "Patrick Volkerding",
+   "Marc Ewing",
+   "Mark Shuttleworth"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which programmer started the Debian Linux distribution in 1993?",
+   "d": "Ian Murdock",
+   "y": [
+    "Patrick Volkerding",
+    "Marc Ewing",
+    "Mark Shuttleworth"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Radar magnetronu yanında cebindeki çikolatanın eridiğini fark ederek mikrodalga fırının icadına yol açan mühendis kimdir?",
+  "d": "Percy Spencer",
+  "y": [
+   "Robert Watson-Watt",
+   "Edwin Armstrong",
+   "Lee de Forest"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which engineer led the way to the microwave oven after noticing a chocolate bar melting in his pocket near a radar magnetron?",
+   "d": "Percy Spencer",
+   "y": [
+    "Robert Watson-Watt",
+    "Edwin Armstrong",
+    "Lee de Forest"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Boston Dynamics'in köpeği andıran dört ayaklı ticari robotunun adı nedir?",
+  "d": "Spot",
+  "y": [
+   "Atlas",
+   "Stretch",
+   "Handle"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "What is the name of Boston Dynamics' dog-like, four-legged commercial robot?",
+   "d": "Spot",
+   "y": [
+    "Atlas",
+    "Stretch",
+    "Handle"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Dijital kameraların görüntü algılayıcısı CCD'yi 1969'da icat eden Willard Boyle ve George Smith hangi kurumda çalışıyordu?",
+  "d": "Bell Laboratuvarları",
+  "y": [
+   "Xerox PARC",
+   "IBM Araştırma Merkezi",
+   "Kodak Araştırma Laboratuvarı"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Willard Boyle and George Smith invented the CCD image sensor in 1969 while working where?",
+   "d": "Bell Labs",
+   "y": [
+    "Xerox PARC",
+    "IBM Research Center",
+    "Kodak Research Laboratories"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Canlı yayın platformu Twitch, 2011'de hangi sitenin oyun kategorisinden ayrılarak kurulmuştur?",
+  "d": "Justin.tv",
+  "y": [
+   "Own3d.tv",
+   "Blip.tv",
+   "Ustream"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "The streaming platform Twitch was spun off in 2011 from the gaming section of which website?",
+   "d": "Justin.tv",
+   "y": [
+    "Own3d.tv",
+    "Blip.tv",
+    "Ustream"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Steve Jobs, Pixar'ın temelini oluşturan bilgisayar grafik bölümünü 1986'da hangi şirketten satın almıştır?",
+  "d": "Lucasfilm",
+  "y": [
+   "Paramount",
+   "Universal",
+   "Xerox"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "In 1986 Steve Jobs bought the computer graphics division that became Pixar from which company?",
+   "d": "Lucasfilm",
+   "y": [
+    "Paramount",
+    "Universal",
+    "Xerox"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "'Byte' terimini 1956'da IBM'de ortaya atan bilgisayar bilimci kimdir?",
+  "d": "Werner Buchholz",
+  "y": [
+   "Gene Amdahl",
+   "Frederick Brooks",
+   "John Backus"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which computer scientist coined the term 'byte' at IBM in 1956?",
+   "d": "Werner Buchholz",
+   "y": [
+    "Gene Amdahl",
+    "Frederick Brooks",
+    "John Backus"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Twitter'da konuları # işaretiyle etiketleme fikrini 2007'de öneren tasarımcı kimdir?",
+  "d": "Chris Messina",
+  "y": [
+   "Biz Stone",
+   "Evan Williams",
+   "Noah Glass"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which designer proposed using the # sign to group topics on Twitter in 2007?",
+   "d": "Chris Messina",
+   "y": [
+    "Biz Stone",
+    "Evan Williams",
+    "Noah Glass"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "İlk 'Grand Theft Auto' oyununu 1997'de geliştiren DMA Design hangi ülkenin şirketiydi?",
+  "d": "İskoçya",
+  "y": [
+   "İrlanda",
+   "Kanada",
+   "Galler"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "DMA Design, the developer of the first 'Grand Theft Auto' in 1997, was based in which country?",
+   "d": "Scotland",
+   "y": [
+    "Ireland",
+    "Canada",
+    "Wales"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "İlk elektronik hesap tablosu programı VisiCalc ilk olarak hangi bilgisayar için yazılmıştır?",
+  "d": "Apple II",
+  "y": [
+   "Commodore PET",
+   "IBM PC",
+   "TRS-80"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "VisiCalc, the first electronic spreadsheet program, was originally written for which computer?",
+   "d": "Apple II",
+   "y": [
+    "Commodore PET",
+    "IBM PC",
+    "TRS-80"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Hewlett-Packard'ın ilk ürünü olan ses osilatörünü 'Fantasia' filmi için satın alan stüdyo hangisidir?",
+  "d": "Walt Disney",
+  "y": [
+   "MGM",
+   "Warner Bros.",
+   "Paramount"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which studio bought Hewlett-Packard's first product, an audio oscillator, for the film 'Fantasia'?",
+   "d": "Walt Disney",
+   "y": [
+    "MGM",
+    "Warner Bros.",
+    "Paramount"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "JetBrains'in geliştirdiği Kotlin programlama dili adını neyden almıştır?",
+  "d": "Bir adadan",
+  "y": [
+   "Bir nehirden",
+   "Bir kahve türünden",
+   "Bir dağ geçidinden"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "JetBrains' Kotlin programming language is named after what?",
+   "d": "An island",
+   "y": [
+    "A river",
+    "A type of coffee",
+    "A mountain pass"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Sega şirketinin adı hangi ifadenin kısaltmasından gelir?",
+  "d": "Service Games",
+  "y": [
+   "Special Electronic Games",
+   "Sound Engineering Games",
+   "Standard Entertainment"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "The company name Sega comes from an abbreviation of what?",
+   "d": "Service Games",
+   "y": [
+    "Special Electronic Games",
+    "Sound Engineering Games",
+    "Standard Entertainment"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Nintendo'nun Super Mario oyunlarında Mario'nun yeşil şapkalı kardeşi kimdir?",
+  "d": "Luigi",
+  "y": [
+   "Wario",
+   "Yoshi",
+   "Toad"
+  ],
+  "zorluk": 1,
+  "en": {
+   "s": "In Nintendo's Super Mario games, who is Mario's brother in the green cap?",
+   "d": "Luigi",
+   "y": [
+    "Wario",
+    "Yoshi",
+    "Toad"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Blaise Pascal'ın 1642'de yaptığı mekanik hesap makinesi Pascaline hangi işlemleri doğrudan yapabiliyordu?",
+  "d": "Toplama ve çıkarma",
+  "y": [
+   "Çarpma ve bölme",
+   "Üs ve kök alma",
+   "Logaritma ve üs alma"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which operations could Blaise Pascal's 1642 mechanical calculator, the Pascaline, perform directly?",
+   "d": "Addition and subtraction",
+   "y": [
+    "Multiplication and division",
+    "Powers and roots",
+    "Logarithms and powers"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Nintendo'nun hem elde taşınabilen hem de televizyona bağlanabilen 2017 çıkışlı oyun konsolu hangisidir?",
+  "d": "Switch",
+  "y": [
+   "Wii U",
+   "GameCube",
+   "3DS"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which Nintendo console, released in 2017, can be used both as a handheld and connected to a TV?",
+   "d": "Switch",
+   "y": [
+    "Wii U",
+    "GameCube",
+    "3DS"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Sega'nın maskotu Sonic ne tür bir hayvandır?",
+  "d": "Kirpi",
+  "y": [
+   "Tilki",
+   "Sincap",
+   "Köstebek"
+  ],
+  "zorluk": 1,
+  "en": {
+   "s": "What kind of animal is Sega's mascot Sonic?",
+   "d": "A hedgehog",
+   "y": [
+    "A fox",
+    "A squirrel",
+    "A mole"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "2021'de Mars'ta uçarak başka bir gezegende motorlu uçuş yapan ilk araç olan NASA helikopterinin adı nedir?",
+  "d": "Ingenuity",
+  "y": [
+   "Dragonfly",
+   "Sojourner",
+   "Zhurong"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "What was the name of the NASA helicopter that made the first powered flight on another planet, on Mars in 2021?",
+   "d": "Ingenuity",
+   "y": [
+    "Dragonfly",
+    "Sojourner",
+    "Zhurong"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "İstatistik programlama dili R, 1990'larda hangi ülkedeki bir üniversitede geliştirilmiştir?",
+  "d": "Yeni Zelanda",
+  "y": [
+   "Güney Afrika",
+   "Birleşik Krallık",
+   "Avustralya"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "The statistical programming language R was developed in the 1990s at a university in which country?",
+   "d": "New Zealand",
+   "y": [
+    "South Africa",
+    "United Kingdom",
+    "Australia"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "'Binary digit' ifadesini kısaltarak 'bit' kelimesini türeten istatistikçi kimdir?",
+  "d": "John Tukey",
+  "y": [
+   "Claude Shannon",
+   "Norbert Wiener",
+   "Alan Turing"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which statistician coined the word 'bit' as a contraction of 'binary digit'?",
+   "d": "John Tukey",
+   "y": [
+    "Claude Shannon",
+    "Norbert Wiener",
+    "Alan Turing"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Moby Dick'te Kaptan Ahab'ın balina avı gemisinin adı nedir?",
+  "d": "Pequod",
+  "y": [
+   "Nautilus",
+   "Hispaniola",
+   "Bounty"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "In 'Moby-Dick', what is the name of Captain Ahab's whaling ship?",
+   "d": "Pequod",
+   "y": [
+    "Nautilus",
+    "Hispaniola",
+    "Bounty"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Venedik Taciri'nde borcuna karşılık Antonio'dan bir libre et isteyen tefeci kimdir?",
+  "d": "Shylock",
+  "y": [
+   "Falstaff",
+   "Iago",
+   "Polonius"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In 'The Merchant of Venice', which moneylender demands a pound of Antonio's flesh as a bond?",
+   "d": "Shylock",
+   "y": [
+    "Falstaff",
+    "Iago",
+    "Polonius"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Gulliver'in Gezileri'nde bilginlerin yaşadığı uçan adanın adı nedir?",
+  "d": "Laputa",
+  "y": [
+   "Lilliput",
+   "Brobdingnag",
+   "Blefuscu"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "In 'Gulliver's Travels', what is the name of the flying island inhabited by scholars?",
+   "d": "Laputa",
+   "y": [
+    "Lilliput",
+    "Brobdingnag",
+    "Blefuscu"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Maymunların Tarzanı' romanıyla Tarzan karakterini yaratan yazar kimdir?",
+  "d": "Edgar Rice Burroughs",
+  "y": [
+   "H. Rider Haggard",
+   "Arthur Conan Doyle",
+   "Rudyard Kipling"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which author created Tarzan in the novel 'Tarzan of the Apes'?",
+   "d": "Edgar Rice Burroughs",
+   "y": [
+    "H. Rider Haggard",
+    "Arthur Conan Doyle",
+    "Rudyard Kipling"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Robinson Crusoe'nun yazarı Daniel Defoe, romanı yazarken hangi gerçek kazazedenin öyküsünden esinlenmiştir?",
+  "d": "Alexander Selkirk",
+  "y": [
+   "William Bligh",
+   "James Cook",
+   "Fletcher Christian"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Daniel Defoe's 'Robinson Crusoe' was inspired by the true story of which castaway?",
+   "d": "Alexander Selkirk",
+   "y": [
+    "William Bligh",
+    "James Cook",
+    "Fletcher Christian"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Otostopçunun Galaksi Rehberi'nde dev bilgisayarın 'hayat, evren ve her şey' sorusuna verdiği cevap hangi sayıdır?",
+  "d": "42",
+  "y": [
+   "7",
+   "13",
+   "108"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In 'The Hitchhiker's Guide to the Galaxy', what number does the supercomputer give as the answer to life, the universe and everything?",
+   "d": "42",
+   "y": [
+    "7",
+    "13",
+    "108"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Siberuzay' kavramını yaygınlaştıran 1984 tarihli 'Neuromancer' romanının yazarı kimdir?",
+  "d": "William Gibson",
+  "y": [
+   "Isaac Asimov",
+   "Philip K. Dick",
+   "Arthur C. Clarke"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Who wrote 'Neuromancer' (1984), the novel that popularised the idea of 'cyberspace'?",
+   "d": "William Gibson",
+   "y": [
+    "Isaac Asimov",
+    "Philip K. Dick",
+    "Arthur C. Clarke"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Kral Lear'da babasına dalkavukluk etmeyi reddeden en küçük kızı kimdir?",
+  "d": "Cordelia",
+  "y": [
+   "Goneril",
+   "Regan",
+   "Ophelia"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In 'King Lear', who is the youngest daughter who refuses to flatter her father?",
+   "d": "Cordelia",
+   "y": [
+    "Goneril",
+    "Regan",
+    "Ophelia"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Gılgamış Destanı'nda tanrıların Gılgamış'a denk olsun diye yarattığı, sonra onun en yakın dostu olan vahşi adam kimdir?",
+  "d": "Enkidu",
+  "y": [
+   "Humbaba",
+   "Utnapiştim",
+   "Lugalbanda"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "In the Epic of Gilgamesh, which wild man is created by the gods as Gilgamesh's equal and becomes his closest friend?",
+   "d": "Enkidu",
+   "y": [
+    "Humbaba",
+    "Utnapishtim",
+    "Lugalbanda"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Orwell'in '1984'üne de ilham veren, 1920'lerde yazılmış distopya 'Biz'in yazarı kimdir?",
+  "d": "Yevgeni Zamyatin",
+  "y": [
+   "Andrey Platonov",
+   "Mihail Bulgakov",
+   "Boris Pilnyak"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Who wrote 'We', the 1920s dystopian novel that influenced Orwell's 'Nineteen Eighty-Four'?",
+   "d": "Yevgeny Zamyatin",
+   "y": [
+    "Andrei Platonov",
+    "Mikhail Bulgakov",
+    "Boris Pilnyak"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Edgar Allan Poe'nun öykülerinde gizemleri çözen, modern polisiyenin ilk dedektiflerinden sayılan Parisli karakter kimdir?",
+  "d": "Auguste Dupin",
+  "y": [
+   "Hercule Poirot",
+   "Jules Maigret",
+   "Arsène Lupin"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which Parisian character, who solves mysteries in Edgar Allan Poe's stories, is regarded as one of the first detectives of modern crime fiction?",
+   "d": "Auguste Dupin",
+   "y": [
+    "Hercule Poirot",
+    "Jules Maigret",
+    "Arsène Lupin"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Uğultulu Tepeler'de Earnshaw ailesinin evlat edindiği, Catherine'e tutkuyla bağlı kahraman kimdir?",
+  "d": "Heathcliff",
+  "y": [
+   "Mr. Rochester",
+   "Mr. Darcy",
+   "Edgar Linton"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In 'Wuthering Heights', who is the foundling taken in by the Earnshaw family and passionately bound to Catherine?",
+   "d": "Heathcliff",
+   "y": [
+    "Mr. Rochester",
+    "Mr. Darcy",
+    "Edgar Linton"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Alice Harikalar Diyarında'da gövdesi kaybolup yalnızca sırıtışı havada kalan hayvan hangisidir?",
+  "d": "Cheshire Kedisi",
+  "y": [
+   "Mart Tavşanı",
+   "Beyaz Tavşan",
+   "Mavi Tırtıl"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In 'Alice's Adventures in Wonderland', which creature vanishes until only its grin remains?",
+   "d": "The Cheshire Cat",
+   "y": [
+    "The March Hare",
+    "The White Rabbit",
+    "The Caterpillar"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Budapeşte'de bir arsa için savaşan çocukları anlatan 'Pal Sokağı Çocukları' romanının yazarı kimdir?",
+  "d": "Ferenc Molnár",
+  "y": [
+   "Erich Kästner",
+   "Edmondo De Amicis",
+   "Mark Twain"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Who wrote 'The Paul Street Boys', the novel about boys fighting over a vacant lot in Budapest?",
+   "d": "Ferenc Molnár",
+   "y": [
+    "Erich Kästner",
+    "Edmondo De Amicis",
+    "Mark Twain"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Márquez'in 'Yüzyıllık Yalnızlık' romanında Buendía ailesinin kurduğu kasabanın adı nedir?",
+  "d": "Macondo",
+  "y": [
+   "Yoknapatawpha",
+   "Comala",
+   "Maycomb"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "In García Márquez's 'One Hundred Years of Solitude', what is the name of the town founded by the Buendía family?",
+   "d": "Macondo",
+   "y": [
+    "Yoknapatawpha",
+    "Comala",
+    "Maycomb"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Dante'nin 'İlahi Komedya'sında Cennet'te şaire rehberlik eden kadın kimdir?",
+  "d": "Beatrice",
+  "y": [
+   "Laura",
+   "Fiammetta",
+   "Francesca"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In Dante's 'Divine Comedy', which woman guides the poet through Paradise?",
+   "d": "Beatrice",
+   "y": [
+    "Laura",
+    "Fiammetta",
+    "Francesca"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Daniel Defoe'nun romanında Robinson Crusoe'nun ıssız adada kurtardığı yerliye verdiği ad nedir?",
+  "d": "Cuma",
+  "y": [
+   "Pazar",
+   "Salı",
+   "Perşembe"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In Daniel Defoe's novel, what name does Robinson Crusoe give to the native he rescues on the island?",
+   "d": "Friday",
+   "y": [
+    "Sunday",
+    "Tuesday",
+    "Thursday"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Shakespeare'in 'Macbeth'inde kehanete göre Macbeth, hangi orman Dunsinane Tepesi'ne yürüyene dek yenilmeyecektir?",
+  "d": "Birnam",
+  "y": [
+   "Arden",
+   "Sherwood",
+   "Ettrick"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "In Shakespeare's 'Macbeth', the prophecy says Macbeth will not be defeated until which wood comes to Dunsinane Hill?",
+   "d": "Birnam",
+   "y": [
+    "Arden",
+    "Sherwood",
+    "Ettrick"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Sherlock Holmes'un ilk kez göründüğü 1887 tarihli roman hangisidir?",
+  "d": "Kızıl Dosya",
+  "y": [
+   "Dörtlerin Yemini",
+   "Korku Vadisi",
+   "Baskerville'lerin Köpeği"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "In which 1887 novel did Sherlock Holmes first appear?",
+   "d": "A Study in Scarlet",
+   "y": [
+    "The Sign of the Four",
+    "The Valley of Fear",
+    "The Hound of the Baskervilles"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Evler', 'Çevre' ve 'Kapalı Çarşı' şiir kitaplarının şairi kimdir?",
+  "d": "Behçet Necatigil",
+  "y": [
+   "Cahit Külebi",
+   "Ziya Osman Saba",
+   "Oktay Rifat"
+  ],
+  "zorluk": 5,
+  "en": null,
+  "en_neden": "Türkçe şiir kitabı adlarına dayanıyor; İngilizce oyuncu için anlamlı değil."
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Türk edebiyatında köy yaşamını işleyen ilk yapıt sayılan 'Karabibik'in yazarı kimdir?",
+  "d": "Nabizade Nazım",
+  "y": [
+   "Samipaşazade Sezai",
+   "Mehmet Rauf",
+   "Hüseyin Cahit"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Who wrote 'Karabibik', regarded as the first work of Turkish literature to depict village life?",
+   "d": "Nabizade Nazım",
+   "y": [
+    "Samipaşazade Sezai",
+    "Mehmet Rauf",
+    "Hüseyin Cahit"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Hüseyin Rahmi Gürpınar'ın, bir köşkte görülen hayaletin düzmece çıktığı ve batıl inançla alay ettiği romanı hangisidir?",
+  "d": "Gulyabani",
+  "y": [
+   "Şıpsevdi",
+   "Mürebbiye",
+   "Toraman"
+  ],
+  "zorluk": 5,
+  "en": null,
+  "en_neden": "Türkçe roman adlarından seçim; İngilizce oyuncu için anlamlı değil."
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Endonezya'da 2003'te kalıntıları bulunan, yaklaşık bir metrelik boyu nedeniyle 'hobbit' diye anılan soyu tükenmiş insan türü hangisidir?",
+  "d": "Homo floresiensis",
+  "y": [
+   "Homo naledi",
+   "Homo antecessor",
+   "Homo ergaster"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which extinct human species, discovered in Indonesia in 2003, is nicknamed the 'hobbit' because of its height of about one metre?",
+   "d": "Homo floresiensis",
+   "y": [
+    "Homo naledi",
+    "Homo antecessor",
+    "Homo ergaster"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "'Kuru buz' hangi maddenin katı hâlidir?",
+  "d": "Karbondioksit",
+  "y": [
+   "Kükürt dioksit",
+   "Hidrojen",
+   "Amonyak"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "'Dry ice' is the solid form of which substance?",
+   "d": "Carbon dioxide",
+   "y": [
+    "Sulphur dioxide",
+    "Hydrogen",
+    "Ammonia"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Jüpiter'in hangi uydusunun kalın buz kabuğunun altında sıvı su okyanusu bulunduğu düşünülmektedir?",
+  "d": "Europa",
+  "y": [
+   "Io",
+   "Amalthea",
+   "Himalia"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which of Jupiter's moons is thought to have a liquid water ocean beneath its thick ice shell?",
+   "d": "Europa",
+   "y": [
+    "Io",
+    "Amalthea",
+    "Himalia"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Namib Çölü'ne özgü olan ve yüzyıllarca yaşadığı ömrü boyunca yalnızca iki yaprak büyüten bitki hangisidir?",
+  "d": "Welwitschia",
+  "y": [
+   "Baobab",
+   "Rafflesia",
+   "Nepenthes"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which plant, native to the Namib Desert, grows only two leaves throughout a life that can last centuries?",
+   "d": "Welwitschia",
+   "y": [
+    "Baobab",
+    "Rafflesia",
+    "Nepenthes"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Doğal seçilim kuramını Darwin'den bağımsız olarak geliştiren, Malay Takımadaları'nda çalışmış doğa bilimci kimdir?",
+  "d": "Alfred Russel Wallace",
+  "y": [
+   "Thomas Henry Huxley",
+   "Joseph Dalton Hooker",
+   "Charles Lyell"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which naturalist, who worked in the Malay Archipelago, developed the theory of natural selection independently of Darwin?",
+   "d": "Alfred Russel Wallace",
+   "y": [
+    "Thomas Henry Huxley",
+    "Joseph Dalton Hooker",
+    "Charles Lyell"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Mısıra dayalı beslenmenin yaygın olduğu bölgelerde görülen, niasin (B3 vitamini) eksikliğinden kaynaklanan hastalık hangisidir?",
+  "d": "Pellagra",
+  "y": [
+   "Beriberi",
+   "Skorbüt",
+   "Guatr"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which disease, common where diets rely heavily on maize, is caused by a lack of niacin (vitamin B3)?",
+   "d": "Pellagra",
+   "y": [
+    "Beriberi",
+    "Scurvy",
+    "Goitre"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "D vitamini eksikliğinin çocuklarda kemiklerin yumuşayıp eğilmesine yol açan hastalığı hangisidir?",
+  "d": "Raşitizm",
+  "y": [
+   "Skorbüt",
+   "Beriberi",
+   "Pellagra"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which disease, caused by vitamin D deficiency, softens and bends the bones of children?",
+   "d": "Rickets",
+   "y": [
+    "Scurvy",
+    "Beriberi",
+    "Pellagra"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Olgunlaştıktan sonra yaşam döngüsünü tersine çevirip yeniden gençleşebildiği için 'ölümsüz' diye anılan Turritopsis dohrnii ne tür bir canlıdır?",
+  "d": "Denizanası",
+  "y": [
+   "Deniz yıldızı",
+   "Deniz kestanesi",
+   "Deniz hıyarı"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Turritopsis dohrnii, called 'immortal' because it can reverse its life cycle after maturing, is what kind of animal?",
+   "d": "A jellyfish",
+   "y": [
+    "A starfish",
+    "A sea urchin",
+    "A sea cucumber"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Kara deliklerin kuantum etkileri sayesinde ışıma yayarak zamanla buharlaşabileceğini 1974'te öne süren fizikçi kimdir?",
+  "d": "Stephen Hawking",
+  "y": [
+   "Roger Penrose",
+   "Kip Thorne",
+   "John Wheeler"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which physicist proposed in 1974 that black holes can emit radiation through quantum effects and slowly evaporate?",
+   "d": "Stephen Hawking",
+   "y": [
+    "Roger Penrose",
+    "Kip Thorne",
+    "John Wheeler"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Dünya'yı kendi kendini düzenleyen tek bir sistem olarak ele alan Gaia hipotezini 1970'lerde öneren bilim insanı kimdir?",
+  "d": "James Lovelock",
+  "y": [
+   "E. O. Wilson",
+   "Richard Dawkins",
+   "Carl Woese"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which scientist proposed the Gaia hypothesis in the 1970s, treating Earth as a single self-regulating system?",
+   "d": "James Lovelock",
+   "y": [
+    "E. O. Wilson",
+    "Richard Dawkins",
+    "Carl Woese"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Mauritius adasına özgü olan ve 17. yüzyılda soyu tükenen uçamayan kuş hangisidir?",
+  "d": "Dodo",
+  "y": [
+   "Moa",
+   "Büyük auk",
+   "Kivi"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which flightless bird, found only on Mauritius, became extinct in the 17th century?",
+   "d": "The dodo",
+   "y": [
+    "The moa",
+    "The great auk",
+    "The kiwi"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Yelpaze biçimli yapraklarıyla tanınan ve 'yaşayan fosil' sayılan ağaç hangisidir?",
+  "d": "Ginkgo",
+  "y": [
+   "Çınar",
+   "Ihlamur",
+   "Akçaağaç"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which tree, known for its fan-shaped leaves, is considered a 'living fossil'?",
+   "d": "Ginkgo",
+   "y": [
+    "Plane tree",
+    "Linden",
+    "Maple"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Hacim bakımından dünyanın en büyük tek gövdeli ağacı sayılan 'General Sherman' hangi türdendir?",
+  "d": "Dev sekoya",
+  "y": [
+   "Kıyı sekoyası",
+   "Okaliptüs",
+   "Baobab"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "'General Sherman', considered the world's largest single-trunk tree by volume, is of which species?",
+   "d": "Giant sequoia",
+   "y": [
+    "Coast redwood",
+    "Eucalyptus",
+    "Baobab"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "1974'te Etiyopya'da bulunan ünlü 'Lucy' fosili hangi türe aittir?",
+  "d": "Australopithecus afarensis",
+  "y": [
+   "Australopithecus africanus",
+   "Ardipithecus ramidus",
+   "Paranthropus boisei"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "The famous 'Lucy' fossil, found in Ethiopia in 1974, belongs to which species?",
+   "d": "Australopithecus afarensis",
+   "y": [
+    "Australopithecus africanus",
+    "Ardipithecus ramidus",
+    "Paranthropus boisei"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Dünya'da bulunmadan önce 1868'de bir Güneş tutulması sırasında Güneş'in tayfında saptanan element hangisidir?",
+  "d": "Helyum",
+  "y": [
+   "Neon",
+   "Argon",
+   "Kripton"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which element was detected in the Sun's spectrum during an 1868 solar eclipse before it was found on Earth?",
+   "d": "Helium",
+   "y": [
+    "Neon",
+    "Argon",
+    "Krypton"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Bal arıları peteklerini hangi maddeden örer?",
+  "d": "Balmumu",
+  "y": [
+   "Reçine",
+   "Kil",
+   "Polen"
+  ],
+  "zorluk": 1,
+  "en": {
+   "s": "What material do honeybees build their honeycombs from?",
+   "d": "Beeswax",
+   "y": [
+    "Resin",
+    "Clay",
+    "Pollen"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Voyager 1'in 1990'da yaklaşık 6 milyar km uzaktan çektiği Dünya fotoğrafına 'Soluk Mavi Nokta' adını veren bilim insanı kimdir?",
+  "d": "Carl Sagan",
+  "y": [
+   "Stephen Hawking",
+   "Frank Drake",
+   "Neil deGrasse Tyson"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which scientist named Voyager 1's 1990 photo of Earth, taken from about 6 billion km away, the 'Pale Blue Dot'?",
+   "d": "Carl Sagan",
+   "y": [
+    "Stephen Hawking",
+    "Frank Drake",
+    "Neil deGrasse Tyson"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Hawaii'deki Mauna Loa Gözlemevi'nde 1958'den beri ölçülen atmosferdeki karbondioksit artışı grafiği kimin adıyla anılır?",
+  "d": "Keeling",
+  "y": [
+   "Revelle",
+   "Arrhenius",
+   "Callendar"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "The graph of rising atmospheric carbon dioxide measured at Hawaii's Mauna Loa Observatory since 1958 is named after whom?",
+   "d": "Keeling",
+   "y": [
+    "Revelle",
+    "Arrhenius",
+    "Callendar"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Tanzanya'daki Gombe'de şempanzelerin alet yapıp kullandığını ilk gözlemleyen primatolog kimdir?",
+  "d": "Jane Goodall",
+  "y": [
+   "Dian Fossey",
+   "Biruté Galdikas",
+   "Cheryl Knott"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which primatologist first observed chimpanzees making and using tools at Gombe in Tanzania?",
+   "d": "Jane Goodall",
+   "y": [
+    "Dian Fossey",
+    "Biruté Galdikas",
+    "Cheryl Knott"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Sibirya'daki Altay Dağları'nda bir mağarada bulunan parmak kemiğinin DNA'sıyla tanımlanan eski insan grubu hangisidir?",
+  "d": "Denisovalılar",
+  "y": [
+   "Neandertaller",
+   "Cro-Magnonlar",
+   "Grimaldiler"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which archaic human group was identified from the DNA of a finger bone found in a cave in Siberia's Altai Mountains?",
+   "d": "Denisovans",
+   "y": [
+    "Neanderthals",
+    "Cro-Magnons",
+    "Grimaldi people"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Güneş Sistemi'ni en dıştan küresel bir kabuk gibi sardığı düşünülen, uzun dönemli kuyruklu yıldızların kaynağı sayılan yapı hangisidir?",
+  "d": "Oort Bulutu",
+  "y": [
+   "Kuiper Kuşağı",
+   "Dağınık Disk",
+   "Asteroit Kuşağı"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which structure, thought to surround the Solar System like a spherical shell, is considered the source of long-period comets?",
+   "d": "The Oort Cloud",
+   "y": [
+    "The Kuiper Belt",
+    "The Scattered Disc",
+    "The Asteroid Belt"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Charles Darwin'in 1831-1836 yılları arasında dünya çevresinde yaptığı yolculuktaki geminin adı nedir?",
+  "d": "HMS Beagle",
+  "y": [
+   "HMS Endeavour",
+   "HMS Bounty",
+   "HMS Victory"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "What was the name of the ship on which Charles Darwin sailed around the world from 1831 to 1836?",
+   "d": "HMS Beagle",
+   "y": [
+    "HMS Endeavour",
+    "HMS Bounty",
+    "HMS Victory"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "1415'te Konstanz Konsili kararıyla yakılan Bohemyalı din reformcusu kimdir?",
+  "d": "Jan Hus",
+  "y": [
+   "Jan Žižka",
+   "Ulrich Zwingli",
+   "Girolamo Savonarola"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which Bohemian church reformer was burned at the stake in 1415 by order of the Council of Constance?",
+   "d": "Jan Hus",
+   "y": [
+    "Jan Žižka",
+    "Ulrich Zwingli",
+    "Girolamo Savonarola"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Lale soğanı fiyatlarının fırlayıp 1637'de çöktüğü 'Lale Çılgınlığı' hangi ülkede yaşanmıştır?",
+  "d": "Hollanda",
+  "y": [
+   "Fransa",
+   "Portekiz",
+   "İsviçre"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In which country did 'Tulip Mania', when tulip bulb prices soared and then crashed in 1637, take place?",
+   "d": "Netherlands",
+   "y": [
+    "France",
+    "Portugal",
+    "Switzerland"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "IV. Murad ve Sultan İbrahim'in annesi olan, 1651'de saray içinde öldürülen valide sultan kimdir?",
+  "d": "Kösem Sultan",
+  "y": [
+   "Hürrem Sultan",
+   "Safiye Sultan",
+   "Nurbanu Sultan"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which valide sultan, mother of Murad IV and Sultan Ibrahim, was killed inside the palace in 1651?",
+   "d": "Kösem Sultan",
+   "y": [
+    "Hürrem Sultan",
+    "Safiye Sultan",
+    "Nurbanu Sultan"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Almanya'nın 22 Haziran 1941'de Sovyetler Birliği'ne başlattığı saldırının kod adı nedir?",
+  "d": "Barbarossa",
+  "y": [
+   "Deniz Aslanı",
+   "Zitadelle",
+   "Weserübung"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "What was the code name of Germany's invasion of the Soviet Union launched on 22 June 1941?",
+   "d": "Barbarossa",
+   "y": [
+    "Sea Lion",
+    "Citadel",
+    "Weserübung"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "1890'da Japonya dönüşünde Kuşimoto açıklarında fırtınada batan Osmanlı gemisi hangisidir?",
+  "d": "Ertuğrul",
+  "y": [
+   "Hamidiye",
+   "Mecidiye",
+   "Nusret"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which Ottoman ship sank in a storm off Kushimoto in 1890 while returning from Japan?",
+   "d": "Ertuğrul",
+   "y": [
+    "Hamidiye",
+    "Mecidiye",
+    "Nusret"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Apollo 11 görevinde Ay'a inmeyip Columbia komuta modülünde yörüngede kalan astronot kimdir?",
+  "d": "Michael Collins",
+  "y": [
+   "Edwin Aldrin",
+   "James Lovell",
+   "Charles Conrad"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which Apollo 11 astronaut stayed in lunar orbit aboard the command module Columbia instead of landing on the Moon?",
+   "d": "Michael Collins",
+   "y": [
+    "Edwin Aldrin",
+    "James Lovell",
+    "Charles Conrad"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "1989'da Çekoslovakya'daki Kadife Devrim'in ardından cumhurbaşkanı olan oyun yazarı kimdir?",
+  "d": "Václav Havel",
+  "y": [
+   "Alexander Dubček",
+   "Gustáv Husák",
+   "Milan Kundera"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which playwright became president after Czechoslovakia's 1989 Velvet Revolution?",
+   "d": "Václav Havel",
+   "y": [
+    "Alexander Dubček",
+    "Gustáv Husák",
+    "Milan Kundera"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Tarihin en kısa savaşı sayılan ve 1896'da 40 dakika kadar süren savaş Britanya ile hangi sultanlık arasında yapılmıştır?",
+  "d": "Zanzibar",
+  "y": [
+   "Brunei",
+   "Johor",
+   "Lahej"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "The shortest war in history, lasting about 40 minutes in 1896, was fought between Britain and which sultanate?",
+   "d": "Zanzibar",
+   "y": [
+    "Brunei",
+    "Johor",
+    "Lahej"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Osmanlı dış borçlarını yönetmek için Düyun-u Umumiye İdaresi'nin kurulmasını sağlayan 1881 tarihli belge hangisidir?",
+  "d": "Muharrem Kararnamesi",
+  "y": [
+   "Islahat Fermanı",
+   "Kanun-ı Esasi",
+   "Tanzimat Fermanı"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which 1881 decree set up the Ottoman Public Debt Administration to manage the empire's foreign debts?",
+   "d": "Decree of Muharrem",
+   "y": [
+    "Imperial Reform Edict",
+    "Ottoman Constitution",
+    "Tanzimat Edict"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Fransa Kraliçesi Marie Antoinette doğuştan hangi ülkenin prensesiydi?",
+  "d": "Avusturya",
+  "y": [
+   "İspanya",
+   "Bavyera",
+   "Savoya"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Queen Marie Antoinette of France was born a princess of which country?",
+   "d": "Austria",
+   "y": [
+    "Spain",
+    "Bavaria",
+    "Savoy"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "1932'de Avustralya ordusunun makineli tüfeklerle, ekinlere zarar veren hangi kuşlara karşı başarısız bir 'savaş' yürüttüğü bilinir?",
+  "d": "Emu",
+  "y": [
+   "Kazuar",
+   "Kakadu",
+   "Pelikan"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "In 1932 the Australian army waged an unsuccessful 'war' with machine guns against which crop-damaging birds?",
+   "d": "Emus",
+   "y": [
+    "Cassowaries",
+    "Cockatoos",
+    "Pelicans"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "1919'da dev bir tanktan taşan melasın 21 kişinin ölümüne yol açtığı 'Büyük Melas Seli' hangi şehirde yaşanmıştır?",
+  "d": "Boston",
+  "y": [
+   "Chicago",
+   "Baltimore",
+   "Philadelphia"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "In which city did the 1919 'Great Molasses Flood', which killed 21 people when a huge tank burst, take place?",
+   "d": "Boston",
+   "y": [
+    "Chicago",
+    "Baltimore",
+    "Philadelphia"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "1974'te askerlerin tüfek namlularına karanfil taktığı ve diktatörlüğü deviren kansız darbe hangi ülkede olmuştur?",
+  "d": "Portekiz",
+  "y": [
+   "İspanya",
+   "Yunanistan",
+   "İtalya"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In which country did the bloodless 1974 coup, in which soldiers put carnations in their rifle barrels, bring down the dictatorship?",
+   "d": "Portugal",
+   "y": [
+    "Spain",
+    "Greece",
+    "Italy"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Kuzey Amerika'ya ayak basan ilk Avrupalı sayılan Viking kâşif kimdir?",
+  "d": "Leif Erikson",
+  "y": [
+   "Kızıl Erik",
+   "Harald Hardrada",
+   "Ragnar Lodbrok"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which Viking explorer is regarded as the first European to set foot in North America?",
+   "d": "Leif Erikson",
+   "y": [
+    "Erik the Red",
+    "Harald Hardrada",
+    "Ragnar Lodbrok"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Osmanlı Devleti Bağdat Demiryolu'nun yapım imtiyazını hangi ülkenin şirketine vermiştir?",
+  "d": "Almanya",
+  "y": [
+   "Britanya",
+   "Fransa",
+   "Avusturya-Macaristan"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "The Ottoman Empire granted the concession to build the Baghdad Railway to a company from which country?",
+   "d": "Germany",
+   "y": [
+    "Britain",
+    "France",
+    "Austria-Hungary"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Ağabeyi II. Bayezid'le taht mücadelesini kaybedip ömrünün sonunu Rodos şövalyeleri ve Papalığın gözetiminde geçiren şehzade kimdir?",
+  "d": "Cem Sultan",
+  "y": [
+   "Şehzade Korkut",
+   "Şehzade Mustafa",
+   "Şehzade Bayezid"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which Ottoman prince lost the struggle for the throne to his brother Bayezid II and spent the rest of his life in the custody of the Knights of Rhodes and the Papacy?",
+   "d": "Cem Sultan",
+   "y": [
+    "Prince Korkut",
+    "Prince Mustafa",
+    "Prince Bayezid"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Bizans'ın deniz savaşlarında kullandığı, suyla sönmeyen 'Rum ateşi'ni 7. yüzyılda geliştirdiği anlatılan mimar kimdir?",
+  "d": "Kallinikos",
+  "y": [
+   "Anthemios",
+   "İsidoros",
+   "Prokopios"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which architect is said to have developed 'Greek fire', the Byzantine naval weapon that water could not put out, in the 7th century?",
+   "d": "Kallinikos",
+   "y": [
+    "Anthemios",
+    "Isidore",
+    "Procopius"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "1913 Bâbıâli Baskını sırasında öldürülen Harbiye Nazırı kimdir?",
+  "d": "Nazım Paşa",
+  "y": [
+   "Kâmil Paşa",
+   "Said Halim Paşa",
+   "Hüseyin Hilmi Paşa"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which Ottoman Minister of War was killed during the 1913 Raid on the Sublime Porte?",
+   "d": "Nazım Pasha",
+   "y": [
+    "Kâmil Pasha",
+    "Said Halim Pasha",
+    "Hüseyin Hilmi Pasha"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Yüzlerce kişinin günlerce durmadan dans ettiği 1518 'dans salgını' hangi şehirde görülmüştür?",
+  "d": "Strazburg",
+  "y": [
+   "Nürnberg",
+   "Frankfurt",
+   "Augsburg"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "In which city did the 1518 'dancing plague', when hundreds of people danced for days without stopping, break out?",
+   "d": "Strasbourg",
+   "y": [
+    "Nuremberg",
+    "Frankfurt",
+    "Augsburg"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Japon mutfağında pirinç kullanılmadan ince dilimlenerek sunulan çiğ balığa ne ad verilir?",
+  "d": "Sashimi",
+  "y": [
+   "Tempura",
+   "Yakitori",
+   "Teriyaki"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In Japanese cuisine, what is thinly sliced raw fish served without rice called?",
+   "d": "Sashimi",
+   "y": [
+    "Tempura",
+    "Yakitori",
+    "Teriyaki"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "İki parçalı 'bikini' mayoyu 1946'da bu adla tanıtan Fransız tasarımcı kimdir?",
+  "d": "Louis Réard",
+  "y": [
+   "Christian Dior",
+   "Hubert de Givenchy",
+   "Paul Poiret"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which French designer introduced the two-piece swimsuit under the name 'bikini' in 1946?",
+   "d": "Louis Réard",
+   "y": [
+    "Christian Dior",
+    "Hubert de Givenchy",
+    "Paul Poiret"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "İtalyan mutfağında makarnanın 'al dente' pişirilmesi ne anlama gelir?",
+  "d": "Dişe gelecek kıvamda",
+  "y": [
+   "Tamamen yumuşayana dek",
+   "Tereyağında çevrilerek",
+   "Buharda yavaşça pişerek"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In Italian cooking, what does it mean to cook pasta 'al dente'?",
+   "d": "Slightly firm",
+   "y": [
+    "Completely soft",
+    "Butter-tossed",
+    "Slowly steamed"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "'Jumbo' kelimesini 'dev boy' anlamında yaygınlaştıran, 1882'de Londra Hayvanat Bahçesi'nden Barnum Sirki'ne satılan hayvan neydi?",
+  "d": "Bir fil",
+  "y": [
+   "Bir zürafa",
+   "Bir su aygırı",
+   "Bir gergedan"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "The word 'jumbo', meaning extra large, was popularised by which animal sold by London Zoo to Barnum's circus in 1882?",
+   "d": "An elephant",
+   "y": [
+    "A giraffe",
+    "A hippopotamus",
+    "A rhinoceros"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Telsizde kullanılan 'Mayday' tehlike çağrısı hangi dildeki bir ifadeden türemiştir?",
+  "d": "Fransızca",
+  "y": [
+   "İspanyolca",
+   "İtalyanca",
+   "Almanca"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "The radio distress call 'Mayday' comes from a phrase in which language?",
+   "d": "French",
+   "y": [
+    "Spanish",
+    "Italian",
+    "German"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "İtalyan kahvesi 'cappuccino' adını hangi grubun giysisinin renginden alır?",
+  "d": "Kapuçin keşişleri",
+  "y": [
+   "Benediktin keşişleri",
+   "Dominiken rahipleri",
+   "Kartuziyen rahipleri"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "The Italian coffee 'cappuccino' is named after the colour of which group's habits?",
+   "d": "Capuchin friars",
+   "y": [
+    "Benedictine monks",
+    "Dominican friars",
+    "Carthusian monks"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Domates, mozzarella ve fesleğeniyle İtalyan bayrağını andıran pizza hangi kraliçenin adını taşır?",
+  "d": "Margherita",
+  "y": [
+   "Elena",
+   "Vittoria",
+   "Maria José"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which queen gave her name to the pizza whose tomato, mozzarella and basil echo the Italian flag?",
+   "d": "Margherita",
+   "y": [
+    "Elena",
+    "Vittoria",
+    "Maria José"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Lale anlamındaki İngilizce 'tulip' kelimesi, çiçeğin benzetildiği hangi Türkçe kelimeye dayanır?",
+  "d": "Tülbent",
+  "y": [
+   "Turna",
+   "Tulum",
+   "Türbe"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "The English word 'tulip' goes back to a Turkish word for which item that the flower was likened to?",
+   "d": "Turban",
+   "y": [
+    "Crane",
+    "Bagpipe",
+    "Tomb"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Fındıklı kakao kreması Nutella'yı üreten İtalyan şirketi hangisidir?",
+  "d": "Ferrero",
+  "y": [
+   "Barilla",
+   "Lavazza",
+   "Perugina"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which Italian company makes the hazelnut cocoa spread Nutella?",
+   "d": "Ferrero",
+   "y": [
+    "Barilla",
+    "Lavazza",
+    "Perugina"
+   ]
+  }
+ }
+]

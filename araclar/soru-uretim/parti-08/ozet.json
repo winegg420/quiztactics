@@ -1,0 +1,102 @@
+{
+  "parti": 8,
+  "tarih": "2026-09-23",
+  "taslak": 128,
+  "net": 100,
+  "kota": {
+    "teknoloji": 28,
+    "edebiyat": 22,
+    "bilim": 22,
+    "tarih": 19,
+    "genel_kultur": 9
+  },
+  "zorluk_hedef": {
+    "3": 30,
+    "4": 35,
+    "5": 20,
+    "1-2": 15
+  },
+  "eksik": {},
+  "elenen_sebep": {
+    "kota_fazlasi": 28
+  },
+  "kova": {
+    "teknoloji": 28,
+    "edebiyat": 22,
+    "bilim": 22,
+    "tarih": 19,
+    "genel_kultur": 9
+  },
+  "kategori": {
+    "teknoloji": 28,
+    "edebiyat": 22,
+    "bilim": 22,
+    "tarih": 19,
+    "genel_kultur": 9
+  },
+  "zorluk": [
+    3,
+    12,
+    28,
+    37,
+    20
+  ],
+  "zorluk_kova": {
+    "3": 28,
+    "4": 37,
+    "5": 20,
+    "1-2": 15
+  },
+  "cevrilmeyen": 2,
+  "jev": {
+    "cagri": 458,
+    "girdi_jetonu": 309204,
+    "usd": 0.013,
+    "not": "jev.jsonl içindeki tüm denemeler dahil (düzeltilip yeniden sorulanlar da)"
+  },
+  "zorluk_etiket_duzeltme": [
+    {
+      "s": "'Uğultulu Tepeler'de Earnshaw ailesinin evlat edindiği, Catherine'e tutkuyla bağlı kahraman kimdir?",
+      "d": "Heathcliff",
+      "eski": 2,
+      "yeni": 3,
+      "neden": "yazar 2, Jev seviye 4 (puan 3.16)"
+    },
+    {
+      "s": "'Robinson Crusoe'nun yazarı Daniel Defoe, romanı yazarken hangi gerçek kazazedenin öyküsünden esinlenmiştir?",
+      "d": "Alexander Selkirk",
+      "eski": 5,
+      "yeni": 4,
+      "neden": "yazar 5, Jev seviye 3 (puan 2.69)"
+    },
+    {
+      "s": "1932'de Avustralya ordusunun makineli tüfeklerle, ekinlere zarar veren hangi kuşlara karşı başarısız bir 'savaş' yürüttüğü bilinir?",
+      "d": "Emu",
+      "eski": 3,
+      "yeni": 4,
+      "neden": "yazar 3, Jev seviye 5 (puan 3.48)"
+    },
+    {
+      "s": "1890'da Japonya dönüşünde Kuşimoto açıklarında fırtınada batan Osmanlı gemisi hangisidir?",
+      "d": "Ertuğrul",
+      "eski": 3,
+      "yeni": 4,
+      "neden": "yazar 3, Jev seviye 5 (puan 3.51)"
+    },
+    {
+      "s": "IV. Murad ve Sultan İbrahim'in annesi olan, 1651'de saray içinde öldürülen valide sultan kimdir?",
+      "d": "Kösem Sultan",
+      "eski": 3,
+      "yeni": 4,
+      "neden": "yazar 3, Jev seviye 5 (puan 3.61)"
+    },
+    {
+      "s": "Hewlett-Packard'ın ilk ürünü olan ses osilatörünü 'Fantasia' filmi için satın alan stüdyo hangisidir?",
+      "d": "Walt Disney",
+      "eski": 3,
+      "yeni": 4,
+      "neden": "yazar 3, Jev seviye 5 (puan 4.21)"
+    }
+  ],
+  "elenenler": []
+}
