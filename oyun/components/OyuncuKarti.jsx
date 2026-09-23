@@ -12,6 +12,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
 import AvatarCerceve from "./AvatarCerceve.jsx";
+import VitrinRozetleri from "./VitrinRozetleri.jsx";
 import { QtModal, QtDugme, QtIkon, QtIskelet, sayiBicim } from "../tasarim/index.js";
 import "../tasarim/ekranlar/l-kart.css";
 import RankBadge from "./RankBadge.jsx";
@@ -135,7 +136,7 @@ export default function OyuncuKarti({
     >
       <div className="ok-ust">
         <span className="ok-avatar">
-          <AvatarCerceve profile={p ?? {}} boyut={96} userId={userId} />
+          <AvatarCerceve profile={p ?? {}} boyut={96} userId={userId} hareketli />
           {online && (
             <span className="ok-cevrimici" title={tt("Şu an oyunda")}>
               <span className="qt-gizli">{tt("Şu an oyunda")}</span>
@@ -157,6 +158,7 @@ export default function OyuncuKarti({
             <span className="ok-konum"><Bayrak kod={p.ulke} boyut={16} /> {p.sehir ?? ""}</span>
           )}
         </div>
+        {userId && <VitrinRozetleri userId={userId} boyut={36} className="ok-vitrin" />}
       </div>
 
       {hata && (

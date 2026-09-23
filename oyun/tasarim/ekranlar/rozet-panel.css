@@ -1,0 +1,101 @@
+/* Profil › Rozetler (RozetlerPaneli.jsx) — qt-rp- öneki. Vitrin, grup ızgaraları, açıklama penceresi. */
+.qt-rp { display: grid; gap: var(--qt-b-3); min-width: 0; }
+.qt-rp-kart { display: grid; gap: var(--qt-b-3); min-width: 0; }
+.qt-rp-baslik { display: flex; align-items: center; justify-content: space-between; gap: var(--qt-b-2); }
+.qt-rp-baslik h2, .qt-rp-baslik h3 { margin: 0; }
+
+.qt-rp-vitrin { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--qt-b-2); }
+.qt-rp-vitrin-yuva {
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: var(--qt-b-2);
+  width: 100%;
+  min-height: 118px;
+  padding: var(--qt-b-3) var(--qt-b-1);
+  border: 0;
+  border-radius: var(--qt-r-m);
+  background: var(--qt-yuzey-2);
+  font: inherit;
+  color: inherit;
+}
+.qt-rp-vitrin-yuva--dolu { cursor: pointer; }
+.qt-rp-bos {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 3px dashed var(--qt-cizgi-guclu);
+}
+
+.qt-rp-izgara { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: var(--qt-b-2); }
+.qt-rp-rozet {
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: var(--qt-b-2);
+  width: 100%;
+  min-height: 44px;
+  height: 100%;
+  padding: var(--qt-b-3) var(--qt-b-1) var(--qt-b-2);
+  border: 0;
+  border-radius: var(--qt-r-m);
+  background: var(--qt-yuzey-2);
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  transition: transform var(--qt-s-basma) var(--qt-egri-cikis);
+}
+.qt-rp-rozet:active { transform: scale(0.97); }
+.qt-rp-ad {
+  font-size: var(--qt-y-xs);
+  font-weight: var(--qt-a-siyah);
+  line-height: 1.25;
+  text-align: center;
+  color: var(--qt-metin);
+  overflow-wrap: anywhere;
+}
+.qt-rp-rozet--kilitli .qt-rp-ad { color: var(--qt-metin-soluk); }
+.qt-rp-ilerleme { display: grid; gap: 2px; width: 100%; padding-inline: var(--qt-b-1); }
+.qt-rp-sayi { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); text-align: center; }
+
+.qt-rp-detay { display: grid; justify-items: center; gap: var(--qt-b-3); text-align: center; padding-top: var(--qt-b-2); }
+.qt-rp-detay p { margin: 0; }
+.qt-rp-detay-etiketler { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--qt-b-2); }
+.qt-rp-detay-ilerleme { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: var(--qt-b-2); width: 100%; }
+.qt-rp-kademe {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 var(--qt-b-2);
+  border-radius: var(--qt-r-hap);
+  font-size: var(--qt-y-xs);
+  font-weight: var(--qt-a-siyah);
+  color: var(--qt-metin);
+  background: var(--qt-madalyon-bronz-acik);
+}
+.qt-rp-kademe[data-kademe="gumus"] { background: var(--qt-madalyon-gumus-acik); }
+.qt-rp-kademe[data-kademe="altin"] { background: var(--qt-madalyon-altin-acik); }
+.qt-rp-kademe[data-kademe="elmas"] { background: var(--qt-madalyon-elmas-acik); }
+.qt-rp-hata { margin: 0; color: var(--qt-yanlis-koyu); font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); }
+
+/* Vitrin rozetleri (profil kartı / oyuncu kartı) */
+.qt-vitrin { display: inline-flex; align-items: center; gap: var(--qt-b-1); }
+.qt-pf-vitrin { margin-top: var(--qt-b-2); }
+.ok-vitrin { justify-self: center; margin-top: var(--qt-b-1); }
+
+/* Yeni rozet tostu (RozetBildirimi.jsx) — madalyonda tek seferlik parıltı */
+.qt-rb { align-items: center; }
+.qt-rb-madalyon { position: relative; display: grid; place-items: center; flex: none; border-radius: 50%; overflow: hidden; padding: 2px 2px 6px; }
+.qt-rb-parilti {
+  position: absolute;
+  top: -20%;
+  bottom: -20%;
+  left: 0;
+  width: 40%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.85), transparent);
+  transform: translateX(-160%) skewX(-18deg);
+  animation: qt-rb-parilti 900ms var(--qt-egri-cikis) 250ms both;
+  pointer-events: none;
+}
+@keyframes qt-rb-parilti { to { transform: translateX(320%) skewX(-18deg); } }
+@media (prefers-reduced-motion: reduce) { .qt-rb-parilti { animation: none; opacity: 0; } }

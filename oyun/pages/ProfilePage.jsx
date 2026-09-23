@@ -6,7 +6,9 @@ import { Link, useLocation } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import AvatarCerceve from "../components/AvatarCerceve.jsx";
-import LigCerceveSecici from "../components/LigCerceveSecici.jsx";
+import RozetlerPaneli from "../components/RozetlerPaneli.jsx";
+import CerceveSecici from "../components/CerceveSecici.jsx";
+import VitrinRozetleri from "../components/VitrinRozetleri.jsx";
 import LevelCubugu from "../components/LevelCubugu.jsx";
 import SayanSayi from "../components/SayanSayi.jsx";
 import KonumSecici from "../components/KonumSecici.jsx";
@@ -28,7 +30,7 @@ import {
   bildirimleriAc,
   bildirimleriKapat,
 } from "../lib/push.js";
-import { DILLER, tt, ttSunucu } from "../lib/dil.js";
+import { DILLER, tt } from "../lib/dil.js";
 import { useDil } from "../lib/dilKanca.js";
 import { HesapGuvenceKarti, misafirMi } from "../components/HesapGuvence.jsx";
 import {
@@ -44,13 +46,9 @@ import {
   QtRozet,
   QtSekmeler,
   sayiBicim,
-  QT_IKON_ADLARI,
-  IKON_TAKMA_AD,
 } from "../tasarim/index.js";
 import "../tasarim/ekranlar/dukkan-profil.css";
 
-// Rozet ikonu sunucudan gelir: bazıları ikon adı ("kisiler"), bazıları emoji.
-const ikonAdiMi = (x) => typeof x === "string" && (QT_IKON_ADLARI.includes(x) || Boolean(IKON_TAKMA_AD[x]));
 
 const SEKME_KODLARI = ["istatistik", "ayarlar", "rozet", "davet"];
 
@@ -59,8 +57,6 @@ export default function ProfilePage() {
   // Paket 41 A: profil hiç gelmezse sonsuza dek "Yükleniyor…" kalınmaz
   const profilGecikti = useZamanAsimi(!profile);
   const { dil, dilDegistir } = useDil();
-  const [rozetler, setRozetler] = useState([]);
-  const [kazanilan, setKazanilan] = useState(new Set());
   const [kopyalandi, setKopyalandi] = useState(false);
   // Profil dört sekmeye ayrıldı; varsayılan İstatistiklerim.
   const [sekme, setSekme] = useState("istatistik");
@@ -125,21 +121,6 @@ export default function ProfilePage() {
       aktif = false;
     };
   }, []);
-
-  useEffect(() => {
-    supabase.from("badges").select("*").then(({ data, error }) => {
-      if (error) console.error("[Bildim] rozetler okunamadı:", error.message);
-      setRozetler(data ?? []);
-    });
-    supabase
-      .from("user_badges")
-      .select("badge_id")
-      .eq("user_id", user.id)
-      .then(({ data, error }) => {
-        if (error) console.error("[Bildim] kazanılan rozetler okunamadı:", error.message);
-        setKazanilan(new Set((data ?? []).map((b) => b.badge_id)));
-      });
-  }, [user.id]);
 
   if (!profile) {
     return (
@@ -237,7 +218,7 @@ export default function ProfilePage() {
       {/* ---------- Kimlik: avatar (lig çerçevesiyle), takma ad, rütbe, level ---------- */}
       <QtKart className="qt-pf-kimlik">
         <span className="qt-pf-avatar">
-          <AvatarCerceve profile={profile} boyut={88} userId={user?.id} />
+          <AvatarCerceve profile={profile} boyut={88} userId={user?.id} hareketli />
         </span>
         <div className="qt-pf-kimlik-metin">
           {/* Görünen ad takma addır; gerçek kullanıcı adı gösterilmez. */}
@@ -247,6 +228,7 @@ export default function ProfilePage() {
             {/* Paket 20 III: misafir hesabı her yerde belli olsun */}
             {misafirMi(user) && <QtRozet ton="uyari" ikon="kisi">{tt("Misafir")}</QtRozet>}
           </div>
+          {user?.id && <VitrinRozetleri userId={user.id} boyut={36} className="qt-pf-vitrin" />}
         </div>
         <div className="qt-pf-level">
           <LevelCubugu profile={profile} />
@@ -459,30 +441,9 @@ export default function ProfilePage() {
         </>)}
 
         {sekme === "rozet" && (<>
-          <QtKart as="section" className="qt-pf-bolum" aria-labelledby="qt-pf-rozetler">
-            <div className="qt-pf-bolum-baslik">
-              <h2 id="qt-pf-rozetler" className="qt-baslik-3">{tt("Rozetler")}</h2>
-              <QtRozet ton="coin" boyut="k">{kazanilan.size}/{rozetler.length}</QtRozet>
-            </div>
-            <ul className="qt-pf-rozet-izgara">
-              {rozetler.map((b) => {
-                const var_mi = kazanilan.has(b.id);
-                return (
-                  <li key={b.id} className={"qt-pf-rozet" + (var_mi ? "" : " qt-pf-rozet--kilitli")}>
-                    <span className="qt-pf-rozet-ikon" aria-hidden="true">
-                      <span className="qt-pf-rozet-simge">{ikonAdiMi(b.ikon) ? <QtIkon ad={b.ikon} boyut={28} /> : b.ikon}</span>
-                      {!var_mi && <span className="qt-pf-rozet-kilit"><QtIkon ad="kilit" boyut={12} /></span>}
-                    </span>
-                    <span className="qt-pf-rozet-ad">{ttSunucu(b.ad)}</span>
-                    <span className="qt-pf-rozet-aciklama">{ttSunucu(b.aciklama)}</span>
-                    {!var_mi && <span className="qt-gizli">{tt("Kilitli")}</span>}
-                  </li>
-                );
-              })}
-            </ul>
-          </QtKart>
-          {/* 2D-E: lig çerçeveleri (lig atlayınca kazanılır, kalıcı) */}
-          {user?.id && <LigCerceveSecici profile={profile} userId={user.id} />}
+          {/* Rozet + çerçeve paketi: gruplu madalyonlar, ilerleme, vitrin; sahip olunan çerçeveler */}
+          {user?.id && <RozetlerPaneli userId={user.id} />}
+          {user?.id && <CerceveSecici profile={profile} userId={user.id} />}
         </>)}
 
         {sekme === "davet" && (

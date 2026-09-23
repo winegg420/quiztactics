@@ -123,7 +123,7 @@
 }
 
 /* Durumlar */
-.qt-madalyon[data-durum="kilitli"] { filter: grayscale(0.85); opacity: 0.5; }
+.qt-madalyon[data-durum="kilitli"] { filter: grayscale(0.55); opacity: 0.55; }
 .qt-madalyon[data-durum="gizli"] .qt-madalyon-yuz { color: var(--qt-madalyon-gizli-acik); }
 .qt-madalyon[data-durum="gizli"] .qt-madalyon-sembol { filter: drop-shadow(0 calc(var(--_b, 48px) * 0.028) 0 var(--qt-madalyon-gizli-koyu)); }
 
@@ -131,3 +131,7 @@
 .qt-madalyon--kucuk::after,
 .qt-madalyon--kucuk .qt-madalyon-yuz::after { content: none !important; }
 .qt-madalyon--kucuk .qt-madalyon-yuz { width: 78%; height: 78%; }
+
+/* Kategori ustalığı sembolü (KategoriIkon) madalyonda beyaz ve tam boy */
+.qt-madalyon-sembol .qt-madalyon-kat { display: grid; place-items: center; width: 100%; height: 100%; }
+.qt-madalyon-sembol .qt-madalyon-kat svg { width: 100%; height: 100%; fill: currentColor; }

@@ -10,6 +10,7 @@ import DavetBandi from "./DavetBandi.jsx";
 import Tanitim from "./Tanitim.jsx";
 import { useBildimManifest } from "../lib/manifest.js";
 import BildirimToast from "./BildirimToast.jsx";
+import RozetBildirimi from "./RozetBildirimi.jsx";
 import { QtUstCubuk, QtUstMenu, QtAltMenu, QtIkonDugme } from "../tasarim/index.js";
 // Başlık logosu Yön A öncesi hâline döndü (72b1fb4^): resmi Logo wordmark'ı.
 import Logo from "./Logo.jsx";
@@ -201,6 +202,7 @@ export default function Layout() {
 
         {profile && <DavetBandi />}
         <BildirimToast />
+        {profile && <RozetBildirimi />}
       </div>
 
       {/* Kabuk 1180 px. `.shell` sınıfı henüz yeniden yazılmamış sayfaların

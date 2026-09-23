@@ -8,9 +8,27 @@
  * <RozetMadalyonu grup="gizli" gizli boyut={40} />
  */
 import { ROZET_SEMBOLLERI } from "./rozetSembolleri.jsx";
+import KategoriIkon from "./KategoriIkon.jsx";
 import "../tasarim/ekranlar/rozet-madalyon.css";
 
 export const KADEMELER = ["bronz", "gumus", "altin", "elmas"];
+
+/** Sunucunun Phosphor ikon önerisi → elimizdeki sembol anahtarı (olmayanlar grup sembolüne düşer). */
+const IKON_SEMBOL = {
+  star: "level", trophy: "klasik", sword: "duello", fire: "seri", flame: "seri", crown: "turnuva",
+  "shield-star": "lig", lightning: "ozel", "users-three": "sosyal", question: "gizli", "graduation-cap": "kategori",
+};
+
+/**
+ * Rozetin kendi sembolü: `kategori:<k>` → kategori ikonu (madalyonda beyaz), bilinen Phosphor adı →
+ * sembol; ikisi de değilse null (madalyon grup sembolünü çizer).
+ */
+export function rozetSembolu(ikon) {
+  if (typeof ikon !== "string") return null;
+  if (ikon.startsWith("kategori:")) return <KategoriIkon anahtar={ikon.slice(9)} boyut={24} className="qt-madalyon-kat" />;
+  const S = ROZET_SEMBOLLERI[IKON_SEMBOL[ikon]];
+  return S ? <S /> : null;
+}
 const PIP = { bronz: 1, gumus: 2, altin: 3, elmas: 4 };
 
 /** Grup anahtarı → sembol anahtarı (sözleşmedeki grup adları farklıysa burada eşlenir). */
@@ -43,7 +61,7 @@ export default function RozetMadalyonu({ grup, kademe = "bronz", boyut = 48, kil
           style={{ "--_b": `${boyut}px` }}
           {...(etiket ? { role: "img", "aria-label": etiket } : { "aria-hidden": "true" })}>
       <span className="qt-madalyon-yuz">
-        <span className="qt-madalyon-sembol">{!silik && sembol ? sembol : <Sembol />}</span>
+        <span className="qt-madalyon-sembol">{(!silik && sembol) || <Sembol />}</span>
       </span>
       {!kucuk && !silik && (
         <span className="qt-madalyon-pipler">

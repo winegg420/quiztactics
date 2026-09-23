@@ -46,6 +46,37 @@ export default {
   "Gizli": "Hidden",
   "Gizli rozet": "Hidden badge",
   "Kilitli rozet": "Locked badge",
+  // ——— Profil › Rozetler / vitrin / bildirim ———
+  "Vitrinim": "My showcase",
+  "Profilinde ve oyuncu kartında görünen {n} rozet. Kazandığın bir rozete dokun, vitrine ekle.":
+    "The {n} badges shown on your profile and player card. Tap a badge you've earned to showcase it.",
+  "Boş vitrin yeri": "Empty showcase slot",
+  "Rozetler yüklenemedi.": "Couldn't load badges.",
+  "Vitrin kaydedilemedi.": "Couldn't save the showcase.",
+  "Kilitli": "Locked",
+  "Vitrinden çıkar": "Remove from showcase",
+  "Vitrine koy (ilkinin yerine)": "Showcase (replaces the first)",
+  "Vitrine koy": "Add to showcase",
+  "Bu rozet bir avatar çerçevesi de verir.": "This badge also unlocks an avatar frame.",
+  "Nasıl kazanılacağı sır. Oynamaya devam et, kazandığında adı ortaya çıkar.":
+    "How to earn it is a secret. Keep playing — its name is revealed when you earn it.",
+  "Kazanıldı: {t}": "Earned: {t}",
+  "İlerleme": "Progress",
+  "Vitrin rozetleri": "Showcase badges",
+  "Rozet": "Badge",
+  "Yeni rozet: {ad}": "New badge: {ad}",
+  "+{n} coin": "+{n} coins",
+  "Yeni çerçeve kazandın": "You earned a new frame",
+  // ——— Çerçevelerim ———
+  "Çerçeveler yüklenemedi.": "Couldn't load frames.",
+  "Çerçeve takılamadı.": "Couldn't equip the frame.",
+  "Çerçevelerim": "My frames",
+  "Taktığın çerçeve maçta, lig tablosunda ve arkadaş listesinde herkese görünür.":
+    "Your equipped frame is visible to everyone in matches, the league table and friend lists.",
+  "Takılı": "Equipped",
+  "Takılıyor…": "Equipping…",
+  "Tak": "Equip",
+  "Dükkân'da daha fazla çerçeve": "More frames in the Shop",
   // ——— /kozmetik-onizleme ———
   "Kozmetik Önizleme": "Cosmetics Preview",
   "Bütün çerçeveler ve rozet madalyonları 24 / 40 / 64 / 120 px'te. 40 px altında süs ve hareket kapanır, yalnız renkli halka kalır.":

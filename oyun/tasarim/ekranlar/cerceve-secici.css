@@ -1,0 +1,27 @@
+/* Profil › Çerçevelerim (CerceveSecici.jsx) — qt-cs- öneki. */
+.qt-cs { display: grid; gap: var(--qt-b-3); min-width: 0; }
+.qt-cs h2, .qt-cs p { margin: 0; }
+.qt-cs-izgara { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: var(--qt-b-2); }
+.qt-cs-oge {
+  display: grid;
+  justify-items: center;
+  gap: var(--qt-b-1);
+  width: 100%;
+  height: 100%;
+  padding: var(--qt-b-5) var(--qt-b-1) var(--qt-b-2);
+  border: 0;
+  border-radius: var(--qt-r-m);
+  background: var(--qt-yuzey-2);
+  box-shadow: inset 0 0 0 2px transparent;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  transition: transform var(--qt-s-basma) var(--qt-egri-cikis);
+}
+.qt-cs-oge:active { transform: scale(0.97); }
+.qt-cs-oge[aria-pressed="true"] { background: var(--qt-ikinci-acik); box-shadow: inset 0 0 0 2px var(--qt-ikinci); }
+.qt-cs-oge:disabled { cursor: default; }
+.qt-cs-ad { margin-top: var(--qt-b-1); font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); color: var(--qt-metin); text-align: center; line-height: 1.25; }
+.qt-cs-durum { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); }
+.qt-cs-oge[aria-pressed="true"] .qt-cs-durum { color: var(--qt-ikinci-koyu); }
+.qt-cs-hata { color: var(--qt-yanlis-koyu); font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); }
