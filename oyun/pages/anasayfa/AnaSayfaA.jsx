@@ -1,22 +1,23 @@
 // ANA SAYFA (kök rota, 23 Eyl 2026'dan beri; önceki ana sayfa pages/Home.jsx kullanılmıyor).
-// Seçenek A — ZENGİN TEK EKRAN (lobi). Kaydırmasız: üstte lig/seri, avatar kartı, altında
-// turnuva şeridi, büyük Oyna + Düello ve mod kısayolları.
-// Masaüstü: solda modlar sütunu, ortada sahne, sağda seans listesi + görevler + etkinlik.
+// Seçenek A — TEK EKRAN (lobi), kaydırmasız. Rozet + çerçeve paketiyle yeniden düzenlendi:
+// kompakt oyuncu kartı, canlı lig kartı, turnuva şeridi, OYNA + DÜELLO, kısayollar, görev şeridi.
+// Masaüstü: solda oyuncu + lig, ortada oyna alanı, sağda turnuva + seanslar + görevler + etkinlik.
 import { useEffect, useState } from "react";
-import { QtIkon } from "../../tasarim/index.js";
+import { QtIkon, QtModal } from "../../tasarim/index.js";
 import BildirimIzniSor from "../../components/BildirimIzniSor.jsx";
 import { BILDIRIM_SONRA_ANAHTAR } from "../../components/MacSonuSahnesi.jsx";
 import { tt } from "../../lib/dil.js";
 import { useAnaSayfaVerisi, useOyunBaslat } from "./veri.jsx";
 import {
-  OyuncuAvatari, LigCipi, RutbeCipi, SeriCipi, modListesi, etkinlikler, EtkinlikSatiri,
-  TurnuvaSeridi, TurnuvaSeansListesi, GorevListesi, Susleme,
+  KompaktOyuncu, LigKarti, GorevSeridi, modListesi, etkinlikler, EtkinlikSatiri,
+  TurnuvaSeridi, TurnuvaSeansListesi, GorevListesi,
 } from "./parcalar.jsx";
 import "./anasayfa.css";
 
 export default function AnaSayfaA() {
   const v = useAnaSayfaVerisi();
   const b = useOyunBaslat();
+  const [gorevAcik, setGorevAcik] = useState(false);
   // Bildirim izni maç sonucundan ana sayfaya dönünce sorulur (MacSonuSahnesi işaret bırakır).
   const [bildirimSor] = useState(() => {
     try { return sessionStorage.getItem(BILDIRIM_SONRA_ANAHTAR) === "1"; } catch { return false; }
@@ -32,40 +33,37 @@ export default function AnaSayfaA() {
   const olaylar = etkinlikler(v);
   const acil = olaylar.find((e) => e.ton === "acil") ?? olaylar[0];
 
+  // Rozet + çerçeve paketi (23 Eyl 2026): mor ışınlı dev avatar sahnesi kalktı. Telefonda tek sütun
+  // (sıra CSS `order` ile): oyuncu kartı → lig kartı → turnuva → OYNA/DÜELLO → kısayollar → görev şeridi.
+  // Masaüstünde (≥1024) üç sütun: solda oyuncu + lig, ortada oyna alanı, sağda turnuva + görevler.
   return (
-    <div className="as-sayfa as-a">
+    <div className="as-sayfa as-a as-a2">
       <h1 className="qt-gizli">{tt("Ana sayfa")}</h1>
       {b.katmanlar}
 
-      <aside className="as-a-sol" aria-label={tt("Modlar")}>
-        {modlar.map((m) => (
-          <button key={m.anahtar} type="button" className={`as-a-mod as-renk--${m.anahtar}`} onClick={m.git}>
-            <span className="as-a-mod-ikon"><QtIkon ad={m.ikon} boyut={26} /></span>
-            <span className="as-a-mod-metin"><b>{m.ad}</b><small>{m.alt}</small></span>
-            {m.rozet && <span className="as-rozet-nokta" aria-label={m.rozetEtiketi}>{m.rozet}</span>}
-          </button>
-        ))}
-      </aside>
+      <section className="as-a2-kol as-a2-kol--sol" aria-label={tt("Oyuncu")}>
+        {bildirimSor && <div className="as-a2-bildirim"><BildirimIzniSor /></div>}
+        <div className="as-a2-kart"><KompaktOyuncu v={v} /></div>
+        <div className="as-a2-lig"><LigKarti v={v} /></div>
+      </section>
 
-      <section className="as-a-sahne" aria-label={tt("Oyuncu")}>
-        {bildirimSor && <BildirimIzniSor />}
-        <div className="as-a-ust">
-          <LigCipi v={v} />
-          <SeriCipi />
+      <section className="as-a2-kol as-a2-kol--sag" aria-label={tt("Etkinlikler")}>
+        <div className="as-a2-turnuva"><TurnuvaSeridi v={v} git={b.git} /></div>
+        <div className="as-a2-masaustu"><TurnuvaSeansListesi /></div>
+        <div className="as-a2-gorev"><GorevSeridi v={v} onAc={() => setGorevAcik(true)} /></div>
+        <div className="as-panel as-a2-masaustu">
+          <h2 className="as-panel-baslik"><QtIkon ad="hediye" boyut={20} />{tt("Günlük görevler")}</h2>
+          <GorevListesi v={v} sinir={3} />
         </div>
-
-        <div className="as-a-podyum">
-          <Susleme tur="lobi" />
-          <span className="as-a-isik" aria-hidden="true" />
-          <OyuncuAvatari v={v} boyut={120} />
-          <div className="as-a-kimlik">
-            <p className="as-a-ad">{v.oyuncu.ad}</p>
-            <RutbeCipi v={v} />
+        {olaylar.length > 0 && (
+          <div className="as-panel as-a2-masaustu">
+            <h2 className="as-panel-baslik"><QtIkon ad="zil" boyut={20} />{tt("Seni bekleyenler")}</h2>
+            {olaylar.slice(0, 3).map((e) => <EtkinlikSatiri key={e.id} e={e} />)}
           </div>
-        </div>
+        )}
+      </section>
 
-        <TurnuvaSeridi v={v} git={b.git} />
-
+      <section className="as-a2-kol as-a2-kol--orta" aria-label={tt("Oyna")}>
         {acil && (
           <a href={acil.yol} className="as-a-acil" onClick={(e) => { e.preventDefault(); b.git(acil.yol); }}>
             <span className="as-canli-nokta" aria-hidden="true" />
@@ -98,20 +96,10 @@ export default function AnaSayfaA() {
         {v.mesaj && <p className="as-hata" role="alert">{v.mesaj}</p>}
       </section>
 
-      <aside className="as-a-sag" aria-label={tt("Etkinlikler")}>
-        {/* Turnuva ortadaki şeritte; burada yalnız günün seans listesi (tekrar yok). */}
-        <TurnuvaSeansListesi />
-        <div className="as-panel">
-          <h2 className="as-panel-baslik"><QtIkon ad="hediye" boyut={20} />{tt("Günlük görevler")}</h2>
-          <GorevListesi v={v} sinir={3} />
-        </div>
-        {olaylar.length > 0 && (
-          <div className="as-panel">
-            <h2 className="as-panel-baslik"><QtIkon ad="zil" boyut={20} />{tt("Seni bekleyenler")}</h2>
-            {olaylar.slice(0, 3).map((e) => <EtkinlikSatiri key={e.id} e={e} />)}
-          </div>
-        )}
-      </aside>
+      {/* Görev şeridine dokununca: görev listesi (ödül alma burada) */}
+      <QtModal acik={gorevAcik} onKapat={() => setGorevAcik(false)} tur="altSayfa" baslik={tt("Günlük görevler")}>
+        <GorevListesi v={v} sinir={10} />
+      </QtModal>
     </div>
   );
 }

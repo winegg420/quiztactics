@@ -18,6 +18,7 @@ import { useAuth } from "../../../src/context/AuthContext.jsx";
 import { rutbeBul } from "../../lib/ranks.js";
 import { siradakiLobi, turnuvaAniMs } from "../../lib/zaman.js";
 import { rpcDene } from "../../lib/rpcDene.js";
+import { ligGrubumOzet } from "../../lib/lig.js";
 import { ayarlar } from "../../lib/ayarlar.js";
 import { useCoin } from "../../lib/coin.js";
 import { useDereceliTercih } from "../../lib/dereceli.js";
@@ -33,6 +34,7 @@ export function useAnaSayfaVerisi() {
   const uid = user?.id;
   const [gorevler, setGorevler] = useState([]);
   const [lig, setLig] = useState(null);
+  const [ligOzet, setLigOzet] = useState(null);
   const [banka, setBanka] = useState(0);
   const [kabuller, setKabuller] = useState([]);
   const [siraSende, setSiraSende] = useState([]);
@@ -54,14 +56,16 @@ export function useAnaSayfaVerisi() {
     if (!uid) return undefined;
     let aktif = true;
     (async () => {
+      // Canlı lig kartı: lig_grubum_ozet (ligim, sıram, üstümdeki 2 + altımdaki 2, sınırlar, farklar).
+      // Grup yoksa (yeni oyuncu) null → kart "lige katıl" hâline iner.
       try {
-        const { data, error } = await supabase.rpc("lig_grubum");
-        if (error) throw error;
-        const s = data ?? [];
-        const sira = s.findIndex((r) => r.user_id === uid) + 1;
-        if (aktif) setLig(s.length ? { lig: s[0].lig, sira: sira > 0 ? sira : null, yukselen: s[0].yukselen } : null);
+        const o = await ligGrubumOzet();
+        if (aktif) {
+          setLigOzet(o);
+          setLig(o ? { lig: o.lig, sira: o.sira ?? null, yukselen: o.yukselen } : null);
+        }
       } catch (e) {
-        console.warn("[Ana sayfa seçenek] lig_grubum:", e?.message ?? e);
+        console.warn("[Ana sayfa] lig_grubum_ozet:", e?.message ?? e);
       }
       try {
         const { data, error } = await supabase.rpc("yanlis_bankam");
@@ -204,7 +208,7 @@ export function useAnaSayfaVerisi() {
 
   const bekleyenOdul = gorevler.filter((g) => g.ilerleme >= g.hedef && !g.alindi).length;
 
-  return { user, profile, oyuncu, gorevler, bekleyenOdul, odulAl, lig, banka, kabuller, siraSende,
+  return { user, profile, oyuncu, gorevler, bekleyenOdul, odulAl, lig, ligOzet, banka, kabuller, siraSende,
            davetlerim, davetSayisi, turnuva, turnuvaYukle, turnuvaAyar, lobiyeKatil, mesaj, setMesaj };
 }
 

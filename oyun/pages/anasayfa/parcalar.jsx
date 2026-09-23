@@ -2,11 +2,12 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import AvatarCerceve from "../../components/AvatarCerceve.jsx";
+import CerceveliAvatar from "../../components/CerceveliAvatar.jsx";
 import Avatar from "../../../src/components/Avatar.jsx";
 import SeriRozeti from "../../components/SeriRozeti.jsx";
 import Countdown from "../../components/Countdown.jsx";
 import { TurnuvaSaatEtiketi } from "../../components/TurnuvaSaatleri.jsx";
-import { QtIkon, QtIlerleme } from "../../tasarim/index.js";
+import { QtIkon, QtIlerleme, QtLigRozeti } from "../../tasarim/index.js";
 import { LIG_ADLARI } from "../../lib/lig.js";
 import { tt, ttSunucu } from "../../lib/dil.js";
 import { geriSayim, sonrakiTurnuva, turnuvaSaatleri } from "../../lib/zaman.js";
@@ -351,5 +352,135 @@ export function Susleme({ tur = "lobi" }) {
       <i className="as-s as-s4">?</i><i className="as-s as-s5">✦</i><i className="as-s as-s6">★</i>
       <i className="as-k as-k1" /><i className="as-k as-k2" /><i className="as-k as-k3" /><i className="as-k as-k4" />
     </span>
+  );
+}
+
+// ============================================================
+// ROZET + ÇERÇEVE PAKETİ — yeni ana sayfa parçaları (23 Eyl 2026)
+// Kompakt oyuncu kartı · canlı lig kartı · günlük görev şeridi
+// ============================================================
+
+/** Kompakt oyuncu kartı: çerçeveli avatar, ad, rütbe, level + XP, lig rozeti, seri. Dokununca profil. */
+export function KompaktOyuncu({ v }) {
+  const { oyuncu, profile, user, lig } = v;
+  return (
+    <Link to={y("/profil")} className="as-ko" aria-label={tt("Profilim: {ad}, Level {n}", { ad: oyuncu.ad, n: oyuncu.level })}>
+      <CerceveliAvatar profile={profile} userId={user?.id} boyut={64} hareketli />
+      <span className="as-ko-govde">
+        <span className="as-ko-ust">
+          <b className="as-ko-ad">{oyuncu.ad}</b>
+          {lig?.lig && <QtLigRozeti lig={lig.lig} boyut="k" />}
+        </span>
+        <span className="as-ko-alt">
+          <b className="as-ko-lv">{tt("Lv {n}", { n: oyuncu.level })}</b>
+          <span className="as-ko-rutbe">{oyuncu.rutbe.ad}</span>
+          <span className="as-ko-seri"><SeriRozeti bicim="serit" /></span>
+        </span>
+        <QtIlerleme deger={oyuncu.xp} en={oyuncu.xpGereken > 0 ? oyuncu.xpGereken : 1} etiket={tt("Seviye ilerlemesi")} />
+      </span>
+    </Link>
+  );
+}
+
+/** Hafta bitimine kalan: "3g 4s" (1 günden azsa "4s 12dk"). */
+function haftaKalan(bitis) {
+  const ms = new Date(bitis).getTime() - Date.now();
+  if (!Number.isFinite(ms) || ms <= 0) return null;
+  const g = Math.floor(ms / 86400000);
+  const s = Math.floor((ms % 86400000) / 3600000);
+  const dk = Math.floor((ms % 3600000) / 60000);
+  return g > 0 ? tt("{g}g {s}s", { g, s }) : tt("{s}s {dk}dk", { s, dk });
+}
+
+/** "Altın'a çıkmana 40 puan" — Türkçe ek lige göre değişir, her lig ayrı metin. */
+function yukselmeMetni(ustLig, n) {
+  switch (ustLig) {
+    case "gumus": return tt("Gümüş'e çıkmana {n} puan", { n: sayi(n) });
+    case "altin": return tt("Altın'a çıkmana {n} puan", { n: sayi(n) });
+    case "elmas": return tt("Elmas'a çıkmana {n} puan", { n: sayi(n) });
+    case "efsane": return tt("Efsane'ye çıkmana {n} puan", { n: sayi(n) });
+    default: return null;
+  }
+}
+
+/**
+ * Canlı lig kartı (lig_grubum_ozet): başlık "Gümüş Lig · 8/25 · Hafta bitimine 3g 4s",
+ * 5 satır (üstümdeki 2, ben, altımdaki 2), yükselme çizgisi yeşil, düşme çizgisi kırmızı,
+ * alt satır "Altın'a çıkmana 40 puan". Dokununca lig sayfası. Kısa ekranda 3 satıra iner (CSS).
+ * Grup yoksa (yeni oyuncu) tek satırlık "lige katıl" kartı.
+ */
+export function LigKarti({ v }) {
+  const o = v.ligOzet;
+  if (!o) {
+    return (
+      <Link to={y("/siralama")} className="as-lk as-lk--bos">
+        <span className="as-lig-kalkan as-lig--bronz" aria-hidden="true"><QtIkon ad="kalkan" boyut={18} /></span>
+        <span className="as-lk-bos-metin">
+          <b>{tt("Haftalık lig")}</b>
+          <small>{tt("Dereceli bir maç oyna, lig grubuna katıl.")}</small>
+        </span>
+        <QtIkon ad="ileri" boyut={20} />
+      </Link>
+    );
+  }
+  const satirlar = [...(o.satirlar ?? [])].sort((a, b) => a.sira - b.sira);
+  const kalan = o.hafta_bitis ? haftaKalan(o.hafta_bitis) : null;
+  const alt = o.bolge === "yukselme" && o.ust_lig
+    ? tt("Yükselme bölgesindesin")
+    : o.ust_lig && o.yukselme_cizgisine_fark > 0
+      ? yukselmeMetni(o.ust_lig, o.yukselme_cizgisine_fark)
+      : o.ust_siraya_fark > 0 ? tt("Bir üst sıraya {n} puan", { n: sayi(o.ust_siraya_fark) })
+        : o.sira === 1 ? tt("Grubun zirvesindesin") : null;
+  return (
+    <Link to={y("/siralama")} className={`as-lk as-lk--${o.lig}`}
+          aria-label={tt("{lig} Lig, {s}. sıra. Lig sayfasına git", { lig: LIG_ADLARI[o.lig] ?? o.lig, s: o.sira })}>
+      <span className="as-lk-bas">
+        <span className={`as-lig-kalkan as-lig--${o.lig}`} aria-hidden="true"><QtIkon ad="kalkan" boyut={16} /></span>
+        <b>{tt("{lig} Lig", { lig: LIG_ADLARI[o.lig] ?? o.lig })}</b>
+        <span className="as-lk-sira qt-sayi">{o.sira}/{o.grup_boyu}</span>
+        {kalan && <small className="as-lk-kalan">{tt("Hafta bitimine {k}", { k: kalan })}</small>}
+      </span>
+      <ol className="as-lk-liste" aria-hidden="true">
+        {satirlar.map((r) => {
+          const uzak = Math.abs(r.sira - o.sira) >= 2;
+          return (
+            <li key={r.user_id ?? r.sira}
+                className={`as-lk-satir${r.ben ? " as-lk-satir--ben" : ""}${uzak ? " as-lk-satir--uzak" : ""}${
+                  o.yukselme_sirasi != null && r.sira === o.yukselme_sirasi ? " as-lk-satir--yukselme-siniri" : ""}${
+                  o.dusme_sirasi != null && r.sira === o.dusme_sirasi ? " as-lk-satir--dusme-siniri" : ""}`}>
+              <span className="as-lk-no qt-sayi">{r.sira}</span>
+              <CerceveliAvatar profile={{ gorunen_ad: r.ad, gorunen_avatar: r.avatar }} userId={r.user_id}
+                               cerceve={r.cerceve ?? null} kart={{ cerceve: r.cerceve ?? null, cerceve_nadirlik: r.cerceve_nadirlik }} boyut={28} />
+              <span className="as-lk-ad">{r.ben ? tt("Sen") : r.ad}</span>
+              <span className="as-lk-puan qt-sayi">{sayi(r.puan)}</span>
+            </li>
+          );
+        })}
+      </ol>
+      {alt && <span className="as-lk-alt">{alt}<QtIkon ad="ileri" boyut={16} /></span>}
+    </Link>
+  );
+}
+
+/** Günlük görev şeridi: 3 görev, mini ilerleme çubukları; dokununca görev listesi (ödül alma orada). */
+export function GorevSeridi({ v, onAc }) {
+  if (!v.gorevler.length) return null;
+  const liste = v.gorevler.slice(0, 3);
+  const biten = liste.filter((g) => g.ilerleme >= g.hedef).length;
+  return (
+    <button type="button" className="as-gs" onClick={onAc} aria-haspopup="dialog"
+            aria-label={tt("Günlük görevler: {a}/{b} tamam", { a: biten, b: liste.length })}>
+      <span className="as-gs-ikon" aria-hidden="true"><QtIkon ad="hediye" boyut={20} /></span>
+      <span className="as-gs-baslik">{tt("Görevler")}</span>
+      <span className="as-gs-cubuklar" aria-hidden="true">
+        {liste.map((g) => (
+          <QtIlerleme key={g.quest_id} deger={Math.min(g.ilerleme, g.hedef)} en={g.hedef || 1}
+                      ton={g.ilerleme >= g.hedef ? "dogru" : "mor"} />
+        ))}
+      </span>
+      {v.bekleyenOdul > 0
+        ? <span className="as-gs-odul"><QtIkon ad="coin" boyut={14} />{v.bekleyenOdul}</span>
+        : <QtIkon ad="ileri" boyut={18} className="as-gs-ok" />}
+    </button>
   );
 }
