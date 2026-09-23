@@ -197,9 +197,10 @@ async function tanitimlariGec() {
   }
 }
 
+// Seçiciler eski (.bd-*) ve Yön A (.qt-sik, .m2-kat, .qt-soru-metin) sınıflarını birlikte tanır.
 // Açık (disabled olmayan, elenmemiş) şık sayısı; süre içinde en az 2 olmalı.
 async function acikSiklar() {
-  return s.locator(".bd-secenek:not([disabled]):not(.elendi)").count();
+  return s.locator(":is(.bd-secenek, .qt-sik):not([disabled]):not(.elendi):not(.qt-sik--elendi)").count();
 }
 
 // ================================================================ DÜELLO
@@ -279,11 +280,11 @@ async function duelloMaci(kapsam) {
     // Kategori: seçme sırası bendeyse seçilebilir kategori OLMALI.
     if (d.faz === "kategori" && benSaldiran) {
       let n = 0;
-      for (let i = 0; i < 8 && !n; i++) { n = await s.locator(".bd-duello-kat:not([disabled])").count(); if (!n) await s.waitForTimeout(200); }
+      for (let i = 0; i < 8 && !n; i++) { n = await s.locator(":is(.bd-duello-kat, button.m2-kat):not([disabled])").count(); if (!n) await s.waitForTimeout(200); }
       if (!n) { basarisiz("Düello: kategori sırası bende ama seçilebilir kategori yok", { tani: t }); return "kritik"; }
       const k0 = Date.now();
       sonAdim = "kategori dokunuşu";
-        await s.locator(".bd-duello-kat:not([disabled])").first().tap({ timeout: 3000 })
+        await s.locator(":is(.bd-duello-kat, button.m2-kat):not([disabled])").first().tap({ timeout: 3000 })
         .catch((e) => basarisiz(`Düello: kategoriye dokunulamadı (${Date.now() - k0} ms) — ${String(e.message).split(String.fromCharCode(10))[0]}`));
       await s.waitForTimeout(600);
       continue;
@@ -350,8 +351,8 @@ async function duelloMaci(kapsam) {
       const rakipCan = g.oyuncu1 === BEN ? Number(g.can2) : Number(g.can1);
       const dogru = Number(g.dogru);
       const hedef = benimCan > rakipCan ? (dogru + 1) % 4 : dogru;
-      let sik = s.locator(".bd-secenek").nth(hedef);
-      if (await sik.isDisabled()) sik = s.locator(".bd-secenek:not([disabled]):not(.elendi)").first();
+      let sik = s.locator(":is(.bd-secenek, .qt-sik)").nth(hedef);
+      if (await sik.isDisabled()) sik = s.locator(":is(.bd-secenek, .qt-sik):not([disabled]):not(.elendi):not(.qt-sik--elendi)").first();
       await sik.tap({ timeout: 4000 }).catch((e) => basarisiz(`Düello: şıka dokunulamadı — ${String(e.message).split(String.fromCharCode(10))[0]}`));
       // Sunucuya ulaştı mı: cevaplar'da benim anahtarım ya da bu turun hamlesinde benim cevabım.
       sonAdim = "cevap sunucu kontrolü";
@@ -458,7 +459,7 @@ async function soruDongusu(ad, ulastiMi, bittiMi, siradakiIndex, enCokSoru = 25,
   const bas = Date.now();
   while (n < enCokSoru && Date.now() - bas < 12 * 60 * 1000) {
     if (await bittiMi()) break;
-    const metin = await s.locator(".bd-soru-metin").first().innerText().catch(() => "");
+    const metin = await s.locator(":is(.bd-soru-metin, .qt-soru-metin)").first().innerText().catch(() => "");
     if (!metin || metin === sonMetin) { await s.waitForTimeout(300); continue; }
     sonMetin = metin;
     const index = await siradakiIndex();
@@ -472,8 +473,8 @@ async function soruDongusu(ad, ulastiMi, bittiMi, siradakiIndex, enCokSoru = 25,
     }
     if (n === 1) await ekranOlc(`${ad.toLowerCase()}-soru`);
     const hedef = dogruSik ? await dogruSik() : null;
-    const hedefSik = hedef !== null && hedef !== undefined ? s.locator(".bd-secenek").nth(hedef) : null;
-    const sik = hedefSik && await hedefSik.isEnabled().catch(() => false) ? hedefSik : s.locator(".bd-secenek:not([disabled]):not(.elendi)").first();
+    const hedefSik = hedef !== null && hedef !== undefined ? s.locator(":is(.bd-secenek, .qt-sik)").nth(hedef) : null;
+    const sik = hedefSik && await hedefSik.isEnabled().catch(() => false) ? hedefSik : s.locator(":is(.bd-secenek, .qt-sik):not([disabled]):not(.elendi):not(.qt-sik--elendi)").first();
     await sik.tap({ timeout: 4000 }).catch((e) => basarisiz(`${ad}: şıka dokunulamadı — ${String(e.message).split(String.fromCharCode(10))[0]}`));
     let ulasti = false;
     for (let i = 0; i < 20 && !ulasti; i++) { await bekle(250); ulasti = await ulastiMi(index); }
