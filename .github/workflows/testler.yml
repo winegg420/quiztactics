@@ -4,10 +4,10 @@ name: Testler
 # Node'un kendi test koşucusu (node:test) kullanılır; yeni npm paketi kurulmaz.
 # `workflow_call` ile gece yedek akışı da bu işi çağırır.
 
+# Push'ta ÇALIŞMAZ (23 Eyl 2026): doğrudan main'de gün içinde onlarca push var ve her
+# koşu canlı veritabanına ~20 dk yük bindiriyordu — canlı sorgular 3-10 sn'ye çıktı.
+# Gece yedek akışı (veritabani-yedek.yml, 03:00 TSİ) ve elle tetikleme çalıştırır.
 on:
-  push:
-    branches: [main]
-  pull_request:
   workflow_dispatch:
   workflow_call:
 
