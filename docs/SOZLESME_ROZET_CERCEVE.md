@@ -304,3 +304,5 @@ Her rozetin kendi `ikon` önerisi de var (ör. `ozel_kusursuz` → `target`, `so
 - **Yeni rozet bildirimi:** `rozetBildirimlerim()` maç sonunda ve ana sayfa açılışında çağrılabilir;
   okunan rozet bir daha dönmez.
 - **Geriye dönük:** 333 uygulanırken 16 oyuncuya 56 rozet coin'siz, `goruldu = true` verildi.
+- **Coin paketleri (336):** `coin_paketleri`'ne 5. satır `coin_16000` "Define" (16.000 + 4.800) eklendi;
+  bonuslar %0/%10/%15/%20/%30. `dil.js`'te `"Define": "Hoard"` çevirisi yok — B ekler.
