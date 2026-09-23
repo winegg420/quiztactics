@@ -1,0 +1,53 @@
+/* =====================================================================
+   SKILL ROZETİ (SkillRozeti.jsx) — kabarık, parlak, yuvarlak güçlendirme rozeti.
+   Renkler token: --qt-skill-<tur>(-acik|-koyu). Yalnız transform/opacity animasyonu yok;
+   rozet statiktir. iOS: transform/filter yok (fixed ata tuzağı), gölgeler box-shadow.
+   ===================================================================== */
+.qt-srozet {
+  --_r: var(--qt-ikinci); --_r-acik: var(--qt-ikinci-acik); --_r-koyu: var(--qt-ikinci-dudak);
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: var(--_boyut, 40px);
+  height: var(--_boyut, 40px);
+  border-radius: 50%;
+  color: var(--qt-skill-sembol);
+  /* Kenar (koyu halka) + gövde degrade: üstte açık, altta ana renk */
+  background:
+    radial-gradient(120% 90% at 50% 18%, var(--_r-acik) 0%, var(--_r) 58%, var(--_r-koyu) 100%);
+  box-shadow:
+    inset 0 0 0 calc(var(--_boyut, 40px) * 0.045) var(--_r-koyu),          /* kenar */
+    inset 0 calc(var(--_boyut, 40px) * -0.09) 0 rgba(0, 0, 0, 0.18),        /* iç gölge (alt) */
+    0 calc(var(--_boyut, 40px) * 0.07) 0 var(--_r-koyu),                     /* kabarık dudak */
+    0 calc(var(--_boyut, 40px) * 0.12) calc(var(--_boyut, 40px) * 0.18) rgba(29, 33, 82, 0.28); /* dış gölge */
+}
+/* Üst parlama (cam hilali) */
+.qt-srozet::before {
+  content: "";
+  position: absolute;
+  left: 16%; right: 16%; top: 7%;
+  height: 38%;
+  border-radius: 50% 50% 45% 45% / 60% 60% 40% 40%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.05));
+  pointer-events: none;
+}
+.qt-srozet-sembol {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 62%;
+  height: 62%;
+  /* Sembol okunaklı kalsın: koyu kontur gölgesi */
+  filter: drop-shadow(0 calc(var(--_boyut, 40px) * 0.03) 0 var(--_r-koyu));
+}
+.qt-srozet-sembol > svg { width: 100%; height: 100%; display: block; }
+.qt-srozet--soluk { opacity: 0.45; }
+
+.qt-srozet[data-tur="elli"] { --_r: var(--qt-skill-elli); --_r-acik: var(--qt-skill-elli-acik); --_r-koyu: var(--qt-skill-elli-koyu); }
+.qt-srozet[data-tur="sure"] { --_r: var(--qt-skill-sure); --_r-acik: var(--qt-skill-sure-acik); --_r-koyu: var(--qt-skill-sure-koyu); }
+.qt-srozet[data-tur="soru_degistir"] { --_r: var(--qt-skill-soru_degistir); --_r-acik: var(--qt-skill-soru_degistir-acik); --_r-koyu: var(--qt-skill-soru_degistir-koyu); }
+.qt-srozet[data-tur="zaman_baskisi"] { --_r: var(--qt-skill-zaman_baskisi); --_r-acik: var(--qt-skill-zaman_baskisi-acik); --_r-koyu: var(--qt-skill-zaman_baskisi-koyu); }
+.qt-srozet[data-tur="ikinci_sans"] { --_r: var(--qt-skill-ikinci_sans); --_r-acik: var(--qt-skill-ikinci_sans-acik); --_r-koyu: var(--qt-skill-ikinci_sans-koyu); }
+.qt-srozet[data-tur="sigorta"] { --_r: var(--qt-skill-sigorta); --_r-acik: var(--qt-skill-sigorta-acik); --_r-koyu: var(--qt-skill-sigorta-koyu); }
+.qt-srozet[data-tur="cifte_puan"] { --_r: var(--qt-skill-cifte_puan); --_r-acik: var(--qt-skill-cifte_puan-acik); --_r-koyu: var(--qt-skill-cifte_puan-koyu); }

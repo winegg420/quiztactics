@@ -4,7 +4,7 @@ import "../tasarim/ekranlar/m1-mac.css";
 import { hataMesaji } from "../lib/hata.js";
 import { Link } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
-import { macJokerleri, jokerBilgi, envanterNesne, skillSetiOku, skillSetiKaydet, skillSlotSayisi, skillLoadoutKapali } from "../lib/jokerler.js";
+import { macJokerleri, jokerBilgi, envanterNesne, skillSetiOku, skillSetiKaydet, skillSlotSayisi, skillLoadoutKapali, LOADOUT_MODLARI, AKTIF_MAC_SKILLERI } from "../lib/jokerler.js";
 import { ayarlar } from "../lib/ayarlar.js";
 import { coinTazele } from "../lib/coin.js";
 import JokerSatinAlModal from "./JokerSatinAlModal.jsx";
@@ -44,7 +44,9 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
   const hataRef = useRef(null);
   // Paket 32: açıklamalardaki sayılar ve Sis eşiği oyun_ayarlari'ndan
   const [ayar, setAyar] = useState(null);
-  const [skillSeti, setSkillSeti] = useState(() => skillSetiOku());
+  // 327: loadout yalnız Klasik (1v1) ve Düello'da; Grup/Turnuva'da mod için açık bütün skill'ler.
+  const loadoutModu = LOADOUT_MODLARI.includes(macTur);
+  const [skillSeti, setSkillSeti] = useState(() => (loadoutModu ? skillSetiOku(undefined, macTur) : AKTIF_MAC_SKILLERI));
   const sonRakipBaskisi = useRef(null);
   useEffect(() => {
     let aktif = true;
@@ -53,12 +55,12 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
         const a = await ayarlar();
         if (!aktif) return;
         setAyar(a);
-        // Paket 2 B3: loadout kapalıyken çubuk yerel 3'lü seti değil, sunucunun tam setini
-        // (bütün açık skill'ler) gösterir — oyuncu seçim ekranını hiç açmamış olsa bile.
-        if (!skillLoadoutKapali(a)) return;
-        const { data, error } = await supabase.rpc("skill_setim");
+        // Çubuk sunucudaki seti gösterir (yetkili kaynak; kapı da onu kontrol eder). Loadout
+        // kapalıyken bu bütün açık skill'lerdir. Grup/Turnuva'da set yok (327).
+        if (!loadoutModu) return;
+        const { data, error } = await supabase.rpc("skill_setim", { p_mod: macTur });
         if (error) throw error;
-        if (aktif && Array.isArray(data)) setSkillSeti(skillSetiKaydet(data, skillSlotSayisi(a)));
+        if (aktif && Array.isArray(data)) setSkillSeti(skillSetiKaydet(data, skillLoadoutKapali(a) ? data.length : skillSlotSayisi(a), macTur));
       } catch (e) {
         console.error("[Bildim] skill seti alınamadı:", e);   // yerel setle devam edilir
       }
@@ -66,7 +68,7 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
     return () => { aktif = false; };
   }, []);
   useEffect(() => {
-    const yenile = () => setSkillSeti(skillSetiOku());
+    const yenile = () => { if (loadoutModu) setSkillSeti(skillSetiOku(undefined, macTur)); };
     window.addEventListener("skill-seti-degisti", yenile);
     return () => window.removeEventListener("skill-seti-degisti", yenile);
   }, []);

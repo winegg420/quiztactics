@@ -3,6 +3,7 @@ import { QtModal, QtModKart, QtDugme, QtIkon } from "../tasarim/index.js";
 import "../tasarim/ekranlar/a-modlar.css";
 import AvatarCerceve from "./AvatarCerceve.jsx";
 import DereceliAnahtari from "./DereceliAnahtari.jsx";
+import SkillSeti from "./SkillSeti.jsx";
 import { ayarlar } from "../lib/ayarlar.js";
 import { tt } from "../lib/dil.js";
 
@@ -29,12 +30,16 @@ import { tt } from "../lib/dil.js";
  *        anahtarı çizilir (ana sayfa OYNA / Saf Bilgi) — oyun sessizce kayıtlı tercihle başlamaz.
  * @param {(d: boolean) => void} [props.onDereceli]
  * @param {string[]} [props.modlar]    yalnız bu modlar gösterilir (ör. Saf Bilgi kısayolu: ["saf"])
+ * @param {boolean} [props.loadout]    327: Klasik seçilince önce loadout adımı (3 yuva) açılır;
+ *        son set hazırdır — "Bu setle oyna" tek dokunuş. Varsayılan KAPALI: Klasik loadout maç
+ *        öncesi "Hazır mısın?" kapısında (MacHazirlik › SkillSeti) seçilir, tekrar sorulmaz.
  *
  * `profil` null ise (ana sayfa "Hemen oyna") avatar çizilmez, başlık tek satır.
  */
 export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekleMetni, alttan = false,
-                                            dereceli, onDereceli, modlar }) {
+                                            dereceli, onDereceli, modlar, loadout = false }) {
   const [calisan, setCalisan] = useState(null);   // "klasik" | "duello" | null
+  const [adim, setAdim] = useState(null);         // null | "klasik" (loadout adımı)
   const [hata, setHata] = useState(null);
   const [odul, setOdul] = useState(null);
   const [odulDurum, setOdulDurum] = useState("yukleniyor");   // yukleniyor | hazir | yok
@@ -64,6 +69,7 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
 
   const sec = async (mod) => {
     if (calisan) return;
+    if (mod === "klasik" && loadout && adim !== "klasik") { setAdim("klasik"); setHata(null); return; }
     setHata(null);
     setCalisan(mod);
     try {
@@ -92,7 +98,7 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
       ikon: "klasik",
       ad: tt("Klasik Maç"),
       aciklama: tt("İkiniz aynı soruları cevaplarsınız, en çok doğru bilen kazanır."),
-      joker: tt("4 skill · aynı anda"),
+      joker: tt("3 skill · sen seçersin"),
       odul: odulMetni(odul?.klasik),
     },
     {
@@ -100,7 +106,7 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
       ikon: "duello",
       ad: tt("Düello (Taktik Maçı)"),
       aciklama: tt("Rakibinin zayıf kategorisini bul, oradan vur. 3 can, en çok 10 tur."),
-      joker: tt("4 skill · sıra sende"),
+      joker: tt("3 skill · sen seçersin"),
       odul: odulMetni(odul?.duello),
       rozet: tt("En çok ödül"),
     },
@@ -132,14 +138,25 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
         </span>
       }
       className="a-modsecim"
-      altlik={
+      altlik={adim === "klasik" ? (
+        <div className="a-modsecim-loadout-eylem">
+          <QtDugme tamGenislik boyut="b" ikon="oyna" onClick={() => sec("klasik")} devreDisi={Boolean(calisan)}
+                   aria-busy={calisan === "klasik"}>
+            {calisan === "klasik" ? (bekleMetni ?? tt("Davet gönderiliyor…")) : tt("Bu setle oyna")}
+          </QtDugme>
+          <QtDugme tur="ikincil" tamGenislik onClick={() => setAdim(null)} devreDisi={Boolean(calisan)}>
+            {tt("Geri")}
+          </QtDugme>
+        </div>
+      ) : (
         <QtDugme tur="ikincil" tamGenislik onClick={onKapat} devreDisi={Boolean(calisan)}>
           {tt("Vazgeç")}
         </QtDugme>
-      }
+      )}
     >
       {onDereceli && <DereceliAnahtari dereceli={dereceli} onDegistir={onDereceli} className="a-modsecim-dereceli" />}
-      <div className="a-modsecim-liste" role="group" aria-label={baslik ?? tt("{ad} ile oyun modu seç", { ad })}>
+      {adim === "klasik" && <SkillSeti macTur="1v1" acikBaslar={false} />}
+      {adim !== "klasik" && <div className="a-modsecim-liste" role="group" aria-label={baslik ?? tt("{ad} ile oyun modu seç", { ad })}>
         {SECENEKLER.map((s, i) => (
           <QtModKart
             key={s.mod}
@@ -170,7 +187,7 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
             }
           />
         ))}
-      </div>
+      </div>}
 
       {hata && <p className="a-modsecim-hata" role="alert">{hata}</p>}
     </QtModal>

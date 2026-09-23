@@ -153,3 +153,4 @@
   .a-karsilasma--bulundu .a-karsilasma-kart--rakip { transform: none; }
   .a-karsilasma-siluet, .a-karsilasma--bulundu .a-karsilasma-vs span { animation: none; }
 }
+.a-modsecim-loadout-eylem { display: grid; gap: var(--qt-b-2); width: 100%; }

@@ -28,7 +28,7 @@
   font-weight: var(--qt-a-siyah);
   text-align: center;
 }
-.qt-dk-seti-yuva > span:not(.qt-gizli) { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.qt-dk-seti-yuva > span:not(.qt-gizli):not(.qt-srozet) { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .qt-dk-seti-yuva--dolu { border-style: solid; border-color: transparent; background: var(--qt-ikinci-acik); color: var(--qt-ikinci-koyu); }
 .qt-dk-seti-hata { margin: 0; color: var(--qt-yanlis-koyu); }
 .qt-dk-seti-secim { display: grid; gap: var(--qt-b-2); }
@@ -176,3 +176,10 @@
 .qt-dk-cerceve-ad { font-size: var(--qt-y-s); font-weight: var(--qt-a-siyah); }
 .qt-dk-cerceve-kilit { display: inline-flex; align-items: center; gap: 4px; font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); }
 @media (prefers-reduced-motion: reduce) { .qt-dk-cerceve-sec { transition: none; } .qt-dk-cerceve-sec:active:not(:disabled) { transform: none; } }
+/* 327: loadout yuvasında hak sayısı / "Hakkın yok" işareti */
+.qt-dk-seti-adet { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-dogru-koyu, #138a4c); }
+.qt-dk-seti-adet--yok { color: var(--qt-yanlis-koyu); }
+.qt-dk-seti-not { margin: 0; color: var(--qt-metin-soluk); }
+.qt-dk-seti-not a { color: var(--qt-ikinci-koyu); font-weight: var(--qt-a-siyah); }
+.qt-dk-seti-sec small.qt-dk-seti-adet { color: var(--qt-dogru-koyu); font-weight: var(--qt-a-kalin); }
+.qt-dk-seti-sec small.qt-dk-seti-adet--yok { color: var(--qt-yanlis-koyu); }

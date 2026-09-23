@@ -83,6 +83,16 @@
   --qt-mod-grup: #3fd58f;     --qt-mod-grup-dudak: #1f9a61;    --qt-mod-grup-acik: #d9f7e8;
   --qt-mod-saf: #5ab8ff;      --qt-mod-saf-dudak: #2a7fc4;     --qt-mod-saf-acik: #ddf0ff;
 
+  /* Skill rozeti kimlik renkleri (23 Eyl 2026): açık ton (üst) · ana · koyu (dudak/kenar). */
+  --qt-skill-elli: #9b6bff;           --qt-skill-elli-acik: #c9b0ff;           --qt-skill-elli-koyu: #5a2fc2;
+  --qt-skill-sure: #2fcf7a;           --qt-skill-sure-acik: #8ef0b8;           --qt-skill-sure-koyu: #138a4c;
+  --qt-skill-soru_degistir: #19c3c9;  --qt-skill-soru_degistir-acik: #86eef0;  --qt-skill-soru_degistir-koyu: #0b7f86;
+  --qt-skill-zaman_baskisi: #ff4d4f;  --qt-skill-zaman_baskisi-acik: #ff9f9a;  --qt-skill-zaman_baskisi-koyu: #b3161f;
+  --qt-skill-ikinci_sans: #ff5fa8;    --qt-skill-ikinci_sans-acik: #ffadd2;    --qt-skill-ikinci_sans-koyu: #b81f6b;
+  --qt-skill-sigorta: #3d8bff;        --qt-skill-sigorta-acik: #9cc5ff;        --qt-skill-sigorta-koyu: #1a4fb8;
+  --qt-skill-cifte_puan: #ffb81f;     --qt-skill-cifte_puan-acik: #ffe27a;     --qt-skill-cifte_puan-koyu: #b86e00;
+  --qt-skill-sembol: #ffffff;
+
   /* ---------- 7. Lig renkleri (yazı hepsinde --qt-lig-yazi) ---------- */
   --qt-lig-yazi: #1d2152;
   --qt-lig-bronz: #e39a5f;    --qt-lig-bronz-dudak: #a35a26;

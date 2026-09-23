@@ -90,21 +90,27 @@ function kayitliSlot() {
   }
 }
 
-export function skillSetiOku(slot = kayitliSlot()) {
+// 327: loadout moda göre ayrı — Klasik ("1v1") eski anahtarda, Düello kendi anahtarında.
+// Loadout yalnız bu iki modda vardır; Grup/Turnuva mod için açık bütün skill'leri kullanır.
+export const LOADOUT_MODLARI = ["1v1", "duello"];
+const setAnahtari = (mod) => (mod === "duello" ? `${SKILL_SETI_ANAHTARI}:duello` : SKILL_SETI_ANAHTARI);
+const modaUygun = (mod) => (id) => AKTIF_MAC_SKILLERI.includes(id) && Boolean(SKILL_TANIMLARI[id]?.allowedModes?.includes(mod));
+
+export function skillSetiOku(slot = kayitliSlot(), mod = "1v1") {
   if (typeof localStorage === "undefined") return VARSAYILAN_SKILL_SETI.slice(0, slot);
   try {
-    const ids = JSON.parse(localStorage.getItem(SKILL_SETI_ANAHTARI) ?? "[]");
-    const temiz = [...new Set(ids)].filter((id) => AKTIF_MAC_SKILLERI.includes(id));
+    const ids = JSON.parse(localStorage.getItem(setAnahtari(mod)) ?? "[]");
+    const temiz = [...new Set(ids)].filter(modaUygun(mod));
     return (temiz.length ? temiz : VARSAYILAN_SKILL_SETI).slice(0, slot);
   } catch {
     return VARSAYILAN_SKILL_SETI.slice(0, slot);
   }
 }
 
-export function skillSetiKaydet(ids, slot = SKILL_SLOT_VARSAYILAN) {
-  const temiz = skillSetiTemizle(ids, slot);
+export function skillSetiKaydet(ids, slot = SKILL_SLOT_VARSAYILAN, mod = "1v1") {
+  const temiz = skillSetiTemizle(ids, slot, mod);
   if (typeof localStorage !== "undefined") {
-    localStorage.setItem(SKILL_SETI_ANAHTARI, JSON.stringify(temiz));
+    localStorage.setItem(setAnahtari(mod), JSON.stringify(temiz));
     try { localStorage.setItem(SKILL_SLOT_ANAHTARI, String(slot)); } catch { /* depolama kapalı */ }
     window.dispatchEvent(new CustomEvent("skill-seti-degisti", { detail: temiz }));
   }
@@ -112,9 +118,9 @@ export function skillSetiKaydet(ids, slot = SKILL_SLOT_VARSAYILAN) {
 }
 
 /** Kalıcı depoya dokunmadan geçerli, tekrarsız bir skill seti üretir. */
-export function skillSetiTemizle(ids, slot = SKILL_SLOT_VARSAYILAN) {
+export function skillSetiTemizle(ids, slot = SKILL_SLOT_VARSAYILAN, mod = "1v1") {
   return [...new Set(Array.isArray(ids) ? ids : [])]
-    .filter((id) => AKTIF_MAC_SKILLERI.includes(id))
+    .filter(modaUygun(mod))
     .slice(0, slot);
 }
 
