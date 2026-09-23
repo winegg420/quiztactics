@@ -31,4 +31,28 @@ export default {
   "{n} doğru": "{n} correct",
   "{0} ustalığı": "{0} mastery",
   "{0}: doğru oranı": "{0}: correct rate",
+
+  // ——— Profil ———
+  "Maç sırası ve davetler için haber veririz.": "We'll let you know when it's your turn or someone invites you.",
+  "Kapalı — izin var ama bu cihaz bağlı değil. Açmak için dokun.": "Off — permission is granted but this device isn't connected. Tap to turn on.",
+  "Kapalı — henüz izin verilmedi. Açınca tarayıcı izin isteyecek.": "Off — no permission yet. Turn it on and your browser will ask.",
+  "Quiz Tactics'te benimle yarışmaya var mısın? Bu linkle gel, ikimiz de {n} coin kazanalım: {link}":
+    "Up for a Quiz Tactics challenge? Join with this link and we both get {n} coins: {link}",
+  "Quiz Tactics'te benimle yarışmaya var mısın? Bu linkle gel, ikimiz de coin kazanalım: {link}":
+    "Up for a Quiz Tactics challenge? Join with this link and we both get coins: {link}",
+  "Turnuva kazan, ilk kupan gelsin": "Win a tournament to earn your first trophy",
+  "Maç oyna, serin başlasın": "Play a match to start your streak",
+  "Kategori başarın": "Your category record",
+  "Öğrenilen soru: {0} · Bankada: {1}": "Learned: {0} · In your bank: {1}",
+  "{0} rütbesine ilerleme": "Progress to {0}",
+  "Oyun ayarları": "Game settings",
+  "Sayaç, doğru/yanlış ve maç sonu sesleri": "Timer, right/wrong and match-end sounds",
+  "Değiştirmek için {0} kaldı.": "You can change it again in {0}.",
+  "Her davet için ikiniz de {n} coin kazanırsınız.": "You both get {n} coins for every friend who joins.",
+  "Her davet için ikiniz de coin kazanırsınız.": "You both get coins for every friend who joins.",
+  "Şu ana kadar {n} kişi davet ettin.": "You've invited {n} so far.",
+  "Bu işlem geri alınamaz. Onaylamak için aşağıya hesap kimliğini ({0}) yaz.":
+    "This can't be undone. To confirm, type your account ID ({0}) below.",
+  "ornek@eposta.com": "you@example.com",
+  "Konumunu tekrar değiştirebilmen için {0} kaldı.": "You can change your location again in {0}.",
 };

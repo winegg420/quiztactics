@@ -1,22 +1,22 @@
 import { useEffect, useState } from "react";
-import Ikon from "./Ikon.jsx";
 import { supabase } from "../../src/lib/supabase.js";
-import { kategoriEtiket } from "../lib/kategoriler.js";
+import { kategoriAdi } from "../lib/kategoriler.js";
 import KategoriIkon from "./KategoriIkon.jsx";
 import { JOKER_BILGI } from "../lib/jokerler.js";
 import { tt, ttSunucu } from "../lib/dil.js";
+import { QtIkon, QtIlerleme, QtKart, QtRozet, sayiBicim } from "../tasarim/index.js";
+import "../tasarim/ekranlar/dukkan-bilesen.css";
 
-// Arayüz Yenileme (20 Eyl 2026): satır içi hex yerine token
-// (oyun/styles/yeni.css › RÜTBE VE USTALIK RENKLERİ). Değerler aynı.
-const SEVIYE_RENK = {
-  "Çırak": "var(--ustalik-cirak, #8496B2)",
-  "Kalfa": "var(--ustalik-kalfa, #2FBF71)",
-  "Usta": "var(--ustalik-usta, #4A9DD9)",
-  "Üstat": "var(--ustalik-ustat, #3FA9A0)",
-  "Efsane": "var(--ustalik-efsane, #F2B23C)",
+// Tasarım A: ustalık seviyesi → ilerleme çubuğu tonu (token). Veri ve eşikler sunucudan.
+const SEVIYE_TON = {
+  "Çırak": "lig-gumus",
+  "Kalfa": "dogru",
+  "Usta": "lig-elmas",
+  "Üstat": "mor",
+  "Efsane": "coin",
 };
 
-/** Profil sayfası: kategori ustalığı, en uzun seri ve joker istatistikleri. */
+/** Profil sayfası: kategori ustalığı, en uzun seri ve skill istatistikleri. */
 export default function UstalikIzgarasi() {
   const [seviyeler, setSeviyeler] = useState([]);
   const [seri, setSeri] = useState(null);
@@ -33,7 +33,8 @@ export default function UstalikIzgarasi() {
           supabase.rpc("envanterim"),
         ]);
         if (!aktif) return;
-        if (!u.error) setSeviyeler(u.data ?? []);
+        if (u.error) console.warn("[Bildim] ustalik_seviyelerim başarısız:", u.error.message);
+        else setSeviyeler(u.data ?? []);
         if (!s.error) setSeri(Array.isArray(s.data) ? s.data[0] : s.data);
         if (!e.error) setEnvanter(e.data ?? []);
       } catch (e) { console.warn("[Bildim] ustalik_seviyelerim başarısız:", e?.message ?? e);
@@ -43,7 +44,8 @@ export default function UstalikIzgarasi() {
         const { data, error } = await supabase
           .from("joker_islemleri")
           .select("tur, delta, kaynak");
-        if (!error && aktif) {
+        if (error) throw error;
+        if (aktif) {
           const kullanilan = (data ?? [])
             .filter((x) => x.kaynak === "kullanim")
             .reduce((t, x) => t + Math.abs(x.delta), 0);
@@ -53,8 +55,8 @@ export default function UstalikIzgarasi() {
           const reklam = (data ?? []).filter((x) => x.kaynak === "reklam").length;
           setIstatistik({ kullanilan, kazanilan, reklam });
         }
-      } catch {
-        /* sessiz geç */
+      } catch (e) {
+        console.warn("[Bildim] skill istatistiği okunamadı:", e?.message ?? e);
       }
     })();
     return () => {
@@ -63,83 +65,77 @@ export default function UstalikIzgarasi() {
   }, []);
 
   const toplamDogru = seviyeler.reduce((t, s) => t + (s.dogru_sayisi ?? 0), 0);
+  const kutular = [
+    { ikon: "ates", deger: seri?.seri_gun ?? 0, ad: tt("güncel seri") },
+    { ikon: "kupa", deger: seri?.seri_en_uzun ?? 0, ad: tt("en uzun seri") },
+    { ikon: "yildiz", deger: istatistik?.kullanilan ?? 0, ad: tt("kullanılan skill") },
+    { ikon: "oyna", deger: istatistik?.reklam ?? 0, ad: tt("izlenen video") },
+  ];
 
   return (
     <>
-      {/* ---------- Seri + joker istatistikleri ---------- */}
-      <div className="kart">
-        <div className="bd-kat-baslik"><span>{tt("Seri ve skiller")}</span></div>
-        <div className="bd-istatistik-grid">
-          <div>
-            <b>{seri?.seri_gun ?? 0}</b>
-            <span>{tt("güncel seri")}</span>
-          </div>
-          <div>
-            <b>{seri?.seri_en_uzun ?? 0}</b>
-            <span>{tt("en uzun seri")}</span>
-          </div>
-          <div>
-            <b>{istatistik?.kullanilan ?? 0}</b>
-            <span>{tt("kullanılan skill")}</span>
-          </div>
-          <div>
-            <b>{istatistik?.reklam ?? 0}</b>
-            <span>{tt("izlenen video")}</span>
-          </div>
-        </div>
+      {/* ---------- Seri + skill istatistikleri ---------- */}
+      <QtKart as="section" className="qt-dk-ust-kart" aria-labelledby="qt-dk-seri-baslik">
+        <h2 id="qt-dk-seri-baslik" className="qt-baslik-3">{tt("Seri ve skiller")}</h2>
+        <ul className="qt-dk-sayilar">
+          {kutular.map((k) => (
+            <li key={k.ad}>
+              <QtIkon ad={k.ikon} boyut={20} />
+              <b className="qt-sayi">{sayiBicim(Number(k.deger))}</b>
+              <span>{k.ad}</span>
+            </li>
+          ))}
+        </ul>
         {envanter.length > 0 && (
-          <div className="bd-envanter-satir">
+          <ul className="qt-dk-envanter" aria-label={tt("Envanterin")}>
             {envanter.map((e) => (
-              <span key={e.tur} className="bd-envanter-cip">
-                <Ikon ad={JOKER_BILGI[e.tur]?.ikon ?? "soru"} boyut={15} /> {e.adet}
-              </span>
+              <li key={e.tur} className="qt-dk-envanter-cip">
+                <QtIkon ad={JOKER_BILGI[e.tur]?.ikon ?? "soru"} boyut={18} />
+                <span className="qt-sayi">{e.adet}</span>
+                <span className="qt-gizli">{JOKER_BILGI[e.tur]?.ad ?? e.tur}</span>
+              </li>
             ))}
-          </div>
+          </ul>
         )}
-      </div>
+      </QtKart>
 
       {/* ---------- Kategori ustalığı ---------- */}
-      <div className="kart">
-        <div className="bd-kat-baslik">
-          <span>{tt("Kategori ustalığı")}</span>
-          <span className="alt-yazi">{toplamDogru} {tt("doğru")}</span>
+      <QtKart as="section" className="qt-dk-ust-kart" aria-labelledby="qt-dk-ustalik-baslik">
+        <div className="qt-dk-kart-baslik">
+          <h2 id="qt-dk-ustalik-baslik" className="qt-baslik-3">{tt("Kategori ustalığı")}</h2>
+          <QtRozet ton="dogru" boyut="k" ikon="onay">{tt("{n} doğru", { n: sayiBicim(toplamDogru) })}</QtRozet>
         </div>
 
         {seviyeler.length === 0 ? (
-          <div className="alt-yazi">{tt("Henüz veri yok — birkaç maç oyna.")}</div>
+          <p className="qt-kucuk qt-soluk">{tt("Henüz veri yok — birkaç maç oyna.")}</p>
         ) : (
-          <div className="bd-ustalik-liste">
-            {seviyeler.map((s) => {
-              const renk = SEVIYE_RENK[s.seviye] ?? "var(--text-dim)";
-              return (
-                <div key={s.kategori} className="bd-ustalik-satir">
-                  <div className="bd-ustalik-ust">
-                    {/* Paket 20 VII: kategori rengi Düello / profil / soru kartıyla aynı (KategoriIkon) */}
-                    <span className="bd-ustalik-ad"><KategoriIkon anahtar={s.kategori} boyut={18} plaka /> {kategoriEtiket(s.kategori)}</span>
-                    {/* Paket 43 A.2: seviye rengi yazı olarak beyazda 1,87–3,01 kalıyordu. Çubuk rengi aynı,
-                        yazı rengin metin rengiyle karışımı (%45) — her seviye kendi tonunda, hepsi ≥ 4,5 */}
-                    <span className="bd-ustalik-seviye" style={{ color: `color-mix(in srgb, ${renk} 45%, var(--bd-metin))` }}>
-                      {s.seviye ? ttSunucu(s.seviye) : "—"}
-                    </span>
-                  </div>
-                  <div className="bd-ustalik-bar">
-                    <div
-                      className="dolgu"
-                      style={{ width: `${s.ilerleme ?? 0}%`, background: renk }}
-                    />
-                  </div>
-                  <div className="bd-ustalik-alt alt-yazi">
-                    {s.dogru_sayisi} {tt("doğru")}
-                    {s.sonraki_esik
-                      ? tt(" · {0} için {1} kaldı", { 0: ttSunucu(s.sonraki_seviye), 1: s.sonraki_esik - s.dogru_sayisi })
-                      : tt(" · en üst seviye")}
-                  </div>
+          <ul className="qt-dk-ustalik">
+            {seviyeler.map((s) => (
+              <li key={s.kategori} className="qt-dk-ustalik-satir">
+                <div className="qt-dk-ustalik-ust">
+                  {/* Paket 20 VII: kategori rengi Düello / profil / soru kartıyla aynı (KategoriIkon) */}
+                  <span className="qt-dk-ustalik-ad">
+                    <KategoriIkon anahtar={s.kategori} boyut={18} plaka /> {tt(kategoriAdi(s.kategori))}
+                  </span>
+                  <span className="qt-dk-ustalik-seviye">{s.seviye ? ttSunucu(s.seviye) : "—"}</span>
                 </div>
-              );
-            })}
-          </div>
+                <QtIlerleme
+                  deger={Number(s.ilerleme ?? 0)}
+                  en={100}
+                  ton={SEVIYE_TON[s.seviye] ?? "mor"}
+                  etiket={tt("{0} ustalığı", { 0: tt(kategoriAdi(s.kategori)) })}
+                />
+                <span className="qt-dk-ustalik-alt">
+                  {tt("{n} doğru", { n: s.dogru_sayisi })}
+                  {s.sonraki_esik
+                    ? tt(" · {0} için {1} kaldı", { 0: ttSunucu(s.sonraki_seviye), 1: s.sonraki_esik - s.dogru_sayisi })
+                    : tt(" · en üst seviye")}
+                </span>
+              </li>
+            ))}
+          </ul>
         )}
-      </div>
+      </QtKart>
     </>
   );
 }

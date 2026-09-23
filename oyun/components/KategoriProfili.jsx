@@ -10,6 +10,8 @@ import KategoriIkon from "./KategoriIkon.jsx";
 import { kategoriAdi, kategorileriSirala } from "../lib/kategoriler.js";
 import { unvanAdi } from "../lib/unvanlar.js";
 import { useDil } from "../lib/dilKanca.js";
+import { QtIlerleme, QtIskelet, QtRozet } from "../tasarim/index.js";
+import "../tasarim/ekranlar/dukkan-bilesen.css";
 
 export default function KategoriProfili({ userId, profil: disaridan = null, kucuk = false }) {
   const { ceviri } = useDil();
@@ -36,7 +38,13 @@ export default function KategoriProfili({ userId, profil: disaridan = null, kucu
   }, [userId, disaridan]);
 
   if (hata || (!userId && !disaridan)) return null;
-  if (profil === undefined) return <div className="bd-kprofil bd-kprofil-yukleniyor" aria-busy="true" />;
+  if (profil === undefined) {
+    return (
+      <div className={"qt-dk-kprofil" + (kucuk ? " qt-dk-kprofil--kucuk" : "")} aria-busy="true">
+        <QtIskelet tur="metin" adet={kucuk ? 2 : 4} />
+      </div>
+    );
+  }
   if (!profil) return null;
 
   const toplamMac = Number(profil.toplam_mac ?? 0);
@@ -45,8 +53,8 @@ export default function KategoriProfili({ userId, profil: disaridan = null, kucu
 
   if (toplamMac === 0 && istatistikli === 0) {
     return (
-      <div className="bd-kprofil">
-        <div className="bd-kprofil-bos">{ceviri("Hiç maç yapmadı, istatistiği yok")}</div>
+      <div className={"qt-dk-kprofil" + (kucuk ? " qt-dk-kprofil--kucuk" : "")}>
+        <p className="qt-kucuk qt-soluk">{ceviri("Hiç maç yapmadı, istatistiği yok")}</p>
       </div>
     );
   }
@@ -56,33 +64,36 @@ export default function KategoriProfili({ userId, profil: disaridan = null, kucu
   );
 
   return (
-    <div className={`bd-kprofil ${kucuk ? "kucuk" : ""}`}>
-      <div className="bd-kprofil-ust">
-        {unvan && <span className="bd-unvan">{ceviri(unvan)}</span>}
-        <span className="bd-kprofil-mac">
+    <div className={"qt-dk-kprofil" + (kucuk ? " qt-dk-kprofil--kucuk" : "")}>
+      <div className="qt-dk-kprofil-ust">
+        {unvan && <QtRozet ton="coin" ikon="madalya" boyut="k">{ceviri(unvan)}</QtRozet>}
+        <span className="qt-kucuk qt-soluk">
           {ceviri("{mac} maç · {istatistikli} maçın istatistiği", { mac: toplamMac, istatistikli })}
         </span>
       </div>
       {satirlar.length === 0 ? (
-        <div className="bd-kprofil-bos">{ceviri("Henüz kategori istatistiği yok")}</div>
+        <p className="qt-kucuk qt-soluk">{ceviri("Henüz kategori istatistiği yok")}</p>
       ) : (
-        <ul className="bd-kprofil-liste">
-          {satirlar.map((k) => (
-            <li key={k.kategori} className="bd-kprofil-satir">
-              <KategoriIkon anahtar={k.kategori} boyut={18} plaka />
-              <span className="bd-kprofil-ad">{ceviri(kategoriAdi(k.kategori))}</span>
-              {k.yuzde === null || k.yuzde === undefined ? (
-                <span className="bd-kprofil-veri-yok">{ceviri("veri yok")}</span>
-              ) : (
-                <>
-                  <span className="bd-kprofil-bar" aria-hidden="true">
-                    <span className="dolgu" style={{ width: `${k.yuzde}%` }} />
-                  </span>
-                  <span className="bd-kprofil-yuzde">{ceviri("%{0}", { 0: k.yuzde })}</span>
-                </>
-              )}
-            </li>
-          ))}
+        <ul className="qt-dk-kprofil-liste">
+          {satirlar.map((k) => {
+            const ad = ceviri(kategoriAdi(k.kategori));
+            const yok = k.yuzde === null || k.yuzde === undefined;
+            return (
+              <li key={k.kategori} className="qt-dk-kprofil-satir">
+                <KategoriIkon anahtar={k.kategori} boyut={18} plaka />
+                <span className="qt-dk-kprofil-ad">{ad}</span>
+                {yok ? (
+                  <span className="qt-dk-kprofil-yok">{ceviri("veri yok")}</span>
+                ) : (
+                  <>
+                    <QtIlerleme deger={Number(k.yuzde)} en={100} ton="dogru"
+                                etiket={ceviri("{0}: doğru oranı", { 0: ad })} className="qt-dk-kprofil-bar" />
+                    <span className="qt-dk-kprofil-yuzde qt-sayi">{ceviri("%{0}", { 0: k.yuzde })}</span>
+                  </>
+                )}
+              </li>
+            );
+          })}
         </ul>
       )}
     </div>

@@ -1,16 +1,12 @@
 import { useEffect, useState } from "react";
 import DurumKutusu, { useZamanAsimi } from "../components/DurumKutusu.jsx";
-import Ikon from "../components/Ikon.jsx";
 import { sesAcikMi, sesAyarla, sesDinle, sesTik } from "../lib/ses.js";
-import Modal from "../components/Modal.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { Link, useLocation } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
-import Avatar from "../../src/components/Avatar.jsx";
 import AvatarCerceve from "../components/AvatarCerceve.jsx";
 import LigCerceveSecici from "../components/LigCerceveSecici.jsx";
-import RankBadge from "../components/RankBadge.jsx";
 import LevelCubugu from "../components/LevelCubugu.jsx";
 import SayanSayi from "../components/SayanSayi.jsx";
 import KonumSecici from "../components/KonumSecici.jsx";
@@ -24,6 +20,7 @@ import Bayrak from "../components/Bayrak.jsx";
 import { rutbeBul, sonrakiRutbe } from "../lib/ranks.js";
 import { y } from "../lib/yol.js";
 import { GARDIROP_ACIK } from "../lib/ozellikBayraklari.js";
+import { ayarlar } from "../lib/ayarlar.js";
 import {
   pushDestekleniyor,
   iosSekmesi,
@@ -34,6 +31,23 @@ import {
 import { DILLER, tt, ttSunucu } from "../lib/dil.js";
 import { useDil } from "../lib/dilKanca.js";
 import { HesapGuvenceKarti, misafirMi } from "../components/HesapGuvence.jsx";
+import {
+  QtAnahtar,
+  QtCip,
+  QtDugme,
+  QtIkon,
+  QtIlerleme,
+  QtKart,
+  QtListe,
+  QtListeSatiri,
+  QtModal,
+  QtRozet,
+  QtSekmeler,
+  sayiBicim,
+} from "../tasarim/index.js";
+import "../tasarim/ekranlar/dukkan-profil.css";
+
+const SEKME_KODLARI = ["istatistik", "ayarlar", "rozet", "davet"];
 
 export default function ProfilePage() {
   const { user, profile, refreshProfile, signOut, profilHata } = useAuth();
@@ -49,18 +63,19 @@ export default function ProfilePage() {
   const konum = useLocation();
   useEffect(() => {
     const s = new URLSearchParams(konum.search).get("sekme");
-    if (!s || !["istatistik", "ayarlar", "rozet", "davet"].includes(s)) return;
+    if (!s || !SEKME_KODLARI.includes(s)) return;
     setSekme(s);
     const t = setTimeout(() => {
       // Üst çubuk yapışkan: sekmeler onun hemen altına gelsin
       const el = document.getElementById("profil-sekmeler");
       if (!el) return;
-      const ust = document.querySelector(".bd-ust-blok")?.getBoundingClientRect().height ?? 0;
+      const ust = document.querySelector(".qt-ustcubuk, .bd-ust-blok")?.getBoundingClientRect().height ?? 0;
       window.scrollTo({ top: Math.max(0, el.getBoundingClientRect().top + window.scrollY - ust - 8), behavior: "auto" });
     }, 150);
     return () => clearTimeout(t);
   }, [konum.search, konum.key]);
   const [bildirim, setBildirim] = useState("kapali");
+  const [bildirimCalisiyor, setBildirimCalisiyor] = useState(false);
   const [ses, setSes] = useState(() => sesAcikMi());
   useEffect(() => sesDinle(setSes), []);   // Paket 41 B: maç şeridi/avatar menüsüyle eşit
   const [bildirimHata, setBildirimHata] = useState(null);
@@ -71,9 +86,21 @@ export default function ProfilePage() {
   const [siliniyor, setSiliniyor] = useState(false);
   // Hatalarım bankası özeti
   const [banka, setBanka] = useState(null);
+  // Davet ödülü koda gömülmez: oyun_ayarlari.davet_coin
+  const [davetCoin, setDavetCoin] = useState(null);
 
   useEffect(() => {
     pushDurumu().then(setBildirim).catch((e) => console.error("[Bildim] bildirim durumu okunamadı:", e));
+  }, []);
+
+  useEffect(() => {
+    let aktif = true;
+    ayarlar()
+      .then((o) => {
+        if (aktif && Number(o?.davet_coin) > 0) setDavetCoin(Number(o.davet_coin));
+      })
+      .catch((e) => console.error("[Bildim] oyun ayarları okunamadı:", e));
+    return () => { aktif = false; };
   }, []);
 
   // Hatalarım: öğrenilen / bankada bekleyen
@@ -111,9 +138,11 @@ export default function ProfilePage() {
 
   if (!profile) {
     return (
-      <div className="kart">
-        <DurumKutusu durum={profilHata || profilGecikti ? "hata" : "yukleniyor"} satir={4}
-                     onTekrar={() => refreshProfile(user?.id)} />
+      <div className="qt-pf">
+        <QtKart>
+          <DurumKutusu durum={profilHata || profilGecikti ? "hata" : "yukleniyor"} satir={4}
+                       onTekrar={() => refreshProfile(user?.id)} />
+        </QtKart>
       </div>
     );
   }
@@ -123,429 +152,392 @@ export default function ProfilePage() {
   const r = rutbeBul(level);
   const sonraki = sonrakiRutbe(level);
 
+  const bildirimDegistir = async () => {
+    setBildirimHata(null);
+    setBildirimCalisiyor(true);
+    try {
+      if (bildirim === "acik") {
+        await bildirimleriKapat();
+        setBildirim("kapali");
+      } else {
+        await bildirimleriAc();
+        setBildirim("acik");
+      }
+    } catch (e) {
+      setBildirimHata(hataMesaji(e));
+      try { setBildirim(await pushDurumu()); } catch (e2) { console.error("[Bildim] bildirim durumu okunamadı:", e2); }
+    } finally {
+      setBildirimCalisiyor(false);
+    }
+  };
+
+  // Paket 19 §F: kapalıysa NEDEN kapalı olduğunu söyler (engelli / iPhone ana ekran / henüz sorulmadı).
+  const bildirimAciklama = bildirim === "acik"
+    ? tt("Maç sırası ve davetler için haber veririz.")
+    : bildirim === "engelli"
+      ? tt("Kapalı — tarayıcı ayarlarından engellenmiş. Açmak için adres çubuğundaki site ayarlarından bildirimlere izin ver.")
+      : bildirim === "desteklenmiyor"
+        ? (iosSekmesi()
+          ? tt("Kapalı — iPhone'da bildirimler yalnız ana ekrandaki uygulamada çalışır. Paylaş → Ana Ekrana Ekle, sonra oradan aç.")
+          : tt("Kapalı — bu tarayıcı bildirimleri desteklemiyor."))
+        : pushDestekleniyor() && Notification.permission === "granted"
+          ? tt("Kapalı — izin var ama bu cihaz bağlı değil. Açmak için dokun.")
+          : tt("Kapalı — henüz izin verilmedi. Açınca tarayıcı izin isteyecek.");
+
+  const davetPaylas = async () => {
+    const link = `${window.location.origin}/?davet=${user.id}`;
+    const mesaj = davetCoin
+      ? tt("Quiz Tactics'te benimle yarışmaya var mısın? Bu linkle gel, ikimiz de {n} coin kazanalım: {link}", { n: davetCoin, link })
+      : tt("Quiz Tactics'te benimle yarışmaya var mısın? Bu linkle gel, ikimiz de coin kazanalım: {link}", { link });
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: "Quiz Tactics", text: mesaj });
+      } catch { /* vazgeçti */ }
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(mesaj);
+      setKopyalandi(true);
+      setTimeout(() => setKopyalandi(false), 2500);
+    } catch (e) {
+      console.error("[Bildim] davet linki kopyalanamadı:", e);
+    }
+  };
+
+  const silKapat = () => { setSilOnay(false); setSilMetin(""); };
+  const hesabiSil = async () => {
+    setSilHata(null);
+    setSiliniyor(true);
+    try {
+      const { error } = await supabase.rpc("hesabimi_sil");
+      if (error) throw error;
+      await signOut();
+    } catch (e) {
+      setSilHata(hataMesaji(e, tt("Hesap silinemedi.")));
+      setSiliniyor(false);
+    }
+  };
+
+  const sekmeler = [
+    { kod: "istatistik", ad: tt("İstatistiklerim"), ikon: "grafik" },
+    { kod: "ayarlar", ad: tt("Ayarlar"), ikon: "ayar" },
+    { kod: "rozet", ad: tt("Rozetler"), ikon: "madalya" },
+    { kod: "davet", ad: tt("Davet"), ikon: "kisiEkle" },
+  ];
 
   return (
-    <div>
-      {/* 2B KARAKTER VİTRİNİ KALKTI (13 Eylül 2026): profilde artık
-          seçilen avatar fotoğrafı görünür, 3B karakter yalnız meydanda. */}
+    <div className="qt-pf">
+      <h1 className="qt-gizli">{tt("Profil")}</h1>
 
-      <h1 className="baslik bd-gorsel-gizli">{tt("Profil")}</h1>
-      <div className="bd-profil-ust">
-        <AvatarCerceve profile={profile} boyut={92} userId={user?.id} />
-
-        {/* Görünen ad artık takma addır; gerçek kullanıcı adı gösterilmez.
-            Takma ad düzenlemesi aşağıdaki ProfilAyarlari kartındadır. */}
-        <div className="bd-profil-ad">{profile.gorunen_ad}</div>
-        {/* Paket 20 III: misafir hesabı her yerde belli olsun */}
-        {misafirMi(user) && <span className="bd-misafir-etiket">{tt("Misafir")}</span>}
-
-        <div style={{ marginTop: 12 }}>
-          <RankBadge level={level} />
+      {/* ---------- Kimlik: avatar (lig çerçevesiyle), takma ad, rütbe, level ---------- */}
+      <QtKart className="qt-pf-kimlik">
+        <span className="qt-pf-avatar">
+          <AvatarCerceve profile={profile} boyut={88} userId={user?.id} />
+        </span>
+        <div className="qt-pf-kimlik-metin">
+          {/* Görünen ad takma addır; gerçek kullanıcı adı gösterilmez. */}
+          <p className="qt-baslik-2 qt-pf-ad">{profile.gorunen_ad}</p>
+          <div className="qt-pf-rozetler">
+            <QtRozet ton="mor" ikon={r.ikon}>{r.ad}</QtRozet>
+            {/* Paket 20 III: misafir hesabı her yerde belli olsun */}
+            {misafirMi(user) && <QtRozet ton="uyari" ikon="kisi">{tt("Misafir")}</QtRozet>}
+          </div>
         </div>
-        {/* P2A: level + bir sonraki level'e XP çubuğu */}
-        <div className="bd-profil-level">
+        <div className="qt-pf-level">
           <LevelCubugu profile={profile} />
         </div>
+      </QtKart>
+
+      {/* ---------- Üç sayı ---------- */}
+      <ul className="qt-pf-sayilar">
+        <li>
+          <QtKart dolgu="k" className="qt-pf-sayi">
+            <QtIkon ad="coin" boyut={22} className="qt-pf-sayi-ikon qt-pf-sayi-ikon--coin" />
+            <b className="qt-sayi"><SayanSayi deger={profile.puan} bicim={(n) => sayiBicim(n)} /></b>
+            <span>{tt("Puan")}</span>
+          </QtKart>
+        </li>
+        {/* Boş durum: kocaman bir "0" yerine hedefi göster. */}
+        <li>
+          <QtKart dolgu="k" className="qt-pf-sayi">
+            <QtIkon ad="kupa" boyut={22} className="qt-pf-sayi-ikon" />
+            {profile.sampiyonluk > 0 ? (
+              <>
+                <b className="qt-sayi"><SayanSayi deger={profile.sampiyonluk} /></b>
+                <span>{tt("Şampiyonluk")}</span>
+              </>
+            ) : (
+              <span className="qt-pf-sayi-hedef">{tt("Turnuva kazan, ilk kupan gelsin")}</span>
+            )}
+          </QtKart>
+        </li>
+        <li>
+          <QtKart dolgu="k" className="qt-pf-sayi">
+            <QtIkon ad="ates" boyut={22} className="qt-pf-sayi-ikon qt-pf-sayi-ikon--vurgu" />
+            {(profile.seri ?? 0) > 0 ? (
+              <>
+                <b className="qt-sayi">{profile.seri}</b>
+                <span>{tt("Günlük Seri")}</span>
+              </>
+            ) : (
+              <span className="qt-pf-sayi-hedef">{tt("Maç oyna, serin başlasın")}</span>
+            )}
+          </QtKart>
+        </li>
+      </ul>
+
+      {/* ---------- SEKMELER ---------- */}
+      <div id="profil-sekmeler" className="qt-pf-sekmeler">
+        <QtSekmeler etiket={tt("Profil bölümleri")} sekmeler={sekmeler} aktif={sekme} onSec={setSekme} />
       </div>
 
-      {/* 2D-E: lig çerçeveleri (lig atlayınca kazanılır, kalıcı) */}
-      {user?.id && <LigCerceveSecici profile={profile} userId={user.id} />}
+      <div id={`qt-panel-${sekme}`} role="tabpanel" className="qt-pf-panel">
+        {sekme === "istatistik" && (<>
+          {/* Kategori başarısı + unvan (Paket 14, 4.8/4.10) */}
+          <QtKart as="section" className="qt-pf-bolum" aria-labelledby="qt-pf-kategori">
+            <h2 id="qt-pf-kategori" className="qt-baslik-3">{tt("Kategori başarın")}</h2>
+            <KategoriProfili userId={user?.id} />
+          </QtKart>
+          <UstalikIzgarasi />
 
-      {/* İstatistikler: 3'lü plaka */}
-      <div className="bd-istatistik-3">
-        <div className="bd-istatistik">
-          <span className="deger" style={{ color: "var(--bd-odul)" }}><SayanSayi deger={profile.puan} /></span>
-          <span className="etiket">{tt("Puan")}</span>
-        </div>
-        {/* Boş durum: kocaman bir "0" yerine hedefi göster. Sıfır bir başarı
-            değil, henüz atılmamış bir adım. */}
-        {profile.sampiyonluk > 0 ? (
-          <div className="bd-istatistik">
-            <span className="deger"><SayanSayi deger={profile.sampiyonluk} /></span>
-            <span className="etiket">{tt("Şampiyonluk")}</span>
-          </div>
-        ) : (
-          <div className="bd-istatistik">
-            {/* ÜÇ KUTU AYNI TÜRDE: sayı + etiket. Eskiden ortadaki bir
-                cümleydi ("İlk şampiyonluğuna / 1 turnuva kaldı") ve aynı
-                hizada üç farklı tür bilgi duruyordu; kutu taşıyordu. */}
-            {/* Paket 42 N: "1 — TURNUVAYA KALDI" ne dediği anlaşılmıyordu; sayı + etiket tam cümle okunur */}
-            <span className="deger">1</span>
-            <span className="etiket cumle">{tt("turnuva kazan, ilk kupan gelsin")}</span>
-          </div>
-        )}
-        {(profile.seri ?? 0) > 0 ? (
-          <div className="bd-istatistik">
-            <span className="deger">{profile.seri}</span>
-            <span className="etiket">{tt("Günlük Seri")}</span>
-          </div>
-        ) : (
-          <div className="bd-istatistik">
-            <span className="deger">1</span>
-            <span className="etiket cumle">{tt("maç oyna, serin başlasın")}</span>
-          </div>
-        )}
-      </div>
+          {/* ---------- Hatalarım bankası ---------- */}
+          {banka && (
+            <QtListe etiket={tt("Hatalarım")}>
+              <QtListeSatiri
+                as={Link}
+                to={y("/calisma")}
+                ikon="kitap"
+                ikonTon="dogru"
+                baslik={tt("Hatalarım")}
+                alt={tt("Öğrenilen soru: {0} · Bankada: {1}", { 0: banka.ogrenilen, 1: banka.bekleyen })}
+                ok
+              />
+            </QtListe>
+          )}
 
-      {/* ---------- SEKMELER ----------
-          Sayfa 3890 px'ti: kimlik, istatistik, sekiz ayar kartı, rozetler
-          ve davet arka arkaya tek sütundaydı. Bloklar AYNEN korundu,
-          yalnız dört sekmeye ayrıldı. */}
-      <div className="bd-profil-sekmeler" id="profil-sekmeler" role="tablist" aria-label={tt("Profil bölümleri")}>
-        {[["istatistik", tt("İstatistiklerim")], ["ayarlar", tt("Ayarlar")],
-          ["rozet", tt("Rozetler")], ["davet", tt("Davet")]].map(([id, ad]) => (
-          <button
-            key={id}
-            type="button"
-            role="tab"
-            aria-selected={sekme === id}
-            className={"bd-profil-sekme" + (sekme === id ? " aktif" : "")}
-            onClick={() => setSekme(id)}
-          >
-            {ad}
-          </button>
-        ))}
-      </div>
+          {sonraki && (
+            <QtKart as="section" className="qt-pf-bolum" aria-labelledby="qt-pf-rutbe">
+              <div className="qt-pf-bolum-baslik">
+                <h2 id="qt-pf-rutbe" className="qt-baslik-3">
+                  {tt("Sonraki rütbe:")} <QtIkon ad={sonraki.ikon} boyut={18} /> {sonraki.ad}
+                </h2>
+                <span className="qt-kucuk qt-soluk">{tt("Level {n}", { n: level })}/{sonraki.min}</span>
+              </div>
+              <QtIlerleme
+                deger={level - r.min}
+                en={Math.max(1, sonraki.min - r.min)}
+                ton="vurgu"
+                etiket={tt("{0} rütbesine ilerleme", { 0: sonraki.ad })}
+              />
+            </QtKart>
+          )}
+        </>)}
 
-      {sekme === "istatistik" && (<>
-      {/* Kategori başarısı + unvan (Paket 14, 4.8/4.10) */}
-      <div className="kart"><KategoriProfili userId={user?.id} /></div>
-      <UstalikIzgarasi />
+        {sekme === "ayarlar" && (<>
+          {/* Paket 20 III: misafir hesabı güvenceye alma — ayarların en üstünde */}
+          <HesapGuvenceKarti />
 
-      {/* ---------- Hatalarım bankası ---------- */}
-      {banka && (
-        <Link to={y("/calisma")} className="kart bd-profil-hatalarim">
-          <span className="bd-mod-ikon hatalarim">
-            <Ikon ad="kitap" boyut={20} />
-          </span>
-          <div className="bd-profil-hatalarim-metin">
-            <div className="ad">{tt("Hatalarım")}</div>
-            <div className="alt-yazi">
-              {tt("Öğrenilen soru:")} <b>{banka.ogrenilen}</b> {tt("· Bankada:")} <b>{banka.bekleyen}</b>
-            </div>
-          </div>
-          <span className="ok" aria-hidden="true">›</span>
-        </Link>
-      )}
-
-      {sonraki && (
-        <div className="kart">
-          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
-            <span style={{ fontWeight: 700, fontSize: 14 }}>
-              {tt("Sonraki rütbe:")} <Ikon ad={sonraki.ikon} boyut={15} /> {sonraki.ad}
-            </span>
-            <span className="alt-yazi">
-              {tt("Level {n}", { n: level })}/{sonraki.min}
-            </span>
-          </div>
-          <div className="soru-sayac">
-            <div
-              className="dolgu"
-              style={{
-                width: `${Math.min(100, ((level - r.min) / Math.max(1, sonraki.min - r.min)) * 100)}%`,
-                background: `linear-gradient(90deg, ${r.renk}, ${sonraki.renk})`,
+          {/* ---------- Oyun ayarları: ses, dil, bildirim, tema ---------- */}
+          <QtKart as="section" className="qt-pf-bolum" aria-labelledby="qt-pf-oyun-ayar">
+            <h2 id="qt-pf-oyun-ayar" className="qt-baslik-3">{tt("Oyun ayarları")}</h2>
+            {/* Maç sesleri: son 5 saniye tik'i, doğru/yanlış vuruşu, bitiş tonu (varsayılan açık) */}
+            <QtAnahtar
+              acik={ses}
+              etiket={tt("Oyun sesleri")}
+              aciklama={tt("Sayaç, doğru/yanlış ve maç sonu sesleri")}
+              onDegis={(yeniDurum) => {
+                sesAyarla(yeniDurum);
+                setSes(yeniDurum);
+                if (yeniDurum) sesTik(3); // örnek ses
               }}
             />
-          </div>
-        </div>
-      )}
-      </>)}
+            <QtAnahtar
+              acik={bildirim === "acik"}
+              etiket={tt("Bildirimler")}
+              aciklama={bildirimAciklama}
+              devreDisi={bildirimCalisiyor || bildirim === "engelli" || bildirim === "desteklenmiyor"}
+              onDegis={bildirimDegistir}
+            />
+            {bildirimHata && <p className="qt-pf-hata" role="alert">{bildirimHata}</p>}
 
-      {sekme === "ayarlar" && (<>
-      {/* Paket 20 III: misafir hesabı güvenceye alma — ayarların en üstünde */}
-      <HesapGuvenceKarti />
-      {/* ---------- Görünüm (3B karakter) — EN ÜSTTE (Paket 8) ----------
-          Eskiden ProfilAyarlari'nın beş kartının ALTINDAYDI; önemli bir
-          özellik 6 kaydırma arkasında kalıyordu.
-          DONDURULDU (Arayüz Yenileme, 20 Eyl 2026): kart bayrak kapalıyken
-          çizilmez. Kod silinmedi — oyun/lib/ozellikBayraklari.js. */}
-      {GARDIROP_ACIK && (
-        <Link to={y("/gorunum")} className="kart bd-profil-hatalarim">
-          <span className="bd-mod-ikon" style={{ background: "var(--bd-vurgu)" }}>
-            <Ikon ad="tisort" boyut={20} />
-          </span>
-          <div className="bd-profil-hatalarim-metin">
-            <div className="ad">{tt("Görünüm")}</div>
-            <div className="alt-yazi">
-              {tt("Türünü seç, kozmetiklerini tak. Meydanda böyle görünürsün.")}
+            {/* Dil: arayüz + soru dili. Seçim profile yazılır, sayfa bir kez yenilenir. */}
+            <div className="qt-pf-ayar-satir">
+              <div className="qt-pf-ayar-metin">
+                <span className="qt-pf-ayar-ad">{tt("Dil")}</span>
+                <span className="qt-kucuk qt-soluk">{tt("Arayüzün ve soruların dili")}</span>
+              </div>
+              <div className="qt-pf-dil" role="group" aria-label={tt("Dil")}>
+                {DILLER.map((d) => (
+                  <QtCip key={d} secili={dil === d} onClick={() => dilDegistir(d)}>
+                    {d.toUpperCase()}
+                  </QtCip>
+                ))}
+              </div>
             </div>
-          </div>
-          <span className="ok" aria-hidden="true">›</span>
-        </Link>
-      )}
 
-      <ProfilAyarlari />
-
-      {/* ---------- Konum (şehir/ülke ligi) ---------- */}
-      {konumDuzenle ? (
-        <KonumSecici mod="kart" onKapat={() => setKonumDuzenle(false)} />
-      ) : (
-        <div className="kart bd-konum-ozet">
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontWeight: 700, fontSize: 14 }}>{tt("Yarıştığın şehir")}</div>
-            <div className="alt-yazi">
-              {profile.ulke
-                ? <><Bayrak kod={profile.ulke} /> {profile.sehir ?? "—"}</>
-                : tt("Henüz seçmedin — şehir ve ülke liglerine giremezsin.")}
-            </div>
-            {konumKilidiKalan(profile.konum_degisti_at) > 0 && (
-              <div className="alt-yazi">
-                {tt("Değiştirmek için")} {sureMetni(konumKilidiKalan(profile.konum_degisti_at))} {tt("kaldı.")}
+            {/* Koyu tema geçici olarak kapalı (lib/tema.js › KOYU_TEMA_KAPALI) */}
+            {!KOYU_TEMA_KAPALI && (
+              <div className="qt-pf-ayar-satir">
+                <div className="qt-pf-ayar-metin">
+                  <span className="qt-pf-ayar-ad">{tt("Tema")}</span>
+                  <span className="qt-kucuk qt-soluk">{tt("Açık ve koyu tema arasında geç")}</span>
+                </div>
+                <TemaDugmesi />
               </div>
             )}
-          </div>
-          <button className="btn kucuk ikincil" onClick={() => setKonumDuzenle(true)}>
-            {profile.ulke ? tt("Değiştir") : tt("Seç")}
-          </button>
-        </div>
-      )}
+          </QtKart>
 
-      {/* Paket 19 §F: kart her zaman görünür; kapalıysa NEDEN kapalı olduğunu söyler (engelli / iPhone ana ekran / henüz sorulmadı). */}
-      {(
-
-        <div className="kart" style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <div className="bd-ayar-ikon"><Ikon ad="zil" boyut={22} /></div>
-          <div style={{ flex: 1 }}>
-            <div style={{ fontWeight: 700, fontSize: 14 }}>{tt("Bildirimler")}</div>
-            <div className="alt-yazi">
-              {bildirim === "acik"
-                ? tt("Açık|durum")
-                : bildirim === "engelli"
-                  ? tt("Kapalı — tarayıcı ayarlarından engellenmiş. Açmak için adres çubuğundaki site ayarlarından bildirimlere izin ver.")
-                  : bildirim === "desteklenmiyor"
-                    ? (iosSekmesi()
-                      ? tt("Kapalı — iPhone'da bildirimler yalnız ana ekrandaki uygulamada çalışır. Paylaş → Ana Ekrana Ekle, sonra oradan aç.")
-                      : tt("Kapalı — bu tarayıcı bildirimleri desteklemiyor."))
-                    : pushDestekleniyor() && Notification.permission === "granted"
-                      ? tt("Kapalı — izin var ama bu cihaz bağlı değil. Aç'a dokun.")
-                      : tt("Kapalı — henüz izin verilmedi. Aç'a dokun, tarayıcı izin isteyecek.")}
-            </div>
-            {bildirimHata && <div className="hata-kutu" style={{ marginTop: 6 }}>{bildirimHata}</div>}
-          </div>
-          {bildirim !== "engelli" && bildirim !== "desteklenmiyor" && (
-            <button
-              className={`btn kucuk ${bildirim === "acik" ? "ikincil" : ""}`}
-              onClick={async () => {
-                setBildirimHata(null);
-                try {
-                  if (bildirim === "acik") {
-                    await bildirimleriKapat();
-                    setBildirim("kapali");
-                  } else {
-                    await bildirimleriAc();
-                    setBildirim("acik");
-                  }
-                } catch (e) {
-                  setBildirimHata(hataMesaji(e));
-                  setBildirim(await pushDurumu());
-                }
-              }}
-            >
-              {bildirim === "acik" ? tt("Kapat|ayar") : tt("Aç|ayar")}
-            </button>
+          {/* ---------- Görünüm (3B karakter) — DONDURULDU (GARDIROP_ACIK) ---------- */}
+          {GARDIROP_ACIK && (
+            <QtListe etiket={tt("Görünüm")}>
+              <QtListeSatiri
+                as={Link}
+                to={y("/gorunum")}
+                ikon="tisort"
+                ikonTon="vurgu"
+                baslik={tt("Görünüm")}
+                alt={tt("Türünü seç, kozmetiklerini tak. Meydanda böyle görünürsün.")}
+                ok
+              />
+            </QtListe>
           )}
-        </div>
-      )}
 
-      {/* Maç sesleri: son 5 saniye tik'i, doğru/yanlış vuruşu, bitiş tonu */}
-      <div className="kart" style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        <div className="bd-ayar-ikon"><Ikon ad={ses ? "sesAcik" : "sesKapali"} boyut={22} /></div>
-        <div style={{ flex: 1 }}>
-          <div style={{ fontWeight: 700, fontSize: 14 }}>{tt("Oyun sesleri")}</div>
-          <div className="alt-yazi">
-            {ses ? tt("Açık|durum") : tt("Kapalı")}
-          </div>
-        </div>
-        <button
-          className={`btn kucuk ${ses ? "ikincil" : ""}`}
-          onClick={() => {
-            const yeniDurum = !ses;
-            sesAyarla(yeniDurum);
-            setSes(yeniDurum);
-            if (yeniDurum) sesTik(3); // örnek ses
-          }}
-        >
-          {ses ? tt("Kapat|ayar") : tt("Aç|ayar")}
-        </button>
-      </div>
+          <ProfilAyarlari />
 
-      {/* SADELEŞTİRME — tema düğmesi üst bardan kalktı ama
-          KAYBOLMADI. Ayar, ayarların olduğu yere taşındı; oyuncu kontrolü
-          elinde tutuyor. Bileşen aynı bileşen. */}
-      {/* Dil: arayüz + soru dili. Seçim profile yazılır, sayfa bir kez yenilenir. */}
-      <div className="kart bd-ayar-satir">
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontWeight: 700, fontSize: 14 }}>{tt("Dil")}</div>
-          <div className="alt-yazi">{tt("Arayüzün ve soruların dili")}</div>
-        </div>
-        <div className="giris-dil bd-ayar-dil" role="group" aria-label={tt("Dil")}>
-          {DILLER.map((d) => (
-            <button
-              key={d}
-              type="button"
-              className={"giris-dil-btn" + (dil === d ? " aktif" : "")}
-              aria-pressed={dil === d}
-              onClick={() => dilDegistir(d)}
-            >
-              {d.toUpperCase()}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Koyu tema geçici olarak kapalı (lib/tema.js › KOYU_TEMA_KAPALI):
-          geri bildirim süresince tek mod, düğme gizli. */}
-      {!KOYU_TEMA_KAPALI && (
-      <div className="kart bd-ayar-satir">
-        <div style={{ flex: 1, minWidth: 0 }}>
-          {/* "Görünüm" adı 3B karakter kartına ait (Paket 8): iki kart aynı
-              adı taşıyordu. */}
-          <div style={{ fontWeight: 700, fontSize: 14 }}>{tt("Tema")}</div>
-          <div className="alt-yazi">{tt("Açık ve koyu tema arasında geç")}</div>
-        </div>
-        <TemaDugmesi />
-      </div>
-      )}
-
-      {/* ---------- Yasal / hesap ---------- */}
-      <div className="kart">
-        <div className="baslik">{tt("Hesap")}</div>
-        <Link to="/gizlilik" className="bd-metin-link">
-          {tt("Gizlilik politikası")}
-        </Link>
-        <Link to="/kosullar" className="bd-metin-link">
-          {tt("Kullanım koşulları")}
-        </Link>
-
-        {/* Paket 42 A: geri alınamaz eylem kırmızı KENARLI ve küçük; sayfanın en belirgin öğesi değil */}
-        <button
-          className="btn kucuk tehlike"
-          style={{ marginTop: 12 }}
-          onClick={() => {
-            setSilHata(null);
-            setSilOnay(true);
-          }}
-        >
-          {tt("Hesabımı sil")}
-        </button>
-        <div className="alt-yazi" style={{ marginTop: 8 }}>
-          {tt("Profilin, puanların, rozetlerin ve tüm oyun kayıtların kalıcı olarak silinir. Bu işlem geri alınamaz.")}
-        </div>
-      </div>
-
-      {/* Paket 42 A: çıkış geri alınabilir — ikincil */}
-      <button className="btn ikincil" onClick={signOut}>
-        {tt("Çıkış Yap")}
-      </button>
-      </>)}
-
-      {sekme === "rozet" && (<>
-      <div className="kart">
-        <div className="baslik">
-          {tt("Rozetler (")}{kazanilan.size}/{rozetler.length})
-        </div>
-        <div className="rozet-grid">
-          {rozetler.map((r) => {
-            const var_mi = kazanilan.has(r.id);
-            return (
-              <div key={r.id} className={`rozet ${var_mi ? "" : "kilitli"}`}>
-                <div className="rozet-ikon">
-                  <span className="rozet-emoji">{r.ikon}</span>
-                  {!var_mi && (
-                    <span className="rozet-kilit" aria-hidden="true"><Ikon ad="kilit" boyut={9} /></span>
+          {/* ---------- Konum (şehir/ülke ligi) ---------- */}
+          {konumDuzenle ? (
+            <KonumSecici mod="kart" onKapat={() => setKonumDuzenle(false)} />
+          ) : (
+            <QtKart as="section" className="qt-pf-bolum" aria-labelledby="qt-pf-konum">
+              <div className="qt-pf-ayar-satir">
+                <div className="qt-pf-ayar-metin">
+                  <h2 id="qt-pf-konum" className="qt-pf-ayar-ad">{tt("Yarıştığın şehir")}</h2>
+                  <span className="qt-kucuk qt-soluk">
+                    {profile.ulke
+                      ? <><Bayrak kod={profile.ulke} /> {profile.sehir ?? "—"}</>
+                      : tt("Henüz seçmedin — şehir ve ülke liglerine giremezsin.")}
+                  </span>
+                  {konumKilidiKalan(profile.konum_degisti_at) > 0 && (
+                    <span className="qt-kucuk qt-soluk">
+                      {tt("Değiştirmek için {0} kaldı.", { 0: sureMetni(konumKilidiKalan(profile.konum_degisti_at)) })}
+                    </span>
                   )}
                 </div>
-                <div className="rozet-ad">{ttSunucu(r.ad)}</div>
-                <div className="rozet-aciklama">{ttSunucu(r.aciklama)}</div>
+                <QtDugme tur="ikincil" boyut="k" onClick={() => setKonumDuzenle(true)}>
+                  {profile.ulke ? tt("Değiştir") : tt("Seç")}
+                </QtDugme>
               </div>
-            );
-          })}
-        </div>
-      </div>
-      </>)}
-
-      {sekme === "davet" && (<>
-      <div className="kart" style={{ textAlign: "center" }}>
-        <div className="baslik">{tt("Arkadaşını davet et")}</div>
-        <div className="alt-yazi" style={{ marginBottom: 12 }}>
-          {tt("Her davet için")} <b>{tt("ikiniz de 200 coin")}</b>.
-          {profile.davet_sayisi > 0 && (
-            <> {tt("Şu ana kadar")} {profile.davet_sayisi} {tt("kişi davet ettin.")}</>
+            </QtKart>
           )}
-        </div>
-        <button
-          className="btn"
-          onClick={async () => {
-            const link = `${window.location.origin}/?davet=${user.id}`;
-            const mesaj = tt("Quiz Tactics'te benimle yarışmaya var mısın? Bu linkle gel, ikimiz de 200 coin kazanalım: {0}", { 0: link });
-            if (navigator.share) {
-              try {
-                await navigator.share({ title: "Quiz Tactics", text: mesaj });
-              } catch { /* vazgeçti */ }
-            } else {
-              await navigator.clipboard.writeText(mesaj);
-              setKopyalandi(true);
-              setTimeout(() => setKopyalandi(false), 2500);
-            }
-          }}
-        >
-          {kopyalandi ? tt("Kopyalandı") : tt("Davet linkini paylaş")}
-        </button>
-      </div>
-      </>)}
 
-      {silOnay && (
-        <Modal onKapat={siliniyor ? undefined : () => { setSilOnay(false); setSilMetin(""); }} etiket={tt("Hesap silme onayı")}>
-          <div className="bd-modal">
-            <div className="bd-konum-baslik">{tt("Hesabını silmek üzeresin")}</div>
-            <div className="bd-konum-aciklama">
-              {tt("Bu işlem")} <b>{tt("geri alınamaz")}</b>{tt(". Onaylamak için aşağıya")}{" "}
-              <b>{profile.username}</b> {tt("yaz.")}
+          {/* ---------- Yasal / hesap ---------- */}
+          <section className="qt-pf-bolum qt-pf-hesap" aria-labelledby="qt-pf-hesap">
+            <h2 id="qt-pf-hesap" className="qt-baslik-3 qt-pf-zemin-baslik">{tt("Hesap")}</h2>
+            <QtListe etiket={tt("Hesap")}>
+              <QtListeSatiri as={Link} to="/gizlilik" ikon="kalkan" baslik={tt("Gizlilik politikası")} ok />
+              <QtListeSatiri as={Link} to="/kosullar" ikon="liste" baslik={tt("Kullanım koşulları")} ok />
+            </QtListe>
+            {/* Paket 42 A: çıkış geri alınabilir — ikincil */}
+            <QtDugme tur="ikincil" ikon="cikis" tamGenislik onClick={signOut}>
+              {tt("Çıkış Yap")}
+            </QtDugme>
+            {/* Paket 42 A: geri alınamaz eylem küçük ve en altta; sayfanın en belirgin öğesi değil */}
+            <div className="qt-pf-sil">
+              <QtDugme tur="tehlike" boyut="k" ikon="cop" onClick={() => { setSilHata(null); setSilOnay(true); }}>
+                {tt("Hesabımı sil")}
+              </QtDugme>
+              <p className="qt-kucuk qt-soluk-zemin">
+                {tt("Profilin, puanların, rozetlerin ve tüm oyun kayıtların kalıcı olarak silinir. Bu işlem geri alınamaz.")}
+              </p>
             </div>
-            <label className="bd-alan">
-              <span>{tt("Hesap kimliğin")}</span>
-              <input
-                type="text"
-                autoComplete="off"
-                value={silMetin}
-                onChange={(e) => setSilMetin(e.target.value)}
-                placeholder={profile.username}
-              />
-            </label>
-            {silHata && <div className="hata-kutu">{silHata}</div>}
-            <div className="bd-konum-butonlar">
-              <button
-                className="btn tehlike"
-                disabled={siliniyor || silMetin.trim() !== profile.username}
-                onClick={async () => {
-                  setSilHata(null);
-                  setSiliniyor(true);
-                  try {
-                    const { error } = await supabase.rpc("hesabimi_sil");
-                    if (error) throw error;
-                    await signOut();
-                  } catch (e) {
-                    setSilHata(hataMesaji(e, tt("Hesap silinemedi.")));
-                    setSiliniyor(false);
-                  }
-                }}
-              >
-                {siliniyor ? tt("Siliniyor…") : tt("Evet, hesabımı sil")}
-              </button>
-              <button
-                className="btn ikincil"
-                disabled={siliniyor}
-                onClick={() => {
-                  setSilOnay(false);
-                  setSilMetin("");
-                }}
-              >
-                {tt("Vazgeç")}
-              </button>
+          </section>
+        </>)}
+
+        {sekme === "rozet" && (<>
+          <QtKart as="section" className="qt-pf-bolum" aria-labelledby="qt-pf-rozetler">
+            <div className="qt-pf-bolum-baslik">
+              <h2 id="qt-pf-rozetler" className="qt-baslik-3">{tt("Rozetler")}</h2>
+              <QtRozet ton="coin" boyut="k">{kazanilan.size}/{rozetler.length}</QtRozet>
             </div>
+            <ul className="qt-pf-rozet-izgara">
+              {rozetler.map((b) => {
+                const var_mi = kazanilan.has(b.id);
+                return (
+                  <li key={b.id} className={"qt-pf-rozet" + (var_mi ? "" : " qt-pf-rozet--kilitli")}>
+                    <span className="qt-pf-rozet-ikon" aria-hidden="true">
+                      <span className="qt-pf-rozet-simge">{b.ikon}</span>
+                      {!var_mi && <span className="qt-pf-rozet-kilit"><QtIkon ad="kilit" boyut={12} /></span>}
+                    </span>
+                    <span className="qt-pf-rozet-ad">{ttSunucu(b.ad)}</span>
+                    <span className="qt-pf-rozet-aciklama">{ttSunucu(b.aciklama)}</span>
+                    {!var_mi && <span className="qt-gizli">{tt("Kilitli")}</span>}
+                  </li>
+                );
+              })}
+            </ul>
+          </QtKart>
+          {/* 2D-E: lig çerçeveleri (lig atlayınca kazanılır, kalıcı) */}
+          {user?.id && <LigCerceveSecici profile={profile} userId={user.id} />}
+        </>)}
+
+        {sekme === "davet" && (
+          <QtKart as="section" className="qt-pf-davet" aria-labelledby="qt-pf-davet">
+            <span className="qt-pf-davet-ikon" aria-hidden="true"><QtIkon ad="hediye" boyut={36} /></span>
+            <h2 id="qt-pf-davet" className="qt-baslik-2">{tt("Arkadaşını davet et")}</h2>
+            <p className="qt-govde qt-soluk">
+              {davetCoin
+                ? tt("Her davet için ikiniz de {n} coin kazanırsınız.", { n: sayiBicim(davetCoin) })
+                : tt("Her davet için ikiniz de coin kazanırsınız.")}
+              {profile.davet_sayisi > 0 && (
+                <> {tt("Şu ana kadar {n} kişi davet ettin.", { n: profile.davet_sayisi })}</>
+              )}
+            </p>
+            <QtDugme ikon={kopyalandi ? "onay" : "paylas"} tamGenislik onClick={davetPaylas}>
+              {kopyalandi ? tt("Kopyalandı") : tt("Davet linkini paylaş")}
+            </QtDugme>
+          </QtKart>
+        )}
+      </div>
+
+      <QtModal
+        acik={silOnay}
+        onKapat={siliniyor ? () => {} : silKapat}
+        kapatDugmesi={!siliniyor}
+        ortuKapatir={!siliniyor}
+        baslik={tt("Hesabını silmek üzeresin")}
+        aciklama={tt("Bu işlem geri alınamaz. Onaylamak için aşağıya hesap kimliğini ({0}) yaz.", { 0: profile.username })}
+        altlik={
+          <div className="qt-pf-modal-dugmeler">
+            <QtDugme
+              tur="tehlike"
+              tamGenislik
+              yukleniyor={siliniyor}
+              devreDisi={silMetin.trim() !== profile.username}
+              onClick={hesabiSil}
+            >
+              {siliniyor ? tt("Siliniyor…") : tt("Evet, hesabımı sil")}
+            </QtDugme>
+            <QtDugme tur="ikincil" tamGenislik devreDisi={siliniyor} onClick={silKapat}>
+              {tt("Vazgeç")}
+            </QtDugme>
           </div>
-        </Modal>
-      )}
+        }
+      >
+        <label className="qt-pf-alan">
+          <span>{tt("Hesap kimliğin")}</span>
+          <input
+            type="text"
+            autoComplete="off"
+            autoCapitalize="off"
+            spellCheck={false}
+            value={silMetin}
+            onChange={(e) => setSilMetin(e.target.value)}
+            placeholder={profile.username}
+            data-qt-ilk-odak
+          />
+        </label>
+        {silHata && <p className="qt-pf-hata" role="alert">{silHata}</p>}
+      </QtModal>
     </div>
   );
 }
