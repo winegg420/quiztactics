@@ -96,6 +96,10 @@ const AN = {
   tur_gecis: "tur_gecis", rakip_cevapladi: "rakip_cevapladi", kazandin: "galibiyet", kaybettin: "maglubiyet",
   beraberlik: "beraberlik", coin: "coin", satin_alma: "satin_alma", xp_dolma: "xp_dolma", level: "level",
   rozet: "rozet", rutbe: "lig_atlama", turnuva: "turnuva", bildirim: "bildirim", hata_uyari: "hata_uyari",
+  // Ajan K (24 Eyl 2026): her skill'in kendi anı (an adı = rol). Seçim yoksa skill'e özel eski dosya çalar.
+  skill_elli: "skill_elli", skill_ek_sure: "skill_ek_sure", skill_soru_degistir: "skill_soru_degistir",
+  skill_zaman_baskisi: "skill_zaman_baskisi", skill_ikinci_sans: "skill_ikinci_sans", skill_sigorta: "skill_sigorta",
+  skill_seri_koruma: "skill_sigorta", skill_2x: "skill_2x",
 };
 // Bugün dosyası OLMAYAN anlar: seçim yoksa sessiz.
 for (const r of ["sayfa_gecis", "vs_ani", "kategori_secildi", "rakip_cevapladi", "beraberlik", "satin_alma", "xp_dolma", "rozet", "bildirim", "hata_uyari"]) DOSYA[r] = null;
@@ -611,8 +615,9 @@ const SKILL_ROL = {
  */
 export function sesSkill(tur) {
   const rol = SKILL_ROL[String(tur ?? "").toLowerCase()];
-  // "Skill kullanıldı" anına aday seçildiyse bütün skill'ler onu çalar; "mevcut" → türe özel sesler.
-  if (!rol || adayVar("skill")) { sesJoker(); return; }
+  // Her skill kendi /ses-secim anını çalar (AN eşlemesi; seçim yoksa türe özel eski dosya).
+  // Genel "skill" anı yalnız sesJoker'de (Düello saldırı/savunma jokeri, bilinmeyen tür) — Ajan K.
+  if (!rol) { sesJoker(); return; }
   cal(rol, tonJoker, rol === "skill_seri_koruma" ? { hiz: 1.15 } : undefined);
 }
 

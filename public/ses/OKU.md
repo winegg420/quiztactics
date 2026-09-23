@@ -35,7 +35,8 @@ hiçbir şey bilmez — yalnız fonksiyonu çağırır.
 | son_3_saniye | `sesTik(3..1)` + `sesKategoriGeriSayim(3..1)` |
 | sure_doldu | `sesSureDoldu()` (müziği açar) |
 | dogru / yanlis | `sesDogru()` / `sesYanlis()` (müziği açar) |
-| skill | `sesSkill(tur)` / `sesJoker()` — aday seçilmişse bütün skill'ler bunu çalar |
+| skill (genel) | `sesJoker()` — Düello saldırı/savunma jokeri, bilinmeyen skill türü |
+| skill_elli · skill_ek_sure · skill_soru_degistir · skill_zaman_baskisi · skill_ikinci_sans · skill_sigorta · skill_2x | `sesSkill(tur)` — her skill kendi anını çalar; seçim yoksa skill_*.wav (Seri Koruma = skill_sigorta, 1.15× tiz) |
 | can_kaybi | `sesCanKaybi(kendi)` |
 | kategori_secildi | `sesKategoriSecildi()` |
 | tur_gecis | `sesTurGecis()` |
