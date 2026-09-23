@@ -60,13 +60,13 @@ değiştirilebilir (JokerCubugu.jsx:179, DuelloPage.jsx:651/1095/1128).
 
 ## Düello — Ida'nın isteği (hazır)
 
-1. **Kategori seçimi geri sayımı her saniye duyulsun, son 1–2 sn belirgin:**
+1. **Kategori seçimi geri sayımı her saniye duyulsun, son 3 sn belirgin (351):**
    ```js
    const sonSayimRef = useRef(null);
    // saniye her değiştiğinde (kalan = ekranda yazan sayı):
    if (kalan > 0 && sonSayimRef.current !== kalan) {
      sonSayimRef.current = kalan;
-     sesKategoriGeriSayim(kalan);   // >2: kısa tik · 2: "bong" · 1: daha tiz + yüksek "bong"
+     sesKategoriGeriSayim(kalan);   // >3: kısa tik · 3–2: "bong" · 1: daha tiz + yüksek "bong"
    }
    ```
    Görsel: son 2 saniyede rakamı büyüt/kırmızıya çek — ses aynı karede.

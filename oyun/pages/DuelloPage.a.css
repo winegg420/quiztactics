@@ -188,6 +188,27 @@
 .m2-kat-sayim { position: absolute; top: 6px; right: 8px; display: flex; gap: 3px; }
 .m2-kat-sayim i { width: 7px; height: 7px; border-radius: 50%; background: var(--qt-yuzey-3); box-shadow: inset 0 0 0 1.5px var(--qt-cizgi-guclu); }
 .m2-kat-sayim i.dolu { background: var(--qt-ikinci); box-shadow: none; }
+/* 351 · strateji penceresi: kalan hak sayısı + iki oran */
+.m2-kat-sayim { align-items: center; }
+.m2-kat-sayim b { font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); line-height: 1; color: var(--qt-metin-soluk); margin-right: 1px; }
+.m2-kat-ad { padding-right: 30px; }
+.m2-kat-bilgi { display: flex; flex-wrap: wrap; column-gap: var(--qt-b-2); row-gap: 0; }
+.m2-kat-oran { white-space: nowrap; }
+.m2-kat-oran b { font-weight: var(--qt-a-siyah); color: var(--qt-metin); }
+.m2-kat--kapali .m2-kat-sayim b { color: var(--qt-metin-soluk); }
+
+/* 351 · savunanın bekleme ekranı: kendi en güçlü / en zayıf 3 kategorisi */
+.m2-savun { display: grid; gap: var(--qt-b-3); }
+.m2-savun-blok { display: grid; gap: var(--qt-b-2); padding: var(--qt-b-3); border-radius: var(--qt-r-m); background: var(--qt-yuzey); box-shadow: 0 var(--qt-dudak) 0 var(--qt-cizgi); }
+.m2-savun-blok h3 { margin: 0; font-size: var(--qt-y-s); font-weight: var(--qt-a-siyah); color: var(--qt-metin-soluk); }
+.m2-savun-blok ul { margin: 0; padding: 0; list-style: none; display: grid; gap: var(--qt-b-2); }
+.m2-savun-kat { display: flex; align-items: center; gap: var(--qt-b-2); min-height: 32px; }
+.m2-savun-ad { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: var(--qt-a-kalin); }
+.m2-savun-kullanildi { flex: none; padding: 1px 6px; border-radius: 999px; font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); background: var(--qt-yuzey-3); color: var(--qt-metin-soluk); }
+.m2-savun-oran { flex: none; min-width: 3.2em; text-align: right; font-weight: var(--qt-a-siyah); }
+.m2-savun-blok--guclu .m2-savun-oran { color: var(--qt-dogru-koyu); }
+.m2-savun-blok--zayif .m2-savun-oran { color: var(--qt-yanlis-koyu); }
+.m2-savun-kat--doldu .m2-savun-ad { color: var(--qt-metin-soluk); text-decoration: line-through; }
 
 /* ---------------------------------------------------------------- cevap fazı */
 .m2-cevap-faz, .m2-sonuc-faz { display: grid; gap: var(--qt-b-3); }

@@ -3,7 +3,7 @@
 //
 // Kurallar SUNUCUDA (migration 268 · duello2_*). Bu dosya yalnız
 // duello_durum()'un surum:2 şeklini çizer; hiçbir kural burada hesaplanmaz.
-//   · Kategori: 8 sn, dolunca sunucu rastgele seçer. n/2 sayacı kategori_sayim'dan.
+//   · Kategori: sureler.kategori (15 sn, 351), dolunca sunucu rastgele seçer. Kalan hak kategori_sayim'dan; oranlar profil.oranlar'dan (maç başında bir kez).
 //   · Cevap: iki oyuncu AYNI soruyu AYNI ANDA görür; rakibin yalnız CEVAPLADIĞI
 //     görünür, NE cevapladığı görünmez. Kendi cevabın kilitlenir, doğru/yanlış
 //     sonuç fazına kadar gösterilmez.
@@ -105,32 +105,88 @@ export function V2UzatmaBandi({ kategori, c }) {
 
 // ---------------------------------------------------------------- kategori fazı
 /**
- * sayac: ekranın verdiği büyük geri sayım (QtSayac). Son 2 sn vurgusu ve ses ekranda.
+ * Oyuncunun kategori doğru oranı (0–100) ya da null ("—").
+ * Kaynak: maç başında sunucuda bir kez hesaplanan profil.oranlar (351, az veri → null).
+ * Eski maçlarda (oranlar yok) profil.kategoriler.yuzde yedeği.
  */
-export function V2Kategori({ d, benSaldiran, rakip, calisan, sayac, sonSaniye, onSec, c }) {
+function kategoriOrani(profil, k) {
+  const oranlar = profil?.oranlar;
+  if (oranlar && typeof oranlar === "object") {
+    const v = oranlar[k];
+    return typeof v === "number" ? v : null;
+  }
+  const p = (profil?.kategoriler ?? []).find((x) => x.kategori === k);
+  return typeof p?.yuzde === "number" ? p.yuzde : null;
+}
+
+const oranMetni = (v, c) => (v === null ? "—" : c("%{n}", { n: v }));
+
+/**
+ * sayac: ekranın verdiği büyük geri sayım (QtSayac). Son 3 sn vurgusu ve ses ekranda.
+ * Saldıran: her kartta rakibin ve senin oranın + kalan hak.
+ * Savunan: "Rakip düşünüyor…", kendi en güçlü 3 / en zayıf 3 kategorin (kullanılanlar işaretli).
+ */
+export function V2Kategori({ d, benSaldiran, ben, rakip, calisan, sayac, sonSaniye, onSec, c }) {
   const uygun = new Set(Array.isArray(d.uygun_kategoriler) ? d.uygun_kategoriler : []);
   const sayim = d.kategori_sayim ?? {};
   const max = Number(d.kategori_max ?? 2);
-  const profil = rakip.profil?.kategoriler ?? [];
+  const kategoriler = d.kategoriler ?? [];
 
   const baslik = (
     <div className={sinif("m2-kat-ust", sonSaniye && "m2-kat-ust--son")}>
       <div className="m2-kat-baslik">
-        <h2 className="qt-baslik-2">{benSaldiran ? c("Kategori seç") : c("{ad} kategori seçiyor…", { ad: rakip.gorunen_ad })}</h2>
-        <p className="m2-kat-alt">{c("Süre dolarsa kategori rastgele seçilir.")}</p>
+        <h2 className="qt-baslik-2">{benSaldiran ? c("Kategori seç") : c("Rakip düşünüyor…")}</h2>
+        <p className="m2-kat-alt">
+          {benSaldiran ? c("Süre dolarsa kategori rastgele seçilir.") : c("{ad} kategori seçiyor…", { ad: rakip.gorunen_ad })}
+        </p>
       </div>
       <div className="m2-kat-sayac">{sayac}</div>
     </div>
   );
 
   if (!benSaldiran) {
+    // Kendi bilinen oranların: en güçlü 3 ve (onlarla çakışmayan) en zayıf 3.
+    const bilinen = kategoriler
+      .map((k) => ({ k, v: kategoriOrani(ben?.profil, k) }))
+      .filter((x) => x.v !== null)
+      .sort((a, b) => b.v - a.v);
+    const guclu = bilinen.slice(0, 3);
+    const zayif = bilinen.slice(3).slice(-3).reverse();
+    const satir = (x) => {
+      const adet = Number(sayim[x.k] ?? 0);
+      return (
+        <li key={x.k} className={sinif("m2-savun-kat", adet >= max && "m2-savun-kat--doldu")}>
+          <KategoriIkon anahtar={x.k} boyut={18} plaka />
+          <span className="m2-savun-ad">{c(kategoriAdi(x.k))}</span>
+          {adet > 0 && (
+            <span className="m2-savun-kullanildi">{adet >= max ? c("doldu") : c("{n}/{m} geldi", { n: adet, m: max })}</span>
+          )}
+          <b className="m2-savun-oran qt-sayi">{oranMetni(x.v, c)}</b>
+        </li>
+      );
+    };
     return (
       <div className="m2-kat-faz">
         {baslik}
-        <div className="m2-bekle">
-          <span className="m2-bekle-ikon" aria-hidden="true"><QtIkon ad="kilic" boyut={30} /></span>
-          <p>{c("Kategoriyi seçen taraf değişir, soruyu ikiniz aynı anda cevaplarsınız.")}</p>
-        </div>
+        {bilinen.length ? (
+          <div className="m2-savun">
+            <section className="m2-savun-blok m2-savun-blok--guclu" aria-label={c("En güçlü kategorilerin")}>
+              <h3>{c("En güçlü kategorilerin")}</h3>
+              <ul>{guclu.map(satir)}</ul>
+            </section>
+            {zayif.length > 0 && (
+              <section className="m2-savun-blok m2-savun-blok--zayif" aria-label={c("En zayıf kategorilerin")}>
+                <h3>{c("En zayıf kategorilerin")}</h3>
+                <ul>{zayif.map(satir)}</ul>
+              </section>
+            )}
+          </div>
+        ) : (
+          <div className="m2-bekle">
+            <span className="m2-bekle-ikon" aria-hidden="true"><QtIkon ad="kilic" boyut={30} /></span>
+            <p>{c("Kategoriyi seçen taraf değişir, soruyu ikiniz aynı anda cevaplarsınız.")}</p>
+          </div>
+        )}
       </div>
     );
   }
@@ -140,26 +196,34 @@ export function V2Kategori({ d, benSaldiran, rakip, calisan, sayac, sonSaniye, o
       {baslik}
       <p className="m2-not">{c("Her kategori maçta en çok {n} kez gelir; aynı kategori üst üste gelmez.", { n: max })}</p>
       <div className="m2-kat-izgara">
-        {(d.kategoriler ?? []).map((k) => {
+        {kategoriler.map((k) => {
           const adet = Number(sayim[k] ?? 0);
+          const kalan = Math.max(0, max - adet);
           const doldu = adet >= max;
           const secilebilir = uygun.has(k);
-          const p = profil.find((x) => x.kategori === k);
+          const rOran = kategoriOrani(rakip.profil, k);
+          const bOran = kategoriOrani(ben?.profil, k);
           const neden = secilebilir ? null : doldu ? c("doldu") : c("üst üste olmaz");
           return (
             <button key={k} type="button"
                     className={sinif("m2-kat", !secilebilir && "m2-kat--kapali")}
                     disabled={!secilebilir || !!calisan}
                     aria-busy={calisan === "kategori" || undefined}
-                    aria-label={`${c(kategoriAdi(k))} ${adet}/${max}${neden ? ` · ${neden}` : ""}`}
+                    aria-label={`${c(kategoriAdi(k))} · ${c("Rakip")} ${oranMetni(rOran, c)} · ${c("Sen")} ${oranMetni(bOran, c)} · ${c("Kalan hak: {n}", { n: kalan })}${neden ? ` · ${neden}` : ""}`}
                     onClick={() => onSec(k)}>
               <KategoriIkon anahtar={k} boyut={22} plaka />
               <span className="m2-kat-ad">{c(kategoriAdi(k))}</span>
               <span className="m2-kat-bilgi">
-                {neden ?? (p?.yuzde === null || p?.yuzde === undefined ? c("veri yok") : c("Rakip %{n}", { n: p.yuzde }))}
+                {neden ?? (
+                  <>
+                    <span className="m2-kat-oran m2-kat-oran--rakip">{c("Rakip")} <b className="qt-sayi">{oranMetni(rOran, c)}</b></span>
+                    <span className="m2-kat-oran m2-kat-oran--ben">{c("Sen")} <b className="qt-sayi">{oranMetni(bOran, c)}</b></span>
+                  </>
+                )}
               </span>
-              <span className="m2-kat-sayim" aria-hidden="true">
-                {Array.from({ length: max }, (_, i) => <i key={i} className={i < adet ? "dolu" : ""} />)}
+              <span className="m2-kat-sayim" title={c("Kalan hak: {n}", { n: kalan })}>
+                <b className="qt-sayi">{kalan}</b>
+                {Array.from({ length: max }, (_, i) => <i key={i} className={i < kalan ? "dolu" : ""} />)}
               </span>
             </button>
           );

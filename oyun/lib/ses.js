@@ -517,13 +517,13 @@ export function sesTurGecis() { cal("tur_gecis", tonTurGecis); }
 
 /**
  * Kategori seçimindeki geri sayım — her saniye bir kez çağır.
- * kalanSn > 2: kısa tik · 2: vurgulu "bong" · 1: daha tiz ve yüksek "bong" · ≤0: sessiz.
+ * kalanSn > 3: kısa tik · 3–2: vurgulu "bong" · 1: daha tiz ve yüksek "bong" · ≤0: sessiz.
  * @param {number} kalanSn ekranda yazan saniye
  */
 export function sesKategoriGeriSayim(kalanSn) {
   const n = Math.round(Number(kalanSn));
   if (!Number.isFinite(n) || n <= 0) return;
-  if (n > 2) {
+  if (n > 3) {
     cal("sayim_tik", () => ton({ frekans: 1400, sure: 0.03, hacim: 0.09, tip: "square" }));
     return;
   }

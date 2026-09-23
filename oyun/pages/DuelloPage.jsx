@@ -722,7 +722,7 @@ function DuelloMac({ id }) {
   // korumasıyla bir kez çalar (StrictMode çift efekti çift ses vermez).
   useEffect(() => { sesOnYukle("duello"); sesOnYukle("mac"); sesOnYukle("skill"); }, []);
 
-  // Kategori seçimi geri sayımı: rakam her değiştiğinde ses; son 2 sn "bong".
+  // Kategori seçimi geri sayımı: rakam her değiştiğinde ses; son 3 sn "bong".
   const v2Aktif = d?.surum === 2 && d?.durum === "aktif";
   const kategoriSn = v2Aktif && d.faz === "kategori" ? Math.ceil(kalanSn) : 0;
   useEffect(() => {
@@ -1042,8 +1042,8 @@ function DuelloMac({ id }) {
     const toplamSn = d.faz === "kategori"
       ? Number(d.sureler?.kategori ?? 8)
       : Math.max(Number(d.sureler?.cevap ?? 15), Math.ceil(kalanSn));
-    const sonIki = d.faz === "kategori" && kalanSn > 0 && kalanSn <= 2;
-    const gerilim = (d.faz === "cevap" && !kilitli && kalanSn > 0 && kalanSn <= 5) || sonIki;
+    const sonUc = d.faz === "kategori" && kalanSn > 0 && kalanSn <= 3;   // kategori: son 3 sn vurgusu (renk + ses)
+    const gerilim = (d.faz === "cevap" && !kilitli && kalanSn > 0 && kalanSn <= 5) || sonUc;
     const ekBalon = skillEfekt?.tur === "sure"
       ? { anahtar: `s${skillEfekt.deger}${fazAnahtari}`, metin: `+${skillEfekt.deger}` }
       : skillEfekt?.tur === "zaman_baskisi"
@@ -1052,8 +1052,8 @@ function DuelloMac({ id }) {
     let sahne2 = null;
     if (d.faz === "kategori") {
       sahne2 = (
-        <V2Kategori d={d} benSaldiran={benSaldiran} rakip={rakip} calisan={calisan} sonSaniye={sonIki} c={c2}
-                    sayac={<QtSayac kalan={kalanSn} toplam={toplamSn} esik={2} boyut="b" />}
+        <V2Kategori d={d} benSaldiran={benSaldiran} ben={ben} rakip={rakip} calisan={calisan} sonSaniye={sonUc} c={c2}
+                    sayac={<QtSayac kalan={kalanSn} toplam={toplamSn} esik={3} boyut="b" />}
                     onSec={(k) => { sesDokunus(); eylem("kategori", "duello_kategori_sec", { p_kategori: k }); }} />
       );
     } else if (d.faz === "cevap") {

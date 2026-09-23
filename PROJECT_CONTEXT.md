@@ -296,7 +296,7 @@ karakter, Hızlı Mod hariç — dondurulmuş) bu sistemle yeniden yazıldı.
 - Kenney (CC0) — `public/ses/` (WAV + mp3, ~630 KB; lisans `public/ses/LISANS.txt`).
   Başka kaynak kullanılmaz. Müzik YOK (ayrı karar).
 - `oyun/lib/ses.js`: dosyadan çalar, yüklenemezse osilatör yedeği; ses aç/kapa ayarı
-  (varsayılan açık). Soru geldi, tur geçişi, Düello kategori geri sayımı (son 2 sn vurgulu),
+  (varsayılan açık). Soru geldi, tur geçişi, Düello kategori geri sayımı (son 3 sn vurgulu),
   skill başına ses, coin/level/kazandın/kaybettin/turnuva. Kullanım tarifi `public/ses/OKU.md`.
 
 ### Profil avatarları
