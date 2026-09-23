@@ -3,7 +3,7 @@ import Ikon from "./Ikon.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
-import Avatar from "../../src/components/Avatar.jsx";
+import CerceveliAvatar from "./CerceveliAvatar.jsx";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
 
@@ -66,7 +66,7 @@ export default function EzeliRakip() {
         <span className="alt-yazi">{rakip.toplam} {tt("maç")}</span>
       </div>
       <div className="bd-ezeli-govde">
-        <Avatar profile={rakip} boyut={46} />
+        <CerceveliAvatar profile={rakip} userId={rakip.id ?? rakip.user_id} boyut={48} />
         <div className="bd-ezeli-bilgi">
           <div className="bd-ezeli-ad">{rakip.gorunen_ad}</div>
           <div className="bd-ezeli-skor">

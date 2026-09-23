@@ -35,6 +35,7 @@ export const SUSLER = {
   bronz_madalya: { src: "/kozmetik/bronz-madalya.webp", yer: "alt" },
   // Kodla çizilen süsler (görsel yok)
   tas_ust: { kod: "tas", adet: 1 },
+  tas_ust_yakut: { kod: "tas", adet: 1, ton: "yakut" },
   taslar_4: { kod: "tas", adet: 4 },
   taslar_6: { kod: "tas", adet: 6 },
   taslar_3: { kod: "tas", adet: 3 },
@@ -42,24 +43,24 @@ export const SUSLER = {
   disler: { kod: "disler" },
 };
 
-/** Bilinen çerçeveler. Anahtarlar A'nın sözleşmesiyle eşlenir (docs/SOZLESME_ROZET_CERCEVE.md). */
+/** Bilinen çerçeveler — anahtarlar sözleşmeden (docs/SOZLESME_ROZET_CERCEVE.md §4). */
 export const CERCEVE_TANIMLARI = {
   // ——— Dükkân: Sıradan (gri-mavi) — kalın tek renk halka, iç gölge, kabartma
-  siradan_celik: { tur: "nadirlik", malzeme: "siradan", desen: "duz", ad: "Çelik" },
-  siradan_nokta: { tur: "nadirlik", malzeme: "siradan", desen: "nokta", ad: "Perçin" },
-  siradan_cift: { tur: "nadirlik", malzeme: "siradan", desen: "cift", ad: "Çift Hat" },
+  dukkan_gece: { tur: "nadirlik", malzeme: "siradan", desen: "duz", ad: "Gece Mavisi" },
+  dukkan_nane: { tur: "nadirlik", malzeme: "siradan", desen: "nokta", ad: "Nane" },
+  dukkan_mercan: { tur: "nadirlik", malzeme: "siradan", desen: "cift", ad: "Mercan" },
   // ——— Dükkân: Nadir (mavi) — iki tonlu metal, üstte küçük süs
-  nadir_safir: { tur: "nadirlik", malzeme: "nadir", desen: "metal", sus: ["tas_ust"], ad: "Safir" },
-  nadir_yildiz: { tur: "nadirlik", malzeme: "nadir", desen: "metal", sus: ["yildiz_ust"], ad: "Yıldız" },
-  nadir_kutup: { tur: "nadirlik", malzeme: "nadir", desen: "metal", sus: ["kar_tanesi"], ad: "Kutup" },
+  dukkan_okyanus: { tur: "nadirlik", malzeme: "nadir", desen: "metal", sus: ["tas_ust"], ad: "Okyanus" },
+  dukkan_zumrut: { tur: "nadirlik", malzeme: "nadir", desen: "metal", sus: ["yildiz_ust"], ad: "Zümrüt" },
+  dukkan_yakut: { tur: "nadirlik", malzeme: "nadir", desen: "metal", sus: ["tas_ust_yakut"], ad: "Yakut" },
   // ——— Dükkân: Epik (mor) — çok katmanlı halka, mücevherler, 6 sn'de bir parıltı
-  epik_ametist: { tur: "nadirlik", malzeme: "epik", desen: "cok", sus: ["taslar_4"], parilti: true, ad: "Ametist" },
-  epik_gece: { tur: "nadirlik", malzeme: "epik", desen: "cok", sus: ["taslar_6"], parilti: true, ad: "Gece Yarısı" },
-  epik_hazine: { tur: "nadirlik", malzeme: "epik", desen: "cok", sus: ["taslar_3", "mucevher_ust"], parilti: true, ad: "Hazine" },
+  dukkan_ametist: { tur: "nadirlik", malzeme: "epik", desen: "cok", sus: ["taslar_4"], parilti: true, ad: "Ametist" },
+  dukkan_kutup: { tur: "nadirlik", malzeme: "epik", desen: "cok", sus: ["taslar_6"], parilti: true, ad: "Kutup Işığı" },
+  dukkan_nebula: { tur: "nadirlik", malzeme: "epik", desen: "cok", sus: ["taslar_3", "mucevher_ust"], parilti: true, ad: "Nebula" },
   // ——— Dükkân: Efsanevi (altın-turuncu) — dönen ışık halkası, kıvılcım, taç/kanat
-  efsanevi_tac: { tur: "nadirlik", malzeme: "efsanevi", desen: "metal", sus: ["tac"], hareketli: true, ad: "Hükümdar" },
-  efsanevi_anka: { tur: "nadirlik", malzeme: "efsanevi", desen: "metal", sus: ["kanatlar_altin"], hareketli: true, ad: "Anka" },
-  efsanevi_yildiz: { tur: "nadirlik", malzeme: "efsanevi", desen: "metal", sus: ["parlayan_yildiz", "alev_yan"], hareketli: true, ad: "Süpernova" },
+  dukkan_gunes: { tur: "nadirlik", malzeme: "efsanevi", desen: "metal", sus: ["tac"], hareketli: true, ad: "Güneş Tacı" },
+  dukkan_anka: { tur: "nadirlik", malzeme: "efsanevi", desen: "metal", sus: ["kanatlar_altin"], hareketli: true, ad: "Anka" },
+  dukkan_ejder: { tur: "nadirlik", malzeme: "efsanevi", desen: "metal", sus: ["parlayan_yildiz", "alev_yan"], hareketli: true, ad: "Ejder" },
 
   // ——— Lig çerçeveleri (lig atlayınca kazanılır, satılmaz)
   lig_gumus: { tur: "lig", malzeme: "gumus", desen: "metal", sus: ["kalkan"], ad: "Gümüş Lig" },
@@ -68,10 +69,10 @@ export const CERCEVE_TANIMLARI = {
   lig_efsane: { tur: "lig", malzeme: "efsane", desen: "metal", sus: ["alev_mor"], hareketli: true, ad: "Efsane Lig" },
 
   // ——— Level çerçeveleri (Level 25/50/75/100 rozetiyle gelir)
-  level_25: { tur: "level", malzeme: "bronz", desen: "dis", sus: ["disler", "bronz_madalya"], ad: "Level 25" },
-  level_50: { tur: "level", malzeme: "gumus", desen: "metal", sus: ["yildiz_uclu"], ad: "Level 50" },
-  level_75: { tur: "level", malzeme: "altin", desen: "metal", sus: ["kanatlar_altin"], ad: "Level 75" },
-  level_100: { tur: "level", malzeme: "elmas", desen: "kristal", sus: ["tac_buyuk", "mucevher_alt"], hareketli: true, ad: "Level 100" },
+  level_25: { tur: "level", malzeme: "bronz", desen: "dis", sus: ["disler", "bronz_madalya"], ad: "Level 25 Madalyonu" },
+  level_50: { tur: "level", malzeme: "gumus", desen: "metal", sus: ["yildiz_uclu"], ad: "Level 50 Yıldızı" },
+  level_75: { tur: "level", malzeme: "altin", desen: "metal", sus: ["kanatlar_altin"], ad: "Level 75 Kanatları" },
+  level_100: { tur: "level", malzeme: "elmas", desen: "kristal", sus: ["tac_buyuk", "mucevher_alt"], hareketli: true, ad: "Level 100 Tacı" },
 };
 
 /** Eski/alternatif anahtar adları → tanım (ör. eski lig_cerceveleri 'gumus'). */

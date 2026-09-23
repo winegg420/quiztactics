@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
-import { QtAvatar, QtKart, QtListe, QtListeSatiri, QtRozet } from "../tasarim/index.js";
+import { QtKart, QtListe, QtListeSatiri, QtRozet } from "../tasarim/index.js";
+import CerceveliAvatar from "./CerceveliAvatar.jsx";
 import "../tasarim/ekranlar/m1-turnuva.css";
 import { turnuvaSaatleri } from "../lib/zaman.js";
 import { tt } from "../lib/dil.js";
@@ -97,7 +98,7 @@ export default function TurnuvaTanitim() {
               <QtListeSatiri
                 key={o.user_id}
                 vurgulu={i === 0}
-                bas={<QtAvatar src={o.profil?.gorunen_avatar || null} ad={o.profil?.gorunen_ad ?? ""} boyut="s" halka={i === 0 ? "coin" : "yok"} />}
+                bas={<CerceveliAvatar profile={o.profil} userId={o.user_id} boyut={40} />}
                 baslik={`${i + 1}. ${o.profil?.gorunen_ad ?? tt("Oyuncu")}`}
                 sag={<QtRozet ton={i === 0 ? "coin" : "dogru"} boyut="k" ikon="onay">{o.dogru_sayisi ?? 0}</QtRozet>}
               />

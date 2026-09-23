@@ -9,15 +9,13 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../src/context/AuthContext.jsx";
-import { QtAvatar, QtIkon, sinif } from "../tasarim/index.js";
+import { QtIkon, sinif } from "../tasarim/index.js";
+import CerceveliAvatar from "./CerceveliAvatar.jsx";
 import { sesAcikMi, sesAyarla, sesDinle } from "../lib/ses.js";
 import { useDil } from "../lib/dilKanca.js";
 import { DILLER, tt } from "../lib/dil.js";
 import { y } from "../lib/yol.js";
 
-// Profil görseli: gizlilik sonrası gorunen_* alanları, diğerlerinde avatar_url (Avatar.jsx ile aynı kural)
-const gorsel = (p) => (p?.gorunen_avatar !== undefined ? p.gorunen_avatar : p?.avatar_url) || undefined;
-const adi = (p) => p?.gorunen_ad ?? p?.username ?? "";
 
 export default function AvatarMenu({ profile }) {
   const { signOut } = useAuth();
@@ -64,7 +62,7 @@ export default function AvatarMenu({ profile }) {
       <button type="button" ref={dugmeRef} className="qt-avatar-dugme"
               aria-haspopup="menu" aria-expanded={acik} aria-label={tt("Profilim ve ayarlar")}
               onClick={() => setAcik((a) => !a)}>
-        <QtAvatar src={gorsel(profile)} ad={adi(profile)} boyut="m" />
+        <CerceveliAvatar profile={profile} userId={profile?.id} boyut={44} />
       </button>
       {acik && (
         <div className="a-avatar-menu" role="menu" ref={menuRef} aria-label={tt("Profilim ve ayarlar")}>

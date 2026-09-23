@@ -35,7 +35,7 @@ function Sus({ ad }) {
   if (s.kod === "tas") {
     return (TAS_ACILARI[s.adet] ?? [0]).map((a, i) => (
       <span key={`${ad}${i}`} className="qt-cerceve-yer" style={{ "--_a": `${a}deg` }}>
-        <span className="qt-cerceve-tas" data-ton={s.adet === 1 ? "turkuaz" : TAS_TONLARI[i]} />
+        <span className="qt-cerceve-tas" data-ton={s.ton ?? (s.adet === 1 ? "turkuaz" : TAS_TONLARI[i])} />
       </span>
     ));
   }

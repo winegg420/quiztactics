@@ -3,7 +3,8 @@ import { hataMesaji } from "../lib/hata.js";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
-import { QtAvatar, QtIkon, QtDugme, QtIkonDugme, sinif } from "../tasarim/index.js";
+import { QtIkon, QtDugme, QtIkonDugme, sinif } from "../tasarim/index.js";
+import CerceveliAvatar from "./CerceveliAvatar.jsx";
 import { kategoriEtiket } from "../lib/kategoriler.js";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
@@ -92,7 +93,7 @@ export default function DavetBandi() {
     <div className={sinif("a-davet", `a-davet--${d.tur}`)} role="alert">
       <div className="a-davet-ic">
         <span className="a-davet-avatar">
-          <QtAvatar src={d.gorunen_avatar || undefined} ad={d.gorunen_ad ?? ""} boyut="s" halka="coin" />
+          <CerceveliAvatar profile={d} userId={d.davet_eden} boyut={40} />
           <span className="a-davet-rozet" aria-hidden="true"><QtIkon ad={bilgi.ikon} boyut={12} /></span>
         </span>
 

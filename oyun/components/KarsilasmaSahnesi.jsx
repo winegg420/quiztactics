@@ -18,7 +18,8 @@ import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import AvatarCerceve from "./AvatarCerceve.jsx";
 import RankBadge from "./RankBadge.jsx";
-import { QtAvatar, QtIkon, QtRozet, sinif } from "../tasarim/index.js";
+import { QtIkon, QtRozet, sinif } from "../tasarim/index.js";
+import CerceveliAvatar from "./CerceveliAvatar.jsx";
 import "../tasarim/ekranlar/a-modlar.css";
 import { unvanAdi } from "../lib/unvanlar.js";
 import { tt } from "../lib/dil.js";
@@ -77,7 +78,7 @@ export default function KarsilasmaSahnesi({ rakip, bulundu, ezeli, baslik, bosEt
         <div className={sinif("a-karsilasma-kart", "a-karsilasma-kart--rakip", rakip ? "a-karsilasma-kart--dolu" : "a-karsilasma-kart--bos")}>
           {rakip ? (
             <>
-              <QtAvatar src={rakip.gorunen_avatar || undefined} ad={rakip.gorunen_ad ?? ""} boyut="xl" halka="vurgu" />
+              <CerceveliAvatar profile={rakip} userId={rakip.id} boyut={88} hareketli />
               <span className="a-karsilasma-ad">{rakip.gorunen_ad}</span>
               {/* P2A: rütbe level'den; rakibin verisinde level yoksa id ile okunur */}
               {(rakip.level != null || rakip.id) && <RankBadge level={rakip.level} userId={rakip.id} />}
