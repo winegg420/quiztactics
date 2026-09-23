@@ -2,4 +2,6 @@
 // (dil.js ile aynı kural). Şeritler paralel çalıştığı için her biri kendi dosyasına yazar;
 // dil.js bu dosyaları SOZLUK.en'e katar (buradaki karşılık önce gelir).
 export default {
+  // ——— Giriş ekranı (src/pages/Login.jsx) ———
+  "Yasal metinler": "Legal",
 };

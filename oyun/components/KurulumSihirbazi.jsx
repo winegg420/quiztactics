@@ -7,6 +7,9 @@ import Avatar from "../../src/components/Avatar.jsx";
 import Bayrak from "./Bayrak.jsx";
 import { useDil } from "../lib/dilKanca.js";
 import { tt } from "../lib/dil.js";
+import { QtDugme, QtToast } from "../tasarim/index.js";
+import "../tasarim/ekranlar/g-ortak.css";
+import "../tasarim/ekranlar/g-kurulum.css";
 
 // Profesyonel avatar seti. Eski düşük ayrıntılı SVG'ler donduruldu; 31 karakter
 // aynı çizim dilinde yeniden üretildi. Kaynak: AvatarProIllustrations.jsx.
@@ -175,120 +178,120 @@ export default function KurulumSihirbazi({ onTamam }) {
   };
 
   const serbestSehir = sehirler.length === 0;
+  const hataNotu = hata ? <QtToast ton="yanlis" metin={hata} className="g-sihirbaz-hata" /> : null;
 
+  // Tasarım Adım 2 (Yön A): eski paylaşılan Modal (bd-modal-katman — araç testleri
+  // `.bd-modal-katman input/select` ve `img[src*='/avatars/']` arar) içinde tasarım
+  // sisteminin paneli. RPC'ler ve adım akışı aynı.
   return (
     <Modal etiket={ceviri("Kurulum")}>
-      <div className="bd-modal bd-sihirbaz">
-        <div className="bd-adim-cizgi" aria-hidden="true">
-          {[1, 2, 3].map((a) => (
-            <span key={a} className={`bd-adim-nokta ${adim >= a ? "aktif" : ""}`} />
-          ))}
+      <div className="qt-modal g-sihirbaz">
+        <div className="g-sihirbaz-adimlar">
+          <div className="g-sihirbaz-cizgi" aria-hidden="true">
+            {[1, 2, 3].map((a) => (
+              <span key={a} className={"g-sihirbaz-parca" + (adim >= a ? " g-sihirbaz-parca--dolu" : "")} />
+            ))}
+          </div>
+          <span className="qt-kucuk qt-soluk">{ceviri("Adım {n}/{t}", { n: adim, t: 3 })}</span>
         </div>
 
         {adim === 1 && (
-          <>
-            <div className="bd-konum-baslik">{ceviri("Kendine bir takma ad seç")}</div>
-            <div className="bd-konum-aciklama">
+          <div key="a1" className="g-sihirbaz-adim qt-h-gir">
+            <h2 className="qt-baslik-2">{ceviri("Kendine bir takma ad seç")}</h2>
+            <p className="qt-kucuk qt-soluk">
               {ceviri("Quiz Tactics'te gerçek adın hiçbir zaman gösterilmez. Diğer oyuncular yalnızca burada seçtiğin takma adı görür.")}
-            </div>
-            <label className="bd-alan">
-              <span>{ceviri("Takma ad (3-16 karakter)")}</span>
+            </p>
+            <label className="g-alan">
+              <span className="g-alan-etiket">{ceviri("Takma ad (3-16 karakter)")}</span>
               <input
+                className="g-girdi"
                 type="text"
                 maxLength={16}
                 autoFocus
+                autoComplete="nickname"
                 value={takmaAd}
                 placeholder={ceviri("ör. BilgeKartal")}
                 onChange={(e) => setTakmaAd(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && takmaAd.trim().length >= 3 && adKaydet()}
               />
             </label>
-            <div className="alt-yazi">
+            <p className="qt-kucuk qt-soluk">
               {ceviri("Harf, rakam ve alt çizgi kullanabilirsin. Sonradan günde bir kez değiştirilebilir.")}
-            </div>
-            {hata && <div className="hata-kutu">{hata}</div>}
-            <div className="bd-konum-butonlar">
-              <button
-                className="btn"
-                disabled={calisiyor || takmaAd.trim().length < 3}
-                onClick={adKaydet}
-              >
-                {calisiyor ? ceviri("Kaydediliyor…") : ceviri("Devam")}
-              </button>
-            </div>
-          </>
+            </p>
+            {hataNotu}
+            <QtDugme
+              tamGenislik
+              ikonSag="ileri"
+              yukleniyor={calisiyor}
+              devreDisi={takmaAd.trim().length < 3}
+              onClick={adKaydet}
+            >
+              {calisiyor ? ceviri("Kaydediliyor…") : ceviri("Devam")}
+            </QtDugme>
+          </div>
         )}
 
         {adim === 2 && (
-          <>
-            <div className="bd-konum-baslik">{ceviri("Avatarını seç")}</div>
-            <div className="bd-konum-aciklama">
+          <div key="a2" className="g-sihirbaz-adim qt-h-gir">
+            <h2 className="qt-baslik-2">{ceviri("Avatarını seç")}</h2>
+            <p className="qt-kucuk qt-soluk">
               {ceviri("Hazır bir avatar seç ya da Google fotoğrafını kullanmayı onayla. Onaylamazsan fotoğrafın kimseye gösterilmez.")}
-            </div>
+            </p>
 
-            <div className="bd-avatar-grid">
+            <div className="g-avatar-izgara" role="group" aria-label={ceviri("Avatarını seç")}>
               {HAZIR_AVATARLAR.map((a) => (
                 <button
                   key={a.url}
-                  className={`bd-avatar-sec ${secilenAvatar === a.url ? "aktif" : ""}`}
+                  type="button"
+                  className={"g-avatar-sec" + (secilenAvatar === a.url ? " g-avatar-sec--secili" : "")}
+                  aria-pressed={secilenAvatar === a.url}
                   aria-label={ceviri("{ad} avatarını seç", { ad: ceviri(a.ad) })}
                   title={ceviri(a.ad)}
                   onClick={() => setSecilenAvatar(a.url)}
                 >
-                  <img src={a.url} alt="" />
+                  <img src={a.url} alt="" loading="lazy" />
                 </button>
               ))}
             </div>
 
-            {hata && <div className="hata-kutu">{hata}</div>}
+            {hataNotu}
 
-            <div className="bd-konum-butonlar">
-              <button
-                className="btn"
-                disabled={calisiyor || !secilenAvatar}
-                onClick={() => avatarKaydet(secilenAvatar)}
-              >
-                {ceviri("Bu avatarı kullan")}
-              </button>
-            </div>
-
-            {googleFoto && (
-              <button
-                className="btn ikincil"
-                style={{ marginTop: 10 }}
-                disabled={calisiyor}
-                onClick={() => avatarKaydet(googleFoto)}
-              >
-                <img
-                  src={googleFoto}
-                  alt=""
-                  referrerPolicy="no-referrer"
-                  style={{ width: 24, height: 24, borderRadius: "50%" }}
-                />
-                {ceviri("Google fotoğrafımı kullan")}
-              </button>
-            )}
-            <button
-              className="btn ikincil"
-              style={{ marginTop: 10 }}
-              disabled={calisiyor}
-              onClick={() => avatarKaydet(null)}
+            <QtDugme
+              tamGenislik
+              ikon="onay"
+              yukleniyor={calisiyor && Boolean(secilenAvatar)}
+              devreDisi={calisiyor || !secilenAvatar}
+              onClick={() => avatarKaydet(secilenAvatar)}
             >
+              {ceviri("Bu avatarı kullan")}
+            </QtDugme>
+            {googleFoto && (
+              <QtDugme tur="ikincil" tamGenislik devreDisi={calisiyor} onClick={() => avatarKaydet(googleFoto)}>
+                <span className="g-sihirbaz-google">
+                  <img src={googleFoto} alt="" referrerPolicy="no-referrer" />
+                  {ceviri("Google fotoğrafımı kullan")}
+                </span>
+              </QtDugme>
+            )}
+            <QtDugme tur="hayalet" tamGenislik devreDisi={calisiyor} onClick={() => avatarKaydet(null)}>
               {ceviri("Avatarsız devam et")}
-            </button>
-          </>
+            </QtDugme>
+          </div>
         )}
 
         {adim === 3 && (
-          <>
-            <div className="bd-konum-baslik">{ceviri("Hangi şehir için yarışıyorsun?")}</div>
-            <div className="bd-konum-aciklama">
+          <div key="a3" className="g-sihirbaz-adim qt-h-gir">
+            <h2 className="qt-baslik-2">{ceviri("Hangi şehir için yarışıyorsun?")}</h2>
+            <p className="qt-kucuk qt-soluk">
               {ceviri("Şehir ve ülke liglerinde bu bilgiyle yarışırsın. Günde yalnızca bir kez değiştirebilirsin.")}
-            </div>
+            </p>
 
-            <label className="bd-alan">
-              <span>{ceviri("Ülke")} {ulke && <Bayrak kod={ulke} />}</span>
+            <label className="g-alan">
+              <span className="g-alan-etiket">
+                {ceviri("Ülke")} {ulke && <Bayrak kod={ulke} />}
+              </span>
               <select
+                className="g-girdi"
                 value={ulke}
                 onChange={(e) => {
                   setUlke(e.target.value);
@@ -303,10 +306,11 @@ export default function KurulumSihirbazi({ onTamam }) {
               </select>
             </label>
 
-            <label className="bd-alan">
-              <span>{ceviri("Şehir")}</span>
+            <label className="g-alan">
+              <span className="g-alan-etiket">{ceviri("Şehir")}</span>
               {serbestSehir ? (
                 <input
+                  className="g-girdi"
                   type="text"
                   placeholder={ceviri("Şehrini yaz")}
                   maxLength={40}
@@ -314,7 +318,7 @@ export default function KurulumSihirbazi({ onTamam }) {
                   onChange={(e) => setSehir(e.target.value)}
                 />
               ) : (
-                <select value={sehir} onChange={(e) => setSehir(e.target.value)}>
+                <select className="g-girdi" value={sehir} onChange={(e) => setSehir(e.target.value)}>
                   <option value="">{ceviri("— Seç —")}</option>
                   {sehirler.map((s) => (
                     <option key={s.ad} value={s.ad}>
@@ -325,20 +329,18 @@ export default function KurulumSihirbazi({ onTamam }) {
               )}
             </label>
 
-            {hata && <div className="hata-kutu">{hata}</div>}
+            {hataNotu}
 
-            <div className="bd-konum-butonlar">
-              <button className="btn" disabled={calisiyor} onClick={konumKaydet}>
-                {calisiyor ? ceviri("Kaydediliyor…") : ceviri("Oyuna başla")}
-              </button>
-            </div>
-          </>
+            <QtDugme tamGenislik ikonSag="oyna" yukleniyor={calisiyor} onClick={konumKaydet}>
+              {calisiyor ? ceviri("Kaydediliyor…") : ceviri("Oyuna başla")}
+            </QtDugme>
+          </div>
         )}
 
         {profile && (
-          <div className="bd-sihirbaz-onizleme">
-            <Avatar profile={profile} boyut={34} />
-            <span>{profile.gorunen_ad}</span>
+          <div className="g-sihirbaz-onizleme">
+            <Avatar profile={profile} boyut={36} />
+            <span className="qt-kucuk">{profile.gorunen_ad}</span>
           </div>
         )}
       </div>

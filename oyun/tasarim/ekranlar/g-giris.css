@@ -1,0 +1,149 @@
+/* =====================================================================
+   ŞERİT G — GİRİŞ EKRANI (src/pages/Login.jsx) · Yön A "Şeker Kutusu"
+   Yalnız g-giris kökü altında; renk/ölçü/süre token'dan.
+   ===================================================================== */
+
+.g-giris-ic {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: max(var(--qt-b-3), env(safe-area-inset-top, 0px)) var(--qt-kenar)
+    max(var(--qt-b-6), env(safe-area-inset-bottom, 0px));
+}
+
+.g-giris-ust {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--qt-b-3);
+}
+.g-giris-dil { display: flex; gap: var(--qt-b-2); }
+.g-giris-dil .qt-cip { min-width: var(--qt-dokunma); justify-content: center; padding: 0 var(--qt-b-3); }
+
+.g-giris-izgara {
+  display: grid;
+  gap: var(--qt-b-5);
+  margin-top: var(--qt-b-4);
+}
+
+/* Vitrin: telefonda maskot başlığın yanında, kısa; kart ilk ekranda görünsün. */
+.g-giris-vitrin {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: var(--qt-b-3);
+  row-gap: var(--qt-b-2);
+}
+.g-giris-maskot { width: 72px; height: auto; }
+.g-giris-baslik {
+  margin: 0;
+  font-family: var(--qt-f-baslik);
+  font-weight: var(--qt-a-siyah);
+  font-size: var(--qt-y-2xl);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  color: var(--qt-zemin-metin);
+  text-wrap: balance;
+}
+.g-giris-baslik-vurgu { color: var(--qt-ikinci-koyu); }
+.g-giris-slogan {
+  grid-column: 1 / -1;
+  margin: 0;
+  max-width: 46ch;
+  font-size: var(--qt-y-s);
+  font-weight: var(--qt-a-kalin);
+  line-height: 1.45;
+  color: var(--qt-zemin-soluk);
+}
+
+.g-giris-panel { display: flex; flex-direction: column; gap: var(--qt-b-3); min-width: 0; }
+.g-giris .g-giris-kart { display: flex; flex-direction: column; gap: var(--qt-b-3); }
+.g-giris .g-giris-alt { margin-top: calc(-1 * var(--qt-b-3)); }
+.g-giris-yontemler { display: flex; flex-direction: column; gap: var(--qt-b-4); margin-top: var(--qt-b-1); }
+/* Uzun düğme yazısı (ör. e-posta bağlantısı) dar ekranda kesilmesin, iki satıra insin. */
+.g-giris .g-giris-kaydir .qt-dugme-yazi { white-space: normal; overflow: visible; text-overflow: clip; text-align: center; line-height: 1.15; }
+.g-giris .g-giris-kaydir { white-space: normal; padding-block: var(--qt-b-2); }
+
+/* Sağlayıcı logosu: turuncu düğmede de okunsun diye beyaz yuvarlak içinde. */
+.g-giris-sosyal .qt-dugme-yazi { display: inline-flex; align-items: center; gap: var(--qt-b-3); }
+.g-giris-logo {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--qt-r-hap);
+  background: var(--qt-yuzey);
+  color: var(--qt-metin);
+}
+.g-giris-logo svg { display: block; }
+
+.g-giris .g-giris-not { width: 100%; min-height: 0; box-shadow: 0 3px 0 var(--qt-cizgi); }
+
+.g-giris-ayrac {
+  display: flex;
+  align-items: center;
+  gap: var(--qt-b-3);
+  margin: var(--qt-b-1) 0 0;
+  font-size: var(--qt-y-s);
+  font-weight: var(--qt-a-kalin);
+  color: var(--qt-metin-soluk);
+}
+.g-giris-ayrac::before,
+.g-giris-ayrac::after { content: ""; flex: 1; height: 2px; border-radius: 1px; background: var(--qt-cizgi); }
+
+.g-giris-form { display: flex; flex-direction: column; gap: var(--qt-b-4); }
+
+.g-giris-gonderildi { padding: var(--qt-b-2) 0; }
+.g-giris-gonderildi-eylem { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--qt-b-2); }
+
+.g-giris .g-giris-misafir-not { margin-top: var(--qt-b-3); text-align: center; text-wrap: pretty; }
+
+.g-giris-yasal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0 var(--qt-b-1);
+  font-size: var(--qt-y-s);
+  font-weight: var(--qt-a-kalin);
+  color: var(--qt-zemin-soluk);
+}
+.g-giris-yasal a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--qt-dokunma);
+  padding: 0 var(--qt-b-2);
+  color: var(--qt-zemin-metin);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+  text-decoration-color: var(--qt-cizgi-guclu);
+}
+.g-giris-yasal a:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 2px; border-radius: var(--qt-r-s); }
+@media (hover: hover) and (pointer: fine) {
+  .g-giris-yasal a:hover { text-decoration-color: currentColor; }
+}
+
+/* Masaüstü: iki sütun — solda vitrin, sağda kart. */
+@media (min-width: 850px) {
+  .g-giris-izgara {
+    flex: 1;
+    grid-template-columns: minmax(0, 1fr) minmax(380px, 440px);
+    align-items: center;
+    gap: var(--qt-b-12);
+    margin-top: 0;
+    padding: var(--qt-b-8) 0;
+  }
+  .g-giris-vitrin { grid-template-columns: minmax(0, 1fr); row-gap: var(--qt-b-4); }
+  .g-giris-maskot { width: 120px; }
+  .g-giris-baslik { font-size: var(--qt-y-4xl); }
+  .g-giris-slogan { font-size: var(--qt-y-l); }
+}
+
+@media (max-width: 360px) {
+  .g-giris-maskot { width: 60px; }
+  .g-giris-baslik { font-size: var(--qt-y-xl); }
+}

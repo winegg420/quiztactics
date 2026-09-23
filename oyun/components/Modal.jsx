@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { tt } from "../lib/dil.js";
+import "../tasarim/ekranlar/g-modal.css";
 
 /**
  * Tam ekran modal katmanı — HER ZAMAN `document.body`'ye basılır.
@@ -60,7 +61,9 @@ export default function Modal({ children, onKapat, etiket = tt("İletişim kutus
   const katmanRef = useRef(null);
   const kapatRef = useRef(onKapat);
   kapatRef.current = onKapat;
-  const alttan = ekSinif.split(/s+/).includes("bd-alttan");
+  // Ters bölü bir ara kaybolmuştu (/s+/): sınıflar "s" harfinden bölünüyordu.
+  // Ters bölü bir ara kaybolmuştu (/s+/): sınıf listesi "s" harfinden bölünüyordu.
+  const alttan = ekSinif.split(/\s+/).includes("bd-alttan");
   useEffect(() => {
     const panel = katmanRef.current?.firstElementChild;
     if (!alttan || !panel) return undefined;
@@ -127,7 +130,9 @@ export default function Modal({ children, onKapat, etiket = tt("İletişim kutus
   const govde = (
     <div
       ref={katmanRef}
-      className={"bd-modal-katman" + (ekSinif ? " " + ekSinif : "")}
+      // Tasarım Adım 2: örtü tasarım sisteminin örtüsü (qt-ortu); `bd-modal-katman` test ve
+      // içerik kuralları için KORUNUR. Panel görünümü: g-modal.css.
+      className={"bd-modal-katman qt-ortu g-modal" + (alttan ? " qt-ortu--altSayfa" : "") + (ekSinif ? " " + ekSinif : "")}
       role="dialog"
       aria-modal="true"
       aria-label={etiket}

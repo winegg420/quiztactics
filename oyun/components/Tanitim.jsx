@@ -1,7 +1,9 @@
 import { useState } from "react";
 import Maskot from "./Maskot.jsx";
-import Ikon from "./Ikon.jsx";
+import Modal from "./Modal.jsx";
 import { tt } from "../lib/dil.js";
+import { QtDugme, QtIkon } from "../tasarim/index.js";
+import "../tasarim/ekranlar/g-kurulum.css";
 
 const KARTLAR = [
   {
@@ -12,7 +14,7 @@ const KARTLAR = [
       tt("20 soruluk kapışmalarda rakibinle yarışırsın. Her doğru cevap 10 puan — ") +
       tt("hızlı basmak fark etmez, bilmek yeter. Sıra beklemek yok: sen istediğin ") +
       tt("zaman oynarsın, rakibin de kendi zamanında."),
-    tema: "tema-meydan",
+    ton: "duello",
   },
   {
     ikon: "yildiz",
@@ -21,16 +23,16 @@ const KARTLAR = [
     metin:
       tt("Genel Kültür, Bilim, Tarih, Coğrafya, Edebiyat, Spor, Sanat, Sinema, ") +
       tt("Müzik ve Teknoloji. 5.000'den fazla doğrulanmış soru seni bekliyor."),
-    tema: "tema-turnuva",
+    ton: "turnuva",
   },
   {
-    ikon: "grafik",
+    ikon: "lig",
     poz: "kutluyor",
     baslik: tt("Şehrini zirveye taşı"),
     metin:
       tt("Kazandığın puanlar seni şehir, ülke ve dünya liglerinde yükseltir. ") +
       tt("Her pazartesi yeni hafta başlar. Günlük turnuvalarda son kalan kazanır!"),
-    tema: "tema-lig",
+    ton: "saf",
   },
 ];
 
@@ -44,36 +46,42 @@ export default function Tanitim({ onBitti }) {
   const k = KARTLAR[i];
   const sonuncu = i === KARTLAR.length - 1;
 
+  // Tasarım Adım 2 (Yön A): eski paylaşılan Modal (bd-modal-katman — araç testleri onu arar)
+  // içinde tasarım sisteminin paneli. Kapatılamaz: "Atla" ya da son karttaki düğme bitirir.
   return (
-    <div className="bd-tanitim-katman" role="dialog" aria-modal="true" aria-label={tt("Tanıtım")}>
-      <div className={`bd-tanitim ${k.tema}`}>
-        <button className="bd-tanitim-atla" onClick={onBitti}>
-          {tt("Atla")}
-        </button>
-
-        <div className="bd-tanitim-gorsel">
-          <Maskot poz={k.poz} boyut={104} />
-          <span className="bd-tanitim-ikon">
-            <Ikon ad={k.ikon} boyut={24} />
-          </span>
+    <Modal etiket={tt("Tanıtım")} ekSinif="g-tanitim-katman">
+      <div className="qt-modal g-tanitim">
+        <div className="g-tanitim-ust">
+          <div className="g-tanitim-noktalar" aria-hidden="true">
+            {KARTLAR.map((_, n) => (
+              <span key={n} className={"g-tanitim-nokta" + (n === i ? " g-tanitim-nokta--aktif" : "")} />
+            ))}
+          </div>
+          <QtDugme tur="hayalet" boyut="k" onClick={onBitti}>
+            {tt("Atla")}
+          </QtDugme>
         </div>
 
-        <div className="bd-tanitim-baslik">{k.baslik}</div>
-        <p className="bd-tanitim-metin">{k.metin}</p>
-
-        <div className="bd-tanitim-noktalar" aria-hidden="true">
-          {KARTLAR.map((_, n) => (
-            <span key={n} className={`nokta ${n === i ? "aktif" : ""}`} />
-          ))}
+        <div key={i} className="g-tanitim-icerik qt-h-gir">
+          <div className={`g-tanitim-gorsel g-tanitim-gorsel--${k.ton}`}>
+            <Maskot poz={k.poz} boyut={104} />
+            <span className="g-tanitim-ikon" aria-hidden="true">
+              <QtIkon ad={k.ikon} boyut={24} />
+            </span>
+          </div>
+          <h2 className="qt-baslik-1 g-tanitim-baslik">{k.baslik}</h2>
+          <p className="qt-govde qt-soluk g-tanitim-metin">{k.metin}</p>
         </div>
 
-        <button
-          className="btn"
+        <QtDugme
+          tamGenislik
+          boyut="b"
+          ikonSag={sonuncu ? "oyna" : "ileri"}
           onClick={() => (sonuncu ? onBitti() : setI((x) => x + 1))}
         >
           {sonuncu ? tt("Hadi başlayalım!") : tt("Devam")}
-        </button>
+        </QtDugme>
       </div>
-    </div>
+    </Modal>
   );
 }

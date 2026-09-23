@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase.js";
-import Logo from "../../oyun/components/Logo.jsx";
 import Maskot from "../../oyun/components/Maskot.jsx";
+import { QtMarka, QtCip, QtKart, QtDugme, QtToast, QtBosDurum, QtIkon } from "../../oyun/tasarim/index.js";
+import "../../oyun/tasarim/ekranlar/g-ortak.css";
+import "../../oyun/tasarim/ekranlar/g-giris.css";
 import { girisHedefiniKaydet } from "../lib/girisHedefi.js";
 import { useDil } from "../../oyun/lib/dilKanca.js";
 import { DILLER } from "../../oyun/lib/dil.js";
@@ -141,7 +143,8 @@ export default function Login() {
 
   // Paket 41 K.2: tarayıcının kendi (tarayıcı dilindeki) balonu yerine uygulama içi mesaj
   const [epostaHata, setEpostaHata] = useState(null);
-  const epostaGecerli = (x) => /^[^s@]+@[^s@]+.[^s@]{2,}$/.test(String(x).trim());
+  // Ters bölüler bir ara kaybolmuştu (/^[^s@]+…/): "s" harfi içeren her adres reddediliyordu.
+  const epostaGecerli = (x) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(x).trim());
 
   const epostaGiris = async (e) => {
     e.preventDefault();
@@ -168,166 +171,193 @@ export default function Login() {
     }
   };
 
+  // Hata/bilgi notu basılan düğmenin hemen altında (Paket 42 S.2 kuralı korunur).
+  const hataNotu = (yer) =>
+    hata && hataYeri === yer ? <QtToast ton="yanlis" metin={hata} className="g-giris-not" /> : null;
+
+  // Tasarım Adım 2 (Yön A): noktalı açık zemin, üstte kısa vitrin, altında (masaüstünde
+  // sağında) giriş kartı. Sağlayıcılar, e-posta akışı ve misafir girişi AYNEN korundu.
   return (
-    <div className="giris auth-body">
-      {/* TR / EN değiştirici — en üstte, giriş yapmadan da erişilebilir.
-          Seçim localStorage'a, giriş yapılmışsa profile de yazılır. */}
-      <div className="giris-dil" role="group" aria-label={ceviri("Dil")}>
-        {DILLER.map((d) => (
-          <button
-            key={d}
-            type="button"
-            className={"giris-dil-btn" + (dil === d ? " aktif" : "")}
-            aria-pressed={dil === d}
-            onClick={() => dilDegistir(d)}
-          >
-            {d.toUpperCase()}
-          </button>
-        ))}
-      </div>
-
-      {/* ---------- GİRİŞ (Arayüz Yenileme, 20 Eyl 2026) ----------
-          Prototipteki iki panelli `auth-shell`: solda vitrin, sağda giriş
-          kartı. Sağlayıcılar ve e-posta akışı AYNEN korundu; canlıda kapalı
-          olan sağlayıcının düğmesi zaten çizilmiyor (saglayiciAcik). */}
-      <main className="auth-shell">
-      <section className="auth-showcase">
-        {/* Tek site, tek marka. Eskiden burada hub ile Quiz Tactics ayrımı
-            vardı (VITE_MOD); Quiz Tactics kendi deposuna taşınınca kalktı. */}
-        <span className="brand auth-brand">
-          <Logo boyut={54} koyu />
-        </span>
-        <div>
-          <span className="event-kicker">{ceviri("BİLGİ · TAKTİK · REKABET")}</span>
-          <h1>{ceviri("Bilgini oyuna")}<br /><strong>{ceviri("dönüştür.")}</strong></h1>
-          {/* Paket 42 S.3: ilk ekranda oyunun yüzü — mevcut maskot Bilge */}
-          <Maskot poz="selam" boyut={88} className="giris-maskot" />
-      <div className="slogan">
-        {/* Paket 40 G: saatler sabit yazılıydı ("13:00 ve 21:50"); artık oyunun kullandığı tek listeden
-            (oyun_ayarlari.turnuva_saatleri → zaman.js). Giriş öncesi ayar okunamazsa kod varsayılanı. */}
-        {(() => {
-          const s = turnuvaSaatleri();
-          return s.length === 1
-            ? ceviri("Her gün {saat}'de (Türkiye saati) turnuva.", { saat: s[0] })
-            : ceviri("Her gün {n} turnuva: ilki {ilk}, sonuncusu {son} (Türkiye saati).", { n: s.length, ilk: s[0], son: s[s.length - 1] });
-        })()}
-        <br />
-        {ceviri("7/24 meydan okumalar. Sen de yerini al.")}
-      </div>
-        </div>
-      </section>
-
-      <section className="auth-panel">
-      <div className="auth-card">
-        <span className="eyebrow">{ceviri("TEKRAR HOŞ GELDİN")}</span>
-        <h2>{ceviri("Oyuna giriş yap")}</h2>
-        <p>{ceviri("Kaldığın yerden devam et.")}</p>
-
-      <button
-        className="sosyal-btn social-login"
-        disabled={bekleyen !== null}
-        onClick={() => sosyalGiris("google")}
-      >
-        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.84 14.1A6.6 6.6 0 0 1 5.49 12c0-.73.13-1.43.35-2.1V7.06H2.18a11 11 0 0 0 0 9.88l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15A10.96 10.96 0 0 0 12 1 11 11 0 0 0 2.18 7.06l3.66 2.84C6.71 7.31 9.14 5.38 12 5.38z"/></svg>
-        {bekleyen === "google" ? ceviri("Yönlendiriliyor…") : ceviri("Google ile devam et")}
-      </button>
-      <button
-        className="sosyal-btn"
-        disabled={bekleyen !== null}
-        onClick={facebookGiris}
-      >
-        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#1877F2" d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.09 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.7 4.53-4.7 1.31 0 2.69.24 2.69.24v2.97h-1.52c-1.49 0-1.95.93-1.95 1.89v2.26h3.32l-.53 3.49h-2.79V24C19.61 23.09 24 18.1 24 12.07z"/></svg>
-        {bekleyen === "facebook" ? ceviri("Yönlendiriliyor…") : ceviri("Facebook ile devam et")}
-      </button>
-      {saglayiciAcik("twitter") && (
-      <button
-        className="sosyal-btn"
-        disabled={bekleyen !== null}
-        onClick={() => sosyalGiris("twitter")}
-      >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.24 2.25h3.31l-7.23 8.26L22.83 21.75h-6.66l-5.22-6.82-5.97 6.82H1.66l7.73-8.84L1.17 2.25h6.83l4.72 6.24 5.52-6.24zm-1.16 17.52h1.83L7.02 4.13H5.06l12.02 15.64z"/></svg>
-        {bekleyen === "twitter" ? ceviri("Yönlendiriliyor…") : ceviri("X (Twitter) ile devam et")}
-      </button>
-      )}
-
-      {fbBilgi && !hata && (
-        <div className="bd-bilgi-kutu giris-hata" role="status"
-          style={{ color: "var(--bd-metin, #20324A)", background: "var(--bd-yuzey-2, #fff)", border: "1px solid var(--bd-kenar, #D6E6F2)" }}>
-          {ceviri("Facebook ile giriş yakında. Şimdilik Google, e-posta ya da misafir girişiyle devam edebilirsin.")}
-        </div>
-      )}
-      {hata && hataYeri === "sosyal" && <div className="hata-kutu giris-hata" role="alert">{hata}</div>}
-
-      <div className="ayrac">{ceviri("veya")}</div>
-
-      {gonderildi ? (
-        <div className="kart" style={{ maxWidth: 340, textAlign: "center" }}>
-          {ceviri("Giriş bağlantısı {eposta} adresine gönderildi. E-postanı kontrol et.", { eposta: email })}
-          {/* Paket 41 K.1: adresi düzeltme ya da yeniden gönderme yolu */}
-          <div className="giris-gonderildi-eylem">
-            <button type="button" className="btn ikincil" disabled={bekleyen !== null} onClick={epostaGiris}>
-              {bekleyen === "eposta" ? ceviri("Gönderiliyor…") : ceviri("Yeniden gönder")}
-            </button>
-            <button type="button" className="giris-metin-dugme" onClick={() => { setGonderildi(false); setHata(null); }}>
-              {ceviri("Adresi değiştir")}
-            </button>
+    <div className="qt-sayfa g-giris">
+      <div className="g-giris-ic">
+        <header className="g-giris-ust">
+          <QtMarka boyut="b" />
+          {/* TR / EN değiştirici — giriş yapmadan da erişilebilir.
+              Seçim localStorage'a, giriş yapılmışsa profile de yazılır. */}
+          <div className="g-giris-dil" role="group" aria-label={ceviri("Dil")}>
+            {DILLER.map((d) => (
+              <QtCip key={d} secili={dil === d} onClick={() => dilDegistir(d)}>
+                {d.toUpperCase()}
+              </QtCip>
+            ))}
           </div>
-        </div>
-      ) : (
-        <form onSubmit={epostaGiris} noValidate style={{ width: "100%", maxWidth: 340, display: "flex", flexDirection: "column", gap: 10 }}>
-          <input
-            type="email"
-            inputMode="email"
-            autoComplete="email"
-            placeholder={ceviri("E-posta adresin")}
-            value={email}
-            onChange={(e) => { setEmail(e.target.value); if (epostaHata) setEpostaHata(null); }}
-            aria-invalid={Boolean(epostaHata)}
-            aria-describedby={epostaHata ? "giris-eposta-hata" : undefined}
-          />
-          {epostaHata && <div className="hata-kutu" id="giris-eposta-hata" role="alert">{epostaHata}</div>}
-          <button type="submit" className="btn ikincil" disabled={bekleyen !== null}>
-            {bekleyen === "eposta" ? ceviri("Gönderiliyor…") : ceviri("E-posta ile giriş bağlantısı al")}
-          </button>
-        </form>
-      )}
-      {hata && hataYeri === "eposta" && <div className="hata-kutu giris-hata" role="alert">{hata}</div>}
+        </header>
 
-      <div className="ayrac">{ceviri("hesap açmadan")}</div>
+        <main className="g-giris-izgara">
+          <section className="g-giris-vitrin">
+            {/* İlk ekranda oyunun yüzü — mevcut maskot Bilge */}
+            <Maskot poz="selam" boyut={96} className="g-giris-maskot" />
+            <h1 className="g-giris-baslik">
+              {ceviri("Bilgini oyuna")} <span className="g-giris-baslik-vurgu">{ceviri("dönüştür.")}</span>
+            </h1>
+            <p className="g-giris-slogan">
+              {/* Saatler oyunun kullandığı tek listeden (oyun_ayarlari.turnuva_saatleri → zaman.js).
+                  Giriş öncesi ayar okunamazsa kod varsayılanı. */}
+              {(() => {
+                const s = turnuvaSaatleri();
+                return s.length === 1
+                  ? ceviri("Her gün {saat}'de (Türkiye saati) turnuva.", { saat: s[0] })
+                  : ceviri("Her gün {n} turnuva: ilki {ilk}, sonuncusu {son} (Türkiye saati).", { n: s.length, ilk: s[0], son: s[s.length - 1] });
+              })()}{" "}
+              {ceviri("7/24 meydan okumalar. Sen de yerini al.")}
+            </p>
+          </section>
 
-      <button
-        className="sosyal-btn"
-        disabled={bekleyen !== null}
-        onClick={misafirGiris}
-      >
-        {bekleyen === "misafir" ? ceviri("Giriş yapılıyor…") : ceviri("Misafir olarak dene")}
-      </button>
-      {hata && hataYeri === "misafir" && <div className="hata-kutu giris-hata" role="alert">{hata}</div>}
-      {/* Kapalı sağlayıcıyı vaat etmeyelim: liste GERÇEKTEN açık olan
-          sağlayıcılardan üretilir (panelden okunur). */}
-      <div className="giris-not">
-        {ceviri(
-          "Misafir hesabı bu cihaza bağlıdır. Puanların kaybolmasın diye daha sonra {liste} veya e-posta hesabını bağlayabilirsin.",
-          {
-            liste: ["google", "facebook", "twitter"]
-              .filter(saglayiciAcik)
-              .map((s) => SAGLAYICI_AD[s] ?? s)
-              .join(", "),
-          }
-        )}
+          <section className="g-giris-panel" aria-labelledby="g-giris-baslik">
+            <QtKart dolgu="b" className="g-giris-kart">
+              <h2 id="g-giris-baslik" className="qt-baslik-2">{ceviri("Oyuna giriş yap")}</h2>
+              <p className="qt-kucuk qt-soluk g-giris-alt">{ceviri("Kaldığın yerden devam et.")}</p>
+
+              <div className="g-giris-yontemler">
+                <QtDugme
+                  tur="birincil"
+                  tamGenislik
+                  className="g-giris-sosyal"
+                  yukleniyor={bekleyen === "google"}
+                  devreDisi={bekleyen !== null}
+                  onClick={() => sosyalGiris("google")}
+                >
+                  <span className="g-giris-logo" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.84 14.1A6.6 6.6 0 0 1 5.49 12c0-.73.13-1.43.35-2.1V7.06H2.18a11 11 0 0 0 0 9.88l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15A10.96 10.96 0 0 0 12 1 11 11 0 0 0 2.18 7.06l3.66 2.84C6.71 7.31 9.14 5.38 12 5.38z"/></svg></span>
+                  {bekleyen === "google" ? ceviri("Yönlendiriliyor…") : ceviri("Google ile devam et")}
+                </QtDugme>
+                <QtDugme
+                  tur="ikincil"
+                  tamGenislik
+                  className="g-giris-sosyal"
+                  yukleniyor={bekleyen === "facebook"}
+                  devreDisi={bekleyen !== null}
+                  onClick={facebookGiris}
+                >
+                  <span className="g-giris-logo" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24"><path fill="#1877F2" d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.09 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.7 4.53-4.7 1.31 0 2.69.24 2.69.24v2.97h-1.52c-1.49 0-1.95.93-1.95 1.89v2.26h3.32l-.53 3.49h-2.79V24C19.61 23.09 24 18.1 24 12.07z"/></svg></span>
+                  {bekleyen === "facebook" ? ceviri("Yönlendiriliyor…") : ceviri("Facebook ile devam et")}
+                </QtDugme>
+                {saglayiciAcik("twitter") && (
+                  <QtDugme
+                    tur="ikincil"
+                    tamGenislik
+                    className="g-giris-sosyal"
+                    yukleniyor={bekleyen === "twitter"}
+                    devreDisi={bekleyen !== null}
+                    onClick={() => sosyalGiris("twitter")}
+                  >
+                    <span className="g-giris-logo" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.24 2.25h3.31l-7.23 8.26L22.83 21.75h-6.66l-5.22-6.82-5.97 6.82H1.66l7.73-8.84L1.17 2.25h6.83l4.72 6.24 5.52-6.24zm-1.16 17.52h1.83L7.02 4.13H5.06l12.02 15.64z"/></svg></span>
+                    {bekleyen === "twitter" ? ceviri("Yönlendiriliyor…") : ceviri("X (Twitter) ile devam et")}
+                  </QtDugme>
+                )}
+              </div>
+
+              {fbBilgi && !hata && (
+                <QtToast
+                  ton="bilgi"
+                  metin={ceviri("Facebook ile giriş yakında. Şimdilik Google, e-posta ya da misafir girişiyle devam edebilirsin.")}
+                  className="g-giris-not"
+                />
+              )}
+              {hataNotu("sosyal")}
+
+              <div className="g-giris-ayrac"><span>{ceviri("veya")}</span></div>
+
+              {gonderildi ? (
+                <QtBosDurum
+                  ikon="mesaj"
+                  ton="dogru"
+                  className="g-giris-gonderildi"
+                  metin={ceviri("Giriş bağlantısı {eposta} adresine gönderildi. E-postanı kontrol et.", { eposta: email })}
+                  eylem={
+                    <div className="g-giris-gonderildi-eylem">
+                      <QtDugme tur="ikincil" boyut="k" yukleniyor={bekleyen === "eposta"} devreDisi={bekleyen !== null} onClick={epostaGiris}>
+                        {bekleyen === "eposta" ? ceviri("Gönderiliyor…") : ceviri("Yeniden gönder")}
+                      </QtDugme>
+                      <QtDugme tur="hayalet" boyut="k" onClick={() => { setGonderildi(false); setHata(null); }}>
+                        {ceviri("Adresi değiştir")}
+                      </QtDugme>
+                    </div>
+                  }
+                />
+              ) : (
+                <form className="g-giris-form" onSubmit={epostaGiris} noValidate>
+                  <label className="qt-gizli" htmlFor="g-giris-eposta">{ceviri("E-posta adresin")}</label>
+                  <input
+                    id="g-giris-eposta"
+                    className="g-girdi"
+                    type="email"
+                    inputMode="email"
+                    autoComplete="email"
+                    placeholder={ceviri("E-posta adresin")}
+                    value={email}
+                    onChange={(e) => { setEmail(e.target.value); if (epostaHata) setEpostaHata(null); }}
+                    aria-invalid={Boolean(epostaHata)}
+                    aria-describedby={epostaHata ? "giris-eposta-hata" : undefined}
+                  />
+                  {epostaHata && (
+                    <p className="g-alan-hata" id="giris-eposta-hata" role="alert">
+                      <QtIkon ad="uyari" boyut={18} />
+                      {epostaHata}
+                    </p>
+                  )}
+                  <QtDugme
+                    type="submit"
+                    tur="ikincil"
+                    tamGenislik
+                    className="g-giris-kaydir"
+                    ikon="mesaj"
+                    yukleniyor={bekleyen === "eposta"}
+                    devreDisi={bekleyen !== null}
+                  >
+                    {bekleyen === "eposta" ? ceviri("Gönderiliyor…") : ceviri("E-posta ile giriş bağlantısı al")}
+                  </QtDugme>
+                </form>
+              )}
+              {hataNotu("eposta")}
+
+              <div className="g-giris-ayrac"><span>{ceviri("hesap açmadan")}</span></div>
+
+              <QtDugme
+                tur="ikincil"
+                tamGenislik
+                ikon="oyna"
+                yukleniyor={bekleyen === "misafir"}
+                devreDisi={bekleyen !== null}
+                onClick={misafirGiris}
+              >
+                {bekleyen === "misafir" ? ceviri("Giriş yapılıyor…") : ceviri("Misafir olarak dene")}
+              </QtDugme>
+              {hataNotu("misafir")}
+              {/* Kapalı sağlayıcıyı vaat etmeyelim: liste GERÇEKTEN açık olan
+                  sağlayıcılardan üretilir (panelden okunur). */}
+              <p className="qt-kucuk qt-soluk g-giris-misafir-not">
+                {ceviri(
+                  "Misafir hesabı bu cihaza bağlıdır. Puanların kaybolmasın diye daha sonra {liste} veya e-posta hesabını bağlayabilirsin.",
+                  {
+                    liste: ["google", "facebook", "twitter"]
+                      .filter(saglayiciAcik)
+                      .map((s) => SAGLAYICI_AD[s] ?? s)
+                      .join(", "),
+                  }
+                )}
+              </p>
+            </QtKart>
+
+            {/* Yasal metinler giriş duvarının ÖNÜNDE erişilebilir olmalı
+                (Google Play ve reklam ağları şartı). */}
+            <nav className="g-giris-yasal" aria-label={ceviri("Yasal metinler")}>
+              <a href="/gizlilik">{ceviri("Gizlilik politikası")}</a>
+              <span aria-hidden="true">·</span>
+              <a href="/kosullar">{ceviri("Kullanım koşulları")}</a>
+            </nav>
+          </section>
+        </main>
       </div>
-
-      </div>
-
-      {/* Yasal metinler giriş duvarının ÖNÜNDE erişilebilir olmalı
-          (Google Play ve reklam ağları şartı). */}
-      <div className="giris-yasal auth-legal">
-        <a href="/gizlilik">{ceviri("Gizlilik politikası")}</a>
-        <span aria-hidden="true">·</span>
-        <a href="/kosullar">{ceviri("Kullanım koşulları")}</a>
-      </div>
-      </section>
-      </main>
     </div>
   );
 }

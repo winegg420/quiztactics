@@ -1,0 +1,50 @@
+/* =====================================================================
+   ŞERİT G — ORTAK PARÇALAR (giriş, kurulum sihirbazı): metin/seçim alanı, alan hatası.
+   Eski global `input[type=…]` kuralını (src/styles.css) yenmek için sınıf iki kez yazıldı.
+   ===================================================================== */
+
+/* Metin alanı (tasarım sisteminde henüz alan bileşeni yok; yerel sürüm). */
+.g-girdi.g-girdi {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 52px;
+  margin: 0;
+  padding: 0 var(--qt-b-4);
+  border: 2px solid var(--qt-cizgi-guclu);
+  border-radius: var(--qt-r-m);
+  background: var(--qt-yuzey-2);
+  color: var(--qt-metin);
+  font-family: var(--qt-f-govde);
+  font-size: var(--qt-y-m);   /* 16 px: iOS odakta sayfayı yakınlaştırmasın */
+  font-weight: var(--qt-a-kalin);
+  box-shadow: none;
+  transition: border-color var(--qt-s-kisa) var(--qt-egri-cikis), background-color var(--qt-s-kisa) var(--qt-egri-cikis);
+}
+.g-girdi.g-girdi::placeholder { color: var(--qt-metin-soluk); opacity: 1; }
+.g-girdi.g-girdi:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 2px; border-color: var(--qt-ikinci); background: var(--qt-yuzey); }
+.g-girdi.g-girdi[aria-invalid="true"] { border-color: var(--qt-yanlis); background: var(--qt-yanlis-acik); }
+
+.g-alan-hata {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--qt-b-2);
+  margin: 0;
+  font-size: var(--qt-y-s);
+  font-weight: var(--qt-a-kalin);
+  line-height: 1.4;
+  color: var(--qt-yanlis-koyu);
+}
+.g-alan-hata svg { flex: none; margin-top: 1px; }
+
+
+/* Etiketli alan: etiket üstte, alan altta. */
+.g-alan { display: flex; flex-direction: column; gap: var(--qt-b-2); margin: 0; }
+.g-alan-etiket {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--qt-b-2);
+  font-size: var(--qt-y-s);
+  font-weight: var(--qt-a-siyah);
+  color: var(--qt-metin);
+}
+select.g-girdi.g-girdi { cursor: pointer; padding-inline-end: var(--qt-b-3); }

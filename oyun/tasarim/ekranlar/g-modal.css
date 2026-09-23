@@ -1,0 +1,35 @@
+/* =====================================================================
+   ŞERİT G — ESKİ PAYLAŞILAN MODAL (oyun/components/Modal.jsx) · Yön A
+   Örtü tasarım sisteminin `.qt-ortu`'sudur; burada yalnız eski
+   `.bd-modal-katman` kurallarından kalan farklar kapatılır.
+   Prop arayüzü aynı; içerik bileşenleri kendi panellerini çizer.
+   ===================================================================== */
+
+/* Eski katman bulanıklık veriyordu (Yön A: cam/bulanıklık yok). Yığın sırası
+   eski düzenle aynı kalsın: kabuğun sabit menülerinin (z 20–40) ve eski üst
+   çubuğun üstünde. */
+.bd-modal-katman.g-modal {
+  z-index: 100;
+  background: var(--qt-ortu);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  color: var(--qt-metin);
+  font-family: var(--qt-f-govde);
+}
+
+/* Varsayılan eski panel (`.bd-modal`): Yön A yüzeyi — beyaz levha, büyük köşe,
+   derin gölge. Kendi paneli olan içerik (qt-modal, sheet'ler) etkilenmez. */
+.g-modal > .bd-modal {
+  border: 0;
+  border-radius: var(--qt-r-xl);
+  background: var(--qt-yuzey);
+  color: var(--qt-metin);
+  box-shadow: var(--qt-golge-derin);
+  padding: var(--qt-b-5);
+  max-height: calc(100dvh - 32px);
+  overscroll-behavior: contain;
+}
+.g-modal.qt-ortu--altSayfa > .bd-modal {
+  border-radius: var(--qt-r-xl) var(--qt-r-xl) 0 0;
+  padding-bottom: calc(var(--qt-b-5) + env(safe-area-inset-bottom, 0px));
+}
