@@ -98,7 +98,8 @@ export default function SkillSeti({ macTur = "1v1" }) {
           {acik ? tt("Bitti") : tt("Değiştir")}
         </button>
       </div>
-      <div className="bd-skill-slotlar" style={{ "--skill-slot": slot }}>
+      {/* Satırda en çok 4 yuva: 7 yuva 360 px'te tek satıra sığmıyor, üst üste biniyordu. */}
+      <div className="bd-skill-slotlar" style={{ "--skill-slot": slot, "--skill-sutun": Math.min(slot, 4) }}>
         {Array.from({ length: slot }).map((_, i) => {
           const s = SKILL_TANIMLARI[secili[i]];
           return (
