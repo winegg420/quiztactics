@@ -7913,3 +7913,28 @@ otomatik akla gelmesi için; proje kapsamında kuruldu.
 - **Karar bekleyen:** Define gerçek fiyatı (Play Console'da ürün yok); renk adlı dükkân çerçeveleri (Nane, Mercan…) nadirlik rengiyle
   çiziliyor — ad mı değişsin, vurgu mu eklensin; ana sayfada yalnız oyuncu kartı çerçevesi hareketli; kullanılmayan
   `LigCerceveSecici.jsx` + `bd-cerceve` CSS silinsin mi.
+
+## 2026-09-23/24 — Ajan C–J paketleri + son tarama
+**Araç:** Claude Code (yönetici + 8 alt ajan, ortak klasör, dizin kilidi `araclar/soru-uretim/yazim.lock`)
+**Neden:** Ida'nın sıradaki paketleri (soru kolaylığı, Düello stratejisi, bot rozetleri, davet bildirimi; premium çerçeve;
+eşleşme süresi + antrenman; ses seçimi; maç sonu önizlemesi; ses/müzik bağlama; loadout süresi + arama ekranı; şık ipucu).
+
+- **C (350–355):** soru ağırlığı 70/25/5 (200 soru: önce 57/24/19 → sonra 71/21,5/7,5); Düello kategori 15 sn, saldıranda rakip/sen
+  oranı + kalan hak, savunanda güçlü/zayıf 3; bot 3–8 sn, %65 rakibin zayıfı; bot rozetleri deterministik (160 bot, 2.265 rozet);
+  davet bildirimleri + `bildirimler` Realtime'da değildi (hiçbir bildirim şeridi çıkmıyordu) → eklendi.
+- **D (360):** 20 çerçeve temalı, süsler daireyi taşıyor (Noto 3D + CSS); anahtar/sahiplik/fiyat aynı.
+- **E (370):** eşleşme süresi sunucuda üçgen dağılım 3/6/15; RakipAra bot düğmesi kalktı, Meydan › Antrenman; ana sayfanın
+  RakipAra'yı her çizimde sıfırlaması düzeltildi; Grup kuyruğu da aynı kurala.
+- **F (380):** `/ses-secim` (30 an, 112 aday, Kenney CC0 + Pixabay), `sahip_mi()`.
+- **G:** `/mac-sonu-onizleme` (6 hâl, Lottie: kupa/coin/level/firework, konfeti `canvas-confetti`; tembel yüklenir).
+- **H (400):** seçilen 30 ses oyunda (`ses_secimleri_oyun()` sürümlü, dağıtımsız değişir), yeni çağrı yerleri, müzik (menü/maç/turnuva,
+  0,8 sn geçiş, soru sırasında %30, sekme gizlenince durur), Müzik + Efektler ayrı anahtar; Grup maçı sayfası tembel yüklemeye
+  alındı; Klasik kaybettin sesi 9 kez çalıyordu → düzeldi.
+- **I (410):** tam ekran `AramaSahnesi` (VS anı), loadout 20 sn, bağlanmayan rakipte cezasız iptal + otomatik yeniden arama.
+- **J (420–422):** 300 şık ipucu sorusu işlendi, 225 düzeldi (1.310 → 1.085), EN 224, Jev ~0,013 $, geri alma betiği.
+- **Yönetici:** oyuncu-testi sayaç raporu Ek Süre sıçramasını yeni faz saymıyor (C'nin iki "başarısız" koşusunun sebebi).
+- **Son tarama (canlı, 24 Eyl):** arayüz denetimi 16 sayfa TEMİZ; Klasik 20/20; Düello 5 saldıran / 5 savunan, yanıtsız yok;
+  Antrenman'dan Düello (ToyBot, 0,46 sn); 10 Klasik arama 6,9–14,1 sn (medyan 10,5, 5/10'u 4–9); müzik/efekt ayrı kapanıyor.
+  Düello sayacı: 20 fazın 4'ünde ekran fazı pay'den (1,5 sn) geç gördü (2,2–3,9 sn; Realtime sinyali kaçıp 4 sn'lik yedek
+  yoklamaya kalınca) → ilk rakam kısa kaldı; sunucu durum okuması ~100 ms (sebep değil). Build temiz; giriş paketi
+  337.702 (paket başı) → 363.500 B (gzip 107.443 → 117.379).

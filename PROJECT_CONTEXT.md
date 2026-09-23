@@ -62,7 +62,9 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
   uygun soru). Sınırlar `oyun_ayarlari.turnuva_zorluk_*` / `turnuva_altin_zorluk_*` (300). Soru
   sırası turnuva başında seçilir (`turnuva_soru_sec`).
 - **Şık ipucu filtresi (298):** Jev'in soru metnini görmeden şıklardan doğruyu >0,8 güvenle
-  bulduğu 1.310 soru `sik_ipucu_jev` (ağırlık 2) ile işaretli; `soru_sec` / `duello_soru_bul` /
+  bulduğu sorular `sik_ipucu_jev` (ağırlık 2) ile işaretli — başta 1.310, şık düzeltmesiyle (420–422:
+  yalnız yanlış şıklar yeniden yazıldı, doğru şık/indeks aynı; geri alma
+  `araclar/soru-temizlik/sik-ipucu-geri-al.mjs`) **1.085** kaldı (300 işlendi, 225 döndü); `soru_sec` / `duello_soru_bul` /
   `turnuva_soru_sec` rekabetçi havuzunda yok; Serbest Klasik'te (`matches.dereceli=false`,
   `soru_sec(..., p_serbest_klasik => true)`, 309) ve Hatalarım'da çıkar.
   Rekabetçi havuz 6.694 → 6.303. İşaret "elle"dir (`soru_elle_isaret_mi`), tetikleyici korur.
@@ -91,9 +93,15 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
 - Eşitlikte turnuvanın altın soru mekaniği uygulanır.
 - Botlar kategoriye göre isabetle cevaplar (`bot_kategori_sapma`) —
   profil hem görünen hem gerçektir.
-- Gerçek rakip bulunmazsa fallback, `duello_arama_sn=8` + oyuncuya sabitlenen
-  2–5 sn bot gecikmesiyle **10–13 sn** aralığındadır. 21 Eylül 2026 yerel
-  uçtan uca ölçümünde arama → bot maçı → maç ekranı **12,56 sn** sürdü.
+- **Eşleşme (370, bütün modlar):** gerçek oyuncu varsa anında; yoksa gizli bot, sunucuda aramaya
+  sabitlenen üçgen dağılımlı süreyle (`eslesme_bot_min_sn` 3 · `_tepe_sn` 6 · `_max_sn` 15). Canlı
+  ölçüm (24 Eyl, 10 Klasik arama): 6,9–14,1 sn, medyan 10,5. `duello_arama_sn` / `grup_arama_sn`
+  okunmaz. Arama ekranında "bot ile oyna" yok; açık botlar yalnız Meydan Okumalar › **Antrenman**
+  (yarım ödül). Arama ekranı tam ekran `AramaSahnesi` (Klasik, Saf Bilgi, Düello aynı).
+- **Loadout süresi + cezasız iptal (410):** Klasik/Saf Bilgi "Hazır mısın?" kapısında `loadout_secim_sn`
+  (20) dolunca son kayıtlı set ile başlar; eşleştirmeyle kurulan maçta rakip bağlanmadıysa maç
+  cezasız iptal (kazanan/coin/XP/lig yok), bekleyen otomatik yeniden arar. Düello'da rakip
+  `duello_baglanma_sn` (10) içinde gelmezse aynı. Arkadaş maçı/rövanşta iptal yok.
 - Rövanş bekleme penceresindeki “Vazgeç”, `duello_rovans_iptal` ile sunucu
   isteğini de geri çeker; yalnız pencereyi kapatıp hayalet istek bırakmaz.
 - **Düello 1.0 herkese açık (23 Eyl 2026):** `duello_surum` = **2**. Aynı soru
@@ -297,6 +305,10 @@ karakter, Hızlı Mod hariç — dondurulmuş) bu sistemle yeniden yazıldı.
 - Arayüz metni TR+EN: anahtar Türkçe metin; EN karşılıkları `oyun/lib/dil.js` +
   şerit ekleri `oyun/lib/ceviri/*.js` (dil.js'e katılır).
 - Seçenekler sayfası `/tasarim-yonleri` (A/B/C) duruyor; silinmesine Ida karar verecek.
+- **Önizleme sayfaları (menüde yok):** `/kozmetik-onizleme` (çerçeve + rozet), `/mac-sonu-onizleme`
+  (yeni maç sonu sahnesi, 6 hâl — gerçek maçlara BAĞLI DEĞİL, Ida onayı bekliyor; `lottie-web` +
+  `canvas-confetti` yalnız bu sayfada tembel yüklenir — "yeni paket yok" kuralının Ida onaylı istisnası),
+  `/ses-secim` (kalıcı ses aracı, yalnız sahip).
 - **Skill rozeti (`SkillRozeti`)** her yerde aynı: dükkân, loadout, maç çubuğu, maç içi satın alma,
   maç sonu, envanter, level ödülü. Kabarık parlak rozet, renk token'ı `--qt-skill-<tur>`, sembol
   Phosphor (MIT). Coin paketi görseli `CoinPaketGorseli` (Noto Emoji 3D, Apache 2.0). **Dış
