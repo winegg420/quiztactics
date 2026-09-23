@@ -12,7 +12,7 @@
 // Hatalarım bankası.
 // ============================================================
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "../../../src/lib/supabase.js";
 import { useAuth } from "../../../src/context/AuthContext.jsx";
 import { rutbeBul } from "../../lib/ranks.js";
@@ -221,8 +221,20 @@ export function useOyunBaslat() {
   const navigate = useNavigate();
   const [dereceliTercih, setDereceliTercih] = useDereceliTercih();
   const [modAcik, setModAcik] = useState(false);   // false | "hepsi" | "saf"
-  const [arama, setArama] = useState(null);      // { dereceli, jokersiz }
+  const [arama, setArama] = useState(null);      // { dereceli, jokersiz, bilgi? }
   const [yarim, setYarim] = useState(null);
+
+  // 410 (Ajan I): eşleştirme maçında rakip kapıya bağlanamadı → sunucu maçı cezasız iptal etti,
+  // MatchPage buraya { yenidenAra } ile döndü. Arama aynı türle, kısa bilgiyle kendiliğinden başlar.
+  const location = useLocation();
+  const yenidenAra = location.state?.yenidenAra ?? null;
+  useEffect(() => {
+    if (!yenidenAra) return;
+    setArama({ dereceli: yenidenAra.dereceli !== false, jokersiz: Boolean(yenidenAra.jokersiz),
+               bilgi: tt("Rakip bağlanamadı, yeni rakip aranıyor") });
+    // Durum bir kez tüketilir: geri/yenile aramayı yeniden başlatmasın.
+    navigate(location.pathname, { replace: true, state: null });
+  }, [yenidenAra]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const hemenOyna = async (dereceli, jokersiz) => {
     try {
@@ -266,6 +278,7 @@ export function useOyunBaslat() {
       )}
       {arama && (
         <RakipAra kategori={profile?.tercih_kategori ?? null} dereceli={arama.dereceli} jokersiz={arama.jokersiz}
+          bilgi={arama.bilgi ?? null}
           onBulundu={(macId) => { setArama(null); navigate(y(`/mac/${macId}`)); }}
           onIptal={() => setArama(null)} />
       )}

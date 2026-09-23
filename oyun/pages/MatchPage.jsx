@@ -544,6 +544,15 @@ export default function MatchPage() {
     }
   }, [nabiz, macYukle]);
 
+  // 410 (Ajan I): eşleştirme maçında rakip kapıya bağlanamadı → sunucu maçı cezasız iptal etti
+  // (mac_nabiz, loadout_secim_sn). Bekleyen oyuncu aynı türle yeniden aramaya döner.
+  const rakipBaglanmadi = mac?.durum === "iptal" && Boolean(mac?.baglanmayan);
+  const yenidenAraDurumu = mac ? { yenidenAra: { dereceli: mac.dereceli !== false, jokersiz: Boolean(mac.jokersiz) } } : null;
+  useEffect(() => {
+    if (!rakipBaglanmadi || mac.baglanmayan === user?.id) return;
+    navigate(y("/"), { replace: true, state: yenidenAraDurumu });
+  }, [rakipBaglanmadi]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const maciIptalEt = async () => {
     try {
       await supabase.rpc("mac_iptal", { p_match_id: id });
@@ -791,6 +800,21 @@ export default function MatchPage() {
             </div>
           }
         />
+      );
+    }
+
+    // 410: zamanında gelmeyen taraf (bekleyen zaten yeniden aramaya gönderildi)
+    if (rakipBaglanmadi) {
+      return (
+        <div className="m1-mesaj">
+          <span className="m1-mesaj-ikon" aria-hidden="true"><QtIkon ad="saat" boyut={36} /></span>
+          <h1 className="qt-baslik-1">{tt("Maç iptal edildi")}</h1>
+          <p>{tt("Maç zamanında başlamadığı için iptal edildi. Kimse puan kaybetmedi.")}</p>
+          <div className="m1-dugmeler">
+            <QtDugme tamGenislik onClick={() => navigate(y("/"), { replace: true, state: yenidenAraDurumu })}>{tt("Yeni rakip ara")}</QtDugme>
+            <QtDugme tur="hayalet" tamGenislik onClick={() => navigate(y("/"))}>{tt("Ana sayfa")}</QtDugme>
+          </div>
+        </div>
       );
     }
 

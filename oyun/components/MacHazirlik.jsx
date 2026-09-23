@@ -3,8 +3,10 @@
 //   HazirKapisi : maç başlamadan önce "Hazır" onayı ve rakip beklemesi
 //   KopukPerde  : maç sırasında rakip koptuğunda ekranı kilitleyen perde
 // ============================================================
+import { useEffect, useRef, useState } from "react";
 import Maskot from "./Maskot.jsx";
-import { QtDugme, QtKart, QtRozet } from "../tasarim/index.js";
+import { ayar } from "../lib/ayarlar.js";
+import { QtDugme, QtIkon, QtKart, QtRozet } from "../tasarim/index.js";
 import "../tasarim/ekranlar/m1-mac.css";
 import { tt } from "../lib/dil.js";
 import SkillSeti from "./SkillSeti.jsx";
@@ -14,6 +16,33 @@ export const TERK_SN = 45;
 
 /** Bu süre sonunda "Asenkron bırak" seçeneği çıkar (oyun_ayarlari ile aynı). */
 export const LOBI_BEKLEME_SN = 120;
+
+/** Loadout süresi varsayılanı; asıl değer oyun_ayarlari.loadout_secim_sn (migration 410). */
+const LOADOUT_VARSAYILAN_SN = 20;
+
+/**
+ * Loadout geri sayımı (Ajan I, I.1). Kural SUNUCUDA (mac_nabiz): süre dolunca bağlı iki taraf
+ * hazır sayılır ve son kayıtlı setle maç başlar. Burada yalnız kalan süre çizilir: sunucunun
+ * `lobi_saniye`'si (nabızla ~3 sn'de bir gelir) arada yerel saatle akıtılır.
+ */
+function useLoadoutKalan(lobiSn) {
+  const [sure, setSure] = useState(LOADOUT_VARSAYILAN_SN);
+  const [simdi, setSimdi] = useState(() => Date.now());
+  const ornekRef = useRef({ sn: lobiSn, an: Date.now() });
+  if (ornekRef.current.sn !== lobiSn) ornekRef.current = { sn: lobiSn, an: Date.now() };
+
+  useEffect(() => {
+    let aktif = true;
+    ayar("loadout_secim_sn", LOADOUT_VARSAYILAN_SN)
+      .then((v) => { if (aktif && Number.isFinite(v) && v > 0) setSure(v); })
+      .catch(() => {});
+    const t = setInterval(() => setSimdi(Date.now()), 250);
+    return () => { aktif = false; clearInterval(t); };
+  }, []);
+
+  const gecen = ornekRef.current.sn + Math.max(0, simdi - ornekRef.current.an) / 1000;
+  return { kalan: Math.max(0, sure - gecen), sure };
+}
 
 /**
  * Maç başlamadan önceki ekran.
@@ -41,6 +70,8 @@ export function HazirKapisi({
   macTur = "1v1",
 }) {
   const hepsiHazir = toplamOyuncu > 0 && hazirSayisi >= toplamOyuncu;
+  const { kalan, sure } = useLoadoutKalan(bekleyenSn);
+  const sayacGorunur = !hepsiHazir && kalan > 0;
   return (
     <div className="m1-mesaj">
       <Maskot poz={benHazir ? "kutluyor" : "selam"} boyut={96} />
@@ -52,6 +83,22 @@ export function HazirKapisi({
       {tabela}
 
       {skillSecimi && <SkillSeti macTur={macTur} />}
+
+      {/* 410: loadout süresi — dolunca sunucu son kayıtlı setle maçı başlatır */}
+      {sayacGorunur && (
+        <div className="m1-loadout-sayac" role="timer" aria-live="off">
+          <span className="m1-loadout-sayac-yazi">
+            <QtIkon ad="saat" boyut={18} />
+            {tt("Maç {0} sn içinde başlıyor", { 0: Math.ceil(kalan) })}
+          </span>
+          <span className="m1-loadout-cubuk" aria-hidden="true">
+            <span style={{ transform: `scaleX(${Math.min(1, kalan / sure)})` }} />
+          </span>
+          {skillSecimi && !benHazir && (
+            <span className="m1-loadout-not">{tt("Süre dolunca seçili setinle başlarsın.")}</span>
+          )}
+        </div>
+      )}
 
       <div className="m1-hazir-durum">
         <QtRozet ton={hepsiHazir ? "dogru" : "koyu"} ikon={hepsiHazir ? "onay" : "kisiler"}>
