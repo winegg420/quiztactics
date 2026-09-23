@@ -1,0 +1,154 @@
+/* =====================================================================
+   ŞERİT A — MODLAR (/modlar) + MOD SEÇİM PENCERESİ + YARIM MAÇ +
+   RAKİP ARAMA + KARŞILAŞMA SAHNESİ · Yön A "Şeker Kutusu"
+   Pencereler QtModal içinde (beyaz yüzey); sahne Düello aramasında da
+   aynı bileşenle çizilir.
+   ===================================================================== */
+
+/* ---------- /modlar ---------- */
+.a-modlar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--qt-b-5);
+  padding-block: var(--qt-b-2) var(--qt-b-6);
+  color: var(--qt-zemin-metin);
+}
+.a-modlar-bas { display: flex; flex-direction: column; gap: var(--qt-b-2); }
+.a-modlar-bas .qt-baslik-1 { color: inherit; }
+.a-modlar-izgara { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--qt-b-3); }
+.a-modlar-izgara .qt-mod { min-height: 180px; padding-top: 76px; justify-content: flex-start; }
+@media (min-width: 850px) {
+  .a-modlar-izgara { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+.a-modlar-bolum { display: flex; flex-direction: column; gap: var(--qt-b-3); }
+.a-modlar-bolum .qt-baslik-2 { color: inherit; }
+
+/* ---------- Mod seçim penceresi ---------- */
+.a-modsecim-baslik { display: inline-flex; align-items: center; gap: var(--qt-b-3); }
+.a-modsecim-liste { display: flex; flex-direction: column; gap: var(--qt-b-3); outline: none; }
+.a-modsecim-liste .qt-mod--genis { align-items: flex-start; min-height: 96px; }
+.a-modsecim-liste .qt-mod-metin { flex: 1; }
+.a-modsecim-liste .qt-mod-rozet { align-self: flex-start; }
+.a-modsecim-liste .qt-mod-alt { display: flex; flex-direction: column; gap: var(--qt-b-1); font-weight: var(--qt-a-kalin); }
+.a-modsecim-aciklama { font-size: var(--qt-y-s); line-height: 1.35; }
+.a-modsecim-meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--qt-b-1) var(--qt-b-3); font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); }
+.a-modsecim-odul { display: inline-flex; align-items: center; gap: 4px; }
+.a-modsecim-bekle { display: inline-flex; align-items: center; gap: var(--qt-b-2); }
+.a-modsecim-bekle .qt-donen { width: 14px; height: 14px; border-width: 2px; }
+.a-modsecim-soluk { opacity: 0.5; }
+.a-modsecim-liste .qt-mod:disabled { cursor: progress; }
+.a-modsecim-hata {
+  margin: var(--qt-b-3) 0 0;
+  padding: var(--qt-b-3) var(--qt-b-4);
+  border-radius: var(--qt-r-m);
+  background: var(--qt-yanlis-acik);
+  color: var(--qt-yanlis-koyu);
+  font-size: var(--qt-y-s);
+  font-weight: var(--qt-a-kalin);
+}
+
+/* ---------- Yarım maç ---------- */
+.a-yarim-govde { display: flex; align-items: center; gap: var(--qt-b-3); }
+.a-yarim-ikon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: var(--qt-r-m);
+  background: var(--qt-vurgu-acik);
+  color: var(--qt-vurgu-dudak);
+}
+.a-yarim-metin { margin: 0; font-weight: var(--qt-a-kalin); line-height: 1.4; }
+.a-yarim-not { margin: var(--qt-b-3) 0 0; color: var(--qt-metin-soluk); font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); line-height: 1.4; }
+.a-yarim .qt-modal-altlik > * { flex-basis: 100%; }
+
+/* ---------- Rakip arama (RakipAra) ---------- */
+.a-arama { width: min(460px, 100%); }
+.a-arama-alt { margin: var(--qt-b-3) 0 0; text-align: center; color: var(--qt-metin-soluk); font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); line-height: 1.4; text-wrap: balance; }
+.a-arama-sayac { margin: var(--qt-b-2) 0 0; text-align: center; color: var(--qt-ikinci-koyu); font-size: var(--qt-y-2xl); line-height: 1; }
+.a-arama-bot-secim { margin-top: var(--qt-b-3); max-height: min(40dvh, 320px); overflow-y: auto; overscroll-behavior: contain; border-radius: var(--qt-r-l); }
+.a-arama-bot-secim .qt-liste { box-shadow: inset 0 0 0 1px var(--qt-cizgi); }
+.a-arama-bot-secim .qt-satir:disabled { cursor: progress; opacity: 0.6; }
+.a-arama-eylem { display: grid; gap: var(--qt-b-2); margin-top: var(--qt-b-4); }
+
+/* ---------- Karşılaşma sahnesi ---------- */
+.a-karsilasma { display: flex; flex-direction: column; color: var(--qt-metin); }
+.a-karsilasma-baslik {
+  margin: 0 0 var(--qt-b-4);
+  font-family: var(--qt-f-baslik);
+  font-size: var(--qt-y-xl);
+  font-weight: var(--qt-a-siyah);
+  line-height: 1.15;
+  text-align: center;
+  text-wrap: balance;
+}
+.a-karsilasma-sahne {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--qt-b-2);
+  padding: var(--qt-b-4) var(--qt-b-2);
+  border-radius: var(--qt-r-l);
+  background: var(--qt-mac-zemin);
+  color: var(--qt-mac-metin);
+}
+.a-karsilasma-kart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  text-align: center;
+  transition: transform var(--qt-s-uzun) var(--qt-egri-cikis);
+}
+.a-karsilasma-ad {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--qt-f-baslik);
+  font-size: var(--qt-y-m);
+  font-weight: var(--qt-a-siyah);
+  line-height: 1.15;
+}
+.a-karsilasma-ad--soluk { color: var(--qt-mac-soluk); font-family: var(--qt-f-govde); font-size: var(--qt-y-s); white-space: normal; }
+.a-karsilasma-unvan { color: var(--qt-mac-soluk); font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); }
+.a-karsilasma-kart .rank-badge,
+.a-karsilasma-kart [class*="rutbe"] { max-width: 100%; }
+.a-karsilasma-siluet {
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--qt-mac-zemin-2);
+  color: var(--qt-mac-soluk);
+  box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--qt-mac-soluk) 45%, transparent);
+  animation: qt-h-iskelet calc(var(--qt-s-kirilma) + var(--qt-s-uzun)) ease-in-out infinite alternate;
+}
+.a-karsilasma-vs span {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--qt-vurgu);
+  color: var(--qt-vurgu-yazi);
+  box-shadow: 0 var(--qt-dudak-s) 0 var(--qt-vurgu-dudak);
+  font-family: var(--qt-f-baslik);
+  font-size: var(--qt-y-l);
+  font-weight: var(--qt-a-siyah);
+}
+/* Rakip bulununca: kartlar ortaya yaklaşır, VS bir kez zıplar */
+.a-karsilasma--bulundu .a-karsilasma-kart--ben { transform: translateX(6px); }
+.a-karsilasma--bulundu .a-karsilasma-kart--rakip { transform: translateX(-6px); }
+.a-karsilasma--bulundu .a-karsilasma-vs span { animation: qt-h-pop-gir var(--qt-s-an) var(--qt-egri-yay) both; }
+.a-karsilasma-ezeli { margin: var(--qt-b-3) 0 0; text-align: center; color: var(--qt-ikinci-koyu); font-size: var(--qt-y-s); font-weight: var(--qt-a-siyah); }
+
+@media (prefers-reduced-motion: reduce) {
+  .a-karsilasma-kart { transition: none; }
+  .a-karsilasma--bulundu .a-karsilasma-kart--ben,
+  .a-karsilasma--bulundu .a-karsilasma-kart--rakip { transform: none; }
+  .a-karsilasma-siluet, .a-karsilasma--bulundu .a-karsilasma-vs span { animation: none; }
+}

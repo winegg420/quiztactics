@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Modal from "./Modal.jsx";
-import Ikon from "./Ikon.jsx";
+import { QtModal, QtDugme, QtIkon } from "../tasarim/index.js";
+import "../tasarim/ekranlar/a-modlar.css";
 import { supabase } from "../../src/lib/supabase.js";
 import { hataMesaji } from "../lib/hata.js";
 import { tt } from "../lib/dil.js";
@@ -41,28 +41,39 @@ export default function YarimMacPenceresi({ mac, onDevam, onYeni, onKapat }) {
     }
   };
 
+  // Yön A: QtModal. Birincil eylem "devam et" (ilk odak), ikincil "Yeni maç".
   return (
-    <Modal onKapat={calisiyor ? undefined : onKapat} etiket={tt("Devam eden maçın var")}>
-      <div className="bd-modal bd-yarim-mac">
-        <div className="bd-yarim-mac-ikon" aria-hidden="true"><Ikon ad="saat" boyut={26} /></div>
-        <h2 className="bd-modal-baslik">{tt("Devam eden maçın var")}</h2>
-        <p className="bd-modal-metin">
+    <QtModal
+      acik
+      onKapat={calisiyor ? undefined : onKapat}
+      kapatDugmesi={!calisiyor}
+      ortuKapatir={!calisiyor}
+      baslik={tt("Devam eden maçın var")}
+      className="a-yarim"
+      altlik={
+        <>
+          <QtDugme tamGenislik ikon="oyna" onClick={onDevam} devreDisi={calisiyor} data-qt-ilk-odak="">
+            {tt("Kaldığın yerden devam et")}
+          </QtDugme>
+          <QtDugme tur="ikincil" tamGenislik onClick={yeniMac} yukleniyor={calisiyor}>
+            {calisiyor ? tt("Maç kapatılıyor…") : tt("Yeni maç")}
+          </QtDugme>
+        </>
+      }
+    >
+      <div className="a-yarim-govde">
+        <span className="a-yarim-ikon" aria-hidden="true"><QtIkon ad="saat" boyut={28} /></span>
+        <p className="a-yarim-metin">
           {mac.rakipAd
             ? tt("{ad} ile oynadığın maç {soru}. soruda kaldı ({toplam} sorudan).",
                  { ad: mac.rakipAd, soru: mac.soru, toplam: mac.toplam })
             : tt("Yarım kalan maçın {soru}. soruda ({toplam} sorudan).", { soru: mac.soru, toplam: mac.toplam })}
         </p>
-        <button type="button" className="btn" onClick={onDevam} disabled={calisiyor} autoFocus>
-          {tt("Kaldığın yerden devam et")}
-        </button>
-        <button type="button" className="btn ikincil" onClick={yeniMac} disabled={calisiyor}>
-          {calisiyor ? tt("Maç kapatılıyor…") : tt("Yeni maç")}
-        </button>
-        <p className="bd-yarim-mac-not">
-          {tt("Yeni maça geçersen bu maç biter ve yenilgi sayılabilir. Lig puanı ya da coin kaybetmezsin.")}
-        </p>
-        {hata && <div className="hata-kutu" role="alert">{hata}</div>}
       </div>
-    </Modal>
+      <p className="a-yarim-not">
+        {tt("Yeni maça geçersen bu maç biter ve yenilgi sayılabilir. Lig puanı ya da coin kaybetmezsin.")}
+      </p>
+      {hata && <p className="a-modsecim-hata" role="alert">{hata}</p>}
+    </QtModal>
   );
 }

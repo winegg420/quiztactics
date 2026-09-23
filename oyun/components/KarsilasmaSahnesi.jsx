@@ -9,15 +9,17 @@
 // (DuelloArama, RakipAra) kalır. Bu bileşen yalnız bir kez, açılışta, kendi
 // unvanını okumak için hafif bir sorgu yapar — her saniye yenileme YOK.
 //
+// Yön A (Şerit A): beyaz modal yüzeyinde çizilir (RakipAra ve Düello araması
+// QtModal içine koyar). Prop arayüzü AYNI.
 // iOS: katman `position: fixed`; transform'lu animasyonlar yalnız İÇ öğelerde.
 // ============================================================
 import { useEffect, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import AvatarCerceve from "./AvatarCerceve.jsx";
-import Avatar from "../../src/components/Avatar.jsx";
 import RankBadge from "./RankBadge.jsx";
-import Ikon from "./Ikon.jsx";
+import { QtAvatar, QtIkon, QtRozet, sinif } from "../tasarim/index.js";
+import "../tasarim/ekranlar/a-modlar.css";
 import { unvanAdi } from "../lib/unvanlar.js";
 import { tt } from "../lib/dil.js";
 
@@ -56,38 +58,42 @@ export default function KarsilasmaSahnesi({ rakip, bulundu, ezeli, baslik, bosEt
   const seri = Number(profile?.seri_gun ?? 0);
 
   return (
-    <div className={`bd-karsilasma ${bulundu ? "bulundu" : ""}`}>
-      <div className="bd-karsilasma-baslik" aria-live="polite">{baslik}</div>
+    <div className={sinif("a-karsilasma", bulundu && "a-karsilasma--bulundu")}>
+      <p className="a-karsilasma-baslik" aria-live="polite">{baslik}</p>
 
-      <div className="bd-karsilasma-sahne">
-        <div className="bd-karsilasma-kart ben">
+      <div className="a-karsilasma-sahne">
+        <div className="a-karsilasma-kart a-karsilasma-kart--ben">
           <AvatarCerceve profile={profile ?? {}} boyut={72} userId={user?.id} />
-          <div className="bd-karsilasma-ad">{profile?.gorunen_ad ?? tt("Sen")}</div>
+          <span className="a-karsilasma-ad">{profile?.gorunen_ad ?? tt("Sen")}</span>
           <RankBadge level={profile?.level ?? 1} />
-          {unvan && <div className="bd-karsilasma-unvan">{unvan}</div>}
-          {seri > 0 && <div className="bd-karsilasma-seri"><Ikon ad="ates" boyut={14} /> {tt("{0} gün seri", { 0: seri })}</div>}
+          {unvan && <span className="a-karsilasma-unvan">{unvan}</span>}
+          {seri > 0 && (
+            <QtRozet ton="vurgu" boyut="k" ikon="ates">{tt("{0} gün seri", { 0: seri })}</QtRozet>
+          )}
         </div>
 
-        <div className="bd-karsilasma-vs" aria-hidden="true"><span>VS</span></div>
+        <div className="a-karsilasma-vs" aria-hidden="true"><span>VS</span></div>
 
-        <div className={`bd-karsilasma-kart rakip ${rakip ? "dolu" : "bos"}`}>
+        <div className={sinif("a-karsilasma-kart", "a-karsilasma-kart--rakip", rakip ? "a-karsilasma-kart--dolu" : "a-karsilasma-kart--bos")}>
           {rakip ? (
             <>
-              <Avatar profile={rakip} boyut={72} />
-              <div className="bd-karsilasma-ad">{rakip.gorunen_ad}</div>
+              <QtAvatar src={rakip.gorunen_avatar || undefined} ad={rakip.gorunen_ad ?? ""} boyut="xl" halka="vurgu" />
+              <span className="a-karsilasma-ad">{rakip.gorunen_ad}</span>
               {/* P2A: rütbe level'den; rakibin verisinde level yoksa id ile okunur */}
               {(rakip.level != null || rakip.id) && <RankBadge level={rakip.level} userId={rakip.id} />}
             </>
           ) : (
             <>
-              <div className="bd-karsilasma-siluet" aria-hidden="true">?</div>
-              <div className="bd-karsilasma-ad soluk">{bulundu ? tt("Rakip bulundu!") : bosEtiket ?? tt("Rakip aranıyor")}</div>
+              <span className="a-karsilasma-siluet" aria-hidden="true"><QtIkon ad="soru" boyut={34} /></span>
+              <span className="a-karsilasma-ad a-karsilasma-ad--soluk">
+                {bulundu ? tt("Rakip bulundu!") : bosEtiket ?? tt("Rakip aranıyor")}
+              </span>
             </>
           )}
         </div>
       </div>
 
-      {ezeli && <div className="bd-karsilasma-ezeli">{ezeli}</div>}
+      {ezeli && <p className="a-karsilasma-ezeli">{ezeli}</p>}
 
       {children}
     </div>

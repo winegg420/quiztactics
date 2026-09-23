@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
-import Modal from "./Modal.jsx";
-import Ikon from "./Ikon.jsx";
+import { useEffect, useState } from "react";
+import { QtModal, QtModKart, QtDugme, QtIkon } from "../tasarim/index.js";
+import "../tasarim/ekranlar/a-modlar.css";
 import AvatarCerceve from "./AvatarCerceve.jsx";
 import { ayarlar } from "../lib/ayarlar.js";
 import { tt } from "../lib/dil.js";
@@ -31,7 +31,6 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
   const [hata, setHata] = useState(null);
   const [odul, setOdul] = useState(null);
   const [odulDurum, setOdulDurum] = useState("yukleniyor");   // yukleniyor | hazir | yok
-  const ilkRef = useRef(null);
 
   useEffect(() => {
     let aktif = true;
@@ -52,13 +51,9 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
   // Klavyeyle açılınca odak ilk seçeneğe gelsin.
   // Paket 42 C.1: fareyle/dokunarak açılınca ilk kart odak halkasıyla "seçili" görünüyordu
   // (fare başka kartın üstündeyken iki kart turuncu). Açan düğme klavye odağındaysa ilk
-  // karta, değilse pencerenin kendisine (halkasız) odaklanılır.
-  const pencereRef = useRef(null);
-  useEffect(() => {
-    const klavye = document.activeElement?.matches?.(":focus-visible");
-    if (klavye) ilkRef.current?.focus();
-    else pencereRef.current?.focus({ preventScroll: true });
-  }, []);
+  // karta, değilse pencerenin kendisine (halkasız) odaklanılır. QtModal ilk odağı
+  // `data-qt-ilk-odak` taşıyan öğeye verir; yoksa panelin kendisine (halkasız).
+  const [klavyeyle] = useState(() => Boolean(document.activeElement?.matches?.(":focus-visible")));
 
   const sec = async (mod) => {
     if (calisan) return;
@@ -87,7 +82,7 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
   const SECENEKLER = [
     {
       mod: "klasik",
-      ikon: "soru",
+      ikon: "klasik",
       ad: tt("Klasik Maç"),
       aciklama: tt("İkiniz aynı soruları cevaplarsınız, en çok doğru bilen kazanır."),
       joker: tt("4 skill · aynı anda"),
@@ -95,7 +90,7 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
     },
     {
       mod: "duello",
-      ikon: "kilic",
+      ikon: "duello",
       ad: tt("Düello (Taktik Maçı)"),
       aciklama: tt("Rakibinin zayıf kategorisini bul, oradan vur. 3 can, en çok 10 tur."),
       joker: tt("4 skill · sıra sende"),
@@ -105,7 +100,7 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
     // Paket 31 B: Saf Bilgi — jokersiz Klasik; ödül Klasik ile aynı
     {
       mod: "saf",
-      ikon: "yildiz",
+      ikon: "safBilgi",
       ad: tt("Saf Bilgi"),
       aciklama: tt("Skill yok. Sadece bilgi ve hız."),
       joker: tt("skill yok"),
@@ -113,51 +108,61 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
     },
   ];
 
+  // Yön A: QtModal (body'ye portal, Esc, odak tuzağı). Seçim sürerken kapatılamaz.
   return (
-    <Modal
+    <QtModal
+      acik
+      tur={alttan ? "altSayfa" : "modal"}
       onKapat={calisan ? undefined : onKapat}
-      etiket={baslik ?? tt("{ad} ile oyun modu seç", { ad })}
-      ekSinif={alttan ? "bd-alttan" : ""}
-    >
-      <div ref={pencereRef} tabIndex={-1} className={`bd-modal bd-mod-secim${alttan ? " alttan" : ""}${calisan ? " seciliyor" : ""}`}>
-        {alttan && <div className="bd-joker-sat-tutamac" aria-hidden="true" />}
-        <div className="bd-mod-secim-ust">
+      kapatDugmesi={!calisan}
+      ortuKapatir={!calisan}
+      baslik={
+        <span className="a-modsecim-baslik">
           {profil && <AvatarCerceve profile={profil} boyut={44} />}
-          <h2 className="bd-modal-baslik" id="bd-mod-secim-baslik">
-            {baslik ?? tt("{ad} ile nasıl oynamak istersin?", { ad })}
-          </h2>
-        </div>
-
-        <div className="bd-mod-secim-liste" role="group" aria-labelledby="bd-mod-secim-baslik">
-          {SECENEKLER.map((s, i) => (
-            <button
-              key={s.mod}
-              ref={i === 0 ? ilkRef : undefined}
-              type="button"
-              className={`bd-mod-secim-kart bd-mod-secim-${s.mod}${calisan && calisan !== s.mod ? " soluk" : ""}`}
-              onClick={() => sec(s.mod)}
-              disabled={Boolean(calisan)}
-              aria-busy={calisan === s.mod}
-            >
-              <span className="bd-mod-secim-ikon" aria-hidden="true"><Ikon ad={s.ikon} boyut={24} /></span>
-              <span className="bd-mod-secim-ad">
-                {s.ad}
-                {s.rozet && <span className="bd-mod-secim-rozet">{s.rozet}</span>}
-              </span>
-              <span className="bd-mod-secim-aciklama">{s.aciklama}</span>
-              <span className="bd-mod-joker">{s.joker}</span>
-              {s.odul && <span className="bd-mod-secim-odul"><Ikon ad="coin" boyut={14} /> {s.odul}</span>}
-              {calisan === s.mod && <span className="bd-mod-secim-bekle">{bekleMetni ?? tt("Davet gönderiliyor…")}</span>}
-            </button>
-          ))}
-        </div>
-
-        {hata && <div className="hata-kutu" role="alert">{hata}</div>}
-
-        <button type="button" className="btn ikincil" onClick={onKapat} disabled={Boolean(calisan)}>
+          <span>{baslik ?? tt("{ad} ile nasıl oynamak istersin?", { ad })}</span>
+        </span>
+      }
+      className="a-modsecim"
+      altlik={
+        <QtDugme tur="ikincil" tamGenislik onClick={onKapat} devreDisi={Boolean(calisan)}>
           {tt("Vazgeç")}
-        </button>
+        </QtDugme>
+      }
+    >
+      <div className="a-modsecim-liste" role="group" aria-label={baslik ?? tt("{ad} ile oyun modu seç", { ad })}>
+        {SECENEKLER.map((s, i) => (
+          <QtModKart
+            key={s.mod}
+            data-qt-ilk-odak={i === 0 && klavyeyle ? "" : undefined}
+            mod={s.mod}
+            ikon={s.ikon}
+            genis
+            ad={s.ad}
+            rozet={s.rozet}
+            className={calisan && calisan !== s.mod ? "a-modsecim-soluk" : undefined}
+            onClick={() => sec(s.mod)}
+            disabled={Boolean(calisan)}
+            aria-busy={calisan === s.mod}
+            alt={
+              <>
+                <span className="a-modsecim-aciklama">{s.aciklama}</span>
+                <span className="a-modsecim-meta">
+                  {calisan === s.mod ? (
+                    <span className="a-modsecim-bekle"><span className="qt-donen" aria-hidden="true" />{bekleMetni ?? tt("Davet gönderiliyor…")}</span>
+                  ) : (
+                    <>
+                      <span>{s.joker}</span>
+                      {s.odul && <span className="a-modsecim-odul"><QtIkon ad="coin" boyut={16} /> {s.odul}</span>}
+                    </>
+                  )}
+                </span>
+              </>
+            }
+          />
+        ))}
       </div>
-    </Modal>
+
+      {hata && <p className="a-modsecim-hata" role="alert">{hata}</p>}
+    </QtModal>
   );
 }

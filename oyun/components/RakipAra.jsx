@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import { kategoriEtiket } from "../lib/kategoriler.js";
@@ -8,6 +7,11 @@ import { botZorluk } from "../lib/botZorluk.js";
 import { tt } from "../lib/dil.js";
 import { sesRakipBulundu } from "../lib/ses.js";
 import { rpcDene } from "../lib/rpcDene.js";
+import { QtModal, QtDugme, QtListe, QtListeSatiri, QtRozet } from "../tasarim/index.js";
+import "../tasarim/ekranlar/a-modlar.css";
+
+// Açık bot zorluğu → rozet tonu (eşikler lib/botZorluk.js ile aynı)
+const zorlukTonu = (i) => (i <= 0.45 ? "dogru" : i <= 0.6 ? "uyari" : i <= 0.75 ? "vurgu" : "yanlis");
 
 const BEKLEME_SN = 15; // bu süre içinde insan rakip aranır, sonra gizli bota düşülür
 // Paket 41 F: "Maç hazırlanıyor…" hâlinin üst sınırı. Dolunca yoklama durur, oyuncuya
@@ -266,28 +270,39 @@ export default function RakipAra({ kategori, dereceli = true, jokersiz = false, 
     };
   }, [kategori, dereceli, jokersiz, bitir, sonCare, deneme]);
 
-  const govde = (
-    <div className="bd-arama-katman bd-karsilasma-katman" role="dialog" aria-modal="true" aria-label={tt("Rakip aranıyor")}>
-      <div className="bd-arama-kutu bd-arama-kutu-genis">
-        {/* Paket 30 E: maskot yerine karşılaşma sahnesi (sol: sen · VS · sağ: rakip) */}
-        <KarsilasmaSahnesi
-          rakip={rakipProfil}
-          bulundu={bulundu}
-          bosEtiket={hata ? tt("Rakip bulunamadı")
-            : Array.isArray(botListesi) && !secilenBot ? tt("Botunu seç")
-            : botaDusuldu ? tt("Hazırlanıyor…") : undefined}
-          baslik={rakipAdi
-            ? `${tt("Rakip bulundu:")} ${rakipAdi}`
-            : bulundu
-              ? tt("Rakip bulundu!")
-              : hata
-                ? tt("Maç başlatılamadı")
-                : Array.isArray(botListesi) && !secilenBot
-                ? tt("Rakip botunu seç")
-                : botaDusuldu ? tt("Maç hazırlanıyor…") : tt("Rakip aranıyor…")}
-        >
+  const vazgec = async () => {
+    await temizle();
+    onIptal();
+  };
 
-        <div className="bd-arama-alt">
+  // Yön A: QtModal (body'ye portal — sayfa içindeki yığılma bağlamına takılmaz).
+  // Arama sürerken Esc / örtü "Vazgeç" gibi davranır; eşleşme anında kapatılamaz.
+  return (
+    <QtModal
+      acik
+      className="a-arama"
+      kapatDugmesi={false}
+      ortuKapatir={false}
+      onKapat={rakipAdi || bulundu ? undefined : vazgec}
+    >
+      {/* Paket 30 E: maskot yerine karşılaşma sahnesi (sol: sen · VS · sağ: rakip) */}
+      <KarsilasmaSahnesi
+        rakip={rakipProfil}
+        bulundu={bulundu}
+        bosEtiket={hata ? tt("Rakip bulunamadı")
+          : Array.isArray(botListesi) && !secilenBot ? tt("Botunu seç")
+          : botaDusuldu ? tt("Hazırlanıyor…") : undefined}
+        baslik={rakipAdi
+          ? `${tt("Rakip bulundu:")} ${rakipAdi}`
+          : bulundu
+            ? tt("Rakip bulundu!")
+            : hata
+              ? tt("Maç başlatılamadı")
+              : Array.isArray(botListesi) && !secilenBot
+              ? tt("Rakip botunu seç")
+              : botaDusuldu ? tt("Maç hazırlanıyor…") : tt("Rakip aranıyor…")}
+      >
+        <p className="a-arama-alt">
           {kategori ? kategoriEtiket(kategori) : tt("Karışık")} {tt("kategorisinde")}
           {Array.isArray(botListesi)
             ? tt(" seçtiğin botla oynarsın. Bot maçında coin ödülü yarıya iner.")
@@ -296,67 +311,60 @@ export default function RakipAra({ kategori, dereceli = true, jokersiz = false, 
             : botaDusuldu
               ? tt(" seviyene yakın bir rakiple eşleştiriyoruz.")
               : tt(" seninle aynı seviyede birini arıyoruz.")}
-        </div>
+        </p>
 
         {!botaDusuldu && !rakipAdi && !hata && (
-          <div className="bd-arama-sayac">{kalan} {tt("sn")}</div>
+          <p className="a-arama-sayac qt-sayi" role="timer" aria-live="off">{kalan} {tt("sn")}</p>
         )}
 
         {botListesi && !rakipAdi && (
           botListesi === "yukleniyor" ? (
-            <div className="bd-arama-alt">{tt("Botlar yükleniyor…")}</div>
+            <p className="a-arama-alt" aria-busy="true">{tt("Botlar yükleniyor…")}</p>
           ) : (
-            <div className="bd-arama-botlar" role="group" aria-label={tt("Rakip bot seç")}>
-              {botListesi.map((b) => {
-                const z = botZorluk(Number(b.acik_bot_isabet));
-                return (
-                  <button
-                    key={b.id}
-                    type="button"
-                    className={"bd-arama-bot" + (secilenBot === b.id ? " secili" : "")}
-                    disabled={secilenBot !== null}
-                    onClick={() => botSec(b.id)}
-                  >
-                    <span className="bd-arama-bot-ad">{b.gorunen_ad}</span>
-                    <span className="bd-arama-bot-zorluk" style={{ color: z.renk }}>{z.etiket}</span>
-                  </button>
-                );
-              })}
+            <div className="a-arama-bot-secim">
+              <QtListe etiket={tt("Rakip bot seç")}>
+                {botListesi.map((b) => {
+                  const isabet = Number(b.acik_bot_isabet);
+                  const z = botZorluk(isabet);
+                  return (
+                    <QtListeSatiri
+                      key={b.id}
+                      vurgulu={secilenBot === b.id}
+                      disabled={secilenBot !== null}
+                      aria-busy={secilenBot === b.id}
+                      ikon="kisi"
+                      baslik={b.gorunen_ad}
+                      sag={<QtRozet ton={zorlukTonu(isabet)} boyut="k">{z.etiket}</QtRozet>}
+                      onClick={() => botSec(b.id)}
+                    />
+                  );
+                })}
+              </QtListe>
             </div>
           )
         )}
 
-        {hata && <div className="hata-kutu">{hata}</div>}
+        {hata && <p className="a-modsecim-hata" role="alert">{hata}</p>}
 
         {!rakipAdi && (
-          <div className="bd-arama-eylem">
+          <div className="a-arama-eylem">
             {/* Paket 41 F: hata/sınır dolunca Tekrar dene birincil; bot seçeneği HER hâlde durur */}
             {hata && (
-              <button className="btn" onClick={yenidenDene}>
-                {tt("Tekrar dene")}
-              </button>
+              <QtDugme tamGenislik onClick={yenidenDene}>{tt("Tekrar dene")}</QtDugme>
             )}
             {!Array.isArray(botListesi) && botListesi !== "yukleniyor" && (
-              <button className={hata ? "btn ikincil" : "btn"} onClick={() => { setHata(null); bittiRef.current = false; botlariGoster(); }}>
+              <QtDugme
+                tur={hata ? "ikincil" : "mor"}
+                tamGenislik
+                onClick={() => { setHata(null); bittiRef.current = false; botlariGoster(); }}
+              >
                 {hata ? tt("Bot ile oyna") : tt("Beklemeden bot ile oyna")}
-              </button>
+              </QtDugme>
             )}
-            <button
-              className="btn ikincil"
-              onClick={async () => {
-                await temizle();
-                onIptal();
-              }}
-            >
-              {tt("Vazgeç")}
-            </button>
+            <QtDugme tur="ikincil" tamGenislik onClick={vazgec}>{tt("Vazgeç")}</QtDugme>
           </div>
         )}
-        </KarsilasmaSahnesi>
-      </div>
-    </div>
+      </KarsilasmaSahnesi>
+    </QtModal>
   );
-
-  // Sayfa içindeki yığılma bağlamına takılmasın diye doğrudan body'ye
-  return typeof document === "undefined" ? govde : createPortal(govde, document.body);
 }
