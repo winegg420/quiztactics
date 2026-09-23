@@ -1,0 +1,94 @@
+{
+  "parti": 6,
+  "tarih": "2026-09-23",
+  "taslak": 159,
+  "net": 100,
+  "kota": {
+    "sinema": 24,
+    "muzik": 22,
+    "sanat": 22,
+    "spor": 21,
+    "yerel": 11
+  },
+  "zorluk_hedef": {
+    "3": 30,
+    "4": 35,
+    "5": 20,
+    "1-2": 15
+  },
+  "eksik": {},
+  "elenen_sebep": {
+    "kota_fazlasi": 59
+  },
+  "kova": {
+    "sinema": 24,
+    "muzik": 22,
+    "sanat": 22,
+    "spor": 21,
+    "yerel_tr": 11
+  },
+  "kategori": {
+    "sinema": 26,
+    "muzik": 23,
+    "sanat": 26,
+    "spor": 25
+  },
+  "zorluk": [
+    4,
+    11,
+    30,
+    35,
+    20
+  ],
+  "zorluk_kova": {
+    "3": 30,
+    "4": 35,
+    "5": 20,
+    "1-2": 15
+  },
+  "cevrilmeyen": 3,
+  "jev": {
+    "cagri": 536,
+    "girdi_jetonu": 362014,
+    "usd": 0.0152,
+    "not": "jev.jsonl içindeki tüm denemeler dahil (düzeltilip yeniden sorulanlar da)"
+  },
+  "zorluk_etiket_duzeltme": [
+    {
+      "s": "Portre ressamı Lucian Freud hangi ünlü kişinin torunudur?",
+      "d": "Sigmund Freud",
+      "eski": 3,
+      "yeni": 4,
+      "neden": "yazar 3, Jev seviye 5 (puan 3.48)"
+    },
+    {
+      "s": "Tekler kategorisinde 23 Grand Slam şampiyonluğuyla 2022'de tenisi bırakan Amerikalı oyuncu kimdir?",
+      "d": "Serena Williams",
+      "eski": 2,
+      "yeni": 3,
+      "neden": "yazar 2, Jev seviye 4 (puan 2.96)"
+    },
+    {
+      "s": "Arsenal'i 1996-2018 arasında 22 yıl çalıştıran Fransız teknik direktör kimdir?",
+      "d": "Arsène Wenger",
+      "eski": 2,
+      "yeni": 3,
+      "neden": "yazar 2, Jev seviye 4 (puan 2.84)"
+    },
+    {
+      "s": "'Thorpedo' lakabıyla anılan Avustralyalı yüzücü kimdir?",
+      "d": "Ian Thorpe",
+      "eski": 3,
+      "yeni": 4,
+      "neden": "yazar 3, Jev seviye 5 (puan 3.71)"
+    },
+    {
+      "s": "Milli futbolcu Arda Güler 2023'te Fenerbahçe'den hangi kulübe transfer olmuştur?",
+      "d": "Real Madrid",
+      "eski": 2,
+      "yeni": 3,
+      "neden": "yazar 2, Jev seviye 4 (puan 2.90)"
+    }
+  ],
+  "elenenler": []
+}

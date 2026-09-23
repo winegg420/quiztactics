@@ -62,8 +62,8 @@
     },
     "cografya": 0
   },
-  "siradaki_parti": 6,
-  "siradaki_migration_no": 298,
+  "siradaki_parti": 7,
+  "siradaki_migration_no": 309,
   "partiler": [
     {
       "no": 1,
@@ -404,50 +404,102 @@
         "2": 72,
         "3": 61
       }
+    },
+    {
+      "no": 6,
+      "ajan": 1,
+      "kategoriler": [
+        "sinema",
+        "muzik",
+        "sanat",
+        "spor",
+        "yerel_tr"
+      ],
+      "soru": 100,
+      "migration": "20260612000308_soru_uretim_parti_06",
+      "commit": null,
+      "tarih": "2026-09-23",
+      "kategori_kova": {
+        "sinema": 24,
+        "muzik": 22,
+        "sanat": 22,
+        "spor": 21,
+        "yerel_tr": 11
+      },
+      "kategori_db": {
+        "sinema": 26,
+        "muzik": 23,
+        "sanat": 26,
+        "spor": 25
+      },
+      "zorluk": {
+        "3": 30,
+        "4": 35,
+        "5": 20,
+        "1-2": 15
+      },
+      "zorluk_1_5": [
+        4,
+        11,
+        30,
+        35,
+        20
+      ],
+      "jev": {
+        "cagri": 536,
+        "girdi_jeton": 362014,
+        "maliyet_usd": 0.0152
+      },
+      "taslak": 159,
+      "elenen": {
+        "kalite_sonrasi": 0,
+        "kota_fazlasi": 59,
+        "not": "Ajan 1 (sinema/müzik/sanat/spor/TR yerel), 100'lük parti. Yarıda kalan eski parti 6 taslaklarından (teknoloji hariç) + 16 yeni TR yerel taslak. Jev öncesi elle: 9 taslak havuz tekrarı çıkarıldı (Take the A Train, Spiridon Louis, Giro pembe mayo, Goya Kara Resimler, Louvre piramidi, Sis Denizi Gezgin, Douanier Rousseau, su topu 7, Nadal 14); 25 taslak şık denge için düzeltildi. Şık ipucu kapısı (soru metni gizli) 9 taslağı takıldı: Britney ilk single, Klimt Altın Dönem, Gretzky, Carlsen, Yao Ming çıkarıldı; Evita, Duchamp/Mona Lisa, Eusébio, Klose çeldiricileri yeniden yazılıp geçti. İkinci turda 2 takılma (Blankers-Koen, Nowitzki — soru metninden milliyet ipucu kaldırılıp çeldiriciler değiştirildi, geçti). Eskiyebilir ifadeler düzeltildi (Navratilova, Becker, Polgar, Brady, Klose). Jev'in <0,9 güvenle farklı dediği doğru sorular (Liszt 19 rapsodi, Mor ve Ötesi, Vedat Tek, Züğürt Ağa/Nesli Çölgeçen, Sürü/Livaneli, Güzel ve Çirkin) kontrol edilip tutuldu. Eski parti 6'nın 45 teknoloji taslağı ajan 2'nin alanında, kullanılmadı."
+      },
+      "zorluk_etiket_duzeltme": 5,
+      "cevrilmeyen": 3,
+      "havuz_aktif": {
+        "once": 11540,
+        "sonra": 11640
+      },
+      "dogru_cevap_dagilimi": {
+        "0": 26,
+        "1": 22,
+        "2": 25,
+        "3": 27
+      }
     }
   ],
   "atlanan_partiler": [],
   "sayac": {
-    "soru": 1250,
+    "soru": 1350,
     "kategori": {
-      "sinema": 163,
+      "sinema": 187,
       "teknoloji": 162,
-      "muzik": 150,
-      "sanat": 150,
-      "spor": 138,
+      "muzik": 172,
+      "sanat": 172,
+      "spor": 159,
       "edebiyat": 125,
       "bilim": 125,
       "tarih": 112,
-      "yerel_tr": 75,
+      "yerel_tr": 86,
       "genel_kultur": 50
     },
     "zorluk": {
-      "3": 375,
-      "4": 437,
-      "5": 250,
-      "1-2": 188
+      "3": 405,
+      "4": 472,
+      "5": 270,
+      "1-2": 203
     }
   },
   "jev": {
-    "cagri": 3644,
-    "girdi_jeton": 2933072,
-    "maliyet_usd": 0.1232
+    "cagri": 4180,
+    "girdi_jeton": 3295086,
+    "maliyet_usd": 0.1384
   },
   "elenen": 7,
-  "zorluk_etiket_duzeltme": 60,
-  "cevrilmeyen": 13,
+  "zorluk_etiket_duzeltme": 65,
+  "cevrilmeyen": 16,
   "ardisik_uygulama_hatasi": 0,
-  "yarida_birakilan": {
-    "parti": 6,
-    "tarih": "2026-09-23",
-    "adim": "1 (üret) — taslak yazımı sürerken durduruldu; kalite kapısı, Jev, çeviri kontrolü, migration ve veritabanı adımlarına geçilmedi, veritabanına hiçbir şey yazılmadı",
-    "not": "parti 6 yarıda bırakıldı, yeniden üretilecek. 203 taslak yazıldı (sinema 44, teknoloji 45, müzik 38, sanat 34, spor 42; EN çevirileri taslakta var, denetle/Jev çalıştırılmadı); edebiyat, bilim, tarih, yerel_tr, genel_kultur taslakları yazılmadı. Fikirler yazılmadan önce güncel havuzda (14.704 satır, aktif 11.540) anahtar kelimeyle arandı. Ara dosyalar (git dışı): C:/Users/ida/AppData/Local/Temp/claude/C--Users-ida-Desktop-quiztactics/90302423-b2e2-4aaf-94b4-cdf3e20c755f/scratchpad/P3/p06/ (taslak/*.json, havuz.json, yardımcı betikler). Repo içinde parti-06/ ya da migration 296 dosyası oluşturulmadı.",
-    "migration_no_notu": "Migration numarası artık 298 (bkz. migration_no_notu)."
-  },
-  "uretim_durduruldu": {
-    "tarih": "2026-09-23",
-    "neden": "Ida kararı: şimdilik yeni soruya token yok",
-    "siradaki_parti": 6
-  },
   "migration_no_notu": "296 (skill satın alma kilit sırası) ve 297 (duello_surum herkese) Paket 3 dışı işlere verildi, 23 Eyl 2026. Parti 6 yeniden üretilince 298 kullanılır."
 }
