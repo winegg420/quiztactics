@@ -7,6 +7,7 @@ import { botZorluk } from "../lib/botZorluk.js";
 import { tt } from "../lib/dil.js";
 import { sesRakipBulundu } from "../lib/ses.js";
 import { rpcDene } from "../lib/rpcDene.js";
+import { ayar } from "../lib/ayarlar.js";
 import { QtModal, QtDugme, QtListe, QtListeSatiri, QtRozet } from "../tasarim/index.js";
 import "../tasarim/ekranlar/a-modlar.css";
 
@@ -17,6 +18,8 @@ const BEKLEME_SN = 15; // bu süre içinde insan rakip aranır, sonra gizli bota
 // Paket 41 F: "Maç hazırlanıyor…" hâlinin üst sınırı. Dolunca yoklama durur, oyuncuya
 // Tekrar dene / Bot ile oyna / Vazgeç sunulur (eskiden sonsuza dek bekliyordu).
 const HAZIRLIK_SINIR_MS = 30000;
+// A6: kuyruk yoklama aralığı varsayılanı; asıl değer oyun_ayarlari.rakip_ara_yoklama_ms (migration 337)
+const YOKLAMA_VARSAYILAN_MS = 3000;
 
 /**
  * "Hemen Oyna" eşleştirme ekranı.
@@ -228,9 +231,18 @@ export default function RakipAra({ kategori, dereceli = true, jokersiz = false, 
 
   useEffect(() => {
     let iptal = false;
+    // A6: kuyruk yoklaması saniyede bir değil ~3 sn'de bir (oyun_ayarlari.rakip_ara_yoklama_ms).
+    // Saniyede birken tek arama 15 kuyruga_gir çağrısı yapıyordu; art arda iki arama sunucudaki
+    // dakikada 30 sınırına (hiz_siniri) takılıp "Rakip aranamadı" hatası veriyordu.
+    let yoklamaMs = YOKLAMA_VARSAYILAN_MS;
+    ayar("rakip_ara_yoklama_ms", YOKLAMA_VARSAYILAN_MS).then((v) => {
+      if (Number.isFinite(v) && v >= 1000) yoklamaMs = v;
+    });
+    let sonYoklama = Date.now();
 
     const dene = async () => {
       if (iptal || bittiRef.current) return;
+      sonYoklama = Date.now();
       try {
         const { data, error } = await supabase.rpc("kuyruga_gir", {
           p_kategori: kategori ?? null,
@@ -240,6 +252,11 @@ export default function RakipAra({ kategori, dereceli = true, jokersiz = false, 
         if (error) throw error;
         if (data) bitir(data);
       } catch (e) {
+        // Hız sınırı geçici: bu yoklama atlanır, arama sürer (sonraki yoklama ya da 15 sn sonundaki son çare).
+        if (/Çok hızlı/i.test(e?.message ?? "")) {
+          console.warn("[Bildim] kuyruga_gir hız sınırı — yoklama atlandı:", e?.message);
+          return;
+        }
         setHata(tt("Rakip aranamadı. Bağlantını kontrol edip tekrar dene."));
         console.error("[Bildim] kuyruga_gir:", e);
         clearInterval(zamanlayiciRef.current);
@@ -255,7 +272,8 @@ export default function RakipAra({ kategori, dereceli = true, jokersiz = false, 
           sonCare();
           return 0;
         }
-        dene(); // her saniye kuyruğu yokla; gerçek oyuncuya öncelik verilir
+        // Geri sayım saniyede bir; kuyruk yoklaması yoklamaMs'te bir (gerçek oyuncuya öncelik verilir)
+        if (Date.now() - sonYoklama >= yoklamaMs - 100) dene();
         return yeni;
       });
     }, 1000);
