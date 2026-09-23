@@ -36,3 +36,7 @@ oyuncu-testi-hata-*.png
 
 # Impeccable skill ikili dosyası (14 MB, Windows exe) — depoya girmez; kurulumla gelir
 .claude/skills/impeccable/scripts/bin/
+
+# Soru üretimi yazım kilidi (iki ajan sırayla DB yazar)
+araclar/soru-uretim/yazim.lock/
+araclar/soru-uretim/YAZIM_IZNI

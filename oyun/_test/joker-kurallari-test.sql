@@ -33,6 +33,8 @@ declare
   v_hata text;
   v_json jsonb;
   v_sayi int;
+  v_jeton uuid;      -- reklam jetonu (306: ödül yalnız sunucu jetonuyla)
+  v_ilk_jeton uuid;
   v_bugun date := (now() at time zone 'Europe/Istanbul')::date;
 begin
   -- ---------- Hazırlık: gerçek olmayan test kullanıcıları ----------
@@ -99,11 +101,16 @@ begin
     (select ucretsiz_elli_kaldi::text from public.joker_mac_durumu('1v1', v_mac)));
 
   -- === TEST 3: günde 6. reklam ödülü reddedilir ===
+  -- 306'dan beri ödül yalnız reklam_jetonu_al() jetonuyla; testte bekleme süresi 0.
+  update public.oyun_ayarlari set deger = '0'::jsonb where anahtar = 'reklam_min_sure_sn';
   for v_sayi in 1..5 loop
-    perform public.reklam_odulu_al('test-reklam-' || v_sayi);
+    select j.jeton into v_jeton from public.reklam_jetonu_al() j;
+    if v_sayi = 1 then v_ilk_jeton := v_jeton; end if;
+    perform public.reklam_odulu_al(v_jeton::text);
   end loop;
   begin
-    perform public.reklam_odulu_al('test-reklam-6');
+    select j.jeton into v_jeton from public.reklam_jetonu_al() j;
+    perform public.reklam_odulu_al(v_jeton::text);
     perform pg_temp.kontrol('Günde 6. reklam ödülü reddedilir', 'HATA', 'kabul edildi');
   exception when others then
     v_hata := sqlerrm;
@@ -112,7 +119,7 @@ begin
 
   -- === TEST 3b: aynı reklam referansı iki kez ödüllendirilemez ===
   begin
-    perform public.reklam_odulu_al('test-reklam-1');
+    perform public.reklam_odulu_al(v_ilk_jeton::text);
     perform pg_temp.kontrol('Aynı reklam referansı tekrar edilemez', 'HATA', 'kabul edildi');
   exception when others then
     v_hata := sqlerrm;

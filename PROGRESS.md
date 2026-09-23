@@ -7723,3 +7723,29 @@ otomatik akla gelmesi için; proje kapsamında kuruldu.
 - **Dal düzeni kalktı (Ida kararı):** `gelistirme` → `main` ileri sarıldı ve push edildi,
   kurallar CLAUDE.md/AGENTS.md'de "doğrudan main". Migration 297: `duello_surum` = 2
   (canlı paket yayına çıktıktan SONRA uygulandı). Test listesi altyapısı silinmedi.
+
+## 2026-09-23 — Büyük paket: Tasarım Adım 1 + 4 sunucu işi + kararlar (6 şerit)
+**Araç:** Claude Code (ana ajan + 6 şerit alt ajanı)
+**Neden:** Ida: görünüm "oyun gibi değil" → 3 yön; şık ipucu, turnuva zorluğu, bot gerçekçiliği, satın alma açıkları, bekleyen kararlar.
+
+- **T (tasarım):** Impeccable (pbakaus) + Emil Kowalski skill'leri `.claude/skills/` (impeccable.exe
+  14 MB git dışı; `init` kullanıcıyla yapılmadı). `/tasarim-yonleri` (menüsüz, girişsiz): A Şeker
+  Kutusu · B Arena Gecesi · C Stüdyo Işıkları; araştırma + 390 px görüntüler `docs/tasarim-yonleri/`.
+  Kontrast 17 çiftin hepsi ≥4,5. Canlıda 390 px açılıyor, taşma/konsol 0.
+- **S1 (298):** 1.310 soru `sik_ipucu_jev` (ağırlık 2, elle işaret, tetikleyici korur); rekabetçi
+  havuz 6.694 → 6.303, en düşük teknoloji 463 (≥2 zorluk). Serbest Klasik'e de gelmiyor (yalnız
+  Hatalarım) — karar bekliyor. Kalıcı Jev "soru olmadan" kapısı: `soru:iceri` + üretim hattı.
+- **S2 (300):** turnuva 1–5 zorluk 1–2 · 6–10 → 3 · 11+ → 4–5, altın 4–5, alt dilime düşme,
+  `turnuva_zorluk_*` ayarları. Prova: `1 1 2 2 2 · 3×5 · 5 5 4 4 5 …`.
+- **S3 (302):** `bot_soru_isabet` (+15/+8/0/−8/−15, rekabetçi havuza göre ofset −3,16, %5–98),
+  bütün modlar. Ortalama düşük/orta botlarda birebir; yüksek botlarda tavan yüzünden −0,8…−1,3.
+- **S4 (304–306):** `coin_satin_alma_defteri` (jeton/sipariş hesaptan bağımsız tekil), sunucuda
+  consume, iade taraması (`satin_alma_iade_takibi`=false), tek kullanımlık reklam jetonu (min 10 sn).
+  SQL 34/34, Edge mock 22/22. **Edge Function'lar DAĞITILAMADI** (CLI 403, Chrome eklentisi yok).
+- **K (307):** Sigorta 30 / 2X 40, 10'lu 255/340 (+joker_paketleri satırları); paket adı
+  `com.quiztactics.app`; PROJECT_CONTEXT › Kararlar (23 Eyl, test değeri); 10.000 coin yayın günü işi.
+- **Birleştirme:** 298–307 prova → canlı → doğrulandı. `npm test` 96/0 (+kurallar 13, birim 8, dans);
+  eski testler güncellendi (v1 Düello testleri kendi işleminde `duello_surum`=1, fiyatlar 307, reklam
+  jetonu). İlk koşudaki 120 sn zaman aşımları eşzamanlı test kilitlerindendi. Oyuncu testi canlıda:
+  Klasik 20/20, Düello saldıran 5 / savunan 5 temiz; araç yarım maça katılınca önceki turları artık
+  saymıyor. Arayüz denetimi 16 sayfa temiz. Build temiz.
