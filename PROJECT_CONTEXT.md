@@ -254,6 +254,10 @@ karakter, Hızlı Mod hariç — dondurulmuş) bu sistemle yeniden yazıldı.
 - Arayüz metni TR+EN: anahtar Türkçe metin; EN karşılıkları `oyun/lib/dil.js` +
   şerit ekleri `oyun/lib/ceviri/*.js` (dil.js'e katılır).
 - Seçenekler sayfası `/tasarim-yonleri` (A/B/C) duruyor; silinmesine Ida karar verecek.
+- **Ana sayfa = seçenek A (lobi, kaydırmasız)** — `oyun/pages/anasayfa/AnaSayfaA.jsx`, veri `veri.jsx`,
+  parçalar `parcalar.jsx`. Sıra: lig/seri → avatar kartı → turnuva şeridi → OYNA/DÜELLO → kısayollar
+  (Meydan Okumalar · Grup Maçı · Saf Bilgi · Hatalarım). Coin yalnız üst çubukta. Eski `pages/Home.jsx`
+  ve B/C/seçim dosyaları duruyor, rotasız. Meydan Okumalar `/meydan`, Grup Maçı `/meydan?bolum=grup`.
 - **Tasarım skill'leri (proje içi):** `.claude/skills/impeccable` (pbakaus/impeccable; ikili
   dosyası git'e girmez; otomatik hook YOK — denetim elle, `impeccable.cmd detect`) ve
   `emil-design-eng` + hareket skill'leri (emilkowalski/skills). Ürün bağlamı `PRODUCT.md`.

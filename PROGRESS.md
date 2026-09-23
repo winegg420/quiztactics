@@ -7828,3 +7828,29 @@ otomatik akla gelmesi için; proje kapsamında kuruldu.
   istemciye kapalı, başkasının ligi gösterilmez); Turnuva/Grup'ta MacUstSerit'e kendi avatarın + oyuncu sayısı.
   Canlı testte yakalanan hata: kategori kancası `soru` tanımından önce çalışıp Klasik'i çökertti (düzeldi).
 - **Test (canlı):** Klasik 20/20, Düello saldıran 6 / savunan 5; 360/390/1280 kesişim ve taşma yok.
+
+## 2026-09-23 — Ana sayfa A asıl ana sayfa + turnuva şeridi + günde 5 turnuva
+**Araç:** Claude Code (tek şerit, alt ajan yok)
+**Neden:** Ida A seçeneğini seçti; turnuva ana sayfada öne çıksın; turnuva saatleri 10·14·18·20·24.
+
+- **Turnuva saatleri (323, uygulandı):** `turnuva_saatleri` = 10:00 · 14:00 · 18:00 · 20:00 · 24:00; SQL yedek listesi
+  ve `zaman.js › VARSAYILAN_LISTE` aynı. Zamanlayıcı/lobi botları/katılım zaten `sonraki_turnuva_bilgi()` →
+  `turnuva_saatleri_listesi()` ile ayardan okuyor (ölçüldü). Gün sınırı provası: 23:59:30 → aynı günün 24:00'ı,
+  00:00:00 ve 00:00:30 → 10:00; 4 günde 20 seans anı 20 tekil (çift başlama yok). `turnuva_lobi_botlari`'ndaki gömülü
+  120 → `turnuva_lobi_acilis_dk` (değer aynı). Hatırlatma push'ları 14:00 (10:15 UTC) ve 20:00 (16:15 UTC) seansına,
+  metinler güncellendi ("Gece" → "Akşam turnuvası"). Eski `13:00/21:50` EN çevirisi silindi; belgeler güncellendi.
+- **Ana sayfa:** kök rota `AnaSayfaA`; `/ana-sayfa-a|b|c|secim` rotaları kaldırıldı (dosyalar ve `pages/Home.jsx` duruyor).
+  Avatar 176 → 120, kısa ekranda (≤760 px yükseklik) avatar kartı yatay. Turnuva şeridi (`TurnuvaSeridi`): bekleme
+  (saat + geri sayım + 150·75·40 ödül `coin_turnuva_1..3`), lobi (lobi satırının anına ≤ `turnuva_lobi_acilis_dk` →
+  nabız + KATIL, dokununca `join_tournament_lobby` + /turnuva), canlı (CANLI rozeti). Masaüstü sağda `TurnuvaKarti`
+  yerine seans listesi. Kısayol: Turnuva çıktı, **Meydan Okumalar** (gelen Klasik + Düello davet rozeti) girdi; Grup
+  Maçı `/meydan?bolum=grup` → ChallengesPage grup panelini açık başlatıp kaydırıyor. OYNA alt yazısı ≤400 px'te tek
+  satır; `.as-rozet-nokta` kutu içinde, 99+ sınırı. Bildirim izni kartı (maç sonrası) A'ya taşındı.
+- **Bulunan hata:** A'nın maç listesi sorgusu istemciye kapalı `profiles.avatar_url`'i istiyordu → 403, "sırası sende /
+  rakip bekliyor" satırları hiç yüklenmiyordu. `gorunen_avatar`'a çevrildi; başka dosyada sorgu olarak yok.
+- **Eski ana sayfadan A'ya gelmeyenler (bilinçli):** "geçen hafta şehir ligi" notu (eski lig arşivi), rakip kategorisi
+  seçim sayfası, gönderilen daveti ana sayfadan geri çekme (Meydan Okumalar sayfasında var).
+- **Test (yerel, canlı DB):** 360×740 · 390×844 · 390×700 · 1280×800, üç hâl (lobi gerçek; bekleme saat taklidiyle;
+  canlı istek taklidiyle) ve yeni misafir (Level 1, seri 0, davet yok): dikey kaydırma 0, yatay taşma 0, çakışma 0,
+  44 px altı hedef 0, konsol hatası 0. Tıklama: şerit, 4 kısayol, OYNA, DÜELLO, lig çipi 390 + 1280'de doğru; eski
+  4 adres 404. `prefers-reduced-motion`: nabız/zıplama `none`. Build temiz.
