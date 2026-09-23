@@ -164,7 +164,11 @@
 .m1-skill-not a { color: inherit; font-weight: var(--qt-a-siyah); }
 
 /* ---------- Tepki / sohbet ---------- */
-.m1-balonlar { display: grid; grid-template-columns: 1fr 1fr; gap: var(--qt-b-2); min-height: 0; }
+/* Balonlar yer kaplamaz: maç sırasında şıkları aşağı itip dokunuşu kaçırtmasın */
+.m1-balonlar { position: relative; z-index: 3; height: 0; margin-top: calc(var(--qt-b-3) * -1); }
+.m1-ss .m1-balonlar { height: auto; margin-top: 0; display: grid; grid-template-columns: 1fr 1fr; gap: var(--qt-b-2); }
+.m1-mac .m1-balonlar .m1-balon { position: absolute; top: 0; left: 0; max-width: 60%; }
+.m1-mac .m1-balonlar .m1-balon--rakip { left: auto; right: 0; }
 .m1-balon {
   justify-self: start;
   max-width: 100%;

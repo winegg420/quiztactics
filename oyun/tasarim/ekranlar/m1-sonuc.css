@@ -368,3 +368,4 @@
 .m1-sg--paket { display: inline-flex; gap: 3px; padding: 6px; border-radius: var(--qt-r-l); background: var(--qt-coin-acik); box-shadow: 0 var(--qt-dudak-s) 0 var(--qt-coin-dudak); }
 .m1-sg-mini { display: grid; place-items: center; width: 28px; height: 28px; border-radius: var(--qt-r-s); background: var(--qt-ikinci); color: var(--qt-ikinci-yazi); }
 .m1-sg--kucuk .m1-sg-mini { width: 22px; height: 22px; }
+.m1-ss-eylem .qt-dugme:not(.mss-tam) { padding-inline: var(--qt-b-3); font-size: var(--qt-y-m); }
