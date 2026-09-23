@@ -44,7 +44,7 @@ export function VsKarti({ profil, kart, taraf = "ben", className, children }) {
   const level = kart?.level ?? profil?.level;
   return (
     <div className={sinif("ara-kart", `ara-kart--${taraf}`, className)}>
-      <CerceveliAvatar profile={profil} userId={profil?.id} boyut={92} hareketli />
+      <CerceveliAvatar profile={profil} userId={profil?.id} boyut={92} hareketli {...(kart ? { kart } : {})} />
       <span className="ara-kart-ad">{profil?.gorunen_ad ?? tt("Sen")}</span>
       <span className="ara-kart-rozetler">
         {level != null && <QtRozet boyut="k" ton="koyu">{tt("Lv {0}", { 0: level })}</QtRozet>}

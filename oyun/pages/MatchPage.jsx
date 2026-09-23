@@ -18,6 +18,7 @@ import { QtBosDurum, QtCip, QtDugme, QtEtki, QtIkon, QtIkonDugme, QtMacUst, QtRo
 import "../tasarim/ekranlar/m1-mac.css";
 import MacUstSerit, { SeviyeEtiketi } from "../components/MacUstSerit.jsx";
 import CerceveliAvatar from "../components/CerceveliAvatar.jsx";
+import { VsKarti } from "../components/AramaSahnesi.jsx";
 import { useOyuncuSeviyeleri } from "../lib/oyuncuSeviye.js";
 import { TEPKILER, tepkiIkonu } from "../lib/tepkiler.js";
 import MacYukleniyor from "../components/MacYukleniyor.jsx";
@@ -572,7 +573,8 @@ export default function MatchPage() {
     return () => clearTimeout(t);
   }, [ilerleme.rakip]);
 
-  useOyunModu(Boolean(soru) && mac?.durum === "aktif");
+  // Ajan I: "Hazır mısın?" kapısı da tam ekran sahne (arama sahnesiyle aynı; üst/alt menü gizli)
+  useOyunModu((Boolean(soru) || senkronBekliyor) && mac?.durum === "aktif");
 
   useEffect(() => {
     if (mac?.durum !== "bitti") { setSonucHazir(false); return undefined; }
@@ -785,18 +787,15 @@ export default function MatchPage() {
           onAsenkron={rakipBot ? null : asenkronaGec}
           bekleyenSn={nabiz?.lobi_saniye ?? 0}
           tabela={
-            <div className="m1-vs">
-              <div className="m1-vs-taraf">
-                <CerceveliAvatar profile={benimProfil} userId={benimProfil?.id} boyut={72} hareketli />
-                <span className="m1-vs-ad">{benimProfil?.gorunen_ad}</span>
+            // Ajan I: arama sahnesiyle aynı VS kartları (çerçeve, ad, level, lig) + hazır rozeti
+            <div className="ara-vs">
+              <VsKarti profil={benimProfil} kart={seviyeler[benimProfil?.id]} taraf="ben">
                 <QtRozet boyut="k" ton={nabiz?.ben_hazir ? "dogru" : "koyu"}>{nabiz?.ben_hazir ? tt("hazır") : tt("hazır değil")}</QtRozet>
-              </div>
-              <span className="m1-vs-rozet" aria-hidden="true">VS</span>
-              <div className="m1-vs-taraf">
-                <CerceveliAvatar profile={rakipProfil} userId={rakipProfil?.id} boyut={72} hareketli />
-                <span className="m1-vs-ad">{rakipProfil?.gorunen_ad}</span>
+              </VsKarti>
+              <span className="ara-vs-rozet" aria-hidden="true"><span>VS</span></span>
+              <VsKarti profil={rakipProfil} kart={seviyeler[rakipProfil?.id]} taraf="rakip">
                 <QtRozet boyut="k" ton={nabiz?.rakip_hazir ? "dogru" : "koyu"}>{nabiz?.rakip_hazir ? tt("hazır") : tt("hazır değil")}</QtRozet>
-              </div>
+              </VsKarti>
             </div>
           }
         />
