@@ -62,8 +62,8 @@
     },
     "cografya": 0
   },
-  "siradaki_parti": 2,
-  "siradaki_migration_no": 292,
+  "siradaki_parti": 3,
+  "siradaki_migration_no": 293,
   "partiler": [
     {
       "no": 1,
@@ -132,37 +132,105 @@
         "2": 62,
         "3": 53
       }
+    },
+    {
+      "no": 2,
+      "soru": 250,
+      "migration": "20260612000292_soru_uretim_parti_02",
+      "commit": null,
+      "tarih": "2026-09-23",
+      "kategori_kova": {
+        "sinema": 32,
+        "teknoloji": 33,
+        "muzik": 30,
+        "sanat": 30,
+        "spor": 27,
+        "edebiyat": 25,
+        "bilim": 25,
+        "tarih": 23,
+        "yerel_tr": 15,
+        "genel_kultur": 10
+      },
+      "kategori_db": {
+        "sinema": 32,
+        "teknoloji": 33,
+        "muzik": 33,
+        "sanat": 34,
+        "spor": 30,
+        "edebiyat": 26,
+        "bilim": 26,
+        "tarih": 25,
+        "genel_kultur": 11
+      },
+      "zorluk": {
+        "3": 75,
+        "4": 88,
+        "5": 50,
+        "1-2": 37
+      },
+      "zorluk_1_5": [
+        6,
+        31,
+        75,
+        88,
+        50
+      ],
+      "jev": {
+        "cagri": 662,
+        "girdi_jeton": 530555,
+        "maliyet_usd": 0.0223
+      },
+      "taslak": 331,
+      "elenen": {
+        "kalite_sonrasi": 0,
+        "kota_fazlasi": 81,
+        "taslakta_havuz_tekrari": 35,
+        "not": "Jev >0,9 itirazı yok. Jev öncesi elle: taslak aşamasında 35 soru havuzla birebir/anlamca tekrar (denetle + aynı-cevap taraması) nedeniyle çıkarıldı, fikirler ayrıca havuzda önceden arandı; 1 olgusal belirsizlik (Hopkins ekran süresi 16/24 dk) ve 1 hassas (Strange Fruit) çıkarıldı, 1 soru (Metallica platin iddiası) doğrulanabilir hale getirildi. Jev düşük güvenle farklı dediği doğru sorular (Bolero trampet, Petya kurt=korno, Kuşlar du Maurier, Whistler gri-siyah vb.) kontrol edilip tutuldu."
+      },
+      "duzeltilen_yeniden_sorulan": 0,
+      "zorluk_etiket_duzeltme": 17,
+      "cevrilmeyen": 1,
+      "havuz_aktif": {
+        "once": 10540,
+        "sonra": 10790
+      },
+      "dogru_cevap_dagilimi": {
+        "0": 64,
+        "1": 64,
+        "2": 64,
+        "3": 58
+      }
     }
   ],
   "atlanan_partiler": [],
   "sayac": {
-    "soru": 250,
+    "soru": 500,
     "kategori": {
-      "sinema": 33,
-      "teknoloji": 32,
-      "muzik": 30,
-      "sanat": 30,
-      "spor": 28,
-      "edebiyat": 25,
-      "bilim": 25,
-      "tarih": 22,
-      "yerel_tr": 15,
-      "genel_kultur": 10
+      "sinema": 65,
+      "teknoloji": 65,
+      "muzik": 60,
+      "sanat": 60,
+      "spor": 55,
+      "edebiyat": 50,
+      "bilim": 50,
+      "tarih": 45,
+      "yerel_tr": 30,
+      "genel_kultur": 20
     },
     "zorluk": {
-      "3": 75,
-      "4": 87,
-      "5": 50,
-      "1-2": 38
+      "3": 150,
+      "4": 175,
+      "5": 100,
+      "1-2": 75
     }
   },
   "jev": {
-    "cagri": 642,
-    "girdi_jeton": 512630,
-    "maliyet_usd": 0.0215
+    "cagri": 1304,
+    "girdi_jeton": 1043185,
+    "maliyet_usd": 0.0438
   },
   "elenen": 3,
-  "zorluk_etiket_duzeltme": 13,
-  "cevrilmeyen": 0,
+  "zorluk_etiket_duzeltme": 30,
+  "cevrilmeyen": 1,
   "ardisik_uygulama_hatasi": 0
 }
