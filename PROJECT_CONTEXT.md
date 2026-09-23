@@ -74,14 +74,13 @@ tercih hatırlanır (localStorage + `profiles.dereceli_tercih`).
   uçtan uca ölçümünde arama → bot maçı → maç ekranı **12,56 sn** sürdü.
 - Rövanş bekleme penceresindeki “Vazgeç”, `duello_rovans_iptal` ile sunucu
   isteğini de geri çeker; yalnız pencereyi kapatıp hayalet istek bırakmaz.
-- **Düello 1.0 — yalnız test hesaplarında açık:** aynı soru aynı anda,
-  simetrik can tablosu, uzatma (beraberlik yok), skill 4/2/1, Sigorta/2X yok.
-  Sunucu (268), bot (269), test listesi (276) canlı veritabanında; arayüz
-  `gelistirme` dalında (`DuelloV2.jsx`). Genel bayrak `duello_surum` = **1**.
-  `oyun_ayarlari.duello_v2_test_kullanicilari` listesindeki hesap, karşısında
-  test hesabı ya da bot varsa sürüm 2 maç alır; canlı sitedeki gerçek oyuncuyla
-  eşleşme sürüm 1 kalır. Herkese açılış = `gelistirme` → `main` birleştirmesiyle
-  aynı anda `duello_surum` = 2. O güne kadar yukarıdaki maddeler canlıda geçerli.
+- **Düello 1.0 herkese açık (23 Eyl 2026):** `duello_surum` = **2**. Aynı soru
+  aynı anda, simetrik can tablosu, uzatma (beraberlik yok), skill 4/2/1, Sigorta/2X
+  yok. Sunucu 268, bot 269; arayüz `DuelloV2.jsx`. Test listesi
+  (`duello_v2_test_kullanicilari`) ve v1 kodu silinmedi, yalnız kullanılmıyor.
+  Yukarıdaki "Saldırı riski" / "6 sn Saldırı Hazırlığı" maddeleri v1 içindir.
+  İstemci tanımadığı bir sürüm görürse maçı çizmez, yenileme ister
+  (`DUELLO_EN_YUKSEK_SURUM`).
 
 ### Turnuva
 
@@ -316,11 +315,23 @@ altta, eylem düğmeleri sağ altta.
 
 ---
 
+## Test kuralı — oyuncu gibi test et (23 Eyl 2026)
+
+Her pakette: `node araclar/oyuncu-testi.mjs [--adres=https://quiztactics.vercel.app]`.
+
+- Oyuncunun cevap vermesi gereken HER soruda şıklar dokunulabilir olmalı;
+  değilse test ANINDA başarısız. "Açık şık varsa dokun" yazılmaz — eski betik
+  şık kapalıyken sessizce bekledi, soru Yanıtsız kapandı, test geçti.
+- Her dokunuştan sonra cevabın sunucuya ulaştığı veritabanından doğrulanır;
+  maç sonunda test hesabının yanıtsız kaldığı her soru başarısızdır.
+- Düello: en az 3 saldıran + 3 savunan; `--uzatma` ile uzatmaya kadar.
+- Her ekran 360 ve 390 px ölçülür; dokunulabilir öğe kutuları kesişirse
+  başarısız. Maç öncesi ekran, maç içi skill çubuğu, maç sonu dahil.
+- Telefon taklidi (dokunuş), gerçek akış, bota karşı. Klasik ve turnuvada da
+  (turnuva yalnız seans açıkken) aynı kontrol.
+
 ## Açık İşler
 
-- **Telefonda Düello'da şıka dokunamama (Ida, Android) — açık.** Taklitte
-  üretilemedi. Ida önizlemede `/duello?tani=1` ile oynayıp tanı panelinin
-  ekran görüntüsünü alacak (panel: en üst öğe, katmanlar, kilit koşulları).
 
 - **1000 soru partisi + Jev zorluk (270–274) beklemede.** Üretildi ve provadan
   geçti ama Ida "soru üretimini durdur" dedi; uygulanmadı. Dosyalar

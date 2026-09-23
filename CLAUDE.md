@@ -30,7 +30,7 @@ ayrı kopya, `DocumentsCodex...` altında klasör **açılmaz**. 13 Eyl
 canlıdaki 3B sayfalar silindi. (Kurtarılan iş: `arsiv/OKU.md`.)
 
 Aynı anda **tek araç** çalışır. Biri işini bitirip push etmeden diğeri
-başlamaz. Oturum başında `git pull`, sonunda commit + `gelistirme`'ye push (bkz. Dal düzeni).
+başlamaz. Oturum başında `git pull`, sonunda commit + `main`'e push (bkz. Dal düzeni).
 **Commit edilmemiş iş bırakma** — yarım kalsa bile commit et.
 
 ## Komutlar
@@ -113,14 +113,11 @@ girmez). Gerçek iOS kontrolü sahibinin telefonunda yapılır.
 
 ## Dal düzeni
 
-- `main` = canlı. Ida açıkça "canlıya al" demeden main'e push EDİLMEZ.
-- Tüm çalışma `gelistirme` dalında yapılır; oradaki push Vercel'de
-  ayrı bir önizleme linki üretir, canlıyı etkilemez.
-- Canlıya alma = `gelistirme` → `main` birleştirme, yalnız Ida isteyince.
-- Önizleme linki (dalın son dağıtımı):
-  https://quiztactics-app-git-gelistirme-idagureli-4647s-projects.vercel.app
-- Dikkat: önizleme de **aynı Supabase'e** bağlıdır. Migration ve veri
-  değişikliği dal ayrımı tanımaz; uygulandığı an canlıyı da etkiler.
+- **Tek dal: `main`** (23 Eyl 2026, Ida kararı — oyunun henüz oyuncusu yok,
+  inşa aşamasında). Doğrudan `main`'de çalışılır; her iş bitince `main`'e
+  push edilir ve canlı (quiztactics.vercel.app) güncellenir.
+- `gelistirme` dalı ve önizleme linki artık kullanılmaz.
+- Canlıda doğrulama: `node araclar/oyuncu-testi.mjs --adres=https://quiztactics.vercel.app`.
 
 ## Yayın
 
@@ -159,8 +156,8 @@ bitirirsin:
   yalnız bu listede olmayan geri dönüşsüz bir işlem çıkarsa sor.
 - Her mantıksal adım **ayrı commit**, mesajlar Türkçe.
 - `npm run build` hatasız olmalı; migration'ları canlıya uygula.
-- İşi bitirince `gelistirme`'ye push et ve önizleme dağıtımının bittiğini
-  doğrula. `main`'e yalnız Ida "canlıya al" deyince (bkz. Dal düzeni).
+- İşi bitirince `main`'e push et, Vercel dağıtımının bittiğini ve canlıda
+  çalıştığını doğrula (bkz. Dal düzeni).
 - **Kendi kendini test et.** Sahibinden bir şey kontrol etmesini isteme.
 - Bitince **tek kısa özet**: hangi dosyalar değişti, kaç migration
   eklendi/uygulandı, build sonucu, push/dağıtım durumu, ne doğrulandı.
