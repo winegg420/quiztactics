@@ -2,13 +2,11 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import { kategoriEtiket } from "../lib/kategoriler.js";
-import KarsilasmaSahnesi, { KARSILASMA_ANIM_MS } from "./KarsilasmaSahnesi.jsx";
+import AramaSahnesi, { ARAMA_GECIS_MS } from "./AramaSahnesi.jsx";
 import { tt } from "../lib/dil.js";
 import { sesRakipBulundu } from "../lib/ses.js";
 import { rpcDene } from "../lib/rpcDene.js";
 import { ayar } from "../lib/ayarlar.js";
-import { QtModal, QtDugme } from "../tasarim/index.js";
-import "../tasarim/ekranlar/a-modlar.css";
 
 // 370: gizli botun geliş süresi SUNUCUDA, aramaya özgü rastgele (üçgen, eslesme_bot_*_sn).
 // İstemci süreyi bilmez; yalnız en fazla "max + pay" kadar kuyruğu yoklar, sonra son çareye geçer.
@@ -29,7 +27,7 @@ const YOKLAMA_OYNAMA = 0.25;
  *
  * Akış: kuyruğa gir → ~3 sn'de bir yokla. Gerçek rakip varsa anında eşleşir;
  * yoksa sunucu aramaya özgü rastgele sürede (3–15 sn, çoğunlukla 4–9) rakip
- * kurar (migration 370). Rakip bulununca 1 sn "Rakip bulundu: X" gösterilip maça geçilir.
+ * kurar (migration 370). Rakip bulununca ~2 sn VS anı (AramaSahnesi) oynar, sonra maça geçilir.
  *
  * "Beklemeden bot ile oyna" düğmesi KALKTI (Ajan E, E.2): açık botlarla oynamak
  * isteyen Meydan Oku › "Antrenman — Botlara meydan oku" bölümünü kullanır.
@@ -38,13 +36,13 @@ const YOKLAMA_OYNAMA = 0.25;
  * (bkz. migration 155).
  */
 // Paket 31 B: jokersiz = Saf Bilgi. Kuyruk ve bot maçı bayrağı taşır; jokerli ile eşleşmez.
-export default function RakipAra({ kategori, dereceli = true, jokersiz = false, onBulundu, onIptal }) {
+// Ajan I: tam ekran AramaSahnesi. `bilgi` üstte kısa not ("Rakip bağlanamadı, yeni rakip aranıyor").
+export default function RakipAra({ kategori, dereceli = true, jokersiz = false, bilgi = null, onBulundu, onIptal }) {
   const { user } = useAuth();
   // Geçen süre (yukarı sayar) — hedef süre sunucuda olduğundan geri sayım gösterilmez
   const [gecen, setGecen] = useState(0);
   const [hata, setHata] = useState(null);
   const [botaDusuldu, setBotaDusuldu] = useState(false);
-  const [rakipAdi, setRakipAdi] = useState(null);
   const [rakipProfil, setRakipProfil] = useState(null);
   const [bulundu, setBulundu] = useState(false);
   const bittiRef = useRef(false);
@@ -68,7 +66,7 @@ export default function RakipAra({ kategori, dereceli = true, jokersiz = false, 
     }
   }, []);
 
-  // Maça geçmeden önce rakibin adını 1 sn göster
+  // Maça geçmeden önce rakibin kartını ~2 sn göster (VS anı)
   const bitir = useCallback(
     async (macId) => {
       if (bittiRef.current) return;
@@ -87,7 +85,6 @@ export default function RakipAra({ kategori, dereceli = true, jokersiz = false, 
         if (error) throw error;
         if (data) {
           const rakip = data.oyuncu1 === user?.id ? data.p2 : data.p1;
-          setRakipAdi(rakip?.gorunen_ad ?? null);
           setRakipProfil(rakip ?? null);   // Paket 30 E: karşılaşma sahnesinin sağ kartı
         }
       } catch (e) {
@@ -96,7 +93,7 @@ export default function RakipAra({ kategori, dereceli = true, jokersiz = false, 
       }
       setBulundu(true);
       sesRakipBulundu();   // Paket 29 E.2: "Rakip bulundu" yazısıyla aynı an
-      window.setTimeout(() => bulunduRef.current(macId), KARSILASMA_ANIM_MS);
+      window.setTimeout(() => bulunduRef.current(macId), ARAMA_GECIS_MS);
     },
     [user?.id]
   );
@@ -236,54 +233,28 @@ export default function RakipAra({ kategori, dereceli = true, jokersiz = false, 
     onIptal();
   };
 
-  // Yön A: QtModal (body'ye portal — sayfa içindeki yığılma bağlamına takılmaz).
-  // Arama sürerken Esc / örtü "Vazgeç" gibi davranır; eşleşme anında kapatılamaz.
+
+  // Ajan I: tam ekran arama sahnesi (ayrı pencere yok; "Hazır mısın?" kapısıyla aynı mor sahne).
+  // Arama sürerken Esc / İptal = Vazgeç; eşleşme anında kapatılamaz.
   return (
-    <QtModal
-      acik
-      className="a-arama"
-      kapatDugmesi={false}
-      ortuKapatir={false}
-      onKapat={rakipAdi || bulundu ? undefined : vazgec}
-    >
-      {/* Paket 30 E: maskot yerine karşılaşma sahnesi (sol: sen · VS · sağ: rakip) */}
-      <KarsilasmaSahnesi
-        rakip={rakipProfil}
-        bulundu={bulundu}
-        bosEtiket={hata ? tt("Rakip bulunamadı")
-          : botaDusuldu ? tt("Hazırlanıyor…") : undefined}
-        baslik={rakipAdi
-          ? `${tt("Rakip bulundu:")} ${rakipAdi}`
-          : bulundu
-            ? tt("Rakip bulundu!")
-            : hata
-              ? tt("Maç başlatılamadı")
-              : botaDusuldu ? tt("Maç hazırlanıyor…") : tt("Rakip aranıyor…")}
-      >
-        <p className="a-arama-alt">
+    <AramaSahnesi
+      mod={jokersiz ? "saf" : "klasik"}
+      dereceli={dereceli}
+      gecen={gecen}
+      durum={bulundu ? "bulundu" : hata ? "hata" : botaDusuldu ? "hazirlaniyor" : "ariyor"}
+      rakip={bulundu ? rakipProfil : null}
+      bilgi={bilgi}
+      hata={hata}
+      alt={
+        <p>
           {kategori ? kategoriEtiket(kategori) : tt("Karışık")} {tt("kategorisinde")}
           {botaDusuldu
             ? tt(" seviyene yakın bir rakiple eşleştiriyoruz.")
             : tt(" seninle aynı seviyede birini arıyoruz.")}
         </p>
-
-        {/* Geçen süre (yukarı sayar): hedef süre sunucuda, geri sayım gösterilmez */}
-        {!botaDusuldu && !rakipAdi && !hata && (
-          <p className="a-arama-sayac qt-sayi" role="timer" aria-live="off">{gecen} {tt("sn")}</p>
-        )}
-
-        {hata && <p className="a-modsecim-hata" role="alert">{hata}</p>}
-
-        {!rakipAdi && (
-          <div className="a-arama-eylem">
-            {/* Paket 41 F: hata/sınır dolunca Tekrar dene birincil. Bot düğmesi E.2 ile kalktı. */}
-            {hata && (
-              <QtDugme tamGenislik onClick={yenidenDene}>{tt("Tekrar dene")}</QtDugme>
-            )}
-            <QtDugme tur="ikincil" tamGenislik onClick={vazgec}>{tt("Vazgeç")}</QtDugme>
-          </div>
-        )}
-      </KarsilasmaSahnesi>
-    </QtModal>
+      }
+      onIptal={vazgec}
+      onTekrar={yenidenDene}
+    />
   );
 }

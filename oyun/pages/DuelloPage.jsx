@@ -13,7 +13,7 @@
 // (position:fixed + transform aynı öğede YOK).
 // ============================================================
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { createPortal } from "react-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
@@ -39,7 +39,7 @@ import { JOKER_BILGI, SALDIRI_JOKERLERI, macJokerleri, skillSetiOku } from "../l
 import { y } from "../lib/yol.js";
 import { coinTazele } from "../lib/coin.js";
 import { ayar } from "../lib/ayarlar.js";
-import KarsilasmaSahnesi, { KARSILASMA_ANIM_MS } from "../components/KarsilasmaSahnesi.jsx";
+import AramaSahnesi, { ARAMA_GECIS_MS } from "../components/AramaSahnesi.jsx";
 import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesJoker, sesKazandin, sesKaybettin, sesDokunus, sesRakipBulundu, sesCanKaybi,
   sesOnYukle, sesKategoriGeriSayim, sesSoruGeldi, sesTurGecis, sesSkill,
   sesBeraberlik, sesKategoriSecildi, sesRakipCevapladi } from "../lib/ses.js";
@@ -116,7 +116,14 @@ function DuelloGiris() {
   const navigate = useNavigate();
   const { ceviri } = useDil();
   const [dereceli, setDereceli] = useDereceliTercih();
-  const [arama, setArama] = useState(false);
+  // 410 (Ajan I): rakip düelloya bağlanamadı → sunucu cezasız iptal etti, DuelloMac buraya
+  // { yenidenAra } ile döndü: arama kısa bilgiyle kendiliğinden başlar (durum bir kez tüketilir).
+  const location = useLocation();
+  const [aramaBilgi] = useState(() => (location.state?.yenidenAra ? ceviri("Rakip bağlanamadı, yeni rakip aranıyor") : null));
+  const [arama, setArama] = useState(() => Boolean(location.state?.yenidenAra));
+  useEffect(() => {
+    if (location.state?.yenidenAra) navigate(location.pathname, { replace: true, state: null });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
   const [tanitim, setTanitim] = useState(null);   // null | "arama" (bitince aramaya geç) | "kurallar"
   // Düello 1.0: oyuncunun yeni maçının sürümü (genel bayrak ya da test listesi —
   // duello_surum_benim). Giriş metinleri ve tanıtım ona göre. Okunamazsa eski kurallar (1).
@@ -174,6 +181,7 @@ function DuelloGiris() {
         <DuelloArama
           dereceli={dereceli}
           ipuclari={v2 ? ARAMA_IPUCLARI_V2 : ARAMA_IPUCLARI}
+          bilgi={aramaBilgi}
           onBulundu={(id) => navigate(y(`/duello/${id}`))}
           onIptal={() => setArama(false)}
         />
@@ -202,7 +210,7 @@ const IPUCU_SN = 3;
 // Paket 41 F: düello aramasının üst sınırı (Klasik'teki gibi sonsuz bekleme yok)
 const DUELLO_ARAMA_SINIR_SN = 60;
 
-function DuelloArama({ dereceli, onBulundu, onIptal, ipuclari = ARAMA_IPUCLARI }) {
+function DuelloArama({ dereceli, onBulundu, onIptal, ipuclari = ARAMA_IPUCLARI, bilgi = null }) {
   const { ceviri } = useDil();
   const [gecen, setGecen] = useState(0);
   const ipucu = Math.floor(gecen / IPUCU_SN) % ipuclari.length;
@@ -222,7 +230,7 @@ function DuelloArama({ dereceli, onBulundu, onIptal, ipuclari = ARAMA_IPUCLARI }
   const karsilas = useCallback(async (duelloId) => {
     setBulundu(true);
     sesRakipBulundu();
-    gecisRef.current = window.setTimeout(() => bulunduRef.current(duelloId), KARSILASMA_ANIM_MS);
+    gecisRef.current = window.setTimeout(() => bulunduRef.current(duelloId), ARAMA_GECIS_MS);
     try {
       const { data, error } = await supabase.rpc("duello_durum", { p_id: duelloId });
       if (error) throw error;
@@ -284,31 +292,22 @@ function DuelloArama({ dereceli, onBulundu, onIptal, ipuclari = ARAMA_IPUCLARI }
 
   const yenidenDene = () => { bittiRef.current = false; setHata(null); setGecen(0); setDeneme((n) => n + 1); };
 
-  // Pencere: QtModal (body'ye portal, odak tuzağı). Bulunduktan sonra kapatılamaz.
+  // Ajan I: tam ekran arama sahnesi (Klasik ile aynı bileşen). Bulunduktan sonra kapatılamaz.
   return (
-    <QtModal acik className="m2-arama" kapatDugmesi={false} ortuKapatir={false}
-             onKapat={bulundu ? undefined : onIptal}>
-      <KarsilasmaSahnesi
-        rakip={rakip}
-        bulundu={bulundu}
-        ezeli={ezeli}
-        bosEtiket={hata ? ceviri("Rakip bulunamadı") : undefined}
-        baslik={bulundu ? ceviri("Rakip bulundu!") : hata ? ceviri("Rakip bulunamadı") : ceviri("Düello rakibi aranıyor…")}
-      >
-        {!bulundu && !hata && (
-          <>
-            {/* key değişince satır yeniden takılır → giriş animasyonu her ipucunda oynar */}
-            <p key={ipucu} className="m2-arama-ipucu qt-h-gir" aria-live="polite">{ceviri(ipuclari[ipucu])}</p>
-            <p className="m2-arama-sayac qt-sayi">{ceviri("{0} sn · rakip aranıyor", { 0: gecen })}</p>
-          </>
-        )}
-        {hata && <p className="m2-hata" role="alert"><QtIkon ad="uyari" boyut={18} /> {hata}</p>}
-        <div className="m2-arama-eylem">
-          {hata && <QtDugme tamGenislik ikon="yenile" onClick={yenidenDene}>{ceviri("Tekrar dene")}</QtDugme>}
-          <QtDugme tur="ikincil" tamGenislik devreDisi={bulundu} onClick={onIptal}>{ceviri("Vazgeç")}</QtDugme>
-        </div>
-      </KarsilasmaSahnesi>
-    </QtModal>
+    <AramaSahnesi
+      mod="duello"
+      dereceli={dereceli}
+      gecen={gecen}
+      durum={bulundu ? "bulundu" : hata ? "hata" : "ariyor"}
+      rakip={bulundu ? rakip : null}
+      ezeli={ezeli}
+      bilgi={bilgi}
+      hata={hata}
+      // key değişince satır yeniden takılır → giriş animasyonu her ipucunda oynar
+      alt={<p key={ipucu} className="qt-h-gir" aria-live="polite">{ceviri(ipuclari[ipucu])}</p>}
+      onIptal={onIptal}
+      onTekrar={yenidenDene}
+    />
   );
 }
 
@@ -369,6 +368,32 @@ function DuelloMac({ id }) {
   const [dokumToplam, setDokumToplam] = useState(null);   // Paket 20 I.3: sunucu dökümünün toplamı
   // Paket 40 D: öteki modlar gibi maç sürerken sekme/üst çubuk gizlenir (jokerleri örtüyordu).
   useOyunModu(d?.durum === "aktif");
+
+  // 410 (Ajan I): düello ekranına geliş + bağlanmayan rakip. Kural SUNUCUDA (duello_giris):
+  // aramayla kurulan düelloda rakip duello_baglanma_sn içinde gelmezse düello cezasız iptal
+  // (kazanan/ödül yok). Bekleyen oyuncu yeniden aramaya döner. Rakip gelince yoklama durur.
+  useEffect(() => {
+    let aktif = true;
+    let zamanlayici = null;
+    const sor = async () => {
+      if (!aktif) return;
+      try {
+        const { data, error } = await supabase.rpc("duello_giris", { p_id: id });
+        if (error) throw error;
+        if (!aktif) return;
+        if (data?.durum === "iptal" && data?.baglanmayan && data.baglanmayan !== user?.id) {
+          navigate(y("/duello"), { replace: true, state: { yenidenAra: true } });
+          return;
+        }
+        if (data?.rakip_geldi || data?.durum !== "aktif") return;
+      } catch (e) {
+        console.warn("[Bildim] duello_giris:", e?.message ?? e);
+      }
+      zamanlayici = window.setTimeout(sor, 2000);
+    };
+    sor();
+    return () => { aktif = false; window.clearTimeout(zamanlayici); };
+  }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
   const [gorevler, setGorevler] = useState([]);   // Paket 37 D.1: sahnede Detay'ın üstünde
   // Rövanş bekleme penceresi ve sunucu tarafındaki geri çekme durumu.
   const [rovBas, setRovBas] = useState(null);          // bekleme başladığı yerel an (ms)
