@@ -1,7 +1,7 @@
 // /ses-secim — Ida'nın kulağıyla ses seçimi (Ajan F, 23 Eyl 2026).
 // Menüde yok; yalnız sahip hesabıyla açılır (sunucu: sahip_mi(), migration 380).
 // Adaylar public/ses/adaylar/ altında ve YALNIZ ▶ Çal'a basınca indirilir (ana pakete girmez).
-// Seçim oyuna ŞİMDİ bağlanmaz: oyun/lib/ses.js ve oyundaki sesler değişmedi.
+// Seçim oyuna HEMEN geçer (Ajan H): oyun ses_secimleri_oyun(sürüm) ile okur, ses.js seçilen dosyayı çalar.
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../../../src/lib/supabase.js";
@@ -291,7 +291,7 @@ export default function SesSecimPage() {
         <header className="ss-giris">
           <h1 className="qt-baslik-1 ss-baslik">{ts("Ses seçimi")}</h1>
           <p className="qt-govde qt-soluk-zemin">
-            {ts("Her an için adayları dinle, beğendiğini seç. Seçimler sunucuda saklanır; oyuna Ida onaylayınca ayrı adımda bağlanır.")}
+            {ts("Her an için adayları dinle, beğendiğini seç. Seçimin oyunda hemen geçerli olur (oyuncu uygulamayı bir sonraki açışında).")}
           </p>
         </header>
 

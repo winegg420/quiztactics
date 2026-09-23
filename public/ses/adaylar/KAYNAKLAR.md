@@ -1,7 +1,23 @@
 # public/ses/adaylar — ses adaylarının kaynakları ve lisansları
 
-Yalnız `/ses-secim` sayfası (sahip hesabı) bu dosyaları ister; oyun ÇALMAZ, ana pakete girmez.
-Ida seçimini bitirince seçilmeyenler Ida'ya sorularak kaldırılacak. Üretici: Ajan F, 23 Eyl 2026.
+`/ses-secim` (kalıcı araç, yalnız sahip) bu dosyaları dinletir; Ida'nın seçtiği aday OYUNDA çalar
+(sunucudan okunur, yeni dağıtım gerekmez — Ajan H, 23 Eyl 2026). Seçilmeyenler SİLİNMEZ. Ana pakete
+girmez; bir dosya yalnız seçilince ve ilk gerektiğinde iner. Üretici: Ajan F, 23 Eyl 2026.
+
+### Yeni aday eklemek (tek adım)
+
+1. Dosyayı buraya koy, `oyun/tasarim/ses-secim/adaylar.js`'te o anın aday listesinin **SONUNA** bir satır
+   ekle: Kenney → `k("IS", "parca")`, Pixabay → `p(id, "yazar", "ad", "sound-effects/…")`.
+   Dosya adı listedeki sıradan gelir: `<an>-k<N>.wav` (N'inci Kenney), `<an>-p<N>.mp3` (N'inci Pixabay),
+   müzik `<an>-<N>.aac`. **Araya ekleme** — sonraki adayların numarası kayar ve kayıtlı seçim başka
+   dosyaya işaret eder. Bu dosyaya kaynak satırını da yaz. Sayfa yeni adayı hemen gösterir.
+
+### Yeni ses anı eklemek
+
+1. `adaylar.js` › `EFEKT_TANIM` (ya da `MUZIK_TANIM`) listesine satır: `[an, ad, adEn, yer, yerEn, mevcut|null, [adaylar]]`.
+2. `oyun/lib/ses.js`: `AN` eşlemesine `rol: "an"` ekle (bugün dosyası yoksa `DOSYA[rol] = null` listesine),
+   bir `export function sesYeniAn() { cal("rol", yedekTon); }` yaz ve oyunda doğru yerden çağır.
+   Yeni müzik anı: `oyun/lib/sesArkaPlan.js` › `donguSec` rotaya bağlar. Tablo: `public/ses/OKU.md`.
 
 ## Lisanslar
 

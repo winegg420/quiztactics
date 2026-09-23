@@ -25,9 +25,10 @@ vermeyen kaynak kullanılmaz.
 
 ## Ses adayları (`/ses-secim`, 23 Eyl 2026)
 
-Oyunda ÇALMAZ; yalnız sahibin ses seçim sayfası ister. 27 efekt anı + 3 müzik anı, 112 dosya,
-7,1 MB (`public/ses/adaylar/`). Dosya başına kaynak, yazar, bağlantı ve lisans:
-**`public/ses/adaylar/KAYNAKLAR.md`**. Seçilmeyenler Ida'ya sorularak kaldırılacak.
+27 efekt anı + 3 müzik anı, 112 dosya, 7,1 MB (`public/ses/adaylar/`). Dosya başına kaynak, yazar,
+bağlantı ve lisans: **`public/ses/adaylar/KAYNAKLAR.md`**. 23 Eyl 2026'dan beri Ida'nın `/ses-secim`'de
+seçtiği adaylar OYUNDA ÇALAR (efekt + müzik; Ajan H). Seçilmeyenler SİLİNMEZ (Ida kararı: ileride
+değiştirmek için), yalnız seçilince indirilir.
 
 | Grup | Kaynak | Lisans | Bağlantı |
 |---|---|---|---|

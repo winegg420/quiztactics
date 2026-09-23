@@ -2,7 +2,8 @@
 // Dosyalar `public/ses/adaylar/` altında; YALNIZ bu sayfa açılınca istenir (ana pakete girmez).
 // "Mevcut" aday oyunda bugün çalan dosyadır (`public/ses/`); null → o an bugün sessiz.
 // Kaynak/lisans ayrıntısı: public/ses/adaylar/KAYNAKLAR.md (+ docs/VARLIK_LISANSLARI.md).
-// Seçim oyuna ŞİMDİ bağlanmaz; Ida bitirince ayrı adımda ses.js'e bağlanır.
+// Seçim oyuna hemen geçer (Ajan H: ses.js › AN eşlemesi + sesArkaPlan.js). Yeni aday/an: public/ses/adaylar/KAYNAKLAR.md başı.
+// Aday id'si listedeki sıradan üretilir (adayKur) — yeni adayı listenin SONUNA ekle.
 
 /** Kenney paketleri — hepsi CC0. */
 export const KENNEY = {

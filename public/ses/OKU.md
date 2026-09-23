@@ -116,4 +116,6 @@ değiştirilebilir (JokerCubugu.jsx:179, DuelloPage.jsx:651/1095/1128).
    hemen ardından yeni soru görünür olunca `sesSoruGeldi()`. İkisi arasında en az
    ~250 ms bırak (geçiş sesi 0.37 sn) — üst üste binmesinler.
 
-Müzik YOK (bilerek).
+Müzik VAR (Ida kararı, 23 Eyl 2026): çağrı gerekmez — `oyun/lib/sesArkaPlan.js` rotaya göre
+çalar; soru gelince `sesSoruGeldi()` kısar, `sesDogru/sesYanlis/sesSureDoldu/sonuç` sesleri açar.
+Turnuva sayfası maç sürerken `muzikTurnuvaMacta(true)` der (maç döngüsü).

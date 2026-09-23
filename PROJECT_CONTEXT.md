@@ -320,15 +320,21 @@ karakter, Hızlı Mod hariç — dondurulmuş) bu sistemle yeniden yazıldı.
 
 ### Ses
 
-- Kenney (CC0) — `public/ses/` (WAV + mp3, ~630 KB; lisans `public/ses/LISANS.txt`).
-  Başka kaynak kullanılmaz. Müzik YOK (ayrı karar).
-- `oyun/lib/ses.js`: dosyadan çalar, yüklenemezse osilatör yedeği; ses aç/kapa ayarı
-  (varsayılan açık). Soru geldi, tur geçişi, Düello kategori geri sayımı (son 3 sn vurgulu),
-  skill başına ses, coin/level/kazandın/kaybettin/turnuva. Kullanım tarifi `public/ses/OKU.md`.
-- Ses seçim sayfası **`/ses-secim`** (menüde yok, yalnız sahip — `sahip_mi()`, `oyun_ayarlari.sahip_kullanicilar`;
-  seçimler `ses_secimleri`, migration 380): 27 efekt anı + 3 müzik anı, Kenney + Pixabay adayları
-  `public/ses/adaylar/` (kaynaklar `KAYNAKLAR.md`). Oyuna HENÜZ bağlı değil; Ida seçince ayrı adımda
-  `ses.js`'e bağlanır (Pixabay/müzik kullanımı o zaman kesinleşir).
+- Kaynaklar: Kenney (CC0) + **Pixabay** (İçerik Lisansı, efekt + müzik) — Ida kararı, 23 Eyl 2026.
+  Eski dosyalar `public/ses/` (lisans `LISANS.txt`), adaylar `public/ses/adaylar/` (kaynaklar `KAYNAKLAR.md`,
+  `docs/VARLIK_LISANSLARI.md`). Pixabay'de yapay zekâ üretimi ve Content ID kayıtlı parça alınmaz.
+- **Hafif müzik VAR** (Ida kararı, 23 Eyl 2026): üç döngü — menü/lobi · maç (Klasik, Düello, Grup,
+  turnuva maçı, Hatalarım çalışma) · turnuva lobisi. Rota tabanlı, 0,8 sn geçiş, soru ekrandayken
+  seviye × `muzik_kisik_oran` (0,3), sekme gizliyken durur, ilk dokunuştan sonra başlar, tembel iner.
+  Seviye `oyun_ayarlari.muzik_varsayilan_seviye` (0,35, test değeri). Motor `oyun/lib/sesArkaPlan.js`.
+- Ayar iki anahtar: **Müzik** (`bildim_muzik`) ve **Efektler** (`bildim_ses`, eski tercih) — avatar
+  menüsü + Profil › Ayarlar; maç şeridindeki tek düğme ikisini birlikte kapatır.
+- `oyun/lib/ses.js`: dosyadan çalar, yüklenemezse osilatör yedeği. 30 anın her biri bir fonksiyon
+  (tablo `public/ses/OKU.md`); "mevcut" = eski dosya, "sessiz" = çalmaz.
+- **`/ses-secim` kalıcı araçtır** (menüde yok, yalnız sahip — `sahip_mi()`): Ida bir sesi orada
+  değiştirince oyun yeni dağıtım olmadan değişir (`ses_secimleri` → `ses_secimleri_oyun(sürüm)`,
+  migration 380 + 400; istemci açılışta sürümle doğrular). **Seçilmeyen adaylar silinmez** (ileride
+  değiştirmek için). Yeni aday / yeni an ekleme: `public/ses/adaylar/KAYNAKLAR.md` başı.
 
 ### Profil avatarları
 

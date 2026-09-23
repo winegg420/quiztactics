@@ -3,8 +3,8 @@
 // kendisi okur (SesSecimPage › ts()). Ses anlarının ad/yer metinleri adaylar.js'te (adEn/yerEn).
 export default {
   "Ses seçimi": "Sound picker",
-  "Her an için adayları dinle, beğendiğini seç. Seçimler sunucuda saklanır; oyuna Ida onaylayınca ayrı adımda bağlanır.":
-    "Listen to the candidates for each moment and pick the one you like. Choices are saved on the server; they are wired into the game in a separate step after Ida approves.",
+  "Her an için adayları dinle, beğendiğini seç. Seçimin oyunda hemen geçerli olur (oyuncu uygulamayı bir sonraki açışında).":
+    "Listen to the candidates for each moment and pick the one you like. Your pick takes effect in the game right away (the next time a player opens the app).",
   "{n} / {t} seçildi": "{n} / {t} picked",
   "Seçim ilerlemesi": "Pick progress",
   "Efektler": "Sound effects",
