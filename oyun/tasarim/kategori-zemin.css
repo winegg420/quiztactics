@@ -55,6 +55,13 @@
 .qt-sahne-mac[data-kat="muzik"]        { --qt-kat-z: var(--qt-kat-muzik);        --qt-kat-z2: var(--qt-kat-muzik-2); }
 .qt-sahne-mac[data-kat="cografya"]     { --qt-kat-z: var(--qt-kat-cografya);     --qt-kat-z2: var(--qt-kat-cografya-2); }
 
+/* Koyu mor zemin için altın (--qt-coin) seçilmiş yazılar pastelde okunmaz → koyu amber (≥ 5:1). */
+.qt-sahne-mac[data-kat] .m2-secen .qt-oyuncu-ad,
+.qt-sahne-mac[data-kat] .m2-tur--uzatma b,
+.qt-sahne-mac[data-kat] .m2-skill--acik .m2-skill-ipucu,
+.qt-sahne-mac[data-kat] .m2-skill-kilit,
+.qt-sahne-mac[data-kat] .m1-vs-rozet { color: var(--qt-uyari-koyu); }
+
 @media (prefers-reduced-motion: reduce) {
   .qt-sahne-mac[data-kat] { transition: none; }
 }

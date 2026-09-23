@@ -40,6 +40,9 @@ function uzunlukSinifi(soru) {
   return "";
 }
 
+// Soru kimliği → kategori (maç boyunca aynı soru tekrar sorulmasın).
+const KAT_ONBELLEK = new Map();
+
 export default function QuestionCard({
   soru: soruProp,
   onCevapla,
@@ -112,7 +115,26 @@ export default function QuestionCard({
   // Kategoriye göre pastel maç zemini: kart, içinde durduğu .qt-sahne-mac'e sorunun kategorisini
   // yazar (renkler kategori-zemin.css token'larında; soru değişince zemin yumuşak geçer).
   const kokRef = useRef(null);
-  const zeminKat = soru?.kategori || kategori || null;
+  // Soru RPC'leri kategoriyi döndürmüyor: soru_kategorisi (322) ile bir kez okunur, bellekte tutulur.
+  const [okunanKat, setOkunanKat] = useState(() => KAT_ONBELLEK.get(soru?.question_id) ?? null);
+  useEffect(() => {
+    const qid = soru?.question_id;
+    if (!qid || soru?.kategori) return undefined;
+    if (KAT_ONBELLEK.has(qid)) { setOkunanKat(KAT_ONBELLEK.get(qid)); return undefined; }
+    let aktif = true;
+    (async () => {
+      try {
+        const { data, error } = await supabase.rpc("soru_kategorisi", { p_soru: qid });
+        if (error) throw error;
+        KAT_ONBELLEK.set(qid, data ?? null);
+        if (aktif) setOkunanKat(data ?? null);
+      } catch (e) {
+        console.warn("[Soru kartı] kategori okunamadı:", e?.message ?? e);
+      }
+    })();
+    return () => { aktif = false; };
+  }, [soru?.question_id, soru?.kategori]);
+  const zeminKat = soru?.kategori || okunanKat || kategori || null;
   useEffect(() => {
     const sahne = kokRef.current?.closest(".qt-sahne-mac");
     if (!sahne) return undefined;
