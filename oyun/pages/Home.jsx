@@ -564,7 +564,7 @@ export default function Home() {
             </button>
             <button type="button" className="mobile-core-mode duello" onClick={() => navigate(y("/duello"))}>
               <span className="mobile-core-mode-icon"><Ikon ad="kilic" boyut={27} /></span>
-              <span><small>{tt("DÜELLO")}</small><b>{tt("Taktiğini konuştur")}</b><em>{tt("3 can · saldırı ve savunma")}</em></span>
+              <span><small>{tt("DÜELLO")}</small><b>{tt("Taktiğini konuştur")}</b><em>{tt("3 can · aynı soru, aynı anda")}</em></span>
               <i aria-hidden="true">›</i>
             </button>
             <div className="mobile-core-settings">

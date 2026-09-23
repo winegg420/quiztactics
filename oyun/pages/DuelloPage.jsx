@@ -64,6 +64,10 @@ const SALDIRI_AD = { zaman_baskisi: tt("Zaman Baskısı") };
 
 // Düelloda can sayısı (sunucu 3 canla başlatır; Kalpler'in varsayılanıyla aynı)
 const DUELLO_CAN = 3;
+// Bu istemcinin çizebildiği en yüksek Düello sürümü. 23 Eyl 2026: canlıdaki eski paket
+// (yalnız v1 arayüzü) v2 maçını v1 gibi çizdi — saldıran tarafın şıkları kapalı kaldı.
+// Tanımadığı sürümde maç çizilmez, yenileme istenir.
+const DUELLO_EN_YUKSEK_SURUM = 2;
 
 function Kalpler({ can, max = DUELLO_CAN, sonCan }) {
   return (
@@ -671,6 +675,15 @@ function DuelloMac({ id }) {
         ) : (
           <div className="bd-duello-yukleniyor"><span className="bd-duello-yukleniyor-ikon"><Ikon ad="kilic" boyut={34} /></span></div>
         )}
+      </div>
+    );
+  }
+
+  if (Number(d.surum ?? 1) > DUELLO_EN_YUKSEK_SURUM) {
+    return (
+      <div className="bd-duello">
+        <div className="hata-kutu" role="alert">{ceviri("Oyunun yeni sürümü var. Maça devam etmek için sayfayı yenile.")}</div>
+        <button type="button" className="btn" onClick={() => window.location.reload()}>{ceviri("Yenile")}</button>
       </div>
     );
   }
