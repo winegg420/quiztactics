@@ -6,38 +6,49 @@
 // ile çıkılır. Ham sunucu metni oyuncuya gösterilmez; çağıran console.error'a yazar.
 //
 //   <DurumKutusu durum="yukleniyor" />               iskelet (sahte veri yok)
-//   <DurumKutusu durum="hata" onTekrar={yukle} />      maskot + "Yüklenemedi." + Tekrar dene
+//   <DurumKutusu durum="hata" onTekrar={yukle} />      uyarı ikonu + "Yüklenemedi." + Tekrar dene
 //   <DurumKutusu durum="bos">…mevcut boş durum…</DurumKutusu>
 //   durum başka bir şeyse (ör. "hazir") children çizilir.
+// Tasarım A: QtIskelet + QtBosDurum. Prop arayüzü aynı (12 ekran kullanır).
 // ============================================================
 import { useEffect, useState } from "react";
-import Maskot from "./Maskot.jsx";
 import { tt } from "../lib/dil.js";
+import { QtBosDurum, QtDugme, QtIskelet } from "../tasarim/index.js";
+import "../tasarim/ekranlar/dukkan-bilesen.css";
 
 export default function DurumKutusu({ durum, onTekrar, children, satir = 3, kucuk = false, metin }) {
   if (durum === "yukleniyor") {
     return (
-      <div className={`bd-durum bd-durum-yukleniyor${kucuk ? " kucuk" : ""}`} role="status" aria-busy="true">
-        <span className="bd-gorsel-gizli">{tt("Yükleniyor…")}</span>
-        {Array.from({ length: satir }).map((_, i) => (
-          <span key={i} className="bd-iskelet" aria-hidden="true" />
-        ))}
+      <div className={`qt-dk-durum${kucuk ? " qt-dk-durum--kucuk" : ""}`} role="status" aria-busy="true">
+        <span className="qt-gizli">{tt("Yükleniyor…")}</span>
+        <QtIskelet tur="metin" adet={satir} />
       </div>
     );
   }
   if (durum === "hata") {
+    const eylem = onTekrar
+      ? <QtDugme tur="ikincil" boyut="k" ikon="yenile" onClick={onTekrar}>{tt("Tekrar dene")}</QtDugme>
+      : null;
+    if (kucuk) {
+      return (
+        <div className="qt-dk-durum qt-dk-durum--kucuk qt-dk-durum-hata" role="alert">
+          <p>
+            <b>{tt("Yüklenemedi.")}</b>{" "}
+            {metin ?? tt("Bağlantını kontrol edip tekrar dene.")}
+          </p>
+          {eylem}
+        </div>
+      );
+    }
     return (
-      <div className={`bd-durum bd-durum-hata bd-bos-durum${kucuk ? " kucuk" : ""}`} role="alert">
-        {!kucuk && <Maskot poz="dusunuyor" boyut={72} />}
-        <p>
-          <b>{tt("Yüklenemedi.")}</b>{" "}
-          {metin ?? tt("Bağlantını kontrol edip tekrar dene.")}
-        </p>
-        {onTekrar && (
-          <button type="button" className="btn" onClick={onTekrar}>
-            {tt("Tekrar dene")}
-          </button>
-        )}
+      <div className="qt-dk-durum" role="alert">
+        <QtBosDurum
+          ikon="uyari"
+          ton="yanlis"
+          baslik={tt("Yüklenemedi.")}
+          metin={metin ?? tt("Bağlantını kontrol edip tekrar dene.")}
+          eylem={eylem}
+        />
       </div>
     );
   }

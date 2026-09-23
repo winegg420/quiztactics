@@ -5,22 +5,23 @@
  * hazinede taşan bir sandık. Böylece oyuncu fiyat okumadan da hangisinin
  * daha büyük olduğunu görüyor.
  *
- * Tamamı inline SVG: her cihazda aynı, tema renklerini kullanır, ağ isteği yok.
+ * Tamamı inline SVG: her cihazda aynı, tasarım token renklerini kullanır, ağ isteği yok.
  */
 
-const ALTIN = "#FFC53D";
-const ALTIN_KOYU = "#C99A00";
-const ALTIN_ACIK = "#FFE08A";
-const SANDIK = "#8A5A2B";
-const SANDIK_KOYU = "#5E3C1B";
+// Tasarım A: renkler token’dan (oyun/tasarim/tokenlar.css) — altın yalnız coin için.
+const ALTIN = "var(--qt-coin)";
+const ALTIN_KOYU = "var(--qt-coin-dudak)";
+const ALTIN_ACIK = "var(--qt-coin-acik)";
+const SANDIK = "var(--qt-lig-bronz-dudak)";
+const SANDIK_KOYU = "color-mix(in srgb, var(--qt-lig-bronz-dudak) 62%, var(--qt-coin-yazi))";
 
 /** Tek para — elips + kalınlık + ortada damga. */
 function Para({ x, y, r = 11, donuk = false }) {
   return (
     <g transform={`translate(${x} ${y})`} opacity={donuk ? 0.85 : 1}>
-      <ellipse cx="0" cy="3" rx={r} ry={r * 0.42} fill={ALTIN_KOYU} />
-      <ellipse cx="0" cy="0" rx={r} ry={r * 0.42} fill={ALTIN} />
-      <ellipse cx="0" cy="-0.5" rx={r * 0.55} ry={r * 0.23} fill={ALTIN_ACIK} />
+      <ellipse cx="0" cy="3" rx={r} ry={r * 0.42} style={{ fill: ALTIN_KOYU }} />
+      <ellipse cx="0" cy="0" rx={r} ry={r * 0.42} style={{ fill: ALTIN }} />
+      <ellipse cx="0" cy="-0.5" rx={r * 0.55} ry={r * 0.23} style={{ fill: ALTIN_ACIK }} />
     </g>
   );
 }
@@ -83,10 +84,10 @@ export default function CoinGorseli({ boyut = "kucuk", genislik = 64 }) {
   return (
     <svg {...ortak}>
       {/* sandık gövdesi */}
-      <path d="M10 36h44v18a3 3 0 0 1-3 3H13a3 3 0 0 1-3-3z" fill={SANDIK} />
-      <path d="M10 36h44v5H10z" fill={SANDIK_KOYU} />
+      <path d="M10 36h44v18a3 3 0 0 1-3 3H13a3 3 0 0 1-3-3z" style={{ fill: SANDIK }} />
+      <path d="M10 36h44v5H10z" style={{ fill: SANDIK_KOYU }} />
       {/* kilit */}
-      <rect x="29" y="39" width="6" height="8" rx="1.5" fill={ALTIN} />
+      <rect x="29" y="39" width="6" height="8" rx="1.5" style={{ fill: ALTIN }} />
       {/* taşan paralar */}
       <Para x={20} y={30} r={10} />
       <Para x={44} y={30} r={10} />
@@ -95,7 +96,7 @@ export default function CoinGorseli({ boyut = "kucuk", genislik = 64 }) {
       <Para x={24} y={20} r={9} donuk />
       <Para x={41} y={20} r={9} donuk />
       {/* sandık kapağı (arkada) */}
-      <path d="M10 36a22 22 0 0 1 44 0z" fill={SANDIK_KOYU} opacity="0.55" />
+      <path d="M10 36a22 22 0 0 1 44 0z" style={{ fill: SANDIK_KOYU }} opacity="0.55" />
     </svg>
   );
 }

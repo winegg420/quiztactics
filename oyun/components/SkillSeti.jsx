@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
-import Ikon from "./Ikon.jsx";
 import { ayarlar } from "../lib/ayarlar.js";
 import {
   AKTIF_MAC_SKILLERI,
@@ -14,6 +13,8 @@ import {
 } from "../lib/jokerler.js";
 import { tt } from "../lib/dil.js";
 import { hataMesaji } from "../lib/hata.js";
+import { QtDugme, QtIkon, QtKart } from "../tasarim/index.js";
+import "../tasarim/ekranlar/dukkan-bilesen.css";
 
 /**
  * Maç akışının içinde kalan, hafif skill seti seçimi.
@@ -88,44 +89,46 @@ export default function SkillSeti({ macTur = "1v1" }) {
   if (kapali !== false) return null;
 
   return (
-    <section className="bd-skill-seti" aria-label={tt("Maç Skillerin")}>
-      <div className="bd-skill-seti-baslik">
+    <QtKart as="section" dolgu="k" className="qt-dk-seti" aria-label={tt("Maç Skillerin")}>
+      <div className="qt-dk-seti-baslik">
         <div>
-          <b>{tt("Maç Skillerin")}</b>
-          <span>{tt("Maça götüreceğin {0} skill", { 0: slot })}</span>
+          <h2 className="qt-baslik-3">{tt("Maç Skillerin")}</h2>
+          <p className="qt-kucuk qt-soluk">{tt("Maça götüreceğin {0} skill", { 0: slot })}</p>
         </div>
-        <button type="button" className="btn kucuk ikincil" onClick={() => setAcik((v) => !v)}>
+        <QtDugme tur="ikincil" boyut="k" aria-expanded={acik} onClick={() => setAcik((v) => !v)}>
           {acik ? tt("Bitti") : tt("Değiştir")}
-        </button>
+        </QtDugme>
       </div>
-      {/* Satırda en çok 4 yuva: 7 yuva 360 px'te tek satıra sığmıyor, üst üste biniyordu. */}
-      <div className="bd-skill-slotlar" style={{ "--skill-slot": slot, "--skill-sutun": Math.min(slot, 4) }}>
+      {/* Satırda en çok 4 yuva: 7 yuva 360 px'te iki satıra kırılır, üst üste binmez. */}
+      <ul className="qt-dk-seti-yuvalar" style={{ "--_sutun": Math.min(slot, 4) }}>
         {Array.from({ length: slot }).map((_, i) => {
           const s = SKILL_TANIMLARI[secili[i]];
           return (
-            <div className={`bd-skill-slot ${s ? "dolu" : "bos"}`} key={s?.id ?? `bos-${i}`}>
-              {s ? <><Ikon ad={s.ikon} boyut={19} /><span>{s.ad}</span></> : <span>+</span>}
-            </div>
+            <li className={`qt-dk-seti-yuva${s ? " qt-dk-seti-yuva--dolu" : ""}`} key={s?.id ?? `bos-${i}`}>
+              {s
+                ? <><QtIkon ad={s.ikon} boyut={22} /><span>{s.ad}</span></>
+                : <><QtIkon ad="arti" boyut={20} /><span className="qt-gizli">{tt("Boş yuva")}</span></>}
+            </li>
           );
         })}
-      </div>
-      {hata && <div className="hata-kutu" role="alert">{hata}</div>}
+      </ul>
+      {hata && <p className="qt-dk-seti-hata qt-kucuk" role="alert">{hata}</p>}
       {acik && (
-        <div className="bd-skill-secim-listesi">
+        <div className="qt-dk-seti-secim">
           {uygunlar.map((id) => {
             const s = SKILL_TANIMLARI[id];
             const aktif = secili.includes(id);
             return (
-              <button type="button" key={id} className={aktif ? "secili" : ""} disabled={kaydediliyor}
-                      aria-pressed={aktif} onClick={() => degistir(id)}>
-                <Ikon ad={s.ikon} boyut={18} />
+              <button type="button" key={id} className={"qt-dk-seti-sec" + (aktif ? " qt-dk-seti-sec--secili" : "")}
+                      disabled={kaydediliyor} aria-pressed={aktif} onClick={() => degistir(id)}>
+                <QtIkon ad={s.ikon} boyut={22} />
                 <span><b>{s.ad}</b><small>{s.aciklama}</small></span>
-                {aktif && <Ikon ad="onay" boyut={15} />}
+                {aktif && <QtIkon ad="onay" boyut={20} />}
               </button>
             );
           })}
         </div>
       )}
-    </section>
+    </QtKart>
   );
 }
