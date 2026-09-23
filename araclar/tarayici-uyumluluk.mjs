@@ -32,7 +32,8 @@ const SOZDIZIMI = [
   {
     ad: "nullish coalescing (??)",
     // Metin içindeki "???" yanlış pozitif vermesin: ardı ardına ? gelmemeli.
-    kalip: /[^?]\?\?[^?=]/g,
+    // Düzenli ifadedeki kaçışlı soru işareti (lottie-web: /^[^\?]+\??/) de işleç değildir: önünde \ olmamalı.
+    kalip: /[^?\\]\?\?[^?=]/g,
     surum: "Safari 13.1",
   },
   { ad: "mantıksal atama (??= ||= &&=)", kalip: /(\?\?=|\|\|=|&&=)/g, surum: "Safari 14" },
