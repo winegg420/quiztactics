@@ -2,7 +2,7 @@
 // AVATAR MENÜSÜ (Paket 41 C) — üst çubuktaki avatara dokununca açılır.
 // Profil › Ayarlar'a ulaşmak 3 adımdı (sekme → kaydır → Ayarlar). Bu menü KISAYOL;
 // Profil › Ayarlar sekmesi yerinde duruyor.
-//   Profilim · Ayarlar · Ses (bildim_ses, maç şeridi ve Ayarlar ile ortak) · Dil (TR/EN) · Çıkış Yap
+//   Profilim · Ayarlar · Müzik (bildim_muzik) · Efektler (bildim_ses, maç şeridi ve Ayarlar ile ortak) · Dil (TR/EN) · Çıkış Yap
 // Erişilebilirlik: aria-haspopup/expanded, açılınca ilk öğeye odak, ↑/↓ gezinme,
 // Esc ve dışarı dokunma kapatır, bütün öğeler ≥ 44 px.
 // ============================================================
@@ -11,7 +11,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import { QtIkon, sinif } from "../tasarim/index.js";
 import CerceveliAvatar from "./CerceveliAvatar.jsx";
-import { sesAcikMi, sesAyarla, sesDinle } from "../lib/ses.js";
+import { muzikAcikMi, muzikAyarla, muzikDinle, sesAcikMi, sesAyarla, sesDinle } from "../lib/ses.js";
+import { sesMetni } from "../lib/ceviri/ses.js";
 import { useDil } from "../lib/dilKanca.js";
 import { DILLER, tt } from "../lib/dil.js";
 import { y } from "../lib/yol.js";
@@ -23,11 +24,13 @@ export default function AvatarMenu({ profile }) {
   const navigate = useNavigate();
   const [acik, setAcik] = useState(false);
   const [ses, setSes] = useState(() => sesAcikMi());
+  const [muzik, setMuzik] = useState(() => muzikAcikMi());
   const kapRef = useRef(null);
   const menuRef = useRef(null);
   const dugmeRef = useRef(null);
 
   useEffect(() => sesDinle(setSes), []);
+  useEffect(() => muzikDinle(setMuzik), []);
 
   // Dışarı dokunma + Esc kapatır; açılınca ilk öğeye odak
   useEffect(() => {
@@ -51,6 +54,7 @@ export default function AvatarMenu({ profile }) {
 
   const git = (yol) => { setAcik(false); navigate(yol); };
   const sesDegistir = () => { const yeni = !ses; sesAyarla(yeni); setSes(yeni); };
+  const muzikDegistir = () => { const yeni = !muzik; muzikAyarla(yeni); setMuzik(yeni); };
   const cikis = async () => {
     setAcik(false);
     try { await signOut(); } catch (e) { console.error("[Bildim] çıkış yapılamadı:", e); }
@@ -72,9 +76,13 @@ export default function AvatarMenu({ profile }) {
           <button type="button" role="menuitem" className="a-avatar-menu-oge" onClick={() => git(y("/profil?sekme=ayarlar"))}>
             <QtIkon ad="ayar" boyut={20} /> <span>{tt("Ayarlar")}</span>
           </button>
+          <button type="button" role="menuitemcheckbox" aria-checked={muzik} className="a-avatar-menu-oge" onClick={muzikDegistir}>
+            <QtIkon ad="muzik" boyut={20} /> <span>{sesMetni("Müzik")}</span>
+            <span className={sinif("a-avatar-menu-durum", muzik && "a-avatar-menu-durum--acik")}>{muzik ? sesMetni("Açık") : sesMetni("Kapalı")}</span>
+          </button>
           <button type="button" role="menuitemcheckbox" aria-checked={ses} className="a-avatar-menu-oge" onClick={sesDegistir}>
-            <QtIkon ad={ses ? "sesAcik" : "sesKapali"} boyut={20} /> <span>{tt("Ses")}</span>
-            <span className={sinif("a-avatar-menu-durum", ses && "a-avatar-menu-durum--acik")}>{ses ? tt("Açık") : tt("Kapalı")}</span>
+            <QtIkon ad={ses ? "sesAcik" : "sesKapali"} boyut={20} /> <span>{sesMetni("Efektler")}</span>
+            <span className={sinif("a-avatar-menu-durum", ses && "a-avatar-menu-durum--acik")}>{ses ? sesMetni("Açık") : sesMetni("Kapalı")}</span>
           </button>
           <div className="a-avatar-menu-dil" role="group" aria-label={tt("Dil")}>
             <QtIkon ad="dunya" boyut={20} />

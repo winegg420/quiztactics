@@ -342,6 +342,13 @@ const Y = {
       <path d="M16 9.5l5 5M21 9.5l-5 5" />
     </>
   ),
+  muzik: (
+    <>
+      <path d="M9 17.5V5.5l11-2v12" />
+      <circle className={D} cx="6.5" cy="17.5" r="2.5" />
+      <circle className={D} cx="17.5" cy="15.5" r="2.5" />
+    </>
+  ),
   liste: <path d="M9 6h12M9 12h12M9 18h12M4 6h.01M4 12h.01M4 18h.01" />,
   kalem: (
     <>

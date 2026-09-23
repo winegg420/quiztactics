@@ -10,19 +10,27 @@ import { QtIkonDugme, QtRozet } from "../tasarim/index.js";
 import CerceveliAvatar from "./CerceveliAvatar.jsx";
 import { useOyuncuSeviyeleri } from "../lib/oyuncuSeviye.js";
 import { LIG_ADLARI } from "../lib/lig.js";
-import { sesAcikMi, sesAyarla, sesDinle, sesDokunus, sesKilidiAc } from "../lib/ses.js";
+import { muzikAcikMi, muzikAyarla, muzikDinle, sesAcikMi, sesAyarla, sesDinle, sesDokunus, sesKilidiAc } from "../lib/ses.js";
 import { tt } from "../lib/dil.js";
 import "../tasarim/ekranlar/m1-mac.css";
 import "../tasarim/ekranlar/mac-oyuncu.css";
 
+// Ajan H: maç içindeki tek düğme "tam sessizlik" — efektleri VE müziği birlikte kapatır/açar.
+// Ayrı ayar avatar menüsü ve Profil › Ayarlar'da (Müzik · Efektler).
 function SesAnahtari() {
-  const [acik, setAcik] = useState(() => sesAcikMi());
+  const [acik, setAcik] = useState(() => sesAcikMi() || muzikAcikMi());
   // Başka yerden (Profil › Ayarlar, avatar menüsü) değişirse bu düğme de güncellensin
-  useEffect(() => sesDinle(setAcik), []);
+  useEffect(() => {
+    const tazele = () => setAcik(sesAcikMi() || muzikAcikMi());
+    const b1 = sesDinle(tazele);
+    const b2 = muzikDinle(tazele);
+    return () => { b1(); b2(); };
+  }, []);
   const degistir = () => {
     try {
       const yeni = !acik;
       sesAyarla(yeni);
+      muzikAyarla(yeni);
       setAcik(yeni);
       if (yeni) {
         sesKilidiAc();

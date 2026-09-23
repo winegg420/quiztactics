@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import DurumKutusu, { useZamanAsimi } from "../components/DurumKutusu.jsx";
-import { sesAcikMi, sesAyarla, sesDinle, sesTik } from "../lib/ses.js";
+import { muzikAcikMi, muzikAyarla, muzikDinle, sesAcikMi, sesAyarla, sesDinle, sesTik } from "../lib/ses.js";
+import { sesMetni } from "../lib/ceviri/ses.js";
 import { hataMesaji } from "../lib/hata.js";
 import { Link, useLocation } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
@@ -78,6 +79,8 @@ export default function ProfilePage() {
   const [bildirimCalisiyor, setBildirimCalisiyor] = useState(false);
   const [ses, setSes] = useState(() => sesAcikMi());
   useEffect(() => sesDinle(setSes), []);   // Paket 41 B: maç şeridi/avatar menüsüyle eşit
+  const [muzik, setMuzik] = useState(() => muzikAcikMi());
+  useEffect(() => muzikDinle(setMuzik), []);
   const [bildirimHata, setBildirimHata] = useState(null);
   const [konumDuzenle, setKonumDuzenle] = useState(false);
   const [silOnay, setSilOnay] = useState(false);
@@ -296,10 +299,17 @@ export default function ProfilePage() {
           <QtKart as="section" className="qt-pf-bolum" aria-labelledby="qt-pf-oyun-ayar">
             <h2 id="qt-pf-oyun-ayar" className="qt-baslik-3">{tt("Oyun ayarları")}</h2>
             {/* Maç sesleri: son 5 saniye tik'i, doğru/yanlış vuruşu, bitiş tonu (varsayılan açık) */}
+            {/* Ajan H: müzik ayrı anahtar (bildim_muzik); efektler eski bildim_ses anahtarında */}
+            <QtAnahtar
+              acik={muzik}
+              etiket={sesMetni("Müzik")}
+              aciklama={sesMetni("Arka plan müziği (menü, maç, turnuva)")}
+              onDegis={(yeniDurum) => { muzikAyarla(yeniDurum); setMuzik(yeniDurum); }}
+            />
             <QtAnahtar
               acik={ses}
-              etiket={tt("Oyun sesleri")}
-              aciklama={tt("Sayaç, doğru/yanlış ve maç sonu sesleri")}
+              etiket={sesMetni("Efektler")}
+              aciklama={sesMetni("Sayaç, doğru/yanlış ve maç sonu sesleri")}
               onDegis={(yeniDurum) => {
                 sesAyarla(yeniDurum);
                 setSes(yeniDurum);
