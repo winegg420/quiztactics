@@ -141,6 +141,10 @@ export default function ChallengesPage() {
   const [iptalSorulan, setIptalSorulan] = useState(null);
   const katSeritRef = useRef(null);
   const [seritSonda, setSeritSonda] = useState(false);
+  // Antrenman (Ajan E, E.2): açık bot kartına dokununca mod seçim penceresi açılır
+  const [antrenmanBot, setAntrenmanBot] = useState(null);
+  const [antrenmanBasliyor, setAntrenmanBasliyor] = useState(null);   // "klasik" | "duello" | null
+  const [antrenmanHata, setAntrenmanHata] = useState(null);
 
   // Bildirim şeridi (QtToast) ~4 sn sonra kendiliğinden kapanır; zamanlama ekranın işi.
   useEffect(() => {
@@ -547,6 +551,39 @@ export default function ChallengesPage() {
     }
   };
 
+  // Antrenman — açık botla maç HEMEN başlar. Bot maçı mantığı değişmedi, yalnız giriş noktası
+  // buraya taşındı: Klasik = hemen_bot_mac_sec (eski "Beklemeden bot ile oyna" yolu),
+  // Düello = duello_davet_et (açık bot daveti anında kabul eder). Yarım ödül sunucu kuralı.
+  const antrenmanBaslat = async (mod) => {
+    const bot = antrenmanBot;
+    if (!bot || antrenmanBasliyor) return;
+    setAntrenmanHata(null);
+    setAntrenmanBasliyor(mod);
+    try {
+      if (mod === "duello") {
+        const { data, error } = await supabase.rpc("duello_davet_et", { p_rakip: bot.id, p_dereceli: dereceli });
+        if (error) throw error;
+        if (!data?.duello_id) throw new Error(tt("Antrenman maçı başlatılamadı."));
+        navigate(y(`/duello/${data.duello_id}`));
+        return;
+      }
+      const { data, error } = await supabase.rpc("hemen_bot_mac_sec", {
+        p_bot: bot.id,
+        p_kategori: kategori,
+        p_dereceli: dereceli,
+        p_jokersiz: false,
+      });
+      if (error) throw error;
+      if (!data) throw new Error(tt("Antrenman maçı başlatılamadı."));
+      navigate(y(`/mac/${data}`));
+    } catch (e) {
+      console.error("[Bildim] antrenman maçı:", e);
+      setAntrenmanHata(hataMesaji(e, tt("Antrenman maçı başlatılamadı.")));
+    } finally {
+      setAntrenmanBasliyor(null);
+    }
+  };
+
   const cevapVer = async (macId, kabul) => {
     setHata(null);
     const { error } = await supabase.rpc("respond_challenge", {
@@ -812,11 +849,11 @@ export default function ChallengesPage() {
         </section>
       )}
 
-      {/* Meydan okuma modu: Klasik Mod, Düello ya da Saf Bilgi. Seçim hem botlara hem arkadaşlara geçerli. */}
+      {/* Meydan okuma modu: Klasik Mod, Düello ya da Saf Bilgi. Arkadaşlara geçerli; antrenman kendi modunu sorar. */}
       <section className="a-meydan-bolum" aria-labelledby="a-meydan-mod-b">
         <div className="a-meydan-bolum-bas">
           <h2 id="a-meydan-mod-b" className="qt-baslik-2">{tt("Meydan okuma modu")}</h2>
-          <span className="qt-kucuk qt-soluk-zemin">{tt("bota ve arkadaşına")}</span>
+          <span className="qt-kucuk qt-soluk-zemin">{tt("arkadaşına")}</span>
         </div>
         <div className="a-meydan-modlar" role="group" aria-labelledby="a-meydan-mod-b">
           <QtModKart mod="klasik" ad={tt("Klasik Mod")} alt={tt("4 skill · aynı anda")}
@@ -875,11 +912,15 @@ export default function ChallengesPage() {
 
       <DereceliAnahtari dereceli={dereceli} onDegistir={setDereceli} />
 
-      {/* Açık botlar: adları zaten "…Bot"; oyuncu bilerek seçer */}
+      {/* Antrenman (Ajan E, E.2): açık botlarla oynamanın TEK yeri. Rakip arama ekranlarındaki
+          "Beklemeden bot ile oyna" kalktı. Kart → mod seç (Klasik / Düello) → maç hemen başlar. */}
       {botlar.some((b) => !maclar.some((m) => (m.oyuncu1 === b.id || m.oyuncu2 === b.id) && ["bekliyor", "aktif"].includes(m.durum))) && (
         <section className="a-meydan-bolum" aria-labelledby="a-meydan-bot-b">
-          <h2 id="a-meydan-bot-b" className="qt-baslik-2">{tt("Her zaman hazır rakipler")}</h2>
-          <QtListe etiket={tt("Her zaman hazır rakipler")}>
+          <div className="a-meydan-bolum-bas">
+            <h2 id="a-meydan-bot-b" className="qt-baslik-2">{tt("Antrenman — Botlara meydan oku")}</h2>
+            <span className="qt-kucuk qt-soluk-zemin">{tt("her zaman hazır")}</span>
+          </div>
+          <div className="a-meydan-antrenman" role="list">
             {botlar
               .filter(
                 (b) =>
@@ -893,17 +934,52 @@ export default function ChallengesPage() {
                 const isabet = Number(b.acik_bot_isabet);
                 const z = botZorluk(isabet);
                 return (
-                  <QtListeSatiri
-                    key={b.id}
-                    bas={<AvatarCerceve profile={b} />}
-                    baslik={<span className="a-meydan-bot-ad">{b.gorunen_ad} <QtIkon ad="robot" boyut={16} /></span>}
-                    alt={<><QtRozet ton={zorlukTonu(isabet)} boyut="k">{z.etiket}</QtRozet> {tt("· her zaman hazır")}</>}
-                    sag={<QtDugme boyut="k" tur="ikincil" onClick={() => meydanOku(b.id)}>{tt("Meydan oku")}</QtDugme>}
-                  />
+                  <div key={b.id} role="listitem">
+                    <button
+                      type="button"
+                      className="a-meydan-antrenman-kart"
+                      aria-haspopup="dialog"
+                      onClick={() => { setAntrenmanHata(null); setAntrenmanBot(b); }}
+                    >
+                      <AvatarCerceve profile={b} boyut={48} />
+                      <span className="a-meydan-antrenman-ad">
+                        <span className="a-meydan-bot-ad">{b.gorunen_ad} <QtIkon ad="robot" boyut={16} /></span>
+                        <QtRozet ton={zorlukTonu(isabet)} boyut="k">{z.etiket}</QtRozet>
+                      </span>
+                      <span className="a-meydan-antrenman-not">{tt("Antrenman — yarım ödül")}</span>
+                    </button>
+                  </div>
                 );
               })}
-          </QtListe>
+          </div>
         </section>
+      )}
+
+      {/* Antrenman mod seçimi — seçilen modda maç hemen başlar */}
+      {antrenmanBot && (
+        <QtModal
+          acik
+          onKapat={() => { if (!antrenmanBasliyor) setAntrenmanBot(null); }}
+          baslik={tt("{0} ile antrenman", { 0: antrenmanBot.gorunen_ad })}
+          aciklama={tt("Mod seç, maç hemen başlasın. Antrenmanda coin ve XP yarıya iner.")}
+          className="a-meydan-onay"
+        >
+          <div className="a-meydan-antrenman-modlar" role="group" aria-label={tt("Mod seç")}>
+            <QtDugme tamGenislik tur="mor" data-qt-ilk-odak=""
+                     yukleniyor={antrenmanBasliyor === "klasik"}
+                     devreDisi={antrenmanBasliyor !== null}
+                     onClick={() => antrenmanBaslat("klasik")}>
+              {tt("Klasik Mod")}
+            </QtDugme>
+            <QtDugme tamGenislik tur="ikincil"
+                     yukleniyor={antrenmanBasliyor === "duello"}
+                     devreDisi={antrenmanBasliyor !== null}
+                     onClick={() => antrenmanBaslat("duello")}>
+              {tt("Düello")}
+            </QtDugme>
+          </div>
+          {antrenmanHata && <p className="a-meydan-hata" role="alert">{antrenmanHata}</p>}
+        </QtModal>
       )}
 
       <section className="a-meydan-bolum" aria-labelledby="a-meydan-ark-b">

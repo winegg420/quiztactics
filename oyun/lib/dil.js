@@ -25,6 +25,7 @@ import enDukkan from "./ceviri/dukkan.js";
 import enGiris from "./ceviri/giris.js";
 import enTasarim from "./ceviri/tasarim.js";
 import enKozmetik from "./ceviri/kozmetik.js";
+import enAntrenman from "./ceviri/antrenman.js";
 
 export const DILLER = ["tr", "en"];
 const ANAHTAR = "bildim_dil";
@@ -2416,7 +2417,7 @@ const SOZLUK = {
     "Skill bulunamadı": "Skill not found",
   },
 };
-Object.assign(SOZLUK.en, enMac, enAna, enLig, enDukkan, enGiris, enTasarim, enKozmetik);
+Object.assign(SOZLUK.en, enMac, enAna, enLig, enDukkan, enGiris, enTasarim, enKozmetik, enAntrenman);
 
 /**
  * Çeviri. Anahtar Türkçe metnin kendisidir; sözlükte yoksa aynen döner.
