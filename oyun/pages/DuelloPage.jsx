@@ -80,6 +80,10 @@ const DUELLO_EN_YUKSEK_SURUM = 2;
 // okuma (sunucu fazı tembel ilerletir); yoklama yalnız yedek.
 const YEDEK_YOKLAMA_MS = 4000;     // kanal bağlıyken
 const KANALSIZ_YOKLAMA_MS = 1000;  // kanal bağlı değilken (eski davranış)
+// Faz bitişine yakın yedek yoklama sıklaşır (Ida, 24 Eyl 2026): Realtime sinyali kaçarsa yeni faz
+// 4 sn beklemeden görünsün. Yalnız bitişten önceki son SON_YOKLAMA_PENCERE_MS içinde ve sonraki 2 sn'de.
+const SON_YOKLAMA_PENCERE_MS = 1500;
+const SON_YOKLAMA_MS = 500;
 const BAGLANTI_MS = 5000;          // duello_baglanti (kopukluk bandı) aralığı
 // duello2_ilerlet cevap fazını kişisel bitiş + duello2_cevap_tolerans_sn (1 sn) sonra kapatır.
 const CEVAP_TOLERANS_MS = 1100;
@@ -414,6 +418,7 @@ function DuelloMac({ id }) {
     return () => { aktif = false; };
   }, []);
   const farkRef = useRef(0); // sunucu saati - istemci saati (ms)
+  const fazBitisRef = useRef(null); // sunucu saatiyle geçerli faz bitişi (ms) — yedek yoklama için
   const farkOrnekRef = useRef([]); // son 60 sn'nin saat farkı örnekleri
   const yukleniyorRef = useRef(false);
   const dImzaRef = useRef("");
@@ -561,9 +566,11 @@ function DuelloMac({ id }) {
     // geçen süreye bakılır — sinyal ya da eylemle yeni okunduysa yoklama atlanır.
     const yoklama = setInterval(() => {
       if (document.visibilityState !== "visible") return;
-      const aralik = kanalHazirRef.current ? YEDEK_YOKLAMA_MS : KANALSIZ_YOKLAMA_MS;
+      const kalanMs = fazBitisRef.current == null ? Infinity : fazBitisRef.current - (Date.now() + farkRef.current);
+      const bitiseYakin = kalanMs <= SON_YOKLAMA_PENCERE_MS && kalanMs > -2000;
+      const aralik = bitiseYakin ? SON_YOKLAMA_MS : kanalHazirRef.current ? YEDEK_YOKLAMA_MS : KANALSIZ_YOKLAMA_MS;
       if (Date.now() - sonYukleRef.current >= aralik - 50) yukle();
-    }, 1000);
+    }, SON_YOKLAMA_MS);
     const gorunur = () => { if (document.visibilityState === "visible") yukle(); };
     document.addEventListener("visibilitychange", gorunur);
     const saat = setInterval(() => setSimdi(Date.now()), 200);
@@ -588,11 +595,12 @@ function DuelloMac({ id }) {
       : `f|${d.faz_bitis}`
     : "";
   useEffect(() => {
-    if (!bitisAnahtar) return undefined;
+    if (!bitisAnahtar) { fazBitisRef.current = null; return undefined; }
     const [tur, ...zamanlar] = bitisAnahtar.split("|");
     const t = zamanlar.map((x) => new Date(x).getTime()).filter(Number.isFinite);
-    if (!t.length) return undefined;
+    if (!t.length) { fazBitisRef.current = null; return undefined; }
     const hedef = Math.max(...t) + (tur === "c" ? CEVAP_TOLERANS_MS : 60);
+    fazBitisRef.current = hedef;   // yedek yoklama bitişe yakın sıklaşsın
     const bekleMs = hedef - (Date.now() + farkRef.current);
     if (bekleMs < -2000 || bekleMs > 10 * 60 * 1000) return undefined;
     const zaman = setTimeout(() => { if (document.visibilityState === "visible") yukle(); }, Math.max(0, bekleMs));
