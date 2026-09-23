@@ -1,0 +1,108 @@
+{
+  "parti": 9,
+  "tarih": "2026-09-23",
+  "taslak": 120,
+  "net": 100,
+  "kota": {
+    "sinema": 24,
+    "muzik": 22,
+    "sanat": 22,
+    "spor": 21,
+    "yerel": 11
+  },
+  "zorluk_hedef": {
+    "3": 30,
+    "4": 35,
+    "5": 20,
+    "1-2": 15
+  },
+  "eksik": {},
+  "elenen_sebep": {
+    "kota_fazlasi": 20
+  },
+  "kova": {
+    "sinema": 24,
+    "muzik": 22,
+    "sanat": 22,
+    "spor": 21,
+    "yerel_tr": 11
+  },
+  "kategori": {
+    "sinema": 28,
+    "muzik": 25,
+    "sanat": 24,
+    "spor": 23
+  },
+  "zorluk": [
+    1,
+    15,
+    28,
+    37,
+    19
+  ],
+  "zorluk_kova": {
+    "3": 28,
+    "4": 37,
+    "5": 19,
+    "1-2": 16
+  },
+  "cevrilmeyen": 7,
+  "jev": {
+    "cagri": 1070,
+    "girdi_jetonu": 725236,
+    "usd": 0.0305,
+    "not": "jev.jsonl içindeki tüm denemeler dahil (düzeltilip yeniden sorulanlar da)"
+  },
+  "zorluk_etiket_duzeltme": [
+    {
+      "s": "Soğuk Savaş'ın sona erişiyle özdeşleşen 'Wind of Change' şarkısını seslendiren Alman grubu hangisidir?",
+      "d": "Scorpions",
+      "eski": 2,
+      "yeni": 3,
+      "neden": "yazar 2, Jev seviye 4 (puan 3.04)"
+    },
+    {
+      "s": "Times New Roman yazı karakteri 1932'de ilk olarak hangi gazete için tasarlanmıştır?",
+      "d": "The Times",
+      "eski": 3,
+      "yeni": 4,
+      "neden": "yazar 3, Jev seviye 5 (puan 3.62)"
+    },
+    {
+      "s": "Formula 1'de sıralama turlarında en hızlı olan pilotun kazandığı ilk sıradaki çıkış konumuna ne ad verilir?",
+      "d": "Pole position",
+      "eski": 2,
+      "yeni": 3,
+      "neden": "yazar 2, Jev seviye 4 (puan 2.92)"
+    },
+    {
+      "s": "Tenisçi Carlos Alcaraz hangi ülkenin sporcusudur?",
+      "d": "İspanya",
+      "eski": 1,
+      "yeni": 2,
+      "neden": "yazar 1, Jev seviye 3 (puan 2.73)"
+    },
+    {
+      "s": "Futbolcu Son Heung-min hangi ülkenin milli takımında oynar?",
+      "d": "Güney Kore",
+      "eski": 1,
+      "yeni": 2,
+      "neden": "yazar 1, Jev seviye 3 (puan 2.31)"
+    },
+    {
+      "s": "Formula 1 pilotu Max Verstappen hangi ülkenin bayrağı altında yarışır?",
+      "d": "Hollanda",
+      "eski": 1,
+      "yeni": 2,
+      "neden": "yazar 1, Jev seviye 4 (puan 2.85)"
+    },
+    {
+      "s": "'Adam Olacak Çocuk' şarkısı hangi sanatçıya aittir?",
+      "d": "Barış Manço",
+      "eski": 2,
+      "yeni": 3,
+      "neden": "yazar 2, Jev seviye 4 (puan 2.90)"
+    }
+  ],
+  "elenenler": []
+}

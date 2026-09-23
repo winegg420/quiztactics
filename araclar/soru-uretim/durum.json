@@ -62,8 +62,8 @@
     },
     "cografya": 0
   },
-  "siradaki_parti": 9,
-  "siradaki_migration_no": 312,
+  "siradaki_parti": 10,
+  "siradaki_migration_no": 313,
   "partiler": [
     {
       "no": 1,
@@ -481,7 +481,7 @@
       ],
       "soru": 100,
       "migration": "20260612000310_soru_uretim_parti_07",
-      "commit": null,
+      "commit": "78b771e",
       "tarih": "2026-09-23",
       "kategori_kova": {
         "sinema": 24,
@@ -598,38 +598,102 @@
         "2": 28,
         "3": 25
       }
+    },
+    {
+      "no": 9,
+      "ajan": 1,
+      "kategoriler": [
+        "sinema",
+        "muzik",
+        "sanat",
+        "spor",
+        "yerel_tr"
+      ],
+      "soru": 100,
+      "migration": "20260612000312_soru_uretim_parti_09",
+      "commit": null,
+      "tarih": "2026-09-23",
+      "kategori_kova": {
+        "sinema": 24,
+        "muzik": 22,
+        "sanat": 22,
+        "spor": 21,
+        "yerel_tr": 11
+      },
+      "kategori_db": {
+        "sinema": 28,
+        "muzik": 25,
+        "sanat": 24,
+        "spor": 23
+      },
+      "zorluk": {
+        "3": 28,
+        "4": 37,
+        "5": 19,
+        "1-2": 16
+      },
+      "zorluk_1_5": [
+        1,
+        15,
+        28,
+        37,
+        19
+      ],
+      "jev": {
+        "cagri": 1070,
+        "girdi_jeton": 725236,
+        "maliyet_usd": 0.0305
+      },
+      "taslak": 120,
+      "elenen": {
+        "kalite_sonrasi": 0,
+        "kota_fazlasi": 20,
+        "not": "Ajan 1, 100'lük parti. Parti 7'den kalan 23 taslak + 115 yeni taslak (sinema 21, müzik 22, spor 22, sanat 18, TR yerel 19, zorluk dengesi için 13 ek). Fikirler yazılmadan önce havuzda (DB + ajan 2 taslakları) toplu anahtar kelimeyle arandı; yazılanlardan 1 havuz tekrarı (NBA üçlük 1979-80) çıkarıldı; 10 şık denge düzeltmesi. Şık ipucu kapısı: 5 takılma (Sinatra 'Ol' Blue Eyes', Iditarod, Modrić Ballon d'Or, Like a Rolling Stone, Born in the U.S.A.) — çıkarıldı. Soru metninden cevabı sezdiren ifade kaldırıldı: Giannis 'Greek Freak', Frida 'Kırık Sütun'. Jev'in <0,9 güvenle farklı dediği doğru TR sorular (Organize İşler/Yılmaz Erdoğan, Yahşi Batı, Ahlat Ağacı, İstiklal Marşı/Üngör, Duman/Kaan Tangöze, Şenol Güneş, Abeylegesse, Céline Dion/İsviçre) kontrol edilip tutuldu."
+      },
+      "zorluk_etiket_duzeltme": 7,
+      "cevrilmeyen": 7,
+      "havuz_aktif": {
+        "once": 11840,
+        "sonra": 11940
+      },
+      "dogru_cevap_dagilimi": {
+        "0": 30,
+        "1": 25,
+        "2": 22,
+        "3": 23
+      }
     }
   ],
   "atlanan_partiler": [],
   "sayac": {
-    "soru": 1550,
+    "soru": 1650,
     "kategori": {
-      "sinema": 211,
+      "sinema": 235,
       "teknoloji": 190,
-      "muzik": 194,
-      "sanat": 194,
-      "spor": 180,
+      "muzik": 216,
+      "sanat": 216,
+      "spor": 201,
       "edebiyat": 147,
       "bilim": 147,
       "tarih": 131,
-      "yerel_tr": 97,
+      "yerel_tr": 108,
       "genel_kultur": 59
     },
     "zorluk": {
-      "3": 463,
-      "4": 545,
-      "5": 308,
-      "1-2": 234
+      "3": 491,
+      "4": 582,
+      "5": 327,
+      "1-2": 250
     }
   },
   "jev": {
-    "cagri": 5395,
-    "girdi_jeton": 4115757,
-    "maliyet_usd": 0.1729
+    "cagri": 6465,
+    "girdi_jeton": 4840993,
+    "maliyet_usd": 0.2034
   },
   "elenen": 18,
-  "zorluk_etiket_duzeltme": 82,
-  "cevrilmeyen": 21,
+  "zorluk_etiket_duzeltme": 89,
+  "cevrilmeyen": 28,
   "ardisik_uygulama_hatasi": 0,
   "migration_no_notu": "296 (skill satın alma kilit sırası) ve 297 (duello_surum herkese) Paket 3 dışı işlere verildi, 23 Eyl 2026. Parti 6 yeniden üretilince 298 kullanılır."
 }
