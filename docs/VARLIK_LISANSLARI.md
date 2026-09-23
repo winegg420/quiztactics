@@ -37,6 +37,26 @@ Oyunda ÇALMAZ; yalnız sahibin ses seçim sayfası ister. 27 efekt anı + 3 mü
 
 Pixabay'de yapay zekâ üretimi ve YouTube Content ID kayıtlı parçalar bilerek elendi.
 
+## Maç sonu Lottie animasyonları (`/mac-sonu-onizleme`, 23 Eyl 2026)
+
+`public/lottie/mac-sonu/` — LottieFiles ücretsiz animasyonları; her birinin sayfasında
+"Free to use under the Lottie Simple License" yazdığı 23 Eyl 2026'da kontrol edildi. Lottie
+Simple License: ticari kullanım ve düzenleme serbest, atıf gerekmez; dosyaları tek başına
+(uygulama dışında) yeniden dağıtmak/satmak yasak. `.lottie` paketlerinden çıkarılan JSON
+kullanılıyor; `coin.json` içindeki gömülü görsel ayrı dosya (`coin.png`) olarak yanında.
+
+| Dosya | Animasyon | Yazar | Bağlantı |
+|---|---|---|---|
+| `kupa.json` | Trophy | Lucas Nemo | https://lottiefiles.com/free-animation/trophy-OJxKdZoIJh |
+| `coin.json` + `coin.png` | Coins blow effect | Artyom Konakov | https://lottiefiles.com/free-animation/coins-blow-effect-2YdQmUbuTz |
+| `level.json` | Level up animation | Abdul Latif | https://lottiefiles.com/free-animation/level-up-animation-0TSjaT4I6c |
+| `yildiz.json` | firework (altın ışın patlaması; rozet açılışı) | Tovi Zhong | https://lottiefiles.com/free-animation/firework-qYsx6KjdWj |
+
+Konfeti Lottie değil, `canvas-confetti` (MIT, npm paketi) ile kodla çizilir; incelenen
+"confetti" (Jacques Mauriac, https://lottiefiles.com/free-animation/confetti-coMR5KBYrt)
+tam ekranda 4× CPU kısıtlamasında kareyi 67 ms'ye çıkardığı için kullanılmadı.
+Oynatıcı: `lottie-web` (MIT, Airbnb) — `build/player/lottie_light`.
+
 ## Notlar
 
 - Apache 2.0: lisans metni ve bu atıf korunur; görseller yalnız küçültüldü (değişiklik bildirimi:
