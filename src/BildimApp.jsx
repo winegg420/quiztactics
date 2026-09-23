@@ -32,7 +32,8 @@ import TaniPaneli from "../oyun/components/TaniPaneli.jsx";
 import AnaSayfa from "../oyun/pages/anasayfa/AnaSayfaA.jsx";
 import ChallengesPage from "../oyun/pages/ChallengesPage.jsx";
 import MatchPage from "../oyun/pages/MatchPage.jsx";
-import GroupMatchPage from "../oyun/pages/GroupMatchPage.jsx";
+// Ajan H: grup maçı tembel (nadir mod) — ses/müzik eklerinin ana paketi büyütmemesi için.
+const GroupMatchPage = lazy(() => import("../oyun/pages/GroupMatchPage.jsx"));
 // DONDURULDU (Paket 24 B): HizliMacPage dosyasi duruyor, hicbir rota cagirmiyor.
 // Geri acmak: bu import + asagidaki rotayi geri koy, oyun_ayarlari.hizli_mac_acik = true.
 const TournamentPage = lazy(() => import("../oyun/pages/TournamentPage.jsx"));
@@ -105,6 +106,11 @@ export default function BildimApp() {
     if (hedef && hedef !== pathname) navigate(hedef, { replace: true });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session, loading]);
+
+  // Müzik + /ses-secim seçimleri (Ajan H) — tembel modül, ana pakete girmez.
+  useEffect(() => {
+    import("../oyun/lib/sesArkaPlan.js").then((m) => m.muzikRota(pathname)).catch(() => { /* müzik kritik değil */ });
+  }, [pathname]);
 
   const bagimsizModul =
     pathname.startsWith("/insan-prototip") ||

@@ -472,6 +472,13 @@ export default function TournamentPage() {
     if (onceki === "lobi" && turnuva?.durum === "aktif") sesTurnuvaBasladi();
   }, [turnuva?.durum]);
   useEffect(() => { sesOnYukle("turnuva"); }, []);
+  // Müzik (Ajan H): turnuva maçı sürerken maç döngüsü, lobide turnuva teması.
+  const turnuvaAktif = turnuva?.durum === "aktif";
+  useEffect(() => {
+    const ayarla = (macta) => import("../lib/sesArkaPlan.js").then((m) => m.muzikTurnuvaMacta(macta)).catch(() => { /* müzik kritik değil */ });
+    ayarla(turnuvaAktif);
+    return () => { ayarla(false); };
+  }, [turnuvaAktif]);
 
   useOyunModu(Boolean(soru) && turnuva?.durum === "aktif");
 
