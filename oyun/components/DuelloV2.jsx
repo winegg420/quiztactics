@@ -22,6 +22,7 @@ import KategoriIkon from "./KategoriIkon.jsx";
 import { kategoriAdi } from "../lib/kategoriler.js";
 import { JOKER_BILGI } from "../lib/jokerler.js";
 import { QtAvatar, QtCan, QtIkon, QtSik, QtSikler, QtSkill, QtSkillCubugu, QtSoruKarti, QtSonucBandi, sinif } from "../tasarim/index.js";
+import { SeviyeEtiketi } from "./MacUstSerit.jsx";
 
 const HARFLER = ["A", "B", "C", "D"];
 
@@ -43,7 +44,7 @@ export function secenekleriCoz(s) {
  * İki oyuncu, canlar (3 kalp), ortada tur. Kategoriyi seçen tarafın avatarında
  * altın halka + kılıç rozeti. kayip = { [oyuncuId]: anahtar } → kalp kırılır.
  */
-export function V2Ust({ d, ben, rakip, kayip = {}, c }) {
+export function V2Ust({ d, ben, rakip, kayip = {}, c, seviyeler = {} }) {
   const taraf = (o, rakipMi) => {
     const secen = d.saldiran === o.id;
     const can = Math.max(0, Number(o.can ?? 0));
@@ -52,6 +53,7 @@ export function V2Ust({ d, ben, rakip, kayip = {}, c }) {
         <QtAvatar src={o.gorunen_avatar ?? o.avatar_url} ad={o.gorunen_ad} boyut="m" halka={secen ? "coin" : rakipMi ? "yanlis" : "vurgu"} />
         <span className="qt-oyuncu-yazi">
           <span className="qt-oyuncu-ad">{rakipMi ? o.gorunen_ad : c("Sen")}</span>
+          <SeviyeEtiketi {...(seviyeler[o.id] ?? {})} />
           <QtCan key={kayip[o.id] ?? "can"} dolu={can} toplam={Math.max(3, can)} boyut={16} ters={rakipMi}
                  kayip={Boolean(kayip[o.id])} etiket={rakipMi ? c("Rakibin canı") : c("Senin canın")} />
         </span>

@@ -269,6 +269,7 @@ export function QtMacUst({ sen, rakip, skor = [0, 0], skorAnahtar, rakipBaski, c
       <QtAvatar src={o.avatar} ad={o.ad} boyut="m" halka={rakipMi ? "yanlis" : "vurgu"} />
       <span className="qt-oyuncu-yazi">
         <span className="qt-oyuncu-ad">{o.ad}</span>
+        {o.alt ?? null}
         {o.can != null && <QtCan key={o.kayip ? String(o.kayip) : "can"} dolu={o.can} toplam={o.canToplam ?? 3} etiket={rakipMi ? tt("Rakibin canı") : tt("Senin canın")} kayip={Boolean(o.kayip)} ters={rakipMi} boyut={16} />}
       </span>
       {o.etkiler && <span className="qt-oyuncu-etkiler">{o.etkiler}</span>}

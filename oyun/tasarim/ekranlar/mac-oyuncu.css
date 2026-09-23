@@ -1,0 +1,40 @@
+/* Maç ekranı oyuncu bilgisi (MacUstSerit + QtMacUst / V2Ust alt satırı).
+   Mobil: ince şerit. Masaüstü (≥1024): avatarlar ve adlar büyür, iki yanda.
+   Renkler sahne rollerinden (--qt-zemin-metin) → koyu mor ve pastel zeminde okunur. */
+
+.mo-seviye { display: inline-flex; align-items: center; gap: 6px; min-width: 0; font-size: 12px; line-height: 1.2; }
+.mo-lv {
+  padding: 1px 7px; border-radius: var(--qt-r-hap); background: var(--qt-ikinci); color: var(--qt-ikinci-yazi);
+  font: var(--qt-a-siyah) 12px/1.4 var(--qt-f-govde); white-space: nowrap;
+}
+.mo-lig {
+  padding: 1px 7px; border-radius: var(--qt-r-hap); color: var(--qt-lig-yazi);
+  font: var(--qt-a-kalin) 12px/1.4 var(--qt-f-govde); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.mo-lig--bronz  { background: var(--qt-lig-bronz); }
+.mo-lig--gumus  { background: var(--qt-lig-gumus); }
+.mo-lig--altin  { background: var(--qt-lig-altin); }
+.mo-lig--elmas  { background: var(--qt-lig-elmas); }
+.mo-lig--efsane { background: var(--qt-lig-efsane); }
+
+/* Çok oyunculu (Turnuva, Grup): kendi avatarın + kalan/katılan sayısı */
+.mo-coklu {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  margin: 0 0 var(--qt-b-3); color: var(--qt-zemin-metin);
+}
+.mo-ben { display: inline-flex; align-items: center; gap: 8px; min-width: 0; }
+.mo-ben-yazi { display: grid; gap: 2px; min-width: 0; }
+.mo-ben-yazi b { font: var(--qt-a-siyah) 15px/1.15 var(--qt-f-baslik); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mo-sayi {
+  flex: none; padding: 6px 12px; border-radius: var(--qt-r-hap);
+  background: var(--qt-yuzey); color: var(--qt-metin); font-size: 13px;
+  box-shadow: 0 3px 0 var(--qt-cizgi);
+}
+
+@media (min-width: 1024px) {
+  .qt-mac-ust .qt-avatar--m { width: 64px; height: 64px; }
+  .qt-mac-ust .qt-oyuncu-ad { font-size: var(--qt-y-l); }
+  .mo-seviye, .mo-lv, .mo-lig { font-size: 13px; }
+  .mo-coklu .qt-avatar--s { width: 52px; height: 52px; }
+  .mo-ben-yazi b { font-size: 18px; }
+}

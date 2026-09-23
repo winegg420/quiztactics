@@ -18,7 +18,7 @@
 // Kullanım:
 //   npm run dev                                   (yerel için, başka kabukta)
 //   node araclar/oyuncu-testi.mjs [--adres=https://quiztactics.vercel.app]
-//        [--mod=duello,klasik,turnuva] [--gorsel] [--mac=2]
+//        [--mod=duello,klasik,turnuva] [--gorsel] [--mac=2] [--genislik=390,360,1280]
 //   --gorsel : her ekranın 360/390 görüntüsü oyuncu-testi-gorseller/ altına
 //   --mac    : Düello'da kapsam (3 saldıran + 3 savunan) dolmazsa en çok kaç maç
 //
@@ -42,7 +42,8 @@ const GORSEL = Boolean(ARG.gorsel);
 const EN_COK_MAC = Number(ARG.mac || 2);
 const OTURUM = path.resolve(".arayuz-denetim-oturum.json");
 const GORSEL_DIZIN = path.resolve("oyuncu-testi-gorseller");
-const GENISLIKLER = [390, 360];
+// --genislik=390,360,1280 ile masaüstü de ölçülür (ilk değer maçın oynandığı genişlik).
+const GENISLIKLER = String(ARG.genislik || "390,360").split(",").map(Number);
 const YUKSEKLIK = 800;
 
 const hatalar = [];     // başarısız maddeler

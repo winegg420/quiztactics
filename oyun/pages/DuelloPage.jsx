@@ -20,6 +20,7 @@ import { useAuth } from "../../src/context/AuthContext.jsx";
 import Avatar from "../../src/components/Avatar.jsx";
 import Ikon from "../components/Ikon.jsx";
 import MacUstSerit from "../components/MacUstSerit.jsx";
+import { useOyuncuSeviyeleri } from "../lib/oyuncuSeviye.js";
 import MacYukleniyor from "../components/MacYukleniyor.jsx";
 import KategoriIkon from "../components/KategoriIkon.jsx";
 import MacSonuSahnesi from "../components/MacSonuSahnesi.jsx";
@@ -351,6 +352,7 @@ function DuelloMac({ id }) {
   const { ceviri } = useDil();
   const c2 = ceviri;   // Düello 1.0 metinleri: İngilizcesi ceviri/mac.js › Düello (M2)
   const [d, setD] = useState(null);
+  const seviyeler = useOyuncuSeviyeleri((d?.oyuncular ?? []).map((o) => o.id));
   const [hata, setHata] = useState(null);
   const [yuklemeHatasi, setYuklemeHatasi] = useState(null);
   const [baglanti, setBaglanti] = useState(null);   // Paket 24 · A.4: rakip kopuk mu
@@ -1042,10 +1044,10 @@ function DuelloMac({ id }) {
       sahne2 = <V2Sonuc d={d} rakip={rakip} secenekler={secenekler} c={c2} />;
     }
     return (
-      <div className={sinif("m2-mac qt-sahne-mac", gerilim && "qt-h-gerilim", sonCan && "m2-mac--son-can")}>
+      <div className={sinif("m2-mac qt-sahne-mac", gerilim && "qt-h-gerilim", sonCan && "m2-mac--son-can")} data-kat={d.kategori || undefined}>
         <MacUstSerit onCik={() => setTerkOnay(true)} cikisEtiketi={ceviri("Düellodan çık")}
                      rozet={ceviri("Düello · Taktik Maçı")} />
-        <V2Ust d={d} ben={ben} rakip={rakip} kayip={kayip} c={c2} />
+        <V2Ust d={d} ben={ben} rakip={rakip} kayip={kayip} c={c2} seviyeler={seviyeler} />
         {/* Paket 24 · A.4: bağlantı kopması. Kopukken sunucu fazları İLERLETMEZ. */}
         {baglanti?.kopuk && (
           <p className="m2-bant m2-bant--uyari" role="status">

@@ -15,7 +15,8 @@ import MeydanaDonus from "../components/MeydanaDonus.jsx";
 import Maskot from "../components/Maskot.jsx";
 import { QtAvatar, QtBosDurum, QtCip, QtDugme, QtEtki, QtIkon, QtIkonDugme, QtMacUst, QtRozet } from "../tasarim/index.js";
 import "../tasarim/ekranlar/m1-mac.css";
-import MacUstSerit from "../components/MacUstSerit.jsx";
+import MacUstSerit, { SeviyeEtiketi } from "../components/MacUstSerit.jsx";
+import { useOyuncuSeviyeleri } from "../lib/oyuncuSeviye.js";
 import { TEPKILER, tepkiIkonu } from "../lib/tepkiler.js";
 import MacYukleniyor from "../components/MacYukleniyor.jsx";
 import SesliSohbet from "../components/SesliSohbet.jsx";
@@ -95,6 +96,7 @@ export default function MatchPage() {
   const { user, profile, refreshProfile } = useAuth();
   const navigate = useNavigate();
   const [mac, setMac] = useState(null);
+  const seviyeler = useOyuncuSeviyeleri([mac?.oyuncu1, mac?.oyuncu2]);
   const [soru, setSoru] = useState(null);
   const [cevapladim, setCevapladim] = useState(false);
   const [jokerKullanildi, setJokerKullanildi] = useState({ elli: false, sure: false });
@@ -975,10 +977,12 @@ export default function MatchPage() {
     const senOyuncu = {
       ad: benimProfil?.gorunen_ad ?? tt("Sen"),
       avatar: avatarSrc(benimProfil),
+      alt: <SeviyeEtiketi {...(seviyeler[benimProfil?.id] ?? {})} />,
     };
     const rakipOyuncu = {
       ad: rakipProfil?.gorunen_ad ?? tt("Rakip"),
       avatar: avatarSrc(rakipProfil),
+      alt: <SeviyeEtiketi {...(seviyeler[rakipProfil?.id] ?? {})} />,
     };
     // Bu ekran YALNIZ eski asenkron maçlara ait: senkron maçta iki taraf aynı
     // anda bitirir, maç da o anda sonuçlanır.

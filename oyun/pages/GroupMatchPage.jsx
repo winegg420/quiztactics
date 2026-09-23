@@ -52,7 +52,7 @@ const KALIPLAR = [
 export default function GroupMatchPage() {
   const { id } = useParams();
   const { ceviri } = useDil();
-  const { user, refreshProfile } = useAuth();
+  const { user, profile, refreshProfile } = useAuth();
   const navigate = useNavigate();
   const [mac, setMac] = useState(null);
   const [yuklemeHatasi, setYuklemeHatasi] = useState(null);
@@ -596,7 +596,9 @@ export default function GroupMatchPage() {
       )}
 
       {/* Paket 41 B/E/H: Klasik ile aynı çıkış (X), mod rozeti ve ses */}
-      <MacUstSerit onCik={() => setCikisOnay(true)} rozet={tt("Grup Maçı · ödülsüz")} />
+      <MacUstSerit onCik={() => setCikisOnay(true)} rozet={tt("Grup Maçı · ödülsüz")}
+        oyuncu={{ ad: profile?.gorunen_ad ?? tt("Sen"), avatar: (profile?.gorunen_avatar ?? profile?.avatar_url) || null, level: profile?.level, lig: profile?.lig }}
+        sayi={tt("{n} oyuncu", { n: siraliSkor.length })} />
       {/* Çıkış onayı. Sonuç sunucudan (grup_mac_nabiz): sayfadan çıkan oyuncunun nabzı
           12 sn kesilince maç herkes için duraklar; 45 sn içinde dönmezse terk_at yazılır,
           kazanan hesabına girmez ve maç kalanlarla sürer. Vazgeç'te hiçbir şey değişmez. */}

@@ -1,0 +1,60 @@
+/* ============================================================
+   KATEGORİYE GÖRE PASTEL MAÇ ZEMİNİ (Ida onayı, 23 Eyl 2026)
+   `.qt-sahne-mac[data-kat="<kategori>"]` — kategori yazılan sahne koyu mor yerine
+   o kategorinin pasteline döner. Pastel açık olduğu için ZEMİN yazı rolleri koyuya
+   çevrilir (metin #1d2152 → her pastelde ≥ 10:1; soluk #46507f → ≥ 5:1).
+   Kart, şık, skill gibi yüzeyler beyaz kalır. Soru değişince zemin rengi yumuşak
+   geçer (background-color geçişi; desen katmanı sabit). data-kat yoksa sahne eski
+   koyu mor hâlindedir.
+   ============================================================ */
+:root {
+  /* Onaylı liste */
+  --qt-kat-bilim: #cfe4ff;        --qt-kat-bilim-2: #b4d4ff;         /* mavi */
+  --qt-kat-tarih: #ffd9cf;        --qt-kat-tarih-2: #ffc1b1;         /* mercan */
+  --qt-kat-sanat: #ffd6ea;        --qt-kat-sanat-2: #ffbedc;         /* pembe */
+  --qt-kat-spor: #d3f4dc;         --qt-kat-spor-2: #b6ecc5;          /* yeşil */
+  --qt-kat-sinema: #e3dbff;       --qt-kat-sinema-2: #cfc2ff;        /* mor */
+  --qt-kat-teknoloji: #c8f0ee;    --qt-kat-teknoloji-2: #a9e6e2;     /* turkuaz */
+  --qt-kat-edebiyat: #ffe7bd;     --qt-kat-edebiyat-2: #ffd99a;      /* amber */
+  --qt-kat-genel-kultur: #efe4d1; --qt-kat-genel-kultur-2: #e3d3b8;  /* kum */
+  /* Eklenenler */
+  --qt-kat-muzik: #f4f3c4;        --qt-kat-muzik-2: #eae7a3;         /* limon */
+  --qt-kat-cografya: #e1ead0;     --qt-kat-cografya-2: #cfdcb6;      /* zeytin */
+  --qt-kat-diger: #dfe5f5;        --qt-kat-diger-2: #c9d3ee;         /* gri-mavi (karışık/yerel/bilinmeyen) */
+}
+
+.qt-sahne-mac[data-kat] {
+  --qt-kat-z: var(--qt-kat-diger);
+  --qt-kat-z2: var(--qt-kat-diger-2);
+  --qt-zemin: var(--qt-kat-z);
+  --qt-zemin-2: var(--qt-kat-z2);
+  --qt-mac-zemin: var(--qt-kat-z);
+  --qt-mac-zemin-2: var(--qt-kat-z2);
+  --qt-mac-metin: var(--qt-metin);
+  --qt-mac-soluk: var(--qt-metin-soluk);
+  --qt-zemin-metin: var(--qt-metin);
+  --qt-zemin-soluk: var(--qt-metin-soluk);
+  --qt-cizgi: rgba(29, 33, 82, 0.16);
+  --qt-odak: var(--qt-ikinci);
+  background-color: var(--qt-kat-z);
+  background-image:
+    radial-gradient(circle at 12px 12px, rgba(255, 255, 255, 0.55) 2.5px, transparent 3px),
+    radial-gradient(circle at 85% 8%, rgba(255, 255, 255, 0.45) 0 70px, transparent 71px),
+    linear-gradient(180deg, transparent 40%, rgba(29, 33, 82, 0.05));
+  background-size: 24px 24px, auto, auto;
+  transition: background-color 0.5s ease-out;
+}
+.qt-sahne-mac[data-kat="bilim"]        { --qt-kat-z: var(--qt-kat-bilim);        --qt-kat-z2: var(--qt-kat-bilim-2); }
+.qt-sahne-mac[data-kat="tarih"]        { --qt-kat-z: var(--qt-kat-tarih);        --qt-kat-z2: var(--qt-kat-tarih-2); }
+.qt-sahne-mac[data-kat="sanat"]        { --qt-kat-z: var(--qt-kat-sanat);        --qt-kat-z2: var(--qt-kat-sanat-2); }
+.qt-sahne-mac[data-kat="spor"]         { --qt-kat-z: var(--qt-kat-spor);         --qt-kat-z2: var(--qt-kat-spor-2); }
+.qt-sahne-mac[data-kat="sinema"]       { --qt-kat-z: var(--qt-kat-sinema);       --qt-kat-z2: var(--qt-kat-sinema-2); }
+.qt-sahne-mac[data-kat="teknoloji"]    { --qt-kat-z: var(--qt-kat-teknoloji);    --qt-kat-z2: var(--qt-kat-teknoloji-2); }
+.qt-sahne-mac[data-kat="edebiyat"]     { --qt-kat-z: var(--qt-kat-edebiyat);     --qt-kat-z2: var(--qt-kat-edebiyat-2); }
+.qt-sahne-mac[data-kat="genel_kultur"] { --qt-kat-z: var(--qt-kat-genel-kultur); --qt-kat-z2: var(--qt-kat-genel-kultur-2); }
+.qt-sahne-mac[data-kat="muzik"]        { --qt-kat-z: var(--qt-kat-muzik);        --qt-kat-z2: var(--qt-kat-muzik-2); }
+.qt-sahne-mac[data-kat="cografya"]     { --qt-kat-z: var(--qt-kat-cografya);     --qt-kat-z2: var(--qt-kat-cografya-2); }
+
+@media (prefers-reduced-motion: reduce) {
+  .qt-sahne-mac[data-kat] { transition: none; }
+}
