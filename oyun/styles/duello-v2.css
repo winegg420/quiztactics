@@ -28,91 +28,19 @@
 .bd-d2-rol.kategori { background: #fff3e9; color: var(--bd-vurgu-2); }
 
 /* Süre çubuğu: genişlik her 200 ms'de stilden gelir, geçiş yok. */
-.bd-d2-sure {
-  height: 8px; margin: 6px 0 10px; border-radius: 999px; overflow: hidden;
-  background: var(--bd-kart-alt);
-}
-.bd-d2-sure > span { display: block; height: 100%; border-radius: inherit; background: var(--bd-bilgi); }
-.bd-d2-sure.kritik > span { background: var(--bd-hata); }
 
 /* Kategori */
-.bd-d2-kat.kapali { opacity: .42; filter: grayscale(.6); }
-.bd-d2-kat.kapali .bd-duello-kat-yuzde { font-weight: 900; color: var(--bd-metin-2); }
-.bd-d2-kat { min-height: 56px; }
 
 /* Cevap fazı */
-.bd-d2-cevap-baslik { display: flex; align-items: center; gap: 8px; min-width: 0; }
-.bd-d2-cevap-baslik > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.bd-d2-durumlar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 0 0 10px; }
-.bd-d2-durum {
-  display: flex; align-items: center; gap: 6px; flex-wrap: wrap; min-width: 0; min-height: 40px;
-  padding: 6px 10px; border-radius: 12px; font-size: 13px; font-weight: 800;
-  background: var(--bd-kart-alt); color: var(--bd-metin-2);
-}
-.bd-d2-durum b {
-  color: var(--bd-metin); font-weight: 900; max-width: 100%;
-  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-}
-.bd-d2-durum.tamam { background: #D8F5E4; color: #0E5A32; }
-.bd-d2-cevap .bd-secenek { min-height: 48px; }
-.bd-d2-cevap .bd-secenek.bd-d2-sonuk { opacity: .55; }
-.bd-d2-not { margin: 10px 0 0; text-align: center; font-weight: 800; font-size: 13.5px; color: var(--bd-metin-2); }
 
 /* Uzatma bandı */
-.bd-d2-uzatma {
-  display: flex; flex-direction: column; gap: 4px; margin: 0 0 10px; padding: 10px 12px;
-  border-radius: 14px; border: 2px solid var(--bd-vurgu); background: #fff3e9; color: #7A3300;
-  font-size: 13.5px; font-weight: 800; text-align: center;
-}
-.bd-d2-uzatma > b { font-family: var(--bd-f-baslik); font-size: 17px; letter-spacing: .06em; color: var(--bd-vurgu-2); }
-.bd-d2-uzatma-kat { display: inline-flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap; }
 
 /* Tur sonu: simetrik can tablosu */
-.bd-d2-tablo { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 4px 0 12px; }
-.bd-d2-tablo-hucre {
-  display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 0;
-  padding: 8px; border-radius: 14px; background: var(--bd-kart-alt); text-align: center;
-}
-.bd-d2-tablo-hucre > span {
-  max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-  font-size: 12px; font-weight: 800; color: var(--bd-metin-2);
-}
-.bd-d2-tablo-hucre > b { font-family: var(--bd-f-baslik); font-size: 18px; line-height: 1.1; }
-.bd-d2-tablo-hucre.dogru { background: #D8F5E4; color: #0E5A32; }
-.bd-d2-tablo-hucre.yanlis { background: #FFD9D9; color: #7A1717; }
-.bd-d2-tablo-hucre.yanitsiz { background: var(--bd-kart-alt); color: var(--bd-metin); border: 2px dashed var(--bd-metin-2); }
-.bd-d2-tablo-hucre small { display: inline-flex; align-items: center; gap: 3px; font-weight: 900; color: var(--bd-hata-2); }
-.bd-d2-kalp { fill: var(--bd-hata); }
-.bd-d2-yanitsiz {
-  display: inline-block; margin-top: 6px; padding: 3px 10px; border-radius: 999px;
-  border: 1.5px dashed var(--bd-metin-2); font-size: 12.5px; font-weight: 900; color: var(--bd-metin-2);
-}
-.bd-d2-sonuc > .bd-d2-yanitsiz { display: block; width: fit-content; margin: 8px auto 0; }
 
 /* Skill şeridi */
-.bd-d2-skill-baslik { justify-content: space-between; }
-.bd-d2-hak { display: inline-flex; align-items: center; gap: 4px; }
-.bd-d2-hak i {
-  width: 10px; height: 10px; border-radius: 50%;
-  border: 2px solid var(--bd-vurgu); background: transparent;
-}
-.bd-d2-hak i.dolu { background: var(--bd-kart-alt); border-color: var(--bd-metin-2); }
-.bd-d2-hak b { margin-left: 2px; color: var(--bd-metin); text-transform: none; }
-.bd-d2-kural { display: inline; font-weight: 700; color: var(--bd-metin-2); }
 .bd-d2-skill .bd-duello-joker { min-height: 72px; position: relative; }
-.bd-d2-joker-alt { display: flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap; }
-.bd-d2-joker-sayi {
-  padding: 0 6px; border-radius: 999px; background: var(--bd-kart-alt);
-  font-size: 11px; font-weight: 900; color: var(--bd-metin-2);
-}
-.bd-d2-kilit {
-  display: flex; align-items: center; gap: 6px; margin-top: 8px; padding: 7px 10px;
-  border-radius: 12px; background: #FFD9D9; color: #7A1717; font-size: 12.5px; font-weight: 900;
-}
 
 /* Maç sonu: her soru */
-.bd-d2-gecmis { margin-top: 12px; text-align: left; }
-.bd-d2-gecmis ol { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
 .bd-d2-gecmis-soru {
   padding: 10px 12px; border-radius: 14px; background: var(--bd-yuzey, #fff);
   border: 1px solid var(--bd-kenar, #D6E6F2); border-left-width: 4px; min-width: 0;
@@ -120,19 +48,6 @@
 .bd-d2-gecmis-soru.dogru { border-left-color: var(--bd-basari); }
 .bd-d2-gecmis-soru.yanlis { border-left-color: var(--bd-hata); }
 .bd-d2-gecmis-soru.yanitsiz { border-left-color: var(--bd-metin-2); border-left-style: dashed; }
-.bd-d2-gecmis-ust { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 12px; font-weight: 900; color: var(--bd-metin-2); }
-.bd-d2-gecmis-kat { display: inline-flex; align-items: center; gap: 4px; min-width: 0; }
-.bd-d2-rozet { margin-left: auto; padding: 1px 8px; border-radius: 999px; background: var(--bd-kart-alt); color: var(--bd-metin); }
-.bd-d2-rozet.dogru { background: #D8F5E4; color: #0E5A32; }
-.bd-d2-rozet.yanlis { background: #FFD9D9; color: #7A1717; }
-.bd-d2-rozet.yanitsiz { border: 1.5px dashed var(--bd-metin-2); background: transparent; }
-.bd-d2-gecmis-metin { margin: 6px 0 4px; font-weight: 800; font-size: 14px; color: var(--bd-metin); overflow-wrap: anywhere; }
-.bd-d2-gecmis .bd-duello-dogru-cevap { margin: 4px 0; overflow-wrap: anywhere; }
-.bd-d2-gecmis-alt { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; font-size: 12.5px; font-weight: 800; color: var(--bd-metin-2); }
-.bd-d2-gecmis-alt .bd-d2-yanitsiz { margin-top: 0; }
-.bd-d2-gecmis-can { margin-left: auto; font-weight: 900; }
-.bd-d2-gecmis-can.iyi { color: #0E5A32; }
-.bd-d2-gecmis-can.kotu { color: #7A1717; }
 
 /* Kısa giriş: sahne değişince 180 ms'lik opaklık (sayaç ve dokunma hemen çalışır). */
 .bd-d2 .bd-duello-sahne { animation-duration: .18s; }
@@ -140,7 +55,6 @@
 
 @media (max-width: 400px) {
   .bd-d2 .bd-duello-kat-grid { gap: 6px; }
-  .bd-d2-durum { padding: 6px 8px; font-size: 12.5px; }
   .bd-d2-skill .bd-duello-joker-sira { gap: 6px; }
   .bd-d2-skill .bd-duello-joker-ad { font-size: 11px; }
 }

@@ -1,8 +1,6 @@
 /* Quiz Tactics — mobil oyun deneyimi katmanı.
    Yalnız telefon portresinde etkindir; masaüstü görünümü bilinçli olarak korunur. */
 
-.mobile-core-modes { display: none; }
-
 @keyframes qt-page-in {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -85,7 +83,6 @@
     border: 0; background: rgba(255,255,255,.76); box-shadow: 0 8px 24px rgba(36,55,94,.08);
   }
   .bd-anasayfa .play-card { display: none; }
-  .mobile-core-modes { display: grid; gap: 10px; }
   .mobile-core-mode {
     position: relative; min-height: 116px; width: 100%; overflow: hidden;
     display: grid; grid-template-columns: 58px 1fr 24px; align-items: center; gap: 12px;
@@ -100,26 +97,11 @@
   .mobile-core-mode.klasik { background: linear-gradient(135deg,#172c59,#275196); }
   .mobile-core-mode.duello { background: linear-gradient(135deg,#5f35bf,#8b51e1); }
   .mobile-core-mode:active { transform: translateY(4px); box-shadow: 0 4px 0 rgba(29,44,78,.16); }
-  .mobile-core-mode-icon {
-    width: 58px; height: 58px; display: grid; place-items: center;
-    border: 1px solid rgba(255,255,255,.24); border-radius: 18px; background: rgba(255,255,255,.14);
-  }
   .mobile-core-mode > span:nth-child(2) { display: flex; min-width: 0; flex-direction: column; }
   .mobile-core-mode small { color: #ffd46a; font-size: 9px; font-weight: 1000; letter-spacing: 1.3px; }
   .mobile-core-mode b { margin: 3px 0; font: 800 20px/1.05 "Baloo 2"; }
   .mobile-core-mode em { color: rgba(255,255,255,.72); font-size: 9px; font-style: normal; font-weight: 800; }
   .mobile-core-mode > i { font: 800 30px/1 "Baloo 2"; font-style: normal; opacity: .75; }
-  .mobile-core-settings {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 2px 0 5px;
-  }
-  .mobile-core-settings button {
-    min-height: 54px; display: flex; align-items: center; gap: 9px; padding: 9px 11px;
-    border: 1px solid #dbe3f1; border-radius: 16px; background: rgba(255,255,255,.86); color: #1d2c4d; text-align: left;
-    box-shadow: 0 3px 0 #d6deec;
-  }
-  .mobile-core-settings button span { display: flex; min-width: 0; flex-direction: column; }
-  .mobile-core-settings small { color: #8190aa; font-size: 8px; font-weight: 900; }
-  .mobile-core-settings b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; }
   .bd-anasayfa .dashboard,.bd-anasayfa .primary-column,.bd-anasayfa .side-column { gap: 12px; }
   .bd-anasayfa .section,.bd-anasayfa .side-card { padding: 16px 13px; border-radius: 21px; }
   .bd-anasayfa .mode-card { min-height: 112px; border: 0; box-shadow: 0 4px 0 #d7e0ee,0 9px 20px rgba(31,49,84,.08); }
@@ -129,41 +111,22 @@
     border-color: rgba(210,220,237,.86); border-radius: 21px;
     box-shadow: 0 7px 22px rgba(37,55,91,.08);
   }
-  .app .liste-satir,.app .bd-lig-satir,.app .bd-lobi-oyuncu {
-    min-height: 64px; margin-bottom: 7px; border-radius: 17px;
-  }
   .app button,.app a.btn,.app .btn { min-height: 44px; }
   .app .btn.kucuk { min-height: 44px; padding-inline: 13px; }
   .app input,.app select,.app textarea { min-height: 44px; font-size: 16px; }
 
   /* Klasik/Düello girişleri ve eşleşme katmanları. */
-  .bd-duello-giris .bd-duello-tanit {
-    position: relative; overflow: hidden; display: grid; grid-template-columns: 54px 1fr; gap: 12px;
-    padding: 17px; border: 0; color: #fff;
-    background: linear-gradient(145deg,#5130a7,#7c4ad2); box-shadow: var(--qt-game-shadow);
-  }
-  .bd-duello-tanit-ikon {
-    width: 54px; height: 54px; display: grid; place-items: center;
-    border-radius: 18px; background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.2);
-  }
-  .bd-duello-yukleniyor-ikon,.bd-duello-bekle-ikon {
+  .bd-duello-bekle-ikon {
     width: 64px; height: 64px; display: grid; place-items: center; margin: 0 auto 12px;
     border-radius: 21px; color: #fff; background: linear-gradient(145deg,#7147d4,#4b2a9d);
     box-shadow: 0 6px 0 #3c237b,0 14px 28px rgba(67,38,142,.23);
   }
-  .bd-duello-tanit-metin p,.bd-duello-tanit-metin li { color: rgba(255,255,255,.79); }
-  .bd-duello-tanit-metin ul { padding-left: 16px; }
-  .bd-duello-giris .bd-ana-eylem {
-    min-height: 58px; border-radius: 18px; box-shadow: 0 5px 0 #3f2589,0 13px 24px rgba(85,47,174,.22);
-  }
-  .bd-arama-katman,.bd-karsilasma-katman { padding: 16px; }
-  .bd-arama-kutu { width: min(100%,390px); border-radius: 26px; box-shadow: 0 24px 60px rgba(10,19,42,.3); }
 
   /* Maç HUD: soru her zaman ana sahne, cevaplar başparmak erişiminde. */
   body.bd-oyun-modu { background: radial-gradient(circle at 50% 0,rgba(84,116,198,.24),transparent 32%),#eef3fb; }
   body.bd-oyun-modu .shell { padding: 6px 8px calc(12px + env(safe-area-inset-bottom)); }
   body.bd-oyun-modu .topbar { display: none; }
-  .bd-soru-kart,.bd-duello-soru {
+  .bd-duello-soru {
     border-radius: 24px; box-shadow: 0 12px 34px rgba(25,41,77,.14);
   }
   .bd-soru-metin { font-size: clamp(18px,5.4vw,22px); line-height: 1.25; }
@@ -175,7 +138,6 @@
   .bd-secenek:active:not(:disabled) { transform: translateY(3px) scale(.992); box-shadow: 0 1px 0 rgba(77,96,132,.17); }
   .bd-harf { flex: 0 0 36px; width: 36px; height: 36px; border-radius: 12px; }
   .joker-bar { gap: 7px; padding: 8px; border-radius: 19px; }
-  .bd-joker { min-width: 54px; min-height: 54px; border-radius: 16px; }
   .bd-duello-oyuncu { min-width: 0; }
   .bd-duello-oyuncu-ad { max-width: 96px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
@@ -183,50 +145,25 @@
   .bd-skill-seti { padding: 14px; border-radius: 20px; }
   .bd-skill-slotlar { gap: 7px; }
   .bd-skill-slot { min-height: 64px; border-radius: 16px; }
-  .bd-skill-secim-listesi,.bd-envanter-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 9px; }
-  .bd-dukkan .shop-heading { padding: 16px; border-radius: 22px; }
-  .bd-dukkan-sekmeler { position: sticky; top: 64px; z-index: 8; }
-  .bd-paket-liste { grid-template-columns: 1fr; }
-  .bd-paket { border-radius: 20px; box-shadow: 0 5px 0 rgba(43,61,95,.1); }
+  .bd-skill-secim-listesi { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 9px; }
 
   /* Lig, turnuva, profil, arkadaşlar ve görev ekranları. */
-  .bd-lig .league-banner { min-height: 160px; padding: 20px 17px; border-radius: 24px; }
-  .bd-lig .league-tabs { padding: 7px; border-radius: 18px; }
-  .bd-lig .bd-sekme,.bd-lig .bd-alt-sekme { min-height: 44px; }
-  .bd-lig-satir { grid-template-columns: 34px 44px minmax(0,1fr) auto; padding: 9px; }
-  .bd-profil-ust { border-radius: 24px; overflow: hidden; }
-  .bd-istatistik-3 { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 7px; }
-  .bd-istatistik { min-width: 0; padding: 11px 6px; border-radius: 15px; }
-  .bd-profil-sekmeler { overflow-x: auto; scrollbar-width: none; }
-  .bd-profil-sekmeler::-webkit-scrollbar { display: none; }
-  .bd-profil-sekmeler button { min-width: 104px; min-height: 44px; }
-  .bd-lobi-suzgec,.bd-sekme-ust { overflow-x: auto; scrollbar-width: none; }
-  .bd-lobi-suzgec button,.bd-sekme-ust button { flex: 0 0 auto; min-height: 44px; }
-  .bd-meydan-serit { align-items: flex-start; border-radius: 17px; }
 
   /* Modallar/boş-yükleniyor-hata durumları teknik pencere gibi görünmez. */
   .bd-modal { width: min(calc(100vw - 20px),520px); max-height: calc(100dvh - 24px); border-radius: 26px; }
   .bd-alttan .bd-modal { width: 100%; border-radius: 28px 28px 0 0; }
-  .bd-bos-durum,.bd-lig-bos { min-height: 180px; padding: 28px 18px; border: 1px dashed #cbd6e8; border-radius: 22px; background: rgba(255,255,255,.62); }
-  .bd-orta-maskot { display: none; }
   .hata-kutu { border-radius: 15px; padding: 12px 14px; }
 
   /* Sonuç sahnesi tam ekran oyun finali gibi okunur. */
-  .mss.bd-sonuc-ekran { min-height: 100dvh; padding: max(18px,env(safe-area-inset-top)) 12px max(18px,env(safe-area-inset-bottom)); }
-  .mss-baslik { font-size: clamp(38px,11vw,54px); }
-  .mss-karsilasma { gap: 8px; }
-  .mss-oduller { grid-template-columns: repeat(2,minmax(0,1fr)); }
-  .mss .btn { min-height: 50px; }
 }
 
 @media (max-width: 380px) {
   :root { --qt-mobile-edge: 9px; }
   .mobile-core-mode { min-height: 106px; grid-template-columns: 50px 1fr 18px; padding: 13px; gap: 10px; }
-  .mobile-core-mode-icon { width: 50px; height: 50px; border-radius: 16px; }
   .mobile-core-mode b { font-size: 18px; }
   .mobile-core-mode em { font-size: 8px; }
   .bd-secenek { min-height: 54px; }
-  .bd-skill-secim-listesi,.bd-envanter-grid { gap: 7px; }
+  .bd-skill-secim-listesi { gap: 7px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

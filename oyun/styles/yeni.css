@@ -38,12 +38,8 @@
 
 /* Resmi marka — vNext 08 Master Balance (21 Eyl 2026).
    Masaüstünde tam wordmark, dar üst çubukta aynı sistemin Q app icon'u. */
-.brand .brand-logo{display:block;flex:none;height:auto}
-.brand .brand-logo--ikon{display:none}
 .auth-brand .bd-logo{width:auto;max-width:min(190px,52vw)}
 @media(max-width:560px){
-  .app .brand .brand-logo--tam{display:block;width:120px;height:auto}
-  .app .brand .brand-logo--ikon{display:none}
   .giris.auth-body .auth-brand .bd-logo{display:block;width:auto;height:50px;max-width:55vw}
 }
 
@@ -260,19 +256,10 @@ body.bd-oyun-modu .shell { padding-top: 16px; }
    `.app .bd-*` kuralları daha özgül olduğu için burada geri alınıyor. */
 /* Prototipte 42 px; dokunma hedefi kuralı (>= 44) icin 44 px.
    Iki piksellik bu sapma bilerek yapildi - bkz. dogrulama listesi. */
-.app .bd-zil.circle-btn,
-.app .bd-coin-hap.coin-pill,
-.app .bd-profil-link.avatar-button {
+.app .bd-coin-hap.coin-pill {
   border-radius: 14px;
   height: 44px;
   min-width: 44px;
-}
-.app .bd-zil.circle-btn {
-  width: 44px; padding: 0;
-  border: 1px solid var(--line);
-  background: #fff;
-  color: var(--ink);
-  box-shadow: 0 3px 0 #d4deed;
 }
 .app .bd-coin-hap.coin-pill {
   border: 0; padding: 0 14px;
@@ -281,28 +268,9 @@ body.bd-oyun-modu .shell { padding-top: 16px; }
   font-weight: 900;
   box-shadow: 0 3px 0 #f1d882;
 }
-.app .bd-profil-link.avatar-button {
-  width: 44px; padding: 3px;
-  border: 1px solid #a9b9d2;
-  background: #fff;
-  box-shadow: 0 3px 0 #d4deed;
-}
-.app .bd-zil-rozet.dot {
-  right: -4px; top: -5px;
-  background: #ec3c55; color: #fff;
-  border: 2px solid #fff; border-radius: 99px;
-  padding: 1px 5px; font-size: 10px; font-weight: 900;
-  min-width: 0; height: auto;
-}
 
 /* Menüde bekleyen istek noktası (alt menü + masaüstü menü) */
 .mobile-nav a, .desktop-nav a { position: relative; }
-.bd-menu-nokta {
-  position: absolute; top: 2px; right: -8px;
-  width: 8px; height: 8px; border-radius: 50%;
-  background: #ec3c55; box-shadow: 0 0 0 2px rgba(255, 255, 255, .95);
-}
-.mobile-nav .bd-menu-nokta { top: 6px; right: calc(50% - 16px); }
 
 /* Alt menüde dokunma hedefi ≥ 44 px (doğrulama listesi). Prototipin
    yüksekliği ve yazı boyu korundu; yalnız tıklanan alan büyüdü. */
@@ -318,8 +286,6 @@ body.bd-oyun-modu .shell { padding-top: 16px; }
 @media (max-width: 560px) {
   /* 560 px altinda prototip bunlari 38 px yapiyor; dokunma hedefi kurali
      geregi 44 px korunur (telefonda dokunulan yer burasi). */
-  .app .bd-zil.circle-btn { display: grid; width: 44px; min-width: 44px; height: 44px; }
-  .app .bd-profil-link.avatar-button { width: 44px; min-width: 44px; height: 44px; }
   .app .bd-coin-hap.coin-pill { height: 44px; padding: 0 9px; font-size: 11px; }
 }
 
@@ -350,15 +316,7 @@ body.bd-oyun-modu .shell { padding-top: 16px; }
   color: rgba(255, 255, 255, .82);
 }
 .tournament-card .bd-turnuva-kalanlar b { color: var(--gold); }
-.tournament-card .trophy,
-.tournament-card .bd-turnuva-canli { color: #fff; }
-.tournament-card .bd-turnuva-canli {
-  display: flex; align-items: center; gap: 8px;
-  font-weight: 900; font-size: 15px; margin: 14px 0 4px;
-}
-.tournament-card .bd-turnuva-canli .canli-nokta {
-  width: 9px; height: 9px; border-radius: 50%; background: #ff5b5b;
-}
+.tournament-card .trophy { color: #fff; }
 
 /* Oyuncu şeridi: avatar bir bileşen (çerçeveli), prototipte <img> idi. */
 .app span.player-avatar {
@@ -398,8 +356,7 @@ body.bd-oyun-modu .shell { padding-top: 16px; }
 
 /* "Seni bekleyenler" satırları tema.css'ten geliyor; yeni kart içinde
    ikinci bir çerçeve çizmesinler. */
-.section .bd-devam-eden,
-.section .bd-davet-bekliyor { box-shadow: none; }
+.section .bd-devam-eden { box-shadow: none; }
 
 /* ============================================================
    G) MAÇ EKRANLARI — prototipin `match.html` görünümü
@@ -423,58 +380,8 @@ body.bd-oyun-modu {
 body.bd-oyun-modu .shell { max-width: 970px; padding: 0 18px 24px; }
 
 /* ---- Üst şerit (prototip `.match-top`) ---- */
-body.bd-oyun-modu .bd-mac-ust-serit {
-  height: 68px;
-  max-width: 1100px;
-  margin: auto;
-  display: grid;
-  grid-template-columns: 50px 1fr 50px;
-  align-items: center;
-  padding: 0 18px;
-  background: none; border: 0; box-shadow: none;
-}
-body.bd-oyun-modu .bd-mac-cikis,
-body.bd-oyun-modu .bd-mac-ses {
-  width: 44px; height: 44px;              /* prototip 38; dokunma hedefi 44 */
-  display: grid; place-items: center;
-  border: 1px solid rgba(255, 255, 255, .13);
-  border-radius: 12px;
-  background: rgba(255, 255, 255, .06);
-  color: #fff;
-  box-shadow: none;
-}
-body.bd-oyun-modu .bd-mac-ses { justify-self: end; }
-body.bd-oyun-modu .bd-mac-mod-rozet {
-  justify-self: center;
-  color: #96a8d0;
-  font-size: 10px; font-weight: 900; letter-spacing: 1.5px;
-  text-transform: uppercase;
-  background: none; border: 0; padding: 0;
-}
 
 /* ---- Skor tabelası (prototip `.scoreboard` + `.contestant`) ---- */
-body.bd-oyun-modu .skor-tabela.bd-vs {
-  display: grid;
-  grid-template-columns: 1fr 250px 1fr;
-  align-items: center;
-  background: none; border: 0; box-shadow: none;
-  margin: 8px auto 18px;
-}
-body.bd-oyun-modu .skor-tabela .taraf {
-  display: flex; align-items: center; gap: 11px;
-  background: none; border: 0; box-shadow: none; padding: 0;
-}
-body.bd-oyun-modu .skor-tabela .taraf .isim { color: #fff; font-weight: 900; font-size: 13px; }
-body.bd-oyun-modu .skor-tabela .taraf .bd-vs-ilerleme { color: #96a8d0; font-size: 10px; font-weight: 800; }
-body.bd-oyun-modu .skor-tabela .taraf .skor {
-  font: 800 24px/1 "Baloo 2", system-ui, sans-serif; color: var(--gold);
-}
-body.bd-oyun-modu .skor-tabela .taraf.geride { opacity: .62; }
-body.bd-oyun-modu .bd-vs-rozet {
-  justify-self: center;
-  color: #fff; background: rgba(255, 255, 255, .08);
-  border: 1px solid rgba(255, 255, 255, .13);
-}
 
 /* ---- Soru kartı (prototip `.question-card`) ---- */
 body.bd-oyun-modu .bd-soru {
@@ -492,25 +399,11 @@ body.bd-oyun-modu .bd-soru-metin {
   font: 800 29px/1.2 "Baloo 2", system-ui, sans-serif;
   color: var(--ink);
 }
-body.bd-oyun-modu .bd-soru.bd-soru-uzun .bd-soru-metin { font-size: 24px; }
-body.bd-oyun-modu .bd-soru.bd-soru-cok-uzun .bd-soru-metin { font-size: 20px; }
 /* Soru başlığı: solda "SORU N" + kategori çipi, sağda süre halkası.
    Prototipin üç sütunlu `question-meta` düzeni (1fr 80px 1fr) burada
    ÇALIŞMIYOR: prototipte sağda "+100 PUAN" vardı, bizde sağ hücre boş ve
    sol hücre 1fr'ye sıkışınca "SORU 1" ile kategori çipi alt alta düşüyordu
    (telefonda ölçüldü: sol hücre 120 px). Tek satır, esnek düzen. */
-body.bd-oyun-modu .bd-soru-ust {
-  display: flex; align-items: center; justify-content: space-between; gap: 12px;
-}
-body.bd-oyun-modu .bd-soru-no {
-  display: flex; align-items: center; gap: 8px; min-width: 0;
-  font-size: 11px; font-weight: 900; letter-spacing: 1px; color: #5f7090;
-  text-transform: uppercase; white-space: nowrap;
-}
-body.bd-oyun-modu .bd-soru-kategori {
-  white-space: nowrap; font-size: 10px; padding: 4px 9px;
-  overflow: hidden; text-overflow: ellipsis; max-width: 42vw;
-}
 
 /* SÜRE HALKASI — hizalama düzeltmesi.
    `src/styles.css` SVG'yi 48×48 sabitliyor; kabı 66 px yapınca halka
@@ -558,7 +451,6 @@ body.bd-oyun-modu .bd-secenek.yanlis .bd-harf { background: #ef4b4b; color: #fff
   body.bd-oyun-modu .bd-secenekler { grid-template-columns: 1fr; }
   body.bd-oyun-modu .bd-soru { padding: 20px 16px; border-radius: 22px; }
   body.bd-oyun-modu .bd-soru-metin { font-size: 21px; margin: 16px auto; }
-  body.bd-oyun-modu .skor-tabela.bd-vs { grid-template-columns: 1fr auto 1fr; }
 }
 
 /* ---- Joker çubuğu ----
@@ -566,7 +458,6 @@ body.bd-oyun-modu .bd-secenek.yanlis .bd-harf { background: #ef4b4b; color: #fff
    Paket 32 B'nin ölçülmüş bir ürün kararıdır (kontrast hesabı tema.css'te
    yazılı). Prototipin soluk gri fişleri o kararı geri alırdı.
    Burada yalnız çubuğun YERLEŞİMİ var. */
-body.bd-oyun-modu .bd-joker-cubuk { justify-content: center; }
 
 /* ============================================================
    H) LİG SAYFASI (prototip `league.html`)
@@ -579,69 +470,12 @@ body.bd-oyun-modu .bd-joker-cubuk { justify-content: center; }
 .app .league-tabs { flex-wrap: wrap; }
 .app .scope-tabs { overflow-x: auto; scrollbar-width: none; }
 .app .scope-tabs::-webkit-scrollbar { display: none; }
-.app .scope-tabs .bd-sekme,
-.app .period-tabs .bd-alt-sekme {
-  height: 44px;                 /* prototip 39/33; dokunma hedefi 44 */
-  padding: 0 15px;
-  border: 0;
-  border-radius: 11px;
-  background: transparent;
-  color: #77859e;
-  font-size: 11px;
-  font-weight: 900;
-  box-shadow: none;
-  white-space: nowrap;
-}
-.app .scope-tabs .bd-sekme.aktif {
-  background: var(--navy);
-  color: #fff;
-  box-shadow: 0 3px 0 #0b1329;
-}
 .app .period-tabs { padding: 3px; border-radius: 11px; background: #edf2f9; }
-.app .period-tabs .bd-alt-sekme.aktif {
-  background: #fff;
-  color: var(--ink);
-  box-shadow: 0 2px 7px rgba(30, 48, 82, .1);
-}
 
 /* Lig satırı */
-.app .bd-lig-satir.rank-row {
-  display: flex; align-items: center; gap: 12px;
-  min-height: 62px; padding: 8px 12px;
-  border: 1px solid #e4eaf3; border-radius: 15px; background: #fff;
-  box-shadow: none;
-}
-.app .bd-lig-satir.rank-row.ben { border: 2px solid #ff8a50; background: #fff6f0; }
-.app .bd-lig-satir.rank-row .bd-sira {
-  width: 22px; text-align: center;
-  font: 800 14px "Baloo 2", system-ui, sans-serif; color: #75839e;
-}
-.app .bd-lig-satir.rank-row .bd-lig-isim { font: 800 14px "Baloo 2", system-ui, sans-serif; }
-.app .bd-lig-satir.rank-row .bd-lig-puan { font: 800 15px "Baloo 2", system-ui, sans-serif; }
 .app .ranking-list { display: flex; flex-direction: column; gap: 9px; }
 
 /* Podyum */
-.app .bd-podyum.podium {
-  display: flex; align-items: flex-end; justify-content: center;
-  gap: 14px; padding: 16px 10px 0;
-  background: none; box-shadow: none;
-}
-.app .bd-podyum.podium .bd-podyum-yer {
-  position: relative; width: 155px;
-  display: flex; align-items: center; flex-direction: column;
-  padding-top: 9px;
-  border: 1px solid var(--line);
-  border-radius: 24px 24px 8px 8px;
-  background: linear-gradient(#fff, #f2f6fc);
-  box-shadow: none;
-}
-.app .bd-podyum.podium .yer-1 {
-  border-color: #efd47a;
-  background: linear-gradient(#fff9df, #fff);
-  box-shadow: 0 9px 30px rgba(223, 174, 42, .14);
-}
-.app .bd-podyum.podium .bd-podyum-ad { margin-top: 13px; font: 800 14px "Baloo 2", system-ui, sans-serif; }
-.app .bd-podyum.podium .bd-podyum-puan { font-size: 11px; font-weight: 900; color: #7d8ba4; }
 
 /* Pankart: prototipte kalkan görseli vardı; oyunda lig kimliği yazıyla
    veriliyor (rütbe rozetiyle karışmasın diye ayrı bir kalkan çizilmedi). */
@@ -651,7 +485,6 @@ body.bd-oyun-modu .bd-joker-cubuk { justify-content: center; }
 
 @media (max-width: 850px) {
   .app .league-banner { grid-template-columns: 1fr; min-height: 0; padding: 20px; }
-  .app .bd-podyum.podium .bd-podyum-yer { width: auto; flex: 1; min-width: 0; }
 }
 
 /* ============================================================
@@ -718,15 +551,6 @@ body.bd-oyun-modu .bd-joker-cubuk { justify-content: center; }
 .app .btn:disabled { background: #c5cdd9; color: #fff; box-shadow: 0 4px 0 #9fa9b9; }
 
 /* ---- Liste satırı (prototip `.friend-row`) ---- */
-.app .liste-satir {
-  display: flex; align-items: center; gap: 11px;
-  min-height: 75px; padding: 10px 12px;
-  border: 1px solid #e4eaf3; border-radius: 17px; background: #fff;
-  box-shadow: none;
-}
-.app .liste-satir + .liste-satir { margin-top: 9px; }
-.app .liste-satir .isim { font: 800 15px/1.15 "Baloo 2", system-ui, sans-serif; }
-.app .liste-satir .detay { font-size: 11px; font-weight: 800; color: #7c89a1; }
 
 /* ---- Form alanları (prototip `.friend-search` / ayar alanları) ---- */
 .app input[type="text"],
@@ -746,45 +570,10 @@ body.bd-oyun-modu .bd-joker-cubuk { justify-content: center; }
 .app textarea:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
 
 /* ---- Mesajlar düğmesi (arkadaşlar sayfası başlığı) ---- */
-.app .bd-mesajlar-dugme.messages-button {
-  flex: none; width: auto; align-self: flex-end;
-  display: inline-flex; align-items: center; gap: 8px;
-  height: 48px; padding: 0 16px;
-  border: 1px solid var(--line); border-radius: 15px;
-  background: #fff; color: var(--ink);
-  box-shadow: 0 4px 0 #dce5f1;
-  font-weight: 900;
-}
-.app .bd-mesajlar-dugme.messages-button b {
-  display: inline-grid; place-items: center;
-  min-width: 20px; height: 20px; margin-left: 7px;
-  border-radius: 20px; background: #eb3f57; color: #fff; font-size: 10px;
-}
 
 /* ---- Sekme şeritleri (genel) ---- */
-.app .bd-sekme-ust, .app .bd-sekme-alt {
-  display: flex; gap: 5px; padding: 4px;
-  border-radius: 14px; background: #edf2fa;
-  border: 0; box-shadow: none;
-}
-.app .bd-sekme, .app .bd-alt-sekme {
-  min-height: 44px; padding: 0 14px;
-  border: 0; border-radius: 11px; background: transparent;
-  color: #71809b; font-size: 11px; font-weight: 900; box-shadow: none;
-}
-.app .bd-sekme.aktif, .app .bd-alt-sekme.aktif {
-  background: #fff; color: var(--ink); box-shadow: 0 2px 7px rgba(35, 53, 92, .1);
-}
 
 /* ---- Boş durum / maskot kutuları ---- */
-.app .bd-bos-durum, .app .bd-bos, .app .bd-lig-bos {
-  padding: 28px 20px;
-  border: 1px solid rgba(206, 218, 237, .9);
-  border-radius: 26px;
-  background: rgba(255, 255, 255, .9);
-  box-shadow: var(--shadow);
-  text-align: center;
-}
 
 /* ---- Yeni iskeletin bağlantıları alt çizgisiz ----
    tema.css'te `.app a` bağlantılara alt çizgi veriyor ve muafiyet listesi
@@ -798,8 +587,7 @@ body.bd-oyun-modu .bd-joker-cubuk { justify-content: center; }
 .app a.league-card,
 .app a.catalog-card,
 .app a.rank-row,
-.app a.friend-row,
-.app a.bd-bekleyen-bos-eylem {
+.app a.friend-row {
   text-decoration: none;
 }
 .app .brand { color: var(--ink); }
@@ -813,23 +601,6 @@ body.bd-oyun-modu .bd-joker-cubuk { justify-content: center; }
    J) DÜKKÂN (prototip `shop.html`)
    Sekmeler uygulamada <button role=tab>; prototipte <a>. Aynı görünüm.
    ============================================================ */
-.app .bd-dukkan-sekmeler.store-tabs {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 8px; margin-bottom: 16px; padding: 6px;
-  border: 1px solid var(--line); border-radius: 18px;
-  background: rgba(255, 255, 255, .75);
-  overflow: visible;
-}
-.app .bd-dukkan-sekmeler.store-tabs .bd-dukkan-sekme {
-  display: flex; align-items: center; gap: 10px;
-  min-height: 52px; padding: 10px 13px;
-  border: 0; border-radius: 13px; background: transparent;
-  color: #6c7b95; font-size: 12px; font-weight: 900;
-  box-shadow: none;
-}
-.app .bd-dukkan-sekmeler.store-tabs .bd-dukkan-sekme.aktif {
-  background: var(--navy); color: #fff; box-shadow: 0 3px 0 #0a1327;
-}
 .app .wallet-card {
   display: flex; flex-direction: column; align-items: flex-start;
   padding: 12px 16px; border-radius: 18px;
@@ -859,27 +630,17 @@ body.bd-oyun-modu .bd-joker-cubuk { justify-content: center; }
    buradan geliyor. Hata kutusu koyu panelde de okunur kalır.
    ============================================================ */
 .giris.auth-body { display: block; padding: 0; max-width: none; }
-.giris.auth-body .giris-dil { position: absolute; top: 16px; right: 16px; z-index: 2; }
-.giris.auth-body .auth-card > .sosyal-btn,
 .giris.auth-body .auth-card > form,
 .giris.auth-body .auth-card > .kart { width: 100%; max-width: none; }
-.giris.auth-body .auth-card .ayrac { margin: 14px 0; }
-.giris.auth-body .auth-showcase .slogan {
-  margin: 10px 0 0; color: #c3cfe8; font-size: 13px; font-weight: 700;
-}
 .giris.auth-body .auth-showcase h1 { color: #fff; }
-.giris.auth-body .auth-showcase .giris-maskot { margin: 16px 0 6px; }
 .giris.auth-body .auth-legal { margin-top: 14px; }
 .giris.auth-body .auth-legal a { color: #b3480c; }
 .giris.auth-body .hata-kutu { width: 100%; }
-.giris.auth-body .giris-not { margin-top: 12px; font-size: 11px; color: var(--muted); }
-.giris.auth-body .auth-card .giris-gonderildi-eylem { display: flex; gap: 8px; margin-top: 10px; }
 
 /* Dar ekranda prototip vitrini GİZLEMEZ, alta alır (marka ve slogan
    kaybolmasın). Kurallar prototipin kendi kırılma noktalarından. */
 @media (max-width: 850px) {
   .giris.auth-body .auth-showcase { min-height: 0; padding: 28px 8vw; }
-  .giris.auth-body .auth-showcase .slogan { font-size: 12px; }
 }
 
 /* ============================================================
@@ -907,57 +668,10 @@ body.bd-oyun-modu .bd-joker-cubuk { justify-content: center; }
    ============================================================ */
 
 /* ---- Oyuncu kartı (prototip `player.html`) ---- */
-.app .bd-oyuncu-karti {
-  border-radius: 28px;
-  overflow: hidden;
-  padding: 0 0 20px;
-}
-.app .bd-oyuncu-karti .bd-oyuncu-ust {
-  position: relative;
-  padding: 58px 22px 16px;
-  background: linear-gradient(145deg, #1d2f60, #111b38);
-  color: #fff;
-}
-.app .bd-oyuncu-karti .bd-oyuncu-ad,
-.app .bd-oyuncu-karti .bd-oyuncu-konum { color: #fff; }
-.app .bd-oyuncu-karti .bd-oyuncu-avatar {
-  border: 4px solid #fff; border-radius: 22px; background: #eaf0fa;
-}
-.app .bd-oyuncu-karti .bd-oyuncu-sayilar {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-  gap: 8px; margin: 16px 18px 0;
-}
-.app .bd-oyuncu-karti .bd-oyuncu-sayilar > * {
-  display: flex; flex-direction: column; align-items: center;
-  padding: 10px; border-radius: 12px; background: #f3f6fa;
-}
-.app .bd-oyuncu-karti .bd-oyuncu-eylemler { margin: 14px 18px 0; gap: 9px; }
-.app .bd-oyuncu-kapat { color: #fff; z-index: 2; }
 
 /* ---- Bildirim paneli (prototip `notifications.html`) ---- */
-.app .bd-zil-liste {
-  border-radius: 22px;
-  border: 1px solid rgba(206, 218, 237, .9);
-  background: #fff;
-  box-shadow: var(--shadow);
-}
-.app .bd-zil-satir {
-  min-height: 62px;
-  border-radius: 14px;
-  border: 1px solid #eef2f8;
-  background: #fff;
-}
-.app .bd-zil-satir + .bd-zil-satir { margin-top: 7px; }
 
 /* ---- Davet kodu (prototip `invite.html`) ---- */
-.app .bd-davet-kod {
-  border-radius: 15px;
-  border: 1px dashed var(--line);
-  background: #f9fbff;
-}
-.app .bd-davet-kod-metin {
-  font: 800 20px/1 "Baloo 2", system-ui, sans-serif; letter-spacing: 2px; color: var(--ink);
-}
 
 /* ============================================================
    N) TURNUVA (prototip `tournament.html`)
@@ -965,24 +679,6 @@ body.bd-oyun-modu .bd-joker-cubuk { justify-content: center; }
    geri sayım oyun_ayarlari.turnuva_saatleri'nden (lib/zaman.js);
    prototipteki "BU AKŞAM · 20:00" sabiti KULLANILMADI.
    ============================================================ */
-.app .geri-sayim-kart {
-  position: relative;
-  overflow: hidden;
-  padding: 28px;
-  border-radius: 30px;
-  border: 0;
-  background: radial-gradient(circle at 78% 20%, rgba(255, 205, 86, .2), transparent 26%),
-              linear-gradient(145deg, #1d2f60, #111b38);
-  color: #fff;
-  box-shadow: 0 22px 54px rgba(24, 39, 79, .2);
-  text-align: center;
-}
-.app .geri-sayim-kart > div:first-child { color: var(--gold) !important; letter-spacing: 1.4px; }
-.app .geri-sayim-kart .bd-turnuva-kalanlar { color: rgba(255, 255, 255, .82); font-size: 11px; font-weight: 800; }
-.app .geri-sayim-kart .bd-turnuva-kalanlar b { color: var(--gold); }
-.app .geri-sayim-kart .btn { margin-top: 16px; }
-.app .geri-sayim-kart .countdown { justify-content: center; margin: 16px 0; }
-.app .bd-haftalik-giysi { color: rgba(255, 255, 255, .85); font-size: 12px; margin-top: 10px; }
 
 /* Turnuva durum bantları */
 .app .durum-bandi {
@@ -1014,15 +710,6 @@ body.bd-oyun-modu .bd-joker-cubuk { justify-content: center; }
   border-radius: 36px; border: 4px solid #fff; background: #e9effa;
   box-shadow: 0 18px 35px rgba(0, 0, 0, .25);
   transform: rotate(-5deg);
-}
-.app .bd-modlar-rakip {
-  position: absolute; right: 15px;
-  display: grid; place-items: center;
-  width: 124px; height: 124px;
-  border-radius: 36px; border: 4px solid #fff;
-  background: rgba(255, 255, 255, .12);
-  color: #fff; font: 900 44px "Baloo 2", system-ui, sans-serif;
-  transform: rotate(5deg);
 }
 .app .duel-visual b {
   z-index: 2;
@@ -1069,31 +756,12 @@ body.bd-oyun-modu .bd-joker-cubuk { justify-content: center; }
    biniyor ve hata gibi görünüyordu. Konum kuralları burada yeniden verilir;
    tema.css'teki eski `%42` kuralı silinmedi, yalnız geçersiz kaldı. */
 .app .bd-soru-metin { position: relative; }
-.app .bd-soru-metin > .bd-son-saniye {
-  position: absolute;
-  left: 50%; top: 50%;
-  font-size: 96px;
-  z-index: 0;
-}
-@media (max-width: 560px) {
-  .app .bd-soru-metin > .bd-son-saniye { font-size: 74px; }
-}
 
 /* Soru gelmedi kutusu (oyun/lib/soruCek.js denemeleri tükendiğinde).
    Maç ekranı koyu zeminli; kutu beyaz kart olarak okunur durur. */
-.app .bd-soru-hata {
-  display: flex; flex-direction: column; align-items: center; gap: 10px;
-  text-align: center; padding: 26px 20px;
-}
-.app .bd-soru-hata p { margin: 0; color: var(--muted); font-weight: 700; }
 
 /* "Cevabın gitmedi" uyarısı: süre doldu bandıyla aynı biçim, farklı renk.
    (QuestionCard — cevap RPC'si hata verince seçim geri alınır.) */
-.app .bd-cevap-hata {
-  background: linear-gradient(180deg, #ffb74d, #f08c00);
-  box-shadow: 0 4px 0 #b36800;
-  color: #2b1100;
-}
 
 /* ============================================================
    REVİZYON 2 — DAHA AÇIK, MOBİL OYUN HİSSİ
@@ -1124,42 +792,6 @@ body.bd-oyun-modu {
   background-attachment: fixed;
   color: var(--ink);
 }
-body.bd-oyun-modu .bd-mac-ust-serit {
-  height: 62px;
-  margin-bottom: 4px;
-}
-body.bd-oyun-modu .bd-mac-cikis,
-body.bd-oyun-modu .bd-mac-ses {
-  border-color: #d7e1ef;
-  background: rgba(255,255,255,.9);
-  color: #25365d;
-  box-shadow: 0 4px 0 #d9e3f0;
-}
-body.bd-oyun-modu .bd-mac-mod-rozet {
-  color: #536481;
-  background: rgba(255,255,255,.82);
-  border: 1px solid #dae4f1;
-  border-radius: 999px;
-  padding: 7px 13px;
-}
-body.bd-oyun-modu .skor-tabela.bd-vs {
-  max-width: 820px;
-  margin: 5px auto 14px;
-  padding: 12px 16px;
-  border: 1px solid rgba(205,218,237,.95);
-  border-radius: 22px;
-  background: rgba(255,255,255,.84);
-  box-shadow: 0 10px 28px rgba(40,67,113,.08);
-}
-body.bd-oyun-modu .skor-tabela .taraf .isim { color: #17264a; }
-body.bd-oyun-modu .skor-tabela .taraf .bd-vs-ilerleme { color: #70809c; }
-body.bd-oyun-modu .skor-tabela .taraf .skor { color: #e35a1d; }
-body.bd-oyun-modu .bd-vs-rozet {
-  color: #fff;
-  background: linear-gradient(145deg,#273b6a,#17264a);
-  border: 0;
-  box-shadow: 0 4px 0 #0d1832;
-}
 body.bd-oyun-modu .bd-soru {
   border: 1px solid #dce6f2;
   background: rgba(255,255,255,.97);
@@ -1172,13 +804,6 @@ body.bd-oyun-modu .bd-secenek {
 }
 body.bd-oyun-modu .bd-secenek:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 6px 0 #d4dfed; }
 body.bd-oyun-modu .bd-secenek:not(:disabled):active { transform: translateY(3px); box-shadow: 0 1px 0 #dce5f1; }
-body.bd-oyun-modu .bd-joker-cubuk {
-  margin-top: 14px;
-  padding: 10px;
-  border: 1px solid #dce5f1;
-  border-radius: 18px;
-  background: rgba(255,255,255,.76);
-}
 
 /* Düello: arena hissi korunur, ağır karanlık panel ve sert kenar halesi azalır. */
 body.bd-oyun-modu .bd-duello { max-width: 880px; margin-inline: auto; }
@@ -1236,15 +861,9 @@ body.bd-oyun-modu .bd-duello-jokerler {
    alır; masaüstü prototipinin sabit/örtüşen kutu davranışı dar ekrana taşınmaz. */
 @media (max-width: 560px) {
   .app .leaderboard { overflow: visible; min-width: 0; }
-  .app .bd-lig-liste { display: flex; width: 100%; min-width: 0; }
-  .app .bd-lig-satir.rank-row { position: relative; width: 100%; min-width: 0; opacity: 1; visibility: visible; }
-  .app .bd-lig-satir-ac { width: 100%; min-width: 0; color: var(--ink); }
-  .app .bd-lig-bilgi { flex: 1; min-width: 0; }
-  .app .bd-lig-isim { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 }
 
 /* Dükkân skill illüstrasyonları — tamamı CSS + mevcut SVG ikon seti. */
-.app .bd-paket > .bd-skill-gorsel { flex: 0 0 72px; }
 .bd-skill-gorsel {
   position: relative;
   display: grid;
@@ -1274,59 +893,13 @@ body.bd-oyun-modu .bd-duello-jokerler {
 
 /* Skill dükkânı kahraman görseli: üretilmiş şeffaf oyun illüstrasyonu.
    Coin sekmesinde gösterilmez; görsel ürünün ne sattığını tek bakışta anlatır. */
-.app .shop-heading.bd-shop-skill-baslik {
-  position: relative;
-  min-height: 220px;
-  align-items: center;
-  overflow: hidden;
-  padding: 24px 28px;
-  border: 1px solid #d8e3f0;
-  border-radius: 28px;
-  background:
-    radial-gradient(circle at 68% 45%,rgba(255,190,69,.23),transparent 30%),
-    linear-gradient(135deg,rgba(255,255,255,.92),rgba(239,246,255,.92));
-  box-shadow: 0 14px 36px rgba(36,61,104,.1);
-}
-.app .bd-shop-skill-hero {
-  align-self: center;
-  width: min(38vw, 360px);
-  max-height: 205px;
-  object-fit: contain;
-  filter: drop-shadow(0 15px 18px rgba(31,51,91,.18));
-}
-.app .shop-heading.bd-shop-skill-baslik > div:first-child { min-width: 225px; }
-.app .shop-heading.bd-shop-skill-baslik .wallet-card { flex: 0 0 auto; }
 
 @media (max-width: 560px) {
   body.bd-oyun-modu .shell { padding-inline: 10px; }
-  body.bd-oyun-modu .bd-mac-ust-serit { padding-inline: 4px; }
-  body.bd-oyun-modu .skor-tabela.bd-vs { padding: 9px; border-radius: 17px; }
   body.bd-oyun-modu .bd-soru { padding: 18px 14px; box-shadow:0 12px 32px rgba(37,61,104,.12),0 4px 0 #dfe8f4; }
   body.bd-oyun-modu .bd-duello-sahne { padding: 14px 11px; border-radius: 21px; }
   body.bd-oyun-modu .bd-duello-ust { padding: 7px; gap: 5px; }
   body.bd-oyun-modu .bd-duello-oyuncu { padding: 5px; }
-  .app .bd-paket > .bd-skill-gorsel { flex-basis: 58px; width:58px; height:58px; border-radius:15px; }
   .bd-skill-sandik { left:11px; right:11px; }
   .bd-skill-kartlar i { width:21px; height:23px; }
-  .app .shop-heading.bd-shop-skill-baslik {
-    min-height: 0;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 6px 10px;
-    padding: 18px 16px 14px;
-  }
-  .app .shop-heading.bd-shop-skill-baslik > div:first-child { min-width: 0; }
-  .app .bd-shop-skill-hero {
-    grid-column: 1 / -1;
-    grid-row: 2;
-    width: min(100%, 300px);
-    max-height: 150px;
-    justify-self: center;
-    margin: -8px 0 -4px;
-  }
-  .app .shop-heading.bd-shop-skill-baslik .wallet-card {
-    grid-column: 2;
-    grid-row: 1;
-    align-self: start;
-  }
 }
