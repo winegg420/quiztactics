@@ -7812,3 +7812,17 @@ otomatik akla gelmesi için; proje kapsamında kuruldu.
   Meydan ikram işi kapatıldı), 321 (last_seen 5 sn'de bir), CI testleri push'ta ve gecede kapalı,
   istemci sorgu sıklığı yarıya.
 - **Test (canlı, tek sefer):** Klasik 20/20, Düello saldıran 10 / savunan 10 geçti.
+
+## 2026-09-23 — Ana sayfa 3 seçenek + maç ekranı (kategori zemini, oyuncu level'i)
+**Araç:** Claude Code (tek şerit, alt ajan yok)
+**Neden:** Ida önceki ana sayfayı reddetti ("mevcut siteyi tek ekrana koymuşsun"); maç ekranında kategori rengi ve oyuncular.
+
+- **Ana sayfa seçenekleri** (asıl ana sayfaya dokunulmadı): ,  (kaydırmasız lobi:
+  avatar sahnesi + dev Oyna/Düello),  (oyuncu vitrini + yatay mod kartları + etkinlik akışı),   (oyuncu ortada, modlar yörüngede, mobilde kendi sekme çubuğu). Ortak veri   (Home.jsx ile aynı kaynaklar, yalnız var olan veri). Mobil ve masaüstü ayrı yerleşim. 390/1280 taşma yok;
+  36 düğme tıklama testi (390 + 1280) doğru sayfaya gidiyor.
+- **Maç ekranı:** kategoriye göre pastel zemin (, --qt-kat-* token,
+  0,5 sn geçiş, pastelde yazı rolleri koyu). Soru RPC'leri kategori döndürmüyordu → ekleyici
+   (322). Oyuncu şeridinde level (; profiles.lig
+  istemciye kapalı, başkasının ligi gösterilmez); Turnuva/Grup'ta MacUstSerit'e kendi avatarın + oyuncu sayısı.
+  Canlı testte yakalanan hata: kategori kancası  tanımından önce çalışıp Klasik'i çökertti (düzeldi).
+- **Test (canlı):** Klasik 20/20, Düello saldıran 6 / savunan 5; 360/390/1280 kesişim ve taşma yok.
