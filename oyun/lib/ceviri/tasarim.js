@@ -177,6 +177,7 @@ export default {
   "Kaybettin": "You lost",
   "Son 1 saat": "Last hour",
   "Serbest": "Casual",
+  "Maç türü": "Match type",
   "YENİ": "NEW",
   "Çip ve sekme": "Chip and tabs",
   "Bilim": "Science",

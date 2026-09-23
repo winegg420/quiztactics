@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { QtModal, QtModKart, QtDugme, QtIkon } from "../tasarim/index.js";
 import "../tasarim/ekranlar/a-modlar.css";
 import AvatarCerceve from "./AvatarCerceve.jsx";
+import DereceliAnahtari from "./DereceliAnahtari.jsx";
 import { ayarlar } from "../lib/ayarlar.js";
 import { tt } from "../lib/dil.js";
 
@@ -24,9 +25,15 @@ import { tt } from "../lib/dil.js";
  * @param {string}  [props.bekleMetni] Paket 35 B: seçim sürerken kartta (varsayılan "Davet gönderiliyor…")
  * @param {boolean} [props.alttan]     Paket 35 B: pencere alttan açılır (ana sayfa, tek elle erişim)
  *
+ * @param {boolean} [props.dereceli]   23 Eyl 2026: verilirse pencerenin EN ÜSTÜNDE "Serbest | Dereceli"
+ *        anahtarı çizilir (ana sayfa OYNA / Saf Bilgi) — oyun sessizce kayıtlı tercihle başlamaz.
+ * @param {(d: boolean) => void} [props.onDereceli]
+ * @param {string[]} [props.modlar]    yalnız bu modlar gösterilir (ör. Saf Bilgi kısayolu: ["saf"])
+ *
  * `profil` null ise (ana sayfa "Hemen oyna") avatar çizilmez, başlık tek satır.
  */
-export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekleMetni, alttan = false }) {
+export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekleMetni, alttan = false,
+                                            dereceli, onDereceli, modlar }) {
   const [calisan, setCalisan] = useState(null);   // "klasik" | "duello" | null
   const [hata, setHata] = useState(null);
   const [odul, setOdul] = useState(null);
@@ -79,7 +86,7 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
         ? tt("Ödül: …")
         : tt("Ödül: —");
 
-  const SECENEKLER = [
+  const TUM_SECENEKLER = [
     {
       mod: "klasik",
       ikon: "klasik",
@@ -108,6 +115,8 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
     },
   ];
 
+  const SECENEKLER = modlar ? TUM_SECENEKLER.filter((x) => modlar.includes(x.mod)) : TUM_SECENEKLER;
+
   // Yön A: QtModal (body'ye portal, Esc, odak tuzağı). Seçim sürerken kapatılamaz.
   return (
     <QtModal
@@ -129,6 +138,7 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
         </QtDugme>
       }
     >
+      {onDereceli && <DereceliAnahtari dereceli={dereceli} onDegistir={onDereceli} className="a-modsecim-dereceli" />}
       <div className="a-modsecim-liste" role="group" aria-label={baslik ?? tt("{ad} ile oyun modu seç", { ad })}>
         {SECENEKLER.map((s, i) => (
           <QtModKart

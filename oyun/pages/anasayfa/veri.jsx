@@ -215,8 +215,8 @@ export function useAnaSayfaVerisi() {
 export function useOyunBaslat() {
   const { user, profile } = useAuth();
   const navigate = useNavigate();
-  const [dereceliTercih] = useDereceliTercih();
-  const [modAcik, setModAcik] = useState(false);
+  const [dereceliTercih, setDereceliTercih] = useDereceliTercih();
+  const [modAcik, setModAcik] = useState(false);   // false | "hepsi" | "saf"
   const [arama, setArama] = useState(null);      // { dereceli, jokersiz }
   const [yarim, setYarim] = useState(null);
 
@@ -250,6 +250,8 @@ export function useOyunBaslat() {
       )}
       {modAcik && (
         <ModSecimPenceresi profil={null} alttan baslik={tt("Nasıl oynamak istersin?")} bekleMetni={tt("Rakip aranıyor…")}
+          dereceli={dereceliTercih} onDereceli={setDereceliTercih}
+          modlar={modAcik === "saf" ? ["saf"] : undefined}
           onSec={async (mod) => {
             setModAcik(false);
             if (mod === "duello") { navigate(y("/duello")); return null; }
@@ -267,8 +269,9 @@ export function useOyunBaslat() {
   );
 
   return {
-    oyna: () => setModAcik(true),
-    safBilgi: () => hemenOyna(dereceliTercih, true),
+    oyna: () => setModAcik("hepsi"),
+    // Saf Bilgi kısayolu da aynı pencereden geçer: tür her seferinde görünür, sessizce başlamaz.
+    safBilgi: () => setModAcik("saf"),
     git: (yol) => navigate(y(yol)),
     katmanlar,
   };
