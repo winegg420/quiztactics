@@ -222,22 +222,24 @@ altında, kırmızı çizgi `dusme_sirasi`'nın üstünde. "Altın'a çıkmana 4
 | `lig_altin` | Altın Lig / Gold League | nadir | lig | — | Altın'a çık |
 | `lig_elmas` | Elmas Lig / Diamond League | epik | lig | — | Elmas'a çık |
 | `lig_efsane` | Efsane Lig / Legend League | efsanevi | lig | — | Efsane'ye çık |
-| `level_25` | Level 25 Madalyonu / Medallion | nadir | level | — | Level 25 rozeti |
-| `level_50` | Level 50 Yıldızı / Star | epik | level | — | Level 50 rozeti |
-| `level_75` | Level 75 Kanatları / Wings | epik | level | — | Level 75 rozeti |
-| `level_100` | Level 100 Tacı / Crown | efsanevi | level | — | Level 100 rozeti |
-| `dukkan_gece` | Gece Mavisi / Night Blue | siradan | dukkan | 400 | — |
-| `dukkan_nane` | Nane / Mint | siradan | dukkan | 400 | — |
-| `dukkan_mercan` | Mercan / Coral | siradan | dukkan | 400 | — |
-| `dukkan_okyanus` | Okyanus / Ocean | nadir | dukkan | 1.000 | — |
-| `dukkan_zumrut` | Zümrüt / Emerald | nadir | dukkan | 1.000 | — |
-| `dukkan_yakut` | Yakut / Ruby | nadir | dukkan | 1.000 | — |
-| `dukkan_ametist` | Ametist / Amethyst | epik | dukkan | 2.500 | — |
-| `dukkan_kutup` | Kutup Işığı / Aurora | epik | dukkan | 2.500 | — |
-| `dukkan_nebula` | Nebula / Nebula | epik | dukkan | 2.500 | — |
-| `dukkan_anka` | Anka / Phoenix | efsanevi | dukkan | 6.000 | — |
-| `dukkan_ejder` | Ejder / Dragon | efsanevi | dukkan | 6.000 | — |
-| `dukkan_gunes` | Güneş Tacı / Sun Crown | efsanevi | dukkan | 6.000 | — |
+| `level_25` | Level 25 Bronz / Level 25 Bronze | nadir | level | — | Level 25 rozeti |
+| `level_50` | Level 50 Gümüş / Level 50 Silver | epik | level | — | Level 50 rozeti |
+| `level_75` | Level 75 Altın / Level 75 Gold | epik | level | — | Level 75 rozeti |
+| `level_100` | Level 100 Altın Kanatlar / Level 100 Golden Wings | efsanevi | level | — | Level 100 rozeti |
+| `dukkan_gece` | Bulut / Cloud | siradan | dukkan | 400 | — |
+| `dukkan_nane` | Çiçek Bahçesi / Flower Garden | siradan | dukkan | 400 | — |
+| `dukkan_mercan` | Neon Çizgi / Neon Line | siradan | dukkan | 400 | — |
+| `dukkan_okyanus` | Okyanus Dalgası / Ocean Wave | nadir | dukkan | 1.000 | — |
+| `dukkan_zumrut` | Yıldız Tozu / Stardust | nadir | dukkan | 1.000 | — |
+| `dukkan_yakut` | Buz Kristali / Ice Crystal | nadir | dukkan | 1.000 | — |
+| `dukkan_ametist` | Ejder Pulu / Dragon Scale | epik | dukkan | 2.500 | — |
+| `dukkan_kutup` | Şimşek / Lightning | epik | dukkan | 2.500 | — |
+| `dukkan_nebula` | Gezegen Halkası / Planet Ring | epik | dukkan | 2.500 | — |
+| `dukkan_anka` | Alev Kanatları / Flame Wings | efsanevi | dukkan | 6.000 | — |
+| `dukkan_ejder` | Kozmik / Cosmic | efsanevi | dukkan | 6.000 | — |
+| `dukkan_gunes` | Kraliyet / Royal | efsanevi | dukkan | 6.000 | — |
+
+> Adlar 23 Eyl 2026 (migration 360) temalı adlara geçti; anahtar, nadirlik, fiyat ve sahiplikler değişmedi.
 
 Etkinlik çerçevesi: bugün **yok** (eşyalar/avatar kataloğunda çerçeve bulunmadı). `kaynak = 'etkinlik'` ileride.
 Lig çerçevesi görsel tanımı briften (Gümüş kalkan, Altın defne, Elmas kristal, Efsane alev aura) —

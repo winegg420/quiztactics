@@ -21,12 +21,12 @@ const ROZET_GRUPLARI = [
 ];
 
 const BOLUMLER = [
-  { baslik: "Dükkân · Sıradan", aciklama: "Gri-mavi. Kalın tek renk halka, iç gölge, kabartma.", filtre: (t) => t.tur === "nadirlik" && t.malzeme === "siradan" },
-  { baslik: "Dükkân · Nadir", aciklama: "Mavi. İki tonlu metal, üstte küçük süs.", filtre: (t) => t.tur === "nadirlik" && t.malzeme === "nadir" },
-  { baslik: "Dükkân · Epik", aciklama: "Mor. Çok katmanlı halka, mücevherler, 6 sn'de bir parıltı.", filtre: (t) => t.tur === "nadirlik" && t.malzeme === "epik" },
-  { baslik: "Dükkân · Efsanevi", aciklama: "Altın-turuncu. Dönen ışık halkası, kıvılcımlar, taç/kanat.", filtre: (t) => t.tur === "nadirlik" && t.malzeme === "efsanevi" },
-  { baslik: "Lig çerçeveleri", aciklama: "Lig atlayınca kazanılır, satılmaz.", filtre: (t) => t.tur === "lig" },
-  { baslik: "Level çerçeveleri", aciklama: "Level 25 · 50 · 75 · 100 rozetiyle gelir.", filtre: (t) => t.tur === "level" },
+  { baslik: "Dükkân · Sıradan", aciklama: "Sade ama temiz, durağan: Bulut · Çiçek Bahçesi · Neon Çizgi.", filtre: (t) => t.tur === "nadirlik" && t.malzeme === "siradan" },
+  { baslik: "Dükkân · Nadir", aciklama: "Hafif parıltı: Buz Kristali · Okyanus Dalgası · Yıldız Tozu.", filtre: (t) => t.tur === "nadirlik" && t.malzeme === "nadir" },
+  { baslik: "Dükkân · Epik", aciklama: "Belirgin süs, 7 sn'de bir parıltı: Ejder Pulu · Şimşek · Gezegen Halkası.", filtre: (t) => t.tur === "nadirlik" && t.malzeme === "epik" },
+  { baslik: "Dükkân · Efsanevi", aciklama: "Sürekli canlı efekt + seyrek kıvılcım: Alev Kanatları · Kraliyet · Kozmik.", filtre: (t) => t.tur === "nadirlik" && t.malzeme === "efsanevi" },
+  { baslik: "Lig çerçeveleri", aciklama: "Lig atlayınca kazanılır, satılmaz. Gümüş: kalkan + defne · Altın: defne + taç · Elmas: kristal uçlar + ışık kırılması · Efsane: alev aurası + taç.", filtre: (t) => t.tur === "lig" },
+  { baslik: "Level çerçeveleri", aciklama: "Level 25 · 50 · 75 · 100 rozetiyle gelir. Alt plakada level, yıldız sayısı artar; 100'de altın kanatlar.", filtre: (t) => t.tur === "level" },
 ];
 
 function CerceveSatiri({ anahtar, tanim, i, hareket }) {
@@ -67,7 +67,7 @@ export default function KozmetikOnizlemePage() {
         <header className="ko-giris">
           <h1 className="qt-baslik-1">{tt("Kozmetik Önizleme")}</h1>
           <p className="qt-govde qt-soluk-zemin">
-            {tt("Bütün çerçeveler ve rozet madalyonları 24 / 40 / 64 / 120 px'te. 40 px altında süs ve hareket kapanır, yalnız renkli halka kalır.")}
+            {tt("Bütün çerçeveler ve rozet madalyonları 24 / 40 / 64 / 120 px'te. 40–55 px'te yalnız ana süsler çizilir; 40 px altında süs ve hareket kapanır, yalnız renkli halka kalır.")}
           </p>
           <div className="ko-ayarlar">
             <QtAnahtar acik={hareket} onDegis={setHareket} etiket={tt("Hareket")}
