@@ -301,3 +301,24 @@ Bayrak kapalıyken gizlenen girişler `ozellikBayraklari.js` başlığında list
 - **Dokunma hedefi ≥ 44 px** (menü, düğme, şık, soru bildir düğmeleri).
 - **Hareket ve saydamlık:** `prefers-reduced-motion` (tema.css'te 46 blok, diğer dosyalarda birer blok) ve `prefers-reduced-transparency` (tema.css 2) desteklenir. Yeni animasyonlar da buna uymalı.
 - **Arayüz denetim aracı:** `npm run dev` açıkken `node araclar/arayuz-denetim.mjs [--gorsel]`. 16 sayfayı (`/`, `/modlar`, `/siralama`, `/arkadaslar`, `/meydan`, `/mesajlar`, `/joker`, `/joker?sekme=coin`, `/profil`, `/profil?sekme=ayarlar`, `/turnuva`, `/duello`, `/calisma`, `/gizlilik`, `/kosullar`, 404) açar. Genişlikler 1440 · 850 · 560 · 360 · 390 · 412 · 430 (başlık yorumu 4 genişlik diyor, kod 7 genişlik tanımlıyor). Ölçtükleri: yatay taşma, fixed+transform (öğede ve atada), kaydırınca kayan sabit menü, 44 px altı hedef, konsol hatası. **Maç içi ekranları (Match/Düello fazları/Grup/Turnuva sorusu) KAPSAMAZ**; bunlar için ayrı senaryo gerekir. Bu makinede WebKit çalışmaz; gerçek iOS kontrolünü sahibi telefonunda yapar.
+
+---
+
+## 8. Paket 2 sonrası eklenenler (23 Eyl 2026)
+
+Tasarımcının bilmesi gereken, bu raporun ilk yazımından sonra gelen parçalar:
+
+| Parça | Dosya | Not |
+|---|---|---|
+| Level çubuğu | `oyun/components/LevelCubugu.jsx` + `level.css` | Profil, ana sayfa hero, maç sonu. Veri: `profilim()` (`level`, `level_xp`, `level_gereken`) |
+| Maç sonu level kazancı | `oyun/components/LevelKazanci.jsx` | Veri: `level_kazancim(kaynak)`; level atlama satırı (coin, rütbe, skill hakkı) |
+| Rütbe = level | `oyun/lib/ranks.js`, `RankBadge.jsx`, `RankUpOverlay.jsx` | Çaylak L1 · Bilge L10 · Üstat L25 · Kahin L50 · Dâhi L100. Lig (Bronz→Efsane) ayrı |
+| Skill dükkânı | `oyun/pages/JokerDukkani.jsx` + `oyun/styles/skill-dukkani.css` | Veri: `skill_dukkani()` (fiyat, 10'lu paket, envanter, kilit, gereken level) |
+| Skill seti (loadout) | `oyun/components/SkillSeti.jsx` | `skill_seti_slot` ≥ aktif skill sayısıyken HİÇ çizilmez (şu an kapalı) |
+| Güvenli RPC yardımcısı | `oyun/lib/rpcDene.js` | Sonucu önemsiz çağrılar için; `{error}` kontrolü yapar, reddetmez. Yeni kodda `.rpc().catch()` YAZILMAZ |
+| Tanı paneli | `oyun/components/TaniPaneli.jsx` | Yalnız `?tani=1`. Dokunma sorunlarında kullanılır; tasarımda kaldırılmamalı |
+| Düello 1.0 | `oyun/components/DuelloV2.jsx`, `oyun/styles/duello-v2.css` | Yalnız test hesaplarında; `durum.surum === 2` dalı |
+
+Dokunulmaması gerekenlere ek: maç sonu ödül/XP satırları sunucudan okunur
+(`mac_odulum`, `level_kazancim`, `duello_durum.odul`) — rakamlar istemcide
+hesaplanmaz, yalnız gösterilir.
