@@ -1,5 +1,6 @@
 import { hareketAzalt } from "../lib/geriBildirim.js";
 import { tt } from "../lib/dil.js";
+import "../tasarim/ekranlar/m1-mac.css";
 
 /**
  * Cevap sonrası görsel geri bildirim katmanı.
@@ -18,15 +19,10 @@ export default function CevapEfekti({ dogru, puan, seri }) {
   if (!puanVar && !seriVar) return null;
 
   return (
-    <div className="bd-cevap-efekt" aria-hidden="true">
-      {puanVar && (
-        <div className={`bd-puan-ucus ${azalt ? "durgun" : ""}`}>+{puan}</div>
-      )}
-      {seriVar && (
-        <div className={`bd-seri-bant ${azalt ? "durgun" : ""}`}>
-          {seri} {tt("ÜST ÜSTE!")}
-        </div>
-      )}
+    // Azaltılmış hareket: m1-mac.css @media (prefers-reduced-motion) yalnız solma bırakır.
+    <div className="m1-efekt" aria-hidden="true" data-azalt={azalt || undefined}>
+      {puanVar && <div className="m1-puan-ucus">+{puan}</div>}
+      {seriVar && <div className="m1-seri">{tt("{0} üst üste!", { 0: seri })}</div>}
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Modal from "./Modal.jsx";
-import Ikon from "./Ikon.jsx";
+import { QtModal, QtDugme, QtIkon, QtListe, QtListeSatiri, QtCoinHapi } from "../tasarim/index.js";
+import "../tasarim/ekranlar/m1-mac.css";
 import { JOKER_BILGI } from "../lib/jokerler.js";
 import { hataMesaji } from "../lib/hata.js";
 import { tt } from "../lib/dil.js";
@@ -42,73 +42,50 @@ export default function JokerSatinAlModal({ tur, fiyat, coin, yalnizAl = false, 
     }
   };
 
+  const kapat = calisiyor ? undefined : onKapat;
   return (
-    <Modal
-      ekSinif="bd-alttan"
-      etiket={tt("Skill satın al")}
-      onKapat={calisiyor ? undefined : onKapat}
+    <QtModal
+      acik
+      tur="altSayfa"
+      onKapat={kapat}
+      ortuKapatir={!calisiyor}
+      kapatDugmesi={!calisiyor}
+      baslik={`${tt("Skill satın al")}: ${bilgi.ad ?? tur}`}
+      aciklama={bilgi.aciklama}
+      altlik={
+        <div className="m1-sat-dugmeler">
+          <QtDugme tur="ikincil" onClick={onKapat} devreDisi={calisiyor}>
+            {tt("Vazgeç")}
+          </QtDugme>
+          <QtDugme onClick={onayla} devreDisi={!yeterli || calisiyor} yukleniyor={calisiyor} data-qt-ilk-odak>
+            {calisiyor ? tt("Alınıyor…") : yalnizAl ? tt("Al") : tt("Al ve kullan")}
+          </QtDugme>
+        </div>
+      }
     >
-      <div className="bd-joker-sat">
-        <div className="bd-joker-sat-tutamac" aria-hidden="true" />
-
-        <div className="bd-joker-sat-ust">
-          <span className="bd-joker-sat-ikon" aria-hidden="true">
-            <Ikon ad={bilgi.ikon ?? "soru"} boyut={26} />
-          </span>
-          <div>
-            <div className="bd-joker-sat-ad">{bilgi.ad ?? tur}</div>
-            <div className="bd-joker-sat-aciklama">{bilgi.aciklama}</div>
-          </div>
-        </div>
-
-        <div className="bd-joker-sat-satir">
-          <span>{tt("Fiyat")}</span>
-          <b className="bd-joker-sat-fiyat">
-            <Ikon ad="coin" boyut={15} /> {fiyat}
-          </b>
-        </div>
-        <div className="bd-joker-sat-satir">
-          <span>{tt("Coin'in")}</span>
-          <b className={yeterli ? "" : "eksik"}>
-            <Ikon ad="coin" boyut={15} /> {coin ?? 0}
-          </b>
-        </div>
+      <div className="m1-sat">
+        <span className="m1-sat-ikon" aria-hidden="true">
+          <QtIkon ad={bilgi.ikon ?? "soru"} boyut={30} />
+        </span>
+        <QtListe>
+          <QtListeSatiri baslik={tt("Fiyat")} sag={<QtCoinHapi miktar={Number(fiyat ?? 0)} />} />
+          <QtListeSatiri baslik={tt("Coin'in")} sag={<QtCoinHapi miktar={Number(coin ?? 0)} />} vurgulu={!yeterli} />
+        </QtListe>
 
         {yalnizAl && yeterli && (
-          <div className="bd-joker-sat-not">
-            {tt("Skill envanterine girer; saldırı hazırlığında kullanırsın.")}
-          </div>
+          <p className="m1-sat-not">{tt("Skill envanterine girer; saldırı hazırlığında kullanırsın.")}</p>
         )}
         {!yeterli && (
-          <div className="bd-joker-sat-not" role="alert">
-            {tt("Yetersiz coin — oynayarak kazanabilirsin.")}
+          <div className="m1-bant m1-bant--hata" role="alert">
+            <span>{tt("Yetersiz coin — oynayarak kazanabilirsin.")}</span>
           </div>
         )}
         {hata && (
-          <div className="bd-joker-sat-not hata" role="alert">
-            {hata}
+          <div className="m1-bant m1-bant--hata" role="alert">
+            <span>{hata}</span>
           </div>
         )}
-
-        <div className="bd-joker-sat-dugmeler">
-          <button
-            type="button"
-            className="btn ikincil"
-            onClick={onKapat}
-            disabled={calisiyor}
-          >
-            {tt("Vazgeç")}
-          </button>
-          <button
-            type="button"
-            className="btn"
-            onClick={onayla}
-            disabled={!yeterli || calisiyor}
-          >
-            {calisiyor ? tt("Alınıyor…") : yalnizAl ? tt("Al") : tt("Al ve kullan")}
-          </button>
-        </div>
       </div>
-    </Modal>
+    </QtModal>
   );
 }

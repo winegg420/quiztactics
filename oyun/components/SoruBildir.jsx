@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
 import { hataMesaji } from "../lib/hata.js";
+import { QtCip, QtDugme, QtIkon } from "../tasarim/index.js";
 import { tt } from "../lib/dil.js";
+import "../tasarim/ekranlar/m1-sonuc.css";
 
 /**
  * Paket 20 II.1 — "Soruyu bildir". Mevcut vote_question (adil=false + sebep) kullanılır.
  * Yeterli sayıda gerçek oyuncu bildirirse soru sunucuda karantinaya alınır (oyun_ayarlari.soru_bildirim_esigi).
+ * Tasarım A (Şerit M1): hayalet düğme → sebep çipleri.
  */
 export const SEBEPLER = [
   ["cevap_yanlis", "Cevap yanlış"],
@@ -22,7 +25,13 @@ export default function SoruBildir({ questionId, bildirildi = false }) {
   const [hata, setHata] = useState(null);
 
   if (!questionId) return null;
-  if (gonderildi) return <div className="bd-bildir-tamam">{tt("Bildirildi — teşekkürler, inceleyeceğiz.")}</div>;
+  if (gonderildi) {
+    return (
+      <p className="m1-bildir-tamam" role="status">
+        <QtIkon ad="onay" boyut={16} /> {tt("Bildirildi — teşekkürler, inceleyeceğiz.")}
+      </p>
+    );
+  }
 
   const gonder = async (sebep) => {
     setCalisiyor(true);
@@ -40,25 +49,25 @@ export default function SoruBildir({ questionId, bildirildi = false }) {
   };
 
   return (
-    <div className="bd-bildir">
+    <div className="m1-bildir">
       {!acik ? (
-        <button type="button" className="bd-bildir-ac" onClick={() => setAcik(true)}>
+        <QtDugme tur="hayalet" boyut="k" ikon="bayrak" onClick={() => setAcik(true)}>
           {tt("Soruyu bildir")}
-        </button>
+        </QtDugme>
       ) : (
-        <div className="bd-bildir-sebepler" role="group" aria-label={tt("Neden bildiriyorsun?")}>
-          <span className="bd-bildir-soru">{tt("Neden bildiriyorsun?")}</span>
+        <div className="m1-bildir-sebepler" role="group" aria-label={tt("Neden bildiriyorsun?")}>
+          <span className="m1-bildir-soru">{tt("Neden bildiriyorsun?")}</span>
           {SEBEPLER.map(([k, ad]) => (
-            <button key={k} type="button" className="bd-bildir-sebep" disabled={calisiyor} onClick={() => gonder(k)}>
+            <QtCip key={k} aria-pressed={undefined} disabled={calisiyor} onClick={() => gonder(k)}>
               {tt(ad)}
-            </button>
+            </QtCip>
           ))}
-          <button type="button" className="bd-bildir-vazgec" disabled={calisiyor} onClick={() => setAcik(false)}>
+          <QtDugme tur="hayalet" boyut="k" devreDisi={calisiyor} onClick={() => setAcik(false)}>
             {tt("Vazgeç")}
-          </button>
+          </QtDugme>
         </div>
       )}
-      {hata && <div className="hata-kutu" style={{ marginTop: 6 }}>{hata}</div>}
+      {hata && <p className="m1-bildir-hata" role="alert">{hata}</p>}
     </div>
   );
 }

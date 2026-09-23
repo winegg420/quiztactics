@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import Ikon from "./Ikon.jsx";
+import { QtSoruKarti, QtSayac, QtSik, QtSikler, QtSonucBandi, QtSkill, QtSkillCubugu, QtIkonDugme, QT_KIRILMA_MS, QT_KART_CIKIS_MS } from "../tasarim/index.js";
+import "../tasarim/ekranlar/m1-mac.css";
 import { supabase } from "../../src/lib/supabase.js";
 import { kalanSure, sunucuOffsetMs } from "../lib/zaman.js";
 import JokerCubugu from "./JokerCubugu.jsx";
 import { SisPerdesi, SisKenar } from "./Sis.jsx";
 import Konfeti from "./Konfeti.jsx";
 import CevapEfekti from "./CevapEfekti.jsx";
-import { sesTik, sesSureDoldu, sesDogru, sesYanlis, sesDokunus, sesKilidiAc } from "../lib/ses.js";
+import { sesTik, sesSureDoldu, sesDogru, sesYanlis, sesDokunus, sesKilidiAc, sesOnYukle, sesSoruGeldi, sesSonSaniyeler } from "../lib/ses.js";
 import { titret, macPuani } from "../lib/geriBildirim.js";
 import { kategoriAdi } from "../lib/kategoriler.js";
 import { useGorunurlukTazele } from "../lib/gorunurluk.js";
@@ -34,8 +35,8 @@ const SAAT_PAYI_SN = 0.6;
 function uzunlukSinifi(soru) {
   const s = String(soru?.soru ?? "").length;
   const enUzunSik = Math.max(0, ...(soru?.secenekler ?? []).map((x) => String(x ?? "").length));
-  if (s > 170 || enUzunSik > 48) return "bd-soru-cok-uzun";
-  if (s > 100 || enUzunSik > 30) return "bd-soru-uzun";
+  if (s > 170 || enUzunSik > 48) return "m1-soru--cok-uzun";
+  if (s > 100 || enUzunSik > 30) return "m1-soru--uzun";
   return "";
 }
 
@@ -62,6 +63,8 @@ export default function QuestionCard({
   kategori = null,
   // Ek sınıf (ör. turnuvada altın soru çerçevesi).
   className = "",
+  // Toplam soru sayısı (verilirse kartta "Soru n / t" yazar).
+  toplamSoru = null,
 }) {
   const [kalan, setKalan] = useState(SURE);
   const [secim, setSecim] = useState(null);
@@ -90,6 +93,13 @@ export default function QuestionCard({
   const cevapHataTimer = useRef(null);
   const [skillEfekt, setSkillEfekt] = useState(null); // { tur, deger?, asama? }
   const skillTimer = useRef(null);
+  // Tasarım A: 50:50 anı — kırılan şıklar QT_KIRILMA_MS boyunca iki parçaya ayrılıp düşer,
+  // sonra "elendi" yuvasına döner. (Kapatma kararı `kapali`da, anında; bu yalnız görüntü.)
+  const [kirilan, setKirilan] = useState([]);
+  const kirilmaTimer = useRef(null);
+  // Skill kullanım bilgisi (JokerCubugu → sonuç bandı)
+  const [bilgi, setBilgi] = useState(null);
+  const soruSesiRef = useRef(null);
 
   // SORU DEĞİŞTİR jokeri: soru YERİNDE değişir, indeks aynı kalır. Kart
   // sökülmediği için (key indekse bağlı) yeni soruyu burada tutuyoruz;
@@ -111,20 +121,34 @@ export default function QuestionCard({
     setPuan(0);
     setSarsil(false);
     setZamanAsimi(false);
+    setKirilan([]);
+    setBilgi(null);
+    clearTimeout(kirilmaTimer.current);
     sureDolduMu.current = false;
     cevapVerildiRef.current = false;
     sonTikRef.current = null;
     yenidenDeneRef.current = 0;
     clearTimeout(basiliTutTimer.current);
+    // Yeni soru ekrana geldi — soru başına bir kez (StrictMode çift efektine karşı ref).
+    const anahtar = soru ? `${soru.question_id}-${soru.soru_index}` : null;
+    if (anahtar && soruSesiRef.current !== anahtar) {
+      soruSesiRef.current = anahtar;
+      sesSoruGeldi();
+    }
   }, [soru?.question_id, soru?.soru_index]);
 
-  // İlk kullanıcı hareketinde ses motoru açılsın (mobil tarayıcı kuralı)
-  useEffect(() => { sesKilidiAc(); }, []);
+  // İlk kullanıcı hareketinde ses motoru açılsın (mobil tarayıcı kuralı); maç sesleri önceden insin.
+  useEffect(() => {
+    sesKilidiAc();
+    sesOnYukle("mac");
+    sesOnYukle("skill");
+  }, []);
 
   useEffect(() => () => {
     clearTimeout(basiliTutTimer.current);
     clearTimeout(cevapHataTimer.current);
     clearTimeout(skillTimer.current);
+    clearTimeout(kirilmaTimer.current);
   }, []);
 
   useEffect(() => {
@@ -141,6 +165,8 @@ export default function QuestionCard({
       if (k > 0 && k <= 5 && !cevapVerildiRef.current) {
         const sn = Math.ceil(k);
         if (sonTikRef.current !== sn) {
+          // Son saniyelere girildi: tek seferlik uyarı, tik'ler sesTik ile sürer.
+          if (sonTikRef.current === null) sesSonSaniyeler();
           sonTikRef.current = sn;
           sesTik(sn);
         }
@@ -312,6 +338,9 @@ export default function QuestionCard({
     if (!sonuc) return;
     if (sonuc.tur === "elli" && Array.isArray(sonuc.kapali)) {
       setKapali(sonuc.kapali);
+      setKirilan(sonuc.kapali);
+      clearTimeout(kirilmaTimer.current);
+      kirilmaTimer.current = setTimeout(() => setKirilan([]), QT_KIRILMA_MS);
       setSkillEfekt({ tur: "elli" });
       clearTimeout(skillTimer.current);
       skillTimer.current = setTimeout(() => setSkillEfekt(null), 650);
@@ -336,7 +365,7 @@ export default function QuestionCard({
         onPas?.(sonuc);
         setSkillEfekt({ tur: "soru_degistir", asama: "giriyor" });
         skillTimer.current = setTimeout(() => setSkillEfekt(null), 390);
-      }, 260);
+      }, QT_KART_CIKIS_MS);
     } else if (sonuc.tur === "zaman_baskisi" && sonuc.rakip) {
       setSkillEfekt({ tur: "zaman_baskisi", deger: Number(sonuc.azaltildi ?? 5) });
       clearTimeout(skillTimer.current);
@@ -348,34 +377,61 @@ export default function QuestionCard({
   };
 
   const oyVer = async (adil) => {
+    const onceki = oy;
     setOy(adil);
-    await supabase.rpc("vote_question", {
-      p_question_id: soru.question_id,
-      p_adil: adil,
-    });
+    try {
+      const { error } = await supabase.rpc("vote_question", {
+        p_question_id: soru.question_id,
+        p_adil: adil,
+      });
+      if (error) throw error;
+    } catch (e) {
+      // Oy gitmediyse seçim geri alınır; oyun akışı etkilenmez.
+      console.warn("[Bildim] soru oyu gönderilemedi:", e?.message ?? e);
+      setOy(onceki);
+    }
   };
 
   const secenekler = Array.isArray(soru.secenekler)
     ? soru.secenekler
     : JSON.parse(soru.secenekler);
 
-  const oran = Math.max(0, Math.min(1, kalan / SURE));
-  const CEVRE = 2 * Math.PI * 20; // r=20 halka çevresi
-  const halkaRenk =
-    kalan <= 5 ? "var(--bd-hata)" : kalan <= 9 ? "var(--bd-odul)" : "var(--bd-basari)";
-
   const dogruCevapVerdim = Boolean(sonuc) && secim === sonuc.dogru_cevap;
-  const yanlisCevapVerdim = Boolean(sonuc) && secim !== null && secim !== sonuc.dogru_cevap;
 
-  // Son 5 saniye: ekran kenarları kızarır, sayaç kalp gibi atar, geri sayım büyür.
+  // Son 5 saniye: kenarlar kızarır (qt-h-gerilim), sayaç kırmızı + nabız.
   // Cevap verildikten sonra tetiklenmez (heyecan değil, rahatsızlık olurdu).
   const sonDuzluk = kalan > 0 && kalan <= 5 && secim === null && !sonuc;
-  const geriSayim = Math.ceil(kalan);
+
+  // Şık durumu → QtSik durum. Kırılan (50:50) şık, animasyon bitene kadar "normal" + kiriliyor.
+  const sikDurumu = (i) => {
+    if (kirilan.includes(i)) return "normal";
+    if (kapali.includes(i) || ikinciSansElendi.includes(i)) return "elendi";
+    if (sonuc) {
+      if (i === sonuc.dogru_cevap) return secim === i ? "dogru" : "dogrusu";
+      if (i === secim) return "yanlis";
+      return "solgun";
+    }
+    if (i === secim) return "secili";
+    if (secim !== null || kalan <= 0 || sisKilit) return "kilitli";
+    return "normal";
+  };
+
+  // Sonuç bandı: tek yerde, yer ayırır (ekran zıplamaz).
+  let bant = null;
+  if (cevapHatasi) bant = { ton: "yanlis", metin: tt("Cevabın gitmedi — tekrar dokun"), anahtar: "hata" };
+  else if (zamanAsimi) bant = { ton: "yanlis", metin: tt("Süre doldu"), anahtar: "sure" };
+  else if (sonuc && dogruCevapVerdim) bant = { ton: "dogru", metin: tt("Doğru!"), anahtar: "dogru" };
+  else if (sonuc && secim !== null && secim >= 0)
+    bant = { ton: "yanlis", metin: tt("Yanlış — doğrusu {c}", { c: secenekler[sonuc.dogru_cevap] ?? "" }), anahtar: "yanlis" };
+  else if (bilgi) bant = { ton: "notr", metin: bilgi.metin, anahtar: bilgi.anahtar };
+
+  const siraMetni = toplamSoru
+    ? tt("Soru {n} / {t}", { n: soru.soru_index + 1, t: toplamSoru })
+    : tt("Soru {n}", { n: soru.soru_index + 1 });
 
   return (
     <div
-      key={`${soru.question_id}-${soru.soru_index}`}
-      className={`bd-soru bd-soru-giris ${uzunlukSinifi(soru)} ${dogruCevapVerdim ? "bd-dogru-cevap" : ""} ${yanlisCevapVerdim ? "bd-yanlis-cevap" : ""} ${sonDuzluk ? "bd-son-saniyeler" : ""} ${sarsil ? "bd-sarsil" : ""} ${skillEfekt ? `bd-skill-${skillEfekt.tur} ${skillEfekt.asama ? `bd-skill-${skillEfekt.asama}` : ""}` : ""} ${className}`}
+      className={`m1-soru ${uzunlukSinifi(soru)} ${sonDuzluk ? "qt-h-gerilim" : ""} ${className}`}
     >
       <Konfeti aktif={dogruCevapVerdim} />
       {/* Paket 32 A: sis YİYEN — tam ekran perde (sayaç sisin üstünde) */}
@@ -384,116 +440,45 @@ export default function QuestionCard({
       {sisGonderdimBitis && <SisKenar key={sisGonderdimBitis} bitis={sisGonderdimBitis} />}
       <CevapEfekti dogru={dogruCevapVerdim} puan={puan} seri={seri} />
 
-      {/* Cevap sunucuya gitmedi — seçim geri alındı, tekrar dokunulabilir */}
-      {cevapHatasi && (
-        <div className="bd-sure-doldu-bant bd-cevap-hata" role="alert">
-          <Ikon ad="yenile" boyut={15} /> {tt("Cevabın gitmedi — tekrar dokun")}
-        </div>
-      )}
+      <QtSoruKarti
+        key={`${soru.question_id}-${soru.soru_index}`}
+        metin={soru.soru}
+        kategori={kategori && kategori !== "karisik" ? kategoriAdi(kategori) : null}
+        sira={siraMetni}
+        cikiyor={skillEfekt?.tur === "soru_degistir" && skillEfekt.asama === "cikiyor"}
+        sevinc={dogruCevapVerdim}
+        sayac={
+          <QtSayac
+            kalan={kalan}
+            toplam={SURE}
+            durdu={secim !== null || Boolean(sonuc)}
+            ekBalon={skillEfekt?.tur === "sure" ? { anahtar: `sure-${soru.soru_index}`, metin: `+${skillEfekt.deger}` } : null}
+          />
+        }
+      />
 
-      {/* Zaman aşımı bilgisi — geri bildirim penceresi boyunca durur */}
-      {zamanAsimi && (
-        <div className="bd-sure-doldu-bant" role="status">
-          <Ikon ad="saat" boyut={15} /> {tt("Süre doldu")}
-        </div>
-      )}
+      <QtSikler etiket={tt("Şıklar")}>
+        {secenekler.map((s, i) => (
+          <QtSik
+            key={`${soru.question_id}-${i}`}
+            harf={HARFLER[i]}
+            metin={s}
+            durum={sikDurumu(i)}
+            kiriliyor={kirilan.includes(i)}
+            onClick={() => cevapla(i)}
+            onPointerDown={basiliTutmayaBasla}
+            onPointerUp={basiliTutmayiBirak}
+            onPointerLeave={basiliTutmayiBirak}
+            onPointerCancel={basiliTutmayiBirak}
+          />
+        ))}
+      </QtSikler>
 
-      {/* Son 5 saniye: kızaran kenarlar (büyük geri sayım rakamı soru
-          metninin İÇİNDE — aşağıya bak; kartın ortasına konunca şıkların
-          üstüne biniyordu, hata gibi görünüyordu). */}
-      {sonDuzluk && <div className="bd-son-perde" aria-hidden="true" />}
-
-      {/* Üst şerit: soru numarası + kalan süre halkası + ilerleme çubuğu */}
-      <div className="bd-soru-ust">
-        <div className="bd-soru-no">
-          {tt("Soru")} {soru.soru_index + 1}
-          {kategori && kategori !== "karisik" && (
-            <span className="bd-soru-kategori" data-kat={kategori}>
-              {kategoriAdi(kategori)}
-            </span>
-          )}
-        </div>
-        <div className="bd-sure-halka" aria-label={tt("{0} saniye kaldı", { 0: Math.ceil(kalan) })}>
-          <svg viewBox="0 0 48 48" aria-hidden="true">
-            <circle className="iz" cx="24" cy="24" r="20" />
-            <circle
-              className="dolgu"
-              cx="24"
-              cy="24"
-              r="20"
-              stroke={halkaRenk}
-              strokeDasharray={CEVRE}
-              strokeDashoffset={CEVRE * (1 - oran)}
-            />
-          </svg>
-          <span className={`bd-sure-sayi ${kalan <= 5 ? "kritik" : ""}`}>
-            {Math.ceil(kalan)}
-          </span>
-          {(skillEfekt?.tur === "sure" || skillEfekt?.tur === "zaman_baskisi") && (
-            <span className={`bd-skill-sure-deger ${skillEfekt.tur === "zaman_baskisi" ? "eksi" : "arti"}`} aria-live="polite">
-              {skillEfekt.tur === "zaman_baskisi" ? "−" : "+"}{skillEfekt.deger} sn
-            </span>
-          )}
-        </div>
-      </div>
-      <div className="bd-soru-bar">
-        {/* Renk yeşil → sarı → kırmızı; süre azaldıkça sınıf değişir */}
-        <div
-          className={`dolgu ${oran > 0.5 ? "iyi" : oran > 0.25 ? "orta" : "kritik"}`}
-          style={{ width: `${oran * 100}%` }}
-        />
-      </div>
-
-      <div className="bd-soru-metin">
-        {/* Son 5 saniyenin büyük rakamı: soru metninin arkasında filigran.
-            Kartın ortasına (%42) konumlandırılmıştı; yeni tasarımda kart
-            uzayınca şıkların üstüne biniyordu. Artık metne bağlı. */}
-        {sonDuzluk && (
-          <span className="bd-son-saniye" key={geriSayim} aria-hidden="true">{geriSayim}</span>
-        )}
-        {soru.soru}
-      </div>
-
-      <div className="bd-secenekler">
-        {secenekler.map((s, i) => {
-          const ikinciSanslaElendi = ikinciSansElendi.includes(i);
-          const elendi = kapali.includes(i) || ikinciSanslaElendi;
-          let sinif = "bd-secenek";
-          if (sonuc) {
-            if (i === sonuc.dogru_cevap) sinif += " dogru";
-            else if (i === secim) sinif += " yanlis";
-            else sinif += " solgun";
-          } else if (i === secim) {
-            sinif += " secili";
-          }
-          if (elendi) sinif += ikinciSanslaElendi ? " elendi ikinci-sans-elendi" : " elendi";
-          return (
-            <button
-              key={i}
-              className={sinif}
-              disabled={secim !== null || kalan <= 0 || elendi}
-              onClick={() => cevapla(i)}
-              onPointerDown={basiliTutmayaBasla}
-              onPointerUp={basiliTutmayiBirak}
-              onPointerLeave={basiliTutmayiBirak}
-              onPointerCancel={basiliTutmayiBirak}
-            >
-              <span className="bd-harf">{HARFLER[i]}</span>
-              <span className="bd-secenek-metin">{s}</span>
-              {sonuc && i === sonuc.dogru_cevap && <span className="bd-isaret"><Ikon ad="onay" boyut={16} /></span>}
-              {sonuc && i === secim && i !== sonuc.dogru_cevap && (
-                <span className="bd-isaret"><Ikon ad="carpi" boyut={16} /></span>
-              )}
-            </button>
-          );
-        })}
-      </div>
+      <QtSonucBandi ton={bant?.ton} metin={bant?.metin} anahtar={bant?.anahtar} />
 
       {/* Yeni joker ekonomisi (sunucu tabanlı).
           "Hızlı Olan Kazanır" modunda joker YOK: mod "ilk doğru cevap kazanır"
-          üzerine kurulu; 50:50 ya da +10 sn adaleti doğrudan bozar. Meydan Oku
-          açıklamasındaki "Joker yok!" cümlesiyle tutarlı olsun diye çubuk
-          bu modda hiç çizilmez. */}
+          üzerine kurulu; 50:50 ya da +10 sn adaleti doğrudan bozar. */}
       {macTur && macTur !== "hizli" && !jokerYok && macId && !sonuc && secim === null && kalan > 0 && (
         <JokerCubugu
           macTur={macTur}
@@ -502,39 +487,39 @@ export default function QuestionCard({
           surum={jokerSurum}
           kalanSn={kalan}
           onEtki={jokerEtkisi}
+          onBilgi={setBilgi}
         />
       )}
 
       {/* Eski joker çubuğu — yalnız macTur verilmeyen ekranlarda (geriye uyum) */}
       {!macTur && jokerler && !sonuc && secim === null && kalan > 0 && (
-        <div className="joker-bar">
-          <button
-            disabled={jokerler.kullanildi.elli || kapali.length > 0}
+        <QtSkillCubugu etiket={tt("Skill'ler")}>
+          <QtSkill
+            ikon="terazi"
+            ad="50:50"
+            durum={jokerler.kullanildi.elli || kapali.length > 0 ? "kullanildi" : "hazir"}
+            aria-label={`50:50 — ${tt("Ücretsiz")}`}
             onClick={async () => {
+              if (jokerler.kullanildi.elli || kapali.length > 0) return;
               const r = await jokerler.onKullan("elli");
               if (r?.kapali) setKapali(r.kapali);
             }}
-          >
-            <Ikon ad="terazi" boyut={16} /> 50:50 <span className="bedel">{tt("Ücretsiz")}</span>
-          </button>
-          <button
-            disabled={jokerler.kullanildi.sure}
-            onClick={() => jokerler.onKullan("sure")}
-          >
-            <Ikon ad="saat" boyut={16} /> {tt("+10 sn")} <span className="bedel">{tt("20 puan")}</span>
-          </button>
-        </div>
+          />
+          <QtSkill
+            ikon="saat"
+            ad={tt("+10 sn")}
+            durum={jokerler.kullanildi.sure ? "kullanildi" : "hazir"}
+            aria-label={`${tt("+10 sn")} — ${tt("20 puan")}`}
+            onClick={() => { if (!jokerler.kullanildi.sure) jokerler.onKullan("sure"); }}
+          />
+        </QtSkillCubugu>
       )}
 
       {sonuc && (
-        <div className="adil-oylama">
-          <span>{tt("Bu soru adil miydi?")}</span>
-          <button className={oy === true ? "secildi" : ""} onClick={() => oyVer(true)}>
-            <Ikon ad="onay" boyut={17} />
-          </button>
-          <button className={oy === false ? "secildi" : ""} onClick={() => oyVer(false)}>
-            <Ikon ad="carpi" boyut={17} />
-          </button>
+        <div className="m1-oylama" role="group" aria-label={tt("Bu soru adil miydi?")}>
+          <span aria-hidden="true">{tt("Bu soru adil miydi?")}</span>
+          <QtIkonDugme ikon="onay" etiket={tt("Adil")} aria-pressed={oy === true} onClick={() => oyVer(true)} />
+          <QtIkonDugme ikon="carpi" etiket={tt("Adil değil")} aria-pressed={oy === false} onClick={() => oyVer(false)} />
         </div>
       )}
     </div>

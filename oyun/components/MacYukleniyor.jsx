@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Maskot from "./Maskot.jsx";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
+import { QtBosDurum, QtDugme, QtIskelet } from "../tasarim/index.js";
+import "../tasarim/ekranlar/m1-mac.css";
 
 const ZAMAN_ASIMI_MS = 8000;
 
@@ -24,40 +25,50 @@ export default function MacYukleniyor({ hata, onTekrarDene, onIptal, donusYolu, 
   }, []);
 
   if (!gecikti && !hata) {
-    return <div className="yukleniyor">{tt("Yükleniyor…")}</div>;
+    return (
+      <div className="m1-yukleniyor" aria-busy="true" aria-label={tt("Yükleniyor…")}>
+        <QtIskelet tur="satir" />
+        <QtIskelet tur="kart" yukseklik={140} />
+        <QtIskelet tur="dugme" adet={4} />
+      </div>
+    );
   }
 
   return (
-    <div className="bd-hata-kart">
-      <Maskot poz="dusunuyor" boyut={78} />
-      <div className="bd-hata-baslik">{tt("Maç açılamadı")}</div>
-      {/* Paket 41 G: ham sunucu metni oyuncuya gösterilmez (çağıran console'a yazar) */}
-      <div className="bd-hata-metin">
-        {hata
+    <QtBosDurum
+      ikon="uyari"
+      ton="yanlis"
+      baslik={tt("Maç açılamadı")}
+      // Paket 41 G: ham sunucu metni oyuncuya gösterilmez (çağıran console'a yazar)
+      metin={
+        hata
           ? tt("Maç bilgisi alınamadı. Bağlantını kontrol edip tekrar dene.")
-          : tt("Maç bilgisi gelmedi. Bağlantın kesilmiş olabilir ya da maç artık geçerli değil.")}
-      </div>
-      <div style={{ display: "flex", gap: 8, flexWrap: "wrap", justifyContent: "center" }}>
-        {onTekrarDene && (
-          <button
-            className="btn"
-            onClick={() => {
-              setGecikti(false);
-              onTekrarDene();
-            }}
-          >
-            {tt("Tekrar dene")}
-          </button>
-        )}
-        {onIptal && (
-          <button className="btn ikincil" onClick={onIptal}>
-            {tt("Maçı iptal et")}
-          </button>
-        )}
-        <button className="btn ikincil" onClick={() => navigate(donusYolu ?? y("/meydan"))}>
-          {donusMetni ?? tt("Meydan okumalara dön")}
-        </button>
-      </div>
-    </div>
+          : tt("Maç bilgisi gelmedi. Bağlantın kesilmiş olabilir ya da maç artık geçerli değil.")
+      }
+      eylem={
+        <div className="m1-dugmeler">
+          {onTekrarDene && (
+            <QtDugme
+              tamGenislik
+              ikon="yenile"
+              onClick={() => {
+                setGecikti(false);
+                onTekrarDene();
+              }}
+            >
+              {tt("Tekrar dene")}
+            </QtDugme>
+          )}
+          {onIptal && (
+            <QtDugme tur="tehlike" tamGenislik onClick={onIptal}>
+              {tt("Maçı iptal et")}
+            </QtDugme>
+          )}
+          <QtDugme tur="ikincil" tamGenislik onClick={() => navigate(donusYolu ?? y("/meydan"))}>
+            {donusMetni ?? tt("Meydan okumalara dön")}
+          </QtDugme>
+        </div>
+      }
+    />
   );
 }

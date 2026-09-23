@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
 import { tt } from "../lib/dil.js";
+import { QtIkon, QtRozet } from "../tasarim/index.js";
 import SoruBildir from "./SoruBildir.jsx";
+import "../tasarim/ekranlar/m1-sonuc.css";
 
 const HARFLER = ["A", "B", "C", "D"];
 
@@ -10,6 +12,7 @@ const HARFLER = ["A", "B", "C", "D"];
  * kaynak ("mac:<id>" · "duello:<id>" · "hizli:<id>" · "grup:<id>" · "turnuva:<id>") verilirse sunucudan
  * (`mac_sorulari`) okunur; Hatalarım gibi listeyi kendisi tutan ekran `sorular` verir.
  * Varsayılan kapalı: sonuç ekranını kalabalıklaştırmaz.
+ * Tasarım A (Şerit M1): açılır kart (details/summary korunur — klavye ve ekran okuyucu yerleşik).
  */
 export default function MacSorulari({ kaynak, sorular: verilen, baslik, acikBasla = false }) {
   const [sorular, setSorular] = useState(verilen ?? null);
@@ -33,32 +36,40 @@ export default function MacSorulari({ kaynak, sorular: verilen, baslik, acikBasl
   if (!sorular?.length) return null;
 
   return (
-    <details className="bd-mac-sorulari" open={acikBasla}>
-      <summary>{baslik ?? tt("Maçın soruları ({n})", { n: sorular.length })}</summary>
-      <ol>
+    <details className="m1-sorular" open={acikBasla}>
+      <summary className="m1-sorular-baslik">
+        <span>{baslik ?? tt("Maçın soruları ({n})", { n: sorular.length })}</span>
+        <QtIkon ad="asagi" boyut={20} />
+      </summary>
+      <ol className="m1-sorular-liste">
         {sorular.map((s, n) => {
           const secenekler = Array.isArray(s.secenekler) ? s.secenekler : JSON.parse(s.secenekler ?? "[]");
           const yanlis = s.ben_cevapladim && s.benim_cevap != null && s.benim_cevap >= 0 && s.benim_cevap !== s.dogru_cevap;
           return (
-            <li key={`${s.question_id}-${n}`} className="bd-mac-soru">
+            <li key={`${s.question_id}-${n}`} className="m1-soru-ozet">
               {s.tur != null && (
-                <div className="bd-mac-soru-etiket">
+                <div className="m1-soru-ozet-etiket">
                   {tt("Tur {tur}", { tur: s.tur })} · {s.ben_saldirdim ? tt("sen sordun") : tt("sen savundun")}
-                  {s.riskli && <span className="riskli"> · {tt("riskli kategori")}</span>}
+                  {s.riskli && <b> · {tt("riskli kategori")}</b>}
                 </div>
               )}
-              <div className="bd-mac-soru-metin">{s.soru}</div>
-              <ul className="bd-mac-soru-siklar">
-                {secenekler.map((m, i) => (
-                  <li key={i} className={i === s.dogru_cevap ? "dogru" : yanlis && i === s.benim_cevap ? "yanlis" : ""}>
-                    <b>{HARFLER[i]}</b> {m}
-                    {i === s.dogru_cevap && <span className="bd-mac-soru-not">{tt("doğru cevap")}</span>}
-                    {yanlis && i === s.benim_cevap && <span className="bd-mac-soru-not">{tt("senin cevabın")}</span>}
-                  </li>
-                ))}
+              <p className="m1-soru-ozet-metin">{s.soru}</p>
+              <ul className="m1-soru-ozet-siklar">
+                {secenekler.map((m, i) => {
+                  const dogru = i === s.dogru_cevap;
+                  const benimYanlis = yanlis && i === s.benim_cevap;
+                  return (
+                    <li key={i} className={dogru ? "m1-oz-dogru" : benimYanlis ? "m1-oz-yanlis" : ""}>
+                      <b className="m1-oz-harf">{HARFLER[i]}</b>
+                      <span className="m1-oz-metin">{m}</span>
+                      {dogru && <QtRozet ton="dogru" boyut="k" ikon="onay">{tt("doğru cevap")}</QtRozet>}
+                      {benimYanlis && <QtRozet ton="yanlis" boyut="k" ikon="carpi">{tt("senin cevabın")}</QtRozet>}
+                    </li>
+                  );
+                })}
               </ul>
               {s.ben_cevapladim && (s.benim_cevap == null || s.benim_cevap < 0) && (
-                <div className="bd-mac-soru-not ayri">{tt("Süre doldu")}</div>
+                <QtRozet ton="uyari" boyut="k" ikon="saat">{tt("Süre doldu")}</QtRozet>
               )}
               <SoruBildir questionId={s.question_id} bildirildi={Boolean(s.bildirdim)} />
             </li>

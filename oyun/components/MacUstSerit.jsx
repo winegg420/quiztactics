@@ -3,23 +3,52 @@
 //   sol: maçtan çık (X)   ·   orta: mod rozeti   ·   sağ: ses aç/kapa
 // Klasik, Saf Bilgi, Düello, Grup, Turnuva ve Çalışma turu bunu kullanır.
 // Dokunma hedefleri 44×44 (Paket 41 J). Ses tercihi bildim_ses (Profil › Ayarlar ile ortak).
+// Tasarım A (Şerit M1): QtIkonDugme + QtRozet; ses düğmesi SesDugmesi ile aynı mantık.
 // ============================================================
-import Ikon from "./Ikon.jsx";
-import SesDugmesi from "./SesDugmesi.jsx";
+import { useEffect, useState } from "react";
+import { QtIkonDugme, QtRozet } from "../tasarim/index.js";
+import { sesAcikMi, sesAyarla, sesDinle, sesDokunus, sesKilidiAc } from "../lib/ses.js";
 import { tt } from "../lib/dil.js";
+import "../tasarim/ekranlar/m1-mac.css";
+
+function SesAnahtari() {
+  const [acik, setAcik] = useState(() => sesAcikMi());
+  // Başka yerden (Profil › Ayarlar, avatar menüsü) değişirse bu düğme de güncellensin
+  useEffect(() => sesDinle(setAcik), []);
+  const degistir = () => {
+    try {
+      const yeni = !acik;
+      sesAyarla(yeni);
+      setAcik(yeni);
+      if (yeni) {
+        sesKilidiAc();
+        sesDokunus();
+      }
+    } catch {
+      /* ses motoru yoksa arayüz yine çalışsın */
+    }
+  };
+  return (
+    <QtIkonDugme
+      tur="saydam"
+      ikon={acik ? "sesAcik" : "sesKapali"}
+      etiket={acik ? tt("Sesi kapat") : tt("Sesi aç")}
+      aria-pressed={acik}
+      onClick={degistir}
+    />
+  );
+}
 
 export default function MacUstSerit({ onCik, cikisEtiketi, rozet }) {
   return (
-    <div className="bd-mac-ust-serit">
+    <div className="m1-ust">
       {onCik ? (
-        <button type="button" className="bd-mac-cikis" aria-label={cikisEtiketi ?? tt("Maçtan çık")} onClick={onCik}>
-          <Ikon ad="carpi" boyut={18} />
-        </button>
+        <QtIkonDugme tur="saydam" ikon="carpi" etiket={cikisEtiketi ?? tt("Maçtan çık")} onClick={onCik} />
       ) : (
-        <span className="bd-mac-ust-bosluk" aria-hidden="true" />
+        <span className="m1-ust-bosluk" aria-hidden="true" />
       )}
-      {rozet ? <span className="bd-mac-mod-rozet">{rozet}</span> : <span />}
-      <SesDugmesi className="bd-mac-ses" />
+      <span className="m1-ust-orta">{rozet ? <QtRozet ton="koyu">{rozet}</QtRozet> : null}</span>
+      <SesAnahtari />
     </div>
   );
 }

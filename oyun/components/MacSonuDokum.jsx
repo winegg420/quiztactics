@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
 import { tt } from "../lib/dil.js";
+import { QtKart } from "../tasarim/index.js";
+import "../tasarim/ekranlar/m1-sonuc.css";
 
 /**
  * Maç sonu ekranındaki döküm bloğu:
@@ -26,8 +28,10 @@ export default function MacSonuDokum({ macId, kazanilanPuan = 0 }) {
           .select("soru_index, dogru, cevap")
           .eq("match_id", macId)
           .order("soru_index");
-        if (!error && aktif) setTurlar(data ?? []);
-      } catch {
+        if (error) throw error;
+        if (aktif) setTurlar(data ?? []);
+      } catch (e) {
+        console.warn("[Bildim] maç turları okunamadı:", e?.message ?? e);
         /* migration/RLS engeli — blok sessizce gizlenir */
       }
     })();
@@ -39,37 +43,35 @@ export default function MacSonuDokum({ macId, kazanilanPuan = 0 }) {
   if (!turlar || turlar.length === 0) return null;
 
   const dogruSayisi = turlar.filter((t) => t.dogru).length;
+  const durumu = (t) => (t.dogru ? "dogru" : t.cevap === -1 ? "sure" : "yanlis");
+  const durumAdi = { dogru: tt("doğru"), sure: tt("süre doldu"), yanlis: tt("yanlış") };
 
   // P2A: buradaki lig-puanı rütbe çubuğu kalktı — rütbe artık LEVEL'e bağlı ve level/XP
   // ilerlemesi bütün modlarda MacSonuSahnesi › LevelKazanci'de gösteriliyor (çift çubuk olmasın).
 
   return (
-    <div className="bd-sonuc-dokum">
-      <div className="bd-dokum-baslik">
-        {tt("Turların —")} <b>{dogruSayisi}</b>/{turlar.length} {tt("doğru")}
-      </div>
-      <div className="bd-dokum-turlar">
+    <QtKart dolgu="k" className="m1-dokum">
+      <p className="m1-dokum-baslik">
+        {tt("Turların: {d}/{t} doğru", { d: dogruSayisi, t: turlar.length })}
+      </p>
+      <ol className="m1-dokum-turlar">
         {turlar.map((t) => (
-          <span
+          <li
             key={t.soru_index}
-            className={`bd-tur-nokta ${
-              t.dogru ? "dogru" : t.cevap === -1 ? "sure" : "yanlis"
-            }`}
-            title={`${t.soru_index + 1}. soru: ${
-              t.dogru ? tt("doğru") : t.cevap === -1 ? tt("süre doldu") : tt("yanlış")
-            }`}
+            className={`m1-tur m1-tur--${durumu(t)}`}
+            aria-label={tt("{n}. soru: {durum}", { n: t.soru_index + 1, durum: durumAdi[durumu(t)] })}
           >
             {t.soru_index + 1}
-          </span>
+          </li>
         ))}
-      </div>
+      </ol>
       {/* Nötr noktanın ne demek olduğu yazmıyordu; canlı testte 17 nötr tur
           çıkmış ve oyuncu ne olduğunu anlamamıştı. Üç durum da adlandırıldı. */}
-      <div className="bd-dokum-anahtar">
-        <span><i className="dogru" />{tt("Doğru")}</span>
-        <span><i className="yanlis" />{tt("Yanlış")}</span>
-        <span><i className="sure" />{tt("Süre doldu")}</span>
+      <div className="m1-dokum-anahtar" aria-hidden="true">
+        <span><i className="m1-tur--dogru" />{tt("Doğru")}</span>
+        <span><i className="m1-tur--yanlis" />{tt("Yanlış")}</span>
+        <span><i className="m1-tur--sure" />{tt("Süre doldu")}</span>
       </div>
-    </div>
+    </QtKart>
   );
 }

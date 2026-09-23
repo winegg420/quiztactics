@@ -11,6 +11,10 @@
 // Ekrana dokunmak ya da Esc sekansı anında bitirir. prefers-reduced-motion
 // açıksa sekans hiç oynamaz: her şey son hâliyle, animasyonsuz görünür.
 //
+// Tasarım A (Şerit M1): görünüm oyun/tasarim/ekranlar/m1-sonuc.css (m1-ss-*).
+// Prop arayüzü AYNI (Düello da kullanıyor). Çağıranların eylem çubuğu kancaları
+// `.mss-tam` ve `.mss-eylem-yuva` korunur.
+//
 // Kurallar (CLAUDE.md iOS):
 //  - Zemin `position: fixed` ve TRANSFORM TAŞIMAZ.
 //  - Coin uçuşunda fixed kapsayıcı yerinde durur; hareket içteki iki
@@ -20,12 +24,14 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react
 import { createPortal } from "react-dom";
 import AvatarCerceve from "./AvatarCerceve.jsx";
 import AvatarDugmesi from "./AvatarDugmesi.jsx";
-import Ikon from "./Ikon.jsx";
 import SayanSayi from "./SayanSayi.jsx";
 import SenRozeti from "./SenRozeti.jsx";
 import LevelKazanci from "./LevelKazanci.jsx";
+import { QtCan, QtDugme, QtIkon, QtIlerleme } from "../tasarim/index.js";
 import { coinTazele } from "../lib/coin.js";
+import { sesCoin } from "../lib/ses.js";
 import { tt, ttSunucu } from "../lib/dil.js";
+import "../tasarim/ekranlar/m1-sonuc.css";
 
 // Adım eşikleri (ms). i. eşik geçilince adim = i + 1.
 // 1 zemin · 2 banner · 3 avatarlar · 4 kalp/skor · 5 ödül sayımı ·
@@ -33,8 +39,6 @@ import { tt, ttSunucu } from "../lib/dil.js";
 const ESIKLER = [0, 150, 450, 750, 1050, 1350, 1650, 1900];
 const ODUL_SAYIM_MS = 600;
 const COIN_ARA_MS = 80;
-const COIN_UCUS_MS = 500;
-const KALP_ARA_MS = 90;
 
 // Ana sayfa bildirim kartı: sonuç ekranı görüldüyse bu oturumda ana sayfada
 // sorulur (Paket 36 H). BildirimIzniSor'un kendi "ne zaman" mantığı aynen durur.
@@ -53,48 +57,34 @@ function kalanGecikme(baslangic, hedefMs) {
   return Math.max(0, hedefMs - (performance.now() - baslangic));
 }
 
-function Kalpler({ can, toplam, atlandi, gecikmeMs }) {
-  return (
-    <span className="mss-kalpler" role="img" aria-label={tt("{can}/{toplam} can", { can, toplam })}>
-      {Array.from({ length: toplam }).map((_, i) => (
-        <svg key={i} viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"
-             className={`mss-kalp ${i < can ? "dolu" : "bos"} mss-sira`}
-             style={atlandi ? undefined : { animationDelay: `${gecikmeMs + i * KALP_ARA_MS}ms` }}>
-          <path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.3 3 4.5 6.6 4.5c2.1 0 3.6 1.2 4.4 2.5.8-1.3 2.3-2.5 4.4-2.5 3.6 0 5.7 3.8 4.2 7.2C19.5 16.4 12 21 12 21z" />
-        </svg>
-      ))}
-    </span>
-  );
-}
-
 /** Karşılaşmadaki bir taraf. rol: "kazanan" | "kaybeden" | "esit" */
 function Taraf({ kisi, rol, yan, adim, atlandi, canToplam, sen }) {
   const boyut = rol === "kazanan" ? 96 : rol === "kaybeden" ? 72 : 84;
   const skor = kisi?.skor;
   return (
-    <div className={`mss-taraf ${yan} ${rol} mss-sira`}>
-      <div className="mss-avatar" style={{ "--boyut": `${boyut}px` }}>
-        {rol === "kazanan" && <span className="mss-hale" aria-hidden="true" />}
+    <div className={`m1-ss-taraf ${yan} ${rol}`}>
+      <div className="m1-ss-avatar" style={{ "--boyut": `${boyut}px` }}>
+        {rol === "kazanan" && <span className="m1-ss-hale" aria-hidden="true" />}
         {rol === "kazanan" && (
-          <span className="mss-tac" aria-hidden="true"><Ikon ad="kupa" boyut={18} /></span>
+          <span className="m1-ss-tac" aria-hidden="true"><QtIkon ad="kupa" boyut={18} /></span>
         )}
         {/* Paket 41 D: rakibin avatarına dokununca profil kartı (kendi avatarın düz kalır) */}
         <AvatarDugmesi userId={kisi?.profil?.id} profil={kisi?.profil} kendi={Boolean(sen) || yan === "sol"}>
           <AvatarCerceve profile={kisi?.profil} boyut={boyut} userId={kisi?.profil?.id} />
         </AvatarDugmesi>
       </div>
-      <div className="mss-isim">
-        <span className="mss-isim-metin">{kisi?.profil?.gorunen_ad ?? ""}</span>
+      <div className="m1-ss-isim">
+        <span className="m1-ss-isim-metin">{kisi?.profil?.gorunen_ad ?? ""}</span>
         {sen && <SenRozeti />}
       </div>
       {canToplam ? (
-        <Kalpler can={Math.max(0, kisi?.can ?? 0)} toplam={canToplam} atlandi={atlandi} gecikmeMs={ESIKLER[3]} />
+        <QtCan dolu={Math.max(0, kisi?.can ?? 0)} toplam={canToplam} etiket={kisi?.profil?.gorunen_ad} boyut={18} />
       ) : skor != null ? (
-        <div className="mss-skor">
+        <div className="m1-ss-skor">
           {atlandi ? skor : <SayanSayi deger={adim >= 4 ? skor : 0} sure={ODUL_SAYIM_MS} />}
         </div>
       ) : null}
-      {kisi?.ek && <div className="mss-taraf-ek">{kisi.ek}</div>}
+      {kisi?.ek && <div className="m1-ss-taraf-ek">{kisi.ek}</div>}
     </div>
   );
 }
@@ -103,12 +93,13 @@ function Taraf({ kisi, rol, yan, adim, atlandi, canToplam, sen }) {
 function OdulSatiri({ oduller, adim, atlandi, baslangic, hapRef }) {
   const [gecikme] = useState(() => kalanGecikme(baslangic, ESIKLER[4]));
   return (
-    <div className="mss-oduller mss-sira" style={atlandi ? undefined : { animationDelay: `${gecikme}ms` }}>
+    <div className="m1-ss-oduller m1-ss-sira" style={atlandi ? undefined : { animationDelay: `${gecikme}ms` }}>
       {oduller.map((o, i) => (
-        <span key={`${o.ikon}-${i}`} className="mss-odul" ref={o.ikon === "coin" ? hapRef : undefined}>
-          <Ikon ad={o.ikon} boyut={16} />
+        <span key={`${o.ikon}-${i}`} className={`m1-ss-odul${o.ikon === "coin" ? " m1-ss-odul--coin" : ""}`}
+              ref={o.ikon === "coin" ? hapRef : undefined}>
+          <QtIkon ad={o.ikon} boyut={18} />
           <b>+{atlandi ? o.deger : <SayanSayi deger={adim >= 5 ? o.deger : 0} sure={ODUL_SAYIM_MS} />}</b>
-          <span className="mss-odul-etiket">{o.etiket}</span>
+          <span className="m1-ss-odul-etiket">{o.etiket}</span>
         </span>
       ))}
     </div>
@@ -117,8 +108,7 @@ function OdulSatiri({ oduller, adim, atlandi, baslangic, hapRef }) {
 
 /**
  * Paket 37 D.1 — günlük görev ilerlemesi (ödül haplarının altında, Detay'ın üstünde).
- * En çok ilerlemiş iki görev; hiçbiri ilerlemediyse hiç çizilmez. Ödül haplarıyla aynı anda
- * (5. adım) girer; veri geç gelirse kalan gecikmeyle.
+ * En çok ilerlemiş iki görev; hiçbiri ilerlemediyse hiç çizilmez.
  */
 function GorevIlerlemesi({ gorevler, atlandi, baslangic }) {
   const [gecikme] = useState(() => kalanGecikme(baslangic, ESIKLER[4]));
@@ -131,23 +121,22 @@ function GorevIlerlemesi({ gorevler, atlandi, baslangic }) {
   // Paket 42 E.3: tamamlanan görevin ödülü kendiliğinden gelmiyor — nereden alınacağını söyle
   const alinacak = secilen.some((g) => g.ilerleme >= g.hedef && !g.alindi);
   return (
-    <div className="mss-gorevler mss-sira" aria-label={tt("Günlük görevler")}
+    <div className="m1-ss-gorevler m1-ss-sira" aria-label={tt("Günlük görevler")}
          style={atlandi ? undefined : { animationDelay: `${gecikme}ms` }}>
       {secilen.map((g) => {
         const bitti = g.ilerleme >= g.hedef;
         return (
-          <div key={g.id} className={`mss-gorev${bitti ? " bitti" : ""}`}>
-            <span className="mss-gorev-ad">{ttSunucu(g.ad)}</span>
-            <span className="mss-gorev-cubuk" role="progressbar" aria-valuemin={0} aria-valuemax={g.hedef}
-                  aria-valuenow={Math.min(g.ilerleme, g.hedef)} aria-label={ttSunucu(g.ad)}>
-              <span style={{ width: `${oran(g) * 100}%` }} />
-            </span>
-            <b className="mss-gorev-sayi">{Math.min(g.ilerleme, g.hedef)}/{g.hedef}</b>
-            {bitti && <span className="mss-gorev-onay" role="img" aria-label={tt("Tamamlandı")}><Ikon ad="onay" boyut={12} /></span>}
+          <div key={g.id} className="m1-ss-gorev">
+            <span className="m1-ss-gorev-ad">{ttSunucu(g.ad)}</span>
+            <QtIlerleme deger={Math.min(g.ilerleme, g.hedef)} en={g.hedef} ton={bitti ? "dogru" : "vurgu"} etiket={ttSunucu(g.ad)} />
+            <b className="m1-ss-gorev-sayi">{Math.min(g.ilerleme, g.hedef)}/{g.hedef}</b>
+            {bitti ? (
+              <span className="m1-ss-gorev-onay" role="img" aria-label={tt("Tamamlandı")}><QtIkon ad="onay" boyut={14} /></span>
+            ) : <span />}
           </div>
         );
       })}
-      {alinacak && <p className="mss-gorev-ipucu">{tt("Ödülünü ana sayfadaki Günlük Görevler'den al")}</p>}
+      {alinacak && <p className="m1-ss-gorev-ipucu">{tt("Ödülünü ana sayfadaki Günlük Görevler'den al")}</p>}
     </div>
   );
 }
@@ -163,21 +152,21 @@ function CoinUcusu({ kaynak, hedef, onBitti }) {
     const b = hedef?.getBoundingClientRect?.();
     if (!a || !b || !b.width) { onBittiRef.current?.(); return; }
     setYol({
-      x: a.left + 14, y: a.top + a.height / 2 - 7,
-      dx: b.left + b.width / 2 - (a.left + 14) - 7,
+      x: a.left + 14, y: a.top + a.height / 2 - 8,
+      dx: b.left + b.width / 2 - (a.left + 14) - 8,
       dy: b.top + b.height / 2 - (a.top + a.height / 2),
     });
   }, [kaynak, hedef]);
 
   if (!yol) return null;
   return createPortal(
-    <div className="mss-coin-ucus" aria-hidden="true"
+    <div className="m1-ss-coin-ucus" aria-hidden="true"
          style={{ left: yol.x, top: yol.y, "--dx": `${yol.dx}px`, "--dy": `${yol.dy}px` }}>
       {[0, 1, 2].map((i) => (
-        <span key={i} className="mss-coin-x" style={{ animationDelay: `${i * COIN_ARA_MS}ms` }}
+        <span key={i} className="m1-ss-coin-x" style={{ animationDelay: `${i * COIN_ARA_MS}ms` }}
               onAnimationEnd={i === 2 ? () => onBittiRef.current?.() : undefined}>
-          <span className="mss-coin-y" style={{ animationDelay: `${i * COIN_ARA_MS}ms` }}>
-            <Ikon ad="coin" boyut={14} />
+          <span className="m1-ss-coin-y" style={{ animationDelay: `${i * COIN_ARA_MS}ms` }}>
+            <QtIkon ad="coin" boyut={12} />
           </span>
         </span>
       ))}
@@ -230,6 +219,7 @@ export default function MacSonuSahnesi({
   const [coinHap, setCoinHap] = useState(null);
   const bannerRef = useRef(null);
   const kokRef = useRef(null);
+  const coinSesiRef = useRef(false);
   const tamam = adim >= 8;
 
   // Tek rAF döngüsü: geçen süreye göre adımı ilerletir; sökülünce iptal.
@@ -277,7 +267,7 @@ export default function MacSonuSahnesi({
       // Paket 42 E.4: içerik kısa kalınca eylem çubuğu ekranın ortasında kalıyordu. Sahne en az
       // "sahnenin başından sekme çubuğuna kadar" uzar; çubuk en alta iner (margin-top: auto).
       const ust = kok.getBoundingClientRect().top + window.scrollY;
-      kok.style.setProperty("--mss-min", `calc(100dvh - ${Math.round(ust + h)}px)`);
+      kok.style.setProperty("--m1-ss-min", `calc(100dvh - ${Math.round(ust + h)}px)`);
     };
     olc();
     window.addEventListener("resize", olc);
@@ -310,6 +300,13 @@ export default function MacSonuSahnesi({
     setUcus("uçuyor");
   }, [adim, atlandi, coinDegeri, coinHap, ucus]);
 
+  // Coin sesi: ödül sayacı artmaya başladığında bir kez (her +1'de değil).
+  useEffect(() => {
+    if (coinSesiRef.current || coinDegeri <= 0 || (adim < 5 && !atlandi)) return;
+    coinSesiRef.current = true;
+    sesCoin();
+  }, [adim, atlandi, coinDegeri]);
+
   const ucusBitti = useCallback(() => {
     setUcus("bitti");
     coinTazele();   // üst bar sayacı yeni bakiyeye sayarak geçer (CoinHapi → SayanSayi)
@@ -327,25 +324,25 @@ export default function MacSonuSahnesi({
   return (
     <div
       ref={kokRef}
-      className={`mss bd-sonuc-ekran ${durum}${atlandi ? " atla" : ""}${tamam ? " tamam" : ""}`}
+      className={`m1-ss ${durum}${atlandi ? " atla" : ""}${tamam ? " tamam" : ""}`}
       onClick={tamam ? undefined : atla}
     >
-      <div className="mss-zemin" aria-hidden="true">
-        {durum === "kazandi" && <div className="mss-isima" />}
+      <div className="m1-ss-zemin" aria-hidden="true">
+        {durum === "kazandi" && <div className="m1-ss-isima" />}
       </div>
 
-      <div className="mss-banner mss-sira" ref={bannerRef} tabIndex={-1} role="status" aria-live="polite">
-        <h2 className="mss-baslik">{baslik}</h2>
-        {altYazi && <p className="mss-alt">{altYazi}</p>}
+      <div className="m1-ss-banner" ref={bannerRef} tabIndex={-1} role="status" aria-live="polite">
+        <h2 className="m1-ss-baslik">{baslik}</h2>
+        {altYazi && <p className="m1-ss-alt">{altYazi}</p>}
       </div>
 
       {karsilasma ? (
-        <div className="mss-karsilasma serbest mss-sira">{karsilasma}</div>
+        <div className="m1-ss-karsilasma serbest">{karsilasma}</div>
       ) : ben ? (
-        <div className={`mss-karsilasma${rakip ? "" : " tek"}`}>
+        <div className={`m1-ss-karsilasma${rakip ? "" : " tek"}`}>
           <Taraf kisi={ben} rol={rakip ? rolBul("ben") : "esit"} yan="sol" adim={adim}
                  atlandi={atlandi} canToplam={canToplam} sen={Boolean(rakip)} />
-          {rakip && <div className="mss-vs mss-sira" aria-hidden="true">VS</div>}
+          {rakip && <div className="m1-ss-vs" aria-hidden="true">VS</div>}
           {rakip && (
             <Taraf kisi={rakip} rol={rolBul("rakip")} yan="sag" adim={adim}
                    atlandi={atlandi} canToplam={canToplam} />
@@ -356,7 +353,7 @@ export default function MacSonuSahnesi({
       {oduller2.length > 0 ? (
         <OdulSatiri oduller={oduller2} adim={adim} atlandi={atlandi} baslangic={baslangic} hapRef={setCoinHap} />
       ) : odulNotu ? (
-        <div className="mss-odul-notu mss-sira">{odulNotu}</div>
+        <div className="m1-ss-odul-notu m1-ss-sira" style={atlandi ? undefined : { animationDelay: `${ESIKLER[4]}ms` }}>{odulNotu}</div>
       ) : null}
 
       {/* P2A: XP + level (Klasik, Düello v1/v2, turnuva — mod paritesi) */}
@@ -367,33 +364,40 @@ export default function MacSonuSahnesi({
       )}
 
       {ozet && (
-        <div className={`mss-detay mss-sira${detayAcik ? " acik" : ""}`}>
-          <button type="button" className="mss-detay-dugme" aria-expanded={detayAcik}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    // Paket 42 E.1: açılınca Detay başa kaydırılır; içerik çubuğun arkasında kalmaz
-                    if (!detayAcik) {
-                      const dugme = e.currentTarget;
-                      const azalt = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-                      requestAnimationFrame(() => dugme.scrollIntoView({ block: "start", behavior: azalt ? "auto" : "smooth" }));
-                    }
-                    setDetayAcik((a) => !a);
-                  }}>
-            <span>{tt("Detay")}</span>
-            {detayRozet > 0 && <span className="mss-detay-rozet">({detayRozet})</span>}
-            <svg className="mss-detay-ok" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-              <path d="M6 9l6 6 6-6" />
-            </svg>
-          </button>
-          <div className="mss-detay-govde" inert={!detayAcik}>
-            <div className="mss-detay-ic">{ozet}</div>
+        <div className={`m1-ss-detay m1-ss-sira${detayAcik ? " acik" : ""}`}
+             style={atlandi ? undefined : { animationDelay: `${ESIKLER[6]}ms` }}>
+          <QtDugme
+            tur="ikincil"
+            boyut="k"
+            className="m1-ss-detay-dugme"
+            ikonSag="asagi"
+            aria-expanded={detayAcik}
+            onClick={(e) => {
+              e.stopPropagation();
+              // Paket 42 E.1: açılınca Detay başa kaydırılır; içerik çubuğun arkasında kalmaz
+              if (!detayAcik) {
+                const dugme = e.currentTarget;
+                const az = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+                requestAnimationFrame(() => dugme.scrollIntoView({ block: "start", behavior: az ? "auto" : "smooth" }));
+              }
+              setDetayAcik((a) => !a);
+            }}
+          >
+            {tt("Detay")}
+            {detayRozet > 0 && <span className="m1-ss-detay-rozet"> ({detayRozet})</span>}
+          </QtDugme>
+          <div className="m1-ss-detay-govde" inert={!detayAcik}>
+            <div className="m1-ss-detay-ic">{ozet}</div>
           </div>
         </div>
       )}
 
-      {children && <div className="mss-ek">{children}</div>}
+      {children && (
+        <div className="m1-ss-ek m1-ss-sira" style={atlandi ? undefined : { animationDelay: `${ESIKLER[6]}ms` }}>{children}</div>
+      )}
 
-      <div className="mss-eylem mss-sira" inert={!tamam}>{eylemler}</div>
+      <div className="m1-ss-eylem-bosluk" aria-hidden="true" />
+      <div className="m1-ss-eylem" inert={!tamam}>{eylemler}</div>
 
       {ucus === "uçuyor" && <CoinUcusu kaynak={coinHap} hedef={hedef} onBitti={ucusBitti} />}
     </div>

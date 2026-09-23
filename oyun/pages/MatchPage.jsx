@@ -1,13 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import SenRozeti from "../components/SenRozeti.jsx";
-import SayanSayi from "../components/SayanSayi.jsx";
 import SureDolduGecis from "../components/SureDolduGecis.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
-import Avatar from "../../src/components/Avatar.jsx";
-import AvatarCerceve from "../components/AvatarCerceve.jsx";
 import QuestionCard from "../components/QuestionCard.jsx";
 import MacSonuSahnesi from "../components/MacSonuSahnesi.jsx";
 import MacSonuEklentisi from "../components/MacSonuEklentisi.jsx";
@@ -17,7 +13,8 @@ import MacSorulari from "../components/MacSorulari.jsx";
 import HesapGuvenceOnerisi from "../components/HesapGuvence.jsx";
 import MeydanaDonus from "../components/MeydanaDonus.jsx";
 import Maskot from "../components/Maskot.jsx";
-import Ikon from "../components/Ikon.jsx";
+import { QtAvatar, QtBosDurum, QtCip, QtDugme, QtEtki, QtIkon, QtIkonDugme, QtMacUst, QtRozet } from "../tasarim/index.js";
+import "../tasarim/ekranlar/m1-mac.css";
 import MacUstSerit from "../components/MacUstSerit.jsx";
 import { TEPKILER, tepkiIkonu } from "../lib/tepkiler.js";
 import MacYukleniyor from "../components/MacYukleniyor.jsx";
@@ -53,8 +50,10 @@ const MAC_SECIMI = `*,
 // Balonda gösterim: mesaj bir tepki emojisiyse ikonu, değilse metni çiz.
 function balonIcerik(mesaj) {
   const ad = tepkiIkonu(mesaj);
-  return ad ? <Ikon ad={ad} boyut={20} /> : mesaj;
+  return ad ? <QtIkon ad={ad} boyut={20} /> : mesaj;
 }
+// Profil satırındaki görsel (gizlilik sonrası gorunen_avatar; eski modüllerde avatar_url).
+const avatarSrc = (p) => (p?.gorunen_avatar !== undefined ? p.gorunen_avatar : p?.avatar_url) || null;
 const KALIPLAR = [
   tt("İyi şanslar!"),
   tt("Bunu biliyordum!"),
@@ -696,30 +695,28 @@ export default function MatchPage() {
     const benimProfil = benP1 ? mac.p1 : mac.p2;
 
     if (mac.durum === "bekliyor") {
+      // Paket 41 M.4: kalan süre (cevapsız davet 24 saatte düşer — eski_davetleri_temizle) + geri çekme
+      const kalanDk = mac.created_at
+        ? Math.max(0, Math.round((new Date(mac.created_at).getTime() + 24 * 3600000 - Date.now()) / 60000))
+        : null;
       return (
-        <div className="buyuk-mesaj">
-          <div className="emoji"><Ikon ad="saat" boyut={44} /></div>
-          <h2>{tt("Cevap bekleniyor")}</h2>
-          <p className="alt-yazi">{rakipProfil?.gorunen_ad} {tt("henüz kabul etmedi.")}</p>
-          {/* Paket 41 M.4: kalan süre (cevapsız davet 24 saatte düşer — eski_davetleri_temizle) + geri çekme */}
-          {mac.created_at && (() => {
-            const kalanDk = Math.max(0, Math.round((new Date(mac.created_at).getTime() + 24 * 3600000 - Date.now()) / 60000));
-            return (
-              <p className="alt-yazi">
-                {kalanDk >= 60
-                  ? tt("Davet {0} saat daha geçerli.", { 0: Math.floor(kalanDk / 60) })
-                  : tt("Davet {0} dakika daha geçerli.", { 0: kalanDk })}
-              </p>
-            );
-          })()}
-          {mac.oyuncu1 === user.id && (
-            <button className="btn ikincil" style={{ marginTop: 12, maxWidth: 280 }} onClick={maciIptalEt}>
-              {tt("Daveti geri çek")}
-            </button>
+        <div className="m1-mesaj">
+          <span className="m1-mesaj-ikon" aria-hidden="true"><QtIkon ad="saat" boyut={36} /></span>
+          <h1 className="qt-baslik-1">{tt("Cevap bekleniyor")}</h1>
+          <p>{tt("{0} henüz kabul etmedi.", { 0: rakipProfil?.gorunen_ad ?? "" })}</p>
+          {kalanDk !== null && (
+            <p>
+              {kalanDk >= 60
+                ? tt("Davet {0} saat daha geçerli.", { 0: Math.floor(kalanDk / 60) })
+                : tt("Davet {0} dakika daha geçerli.", { 0: kalanDk })}
+            </p>
           )}
-          <button className="btn" style={{ marginTop: 10, maxWidth: 280 }} onClick={() => navigate(y("/meydan"))}>
-            {tt("Meydan okumalara dön")}
-          </button>
+          <div className="m1-dugmeler">
+            <QtDugme tamGenislik onClick={() => navigate(y("/meydan"))}>{tt("Meydan okumalara dön")}</QtDugme>
+            {mac.oyuncu1 === user.id && (
+              <QtDugme tur="hayalet" tamGenislik onClick={maciIptalEt}>{tt("Daveti geri çek")}</QtDugme>
+            )}
+          </div>
         </div>
       );
     }
@@ -748,19 +745,17 @@ export default function MatchPage() {
           onAsenkron={rakipBot ? null : asenkronaGec}
           bekleyenSn={nabiz?.lobi_saniye ?? 0}
           tabela={
-            <div className="skor-tabela bd-vs" style={{ maxWidth: 360, margin: "0 auto 16px" }}>
-              <div className="taraf bd-vs-taraf">
-                <Avatar profile={benimProfil} boyut={44} />
-                <div className="isim">{benimProfil?.gorunen_ad}<SenRozeti /></div>
-                <div className={"bd-vs-ilerleme" + (nabiz?.ben_hazir ? " hazir" : "")}>{nabiz?.ben_hazir ? tt("hazır") : tt("hazır değil")}</div>
+            <div className="m1-vs">
+              <div className="m1-vs-taraf">
+                <QtAvatar src={avatarSrc(benimProfil)} ad={benimProfil?.gorunen_ad ?? ""} boyut="l" halka="vurgu" />
+                <span className="m1-vs-ad">{benimProfil?.gorunen_ad}</span>
+                <QtRozet boyut="k" ton={nabiz?.ben_hazir ? "dogru" : "koyu"}>{nabiz?.ben_hazir ? tt("hazır") : tt("hazır değil")}</QtRozet>
               </div>
-              <div className="vs bd-vs-rozet">VS</div>
-              <div className="taraf bd-vs-taraf">
-                <Avatar profile={rakipProfil} boyut={44} />
-                <div className="isim">{rakipProfil?.gorunen_ad}</div>
-                <div className={"bd-vs-ilerleme" + (nabiz?.rakip_hazir ? " hazir" : "")}>
-                  {nabiz?.rakip_hazir ? tt("hazır") : tt("hazır değil")}
-                </div>
+              <span className="m1-vs-rozet" aria-hidden="true">VS</span>
+              <div className="m1-vs-taraf">
+                <QtAvatar src={avatarSrc(rakipProfil)} ad={rakipProfil?.gorunen_ad ?? ""} boyut="l" halka="yanlis" />
+                <span className="m1-vs-ad">{rakipProfil?.gorunen_ad}</span>
+                <QtRozet boyut="k" ton={nabiz?.rakip_hazir ? "dogru" : "koyu"}>{nabiz?.rakip_hazir ? tt("hazır") : tt("hazır değil")}</QtRozet>
               </div>
             </div>
           }
@@ -770,12 +765,12 @@ export default function MatchPage() {
 
     if (mac.durum === "reddedildi" || mac.durum === "iptal") {
       return (
-        <div className="buyuk-mesaj">
-          <div className="emoji"><Ikon ad="carpi" boyut={40} /></div>
-          <h2>{tt("Meydan okuma reddedildi")}</h2>
-          <button className="btn" style={{ marginTop: 16 }} onClick={() => navigate(y("/meydan"))}>
-            {tt("Geri dön")}
-          </button>
+        <div className="m1-mesaj">
+          <span className="m1-mesaj-ikon" aria-hidden="true"><QtIkon ad="carpi" boyut={36} /></span>
+          <h1 className="qt-baslik-1">{tt("Meydan okuma reddedildi")}</h1>
+          <div className="m1-dugmeler">
+            <QtDugme tamGenislik onClick={() => navigate(y("/meydan"))}>{tt("Geri dön")}</QtDugme>
+          </div>
         </div>
       );
     }
@@ -845,42 +840,31 @@ export default function MatchPage() {
                 const sonucYazi = berabere
                   ? tt("{0} ile {1}-{2} berabere kaldım", { 0: rakipProfil?.gorunen_ad, 1: benimSkor, 2: rakipSkor })
                   : kazandim
-                    ? `${rakipProfil?.gorunen_ad}'i ${benimSkor}-${rakipSkor} yendim!`
+                    ? tt("{0} karşısında {1}-{2} kazandım!", { 0: rakipProfil?.gorunen_ad, 1: benimSkor, 2: rakipSkor })
                     : tt("{0} karşısında kıl payı kaybettim", { 0: rakipProfil?.gorunen_ad });
                 const mesaj = tt("Quiz Tactics'te {0} Sen de gel, kapışalım: {1}/?davet={2}", { 0: sonucYazi, 1: window.location.origin, 2: user.id });
                 const enc = encodeURIComponent(mesaj);
                 return (
-                  <div className="paylas-bar">
-                    <a
-                      className="paylas wa"
-                      href={`https://wa.me/?text=${enc}`}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
+                  <div className="m1-ss-satir" role="group" aria-label={tt("Paylaş")}>
+                    <QtDugme as="a" tur="ikincil" boyut="k" ikon="paylas" href={`https://wa.me/?text=${enc}`} target="_blank" rel="noreferrer">
                       WhatsApp
-                    </a>
-                    <a
-                      className="paylas x"
-                      href={`https://twitter.com/intent/tweet?text=${enc}`}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
+                    </QtDugme>
+                    <QtDugme as="a" tur="ikincil" boyut="k" href={`https://twitter.com/intent/tweet?text=${enc}`} target="_blank" rel="noreferrer">
                       {tt("𝕏 Paylaş")}
-                    </a>
-                    <button
-                      className="paylas diger"
+                    </QtDugme>
+                    <QtDugme
+                      tur="ikincil"
+                      boyut="k"
+                      ikon="kopyala"
                       onClick={async () => {
-                        if (navigator.share) {
-                          try {
-                            await navigator.share({ title: "Quiz Tactics", text: mesaj });
-                          } catch { /* vazgeçti */ }
-                        } else {
-                          await navigator.clipboard.writeText(mesaj);
-                        }
+                        try {
+                          if (navigator.share) await navigator.share({ title: "Quiz Tactics", text: mesaj });
+                          else await navigator.clipboard.writeText(mesaj);
+                        } catch { /* vazgeçti ya da pano kapalı */ }
                       }}
                     >
                       {tt("Diğer")}
-                    </button>
+                    </QtDugme>
                   </div>
                 );
               })()}
@@ -889,10 +873,10 @@ export default function MatchPage() {
           eylemler={
             <>
               {rakipBot && (
-                <button
-                  className="btn mss-tam"
-                  disabled={botRovans}
-                  aria-busy={botRovans}
+                <QtDugme
+                  className="mss-tam"
+                  ikon="yenile"
+                  yukleniyor={botRovans}
                   onClick={async () => {
                     setBotRovans(true);
                     try {
@@ -910,15 +894,19 @@ export default function MatchPage() {
                     }
                   }}
                 >
-                  {botRovans ? "…" : tt("Rövanş")}
-                </button>
+                  {tt("Rövanş")}
+                </QtDugme>
               )}
               {/* Gerçek rakipte Rövanş isteği MacSonuEklentisi'nden buraya çizilir */}
               <div className="mss-eylem-yuva" ref={setRovansYuva} />
-              <button className={`btn${rovansVar ? " ikincil" : " mss-tam"}`} onClick={() => navigate(y("/meydan"))}>
+              <QtDugme
+                tur={rovansVar ? "ikincil" : "birincil"}
+                className={rovansVar ? "" : "mss-tam"}
+                onClick={() => navigate(y("/meydan"))}
+              >
                 {tt("Meydan okumalara dön")}
-              </button>
-              <button className="btn ikincil" onClick={() => navigate(y())}>{tt("Ana sayfa")}</button>
+              </QtDugme>
+              <QtDugme tur="ikincil" onClick={() => navigate(y())}>{tt("Ana sayfa")}</QtDugme>
             </>
           }
         >
@@ -929,52 +917,39 @@ export default function MatchPage() {
               Sayfa kendiliğinden kapanmıyor; oyuncular isterlerse burada kalıp
               konuşmaya devam eder, çıkmaya kendileri karar verir. Sohbet ve
               sesli sohbet bu yüzden sonuç ekranında da duruyor. */}
-          <div className="bd-oturum-notu">
-            {tt("Maç bitti ama oturum açık: istersen burada kalıp")}
-            {rakipBot ? tt(" sohbet edebilirsin") : tt(" {0} ile konuşmaya devam edebilirsin", { 0: rakipProfil?.gorunen_ad })}{tt(". Çıkmak sana kalmış.")}
-          </div>
+          <p className="m1-ss-not">
+            {rakipBot
+              ? tt("Maç bitti ama oturum açık: istersen burada kalıp sohbet edebilirsin. Çıkmak sana kalmış.")
+              : tt("Maç bitti ama oturum açık: istersen burada kalıp {0} ile konuşmaya devam edebilirsin. Çıkmak sana kalmış.", { 0: rakipProfil?.gorunen_ad ?? "" })}
+          </p>
 
           <div className="bd-ses-yuva" ref={setSesYuva} />
 
           {(balonlar[user.id] || balonlar[rakipProfil?.id]) && (
-            <div className="balon-satir">
-              <div className="balon-yuva">
-                {balonlar[user.id] && (
-                  <div className="balon">{balonIcerik(balonlar[user.id])}</div>
-                )}
-              </div>
-              <div className="balon-yuva sag">
-                {balonlar[rakipProfil?.id] && (
-                  <div className="balon rakip">{balonIcerik(balonlar[rakipProfil?.id])}</div>
-                )}
-              </div>
+            <div className="m1-balonlar" aria-live="polite">
+              {balonlar[user.id] && <div className="m1-balon">{balonIcerik(balonlar[user.id])}</div>}
+              {balonlar[rakipProfil?.id] && (
+                <div className="m1-balon m1-balon--rakip">{balonIcerik(balonlar[rakipProfil?.id])}</div>
+              )}
             </div>
           )}
 
-          <div className="sohbet-bar">
+          <div className="m1-tepki" role="group" aria-label={tt("Tepkiler")}>
             {TEPKILER.map((t) => (
-              <button
-                key={t.deger}
-                onClick={() => mesajGonder(t.deger)}
-                aria-label={t.etiket}
-                title={t.etiket}
-              >
-                <Ikon ad={t.ad} boyut={18} />
-              </button>
+              <QtIkonDugme key={t.deger} ikon={t.ad} etiket={t.etiket} onClick={() => mesajGonder(t.deger)} />
             ))}
-            <button
-              className={kaliplarAcik ? "acik" : ""}
+            <QtIkonDugme
+              ikon="sohbet"
+              etiket={tt("Hazır cümleler")}
+              aria-expanded={kaliplarAcik}
+              tur={kaliplarAcik ? "mor" : "yuzey"}
               onClick={() => setKaliplarAcik((a) => !a)}
-            >
-              <Ikon ad="sohbet" boyut={18} />
-            </button>
+            />
           </div>
           {kaliplarAcik && (
-            <div className="kalip-liste">
+            <div className="m1-kaliplar">
               {KALIPLAR.map((k) => (
-                <button key={k} onClick={() => mesajGonder(k)}>
-                  {k}
-                </button>
+                <QtCip key={k} aria-pressed={undefined} onClick={() => mesajGonder(k)}>{k}</QtCip>
               ))}
             </div>
           )}
@@ -985,34 +960,28 @@ export default function MatchPage() {
     // Asenkron maç: kendi bölümümüz bitti ama rakip henüz oynamadı.
     // Maç burada kapanmaz — rakip kendi zamanında oynayınca sonuçlanır.
     const benimSoru = benP1 ? (mac.oyuncu1_soru ?? 0) : (mac.oyuncu2_soru ?? 0);
-    // Son 3 soru: tabelanın kenarlığı altına döner
-    const sonDuzluk = toplamSoru - benimSoru <= 3;
+    const senOyuncu = {
+      ad: benimProfil?.gorunen_ad ?? tt("Sen"),
+      avatar: avatarSrc(benimProfil),
+    };
+    const rakipOyuncu = {
+      ad: rakipProfil?.gorunen_ad ?? tt("Rakip"),
+      avatar: avatarSrc(rakipProfil),
+    };
     // Bu ekran YALNIZ eski asenkron maçlara ait: senkron maçta iki taraf aynı
     // anda bitirir, maç da o anda sonuçlanır.
     if (!senkron && mac.durum === "aktif" && benimSoru >= toplamSoru) {
       return (
-        <div className="buyuk-mesaj">
-          <Maskot poz="selam" boyut={104} className="bd-sonuc-maskot" />
-          <h2>{tt("Senin bölümün bitti")}</h2>
-          <p className="alt-yazi" style={{ marginBottom: 14 }}>
-            {toplamSoru} {tt("sorunun tamamını oynadın.")} <b>{rakipProfil?.gorunen_ad}</b> {tt("kendi zamanında oynayınca maç sonuçlanacak — bittiğinde sana haber vereceğiz.")}
+        <div className="m1-mesaj">
+          <Maskot poz="selam" boyut={96} />
+          <h1 className="qt-baslik-1">{tt("Senin bölümün bitti")}</h1>
+          <p>
+            {tt("{0} sorunun tamamını oynadın. {1} kendi zamanında oynayınca maç sonuçlanacak — bittiğinde sana haber vereceğiz.", { 0: toplamSoru, 1: rakipProfil?.gorunen_ad ?? "" })}
           </p>
-          <div className="skor-tabela bd-vs" style={{ maxWidth: 360, margin: "0 auto 16px" }}>
-            <div className="taraf bd-vs-taraf">
-              <div className="isim">{benimProfil?.gorunen_ad}<SenRozeti /></div>
-              <div className="skor"><SayanSayi deger={benimSkor} /></div>
-              <div className="bd-vs-ilerleme">{ilerleme.ben}/{toplamSoru}</div>
-            </div>
-            <div className="vs bd-vs-rozet">VS</div>
-            <div className="taraf bd-vs-taraf">
-              <div className="isim">{rakipProfil?.gorunen_ad}</div>
-              <div className="skor"><SayanSayi deger={rakipSkor} /></div>
-              <div className="bd-vs-ilerleme">{ilerleme.rakip}/{toplamSoru}</div>
-            </div>
+          <QtMacUst sen={senOyuncu} rakip={rakipOyuncu} skor={[benimSkor ?? 0, rakipSkor ?? 0]} />
+          <div className="m1-dugmeler">
+            <QtDugme tamGenislik onClick={() => navigate(y("/meydan"))}>{tt("Yeni maça başla")}</QtDugme>
           </div>
-          <button className="btn" onClick={() => navigate(y("/meydan"))}>
-            {tt("Yeni maça başla")}
-          </button>
         </div>
       );
     }
@@ -1024,9 +993,11 @@ export default function MatchPage() {
       ilkGirisRef.current = !senkron && ilerleme.rakip > ilerleme.ben && benimSoru === 0;
     }
     const rakipOnde = ilkGirisRef.current;
+    // Rakip bu soruyu cevapladı mı (senkronda sayaç ortak soruyu geçtiyse) — küçük onay rozeti.
+    const rakipCevapladi = rakipNabiz || (senkron && ilerleme.rakip > kendiIndeks);
 
     return (
-      <div>
+      <>
         {/* 3-2-1: iki oyuncuda da AYNI ANDA biter, ilk soru gecikmesiz açılır. */}
         {geriSayim !== null && <GeriSayim kalan={geriSayim} />}
 
@@ -1047,111 +1018,67 @@ export default function MatchPage() {
         />
 
         {rakipOnde && !bilgiKapandi && (
-          <div className="bd-mac-bilgi">
-            <span className="ikon" aria-hidden="true">
-              <Ikon ad="saat" boyut={18} />
+          <div className="m1-bant m1-bant--bilgi">
+            <span>
+              {tt("{0} senden önde. Bu maç sıra beklemeden oynanır — sen kendi hızında devam et, rakibin de kendi zamanında oynar.", { 0: rakipProfil?.gorunen_ad ?? "" })}
             </span>
-            <span style={{ flex: 1 }}>
-              <b>{rakipProfil?.gorunen_ad}</b> {tt("senden önde. Bu maç sıra beklemeden oynanır — sen kendi hızında devam et, rakibin de kendi zamanında oynar.")}
-            </span>
-            <button
-              className="btn kucuk ikincil"
-              aria-label={tt("Kapat")}
-              onClick={() => setBilgiKapandi(true)}
-            >
-              <Ikon ad="carpi" boyut={16} />
-            </button>
+            <QtIkonDugme tur="saydam" ikon="carpi" etiket={tt("Kapat")} onClick={() => setBilgiKapandi(true)} />
           </div>
         )}
 
         {/* ÖDÜL UYARISI — aynı rakiple aynı gün çok maç yapılınca ödül azalır.
             Maç yine oynanır; oyuncu bunu BAŞTAN bilsin diye yazılır. */}
         {ciftDurum && Number(ciftDurum.carpan) < 1 && (
-          <div className="durum-bandi odul-azaldi">
-            {Number(ciftDurum.carpan) === 0
-              ? tt("Bugün bu rakiple {0}. maçın — bu bir dostluk maçı, puan ve coin vermez.", { 0: ciftDurum.sira })
-              : tt("Bugün bu rakiple {0}. maçın — ödül yarıya düşecek.", { 0: ciftDurum.sira })}
+          <div className="m1-bant">
+            <span>
+              {Number(ciftDurum.carpan) === 0
+                ? tt("Bugün bu rakiple {0}. maçın — bu bir dostluk maçı, puan ve coin vermez.", { 0: ciftDurum.sira })
+                : tt("Bugün bu rakiple {0}. maçın — ödül yarıya düşecek.", { 0: ciftDurum.sira })}
+            </span>
           </div>
         )}
 
-        {/* Üst tabela: kim önde belli olsun. Önde olan hafif büyük ve
-            kenarlıklı, geride olan sönük. Son 3 soruda tabelanın kenarlığı
-            altına döner ("maç kızışıyor"). */}
-        <div className={`skor-tabela bd-vs ${sonDuzluk ? "bd-vs-kizisti" : ""}`}>
-          <div
-            className={`taraf bd-vs-taraf ${
-              benimSkor > rakipSkor ? "onde" : benimSkor < rakipSkor ? "geride" : ""
-            }`}
-          >
-            <AvatarCerceve profile={benimProfil} boyut={44} userId={user.id} />
-            <div className="isim">{benimProfil?.gorunen_ad}<SenRozeti /></div>
-            <div className="skor"><SayanSayi deger={benimSkor} /></div>
-            <div className="bd-vs-ilerleme">{ilerleme.ben}/{toplamSoru}</div>
-          </div>
-          {/* Senkronda ortak soru numarası; eski maçlarda KENDİ sıramız */}
-          <div className="vs bd-vs-rozet">
-            {Math.min((senkron ? kendiIndeks : benimSoru) + 1, toplamSoru)}/{toplamSoru}
-          </div>
-          <div
-            className={`taraf bd-vs-taraf ${
-              rakipSkor > benimSkor ? "onde" : rakipSkor < benimSkor ? "geride" : ""
-            } ${rakipNabiz ? "bd-nabiz" : ""}`}
-          >
-            <AvatarCerceve profile={rakipProfil} boyut={44} userId={benP1 ? mac.oyuncu2 : mac.oyuncu1} />
-            <div className="isim">{rakipProfil?.gorunen_ad}</div>
-            <div className="skor"><SayanSayi deger={rakipSkor} /></div>
-            <div className="bd-vs-ilerleme">{ilerleme.rakip}/{toplamSoru}</div>
-          </div>
-        </div>
+        {/* Üst tabela: iki oyuncu + skor. Skor değişince zıplar. */}
+        <QtMacUst
+          sen={senOyuncu}
+          rakip={{
+            ...rakipOyuncu,
+            etkiler: rakipCevapladi ? <QtEtki ikon="onay" etiket={tt("Rakip cevapladı")} /> : null,
+          }}
+          skor={[benimSkor ?? 0, rakipSkor ?? 0]}
+          skorAnahtar={benimSkor ?? 0}
+        />
 
         {(balonlar[user.id] || balonlar[rakipProfil?.id]) && (
-          <div className="balon-satir">
-            <div className="balon-yuva">
-              {balonlar[user.id] && (
-                <div className="balon">{balonIcerik(balonlar[user.id])}</div>
-              )}
-            </div>
-            <div className="balon-yuva sag">
-              {balonlar[rakipProfil?.id] && (
-                <div className="balon rakip">{balonIcerik(balonlar[rakipProfil?.id])}</div>
-              )}
-            </div>
+          <div className="m1-balonlar" aria-live="polite">
+            {balonlar[user.id] && <div className="m1-balon">{balonIcerik(balonlar[user.id])}</div>}
+            {balonlar[rakipProfil?.id] && (
+              <div className="m1-balon m1-balon--rakip">{balonIcerik(balonlar[rakipProfil?.id])}</div>
+            )}
           </div>
         )}
 
-        {jokerHata && <div className="hata-kutu">{jokerHata}</div>}
+        {jokerHata && <div className="m1-bant m1-bant--hata" role="alert"><span>{jokerHata}</span></div>}
 
         {/* Soru gelmedi: sessizce donmak yerine sebebini söyle ve yol ver.
             (Denemeler oyun/lib/soruCek.js'te; buraya düşmesi hepsinin
             tükendiği anlamına gelir.) */}
         {soruHatasi && !soru && (
-          <div className="kart bd-soru-hata" role="alert">
-            <Ikon ad="saat" boyut={24} />
-            <p>{tt("Soru gelmedi. Bağlantını kontrol edip tekrar dene.")}</p>
-            <button
-              type="button"
-              className="btn"
-              onClick={() => { setSoruHatasi(false); setDuraklamaTuru((n) => n + 1); macYukle(); }}
-            >
-              {tt("Tekrar dene")}
-            </button>
-          </div>
+          <QtBosDurum
+            ikon="uyari"
+            ton="yanlis"
+            baslik={tt("Soru gelmedi")}
+            metin={tt("Bağlantını kontrol edip tekrar dene.")}
+            eylem={
+              <QtDugme onClick={() => { setSoruHatasi(false); setDuraklamaTuru((n) => n + 1); macYukle(); }}>
+                {tt("Tekrar dene")}
+              </QtDugme>
+            }
+          />
         )}
 
         {soru && (
           <QuestionCard
-            // `kendiIndeks`e bağlanır. SENKRON maçta bu zaten `aktif_soru`nun
-            // kendisidir (yukarıdaki hesaba bak) — yani senkron bozulmaz.
-            // ESKİ ASENKRON maçlarda ise herkesin kendi indeksidir.
-            //
-            // Neden doğrudan `aktif_soru` yazılmıyor: asenkron maçlarda o
-            // sayaç iki oyuncudan hangisi ileriyse onu gösterir; key ona
-            // bağlıyken rakibin her cevabı kartı komple yeniden bindiriyordu
-            // (seçili şık, süre sayacı ve sonuç ekranı sıfırlanıyor,
-            // oyuncu "sayfa yenilendi" diyordu).
-            //
-            // Soruyu çeken effect de `kendiIndeks`e bağlı; key onunla aynı
-            // kaynağa bakar.
             // KEY GÖSTERİLEN SORUYA BAĞLI (Paket 14, 5.2 — ölçüldü): eskiden
             // `kendiIndeks`e bağlıydı. Rakip önce cevaplamışsa bizim cevabımız
             // sunucuda soruyu anında ilerletiyor, Realtime ~300-500 ms'de indeksi
@@ -1159,6 +1086,7 @@ export default function MatchPage() {
             // doğru cevap işareti siliniyor, yeni soru 1 sn sonra geldiği için
             // ekran işaretsiz/donmuş görünüyordu. Yeni soru geri bildirim
             // penceresi (GB_MS) dolunca çekiliyor; kart da ancak o zaman değişir.
+            // (Asenkron maçlarda `kendiIndeks` herkesin kendi sırasıdır.)
             key={`${mac.id}-${soru.soru_index ?? kendiIndeks}-${duraklamaTuru}`}
             soru={soru}
             onCevapla={cevapla}
@@ -1169,75 +1097,69 @@ export default function MatchPage() {
             sisBitis={sisBitis}
             macId={id}
             kategori={mac.kategori}
+            toplamSoru={toplamSoru}
           />
         )}
 
         {cevapladim && (
-          <div className="alt-yazi" style={{ textAlign: "center", marginTop: 14 }}>
+          <div className="m1-bekleme" role="status">
             {senkron
-              ? tt("{0} cevaplayınca soru geçecek…", { 0: rakipProfil?.gorunen_ad })
+              ? tt("{0} cevaplayınca soru geçecek…", { 0: rakipProfil?.gorunen_ad ?? "" })
               : tt("Sıradaki soru geliyor…")}
           </div>
         )}
 
-        {/* Sesli sohbet yazılı sohbetin ÜSTÜNDE: yalnız arkadaş olan iki oyuncu
-            aynı anda maçtayken çizilir, aksi halde hiç görünmez. */}
-        <div className="bd-ses-yuva" ref={setSesYuva} />
+        <div className="m1-alt">
+          {/* Sesli sohbet: yalnız arkadaş olan iki oyuncu aynı anda maçtayken çizilir. */}
+          <div className="bd-ses-yuva" ref={setSesYuva} />
 
-        {/* SADELEŞTİRME (12 Eylül 2026).
-            Soru ekranının altında yedi tepki düğmesi + bir sohbet düğmesi
-            duruyordu: sekiz dokunma hedefi, hepsi cevap vermekle yarışıyor.
-            Ekranın tek işi soruyu cevaplamak; tepkiler bir katman aşağı
-            indi. Tek düğme paneli açıyor, panelde aynı tepkiler ve aynı
-            kalıplar var — hiçbir özellik kaybolmadı. */}
-        <div className="sohbet-bar bd-tepki-tek">
-          <button
-            className={tepkiAcik ? "acik" : ""}
-            aria-expanded={tepkiAcik}
-            aria-label={tt("Tepki gönder")}
-            onClick={() => setTepkiAcik((a) => !a)}
-          >
-            <Ikon ad="sohbet" boyut={18} />
-          </button>
+          {/* SADELEŞTİRME (12 Eylül 2026): ekranın tek işi soruyu cevaplamak; tepkiler
+              tek düğmenin arkasında. Panelde aynı tepkiler ve aynı kalıplar var. */}
+          <div className="m1-tepki">
+            <QtIkonDugme
+              ikon="sohbet"
+              etiket={tt("Tepki gönder")}
+              aria-expanded={tepkiAcik}
+              tur={tepkiAcik ? "mor" : "yuzey"}
+              onClick={() => setTepkiAcik((a) => !a)}
+            />
+          </div>
+          {tepkiAcik && (
+            <div className="m1-tepki" role="group" aria-label={tt("Tepkiler")}>
+              {TEPKILER.map((t) => (
+                <QtIkonDugme
+                  key={t.deger}
+                  ikon={t.ad}
+                  etiket={t.etiket}
+                  onClick={() => { mesajGonder(t.deger); setTepkiAcik(false); }}
+                />
+              ))}
+              <QtIkonDugme
+                ikon="sohbet"
+                etiket={tt("Hazır cümleler")}
+                aria-expanded={kaliplarAcik}
+                tur={kaliplarAcik ? "mor" : "yuzey"}
+                onClick={() => setKaliplarAcik((a) => !a)}
+              />
+            </div>
+          )}
+          {kaliplarAcik && (
+            <div className="m1-kaliplar">
+              {KALIPLAR.map((k) => (
+                <QtCip key={k} aria-pressed={undefined} onClick={() => mesajGonder(k)}>{k}</QtCip>
+              ))}
+            </div>
+          )}
         </div>
-        {tepkiAcik && (
-          <div className="bd-tepki-panel" role="group" aria-label={tt("Tepkiler")}>
-            {TEPKILER.map((t) => (
-              <button
-                key={t.deger}
-                onClick={() => { mesajGonder(t.deger); setTepkiAcik(false); }}
-                aria-label={t.etiket}
-                title={t.etiket}
-              >
-                <Ikon ad={t.ad} boyut={20} />
-              </button>
-            ))}
-            <button
-              className={kaliplarAcik ? "acik" : ""}
-              onClick={() => setKaliplarAcik((a) => !a)}
-              aria-label={tt("Hazır cümleler")}
-            >
-              <Ikon ad="sohbet" boyut={20} />
-            </button>
-          </div>
-        )}
-        {kaliplarAcik && (
-          <div className="kalip-liste">
-            {KALIPLAR.map((k) => (
-              <button key={k} onClick={() => mesajGonder(k)}>
-                {k}
-              </button>
-            ))}
-          </div>
-        )}
-
-      </div>
+      </>
     );
   })();
 
+  // Maç sonu sahnesi kendi zeminini çizer; diğer bütün dallar mor maç sahnesinde.
+  const sonucEkrani = mac?.durum === "bitti" && sonucHazir && gecisBitti;
   return (
     <>
-      {ekran}
+      {sonucEkrani ? ekran : <div className="qt-sahne-mac m1-mac">{ekran}</div>}
       <SesliSohbet
         macId={id}
         benimId={user.id}

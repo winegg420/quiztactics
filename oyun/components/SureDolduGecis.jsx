@@ -4,6 +4,7 @@ import PuanSayaci from "./PuanSayaci.jsx";
 import { sesSureDoldu, sesKazandin, sesKaybettin } from "../lib/ses.js";
 import { titret } from "../lib/geriBildirim.js";
 import { tt } from "../lib/dil.js";
+import "../tasarim/ekranlar/m1-sonuc.css";
 
 /**
  * Maç/tur bitişinde araya giren 0.8 sn'lik geçiş ekranı.
@@ -47,11 +48,11 @@ export default function SureDolduGecis({
   }, [onBitti, sure, kazandi, kaybetti]);
 
   return (
-    <div className="bd-sure-doldu" role="status" aria-live="polite">
-      <Maskot poz={kazandi ? "kutluyor" : "dusunuyor"} boyut={64} />
-      <div className="bd-sure-doldu-baslik">{baslik}</div>
+    <div className="m1-gecis" role="status" aria-live="polite">
+      <Maskot poz={kazandi ? "kutluyor" : "dusunuyor"} boyut={80} />
+      <div className="m1-gecis-baslik">{baslik}</div>
       {skor !== null && (
-        <div className="bd-sure-doldu-skor">
+        <div className="m1-gecis-skor">
           <PuanSayaci deger={skor} sure={600} />
           <span>{skorEtiket}</span>
         </div>

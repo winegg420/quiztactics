@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
 import { tt, ttSunucu } from "../lib/dil.js";
+import { QtKart, QtListe, QtListeSatiri } from "../tasarim/index.js";
+import "../tasarim/ekranlar/m1-sonuc.css";
 
 /**
  * Paket 20 I.3 — Maç sonu ödül dökümü (satır satır).
@@ -79,37 +81,29 @@ export default function OdulDokumu({ kaynak, onToplam, onDokum, onGorevler, gore
   const gorevler = gorevleriGoster ? (dokum.gorevler ?? []).filter((g) => !g.alindi) : [];
   if (!kalemler.length && !rozetler.length && !gorevler.length) return null;
 
+  const notlar = (k) => [
+    k.detay?.indirim && INDIRIM[k.detay.indirim] ? tt(INDIRIM[k.detay.indirim]) : null,
+    k.detay?.tavan ? tt("günlük coin tavanı doldu") : null,
+  ].filter(Boolean).join(" · ") || undefined;
+
   return (
-    <div className="bd-odul-dokum" aria-label={tt("Ödül dökümü")}>
-      {kalemler.map((k) => (
-        <div key={k.kalem} className="bd-odul-satir">
-          <span className="ad">
-            {kalemAdi(k)}
-            {k.detay?.indirim && INDIRIM[k.detay.indirim] && (
-              <span className="bd-odul-indirim">{tt(INDIRIM[k.detay.indirim])}</span>
-            )}
-            {k.detay?.tavan && <span className="bd-odul-indirim">{tt("günlük coin tavanı doldu")}</span>}
-          </span>
-          <span className="deger">{miktar(k)}</span>
-        </div>
-      ))}
-      {kalemler.length > 1 && (
-        <div className="bd-odul-satir toplam">
-          <span className="ad">{tt("Toplam")}</span>
-          <span className="deger">{miktar(dokum.toplam ?? {})}</span>
-        </div>
-      )}
-      {rozetler.map((r) => (
-        <div key={r.id} className="bd-odul-satir bilgi">
-          <span className="ad">{tt("Açılan rozet: {ad}", { ad: `${r.ikon ?? ""} ${tt(r.ad)}`.trim() })}</span>
-        </div>
-      ))}
-      {gorevler.map((g) => (
-        <div key={g.id} className="bd-odul-satir bilgi">
-          <span className="ad">{tt("Günlük görev: {ad}", { ad: ttSunucu(g.ad) })}</span>
-          <span className="deger">{g.ilerleme}/{g.hedef}</span>
-        </div>
-      ))}
-    </div>
+    <QtKart dolgu="k" aria-label={tt("Ödül dökümü")}>
+      <QtListe etiket={tt("Ödül dökümü")}>
+        {kalemler.map((k) => (
+          <QtListeSatiri key={k.kalem} ikon={k.coin ? "coin" : "yildiz"} ikonTon={k.coin ? "coin" : "mor"}
+                         baslik={kalemAdi(k)} alt={notlar(k)} sag={<b className="qt-sayi">{miktar(k)}</b>} />
+        ))}
+        {kalemler.length > 1 && (
+          <QtListeSatiri vurgulu baslik={tt("Toplam")} sag={<b className="qt-sayi">{miktar(dokum.toplam ?? {})}</b>} />
+        )}
+        {rozetler.map((r) => (
+          <QtListeSatiri key={r.id} ikon="madalya" baslik={tt("Açılan rozet: {ad}", { ad: `${r.ikon ?? ""} ${tt(r.ad)}`.trim() })} />
+        ))}
+        {gorevler.map((g) => (
+          <QtListeSatiri key={g.id} ikon="liste" baslik={tt("Günlük görev: {ad}", { ad: ttSunucu(g.ad) })}
+                         sag={<b className="qt-sayi">{g.ilerleme}/{g.hedef}</b>} />
+        ))}
+      </QtListe>
+    </QtKart>
   );
 }

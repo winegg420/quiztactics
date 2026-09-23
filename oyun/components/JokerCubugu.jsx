@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
-import Ikon from "./Ikon.jsx";
+import { QtSkill, QtSkillCubugu, QtDugme } from "../tasarim/index.js";
+import "../tasarim/ekranlar/m1-mac.css";
 import { hataMesaji } from "../lib/hata.js";
 import { Link } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
@@ -9,7 +9,7 @@ import { ayarlar } from "../lib/ayarlar.js";
 import { coinTazele } from "../lib/coin.js";
 import JokerSatinAlModal from "./JokerSatinAlModal.jsx";
 import { y } from "../lib/yol.js";
-import { sesJoker } from "../lib/ses.js";
+import { sesSkill } from "../lib/ses.js";
 import { titret } from "../lib/geriBildirim.js";
 import { tt } from "../lib/dil.js";
 
@@ -26,7 +26,7 @@ import { tt } from "../lib/dil.js";
  *   pasif      gri; basınca SEBEBİNİ yazar (ör. "Son 6 saniyede Sis kullanılamaz.")
  * @param {number} [kalanSn] sorunun kalan saniyesi (Sis'in son-N-saniye kuralı için)
  */
-export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, surum = 0, kalanSn = 15 }) {
+export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi, kilit, surum = 0, kalanSn = 15 }) {
   const [envanter, setEnvanter] = useState({
     elli: 0, sure: 0, soru_degistir: 0, zaman_baskisi: 0,
     sigorta: 0, cifte_puan: 0, ikinci_sans: 0, seri_koruma: 0,
@@ -73,12 +73,8 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
   useEffect(() => { setKullandigim([]); }, [soruIndex]);
   // B.4: kullanım anı — düğme parlaması + ekran ortasında şerit (≈850 ms)
   const [parlayan, setParlayan] = useState(null);
-  const [serit, setSerit] = useState(null);   // { tur, metin }
-  useEffect(() => {
-    if (!serit) return undefined;
-    const t = setTimeout(() => setSerit(null), 850);
-    return () => clearTimeout(t);
-  }, [serit]);
+  // Tasarım A: kullanım şeridi artık ayrı katman değil — QuestionCard'ın sonuç bandında
+  // (QtSonucBandi) yazılır: onBilgi({ metin, anahtar }).
   useEffect(() => {
     if (!parlayan) return undefined;
     const t = setTimeout(() => setParlayan(null), 650);
@@ -140,8 +136,9 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
   }, [rakipKisaltti, soruIndex, surum, ayar, onEtki]);
 
   if (!durum) return yuklemeHatasi ? (
-    <div className="bd-joker-not hata" role="alert">
-      {yuklemeHatasi} <button type="button" className="btn kucuk ikincil" onClick={yukle}>{tt("Tekrar dene")}</button>
+    <div className="m1-bant m1-bant--hata" role="alert">
+      <span>{yuklemeHatasi}</span>
+      <QtDugme tur="ikincil" boyut="k" ikon="yenile" onClick={yukle}>{tt("Tekrar dene")}</QtDugme>
     </div>
   ) : null;
 
@@ -176,11 +173,11 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
         { p_mac_tur: macTur, p_mac_id: macId, p_soru_index: soruIndex, p_tur: tur }
       );
       if (error) throw error;
-      sesJoker();
+      sesSkill(tur);
       titret(10);
       setKullandigim((k) => (k.includes(tur) ? k : [...k, tur]));
       setParlayan(tur);
-      setSerit({ tur, metin: etkiMetni(tur) });
+      onBilgi?.({ metin: `${jokerBilgi(tur, macTur, ayar).ad}: ${etkiMetni(tur)}`, anahtar: Date.now() });
       if (data && typeof data.coin === "number") setCoin(data.coin);
       // Paket 35 A: satın alma sonrası üst çubuktaki bakiye de anında yenilensin
       if (satinAl) coinTazele();
@@ -249,21 +246,22 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
     return null;
   };
 
+  const skiller = macJokerleri(macTur, skillSeti);
   return (
-    <div className={`bd-joker-cubuk${macJokerleri(macTur, skillSeti).length > 3 ? " bd-joker-cubuk-genis" : ""}`}>
+    <div className={`m1-skill${skiller.length > 5 ? " m1-skill--cok" : ""}`}>
       {rakipKilitledi && (
-        <div className="bd-joker-not uyari" role="status">
-          <Ikon ad="kilit" boyut={14} /> {tt("Bu soruda skill kullanılamaz.")}
+        <div className="m1-bant" role="status">
+          <span>{tt("Bu soruda skill kullanılamaz.")}</span>
         </div>
       )}
       {rakipKisaltti && (
-        <div className="bd-joker-not uyari" role="status">
-          <Ikon ad="hizli" boyut={14} /> {tt("Rakibin süreni kısalttı!")}
+        <div className="m1-bant m1-bant--hata" role="status">
+          <span>{tt("Rakibin süreni kısalttı!")}</span>
         </div>
       )}
       {/* B.5: kaç hak kaldığı tek satırda görünür */}
       {!finalYasak && (
-        <div className="bd-joker-hak" aria-live="polite">
+        <div className="m1-skill-hak" aria-live="polite">
           {serbestMod
             ? tt("Skiller şimdilik ücretsiz ve sınırsız")
             : durum.sinir === null || durum.sinir === undefined
@@ -271,68 +269,52 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
             : tt("Bu maçta {0} skill hakkın kaldı", { 0: Math.max(0, durum.sinir - durum.kullanilan) })}
         </div>
       )}
-      {macJokerleri(macTur, skillSeti).map((tur) => {
-        const bilgi = jokerBilgi(tur, macTur, ayar);
-        const ucretsiz = tur === "elli" && durum.ucretsiz_elli_kaldi;
-        const engel = neden(tur);
-        const adet = envanter[tur] ?? 0;
-        const satilik = satinAlinabilir(tur);
-        const fiyat = Number(fiyatlar?.[tur] ?? 0);
-        const kullanildi = turDoldu(tur);
-        const macHakKaldi = Math.max(0, turSiniri - turKullanimi(tur));
-        // Paket 35 A.2: stok yoksa fiyat rozeti HER ZAMAN görünür (alınamıyorsa soluk)
-        const fiyatRozeti = !serbestMod && !ucretsiz && adet <= 0 && fiyat > 0;
-        const durumSinifi = kullanildi ? "kullanildi" : satilik ? "satilik" : engel ? "pasif" : "hazir";
-        const aciklama = engel ?? (satilik ? tt("{0} coin — dokun, al ve kullan", { 0: fiyat }) : bilgi.aciklama);
-        return (
-          <button
-            key={tur}
-            type="button"
-            className={`bd-joker bd-jk ${durumSinifi} ${ucretsiz ? "ucretsiz" : ""} ${parlayan === tur ? "parla" : ""}`}
-            // Pasif düğme BASILABİLİR kalır ama joker kullanmaz: sebebini yazar (B.2.4).
-            aria-disabled={Boolean(engel) || calisan !== null}
-            title={aciklama}
-            aria-label={`${bilgi.ad} — ${aciklama}`}
-            onClick={() => {
-              if (calisan !== null) return;
-              if (engel) { setHata(engel); return; }
-              bas(tur);
-            }}
-          >
-            {kullanildi ? (
-              <span className="bd-jk-rozet onay" aria-hidden="true"><Ikon ad="onay" boyut={11} kalinlik={3} /></span>
-            ) : fiyatRozeti ? (
-              <span className={`bd-jk-rozet fiyat${satilik ? "" : " soluk"}`} aria-hidden="true">
-                {calisan === tur ? "…" : <><Ikon ad="coin" boyut={11} /> {fiyat}</>}
-              </span>
-            ) : (
-              <span className={`bd-jk-rozet adet ${ucretsiz ? "bedava" : ""}`} aria-hidden="true">
-                {calisan === tur ? "…" : serbestMod ? "∞" : ucretsiz ? tt("ÜCRETSİZ") : adet}
-              </span>
-            )}
-            <span className="bd-joker-ikon" aria-hidden="true"><Ikon ad={bilgi.ikon} boyut={20} /></span>
-            <span className="bd-joker-ad">{bilgi.ad}</span>
-            {macTur === "1v1" && <small className="bd-joker-mac-hak">{tt("Maç hakkı: {0}", { 0: macHakKaldi })}</small>}
-          </button>
-        );
-      })}
-
-      {/* B.4: kullanım anında ekran ortasında şerit — ne olduğu yazsın */}
-      {serit && typeof document !== "undefined" && createPortal(
-        <div className="bd-jk-serit" role="status" aria-live="polite" key={serit.tur + serit.metin}>
-          <span className="bd-jk-serit-ikon" aria-hidden="true">
-            <Ikon ad={jokerBilgi(serit.tur, macTur, ayar).ikon} boyut={22} />
-          </span>
-          <span className="bd-jk-serit-metin">
-            <b>{jokerBilgi(serit.tur, macTur, ayar).ad}</b>
-            <span>{serit.metin}</span>
-          </span>
-        </div>,
-        document.body
+      {skiller.length > 0 && (
+        <QtSkillCubugu etiket={tt("Skill'ler")}>
+          {skiller.map((tur) => {
+            const bilgi = jokerBilgi(tur, macTur, ayar);
+            const ucretsiz = tur === "elli" && durum.ucretsiz_elli_kaldi;
+            const engel = neden(tur);
+            const adet = envanter[tur] ?? 0;
+            const satilik = satinAlinabilir(tur);
+            const fiyat = Number(fiyatlar?.[tur] ?? 0);
+            const kullanildi = turDoldu(tur);
+            const macHakKaldi = Math.max(0, turSiniri - turKullanimi(tur));
+            // Paket 35 A.2: stok yoksa fiyat rozeti HER ZAMAN görünür
+            const fiyatRozeti = !serbestMod && !ucretsiz && adet <= 0 && fiyat > 0;
+            // Etkisi soru boyunca süren skill'ler (Sigorta, 2X, İkinci Şans) bu soruda "aktif".
+            const surenEtki = ["sigorta", "cifte_puan", "ikinci_sans"].includes(tur) && kullandigim.includes(tur);
+            const durumAdi = surenEtki ? "aktif" : kullanildi ? "kullanildi" : engel && !satilik ? "kilitli" : "hazir";
+            const aciklama = engel ?? (satilik ? tt("{0} coin — dokun, al ve kullan", { 0: fiyat }) : bilgi.aciklama);
+            const etiket = [bilgi.ad, aciklama, ucretsiz ? tt("Ücretsiz") : null,
+              macTur === "1v1" ? tt("Maç hakkı: {0}", { 0: macHakKaldi }) : null].filter(Boolean).join(" — ");
+            return (
+              <QtSkill
+                key={tur}
+                ikon={bilgi.ikon}
+                ad={bilgi.ad}
+                adet={serbestMod || ucretsiz || fiyatRozeti ? undefined : adet}
+                fiyat={fiyatRozeti ? fiyat : undefined}
+                durum={durumAdi}
+                className={`${parlayan === tur ? "m1-skill--parla" : ""} ${calisan === tur ? "qt-skill--calisiyor" : ""}`}
+                // Pasif düğme BASILABİLİR kalır ama skill kullanmaz: sebebini yazar (B.2.4).
+                aria-disabled={Boolean(engel) || calisan !== null || durumAdi !== "hazir" || undefined}
+                aria-busy={calisan === tur || undefined}
+                aria-label={etiket}
+                title={aciklama}
+                onClick={() => {
+                  if (calisan !== null) return;
+                  if (engel) { setHata(engel); return; }
+                  bas(tur);
+                }}
+              />
+            );
+          })}
+        </QtSkillCubugu>
       )}
 
       {(sinirDoldu || finalYasak) && (
-        <div className="bd-joker-not">
+        <div className="m1-skill-hak">
           {finalYasak
             ? tt("Finalde skill yok — sadece bilgi.")
             : tt("Bu maçta skill hakkın doldu ({0}/{1}).", { 0: durum.kullanilan, 1: durum.sinir })}
@@ -340,14 +322,16 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, kilit, s
       )}
 
       {hata && (
-        <div className="bd-joker-not hata" ref={hataRef} role="alert">
-          {hata}
-          {/kalmadı/i.test(hata) && (
-            <>
-              {" "}
-              <Link to={y("/joker")}>{tt("Skill al")}</Link>
-            </>
-          )}
+        <div className="m1-bant m1-bant--hata m1-skill-not" ref={hataRef} role="alert">
+          <span>
+            {hata}
+            {/kalmadı/i.test(hata) && (
+              <>
+                {" "}
+                <Link to={y("/joker")}>{tt("Skill al")}</Link>
+              </>
+            )}
+          </span>
         </div>
       )}
 

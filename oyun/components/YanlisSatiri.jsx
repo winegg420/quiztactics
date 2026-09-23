@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Ikon from "./Ikon.jsx";
 import { supabase } from "../../src/lib/supabase.js";
+import { QtListe, QtListeSatiri } from "../tasarim/index.js";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
 
@@ -9,6 +9,7 @@ import { tt } from "../lib/dil.js";
  * Maç sonucu ekranlarında görünen küçük satır:
  *   "3 soruyu yanlış bildin — Hatalarım'a eklendi"
  * Yanlış yoksa hiçbir şey çizilmez.
+ * Tasarım A (Şerit M1): QtListeSatiri (bağlantı, ok).
  *
  * macTur: '1v1' | 'grup' | 'turnuva' | 'hizli'
  */
@@ -27,8 +28,9 @@ export default function YanlisSatiri({ macTur, macId, onAdet }) {
         if (error) throw error;
         const n = typeof data === "number" ? data : 0;
         if (aktif) { setAdet(n); onAdet?.(n); }   // onAdet (Paket 36): sonuç sahnesinin "Detay (n)" rozeti
-      } catch (e) { console.warn("[Bildim] mac_yanlis_sayim başarısız:", e?.message ?? e);
-        /* migration bekliyor olabilir — satır gizli kalır */
+      } catch (e) {
+        // migration bekliyor olabilir — satır gizli kalır
+        console.warn("[Bildim] mac_yanlis_sayim başarısız:", e?.message ?? e);
       }
     })();
     return () => {
@@ -39,14 +41,16 @@ export default function YanlisSatiri({ macTur, macId, onAdet }) {
   if (adet <= 0) return null;
 
   return (
-    <Link to={y("/calisma")} className="bd-yanlis-satiri">
-      <span className="bd-mod-ikon hatalarim">
-        <Ikon ad="kitap" boyut={16} />
-      </span>
-      <span className="metin">
-        <b>{adet} {tt("soruyu")}</b> {tt("yanlış bildin — Hatalarım'a eklendi")}
-      </span>
-      <span className="ok" aria-hidden="true">›</span>
-    </Link>
+    <QtListe>
+      <QtListeSatiri
+        as={Link}
+        to={y("/calisma")}
+        ikon="kitap"
+        ikonTon="yanlis"
+        baslik={tt("{n} soruyu yanlış bildin", { n: adet })}
+        alt={tt("Hatalarım'a eklendi — tekrar çalış")}
+        ok
+      />
+    </QtListe>
   );
 }

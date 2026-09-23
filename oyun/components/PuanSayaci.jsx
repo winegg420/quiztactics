@@ -47,9 +47,9 @@ export default function PuanSayaci({ deger = 0, sure = 700 }) {
   useEffect(() => () => cancelAnimationFrame(cerceveRef.current), []);
 
   return (
-    <span className="bd-puan-sayac">
+    <span className="m1-sayac">
       {gosterilen}
-      {artis != null && <span className="bd-puan-artis">+{artis}</span>}
+      {artis != null && <span className="m1-sayac-artis" aria-hidden="true">+{artis}</span>}
     </span>
   );
 }

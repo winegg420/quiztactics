@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import Ikon from "./Ikon.jsx";
+import { QtDugme, QtIkon, QtKart } from "../tasarim/index.js";
+import "../tasarim/ekranlar/m1-sonuc.css";
 import { sesRutbeAtladi } from "../lib/ses.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import { RUTBELER, rutbeBul } from "../lib/ranks.js";
@@ -44,19 +45,13 @@ export default function RankUpOverlay() {
   if (!goster) return null;
 
   return (
-    <div className="rutbe-kutlama" onClick={() => setGoster(null)}>
-      <div className="icerik">
-        <div className="isiltilar">
-          {[...Array(8)].map((_, i) => (
-            <span key={i} className="isilti" style={{ "--i": i }} />
-          ))}
-        </div>
-        <div className="buyuk-ikon"><Ikon ad={goster.ikon} boyut={46} /></div>
-        <div className="etiket">{tt("RÜTBE ATLADIN!")}</div>
-        <div className="rutbe-adi" style={{ color: goster.metinRenk }}>
-          {goster.ad}
-        </div>
-      </div>
+    <div className="m1-rutbe" role="status" aria-live="polite" onClick={() => setGoster(null)}>
+      <QtKart className="m1-rutbe-kart" dolgu="b">
+        <span className="m1-rutbe-ikon" aria-hidden="true"><QtIkon ad={goster.ikon} boyut={46} /></span>
+        <span className="m1-rutbe-etiket">{tt("Rütbe atladın!")}</span>
+        <span className="m1-rutbe-ad">{goster.ad}</span>
+        <QtDugme tur="ikincil" boyut="k" onClick={() => setGoster(null)}>{tt("Tamam")}</QtDugme>
+      </QtKart>
     </div>
   );
 }

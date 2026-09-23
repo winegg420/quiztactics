@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
-const RENKLER = ["#F2B23C", "#2FBF71", "#F7CB77", "#4A9DD9", "#E8543F"];
+// Tasarım A: renkler token'dan (coin, doğru, vurgu, bilgi, ikinci).
+const RENKLER = ["var(--qt-coin)", "var(--qt-dogru)", "var(--qt-vurgu)", "var(--qt-bilgi)", "var(--qt-ikinci)"];
 
 /**
  * Doğru cevapta kısa parçacık patlaması. Salt CSS animasyonu — kütüphane yok.
@@ -37,7 +38,7 @@ export default function Konfeti({ aktif, adet = 14 }) {
   if (parcaciklar.length === 0) return null;
 
   return (
-    <div className="bd-konfeti" aria-hidden="true">
+    <div className="m1-konfeti" aria-hidden="true">
       {parcaciklar.map((p) => (
         <span
           key={p.id}

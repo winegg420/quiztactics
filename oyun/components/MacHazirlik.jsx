@@ -4,7 +4,8 @@
 //   KopukPerde  : maç sırasında rakip koptuğunda ekranı kilitleyen perde
 // ============================================================
 import Maskot from "./Maskot.jsx";
-import Ikon from "./Ikon.jsx";
+import { QtDugme, QtKart, QtRozet } from "../tasarim/index.js";
+import "../tasarim/ekranlar/m1-mac.css";
 import { tt } from "../lib/dil.js";
 import SkillSeti from "./SkillSeti.jsx";
 
@@ -41,23 +42,23 @@ export function HazirKapisi({
 }) {
   const hepsiHazir = toplamOyuncu > 0 && hazirSayisi >= toplamOyuncu;
   return (
-    <div className="buyuk-mesaj">
-      <Maskot poz={benHazir ? "kutluyor" : "selam"} boyut={104} className="bd-sonuc-maskot" />
-      <h2>{hepsiHazir ? tt("Maç başlıyor…") : benHazir ? tt("Rakip bekleniyor") : tt("Hazır mısın?")}</h2>
-      <p className="alt-yazi" style={{ marginBottom: 14 }}>
-        {tt("Bu maç")} <b>{tt("eş zamanlı")}</b> {tt("oynanır: herkes aynı soruyu aynı anda görür, soru herkes için aynı anda geçer. Maç")} <b>{tt("hepiniz hazır olunca")}</b> {tt("başlar.")}
+    <div className="m1-mesaj">
+      <Maskot poz={benHazir ? "kutluyor" : "selam"} boyut={96} />
+      <h1 className="qt-baslik-1">{hepsiHazir ? tt("Maç başlıyor…") : benHazir ? tt("Rakip bekleniyor") : tt("Hazır mısın?")}</h1>
+      <p>
+        {tt("Herkes aynı soruyu aynı anda görür. Maç hepiniz hazır olunca başlar.")}
       </p>
 
       {tabela}
 
       {skillSecimi && <SkillSeti macTur={macTur} />}
 
-      <div className="bd-hazir-durum">
-        <span className={"bd-hazir-sayac" + (hepsiHazir ? " tamam" : "")}>
-          {hazirSayisi}/{toplamOyuncu} {tt("hazır")}
-        </span>
+      <div className="m1-hazir-durum">
+        <QtRozet ton={hepsiHazir ? "dogru" : "koyu"} ikon={hepsiHazir ? "onay" : "kisiler"}>
+          {tt("{0}/{1} hazır", { 0: hazirSayisi, 1: toplamOyuncu })}
+        </QtRozet>
         {!hepsiHazir && bekleyenAdlar.length > 0 && (
-          <span className="alt-yazi">{tt("Beklenen:")} {bekleyenAdlar.join(", ")}</span>
+          <span>{tt("Beklenen: {0}", { 0: bekleyenAdlar.join(", ") })}</span>
         )}
       </div>
 
@@ -65,30 +66,29 @@ export function HazirKapisi({
           (asenkron) oyun mu. Beklemeye mahkûm bırakılmıyor. Yalnız BEN hazırken:
           hazır olmayan bensem "rakibin gelmedi" demek yanlış (rakip hazırken çıkıyordu). */}
       {onAsenkron && benHazir && bekleyenSn >= LOBI_BEKLEME_SN && !hepsiHazir && (
-        <div className="bd-lobi-secenek">
-          <b>{tt("Rakibin {0} dakikadır gelmedi.", { 0: Math.floor(bekleyenSn / 60) })}</b>
-          <span>
-            {tt("İstersen maçı")} <b>{tt("sıra tabanlı")}</b> {tt("bırak: sen kendi bölümünü şimdi oynarsın, rakibin kendi zamanında oynar.")}
-          </span>
-          <button className="btn kucuk" onClick={onAsenkron}>{tt("Asenkron bırak")}</button>
-        </div>
+        <QtKart className="m1-kart-metin">
+          <p>
+            <b>{tt("Rakibin {0} dakikadır gelmedi.", { 0: Math.floor(bekleyenSn / 60) })}</b>{" "}
+            {tt("İstersen maçı sıra tabanlı bırak: sen kendi bölümünü şimdi oynarsın, rakibin kendi zamanında oynar.")}
+          </p>
+          <QtDugme tur="mor" boyut="k" onClick={onAsenkron}>{tt("Asenkron bırak")}</QtDugme>
+        </QtKart>
       )}
 
-      <div className="bd-hazir-dugmeler">
+      <div className="m1-dugmeler">
         {!benHazir ? (
-          <button className="btn bd-hazir-btn" onClick={onHazir}>
-            <Ikon ad="onay" boyut={20} />
+          <QtDugme tamGenislik boyut="b" ikon="onay" onClick={onHazir}>
             {tt("Hazırım")}
-          </button>
+          </QtDugme>
         ) : (
-          <div className="bd-hazir-beklemede">
-            <span className="bd-hazir-nokta" aria-hidden="true" />
+          <div className="m1-hazir-bekle" role="status">
+            <span className="m1-hazir-nokta" aria-hidden="true" />
             {tt("Hazırsın — diğerleri bekleniyor")}
           </div>
         )}
-        <button className="btn ikincil" onClick={onCik}>
+        <QtDugme tur="hayalet" tamGenislik onClick={onCik}>
           {bekleyenSn >= LOBI_BEKLEME_SN ? tt("İptal et") : tt("Vazgeç")}
-        </button>
+        </QtDugme>
       </div>
     </div>
   );
@@ -102,10 +102,10 @@ export function HazirKapisi({
 export function GeriSayim({ kalan }) {
   const n = Math.max(1, Math.ceil(kalan));
   return (
-    <div className="bd-baslangic-sayimi" role="status" aria-live="assertive">
-      <div className="bd-baslangic-sayimi-kutu">
-        <span className="bd-baslangic-sayimi-sayi" key={n}>{n}</span>
-        <span className="bd-baslangic-sayimi-not">{tt("Hazır ol!")}</span>
+    <div className="m1-sayim" role="status" aria-live="assertive">
+      <div className="m1-sayim-kutu">
+        <span className="m1-sayim-sayi" key={n}>{n}</span>
+        <span className="m1-sayim-not">{tt("Hazır ol!")}</span>
       </div>
     </div>
   );
@@ -122,19 +122,19 @@ export function KopukPerde({ bekleyenAdlar = [], gecenSn = 0 }) {
   const kalan = Math.max(0, TERK_SN - gecenSn);
   const kim = bekleyenAdlar.length ? bekleyenAdlar.join(", ") : tt("Rakibin");
   return (
-    <div className="bd-kopuk-perde" role="alert" aria-live="assertive">
-      <div className="bd-kopuk-kutu">
-        <span className="bd-kopuk-halka" aria-hidden="true" />
-        <b>{tt("Rakip bekleniyor")}</b>
-        <span>
-          <b>{kim}</b> {tt("oyundan ayrıldı. Maç duraklatıldı — süre işlemiyor, bu yüzden bir şey kaybetmiyorsun.")}
-        </span>
-        <span className="bd-kopuk-sayac">
+    <div className="m1-kopuk" role="alert" aria-live="assertive">
+      <QtKart className="m1-kopuk-kutu">
+        <span className="m1-kopuk-halka" aria-hidden="true" />
+        <h2 className="qt-baslik-2">{tt("Rakip bekleniyor")}</h2>
+        <p className="qt-kucuk">
+          {tt("{0} oyundan ayrıldı. Maç duraklatıldı — süre işlemiyor, bu yüzden bir şey kaybetmiyorsun.", { 0: kim })}
+        </p>
+        <span className="m1-kopuk-sayac">
           {kalan > 0
             ? tt("{0} sn içinde dönmezse maçı terk etmiş sayılacak", { 0: kalan })
             : tt("Maç sonlandırılıyor…")}
         </span>
-      </div>
+      </QtKart>
     </div>
   );
 }
