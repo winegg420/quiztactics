@@ -2,7 +2,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useDil } from "../lib/dilKanca.js";
 import { supabase } from "../../src/lib/supabase.js";
-import Ikon from "./Ikon.jsx";
+import { QtDugme, QtIkonDugme } from "../tasarim/index.js";
+import "../tasarim/ekranlar/m1-mac.css";
 import {
   destekleniyorMu,
   mikrofonAc,
@@ -304,85 +305,82 @@ export default function SesliSohbet({ macId, benimId, yuva, macBitti = false }) 
   };
 
   const arayuz = (
-    <div className="bd-ses">
+    <div className="m1-ses">
       {macBitti && kalanSn !== null && kalanSn > 0 && (
-        <div className="bd-ses-geri-sayim" role="timer">
-          <span>{ceviri("Sesli sohbet {sn} sn sonra kapanacak", { sn: kalanSn })}</span>
+        <div className="m1-ses-satir" role="timer">
+          <span className="m1-ses-metin">{ceviri("Sesli sohbet {sn} sn sonra kapanacak", { sn: kalanSn })}</span>
           {durum !== DURUMLAR.KAPALI && (
-            <button className="bd-ses-kucuk tehlike" onClick={() => { bitir(); setIzin(null); }}>
+            <QtDugme tur="tehlike" boyut="k" onClick={() => { bitir(); setIzin(null); }}>
               {ceviri("Şimdi kapat")}
-            </button>
+            </QtDugme>
           )}
         </div>
       )}
 
       {durum === DURUMLAR.KAPALI && (
-        <>
-          <button
-            className="bd-ses-dugme"
+        <div className="m1-ses-satir">
+          <QtDugme
+            tur="ikincil"
+            boyut="k"
+            ikon="mikrofon"
             onClick={cagirt}
-            disabled={!rakipBurada}
+            devreDisi={!rakipBurada}
             title={
               rakipBurada
                 ? tt("Sesli sohbet başlat")
                 : tt("Rakibin şu an maçta değil — geldiğinde açılır")
             }
           >
-            <Ikon ad="mikrofon" boyut={18} />
-            <span>{rakipBurada ? tt("Sesli sohbet") : tt("Rakibin yok")}</span>
-          </button>
-          <button
-            className="bd-ses-bilgi-dugme"
+            {rakipBurada ? tt("Sesli sohbet") : tt("Rakibin yok")}
+          </QtDugme>
+          <QtIkonDugme
+            ikon="bilgi"
+            tur="saydam"
+            etiket={tt("Sesli sohbet nasıl çalışır?")}
+            aria-expanded={bilgiAcik}
             onClick={() => setBilgiAcik((a) => !a)}
-            aria-label={tt("Sesli sohbet nasıl çalışır?")}
-            title={tt("Sesli sohbet nasıl çalışır?")}
-          >
-            ?
-          </button>
-        </>
+          />
+        </div>
       )}
 
       {durum === DURUMLAR.CAGRILIYOR && (
-        <div className="bd-ses-durum">
-          <span className="bd-ses-nokta" aria-hidden="true" />
-          {tt("Cevap bekleniyor…")}
-          <button className="bd-ses-kucuk" onClick={bitir}>
-            {tt("Vazgeç")}
-          </button>
+        <div className="m1-ses-satir" role="status">
+          <span className="m1-ses-nokta" aria-hidden="true" />
+          <span className="m1-ses-metin">{tt("Cevap bekleniyor…")}</span>
+          <QtDugme tur="hayalet" boyut="k" onClick={bitir}>{tt("Vazgeç")}</QtDugme>
         </div>
       )}
 
       {durum === DURUMLAR.CAGRI_GELDI && (
-        <div className="bd-ses-cagri">
-          <div className="bd-ses-cagri-metin">
+        <div className="m1-ses-cagri" role="alert">
+          <span className="m1-ses-metin">
             <b>{tt("Sesli sohbet daveti")}</b>
             <span>{tt("Kabul edersen mikrofonun açılır. Konuşma kaydedilmez.")}</span>
+          </span>
+          <div className="m1-ses-satir">
+            <QtDugme boyut="k" ikon="mikrofon" onClick={kabulEt}>{tt("Kabul et")}</QtDugme>
+            <QtDugme tur="ikincil" boyut="k" onClick={reddet}>{tt("Reddet")}</QtDugme>
           </div>
-          <button className="bd-ses-kabul" onClick={kabulEt}>
-            {tt("Kabul et")}
-          </button>
-          <button className="bd-ses-kucuk" onClick={reddet}>
-            {tt("Reddet")}
-          </button>
         </div>
       )}
 
       {durum === DURUMLAR.BAGLANIYOR && (
-        <div className="bd-ses-durum">
-          <span className="bd-ses-nokta" aria-hidden="true" />
-          {tt("Bağlanıyor…")}
-          <button className="bd-ses-kucuk" onClick={bitir}>
-            {tt("İptal")}
-          </button>
+        <div className="m1-ses-satir" role="status">
+          <span className="m1-ses-nokta" aria-hidden="true" />
+          <span className="m1-ses-metin">{tt("Bağlanıyor…")}</span>
+          <QtDugme tur="hayalet" boyut="k" onClick={bitir}>{tt("İptal")}</QtDugme>
         </div>
       )}
 
       {durum === DURUMLAR.BAGLI && (
-        <div className="bd-ses-durum bagli">
-          <span className="bd-ses-nokta canli" aria-hidden="true" />
-          {tt("Sesli sohbet açık")}
-          <button
-            className="bd-ses-kucuk"
+        <div className="m1-ses-satir" role="status">
+          <span className="m1-ses-nokta m1-ses-nokta--canli" aria-hidden="true" />
+          <span className="m1-ses-metin">{tt("Sesli sohbet açık")}</span>
+          <QtDugme
+            tur="ikincil"
+            boyut="k"
+            ikon={sesKesik ? "sesKapali" : "sesAcik"}
+            aria-pressed={sesKesik}
             onClick={() => {
               const yeni = !sesKesik;
               setSesKesik(yeni);
@@ -390,19 +388,17 @@ export default function SesliSohbet({ macId, benimId, yuva, macBitti = false }) 
             }}
           >
             {sesKesik ? tt("Sesi aç") : tt("Sustur")}
-          </button>
-          <button className="bd-ses-kucuk tehlike" onClick={bitir}>
-            {tt("Kapat")}
-          </button>
+          </QtDugme>
+          <QtDugme tur="tehlike" boyut="k" onClick={bitir}>{tt("Kapat")}</QtDugme>
         </div>
       )}
 
-      {hata && <div className="bd-ses-hata" role="alert">{hata}</div>}
+      {hata && <div className="m1-bant m1-bant--hata" role="alert"><span>{hata}</span></div>}
 
       {bilgiAcik && (
-        <div className="bd-ses-bilgi">
+        <p className="m1-ses-bilgi">
           {tt("Ses")} <b>{tt("doğrudan iki cihaz arasında")}</b> {tt("gider; sunucularımızda saklanmaz ve")} <b>{tt("kaydedilmez")}</b>{tt(". Bağlantı kurulurken cihazlarınızın IP adresleri karşı tarafa görünebilir — bu yüzden yalnız arkadaşlarınla açılır. İstediğin an kapatabilirsin.")}
-        </div>
+        </p>
       )}
     </div>
   );

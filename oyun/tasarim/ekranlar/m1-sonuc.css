@@ -360,3 +360,11 @@
 .m1-podyum-yer--1 .m1-podyum-basamak { height: 76px; background: var(--qt-coin); color: var(--qt-coin-yazi); box-shadow: inset 0 -4px 0 var(--qt-coin-dudak); }
 .m1-podyum-yer--2 .m1-podyum-basamak { height: 54px; }
 .m1-podyum-yer--3 .m1-podyum-basamak { height: 40px; }
+
+/* ---------- Skill görseli (SkillGorseli — Dükkân vitrini) ---------- */
+.m1-sg { display: inline-grid; place-items: center; flex: none; }
+.m1-sg--tek { width: 56px; height: 56px; border-radius: var(--qt-r-l); background: var(--qt-ikinci); color: var(--qt-ikinci-yazi); box-shadow: 0 var(--qt-dudak) 0 var(--qt-ikinci-dudak); }
+.m1-sg--tek.m1-sg--kucuk { width: 40px; height: 40px; border-radius: var(--qt-r-m); box-shadow: 0 var(--qt-dudak-s) 0 var(--qt-ikinci-dudak); }
+.m1-sg--paket { display: inline-flex; gap: 3px; padding: 6px; border-radius: var(--qt-r-l); background: var(--qt-coin-acik); box-shadow: 0 var(--qt-dudak-s) 0 var(--qt-coin-dudak); }
+.m1-sg-mini { display: grid; place-items: center; width: 28px; height: 28px; border-radius: var(--qt-r-s); background: var(--qt-ikinci); color: var(--qt-ikinci-yazi); }
+.m1-sg--kucuk .m1-sg-mini { width: 22px; height: 22px; }

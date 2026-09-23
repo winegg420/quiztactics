@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { tt } from "../lib/dil.js";
+import "../tasarim/ekranlar/m1-mac.css";
 
 // ============================================================
 // EMOJİ SEÇİCİ — mesajlaşma (Paket 35 E.3.3)
@@ -47,8 +48,8 @@ export default function EmojiSecici({ onEkle, onKapat, haricRef }) {
   const secili = KATEGORILER.find((k) => k.kod === kat) ?? KATEGORILER[0];
 
   return (
-    <div className="bd-emoji-secici" ref={kutuRef} role="dialog" aria-label={tt("Emoji seç")}>
-      <div className="bd-emoji-sekmeler" role="tablist">
+    <div className="m1-emoji" ref={kutuRef} role="dialog" aria-label={tt("Emoji seç")}>
+      <div className="m1-emoji-sekmeler" role="tablist">
         {KATEGORILER.map((k) => (
           <button
             key={k.kod}
@@ -56,7 +57,7 @@ export default function EmojiSecici({ onEkle, onKapat, haricRef }) {
             role="tab"
             aria-selected={k.kod === kat}
             aria-label={k.ad}
-            className={`bd-emoji-sekme${k.kod === kat ? " aktif" : ""}`}
+            className={`m1-emoji-sekme${k.kod === kat ? " m1-emoji-sekme--aktif" : ""}`}
             // Odağı metin kutusundan çalmasın (mobilde klavye kapanmasın)
             onPointerDown={(e) => e.preventDefault()}
             onClick={() => setKat(k.kod)}
@@ -65,12 +66,12 @@ export default function EmojiSecici({ onEkle, onKapat, haricRef }) {
           </button>
         ))}
       </div>
-      <div className="bd-emoji-izgara" role="tabpanel" aria-label={secili.ad}>
+      <div className="m1-emoji-izgara" role="tabpanel" aria-label={secili.ad}>
         {secili.liste.map((em) => (
           <button
             key={em}
             type="button"
-            className="bd-emoji"
+            className="m1-emoji-dugme"
             aria-label={em}
             onPointerDown={(e) => e.preventDefault()}
             onClick={() => onEkle(em)}

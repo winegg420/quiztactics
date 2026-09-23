@@ -333,3 +333,46 @@
 
 /* Oyun modunda (alt menü gizli) sahne ekranın altına kadar iner */
 body.bd-oyun-modu .m1-mac { min-height: 100dvh; }
+
+/* ---------- Sesli sohbet (SesliSohbet) ---------- */
+.m1-ses { display: flex; flex-direction: column; align-items: center; gap: var(--qt-b-2); }
+.m1-ses-satir { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: var(--qt-b-2); }
+.m1-ses-metin { display: flex; flex-direction: column; gap: 2px; color: var(--qt-zemin-metin); font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); text-align: center; }
+.m1-ses-cagri { display: flex; flex-direction: column; align-items: center; gap: var(--qt-b-2); padding: var(--qt-b-3); border-radius: var(--qt-r-l); background: var(--qt-ikinci-acik); }
+.m1-ses-cagri .m1-ses-metin { color: var(--qt-ikinci-koyu); }
+.m1-ses-nokta { width: 10px; height: 10px; border-radius: 50%; background: var(--qt-uyari); animation: qt-h-kenar-nabiz calc(var(--qt-s-kirilma) * 1.6) ease-in-out infinite; }
+.m1-ses-nokta--canli { background: var(--qt-dogru); }
+.m1-ses-bilgi { margin: 0; max-width: 420px; color: var(--qt-zemin-soluk); font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); text-align: center; }
+@media (prefers-reduced-motion: reduce) { .m1-ses-nokta { animation: none; } }
+
+/* ---------- Emoji seçici (EmojiSecici — sohbet kutusunun üstünde) ---------- */
+.m1-emoji {
+  position: absolute;
+  left: var(--qt-b-2);
+  right: var(--qt-b-2);
+  bottom: calc(100% + var(--qt-b-2));
+  z-index: var(--qt-z-menu);
+  padding: var(--qt-b-2);
+  border-radius: var(--qt-r-l);
+  background: var(--qt-yuzey);
+  box-shadow: var(--qt-kabartma-kart), var(--qt-golge-yuzen);
+  animation: qt-h-pop-gir var(--qt-s-kisa) var(--qt-egri-cikis);
+}
+.m1-emoji-sekmeler, .m1-emoji-izgara { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: var(--qt-b-1); }
+.m1-emoji-sekmeler { margin-bottom: var(--qt-b-2); }
+.m1-emoji-sekme, .m1-emoji-dugme {
+  min-height: 44px;
+  margin: 0;
+  border: 0;
+  border-radius: var(--qt-r-m);
+  background: var(--qt-yuzey-2);
+  font-size: var(--qt-y-xl);
+  line-height: 1;
+  cursor: pointer;
+  transition: transform var(--qt-s-basma) var(--qt-egri-cikis);
+}
+.m1-emoji-sekme { background: none; font-size: var(--qt-y-l); }
+.m1-emoji-sekme--aktif { background: var(--qt-ikinci-acik); box-shadow: inset 0 -3px 0 var(--qt-ikinci); }
+.m1-emoji-dugme:active { transform: translateY(2px); }
+.m1-emoji-sekme:focus-visible, .m1-emoji-dugme:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 1px; }
+@media (prefers-reduced-motion: reduce) { .m1-emoji { animation: none; } }
