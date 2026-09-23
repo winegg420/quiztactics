@@ -279,6 +279,15 @@ async function duelloMaci(kapsam) {
 
     // Kategori: seçme sırası bendeyse seçilebilir kategori OLMALI.
     if (d.faz === "kategori" && benSaldiran) {
+      // Kategori isteği yoldaysa (calisan = "kategori") düğmeler bilerek kilitli: bekle, süreyi ölç.
+      const yolda = async () => (await s.evaluate(() => window.__bdTani?.calisan ?? null)) === "kategori";
+      if (await yolda()) {
+        const y0 = Date.now();
+        while (await yolda() && Date.now() - y0 < 12000) await s.waitForTimeout(200);
+        const sn = (Date.now() - y0) / 1000;
+        if (sn > 3) console.log(`  ! kategori isteği ${sn.toFixed(1)} sn yolda kaldı (sunucu yavaş)`);
+        continue;
+      }
       let n = 0;
       for (let i = 0; i < 8 && !n; i++) { n = await s.locator(":is(.bd-duello-kat, button.m2-kat):not([disabled])").count(); if (!n) await s.waitForTimeout(200); }
       if (!n) { basarisiz("Düello: kategori sırası bende ama seçilebilir kategori yok", { tani: t }); return "kritik"; }

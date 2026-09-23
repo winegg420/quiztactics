@@ -11,6 +11,13 @@ on:
   workflow_dispatch:
   workflow_call:
 
+# Sunucu testleri CANLI veritabanında işlem açıp geri alır. Sık push'larda aynı anda
+# 5 koşu birbirini ve canlı sorguları kilitledi (23 Eyl 2026: Düello'da 57014 statement
+# timeout). Aynı anda yalnız bir koşu; yeni push eskisini iptal eder.
+concurrency:
+  group: sunucu-testleri
+  cancel-in-progress: true
+
 jobs:
   test:
     name: npm test
