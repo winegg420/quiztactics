@@ -10,10 +10,10 @@ import DavetBandi from "./DavetBandi.jsx";
 import Tanitim from "./Tanitim.jsx";
 import { useBildimManifest } from "../lib/manifest.js";
 import BildirimToast from "./BildirimToast.jsx";
-import Ikon from "./Ikon.jsx";
+import { QtUstCubuk, QtUstMenu, QtAltMenu, QtMarka, QtIkonDugme } from "../tasarim/index.js";
+import "../tasarim/ekranlar/a-kabuk.css";
 import CoinHapi from "./CoinHapi.jsx";
 import AvatarMenu from "./AvatarMenu.jsx";
-import Logo from "./Logo.jsx";
 // SADELEŞTİRME: tema ve ses düğmeleri üst bardan Profil sayfasına
 // taşındı (sadeleştirme). Bileşenler silinmedi; geri istenirse tek satır.
 import { y } from "../lib/yol.js";
@@ -134,7 +134,7 @@ export default function Layout() {
     (!profile.takma_ad_secildi || !profile.avatar_onayli || !profile.ulke);
 
   return (
-    <div className="app">
+    <div className="app qt-sayfa a-kabuk">
       <RankUpOverlay />
       {kurulumEksik && !tanitimGosterildi ? (
         <Tanitim
@@ -149,97 +149,82 @@ export default function Layout() {
         kurulumEksik && <KurulumSihirbazi />
       )}
 
-      {/* ============ ÜST ÇUBUK (Arayüz Yenileme, 20 Eyl 2026) ============
-          Prototipin iskeleti: marka + masaüstü menü + sağda eylemler.
-          Sticky kabuk `.bd-ust-blok` KORUNDU — davet bandı ve bildirim
-          toast'ı onun içinde duruyor; kaldırılsa ikisi de akışta kayardı.
+      {/* ============ ÜST ÇUBUK (Tasarım Adım 2 · Yön A, Şerit A) ============
+          QtUstCubuk: marka + masaüstü menü (≥ 850 px) + sağda eylemler.
+          Yapışkan kap `.a-ust-blok` davet bandını ve bildirim şeridini de
+          taşır; sayfa kaydırılsa da ikisi çubuğun altında kalır.
           Maç ekranlarında gizlenir: body.bd-oyun-modu (oyun/lib/oyunModu.js). */}
-      <div className="bd-ust-blok">
-        <header className="topbar">
-          <div className="topbar-inner">
-            <Link className="brand" to={y()} aria-label={tt("Quiz Tactics ana sayfa")}>
-              <Logo boyut={42} className="brand-logo brand-logo--tam" />
-              <Logo boyut={36} className="brand-logo brand-logo--ikon" sadeceIkon />
-            </Link>
-
-            {/* Masaüstü menü — 850 px altında gizlenir, yerini alt menü alır.
-                Dördü de var olan rotalar; yeni rota açılmadı. */}
-            <nav className="desktop-nav" aria-label={tt("Ana menü")}>
-              <NavLink to={y()} end className={({ isActive }) => (isActive ? "active" : "")}>
-                {tt("Ana Sayfa")}
-              </NavLink>
-              <NavLink to={y("/modlar")} className={({ isActive }) => (isActive ? "active" : "")}>
-                {tt("Oyun Modları")}
-              </NavLink>
-              <NavLink to={y("/siralama")} className={({ isActive }) => (isActive ? "active" : "")}>
-                {tt("Lig")}
-              </NavLink>
-              <NavLink to={y("/arkadaslar")} className={({ isActive }) => (isActive ? "active" : "")}>
-                {tt("Arkadaşlar")}
-                {bekleyen > 0 && <span className="bd-menu-nokta" aria-label={`${bekleyen} ${tt("bekleyen")}`} />}
-              </NavLink>
-              {/* DÜKKÂN — masaüstünde de menüde (20 Eyl 2026).
-                  Alt menü 850 px üstünde gizli olduğu için büyük ekranda
-                  "Dükkân" kelimesi hiçbir yerde görünmüyordu; joker ve coin
-                  almanın tek yolu coin hapına basmaktı. */}
-              <NavLink to={y("/joker")} className={({ isActive }) => (isActive ? "active" : "")}>
-                {tt("Dükkân")}
-              </NavLink>
-            </nav>
-
-            {profile && (
-              <div className="top-actions">
+      <div className="a-ust-blok">
+        <QtUstCubuk
+          marka={<QtMarka as={Link} to={y()} aria-label={tt("Quiz Tactics ana sayfa")} />}
+          menu={
+            <QtUstMenu
+              Baglanti={NavLink}
+              etiket={tt("Ana menü")}
+              ogeler={[
+                { kod: "ana", ad: tt("Ana Sayfa"), to: y(), end: true },
+                { kod: "modlar", ad: tt("Oyun Modları"), to: y("/modlar") },
+                { kod: "lig", ad: tt("Lig"), to: y("/siralama") },
+                // Bekleyen meydan okuma/arkadaş isteği: sayı değil nokta
+                { kod: "arkadas", ad: tt("Arkadaşlar"), to: y("/arkadaslar"), rozet: bekleyen > 0 },
+                // DÜKKÂN masaüstünde de menüde: alt menü 850 px üstünde gizli,
+                // yoksa büyük ekranda dükkâna tek yol coin hapı kalırdı.
+                { kod: "dukkan", ad: tt("Dükkân"), to: y("/joker") },
+              ]}
+            />
+          }
+          sag={
+            profile ? (
+              <>
                 <BildirimZili />
                 <CoinHapi />
                 {/* GÖRÜNÜM KISAYOLU — gardırop DONDURULDU (bkz.
                     oyun/lib/ozellikBayraklari.js). Bayrak true olunca geri gelir. */}
                 {GARDIROP_ACIK && (
-                  <Link to={y("/gorunum")} className="circle-btn bd-gorunum-kisayol"
-                        aria-label={tt("Görünüm — karakterini giydir")} title={tt("Görünüm")}>
-                    <Ikon ad="tisort" boyut={20} />
-                  </Link>
+                  <QtIkonDugme as={Link} to={y("/gorunum")} ikon="tisort" etiket={tt("Görünüm — karakterini giydir")} />
                 )}
                 {/* Avatar kısayol menüsü (Profilim · Ayarlar · Ses · Dil · Çıkış) */}
                 <AvatarMenu profile={profile} />
-              </div>
-            )}
-          </div>
-        </header>
+              </>
+            ) : <span />
+          }
+        />
+        {/* Masaüstü menüdeki bekleyen noktası yalnız görsel; sayı ekran okuyucuya burada */}
+        {bekleyen > 0 && <span className="qt-gizli">{tt("{n} bekleyen istek", { n: bekleyen })}</span>}
 
         {profile && <DavetBandi />}
         <BildirimToast />
       </div>
 
-      {/* Kabuk 1180 px (prototip `.shell`). Eski 540 px `.app` sınırı
-          oyun/styles/yeni.css'te kaldırıldı. */}
-      <main className="shell">
+      {/* Kabuk 1180 px. `.shell` sınıfı henüz yeniden yazılmamış sayfaların
+          eski düzeni için duruyor (Faz 4'te temizlenir). */}
+      <main className="shell a-icerik qt-altmenu-payi">
         <Outlet />
       </main>
 
       {/* ============ ALT MENÜ — yalnız 850 px altında ============
           Beş sekme: Ana Sayfa · Arkadaşlar · Lig · Dükkân · Profil.
           MEYDAN SEKMESİ YOK — 3B meydan donduruldu (ozellikBayraklari.js).
-          iOS: `position: fixed` ile `transform` aynı öğede KULLANILMAZ;
-          güvenli alan payı prototipten geldiği gibi korundu. */}
-      <nav className="mobile-nav" aria-label={tt("Mobil menü")}>
-        <NavLink to={y()} end className={({ isActive }) => (isActive ? "active" : "")}>
-          <span><Ikon ad="ev" boyut={22} /></span>{tt("Ana Sayfa")}
-        </NavLink>
-        <NavLink to={y("/arkadaslar")} className={({ isActive }) => (isActive ? "active" : "")}>
-          <span><Ikon ad="kisiler" boyut={22} /></span>{tt("Arkadaşlar")}
-          {/* Bekleyen meydan okuma/arkadaş isteği: sayı değil nokta */}
-          {bekleyen > 0 && <span className="bd-menu-nokta" aria-label={`${bekleyen} ${tt("bekleyen")}`} />}
-        </NavLink>
-        <NavLink to={y("/siralama")} className={({ isActive }) => (isActive ? "active" : "")}>
-          <span><Ikon ad="grafik" boyut={22} /></span>{tt("Lig")}
-        </NavLink>
-        <NavLink to={y("/joker")} className={({ isActive }) => (isActive ? "active" : "")}>
-          <span><Ikon ad="yildiz" boyut={22} /></span>{tt("Dükkân")}
-        </NavLink>
-        <NavLink to={y("/profil")} className={({ isActive }) => (isActive ? "active" : "")}>
-          <span><Ikon ad="kisi" boyut={22} /></span>{tt("Profil")}
-        </NavLink>
-      </nav>
+          `mobile-nav` EK sınıfı korunur: MacSonuSahnesi eylem çubuğunu bu
+          çubuğun üst kenarına göre ölçüyor. iOS: sabit öğede ve atalarında
+          transform yok (basma hareketi içteki ikonda). */}
+      <QtAltMenu
+        sabit
+        yalnizMobil
+        className="mobile-nav a-altmenu"
+        Baglanti={NavLink}
+        etiket={tt("Mobil menü")}
+        sekmeler={[
+          { kod: "ana", ad: tt("Ana Sayfa"), ikon: "ev", to: y(), end: true },
+          {
+            kod: "arkadas", ad: tt("Arkadaşlar"), ikon: "kisiler", to: y("/arkadaslar"),
+            rozet: bekleyen > 0, rozetEtiketi: tt("{n} bekleyen istek", { n: bekleyen }),
+          },
+          { kod: "lig", ad: tt("Lig"), ikon: "lig", to: y("/siralama") },
+          { kod: "dukkan", ad: tt("Dükkân"), ikon: "dukkan", to: y("/joker") },
+          { kod: "profil", ad: tt("Profil"), ikon: "kisi", to: y("/profil") },
+        ]}
+      />
     </div>
   );
 }

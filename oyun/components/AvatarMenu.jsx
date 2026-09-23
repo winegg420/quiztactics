@@ -9,12 +9,15 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../src/context/AuthContext.jsx";
-import Avatar from "../../src/components/Avatar.jsx";
-import Ikon from "./Ikon.jsx";
+import { QtAvatar, QtIkon, sinif } from "../tasarim/index.js";
 import { sesAcikMi, sesAyarla, sesDinle } from "../lib/ses.js";
 import { useDil } from "../lib/dilKanca.js";
 import { DILLER, tt } from "../lib/dil.js";
 import { y } from "../lib/yol.js";
+
+// Profil görseli: gizlilik sonrası gorunen_* alanları, diğerlerinde avatar_url (Avatar.jsx ile aynı kural)
+const gorsel = (p) => (p?.gorunen_avatar !== undefined ? p.gorunen_avatar : p?.avatar_url) || undefined;
+const adi = (p) => p?.gorunen_ad ?? p?.username ?? "";
 
 export default function AvatarMenu({ profile }) {
   const { signOut } = useAuth();
@@ -55,36 +58,38 @@ export default function AvatarMenu({ profile }) {
     try { await signOut(); } catch (e) { console.error("[Bildim] çıkış yapılamadı:", e); }
   };
 
+  // Menü öğesi: ikon + yazı (+ sağda durum). Hepsi ≥ 44 px, qt- düzeninde.
   return (
-    <div className="bd-avatar-menu-kap" ref={kapRef}>
-      <button type="button" ref={dugmeRef} className="bd-profil-link bd-avatar-menu-dugme avatar-button"
+    <div className="a-avatar-menu-kap" ref={kapRef}>
+      <button type="button" ref={dugmeRef} className="qt-avatar-dugme"
               aria-haspopup="menu" aria-expanded={acik} aria-label={tt("Profilim ve ayarlar")}
               onClick={() => setAcik((a) => !a)}>
-        <Avatar profile={profile} boyut={34} />
+        <QtAvatar src={gorsel(profile)} ad={adi(profile)} boyut="m" />
       </button>
       {acik && (
-        <div className="bd-avatar-menu" role="menu" ref={menuRef} aria-label={tt("Profilim ve ayarlar")}>
-          <button type="button" role="menuitem" onClick={() => git(y("/profil"))}>
-            <Ikon ad="kisi" boyut={18} /> {tt("Profilim")}
+        <div className="a-avatar-menu" role="menu" ref={menuRef} aria-label={tt("Profilim ve ayarlar")}>
+          <button type="button" role="menuitem" className="a-avatar-menu-oge" onClick={() => git(y("/profil"))}>
+            <QtIkon ad="kisi" boyut={20} /> <span>{tt("Profilim")}</span>
           </button>
-          <button type="button" role="menuitem" onClick={() => git(y("/profil?sekme=ayarlar"))}>
-            <Ikon ad="ayar" boyut={18} /> {tt("Ayarlar")}
+          <button type="button" role="menuitem" className="a-avatar-menu-oge" onClick={() => git(y("/profil?sekme=ayarlar"))}>
+            <QtIkon ad="ayar" boyut={20} /> <span>{tt("Ayarlar")}</span>
           </button>
-          <button type="button" role="menuitemcheckbox" aria-checked={ses} onClick={sesDegistir}>
-            <Ikon ad={ses ? "sesAcik" : "sesKapali"} boyut={18} /> {tt("Ses")}
-            <span className="bd-avatar-menu-durum">{ses ? tt("Açık") : tt("Kapalı")}</span>
+          <button type="button" role="menuitemcheckbox" aria-checked={ses} className="a-avatar-menu-oge" onClick={sesDegistir}>
+            <QtIkon ad={ses ? "sesAcik" : "sesKapali"} boyut={20} /> <span>{tt("Ses")}</span>
+            <span className={sinif("a-avatar-menu-durum", ses && "a-avatar-menu-durum--acik")}>{ses ? tt("Açık") : tt("Kapalı")}</span>
           </button>
-          <div className="bd-avatar-menu-dil" role="group" aria-label={tt("Dil")}>
-            <Ikon ad="dunya" boyut={18} />
+          <div className="a-avatar-menu-dil" role="group" aria-label={tt("Dil")}>
+            <QtIkon ad="dunya" boyut={20} />
             {DILLER.map((d) => (
               <button key={d} type="button" role="menuitemradio" aria-checked={dil === d}
-                      className={dil === d ? "aktif" : ""} onClick={() => dilDegistir(d)}>
+                      className={sinif("a-avatar-menu-dil-dugme", dil === d && "a-avatar-menu-dil-dugme--secili")}
+                      onClick={() => dilDegistir(d)}>
                 {d.toUpperCase()}
               </button>
             ))}
           </div>
-          <button type="button" role="menuitem" className="cikis" onClick={cikis}>
-            <Ikon ad="cikis" boyut={18} /> {tt("Çıkış Yap")}
+          <button type="button" role="menuitem" className="a-avatar-menu-oge a-avatar-menu-oge--cikis" onClick={cikis}>
+            <QtIkon ad="cikis" boyut={20} /> <span>{tt("Çıkış Yap")}</span>
           </button>
         </div>
       )}

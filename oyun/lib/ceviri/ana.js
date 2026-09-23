@@ -2,4 +2,7 @@
 // (dil.js ile aynı kural). Şeritler paralel çalıştığı için her biri kendi dosyasına yazar;
 // dil.js bu dosyaları SOZLUK.en'e katar (buradaki karşılık önce gelir).
 export default {
+  // Kabuk (Layout, CoinHapi)
+  "{n} bekleyen istek": "{n} pending",
+  "{n} coin — dükkâna git": "{n} coins — open the shop",
 };

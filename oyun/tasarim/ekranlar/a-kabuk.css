@@ -1,0 +1,161 @@
+/* =====================================================================
+   ŞERİT A — UYGULAMA KABUĞU (Layout.jsx) · Yön A "Şeker Kutusu"
+   Üst çubuk (QtUstCubuk) + masaüstü menü (QtUstMenu) + mobil alt menü
+   (QtAltMenu) + avatar menüsü + coin hapı.
+   Yalnız bu kabuğun kök sınıfları (`a-`) ve qt- bileşen uyarlamaları.
+   Eski kabuk sınıfları (.topbar, .mobile-nav, .bd-coin-hap …) yeni öğelere
+   yalnız EK sınıf olarak kaldı (ölçüm/test kancası); onların eski görünümü
+   burada daha özgül seçiciyle geri alınır. Eski CSS dosyalarına dokunulmadı.
+   iOS: sabit öğede ve atalarında transform/filter yok; yükseklik dvh.
+   ===================================================================== */
+
+/* ---------- Kök ---------- */
+/* Maç ekranlarında (body.bd-oyun-modu) zemin maç sahnesine ait: kabuk boyamaz. */
+body.bd-oyun-modu .app.a-kabuk { background: transparent; }
+
+/* ---------- Üst blok: çubuk + davet bandı + bildirim şeridi birlikte yapışır ---------- */
+.a-kabuk .a-ust-blok {
+  position: sticky;
+  top: 0;
+  z-index: var(--qt-z-menu);
+  background: var(--qt-zemin);
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--qt-zemin-metin) 10%, transparent);
+}
+.a-kabuk .a-ust-blok .qt-ustcubuk { background: transparent; }
+body.bd-oyun-modu .a-kabuk .a-ust-blok { display: none; }
+
+/* ---------- Coin hapı ---------- */
+/* Eski `.app .bd-coin-hap` kuralı (0,2,0) qt-coin'i eziyordu: token değerleri geri verilir. */
+.app .qt-coin.a-coin-hap {
+  gap: 5px;
+  padding: 0 12px 0 8px;
+  border-radius: var(--qt-r-hap);
+  background: var(--qt-coin);
+  color: var(--qt-coin-yazi);
+  font-family: var(--qt-f-baslik);
+  font-size: var(--qt-y-m);
+  font-weight: var(--qt-a-normal);
+}
+@media (max-width: 420px) {
+  .app .qt-coin.a-coin-hap { padding: 0 10px 0 6px; font-size: 15px; }
+}
+
+/* ---------- Avatar menüsü ---------- */
+.a-avatar-menu-kap { position: relative; display: inline-flex; }
+.a-avatar-menu {
+  position: absolute;
+  top: calc(100% + var(--qt-b-2));
+  right: 0;
+  z-index: var(--qt-z-menu);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: max-content;
+  min-width: 220px;
+  max-width: calc(100vw - 2 * var(--qt-kenar));
+  padding: var(--qt-b-2);
+  border-radius: var(--qt-r-l);
+  background: var(--qt-yuzey);
+  color: var(--qt-metin);
+  box-shadow: var(--qt-golge-yuzen), 0 var(--qt-dudak) 0 var(--qt-cizgi);
+  transform-origin: top right;
+  animation: qt-h-pop-gir var(--qt-s-kisa) var(--qt-egri-cikis) both;
+}
+.a-avatar-menu-oge,
+.a-avatar-menu-dil {
+  display: flex;
+  align-items: center;
+  gap: var(--qt-b-3);
+  width: 100%;
+  min-height: var(--qt-dokunma);
+  margin: 0;
+  padding: 0 var(--qt-b-3);
+  border: 0;
+  border-radius: var(--qt-r-m);
+  background: transparent;
+  color: var(--qt-metin);
+  font-family: var(--qt-f-govde);
+  font-size: var(--qt-y-m);
+  font-weight: var(--qt-a-siyah);
+  text-align: left;
+}
+.a-avatar-menu-oge {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: background-color var(--qt-s-kisa) ease;
+}
+.a-avatar-menu-oge > .qt-ikon,
+.a-avatar-menu-dil > .qt-ikon { flex: none; color: var(--qt-metin-soluk); }
+.a-avatar-menu-oge:active { background: var(--qt-yuzey-3); }
+.a-avatar-menu-oge:focus-visible,
+.a-avatar-menu-dil-dugme:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 1px; }
+.a-avatar-menu-oge--cikis { color: var(--qt-yanlis-koyu); }
+.a-avatar-menu-oge--cikis > .qt-ikon { color: var(--qt-yanlis-koyu); }
+.a-avatar-menu-durum {
+  margin-left: auto;
+  padding: 2px 10px;
+  border-radius: var(--qt-r-hap);
+  background: var(--qt-yuzey-3);
+  color: var(--qt-metin-soluk);
+  font-size: var(--qt-y-xs);
+}
+.a-avatar-menu-durum--acik { background: var(--qt-dogru-acik); color: var(--qt-dogru-koyu); }
+.a-avatar-menu-dil { margin-top: 2px; padding-top: var(--qt-b-1); border-top: 1px solid var(--qt-cizgi); border-radius: 0; }
+.a-avatar-menu-dil-dugme {
+  min-width: 56px;
+  min-height: var(--qt-dokunma);
+  margin: 0;
+  padding: 0 var(--qt-b-3);
+  border: 0;
+  border-radius: var(--qt-r-hap);
+  background: var(--qt-yuzey-2);
+  color: var(--qt-metin-soluk);
+  font-family: var(--qt-f-baslik);
+  font-size: var(--qt-y-s);
+  font-weight: var(--qt-a-siyah);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.a-avatar-menu-dil-dugme--secili { background: var(--qt-ikinci); color: var(--qt-ikinci-yazi); }
+@media (hover: hover) and (pointer: fine) {
+  .a-avatar-menu-oge:hover { background: var(--qt-yuzey-2); }
+  .a-avatar-menu-dil-dugme:not(.a-avatar-menu-dil-dugme--secili):hover { background: var(--qt-yuzey-3); }
+}
+
+/* ---------- Alt menü ---------- */
+/* `mobile-nav` ek sınıfı eski kabuğun kurallarını (yeni.css, mobile-game.css)
+   çekiyor: yüzen hap, bulanık cam, turuncu aktif. Hepsi QtAltMenu değerlerine döner. */
+.app nav.a-altmenu.mobile-nav {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: auto;
+  justify-content: normal;
+  padding: 6px 4px calc(8px + env(safe-area-inset-bottom, 0px));
+  border: 0;
+  border-radius: 24px 24px 0 0;
+  background: var(--qt-yuzey);
+  box-shadow: 0 -4px 0 var(--qt-cizgi);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+.app .a-altmenu.mobile-nav .qt-altmenu-oge {
+  min-width: 0;
+  min-height: 56px;
+  border-radius: var(--qt-r-m);
+  background: transparent;
+  color: var(--_y);
+  text-decoration: none;
+  transition: none;
+  transform: none;
+}
+.app .a-altmenu.mobile-nav .qt-altmenu-oge:active { transform: none; }
+/* eski `.mobile-nav a span { font-size: 20px }` yazıyı büyütüyordu */
+.app .a-altmenu.mobile-nav .qt-altmenu-oge span { font-size: inherit; }
+body.bd-oyun-modu .a-kabuk .a-altmenu { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .a-avatar-menu { animation: none; }
+}
