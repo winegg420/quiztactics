@@ -73,7 +73,6 @@
 .ls-reddet { color: var(--qt-yanlis-koyu); }
 .ls-modal-dugmeler { display: flex; gap: var(--qt-b-2); justify-content: flex-end; flex-wrap: wrap; }
 .ls-modal-dugmeler > * { flex: 1 1 120px; }
-.ls-sayfa .qt-satir-kap .bd-cerceve { flex: none; }
 
 /* ---------- Arkadaş satırı (satır + Oyna + çıkar) ---------- */
 .ar-satir {
@@ -325,7 +324,6 @@
 }
 .ms-kisi:active { background: var(--qt-yuzey-2); }
 .ms-kisi:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 2px; }
-.ms-kisi .bd-cerceve { flex: none; }
 .ms-kisi-ad {
   min-width: 0;
   font-family: var(--qt-f-baslik);

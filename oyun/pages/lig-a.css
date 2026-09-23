@@ -200,7 +200,6 @@
 .lg-sira-2 { background: var(--qt-lig-gumus); box-shadow: 0 var(--qt-dudak-s) 0 var(--qt-lig-gumus-dudak); }
 .lg-sira-3 { background: var(--qt-lig-bronz); box-shadow: 0 var(--qt-dudak-s) 0 var(--qt-lig-bronz-dudak); }
 
-.lg-satir-ac .bd-cerceve { flex: none; }
 
 .lg-bilgi {
   flex: 1 1 auto;
