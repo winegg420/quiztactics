@@ -7718,7 +7718,8 @@ otomatik akla gelmesi için; proje kapsamında kuruldu.
   her soruda şık açık mı (değilse anında başarısız), dokunuş sunucuya ulaştı mı (DB),
   maç sonunda yanıtsız soru var mı, 360/390 px kutu kesişimi (modal ve sabit menü ayrımıyla),
   Düello ≥3 saldıran + ≥3 savunan, `--uzatma`. Sonuç CANLIDA: Düello geçti (saldıran 4,
-  savunan 3, uzatmada saldıran cevapladı; ilk/sonraki tur, skill var/yok), Klasik 20/20 geçti.
+  savunan 3, uzatmada saldıran cevapladı; ilk/sonraki tur, skill var/yok), Klasik 20/20 geçti,
+  turnuva 10:00 seansında 5/5 geçti (lobiye katıl → doğru şık → DB).
 - **Dal düzeni kalktı (Ida kararı):** `gelistirme` → `main` ileri sarıldı ve push edildi,
   kurallar CLAUDE.md/AGENTS.md'de "doğrudan main". Migration 297: `duello_surum` = 2
   (canlı paket yayına çıktıktan SONRA uygulandı). Test listesi altyapısı silinmedi.
