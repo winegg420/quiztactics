@@ -5,6 +5,8 @@
 // Seçim oyuna hemen geçer (Ajan H: ses.js › AN eşlemesi + sesArkaPlan.js). Yeni aday/an: public/ses/adaylar/KAYNAKLAR.md başı.
 // Aday id'si listedeki sıradan üretilir (adayKur) — yeni adayı listenin SONUNA ekle.
 
+import { muzikOnizlemeUrl, muzikTamUrl } from "../../lib/muzikParcalari.js";
+
 /** Kenney paketleri — hepsi CC0. */
 export const KENNEY = {
   IS: { ad: "Interface Sounds", url: "https://kenney.nl/assets/interface-sounds" },
@@ -94,18 +96,31 @@ const EFEKT_TANIM = [
     [k("IS", "error_001"), k("IS", "error_003"), k("IS", "glitch_002"), p(132113, "Universfield", "Error Alert", "sound-effects/film-special-effects-error-alert-132113")]],
 ];
 
-/** Müzik anları — Pixabay Music (Pixabay İçerik Lisansı), 30 sn'lik önizleme. */
+/** Müzik anları — Pixabay Music (Pixabay İçerik Lisansı). Sayfa 30 sn önizleme, oyun tam parça (Storage) çalar.
+ *  Müzik anında 1–4 aday SIRALI seçilir (çalma listesi, migration 450). */
 const MUZIK_TANIM = [
   ["muzik_menu", "Menü / lobi müziği", "Menu / lobby music", "Ana sayfa ve menülerde döngü (neşeli).", "Loop on home and menus (cheerful).",
     [p(490551, "BombinSound", "Happy - Happy Music", "music/happy-childrens-tunes-happy-happy-music-490551"),
       p(146738, "Ivantraveso", "Music for Puzzle Game", "music/video-games-music-for-puzzle-game-146738"),
       p(144037, "XtremeFreddy", "Game Music Loop 2", "music/beats-game-music-loop-2-144037"),
-      p(153393, "XtremeFreddy", "Game Music Loop 19", "music/video-games-game-music-loop-19-153393")]],
+      p(153393, "XtremeFreddy", "Game Music Loop 19", "music/video-games-game-music-loop-19-153393"),
+      // Ajan M (24 Eyl 2026): Ida'nın lobi seçimine (Aday 2, zen havası) benzer 5 parça — tam parçalar Storage'da.
+      p(275645, "MMAudio", "A Leaf On the Wind", "music/beats-a-leaf-on-the-wind-275645"),
+      p(275157, "MMAudio", "Lost Under the Cherry Blossom Tree", "music/beats-lost-under-the-cherry-blossom-tree-275157"),
+      p(140474, "NourishedByMusic", "Japanese Relaxing Koto", "music/meditationspiritual-japanese-relaxing-koto-140474"),
+      p(120669, "NourishedByMusic", "Chinese Dizi Flute", "music/china-chinese-dizi-flute-120669"),
+      p(414817, "bradfordhines", "京都琴 (Kyoto Koto)", "music/world-%E4%BA%AC%E9%83%BD%E7%90%B4-kyoto-koto-414817")]],
   ["muzik_mac", "Maç müziği", "Match music", "Maç sırasında döngü (sakin gerilim).", "Loop during a match (calm tension).",
     [p(442839, "DELOSound", "Tense Suspense Background Music", "music/suspense-tense-suspense-background-music-442839"),
       p(191716, "WaffleMusic", "Thinking Music", "music/pulses-thinking-music-191716"),
       p(219722, "Kaden_Cook", "Countdown", "music/electronic-countdown-219722"),
-      p(433787, "Kuzu420", "Calm Suspenseful Background Music [loop]", "music/suspense-calm-suspenseful-background-music-loop-433787")]],
+      p(433787, "Kuzu420", "Calm Suspenseful Background Music [loop]", "music/suspense-calm-suspenseful-background-music-loop-433787"),
+      // Ajan M (24 Eyl 2026): aynı Doğu havası ama hızlı/adrenalinli (taiko, koto trap, Asya aksiyon) — sözsüz.
+      p(491389, "DesiFreeMusic", "Primitive Battle Groove (Taiko Drums)", "music/percussion-primitive-battle-groove-with-rhythmic-taiko-drums-handclaps-491389"),
+      p(562795, "alexrockbeat", "Dramatic Asian Cinematic Trailer", "music/action-alexrockbeat-dramatic-asian-cinematic-trailer-562795"),
+      p(287090, "47643651", "Japanese Chinese Trap | Dark | Temple (Geisha)", "music/beats-japanese-chinese-trap-dark-temple-geisha-287090"),
+      p(192734, "onesevenbeatxs", "Cool Japanese Hard Groovy Trap Beat", "music/trap-cool-japanese-hard-groovy-trap-beat-prod-by-onesevenbeatxs-192734"),
+      p(434227, "ZhenyaVegasMusic", "Action Percussion Stomp Intro", "music/upbeat-action-percussion-stomp-intro-434227")]],
   ["muzik_turnuva", "Turnuva lobisi teması", "Tournament lobby theme", "Turnuva bekleme/başlangıç ekranı.", "Tournament waiting/start screen.",
     [p(484392, "prettyjohn1", "Sport - Sport Music", "music/rock-sport-sport-music-484392"),
       p(512484, "BombinSound", "Epic Action", "music/orchestral-epic-action-512484"),
@@ -126,7 +141,9 @@ function adayKur(an, a, i, sayac) {
   // Müzik: ilk 30 sn, AAC (ADTS) 96 kbps stereo — iOS dahil çalar, 10 MB sınırına sığar.
   const muzik = an.startsWith("muzik_");
   const id = muzik ? `${an}-${i + 1}` : `${an}-p${sayac.p}`;
-  return { id, dosya: `${KLASOR}${id}.${muzik ? "aac" : "mp3"}`, kaynak: "Pixabay", baslik: a.ad, yazar: a.yazar, url: a.url, lisans: "Pixabay İçerik Lisansı" };
+  // Müzik: `dosya` = 30 sn önizleme (yeni adaylarınki Storage'da), `tam` = oyunun çaldığı tam parça (Storage).
+  const dosya = (muzik && muzikOnizlemeUrl(id)) || `${KLASOR}${id}.${muzik ? "aac" : "mp3"}`;
+  return { id, dosya, tam: muzik ? muzikTamUrl(id) : null, kaynak: "Pixabay", baslik: a.ad, yazar: a.yazar, url: a.url, lisans: "Pixabay İçerik Lisansı" };
 }
 
 export const EFEKTLER = EFEKT_TANIM.map(([an, ad, adEn, yer, yerEn, mevcut, liste]) => {

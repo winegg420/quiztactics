@@ -46,6 +46,15 @@ Pixabay'de yapay zekâ üretimi ve YouTube Content ID kayıtlı parçalar bilere
 | 21 efekt adayı (WAV) | Kenney — Interface Sounds, Impact Sounds, Digital Audio, Music Jingles, Casino Audio, **Sci-Fi Sounds**, **RPG Audio** | CC0 1.0 | https://kenney.nl/assets/sci-fi-sounds · https://kenney.nl/assets/rpg-audio (diğerleri yukarıda) |
 | 7 efekt adayı (mp3, ≤ 3 sn kırpılmış) | Pixabay ses efektleri — Universfield, freesound_community, DRAGON-STUDIO, Epic_Stock_Media, EdR (parça parça KAYNAKLAR.md'de) | Pixabay İçerik Lisansı (aynı) | https://pixabay.com/service/license-summary/ |
 
+**Tam müzik parçaları + 10 yeni müzik adayı (Ajan M, 24 Eyl 2026):** 22 müzik adayının TAM hâli
+(12 eski + 10 yeni; AAC 96 kbps) ve yeni 10 adayın 30 sn önizlemesi **Supabase Storage `muzik`
+kovasında** (site dağıtımına girmez; migration 450). 32 dosya, 30,7 MB. Parça parça kaynak,
+yazar ve indirme tarihi: `public/ses/adaylar/KAYNAKLAR.md` › "Tam parçalar".
+
+| Grup | Kaynak | Lisans | Bağlantı |
+|---|---|---|---|
+| 22 tam parça + 10 önizleme (AAC) | Pixabay Music — 12 eski adayın yazarları + MMAudio, NourishedByMusic, bradfordhines, DesiFreeMusic, alexrockbeat, 47643651, onesevenbeatxs, ZhenyaVegasMusic | Pixabay İçerik Lisansı (aynı; oyun içinde müzik olarak kullanım serbest, dosyayı tek başına dağıtmak yasak) | https://pixabay.com/service/license-summary/ |
+
 ## Maç sonu Lottie animasyonları (`/mac-sonu-onizleme`, 23 Eyl 2026)
 
 `public/lottie/mac-sonu/` — LottieFiles ücretsiz animasyonları; her birinin sayfasında

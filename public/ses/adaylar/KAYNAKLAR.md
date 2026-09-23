@@ -12,6 +12,17 @@ girmez; bir dosya yalnız seçilince ve ilk gerektiğinde iner. Üretici: Ajan F
    müzik `<an>-<N>.aac`. **Araya ekleme** — sonraki adayların numarası kayar ve kayıtlı seçim başka
    dosyaya işaret eder. Bu dosyaya kaynak satırını da yaz. Sayfa yeni adayı hemen gösterir.
 
+### Tam parça eklemek (müzik — Ajan M, 24 Eyl 2026)
+
+Müzikte oyun 30 sn önizlemeyi değil TAM parçayı çalar; tam parçalar bu klasöre/`public/`'e
+**GİRMEZ**, Supabase Storage `muzik` kovasındadır (herkese okunur; istemci yazamaz — migration 450).
+1. Pixabay CDN'den tam mp3'ü indir, Chrome WebCodecs ile AAC (ADTS) 96 kbps stereo 44,1 kHz'e çevir.
+   Yeni adayın 30 sn önizlemesi de (son 1,5 sn sönümlü) kovanın `onizleme/` altına gider.
+2. Ad içerik sürümlü: `<aday id>-<sha256 ilk 10>.aac`; yüklemede `cache-control: max-age=31536000`.
+   Yükleme için service role anahtarı ya da yöneticinin onayladığı geçici dar politika gerekir.
+3. `oyun/lib/muzikParcalari.js` › `TAM` (dosya + gerçek süre) ve gerekiyorsa `ONIZLEME`'ye satır ekle;
+   bu dosyadaki "Tam parçalar" tablosuna kaynak + indirme tarihi yaz.
+
 ### Yeni ses anı eklemek
 
 1. `adaylar.js` › `EFEKT_TANIM` (ya da `MUZIK_TANIM`) listesine satır: `[an, ad, adEn, yer, yerEn, mevcut|null, [adaylar]]`.
@@ -411,6 +422,11 @@ Mevcut: — (bugün sessiz)
 | `muzik_menu-2.aac` | Pixabay | Music for Puzzle Game | Ivantraveso | https://pixabay.com/music/video-games-music-for-puzzle-game-146738/ | Pixabay İçerik Lisansı | 351.8 |
 | `muzik_menu-3.aac` | Pixabay | Game Music Loop 2 | XtremeFreddy | https://pixabay.com/music/beats-game-music-loop-2-144037/ | Pixabay İçerik Lisansı | 351.9 |
 | `muzik_menu-4.aac` | Pixabay | Game Music Loop 19 | XtremeFreddy | https://pixabay.com/music/video-games-game-music-loop-19-153393/ | Pixabay İçerik Lisansı | 352.0 |
+| `muzik_menu-5` (önizleme, Storage `onizleme/muzik_menu-5-0c5857b973.aac`) | Pixabay | A Leaf On the Wind | MMAudio | https://pixabay.com/music/beats-a-leaf-on-the-wind-275645/ | Pixabay İçerik Lisansı | 351.8 |
+| `muzik_menu-6` (önizleme, Storage `onizleme/muzik_menu-6-9ec8ae0fe0.aac`) | Pixabay | Lost Under the Cherry Blossom Tree | MMAudio | https://pixabay.com/music/beats-lost-under-the-cherry-blossom-tree-275157/ | Pixabay İçerik Lisansı | 351.8 |
+| `muzik_menu-7` (önizleme, Storage `onizleme/muzik_menu-7-bc92dfbc33.aac`) | Pixabay | Japanese Relaxing Koto | NourishedByMusic | https://pixabay.com/music/meditationspiritual-japanese-relaxing-koto-140474/ | Pixabay İçerik Lisansı | 351.7 |
+| `muzik_menu-8` (önizleme, Storage `onizleme/muzik_menu-8-0782b1db6d.aac`) | Pixabay | Chinese Dizi Flute | NourishedByMusic | https://pixabay.com/music/china-chinese-dizi-flute-120669/ | Pixabay İçerik Lisansı | 351.9 |
+| `muzik_menu-9` (önizleme, Storage `onizleme/muzik_menu-9-013a20f081.aac`) | Pixabay | 京都琴 (Kyoto Koto) | bradfordhines | https://pixabay.com/music/world-%E4%BA%AC%E9%83%BD%E7%90%B4-kyoto-koto-414817/ | Pixabay İçerik Lisansı | 351.8 |
 
 ## Maç müziği (`muzik_mac`)
 
@@ -422,6 +438,11 @@ Mevcut: — (bugün sessiz)
 | `muzik_mac-2.aac` | Pixabay | Thinking Music | WaffleMusic | https://pixabay.com/music/pulses-thinking-music-191716/ | Pixabay İçerik Lisansı | 351.8 |
 | `muzik_mac-3.aac` | Pixabay | Countdown | Kaden_Cook | https://pixabay.com/music/electronic-countdown-219722/ | Pixabay İçerik Lisansı | 351.9 |
 | `muzik_mac-4.aac` | Pixabay | Calm Suspenseful Background Music [loop] | Kuzu420 | https://pixabay.com/music/suspense-calm-suspenseful-background-music-loop-433787/ | Pixabay İçerik Lisansı | 351.8 |
+| `muzik_mac-5` (önizleme, Storage `onizleme/muzik_mac-5-1dd76ae1e6.aac`) | Pixabay | Primitive Battle Groove (Taiko Drums) | DesiFreeMusic | https://pixabay.com/music/percussion-primitive-battle-groove-with-rhythmic-taiko-drums-handclaps-491389/ | Pixabay İçerik Lisansı | 351.9 |
+| `muzik_mac-6` (önizleme, Storage `onizleme/muzik_mac-6-6d8839e037.aac`) | Pixabay | Dramatic Asian Cinematic Trailer | alexrockbeat | https://pixabay.com/music/action-alexrockbeat-dramatic-asian-cinematic-trailer-562795/ | Pixabay İçerik Lisansı | 351.8 |
+| `muzik_mac-7` (önizleme, Storage `onizleme/muzik_mac-7-6b1827f198.aac`) | Pixabay | Japanese Chinese Trap / Dark / Temple (Geisha) | 47643651 | https://pixabay.com/music/beats-japanese-chinese-trap-dark-temple-geisha-287090/ | Pixabay İçerik Lisansı | 351.8 |
+| `muzik_mac-8` (önizleme, Storage `onizleme/muzik_mac-8-77758d8c1c.aac`) | Pixabay | Cool Japanese Hard Groovy Trap Beat | onesevenbeatxs | https://pixabay.com/music/trap-cool-japanese-hard-groovy-trap-beat-prod-by-onesevenbeatxs-192734/ | Pixabay İçerik Lisansı | 351.7 |
+| `muzik_mac-9` (önizleme, Storage `onizleme/muzik_mac-9-a4da8d974e.aac`) | Pixabay | Action Percussion Stomp Intro | ZhenyaVegasMusic | https://pixabay.com/music/upbeat-action-percussion-stomp-intro-434227/ | Pixabay İçerik Lisansı | 351.9 |
 
 ## Turnuva lobisi teması (`muzik_turnuva`)
 
@@ -433,3 +454,41 @@ Mevcut: — (bugün sessiz)
 | `muzik_turnuva-2.aac` | Pixabay | Epic Action | BombinSound | https://pixabay.com/music/orchestral-epic-action-512484/ | Pixabay İçerik Lisansı | 351.8 |
 | `muzik_turnuva-3.aac` | Pixabay | Pink Lemon | Rockot | https://pixabay.com/music/corporate-pink-lemon-positive-happy-motivational-commercial-anthem-184602/ | Pixabay İçerik Lisansı | 351.8 |
 | `muzik_turnuva-4.aac` | Pixabay | Champions Anthem | ShtakalBerry | https://pixabay.com/music/world-champions-anthem-549132/ | Pixabay İçerik Lisansı | 351.8 |
+
+## Tam parçalar — Supabase Storage `muzik` kovası (Ajan M, 24 Eyl 2026)
+
+Oyun müzikte 30 sn önizlemeyi değil bu TAM parçaları çalar (site dağıtımına girmez). Hepsi Pixabay
+Music, Pixabay İçerik Lisansı; yapay zekâ üretimi ve YouTube Content ID kayıtlı parçalar ELENDİ, hepsi
+sözsüz. İndirme: 24 Eyl 2026 (eski 12 adayın tam mp3'ü Ajan F'nin 23 Eyl 2026 indirmesinden). İşlem: AAC
+(ADTS) 96 kbps stereo 44,1 kHz, Chrome WebCodecs. Adres: `<VITE_SUPABASE_URL>/storage/v1/object/public/muzik/<dosya>`.
+
+| Aday | Dosya (kova) | Parça | Yazar | Bağlantı | Süre | kB | Neden (yeni adaylar) |
+|---|---|---|---|---|---|---|---|
+| `muzik_menu-1` | `muzik_menu-1-00b7cbbffc.aac` | Happy - Happy Music | BombinSound | https://pixabay.com/music/happy-childrens-tunes-happy-happy-music-490551/ | 60.0 sn | 703.7 | — |
+| `muzik_menu-2` | `muzik_menu-2-da1e34412b.aac` | Music for Puzzle Game | Ivantraveso | https://pixabay.com/music/video-games-music-for-puzzle-game-146738/ | 91.7 sn | 1075.1 | — |
+| `muzik_menu-3` | `muzik_menu-3-e6989a6dba.aac` | Game Music Loop 2 | XtremeFreddy | https://pixabay.com/music/beats-game-music-loop-2-144037/ | 38.2 sn | 448.3 | — |
+| `muzik_menu-4` | `muzik_menu-4-8ad3422de3.aac` | Game Music Loop 19 | XtremeFreddy | https://pixabay.com/music/video-games-game-music-loop-19-153393/ | 38.8 sn | 454.7 | — |
+| `muzik_menu-5` | `muzik_menu-5-fdcb9e5d7a.aac` | A Leaf On the Wind | MMAudio | https://pixabay.com/music/beats-a-leaf-on-the-wind-275645/ | 128.5 sn | 1506.1 | etiket: Japanese, Oriental, Calm + Ida'nın parçasıyla aynı ruh hâli (Dreamy, Laid Back, Bright, Elegant, Smooth, Medium; Beats) |
+| `muzik_menu-6` | `muzik_menu-6-ad69cce2bd.aac` | Lost Under the Cherry Blossom Tree | MMAudio | https://pixabay.com/music/beats-lost-under-the-cherry-blossom-tree-275157/ | 160.8 sn | 1884.1 | etiket: Asian, Oriental, Japan, Calm + aynı ruh hâli (Dreamy, Laid Back, Bright, Relaxing, Elegant, Floating, Smooth, Medium) |
+| `muzik_menu-7` | `muzik_menu-7-415a1e1ab0.aac` | Japanese Relaxing Koto | NourishedByMusic | https://pixabay.com/music/meditationspiritual-japanese-relaxing-koto-140474/ | 138.0 sn | 1617.9 | etiket: Koto, Japanese, Meditation, Peaceful + Dreamy, Bright, Elegant, Floating, Medium |
+| `muzik_menu-8` | `muzik_menu-8-f6624186fe.aac` | Chinese Dizi Flute | NourishedByMusic | https://pixabay.com/music/china-chinese-dizi-flute-120669/ | 108.5 sn | 1272.1 | etiket: Bamboo, Flute (dizi), Asian, Oriental + Dreamy, Relaxing, Bright, Floating, Medium, Elegant |
+| `muzik_menu-9` | `muzik_menu-9-55b4b46494.aac` | 京都琴 (Kyoto Koto) | bradfordhines | https://pixabay.com/music/world-%E4%BA%AC%E9%83%BD%E7%90%B4-kyoto-koto-414817/ | 90.4 sn | 1059.6 | etiket: Koto, Japan, Kyoto + Bright, Uplifting, Medium, Elegant (biraz daha hareketli) |
+| `muzik_mac-1` | `muzik_mac-1-7e81974418.aac` | Tense Suspense Background Music | DELOSound | https://pixabay.com/music/suspense-tense-suspense-background-music-442839/ | 72.8 sn | 853.1 | — |
+| `muzik_mac-2` | `muzik_mac-2-4e49524334.aac` | Thinking Music | WaffleMusic | https://pixabay.com/music/pulses-thinking-music-191716/ | 41.5 sn | 486.0 | — |
+| `muzik_mac-3` | `muzik_mac-3-ac1aebca93.aac` | Countdown | Kaden_Cook | https://pixabay.com/music/electronic-countdown-219722/ | 76.2 sn | 893.4 | — |
+| `muzik_mac-4` | `muzik_mac-4-bd9cc8c4d3.aac` | Calm Suspenseful Background Music [loop] | Kuzu420 | https://pixabay.com/music/suspense-calm-suspenseful-background-music-loop-433787/ | 57.5 sn | 673.6 | — |
+| `muzik_mac-5` | `muzik_mac-5-8258198fe7.aac` | Primitive Battle Groove (Taiko Drums) | DesiFreeMusic | https://pixabay.com/music/percussion-primitive-battle-groove-with-rhythmic-taiko-drums-handclaps-491389/ | 273.3 sn | 3203.2 | etiket: Taiko, Drums, Battle, Intense, Tension, Asian, Japanese |
+| `muzik_mac-6` | `muzik_mac-6-f26b079cc8.aac` | Dramatic Asian Cinematic Trailer | alexrockbeat | https://pixabay.com/music/action-alexrockbeat-dramatic-asian-cinematic-trailer-562795/ | 126.6 sn | 1483.3 | etiket: Asian Cinematic, Guzheng, Erhu, Taiko, Action, Intense, Tension |
+| `muzik_mac-7` | `muzik_mac-7-da53f437f2.aac` | Japanese Chinese Trap / Dark / Temple (Geisha) | 47643651 | https://pixabay.com/music/beats-japanese-chinese-trap-dark-temple-geisha-287090/ | 205.7 sn | 2410.6 | etiket: Japanese/Chinese Trap, Temple, Koto (Kato), Energetic, Restless, Chasing |
+| `muzik_mac-8` | `muzik_mac-8-4f7a0256fb.aac` | Cool Japanese Hard Groovy Trap Beat | onesevenbeatxs | https://pixabay.com/music/trap-cool-japanese-hard-groovy-trap-beat-prod-by-onesevenbeatxs-192734/ | 170.0 sn | 1992.1 | etiket: Japanese Trap, Samurai, Hype, Hard (elektronik, sözsüz beat) |
+| `muzik_mac-9` | `muzik_mac-9-687856b91e.aac` | Action Percussion Stomp Intro | ZhenyaVegasMusic | https://pixabay.com/music/upbeat-action-percussion-stomp-intro-434227/ | 65.6 sn | 768.7 | etiket: Asian Drum, Action, Battle, Fast, Energetic, Percussion |
+| `muzik_turnuva-1` | `muzik_turnuva-1-ebfe7d4a31.aac` | Sport - Sport Music | prettyjohn1 | https://pixabay.com/music/rock-sport-sport-music-484392/ | 65.8 sn | 770.8 | — |
+| `muzik_turnuva-2` | `muzik_turnuva-2-7aa9bad671.aac` | Epic Action | BombinSound | https://pixabay.com/music/orchestral-epic-action-512484/ | 122.9 sn | 1440.5 | — |
+| `muzik_turnuva-3` | `muzik_turnuva-3-41de97da12.aac` | Pink Lemon | Rockot | https://pixabay.com/music/corporate-pink-lemon-positive-happy-motivational-commercial-anthem-184602/ | 169.0 sn | 1981.1 | — |
+| `muzik_turnuva-4` | `muzik_turnuva-4-55151e6555.aac` | Champions Anthem | ShtakalBerry | https://pixabay.com/music/world-champions-anthem-549132/ | 83.1 sn | 973.9 | — |
+
+Toplam: 22 tam parça 27.3 MB + 10 önizleme 3.4 MB.
+Lobi adaylarının çıkış noktası: Ida'nın lobi seçimi Aday 2 "Music for Puzzle Game" (Ivantraveso) — etiketleri
+Dreamy · Laid Back · Bright · Relaxing · Floating · Elegant · Medium. Aynı sanatçının diğer 8 parçası bu havada değil
+(trap, pop, Noel); Pixabay'in bu parçaya önerdikleri "retro game" türündeydi. Adaylar zen/koto/bamboo flute/oriental
+aramalarından, aynı ruh hâli etiketlerini taşıyanlar arasından seçildi.
