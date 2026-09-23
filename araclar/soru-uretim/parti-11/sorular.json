@@ -1,0 +1,2067 @@
+[
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "Pixar'ın 'İnanılmaz Aile' (The Incredibles, 2004) filmindeki süper kahraman ailenin soyadı nedir?",
+  "d": "Parr",
+  "y": [
+   "Kent",
+   "Wayne",
+   "Parker"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "What is the surname of the superhero family in Pixar's 'The Incredibles' (2004)?",
+   "d": "Parr",
+   "y": [
+    "Kent",
+    "Wayne",
+    "Parker"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "Disney'in 'Karmakarışık' (Tangled, 2010) filmindeki upuzun saçlı prensesin adı nedir?",
+  "d": "Rapunzel",
+  "y": [
+   "Aurora",
+   "Belle",
+   "Ariel"
+  ],
+  "zorluk": 1,
+  "en": {
+   "s": "What is the name of the princess with extremely long hair in Disney's 'Tangled' (2010)?",
+   "d": "Rapunzel",
+   "y": [
+    "Aurora",
+    "Belle",
+    "Ariel"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "Clint Eastwood'un 'Milyon Dolarlık Bebek' (2004) filmi hangi spor dalını konu alır?",
+  "d": "Boks",
+  "y": [
+   "Güreş",
+   "Tenis",
+   "Basketbol"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which sport is at the centre of Clint Eastwood's 'Million Dollar Baby' (2004)?",
+   "d": "Boxing",
+   "y": [
+    "Wrestling",
+    "Tennis",
+    "Basketball"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "Pixar'ın 'Coco' (2017) filmi Meksika'da hangi geleneksel bayram sırasında geçer?",
+  "d": "Ölüler Günü",
+  "y": [
+   "Hasat Bayramı",
+   "Bağımsızlık Günü",
+   "Üç Kral Yortusu"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Pixar's 'Coco' (2017) is set during which traditional Mexican holiday?",
+   "d": "Day of the Dead",
+   "y": [
+    "Harvest Festival",
+    "Independence Day",
+    "Three Kings' Day"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "Clint Eastwood'a ilk En İyi Yönetmen Oscar'ını kazandıran 1992 yapımı western hangisidir?",
+  "d": "Unforgiven",
+  "y": [
+   "Pale Rider",
+   "The Outlaw Josey Wales",
+   "High Plains Drifter"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which 1992 western won Clint Eastwood his first Academy Award for Best Director?",
+   "d": "Unforgiven",
+   "y": [
+    "Pale Rider",
+    "The Outlaw Josey Wales",
+    "High Plains Drifter"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "Roald Dahl uyarlaması 'Matilda' (1996) filminde küçük Matilda'nın olağanüstü yeteneği nedir?",
+  "d": "Nesneleri zihniyle oynatmak",
+  "y": [
+   "Görünmez olabilmek",
+   "Hayvanların dilini anlamak",
+   "Zamanı geri sarabilmek"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In the Roald Dahl adaptation 'Matilda' (1996), what is young Matilda's extraordinary ability?",
+   "d": "Moving objects with her mind",
+   "y": [
+    "Turning invisible",
+    "Understanding animal speech",
+    "Rewinding time itself"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Kazablanka' (1942) filminin yönetmeni kimdir?",
+  "d": "Michael Curtiz",
+  "y": [
+   "Howard Hawks",
+   "John Huston",
+   "William Wyler"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Who directed 'Casablanca' (1942)?",
+   "d": "Michael Curtiz",
+   "y": [
+    "Howard Hawks",
+    "John Huston",
+    "William Wyler"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Kramer Kramer'e Karşı' (1979) filminde oğlunun velayeti için mücadele eden babayı kim canlandırır?",
+  "d": "Dustin Hoffman",
+  "y": [
+   "Robert Redford",
+   "Al Pacino",
+   "Jack Nicholson"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Who plays the father fighting for custody of his son in 'Kramer vs. Kramer' (1979)?",
+   "d": "Dustin Hoffman",
+   "y": [
+    "Robert Redford",
+    "Al Pacino",
+    "Jack Nicholson"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "1939'da hem 'Rüzgâr Gibi Geçti'yi hem de 'Oz Büyücüsü'nü yöneten yönetmen kimdir?",
+  "d": "Victor Fleming",
+  "y": [
+   "Frank Capra",
+   "John Ford",
+   "Howard Hawks"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which director made both 'Gone with the Wind' and 'The Wizard of Oz' in 1939?",
+   "d": "Victor Fleming",
+   "y": [
+    "Frank Capra",
+    "John Ford",
+    "Howard Hawks"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Yeşil Rehber' (Green Book, 2018) filminde Tony Lip'in şoförlüğünü yaptığı piyanist kimdir?",
+  "d": "Don Shirley",
+  "y": [
+   "Nat King Cole",
+   "Oscar Peterson",
+   "Thelonious Monk"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "In 'Green Book' (2018), which pianist does Tony Lip work for as a driver?",
+   "d": "Don Shirley",
+   "y": [
+    "Nat King Cole",
+    "Oscar Peterson",
+    "Thelonious Monk"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'12 Yıllık Esaret' (2013) filminin yönetmeni kimdir?",
+  "d": "Steve McQueen",
+  "y": [
+   "Lee Daniels",
+   "Spike Lee",
+   "Barry Jenkins"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Who directed '12 Years a Slave' (2013)?",
+   "d": "Steve McQueen",
+   "y": [
+    "Lee Daniels",
+    "Spike Lee",
+    "Barry Jenkins"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Spotlight' (2015) filmi hangi gazetenin araştırmacı muhabir ekibini anlatır?",
+  "d": "The Boston Globe",
+  "y": [
+   "The Washington Post",
+   "The New York Times",
+   "Chicago Tribune"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "'Spotlight' (2015) portrays the investigative team of which newspaper?",
+   "d": "The Boston Globe",
+   "y": [
+    "The Washington Post",
+    "The New York Times",
+    "Chicago Tribune"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "Guillermo del Toro'nun 'Suyun Sesi' (2017) filminde dilsiz temizlik görevlisi Elisa'yı kim canlandırır?",
+  "d": "Sally Hawkins",
+  "y": [
+   "Octavia Spencer",
+   "Frances McDormand",
+   "Olivia Colman"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Who plays Elisa, the mute cleaner, in Guillermo del Toro's 'The Shape of Water' (2017)?",
+   "d": "Sally Hawkins",
+   "y": [
+    "Octavia Spencer",
+    "Frances McDormand",
+    "Olivia Colman"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Tiffany'de Kahvaltı' (1961) filmi hangi yazarın aynı adlı kısa romanından uyarlanmıştır?",
+  "d": "Truman Capote",
+  "y": [
+   "J. D. Salinger",
+   "Norman Mailer",
+   "Gore Vidal"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "'Breakfast at Tiffany's' (1961) is based on a novella by which writer?",
+   "d": "Truman Capote",
+   "y": [
+    "J. D. Salinger",
+    "Norman Mailer",
+    "Gore Vidal"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Birdman' (2014) filminde eski bir süper kahraman oyuncusunu canlandıran aktör kimdir?",
+  "d": "Michael Keaton",
+  "y": [
+   "Edward Norton",
+   "Christian Bale",
+   "George Clooney"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which actor plays a former superhero movie star in 'Birdman' (2014)?",
+   "d": "Michael Keaton",
+   "y": [
+    "Edward Norton",
+    "Christian Bale",
+    "George Clooney"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Akıl Oyunları' (A Beautiful Mind, 2001) filmi hangi matematikçinin hayatını anlatır?",
+  "d": "John Nash",
+  "y": [
+   "Alan Turing",
+   "Kurt Gödel",
+   "Richard Feynman"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which mathematician's life is the subject of 'A Beautiful Mind' (2001)?",
+   "d": "John Nash",
+   "y": [
+    "Alan Turing",
+    "Kurt Gödel",
+    "Richard Feynman"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Kurtlarla Dans' (1990) filmini hem yöneten hem de başrolünü oynayan kimdir?",
+  "d": "Kevin Costner",
+  "y": [
+   "Clint Eastwood",
+   "Robert Redford",
+   "Mel Gibson"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Who both directed and starred in 'Dances with Wolves' (1990)?",
+   "d": "Kevin Costner",
+   "y": [
+    "Clint Eastwood",
+    "Robert Redford",
+    "Mel Gibson"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Top Gun' (1986) filminde Maverick'in uçuş arkadaşı Goose'u canlandıran oyuncu kimdir?",
+  "d": "Anthony Edwards",
+  "y": [
+   "Val Kilmer",
+   "Tim Robbins",
+   "Tom Skerritt"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Who played Goose, Maverick's flying partner, in 'Top Gun' (1986)?",
+   "d": "Anthony Edwards",
+   "y": [
+    "Val Kilmer",
+    "Tim Robbins",
+    "Tom Skerritt"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'My Fair Lady' (1964) filminde Eliza Doolittle'ı kim canlandırmıştır?",
+  "d": "Audrey Hepburn",
+  "y": [
+   "Julie Andrews",
+   "Grace Kelly",
+   "Natalie Wood"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Who played Eliza Doolittle in the film 'My Fair Lady' (1964)?",
+   "d": "Audrey Hepburn",
+   "y": [
+    "Julie Andrews",
+    "Grace Kelly",
+    "Natalie Wood"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "Disney'in 'Külkedisi' (1950) filminde gece yarısı balkabağına dönüşen nedir?",
+  "d": "Arabası",
+  "y": [
+   "Elbisesi",
+   "Tacı",
+   "Sarayı"
+  ],
+  "zorluk": 1,
+  "en": {
+   "s": "In Disney's 'Cinderella' (1950), what turns back into a pumpkin at midnight?",
+   "d": "Her carriage",
+   "y": [
+    "Her dress",
+    "Her tiara",
+    "Her palace"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Zoraki Kral' (The King's Speech, 2010) filminde kekemeliğini yenmeye çalışan İngiliz kral kimdir?",
+  "d": "VI. George",
+  "y": [
+   "VIII. Edward",
+   "V. George",
+   "VII. Edward"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which British king tries to overcome his stammer in 'The King's Speech' (2010)?",
+   "d": "George VI",
+   "y": [
+    "Edward VIII",
+    "George V",
+    "Edward VII"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "Maceracı arkeolog Indiana Jones'un en büyük korkusu nedir?",
+  "d": "Yılanlar",
+  "y": [
+   "Örümcekler",
+   "Yükseklik",
+   "Karanlık"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "What is the adventurer archaeologist Indiana Jones most afraid of?",
+   "d": "Snakes",
+   "y": [
+    "Spiders",
+    "Heights",
+    "The dark"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "Disney'in 'Mulan' (1998) filminde Mulan'a eşlik eden küçük ejderhanın adı nedir?",
+  "d": "Mushu",
+  "y": [
+   "Cri-Kee",
+   "Khan",
+   "Shan Yu"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In Disney's 'Mulan' (1998), what is the name of the little dragon who accompanies Mulan?",
+   "d": "Mushu",
+   "y": [
+    "Cri-Kee",
+    "Khan",
+    "Shan Yu"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Aşık Shakespeare' (1998) filminde Viola rolüyle En İyi Kadın Oyuncu Oscar'ını kazanan kimdir?",
+  "d": "Gwyneth Paltrow",
+  "y": [
+   "Kate Winslet",
+   "Cate Blanchett",
+   "Emily Watson"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Who won the Academy Award for Best Actress for playing Viola in 'Shakespeare in Love' (1998)?",
+   "d": "Gwyneth Paltrow",
+   "y": [
+    "Kate Winslet",
+    "Cate Blanchett",
+    "Emily Watson"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "'American Idiot' (2004) albümüyle tanınan punk rock grubu hangisidir?",
+  "d": "Green Day",
+  "y": [
+   "The Offspring",
+   "Blink-182",
+   "Sum 41"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which punk rock band is known for the album 'American Idiot' (2004)?",
+   "d": "Green Day",
+   "y": [
+    "The Offspring",
+    "Blink-182",
+    "Sum 41"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "'In the End' ve 'Numb' şarkılarıyla tanınan grup hangisidir?",
+  "d": "Linkin Park",
+  "y": [
+   "Evanescence",
+   "Limp Bizkit",
+   "Papa Roach"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which band is known for the songs 'In the End' and 'Numb'?",
+   "d": "Linkin Park",
+   "y": [
+    "Evanescence",
+    "Limp Bizkit",
+    "Papa Roach"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "'Viva la Vida' (2008) şarkısı hangi gruba aittir?",
+  "d": "Coldplay",
+  "y": [
+   "Radiohead",
+   "Oasis",
+   "Muse"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which band recorded the 2008 song 'Viva la Vida'?",
+   "d": "Coldplay",
+   "y": [
+    "Radiohead",
+    "Oasis",
+    "Muse"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "'Alive' ve 'Jeremy' şarkılarıyla tanınan Pearl Jam grubunun solisti kimdir?",
+  "d": "Eddie Vedder",
+  "y": [
+   "Chris Cornell",
+   "Layne Staley",
+   "Scott Weiland"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Who is the lead singer of Pearl Jam, known for 'Alive' and 'Jeremy'?",
+   "d": "Eddie Vedder",
+   "y": [
+    "Chris Cornell",
+    "Layne Staley",
+    "Scott Weiland"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "'Mr. Brightside' ve 'Somebody Told Me' şarkılarıyla tanınan Las Vegas çıkışlı grup hangisidir?",
+  "d": "The Killers",
+  "y": [
+   "The Strokes",
+   "Kings of Leon",
+   "Imagine Dragons"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which Las Vegas band is known for 'Mr. Brightside' and 'Somebody Told Me'?",
+   "d": "The Killers",
+   "y": [
+    "The Strokes",
+    "Kings of Leon",
+    "Imagine Dragons"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "'Supermassive Black Hole' şarkısıyla tanınan İngiliz rock grubu Muse'un solisti kimdir?",
+  "d": "Matt Bellamy",
+  "y": [
+   "Chris Martin",
+   "Brandon Flowers",
+   "Tom Chaplin"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Who is the lead singer of the English rock band Muse, known for 'Supermassive Black Hole'?",
+   "d": "Matt Bellamy",
+   "y": [
+    "Chris Martin",
+    "Brandon Flowers",
+    "Tom Chaplin"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "Bach'ın üslubuyla Brezilya halk müziğini birleştiren 'Bachianas Brasileiras'ın bestecisi kimdir?",
+  "d": "Heitor Villa-Lobos",
+  "y": [
+   "Antônio Carlos Jobim",
+   "Alberto Ginastera",
+   "Carlos Chávez"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Who composed the 'Bachianas Brasileiras', which blend Bach's style with Brazilian folk music?",
+   "d": "Heitor Villa-Lobos",
+   "y": [
+    "Antônio Carlos Jobim",
+    "Alberto Ginastera",
+    "Carlos Chávez"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "Nirvana'nın davulcusuyken grubun dağılmasının ardından Foo Fighters'ı kuran müzisyen kimdir?",
+  "d": "Dave Grohl",
+  "y": [
+   "Krist Novoselic",
+   "Taylor Hawkins",
+   "Chad Channing"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which musician, formerly Nirvana's drummer, founded Foo Fighters after the band ended?",
+   "d": "Dave Grohl",
+   "y": [
+    "Krist Novoselic",
+    "Taylor Hawkins",
+    "Chad Channing"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "Justin Timberlake solo kariyerinden önce hangi erkek grubunun üyesiydi?",
+  "d": "*NSYNC",
+  "y": [
+   "Backstreet Boys",
+   "98 Degrees",
+   "Boyz II Men"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which boy band was Justin Timberlake a member of before his solo career?",
+   "d": "*NSYNC",
+   "y": [
+    "Backstreet Boys",
+    "98 Degrees",
+    "Boyz II Men"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "Beyoncé'nin eşi olan rapçi kimdir?",
+  "d": "Jay-Z",
+  "y": [
+   "Kanye West",
+   "Nas",
+   "Pharrell Williams"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which rapper is married to Beyoncé?",
+   "d": "Jay-Z",
+   "y": [
+    "Kanye West",
+    "Nas",
+    "Pharrell Williams"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "'Ritüel Ateş Dansı'nı içeren 'El amor brujo' balesinin İspanyol bestecisi kimdir?",
+  "d": "Manuel de Falla",
+  "y": [
+   "Isaac Albéniz",
+   "Enrique Granados",
+   "Joaquín Rodrigo"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which Spanish composer wrote the ballet 'El amor brujo', which includes the 'Ritual Fire Dance'?",
+   "d": "Manuel de Falla",
+   "y": [
+    "Isaac Albéniz",
+    "Enrique Granados",
+    "Joaquín Rodrigo"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "'I Kissed a Girl' ve 'Roar' şarkılarıyla tanınan şarkıcı kimdir?",
+  "d": "Katy Perry",
+  "y": [
+   "Lady Gaga",
+   "Kelly Clarkson",
+   "Miley Cyrus"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which singer is known for 'I Kissed a Girl' and 'Roar'?",
+   "d": "Katy Perry",
+   "y": [
+    "Lady Gaga",
+    "Kelly Clarkson",
+    "Miley Cyrus"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "Besteci Pietro Mascagni'yi 1890'da ünlendiren tek perdelik opera hangisidir?",
+  "d": "Cavalleria rusticana",
+  "y": [
+   "Andrea Chénier",
+   "L'amico Fritz",
+   "Adriana Lecouvreur"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which one-act opera made composer Pietro Mascagni famous in 1890?",
+   "d": "Cavalleria rusticana",
+   "y": [
+    "Andrea Chénier",
+    "L'amico Fritz",
+    "Adriana Lecouvreur"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "'Californication' ve 'Under the Bridge' şarkılarıyla tanınan Red Hot Chili Peppers'ın solisti kimdir?",
+  "d": "Anthony Kiedis",
+  "y": [
+   "John Frusciante",
+   "Chad Smith",
+   "Mike Patton"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Who is the lead singer of Red Hot Chili Peppers, known for 'Californication' and 'Under the Bridge'?",
+   "d": "Anthony Kiedis",
+   "y": [
+    "John Frusciante",
+    "Chad Smith",
+    "Mike Patton"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "Joaquín Rodrigo'nun 'Aranjuez Konçertosu' hangi solo çalgı için yazılmıştır?",
+  "d": "Gitar",
+  "y": [
+   "Keman",
+   "Piyano",
+   "Arp"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "For which solo instrument did Joaquín Rodrigo write the 'Concierto de Aranjuez'?",
+   "d": "Guitar",
+   "y": [
+    "Violin",
+    "Piano",
+    "Harp"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "'(I Can't Get No) Satisfaction' şarkısı hangi gruba aittir?",
+  "d": "The Rolling Stones",
+  "y": [
+   "The Moody Blues",
+   "The Yardbirds",
+   "The Small Faces"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which band recorded '(I Can't Get No) Satisfaction'?",
+   "d": "The Rolling Stones",
+   "y": [
+    "The Moody Blues",
+    "The Yardbirds",
+    "The Small Faces"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "'Seven Nation Army' (2003) şarkısıyla tanınan ikili hangisidir?",
+  "d": "The White Stripes",
+  "y": [
+   "The Black Keys",
+   "The Raconteurs",
+   "The Kills"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which duo is known for the 2003 song 'Seven Nation Army'?",
+   "d": "The White Stripes",
+   "y": [
+    "The Black Keys",
+    "The Raconteurs",
+    "The Kills"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "Arctic Monkeys grubu İngiltere'nin hangi şehrinde kurulmuştur?",
+  "d": "Sheffield",
+  "y": [
+   "Manchester",
+   "Liverpool",
+   "Leeds"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "In which English city was the band Arctic Monkeys formed?",
+   "d": "Sheffield",
+   "y": [
+    "Manchester",
+    "Liverpool",
+    "Leeds"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "Swing ve caz standartlarını yorumlayan şarkıcı Michael Bublé hangi ülkelidir?",
+  "d": "Kanada",
+  "y": [
+   "ABD",
+   "İtalya",
+   "Avustralya"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which country is Michael Bublé, the singer of swing and jazz standards, from?",
+   "d": "Canada",
+   "y": [
+    "USA",
+    "Italy",
+    "Australia"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "1999 tarihli 'Genie in a Bottle' şarkısıyla çıkış yapan şarkıcı kimdir?",
+  "d": "Christina Aguilera",
+  "y": [
+   "Jessica Simpson",
+   "Mandy Moore",
+   "Britney Spears"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which singer broke through with the 1999 song 'Genie in a Bottle'?",
+   "d": "Christina Aguilera",
+   "y": [
+    "Jessica Simpson",
+    "Mandy Moore",
+    "Britney Spears"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "21 'Macar Dansı' ile tanınan Alman besteci kimdir?",
+  "d": "Johannes Brahms",
+  "y": [
+   "Franz Liszt",
+   "Antonín Dvořák",
+   "Béla Bartók"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which German composer is known for his 21 'Hungarian Dances'?",
+   "d": "Johannes Brahms",
+   "y": [
+    "Franz Liszt",
+    "Antonín Dvořák",
+    "Béla Bartók"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "Rapçi Drake hangi şehirde doğup büyümüştür?",
+  "d": "Toronto",
+  "y": [
+   "Montréal",
+   "Vancouver",
+   "Detroit"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In which city was the rapper Drake born and raised?",
+   "d": "Toronto",
+   "y": [
+    "Montreal",
+    "Vancouver",
+    "Detroit"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Rushmore Dağı'ndaki dört ABD başkanının yüzünü tasarlayıp yontma işini yöneten heykeltıraş kimdir?",
+  "d": "Gutzon Borglum",
+  "y": [
+   "Daniel Chester French",
+   "Augustus Saint-Gaudens",
+   "Lorado Taft"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which sculptor designed and directed the carving of the four presidents' faces on Mount Rushmore?",
+   "d": "Gutzon Borglum",
+   "y": [
+    "Daniel Chester French",
+    "Augustus Saint-Gaudens",
+    "Lorado Taft"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "New York'ta Wall Street yakınındaki bronz 'Hücum Eden Boğa' (Charging Bull) heykelinin sanatçısı kimdir?",
+  "d": "Arturo Di Modica",
+  "y": [
+   "Kristen Visbal",
+   "Fernando Botero",
+   "Daniel Chester French"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which artist made the bronze 'Charging Bull' sculpture near Wall Street in New York?",
+   "d": "Arturo Di Modica",
+   "y": [
+    "Kristen Visbal",
+    "Fernando Botero",
+    "Daniel Chester French"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Ceylan kürküyle kaplı bir fincan, tabak ve kaşıktan oluşan 1936 tarihli sürrealist 'Nesne' yapıtı kimindir?",
+  "d": "Meret Oppenheim",
+  "y": [
+   "Leonora Carrington",
+   "Dora Maar",
+   "Lee Miller"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Who created 'Object' (1936), the Surrealist cup, saucer and spoon covered in gazelle fur?",
+   "d": "Meret Oppenheim",
+   "y": [
+    "Leonora Carrington",
+    "Dora Maar",
+    "Lee Miller"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "1990'da Vermeer'in 'Konser'i dahil 13 eserin çalındığı ve hâlâ çözülemeyen soygun hangi Boston müzesinde yaşandı?",
+  "d": "Isabella Stewart Gardner Müzesi",
+  "y": [
+   "Boston Güzel Sanatlar Müzesi",
+   "Harvard Sanat Müzeleri",
+   "Boston Çağdaş Sanat Enstitüsü"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "In 1990, thirteen works including Vermeer's 'The Concert' were stolen from which Boston museum in a still-unsolved heist?",
+   "d": "Isabella Stewart Gardner Museum",
+   "y": [
+    "Museum of Fine Arts, Boston",
+    "Harvard Art Museums",
+    "Institute of Contemporary Art, Boston"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Montreal'deki modüler konut kompleksi 'Habitat 67' ile Singapur'daki Marina Bay Sands'in mimarı kimdir?",
+  "d": "Moshe Safdie",
+  "y": [
+   "Bjarke Ingels",
+   "Rem Koolhaas",
+   "Renzo Piano"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which architect designed both the modular housing complex 'Habitat 67' in Montreal and Marina Bay Sands in Singapore?",
+   "d": "Moshe Safdie",
+   "y": [
+    "Bjarke Ingels",
+    "Rem Koolhaas",
+    "Renzo Piano"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "'Yeşil Bugatti'deki Otoportre' (1929) tablosuyla tanınan Art Deco ressamı kimdir?",
+  "d": "Tamara de Lempicka",
+  "y": [
+   "Sonia Delaunay",
+   "Marie Laurencin",
+   "Sophie Taeuber-Arp"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which Art Deco painter is known for 'Self-Portrait in the Green Bugatti' (1929)?",
+   "d": "Tamara de Lempicka",
+   "y": [
+    "Sonia Delaunay",
+    "Marie Laurencin",
+    "Sophie Taeuber-Arp"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Berlin Dadacıları arasında fotomontajlarıyla öne çıkan, 'Mutfak Bıçağıyla Kesmek' (1919) yapıtının sanatçısı kimdir?",
+  "d": "Hannah Höch",
+  "y": [
+   "Sophie Taeuber-Arp",
+   "Käthe Kollwitz",
+   "Emmy Hennings"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which Berlin Dada artist, known for her photomontages, made 'Cut with the Kitchen Knife' (1919)?",
+   "d": "Hannah Höch",
+   "y": [
+    "Sophie Taeuber-Arp",
+    "Käthe Kollwitz",
+    "Emmy Hennings"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "1885'te Nuenen'de yapılan 'Patates Yiyenler' tablosunun ressamı kimdir?",
+  "d": "Vincent van Gogh",
+  "y": [
+   "Jean-François Millet",
+   "Jozef Israëls",
+   "Anton Mauve"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Who painted 'The Potato Eaters', made in Nuenen in 1885?",
+   "d": "Vincent van Gogh",
+   "y": [
+    "Jean-François Millet",
+    "Jozef Israëls",
+    "Anton Mauve"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "1960'ta MoMA'nın bahçesinde kendi kendini parçalayan 'New York'a Saygı' makinesinin sanatçısı kimdir?",
+  "d": "Jean Tinguely",
+  "y": [
+   "Alexander Calder",
+   "Nam June Paik",
+   "Yves Klein"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which artist built 'Homage to New York', the machine that destroyed itself in the MoMA garden in 1960?",
+   "d": "Jean Tinguely",
+   "y": [
+    "Alexander Calder",
+    "Nam June Paik",
+    "Yves Klein"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Bisiklet gidonundan esinlenerek bükme çelik borudan yapılan 'Wassily' koltuğunun tasarımcısı kimdir?",
+  "d": "Marcel Breuer",
+  "y": [
+   "Ludwig Mies van der Rohe",
+   "Charles Eames",
+   "Alvar Aalto"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Who designed the tubular-steel 'Wassily' chair, inspired by bicycle handlebars?",
+   "d": "Marcel Breuer",
+   "y": [
+    "Ludwig Mies van der Rohe",
+    "Charles Eames",
+    "Alvar Aalto"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Tuvali bıçakla yararak 'Concetto spaziale' (Mekânsal Kavram) serisini üreten İtalyan sanatçı kimdir?",
+  "d": "Lucio Fontana",
+  "y": [
+   "Alberto Burri",
+   "Piero Manzoni",
+   "Giorgio Morandi"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which Italian artist slit his canvases with a blade for the 'Concetto spaziale' series?",
+   "d": "Lucio Fontana",
+   "y": [
+    "Alberto Burri",
+    "Piero Manzoni",
+    "Giorgio Morandi"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Rio de Janeiro'daki Kurtarıcı İsa heykelini tasarlayan Fransız heykeltıraş kimdir?",
+  "d": "Paul Landowski",
+  "y": [
+   "Antoine Bourdelle",
+   "Aristide Maillol",
+   "Auguste Bartholdi"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which French sculptor designed the Christ the Redeemer statue in Rio de Janeiro?",
+   "d": "Paul Landowski",
+   "y": [
+    "Antoine Bourdelle",
+    "Aristide Maillol",
+    "Auguste Bartholdi"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Gaudí'nin Barselona'daki Casa Milà binası, dalgalı taş cephesi yüzünden halk arasında hangi adla anılır?",
+  "d": "La Pedrera",
+  "y": [
+   "Casa dels Ossos",
+   "El Capricho",
+   "La Rotonda"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Because of its undulating stone façade, Gaudí's Casa Milà in Barcelona is popularly known by what name?",
+   "d": "La Pedrera",
+   "y": [
+    "Casa dels Ossos",
+    "El Capricho",
+    "La Rotonda"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Tasarımında Leonardo da Vinci'nin etkisi olduğu düşünülen çift sarmal merdiveniyle ünlü Loire şatosu hangisidir?",
+  "d": "Chambord",
+  "y": [
+   "Chenonceau",
+   "Amboise",
+   "Villandry"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which Loire château is famous for a double-helix staircase thought to reflect Leonardo da Vinci's influence?",
+   "d": "Chambord",
+   "y": [
+    "Chenonceau",
+    "Amboise",
+    "Villandry"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Kurşun çerçeveli renkli cam abajurları kendi adıyla anılan Amerikalı Art Nouveau tasarımcısı kimdir?",
+  "d": "Louis Comfort Tiffany",
+  "y": [
+   "John La Farge",
+   "Frank Lloyd Wright",
+   "Gustav Stickley"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which American Art Nouveau designer gave his name to the famous leaded stained-glass lampshades?",
+   "d": "Louis Comfort Tiffany",
+   "y": [
+    "John La Farge",
+    "Frank Lloyd Wright",
+    "Gustav Stickley"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "1914'te bir süfrajet tarafından bıçakla yırtılan 'Rokeby Venüsü' tablosunun ressamı kimdir?",
+  "d": "Diego Velázquez",
+  "y": [
+   "Bartolomé Esteban Murillo",
+   "Peter Paul Rubens",
+   "Francisco Goya"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Who painted the 'Rokeby Venus', slashed by a suffragette in 1914?",
+   "d": "Diego Velázquez",
+   "y": [
+    "Bartolomé Esteban Murillo",
+    "Peter Paul Rubens",
+    "Francisco Goya"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Barack Obama'nın 2008 seçim kampanyasıyla özdeşleşen kırmızı-bej-mavi 'Hope' afişinin sanatçısı kimdir?",
+  "d": "Shepard Fairey",
+  "y": [
+   "Barbara Kruger",
+   "Robbie Conal",
+   "Mr. Brainwash"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which artist created the red, beige and blue 'Hope' poster associated with Barack Obama's 2008 campaign?",
+   "d": "Shepard Fairey",
+   "y": [
+    "Barbara Kruger",
+    "Robbie Conal",
+    "Mr. Brainwash"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "İnşaatı 1248'de başlayıp ancak 1880'de tamamlanan Gotik katedral hangisidir?",
+  "d": "Köln Katedrali",
+  "y": [
+   "Chartres Katedrali",
+   "Notre-Dame de Paris",
+   "Milano Katedrali"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which Gothic cathedral was begun in 1248 but not completed until 1880?",
+   "d": "Cologne Cathedral",
+   "y": [
+    "Chartres Cathedral",
+    "Notre-Dame de Paris",
+    "Milan Cathedral"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "1954-55'te enkostik teknikle ABD bayrağını resmettiği 'Bayrak' tablosuyla tanınan sanatçı kimdir?",
+  "d": "Jasper Johns",
+  "y": [
+   "Robert Rauschenberg",
+   "Robert Indiana",
+   "Larry Rivers"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which artist is known for 'Flag' (1954–55), an encaustic painting of the US flag?",
+   "d": "Jasper Johns",
+   "y": [
+    "Robert Rauschenberg",
+    "Robert Indiana",
+    "Larry Rivers"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Oryantalist 'Yılan Oynatıcı' (1879 civarı) tablosunun ressamı kimdir?",
+  "d": "Jean-Léon Gérôme",
+  "y": [
+   "Eugène Fromentin",
+   "Jean-Joseph Benjamin-Constant",
+   "Jean-Jules-Antoine Lecomte du Noüy"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Who painted the Orientalist canvas 'The Snake Charmer' (c. 1879)?",
+   "d": "Jean-Léon Gérôme",
+   "y": [
+    "Eugène Fromentin",
+    "Jean-Joseph Benjamin-Constant",
+    "Jean-Jules-Antoine Lecomte du Noüy"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Venedik lagünündeki hangi ada yüzyıllardır cam işçiliğiyle ünlüdür?",
+  "d": "Murano",
+  "y": [
+   "Burano",
+   "Torcello",
+   "Giudecca"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which island in the Venetian lagoon has been famous for its glassmaking for centuries?",
+   "d": "Murano",
+   "y": [
+    "Burano",
+    "Torcello",
+    "Giudecca"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "1962 Dünya Fuarı için inşa edilen 'Space Needle' kulesi hangi şehirdedir?",
+  "d": "Seattle",
+  "y": [
+   "Portland",
+   "San Francisco",
+   "Denver"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "The Space Needle, built for the 1962 World's Fair, stands in which city?",
+   "d": "Seattle",
+   "y": [
+    "Portland",
+    "San Francisco",
+    "Denver"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Formula 1'in ünlü 'Eau Rouge' virajı hangi pisttedir?",
+  "d": "Spa-Francorchamps",
+  "y": [
+   "Circuit Paul Ricard",
+   "Red Bull Ring",
+   "Yas Marina"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "The famous 'Eau Rouge' corner is on which Formula 1 circuit?",
+   "d": "Spa-Francorchamps",
+   "y": [
+    "Circuit Paul Ricard",
+    "Red Bull Ring",
+    "Yas Marina"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "1973'te ABD Üçlü Tacı'nı kazanıp Belmont Stakes'i 31 boy farkla bitiren efsanevi yarış atı hangisidir?",
+  "d": "Secretariat",
+  "y": [
+   "Seabiscuit",
+   "Man o' War",
+   "War Admiral"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which legendary racehorse won the US Triple Crown in 1973, taking the Belmont Stakes by 31 lengths?",
+   "d": "Secretariat",
+   "y": [
+    "Seabiscuit",
+    "Man o' War",
+    "War Admiral"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Fransa Bisiklet Turu'nu 1991-1995 arasında üst üste beş kez kazanan İspanyol bisikletçi kimdir?",
+  "d": "Miguel Indurain",
+  "y": [
+   "Alberto Contador",
+   "Pedro Delgado",
+   "Carlos Sastre"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which Spanish cyclist won the Tour de France five times in a row from 1991 to 1995?",
+   "d": "Miguel Indurain",
+   "y": [
+    "Alberto Contador",
+    "Pedro Delgado",
+    "Carlos Sastre"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "1990 Dünya Kupası'nın gol kralı olan İtalyan forvet kimdir?",
+  "d": "Salvatore Schillaci",
+  "y": [
+   "Roberto Baggio",
+   "Gianluca Vialli",
+   "Andrea Carnevale"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which Italian striker was the top scorer of the 1990 World Cup?",
+   "d": "Salvatore Schillaci",
+   "y": [
+    "Roberto Baggio",
+    "Gianluca Vialli",
+    "Andrea Carnevale"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "1996 Atlanta Olimpiyatları'nda 200 ve 400 metrede altın kazanan, altın rengi ayakkabılarıyla hatırlanan ABD'li atlet kimdir?",
+  "d": "Michael Johnson",
+  "y": [
+   "Carl Lewis",
+   "Maurice Greene",
+   "Butch Reynolds"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which American sprinter, remembered for his gold-coloured shoes, won both the 200 m and 400 m at the 1996 Atlanta Olympics?",
+   "d": "Michael Johnson",
+   "y": [
+    "Carl Lewis",
+    "Maurice Greene",
+    "Butch Reynolds"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "2013'te Wimbledon'ı kazanarak İngiliz erkeklerin 77 yıllık şampiyonluk hasretine son veren tenisçi kimdir?",
+  "d": "Andy Murray",
+  "y": [
+   "Tim Henman",
+   "Greg Rusedski",
+   "Cameron Norrie"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which tennis player won Wimbledon in 2013, ending a 77-year wait for a British men's champion?",
+   "d": "Andy Murray",
+   "y": [
+    "Tim Henman",
+    "Greg Rusedski",
+    "Cameron Norrie"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "2032 Yaz Olimpiyat Oyunları'nın ev sahipliğini 2021'de kazanan şehir hangisidir?",
+  "d": "Brisbane",
+  "y": [
+   "Doha",
+   "Budapeşte",
+   "Madrid"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which city was awarded the 2032 Summer Olympic Games in 2021?",
+   "d": "Brisbane",
+   "y": [
+    "Doha",
+    "Budapest",
+    "Madrid"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Çarpık bacaklarına rağmen 1958 ve 1962'de Dünya Kupası kazanan, lakabı küçük bir kuş türünün adından gelen Brezilyalı kanat oyuncusu kimdir?",
+  "d": "Garrincha",
+  "y": [
+   "Nílton Santos",
+   "Vavá",
+   "Zagallo"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which Brazilian winger, who won the World Cup in 1958 and 1962 despite his bent legs, took his nickname from a small bird?",
+   "d": "Garrincha",
+   "y": [
+    "Nílton Santos",
+    "Vavá",
+    "Zagallo"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Michael Jordan'ın hasta olmasına rağmen 38 sayı attığı ünlü 'Flu Game', 1997 NBA Finalleri'nde hangi takıma karşı oynandı?",
+  "d": "Utah Jazz",
+  "y": [
+   "Seattle SuperSonics",
+   "Portland Trail Blazers",
+   "Phoenix Suns"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Michael Jordan's famous 'Flu Game', in which he scored 38 points while ill, came against which team in the 1997 NBA Finals?",
+   "d": "Utah Jazz",
+   "y": [
+    "Seattle SuperSonics",
+    "Portland Trail Blazers",
+    "Phoenix Suns"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "1994 Dünya Kupası'nda Kamerun'a tek maçta beş gol atarak rekor kıran Rus forvet kimdir?",
+  "d": "Oleg Salenko",
+  "y": [
+   "Igor Kolyvanov",
+   "Dmitri Radchenko",
+   "Sergei Yuran"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which Russian striker set a record by scoring five goals in a single match against Cameroon at the 1994 World Cup?",
+   "d": "Oleg Salenko",
+   "y": [
+    "Igor Kolyvanov",
+    "Dmitri Radchenko",
+    "Sergei Yuran"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Jackie Stewart'ın 'Yeşil Cehennem' adını taktığı, Almanya'daki ünlü yarış pisti hangisidir?",
+  "d": "Nordschleife",
+  "y": [
+   "Hockenheimring",
+   "Sachsenring",
+   "Norisring"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which famous German race track did Jackie Stewart nickname 'the Green Hell'?",
+   "d": "Nordschleife",
+   "y": [
+    "Hockenheimring",
+    "Sachsenring",
+    "Norisring"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "'Buz Adam' lakabıyla anılan 2007 Formula 1 dünya şampiyonu Finli pilot kimdir?",
+  "d": "Kimi Räikkönen",
+  "y": [
+   "Mika Häkkinen",
+   "Valtteri Bottas",
+   "Heikki Kovalainen"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which Finnish driver, nicknamed 'The Iceman', was the 2007 Formula 1 world champion?",
+   "d": "Kimi Räikkönen",
+   "y": [
+    "Mika Häkkinen",
+    "Valtteri Bottas",
+    "Heikki Kovalainen"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Yüksek atlamada 1993'te 2,45 metrelik dünya rekorunu kıran Kübalı atlet kimdir?",
+  "d": "Javier Sotomayor",
+  "y": [
+   "Patrik Sjöberg",
+   "Mutaz Essa Barshim",
+   "Igor Paklin"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which Cuban athlete set the high jump world record of 2.45 metres in 1993?",
+   "d": "Javier Sotomayor",
+   "y": [
+    "Patrik Sjöberg",
+    "Mutaz Essa Barshim",
+    "Igor Paklin"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Formula 1'de 2018'den beri pilotun başını korumak için kokpitin üzerine takılan titanyum çerçevenin adı nedir?",
+  "d": "Halo",
+  "y": [
+   "Aeroscreen",
+   "Canopy",
+   "Roll hoop"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Since 2018, what is the titanium frame fitted over Formula 1 cockpits to protect the driver's head called?",
+   "d": "Halo",
+   "y": [
+    "Aeroscreen",
+    "Canopy",
+    "Roll hoop"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Profesyonel boks kariyerini 50 galibiyet ve hiç yenilgisiz tamamlayan ABD'li boksör kimdir?",
+  "d": "Floyd Mayweather Jr.",
+  "y": [
+   "Oscar De La Hoya",
+   "Sugar Ray Leonard",
+   "Pernell Whitaker"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which American boxer finished his professional career with 50 wins and no defeats?",
+   "d": "Floyd Mayweather Jr.",
+   "y": [
+    "Oscar De La Hoya",
+    "Sugar Ray Leonard",
+    "Pernell Whitaker"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "2010 Dünya Kupası'nda turnuvanın en iyi oyuncusu seçilerek Altın Top'u alan futbolcu kimdir?",
+  "d": "Diego Forlán",
+  "y": [
+   "Wesley Sneijder",
+   "Andrés Iniesta",
+   "David Villa"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Who won the Golden Ball as the best player of the 2010 World Cup?",
+   "d": "Diego Forlán",
+   "y": [
+    "Wesley Sneijder",
+    "Andrés Iniesta",
+    "David Villa"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "1995'te üç adım atlamada geçerli bir atlayışla 18 metreyi aşan ilk atlet kimdir?",
+  "d": "Jonathan Edwards",
+  "y": [
+   "Kenny Harrison",
+   "Christian Olsson",
+   "Willie Banks"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "In 1995, who became the first athlete to clear 18 metres in the triple jump with a legal jump?",
+   "d": "Jonathan Edwards",
+   "y": [
+    "Kenny Harrison",
+    "Christian Olsson",
+    "Willie Banks"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "2000 Sidney Olimpiyatları'nda 100 m serbestteki çok yavaş derecesiyle 'Yılan Balığı Eric' lakabını alan yüzücü hangi ülkeyi temsil ediyordu?",
+  "d": "Ekvator Ginesi",
+  "y": [
+   "Gine-Bissau",
+   "Sierra Leone",
+   "Burkina Faso"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which country did 'Eric the Eel', the swimmer famous for his very slow 100 m freestyle at the Sydney 2000 Olympics, represent?",
+   "d": "Equatorial Guinea",
+   "y": [
+    "Guinea-Bissau",
+    "Sierra Leone",
+    "Burkina Faso"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Parke taşlı yollarıyla 'Kuzeyin Cehennemi' diye anılan tek günlük bisiklet yarışı hangisidir?",
+  "d": "Paris-Roubaix",
+  "y": [
+   "Milano-Sanremo",
+   "Liège-Bastogne-Liège",
+   "Flandre Turu"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which one-day cycling race, known for its cobbled roads, is nicknamed 'the Hell of the North'?",
+   "d": "Paris-Roubaix",
+   "y": [
+    "Milan-San Remo",
+    "Liège-Bastogne-Liège",
+    "Tour of Flanders"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Futbolda topa, destek ayağının arkasından bacak çaprazlanarak vurulmasına ne ad verilir?",
+  "d": "Rabona",
+  "y": [
+   "Panenka",
+   "Rövaşata",
+   "Elastico"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "In football, what is it called when the ball is struck by crossing the kicking leg behind the standing leg?",
+   "d": "Rabona",
+   "y": [
+    "Panenka",
+    "Bicycle kick",
+    "Elastico"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Dövüş, dans ve müziği birleştiren, berimbau eşliğinde oynanan capoeira hangi ülkede doğmuştur?",
+  "d": "Brezilya",
+  "y": [
+   "Küba",
+   "Kolombiya",
+   "Portekiz"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Capoeira, which combines fighting, dance and music and is played to the berimbau, originated in which country?",
+   "d": "Brazil",
+   "y": [
+    "Cuba",
+    "Colombia",
+    "Portugal"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": true,
+  "s": "'Kurtlar Vadisi' dizisinde Polat Alemdar'ı hangi oyuncu canlandırmıştır?",
+  "d": "Necati Şaşmaz",
+  "y": [
+   "Kenan İmirzalıoğlu",
+   "Haluk Bilginer",
+   "Kıvanç Tatlıtuğ"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Türk dizisi ve oyuncular; İngilizce oyuncu için anlamsız"
+ },
+ {
+  "k": "spor",
+  "yerel": true,
+  "s": "Galatasaray Spor Kulübü'nü 1905'te arkadaşlarıyla birlikte kuran kişi kimdir?",
+  "d": "Ali Sami Yen",
+  "y": [
+   "Ziya Songülen",
+   "Mehmet Şamil Şhaplı",
+   "Şeref Bey"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Who founded Galatasaray Sports Club together with his friends in 1905?",
+   "d": "Ali Sami Yen",
+   "y": [
+    "Ziya Songülen",
+    "Mehmet Şamil Şhaplı",
+    "Şeref Bey"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": true,
+  "s": "2012 Londra Olimpiyatları'nda tekvandoda Türkiye'ye altın madalya kazandıran sporcu kimdir?",
+  "d": "Servet Tazegül",
+  "y": [
+   "Bahri Tanrıkulu",
+   "Nur Tatar",
+   "Rıza Kayaalp"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which athlete won Turkey's taekwondo gold medal at the London 2012 Olympics?",
+   "d": "Servet Tazegül",
+   "y": [
+    "Bahri Tanrıkulu",
+    "Nur Tatar",
+    "Rıza Kayaalp"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": true,
+  "s": "2017 Londra Dünya Atletizm Şampiyonası'nda 200 metrede altın madalya kazanan Türk atlet kimdir?",
+  "d": "Ramil Guliyev",
+  "y": [
+   "Jak Ali Harvey",
+   "Emre Zafer Barnes",
+   "Yasmani Copello"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which Turkish sprinter won the 200 metres gold at the 2017 World Championships in London?",
+   "d": "Ramil Guliyev",
+   "y": [
+    "Jak Ali Harvey",
+    "Emre Zafer Barnes",
+    "Yasmani Copello"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": true,
+  "s": "'Kara Kartallar' lakabıyla anılan futbol kulübü hangisidir?",
+  "d": "Beşiktaş",
+  "y": [
+   "Fenerbahçe",
+   "Galatasaray",
+   "Trabzonspor"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Türk kulübü lakabı; İngilizce oyuncu için anlamsız"
+ },
+ {
+  "k": "spor",
+  "yerel": true,
+  "s": "Euro 2008 çeyrek finalinde Hırvatistan'a karşı uzatmanın son saniyelerinde eşitliği getiren golü atan Türk futbolcu kimdir?",
+  "d": "Semih Şentürk",
+  "y": [
+   "Nihat Kahveci",
+   "Arda Turan",
+   "Hamit Altıntop"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which Turkish player scored the last-gasp equaliser in extra time against Croatia in the Euro 2008 quarter-final?",
+   "d": "Semih Şentürk",
+   "y": [
+    "Nihat Kahveci",
+    "Arda Turan",
+    "Hamit Altıntop"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": true,
+  "s": "Lazca ve Karadeniz ezgilerini rock müzikle buluşturan, 2005'te genç yaşta hayatını kaybeden müzisyen kimdir?",
+  "d": "Kâzım Koyuncu",
+  "y": [
+   "Fuat Saka",
+   "Volkan Konak",
+   "Birol Topaloğlu"
+  ],
+  "zorluk": 4,
+  "en": null,
+  "en_neden": "Türk yöresel müzisyenler; İngilizce oyuncu için anlamsız"
+ },
+ {
+  "k": "muzik",
+  "yerel": true,
+  "s": "Barış Manço'nun yıllarca TRT'de sunduğu çocuk ve gezi programının adı nedir?",
+  "d": "7'den 77'ye",
+  "y": [
+   "Bir Varmış Bir Yokmuş",
+   "Pazar Sabahı Çocuk Saati",
+   "Haydi Gel Bizimle Ol"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Türkiye'ye özgü TV programı adları; İngilizce oyuncu için anlamsız"
+ },
+ {
+  "k": "spor",
+  "yerel": true,
+  "s": "Tokyo 2020 Olimpiyatları'nda kadınlar boksunda Türkiye'ye altın madalya kazandıran sporcu kimdir?",
+  "d": "Busenaz Sürmeneli",
+  "y": [
+   "Buse Naz Çakıroğlu",
+   "Hatice Akbaş",
+   "Esra Yıldız"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which boxer won Turkey a gold medal in women's boxing at the Tokyo 2020 Olympics?",
+   "d": "Busenaz Sürmeneli",
+   "y": [
+    "Buse Naz Çakıroğlu",
+    "Hatice Akbaş",
+    "Esra Yıldız"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": true,
+  "s": "Türkiye'yi 2002 Dünya Kupası'nda üçüncülüğe taşıyan teknik direktör kimdir?",
+  "d": "Şenol Güneş",
+  "y": [
+   "Fatih Terim",
+   "Mustafa Denizli",
+   "Ersun Yanal"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which coach led Turkey to third place at the 2002 World Cup?",
+   "d": "Şenol Güneş",
+   "y": [
+    "Fatih Terim",
+    "Mustafa Denizli",
+    "Ersun Yanal"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": true,
+  "s": "Şebnem Ferah solo kariyerinden önce hangi grupta şarkı söylüyordu?",
+  "d": "Volvox",
+  "y": [
+   "Pentagram",
+   "Kargo",
+   "Athena"
+  ],
+  "zorluk": 4,
+  "en": null,
+  "en_neden": "Türk rock grupları; İngilizce oyuncu için anlamsız"
+ }
+]

@@ -1,0 +1,94 @@
+{
+  "parti": 11,
+  "tarih": "2026-09-23",
+  "taslak": 134,
+  "net": 100,
+  "kota": {
+    "sinema": 24,
+    "muzik": 22,
+    "sanat": 22,
+    "spor": 21,
+    "yerel": 11
+  },
+  "zorluk_hedef": {
+    "3": 30,
+    "4": 35,
+    "5": 20,
+    "1-2": 15
+  },
+  "eksik": {},
+  "elenen_sebep": {
+    "kota_fazlasi": 34
+  },
+  "kova": {
+    "sinema": 24,
+    "muzik": 22,
+    "sanat": 22,
+    "spor": 21,
+    "yerel_tr": 11
+  },
+  "kategori": {
+    "sinema": 25,
+    "muzik": 25,
+    "sanat": 22,
+    "spor": 28
+  },
+  "zorluk": [
+    2,
+    13,
+    30,
+    35,
+    20
+  ],
+  "zorluk_kova": {
+    "3": 30,
+    "4": 35,
+    "5": 20,
+    "1-2": 15
+  },
+  "cevrilmeyen": 5,
+  "jev": {
+    "cagri": 1439,
+    "girdi_jetonu": 973366,
+    "usd": 0.0409,
+    "not": "jev.jsonl içindeki tüm denemeler dahil (düzeltilip yeniden sorulanlar da)"
+  },
+  "zorluk_etiket_duzeltme": [
+    {
+      "s": "1885'te Nuenen'de yapılan 'Patates Yiyenler' tablosunun ressamı kimdir?",
+      "d": "Vincent van Gogh",
+      "eski": 3,
+      "yeni": 4,
+      "neden": "yazar 3, Jev seviye 5 (puan 3.52)"
+    },
+    {
+      "s": "Futbolda topa, destek ayağının arkasından bacak çaprazlanarak vurulmasına ne ad verilir?",
+      "d": "Rabona",
+      "eski": 3,
+      "yeni": 4,
+      "neden": "yazar 3, Jev seviye 5 (puan 3.46)"
+    },
+    {
+      "s": "Euro 2008 çeyrek finalinde Hırvatistan'a karşı uzatmanın son saniyelerinde eşitliği getiren golü atan Türk futbolcu kimdir?",
+      "d": "Semih Şentürk",
+      "eski": 4,
+      "yeni": 5,
+      "neden": "yazar 4, Jev yanlış şık (Hamit Altıntop, 0.07) ve seviye 5"
+    },
+    {
+      "s": "2017 Londra Dünya Atletizm Şampiyonası'nda 200 metrede altın madalya kazanan Türk atlet kimdir?",
+      "d": "Ramil Guliyev",
+      "eski": 3,
+      "yeni": 4,
+      "neden": "yazar 3, Jev seviye 5 (puan 3.85)"
+    },
+    {
+      "s": "'Kara Kartallar' lakabıyla anılan futbol kulübü hangisidir?",
+      "d": "Beşiktaş",
+      "eski": 1,
+      "yeni": 2,
+      "neden": "yazar 1, Jev seviye 3 (puan 2.44)"
+    }
+  ],
+  "elenenler": []
+}

@@ -62,8 +62,8 @@
     },
     "cografya": 0
   },
-  "siradaki_parti": 11,
-  "siradaki_migration_no": 314,
+  "siradaki_parti": 12,
+  "siradaki_migration_no": 315,
   "partiler": [
     {
       "no": 1,
@@ -611,7 +611,7 @@
       ],
       "soru": 100,
       "migration": "20260612000312_soru_uretim_parti_09",
-      "commit": null,
+      "commit": "4972aa8",
       "tarih": "2026-09-23",
       "kategori_kova": {
         "sinema": 24,
@@ -728,38 +728,102 @@
         "2": 23,
         "3": 21
       }
+    },
+    {
+      "no": 11,
+      "ajan": 1,
+      "kategoriler": [
+        "sinema",
+        "muzik",
+        "sanat",
+        "spor",
+        "yerel_tr"
+      ],
+      "soru": 100,
+      "migration": "20260612000314_soru_uretim_parti_11",
+      "commit": null,
+      "tarih": "2026-09-23",
+      "kategori_kova": {
+        "sinema": 24,
+        "muzik": 22,
+        "sanat": 22,
+        "spor": 21,
+        "yerel_tr": 11
+      },
+      "kategori_db": {
+        "sinema": 25,
+        "muzik": 25,
+        "sanat": 22,
+        "spor": 28
+      },
+      "zorluk": {
+        "3": 30,
+        "4": 35,
+        "5": 20,
+        "1-2": 15
+      },
+      "zorluk_1_5": [
+        2,
+        13,
+        30,
+        35,
+        20
+      ],
+      "jev": {
+        "cagri": 1439,
+        "girdi_jeton": 973366,
+        "maliyet_usd": 0.0409
+      },
+      "taslak": 134,
+      "elenen": {
+        "kalite_sonrasi": 0,
+        "kota_fazlasi": 34,
+        "not": "Ajan 1, 100'lük parti (sinema 24 · müzik 22 · sanat 22 · spor 21 · TR yerel 11). Parti 9'dan kalan 20 taslak + 114 yeni taslak (sinema 32, müzik 26, sanat 29, spor 27). Fikirler yazılmadan önce güncel havuz (DB + ajan 2 partileri/taslakları) anahtar kelimeyle toplu tarandı (sanat ve sporda yüzlerce aday havuzda çıktı, elendi); yazılanlardan 4 havuz tekrarı (Danimarka Euro 92, WALL-E/EVE, Milo Venüsü, Vermeer Sütçü Kız) ve 1 yakın tekrar (Clara Schumann/Wieck) çıkarıldı; 16 şık denge düzeltmesi. Şık ipucu kapısı: 7 takılma — Secretariat ve Viva la Vida çeldiricileri eşit bilinirlikte yeniden yazılıp geçti; Puskás (2 sürüm), Melbourne Cup (2 deneme), Trabzonspor çıkarıldı. Jev >0,9 itirazı: Rokeby Venüsü (Jev Tiziano 0,97, yanlış) — Tiziano çeldiricisi Murillo ile değiştirildi. Jev'in <0,9 güvenle farklı dediği doğru sorular (Hoca Ali Rıza/Üsküdar, Albatros, Aptal matı, Semih Şentürk, Efes/Köln, Ahlat Ağacı, Mor ve Ötesi, Şenol Güneş) kontrol edilip tutuldu."
+      },
+      "zorluk_etiket_duzeltme": 5,
+      "cevrilmeyen": 5,
+      "havuz_aktif": {
+        "once": 12040,
+        "sonra": 12140
+      },
+      "dogru_cevap_dagilimi": {
+        "0": 25,
+        "1": 17,
+        "2": 29,
+        "3": 29
+      }
     }
   ],
   "atlanan_partiler": [],
   "sayac": {
-    "soru": 1750,
+    "soru": 1850,
     "kategori": {
-      "sinema": 235,
+      "sinema": 259,
       "teknoloji": 218,
-      "muzik": 216,
-      "sanat": 216,
-      "spor": 201,
+      "muzik": 238,
+      "sanat": 238,
+      "spor": 222,
       "edebiyat": 169,
       "bilim": 169,
       "tarih": 150,
-      "yerel_tr": 108,
+      "yerel_tr": 119,
       "genel_kultur": 68
     },
     "zorluk": {
-      "3": 518,
-      "4": 620,
-      "5": 347,
-      "1-2": 265
+      "3": 548,
+      "4": 655,
+      "5": 367,
+      "1-2": 280
     }
   },
   "jev": {
-    "cagri": 7277,
-    "girdi_jeton": 5388596,
-    "maliyet_usd": 0.2264
+    "cagri": 8716,
+    "girdi_jeton": 6361962,
+    "maliyet_usd": 0.2673
   },
   "elenen": 26,
-  "zorluk_etiket_duzeltme": 95,
-  "cevrilmeyen": 30,
+  "zorluk_etiket_duzeltme": 100,
+  "cevrilmeyen": 35,
   "ardisik_uygulama_hatasi": 0,
   "migration_no_notu": "296 (skill satın alma kilit sırası) ve 297 (duello_surum herkese) Paket 3 dışı işlere verildi, 23 Eyl 2026. Parti 6 yeniden üretilince 298 kullanılır."
 }
