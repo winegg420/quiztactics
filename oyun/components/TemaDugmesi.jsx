@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Ikon from "./Ikon.jsx";
+import { QtIkonDugme } from "../tasarim/index.js";
 import { etkinTema, temaDegistir, temayaAbone } from "../lib/tema.js";
 import { tt } from "../lib/dil.js";
 
@@ -16,14 +16,11 @@ export default function TemaDugmesi() {
 
   const koyu = tema === "koyu";
   return (
-    <button
-      type="button"
-      className="bd-tema-dugme"
+    // Yön A: QtIkonDugme (44 px, etiket zorunlu)
+    <QtIkonDugme
+      ikon={koyu ? "gunes" : "ay"}
+      etiket={koyu ? tt("Açık temaya geç") : tt("Koyu temaya geç")}
       onClick={() => setTema(temaDegistir())}
-      aria-label={koyu ? tt("Açık temaya geç") : tt("Koyu temaya geç")}
-      title={koyu ? tt("Açık tema") : tt("Koyu tema")}
-    >
-      <Ikon ad={koyu ? "gunes" : "ay"} boyut={18} />
-    </button>
+    />
   );
 }

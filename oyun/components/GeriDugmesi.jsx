@@ -1,7 +1,7 @@
 // Paket 41 M.9 — sayfanın üstünde "geldiği yere" dönen geri düğmesi (yasal sayfalar).
 // Geçmiş yoksa (bağlantı yeni sekmede açıldıysa) ana sayfaya gider.
 import { useNavigate } from "react-router-dom";
-import Ikon from "./Ikon.jsx";
+import { QtDugme } from "../tasarim/index.js";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
 
@@ -19,8 +19,9 @@ export default function GeriDugmesi() {
     else navigate(y(), { replace: true });
   };
   return (
-    <button type="button" className="bd-geri-dugmesi" onClick={geri} aria-label={tt("Geri")}>
-      <Ikon ad="geri" boyut={20} /> <span>{tt("Geri")}</span>
-    </button>
+    // Yön A: QtDugme (ikincil, 44 px). `bd-geri-dugmesi` EK sınıfı: yasal sayfalar konumlandırıyor.
+    <QtDugme tur="ikincil" boyut="k" ikon="geri" className="bd-geri-dugmesi" onClick={geri}>
+      {tt("Geri")}
+    </QtDugme>
   );
 }

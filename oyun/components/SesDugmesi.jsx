@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Ikon from "./Ikon.jsx";
+import { QtIkonDugme, sinif } from "../tasarim/index.js";
 import { sesAcikMi, sesAyarla, sesDinle, sesDokunus, sesKilidiAc } from "../lib/ses.js";
 import { tt } from "../lib/dil.js";
 
@@ -28,15 +28,14 @@ export default function SesDugmesi({ className = "" }) {
   };
 
   return (
-    <button
-      type="button"
-      className={`bd-ses-dugme ${acik ? "" : "kapali"} ${className}`}
-      onClick={degistir}
+    // Yön A: QtIkonDugme (saydam — maç şeridinin rengini alır). className dışarıdan gelir.
+    <QtIkonDugme
+      tur="saydam"
+      ikon={acik ? "sesAcik" : "sesKapali"}
+      etiket={acik ? tt("Sesi kapat") : tt("Sesi aç")}
       aria-pressed={acik}
-      aria-label={acik ? tt("Sesi kapat") : tt("Sesi aç")}
-      title={acik ? tt("Sesi kapat") : tt("Sesi aç")}
-    >
-      <Ikon ad={acik ? "sesAcik" : "sesKapali"} boyut={18} />
-    </button>
+      className={sinif("a-ses-dugme", !acik && "a-ses-dugme--kapali", className)}
+      onClick={degistir}
+    />
   );
 }
