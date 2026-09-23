@@ -74,7 +74,7 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
   `zorluk >= 2` filtresi kalktı. Turnuva kendi kuralında.
 - **Soru üretimi: yeni zor soru üretilmez; üretim yalnız kolay ve orta** (Ida, 23 Eyl 2026).
 - **Gösterim payı (325/326):** sunucu yeni fazın/sorunun bitişine pay ekler — Düello
-  `duello_gosterim_payi_ms` 1200 (kategori + cevap), Klasik/Grup/Turnuva sonraki soru
+  `duello_gosterim_payi_ms` 1500 (kategori + cevap), Klasik/Grup/Turnuva sonraki soru
   `soru_gosterim_payi_ms` 2000. İstemci sayacı pay bitene dek TAM süreyi gösterir, sonra gerçek
   zamanla akar; sayaç yetişmek için hızlanmaz. İki oyuncunun bitişi aynı, geç cevap sunucuda
   reddedilir. Düello `sunucu_zamani` = clock_timestamp(). Ölçüm: `oyuncu-testi` sayaç raporu (⏱).

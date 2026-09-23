@@ -360,7 +360,8 @@ async function duelloMaci(kapsam) {
       const rol = benSaldiran ? "saldıran" : "savunan";
       const asama = d.uzatma === true || d.uzatma === "t" ? "uzatma" : Number(d.tur) === 1 ? "ilk tur" : "sonraki tur";
       let acik = 0;
-      for (let i = 0; i < 10 && acik < 2; i++) { acik = await acikSiklar(); if (acik < 2) await s.waitForTimeout(150); }
+      // İstemci yeni fazı veritabanından biraz geç görebilir (ağ; gösterim payı 1,5 sn): 3 sn beklenir.
+      for (let i = 0; i < 20 && acik < 2; i++) { acik = await acikSiklar(); if (acik < 2) await s.waitForTimeout(150); }
       if (acik < 2) {
         const tani = await s.evaluate(() => window.__bdTani ?? null);
         // Yanlış alarm olmasın: hâlâ cevap fazı, cevabım yok ve süre var mı?
@@ -472,10 +473,9 @@ async function klasikTesti() {
   await s.waitForTimeout(2500);
   await tanitimlariGec();
   await ekranOlc("ana-sayfa");
-  // Yarım kalmış bir Klasik maç varsa önce ona dön (sunucu yeni maç açmaz).
-  const yarim = s.locator("a.bd-devam-eden");
-  if (await yarim.count()) { await yarim.first().tap({ timeout: 4000 }).catch(() => {}); await s.waitForTimeout(1500); }
-  if (!/\/mac\/[0-9a-f-]{36}/.test(s.url())) {
+  // Yarım kalmış maça DÖNÜLMEZ: rakip yokken sunucu soruyu 90 sn'de bir ilerletir, dönülen soru
+  // süresi dolmuş gelir (şıklar doğru olarak kapalı) — test yanlış alarm verirdi. Pencerede "Yeni maç".
+  {
     // Ana sayfa A (23 Eyl 2026): OYNA düğmesi; eski ana sayfanın sınıfı da yedek seçici.
     await s.locator(".as-buyuk-dugme--oyna, .mobile-core-mode.klasik").first().tap({ timeout: 4000 }).catch(() => {});
     await s.waitForTimeout(900);
@@ -485,8 +485,8 @@ async function klasikTesti() {
   }
   // Yarım maç sorusu çıkarsa devam et
   await s.waitForTimeout(1500);
-  const devam = s.getByRole("button", { name: /Maça dön|Devam et|Kaldığın yerden devam/i });
-  if (await devam.count()) await devam.first().tap().catch(() => {});
+  const yeni = s.getByRole("button", { name: /^Yeni maç$/ });
+  if (await yeni.count()) { await yeni.first().tap().catch(() => {}); await s.waitForTimeout(1500); }
   // Beklemek yerine açık botla eşleş (akış aynı, süre kısa)
   for (let i = 0; i < 20 && !/\/mac\/[0-9a-f-]{36}/.test(s.url()); i++) {
     const bot = s.getByRole("button", { name: /Beklemeden bot|bot ile oyna/i });

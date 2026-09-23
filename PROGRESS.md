@@ -7854,3 +7854,39 @@ otomatik akla gelmesi için; proje kapsamında kuruldu.
   canlı istek taklidiyle) ve yeni misafir (Level 1, seri 0, davet yok): dikey kaydırma 0, yatay taşma 0, çakışma 0,
   44 px altı hedef 0, konsol hatası 0. Tıklama: şerit, 4 kısayol, OYNA, DÜELLO, lig çipi 390 + 1280'de doğru; eski
   4 adres 404. `prefers-reduced-motion`: nabız/zıplama `none`. Build temiz.
+
+## 2026-09-23 — Büyük revize paketi: ağırlıklı zorluk, sayaç payı, kaydırmasız ana sayfa, Serbest|Dereceli, loadout, dükkân görselleri
+**Araç:** Claude Code (tek şerit, alt ajan yok)
+**Neden:** Ida'nın 23 Eyl revize paketi (sorular fazla zor, Düello sayacı ilk saniyelerde hızlı, ana sayfa kayıyor, tür seçimi görünmüyor, loadout dönsün, dükkân görselleri yayın kalitesinde).
+
+- **Adım 1 — ağırlıklı zorluk (324, uygulandı):** `soru_sec` her yuva için grup seçer (kolay 1–2 / orta 3 / zor 4–5 =
+  `soru_agirlik_*` 55/30/15), grup boşsa komşuya düşer; `zorluk >= 2` kalktı (147'deki "aşırı basit soru yalnız turnuvada"
+  gerekçesi 290'dan beri geçersiz). Kullananlar: Klasik/Saf Bilgi (quick_match, kuyruga_gir, hemen_bot_mac(_sec),
+  respond_challenge, rovans_iste, bot_oyna), Düello (duello_soru_bul ← duello2_soru_ac/skill/bot_skill_dene), Grup
+  (respond_group_challenge, grup_kur_kuyruktan), Soru Değiştir, Hatalarım dolgusu. Turnuva ve bot isabeti dokunulmadı.
+  200 soru (işlem içinde): ÖNCE kolay %22,5 · orta %51 · zor %26,5 → SONRA kolay %52–54,5 · orta %29–31 · zor %16,5–17.
+  Kural: yeni zor soru üretilmez (AGENTS.md + PROJECT_CONTEXT).
+- **Adım 2 — sayaç gösterim payı (325/326/330):** ölçüm aracı `oyuncu-testi` sayaç raporu (⏱). ÖNCE Düello: ilk görünüş
+  medyan 450 ms (p90 ~1,1 sn), 35 fazın 28'inde ilk rakam 12–650 ms; kategori sayacı `sunucu_zamani`=now() (işlem başı)
+  yüzünden "9/8" açılıp 100 ms'de düşüyordu. Klasik: soru başlangıçtan medyan 1.677 ms sonra ekranda, 20/21 soruda hızlı ilk
+  adım. SONRA: Düello pay 1500 ms (canlıda en çok 1347 ms ölçüldü), `gosterim_bas`a dek tam süre, saat farkı en az gecikmeli
+  örnekten, `sunucu_zamani` clock_timestamp, rakam saniye sınırında → yerel 13 faz 0 hızlı; canlı 19 fazın 18'i temiz (tek
+  istisna 3,6 sn ağ gecikmesi). Klasik/Grup/Turnuva sonraki soru +2000 ms, `kalanSure` tavanı (Ek Süre'yi bozmaz), 3-2-1 yalnız
+  ilk soruda → soru başlangıçtan medyan −391 ms önce ekranda, canlı 20 sorunun 19'u temiz. Adalet: bitiş iki oyuncuda aynı.
+- **329 (canlı testte bulundu):** süresi dolmuş eski soru kartına dokunuş sonraki (pay içindeki) soruya yazılıyordu —
+  `submit_match/group_match/tournament_answer` artık `p_soru_index` alır, uyuşmazsa "Soru değişti". Eski 2 parametreli imza düştü.
+- **Adım 3 — ana sayfa kaydırmasız:** `100dvh − 190px` tahmini güvenli alanları saymıyordu. `.as-kaydirmasiz` (html):
+  kabuk 100dvh esnek sütun, overflow hidden, overscroll-behavior none, avatar container query ile küçülür. 360×640 · 390×700 ·
+  390×844 · 412×915 · 390×760 · 390×664, güvenli alan taklidiyle (üst 47/alt 34) de: belge = görünür, kaydırma 0.
+- **Adım 4 — Serbest | Dereceli:** `DereceliAnahtari` iki seçenekli (her yerde aynı); OYNA penceresinin üstünde, Saf Bilgi
+  kısayolu da pencereden. 4 durum DB'den doğrulandı (Klasik/Düello × serbest f / dereceli t).
+- **Adım 5 — loadout (327):** 3 yuva; Klasik `skiller` + Düello `skiller_duello` (Sigorta/2X yok); kapı set kontrolünü yalnız
+  Klasik/Düello'da yapar. Klasik seti "Hazır mısın?" kapısında (pencereye ayrı adım konmadı — aynı ekran iki kez sorulmasın),
+  Düello seti giriş ekranında. Test: seçilen 3 skill maç çubuğunda birebir (bota karşı iki mod).
+- **Adım 6 — görseller (328):** `SkillRozeti` (token `--qt-skill-*`, Phosphor MIT sembolleri) dükkân, loadout, maç çubuğu,
+  maç içi satın alma, maç sonu, envanter, level ödülünde. Coin paketleri Noto Emoji 3D (Apache 2.0) dizilimiyle büyür; adlar
+  Avuç/Kese/Sandık/Hazine; bonus yüzdesi veriden (+%8/+%13/+%19 — brifteki "+%15" veride yok, uydurulmadı); "Define" için
+  5. paket yok. `docs/VARLIK_LISANSLARI.md`. `/tasarim-sistemi` rozet bölümü (64/40/32 px, açık/koyu).
+- **Not (önceden var):** `kuyruga_gir` hız sınırı dakikada 30; arama saniyede bir çağırıyor (15 sn → 15 çağrı) — bir dakikada
+  iki aramadan sonra "Rakip aranamadı". Geliştirme sunucusunda StrictMode yüzünden tek aramada doluyor.
+- **Test (canlı):** Klasik 20/20; Düello 4 saldıran / 5 savunan (önceki koşu 5/5); build temiz.
