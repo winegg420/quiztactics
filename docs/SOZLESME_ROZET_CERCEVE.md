@@ -292,3 +292,15 @@ Her rozetin kendi `ikon` önerisi de var (ör. `ozel_kusursuz` → `target`, `so
   için `davet_kodu_bagla` durum kodu döndürür (hata atmaz).
 - Eski `claim_referral` anında iki tarafa 200 coin veriyordu; ekonomi iki kez ödemesin diye yeni
   kurala yönlendirildi. `davet_coin` (200) satırı durur, okunmaz.
+
+---
+
+## 7. B için notlar
+
+- **Maç sonu dökümü:** rozet coin'i `odul_dokumu` kalemlerinde **`rozet_odulu`** adıyla gelir
+  (`detay: { rozet, kademe }`; aynı maçta birden çok rozet varsa coin'ler toplanır). `OdulDokumu.jsx ›
+  kalemAdi` bu kalemi tanımıyor, ham ad yazar — `case "rozet_odulu": return tt("Rozet ödülü")` gerekir.
+  Eski rozet sisteminin (`badges`) `rozet` kalemi ayrıdır, değişmedi.
+- **Yeni rozet bildirimi:** `rozetBildirimlerim()` maç sonunda ve ana sayfa açılışında çağrılabilir;
+  okunan rozet bir daha dönmez.
+- **Geriye dönük:** 333 uygulanırken 16 oyuncuya 56 rozet coin'siz, `goruldu = true` verildi.
