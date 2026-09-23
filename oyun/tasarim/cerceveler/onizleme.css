@@ -32,8 +32,8 @@
   color: var(--qt-nadir-siradan-yazi);
   box-shadow: 0 2px 0 var(--qt-nadir-siradan-koyu);
 }
-.ko-nadirlik[data-nadirlik="nadir"] { background: var(--qt-nadir-nadir); color: var(--qt-nadir-nadir-yazi); box-shadow: 0 2px 0 var(--qt-nadir-nadir-koyu); }
-.ko-nadirlik[data-nadirlik="epik"] { background: var(--qt-nadir-epik); color: var(--qt-nadir-epik-yazi); box-shadow: 0 2px 0 var(--qt-nadir-epik-koyu); }
+.ko-nadirlik[data-nadirlik="nadir"] { background: var(--qt-nadir-nadir-koyu); color: var(--qt-nadir-nadir-yazi); box-shadow: 0 2px 0 var(--qt-nadir-nadir); }   /* koyu zemin: kontrast ≥ 4,5 */
+.ko-nadirlik[data-nadirlik="epik"] { background: var(--qt-nadir-epik-koyu); color: var(--qt-nadir-epik-yazi); box-shadow: 0 2px 0 var(--qt-nadir-epik); }
 .ko-nadirlik[data-nadirlik="efsanevi"] { background: var(--qt-nadir-efsanevi); color: var(--qt-nadir-efsanevi-yazi); box-shadow: 0 2px 0 var(--qt-nadir-efsanevi-koyu); }
 .ko-boyutlar { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--qt-b-2); min-width: 0; }
 .ko-hucre {

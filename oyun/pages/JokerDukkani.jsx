@@ -7,6 +7,7 @@ import { supabase } from "../../src/lib/supabase.js";
 import { JOKER_BILGI, AKTIF_MAC_SKILLERI, jokerBilgi, envanterNesne } from "../lib/jokerler.js";
 import SkillRozeti from "../components/SkillRozeti.jsx";
 import CoinPaketGorseli from "../components/CoinPaketGorseli.jsx";
+import DukkanCerceveler from "../components/DukkanCerceveler.jsx";
 import { jokerKurallari } from "../lib/jokerKurallari.js";
 import { h5AdsYapilandirildi, odulluVideoGoster } from "../lib/h5ads.js";
 import { desteklenirMi, fiyatlariAl, satinAl, tuket } from "../lib/playFatura.js";
@@ -27,7 +28,7 @@ import {
 } from "../tasarim/index.js";
 import "../tasarim/ekranlar/dukkan-magaza.css";
 
-// Dükkân üç sekme: Skill · Coin · Kıyafet (Tasarım A, Yön A "Şeker Kutusu").
+// Dükkân sekmeleri: Skill · Çerçeve · Coin · Kıyafet (Tasarım A, Yön A "Şeker Kutusu").
 // Bütün rakamlar sunucudan gelir (skill_dukkani(), joker_paketleri, coin_paketleri,
 // oyun_ayarlari); koda gömülü fiyat/ödül/tavan YOKTUR — okunamayan rakam gösterilmez.
 
@@ -37,6 +38,7 @@ import "../tasarim/ekranlar/dukkan-magaza.css";
 // Sekme kodu "joker" geriye uyum için korunur (?sekme=joker bağlantıları).
 const TUM_SEKMELER = [
   { kod: "joker",   ad: tt("Skill"),   ikon: "yildiz" },
+  { kod: "cerceve", ad: tt("Çerçeve"), ikon: "kisi" },
   { kod: "coin",    ad: tt("Coin"),    ikon: "coin" },
   { kod: "kiyafet", ad: tt("Kıyafet"), ikon: "tisort" },
 ];
@@ -342,6 +344,12 @@ export default function JokerDukkani() {
       <div id={`qt-panel-${sekme}`} role="tabpanel" className="qt-dk-panel">
         {/* ---------- KIYAFET (dondurulmuş vitrin, bayrakla) ---------- */}
         {sekme === "kiyafet" && <GorunumVitrini />}
+
+        {/* ---------- ÇERÇEVE (rozet + çerçeve paketi) ---------- */}
+        {sekme === "cerceve" && (
+          <DukkanCerceveler coinYetmedi={() => sekmeSec("coin")}
+            onBilgi={(m) => { setHata(null); setBilgi(m); }} onHata={(m) => { setBilgi(null); setHata(m); }} />
+        )}
 
         {(sekme === "joker" || sekme === "coin") && !hazir && (
           <QtKart>

@@ -77,6 +77,21 @@ export default {
   "Takılıyor…": "Equipping…",
   "Tak": "Equip",
   "Dükkân'da daha fazla çerçeve": "More frames in the Shop",
+  // ——— Dükkân › Çerçeve ———
+  "Çerçeve": "Frames",
+  "{lig} Lig'e çık": "Get promoted to {lig} League",
+  "Level {n} rozetiyle gelir": "Comes with the Level {n} badge",
+  "Etkinlik ödülü": "Event reward",
+  "{ad} çerçevesi senin. Şimdi takabilirsin.": "The {ad} frame is yours. Equip it now.",
+  "Çerçeve takıldı.": "Frame equipped.",
+  "Çerçeve çıkarıldı.": "Frame removed.",
+  "Sende var": "Owned",
+  "Çıkar": "Remove",
+  "Satılmaz": "Not for sale",
+  "Dokun, kendi avatarında dene. Taktığın çerçeveyi maçta ve listelerde herkes görür.":
+    "Tap to try it on your avatar. Everyone sees your equipped frame in matches and lists.",
+  "Kazanılan çerçeveler": "Earned frames",
+  "Lig atlayarak ve level rozetleriyle kazanılır; satılmaz.": "Earned through league promotion and level badges; not for sale.",
   // ——— /kozmetik-onizleme ———
   "Kozmetik Önizleme": "Cosmetics Preview",
   "Bütün çerçeveler ve rozet madalyonları 24 / 40 / 64 / 120 px'te. 40 px altında süs ve hareket kapanır, yalnız renkli halka kalır.":
