@@ -3,60 +3,64 @@ import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import { kategoriEtiket } from "../lib/kategoriler.js";
 import KarsilasmaSahnesi, { KARSILASMA_ANIM_MS } from "./KarsilasmaSahnesi.jsx";
-import { botZorluk } from "../lib/botZorluk.js";
 import { tt } from "../lib/dil.js";
 import { sesRakipBulundu } from "../lib/ses.js";
 import { rpcDene } from "../lib/rpcDene.js";
 import { ayar } from "../lib/ayarlar.js";
-import { QtModal, QtDugme, QtListe, QtListeSatiri, QtRozet } from "../tasarim/index.js";
+import { QtModal, QtDugme } from "../tasarim/index.js";
 import "../tasarim/ekranlar/a-modlar.css";
 
-// Açık bot zorluğu → rozet tonu (eşikler lib/botZorluk.js ile aynı)
-const zorlukTonu = (i) => (i <= 0.45 ? "dogru" : i <= 0.6 ? "uyari" : i <= 0.75 ? "vurgu" : "yanlis");
-
-const BEKLEME_SN = 15; // bu süre içinde insan rakip aranır, sonra gizli bota düşülür
+// 370: gizli botun geliş süresi SUNUCUDA, aramaya özgü rastgele (üçgen, eslesme_bot_*_sn).
+// İstemci süreyi bilmez; yalnız en fazla "max + pay" kadar kuyruğu yoklar, sonra son çareye geçer.
+const BOT_MAX_VARSAYILAN_SN = 15;   // asıl değer oyun_ayarlari.eslesme_bot_max_sn
+const BEKLEME_PAYI_SN = 5;
 // Paket 41 F: "Maç hazırlanıyor…" hâlinin üst sınırı. Dolunca yoklama durur, oyuncuya
-// Tekrar dene / Bot ile oyna / Vazgeç sunulur (eskiden sonsuza dek bekliyordu).
+// Tekrar dene / Vazgeç sunulur (eskiden sonsuza dek bekliyordu).
 const HAZIRLIK_SINIR_MS = 30000;
 // A6: kuyruk yoklama aralığı varsayılanı; asıl değer oyun_ayarlari.rakip_ara_yoklama_ms (migration 337)
 const YOKLAMA_VARSAYILAN_MS = 3000;
+// Yoklama aralığı ±%25 oynar: bot hep 3 sn'nin katında gelmesin (sunucu hedefi yoklamaya yuvarlar).
+const YOKLAMA_OYNAMA = 0.25;
 
 /**
  * "Hemen Oyna" eşleştirme ekranı.
  * Tam ekran katman olarak `document.body`'ye portal ile basılır — daha önce
  * ana sayfanın içinde konumlandığı için hiç görünmüyordu.
  *
- * Akış: kuyruğa gir → 15 sn gerçek rakip ara → bulunamazsa sunucu bir rakip
- * kurar. Rakip bulununca 1 sn "Rakip bulundu: X" gösterilip maça geçilir.
+ * Akış: kuyruğa gir → ~3 sn'de bir yokla. Gerçek rakip varsa anında eşleşir;
+ * yoksa sunucu aramaya özgü rastgele sürede (3–15 sn, çoğunlukla 4–9) rakip
+ * kurar (migration 370). Rakip bulununca 1 sn "Rakip bulundu: X" gösterilip maça geçilir.
  *
- * Beklemek istemeyen "Beklemeden bot ile oyna"ya basar: seviyesine yakın
- * bir AÇIK botla anında eşleşir (migration 177 › hemen_bot_mac).
+ * "Beklemeden bot ile oyna" düğmesi KALKTI (Ajan E, E.2): açık botlarla oynamak
+ * isteyen Meydan Oku › "Antrenman — Botlara meydan oku" bölümünü kullanır.
  *
- * Otomatik yolda ekranda "bot" kelimesi GEÇMEZ: gizli botlar gerçek
- * oyuncu gibi görünmeli (bkz. migration 155). Açık bot yolunda geçer —
- * oyuncu bilerek seçiyor ve o maçta coin yarıya iniyor.
+ * Ekranda "bot" kelimesi GEÇMEZ: gizli botlar gerçek oyuncu gibi görünmeli
+ * (bkz. migration 155).
  */
 // Paket 31 B: jokersiz = Saf Bilgi. Kuyruk ve bot maçı bayrağı taşır; jokerli ile eşleşmez.
 export default function RakipAra({ kategori, dereceli = true, jokersiz = false, onBulundu, onIptal }) {
   const { user } = useAuth();
-  const [kalan, setKalan] = useState(BEKLEME_SN);
+  // Geçen süre (yukarı sayar) — hedef süre sunucuda olduğundan geri sayım gösterilmez
+  const [gecen, setGecen] = useState(0);
   const [hata, setHata] = useState(null);
   const [botaDusuldu, setBotaDusuldu] = useState(false);
-  // Açık bot yolu ayrı tutulur: ekrandaki yazı dürüst olsun (o maçta coin yarıya iner).
-  const [botYolu, setBotYolu] = useState(false);
   const [rakipAdi, setRakipAdi] = useState(null);
   const [rakipProfil, setRakipProfil] = useState(null);
   const [bulundu, setBulundu] = useState(false);
-  // Bot seçimi (Paket 12, madde 6): null = liste kapalı, "yukleniyor", dizi = açık botlar.
-  const [botListesi, setBotListesi] = useState(null);
-  const [secilenBot, setSecilenBot] = useState(null);
   const bittiRef = useRef(false);
   const zamanlayiciRef = useRef(null);
+  const yoklamaRef = useRef(null);
   // Paket 41 F: "Tekrar dene" aramayı baştan başlatır (effect bu sayaca bağlı)
   const [deneme, setDeneme] = useState(0);
+  // Ebeveyn her çizimde yeni onBulundu verir (satır içi ok fonksiyonu). Etkiye bağımlılık
+  // olursa arama her çizimde baştan başlar, kuyruk kaydı silinip yeniden yazılır ve sunucunun
+  // aramaya özgü süresi (migration 370) sıfırlanırdı. Ref ile sabit tutulur.
+  const bulunduRef = useRef(onBulundu);
+  bulunduRef.current = onBulundu;
 
   const temizle = useCallback(async () => {
     clearInterval(zamanlayiciRef.current);
+    clearTimeout(yoklamaRef.current);
     try {
       await supabase.rpc("kuyruktan_cik");
     } catch (e) { console.warn("[Bildim] kuyruktan_cik başarısız:", e?.message ?? e);
@@ -92,91 +96,18 @@ export default function RakipAra({ kategori, dereceli = true, jokersiz = false, 
       }
       setBulundu(true);
       sesRakipBulundu();   // Paket 29 E.2: "Rakip bulundu" yazısıyla aynı an
-      window.setTimeout(() => onBulundu(macId), KARSILASMA_ANIM_MS);
+      window.setTimeout(() => bulunduRef.current(macId), KARSILASMA_ANIM_MS);
     },
-    [onBulundu, user?.id]
+    [user?.id]
   );
 
-  // SABIRSIZ TIKLAMA: oyuncu beklemek istemiyorsa seviyesine yakın bir
-  // AÇIK bot ile ANINDA eşleşir (ToyBot / ÇaylakBot / ÜstatBot /
-  // EfsaneBot). Burada "bot" kelimesi bilerek geçer: açık botlar zaten
-  // adından belli ve oyuncu bilerek seçiyor. Gizli botlar bu yola
-  // KARIŞMAZ — onların gizli kalması gerekiyor.
-  const hemenBot = useCallback(async () => {
-    if (bittiRef.current) return;
-    setBotaDusuldu(true);
-    setBotYolu(true);
-    clearInterval(zamanlayiciRef.current);
-    try {
-      const { data, error } = await supabase.rpc("hemen_bot_mac", {
-        p_kategori: kategori ?? null,
-        p_dereceli: dereceli,
-        p_jokersiz: jokersiz,
-      });
-      if (error) throw error;
-      if (data) { bitir(data); return; }
-      setHata(tt("Şu an uygun rakip bulunamadı. Birazdan tekrar dene."));
-    } catch (e) {
-      setHata(tt("Maç başlatılamadı. Bağlantını kontrol edip tekrar dene."));
-      console.error("[Bildim] hemen_bot_mac:", e);
-    }
-  }, [kategori, dereceli, jokersiz, bitir]);
-
-  // BOT SEÇİMİ (Paket 12, madde 6): "Beklemeden bot ile oyna" önce açık
-  // botları ad + zorlukla listeler; oyuncu seçtiği botla oynar. Zorluk,
-  // ChallengesPage'teki gibi türetilmiş `acik_bot_isabet`ten (ham
-  // `bot_isabet` istemciye kapalı — gizli botları ele verir). Liste
-  // okunamazsa ya da boşsa eski yol: seviyeye en yakın açık bot.
-  const botlariGoster = useCallback(async () => {
-    if (bittiRef.current) return;
-    setBotaDusuldu(true);
-    setBotYolu(true);
-    clearInterval(zamanlayiciRef.current);
-    setBotListesi("yukleniyor");
-    try {
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("id, gorunen_ad, acik_bot_isabet")
-        .eq("acik_bot", true)
-        .not("acik_bot_isabet", "is", null)
-        .order("acik_bot_isabet", { ascending: true });
-      if (error) throw error;
-      if (!data?.length) { setBotListesi(null); hemenBot(); return; }
-      setBotListesi(data);
-    } catch (e) {
-      console.error("[Bildim] acik botlar okunamadi:", e);
-      setBotListesi(null);
-      hemenBot();
-    }
-  }, [hemenBot]);
-
-  const botSec = useCallback(async (botId) => {
-    if (bittiRef.current) return;
-    setSecilenBot(botId);
-    setHata(null);
-    try {
-      const { data, error } = await supabase.rpc("hemen_bot_mac_sec", {
-        p_bot: botId,
-        p_kategori: kategori ?? null,
-        p_dereceli: dereceli,
-        p_jokersiz: jokersiz,
-      });
-      if (error) throw error;
-      if (data) { bitir(data); return; }
-      setHata(tt("Şu an bu botla maç açılamadı. Başka bir bot seç."));
-      setSecilenBot(null);
-    } catch (e) {
-      setHata(tt("Maç başlatılamadı. Bağlantını kontrol edip tekrar dene."));
-      console.error("[Bildim] hemen_bot_mac_sec:", e);
-      setSecilenBot(null);
-    }
-  }, [kategori, dereceli, jokersiz, bitir]);
-
-  // Son çare: 15 sn dolunca sunucu rakip kursun.
+  // Son çare: normalde kuyruga_gir sunucudaki süre dolunca rakibi kendisi kurar
+  // (migration 370). Yoklamalar bir sebeple sonuç vermediyse "max + pay" sn sonunda
+  // doğrudan quick_match yoklanır.
   //
-  // `quick_match` BOŞ dönebilir: sunucu, gerçekten aranmış gibi görünsün
-  // diye botu kurmadan önce 2-5 sn bekletiyor (bkz. migration 155). Bu
-  // yüzden tek seferlik değil, id gelene kadar saniyede bir yokluyoruz.
+  // `quick_match` BOŞ dönebilir: sunucu, aramaya özgü süre dolmadan rakibi
+  // kurmaz (bkz. migration 370). Bu yüzden tek seferlik değil, id gelene kadar
+  // saniyede bir yokluyoruz.
   // Bu yolda ekranda "bot" kelimesi GEÇMEZ — gizli botun gizli kalması bu
   // ekrandan başlıyor.
   const sonCare = useCallback(async () => {
@@ -219,13 +150,11 @@ export default function RakipAra({ kategori, dereceli = true, jokersiz = false, 
 
   const yenidenDene = useCallback(() => {
     clearInterval(zamanlayiciRef.current);
+    clearTimeout(yoklamaRef.current);
     bittiRef.current = false;
     setHata(null);
     setBotaDusuldu(false);
-    setBotYolu(false);
-    setBotListesi(null);
-    setSecilenBot(null);
-    setKalan(BEKLEME_SN);
+    setGecen(0);
     setDeneme((n) => n + 1);
   }, []);
 
@@ -238,11 +167,24 @@ export default function RakipAra({ kategori, dereceli = true, jokersiz = false, 
     ayar("rakip_ara_yoklama_ms", YOKLAMA_VARSAYILAN_MS).then((v) => {
       if (Number.isFinite(v) && v >= 1000) yoklamaMs = v;
     });
-    let sonYoklama = Date.now();
+    // İstemci en fazla "max + pay" sn yoklar (sunucunun seçtiği süre bunu aşmaz).
+    let sinirSn = BOT_MAX_VARSAYILAN_SN + BEKLEME_PAYI_SN;
+    ayar("eslesme_bot_max_sn", BOT_MAX_VARSAYILAN_SN).then((v) => {
+      if (Number.isFinite(v) && v > 0) sinirSn = Math.ceil(v) + BEKLEME_PAYI_SN;
+    });
+
+    // Sonraki yoklamayı ±%25 oynayan aralıkla kur (bitene/iptale kadar)
+    const sonrakiniKur = () => {
+      if (iptal || bittiRef.current) return;
+      const aralik = yoklamaMs * (1 - YOKLAMA_OYNAMA + Math.random() * 2 * YOKLAMA_OYNAMA);
+      yoklamaRef.current = window.setTimeout(async () => {
+        await dene();
+        sonrakiniKur();
+      }, aralik);
+    };
 
     const dene = async () => {
       if (iptal || bittiRef.current) return;
-      sonYoklama = Date.now();
       try {
         const { data, error } = await supabase.rpc("kuyruga_gir", {
           p_kategori: kategori ?? null,
@@ -252,35 +194,36 @@ export default function RakipAra({ kategori, dereceli = true, jokersiz = false, 
         if (error) throw error;
         if (data) bitir(data);
       } catch (e) {
-        // Hız sınırı geçici: bu yoklama atlanır, arama sürer (sonraki yoklama ya da 15 sn sonundaki son çare).
+        // Hız sınırı geçici: bu yoklama atlanır, arama sürer (sonraki yoklama ya da sınırdaki son çare).
         if (/Çok hızlı/i.test(e?.message ?? "")) {
           console.warn("[Bildim] kuyruga_gir hız sınırı — yoklama atlandı:", e?.message);
           return;
         }
         setHata(tt("Rakip aranamadı. Bağlantını kontrol edip tekrar dene."));
         console.error("[Bildim] kuyruga_gir:", e);
+        iptal = true;   // hata: yoklama ve sayaç durur
         clearInterval(zamanlayiciRef.current);
       }
     };
 
-    dene();
+    dene().then(sonrakiniKur);
+    // Sayaç saniyede bir yukarı sayar; sınır dolunca son çare (quick_match) devreye girer.
+    let sn = 0;
     zamanlayiciRef.current = setInterval(() => {
-      setKalan((k) => {
-        const yeni = k - 1;
-        if (yeni <= 0) {
-          clearInterval(zamanlayiciRef.current);
-          sonCare();
-          return 0;
-        }
-        // Geri sayım saniyede bir; kuyruk yoklaması yoklamaMs'te bir (gerçek oyuncuya öncelik verilir)
-        if (Date.now() - sonYoklama >= yoklamaMs - 100) dene();
-        return yeni;
-      });
+      sn += 1;
+      setGecen(sn);
+      if (sn >= sinirSn) {
+        clearInterval(zamanlayiciRef.current);
+        clearTimeout(yoklamaRef.current);
+        iptal = true;
+        sonCare();
+      }
     }, 1000);
 
     return () => {
       iptal = true;
       clearInterval(zamanlayiciRef.current);
+      clearTimeout(yoklamaRef.current);
       // supabase.rpc() bir PostgrestFilterBuilder döndürür: thenable ama Promise
       // DEĞİL, .catch() metodu yok. Doğrudan .catch çağrısı TypeError atıp
       // ekranı boş bırakıyordu. then'in ikinci argümanı hatayı güvenle yutar.
@@ -308,7 +251,6 @@ export default function RakipAra({ kategori, dereceli = true, jokersiz = false, 
         rakip={rakipProfil}
         bulundu={bulundu}
         bosEtiket={hata ? tt("Rakip bulunamadı")
-          : Array.isArray(botListesi) && !secilenBot ? tt("Botunu seç")
           : botaDusuldu ? tt("Hazırlanıyor…") : undefined}
         baslik={rakipAdi
           ? `${tt("Rakip bulundu:")} ${rakipAdi}`
@@ -316,68 +258,27 @@ export default function RakipAra({ kategori, dereceli = true, jokersiz = false, 
             ? tt("Rakip bulundu!")
             : hata
               ? tt("Maç başlatılamadı")
-              : Array.isArray(botListesi) && !secilenBot
-              ? tt("Rakip botunu seç")
               : botaDusuldu ? tt("Maç hazırlanıyor…") : tt("Rakip aranıyor…")}
       >
         <p className="a-arama-alt">
           {kategori ? kategoriEtiket(kategori) : tt("Karışık")} {tt("kategorisinde")}
-          {Array.isArray(botListesi)
-            ? tt(" seçtiğin botla oynarsın. Bot maçında coin ödülü yarıya iner.")
-            : botYolu
-            ? tt(" seviyene yakın bir botla eşleştiriyoruz. Bot maçında coin ödülü yarıya iner.")
-            : botaDusuldu
-              ? tt(" seviyene yakın bir rakiple eşleştiriyoruz.")
-              : tt(" seninle aynı seviyede birini arıyoruz.")}
+          {botaDusuldu
+            ? tt(" seviyene yakın bir rakiple eşleştiriyoruz.")
+            : tt(" seninle aynı seviyede birini arıyoruz.")}
         </p>
 
+        {/* Geçen süre (yukarı sayar): hedef süre sunucuda, geri sayım gösterilmez */}
         {!botaDusuldu && !rakipAdi && !hata && (
-          <p className="a-arama-sayac qt-sayi" role="timer" aria-live="off">{kalan} {tt("sn")}</p>
-        )}
-
-        {botListesi && !rakipAdi && (
-          botListesi === "yukleniyor" ? (
-            <p className="a-arama-alt" aria-busy="true">{tt("Botlar yükleniyor…")}</p>
-          ) : (
-            <div className="a-arama-bot-secim">
-              <QtListe etiket={tt("Rakip bot seç")}>
-                {botListesi.map((b) => {
-                  const isabet = Number(b.acik_bot_isabet);
-                  const z = botZorluk(isabet);
-                  return (
-                    <QtListeSatiri
-                      key={b.id}
-                      vurgulu={secilenBot === b.id}
-                      disabled={secilenBot !== null}
-                      aria-busy={secilenBot === b.id}
-                      ikon="kisi"
-                      baslik={b.gorunen_ad}
-                      sag={<QtRozet ton={zorlukTonu(isabet)} boyut="k">{z.etiket}</QtRozet>}
-                      onClick={() => botSec(b.id)}
-                    />
-                  );
-                })}
-              </QtListe>
-            </div>
-          )
+          <p className="a-arama-sayac qt-sayi" role="timer" aria-live="off">{gecen} {tt("sn")}</p>
         )}
 
         {hata && <p className="a-modsecim-hata" role="alert">{hata}</p>}
 
         {!rakipAdi && (
           <div className="a-arama-eylem">
-            {/* Paket 41 F: hata/sınır dolunca Tekrar dene birincil; bot seçeneği HER hâlde durur */}
+            {/* Paket 41 F: hata/sınır dolunca Tekrar dene birincil. Bot düğmesi E.2 ile kalktı. */}
             {hata && (
               <QtDugme tamGenislik onClick={yenidenDene}>{tt("Tekrar dene")}</QtDugme>
-            )}
-            {!Array.isArray(botListesi) && botListesi !== "yukleniyor" && (
-              <QtDugme
-                tur={hata ? "ikincil" : "mor"}
-                tamGenislik
-                onClick={() => { setHata(null); bittiRef.current = false; botlariGoster(); }}
-              >
-                {hata ? tt("Bot ile oyna") : tt("Beklemeden bot ile oyna")}
-              </QtDugme>
             )}
             <QtDugme tur="ikincil" tamGenislik onClick={vazgec}>{tt("Vazgeç")}</QtDugme>
           </div>
