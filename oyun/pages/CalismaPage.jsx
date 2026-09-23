@@ -2,11 +2,12 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import KategoriIkon from "../components/KategoriIkon.jsx";
 import Maskot from "../components/Maskot.jsx";
-import DurumKutusu from "../components/DurumKutusu.jsx";
-import Ikon from "../components/Ikon.jsx";
 import MacUstSerit from "../components/MacUstSerit.jsx";
 import Konfeti from "../components/Konfeti.jsx";
-import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesKazandin, sesDokunus } from "../lib/ses.js";
+import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesKazandin, sesDokunus, sesOnYukle, sesSoruGeldi } from "../lib/ses.js";
+import { QtBosDurum, QtCip, QtDugme, QtIkon, QtIlerleme, QtIskelet, QtKart, QtRozet, QtSayac, QtSik, QtSikler, QtSonucBandi, QtSoruKarti } from "../tasarim/index.js";
+import "../tasarim/ekranlar/m1-mac.css";
+import "../tasarim/ekranlar/m1-calisma.css";
 import CevapEfekti from "../components/CevapEfekti.jsx";
 import { GB_MS, titret } from "../lib/geriBildirim.js";
 import { hataMesaji } from "../lib/hata.js";
@@ -251,6 +252,21 @@ export default function CalismaPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [kalan, asama, soru, secim]);
 
+  // Yeni soru ekrana geldi — soru başına bir kez.
+  const soruSesiRef = useRef(null);
+  useEffect(() => {
+    if (asama !== "oyun" || !soru) return;
+    const anahtar = `${oturum?.oturum_id}-${soru.soru_index}`;
+    if (soruSesiRef.current === anahtar) return;
+    soruSesiRef.current = anahtar;
+    sesSoruGeldi();
+  }, [asama, soru, oturum?.oturum_id]);
+  useEffect(() => { sesOnYukle("mac"); }, []);
+
+  const hataBandi = hata ? (
+    <div className="m1-bant m1-bant--hata" role="alert"><QtIkon ad="uyari" boyut={18} /><span>{hata}</span></div>
+  ) : null;
+
   // ============ SEÇİM EKRANI ============
   if (asama === "secim") {
     const bos = (banka?.bekleyen ?? 0) === 0;
@@ -260,128 +276,98 @@ export default function CalismaPage() {
     const bankaKadar = Math.min(50, Math.max(5, bankaKat));
     const tahminBanka = Math.min(bankaKat, soruSayisi);
     const tahminYeni = Math.max(0, soruSayisi - tahminBanka);
+    const bankaSecenegi = bankaKat > 0 && !SORU_SECENEKLERI.includes(bankaKadar);
     return (
-      <div>
-      {/* Sayfa başlığı — prototipin `page-heading` bloğu (Arayüz Yenileme) */}
-      <section className="page-heading">
-        <div>
-          <span className="eyebrow">{tt("KİŞİSEL ÇALIŞMA")}</span>
-          <h1>{tt("Hatalarım")}</h1>
-          <p>{tt("Yanlış yaptığın soruları tekrar et, açığını kapat.")}</p>
-        </div>
-      </section>
+      <div className="m1-cal">
+        <header className="m1-cal-baslik">
+          <h1 className="qt-baslik-1">{tt("Hatalarım")}</h1>
+          <p className="qt-soluk-zemin">{tt("Yanlış yaptığın soruları tekrar et, açığını kapat.")}</p>
+        </header>
 
         {yukleniyor ? (
-          <div className="kart alt-yazi" style={{ textAlign: "center", padding: 22 }}>
-            {tt("Yükleniyor…")}
-          </div>
+          <QtIskelet tur="kart" yukseklik={140} />
         ) : bankaHata ? (
-          <div className="kart">
-            <DurumKutusu durum="hata" kucuk metin={tt("Hatalarım bankan alınamadı; genel havuzdan pratik turu yine açılabilir.")}
-                         onTekrar={() => { setYukleniyor(true); bankaYukle(); }} />
-          </div>
+          <QtBosDurum
+            ikon="uyari"
+            ton="yanlis"
+            metin={tt("Hatalarım bankan alınamadı; genel havuzdan pratik turu yine açılabilir.")}
+            eylem={<QtDugme tur="ikincil" boyut="k" ikon="yenile" onClick={() => { setYukleniyor(true); bankaYukle(); }}>{tt("Tekrar dene")}</QtDugme>}
+          />
         ) : bos ? (
-          <div className="kart bd-calisma-bos">
+          <QtKart className="m1-cal-bos">
             <Maskot poz="dusunuyor" boyut={72} />
-            <div className="bd-calisma-bos-metin">
+            <p>
               {tt("Henüz yanlışın yok — maç yaptıkça burada birikecek.")}
               <br />
               {tt("Yine de genel havuzdan çalışabilirsin.")}
-            </div>
-          </div>
+            </p>
+          </QtKart>
         ) : (
-          <div className="kart bd-calisma-ozet">
-            <div className="bd-calisma-ozet-ust">
-              <span>
-                {tt("Bankanda")} <b>{banka.bekleyen} {tt("soru")}</b> {tt("var")}
-              </span>
-              <span className="bd-calisma-ayrac">·</span>
-              <span>
-                <b>{banka.ogrenilen}</b> {tt("tanesini öğrendin")}
-              </span>
+          <QtKart className="m1-cal-ozet">
+            <div className="m1-cal-sayilar">
+              <div><b className="qt-sayi">{banka.bekleyen}</b><span>{tt("soru bankanda")}</span></div>
+              <div><b className="qt-sayi">{banka.ogrenilen}</b><span>{tt("öğrenildi")}</span></div>
             </div>
             {banka.kategoriler.length > 0 && (
-              <div className="bd-calisma-cubuklar">
+              <div className="m1-cal-cubuklar">
                 {banka.kategoriler.map((k) => {
                   const enCok = Math.max(...banka.kategoriler.map((x) => x.kategori_adet), 1);
                   return (
-                    <div key={k.kategori} className="bd-calisma-cubuk">
-                      <span className="ad">{kategoriEtiket(k.kategori)}</span>
-                      <span className="iz">
-                        <span
-                          className="dolgu"
-                          style={{ width: `${(k.kategori_adet / enCok) * 100}%` }}
-                        />
-                      </span>
-                      <span className="adet">{k.kategori_adet}</span>
+                    <div key={k.kategori} className="m1-cal-cubuk">
+                      <span className="m1-cal-cubuk-ad">{kategoriEtiket(k.kategori)}</span>
+                      <QtIlerleme deger={k.kategori_adet} en={enCok} ton="vurgu" etiket={kategoriEtiket(k.kategori)} />
+                      <b className="qt-sayi">{k.kategori_adet}</b>
                     </div>
                   );
                 })}
               </div>
             )}
-          </div>
+          </QtKart>
         )}
 
-        <div className="bd-kat-baslik">
-          <span>{tt("Kategori")}</span>
-        </div>
-        <div className={`bd-kat-grid${seritDevam ? " bd-serit-solma" : ""}`} ref={seritRef} onScroll={seritOlc}>
-          <button
-            className={`bd-kat-kart ${kategori === null ? "aktif" : ""}`}
-            onClick={() => setKategori(null)}
-          >
-            <KategoriIkon anahtar="karisik" boyut={24} plaka />
-            <span className="bd-kat-ad">{tt("Tümü")}</span>
-          </button>
-          {kategorileriSirala(kategoriler).map((k) => (
-            <button
-              key={k.kategori}
-              className={`bd-kat-kart ${kategori === k.kategori ? "aktif" : ""}`}
-              onClick={() => setKategori(k.kategori)}
-            >
-              <KategoriIkon anahtar={k.kategori} boyut={24} plaka />
-              <span className="bd-kat-ad">{kategoriEtiket(k.kategori)}</span>
-            </button>
-          ))}
-        </div>
+        <section className="m1-cal-bolum" aria-labelledby="m1-cal-kat">
+          <h2 id="m1-cal-kat" className="qt-baslik-3">{tt("Kategori")}</h2>
+          <div className={`m1-cal-serit${seritDevam ? " m1-cal-serit--devam" : ""}`} ref={seritRef} onScroll={seritOlc}>
+            <QtCip secili={kategori === null} onClick={() => setKategori(null)}>
+              <span className="m1-cal-cip"><KategoriIkon anahtar="karisik" boyut={18} />{tt("Tümü")}</span>
+            </QtCip>
+            {kategorileriSirala(kategoriler).map((k) => (
+              <QtCip key={k.kategori} secili={kategori === k.kategori} onClick={() => setKategori(k.kategori)}>
+                <span className="m1-cal-cip"><KategoriIkon anahtar={k.kategori} boyut={18} />{kategoriEtiket(k.kategori)}</span>
+              </QtCip>
+            ))}
+          </div>
+        </section>
 
-        <div className="bd-kat-baslik">
-          <span>{tt("Soru sayısı")}</span>
-        </div>
-        {/* Paket 42 O: "Bankan kadar" yokken üç düğme 2 sütunda L yapıyordu → düğme sayısı tekse 3 sütun */}
-        <div className={`bd-calisma-adet${(SORU_SECENEKLERI.length + (bankaKat > 0 && !SORU_SECENEKLERI.includes(bankaKadar) ? 1 : 0)) % 2 ? " uc" : ""}`}>
-          {bankaKat > 0 && !SORU_SECENEKLERI.includes(bankaKadar) && (
-            <button
-              className={`bd-calisma-adet-btn ${soruSayisi === bankaKadar ? "aktif" : ""}`}
-              onClick={() => setSoruSayisi(bankaKadar)}
-              aria-label={tt("Bankan kadar: {n} soru", { n: bankaKadar })}
-            >
-              {bankaKat < 5 ? tt("En kısa tur") : tt("Bankan kadar")} · {bankaKadar}
-            </button>
-          )}
-          {SORU_SECENEKLERI.map((n) => (
-            <button
-              key={n}
-              className={`bd-calisma-adet-btn ${soruSayisi === n ? "aktif" : ""}`}
-              onClick={() => setSoruSayisi(n)}
-            >
-              {n}
-            </button>
-          ))}
-        </div>
+        <section className="m1-cal-bolum" aria-labelledby="m1-cal-adet">
+          <h2 id="m1-cal-adet" className="qt-baslik-3">{tt("Soru sayısı")}</h2>
+          <div className="m1-cal-adetler" role="group" aria-labelledby="m1-cal-adet">
+            {bankaSecenegi && (
+              <QtCip
+                secili={soruSayisi === bankaKadar}
+                onClick={() => setSoruSayisi(bankaKadar)}
+                aria-label={tt("Bankan kadar: {n} soru", { n: bankaKadar })}
+              >
+                {bankaKat < 5 ? tt("En kısa tur") : tt("Bankan kadar")} · {bankaKadar}
+              </QtCip>
+            )}
+            {SORU_SECENEKLERI.map((n) => (
+              <QtCip key={n} secili={soruSayisi === n} onClick={() => setSoruSayisi(n)}>{n}</QtCip>
+            ))}
+          </div>
+          <p className="m1-cal-not">
+            {bankaKat === 0
+              ? tt("Bankan temiz — bu bir pratik turu: {n} yeni soru.", { n: soruSayisi })
+              : tahminYeni > 0
+                ? tt("Bu tur: {b} soru bankandan + {y} yeni soru.", { b: tahminBanka, y: tahminYeni })
+                : tt("Bu tur: {b} sorunun hepsi bankandan.", { b: tahminBanka })}
+          </p>
+        </section>
 
-        <div className="bd-calisma-onizleme">
-          {bankaKat === 0
-            ? tt("Bankan temiz — bu bir pratik turu: {n} yeni soru.", { n: soruSayisi })
-            : tahminYeni > 0
-              ? tt("Bu tur: {b} soru bankandan + {y} yeni soru.", { b: tahminBanka, y: tahminYeni })
-              : tt("Bu tur: {b} sorunun hepsi bankandan.", { b: tahminBanka })}
-        </div>
-        {hata && <div className="hata-kutu">{hata}</div>}
-        <button className="bd-ana-eylem" onClick={basla} disabled={calisiyor}>
-          <Ikon ad="kitap" boyut={22} />
-          <span>{calisiyor ? tt("Hazırlanıyor…") : bankaKat === 0 ? tt("Pratik turuna başla") : tt("Çalışmaya başla")}</span>
-        </button>
+        {hataBandi}
+        <QtDugme tamGenislik boyut="b" ikon="kitap" yukleniyor={calisiyor} onClick={basla}>
+          {calisiyor ? tt("Hazırlanıyor…") : bankaKat === 0 ? tt("Pratik turuna başla") : tt("Çalışmaya başla")}
+        </QtDugme>
       </div>
     );
   }
@@ -395,129 +381,109 @@ export default function CalismaPage() {
       : [];
     const toplam = Number(soru?.toplam ?? oturum?.soru_sayisi ?? 0) || 0;
     const sirada = (soru?.soru_index ?? 0) + 1;
-    const oran = toplam > 0 ? (sirada / toplam) * 100 : 0;
 
     // Cevap sonrası kısa geri bildirim
     let geriBildirim = null;
-    if (sonucSoru) {
+    if (secim === -1 && !sonucSoru) {
+      geriBildirim = { ton: "yanlis", metin: tt("Süre doldu") };
+    } else if (sonucSoru) {
       if (sonucSoru.ogrenildi) {
-        geriBildirim = { tip: "ogrenildi", metin: tt("Öğrenildi! Bankadan çıktı") };
+        geriBildirim = { ton: "dogru", metin: tt("Öğrenildi! Bankadan çıktı") };
       } else if (sonucSoru.dogru && sonucSoru.bankadan) {
         geriBildirim = {
-          tip: "iyi",
+          ton: "dogru",
           metin: tt("{n}/2 doğru — bir kez daha bilirsen öğrenilmiş sayılacak", { n: sonucSoru.yeni_seri }),
         };
       } else if (sonucSoru.dogru) {
-        geriBildirim = { tip: "iyi", metin: tt("Doğru") };
+        geriBildirim = { ton: "dogru", metin: tt("Doğru") };
       } else if (sonucSoru.bankadan) {
         geriBildirim = {
-          tip: "uyari",
+          ton: "yanlis",
           metin: tt("Bunu daha önce {0} kez yanlış bilmiştin", { 0: Math.max(1, (sonucSoru.onceki_yanlis ?? 1) - 1) }),
         };
       } else {
-        geriBildirim = { tip: "uyari", metin: tt("Yanlış — Hatalarım'a eklendi") };
+        geriBildirim = { ton: "yanlis", metin: tt("Yanlış — Hatalarım'a eklendi") };
       }
     }
 
-    return (
-      <div className={`bd-calisma-oyun ${sarsil ? "bd-sarsil" : ""}`}>
-        <Konfeti aktif={kutlama} />
-        {/* Paket 41 B/E: öteki modlarla aynı üst şerit; X turu bitirip sonucu gösterir.
-            Rozet yok — "ÇALIŞMA · PUAN VERİLMEZ" bandı zaten bunu söylüyor. */}
-        <MacUstSerit onCik={oturum?.oturum_id ? () => bitir(oturum.oturum_id) : undefined} cikisEtiketi={tt("Turu bitir")} />
-        {/* Çalışma modunda puan verilmez — uçan rozet yok, yalnız seri bandı */}
-        <CevapEfekti dogru={Boolean(sonucSoru?.dogru)} puan={0} seri={seri} />
-        {secim === -1 && (
-          <div className="bd-sure-doldu-bant" role="status">
-            <Ikon ad="saat" boyut={15} /> {tt("Süre doldu")}
-          </div>
-        )}
+    const sikDurumu = (i) => {
+      if (sonucSoru) {
+        if (i === sonucSoru.dogru_cevap) return secim === i ? "dogru" : "dogrusu";
+        if (i === secim) return "yanlis";
+        return "solgun";
+      }
+      if (i === secim) return "secili";
+      if (secim !== null) return "kilitli";
+      return "normal";
+    };
 
-        {/* Bu modun puansız olduğu her an görünür */}
-        <div className="bd-calisma-serit">
-          <Ikon ad="kitap" boyut={14} />
-          <span>{tt("ÇALIŞMA · PUAN VERİLMEZ")}</span>
-        </div>
+    return (
+      <div className={`qt-sahne-mac m1-mac${kalan > 0 && kalan <= 5 && secim === null ? " qt-h-gerilim" : ""}`}>
+        {/* Paket 41 B/E: öteki modlarla aynı üst şerit; X turu bitirip sonucu gösterir. */}
+        <MacUstSerit
+          onCik={oturum?.oturum_id ? () => bitir(oturum.oturum_id) : undefined}
+          cikisEtiketi={tt("Turu bitir")}
+          rozet={tt("Çalışma · puan verilmez")}
+        />
 
         {/* Paket 20 V: dağılım sunucudan (calisma_baslat: bankadan / havuzdan) */}
         {/* Paket 40 I: alan eksikse cümle hiç çizilmez ("Bu turdaki undefined sorunun…" görünüyordu) */}
         {oturum && sayiMi(oturum.bankadan)
           && (oturum.bankadan !== 0 || sayiMi(oturum.soru_sayisi))
-          && (oturum.bankadan === 0 || !(oturum.havuzdan > 0) || sayiMi(oturum.havuzdan)) && (
-          <div className="bd-calisma-dagilim" role="status">
-            {oturum.bankadan === 0
-              ? tt("Bankan temiz — pratik turu: {n} yeni soru.", { n: oturum.soru_sayisi })
-              : oturum.havuzdan > 0
-                ? tt("Bankanda {b} soru var. Turu {h} yeni soruyla tamamladık.", { b: oturum.bankadan, h: oturum.havuzdan })
-                : tt("Bu turdaki {b} sorunun hepsi bankandan.", { b: oturum.bankadan })}
+          && (oturum.bankadan === 0 || !(oturum.havuzdan > 0) || sayiMi(oturum.havuzdan)) && sirada === 1 && !sonucSoru && (
+          <div className="m1-bant m1-bant--bilgi" role="status">
+            <span>
+              {oturum.bankadan === 0
+                ? tt("Bankan temiz — pratik turu: {n} yeni soru.", { n: oturum.soru_sayisi })
+                : oturum.havuzdan > 0
+                  ? tt("Bankanda {b} soru var. Turu {h} yeni soruyla tamamladık.", { b: oturum.bankadan, h: oturum.havuzdan })
+                  : tt("Bu turdaki {b} sorunun hepsi bankandan.", { b: oturum.bankadan })}
+            </span>
           </div>
         )}
 
-        <div className="bd-calisma-ilerleme">
-          <div className="iz">
-            <div className="dolgu" style={{ width: `${oran}%` }} />
-          </div>
-          {/* Paket 40 I: toplam bilinmiyorsa "1/0 · 0 soru kaldı" yazmasın */}
-          {toplam > 0 && (
-            <span className="bd-calisma-kalan">
-              {sirada}/{toplam} · {Math.max(0, toplam - sirada)} {tt("soru kaldı")}
-            </span>
-          )}
-        </div>
+        {/* Paket 40 I: toplam bilinmiyorsa "1/0 · 0 soru kaldı" yazmasın */}
+        {toplam > 0 && (
+          <QtIlerleme deger={sirada} en={toplam} ton="coin" etiket={tt("{n}/{t} · {k} soru kaldı", { n: sirada, t: toplam, k: Math.max(0, toplam - sirada) })} />
+        )}
 
         {soru && (
-          <>
-            <div className="bd-calisma-ust">
-              <span className="bd-calisma-kat">
-                <KategoriIkon anahtar={soru.kategori} boyut={16} />
-                {kategoriEtiket(soru.kategori)}
-              </span>
-              {soru.bankadan ? (
-                <span className="bd-calisma-rozet">
-                  {tt("bankandan")} · {soru.onceki_yanlis} {tt("kez yanlış")}
+          <div className={`m1-soru${sarsil ? " qt-h-salla" : ""}`}>
+            <Konfeti aktif={kutlama} />
+            {/* Çalışma modunda puan verilmez — uçan rozet yok, yalnız seri bandı */}
+            <CevapEfekti dogru={Boolean(sonucSoru?.dogru)} puan={0} seri={seri} />
+            <QtSoruKarti
+              key={soru.soru_index}
+              metin={soru.soru}
+              kategori={
+                <span className="m1-cal-cip">
+                  <KategoriIkon anahtar={soru.kategori} boyut={16} />
+                  {kategoriEtiket(soru.kategori)}
                 </span>
-              ) : (
-                <span className="bd-calisma-rozet yeni">{tt("yeni soru")}</span>
-              )}
-              <span className={`bd-calisma-sn ${kalan <= 3 ? "kritik" : ""}`}>
-                {Math.ceil(kalan)} {tt("sn")}
-              </span>
-            </div>
+              }
+              sira={soru.bankadan
+                ? tt("bankandan · {n} kez yanlış", { n: soru.onceki_yanlis })
+                : tt("yeni soru")}
+              sevinc={Boolean(sonucSoru?.dogru)}
+              sayac={<QtSayac kalan={kalan} toplam={SORU_SN} durdu={secim !== null} esik={3} />}
+            />
 
-            <div className="bd-soru-metin bd-soru-giris" key={soru.soru_index}>
-              {soru.soru}
-            </div>
+            <QtSikler etiket={tt("Şıklar")}>
+              {secenekler.map((s, i) => (
+                <QtSik
+                  key={`${soru.soru_index}-${i}`}
+                  harf={HARFLER[i]}
+                  metin={s}
+                  durum={sikDurumu(i)}
+                  onClick={() => cevapla(i)}
+                />
+              ))}
+            </QtSikler>
 
-            <div className="bd-secenekler">
-              {secenekler.map((s, i) => {
-                let sinif = "bd-secenek";
-                if (sonucSoru) {
-                  if (i === sonucSoru.dogru_cevap) sinif += " dogru";
-                  else if (i === secim) sinif += " yanlis";
-                  else sinif += " solgun";
-                } else if (i === secim) sinif += " secili";
-                return (
-                  <button
-                    key={i}
-                    className={sinif}
-                    disabled={secim !== null}
-                    onClick={() => cevapla(i)}
-                  >
-                    <span className="bd-harf">{HARFLER[i]}</span>
-                    <span className="bd-secenek-metin">{s}</span>
-                  </button>
-                );
-              })}
-            </div>
-
-            {geriBildirim && (
-              <div className={`bd-calisma-geri ${geriBildirim.tip}`}>
-                {geriBildirim.metin}
-              </div>
-            )}
-          </>
+            <QtSonucBandi ton={geriBildirim?.ton} metin={geriBildirim?.metin} anahtar={`${soru.soru_index}-${geriBildirim?.ton ?? ""}`} />
+          </div>
         )}
-        {hata && <div className="hata-kutu">{hata}</div>}
+        {hataBandi}
       </div>
     );
   }
@@ -525,47 +491,30 @@ export default function CalismaPage() {
   // ============ SONUÇ EKRANI ============
   const ogrenilen = sonuc?.ogrenilen ?? 0;
   return (
-    <div>
-      <div className="kart bd-calisma-sonuc">
-        <div className="bd-calisma-serit ic">
-          <Ikon ad="kitap" boyut={14} />
-          <span>{tt("ÇALIŞMA · PUAN VERİLMEZ")}</span>
+    <div className="m1-cal">
+      <QtKart className="m1-cal-sonuc">
+        <QtRozet ton="mor" ikon="kitap">{tt("Çalışma · puan verilmez")}</QtRozet>
+        {oturum?.bankadan === 0 && <p className="m1-cal-not">{tt("Pratik turu — bankan temizdi.")}</p>}
+        <div className="m1-cal-buyuk qt-sayi">{ogrenilen}</div>
+        <p className="m1-cal-not">{tt("soru öğrenildi")}</p>
+
+        <div className="m1-cal-sayilar m1-cal-sayilar--uc">
+          <div><b className="qt-sayi">{sonuc?.dogru ?? 0}</b><span>{tt("doğru")}</span></div>
+          <div><b className="qt-sayi">{sonuc?.yanlis ?? 0}</b><span>{tt("yanlış")}</span></div>
+          <div><b className="qt-sayi">{sonuc?.bankada_kalan ?? 0}</b><span>{tt("bankada")}</span></div>
         </div>
 
-        {oturum?.bankadan === 0 && <div className="bd-calisma-dagilim">{tt("Pratik turu — bankan temizdi.")}</div>}
-        <div className="bd-calisma-buyuk">{ogrenilen}</div>
-        <div className="alt-yazi">{tt("soru öğrenildi")}</div>
+        <p className="m1-cal-not">
+          {tt("Bugüne kadar toplam {n} soru öğrendin. Doğru cevapların kategori ustalığına işlendi.", { n: sonuc?.toplam_ogrenilen ?? 0 })}
+        </p>
 
-        <div className="bd-hizli-ozet" style={{ marginTop: 14 }}>
-          <div>
-            <b>{sonuc?.dogru ?? 0}</b>
-            <span>{tt("doğru")}</span>
-          </div>
-          <div>
-            <b>{sonuc?.yanlis ?? 0}</b>
-            <span>{tt("yanlış")}</span>
-          </div>
-          <div>
-            <b>{sonuc?.bankada_kalan ?? 0}</b>
-            <span>{tt("bankada")}</span>
-          </div>
+        <div className="m1-dugmeler">
+          <QtDugme tamGenislik ikon="yenile" onClick={() => setAsama("secim")}>{tt("Tekrar çalış")}</QtDugme>
+          <QtDugme tur="ikincil" tamGenislik onClick={() => navigate(y())}>{tt("Ana sayfa")}</QtDugme>
         </div>
-
-        <div className="bd-calisma-toplam">
-          {tt("Bugüne kadar toplam")} <b>{sonuc?.toplam_ogrenilen ?? 0}</b> {tt("soru öğrendin. Doğru cevapların kategori ustalığına işlendi.")}
-        </div>
-
-        <div className="bd-konum-butonlar" style={{ marginTop: 16 }}>
-          <button className="btn" onClick={() => setAsama("secim")}>
-            {tt("Tekrar çalış")}
-          </button>
-          <button className="btn ikincil" onClick={() => navigate(y())}>
-            {tt("Ana sayfa")}
-          </button>
-        </div>
-      </div>
+      </QtKart>
       <MacSorulari sorular={cevaplananlar} baslik={tt("Turun soruları ({n})", { n: cevaplananlar.length })} />
-      {hata && <div className="hata-kutu">{hata}</div>}
+      {hataBandi}
     </div>
   );
 }

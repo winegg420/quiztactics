@@ -1,0 +1,58 @@
+/* =====================================================================
+   Şerit M1 — Hatalarım (CalismaPage): seçim ve sonuç ekranı.
+   Tur sırasındaki soru ekranı m1-mac.css maç sahnesini kullanır.
+   ===================================================================== */
+
+.m1-cal { display: flex; flex-direction: column; gap: var(--qt-b-4); width: 100%; max-width: 640px; margin: 0 auto; }
+.m1-cal > * { min-width: 0; }
+.m1-cal-baslik { display: flex; flex-direction: column; gap: var(--qt-b-1); }
+.m1-cal-baslik p { margin: 0; font-weight: var(--qt-a-kalin); }
+.m1-cal-bolum { display: flex; flex-direction: column; gap: var(--qt-b-2); min-width: 0; }
+.m1-cal-bolum .qt-baslik-3 { color: var(--qt-zemin-metin); }
+
+.m1-cal-bos { display: flex; align-items: center; gap: var(--qt-b-3); color: var(--qt-metin); }
+.m1-cal-bos p { margin: 0; font-weight: var(--qt-a-kalin); }
+
+.m1-cal-ozet { display: flex; flex-direction: column; gap: var(--qt-b-4); color: var(--qt-metin); }
+.m1-cal-sayilar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--qt-b-2); }
+.m1-cal-sayilar--uc { grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; }
+.m1-cal-sayilar > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: var(--qt-b-2);
+  border-radius: var(--qt-r-m);
+  background: var(--qt-yuzey-2);
+}
+.m1-cal-sayilar b { font-family: var(--qt-f-baslik); font-weight: var(--qt-a-siyah); font-size: var(--qt-y-2xl); line-height: 1; color: var(--qt-metin); }
+.m1-cal-sayilar span { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); }
+.m1-cal-cubuklar { display: flex; flex-direction: column; gap: var(--qt-b-2); }
+.m1-cal-cubuk { display: grid; grid-template-columns: minmax(0, 7rem) minmax(0, 1fr) 2.5rem; align-items: center; gap: var(--qt-b-2); font-size: var(--qt-y-s); }
+.m1-cal-cubuk-ad { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: var(--qt-a-kalin); }
+.m1-cal-cubuk b { text-align: right; }
+
+/* Yatay kayan kategori şeridi; kaydırılacak içerik kaldıkça sağ kenar solar */
+.m1-cal-serit {
+  display: flex;
+  gap: var(--qt-b-2);
+  overflow-x: auto;
+  padding: 2px 2px var(--qt-b-2);
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.m1-cal-serit::-webkit-scrollbar { display: none; }
+.m1-cal-serit > * { flex: none; scroll-snap-align: start; }
+.m1-cal-serit--devam { -webkit-mask-image: linear-gradient(90deg, black 85%, transparent); mask-image: linear-gradient(90deg, black 85%, transparent); }
+.m1-cal-cip { display: inline-flex; align-items: center; gap: var(--qt-b-1); }
+.m1-cal-adetler { display: flex; flex-wrap: wrap; gap: var(--qt-b-2); }
+.m1-cal-not { margin: 0; font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); color: var(--qt-zemin-soluk); }
+
+.m1-cal-sonuc { display: flex; flex-direction: column; align-items: center; gap: var(--qt-b-3); text-align: center; color: var(--qt-metin); }
+.m1-cal-sonuc .m1-cal-not { color: var(--qt-metin-soluk); }
+.m1-cal-buyuk { font-family: var(--qt-f-baslik); font-weight: var(--qt-a-siyah); font-size: var(--qt-y-4xl); line-height: 1; color: var(--qt-dogru-koyu); animation: qt-h-pop-gir var(--qt-s-uzun) var(--qt-egri-yay) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .m1-cal-buyuk { animation: none; }
+}

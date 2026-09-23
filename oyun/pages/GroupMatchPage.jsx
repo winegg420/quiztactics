@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import Ikon from "../components/Ikon.jsx";
+import { QtBosDurum, QtCip, QtDugme, QtIkon, QtIkonDugme, QtListe, QtListeSatiri, QtModal, QtRozet } from "../tasarim/index.js";
+import "../tasarim/ekranlar/m1-mac.css";
+import "../tasarim/ekranlar/m1-sonuc.css";
 import MacUstSerit from "../components/MacUstSerit.jsx";
-import Modal from "../components/Modal.jsx";
 import { TEPKILER, tepkiIkonu } from "../lib/tepkiler.js";
 import SenRozeti from "../components/SenRozeti.jsx";
 import YanlisSatiri from "../components/YanlisSatiri.jsx";
@@ -35,7 +36,7 @@ const GRUP_SECIMI = `*,
 // Balonda gösterim: mesaj bir tepki emojisiyse ikonu, değilse metni çiz.
 function balonIcerik(mesaj) {
   const ad = tepkiIkonu(mesaj);
-  return ad ? <Ikon ad={ad} boyut={20} /> : mesaj;
+  return ad ? <QtIkon ad={ad} boyut={20} /> : mesaj;
 }
 const KALIPLAR = [
   tt("İyi şanslar!"),
@@ -352,17 +353,51 @@ export default function GroupMatchPage() {
   }, [ilerletmeyiDene]);
 
   const cevapVer = async (kabul) => {
-    const { error } = await supabase.rpc("respond_group_challenge", {
-      p_group_match_id: id,
-      p_kabul: kabul,
-    });
-    if (!error) macYukle();
+    try {
+      const { error } = await supabase.rpc("respond_group_challenge", {
+        p_group_match_id: id,
+        p_kabul: kabul,
+      });
+      if (error) throw error;
+      macYukle();
+    } catch (e) {
+      console.error("[Bildim] grup daveti yanıtlanamadı:", e);
+      setJokerHata(hataMesaji(e, tt("Davet yanıtlanamadı. Tekrar dene.")));
+    }
   };
 
   useOyunModu(Boolean(soru) && mac?.durum === "aktif");
 
+  // Tepki şeridi (maç içi ve maç sonu aynı): tepkiler + hazır cümleler.
+  const tepkiSeridi = (
+    <>
+      <div className="m1-tepki" role="group" aria-label={tt("Tepkiler")}>
+        {TEPKILER.map((t) => (
+          <QtIkonDugme key={t.deger} ikon={t.ad} etiket={t.etiket} onClick={() => mesajGonder(t.deger)} />
+        ))}
+        <QtIkonDugme
+          ikon="sohbet"
+          etiket={tt("Hazır cümleler")}
+          aria-expanded={kaliplarAcik}
+          tur={kaliplarAcik ? "mor" : "yuzey"}
+          onClick={() => setKaliplarAcik((a) => !a)}
+        />
+      </div>
+      {kaliplarAcik && (
+        <div className="m1-kaliplar">
+          {KALIPLAR.map((k) => (
+            <QtCip key={k} aria-pressed={undefined} onClick={() => mesajGonder(k)}>{k}</QtCip>
+          ))}
+        </div>
+      )}
+    </>
+  );
+
+  // Maç sonu sahnesi dışındaki bütün dallar mor maç sahnesinde çizilir.
+  const sahne = (icerik) => <div className="qt-sahne-mac m1-mac">{icerik}</div>;
+
   if (!mac) {
-    return (
+    return sahne(
       <MacYukleniyor
         hata={yuklemeHatasi}
         onTekrarDene={() => { setYuklemeHatasi(null); macYukle(); }}
@@ -377,13 +412,35 @@ export default function GroupMatchPage() {
     .filter((k) => k.davet_durumu === "kabul" && !k.terk_at)
     .sort((a, b) => b.skor - a.skor);
 
+  /** Oyuncu satırı listesi (bekleme, hazır kapısı, sonuç dökümü ortak). */
+  const oyuncuListesi = (liste, sag, siraNo = false) => (
+    <QtListe etiket={tt("Oyuncular")}>
+      {liste.map((k, i) => (
+        <QtListeSatiri
+          key={k.user_id}
+          vurgulu={k.user_id === user.id}
+          bas={
+            <span className="m1-grup-bas">
+              {siraNo && <span className="m1-grup-sira" aria-label={tt("{n}. sıra", { n: i + 1 })}>{i + 1}</span>}
+              <AvatarDugmesi userId={k.user_id} profil={k.profil} kendi={k.user_id === user.id}>
+                <AvatarCerceve profile={k.profil} boyut={36} userId={k.user_id} />
+              </AvatarDugmesi>
+            </span>
+          }
+          baslik={<>{k.profil?.gorunen_ad}{k.user_id === user.id && <SenRozeti />}</>}
+          sag={sag(k)}
+        />
+      ))}
+    </QtListe>
+  );
+
   if (mac.durum === "bekliyor") {
     const bekleyenler = katilimcilar.filter((k) => k.davet_durumu === "bekliyor");
-    return (
-      <div className="buyuk-mesaj">
-        <div className="emoji"><Ikon ad="saat" boyut={44} /></div>
-        <h2>{tt("Grup maçı bekleniyor")}</h2>
-        <p className="alt-yazi" style={{ marginBottom: 16 }}>
+    return sahne(
+      <div className="m1-mesaj">
+        <span className="m1-mesaj-ikon" aria-hidden="true"><QtIkon ad="saat" boyut={36} /></span>
+        <h1 className="qt-baslik-1">{tt("Grup maçı bekleniyor")}</h1>
+        <p>
           {/* Paket 42 G.1: oyuncu kendi adını üçüncü şahıs gibi okumasın ("Deneme, Ayşe…" → "Sen ve Ayşe…") */}
           {(() => {
             if (!bekleyenler.length) return tt("Herkes hazır olunca maç otomatik başlayacak.");
@@ -394,43 +451,23 @@ export default function GroupMatchPage() {
             return tt("{0} henüz kabul etmedi.", { 0: digerleri });
           })()}
         </p>
-        <div className="kart" style={{ maxWidth: 340, margin: "0 auto" }}>
-          {katilimcilar.map((k) => (
-            <div key={k.user_id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "6px 0" }}>
-              <AvatarCerceve profile={k.profil} boyut={34} userId={k.user_id} />
-              <span style={{ flex: 1, fontWeight: 600, textAlign: "left" }}>
-                {k.profil?.gorunen_ad}{k.user_id === user.id && <SenRozeti />}
-              </span>
-              <span
-                className="rutbe-chip"
-                style={{
-                  color:
-                    // Paket 40 J: --success/--danger yazı olarak 2,2:1 idi; paletin metin tonları
-                    k.davet_durumu === "kabul"
-                      ? "var(--bd-basari-metin, #177A45)"
-                      : k.davet_durumu === "red"
-                        ? "var(--bd-hata-metin, #B01F19)"
-                        : "var(--text-dim)",
-                }}
-              >
-                {k.davet_durumu === "kabul" ? tt("Hazır") : k.davet_durumu === "red" ? tt("Reddetti") : tt("Bekliyor…")}
-              </span>
-            </div>
+        <div className="m1-grup-liste">
+          {oyuncuListesi(katilimcilar, (k) => (
+            <QtRozet boyut="k" ton={k.davet_durumu === "kabul" ? "dogru" : k.davet_durumu === "red" ? "yanlis" : "notr"}>
+              {k.davet_durumu === "kabul" ? tt("Hazır") : k.davet_durumu === "red" ? tt("Reddetti") : tt("Bekliyor…")}
+            </QtRozet>
           ))}
         </div>
-        {benimKayit?.davet_durumu === "bekliyor" && (
-          <div style={{ display: "flex", flexDirection: "column", gap: 10, maxWidth: 340, margin: "20px auto 0" }}>
-            <button className="btn" onClick={() => cevapVer(true)}>
-              {tt("Kabul Et")}
-            </button>
-            <button className="btn tehlike" onClick={() => cevapVer(false)}>
-              {tt("Reddet")}
-            </button>
-          </div>
-        )}
-        <button className="btn ikincil" style={{ marginTop: 16, maxWidth: 340 }} onClick={() => navigate(y("/meydan"))}>
-          {tt("Geri dön")}
-        </button>
+        {jokerHata && <div className="m1-bant m1-bant--hata" role="alert"><span>{jokerHata}</span></div>}
+        <div className="m1-dugmeler">
+          {benimKayit?.davet_durumu === "bekliyor" && (
+            <>
+              <QtDugme tamGenislik ikon="onay" onClick={() => cevapVer(true)}>{tt("Kabul Et")}</QtDugme>
+              <QtDugme tur="tehlike" tamGenislik ikon="carpi" onClick={() => cevapVer(false)}>{tt("Reddet")}</QtDugme>
+            </>
+          )}
+          <QtDugme tur="hayalet" tamGenislik onClick={() => navigate(y("/meydan"))}>{tt("Geri dön")}</QtDugme>
+        </div>
       </div>
     );
   }
@@ -438,7 +475,7 @@ export default function GroupMatchPage() {
   // Hazır kapısı: herkes kabul etti ama maç, HERKES "Hazır"a basana kadar
   // başlamaz — kimse yarı yolda maçın içine düşmesin.
   if (mac.durum === "aktif" && !(mac.basladi ?? true)) {
-    return (
+    return sahne(
       <HazirKapisi
         macTur="grup"
         benHazir={Boolean(nabiz?.ben_hazir)}
@@ -450,24 +487,14 @@ export default function GroupMatchPage() {
         onHazir={hazirla}
         onCik={() => navigate(y("/meydan"))}
         tabela={
-          <div className="kart" style={{ maxWidth: 340, margin: "0 auto 16px" }}>
-            {siraliSkor.map((k) => (
-              <div key={k.user_id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "6px 0" }}>
-                <AvatarCerceve profile={k.profil} boyut={34} userId={k.user_id} />
-                <span style={{ flex: 1, fontWeight: 600, textAlign: "left" }}>
-                  {k.profil?.gorunen_ad}{k.user_id === user.id && <SenRozeti />}
-                </span>
-                {/* Paket 41 M.1: satır durumu da sayaç gibi YALNIZ nabızdan (tek kaynak). Tablodaki
-                    hazir sütunu botların hazır sayılmasını bilmiyordu; sayaç "0/4" derken liste "hazır" diyordu. */}
-                {/* Paket 42 D.4: "bekleniyor…"/"ekranda" iki ayrı dil yerine herkes için hazır / hazır değil */}
-                {(() => {
-                  const hazir = k.user_id === user.id
-                    ? Boolean(nabiz?.ben_hazir)
-                    : !(nabiz?.bekleyenler ?? []).includes(k.profil?.gorunen_ad);
-                  return <span className={"alt-yazi bd-hazir-etiket" + (hazir ? " hazir" : "")}>{hazir ? tt("hazır") : tt("hazır değil")}</span>;
-                })()}
-              </div>
-            ))}
+          <div className="m1-grup-liste">
+            {/* Paket 41 M.1 / 42 D.4: satır durumu da sayaç gibi YALNIZ nabızdan (tek kaynak). */}
+            {oyuncuListesi(siraliSkor, (k) => {
+              const hazir = k.user_id === user.id
+                ? Boolean(nabiz?.ben_hazir)
+                : !(nabiz?.bekleyenler ?? []).includes(k.profil?.gorunen_ad);
+              return <QtRozet boyut="k" ton={hazir ? "dogru" : "notr"}>{hazir ? tt("hazır") : tt("hazır değil")}</QtRozet>;
+            })}
           </div>
         }
       />
@@ -475,24 +502,24 @@ export default function GroupMatchPage() {
   }
 
   if (mac.durum === "iptal") {
-    return (
-      <div className="buyuk-mesaj">
-        <div className="emoji"><Ikon ad="carpi" boyut={40} /></div>
-        <h2>{tt("Grup maçı iptal edildi")}</h2>
-        <p className="alt-yazi">{tt("Davetlilerden biri reddetti.")}</p>
-        <button className="btn" style={{ marginTop: 16 }} onClick={() => navigate(y("/meydan"))}>
-          {tt("Geri dön")}
-        </button>
+    return sahne(
+      <div className="m1-mesaj">
+        <span className="m1-mesaj-ikon" aria-hidden="true"><QtIkon ad="carpi" boyut={36} /></span>
+        <h1 className="qt-baslik-1">{tt("Grup maçı iptal edildi")}</h1>
+        <p>{tt("Davetlilerden biri reddetti.")}</p>
+        <div className="m1-dugmeler">
+          <QtDugme tamGenislik onClick={() => navigate(y("/meydan"))}>{tt("Geri dön")}</QtDugme>
+        </div>
       </div>
     );
   }
 
   if (mac.durum === "bitti" && !gecisBitti) {
-    return (
+    return sahne(
       <SureDolduGecis
         baslik={tt("Maç bitti!")}
         skor={benimKayit?.skor ?? 0}
-        skorEtiket="puan"
+        skorEtiket={tt("puan")}
         kazandi={mac.kazanan === user.id}
         kaybetti={mac.kazanan !== null && mac.kazanan !== user.id}
         onBitti={() => setGecisBitti(true)}
@@ -511,24 +538,24 @@ export default function GroupMatchPage() {
       <MacSonuSahnesi
         durum={berabere ? "berabere" : kazandim ? "kazandi" : "kaybetti"}
         baslik={berabere ? tt("Berabere!") : kazandim ? tt("Kazandın!") : tt("Kaybettin")}
-        odulNotu={<div className="bd-odulsuz-not">{ceviri("Arkadaş maçı — ödül ve puan yok.")}</div>}
+        odulNotu={<QtRozet ton="notr" ikon="bilgi">{ceviri("Arkadaş maçı — ödül ve puan yok.")}</QtRozet>}
         karsilasma={
-          <div className="mss-podyum">
+          <div className="m1-podyum">
             {podyum.map(({ k, sira }) => (
-              <div key={k.user_id} className={`mss-podyum-yer s${sira}`}>
-                <div className="mss-avatar" style={{ "--boyut": `${sira === 1 ? 88 : 64}px` }}>
-                  {sira === 1 && <span className="mss-hale" aria-hidden="true" />}
-                  {sira === 1 && <span className="mss-tac" aria-hidden="true"><Ikon ad="kupa" boyut={18} /></span>}
+              <div key={k.user_id} className={`m1-podyum-yer m1-podyum-yer--${sira}`}>
+                <div className="m1-ss-avatar" style={{ "--boyut": `${sira === 1 ? 88 : 64}px` }}>
+                  {sira === 1 && <span className="m1-ss-hale" aria-hidden="true" />}
+                  {sira === 1 && <span className="m1-ss-tac" aria-hidden="true"><QtIkon ad="kupa" boyut={18} /></span>}
                   <AvatarDugmesi userId={k.user_id} profil={k.profil} kendi={k.user_id === user.id}>
                     <AvatarCerceve profile={k.profil} boyut={sira === 1 ? 88 : 64} userId={k.user_id} />
                   </AvatarDugmesi>
                 </div>
-                <div className="mss-isim">
-                  <span className="mss-isim-metin">{k.profil?.gorunen_ad}</span>
+                <div className="m1-ss-isim">
+                  <span className="m1-ss-isim-metin">{k.profil?.gorunen_ad}</span>
                   {k.user_id === user.id && <SenRozeti />}
                 </div>
-                <div className="mss-skor">{k.skor}</div>
-                <div className="mss-podyum-basamak" aria-label={tt("{n}. sıra", { n: sira })}>{sira}</div>
+                <div className="m1-ss-skor">{k.skor}</div>
+                <div className="m1-podyum-basamak" aria-label={tt("{n}. sıra", { n: sira })}>{sira}</div>
               </div>
             ))}
           </div>
@@ -537,21 +564,8 @@ export default function GroupMatchPage() {
         detayRozet={yanlisAdet}
         ozet={
           <>
-            <div className="kart">
-              {siraliSkor.map((k, i) => (
-                <div key={k.user_id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "6px 0" }}>
-                  <span className={`sira-no ${i < 1 ? "ilk3" : ""}`}>{i + 1}</span>
-                  <AvatarDugmesi userId={k.user_id} profil={k.profil} kendi={k.user_id === user.id}>
-                    <AvatarCerceve profile={k.profil} boyut={34} userId={k.user_id} />
-                  </AvatarDugmesi>
-                  <span style={{ flex: 1, fontWeight: 600, textAlign: "left" }}>
-                    {k.profil?.gorunen_ad}{k.user_id === user.id && <SenRozeti />}
-                  </span>
-                  <span style={{ fontWeight: 800 }}>{k.skor}</span>
-                </div>
-              ))}
-            </div>
-                {/* Paket 20 I.3: ödülsüz mod — döküm yalnız açılan rozet + günlük görev ilerlemesini gösterir */}
+            {oyuncuListesi(siraliSkor, (k) => <b className="qt-sayi">{k.skor}</b>, true)}
+            {/* Paket 20 I.3: ödülsüz mod — döküm yalnız açılan rozet + günlük görev ilerlemesini gösterir */}
             <OdulDokumu kaynak={`grup:${id}`} onGorevler={setGorevler} gorevleriGoster={false} />
             <MacSorulari kaynak={`grup:${id}`} />
             <YanlisSatiri macTur="grup" macId={id} onAdet={setYanlisAdet} />
@@ -559,39 +573,23 @@ export default function GroupMatchPage() {
         }
         eylemler={
           <>
-            <button className="btn mss-tam" onClick={() => navigate(y("/meydan"))}>{tt("Meydan okumalara dön")}</button>
-            <button className="btn ikincil" onClick={() => navigate(y())}>{tt("Ana sayfa")}</button>
+            <QtDugme className="mss-tam" onClick={() => navigate(y("/meydan"))}>{tt("Meydan okumalara dön")}</QtDugme>
+            <QtDugme tur="ikincil" onClick={() => navigate(y())}>{tt("Ana sayfa")}</QtDugme>
           </>
         }
       >
         {/* MAÇ BİTTİ AMA OTURUM KAPANMAZ — herkes isterse kalıp konuşur. */}
-        <div className="bd-oturum-notu">
+        <p className="m1-ss-not">
           {tt("Maç bitti ama oturum açık: istersen burada kalıp konuşmaya devam edebilirsin. Çıkmak sana kalmış.")}
-        </div>
-        <div className="sohbet-bar">
-          {TEPKILER.map((t) => (
-            <button key={t.deger} onClick={() => mesajGonder(t.deger)} aria-label={t.etiket} title={t.etiket}>
-              <Ikon ad={t.ad} boyut={18} />
-            </button>
-          ))}
-          <button className={kaliplarAcik ? "acik" : ""} onClick={() => setKaliplarAcik((k) => !k)}>
-            <Ikon ad="sohbet" boyut={18} />
-          </button>
-        </div>
-        {kaliplarAcik && (
-          <div className="kalip-liste">
-            {KALIPLAR.map((k) => (
-              <button key={k} onClick={() => mesajGonder(k)}>{k}</button>
-            ))}
-          </div>
-        )}
+        </p>
+        {tepkiSeridi}
       </MacSonuSahnesi>
     );
   }
 
   // Aktif maç
-  return (
-    <div>
+  return sahne(
+    <>
       {/* Bir oyuncu ekrandan ayrıldı: ekran kilitlenir, süre durur. */}
       {duraklatildi && (
         <KopukPerde bekleyenAdlar={nabiz?.bekleyenler ?? []} gecenSn={nabiz?.duraklama_sn ?? 0} />
@@ -602,61 +600,55 @@ export default function GroupMatchPage() {
       {/* Çıkış onayı. Sonuç sunucudan (grup_mac_nabiz): sayfadan çıkan oyuncunun nabzı
           12 sn kesilince maç herkes için duraklar; 45 sn içinde dönmezse terk_at yazılır,
           kazanan hesabına girmez ve maç kalanlarla sürer. Vazgeç'te hiçbir şey değişmez. */}
-      {cikisOnay && (
-        <Modal onKapat={() => setCikisOnay(false)} etiket={tt("Maçtan çık")}>
-          <div className="bd-modal">
-            <h2 className="bd-modal-baslik">{tt("Maçtan çıkmak istiyor musun?")}</h2>
-            <p className="alt-yazi">
-              {tt("Çıkarsan maç diğer oyuncular için duraklar. 45 saniye içinde dönmezsen maçtan ayrılmış sayılırsın: kazanan belirlenirken hesaba katılmazsın ve maç kalanlarla devam eder.")}
-            </p>
-            <div className="bd-joker-sat-dugmeler">
-              <button type="button" className="btn ikincil" autoFocus onClick={() => setCikisOnay(false)}>{tt("Vazgeç")}</button>
-              <button type="button" className="btn tehlike" onClick={() => { setCikisOnay(false); navigate(y("/meydan")); }}>
-                {tt("Maçtan çık")}
-              </button>
-            </div>
+      <QtModal
+        acik={cikisOnay}
+        onKapat={() => setCikisOnay(false)}
+        baslik={tt("Maçtan çıkmak istiyor musun?")}
+        aciklama={tt("Çıkarsan maç diğer oyuncular için duraklar. 45 saniye içinde dönmezsen maçtan ayrılmış sayılırsın: kazanan belirlenirken hesaba katılmazsın ve maç kalanlarla devam eder.")}
+        altlik={
+          <div className="m1-sat-dugmeler">
+            <QtDugme tur="ikincil" data-qt-ilk-odak onClick={() => setCikisOnay(false)}>{tt("Vazgeç")}</QtDugme>
+            <QtDugme tur="tehlike" onClick={() => { setCikisOnay(false); navigate(y("/meydan")); }}>
+              {tt("Maçtan çık")}
+            </QtDugme>
           </div>
-        </Modal>
-      )}
+        }
+      />
 
-      <div className="grup-skor-listesi">
-        <div className="alt-yazi" style={{ textAlign: "center", marginBottom: 8 }}>
-          {tt("Soru")} {mac.aktif_soru + 1}/{mac.soru_ids?.length ?? 20}
-        </div>
-        {siraliSkor.map((k) => (
-          <div
-            key={k.user_id}
-            className={`grup-skor-satir ${k.user_id === user.id ? "sen" : ""}`}
-          >
+      {/* Skor tablosu: kim önde, tek bakışta. Balonlar oyuncunun satırında. */}
+      <div className="m1-grup-skor" role="list" aria-label={tt("Skor tablosu")}>
+        {siraliSkor.map((k, i) => (
+          <div key={k.user_id} role="listitem" className={`m1-grup-satir${k.user_id === user.id ? " m1-grup-satir--sen" : ""}`}>
+            <span className="m1-grup-sira" aria-hidden="true">{i + 1}</span>
             <AvatarCerceve profile={k.profil} boyut={30} userId={k.user_id} />
-            <span className="isim">{k.profil?.gorunen_ad}{k.user_id === user.id && <SenRozeti />}</span>
+            <span className="m1-grup-ad">{k.profil?.gorunen_ad}{k.user_id === user.id && <SenRozeti />}</span>
             {balonlar[k.user_id] && (
-              <span className={`balon grup ${k.user_id === user.id ? "" : "rakip"}`}>
+              <span className={`m1-balon${k.user_id === user.id ? "" : " m1-balon--rakip"} m1-grup-balon`}>
                 {balonIcerik(balonlar[k.user_id])}
               </span>
             )}
-            <span className="skor">{k.skor}</span>
+            <b className="m1-grup-puan qt-sayi">{k.skor}</b>
           </div>
         ))}
       </div>
 
-      {jokerHata && <div className="hata-kutu">{jokerHata}</div>}
+      {jokerHata && <div className="m1-bant m1-bant--hata" role="alert"><span>{jokerHata}</span></div>}
 
       {/* Soru gelmedi: sessizce donmak yerine sebebini söyle ve yol ver.
           (Denemeler oyun/lib/soruCek.js'te; buraya düşmesi hepsinin
           tükendiği anlamına gelir.) */}
       {soruHatasi && !soru && (
-        <div className="kart bd-soru-hata" role="alert">
-          <Ikon ad="saat" boyut={24} />
-          <p>{tt("Soru gelmedi. Bağlantını kontrol edip tekrar dene.")}</p>
-          <button
-            type="button"
-            className="btn"
-            onClick={() => { setSoruHatasi(false); setSoruDeneme((n) => n + 1); }}
-          >
-            {tt("Tekrar dene")}
-          </button>
-        </div>
+        <QtBosDurum
+          ikon="uyari"
+          ton="yanlis"
+          baslik={tt("Soru gelmedi")}
+          metin={tt("Bağlantını kontrol edip tekrar dene.")}
+          eylem={
+            <QtDugme onClick={() => { setSoruHatasi(false); setSoruDeneme((n) => n + 1); }}>
+              {tt("Tekrar dene")}
+            </QtDugme>
+          }
+        />
       )}
 
       {soru && (
@@ -670,45 +662,18 @@ export default function GroupMatchPage() {
           macTur={"grup"}
           macId={id}
           kategori={mac.kategori}
+          toplamSoru={mac.soru_ids?.length ?? null}
         />
       )}
 
       {cevapladim && (
-        <div className="alt-yazi" style={{ textAlign: "center", marginTop: 14 }}>
+        <div className="m1-bekleme" role="status">
           {tt("Diğer oyuncuların cevaplaması bekleniyor…")}
         </div>
       )}
 
-      {/* Paket 42 G.2: tepki şeridi skor tablosu ile soru kartının arasına sıkışıp soruyu aşağı
-          itiyordu; soru kartının ALTINA taşındı (Klasik'te de şerit sorunun altında). */}
-      <div className="sohbet-bar">
-        {TEPKILER.map((t) => (
-          <button
-            key={t.deger}
-            onClick={() => mesajGonder(t.deger)}
-            aria-label={t.etiket}
-            title={t.etiket}
-          >
-            <Ikon ad={t.ad} boyut={18} />
-          </button>
-        ))}
-        <button
-          className={kaliplarAcik ? "acik" : ""}
-          onClick={() => setKaliplarAcik((a) => !a)}
-        >
-          <Ikon ad="sohbet" boyut={18} />
-        </button>
-      </div>
-      {kaliplarAcik && (
-        <div className="kalip-liste">
-          {KALIPLAR.map((k) => (
-            <button key={k} onClick={() => mesajGonder(k)}>
-              {k}
-            </button>
-          ))}
-        </div>
-      )}
-
-    </div>
+      {/* Paket 42 G.2: tepki şeridi soru kartının ALTINDA (Klasik ile aynı). */}
+      <div className="m1-alt">{tepkiSeridi}</div>
+    </>
   );
 }

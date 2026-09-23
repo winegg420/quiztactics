@@ -341,3 +341,22 @@
 /* Uzun eylem metni (ör. "Meydan okumalara dön") iki satıra insin, kırpılmasın */
 .m1-ss-eylem .qt-dugme { height: auto; min-height: 52px; }
 .m1-ss-eylem .qt-dugme-yazi { white-space: normal; overflow: visible; text-overflow: clip; line-height: 1.15; }
+
+/* ---------- Grup podyumu ---------- */
+.m1-podyum { display: flex; align-items: flex-end; justify-content: center; gap: var(--qt-b-2); }
+.m1-podyum-yer { display: flex; flex: 1 1 0; min-width: 0; flex-direction: column; align-items: center; gap: var(--qt-b-1); }
+.m1-podyum-basamak {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  border-radius: var(--qt-r-m) var(--qt-r-m) 0 0;
+  background: var(--qt-yuzey);
+  color: var(--qt-metin);
+  box-shadow: inset 0 -4px 0 var(--qt-cizgi);
+  font-family: var(--qt-f-baslik);
+  font-weight: var(--qt-a-siyah);
+  font-size: var(--qt-y-2xl);
+}
+.m1-podyum-yer--1 .m1-podyum-basamak { height: 76px; background: var(--qt-coin); color: var(--qt-coin-yazi); box-shadow: inset 0 -4px 0 var(--qt-coin-dudak); }
+.m1-podyum-yer--2 .m1-podyum-basamak { height: 54px; }
+.m1-podyum-yer--3 .m1-podyum-basamak { height: 40px; }

@@ -66,6 +66,16 @@ export default {
   "Son turnuvanın ilk üçü": "Last tournament's top three",
   "saat": "hours",
   "dakika": "minutes",
+  // Grup + Hatalarım (M1)
+  "Davet yanıtlanamadı. Tekrar dene.": "Couldn't answer the invite. Try again.",
+  "{n}. sıra": "Place {n}",
+  "Skor tablosu": "Scoreboard",
+  "soru bankanda": "questions in your bank",
+  "öğrenildi": "learned",
+  "Çalışma · puan verilmez": "Practice · no points",
+  "{n}/{t} · {k} soru kaldı": "{n}/{t} · {k} questions left",
+  "bankandan · {n} kez yanlış": "from your bank · missed {n}×",
+  "Bugüne kadar toplam {n} soru öğrendin. Doğru cevapların kategori ustalığına işlendi.": "You've learned {n} questions so far. Your correct answers count toward category mastery.",
   // --- Düello (M2) ---
   "Sırayla kategori seçin, aynı soruyu aynı anda cevaplayın. Yalnız biri bilirse öteki can kaybeder.": "Take turns picking the category and answer the same question at the same time. If only one of you gets it right, the other loses a life.",
   "Klasik ile aynı lig puanı ve coin ödülü": "Same league points and coin rewards as Classic",

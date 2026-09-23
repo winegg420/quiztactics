@@ -295,3 +295,41 @@
 }
 .m1-sat-not { margin: 0; color: var(--qt-metin-soluk); font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); }
 .m1-sat-dugmeler { display: grid; grid-template-columns: 1fr 1fr; gap: var(--qt-b-2); width: 100%; }
+
+/* ---------- Grup maçı ---------- */
+.m1-grup-liste { width: 100%; text-align: left; }
+.m1-grup-bas { display: inline-flex; align-items: center; gap: var(--qt-b-2); }
+.m1-grup-sira {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--qt-yuzey-3);
+  color: var(--qt-metin);
+  font-size: var(--qt-y-xs);
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+.m1-grup-skor { display: flex; flex-direction: column; gap: var(--qt-b-1); }
+.m1-grup-satir {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--qt-b-2);
+  min-height: 44px;
+  padding: var(--qt-b-1) var(--qt-b-3);
+  border-radius: var(--qt-r-m);
+  background: var(--qt-yuzey);
+  color: var(--qt-metin);
+  box-shadow: 0 var(--qt-dudak-s) 0 var(--qt-cizgi);
+}
+.m1-grup-satir--sen { box-shadow: 0 var(--qt-dudak-s) 0 var(--qt-vurgu-dudak), inset 0 0 0 2px var(--qt-vurgu); }
+.m1-grup-satir:first-child .m1-grup-sira { background: var(--qt-coin); color: var(--qt-coin-yazi); }
+.m1-grup-ad { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: var(--qt-a-siyah); }
+.m1-grup-puan { font-family: var(--qt-f-baslik); font-size: var(--qt-y-l); }
+.m1-grup-balon { position: absolute; right: 56px; top: 50%; translate: 0 -50%; max-width: 50%; z-index: 1; }
+
+/* Oyun modunda (alt menü gizli) sahne ekranın altına kadar iner */
+body.bd-oyun-modu .m1-mac { min-height: 100dvh; }

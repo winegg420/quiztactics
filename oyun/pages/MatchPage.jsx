@@ -780,7 +780,7 @@ export default function MatchPage() {
         <SureDolduGecis
           baslik={tt("Maç bitti!")}
           skor={mac.oyuncu1 === user.id ? mac.oyuncu1_skor : mac.oyuncu2_skor}
-          skorEtiket="puan"
+          skorEtiket={tt("puan")}
           kazandi={mac.kazanan === user.id}
           kaybetti={mac.kazanan !== null && mac.kazanan !== user.id}
           onBitti={() => setGecisBitti(true)}
