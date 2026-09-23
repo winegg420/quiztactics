@@ -80,6 +80,7 @@ const QLogoLabPage = lazy(() => import("../oyun/pages/QLogoLabPage.jsx"));
 const TasarimYonleriPage = lazy(() => import("../oyun/tasarim-yonleri/TasarimYonleriPage.jsx"));   // Tasarım Adım 1 — yalnız adresle
 const TasarimSistemiPage = lazy(() => import("../oyun/tasarim/TasarimSistemiPage.jsx"));   // Tasarım Adım 2 — yalnız adresle
 const KozmetikOnizlemePage = lazy(() => import("../oyun/tasarim/cerceveler/KozmetikOnizlemePage.jsx"));   // çerçeve + rozet önizleme — yalnız adresle
+const SesSecimPage = lazy(() => import("../oyun/tasarim/ses-secim/SesSecimPage.jsx"));   // ses seçimi — yalnız sahip, yalnız adresle (girişli)
 
 // Eski hub adresleri (/oyun/...) bu sitede köke indirilir. Bookmark, push
 // bildirimi deep-link'i ve paylaşılmış davet linkleri kırılmasın diye.
@@ -168,6 +169,7 @@ export default function BildimApp() {
         <Route path="/tasarim-yonleri" element={<TasarimYonleriPage />} />
         <Route path="/tasarim-sistemi" element={<TasarimSistemiPage />} />
         <Route path="/kozmetik-onizleme" element={<KozmetikOnizlemePage />} />
+        <Route path="/ses-secim" element={<SesSecimPage />} />
 
         <Route path="/" element={<Layout />}>
           <Route index element={<AnaSayfa />} />

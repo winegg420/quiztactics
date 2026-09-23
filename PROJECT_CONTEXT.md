@@ -325,6 +325,10 @@ karakter, Hızlı Mod hariç — dondurulmuş) bu sistemle yeniden yazıldı.
 - `oyun/lib/ses.js`: dosyadan çalar, yüklenemezse osilatör yedeği; ses aç/kapa ayarı
   (varsayılan açık). Soru geldi, tur geçişi, Düello kategori geri sayımı (son 3 sn vurgulu),
   skill başına ses, coin/level/kazandın/kaybettin/turnuva. Kullanım tarifi `public/ses/OKU.md`.
+- Ses seçim sayfası **`/ses-secim`** (menüde yok, yalnız sahip — `sahip_mi()`, `oyun_ayarlari.sahip_kullanicilar`;
+  seçimler `ses_secimleri`, migration 380): 27 efekt anı + 3 müzik anı, Kenney + Pixabay adayları
+  `public/ses/adaylar/` (kaynaklar `KAYNAKLAR.md`). Oyuna HENÜZ bağlı değil; Ida seçince ayrı adımda
+  `ses.js`'e bağlanır (Pixabay/müzik kullanımı o zaman kesinleşir).
 
 ### Profil avatarları
 

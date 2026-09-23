@@ -16,7 +16,7 @@ const OMUR_MS = 15 * 60 * 1000;
 // Bilinmeyen adres hedef olarak saklanmaz; giriş sonrası ana sayfaya inilir.
 const BILINEN = new Set(["", "giris", "turnuva", "meydan", "mac", "grup-mac", "hizli-mac", "siralama", "arkadaslar",
   "mesajlar", "davet", "joker", "hizli-mod", "duello", "calisma", "harita", "harita-deneme", "gorunum",
-  "gorunum-3b", "profil", "gizlilik", "kosullar", "insan-prototip", "oyun", "bildim"]);
+  "gorunum-3b", "profil", "gizlilik", "kosullar", "insan-prototip", "oyun", "bildim", "ses-secim"]);
 export function bilinenYol(yol) {
   if (typeof yol !== "string") return false;
   return BILINEN.has(yol.split("?")[0].split("/")[1] ?? "");
