@@ -62,8 +62,8 @@
     },
     "cografya": 0
   },
-  "siradaki_parti": 3,
-  "siradaki_migration_no": 293,
+  "siradaki_parti": 4,
+  "siradaki_migration_no": 294,
   "partiler": [
     {
       "no": 1,
@@ -200,37 +200,105 @@
         "2": 64,
         "3": 58
       }
+    },
+    {
+      "no": 3,
+      "soru": 250,
+      "migration": "20260612000293_soru_uretim_parti_03",
+      "commit": null,
+      "tarih": "2026-09-23",
+      "kategori_kova": {
+        "sinema": 33,
+        "teknoloji": 32,
+        "muzik": 30,
+        "sanat": 30,
+        "spor": 28,
+        "edebiyat": 25,
+        "bilim": 25,
+        "tarih": 22,
+        "yerel_tr": 15,
+        "genel_kultur": 10
+      },
+      "kategori_db": {
+        "sinema": 35,
+        "teknoloji": 32,
+        "muzik": 30,
+        "sanat": 35,
+        "spor": 30,
+        "edebiyat": 28,
+        "bilim": 27,
+        "tarih": 23,
+        "genel_kultur": 10
+      },
+      "zorluk": {
+        "3": 75,
+        "4": 87,
+        "5": 50,
+        "1-2": 38
+      },
+      "zorluk_1_5": [
+        12,
+        26,
+        75,
+        87,
+        50
+      ],
+      "jev": {
+        "cagri": 672,
+        "girdi_jeton": 540778,
+        "maliyet_usd": 0.0227
+      },
+      "taslak": 328,
+      "elenen": {
+        "kalite_sonrasi": 2,
+        "kota_fazlasi": 78,
+        "taslakta_havuz_tekrari": 30,
+        "not": "Jev >0,9 itirazı: 1 (YouTube 'Me at the zoo' — doğru San Diego; Jev San Francisco dedi, San Francisco çeldiricisi Chicago ile değiştirilip yeniden soruldu). Kalite sonrası elenen 2: Elgin Mermerleri ve Stuxnet (Jev hassas >0,65, tartışmalı/siyasi). Düzeltilip yeniden sorulan 9: James Brown (Ray Charles çeldiricisi), Live Aid (Los Angeles diğer-doğru şüphesi), Frida Mavi Ev (Yeşil), Triton/Pony Express/CSS flex EN metni cevabı sezdiriyordu, Hoca Ali Rıza EN parantezi, Neyzen Tevfik EN anlamsız → çevrilmedi ve edebiyata alındı. Jev öncesi elle: 30 taslak havuzla birebir/anlamca tekrar (denetle + aynı-cevap taraması), 1 sızıntılı soru (Axel Paulsen) ve 1 şık-denge sorunlu soru (Kolomb gemileri) değiştirildi/çıkarıldı. Jev'in <0,9 güvenle farklı dediği doğru sorular (Bay Jingles, Gizli Yüz senaryosu Orhan Pamuk, James Brown, Tezer Özlü vb.) kontrol edilip tutuldu."
+      },
+      "duzeltilen_yeniden_sorulan": 10,
+      "zorluk_etiket_duzeltme": 6,
+      "cevrilmeyen": 4,
+      "havuz_aktif": {
+        "once": 10790,
+        "sonra": 11040
+      },
+      "dogru_cevap_dagilimi": {
+        "0": 71,
+        "1": 55,
+        "2": 65,
+        "3": 59
+      }
     }
   ],
   "atlanan_partiler": [],
   "sayac": {
-    "soru": 500,
+    "soru": 750,
     "kategori": {
-      "sinema": 65,
-      "teknoloji": 65,
-      "muzik": 60,
-      "sanat": 60,
-      "spor": 55,
-      "edebiyat": 50,
-      "bilim": 50,
-      "tarih": 45,
-      "yerel_tr": 30,
-      "genel_kultur": 20
+      "sinema": 98,
+      "teknoloji": 97,
+      "muzik": 90,
+      "sanat": 90,
+      "spor": 83,
+      "edebiyat": 75,
+      "bilim": 75,
+      "tarih": 67,
+      "yerel_tr": 45,
+      "genel_kultur": 30
     },
     "zorluk": {
-      "3": 150,
-      "4": 175,
-      "5": 100,
-      "1-2": 75
+      "3": 225,
+      "4": 262,
+      "5": 150,
+      "1-2": 113
     }
   },
   "jev": {
-    "cagri": 1304,
-    "girdi_jeton": 1043185,
-    "maliyet_usd": 0.0438
+    "cagri": 1976,
+    "girdi_jeton": 1583963,
+    "maliyet_usd": 0.0665
   },
-  "elenen": 3,
-  "zorluk_etiket_duzeltme": 30,
-  "cevrilmeyen": 1,
+  "elenen": 5,
+  "zorluk_etiket_duzeltme": 36,
+  "cevrilmeyen": 5,
   "ardisik_uygulama_hatasi": 0
 }

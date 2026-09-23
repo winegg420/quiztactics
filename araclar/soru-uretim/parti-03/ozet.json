@@ -1,0 +1,116 @@
+{
+  "parti": 3,
+  "tarih": "2026-09-23",
+  "taslak": 328,
+  "net": 250,
+  "kota": {
+    "sinema": 33,
+    "teknoloji": 32,
+    "muzik": 30,
+    "sanat": 30,
+    "spor": 28,
+    "edebiyat": 25,
+    "bilim": 25,
+    "tarih": 22,
+    "yerel": 15,
+    "genel_kultur": 10
+  },
+  "zorluk_hedef": {
+    "3": 75,
+    "4": 87,
+    "5": 50,
+    "1-2": 38
+  },
+  "eksik": {},
+  "elenen_sebep": {
+    "kota_fazlasi": 78
+  },
+  "kova": {
+    "sinema": 33,
+    "teknoloji": 32,
+    "muzik": 30,
+    "sanat": 30,
+    "spor": 28,
+    "edebiyat": 25,
+    "bilim": 25,
+    "tarih": 22,
+    "yerel_tr": 15,
+    "genel_kultur": 10
+  },
+  "kategori": {
+    "sinema": 35,
+    "teknoloji": 32,
+    "muzik": 30,
+    "sanat": 35,
+    "spor": 30,
+    "edebiyat": 28,
+    "bilim": 27,
+    "tarih": 23,
+    "genel_kultur": 10
+  },
+  "zorluk": [
+    12,
+    26,
+    75,
+    87,
+    50
+  ],
+  "zorluk_kova": {
+    "3": 75,
+    "4": 87,
+    "5": 50,
+    "1-2": 38
+  },
+  "cevrilmeyen": 4,
+  "jev": {
+    "cagri": 672,
+    "girdi_jetonu": 540778,
+    "usd": 0.0227,
+    "not": "jev.jsonl içindeki tüm denemeler dahil (düzeltilip yeniden sorulanlar da)"
+  },
+  "zorluk_etiket_duzeltme": [
+    {
+      "s": "Linux'ta bir komutu yönetici (root) yetkisiyle çalıştırmak için başına eklenen komut hangisidir?",
+      "d": "sudo",
+      "eski": 3,
+      "yeni": 4,
+      "neden": "yazar 3, Jev seviye 5 (puan 3.76)"
+    },
+    {
+      "s": "TypeScript programlama dilini geliştiren şirket hangisidir?",
+      "d": "Microsoft",
+      "eski": 3,
+      "yeni": 4,
+      "neden": "yazar 3, Jev seviye 5 (puan 3.76)"
+    },
+    {
+      "s": "1961'de yayımlanan 'Tuhaf Bir Kadın' romanının yazarı kimdir?",
+      "d": "Leyla Erbil",
+      "eski": 4,
+      "yeni": 5,
+      "neden": "yazar 4, Jev yanlış şık (Nezihe Meriç, 0.38) ve seviye 5"
+    },
+    {
+      "s": "'Çocukluğun Soğuk Geceleri' kitabının yazarı kimdir?",
+      "d": "Tezer Özlü",
+      "eski": 4,
+      "yeni": 5,
+      "neden": "yazar 4, Jev yanlış şık (Adalet Ağaoğlu, 0.05) ve seviye 5"
+    },
+    {
+      "s": "İstanbul manzaralarıyla tanınan ve askerî okullarda resim öğretmenliği yaptığı için 'Hoca' lakabıyla anılan ressam kimdir?",
+      "d": "Ali Rıza",
+      "eski": 4,
+      "yeni": 5,
+      "neden": "yazar 4, Jev yanlış şık (Halil Paşa, 0.34) ve seviye 5"
+    },
+    {
+      "s": "2002 Avrupa Atletizm Şampiyonası'nda 1500 metrede altın madalya kazanan Türk atlet kimdir?",
+      "d": "Süreyya Ayhan",
+      "eski": 4,
+      "yeni": 5,
+      "neden": "yazar 4, Jev yanlış şık (Yasemin Can, 0.24) ve seviye 5"
+    }
+  ],
+  "elenenler": []
+}
