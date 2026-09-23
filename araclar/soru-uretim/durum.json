@@ -436,5 +436,16 @@
   "elenen": 7,
   "zorluk_etiket_duzeltme": 60,
   "cevrilmeyen": 13,
-  "ardisik_uygulama_hatasi": 0
+  "ardisik_uygulama_hatasi": 0,
+  "yarida_birakilan": {
+    "parti": 6,
+    "tarih": "2026-09-23",
+    "adim": "1 (üret) — taslak yazımı sürerken durduruldu; kalite kapısı, Jev, çeviri kontrolü, migration ve veritabanı adımlarına geçilmedi, veritabanına hiçbir şey yazılmadı",
+    "not": "parti 6 yarıda bırakıldı, yeniden üretilecek. 203 taslak yazıldı (sinema 44, teknoloji 45, müzik 38, sanat 34, spor 42; EN çevirileri taslakta var, denetle/Jev çalıştırılmadı); edebiyat, bilim, tarih, yerel_tr, genel_kultur taslakları yazılmadı. Fikirler yazılmadan önce güncel havuzda (14.704 satır, aktif 11.540) anahtar kelimeyle arandı. Ara dosyalar (git dışı): C:/Users/ida/AppData/Local/Temp/claude/C--Users-ida-Desktop-quiztactics/90302423-b2e2-4aaf-94b4-cdf3e20c755f/scratchpad/P3/p06/ (taslak/*.json, havuz.json, yardımcı betikler). Repo içinde parti-06/ ya da migration 296 dosyası oluşturulmadı."
+  },
+  "uretim_durduruldu": {
+    "tarih": "2026-09-23",
+    "neden": "Ida kararı: şimdilik yeni soruya token yok",
+    "siradaki_parti": 6
+  }
 }
