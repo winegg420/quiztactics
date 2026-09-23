@@ -1,0 +1,71 @@
+/* /mac-sonu-onizleme — önizleme kabuğu (sahte üst çubuk + hâl seçici).
+   Sahnenin kendisi mac-sonu-kutlama.css'te. Bu kabukta transform/filter YOK
+   (sahnedeki sabit eylem çubuğu ve konfeti katmanı iOS'ta kaymasın). */
+
+.mso {
+  min-height: 100dvh;
+  background: var(--qt-zemin);
+  color: var(--qt-zemin-metin);
+  font-family: var(--qt-f-govde);
+}
+.mso-ust {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--qt-b-3);
+  min-height: 60px;
+  padding: var(--qt-b-2) var(--qt-kenar);
+  background: var(--qt-yuzey);
+  box-shadow: 0 1px 0 var(--qt-cizgi);
+}
+.mso-coin { display: inline-flex; }
+.mso-arac {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--qt-b-2);
+  padding: var(--qt-b-2) var(--qt-kenar);
+  background: var(--qt-yuzey-2);
+  box-shadow: 0 1px 0 var(--qt-cizgi);
+}
+.mso-secim { flex: 1 1 200px; min-width: 0; }
+.mso-secim select {
+  width: 100%;
+  min-height: var(--qt-dokunma);
+  padding: 0 var(--qt-b-3);
+  border: 2px solid var(--qt-cizgi-guclu);
+  border-radius: var(--qt-r-m);
+  background: var(--qt-yuzey);
+  color: var(--qt-metin);
+  font: inherit;
+  font-weight: var(--qt-a-kalin);
+  font-size: var(--qt-y-m);   /* 16 px: iOS odakta yakınlaştırmasın */
+}
+.mso-secim select:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 2px; }
+.mso-dil { display: inline-flex; gap: var(--qt-b-1); }
+.mso-dil-dugme {
+  min-width: var(--qt-dokunma);
+  min-height: var(--qt-dokunma);
+  border: 2px solid var(--qt-cizgi-guclu);
+  border-radius: var(--qt-r-m);
+  background: var(--qt-yuzey);
+  color: var(--qt-metin);
+  font: inherit;
+  font-weight: var(--qt-a-siyah);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.mso-dil-dugme[aria-pressed="true"] { border-color: var(--qt-ikinci); background: var(--qt-ikinci); color: var(--qt-ikinci-yazi); }
+.mso-dil-dugme:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 2px; }
+.mso-kutu {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--qt-b-2);
+  min-height: var(--qt-dokunma);
+  font-size: var(--qt-y-s);
+  font-weight: var(--qt-a-kalin);
+  cursor: pointer;
+}
+.mso-kutu input { width: 22px; height: 22px; margin: 0; accent-color: var(--qt-ikinci); }
+.mso-not { flex-basis: 100%; margin: 0; min-height: 1.2em; color: var(--qt-zemin-soluk); font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); }
+.mso-not:empty { display: none; }
