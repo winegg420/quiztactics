@@ -1,0 +1,2060 @@
+[
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Microsoft'un adını Halo oyunundaki bir yapay zekâ karakterinden alan sesli asistanı hangisidir?",
+  "d": "Cortana",
+  "y": [
+   "Alexa",
+   "Siri",
+   "Bixby"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which Microsoft voice assistant is named after an AI character from the game Halo?",
+   "d": "Cortana",
+   "y": [
+    "Alexa",
+    "Siri",
+    "Bixby"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Wi-Fi teknolojisinin temel patentlerinden birini alan devlet araştırma kurumu CSIRO hangi ülkenindir?",
+  "d": "Avustralya",
+  "y": [
+   "Kanada",
+   "İsveç",
+   "Finlandiya"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "CSIRO, the government research agency that holds a key Wi-Fi patent, belongs to which country?",
+   "d": "Australia",
+   "y": [
+    "Canada",
+    "Sweden",
+    "Finland"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "'Final Fantasy' oyun serisinin yaratıcısı kimdir?",
+  "d": "Hironobu Sakaguchi",
+  "y": [
+   "Hideo Kojima",
+   "Shigeru Miyamoto",
+   "Koji Igarashi"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Who created the 'Final Fantasy' video game series?",
+   "d": "Hironobu Sakaguchi",
+   "y": [
+    "Hideo Kojima",
+    "Shigeru Miyamoto",
+    "Koji Igarashi"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Çalan şarkıyı tanıyan Shazam uygulamasını 2018'de satın alan şirket hangisidir?",
+  "d": "Apple",
+  "y": [
+   "Google",
+   "Spotify",
+   "Microsoft"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which company bought the song-recognition app Shazam in 2018?",
+   "d": "Apple",
+   "y": [
+    "Google",
+    "Spotify",
+    "Microsoft"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "'Civilization' strateji oyunu serisinin yaratıcısı kimdir?",
+  "d": "Sid Meier",
+  "y": [
+   "Will Wright",
+   "Peter Molyneux",
+   "Richard Garriott"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Who created the 'Civilization' strategy game series?",
+   "d": "Sid Meier",
+   "y": [
+    "Will Wright",
+    "Peter Molyneux",
+    "Richard Garriott"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Mortal Kombat serisini John Tobias ile birlikte yaratan programcı kimdir?",
+  "d": "Ed Boon",
+  "y": [
+   "John Romero",
+   "Tim Schafer",
+   "Sid Meier"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which programmer created the Mortal Kombat series together with John Tobias?",
+   "d": "Ed Boon",
+   "y": [
+    "John Romero",
+    "Tim Schafer",
+    "Sid Meier"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Sonic the Hedgehog'un yaratıcılarından olan Sega programcısı kimdir?",
+  "d": "Yuji Naka",
+  "y": [
+   "Satoshi Tajiri",
+   "Hideo Kojima",
+   "Shigeru Miyamoto"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which Sega programmer was one of the creators of Sonic the Hedgehog?",
+   "d": "Yuji Naka",
+   "y": [
+    "Satoshi Tajiri",
+    "Hideo Kojima",
+    "Shigeru Miyamoto"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "1987'de GIF görüntü biçimini geliştiren çevrim içi hizmet şirketi hangisidir?",
+  "d": "CompuServe",
+  "y": [
+   "Prodigy",
+   "America Online",
+   "Netscape"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which online service company developed the GIF image format in 1987?",
+   "d": "CompuServe",
+   "y": [
+    "Prodigy",
+    "America Online",
+    "Netscape"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "USB standardının geliştirilmesine öncülük eden Intel mühendisi kimdir?",
+  "d": "Ajay Bhatt",
+  "y": [
+   "Federico Faggin",
+   "Ted Hoff",
+   "Andy Grove"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which Intel engineer led the development of the USB standard?",
+   "d": "Ajay Bhatt",
+   "y": [
+    "Federico Faggin",
+    "Ted Hoff",
+    "Andy Grove"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "1978 yapımı Space Invaders oyununu piyasaya süren Japon şirketi hangisidir?",
+  "d": "Taito",
+  "y": [
+   "Namco",
+   "Konami",
+   "Capcom"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which Japanese company released the 1978 game Space Invaders?",
+   "d": "Taito",
+   "y": [
+    "Namco",
+    "Konami",
+    "Capcom"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "1958'de bir osiloskop ekranında oynanan 'Tennis for Two' oyununu tasarlayan fizikçi kimdir?",
+  "d": "William Higinbotham",
+  "y": [
+   "Ralph Henry Baer",
+   "Steve Russell",
+   "Nolan Bushnell"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which physicist designed 'Tennis for Two', a game played on an oscilloscope screen in 1958?",
+   "d": "William Higinbotham",
+   "y": [
+    "Ralph Henry Baer",
+    "Steve Russell",
+    "Nolan Bushnell"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Hotmail'i 1996'da Jack Smith ile birlikte kuran girişimci kimdir?",
+  "d": "Sabeer Bhatia",
+  "y": [
+   "Vinod Khosla",
+   "Sundar Pichai",
+   "Satya Nadella"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which entrepreneur co-founded Hotmail with Jack Smith in 1996?",
+   "d": "Sabeer Bhatia",
+   "y": [
+    "Vinod Khosla",
+    "Sundar Pichai",
+    "Satya Nadella"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Motorola'nın 1983'te satışa çıkardığı ilk ticari el tipi cep telefonunun model adı nedir?",
+  "d": "DynaTAC 8000X",
+  "y": [
+   "StarTAC 3000",
+   "MicroTAC 9800X",
+   "RAZR V3"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "What was the model name of Motorola's first commercial handheld mobile phone, released in 1983?",
+   "d": "DynaTAC 8000X",
+   "y": [
+    "StarTAC 3000",
+    "MicroTAC 9800X",
+    "RAZR V3"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Microsoft Office'e 1997'de eklenen ataç biçimli yardımcı karakterin adı nedir?",
+  "d": "Clippy",
+  "y": [
+   "Cortana",
+   "Rover",
+   "Bob"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "What was the name of the paper-clip-shaped assistant added to Microsoft Office in 1997?",
+   "d": "Clippy",
+   "y": [
+    "Cortana",
+    "Rover",
+    "Bob"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Grand Theft Auto serisini yayımlayan şirket hangisidir?",
+  "d": "Rockstar Games",
+  "y": [
+   "Ubisoft",
+   "Electronic Arts",
+   "Activision"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which company publishes the Grand Theft Auto series?",
+   "d": "Rockstar Games",
+   "y": [
+    "Ubisoft",
+    "Electronic Arts",
+    "Activision"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Tatlı adları taşıyan Android sürümleri arasında ilk tatlı adını alan sürüm hangisidir?",
+  "d": "Cupcake",
+  "y": [
+   "Donut",
+   "Eclair",
+   "Froyo"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Among the dessert-named Android versions, which was the first to get a dessert name?",
+   "d": "Cupcake",
+   "y": [
+    "Donut",
+    "Eclair",
+    "Froyo"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Ağ bağlantısını sınayan 'ping' komutu adını hangi aygıtın çıkardığı sesten almıştır?",
+  "d": "Sonar",
+  "y": [
+   "Radar",
+   "Telgraf",
+   "Metronom"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "The 'ping' network command is named after the sound made by which device?",
+   "d": "Sonar",
+   "y": [
+    "Radar",
+    "Telegraph",
+    "Metronome"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Rus sosyal ağı VKontakte'yi ve Telegram'ı kuran girişimci kimdir?",
+  "d": "Pavel Durov",
+  "y": [
+   "Yuri Milner",
+   "Arkadi Voloj",
+   "Yevgeni Kaspersky"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which entrepreneur founded the Russian social network VKontakte and Telegram?",
+   "d": "Pavel Durov",
+   "y": [
+    "Yuri Milner",
+    "Arkady Volozh",
+    "Eugene Kaspersky"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Doom'un tasarımcılarından olup ardından 'Daikatana'yı yapan oyun geliştiricisi kimdir?",
+  "d": "John Romero",
+  "y": [
+   "John Carmack",
+   "Gabe Newell",
+   "Cliff Bleszinski"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which game developer, one of Doom's designers, went on to make 'Daikatana'?",
+   "d": "John Romero",
+   "y": [
+    "John Carmack",
+    "Gabe Newell",
+    "Cliff Bleszinski"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Unix dünyasının klasik metin düzenleyicisi vi'yi 1976'da yazan programcı kimdir?",
+  "d": "Bill Joy",
+  "y": [
+   "Richard Stallman",
+   "Ken Thompson",
+   "Brian Kernighan"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which programmer wrote vi, the classic Unix text editor, in 1976?",
+   "d": "Bill Joy",
+   "y": [
+    "Richard Stallman",
+    "Ken Thompson",
+    "Brian Kernighan"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Wikipedia'dan önce Jimmy Wales ile Larry Sanger'ın başlattığı, uzmanlarca yazılan çevrim içi ansiklopedi hangisidir?",
+  "d": "Nupedia",
+  "y": [
+   "Encarta",
+   "Everipedia",
+   "Interpedia"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Before Wikipedia, what was the expert-written online encyclopedia launched by Jimmy Wales and Larry Sanger?",
+   "d": "Nupedia",
+   "y": [
+    "Encarta",
+    "Everipedia",
+    "Interpedia"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "'Kes, kopyala, yapıştır' komutlarını Xerox PARC'ta geliştiren bilgisayar bilimci kimdir?",
+  "d": "Larry Tesler",
+  "y": [
+   "Alan Kay",
+   "Butler Lampson",
+   "Charles Simonyi"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which computer scientist developed the 'cut, copy, paste' commands at Xerox PARC?",
+   "d": "Larry Tesler",
+   "y": [
+    "Alan Kay",
+    "Butler Lampson",
+    "Charles Simonyi"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Super Mario oyunlarında Bowser'ın sık sık kaçırdığı prenses kimdir?",
+  "d": "Peach",
+  "y": [
+   "Zelda",
+   "Rosalina",
+   "Pauline"
+  ],
+  "zorluk": 1,
+  "en": {
+   "s": "In the Super Mario games, which princess does Bowser frequently kidnap?",
+   "d": "Peach",
+   "y": [
+    "Zelda",
+    "Rosalina",
+    "Pauline"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "IBM PC için Ctrl+Alt+Del tuş birleşimini tasarlayan mühendis kimdir?",
+  "d": "David Bradley",
+  "y": [
+   "Mark Dean",
+   "Don Estridge",
+   "Bill Lowe"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which engineer designed the Ctrl+Alt+Del key combination for the IBM PC?",
+   "d": "David Bradley",
+   "y": [
+    "Mark Dean",
+    "Don Estridge",
+    "Bill Lowe"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Arkeolog Lara Croft'un başrolde olduğu oyun serisi hangisidir?",
+  "d": "Tomb Raider",
+  "y": [
+   "Uncharted",
+   "Prince of Persia",
+   "Resident Evil"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which video game series stars the archaeologist Lara Croft?",
+   "d": "Tomb Raider",
+   "y": [
+    "Uncharted",
+    "Prince of Persia",
+    "Resident Evil"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Nintendo oyunlarında düşmanlarını yutup yeteneklerini kopyalayan pembe karakter kimdir?",
+  "d": "Kirby",
+  "y": [
+   "Toad",
+   "Birdo",
+   "Wario"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In Nintendo games, which pink character swallows enemies and copies their abilities?",
+   "d": "Kirby",
+   "y": [
+    "Toad",
+    "Birdo",
+    "Wario"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Angry Birds oyununda kuşların yumurtalarını çalan düşmanlar hangi hayvanlardır?",
+  "d": "Domuzlar",
+  "y": [
+   "Kediler",
+   "Tilkiler",
+   "Yılanlar"
+  ],
+  "zorluk": 1,
+  "en": {
+   "s": "In Angry Birds, which animals steal the birds' eggs?",
+   "d": "Pigs",
+   "y": [
+    "Cats",
+    "Foxes",
+    "Snakes"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "İlk Macintosh'un simgelerini ve yazı tiplerini tasarlayan grafik tasarımcı kimdir?",
+  "d": "Susan Kare",
+  "y": [
+   "Paula Scher",
+   "April Greiman",
+   "Muriel Cooper"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which graphic designer created the icons and fonts of the original Macintosh?",
+   "d": "Susan Kare",
+   "y": [
+    "Paula Scher",
+    "April Greiman",
+    "Muriel Cooper"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Ivanhoe' romanının yazarı kimdir?",
+  "d": "Walter Scott",
+  "y": [
+   "Robert Louis Stevenson",
+   "Charles Dickens",
+   "William Thackeray"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Who wrote the novel 'Ivanhoe'?",
+   "d": "Walter Scott",
+   "y": [
+    "Robert Louis Stevenson",
+    "Charles Dickens",
+    "William Thackeray"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Gerçek adı François-Marie Arouet olan Fransız yazar hangi adla tanınır?",
+  "d": "Voltaire",
+  "y": [
+   "Rousseau",
+   "Diderot",
+   "Montesquieu"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "The French writer born François-Marie Arouet is known by which name?",
+   "d": "Voltaire",
+   "y": [
+    "Rousseau",
+    "Diderot",
+    "Montesquieu"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Tolkien'in 'Hobbit' romanında cücelerle birlikte Yalnız Dağ'a yolculuğa çıkan hobbit kimdir?",
+  "d": "Bilbo Baggins",
+  "y": [
+   "Frodo Baggins",
+   "Samwise Gamgee",
+   "Peregrin Took"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In Tolkien's 'The Hobbit', which hobbit sets out with the dwarves on the journey to the Lonely Mountain?",
+   "d": "Bilbo Baggins",
+   "y": [
+    "Frodo Baggins",
+    "Samwise Gamgee",
+    "Peregrin Took"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Açlık' romanıyla tanınan 1920 Nobel Edebiyat Ödüllü Norveçli yazar kimdir?",
+  "d": "Knut Hamsun",
+  "y": [
+   "Henrik Ibsen",
+   "Bjørnstjerne Bjørnson",
+   "Sigrid Undset"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which Norwegian writer, known for the novel 'Hunger', won the 1920 Nobel Prize in Literature?",
+   "d": "Knut Hamsun",
+   "y": [
+    "Henrik Ibsen",
+    "Bjørnstjerne Bjørnson",
+    "Sigrid Undset"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Kral Arthur efsanesinde Arthur'un kılıcının adı nedir?",
+  "d": "Excalibur",
+  "y": [
+   "Durendal",
+   "Zülfikar",
+   "Kusanagi"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In the legend of King Arthur, what is the name of Arthur's sword?",
+   "d": "Excalibur",
+   "y": [
+    "Durendal",
+    "Zulfiqar",
+    "Kusanagi"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Monte Kristo Kontu'nda Edmond Dantès'in haksız yere hapsedildiği kale hangisidir?",
+  "d": "If Şatosu",
+  "y": [
+   "Bastille",
+   "Vincennes Şatosu",
+   "Chillon Şatosu"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In 'The Count of Monte Cristo', in which fortress is Edmond Dantès wrongly imprisoned?",
+   "d": "Château d'If",
+   "y": [
+    "The Bastille",
+    "Château de Vincennes",
+    "Château de Chillon"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "E. B. White'ın 'Charlotte'un Ağı' romanında örümcek Charlotte'un hayatını kurtardığı domuz kimdir?",
+  "d": "Wilbur",
+  "y": [
+   "Babe",
+   "Napolyon",
+   "Templeton"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In E. B. White's 'Charlotte's Web', which pig does the spider Charlotte save?",
+   "d": "Wilbur",
+   "y": [
+    "Babe",
+    "Napoleon",
+    "Templeton"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Küçük Kadınlar' romanındaki March kardeşlerden yazar olmak isteyen kimdir?",
+  "d": "Jo",
+  "y": [
+   "Meg",
+   "Beth",
+   "Amy"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In 'Little Women', which of the March sisters wants to become a writer?",
+   "d": "Jo",
+   "y": [
+    "Meg",
+    "Beth",
+    "Amy"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Suç ve Ceza'da Raskolnikov'un suçunu itiraf ettiği ve onunla Sibirya'ya giden genç kadın kimdir?",
+  "d": "Sonya",
+  "y": [
+   "Dunya",
+   "Nastasya",
+   "Pulherya"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "In 'Crime and Punishment', which young woman, to whom Raskolnikov confesses, follows him to Siberia?",
+   "d": "Sonya",
+   "y": [
+    "Dunya",
+    "Nastasya",
+    "Pulcheria"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Sefiller'de Jean Valjean'ın kürek mahkûmu olarak taşıdığı numara nedir?",
+  "d": "24601",
+  "y": [
+   "24061",
+   "26401",
+   "20461"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "In 'Les Misérables', what was Jean Valjean's number as a galley convict?",
+   "d": "24601",
+   "y": [
+    "24061",
+    "26401",
+    "20461"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Goethe'nin 'Faust'unda Faust'un ruhu karşılığında anlaşma yaptığı şeytan kimdir?",
+  "d": "Mefisto",
+  "y": [
+   "Lucifer",
+   "Belzebub",
+   "Asmodeus"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In Goethe's 'Faust', which devil makes a pact with Faust for his soul?",
+   "d": "Mephisto",
+   "y": [
+    "Lucifer",
+    "Beelzebub",
+    "Asmodeus"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Kemal Tahir'in işgal altındaki İstanbul'da Kâmil Bey'in hikâyesini anlatan romanı hangisidir?",
+  "d": "Esir Şehrin İnsanları",
+  "y": [
+   "Bozkırdaki Çekirdek",
+   "Yorgun Savaşçı",
+   "Rahmet Yolları Kesti"
+  ],
+  "zorluk": 4,
+  "en": null,
+  "en_neden": "Türkçe roman adlarından seçim; İngilizce oyuncu için anlamlı değil."
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Ahmet Mithat Efendi'nin alafranga bir züppe ile çalışkan, kendini yetiştirmiş bir genci karşılaştırdığı romanı hangisidir?",
+  "d": "Felatun Bey ile Rakım Efendi",
+  "y": [
+   "Hasan Mellah yahut Sır İçinde Esrar",
+   "Demir Bey yahut İnkişaf-ı Esrar",
+   "Henüz On Yedi Yaşında"
+  ],
+  "zorluk": 4,
+  "en": null,
+  "en_neden": "Türkçe roman adlarından seçim; İngilizce oyuncu için anlamlı değil."
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Reşat Nuri'nin 'Çalıkuşu' romanında Feride'nin öğretmenlik yaptığı ilk köy hangisidir?",
+  "d": "Zeyniler",
+  "y": [
+   "Kırlangıç",
+   "Dervişler",
+   "Yeşilyurt"
+  ],
+  "zorluk": 4,
+  "en": null,
+  "en_neden": "Türk edebiyatına özgü; İngilizce oyuncu için anlamsız"
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Recaizade Mahmut Ekrem'in 'Araba Sevdası' romanının alafranga züppe kahramanı kimdir?",
+  "d": "Bihruz Bey",
+  "y": [
+   "Felatun Bey",
+   "Behlül Bey",
+   "Adnan Bey"
+  ],
+  "zorluk": 4,
+  "en": null,
+  "en_neden": "Türk edebiyatına özgü; İngilizce oyuncu için anlamsız"
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Ray Bradbury'nin Mars'a yerleşen insanları anlatan 1950 tarihli öykü kitabı hangisidir?",
+  "d": "Mars Yıllıkları",
+  "y": [
+   "Resimli Adam",
+   "Kızıl Gezegen",
+   "Güneşin Altın Elmaları"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which 1950 story collection by Ray Bradbury describes humans settling on Mars?",
+   "d": "The Martian Chronicles",
+   "y": [
+    "The Illustrated Man",
+    "Red Planet",
+    "The Golden Apples of the Sun"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Kafka'nın 'Dönüşüm' öyküsünde bir sabah böceğe dönüşen Gregor Samsa'nın mesleği nedir?",
+  "d": "Gezici satıcı",
+  "y": [
+   "Demiryolu memuru",
+   "Postane memuru",
+   "Muhasebe katibi"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In Kafka's 'The Metamorphosis', what is the job of Gregor Samsa, who wakes up as an insect?",
+   "d": "Travelling salesman",
+   "y": [
+    "Railway ticket clerk",
+    "Post office clerk",
+    "Accounts clerk"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Dede Korkut hikâyelerinde Azrail'e meydan okuyan kahraman kimdir?",
+  "d": "Deli Dumrul",
+  "y": [
+   "Bamsı Beyrek",
+   "Kan Turalı",
+   "Basat"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "In the Book of Dede Korkut, which hero challenges Azrael, the angel of death?",
+   "d": "Deli Dumrul",
+   "y": [
+    "Bamsı Beyrek",
+    "Kan Turalı",
+    "Basat"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Buzul Çağının Virüsü' romanının yazarı kimdir?",
+  "d": "Vüsat O. Bener",
+  "y": [
+   "Bilge Karasu",
+   "Yusuf Atılgan",
+   "Ahmet Hamdi Tanpınar"
+  ],
+  "zorluk": 5,
+  "en": null,
+  "en_neden": "Türk edebiyatına özgü; İngilizce oyuncu için anlamsız"
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Semenderlerle Savaş' romanının yazarı olan Çek yazar kimdir?",
+  "d": "Karel Čapek",
+  "y": [
+   "Jaroslav Hašek",
+   "Bohumil Hrabal",
+   "Milan Kundera"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which Czech writer wrote the novel 'War with the Newts'?",
+   "d": "Karel Čapek",
+   "y": [
+    "Jaroslav Hašek",
+    "Bohumil Hrabal",
+    "Milan Kundera"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Ben Sana Mecburum' şiirinin şairi kimdir?",
+  "d": "Attilâ İlhan",
+  "y": [
+   "Ümit Yaşar Oğuzcan",
+   "Ahmed Arif",
+   "Cemal Süreya"
+  ],
+  "zorluk": 3,
+  "en": null,
+  "en_neden": "Türk edebiyatına özgü; İngilizce oyuncu için anlamsız"
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Reşat Nuri Güntekin'in 'Yaprak Dökümü' romanında ailesinin çözülüşünü çaresizce izleyen baba kimdir?",
+  "d": "Ali Rıza Bey",
+  "y": [
+   "Adnan Bey",
+   "Cevdet Bey",
+   "Hacı Kâmil Bey"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "In Reşat Nuri Güntekin's novel 'Yaprak Dökümü' (Falling Leaves), which father helplessly watches his family fall apart?",
+   "d": "Ali Rıza Bey",
+   "y": [
+    "Adnan Bey",
+    "Cevdet Bey",
+    "Hacı Kâmil Bey"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Kuzey yarımkürede yön bulmada kullanılan Kutup Yıldızı'nın uluslararası adı nedir?",
+  "d": "Polaris",
+  "y": [
+   "Vega",
+   "Capella",
+   "Deneb"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "What is the international name of the North Star, used for navigation in the Northern Hemisphere?",
+   "d": "Polaris",
+   "y": [
+    "Vega",
+    "Capella",
+    "Deneb"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Adını dinamitin mucidinden alan element hangisidir?",
+  "d": "Nobelyum",
+  "y": [
+   "Einsteinyum",
+   "Fermiyum",
+   "Mendelevyum"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which element is named after the inventor of dynamite?",
+   "d": "Nobelium",
+   "y": [
+    "Einsteinium",
+    "Fermium",
+    "Mendelevium"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Lyme hastalığı insana hangi canlının ısırığıyla bulaşır?",
+  "d": "Kene",
+  "y": [
+   "Sivrisinek",
+   "Pire",
+   "Tatarcık"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Lyme disease is transmitted to humans by the bite of which creature?",
+   "d": "Tick",
+   "y": [
+    "Mosquito",
+    "Flea",
+    "Sandfly"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Eşittir (=) işaretini 1557'de ilk kez kullanan Galli matematikçi kimdir?",
+  "d": "Robert Recorde",
+  "y": [
+   "John Napier",
+   "Thomas Harriot",
+   "Henry Briggs"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which Welsh mathematician first used the equals sign (=) in 1557?",
+   "d": "Robert Recorde",
+   "y": [
+    "John Napier",
+    "Thomas Harriot",
+    "Henry Briggs"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Güneş Sistemi'nin bilinen en büyük kanyon sistemi Valles Marineris hangi gezegendedir?",
+  "d": "Mars",
+  "y": [
+   "Venüs",
+   "Merkür",
+   "Jüpiter"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "On which planet is Valles Marineris, the largest known canyon system in the Solar System?",
+   "d": "Mars",
+   "y": [
+    "Venus",
+    "Mercury",
+    "Jupiter"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "1997'de Mars yüzeyinde dolaşan ilk tekerlekli gezici robot hangisidir?",
+  "d": "Sojourner",
+  "y": [
+   "Spirit",
+   "Opportunity",
+   "Curiosity"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "In 1997, which became the first wheeled rover to roam the surface of Mars?",
+   "d": "Sojourner",
+   "y": [
+    "Spirit",
+    "Opportunity",
+    "Curiosity"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "'Gülme gazı' olarak bilinen bileşik hangisidir?",
+  "d": "Diazot monoksit",
+  "y": [
+   "Karbon monoksit",
+   "Kükürt dioksit",
+   "Azot dioksit"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which compound is known as 'laughing gas'?",
+   "d": "Nitrous oxide",
+   "y": [
+    "Carbon monoxide",
+    "Sulphur dioxide",
+    "Nitrogen dioxide"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Sarılıkta cilde ve göz akına sarı rengi veren madde hangisidir?",
+  "d": "Bilirubin",
+  "y": [
+   "Melanin",
+   "Hemoglobin",
+   "Keratin"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "In jaundice, which substance gives the skin and the whites of the eyes their yellow colour?",
+   "d": "Bilirubin",
+   "y": [
+    "Melanin",
+    "Hemoglobin",
+    "Keratin"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "20 °C sıcaklıktaki havada sesin hızı yaklaşık kaç metre/saniyedir?",
+  "d": "343",
+  "y": [
+   "243",
+   "443",
+   "543"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Roughly how many metres per second does sound travel in air at 20 °C?",
+   "d": "343",
+   "y": [
+    "243",
+    "443",
+    "543"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Mutlak sıcaklık ölçeğine adını veren Lord Kelvin'in asıl adı nedir?",
+  "d": "William Thomson",
+  "y": [
+   "James Joule",
+   "William Rankine",
+   "Humphry Davy"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "What was the real name of Lord Kelvin, after whom the absolute temperature scale is named?",
+   "d": "William Thomson",
+   "y": [
+    "James Joule",
+    "William Rankine",
+    "Humphry Davy"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Renk körlüğünü ilk kez bilimsel olarak tanımlayan, kendisi de renk körü olan kimyager kimdir?",
+  "d": "John Dalton",
+  "y": [
+   "Humphry Davy",
+   "Joseph Priestley",
+   "Robert Boyle"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which chemist, himself colour-blind, was the first to describe colour blindness scientifically?",
+   "d": "John Dalton",
+   "y": [
+    "Humphry Davy",
+    "Joseph Priestley",
+    "Robert Boyle"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Arşimet'in hamamda 'Eureka!' diye bağırdığı anlatılan buluşu hangi sorunu çözmesini sağlamıştı?",
+  "d": "Tacın sahte olup olmadığını",
+  "y": [
+   "Sütunun ne kadar yük taşıdığını",
+   "Kaldıracın nasıl çalıştığını",
+   "Suyun yukarı nasıl taşınacağını"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Archimedes' 'Eureka!' discovery in the bath is said to have solved which problem?",
+   "d": "Whether a crown was fake",
+   "y": [
+    "How much load a column bears",
+    "How a lever works",
+    "How to raise water uphill"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Bebeklerin kafatası kemikleri arasındaki kapanmamış yumuşak bölgeye halk arasında ne denir?",
+  "d": "Bıngıldak",
+  "y": [
+   "Kıkırdak",
+   "Alın çukuru",
+   "Tepelik"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "What is the common name for the gap between a baby's skull bones that has not yet closed?",
+   "d": "Soft spot",
+   "y": [
+    "Cartilage",
+    "Brow hollow",
+    "Crown"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "İnsanda süt dişlerinin toplam sayısı kaçtır?",
+  "d": "20",
+  "y": [
+   "16",
+   "24",
+   "28"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "How many milk (baby) teeth does a human have in total?",
+   "d": "20",
+   "y": [
+    "16",
+    "24",
+    "28"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Fizikçi Murray Gell-Mann 'kuark' sözcüğünü hangi yazarın bir kitabından almıştır?",
+  "d": "James Joyce",
+  "y": [
+   "Lewis Carroll",
+   "T. S. Eliot",
+   "Samuel Beckett"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "From which writer's book did physicist Murray Gell-Mann take the word 'quark'?",
+   "d": "James Joyce",
+   "y": [
+    "Lewis Carroll",
+    "T. S. Eliot",
+    "Samuel Beckett"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Parçacık etkileşimlerini basit çizimlerle gösteren diyagramlara adını veren fizikçi kimdir?",
+  "d": "Richard Feynman",
+  "y": [
+   "Paul Dirac",
+   "Murray Gell-Mann",
+   "Wolfgang Pauli"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which physicist gave his name to the diagrams that depict particle interactions with simple drawings?",
+   "d": "Richard Feynman",
+   "y": [
+    "Paul Dirac",
+    "Murray Gell-Mann",
+    "Wolfgang Pauli"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "'Homo sapiens' adı Latincede ne anlama gelir?",
+  "d": "Bilge insan",
+  "y": [
+   "Dik insan",
+   "Becerikli insan",
+   "Öncü insan"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "What does the name 'Homo sapiens' mean in Latin?",
+   "d": "Wise man",
+   "y": [
+    "Upright man",
+    "Handy man",
+    "Pioneer man"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Ay'ın yörüngesine giren ilk insanlı uzay görevi hangisidir?",
+  "d": "Apollo 8",
+  "y": [
+   "Apollo 7",
+   "Apollo 10",
+   "Gemini 7"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which was the first crewed space mission to enter lunar orbit?",
+   "d": "Apollo 8",
+   "y": [
+    "Apollo 7",
+    "Apollo 10",
+    "Gemini 7"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Plütonyum dahil on elementin keşfine katılan ve yaşarken adı bir elemente verilen ilk bilim insanı kimdir?",
+  "d": "Glenn Seaborg",
+  "y": [
+   "Ernest Lawrence",
+   "Enrico Fermi",
+   "Emilio Segre"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which scientist, who helped discover ten elements including plutonium, was the first to have an element named after him while still alive?",
+   "d": "Glenn Seaborg",
+   "y": [
+    "Ernest Lawrence",
+    "Enrico Fermi",
+    "Emilio Segre"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Kurbağa yavrusuna ne ad verilir?",
+  "d": "İribaş",
+  "y": [
+   "Tırtıl",
+   "Kurtçuk",
+   "Pupa"
+  ],
+  "zorluk": 1,
+  "en": {
+   "s": "What is a baby frog called?",
+   "d": "Tadpole",
+   "y": [
+    "Caterpillar",
+    "Maggot",
+    "Pupa"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Adı Yunanca 'tembel' anlamına gelen soy gaz hangisidir?",
+  "d": "Argon",
+  "y": [
+   "Neon",
+   "Kripton",
+   "Ksenon"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which noble gas takes its name from the Greek word for 'lazy'?",
+   "d": "Argon",
+   "y": [
+    "Neon",
+    "Krypton",
+    "Xenon"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "2005'te keşfedilip Plüton'un 'cüce gezegen' sayılmasına yol açan gök cismi hangisidir?",
+  "d": "Eris",
+  "y": [
+   "Sedna",
+   "Makemake",
+   "Haumea"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which body, discovered in 2005, led to Pluto being reclassified as a 'dwarf planet'?",
+   "d": "Eris",
+   "y": [
+    "Sedna",
+    "Makemake",
+    "Haumea"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Abraham Lincoln'ü 1865'te Ford Tiyatrosu'nda vuran suikastçı kimdir?",
+  "d": "John Wilkes Booth",
+  "y": [
+   "Lee Harvey Oswald",
+   "Charles Guiteau",
+   "Leon Czolgosz"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Who shot Abraham Lincoln at Ford's Theatre in 1865?",
+   "d": "John Wilkes Booth",
+   "y": [
+    "Lee Harvey Oswald",
+    "Charles Guiteau",
+    "Leon Czolgosz"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "1945'te Kore'yi Sovyet ve Amerikan bölgelerine ayıran sınır hangi enlem çizgisidir?",
+  "d": "38. paralel",
+  "y": [
+   "17. paralel",
+   "36. paralel",
+   "49. paralel"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In 1945, which line of latitude divided Korea into Soviet and American zones?",
+   "d": "The 38th parallel",
+   "y": [
+    "The 17th parallel",
+    "The 36th parallel",
+    "The 49th parallel"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Jeanne d'Arc 1429'da hangi kentin kuşatmasını kaldırarak ün kazanmıştır?",
+  "d": "Orleans",
+  "y": [
+   "Reims",
+   "Rouen",
+   "Calais"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Joan of Arc rose to fame in 1429 by lifting the siege of which city?",
+   "d": "Orleans",
+   "y": [
+    "Reims",
+    "Rouen",
+    "Calais"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "1827'de Osmanlı-Mısır donanmasının İngiliz, Fransız ve Rus filolarınca yakıldığı baskın hangisidir?",
+  "d": "Navarin",
+  "y": [
+   "Çeşme",
+   "Sinop",
+   "Preveze"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "In which 1827 battle was the Ottoman-Egyptian fleet destroyed by British, French and Russian squadrons?",
+   "d": "Navarino",
+   "y": [
+    "Chesma",
+    "Sinop",
+    "Preveza"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "1961'de ABD destekli sürgünlerin başarısız 'Domuzlar Körfezi Çıkarması' hangi ülkeye yapılmıştır?",
+  "d": "Küba",
+  "y": [
+   "Nikaragua",
+   "Guatemala",
+   "Panama"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In 1961, the failed US-backed 'Bay of Pigs Invasion' by exiles targeted which country?",
+   "d": "Cuba",
+   "y": [
+    "Nicaragua",
+    "Guatemala",
+    "Panama"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Gdańsk tersanesinde bir elektrikçi olarak başlayıp 1990'da Polonya cumhurbaşkanı olan sendika lideri kimdir?",
+  "d": "Lech Wałęsa",
+  "y": [
+   "Wojciech Jaruzelski",
+   "Tadeusz Mazowiecki",
+   "Aleksander Kwaśniewski"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which trade union leader, who began as an electrician at the Gdańsk shipyard, became President of Poland in 1990?",
+   "d": "Lech Wałęsa",
+   "y": [
+    "Wojciech Jaruzelski",
+    "Tadeusz Mazowiecki",
+    "Aleksander Kwaśniewski"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "1916'da Kûtülamâre'de Osmanlı ordusuna teslim olan İngiliz komutan kimdir?",
+  "d": "Charles Townshend",
+  "y": [
+   "Edmund Allenby",
+   "Ian Hamilton",
+   "Frederick Maude"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which British commander surrendered to the Ottoman army at Kut al-Amara in 1916?",
+   "d": "Charles Townshend",
+   "y": [
+    "Edmund Allenby",
+    "Ian Hamilton",
+    "Frederick Maude"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "1396 Niğbolu Savaşı'nda Haçlı ordusunu yenen Osmanlı padişahı kimdir?",
+  "d": "I. Bayezid",
+  "y": [
+   "I. Murad",
+   "Orhan Bey",
+   "Çelebi Mehmed"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which Ottoman sultan defeated the Crusader army at the Battle of Nicopolis in 1396?",
+   "d": "Bayezid I",
+   "y": [
+    "Murad I",
+    "Orhan",
+    "Mehmed I"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Jül Sezar'ın öldürüldüğü 15 Mart gününe Roma takviminde ne ad verilir?",
+  "d": "Mart İdusu",
+  "y": [
+   "Mart Kalendası",
+   "Mart Nonası",
+   "Mart Ekinoksu"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "In the Roman calendar, what is 15 March, the day Julius Caesar was killed, called?",
+   "d": "The Ides of March",
+   "y": [
+    "The Kalends of March",
+    "The Nones of March",
+    "The March Equinox"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Titanik 1912'deki ilk ve son seferine hangi limandan çıkmıştır?",
+  "d": "Southampton",
+  "y": [
+   "Liverpool",
+   "Belfast",
+   "Plymouth"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "From which port did the Titanic depart on its first and only voyage in 1912?",
+   "d": "Southampton",
+   "y": [
+    "Liverpool",
+    "Belfast",
+    "Plymouth"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "1570-1571'de Kıbrıs'ın fethini karada yöneten Osmanlı komutanı kimdir?",
+  "d": "Lala Mustafa Paşa",
+  "y": [
+   "Sokullu Mehmed Paşa",
+   "Kılıç Ali Paşa",
+   "Özdemiroğlu Osman Paşa"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which Ottoman commander led the land campaign that conquered Cyprus in 1570-1571?",
+   "d": "Lala Mustafa Pasha",
+   "y": [
+    "Sokollu Mehmed Pasha",
+    "Kılıç Ali Pasha",
+    "Özdemiroğlu Osman Pasha"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "İstanbul'un fethinden kısa süre sonra II. Mehmed tarafından idam ettirilen sadrazam kimdir?",
+  "d": "Çandarlı Halil Paşa",
+  "y": [
+   "Zağanos Paşa",
+   "Mahmud Paşa",
+   "Karamani Mehmed Paşa"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which grand vizier was executed by Mehmed II shortly after the conquest of Constantinople?",
+   "d": "Çandarlı Halil Pasha",
+   "y": [
+    "Zağanos Pasha",
+    "Mahmud Pasha",
+    "Karamani Mehmed Pasha"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "1565 Malta Kuşatması sırasında şehit düşen ünlü Osmanlı denizcisi kimdir?",
+  "d": "Turgut Reis",
+  "y": [
+   "Piyale Paşa",
+   "Kılıç Ali Paşa",
+   "Salih Reis"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which famous Ottoman admiral was killed during the Siege of Malta in 1565?",
+   "d": "Turgut Reis",
+   "y": [
+    "Piyale Pasha",
+    "Kılıç Ali Pasha",
+    "Salih Reis"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Don ve Volga nehirlerini bir kanalla birleştirme projesini başlatan Osmanlı sadrazamı kimdir?",
+  "d": "Sokullu Mehmed Paşa",
+  "y": [
+   "Rüstem Paşa",
+   "Kuyucu Murad Paşa",
+   "Merzifonlu Kara Mustafa Paşa"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which Ottoman grand vizier launched the project to link the Don and Volga rivers with a canal?",
+   "d": "Sokollu Mehmed Pasha",
+   "y": [
+    "Rüstem Pasha",
+    "Kuyucu Murad Pasha",
+    "Merzifonlu Kara Mustafa Pasha"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Fatih Sultan Mehmed'in 1452'de İstanbul Boğazı'nda yaptırdığı, 'Boğazkesen' diye de anılan hisar hangisidir?",
+  "d": "Rumeli Hisarı",
+  "y": [
+   "Anadolu Hisarı",
+   "Yedikule Hisarı",
+   "Kilitbahir Kalesi"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which fortress, also called 'Boğazkesen' (Strait-Cutter), did Mehmed II build on the Bosphorus in 1452?",
+   "d": "Rumeli Fortress",
+   "y": [
+    "Anadolu Fortress",
+    "Yedikule Fortress",
+    "Kilitbahir Castle"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Osman Bey'in 1302'de Bizans'a karşı kazandığı ve Osmanlı'nın ilk büyük zaferi sayılan savaş hangisidir?",
+  "d": "Koyunhisar",
+  "y": [
+   "Pelekanon",
+   "Sırpsındığı",
+   "Kosova"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which battle, won by Osman against the Byzantines in 1302, is considered the first major Ottoman victory?",
+   "d": "Bapheus",
+   "y": [
+    "Pelekanon",
+    "Maritsa",
+    "Kosovo"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Mustafa Kemal'in 19 Mayıs 1919'da Samsun'a çıktığı vapurun adı nedir?",
+  "d": "Bandırma",
+  "y": [
+   "Gülcemal",
+   "Ertuğrul",
+   "Tarı"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "What was the name of the steamship on which Mustafa Kemal landed at Samsun on 19 May 1919?",
+   "d": "Bandırma",
+   "y": [
+    "Gülcemal",
+    "Ertuğrul",
+    "Tarı"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Safevilerle 1639 yılında imzalanan ve iki devlet arasındaki sınırı uzun süre belirleyen Kasr-ı Şirin Antlaşması hangi padişah döneminde yapılmıştır?",
+  "d": "IV. Murad",
+  "y": [
+   "I. İbrahim",
+   "III. Murad",
+   "II. Osman"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "The 1639 Treaty of Zuhab (Kasr-ı Şirin), which fixed the Ottoman-Safavid border for a long time, was signed during the reign of which sultan?",
+   "d": "Murad IV",
+   "y": [
+    "Ibrahim I",
+    "Murad III",
+    "Osman II"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Efsaneye göre Roma'nın kurucuları Romulus ile Remus'u emziren hayvan hangisidir?",
+  "d": "Kurt",
+  "y": [
+   "Ayı",
+   "Keçi",
+   "Geyik"
+  ],
+  "zorluk": 1,
+  "en": {
+   "s": "According to legend, which animal suckled Romulus and Remus, the founders of Rome?",
+   "d": "Wolf",
+   "y": [
+    "Bear",
+    "Goat",
+    "Deer"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "İngilizcedeki 'July' (Temmuz) ayı adını kimden almıştır?",
+  "d": "Jül Sezar",
+  "y": [
+   "Tanrı Janus",
+   "Tanrı Mars",
+   "İmparator Augustus"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "After whom is the month of July named?",
+   "d": "Julius Caesar",
+   "y": [
+    "The god Janus",
+    "The god Mars",
+    "Emperor Augustus"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Sandviç adını hangi İngiliz soylusundan almıştır?",
+  "d": "Sandwich Kontu",
+  "y": [
+   "Wellington Dükü",
+   "Cardigan Kontu",
+   "Grey Kontu"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "The sandwich takes its name from which English nobleman?",
+   "d": "The Earl of Sandwich",
+   "y": [
+    "The Duke of Wellington",
+    "The Earl of Cardigan",
+    "Earl Grey"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Yapay dil Esperanto adını yaratıcısının takma adından alır; bu sözcük ne anlama gelir?",
+  "d": "Umut eden",
+  "y": [
+   "Barış getiren",
+   "Birleştiren",
+   "Anlaşan"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "The constructed language Esperanto takes its name from its creator's pen name; what does that word mean?",
+   "d": "One who hopes",
+   "y": [
+    "One who brings peace",
+    "One who unites",
+    "One who agrees"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "'Leviathan' adlı siyaset felsefesi eserinin yazarı kimdir?",
+  "d": "Thomas Hobbes",
+  "y": [
+   "John Locke",
+   "Jean-Jacques Rousseau",
+   "Niccolò Machiavelli"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Who wrote the work of political philosophy 'Leviathan'?",
+   "d": "Thomas Hobbes",
+   "y": [
+    "John Locke",
+    "Jean-Jacques Rousseau",
+    "Niccolò Machiavelli"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Minyatür ağaç yetiştirme sanatının Japonca adı nedir?",
+  "d": "Bonsai",
+  "y": [
+   "Ikebana",
+   "Origami",
+   "Kintsugi"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "What is the Japanese name for the art of growing miniature trees?",
+   "d": "Bonsai",
+   "y": [
+    "Ikebana",
+    "Origami",
+    "Kintsugi"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Perçinli kot pantolonun patentini 1873'te Levi Strauss ile birlikte alan terzi kimdir?",
+  "d": "Jacob Davis",
+  "y": [
+   "Henry David Lee",
+   "Isaac Singer",
+   "Charles Goodyear"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which tailor patented riveted denim jeans together with Levi Strauss in 1873?",
+   "d": "Jacob Davis",
+   "y": [
+    "Henry David Lee",
+    "Isaac Singer",
+    "Charles Goodyear"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Coca-Cola'yı 1886'da Atlanta'da ilk kez hazırlayan eczacı kimdir?",
+  "d": "John Pemberton",
+  "y": [
+   "Caleb Bradham",
+   "Charles Alderton",
+   "Asa Candler"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which pharmacist first made Coca-Cola in Atlanta in 1886?",
+   "d": "John Pemberton",
+   "y": [
+    "Caleb Bradham",
+    "Charles Alderton",
+    "Asa Candler"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "'Gereksiz yere varsayım çoğaltılmamalıdır' ilkesiyle anılan 14. yüzyıl filozofu kimdir?",
+  "d": "Ockhamlı William",
+  "y": [
+   "Roger Bacon",
+   "Thomas Aquinas",
+   "Duns Scotus"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which 14th-century philosopher is associated with the principle 'entities should not be multiplied without necessity'?",
+   "d": "William of Ockham",
+   "y": [
+    "Roger Bacon",
+    "Thomas Aquinas",
+    "John Duns Scotus"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Sokrates'in idam edilirken içtiği zehir hangi bitkiden elde edilmiştir?",
+  "d": "Baldıran",
+  "y": [
+   "Banotu",
+   "Güzelavratotu",
+   "Yüksükotu"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "The poison Socrates drank at his execution was made from which plant?",
+   "d": "Hemlock",
+   "y": [
+    "Henbane",
+    "Belladonna",
+    "Foxglove"
+   ]
+  }
+ }
+]

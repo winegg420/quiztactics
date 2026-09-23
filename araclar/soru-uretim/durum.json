@@ -62,8 +62,8 @@
     },
     "cografya": 0
   },
-  "siradaki_parti": 12,
-  "siradaki_migration_no": 315,
+  "siradaki_parti": 13,
+  "siradaki_migration_no": 316,
   "partiler": [
     {
       "no": 1,
@@ -792,38 +792,104 @@
         "2": 29,
         "3": 29
       }
+    },
+    {
+      "no": 12,
+      "ajan": 2,
+      "kategoriler": [
+        "teknoloji",
+        "edebiyat",
+        "bilim",
+        "tarih",
+        "genel_kultur"
+      ],
+      "soru": 100,
+      "migration": "20260612000315_soru_uretim_parti_12",
+      "commit": null,
+      "tarih": "2026-09-23",
+      "kategori_kova": {
+        "teknoloji": 28,
+        "edebiyat": 22,
+        "bilim": 22,
+        "tarih": 19,
+        "genel_kultur": 9
+      },
+      "kategori_db": {
+        "teknoloji": 28,
+        "edebiyat": 22,
+        "tarih": 19,
+        "genel_kultur": 9,
+        "bilim": 22
+      },
+      "zorluk": {
+        "3": 30,
+        "4": 35,
+        "5": 20,
+        "1-2": 15
+      },
+      "zorluk_1_5": [
+        4,
+        11,
+        30,
+        35,
+        20
+      ],
+      "jev": {
+        "cagri": 1101,
+        "girdi_jeton": 741685,
+        "maliyet_usd": 0.0312
+      },
+      "taslak": 137,
+      "elenen": {
+        "kalite_sonrasi": 8,
+        "kota_fazlasi": 29,
+        "not": "Ajan 2, 100'lük parti (teknoloji 28 · edebiyat 22 · bilim 22 · tarih 19 · genel kültür 9). Parti 10'dan kota fazlası 40 taslak (Jev sonuçlarıyla) + 97 yeni taslak. Fikirler yazılmadan önce güncel havuz (DB 15204 satır) + ajan 1'in partileri/taslakları anahtar kelimeyle tarandı (yüzlerce aday elendi). Jev öncesi elle: 4 havuz tekrarı (Venüs gün/yıl, veksilloloji, Diyojen fıçı, Cambridge kahve makinesi webcam) ve 1 şık denge (Tinker Bell) çıkarıldı; 1 soru ('Bereketli Topraklar Üzerinde' ipucu) yeniden yazıldı; ~10 şık denge düzeltmesi (aksanlı harfin kelimeyi bölmesi: Orleans, Sören Kierkegaard, Vüsat O. Bener). Şık ipucu kapısı takılan 7 taslak çıkarıldı (Molière/Poquelin, Quasimodo, Penny Black, Pripyat, XI. Konstantin, Kindle, Helsinki Üniversitesi/Torvalds). Hassas: Birahane Darbesi (0,71) çıkarıldı. Orta zorluk dengesi için 6 orta taslak eklendi, Jev'in 3 dediği 10 taslak 4→3 etiketlendi. Jev'in <0,9 güvenle farklı dediği doğru sorular (İçimizdeki Şeytan/Ömer-Macide, Orhan Kemal/Öğütçü, Hrabal, Attilâ İlhan, Hayri İrdal, Bandırma, Yaprak Dökümü) kontrol edilip tutuldu. Ida kararıyla ajan 2 bu partiden sonra durduruldu; kalan kota fazlası taslaklar scratchpad P3/ajan2/p3/taslak (jev.jsonl ile)."
+      },
+      "zorluk_etiket_duzeltme": 5,
+      "cevrilmeyen": 6,
+      "en_ceviri_db": 94,
+      "havuz_aktif": {
+        "once": 12140,
+        "sonra": 12240
+      },
+      "dogru_cevap_dagilimi": {
+        "0": 26,
+        "1": 22,
+        "2": 25,
+        "3": 27
+      }
     }
   ],
   "atlanan_partiler": [],
   "sayac": {
-    "soru": 1850,
+    "soru": 1950,
     "kategori": {
       "sinema": 259,
-      "teknoloji": 218,
+      "teknoloji": 246,
       "muzik": 238,
       "sanat": 238,
       "spor": 222,
-      "edebiyat": 169,
-      "bilim": 169,
-      "tarih": 150,
+      "edebiyat": 191,
+      "bilim": 191,
+      "tarih": 169,
       "yerel_tr": 119,
-      "genel_kultur": 68
+      "genel_kultur": 77
     },
     "zorluk": {
-      "3": 548,
-      "4": 655,
-      "5": 367,
-      "1-2": 280
+      "3": 578,
+      "4": 690,
+      "5": 387,
+      "1-2": 295
     }
   },
   "jev": {
-    "cagri": 8716,
-    "girdi_jeton": 6361962,
-    "maliyet_usd": 0.2673
+    "cagri": 9817,
+    "girdi_jeton": 7103647,
+    "maliyet_usd": 0.2985
   },
-  "elenen": 26,
-  "zorluk_etiket_duzeltme": 100,
-  "cevrilmeyen": 35,
+  "elenen": 34,
+  "zorluk_etiket_duzeltme": 105,
+  "cevrilmeyen": 41,
   "ardisik_uygulama_hatasi": 0,
   "migration_no_notu": "296 (skill satın alma kilit sırası) ve 297 (duello_surum herkese) Paket 3 dışı işlere verildi, 23 Eyl 2026. Parti 6 yeniden üretilince 298 kullanılır."
 }
