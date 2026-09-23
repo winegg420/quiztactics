@@ -7681,3 +7681,5 @@ otomatik akla gelmesi için; proje kapsamında kuruldu.
 - **Faz 1 — devam ediyor:** her parti 250 soru, 7 adım (üret → şık denge + Jev kapısı →
   EN → migration → prova/uygula/doğrula → durum.json → commit+push). Güncel sayım ve
   parti listesi: `araclar/soru-uretim/durum.json` (tek doğru kaynak).
+  Ara durum (parti 5 sonrası): 5 parti bitti (migration 291–295), net 1.250 soru, hata 0;
+  aktif havuz 11.540; kategori ve zorluk kotaları birebir; Jev ≈ 0,12 $.
