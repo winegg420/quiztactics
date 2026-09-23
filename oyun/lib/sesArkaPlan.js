@@ -4,25 +4,34 @@
 // 1) SEÇİMLER: Ida'nın /ses-secim seçimlerini sunucudan okur (`ses_secimleri_oyun`),
 //    yerelde sürümle önbelleğe alır ve `ses.js`'e verir. Açılışta TEK çağrı; sürüm
 //    aynıysa sunucu listeyi göndermez. Yeni dağıtım gerekmeden ses değişir.
-// 2) MÜZİK: üç döngü — menü (ana sayfa/menüler), maç (Klasik, Düello, Grup, Turnuva
-//    maçı, Hatalarım çalışma), turnuva lobisi. Dosya = o anın seçili adayı
-//    (public/ses/adaylar/muzik_*.aac); seçim yoksa / "sessiz" ise müzik yok.
+// 2) MÜZİK: üç oda — menü (ana sayfa/menüler), maç (Klasik, Düello, Grup, Turnuva
+//    maçı, Hatalarım çalışma), turnuva lobisi. Oda = o anın ÇALMA LİSTESİ (Ajan M,
+//    24 Eyl 2026; migration 450): `listeler[an]` (2–4 aday) ya da tek seçim `secimler[an]`.
+//    Seçim yoksa / "sessiz" ise müzik yok.
+//    * Parça = TAM hâli, Supabase Storage `muzik` kovasından akış (muzikParcalari.js);
+//      tam hâli yoksa/indirilemezse 30 sn önizleme (public/ses/adaylar/). Yalnız çalan
+//      parça iner (sıradaki, geçiş anında); tarayıcı önbelleğe alır (1 yıl, ad sürümlü).
+//    * Liste sırayla çalar, parça sonu 1,5 sn çapraz geçişle sonrakine karışır, liste bitince
+//      başa döner. Odaya her girişte rastgele bir parçadan başlar. Tek parça = kendine
+//      çapraz geçişle döngü.
 //    * Ekran değişince 0,8 sn yumuşak geçiş (gain rampası; yalnız ses).
-//    * Döngü noktası 1,5 sn çapraz geçişle (dosyalar 30 sn'lik kesit, sonu sönümlü; sert kesilmesin).
 //    * Soru gelince seviye × muzik_kisik_oran; cevap/sonuçta geri açılır (ses.js kancası).
-//    * Sekme gizlenince AudioContext durur, dönünce kaldığı yerden sürer.
+//    * Sekme gizlenince parçalar ve AudioContext durur, dönünce kaldığı yerden sürer.
 //    * Tarayıcı kuralı: ilk dokunuştan önce başlamaz. Müzik kapalıyken hiçbir şey indirilmez.
-//    * Dosya arka planda iner; ağ yavaşsa müzik sonra başlar, oyun beklemez.
+//    * Çalma: <audio> → MediaElementSource → gain (akış; 3 dk'lık parçayı belleğe çözmez).
+//      iOS: oynatıcı havuzu ilk dokunuşta kilitten çıkarılır (sessiz kısa çalış).
 
 import { supabase } from "../../src/lib/supabase.js";
 import { adayYolu, muzikAcikMi, muzikDinle, sesBaglami, sesMuzikKancasi, sesSecimi, sesSecimleriniAyarla, sesTaniAcik } from "./ses.js";
+import { muzikTamSure, muzikTamUrl } from "./muzikParcalari.js";
 
 const SECIM_ANAHTARI = "bildim_ses_secim";   // ses.js ile aynı anahtar
-const GECIS_SN = 0.8;            // ekran değişince döngüler arası geçiş
-const DONGU_ORTUSME_SN = 1.5;    // aynı döngünün sonu ile başı arasındaki çapraz geçiş
+const GECIS_SN = 0.8;            // ekran değişince odalar arası geçiş
+const PARCA_GECIS_SN = 1.5;      // parça sonu → sonraki parça çapraz geçişi
+const HAVUZ_EN_COK = 4;          // aynı anda en çok bu kadar <audio> (oda geçişi + parça geçişi)
 const SES_KLASORU = `${import.meta.env?.BASE_URL ?? "/"}ses/`;
 
-let onbellek = null;   // {surum, secimler, muzik_seviye, muzik_kisik_oran}
+let onbellek = null;   // {surum, secimler, listeler, muzik_seviye, muzik_kisik_oran}
 try { onbellek = JSON.parse(localStorage.getItem(SECIM_ANAHTARI) || "null"); } catch { /* özel mod */ }
 const ayar = () => ({
   seviye: Number(onbellek?.muzik_seviye) >= 0 ? Number(onbellek.muzik_seviye) : 0.35,
@@ -41,6 +50,7 @@ export function secimleriTazele() {
       if (!data || typeof data !== "object") return;
       const yeni = { ...(onbellek ?? {}), ...data };
       if (!data.secimler) yeni.secimler = onbellek?.secimler ?? {};
+      else if (!data.listeler) yeni.listeler = {};   // yeni liste geldi ama liste alanı yok → liste yok
       onbellek = yeni;
       sesSecimleriniAyarla(onbellek.secimler);
       try { localStorage.setItem(SECIM_ANAHTARI, JSON.stringify(onbellek)); } catch { /* özel mod */ }
@@ -54,7 +64,7 @@ export function secimleriTazele() {
 }
 
 // ------------------------------------------------------------ müzik
-/** Rota → döngü anı (null → müzik yok). */
+/** Rota → oda anı (null → müzik yok). */
 function donguSec(yol) {
   if (/^\/(ses-secim|mac-sonu-onizleme|tasarim|kozmetik-onizleme|preview|insan-prototip|gizlilik|kosullar)/.test(yol)) return null;
   if (/^\/(mac|grup-mac|duello|calisma)(\/|$)/.test(yol)) return "muzik_mac";
@@ -68,20 +78,24 @@ let kisik = false;
 let gizli = typeof document !== "undefined" && document.hidden;
 let dokunuldu = typeof navigator !== "undefined" && Boolean(navigator.userActivation?.hasBeenActive);
 let ana = null;        // müzik ana kazancı (seviye · kısma · aç/kapa)
-let iz = null;         // çalan döngü {dosya, kazanc, kaynaklar, zaman, bitti}
-const tamponlar = new Map();   // dosya → Promise<AudioBuffer> (en çok 2 tutulur)
+let iz = null;         // çalan oda {an, liste, anahtar, sira, calan, bitti, zaman}
+const havuz = [];      // oynatıcılar {el, kazanc, bosta, id, gecti, bekleyen}
+const sonBaslangic = {};   // an → son başlangıç sırası (aynı parçadan iki kez üst üste başlamasın)
 
-/** Tanı (test bayrağı açıkken): window.__muzik = son durum, __muzikGecmis = hepsi. */
-function taniYaz(olay) {
+/** Tanı (test bayrağı açıkken): window.__muzik = son durum, __muzikGecmis = hepsi, __muzikHavuz = oynatıcılar. */
+function taniYaz(olay, ek) {
   try {
     if (!sesTaniAcik()) return;
     const { seviye, kisik: oran } = ayar();
+    const el = iz?.calan?.el;
     window.__muzik = {
-      olay, an: donguSec(rota), dosya: iz?.dosya ?? null, calan: Boolean(iz && !iz.bitti && iz.kaynaklar.length),
+      olay, an: donguSec(rota), liste: iz?.liste ?? null, sira: iz?.sira ?? null, id: iz?.calan?.id ?? null,
+      dosya: el?.src || null, calan: Boolean(el && !el.paused),
       acik: muzikAcikMi(), kisik, gizli, dokunuldu, baglam: dokunuldu ? (sesBaglami()?.state ?? null) : null,
-      hedef: muzikAcikMi() ? seviye * (kisik ? oran : 1) : 0, t: Math.round(performance.now()),
+      hedef: muzikAcikMi() ? seviye * (kisik ? oran : 1) : 0, t: Math.round(performance.now()), ...ek,
     };
     (window.__muzikGecmis ||= []).push(window.__muzik);
+    window.__muzikHavuz = havuz;
   } catch { /* tanı kritik değil */ }
 }
 
@@ -97,32 +111,147 @@ function baglam() {
   return c;
 }
 
-/** Seçili aday dosyası; seçim yok / "mevcut" (müzikte mevcut yok) / "sessiz" → null. */
-function secimDosyasi(an) {
-  const s = an ? sesSecimi(an) : null;
-  if (!s || s === "mevcut" || s === "sessiz") return null;
-  return adayYolu(s);
+/** Odanın çalma listesi (aday id'leri); seçim yok / "mevcut" / "sessiz" → []. */
+function odaListesi(an) {
+  if (!an) return [];
+  const l = onbellek?.listeler?.[an];
+  if (Array.isArray(l) && l.length) return l.filter((x) => typeof x === "string" && x);
+  const s = sesSecimi(an);
+  if (!s || s === "mevcut" || s === "sessiz") return [];
+  return [s];
 }
 
-function tamponAl(c, dosya) {
-  let s = tamponlar.get(dosya);
-  if (s) return s;
-  s = (async () => {
-    const yanit = await fetch(`${SES_KLASORU}${dosya}`);
-    if (!yanit.ok) throw new Error(`müzik ${dosya}: HTTP ${yanit.status}`);
-    const veri = await yanit.arrayBuffer();
-    return new Promise((coz, reddet) => {
-      try {
-        const p = c.decodeAudioData(veri, coz, reddet);
-        if (p && typeof p.then === "function") p.then(coz, reddet);
-      } catch (e) { reddet(e); }
-    });
-  })();
-  s.catch(() => tamponlar.delete(dosya));
-  tamponlar.set(dosya, s);
-  // Bellek: çözülmüş 30 sn stereo ≈ 10 MB — yalnız son iki dosya tutulur.
-  while (tamponlar.size > 2) tamponlar.delete(tamponlar.keys().next().value);
-  return s;
+const onizlemeUrl = (id) => `${SES_KLASORU}${adayYolu(id)}`;
+
+// 10 ms sessiz WAV (8 kHz mono; iOS kilidi için: her <audio> bir kez dokunuşla çalınmalı).
+const SESSIZ = `data:audio/wav;base64,UklGRsQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YaAAAAA${"A".repeat(213)}`;
+
+/** Havuza bir oynatıcı ekler: <audio> → MediaElementSource → kazanc → ana. */
+function oynaticiEkle(c) {
+  const el = new Audio();
+  el.crossOrigin = "anonymous";   // Storage CORS "*" — Web Audio'ya bağlanabilsin
+  el.preload = "auto";
+  el.setAttribute("playsinline", "");
+  const kazanc = c.createGain();
+  kazanc.gain.value = 0;
+  c.createMediaElementSource(el).connect(kazanc).connect(ana);
+  const o = { el, kazanc, bosta: true, id: null, gecti: false, bekleyen: false };
+  havuz.push(o);
+  return o;
+}
+
+/** İlk dokunuşta (kullanıcı hareketi içinde) havuzu kurar ve iOS kilidini açar. */
+function havuzHazirla() {
+  try {
+    const c = baglam();
+    if (!c) return;
+    while (havuz.length < 3) oynaticiEkle(c);
+    for (const o of havuz) {
+      if (!o.bosta || o.el.dataset.kilit === "1") continue;
+      o.el.src = SESSIZ;
+      const p = o.el.play();
+      o.el.dataset.kilit = "1";
+      if (p && typeof p.then === "function") p.then(() => { if (o.bosta) o.el.pause(); }, () => { o.el.dataset.kilit = ""; });
+    }
+  } catch { /* müzik kritik değil */ }
+}
+
+/** Boştaki oynatıcı; yoksa yenisi (sınır dolduysa en eski sönen yeniden kullanılır). */
+function oynaticiAl(c) {
+  let o = havuz.find((x) => x.bosta);
+  if (!o && havuz.length < HAVUZ_EN_COK) o = oynaticiEkle(c);
+  if (!o) { o = havuz.find((x) => x !== iz?.calan) ?? havuz[0]; parcaBirak(o); }
+  o.bosta = false;
+  o.gecti = false;
+  return o;
+}
+
+/** Oynatıcıyı sustur ve bırak (ağ bağlantısı da kapanır). */
+function parcaBirak(o) {
+  if (!o) return;
+  clearTimeout(o.zaman);
+  try { o.el.pause(); } catch { /* zaten durdu */ }
+  try { o.el.removeAttribute("src"); o.el.load(); } catch { /* eski tarayıcı */ }
+  o.el.onerror = null;
+  o.el.onended = null;
+  o.bosta = true;
+  o.id = null;
+}
+
+/** Oynatıcıyı `sn` saniyede söndürüp bırakır. */
+function parcaSondur(o, sn) {
+  if (!o || o.bosta) return;
+  const c = sesBaglami();
+  try {
+    const g = o.kazanc.gain;
+    g.cancelScheduledValues(c.currentTime);
+    g.setValueAtTime(g.value, c.currentTime);
+    g.linearRampToValueAtTime(0, c.currentTime + sn);
+  } catch { /* bağlam kapalı */ }
+  clearTimeout(o.zaman);
+  o.zaman = setTimeout(() => parcaBirak(o), sn * 1000 + 120);
+}
+
+/** Oynatıcıyı çal (sekme gizliyse bekler; görünür olunca sürer). */
+function oynat(o) {
+  if (gizli) { o.bekleyen = true; return; }
+  o.bekleyen = false;
+  try {
+    const p = o.el.play();
+    if (p && typeof p.catch === "function") p.catch((e) => { if (e?.name !== "AbortError") console.warn("müzik çalınamadı:", e?.message ?? e); });
+  } catch (e) { console.warn("müzik çalınamadı:", e?.message ?? e); }
+}
+
+/** Odanın `i`'nci parçasını başlatır; `girisSn` içinde sesi açılır. */
+function parcaBaslat(c, oda, i, girisSn) {
+  if (oda.bitti) return;
+  const id = oda.liste[i];
+  const o = oynaticiAl(c);
+  o.id = id;
+  const tam = muzikTamUrl(id);
+  o.el.onerror = () => {
+    // Tam parça inemezse bu oturumda 30 sn önizlemeye düş (bir kez).
+    if (oda.bitti || iz !== oda || o.id !== id) return;
+    const yedek = onizlemeUrl(id);
+    if (o.el.src && !o.el.src.endsWith(yedek)) { o.sure = null; console.warn("müzik tam parça inemedi, önizleme çalıyor:", id); o.el.src = yedek; oynat(o); }
+  };
+  o.el.onended = () => { if (!oda.bitti && iz === oda && oda.calan === o) sonrakine(c, oda); };
+  o.el.src = tam ?? onizlemeUrl(id);
+  o.sure = tam ? muzikTamSure(id) : null;   // gerçek süre (ADTS'de duration tahmin)
+  try { o.el.currentTime = 0; } catch { /* meta yok */ }
+  try {
+    const g = o.kazanc.gain;
+    g.cancelScheduledValues(c.currentTime);
+    g.setValueAtTime(0, c.currentTime);
+    g.linearRampToValueAtTime(1, c.currentTime + girisSn);
+  } catch { /* bağlam kapalı */ }
+  oda.calan = o;
+  oda.sira = i;
+  oynat(o);
+  taniYaz("basladi", { kaynak: tam ? "storage" : "onizleme" });
+}
+
+/** Çapraz geçiş: çalan parça 1,5 sn'de söner, sıradaki (liste bitince baştaki) açılır. */
+function sonrakine(c, oda) {
+  if (oda.bitti) return;
+  const eski = oda.calan;
+  const sonraki = (oda.sira + 1) % oda.liste.length;
+  if (eski) { eski.gecti = true; parcaSondur(eski, PARCA_GECIS_SN); }
+  parcaBaslat(c, oda, sonraki, PARCA_GECIS_SN);
+}
+
+/** Oda saati: parça sonuna PARCA_GECIS_SN kala geçişi başlatır (sıradaki parça ancak o an istenir). */
+function odaSaati(c, oda) {
+  if (oda.bitti) return;
+  const o = oda.calan;
+  const el = o?.el;
+  // Tam parçada gerçek süre (muzikParcalari); önizlemede tarayıcının süresi. Kaçarsa `ended` yedek.
+  const sure = o?.sure || el?.duration;
+  if (el && !gizli && Number.isFinite(sure) && sure > 0 && !o.gecti) {
+    const kalan = sure - el.currentTime;
+    if (kalan <= PARCA_GECIS_SN + 0.1) sonrakine(c, oda);
+  }
+  oda.zaman = setTimeout(() => odaSaati(c, oda), 250);
 }
 
 function seviyeUygula() {
@@ -134,54 +263,11 @@ function seviyeUygula() {
   try { ana.gain.setTargetAtTime(hedef, c.currentTime, GECIS_SN / 3); } catch { /* eski tarayıcı */ }
 }
 
-function izDurdur(eski) {
-  if (!eski || eski.bitti) return;
-  eski.bitti = true;
-  clearTimeout(eski.zaman);
-  const c = sesBaglami();
-  try {
-    eski.kazanc.gain.cancelScheduledValues(c.currentTime);
-    eski.kazanc.gain.setValueAtTime(eski.kazanc.gain.value, c.currentTime);
-    eski.kazanc.gain.linearRampToValueAtTime(0.0001, c.currentTime + GECIS_SN);
-  } catch { /* zaten bitmiş */ }
-  setTimeout(() => {
-    for (const k of eski.kaynaklar) { try { k.stop(); } catch { /* bitmiş */ } }
-    try { eski.kazanc.disconnect(); } catch { /* bağlı değil */ }
-  }, GECIS_SN * 1000 + 100);
-}
-
-/** Döngüyü çapraz geçişli çalar: her tur sonu 1,5 sn içinde bir sonrakine karışır. */
-function izBaslat(c, yeni, tampon) {
-  const sure = tampon.duration;
-  // Müzik dosyalarının son 1,5 sn'si zaten sönümlü (KAYNAKLAR.md): sonraki tur o sönümün
-  // başında 1,5 sn'de açılarak girer — döngü noktasında boşluk/çukur olmasın.
-  const F = Math.min(DONGU_ORTUSME_SN, sure / 4);
-  yeni.kazanc.gain.setValueAtTime(0.0001, c.currentTime);
-  yeni.kazanc.gain.linearRampToValueAtTime(1, c.currentTime + GECIS_SN);
-  const planla = (t, ilk) => {
-    if (yeni.bitti) return;
-    const k = c.createBufferSource();
-    k.buffer = tampon;
-    const g = c.createGain();
-    if (!ilk) { g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(1, t + F); }
-    g.gain.setValueAtTime(1, t + sure - F);
-    g.gain.linearRampToValueAtTime(0.0001, t + sure);
-    k.connect(g).connect(yeni.kazanc);
-    k.start(t);
-    k.stop(t + sure + 0.05);
-    yeni.kaynaklar.push(k);
-    k.onended = () => { const i = yeni.kaynaklar.indexOf(k); if (i >= 0) yeni.kaynaklar.splice(i, 1); };
-    const sonraki = t + sure - F;
-    // Bağlam askıdayken (sekme gizli) saat durur; yoklama sayesinde kaynak birikmez.
-    const bekle = () => {
-      if (yeni.bitti) return;
-      if (c.currentTime >= sonraki - 1.5) planla(sonraki, false);
-      else yeni.zaman = setTimeout(bekle, 500);
-    };
-    yeni.zaman = setTimeout(bekle, 500);
-  };
-  planla(c.currentTime + 0.02, true);
-  taniYaz("basladi");
+function odaDurdur(oda) {
+  if (!oda || oda.bitti) return;
+  oda.bitti = true;
+  clearTimeout(oda.zaman);
+  for (const o of havuz) if (!o.bosta && (o === oda.calan || o.gecti)) parcaSondur(o, GECIS_SN);
 }
 
 function guncelle() {
@@ -189,25 +275,26 @@ function guncelle() {
   taniYaz("guncelle");
 }
 
-/** Rotanın döngüsünü seçer: aynıysa yalnız seviye, farklıysa eskisini söndürüp yenisini başlatır. */
+/** Rotanın odasını seçer: aynı listeyse yalnız seviye, farklıysa eskisini söndürüp yenisini başlatır. */
 function izSec() {
   const an = donguSec(rota);
-  const dosya = muzikAcikMi() ? secimDosyasi(an) : null;
+  const liste = muzikAcikMi() ? odaListesi(an) : [];
+  const anahtar = liste.length ? `${an}:${liste.join(",")}` : null;
   const c = baglam();
   if (!c) return;
   seviyeUygula();
-  if ((iz?.dosya ?? null) === dosya) return;
-  izDurdur(iz);
+  if ((iz?.anahtar ?? null) === anahtar) return;
+  odaDurdur(iz);
   iz = null;
-  if (!dosya) return;
-  const yeni = { dosya, kazanc: c.createGain(), kaynaklar: [], zaman: 0, bitti: false };
-  yeni.kazanc.gain.value = 0.0001;
-  yeni.kazanc.connect(ana);
-  iz = yeni;
-  tamponAl(c, dosya).then(
-    (tampon) => { if (iz === yeni && !yeni.bitti) izBaslat(c, yeni, tampon); },
-    (e) => { console.warn("müzik yüklenemedi:", e?.message ?? e); if (iz === yeni) { iz = null; yeni.bitti = true; } },
-  );
+  if (!anahtar) return;
+  // Her girişte rastgele bir parçadan başla (liste 2+ ise son başlangıçla aynı olmasın).
+  let bas = Math.floor(Math.random() * liste.length);
+  if (liste.length > 1 && bas === sonBaslangic[an]) bas = (bas + 1) % liste.length;
+  sonBaslangic[an] = bas;
+  const oda = { an, liste, anahtar, sira: bas, calan: null, bitti: false, zaman: 0 };
+  iz = oda;
+  parcaBaslat(c, oda, bas, GECIS_SN);
+  oda.zaman = setTimeout(() => odaSaati(c, oda), 250);
 }
 
 /** Rota değişti (BildimApp çağırır). İlk çağrı seçimleri de tazeler. */
@@ -247,11 +334,23 @@ if (typeof window !== "undefined") {
     };
     for (const t of ["pointerdown", "keydown", "touchstart"]) window.addEventListener(t, ilk, true);
   }
+  // iOS: <audio> yalnız dokunuş/tıklama içinde ilk kez çalabilir → havuzu o anda kilitten çıkar.
+  const kilit = () => {
+    if (!dokunuldu) dokunuldu = true;
+    havuzHazirla();
+    if (havuz.length) for (const t of ["touchend", "click", "keydown"]) window.removeEventListener(t, kilit, true);
+  };
+  for (const t of ["touchend", "click", "keydown"]) window.addEventListener(t, kilit, true);
   document.addEventListener("visibilitychange", () => {
     gizli = document.hidden;
     try {
       const c = dokunuldu ? sesBaglami() : null;
       if (c) Promise.resolve(gizli ? c.suspend() : c.resume()).then(() => taniYaz("olay"), () => {});
     } catch { /* tarayıcı izin vermedi */ }
+    for (const o of havuz) {
+      if (o.bosta) continue;
+      if (gizli) { if (!o.el.paused) { o.bekleyen = true; try { o.el.pause(); } catch { /* */ } } }
+      else if (o.bekleyen) oynat(o);
+    }
   });
 }

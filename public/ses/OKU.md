@@ -120,3 +120,7 @@ değiştirilebilir (JokerCubugu.jsx:179, DuelloPage.jsx:651/1095/1128).
 Müzik VAR (Ida kararı, 23 Eyl 2026): çağrı gerekmez — `oyun/lib/sesArkaPlan.js` rotaya göre
 çalar; soru gelince `sesSoruGeldi()` kısar, `sesDogru/sesYanlis/sesSureDoldu/sonuç` sesleri açar.
 Turnuva sayfası maç sürerken `muzikTurnuvaMacta(true)` der (maç döngüsü).
+Çalma listesi (Ajan M, 24 Eyl 2026): her müzik odası `/ses-secim`'de 1–4 parça sıralı seçilir
+(`ses_listesi_kaydet`, migration 450); oyun TAM parçayı Supabase Storage `muzik` kovasından
+çalar (`oyun/lib/muzikParcalari.js`), 1,5 sn çapraz geçişle sıradakine geçer, liste bitince başa
+döner, odaya her girişte rastgele parçadan başlar. Tam parçalar `public/`'e girmez.
