@@ -38,16 +38,18 @@ import { JOKER_BILGI, SALDIRI_JOKERLERI, macJokerleri, skillSetiOku } from "../l
 import { y } from "../lib/yol.js";
 import { coinTazele } from "../lib/coin.js";
 import { ayar } from "../lib/ayarlar.js";
-import Modal from "../components/Modal.jsx";
 import KarsilasmaSahnesi, { KARSILASMA_ANIM_MS } from "../components/KarsilasmaSahnesi.jsx";
-import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesJoker, sesKazandin, sesKaybettin, sesDokunus, sesRakipBulundu, sesCanKaybi } from "../lib/ses.js";
+import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesJoker, sesKazandin, sesKaybettin, sesDokunus, sesRakipBulundu, sesCanKaybi,
+  sesOnYukle, sesKategoriGeriSayim, sesSoruGeldi, sesTurGecis, sesSkill } from "../lib/ses.js";
 import { titret } from "../lib/geriBildirim.js";
 import { tt } from "../lib/dil.js";
 import { useOyunModu } from "../lib/oyunModu.js";
 import SkillSeti from "../components/SkillSeti.jsx";
 // Düello 1.0 (surum = 2) arayüzü — eski arayüz aşağıda aynen durur.
-import { tt2, useV2Ceviri, V2Kategori, V2Cevap, V2Sonuc, V2Skill, V2Gecmis, V2SureCubugu } from "../components/DuelloV2.jsx";
-import "../styles/duello-v2.css";
+import { V2Ust, V2Kategori, V2Cevap, V2Sonuc, V2Skill, V2Gecmis } from "../components/DuelloV2.jsx";
+// Tasarım A görünümü (m2- önekli). Eski duello-v2.css artık yüklenmez (dosya Faz 4'e kadar durur).
+import "./DuelloPage.a.css";
+import { QtBosDurum, QtDugme, QtIkon, QtAvatar, QtModal, QtSayac, QT_KIRILMA_MS, sinif } from "../tasarim/index.js";
 import { rpcDene } from "../lib/rpcDene.js";
 
 const HARFLER = ["A", "B", "C", "D"];
@@ -83,6 +85,19 @@ function Kalpler({ can, max = DUELLO_CAN, sonCan }) {
 }
 
 // ------------------------------------------------------------ giriş + arama
+// Tasarım A: tek sütun, mod rengi pembe başlık kartı + kural satırları + tek birincil eylem.
+const KURAL_V2 = [
+  { ikon: "kalp", metin: "3 can, en çok 10 tur" },
+  { ikon: "terazi", metin: "Biri doğru öteki yanlış/yanıtsız → yanlış olan 1 can kaybeder; ikisi aynıysa nötr" },
+  { ikon: "saat", metin: "Beraberlik yok: can eşitse uzatma, kategori rastgele" },
+  { ikon: "yildiz", metin: "Maçta 4 skill: aynı skill en çok 2 kez, soru başına 1" },
+];
+const KURAL_V1 = [
+  { ikon: "kalp", metin: "3 can, en çok 10 tur" },
+  { ikon: "uyari", metin: "Rakip en zayıf kategorisinde bilirse canı SEN kaybedersin" },
+  { ikon: "kilit", metin: "Aynı kategori üst üste seçilemez, maçta en çok 2 kez" },
+];
+
 function DuelloGiris() {
   const navigate = useNavigate();
   const { ceviri } = useDil();
@@ -106,54 +121,40 @@ function DuelloGiris() {
     return () => { aktif = false; };
   }, []);
   const v2 = surum === 2;
+  const kurallar = v2 ? KURAL_V2 : KURAL_V1;
 
   return (
-    <div className="bd-duello-giris">
-      {/* Sayfa başlığı — prototipin `page-heading` bloğu (Arayüz Yenileme) */}
-      <section className="page-heading">
-        <div>
-          <span className="eyebrow">{tt("ÖNE ÇIKAN MOD")}</span>
-          <h1>{tt("Düello")}</h1>
-          <p>{tt("Skillerini doğru anda kullan, rakibinin planını boz.")}</p>
+    <div className="m2-giris">
+      <header className="m2-giris-kafa qt-h-gir">
+        <span className="m2-giris-ikon" aria-hidden="true"><QtIkon ad="duello" boyut={40} /></span>
+        <div className="m2-giris-yazi">
+          <h1 className="qt-baslik-1">{ceviri("Düello")}</h1>
+          <p>{v2
+            ? ceviri("Sırayla kategori seçin, aynı soruyu aynı anda cevaplayın. Yalnız biri bilirse öteki can kaybeder.")
+            : ceviri("Sırayla birbirinize soru gönderin. Rakibin zayıf kategorisini bul, oradan vur.")}</p>
         </div>
-      </section>
-      <div className="kart bd-duello-tanit">
-        <span className="bd-duello-tanit-ikon" aria-hidden="true"><Ikon ad="kilic" boyut={34} /></span>
-        <div className="bd-duello-tanit-metin">
-          <b>{ceviri("Taktik Maçı")}</b>
-          {v2 ? (
-            <>
-              <p>{tt2("Sırayla kategori seçin, aynı soruyu aynı anda cevaplayın. Yalnız biri bilirse öteki can kaybeder.")}</p>
-              <ul>
-                <li>{tt2("3 can, en çok 10 tur")}</li>
-                <li>{tt2("Biri doğru öteki yanlış/yanıtsız → yanlış olan 1 can kaybeder; ikisi aynıysa nötr")}</li>
-                <li>{tt2("Beraberlik yok: can eşitse uzatma, kategori rastgele")}</li>
-                <li>{tt2("Maçta 4 skill: aynı skill en çok 2 kez, soru başına 1")}</li>
-              </ul>
-            </>
-          ) : (
-            <>
-              <p>{ceviri("Sırayla birbirinize soru gönderin. Rakibin zayıf kategorisini bul, oradan vur.")}</p>
-              <ul>
-                <li>{ceviri("3 can, en çok 10 tur")}</li>
-                <li>{ceviri("Rakip en zayıf kategorisinde bilirse canı SEN kaybedersin")}</li>
-                <li>{ceviri("Aynı kategori üst üste seçilemez, maçta en çok 2 kez")}</li>
-              </ul>
-            </>
-          )}
-        </div>
-      </div>
+      </header>
+      <ul className="m2-giris-kurallar" aria-label={ceviri("Taktik Maçı")}>
+        {kurallar.map((k) => (
+          <li key={k.metin}>
+            <span className="m2-giris-kural-ikon" aria-hidden="true"><QtIkon ad={k.ikon} boyut={20} /></span>
+            <span>{ceviri(k.metin)}</span>
+          </li>
+        ))}
+      </ul>
       <DereceliAnahtari dereceli={dereceli} onDegistir={setDereceli} />
       <SkillSeti macTur="duello" />
-      <div className="bd-ana-eylem-not">
-        {dereceli ? ceviri("Klasik ile aynı lig puanı ve coin ödülü") : ceviri("Serbest: lig puanı yok, coin yarı.")}
+      <div className="m2-giris-eylem">
+        <QtDugme tamGenislik boyut="b" ikon="duello"
+                 onClick={() => { sesKilidiAc(); sesDokunus(); if (duelloTanitimGoruldu(surum)) setArama(true); else setTanitim("arama"); }}>
+          {ceviri("Rakip ara")}
+        </QtDugme>
+        <p className="m2-giris-not">
+          {dereceli ? ceviri("Klasik ile aynı lig puanı ve coin ödülü") : ceviri("Serbest: lig puanı yok, coin yarı.")}
+        </p>
+        {/* Paket 20 IV.1: kurallar her zaman yeniden açılabilir */}
+        <QtDugme tur="hayalet" boyut="k" ikon="bilgi" onClick={() => setTanitim("kurallar")}>{ceviri("Kurallar nasıl işliyor?")}</QtDugme>
       </div>
-      <button className="bd-ana-eylem" onClick={() => { sesKilidiAc(); if (duelloTanitimGoruldu(surum)) setArama(true); else setTanitim("arama"); }}>
-        <Ikon ad="kilic" boyut={22} />
-        <span>{ceviri("Rakip ara")}</span>
-      </button>
-      {/* Paket 20 IV.1: kurallar her zaman yeniden açılabilir */}
-      <button type="button" className="bd-bildir-ac bd-duello-kurallar" onClick={() => setTanitim("kurallar")}>{ceviri("Kurallar nasıl işliyor?")}</button>
       {tanitim && <DuelloTanitim surum={surum} onKapat={() => { const aramaya = tanitim === "arama"; setTanitim(null); if (aramaya) setArama(true); }} />}
       {arama && (
         <DuelloArama
@@ -176,7 +177,7 @@ const ARAMA_IPUCLARI = [
   "Rakip en zayıf kategorisinde bilirse canı SEN kaybedersin",
   "Saldırı hazırlığında joker kullanabilirsin.",
 ];
-// Düello 1.0 ipuçları (metinler DuelloV2 yerel sözlüğünde; tt2 ile çevrilir).
+// Düello 1.0 ipuçları (İngilizcesi ceviri/mac.js › Düello (M2)).
 const ARAMA_IPUCLARI_V2 = [
   "Aynı soruyu aynı anda cevaplarsınız.",
   "Rakibin ne cevapladığını göremezsin, yalnız cevapladığını görürsün.",
@@ -269,40 +270,37 @@ function DuelloArama({ dereceli, onBulundu, onIptal, ipuclari = ARAMA_IPUCLARI }
 
   const yenidenDene = () => { bittiRef.current = false; setHata(null); setGecen(0); setDeneme((n) => n + 1); };
 
-  return createPortal(
-    <div className="bd-arama-katman bd-karsilasma-katman" role="dialog" aria-modal="true" aria-label={ceviri("Rakip aranıyor")}>
-      <div className="bd-arama-kutu bd-arama-kutu-genis">
-        <KarsilasmaSahnesi
-          rakip={rakip}
-          bulundu={bulundu}
-          ezeli={ezeli}
-          bosEtiket={hata ? ceviri("Rakip bulunamadı") : undefined}
-          baslik={bulundu ? ceviri("Rakip bulundu!") : hata ? ceviri("Rakip bulunamadı") : ceviri("Düello rakibi aranıyor…")}
-        >
-          {!bulundu && !hata && (
-            <>
-              {/* key değişince satır yeniden takılır → giriş animasyonu her ipucunda oynar */}
-              <div key={ipucu} className="bd-arama-alt bd-arama-ipucu" aria-live="polite">
-                {ipuclari === ARAMA_IPUCLARI ? ceviri(ipuclari[ipucu]) : tt2(ipuclari[ipucu])}
-              </div>
-              <div className="bd-arama-sayac">{ceviri("{0} sn · rakip aranıyor", { 0: gecen })}</div>
-            </>
-          )}
-          {hata && <div className="hata-kutu">{hata}</div>}
-          {hata && <button className="btn" onClick={yenidenDene}>{ceviri("Tekrar dene")}</button>}
-          <button className="btn ikincil" onClick={onIptal} disabled={bulundu}>{ceviri("Vazgeç")}</button>
-        </KarsilasmaSahnesi>
-      </div>
-    </div>,
-    document.body
+  // Pencere: QtModal (body'ye portal, odak tuzağı). Bulunduktan sonra kapatılamaz.
+  return (
+    <QtModal acik className="m2-arama" kapatDugmesi={false} ortuKapatir={false}
+             onKapat={bulundu ? undefined : onIptal}>
+      <KarsilasmaSahnesi
+        rakip={rakip}
+        bulundu={bulundu}
+        ezeli={ezeli}
+        bosEtiket={hata ? ceviri("Rakip bulunamadı") : undefined}
+        baslik={bulundu ? ceviri("Rakip bulundu!") : hata ? ceviri("Rakip bulunamadı") : ceviri("Düello rakibi aranıyor…")}
+      >
+        {!bulundu && !hata && (
+          <>
+            {/* key değişince satır yeniden takılır → giriş animasyonu her ipucunda oynar */}
+            <p key={ipucu} className="m2-arama-ipucu qt-h-gir" aria-live="polite">{ceviri(ipuclari[ipucu])}</p>
+            <p className="m2-arama-sayac qt-sayi">{ceviri("{0} sn · rakip aranıyor", { 0: gecen })}</p>
+          </>
+        )}
+        {hata && <p className="m2-hata" role="alert"><QtIkon ad="uyari" boyut={18} /> {hata}</p>}
+        <div className="m2-arama-eylem">
+          {hata && <QtDugme tamGenislik ikon="yenile" onClick={yenidenDene}>{ceviri("Tekrar dene")}</QtDugme>}
+          <QtDugme tur="ikincil" tamGenislik devreDisi={bulundu} onClick={onIptal}>{ceviri("Vazgeç")}</QtDugme>
+        </div>
+      </KarsilasmaSahnesi>
+    </QtModal>
   );
 }
 
 // ------------------------------------------------------------ rövanş bekleme (Paket 30 C)
-// Eskiden istek gidince büyük düğme kayboluyor, yerine soluk tek satır geliyordu
-// ("her şey silindi"). Şimdi arama ekranıyla aynı dilde bir bekleme penceresi:
-// rakibin avatarı, geri sayım halkası (süre oyun_ayarlari.duello_rovans_sn), Vazgeç.
-// Sunucuda isteği geri çeken bir RPC YOK — Vazgeç yalnız pencereyi kapatır.
+// Rakibin avatarı, geri sayım halkası (süre oyun_ayarlari.duello_rovans_sn), Vazgeç.
+// Sunucuda isteği geri çeken RPC: duello_rovans_iptal (Vazgeç).
 const ROVANS_HALKA_R = 44;
 const ROVANS_HALKA_CEVRE = 2 * Math.PI * ROVANS_HALKA_R;
 
@@ -311,27 +309,26 @@ function RovansBekleme({ rakip, baslangic, sureSn, simdi, ceviri, onVazgec }) {
   const kalanSn = Math.ceil(kalanMs / 1000);
   const oran = sureSn > 0 ? kalanMs / (sureSn * 1000) : 0;
   return (
-    <Modal onKapat={onVazgec} etiket={ceviri("Rövanş isteği gönderildi")}>
-      <div className="bd-modal bd-rovans-bekleme" aria-live="polite">
-        <div className="bd-rovans-halka">
+    <QtModal acik onKapat={onVazgec} baslik={ceviri("Rövanş isteği gönderildi")} className="m2-rovans"
+             altlik={<QtDugme tur="ikincil" tamGenislik onClick={onVazgec}>{ceviri("Vazgeç")}</QtDugme>}>
+      <div className="m2-rovans-ic" aria-live="polite">
+        <div className="m2-rovans-halka">
           <svg viewBox="0 0 100 100" aria-hidden="true">
             <circle className="iz" cx="50" cy="50" r={ROVANS_HALKA_R} />
             <circle className="dolu" cx="50" cy="50" r={ROVANS_HALKA_R}
                     strokeDasharray={ROVANS_HALKA_CEVRE}
                     strokeDashoffset={ROVANS_HALKA_CEVRE * (1 - oran)} />
           </svg>
-          <Avatar profile={rakip} boyut={72} />
+          <QtAvatar src={rakip?.gorunen_avatar ?? rakip?.avatar_url} ad={rakip?.gorunen_ad ?? ""} boyut="l" halka="yok" />
         </div>
-        <div className="bd-rovans-ad">{rakip?.gorunen_ad}</div>
-        <div className="bd-rovans-metin">
+        <p className="m2-rovans-metin">
           {ceviri("Rövanş isteği gönderildi — {ad} yanıtlıyor…", { ad: rakip?.gorunen_ad ?? "" })}
-        </div>
-        <div className="bd-rovans-sayac" role="timer" aria-label={ceviri("{0} saniye kaldı", { 0: kalanSn })}>
+        </p>
+        <p className="m2-rovans-sayac qt-sayi" role="timer" aria-label={ceviri("{0} saniye kaldı", { 0: kalanSn })}>
           {ceviri("{0} sn", { 0: kalanSn })}
-        </div>
-        <button type="button" className="btn ikincil" onClick={onVazgec}>{ceviri("Vazgeç")}</button>
+        </p>
       </div>
-    </Modal>
+    </QtModal>
   );
 }
 
@@ -339,8 +336,8 @@ function RovansBekleme({ rakip, baslangic, sureSn, simdi, ceviri, onVazgec }) {
 function DuelloMac({ id }) {
   const navigate = useNavigate();
   const { user, refreshProfile } = useAuth();
-  const { dil, ceviri } = useDil();
-  const c2 = useV2Ceviri(dil, ceviri);   // Düello 1.0 metinleri (yerel İngilizce sözlük + ortak çeviri)
+  const { ceviri } = useDil();
+  const c2 = ceviri;   // Düello 1.0 metinleri: İngilizcesi ceviri/mac.js › Düello (M2)
   const [d, setD] = useState(null);
   const [hata, setHata] = useState(null);
   const [yuklemeHatasi, setYuklemeHatasi] = useState(null);
@@ -381,7 +378,17 @@ function DuelloMac({ id }) {
   const sonHamleRef = useRef(null);
   const bitisSesRef = useRef(false);
   const sonTikRef = useRef(null);
-  const haleSureRef = useRef({ anahtar: "", sn: 0 });   // savunma halesi: fazın toplam süresi (ek süreyle büyür)
+  const haleSureRef = useRef({ anahtar: "", sn: 0 });
+  // Tasarım A anları (yalnız sunum)
+  const sayimRef = useRef(null);            // kategori geri sayımı: son çalınan saniye
+  const gecisRef = useRef(null);            // son görülen faz/tur/soru (geçiş ve soru sesi)
+  const soruSesTimerRef = useRef(null);
+  const kirilmaTimerRef = useRef(null);
+  const canRef = useRef({});
+  const [kayip, setKayip] = useState({});   // { oyuncuId: anahtar } → kalp kırılır
+  const [kiriliyor, setKiriliyor] = useState([]);   // 50:50 ile kırılan şıklar
+  const [turGecis, setTurGecis] = useState(null);   // geçiş bandı anahtarı
+  const [sonKullanilan, setSonKullanilan] = useState(null);   // { tur, anahtar } skill anı   // savunma halesi: fazın toplam süresi (ek süreyle büyür)
 
   const yukle = useCallback(async () => {
     if (yukleniyorRef.current) return;
@@ -589,6 +596,76 @@ function DuelloMac({ id }) {
     if (sn > 0 && sn <= 3 && sonTikRef.current !== sn) { sonTikRef.current = sn; sesTik(sn); }
   }, [kalanSn, d]);
 
+  // ---------------- Düello 1.0: ses + görsel anlar (Tasarım A) ----------------
+  // Yalnız sunum: durum akışına, RPC'lere, kilitlere dokunmaz. Her ses bir ref
+  // korumasıyla bir kez çalar (StrictMode çift efekti çift ses vermez).
+  useEffect(() => { sesOnYukle("duello"); sesOnYukle("mac"); sesOnYukle("skill"); }, []);
+
+  // Kategori seçimi geri sayımı: rakam her değiştiğinde ses; son 2 sn "bong".
+  const v2Aktif = d?.surum === 2 && d?.durum === "aktif";
+  const kategoriSn = v2Aktif && d.faz === "kategori" ? Math.ceil(kalanSn) : 0;
+  useEffect(() => {
+    if (kategoriSn <= 0) return;
+    const anahtar = `${fazAnahtari}:${kategoriSn}`;
+    if (sayimRef.current === anahtar) return;
+    sayimRef.current = anahtar;
+    sesKategoriGeriSayim(kategoriSn);
+  }, [kategoriSn, fazAnahtari]);
+
+  // Tur geçişi ve yeni soru: geçiş sesi animasyonun başladığı karede; soru sesi
+  // kart göründüğü karede. Sonuç → doğrudan yeni soru (uzatma) ise ikisi arası 300 ms.
+  const soruMetni = d?.soru?.soru ?? null;
+  const gecisFaz = v2Aktif ? d.faz : null;
+  const gecisTur = `${d?.tur}-${d?.saldiri_sirasi}-${d?.uzatma}`;
+  useEffect(() => {
+    if (!gecisFaz) return;
+    const onceki = gecisRef.current;
+    const simdiki = { faz: gecisFaz, tur: gecisTur, soru: soruMetni };
+    gecisRef.current = simdiki;
+    if (onceki && onceki.faz === simdiki.faz && onceki.tur === simdiki.tur && onceki.soru === simdiki.soru) return;
+    if (gecisFaz === "kategori" && onceki && (onceki.faz !== "kategori" || onceki.tur !== gecisTur)) {
+      sesTurGecis();
+      setTurGecis(Date.now());
+    } else if (gecisFaz === "cevap" && soruMetni && (!onceki || onceki.soru !== soruMetni || onceki.faz !== "cevap")) {
+      if (onceki?.faz === "sonuc") {
+        sesTurGecis();
+        setTurGecis(Date.now());
+        clearTimeout(soruSesTimerRef.current);
+        soruSesTimerRef.current = setTimeout(() => sesSoruGeldi(), 300);
+      } else sesSoruGeldi();
+    }
+  }, [gecisFaz, gecisTur, soruMetni]);
+  useEffect(() => () => clearTimeout(soruSesTimerRef.current), []);
+
+  // Can kaybı: kalp kırılma animasyonu (QtCan kayip) — anahtar her yeni kayıpta değişir.
+  useEffect(() => {
+    if (!d?.oyuncular) return;
+    const onceki = canRef.current;
+    const yeni = {};
+    const kayiplar = {};
+    for (const o of d.oyuncular) {
+      yeni[o.id] = Number(o.can);
+      if (onceki[o.id] !== undefined && Number(o.can) < onceki[o.id]) kayiplar[o.id] = Date.now();
+    }
+    canRef.current = yeni;
+    if (Object.keys(kayiplar).length) setKayip((k) => ({ ...k, ...kayiplar }));
+  }, [d?.oyuncular]);
+
+  // 50:50 anı: kapanan iki şık kırılıp düşer, QT_KIRILMA_MS sonra "elendi" olur.
+  // Rakibin Zaman Baskısı: skill sesi + titreşim (sayaçta "−N" balonu).
+  useEffect(() => {
+    if (!skillEfekt || d?.surum !== 2) return;
+    if (skillEfekt.tur === "zaman_baskisi") { sesSkill("zaman_baskisi"); titret(30); }
+    if (skillEfekt.tur !== "elli") return;
+    const kapali = Array.isArray(d.cevap?.elli_kapali) ? d.cevap.elli_kapali.map(Number) : [];
+    setKiriliyor(kapali);
+    clearTimeout(kirilmaTimerRef.current);
+    kirilmaTimerRef.current = setTimeout(() => setKiriliyor([]), QT_KIRILMA_MS);
+    // Yalnız yeni efekt geldiğinde (d her saniye yenilenir)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [skillEfekt]);
+  useEffect(() => () => clearTimeout(kirilmaTimerRef.current), []);
+
   const eylem = async (ad, fn, params) => {
     setHata(null);
     setCalisan(ad);
@@ -648,7 +725,9 @@ function DuelloMac({ id }) {
         sonuc = await supabase.rpc(tur === "zaman_baskisi" ? "duello_saldiri_jokeri" : "duello_savunma_jokeri", { p_id: id, p_tur: tur });
       }
       if (sonuc.error) throw sonuc.error;
-      sesJoker(); titret(10);
+      // Kullanma anı: skill'in kendi sesi + düğmede patlama/halka (aynı kare)
+      sesSkill(tur); titret(10);
+      setSonKullanilan({ tur, anahtar: Date.now() });
       await yukle();
     } catch (e) {
       setHata(ceviri(hataMesaji(e)));
@@ -667,13 +746,15 @@ function DuelloMac({ id }) {
 
   if (!d) {
     return (
-      <div className="bd-duello">
+      <div className="m2-mac qt-sahne-mac">
         {/* Paket 41 G: Klasik ile aynı kalıp — Tekrar dene + çıkış, ham metin yok */}
         {yuklemeHatasi ? (
           <MacYukleniyor hata={yuklemeHatasi} onTekrarDene={() => { setYuklemeHatasi(null); yukle(); }}
                          donusYolu={y("/duello")} donusMetni={ceviri("Düello'ya dön")} />
         ) : (
-          <div className="bd-duello-yukleniyor"><span className="bd-duello-yukleniyor-ikon"><Ikon ad="kilic" boyut={34} /></span></div>
+          <div className="m2-yukleniyor" aria-busy="true" aria-label={ceviri("Yükleniyor…")}>
+            <span className="m2-yukleniyor-ikon" aria-hidden="true"><QtIkon ad="duello" boyut={36} /></span>
+          </div>
         )}
       </div>
     );
@@ -681,9 +762,10 @@ function DuelloMac({ id }) {
 
   if (Number(d.surum ?? 1) > DUELLO_EN_YUKSEK_SURUM) {
     return (
-      <div className="bd-duello">
-        <div className="hata-kutu" role="alert">{ceviri("Oyunun yeni sürümü var. Maça devam etmek için sayfayı yenile.")}</div>
-        <button type="button" className="btn" onClick={() => window.location.reload()}>{ceviri("Yenile")}</button>
+      <div className="m2-surum">
+        <QtBosDurum ikon="uyari" ton="yanlis"
+                    baslik={ceviri("Oyunun yeni sürümü var. Maça devam etmek için sayfayı yenile.")}
+                    eylem={<QtDugme ikon="yenile" onClick={() => window.location.reload()}>{ceviri("Yenile")}</QtDugme>} />
       </div>
     );
   }
@@ -750,48 +832,164 @@ function DuelloMac({ id }) {
           eylemler={
             <>
               {rov.id ? (
-                <button className="btn mss-tam" onClick={() => navigate(y(`/duello/${rov.id}`))}>{ceviri("Rövanşa git")}</button>
+                <QtDugme className="mss-tam" tamGenislik ikon="duello" onClick={() => navigate(y(`/duello/${rov.id}`))}>{ceviri("Rövanşa git")}</QtDugme>
               ) : rov.isteyen && rov.gecerli && rov.isteyen === d.ben && !rovVazgec ? (
                 <>
-                  {/* İstek gönderildi: bekleme penceresi (Modal, body'ye portal) açık; çubukta pasif düğme */}
-                  <button className="btn mss-tam" disabled>{ceviri("Rövanş bekleniyor…")}</button>
+                  {/* İstek gönderildi: bekleme penceresi (QtModal, body'ye portal) açık; çubukta pasif düğme */}
+                  <QtDugme className="mss-tam" tamGenislik yukleniyor>{ceviri("Rövanş bekleniyor…")}</QtDugme>
                   <RovansBekleme rakip={rakip} baslangic={rovBas ?? Date.now()} sureSn={rovSn} simdi={simdi}
                                  ceviri={ceviri} onVazgec={rovansVazgec} />
                 </>
               ) : rov.isteyen && rov.gecerli && rov.isteyen !== d.ben ? (
                 <>
-                  <div className="bd-duello-rovans-soru mss-tam">{ceviri("{ad} rövanş istiyor!", { ad: rakip.gorunen_ad })}</div>
-                  <button className="btn" disabled={!!calisan} aria-busy={calisan === "rovans"}
-                          onClick={() => eylem("rovans", "duello_rovans_yanitla", { p_kabul: true })}>
-                    {calisan === "rovans" ? "…" : ceviri("Kabul et")}
-                  </button>
-                  <button className="btn ikincil" disabled={!!calisan}
-                          onClick={() => eylem("rovans", "duello_rovans_yanitla", { p_kabul: false })}>
+                  <p className="m2-rovans-soru mss-tam qt-h-pop-gir" role="status">{ceviri("{ad} rövanş istiyor!", { ad: rakip.gorunen_ad })}</p>
+                  <QtDugme ikon="onay" devreDisi={!!calisan} yukleniyor={calisan === "rovans"}
+                           onClick={() => eylem("rovans", "duello_rovans_yanitla", { p_kabul: true })}>
+                    {ceviri("Kabul et")}
+                  </QtDugme>
+                  <QtDugme tur="ikincil" devreDisi={!!calisan}
+                           onClick={() => eylem("rovans", "duello_rovans_yanitla", { p_kabul: false })}>
                     {ceviri("Reddet")}
-                  </button>
+                  </QtDugme>
                 </>
               ) : d.durum === "bitti" ? (
                 <>
                   {rovSonuc && (
-                    <div className="bd-rovans-sonuc mss-tam" role="status">
+                    <p className="m2-rovans-sonuc mss-tam" role="status">
                       {rovSonuc === "red"
                         ? ceviri("{ad} rövanşı kabul etmedi.", { ad: rakip.gorunen_ad })
                         : ceviri("{ad} yanıt vermedi.", { ad: rakip.gorunen_ad })}
-                    </div>
+                    </p>
                   )}
-                  <button className="btn mss-tam" disabled={!!calisan} aria-busy={!!calisan} onClick={rovansIste}>
-                    {calisan ? "…" : <><Ikon ad="yenile" boyut={16} /> {rovSonuc ? ceviri("Tekrar rövanş iste") : ceviri("Rövanş")}</>}
-                  </button>
+                  <QtDugme className="mss-tam" tamGenislik ikon="yenile" yukleniyor={!!calisan} onClick={rovansIste}>
+                    {rovSonuc ? ceviri("Tekrar rövanş iste") : ceviri("Rövanş")}
+                  </QtDugme>
                 </>
               ) : null}
-              {hata && <div className="hata-kutu mss-tam">{hata}</div>}
-              <button className="btn ikincil" onClick={() => navigate(y("/duello"))}>{ceviri("Yeni düello")}</button>
-              <button className="btn ikincil" onClick={() => navigate(y())}>{ceviri("Ana sayfa")}</button>
+              {hata && <p className="m2-hata mss-tam" role="alert"><QtIkon ad="uyari" boyut={18} /> {hata}</p>}
+              <QtDugme tur="ikincil" onClick={() => navigate(y("/duello"))}>{ceviri("Yeni düello")}</QtDugme>
+              <QtDugme tur="ikincil" ikon="ev" onClick={() => navigate(y())}>{ceviri("Ana sayfa")}</QtDugme>
             </>
           }
         >
           <HesapGuvenceOnerisi kazandim={d.durum === "bitti" && kazandim} />
         </MacSonuSahnesi>
+      </div>
+    );
+  }
+
+  // Skill satın alma penceresi (v1 ve v2 ortak; JokerSatinAlModal paylaşılan bileşen).
+  const satinAlPenceresi = satinAlinacak && (
+    <JokerSatinAlModal
+      tur={satinAlinacak.tur}
+      yalnizAl={satinAlinacak.yalnizAl}
+      fiyat={Number((d.surum === 2 ? d.skill : d.jokerler)?.fiyatlar?.[satinAlinacak.tur] ?? 0)}
+      coin={Number((d.surum === 2 ? d.skill : d.jokerler)?.coin ?? 0)}
+      onKapat={() => setSatinAlinacak(null)}
+      onOnay={async () => {
+        if (satinAlinacak.yalnizAl) {
+          // Kategori ekranı: joker envantere girer, KULLANILMAZ.
+          // Kullanım Saldırı Hazırlığı'nda normal yoldan yapılır.
+          const { error } = await supabase.rpc("joker_tek_al", { p_tur: satinAlinacak.tur });
+          if (error) throw error;
+        } else {
+          // Satın alma + kullanım TEK RPC: araya girip coin düşüp jokerin
+          // kullanılmaması diye bir durum oluşmaz.
+          const yeniSkill = satinAlinacak.tur === "ikinci_sans";
+          const { error } = await supabase.rpc(yeniSkill ? "skill_al_ve_hazirla" : "joker_al_ve_kullan", {
+            p_mac_tur: "duello",
+            p_mac_id: id,
+            p_soru_index: null,
+            p_tur: satinAlinacak.tur,
+          });
+          if (error) throw error;
+        }
+        if (d.surum === 2 && !satinAlinacak.yalnizAl) {
+          sesSkill(satinAlinacak.tur);
+          setSonKullanilan({ tur: satinAlinacak.tur, anahtar: Date.now() });
+        } else sesJoker();
+        titret(10);
+        coinTazele();
+        await yukle();
+      }}
+    />
+  );
+
+  // ================= Düello 1.0 (surum 2) — Tasarım A maç ekranı =================
+  if (d.surum === 2) {
+    const kilitli = Boolean(d.cevap?.ben_cevapladim);
+    const toplamSn = d.faz === "kategori"
+      ? Number(d.sureler?.kategori ?? 8)
+      : Math.max(Number(d.sureler?.cevap ?? 15), Math.ceil(kalanSn));
+    const sonIki = d.faz === "kategori" && kalanSn > 0 && kalanSn <= 2;
+    const gerilim = (d.faz === "cevap" && !kilitli && kalanSn > 0 && kalanSn <= 5) || sonIki;
+    const ekBalon = skillEfekt?.tur === "sure"
+      ? { anahtar: `s${skillEfekt.deger}${fazAnahtari}`, metin: `+${skillEfekt.deger}` }
+      : skillEfekt?.tur === "zaman_baskisi"
+        ? { anahtar: `z${skillEfekt.deger}${fazAnahtari}`, metin: `−${skillEfekt.deger}` }
+        : null;
+    let sahne2 = null;
+    if (d.faz === "kategori") {
+      sahne2 = (
+        <V2Kategori d={d} benSaldiran={benSaldiran} rakip={rakip} calisan={calisan} sonSaniye={sonIki} c={c2}
+                    sayac={<QtSayac kalan={kalanSn} toplam={toplamSn} esik={2} boyut="b" />}
+                    onSec={(k) => { sesDokunus(); eylem("kategori", "duello_kategori_sec", { p_kategori: k }); }} />
+      );
+    } else if (d.faz === "cevap") {
+      sahne2 = (
+        <V2Cevap d={d} rakip={rakip} secenekler={secenekler} secim={secim}
+                 ikinciSansElendi={ikinciSansElendi} calisan={calisan} kalanSn={kalanSn}
+                 kiriliyor={kiriliyor} c={c2} onCevap={cevapVer}
+                 sayac={<QtSayac kalan={kalanSn} toplam={toplamSn} durdu={kilitli} ekBalon={ekBalon} />} />
+      );
+    } else if (d.faz === "sonuc") {
+      sahne2 = <V2Sonuc d={d} rakip={rakip} secenekler={secenekler} c={c2} />;
+    }
+    return (
+      <div className={sinif("m2-mac qt-sahne-mac", gerilim && "qt-h-gerilim", sonCan && "m2-mac--son-can")}>
+        <MacUstSerit onCik={() => setTerkOnay(true)} cikisEtiketi={ceviri("Düellodan çık")}
+                     rozet={ceviri("Düello · Taktik Maçı")} />
+        <V2Ust d={d} ben={ben} rakip={rakip} kayip={kayip} c={c2} />
+        {/* Paket 24 · A.4: bağlantı kopması. Kopukken sunucu fazları İLERLETMEZ. */}
+        {baglanti?.kopuk && (
+          <p className="m2-bant m2-bant--uyari" role="status">
+            <QtIkon ad="uyari" boyut={18} />
+            <span>
+              {baglanti.ben_mi ? ceviri("Bağlantın koptu — düello bekliyor.") : ceviri("Rakibin bağlantısı koptu — düello durduruldu.")}
+              {baglanti.kalan_sn === null || baglanti.kalan_sn === undefined ? "" : ` ${baglanti.kalan_sn} ${ceviri("sn")}`}
+            </span>
+          </p>
+        )}
+        {ezeliMetin && d.tur <= 1 && d.faz === "kategori" && <p className="m2-bant">{ezeliMetin}</p>}
+        {(ben.can <= 0 || rakip.can <= 0) && (
+          <p className="m2-bant">{ceviri("Eşit hamle kuralı: canı biten oyuncu bu turdaki saldırısını yine de yapar, tur tamamlanınca maç biter.")}</p>
+        )}
+        <div className="m2-sahne" key={`${d.faz}-${d.tur}-${d.saldiri_sirasi}-${d.uzatma}`}>
+          {turGecis && simdi - turGecis < 900 && (
+            <span key={turGecis} className="m2-gecis" aria-hidden="true">
+              <span>{d.uzatma ? c2("UZATMA") : c2("Tur {n}/{t}", { n: d.tur, t: d.max_tur })}</span>
+            </span>
+          )}
+          {sahne2}
+        </div>
+        {hata && <p className="m2-hata" role="alert"><QtIkon ad="uyari" boyut={18} /> {hata}</p>}
+        <V2Skill d={d} calisan={calisan} kalanSn={kalanSn} serbest={jokerSerbest}
+                 sonKullanilan={sonKullanilan} onKullan={v2SkillKullan} c={c2} />
+        {satinAlPenceresi}
+        <div className="m2-terk">
+          <QtDugme tur="hayalet" boyut="k" ikon="cikis" devreDisi={!!calisan} onClick={() => setTerkOnay(true)}>
+            {ceviri("Düellodan çık")}
+          </QtDugme>
+        </div>
+        <QtModal acik={terkOnay} onKapat={() => setTerkOnay(false)} baslik={ceviri("Düellodan çık")}
+                 aciklama={ceviri("Düellodan çıkarsan hükmen kaybedersin. Emin misin?")}
+                 altlik={
+                   <div className="m2-onay-eylem">
+                     <QtDugme tur="ikincil" data-qt-ilk-odak onClick={() => setTerkOnay(false)}>{ceviri("Vazgeç")}</QtDugme>
+                     <QtDugme tur="tehlike" devreDisi={!!calisan}
+                              onClick={() => { setTerkOnay(false); eylem("terk", "duello_terk", {}); }}>{ceviri("Çık")}</QtDugme>
+                   </div>
+                 } />
       </div>
     );
   }
@@ -861,32 +1059,9 @@ function DuelloMac({ id }) {
   // ---------------- faz içeriği ----------------
   let sahne = null;
   const katAdi = d.kategori ? ceviri(kategoriAdi(d.kategori)) : "";
-  // Düello 1.0: aynı soru aynı anda; Saldırı Hazırlığı ve Altın Soru fazı yok.
-  const v2 = d.surum === 2;
-  const v2Toplam = d.faz === "kategori"
-    ? Number(d.sureler?.kategori ?? 8)
-    : Math.max(Number(d.sureler?.cevap ?? 15), Math.ceil(kalanSn));
-  const v2Cubuk = <V2SureCubugu kalanSn={kalanSn} toplamSn={v2Toplam} />;
-
-  if (v2) {
-    if (d.faz === "kategori") {
-      sahne = (
-        <V2Kategori d={d} benSaldiran={benSaldiran} rakip={rakip} calisan={calisan}
-                    sayac={sayac(false)} cubuk={v2Cubuk} c={c2}
-                    onSec={(k) => { sesDokunus(); eylem("kategori", "duello_kategori_sec", { p_kategori: k }); }} />
-      );
-    } else if (d.faz === "cevap") {
-      sahne = (
-        <V2Cevap d={d} rakip={rakip} secenekler={secenekler} secim={secim}
-                 ikinciSansElendi={ikinciSansElendi} calisan={calisan} kalanSn={kalanSn}
-                 sayac={sayac(sonCan)} cubuk={v2Cubuk} c={c2}
-                 skillEfektSinif={skillEfekt ? `bd-skill-${skillEfekt.tur} ${skillEfekt.asama ? `bd-skill-${skillEfekt.asama}` : ""}` : ""}
-                 onCevap={cevapVer} />
-      );
-    } else if (d.faz === "sonuc") {
-      sahne = <V2Sonuc d={d} rakip={rakip} secenekler={secenekler} c={c2} />;
-    }
-  } else if (d.faz === "kategori") {
+  // Düello 1.0 (surum 2) yukarıda kendi ekranıyla döndü; buradan sonrası yalnız eski (v1) maç.
+  const v2 = false;
+  if (d.faz === "kategori") {
     if (benSaldiran) {
       const profil = rakip.profil?.kategoriler ?? [];
       sahne = (
@@ -1100,38 +1275,7 @@ function DuelloMac({ id }) {
         />
       )}
 
-      {satinAlinacak && (
-        <JokerSatinAlModal
-          tur={satinAlinacak.tur}
-          yalnizAl={satinAlinacak.yalnizAl}
-          fiyat={Number((v2 ? d.skill : d.jokerler)?.fiyatlar?.[satinAlinacak.tur] ?? 0)}
-          coin={Number((v2 ? d.skill : d.jokerler)?.coin ?? 0)}
-          onKapat={() => setSatinAlinacak(null)}
-          onOnay={async () => {
-            if (satinAlinacak.yalnizAl) {
-              // Kategori ekranı: joker envantere girer, KULLANILMAZ.
-              // Kullanım Saldırı Hazırlığı'nda normal yoldan yapılır.
-              const { error } = await supabase.rpc("joker_tek_al", { p_tur: satinAlinacak.tur });
-              if (error) throw error;
-            } else {
-              // Satın alma + kullanım TEK RPC: araya girip coin düşüp jokerin
-              // kullanılmaması diye bir durum oluşmaz.
-              const yeniSkill = satinAlinacak.tur === "ikinci_sans";
-              const { error } = await supabase.rpc(yeniSkill ? "skill_al_ve_hazirla" : "joker_al_ve_kullan", {
-                p_mac_tur: "duello",
-                p_mac_id: id,
-                p_soru_index: null,
-                p_tur: satinAlinacak.tur,
-              });
-              if (error) throw error;
-            }
-            sesJoker();
-            titret(10);
-            coinTazele();
-            await yukle();
-          }}
-        />
-      )}
+      {satinAlPenceresi}
 
       {terkOnay ? (
         <div className="bd-duello-terk-onay" role="alertdialog">

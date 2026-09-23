@@ -1,5 +1,5 @@
 // ============================================================
-// DÜELLO 1.0 (surum = 2) — ARAYÜZ PARÇALARI (oturum 2/3)
+// DÜELLO 1.0 (surum = 2) — ARAYÜZ PARÇALARI (Tasarım A "Şeker Kutusu")
 //
 // Kurallar SUNUCUDA (migration 268 · duello2_*). Bu dosya yalnız
 // duello_durum()'un surum:2 şeklini çizer; hiçbir kural burada hesaplanmaz.
@@ -10,116 +10,25 @@
 //   · Sonuç: simetrik can tablosu (son_hamle.cevaplar + can_kaybeden).
 //   · Uzatma: beraberlik yok, kategori rastgele.
 //   · Skill: toplam 4 · aynı skill 2 · soru başına 1 (sayılar sunucudan).
+//     Düello'da Sigorta ve 2X görünmez; saldırı/savunma ayrımı yok.
 //
-// iOS: bu dosyada position:fixed yok. Stiller oyun/styles/duello-v2.css.
+// Görünüm: oyun/tasarim bileşenleri (QtSik, QtSayac, QtCan, QtSkill…) +
+// oyun/pages/DuelloPage.a.css (m2- önekli sınıflar). Metinlerin İngilizcesi
+// oyun/lib/ceviri/mac.js › "Düello (M2)".
+// Test kancaları: .m2-kat (kategori), .qt-sik (şık; .elendi), .bd-d2-skill button.
+// iOS: bu dosyada position:fixed yok.
 // ============================================================
-import { useMemo } from "react";
-import Ikon from "./Ikon.jsx";
 import KategoriIkon from "./KategoriIkon.jsx";
 import { kategoriAdi } from "../lib/kategoriler.js";
 import { JOKER_BILGI } from "../lib/jokerler.js";
-import { aktifDil, tt } from "../lib/dil.js";
+import { QtAvatar, QtCan, QtIkon, QtSik, QtSikler, QtSkill, QtSkillCubugu, QtSoruKarti, QtSonucBandi, sinif } from "../tasarim/index.js";
 
 const HARFLER = ["A", "B", "C", "D"];
 
-// ---------------------------------------------------------------- yerel sözlük
-// Ortak dil.js'e yazılmadı (paralel şerit kuralı). Anahtar Türkçe metnin kendisi;
-// İngilizce karşılık yoksa ortak `ceviri`ye düşer (o da yoksa Türkçe döner).
-const EN = {
-  "Kategori seç": "Pick a category",
-  "Kategori seçme sırası sende": "Your turn to pick the category",
-  "Süre dolarsa kategori rastgele seçilir.": "If time runs out, a random category is picked.",
-  "Her kategori maçta en çok {n} kez gelir; aynı kategori üst üste gelmez.": "Each category appears at most {n} times per match, never twice in a row.",
-  "{ad} kategori seçiyor…": "{ad} is picking a category…",
-  "Kategoriyi seçen taraf değişir, soruyu ikiniz aynı anda cevaplarsınız.": "The picker alternates; you both answer the same question at the same time.",
-  "doldu": "full",
-  "üst üste olmaz": "not twice in a row",
-  "seçilemez": "unavailable",
-  "veri yok": "no data",
-  "Aynı soru · aynı anda": "Same question · same time",
-  "Sen": "You",
-  "Rakip": "Opponent",
-  "düşünüyor…": "thinking…",
-  "cevapladı": "answered",
-  "Cevabın kilitlendi": "Answer locked",
-  "Cevabın kilitlendi — sonuç ikiniz de cevaplayınca açılır.": "Answer locked — the result shows once you both answer.",
-  "Süren doldu — sonuç bekleniyor.": "Your time is up — waiting for the result.",
-  "Rakibin cevapladı — ne cevapladığı sonuçta görünmez, yalnız doğru/yanlış.": "Your opponent answered — only right/wrong is shown in the result.",
-  "Doğru": "Correct",
-  "Yanlış": "Wrong",
-  "Yanıtsız": "No answer",
-  "doğru": "correct",
-  "yanlış": "wrong",
-  "yanıtsız": "no answer",
-  "Sen doğru, rakip {r} → rakip 1 can kaybetti": "You correct, opponent {r} → opponent lost 1 life",
-  "Sen {b}, rakip doğru → sen 1 can kaybettin": "You {b}, opponent correct → you lost 1 life",
-  "İkiniz de doğru → nötr, can değişmedi": "Both correct → neutral, no life lost",
-  "Sen {b}, rakip {r} → nötr, can değişmedi": "You {b}, opponent {r} → neutral, no life lost",
-  "Uzatmada ilk fark maçı bitirir.": "In overtime the first difference ends the match.",
-  "Eşitlik sürüyor — sıradaki uzatma sorusu geliyor, kategori yine rastgele.": "Still tied — next overtime question coming, category random again.",
-  "Doğru cevap: {harf} · {metin}": "Correct answer: {harf} · {metin}",
-  "Şık işaretlenmedi": "No option was chosen",
-  "UZATMA": "OVERTIME",
-  "Beraberlik yok, uzatma: biri doğru öteki yanlış yapana kadar sürer.": "No draws — overtime: it goes on until one is right and the other wrong.",
-  "Kategori rastgele geldi: {kategori}": "Random category: {kategori}",
-  "Skill": "Skills",
-  "{k}/{t} kullanıldı": "{k}/{t} used",
-  "Aynı skill en çok {n} kez, soru başına {s}.": "Same skill at most {n} times, {s} per question.",
-  "Soru açılınca kullanılır.": "Usable once the question opens.",
-  "Bu maçtaki skill hakkın doldu.": "You have used all your skills for this match.",
-  "Bu soruda skill hakkını kullandın": "You used your skill for this question",
-  "Cevap verdikten sonra skill kullanılamaz.": "Skills cannot be used after answering.",
-  "Şimdi kullanabilirsin.": "You can use it now.",
-  "Setinde Düello'da kullanılabilen skill yok.": "Your set has no skills usable in Duel.",
-  "Rakibin bu soruyu zaten cevapladı": "Your opponent already answered this question",
-  "Tur {n}/{t}": "Round {n}/{t}",
-  "Uzatma": "Overtime",
-  "Maçın soruları": "Match questions",
-  "Senin cevabın: {harf}": "Your answer: {harf}",
-  "rakip {durum}": "opponent {durum}",
-  "Rakip 1 can kaybetti": "Opponent lost 1 life",
-  "Sen 1 can kaybettin": "You lost 1 life",
-  "Nötr": "Neutral",
-  "Can": "Lives",
-  // Giriş ve tanıtım (Düello 1.0)
-  "Sırayla kategori seçin, aynı soruyu aynı anda cevaplayın. Yalnız biri bilirse öteki can kaybeder.": "Take turns picking the category and answer the same question at the same time. If only one of you is right, the other loses a life.",
-  "3 can, en çok 10 tur": "3 lives, up to 10 rounds",
-  "Biri doğru öteki yanlış/yanıtsız → yanlış olan 1 can kaybeder; ikisi aynıysa nötr": "One right, the other wrong/no answer → the wrong one loses 1 life; same result → neutral",
-  "Beraberlik yok: can eşitse uzatma, kategori rastgele": "No draws: tied lives go to overtime with random categories",
-  "Maçta 4 skill: aynı skill en çok 2 kez, soru başına 1": "4 skills per match: same skill at most twice, 1 per question",
-  "Aynı soru, aynı anda": "Same question, same time",
-  "Kategoriyi sırayla biriniz seçer (8 sn; dolarsa rastgele). Soru ikinize aynı anda açılır, 15 sn'niz var. Rakibin cevapladığını görürsün ama ne cevapladığını göremezsin.": "You take turns picking the category (8 s; random if time runs out). The question opens for both of you at once and you have 15 s. You see that your opponent answered, never what.",
-  "Can tablosu": "Life table",
-  "Yalnız biri doğruysa öteki 1 can kaybeder. İkiniz de doğru ya da ikiniz de yanlışsanız nötr: can değişmez. Süre dolarsa 'Yanıtsız' sayılır. 3 can, en çok 10 tur; tur iki tarafça tamamlanır.": "If only one of you is right, the other loses 1 life. Both right or both wrong is neutral. If time runs out it counts as 'No answer'. 3 lives, up to 10 rounds; each round is completed by both sides.",
-  "Beraberlik yok. Can eşitse uzatma başlar: kategori rastgele gelir, biri doğru öteki yanlış yapana kadar sürer.": "No draws. If lives are tied, overtime starts: categories are random and it goes on until one is right and the other wrong.",
-  "Maçta toplam 4 skill; aynı skill en çok 2 kez, bir soruda en çok 1. Soru Değiştir yalnız ikiniz de cevaplamamışken ve rakip o soruda skill kullanmamışken çalışır. Skill'in yoksa maçın içinden satın alabilirsin.": "4 skills per match; the same skill at most twice, at most 1 per question. Question Swap only works while neither of you has answered and your opponent has not used a skill on that question. You can buy skills during the match.",
-  "Aynı soruyu aynı anda cevaplarsınız.": "You both answer the same question at the same time.",
-  "Rakibin ne cevapladığını göremezsin, yalnız cevapladığını görürsün.": "You never see what your opponent answered, only that they did.",
-  "Beraberlik yok: can eşitse uzatma.": "No draws: tied lives go to overtime.",
-  "Kategori seçerken süre dolarsa rastgele gelir.": "If time runs out while picking, a random category comes.",
-};
-
-function doldur(metin, degerler) {
-  if (!degerler) return metin;
-  return metin.replace(/\{(\w+)\}/g, (tam, ad) =>
-    Object.prototype.hasOwnProperty.call(degerler, ad)
-      ? (degerler[ad] === undefined || degerler[ad] === null ? "" : String(degerler[ad]))
-      : tam);
-}
-
-/** Kancasız sürüm (bileşen dışı / tanıtım): sayfanın dilinde. */
-export function tt2(anahtar, degerler) {
-  if (aktifDil() === "en" && EN[anahtar]) return doldur(EN[anahtar], degerler);
-  return tt(anahtar, degerler);
-}
-
-/** Ortak `ceviri` + yerel İngilizce sözlük. */
-export function useV2Ceviri(dil, ceviri) {
-  return useMemo(() => (anahtar, degerler) => {
-    if (dil === "en" && EN[anahtar]) return doldur(EN[anahtar], degerler);
-    return ceviri(anahtar, degerler);
-  }, [dil, ceviri]);
-}
+// Düello'da görünmeyen skill'ler (sunucu izinli listesine koymasa da çift güvence).
+const DUELLODA_YOK = new Set(["sigorta", "cifte_puan"]);
+// jokerler.js kimliği → tasarım sistemi ikonu
+const SKILL_IKON = { elli: "yariyari", sure: "ekSure", soru_degistir: "degistir", zaman_baskisi: "baski", ikinci_sans: "ikinciSans" };
 
 export function secenekleriCoz(s) {
   if (Array.isArray(s)) return s;
@@ -129,21 +38,48 @@ export function secenekleriCoz(s) {
   return [];
 }
 
-// ---------------------------------------------------------------- küçük parçalar
-function KalpMini() {
+// ---------------------------------------------------------------- üst şerit
+/**
+ * İki oyuncu, canlar (3 kalp), ortada tur. Kategoriyi seçen tarafın avatarında
+ * altın halka + kılıç rozeti. kayip = { [oyuncuId]: anahtar } → kalp kırılır.
+ */
+export function V2Ust({ d, ben, rakip, kayip = {}, c }) {
+  const taraf = (o, rakipMi) => {
+    const secen = d.saldiran === o.id;
+    const can = Math.max(0, Number(o.can ?? 0));
+    return (
+      <div className={sinif("qt-oyuncu", rakipMi && "qt-oyuncu--rakip", secen && "m2-secen")}>
+        <QtAvatar src={o.gorunen_avatar ?? o.avatar_url} ad={o.gorunen_ad} boyut="m" halka={secen ? "coin" : rakipMi ? "yanlis" : "vurgu"} />
+        <span className="qt-oyuncu-yazi">
+          <span className="qt-oyuncu-ad">{rakipMi ? o.gorunen_ad : c("Sen")}</span>
+          <QtCan key={kayip[o.id] ?? "can"} dolu={can} toplam={Math.max(3, can)} boyut={16} ters={rakipMi}
+                 kayip={Boolean(kayip[o.id])} etiket={rakipMi ? c("Rakibin canı") : c("Senin canın")} />
+        </span>
+        {secen && (
+          <span className="qt-oyuncu-etkiler">
+            <span className="qt-etki m2-secen-rozet" role="img" aria-label={c("Kategoriyi seçen")}>
+              <QtIkon ad="kilic" boyut={14} />
+            </span>
+          </span>
+        )}
+      </div>
+    );
+  };
   return (
-    <svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" className="bd-d2-kalp">
-      <path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.3 3 4.5 6.6 4.5c2.1 0 3.6 1.2 4.4 2.5.8-1.3 2.3-2.5 4.4-2.5 3.6 0 5.7 3.8 4.2 7.2C19.5 16.4 12 21 12 21z" />
-    </svg>
-  );
-}
-
-/** Kalan süre çubuğu. Genişlik doğrudan stilden (geçiş animasyonu yok: sayacı geciktirmez). */
-export function V2SureCubugu({ kalanSn, toplamSn }) {
-  const oran = toplamSn > 0 ? Math.max(0, Math.min(1, kalanSn / toplamSn)) : 0;
-  return (
-    <div className={`bd-d2-sure ${kalanSn <= 3 ? "kritik" : ""}`} aria-hidden="true">
-      <span style={{ width: `${(oran * 100).toFixed(1)}%` }} />
+    <div className="qt-mac-ust m2-ust">
+      {taraf(ben, false)}
+      <div className={sinif("m2-tur", d.uzatma && "m2-tur--uzatma")} key={`${d.tur}-${d.uzatma}`}>
+        {d.uzatma ? (
+          <b>{c("UZATMA")}</b>
+        ) : (
+          <>
+            <span>{c("Tur")}</span>
+            <b className="qt-sayi">{d.tur}<small>/{d.max_tur}</small></b>
+          </>
+        )}
+        {!d.dereceli && <span className="m2-tur-serbest">{c("Serbest")}</span>}
+      </div>
+      {taraf(rakip, true)}
     </div>
   );
 }
@@ -151,11 +87,11 @@ export function V2SureCubugu({ kalanSn, toplamSn }) {
 /** Uzatma bandı: "beraberlik yok" + kategori rastgele. */
 export function V2UzatmaBandi({ kategori, c }) {
   return (
-    <div className="bd-d2-uzatma" role="status">
+    <div className="m2-uzatma qt-h-pop-gir" role="status">
       <b>{c("UZATMA")}</b>
       <span>{c("Beraberlik yok, uzatma: biri doğru öteki yanlış yapana kadar sürer.")}</span>
       {kategori && (
-        <span className="bd-d2-uzatma-kat">
+        <span className="m2-uzatma-kat">
           <KategoriIkon anahtar={kategori} boyut={16} /> {c("Kategori rastgele geldi: {kategori}", { kategori: c(kategoriAdi(kategori)) })}
         </span>
       )}
@@ -164,37 +100,42 @@ export function V2UzatmaBandi({ kategori, c }) {
 }
 
 // ---------------------------------------------------------------- kategori fazı
-export function V2Kategori({ d, benSaldiran, rakip, calisan, sayac, cubuk, onSec, c }) {
+/**
+ * sayac: ekranın verdiği büyük geri sayım (QtSayac). Son 2 sn vurgusu ve ses ekranda.
+ */
+export function V2Kategori({ d, benSaldiran, rakip, calisan, sayac, sonSaniye, onSec, c }) {
   const uygun = new Set(Array.isArray(d.uygun_kategoriler) ? d.uygun_kategoriler : []);
   const sayim = d.kategori_sayim ?? {};
   const max = Number(d.kategori_max ?? 2);
   const profil = rakip.profil?.kategoriler ?? [];
 
+  const baslik = (
+    <div className={sinif("m2-kat-ust", sonSaniye && "m2-kat-ust--son")}>
+      <div className="m2-kat-baslik">
+        <h2 className="qt-baslik-2">{benSaldiran ? c("Kategori seç") : c("{ad} kategori seçiyor…", { ad: rakip.gorunen_ad })}</h2>
+        <p className="m2-kat-alt">{c("Süre dolarsa kategori rastgele seçilir.")}</p>
+      </div>
+      <div className="m2-kat-sayac">{sayac}</div>
+    </div>
+  );
+
   if (!benSaldiran) {
     return (
-      <div className="bd-duello-bekle bd-d2-bekle">
-        <span className="bd-duello-bekle-ikon" aria-hidden="true"><Ikon ad="saat" boyut={30} /></span>
-        <h2>{c("{ad} kategori seçiyor…", { ad: rakip.gorunen_ad })}</h2>
-        {sayac}
-        {cubuk}
-        <p className="alt-yazi">{c("Süre dolarsa kategori rastgele seçilir.")}</p>
-        <p className="alt-yazi">{c("Kategoriyi seçen taraf değişir, soruyu ikiniz aynı anda cevaplarsınız.")}</p>
+      <div className="m2-kat-faz">
+        {baslik}
+        <div className="m2-bekle">
+          <span className="m2-bekle-ikon" aria-hidden="true"><QtIkon ad="kilic" boyut={30} /></span>
+          <p>{c("Kategoriyi seçen taraf değişir, soruyu ikiniz aynı anda cevaplarsınız.")}</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="bd-duello-kategori bd-d2-kategori">
-      <div className="bd-duello-baslik-satir">
-        <h2>{c("Kategori seç")}</h2>
-        {sayac}
-      </div>
-      {cubuk}
-      <p className="alt-yazi">
-        {c("Süre dolarsa kategori rastgele seçilir.")}{" "}
-        {c("Her kategori maçta en çok {n} kez gelir; aynı kategori üst üste gelmez.", { n: max })}
-      </p>
-      <div className="bd-duello-kat-grid">
+    <div className="m2-kat-faz">
+      {baslik}
+      <p className="m2-not">{c("Her kategori maçta en çok {n} kez gelir; aynı kategori üst üste gelmez.", { n: max })}</p>
+      <div className="m2-kat-izgara">
         {(d.kategoriler ?? []).map((k) => {
           const adet = Number(sayim[k] ?? 0);
           const doldu = adet >= max;
@@ -203,16 +144,19 @@ export function V2Kategori({ d, benSaldiran, rakip, calisan, sayac, cubuk, onSec
           const neden = secilebilir ? null : doldu ? c("doldu") : c("üst üste olmaz");
           return (
             <button key={k} type="button"
-                    className={`bd-duello-kat bd-d2-kat ${secilebilir ? "" : "kapali"}`}
+                    className={sinif("m2-kat", !secilebilir && "m2-kat--kapali")}
                     disabled={!secilebilir || !!calisan}
+                    aria-busy={calisan === "kategori" || undefined}
                     aria-label={`${c(kategoriAdi(k))} ${adet}/${max}${neden ? ` · ${neden}` : ""}`}
                     onClick={() => onSec(k)}>
               <KategoriIkon anahtar={k} boyut={22} plaka />
-              <span className="bd-duello-kat-ad">{c(kategoriAdi(k))}</span>
-              <span className="bd-duello-kat-yuzde">
-                {neden ?? (p?.yuzde === null || p?.yuzde === undefined ? c("veri yok") : `%${p.yuzde}`)}
+              <span className="m2-kat-ad">{c(kategoriAdi(k))}</span>
+              <span className="m2-kat-bilgi">
+                {neden ?? (p?.yuzde === null || p?.yuzde === undefined ? c("veri yok") : c("Rakip %{n}", { n: p.yuzde }))}
               </span>
-              <span className="bd-duello-kat-sayac">{adet}/{max}</span>
+              <span className="m2-kat-sayim" aria-hidden="true">
+                {Array.from({ length: max }, (_, i) => <i key={i} className={i < adet ? "dolu" : ""} />)}
+              </span>
             </button>
           );
         })}
@@ -223,7 +167,7 @@ export function V2Kategori({ d, benSaldiran, rakip, calisan, sayac, cubuk, onSec
 
 // ---------------------------------------------------------------- cevap fazı
 export function V2Cevap({ d, rakip, secenekler, secim, ikinciSansElendi, calisan, kalanSn,
-  sayac, cubuk, skillEfektSinif, onCevap, c }) {
+  sayac, kiriliyor = [], onCevap, c }) {
   const cv = d.cevap ?? {};
   const kilitli = Boolean(cv.ben_cevapladim);
   const benimCevap = kilitli && cv.benim_cevabim !== null && cv.benim_cevabim !== undefined
@@ -238,51 +182,48 @@ export function V2Cevap({ d, rakip, secenekler, secim, ikinciSansElendi, calisan
   const tiklanabilir = !kilitli && !sureBitti && secim === null && calisan !== "cevap";
   const katAdi = d.kategori ? c(kategoriAdi(d.kategori)) : "";
 
+  const durum = (i) => {
+    if (kapali.includes(i) || elenenler.has(i)) return kiriliyor.includes(i) ? "kilitli" : "elendi";
+    if (i === benimCevap) return "secili";
+    return tiklanabilir ? "normal" : "kilitli";
+  };
+
   return (
-    <div className="bd-duello-cevap bd-d2-cevap">
+    <div className="m2-cevap-faz">
       {d.uzatma && <V2UzatmaBandi kategori={d.kategori} c={c} />}
-      <div className="bd-duello-baslik-satir">
-        <h2 className="bd-d2-cevap-baslik">
-          {d.kategori && <KategoriIkon anahtar={d.kategori} boyut={20} plaka />}
-          <span>{katAdi}</span>
-        </h2>
-        {sayac}
-      </div>
-      {cubuk}
-      <div className="bd-d2-durumlar" aria-live="polite">
-        <span className={`bd-d2-durum ${kilitli ? "tamam" : ""}`}>
+      <div className="m2-durumlar" aria-live="polite">
+        <span className={sinif("m2-durum", kilitli && "m2-durum--tamam")}>
           <b>{c("Sen")}</b>
-          {kilitli ? <><Ikon ad="kilit" boyut={14} /> {c("Cevabın kilitlendi")}</> : sureBitti ? c("Yanıtsız") : c("düşünüyor…")}
+          <span>
+            {kilitli ? <><QtIkon ad="kilit" boyut={14} /> {c("Cevabın kilitlendi")}</> : sureBitti ? c("Yanıtsız") : c("düşünüyor…")}
+          </span>
         </span>
-        <span className={`bd-d2-durum ${cv.rakip_cevapladi ? "tamam" : ""}`}>
+        <span key={cv.rakip_cevapladi ? "c" : "d"} className={sinif("m2-durum", cv.rakip_cevapladi && "m2-durum--tamam qt-h-pop-gir")}>
           <b>{rakip.gorunen_ad}</b>
-          {cv.rakip_cevapladi ? <><Ikon ad="onay" boyut={14} /> {c("cevapladı")}</> : c("düşünüyor…")}
+          <span>{cv.rakip_cevapladi ? <><QtIkon ad="onay" boyut={14} /> {c("cevapladı")}</> : c("düşünüyor…")}</span>
         </span>
       </div>
-      <div className={`bd-duello-soru ${skillEfektSinif}`}>
-        <div className="bd-soru-metin bd-soru-giris">{d.soru?.soru}</div>
-        <div className="bd-secenekler">
-          {secenekler.map((s, i) => {
-            const elendi = kapali.includes(i) || elenenler.has(i);
-            let sinif = "bd-secenek";
-            if (i === benimCevap) sinif += " secili";
-            if (elendi) sinif += elenenler.has(i) ? " elendi ikinci-sans-elendi" : " elendi";
-            if (kilitli && i !== benimCevap && !elendi) sinif += " bd-d2-sonuk";
-            return (
-              <button key={i} type="button" className={sinif}
-                      disabled={!tiklanabilir || elendi}
-                      aria-pressed={i === benimCevap}
-                      onClick={() => onCevap(i)}>
-                <span className="bd-harf">{HARFLER[i]}</span>
-                <span className="bd-secenek-metin">{s}</span>
-                {kilitli && i === benimCevap && <Ikon ad="kilit" boyut={16} className="bd-secenek-isaret" />}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-      {kilitli && <p className="bd-d2-not">{c("Cevabın kilitlendi — sonuç ikiniz de cevaplayınca açılır.")}</p>}
-      {!kilitli && sureBitti && <p className="bd-d2-not">{c("Süren doldu — sonuç bekleniyor.")}</p>}
+      <QtSoruKarti
+        key={d.soru?.soru ?? "soru"}
+        className="m2-soru"
+        kategori={d.kategori ? <><KategoriIkon anahtar={d.kategori} boyut={16} /> {katAdi}</> : null}
+        sira={c("Aynı soru · aynı anda")}
+        metin={d.soru?.soru}
+        sayac={sayac}
+      />
+      <QtSikler etiket={c("Şıklar")}>
+        {secenekler.map((s, i) => {
+          const dr = durum(i);
+          return (
+            <QtSik key={`${d.soru?.soru ?? ""}-${i}`} harf={HARFLER[i]} metin={s} durum={dr}
+                   kiriliyor={kiriliyor.includes(i)}
+                   className={dr === "elendi" || kiriliyor.includes(i) ? "elendi" : undefined}
+                   onClick={() => onCevap(i)} />
+          );
+        })}
+      </QtSikler>
+      <QtSonucBandi ton="notr" anahtar={kilitli ? "k" : sureBitti ? "s" : ""}
+                    metin={kilitli ? c("Cevabın kilitlendi — sonuç ikiniz de cevaplayınca açılır.") : sureBitti ? c("Süren doldu — sonuç bekleniyor.") : null} />
     </div>
   );
 }
@@ -294,6 +235,7 @@ function durumu(x) {
 }
 const DURUM_ETIKET = { dogru: "Doğru", yanlis: "Yanlış", yanitsiz: "Yanıtsız" };
 const DURUM_KUCUK = { dogru: "doğru", yanlis: "yanlış", yanitsiz: "yanıtsız" };
+const DURUM_IKON = { dogru: "onay", yanlis: "carpi", yanitsiz: "saat" };
 
 /** Simetrik can tablosunun sonucu tek cümle: kim can kaybetti, neden. */
 export function v2SonucMetni(h, benId, c) {
@@ -301,9 +243,9 @@ export function v2SonucMetni(h, benId, c) {
   const b = durumu(h?.cevaplar?.[benId]);
   const r = durumu(rakipId ? h.cevaplar[rakipId] : null);
   let metin;
-  let ton = "";
-  if (b === "dogru" && r !== "dogru") { metin = c("Sen doğru, rakip {r} → rakip 1 can kaybetti", { r: c(DURUM_KUCUK[r]) }); ton = "iyi"; }
-  else if (b !== "dogru" && r === "dogru") { metin = c("Sen {b}, rakip doğru → sen 1 can kaybettin", { b: c(DURUM_KUCUK[b]) }); ton = "kotu"; }
+  let ton = "notr";
+  if (b === "dogru" && r !== "dogru") { metin = c("Sen doğru, rakip {r} → rakip 1 can kaybetti", { r: c(DURUM_KUCUK[r]) }); ton = "dogru"; }
+  else if (b !== "dogru" && r === "dogru") { metin = c("Sen {b}, rakip doğru → sen 1 can kaybettin", { b: c(DURUM_KUCUK[b]) }); ton = "yanlis"; }
   else if (b === "dogru") metin = c("İkiniz de doğru → nötr, can değişmedi");
   else metin = c("Sen {b}, rakip {r} → nötr, can değişmedi", { b: c(DURUM_KUCUK[b]), r: c(DURUM_KUCUK[r]) });
   return { metin, ton, b, r };
@@ -316,61 +258,55 @@ export function V2Sonuc({ d, rakip, secenekler, c }) {
   const benim = h.cevaplar?.[d.ben];
   const benimCevap = benim?.cevap === null || benim?.cevap === undefined ? null : Number(benim.cevap);
   const dogru = h.dogru_cevap === null || h.dogru_cevap === undefined ? null : Number(h.dogru_cevap);
+  const hucre = (etiket, x, kaybetti) => (
+    <div className={`m2-tablo-hucre m2-tablo-hucre--${x}`}>
+      <span className="m2-tablo-ad">{etiket}</span>
+      <b><QtIkon ad={DURUM_IKON[x]} boyut={18} /> {c(DURUM_ETIKET[x])}</b>
+      {kaybetti && <small className="qt-h-pop-gir"><QtIkon ad="kalp" boyut={14} /> −1</small>}
+    </div>
+  );
   return (
-    <div className="bd-duello-sonuc bd-d2-sonuc">
+    <div className="m2-sonuc-faz">
       {h.uzatma && <V2UzatmaBandi kategori={h.kategori} c={c} />}
-      <div className={`bd-duello-hamle buyuk ${ton}`} role="status">{metin}</div>
-      <div className="bd-d2-tablo" aria-label={c("Can")}>
-        <div className={`bd-d2-tablo-hucre ${b}`}>
-          <span>{c("Sen")}</span>
-          <b>{c(DURUM_ETIKET[b])}</b>
-          {h.can_kaybeden === d.ben && <small><KalpMini /> −1</small>}
-        </div>
-        <div className={`bd-d2-tablo-hucre ${r}`}>
-          <span>{rakip.gorunen_ad}</span>
-          <b>{c(DURUM_ETIKET[r])}</b>
-          {h.can_kaybeden && h.can_kaybeden !== d.ben && <small><KalpMini /> −1</small>}
-        </div>
+      <QtSonucBandi ton={ton} metin={metin} anahtar={`${h.tur}-${h.soru_id}`} />
+      <div className="m2-tablo" role="group" aria-label={c("Can tablosu")}>
+        {hucre(c("Sen"), b, h.can_kaybeden === d.ben)}
+        {hucre(rakip.gorunen_ad, r, Boolean(h.can_kaybeden && h.can_kaybeden !== d.ben))}
       </div>
       {h.uzatma && (
-        <p className="bd-d2-not">
+        <p className="m2-not">
           {h.can_kaybeden ? c("Uzatmada ilk fark maçı bitirir.") : c("Eşitlik sürüyor — sıradaki uzatma sorusu geliyor, kategori yine rastgele.")}
         </p>
       )}
       {d.soru?.soru && (
-        <div className="bd-duello-soru">
-          <div className="bd-soru-metin">{d.soru.soru}</div>
-          <div className="bd-secenekler">
-            {secenekler.map((s, i) => {
-              let sinif = "bd-secenek";
-              if (i === dogru) sinif += " dogru";
-              else if (i === benimCevap) sinif += " yanlis";
-              else sinif += " solgun";
-              return (
-                <button key={i} type="button" className={sinif} disabled>
-                  <span className="bd-harf">{HARFLER[i]}</span>
-                  <span className="bd-secenek-metin">{s}</span>
-                  {i === dogru && <Ikon ad="onay" boyut={18} className="bd-secenek-isaret" />}
-                </button>
-              );
-            })}
-          </div>
-        </div>
+        <>
+          <QtSoruKarti className="m2-soru m2-soru--sonuc" metin={d.soru.soru} sevinc={b === "dogru"} />
+          <QtSikler etiket={c("Şıklar")}>
+            {secenekler.map((s, i) => (
+              <QtSik key={i} harf={HARFLER[i]} metin={s}
+                     durum={i === dogru ? (benimCevap === dogru ? "dogru" : "dogrusu") : i === benimCevap ? "yanlis" : "solgun"} />
+            ))}
+          </QtSikler>
+        </>
       )}
       {b !== "dogru" && dogru !== null && secenekler[dogru] !== undefined && (
-        <div className="bd-duello-dogru-cevap">{c("Doğru cevap: {harf} · {metin}", { harf: HARFLER[dogru], metin: secenekler[dogru] })}</div>
+        <p className="m2-dogru-cevap">{c("Doğru cevap: {harf} · {metin}", { harf: HARFLER[dogru], metin: secenekler[dogru] })}</p>
       )}
-      {b === "yanitsiz" && <div className="bd-d2-yanitsiz">{c("Yanıtsız")} · {c("Şık işaretlenmedi")}</div>}
+      {b === "yanitsiz" && <p className="m2-not">{c("Yanıtsız")} · {c("Şık işaretlenmedi")}</p>}
     </div>
   );
 }
 
 // ---------------------------------------------------------------- skill şeridi
-export function V2Skill({ d, calisan, kalanSn, serbest, onKullan, c }) {
+/**
+ * sonKullanilan = { tur, anahtar } → o skill'de kullanma anı (patlama + halka) yeniden oynar.
+ * Kapalı skill gerçekten `disabled` (test kancası) ve aria-disabled; nedeni üstteki satırda.
+ */
+export function V2Skill({ d, calisan, kalanSn, serbest, sonKullanilan, onKullan, c }) {
   const s = d.skill ?? {};
   const izinli = Array.isArray(s.izinli) ? s.izinli : [];
   const set = Array.isArray(s.set) ? s.set : [];
-  const liste = set.filter((t) => izinli.includes(t));
+  const liste = set.filter((t) => izinli.includes(t) && !DUELLODA_YOK.has(t));
   const toplam = Number(s.toplam_hak ?? 4);
   const turBasi = Number(s.tur_basi_hak ?? 2);
   const soruBasi = Number(s.soru_basi_hak ?? 1);
@@ -396,20 +332,18 @@ export function V2Skill({ d, calisan, kalanSn, serbest, onKullan, c }) {
   const sdKilit = s.soru_degistir_kilit && s.soru_degistir_kilit !== "Soru açık değil" ? c(s.soru_degistir_kilit) : null;
 
   return (
-    <div className={`bd-duello-jokerler bd-d2-skill ${genelEngel ? "kapali" : "acik"}`} aria-label={c("Skill")}>
-      <div className="bd-duello-joker-baslik bd-d2-skill-baslik">
-        <span>{c("Skill")}</span>
-        <span className="bd-d2-hak" aria-label={c("{k}/{t} kullanıldı", { k: kullanilan, t: toplam })}>
+    <section className={sinif("m2-skill bd-d2-skill", genelEngel ? "m2-skill--kapali" : "m2-skill--acik")} aria-label={c("Skill")}>
+      <div className="m2-skill-ust">
+        <span className="m2-skill-ipucu" role="status">
+          {liste.length === 0 ? c("Setinde Düello'da kullanılabilen skill yok.") : (genelEngel ?? c("Şimdi kullanabilirsin."))}
+        </span>
+        <span className="m2-hak" role="img" aria-label={c("{k}/{t} kullanıldı", { k: kullanilan, t: toplam })}>
           {Array.from({ length: toplam }).map((_, i) => <i key={i} className={i < kullanilan ? "dolu" : ""} />)}
-          <b>{kullanilan}/{toplam}</b>
+          <b className="qt-sayi">{kullanilan}/{toplam}</b>
         </span>
       </div>
-      <div className="bd-duello-joker-ipucu" role="status">
-        {liste.length === 0 ? c("Setinde Düello'da kullanılabilen skill yok.") : (genelEngel ?? c("Şimdi kullanabilirsin."))}
-        {" "}<span className="bd-d2-kural">{c("Aynı skill en çok {n} kez, soru başına {s}.", { n: turBasi, s: soruBasi })}</span>
-      </div>
       {liste.length > 0 && (
-        <div className="bd-duello-joker-sira">
+        <QtSkillCubugu etiket={c("Skill")}>
           {liste.map((tur) => {
             const bilgi = JOKER_BILGI[tur] ?? {};
             const n = Number(sayilar[tur] ?? 0);
@@ -423,31 +357,32 @@ export function V2Skill({ d, calisan, kalanSn, serbest, onKullan, c }) {
             const fiyatGoster = !serbest && adet <= 0 && fiyat > 0;
             const coinYetmez = fiyatGoster && coin !== null && coin < fiyat;
             const acik = !genelEngel && !turBitti && !ozel && !coinYetmez && (serbest || adet > 0 || fiyatGoster);
+            const kapali = !acik || !!calisan;
+            const an = sonKullanilan?.tur === tur;
             return (
-              <button key={tur} type="button"
-                      className={`bd-duello-joker ${turBitti ? "kullanildi" : ""} ${fiyatGoster && acik ? "satilik" : ""}`}
-                      disabled={!acik || !!calisan}
-                      aria-busy={calisan === `joker-${tur}`}
-                      title={ozel ?? (coinYetmez ? c("Yetersiz coin") : c(bilgi.aciklama ?? ""))}
-                      onClick={() => onKullan(tur, { satinAl: fiyatGoster, adet })}>
-                {fiyatGoster && acik && <span className="bd-joker-satilik" aria-hidden="true"><Ikon ad="coin" boyut={12} /></span>}
-                <Ikon ad={bilgi.ikon ?? "soru"} boyut={20} />
-                <span className="bd-duello-joker-ad">{c(bilgi.ad ?? tur)}</span>
-                <span className="bd-d2-joker-alt">
-                  <span className="bd-d2-joker-sayi">{n}/{turBasi}</span>
-                  <span className={`bd-duello-joker-adet ${fiyatGoster ? "fiyat" : ""} ${fiyatGoster && !acik ? "soluk" : ""}`}>
-                    {fiyatGoster ? `${fiyat}` : serbest ? "∞" : `×${adet}`}
-                  </span>
-                </span>
-              </button>
+              <QtSkill key={an ? `${tur}-${sonKullanilan.anahtar}` : tur}
+                       ikon={SKILL_IKON[tur] ?? bilgi.ikon ?? "soru"}
+                       ad={c(bilgi.ad ?? tur)}
+                       adet={serbest ? undefined : adet}
+                       fiyat={fiyatGoster ? fiyat : undefined}
+                       durum={turBitti ? "kullanildi" : "hazir"}
+                       className={sinif(kapali && !turBitti && "m2-skill-kapali", an && "qt-h-skill-an")}
+                       disabled={kapali}
+                       aria-disabled={kapali || undefined}
+                       aria-busy={calisan === `joker-${tur}` || undefined}
+                       title={ozel ?? (coinYetmez ? c("Yetersiz coin") : c(bilgi.aciklama ?? ""))}
+                       onClick={() => onKullan(tur, { satinAl: fiyatGoster, adet })} />
             );
           })}
-        </div>
+        </QtSkillCubugu>
       )}
-      {liste.includes("soru_degistir") && sdKilit && soruAcik && !cevapladim && (
-        <div className="bd-d2-kilit" role="note"><Ikon ad="kilit" boyut={14} /> {sdKilit}</div>
-      )}
-    </div>
+      <p className="m2-skill-kural">
+        {c("Aynı skill en çok {n} kez, soru başına {s}.", { n: turBasi, s: soruBasi })}
+        {liste.includes("soru_degistir") && sdKilit && soruAcik && !cevapladim && (
+          <span className="m2-skill-kilit"><QtIkon ad="kilit" boyut={12} /> {sdKilit}</span>
+        )}
+      </p>
+    </section>
   );
 }
 
@@ -455,8 +390,8 @@ export function V2Skill({ d, calisan, kalanSn, serbest, onKullan, c }) {
 export function V2Gecmis({ gecmis, maxTur, benId, c }) {
   if (!Array.isArray(gecmis) || gecmis.length === 0) return null;
   return (
-    <div className="bd-d2-gecmis" aria-label={c("Maçın soruları")}>
-      <div className="bd-mac-soru-etiket">{c("Maçın soruları")}</div>
+    <section className="m2-gecmis" aria-label={c("Maçın soruları")}>
+      <h3 className="qt-baslik-3">{c("Maçın soruları")}</h3>
       <ol>
         {gecmis.map((g, i) => {
           const sec = secenekleriCoz(g.secenekler);
@@ -467,31 +402,31 @@ export function V2Gecmis({ gecmis, maxTur, benId, c }) {
           const kaybeden = g.can_kaybeden;
           const canMetni = !kaybeden ? c("Nötr") : kaybeden === benId ? c("Sen 1 can kaybettin") : c("Rakip 1 can kaybetti");
           return (
-            <li key={i} className={`bd-d2-gecmis-soru ${ben}`}>
-              <div className="bd-d2-gecmis-ust">
-                <span className="bd-d2-gecmis-tur">
+            <li key={i} className={`m2-gecmis-soru m2-gecmis-soru--${ben}`}>
+              <div className="m2-gecmis-ust">
+                <span className="m2-gecmis-tur">
                   {g.uzatma ? c("Uzatma") : c("Tur {n}/{t}", { n: g.tur, t: maxTur ?? 10 })}
                 </span>
-                {g.kategori && <span className="bd-d2-gecmis-kat"><KategoriIkon anahtar={g.kategori} boyut={14} /> {c(kategoriAdi(g.kategori))}</span>}
-                <span className={`bd-d2-rozet ${ben}`}>{c(DURUM_ETIKET[ben])}</span>
+                {g.kategori && <span className="m2-gecmis-kat"><KategoriIkon anahtar={g.kategori} boyut={14} /> {c(kategoriAdi(g.kategori))}</span>}
+                <span className={`m2-rozet m2-rozet--${ben}`}><QtIkon ad={DURUM_IKON[ben]} boyut={12} /> {c(DURUM_ETIKET[ben])}</span>
               </div>
-              {g.soru && <div className="bd-d2-gecmis-metin">{g.soru}</div>}
+              {g.soru && <p className="m2-gecmis-metin">{g.soru}</p>}
               {dc !== null && sec[dc] !== undefined && (
-                <div className="bd-duello-dogru-cevap">{c("Doğru cevap: {harf} · {metin}", { harf: HARFLER[dc], metin: sec[dc] })}</div>
+                <p className="m2-dogru-cevap">{c("Doğru cevap: {harf} · {metin}", { harf: HARFLER[dc], metin: sec[dc] })}</p>
               )}
-              <div className="bd-d2-gecmis-alt">
+              <div className="m2-gecmis-alt">
                 {ben === "yanitsiz"
-                  ? <span className="bd-d2-yanitsiz">{c("Yanıtsız")} · {c("Şık işaretlenmedi")}</span>
+                  ? <span>{c("Yanıtsız")} · {c("Şık işaretlenmedi")}</span>
                   : ben === "yanlis" && benimCevap !== null
                     ? <span>{c("Senin cevabın: {harf}", { harf: HARFLER[benimCevap] })}</span>
                     : null}
                 <span>{c("rakip {durum}", { durum: c(DURUM_KUCUK[rakip]) })}</span>
-                <span className={`bd-d2-gecmis-can ${!kaybeden ? "" : kaybeden === benId ? "kotu" : "iyi"}`}>{canMetni}</span>
+                <span className={sinif("m2-gecmis-can", kaybeden && (kaybeden === benId ? "m2-gecmis-can--kotu" : "m2-gecmis-can--iyi"))}>{canMetni}</span>
               </div>
             </li>
           );
         })}
       </ol>
-    </div>
+    </section>
   );
 }
