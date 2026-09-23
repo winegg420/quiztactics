@@ -1,17 +1,12 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import Ikon from "../components/Ikon.jsx";
+import { useCallback, useEffect, useState } from "react";
 import SenRozeti from "../components/SenRozeti.jsx";
-import Modal from "../components/Modal.jsx";
-import DurumKutusu from "../components/DurumKutusu.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
-import Avatar from "../../src/components/Avatar.jsx";
 import RankBadge from "../components/RankBadge.jsx";
 import SayanSayi from "../components/SayanSayi.jsx";
 import KonumSecici from "../components/KonumSecici.jsx";
-import Maskot from "../components/Maskot.jsx";
 import { haftaBitisi, sureMetni } from "../lib/konum.js";
 import Bayrak from "../components/Bayrak.jsx";
 import OyuncuKarti from "../components/OyuncuKarti.jsx";
@@ -19,46 +14,41 @@ import { useArkadaslik } from "../lib/arkadaslik.js";
 import AvatarCerceve from "../components/AvatarCerceve.jsx";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
-import "./lig.css";
+import {
+  QtIkon, QtIkonDugme, QtDugme, QtSekmeler, QtCip, QtRozet, QtIlerleme,
+  QtBosDurum, QtIskelet, QtModal,
+} from "../tasarim/index.js";
+// Tasarım A (Faz 2, şerit L): sayfa stilleri lig-a.css'te. Eski lig.css
+// dosyası duruyor (Faz 4'te temizlenecek) ama bu sayfa artık onu yüklemiyor.
+import "./lig-a.css";
 
 // Lig adları oyun/lib/lig.js'e taşındı (Arayüz Yenileme, 20 Eyl 2026);
 // buradan yeniden dışa verilir ki eski import'lar kırılmasın.
 export { LIG_ADLARI } from "../lib/lig.js";
 import { LIG_ADLARI } from "../lib/lig.js";
 
+// Tasarım sistemindeki lig renkleri (--qt-lig-*) bu kodlarla eşleşir.
+const LIG_KODLARI = ["bronz", "gumus", "altin", "elmas", "efsane"];
+
 const KAPSAMLAR = [
   // Kademeli lig: oyuncunun kendi 25 kişilik grubu. İlk sekme bu —
   // haftalık yükselme/düşme burada oynanıyor.
-  { id: "lig", etiket: tt("LİGİM"), ikon: "kupa" },
-  { id: "sehir", etiket: tt("ŞEHİR"), ikon: "sehir" },
-  { id: "ulke", etiket: tt("ÜLKE"), ikon: "bayrak" },
-  { id: "global", etiket: tt("DÜNYA"), ikon: "dunya" },
-  { id: "arkadas", etiket: tt("ARKADAŞ"), ikon: "kisiler" },
+  { id: "lig", ad: tt("Ligim"), ikon: "lig" },
+  { id: "sehir", ad: tt("Şehir"), ikon: "sehir" },
+  { id: "ulke", ad: tt("Ülke"), ikon: "bayrak" },
+  { id: "global", ad: tt("Dünya"), ikon: "dunya" },
+  { id: "arkadas", ad: tt("Arkadaş"), ikon: "kisiler" },
 ];
 
 const DONEMLER = [
-  { id: "hafta", etiket: tt("BU HAFTA") },
-  { id: "tum_zamanlar", etiket: tt("TÜM ZAMANLAR") },
+  { id: "hafta", ad: tt("Bu hafta") },
+  { id: "tum_zamanlar", ad: tt("Tüm zamanlar") },
 ];
 
 export default function LeaderboardPage() {
   const { user, profile } = useAuth();
   const navigate = useNavigate();
   const [kapsam, setKapsam] = useState("lig");
-  // Paket 40 H: 390 px'te beş sekme sığmıyordu (DÜNYA ile ARKADAŞ üst üste). Şerit kayar; kaydırılacak
-  // içerik kaldıkça sağ kenar solar — Çalışma sayfasının kategori şeridiyle (Paket 37 G) aynı desen.
-  const sekmeSeritRef = useRef(null);
-  const [sekmeDevam, setSekmeDevam] = useState(false);
-  const sekmeSeritOlc = useCallback(() => {
-    const e = sekmeSeritRef.current;
-    if (!e) return;
-    setSekmeDevam(e.scrollWidth - e.clientWidth - e.scrollLeft > 2);
-  }, []);
-  useEffect(() => {
-    sekmeSeritOlc();
-    window.addEventListener("resize", sekmeSeritOlc);
-    return () => window.removeEventListener("resize", sekmeSeritOlc);
-  }, [sekmeSeritOlc]);
   // Kendi lig grubumun üst bilgisi (lig adı, grup boyu, sınırlar, sezon sonu)
   const [grupBilgi, setGrupBilgi] = useState(null);
   const [donem, setDonem] = useState("hafta");
@@ -197,7 +187,7 @@ export default function LeaderboardPage() {
     };
   }, [kapsam, donem, konumVar, arkadasListesi, deneme]);
 
-  // Kendi sıram ve sezon bitişine kalan süre (kademeli lig şeridi için)
+  // Kendi sıram ve sezon bitişine kalan süre (kademeli lig pankartı için)
   const benimSiram = liste.find((s) => s.ben || s.user_id === user.id)?.sira ?? null;
   const kalanSezon = grupBilgi?.sezon_bitis
     ? new Date(grupBilgi.sezon_bitis).getTime() - Date.now()
@@ -213,326 +203,356 @@ export default function LeaderboardPage() {
   const podyum = kapsam === "lig" ? [] : ilk100.slice(0, 3);
   const kalanlar = ilk100.slice(3);
 
-  const satir = (s, vurgu = false) => (
-    <div
-      key={`${s.user_id}-${vurgu ? "ben" : "liste"}`}
-      className={`bd-lig-satir rank-row tiklanir ${s.user_id === user.id ? "ben" : ""}`}
-      onClick={() => setKartOyuncu({
-        id: s.user_id,
-        gorunen_ad: s.gorunen_ad,
-        gorunen_avatar: s.gorunen_avatar,
-        gorunum: s.gorunum,
-        puan: s.puan,
-        is_bot: s.bot,
-        sehir: s.sehir,
-        ulke: s.ulke,
-      })}
-    >
-      {/* Paket 43 B.4: satır div role="button" idi ve İÇİNDE gerçek kılıç düğmesi vardı (iç içe
-          etkileşim). Kartı açan kısım gerçek <button>; tıklama satıra kabarcıklanır (satırın boş
-          kenarına dokunmak da kartı açar), kılıç KARDEŞ düğme olarak kaldı. */}
-      <button type="button" className="bd-lig-satir-ac" title={tt("{0} — kartını aç", { 0: s.gorunen_ad })}>
-      <span className="bd-sira">{s.sira}</span>
-      <AvatarCerceve
-        profile={{ gorunen_ad: s.gorunen_ad, gorunen_avatar: s.gorunen_avatar, gorunum: s.gorunum }}
-        boyut={38}
-        userId={s.user_id}
-      />
-      <div className="bd-lig-bilgi">
-        <div className="bd-lig-isim">
-          {s.gorunen_ad}
-          {s.bot && <span className="bd-bot-rozet" title={tt("Yapay rakip")}><Ikon ad="robot" boyut={13} /></span>}
-          {s.user_id === user.id && <SenRozeti />}
-        </div>
-        <div className="bd-lig-detay">
-          <RankBadge level={s.level} userId={s.user_id} />
-          {s.ulke && (
-            <span className="bd-konum-etiket">
-              <Bayrak kod={s.ulke} /> {s.sehir ?? ""}
+  // Tasarım A: kademeli ligin görsel bölgeleri. En üst ligde yükselme, en alt
+  // ligde düşme yok — o çizgiler çizilmez. Grup boyu (oyuncu sayısı) EKRANA
+  // YAZILMAZ; yalnız sınırı hesaplamak için kullanılır.
+  const ligKod = LIG_KODLARI.includes(grupBilgi?.lig) ? grupBilgi.lig : "bronz";
+  const yukselmeVar = kapsam === "lig" && grupBilgi && ligKod !== "efsane" && grupBilgi.yukselen > 0;
+  const dusmeSiniri = grupBilgi ? grupBilgi.grup_boyu - grupBilgi.dusen : 0;
+  const dusmeVar = kapsam === "lig" && grupBilgi && ligKod !== "bronz"
+    && grupBilgi.dusen > 0 && dusmeSiniri > grupBilgi.yukselen;
+  const bolge = (sira) => {
+    if (yukselmeVar && sira <= grupBilgi.yukselen) return "yukselen";
+    if (dusmeVar && sira > dusmeSiniri) return "dusen";
+    return null;
+  };
+  const benimBolgem = benimSiram ? bolge(benimSiram) : null;
+  // Pankart çubuğu: grupta ne kadar yukarıdasın (yüzde; sayı gösterilmez)
+  const ustOran = grupBilgi && benimSiram
+    ? Math.round(100 * (1 - (benimSiram - 1) / Math.max(1, grupBilgi.grup_boyu - 1)))
+    : 0;
+  const yukselmeIsaret = grupBilgi && yukselmeVar
+    ? Math.round(100 * (1 - (grupBilgi.yukselen - 0.5) / Math.max(1, grupBilgi.grup_boyu - 1)))
+    : null;
+
+  const kartiAc = (s) => setKartOyuncu({
+    id: s.user_id,
+    gorunen_ad: s.gorunen_ad,
+    gorunen_avatar: s.gorunen_avatar,
+    gorunum: s.gorunum,
+    puan: s.puan,
+    is_bot: s.bot,
+    sehir: s.sehir,
+    ulke: s.ulke,
+  });
+
+  const satir = (s, vurgu = false) => {
+    const benMi = s.user_id === user.id;
+    const b = kapsam === "lig" ? bolge(s.sira) : null;
+    return (
+      <div
+        key={`${s.user_id}-${vurgu ? "ben" : "liste"}`}
+        role="listitem"
+        className={`qt-satir-kap lg-satir-kap${benMi ? " qt-satir-kap--vurgulu lg-ben" : ""}${b ? ` lg-bolge-${b}` : ""}`}
+      >
+        <div className="lg-satir">
+          <button
+            type="button"
+            className="lg-satir-ac"
+            aria-label={tt("{0} — kartını aç", { 0: s.gorunen_ad })}
+            onClick={() => kartiAc(s)}
+          >
+            <span className={`lg-sira qt-sayi${s.sira <= 3 ? ` lg-sira-${s.sira}` : ""}`}>{s.sira}</span>
+            <AvatarCerceve
+              profile={{ gorunen_ad: s.gorunen_ad, gorunen_avatar: s.gorunen_avatar, gorunum: s.gorunum }}
+              boyut={40}
+              userId={s.user_id}
+            />
+            <span className="lg-bilgi">
+              <span className="lg-ad">
+                <span className="lg-ad-metin">{s.gorunen_ad}</span>
+                {s.bot && (
+                  <span className="lg-yapay" title={tt("Yapay rakip")}>
+                    <QtIkon ad="robot" boyut={14} etiket={tt("Yapay rakip")} />
+                  </span>
+                )}
+                {benMi && <SenRozeti />}
+              </span>
+              <span className="lg-detay">
+                <RankBadge level={s.level} userId={s.user_id} boyut={15} />
+                {s.ulke && (
+                  <span className="lg-konum">
+                    <Bayrak kod={s.ulke} /> <span className="lg-konum-sehir">{s.sehir ?? ""}</span>
+                  </span>
+                )}
+              </span>
             </span>
+            <span className="lg-puan">
+              <SayanSayi deger={s.puan} className="qt-sayi" />
+              <span className="lg-puan-birim">{tt("puan")}</span>
+            </span>
+          </button>
+          {/* Kendi satırında kılıç yok; puan sütunu hizada kalsın diye boş yuva */}
+          {benMi ? <span className="lg-meydan-bos" aria-hidden="true" /> : (
+            <QtIkonDugme
+              ikon="kilic"
+              tur="saydam"
+              className="lg-meydan"
+              etiket={tt("{0} oyuncusuna meydan oku", { 0: s.gorunen_ad })}
+              onClick={() => meydanOku(s.user_id)}
+            />
           )}
         </div>
       </div>
-      <span className="bd-lig-puan"><SayanSayi deger={s.puan} /></span>
-      </button>
-      {s.user_id !== user.id && (
-        <button
-          className="bd-ikon-btn"
-          title={tt("Meydan oku")}
-          aria-label={tt("{0} oyuncusuna meydan oku", { 0: s.gorunen_ad })}
-          onClick={(e) => { e.stopPropagation(); meydanOku(s.user_id); }}
-        >
-          <Ikon ad="kilic" boyut={17} />
-        </button>
-      )}
+    );
+  };
+
+  const sinirCizgisi = (tur) => (
+    <div className={`lg-sinir lg-sinir-${tur}`} role="presentation">
+      <QtIkon ad={tur === "yukselme" ? "ok" : "asagi"} boyut={16} />
+      <span>{tur === "yukselme" ? tt("Yükselme hattı") : tt("Düşme hattı")}</span>
     </div>
   );
 
+  const kapsamAdi = KAPSAMLAR.find((k) => k.id === kapsam)?.ad;
+
   return (
-    <div className="bd-lig">
+    <div className="lg-sayfa">
       {kartOyuncu && (
         <OyuncuKarti
           userId={kartOyuncu.id}
           onIzleme={kartOyuncu}
           onKapat={() => setKartOyuncu(null)}
           onMeydanOku={kartOyuncu.id === user.id ? undefined : meydanOku}
-        onMesaj={kartOyuncu.id !== user.id && arkadaslik.arkadasMi(kartOyuncu.id)
-          ? (id) => { setKartOyuncu(null); navigate(y(`/mesajlar/${id}`)); } : undefined}
-        onArkadasEkle={kartOyuncu.id !== user.id && !arkadaslik.arkadasMi(kartOyuncu.id)
-          && !arkadaslik.istekVar(kartOyuncu.id) ? arkadaslik.arkadasEkle : undefined}
-        bilgiNotu={kartOyuncu.id !== user.id && arkadaslik.istekVar(kartOyuncu.id)
-          ? tt("Arkadaşlık isteği bekliyor.") : null}
+          onMesaj={kartOyuncu.id !== user.id && arkadaslik.arkadasMi(kartOyuncu.id)
+            ? (id) => { setKartOyuncu(null); navigate(y(`/mesajlar/${id}`)); } : undefined}
+          onArkadasEkle={kartOyuncu.id !== user.id && !arkadaslik.arkadasMi(kartOyuncu.id)
+            && !arkadaslik.istekVar(kartOyuncu.id) ? arkadaslik.arkadasEkle : undefined}
+          bilgiNotu={kartOyuncu.id !== user.id && arkadaslik.istekVar(kartOyuncu.id)
+            ? tt("Arkadaşlık isteği bekliyor.") : null}
         />
       )}
 
-      {/* ---------- LİG PANKARTI (Arayüz Yenileme, 20 Eyl 2026) ----------
-          Prototipteki `league-banner`. Bütün sayılar `lig_grubum`'dan:
-          lig adı, sıram, grup boyu, yükselme sınırı, sezon süresi.
-          RÜTBE DEĞİL — rütbe satırlarda RankBadge ile ayrıca duruyor. */}
+      {/* ---------- LİG PANKARTI (Tasarım A) ----------
+          Bütün sayılar `lig_grubum`'dan: lig adı, sıram, sınırlar, sezon süresi.
+          Grup boyu ve toplam oyuncu sayısı BİLEREK yazılmaz. */}
       {kapsam === "lig" && grupBilgi ? (
-        <section className="league-banner">
-          <div className="league-copy">
-            <span className="eyebrow light">{tt("HAFTALIK SEZON")}</span>
-            <h1>{LIG_ADLARI[grupBilgi.lig] ?? grupBilgi.lig} {tt("Ligi")}</h1>
-            <p>
-              {tt("İlk {0}'e gir ve yüksel; son {1} düşer.",
-                  { 0: grupBilgi.yukselen, 1: grupBilgi.dusen })}
-            </p>
-            <div className="season-time">
-              <span><Ikon ad="saat" boyut={15} /></span>
-              <b>{sureMetni(kalanSezon)}</b>
-              <small>{tt("sezonun bitmesine kaldı")}</small>
+        <section className={`lg-pankart lg-pankart-${ligKod}`} aria-labelledby="lg-pankart-baslik">
+          <div className="lg-pankart-ust">
+            <span className="lg-arma" aria-hidden="true">
+              <QtIkon ad="lig" boyut={40} />
+            </span>
+            <div className="lg-pankart-metin">
+              <h1 id="lg-pankart-baslik" className="qt-baslik-2">
+                {tt("{lig} Ligi", { lig: LIG_ADLARI[grupBilgi.lig] ?? grupBilgi.lig })}
+              </h1>
+              <p className="lg-sure">
+                <QtIkon ad="saat" boyut={16} />
+                <span>{tt("Sezon bitimine {sure}", { sure: sureMetni(kalanSezon) })}</span>
+              </p>
             </div>
           </div>
-          <div className="my-progress">
-            <span>{tt("ŞU ANKİ SIRAN")}</span>
-            <b>#{benimSiram ?? "—"}</b>
-            <small>{benimSiram ? `${benimSiram}/${grupBilgi.grup_boyu}` : tt("Henüz sıralamada değilsin")}</small>
-            <i>
-              <em style={{
-                width: `${Math.max(4, Math.min(100, Math.round(100 * (1 - ((benimSiram ?? grupBilgi.grup_boyu) - 1) / Math.max(1, grupBilgi.grup_boyu - 1)))))}%`,
-              }} />
-            </i>
+          <div className="lg-pankart-alt">
+            <div className="lg-siram">
+              <span className="lg-siram-etiket">{tt("Sıran")}</span>
+              <b className="qt-sayi">{benimSiram ? `#${benimSiram}` : "—"}</b>
+            </div>
+            <div className="lg-durum">
+              {benimSiram ? (
+                benimBolgem === "yukselen" ? (
+                  <QtRozet ton="dogru" ikon="ok">{tt("Yükselme bölgesindesin")}</QtRozet>
+                ) : benimBolgem === "dusen" ? (
+                  <QtRozet ton="yanlis" ikon="asagi">{tt("Düşme bölgesindesin")}</QtRozet>
+                ) : (
+                  <QtRozet ton="notr" ikon="kalkan">{tt("Güvendesin")}</QtRozet>
+                )
+              ) : (
+                <QtRozet ton="notr">{tt("Henüz sıralamada değilsin")}</QtRozet>
+              )}
+            </div>
           </div>
+          <QtIlerleme
+            deger={ustOran}
+            en={100}
+            ton="mor"
+            isaret={yukselmeIsaret ?? undefined}
+            etiket={tt("Gruptaki yerin")}
+          />
+          <p className="lg-kural">
+            {yukselmeVar && dusmeVar
+              ? tt("İlk {0} yükselir, son {1} düşer.", { 0: grupBilgi.yukselen, 1: grupBilgi.dusen })
+              : yukselmeVar
+                ? tt("İlk {0} bir üst lige yükselir.", { 0: grupBilgi.yukselen })
+                : dusmeVar
+                  ? tt("Son {0} bir alt lige düşer.", { 0: grupBilgi.dusen })
+                  : tt("Haftalık sezon")}
+          </p>
         </section>
       ) : (
-        <section className="page-heading">
-          <div>
-            <span className="eyebrow">{tt("SIRALAMA")}</span>
-            <h1>{tt("Lig")}</h1>
-            <p>{tt("Maç kazan, yüksel ve hafta sonunda sıranı gör.")}</p>
-          </div>
-        </section>
+        <header className="lg-baslik">
+          <h1 className="qt-baslik-1">{tt("Lig")}</h1>
+          <p className="qt-soluk-zemin">{tt("Maç kazan, yüksel ve hafta sonunda sıranı gör.")}</p>
+        </header>
       )}
 
-      {hata && <div className="hata-kutu">{hata}</div>}
+      {hata && (
+        <p className="lg-hata" role="alert">
+          <QtIkon ad="uyari" boyut={18} /> {hata}
+        </p>
+      )}
 
-      <div className="league-tabs surface-card">
-      <div className={`bd-sekme-ust bd-lig-kapsam scope-tabs${sekmeDevam ? " bd-serit-solma" : ""}`}
-           ref={sekmeSeritRef} onScroll={sekmeSeritOlc}>
-        {KAPSAMLAR.map((k) => (
-          <button
-            key={k.id}
-            className={`bd-sekme ${kapsam === k.id ? "aktif" : ""}`}
-            onClick={() => setKapsam(k.id)}
-          >
-            <Ikon ad={k.ikon} boyut={15} />
-            {k.etiket}
-          </button>
-        ))}
-      </div>
+      <QtSekmeler
+        className="lg-sekmeler"
+        etiket={tt("Sıralama türü")}
+        sekmeler={KAPSAMLAR.map((k) => ({ kod: k.id, ad: k.ad, ikon: k.ikon }))}
+        aktif={kapsam}
+        onSec={setKapsam}
+      />
 
-      {/* Dönem sekmeleri yalnız gurur tablolarında anlamlı: kademeli lig
-          zaten haftalık. */}
+      {/* Dönem seçimi yalnız gurur tablolarında anlamlı: kademeli lig zaten haftalık. */}
       {kapsam !== "lig" && (
-        <div className="bd-sekme-alt period-tabs">
+        <div className="lg-donem" role="group" aria-label={tt("Dönem")}>
           {DONEMLER.map((d) => (
-            <button
-              key={d.id}
-              className={`bd-alt-sekme ${donem === d.id ? "aktif" : ""}`}
-              onClick={() => setDonem(d.id)}
-            >
-              {d.etiket}
-            </button>
+            <QtCip key={d.id} secili={donem === d.id} onClick={() => setDonem(d.id)}>
+              {d.ad}
+            </QtCip>
           ))}
-        </div>
-      )}
-      </div>
-
-      {/* Kademeli lig şeridi: "Gümüş Lig · 7/25 · ↑ ilk 5 · ↓ son 5 · süre" */}
-      {kapsam === "lig" && grupBilgi && (
-        <div className="bd-hafta-serit bd-lig-serit">
-          <b>{LIG_ADLARI[grupBilgi.lig] ?? grupBilgi.lig} {tt("Lig")}</b> ·{" "}
-          {benimSiram ?? "—"}/{grupBilgi.grup_boyu}
-          <span className="bd-lig-kural">
-            {tt("↑ ilk")} {grupBilgi.yukselen} {tt("yükselir · ↓ son")} {grupBilgi.dusen} {tt("düşer ·")}{" "}
-            {sureMetni(kalanSezon)} {tt("kaldı")}
-          </span>
         </div>
       )}
 
       {kapsam !== "lig" && donem === "hafta" && (
-        <div className="bd-hafta-serit">
-          <Ikon ad="saat" boyut={15} /> {tt("Hafta bitimine")} <b>{sureMetni(kalanHafta)}</b> {tt("kaldı — ilk 3 rozet kazanır.")}
-        </div>
+        <p className="lg-bilgi-serit">
+          <QtIkon ad="saat" boyut={16} />
+          <span>
+            {tt("Hafta bitimine {sure} — ilk 3 rozet kazanır.", { sure: sureMetni(kalanHafta) })}
+          </span>
+        </p>
       )}
 
       {kapsam === "sehir" && sehirSirasi && (
-        <div className="bd-sehir-serit">
-          <Bayrak kod={sehirSirasi.ulke} /> <b>{sehirSirasi.sehir}</b>{" "}
-          {/* Oyuncu sayısı BİLEREK yazılmıyor: oyunun kalabalığı hiçbir
-              ekranda açık edilmiyor (bkz. kademeli lig kuralları). */}
-          {tt(donem === "hafta"
-            ? "bu hafta ülkende {sira}. sırada ({sayi} şehir içinde) · {puan} puan"
-            : "tüm zamanlarda ülkende {sira}. sırada ({sayi} şehir içinde) · {puan} puan",
-            { sira: sehirSirasi.sira, sayi: sehirSirasi.sehir_sayisi, puan: sehirSirasi.toplam_puan })}
-        </div>
+        <p className="lg-bilgi-serit">
+          <Bayrak kod={sehirSirasi.ulke} boyut={18} />
+          <span>
+            <b>{sehirSirasi.sehir}</b>{" "}
+            {/* Oyuncu sayısı BİLEREK yazılmıyor: oyunun kalabalığı hiçbir
+                ekranda açık edilmiyor (bkz. kademeli lig kuralları). */}
+            {tt(donem === "hafta"
+              ? "bu hafta ülkende {sira}. sırada ({sayi} şehir içinde) · {puan} puan"
+              : "tüm zamanlarda ülkende {sira}. sırada ({sayi} şehir içinde) · {puan} puan",
+              { sira: sehirSirasi.sira, sayi: sehirSirasi.sehir_sayisi, puan: sehirSirasi.toplam_puan })}
+          </span>
+        </p>
       )}
 
-      {(kapsam === "sehir" || kapsam === "ulke") && !konumVar ? (
-        <div className="kart bd-bos">
-          <Maskot poz="dusunuyor" boyut={84} className="bd-orta-maskot" />
-          <div style={{ fontWeight: 700, marginBottom: 6 }}>
-            {tt("Şehir ve ülke ligleri için konumunu seç")}
+      <div id={`qt-panel-${kapsam}`} role="tabpanel" aria-label={kapsamAdi} className="lg-panel">
+        {(kapsam === "sehir" || kapsam === "ulke") && !konumVar ? (
+          <div className="qt-kart qt-kart--yuzey qt-kart--dolgu-o">
+            <QtBosDurum
+              ikon="haritaPini"
+              baslik={tt("Şehir ve ülke ligleri için konumunu seç")}
+              metin={tt("Hangi şehir için yarıştığını söyle, şehrinin ve ülkenin sıralamasına gir.")}
+              eylem={<QtDugme ikon="haritaPini" onClick={() => setKonumAc(true)}>{tt("Şehrimi seç")}</QtDugme>}
+            />
           </div>
-          <div className="alt-yazi" style={{ marginBottom: 12 }}>
-            {tt("Hangi şehir için yarıştığını söyle, şehrinin ve ülkenin sıralamasına gir.")}
+        ) : yukleniyor ? (
+          <div className="qt-liste lg-iskelet" aria-busy="true" role="status">
+            <span className="qt-gizli">{tt("Yükleniyor…")}</span>
+            <QtIskelet tur="satir" adet={6} />
           </div>
-          <button className="btn" onClick={() => setKonumAc(true)}>
-            {tt("Şehrimi seç")}
-          </button>
-        </div>
-      ) : yukleniyor ? (
-        <DurumKutusu durum="yukleniyor" satir={5} />
-      ) : listeHata ? (
-        <DurumKutusu durum="hata" onTekrar={() => setDeneme((n) => n + 1)} />
-      ) : ilk100.length === 0 ? (
-        <div className="bd-bos-durum">
-          <Maskot poz="dusunuyor" boyut={90} />
-          <p>{tt("Bu ligde henüz kimse yarışmıyor — ilk sırayı sen kap.")}</p>
-          <button className="btn" onClick={() => navigate(y())}>
-            {tt("Hemen oyna")}
-          </button>
-        </div>
-      ) : ilk100.length === 1 && ilk100[0].user_id === user.id ? (
-        <div className="bd-lig-bos">
-          <Maskot poz="selam" boyut={90} />
-          <p>
-            {kapsam === "sehir"
-              ? tt("Şehrinde ilk oyuncu sensin! Arkadaşlarını çağır, şehrini zirveye taşıyın.")
-              : tt("Bu ligde şimdilik tek başınasın. Arkadaşlarını davet et.")}
-          </p>
-          <button className="btn" onClick={() => navigate(y("/arkadaslar"))}>
-            {tt("Arkadaş davet et")}
-          </button>
-          <button className="btn ikincil" onClick={() => setKapsam("global")}>
-            {tt("Dünya ligine bak")}
-          </button>
-        </div>
-      ) : (
-        <section className="leaderboard surface-card">
-          <div className="board-heading">
-            <div>
-              <span className="eyebrow">
-                {kapsam === "lig" && grupBilgi
-                  ? `${LIG_ADLARI[grupBilgi.lig] ?? grupBilgi.lig} ${tt("Ligi")}`
-                  : KAPSAMLAR.find((k) => k.id === kapsam)?.etiket}
-              </span>
-              <h2>{tt("Zirvedekiler")}</h2>
-            </div>
-            <span className="updated">{tt("Canlı sıralama")}</span>
+        ) : listeHata ? (
+          <div className="qt-kart qt-kart--yuzey qt-kart--dolgu-o" role="alert">
+            <QtBosDurum
+              ikon="uyari"
+              ton="yanlis"
+              baslik={tt("Yüklenemedi.")}
+              metin={tt("Bağlantını kontrol edip tekrar dene.")}
+              eylem={<QtDugme tur="ikincil" ikon="yenile" onClick={() => setDeneme((n) => n + 1)}>{tt("Tekrar dene")}</QtDugme>}
+            />
           </div>
-          {podyum.length === 3 && (
-            <div className="bd-podyum podium">
-              {[podyum[1], podyum[0], podyum[2]].map((p, i) => {
-                const basamak = [2, 1, 3][i];
-                return (
-                  <div
-                    key={p.user_id}
-                    className={`bd-podyum-yer tiklanir yer-${basamak} ${
-                      p.user_id === user.id ? "ben" : ""
-                    } ${p.bot ? "bot" : ""}`}
-                    role="button"
-                    tabIndex={0}
-                    title={tt("{0} — kartını aç", { 0: p.gorunen_ad })}
-                    onClick={() => setKartOyuncu({
-                      id: p.user_id, gorunen_ad: p.gorunen_ad,
-                      gorunen_avatar: p.gorunen_avatar, gorunum: p.gorunum, puan: p.puan,
-                      is_bot: p.bot, sehir: p.sehir, ulke: p.ulke,
-                    })}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ") {
-                        e.preventDefault();
-                        setKartOyuncu({
-                          id: p.user_id, gorunen_ad: p.gorunen_ad,
-                          gorunen_avatar: p.gorunen_avatar, gorunum: p.gorunum, puan: p.puan,
-                          is_bot: p.bot, sehir: p.sehir, ulke: p.ulke,
-                        });
-                      }
-                    }}
-                  >
-                    <div className="bd-podyum-madalya">
-                      {basamak}
-                    </div>
-                    <AvatarCerceve
-                      profile={{ gorunen_ad: p.gorunen_ad, gorunen_avatar: p.gorunen_avatar, gorunum: p.gorunum }}
-                      boyut={basamak === 1 ? 62 : 50}
-                      userId={p.user_id}
-                    />
-                    {/* Botlar podyumda gerçek oyuncuların önüne geçmesin:
-                        sıra ve puanları AYNEN duruyor, yalnız görsel olarak
-                        ayrışıyorlar (robot rozeti + sönük renk). */}
-                    <div className="bd-podyum-ad">
-                      {p.gorunen_ad}
-                      {p.bot && (
-                        <span className="bd-bot-rozet" title={tt("Yapay rakip")}>
-                          <Ikon ad="robot" boyut={12} />
-                        </span>
-                      )}
-                      {/* Paket 42 L.1: podyumda da kendi yeri "sen" rozetiyle belli olsun (listede zaten vardı) */}
-                      {p.user_id === user.id && <SenRozeti />}
-                    </div>
-                    <div className="bd-podyum-puan"><SayanSayi deger={p.puan} /></div>
-                    <div className="bd-podyum-kaide">{basamak}</div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-
-          <div className="bd-lig-liste ranking-list">
-            {(podyum.length === 3 ? kalanlar : ilk100).map((s) => {
-              // Kademeli ligde sınır çizgileri: kimin yükseleceği ve
-              // kimin düşeceği listeye bakınca görünsün.
-              if (kapsam !== "lig" || !grupBilgi) return satir(s);
-              const dusmeSiniri = grupBilgi.grup_boyu - grupBilgi.dusen;
-              return (
-                <div key={`yuva-${s.user_id}`}>
-                  {satir(s)}
-                  {s.sira === grupBilgi.yukselen && (
-                    <div className="bd-lig-cizgi yukselme">{tt("↑ yükselme sınırı")}</div>
-                  )}
-                  {s.sira === dusmeSiniri && dusmeSiniri > grupBilgi.yukselen && (
-                    <div className="bd-lig-cizgi dusme">{tt("↓ düşme sınırı")}</div>
-                  )}
+        ) : ilk100.length === 0 ? (
+          <div className="qt-kart qt-kart--yuzey qt-kart--dolgu-o">
+            <QtBosDurum
+              ikon="kupa"
+              baslik={tt("Bu ligde henüz kimse yarışmıyor — ilk sırayı sen kap.")}
+              eylem={<QtDugme ikon="oyna" onClick={() => navigate(y())}>{tt("Hemen oyna")}</QtDugme>}
+            />
+          </div>
+        ) : ilk100.length === 1 && ilk100[0].user_id === user.id ? (
+          <div className="qt-kart qt-kart--yuzey qt-kart--dolgu-o">
+            <QtBosDurum
+              ikon="kisiler"
+              baslik={kapsam === "sehir"
+                ? tt("Şehrinde ilk oyuncu sensin! Arkadaşlarını çağır, şehrini zirveye taşıyın.")
+                : tt("Bu ligde şimdilik tek başınasın. Arkadaşlarını davet et.")}
+              eylem={
+                <div className="lg-eylemler">
+                  <QtDugme ikon="kisiEkle" onClick={() => navigate(y("/arkadaslar"))}>{tt("Arkadaş davet et")}</QtDugme>
+                  <QtDugme tur="ikincil" ikon="dunya" onClick={() => setKapsam("global")}>{tt("Dünya ligine bak")}</QtDugme>
                 </div>
-              );
-            })}
+              }
+            />
           </div>
-        </section>
-      )}
+        ) : (
+          <>
+            {podyum.length === 3 && (
+              <ol className="lg-podyum" aria-label={tt("İlk üç")}>
+                {[podyum[1], podyum[0], podyum[2]].map((p, i) => {
+                  const basamak = [2, 1, 3][i];
+                  return (
+                    <li key={p.user_id} className={`lg-podyum-yer lg-yer-${basamak}${p.user_id === user.id ? " lg-ben" : ""}`}>
+                      <button
+                        type="button"
+                        className="lg-podyum-dugme"
+                        aria-label={tt("{0}. sıra: {1} — kartını aç", { 0: basamak, 1: p.gorunen_ad })}
+                        onClick={() => kartiAc(p)}
+                      >
+                        <span className="lg-madalya qt-sayi" aria-hidden="true">{basamak}</span>
+                        <AvatarCerceve
+                          profile={{ gorunen_ad: p.gorunen_ad, gorunen_avatar: p.gorunen_avatar, gorunum: p.gorunum }}
+                          boyut={basamak === 1 ? 64 : 52}
+                          userId={p.user_id}
+                        />
+                        <span className="lg-podyum-ad">
+                          <span className="lg-ad-metin">{p.gorunen_ad}</span>
+                          {p.bot && (
+                            <span className="lg-yapay" title={tt("Yapay rakip")}>
+                              <QtIkon ad="robot" boyut={13} etiket={tt("Yapay rakip")} />
+                            </span>
+                          )}
+                        </span>
+                        {p.user_id === user.id && <SenRozeti />}
+                        <span className="lg-podyum-puan qt-sayi"><SayanSayi deger={p.puan} /></span>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ol>
+            )}
 
-      {benimSatirim && !yukleniyor && (
-        <div className="bd-benim-satir">{satir(benimSatirim, true)}</div>
-      )}
+            {(podyum.length === 3 ? kalanlar : ilk100).length > 0 && (
+              <div className="qt-liste lg-liste" role="list"
+                   aria-label={kapsam === "lig" && grupBilgi
+                     ? tt("{lig} Ligi", { lig: LIG_ADLARI[grupBilgi.lig] ?? grupBilgi.lig })
+                     : kapsamAdi}>
+                {(podyum.length === 3 ? kalanlar : ilk100).map((s) => {
+                  if (kapsam !== "lig" || !grupBilgi) return satir(s);
+                  // Kademeli ligde sınır çizgileri: kimin yükseleceği ve
+                  // kimin düşeceği listeye bakınca görünsün.
+                  return [
+                    satir(s),
+                    yukselmeVar && s.sira === grupBilgi.yukselen
+                      ? <div key={`cizgi-y-${s.user_id}`} role="listitem" className="lg-sinir-kap">{sinirCizgisi("yukselme")}</div>
+                      : null,
+                    dusmeVar && s.sira === dusmeSiniri
+                      ? <div key={`cizgi-d-${s.user_id}`} role="listitem" className="lg-sinir-kap">{sinirCizgisi("dusme")}</div>
+                      : null,
+                  ];
+                })}
+              </div>
+            )}
+          </>
+        )}
 
-      {konumAc && (
-        <Modal onKapat={() => setKonumAc(false)} etiket={tt("Şehir seçimi")}>
-          <div className="bd-modal">
-            <KonumSecici mod="kart" onKapat={() => setKonumAc(false)} />
+        {benimSatirim && !yukleniyor && (
+          <div className="qt-liste lg-benim" role="list" aria-label={tt("Senin sıran")}>
+            {satir(benimSatirim, true)}
           </div>
-        </Modal>
-      )}
+        )}
+      </div>
+
+      <QtModal acik={konumAc} onKapat={() => setKonumAc(false)} baslik={tt("Şehir seçimi")}>
+        {konumAc && <KonumSecici mod="kart" onKapat={() => setKonumAc(false)} />}
+      </QtModal>
     </div>
   );
 }
