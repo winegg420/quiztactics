@@ -11,6 +11,8 @@ import DavetKodu from "./DavetKodu.jsx";
 import AvatarCerceve from "./AvatarCerceve.jsx";
 import { tt } from "../lib/dil.js";
 import { rpcDene } from "../lib/rpcDene.js";
+import { QtAnahtar, QtDugme, QtIkon, QtKart, sayiBicim } from "../tasarim/index.js";
+import "../tasarim/ekranlar/dukkan-profil.css";
 
 // Profesyonel avatar seti. Eski düşük ayrıntılı SVG'ler donduruldu; 31 karakter
 // aynı çizim dilinde yeniden üretildi. Kaynak: AvatarProIllustrations.jsx.
@@ -160,208 +162,189 @@ export default function ProfilAyarlari() {
           ikram diye bir şey olmuyor, ayar da görünmüyor. Kod ve sunucu
           tarafı (migration 153) yerinde — oyun/lib/ozellikBayraklari.js. */}
       {MEYDAN_ACIK && (
-      <div className="kart">
-        <div className="bd-kat-baslik"><span>{tt("Meydanda ikramlar")}</span></div>
-        <div className="bd-konum-ozet">
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontWeight: 800 }}>
-              {rahatsizEtme ? tt("Kapalı — kimse ikram gönderemez") : tt("Açık — kahve ve balon alabilirsin")}
-            </div>
-            <div className="alt-yazi">
-              {tt("Meydanda başka oyuncular sana kahve ya da balon ikram edebilir. Rahatsız olursan burayı kapat; meydan okumalar etkilenmez.")}
-            </div>
-          </div>
-          <button
-            className={`btn kucuk ${rahatsizEtme ? "" : "ikincil"}`}
-            disabled={ikramCalisiyor}
-            onClick={rahatsizEtmeDegistir}
-          >
-            {rahatsizEtme ? tt("Aç|ayar") : tt("Kapat|ayar")}
-          </button>
-        </div>
-        {ikramHata && <div className="hata-kutu" style={{ marginTop: 8 }}>{ikramHata}</div>}
-      </div>
+        <QtKart as="section" className="qt-pf-bolum" aria-label={tt("Meydanda ikramlar")}>
+          <QtAnahtar
+            acik={!rahatsizEtme}
+            devreDisi={ikramCalisiyor}
+            etiket={tt("Meydanda ikramlar")}
+            aciklama={tt("Meydanda başka oyuncular sana kahve ya da balon ikram edebilir. Rahatsız olursan burayı kapat; meydan okumalar etkilenmez.")}
+            onDegis={rahatsizEtmeDegistir}
+          />
+          {ikramHata && <p className="qt-pf-hata" role="alert">{ikramHata}</p>}
+        </QtKart>
       )}
 
       {/* ---------- Takma ad ---------- */}
-      <div className="kart">
-        <div className="bd-kat-baslik">
-          <span>{tt("Takma adın")}</span>
-          {kalanKilit > 0 && (
-            <span className="alt-yazi">{sureMetni(kalanKilit)}</span>
-          )}
-        </div>
-        {/* GİZLİLİK NOTU: eskiden istatistiklerin hemen altında iki
-            satırlık ayrı bir gri bloktu ve bir AYAR sanılıyordu. Bu bir
-            bilgi notu — ait olduğu yere, takma ad ayarının altına indi. */}
-        <p className="bd-gizlilik-not">
-          {tt("Gerçek adın hiçbir zaman gösterilmez; diğer oyuncular yalnızca takma adını ve seçtiğin avatarı görür.")}
-        </p>
+      <QtKart as="section" className="qt-pf-bolum" aria-labelledby="qt-pf-takma-ad">
+        <h2 id="qt-pf-takma-ad" className="qt-baslik-3">{tt("Takma adın")}</h2>
 
         {adDuzenle ? (
           <>
-            <label className="bd-alan">
+            <label className="qt-pf-alan">
               <span>{tt("Yeni takma ad (3-16)")}</span>
               <input
                 type="text"
                 maxLength={16}
                 autoFocus
+                autoComplete="off"
                 value={yeniAd}
                 onChange={(e) => setYeniAd(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && adKaydet()}
               />
             </label>
-            {adHata && <div className="hata-kutu">{adHata}</div>}
-            <div className="bd-konum-butonlar">
-              <button className="btn" disabled={calisiyor} onClick={adKaydet}>
-                {tt("Kaydet")}
-              </button>
-              <button className="btn ikincil" onClick={() => setAdDuzenle(false)}>
-                {tt("Vazgeç")}
-              </button>
+            {adHata && <p className="qt-pf-hata" role="alert">{adHata}</p>}
+            <div className="qt-pf-dugme-sira">
+              <QtDugme boyut="k" yukleniyor={calisiyor} onClick={adKaydet}>{tt("Kaydet")}</QtDugme>
+              <QtDugme tur="ikincil" boyut="k" onClick={() => setAdDuzenle(false)}>{tt("Vazgeç")}</QtDugme>
             </div>
           </>
         ) : (
-          <div className="bd-konum-ozet">
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontSize: 18, fontWeight: 900 }}>{profile.gorunen_ad}</div>
-              <div className="alt-yazi">
+          <div className="qt-pf-ayar-satir">
+            <div className="qt-pf-ayar-metin">
+              <span className="qt-pf-takma-ad">{profile.gorunen_ad}</span>
+              <span className="qt-kucuk qt-soluk">
                 {kalanKilit > 0
                   ? tt("Tekrar değiştirebilmen için {0} kaldı.", { 0: sureMetni(kalanKilit) })
                   : tt("Günde bir kez değiştirebilirsin.")}
-              </div>
+              </span>
             </div>
-            <button
-              className="btn kucuk ikincil"
-              disabled={kalanKilit > 0}
+            <QtDugme
+              tur="ikincil"
+              boyut="k"
+              ikon="kalem"
+              devreDisi={kalanKilit > 0}
               onClick={() => {
                 setYeniAd(profile.takma_ad ?? "");
                 setAdDuzenle(true);
               }}
             >
               {tt("Değiştir")}
-            </button>
+            </QtDugme>
           </div>
         )}
-      </div>
+        {/* Gizlilik notu: ayar değil bilgi — takma adın altında durur. */}
+        <p className="qt-kucuk qt-soluk qt-pf-not">
+          <QtIkon ad="kalkan" boyut={16} />
+          <span>{tt("Gerçek adın hiçbir zaman gösterilmez; diğer oyuncular yalnızca takma adını ve seçtiğin avatarı görür.")}</span>
+        </p>
+      </QtKart>
 
       {/* ---------- Avatar ---------- */}
-      <div className="kart">
-        <div className="bd-kat-baslik">
-          <span>{tt("Avatarın")}</span>
-        </div>
+      <QtKart as="section" className="qt-pf-bolum" aria-labelledby="qt-pf-avatar-baslik">
+        <h2 id="qt-pf-avatar-baslik" className="qt-baslik-3">{tt("Avatarın")}</h2>
         {avatarDuzenle ? (
           <>
-            <div className="bd-avatar-grid">
-              {HAZIR_AVATARLAR.map((a) => (
-                <button
-                  key={a.url}
-                  className={`bd-avatar-sec ${profile.avatar_url === a.url ? "aktif" : ""}`}
-                  aria-label={tt("{0} avatarını seç", { 0: a.ad })}
-                  title={a.ad}
-                  disabled={calisiyor}
-                  onClick={() => avatarKaydet(a.url)}
-                >
-                  <img src={a.url} alt="" />
-                </button>
-              ))}
+            <div className="qt-pf-avatar-izgara">
+              {HAZIR_AVATARLAR.map((a) => {
+                const secili = profile.avatar_url === a.url;
+                return (
+                  <button
+                    type="button"
+                    key={a.url}
+                    className={"qt-pf-avatar-sec" + (secili ? " qt-pf-avatar-sec--secili" : "")}
+                    aria-label={tt("{0} avatarını seç", { 0: a.ad })}
+                    aria-pressed={secili}
+                    title={a.ad}
+                    disabled={calisiyor}
+                    onClick={() => avatarKaydet(a.url)}
+                  >
+                    <img src={a.url} alt="" loading="lazy" decoding="async" />
+                  </button>
+                );
+              })}
             </div>
-            {avatarHata && <div className="hata-kutu">{avatarHata}</div>}
-            <div className="bd-konum-butonlar">
+            {avatarHata && <p className="qt-pf-hata" role="alert">{avatarHata}</p>}
+            <div className="qt-pf-dugme-sira">
               {googleFoto && (
-                <button
-                  className="btn ikincil"
-                  disabled={calisiyor}
-                  onClick={() => avatarKaydet(googleFoto)}
-                >
+                <QtDugme tur="ikincil" boyut="k" devreDisi={calisiyor} onClick={() => avatarKaydet(googleFoto)}>
                   {tt("Google fotoğrafım")}
-                </button>
+                </QtDugme>
               )}
-              <button
-                className="btn ikincil"
-                disabled={calisiyor}
-                onClick={() => avatarKaydet(null)}
-              >
+              <QtDugme tur="ikincil" boyut="k" devreDisi={calisiyor} onClick={() => avatarKaydet(null)}>
                 {tt("Kaldır")}
-              </button>
-              <button className="btn ikincil" onClick={() => setAvatarDuzenle(false)}>
+              </QtDugme>
+              <QtDugme tur="hayalet" boyut="k" onClick={() => setAvatarDuzenle(false)}>
                 {tt("Kapat")}
-              </button>
+              </QtDugme>
             </div>
           </>
         ) : (
-          <div className="bd-konum-ozet">
+          <div className="qt-pf-ayar-satir">
             {/* Paket 37 H: neyi değiştireceğin görünsün (lig çerçevesi dahil) */}
-            <span className="bd-ayar-avatar-onizleme">
-              <AvatarCerceve profile={profile} boyut={36} userId={profile.id} />
+            <span className="qt-pf-avatar-onizleme">
+              <AvatarCerceve profile={profile} boyut={44} userId={profile.id} />
             </span>
-            <div style={{ flex: 1 }} className="alt-yazi">
+            <span className="qt-kucuk qt-soluk qt-pf-ayar-metin">
               {profile.avatar_onayli
                 ? tt("Avatarın diğer oyunculara görünüyor.")
                 : tt("Avatar seçmedin; adının ilk harfi gösteriliyor.")}
-            </div>
-            <button className="btn kucuk ikincil" onClick={() => setAvatarDuzenle(true)}>
+            </span>
+            <QtDugme tur="ikincil" boyut="k" onClick={() => setAvatarDuzenle(true)}>
               {tt("Değiştir")}
-            </button>
+            </QtDugme>
           </div>
         )}
-      </div>
+      </QtKart>
 
       {/* ---------- Davet kodu ---------- */}
-      <div className="kart">
-        <div className="bd-kat-baslik">
-          <span>{tt("Davet kodun")}</span>
-        </div>
+      <QtKart as="section" className="qt-pf-bolum" aria-labelledby="qt-pf-davet-kodu">
+        <h2 id="qt-pf-davet-kodu" className="qt-baslik-3">{tt("Davet kodun")}</h2>
         {/* Kodun kendisi düğme: dokununca YALNIZ kod panoya gider. */}
         <DavetKodu kod={profile.davet_kodu} />
-        <button
-          className="btn ikincil"
-          style={{ marginTop: 10 }}
-          disabled={!davetLinki}
+        <QtDugme
+          tur="ikincil"
+          ikon={kopyalandi ? "onay" : "kopyala"}
+          tamGenislik
+          devreDisi={!davetLinki}
           onClick={async () => {
             try {
               await navigator.clipboard.writeText(davetLinki);
               setKopyalandi(true);
               setTimeout(() => setKopyalandi(false), 2500);
-            } catch {
-              /* pano izni yok */
+            } catch (e) {
+              console.warn("[Bildim] davet linki kopyalanamadı:", e?.message ?? e);
             }
           }}
         >
           {kopyalandi ? tt("Kopyalandı") : tt("Davet linkini kopyala")}
-        </button>
-      </div>
+        </QtDugme>
+      </QtKart>
 
       {/* ---------- Varsayılan kategori ---------- */}
-      <div className="kart">
-        <div className="bd-kat-baslik">
-          <span>{tt("Varsayılan kategorim")}</span>
-        </div>
-        <div className="alt-yazi" style={{ marginBottom: 10 }}>
+      <QtKart as="section" className="qt-pf-bolum" aria-labelledby="qt-pf-kategori-tercih">
+        <h2 id="qt-pf-kategori-tercih" className="qt-baslik-3">{tt("Varsayılan kategorim")}</h2>
+        <p className="qt-kucuk qt-soluk">
           {tt("\"Hemen Oyna\" ve \"Dereceli Maç\" bu kategoride rakip arar. Ana Sayfa'dan da değiştirebilirsin.")}
-        </div>
-        <div className="bd-kat-grid">
+        </p>
+        <div className="qt-pf-kategori-izgara">
           <button
-            className={`bd-kat-kart ${!profile.tercih_kategori ? "aktif" : ""}`}
+            type="button"
+            className={"qt-pf-kategori" + (!profile.tercih_kategori ? " qt-pf-kategori--secili" : "")}
+            aria-pressed={!profile.tercih_kategori}
             onClick={() => kategoriKaydet(null)}
           >
-            <KategoriIkon anahtar="karisik" boyut={24} plaka />
-              <span className="bd-kat-ad">{tt("Karışık")}</span>
+            <KategoriIkon anahtar="karisik" boyut={22} plaka />
+            <span className="qt-pf-kategori-ad">{tt("Karışık")}</span>
           </button>
-          {kategorileriSirala(kategoriler).map((k) => (
-            <button
-              key={k.kategori}
-              className={`bd-kat-kart ${profile.tercih_kategori === k.kategori ? "aktif" : ""}`}
-              onClick={() => kategoriKaydet(k.kategori)}
-            >
-              <KategoriIkon anahtar={k.kategori} boyut={24} plaka />
-              <span className="bd-kat-ad">{kategoriEtiket(k.kategori)}</span>
-              <span className="bd-kat-alt">{k.soru_sayisi} {tt("soru")}</span>
-            </button>
-          ))}
+          {kategorileriSirala(kategoriler).map((k) => {
+            const secili = profile.tercih_kategori === k.kategori;
+            return (
+              <button
+                type="button"
+                key={k.kategori}
+                className={"qt-pf-kategori" + (secili ? " qt-pf-kategori--secili" : "")}
+                aria-pressed={secili}
+                onClick={() => kategoriKaydet(k.kategori)}
+              >
+                <KategoriIkon anahtar={k.kategori} boyut={22} plaka />
+                <span className="qt-pf-kategori-ad">{tt(kategoriEtiket(k.kategori))}</span>
+                <span className="qt-pf-kategori-alt">{tt("{n} soru", { n: sayiBicim(Number(k.soru_sayisi)) })}</span>
+              </button>
+            );
+          })}
         </div>
-        {kategoriHata && <div className="hata-kutu">{kategoriHata}</div>}
-      </div>
+        {kategoriHata && <p className="qt-pf-hata" role="alert">{kategoriHata}</p>}
+      </QtKart>
     </>
   );
 }

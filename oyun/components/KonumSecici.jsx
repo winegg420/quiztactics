@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import Modal from "./Modal.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import { konumKilidiKalan, sureMetni } from "../lib/konum.js";
 import Bayrak from "./Bayrak.jsx";
 import { tt } from "../lib/dil.js";
+import { QtDugme, QtIkon, QtKart, QtModal } from "../tasarim/index.js";
+import "../tasarim/ekranlar/dukkan-profil.css";
 
 /**
  * Ülke + şehir seçimi.
@@ -96,17 +97,9 @@ export default function KonumSecici({ mod = "kart", onKapat, onKaydedildi }) {
     }
   };
 
-  const govde = (
+  const alanlar = (
     <>
-      <div className="bd-konum-baslik">
-        {mod === "modal" ? tt("Hangi şehir için yarışıyorsun?") : tt("Şehrin ve ülken")}
-      </div>
-      <div className="bd-konum-aciklama">
-        {tt("Şehir ve ülke liglerinde bu bilgiyle yarışırsın.")}{" "}
-        <b>{tt("Günde yalnızca bir kez değiştirebilirsin.")}</b>
-      </div>
-
-      <label className="bd-alan">
+      <label className="qt-pf-alan">
         <span>{tt("Ülke")} {ulke && <Bayrak kod={ulke} />}</span>
         <select
           value={ulke}
@@ -124,7 +117,7 @@ export default function KonumSecici({ mod = "kart", onKapat, onKaydedildi }) {
         </select>
       </label>
 
-      <label className="bd-alan">
+      <label className="qt-pf-alan">
         <span>{tt("Şehir")}</span>
         {serbestSehir ? (
           <input
@@ -152,33 +145,59 @@ export default function KonumSecici({ mod = "kart", onKapat, onKaydedildi }) {
       </label>
 
       {kilitli && (
-        <div className="bd-uyari">
-          {tt("Konumunu tekrar değiştirebilmen için")}{" "}
-          <b>{sureMetni(kalan)}</b> {tt("kaldı.")}
-        </div>
+        <p className="qt-pf-not qt-pf-not--uyari">
+          <QtIkon ad="saat" boyut={18} />
+          <span>{tt("Konumunu tekrar değiştirebilmen için {0} kaldı.", { 0: sureMetni(kalan) })}</span>
+        </p>
       )}
 
-      {hata && <div className="hata-kutu">{hata}</div>}
-
-      <div className="bd-konum-butonlar">
-        <button className="btn" disabled={kaydediyor || kilitli} onClick={kaydet}>
-          {kaydediyor ? tt("Kaydediliyor…") : tt("Kaydet")}
-        </button>
-        {mod === "kart" && onKapat && (
-          <button className="btn ikincil" onClick={onKapat}>
-            {tt("Vazgeç")}
-          </button>
-        )}
-      </div>
+      {hata && <p className="qt-pf-hata" role="alert">{hata}</p>}
     </>
   );
 
+  const aciklama = (
+    <>
+      {tt("Şehir ve ülke liglerinde bu bilgiyle yarışırsın.")}{" "}
+      <b>{tt("Günde yalnızca bir kez değiştirebilirsin.")}</b>
+    </>
+  );
+
+  const kaydetDugmesi = (
+    <QtDugme tamGenislik={mod === "modal"} boyut={mod === "modal" ? "o" : "k"} yukleniyor={kaydediyor}
+             devreDisi={kilitli} onClick={kaydet}>
+      {kaydediyor ? tt("Kaydediliyor…") : tt("Kaydet")}
+    </QtDugme>
+  );
+
   if (mod === "modal") {
+    // İlk girişte zorunlu: onKapat yoksa kapatma düğmesi ve örtüye dokunma yok.
     return (
-      <Modal onKapat={onKapat} etiket={tt("Şehir seçimi")}>
-        <div className="bd-modal">{govde}</div>
-      </Modal>
+      <QtModal
+        acik
+        onKapat={onKapat ?? (() => {})}
+        kapatDugmesi={Boolean(onKapat)}
+        ortuKapatir={Boolean(onKapat)}
+        baslik={tt("Hangi şehir için yarışıyorsun?")}
+        aciklama={aciklama}
+        altlik={kaydetDugmesi}
+      >
+        <div className="qt-pf-konum-alanlar">{alanlar}</div>
+      </QtModal>
     );
   }
-  return <div className="kart bd-konum-kart">{govde}</div>;
+  return (
+    <QtKart as="section" className="qt-pf-bolum qt-pf-konum" aria-labelledby="qt-pf-konum-baslik">
+      <h2 id="qt-pf-konum-baslik" className="qt-baslik-3">{tt("Şehrin ve ülken")}</h2>
+      <p className="qt-kucuk qt-soluk">{aciklama}</p>
+      <div className="qt-pf-konum-alanlar">{alanlar}</div>
+      <div className="qt-pf-dugme-sira">
+        {kaydetDugmesi}
+        {onKapat && (
+          <QtDugme tur="ikincil" boyut="k" onClick={onKapat}>
+            {tt("Vazgeç")}
+          </QtDugme>
+        )}
+      </div>
+    </QtKart>
+  );
 }

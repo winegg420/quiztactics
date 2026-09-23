@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import { acikSaglayicilariOku, ACIK_SAGLAYICILAR } from "../../src/lib/saglayicilar.js";
-import Ikon from "./Ikon.jsx";
 import { tt } from "../lib/dil.js";
+import { QtDugme, QtIkon, QtKart } from "../tasarim/index.js";
+import "../tasarim/ekranlar/dukkan-profil.css";
 
 /**
  * Paket 20 III — misafir hesabı koruma.
@@ -85,27 +86,37 @@ function BaglamaFormu() {
   };
 
   if (gonderildi) {
-    return <div className="bd-guvence-tamam">{tt("E-postana bir doğrulama bağlantısı gönderdik. Bağlantıya dokununca hesabın kalıcı olur — ilerlemen aynen kalır.")}</div>;
+    return (
+      <p className="qt-pf-not qt-pf-not--dogru" role="status">
+        <QtIkon ad="onay" boyut={20} />
+        <span>{tt("E-postana bir doğrulama bağlantısı gönderdik. Bağlantıya dokununca hesabın kalıcı olur — ilerlemen aynen kalır.")}</span>
+      </p>
+    );
   }
 
   return (
-    <div className="bd-guvence-yontemler">
-      {saglayiciAcik("google") && (
-        <button type="button" className="btn ikincil" disabled={!!bekleyen} onClick={googleBagla}>
-          {bekleyen === "google" ? tt("Yönlendiriliyor…") : tt("Google ile bağla")}
-        </button>
-      )}
+    <div className="qt-pf-guvence-yontemler">
       {epostaAcik && (
-        <form className="bd-guvence-eposta" onSubmit={epostaBagla}>
-          <input type="email" required autoComplete="email" inputMode="email" placeholder={tt("E-posta adresin")}
-                 aria-label={tt("E-posta adresin")} value={email} onChange={(e) => setEmail(e.target.value)} />
-          <button type="submit" className="btn" disabled={!!bekleyen || !email.trim()}>
+        <form className="qt-pf-guvence-eposta" onSubmit={epostaBagla}>
+          <label className="qt-pf-alan">
+            <span>{tt("E-posta adresin")}</span>
+            <input type="email" required autoComplete="email" inputMode="email" placeholder={tt("ornek@eposta.com")}
+                   value={email} onChange={(e) => setEmail(e.target.value)} />
+          </label>
+          <QtDugme type="submit" tamGenislik ikon="gonder" yukleniyor={bekleyen === "eposta"}
+                   devreDisi={(!!bekleyen && bekleyen !== "eposta") || !email.trim()}>
             {bekleyen === "eposta" ? tt("Gönderiliyor…") : tt("E-posta ile bağla")}
-          </button>
+          </QtDugme>
         </form>
       )}
-      {!saglayiciAcik("google") && !epostaAcik && <div className="alt-yazi">{tt("Şu an açık bir bağlama yöntemi yok.")}</div>}
-      {hata && <div className="hata-kutu">{hata}</div>}
+      {saglayiciAcik("google") && (
+        <QtDugme tur="ikincil" tamGenislik yukleniyor={bekleyen === "google"}
+                 devreDisi={!!bekleyen && bekleyen !== "google"} onClick={googleBagla}>
+          {bekleyen === "google" ? tt("Yönlendiriliyor…") : tt("Google ile bağla")}
+        </QtDugme>
+      )}
+      {!saglayiciAcik("google") && !epostaAcik && <p className="qt-kucuk qt-soluk">{tt("Şu an açık bir bağlama yöntemi yok.")}</p>}
+      {hata && <p className="qt-pf-hata" role="alert">{hata}</p>}
     </div>
   );
 }
@@ -115,16 +126,16 @@ export function HesapGuvenceKarti() {
   const { user } = useAuth();
   if (!misafirMi(user)) return null;
   return (
-    <div className="kart bd-guvence">
-      <div className="bd-guvence-ust">
-        <div className="bd-ayar-ikon"><Ikon ad="kalkan" boyut={22} /></div>
-        <div>
-          <div className="bd-guvence-baslik">{tt("Hesabımı güvenceye al")}</div>
-          <div className="alt-yazi">{tt("Misafir hesabındasın. Uygulamayı silersen ya da başka cihaza geçersen coin, lig puanı ve eşyaların kaybolur. Bağlayınca hepsi aynen kalır.")}</div>
+    <QtKart as="section" className="qt-pf-guvence" aria-labelledby="qt-pf-guvence-baslik">
+      <div className="qt-pf-guvence-ust">
+        <span className="qt-pf-guvence-ikon" aria-hidden="true"><QtIkon ad="kalkan" boyut={26} /></span>
+        <div className="qt-pf-guvence-metin">
+          <h2 id="qt-pf-guvence-baslik" className="qt-baslik-3">{tt("Hesabımı güvenceye al")}</h2>
+          <p className="qt-kucuk">{tt("Misafir hesabındasın. Uygulamayı silersen ya da başka cihaza geçersen coin, lig puanı ve eşyaların kaybolur. Bağlayınca hepsi aynen kalır.")}</p>
         </div>
       </div>
       <BaglamaFormu />
-    </div>
+    </QtKart>
   );
 }
 
@@ -137,16 +148,16 @@ export default function HesapGuvenceOnerisi({ kazandim }) {
   }, [kazandim, user]);
   if (!goster) return null;
   return (
-    <div className="kart bd-guvence bd-guvence-oneri" role="region" aria-label={tt("Hesabını güvenceye al")}>
-      <div className="bd-guvence-ust">
-        <div className="bd-ayar-ikon"><Ikon ad="kalkan" boyut={22} /></div>
-        <div>
-          <div className="bd-guvence-baslik">{tt("İlerlemeni kaybetme — hesabını güvenceye al")}</div>
-          <div className="alt-yazi">{tt("Misafir olarak oynuyorsun. Bir e-posta ya da Google hesabı bağla, kazandıkların hiç kaybolmasın.")}</div>
+    <QtKart className="qt-pf-guvence qt-pf-guvence--oneri" role="region" aria-label={tt("Hesabını güvenceye al")}>
+      <div className="qt-pf-guvence-ust">
+        <span className="qt-pf-guvence-ikon" aria-hidden="true"><QtIkon ad="kalkan" boyut={26} /></span>
+        <div className="qt-pf-guvence-metin">
+          <p className="qt-baslik-3">{tt("İlerlemeni kaybetme — hesabını güvenceye al")}</p>
+          <p className="qt-kucuk qt-soluk">{tt("Misafir olarak oynuyorsun. Bir e-posta ya da Google hesabı bağla, kazandıkların hiç kaybolmasın.")}</p>
         </div>
       </div>
       <BaglamaFormu />
-      <button type="button" className="bd-bildir-vazgec" onClick={() => { yaz(); setGoster(false); }}>{tt("Sonra")}</button>
-    </div>
+      <QtDugme tur="hayalet" boyut="k" onClick={() => { yaz(); setGoster(false); }}>{tt("Sonra")}</QtDugme>
+    </QtKart>
   );
 }
