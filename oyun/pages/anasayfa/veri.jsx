@@ -1,22 +1,24 @@
 // ============================================================
-// ANA SAYFA SEÇENEKLERİ (A/B/C) — ORTAK VERİ + OYUN BAŞLATMA
+// ANA SAYFA — ORTAK VERİ + OYUN BAŞLATMA
 //
-// Üç deneme sayfası (/ana-sayfa-a|b|c) yalnız GÖRÜNÜMDE ayrışır; veri ve akış
-// mevcut ana sayfayla (pages/Home.jsx) AYNI kaynaklardan gelir. Home.jsx'e
-// dokunulmadı: seçim yapılınca kazanan yön oraya taşınacak.
+// Kök rota seçenek A'dır (AnaSayfaA.jsx, 23 Eyl 2026). B/C dosyaları ve eski
+// pages/Home.jsx duruyor ama hiçbir rota çağırmıyor; veri eski ana sayfayla
+// AYNI kaynaklardan gelir.
 //
 // Yalnız bugün sistemde gerçekten olan veri: profil (avatar, level/XP, rütbe,
 // coin, seri), lig (kademe + grup sırası), günlük görevler, meydan okumalar
-// (kabul edilen / sırası sende / gönderdiğin davetler), turnuva (canlı mı,
-// sıradaki lobi, lobidekiler), Hatalarım bankası.
+// (kabul edilen / sırası sende / gönderdiğin / sana gelen davetler), turnuva
+// (canlı mı, sıradaki lobi ve anı, lobidekiler, ödül ve lobi açılış ayarı),
+// Hatalarım bankası.
 // ============================================================
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../../src/lib/supabase.js";
 import { useAuth } from "../../../src/context/AuthContext.jsx";
 import { rutbeBul } from "../../lib/ranks.js";
-import { siradakiLobi } from "../../lib/zaman.js";
+import { siradakiLobi, turnuvaAniMs } from "../../lib/zaman.js";
 import { rpcDene } from "../../lib/rpcDene.js";
+import { ayarlar } from "../../lib/ayarlar.js";
 import { useCoin } from "../../lib/coin.js";
 import { useDereceliTercih } from "../../lib/dereceli.js";
 import { hataMesaji } from "../../lib/hata.js";
@@ -35,7 +37,11 @@ export function useAnaSayfaVerisi() {
   const [kabuller, setKabuller] = useState([]);
   const [siraSende, setSiraSende] = useState([]);
   const [davetlerim, setDavetlerim] = useState([]);
-  const [turnuva, setTurnuva] = useState({ canli: false, lobiId: null, lobiSayisi: 0, lobide: false });
+  const [turnuva, setTurnuva] = useState({ canli: false, lobiId: null, lobiSayisi: 0, lobide: false, yuklendi: false });
+  // Bana gelen ve cevap bekleyen meydan okumalar (Klasik + Düello davetleri).
+  const [davetSayisi, setDavetSayisi] = useState(0);
+  // Turnuva şeridi rakamları oyun_ayarlari'ndan: ödüller ve lobinin "açık" sayıldığı dakika.
+  const [turnuvaAyar, setTurnuvaAyar] = useState({ oduller: [], lobiAcilisDk: null });
   const [mesaj, setMesaj] = useState(null);
   const { bakiye } = useCoin();
 
@@ -64,49 +70,68 @@ export function useAnaSayfaVerisi() {
       } catch (e) {
         console.warn("[Ana sayfa seçenek] yanlis_bankam:", e?.message ?? e);
       }
-      let tlar = [];
-      try {
-        const { data, error } = await supabase.from("tournaments").select("id, durum, tarih, seans")
-          .in("durum", ["aktif", "lobi"]).limit(20);
-        if (error) throw error;
-        tlar = data ?? [];
-      } catch (e) {
-        console.warn("[Ana sayfa seçenek] turnuvalar:", e?.message ?? e);
-      }
-      const canli = tlar.some((t) => t.durum === "aktif");
-      const lobi = siradakiLobi(tlar);
-      let lobiSayisi = 0;
-      let lobide = false;
-      if (lobi) {
-        try {
-          const { data, count, error } = await supabase.from("tournament_players")
-            .select("user_id", { count: "exact" }).eq("tournament_id", lobi.id);
-          if (error) throw error;
-          lobiSayisi = count ?? 0;
-          lobide = (data ?? []).some((o) => o.user_id === uid);
-        } catch (e) {
-          console.warn("[Ana sayfa seçenek] lobi:", e?.message ?? e);
-        }
-      }
-      if (aktif) setTurnuva({ canli, lobiId: lobi?.id ?? null, lobiSayisi, lobide });
     })();
     return () => { aktif = false; };
   }, [uid]);
+
+  const turnuvaYukle = useCallback(async () => {
+    if (!uid) return;
+    let tlar = [];
+    try {
+      const { data, error } = await supabase.from("tournaments").select("id, durum, tarih, seans")
+        .in("durum", ["aktif", "lobi"]).limit(20);
+      if (error) throw error;
+      tlar = data ?? [];
+    } catch (e) {
+      console.warn("[Ana sayfa seçenek] turnuvalar:", e?.message ?? e);
+    }
+    const canli = tlar.some((t) => t.durum === "aktif");
+    const lobi = siradakiLobi(tlar);
+    let lobiSayisi = 0;
+    let lobide = false;
+    if (lobi) {
+      try {
+        const { data, count, error } = await supabase.from("tournament_players")
+          .select("user_id", { count: "exact" }).eq("tournament_id", lobi.id);
+        if (error) throw error;
+        lobiSayisi = count ?? 0;
+        lobide = (data ?? []).some((o) => o.user_id === uid);
+      } catch (e) {
+        console.warn("[Ana sayfa seçenek] lobi:", e?.message ?? e);
+      }
+    }
+    setTurnuva({ canli, lobiId: lobi?.id ?? null, lobiAn: lobi ? turnuvaAniMs(lobi.tarih, lobi.seans) : null,
+               lobiSayisi, lobide, yuklendi: true });
+  }, [uid]);
+  useEffect(() => { turnuvaYukle(); }, [turnuvaYukle]);
+
+  useEffect(() => {
+    let aktif = true;
+    ayarlar().then((o) => {
+      if (!aktif) return;
+      const sayi = (x) => (Number.isFinite(Number(x)) ? Number(x) : null);
+      setTurnuvaAyar({
+        oduller: [o?.coin_turnuva_1, o?.coin_turnuva_2, o?.coin_turnuva_3].map(sayi).filter((x) => x !== null),
+        lobiAcilisDk: sayi(o?.turnuva_lobi_acilis_dk),
+      });
+    }).catch((e) => console.warn("[Ana sayfa] ayarlar:", e?.message ?? e));
+    return () => { aktif = false; };
+  }, []);
 
   const siraYukle = useCallback(async () => {
     if (!uid) return;
     try {
       const { data, error } = await supabase.from("matches")
         .select(`id, oyuncu1, oyuncu2, oyuncu1_soru, oyuncu2_soru, soru_ids, kabul_at,
-                 p1:profiles!matches_oyuncu1_fkey(gorunen_ad, avatar_url, acik_bot),
-                 p2:profiles!matches_oyuncu2_fkey(gorunen_ad, avatar_url, acik_bot)`)
+                 p1:profiles!matches_oyuncu1_fkey(gorunen_ad, gorunen_avatar, acik_bot),
+                 p2:profiles!matches_oyuncu2_fkey(gorunen_ad, gorunen_avatar, acik_bot)`)
         .eq("durum", "aktif").or(`oyuncu1.eq.${uid},oyuncu2.eq.${uid}`).limit(20);
       if (error) throw error;
       const benim = (data ?? []).map((m) => {
         const p1 = m.oyuncu1 === uid;
         const rakip = p1 ? m.p2 : m.p1;
         return { ...m, benimSoru: (p1 ? m.oyuncu1_soru : m.oyuncu2_soru) ?? 0,
-                 rakipAd: rakip?.gorunen_ad, rakipAvatar: rakip?.avatar_url, rakipBot: Boolean(rakip?.acik_bot) };
+                 rakipAd: rakip?.gorunen_ad, rakipAvatar: rakip?.gorunen_avatar, rakipBot: Boolean(rakip?.acik_bot) };
       }).filter((m) => m.benimSoru < (m.soru_ids?.length ?? 20));
       const yeni = benim.filter((m) => m.kabul_at && m.benimSoru === 0 && !m.rakipBot);
       const yeniId = new Set(yeni.map((m) => m.id));
@@ -121,6 +146,18 @@ export function useAnaSayfaVerisi() {
       setDavetlerim(data ?? []);
     } catch (e) {
       console.warn("[Ana sayfa seçenek] gonderdigim_davetler:", e?.message ?? e);
+    }
+    // Gelen davetler: Meydan Okumalar sayfasındaki "Sana gelen davetler" ile aynı kaynak.
+    try {
+      const [mac, duello] = await Promise.all([
+        supabase.from("matches").select("id").eq("oyuncu2", uid).eq("durum", "bekliyor").limit(50),
+        supabase.from("duello_davetleri").select("id").eq("rakip", uid).eq("durum", "bekliyor").limit(50),
+      ]);
+      if (mac.error) throw mac.error;
+      if (duello.error) throw duello.error;
+      setDavetSayisi((mac.data?.length ?? 0) + (duello.data?.length ?? 0));
+    } catch (e) {
+      console.warn("[Ana sayfa] gelen davetler:", e?.message ?? e);
     }
   }, [uid]);
   useEffect(() => {
@@ -148,8 +185,10 @@ export function useAnaSayfaVerisi() {
       const { error } = await supabase.rpc("join_tournament_lobby");
       if (error) throw error;
       setTurnuva((t) => ({ ...t, lobide: true, lobiSayisi: t.lobiSayisi + 1 }));
+      return true;
     } catch (e) {
       setMesaj(hataMesaji(e));
+      return false;
     }
   };
 
@@ -166,7 +205,7 @@ export function useAnaSayfaVerisi() {
   const bekleyenOdul = gorevler.filter((g) => g.ilerleme >= g.hedef && !g.alindi).length;
 
   return { user, profile, oyuncu, gorevler, bekleyenOdul, odulAl, lig, banka, kabuller, siraSende,
-           davetlerim, turnuva, lobiyeKatil, mesaj, setMesaj };
+           davetlerim, davetSayisi, turnuva, turnuvaYukle, turnuvaAyar, lobiyeKatil, mesaj, setMesaj };
 }
 
 /**

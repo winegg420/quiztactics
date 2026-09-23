@@ -420,7 +420,8 @@ async function klasikTesti() {
   const yarim = s.locator("a.bd-devam-eden");
   if (await yarim.count()) { await yarim.first().tap({ timeout: 4000 }).catch(() => {}); await s.waitForTimeout(1500); }
   if (!/\/mac\/[0-9a-f-]{36}/.test(s.url())) {
-    await s.locator(".mobile-core-mode.klasik").first().tap({ timeout: 4000 }).catch(() => {});
+    // Ana sayfa A (23 Eyl 2026): OYNA düğmesi; eski ana sayfanın sınıfı da yedek seçici.
+    await s.locator(".as-buyuk-dugme--oyna, .mobile-core-mode.klasik").first().tap({ timeout: 4000 }).catch(() => {});
     await s.waitForTimeout(900);
     await ekranOlc("klasik-mod-secimi");
     const klasik = s.getByRole("button", { name: /^Klasik/ }).last();

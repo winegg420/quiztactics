@@ -1,4 +1,5 @@
 // Ana sayfa seçenekleri — paylaşılan görsel parçalar (veri `veri.jsx`'ten gelir).
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import AvatarCerceve from "../../components/AvatarCerceve.jsx";
 import Avatar from "../../../src/components/Avatar.jsx";
@@ -8,6 +9,7 @@ import { TurnuvaSaatEtiketi } from "../../components/TurnuvaSaatleri.jsx";
 import { QtIkon, QtIlerleme } from "../../tasarim/index.js";
 import { LIG_ADLARI } from "../../lib/lig.js";
 import { tt, ttSunucu } from "../../lib/dil.js";
+import { geriSayim, sonrakiTurnuva, turnuvaSaatleri } from "../../lib/zaman.js";
 import { y } from "../../lib/yol.js";
 
 const sayi = (n) => new Intl.NumberFormat("tr-TR").format(Number(n) || 0);
@@ -98,15 +100,24 @@ export function SeriCipi() {
   return <span className="as-seri"><SeriRozeti bicim="rozet" /></span>;
 }
 
-/** Oyna dışındaki mod kısayolları (hepsi var olan sayfalara gider). */
+/** Rozette gösterilecek sayı: 99'dan büyükse "99+" (dar kısayolda taşmasın). */
+const rozetSayi = (n) => (n > 0 ? (n > 99 ? "99+" : String(n)) : null);
+
+/**
+ * Oyna dışındaki mod kısayolları (hepsi var olan sayfalara gider). Turnuva burada
+ * değil: avatar kartının altındaki şeritte (TurnuvaSeridi). Meydan Okumalar ve Grup
+ * Maçı aynı sayfadadır (/meydan); Grup Maçı o sayfanın grup bölümünü açar.
+ */
 export function modListesi(v, b) {
   return [
-    { anahtar: "turnuva", ad: tt("Turnuva"), ikon: "kupa", alt: v.turnuva.canli ? tt("Şimdi canlı") : tt("Günde 7 seans"),
-      rozet: v.turnuva.canli ? tt("CANLI") : null, git: () => b.git("/turnuva") },
-    { anahtar: "grup", ad: tt("Grup Maçı"), ikon: "grup", alt: tt("3–5 kişi"), git: () => b.git("/meydan") },
+    { anahtar: "meydan", ad: tt("Meydan Okumalar"), ikon: "kilic",
+      alt: v.davetSayisi > 0 ? tt("{n} davet bekliyor", { n: v.davetSayisi }) : tt("Arkadaşına meydan oku"),
+      rozet: rozetSayi(v.davetSayisi), rozetEtiketi: tt("{n} bekleyen davet", { n: v.davetSayisi }),
+      git: () => b.git("/meydan") },
+    { anahtar: "grup", ad: tt("Grup Maçı"), ikon: "grup", alt: tt("3–5 kişi"), git: () => b.git("/meydan?bolum=grup") },
     { anahtar: "saf", ad: tt("Saf Bilgi"), ikon: "safBilgi", alt: tt("Skill yok"), git: () => b.safBilgi() },
     { anahtar: "calisma", ad: tt("Hatalarım"), ikon: "kitap", alt: tt("Yanlışlarını çalış"),
-      rozet: v.banka > 0 ? String(v.banka) : null, git: () => b.git("/calisma") },
+      rozet: rozetSayi(v.banka), rozetEtiketi: tt("{n} soru bekliyor", { n: v.banka }), git: () => b.git("/calisma") },
   ];
 }
 
@@ -116,13 +127,13 @@ export function etkinlikler(v) {
   for (const m of v.kabuller) {
     liste.push({ id: `k-${m.id}`, ton: "acil", ikon: "duello", yol: `/mac/${m.id}`,
       baslik: tt("{ad} meydan okumanı kabul etti", { ad: m.rakipAd || tt("Rakibin") }), alt: tt("Maç ekranında seni bekliyor — hemen gir"),
-      avatar: { gorunen_ad: m.rakipAd, avatar_url: m.rakipAvatar } });
+      avatar: { gorunen_ad: m.rakipAd, gorunen_avatar: m.rakipAvatar } });
   }
   for (const m of v.siraSende) {
     liste.push({ id: `s-${m.id}`, ton: "sira", ikon: "oyna", yol: `/mac/${m.id}`,
       baslik: tt("{ad} ile maçın sürüyor", { ad: m.rakipAd || tt("Rakibin") }),
       alt: tt("Soru {n}/{t}", { n: m.benimSoru + 1, t: m.soru_ids?.length ?? 20 }),
-      avatar: { gorunen_ad: m.rakipAd, avatar_url: m.rakipAvatar } });
+      avatar: { gorunen_ad: m.rakipAd, gorunen_avatar: m.rakipAvatar } });
   }
   for (const d of v.davetlerim) {
     liste.push({ id: `d-${d.tur}-${d.kayit_id}`, ton: "bekle", ikon: "saat", yol: "/meydan",
@@ -140,6 +151,147 @@ export function EtkinlikSatiri({ e }) {
       <span className="as-etkinlik-metin"><b>{e.baslik}</b><small>{e.alt}</small></span>
       <QtIkon ad="ileri" boyut={20} className="as-etkinlik-ok" />
     </Link>
+  );
+}
+
+const iki = (n) => String(n).padStart(2, "0");
+/** UTC ms → TSİ "HH:MM" (Türkiye yıl boyu UTC+3; gece yarısı listedeki gibi "24:00"). */
+const tsiSaat = (ms) => {
+  const d = new Date(ms + 3 * 3600 * 1000);
+  const s = d.getUTCHours(), dk = d.getUTCMinutes();
+  return `${iki(s === 0 && dk === 0 ? 24 : s)}:${iki(dk)}`;
+};
+
+/**
+ * Turnuva şeridi (ana sayfa, avatar kartının altı). Üç hâl, hepsi gerçek veriden:
+ * - bekleme: sıradaki seans + geri sayım + ilk üç ödülü (oyun_ayarlari.coin_turnuva_1..3)
+ * - lobi: başlangıca turnuva_lobi_acilis_dk ya da daha az kaldı → nabız + KATIL
+ * - canli: aktif turnuva var → CANLI rozeti, turnuva sayfasına gider
+ * Tek düğmedir (iç içe etkileşim yok); dokununca lobiye katılır / turnuvaya gider.
+ */
+export function TurnuvaSeridi({ v, git }) {
+  const t = v.turnuva;
+  const { oduller, lobiAcilisDk } = v.turnuvaAyar ?? {};
+  const [simdi, setSimdi] = useState(() => Date.now());
+  const [katiliyor, setKatiliyor] = useState(false);
+  useEffect(() => {
+    const id = setInterval(() => setSimdi(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  const sonraki = sonrakiTurnuva(new Date(simdi));
+  const hedefMs = sonraki.an.getTime();
+  const kalan = geriSayim(sonraki.an);
+  // Lobi hâli sunucudaki lobi satırının kendi başlangıç anına göre (istemci listesine göre değil).
+  const lobiKalanMs = t.lobiAn != null ? t.lobiAn - simdi : null;
+  const hal = t.canli ? "canli"
+    : (t.lobiId && lobiAcilisDk != null && lobiKalanMs > 0 && lobiKalanMs <= lobiAcilisDk * 60000) ? "lobi"
+    : "bekleme";
+
+  // Seans başlayınca (sıradaki an ileri atlar) sunucu dakikalık zamanlayıcıyla
+  // başlatır: birkaç saniye ve bir dakika sonra durum yeniden okunur.
+  const { turnuvaYukle } = v;
+  const oncekiHedef = useRef(hedefMs);
+  useEffect(() => {
+    if (oncekiHedef.current === hedefMs) return undefined;
+    oncekiHedef.current = hedefMs;
+    const z1 = setTimeout(() => turnuvaYukle?.(), 5000);
+    const z2 = setTimeout(() => turnuvaYukle?.(), 70000);
+    return () => { clearTimeout(z1); clearTimeout(z2); };
+  }, [hedefMs, turnuvaYukle]);
+  // Canlıyken bitişi yakalamak için seyrek yoklama (turnuva birkaç dakika sürer).
+  useEffect(() => {
+    if (!t.canli) return undefined;
+    const id = setInterval(() => turnuvaYukle?.(), 30000);
+    return () => clearInterval(id);
+  }, [t.canli, turnuvaYukle]);
+
+  const sayac = hal === "lobi" ? geriSayim(new Date(t.lobiAn)) : kalan;
+  const lobiSaat = hal === "lobi" ? tsiSaat(t.lobiAn) : null;
+  const sure = sayac.saat > 0
+    ? `${iki(sayac.saat)}:${iki(sayac.dakika)}:${iki(sayac.saniye)}`
+    : `${iki(sayac.dakika)}:${iki(sayac.saniye)}`;
+
+  const tikla = async () => {
+    if (hal === "lobi" && !t.lobide) {
+      if (katiliyor) return;
+      setKatiliyor(true);
+      const tamam = await v.lobiyeKatil();
+      setKatiliyor(false);
+      if (!tamam) return;
+    }
+    git("/turnuva");
+  };
+
+  const odulMetni = oduller?.length ? oduller.map(sayi).join(" · ") : null;
+  const odulEtiketi = oduller?.length
+    ? tt("Ödüller: {liste} coin", { liste: oduller.map((o, i) => `${i + 1}. ${sayi(o)}`).join(", ") })
+    : undefined;
+
+  return (
+    <button type="button" className={`as-serit as-serit--${hal}`} onClick={tikla} aria-busy={katiliyor || undefined}>
+      <span className="as-serit-kupa" aria-hidden="true"><QtIkon ad="kupa" boyut={26} /></span>
+      <span className="as-serit-metin">
+        {hal === "canli" && (
+          <>
+            <b>{tt("Turnuva şu an canlı")}</b>
+            <small>{tt("Turnuvaya git")}</small>
+          </>
+        )}
+        {hal === "lobi" && (
+          <>
+            <b>{tt("{saat} turnuvası · lobi açık", { saat: lobiSaat })}</b>
+            <small>
+              <span className="qt-sayi" role="timer">{sure}</span>
+              {t.lobiSayisi > 0 && <><span aria-hidden="true">·</span><span>{tt("Lobide {n} oyuncu", { n: t.lobiSayisi })}</span></>}
+            </small>
+          </>
+        )}
+        {hal === "bekleme" && (
+          <>
+            <b>{tt("Sonraki turnuva {saat}", { saat: sonraki.saat })}</b>
+            <small>
+              <span className="qt-sayi" role="timer" aria-label={tt("Turnuvaya kalan süre")}>{sure}</span>
+              {odulMetni && (
+                <span className="as-serit-odul" aria-label={odulEtiketi}>
+                  <QtIkon ad="coin" boyut={14} /><span aria-hidden="true">{odulMetni}</span>
+                </span>
+              )}
+            </small>
+          </>
+        )}
+      </span>
+      {hal === "canli" && <span className="as-serit-canli"><span className="as-canli-nokta" aria-hidden="true" />{tt("CANLI")}</span>}
+      {hal === "lobi" && (t.lobide
+        ? <span className="as-serit-katil as-serit-katil--tamam"><QtIkon ad="onay" boyut={16} />{tt("Lobidesin")}</span>
+        : <span className="as-serit-katil">{katiliyor ? tt("Katılıyor…") : tt("KATIL")}</span>)}
+      {hal === "bekleme" && <QtIkon ad="ileri" boyut={22} className="as-serit-ok" />}
+    </button>
+  );
+}
+
+/** Günün seans listesi (masaüstü sağ panel): saatler oyun_ayarlari.turnuva_saatleri'nden. */
+export function TurnuvaSeansListesi() {
+  const [, setTik] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setTik((x) => x + 1), 30000);
+    return () => clearInterval(id);
+  }, []);
+  const saatler = turnuvaSaatleri();
+  const siradaki = sonrakiTurnuva().saat;
+  return (
+    <div className="as-panel">
+      <h2 className="as-panel-baslik"><QtIkon ad="kupa" boyut={20} />{tt("Günde {n} turnuva", { n: saatler.length })}</h2>
+      <ul className="as-seanslar">
+        {saatler.map((s) => (
+          <li key={s} className={s === siradaki ? "as-seans as-seans--siradaki" : "as-seans"}
+              aria-current={s === siradaki ? "true" : undefined}>
+            {s}
+          </li>
+        ))}
+      </ul>
+      <small className="as-seans-not">{tt("Türkiye saati")}</small>
+    </div>
   );
 }
 

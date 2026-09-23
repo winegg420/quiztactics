@@ -7,7 +7,7 @@ import {
 import "../tasarim/ekranlar/a-meydan.css";
 import DurumKutusu from "../components/DurumKutusu.jsx";
 import { hataMesaji } from "../lib/hata.js";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import AvatarCerceve from "../components/AvatarCerceve.jsx";
@@ -116,7 +116,14 @@ export default function ChallengesPage() {
   const [hizliMaclar, setHizliMaclar] = useState([]);
   const [hizliSecili, setHizliSecili] = useState([]);
   const [hizliHata, setHizliHata] = useState(null);
-  const [grupAcik, setGrupAcik] = useState(false);
+  // Ana sayfadaki "Grup Maçı" kısayolu /meydan?bolum=grup ile gelir: grup paneli açık başlar.
+  const [aramaParam] = useSearchParams();
+  const grupBolumu = aramaParam.get("bolum") === "grup";
+  const [grupAcik, setGrupAcik] = useState(grupBolumu);
+  const grupPanelRef = useRef(null);
+  useEffect(() => {
+    if (grupBolumu) grupPanelRef.current?.scrollIntoView({ block: "start" });
+  }, [grupBolumu]);
   // Paket 24 · C: grup maçı eşleştirme kuyruğu
   const [grupKuyrukAcMi, setGrupKuyrukAcMi] = useState(false);
   const [grupKuyrukSn, setGrupKuyrukSn] = useState(0);
@@ -940,7 +947,7 @@ export default function ChallengesPage() {
       </section>
 
       {/* Grup ve hızlı mod kurulumu açılır panelde: sayfa uzayıp dağılmasın */}
-      <QtKart dolgu="yok" className="a-meydan-panel">
+      <QtKart dolgu="yok" className="a-meydan-panel" ref={grupPanelRef}>
         <button
           type="button"
           className="a-meydan-panel-bas"

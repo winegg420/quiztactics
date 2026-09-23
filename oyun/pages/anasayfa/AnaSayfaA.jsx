@@ -1,18 +1,26 @@
-// Ana sayfa seçeneği A — ZENGİN TEK EKRAN (lobi). Kaydırmasız: ortada avatar sahnesi,
-// etrafında lig/coin/rütbe rozetleri, altta büyük Oyna + Düello ve mod kısayolları.
-// Masaüstü: solda modlar sütunu, ortada sahne, sağda turnuva + görevler + etkinlik.
+// ANA SAYFA (kök rota, 23 Eyl 2026'dan beri; önceki ana sayfa pages/Home.jsx kullanılmıyor).
+// Seçenek A — ZENGİN TEK EKRAN (lobi). Kaydırmasız: üstte lig/seri, avatar kartı, altında
+// turnuva şeridi, büyük Oyna + Düello ve mod kısayolları.
+// Masaüstü: solda modlar sütunu, ortada sahne, sağda seans listesi + görevler + etkinlik.
+import { useState } from "react";
 import { QtIkon } from "../../tasarim/index.js";
+import BildirimIzniSor from "../../components/BildirimIzniSor.jsx";
+import { BILDIRIM_SONRA_ANAHTAR } from "../../components/MacSonuSahnesi.jsx";
 import { tt } from "../../lib/dil.js";
 import { useAnaSayfaVerisi, useOyunBaslat } from "./veri.jsx";
 import {
   OyuncuAvatari, LigCipi, RutbeCipi, SeriCipi, modListesi, etkinlikler, EtkinlikSatiri,
-  TurnuvaKarti, GorevListesi, Susleme,
+  TurnuvaSeridi, TurnuvaSeansListesi, GorevListesi, Susleme,
 } from "./parcalar.jsx";
 import "./anasayfa.css";
 
 export default function AnaSayfaA() {
   const v = useAnaSayfaVerisi();
   const b = useOyunBaslat();
+  // Bildirim izni maç sonucundan ana sayfaya dönünce sorulur (MacSonuSahnesi işaret bırakır).
+  const [bildirimSor] = useState(() => {
+    try { return sessionStorage.getItem(BILDIRIM_SONRA_ANAHTAR) === "1"; } catch { return false; }
+  });
   if (!v.profile) return <div className="as-yukleniyor" aria-busy="true" />;
   const modlar = modListesi(v, b);
   const olaylar = etkinlikler(v);
@@ -28,12 +36,13 @@ export default function AnaSayfaA() {
           <button key={m.anahtar} type="button" className={`as-a-mod as-renk--${m.anahtar}`} onClick={m.git}>
             <span className="as-a-mod-ikon"><QtIkon ad={m.ikon} boyut={26} /></span>
             <span className="as-a-mod-metin"><b>{m.ad}</b><small>{m.alt}</small></span>
-            {m.rozet && <span className="as-rozet-nokta">{m.rozet}</span>}
+            {m.rozet && <span className="as-rozet-nokta" aria-label={m.rozetEtiketi}>{m.rozet}</span>}
           </button>
         ))}
       </aside>
 
       <section className="as-a-sahne" aria-label={tt("Oyuncu")}>
+        {bildirimSor && <BildirimIzniSor />}
         <div className="as-a-ust">
           <LigCipi v={v} />
           <SeriCipi />
@@ -42,10 +51,14 @@ export default function AnaSayfaA() {
         <div className="as-a-podyum">
           <Susleme tur="lobi" />
           <span className="as-a-isik" aria-hidden="true" />
-          <OyuncuAvatari v={v} boyut={176} />
-          <p className="as-a-ad">{v.oyuncu.ad}</p>
-          <RutbeCipi v={v} />
+          <OyuncuAvatari v={v} boyut={120} />
+          <div className="as-a-kimlik">
+            <p className="as-a-ad">{v.oyuncu.ad}</p>
+            <RutbeCipi v={v} />
+          </div>
         </div>
+
+        <TurnuvaSeridi v={v} git={b.git} />
 
         {acil && (
           <a href={acil.yol} className="as-a-acil" onClick={(e) => { e.preventDefault(); b.git(acil.yol); }}>
@@ -72,7 +85,7 @@ export default function AnaSayfaA() {
             <button key={m.anahtar} type="button" className={`as-kisayol as-renk--${m.anahtar}`} onClick={m.git}>
               <span className="as-kisayol-ikon"><QtIkon ad={m.ikon} boyut={24} /></span>
               <span className="as-kisayol-ad">{m.ad}</span>
-              {m.rozet && <span className="as-rozet-nokta">{m.rozet}</span>}
+              {m.rozet && <span className="as-rozet-nokta" aria-label={m.rozetEtiketi}>{m.rozet}</span>}
             </button>
           ))}
         </nav>
@@ -80,7 +93,8 @@ export default function AnaSayfaA() {
       </section>
 
       <aside className="as-a-sag" aria-label={tt("Etkinlikler")}>
-        <TurnuvaKarti v={v} />
+        {/* Turnuva ortadaki şeritte; burada yalnız günün seans listesi (tekrar yok). */}
+        <TurnuvaSeansListesi />
         <div className="as-panel">
           <h2 className="as-panel-baslik"><QtIkon ad="hediye" boyut={20} />{tt("Günlük görevler")}</h2>
           <GorevListesi v={v} sinir={3} />
