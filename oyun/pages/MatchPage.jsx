@@ -34,6 +34,8 @@ import { rpcDene } from "../lib/rpcDene.js";
 // Sunucu her doğru cevaba 10 puan yazar (cevap_ver, migration 250). Yalnız
 // sonuç ekranındaki "n soru farkla" metni için; puanlama sunucuda kalır.
 const SORU_PUANI = 10;
+// Kanal bağlıyken maç satırı yoklaması (yedek) — bkz. kanalHazirRef.
+const YEDEK_YOKLAMA_MS = 6000;
 
 // acik_bot: maç sonunda hangi rövanş eyleminin gösterileceğini belirler.
 // `is_bot` BİLEREK KULLANILMIYOR (kolon istemciye kapalı, migration 155):
@@ -138,6 +140,10 @@ export default function MatchPage() {
   const advanceKilidi = useRef(false);
   const pollRef = useRef(null);
   const kanalRef = useRef(null);
+  // Performans (23 Eyl 2026): kanal bağlıyken maç satırı zaten Realtime ile (yükün kendisiyle)
+  // gelir; 2 sn'lik yoklama yalnız yedektir → kanal bağlıyken YEDEK_YOKLAMA_MS'de bir.
+  const kanalHazirRef = useRef(false);
+  const sonYoklamaRef = useRef(0);
   // Kanal düştüğünde yeniden kurma zamanlayıcısı ve güncel kanalKur referansı
   const yenidenBaglaRef = useRef(null);
   const kanalKurRef = useRef(null);
@@ -270,6 +276,7 @@ export default function MatchPage() {
         // Paket 20 VI: sayfadan çıkışta / sekme dönüşünde kanal BİLEREK kapatılır (kanalRef artık başka kanalı
         // ya da null'u gösterir); Supabase bunu da CLOSED diye bildiriyordu → yanlış "kanal düştü" uyarısı.
         if (kanalRef.current !== kanal) return;
+        kanalHazirRef.current = durum === "SUBSCRIBED";
         if (durum === "CHANNEL_ERROR" || durum === "TIMED_OUT" || durum === "CLOSED") {
           console.warn("[Bildim] mac kanali dustu:", durum);
           if (yenidenBaglaRef.current) clearTimeout(yenidenBaglaRef.current);
@@ -321,10 +328,15 @@ export default function MatchPage() {
     macYukle();
     kanalKur();
     // Realtime kopsa bile skor akmaya devam etsin (rakip puanı canlı artar)
-    pollRef.current = setInterval(macYukle, 2000);
+    pollRef.current = setInterval(() => {
+      if (kanalHazirRef.current && Date.now() - sonYoklamaRef.current < YEDEK_YOKLAMA_MS - 100) return;
+      sonYoklamaRef.current = Date.now();
+      macYukle();
+    }, 2000);
     return () => {
       const eskiKanal = kanalRef.current;   // Paket 20 VI: CLOSED eşzamanlı gelir — önce ref boşalır, sonra kapanır
       kanalRef.current = null;
+      kanalHazirRef.current = false;
       if (eskiKanal) supabase.removeChannel(eskiKanal);
       if (yenidenBaglaRef.current) clearTimeout(yenidenBaglaRef.current);
       if (pollRef.current) clearInterval(pollRef.current);

@@ -31,6 +31,9 @@ import "../tasarim/ekranlar/m1-mac.css";
 import "../tasarim/ekranlar/m1-sonuc.css";
 import "../tasarim/ekranlar/m1-turnuva.css";
 
+// Oyuncu listesi değişimlerinde (katılım, puan) yeniden okuma aralığı — bkz. oyuncuTazele.
+const OYUNCU_TAZELE_MS = 1500;
+
 /** Elenen/izleyen oyuncuya soru sayacı (Paket 41 M.2). Sunucu saatiyle hizalı. */
 function IzleyiciSayac({ soru }) {
   const [fark] = useState(() => (soru?.sunucu_zamani ? new Date(soru.sunucu_zamani).getTime() - Date.now() : 0));
@@ -111,7 +114,7 @@ export default function TournamentPage() {
 
   // Paket 41 G: turnuva okunamadıysa "sıradaki turnuva" (turnuva yok) görünümü çizilmez
   const [turnuvaHata, setTurnuvaHata] = useState(false);
-  const turnuvaYukle = useCallback(async () => {
+  const turnuvaYukleTek = useCallback(async () => {
     // error okunmazsa turnuva hiç yüklenmemiş gibi görünür ve sebebi
     // hiçbir yere düşmez; kullanıcıya da gösterilecek bir mesaj kalmaz.
     let data = null;
@@ -165,6 +168,39 @@ export default function TournamentPage() {
     return secilen;
   }, []);
 
+  // Performans (23 Eyl 2026): kanal süzgeçsizdir — turnuvadaki HER oyuncunun her
+  // puan güncellemesi (tournament_players) bütün istemcilerde tam yeniden okuma
+  // tetikliyordu (N oyuncu → soru başına N×N okuma), yanıtlar sırasız da gelebiliyordu.
+  // Artık: aynı anda tek okuma; yoldayken gelen istekler tek bir tekrar okumada birleşir.
+  const yukleSozRef = useRef(null);
+  const tekrarSozRef = useRef(null);
+  const yukleRef = useRef(null);
+  const turnuvaYukle = useCallback(() => {
+    if (yukleSozRef.current) {
+      if (!tekrarSozRef.current) {
+        tekrarSozRef.current = yukleSozRef.current.then(() => {
+          tekrarSozRef.current = null;
+          return yukleRef.current();
+        });
+      }
+      return tekrarSozRef.current;
+    }
+    const soz = turnuvaYukleTek().finally(() => { yukleSozRef.current = null; });
+    yukleSozRef.current = soz;
+    return soz;
+  }, [turnuvaYukleTek]);
+  yukleRef.current = turnuvaYukle;
+  // Oyuncu listesi değişimleri (katılım, puan) seyreltilir: en çok OYUNCU_TAZELE_MS'de bir.
+  const oyuncuTazeleRef = useRef(null);
+  const oyuncuTazele = useCallback(() => {
+    if (oyuncuTazeleRef.current) return;
+    oyuncuTazeleRef.current = setTimeout(() => {
+      oyuncuTazeleRef.current = null;
+      yukleRef.current?.();
+    }, OYUNCU_TAZELE_MS);
+  }, []);
+  useEffect(() => () => clearTimeout(oyuncuTazeleRef.current), []);
+
   // Kanal kurulumu ayrı fonksiyonda: sekmeden dönüşte ölmüş soket yeniden kurulur.
   const kanalKur = useCallback(() => {
     const kanal = supabase
@@ -172,12 +208,18 @@ export default function TournamentPage() {
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "tournaments" },
-        () => turnuvaYukle()
+        (payload) => {
+          // Açık turnuvanın satırı yükün içinde gelir: soru geçişi beklemeden çizilir
+          // (yeniden okuma yine yapılır — seçim mantığı turnuvaYukleTek'te).
+          const yeni = payload?.new;
+          if (yeni?.id) setTurnuva((t) => (t && t.id === yeni.id ? { ...t, ...yeni } : t));
+          turnuvaYukle();
+        }
       )
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "tournament_players" },
-        () => turnuvaYukle()
+        () => oyuncuTazele()
       )
       // Kanal ölürse sessizce kalmasın: Realtime kopmasi (ag dalgalanmasi,
       // uyku, arka plan) CHANNEL_ERROR/TIMED_OUT/CLOSED olarak bildirilir.
@@ -204,7 +246,7 @@ export default function TournamentPage() {
       });
     kanalRef.current = kanal;
     return kanal;
-  }, [turnuvaYukle]);
+  }, [turnuvaYukle, oyuncuTazele]);
 
   // İlk yükleme + realtime
   // Kanal izleyicisi kanalKur'u çağırabilsin (kanalKur kendi tanımına
