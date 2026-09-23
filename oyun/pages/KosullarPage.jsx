@@ -3,6 +3,8 @@ import GeriDugmesi from "../components/GeriDugmesi.jsx";
 import Icindekiler from "../components/Icindekiler.jsx";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
+import { QtDugme, QtMarka } from "../tasarim/index.js";
+import "../tasarim/ekranlar/g-yasal.css";
 
 // Google Play, reklam ağları ve uygulama içi satın alma için zorunlu:
 // Kullanım Koşulları. Gizlilik politikasıyla aynı biçimde, girişsiz erişilir.
@@ -13,10 +15,16 @@ const ILETISIM = "idagureli@gmail.com";
 
 export default function KosullarPage() {
   return (
-    <div className="bd-metin-sayfa">
-      <GeriDugmesi />
-      <h1 className="baslik">{tt("Kullanım koşulları")}</h1>
-      <div className="alt-yazi" style={{ marginBottom: 18 }}>
+    // Tasarım Adım 2 (Yön A): noktalı sayfa + okunaklı tek sütun metin kartı. Metin içeriği aynı.
+    <div className="qt-sayfa g-yasal">
+      <div className="g-yasal-ic">
+      <header className="g-yasal-ust">
+        <GeriDugmesi />
+        <QtMarka as={Link} to={y()} aria-label={tt("Quiz Tactics ana sayfa")} />
+      </header>
+      <article className="g-yasal-metin">
+      <h1 className="qt-baslik-1">{tt("Kullanım koşulları")}</h1>
+      <div className="qt-kucuk qt-soluk g-yasal-tarih">
         {tt("Son güncelleme:")} {GUNCELLEME}
       </div>
       <Icindekiler />
@@ -146,9 +154,11 @@ export default function KosullarPage() {
         {tt("Sorular, itirazlar ve bildirimler için:")} <b>{ILETISIM}</b>
       </p>
 
-      <Link to={y()} className="btn ikincil" style={{ marginTop: 18 }}>
+      <QtDugme as={Link} to={y()} tur="ikincil" ikon="ev" className="g-yasal-don">
         {tt("Ana sayfaya dön")}
-      </Link>
+      </QtDugme>
+      </article>
+      </div>
     </div>
   );
 }

@@ -1,0 +1,81 @@
+/* =====================================================================
+   ŞERİT G — "ANA EKRANA EKLE" (iOS Safari PWA yönlendirmesi, AnaEkranaEkle.jsx)
+   Sabit yuva transform'suz (iOS kuralı); hareket yalnız içteki panelde.
+   ===================================================================== */
+
+.g-ekle {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: var(--qt-z-toast);
+  display: flex;
+  justify-content: center;
+  padding: 0 var(--qt-b-3) max(var(--qt-b-3), env(safe-area-inset-bottom, 0px));
+  pointer-events: none;
+}
+.bd-oyun-modu .g-ekle { display: none; }
+
+.g-ekle-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--qt-b-4);
+  width: min(100%, 440px);
+  padding: var(--qt-b-4) var(--qt-b-4) calc(var(--qt-b-4) + var(--qt-dudak));
+  border-radius: var(--qt-r-xl);
+  background: var(--qt-yuzey);
+  color: var(--qt-metin);
+  font-family: var(--qt-f-govde);
+  box-shadow: var(--qt-kabartma-kart), var(--qt-golge-derin);
+  pointer-events: auto;
+  animation: qt-h-cekmece-gir var(--qt-s-uzun) var(--qt-egri-cekmece) both;
+}
+.g-ekle--kapaniyor .g-ekle-panel { animation: g-ekle-cik var(--qt-s-orta) var(--qt-egri-gecis) both; }
+@keyframes g-ekle-cik { to { opacity: 0; transform: translateY(24px); } }
+
+.g-ekle-ust { display: flex; align-items: flex-start; gap: var(--qt-b-3); }
+.g-ekle-ikon { flex: none; width: 52px; height: 52px; border-radius: var(--qt-r-m); }
+.g-ekle-basliklar { display: flex; flex-direction: column; gap: var(--qt-b-1); flex: 1; min-width: 0; padding-top: 2px; }
+.g-ekle .g-ekle-kapat { margin: -6px -6px 0 0; color: var(--qt-metin-soluk); }
+
+.g-ekle-adimlar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--qt-b-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: g-adim;
+}
+.g-ekle-adimlar li {
+  display: flex;
+  align-items: center;
+  gap: var(--qt-b-3);
+  counter-increment: g-adim;
+  font-size: var(--qt-y-s);
+  font-weight: var(--qt-a-kalin);
+  line-height: 1.45;
+}
+.g-ekle-adimlar li::before {
+  content: counter(g-adim);
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--qt-r-hap);
+  background: var(--qt-ikinci-acik);
+  color: var(--qt-ikinci-koyu);
+  font-family: var(--qt-f-baslik);
+  font-weight: var(--qt-a-siyah);
+}
+.g-ekle-adimlar svg { display: inline-block; vertical-align: -4px; color: var(--qt-bilgi-koyu); }
+.g-ekle-adimlar b { font-weight: var(--qt-a-siyah); }
+
+/* Kart açıkken giriş ekranının altı örtülmesin (body sınıfı AnaEkranaEkle'de). */
+.bd-ekle-acik .g-giris-ic { padding-bottom: 340px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .g-ekle-panel, .g-ekle--kapaniyor .g-ekle-panel { animation: qt-h-solgun-gir 200ms ease both; }
+  .g-ekle--kapaniyor .g-ekle-panel { animation-name: qt-h-solgun-cik; }
+}

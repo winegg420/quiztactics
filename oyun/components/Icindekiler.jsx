@@ -27,15 +27,15 @@ export default function Icindekiler() {
   };
 
   return (
-    <nav ref={ref} className="bd-icindekiler" aria-label={tt("İçindekiler")}>
+    <nav ref={ref} className="g-icindekiler" aria-label={tt("İçindekiler")}>
       {basliklar.length > 0 && (
         <>
-          <div className="bd-icindekiler-baslik">{tt("İçindekiler")}</div>
-          <ul>
+          <p className="qt-baslik-3 g-icindekiler-baslik">{tt("İçindekiler")}</p>
+          <ol className="g-icindekiler-liste">
             {basliklar.map((b) => (
               <li key={b.id}><a href={`#${b.id}`} onClick={(e) => git(e, b.id)}>{b.ad}</a></li>
             ))}
-          </ul>
+          </ol>
         </>
       )}
     </nav>

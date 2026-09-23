@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import Logo from "./Logo.jsx";
 import { tt } from "../lib/dil.js";
+import { QtDugme, QtIkonDugme } from "../tasarim/index.js";
+import "../tasarim/ekranlar/g-ekle.css";
 
 // ============================================================
 // iPhone / iPad — "Ana Ekrana Ekle" yönlendirmesi
@@ -158,57 +159,58 @@ export default function AnaEkranaEkle() {
 
   if (!gorunur) return null;
 
+  // Tasarım Adım 2 (Yön A): altta sabit yuva (transform YOK — iOS kuralı);
+  // giriş/çıkış hareketi yalnız içindeki panelde.
   return (
     <div
-      className={`bd-ekle-katman ${kapaniyor ? "kapaniyor" : ""}`}
+      className={"g-ekle" + (kapaniyor ? " g-ekle--kapaniyor" : "")}
       role="dialog"
       aria-modal="false"
       aria-label={tt("Uygulamayı ana ekrana ekle")}
     >
-      <div className="bd-ekle">
-        <button className="bd-ekle-kapat" onClick={kapat} aria-label={tt("Kapat")}>
-          ×
-        </button>
-
-        <div className="bd-ekle-ust">
+      <div className="g-ekle-panel">
+        <div className="g-ekle-ust">
           <img
             src="/quiztactics-wordmark-icon-192.png?v=20260922-compact"
             alt=""
             width="52"
             height="52"
-            className="bd-ekle-ikon"
+            className="g-ekle-ikon"
             aria-hidden="true"
           />
-          <div className="bd-ekle-basliklar">
-            <div className="bd-ekle-baslik">
-              <Logo boyut={19} />
-            </div>
-            <div className="bd-ekle-alt">
+          <div className="g-ekle-basliklar">
+            <p className="qt-baslik-3">{tt("Ana Ekrana Ekle")}</p>
+            <p className="qt-kucuk qt-soluk">
               {tt("Uygulama gibi kullan — tam ekran açılır, tarayıcı çubuğu olmaz.")}
-            </div>
+            </p>
           </div>
+          <QtIkonDugme ikon="carpi" etiket={tt("Kapat")} tur="saydam" onClick={kapat} className="g-ekle-kapat" />
         </div>
 
-        <ol className="bd-ekle-adimlar">
+        <ol className="g-ekle-adimlar">
           {/* "Aşağıdaki" denmiyor: paylaş düğmesi iOS 15+ varsayılanında alt
               çubukta, ama "Tek Sekme" ayarında ve yatay modda sağ ÜSTTE.
               Konum vaat etmek yerine ikonu gösteriyoruz. */}
           <li>
-            {tt("Safari'nin")} <PaylasIkonu /> <b>{tt("Paylaş")}</b> {tt("düğmesine dokun")}
+            <span>
+              {tt("Safari'nin")} <PaylasIkonu /> <b>{tt("Paylaş")}</b> {tt("düğmesine dokun")}
+            </span>
           </li>
           <li>
-            {tt("Listeden")} <ArtiKutuIkonu /> <b>{tt("Ana Ekrana Ekle")}</b>{tt("'yi seç")}
+            <span>
+              {tt("Listeden")} <ArtiKutuIkonu /> <b>{tt("Ana Ekrana Ekle")}</b>{tt("'yi seç")}
+            </span>
           </li>
           <li>
-            {tt("Sağ üstten")} <b>{tt("Ekle")}</b>{tt("'ye bas — kısayol ana ekranında")}
+            <span>
+              {tt("Sağ üstten")} <b>{tt("Ekle")}</b>{tt("'ye bas — kısayol ana ekranında")}
+            </span>
           </li>
         </ol>
 
-        {/* .btn kullanılmıyor: o kural `.app` altında tanımlı, giriş ekranında
-            `.app` sarmalayıcısı yok — düğme stilsiz kalırdı. */}
-        <button className="bd-ekle-tamam" onClick={kapat}>
+        <QtDugme tur="mor" tamGenislik onClick={kapat}>
           {tt("Anladım")}
-        </button>
+        </QtDugme>
       </div>
     </div>
   );
