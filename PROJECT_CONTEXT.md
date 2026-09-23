@@ -65,6 +65,12 @@ tercih hatırlanır (localStorage + `profiles.dereceli_tercih`).
   `soru_sec(..., p_serbest_klasik => true)`, 309) ve Hatalarım'da çıkar.
   Rekabetçi havuz 6.694 → 6.303. İşaret "elle"dir (`soru_elle_isaret_mi`), tetikleyici korur.
   Yeni soru ve denetim düzeltmeleri aynı Jev testinden geçer (`soru_denetim/kapi.mjs › sikIpucuTesti`).
+- **Ağırlıklı zorluk (324):** normal maçlarda (Klasik serbest/dereceli, Saf Bilgi, Düello, Grup,
+  Soru Değiştir, Hatalarım dolgusu) `soru_sec` her yuva için önce grup seçer — kolay (zorluk 1–2)
+  `soru_agirlik_kolay` 55 · orta (3) `soru_agirlik_orta` 30 · zor (4–5) `soru_agirlik_zor` 15
+  (test değeri) — sonra o gruptan mevcut kurallarla soru; grup boşsa komşu gruba düşer.
+  `zorluk >= 2` filtresi kalktı. Turnuva kendi kuralında.
+- **Soru üretimi: yeni zor soru üretilmez; üretim yalnız kolay ve orta** (Ida, 23 Eyl 2026).
 - Yanlış cevap sonrası bekleme **1 sn**.
 - Kategori yüzdesi için asgari örneklem 10 soru; altı "veri yok".
 

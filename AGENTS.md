@@ -142,6 +142,9 @@ push'ta sessizce silinir; 13 Eyl'de tam olarak bu oldu.
 - **Migration'lar sıralıdır** — mevcut migration'ı düzenleme, yeni
   numaralı dosya ekle (`20260612000NNN_ad.sql`). Soru eklerken `soru`
   kolonu UNIQUE olduğundan `on conflict (soru) do nothing`.
+- **Soru üretimi: yeni zor soru üretilmez; üretim yalnız kolay ve orta**
+  (Ida, 23 Eyl 2026 — sorular normal oyuncu için fazla zor). Ayrıntı
+  PROJECT_CONTEXT › Ortak mekanik.
 - **Yeni paket kurma.** Tailwind, Framer Motion, styled-components ve
   benzeri yasak. Mevcut yapı: düz CSS + CSS değişkenleri.
 - Git/teknik terim kullanırken kısa bir sadeleştirme ekle
