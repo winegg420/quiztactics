@@ -8,7 +8,7 @@
 //    maçı, Hatalarım çalışma), turnuva lobisi. Dosya = o anın seçili adayı
 //    (public/ses/adaylar/muzik_*.aac); seçim yoksa / "sessiz" ise müzik yok.
 //    * Ekran değişince 0,8 sn yumuşak geçiş (gain rampası; yalnız ses).
-//    * Döngü noktası da 0,8 sn çapraz geçişle (dosyalar 30 sn'lik kesit, sert kesilmesin).
+//    * Döngü noktası 1,5 sn çapraz geçişle (dosyalar 30 sn'lik kesit, sonu sönümlü; sert kesilmesin).
 //    * Soru gelince seviye × muzik_kisik_oran; cevap/sonuçta geri açılır (ses.js kancası).
 //    * Sekme gizlenince AudioContext durur, dönünce kaldığı yerden sürer.
 //    * Tarayıcı kuralı: ilk dokunuştan önce başlamaz. Müzik kapalıyken hiçbir şey indirilmez.
@@ -18,7 +18,8 @@ import { supabase } from "../../src/lib/supabase.js";
 import { adayYolu, muzikAcikMi, muzikDinle, sesBaglami, sesMuzikKancasi, sesSecimi, sesSecimleriniAyarla, sesTaniAcik } from "./ses.js";
 
 const SECIM_ANAHTARI = "bildim_ses_secim";   // ses.js ile aynı anahtar
-const GECIS_SN = 0.8;
+const GECIS_SN = 0.8;            // ekran değişince döngüler arası geçiş
+const DONGU_ORTUSME_SN = 1.5;    // aynı döngünün sonu ile başı arasındaki çapraz geçiş
 const SES_KLASORU = `${import.meta.env?.BASE_URL ?? "/"}ses/`;
 
 let onbellek = null;   // {surum, secimler, muzik_seviye, muzik_kisik_oran}
@@ -149,10 +150,12 @@ function izDurdur(eski) {
   }, GECIS_SN * 1000 + 100);
 }
 
-/** Döngüyü çapraz geçişli çalar: her tur sonu 0,8 sn içinde bir sonrakine karışır. */
+/** Döngüyü çapraz geçişli çalar: her tur sonu 1,5 sn içinde bir sonrakine karışır. */
 function izBaslat(c, yeni, tampon) {
   const sure = tampon.duration;
-  const F = Math.min(GECIS_SN, sure / 4);
+  // Müzik dosyalarının son 1,5 sn'si zaten sönümlü (KAYNAKLAR.md): sonraki tur o sönümün
+  // başında 1,5 sn'de açılarak girer — döngü noktasında boşluk/çukur olmasın.
+  const F = Math.min(DONGU_ORTUSME_SN, sure / 4);
   yeni.kazanc.gain.setValueAtTime(0.0001, c.currentTime);
   yeni.kazanc.gain.linearRampToValueAtTime(1, c.currentTime + GECIS_SN);
   const planla = (t, ilk) => {
@@ -209,8 +212,11 @@ function izSec() {
 
 /** Rota değişti (BildimApp çağırır). İlk çağrı seçimleri de tazeler. */
 export function muzikRota(yol) {
+  const onceki = rota;
   rota = String(yol || "/");
   kisik = false;
+  // Sahip /ses-secim'den oyuna dönünce seçimleri yeniden al (yeni seçim aynı oturumda da duyulsun).
+  if (onceki.startsWith("/ses-secim") && !rota.startsWith("/ses-secim")) tazeleme = null;
   if (!tazeleme) secimleriTazele();
   guncelle();
 }
