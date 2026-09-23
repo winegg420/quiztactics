@@ -561,7 +561,8 @@ export default function ChallengesPage() {
     setAntrenmanBasliyor(mod);
     try {
       if (mod === "duello") {
-        const { data, error } = await supabase.rpc("duello_davet_et", { p_rakip: bot.id, p_dereceli: dereceli });
+        // Antrenman her zaman serbest (Ida, 24 Eyl 2026; sunucu da zorlar — migration 440).
+        const { data, error } = await supabase.rpc("duello_davet_et", { p_rakip: bot.id, p_dereceli: false });
         if (error) throw error;
         if (!data?.duello_id) throw new Error(tt("Antrenman maçı başlatılamadı."));
         navigate(y(`/duello/${data.duello_id}`));
@@ -570,7 +571,7 @@ export default function ChallengesPage() {
       const { data, error } = await supabase.rpc("hemen_bot_mac_sec", {
         p_bot: bot.id,
         p_kategori: kategori,
-        p_dereceli: dereceli,
+        p_dereceli: false,   // antrenman her zaman serbest
         p_jokersiz: false,
       });
       if (error) throw error;
