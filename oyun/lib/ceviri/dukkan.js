@@ -55,4 +55,22 @@ export default {
     "This can't be undone. To confirm, type your account ID ({0}) below.",
   "ornek@eposta.com": "you@example.com",
   "Konumunu tekrar değiştirebilmen için {0} kaldı.": "You can change your location again in {0}.",
+
+  // ——— Skill açıklamaları ve kuralları (Faz 4: EN taramasında Türkçe kalanlar) ———
+  "İki yanlış şık elenir": "Removes two wrong answers",
+  "Yanlış cevapta normal puanın yarısını kurtarır": "Saves half the normal points on a wrong answer",
+  "Doğru cevabın puanını ikiye katlar": "Doubles the points for a correct answer",
+  "İkinci Şans": "Second Chance",
+  "İlk yanlışta aynı soruda bir kez daha cevaplatır": "After your first wrong answer, lets you answer the same question once more",
+  "İlk yanlışta aynı süre içinde bir kez daha denersin": "After your first wrong answer, you get one more try within the same time",
+  "Soru Değiştir (eski)": "Swap Question (old)",
+  "Bir maçta en çok {0} skill kullanabilirsin.": "You can use up to {0} skills per match.",
+  "Seçtiğin her skill'i maçta en çok 2 kez kullanabilirsin.": "You can use each skill you pick up to 2 times per match.",
+  "Her soruda en fazla 1 skill kullanabilirsin.": "You can use at most 1 skill per question.",
+  "Ücretsiz 50:50 yalnız Serbest Klasik Mod'da; Dereceli maçta ve Düello'da hiçbir skill ücretsiz değil.":
+    "The free 50:50 is only in Casual Classic; no skill is free in Ranked matches or Duels.",
+  "Turnuva finalinde ve altın soruda skill kullanılamaz.": "Skills can't be used in the tournament final or on the golden question.",
+  "Skill'in bittiyse maçın içinden alabilirsin — dükkâna gitmene gerek yok.":
+    "Out of a skill? You can buy it during the match — no need to visit the shop.",
+  "Maçta {0} skill · tür başına 2 · soru başına 1": "{0} skills per match · 2 per type · 1 per question",
 };
