@@ -131,11 +131,12 @@ export function KonfetiKatmani({ ref }) {
  * @param {string} oran        preserveAspectRatio
  * @param {number} hazirlaMs  örnek bu kadar sonra kurulur: dört Lottie aynı karede kurulunca açılışta
  *                            uzun bir kare oluşuyordu; her biri kendi anından önce, ayrı karede kurulur
+ * @param {boolean} sonda     takıldığı anda sahne zaten atlanmışsa (dokunuş) kalıcı animasyon kurulunca son karede açılır
  */
-export default function MacSonuLottie({ ref, ad, kalici = false, sonKare = 1, hiz = 1, oran = "xMidYMid meet", hazirlaMs = 0, className = "" }) {
+export default function MacSonuLottie({ ref, ad, kalici = false, sonKare = 1, hiz = 1, oran = "xMidYMid meet", hazirlaMs = 0, sonda = false, className = "" }) {
   const kutuRef = useRef(null);
   const animRef = useRef(null);
-  const bekleyenRef = useRef(null);   // { komut, zaman }
+  const bekleyenRef = useRef(sonda ? { komut: "son", zaman: 0 } : null);   // { komut, zaman }
   const [durum, setDurum] = useState("gizli");   // gizli | acik | soluk
 
   const uygula = (komut, zaman) => {
@@ -203,10 +204,15 @@ export default function MacSonuLottie({ ref, ad, kalici = false, sonKare = 1, hi
         console.warn("[Bildim] Lottie yüklenemedi:", ad, e?.message ?? e);
       }
     };
+    // hazirlaMs yoksa (kupa) kurulum sahnenin İLK KARESİNDEN SONRAYA kalır: aynı görevde
+    // loadAnimation + SVG ağacı, takılma işine ~8 ms JS ve ek stil hesabı ekliyordu
+    // (4× CPU izi, açılıştaki 84 ms'lik görev). rAF → setTimeout: ilk kare boyandıktan sonra.
+    let kare = 0;
     if (hazirlaMs > 0) bekleme = setTimeout(kur, hazirlaMs);
-    else kur();
+    else kare = requestAnimationFrame(() => { bekleme = setTimeout(kur, 0); });
     return () => {
       aktif = false;
+      cancelAnimationFrame(kare);
       clearTimeout(bekleme);
       animRef.current = null;
       try { anim?.destroy(); } catch { /* zaten sökülmüş */ }

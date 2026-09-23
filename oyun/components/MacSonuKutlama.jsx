@@ -21,7 +21,7 @@
 // iOS: kökte ve eylem çubuğunun atalarında transform/filter/perspective YOK.
 // Coin uçuşu body'ye portal; sabit kapsayıcı yerinde durur, hareket içteki span'larda.
 // ============================================================
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import CerceveliAvatar from "./CerceveliAvatar.jsx";
 import RozetMadalyonu, { rozetSembolu } from "./RozetMadalyonu.jsx";
@@ -109,6 +109,17 @@ function MacSonuKutlama({
   const [az] = useState(hareketAzaltildiMi);
   const [atlandi, setAtlandi] = useState(az);
   const [bitti, setBitti] = useState(az);
+  // Kademeli takılma (açılış takılması): tüm ağaç (React + ~210 öğe stil hesabı + düzen) tek
+  // görevdeydi, 4× CPU'da açılış karesi 84–134 ms. Aşama 0: zemin + kupa + afiş (t=0'da görünen);
+  // 1: karşılaşma (t.avatar=300 ms'de girer); 2: ödül + rozet kartı (t.coin−150 ms'de girer).
+  // Her aşama bir sonraki karede; hepsi aşağıya eklenir, üstteki sahne kaymaz. Geç takılan
+  // öğelerin animation-delay'i takıldıkları an kadar kısaltılır (zaman çizelgesi aynı kalır).
+  const [asama, setAsama] = useState(az ? 2 : 0);
+  const basRef = useRef(0);
+  const karsilasmaRef = useRef(null);
+  const kartRef = useRef(null);
+  const rozetRef = useRef(null);
+  const coinGosterRef = useRef(az ? (oduller ?? []).find((o) => o?.ikon === "coin")?.deger ?? 0 : 0);
   const [ucus, setUcus] = useState(null);   // { x, y, hedef:{x,y} } | null
   const kokRef = useRef(null);
   const afisRef = useRef(null);
@@ -135,7 +146,10 @@ function MacSonuKutlama({
   const rozet = (rozetler ?? [])[0] ?? null;
   const toplamMs = t.son + (rozet ? ROZET_MS + 300 : 0);
 
-  const coinYaz = useCallback((n) => { if (coinSayiRef.current) coinSayiRef.current.textContent = `+${n}`; }, []);
+  const coinYaz = useCallback((n) => {
+    coinGosterRef.current = n;   // kart sonradan takılırsa son değerle çizilir
+    if (coinSayiRef.current) coinSayiRef.current.textContent = `+${n}`;
+  }, []);
 
   const hedefBul = useCallback(() => {
     try { return document.querySelector(coinHedefSecici); } catch { return null; }
@@ -154,6 +168,7 @@ function MacSonuKutlama({
     lottie.konfeti.current?.gizle();
     lottie.coin.current?.gizle();
     lottie.yildiz.current?.gizle();
+    setAsama(2);
     setAtlandi(true);
     setBitti(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -163,8 +178,23 @@ function MacSonuKutlama({
   useEffect(() => {
     lottieOnYukle(LOTTIE_ADLARI);
     if (kazandi && !az) konfetiYukle().catch(() => {});
-    try { afisRef.current?.focus({ preventScroll: true }); } catch { /* eski tarayıcı */ }
-    if (az) { bitir(); if (kazandi) sesKazandin(); return undefined; }
+    basRef.current = performance.now();
+    // Odak (ekran okuyucu) karenin rAF'ında: takılma görevinde focus() stil + düzeni zorla
+    // hesaplatıyordu (4× CPU izi: açılış görevinin ~14 ms'si); rAF'ta o hesabı kare zaten yapar.
+    const odakKare = requestAnimationFrame(() => {
+      try { afisRef.current?.focus({ preventScroll: true }); } catch { /* eski tarayıcı */ }
+    });
+    // Aşama 1 iki kare sonra: araya kupa Lottie kurulumu (ilk kareden sonraki görev) girer, ikisi
+    // aynı kareye yığılmaz. rAF gelmezse (arka plan sekmesi) yedek zamanlayıcı her şeyi takar.
+    let asamaKare2 = 0;
+    const asamaKare = requestAnimationFrame(() => {
+      asamaKare2 = requestAnimationFrame(() => setAsama((a) => Math.max(a, 1)));
+    });
+    const asamaYedek = setTimeout(() => setAsama(2), 600);   // kart 850 ms'de görünür; öncesinde takılı olsun
+    const odakIptal = () => {
+      cancelAnimationFrame(odakKare); cancelAnimationFrame(asamaKare); cancelAnimationFrame(asamaKare2); clearTimeout(asamaYedek);
+    };
+    if (az) { bitir(); if (kazandi) sesKazandin(); return odakIptal; }
     const z = (ms, f) => zamanlayicilar.current.push(setTimeout(f, ms));
     varisRef.current = 0;
     coinYaz(0);
@@ -208,12 +238,35 @@ function MacSonuKutlama({
     const liste = zamanlayicilar.current;
     return () => {
       window.removeEventListener("keydown", tus);
+      odakIptal();
       liste.forEach(clearTimeout);
       cancelAnimationFrame(rafRef.current);
     };
     // Sahne yalnız takılınca kurulur; "Tekrar oynat" key ile yeniden takar.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Aşama 1 takıldı → aşama 2 bir sonraki karede.
+  useEffect(() => {
+    if (asama !== 1) return undefined;
+    const k = requestAnimationFrame(() => setAsama(2));
+    return () => cancelAnimationFrame(k);
+  }, [asama]);
+
+  // Geç takılan bölümün gecikmeleri takıldığı an kadar kısalır (boyamadan önce, yeniden çizimsiz).
+  useLayoutEffect(() => {
+    if (az || atlandi || !basRef.current) return;
+    const gecen = Math.round(performance.now() - basRef.current);
+    const kaydir = (el, adlar) => {
+      if (!el || el.dataset.kaydi) return;
+      el.dataset.kaydi = "1";
+      for (const ad of adlar) el.style.setProperty(`--t-${ad}`, `${t[ad] - gecen}ms`);
+    };
+    kaydir(karsilasmaRef.current, ["avatar"]);
+    kaydir(kartRef.current, ["coin", "xp", "lig", "gorev", "son"]);
+    kaydir(rozetRef.current, ["son"]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [asama]);
 
   const coinVardi = (i) => {
     if (varisRef.current > i) return;
@@ -267,8 +320,8 @@ function MacSonuKutlama({
         </div>
         <p className="msk-alt msk-a">{altYazi}</p>
 
-        {ben && (
-          <div className="msk-karsilasma">
+        {asama >= 1 && ben && (
+          <div className="msk-karsilasma" ref={karsilasmaRef}>
             <Taraf kisi={ben} rol={rakip ? rol("ben") : "esit"} yan="sol" canToplam={canToplam} sen />
             {rakip && (
               <div className="msk-skor msk-a" role="img"
@@ -283,12 +336,12 @@ function MacSonuKutlama({
         )}
       </div>
 
-      <section className="msk-kart" aria-label={tt("Maç ödülleri")}>
+      {asama >= 2 && <section ref={kartRef} className="msk-kart" aria-label={tt("Maç ödülleri")}>
         {coin > 0 && (
           <div className="msk-coin msk-a">
             <div className="msk-coin-patlama"><MacSonuLottie ref={lottie.coin} ad="coin" hiz={1.5} hazirlaMs={450} /></div>
             <img ref={coinIkonRef} className="msk-coin-ikon" src="/dukkan/coin.webp" alt="" aria-hidden="true" />
-            <span className="msk-coin-sayi qt-sayi" ref={coinSayiRef} aria-hidden="true">+{coin}</span>
+            <span className="msk-coin-sayi qt-sayi" ref={coinSayiRef} aria-hidden="true">+{coinGosterRef.current}</span>
             <span className="qt-gizli">{tt("+{coin} coin", { coin })}</span>
             <span className="msk-coin-etiket">{tt("coin")}</span>
           </div>
@@ -306,7 +359,7 @@ function MacSonuKutlama({
             </div>
             {xpv.atladi && (
               <div className="msk-levelup">
-                <div className="msk-levelup-lottie"><MacSonuLottie ref={lottie.level} ad="level" kalici hiz={1.4} hazirlaMs={1150} /></div>
+                <div className="msk-levelup-lottie"><MacSonuLottie ref={lottie.level} ad="level" kalici hiz={1.4} hazirlaMs={1150} sonda={atlandi} /></div>
                 <span className="msk-levelup-rozet" role="status">{tt("LEVEL {n}!", { n: xpv.level })}</span>
               </div>
             )}
@@ -361,10 +414,10 @@ function MacSonuKutlama({
             </QtDugme>
           </div>
         )}
-      </section>
+      </section>}
 
-      {rozet && (
-        <section className="msk-rozet msk-a" aria-label={tt("Yeni rozet")}>
+      {asama >= 2 && rozet && (
+        <section ref={rozetRef} className="msk-rozet msk-a" aria-label={tt("Yeni rozet")}>
           <div className="msk-rozet-madalyon">
             <div className="msk-rozet-patlama"><MacSonuLottie ref={lottie.yildiz} ad="yildiz" hiz={0.8} hazirlaMs={1650} /></div>
             <RozetMadalyonu grup={rozet.grup ?? "level"} kademe={rozet.kademe ?? "altin"} boyut={64} sembol={rozetSembolu(rozet.ikon)} />
