@@ -9,6 +9,7 @@ import { BrowserRouter } from "react-router-dom";
 import KokUygulama from "./BildimApp.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import HataSiniri from "./components/HataSiniri.jsx";
+import YukleniyorEkrani from "../oyun/components/YukleniyorEkrani.jsx";
 import { hataIzlemeKur } from "./lib/hataIzleme.js";
 import "./styles.css";
 // Bildim görsel dili (tema tokenları) — global stillerden SONRA yüklenir
@@ -59,7 +60,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <Suspense fallback={<div className="yukleniyor">Yükleniyor…</div>}>
+        <Suspense fallback={<YukleniyorEkrani />}>
           <KokUygulama />
         </Suspense>
       </AuthProvider>

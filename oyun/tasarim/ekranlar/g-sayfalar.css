@@ -1,0 +1,56 @@
+/* =====================================================================
+   ŞERİT G — YEDEK EKRANLAR (yükleniyor / yapılandırma hatası) + 404 / kapalı mod
+   ===================================================================== */
+
+/* ---------- Tam ekran yedek (YukleniyorEkrani, BildimApp) ---------- */
+.g-yedek {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--qt-b-6);
+  padding: max(var(--qt-b-6), env(safe-area-inset-top, 0px)) var(--qt-kenar)
+    max(var(--qt-b-6), env(safe-area-inset-bottom, 0px));
+  text-align: center;
+}
+.g-yedek-yukleniyor {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--qt-b-3);
+  font-weight: var(--qt-a-siyah);
+  color: var(--qt-zemin-soluk);
+}
+.g-yedek-yukleniyor .qt-donen { width: 22px; height: 22px; color: var(--qt-ikinci); }
+.g-yedek .g-yedek-kart { width: min(100%, 440px); }
+
+/* ---------- 404 / kapalı mod (BulunamadiPage) ---------- */
+.g-bulunamadi {
+  display: grid;
+  place-items: center;
+  min-height: min(70dvh, 560px);
+  padding: var(--qt-b-6) var(--qt-kenar);
+}
+.g-bulunamadi .g-bulunamadi-kart { width: min(100%, 440px); overflow: hidden; }
+.g-bulunamadi .qt-bos { padding-block: var(--qt-b-4); }
+
+/* Kapalı modda kendiliğinden yönlendirme süresini gösteren ince çubuk. */
+.g-bulunamadi-sure {
+  display: block;
+  height: 6px;
+  margin-top: var(--qt-b-2);
+  border-radius: var(--qt-r-hap);
+  background: var(--qt-yuzey-3);
+  overflow: hidden;
+}
+.g-bulunamadi-sure-dolgu {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--qt-vurgu);
+  transform-origin: left center;
+  animation: g-sure-dol linear both;
+}
+@keyframes g-sure-dol { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@media (prefers-reduced-motion: reduce) {
+  .g-bulunamadi-sure-dolgu { animation: none; opacity: 0.5; }
+}

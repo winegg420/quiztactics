@@ -16,7 +16,9 @@ import { girisHedefiniAl, bilinenYol } from "./lib/girisHedefi.js";
 import { useAuth } from "./context/AuthContext.jsx";
 import { supabaseHazir } from "./lib/supabase.js";
 import Login from "./pages/Login.jsx";
-import Logo from "../oyun/components/Logo.jsx";
+import { QtMarka, QtKart, QtBosDurum } from "../oyun/tasarim/index.js";
+import { tt } from "../oyun/lib/dil.js";
+import YukleniyorEkrani from "../oyun/components/YukleniyorEkrani.jsx";
 // Meydan (3B harita) ve gardırop DONDURULDU (Arayüz Yenileme, 20 Eyl 2026).
 // Rotalar SİLİNMEDİ; bayrak kapalıyken "Bu bölüm şu an kapalı" notu gösterip
 // ana sayfaya yönlendiriyorlar. Geri açma: oyun/lib/ozellikBayraklari.js.
@@ -112,18 +114,21 @@ export default function BildimApp() {
 
   if (!supabaseHazir && !bagimsizModul) {
     return (
-      <div className="giris">
-        <div className="buyuk-logo"><Logo boyut={56} /></div>
-        <div className="hata-kutu">
-          Supabase yapılandırması eksik. <code>.env</code> dosyasına
-          VITE_SUPABASE_URL ve VITE_SUPABASE_ANON_KEY ekleyin.
-        </div>
+      <div className="qt-sayfa g-yedek">
+        <QtMarka boyut="b" />
+        <QtKart dolgu="b" className="g-yedek-kart">
+          <QtBosDurum
+            ikon="uyari"
+            ton="yanlis"
+            baslik={tt("Supabase yapılandırması eksik.")}
+            metin={tt(".env dosyasına VITE_SUPABASE_URL ve VITE_SUPABASE_ANON_KEY ekleyin.")}
+          />
+        </QtKart>
       </div>
     );
   }
 
-  if (loading && !bagimsizModul)
-    return <div className="yukleniyor">Yükleniyor…</div>;
+  if (loading && !bagimsizModul) return <YukleniyorEkrani />;
 
   // iPhone yönlendirmesi giriş ekranında da çıkmalı: kullanıcı Safari'de
   // siteyi ilk açtığında karşılaştığı ekran burası.
@@ -141,7 +146,7 @@ export default function BildimApp() {
     );
 
   return (
-    <Suspense fallback={<div className="yukleniyor">Yükleniyor…</div>}>
+    <Suspense fallback={<YukleniyorEkrani />}>
       <Routes>
         <Route path="/gizlilik" element={<GizlilikPage />} />
         <Route path="/kosullar" element={<KosullarPage />} />
