@@ -199,11 +199,11 @@
 
 /* 351 · savunanın bekleme ekranı: kendi en güçlü / en zayıf 3 kategorisi */
 .m2-savun { display: grid; gap: var(--qt-b-3); }
-.m2-savun-blok { display: grid; gap: var(--qt-b-2); padding: var(--qt-b-3); border-radius: var(--qt-r-m); background: var(--qt-yuzey); box-shadow: 0 var(--qt-dudak) 0 var(--qt-cizgi); }
+.m2-savun-blok { display: grid; gap: var(--qt-b-2); padding: var(--qt-b-3); border-radius: var(--qt-r-m); background: var(--qt-yuzey); color: var(--qt-metin); box-shadow: 0 var(--qt-dudak) 0 var(--qt-cizgi); }
 .m2-savun-blok h3 { margin: 0; font-size: var(--qt-y-s); font-weight: var(--qt-a-siyah); color: var(--qt-metin-soluk); }
 .m2-savun-blok ul { margin: 0; padding: 0; list-style: none; display: grid; gap: var(--qt-b-2); }
 .m2-savun-kat { display: flex; align-items: center; gap: var(--qt-b-2); min-height: 32px; }
-.m2-savun-ad { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: var(--qt-a-kalin); }
+.m2-savun-ad { flex: 1; min-width: 0; color: var(--qt-metin); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: var(--qt-a-kalin); }
 .m2-savun-kullanildi { flex: none; padding: 1px 6px; border-radius: 999px; font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); background: var(--qt-yuzey-3); color: var(--qt-metin-soluk); }
 .m2-savun-oran { flex: none; min-width: 3.2em; text-align: right; font-weight: var(--qt-a-siyah); }
 .m2-savun-blok--guclu .m2-savun-oran { color: var(--qt-dogru-koyu); }
