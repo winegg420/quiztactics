@@ -4,6 +4,10 @@
 // ile aynı soru kalıbı ve zorluk ölçeği → puanlar havuz taramasıyla karşılaştırılabilir):
 //   TR: doğru şık · kategori · zorluk (1–5) · eskiyebilir · hassas · her şık "bu da doğru mu"
 //   EN: doğru şık · İngilizce oyuncu için anlamlı mı · soru metni cevabı ele veriyor mu
+//   ŞIK İPUCU (23 Eyl 2026): soru metni GİZLİ, yalnız karışık şıklar → Jev doğruyu > 0,8 ile
+//   buluyorsa taslak birlestir-parti.mjs'te 'sik_ipucu' ile elenir (çeldiriciler düzeltilip
+//   yeniden denenir). Test tek yerde: araclar/soru_denetim/kapi.mjs › sikIpucuTesti.
+//   Bu alan olmadan yazılmış eski sonuç satırları için yalnız ipucu testi sorulup satır tamamlanır.
 // Sonuçlar <cikti.jsonl>'a anında eklenir; aynı içerik (soru+şıklar+çeviri) tekrar sorulmaz,
 // değişen taslak yeniden sorulur.
 //
@@ -12,6 +16,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { jevSor, choice, score, noul, maliyetUsd } from '../jev.mjs';
+import { sikIpucuTesti } from '../soru_denetim/kapi.mjs';
 
 const ESZAMANLI = 5;
 
@@ -126,7 +131,9 @@ async function main() {
   const onceki = sonuclariOku(cikti);
   let toplamJeton = [...onceki.values()].reduce((t, r) => t + (r.jeton || 0), 0);
   let cagri = [...onceki.values()].reduce((t, r) => t + (r.cagri || 0), 0);
-  const kuyruk = taslaklariOku(klasor).map((t) => ({ t, anahtar: icerikAnahtari(t) })).filter((x) => !onceki.has(x.anahtar));
+  // Önceki sonucu olup şık ipucu alanı eksik olan taslak da kuyruğa girer (yalnız ipucu sorulur).
+  const kuyruk = taslaklariOku(klasor).map((t) => ({ t, anahtar: icerikAnahtari(t) }))
+    .filter((x) => !onceki.has(x.anahtar) || onceki.get(x.anahtar).ipucuP === undefined);
   console.log(`Taslak kuyruğu: ${kuyruk.length} · önceki sonuç: ${onceki.size} · harcanan $${maliyetUsd(toplamJeton).toFixed(4)}`);
 
   let sira = 0, hata = 0, durdu = false;
@@ -134,13 +141,24 @@ async function main() {
     while (sira < kuyruk.length && !durdu) {
       const { t, anahtar } = kuyruk[sira++];
       try {
-        const tr = await trSor(t, anahtar);
-        const en = t.en ? await enSor(t, anahtar) : null;
-        const jeton = tr.jeton + (en?.jeton ?? 0);
-        const kayit = { anahtar, s: t.s, d: t.d, ...tr, ...(en ?? {}), jeton, cagri: en ? 2 : 1, tarih: new Date().toISOString() };
+        const eski = onceki.get(anahtar);
+        const ip = await sikIpucuTesti([t.d, ...t.y], t.d, anahtar);
+        const ipucu = { ipucuSecim: ip.secim, ipucuP: ip.pDogru, ipucuTakildi: ip.takildi, ...(ip.atlandi ? { ipucuAtlandi: ip.atlandi } : {}) };
+        let kayit;
+        if (eski) {
+          // Yalnız ipucu eksikti: eski satır + ipucu (sonuclariOku aynı anahtarda son satırı alır).
+          kayit = { ...eski, ...ipucu, jeton: (eski.jeton || 0) + ip.jeton, cagri: (eski.cagri || 0) + 1, ipucuTarih: new Date().toISOString() };
+          toplamJeton += ip.jeton;
+          cagri += 1;
+        } else {
+          const tr = await trSor(t, anahtar);
+          const en = t.en ? await enSor(t, anahtar) : null;
+          const jeton = tr.jeton + (en?.jeton ?? 0) + ip.jeton;
+          kayit = { anahtar, s: t.s, d: t.d, ...tr, ...(en ?? {}), ...ipucu, jeton, cagri: (en ? 2 : 1) + 1, tarih: new Date().toISOString() };
+          toplamJeton += jeton;
+          cagri += kayit.cagri;
+        }
         fs.appendFileSync(cikti, JSON.stringify(kayit) + '\n', 'utf8');
-        toplamJeton += jeton;
-        cagri += kayit.cagri;
         if (maliyetUsd(toplamJeton) > butce) { durdu = true; console.error(`DURDU: bütçe ${butce} $`); }
       } catch (e) {
         hata++;

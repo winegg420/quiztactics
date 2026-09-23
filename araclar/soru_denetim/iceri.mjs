@@ -5,7 +5,8 @@
 import fs from "node:fs";
 import path from "node:path";
 import { KLASOR, sorgu, jsonSabit } from "./ortak.mjs";
-import { duzeltmeKapiSorgusu } from "./kapi.mjs";
+import { duzeltmeKapiSorgusu, sikIpucuSonHalSorgusu, sikIpucuTesti, SIK_IPUCU_ISARET } from "./kapi.mjs";
+import { maliyetUsd } from "../jev.mjs";
 
 const kuru = process.argv.includes("--kuru");
 const arg = process.argv.slice(2).find((a) => !a.startsWith("--"));
@@ -68,11 +69,53 @@ if (duzeltmeler.length) {
     }
   }
 }
+// Şık ipucu kapısı (Jev, soru metni gizli — 23 Eyl 2026, Şerit S1). SQL kuralı uzunluk/kelime
+// sayısını yakalar ama "üç çeldirici 'Yalnız X', doğru şık farklı biçim" gibi ipuçlarını yakalamaz.
+//   duzelt → yazılacak son şıklar Jev'e (yalnız şıklar, karışık) sorulur; doğruyu > 0,8 ile
+//            buluyorsa düzeltme yazılmaz (çeldiriciler yeniden yazılıp tekrar denenir).
+//   onayla → soru `sik_ipucu_jev` işaretliyse yazılmaz: onay şıkları değiştirmez ama soruyu
+//            'bekliyor'dan çıkarır → ipucuyla rekabetçi havuza girerdi. Önce 'duzelt'.
+// Jev çalışamazsa hiçbir şey yazılmaz (--zorla hariç). Aynı --zorla bu kapıyı da geçirir.
+const ipucuAdaylari = temiz.filter((k) => k.id && (k.karar === "duzelt" || k.karar === "onayla") && !engellenen.has(k.id));
+if (ipucuAdaylari.length) {
+  try {
+    const sonHal = sorgu(sikIpucuSonHalSorgusu(ipucuAdaylari));
+    const takilan = [];
+    let jeton = 0;
+    for (const s of sonHal) {
+      if (s.karar === "onayla") {
+        if (s.isaretli === true || s.isaretli === "t" || s.isaretli === "true") takilan.push({ id: s.id, neden: `onay: soru ${SIK_IPUCU_ISARET} işaretli — önce şıkları düzelt` });
+        continue;
+      }
+      const sec = typeof s.secenekler === "string" ? JSON.parse(s.secenekler) : s.secenekler;
+      const r = await sikIpucuTesti(sec, sec?.[Number(s.dogru_cevap)], s.id);
+      jeton += r.jeton;
+      if (r.takildi) takilan.push({ id: s.id, neden: `düzeltme: Jev soru olmadan doğruyu buldu (P=${r.pDogru.toFixed(2)})` });
+    }
+    if (takilan.length) {
+      console.warn(`${zorla ? "UYARI (--zorla)" : "ENGELLENDİ"} — ${takilan.length} satır şık ipucu kapısına takılıyor:`);
+      for (const t of takilan) {
+        console.warn(`  ${t.id}: ${t.neden}`);
+        if (!zorla) engellenen.add(t.id);
+      }
+      console.warn("  Doğru hamle: çeldiricileri doğru şıkla aynı tür/biçimde, eşit inandırıcı yaz ('Yalnız…', 'İkisi aynı' gibi kalıp yok).");
+    } else {
+      console.log(`Şık ipucu kapısı (Jev): ${ipucuAdaylari.length} satırın hepsi geçti.`);
+    }
+    console.log(`  Jev: ${jeton} girdi jetonu ($${maliyetUsd(jeton).toFixed(4)})`);
+  } catch (e) {
+    console.error("[soru:iceri] şık ipucu kapısı çalıştırılamadı:", String(e.message || e).slice(0, 200));
+    if (!zorla) {
+      console.error("Kapı doğrulanmadan hiçbir şey yazılmaz (bilerek geçirmek için --zorla).");
+      process.exit(1);
+    }
+  }
+}
 if (yalnizKapi) {
-  console.log(`--yalniz-kapi: veritabanına hiçbir şey yazılmadı · engellenecek düzeltme ${engellenen.size}`);
+  console.log(`--yalniz-kapi: veritabanına hiçbir şey yazılmadı · engellenecek satır ${engellenen.size}`);
   process.exit(engellenen.size ? 2 : 0);
 }
-const islenecek = temiz.filter((k) => !(k.karar === "duzelt" && engellenen.has(k.id)));
+const islenecek = temiz.filter((k) => !((k.karar === "duzelt" || k.karar === "onayla") && engellenen.has(k.id)));
 
 try {
   const [satir] = sorgu(`select public.soru_denetim_ice_aktar(${jsonSabit(islenecek)}, 'sahip', '${parti.replace(/[^a-zA-Z0-9_-]/g, "")}', ${kuru}) as rapor;`);
@@ -83,7 +126,7 @@ try {
   if (kuru) console.log("KURU ÇALIŞMA — veritabanına hiçbir şey yazılmadı.");
   console.log(`${rapor?.toplam ?? 0} kayıt: onay ${i.onayla ?? 0} · düzeltme ${i.duzelt ?? 0} · kaldırma ${i.kaldir ?? 0} · atlanan ${rapor?.atlanan?.length ?? 0}`);
   for (const a of rapor?.atlanan ?? []) console.log(`  atlandı #${a.sira} ${a.id ?? "-"}: ${a.sebep}`);
-  if (engellenen.size) console.log(`  şık denge kapısı: ${engellenen.size} düzeltme yazılmadı (liste yukarıda)`);
+  if (engellenen.size) console.log(`  kapılar (şık denge + şık ipucu): ${engellenen.size} satır yazılmadı (liste yukarıda)`);
   console.log("Rapor:", raporDosya);
 } catch (e) {
   console.error("[soru:iceri]", e.message);

@@ -19,6 +19,16 @@ git'e yalnız son `sorular.json` + `ozet.json` girer).
 2. **Kalite kapısı** — `denetle.mjs` (biçim, şık denge = `soru_kural_isaretleri` aynası,
    havuzla birebir/anlamca tekrar) + `jev-kapi.mjs` (doğru cevap verilmeden; >0,9 güvenle
    başka şık → elenir/düzeltilir; zorluk etiketi Jev puanıyla çelişirse düzeltilir).
+   **Şık ipucu testi** (23 Eyl 2026, aynı `jev-kapi.mjs` çağrısında): Jev'e SORU METNİ
+   VERİLMEDEN yalnız karışık dört şık sorulur; doğru şıkkı seçip ona > 0,8 olasılık
+   veriyorsa taslak `birlestir-parti.mjs`'te `sik_ipucu` (`duzelt_yeniden_dene: true`) ile
+   elenir — `kararlar.json › tut` geçiremez. Çeldiriciler doğru şıkla aynı tür/biçimde,
+   eşit inandırıcı yeniden yazılır ('Yalnız X', 'İkisinin aynı olması', tek farklı biçimli
+   şık gibi kalıplar yok) ve taslak yeniden `jev-kapi.mjs`'ten geçer (içerik değişince
+   yeniden sorulur). Test tek yerde: `soru_denetim/kapi.mjs › sikIpucuTesti` (havuz
+   taramasıyla aynı soru kalıbı: `araclar/jev-tarama/sik-ipucu.md`). Eski jsonl'de ipucu
+   alanı yoksa `jev-kapi.mjs` aynı dosyayla yeniden çalıştırılır, yalnız eksik test sorulur;
+   `birlestir-parti.mjs` ipucu sonucu eksikken çalışmaz. Maliyet ~0,00005 $/taslak.
    Elenenin yerine yenisi; parti net 250.
 3. **İngilizce** — `question_translations`. Düz çeviri yok; kültüre bağlı anlamsız
    soru çevrilmez (`en: null` + `en_neden`, `ceviri_atlanan` 'cevrilemez'). Parantezle

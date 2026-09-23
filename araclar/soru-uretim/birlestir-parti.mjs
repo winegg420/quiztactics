@@ -13,6 +13,8 @@
 //     şekilde takas yapılır (hedef: --zorluk ya da durum.json'dan hesap).
 //
 // Eleme: Jev bizim cevabımızdan FARKLI şıkkı >0,9 güvenle seçtiyse 'jev_itiraz';
+// Jev soru metnini görmeden (yalnız şıklar) doğruyu >0,8 ile bulduysa 'sik_ipucu'
+// (duzelt_yeniden_dene: çeldiriciler düzeltilip yeniden denenir; 'tut' ile geçirilemez);
 // kararlar.json {anahtar|soru: {karar:'ele'|'tut'|'en_yok', sebep|neden}}.
 //
 // Kullanım:
@@ -70,6 +72,7 @@ const elenen = [];
 const duzeltme = [];
 const kovalar = {};
 let eksikJev = 0;
+let eksikIpucu = 0;
 for (const t of taslaklar) {
   const anahtar = icerikAnahtari(t);
   const j = jev.get(anahtar);
@@ -78,6 +81,13 @@ for (const t of taslaklar) {
   const karar = kararlar[anahtar] || kararlar[t.s];
   if (j.jevCevap !== t.d && j.jevGuven > ITIRAZ_GUVEN && karar?.karar !== 'tut') {
     elenen.push({ sebep: 'jev_itiraz', kova, s: t.s, d: t.d, jev: j.jevCevap, guven: j.jevGuven });
+    continue;
+  }
+  // Şık ipucu (Jev soru metnini görmeden doğruyu > 0,8 ile buldu): 'tut' ile geçirilemez —
+  // çeldiriciler düzeltilip taslak yeniden jev-kapi.mjs'ten geçirilir (içerik değişince yeniden sorulur).
+  if (j.ipucuP === undefined) { eksikIpucu++; continue; }
+  if (j.ipucuTakildi) {
+    elenen.push({ sebep: 'sik_ipucu', duzelt_yeniden_dene: true, kova, s: t.s, d: t.d, y: t.y, ipucuP: j.ipucuP });
     continue;
   }
   if (karar?.karar === 'ele') {
@@ -101,6 +111,10 @@ for (const t of taslaklar) {
 }
 if (eksikJev) {
   console.error(`${eksikJev} taslağın Jev sonucu yok — önce jev-kapi.mjs çalıştır.`);
+  process.exit(1);
+}
+if (eksikIpucu) {
+  console.error(`${eksikIpucu} taslağın şık ipucu testi yok — jev-kapi.mjs'i aynı çıktı dosyasıyla yeniden çalıştır (yalnız eksik test sorulur).`);
   process.exit(1);
 }
 
