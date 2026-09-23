@@ -114,6 +114,9 @@ function MacSonuKutlama({
   // 1: karşılaşma (t.avatar=300 ms'de girer); 2: ödül + rozet kartı (t.coin−150 ms'de girer).
   // Her aşama bir sonraki karede; hepsi aşağıya eklenir, üstteki sahne kaymaz. Geç takılan
   // öğelerin animation-delay'i takıldıkları an kadar kısaltılır (zaman çizelgesi aynı kalır).
+  // Kart içi Lottie kurulumları (hazirlaMs: coin 400 · level 600 · yıldız 800, aşama 2'den sayılır)
+  // sahnenin sakin aralığına (~0,45–0,9 sn) alındı: level 1150 / yıldız 1650 iken kurulum (4× CPU'da
+  // ~26–37 ms) coin sayımı + uçuş + XP'nin dolu karelerine denk gelip 67–84 ms'lik kare yapıyordu.
   const [asama, setAsama] = useState(az ? 2 : 0);
   const basRef = useRef(0);
   const karsilasmaRef = useRef(null);
@@ -339,7 +342,7 @@ function MacSonuKutlama({
       {asama >= 2 && <section ref={kartRef} className="msk-kart" aria-label={tt("Maç ödülleri")}>
         {coin > 0 && (
           <div className="msk-coin msk-a">
-            <div className="msk-coin-patlama"><MacSonuLottie ref={lottie.coin} ad="coin" hiz={1.5} hazirlaMs={450} /></div>
+            <div className="msk-coin-patlama"><MacSonuLottie ref={lottie.coin} ad="coin" hiz={1.5} hazirlaMs={400} /></div>
             <img ref={coinIkonRef} className="msk-coin-ikon" src="/dukkan/coin.webp" alt="" aria-hidden="true" />
             <span className="msk-coin-sayi qt-sayi" ref={coinSayiRef} aria-hidden="true">+{coinGosterRef.current}</span>
             <span className="qt-gizli">{tt("+{coin} coin", { coin })}</span>
@@ -359,7 +362,7 @@ function MacSonuKutlama({
             </div>
             {xpv.atladi && (
               <div className="msk-levelup">
-                <div className="msk-levelup-lottie"><MacSonuLottie ref={lottie.level} ad="level" kalici hiz={1.4} hazirlaMs={1150} sonda={atlandi} /></div>
+                <div className="msk-levelup-lottie"><MacSonuLottie ref={lottie.level} ad="level" kalici hiz={1.4} hazirlaMs={600} sonda={atlandi} /></div>
                 <span className="msk-levelup-rozet" role="status">{tt("LEVEL {n}!", { n: xpv.level })}</span>
               </div>
             )}
@@ -419,7 +422,7 @@ function MacSonuKutlama({
       {asama >= 2 && rozet && (
         <section ref={rozetRef} className="msk-rozet msk-a" aria-label={tt("Yeni rozet")}>
           <div className="msk-rozet-madalyon">
-            <div className="msk-rozet-patlama"><MacSonuLottie ref={lottie.yildiz} ad="yildiz" hiz={0.8} hazirlaMs={1650} /></div>
+            <div className="msk-rozet-patlama"><MacSonuLottie ref={lottie.yildiz} ad="yildiz" hiz={0.8} hazirlaMs={800} /></div>
             <RozetMadalyonu grup={rozet.grup ?? "level"} kademe={rozet.kademe ?? "altin"} boyut={64} sembol={rozetSembolu(rozet.ikon)} />
           </div>
           <div className="msk-rozet-metin">
