@@ -67,6 +67,8 @@ export default {
   "Yeni rozet: {ad}": "New badge: {ad}",
   "+{n} coin": "+{n} coins",
   "Yeni çerçeve kazandın": "You earned a new frame",
+  "Rozet ödülü": "Badge reward",
+  "Rozet ödülü ({kademe})": "Badge reward ({kademe})",
   // ——— Çerçevelerim ———
   "Çerçeveler yüklenemedi.": "Couldn't load frames.",
   "Çerçeve takılamadı.": "Couldn't equip the frame.",

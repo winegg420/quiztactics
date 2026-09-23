@@ -200,3 +200,6 @@
   box-shadow: 0 2px 0 var(--qt-coin-dudak);
 }
 .qt-dk-coin--eniyi .qt-dk-coin-bonus { top: calc(var(--qt-b-6) + 2px); }
+/* Define (en büyük paket): taç görseli bonus etiketinin altına girmesin — etiket üstte, görsel biraz aşağıda */
+.qt-dk-coin-bonus { z-index: 2; }
+.qt-dk-coin--eniyi .qt-dk-coin-gorsel { margin-top: calc(var(--qt-b-6) + var(--qt-b-6)); }

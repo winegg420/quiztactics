@@ -22,6 +22,8 @@ const INDIRIM = {
   acik_bot: "açık bot — coin yarı",
 };
 
+const KADEME = { bronz: tt("Bronz"), gumus: tt("Gümüş"), altin: tt("Altın"), elmas: tt("Elmas") };
+
 function kalemAdi(k) {
   const d = k.detay ?? {};
   switch (k.kalem) {
@@ -35,6 +37,8 @@ function kalemAdi(k) {
     // P2A: level atlama ödülleri (coin_ekle 'seviye' — günlük tavan dışı)
     case "seviye": return tt("Level ödülü");
     case "rutbe": return tt("Rütbe ödülü");
+    // Rozet + çerçeve paketi: rozet kazanınca verilen coin (rozet_odulu kalemi)
+    case "rozet_odulu": return KADEME[d.kademe] ? tt("Rozet ödülü ({kademe})", { kademe: KADEME[d.kademe] }) : tt("Rozet ödülü");
     default: return k.kalem;
   }
 }
@@ -89,8 +93,8 @@ export default function OdulDokumu({ kaynak, onToplam, onDokum, onGorevler, gore
   return (
     <QtKart dolgu="k" aria-label={tt("Ödül dökümü")}>
       <QtListe etiket={tt("Ödül dökümü")}>
-        {kalemler.map((k) => (
-          <QtListeSatiri key={k.kalem} ikon={k.coin ? "coin" : "yildiz"} ikonTon={k.coin ? "coin" : "mor"}
+        {kalemler.map((k, i) => (
+          <QtListeSatiri key={`${k.kalem}-${i}`} ikon={k.coin ? "coin" : "yildiz"} ikonTon={k.coin ? "coin" : "mor"}
                          baslik={kalemAdi(k)} alt={notlar(k)} sag={<b className="qt-sayi">{miktar(k)}</b>} />
         ))}
         {kalemler.length > 1 && (
