@@ -266,8 +266,12 @@ export default function MacSonuSahnesi({
     const kok = kokRef.current;
     if (!kok) return undefined;
     const olc = () => {
-      const tb = document.querySelector(".tabbar");
-      const h = tb && getComputedStyle(tb).display !== "none" ? tb.getBoundingClientRect().height : 0;
+      // Arayüz yenilemesinde sekme çubuğu .tabbar → .mobile-nav oldu; eski seçici hiç
+      // bulamıyordu ve çubuk sekme çubuğunun arkasında kalıyordu. Yüzen çubuk için
+      // yükseklik değil, ekranın altından çubuğun üst kenarına kadarki mesafe alınır.
+      const tb = document.querySelector(".mobile-nav, .tabbar");
+      const h = tb && getComputedStyle(tb).display !== "none"
+        ? Math.max(0, window.innerHeight - tb.getBoundingClientRect().top) : 0;
       kok.style.setProperty("--mss-eylem-alt", `${Math.round(h)}px`);
       kok.style.setProperty("--mss-guvenli", h ? "0px" : "env(safe-area-inset-bottom)");
       // Paket 42 E.4: içerik kısa kalınca eylem çubuğu ekranın ortasında kalıyordu. Sahne en az
@@ -277,7 +281,12 @@ export default function MacSonuSahnesi({
     };
     olc();
     window.addEventListener("resize", olc);
-    return () => window.removeEventListener("resize", olc);
+    // Maç biterken oyun modu (body.bd-oyun-modu) bu ölçümden SONRA kalkar ve sekme çubuğu
+    // o an görünür olur; ölçüm 0 kalınca çubuk sekme çubuğunun arkasına düşüyordu
+    // (23 Eyl 2026, Düello maç sonu). Body sınıfı değişince yeniden ölçülür.
+    const gozcu = typeof MutationObserver === "undefined" ? null : new MutationObserver(olc);
+    gozcu?.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+    return () => { window.removeEventListener("resize", olc); gozcu?.disconnect(); };
   }, []);
 
   // Odak banner'a: ekran okuyucu sonucu bir kez okur. Ana sayfada bildirim

@@ -233,7 +233,9 @@ export function V2Cevap({ d, rakip, secenekler, secim, ikinciSansElendi, calisan
     ? null : Number(cv.ikinci_sans_ilk_cevap);
   const elenenler = new Set([...ikinciSansElendi, ...(ilkYanlis === null ? [] : [ilkYanlis])]);
   const sureBitti = kalanSn <= 0;
-  const tiklanabilir = !kilitli && !sureBitti && secim === null && !calisan;
+  // Yalnız cevap isteği yoldayken kilitlenir; skill isteği (~1-2 sn) şıkları kapatmaz —
+  // 23 Eyl 2026 oyuncu testinde Ek Süre sonrası şıklar bu yüzden kapalı kalıyordu.
+  const tiklanabilir = !kilitli && !sureBitti && secim === null && calisan !== "cevap";
   const katAdi = d.kategori ? c(kategoriAdi(d.kategori)) : "";
 
   return (
