@@ -2,7 +2,7 @@
 // Seçenek A — ZENGİN TEK EKRAN (lobi). Kaydırmasız: üstte lig/seri, avatar kartı, altında
 // turnuva şeridi, büyük Oyna + Düello ve mod kısayolları.
 // Masaüstü: solda modlar sütunu, ortada sahne, sağda seans listesi + görevler + etkinlik.
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { QtIkon } from "../../tasarim/index.js";
 import BildirimIzniSor from "../../components/BildirimIzniSor.jsx";
 import { BILDIRIM_SONRA_ANAHTAR } from "../../components/MacSonuSahnesi.jsx";
@@ -21,6 +21,12 @@ export default function AnaSayfaA() {
   const [bildirimSor] = useState(() => {
     try { return sessionStorage.getItem(BILDIRIM_SONRA_ANAHTAR) === "1"; } catch { return false; }
   });
+  // Telefonda ana sayfa kaydırılmaz: kabuk görünür yüksekliğe oturur (anasayfa.css › .as-kaydirmasiz).
+  useEffect(() => {
+    const kok = document.documentElement;
+    kok.classList.add("as-kaydirmasiz");
+    return () => kok.classList.remove("as-kaydirmasiz");
+  }, []);
   if (!v.profile) return <div className="as-yukleniyor" aria-busy="true" />;
   const modlar = modListesi(v, b);
   const olaylar = etkinlikler(v);

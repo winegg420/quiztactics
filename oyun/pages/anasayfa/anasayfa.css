@@ -295,6 +295,24 @@ a.as-cip:active { transform: translateY(2px); }
   .as-serit { min-height: 58px; }
 }
 
+/* Telefon: ana sayfa HİÇ kaydırılmaz (Ida, 23 Eyl 2026). Tahmini pay (100dvh − 190px) güvenli
+   alan paylarını (çentik, ana gösterge çubuğu, PWA durum çubuğu) saymıyordu → ~1 cm kayıyordu.
+   AnaSayfaA <html>'e .as-kaydirmasiz koyar: kabuk tam görünür yükseklikte esnek sütun olur,
+   sahne kalan alanı doldurur; sığmazsa kart küçülür (kaydırma yok). Diğer sayfalar etkilenmez. */
+@media (max-width: 767px) {
+  html.as-kaydirmasiz, html.as-kaydirmasiz body { height: 100%; overflow: hidden; overscroll-behavior: none; }
+  html.as-kaydirmasiz .app.a-kabuk { height: 100dvh; min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
+  html.as-kaydirmasiz .a-kabuk .a-ust-blok { flex: none; }
+  html.as-kaydirmasiz .a-kabuk .a-icerik { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
+  html.as-kaydirmasiz .as-a { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+  html.as-kaydirmasiz .as-a-sahne { flex: 1 1 auto; min-height: 0; }
+  html.as-kaydirmasiz .as-a-podyum { container-type: size; }
+}
+@container (max-height: 124px) {
+  .as-a .as-a-podyum .as-oyuncu-avatar { scale: .62; margin: -24px -20px; }
+  .as-a .as-a-ad { font-size: 19px; }
+}
+
 /* A — masaüstü: üç sütun, sahne ortada kahraman. */
 @media (min-width: 1024px) {
   .as-a { grid-template-columns: 240px minmax(0, 1fr) 320px; align-items: start; gap: 20px; }
