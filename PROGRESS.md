@@ -7787,3 +7787,28 @@ otomatik akla gelmesi için; proje kapsamında kuruldu.
   içi satın alma, "portal" ifadesi, paylaşım listesi, TASLAK notu); "Lig çerçevelerim" Rozetler
   sekmesine taşındı (onay); kategori çipi altın (ödül rengi kuralıyla çelişki); soru temizliği
   migration'larının uygulanması; serbest maç rövanşının dereceli açılması.
+
+## 2026-09-23 — Ida canlı testi düzeltmeleri + Disk IO
+**Araç:** Claude Code (ana ajan + 2 alt ajan)
+**Neden:** Ida canlıda test etti (Düello kasması, QQuiz logosu, tek renk emoji, rövanş türü) + Supabase "Disk IO bütçesi tükeniyor" uyarısı.
+
+- **Soru temizliği (316–318):** 7 soru pasife (2 hassas, 4 tartışmalı itiraz, 1 çeviri), 1 EN düzeltme,
+  662 kategori taşıma, 3.192 zorluk yeniden sıralama (1–5: 1220/2420/4929/2435/1229). Aktif 12.233,
+  rekabetçi 6.292. Geri alma: `araclar/soru-temizlik/degisiklikler.csv`.
+- **Rövanş (319):** Klasik `rovans_iste` `dereceli`'yi aktarmıyordu (varsayılan dereceli) → aynı tür;
+  Düello zaten doğruydu. Test `_test/sunucu/rovans-ayni-tur.test.mjs` 6/6.
+- **Logo:** QtMarka Q ikonu + yazıyı yan yana çiziyordu ("QQuiz") → 72b1fb4 öncesi resmi `Logo`
+  (başlık, giriş, yükleniyor, yasal, /tasarim-sistemi).
+- **Emoji:** tepkiler bilinçli tek renk SVG'ye çevrilmişti → renkli sistem emoji (`emoji:` biçimi,
+  `emoji.css`); eski adlar `isim` alanında duruyor.
+- **Düello kasması:** (1) okuma sürerken gelen Realtime sinyali yutuluyordu → ekran 1 sn yoklamayı
+  bekliyor, iki oyuncu kayıyordu; artık sıraya alınıyor/birleştiriliyor. (2) İstemci oyuncu başına
+  saniyede 2,6 RPC atıyordu → ~0,8. İki oyuncu farkı p95 1355 → 550 ms, kategori fazı p95 ≤ 283 ms,
+  geçişte uzun görev 0. Klasik/turnuva yoklama ve turnuva N×N yeniden okuma da düzeldi.
+- **Disk IO:** en çok yazan kaynaklar: pg_cron çalışma kayıtları (2,1 M insert, tablo 323 MB — hiç
+  budanmıyordu) · CI sunucu testleri canlı DB'de (26 bin test hesabı insert'i, push başına 20 dk) ·
+  `duello_durum` her çağrıda last_seen + hız sayacı yazması · 2 sn'lik bot_oyna/duello_tik · dakikalık
+  gizli_bot_nabiz. Düzeltmeler: 320 (kayıtlar boşaltıldı 323 MB → 32 kB + saatlik budama, dondurulmuş
+  Meydan ikram işi kapatıldı), 321 (last_seen 5 sn'de bir), CI testleri push'ta ve gecede kapalı,
+  istemci sorgu sıklığı yarıya.
+- **Test (canlı, tek sefer):** Klasik 20/20, Düello saldıran 10 / savunan 10 geçti.

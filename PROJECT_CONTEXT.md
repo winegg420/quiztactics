@@ -346,9 +346,14 @@ altta, eylem düğmeleri sağ altta.
 
 ## Test kuralı — oyuncu gibi test et (23 Eyl 2026)
 
-Sunucu testleri (`npm test`) CANLI veritabanında işlem açıp geri alır: GitHub Actions'ta push'ta
-ÇALIŞMAZ (her gece 03:00 TSİ + elle). Eşzamanlı koşular canlıda kilit/zaman aşımı üretir —
-yerelde de aynı anda tek koşu.
+Sunucu testleri (`npm test`) CANLI veritabanında işlem açıp geri alır ve Disk IO bütçesini
+tüketir: GitHub Actions'ta push'ta da gece de ÇALIŞMAZ (yalnız elle, `workflow_dispatch`);
+ayrı test ortamına (yerel `supabase start` — Docker gerekir — ya da ayrı proje) taşınması açık iş.
+Yerelde de aynı anda tek koşu; oyuncu testini canlıda tekrar tekrar çalıştırma (her maç DB yükü).
+- **Disk IO (23 Eyl 2026):** pg_cron çalışma kayıtları saatlik budanır (`bildim-cron-kayit-budama`,
+  6 saat); `duello_kilitle` son görülmeyi 5 sn'de bir yazar; Düello istemcisi Realtime bağlıyken
+  4 sn'de bir yedek yoklar, `duello_baglanti` 5 sn'de bir. Oyun cron'ları (bot_oyna, duello_tik 2 sn)
+  maç akışını belirler — seyreltmek ürün kararıdır.
 
 Her pakette: `node araclar/oyuncu-testi.mjs [--adres=https://quiztactics.vercel.app]`.
 
