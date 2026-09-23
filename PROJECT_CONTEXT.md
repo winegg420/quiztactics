@@ -95,8 +95,9 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
   profil hem görünen hem gerçektir.
 - **Eşleşme (370, bütün modlar):** gerçek oyuncu varsa anında; yoksa gizli bot, sunucuda aramaya
   sabitlenen üçgen dağılımlı süreyle (`eslesme_bot_min_sn` 3 · `_tepe_sn` 6 · `_max_sn` 15). Canlı
-  ölçüm (24 Eyl, 10 Klasik arama): 6,9–14,1 sn, medyan 10,5. `duello_arama_sn` / `grup_arama_sn`
-  okunmaz. Arama ekranında "bot ile oyna" yok; açık botlar yalnız Meydan Okumalar › **Antrenman**
+  ölçüm (24 Eyl, 10 Klasik arama): 6,9–14,1 sn, medyan 10,5. Eski sabit süre (Düello 8 + 2–5 sn,
+  Grup 12 sn) kalktı: `duello_arama_sn` / `grup_arama_sn` **kullanılmıyor** (371'de işaretlendi, silinmedi).
+  Gelen maç hedeften ~1 sn geç düşebilir (yoklama aralığı) — bilerek bırakıldı. Arama ekranında "bot ile oyna" yok; açık botlar yalnız Meydan Okumalar › **Antrenman**
   (yarım ödül). Arama ekranı tam ekran `AramaSahnesi` (Klasik, Saf Bilgi, Düello aynı).
 - **Loadout süresi + cezasız iptal (410):** Klasik/Saf Bilgi "Hazır mısın?" kapısında `loadout_secim_sn`
   (20) dolunca son kayıtlı set ile başlar; eşleştirmeyle kurulan maçta rakip bağlanmadıysa maç
