@@ -139,6 +139,10 @@ push'ta sessizce silinir; 13 Eyl'de tam olarak bu oldu.
 - **DB güvenliği:** RLS + RPC'ler `security definer`, yalnız
   `authenticated` rolü. İstemciye güvenme; kritik mantığı (satın alma,
   puanlama, maç durumu) `FOR UPDATE` kilidiyle sunucuda çöz.
+- **Yetki/izin/güvenlik kuralı değişikliği önce sorulur** (Ida, 24 Eyl 2026): RLS politikası,
+  Storage politikası, GRANT/REVOKE, `security definer` yetkisi, sahip/yönetici kontrolü ya da
+  benzeri bir güvenlik kuralını değiştirmeden önce — **geçici bile olsa** — alt ajan ana oturuma,
+  ana oturum Ida'ya sorar. Kalıcı onay listesinde (dosya silme, deploy, migration) bu yoktur.
 - **Migration'lar sıralıdır** — mevcut migration'ı düzenleme, yeni
   numaralı dosya ekle (`20260612000NNN_ad.sql`). Soru eklerken `soru`
   kolonu UNIQUE olduğundan `on conflict (soru) do nothing`.
