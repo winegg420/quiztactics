@@ -35,6 +35,11 @@ import GroupMatchPage from "../oyun/pages/GroupMatchPage.jsx";
 // Geri acmak: bu import + asagidaki rotayi geri koy, oyun_ayarlari.hizli_mac_acik = true.
 const TournamentPage = lazy(() => import("../oyun/pages/TournamentPage.jsx"));
 const LeaderboardPage = lazy(() => import("../oyun/pages/LeaderboardPage.jsx"));
+// Ana sayfa seçenekleri (deneme, menüde yok) — seçim yapılınca kazanan Home.jsx'e taşınır.
+const AnaSayfaA = lazy(() => import("../oyun/pages/anasayfa/AnaSayfaA.jsx"));
+const AnaSayfaB = lazy(() => import("../oyun/pages/anasayfa/AnaSayfaB.jsx"));
+const AnaSayfaC = lazy(() => import("../oyun/pages/anasayfa/AnaSayfaC.jsx"));
+const AnaSayfaSecim = lazy(() => import("../oyun/pages/anasayfa/AnaSayfaSecim.jsx"));
 const FriendsPage = lazy(() => import("../oyun/pages/FriendsPage.jsx"));
 const MesajlarPage = lazy(() => import("../oyun/pages/MesajlarPage.jsx"));   // Paket 35 E
 const ProfilePage = lazy(() => import("../oyun/pages/ProfilePage.jsx"));
@@ -174,6 +179,10 @@ export default function BildimApp() {
           {/* Paket 41 I: sessiz yönlendirme yerine "Bu mod şu an kapalı" notu, sonra ana sayfa */}
           <Route path="hizli-mac/:id" element={<BulunamadiPage kapaliMod />} />
           <Route path="siralama" element={<LeaderboardPage />} />
+          <Route path="ana-sayfa-a" element={<AnaSayfaA />} />
+          <Route path="ana-sayfa-b" element={<AnaSayfaB />} />
+          <Route path="ana-sayfa-c" element={<AnaSayfaC />} />
+          <Route path="ana-sayfa-secim" element={<AnaSayfaSecim />} />
           <Route path="arkadaslar" element={<FriendsPage />} />
           <Route path="mesajlar" element={<MesajlarPage />} />
           <Route path="mesajlar/:kisi" element={<MesajlarPage />} />
