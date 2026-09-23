@@ -234,56 +234,37 @@ Ida "kendin doldur" dedi; hepsi test değeridir, yayından önce yeniden bakıla
 
 ## Arayüz ve Görsel Kararlar
 
-- **Tasarım Adım 1 (23 Eyl 2026):** `/tasarim-yonleri` (menüsüz, girişsiz) üç görsel yön sunar —
-  A Şeker Kutusu (parlak/kabartmalı), B Arena Gecesi (koyu/e-spor), C Stüdyo Işıkları
-  (bordo-altın yarışma programı). Karar verilene kadar canlı palet değişmez.
-- **Tasarım skill'leri (proje içi):** `.claude/skills/impeccable` (pbakaus/impeccable) ve
-  `.claude/skills/emil-design-eng` + 12 hareket skill'i (emilkowalski/skills). Impeccable
-  ikili dosyası git'e girmez; hook'ları `.claude/settings.local.json`'da.
+**Görsel dil: Yön A "Şeker Kutusu" (Tasarım Adım 2, 23 Eyl 2026 — canlıda).** Parlak,
+yuvarlak, oyuncak gibi kabarık düğmeler. Bütün ekranlar (harita/meydan, gardırop,
+karakter, Hızlı Mod hariç — dondurulmuş) bu sistemle yeniden yazıldı.
 
-Arayüz yenilemesi **canlıdadır** (20 Eylül 2026). Tek görsel kaynak
-`tasarim/home-prototype/` — 24 sayfalık saf HTML/CSS prototip.
+- **Tek kaynak: `oyun/tasarim/`** — token'lar (`--qt-*`, `tokenlar.css`), bileşenler (`Qt*`:
+  düğme, kart, mod kartı, şık, sayaç, can, skill, üst çubuk, alt menü, modal, toast…),
+  ikon seti (`Ikon.jsx`), hareket (`hareket.css/js`). Kılavuz `oyun/tasarim/OKU.md`,
+  canlı örnek `/tasarim-sistemi` (menüsüz, girişsiz). Ekran stilleri
+  `oyun/tasarim/ekranlar/<şerit>-*.css` ve `oyun/pages/*.a.css`; yalnız `qt-`/kendi önekli
+  sınıflar. Eski `tema.css`/`yeni.css`/`styles.css`'te yalnız hâlâ kullanılan kurallar kaldı.
+- Kontrast ≥ 4,5 (büyük ≥ 3), dokunma ≥ 44 px, etkileşim geri bildirimi ≤ 300 ms, yalnız
+  transform/opacity animasyonu, `prefers-reduced-motion` sade sürüm.
+- Maç ekranı koyu sahne (`.qt-sahne-mac`); `body.bd-oyun-modu` alt menüyü gizler.
+- Arayüz metni TR+EN: anahtar Türkçe metin; EN karşılıkları `oyun/lib/dil.js` +
+  şerit ekleri `oyun/lib/ceviri/*.js` (dil.js'e katılır).
+- Seçenekler sayfası `/tasarim-yonleri` (A/B/C) duruyor; silinmesine Ida karar verecek.
+- **Tasarım skill'leri (proje içi):** `.claude/skills/impeccable` (pbakaus/impeccable; ikili
+  dosyası git'e girmez; otomatik hook YOK — denetim elle, `impeccable.cmd detect`) ve
+  `emil-design-eng` + hareket skill'leri (emilkowalski/skills). Ürün bağlamı `PRODUCT.md`.
+- Resmi marka işareti Q Logo Lab **03 Forward Pulse** Q'sudur + `QUIZ TACTICS` yazısı
+  (`Logo.jsx`); yeni logo ayrı iş, bekliyor.
+- Baloo 2 başlık / Nunito gövde — **yerel paketli** (`public/fonts/`). Google Fonts YOK.
+- Oyun, bilgi yarışması gibi görünmeli; sakin/nötr "uygulama" estetiğine kaydırma.
 
-**Prototip YALNIZCA görsel tasarım kaynağıdır.** İçindeki örnek metinler,
-oyuncu verileri, skill'ler, modlar, fiyatlar, rütbeler, turnuva saatleri ve
-oyun mekanikleri **doğru kabul edilmez**. Bütün işlevlerde mevcut kod,
-veritabanı ve bu dosyadaki ürün kararları tek doğru kaynaktır.
+### Ses
 
-Canlı uygulanışı: `oyun/styles/yeni.css` — prototipin paleti birebir, üstüne eski
-`--bd-*` token'larının yeni palete bağlandığı bir alias katmanı. Eski
-sınıflar SİLİNMEDİ; hepsi yeni palete döner. Yükleme sırası
-(`src/main.jsx`): styles.css → tema.css → koyu.css → yeni.css.
-
-`mobile-game.css` en son
-yüklenir. 560 px ve altında Klasik/Düello eşit ana mod kartları, oyun HUD'ı
-alt navigasyonu, azaltılmış panel içi panel görünümü, 44 px dokunma hedefleri,
-telefon maç sahnesi ve reduced-motion uyumlu mikroanimasyonlar getirir. Bu
-mobil revizyon canlıdadır.
-
-Palet (değiştirme):
-
-```
---ink:#17213c  --muted:#71809f  --line:#dbe4f3  --paper:#fff  --bg:#eef4ff
---orange:#ff6b2c  --orange2:#e95114  --navy:#172549  --gold:#ffca45
---purple:#7c55ec  --green:#20b874  --blue:#3b91e8
---shadow:0 16px 42px rgba(36,58,103,.12)
-```
-
-- Kabuk 1180 px (`.shell`); üstte yatay menü, 850 px altında alt menü.
-- Resmi marka işareti Q Logo Lab **03 Forward Pulse** Q'sudur: hafif öne
-  eğimli, kısa ve gövdeyle bütünleşik turuncu kuyruklu vektör form. Header,
-  giriş ve splash aynı `Logo.jsx` kaynağını kullanır; PWA/app ikonunda yalnız
-  Q değil tam `QUIZ TACTICS` wordmarkı bulunur. Mobil web ve kurulu PWA üst
-  barı da dar ekranda yalnız Q'ya düşmez; tam wordmarkı gösterir.
-- Baloo 2 başlık / Nunito gövde — **yerel paketli** (`public/fonts/`,
-  `@font-face`). Google Fonts bağlantısı YOK, geri de eklenmez.
-- Kabartmalı buton dili korundu (`0 4px 0` + basınca `translateY(4px)`).
-- Maç ekranları koyu zemin (`body.bd-oyun-modu`).
-- Koyu tema PALETİ YOK; ayardaki düğme mevcut davranışını korur.
-- Kontrast WCAG AA: küçük metin ≥ 4.5, 24px+ veya 19px+ kalın metin ≥ 3.0.
-- `prefers-reduced-motion` ve `prefers-reduced-transparency` desteklenir.
-- Oyun, bilgi yarışması gibi görünmeli; sakin/nötr "uygulama" estetiğine
-  kaydırma.
+- Kenney (CC0) — `public/ses/` (WAV + mp3, ~630 KB; lisans `public/ses/LISANS.txt`).
+  Başka kaynak kullanılmaz. Müzik YOK (ayrı karar).
+- `oyun/lib/ses.js`: dosyadan çalar, yüklenemezse osilatör yedeği; ses aç/kapa ayarı
+  (varsayılan açık). Soru geldi, tur geçişi, Düello kategori geri sayımı (son 2 sn vurgulu),
+  skill başına ses, coin/level/kazandın/kaybettin/turnuva. Kullanım tarifi `public/ses/OKU.md`.
 
 ### Profil avatarları
 
@@ -365,6 +346,10 @@ altta, eylem düğmeleri sağ altta.
 
 ## Test kuralı — oyuncu gibi test et (23 Eyl 2026)
 
+Sunucu testleri (`npm test`) CANLI veritabanında işlem açıp geri alır: GitHub Actions'ta push'ta
+ÇALIŞMAZ (her gece 03:00 TSİ + elle). Eşzamanlı koşular canlıda kilit/zaman aşımı üretir —
+yerelde de aynı anda tek koşu.
+
 Her pakette: `node araclar/oyuncu-testi.mjs [--adres=https://quiztactics.vercel.app]`.
 
 - Oyuncunun cevap vermesi gereken HER soruda şıklar dokunulabilir olmalı;
@@ -391,10 +376,6 @@ Her pakette: `node araclar/oyuncu-testi.mjs [--adres=https://quiztactics.vercel.
   `araclar/soru-parti-1000/bekleyen-migrationlar/` (migrations klasörü
   dışında). 274 havuzun en kolay %10'unu zorluk 1 yapar → `soru_sec` onları
   Klasik/Düello/Grup'tan çıkarır; açmadan önce karar gerekir.
-
-- **Kontrast düzeltmesi.** Arayüz yenilemesinde prototipin paleti bilerek
-  aynen alındı; ölçülen düşük kontrastlar henüz düzeltilmedi. Ölçüm listesi
-  `PROGRESS.md` › Arayüz Yenileme.
 
 - **Asenkron 1v1 maç dalı — karar bekliyor.** `matches` tablosundaki 48
   satırın tamamı `senkron = true`; `senkron = false` olan hiç maç yok. Ama

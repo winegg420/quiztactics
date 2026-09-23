@@ -7749,3 +7749,41 @@ otomatik akla gelmesi için; proje kapsamında kuruldu.
   jetonu). İlk koşudaki 120 sn zaman aşımları eşzamanlı test kilitlerindendi. Oyuncu testi canlıda:
   Klasik 20/20, Düello saldıran 5 / savunan 5 temiz; araç yarım maça katılınca önceki turları artık
   saymıyor. Arayüz denetimi 16 sayfa temiz. Build temiz.
+
+## 2026-09-23 — Tasarım Adım 2: Yön A "Şeker Kutusu" ile bütün site + ses + çeviri
+**Araç:** Claude Code (ana ajan + Faz 0/1/3/4 ve 6 ekran şeridi alt ajanı; ayrıca soru ajanları)
+**Neden:** Ida Yön A'yı seçti; oyun "oyun gibi görünsün", TR/EN tam, sesler kimlikli olsun.
+
+- **Faz 0:** Impeccable hook'ları kaldırıldı (settings.local.json boş); `PRODUCT.md` (impeccable
+  init — röportajsız, brif + PROJECT_CONTEXT'ten; çıkarımlar etiketli). Migration 309: şık ipucu
+  işaretli 1.310 soru Serbest Klasik'te görünür (`soru_sec(..., p_serbest_klasik)`), rekabetçi
+  modlarda değil. Not: serbest maçın rövanşı hep dereceli açılıyor (eskiden de böyle).
+- **Faz 1:** `oyun/tasarim/` tasarım sistemi (token `--qt-*`, `Qt*` bileşenleri, 76 ikon, hareket),
+  `/tasarim-sistemi`, OKU.md; 37 kontrast çifti AA. Çeviri çakışmasın diye şerit başına
+  `oyun/lib/ceviri/*.js` (dil.js katıyor).
+- **Faz 2 (6 şerit, hepsi canlıda):** A kabuk + ana sayfa + modlar/arama + meydan okumalar ·
+  L lig + arkadaşlar + mesajlar + bildirim/rozet · D dükkân + profil/ayarlar · G giriş/kurulum +
+  404/kapalı mod + gizlilik/koşullar/PWA · M1 Klasik + maç sonu + turnuva + grup + Hatalarım ·
+  M2 Düello (kategori geri sayımı sesli + son 2 sn kırmızı nabız, tur bandı, soru geliş halkası,
+  50:50 kırılma, kalp kırılması). Bulunan hatalar: e-posta doğrulama regex'i "s" harfli adresleri
+  reddediyordu (heredoc ters bölü kaybı — bash heredoc ile kod yazılmaz), rozet ikonu yazı olarak
+  basılıyordu, "coin yetmiyor" EN'de tutmuyordu, koda gömülü fiyat/ödül yedekleri kaldırıldı.
+- **Faz 3:** Kenney CC0 — 17 yeni WAV (ffmpeg yok → Chrome'da ogg→WAV; iOS güvenli), toplam
+  ~630 KB; `ses.js` arayüzü aynı + yeni fonksiyonlar, osilatör yedek.
+- **Faz 4:** QtAvatar no-referrer, yasal geri düğmesi çift stil; eski CSS'ten 2.096 kullanılmayan
+  kural silindi (−7.069 satır, 16 sayfada stil farkı 0; import edilmeyen `level.css`,
+  `skill-dukkani.css` silinmedi); arayüz denetimi 16 sayfa × 7 genişlik temiz; Impeccable 4 bulgu
+  (bilinçli, bırakıldı); EN modunda Türkçe kalmadı.
+- **CI kök sebep:** `testler.yml` her push'ta 20 dk sunucu testini CANLI DB'ye koşuyordu; bugün 5
+  koşu üst üste → Düello'da 57014 statement timeout, canlı sorgular 3–10 sn. Push tetiği kaldırıldı
+  (gece 03:00 + elle), concurrency tek koşu.
+- **Test (canlı):** Klasik 20/20; Düello saldıran 5 / savunan 5, yanıtsız yok, 360/390 kesişim yok;
+  turnuva seans dışında (lobi ölçüldü). `oyuncu-testi` Yön A sınıflarını tanıyor, yarım maça katılınca
+  önceki turları saymıyor, kategori isteği yoldayken bekliyor.
+- **Soru tarafı (aynı gün):** Paket 3 iki ajanla 100'lük partiler 6–12 (toplam Paket 3: 2.950 soru,
+  286–315), sonra Ida kararıyla durdu. Temizlik: doğrulama tamam, Jev ikinci geçiş kararları hazır
+  (`araclar/soru-temizlik/`) ama UYGULANMADI (token).
+- **Ida'dan karar bekleyen:** Gizlilik/Koşullar metin çelişkileri (misafir girişi, "ücretsiz" vs uygulama
+  içi satın alma, "portal" ifadesi, paylaşım listesi, TASLAK notu); "Lig çerçevelerim" Rozetler
+  sekmesine taşındı (onay); kategori çipi altın (ödül rengi kuralıyla çelişki); soru temizliği
+  migration'larının uygulanması; serbest maç rövanşının dereceli açılması.
