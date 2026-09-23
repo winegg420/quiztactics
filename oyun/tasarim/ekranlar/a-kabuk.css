@@ -24,6 +24,51 @@ body.bd-oyun-modu .app.a-kabuk { background: transparent; }
 .a-kabuk .a-ust-blok .qt-ustcubuk { background: transparent; }
 body.bd-oyun-modu .a-kabuk .a-ust-blok { display: none; }
 
+/* ---------- Davet bandı (DavetBandi) — üst bloğun altında mor şerit ---------- */
+.a-davet {
+  background: var(--qt-ikinci);
+  color: var(--qt-ikinci-yazi);
+  animation: qt-h-gir var(--qt-s-orta) var(--qt-egri-cikis) both;
+}
+.a-davet-ic {
+  display: flex;
+  align-items: center;
+  gap: var(--qt-b-3);
+  max-width: var(--qt-kabuk);
+  margin: 0 auto;
+  padding: var(--qt-b-2) var(--qt-kenar);
+}
+.a-davet-avatar { position: relative; flex: none; display: grid; }
+.a-davet-rozet {
+  position: absolute;
+  right: -4px;
+  bottom: -4px;
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--qt-coin);
+  color: var(--qt-coin-yazi);
+  box-shadow: 0 0 0 2px var(--qt-ikinci);
+}
+.a-davet-metin { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.a-davet-satir { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); }
+.a-davet-satir b { font-weight: var(--qt-a-siyah); }
+.a-davet-alt { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); }
+.a-davet .a-davet-kabul { flex: none; }
+.a-davet .a-davet-ret { flex: none; color: var(--qt-ikinci-yazi); }
+.a-davet-hata {
+  max-width: var(--qt-kabuk);
+  margin: 0 auto;
+  padding: 0 var(--qt-kenar) var(--qt-b-2);
+  font-size: var(--qt-y-s);
+  font-weight: var(--qt-a-siyah);
+}
+@media (prefers-reduced-motion: reduce) {
+  .a-davet { animation: none; }
+}
+
 /* ---------- Coin hapı ---------- */
 /* Eski `.app .bd-coin-hap` kuralı (0,2,0) qt-coin'i eziyordu: token değerleri geri verilir. */
 .app .qt-coin.a-coin-hap {
@@ -159,7 +204,7 @@ body.bd-oyun-modu .a-kabuk .a-altmenu { display: none; }
 /* Dar telefonda (≤ 400 px) beş etiket de tam okunsun: yan boşluk ve harf aralığı daralır */
 @media (max-width: 400px) {
   .app nav.a-altmenu.mobile-nav { padding-left: 0; padding-right: 0; }
-  .app .a-altmenu.mobile-nav .qt-altmenu-ad {
+  .app .a-altmenu.mobile-nav .qt-altmenu-oge span.qt-altmenu-ad {
     max-width: none;
     overflow: visible;
     font-size: calc(var(--qt-y-xs) - 0.5px);

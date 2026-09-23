@@ -3,8 +3,7 @@ import { hataMesaji } from "../lib/hata.js";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
-import Avatar from "../../src/components/Avatar.jsx";
-import Ikon from "./Ikon.jsx";
+import { QtAvatar, QtIkon, QtDugme, QtIkonDugme, sinif } from "../tasarim/index.js";
 import { kategoriEtiket } from "../lib/kategoriler.js";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
@@ -88,54 +87,42 @@ export default function DavetBandi() {
     }
   };
 
+  // Yön A: üst bloğun altında mor şerit. Maç ekranlarında üst blokla birlikte gizlenir.
   return (
-    <div className={`bd-davet-bandi ${bilgi.sinif}`} role="alert">
-      <div className="bd-davet-parilti" aria-hidden="true" />
+    <div className={sinif("a-davet", `a-davet--${d.tur}`)} role="alert">
+      <div className="a-davet-ic">
+        <span className="a-davet-avatar">
+          <QtAvatar src={d.gorunen_avatar || undefined} ad={d.gorunen_ad ?? ""} boyut="s" halka="coin" />
+          <span className="a-davet-rozet" aria-hidden="true"><QtIkon ad={bilgi.ikon} boyut={12} /></span>
+        </span>
 
-      <div className="bd-davet-govde">
-        <div className="bd-davet-avatar">
-          <Avatar
-            profile={{ gorunen_ad: d.gorunen_ad, gorunen_avatar: d.gorunen_avatar }}
-            boyut={40}
-          />
-          <span className="bd-davet-rozet" aria-hidden="true">
-            <Ikon ad={bilgi.ikon} boyut={12} />
-          </span>
-        </div>
-
-        <div className="bd-davet-metin">
-          <div className="bd-davet-satir">
+        <span className="a-davet-metin">
+          <span className="a-davet-satir">
             <b>{d.gorunen_ad ?? tt("Bir oyuncu")}</b> {bilgi.etiket}!
-          </div>
-          <div className="bd-davet-alt">
+          </span>
+          <span className="a-davet-alt">
             {d.kategori ? kategoriEtiket(d.kategori) : tt("Karışık")}
             {d.tur !== "mac" && d.tur !== "rovans" && d.kisi_sayisi
               ? tt(" · {0} kişi", { 0: d.kisi_sayisi })
               : ""}
             {davetler.length > 1 ? tt(" · +{0} davet daha", { 0: davetler.length - 1 }) : ""}
-          </div>
-        </div>
-      </div>
+          </span>
+        </span>
 
-      <div className="bd-davet-eylem">
-        <button
-          className="bd-davet-btn kabul"
-          disabled={islemde}
-          onClick={() => cevapla(true)}
-        >
+        <QtDugme boyut="k" tur="ikincil" devreDisi={islemde} onClick={() => cevapla(true)} className="a-davet-kabul">
           {tt("Kabul Et")}
-        </button>
-        <button
-          className="bd-davet-btn ret"
+        </QtDugme>
+        <QtIkonDugme
+          ikon="carpi"
+          tur="saydam"
+          etiket={tt("Daveti reddet")}
           disabled={islemde}
-          aria-label={tt("Daveti reddet")}
           onClick={() => cevapla(false)}
-        >
-          <Ikon ad="carpi" boyut={16} />
-        </button>
+          className="a-davet-ret"
+        />
       </div>
 
-      {hata && <div className="bd-davet-hata">{hata}</div>}
+      {hata && <p className="a-davet-hata">{hata}</p>}
     </div>
   );
 }
