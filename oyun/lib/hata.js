@@ -1,4 +1,5 @@
 import { tt, ttSunucu } from "./dil.js";
+import { sesHataUyari } from "./ses.js";
 // Supabase/ağ hatalarını kullanıcıya gösterilebilir Türkçe mesaja çevirir.
 // HAM SQL HATASI ASLA EKRANA ÇIKMAZ (Hızlı Mod'da "column reference dogru is
 // ambiguous" kullanıcıya görünmüştü — bir daha olmasın).
@@ -25,6 +26,8 @@ const TEKNIK =
  * @returns {string} kullanıcıya gösterilebilir Türkçe mesaj
  */
 export function hataMesaji(hata, yedek = tt("Bir şeyler ters gitti. Tekrar dener misin?")) {
+  // Ajan H: kullanıcıya gösterilecek hata = "Hata / uyarı" sesi (40 ms kısıtı + tek kopya; görünür sekmede).
+  try { if (!document.hidden) sesHataUyari(); } catch { /* ses kritik değil */ }
   const ham = (hata?.message ?? hata?.error_description ?? String(hata ?? "")).trim();
   if (!ham) return yedek;
 

@@ -27,6 +27,12 @@ import { ayarlar } from "../lib/ayarlar.js";
 import { turnuvaSaatleriniAyarla, turnuvaListesiniAyarla } from "../lib/zaman.js";
 import { tt } from "../lib/dil.js";
 import { useDil } from "../lib/dilKanca.js";
+import { sesSayfaGecis } from "../lib/ses.js";
+
+// Ajan H: üst/alt menüden sekme değişince "sayfa geçişi" sesi (NavLink'in aynısı + ses).
+function SesliBaglanti({ onClick, ...p }) {
+  return <NavLink {...p} onClick={(e) => { sesSayfaGecis(); onClick?.(e); }} />;
+}
 
 export default function Layout() {
   const { profile, user } = useAuth();
@@ -167,7 +173,7 @@ export default function Layout() {
           }
           menu={
             <QtUstMenu
-              Baglanti={NavLink}
+              Baglanti={SesliBaglanti}
               etiket={tt("Ana menü")}
               ogeler={[
                 { kod: "ana", ad: tt("Ana Sayfa"), to: y(), end: true },
@@ -221,7 +227,7 @@ export default function Layout() {
         sabit
         yalnizMobil
         className="mobile-nav a-altmenu"
-        Baglanti={NavLink}
+        Baglanti={SesliBaglanti}
         etiket={tt("Mobil menü")}
         sekmeler={[
           { kod: "ana", ad: tt("Ana Sayfa"), ikon: "ev", to: y(), end: true },

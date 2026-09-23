@@ -10,6 +10,7 @@ import RozetMadalyonu, { rozetSembolu } from "./RozetMadalyonu.jsx";
 import { rozetBildirimlerim } from "../lib/rozet.js";
 import { oyuncuKartiUnut } from "../lib/cerceve.js";
 import { tt } from "../lib/dil.js";
+import { sesRozet } from "../lib/ses.js";
 import { QtIkonDugme, QtToastYuvasi, sayiBicim } from "../tasarim/index.js";
 import "../tasarim/ekranlar/rozet-panel.css";
 
@@ -45,6 +46,7 @@ export default function RozetBildirimi() {
   const ilk = kuyruk[0];
   useEffect(() => {
     if (!ilk) return undefined;
+    sesRozet();   // Ajan H: yeni rozet kartı açıldığı an (kart başına bir kez; ilk değişince)
     const t = setTimeout(() => setKuyruk((k) => k.slice(1)), GOSTERIM_MS);
     return () => clearTimeout(t);
   }, [ilk]);

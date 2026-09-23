@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { sesBildirim } from "../lib/ses.js";
 import { hataMesaji } from "../lib/hata.js";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
@@ -63,6 +64,15 @@ export default function DavetBandi() {
       .subscribe();
     return () => supabase.removeChannel(kanal);
   }, [user, yukle]);
+
+  // Ajan H: yeni davet bandı açılınca bildirim sesi (davet başına bir kez; maç sırasında sessiz).
+  const ilkDavet = davetler[0]?.kayit_id ?? null;
+  const calinanDavet = useRef(null);
+  useEffect(() => {
+    if (!ilkDavet || calinanDavet.current === ilkDavet) return;
+    calinanDavet.current = ilkDavet;
+    if (!document.body.classList.contains("bd-oyun-modu")) sesBildirim();
+  }, [ilkDavet]);
 
   if (davetler.length === 0) return null;
 

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import DurumKutusu from "../components/DurumKutusu.jsx";
 import { hataMesaji } from "../lib/hata.js";
+import { sesHataUyari, sesSatinAlma } from "../lib/ses.js";
 import { Link, useSearchParams } from "react-router-dom";
 import GorunumVitrini from "../vitrin/GorunumVitrini.jsx";
 import { supabase } from "../../src/lib/supabase.js";
@@ -261,12 +262,14 @@ export default function JokerDukkani() {
     try {
       const { error } = await supabase.rpc("joker_coin_ile_al", { p_urun_id: urunId });
       if (error) throw error;
+      sesSatinAlma();
       setBilgi(tt("Skiller hesabına eklendi."));
       coinTazele();
       coinOku();
       await yukle();
     } catch (e) {
       const m = coinHatasi(e);
+      sesHataUyari();
       setHata(m);
       // Buton pasif DEĞİL: basınca ne olduğu söylenir ve coin almaya götürülür.
       if (m === tt("Coin yetmiyor")) sekmeSec("coin");
@@ -283,12 +286,14 @@ export default function JokerDukkani() {
     try {
       const { error } = await supabase.rpc("joker_tek_al", { p_tur: tur });
       if (error) throw error;
+      sesSatinAlma();
       setBilgi(tt("{0} hesabına eklendi.", { 0: JOKER_BILGI[tur].ad }));
       coinTazele();
       coinOku();
       await yukle();
     } catch (e) {
       const m = coinHatasi(e);
+      sesHataUyari();
       setHata(m);
       if (m === tt("Coin yetmiyor")) sekmeSec("coin");
     } finally {
@@ -304,12 +309,14 @@ export default function JokerDukkani() {
     try {
       const { error } = await supabase.rpc("skill_kilidi_ac", { p_tur: tur });
       if (error) throw error;
+      sesSatinAlma();
       setBilgi(tt("{0} kilidi açıldı.", { 0: JOKER_BILGI[tur]?.ad ?? tur }));
       coinTazele();
       coinOku();
       await yukle();
     } catch (e) {
       const m = coinHatasi(e);
+      sesHataUyari();
       setHata(ttSunucu(m));
       if (m === tt("Coin yetmiyor")) sekmeSec("coin");
     } finally {

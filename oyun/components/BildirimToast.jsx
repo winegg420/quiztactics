@@ -6,7 +6,7 @@ import { QtToast, QtToastYuvasi, QtDugme } from "../tasarim/index.js";
 import "../tasarim/ekranlar/l-kart.css";
 import { tt, ttSunucu } from "../lib/dil.js";
 import { coinTazele } from "../lib/coin.js";
-import { sesCoin } from "../lib/ses.js";
+import { sesBildirim, sesCoin } from "../lib/ses.js";
 
 // Davet tipleri burada YOK: onları üstteki davet bandı (DavetBandi) gösterir —
 // bandda "Kabul Et" butonu da var, toast aynı şeyi ikinci kez söylemesin.
@@ -100,6 +100,13 @@ export default function BildirimToast() {
     coinGosterilen.current.add(aktif.id);
     coinTazele();
     if (!document.body.classList.contains("bd-oyun-modu")) sesCoin();
+  }, [aktif]);
+  // Ajan H: coin'siz bildirim ekrana gelince bildirim sesi (bir kez; maç sırasında sessiz).
+  const sesGosterilen = useRef(new Set());
+  useEffect(() => {
+    if (!aktif || TIP_STIL[aktif.tip]?.coin || sesGosterilen.current.has(aktif.id)) return;
+    sesGosterilen.current.add(aktif.id);
+    if (!document.body.classList.contains("bd-oyun-modu")) sesBildirim();
   }, [aktif]);
 
   if (!aktif) return null;

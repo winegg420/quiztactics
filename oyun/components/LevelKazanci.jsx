@@ -4,7 +4,7 @@ import { rutbeBul } from "../lib/ranks.js";
 import { SKILL_TANIMLARI } from "../lib/jokerler.js";
 import SkillRozeti from "./SkillRozeti.jsx";
 import { QtIlerleme, QtRozet } from "../tasarim/index.js";
-import { sesLevel } from "../lib/ses.js";
+import { sesLevel, sesXpDolma } from "../lib/ses.js";
 import { tt } from "../lib/dil.js";
 import "../tasarim/ekranlar/m1-sonuc.css";
 
@@ -55,6 +55,15 @@ export default function LevelKazanci({ kaynak }) {
     sesRef.current = true;
     sesLevel();
   }, [atladiMi]);
+
+  // Ajan H: XP çubuğu dolmaya başladığı an bir kez "XP dolma" sesi.
+  const xpDolar = Boolean(v?.hazir) && Number(v?.xp) > 0;
+  const xpSesRef = useRef(false);
+  useEffect(() => {
+    if (!xpDolar || xpSesRef.current) return;
+    xpSesRef.current = true;
+    sesXpDolma();
+  }, [xpDolar]);
 
   if (!v?.hazir) return null;
 
