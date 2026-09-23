@@ -437,7 +437,7 @@ async function klasikTesti() {
 
 // Soru kartı modları (Klasik, turnuva): her yeni soruda şıklar açılmalı, dokunuş
 // sunucuya ulaşmalı. İlk sorudaki 3-2-1 sayımı için 5 sn pay var.
-async function soruDongusu(ad, ulastiMi, bittiMi, siradakiIndex, enCokSoru = 25) {
+async function soruDongusu(ad, ulastiMi, bittiMi, siradakiIndex, enCokSoru = 25, dogruSik = null) {
   let n = 0;
   let sonMetin = "";
   const bas = Date.now();
@@ -456,7 +456,10 @@ async function soruDongusu(ad, ulastiMi, bittiMi, siradakiIndex, enCokSoru = 25)
       return;
     }
     if (n === 1) await ekranOlc(`${ad.toLowerCase()}-soru`);
-    await s.locator(".bd-secenek:not([disabled]):not(.elendi)").first().tap({ timeout: 4000 }).catch((e) => basarisiz(`${ad}: şıka dokunulamadı — ${String(e.message).split(String.fromCharCode(10))[0]}`));
+    const hedef = dogruSik ? await dogruSik() : null;
+    const hedefSik = hedef !== null && hedef !== undefined ? s.locator(".bd-secenek").nth(hedef) : null;
+    const sik = hedefSik && await hedefSik.isEnabled().catch(() => false) ? hedefSik : s.locator(".bd-secenek:not([disabled]):not(.elendi)").first();
+    await sik.tap({ timeout: 4000 }).catch((e) => basarisiz(`${ad}: şıka dokunulamadı — ${String(e.message).split(String.fromCharCode(10))[0]}`));
     let ulasti = false;
     for (let i = 0; i < 20 && !ulasti; i++) { await bekle(250); ulasti = await ulastiMi(index); }
     if (!ulasti) { basarisiz(`${ad}: ${n + 1}. soruda dokunuldu ama cevap sunucuya ulaşmadı`, { index }); return; }
@@ -474,17 +477,40 @@ async function turnuvaTesti() {
   await s.waitForTimeout(3000);
   await tanitimlariGec();
   await ekranOlc("turnuva");
-  const [t] = await sorgu(`select id, durum from tournaments where durum in ('lobi','aktif','devam','basladi')
+  // Sıradaki seansın lobi satırı saatler önce açılır: yalnız başlamış ya da 10 dk içinde
+  // başlayacak seans sayılır (seans saati TSİ).
+  const [t] = await sorgu(`select id, durum from tournaments
+                            where durum <> 'bitti'
+                              and (durum <> 'lobi' or ((tarih + seans::time) at time zone 'Europe/Istanbul') <= now() + interval '10 minutes')
                             order by created_at desc limit 1`).catch(() => [null]);
   if (!t) { notlar.push("Turnuva: şu an açık seans yok — soru testi ATLANDI (lobi ekranı ölçüldü)"); return; }
-  const katil = s.getByRole("button", { name: /Katıl|Lobiye gir|Hazırım/i });
-  if (await katil.count()) await katil.first().tap().catch(() => {});
-  await soruDongusu("Turnuva", async () => {
-    const [r] = await sorgu(`select count(*)::int n from tournament_answers where tournament_id = ${alintila(t.id)} and user_id = ${alintila(BEN)}`).catch(() => [{ n: 0 }]);
-    return Number(r?.n) > turnuvaSayac;
-  }, async () => false, async () => { const [r] = await sorgu(`select count(*)::int n from tournament_answers where tournament_id = ${alintila(t.id)} and user_id = ${alintila(BEN)}`).catch(() => [{ n: 0 }]); turnuvaSayac = Number(r?.n); return turnuvaSayac; }, 5);
+  const katil = s.getByRole("button", { name: /Lobiye katıl/i });
+  if (await katil.count()) {
+    await katil.first().tap({ timeout: 4000 }).catch((e) => basarisiz("Turnuva: Lobiye katıl'a dokunulamadı — " + String(e.message).split(String.fromCharCode(10))[0]));
+    await s.waitForTimeout(1500);
+    await ekranOlc("turnuva-lobi-katildi");
+  }
+  const sayi = async () => {
+    const [r] = await sorgu(`select count(*)::int n from tournament_answers where tournament_id = ${alintila(t.id)} and user_id = ${alintila(BEN)}`);
+    return Number(r?.n);
+  };
+  let onceki = await sayi();
+  // Turnuvada yanlış cevap eler: test doğru şıkkı işaretler ki sonraki sorular da denensin.
+  await soruDongusu("Turnuva", async () => (await sayi()) > onceki,
+    async () => {
+      const [r] = await sorgu(`select t.durum, coalesce(p.elendi, false) elendi from tournaments t
+          left join tournament_players p on p.tournament_id = t.id and p.user_id = ${alintila(BEN)}
+          where t.id = ${alintila(t.id)}`);
+      if (r?.elendi === true || r?.elendi === "t") { notlar.push("Turnuva: test hesabı elendi — sonraki sorular denenmedi"); return true; }
+      return r?.durum === "bitti";
+    },
+    async () => { onceki = await sayi(); return onceki; }, 5,
+    async () => {
+      const [r] = await sorgu(`select q.dogru_cevap from tournaments t join questions q on q.id = t.soru_ids[t.aktif_soru + 1]
+                                where t.id = ${alintila(t.id)}`).catch(() => [null]);
+      return r ? Number(r.dogru_cevap) : null;
+    });
 }
-let turnuvaSayac = 0;
 
 // ================================================================ çalıştır
 console.log(`Oyuncu testi — ${ADRES} · kullanıcı ${BEN.slice(0, 8)} · modlar: ${MODLAR.join(", ")}`);
