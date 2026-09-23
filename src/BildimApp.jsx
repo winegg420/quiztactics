@@ -74,6 +74,7 @@ const LogoExplorationV5Page = lazy(() => import("../oyun/pages/LogoExplorationV5
 const LogoFinalistsVNextPage = lazy(() => import("../oyun/pages/LogoFinalistsVNextPage.jsx"));
 const QLogoLabPage = lazy(() => import("../oyun/pages/QLogoLabPage.jsx"));
 const TasarimYonleriPage = lazy(() => import("../oyun/tasarim-yonleri/TasarimYonleriPage.jsx"));   // Tasarım Adım 1 — yalnız adresle
+const TasarimSistemiPage = lazy(() => import("../oyun/tasarim/TasarimSistemiPage.jsx"));   // Tasarım Adım 2 — yalnız adresle
 
 // Eski hub adresleri (/oyun/...) bu sitede köke indirilir. Bookmark, push
 // bildirimi deep-link'i ve paylaşılmış davet linkleri kırılmasın diye.
@@ -106,6 +107,7 @@ export default function BildimApp() {
     pathname.startsWith("/preview/logo-finalists") ||
     pathname.startsWith("/preview/q-logo-lab") ||
     pathname.startsWith("/tasarim-yonleri") ||
+    pathname.startsWith("/tasarim-sistemi") ||
     pathname.startsWith("/gizlilik") || pathname.startsWith("/kosullar");
 
   if (!supabaseHazir && !bagimsizModul) {
@@ -155,6 +157,7 @@ export default function BildimApp() {
         <Route path="/preview/logo-finalists-vnext" element={<LogoFinalistsVNextPage />} />
         <Route path="/preview/q-logo-lab" element={<QLogoLabPage />} />
         <Route path="/tasarim-yonleri" element={<TasarimYonleriPage />} />
+        <Route path="/tasarim-sistemi" element={<TasarimSistemiPage />} />
 
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />

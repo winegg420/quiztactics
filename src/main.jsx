@@ -20,6 +20,8 @@ import "../oyun/styles/koyu.css";
 import "../oyun/styles/yeni.css";
 // Mobil oyun katmanı: yalnız dar ekranlarda çalışır, masaüstü düzenini değiştirmez.
 import "../oyun/styles/mobile-game.css";
+// Tasarım sistemi (Tasarım Adım 2): yalnız --qt-* değişkenleri ve qt- sınıfları; mevcut görünümü değiştirmez.
+import "../oyun/tasarim/tasarim.css";
 import { temaBaslat } from "../oyun/lib/tema.js";
 import { cubukBaslat } from "../oyun/lib/kaydirmaCubugu.js";
 

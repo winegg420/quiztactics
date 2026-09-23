@@ -1,0 +1,204 @@
+/* =====================================================================
+   QUIZ TACTICS TASARIM SİSTEMİ — HAREKET (Yön A "Şeker Kutusu")
+   Kurallar (emil-design-eng + ARASTIRMA.md §5):
+   - Etkileşim geri bildirimi ≤ 300 ms; basma 120 ms. Girişler ease-out.
+   - Yalnız transform / opacity (+ yumuşak kaldığı yerde clip-path).
+     İstisna: sayaç halkası stroke-dashoffset (küçük SVG, 1 sn doğrusal).
+   - Hiçbir şey scale(0)'dan doğmaz (en az 0.9 + opaklık).
+   - Oyun anları (doğru, yanlış, 50:50, skill) nadir ve anlamlı: 420–760 ms.
+   - prefers-reduced-motion: konum/ölçek kalkar; renk ve opaklık kalır.
+   - Keyframe adları `qt-h-` önekli (mobile-game.css'teki qt-page-in vb. ile çakışmaz).
+   ===================================================================== */
+
+/* ---------- 1. Keyframe'ler ---------- */
+@keyframes qt-h-solgun-gir { from { opacity: 0; } }
+@keyframes qt-h-solgun-cik { to { opacity: 0; } }
+@keyframes qt-h-gir { from { opacity: 0; transform: translateY(8px); } }
+@keyframes qt-h-pop-gir { from { opacity: 0; transform: scale(0.92); } }
+@keyframes qt-h-modal-gir { from { opacity: 0; transform: translateY(8px) scale(0.96); } }
+@keyframes qt-h-cekmece-gir { from { opacity: 0.4; transform: translateY(48px); } }
+@keyframes qt-h-toast-gir { from { opacity: 0; transform: translateY(-14px) scale(0.97); } }
+@keyframes qt-h-donen { to { transform: rotate(360deg); } }
+@keyframes qt-h-iskelet { from { opacity: 0.55; } to { opacity: 1; } }
+
+/* Doğru anı: küçük zıplama + parıltı bandı */
+@keyframes qt-h-dogru-pop {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.05); }
+  62% { transform: scale(0.985); }
+  100% { transform: scale(1); }
+}
+@keyframes qt-h-parilti { from { transform: translateX(-110%) skewX(-18deg); } to { transform: translateX(160%) skewX(-18deg); } }
+/* Doğrusu buydu (seçilmedi): sakin halka nabzı */
+@keyframes qt-h-dogrusu { 0%, 100% { opacity: 0; } 45% { opacity: 1; } }
+/* Yanlış anı: yatay sallanma */
+@keyframes qt-h-salla {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(3px); }
+}
+/* 50:50: iki yarı önce hafif ayrılır, sonra yerçekimiyle düşer */
+@keyframes qt-h-dus-sol {
+  0% { transform: translate(0, 0) rotate(0); }
+  18% { transform: translate(-6px, -6px) rotate(-4deg); }
+  100% { transform: translate(-40px, 220px) rotate(-24deg); opacity: 0; }
+}
+@keyframes qt-h-dus-sag {
+  0% { transform: translate(0, 0) rotate(0); }
+  18% { transform: translate(6px, -6px) rotate(4deg); }
+  100% { transform: translate(44px, 220px) rotate(22deg); opacity: 0; }
+}
+/* Skill kullanma anı: ikon patlar, altın halka dışa yayılır */
+@keyframes qt-h-skill-patla { 0% { transform: scale(1); } 40% { transform: scale(1.45) rotate(-8deg); } 100% { transform: scale(1); } }
+@keyframes qt-h-halka { from { opacity: 1; transform: scale(0.9); } to { opacity: 0; transform: scale(1.4); } }
+/* Son 5 saniye */
+@keyframes qt-h-kenar-nabiz { 0%, 100% { opacity: 0.25; } 50% { opacity: 0.9; } }
+@keyframes qt-h-sayac-nabiz { 0%, 100% { scale: 1; } 15% { scale: 1.14; } 40% { scale: 1; } }
+@keyframes qt-h-tik { from { scale: 1.5; opacity: 0.4; } to { scale: 1; opacity: 1; } }
+/* +10 sn balonu */
+@keyframes qt-h-balon {
+  0% { opacity: 0; transform: translateY(8px) scale(0.9); }
+  20% { opacity: 1; transform: translateY(0) scale(1); }
+  75% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-14px); }
+}
+/* Skor artışı, rakibe baskı, can kaybı, etki rozeti */
+@keyframes qt-h-zipla { 0% { transform: scale(1); } 40% { transform: scale(1.35); } 100% { transform: scale(1); } }
+@keyframes qt-h-baski {
+  0%, 100% { transform: none; }
+  30% { transform: scale(0.9) rotate(-4deg); }
+  60% { transform: scale(0.95) rotate(3deg); }
+}
+@keyframes qt-h-kalp-kir {
+  0% { transform: scale(1); opacity: 1; }
+  35% { transform: scale(1.35) rotate(-8deg); }
+  100% { transform: scale(1) rotate(0); opacity: 0.6; }
+}
+@keyframes qt-h-etki-gir { from { opacity: 0; transform: scale(0.6); } }
+/* Soru kartı: giriş, Soru Değiştir çıkışı, doğru sevinci */
+@keyframes qt-h-kart-gir { from { opacity: 0; transform: translateX(24px) scale(0.97); } }
+@keyframes qt-h-kart-cik { to { opacity: 0; transform: translateX(-28px) scale(0.97); } }
+@keyframes qt-h-kart-sevin { 30% { transform: translateY(-4px) rotate(-0.6deg); } 60% { transform: translateY(0) rotate(0.4deg); } }
+
+/* ---------- 2. Yeniden kullanılabilir sınıflar (Faz 2 ekranları için) ---------- */
+.qt-h-gir { animation: qt-h-gir var(--qt-s-orta) var(--qt-egri-cikis) both; }
+.qt-h-pop-gir { animation: qt-h-pop-gir var(--qt-s-orta) var(--qt-egri-cikis) both; }
+.qt-h-salla { animation: qt-h-salla 380ms ease-out; }
+.qt-h-zipla { display: inline-block; animation: qt-h-zipla 360ms var(--qt-egri-cikis); }
+.qt-h-tik { animation: qt-h-tik 1s var(--qt-egri-cikis); }
+.qt-h-baski { animation: qt-h-baski 520ms ease-out; }
+.qt-h-sevin { animation: qt-h-kart-sevin 480ms var(--qt-egri-cikis); }
+/* Skill anı: herhangi bir öğeye altın halka (öğe position:relative olmalı; ::after kullanır) */
+.qt-h-skill-an { position: relative; }
+.qt-h-skill-an::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: inherit;
+  border: 3px solid var(--qt-coin);
+  pointer-events: none;
+  opacity: 0;
+  animation: qt-h-halka 480ms ease-out;
+}
+/* Son 5 saniye gerilimi: kapsayıcının içine kırmızı kenar nabzı (::after kullanır).
+   Kapsayıcı position:relative olur; sabit (fixed) katman üretmez. */
+.qt-h-gerilim { position: relative; }
+.qt-h-gerilim::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 4px var(--qt-yanlis), inset 0 0 60px rgba(255, 90, 106, 0.55);
+  box-shadow: inset 0 0 0 4px var(--qt-yanlis), inset 0 0 60px color-mix(in srgb, var(--qt-yanlis) 55%, transparent);
+  animation: qt-h-kenar-nabiz 1s ease-in-out infinite;
+}
+
+/* ---------- 3. Bileşen anları ---------- */
+/* Şık: doğru */
+.qt-sik--dogru { animation: qt-h-dogru-pop var(--qt-s-an) var(--qt-egri-cikis); }
+.qt-sik--dogru::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 45%;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.75), transparent);
+  transform: translateX(-110%) skewX(-18deg);
+  animation: qt-h-parilti 620ms ease-out 80ms both;
+}
+/* Şık: doğrusu buydu */
+.qt-sik--dogrusu::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.85);
+  opacity: 0;
+  animation: qt-h-dogrusu 700ms ease-out 200ms both;
+}
+/* Şık: yanlış */
+.qt-sik--yanlis { animation: qt-h-salla 380ms ease-out; }
+/* Şık: 50:50 kırılma */
+.qt-sik-parca--sol { animation: qt-h-dus-sol var(--qt-s-kirilma) var(--qt-egri-dusus) forwards; }
+.qt-sik-parca--sag { animation: qt-h-dus-sag var(--qt-s-kirilma) var(--qt-egri-dusus) 40ms forwards; }
+.qt-sik-elendi { animation: qt-h-solgun-gir var(--qt-s-orta) ease-out; }
+
+/* Sayaç: son 5 sn */
+.qt-sayac--gerilim { animation: qt-h-sayac-nabiz 1s ease-in-out infinite; }
+.qt-sayac-balon { animation: qt-h-balon 900ms var(--qt-egri-cikis) forwards; }
+
+/* Can kaybı */
+.qt-can-kalp--kayip { animation: qt-h-kalp-kir var(--qt-s-an) var(--qt-egri-cikis); }
+
+/* Skill kullanıldı */
+.qt-skill--kullanildi .qt-skill-ikon { animation: qt-h-skill-patla var(--qt-s-an) var(--qt-egri-cikis); }
+.qt-skill--kullanildi::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  border: 3px solid var(--qt-coin);
+  pointer-events: none;
+  opacity: 0;
+  animation: qt-h-halka 480ms ease-out;
+}
+.qt-etki { animation: qt-h-etki-gir 260ms var(--qt-egri-yay); }
+
+/* Soru kartı */
+.qt-soru-kart--cikiyor { animation: qt-h-kart-cik 200ms cubic-bezier(0.4, 0, 1, 1) forwards; }
+.qt-soru-kart--sevinc { animation: qt-h-kart-sevin 480ms var(--qt-egri-cikis); }
+
+/* ---------- 4. Azaltılmış hareket ----------
+   Not: yeni.css bütün animasyon/geçişleri `*{…!important}` ile kapatıyor; burada
+   anlamı taşıyan sade sürümler daha özgül seçici + !important ile geri açılır. */
+@media (prefers-reduced-motion: reduce) {
+  .qt-h-gir, .qt-h-pop-gir, .qt-modal, .qt-modal--altSayfa, .qt-toast, .qt-soru-kart, .qt-etki, .qt-sonuc, .qt-ortu, .qt-sik-elendi {
+    animation: qt-h-solgun-gir 200ms ease both !important;
+  }
+  .qt-sik--dogru, .qt-sik--yanlis, .qt-h-salla, .qt-h-zipla, .qt-h-tik, .qt-h-baski, .qt-h-sevin,
+  .qt-sayac--gerilim, .qt-can-kalp--kayip, .qt-skill--kullanildi .qt-skill-ikon, .qt-soru-kart--sevinc,
+  .qt-sik--dogru::after, .qt-skill--kullanildi::after, .qt-h-skill-an::after {
+    animation: none !important;
+  }
+  .qt-sik--dogrusu::after { animation: none !important; opacity: 1; }
+  .qt-sik-parca--sol, .qt-sik-parca--sag { animation: qt-h-solgun-cik 500ms ease forwards !important; }
+  .qt-soru-kart--cikiyor { animation: qt-h-solgun-cik 150ms ease forwards !important; }
+  .qt-sayac-balon { animation: qt-h-solgun-gir 200ms ease both !important; }
+  .qt-h-gerilim::after { animation: none !important; opacity: 0.8; }
+  .qt-iskelet { animation: none !important; opacity: 0.8; }
+  .qt-donen { animation: qt-h-iskelet 800ms ease-in-out infinite alternate !important; border-top-color: currentColor; opacity: 0.6; }
+
+  .qt-dugme:active:not(:disabled), .qt-ikon-dugme:active, .qt-kart--tiklanir:active, .qt-cip:active, .qt-sekme:active,
+  .qt-coin--tiklanir:active, .qt-avatar-dugme:active, .qt-ustmenu-oge:active, .qt-altmenu-oge:active .qt-altmenu-ikon,
+  .qt-mod:active, .qt-sik:active:not(:disabled), .qt-skill:active, .qt-skill--kullanildi, .qt-sik--kilitli {
+    transform: none !important;
+  }
+  .qt-dugme:active:not(:disabled), .qt-mod:active, .qt-sik:active:not(:disabled), .qt-skill:active, .qt-cip:active,
+  .qt-kart--tiklanir:active, .qt-ikon-dugme:active, .qt-coin--tiklanir:active { filter: brightness(0.92); }
+  .qt-sayac-dolu, .qt-ilerleme-dolgu, .qt-anahtar-top { transition: none !important; }
+}

@@ -1,0 +1,11 @@
+/* =====================================================================
+   QUIZ TACTICS TASARIM SİSTEMİ — TEK GİRİŞ (src/main.jsx'te bir kez yüklenir)
+   Yalnız `--qt-*` değişkenleri ve `qt-` sınıfları tanımlar; eleman seçicili
+   global kural yazmaz, mevcut görünümü değiştirmez.
+   Yazı tipleri (Baloo 2, Nunito) zaten index.html › /fonts/yazitipleri.css'ten
+   yerel olarak yükleniyor; burada ayrıca @font-face YOK.
+   Kılavuz: oyun/tasarim/OKU.md
+   ===================================================================== */
+@import "./tokenlar.css";
+@import "./bilesenler.css";
+@import "./hareket.css";

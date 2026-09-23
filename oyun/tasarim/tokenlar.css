@@ -1,0 +1,181 @@
+/* =====================================================================
+   QUIZ TACTICS TASARIM SİSTEMİ — TOKEN'LAR (Yön A "Şeker Kutusu")
+   Tek kaynak. Bütün değişkenler `--qt-` önekli ve `:root`'ta; eski
+   `--bd-*` / prototip (`--ink`, `--orange`…) değişkenlerine dokunmaz.
+
+   Katman düzeni (koyu tema bu düzen sayesinde tek blokla eklenebilir):
+   1. ZEMİN rolü  — sayfanın kendisi ve doğrudan üstündeki yazı
+                    (--qt-zemin, --qt-zemin-metin, --qt-zemin-soluk)
+   2. YÜZEY rolü  — kart, şık, menü gibi levhalar ve üstündeki yazı
+                    (--qt-yuzey*, --qt-metin, --qt-metin-soluk)
+   3. RENK rolleri — vurgu, mod, durum, lig, coin: her biri
+                    {renk, -yazi (üstündeki yazı), -dudak (kabartma), -acik (açık zemin)}
+   Bir bağlam (ör. `.qt-sahne-mac`, ileride `[data-qt-tema="koyu"]`)
+   yalnız bu rolleri yeniden tanımlar; bileşenler değişmez.
+   Uyarı: `oyun/styles/mobile-game.css` `--qt-mobile-edge`, `--qt-game-shadow`
+   ve `qt-page-in` / `qt-second-chance` / `qt-double-score` / `qt-insurance`
+   adlarını kullanıyor — bu adlar burada TANIMLANMAZ.
+   ===================================================================== */
+
+:root {
+  /* ---------- 1. Zemin ---------- */
+  --qt-zemin: #dff0ff;
+  --qt-zemin-2: #c6e3ff;            /* zemin noktaları, ikincil bant */
+  --qt-zemin-metin: #1d2152;
+  --qt-zemin-soluk: #46507f;
+  --qt-zemin-desen: radial-gradient(circle at 12px 12px, var(--qt-zemin-2) 2.5px, transparent 3px) 0 0 / 28px 28px;
+
+  /* ---------- 2. Yüzey ---------- */
+  --qt-yuzey: #ffffff;
+  --qt-yuzey-2: #f1f6ff;            /* ilerleme izi, basılı satır */
+  --qt-yuzey-3: #e3ebfa;            /* iskelet, devre dışı düğme */
+  --qt-metin: #1d2152;
+  --qt-metin-soluk: #46507f;
+  --qt-cizgi: #c9d8f2;              /* kart dudağı, ayırıcı */
+  --qt-cizgi-guclu: #b3bde6;        /* şık dudağı */
+  --qt-ortu: rgba(20, 16, 70, 0.5); /* modal arkası */
+
+  /* ---------- 3. Vurgu ---------- */
+  --qt-vurgu: #ff7a2e;              /* birincil eylem (turuncu) */
+  --qt-vurgu-yazi: #1d2152;
+  --qt-vurgu-dudak: #c24a0c;
+  --qt-vurgu-acik: #ffe8da;
+  --qt-ikinci: #6a48f5;             /* seçim, aktif sekme, şık harfi (mor) */
+  --qt-ikinci-yazi: #ffffff;
+  --qt-ikinci-dudak: #4526c4;
+  --qt-ikinci-acik: #ece6ff;
+  --qt-ikinci-koyu: #4f2fd6;        /* açık zeminde mor yazı */
+  --qt-odak: #6a48f5;               /* klavye odak halkası */
+
+  /* ---------- 4. Durum ---------- */
+  --qt-dogru: #2fd27a;
+  --qt-dogru-yazi: #0d2a1b;
+  --qt-dogru-dudak: #1c9a55;
+  --qt-dogru-acik: #dcf8ea;
+  --qt-dogru-koyu: #137a45;         /* açık zeminde yeşil yazı */
+  --qt-yanlis: #ff5a6a;
+  --qt-yanlis-yazi: #2a0710;
+  --qt-yanlis-dudak: #c9303f;
+  --qt-yanlis-acik: #ffe3e6;
+  --qt-yanlis-koyu: #b81d31;
+  --qt-uyari: #ffb020;
+  --qt-uyari-yazi: #3a2200;
+  --qt-uyari-dudak: #c77f00;
+  --qt-uyari-acik: #fff1d6;
+  --qt-uyari-koyu: #8a4b00;
+  --qt-bilgi: #3b91e8;
+  --qt-bilgi-yazi: #0b2447;
+  --qt-bilgi-dudak: #1f67b5;
+  --qt-bilgi-acik: #e0efff;
+  --qt-bilgi-koyu: #1a5fae;
+
+  /* ---------- 5. Coin / ödül (altın yalnız ödül ve prestij içindir) ---------- */
+  --qt-coin: #ffc933;
+  --qt-coin-yazi: #3a2600;
+  --qt-coin-dudak: #c28b00;
+  --qt-coin-acik: #fff4cf;
+
+  /* ---------- 6. Mod renkleri (yazı hepsinde --qt-mod-yazi) ---------- */
+  --qt-mod-yazi: #1d2152;
+  --qt-mod-klasik: #ff8a3d;   --qt-mod-klasik-dudak: #c7560f;  --qt-mod-klasik-acik: #ffe6d4;
+  --qt-mod-duello: #ff6f91;   --qt-mod-duello-dudak: #c93a5d;  --qt-mod-duello-acik: #ffe0e8;
+  --qt-mod-turnuva: #ffc933;  --qt-mod-turnuva-dudak: #c28b00; --qt-mod-turnuva-acik: #fff4cf;
+  --qt-mod-grup: #3fd58f;     --qt-mod-grup-dudak: #1f9a61;    --qt-mod-grup-acik: #d9f7e8;
+  --qt-mod-saf: #5ab8ff;      --qt-mod-saf-dudak: #2a7fc4;     --qt-mod-saf-acik: #ddf0ff;
+
+  /* ---------- 7. Lig renkleri (yazı hepsinde --qt-lig-yazi) ---------- */
+  --qt-lig-yazi: #1d2152;
+  --qt-lig-bronz: #e39a5f;    --qt-lig-bronz-dudak: #a35a26;
+  --qt-lig-gumus: #cfd8e6;    --qt-lig-gumus-dudak: #8793a8;
+  --qt-lig-altin: #ffc933;    --qt-lig-altin-dudak: #c28b00;
+  --qt-lig-elmas: #62d6f4;    --qt-lig-elmas-dudak: #1f93b5;
+  --qt-lig-efsane: #b57bff;   --qt-lig-efsane-dudak: #7b3fd6;
+
+  /* ---------- 8. Maç sahnesi (koyu mor) ---------- */
+  --qt-mac-zemin: #3b2a93;
+  --qt-mac-zemin-2: #2a1d74;
+  --qt-mac-metin: #ffffff;
+  --qt-mac-soluk: #d6ccff;
+
+  /* ---------- 9. Yazı ---------- */
+  --qt-f-baslik: "Baloo 2", "Nunito", system-ui, sans-serif;   /* 600–800 */
+  --qt-f-govde: "Nunito", system-ui, sans-serif;               /* 600–900 */
+  --qt-y-xs: 12px;    /* en küçük: rozet, alt menü etiketi */
+  --qt-y-s: 14px;     /* ikincil yazı */
+  --qt-y-m: 16px;     /* gövde */
+  --qt-y-l: 18px;     /* şık, düğme */
+  --qt-y-xl: 21px;    /* kart başlığı, soru metni */
+  --qt-y-2xl: 26px;   /* sayfa başlığı (telefon) */
+  --qt-y-3xl: 34px;   /* skor, büyük başlık */
+  --qt-y-4xl: 44px;   /* kutlama sayısı */
+  --qt-a-normal: 600;
+  --qt-a-kalin: 700;
+  --qt-a-siyah: 800;
+  --qt-sa-baslik: 1.12;
+  --qt-sa-govde: 1.45;
+
+  /* ---------- 10. Boşluk (4 px ızgara) ---------- */
+  --qt-b-1: 4px;
+  --qt-b-2: 8px;
+  --qt-b-3: 12px;
+  --qt-b-4: 16px;
+  --qt-b-5: 20px;
+  --qt-b-6: 24px;
+  --qt-b-8: 32px;
+  --qt-b-10: 40px;
+  --qt-b-12: 48px;
+  --qt-b-16: 64px;
+  --qt-kenar: 16px;          /* sayfa yan boşluğu */
+  --qt-kabuk: 1180px;        /* masaüstü içerik genişliği */
+  --qt-dokunma: 44px;        /* en küçük dokunma hedefi */
+
+  /* ---------- 11. Köşe ---------- */
+  --qt-r-s: 10px;
+  --qt-r-m: 14px;
+  --qt-r-l: 22px;
+  --qt-r-xl: 28px;
+  --qt-r-hap: 999px;
+
+  /* ---------- 12. Kabartma ve gölge ---------- */
+  --qt-dudak-s: 3px;         /* küçük: ikon düğme, çip, coin */
+  --qt-dudak: 5px;           /* standart: düğme, kart, şık */
+  --qt-dudak-b: 6px;         /* büyük: soru kartı */
+  --qt-kabartma-kart: 0 var(--qt-dudak) 0 var(--qt-cizgi);
+  --qt-golge-yuzen: 0 2px 6px rgba(29, 33, 82, 0.08), 0 12px 28px rgba(29, 33, 82, 0.18);
+  --qt-golge-derin: 0 4px 12px rgba(20, 16, 70, 0.12), 0 24px 60px rgba(20, 16, 70, 0.3);
+
+  /* ---------- 13. Hareket ---------- */
+  --qt-egri-cikis: cubic-bezier(0.23, 1, 0.32, 1);     /* varsayılan: giriş, basma */
+  --qt-egri-gecis: cubic-bezier(0.77, 0, 0.175, 1);    /* ekranda yer değiştirme */
+  --qt-egri-cekmece: cubic-bezier(0.32, 0.72, 0, 1);   /* alt sayfa */
+  --qt-egri-yay: cubic-bezier(0.34, 1.56, 0.64, 1);    /* küçük taşma: rozet, balon */
+  --qt-egri-dusus: cubic-bezier(0.5, 0, 0.75, 0);      /* yerçekimi: 50:50 parçaları */
+  --qt-s-basma: 120ms;       /* basma geri bildirimi */
+  --qt-s-kisa: 160ms;        /* renk/durum değişimi */
+  --qt-s-orta: 240ms;        /* giriş, modal */
+  --qt-s-uzun: 300ms;        /* arayüz üst sınırı: alt sayfa */
+  --qt-s-an: 420ms;          /* oyun anı: doğru/yanlış, skill (nadir) */
+  --qt-s-kirilma: 720ms;     /* 50:50 kırılıp düşme */
+
+  /* ---------- 14. Katman sırası ---------- */
+  --qt-z-yapiskan: 20;
+  --qt-z-menu: 40;
+  --qt-z-ortu: 60;
+  --qt-z-toast: 80;
+  --qt-altmenu-yukseklik: 72px;   /* sabit alt menü için içerik alt payı (+ güvenli alan) */
+}
+
+/* Maç sahnesi bağlamı: yalnız ZEMİN rolünü koyu mora çevirir.
+   Kart, şık, skill gibi yüzeyler beyaz kalır; kendi yazı token'larını kullanır. */
+.qt-sahne-mac {
+  --qt-zemin: #3b2a93;
+  --qt-zemin-2: #2a1d74;
+  --qt-zemin-metin: var(--qt-mac-metin);
+  --qt-zemin-soluk: var(--qt-mac-soluk);
+  --qt-cizgi: #c9c0f5;              /* mor zeminde kart dudağı lavanta */
+  --qt-odak: #ffc933;
+}
+
+/* KOYU TEMA KANCASI (şimdilik tanımsız). Eklenecekse yalnız rol token'ları
+   yeniden yazılır, bileşen CSS'i değişmez:
+   :root[data-qt-tema="koyu"] { --qt-zemin: …; --qt-yuzey: …; --qt-metin: …; … } */
