@@ -1,0 +1,136 @@
+{
+  "parti": 7,
+  "tarih": "2026-09-23",
+  "taslak": 123,
+  "net": 100,
+  "kota": {
+    "sinema": 24,
+    "muzik": 22,
+    "sanat": 22,
+    "spor": 21,
+    "yerel": 11
+  },
+  "zorluk_hedef": {
+    "3": 30,
+    "4": 35,
+    "5": 20,
+    "1-2": 15
+  },
+  "eksik": {},
+  "elenen_sebep": {
+    "kota_fazlasi": 23
+  },
+  "kova": {
+    "sinema": 24,
+    "muzik": 22,
+    "sanat": 22,
+    "spor": 21,
+    "yerel_tr": 11
+  },
+  "kategori": {
+    "sinema": 26,
+    "muzik": 28,
+    "sanat": 22,
+    "spor": 24
+  },
+  "zorluk": [
+    4,
+    12,
+    30,
+    36,
+    18
+  ],
+  "zorluk_kova": {
+    "3": 30,
+    "4": 36,
+    "5": 18,
+    "1-2": 16
+  },
+  "cevrilmeyen": 3,
+  "jev": {
+    "cagri": 757,
+    "girdi_jetonu": 511467,
+    "usd": 0.0215,
+    "not": "jev.jsonl içindeki tüm denemeler dahil (düzeltilip yeniden sorulanlar da)"
+  },
+  "zorluk_etiket_duzeltme": [
+    {
+      "s": "The Rolling Stones grubunun solisti kimdir?",
+      "d": "Mick Jagger",
+      "eski": 1,
+      "yeni": 2,
+      "neden": "yazar 1, Jev seviye 3 (puan 2.03)"
+    },
+    {
+      "s": "'Yüzüklerin Efendisi' filmlerinde yüzüğe 'kıymetlim' diye seslenen karakter kimdir?",
+      "d": "Gollum",
+      "eski": 1,
+      "yeni": 2,
+      "neden": "yazar 1, Jev seviye 3 (puan 2.12)"
+    },
+    {
+      "s": "1991'de 15 yaşında büyükusta unvanı alarak Bobby Fischer'ın yaş rekorunu kıran Macar satranççı kimdir?",
+      "d": "Judit Polgar",
+      "eski": 4,
+      "yeni": 5,
+      "neden": "yazar 4, Jev yanlış şık (Péter Lékó, 0.29) ve seviye 5"
+    },
+    {
+      "s": "Wimbledon kadınlar tekler şampiyonluğunu 1990'da dokuzuncu kez kazanan tenisçi kimdir?",
+      "d": "Martina Navratilova",
+      "eski": 3,
+      "yeni": 4,
+      "neden": "yazar 3, Jev seviye 5 (puan 3.80)"
+    },
+    {
+      "s": "Golcü Erling Haaland hangi ülkenin milli takımında oynamaktadır?",
+      "d": "Norveç",
+      "eski": 1,
+      "yeni": 2,
+      "neden": "yazar 1, Jev seviye 3 (puan 2.10)"
+    },
+    {
+      "s": "Yılmaz Güney'in senaryosunu yazdığı 'Sürü' (1978) filminin müziklerini kim yapmıştır?",
+      "d": "Zülfü Livaneli",
+      "eski": 4,
+      "yeni": 5,
+      "neden": "yazar 4, Jev yanlış şık (Attila Özdemiroğlu, 0.08) ve seviye 5"
+    },
+    {
+      "s": "Türkiye'yi 2009 Eurovision Şarkı Yarışması'nda 'Düm Tek Tek' şarkısıyla temsil eden şarkıcı kimdir?",
+      "d": "Hadise",
+      "eski": 2,
+      "yeni": 3,
+      "neden": "yazar 2, Jev seviye 4 (puan 2.94)"
+    },
+    {
+      "s": "Fenerbahçe stadına adını veren Şükrü Saracoğlu 1942-1946 yıllarında hangi görevi yürütmüştür?",
+      "d": "Başbakan",
+      "eski": 3,
+      "yeni": 4,
+      "neden": "yazar 3, Jev seviye 5 (puan 3.71)"
+    },
+    {
+      "s": "Yeşilçam'da 'Çirkin Kral' lakabıyla anılan oyuncu ve yönetmen kimdir?",
+      "d": "Yılmaz Güney",
+      "eski": 2,
+      "yeni": 3,
+      "neden": "yazar 2, Jev seviye 5 (puan 3.73)"
+    },
+    {
+      "s": "Türkiye'nin Oscar adayı olan 'Ayla: Savaşın Kızı' (2017) filmi hangi savaşta geçer?",
+      "d": "Kore Savaşı",
+      "eski": 2,
+      "yeni": 3,
+      "neden": "yazar 2, Jev seviye 4 (puan 3.09)"
+    },
+    {
+      "s": "'Dönence' (1981) şarkısı hangi sanatçıya aittir?",
+      "d": "Barış Manço",
+      "eski": 2,
+      "yeni": 3,
+      "neden": "yazar 2, Jev seviye 4 (puan 3.42)"
+    }
+  ],
+  "elenenler": []
+}
