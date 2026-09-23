@@ -62,38 +62,107 @@
     },
     "cografya": 0
   },
-  "siradaki_parti": 1,
-  "siradaki_migration_no": 291,
-  "partiler": [],
+  "siradaki_parti": 2,
+  "siradaki_migration_no": 292,
+  "partiler": [
+    {
+      "no": 1,
+      "soru": 250,
+      "migration": "20260612000291_soru_uretim_parti_01",
+      "commit": null,
+      "tarih": "2026-09-23",
+      "kategori_kova": {
+        "sinema": 33,
+        "teknoloji": 32,
+        "muzik": 30,
+        "sanat": 30,
+        "spor": 28,
+        "edebiyat": 25,
+        "bilim": 25,
+        "tarih": 22,
+        "yerel_tr": 15,
+        "genel_kultur": 10
+      },
+      "kategori_db": {
+        "sinema": 37,
+        "teknoloji": 34,
+        "muzik": 31,
+        "sanat": 33,
+        "spor": 28,
+        "edebiyat": 28,
+        "bilim": 25,
+        "tarih": 24,
+        "genel_kultur": 10
+      },
+      "zorluk": {
+        "3": 75,
+        "4": 87,
+        "5": 50,
+        "1-2": 38
+      },
+      "zorluk_1_5": [
+        3,
+        35,
+        75,
+        87,
+        50
+      ],
+      "jev": {
+        "cagri": 642,
+        "girdi_jeton": 512630,
+        "maliyet_usd": 0.0215
+      },
+      "taslak": 314,
+      "elenen": {
+        "kalite_sonrasi": 3,
+        "kota_fazlasi": 64,
+        "taslakta_havuz_tekrari": 29,
+        "not": "kalite sonrası: Axel (cevap sızması), Panthalassa (Jev kategori=coğrafya), satranç ilk hamle (havuzda var). Düzeltilip Jev'e yeniden sorulan: 4 (Scrat çeldiricisi, Thukydides çeldiricisi, Beriberi EN, Kralın Dönüşü eskiyebilir ifadesi)."
+      },
+      "duzeltilen_yeniden_sorulan": 4,
+      "zorluk_etiket_duzeltme": 13,
+      "cevrilmeyen": 0,
+      "havuz_aktif": {
+        "once": 10290,
+        "sonra": 10540
+      },
+      "dogru_cevap_dagilimi": {
+        "0": 74,
+        "1": 61,
+        "2": 62,
+        "3": 53
+      }
+    }
+  ],
   "atlanan_partiler": [],
   "sayac": {
-    "soru": 0,
+    "soru": 250,
     "kategori": {
-      "sinema": 0,
-      "teknoloji": 0,
-      "muzik": 0,
-      "sanat": 0,
-      "spor": 0,
-      "edebiyat": 0,
-      "bilim": 0,
-      "tarih": 0,
-      "yerel_tr": 0,
-      "genel_kultur": 0
+      "sinema": 33,
+      "teknoloji": 32,
+      "muzik": 30,
+      "sanat": 30,
+      "spor": 28,
+      "edebiyat": 25,
+      "bilim": 25,
+      "tarih": 22,
+      "yerel_tr": 15,
+      "genel_kultur": 10
     },
     "zorluk": {
-      "3": 0,
-      "4": 0,
-      "5": 0,
-      "1-2": 0
+      "3": 75,
+      "4": 87,
+      "5": 50,
+      "1-2": 38
     }
   },
   "jev": {
-    "cagri": 0,
-    "girdi_jeton": 0,
-    "maliyet_usd": 0
+    "cagri": 642,
+    "girdi_jeton": 512630,
+    "maliyet_usd": 0.0215
   },
-  "elenen": 0,
-  "zorluk_etiket_duzeltme": 0,
+  "elenen": 3,
+  "zorluk_etiket_duzeltme": 13,
   "cevrilmeyen": 0,
   "ardisik_uygulama_hatasi": 0
 }

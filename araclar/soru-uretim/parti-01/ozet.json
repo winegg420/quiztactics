@@ -1,0 +1,165 @@
+{
+  "parti": 1,
+  "tarih": "2026-09-23",
+  "taslak": 314,
+  "net": 250,
+  "kota": {
+    "sinema": 33,
+    "teknoloji": 32,
+    "muzik": 30,
+    "sanat": 30,
+    "spor": 28,
+    "edebiyat": 25,
+    "bilim": 25,
+    "tarih": 22,
+    "yerel": 15,
+    "genel_kultur": 10
+  },
+  "zorluk_hedef": {
+    "3": 75,
+    "4": 87,
+    "5": 50,
+    "1-2": 38
+  },
+  "eksik": {},
+  "elenen_sebep": {
+    "kota_fazlasi": 64
+  },
+  "kova": {
+    "sinema": 33,
+    "teknoloji": 32,
+    "muzik": 30,
+    "sanat": 30,
+    "spor": 28,
+    "edebiyat": 25,
+    "bilim": 25,
+    "tarih": 22,
+    "yerel_tr": 15,
+    "genel_kultur": 10
+  },
+  "kategori": {
+    "sinema": 37,
+    "teknoloji": 34,
+    "muzik": 31,
+    "sanat": 33,
+    "spor": 28,
+    "edebiyat": 28,
+    "bilim": 25,
+    "tarih": 24,
+    "genel_kultur": 10
+  },
+  "zorluk": [
+    3,
+    35,
+    75,
+    87,
+    50
+  ],
+  "zorluk_kova": {
+    "3": 75,
+    "4": 87,
+    "5": 50,
+    "1-2": 38
+  },
+  "cevrilmeyen": 0,
+  "jev": {
+    "cagri": 642,
+    "girdi_jetonu": 512630,
+    "usd": 0.0215,
+    "not": "jev.jsonl içindeki tüm denemeler dahil (düzeltilip yeniden sorulanlar da)"
+  },
+  "zorluk_etiket_duzeltme": [
+    {
+      "s": "Periyodik tabloda simgesi 'W' olan element hangisidir?",
+      "d": "Tungsten",
+      "eski": 3,
+      "yeni": 4,
+      "neden": "yazar 3, Jev seviye 5 (puan 3.53)"
+    },
+    {
+      "s": "Nobel Edebiyat Ödülü'nü alan ilk Latin Amerikalı yazar kimdir?",
+      "d": "Gabriela Mistral",
+      "eski": 4,
+      "yeni": 5,
+      "neden": "yazar 4, Jev yanlış şık (Miguel Angel Asturias, 0.43) ve seviye 5"
+    },
+    {
+      "s": "Körüklü çalgı bandoneon en çok hangi müzik türüyle özdeşleşmiştir?",
+      "d": "Tango",
+      "eski": 3,
+      "yeni": 4,
+      "neden": "yazar 3, Jev seviye 5 (puan 3.51)"
+    },
+    {
+      "s": "Puccini'nin 'Turandot' operasında 'Nessun dorma' aryasını söyleyen karakter kimdir?",
+      "d": "Kalaf",
+      "eski": 5,
+      "yeni": 4,
+      "neden": "yazar 5, Jev seviye 3 (puan 2.67)"
+    },
+    {
+      "s": "Hokusai'nin 'Kanagawa Açıklarında Büyük Dalga' baskısı hangi dizinin parçasıdır?",
+      "d": "Fuji'nin 36 Görünümü",
+      "eski": 5,
+      "yeni": 4,
+      "neden": "yazar 5, Jev seviye 3 (puan 2.78)"
+    },
+    {
+      "s": "Raffaello'nun 'Atina Okulu' freskinin ortasında Platon'un yanında yürüyen filozof kimdir?",
+      "d": "Aristoteles",
+      "eski": 2,
+      "yeni": 3,
+      "neden": "yazar 2, Jev seviye 4 (puan 3.15)"
+    },
+    {
+      "s": "Picasso'nun Mavi Dönemi'nin ardından gelen, sirk figürleriyle tanınan dönemi hangisidir?",
+      "d": "Pembe Dönem",
+      "eski": 2,
+      "yeni": 3,
+      "neden": "yazar 2, Jev seviye 4 (puan 3.01)"
+    },
+    {
+      "s": "Christo ve Jeanne-Claude'un 1995'te kumaşla tamamen paketlediği Berlin binası hangisidir?",
+      "d": "Reichstag",
+      "eski": 4,
+      "yeni": 5,
+      "neden": "yazar 4, Jev yanlış şık (Kızıl Belediye Sarayı, 0.39) ve seviye 5"
+    },
+    {
+      "s": "'Altın Ayı' lakabıyla anılan efsanevi golfçü kimdir?",
+      "d": "Jack Nicklaus",
+      "eski": 4,
+      "yeni": 5,
+      "neden": "yazar 4, Jev yanlış şık (Gary Player, 0.51) ve seviye 5"
+    },
+    {
+      "s": "Gandhi'nin 1930'daki Tuz Yürüyüşü hangi kıyı köyünde sona ermiştir?",
+      "d": "Dandi",
+      "eski": 5,
+      "yeni": 4,
+      "neden": "yazar 5, Jev seviye 3 (puan 2.63)"
+    },
+    {
+      "s": "Ethereum blok zincirini 2013'te bir teknik belgeyle öneren programcı kimdir?",
+      "d": "Vitalik Buterin",
+      "eski": 3,
+      "yeni": 4,
+      "neden": "yazar 3, Jev seviye 5 (puan 3.97)"
+    },
+    {
+      "s": "Ressam Fikret Mualla hayatının büyük bölümünü hangi ülkede geçirmiştir?",
+      "d": "Fransa",
+      "eski": 3,
+      "yeni": 4,
+      "neden": "yazar 3, Jev seviye 5 (puan 3.90)"
+    },
+    {
+      "s": "1971'de göreve gelen Türkiye'nin ilk kadın bakanı kimdir?",
+      "d": "Türkan Akyol",
+      "eski": 4,
+      "yeni": 5,
+      "neden": "yazar 4, Jev yanlış şık (Nermin Neftçi, 0.39) ve seviye 5"
+    }
+  ],
+  "elenenler": []
+}

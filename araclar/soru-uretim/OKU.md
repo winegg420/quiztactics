@@ -37,3 +37,9 @@ git'e yalnız son `sorular.json` + `ozet.json` girer).
 
 Araçlar: `araclar/soru-parti-1000/` (kural.mjs, denetle.mjs, jev-kapi.mjs, zorluk.mjs,
 birlestir.mjs, uret-migration.mjs) — parti klasörü ve çıktı dosyası parametreli kullanılır.
+Parametreli sarmalayıcılar (parti 1'de yazıldı, o araçlar değiştirilmeden import edilir):
+- `birlestir-parti.mjs --taslak <k> --jev <jsonl> --parti N [--kota j] [--zorluk j] [--rapor]` →
+  `parti-NN/sorular.json` + `ozet.json`. Kova kotası tam tutulur, kova içi takasla zorluk hedefe
+  yaklaştırılır. Zorluk = yazar etiketi; Jev seviyesiyle fark ≥ 2 ise 1 adım Jev'e kayar,
+  z=4 + Jev yanlış + seviye 5 ise 5 olur.
+- `uret-migration-parti.mjs --parti N --no NNN [--kontrol]` → tek migration dosyası.
