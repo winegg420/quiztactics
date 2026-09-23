@@ -1,9 +1,10 @@
-// Maç ekranı oyuncu şeridi için level (yalnız gösterim). profiles.lig istemciye kapalı
-// (sütun yetkisi yok, 403) — başkasının ligi burada okunmaz. Maç başında BİR kez okunur;
-// maç verisine (RPC'ler, durum akışı) dokunmaz. Okunamazsa şerit level'siz çizilir.
+// Maç ekranı oyuncu şeridi için level + lig + takılı çerçeve (yalnız gösterim). profiles.lig
+// istemciye kapalı; başkasının ligi ve çerçevesi oyuncu_kartlari RPC'siyle gelir (oyun/lib/cerceve.js,
+// toplu + önbellekli). Maç verisine (RPC'ler, durum akışı) dokunmaz. Okunamazsa şerit level'siz çizilir.
 import { useEffect, useState } from "react";
-import { supabase } from "../../src/lib/supabase.js";
+import { oyuncuKartlari } from "./cerceve.js";
 
+/** @returns {{[id:string]: {level?:number, lig?:string, cerceve?:string|null, cerceve_nadirlik?:string}}} */
 export function useOyuncuSeviyeleri(idler) {
   const anahtar = (idler ?? []).filter(Boolean).sort().join(",");
   const [harita, setHarita] = useState({});
@@ -12,11 +13,13 @@ export function useOyuncuSeviyeleri(idler) {
     let aktif = true;
     (async () => {
       try {
-        const { data, error } = await supabase.from("profiles").select("id, level").in("id", anahtar.split(","));
-        if (error) throw error;
-        if (aktif) setHarita(Object.fromEntries((data ?? []).map((p) => [p.id, { level: p.level }])));
+        const kartlar = await oyuncuKartlari(anahtar.split(","));
+        if (!aktif) return;
+        setHarita(Object.fromEntries(kartlar.filter(Boolean).map((k) => [k.id, {
+          level: k.level, lig: k.lig ?? undefined, cerceve: k.cerceve ?? null, cerceve_nadirlik: k.cerceve_nadirlik,
+        }])));
       } catch (e) {
-        console.warn("[Maç şeridi] oyuncu level/lig okunamadı:", e?.message ?? e);
+        console.warn("[Maç şeridi] oyuncu kartları okunamadı:", e?.message ?? e);
       }
     })();
     return () => { aktif = false; };

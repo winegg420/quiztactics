@@ -738,7 +738,7 @@ export default function TournamentPage() {
       <MacUstSerit
         onCik={() => (!elendim && !izleyiciyim ? setCikisOnay(true) : navigate(y()))}
         rozet={soru?.altin ? tt("Turnuva · altın soru") : tt("Turnuva")}
-        oyuncu={{ ad: profile?.gorunen_ad ?? tt("Sen"), avatar: (profile?.gorunen_avatar ?? profile?.avatar_url) || null, level: profile?.level, lig: profile?.lig }}
+        oyuncu={{ id: profile?.id, ad: profile?.gorunen_ad ?? tt("Sen"), avatar: (profile?.gorunen_avatar ?? profile?.avatar_url) || null, level: profile?.level, lig: profile?.lig }}
         sayi={oyuncular.length ? tt("{k}/{t} oyuncu kaldı", { k: hayatta.length, t: oyuncular.length }) : null}
       />
       <QtModal

@@ -17,9 +17,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { createPortal } from "react-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
-import Avatar from "../../src/components/Avatar.jsx";
 import Ikon from "../components/Ikon.jsx";
 import MacUstSerit from "../components/MacUstSerit.jsx";
+import CerceveliAvatar from "../components/CerceveliAvatar.jsx";
 import { useOyuncuSeviyeleri } from "../lib/oyuncuSeviye.js";
 import MacYukleniyor from "../components/MacYukleniyor.jsx";
 import KategoriIkon from "../components/KategoriIkon.jsx";
@@ -50,7 +50,7 @@ import SkillSeti from "../components/SkillSeti.jsx";
 import { V2Ust, V2Kategori, V2Cevap, V2Sonuc, V2Skill, V2Gecmis } from "../components/DuelloV2.jsx";
 // Tasarım A görünümü (m2- önekli). Eski duello-v2.css artık yüklenmez (dosya Faz 4'e kadar durur).
 import "./DuelloPage.a.css";
-import { QtBosDurum, QtDugme, QtIkon, QtAvatar, QtModal, QtSayac, QT_KIRILMA_MS, sinif } from "../tasarim/index.js";
+import { QtBosDurum, QtDugme, QtIkon, QtModal, QtSayac, QT_KIRILMA_MS, sinif } from "../tasarim/index.js";
 import { rpcDene } from "../lib/rpcDene.js";
 
 const HARFLER = ["A", "B", "C", "D"];
@@ -332,7 +332,7 @@ function RovansBekleme({ rakip, baslangic, sureSn, simdi, ceviri, onVazgec }) {
                     strokeDasharray={ROVANS_HALKA_CEVRE}
                     strokeDashoffset={ROVANS_HALKA_CEVRE * (1 - oran)} />
           </svg>
-          <QtAvatar src={rakip?.gorunen_avatar ?? rakip?.avatar_url} ad={rakip?.gorunen_ad ?? ""} boyut="l" halka="yok" />
+          <CerceveliAvatar profile={rakip} userId={rakip?.id} boyut={64} hareketli />
         </div>
         <p className="m2-rovans-metin">
           {ceviri("Rövanş isteği gönderildi — {ad} yanıtlıyor…", { ad: rakip?.gorunen_ad ?? "" })}
@@ -1119,7 +1119,7 @@ function DuelloMac({ id }) {
   // ---------------- oyuncu şeridi ----------------
   const oyuncuKart = (o, taraf) => (
     <div className={`bd-duello-oyuncu ${taraf} ${d.saldiran === o.id ? "saldiriyor" : ""}`}>
-      <Avatar profile={o} boyut={44} />
+      <CerceveliAvatar profile={o} userId={o.id} boyut={48} hareketli kart={seviyeler[o.id]} />
       <div className="bd-duello-oyuncu-bilgi">
         <div className="bd-duello-oyuncu-ad">{o.gorunen_ad}</div>
         {unvanAdi(o.unvan) && <div className="bd-unvan kucuk">{ceviri(unvanAdi(o.unvan))}</div>}

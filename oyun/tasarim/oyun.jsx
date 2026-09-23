@@ -262,11 +262,12 @@ export function QtSoruKarti({ metin, sayac, kategori, sira, cikiyor = false, sev
  *    rakip={{ ad: "Mert", avatar, can: 2, canToplam: 3 }}
  *    skor={[3, 2]} skorAnahtar={3} rakipBaski={baskiAnahtari} />
  * can verilmezse kalpler çizilmez (Klasik). skorAnahtar değişince skor zıplar.
+ * avatarDugum verilirse QtAvatar yerine o çizilir (ekran çerçeveli avatarı buradan verir).
  */
 export function QtMacUst({ sen, rakip, skor = [0, 0], skorAnahtar, rakipBaski, className }) {
   const taraf = (o, rakipMi) => (
     <div className={sinif("qt-oyuncu", rakipMi && "qt-oyuncu--rakip", rakipMi && rakipBaski && "qt-h-baski")} key={rakipMi ? `r${rakipBaski ?? ""}` : "s"}>
-      <QtAvatar src={o.avatar} ad={o.ad} boyut="m" halka={rakipMi ? "yanlis" : "vurgu"} />
+      {o.avatarDugum ?? <QtAvatar src={o.avatar} ad={o.ad} boyut="m" halka={rakipMi ? "yanlis" : "vurgu"} />}
       <span className="qt-oyuncu-yazi">
         <span className="qt-oyuncu-ad">{o.ad}</span>
         {o.alt ?? null}

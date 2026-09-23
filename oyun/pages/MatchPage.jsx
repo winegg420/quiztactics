@@ -13,9 +13,10 @@ import MacSorulari from "../components/MacSorulari.jsx";
 import HesapGuvenceOnerisi from "../components/HesapGuvence.jsx";
 import MeydanaDonus from "../components/MeydanaDonus.jsx";
 import Maskot from "../components/Maskot.jsx";
-import { QtAvatar, QtBosDurum, QtCip, QtDugme, QtEtki, QtIkon, QtIkonDugme, QtMacUst, QtRozet } from "../tasarim/index.js";
+import { QtBosDurum, QtCip, QtDugme, QtEtki, QtIkon, QtIkonDugme, QtMacUst, QtRozet } from "../tasarim/index.js";
 import "../tasarim/ekranlar/m1-mac.css";
 import MacUstSerit, { SeviyeEtiketi } from "../components/MacUstSerit.jsx";
+import CerceveliAvatar from "../components/CerceveliAvatar.jsx";
 import { useOyuncuSeviyeleri } from "../lib/oyuncuSeviye.js";
 import { TEPKILER, tepkiIkonu } from "../lib/tepkiler.js";
 import MacYukleniyor from "../components/MacYukleniyor.jsx";
@@ -765,13 +766,13 @@ export default function MatchPage() {
           tabela={
             <div className="m1-vs">
               <div className="m1-vs-taraf">
-                <QtAvatar src={avatarSrc(benimProfil)} ad={benimProfil?.gorunen_ad ?? ""} boyut="l" halka="vurgu" />
+                <CerceveliAvatar profile={benimProfil} userId={benimProfil?.id} boyut={72} hareketli />
                 <span className="m1-vs-ad">{benimProfil?.gorunen_ad}</span>
                 <QtRozet boyut="k" ton={nabiz?.ben_hazir ? "dogru" : "koyu"}>{nabiz?.ben_hazir ? tt("hazır") : tt("hazır değil")}</QtRozet>
               </div>
               <span className="m1-vs-rozet" aria-hidden="true">VS</span>
               <div className="m1-vs-taraf">
-                <QtAvatar src={avatarSrc(rakipProfil)} ad={rakipProfil?.gorunen_ad ?? ""} boyut="l" halka="yanlis" />
+                <CerceveliAvatar profile={rakipProfil} userId={rakipProfil?.id} boyut={72} hareketli />
                 <span className="m1-vs-ad">{rakipProfil?.gorunen_ad}</span>
                 <QtRozet boyut="k" ton={nabiz?.rakip_hazir ? "dogru" : "koyu"}>{nabiz?.rakip_hazir ? tt("hazır") : tt("hazır değil")}</QtRozet>
               </div>
@@ -981,11 +982,13 @@ export default function MatchPage() {
     const senOyuncu = {
       ad: benimProfil?.gorunen_ad ?? tt("Sen"),
       avatar: avatarSrc(benimProfil),
+      avatarDugum: <CerceveliAvatar profile={benimProfil} userId={benimProfil?.id} boyut={48} hareketli kart={seviyeler[benimProfil?.id]} />,
       alt: <SeviyeEtiketi {...(seviyeler[benimProfil?.id] ?? {})} />,
     };
     const rakipOyuncu = {
       ad: rakipProfil?.gorunen_ad ?? tt("Rakip"),
       avatar: avatarSrc(rakipProfil),
+      avatarDugum: <CerceveliAvatar profile={rakipProfil} userId={rakipProfil?.id} boyut={48} hareketli kart={seviyeler[rakipProfil?.id]} />,
       alt: <SeviyeEtiketi {...(seviyeler[rakipProfil?.id] ?? {})} />,
     };
     // Bu ekran YALNIZ eski asenkron maçlara ait: senkron maçta iki taraf aynı

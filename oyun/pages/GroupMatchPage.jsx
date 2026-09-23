@@ -599,7 +599,7 @@ export default function GroupMatchPage() {
 
       {/* Paket 41 B/E/H: Klasik ile aynı çıkış (X), mod rozeti ve ses */}
       <MacUstSerit onCik={() => setCikisOnay(true)} rozet={tt("Grup Maçı · ödülsüz")}
-        oyuncu={{ ad: profile?.gorunen_ad ?? tt("Sen"), avatar: (profile?.gorunen_avatar ?? profile?.avatar_url) || null, level: profile?.level, lig: profile?.lig }}
+        oyuncu={{ id: profile?.id, ad: profile?.gorunen_ad ?? tt("Sen"), avatar: (profile?.gorunen_avatar ?? profile?.avatar_url) || null, level: profile?.level, lig: profile?.lig }}
         sayi={tt("{n} oyuncu", { n: siraliSkor.length })} />
       {/* Çıkış onayı. Sonuç sunucudan (grup_mac_nabiz): sayfadan çıkan oyuncunun nabzı
           12 sn kesilince maç herkes için duraklar; 45 sn içinde dönmezse terk_at yazılır,

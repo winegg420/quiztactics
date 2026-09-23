@@ -6,7 +6,9 @@
 // Tasarım A (Şerit M1): QtIkonDugme + QtRozet; ses düğmesi SesDugmesi ile aynı mantık.
 // ============================================================
 import { useEffect, useState } from "react";
-import { QtAvatar, QtIkonDugme, QtRozet } from "../tasarim/index.js";
+import { QtIkonDugme, QtRozet } from "../tasarim/index.js";
+import CerceveliAvatar from "./CerceveliAvatar.jsx";
+import { useOyuncuSeviyeleri } from "../lib/oyuncuSeviye.js";
 import { LIG_ADLARI } from "../lib/lig.js";
 import { sesAcikMi, sesAyarla, sesDinle, sesDokunus, sesKilidiAc } from "../lib/ses.js";
 import { tt } from "../lib/dil.js";
@@ -53,10 +55,13 @@ export function SeviyeEtiketi({ level, lig }) {
 }
 
 /**
- * Çok oyunculu modlar (Turnuva, Grup): oyuncu = { ad, avatar, level, lig } kendi avatarın,
+ * Çok oyunculu modlar (Turnuva, Grup): oyuncu = { id, ad, avatar, level, lig } kendi avatarın (çerçeveli;
+ * lig/level verilmezse oyuncu kartından okunur),
  * sayi = "12/40 oyuncu kaldı" gibi kısa metin. İkisi de verilmezse şerit eskisi gibidir.
  */
 export default function MacUstSerit({ onCik, cikisEtiketi, rozet, oyuncu, sayi }) {
+  const kartlar = useOyuncuSeviyeleri(oyuncu?.id ? [oyuncu.id] : []);
+  const kart = oyuncu?.id ? kartlar[oyuncu.id] : undefined;
   return (
     <>
     <div className="m1-ust">
@@ -72,8 +77,8 @@ export default function MacUstSerit({ onCik, cikisEtiketi, rozet, oyuncu, sayi }
       <div className="mo-coklu">
         {oyuncu && (
           <span className="mo-ben">
-            <QtAvatar src={oyuncu.avatar} ad={oyuncu.ad} boyut="s" halka="vurgu" />
-            <span className="mo-ben-yazi"><b>{oyuncu.ad}</b><SeviyeEtiketi level={oyuncu.level} lig={oyuncu.lig} /></span>
+            <CerceveliAvatar profile={{ gorunen_ad: oyuncu.ad, gorunen_avatar: oyuncu.avatar }} userId={oyuncu.id} boyut={40} kart={kart} />
+            <span className="mo-ben-yazi"><b>{oyuncu.ad}</b><SeviyeEtiketi level={oyuncu.level ?? kart?.level} lig={oyuncu.lig ?? kart?.lig} /></span>
           </span>
         )}
         {sayi && <span className="mo-sayi"><b>{sayi}</b></span>}

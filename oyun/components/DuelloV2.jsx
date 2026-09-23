@@ -22,8 +22,9 @@ import KategoriIkon from "./KategoriIkon.jsx";
 import { kategoriAdi } from "../lib/kategoriler.js";
 import { JOKER_BILGI } from "../lib/jokerler.js";
 import SkillRozeti from "./SkillRozeti.jsx";
-import { QtAvatar, QtCan, QtIkon, QtSik, QtSikler, QtSkill, QtSkillCubugu, QtSoruKarti, QtSonucBandi, sinif } from "../tasarim/index.js";
+import { QtCan, QtIkon, QtSik, QtSikler, QtSkill, QtSkillCubugu, QtSoruKarti, QtSonucBandi, sinif } from "../tasarim/index.js";
 import { SeviyeEtiketi } from "./MacUstSerit.jsx";
+import CerceveliAvatar from "./CerceveliAvatar.jsx";
 
 const HARFLER = ["A", "B", "C", "D"];
 
@@ -51,7 +52,7 @@ export function V2Ust({ d, ben, rakip, kayip = {}, c, seviyeler = {} }) {
     const can = Math.max(0, Number(o.can ?? 0));
     return (
       <div className={sinif("qt-oyuncu", rakipMi && "qt-oyuncu--rakip", secen && "m2-secen")}>
-        <QtAvatar src={o.gorunen_avatar ?? o.avatar_url} ad={o.gorunen_ad} boyut="m" halka={secen ? "coin" : rakipMi ? "yanlis" : "vurgu"} />
+        <CerceveliAvatar profile={o} userId={o.id} boyut={48} hareketli kart={seviyeler[o.id]} />
         <span className="qt-oyuncu-yazi">
           <span className="qt-oyuncu-ad">{rakipMi ? o.gorunen_ad : c("Sen")}</span>
           <SeviyeEtiketi {...(seviyeler[o.id] ?? {})} />
