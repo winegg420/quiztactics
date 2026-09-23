@@ -7683,3 +7683,42 @@ otomatik akla gelmesi için; proje kapsamında kuruldu.
   parti listesi: `araclar/soru-uretim/durum.json` (tek doğru kaynak).
   Ara durum (parti 5 sonrası): 5 parti bitti (migration 291–295), net 1.250 soru, hata 0;
   aktif havuz 11.540; kategori ve zorluk kotaları birebir; Jev ≈ 0,12 $.
+
+## 2026-09-23 — Düello 3 hata (Ida, telefon) · oyuncu gibi test · dal düzeni kalktı · Düello 1.0 herkese
+**Araç:** Claude Code (ana ajan + soru/denetim alt ajanları)
+**Neden:** Ida telefonda saldırırken şıka basamadı, skill'ler sığmıyordu, saldırı/savunma ayrımı görünüyordu; eski e2e testi bunları kaçırmıştı.
+
+- **Soru üretimi durduruldu (Ida kararı):** parti 6 taslak aşamasında bırakıldı (203 taslak,
+  DB'ye yazılmadı, `durum.json › yarida_birakilan`). Toplam: Paket 3'te 5 parti = 1.250 soru
+  (291–295), aktif havuz 11.540. Sıradaki migration no 298 (296–297 bu işe verildi).
+- **Paralel raporlar:** `araclar/jev-tarama/sik-ipucu.md/.csv` — 11.540 sorunun 1.310'unda
+  (%11,4) Jev soruyu görmeden doğru şıkkı >0,8 güvenle buluyor (teknoloji %21, bilim %15);
+  0,20 $. `docs/SATIN_ALMA_DENETIMI.md` — gerçek parayla satın alma çalışmıyor (Play anahtarı
+  yok, doğrulama 503), yüksek önem: jeton tekilliği yok, onaylama istemcide/yutuluyor.
+- **A — saldırırken şık kapalı, KÖK SEBEP:** Ida canlı sitede (`main`) oynadı; `main`'de Düello
+  1.0 arayüzü yoktu, ama hesabı `duello_v2_test_kullanicilari`'nda olduğu için sunucu v2 maçı
+  verdi. Eski (v1) arayüz v2 maçını v1 gibi çizdi: v1'de saldıran cevaplamaz → şıklar
+  `soruBlogu(false)`. Kanıt: 6e95f917'de Ida saldıran olduğu iki turda yanıtsız, savunduğu
+  turlarda cevaplı; b7c0a0a5 de v2. Çözüm: `main` birleştirildi + `DUELLO_EN_YUKSEK_SURUM`
+  kapısı (tanınmayan sürümde maç çizilmez, yenileme istenir).
+- **Testte bulunan ek hatalar (düzeldi):** (1) Düello'da skill isteği sürerken (~2 sn) bütün
+  şıklar kapalıydı → yalnız cevap isteği kilitler (`DuelloV2.jsx`). (2) Coin'le skill alımı
+  ile durum sorgusu ters sırayla kilitliyordu → 40P01 deadlock; migration 296 kilit sırası
+  (rpc_sayac → maç → profil; Klasik'te de maç → profil). (3) Maç sonu eylem çubuğu sekme
+  çubuğunun arkasındaydı ("Yeni düello" görünmüyordu): `.tabbar` seçicisi arayüz
+  yenilemesinden beri yoktu (`.mobile-nav`) + ölçüm oyun modu kalkmadan yapılıyordu
+  (`MacSonuSahnesi.jsx`, bütün modlar).
+- **B:** loadout kapalıyken seçim ekranı gizli (gelistirme'de doğruydu, canlıda eski koddu).
+  7 yuva için satırda en çok 4 sütun, dar ekranda simge üstte (`SkillSeti.jsx`, tema.css).
+  Maç içi skill çubuğu 3 sütun ızgara, sarıyor — sorun yok (ölçüldü).
+- **C:** v2 arayüzünde saldırı/savunma gruplaması yok; kalan tek görünür yazı ana sayfa
+  "3 can · saldırı ve savunma" → "3 can · aynı soru, aynı anda". v1 kodu ve katalogdaki
+  `kategori` alanı duruyor.
+- **Yeni kalıcı araç `araclar/oyuncu-testi.mjs`** (kural PROJECT_CONTEXT › Test kuralı):
+  her soruda şık açık mı (değilse anında başarısız), dokunuş sunucuya ulaştı mı (DB),
+  maç sonunda yanıtsız soru var mı, 360/390 px kutu kesişimi (modal ve sabit menü ayrımıyla),
+  Düello ≥3 saldıran + ≥3 savunan, `--uzatma`. Sonuç CANLIDA: Düello geçti (saldıran 4,
+  savunan 3, uzatmada saldıran cevapladı; ilk/sonraki tur, skill var/yok), Klasik 20/20 geçti.
+- **Dal düzeni kalktı (Ida kararı):** `gelistirme` → `main` ileri sarıldı ve push edildi,
+  kurallar CLAUDE.md/AGENTS.md'de "doğrudan main". Migration 297: `duello_surum` = 2
+  (canlı paket yayına çıktıktan SONRA uygulandı). Test listesi altyapısı silinmedi.
