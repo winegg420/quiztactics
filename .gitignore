@@ -33,3 +33,6 @@ araclar/jev-tarama/ham-en.jsonl
 araclar/jev-tarama/calisma-en.log
 oyuncu-testi-gorseller/
 oyuncu-testi-hata-*.png
+
+# Impeccable skill ikili dosyası (14 MB, Windows exe) — depoya girmez; kurulumla gelir
+.claude/skills/impeccable/scripts/bin/
