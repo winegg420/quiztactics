@@ -67,16 +67,6 @@ export default function QuestionCard({
   toplamSoru = null,
 }) {
   const [kalan, setKalan] = useState(SURE);
-  // Kategoriye göre pastel maç zemini: kart, içinde durduğu .qt-sahne-mac'e sorunun kategorisini
-  // yazar (renkler kategori-zemin.css token'larında; soru değişince zemin yumuşak geçer).
-  const kokRef = useRef(null);
-  const zeminKat = soru?.kategori || kategori || null;
-  useEffect(() => {
-    const sahne = kokRef.current?.closest(".qt-sahne-mac");
-    if (!sahne) return undefined;
-    if (zeminKat) sahne.setAttribute("data-kat", zeminKat); else sahne.removeAttribute("data-kat");
-    return undefined;
-  }, [zeminKat]);
   const [secim, setSecim] = useState(null);
   const [sonuc, setSonuc] = useState(null); // { dogru, dogru_cevap }
   const [oy, setOy] = useState(null);
@@ -119,6 +109,16 @@ export default function QuestionCard({
   // Paket 32 A.3: gönderenin ekranında kenar sisi (oynamayı engellemez)
   const [sisGonderdimBitis, setSisGonderdimBitis] = useState(null);
   const soru = degisenSoru ?? soruProp;
+  // Kategoriye göre pastel maç zemini: kart, içinde durduğu .qt-sahne-mac'e sorunun kategorisini
+  // yazar (renkler kategori-zemin.css token'larında; soru değişince zemin yumuşak geçer).
+  const kokRef = useRef(null);
+  const zeminKat = soru?.kategori || kategori || null;
+  useEffect(() => {
+    const sahne = kokRef.current?.closest(".qt-sahne-mac");
+    if (!sahne) return undefined;
+    if (zeminKat) sahne.setAttribute("data-kat", zeminKat); else sahne.removeAttribute("data-kat");
+    return undefined;
+  }, [zeminKat]);
   useEffect(() => { setDegisenSoru(null); }, [soruProp]);
 
   // Yeni soru geldiğinde durumu sıfırla
