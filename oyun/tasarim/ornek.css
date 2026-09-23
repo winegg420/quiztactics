@@ -92,3 +92,8 @@
   .qt-ornek-mac { grid-template-columns: 1fr; }
   .qt-ornek-demo { flex-direction: row; }
 }
+/* Skill rozetleri ve coin paketleri örneği */
+.qt-ornek-rozetler { display: grid; gap: 14px; padding: 16px; border-radius: var(--qt-r-l); }
+.qt-ornek-rozet-satir { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+.qt-ornek-rozet-satir code { font-size: 12px; opacity: .7; }
+.qt-ornek-paketler { align-items: flex-end; padding: 16px; }

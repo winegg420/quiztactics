@@ -1229,3 +1229,5 @@
   .qt-sekme:not(.qt-sekme--secili):hover { color: var(--qt-metin); }
   .qt-altmenu-oge:not(.qt-altmenu-oge--aktif):hover { --_y: var(--qt-metin); }
 }
+/* QtSkill içinde skill rozeti (SkillRozeti) — ikon kabı zeminsiz */
+.qt-skill-ikon--rozet { background: none; box-shadow: none; }

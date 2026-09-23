@@ -3,6 +3,7 @@ import { supabase } from "../../src/lib/supabase.js";
 import { kategoriAdi } from "../lib/kategoriler.js";
 import KategoriIkon from "./KategoriIkon.jsx";
 import { JOKER_BILGI } from "../lib/jokerler.js";
+import SkillRozeti from "./SkillRozeti.jsx";
 import { tt, ttSunucu } from "../lib/dil.js";
 import { QtIkon, QtIlerleme, QtKart, QtRozet, sayiBicim } from "../tasarim/index.js";
 import "../tasarim/ekranlar/dukkan-bilesen.css";
@@ -90,7 +91,7 @@ export default function UstalikIzgarasi() {
           <ul className="qt-dk-envanter" aria-label={tt("Envanterin")}>
             {envanter.map((e) => (
               <li key={e.tur} className="qt-dk-envanter-cip">
-                <QtIkon ad={JOKER_BILGI[e.tur]?.ikon ?? "soru"} boyut={18} />
+                <SkillRozeti tur={e.tur} boyut={22} />
                 <span className="qt-sayi">{e.adet}</span>
                 <span className="qt-gizli">{JOKER_BILGI[e.tur]?.ad ?? e.tur}</span>
               </li>

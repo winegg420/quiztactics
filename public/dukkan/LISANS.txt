@@ -1,0 +1,6 @@
+Bu klasördeki görseller Google Noto Emoji 3D PNG'lerinden (512 px) 256 px WebP'ye küçültülmüştür.
+Kaynak: https://github.com/googlefonts/noto-emoji (3D/png/512)
+Lisans: Apache License 2.0 — https://www.apache.org/licenses/LICENSE-2.0
+coin.webp = U+1FA99 · kese.webp = U+1F4B0 · sandik.webp = U+1FA8E · mucevher.webp = U+1F48E ·
+tac.webp = U+1F451 · parilti.webp = U+2728
+Ayrıntı: docs/VARLIK_LISANSLARI.md

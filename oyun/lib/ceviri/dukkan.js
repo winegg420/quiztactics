@@ -73,4 +73,12 @@ export default {
   "Skill'in bittiyse maçın içinden alabilirsin — dükkâna gitmene gerek yok.":
     "Out of a skill? You can buy it during the match — no need to visit the shop.",
   "Maçta {0} skill · tür başına 2 · soru başına 1": "{0} skills per match · 2 per type · 1 per question",
+  // Coin paketleri (328) — küçükten büyüğe
+  "Avuç": "Handful",
+  "Kese": "Pouch",
+  "Sandık": "Chest",
+  "Define": "Hoard",
+  "En iyi değer": "Best value",
+  "+%{n} bonus": "+{n}% bonus",
+  "+{n} bonus coin": "+{n} bonus coins",
 };

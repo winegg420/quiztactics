@@ -4,6 +4,7 @@ import "../tasarim/ekranlar/m1-mac.css";
 import { hataMesaji } from "../lib/hata.js";
 import { Link } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
+import SkillRozeti from "./SkillRozeti.jsx";
 import { macJokerleri, jokerBilgi, envanterNesne, skillSetiOku, skillSetiKaydet, skillSlotSayisi, skillLoadoutKapali, LOADOUT_MODLARI, AKTIF_MAC_SKILLERI } from "../lib/jokerler.js";
 import { ayarlar } from "../lib/ayarlar.js";
 import { coinTazele } from "../lib/coin.js";
@@ -294,6 +295,7 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
               <QtSkill
                 key={tur}
                 ikon={bilgi.ikon}
+                rozet={<SkillRozeti tur={tur} boyut={34} />}
                 ad={bilgi.ad}
                 adet={serbestMod || ucretsiz || fiyatRozeti ? undefined : adet}
                 fiyat={fiyatRozeti ? fiyat : undefined}

@@ -4,6 +4,7 @@ import { hataMesaji } from "../lib/hata.js";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import { JOKER_BILGI } from "../lib/jokerler.js";
+import SkillRozeti from "./SkillRozeti.jsx";
 import YanlisSatiri from "./YanlisSatiri.jsx";
 import { QtDugme, QtIkon, QtKart, QtRozet } from "../tasarim/index.js";
 import { y } from "../lib/yol.js";
@@ -94,7 +95,8 @@ export default function MacSonuEklentisi({ macTur, macId, kaybettim, rakipBot = 
               <span className="m1-ek-etiket">{tt("Bu maçta kullandığın skiller:")}</span>
               <span className="m1-ss-satir">
                 {jokerler.map((j, i) => (
-                  <QtRozet key={i} ton="mor" boyut="k" ikon={JOKER_BILGI[j.tur]?.ikon ?? "soru"}>
+                  <QtRozet key={i} ton="mor" boyut="k" className="m1-ss-skill">
+                    <SkillRozeti tur={j.tur} boyut={20} />
                     {JOKER_BILGI[j.tur]?.ad ?? j.tur}
                     {j.ucretsiz ? ` ${tt("(ücretsiz)")}` : ""}
                   </QtRozet>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { QtModal, QtDugme, QtIkon, QtListe, QtListeSatiri, QtCoinHapi } from "../tasarim/index.js";
 import "../tasarim/ekranlar/m1-mac.css";
 import { JOKER_BILGI } from "../lib/jokerler.js";
+import SkillRozeti from "./SkillRozeti.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { tt } from "../lib/dil.js";
 
@@ -65,7 +66,7 @@ export default function JokerSatinAlModal({ tur, fiyat, coin, yalnizAl = false, 
     >
       <div className="m1-sat">
         <span className="m1-sat-ikon" aria-hidden="true">
-          <QtIkon ad={bilgi.ikon ?? "soru"} boyut={30} />
+          <SkillRozeti tur={tur} boyut={48} />
         </span>
         <QtListe>
           <QtListeSatiri baslik={tt("Fiyat")} sag={<QtCoinHapi miktar={Number(fiyat ?? 0)} />} />

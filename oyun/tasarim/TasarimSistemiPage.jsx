@@ -44,6 +44,8 @@ import {
 import { KONTRAST_CIFTLERI, kontrastOrani } from "./kontrast.js";
 import { tt } from "../lib/dil.js";
 import "./ornek.css";
+import SkillRozeti from "../components/SkillRozeti.jsx";
+import CoinPaketGorseli from "../components/CoinPaketGorseli.jsx";
 
 const AVATAR_SEN = "/avatars/pro/tilki-k04.svg";
 const AVATAR_RAKIP = "/avatars/pro/baykus-k03.svg";
@@ -79,6 +81,7 @@ const BOLUMLER = [
   ["yazi", "Yazı"],
   ["olcu", "Ölçüler"],
   ["ikonlar", "İkonlar"],
+  ["rozetler", "Skill ve paket"],
   ["dugmeler", "Düğmeler"],
   ["kartlar", "Kartlar"],
   ["parcalar", "Küçük parçalar"],
@@ -527,6 +530,24 @@ export default function TasarimSistemiPage() {
               </li>
             ))}
           </ul>
+        </Bolum>
+
+        <Bolum id="rozetler" baslik="Skill ve paket" aciklama="Skill rozeti her yerde aynı (dükkân, loadout, maç, level ödülü); renk skill'in kimliği. Coin paketi görseli adına göre büyür. Kaynak ve lisans: docs/VARLIK_LISANSLARI.md">
+          {[false, true].map((koyu) => (
+            <div key={String(koyu)} className={koyu ? "qt-ornek-rozetler qt-sahne-mac" : "qt-ornek-rozetler"}>
+              {[64, 40, 32].map((b) => (
+                <div key={b} className="qt-ornek-rozet-satir">
+                  {["elli", "sure", "soru_degistir", "zaman_baskisi", "ikinci_sans", "sigorta", "cifte_puan"].map((t) => (
+                    <SkillRozeti key={t} tur={t} boyut={b} />
+                  ))}
+                  <code>{b} px</code>
+                </div>
+              ))}
+            </div>
+          ))}
+          <div className="qt-ornek-rozet-satir qt-ornek-paketler">
+            {[1, 2, 3, 4, 5].map((s) => <CoinPaketGorseli key={s} seviye={s} />)}
+          </div>
         </Bolum>
 
         <Bolum id="dugmeler" baslik="Düğmeler" aciklama="Ekranda tek birincil (turuncu) eylem. Basınca dudak kadar aşağı iner (120 ms).">

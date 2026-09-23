@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
 import { rutbeBul } from "../lib/ranks.js";
 import { SKILL_TANIMLARI } from "../lib/jokerler.js";
+import SkillRozeti from "./SkillRozeti.jsx";
 import { QtIlerleme, QtRozet } from "../tasarim/index.js";
 import { sesLevel } from "../lib/ses.js";
 import { tt } from "../lib/dil.js";
@@ -83,7 +84,10 @@ export default function LevelKazanci({ kaynak }) {
           <span><b>{tt("Level atladın: {n}!", { n: v.level_sonra })}</b>{levelCoin > 0 ? ` ${tt("+{coin} coin", { coin: levelCoin })}` : ""}</span>
           {rutbeAtladi && <span>{tt("Yeni rütbe: {ad}", { ad: rutbe.ad })}</span>}
           {skiller.map((s) => (
-            <span key={s.level}>{tt("Level {n} ödülü: {adet} {skill} hakkı", { n: s.level, adet: s.adet ?? 1, skill: SKILL_TANIMLARI[s.skill]?.ad ?? s.skill })}</span>
+            <span key={s.level} className="m1-level-skill">
+              <SkillRozeti tur={s.skill} boyut={28} />
+              {tt("Level {n} ödülü: {adet} {skill} hakkı", { n: s.level, adet: s.adet ?? 1, skill: SKILL_TANIMLARI[s.skill]?.ad ?? s.skill })}
+            </span>
           ))}
         </div>
       )}

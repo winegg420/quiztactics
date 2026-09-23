@@ -1,0 +1,8 @@
+/* Coin paketi görseli (CoinPaketGorseli.jsx): kutu paket seviyesiyle büyür. */
+.qt-coin-paket { position: relative; display: block; width: var(--_b, 72px); height: var(--_b, 72px); flex: none; }
+.qt-coin-paket > img { position: absolute; height: auto; user-select: none; -webkit-user-drag: none; pointer-events: none; }
+.qt-coin-paket--1 { --_b: 64px; }
+.qt-coin-paket--2 { --_b: 76px; }
+.qt-coin-paket--3 { --_b: 88px; }
+.qt-coin-paket--4 { --_b: 100px; }
+.qt-coin-paket--5 { --_b: 112px; }

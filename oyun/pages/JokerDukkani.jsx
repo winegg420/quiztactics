@@ -5,11 +5,12 @@ import { Link, useSearchParams } from "react-router-dom";
 import GorunumVitrini from "../vitrin/GorunumVitrini.jsx";
 import { supabase } from "../../src/lib/supabase.js";
 import { JOKER_BILGI, AKTIF_MAC_SKILLERI, jokerBilgi, envanterNesne } from "../lib/jokerler.js";
+import SkillRozeti from "../components/SkillRozeti.jsx";
+import CoinPaketGorseli from "../components/CoinPaketGorseli.jsx";
 import { jokerKurallari } from "../lib/jokerKurallari.js";
 import { h5AdsYapilandirildi, odulluVideoGoster } from "../lib/h5ads.js";
 import { desteklenirMi, fiyatlariAl, satinAl, tuket } from "../lib/playFatura.js";
 import { useCoin, coinTazele, coinHatasi } from "../lib/coin.js";
-import CoinGorseli, { coinBoyutu } from "../components/CoinGorseli.jsx";
 import { GARDIROP_ACIK } from "../lib/ozellikBayraklari.js";
 import { ayarlar } from "../lib/ayarlar.js";
 import { tt, ttSunucu } from "../lib/dil.js";
@@ -384,8 +385,8 @@ export default function JokerDukkani() {
                   return (
                     <li key={tur}>
                       <QtKart dolgu="k" className={"qt-dk-skill" + (kilitli ? " qt-dk-skill--kilitli" : "")}>
-                        <span className="qt-dk-skill-ikon" aria-hidden="true">
-                          <QtIkon ad={JOKER_BILGI[tur].ikon} boyut={28} />
+                        <span className="qt-dk-skill-ikon qt-dk-skill-ikon--rozet" aria-hidden="true">
+                          <SkillRozeti tur={tur} boyut={52} />
                           {kilitli && <span className="qt-dk-skill-kilit"><QtIkon ad="kilit" boyut={14} /></span>}
                         </span>
                         <div className="qt-dk-skill-metin">
@@ -474,7 +475,7 @@ export default function JokerDukkani() {
                         <ul className="qt-dk-paket-icerik" aria-label={tt("Paket içeriği")}>
                           {Object.entries(p.icerik ?? {}).map(([tur, adet]) => (
                             <li key={tur} className="qt-dk-parca">
-                              <QtIkon ad={JOKER_BILGI[tur]?.ikon ?? "soru"} boyut={18} />
+                              <SkillRozeti tur={tur} boyut={24} />
                               <span className="qt-sayi">{adet}</span>
                               <span className="qt-gizli">{JOKER_BILGI[tur]?.ad ?? tur}</span>
                             </li>
@@ -578,22 +579,28 @@ export default function JokerDukkani() {
                 <QtBosDurum ikon="coin" ton="vurgu" baslik={tt("Şu an satışta coin paketi yok")} />
               ) : (
                 <ul className="qt-dk-coin-izgara">
-                  {coinPaketleri.map((p) => {
+                  {coinPaketleri.map((p, i) => {
                     const f = fiyatlar[p.urun_id];
                     const bonus = Number(p.bonus) > 0 ? Number(p.bonus) : 0;
+                    // Bonus yüzdesi veriden (coin_paketleri.bonus / coin) — rakam koda gömülmez.
+                    const bonusYuzde = bonus > 0 && Number(p.coin) > 0 ? Math.round((bonus / Number(p.coin)) * 100) : 0;
+                    const enIyi = coinPaketleri.length > 1 && i === coinPaketleri.length - 1;
                     return (
                       <li key={p.urun_id}>
-                        <QtKart dolgu="k" className="qt-dk-coin">
-                          {bonus > 0 && (
+                        <QtKart dolgu="k" className={"qt-dk-coin" + (enIyi ? " qt-dk-coin--eniyi" : "")}>
+                          {enIyi && <span className="qt-dk-coin-eniyi">{tt("En iyi değer")}</span>}
+                          {bonusYuzde > 0 && (
                             <QtRozet ton="dogru" boyut="k" className="qt-dk-coin-bonus">
-                              {tt("+{n} bonus", { n: sayiBicim(bonus) })}
+                              {tt("+%{n} bonus", { n: bonusYuzde })}
                             </QtRozet>
                           )}
                           <span className="qt-dk-coin-gorsel">
-                            <CoinGorseli boyut={coinBoyutu(Number(p.coin) + bonus)} genislik={72} />
+                            {/* Paket görseli adına göre büyür: sıra 1 Avuç … 5 Define */}
+                            <CoinPaketGorseli seviye={i + 1} />
                           </span>
                           <b className="qt-dk-coin-miktar qt-sayi">{sayiBicim(Number(p.coin))}</b>
-                          <span className="qt-kucuk qt-soluk qt-dk-coin-ad">{f?.ad ?? ttSunucu(p.ad)}</span>
+                          {bonus > 0 && <span className="qt-kucuk qt-dk-coin-ek">{tt("+{n} bonus coin", { n: sayiBicim(bonus) })}</span>}
+                          <span className="qt-kucuk qt-soluk qt-dk-coin-ad">{ttSunucu(p.ad) || f?.ad}</span>
                           <QtDugme
                             boyut="k"
                             tamGenislik

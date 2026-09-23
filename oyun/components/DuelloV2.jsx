@@ -21,6 +21,7 @@
 import KategoriIkon from "./KategoriIkon.jsx";
 import { kategoriAdi } from "../lib/kategoriler.js";
 import { JOKER_BILGI } from "../lib/jokerler.js";
+import SkillRozeti from "./SkillRozeti.jsx";
 import { QtAvatar, QtCan, QtIkon, QtSik, QtSikler, QtSkill, QtSkillCubugu, QtSoruKarti, QtSonucBandi, sinif } from "../tasarim/index.js";
 import { SeviyeEtiketi } from "./MacUstSerit.jsx";
 
@@ -364,6 +365,7 @@ export function V2Skill({ d, calisan, kalanSn, serbest, sonKullanilan, onKullan,
             return (
               <QtSkill key={an ? `${tur}-${sonKullanilan.anahtar}` : tur}
                        ikon={SKILL_IKON[tur] ?? bilgi.ikon ?? "soru"}
+                       rozet={<SkillRozeti tur={tur} boyut={34} />}
                        ad={c(bilgi.ad ?? tur)}
                        adet={serbest ? undefined : adet}
                        fiyat={fiyatGoster ? fiyat : undefined}
