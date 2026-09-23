@@ -12,14 +12,14 @@
 .qt-pf ul { margin: 0; padding: 0; list-style: none; }
 .qt-pf p { margin: 0; }
 .qt-pf-panel { display: grid; gap: var(--qt-b-4); }
-.qt-pf-bolum { display: grid; gap: var(--qt-b-3); min-width: 0; }
+.qt-pf-bolum.qt-pf-bolum { display: grid; gap: var(--qt-b-3); min-width: 0; }
 .qt-pf-bolum-baslik { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--qt-b-2); }
 .qt-pf-bolum-baslik h2 { display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 .qt-pf-zemin-baslik { color: var(--qt-zemin-metin); }
 .qt-pf-hata { color: var(--qt-yanlis-koyu); font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); }
 
 /* ——— Kimlik kartı ——— */
-.qt-pf-kimlik {
+.qt-pf-kimlik.qt-pf-kimlik {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
@@ -34,7 +34,7 @@
 /* ——— Üç sayı ——— */
 .qt-pf-sayilar { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--qt-b-2); }
 .qt-pf-sayilar > li { display: grid; min-width: 0; }
-.qt-pf-sayi {
+.qt-pf-sayi.qt-pf-sayi {
   display: grid;
   justify-items: center;
   align-content: start;
@@ -45,14 +45,16 @@
 .qt-pf-sayi-ikon { color: var(--qt-ikinci-koyu); }
 .qt-pf-sayi-ikon--coin { color: var(--qt-coin-dudak); }
 .qt-pf-sayi-ikon--vurgu { color: var(--qt-vurgu); }
-.qt-pf-sayi b { font-family: var(--qt-f-baslik); font-size: var(--qt-y-2xl); font-weight: var(--qt-a-siyah); line-height: 1.15; color: var(--qt-metin); }
-.qt-pf-sayi > span { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); line-height: 1.3; }
-.qt-pf-sayi > .qt-pf-sayi-hedef { margin-top: var(--qt-b-1); font-size: var(--qt-y-s); color: var(--qt-metin); overflow-wrap: anywhere; }
+.qt-pf-sayi.qt-pf-sayi b { font-family: var(--qt-f-baslik); font-size: var(--qt-y-2xl); font-weight: var(--qt-a-siyah); line-height: 1.15; color: var(--qt-metin); }
+.qt-pf-sayi.qt-pf-sayi > span { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); line-height: 1.3; }
+.qt-pf-sayi.qt-pf-sayi > .qt-pf-sayi-hedef { margin-top: var(--qt-b-1); font-size: var(--qt-y-s); color: var(--qt-metin); overflow-wrap: anywhere; }
 
 /* ——— Sekmeler ——— */
 .qt-pf-sekmeler { min-width: 0; scroll-margin-top: var(--qt-b-16); }
-@media (max-width: 420px) {
-  .qt-pf-sekmeler .qt-sekme { padding-inline: var(--qt-b-3); }
+/* Dört sekme 360–430 px'te kaymadan sığsın: dar ekranda ikon gizlenir. */
+@media (max-width: 480px) {
+  .qt-pf-sekmeler .qt-sekme { padding-inline: var(--qt-b-2); flex: 1 1 auto; }
+  .qt-pf-sekmeler .qt-sekme > svg { display: none; }
 }
 
 /* ——— Ayar satırları (QtAnahtar ile aynı hizada) ——— */
@@ -105,9 +107,9 @@
 .qt-pf-rozet-aciklama { font-size: var(--qt-y-xs); font-weight: var(--qt-a-normal); color: var(--qt-metin-soluk); line-height: 1.3; }
 
 /* ——— Davet ——— */
-.qt-pf-davet { display: grid; justify-items: center; gap: var(--qt-b-3); text-align: center; }
-.qt-pf-davet p { max-width: 42ch; }
-.qt-pf-davet .qt-dugme { max-width: 360px; }
+.qt-pf-davet.qt-pf-davet { display: grid; justify-items: center; gap: var(--qt-b-3); text-align: center; }
+.qt-pf-davet.qt-pf-davet p { max-width: 42ch; }
+.qt-pf-davet.qt-pf-davet .qt-dugme { max-width: 360px; }
 .qt-pf-davet-ikon { display: grid; place-items: center; width: 72px; height: 72px; border-radius: var(--qt-r-hap); background: var(--qt-coin-acik); color: var(--qt-coin-yazi); }
 
 /* ——— Form alanı (modal ve ayar kartları) ——— */
@@ -190,7 +192,7 @@
 .qt-pf-kategori-alt { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); }
 
 /* ——— HesapGuvence ——— */
-.qt-pf-guvence { display: grid; gap: var(--qt-b-3); min-width: 0; text-align: left; }
+.qt-pf-guvence.qt-pf-guvence { display: grid; gap: var(--qt-b-3); min-width: 0; text-align: left; }
 .qt-pf-guvence-ust { display: flex; align-items: flex-start; gap: var(--qt-b-3); }
 .qt-pf-guvence-ikon { display: grid; place-items: center; flex: none; width: 48px; height: 48px; border-radius: var(--qt-r-m); background: var(--qt-vurgu-acik); color: var(--qt-vurgu-dudak); }
 .qt-pf-guvence-metin { display: grid; gap: var(--qt-b-1); min-width: 0; }

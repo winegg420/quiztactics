@@ -41,14 +41,14 @@
 
 /* ——— Skill satırı ——— */
 .qt-dk-skill-liste { display: grid; gap: var(--qt-b-3); }
-.qt-dk-skill,
-.qt-dk-seri {
+.qt-dk-skill.qt-dk-skill,
+.qt-dk-seri.qt-dk-seri {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: start;
   gap: var(--qt-b-3);
 }
-.qt-dk-seri { grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; }
+.qt-dk-seri.qt-dk-seri { grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; }
 .qt-dk-skill-ikon {
   position: relative;
   display: grid;
@@ -87,14 +87,14 @@
 .qt-dk-fiyat { display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
 .qt-dk-fiyat-adet { margin-right: 2px; opacity: 0.8; }
 @media (min-width: 560px) {
-  .qt-dk-skill { grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; }
+  .qt-dk-skill.qt-dk-skill { grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; }
   .qt-dk-skill-al { grid-column: auto; grid-template-columns: none; grid-auto-flow: row; min-width: 148px; }
 }
 
 /* ——— Karışık paketler ——— */
 .qt-dk-paket-izgara { display: grid; gap: var(--qt-b-3); grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); }
 .qt-dk-paket-izgara > li { display: grid; min-width: 0; }
-.qt-dk-paket { display: grid; gap: var(--qt-b-3); align-content: space-between; }
+.qt-dk-paket.qt-dk-paket { display: grid; gap: var(--qt-b-3); align-content: space-between; }
 .qt-dk-paket-metin { display: grid; gap: var(--qt-b-1); }
 .qt-dk-paket-icerik { display: flex; flex-wrap: wrap; gap: var(--qt-b-2); }
 .qt-dk-parca {
@@ -144,13 +144,13 @@
 }
 
 /* ——— Coin sekmesi ——— */
-.qt-dk-video {
+.qt-dk-video.qt-dk-video {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
   gap: var(--qt-b-3) var(--qt-b-4);
 }
-.qt-dk-video > .qt-dugme, .qt-dk-video-yok { grid-column: 1 / -1; }
+.qt-dk-video.qt-dk-video > .qt-dugme, .qt-dk-video-yok { grid-column: 1 / -1; }
 .qt-dk-video-ikon {
   display: grid;
   place-items: center;
@@ -165,7 +165,7 @@
 .qt-dk-coin-izgara { display: grid; gap: var(--qt-b-3); grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr)); }
 @media (max-width: 400px) { .qt-dk-coin-izgara { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .qt-dk-coin-izgara > li { display: grid; min-width: 0; }
-.qt-dk-coin {
+.qt-dk-coin.qt-dk-coin {
   position: relative;
   display: grid;
   justify-items: center;
@@ -173,7 +173,7 @@
   gap: var(--qt-b-1);
   text-align: center;
 }
-.qt-dk-coin > .qt-dugme { margin-top: auto; align-self: end; }
+.qt-dk-coin.qt-dk-coin > .qt-dugme { margin-top: auto; align-self: end; }
 .qt-dk-coin-bonus { position: absolute; top: var(--qt-b-2); right: var(--qt-b-2); }
 .qt-dk-coin-gorsel { display: grid; place-items: center; width: 72px; height: 72px; margin-top: var(--qt-b-6); }
 .qt-dk-coin-miktar { font-family: var(--qt-f-baslik); font-size: var(--qt-y-xl); font-weight: var(--qt-a-siyah); line-height: 1.1; }

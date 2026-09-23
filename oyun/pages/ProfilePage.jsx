@@ -44,8 +44,13 @@ import {
   QtRozet,
   QtSekmeler,
   sayiBicim,
+  QT_IKON_ADLARI,
+  IKON_TAKMA_AD,
 } from "../tasarim/index.js";
 import "../tasarim/ekranlar/dukkan-profil.css";
+
+// Rozet ikonu sunucudan gelir: bazıları ikon adı ("kisiler"), bazıları emoji.
+const ikonAdiMi = (x) => typeof x === "string" && (QT_IKON_ADLARI.includes(x) || Boolean(IKON_TAKMA_AD[x]));
 
 const SEKME_KODLARI = ["istatistik", "ayarlar", "rozet", "davet"];
 
@@ -465,7 +470,7 @@ export default function ProfilePage() {
                 return (
                   <li key={b.id} className={"qt-pf-rozet" + (var_mi ? "" : " qt-pf-rozet--kilitli")}>
                     <span className="qt-pf-rozet-ikon" aria-hidden="true">
-                      <span className="qt-pf-rozet-simge">{b.ikon}</span>
+                      <span className="qt-pf-rozet-simge">{ikonAdiMi(b.ikon) ? <QtIkon ad={b.ikon} boyut={28} /> : b.ikon}</span>
                       {!var_mi && <span className="qt-pf-rozet-kilit"><QtIkon ad="kilit" boyut={12} /></span>}
                     </span>
                     <span className="qt-pf-rozet-ad">{ttSunucu(b.ad)}</span>

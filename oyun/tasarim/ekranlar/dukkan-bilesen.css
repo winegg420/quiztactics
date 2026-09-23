@@ -1,7 +1,7 @@
 /* Şerit D — paylaşılan küçük bileşenler: SkillSeti, LevelCubugu, DurumKutusu, UstalikIzgarasi… */
 
 /* ——— SkillSeti (maç öncesi skill seti) ——— */
-.qt-dk-seti { display: grid; gap: var(--qt-b-3); width: min(100%, 560px); margin: var(--qt-b-3) auto; text-align: left; }
+.qt-dk-seti.qt-dk-seti { display: grid; gap: var(--qt-b-3); width: min(100%, 560px); margin: var(--qt-b-3) auto; text-align: left; }
 .qt-dk-seti-baslik { display: flex; align-items: center; justify-content: space-between; gap: var(--qt-b-3); }
 .qt-dk-seti-baslik > div { display: grid; gap: 2px; min-width: 0; }
 .qt-dk-seti-baslik p { margin: 0; }
@@ -82,8 +82,8 @@
 .qt-dk-durum-hata b { color: var(--qt-yanlis-koyu); }
 
 /* ——— Ortak kart başlığı ——— */
-.qt-dk-ust-kart { display: grid; gap: var(--qt-b-3); min-width: 0; }
-.qt-dk-ust-kart > p { margin: 0; }
+.qt-dk-ust-kart.qt-dk-ust-kart { display: grid; gap: var(--qt-b-3); min-width: 0; }
+.qt-dk-ust-kart.qt-dk-ust-kart > p { margin: 0; }
 .qt-dk-kart-baslik { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--qt-b-2); }
 .qt-dk-hata-metin { margin: 0; color: var(--qt-yanlis-koyu); font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); }
 
@@ -148,8 +148,8 @@
 .qt-dk-kprofil--kucuk .qt-dk-kprofil-satir { font-size: var(--qt-y-xs); }
 
 /* ——— LigCerceveSecici ——— */
-.qt-dk-cerceveler { display: grid; gap: var(--qt-b-3); min-width: 0; }
-.qt-dk-cerceveler > p { margin: 0; }
+.qt-dk-cerceveler.qt-dk-cerceveler { display: grid; gap: var(--qt-b-3); min-width: 0; }
+.qt-dk-cerceveler.qt-dk-cerceveler > p { margin: 0; }
 .qt-dk-cerceve-liste { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: var(--qt-b-2); }
 .qt-dk-cerceve-sec {
   display: grid;
