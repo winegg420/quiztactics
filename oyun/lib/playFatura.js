@@ -1,4 +1,5 @@
 import { tt } from "./dil.js";
+import { hataBildir } from "../../src/lib/hataIzleme.js";
 // Google Play Billing — TWA içinde Digital Goods API + Payment Request API.
 //
 // NEDEN BU YOL: TWA (Trusted Web Activity) ile paketlenmiş web uygulamasında
@@ -88,12 +89,21 @@ export async function satinAl(urunId) {
   }
 }
 
-/** Sunucuda işlendikten sonra ürünü tüketilebilir olarak işaretler. */
+/**
+ * YEDEK tüketim: asıl tüketim sunucuda (Edge Function → purchases.products.consume).
+ * Sunucu tüketemediyse (`tuketildi:false`) istemci dener. Coin zaten yazılmış
+ * olduğundan akışı durdurmaz; ama hata YUTULMAZ — günlüğe ve hata izlemeye gider.
+ * Dönüş: true = tüketildi, false = tüketilemedi.
+ */
 export async function tuket(jeton) {
   try {
     const s = await servis();
-    if (s.consume) await s.consume(jeton);
-  } catch {
-    /* tüketim başarısızsa Play kendi kendine temizler */
+    if (!s.consume) throw new Error("Digital Goods API consume() yok");
+    await s.consume(jeton);
+    return true;
+  } catch (e) {
+    console.error("[Quiz Tactics] satın alma istemcide tüketilemedi:", e);
+    hataBildir(e instanceof Error ? e : new Error(String(e)));
+    return false;
   }
 }

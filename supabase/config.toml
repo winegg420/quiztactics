@@ -25,3 +25,7 @@ verify_jwt = false
 # enabled = true
 # client_id = "env(TWITTER_CLIENT_ID)"
 # secret = "env(TWITTER_SECRET)"
+
+# Cron ile x-cron-secret başlığıyla çağrılır (JWT yok). 23 Eyl 2026, S4.
+[functions.satin_alma_iade_tara]
+verify_jwt = false

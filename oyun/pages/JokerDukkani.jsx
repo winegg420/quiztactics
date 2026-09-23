@@ -175,10 +175,14 @@ export default function JokerDukkani() {
     setBilgi(null);
     setVideoCalisiyor(true);
     try {
-      // 1) Reklamı göster — başarısızsa SUNUCUYA HİÇ GİDİLMEZ (sahte ödül yok)
+      // 1) Sunucudan tek kullanımlık reklam jetonu al (tavan doluysa burada durur)
+      const { data: jetonVeri, error: jetonHata } = await supabase.rpc("reklam_jetonu_al");
+      if (jetonHata) throw jetonHata;
+      const ref = (Array.isArray(jetonVeri) ? jetonVeri[0] : jetonVeri)?.jeton;
+      if (!ref) throw new Error(tt("Reklam gösterilemedi."));
+      // 2) Reklamı göster — başarısızsa SUNUCUYA HİÇ GİDİLMEZ (sahte ödül yok)
       await odulluVideoGoster();
-      // 2) Ödülü sunucu verir
-      const ref = `h5-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+      // 3) Ödülü sunucu verir (yalnız bu jetonla, en az reklam süresi geçtiyse)
       const { data, error } = await supabase.rpc("reklam_odulu_al", { p_reklam_ref: ref });
       if (error) throw error;
       const s = Array.isArray(data) ? data[0] : data;
@@ -215,7 +219,8 @@ export default function JokerDukkani() {
       const sonuc = await cevap.json();
       if (!cevap.ok) throw new Error(sonuc?.hata ?? tt("Satın alma doğrulanamadı."));
 
-      await tuket(purchase_token);
+      // Asıl tüketim sunucuda; yapılamadıysa istemci yedeği (hatası günlüğe gider)
+      if (sonuc?.tuketildi !== true) await tuket(purchase_token);
       setBilgi(tt("Satın alman tamamlandı, coin hesabına eklendi."));
       coinTazele();
       await yukle();
