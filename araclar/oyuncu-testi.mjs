@@ -119,12 +119,17 @@ async function sayacRaporu(etiket) {
   const parcalar = [];
   let p = null;
   for (const k of kayit) {
-    if (!p || k.faz !== p.faz || k.sayi > p.son.sayi) { p = { faz: k.faz, ilk: k, satirlar: [], son: k }; parcalar.push(p); }
+    // Aynı faz içinde rakamın ARTMASI yeni faz değildir: Ek Süre (+sn) ya da Soru Değiştir — sayaç
+    // saniyenin ortasından yeniden başlar, ilk adımı doğal olarak kısadır. Bu parçalar ölçülmez.
+    if (!p || k.faz !== p.faz || k.sayi > p.son.sayi) {
+      p = { faz: k.faz, ilk: k, satirlar: [], son: k, skillSicramasi: Boolean(p && k.faz === p.faz) };
+      parcalar.push(p);
+    }
     p.satirlar.push(k); p.son = k;
   }
   const sonuc = [];
   for (const q of parcalar) {
-    if (!["kategori", "cevap"].includes(q.faz) || !q.ilk.hedef || q.ilk.kilitli) continue;
+    if (!["kategori", "cevap"].includes(q.faz) || !q.ilk.hedef || q.ilk.kilitli || q.skillSicramasi) continue;
     const tam = Number(q.faz === "kategori" ? q.ilk.sureler?.kategori ?? 8 : q.ilk.sureler?.cevap ?? 15);
     const pay = Number(q.ilk.sureler?.gosterim_payi_ms ?? 0);
     const baslangic = new Date(q.ilk.hedef).getTime() - tam * 1000 - pay;
