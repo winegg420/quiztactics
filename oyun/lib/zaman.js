@@ -17,7 +17,7 @@ let turnuvaListesi = VARSAYILAN_LISTE;
 const TSI_MS = 3 * 3600 * 1000;   // Türkiye yıl boyu UTC+3
 const GUN_MS = 24 * 3600 * 1000;
 
-/** "12:30" → 750 (dakika); geçersizse null. "24:00" geçerli, "24:10" değil. */
+/** "14:30" → 870 (dakika); geçersizse null. "24:00" geçerli, "24:10" değil. */
 function dakikaCoz(metin) {
   const m = /^(\d{2}):(\d{2})$/.exec(String(metin ?? "").trim());
   if (!m) return null;
@@ -102,7 +102,7 @@ export function bugunKalanTurnuvalar(simdi = new Date()) {
   return gununTurnuvalari(tsiGunBasi(ms)).filter((t) => t.an.getTime() > ms).map((t) => t.saat);
 }
 
-/** Sunucudan gelen "13:00" / "21:50" (TSİ) değerlerini UTC'ye çevirip saklar. */
+/** ESKİ sabah/akşam ayarlarındaki "HH:MM" (TSİ) değerlerini UTC'ye çevirip saklar. */
 export function turnuvaSaatleriniAyarla(sabahTsi, aksamTsi) {
   const cevir = (metin, yedek) => {
     try {
@@ -120,7 +120,7 @@ export function turnuvaSaatleriniAyarla(sabahTsi, aksamTsi) {
   };
 }
 
-/** Gösterim için TSİ metni ("13:00"). */
+/** Gösterim için TSİ metni ("14:00"). */
 export function turnuvaSaatMetni(seans) {
   const [s, d] = saatler[seans] ?? VARSAYILAN[seans];
   const tsi = (s + 3) % 24;
