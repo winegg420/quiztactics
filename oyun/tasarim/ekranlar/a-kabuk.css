@@ -187,8 +187,10 @@ body.bd-oyun-modu .a-kabuk .a-ust-blok { display: none; }
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
 }
+/* eski `.mobile-nav a { font-size: 8px }` etiketi küçültüyordu: token boyu geri verilir */
 .app .a-altmenu.mobile-nav .qt-altmenu-oge {
   min-width: 0;
+  font-size: var(--qt-y-xs);
   min-height: 56px;
   border-radius: var(--qt-r-m);
   background: transparent;
