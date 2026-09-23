@@ -40,4 +40,11 @@ export default {
   "Kodunu ya da linkini paylaş; arkadaşın seni tek dokunuşla ekler.": "Share your code or link — your friend adds you in one tap.",
   "Arkadaşının davet kodu": "Your friend's invite code",
   "Dokun, kopyala": "Tap to copy",
+
+  // ---------- Mesajlar / Sohbet ----------
+  "Henüz mesajın yok": "No messages yet",
+  "Arkadaşlarına ilk mesajı sen at.": "Be the first to message a friend.",
+  "Sohbetler": "Chats",
+  "{ad} ile sohbet, {0} okunmamış": "Chat with {ad}, {0} unread",
+  "Emoji": "Emoji",
 };

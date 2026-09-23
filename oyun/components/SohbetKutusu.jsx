@@ -3,9 +3,9 @@ import { createPortal } from "react-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import AvatarCerceve from "./AvatarCerceve.jsx";
 import OyuncuKarti from "./OyuncuKarti.jsx";
-import DurumKutusu from "./DurumKutusu.jsx";
+import { QtIkon, QtIkonDugme, QtDugme } from "../tasarim/index.js";
+import "../tasarim/ekranlar/l-sosyal.css";
 import EmojiSecici from "./EmojiSecici.jsx";
-import Ikon from "./Ikon.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { dmTazele } from "../lib/mesajlar.js";
 import { tt, aktifDil } from "../lib/dil.js";
@@ -296,82 +296,94 @@ export default function SohbetKutusu({ benId, kisiId, onGeri }) {
   const stil = gorunum ? { top: `${gorunum.ust}px`, height: `${gorunum.yukseklik}px` } : undefined;
 
   return createPortal(
-    <div className="bd-sohbet" style={stil} role="dialog" aria-label={tt("{0} ile sohbet", { 0: ad })}>
-      <header className="bd-sohbet-ust">
-        <button type="button" className="bd-sohbet-geri" onClick={onGeri} aria-label={tt("Geri")}>
-          <Ikon ad="geri" boyut={22} />
-        </button>
+    <div className="ms-sohbet" style={stil} role="dialog" aria-label={tt("{0} ile sohbet", { 0: ad })}>
+      <header className="ms-ust">
+        <QtIkonDugme ikon="geri" tur="saydam" etiket={tt("Geri")} onClick={onGeri} className="ms-geri" />
         <button
           type="button"
-          className="bd-sohbet-kisi"
+          className="ms-kisi"
           onClick={() => setKartAcik(true)}
           aria-haspopup="dialog"
           aria-label={tt("{ad} profilini aç", { ad })}
         >
-          <AvatarCerceve profile={kisi ?? {}} boyut={36} userId={kisiId} />
-          <span className="bd-sohbet-ad">{kisi?.gorunen_ad ?? "…"}</span>
+          <AvatarCerceve profile={kisi ?? {}} boyut={40} userId={kisiId} />
+          <span className="ms-kisi-ad">{kisi?.gorunen_ad ?? "…"}</span>
           {/* Paket 42 J.3: dokununca profil açıldığını belli eden ok */}
-          <span className="bd-sohbet-kisi-ok" aria-hidden="true">›</span>
+          <QtIkon ad="ileri" boyut={18} className="ms-kisi-ok" />
         </button>
       </header>
 
-      <div className="bd-sohbet-liste" ref={listeRef} onScroll={kaydirildi} aria-live="polite">
-        {eskiYukleniyor && <div className="bd-sohbet-bilgi">{tt("Eski mesajlar yükleniyor…")}</div>}
-        {gecmisHata && <DurumKutusu durum="hata" kucuk onTekrar={() => setDeneme((n) => n + 1)} />}
+      <div className="ms-liste" ref={listeRef} onScroll={kaydirildi} aria-live="polite">
+        {eskiYukleniyor && <p className="ms-bilgi">{tt("Eski mesajlar yükleniyor…")}</p>}
+        {gecmisHata && (
+          <div className="ms-gecmis-hata" role="alert">
+            <p>{tt("Yüklenemedi.")} {tt("Bağlantını kontrol edip tekrar dene.")}</p>
+            <QtDugme tur="ikincil" boyut="k" ikon="yenile" onClick={() => setDeneme((n) => n + 1)}>
+              {tt("Tekrar dene")}
+            </QtDugme>
+          </div>
+        )}
         {/* Paket 42 J.1: arkadaş değilken "İlk mesajı sen at." çizilmez (alttaki "yeni mesaj gönderemezsin" ile çelişiyordu) */}
         {!yukleniyor && mesajlar.length === 0 && !hata && !gecmisHata && arkadas !== false && (
-          <div className="bd-sohbet-bilgi">{tt("İlk mesajı sen at.")}</div>
+          <div className="ms-ilk">
+            <span className="ms-ilk-ikon" aria-hidden="true"><QtIkon ad="sohbet" boyut={32} /></span>
+            <p>{tt("İlk mesajı sen at.")}</p>
+          </div>
         )}
-        {yukleniyor && <div className="bd-sohbet-bilgi">{tt("Yükleniyor…")}</div>}
+        {yukleniyor && <p className="ms-bilgi" role="status">{tt("Yükleniyor…")}</p>}
         {mesajlar.map((m, i) => {
           const benden = m.gonderen_id === benId;
           const yeniGun = i === 0 || gunAnahtari(m.created_at) !== gunAnahtari(mesajlar[i - 1].created_at);
           return (
-            <div key={m.id} className="bd-balon-grup">
-            {yeniGun && <div className="bd-sohbet-gun" role="separator"><span>{gunMetni(m.created_at)}</span></div>}
-            <div className={`bd-balon-satir ${benden ? "ben" : "o"}`}>
-              <div className="bd-balon">
-                <span className="bd-balon-metin">{m.metin}</span>
-                <span className="bd-balon-saat">{saatMetni(m.created_at)}</span>
+            <div key={m.id} className="ms-balon-grup">
+              {yeniGun && <div className="ms-gun" role="separator"><span>{gunMetni(m.created_at)}</span></div>}
+              <div className={`ms-balon-satir ${benden ? "ms-ben" : "ms-o"}`}>
+                <div className="ms-balon">
+                  <span className="ms-balon-metin">{m.metin}</span>
+                  <span className="ms-balon-saat">{saatMetni(m.created_at)}</span>
+                </div>
               </div>
-            </div>
             </div>
           );
         })}
       </div>
 
       {yeniVar && (
-        <button type="button" className="bd-sohbet-yeni" onClick={asagiIn}>
-          {tt("Yeni mesaj")} ↓
+        <button type="button" className="ms-yeni" onClick={asagiIn}>
+          {tt("Yeni mesaj")} <QtIkon ad="asagi" boyut={16} />
         </button>
       )}
 
-      {hata && <div className="bd-sohbet-hata" role="alert">{hata}</div>}
+      {hata && (
+        <p className="ms-hata" role="alert">
+          <QtIkon ad="uyari" boyut={16} /> <span>{hata}</span>
+        </p>
+      )}
 
       {arkadas === false ? (
-        <div className="bd-sohbet-kapali" role="status">
+        <div className="ms-kapali" role="status">
           {tt("Artık arkadaş değilsiniz — yeni mesaj gönderemezsin. Eski mesajlar burada kalır.")}
         </div>
       ) : (
-        <div className="bd-sohbet-alt">
+        <div className="ms-alt">
           {emojiAcik && (
             <EmojiSecici onEkle={emojiEkle} onKapat={() => setEmojiAcik(false)} haricRef={emojiDugmeRef} />
           )}
-          <div className="bd-sohbet-giris">
+          <div className="ms-giris">
             <button
               type="button"
               ref={emojiDugmeRef}
-              className={`bd-sohbet-emoji${emojiAcik ? " acik" : ""}`}
+              className={`ms-emoji${emojiAcik ? " ms-emoji--acik" : ""}`}
               onPointerDown={(e) => e.preventDefault()}
               onClick={() => setEmojiAcik((a) => !a)}
               aria-label={tt("Emoji")}
               aria-expanded={emojiAcik}
             >
-              <Ikon ad="gulen" boyut={22} />
+              <QtIkon ad="gulen" boyut={24} />
             </button>
             <textarea
               ref={girisRef}
-              className="bd-sohbet-metin"
+              className="ms-metin"
               rows={1}
               value={metin}
               placeholder={tt("Mesaj yaz…")}
@@ -381,17 +393,17 @@ export default function SohbetKutusu({ benId, kisiId, onGeri }) {
             />
             <button
               type="button"
-              className={`bd-sohbet-gonder${gonderiliyor ? " calisiyor" : ""}`}
+              className="ms-gonder"
               onClick={gonder}
               disabled={!temiz || gonderiliyor}
               aria-busy={gonderiliyor}
               aria-label={tt("Gönder")}
             >
-              {gonderiliyor ? <span className="bd-sohbet-donen" aria-hidden="true" /> : <Ikon ad="gonder" boyut={20} />}
+              {gonderiliyor ? <span className="qt-donen" aria-hidden="true" /> : <QtIkon ad="gonder" boyut={22} />}
             </button>
           </div>
           {temiz.length > SINIR - 50 && (
-            <div className={`bd-sohbet-sayac${temiz.length > SINIR ? " asti" : ""}`}>{temiz.length}/{SINIR}</div>
+            <div className={`ms-sayac${temiz.length > SINIR ? " ms-sayac--asti" : ""}`}>{temiz.length}/{SINIR}</div>
           )}
         </div>
       )}
