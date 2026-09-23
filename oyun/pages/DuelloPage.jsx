@@ -71,6 +71,18 @@ const DUELLO_CAN = 3;
 // Tanımadığı sürümde maç çizilmez, yenileme istenir.
 const DUELLO_EN_YUKSEK_SURUM = 2;
 
+// Canlılık (23 Eyl 2026, ölçüldü): her duello_durum okuması sunucuda satır kilidi +
+// iki yazma (hız sınırı sayacı, last_seen) yapar. Eskiden saniyede bir yoklama +
+// her sinyalde okuma + her okumada duello_baglanti vardı (oyuncu başına ~1,4 durum
+// + 1,4 bağlantı çağrısı/sn). Şimdi: Realtime sinyali ASIL yol; faz bitişinde tek
+// okuma (sunucu fazı tembel ilerletir); yoklama yalnız yedek.
+const YEDEK_YOKLAMA_MS = 4000;     // kanal bağlıyken
+const KANALSIZ_YOKLAMA_MS = 1000;  // kanal bağlı değilken (eski davranış)
+const BAGLANTI_MS = 5000;          // duello_baglanti (kopukluk bandı) aralığı
+// duello2_ilerlet cevap fazını kişisel bitiş + duello2_cevap_tolerans_sn (1 sn) sonra kapatır.
+const CEVAP_TOLERANS_MS = 1100;
+const SINYAL_BIRLESTIR_MS = 30;    // aynı anda gelen Realtime sinyallerini tek okumada birleştir
+
 function Kalpler({ can, max = DUELLO_CAN, sonCan }) {
   return (
     <span className={`bd-duello-kalpler ${sonCan ? "son" : ""}`} aria-label={`${can}`}>
@@ -375,6 +387,9 @@ function DuelloMac({ id }) {
   }, []);
   const farkRef = useRef(0); // sunucu saati - istemci saati (ms)
   const yukleniyorRef = useRef(false);
+  const dImzaRef = useRef("");
+  const kanalHazirRef = useRef(false);   // Realtime kanalı SUBSCRIBED mi
+  const sinyalZamanRef = useRef(null);
   const sonHamleRef = useRef(null);
   const bitisSesRef = useRef(false);
   const sonTikRef = useRef(null);
@@ -390,15 +405,29 @@ function DuelloMac({ id }) {
   const [turGecis, setTurGecis] = useState(null);   // geçiş bandı anahtarı
   const [sonKullanilan, setSonKullanilan] = useState(null);   // { tur, anahtar } skill anı   // savunma halesi: fazın toplam süresi (ek süreyle büyür)
 
-  const yukle = useCallback(async () => {
-    if (yukleniyorRef.current) return;
+  // Performans (23 Eyl 2026, ölçüldü): durum okuması tek kanaldan geçer.
+  //  · Yolda bir okuma varken gelen istek (Realtime sinyali, eylem sonrası tazeleme)
+  //    ESKİDEN YUTULUYORDU: yoldaki okuma değişiklikten ÖNCE başlamışsa ekran eski
+  //    durumu çiziyor, yenisi 1 sn'lik yoklamayı bekliyordu (ölçüm: p95 0,6–1,9 sn,
+  //    iki oyuncu arası fark p95 1,35 sn). Artık istek sıraya girer: yoldaki biter
+  //    bitmez TEK bir tazeleme daha yapılır; bekleyen herkes onun sonucunu bekler.
+  //  · duello_baglanti (kopukluk bandı) her okumada değil, BAGLANTI_MS'de bir sorulur.
+  const yukleSozRef = useRef(null);      // yoldaki okuma
+  const tekrarSozRef = useRef(null);     // yoldakinin ardından sıraya giren tek okuma
+  const yukleRef = useRef(null);
+  const sonYukleRef = useRef(0);         // son okumanın başladığı an (yoklama seyreltme)
+  const sonBaglantiRef = useRef(0);
+  const yukleTek = useCallback(async () => {
     yukleniyorRef.current = true;
+    sonYukleRef.current = Date.now();
     try {
       // Paket 24 · A.4: bağlantı durumu AYNI ANDA sorulur — ek gecikme olmaz.
       // duello_durum 150 satırlık bir fonksiyon; onu genişletmek yerine ayrı, ucuz çağrı.
+      const baglantiSor = Date.now() - sonBaglantiRef.current >= BAGLANTI_MS;
+      if (baglantiSor) sonBaglantiRef.current = Date.now();
       const [durumCevap, baglantiCevap] = await Promise.all([
         supabase.rpc("duello_durum", { p_id: id }),
-        supabase.rpc("duello_baglanti", { p_id: id }),
+        baglantiSor ? supabase.rpc("duello_baglanti", { p_id: id }) : Promise.resolve(null),
       ]);
       const { data, error } = durumCevap;
       if (error) throw error;
@@ -429,13 +458,24 @@ function DuelloMac({ id }) {
           skillTimerRef.current = setTimeout(() => setSkillEfekt(null), 720);
         }
         farkRef.current = new Date(data.sunucu_zamani).getTime() - Date.now();
-        setD(data);
+        // Durum değişmediyse state'e yeni nesne yazılmaz: bütün maç ağacı boşuna
+        // yeniden çizilmesin (sunucu_zamani her yanıtta farklıdır, karşılaştırmaya girmez).
+        const imza = JSON.stringify({ ...data, sunucu_zamani: null });
+        if (imza !== dImzaRef.current) {
+          dImzaRef.current = imza;
+          setD(data);
+        }
         setYuklemeHatasi(null);
       }
-      if (baglantiCevap?.error) {
+      if (!baglantiCevap) {
+        // Bu okumada bağlantı sorulmadı: son değer geçerli.
+      } else if (baglantiCevap.error) {
         console.warn("[Bildim] duello_baglanti başarısız:", baglantiCevap.error.message);
       } else {
-        setBaglanti(baglantiCevap?.data ?? null);
+        const b = baglantiCevap.data ?? null;
+        setBaglanti(b ? { ...b, alindi: Date.now() } : null);
+        // Kopukken geri sayım bandı sık tazelensin (sunucu kopukken fazları dondurur).
+        if (b?.kopuk) sonBaglantiRef.current = Date.now() - BAGLANTI_MS + 1000;
       }
     } catch (e) {
       console.error("[Bildim] düello yüklenemedi:", e);
@@ -445,6 +485,22 @@ function DuelloMac({ id }) {
     }
   }, [id, ceviri, skillDeger]);
 
+  const yukle = useCallback(() => {
+    if (yukleSozRef.current) {
+      if (!tekrarSozRef.current) {
+        tekrarSozRef.current = yukleSozRef.current.then(() => {
+          tekrarSozRef.current = null;
+          return yukleRef.current();
+        });
+      }
+      return tekrarSozRef.current;
+    }
+    const soz = yukleTek().finally(() => { yukleSozRef.current = null; });
+    yukleSozRef.current = soz;
+    return soz;
+  }, [yukleTek]);
+  yukleRef.current = yukle;
+
   // İlk yükleme + Realtime sinyali + yoklama
   useEffect(() => {
     sesKilidiAc();
@@ -453,19 +509,59 @@ function DuelloMac({ id }) {
       .channel(`duello-${id}`)
       .on("postgres_changes",
           { event: "UPDATE", schema: "public", table: "duello_sinyal", filter: `duello_id=eq.${id}` },
-          () => yukle())
-      .subscribe();
+          () => {
+            // Aynı işlemde birden çok sinyal_ver çağrısı (ör. cevap + çözümleme) sinyalleri
+            // aynı anda getirir: SINYAL_BIRLESTIR_MS içinde gelenler tek okumada birleşir.
+            if (sinyalZamanRef.current) return;
+            sinyalZamanRef.current = setTimeout(() => { sinyalZamanRef.current = null; yukle(); }, SINYAL_BIRLESTIR_MS);
+          })
+      .subscribe((durum) => {
+        const hazir = durum === "SUBSCRIBED";
+        // Kanal (yeniden) bağlandığında arada kaçmış sinyal olabilir: bir kez tazele.
+        if (hazir && !kanalHazirRef.current) yukle();
+        kanalHazirRef.current = hazir;
+      });
+    // Yedek yoklama: kanal bağlıyken seyrek, değilken saniyede bir. Son okumadan beri
+    // geçen süreye bakılır — sinyal ya da eylemle yeni okunduysa yoklama atlanır.
     const yoklama = setInterval(() => {
-      if (document.visibilityState === "visible") yukle();
+      if (document.visibilityState !== "visible") return;
+      const aralik = kanalHazirRef.current ? YEDEK_YOKLAMA_MS : KANALSIZ_YOKLAMA_MS;
+      if (Date.now() - sonYukleRef.current >= aralik - 50) yukle();
     }, 1000);
+    const gorunur = () => { if (document.visibilityState === "visible") yukle(); };
+    document.addEventListener("visibilitychange", gorunur);
     const saat = setInterval(() => setSimdi(Date.now()), 200);
     return () => {
       clearInterval(yoklama);
       clearInterval(saat);
+      document.removeEventListener("visibilitychange", gorunur);
       clearTimeout(skillTimerRef.current);
+      clearTimeout(sinyalZamanRef.current);
+      sinyalZamanRef.current = null;
+      kanalHazirRef.current = false;
       supabase.removeChannel(kanal);
     };
   }, [id, yukle]);
+
+  // Faz bitişinde tek okuma: sunucu fazı tembel ilerletir (okuyan ilk çağrı ya da 2 sn'lik
+  // cron). Bitiş anında iki istemci de okur → yeni faz iki ekrana aynı anda gelir.
+  // Anahtar: "c|bitiş1|bitiş2" (cevap fazı: iki kişisel bitişin geç olanı + tolerans) ya da "f|faz_bitis".
+  const bitisAnahtar = d?.durum === "aktif"
+    ? d.faz === "cevap" && d.cevap
+      ? `c|${d.cevap.benim_bitis}|${d.cevap.rakip_bitis}`
+      : `f|${d.faz_bitis}`
+    : "";
+  useEffect(() => {
+    if (!bitisAnahtar) return undefined;
+    const [tur, ...zamanlar] = bitisAnahtar.split("|");
+    const t = zamanlar.map((x) => new Date(x).getTime()).filter(Number.isFinite);
+    if (!t.length) return undefined;
+    const hedef = Math.max(...t) + (tur === "c" ? CEVAP_TOLERANS_MS : 60);
+    const bekleMs = hedef - (Date.now() + farkRef.current);
+    if (bekleMs < -2000 || bekleMs > 10 * 60 * 1000) return undefined;
+    const zaman = setTimeout(() => { if (document.visibilityState === "visible") yukle(); }, Math.max(0, bekleMs));
+    return () => clearTimeout(zaman);
+  }, [bitisAnahtar, yukle]);
 
   // ---------------- Paket 28 A: düellonun kendi nabzı ----------------
   //
@@ -956,7 +1052,8 @@ function DuelloMac({ id }) {
             <QtIkon ad="uyari" boyut={18} />
             <span>
               {baglanti.ben_mi ? ceviri("Bağlantın koptu — düello bekliyor.") : ceviri("Rakibin bağlantısı koptu — düello durduruldu.")}
-              {baglanti.kalan_sn === null || baglanti.kalan_sn === undefined ? "" : ` ${baglanti.kalan_sn} ${ceviri("sn")}`}
+              {baglanti.kalan_sn === null || baglanti.kalan_sn === undefined ? ""
+                : ` ${Math.max(0, baglanti.kalan_sn - Math.floor((simdi - (baglanti.alindi ?? simdi)) / 1000))} ${ceviri("sn")}`}
             </span>
           </p>
         )}
@@ -1237,7 +1334,7 @@ function DuelloMac({ id }) {
               : ceviri("Rakibin bağlantısı koptu — düello durduruldu.")}
             {baglanti.kalan_sn === null || baglanti.kalan_sn === undefined
               ? ""
-              : ` ${baglanti.kalan_sn} ${ceviri("sn")}`}
+              : ` ${Math.max(0, baglanti.kalan_sn - Math.floor((simdi - (baglanti.alindi ?? simdi)) / 1000))} ${ceviri("sn")}`}
           </span>
         </div>
       )}

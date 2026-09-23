@@ -202,12 +202,20 @@
 .m2-durum > span { display: inline-flex; align-items: center; gap: 4px; }
 .m2-durum--tamam { background: var(--qt-dogru); color: var(--qt-dogru-yazi); }
 .m2-durum--tamam b { color: var(--qt-dogru-yazi); }
-/* Yeni soru geldi: kartın çevresinde tek seferlik altın halka (sesSoruGeldi ile aynı kare) */
-.m2-cevap-faz .m2-soru .qt-soru-kart { animation: qt-h-kart-gir var(--qt-s-uzun) var(--qt-egri-cikis) both, m2-soru-gel calc(var(--qt-s-kirilma)) var(--qt-egri-cikis) both; }
+/* Yeni soru geldi: kartın çevresinde tek seferlik altın halka (sesSoruGeldi ile aynı kare).
+   Performans (23 Eyl 2026): halka eskiden kartın box-shadow'unu kare kare değiştiriyordu (soru
+   geçişinde her karede büyük kart yeniden boyanıyordu). Artık sabit gölgeli ayrı katman
+   (::after) yalnız opacity + scale ile oynar — boyama yok, kompozitörde çalışır. */
+.m2-cevap-faz .m2-soru .qt-soru-kart { box-shadow: var(--qt-kabartma-kart); animation: qt-h-kart-gir var(--qt-s-uzun) var(--qt-egri-cikis) both; }
+.m2-cevap-faz .m2-soru .qt-soru-kart::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  box-shadow: 0 0 0 6px var(--qt-coin); opacity: 0;
+  animation: m2-soru-gel calc(var(--qt-s-kirilma)) var(--qt-egri-cikis) both;
+}
 @keyframes m2-soru-gel {
-  0% { box-shadow: 0 0 0 0 var(--qt-coin), var(--qt-kabartma-kart); }
-  40% { box-shadow: 0 0 0 6px var(--qt-coin), var(--qt-kabartma-kart); }
-  100% { box-shadow: 0 0 0 0 transparent, var(--qt-kabartma-kart); }
+  0% { opacity: 0; scale: 0.97; }
+  40% { opacity: 1; scale: 1; }
+  100% { opacity: 0; scale: 1.01; }
 }
 .m2-soru .qt-soru-kategori { display: inline-flex; align-items: center; gap: 6px; }
 
@@ -325,7 +333,8 @@
 @media (prefers-reduced-motion: reduce) {
   .m2-tur, .m2-sahne, .m2-bekle-ikon, .m2-yukleniyor-ikon, .m2-mac--son-can .qt-can-kalp--dolu { animation: none !important; }
   .m2-gecis > span { animation-name: m2-gecis-sade !important; }
-  .m2-cevap-faz .m2-soru .qt-soru-kart { animation: m2-soru-gel calc(var(--qt-s-kirilma)) linear both !important; }
+  .m2-cevap-faz .m2-soru .qt-soru-kart { animation: none !important; }
+  .m2-cevap-faz .m2-soru .qt-soru-kart::after { animation: m2-soru-gel calc(var(--qt-s-kirilma)) linear both !important; }
   .m2-kat-ust--son .m2-kat-sayac { scale: 1; }
   .m2-kat, .m2-kat-sayac { transition: none; }
 }
