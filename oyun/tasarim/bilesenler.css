@@ -655,6 +655,11 @@
   padding-top: 3px; /* Baloo'nun üst boşluğu: Q ile optik hiza */
 }
 .qt-marka--b .qt-marka-yazi { font-size: 28px; }
+/* Resmi logo (Logo.jsx): eski .brand-logo ölçüleri — dar ekranda 120 px. */
+.qt-marka .qt-marka-logo { display: block; flex: none; height: auto; }
+@media (max-width: 560px) {
+  .qt-marka--o .qt-marka-logo { width: 120px; }
+}
 
 .qt-ustcubuk {
   position: relative;

@@ -10,7 +10,9 @@ import DavetBandi from "./DavetBandi.jsx";
 import Tanitim from "./Tanitim.jsx";
 import { useBildimManifest } from "../lib/manifest.js";
 import BildirimToast from "./BildirimToast.jsx";
-import { QtUstCubuk, QtUstMenu, QtAltMenu, QtMarka, QtIkonDugme } from "../tasarim/index.js";
+import { QtUstCubuk, QtUstMenu, QtAltMenu, QtIkonDugme } from "../tasarim/index.js";
+// Başlık logosu Yön A öncesi hâline döndü (72b1fb4^): resmi Logo wordmark'ı.
+import Logo from "./Logo.jsx";
 import "../tasarim/ekranlar/a-kabuk.css";
 import CoinHapi from "./CoinHapi.jsx";
 import AvatarMenu from "./AvatarMenu.jsx";
@@ -156,7 +158,12 @@ export default function Layout() {
           Maç ekranlarında gizlenir: body.bd-oyun-modu (oyun/lib/oyunModu.js). */}
       <div className="a-ust-blok">
         <QtUstCubuk
-          marka={<QtMarka as={Link} to={y()} aria-label={tt("Quiz Tactics ana sayfa")} />}
+          marka={
+            <Link className="brand" to={y()} aria-label={tt("Quiz Tactics ana sayfa")}>
+              <Logo boyut={42} className="brand-logo brand-logo--tam" />
+              <Logo boyut={36} className="brand-logo brand-logo--ikon" sadeceIkon />
+            </Link>
+          }
           menu={
             <QtUstMenu
               Baglanti={NavLink}

@@ -8,20 +8,22 @@
 // Basma hareketi yalnız sabit öğenin İÇİNDEKİ çocuklara uygulanır.
 import { useEffect, useId, useRef } from "react";
 import { createPortal } from "react-dom";
-import QtIkon, { QtQIsareti } from "./Ikon.jsx";
+import QtIkon from "./Ikon.jsx";
+import Logo from "../components/Logo.jsx";
 import { sinif, QtIkonDugme, QtCoinHapi, QtAvatar, QtSayiRozeti } from "./temel.jsx";
 import { tt } from "../lib/dil.js";
 
 // ——————————————————————— MARKA ———————————————————————
 /**
- * Q işareti + "QUIZ TACTICS" yazısı (Yön A). Yeni logo değildir; Q çizimi Logo.jsx'ten.
+ * Resmi Quiz Tactics logosu (Logo.jsx wordmark'ı).
+ * ESKİDEN Q işareti + "QUIZ TACTICS" yazısıydı; yan yana "QQUIZ" gibi okunduğu
+ * için Yön A öncesi logoya dönüldü (23 Eyl 2026).
  * <QtMarka as={Link} to="/" aria-label={tt("Quiz Tactics ana sayfa")} />
  */
 export function QtMarka({ as: Oge = "span", boyut = "o", className, ...rest }) {
   return (
     <Oge className={sinif("qt-marka", `qt-marka--${boyut}`, className)} {...rest}>
-      <QtQIsareti boyut={boyut === "b" ? 44 : 34} />
-      <span className="qt-marka-yazi" aria-hidden={rest["aria-label"] ? "true" : undefined}>QUIZ TACTICS</span>
+      <Logo boyut={boyut === "b" ? 54 : 42} className="qt-marka-logo" />
     </Oge>
   );
 }

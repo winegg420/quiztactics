@@ -217,3 +217,15 @@ body.bd-oyun-modu .a-kabuk .a-altmenu { display: none; }
 @media (prefers-reduced-motion: reduce) {
   .a-avatar-menu { animation: none; }
 }
+
+/* ---------- Başlık logosu: Yön A öncesi hâl (72b1fb4^) birebir ----------
+   QtMarka'nın Q işareti + "QUIZ TACTICS" yazısı dar ekranda "QQUIZ" gibi
+   okunuyordu; başlık yine resmi Logo wordmark'ını taşır. Kurallar eski
+   yeni.css'ten (kaldırılan "Resmi marka" bloğu) aynen alındı. */
+.brand .brand-logo { display: block; flex: none; height: auto; }
+.brand .brand-logo--ikon { display: none; }
+.a-kabuk .qt-ustcubuk-marka .brand { min-height: var(--qt-dokunma); }
+@media (max-width: 560px) {
+  .app .brand .brand-logo--tam { display: block; width: 120px; height: auto; }
+  .app .brand .brand-logo--ikon { display: none; }
+}
