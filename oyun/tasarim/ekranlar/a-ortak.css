@@ -1,0 +1,20 @@
+/* =====================================================================
+   ŞERİT A — ORTAK KÜÇÜK BİLEŞENLER (DereceliAnahtari, GeriDugmesi …)
+   Başka ekranlar da kullandığı için bileşenin kendi dosyasından yüklenir.
+   ===================================================================== */
+
+/* Dereceli anahtarı tek başına durduğu yerde (Düello girişi, Meydan okumalar,
+   Modlar) beyaz bir satır levhası olur; bir kartın içinde `a-dereceli--gomulu`. */
+.a-dereceli.qt-anahtar {
+  padding: var(--qt-b-2) var(--qt-b-4);
+  border-radius: var(--qt-r-l);
+  background: var(--qt-yuzey);
+  color: var(--qt-metin);
+  box-shadow: 0 var(--qt-dudak-s) 0 var(--qt-cizgi);
+}
+.a-dereceli.qt-anahtar.a-dereceli--gomulu {
+  padding: var(--qt-b-2) var(--qt-b-1);
+  border-radius: var(--qt-r-m);
+  background: transparent;
+  box-shadow: none;
+}

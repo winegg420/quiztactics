@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import Countdown from "../components/Countdown.jsx";
-import Avatar from "../../src/components/Avatar.jsx";
 import AvatarCerceve from "../components/AvatarCerceve.jsx";
 import { TurnuvaSaatEtiketi, BugunKalanTurnuvalar } from "../components/TurnuvaSaatleri.jsx";
 import { siradakiLobi } from "../lib/zaman.js";
@@ -13,23 +12,24 @@ import { haftaBitisi, sureMetni } from "../lib/konum.js";
 import RakipAra from "../components/RakipAra.jsx";
 import YarimMacPenceresi from "../components/YarimMac.jsx";
 import ModSecimPenceresi from "../components/ModSecimPenceresi.jsx";
-import Ikon from "../components/Ikon.jsx";
 import RankBadge from "../components/RankBadge.jsx";
 import SeriRozeti from "../components/SeriRozeti.jsx";
 import DurumKutusu, { useZamanAsimi } from "../components/DurumKutusu.jsx";
 import { y } from "../lib/yol.js";
 import { kategoriEtiket, kategorileriSirala } from "../lib/kategoriler.js";
 import KategoriIkon from "../components/KategoriIkon.jsx";
-import Modal from "../components/Modal.jsx";
 import BildirimIzniSor from "../components/BildirimIzniSor.jsx";
 import { BILDIRIM_SONRA_ANAHTAR } from "../components/MacSonuSahnesi.jsx";
 import DereceliAnahtari from "../components/DereceliAnahtari.jsx";
 import { useDereceliTercih } from "../lib/dereceli.js";
 import { useDil } from "../lib/dilKanca.js";
 import { tt, ttSunucu } from "../lib/dil.js";
-import { KLASIK_JOKERLER, MAC_ICI_JOKERLER, SALDIRI_JOKERLERI } from "../lib/jokerler.js";
 import { LIG_ADLARI } from "../lib/lig.js";
 import { rpcDene } from "../lib/rpcDene.js";
+import {
+  QtKart, QtDugme, QtIkonDugme, QtIkon, QtModKart, QtIlerleme, QtListe, QtListeSatiri, QtRozet, QtModal,
+} from "../tasarim/index.js";
+import "../tasarim/ekranlar/a-ana.css";
 
 export default function Home() {
   const { user, profile, refreshProfile, profilHata } = useAuth();
@@ -388,26 +388,26 @@ export default function Home() {
   // Paket 41 A: profil yokken sahte "Oyuncu · 0 PUAN · Çaylak" çizilmez
   if (!profile) {
     return (
-      <div className="anasayfa">
-        <h1 className="baslik bd-gorsel-gizli">{tt("Ana sayfa")}</h1>
-        <div className="kart">
+      <div className="a-ana">
+        <h1 className="qt-gizli">{tt("Ana sayfa")}</h1>
+        <QtKart>
           <DurumKutusu durum={profilHata || profilGecikti ? "hata" : "yukleniyor"} satir={4}
                        onTekrar={() => refreshProfile(user?.id)} />
-        </div>
+        </QtKart>
       </div>
     );
   }
 
-  // P2A: hero paneli LEVEL gösterir (rütbe level'e bağlı; lig puanı lig kartında).
+  // P2A: oyuncu kartı LEVEL gösterir (rütbe level'e bağlı; lig puanı lig kartında).
   const level = Number(profile?.level) || 1;
   const levelXp = Math.max(0, Number(profile?.level_xp) || 0);
   const levelGereken = Number(profile?.level_gereken) || 0;
   const rutbe = rutbeBul(level);
-  const ilerleme = levelGereken > 0 ? Math.min(100, Math.round((levelXp / levelGereken) * 100)) : 0;
+  const kategoriAdi = profile?.tercih_kategori ? kategoriEtiket(profile.tercih_kategori) : tt("Karışık");
 
   return (
-    <div className="bd-anasayfa">
-      <h1 className="baslik bd-gorsel-gizli">{tt("Ana sayfa")}</h1>
+    <div className="a-ana bd-anasayfa">
+      <h1 className="qt-gizli">{tt("Ana sayfa")}</h1>
 
       {/* ---------- Katmanlar (modal / tam ekran) ---------- */}
       {yarimMac && (
@@ -446,382 +446,320 @@ export default function Home() {
           onIptal={() => setRakipAra(false)}
         />
       )}
-      {kategoriSheet && (
-        <Modal etiket={tt("Rakip kategorisi seç")} ekSinif="bd-alttan" onKapat={() => setKategoriSheet(false)}>
-          <div className="bd-kategori-sheet">
-            <div className="bd-kategori-sheet-tutamac" aria-hidden="true" />
-            <h2>{tt("Rakip kategorisi")}</h2>
-            <p>{tt("\"Hemen oyna\" bu kategoride rakip arar.")}</p>
-            <div className="bd-kategori-sheet-liste">
-              {[{ kategori: "", soru_sayisi: null }, ...kategorileriSirala(kategoriler)].map((k) => {
-                const secili = (profile?.tercih_kategori ?? "") === k.kategori;
-                return (
-                  <button
-                    key={k.kategori || "karisik"}
-                    type="button"
-                    className={"bd-kategori-secenek" + (secili ? " aktif" : "")}
-                    aria-pressed={secili}
-                    onClick={async () => {
-                      setKategoriSheet(false);
-                      if (!secili) await aramaKategorisiSec(k.kategori);
-                    }}
-                  >
-                    <KategoriIkon anahtar={k.kategori || "karisik"} boyut={24} plaka />
-                    <span className="bd-kategori-secenek-ad">{k.kategori ? kategoriEtiket(k.kategori) : tt("Karışık")}</span>
-                    <span className="bd-kategori-secenek-alt">
-                      {k.kategori ? `${k.soru_sayisi} soru` : tt("Tüm kategoriler")}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        </Modal>
-      )}
-
-      {/* ---------- OYUNCU ŞERİDİ ----------
-          Rütbe ve lig AYRI iki sistemdir: burada RÜTBE + LEVEL var (P2A: rütbe
-          level'den, ranks.js). Lig sağ sütundaki lig kartında. */}
-      <section className="player-strip">
-        <div className="player-main">
-          <span className="player-avatar">
-            <AvatarCerceve profile={profile} boyut={58} userId={user.id} />
-          </span>
-          <div>
-            <span className="eyebrow">{tt("HOŞ GELDİN")}</span>
-            <h1>{profile?.gorunen_ad ?? tt("Oyuncu")}</h1>
-            <span className="rank">
-              <RankBadge level={level} sadeceRozet boyut={15} /> {rutbe.ad} · {tt("Level {n}", { n: level })}
-            </span>
-          </div>
-        </div>
-        <div className="player-stats">
-          <div><b>{level}</b><span>{tt("Level")}</span></div>
-          <SeriRozeti bicim="serit" />
-          <div className="next-rank">
-            <span>
-              {levelGereken > 0
-                ? tt("Level {n} için {xp} XP", { n: level + 1, xp: Math.max(0, levelGereken - levelXp) })
-                : tt("Level {n}", { n: level })}
-            </span>
-            <i><em style={{ width: `${ilerleme}%` }} /></i>
-          </div>
-        </div>
-      </section>
+      <QtModal
+        acik={kategoriSheet}
+        tur="altSayfa"
+        onKapat={() => setKategoriSheet(false)}
+        baslik={tt("Rakip kategorisi")}
+        aciklama={tt("\"Hemen oyna\" bu kategoride rakip arar.")}
+      >
+        <QtListe etiket={tt("Rakip kategorisi seç")} className="a-ana-kategori-liste">
+          {[{ kategori: "", soru_sayisi: null }, ...kategorileriSirala(kategoriler)].map((k) => {
+            const secili = (profile?.tercih_kategori ?? "") === k.kategori;
+            return (
+              <QtListeSatiri
+                key={k.kategori || "karisik"}
+                vurgulu={secili}
+                aria-pressed={secili}
+                data-qt-ilk-odak={secili ? "" : undefined}
+                bas={<KategoriIkon anahtar={k.kategori || "karisik"} boyut={24} plaka />}
+                baslik={k.kategori ? kategoriEtiket(k.kategori) : tt("Karışık")}
+                alt={k.kategori ? tt("{n} soru", { n: k.soru_sayisi }) : tt("Tüm kategoriler")}
+                sag={secili ? <QtIkon ad="onay" boyut={22} etiket={tt("Seçili")} className="a-ana-secili-ikon" /> : null}
+                onClick={async () => {
+                  setKategoriSheet(false);
+                  if (!secili) await aramaKategorisiSec(k.kategori);
+                }}
+              />
+            );
+          })}
+        </QtListe>
+      </QtModal>
 
       {/* ---------- ACİL: rakip seni bekliyor ----------
           Meydan okuman kabul edildi ve karşı taraf ŞU AN maç ekranında.
           Sayfanın en görünür yerinde durur; saniyeler içinde yapılacak iş. */}
       {yeniKabuller.map((m) => (
-        <Link key={m.id} to={y("/mac/") + m.id} className="bd-rakip-bekliyor">
-          <span className="bd-rakip-bekliyor-nokta" aria-hidden="true" />
-          <span className="bd-rakip-bekliyor-metin">
-            <b>{m.rakipAd || tt("Rakibin")}</b> {tt("meydan okumanı kabul etti")}
-            <small>{tt("Maç ekranında seni bekliyor — hemen gir")}</small>
+        <QtKart key={m.id} as={Link} to={y("/mac/") + m.id} ton="mor" className="a-ana-acil">
+          <span className="a-ana-acil-nokta" aria-hidden="true" />
+          <span className="a-ana-acil-metin">
+            <b>{tt("{ad} meydan okumanı kabul etti", { ad: m.rakipAd || tt("Rakibin") })}</b>
+            <span>{tt("Maç ekranında seni bekliyor — hemen gir")}</span>
           </span>
-          <span className="bd-rakip-bekliyor-btn">{tt("Maça gir")}</span>
-        </Link>
+          <span className="a-ana-acil-eylem">{tt("Maça gir")}<QtIkon ad="ileri" boyut={20} /></span>
+        </QtKart>
       ))}
 
-      {/* Haftalık sonuç bildirimi (push kapalıysa da görünür) */}
-      {gecenHafta && (
-        <div className="bd-hafta-sonuc">
-          <div className="ikon"><Ikon ad="kupa" boyut={20} /></div>
-          <div className="metin">
-            {gecenHafta.sira_sehir
-              ? tt("Geçen hafta {sehir} liginde {sira}. oldun ({puan} puan). Yeni hafta başladı!",
-                  { sehir: gecenHafta.sehir, sira: gecenHafta.sira_sehir, puan: gecenHafta.puan })
-              : tt("Geçen hafta dünya liginde {sira}. oldun ({puan} puan). Yeni hafta başladı!",
-                  { sira: gecenHafta.sira_global, puan: gecenHafta.puan })}
-          </div>
-          <button
-            className="btn kucuk ikincil"
-            aria-label={tt("Kapat")}
-            onClick={() => {
-              try {
-                localStorage.setItem("bildim_hafta_okundu", gecenHafta.hafta);
-              } catch { /* özel mod */ }
-              setGecenHafta(null);
-            }}
-          >
-            <Ikon ad="carpi" boyut={16} />
-          </button>
-        </div>
-      )}
-
-      {bildirimSor && <BildirimIzniSor />}
-
-      <div className="dashboard">
-        <div className="primary-column">
-
-          {/* Mobilde Klasik ve Düello iki eşit kardeş ana mod olarak açılır.
-              Masaüstündeki ayrıntılı ana kart korunur. */}
-          <section className="mobile-core-modes" aria-label={tt("Ana oyun modları")}>
-            <button type="button" className="mobile-core-mode klasik" onClick={() => setModSecimAcik(true)}>
-              <span className="mobile-core-mode-icon"><Ikon ad="hizli" boyut={27} /></span>
-              <span><small>{tt("KLASİK")}</small><b>{tt("Bilgini yarıştır")}</b><em>{tt("20 soru · canlı rakip")}</em></span>
-              <i aria-hidden="true">›</i>
-            </button>
-            <button type="button" className="mobile-core-mode duello" onClick={() => navigate(y("/duello"))}>
-              <span className="mobile-core-mode-icon"><Ikon ad="kilic" boyut={27} /></span>
-              <span><small>{tt("DÜELLO")}</small><b>{tt("Taktiğini konuştur")}</b><em>{tt("3 can · aynı soru, aynı anda")}</em></span>
-              <i aria-hidden="true">›</i>
-            </button>
-            <div className="mobile-core-settings">
-              <button type="button" disabled={kategoriKaydediliyor} onClick={() => setKategoriSheet(true)}>
-                <KategoriIkon anahtar={profile?.tercih_kategori || "karisik"} boyut={19} />
-                <span><small>{tt("Kategori")}</small><b>{profile?.tercih_kategori ? kategoriEtiket(profile.tercih_kategori) : tt("Karışık")}</b></span>
-              </button>
-              <button type="button" role="switch" aria-checked={dereceliTercih} onClick={() => setDereceliTercih(!dereceliTercih)}>
-                <Ikon ad="kupa" boyut={19} />
-                <span><small>{tt("Maç türü")}</small><b>{dereceliTercih ? ceviri("Dereceli") : ceviri("Serbest")}</b></span>
-              </button>
+      <div className="a-ana-izgara">
+        <div className="a-ana-ana">
+          {/* ---------- OYUNCU KARTI ----------
+              Rütbe ve lig AYRI iki sistemdir: burada RÜTBE + LEVEL var (P2A: rütbe
+              level'den, ranks.js). Lig yan sütundaki lig satırında. */}
+          <QtKart className="a-ana-oyuncu">
+            <span className="a-ana-oyuncu-avatar">
+              <AvatarCerceve profile={profile} boyut={64} userId={user.id} />
+            </span>
+            <div className="a-ana-oyuncu-bilgi">
+              <p className="a-ana-oyuncu-ad">{profile?.gorunen_ad ?? tt("Oyuncu")}</p>
+              <p className="a-ana-oyuncu-rutbe">
+                <RankBadge level={level} sadeceRozet boyut={16} /> {rutbe.ad} · {tt("Level {n}", { n: level })}
+              </p>
+              <QtIlerleme
+                deger={levelXp}
+                en={levelGereken > 0 ? levelGereken : 1}
+                etiket={tt("Seviye ilerlemesi")}
+                className="a-ana-oyuncu-xp"
+              />
+              <p className="a-ana-oyuncu-xp-metin">
+                {levelGereken > 0
+                  ? tt("Level {n} için {xp} XP", { n: level + 1, xp: Math.max(0, levelGereken - levelXp) })
+                  : tt("Level {n}", { n: level })}
+              </p>
             </div>
-          </section>
+            <span className="a-ana-seri"><SeriRozeti bicim="serit" /></span>
+          </QtKart>
 
-          {/* ---------- ANA EYLEM KARTI ---------- */}
-          <section className="play-card">
-            <div className="play-glow" aria-hidden="true" />
-            <div className="play-copy">
-              <span className="live-label"><i aria-hidden="true" /> {tt("HIZLI EŞLEŞME")}</span>
-              <h2>{tt("Bilgini konuştur.")}<br /><strong>{tt("Tahtaya çık.")}</strong></h2>
-              <p>{tt("Senin seviyendeki rakiplerle canlı mücadele.")}</p>
-            </div>
+          {/* Haftalık sonuç bildirimi (push kapalıysa da görünür) */}
+          {gecenHafta && (
+            <QtKart ton="duz" dolgu="k" className="a-ana-hafta">
+              <span className="a-ana-hafta-ikon"><QtIkon ad="kupa" boyut={22} /></span>
+              <p className="a-ana-hafta-metin">
+                {gecenHafta.sira_sehir
+                  ? tt("Geçen hafta {sehir} liginde {sira}. oldun ({puan} puan). Yeni hafta başladı!",
+                      { sehir: gecenHafta.sehir, sira: gecenHafta.sira_sehir, puan: gecenHafta.puan })
+                  : tt("Geçen hafta dünya liginde {sira}. oldun ({puan} puan). Yeni hafta başladı!",
+                      { sira: gecenHafta.sira_global, puan: gecenHafta.puan })}
+              </p>
+              <QtIkonDugme
+                ikon="carpi"
+                tur="saydam"
+                etiket={tt("Kapat")}
+                onClick={() => {
+                  try {
+                    localStorage.setItem("bildim_hafta_okundu", gecenHafta.hafta);
+                  } catch { /* özel mod */ }
+                  setGecenHafta(null);
+                }}
+              />
+            </QtKart>
+          )}
 
-            <div className="versus" aria-label={tt("Rakip eşleşmesi ön izlemesi")}>
-              <div className="fighter you">
-                <Avatar profile={profile} boyut={54} />
-                <span>{tt("SEN")}</span>
-              </div>
-              <div className="vs-badge">VS</div>
-              <div className="fighter mystery"><span>?</span><small>{tt("RAKİP")}</small></div>
+          {bildirimSor && <BildirimIzniSor />}
+
+          {/* ---------- ANA MODLAR ----------
+              Klasik ve Düello iki eşit kardeş ana mod. Klasik mod seçimini
+              açar (Klasik · Düello · Saf Bilgi), Düello doğrudan girişine gider.
+              `mobile-core-mode klasik` EK sınıfı: oyuncu testi buna dokunuyor. */}
+          <section className="a-ana-bolum" aria-labelledby="a-ana-oyna-b">
+            <h2 id="a-ana-oyna-b" className="qt-baslik-2">{tt("Hemen oyna")}</h2>
+            <div className="a-ana-modlar">
+              <QtModKart
+                mod="klasik"
+                ikon="klasik"
+                ad={ceviri("Klasik")}
+                alt={tt("20 soru · canlı rakip")}
+                className="mobile-core-mode klasik"
+                aria-haspopup="dialog"
+                onClick={() => setModSecimAcik(true)}
+              />
+              <QtModKart
+                mod="duello"
+                ikon="duello"
+                ad={ceviri("Düello")}
+                alt={tt("3 can · aynı soru, aynı anda")}
+                className="mobile-core-mode duello"
+                onClick={() => navigate(y("/duello"))}
+              />
             </div>
 
             {/* Kategori ve dereceli/serbest — ikisi de mevcut mekanizma:
                 tercih_kategori (tercih_kategori_kaydet) ve dereceli tercihi
                 (localStorage + profiles.dereceli_tercih). */}
-            <div className="match-settings">
+            <QtKart dolgu="k" className="a-ana-ayarlar">
               <button
                 type="button"
-                className="setting"
+                className="a-ana-kategori"
                 disabled={kategoriKaydediliyor}
                 aria-haspopup="dialog"
                 onClick={() => setKategoriSheet(true)}
               >
-                <span className="setting-icon">
-                  <KategoriIkon anahtar={profile?.tercih_kategori || "karisik"} boyut={20} />
+                <KategoriIkon anahtar={profile?.tercih_kategori || "karisik"} boyut={22} plaka />
+                <span className="a-ana-kategori-metin">
+                  <span className="a-ana-kategori-etiket">{tt("Kategori")}</span>
+                  <b>{kategoriKaydediliyor ? tt("Kaydediliyor…") : kategoriAdi}</b>
                 </span>
-                <span>
-                  <small>{tt("KATEGORİ")}</small>
-                  <b>
-                    {kategoriKaydediliyor
-                      ? tt("Kaydediliyor…")
-                      : profile?.tercih_kategori ? kategoriEtiket(profile.tercih_kategori) : tt("Karışık")}
-                  </b>
-                </span>
-                <span className="chevron" aria-hidden="true">⌄</span>
+                <QtIkon ad="asagi" boyut={20} className="a-ana-kategori-ok" />
               </button>
+              <DereceliAnahtari dereceli={dereceliTercih} onDegistir={setDereceliTercih} className="a-dereceli--gomulu a-ana-dereceli" />
+            </QtKart>
 
-              <button
-                type="button"
-                className={`setting ranked${dereceliTercih ? "" : " serbest"}`}
-                role="switch"
-                aria-checked={dereceliTercih}
-                onClick={() => setDereceliTercih(!dereceliTercih)}
-              >
-                <span className="setting-icon"><Ikon ad="kupa" boyut={20} /></span>
-                <span>
-                  <small>{tt("MAÇ TÜRÜ")}</small>
-                  <b>{dereceliTercih ? ceviri("Dereceli") : ceviri("Serbest")}</b>
-                </span>
-                <span className={`switch${dereceliTercih ? " on" : ""}`} aria-hidden="true"><i /></span>
-              </button>
-            </div>
-
-            <button className="play-button" onClick={() => setModSecimAcik(true)}>
-              <span><Ikon ad="hizli" boyut={20} /></span> {tt("RAKİP BUL")} <b>→</b>
-            </button>
-            <div className="play-meta">
-              <span>{dereceliTercih ? ceviri("Lig puanı + tam coin") : ceviri("Serbest — puan yok, coin yarı")}</span>
-              <i aria-hidden="true" />
-              <span>{KLASIK_JOKERLER.length} {tt("skill")}</span>
-              <i aria-hidden="true" />
-              <span>{tt("Canlı maç")}</span>
-            </div>
-            {mesaj && <div className="hata-kutu" style={{ marginTop: 10 }}>{mesaj}</div>}
+            <QtDugme boyut="b" tamGenislik ikon="oyna" aria-haspopup="dialog" onClick={() => setModSecimAcik(true)}>
+              {tt("Rakip bul")}
+            </QtDugme>
+            {mesaj && <p className="a-ana-hata" role="alert">{mesaj}</p>}
           </section>
 
           {/* ---------- SENİ BEKLEYENLER ---------- */}
-          <section className="section">
-            <div className="section-head">
-              <div>
-                <span className="eyebrow">{tt("SIRA SENDE")}</span>
-                <h2>{tt("Seni bekleyenler")}</h2>
-              </div>
-            </div>
-
-            {siraSendeMaclar.map((m) => (
-              <Link key={m.id} to={y("/mac/") + m.id} className="bd-devam-eden">
-                <Ikon ad="saat" boyut={17} />
-                <span>
-                  <b>{m.rakipAd || tt("Rakibin")}</b> {tt("ile maçın yarım — sıra sende")}
-                  {m.rakipBot && <span className="bd-satir-not">{tt("bot")}</span>}
-                </span>
-                <span className="ok" aria-hidden="true">›</span>
-              </Link>
-            ))}
-
-            {siraSendeMaclar.length === 0 && bekleyenDavetlerim.length === 0 && (
-              <div className="bd-devam-eden bd-bekleyen-bos">
-                <Ikon ad="kilic" boyut={17} />
-                <span>{tt("Şu an seni bekleyen maç yok.")}</span>
-                <Link to={y("/meydan")} className="bd-bekleyen-bos-eylem">{tt("Arkadaşına meydan oku")}</Link>
-              </div>
+          <section className="a-ana-bolum" aria-labelledby="a-ana-bekleyen-b">
+            <h2 id="a-ana-bekleyen-b" className="qt-baslik-2">{tt("Seni bekleyenler")}</h2>
+            {siraSendeMaclar.length === 0 && bekleyenDavetlerim.length === 0 ? (
+              <QtKart dolgu="k" className="a-ana-bos">
+                <span className="a-ana-bos-ikon"><QtIkon ad="kilic" boyut={22} /></span>
+                <p className="a-ana-bos-metin">{tt("Şu an seni bekleyen maç yok.")}</p>
+                <QtDugme as={Link} to={y("/meydan")} tur="ikincil" boyut="k">{tt("Arkadaşına meydan oku")}</QtDugme>
+              </QtKart>
+            ) : (
+              <QtListe etiket={tt("Seni bekleyenler")}>
+                {/* `bd-devam-eden` EK sınıfı: oyuncu testi yarım maça bununla döner */}
+                {siraSendeMaclar.map((m) => (
+                  <QtListeSatiri
+                    key={m.id}
+                    as={Link}
+                    to={y("/mac/") + m.id}
+                    className="bd-devam-eden"
+                    ikon="saat"
+                    ikonTon="vurgu"
+                    baslik={m.rakipAd || tt("Rakibin")}
+                    alt={tt("Maçın yarım — sıra sende")}
+                    ok
+                  />
+                ))}
+                {/* Gönderdiğim davetler: karşı taraf henüz cevaplamadı. Fikir
+                    değişebilir: cevaplanmamış davet geri alınabilir. */}
+                {bekleyenDavetlerim.map((d) => (
+                  <QtListeSatiri
+                    key={d.tur + d.kayit_id}
+                    ikon="saat"
+                    ikonTon="bilgi"
+                    baslik={d.tur === "grup" || d.tur === "hizli"
+                      ? tt("Davetin gönderildi")
+                      : (d.gorunen_ad || tt("Rakibin"))}
+                    alt={d.tur === "grup" || d.tur === "hizli"
+                      ? tt("{n} kişi bekleniyor", { n: d.bekleyen_sayisi })
+                      : tt("Daveti görmedi — bekleniyor")}
+                    sag={
+                      <QtDugme
+                        tur="ikincil"
+                        boyut="k"
+                        yukleniyor={geriCekilen === d.tur + d.kayit_id}
+                        onClick={() => davetiGeriCek(d)}
+                        aria-label={tt("Daveti geri çek")}
+                      >
+                        {tt("Geri çek")}
+                      </QtDugme>
+                    }
+                  />
+                ))}
+              </QtListe>
             )}
-
-            {/* Gönderdiğim davetler: karşı taraf henüz cevaplamadı. */}
-            {bekleyenDavetlerim.map((d) => (
-              <div key={d.tur + d.kayit_id} className="bd-devam-eden bd-davet-bekliyor">
-                <span className="bd-bekleme-nokta" aria-hidden="true" />
-                <span>
-                  {d.tur === "grup" || d.tur === "hizli" ? (
-                    <>{tt("Davetin gönderildi —")} <b>{d.bekleyen_sayisi} {tt("kişi")}</b> {tt("bekleniyor")}</>
-                  ) : (
-                    <><b>{d.gorunen_ad || tt("Rakibin")}</b> {tt("daveti görmedi — bekleniyor")}</>
-                  )}
-                </span>
-                {/* Fikir değişebilir: cevaplanmamış davet geri alınabilir. */}
-                <button
-                  type="button"
-                  className="bd-davet-geri"
-                  onClick={() => davetiGeriCek(d)}
-                  disabled={geriCekilen === d.tur + d.kayit_id}
-                  aria-label={tt("Daveti geri çek")}
-                >
-                  {geriCekilen === d.tur + d.kayit_id ? "…" : tt("Geri çek")}
-                </button>
-              </div>
-            ))}
           </section>
 
-          {/* ---------- OYUN MODLARI ----------
+          {/* ---------- DİĞER MODLAR ----------
               Yalnız GERÇEKTEN VAR OLAN modlar. Dondurulmuş modlar (Hızlı Mod,
               "Hızlı Olan Kazanır") burada yoktur. */}
-          <section className="section modes">
-            <div className="section-head">
-              <div>
-                <span className="eyebrow">{tt("OYUN MODLARI")}</span>
-                <h2>{tt("Nasıl oynamak istersin?")}</h2>
-              </div>
-              <button type="button" onClick={() => navigate(y("/modlar"))}>{tt("Tümünü gör")} →</button>
+          <section className="a-ana-bolum" aria-labelledby="a-ana-modlar-b">
+            <div className="a-ana-bolum-bas">
+              <h2 id="a-ana-modlar-b" className="qt-baslik-2">{tt("Diğer modlar")}</h2>
+              <QtDugme as={Link} to={y("/modlar")} tur="hayalet" boyut="k" ikonSag="ileri">{tt("Tümünü gör")}</QtDugme>
             </div>
-            <div className="mode-grid">
-              <button className="mode-card duel" onClick={() => navigate(y("/duello"))}>
-                <span className="mode-icon"><Ikon ad="kilic" boyut={22} /></span>
-                <span>
-                  <b>{ceviri("Düello")}</b>
-                  <small>{ceviri("Taktik Maçı")}</small>
-                </span>
-                <em>{MAC_ICI_JOKERLER.length + SALDIRI_JOKERLERI.length} {tt("JOKER")}</em>
-              </button>
-
-              {/* SAF BİLGİ: jokersiz Klasik Mod (Paket 31 B) — kodda var. */}
-              <button className="mode-card pure" onClick={() => hemenOyna(dereceliTercih, true)}>
-                <span className="mode-icon"><Ikon ad="soru" boyut={22} /></span>
-                <span>
-                  <b>{ceviri("Saf Bilgi")}</b>
-                  <small>{ceviri("Skill yok. Sadece bilgi ve hız.")}</small>
-                </span>
-                <em>{tt("JOKERSİZ")}</em>
-              </button>
-
-              <button className="mode-card challenge" onClick={() => navigate(y("/meydan"))}>
-                <span className="mode-icon"><Ikon ad="kisiler" boyut={22} /></span>
-                <span>
-                  <b>{tt("Meydan Oku")}</b>
-                  <small>{tt("Arkadaşına davet gönder · tekli ya da grup")}</small>
-                </span>
-                <em>1V1</em>
-              </button>
-
-              <button className="mode-card practice" onClick={() => navigate(y("/calisma"))}>
-                <span className="mode-icon"><Ikon ad="kitap" boyut={22} /></span>
-                <span>
-                  <b>{tt("Hatalarım")}</b>
-                  <small>{tt("Kaçırdığın soruları çalış")}</small>
-                </span>
-                {bankaBekleyen > 0 && <em className="alert">{bankaBekleyen}</em>}
-              </button>
-            </div>
+            <QtListe etiket={tt("Diğer modlar")}>
+              {/* SAF BİLGİ: jokersiz Klasik Mod (Paket 31 B) */}
+              <QtListeSatiri
+                ikon="safBilgi"
+                ikonTon="bilgi"
+                baslik={ceviri("Saf Bilgi")}
+                alt={ceviri("Skill yok. Sadece bilgi ve hız.")}
+                onClick={() => hemenOyna(dereceliTercih, true)}
+                ok
+              />
+              <QtListeSatiri
+                as={Link}
+                to={y("/meydan")}
+                ikon="kisiler"
+                ikonTon="dogru"
+                baslik={tt("Meydan Oku")}
+                alt={tt("Arkadaşına davet gönder · tekli ya da grup")}
+                ok
+              />
+              <QtListeSatiri
+                as={Link}
+                to={y("/calisma")}
+                ikon="kitap"
+                ikonTon="mor"
+                baslik={tt("Hatalarım")}
+                alt={bankaBekleyen > 0
+                  ? tt("{n} soru seni bekliyor", { n: bankaBekleyen })
+                  : tt("Kaçırdığın soruları çalış")}
+                sag={bankaBekleyen > 0 ? <QtRozet ton="vurgu" boyut="k">{bankaBekleyen}</QtRozet> : null}
+                ok
+              />
+            </QtListe>
           </section>
         </div>
 
-        <aside className="side-column">
+        <aside className="a-ana-yan">
           {/* ---------- TURNUVA ----------
-              Saat ve geri sayım oyun_ayarlari.turnuva_saatleri'nden
-              (lib/zaman.js). Prototipteki "Bu akşam · 20:00" sabiti KULLANILMADI. */}
-          <section className={`tournament-card${canliTurnuva ? " canli" : ""}`}>
-            <div className="trophy"><Ikon ad="kupa" boyut={30} /></div>
-            <span className="event-label">
-              {canliTurnuva ? tt("ŞU AN CANLI") : <TurnuvaSaatEtiketi />}
-            </span>
-            <h2>{tt("Turnuva")}</h2>
-            <p>{tt("Son kalan oyuncu ol, büyük ödülü kap.")}</p>
-            {canliTurnuva ? (
-              <div className="bd-turnuva-canli">
-                <span className="canli-nokta" />
-                {tt("Şu an canlı")}
+              Saat ve geri sayım oyun_ayarlari.turnuva_saatleri'nden (lib/zaman.js). */}
+          <QtKart ton="mor" className="a-ana-turnuva">
+            <div className="a-ana-turnuva-bas">
+              <span className="a-ana-turnuva-ikon"><QtIkon ad="kupa" boyut={28} /></span>
+              <div>
+                <h2 className="qt-baslik-2">{tt("Turnuva")}</h2>
+                <p className="a-ana-turnuva-alt">{tt("Son kalan oyuncu ol, büyük ödülü kap.")}</p>
               </div>
-            ) : (
-              <Countdown bicim="prototip" />
-            )}
-            <div className="event-bottom">
-              <span><b>{lobiSayisi}</b> {tt("oyuncu lobide")}</span>
+              {canliTurnuva
+                ? <QtRozet ton="yanlis" className="a-ana-canli">{tt("Şu an canlı")}</QtRozet>
+                : <QtRozet ton="coin"><TurnuvaSaatEtiketi /></QtRozet>}
+            </div>
+            {!canliTurnuva && <Countdown bicim="prototip" />}
+            <div className="a-ana-turnuva-alt-satir">
+              <span><b className="qt-sayi">{lobiSayisi}</b> {tt("oyuncu lobide")}</span>
               {canliTurnuva ? (
-                <button onClick={() => navigate(y("/turnuva"))}>{tt("KATIL")}</button>
+                <QtDugme tur="ikincil" boyut="k" onClick={() => navigate(y("/turnuva"))}>{tt("Katıl")}</QtDugme>
               ) : lobide ? (
-                <button onClick={() => navigate(y("/turnuva"))}>{tt("LOBİDESİN")}</button>
+                <QtDugme tur="ikincil" boyut="k" ikon="onay" onClick={() => navigate(y("/turnuva"))}>{tt("Lobidesin")}</QtDugme>
               ) : (
-                <button onClick={lobiyeKatil}>{tt("LOBİYE KATIL")}</button>
+                <QtDugme tur="ikincil" boyut="k" onClick={lobiyeKatil}>{tt("Lobiye katıl")}</QtDugme>
               )}
             </div>
-            <BugunKalanTurnuvalar />
-          </section>
+            <BugunKalanTurnuvalar className="a-ana-turnuva-kalan" />
+          </QtKart>
 
           {/* ---------- GÜNLÜK GÖREVLER (gerçek: get_daily_quests) ---------- */}
           {gorevler.length > 0 && (
-            <section className="side-card missions">
-              <div className="side-title">
-                <span>{tt("GÜNLÜK GÖREVLER")}</span>
-                <b>{gorevler.filter((g) => g.alindi).length}/{gorevler.length}</b>
+            <section className="a-ana-bolum" aria-labelledby="a-ana-gorev-b">
+              <div className="a-ana-bolum-bas">
+                <h2 id="a-ana-gorev-b" className="qt-baslik-2">{tt("Günlük görevler")}</h2>
+                <QtRozet ton="dogru" boyut="k">{gorevler.filter((g) => g.alindi).length}/{gorevler.length}</QtRozet>
               </div>
-              {(gorevlerAcik ? gorevler : gorevler.slice(0, 2)).map((g) => {
-                const tamam = g.ilerleme >= g.hedef;
-                return (
-                  <div key={g.quest_id} className="mission">
-                    <span className={`mission-icon${tamam ? "" : " orange"}`}>
-                      <Ikon ad={tamam ? "tik" : "hizli"} boyut={14} />
-                    </span>
-                    <div>
-                      <b>{ttSunucu(g.ad)}</b>
-                      <small>{g.ilerleme}/{g.hedef}</small>
-                    </div>
-                    {g.alindi ? (
-                      <strong>+{g.odul}</strong>
-                    ) : tamam ? (
-                      <button type="button" className="btn kucuk" onClick={() => odulAl(g.quest_id)}>
-                        +{g.odul} {tt("al")}
-                      </button>
-                    ) : (
-                      <strong>+{g.odul}</strong>
-                    )}
-                  </div>
-                );
-              })}
+              <QtListe etiket={tt("Günlük görevler")}>
+                {(gorevlerAcik ? gorevler : gorevler.slice(0, 2)).map((g) => {
+                  const tamam = g.ilerleme >= g.hedef;
+                  return (
+                    <QtListeSatiri
+                      key={g.quest_id}
+                      ikon={tamam ? "onay" : "hizli"}
+                      ikonTon={tamam ? "dogru" : "vurgu"}
+                      baslik={ttSunucu(g.ad)}
+                      alt={`${Math.min(g.ilerleme, g.hedef)}/${g.hedef}`}
+                      sag={g.alindi ? (
+                        <QtRozet ton="dogru" ikon="onay" boyut="k">+{g.odul}</QtRozet>
+                      ) : tamam ? (
+                        <QtDugme boyut="k" tur="mor" ikon="coin" onClick={() => odulAl(g.quest_id)}>
+                          {tt("+{n} al", { n: g.odul })}
+                        </QtDugme>
+                      ) : (
+                        <QtRozet ton="coin" ikon="coin" boyut="k">+{g.odul}</QtRozet>
+                      )}
+                    />
+                  );
+                })}
+              </QtListe>
               {gorevler.length > 2 && (
-                <button
-                  type="button"
-                  className="text-button"
+                <QtDugme
+                  tur="hayalet"
+                  boyut="k"
+                  tamGenislik
                   onClick={() => setGorevlerAcik((a) => !a)}
                   aria-expanded={gorevlerAcik}
                 >
@@ -829,41 +767,38 @@ export default function Home() {
                     ? tt("Daha az göster")
                     : hazirOdul > 0
                       ? tt("{0} ödül hazır!", { 0: hazirOdul })
-                      : tt("Tüm görevleri gör →")}
-                </button>
+                      : tt("Tüm görevleri gör")}
+                </QtDugme>
               )}
             </section>
           )}
 
-          {/* ---------- LİG (gerçek: lig_grubum) ----------
-              RÜTBE DEĞİL. Rütbe oyuncu şeridinde. */}
-          <Link to={y("/siralama")} className="league-card">
-            <div className="league-medal"><Ikon ad="kupa" boyut={20} /></div>
-            <div>
-              <span>{tt("HAFTALIK LİG")}</span>
-              <b>{ligDurum ? `${LIG_ADLARI[ligDurum.lig] ?? ligDurum.lig} ${tt("Lig")}` : tt("Lig")}</b>
-              <small>
-                {ligDurum?.sira
-                  ? tt("{0}/{1} · bitimine {2}", { 0: ligDurum.sira, 1: ligDurum.grupBoyu, 2: sureMetni(haftaKalan) })
-                  : tt("Bitimine {0}", { 0: sureMetni(haftaKalan) })}
-              </small>
-            </div>
-            <span className="ok" aria-hidden="true"><Ikon ad="ok" boyut={16} /></span>
-          </Link>
-
-          {/* ---------- DÜKKÂN KISAYOLU (20 Eyl 2026) ----------
-              Joker ve coin buradan alınır. Alt menüdeki Dükkân sekmesi
-              850 px üstünde gizlendiği için ana sayfada da açık bir giriş
-              duruyor; coin hapı zaten doğrudan Coin sekmesine gidiyor. */}
-          <Link to={y("/joker")} className="league-card bd-dukkan-kisayol">
-            <div className="league-medal"><Ikon ad="hediye" boyut={20} /></div>
-            <div>
-              <span>{tt("DÜKKÂN")}</span>
-              <b>{tt("Skill ve coin")}</b>
-              <small>{tt("Skillerini tazele, coin kazan")}</small>
-            </div>
-            <span className="ok" aria-hidden="true"><Ikon ad="ok" boyut={16} /></span>
-          </Link>
+          {/* ---------- LİG (gerçek: lig_grubum) + DÜKKÂN kısayolu ----------
+              RÜTBE DEĞİL. Rütbe oyuncu kartında. Dükkân girişi ana sayfada da
+              açık (850 px üstünde alt menü yok; coin hapı Coin sekmesine gider). */}
+          <QtListe etiket={tt("Lig ve dükkân")}>
+            <QtListeSatiri
+              as={Link}
+              to={y("/siralama")}
+              ikon="lig"
+              ikonTon="mor"
+              baslik={ligDurum ? `${LIG_ADLARI[ligDurum.lig] ?? ligDurum.lig} ${tt("Lig")}` : tt("Haftalık lig")}
+              alt={ligDurum?.sira
+                ? tt("{0}/{1} · bitimine {2}", { 0: ligDurum.sira, 1: ligDurum.grupBoyu, 2: sureMetni(haftaKalan) })
+                : tt("Bitimine {0}", { 0: sureMetni(haftaKalan) })}
+              ok
+            />
+            <QtListeSatiri
+              as={Link}
+              to={y("/joker")}
+              className="bd-dukkan-kisayol"
+              ikon="dukkan"
+              ikonTon="coin"
+              baslik={tt("Skill ve coin")}
+              alt={tt("Skillerini tazele, coin kazan")}
+              ok
+            />
+          </QtListe>
         </aside>
       </div>
     </div>
