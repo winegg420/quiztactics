@@ -1,0 +1,315 @@
+/* =====================================================================
+   ÇERÇEVELER (CerceveGorseli.jsx) — avatar çerçeveleri, tamamı kod + Noto 3D süsler.
+   Ölçü iki değişkenden: --_b (dış çap) ve --_k (halka kalınlığı); her şey orantılı.
+   Renk ailesi token'dan (--qt-nadir-*, --qt-madalyon-*, --qt-lig-*, --qt-aura-*).
+   Hareket: yalnız transform/opacity; yalnız .qt-cerceve--oynar iken; azaltılmış harekette yok.
+   iOS: çerçevede position:fixed yok; transform'lar yalnız çerçevenin kendi parçalarında.
+   ===================================================================== */
+.qt-cerceve {
+  --_c: var(--qt-nadir-siradan); --_ca: var(--qt-nadir-siradan-acik); --_ck: var(--qt-nadir-siradan-koyu);
+  --_au1: var(--qt-aura-efsanevi); --_au2: var(--qt-aura-efsanevi-2);
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: var(--_b);
+  height: var(--_b);
+  border-radius: 50%;
+  isolation: isolate;
+  vertical-align: middle;
+}
+
+/* ---------- Renk aileleri ---------- */
+.qt-cerceve[data-malzeme="nadir"] { --_c: var(--qt-nadir-nadir); --_ca: var(--qt-nadir-nadir-acik); --_ck: var(--qt-nadir-nadir-koyu); }
+.qt-cerceve[data-malzeme="epik"] { --_c: var(--qt-nadir-epik); --_ca: var(--qt-nadir-epik-acik); --_ck: var(--qt-nadir-epik-koyu); }
+.qt-cerceve[data-malzeme="efsanevi"] { --_c: var(--qt-nadir-efsanevi); --_ca: var(--qt-nadir-efsanevi-acik); --_ck: var(--qt-nadir-efsanevi-koyu); }
+.qt-cerceve[data-malzeme="bronz"] { --_c: var(--qt-madalyon-bronz); --_ca: var(--qt-madalyon-bronz-acik); --_ck: var(--qt-madalyon-bronz-koyu); }
+.qt-cerceve[data-malzeme="gumus"] { --_c: var(--qt-madalyon-gumus); --_ca: var(--qt-madalyon-gumus-acik); --_ck: var(--qt-madalyon-gumus-koyu); }
+.qt-cerceve[data-malzeme="altin"] { --_c: var(--qt-madalyon-altin); --_ca: var(--qt-madalyon-altin-acik); --_ck: var(--qt-madalyon-altin-koyu); }
+.qt-cerceve[data-malzeme="elmas"] {
+  --_c: var(--qt-madalyon-elmas); --_ca: var(--qt-madalyon-elmas-acik); --_ck: var(--qt-madalyon-elmas-koyu);
+  --_au1: var(--qt-aura-elmas); --_au2: var(--qt-aura-elmas-2);
+}
+.qt-cerceve[data-malzeme="efsane"] {
+  --_c: var(--qt-lig-efsane); --_ca: var(--qt-aura-efsane); --_ck: var(--qt-lig-efsane-dudak);
+  --_au1: var(--qt-aura-efsane); --_au2: var(--qt-aura-efsane-2);
+}
+
+/* ---------- Halka (tam disk; ortasını avatar örter) ---------- */
+.qt-cerceve-halka {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: 50%;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 42%),
+    radial-gradient(circle at 50% 28%, var(--_ca), var(--_c) 55%, var(--_ck));
+  box-shadow:
+    inset 0 0 0 max(1px, calc(var(--_k) * 0.14)) var(--_ck),                      /* dış kenar */
+    inset 0 calc(var(--_k) * -0.28) 0 rgba(0, 0, 0, 0.16),                          /* alt iç gölge */
+    0 calc(var(--_b) * 0.03) 0 var(--_ck),                                          /* kabarık dudak */
+    0 calc(var(--_b) * 0.06) calc(var(--_b) * 0.1) rgba(29, 33, 82, 0.26);          /* dış gölge */
+}
+.qt-cerceve-halka::before,
+.qt-cerceve-halka::after { content: none; position: absolute; border-radius: 50%; pointer-events: none; }
+
+/* Perçin: halkaya eşit aralıklı çentikler */
+.qt-cerceve[data-desen="nokta"] .qt-cerceve-halka::before {
+  content: "";
+  inset: calc(var(--_k) * 0.22);
+  background: repeating-conic-gradient(from 0deg, var(--_ck) 0 3deg, transparent 3deg 22.5deg);
+  -webkit-mask: radial-gradient(closest-side, transparent calc(100% - var(--_k) * 0.62), #000 calc(100% - var(--_k) * 0.6));
+          mask: radial-gradient(closest-side, transparent calc(100% - var(--_k) * 0.62), #000 calc(100% - var(--_k) * 0.6));
+  opacity: 0.55;
+}
+/* Çift hat: içte ince açık çizgi */
+.qt-cerceve[data-desen="cift"] .qt-cerceve-halka::before {
+  content: "";
+  inset: calc(var(--_k) * 0.36);
+  border: max(1px, calc(var(--_k) * 0.16)) solid var(--_ca);
+  box-shadow: 0 0 0 max(1px, calc(var(--_k) * 0.08)) var(--_ck);
+}
+/* Metal: iki tonlu, bantlı ışık yansıması */
+.qt-cerceve[data-desen="metal"] .qt-cerceve-halka,
+.qt-cerceve[data-desen="dis"] .qt-cerceve-halka,
+.qt-cerceve[data-desen="cok"] .qt-cerceve-halka {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 40%),
+    conic-gradient(from 200deg, var(--_ca), var(--_c) 12%, var(--_ck) 25%, var(--_c) 38%, var(--_ca) 50%,
+      var(--_c) 62%, var(--_ck) 75%, var(--_c) 88%, var(--_ca));
+}
+.qt-cerceve[data-desen="metal"] .qt-cerceve-halka::before,
+.qt-cerceve[data-desen="dis"] .qt-cerceve-halka::before {
+  content: "";
+  inset: calc(var(--_k) * 0.48);
+  background: radial-gradient(circle at 50% 25%, var(--_ca), var(--_c) 70%);
+  box-shadow: 0 0 0 max(1px, calc(var(--_k) * 0.07)) var(--_ck);
+}
+/* Çok katmanlı: dış metal · orta açık bant · iç koyu bant */
+.qt-cerceve[data-desen="cok"] .qt-cerceve-halka::before {
+  content: "";
+  inset: calc(var(--_k) * 0.3);
+  background: linear-gradient(160deg, var(--_ca), var(--_c) 60%, var(--_ca));
+  box-shadow: 0 0 0 max(1px, calc(var(--_k) * 0.07)) var(--_ck);
+}
+.qt-cerceve[data-desen="cok"] .qt-cerceve-halka::after {
+  content: "";
+  inset: calc(var(--_k) * 0.64);
+  background: var(--_ck);
+}
+/* Kristal: sert kenarlı faset yansımaları */
+.qt-cerceve[data-desen="kristal"] .qt-cerceve-halka {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0) 40%),
+    repeating-conic-gradient(from 8deg, var(--_ca) 0 20deg, var(--_c) 20deg 42deg, var(--_ck) 42deg 54deg, var(--_c) 54deg 72deg);
+}
+.qt-cerceve[data-desen="kristal"] .qt-cerceve-halka::before {
+  content: "";
+  inset: calc(var(--_k) * 0.55);
+  border: max(1px, calc(var(--_k) * 0.12)) solid var(--_ca);
+}
+
+/* ---------- Avatar yuvası ---------- */
+.qt-cerceve-ic {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: calc(var(--_b) - 2 * var(--_k));
+  height: calc(var(--_b) - 2 * var(--_k));
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--qt-yuzey-2);
+}
+.qt-cerceve-ic > .avatar,
+.qt-cerceve-ic > .qt-avatar,
+.qt-cerceve-ic > img { width: 100% !important; height: 100% !important; border: 0; border-radius: 50%; box-shadow: none; }
+.qt-cerceve-ic::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow: inset 0 calc(var(--_k) * 0.35) calc(var(--_k) * 0.5) rgba(0, 0, 0, 0.28);
+  pointer-events: none;
+}
+
+/* Çerçevesiz: ince beyaz halka */
+.qt-cerceve--yok .qt-cerceve-halka {
+  background: var(--qt-yuzey);
+  box-shadow: 0 0 0 1px var(--qt-cizgi), 0 calc(var(--_b) * 0.03) calc(var(--_b) * 0.06) rgba(29, 33, 82, 0.18);
+}
+.qt-cerceve--yok .qt-cerceve-ic::after { content: none; }
+
+/* 40 px altı: yalnız renkli halka (bant/desen yok) */
+.qt-cerceve--kucuk .qt-cerceve-halka {
+  background: radial-gradient(circle at 50% 28%, var(--_ca), var(--_c) 50%, var(--_ck)) !important;
+  box-shadow: inset 0 0 0 1px var(--_ck), 0 1px 2px rgba(29, 33, 82, 0.25);
+}
+.qt-cerceve--kucuk.qt-cerceve--yok .qt-cerceve-halka { background: var(--qt-yuzey) !important; box-shadow: 0 0 0 1px var(--qt-cizgi); }
+.qt-cerceve--kucuk .qt-cerceve-halka::before,
+.qt-cerceve--kucuk .qt-cerceve-halka::after { content: none; }
+.qt-cerceve--kucuk .qt-cerceve-ic::after { box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25); }
+
+/* ---------- Halka üstüne yerleşim (açı --_a) ---------- */
+.qt-cerceve-onsus { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
+.qt-cerceve-yer {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  transform: rotate(var(--_a)) translateY(calc(var(--_b) * -0.5 + var(--_k) * 0.5));
+}
+.qt-cerceve-yer--dis { transform: rotate(var(--_a)) translateY(calc(var(--_b) * -0.5)); }
+
+/* Mücevher taşı (epik/nadir) — kodla: eğik kare, degrade, parlama */
+.qt-cerceve-tas {
+  --_t: var(--qt-tas-pembe);
+  position: absolute;
+  width: calc(var(--_k) * 1.45);
+  height: calc(var(--_k) * 1.45);
+  left: calc(var(--_k) * -0.725);
+  top: calc(var(--_k) * -0.725);
+  border-radius: 22%;
+  transform: rotate(45deg);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0 18%, var(--_t) 19%);   /* eski Safari yedeği */
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0 18%, transparent 19%),
+    linear-gradient(135deg, var(--_t), color-mix(in srgb, var(--_t) 55%, #000));
+  box-shadow:
+    0 0 0 max(1px, calc(var(--_k) * 0.14)) var(--qt-madalyon-altin-acik),
+    0 0 0 max(1.5px, calc(var(--_k) * 0.24)) var(--qt-madalyon-altin-koyu),
+    0 calc(var(--_k) * 0.2) calc(var(--_k) * 0.3) rgba(0, 0, 0, 0.35);
+}
+.qt-cerceve-tas[data-ton="turkuaz"] { --_t: var(--qt-tas-turkuaz); }
+.qt-cerceve-tas[data-ton="yakut"] { --_t: var(--qt-tas-yakut); }
+
+/* Kristal uç (Elmas) — dışa bakan sivri parça */
+.qt-cerceve-kristal {
+  position: absolute;
+  width: calc(var(--_k) * 1.3);
+  height: calc(var(--_k) * 2);
+  left: calc(var(--_k) * -0.65);
+  top: calc(var(--_k) * -1.55);
+  clip-path: polygon(50% 0, 100% 72%, 50% 100%, 0 72%);
+  background: linear-gradient(90deg, var(--_ca) 0 50%, var(--_c) 50% 100%);
+}
+
+/* Diş (Level 25 madalyon kenarı) — halkanın arkasında tırtıklı disk */
+.qt-cerceve-disler {
+  position: absolute;
+  inset: calc(var(--_k) * -0.5);
+  z-index: 0;
+  border-radius: 50%;
+  background: repeating-conic-gradient(from 0deg, var(--_c) 0 7deg, transparent 7deg 15deg);
+  -webkit-mask: radial-gradient(closest-side, #000 calc(100% - 1px), transparent 100%);
+          mask: radial-gradient(closest-side, #000 calc(100% - 1px), transparent 100%);
+}
+
+/* ---------- Noto 3D süsler ---------- */
+.qt-cerceve-sus {
+  position: absolute;
+  z-index: 4;
+  display: block;
+  height: auto;
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 calc(var(--_b) * 0.015) 0 rgba(29, 33, 82, 0.3));
+}
+.qt-cerceve-sus--ust { width: 46%; left: 27%; top: -25%; }
+.qt-cerceve-sus--ust-buyuk { width: 56%; left: 22%; top: -35%; }
+.qt-cerceve-sus--ust-kucuk { width: 28%; left: 36%; top: -13%; }
+.qt-cerceve-sus--ust-uclu { width: 24%; left: 38%; top: -17%; }
+.qt-cerceve-sus--uclu-1 { width: 19%; left: 13%; top: -4%; transform: rotate(-24deg); }
+.qt-cerceve-sus--uclu-3 { width: 19%; left: 68%; top: -4%; transform: rotate(24deg); }
+.qt-cerceve-sus--alt { width: 34%; left: 33%; bottom: -13%; }
+.qt-cerceve-sus--alt-kucuk { width: 26%; left: 37%; bottom: -9%; }
+/* Kanatlar (arkada): görsel sağa bakar → sol kanat aynalanır */
+.qt-cerceve-sus--kanat { z-index: 0; width: 54%; top: 2%; left: -34%; transform: scaleX(-1); }
+.qt-cerceve-sus--kanat.qt-cerceve-sus--sag { left: auto; right: -34%; transform: none; }
+/* Defne dalları (arkada): alttan iki yana açılır */
+.qt-cerceve-sus--defne { z-index: 0; width: 56%; bottom: -10%; left: -22%; transform: scaleX(-1) rotate(8deg); }
+.qt-cerceve-sus--defne.qt-cerceve-sus--sag { left: auto; right: -22%; transform: rotate(8deg); }
+/* Yan alevler (arkada) */
+.qt-cerceve-sus--yan-alt { z-index: 0; width: 34%; bottom: -4%; left: -12%; transform: rotate(-24deg); }
+.qt-cerceve-sus--yan-alt.qt-cerceve-sus--sag { left: auto; right: -12%; transform: scaleX(-1) rotate(-24deg); }
+/* Renk tonlaması (Noto görseli değişmez, yalnız süzgeç) */
+.qt-cerceve-sus[data-ton="altin"] {
+  filter: sepia(1) saturate(3.4) hue-rotate(-6deg) brightness(1.08) drop-shadow(0 calc(var(--_b) * 0.015) 0 rgba(120, 70, 0, 0.45));
+}
+.qt-cerceve-sus[data-ton="mor"] { filter: hue-rotate(245deg) saturate(1.25) drop-shadow(0 calc(var(--_b) * 0.015) 0 rgba(60, 20, 120, 0.4)); }
+
+/* ---------- Efsanevi: dönen ışık halkası ---------- */
+.qt-cerceve-aura {
+  position: absolute;
+  inset: calc(var(--_k) * -0.95);
+  z-index: 0;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, transparent 0 6%, var(--_au1) 14%, transparent 26%, var(--_au2) 38%, transparent 50%,
+    var(--_au1) 64%, transparent 76%, var(--_au2) 88%, transparent 100%);
+  -webkit-mask: radial-gradient(closest-side, transparent calc(100% - var(--_k) * 1.7), #000 calc(100% - var(--_k) * 1.05), #000 calc(100% - var(--_k) * 0.5), transparent 100%);
+          mask: radial-gradient(closest-side, transparent calc(100% - var(--_k) * 1.7), #000 calc(100% - var(--_k) * 1.05), #000 calc(100% - var(--_k) * 0.5), transparent 100%);
+  opacity: 0.85;
+}
+.qt-cerceve--oynar .qt-cerceve-aura { animation: qt-cerceve-don 9s linear infinite; }
+
+/* Kıvılcımlar — dört köşeli yıldız */
+.qt-cerceve-kivilcimlar { position: absolute; inset: 0; z-index: 5; pointer-events: none; }
+.qt-cerceve-kivilcim {
+  position: absolute;
+  width: calc(var(--_b) * 0.1);
+  height: calc(var(--_b) * 0.1);
+  left: calc(var(--_b) * -0.05);
+  top: calc(var(--_b) * -0.08);
+  clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
+  background: radial-gradient(circle, #fff 0 30%, var(--_au1) 60%, var(--_au2));
+  opacity: 0;
+}
+.qt-cerceve-yer:nth-child(2n) .qt-cerceve-kivilcim { width: calc(var(--_b) * 0.07); height: calc(var(--_b) * 0.07); }
+/* Durağan hâlde iki kıvılcım görünür kalır */
+.qt-cerceve-yer:nth-child(1) .qt-cerceve-kivilcim,
+.qt-cerceve-yer:nth-child(3) .qt-cerceve-kivilcim { opacity: 0.9; }
+.qt-cerceve--oynar .qt-cerceve-kivilcim { animation: qt-cerceve-kivilcim 3.2s var(--qt-egri-cikis) var(--_g, 0s) infinite both; }
+
+/* ---------- Epik: 6 sn'de bir halkadan geçen parıltı ---------- */
+.qt-cerceve-parilti {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border-radius: 50%;
+  overflow: hidden;
+  pointer-events: none;
+  -webkit-mask: radial-gradient(closest-side, transparent calc(100% - var(--_k)), #000 calc(100% - var(--_k) + 0.5px));
+          mask: radial-gradient(closest-side, transparent calc(100% - var(--_k)), #000 calc(100% - var(--_k) + 0.5px));
+}
+.qt-cerceve-parilti::before {
+  content: "";
+  position: absolute;
+  top: -10%;
+  bottom: -10%;
+  left: 0;
+  width: 36%;
+  background: linear-gradient(100deg, transparent, var(--qt-cerceve-parilti), transparent);
+  transform: translateX(-160%) skewX(-18deg);
+  opacity: 0;
+}
+.qt-cerceve--oynar .qt-cerceve-parilti::before { animation: qt-cerceve-parilti 6s var(--qt-egri-gecis) infinite; }
+
+@keyframes qt-cerceve-don { to { transform: rotate(360deg); } }
+@keyframes qt-cerceve-kivilcim {
+  0% { opacity: 0; transform: scale(0.3) rotate(0deg); }
+  18% { opacity: 1; transform: scale(1) rotate(45deg); }
+  40% { opacity: 0; transform: scale(0.4) rotate(90deg); }
+  100% { opacity: 0; transform: scale(0.3) rotate(90deg); }
+}
+@keyframes qt-cerceve-parilti {
+  0%, 76% { opacity: 0; transform: translateX(-160%) skewX(-18deg); }
+  78% { opacity: 1; }
+  100% { opacity: 1; transform: translateX(380%) skewX(-18deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qt-cerceve .qt-cerceve-aura,
+  .qt-cerceve .qt-cerceve-kivilcim,
+  .qt-cerceve .qt-cerceve-parilti::before { animation: none !important; }
+}

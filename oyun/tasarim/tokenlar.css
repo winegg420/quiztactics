@@ -101,6 +101,28 @@
   --qt-lig-elmas: #62d6f4;    --qt-lig-elmas-dudak: #1f93b5;
   --qt-lig-efsane: #b57bff;   --qt-lig-efsane-dudak: #7b3fd6;
 
+  /* ---------- 7b. Kozmetik: çerçeve nadirliği + rozet madalyonu malzemesi ----------
+     Nadirlik renk kodu her yerde aynı (çerçeve, dükkân etiketi, önizleme):
+     sıradan gri-mavi · nadir mavi · epik mor · efsanevi altın-turuncu.
+     Her biri {ana, -acik (parlama), -koyu (kenar/gölge), -yazi (üstündeki yazı)}. */
+  --qt-nadir-siradan: #8ea3c2;   --qt-nadir-siradan-acik: #dde6f3;   --qt-nadir-siradan-koyu: #4f6283;   --qt-nadir-siradan-yazi: #1d2152;
+  --qt-nadir-nadir: #3d8bff;     --qt-nadir-nadir-acik: #b4d3ff;     --qt-nadir-nadir-koyu: #1846a8;     --qt-nadir-nadir-yazi: #ffffff;
+  --qt-nadir-epik: #9a5cff;      --qt-nadir-epik-acik: #dcc4ff;      --qt-nadir-epik-koyu: #4f1fb0;      --qt-nadir-epik-yazi: #ffffff;
+  --qt-nadir-efsanevi: #ff9d1f;  --qt-nadir-efsanevi-acik: #ffe7a1;  --qt-nadir-efsanevi-koyu: #b8520a;  --qt-nadir-efsanevi-yazi: #3a1a00;
+  /* Madalyon (rozet) ve level çerçevesi malzemeleri */
+  --qt-madalyon-bronz: #d4874b;  --qt-madalyon-bronz-acik: #f7cfa4;  --qt-madalyon-bronz-koyu: #7f421a;
+  --qt-madalyon-gumus: #bfcadb;  --qt-madalyon-gumus-acik: #f7f9fc;  --qt-madalyon-gumus-koyu: #66748c;
+  --qt-madalyon-altin: #ffc62e;  --qt-madalyon-altin-acik: #fff3b0;  --qt-madalyon-altin-koyu: #a86a00;
+  --qt-madalyon-elmas: #62dcff;  --qt-madalyon-elmas-acik: #eafcff;  --qt-madalyon-elmas-koyu: #1a6fa8;
+  --qt-madalyon-gizli: #5a6186;  --qt-madalyon-gizli-acik: #8f96b8;  --qt-madalyon-gizli-koyu: #2a2f4d;
+  --qt-madalyon-sembol: #ffffff;
+  /* Çerçeve süs taşları (epik mücevherler) ve aura renkleri */
+  --qt-tas-pembe: #ff4fa3;   --qt-tas-turkuaz: #22d3e6;   --qt-tas-yakut: #ff4757;
+  --qt-aura-efsanevi: #ffd24a;   --qt-aura-efsanevi-2: #ff7a1a;
+  --qt-aura-efsane: #d98bff;     --qt-aura-efsane-2: #7a2cff;
+  --qt-aura-elmas: #bff4ff;      --qt-aura-elmas-2: #3fb6ff;
+  --qt-cerceve-parilti: rgba(255, 255, 255, 0.85);
+
   /* ---------- 8. Maç sahnesi (koyu mor) ---------- */
   --qt-mac-zemin: #3b2a93;
   --qt-mac-zemin-2: #2a1d74;

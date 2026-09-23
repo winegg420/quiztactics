@@ -1,0 +1,8 @@
+Bu klasördeki görseller Google Noto Emoji 3D PNG'lerinden (512 px) 256 px WebP'ye küçültülmüştür.
+Kaynak: https://github.com/googlefonts/noto-emoji (3D/png/512)
+Lisans: Apache License 2.0 — https://www.apache.org/licenses/LICENSE-2.0
+kalkan.webp = U+1F6E1 · defne.webp = U+1F33F · yildiz.webp = U+2B50 · bronz-madalya.webp = U+1F949 ·
+gumus-madalya.webp = U+1F948 · kanat.webp = U+1FABD · alev.webp = U+1F525 · parlayan-yildiz.webp = U+1F31F ·
+kar-tanesi.webp = U+2744
+Arayüzde bazıları CSS süzgeciyle tonlanır (altın/mor); dosyalar değiştirilmemiştir.
+Ayrıntı: docs/VARLIK_LISANSLARI.md
