@@ -184,8 +184,14 @@ export function V2Kategori({ d, benSaldiran, ben, rakip, calisan, sayac, sonSani
         ) : (
           <div className="m2-bekle">
             <span className="m2-bekle-ikon" aria-hidden="true"><QtIkon ad="kilic" boyut={30} /></span>
-            <p>{c("Kategoriyi seçen taraf değişir, soruyu ikiniz aynı anda cevaplarsınız.")}</p>
+            <p>{c("Kategori oranların birkaç cevaptan sonra burada görünür.")}</p>
           </div>
+        )}
+        {!bilinen.length && kategoriler.some((k) => Number(sayim[k] ?? 0) > 0) && (
+          <section className="m2-savun-blok" aria-label={c("Bu maçta gelenler")}>
+            <h3>{c("Bu maçta gelenler")}</h3>
+            <ul>{kategoriler.filter((k) => Number(sayim[k] ?? 0) > 0).map((k) => satir({ k, v: null }))}</ul>
+          </section>
         )}
       </div>
     );

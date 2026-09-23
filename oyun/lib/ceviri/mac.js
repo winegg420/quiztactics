@@ -109,6 +109,8 @@ export default {
   "En güçlü kategorilerin": "Your strongest categories",
   "En zayıf kategorilerin": "Your weakest categories",
   "{n}/{m} geldi": "{n}/{m} played",
+  "Kategori oranların birkaç cevaptan sonra burada görünür.": "Your category rates show up here after a few answers.",
+  "Bu maçta gelenler": "Played this match",
   "Cevabın kilitlendi": "Answer locked",
   "Yanıtsız": "No answer",
   "yanıtsız": "no answer",
