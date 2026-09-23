@@ -56,7 +56,7 @@
 .m2-rovans-halka svg { position: absolute; inset: 0; width: 100%; height: 100%; rotate: -90deg; }
 .m2-rovans-halka .iz { fill: none; stroke: var(--qt-yuzey-3); stroke-width: 6; }
 .m2-rovans-halka .dolu { fill: none; stroke: var(--qt-ikinci); stroke-width: 6; stroke-linecap: round; transition: stroke-dashoffset var(--qt-s-orta) linear; }
-.m2-rovans-metin { margin: 0; font-weight: var(--qt-a-kalin); color: var(--qt-metin); }
+.m2-rovans-metin { margin: 0; font-weight: var(--qt-a-kalin); color: var(--qt-metin); overflow-wrap: anywhere; }
 .m2-rovans-sayac { margin: 0; font-size: var(--qt-y-xl); color: var(--qt-ikinci-koyu); }
 .m2-rovans-soru, .m2-rovans-sonuc {
   margin: 0; padding: var(--qt-b-3) var(--qt-b-4); border-radius: var(--qt-r-m);

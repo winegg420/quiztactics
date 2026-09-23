@@ -254,7 +254,7 @@ export function QtAvatar({ src, ad = "", boyut = "m", halka = "mor", seviye, cev
   return (
     <span className={sinif("qt-avatar", `qt-avatar--${boyut}`, `qt-avatar--halka-${halka}`, className)}>
       {src ? (
-        <img src={src} alt="" loading="lazy" decoding="async" draggable="false" />
+        <img src={src} alt="" loading="lazy" decoding="async" draggable="false" referrerPolicy="no-referrer" />
       ) : (
         <span className="qt-avatar-harf" aria-hidden="true">{(ad.trim()[0] || "?").toLocaleUpperCase(aktifDil())}</span>
       )}

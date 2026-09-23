@@ -18,27 +18,8 @@
   margin-bottom: var(--qt-b-4);
 }
 
-/* Paylaşılan geri düğmesi (GeriDugmesi.jsx) bu sayfada Yön A hapı gibi görünsün. */
-.g-yasal-ust .bd-geri-dugmesi {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--qt-b-2);
-  min-height: var(--qt-dokunma);
-  margin: 0;
-  padding: 0 var(--qt-b-4) 0 var(--qt-b-3);
-  border: 0;
-  border-radius: var(--qt-r-hap);
-  background: var(--qt-yuzey);
-  color: var(--qt-metin);
-  font-family: var(--qt-f-baslik);
-  font-size: var(--qt-y-m);
-  font-weight: var(--qt-a-siyah);
-  box-shadow: 0 var(--qt-dudak-s) 0 var(--qt-cizgi);
-  cursor: pointer;
-  transition: transform var(--qt-s-basma) var(--qt-egri-cikis), box-shadow var(--qt-s-basma) var(--qt-egri-cikis);
-}
-.g-yasal-ust .bd-geri-dugmesi:active { transform: translateY(var(--qt-dudak-s)); box-shadow: 0 0 0 var(--qt-cizgi); }
-.g-yasal-ust .bd-geri-dugmesi:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 2px; }
+/* Paylaşılan geri düğmesi (GeriDugmesi.jsx) artık QtDugme; burada yalnız konum. */
+.g-yasal-ust .bd-geri-dugmesi { margin: 0; }
 
 /* Metin kartı: beyaz levha, satır uzunluğu ~70 karakter. */
 .g-yasal-metin {
@@ -99,15 +80,10 @@
 }
 @media (hover: hover) and (pointer: fine) {
   .g-icindekiler-liste a:hover { color: var(--qt-ikinci-koyu); text-decoration: underline; }
-  .g-yasal-ust .bd-geri-dugmesi:hover { background: var(--qt-yuzey-2); }
 }
 
 @media (max-width: 420px) {
   .g-yasal-metin { padding: var(--qt-b-5) var(--qt-b-4); }
   .g-yasal-ust .qt-marka-yazi { display: none; }
   .g-yasal-ust .qt-marka { min-width: var(--qt-dokunma); justify-content: center; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .g-yasal-ust .bd-geri-dugmesi { transition: none; }
-  .g-yasal-ust .bd-geri-dugmesi:active { transform: none; }
 }
