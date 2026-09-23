@@ -8,7 +8,7 @@ import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import Countdown from "../components/Countdown.jsx";
 import { BugunKalanTurnuvalar } from "../components/TurnuvaSaatleri.jsx";
-import { siradakiLobi, kalanSure } from "../lib/zaman.js";
+import { siradakiLobi, kalanSure, gosterimTavani } from "../lib/zaman.js";
 import YanlisSatiri from "../components/YanlisSatiri.jsx";
 import OdulDokumu from "../components/OdulDokumu.jsx";
 import MacSorulari from "../components/MacSorulari.jsx";
@@ -37,12 +37,16 @@ const OYUNCU_TAZELE_MS = 1500;
 /** Elenen/izleyen oyuncuya soru sayacı (Paket 41 M.2). Sunucu saatiyle hizalı. */
 function IzleyiciSayac({ soru }) {
   const [fark] = useState(() => (soru?.sunucu_zamani ? new Date(soru.sunucu_zamani).getTime() - Date.now() : 0));
-  const [kalan, setKalan] = useState(() => (soru?.baslangic ? kalanSure(soru.baslangic, fark) : 0));
+  // 326: sayaç tavanı sorunun ilk görülen başlangıcına göre (gösterim payı + Ek Süre).
+  const ilkRef = useRef({ index: null, bas: null });
+  if (soru?.baslangic && ilkRef.current.index !== soru.soru_index) ilkRef.current = { index: soru.soru_index, bas: soru.baslangic };
+  const tavan = soru?.baslangic ? gosterimTavani(soru.baslangic, ilkRef.current.bas) : 15;
+  const [kalan, setKalan] = useState(() => (soru?.baslangic ? kalanSure(soru.baslangic, fark, 15, tavan) : 0));
   useEffect(() => {
     if (!soru?.baslangic) return undefined;
-    const t = setInterval(() => setKalan(kalanSure(soru.baslangic, fark)), 250);
+    const t = setInterval(() => setKalan(kalanSure(soru.baslangic, fark, 15, tavan)), 250);
     return () => clearInterval(t);
-  }, [soru?.baslangic, fark]);
+  }, [soru?.baslangic, fark, tavan]);
   if (!soru?.baslangic) return null;
   return <QtSayac kalan={kalan} toplam={15} />;
 }

@@ -388,6 +388,7 @@ function DuelloMac({ id }) {
     return () => { aktif = false; };
   }, []);
   const farkRef = useRef(0); // sunucu saati - istemci saati (ms)
+  const farkOrnekRef = useRef([]); // son 60 sn'nin saat farkı örnekleri
   const yukleniyorRef = useRef(false);
   const dImzaRef = useRef("");
   const kanalHazirRef = useRef(false);   // Realtime kanalı SUBSCRIBED mi
@@ -459,7 +460,14 @@ function DuelloMac({ id }) {
           clearTimeout(skillTimerRef.current);
           skillTimerRef.current = setTimeout(() => setSkillEfekt(null), 720);
         }
-        farkRef.current = new Date(data.sunucu_zamani).getTime() - Date.now();
+        // Saat farkı: her örnek yanıtın yolda geçen süresi kadar eksik ölçer (sunucu saati
+        // yanıt çıkarken alınır, istemci onu geç görür). En az gecikmeli örnek = en büyük fark;
+        // son 60 sn'nin en büyüğü kullanılır — tek bir yavaş yanıt sayacı ileri atmasın.
+        const suan = Date.now();
+        const ornekler = farkOrnekRef.current.filter((o) => suan - o.an < 60000);
+        ornekler.push({ an: suan, fark: new Date(data.sunucu_zamani).getTime() - suan });
+        farkOrnekRef.current = ornekler;
+        farkRef.current = Math.max(...ornekler.map((o) => o.fark));
         // Durum değişmediyse state'e yeni nesne yazılmaz: bütün maç ağacı boşuna
         // yeniden çizilmesin (sunucu_zamani her yanıtta farklıdır, karşılaştırmaya girmez).
         const imza = JSON.stringify({ ...data, sunucu_zamani: null });
@@ -669,10 +677,24 @@ function DuelloMac({ id }) {
   // Düello 1.0 cevap fazında sayaç KİŞİSEL bitiştir (Ek Süre / Zaman Baskısı kişiye özel);
   // öteki fazlarda ortak faz_bitis. İkisi de sunucu saatine göre (farkRef).
   const hedefBitis = d?.surum === 2 && d?.faz === "cevap" && d?.cevap?.benim_bitis ? d.cevap.benim_bitis : d?.faz_bitis;
+  // 325: sunucu faz bitişine gösterim payı ekler; sayaç `gosterim_bas`a kadar TAM süreyi
+  // gösterir, sonra gerçek zamanla akar. Ekran fazı geç görse de sayaç yetişmek için hızlanmaz.
+  const gosterimBas = d?.sureler?.gosterim_bas && ["kategori", "cevap"].includes(d?.faz)
+    ? new Date(d.sureler.gosterim_bas).getTime() : null;
   const kalanSn = useMemo(() => {
     if (!hedefBitis) return 0;
-    return Math.max(0, (new Date(hedefBitis).getTime() - (simdi + farkRef.current)) / 1000);
-  }, [hedefBitis, simdi]);
+    const sunucuSimdi = simdi + farkRef.current;
+    const bas = gosterimBas ? Math.max(sunucuSimdi, gosterimBas) : sunucuSimdi;
+    return Math.max(0, (new Date(hedefBitis).getTime() - bas) / 1000);
+  }, [hedefBitis, gosterimBas, simdi]);
+  // Rakam tam saniye sınırında değişsin: 200 ms'lik saat tikine ek olarak bir sonraki
+  // sınıra kurulmuş tek zamanlayıcı (adımlar 800/1200 ms diye titremez).
+  useEffect(() => {
+    if (kalanSn <= 0) return undefined;
+    const kesir = Math.round(kalanSn * 1000) % 1000;
+    const zaman = setTimeout(() => setSimdi(Date.now()), (kesir || 1000) + 5);
+    return () => clearTimeout(zaman);
+  }, [kalanSn]);
 
   // Tanı paneli (?tani=1): şıkları kapatan koşullar her an okunabilsin.
   useEffect(() => {
@@ -682,6 +704,7 @@ function DuelloMac({ id }) {
       kilitli: Boolean(d.cevap?.ben_cevapladim), sureBitti: kalanSn <= 0,
       secim, calisan, kalanSn: Math.round(kalanSn * 10) / 10,
       benimBitis: d.cevap?.benim_bitis ?? null, farkMs: Math.round(farkRef.current),
+      hedefBitis: hedefBitis ?? null, sureler: d.sureler ?? null,
     };
     return () => { delete window.__bdTani; };
   }, [d, kalanSn, secim, calisan]);

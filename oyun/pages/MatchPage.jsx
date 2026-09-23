@@ -483,9 +483,11 @@ export default function MatchPage() {
   // 3-2-1: maç başladı ama soru saati henüz gelmedi (sunucu 3 sn ileri kurdu).
   // Sunucu saatiyle kendi saatimiz arasındaki farkı nabızdan öğreniyoruz;
   // cihaz saati yanlışsa bile geri sayım doğru çalışır.
+  // 326: sonraki soruların başlangıcı da gösterim payı kadar ileridedir — 3-2-1 yalnız ilk soruda.
+  const ilkSoruMu = (mac?.aktif_soru ?? 0) === 0;
   const [geriSayim, setGeriSayim] = useState(null);
   useEffect(() => {
-    if (!nabiz?.basladi || !nabiz?.baslangic || !nabiz?.sunucu_zamani) {
+    if (!ilkSoruMu || !nabiz?.basladi || !nabiz?.baslangic || !nabiz?.sunucu_zamani) {
       setGeriSayim(null);
       return undefined;
     }
@@ -498,7 +500,7 @@ export default function MatchPage() {
     hesapla();
     const id = setInterval(hesapla, 100);
     return () => clearInterval(id);
-  }, [nabiz?.basladi, nabiz?.baslangic, nabiz?.sunucu_zamani]);
+  }, [ilkSoruMu, nabiz?.basladi, nabiz?.baslangic, nabiz?.sunucu_zamani]);
 
   /** Rakip gelmiyor: maçı sıra tabanlı (asenkron) bırak. */
   const asenkronaGec = async () => {

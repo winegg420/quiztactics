@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { QtSoruKarti, QtSayac, QtSik, QtSikler, QtSonucBandi, QtSkill, QtSkillCubugu, QtIkonDugme, QT_KIRILMA_MS, QT_KART_CIKIS_MS } from "../tasarim/index.js";
 import "../tasarim/ekranlar/m1-mac.css";
 import { supabase } from "../../src/lib/supabase.js";
-import { kalanSure, sunucuOffsetMs } from "../lib/zaman.js";
+import { kalanSure, sunucuOffsetMs, gosterimTavani } from "../lib/zaman.js";
 import JokerCubugu from "./JokerCubugu.jsx";
 import { SisPerdesi, SisKenar } from "./Sis.jsx";
 import Konfeti from "./Konfeti.jsx";
@@ -86,6 +86,7 @@ export default function QuestionCard({
   const basiliTutTimer = useRef(null);
   // Ses: son 5 saniyede saniyede bir tik. Efekt içinden okunabilmesi için ref.
   const cevapVerildiRef = useRef(false);
+  const ilkBaslangicRef = useRef({ anahtar: null, bas: null });
   const sonTikRef = useRef(null);
   // Sayaç tiki: sekmeden dönüldüğünde dışarıdan elle tetiklenebilsin.
   const tikRef = useRef(null);
@@ -188,9 +189,13 @@ export default function QuestionCard({
     // Saat farkını soru geldiği anda bir kez sabitle; tik başına yeniden
     // hesaplanırsa sayaç donar.
     const offset = sunucuOffsetMs(soru.sunucu_zamani, soru._saat_ornek_ms ?? Date.now());
+    // 326: aynı sorunun ilk görülen başlangıcı (Ek Süre sonrası tazelenen soru yeni başlangıçla gelir).
+    const soruAnahtar = `${soru.question_id}-${soru.soru_index}`;
+    if (ilkBaslangicRef.current.anahtar !== soruAnahtar) ilkBaslangicRef.current = { anahtar: soruAnahtar, bas: soru.baslangic };
+    const tavan = gosterimTavani(soru.baslangic, ilkBaslangicRef.current.bas, SURE);
     let id;
     const tik = () => {
-      const k = kalanSure(soru.baslangic, offset, SURE);
+      const k = kalanSure(soru.baslangic, offset, SURE, tavan);
       setKalan(k);
       if (!cevapVerildiRef.current) kalanRef.current = k;
       // Son 5 saniye: her tam saniyede bir tik sesi (cevap verildiyse susar)
@@ -260,7 +265,15 @@ export default function QuestionCard({
     // soru zaten süresi geçmiş gelirse (sekmeden dönüş) interval hiç kurulmuyor,
     // atlama bir kez denenip başarısız olursa yeniden deneyecek tik kalmıyordu.
     id = setInterval(tik, 100);
-    return () => clearInterval(id);
+    // Tanı (?tani=1 ve oyuncu testi sayaç ölçümü): sunucu bitişi ve saat farkı.
+    if (!window.__bdTani || window.__bdTani.mod === "soru") {
+      window.__bdTani = { mod: "soru", faz: "cevap", hedefBitis: new Date(new Date(soru.baslangic).getTime() + SURE * 1000).toISOString(),
+        farkMs: Math.round(offset), sureler: { cevap: SURE } };
+    }
+    return () => {
+      clearInterval(id);
+      if (window.__bdTani?.mod === "soru") delete window.__bdTani;
+    };
   }, [soru, onSureDoldu]);
 
   // Sekmeden dönünce sayacı hemen senkronla. Süre yokken dolduysa tik()

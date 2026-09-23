@@ -89,7 +89,56 @@ if (new URL(ADRES).origin !== durum.origins?.[0]?.origin) {
     sessionStorage.setItem("__oyuncuTestiYuklendi", "1");
   }, yerel);
 }
+// Sayaç kaydı: ekrandaki geri sayım rakamı her değiştiğinde zaman + tanı (faz, sunucu bitişi,
+// saat farkı) yazılır. Düello sonunda "ilk 3 saniye gerçek zamanla aynı hızda mı" ölçülür.
+await baglam.addInitScript(() => {
+  window.__sayacKayit = [];
+  let son = "";
+  const tik = () => {
+    const el = document.querySelector(".qt-sayac .qt-sayac-sayi, .bd-duello-sayac");
+    const t = window.__bdTani ?? null;
+    if (el && t) {
+      const sayi = Number(el.textContent.trim());
+      const anahtar = `${t.faz}|${sayi}|${t.hedefBitis}`;
+      if (anahtar !== son) {
+        son = anahtar;
+        window.__sayacKayit.push({ an: Date.now(), sayi, faz: t.faz, hedef: t.hedefBitis, fark: t.farkMs,
+          kilitli: Boolean(t.kilitli), sureler: t.sureler ?? null, mod: t.mod ?? null });
+      }
+    }
+    requestAnimationFrame(tik);
+  };
+  requestAnimationFrame(tik);
+});
 const s = await baglam.newPage();
+
+// Sayaç kaydını fazlara ayırıp çözümler: gecikme = ilk görünüş (sunucu saatine çevrilmiş) −
+// fazın sunucudaki başlangıcı; adımlar = ilk 3 saniyedeki rakam düşüşleri arası süre.
+async function sayacRaporu(etiket) {
+  const kayit = await s.evaluate(() => { const k = window.__sayacKayit ?? []; window.__sayacKayit = []; return k; }).catch(() => []);
+  const parcalar = [];
+  let p = null;
+  for (const k of kayit) {
+    if (!p || k.faz !== p.faz || k.sayi > p.son.sayi) { p = { faz: k.faz, ilk: k, satirlar: [], son: k }; parcalar.push(p); }
+    p.satirlar.push(k); p.son = k;
+  }
+  const sonuc = [];
+  for (const q of parcalar) {
+    if (!["kategori", "cevap"].includes(q.faz) || !q.ilk.hedef || q.ilk.kilitli) continue;
+    const tam = Number(q.faz === "kategori" ? q.ilk.sureler?.kategori ?? 8 : q.ilk.sureler?.cevap ?? 15);
+    const pay = Number(q.ilk.sureler?.gosterim_payi_ms ?? 0);
+    const baslangic = new Date(q.ilk.hedef).getTime() - tam * 1000 - pay;
+    const gecikme = q.ilk.an + Number(q.ilk.fark || 0) - baslangic;
+    const ilk3 = q.satirlar.filter((x) => x.an - q.ilk.an <= 3200);
+    const adimlar = ilk3.slice(1).map((x, i) => x.an - ilk3[i].an);
+    sonuc.push({ faz: q.faz, ilkRakam: q.ilk.sayi, tam, gecikme: Math.round(gecikme), adimlar });
+  }
+  for (const r of sonuc) {
+    const hizli = r.adimlar.filter((a) => a < 900);
+    console.log(`  ⏱ ${etiket} ${r.faz}: ilk görünüş ${r.gecikme} ms sonra, ilk rakam ${r.ilkRakam}/${r.tam}, ilk 3 sn adımlar ${r.adimlar.join(" · ")} ms${hizli.length ? "  ← HIZLI" : ""}`);
+  }
+  return sonuc;
+}
 const konsol = [];
 s.on("console", (m) => { if (m.type() === "error") konsol.push(m.text().slice(0, 200)); });
 s.on("pageerror", (e) => konsol.push("pageerror: " + String(e).slice(0, 200)));
@@ -249,6 +298,8 @@ async function duelloMaci(kapsam) {
       await s.waitForTimeout(2500);
       await ekranOlc("duello-mac-sonu");
       console.log(`  maç bitti (${d.durum})`);
+      const sayac = await sayacRaporu("Düello");
+      kapsam.sayac.push(...sayac);
       // Son güvence: test hesabının yanıtsız kaldığı HER soru başarısızlıktır — test
       // akışı bir yerde takılsa bile yanıtsız soru sessizce geçemez.
       const yanitsiz = await sorgu(`select h.tur, h.uzatma, h.saldiran = ${alintila(BEN)} ben_saldiran from duello_hamleler h
@@ -394,7 +445,7 @@ async function duelloMaci(kapsam) {
 
 async function duelloTesti() {
   console.log("\n▶ Düello");
-  const kapsam = { saldiran: 0, savunan: 0, durumlar: {}, olculen: new Set() };
+  const kapsam = { saldiran: 0, savunan: 0, durumlar: {}, olculen: new Set(), sayac: [] };
   for (let i = 0; i < EN_COK_MAC; i++) {
     if (await duelloMaci(kapsam) === "kritik") break;
     if (kapsam.saldiran >= 3 && kapsam.savunan >= 3 && Object.keys(kapsam.durumlar).some((k) => k.includes("uzatma"))) break;
@@ -407,6 +458,11 @@ async function duelloTesti() {
     tum.push(`${k}: ${kapsam.durumlar[k] ?? "oluşmadı"}`);
   }
   notlar.push(`Düello: saldıran ${kapsam.saldiran}, savunan ${kapsam.savunan}`, ...tum.map((x) => "  " + x));
+  // Sayaç: ilk 3 saniyede 900 ms'den kısa rakam adımı = sayaç hızlanarak yetişmeye çalışıyor.
+  const hizli = kapsam.sayac.filter((r) => r.adimlar.some((a) => a < 900));
+  const gecikmeler = kapsam.sayac.map((r) => r.gecikme).sort((a, b) => a - b);
+  if (gecikmeler.length) notlar.push(`Düello sayacı: ${kapsam.sayac.length} faz, ilk görünüş gecikmesi medyan ${gecikmeler[Math.floor(gecikmeler.length / 2)]} ms / en çok ${gecikmeler.at(-1)} ms, hızlı adımlı faz ${hizli.length}`);
+  if (hizli.length) basarisiz("Düello: sayaç ilk 3 saniyede hızlı akıyor", hizli.slice(0, 4));
 }
 
 // ================================================================ KLASİK
@@ -460,6 +516,9 @@ async function klasikTesti() {
     return Number(r?.i) + 1;
   });
   await ekranOlc("klasik-mac-sonu");
+  const sayac = await sayacRaporu("Klasik");
+  const hizli = sayac.filter((r) => r.adimlar.some((x) => x < 900));
+  if (sayac.length) notlar.push(`Klasik sayacı: ${sayac.length} soru, ilk görünüş gecikmesi medyan ${sayac.map((r) => r.gecikme).sort((x, y) => x - y)[Math.floor(sayac.length / 2)]} ms, hızlı adımlı soru ${hizli.length}`);
 }
 
 // Soru kartı modları (Klasik, turnuva): her yeni soruda şıklar açılmalı, dokunuş

@@ -161,9 +161,19 @@ export function sunucuOffsetMs(sunucuZamaniIso, istemciOrnekMs = Date.now()) {
     : 0;
 }
 
-// Sunucu zamanına göre kalan soru süresi (saniye)
-export function kalanSure(baslangicIso, offsetMs = 0, sureSn = 15) {
+// Sunucu zamanına göre kalan soru süresi (saniye). enCokSn: gösterilecek en büyük değer.
+// 326: sunucu sonraki soruyu gösterim payı kadar ileri kurar; çağıran tavanı "tam süre
+// + sonradan eklenen süre (Ek Süre)" verir — sayaç 15'te bekler, sonra gerçek zamanla
+// akar, asla hızlanmaz (bkz. gosterimTavani).
+export function kalanSure(baslangicIso, offsetMs = 0, sureSn = 15, enCokSn = Infinity) {
   const baslangic = new Date(baslangicIso).getTime();
   const sunucuSimdi = Date.now() + offsetMs;
-  return Math.max(0, sureSn - (sunucuSimdi - baslangic) / 1000);
+  return Math.min(enCokSn, Math.max(0, sureSn - (sunucuSimdi - baslangic) / 1000));
+}
+
+// Sayaç tavanı: sorunun İLK görülen başlangıcına göre tam süre; Ek Süre başlangıcı ileri
+// kaydırınca tavan da o kadar büyür. ilkBaslangicIso aynı soru için ilk gelen değerdir.
+export function gosterimTavani(baslangicIso, ilkBaslangicIso, sureSn = 15) {
+  const ek = (new Date(baslangicIso).getTime() - new Date(ilkBaslangicIso ?? baslangicIso).getTime()) / 1000;
+  return sureSn + Math.max(0, ek);
 }
