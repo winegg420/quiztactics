@@ -69,7 +69,7 @@
       "no": 1,
       "soru": 250,
       "migration": "20260612000291_soru_uretim_parti_01",
-      "commit": null,
+      "commit": "c9a2a21",
       "tarih": "2026-09-23",
       "kategori_kova": {
         "sinema": 33,
