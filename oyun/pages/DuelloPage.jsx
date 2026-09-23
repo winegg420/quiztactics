@@ -41,7 +41,8 @@ import { coinTazele } from "../lib/coin.js";
 import { ayar } from "../lib/ayarlar.js";
 import KarsilasmaSahnesi, { KARSILASMA_ANIM_MS } from "../components/KarsilasmaSahnesi.jsx";
 import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesJoker, sesKazandin, sesKaybettin, sesDokunus, sesRakipBulundu, sesCanKaybi,
-  sesOnYukle, sesKategoriGeriSayim, sesSoruGeldi, sesTurGecis, sesSkill } from "../lib/ses.js";
+  sesOnYukle, sesKategoriGeriSayim, sesSoruGeldi, sesTurGecis, sesSkill,
+  sesBeraberlik, sesKategoriSecildi, sesRakipCevapladi } from "../lib/ses.js";
 import { titret } from "../lib/geriBildirim.js";
 import { tt } from "../lib/dil.js";
 import { useOyunModu } from "../lib/oyunModu.js";
@@ -632,7 +633,7 @@ function DuelloMac({ id }) {
   useEffect(() => {
     if (!d || d.durum !== "bitti" || bitisSesRef.current) return;
     bitisSesRef.current = true;
-    if (d.kazanan === d.ben) sesKazandin(); else sesKaybettin();
+    if (d.kazanan === d.ben) sesKazandin(); else if (d.kazanan == null) sesBeraberlik(); else sesKaybettin();
     // Paket 36: coin sayacını MacSonuSahnesi coin uçuşu bitince tazeler (coinTazele)
     refreshProfile?.(user?.id);
   }, [d, refreshProfile, user?.id]);
@@ -753,10 +754,25 @@ function DuelloMac({ id }) {
         setTurGecis(Date.now());
         clearTimeout(soruSesTimerRef.current);
         soruSesTimerRef.current = setTimeout(() => sesSoruGeldi(), 300);
+      } else if (onceki?.faz === "kategori") {
+        // Ajan H: kategori kesinleşti → kısa onay sesi, soru sesi 300 ms sonra (üst üste binmesin).
+        sesKategoriSecildi();
+        clearTimeout(soruSesTimerRef.current);
+        soruSesTimerRef.current = setTimeout(() => sesSoruGeldi(), 300);
       } else sesSoruGeldi();
     }
   }, [gecisFaz, gecisTur, soruMetni]);
   useEffect(() => () => clearTimeout(soruSesTimerRef.current), []);
+
+  // Ajan H: rakip cevabını verdi (ben hâlâ düşünürken) — soru başına bir kez.
+  const rakipCevapAnahtari = v2Aktif && d.faz === "cevap" && d.cevap?.rakip_cevapladi && !d.cevap?.ben_cevapladim
+    ? `${gecisTur}:${soruMetni}` : null;
+  const rakipCevapRef = useRef(null);
+  useEffect(() => {
+    if (!rakipCevapAnahtari || rakipCevapRef.current === rakipCevapAnahtari) return;
+    rakipCevapRef.current = rakipCevapAnahtari;
+    sesRakipCevapladi();
+  }, [rakipCevapAnahtari]);
 
   // Can kaybı: kalp kırılma animasyonu (QtCan kayip) — anahtar her yeni kayıpta değişir.
   useEffect(() => {

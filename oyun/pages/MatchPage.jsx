@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import SureDolduGecis from "../components/SureDolduGecis.jsx";
+import { sesRakipCevapladi } from "../lib/ses.js";
 import { hataMesaji } from "../lib/hata.js";
 import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
@@ -90,6 +91,17 @@ function ilerlemeDamgasi(m) {
     ((m.oyuncu1_soru ?? 0) + (m.oyuncu2_soru ?? 0)) * 1e4 +
     (m.oyuncu1_skor ?? 0) + (m.oyuncu2_skor ?? 0)
   );
+}
+
+/** Ajan H: rakip bu soruyu (ben hâlâ düşünürken) cevaplayınca soru başına bir kez ses. */
+function RakipCevapSesi({ anahtar }) {
+  const son = useRef(null);
+  useEffect(() => {
+    if (anahtar == null || son.current === anahtar) return;
+    son.current = anahtar;
+    sesRakipCevapladi();
+  }, [anahtar]);
+  return null;
 }
 
 export default function MatchPage() {
@@ -802,6 +814,7 @@ export default function MatchPage() {
           skorEtiket={tt("puan")}
           kazandi={mac.kazanan === user.id}
           kaybetti={mac.kazanan !== null && mac.kazanan !== user.id}
+          berabere={mac.kazanan === null}
           onBitti={() => setGecisBitti(true)}
         />
       );
@@ -1023,6 +1036,7 @@ export default function MatchPage() {
       <>
         {/* 3-2-1: iki oyuncuda da AYNI ANDA biter, ilk soru gecikmesiz açılır. */}
         {geriSayim !== null && <GeriSayim kalan={geriSayim} />}
+        <RakipCevapSesi anahtar={rakipCevapladi ? `${mac.id}:${kendiIndeks}` : null} />
 
         {/* Rakip oyundan çıktı / ekran değiştirdi: ekran kilitlenir, maç durur.
             Süre işlemediği için burada bekleyen oyuncu bir şey kaybetmez. */}

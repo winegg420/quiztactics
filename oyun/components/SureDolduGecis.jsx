@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import Maskot from "./Maskot.jsx";
 import PuanSayaci from "./PuanSayaci.jsx";
-import { sesSureDoldu, sesKazandin, sesKaybettin } from "../lib/ses.js";
+import { sesSureDoldu, sesKazandin, sesKaybettin, sesBeraberlik } from "../lib/ses.js";
 import { titret } from "../lib/geriBildirim.js";
 import { tt } from "../lib/dil.js";
 import "../tasarim/ekranlar/m1-sonuc.css";
@@ -29,6 +29,8 @@ export default function SureDolduGecis({
   // Maç kaybedildiyse alçalan iki nota. Verilmezse yalnız "süre doldu" sesi
   // çalar (hızlı mod gibi kazanan/kaybeden olmayan ekranlar için).
   kaybetti = false,
+  // Ajan H: maç berabere bittiyse beraberlik sesi.
+  berabere = false,
 }) {
   useEffect(() => {
     try {
@@ -37,6 +39,8 @@ export default function SureDolduGecis({
         titret([15, 30, 15]);
       } else if (kaybetti) {
         sesKaybettin();
+      } else if (berabere) {
+        sesBeraberlik();
       } else {
         sesSureDoldu();
       }
@@ -45,7 +49,7 @@ export default function SureDolduGecis({
     }
     const t = setTimeout(() => onBitti?.(), sure);
     return () => clearTimeout(t);
-  }, [onBitti, sure, kazandi, kaybetti]);
+  }, [onBitti, sure, kazandi, kaybetti, berabere]);
 
   return (
     <div className="m1-gecis" role="status" aria-live="polite">

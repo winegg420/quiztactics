@@ -524,6 +524,7 @@ export default function GroupMatchPage() {
         skorEtiket={tt("puan")}
         kazandi={mac.kazanan === user.id}
         kaybetti={mac.kazanan !== null && mac.kazanan !== user.id}
+        berabere={mac.kazanan === null}
         onBitti={() => setGecisBitti(true)}
       />
     );
