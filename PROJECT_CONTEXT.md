@@ -61,7 +61,8 @@ tercih hatırlanır (localStorage + `profiles.dereceli_tercih`).
   sırası turnuva başında seçilir (`turnuva_soru_sec`).
 - **Şık ipucu filtresi (298):** Jev'in soru metnini görmeden şıklardan doğruyu >0,8 güvenle
   bulduğu 1.310 soru `sik_ipucu_jev` (ağırlık 2) ile işaretli; `soru_sec` / `duello_soru_bul` /
-  `turnuva_soru_sec` havuzunda yok — Serbest Klasik dahil; yalnız Hatalarım (serbest havuz).
+  `turnuva_soru_sec` rekabetçi havuzunda yok; Serbest Klasik'te (`matches.dereceli=false`,
+  `soru_sec(..., p_serbest_klasik => true)`, 309) ve Hatalarım'da çıkar.
   Rekabetçi havuz 6.694 → 6.303. İşaret "elle"dir (`soru_elle_isaret_mi`), tetikleyici korur.
   Yeni soru ve denetim düzeltmeleri aynı Jev testinden geçer (`soru_denetim/kapi.mjs › sikIpucuTesti`).
 - Yanlış cevap sonrası bekleme **1 sn**.
