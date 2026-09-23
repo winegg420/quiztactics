@@ -7817,12 +7817,14 @@ otomatik akla gelmesi için; proje kapsamında kuruldu.
 **Araç:** Claude Code (tek şerit, alt ajan yok)
 **Neden:** Ida önceki ana sayfayı reddetti ("mevcut siteyi tek ekrana koymuşsun"); maç ekranında kategori rengi ve oyuncular.
 
-- **Ana sayfa seçenekleri** (asıl ana sayfaya dokunulmadı): ,  (kaydırmasız lobi:
-  avatar sahnesi + dev Oyna/Düello),  (oyuncu vitrini + yatay mod kartları + etkinlik akışı),   (oyuncu ortada, modlar yörüngede, mobilde kendi sekme çubuğu). Ortak veri   (Home.jsx ile aynı kaynaklar, yalnız var olan veri). Mobil ve masaüstü ayrı yerleşim. 390/1280 taşma yok;
-  36 düğme tıklama testi (390 + 1280) doğru sayfaya gidiyor.
-- **Maç ekranı:** kategoriye göre pastel zemin (, --qt-kat-* token,
+- **Ana sayfa seçenekleri** (asıl ana sayfaya dokunulmadı): `/ana-sayfa-secim`, `/ana-sayfa-a` (kaydırmasız
+  lobi: avatar sahnesi + dev Oyna/Düello), `/ana-sayfa-b` (oyuncu vitrini + yatay mod kartları + etkinlik
+  akışı), `/ana-sayfa-c` (oyuncu ortada, modlar yörüngede, mobilde kendi sekme çubuğu). Ortak veri
+  `oyun/pages/anasayfa/veri.jsx` (Home.jsx ile aynı kaynaklar, yalnız var olan veri). Mobil ve masaüstü
+  ayrı yerleşim. 390/1280 taşma yok; 36 düğme tıklama testi (390 + 1280) doğru sayfaya gidiyor.
+- **Maç ekranı:** kategoriye göre pastel zemin (`oyun/tasarim/kategori-zemin.css`, --qt-kat-* token,
   0,5 sn geçiş, pastelde yazı rolleri koyu). Soru RPC'leri kategori döndürmüyordu → ekleyici
-   (322). Oyuncu şeridinde level (; profiles.lig
+  `soru_kategorisi(uuid)` (322). Oyuncu şeridinde level (`oyun/lib/oyuncuSeviye.js`; profiles.lig
   istemciye kapalı, başkasının ligi gösterilmez); Turnuva/Grup'ta MacUstSerit'e kendi avatarın + oyuncu sayısı.
-  Canlı testte yakalanan hata: kategori kancası  tanımından önce çalışıp Klasik'i çökertti (düzeldi).
+  Canlı testte yakalanan hata: kategori kancası `soru` tanımından önce çalışıp Klasik'i çökertti (düzeldi).
 - **Test (canlı):** Klasik 20/20, Düello saldıran 6 / savunan 5; 360/390/1280 kesişim ve taşma yok.
