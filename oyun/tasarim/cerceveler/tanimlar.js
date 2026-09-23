@@ -47,14 +47,14 @@ export const SUSLER = {
   donen_yildiz: { src: `${K}donen-yildiz.webp`, x: 86, y: 10, w: 42, ana: true },
   parilti_alt: { src: "/dukkan/parilti.webp", x: 8, y: 84, w: 30 },
   // Epik
-  ejder_tepe: { src: `${K}ejder.webp`, x: 50, y: -8, w: 50, ana: true },
-  simsekler: { src: `${K}simsek.webp`, x: -4, y: 40, w: 40, r: -8, cift: true, arka: true, ana: true },
+  ejder_tepe: { src: `${K}ejder.webp`, x: 50, y: -4, w: 48, ana: true },
+  simsekler: { src: `${K}simsek.webp`, x: 1, y: 40, w: 38, r: -8, cift: true, arka: true, ana: true },
   gezegen: { src: `${K}gezegen.webp`, x: 88, y: 8, w: 40, ana: true },
   parilti_sol: { src: "/dukkan/parilti.webp", x: 6, y: 14, w: 22 },
   // Efsanevi
-  alev_kanatlar: { src: `${K}kanat.webp`, x: -2, y: 40, w: 50, ayna: true, cift: true, arka: true, ton: "alev", ana: true },
+  alev_kanatlar: { src: `${K}kanat.webp`, x: 3, y: 40, w: 46, ayna: true, cift: true, arka: true, ton: "alev", ana: true },
   alev_tac: { kod: "alev", aci: [-38, 0, 38], d: 40, w: 34, arka: true, ana: true },
-  kraliyet_tac: { src: "/dukkan/tac.webp", x: 50, y: -6, w: 60, ana: true },
+  kraliyet_tac: { src: "/dukkan/tac.webp", x: 50, y: 0, w: 56, ana: true },
   kraliyet_mucevher: { src: "/dukkan/mucevher.webp", x: 50, y: 96, w: 26 },
   kraliyet_taslar: { kod: "tas", aci: [-90, 90], tonlar: ["yakut", "yakut"] },
   kuyruklu_yildiz: { src: `${K}kuyruklu-yildiz.webp`, x: 84, y: 8, w: 46, ana: true },
@@ -62,8 +62,8 @@ export const SUSLER = {
   parilti_kozmik: { src: "/dukkan/parilti.webp", x: 4, y: 12, w: 22 },
   // Lig
   kalkan_alt: { src: `${K}kalkan.webp`, x: 50, y: 92, w: 32, ana: true },
-  defne_gumus: { src: `${K}defne.webp`, x: 4, y: 66, w: 58, r: 24, ayna: true, cift: true, arka: true, ton: "gumus", ana: true },
-  defne_altin: { src: `${K}defne.webp`, x: 4, y: 66, w: 58, r: 24, ayna: true, cift: true, arka: true, ton: "altin", ana: true },
+  defne_gumus: { src: `${K}defne.webp`, x: 7, y: 66, w: 54, r: 24, ayna: true, cift: true, arka: true, ton: "gumus", ana: true },
+  defne_altin: { src: `${K}defne.webp`, x: 7, y: 66, w: 54, r: 24, ayna: true, cift: true, arka: true, ton: "altin", ana: true },
   lig_tac: { src: "/dukkan/tac.webp", x: 50, y: -4, w: 46, ana: true },
   elmas_uclari: { kod: "kristal", aci: [-60, -30, 0, 30, 60], d: 46, w: 17, boy: 34, ton: "elmas", arka: true, ana: true },
   elmas_tas: { src: "/dukkan/mucevher.webp", x: 50, y: 2, w: 28, ana: true },
@@ -74,7 +74,7 @@ export const SUSLER = {
   yildiz_2: { kod: "yildiz", aci: [-17, 17], d: 50, w: 24, ana: true },
   yildiz_3: { kod: "yildiz", aci: [-30, 0, 30], d: 50, w: 23, ana: true },
   yildiz_4: { kod: "yildiz", aci: [-42, -14, 14, 42], d: 50, w: 22, ana: true },
-  altin_kanatlar: { src: `${K}kanat.webp`, x: -2, y: 42, w: 50, ayna: true, cift: true, arka: true, ton: "altin", ana: true },
+  altin_kanatlar: { src: `${K}kanat.webp`, x: 3, y: 42, w: 46, ayna: true, cift: true, arka: true, ton: "altin", ana: true },
 };
 
 /** Bilinen çerçeveler — anahtarlar sözleşmeden (docs/SOZLESME_ROZET_CERCEVE.md §4). */
