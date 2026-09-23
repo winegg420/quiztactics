@@ -122,6 +122,20 @@
   --qt-aura-efsane: #d98bff;     --qt-aura-efsane-2: #7a2cff;
   --qt-aura-elmas: #bff4ff;      --qt-aura-elmas-2: #3fb6ff;
   --qt-cerceve-parilti: rgba(255, 255, 255, 0.85);
+  /* Çerçeve temaları (halka malzemesi) — {ana, -acik, -koyu}; bazılarında ikinci vurgu (-2) */
+  --qt-tema-bulut: #9cc8f2;      --qt-tema-bulut-acik: #f6fbff;      --qt-tema-bulut-koyu: #4a7cb6;
+  --qt-tema-cicek: #79cf86;      --qt-tema-cicek-acik: #e4f8d6;      --qt-tema-cicek-koyu: #2c8646;
+  --qt-tema-neon: #2a1f5c;       --qt-tema-neon-acik: #ff5ad9;       --qt-tema-neon-koyu: #140d38;       --qt-tema-neon-2: #3ff0ff;
+  --qt-tema-buz: #9fe3fb;        --qt-tema-buz-acik: #f2fdff;        --qt-tema-buz-koyu: #3a8cc2;
+  --qt-tema-okyanus: #1ea6c8;    --qt-tema-okyanus-acik: #a6efff;    --qt-tema-okyanus-koyu: #0b5a86;
+  --qt-tema-yildiz: #33379a;     --qt-tema-yildiz-acik: #9aa0ff;     --qt-tema-yildiz-koyu: #15164a;
+  --qt-tema-ejder: #2eab6a;      --qt-tema-ejder-acik: #baf6c6;      --qt-tema-ejder-koyu: #0e5a39;
+  --qt-tema-simsek: #ffd23a;     --qt-tema-simsek-acik: #fff8c8;     --qt-tema-simsek-koyu: #23359e;     --qt-tema-simsek-2: #58a8ff;
+  --qt-tema-gezegen: #ff9f5a;    --qt-tema-gezegen-acik: #ffe3c0;    --qt-tema-gezegen-koyu: #5b36a8;
+  --qt-tema-alev: #ff6a1f;       --qt-tema-alev-acik: #ffd66b;       --qt-tema-alev-koyu: #9c1d0a;
+  --qt-tema-kadife: #6d22b8;     --qt-tema-kadife-koyu: #3a0f6b;
+  --qt-tema-kozmik: #6c3cff;     --qt-tema-kozmik-acik: #ff7ae0;     --qt-tema-kozmik-koyu: #1b0f4f;     --qt-tema-kozmik-2: #4ff3ff;
+  --qt-tema-toz: #fff1b8;
 
   /* ---------- 8. Maç sahnesi (koyu mor) ---------- */
   --qt-mac-zemin: #3b2a93;

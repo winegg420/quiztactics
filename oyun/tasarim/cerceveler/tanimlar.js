@@ -1,78 +1,112 @@
 /**
  * ÇERÇEVE GÖRSEL TANIMLARI — görünüm kodda, katalog veritabanında (`cerceveler` tablosu).
  *
- * Her çerçeve anahtarının bir görsel tanımı vardır. Tanım anahtardan bağımsız, parametreli:
- *   tur       : "nadirlik" | "lig" | "level"  (renk ailesini ve halka stilini seçer)
- *   malzeme   : nadirlik (siradan|nadir|epik|efsanevi) · lig (gumus|altin|elmas|efsane) ·
- *               level (bronz|gumus|altin|elmas)
- *   desen     : halkanın deseni (duz | nokta | cift | metal | cok | dis) — cerceveler.css
- *   sus       : süs listesi (SUSLER anahtarları) — 40 px altında hiçbiri çizilmez
- *   hareketli : yavaş dönen ışık halkası + kıvılcımlar (efsanevi, Efsane ligi, Level 100)
- *   parilti   : 6 sn'de bir halkadan geçen parıltı (epik)
+ * Her çerçevenin bir TEMASI (hikâyesi) var; silüeti daireyi taşar (üstte taç/boynuz/kristal,
+ * yanlarda kanat/alev, altta plaka). Tanım alanları:
+ *   tur       : "nadirlik" | "lig" | "level"
+ *   malzeme   : renk ailesi — nadirlik (siradan|nadir|epik|efsanevi) · lig/level (bronz|gumus|altin|elmas|efsane)
+ *   tema      : halkanın çizimi (cerceveler.css › [data-tema]); yoksa `desen` (eski genel halka)
+ *   sus       : süs listesi (SUSLER anahtarları)
+ *   plaka     : alt plakadaki yazı (level rakamı)
+ *   efekt     : sürekli canlı efekt — "aura" (dönen ışık) · "kozmik" (dönen bulutsu) · "alev" (titreyen alev)
+ *   parilti   : 7 sn'de bir halkadan geçen parıltı (epik)
+ *   pirilti   : halkada iki küçük ışık (nadir) — hareket hakkı varsa yavaşça yanıp söner
+ *   kivilcim  : seyrek kıvılcımlar (efsanevi)
+ *   yorunge   : halkayı saran eğik yörünge (Gezegen Halkası)
  *
- * Katalogda olup burada tanımı olmayan anahtar `katalog satırından` (nadirlik/kaynak) üretilir,
- * yani yeni bir dükkân çerçevesi eklemek kod gerektirmez; özel süs isteniyorsa buraya satır eklenir.
+ * Boyut kademeleri: 56 px ve üstü tam · 40–55 yalnız `ana` süsler · 40 altı yalnız renkli halka.
+ * Katalogda olup burada tanımı olmayan anahtar katalog satırından (nadirlik) üretilir.
  * Süs görselleri: Google Noto Emoji 3D (Apache 2.0) — public/kozmetik/, public/dukkan/.
  * Lisans: docs/VARLIK_LISANSLARI.md
  */
 
-/** Süsler: görsel + yerleşim sınıfı (cerceveler.css › .qt-cerceve-sus--<yer>). */
+const K = "/kozmetik/";
+
+/**
+ * Süsler. İki yerleşim:
+ *  - serbest: x/y = görselin MERKEZİ, w = genişlik (hepsi dış çapın %'si; 0–100 halkanın kendisi).
+ *    cift: sağa aynası da çizilir (x → 100 − x). r: dönüş (derece). ayna: yatay çevir.
+ *  - açısal: aci = [derece...] (0 = tepe, saat yönü), d = merkezden uzaklık (%), w = genişlik.
+ *    Görselin "üstü" dışarı bakar. dayanak "alt": görselin alt kenarı noktaya oturur (alev).
+ * arka: halkanın arkasında · ana: 40–55 px'te de çizilir · ton: CSS süzgeci · anim: "alev"
+ */
 export const SUSLER = {
-  tac: { src: "/dukkan/tac.webp", yer: "ust" },
-  tac_buyuk: { src: "/dukkan/tac.webp", yer: "ust-buyuk" },
-  kanatlar: { src: "/kozmetik/kanat.webp", yer: "kanat", cift: true },
-  kanatlar_altin: { src: "/kozmetik/kanat.webp", yer: "kanat", cift: true, ton: "altin" },
-  yildiz_ust: { src: "/kozmetik/yildiz.webp", yer: "ust-kucuk" },
-  yildiz_uclu: { src: "/kozmetik/yildiz.webp", yer: "ust-uclu" },
-  parlayan_yildiz: { src: "/kozmetik/parlayan-yildiz.webp", yer: "ust" },
-  kar_tanesi: { src: "/kozmetik/kar-tanesi.webp", yer: "ust-kucuk" },
-  kalkan: { src: "/kozmetik/kalkan.webp", yer: "alt" },
-  defne: { src: "/kozmetik/defne.webp", yer: "defne", cift: true, ton: "altin" },
-  mucevher_ust: { src: "/dukkan/mucevher.webp", yer: "ust-kucuk" },
-  mucevher_alt: { src: "/dukkan/mucevher.webp", yer: "alt-kucuk" },
-  alev_mor: { src: "/kozmetik/alev.webp", yer: "ust", ton: "mor" },
-  alev_yan: { src: "/kozmetik/alev.webp", yer: "yan-alt", cift: true },
-  bronz_madalya: { src: "/kozmetik/bronz-madalya.webp", yer: "alt" },
-  // Kodla çizilen süsler (görsel yok)
-  tas_ust: { kod: "tas", adet: 1 },
-  tas_ust_yakut: { kod: "tas", adet: 1, ton: "yakut" },
-  taslar_4: { kod: "tas", adet: 4 },
-  taslar_6: { kod: "tas", adet: 6 },
-  taslar_3: { kod: "tas", adet: 3 },
-  kristal_uclar: { kod: "kristal", adet: 4 },
-  disler: { kod: "disler" },
+  // Sıradan
+  bulut_buyuk: { src: `${K}bulut.webp`, x: 12, y: 80, w: 52, ana: true },
+  bulut_kucuk: { src: `${K}bulut.webp`, x: 86, y: 16, w: 36, ayna: true },
+  sakura_buyuk: { src: `${K}sakura.webp`, x: 8, y: 78, w: 40, ana: true },
+  papatya: { src: `${K}papatya.webp`, x: 34, y: 94, w: 27 },
+  yaprak: { src: `${K}yaprak.webp`, x: -2, y: 52, w: 32, r: -30, arka: true },
+  sakura_kucuk: { src: `${K}sakura.webp`, x: 88, y: 14, w: 26, r: 18 },
+  // Nadir
+  buz_uclari: { kod: "kristal", aci: [-54, -27, 27, 54], d: 46, w: 16, boy: 30, ton: "buz", arka: true },
+  kar_tepe: { src: `${K}kar-tanesi.webp`, x: 50, y: -2, w: 34, ana: true },
+  kar_kucuk: { src: `${K}kar-tanesi.webp`, x: 88, y: 84, w: 22, r: 20 },
+  dalga: { src: `${K}dalga.webp`, x: 6, y: 70, w: 54, ana: true },
+  kabuk: { src: `${K}deniz-kabugu.webp`, x: 86, y: 88, w: 30, r: -14 },
+  donen_yildiz: { src: `${K}donen-yildiz.webp`, x: 86, y: 10, w: 42, ana: true },
+  parilti_alt: { src: "/dukkan/parilti.webp", x: 8, y: 84, w: 30 },
+  // Epik
+  ejder_tepe: { src: `${K}ejder.webp`, x: 50, y: -8, w: 50, ana: true },
+  simsekler: { src: `${K}simsek.webp`, x: -4, y: 40, w: 40, r: -8, cift: true, arka: true, ana: true },
+  gezegen: { src: `${K}gezegen.webp`, x: 88, y: 8, w: 40, ana: true },
+  parilti_sol: { src: "/dukkan/parilti.webp", x: 6, y: 14, w: 22 },
+  // Efsanevi
+  alev_kanatlar: { src: `${K}kanat.webp`, x: -2, y: 40, w: 50, ayna: true, cift: true, arka: true, ton: "alev", ana: true },
+  alev_tac: { kod: "alev", aci: [-38, 0, 38], d: 40, w: 34, arka: true, ana: true },
+  kraliyet_tac: { src: "/dukkan/tac.webp", x: 50, y: -6, w: 60, ana: true },
+  kraliyet_mucevher: { src: "/dukkan/mucevher.webp", x: 50, y: 96, w: 26 },
+  kraliyet_taslar: { kod: "tas", aci: [-90, 90], tonlar: ["yakut", "yakut"] },
+  kuyruklu_yildiz: { src: `${K}kuyruklu-yildiz.webp`, x: 84, y: 8, w: 46, ana: true },
+  parlayan_yildiz_alt: { src: `${K}parlayan-yildiz.webp`, x: 8, y: 84, w: 28 },
+  parilti_kozmik: { src: "/dukkan/parilti.webp", x: 4, y: 12, w: 22 },
+  // Lig
+  kalkan_alt: { src: `${K}kalkan.webp`, x: 50, y: 92, w: 32, ana: true },
+  defne_gumus: { src: `${K}defne.webp`, x: 4, y: 66, w: 58, r: 24, ayna: true, cift: true, arka: true, ton: "gumus", ana: true },
+  defne_altin: { src: `${K}defne.webp`, x: 4, y: 66, w: 58, r: 24, ayna: true, cift: true, arka: true, ton: "altin", ana: true },
+  lig_tac: { src: "/dukkan/tac.webp", x: 50, y: -4, w: 46, ana: true },
+  elmas_uclari: { kod: "kristal", aci: [-60, -30, 0, 30, 60], d: 46, w: 17, boy: 34, ton: "elmas", arka: true, ana: true },
+  elmas_tas: { src: "/dukkan/mucevher.webp", x: 50, y: 2, w: 28, ana: true },
+  mor_alevler: { kod: "alev", aci: [-64, -32, 0, 32, 64], d: 40, w: 30, arka: true, ton: "mor", ana: true },
+  efsane_tac: { src: "/dukkan/tac.webp", x: 50, y: -6, w: 46, ana: true },
+  // Level
+  yildiz_1: { kod: "yildiz", aci: [0], d: 50, w: 26, ana: true },
+  yildiz_2: { kod: "yildiz", aci: [-17, 17], d: 50, w: 24, ana: true },
+  yildiz_3: { kod: "yildiz", aci: [-30, 0, 30], d: 50, w: 23, ana: true },
+  yildiz_4: { kod: "yildiz", aci: [-42, -14, 14, 42], d: 50, w: 22, ana: true },
+  altin_kanatlar: { src: `${K}kanat.webp`, x: -2, y: 42, w: 50, ayna: true, cift: true, arka: true, ton: "altin", ana: true },
 };
 
 /** Bilinen çerçeveler — anahtarlar sözleşmeden (docs/SOZLESME_ROZET_CERCEVE.md §4). */
 export const CERCEVE_TANIMLARI = {
-  // ——— Dükkân: Sıradan (gri-mavi) — kalın tek renk halka, iç gölge, kabartma
-  dukkan_gece: { tur: "nadirlik", malzeme: "siradan", desen: "duz", ad: "Gece Mavisi" },
-  dukkan_nane: { tur: "nadirlik", malzeme: "siradan", desen: "nokta", ad: "Nane" },
-  dukkan_mercan: { tur: "nadirlik", malzeme: "siradan", desen: "cift", ad: "Mercan" },
-  // ——— Dükkân: Nadir (mavi) — iki tonlu metal, üstte küçük süs
-  dukkan_okyanus: { tur: "nadirlik", malzeme: "nadir", desen: "metal", sus: ["tas_ust"], ad: "Okyanus" },
-  dukkan_zumrut: { tur: "nadirlik", malzeme: "nadir", desen: "metal", sus: ["yildiz_ust"], ad: "Zümrüt" },
-  dukkan_yakut: { tur: "nadirlik", malzeme: "nadir", desen: "metal", sus: ["tas_ust_yakut"], ad: "Yakut" },
-  // ——— Dükkân: Epik (mor) — çok katmanlı halka, mücevherler, 6 sn'de bir parıltı
-  dukkan_ametist: { tur: "nadirlik", malzeme: "epik", desen: "cok", sus: ["taslar_4"], parilti: true, ad: "Ametist" },
-  dukkan_kutup: { tur: "nadirlik", malzeme: "epik", desen: "cok", sus: ["taslar_6"], parilti: true, ad: "Kutup Işığı" },
-  dukkan_nebula: { tur: "nadirlik", malzeme: "epik", desen: "cok", sus: ["taslar_3", "mucevher_ust"], parilti: true, ad: "Nebula" },
-  // ——— Dükkân: Efsanevi (altın-turuncu) — dönen ışık halkası, kıvılcım, taç/kanat
-  dukkan_gunes: { tur: "nadirlik", malzeme: "efsanevi", desen: "metal", sus: ["tac"], hareketli: true, ad: "Güneş Tacı" },
-  dukkan_anka: { tur: "nadirlik", malzeme: "efsanevi", desen: "metal", sus: ["kanatlar_altin"], hareketli: true, ad: "Anka" },
-  dukkan_ejder: { tur: "nadirlik", malzeme: "efsanevi", desen: "metal", sus: ["parlayan_yildiz", "alev_yan"], hareketli: true, ad: "Ejder" },
+  // ——— Dükkân · Sıradan — sade ama temiz, durağan
+  dukkan_gece: { tur: "nadirlik", malzeme: "siradan", tema: "bulut", sus: ["bulut_kucuk", "bulut_buyuk"], ad: "Bulut" },
+  dukkan_nane: { tur: "nadirlik", malzeme: "siradan", tema: "cicek", sus: ["yaprak", "sakura_kucuk", "papatya", "sakura_buyuk"], ad: "Çiçek Bahçesi" },
+  dukkan_mercan: { tur: "nadirlik", malzeme: "siradan", tema: "neon", ad: "Neon Çizgi" },
+  // ——— Dükkân · Nadir — hafif parıltı
+  dukkan_yakut: { tur: "nadirlik", malzeme: "nadir", tema: "buz", sus: ["buz_uclari", "kar_kucuk", "kar_tepe"], pirilti: true, ad: "Buz Kristali" },
+  dukkan_okyanus: { tur: "nadirlik", malzeme: "nadir", tema: "okyanus", sus: ["kabuk", "dalga"], pirilti: true, ad: "Okyanus Dalgası" },
+  dukkan_zumrut: { tur: "nadirlik", malzeme: "nadir", tema: "yildiz", sus: ["parilti_alt", "donen_yildiz"], pirilti: true, ad: "Yıldız Tozu" },
+  // ——— Dükkân · Epik — belirgin süs, 7 sn'de bir parıltı
+  dukkan_ametist: { tur: "nadirlik", malzeme: "epik", tema: "ejder", sus: ["ejder_tepe"], parilti: true, ad: "Ejder Pulu" },
+  dukkan_kutup: { tur: "nadirlik", malzeme: "epik", tema: "simsek", sus: ["simsekler"], parilti: true, ad: "Şimşek" },
+  dukkan_nebula: { tur: "nadirlik", malzeme: "epik", tema: "gezegen", sus: ["parilti_sol", "gezegen"], yorunge: true, parilti: true, ad: "Gezegen Halkası" },
+  // ——— Dükkân · Efsanevi — sürekli canlı efekt + seyrek kıvılcım
+  dukkan_anka: { tur: "nadirlik", malzeme: "efsanevi", tema: "alev", sus: ["alev_kanatlar", "alev_tac"], efekt: "alev", kivilcim: true, ad: "Alev Kanatları" },
+  dukkan_gunes: { tur: "nadirlik", malzeme: "efsanevi", tema: "kraliyet", sus: ["kraliyet_taslar", "kraliyet_mucevher", "kraliyet_tac"], efekt: "aura", kivilcim: true, ad: "Kraliyet" },
+  dukkan_ejder: { tur: "nadirlik", malzeme: "efsanevi", tema: "kozmik", sus: ["parilti_kozmik", "parlayan_yildiz_alt", "kuyruklu_yildiz"], efekt: "kozmik", kivilcim: true, ad: "Kozmik" },
 
   // ——— Lig çerçeveleri (lig atlayınca kazanılır, satılmaz)
-  lig_gumus: { tur: "lig", malzeme: "gumus", desen: "metal", sus: ["kalkan"], ad: "Gümüş Lig" },
-  lig_altin: { tur: "lig", malzeme: "altin", desen: "metal", sus: ["defne"], ad: "Altın Lig" },
-  lig_elmas: { tur: "lig", malzeme: "elmas", desen: "kristal", sus: ["kristal_uclar", "mucevher_ust"], ad: "Elmas Lig" },
-  lig_efsane: { tur: "lig", malzeme: "efsane", desen: "metal", sus: ["alev_mor"], hareketli: true, ad: "Efsane Lig" },
+  lig_gumus: { tur: "lig", malzeme: "gumus", tema: "lig", sus: ["defne_gumus", "kalkan_alt"], ad: "Gümüş Lig" },
+  lig_altin: { tur: "lig", malzeme: "altin", tema: "lig", sus: ["defne_altin", "lig_tac"], ad: "Altın Lig" },
+  lig_elmas: { tur: "lig", malzeme: "elmas", tema: "prizma", sus: ["elmas_uclari", "elmas_tas"], parilti: true, ad: "Elmas Lig" },
+  lig_efsane: { tur: "lig", malzeme: "efsane", tema: "lig", sus: ["mor_alevler", "efsane_tac"], efekt: "alev", kivilcim: true, ad: "Efsane Lig" },
 
-  // ——— Level çerçeveleri (Level 25/50/75/100 rozetiyle gelir)
-  level_25: { tur: "level", malzeme: "bronz", desen: "dis", sus: ["disler", "bronz_madalya"], ad: "Level 25 Madalyonu" },
-  level_50: { tur: "level", malzeme: "gumus", desen: "metal", sus: ["yildiz_uclu"], ad: "Level 50 Yıldızı" },
-  level_75: { tur: "level", malzeme: "altin", desen: "metal", sus: ["kanatlar_altin"], ad: "Level 75 Kanatları" },
-  level_100: { tur: "level", malzeme: "elmas", desen: "kristal", sus: ["tac_buyuk", "mucevher_alt"], hareketli: true, ad: "Level 100 Tacı" },
+  // ——— Level çerçeveleri (Level 25/50/75/100 rozetiyle gelir) — alt plakada level, yıldız sayısı artar
+  level_25: { tur: "level", malzeme: "bronz", tema: "lig", sus: ["yildiz_1"], plaka: "25", ad: "Level 25 Bronz" },
+  level_50: { tur: "level", malzeme: "gumus", tema: "lig", sus: ["yildiz_2"], plaka: "50", ad: "Level 50 Gümüş" },
+  level_75: { tur: "level", malzeme: "altin", tema: "lig", sus: ["yildiz_3"], plaka: "75", parilti: true, ad: "Level 75 Altın" },
+  level_100: { tur: "level", malzeme: "elmas", tema: "prizma", sus: ["altin_kanatlar", "yildiz_4"], plaka: "100", efekt: "aura", kivilcim: true, ad: "Level 100 Altın Kanatlar" },
 };
 
 /** Eski/alternatif anahtar adları → tanım (ör. eski lig_cerceveleri 'gumus'). */
@@ -90,9 +124,9 @@ function katalogdanUret(satir) {
   if (satir?.kaynak === "lig") return null;   // ligler yukarıda tanımlı; bilinmeyen lig → nadirlikten
   return {
     siradan: { tur: "nadirlik", malzeme: "siradan", desen: "duz" },
-    nadir: { tur: "nadirlik", malzeme: "nadir", desen: "metal", sus: ["tas_ust"] },
-    epik: { tur: "nadirlik", malzeme: "epik", desen: "cok", sus: ["taslar_4"], parilti: true },
-    efsanevi: { tur: "nadirlik", malzeme: "efsanevi", desen: "metal", sus: ["tac"], hareketli: true },
+    nadir: { tur: "nadirlik", malzeme: "nadir", desen: "metal", pirilti: true },
+    epik: { tur: "nadirlik", malzeme: "epik", desen: "cok", parilti: true },
+    efsanevi: { tur: "nadirlik", malzeme: "efsanevi", desen: "metal", sus: ["lig_tac"], efekt: "aura", kivilcim: true },
   }[n];
 }
 
@@ -107,6 +141,11 @@ export function cerceveTanimiBul(anahtar, satir) {
   if (k) return { anahtar: k, ...CERCEVE_TANIMLARI[k] };
   const t = katalogdanUret(satir);
   return t ? { anahtar, ...t } : { anahtar, tur: "nadirlik", malzeme: "siradan", desen: "duz" };
+}
+
+/** Tanımın hareket isteyip istemediği (hareket hakkı sırasına girer mi). */
+export function hareketIster(tanim) {
+  return !!(tanim && (tanim.efekt || tanim.parilti || tanim.pirilti || tanim.kivilcim));
 }
 
 /** Nadirlik adı (arayüz etiketi). */
