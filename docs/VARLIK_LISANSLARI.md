@@ -23,6 +23,20 @@ vermeyen kaynak kullanılmaz.
   kıvılcımlar, parıltı) ve rozet madalyonu gövdesi tamamen CSS'tir: `oyun/tasarim/cerceveler/cerceveler.css`,
   `oyun/tasarim/ekranlar/rozet-madalyon.css`. Lottie kullanılmadı (oynatıcı paketi yok, yeni paket kurulmaz).
 
+## Ses adayları (`/ses-secim`, 23 Eyl 2026)
+
+Oyunda ÇALMAZ; yalnız sahibin ses seçim sayfası ister. 27 efekt anı + 3 müzik anı, 112 dosya,
+7,1 MB (`public/ses/adaylar/`). Dosya başına kaynak, yazar, bağlantı ve lisans:
+**`public/ses/adaylar/KAYNAKLAR.md`**. Seçilmeyenler Ida'ya sorularak kaldırılacak.
+
+| Grup | Kaynak | Lisans | Bağlantı |
+|---|---|---|---|
+| 81 efekt adayı (WAV) | Kenney — Interface Sounds, UI Audio, Impact Sounds, Digital Audio, Music Jingles, Casino Audio | CC0 1.0 | https://kenney.nl/assets · paket lisansları `public/ses/LISANS.txt` |
+| 19 efekt adayı (mp3, kırpılmış) | Pixabay ses efektleri (yazarlar KAYNAKLAR.md'de) | Pixabay İçerik Lisansı — ticari kullanım serbest, atıf gerekmez, dosyayı tek başına yeniden dağıtmak/satmak yasak | https://pixabay.com/service/license-summary/ |
+| 12 müzik önizlemesi (AAC, 30 sn) | Pixabay Music (yazarlar KAYNAKLAR.md'de) | Pixabay İçerik Lisansı (aynı) | https://pixabay.com/service/license-summary/ |
+
+Pixabay'de yapay zekâ üretimi ve YouTube Content ID kayıtlı parçalar bilerek elendi.
+
 ## Notlar
 
 - Apache 2.0: lisans metni ve bu atıf korunur; görseller yalnız küçültüldü (değişiklik bildirimi:
