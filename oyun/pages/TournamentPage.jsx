@@ -1,9 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import Ikon from "../components/Ikon.jsx";
 import MacUstSerit from "../components/MacUstSerit.jsx";
-import Modal from "../components/Modal.jsx";
-import DurumKutusu from "../components/DurumKutusu.jsx";
-import Maskot from "../components/Maskot.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { useOyunModu } from "../lib/oyunModu.js";
 import { soruCek } from "../lib/soruCek.js";
@@ -20,7 +16,6 @@ import MeydanaDonus from "../components/MeydanaDonus.jsx";
 import MacSonuSahnesi from "../components/MacSonuSahnesi.jsx";
 import QuestionCard from "../components/QuestionCard.jsx";
 import SkillSeti from "../components/SkillSeti.jsx";
-import Avatar from "../../src/components/Avatar.jsx";
 import OyuncuKarti from "../components/OyuncuKarti.jsx";
 import { useArkadaslik } from "../lib/arkadaslik.js";
 import AvatarCerceve from "../components/AvatarCerceve.jsx";
@@ -30,6 +25,11 @@ import { y } from "../lib/yol.js";
 import { useGorunurlukTazele, zamanAsimiyla } from "../lib/gorunurluk.js";
 import { GB_MS } from "../lib/geriBildirim.js";
 import { tt } from "../lib/dil.js";
+import { sesOnYukle, sesTurnuvaBasladi } from "../lib/ses.js";
+import { QtBosDurum, QtDugme, QtIkon, QtIkonDugme, QtIskelet, QtKart, QtListe, QtListeSatiri, QtModal, QtRozet, QtSayac, QtSekmeler, QtSoruKarti } from "../tasarim/index.js";
+import "../tasarim/ekranlar/m1-mac.css";
+import "../tasarim/ekranlar/m1-sonuc.css";
+import "../tasarim/ekranlar/m1-turnuva.css";
 
 /** Elenen/izleyen oyuncuya soru sayacı (Paket 41 M.2). Sunucu saatiyle hizalı. */
 function IzleyiciSayac({ soru }) {
@@ -41,12 +41,7 @@ function IzleyiciSayac({ soru }) {
     return () => clearInterval(t);
   }, [soru?.baslangic, fark]);
   if (!soru?.baslangic) return null;
-  const sn = Math.ceil(kalan);
-  return (
-    <div className={`bd-izleyici-sayac${sn <= 5 ? " kritik" : ""}`} role="timer" aria-label={tt("{0} saniye kaldı", { 0: sn })}>
-      {tt("{0} sn", { 0: sn })}
-    </div>
-  );
+  return <QtSayac kalan={kalan} toplam={15} />;
 }
 
 export default function TournamentPage() {
@@ -401,26 +396,62 @@ export default function TournamentPage() {
 
   const lobiyeKatil = async () => {
     setHata(null);
-    const { error } = await supabase.rpc("join_tournament_lobby");
-    if (error) setHata(hataMesaji(error));
-    else turnuvaYukle();
+    try {
+      const { error } = await supabase.rpc("join_tournament_lobby");
+      if (error) throw error;
+      turnuvaYukle();
+    } catch (e) {
+      setHata(hataMesaji(e));
+    }
   };
 
   const lobidenAyril = async () => {
-    await supabase.rpc("leave_tournament_lobby");
+    setHata(null);
+    try {
+      const { error } = await supabase.rpc("leave_tournament_lobby");
+      if (error) throw error;
+    } catch (e) {
+      setHata(hataMesaji(e, tt("Lobiden ayrılamadın. Tekrar dene.")));
+    }
     turnuvaYukle();
   };
 
+  // Turnuva başladı (lobi → aktif) — bir kez tören sesi.
+  const oncekiDurumRef = useRef(null);
+  useEffect(() => {
+    const onceki = oncekiDurumRef.current;
+    oncekiDurumRef.current = turnuva?.durum ?? null;
+    if (onceki === "lobi" && turnuva?.durum === "aktif") sesTurnuvaBasladi();
+  }, [turnuva?.durum]);
+  useEffect(() => { sesOnYukle("turnuva"); }, []);
+
   useOyunModu(Boolean(soru) && turnuva?.durum === "aktif");
 
-  if (yukleniyor) return <div className="kart"><DurumKutusu durum="yukleniyor" satir={4} /></div>;
-  if (turnuvaHata) {
+  if (yukleniyor) {
     return (
-      <div className="kart">
-        <DurumKutusu durum="hata" onTekrar={() => { setTurnuvaHata(false); turnuvaYukle(); }} />
+      <div className="m1-tv" aria-busy="true">
+        <QtIskelet tur="kart" yukseklik={180} />
+        <QtIskelet tur="satir" adet={3} />
       </div>
     );
   }
+  if (turnuvaHata) {
+    return (
+      <div className="m1-tv">
+        <QtBosDurum
+          ikon="uyari"
+          ton="yanlis"
+          baslik={tt("Turnuva bilgisi alınamadı")}
+          metin={tt("Bağlantını kontrol edip tekrar dene.")}
+          eylem={<QtDugme ikon="yenile" onClick={() => { setTurnuvaHata(false); turnuvaYukle(); }}>{tt("Tekrar dene")}</QtDugme>}
+        />
+      </div>
+    );
+  }
+
+  const hataBandi = hata ? (
+    <div className="m1-bant m1-bant--hata" role="alert"><QtIkon ad="uyari" boyut={18} /><span>{hata}</span></div>
+  ) : null;
 
   // ---- Lobi yok / sıradaki turnuva ----
   if (!turnuva || turnuva.durum === "bitti" || turnuva.durum === "iptal") {
@@ -441,31 +472,25 @@ export default function TournamentPage() {
         <MacSonuSahnesi
           durum={sampiyonBenim ? "kazandi" : "berabere"}
           baslik={sampiyonBenim ? tt("Kazandın!") : tt("Turnuva bitti")}
+          altYazi={sira != null && !sampiyonBenim ? tt("{n}. oldun", { n: sira }) : null}
           oduller={[
             { ikon: "yildiz", deger: toplam.lig ?? 0, etiket: tt("lig puanı") },
             { ikon: "coin", deger: toplam.coin ?? 0, etiket: tt("coin") },
           ]}
           levelKaynak={`turnuva:${turnuva.id}`}
-          karsilasma={
-            <div className="mss-sampiyon">
-              {kazanan && (
-                <>
-                  <div className="mss-avatar" style={{ "--boyut": "96px" }}>
-                    <span className="mss-hale" aria-hidden="true" />
-                    <span className="mss-tac" aria-hidden="true"><Ikon ad="kupa" boyut={18} /></span>
-                    <AvatarDugmesi userId={kazanan.user_id} profil={kazanan.profil} kendi={kazanan.user_id === user?.id}>
-                      <AvatarCerceve profile={kazanan.profil} boyut={96} userId={kazanan.user_id} />
-                    </AvatarDugmesi>
-                  </div>
-                  <div className="mss-isim"><span className="mss-isim-metin">{kazanan.profil?.gorunen_ad}</span></div>
-                  <div className="mss-taraf-ek">{tt("Şampiyon")}</div>
-                </>
-              )}
-              {sira != null && !sampiyonBenim && (
-                <div className="mss-sampiyon-sira">{tt("{n}. oldun", { n: sira })}</div>
-              )}
+          karsilasma={kazanan ? (
+            <div className="m1-ss-sampiyon">
+              <div className="m1-ss-avatar" style={{ "--boyut": "96px" }}>
+                <span className="m1-ss-hale" aria-hidden="true" />
+                <span className="m1-ss-tac" aria-hidden="true"><QtIkon ad="kupa" boyut={18} /></span>
+                <AvatarDugmesi userId={kazanan.user_id} profil={kazanan.profil} kendi={kazanan.user_id === user?.id}>
+                  <AvatarCerceve profile={kazanan.profil} boyut={96} userId={kazanan.user_id} />
+                </AvatarDugmesi>
+              </div>
+              <div className="m1-ss-isim"><span className="m1-ss-isim-metin">{kazanan.profil?.gorunen_ad}</span></div>
+              <div className="m1-ss-taraf-ek">{tt("Şampiyon")}</div>
             </div>
-          }
+          ) : null}
           gorevler={gorevler}
           detayRozet={turnuvaYanlis}
           ozet={
@@ -477,13 +502,13 @@ export default function TournamentPage() {
           }
           eylemler={
             <>
-              <button className="btn mss-tam" onClick={() => {
+              <QtDugme className="mss-tam" onClick={() => {
                 try { sessionStorage.setItem(kapanmaAnahtari, "1"); } catch { /* özel mod */ }
                 setSonucKapandi((x) => x + 1);
               }}>
                 {tt("Turnuvalara dön")}
-              </button>
-              <button className="btn ikincil" onClick={() => navigate(y())}>{tt("Ana sayfa")}</button>
+              </QtDugme>
+              <QtDugme tur="ikincil" onClick={() => navigate(y())}>{tt("Ana sayfa")}</QtDugme>
             </>
           }
         >
@@ -493,17 +518,15 @@ export default function TournamentPage() {
       );
     }
     return (
-      <div>
+      <div className="m1-tv">
         {kazanan && (
-          <div className="kart" style={{ textAlign: "center" }}>
-            <Ikon ad="kupa" boyut={38} />
-            <div className="baslik" style={{ marginBottom: 4 }}>
-              {tt("Son turnuvanın şampiyonu")}
-            </div>
-            <div style={{ fontSize: 20, fontWeight: 900, color: "var(--bd-odul-metin)" }}>
-              {kazanan.profil?.gorunen_ad}
-            </div>
-          </div>
+          <QtKart className="m1-tv-sampiyon">
+            <span className="m1-tv-sampiyon-ikon" aria-hidden="true"><QtIkon ad="kupa" boyut={28} /></span>
+            <span>
+              <span className="qt-kucuk qt-soluk">{tt("Son turnuvanın şampiyonu")}</span>
+              <span className="m1-tv-sampiyon-ad" style={{ display: "block" }}>{kazanan.profil?.gorunen_ad}</span>
+            </span>
+          </QtKart>
         )}
         {turnuva?.durum === "bitti" && (
           <>
@@ -514,22 +537,20 @@ export default function TournamentPage() {
             <YanlisSatiri macTur="turnuva" macId={turnuva.id} />
           </>
         )}
-        <div className="geri-sayim-kart">
-          <div style={{ fontSize: 14, fontWeight: 700, color: "var(--bd-odul-metin)" }}>
-            {tt("SIRADAKİ TURNUVA")}
-          </div>
-          <Countdown bicim="prototip" />
-          <BugunKalanTurnuvalar />
+        <QtKart className="m1-tv-sayim">
+          <h1 className="qt-baslik-2">{tt("Sıradaki turnuva")}</h1>
+          <Countdown bicim="qt" />
+          <BugunKalanTurnuvalar className="m1-tv-kalanlar" />
           {haftalikGiysi?.ad && (
-            <div className="bd-haftalik-giysi">
-              {tt("Bu haftanın ilk 3 ödülü:")} <b>{haftalikGiysi.ad}</b>
-            </div>
+            <QtRozet ton="coin" ikon="hediye">{tt("Bu haftanın ilk 3 ödülü: {ad}", { ad: haftalikGiysi.ad })}</QtRozet>
           )}
-          {hata && <div className="hata-kutu">{hata}</div>}
-          <button className="btn" onClick={lobiyeKatil}>
-            {tt("Lobiye katıl")}
-          </button>
-        </div>
+          {hataBandi}
+          <div className="m1-tv-dugmeler">
+            <QtDugme tamGenislik boyut="b" ikon="kupa" onClick={lobiyeKatil}>
+              {tt("Lobiye katıl")}
+            </QtDugme>
+          </div>
+        </QtKart>
 
         <TurnuvaTanitim />
       </div>
@@ -539,124 +560,118 @@ export default function TournamentPage() {
   // ---- Lobi ----
   if (turnuva.durum === "lobi") {
     return (
-      <div>
-        <div className="geri-sayim-kart">
-          <div style={{ fontSize: 14, fontWeight: 700, color: "var(--bd-odul-metin)" }}>
-            {tt("TURNUVA LOBİSİ")}
-          </div>
-          <Countdown bicim="prototip" onSifir={turnuvaYukle} />
-          <BugunKalanTurnuvalar />
-          {hata && <div className="hata-kutu">{hata}</div>}
+      <div className="m1-tv">
+        <QtKart className="m1-tv-sayim">
+          <h1 className="qt-baslik-2">{tt("Turnuva lobisi")}</h1>
+          <Countdown bicim="qt" onSifir={turnuvaYukle} />
+          <BugunKalanTurnuvalar className="m1-tv-kalanlar" />
+          {hataBandi}
           <SkillSeti macTur="turnuva" />
-          {benimKayit ? (
-            <button className="btn ikincil" onClick={lobidenAyril}>
-              {tt("Lobiden Ayrıl")}
-            </button>
-          ) : (
-            <button className="btn" onClick={lobiyeKatil}>
-              {tt("Lobiye katıl")}
-            </button>
-          )}
-        </div>
-        <div className="kart">
+          <div className="m1-tv-dugmeler">
+            {benimKayit ? (
+              <QtDugme tur="ikincil" tamGenislik onClick={lobidenAyril}>
+                {tt("Lobiden ayrıl")}
+              </QtDugme>
+            ) : (
+              <QtDugme tamGenislik boyut="b" ikon="kupa" onClick={lobiyeKatil}>
+                {tt("Lobiye katıl")}
+              </QtDugme>
+            )}
+          </div>
+        </QtKart>
+        <section className="m1-tv-lobi">
           {kartOyuncu && (
             <OyuncuKarti
               userId={kartOyuncu.id}
               onIzleme={kartOyuncu}
               onKapat={() => setKartOyuncu(null)}
               onMeydanOku={kartOyuncu.id === user.id ? undefined : meydanOku}
-            onMesaj={kartOyuncu.id !== user.id && arkadaslik.arkadasMi(kartOyuncu.id)
-              ? (id) => { setKartOyuncu(null); navigate(y(`/mesajlar/${id}`)); } : undefined}
-            onArkadasEkle={kartOyuncu.id !== user.id && !arkadaslik.arkadasMi(kartOyuncu.id)
-              && !arkadaslik.istekVar(kartOyuncu.id) ? arkadaslik.arkadasEkle : undefined}
-            bilgiNotu={kartOyuncu.id !== user.id && arkadaslik.istekVar(kartOyuncu.id)
-              ? tt("Arkadaşlık isteği bekliyor.") : null}
+              onMesaj={kartOyuncu.id !== user.id && arkadaslik.arkadasMi(kartOyuncu.id)
+                ? (id) => { setKartOyuncu(null); navigate(y(`/mesajlar/${id}`)); } : undefined}
+              onArkadasEkle={kartOyuncu.id !== user.id && !arkadaslik.arkadasMi(kartOyuncu.id)
+                && !arkadaslik.istekVar(kartOyuncu.id) ? arkadaslik.arkadasEkle : undefined}
+              bilgiNotu={kartOyuncu.id !== user.id && arkadaslik.istekVar(kartOyuncu.id)
+                ? tt("Arkadaşlık isteği bekliyor.") : null}
             />
           )}
-          <div className="baslik">
-            {tt("Lobideki Oyuncular (")}
-            {suzuluyor ? `${suzulmusOyuncular.length}/${oyuncular.length}` : oyuncular.length})
+          <div className="m1-tv-lobi-ust">
+            <h2 className="qt-baslik-2">{tt("Lobideki oyuncular")}</h2>
+            <QtRozet ton="mor" boyut="k" ikon="kisiler">
+              {suzuluyor ? `${suzulmusOyuncular.length}/${oyuncular.length}` : oyuncular.length}
+            </QtRozet>
           </div>
 
           {/* Paket 26 F — süzgeçler. Sunucuya gitmez: yukarıda çekilmiş listeyi süzer. */}
           {oyuncular.length > 0 && (
-            <div className="bd-lobi-suzgec">
-              <div className="bd-sekme-ust" role="tablist" aria-label={tt("Lobi süzgeci")}>
-                {[
-                  ["hepsi", tt("Tümü")],
-                  ["arkadas", tt("Arkadaşlarım")],
-                  ["lig", tt("Kendi Ligim")],
-                ].map(([deger, etiket]) => (
-                  <button
-                    key={deger}
-                    type="button"
-                    role="tab"
-                    aria-selected={suzgec === deger}
-                    className={`bd-sekme${suzgec === deger ? " aktif" : ""}`}
-                    onClick={() => setSuzgec(deger)}
-                  >
-                    {etiket}
-                  </button>
-                ))}
-              </div>
+            <>
+              <QtSekmeler
+                etiket={tt("Lobi süzgeci")}
+                aktif={suzgec}
+                onSec={setSuzgec}
+                sekmeler={[
+                  { kod: "hepsi", ad: tt("Tümü") },
+                  { kod: "arkadas", ad: tt("Arkadaşlarım") },
+                  { kod: "lig", ad: tt("Kendi ligim") },
+                ]}
+              />
               <input
                 type="text"
                 inputMode="search"
+                className="m1-tv-ara"
                 value={arama}
                 onChange={(e) => setArama(e.target.value)}
                 placeholder={tt("Ada göre ara")}
                 aria-label={tt("Lobideki oyuncular arasında ada göre ara")}
               />
-            </div>
+            </>
           )}
 
           {oyuncular.length > 0 && suzulmusOyuncular.length === 0 && (
-            <div className="bd-bos-durum">
-              <Maskot poz="dusunuyor" boyut={78} />
-              <p>
-                {suzgec === "arkadas"
-                  ? tt("Lobide arkadaşın yok. Turnuva herkese açık — yine de katılabilirsin.")
-                  : suzgec === "lig"
-                    ? tt("Lobide kendi liginden kimse yok.")
-                    : tt("Bu isimde bir oyuncu yok.")}
-              </p>
-            </div>
+            <QtBosDurum
+              ikon="arama"
+              metin={suzgec === "arkadas"
+                ? tt("Lobide arkadaşın yok. Turnuva herkese açık — yine de katılabilirsin.")
+                : suzgec === "lig"
+                  ? tt("Lobide kendi liginden kimse yok.")
+                  : tt("Bu isimde bir oyuncu yok.")}
+            />
           )}
 
           {oyuncular.length === 0 && (
-            <div className="bd-bos-durum">
-              <Maskot poz="dusunuyor" boyut={78} />
-              <p>{tt("Lobi henüz boş — ilk katılan sen ol, turnuva başlayınca haber veririz.")}</p>
-            </div>
+            <QtBosDurum ikon="kisiler" metin={tt("Lobi henüz boş — ilk katılan sen ol, turnuva başlayınca haber veririz.")} />
           )}
-          {/* Satıra dokunmak oyuncu kartını açar: avatar, rütbe, puan ve
-              (kendisi değilse) meydan okuma düğmesi. */}
-          {/* Paket 43 B: kılıç gerçek <button> oldu. Düğme içinde düğme geçersiz HTML olduğu için
-              satır bir kapsayıcı; içinde iki KARDEŞ düğme var: kartı açan (ad + avatar) ve meydan okuyan. */}
-          {suzulmusOyuncular.map((o) => (
-            <div key={o.user_id} className="bd-lobi-oyuncu">
-              <button
-                type="button"
-                className="bd-lobi-oyuncu-ac"
-                onClick={() => setKartOyuncu({ id: o.user_id, ...(o.profil ?? {}) })}
-                title={tt("{0} — kartını aç", { 0: o.profil?.gorunen_ad ?? tt("Oyuncu") })}
-              >
-                <AvatarCerceve profile={o.profil} boyut={32} userId={o.user_id} />
-                <span className="bd-lobi-ad">{o.profil?.gorunen_ad}</span>
-              </button>
-              {o.user_id !== user.id && (
-                <button
-                  type="button"
-                  className="bd-lobi-kilic"
-                  aria-label={tt("{0} oyuncusuna meydan oku", { 0: o.profil?.gorunen_ad ?? tt("Oyuncu") })}
-                  onClick={(e) => { e.stopPropagation(); meydanOku(o.user_id); }}
-                >
-                  <Ikon ad="kilic" boyut={15} />
-                </button>
-              )}
-            </div>
-          ))}
-        </div>
+          {/* Satıra dokunmak oyuncu kartını açar; kılıç düğmesi ayrı KARDEŞ düğme
+              (Paket 43 B: düğme içinde düğme geçersiz HTML). */}
+          {suzulmusOyuncular.length > 0 && (
+            <QtListe etiket={tt("Lobideki oyuncular")}>
+              {suzulmusOyuncular.map((o) => (
+                <QtListeSatiri
+                  key={o.user_id}
+                  vurgulu={o.user_id === user.id}
+                  bas={
+                    <button
+                      type="button"
+                      className="m1-tv-oyuncu-ac"
+                      onClick={() => setKartOyuncu({ id: o.user_id, ...(o.profil ?? {}) })}
+                      aria-label={tt("{0} — kartını aç", { 0: o.profil?.gorunen_ad ?? tt("Oyuncu") })}
+                    >
+                      <AvatarCerceve profile={o.profil} boyut={36} userId={o.user_id} />
+                    </button>
+                  }
+                  baslik={o.profil?.gorunen_ad}
+                  sag={o.user_id !== user.id ? (
+                    <QtIkonDugme
+                      ikon="kilic"
+                      tur="mor"
+                      etiket={tt("{0} oyuncusuna meydan oku", { 0: o.profil?.gorunen_ad ?? tt("Oyuncu") })}
+                      onClick={(e) => { e.stopPropagation(); meydanOku(o.user_id); }}
+                    />
+                  ) : null}
+                />
+              ))}
+            </QtListe>
+          )}
+        </section>
       </div>
     );
   }
@@ -664,10 +679,11 @@ export default function TournamentPage() {
   // ---- Aktif turnuva ----
   const elendim = benimKayit?.elendi;
   const izleyiciyim = !benimKayit;
+  const toplamSoru = turnuva.soru_ids?.length ?? null;
 
   return (
-    <div>
-      <h1 className="baslik bd-gorsel-gizli">{tt("Turnuva")}</h1>
+    <div className="qt-sahne-mac m1-mac">
+      <h1 className="qt-gizli">{tt("Turnuva")}</h1>
       {/* Paket 41 B/E/H: Klasik ile aynı çıkış (X), mod rozeti ve ses */}
       {/* Paket 43 C: hâlâ yarışan oyuncu için çıkış onaylı; elenmiş oyuncu / izleyici doğrudan çıkar.
           Vazgeç'te maç duraklamaz — soru sayacı sunucu saatinden akmaya devam eder. */}
@@ -675,89 +691,91 @@ export default function TournamentPage() {
         onCik={() => (!elendim && !izleyiciyim ? setCikisOnay(true) : navigate(y()))}
         rozet={soru?.altin ? tt("Turnuva · altın soru") : tt("Turnuva")}
       />
-      {cikisOnay && (
-        <Modal onKapat={() => setCikisOnay(false)} etiket={tt("Turnuvadan çık")}>
-          <div className="bd-modal">
-            <h2 className="bd-modal-baslik">{tt("Turnuvadan çıkarsan elenirsin.")}</h2>
-            <p className="alt-yazi">{tt("Bu turnuvaya geri dönemezsin.")}</p>
-            <div className="bd-joker-sat-dugmeler">
-              <button type="button" className="btn ikincil" onClick={() => setCikisOnay(false)}>{tt("Vazgeç")}</button>
-              <button type="button" className="btn tehlike" onClick={() => { setCikisOnay(false); navigate(y()); }}>
-                {tt("Çık ve elen")}
-              </button>
-            </div>
+      <QtModal
+        acik={cikisOnay}
+        onKapat={() => setCikisOnay(false)}
+        baslik={tt("Turnuvadan çıkarsan elenirsin.")}
+        aciklama={tt("Bu turnuvaya geri dönemezsin.")}
+        altlik={
+          <div className="m1-sat-dugmeler">
+            <QtDugme tur="ikincil" onClick={() => setCikisOnay(false)} data-qt-ilk-odak>{tt("Vazgeç")}</QtDugme>
+            <QtDugme tur="tehlike" onClick={() => { setCikisOnay(false); navigate(y()); }}>
+              {tt("Çık ve elen")}
+            </QtDugme>
           </div>
-        </Modal>
-      )}
+        }
+      />
       {/* ALTIN SORU: sorular bitti, hayatta kalanlar eşit. Eleme turnuvası
           berabere bitemez — biri kazanana kadar yeni soru gelir. */}
       {soru?.altin ? (
-        <div className="durum-bandi altin-soru">
-          <Ikon ad="yildiz" boyut={15} /> {tt("ALTIN SORU ·")} {hayatta.length} {tt("oyuncu başa baş — biri bilene kadar sürer")}
+        <div className="m1-tv-canli" role="status">
+          <QtRozet ton="coin" ikon="yildiz">{tt("Altın soru")}</QtRozet>
+          {tt("{n} oyuncu başa baş — biri bilene kadar sürer", { n: hayatta.length })}
         </div>
       ) : (
-        <div className="durum-bandi canli">
-          <span className="canli-nokta" />
-          {tt("CANLI ·")} {hayatta.length} {tt("oyuncu hayatta · Soru")} {turnuva.aktif_soru + 1}/
-          {turnuva.soru_ids?.length ?? "?"}
+        <div className="m1-tv-canli" role="status">
+          <span className="m1-tv-nokta" aria-hidden="true" />
+          {tt("Canlı · {n} oyuncu hayatta", { n: hayatta.length })}
         </div>
       )}
 
       {elendim && (
-        <div className="durum-bandi elendi">
-          {tt("Elendin. Kalan oyuncuları izlemeye devam edebilirsin.")}
-        </div>
+        <div className="m1-bant"><QtIkon ad="bilgi" boyut={18} /><span>{tt("Elendin. Kalan oyuncuları izlemeye devam edebilirsin.")}</span></div>
       )}
       {izleyiciyim && (
-        <div className="durum-bandi elendi">{tt("İzleyici modundasın.")}</div>
+        <div className="m1-bant m1-bant--bilgi"><QtIkon ad="bilgi" boyut={18} /><span>{tt("İzleyici modundasın.")}</span></div>
       )}
 
       {/* Soru gelmedi: sessizce donmak yerine sebebini söyle ve yol ver.
           (Denemeler oyun/lib/soruCek.js'te; buraya düşmesi hepsinin
           tükendiği anlamına gelir.) */}
       {soruHatasi && !soru && (
-        <div className="kart bd-soru-hata" role="alert">
-          <Ikon ad="saat" boyut={24} />
-          <p>{tt("Soru gelmedi. Bağlantını kontrol edip tekrar dene.")}</p>
-          <button
-            type="button"
-            className="btn"
-            onClick={() => { setSoruHatasi(false); setSoruDeneme((n) => n + 1); }}
-          >
-            {tt("Tekrar dene")}
-          </button>
-        </div>
+        <QtBosDurum
+          ikon="uyari"
+          ton="yanlis"
+          baslik={tt("Soru gelmedi")}
+          metin={tt("Bağlantını kontrol edip tekrar dene.")}
+          eylem={
+            <QtDugme onClick={() => { setSoruHatasi(false); setSoruDeneme((n) => n + 1); }}>
+              {tt("Tekrar dene")}
+            </QtDugme>
+          }
+        />
       )}
 
       {soru && !elendim && !izleyiciyim ? (
         <QuestionCard
           // Key gösterilen soruya bağlı (Paket 14, 5.2)
           key={`${turnuva.id}-${soru.soru_index ?? turnuva.aktif_soru}`}
-          className={soru.altin ? "bd-altin-soru" : ""}
+          className={soru.altin ? "m1-soru--altin" : ""}
           soru={soru}
           onCevapla={cevapla}
           onSureDoldu={sureDoldu}
           macTur="turnuva"
           macId={turnuva.id}
+          toplamSoru={soru.altin ? null : toplamSoru}
         />
       ) : (
         soru && (
-          <div className="kart">
-            <div className="soru-metin">{soru.soru}</div>
-            <div className="alt-yazi">{tt("Oyuncular cevaplıyor…")}</div>
-            {/* Paket 41 M.2: izleyen/elenen oyuncu da kalan süreyi görsün */}
-            <IzleyiciSayac key={soru.soru_index ?? turnuva.aktif_soru} soru={soru} />
+          <div className="m1-tv-izle">
+            <QtSoruKarti
+              key={soru.soru_index ?? turnuva.aktif_soru}
+              metin={soru.soru}
+              sira={toplamSoru && !soru.altin ? tt("Soru {n} / {t}", { n: (soru.soru_index ?? turnuva.aktif_soru) + 1, t: toplamSoru }) : null}
+              sayac={<IzleyiciSayac key={soru.soru_index ?? turnuva.aktif_soru} soru={soru} />}
+            />
+            <p className="m1-bekleme">{tt("Oyuncular cevaplıyor…")}</p>
           </div>
         )
       )}
 
-      <div className="kart" style={{ marginTop: 14 }}>
-        <div className="baslik">{tt("Hayatta Kalanlar")}</div>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+      <div className="m1-alt">
+        <h2 className="m1-tv-canli">{tt("Hayatta kalanlar")}</h2>
+        <div className="m1-tv-hayatta">
           {hayatta.map((o) => (
-            <span key={o.user_id} className="rutbe-chip" style={{ color: "var(--bd-basari-metin, #177A45)" }}>
-              {o.profil?.gorunen_ad} ({o.dogru_sayisi} {tt("doğru)")}
-            </span>
+            <QtRozet key={o.user_id} ton={o.user_id === user.id ? "vurgu" : "notr"} boyut="k">
+              {tt("{ad} · {n} doğru", { ad: o.profil?.gorunen_ad ?? tt("Oyuncu"), n: o.dogru_sayisi ?? 0 })}
+            </QtRozet>
           ))}
         </div>
       </div>

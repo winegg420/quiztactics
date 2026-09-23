@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
-import Avatar from "../../src/components/Avatar.jsx";
-import Ikon from "./Ikon.jsx";
+import { QtAvatar, QtKart, QtListe, QtListeSatiri, QtRozet } from "../tasarim/index.js";
+import "../tasarim/ekranlar/m1-turnuva.css";
 import { turnuvaSaatleri } from "../lib/zaman.js";
 import { tt } from "../lib/dil.js";
 
@@ -48,7 +48,8 @@ export default function TurnuvaTanitim() {
           return (b.dogru_sayisi ?? 0) - (a.dogru_sayisi ?? 0);
         });
         setIlkUc(sirali.slice(0, 3));
-      } catch {
+      } catch (e) {
+        console.warn("[Bildim] son turnuva okunamadı:", e?.message ?? e);
         /* turnuva geçmişi yoksa blok sadece "nasıl oynanır" gösterir */
       }
     })();
@@ -59,52 +60,50 @@ export default function TurnuvaTanitim() {
 
   return (
     <>
-      <div className="kart bd-turnuva-nasil">
-        <div className="bd-kat-baslik"><span>{tt("Nasıl oynanır?")}</span></div>
-        <ol className="bd-nasil-liste">
+      <QtKart className="m1-tv-nasil">
+        <h2 className="qt-baslik-2">{tt("Nasıl oynanır?")}</h2>
+        <ol>
           <li>
-            <span className="bd-nasil-no">1</span>
+            <span className="m1-tv-no" aria-hidden="true">1</span>
             <span>
-              <b>{tt("Lobiye katıl.")}</b> {tt("Turnuvalar her gün")}{" "}
-              <b>{turnuvaSaatleri().join(", ")}</b> {tt("saatlerinde başlar (Türkiye saati); başlamadan lobide olman gerekir.")}
+              <b>{tt("Lobiye katıl.")}</b>{" "}
+              {tt("Turnuvalar her gün {saatler} saatlerinde başlar (Türkiye saati); başlamadan lobide olman gerekir.", { saatler: turnuvaSaatleri().join(", ") })}
             </span>
           </li>
           <li>
-            <span className="bd-nasil-no">2</span>
+            <span className="m1-tv-no" aria-hidden="true">2</span>
             <span>
               <b>{tt("Yanlış cevap elenmektir.")}</b> {tt("Herkese aynı soru aynı anda gelir, bir soruyu kaçıran turnuvadan çıkar.")}
             </span>
           </li>
           <li>
-            <span className="bd-nasil-no">3</span>
+            <span className="m1-tv-no" aria-hidden="true">3</span>
             <span>
-              <b>{tt("Son kalan kazanır")}</b> {tt("ve")} <b>{tt("+150 lig puanı")}</b> {tt("alır; ilk 10'a giren ve katılan herkes de puan kazanır. Finalde skill kullanılamaz — sadece bilgi.")}
+              <b>{tt("Son kalan kazanır ve +150 lig puanı alır;")}</b>{" "}
+              {tt("ilk 10'a giren ve katılan herkes de puan kazanır. Finalde skill kullanılamaz — sadece bilgi.")}
             </span>
           </li>
         </ol>
-      </div>
+      </QtKart>
 
       {sonTurnuva && ilkUc.length > 0 && (
-        <div className="kart">
-          <div className="bd-kat-baslik">
-            <span>{tt("Son turnuva")}</span>
-            <span className="alt-yazi">{katilan} {tt("katılımcı")}</span>
+        <section className="m1-tv-lobi">
+          <div className="m1-tv-lobi-ust">
+            <h2 className="qt-baslik-2">{tt("Son turnuva")}</h2>
+            <QtRozet ton="notr" boyut="k" ikon="kisiler">{tt("{n} katılımcı", { n: katilan })}</QtRozet>
           </div>
-          <div className="bd-son-turnuva">
+          <QtListe etiket={tt("Son turnuvanın ilk üçü")}>
             {ilkUc.map((o, i) => (
-              <div key={o.user_id} className={`bd-son-satir ${i === 0 ? "birinci" : ""}`}>
-                <span className="bd-son-madalya">
-                  {i + 1}
-                </span>
-                <Avatar profile={o.profil} boyut={32} />
-                <span className="bd-son-ad">{o.profil?.gorunen_ad ?? tt("Oyuncu")}</span>
-                <span className="bd-son-dogru">
-                  <Ikon ad="onay" boyut={13} /> {o.dogru_sayisi ?? 0}
-                </span>
-              </div>
+              <QtListeSatiri
+                key={o.user_id}
+                vurgulu={i === 0}
+                bas={<QtAvatar src={o.profil?.gorunen_avatar || null} ad={o.profil?.gorunen_ad ?? ""} boyut="s" halka={i === 0 ? "coin" : "yok"} />}
+                baslik={`${i + 1}. ${o.profil?.gorunen_ad ?? tt("Oyuncu")}`}
+                sag={<QtRozet ton={i === 0 ? "coin" : "dogru"} boyut="k" ikon="onay">{o.dogru_sayisi ?? 0}</QtRozet>}
+              />
             ))}
-          </div>
-        </div>
+          </QtListe>
+        </section>
       )}
     </>
   );
