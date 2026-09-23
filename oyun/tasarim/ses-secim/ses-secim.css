@@ -92,3 +92,21 @@
   color: var(--qt-ikinci-koyu);
   overflow-wrap: anywhere;
 }
+
+/* Müzik çalma listesi (Ajan M): sıralı 1–4 parça, yukarı/aşağı/çıkar. */
+.ss-liste-kutu { display: grid; gap: var(--qt-b-2); }
+.ss-liste-ipucu { margin: 0; font-size: var(--qt-y-s); color: var(--qt-metin-soluk); }
+.ss-liste { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--qt-b-1); }
+.ss-liste-satir {
+  display: grid;
+  grid-template-columns: 2ch minmax(0, 1fr) auto auto auto;
+  align-items: center;
+  gap: var(--qt-b-1);
+  padding: var(--qt-b-1) var(--qt-b-2);
+  border-radius: var(--qt-r-m);
+  background: var(--qt-ikinci-acik);
+}
+.ss-liste-sira { font-family: var(--qt-f-baslik); font-weight: var(--qt-a-siyah); color: var(--qt-ikinci-koyu); text-align: center; }
+.ss-liste-ad { min-width: 0; font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); color: var(--qt-metin); overflow-wrap: anywhere; }
+.ss-yukari svg { transform: rotate(180deg); }
+.ss-liste-satir .qt-ikon-dugme:disabled { opacity: 0.35; }

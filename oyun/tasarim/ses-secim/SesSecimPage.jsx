@@ -2,12 +2,13 @@
 // Menüde yok; yalnız sahip hesabıyla açılır (sunucu: sahip_mi(), migration 380).
 // Adaylar public/ses/adaylar/ altında ve YALNIZ ▶ Çal'a basınca indirilir (ana pakete girmez).
 // Seçim oyuna HEMEN geçer (Ajan H): oyun ses_secimleri_oyun(sürüm) ile okur, ses.js seçilen dosyayı çalar.
+// Müzik anları (Ajan M, migration 450): 1–4 parça SIRALI çalma listesi (ses_listesi_kaydet); oyun tam parçayı çalar.
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../../../src/lib/supabase.js";
 import { aktifDil, tt } from "../../lib/dil.js";
 import EN from "../../lib/ceviri/ses-secim.js";
-import { QtAnahtar, QtBosDurum, QtDugme, QtIlerleme, QtIskelet, QtKart, QtRozet } from "../index.js";
+import { QtAnahtar, QtBosDurum, QtDugme, QtIkonDugme, QtIlerleme, QtIskelet, QtKart, QtRozet } from "../index.js";
 import { EFEKTLER, KENNEY, MUZIKLER, TUM_ANLAR } from "./adaylar.js";
 import "./ses-secim.css";
 
@@ -157,10 +158,95 @@ function SesKarti({ an, secili, kaydediliyor, calanId, onCal, onSec }) {
   );
 }
 
+const LISTE_EN_COK = 4;
+
+/** Müzik kartı: 1–4 aday sıralı çalma listesi (ekle/çıkar, yukarı/aşağı). */
+function MuzikKarti({ an, liste, kaydediliyor, calanId, onCal, onListe }) {
+  const secenek = useMemo(() => secenekler(an), [an]);
+  const adi = useMemo(() => Object.fromEntries(an.adaylar.map((a, i) => [a.id, `${ts("Aday {n}", { n: i + 1 })} · ${a.baslik}`])), [an]);
+  const baslikId = `ss-an-${an.an}`;
+  const dolu = liste.length >= LISTE_EN_COK;
+  const tasi = (i, yon) => {
+    const y = [...liste];
+    [y[i], y[i + yon]] = [y[i + yon], y[i]];
+    onListe(an.an, y);
+  };
+  return (
+    <QtKart as="section" className="ss-kart" aria-labelledby={baslikId} aria-busy={kaydediliyor || undefined}>
+      <header className="ss-kart-bas">
+        <div className="ss-kart-metin">
+          <h3 id={baslikId} className="ss-kart-ad">{en() ? an.adEn : an.ad}</h3>
+          <p className="ss-kart-yer">{en() ? an.yerEn : an.yer}</p>
+        </div>
+        {liste.length ? (
+          <QtRozet ton="dogru" ikon="liste" boyut="k">{ts("{n} parça", { n: liste.length })}</QtRozet>
+        ) : (
+          <QtRozet ton="notr" boyut="k">{ts("Seçilmedi")}</QtRozet>
+        )}
+      </header>
+      <div className="ss-liste-kutu">
+        <p className="ss-liste-ipucu">{ts("Çalma listesi: 2–4 parça seç ve sırala. Oyun bu sırayla çalar, liste bitince başa döner; her girişte rastgele bir parçadan başlar. Tek parça seçilirse döngüde çalar.")}</p>
+        {liste.length > 0 && (
+          <ol className="ss-liste" aria-label={ts("Çalma listesi")}>
+            {liste.map((id, i) => {
+              const ad = adi[id] ?? id;
+              return (
+                <li key={id} className="ss-liste-satir">
+                  <span className="ss-liste-sira qt-sayi" aria-hidden="true">{i + 1}</span>
+                  <span className="ss-liste-ad">{ad}</span>
+                  <QtIkonDugme ikon="asagi" tur="saydam" className="ss-yukari" etiket={ts("{ad} yukarı taşı", { ad })} disabled={i === 0 || kaydediliyor} onClick={() => tasi(i, -1)} />
+                  <QtIkonDugme ikon="asagi" tur="saydam" etiket={ts("{ad} aşağı taşı", { ad })} disabled={i === liste.length - 1 || kaydediliyor} onClick={() => tasi(i, 1)} />
+                  <QtIkonDugme ikon="carpi" tur="saydam" etiket={ts("{ad} listeden çıkar", { ad })} disabled={kaydediliyor} onClick={() => onListe(an.an, liste.filter((x) => x !== id))} />
+                </li>
+              );
+            })}
+          </ol>
+        )}
+      </div>
+      <ul className="ss-adaylar">
+        {secenek.map((s) => {
+          const calan = calanId === `${an.an}:${s.id}`;
+          const sira = liste.indexOf(s.id);
+          const listede = sira >= 0;
+          return (
+            <li key={s.id} className={`ss-aday${listede ? " ss-aday--secili" : ""}`}>
+              <QtDugme
+                tur={calan ? "mor" : "ikincil"}
+                boyut="b"
+                ikon={calan ? "kapat" : "oyna"}
+                tamGenislik
+                className="ss-cal"
+                aria-label={ts(calan ? "{ad} durdur" : "{ad} çal", { ad: `${en() ? an.adEn : an.ad} — ${s.ad}` })}
+                onClick={() => onCal(an, s)}
+              >
+                {s.ad}
+              </QtDugme>
+              <p className="ss-aday-alt">{s.alt}</p>
+              <QtDugme
+                tur={listede ? "mor" : "hayalet"}
+                boyut="k"
+                ikon={listede ? "onay" : "arti"}
+                tamGenislik
+                devreDisi={kaydediliyor || (!listede && dolu)}
+                aria-pressed={listede}
+                onClick={() => onListe(an.an, listede ? liste.filter((x) => x !== s.id) : [...liste, s.id])}
+              >
+                {listede ? ts("Listede · {n}", { n: sira + 1 }) : dolu ? ts("Liste dolu") : ts("Listeye ekle")}
+              </QtDugme>
+            </li>
+          );
+        })}
+      </ul>
+    </QtKart>
+  );
+}
+
 // ——————————————————————— sayfa ———————————————————————
 export default function SesSecimPage() {
   const [durum, setDurum] = useState("yukleniyor");   // yukleniyor · sahip-degil · hata · hazir
   const [secimler, setSecimler] = useState({});
+  const [listeler, setListeler] = useState({});           // müzik anı → [aday id] (2–4; tek seçim secimler'de)
+  const [listeKaydi, setListeKaydi] = useState({});       // müzik anı → kaydediliyor mu
   const [kaydediliyor, setKaydediliyor] = useState({}); // an → aday id
   const [calanId, setCalanId] = useState(null);
   const [uyari, setUyari] = useState("");
@@ -179,6 +265,10 @@ export default function SesSecimPage() {
       if (e2) throw e2;
       const harita = {};
       for (const r of data ?? []) harita[r.an] = r.aday;
+      // Çalma listeleri (migration 450): herkese açık okuma ucundan gelir.
+      const { data: oyun, error: e3 } = await supabase.rpc("ses_secimleri_oyun", { p_surum: null });
+      if (e3) throw e3;
+      setListeler(oyun?.listeler && typeof oyun.listeler === "object" ? oyun.listeler : {});
       setSecimler(harita);
       setDurum("hazir");
     } catch (e) {
@@ -225,6 +315,31 @@ export default function SesSecimPage() {
       setUyari(ts("Kaydedilemedi: {hata}", { hata: e?.message ?? "" }));
     } finally {
       setKaydediliyor((k) => { const y = { ...k }; delete y[an]; return y; });
+    }
+  }, []);
+
+  /** Müzik çalma listesini yazar (iyimser; hata olursa eski hâline döner). */
+  const listeRef = useRef(listeler);
+  listeRef.current = listeler;
+  const onListe = useCallback(async (an, yeni) => {
+    const oncekiListe = listeRef.current[an];
+    const oncekiSecim = secimRef.current[an];
+    const uygula = (liste, secim) => {
+      setListeler((l) => { const y = { ...l }; if (liste && liste.length > 1) y[an] = liste; else delete y[an]; return y; });
+      setSecimler((s) => { const y = { ...s }; if (secim) y[an] = secim; else delete y[an]; return y; });
+    };
+    uygula(yeni, yeni[0]);
+    setListeKaydi((k) => ({ ...k, [an]: true }));
+    setUyari("");
+    try {
+      const { error } = await supabase.rpc("ses_listesi_kaydet", { p_an: an, p_liste: yeni });
+      if (error) throw error;
+    } catch (e) {
+      console.error("ses-secim liste kaydet:", e);
+      uygula(oncekiListe ?? (oncekiSecim ? [oncekiSecim] : []), oncekiSecim);
+      setUyari(ts("Kaydedilemedi: {hata}", { hata: e?.message ?? "" }));
+    } finally {
+      setListeKaydi((k) => { const y = { ...k }; delete y[an]; return y; });
     }
   }, []);
 
@@ -325,10 +440,20 @@ export default function SesSecimPage() {
               acik={dongu}
               onDegis={donguDegis}
               etiket={ts("Döngü önizlemesi")}
-              aciklama={ts("Parça bitince baştan çalar (30 sn'lik önizleme).")}
+              aciklama={ts("Parça bitince baştan çalar (30 sn'lik önizleme; oyunda tam parça çalar).")}
             />
           </QtKart>
-          {kartlar(MUZIKLER)}
+          {MUZIKLER.map((an) => (
+            <MuzikKarti
+              key={an.an}
+              an={an}
+              liste={listeler[an.an] ?? (secimler[an.an] && secimler[an.an] !== "mevcut" && secimler[an.an] !== "sessiz" ? [secimler[an.an]] : [])}
+              kaydediliyor={Boolean(listeKaydi[an.an])}
+              calanId={calanId}
+              onCal={onCal}
+              onListe={onListe}
+            />
+          ))}
         </section>
 
         <section className="ss-bolum" aria-labelledby="ss-kaynaklar">

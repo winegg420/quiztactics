@@ -36,4 +36,15 @@ export default {
   "Kaydedilemedi: {hata}": "Couldn't save: {hata}",
   "Ses çalınamadı": "Couldn't play the sound",
   "Kaynak": "Source",
+  "Parça bitince baştan çalar (30 sn'lik önizleme; oyunda tam parça çalar).": "Restarts when the clip ends (30 s preview; the game plays the full track).",
+  "{n} parça": "{n} tracks",
+  "Çalma listesi": "Playlist",
+  "Çalma listesi: 2–4 parça seç ve sırala. Oyun bu sırayla çalar, liste bitince başa döner; her girişte rastgele bir parçadan başlar. Tek parça seçilirse döngüde çalar.":
+    "Playlist: pick 2–4 tracks and order them. The game plays them in this order and starts over at the end; each visit starts from a random track. A single track loops.",
+  "{ad} yukarı taşı": "Move {ad} up",
+  "{ad} aşağı taşı": "Move {ad} down",
+  "{ad} listeden çıkar": "Remove {ad} from the playlist",
+  "Listede · {n}": "In playlist · {n}",
+  "Liste dolu": "Playlist full",
+  "Listeye ekle": "Add to playlist",
 };
