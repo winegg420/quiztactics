@@ -6,13 +6,14 @@
 import { useState } from "react";
 import OyuncuKarti from "./OyuncuKarti.jsx";
 import { tt } from "../lib/dil.js";
+import "../tasarim/ekranlar/l-kart.css";
 
 export default function AvatarDugmesi({ userId, profil, kendi = false, children }) {
   const [acik, setAcik] = useState(false);
   if (kendi || !userId) return children;
   return (
     <>
-      <button type="button" className="bd-avatar-dugmesi"
+      <button type="button" className="ls-avatar-dugme"
               aria-label={tt("{0} — kartını aç", { 0: profil?.gorunen_ad ?? tt("Oyuncu") })}
               onClick={(e) => { e.stopPropagation(); setAcik(true); }}>
         {children}

@@ -47,4 +47,8 @@ export default {
   "Sohbetler": "Chats",
   "{ad} ile sohbet, {0} okunmamış": "Chat with {ad}, {0} unread",
   "Emoji": "Emoji",
+
+  // ---------- Bildirimler / rozetler ----------
+  "Göster": "View",
+  "sen": "you",
 };

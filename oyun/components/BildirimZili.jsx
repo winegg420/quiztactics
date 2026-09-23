@@ -3,8 +3,8 @@ import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
-import Ikon from "./Ikon.jsx";
-import DurumKutusu from "./DurumKutusu.jsx";
+import { QtIkon, QtIkonDugme, QtDugme, QtListeSatiri } from "../tasarim/index.js";
+import "../tasarim/ekranlar/l-kart.css";
 import { y } from "../lib/yol.js";
 import { tt, ttSunucu } from "../lib/dil.js";
 import { useDmOkunmamis, dmTazele } from "../lib/mesajlar.js";
@@ -25,6 +25,14 @@ const TIP_IKON = {
   seri_hatirlatma: "ates",
   sira_sende: "saat",
   ustalik: "madalya",
+};
+
+// Tasarım A: ikon kutusunun rengi (QtListeSatiri ikonTon). Renk tek başına anlam taşımaz; metin var.
+const TIP_TON = {
+  mac_daveti: "vurgu", rovans: "vurgu", duello_daveti: "vurgu", duello_kabul: "vurgu", hizli_daveti: "vurgu",
+  grup_daveti: "dogru", arkadas_istek: "mor", arkadas_kabul: "mor",
+  seri: "coin", seri_hatirlatma: "coin", hafta_sonuc: "coin", ustalik: "coin",
+  lige_girdin: "dogru", gecildin: "yanlis", sira_sende: "bilgi",
 };
 
 // Öncelik: meydan okuma > rozet/seviye > seri > sıra sende.
@@ -298,92 +306,98 @@ export default function BildirimZili() {
     setTumuIsleniyor(false);
   };
 
+  // Esc paneli kapatır (klavye kullanıcısı için; odak zile döner)
+  useEffect(() => {
+    if (!acik) return undefined;
+    const tus = (e) => {
+      if (e.key === "Escape") {
+        setAcik(false);
+        zilRef.current?.querySelector("button")?.focus();
+      }
+    };
+    document.addEventListener("keydown", tus);
+    return () => document.removeEventListener("keydown", tus);
+  }, [acik]);
+
   const panel = (
     <>
-      <div className="bd-zil-ortu" onClick={() => setAcik(false)} />
+      <div className="bz-ortu" onClick={() => setAcik(false)} aria-hidden="true" />
       <div
-        className="bd-zil-liste"
+        className="bz-panel"
         role="dialog"
         aria-label={tt("Bildirimler")}
         style={konum ? { top: konum.ust } : undefined}
       >
-        {/* Paket 42 P.3: panelin kendi kapatma düğmesi (eskiden yalnız dışarı dokununca kapanıyordu) */}
-        <div className="bd-zil-baslik">
-          <span>{tt("Bildirimler")}</span>
+        {/* Paket 42 P.3: panelin kendi kapatma düğmesi */}
+        <div className="bz-baslik">
+          <h2 className="qt-baslik-3">{tt("Bildirimler")}</h2>
           <button
             type="button"
-            className="bd-zil-tumu"
+            className="bz-tumu"
             onClick={tumunuOku}
             disabled={tumuIsleniyor || toplam === 0}
-            style={{
-              marginLeft: "auto", minHeight: 44, padding: "0 10px", border: 0, borderRadius: 12,
-              background: "transparent", color: toplam === 0 ? "var(--bd-metin-2)" : "var(--bd-vurgu, currentColor)",
-              font: "inherit", fontSize: 13, fontWeight: 800, cursor: toplam === 0 ? "default" : "pointer",
-              opacity: toplam === 0 ? 0.6 : 1, whiteSpace: "nowrap",
-            }}
           >
             {tumuIsleniyor ? tt("İşaretleniyor…") : tt("Tümünü okundu say")}
           </button>
-          <button type="button" className="bd-zil-kapat" onClick={() => setAcik(false)} aria-label={tt("Kapat")}>
-            <Ikon ad="carpi" boyut={18} />
-          </button>
+          <QtIkonDugme ikon="carpi" tur="saydam" etiket={tt("Kapat")} onClick={() => setAcik(false)} />
         </div>
         {tumuHata && (
-          <div className="hata-kutu" role="alert" style={{ margin: "4px 0 8px", fontSize: 13 }}>
-            {tt("Okundu işaretlenemedi. Tekrar dene.")}
-          </div>
+          <p className="bz-hata" role="alert">
+            <QtIkon ad="uyari" boyut={16} /> <span>{tt("Okundu işaretlenemedi. Tekrar dene.")}</span>
+          </p>
         )}
-        {dmOkunmamis > 0 && (
-          <button
-            className="bd-zil-satir"
-            onClick={() => { setAcik(false); navigate(y("/mesajlar")); }}
-          >
-            <span className="ikon" aria-hidden="true"><Ikon ad="mesaj" boyut={18} /></span>
-            <span className="govde">
-              <span className="metin">{tt("{0} okunmamış mesaj", { 0: dmOkunmamis })}</span>
-            </span>
-          </button>
-        )}
-        {yuklemeHata ? (
-          <DurumKutusu durum="hata" kucuk onTekrar={yukle} />
-        ) : liste.length === 0 && dmOkunmamis === 0 ? (
-          <div className="bd-zil-bos">
-            {tt("Henüz bildirim yok.")}<br />
-            {tt("Maç davetleri, lig hareketleri ve arkadaşlık istekleri burada görünür.")}
-          </div>
-        ) : (
-          liste.map((b) => (
-            <button
-              key={b.id}
-              className="bd-zil-satir"
-              onClick={() => {
-                setAcik(false);
-                if (b.yol) navigate(b.yol);
-              }}
-            >
-              <span className="ikon" aria-hidden="true"><Ikon ad={TIP_IKON[b.tip] ?? "zil"} boyut={18} /></span>
-              <span className="govde">
-                <span className="metin">{ttSunucu(b.metin)}</span>
-                <span className="zaman">{zamanMetni(b.created_at)}</span>
-              </span>
-            </button>
-          ))
-        )}
+        <div className="bz-govde">
+          {dmOkunmamis > 0 && (
+            <QtListeSatiri
+              ikon="mesaj"
+              ikonTon="mor"
+              vurgulu
+              baslik={tt("{0} okunmamış mesaj", { 0: dmOkunmamis })}
+              onClick={() => { setAcik(false); navigate(y("/mesajlar")); }}
+            />
+          )}
+          {yuklemeHata ? (
+            <div className="bz-bos" role="alert">
+              <p>{tt("Yüklenemedi.")} {tt("Bağlantını kontrol edip tekrar dene.")}</p>
+              <QtDugme tur="ikincil" boyut="k" ikon="yenile" onClick={yukle}>{tt("Tekrar dene")}</QtDugme>
+            </div>
+          ) : liste.length === 0 && dmOkunmamis === 0 ? (
+            <div className="bz-bos">
+              <span className="bz-bos-ikon" aria-hidden="true"><QtIkon ad="zil" boyut={28} /></span>
+              <p className="bz-bos-baslik">{tt("Henüz bildirim yok.")}</p>
+              <p>{tt("Maç davetleri, lig hareketleri ve arkadaşlık istekleri burada görünür.")}</p>
+            </div>
+          ) : (
+            liste.map((b) => (
+              <QtListeSatiri
+                key={b.id}
+                ikon={TIP_IKON[b.tip] ?? "zil"}
+                ikonTon={TIP_TON[b.tip] ?? "mor"}
+                vurgulu={!b.okundu}
+                baslik={<span className="bz-metin">{ttSunucu(b.metin)}</span>}
+                alt={zamanMetni(b.created_at)}
+                onClick={() => {
+                  setAcik(false);
+                  if (b.yol) navigate(b.yol);
+                }}
+              />
+            ))
+          )}
+        </div>
       </div>
     </>
   );
 
   return (
-    <div className="bd-zil-sarmal" ref={zilRef}>
-      <button
-        className="bd-zil circle-btn"
+    <div className="bz-sarmal" ref={zilRef}>
+      <QtIkonDugme
+        ikon="zil"
+        etiket={tt("Bildirimler")}
+        rozet={toplam > 0 ? toplam : undefined}
+        aria-expanded={acik}
+        aria-haspopup="dialog"
         onClick={ac}
-        aria-label={`${tt("Bildirimler")}${toplam > 0 ? tt(", {0} okunmamış", { 0: toplam }) : ""}`}
-      >
-        <Ikon ad="zil" boyut={19} />
-        {toplam > 0 && <span className="bd-zil-rozet dot">{toplam > 9 ? "9+" : toplam}</span>}
-      </button>
-
+      />
       {acik && typeof document !== "undefined" && createPortal(panel, document.body)}
     </div>
   );

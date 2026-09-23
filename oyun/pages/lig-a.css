@@ -224,7 +224,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.lg-ad .bd-sen, .lg-ad .lg-yapay { flex: none; }
+.lg-ad .ls-sen, .lg-ad .lg-yapay { flex: none; }
 .lg-yapay { display: inline-flex; color: var(--qt-metin-soluk); }
 .lg-detay {
   display: flex;
@@ -238,7 +238,7 @@
   overflow: hidden;
 }
 /* Rütbe çipinin eski kabarık kutusu satırda sadeleşir (yalnız ikon + ad). */
-.lg-detay .rutbe-chip {
+.lg-detay .ls-rutbe {
   display: inline-flex;
   align-items: center;
   gap: 3px;

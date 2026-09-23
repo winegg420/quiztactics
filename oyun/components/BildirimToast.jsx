@@ -2,7 +2,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
-import Ikon from "./Ikon.jsx";
+import { QtToast, QtToastYuvasi, QtDugme } from "../tasarim/index.js";
+import "../tasarim/ekranlar/l-kart.css";
 import { tt, ttSunucu } from "../lib/dil.js";
 
 // Davet tipleri burada YOK: onları üstteki davet bandı (DavetBandi) gösterir —
@@ -20,6 +21,9 @@ const TIP_STIL = {
   duello_kabul: { ikon: "kilic", sinif: "kabul", baslik: tt("Düello kabul edildi") },
   grup_kabul: { ikon: "kisiler", sinif: "kabul", baslik: tt("Grup maçın başlıyor") },
 };
+
+// Tasarım A: eski sınıf → QtToast tonu (uyari/odul/kabul renkleri token’dan)
+const TON = { bilgi: "bilgi", uyari: "uyari", odul: "coin", kabul: "dogru" };
 
 // Bant tarafından gösterilenler toast'a hiç girmez.
 const BANTTA_GOSTERILEN = new Set(["mac_daveti", "rovans", "grup_daveti", "hizli_daveti", "duello_daveti"]);
@@ -94,21 +98,22 @@ export default function BildirimToast() {
   };
 
   return (
-    <div className={`bd-toast-kat ${kapaniyor ? "kapaniyor" : ""}`}>
-      <div className={`bd-ust-toast ${stil.sinif}`} role="status">
-        <span className="bd-toast-ikon"><Ikon ad={stil.ikon} boyut={20} /></span>
-        <button className="bd-toast-govde" onClick={git}>
-          <span className="bd-toast-baslik">{stil.baslik}</span>
-          <span className="bd-toast-metin">{ttSunucu(aktif.metin)}</span>
-        </button>
-        {kabulMu && aktif.yol ? (
-          <button className="bd-toast-git" onClick={git}>{tt("Oyuna git")}</button>
+    // Maç sırasında (body.bd-oyun-modu) l-kart.css ile gizlenir; oyunu bölmez.
+    <QtToastYuvasi konum="ust">
+      <QtToast
+        key={aktif.id}
+        className={`bz-toast${kapaniyor ? " bz-toast--cikis" : ""}`}
+        ton={TON[stil.sinif] ?? "bilgi"}
+        ikon={stil.ikon}
+        baslik={stil.baslik}
+        metin={ttSunucu(aktif.metin)}
+        eylem={aktif.yol ? (
+          <QtDugme tur={kabulMu ? "birincil" : "ikincil"} boyut="k" onClick={git}>
+            {kabulMu ? tt("Oyuna git") : tt("Göster")}
+          </QtDugme>
         ) : null}
-        <button className="bd-toast-kapat" onClick={kapat} aria-label={tt("Kapat")}>
-          <Ikon ad="carpi" boyut={15} />
-        </button>
-        <span className="bd-toast-sure" style={{ animationDuration: `${sure}ms` }} />
-      </div>
-    </div>
+        onKapat={kapat}
+      />
+    </QtToastYuvasi>
   );
 }

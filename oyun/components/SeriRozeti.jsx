@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import Ikon from "./Ikon.jsx";
+import { QtIkon as Ikon } from "../tasarim/index.js";
 import { supabase } from "../../src/lib/supabase.js";
 import { tt } from "../lib/dil.js";
 

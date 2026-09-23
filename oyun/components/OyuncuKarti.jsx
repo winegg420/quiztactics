@@ -12,9 +12,8 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
 import AvatarCerceve from "./AvatarCerceve.jsx";
-import Modal from "./Modal.jsx";
-import DurumKutusu from "./DurumKutusu.jsx";
-import Ikon from "./Ikon.jsx";
+import { QtModal, QtDugme, QtIkon, QtIskelet, sayiBicim } from "../tasarim/index.js";
+import "../tasarim/ekranlar/l-kart.css";
 import RankBadge from "./RankBadge.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import Bayrak from "./Bayrak.jsx";
@@ -100,67 +99,92 @@ export default function OyuncuKarti({
 
   const online = p?.last_seen && Date.now() - new Date(p.last_seen).getTime() < 120000;
 
-  return (
-    <Modal onKapat={onKapat} etiket={tt("Oyuncu kartı")}>
-      <div className="bd-modal bd-oyuncu-karti">
-        <button type="button" className="bd-oyuncu-kapat" onClick={onKapat} aria-label={tt("Kapat")}>✕</button>
+  const sayi = (n) => sayiBicim(Number(n ?? 0));
 
-        <div className="bd-oyuncu-ust">
-          <div className="bd-oyuncu-avatar">
-            <AvatarCerceve profile={p ?? {}} boyut={96} userId={userId} />
-            {online && <span className="bd-oyuncu-online" title={tt("Şu an oyunda")} />}
-          </div>
-          <div className="bd-oyuncu-ad">
-            {p?.gorunen_ad ?? (yukleniyor ? "…" : tt("Oyuncu"))}
-            {(p?.acik_bot ?? p?.is_bot) && (
-              <span className="bd-bot-rozet" title={tt("Yapay rakip")}><Ikon ad="robot" boyut={13} /></span>
-            )}
-          </div>
+  return (
+    <QtModal
+      acik
+      onKapat={onKapat}
+      baslik={<span className="qt-gizli">{tt("Oyuncu kartı")}</span>}
+      className="ok-kart"
+      altlik={eylemler.length > 0 || oynaPasifNeden || bilgiNotu ? (
+        <div className="ok-altlik">
+          {eylemler.length > 0 && (
+            <div className={`ok-eylemler${eylemler.length === 1 ? " ok-eylemler--tek" : ""}`}>
+              {eylemler.map((e, i) => (
+                <QtDugme
+                  key={e.kod}
+                  tur={i === 0 ? "birincil" : "ikincil"}
+                  ikon={e.ikon}
+                  tamGenislik
+                  yukleniyor={calisan === e.kod}
+                  devreDisi={(Boolean(calisan) && calisan !== e.kod) || e.pasif}
+                  onClick={() => eylem(e.kod, e.f)}
+                >
+                  {e.ad}
+                </QtDugme>
+              ))}
+            </div>
+          )}
+          {oynaPasifNeden && (onOyna || onMeydanOku) && (
+            <p className="ok-not" role="status">{oynaPasifNeden}</p>
+          )}
+          {bilgiNotu && <p className="ok-not" role="status">{bilgiNotu}</p>}
+        </div>
+      ) : null}
+    >
+      <div className="ok-ust">
+        <span className="ok-avatar">
+          <AvatarCerceve profile={p ?? {}} boyut={96} userId={userId} />
+          {online && (
+            <span className="ok-cevrimici" title={tt("Şu an oyunda")}>
+              <span className="qt-gizli">{tt("Şu an oyunda")}</span>
+            </span>
+          )}
+        </span>
+        <p className="ok-ad">
+          <span className="ok-ad-metin">{p?.gorunen_ad ?? (yukleniyor ? "…" : tt("Oyuncu"))}</span>
+          {/* Yalnız açık bot (adında "Bot" geçen) işaretlenir; gizli bot asla (bkz. ALANLAR) */}
+          {(p?.acik_bot ?? p?.is_bot) && (
+            <span className="ok-yapay" title={tt("Yapay rakip")}>
+              <QtIkon ad="robot" boyut={16} etiket={tt("Yapay rakip")} />
+            </span>
+          )}
+        </p>
+        <div className="ok-rozetler">
           {p && <RankBadge level={p.level} userId={p.id} />}
           {p?.ulke && (
-            <div className="bd-oyuncu-konum"><Bayrak kod={p.ulke} /> {p.sehir ?? ""}</div>
+            <span className="ok-konum"><Bayrak kod={p.ulke} boyut={16} /> {p.sehir ?? ""}</span>
           )}
         </div>
+      </div>
 
-        {hata && <div className="hata-kutu">{hata}</div>}
+      {hata && (
+        <p className="ok-hata" role="alert"><QtIkon ad="uyari" boyut={16} /> <span>{hata}</span></p>
+      )}
 
-        {kartHata ? (
-          <DurumKutusu durum="hata" kucuk onTekrar={() => setDeneme((n) => n + 1)} />
-        ) : yukleniyor ? (
-          <DurumKutusu durum="yukleniyor" kucuk satir={2} />
-        ) : (<>
-        <div className="bd-oyuncu-sayilar">
-          <div><b>{Number(p?.puan ?? 0).toLocaleString("tr-TR")}</b><span>{tt("puan")}</span></div>
-          <div><b>{Number(p?.toplam_mac ?? 0).toLocaleString("tr-TR")}</b><span>{tt("maç")}</span></div>
-          <div><b>{Number(p?.sampiyonluk ?? 0).toLocaleString("tr-TR")}</b><span>{tt("kupa")}</span></div>
-          <div><b>{Number(p?.seri_gun ?? 0).toLocaleString("tr-TR")}</b><span>{tt("gün seri")}</span></div>
+      {kartHata ? (
+        <div className="ok-yuklenemedi" role="alert">
+          <p>{tt("Yüklenemedi.")} {tt("Bağlantını kontrol edip tekrar dene.")}</p>
+          <QtDugme tur="ikincil" boyut="k" ikon="yenile" onClick={() => setDeneme((n) => n + 1)}>
+            {tt("Tekrar dene")}
+          </QtDugme>
         </div>
+      ) : yukleniyor ? (
+        <div className="ok-sayilar" aria-busy="true">
+          <QtIskelet tur="kart" adet={4} yukseklik={58} />
+        </div>
+      ) : (<>
+        <dl className="ok-sayilar">
+          <div><dt>{tt("puan")}</dt><dd className="qt-sayi">{sayi(p?.puan)}</dd></div>
+          <div><dt>{tt("maç")}</dt><dd className="qt-sayi">{sayi(p?.toplam_mac)}</dd></div>
+          <div><dt>{tt("kupa")}</dt><dd className="qt-sayi">{sayi(p?.sampiyonluk)}</dd></div>
+          <div><dt>{tt("gün seri")}</dt><dd className="qt-sayi">{sayi(p?.seri_gun)}</dd></div>
+        </dl>
 
         {/* Kaç maç yaptı, kaç maçın istatistiği var, kategori yüzdeleri (Paket 14) */}
         <KategoriProfili userId={userId} kucuk />
-        </>)}
-
-        {eylemler.length > 0 && (
-          <div className={`bd-oyuncu-eylemler${eylemler.length === 1 ? " tek" : ""}`}>
-            {eylemler.map((e, i) => (
-              <button
-                key={e.kod}
-                type="button"
-                className={`btn${i === 0 ? "" : " ikincil"}`}
-                disabled={Boolean(calisan) || e.pasif}
-                aria-busy={calisan === e.kod}
-                onClick={() => eylem(e.kod, e.f)}
-              >
-                <Ikon ad={e.ikon} boyut={16} /> {calisan === e.kod ? "…" : e.ad}
-              </button>
-            ))}
-          </div>
-        )}
-        {oynaPasifNeden && (onOyna || onMeydanOku) && (
-          <div className="bd-oyuncu-eylem-not" role="status">{oynaPasifNeden}</div>
-        )}
-        {bilgiNotu && <div className="bd-oyuncu-eylem-not" role="status">{bilgiNotu}</div>}
-      </div>
-    </Modal>
+      </>)}
+    </QtModal>
   );
 }

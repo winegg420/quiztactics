@@ -1,5 +1,6 @@
 import { rutbeBul } from "../lib/ranks.js";
 import { useLevel } from "../lib/levelOnbellek.js";
+import "../tasarim/ekranlar/l-kart.css";
 
 // Rütbeye özel SVG rozet biçimleri (emoji yerine — her cihazda aynı görünür).
 // P2A: anahtar rütbenin dilden bağımsız id'si (eskiden çevrilmiş ad; İngilizcede hep Çaylak biçimi çıkıyordu).
@@ -62,8 +63,10 @@ export default function RankBadge({ level, userId, sadeceRozet = false, boyut = 
 
   if (sadeceRozet) return rozet;
 
+  // Tasarım A: rütbe bir QtRozet (küçük, nötr zemin). Yazı rengi token'dan (--qt-metin) —
+  // rütbe rengi yalnız ikonda; açık rütbe renkleri yazı olarak kontrast vermiyordu.
   return (
-    <span className="rutbe-chip bd-rutbe-chip" style={{ color: r.metinRenk }}>
+    <span className="qt-rozet qt-rozet--notr qt-rozet--k ls-rutbe">
       {rozet}
       {r.ad}
     </span>

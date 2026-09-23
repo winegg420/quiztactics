@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import Ikon from "./Ikon.jsx";
+import { QtKart, QtIkon, QtDugme } from "../tasarim/index.js";
+import "../tasarim/ekranlar/l-kart.css";
 import { pushDestekleniyor, bildirimleriAc, iosSekmesi } from "../lib/push.js";
 import { hataMesaji } from "../lib/hata.js";
 import { tt } from "../lib/dil.js";
@@ -41,68 +42,76 @@ export default function BildirimIzniSor() {
 
   if (durum === "acik") {
     return (
-      <div className="bd-izin-kart">
-        <div className="ikon" aria-hidden="true"><Ikon ad="zil" boyut={22} /></div>
-        <div className="govde"><div className="bd-izin-baslik">{tt("Bildirimler açık")}</div></div>
-      </div>
+      <IzinKart ikon="onay" ton="dogru" baslik={tt("Bildirimler açık")} />
     );
   }
 
   if (durum === "ios") {
     return (
-      <div className="bd-izin-kart">
-        <div className="ikon" aria-hidden="true"><Ikon ad="zil" boyut={22} /></div>
-        <div className="govde">
-          <div className="bd-izin-baslik">{tt("iPhone'da bildirim almak için")}</div>
-          <div className="alt-yazi">
-            {tt("Quiz Tactics'i ana ekrana ekle (Paylaş → Ana Ekrana Ekle) ve oradan aç. Apple bildirimleri yalnız ana ekrandaki uygulamaya izin veriyor.")}
-          </div>
-        </div>
-        <div className="bd-izin-butonlar">
-          <button className="btn kucuk ikincil" onClick={() => { yaz(DEPO_IOS); setDurum(null); }}>{tt("Anladım")}</button>
-        </div>
-      </div>
+      <IzinKart
+        ikon="zil"
+        baslik={tt("iPhone'da bildirim almak için")}
+        metin={tt("Quiz Tactics'i ana ekrana ekle (Paylaş → Ana Ekrana Ekle) ve oradan aç. Apple bildirimleri yalnız ana ekrandaki uygulamaya izin veriyor.")}
+      >
+        <QtDugme tur="ikincil" boyut="k" onClick={() => { yaz(DEPO_IOS); setDurum(null); }}>{tt("Anladım")}</QtDugme>
+      </IzinKart>
     );
   }
 
   const kapat = () => { yaz(DEPO); setDurum(null); };
 
   return (
-    <div className="bd-izin-kart">
-      <div className="ikon" aria-hidden="true"><Ikon ad="zil" boyut={22} /></div>
-      <div className="govde">
-        <div className="bd-izin-baslik">{tt("Bir sonraki maçı kaçırma")}</div>
-        <div className="alt-yazi">
-          {tt("Sana meydan okunduğunda, turnuva başladığında ve haftalık lig sonuçlandığında haber verelim mi?")}
-        </div>
-        {hata && <div className="hata-kutu" style={{ marginTop: 6 }}>{hata}</div>}
+    <IzinKart
+      ikon="zil"
+      baslik={tt("Bir sonraki maçı kaçırma")}
+      metin={tt("Sana meydan okunduğunda, turnuva başladığında ve haftalık lig sonuçlandığında haber verelim mi?")}
+      hata={hata}
+    >
+      <QtDugme
+        tur="mor"
+        boyut="k"
+        ikon="zil"
+        yukleniyor={calisiyor}
+        onClick={async () => {
+          setCalisiyor(true);
+          setHata(null);
+          try {
+            await bildirimleriAc();
+            yaz(DEPO);
+            setDurum("acik");
+          } catch (e) {
+            console.error("[Bildim] bildirim aboneliği başarısız:", e);
+            if (typeof Notification !== "undefined" && Notification.permission === "denied") kapat();   // oyuncu reddetti
+            else setHata(hataMesaji(e, tt("Bildirimler açılamadı. Tekrar dene.")));
+          } finally {
+            setCalisiyor(false);
+          }
+        }}
+      >
+        {tt("Bildirimleri aç")}
+      </QtDugme>
+      <QtDugme tur="hayalet" boyut="k" onClick={kapat}>
+        {tt("Şimdi değil")}
+      </QtDugme>
+    </IzinKart>
+  );
+}
+
+/** Tasarım A: izin kartının ortak kabuğu (ikon kutusu + metin + düğmeler). */
+function IzinKart({ ikon, ton = "mor", baslik, metin, hata, children }) {
+  return (
+    <QtKart className="bi-kart" role="region" aria-label={baslik}>
+      <span className={`qt-satir-ikon qt-satir-ikon--${ton} bi-ikon`} aria-hidden="true">
+        <QtIkon ad={ikon} boyut={22} />
+      </span>
+      <div className="bi-govde">
+        <p className="bi-baslik">{baslik}</p>
+        {metin && <p className="bi-metin">{metin}</p>}
+        {hata && (
+          <p className="bi-hata" role="alert"><QtIkon ad="uyari" boyut={16} /> <span>{hata}</span></p>
+        )}
       </div>
-      <div className="bd-izin-butonlar">
-        <button
-          className="btn kucuk"
-          disabled={calisiyor}
-          onClick={async () => {
-            setCalisiyor(true);
-            setHata(null);
-            try {
-              await bildirimleriAc();
-              yaz(DEPO);
-              setDurum("acik");
-            } catch (e) {
-              console.error("[Bildim] bildirim aboneliği başarısız:", e);
-              if (typeof Notification !== "undefined" && Notification.permission === "denied") kapat();   // oyuncu reddetti
-              else setHata(hataMesaji(e, tt("Bildirimler açılamadı. Tekrar dene.")));
-            } finally {
-              setCalisiyor(false);
-            }
-          }}
-        >
-          {tt("Bildirimleri aç")}
-        </button>
-        <button className="btn kucuk ikincil" onClick={kapat}>
-          {tt("Şimdi değil")}
-        </button>
-      </div>
-    </div>
+      {children && <div className="bi-dugmeler">{children}</div>}
+    </QtKart>
   );
 }
