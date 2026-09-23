@@ -1,0 +1,172 @@
+{
+  "parti": 5,
+  "tarih": "2026-09-23",
+  "taslak": 429,
+  "net": 250,
+  "kota": {
+    "sinema": 33,
+    "teknoloji": 32,
+    "muzik": 30,
+    "sanat": 30,
+    "spor": 28,
+    "edebiyat": 25,
+    "bilim": 25,
+    "tarih": 22,
+    "yerel": 15,
+    "genel_kultur": 10
+  },
+  "zorluk_hedef": {
+    "3": 75,
+    "4": 87,
+    "5": 50,
+    "1-2": 38
+  },
+  "eksik": {},
+  "elenen_sebep": {
+    "kota_fazlasi": 179
+  },
+  "kova": {
+    "sinema": 33,
+    "teknoloji": 32,
+    "muzik": 30,
+    "sanat": 30,
+    "spor": 28,
+    "edebiyat": 25,
+    "bilim": 25,
+    "tarih": 22,
+    "yerel_tr": 15,
+    "genel_kultur": 10
+  },
+  "kategori": {
+    "sinema": 37,
+    "teknoloji": 32,
+    "muzik": 33,
+    "sanat": 31,
+    "spor": 30,
+    "edebiyat": 26,
+    "bilim": 26,
+    "tarih": 22,
+    "genel_kultur": 13
+  },
+  "zorluk": [
+    8,
+    30,
+    75,
+    87,
+    50
+  ],
+  "zorluk_kova": {
+    "3": 75,
+    "4": 87,
+    "5": 50,
+    "1-2": 38
+  },
+  "cevrilmeyen": 4,
+  "jev": {
+    "cagri": 864,
+    "girdi_jetonu": 700251,
+    "usd": 0.0294,
+    "not": "jev.jsonl içindeki tüm denemeler dahil (düzeltilip yeniden sorulanlar da)"
+  },
+  "zorluk_etiket_duzeltme": [
+    {
+      "s": "Fransız otomobil markası Peugeot'nun logosunda hangi hayvan yer alır?",
+      "d": "Aslan",
+      "eski": 1,
+      "yeni": 2,
+      "neden": "yazar 1, Jev seviye 3 (puan 2.69)"
+    },
+    {
+      "s": "2004'te Pritzker Mimarlık Ödülü'nü alarak bu ödülü kazanan ilk kadın olan mimar kimdir?",
+      "d": "Zaha Hadid",
+      "eski": 3,
+      "yeni": 4,
+      "neden": "yazar 3, Jev seviye 5 (puan 3.50)"
+    },
+    {
+      "s": "'Shrek' filminde bataklığını geri almak isteyen Shrek'i Fiona'yı kurtarmaya gönderen kısa boylu hükümdar kimdir?",
+      "d": "Lord Farquaad",
+      "eski": 4,
+      "yeni": 3,
+      "neden": "yazar 4, Jev seviye 2 (puan 1.87)"
+    },
+    {
+      "s": "1976 Almanya GP'sinde Nürburgring'de ağır yanan ve yalnızca altı hafta sonra Monza'da piste dönen pilot kimdir?",
+      "d": "Niki Lauda",
+      "eski": 3,
+      "yeni": 4,
+      "neden": "yazar 3, Jev seviye 5 (puan 3.93)"
+    },
+    {
+      "s": "Kuzey kombine (Nordic combined) hangi iki dalı birleştirir?",
+      "d": "Kayakla atlama ve kros",
+      "eski": 3,
+      "yeni": 4,
+      "neden": "yazar 3, Jev seviye 5 (puan 3.58)"
+    },
+    {
+      "s": "Garri Kasparov 1985'te dünya satranç şampiyonluğunu kimi yenerek kazanmıştır?",
+      "d": "Anatoli Karpov",
+      "eski": 3,
+      "yeni": 4,
+      "neden": "yazar 3, Jev seviye 5 (puan 3.67)"
+    },
+    {
+      "s": "Snooker'da bir frame başında masada kaç kırmızı top bulunur?",
+      "d": "15",
+      "eski": 3,
+      "yeni": 4,
+      "neden": "yazar 3, Jev seviye 5 (puan 3.88)"
+    },
+    {
+      "s": "Fransa Bisiklet Turu geleneksel olarak Paris'te hangi caddede sona erer?",
+      "d": "Champs-Élysées",
+      "eski": 2,
+      "yeni": 3,
+      "neden": "yazar 2, Jev seviye 4 (puan 2.90)"
+    },
+    {
+      "s": "Teniste oyunculardan birinin maçı kazanmasına tek sayı kaldığı ana ne ad verilir?",
+      "d": "Maç sayısı",
+      "eski": 2,
+      "yeni": 3,
+      "neden": "yazar 2, Jev seviye 4 (puan 2.91)"
+    },
+    {
+      "s": "Lewis ve Clark keşif gezisine rehberlik ve tercümanlık eden Shoshone kadını kimdir?",
+      "d": "Sacagawea",
+      "eski": 4,
+      "yeni": 3,
+      "neden": "yazar 4, Jev seviye 2 (puan 2.01)"
+    },
+    {
+      "s": "Robert Griesemer, Rob Pike ve Ken Thompson'ın tasarladığı Go programlama dili hangi şirkette geliştirilmiştir?",
+      "d": "Google",
+      "eski": 3,
+      "yeni": 4,
+      "neden": "yazar 3, Jev seviye 5 (puan 3.69)"
+    },
+    {
+      "s": "VLC medya oynatıcısının logosunda ne yer alır?",
+      "d": "Trafik konisi",
+      "eski": 2,
+      "yeni": 3,
+      "neden": "yazar 2, Jev seviye 4 (puan 3.20)"
+    },
+    {
+      "s": "Futbolda 'Ordinaryüs' lakabıyla anılan efsanevi Fenerbahçeli oyuncu kimdir?",
+      "d": "Lefter",
+      "eski": 3,
+      "yeni": 4,
+      "neden": "yazar 3, Jev seviye 5 (puan 3.56)"
+    },
+    {
+      "s": "'Hababam Sınıfı' filmlerinde öğrencilerin annesi gibi davranan Hafize Ana'yı hangi oyuncu canlandırmıştır?",
+      "d": "Adile Naşit",
+      "eski": 2,
+      "yeni": 3,
+      "neden": "yazar 2, Jev seviye 4 (puan 2.85)"
+    }
+  ],
+  "elenenler": []
+}

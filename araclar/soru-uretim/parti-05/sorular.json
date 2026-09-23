@@ -1,0 +1,5224 @@
+[
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Grease' (1978) filminde Danny Zuko'yu hangi oyuncu canlandırmıştır?",
+  "d": "John Travolta",
+  "y": [
+   "Patrick Swayze",
+   "Richard Gere",
+   "Kevin Bacon"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which actor played Danny Zuko in 'Grease' (1978)?",
+   "d": "John Travolta",
+   "y": [
+    "Patrick Swayze",
+    "Richard Gere",
+    "Kevin Bacon"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'101 Dalmaçyalı'da yavru köpeklerden kürk yaptırmak isteyen kötü karakter kimdir?",
+  "d": "Cruella",
+  "y": [
+   "Maleficent",
+   "Ursula",
+   "Yzma"
+  ],
+  "zorluk": 1,
+  "en": {
+   "s": "In '101 Dalmatians', which villain wants to turn the puppies into a fur coat?",
+   "d": "Cruella",
+   "y": [
+    "Maleficent",
+    "Ursula",
+    "Yzma"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "İlk 'Godzilla' filmini (1954) hangi Japon film stüdyosu üretmiştir?",
+  "d": "Toho",
+  "y": [
+   "Nikkatsu",
+   "Shochiku",
+   "Daiei"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which Japanese film studio produced the original 'Godzilla' (1954)?",
+   "d": "Toho",
+   "y": [
+    "Nikkatsu",
+    "Shochiku",
+    "Daiei"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "Chaplin'in 'Büyük Diktatör' (1940) filminde parodisi yapılan diktatörün film içindeki adı nedir?",
+  "d": "Adenoid Hynkel",
+  "y": [
+   "Otto Kessler",
+   "Karl Brenner",
+   "Heinrich Vogt"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "In Chaplin's 'The Great Dictator' (1940), what is the name of the parodied dictator within the film?",
+   "d": "Adenoid Hynkel",
+   "y": [
+    "Otto Kessler",
+    "Karl Brenner",
+    "Heinrich Vogt"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "Antonioni'nin 'Blow-Up' (1966) filminin kahramanı Thomas'ın mesleği nedir?",
+  "d": "Moda fotoğrafçısı",
+  "y": [
+   "Savaş muhabiri",
+   "Reklam yazarı",
+   "Radyo spikeri"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "In Antonioni's 'Blow-Up' (1966), what is the protagonist Thomas's profession?",
+   "d": "Fashion photographer",
+   "y": [
+    "War correspondent",
+    "Advertising copywriter",
+    "Radio announcer"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Mary Poppins' (1964) filminde uçan dadıyı hangi oyuncu canlandırmıştır?",
+  "d": "Julie Andrews",
+  "y": [
+   "Audrey Hepburn",
+   "Deborah Kerr",
+   "Doris Day"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which actress played the flying nanny in 'Mary Poppins' (1964)?",
+   "d": "Julie Andrews",
+   "y": [
+    "Audrey Hepburn",
+    "Deborah Kerr",
+    "Doris Day"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "Kubrick'in 'Dr. Strangelove' (1964) filminde Dr. Strangelove dahil üç ayrı rolü hangi oyuncu üstlenmiştir?",
+  "d": "Peter Sellers",
+  "y": [
+   "Alec Guinness",
+   "Sterling Hayden",
+   "Terry-Thomas"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "In Kubrick's 'Dr. Strangelove' (1964), which actor played three separate roles, including Dr. Strangelove himself?",
+   "d": "Peter Sellers",
+   "y": [
+    "Alec Guinness",
+    "Sterling Hayden",
+    "Terry-Thomas"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "Yaşlı bir çiftin çocuklarını ziyarete gittiği 'Tokyo Hikâyesi' (1953) filminin yönetmeni kimdir?",
+  "d": "Yasujirō Ozu",
+  "y": [
+   "Kenji Mizoguchi",
+   "Mikio Naruse",
+   "Masaki Kobayashi"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Who directed 'Tokyo Story' (1953), in which an elderly couple travel to visit their grown-up children?",
+   "d": "Yasujirō Ozu",
+   "y": [
+    "Kenji Mizoguchi",
+    "Mikio Naruse",
+    "Masaki Kobayashi"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "David Lean'in 'Arabistanlı Lawrence' (1962) filminde T. E. Lawrence'ı hangi oyuncu canlandırmıştır?",
+  "d": "Peter O'Toole",
+  "y": [
+   "Richard Burton",
+   "Albert Finney",
+   "Daniel Day-Lewis"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which actor played T. E. Lawrence in David Lean's 'Lawrence of Arabia' (1962)?",
+   "d": "Peter O'Toole",
+   "y": [
+    "Richard Burton",
+    "Albert Finney",
+    "Daniel Day-Lewis"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Zor Ölüm' (1988) filminde kötü karakter Hans Gruber'i hangi oyuncu canlandırmıştır?",
+  "d": "Alan Rickman",
+  "y": [
+   "Jeremy Irons",
+   "Gary Oldman",
+   "Christopher Walken"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which actor played the villain Hans Gruber in 'Die Hard' (1988)?",
+   "d": "Alan Rickman",
+   "y": [
+    "Jeremy Irons",
+    "Gary Oldman",
+    "Christopher Walken"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "Humphrey Bogart'ın Sam Spade'i oynadığı 'Malta Şahini' (1941) hangi yönetmenin ilk filmidir?",
+  "d": "John Huston",
+  "y": [
+   "Howard Hawks",
+   "Billy Wilder",
+   "Michael Curtiz"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "'The Maltese Falcon' (1941), with Humphrey Bogart as Sam Spade, was the directorial debut of whom?",
+   "d": "John Huston",
+   "y": [
+    "Howard Hawks",
+    "Billy Wilder",
+    "Michael Curtiz"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Shrek' filminde bataklığını geri almak isteyen Shrek'i Fiona'yı kurtarmaya gönderen kısa boylu hükümdar kimdir?",
+  "d": "Lord Farquaad",
+  "y": [
+   "Prens Charming",
+   "Kral Harold",
+   "Rumpelstiltskin"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In 'Shrek', which short-statured ruler sends Shrek to rescue Fiona in exchange for his swamp?",
+   "d": "Lord Farquaad",
+   "y": [
+    "Prince Charming",
+    "King Harold",
+    "Rumpelstiltskin"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "Sinemada kameranın bilerek yana yatırılmasıyla elde edilen eğik kadraja ne ad verilir?",
+  "d": "Hollanda açısı",
+  "y": [
+   "Kuş bakışı",
+   "Omuz üstü",
+   "Solucan bakışı"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "In cinema, what is the tilted frame obtained by deliberately rolling the camera to one side called?",
+   "d": "Dutch angle",
+   "y": [
+    "Bird's-eye view",
+    "Over-the-shoulder",
+    "Worm's-eye view"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Kazablanka' filminde piyanist Sam'in çaldığı ve filmle özdeşleşen şarkı hangisidir?",
+  "d": "As Time Goes By",
+  "y": [
+   "Smoke Gets in Your Eyes",
+   "I'll Be Seeing You",
+   "The Very Thought of You"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In 'Casablanca', which song played by the pianist Sam became inseparable from the film?",
+   "d": "As Time Goes By",
+   "y": [
+    "Smoke Gets in Your Eyes",
+    "I'll Be Seeing You",
+    "The Very Thought of You"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Ratatuy' filminde Remy'nin yemeğini tadınca çocukluğuna dönen sert yemek eleştirmeninin adı nedir?",
+  "d": "Anton Ego",
+  "y": [
+   "Auguste Gusteau",
+   "Alfredo Linguini",
+   "Horst Wagner"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "In 'Ratatouille', what is the name of the stern food critic who is transported back to his childhood by Remy's dish?",
+   "d": "Anton Ego",
+   "y": [
+    "Auguste Gusteau",
+    "Alfredo Linguini",
+    "Horst Wagner"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Kwai Köprüsü' (1957) filminde esir İngiliz askerlerin ıslıkla çaldığı marş hangisidir?",
+  "d": "Colonel Bogey Marşı",
+  "y": [
+   "Stars and Stripes",
+   "Pomp and Circumstance",
+   "Liberty Bell Marşı"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "In 'The Bridge on the River Kwai' (1957), which march do the British prisoners whistle?",
+   "d": "Colonel Bogey March",
+   "y": [
+    "The Stars and Stripes Forever",
+    "Pomp and Circumstance",
+    "The Liberty Bell March"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Oyuncak Hikâyesi'nde Woody ile Buzz'ın Sid'in eline düşmeden önce gittikleri uzay temalı restoranın adı nedir?",
+  "d": "Pizza Planet",
+  "y": [
+   "Pizza Galaxy",
+   "Rocket Pizza",
+   "Star Pizza"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "In 'Toy Story', what is the space-themed restaurant Woody and Buzz end up at before falling into Sid's hands?",
+   "d": "Pizza Planet",
+   "y": [
+    "Pizza Galaxy",
+    "Rocket Pizza",
+    "Star Pizza"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Ucuz Roman' filminde Jules'un Brett'in dairesinde tadına baktığı hamburger hangi hayalî zincirdendir?",
+  "d": "Big Kahuna Burger",
+  "y": [
+   "Los Pollos Hermanos",
+   "Krusty Burger",
+   "Good Burger"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "In 'Pulp Fiction', Jules samples a burger in Brett's apartment; which fictional chain is it from?",
+   "d": "Big Kahuna Burger",
+   "y": [
+    "Los Pollos Hermanos",
+    "Krusty Burger",
+    "Good Burger"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "Iñárritu'nun ilk uzun metrajı olan, birbirine bir trafik kazasıyla bağlanan üç hikâyeli 'Amores Perros' (2000) hangi ülkenin filmidir?",
+  "d": "Meksika",
+  "y": [
+   "Arjantin",
+   "İspanya",
+   "Şili"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "'Amores Perros' (2000), Iñárritu's first feature, linking three stories through a car crash, is a film from which country?",
+   "d": "Mexico",
+   "y": [
+    "Argentina",
+    "Spain",
+    "Chile"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "Fransa'nın ulusal sinema ödülünün adı nedir?",
+  "d": "César",
+  "y": [
+   "Goya",
+   "Lola",
+   "David di Donatello"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "What is the name of France's national film award?",
+   "d": "César",
+   "y": [
+    "Goya",
+    "Lola",
+    "David di Donatello"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "Disney'in ilk uzun metrajlı animasyon filmi (1937) hangisidir?",
+  "d": "Pamuk Prenses",
+  "y": [
+   "Uyuyan Güzel",
+   "Külkedisi",
+   "Pinokyo"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "What was Disney's first full-length animated feature film (1937)?",
+   "d": "Snow White",
+   "y": [
+    "Sleeping Beauty",
+    "Cinderella",
+    "Pinocchio"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Kayıp Balık Nemo'da Dory'nin ezberlediği 'P. Sherman, 42 Wallaby Way' adresi hangi şehirdedir?",
+  "d": "Sidney",
+  "y": [
+   "Melbourne",
+   "Brisbane",
+   "Perth"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In 'Finding Nemo', the address Dory memorises, 'P. Sherman, 42 Wallaby Way', is in which city?",
+   "d": "Sydney",
+   "y": [
+    "Melbourne",
+    "Brisbane",
+    "Perth"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "1933 yapımı 'King Kong' filminin finalinde dev goril hangi gökdelenin tepesine tırmanır?",
+  "d": "Empire State",
+  "y": [
+   "Chrysler Binası",
+   "Woolworth Binası",
+   "Flatiron Binası"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "At the end of the 1933 film 'King Kong', the giant ape climbs to the top of which skyscraper?",
+   "d": "Empire State Building",
+   "y": [
+    "The Chrysler Building",
+    "The Woolworth Building",
+    "The Flatiron Building"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Good Bye Lenin!' (2003) filminde Alex, komadan uyanan annesini korumak için hangi ülkenin hâlâ var olduğu yalanını sürdürür?",
+  "d": "Doğu Almanya",
+  "y": [
+   "Sovyetler Birliği",
+   "Yugoslavya",
+   "Çekoslovakya"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In 'Good Bye Lenin!' (2003), to protect his mother after she wakes from a coma, Alex pretends that which country still exists?",
+   "d": "East Germany",
+   "y": [
+    "The Soviet Union",
+    "Yugoslavia",
+    "Czechoslovakia"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "Yılın en kötü filmlerine ve oyuncularına verilen Amerikan 'ödülü' hangisidir?",
+  "d": "Altın Ahududu",
+  "y": [
+   "Altın Limon",
+   "Altın Domates",
+   "Altın Çilek"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which American 'award' is given to the year's worst films and performances?",
+   "d": "The Golden Raspberry",
+   "y": [
+    "The Golden Lemon",
+    "The Golden Tomato",
+    "The Golden Strawberry"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "Disney'in 'Dumbo' filminde fil yavrusuna uçabilmesini sağladığına inandırılan nesne nedir?",
+  "d": "Sihirli tüy",
+  "y": [
+   "Sihirli yüzük",
+   "Sihirli şapka",
+   "Sihirli asa"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In Disney's 'Dumbo', what object is the baby elephant led to believe lets him fly?",
+   "d": "A magic feather",
+   "y": [
+    "A magic ring",
+    "A magic hat",
+    "A magic wand"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "Sinemadaki ilk resmî James Bond filmi (1962) hangisidir?",
+  "d": "Dr. No",
+  "y": [
+   "Goldfinger",
+   "Thunderball",
+   "Casino Royale"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which was the first official James Bond film, released in 1962?",
+   "d": "Dr. No",
+   "y": [
+    "Goldfinger",
+    "Thunderball",
+    "Casino Royale"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Uzay Yolu' dizisinin Mr. Spock'ı babası tarafından hangi halka mensuptur?",
+  "d": "Vulkan",
+  "y": [
+   "Romulan",
+   "Klingon",
+   "Bajoran"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Through his father, Mr. Spock of 'Star Trek' belongs to which people?",
+   "d": "Vulcan",
+   "y": [
+    "Romulan",
+    "Klingon",
+    "Bajoran"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "Truffaut'nun 'Amerikan Gecesi' (1973) filmine adını veren sinema tekniği nedir?",
+  "d": "Gündüz çekip gece gösterme",
+  "y": [
+   "Gece çekip gündüz gösterme",
+   "Tek planda uzun çekim",
+   "Siyah beyazı sonradan renklendirme"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Truffaut's film 'Day for Night' (1973) is named after which filmmaking technique?",
+   "d": "Shooting in daylight to depict night",
+   "y": [
+    "Shooting at night to depict day",
+    "Filming a scene in one long take",
+    "Colourising black-and-white footage"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "Baum'un romanında gümüş olan Dorothy'nin ayakkabıları, 1939 yapımı 'Oz Büyücüsü' filminde neye dönüştürülmüştür?",
+  "d": "Yakut kırmızısı",
+  "y": [
+   "Zümrüt yeşili",
+   "Altın sarısı",
+   "İnci beyazı"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Dorothy's shoes are silver in Baum's novel; what were they changed to in the 1939 film 'The Wizard of Oz'?",
+   "d": "Ruby red",
+   "y": [
+    "Emerald green",
+    "Gold",
+    "Pearl white"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Hayalet Avcıları' (1984) filminin finalinde New York'ta beliren dev maskot neyden yapılmıştır?",
+  "d": "Marshmallow",
+  "y": [
+   "Pamuk şeker",
+   "Jöle şeker",
+   "Karamela"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "At the climax of 'Ghostbusters' (1984), the giant mascot that appears in New York is made of what?",
+   "d": "Marshmallow",
+   "y": [
+    "Cotton candy",
+    "Jelly",
+    "Caramel"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "Miyazaki'nin 'Komşum Totoro' filminde Satsuki yağmurlu otobüs durağında Totoro'ya ne verir?",
+  "d": "Şemsiye",
+  "y": [
+   "Yağmurluk",
+   "Hasır şapka",
+   "Havlu"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In Miyazaki's 'My Neighbor Totoro', what does Satsuki give Totoro at the rainy bus stop?",
+   "d": "An umbrella",
+   "y": [
+    "A raincoat",
+    "A straw hat",
+    "A towel"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Coraline' (2009) filminde Öteki Anne, Coraline'in gözlerinin yerine ne dikmek ister?",
+  "d": "Düğme",
+  "y": [
+   "Boncuk",
+   "Pul",
+   "Misket"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In 'Coraline' (2009), what does the Other Mother want to sew on in place of Coraline's eyes?",
+   "d": "Buttons",
+   "y": [
+    "Beads",
+    "Sequins",
+    "Marbles"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Oyun dağıtım platformu Steam'i 2003'te hangi şirket başlatmıştır?",
+  "d": "Valve",
+  "y": [
+   "Blizzard",
+   "Ubisoft",
+   "Electronic Arts"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which company launched the game distribution platform Steam in 2003?",
+   "d": "Valve",
+   "y": [
+    "Blizzard",
+    "Ubisoft",
+    "Electronic Arts"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "2021'de ortaya çıkan Log4Shell güvenlik açığı hangi programlama diline ait bir günlükleme kütüphanesindeydi?",
+  "d": "Java",
+  "y": [
+   "Python",
+   "PHP",
+   "Ruby"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "The Log4Shell vulnerability discovered in 2021 was in a logging library for which programming language?",
+   "d": "Java",
+   "y": [
+    "Python",
+    "PHP",
+    "Ruby"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Robert Griesemer, Rob Pike ve Ken Thompson'ın tasarladığı Go programlama dili hangi şirkette geliştirilmiştir?",
+  "d": "Google",
+  "y": [
+   "Mozilla",
+   "Apple",
+   "Microsoft"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "The Go programming language, designed by Robert Griesemer, Rob Pike and Ken Thompson, was developed at which company?",
+   "d": "Google",
+   "y": [
+    "Mozilla",
+    "Apple",
+    "Microsoft"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Yaygın web sunucusu nginx'i ilk olarak geliştiren programcı kimdir?",
+  "d": "Igor Sysoev",
+  "y": [
+   "Rasmus Lerdorf",
+   "Brian Behlendorf",
+   "Salvatore Sanfilippo"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which programmer originally created the widely used nginx web server?",
+   "d": "Igor Sysoev",
+   "y": [
+    "Rasmus Lerdorf",
+    "Brian Behlendorf",
+    "Salvatore Sanfilippo"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Sözleşmeli çip üretiminin devi TSMC'yi 1987'de kuran kişi kimdir?",
+  "d": "Morris Chang",
+  "y": [
+   "Jensen Huang",
+   "Lisa Su",
+   "Andy Grove"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Who founded the contract chip-making giant TSMC in 1987?",
+   "d": "Morris Chang",
+   "y": [
+    "Jensen Huang",
+    "Lisa Su",
+    "Andy Grove"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Paralel hesaplamada elde edilebilecek hızlanmanın programın seri kalan kısmıyla sınırlı olduğunu söyleyen yasa hangisidir?",
+  "d": "Amdahl Yasası",
+  "y": [
+   "Moore Yasası",
+   "Metcalfe Yasası",
+   "Brooks Yasası"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which law states that the speed-up achievable through parallel computing is limited by the part of a program that stays serial?",
+   "d": "Amdahl's law",
+   "y": [
+    "Moore's law",
+    "Metcalfe's law",
+    "Brooks's law"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Yahoo!'yu 1994'te Stanford'da David Filo ile birlikte kuran kişi kimdir?",
+  "d": "Jerry Yang",
+  "y": [
+   "Larry Page",
+   "Kevin Systrom",
+   "Jeff Bezos"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Who co-founded Yahoo! with David Filo at Stanford in 1994?",
+   "d": "Jerry Yang",
+   "y": [
+    "Larry Page",
+    "Kevin Systrom",
+    "Jeff Bezos"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "EUV litografi makineleriyle tanınan ASML hangi ülkenin şirketidir?",
+  "d": "Hollanda",
+  "y": [
+   "Almanya",
+   "İsviçre",
+   "Japonya"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "ASML, known for its EUV lithography machines, is a company from which country?",
+   "d": "Netherlands",
+   "y": [
+    "Germany",
+    "Switzerland",
+    "Japan"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "SimCity ve The Sims oyunlarının tasarımcısı kimdir?",
+  "d": "Will Wright",
+  "y": [
+   "Sid Meier",
+   "Peter Molyneux",
+   "John Romero"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Who designed the games SimCity and The Sims?",
+   "d": "Will Wright",
+   "y": [
+    "Sid Meier",
+    "Peter Molyneux",
+    "John Romero"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "'The Witcher' oyunlarını geliştiren CD Projekt hangi ülkenin şirketidir?",
+  "d": "Polonya",
+  "y": [
+   "Çekya",
+   "Ukrayna",
+   "Macaristan"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "CD Projekt, the developer of 'The Witcher' games, is a company from which country?",
+   "d": "Poland",
+   "y": [
+    "Czechia",
+    "Ukraine",
+    "Hungary"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "2002'de piyasaya çıkan robot süpürge Roomba'yı hangi şirket üretmektedir?",
+  "d": "iRobot",
+  "y": [
+   "Dyson",
+   "Neato",
+   "Ecovacs"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which company makes the Roomba robot vacuum, launched in 2002?",
+   "d": "iRobot",
+   "y": [
+    "Dyson",
+    "Neato",
+    "Ecovacs"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Girişim dünyasında 'unicorn' (tek boynuzlu at) terimi hangi şirketleri tanımlar?",
+  "d": "Değeri 1 milyar doları aşan girişimleri",
+  "y": [
+   "Borsaya ilk kez açılan girişimleri",
+   "Hiç yatırım almadan kâra geçen girişimleri",
+   "Kurucusu 25 yaşından genç olan girişimleri"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In the start-up world, what kind of company does the term 'unicorn' describe?",
+   "d": "A start-up valued at over $1 billion",
+   "y": [
+    "A start-up going public for the first time",
+    "A start-up profitable without any funding",
+    "A start-up whose founder is under 25"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Duolingo'nun kurucusu Luis von Ahn, daha önce hangi insan-makine ayrımı testinin geliştiricileri arasında yer almıştır?",
+  "d": "CAPTCHA",
+  "y": [
+   "OAuth",
+   "Kerberos",
+   "WebAuthn"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Before founding Duolingo, Luis von Ahn was one of the developers of which human-versus-machine test?",
+   "d": "CAPTCHA",
+   "y": [
+    "OAuth",
+    "Kerberos",
+    "WebAuthn"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Windows'un Mayın Tarlası oyununda açılan bir karedeki sayı neyi gösterir?",
+  "d": "Komşu karelerdeki mayın sayısını",
+  "y": [
+   "Oyuncunun kalan hak sayısını",
+   "O satırdaki mayın sayısını",
+   "Karenin açılma sırasını"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In Windows Minesweeper, what does the number in an opened square show?",
+   "d": "The number of mines in adjacent squares",
+   "y": [
+    "The number of lives the player has left",
+    "The number of mines in that row",
+    "The order in which the square was opened"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "'PlayStation'ın babası' olarak anılan Sony mühendisi kimdir?",
+  "d": "Ken Kutaragi",
+  "y": [
+   "Satoru Iwata",
+   "Hideo Kojima",
+   "Masaya Nakamura"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which Sony engineer is known as the 'father of the PlayStation'?",
+   "d": "Ken Kutaragi",
+   "y": [
+    "Satoru Iwata",
+    "Hideo Kojima",
+    "Masaya Nakamura"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Angry Birds oyununu geliştiren Rovio hangi ülkenin şirketidir?",
+  "d": "Finlandiya",
+  "y": [
+   "Danimarka",
+   "Norveç",
+   "İzlanda"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Rovio, the developer of Angry Birds, is a company from which country?",
+   "d": "Finland",
+   "y": [
+    "Denmark",
+    "Norway",
+    "Iceland"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Apple'ın Safari için geliştirdiği WebKit motoru hangi açık kaynak projeden türetilmiştir?",
+  "d": "KHTML",
+  "y": [
+   "Gecko",
+   "Trident",
+   "Presto"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Apple's WebKit engine, developed for Safari, was derived from which open-source project?",
+   "d": "KHTML",
+   "y": [
+    "Gecko",
+    "Trident",
+    "Presto"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "1945 tarihli 'As We May Think' makalesinde hipermetni öngören 'Memex' cihazını tasarlayan kimdir?",
+  "d": "Vannevar Bush",
+  "y": [
+   "Norbert Wiener",
+   "Claude Shannon",
+   "John von Neumann"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Who envisioned the 'Memex' device, a forerunner of hypertext, in the 1945 essay 'As We May Think'?",
+   "d": "Vannevar Bush",
+   "y": [
+    "Norbert Wiener",
+    "Claude Shannon",
+    "John von Neumann"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Telefon santralleri için geliştirilen Erlang programlama dili hangi şirkette doğmuştur?",
+  "d": "Ericsson",
+  "y": [
+   "Nokia",
+   "Siemens",
+   "Alcatel"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "The Erlang programming language, created for telephone switching systems, was born at which company?",
+   "d": "Ericsson",
+   "y": [
+    "Nokia",
+    "Siemens",
+    "Alcatel"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Delikli kartlarla desen dokuyan ve bilgisayarların öncüsü sayılan dokuma tezgâhı hangi mucidin adıyla anılır?",
+  "d": "Jacquard",
+  "y": [
+   "Cartwright",
+   "Arkwright",
+   "Hargreaves"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "The loom that wove patterns using punched cards, regarded as a forerunner of computers, is named after which inventor?",
+   "d": "Jacquard",
+   "y": [
+    "Cartwright",
+    "Arkwright",
+    "Hargreaves"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Tasarımcı Warren Robinett'in adını gizli bir odaya saklayarak ilk ünlü 'Easter egg'lerden birini yarattığı Atari oyunu hangisidir?",
+  "d": "Adventure",
+  "y": [
+   "Pitfall!",
+   "Asteroids",
+   "Breakout"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "In which Atari game did designer Warren Robinett hide his name in a secret room, creating one of the first famous 'Easter eggs'?",
+   "d": "Adventure",
+   "y": [
+    "Pitfall!",
+    "Asteroids",
+    "Breakout"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Faks makinesinin öncüsü sayılan cihazın patentini 1843'te alan İskoç saatçi kimdir?",
+  "d": "Alexander Bain",
+  "y": [
+   "James Watt",
+   "John Logie Baird",
+   "William Thomson"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which Scottish clockmaker patented the forerunner of the fax machine in 1843?",
+   "d": "Alexander Bain",
+   "y": [
+    "James Watt",
+    "John Logie Baird",
+    "William Thomson"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Açık kaynak 3B yazılım Blender'ın yaratıcısı Ton Roosendaal hangi ülkedendir?",
+  "d": "Hollanda",
+  "y": [
+   "Danimarka",
+   "Belçika",
+   "İsveç"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Ton Roosendaal, creator of the open-source 3D software Blender, is from which country?",
+   "d": "Netherlands",
+   "y": [
+    "Denmark",
+    "Belgium",
+    "Sweden"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Photoshop'un ilk sürümünü geliştiren Thomas ve John kardeşlerin soyadı nedir?",
+  "d": "Knoll",
+  "y": [
+   "Warnock",
+   "Geschke",
+   "Wozniak"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "What is the surname of the brothers Thomas and John who created the first version of Photoshop?",
+   "d": "Knoll",
+   "y": [
+    "Warnock",
+    "Geschke",
+    "Wozniak"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "'Yukarı, yukarı, aşağı, aşağı, sol, sağ, sol, sağ, B, A' dizisiyle bilinen ünlü hile kodu hangi oyun şirketinin adıyla anılır?",
+  "d": "Konami",
+  "y": [
+   "Capcom",
+   "Namco",
+   "Taito"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "The famous cheat code 'Up, Up, Down, Down, Left, Right, Left, Right, B, A' is named after which game company?",
+   "d": "Konami",
+   "y": [
+    "Capcom",
+    "Namco",
+    "Taito"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Larry Page ile Sergey Brin'in arama motoru, Google adını almadan önce hangi adla çalışıyordu?",
+  "d": "BackRub",
+  "y": [
+   "SearchRank",
+   "WebCrawler",
+   "LinkBase"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Before it was called Google, Larry Page and Sergey Brin's search engine ran under what name?",
+   "d": "BackRub",
+   "y": [
+    "SearchRank",
+    "WebCrawler",
+    "LinkBase"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Apple'ın 1997'de başlattığı ünlü reklam kampanyasının sloganı nedir?",
+  "d": "Think Different",
+  "y": [
+   "Think Small",
+   "Just Do It",
+   "Reach for More"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "What was the slogan of Apple's famous advertising campaign launched in 1997?",
+   "d": "Think Different",
+   "y": [
+    "Think Small",
+    "Just Do It",
+    "Reach for More"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "James Dyson'ın elektrikli süpürgesini torbasız kılan temel çalışma ilkesi nedir?",
+  "d": "Siklonik ayırma",
+  "y": [
+   "Elektrostatik filtre",
+   "Su filtresi",
+   "Manyetik toplama"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "What core working principle makes James Dyson's vacuum cleaner bagless?",
+   "d": "Cyclonic separation",
+   "y": [
+    "Electrostatic filtering",
+    "Water filtering",
+    "Magnetic collection"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "VLC medya oynatıcısının logosunda ne yer alır?",
+  "d": "Trafik konisi",
+  "y": [
+   "Film makarası",
+   "Kırmızı fener",
+   "Oynat düğmesi"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "What does the VLC media player logo show?",
+   "d": "A traffic cone",
+   "y": [
+    "A film reel",
+    "A red lantern",
+    "A play button"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Yazılımda 'WYSIWYG' kısaltması hangi ilkeyi anlatır?",
+  "d": "Ekranda gördüğün çıktıda alacağındır",
+  "y": [
+   "Kod yazmadan program geliştirilir",
+   "Her değişiklik anında kaydedilir",
+   "Tek dosyada bütün biçimler saklanır"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "What principle does the software abbreviation 'WYSIWYG' describe?",
+   "d": "What you see on screen is what you get",
+   "y": [
+    "Programs can be built without writing a single line",
+    "Every change is saved instantly",
+    "All formats are stored in one file"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Standart bir kısa mesaj (SMS), Latin harfleriyle en fazla kaç karakter içerebilir?",
+  "d": "160",
+  "y": [
+   "140",
+   "200",
+   "256"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "How many characters, at most, can a standard SMS text message contain using the Latin alphabet?",
+   "d": "160",
+   "y": [
+    "140",
+    "200",
+    "256"
+   ]
+  }
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "'Hain Sekizler' olarak anılan mühendisler 1957'de Shockley'den ayrılarak hangi şirketi kurmuştur?",
+  "d": "Fairchild Semiconductor",
+  "y": [
+   "Texas Instruments",
+   "National Semiconductor",
+   "Hewlett-Packard"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which company did the engineers known as the 'traitorous eight' found in 1957 after leaving Shockley?",
+   "d": "Fairchild Semiconductor",
+   "y": [
+    "Texas Instruments",
+    "National Semiconductor",
+    "Hewlett-Packard"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "Spice Girls'te Victoria Beckham hangi lakapla anılırdı?",
+  "d": "Posh Spice",
+  "y": [
+   "Baby Spice",
+   "Scary Spice",
+   "Ginger Spice"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In the Spice Girls, what nickname was Victoria Beckham known by?",
+   "d": "Posh Spice",
+   "y": [
+    "Baby Spice",
+    "Scary Spice",
+    "Ginger Spice"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "'Für Elise' adıyla bilinen ünlü piyano parçasının bestecisi kimdir?",
+  "d": "Beethoven",
+  "y": [
+   "Mozart",
+   "Chopin",
+   "Schubert"
+  ],
+  "zorluk": 1,
+  "en": {
+   "s": "Who composed the famous piano piece known as 'Für Elise'?",
+   "d": "Beethoven",
+   "y": [
+    "Mozart",
+    "Chopin",
+    "Schubert"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "Robert Schumann'ın, kendisi de ünlü bir piyanist ve besteci olan eşinin kızlık adı nedir?",
+  "d": "Clara Wieck",
+  "y": [
+   "Fanny Hensel",
+   "Cosima Liszt",
+   "Alma Schindler"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "What was the maiden name of Robert Schumann's wife, herself a famous pianist and composer?",
+   "d": "Clara Wieck",
+   "y": [
+    "Fanny Hensel",
+    "Cosima Liszt",
+    "Alma Schindler"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "Buddy Holly'nin öldüğü 1959 uçak kazası hangi şarkıda 'müziğin öldüğü gün' olarak anılır?",
+  "d": "American Pie",
+  "y": [
+   "Hotel California",
+   "Piano Man",
+   "Vincent"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which song refers to the 1959 plane crash that killed Buddy Holly as 'the day the music died'?",
+   "d": "American Pie",
+   "y": [
+    "Hotel California",
+    "Piano Man",
+    "Vincent"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "The Beatles'ta 1962'de Ringo Starr gelmeden önce davul çalan müzisyen kimdir?",
+  "d": "Pete Best",
+  "y": [
+   "Stuart Sutcliffe",
+   "Klaus Voormann",
+   "Brian Epstein"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which musician was The Beatles' drummer before Ringo Starr joined in 1962?",
+   "d": "Pete Best",
+   "y": [
+    "Stuart Sutcliffe",
+    "Klaus Voormann",
+    "Brian Epstein"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "Notada 'sfz' kısaltmasıyla gösterilen sforzando icracıdan ne ister?",
+  "d": "Ani ve güçlü vurgu",
+  "y": [
+   "Giderek ve hafifçe yavaşlama",
+   "Çok hafif ve uzun çalma",
+   "Sesleri kesmeden bağlama"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "What does sforzando, marked 'sfz' in a score, ask of the performer?",
+   "d": "A sudden strong accent",
+   "y": [
+    "A gradual gentle slowing",
+    "Very soft, sustained playing",
+    "Connecting notes without a break"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "'Adiós Nonino' ve 'Libertango' eserleriyle 'nuevo tango'nun öncüsü sayılan Arjantinli besteci kimdir?",
+  "d": "Astor Piazzolla",
+  "y": [
+   "Carlos Gardel",
+   "Aníbal Troilo",
+   "Osvaldo Pugliese"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which Argentine composer, known for 'Adiós Nonino' and 'Libertango', is regarded as the pioneer of 'nuevo tango'?",
+   "d": "Astor Piazzolla",
+   "y": [
+    "Carlos Gardel",
+    "Aníbal Troilo",
+    "Osvaldo Pugliese"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "Rahbani kardeşlerle çalışarak Arap dünyasının en sevilen seslerinden biri olan Feyruz hangi ülkedendir?",
+  "d": "Lübnan",
+  "y": [
+   "Suriye",
+   "Ürdün",
+   "Tunus"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Fairuz, who became one of the Arab world's best-loved voices working with the Rahbani brothers, is from which country?",
+   "d": "Lebanon",
+   "y": [
+    "Syria",
+    "Jordan",
+    "Tunisia"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "'Tutti Frutti' (1955) şarkısıyla rock and rollun öncüleri arasına giren sanatçı kimdir?",
+  "d": "Little Richard",
+  "y": [
+   "Fats Domino",
+   "Bo Diddley",
+   "Jerry Lee Lewis"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which artist became one of rock and roll's pioneers with 'Tutti Frutti' (1955)?",
+   "d": "Little Richard",
+   "y": [
+    "Fats Domino",
+    "Bo Diddley",
+    "Jerry Lee Lewis"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "İzlandalı Sigur Rós grubunun bazı şarkılarında kullandığı, anlamı olmayan uydurma dile ne ad verilir?",
+  "d": "Hopelandic",
+  "y": [
+   "Esperanto",
+   "Volapük",
+   "Simlish"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "What is the made-up, meaningless language used in some songs by the Icelandic band Sigur Rós called?",
+   "d": "Hopelandic",
+   "y": [
+    "Esperanto",
+    "Volapük",
+    "Simlish"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "Chopin'in bedeni Paris'te gömülüdür; kalbi ise hangi şehirde bir kilisede saklanmaktadır?",
+  "d": "Varşova",
+  "y": [
+   "Kraków",
+   "Viyana",
+   "Lyon"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Chopin's body is buried in Paris; in which city is his heart kept in a church?",
+   "d": "Warsaw",
+   "y": [
+    "Kraków",
+    "Vienna",
+    "Lyon"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "1995'teki 'Britpop Savaşı'nda Oasis ile aynı gün single çıkararak yarışan grup hangisidir?",
+  "d": "Blur",
+  "y": [
+   "Pulp",
+   "Suede",
+   "Supergrass"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "In the 1995 'Battle of Britpop', which band went head to head with Oasis by releasing a single on the same day?",
+   "d": "Blur",
+   "y": [
+    "Pulp",
+    "Suede",
+    "Supergrass"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "'Aşk Rüyaları' (Liebesträume) adlı piyano eserlerinin bestecisi kimdir?",
+  "d": "Franz Liszt",
+  "y": [
+   "Robert Schumann",
+   "Felix Mendelssohn",
+   "Johannes Brahms"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Who composed the piano works 'Liebesträume' ('Dreams of Love')?",
+   "d": "Franz Liszt",
+   "y": [
+    "Robert Schumann",
+    "Felix Mendelssohn",
+    "Johannes Brahms"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "K-pop grubu BTS'in Korece adı 'Bangtan Sonyeondan' ne anlama gelir?",
+  "d": "Kurşun Geçirmez İzciler",
+  "y": [
+   "Yıldız Işığı Çocukları",
+   "Sonsuz Rüya Gençleri",
+   "Gökyüzü Yolu Kardeşleri"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "What does 'Bangtan Sonyeondan', the Korean name of the K-pop group BTS, mean?",
+   "d": "Bulletproof Boy Scouts",
+   "y": [
+    "Starlight Children",
+    "Endless Dream Youth",
+    "Sky Road Brothers"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "'Doğu'nun Yıldızı' lakabıyla anılan efsanevi şarkıcı Ümmü Gülsüm hangi ülkedendir?",
+  "d": "Mısır",
+  "y": [
+   "Lübnan",
+   "Suriye",
+   "Irak"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "The legendary singer Umm Kulthum, nicknamed the 'Star of the East', was from which country?",
+   "d": "Egypt",
+   "y": [
+    "Lebanon",
+    "Syria",
+    "Iraq"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "Düğünlerde sıkça çalınan ünlü 'Re Majör Kanon'un bestecisi kimdir?",
+  "d": "Johann Pachelbel",
+  "y": [
+   "Tomaso Albinoni",
+   "Arcangelo Corelli",
+   "Georg Philipp Telemann"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Who composed the famous 'Canon in D', often played at weddings?",
+   "d": "Johann Pachelbel",
+   "y": [
+    "Tomaso Albinoni",
+    "Arcangelo Corelli",
+    "Georg Philipp Telemann"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "Ringo Starr'ın doğum adı nedir?",
+  "d": "Richard Starkey",
+  "y": [
+   "Richard Starr",
+   "Ronald Stark",
+   "Robert Starkey"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "What is Ringo Starr's birth name?",
+   "d": "Richard Starkey",
+   "y": [
+    "Richard Starr",
+    "Ronald Stark",
+    "Robert Starkey"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "Bir kolla çevrilen tekerleğin telleri sürtmesiyle ses üreten ortaçağ çalgısı hangisidir?",
+  "d": "Çarklı lir",
+  "y": [
+   "Çekiçli santur",
+   "Yaylı rebek",
+   "Tulum gaydası"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which medieval instrument produces sound by a crank-turned wheel rubbing against its strings?",
+   "d": "Hurdy-gurdy",
+   "y": [
+    "Hammered dulcimer",
+    "Bowed rebec",
+    "Bagpipe"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "Rimski-Korsakov'un 'Yaban Arısının Uçuşu' hangi operasının ara müziğidir?",
+  "d": "Çar Saltan Masalı",
+  "y": [
+   "Kar Kızı Masalı",
+   "Altın Horoz Masalı",
+   "Sadko'nun Yolculuğu"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Rimsky-Korsakov's 'Flight of the Bumblebee' is an interlude from which of his operas?",
+   "d": "Tsar Saltan",
+   "y": [
+    "The Snow Maiden",
+    "The Golden Cockerel",
+    "Sadko"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "Janis Joplin'in ölümünden sonra 1971'de yayımlanan son stüdyo albümü hangisidir?",
+  "d": "Pearl",
+  "y": [
+   "Cheap Thrills",
+   "Surrealistic Pillow",
+   "Blue"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which was Janis Joplin's final studio album, released after her death in 1971?",
+   "d": "Pearl",
+   "y": [
+    "Cheap Thrills",
+    "Surrealistic Pillow",
+    "Blue"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "Serge Gainsbourg'un 1971 tarihli konsept albümünün adını taşıyan kız karakter kimdir?",
+  "d": "Melody Nelson",
+  "y": [
+   "Marilou Bardot",
+   "Bonnie Parker",
+   "Lolita Haze"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which girl character gives her name to Serge Gainsbourg's 1971 concept album?",
+   "d": "Melody Nelson",
+   "y": [
+    "Marilou Bardot",
+    "Bonnie Parker",
+    "Lolita Haze"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "Kabuki ve bunraku tiyatrosunda eşlik eden üç telli, mızraplı Japon çalgısı hangisidir?",
+  "d": "Şamisen",
+  "y": [
+   "Biwa",
+   "Shakuhachi",
+   "Koto"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which three-stringed, plectrum-played Japanese instrument accompanies kabuki and bunraku theatre?",
+   "d": "Shamisen",
+   "y": [
+    "Biwa",
+    "Shakuhachi",
+    "Koto"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "Kavvali müziğini dünyaya tanıtan Nusrat Fateh Ali Khan hangi ülkedendir?",
+  "d": "Pakistan",
+  "y": [
+   "Hindistan",
+   "Bangladeş",
+   "Afganistan"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Nusrat Fateh Ali Khan, who brought qawwali music to the world, was from which country?",
+   "d": "Pakistan",
+   "y": [
+    "India",
+    "Bangladesh",
+    "Afghanistan"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "Pikolo, notada yazılan sesten ne kadar farklı ses verir?",
+  "d": "Bir oktav tiz",
+  "y": [
+   "Bir oktav pes",
+   "Bir beşli tiz",
+   "Bir dörtlü pes"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "How does the piccolo sound relative to its written notes?",
+   "d": "An octave higher",
+   "y": [
+    "An octave lower",
+    "A fifth higher",
+    "A fourth lower"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "Erik Satie'nin kısa piyano parçası 'Vexations', notadaki bir yoruma göre kaç kez art arda çalınmalıdır?",
+  "d": "840",
+  "y": [
+   "100",
+   "365",
+   "1000"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "According to a note on the score, how many times in a row should Erik Satie's short piano piece 'Vexations' be played?",
+   "d": "840",
+   "y": [
+    "100",
+    "365",
+    "1000"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "The Clash'in 'London Calling' albüm kapağında Paul Simonon sahnede hangi çalgıyı parçalarken görülür?",
+  "d": "Bas gitar",
+  "y": [
+   "Elektro gitar",
+   "Akustik gitar",
+   "Davul seti"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "On the cover of The Clash's 'London Calling', which instrument is Paul Simonon seen smashing on stage?",
+   "d": "Bass guitar",
+   "y": [
+    "Electric guitar",
+    "Acoustic guitar",
+    "Drum kit"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "Voyager sondalarındaki Altın Plak'ta yer alan Chuck Berry şarkısı hangisidir?",
+  "d": "Johnny B. Goode",
+  "y": [
+   "Maybellene",
+   "Roll Over Beethoven",
+   "Sweet Little Sixteen"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which Chuck Berry song is included on the Golden Record carried by the Voyager probes?",
+   "d": "Johnny B. Goode",
+   "y": [
+    "Maybellene",
+    "Roll Over Beethoven",
+    "Sweet Little Sixteen"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "'Ruhun Başrahibesi' lakabıyla anılan, 'Feeling Good' ve 'I Put a Spell on You' yorumlarıyla ünlü şarkıcı kimdir?",
+  "d": "Nina Simone",
+  "y": [
+   "Aretha Franklin",
+   "Etta James",
+   "Dinah Washington"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which singer, nicknamed the 'High Priestess of Soul', is famous for her versions of 'Feeling Good' and 'I Put a Spell on You'?",
+   "d": "Nina Simone",
+   "y": [
+    "Aretha Franklin",
+    "Etta James",
+    "Dinah Washington"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "Amy Winehouse'un 'Rehab' şarkısını içeren 2006 tarihli albümü hangisidir?",
+  "d": "Back to Black",
+  "y": [
+   "Frank",
+   "Lioness: Hidden Treasures",
+   "Stronger Than Me"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which 2006 Amy Winehouse album includes the song 'Rehab'?",
+   "d": "Back to Black",
+   "y": [
+    "Frank",
+    "Lioness: Hidden Treasures",
+    "Stronger Than Me"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "Oasis grubunun iki kurucu kardeşinin soyadı nedir?",
+  "d": "Gallagher",
+  "y": [
+   "Davies",
+   "Reid",
+   "Robinson"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "What is the surname of the two founding brothers of Oasis?",
+   "d": "Gallagher",
+   "y": [
+    "Davies",
+    "Reid",
+    "Robinson"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "1908 tarihli 'Süsleme ve Suç' makalesinin yazarı olan Avusturyalı mimar kimdir?",
+  "d": "Adolf Loos",
+  "y": [
+   "Otto Wagner",
+   "Josef Hoffmann",
+   "Joseph Maria Olbrich"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which Austrian architect wrote the 1908 essay 'Ornament and Crime'?",
+   "d": "Adolf Loos",
+   "y": [
+    "Otto Wagner",
+    "Josef Hoffmann",
+    "Joseph Maria Olbrich"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Van Gogh'un en zengin koleksiyonlarından birine ev sahipliği yapan, Hoge Veluwe Milli Parkı içindeki müze hangisidir?",
+  "d": "Kröller-Müller",
+  "y": [
+   "Museum Boijmans Van Beuningen",
+   "Stedelijk Museum Amsterdam",
+   "Frans Hals Museum"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which museum inside the Hoge Veluwe National Park houses one of the richest Van Gogh collections?",
+   "d": "Kröller-Müller",
+   "y": [
+    "Museum Boijmans Van Beuningen",
+    "Stedelijk Museum Amsterdam",
+    "Frans Hals Museum"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Fontainebleau Ormanı kenarındaki bir köyde toplanan, Théodore Rousseau ve Millet'nin öncülük ettiği ressamlar grubuna ne ad verilir?",
+  "d": "Barbizon Okulu",
+  "y": [
+   "Pont-Aven Okulu",
+   "Norwich Okulu",
+   "Lahey Okulu"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "What is the group of painters led by Théodore Rousseau and Millet, who gathered in a village by the Forest of Fontainebleau, called?",
+   "d": "The Barbizon School",
+   "y": [
+    "The Pont-Aven School",
+    "The Norwich School",
+    "The Hague School"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Michelangelo'nun özgün 'Davut' heykeli 1873'ten beri Floransa'da nerede sergilenmektedir?",
+  "d": "Accademia Galerisi",
+  "y": [
+   "Uffizi Galerisi",
+   "Bargello Müzesi",
+   "Pitti Sarayı"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Since 1873, where in Florence has Michelangelo's original 'David' been displayed?",
+   "d": "The Accademia Gallery",
+   "y": [
+    "The Uffizi Gallery",
+    "The Bargello Museum",
+    "The Pitti Palace"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Üç paneli bugün Londra, Floransa ve Paris'te bulunan 'San Romano Savaşı' tablolarının ressamı kimdir?",
+  "d": "Paolo Uccello",
+  "y": [
+   "Benozzo Gozzoli",
+   "Andrea del Castagno",
+   "Domenico Veneziano"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Who painted 'The Battle of San Romano', whose three panels are now in London, Florence and Paris?",
+   "d": "Paolo Uccello",
+   "y": [
+    "Benozzo Gozzoli",
+    "Andrea del Castagno",
+    "Domenico Veneziano"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "1905 Sonbahar Salonu'nda Matisse ve arkadaşlarına 'Fauves' (Vahşi Hayvanlar) adını veren eleştirmen kimdir?",
+  "d": "Louis Vauxcelles",
+  "y": [
+   "Louis Leroy",
+   "Guillaume Apollinaire",
+   "Roger Fry"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which critic dubbed Matisse and his circle 'Fauves' (wild beasts) at the 1905 Salon d'Automne?",
+   "d": "Louis Vauxcelles",
+   "y": [
+    "Louis Leroy",
+    "Guillaume Apollinaire",
+    "Roger Fry"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "'Arkadya Çobanları' (Et in Arcadia ego) tablosuyla tanınan 17. yüzyıl Fransız klasik ressamı kimdir?",
+  "d": "Nicolas Poussin",
+  "y": [
+   "Claude Lorrain",
+   "Philippe de Champaigne",
+   "Georges de La Tour"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which 17th-century French classical painter is known for 'The Arcadian Shepherds' (Et in Arcadia ego)?",
+   "d": "Nicolas Poussin",
+   "y": [
+    "Claude Lorrain",
+    "Philippe de Champaigne",
+    "Georges de La Tour"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Asit kullanmadan, sivri bir iğneyle doğrudan metal levhaya çizilerek yapılan baskı tekniği hangisidir?",
+  "d": "Kuru kazıma",
+  "y": [
+   "Asitli gravür",
+   "Akuatint",
+   "Litografi"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which printmaking technique involves drawing directly into a metal plate with a sharp needle, without using acid?",
+   "d": "Drypoint",
+   "y": [
+    "Etching",
+    "Aquatint",
+    "Lithography"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "1848'de Rossetti ve Millais ile birlikte Prerafaelit Kardeşliği'ni kuran üçüncü ressam kimdir?",
+  "d": "William Holman Hunt",
+  "y": [
+   "Ford Madox Brown",
+   "Edward Burne-Jones",
+   "John William Waterhouse"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Who was the third painter who founded the Pre-Raphaelite Brotherhood with Rossetti and Millais in 1848?",
+   "d": "William Holman Hunt",
+   "y": [
+    "Ford Madox Brown",
+    "Edward Burne-Jones",
+    "John William Waterhouse"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Art Nouveau akımının, Gaudí'nin de temsilcisi olduğu Katalonya'daki koluna ne ad verilir?",
+  "d": "Modernisme",
+  "y": [
+   "Jugendstil",
+   "Sezession",
+   "Liberty"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "What is the Catalan branch of Art Nouveau, of which Gaudí was a representative, called?",
+   "d": "Modernisme",
+   "y": [
+    "Jugendstil",
+    "Secession",
+    "Liberty"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Klasik mimaride sütun başlıklarının hemen üzerine oturan ilk yatay kirişe ne ad verilir?",
+  "d": "Arşitrav",
+  "y": [
+   "Friz",
+   "Korniş",
+   "Stilobat"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "In classical architecture, what is the first horizontal beam resting directly on the column capitals called?",
+   "d": "Architrave",
+   "y": [
+    "Frieze",
+    "Cornice",
+    "Stylobate"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Bir kadının çıplak sırtına kemanın ses deliklerini eklediği 'Ingres'in Kemanı' (1924) fotoğrafının sanatçısı kimdir?",
+  "d": "Man Ray",
+  "y": [
+   "Brassaï",
+   "Eugène Atget",
+   "André Kertész"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which artist made the photograph 'Le Violon d'Ingres' (1924), adding a violin's sound holes to a woman's bare back?",
+   "d": "Man Ray",
+   "y": [
+    "Brassaï",
+    "Eugène Atget",
+    "André Kertész"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Amerikan manzara resmindeki 'Hudson Nehri Okulu'nun kurucusu sayılan ressam kimdir?",
+  "d": "Thomas Cole",
+  "y": [
+   "Albert Bierstadt",
+   "Winslow Homer",
+   "George Inness"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which painter is regarded as the founder of the Hudson River School of American landscape painting?",
+   "d": "Thomas Cole",
+   "y": [
+    "Albert Bierstadt",
+    "Winslow Homer",
+    "George Inness"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Paris'te doğup ömrünü Fransa'da geçirmesine karşın İngiliz vatandaşı olarak kalan izlenimci ressam kimdir?",
+  "d": "Alfred Sisley",
+  "y": [
+   "Frédéric Bazille",
+   "Gustave Caillebotte",
+   "Armand Guillaumin"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which Impressionist painter was born in Paris and lived his whole life in France yet remained a British citizen?",
+   "d": "Alfred Sisley",
+   "y": [
+    "Frédéric Bazille",
+    "Gustave Caillebotte",
+    "Armand Guillaumin"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Bernini'nin 'Apollon ve Dafne' heykel grubu Roma'da hangi müzede sergilenmektedir?",
+  "d": "Borghese Galerisi",
+  "y": [
+   "Vatikan Müzeleri",
+   "Capitolini Müzeleri",
+   "Barberini Sarayı"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "In which Rome museum is Bernini's sculpture group 'Apollo and Daphne' displayed?",
+   "d": "The Borghese Gallery",
+   "y": [
+    "The Vatican Museums",
+    "The Capitoline Museums",
+    "The Palazzo Barberini"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Wyndham Lewis'in öncülük ettiği, 'BLAST' dergisini çıkaran İngiliz avangart akımı hangisidir?",
+  "d": "Vortisizm",
+  "y": [
+   "Fütürizm",
+   "Rayonizm",
+   "Orfizm"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which British avant-garde movement, led by Wyndham Lewis, published the magazine 'BLAST'?",
+   "d": "Vorticism",
+   "y": [
+    "Futurism",
+    "Rayonism",
+    "Orphism"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Paris'te vitraylarıyla ünlü Sainte-Chapelle, IX. Louis tarafından hangi emaneti korumak için yaptırılmıştır?",
+  "d": "Dikenli Taç",
+  "y": [
+   "Kutsal Kâse",
+   "Torino Kefeni",
+   "Longinus Mızrağı"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "The Sainte-Chapelle in Paris, famous for its stained glass, was built by Louis IX to house which relic?",
+   "d": "The Crown of Thorns",
+   "y": [
+    "The Holy Grail",
+    "The Shroud of Turin",
+    "The Spear of Longinus"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Otto Dix ve George Grosz'un temsil ettiği Weimar dönemi Alman sanat akımı hangisidir?",
+  "d": "Yeni Nesnellik",
+  "y": [
+   "Soyut Dışavurumculuk",
+   "Orfizm",
+   "Somut Sanat"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which Weimar-era German art movement did Otto Dix and George Grosz represent?",
+   "d": "New Objectivity",
+   "y": [
+    "Abstract Expressionism",
+    "Orphism",
+    "Concrete Art"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Édouard Manet'nin kardeşi Eugène ile evlenen izlenimci kadın ressam kimdir?",
+  "d": "Berthe Morisot",
+  "y": [
+   "Mary Cassatt",
+   "Eva Gonzalès",
+   "Marie Bracquemond"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which female Impressionist painter married Eugène, the brother of Édouard Manet?",
+   "d": "Berthe Morisot",
+   "y": [
+    "Mary Cassatt",
+    "Eva Gonzalès",
+    "Marie Bracquemond"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "İzlenimcilerle Paris'te sergi açan, anne ve çocuk resimleriyle tanınan Amerikalı ressam kimdir?",
+  "d": "Mary Cassatt",
+  "y": [
+   "Berthe Morisot",
+   "Georgia O'Keeffe",
+   "Cecilia Beaux"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which American painter, who exhibited with the Impressionists in Paris, is known for her mother-and-child paintings?",
+   "d": "Mary Cassatt",
+   "y": [
+    "Berthe Morisot",
+    "Georgia O'Keeffe",
+    "Cecilia Beaux"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "2004'te Pritzker Mimarlık Ödülü'nü alarak bu ödülü kazanan ilk kadın olan mimar kimdir?",
+  "d": "Zaha Hadid",
+  "y": [
+   "Kazuyo Sejima",
+   "Gae Aulenti",
+   "Lina Bo Bardi"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which architect became the first woman to win the Pritzker Architecture Prize, in 2004?",
+   "d": "Zaha Hadid",
+   "y": [
+    "Kazuyo Sejima",
+    "Gae Aulenti",
+    "Lina Bo Bardi"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "David Hockney'nin 1967 tarihli 'A Bigger Splash' tablosunda neyin sıçraması resmedilir?",
+  "d": "Havuz suyunun",
+  "y": [
+   "Deniz dalgasının",
+   "Fıskiye suyunun",
+   "Yağmur birikintisinin"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "What splash is depicted in David Hockney's 1967 painting 'A Bigger Splash'?",
+   "d": "Swimming-pool water",
+   "y": [
+    "A crashing sea wave",
+    "A garden fountain jet",
+    "A rain puddle"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Ayak tabanlarından bakılan, aşırı kısaltılmış ölü İsa figürüyle ünlü 'Ölü İsa'ya Ağıt' tablosu kimin eseridir?",
+  "d": "Andrea Mantegna",
+  "y": [
+   "Giovanni Bellini",
+   "Carlo Crivelli",
+   "Luca Signorelli"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Who painted the 'Lamentation of Christ', famous for its sharply foreshortened dead Christ seen from the soles of his feet?",
+   "d": "Andrea Mantegna",
+   "y": [
+    "Giovanni Bellini",
+    "Carlo Crivelli",
+    "Luca Signorelli"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Pollock gibi ressamlar için 'aksiyon resmi' (action painting) terimini 1952'de ortaya atan eleştirmen kimdir?",
+  "d": "Harold Rosenberg",
+  "y": [
+   "Clement Greenberg",
+   "Leo Steinberg",
+   "Meyer Schapiro"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which critic coined the term 'action painting' in 1952 for painters such as Pollock?",
+   "d": "Harold Rosenberg",
+   "y": [
+    "Clement Greenberg",
+    "Leo Steinberg",
+    "Meyer Schapiro"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Kopenhag limanındaki ünlü 'Küçük Deniz Kızı' heykeli hangi yazarın masalından esinlenmiştir?",
+  "d": "Andersen",
+  "y": [
+   "Grimm",
+   "Perrault",
+   "Lagerlöf"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "The famous 'Little Mermaid' statue in Copenhagen harbour was inspired by a fairy tale by which writer?",
+   "d": "Andersen",
+   "y": [
+    "Grimm",
+    "Perrault",
+    "Lagerlöf"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "İzlenimcilerin 1874-1886 arasında açtığı sekiz serginin hepsine katılan tek ressam kimdir?",
+  "d": "Camille Pissarro",
+  "y": [
+   "Claude Monet",
+   "Edgar Degas",
+   "Gustave Caillebotte"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Who was the only painter to take part in all eight Impressionist exhibitions held between 1874 and 1886?",
+   "d": "Camille Pissarro",
+   "y": [
+    "Claude Monet",
+    "Edgar Degas",
+    "Gustave Caillebotte"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Barnett Newman'ın geniş renk alanlarını bölen ince dikey şeritlerine ne ad verilir?",
+  "d": "Zip",
+  "y": [
+   "Slit",
+   "Beam",
+   "Bar"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "What are the thin vertical stripes dividing Barnett Newman's broad fields of colour called?",
+   "d": "Zips",
+   "y": [
+    "Slits",
+    "Beams",
+    "Bars"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Sürrealizmde, iki yüzey arasına sıkıştırılan boyanın yüzeyler ayrılınca bıraktığı dokudan yararlanan teknik hangisidir?",
+  "d": "Dekalkomani",
+  "y": [
+   "Frottage",
+   "Grattage",
+   "Otomatizm"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "In Surrealism, which technique uses the texture left when paint pressed between two surfaces is pulled apart?",
+   "d": "Decalcomania",
+   "y": [
+    "Frottage",
+    "Grattage",
+    "Automatism"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Bir kemerin tepesine yerleştirilen ve öteki taşları yerinde kilitleyen taşa ne ad verilir?",
+  "d": "Kilit taşı",
+  "y": [
+   "Köşe taşı",
+   "Temel taşı",
+   "Üzengi taşı"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "What is the stone placed at the top of an arch that locks the other stones in place called?",
+   "d": "Keystone",
+   "y": [
+    "Cornerstone",
+    "Foundation stone",
+    "Springer"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Leonardo da Vinci defterlerindeki notlarını çoğunlukla hangi biçimde yazmıştır?",
+  "d": "Ayna yazısıyla",
+  "y": [
+   "Şifreli Latinceyle",
+   "Yunan harfleriyle",
+   "Noktalı kısaltmalarla"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "How did Leonardo da Vinci write most of the notes in his notebooks?",
+   "d": "In mirror writing",
+   "y": [
+    "In coded Latin",
+    "In Greek letters",
+    "In dotted abbreviations"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "İspanya'da 'El Clásico' adıyla bilinen maç hangi iki kulüp arasında oynanır?",
+  "d": "Real Madrid ve Barcelona",
+  "y": [
+   "Atlético ve Real Madrid",
+   "Barcelona ve Espanyol",
+   "Sevilla ve Real Betis"
+  ],
+  "zorluk": 1,
+  "en": {
+   "s": "In Spain, the match known as 'El Clásico' is played between which two clubs?",
+   "d": "Real Madrid and Barcelona",
+   "y": [
+    "Atlético and Real Madrid",
+    "Barcelona and Espanyol",
+    "Sevilla and Real Betis"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Kuzey kombine (Nordic combined) hangi iki dalı birleştirir?",
+  "d": "Kayakla atlama ve kros",
+  "y": [
+   "Slalom ve kayakla atlama",
+   "Kros kayağı ve atıcılık",
+   "Buz pateni ve slalom"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which two disciplines does Nordic combined bring together?",
+   "d": "Ski jumping and cross-country",
+   "y": [
+    "Slalom and ski jumping",
+    "Cross-country skiing and shooting",
+    "Figure skating and slalom racing"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "1912 Stockholm Olimpiyatları'nda pentatlon ve dekatlonu kazanıp daha önce yarı profesyonel beyzbol oynadığı için madalyaları elinden alınan sporcu kimdir?",
+  "d": "Jim Thorpe",
+  "y": [
+   "Paavo Nurmi",
+   "Avery Brundage",
+   "Hannes Kolehmainen"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which athlete won the pentathlon and decathlon at the 1912 Stockholm Olympics but was stripped of his medals for having played semi-professional baseball?",
+   "d": "Jim Thorpe",
+   "y": [
+    "Paavo Nurmi",
+    "Avery Brundage",
+    "Hannes Kolehmainen"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Dünya Snooker Şampiyonası 1977'den beri hangi şehirdeki Crucible Tiyatrosu'nda düzenlenir?",
+  "d": "Sheffield",
+  "y": [
+   "Manchester",
+   "Leeds",
+   "Birmingham"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Since 1977, the World Snooker Championship has been held at the Crucible Theatre in which city?",
+   "d": "Sheffield",
+   "y": [
+    "Manchester",
+    "Leeds",
+    "Birmingham"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Sözleşmesi biten futbolcuların serbestçe transfer olmasının önünü açan 1995 tarihli Avrupa Adalet Divanı kararı kimin adıyla anılır?",
+  "d": "Jean-Marc Bosman",
+  "y": [
+   "Jean-Pierre Papin",
+   "Jean-Marie Pfaff",
+   "Marc-Vivien Foé"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "The 1995 European Court of Justice ruling that let out-of-contract footballers move freely is named after whom?",
+   "d": "Jean-Marc Bosman",
+   "y": [
+    "Jean-Pierre Papin",
+    "Jean-Marie Pfaff",
+    "Marc-Vivien Foé"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Amerikan futbolunda maçın son saniyelerinde umutsuzca atılan çok uzun pasa ne ad verilir?",
+  "d": "Hail Mary",
+  "y": [
+   "Flea Flicker",
+   "Quarterback Sneak",
+   "Onside Kick"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "In American football, what is a very long, desperate pass thrown in the final seconds of a game called?",
+   "d": "A Hail Mary",
+   "y": [
+    "A flea flicker",
+    "A quarterback sneak",
+    "An onside kick"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Garri Kasparov 1985'te dünya satranç şampiyonluğunu kimi yenerek kazanmıştır?",
+  "d": "Anatoli Karpov",
+  "y": [
+   "Viktor Korçnoy",
+   "Boris Spasski",
+   "Mikhail Tal"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Whom did Garry Kasparov defeat to win the World Chess Championship in 1985?",
+   "d": "Anatoly Karpov",
+   "y": [
+    "Viktor Korchnoi",
+    "Boris Spassky",
+    "Mikhail Tal"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Golfün en eski majör turnuvası The Open'da şampiyona verilen kupanın adı nedir?",
+  "d": "Claret Jug",
+  "y": [
+   "Wanamaker Trophy",
+   "Ryder Cup",
+   "Calcutta Cup"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "What is the trophy awarded to the champion of The Open, golf's oldest major, called?",
+   "d": "The Claret Jug",
+   "y": [
+    "The Wanamaker Trophy",
+    "The Ryder Cup",
+    "The Calcutta Cup"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Kısa paslarla topa uzun süre sahip olmaya dayanan, Guardiola'nın Barcelona'sıyla özdeşleşen oyun anlayışına ne ad verilir?",
+  "d": "Tiki-taka",
+  "y": [
+   "Gegenpressing",
+   "Catenaccio",
+   "Kick and rush"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "What is the playing style based on keeping possession through short passes, associated with Guardiola's Barcelona, called?",
+   "d": "Tiki-taka",
+   "y": [
+    "Gegenpressing",
+    "Catenaccio",
+    "Kick and rush"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Snooker'da bir frame başında masada kaç kırmızı top bulunur?",
+  "d": "15",
+  "y": [
+   "10",
+   "12",
+   "21"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "In snooker, how many red balls are on the table at the start of a frame?",
+   "d": "15",
+   "y": [
+    "10",
+    "12",
+    "21"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Fransa Bisiklet Turu geleneksel olarak Paris'te hangi caddede sona erer?",
+  "d": "Champs-Élysées",
+  "y": [
+   "Rue de Rivoli",
+   "Boulevard Haussmann",
+   "Avenue Montaigne"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "On which Paris avenue does the Tour de France traditionally finish?",
+   "d": "Champs-Élysées",
+   "y": [
+    "Rue de Rivoli",
+    "Boulevard Haussmann",
+    "Avenue Montaigne"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "1976 Almanya GP'sinde Nürburgring'de ağır yanan ve yalnızca altı hafta sonra Monza'da piste dönen pilot kimdir?",
+  "d": "Niki Lauda",
+  "y": [
+   "James Hunt",
+   "Clay Regazzoni",
+   "Jody Scheckter"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which driver was badly burned at the Nürburgring in the 1976 German GP and returned to racing at Monza just six weeks later?",
+   "d": "Niki Lauda",
+   "y": [
+    "James Hunt",
+    "Clay Regazzoni",
+    "Jody Scheckter"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Beyzbolda 1997'de bütün MLB takımlarında emekliye ayrılan 42 numaralı forma kime aitti?",
+  "d": "Jackie Robinson",
+  "y": [
+   "Roberto Clemente",
+   "Lou Gehrig",
+   "Hank Aaron"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "The number 42, retired across every MLB team in 1997, belonged to whom?",
+   "d": "Jackie Robinson",
+   "y": [
+    "Roberto Clemente",
+    "Lou Gehrig",
+    "Hank Aaron"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Kriket'te rakibe hiç sayı verilmeden tamamlanan over'a ne ad verilir?",
+  "d": "Maiden over",
+  "y": [
+   "Dead over",
+   "Clean over",
+   "Silent over"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "In cricket, what is an over in which no runs are conceded called?",
+   "d": "A maiden over",
+   "y": [
+    "A dead over",
+    "A clean over",
+    "A silent over"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Rugby'de 1879'dan beri verilen Calcutta Kupası hangi iki ülke arasında oynanır?",
+  "d": "İngiltere ve İskoçya",
+  "y": [
+   "İngiltere ve Galler",
+   "İrlanda ve İskoçya",
+   "Fransa ve İngiltere"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Rugby's Calcutta Cup, contested since 1879, is played between which two countries?",
+   "d": "England and Scotland",
+   "y": [
+    "England and Wales",
+    "Ireland and Scotland",
+    "France and England"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Florentino Pérez döneminde Zidane, Figo ve Beckham gibi yıldızları bir araya getiren Real Madrid kadrosuna ne ad verilirdi?",
+  "d": "Galácticos",
+  "y": [
+   "Dream Team",
+   "Invincibles",
+   "Busby Babes"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Under Florentino Pérez, what was the Real Madrid squad that brought together stars like Zidane, Figo and Beckham called?",
+   "d": "Galácticos",
+   "y": [
+    "Dream Team",
+    "Invincibles",
+    "Busby Babes"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Eskrim müsabakalarının yapıldığı dar ve uzun şeride ne ad verilir?",
+  "d": "Pist",
+  "y": [
+   "Ring",
+   "Tatami",
+   "Minder"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "What is the long, narrow strip on which fencing bouts take place called?",
+   "d": "The piste",
+   "y": [
+    "The ring",
+    "The tatami",
+    "The mat"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Golfte arkadaşlar arasında kötü bir vuruşun cezasız tekrarlanmasına ne ad verilir?",
+  "d": "Mulligan",
+  "y": [
+   "Gimme",
+   "Shank",
+   "Dogleg"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "In friendly golf, what is a penalty-free retake of a bad shot called?",
+   "d": "A mulligan",
+   "y": [
+    "A gimme",
+    "A shank",
+    "A dogleg"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Buz hokeyi maçlarının aralarında buz yüzeyini yenileyen araca genellikle hangi marka adıyla seslenilir?",
+  "d": "Zamboni",
+  "y": [
+   "Glacier",
+   "Frostline",
+   "Icemaster"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "The machine that resurfaces the ice between periods of a hockey game is usually called by which brand name?",
+   "d": "Zamboni",
+   "y": [
+    "Glacier",
+    "Frostline",
+    "Icemaster"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Boksta sağ eli ve sağ ayağı önde duran solak dövüşçünün duruşuna ne ad verilir?",
+  "d": "Southpaw",
+  "y": [
+   "Orthodox",
+   "Crossguard",
+   "Peekaboo"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "In boxing, what is the stance of a left-handed fighter who leads with the right hand and right foot called?",
+   "d": "Southpaw",
+   "y": [
+    "Orthodox",
+    "Crossguard",
+    "Peekaboo"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "İspanya Bisiklet Turu'nda (Vuelta) günümüzde genel klasman liderinin giydiği mayo hangi renktedir?",
+  "d": "Kırmızı",
+  "y": [
+   "Sarı",
+   "Pembe",
+   "Mavi"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "In the Tour of Spain (Vuelta), what colour is the jersey worn today by the general classification leader?",
+   "d": "Red",
+   "y": [
+    "Yellow",
+    "Pink",
+    "Blue"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Beyzbolda vurucunun yanında durduğu 'ana kale' (home plate) hangi geometrik biçimdedir?",
+  "d": "Beşgen",
+  "y": [
+   "Kare",
+   "Altıgen",
+   "Üçgen"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "In baseball, what geometric shape is home plate, beside which the batter stands?",
+   "d": "A pentagon",
+   "y": [
+    "A square",
+    "A hexagon",
+    "A triangle"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Takımlarda kadın ve erkek oyuncuların eşit sayıda yer almak zorunda olduğu, Hollanda'da doğan potalı spor hangisidir?",
+  "d": "Korfbol",
+  "y": [
+   "Netbol",
+   "Hentbol",
+   "Tchoukball"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which basket sport, born in the Netherlands, requires teams to field equal numbers of women and men?",
+   "d": "Korfball",
+   "y": [
+    "Netball",
+    "Handball",
+    "Tchoukball"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Bask bölgesinin geleneksel sporu jai alai'de oyuncular topu neyle yakalayıp fırlatır?",
+  "d": "Hasır sepetle",
+  "y": [
+   "Tahta raketle",
+   "Deri eldivenle",
+   "Kısa sopayla"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "In jai alai, the traditional Basque sport, what do players use to catch and hurl the ball?",
+   "d": "A wicker basket",
+   "y": [
+    "A wooden racket",
+    "A leather glove",
+    "A short stick"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Kış olimpiyatlarında sporcunun kızak üzerinde yüzüstü ve baş önde kaydığı dal hangisidir?",
+  "d": "Skeleton",
+  "y": [
+   "Luge",
+   "Bobsled",
+   "Tobogan"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In the Winter Olympics, in which event does the athlete slide face-down and head-first on a sled?",
+   "d": "Skeleton",
+   "y": [
+    "Luge",
+    "Bobsleigh",
+    "Toboggan"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Teniste oyunculardan birinin maçı kazanmasına tek sayı kaldığı ana ne ad verilir?",
+  "d": "Maç sayısı",
+  "y": [
+   "Set sayısı",
+   "Break sayısı",
+   "Oyun sayısı"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In tennis, what is the moment when a player is one point away from winning the match called?",
+   "d": "Match point",
+   "y": [
+    "Set point",
+    "Break point",
+    "Game point"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Teniste topun çizgiye göre yerini kameralarla belirleyen elektronik sistemin adı nedir?",
+  "d": "Hawk-Eye",
+  "y": [
+   "Eagle-Eye",
+   "Cyclops",
+   "TrackMan"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In tennis, what is the electronic system that uses cameras to determine where the ball landed relative to the line called?",
+   "d": "Hawk-Eye",
+   "y": [
+    "Eagle-Eye",
+    "Cyclops",
+    "TrackMan"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Basketbolda potaya koşarak iki adımda yaklaşıp topu tek elle potaya bırakmaya ne denir?",
+  "d": "Turnike",
+  "y": [
+   "Smaç",
+   "Fade away",
+   "Alley-oop"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In basketball, what is running in on two steps and releasing the ball into the basket with one hand called?",
+   "d": "A lay-up",
+   "y": [
+    "A slam dunk",
+    "A fadeaway",
+    "An alley-oop"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "2024 Nobel Edebiyat Ödülü'nü kazanan 'Vejetaryen' romanının yazarı Han Kang hangi ülkedendir?",
+  "d": "Güney Kore",
+  "y": [
+   "Japonya",
+   "Kuzey Kore",
+   "Tayvan"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Han Kang, author of 'The Vegetarian' and winner of the 2024 Nobel Prize in Literature, is from which country?",
+   "d": "South Korea",
+   "y": [
+    "Japan",
+    "North Korea",
+    "Taiwan"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Şapkalı Kedi' ve 'Grinç' gibi çocuk kitaplarının yazarı Dr. Seuss'un gerçek adı nedir?",
+  "d": "Theodor Geisel",
+  "y": [
+   "Maurice Sendak",
+   "Richard Scarry",
+   "Shel Silverstein"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "What was the real name of Dr. Seuss, author of children's books such as 'The Cat in the Hat' and 'The Grinch'?",
+   "d": "Theodor Geisel",
+   "y": [
+    "Maurice Sendak",
+    "Richard Scarry",
+    "Shel Silverstein"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Goncourt Ödülü'nü, ikincisinde 'Émile Ajar' takma adını kullanarak iki kez kazanan yazar kimdir?",
+  "d": "Romain Gary",
+  "y": [
+   "André Malraux",
+   "Albert Camus",
+   "Marcel Proust"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which writer won the Prix Goncourt twice, the second time under the pen name 'Émile Ajar'?",
+   "d": "Romain Gary",
+   "y": [
+    "André Malraux",
+    "Albert Camus",
+    "Marcel Proust"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Vietnam edebiyatının başyapıtı sayılan 'Kiều'nun Hikâyesi' manzum romanının şairi kimdir?",
+  "d": "Nguyen Du",
+  "y": [
+   "Nguyen Trai",
+   "Ho Xuan Huong",
+   "Phan Boi Chau"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which poet wrote 'The Tale of Kiều', the verse novel regarded as the masterpiece of Vietnamese literature?",
+   "d": "Nguyen Du",
+   "y": [
+    "Nguyen Trai",
+    "Ho Xuan Huong",
+    "Phan Boi Chau"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Tragedyada kahramanın gerçeği birden fark ettiği 'tanıma' anına Aristoteles'in verdiği ad nedir?",
+  "d": "Anagnorisis",
+  "y": [
+   "Katharsis",
+   "Parabasis",
+   "Stichomythia"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "What did Aristotle call the moment of 'recognition' in tragedy, when the hero suddenly realises the truth?",
+   "d": "Anagnorisis",
+   "y": [
+    "Catharsis",
+    "Parabasis",
+    "Stichomythia"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Polonya'nın ulusal destanı sayılan 'Pan Tadeusz'un şairi kimdir?",
+  "d": "Adam Mickiewicz",
+  "y": [
+   "Juliusz Słowacki",
+   "Cyprian Norwid",
+   "Zygmunt Krasiński"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which poet wrote 'Pan Tadeusz', regarded as Poland's national epic?",
+   "d": "Adam Mickiewicz",
+   "y": [
+    "Juliusz Słowacki",
+    "Cyprian Norwid",
+    "Zygmunt Krasiński"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Tersten okunduğunda da aynı kalan sözcük ya da cümleye ne ad verilir?",
+  "d": "Palindrom",
+  "y": [
+   "Anagram",
+   "Akrostiş",
+   "Lipogram"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "What is a word or sentence that reads the same backwards as forwards called?",
+   "d": "A palindrome",
+   "y": [
+    "An anagram",
+    "An acrostic",
+    "A lipogram"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Çin klasiği 'Kızıl Köşkte Rüya'nın yazarı kimdir?",
+  "d": "Cao Xueqin",
+  "y": [
+   "Wu Cheng'en",
+   "Luo Guanzhong",
+   "Shi Nai'an"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Who wrote the Chinese classic 'Dream of the Red Chamber'?",
+   "d": "Cao Xueqin",
+   "y": [
+    "Wu Cheng'en",
+    "Luo Guanzhong",
+    "Shi Nai'an"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "R. K. Narayan'ın öykülerinin geçtiği hayalî Güney Hindistan kasabasının adı nedir?",
+  "d": "Malgudi",
+  "y": [
+   "Macondo",
+   "Comala",
+   "Yoknapatawpha"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "What is the name of the fictional South Indian town in which R. K. Narayan's stories are set?",
+   "d": "Malgudi",
+   "y": [
+    "Macondo",
+    "Comala",
+    "Yoknapatawpha"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Bir Delinin Güncesi' ve 'Ah Q'nun Gerçek Öyküsü' ile modern Çin edebiyatının kurucusu sayılan yazar kimdir?",
+  "d": "Lu Xun",
+  "y": [
+   "Lao She",
+   "Ba Jin",
+   "Mao Dun"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which writer, author of 'A Madman's Diary' and 'The True Story of Ah Q', is regarded as the founder of modern Chinese literature?",
+   "d": "Lu Xun",
+   "y": [
+    "Lao She",
+    "Ba Jin",
+    "Mao Dun"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Dom Casmurro' romanıyla Brezilya edebiyatının büyük ustası sayılan yazar kimdir?",
+  "d": "Machado de Assis",
+  "y": [
+   "José de Alencar",
+   "Graciliano Ramos",
+   "Jorge Amado"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which writer, author of 'Dom Casmurro', is regarded as the great master of Brazilian literature?",
+   "d": "Machado de Assis",
+   "y": [
+    "José de Alencar",
+    "Graciliano Ramos",
+    "Jorge Amado"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "1966 Nobel Edebiyat Ödülü'nü Nelly Sachs ile paylaşan, İbranice yazan yazar kimdir?",
+  "d": "Şmuel Yosef Agnon",
+  "y": [
+   "Hayim Nahman Bialik",
+   "Amos Oz",
+   "Aharon Appelfeld"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which Hebrew-language writer shared the 1966 Nobel Prize in Literature with Nelly Sachs?",
+   "d": "Shmuel Yosef Agnon",
+   "y": [
+    "Hayim Nahman Bialik",
+    "Amos Oz",
+    "Aharon Appelfeld"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Robot' sözcüğü ilk kez hangi yazarın 1920 tarihli R.U.R. adlı oyunuyla dünyaya yayılmıştır?",
+  "d": "Karel Čapek",
+  "y": [
+   "H. G. Wells",
+   "Isaac Asimov",
+   "Jules Verne"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "The word 'robot' spread around the world through which writer's 1920 play R.U.R.?",
+   "d": "Karel Čapek",
+   "y": [
+    "H. G. Wells",
+    "Isaac Asimov",
+    "Jules Verne"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "2023 Nobel Edebiyat Ödülü'nü alan oyun yazarı Jon Fosse hangi ülkedendir?",
+  "d": "Norveç",
+  "y": [
+   "İsveç",
+   "Danimarka",
+   "İzlanda"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Playwright Jon Fosse, winner of the 2023 Nobel Prize in Literature, is from which country?",
+   "d": "Norway",
+   "y": [
+    "Sweden",
+    "Denmark",
+    "Iceland"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Polisiye edebiyatın prestijli 'Edgar Ödülleri' adını hangi yazardan alır?",
+  "d": "Edgar Allan Poe",
+  "y": [
+   "Edgar Rice Burroughs",
+   "Edgar Wallace",
+   "Arthur Conan Doyle"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "The prestigious 'Edgar Awards' for mystery writing are named after which author?",
+   "d": "Edgar Allan Poe",
+   "y": [
+    "Edgar Rice Burroughs",
+    "Edgar Wallace",
+    "Arthur Conan Doyle"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Aslan Asker Şvayk' romanının yazarı kimdir?",
+  "d": "Jaroslav Hašek",
+  "y": [
+   "Karel Čapek",
+   "Bohumil Hrabal",
+   "Vítězslav Nezval"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Who wrote the novel 'The Good Soldier Švejk'?",
+   "d": "Jaroslav Hašek",
+   "y": [
+    "Karel Čapek",
+    "Bohumil Hrabal",
+    "Vítězslav Nezval"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Grimm Kardeşler'in 'Hansel ile Gretel' masalında cadının evi neyden yapılmıştır?",
+  "d": "Ekmek ve şekerden",
+  "y": [
+   "Kemik ve deriden",
+   "Buz ve kardan",
+   "Altın ve gümüşten"
+  ],
+  "zorluk": 1,
+  "en": {
+   "s": "In the Brothers Grimm tale 'Hansel and Gretel', what is the witch's house made of?",
+   "d": "Bread and sugar",
+   "y": [
+    "Bones and hide",
+    "Ice and snow",
+    "Gold and silver"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Indiana' ve 'Consuelo' romanlarının yazarı George Sand aslında kimdir?",
+  "d": "Bir kadın yazar",
+  "y": [
+   "Bir İngiliz lord",
+   "Bir Polonyalı piyanist",
+   "Bir Fransız rahip"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Who was George Sand, the author of the novels 'Indiana' and 'Consuelo', actually?",
+   "d": "A woman writer",
+   "y": [
+    "An English lord",
+    "A Polish pianist",
+    "A French priest"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Kırmızı Başlıklı Kız masalında büyükanne kılığına giren hayvan hangisidir?",
+  "d": "Kurt",
+  "y": [
+   "Tilki",
+   "Ayı",
+   "Çakal"
+  ],
+  "zorluk": 1,
+  "en": {
+   "s": "In the tale of Little Red Riding Hood, which animal disguises itself as the grandmother?",
+   "d": "The wolf",
+   "y": [
+    "The fox",
+    "The bear",
+    "The jackal"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Shakespeare'in 'Romeo ve Juliet' oyunu hangi İtalyan şehrinde geçer?",
+  "d": "Verona",
+  "y": [
+   "Venedik",
+   "Floransa",
+   "Padova"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In which Italian city is Shakespeare's 'Romeo and Juliet' set?",
+   "d": "Verona",
+   "y": [
+    "Venice",
+    "Florence",
+    "Padua"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Ermiş' (The Prophet) adlı düzyazı şiir kitabının Lübnan asıllı yazarı kimdir?",
+  "d": "Halil Cibran",
+  "y": [
+   "Mahmud Derviş",
+   "Nizar Kabbani",
+   "Emin Maalouf"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Who is the Lebanese-born author of the prose-poetry book 'The Prophet'?",
+   "d": "Kahlil Gibran",
+   "y": [
+    "Mahmoud Darwish",
+    "Nizar Qabbani",
+    "Amin Maalouf"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Don Kişot'un dev sanıp mızrağıyla saldırdığı yapılar nelerdir?",
+  "d": "Yel değirmenleri",
+  "y": [
+   "Kale burçları",
+   "Su kuyuları",
+   "Kilise çanları"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "What structures does Don Quixote mistake for giants and charge with his lance?",
+   "d": "Windmills",
+   "y": [
+    "Castle towers",
+    "Water wells",
+    "Church bells"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "1996 Nobel Edebiyat Ödülü'nü kazanan Polonyalı kadın şair kimdir?",
+  "d": "Wisława Szymborska",
+  "y": [
+   "Czesław Miłosz",
+   "Zbigniew Herbert",
+   "Adam Zagajewski"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which Polish woman poet won the 1996 Nobel Prize in Literature?",
+   "d": "Wisława Szymborska",
+   "y": [
+    "Czesław Miłosz",
+    "Zbigniew Herbert",
+    "Adam Zagajewski"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Lewis Carroll'ın romanında Alice, Harikalar Diyarı'na hangi hayvanın peşinden bir deliğe girerek ulaşır?",
+  "d": "Beyaz Tavşan",
+  "y": [
+   "Cheshire Kedisi",
+   "Mart Tavşanı",
+   "Tırtıl"
+  ],
+  "zorluk": 1,
+  "en": {
+   "s": "In Lewis Carroll's novel, which creature does Alice follow down a hole into Wonderland?",
+   "d": "The White Rabbit",
+   "y": [
+    "The Cheshire Cat",
+    "The March Hare",
+    "The Caterpillar"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Booker Ödülü'nü Thomas Cromwell üçlemesinin iki kitabıyla iki kez kazanan yazar kimdir?",
+  "d": "Hilary Mantel",
+  "y": [
+   "Zadie Smith",
+   "Ian McEwan",
+   "Pat Barker"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which author won the Booker Prize twice with two books of her Thomas Cromwell trilogy?",
+   "d": "Hilary Mantel",
+   "y": [
+    "Zadie Smith",
+    "Ian McEwan",
+    "Pat Barker"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "SI sisteminde elektriksel iletkenliğin (direncin tersinin) birimi nedir?",
+  "d": "Siemens",
+  "y": [
+   "Weber",
+   "Henry",
+   "Farad"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "What is the SI unit of electrical conductance (the inverse of resistance)?",
+   "d": "Siemens",
+   "y": [
+    "Weber",
+    "Henry",
+    "Farad"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "1887'deki Michelson-Morley deneyi, ışığın içinde yayıldığı varsayılan neyi saptamayı amaçlamıştır?",
+  "d": "Esir",
+  "y": [
+   "Kara madde",
+   "Nötrino",
+   "Graviton"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "The 1887 Michelson-Morley experiment set out to detect what supposed medium through which light travels?",
+   "d": "The aether",
+   "y": [
+    "Dark matter",
+    "Neutrinos",
+    "Gravitons"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Yumurtlayan memelilerden olan, ördeği andıran gagalı Avustralya hayvanı hangisidir?",
+  "d": "Ornitorenk",
+  "y": [
+   "Vombat",
+   "Tazmanya canavarı",
+   "Kanguru"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which duck-billed Australian animal is one of the egg-laying mammals?",
+   "d": "The platypus",
+   "y": [
+    "The wombat",
+    "The Tasmanian devil",
+    "The kangaroo"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Millikan'ın yağ damlası deneyi neyi ölçmüştür?",
+  "d": "Elektronun yükünü",
+  "y": [
+   "Işığın hızını",
+   "Protonun kütlesini",
+   "Atomun çapını"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "What did Millikan's oil-drop experiment measure?",
+   "d": "The charge of the electron",
+   "y": [
+    "The speed of light",
+    "The mass of the proton",
+    "The diameter of an atom"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "1957'de Sputnik 2 ile Dünya yörüngesine çıkan ilk canlı olan köpeğin adı nedir?",
+  "d": "Layka",
+  "y": [
+   "Belka",
+   "Strelka",
+   "Zvezdochka"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "What was the name of the dog that became the first living creature to orbit the Earth, aboard Sputnik 2 in 1957?",
+   "d": "Laika",
+   "y": [
+    "Belka",
+    "Strelka",
+    "Zvezdochka"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "1927'deki Davisson-Germer deneyi elektronların hangi özelliğini doğrulamıştır?",
+  "d": "Dalga davranışını",
+  "y": [
+   "Negatif yükünü",
+   "Spin durumunu",
+   "Sabit kütlesini"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "What property of electrons did the 1927 Davisson-Germer experiment confirm?",
+   "d": "Their wave behaviour",
+   "y": [
+    "Their negative charge",
+    "Their spin state",
+    "Their fixed mass"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Yavruları kuluçka kesesinde erkeğin taşıyıp 'doğurduğu' deniz canlısı hangisidir?",
+  "d": "Denizatı",
+  "y": [
+   "Ahtapot",
+   "Yunus",
+   "Deniz kaplumbağası"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In which sea creature does the male carry the young in a brood pouch and 'give birth'?",
+   "d": "The seahorse",
+   "y": [
+    "The octopus",
+    "The dolphin",
+    "The sea turtle"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Beynin sağ ve sol yarım kürelerini birbirine bağlayan kalın sinir lifi demetine ne ad verilir?",
+  "d": "Nasırlı cisim",
+  "y": [
+   "Beyin sapı",
+   "Omurilik soğanı",
+   "Talamus köprüsü"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "What is the thick bundle of nerve fibres connecting the left and right hemispheres of the brain called?",
+   "d": "Corpus callosum",
+   "y": [
+    "Brainstem",
+    "Medulla oblongata",
+    "Thalamic bridge"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "1820'de elektrik akımının pusula iğnesini saptırdığını gözlemleyen Danimarkalı bilim insanı kimdir?",
+  "d": "Hans Christian Ørsted",
+  "y": [
+   "André-Marie Ampère",
+   "Michael Faraday",
+   "Joseph Henry"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which Danish scientist observed in 1820 that an electric current deflects a compass needle?",
+   "d": "Hans Christian Ørsted",
+   "y": [
+    "André-Marie Ampère",
+    "Michael Faraday",
+    "Joseph Henry"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Kuvarslı saatlerin çalışmasını sağlayan, bazı kristallerin basınç altında elektrik üretmesine ne ad verilir?",
+  "d": "Piezoelektrik",
+  "y": [
+   "Termoelektrik",
+   "Fotoelektrik",
+   "Triboelektrik"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "What is the property of certain crystals that generate electricity under pressure, used in quartz watches, called?",
+   "d": "Piezoelectricity",
+   "y": [
+    "Thermoelectricity",
+    "The photoelectric effect",
+    "Triboelectricity"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Karbonatlı suyu icat eden ve 1774'te oksijeni elde eden İngiliz din adamı ve kimyager kimdir?",
+  "d": "Joseph Priestley",
+  "y": [
+   "Henry Cavendish",
+   "Humphry Davy",
+   "John Dalton"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "Which English clergyman and chemist invented carbonated water and isolated oxygen in 1774?",
+   "d": "Joseph Priestley",
+   "y": [
+    "Henry Cavendish",
+    "Humphry Davy",
+    "John Dalton"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Adı Latincede 'gezgin' anlamına gelen ve beyinden karın boşluğuna kadar uzanan kafa siniri hangisidir?",
+  "d": "Vagus siniri",
+  "y": [
+   "Yüz siniri",
+   "Üçlü sinir",
+   "Görme siniri"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which cranial nerve extends from the brain all the way down into the abdomen, supplying the heart and the gut?",
+   "d": "The vagus nerve",
+   "y": [
+    "The facial nerve",
+    "The trigeminal nerve",
+    "The optic nerve"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Her biri diğerinin kendisi hariç bölenlerinin toplamına eşit olan 220 ve 284 gibi sayı çiftlerine ne ad verilir?",
+  "d": "Dost sayılar",
+  "y": [
+   "Mükemmel sayılar",
+   "İkiz asallar",
+   "Armonik sayılar"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "What are pairs such as 220 and 284, where each equals the sum of the other's proper divisors, called?",
+   "d": "Amicable numbers",
+   "y": [
+    "Perfect numbers",
+    "Twin primes",
+    "Harmonic numbers"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Thomas Young'ın çift yarık deneyi ışığın hangi özelliğini göstermiştir?",
+  "d": "Dalga doğasını",
+  "y": [
+   "Tanecik doğasını",
+   "Sonlu hızını",
+   "Kütlesiz oluşunu"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "What property of light did Thomas Young's double-slit experiment demonstrate?",
+   "d": "Its wave nature",
+   "y": [
+    "Its particle nature",
+    "Its finite speed",
+    "Its masslessness"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "İnsan vücudunda en bol bulunan protein hangisidir?",
+  "d": "Kolajen",
+  "y": [
+   "Keratin",
+   "Hemoglobin",
+   "Aktin"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which is the most abundant protein in the human body?",
+   "d": "Collagen",
+   "y": [
+    "Keratin",
+    "Haemoglobin",
+    "Actin"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "1963'te Vostok 6 ile uzaya çıkan ilk kadın kimdir?",
+  "d": "Valentina Tereşkova",
+  "y": [
+   "Svetlana Savitskaya",
+   "Sally Ride",
+   "Yelena Kondakova"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Who became the first woman in space, aboard Vostok 6 in 1963?",
+   "d": "Valentina Tereshkova",
+   "y": [
+    "Svetlana Savitskaya",
+    "Sally Ride",
+    "Yelena Kondakova"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "J. J. Thomson'ın atom modeli hangi benzetmeyle anılır?",
+  "d": "Üzümlü kek",
+  "y": [
+   "Güneş sistemi",
+   "Bilardo topu",
+   "Soğan katmanı"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "J. J. Thomson's model of the atom is known by which comparison?",
+   "d": "Plum pudding",
+   "y": [
+    "Solar system",
+    "Billiard ball",
+    "Onion layers"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Birim alana düşen ışık miktarını, yani aydınlanma şiddetini ölçen SI birimi hangisidir?",
+  "d": "Lüks",
+  "y": [
+   "Lümen",
+   "Kandela",
+   "Nit"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which SI unit measures the amount of light falling on a unit area of surface?",
+   "d": "Lux",
+   "y": [
+    "Lumen",
+    "Candela",
+    "Nit"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "1922'deki Stern-Gerlach deneyinde hangi elementin atomları manyetik alandan geçirilmiştir?",
+  "d": "Gümüş",
+  "y": [
+   "Altın",
+   "Sodyum",
+   "Hidrojen"
+  ],
+  "zorluk": 5,
+  "en": {
+   "s": "In the 1922 Stern-Gerlach experiment, atoms of which element were sent through a magnetic field?",
+   "d": "Silver",
+   "y": [
+    "Gold",
+    "Sodium",
+    "Hydrogen"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "1908'de Sibirya'da yaklaşık 2000 km²'lik ormanı yerle bir eden büyük hava patlaması hangi adla bilinir?",
+  "d": "Tunguska olayı",
+  "y": [
+   "Çelyabinsk olayı",
+   "Sikhote-Alin olayı",
+   "Vitim olayı"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "What is the name of the great 1908 air burst in Siberia that flattened about 2,000 km² of forest?",
+   "d": "The Tunguska event",
+   "y": [
+    "The Chelyabinsk event",
+    "The Sikhote-Alin event",
+    "The Vitim event"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Erkek narvalin başındaki uzun, sarmal 'boynuz' aslında nedir?",
+  "d": "Bir diş",
+  "y": [
+   "Bir kemik",
+   "Bir boynuz",
+   "Bir tırnak"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "What is the long, spiral 'horn' on a male narwhal's head actually?",
+   "d": "A tooth",
+   "y": [
+    "A bone",
+    "A horn",
+    "A claw"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Gece gökyüzünde Güneş dışında görülen en parlak yıldız hangisidir?",
+  "d": "Sirius",
+  "y": [
+   "Vega",
+   "Betelgeuse",
+   "Rigel"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which is the brightest star seen in the night sky?",
+   "d": "Sirius",
+   "y": [
+    "Vega",
+    "Betelgeuse",
+    "Rigel"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Havada durabilen ve geriye doğru uçabilen tek kuş grubu hangisidir?",
+  "d": "Sinekkuşları",
+  "y": [
+   "Kırlangıçlar",
+   "Ağaçkakanlar",
+   "Yalıçapkınları"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which is the only group of birds able to hover and fly backwards?",
+   "d": "Hummingbirds",
+   "y": [
+    "Swallows",
+    "Woodpeckers",
+    "Kingfishers"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "Bir parçacığın konumu ile momentumunun aynı anda kesin olarak bilinemeyeceğini söyleyen ilke kimin adıyla anılır?",
+  "d": "Heisenberg",
+  "y": [
+   "Pauli",
+   "Schrödinger",
+   "Dirac"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "The principle that a particle's position and momentum cannot both be known exactly at the same time is named after whom?",
+   "d": "Heisenberg",
+   "y": [
+    "Pauli",
+    "Schrödinger",
+    "Dirac"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": false,
+  "s": "İlk kontrollü nükleer zincirleme tepkime 1942'de Chicago'da hangi bilim insanının ekibince gerçekleştirilmiştir?",
+  "d": "Enrico Fermi",
+  "y": [
+   "Robert Oppenheimer",
+   "Niels Bohr",
+   "Otto Hahn"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "The first controlled nuclear chain reaction was achieved in Chicago in 1942 by the team of which scientist?",
+   "d": "Enrico Fermi",
+   "y": [
+    "Robert Oppenheimer",
+    "Niels Bohr",
+    "Otto Hahn"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Amerikan İç Savaşı 1861'de hangi kaleye yapılan saldırıyla başlamıştır?",
+  "d": "Fort Sumter",
+  "y": [
+   "Fort Knox",
+   "Fort McHenry",
+   "Fort Ticonderoga"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "The American Civil War began in 1861 with an attack on which fort?",
+   "d": "Fort Sumter",
+   "y": [
+    "Fort Knox",
+    "Fort McHenry",
+    "Fort Ticonderoga"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Stoacı düşüncelerini 'Kendime Düşünceler' adlı eserinde toplayan Roma imparatoru kimdir?",
+  "d": "Marcus Aurelius",
+  "y": [
+   "Hadrianus",
+   "Antoninus Pius",
+   "Septimius Severus"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which Roman emperor recorded his Stoic reflections in the work known as 'Meditations'?",
+   "d": "Marcus Aurelius",
+   "y": [
+    "Hadrian",
+    "Antoninus Pius",
+    "Septimius Severus"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Avrupa Birliği'ni resmen kuran 1992 tarihli antlaşma hangi Hollanda şehrinde imzalanmıştır?",
+  "d": "Maastricht",
+  "y": [
+   "Lahey",
+   "Rotterdam",
+   "Utrecht"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "The 1992 treaty that formally established the European Union was signed in which Dutch city?",
+   "d": "Maastricht",
+   "y": [
+    "The Hague",
+    "Rotterdam",
+    "Utrecht"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "1500'de Portekiz adına Brezilya kıyılarına ulaşan denizci kimdir?",
+  "d": "Pedro Álvares Cabral",
+  "y": [
+   "Bartolomeu Dias",
+   "Fernão de Magalhães",
+   "Afonso de Albuquerque"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which navigator reached the coast of Brazil for Portugal in 1500?",
+   "d": "Pedro Álvares Cabral",
+   "y": [
+    "Bartolomeu Dias",
+    "Ferdinand Magellan",
+    "Afonso de Albuquerque"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Ernest Shackleton'ın 1914'te Antarktika buzlarında sıkışıp batan gemisinin adı nedir?",
+  "d": "Endurance",
+  "y": [
+   "Discovery",
+   "Terra Nova",
+   "Fram"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "What was the name of Ernest Shackleton's ship that was trapped and crushed in the Antarctic ice after 1914?",
+   "d": "Endurance",
+   "y": [
+    "Discovery",
+    "Terra Nova",
+    "Fram"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Rönesans İtalya'sında Papa VI. Aleksander, Cesare ve Lucrezia'nın mensup olduğu aile hangisidir?",
+  "d": "Borgia",
+  "y": [
+   "Sforza",
+   "Gonzaga",
+   "Este"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which family in Renaissance Italy did Pope Alexander VI, Cesare and Lucrezia belong to?",
+   "d": "The Borgias",
+   "y": [
+    "The Sforzas",
+    "The Gonzagas",
+    "The Estes"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Roma'daki sarmal kabartmalı ünlü sütun hangi imparatorun Daçya seferlerini anlatır?",
+  "d": "Traianus",
+  "y": [
+   "Hadrianus",
+   "Vespasianus",
+   "Diocletianus"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "The famous Roman column with a spiral relief depicts the Dacian campaigns of which emperor?",
+   "d": "Trajan",
+   "y": [
+    "Hadrian",
+    "Vespasian",
+    "Diocletian"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Büyük Buhran'a karşı Franklin D. Roosevelt'in uyguladığı reform ve kamu yatırımı programlarına ne ad verilir?",
+  "d": "New Deal",
+  "y": [
+   "Fair Deal",
+   "Great Society",
+   "Square Deal"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "What were Franklin D. Roosevelt's reform and public works programmes against the Great Depression called?",
+   "d": "The New Deal",
+   "y": [
+    "The Fair Deal",
+    "The Great Society",
+    "The Square Deal"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "1890'ların sonunda on binlerce kişiyi Kanada'nın Yukon bölgesine çeken altına hücum hangi adla bilinir?",
+  "d": "Klondike",
+  "y": [
+   "Yellowknife",
+   "Cariboo",
+   "Fraser"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "By what name is the late-1890s gold rush that drew tens of thousands to Canada's Yukon known?",
+   "d": "Klondike",
+   "y": [
+    "Yellowknife",
+    "Cariboo",
+    "Fraser"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "14. yüzyılda Tanca'dan yola çıkıp yaklaşık 30 yılda Afrika ve Asya'yı dolaşan ünlü gezgin kimdir?",
+  "d": "İbn Battuta",
+  "y": [
+   "İbn Haldun",
+   "İbn Fadlan",
+   "İbn Cübeyr"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which famous 14th-century traveller set out from Tangier and journeyed across Africa and Asia for about 30 years?",
+   "d": "Ibn Battuta",
+   "y": [
+    "Ibn Khaldun",
+    "Ibn Fadlan",
+    "Ibn Jubayr"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Napolyon'un 1805'te Avusturya ve Rusya ordularını yendiği, 'Üç İmparator Savaşı' olarak da bilinen savaş hangisidir?",
+  "d": "Austerlitz",
+  "y": [
+   "Borodino",
+   "Marengo",
+   "Friedland"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which 1805 battle, also known as the 'Battle of the Three Emperors', saw Napoleon defeat the Austrian and Russian armies?",
+   "d": "Austerlitz",
+   "y": [
+    "Borodino",
+    "Marengo",
+    "Friedland"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "11. yüzyılda Valensiya'yı fetheden ve İspanyol destanlarına konu olan Kastilyalı şövalye hangi lakapla bilinir?",
+  "d": "El Cid",
+  "y": [
+   "El Greco",
+   "El Gran Capitán",
+   "El Magnífico"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "By what nickname is the 11th-century Castilian knight who conquered Valencia and inspired Spanish epics known?",
+   "d": "El Cid",
+   "y": [
+    "El Greco",
+    "El Gran Capitán",
+    "El Magnífico"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Tutankamon'un mezarının bulunduğu, Luksor yakınlarındaki firavun mezarları vadisi hangisidir?",
+  "d": "Krallar Vadisi",
+  "y": [
+   "Kraliçeler Vadisi",
+   "Gize Platosu",
+   "Sakkara Nekropolü"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which valley near Luxor, the burial place of pharaohs, contains the tomb of Tutankhamun?",
+   "d": "The Valley of the Kings",
+   "y": [
+    "The Valley of the Queens",
+    "The Giza Plateau",
+    "The Saqqara Necropolis"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Meksika Körfezi kıyısında gelişen ve dev taş baş heykelleriyle tanınan en eski Mezoamerikan uygarlığı hangisidir?",
+  "d": "Olmekler",
+  "y": [
+   "Toltekler",
+   "Zapotekler",
+   "Mayalar"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which earliest Mesoamerican civilisation, which flourished on the Gulf of Mexico coast, is known for its colossal stone heads?",
+   "d": "The Olmecs",
+   "y": [
+    "The Toltecs",
+    "The Zapotecs",
+    "The Maya"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "1642'de Tazmanya ve Yeni Zelanda'ya ulaşan ilk Avrupalı olan Hollandalı denizci kimdir?",
+  "d": "Abel Tasman",
+  "y": [
+   "Willem Janszoon",
+   "Dirk Hartog",
+   "Jacob Roggeveen"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which Dutch navigator, in 1642, became the first European to reach Tasmania and New Zealand?",
+   "d": "Abel Tasman",
+   "y": [
+    "Willem Janszoon",
+    "Dirk Hartog",
+    "Jacob Roggeveen"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Octavianus'un Antonius ve Kleopatra'yı yendiği MÖ 31 tarihli deniz savaşı hangisidir?",
+  "d": "Aktion",
+  "y": [
+   "Salamis",
+   "Mylae",
+   "Lepanto"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which naval battle of 31 BC saw Octavian defeat Antony and Cleopatra?",
+   "d": "Actium",
+   "y": [
+    "Salamis",
+    "Mylae",
+    "Lepanto"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Lewis ve Clark keşif gezisine rehberlik ve tercümanlık eden Shoshone kadını kimdir?",
+  "d": "Sacagawea",
+  "y": [
+   "Pocahontas",
+   "Sacheen",
+   "Winona"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which Shoshone woman guided and interpreted for the Lewis and Clark expedition?",
+   "d": "Sacagawea",
+   "y": [
+    "Pocahontas",
+    "Sacheen",
+    "Winona"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "1892-1954 arasında milyonlarca göçmenin ABD'ye kabul işlemlerinin yapıldığı New York'taki ada hangisidir?",
+  "d": "Ellis Adası",
+  "y": [
+   "Staten Adası",
+   "Roosevelt Adası",
+   "Governors Adası"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which island in New York processed millions of immigrants entering the US between 1892 and 1954?",
+   "d": "Ellis Island",
+   "y": [
+    "Staten Island",
+    "Roosevelt Island",
+    "Governors Island"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Lenin 1917'de İsviçre'den Rusya'ya dönerken Almanya'yı hangi yolla geçmiştir?",
+  "d": "Mühürlü bir trenle",
+  "y": [
+   "Kapalı bir zeplinle",
+   "Bir denizaltıyla",
+   "Kiralık bir yatla"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "How did Lenin cross Germany when returning from Switzerland to Russia in 1917?",
+   "d": "In a sealed train",
+   "y": [
+    "In a closed airship",
+    "In a submarine",
+    "On a chartered yacht"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Aralık 1911'de Güney Kutbu'na ilk ulaşan keşif ekibinin lideri kimdir?",
+  "d": "Roald Amundsen",
+  "y": [
+   "Robert Falcon Scott",
+   "Ernest Shackleton",
+   "Fridtjof Nansen"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Who led the expedition that first reached the South Pole in December 1911?",
+   "d": "Roald Amundsen",
+   "y": [
+    "Robert Falcon Scott",
+    "Ernest Shackleton",
+    "Fridtjof Nansen"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Antik dünyanın yedi harikasından biri olan dev deniz feneri hangi şehirdeydi?",
+  "d": "İskenderiye",
+  "y": [
+   "Kartaca",
+   "Siraküza",
+   "Halikarnas"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "The giant lighthouse that was one of the Seven Wonders of the Ancient World stood in which city?",
+   "d": "Alexandria",
+   "y": [
+    "Carthage",
+    "Syracuse",
+    "Halicarnassus"
+   ]
+  }
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Rivayete göre Roma İmparatoru Caligula hangi hayvanını konsül yapmayı planlamıştır?",
+  "d": "Atını",
+  "y": [
+   "Köpeğini",
+   "Kedisini",
+   "Maymununu"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "According to legend, which of his animals did the Roman emperor Caligula plan to make a consul?",
+   "d": "His horse",
+   "y": [
+    "His dog",
+    "His cat",
+    "His monkey"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": true,
+  "s": "Nuri Bilge Ceylan'a 2008 Cannes Film Festivali'nde En İyi Yönetmen ödülünü kazandıran film hangisidir?",
+  "d": "Üç Maymun",
+  "y": [
+   "Mayıs Sıkıntısı",
+   "Uzak",
+   "Kasaba"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which film won Nuri Bilge Ceylan the Best Director award at the 2008 Cannes Film Festival?",
+   "d": "Three Monkeys",
+   "y": [
+    "Clouds of May",
+    "Distant",
+    "The Small Town"
+   ]
+  }
+ },
+ {
+  "k": "edebiyat",
+  "yerel": true,
+  "s": "Shakespeare çevirileri ve gündelik, argolu diliyle tanınan 'Sevgi Duvarı' şiirinin şairi kimdir?",
+  "d": "Can Yücel",
+  "y": [
+   "Cemal Süreya",
+   "Ece Ayhan",
+   "Turgut Uyar"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which poet, known for his Shakespeare translations and colloquial, slangy language, wrote the poem 'Sevgi Duvarı'?",
+   "d": "Can Yücel",
+   "y": [
+    "Cemal Süreya",
+    "Ece Ayhan",
+    "Turgut Uyar"
+   ]
+  }
+ },
+ {
+  "k": "sanat",
+  "yerel": true,
+  "s": "Kent duvarlarındaki yırtık afiş ve yazıları konu alan 'Duvarlar' serisiyle tanınan Türk ressam kimdir?",
+  "d": "Burhan Doğançay",
+  "y": [
+   "Fikret Mualla",
+   "Nuri İyem",
+   "Adnan Çoker"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which Turkish painter is known for his 'Walls' series depicting torn posters and writing on city walls?",
+   "d": "Burhan Doğançay",
+   "y": [
+    "Fikret Mualla",
+    "Nuri İyem",
+    "Adnan Çoker"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": true,
+  "s": "Buğday, nohut, kuru fasulye ve kuru meyvelerle yapılıp Muharrem ayında komşulara dağıtılan tatlı hangisidir?",
+  "d": "Aşure",
+  "y": [
+   "Zerde",
+   "Keşkül",
+   "Güllaç"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which dessert, made with wheat, chickpeas, beans and dried fruit, is shared with neighbours in the month of Muharram?",
+   "d": "Ashure",
+   "y": [
+    "Zerde",
+    "Keşkül",
+    "Güllaç"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": true,
+  "s": "Nuri Bilge Ceylan'ın 'Bir Zamanlar Anadolu'da' (2011) filminde bir ekip gece boyunca bozkırda ne arar?",
+  "d": "Bir ceset",
+  "y": [
+   "Kayıp bir çocuk",
+   "Kaçak bir mahkûm",
+   "Çalınmış bir araba"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "In Nuri Bilge Ceylan's 'Once Upon a Time in Anatolia' (2011), what does a team search the steppe for all night?",
+   "d": "A body",
+   "y": [
+    "A missing child",
+    "An escaped prisoner",
+    "A stolen car"
+   ]
+  }
+ },
+ {
+  "k": "spor",
+  "yerel": true,
+  "s": "Futbolda 'Ordinaryüs' lakabıyla anılan efsanevi Fenerbahçeli oyuncu kimdir?",
+  "d": "Lefter",
+  "y": [
+   "Can Bartu",
+   "Metin Oktay",
+   "Turgay Şeren"
+  ],
+  "zorluk": 4,
+  "en": null,
+  "en_neden": "Türk futbolu lakabı; İngilizce oyuncu için bağlamsız"
+ },
+ {
+  "k": "spor",
+  "yerel": true,
+  "s": "Dünya şampiyonlukları ve olimpiyat madalyaları bulunan Rıza Kayaalp hangi güreş stilinde yarışır?",
+  "d": "Grekoromen",
+  "y": [
+   "Serbest",
+   "Karakucak",
+   "Kuşak"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Rıza Kayaalp, who has world titles and Olympic medals, competes in which wrestling style?",
+   "d": "Greco-Roman",
+   "y": [
+    "Freestyle",
+    "Karakucak",
+    "Belt wrestling"
+   ]
+  }
+ },
+ {
+  "k": "bilim",
+  "yerel": true,
+  "s": "Genç yaşta Yale'de profesör olan ve 'Türk Einstein'ı' diye anılan kuantum kimyacısı kimdir?",
+  "d": "Oktay Sinanoğlu",
+  "y": [
+   "Feza Gürsey",
+   "Cahit Arf",
+   "Behram Kurşunoğlu"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which quantum chemist, who became a professor at Yale at a young age, was nicknamed the 'Turkish Einstein'?",
+   "d": "Oktay Sinanoğlu",
+   "y": [
+    "Feza Gürsey",
+    "Cahit Arf",
+    "Behram Kurşunoğlu"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": true,
+  "s": "1932'de Belçika'da düzenlenen uluslararası güzellik yarışmasında 'Dünya Güzeli' seçilen Türk kadını kimdir?",
+  "d": "Keriman Halis",
+  "y": [
+   "Feriha Tevfik",
+   "Günseli Başar",
+   "Nebahat Çehre"
+  ],
+  "zorluk": 4,
+  "en": {
+   "s": "Which Turkish woman was crowned 'Miss Universe' at the international beauty pageant held in Belgium in 1932?",
+   "d": "Keriman Halis",
+   "y": [
+    "Feriha Tevfik",
+    "Günseli Başar",
+    "Nebahat Çehre"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": true,
+  "s": "MFÖ grubunun adındaki 'Ö' harfi hangi müzisyeni temsil eder?",
+  "d": "Özkan Uğur",
+  "y": [
+   "Özdemir Erdoğan",
+   "Ömür Göksel",
+   "Ömer Faruk Tekbilek"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which musician does the letter 'Ö' in the name of the band MFÖ stand for?",
+   "d": "Özkan Uğur",
+   "y": [
+    "Özdemir Erdoğan",
+    "Ömür Göksel",
+    "Ömer Faruk Tekbilek"
+   ]
+  }
+ },
+ {
+  "k": "sinema",
+  "yerel": true,
+  "s": "'Hababam Sınıfı' filmlerinde öğrencilerin annesi gibi davranan Hafize Ana'yı hangi oyuncu canlandırmıştır?",
+  "d": "Adile Naşit",
+  "y": [
+   "Ayşen Gruda",
+   "Perran Kutman",
+   "Suna Pekuysal"
+  ],
+  "zorluk": 3,
+  "en": null,
+  "en_neden": "Türk sinemasına özgü karakter; İngilizce oyuncu için bağlamsız"
+ },
+ {
+  "k": "sinema",
+  "yerel": true,
+  "s": "Tarık Akan 'Hababam Sınıfı' filmlerinde hangi öğrenciyi canlandırmıştır?",
+  "d": "Damat Ferit",
+  "y": [
+   "İnek Şaban",
+   "Tulum Hayri",
+   "Hayta İsmail"
+  ],
+  "zorluk": 3,
+  "en": null,
+  "en_neden": "Türkçe karakter lakapları; çevirisi anlamsız"
+ },
+ {
+  "k": "muzik",
+  "yerel": true,
+  "s": "'Cemalim' ve 'Estarabim' şarkılarıyla tanınan, Türkiye'de elektro gitarla rock çalan ilk müzisyenlerden sayılan sanatçı kimdir?",
+  "d": "Erkin Koray",
+  "y": [
+   "Cem Karaca",
+   "Barış Manço",
+   "Cahit Berkay"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which artist, known for the songs 'Cemalim' and 'Estarabim', is regarded as one of the first musicians to play rock on electric guitar in Turkey?",
+   "d": "Erkin Koray",
+   "y": [
+    "Cem Karaca",
+    "Barış Manço",
+    "Cahit Berkay"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": true,
+  "s": "Türk simidinin üzerine geleneksel olarak hangi tohum serpilir?",
+  "d": "Susam",
+  "y": [
+   "Çörek otu",
+   "Haşhaş",
+   "Keten tohumu"
+  ],
+  "zorluk": 1,
+  "en": {
+   "s": "Which seed is traditionally sprinkled on a Turkish simit?",
+   "d": "Sesame",
+   "y": [
+    "Nigella",
+    "Poppy seed",
+    "Flaxseed"
+   ]
+  }
+ },
+ {
+  "k": "muzik",
+  "yerel": true,
+  "s": "'Yemin Ettim' ve 'Odalarda Işıksızım' şarkılarının hem sözlerini hem müziğini yazan sanatçı kimdir?",
+  "d": "Kayahan",
+  "y": [
+   "Onno Tunç",
+   "Sezen Aksu",
+   "Kenan Doğulu"
+  ],
+  "zorluk": 3,
+  "en": null,
+  "en_neden": "Türkçe şarkı adlarına dayalı; İngilizce oyuncu için anlamsız"
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "İskandinav mitolojisinde tanrıların son büyük savaşına ve dünyanın sonuna ne ad verilir?",
+  "d": "Ragnarök",
+  "y": [
+   "Midgard",
+   "Asgard",
+   "Ginnungagap"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In Norse mythology, what is the final great battle of the gods and the end of the world called?",
+   "d": "Ragnarök",
+   "y": [
+    "Midgard",
+    "Asgard",
+    "Ginnungagap"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Coco Chanel'in 1921'de piyasaya sürdüğü efsanevi parfümün adı nedir?",
+  "d": "Chanel No. 5",
+  "y": [
+   "Chanel No. 19",
+   "Coco Mademoiselle",
+   "Arpège"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "What is the name of the legendary perfume Coco Chanel launched in 1921?",
+   "d": "Chanel No. 5",
+   "y": [
+    "Chanel No. 19",
+    "Coco Mademoiselle",
+    "Arpège"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Fransız otomobil markası Peugeot'nun logosunda hangi hayvan yer alır?",
+  "d": "Aslan",
+  "y": [
+   "Kartal",
+   "At",
+   "Boğa"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which animal appears in the logo of the French car brand Peugeot?",
+   "d": "A lion",
+   "y": [
+    "An eagle",
+    "A horse",
+    "A bull"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "İrlanda birası Guinness'in logosunda hangi çalgı yer alır?",
+  "d": "Arp",
+  "y": [
+   "Keman",
+   "Gayda",
+   "Flüt"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which musical instrument appears in the logo of the Irish stout Guinness?",
+   "d": "A harp",
+   "y": [
+    "A fiddle",
+    "Bagpipes",
+    "A flute"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "İngilizcede oyuncak ayıya verilen 'teddy bear' adı hangi ABD başkanından gelir?",
+  "d": "Theodore Roosevelt",
+  "y": [
+   "Franklin Roosevelt",
+   "Woodrow Wilson",
+   "William Taft"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "The name 'teddy bear' comes from which US president?",
+   "d": "Theodore Roosevelt",
+   "y": [
+    "Franklin Roosevelt",
+    "Woodrow Wilson",
+    "William Taft"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "'Peanuts' çizgi dizisinde Charlie Brown'ın köpeğinin adı nedir?",
+  "d": "Snoopy",
+  "y": [
+   "Odie",
+   "Pluto",
+   "Scooby"
+  ],
+  "zorluk": 1,
+  "en": {
+   "s": "In the comic strip 'Peanuts', what is the name of Charlie Brown's dog?",
+   "d": "Snoopy",
+   "y": [
+    "Odie",
+    "Pluto",
+    "Scooby"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "İsveçli mobilya şirketi IKEA'nın kurucusu kimdir?",
+  "d": "Ingvar Kamprad",
+  "y": [
+   "Stefan Persson",
+   "Ingvar Carlsson",
+   "Anders Celsius"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Who founded the Swedish furniture company IKEA?",
+   "d": "Ingvar Kamprad",
+   "y": [
+    "Stefan Persson",
+    "Ingvar Carlsson",
+    "Anders Celsius"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Girit'te Minotor'un hapsedildiği labirenti tasarlayan usta kimdir?",
+  "d": "Daidalos",
+  "y": [
+   "Theseus",
+   "Minos",
+   "Talos"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which master craftsman designed the labyrinth on Crete in which the Minotaur was kept?",
+   "d": "Daedalus",
+   "y": [
+    "Theseus",
+    "Minos",
+    "Talos"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Yunan mitolojisinde sonsuza dek bir kayayı tepeye yuvarlamaya mahkûm edilen kimdir?",
+  "d": "Sisifos",
+  "y": [
+   "Tantalos",
+   "Prometheus",
+   "Atlas"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In Greek mythology, who was condemned to roll a boulder up a hill for all eternity?",
+   "d": "Sisyphus",
+   "y": [
+    "Tantalus",
+    "Prometheus",
+    "Atlas"
+   ]
+  }
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Jelibonlarıyla ünlü Haribo hangi ülkenin şirketidir?",
+  "d": "Almanya",
+  "y": [
+   "Danimarka",
+   "Belçika",
+   "İsviçre"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Haribo, famous for its gummy sweets, is a company from which country?",
+   "d": "Germany",
+   "y": [
+    "Denmark",
+    "Belgium",
+    "Switzerland"
+   ]
+  }
+ }
+]

@@ -62,8 +62,8 @@
     },
     "cografya": 0
   },
-  "siradaki_parti": 5,
-  "siradaki_migration_no": 295,
+  "siradaki_parti": 6,
+  "siradaki_migration_no": 296,
   "partiler": [
     {
       "no": 1,
@@ -336,37 +336,105 @@
         "2": 66,
         "3": 75
       }
+    },
+    {
+      "no": 5,
+      "soru": 250,
+      "migration": "20260612000295_soru_uretim_parti_05",
+      "commit": null,
+      "tarih": "2026-09-23",
+      "kategori_kova": {
+        "sinema": 33,
+        "teknoloji": 32,
+        "muzik": 30,
+        "sanat": 30,
+        "spor": 28,
+        "edebiyat": 25,
+        "bilim": 25,
+        "tarih": 22,
+        "yerel_tr": 15,
+        "genel_kultur": 10
+      },
+      "kategori_db": {
+        "sinema": 37,
+        "teknoloji": 32,
+        "muzik": 33,
+        "sanat": 31,
+        "spor": 30,
+        "edebiyat": 26,
+        "bilim": 26,
+        "tarih": 22,
+        "genel_kultur": 13
+      },
+      "zorluk": {
+        "3": 75,
+        "4": 87,
+        "5": 50,
+        "1-2": 38
+      },
+      "zorluk_1_5": [
+        8,
+        30,
+        75,
+        87,
+        50
+      ],
+      "jev": {
+        "cagri": 864,
+        "girdi_jeton": 700251,
+        "maliyet_usd": 0.0294
+      },
+      "taslak": 429,
+      "elenen": {
+        "kalite_sonrasi": 0,
+        "kota_fazlasi": 179,
+        "taslakta_havuz_tekrari": 17,
+        "not": "Jev >0,9 itirazı yok. Jev öncesi elle: fikirler yazılmadan önce havuzda anahtar kelimeyle toplu arandı (yüzlerce aday elendi); yazılan taslaklardan 17'si denetle + aynı-cevap taramasıyla havuz tekrarı çıkıp silindi (ör. Paracanov/Sayat Nova, Tati/Hulot, Fahlman, Çehov'un tüfeği, Wimbledon beyazı, Berlin hava köprüsü, piyano 88 tuş, Devrim otomobili); ~40 soru şık denge kuralı için düzeltildi; 1 olgusal risk (Svevo çeldiricisi 'Aron Hector' gerçek doğum adı) düzeltildi. Jev sonrası: 1 hassas (Uçurtmayı Vurmasınlar, 0,65) çıkarıldı; düzeltilip yeniden sorulan 6: Vagus ve Lüks EN metni cevabı sezdiriyordu, Otto Dix 'Yeni Gerçekçilik' çeldiricisi (diğer-doğru 0,56), Kröller-Müller eskiyebilir ifade, Kayahan şarkı adı belirsizliği, Ortaçgil EN anlamsız → çevrilmedi. Jev'in <0,9 güvenle farklı dediği doğru sorular (PostgreSQL/fil, King Kong/Empire State, Jim Stark, Altın Ahududu, Albatros, Maç sayısı, Winamp/lama, Flappy Bird/Vietnam, Beuys/ölü tavşan, Damat Ferit) kontrol edilip tutuldu."
+      },
+      "duzeltilen_yeniden_sorulan": 6,
+      "zorluk_etiket_duzeltme": 14,
+      "cevrilmeyen": 4,
+      "havuz_aktif": {
+        "once": 11290,
+        "sonra": 11540
+      },
+      "dogru_cevap_dagilimi": {
+        "0": 54,
+        "1": 63,
+        "2": 72,
+        "3": 61
+      }
     }
   ],
   "atlanan_partiler": [],
   "sayac": {
-    "soru": 1000,
+    "soru": 1250,
     "kategori": {
-      "sinema": 130,
-      "teknoloji": 130,
-      "muzik": 120,
-      "sanat": 120,
-      "spor": 110,
-      "edebiyat": 100,
-      "bilim": 100,
-      "tarih": 90,
-      "yerel_tr": 60,
-      "genel_kultur": 40
+      "sinema": 163,
+      "teknoloji": 162,
+      "muzik": 150,
+      "sanat": 150,
+      "spor": 138,
+      "edebiyat": 125,
+      "bilim": 125,
+      "tarih": 112,
+      "yerel_tr": 75,
+      "genel_kultur": 50
     },
     "zorluk": {
-      "3": 300,
-      "4": 350,
-      "5": 200,
-      "1-2": 150
+      "3": 375,
+      "4": 437,
+      "5": 250,
+      "1-2": 188
     }
   },
   "jev": {
-    "cagri": 2780,
-    "girdi_jeton": 2232821,
-    "maliyet_usd": 0.0938
+    "cagri": 3644,
+    "girdi_jeton": 2933072,
+    "maliyet_usd": 0.1232
   },
-  "elenen": 6,
-  "zorluk_etiket_duzeltme": 46,
-  "cevrilmeyen": 9,
+  "elenen": 7,
+  "zorluk_etiket_duzeltme": 60,
+  "cevrilmeyen": 13,
   "ardisik_uygulama_hatasi": 0
 }
