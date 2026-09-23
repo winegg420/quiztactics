@@ -63,7 +63,7 @@
     "cografya": 0
   },
   "siradaki_parti": 6,
-  "siradaki_migration_no": 296,
+  "siradaki_migration_no": 298,
   "partiler": [
     {
       "no": 1,
@@ -441,11 +441,13 @@
     "parti": 6,
     "tarih": "2026-09-23",
     "adim": "1 (üret) — taslak yazımı sürerken durduruldu; kalite kapısı, Jev, çeviri kontrolü, migration ve veritabanı adımlarına geçilmedi, veritabanına hiçbir şey yazılmadı",
-    "not": "parti 6 yarıda bırakıldı, yeniden üretilecek. 203 taslak yazıldı (sinema 44, teknoloji 45, müzik 38, sanat 34, spor 42; EN çevirileri taslakta var, denetle/Jev çalıştırılmadı); edebiyat, bilim, tarih, yerel_tr, genel_kultur taslakları yazılmadı. Fikirler yazılmadan önce güncel havuzda (14.704 satır, aktif 11.540) anahtar kelimeyle arandı. Ara dosyalar (git dışı): C:/Users/ida/AppData/Local/Temp/claude/C--Users-ida-Desktop-quiztactics/90302423-b2e2-4aaf-94b4-cdf3e20c755f/scratchpad/P3/p06/ (taslak/*.json, havuz.json, yardımcı betikler). Repo içinde parti-06/ ya da migration 296 dosyası oluşturulmadı."
+    "not": "parti 6 yarıda bırakıldı, yeniden üretilecek. 203 taslak yazıldı (sinema 44, teknoloji 45, müzik 38, sanat 34, spor 42; EN çevirileri taslakta var, denetle/Jev çalıştırılmadı); edebiyat, bilim, tarih, yerel_tr, genel_kultur taslakları yazılmadı. Fikirler yazılmadan önce güncel havuzda (14.704 satır, aktif 11.540) anahtar kelimeyle arandı. Ara dosyalar (git dışı): C:/Users/ida/AppData/Local/Temp/claude/C--Users-ida-Desktop-quiztactics/90302423-b2e2-4aaf-94b4-cdf3e20c755f/scratchpad/P3/p06/ (taslak/*.json, havuz.json, yardımcı betikler). Repo içinde parti-06/ ya da migration 296 dosyası oluşturulmadı.",
+    "migration_no_notu": "Migration numarası artık 298 (bkz. migration_no_notu)."
   },
   "uretim_durduruldu": {
     "tarih": "2026-09-23",
     "neden": "Ida kararı: şimdilik yeni soruya token yok",
     "siradaki_parti": 6
-  }
+  },
+  "migration_no_notu": "296 (skill satın alma kilit sırası) ve 297 (duello_surum herkese) Paket 3 dışı işlere verildi, 23 Eyl 2026. Parti 6 yeniden üretilince 298 kullanılır."
 }
