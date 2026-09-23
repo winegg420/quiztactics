@@ -7666,3 +7666,18 @@ otomatik akla gelmesi için; proje kapsamında kuruldu.
   10'lu paketleri; level eğrisi hızı; A'nın eklediği kurallar (oynamayan kaybedene XP yok,
   kazanansız Düello'da iki tarafa 15 XP, level coini tavan dışı); lig "n/60" gösterimi;
   iletişim e-postası.
+
+## 2026-09-23 — Paket 3: soru üretimi (gece, parti parti)
+**Araç:** Claude Code (ana ajan + parti başına bir alt ajan)
+**Neden:** Havuzu dengelemek (coğrafya %24 → sıfır ekleme) ve zor soru açığını kapatmak; kesintiye dayanıklı, her parti kalıcı.
+
+- **Faz 0 — bitti:** bekleyen 1000 soru (270–273) ve Jev zorluğu (274), CLI atlamasın diye
+  286–290 olarak yeniden numaralandı (içerik aynı), prova → canlı → doğrulandı. Aktif havuz
+  9.290 → 10.290; 1000 sorunun hepsinin EN çevirisi var; doğru şık 241/239/238/282.
+  Dağılım (sorulara dokunulmadı): sinema 139 · teknoloji 130 · müzik 132 · sanat 126 ·
+  spor 118 · edebiyat 112 · bilim 100 · tarih 100 · genel kültür 43 (60'ı TR yerel);
+  zorluk 1/2/3/4/5 = 1/5/125/402/467 (≥%87 zor). Havuz zorluğu sıralamaya göre:
+  939 / 1.846 / 3.861 / 2.241 / 1.403.
+- **Faz 1 — devam ediyor:** her parti 250 soru, 7 adım (üret → şık denge + Jev kapısı →
+  EN → migration → prova/uygula/doğrula → durum.json → commit+push). Güncel sayım ve
+  parti listesi: `araclar/soru-uretim/durum.json` (tek doğru kaynak).
