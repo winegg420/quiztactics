@@ -101,8 +101,9 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
   (yarım ödül). Arama ekranı tam ekran `AramaSahnesi` (Klasik, Saf Bilgi, Düello aynı).
 - **Loadout süresi + cezasız iptal (410):** Klasik/Saf Bilgi "Hazır mısın?" kapısında `loadout_secim_sn`
   (20) dolunca son kayıtlı set ile başlar; eşleştirmeyle kurulan maçta rakip bağlanmadıysa maç
-  cezasız iptal (kazanan/coin/XP/lig yok), bekleyen otomatik yeniden arar. Düello'da rakip
-  `duello_baglanma_sn` (10) içinde gelmezse aynı. Arkadaş maçı/rövanşta iptal yok.
+  cezasız iptal (kazanan/coin/XP/lig yok), bekleyen otomatik yeniden arar. Rakip kapıya hiç gelmediyse
+  bekleme `klasik_baglanma_sn` 15 (441); Düello'da `duello_baglanma_sn` 15. Arkadaş maçı/rövanşta iptal yok.
+  Antrenman (açık bot) maçları her zaman serbest (440, sunucu zorlar).
 - Rövanş bekleme penceresindeki “Vazgeç”, `duello_rovans_iptal` ile sunucu
   isteğini de geri çeker; yalnız pencereyi kapatıp hayalet istek bırakmaz.
 - **Düello 1.0 herkese açık (23 Eyl 2026):** `duello_surum` = **2**. Aynı soru

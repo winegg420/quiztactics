@@ -7938,3 +7938,26 @@ eşleşme süresi + antrenman; ses seçimi; maç sonu önizlemesi; ses/müzik ba
   Düello sayacı: 20 fazın 4'ünde ekran fazı pay'den (1,5 sn) geç gördü (2,2–3,9 sn; Realtime sinyali kaçıp 4 sn'lik yedek
   yoklamaya kalınca) → ilk rakam kısa kaldı; sunucu durum okuması ~100 ms (sebep değil). Build temiz; giriş paketi
   337.702 (paket başı) → 363.500 B (gzip 107.443 → 117.379).
+
+## 2026-09-24 — Ida kararları + K/L/M + güvenlik düzeltmesi (oturum sonu)
+**Araç:** Claude Code (yönetici + Ajan K, L, M)
+**Neden:** Ida'nın gece paketi sonrası kararları; maç sonu takılmaları; müzik çalma listeleri.
+
+- **Yönetici (440–443, uygulandı):** Düello yedek yoklaması faz bitişine yakın 0,5 sn (son 1,5 sn + sonrası 2 sn),
+  kalan zamanda 4 sn; antrenman (açık bot) her zaman serbest — sunucu zorlar (440); rakip gelmeyince bekleme
+  Klasik `klasik_baglanma_sn` 15 (loadout 20 ayrı) ve Düello 15 (441); botlara Level 75/100 rozeti (442, 22 + 3 bot);
+  kullanılmayan `KarsilasmaSahnesi.jsx` + `LigCerceveSecici.jsx` ve yalnız onlara ait CSS silindi (dosya silmeleri
+  commit sırası yüzünden `e5cb2db` "Düello yoklaması" commit'ine girdi — içerik doğru); ölü "bot portresi yazma"
+  Storage kuralları silindi (443, Ida onayı; bütün yüklemeleri düşürüyordu; test: kendi klasörü 200, bot portresi /
+  başkası / müzik 403). Maç içi ses düğmesi zaten müzik + efekti birlikte kapatıyor (değişiklik yok).
+- **Kural (Ida):** yetki/izin/güvenlik kuralı değişikliği geçici bile olsa önce sorulur (CLAUDE.md + AGENTS.md).
+- **K:** 7 skill'e ayrı an (`skill_elli`, `skill_ek_sure`, `skill_soru_degistir`, `skill_zaman_baskisi`, `skill_ikinci_sans`,
+  `skill_sigorta`, `skill_2x`), her birinde Mevcut + 4 aday; seçim yoksa eski özel ses.
+- **L:** maç sonu önizleme sahnesi — açılış (~130 ms: tek karede kurulum + kupa Lottie + focus) ve ~1,3–2,0 sn (Lottie
+  kurulumları) takılmaları giderildi: 4× CPU'da Kazandın hâllerinde 50 ms üstü kare 0, en uzun 33–34 ms (yüklü makinede
+  50–67 ms kalabiliyor). Gerçek maçlara bağlı değil.
+- **M (450):** 10 yeni müzik adayı (lobi 5 zen/koto/bambu flüt, maç 5 taiko/Asya trap), `muzik` Storage kovası (herkese
+  okunur), 22 tam parça + 10 önizleme = 30,7 MB (AAC 96 kbps); çalma listesi (2–4 parça, sıralı, rastgele başlangıç, 1,5 sn
+  geçiş) — Ida `/ses-secim`'de listeleri kuracak. Yükleme dar geçici politikayla yapıldı ve kaldırıldı.
+- **BEKLİYOR:** Ajan N (yeni maç sonu ekranını canlıya alma — brif hazır, Ida'nın isteğiyle başlatılmadı) ve Düello zayıf
+  nokta işi. Build temiz, canlı `d390be6` sonrası sürümde.
