@@ -3,6 +3,8 @@
 //
 // Dosyalar: Kenney Interface Sounds / UI Audio / Impact Sounds / Music Jingles, CC0
 // (public/ses/LISANS.txt). Hangi an hangi fonksiyon: public/ses/OKU.md (Şerit M için).
+// Ajan H (23 Eyl 2026): Ida'nın /ses-secim seçimleri (public/ses/adaylar/, Kenney CC0 + Pixabay)
+// sunucudan okunur ve bugünkü dosyaların yerine çalar — aşağıdaki "/ses-secim seçimleri" bölümü.
 // Format: mp3 (eski 10 dosya) + 16 bit PCM mono WAV 32 kHz (Faz 3 dosyaları). İkisi de
 // iOS Safari dahil her tarayıcıda decodeAudioData ile çözülür; Ogg Vorbis BİLEREK yok.
 // Kurallar:
@@ -78,15 +80,60 @@ const DOSYA = {
   level: "level.wav",
   turnuva: "turnuva.wav",
 };
-const dosyaAdi = (rol) => DOSYA[rol] ?? `${rol}.mp3`;
+// ------------------------------------------------------------ /ses-secim seçimleri (Ajan H)
+// Ida `/ses-secim`'de her "an" için bir aday seçer; seçim sunucuda (`ses_secimleri`) durur,
+// `sesArkaPlan.js` açılışta sürümle doğrulayıp buraya yazar (yerel önbellek: SECIM_ANAHTARI).
+// Aday id'si → dosya: `adaylar/<id>.wav` (Kenney, "-kN") · `.aac` (müzik) · `.mp3` (Pixabay, "-pN").
+// "mevcut" ya da seçim yok → bugünkü dosya (DOSYA / <rol>.mp3); "sessiz" → çalmaz.
+const SECIM_ANAHTARI = "bildim_ses_secim";
+let secimler = {};
+try { secimler = JSON.parse(localStorage.getItem(SECIM_ANAHTARI) || "{}").secimler || {}; } catch { /* özel mod */ }
+/** Rol → /ses-secim anı (listede olmayan rol hep kendi dosyasını çalar). */
+const AN = {
+  dokunus: "dokunus", sayfa_gecis: "sayfa_gecis", rakip_bulundu: "rakip_bulundu", vs_ani: "vs_ani",
+  soru_geldi: "soru_geldi", tik: "geri_sayim_tik", sayim_son: "son_3_saniye", sure_doldu: "sure_doldu",
+  dogru: "dogru", yanlis: "yanlis", joker: "skill", can_kaybi: "can_kaybi", kategori_secildi: "kategori_secildi",
+  tur_gecis: "tur_gecis", rakip_cevapladi: "rakip_cevapladi", kazandin: "galibiyet", kaybettin: "maglubiyet",
+  beraberlik: "beraberlik", coin: "coin", satin_alma: "satin_alma", xp_dolma: "xp_dolma", level: "level",
+  rozet: "rozet", rutbe: "lig_atlama", turnuva: "turnuva", bildirim: "bildirim", hata_uyari: "hata_uyari",
+};
+// Bugün dosyası OLMAYAN anlar: seçim yoksa sessiz.
+for (const r of ["sayfa_gecis", "vs_ani", "kategori_secildi", "rakip_cevapladi", "beraberlik", "satin_alma", "xp_dolma", "rozet", "bildirim", "hata_uyari"]) DOSYA[r] = null;
+/** Aday id'sinin dosya yolu (SES_KLASORU'ne göre). Kural adaylar.js › adayKur ile aynı. */
+export const adayYolu = (id) => `adaylar/${id}.${/-k\d+$/.test(id) ? "wav" : id.startsWith("muzik_") ? "aac" : "mp3"}`;
+/** Bir anın seçimi (aday id'si · "mevcut" · "sessiz" · undefined). */
+export const sesSecimi = (an) => secimler[an];
+/** Seçimleri değiştir (sesArkaPlan.js çağırır; önbelleğe o yazar). */
+export function sesSecimleriniAyarla(yeni) { secimler = yeni || {}; }
+const adayVar = (an) => { const s = secimler[an]; return Boolean(s) && s !== "mevcut" && s !== "sessiz"; };
+/** Rolün çalacağı dosya; null → sessiz. */
+function dosyaAdi(rol) {
+  const s = AN[rol] ? secimler[AN[rol]] : undefined;
+  if (s === "sessiz") return null;
+  if (s && s !== "mevcut") return adayYolu(s);
+  return rol in DOSYA ? DOSYA[rol] : `${rol}.mp3`;
+}
+// Seçilmiş aday dosyaları /ses-secim'de 0.8 ile dinlendi; oyunda da öyle (dokunuş kısık).
+const HACIM_ADAY = { dokunus: 0.4, sayfa_gecis: 0.45, tik: 0.7 };
+// Müzik kancası (sesArkaPlan.js kurar): "soru" → müzik kısılır, "cevap" → geri açılır.
+let muzikKancasi = null;
+export function sesMuzikKancasi(f) { muzikKancasi = f; }
+const kanca = (olay) => { try { muzikKancasi?.(olay); } catch { /* müzik kritik değil */ } };
+// Tanı (yalnız ?tani=1 oturumunda): window.__sesKayit = [{rol, dosya, t}] — test için.
+function taniKaydi(rol, dosya) {
+  try {
+    if (sessionStorage.getItem("bd_tani") !== "1" && !/[?&]tani=1/.test(location.search)) return;
+    (window.__sesKayit ||= []).push({ rol, dosya, t: Math.round(performance.now()) });
+  } catch { /* tanı kritik değil */ }
+}
 /** Bir rolün aynı anda çalabilecek kopya sayısı (varsayılan 2). */
-const ES_ZAMANLI = { kazandin: 1, kaybettin: 1, level: 1, rutbe: 1, turnuva: 1, sure_doldu: 1, soru_geldi: 1, tur_gecis: 1 };
+const ES_ZAMANLI = { kazandin: 1, kaybettin: 1, beraberlik: 1, vs_ani: 1, rozet: 1, level: 1, rutbe: 1, turnuva: 1, sure_doldu: 1, soru_geldi: 1, tur_gecis: 1 };
 /** Ön yükleme grupları — `sesOnYukle("duello")` gibi. */
 const GRUPLAR = {
-  mac: ["dokunus", "tik", "dogru", "yanlis", "sure_doldu", "soru_geldi", "tur_gecis", "son_saniyeler", "joker"],
+  mac: ["dokunus", "tik", "sayim_son", "dogru", "yanlis", "sure_doldu", "soru_geldi", "tur_gecis", "son_saniyeler", "joker", "rakip_cevapladi"],
   skill: ["skill_elli", "skill_ek_sure", "skill_soru_degistir", "skill_zaman_baskisi", "skill_sigorta", "skill_2x", "skill_ikinci_sans"],
-  sonuc: ["kazandin", "kaybettin", "level", "rutbe", "coin"],
-  duello: ["sayim_tik", "sayim_son", "rakip_bulundu", "can_kaybi"],
+  sonuc: ["kazandin", "kaybettin", "beraberlik", "level", "rutbe", "coin", "xp_dolma", "rozet"],
+  duello: ["sayim_tik", "sayim_son", "rakip_bulundu", "vs_ani", "can_kaybi", "kategori_secildi"],
   turnuva: ["turnuva"],
 };
 const ARKA_ARKAYA_MS = 40;         // aynı rol bu süreden sık tetiklenirse atlanır
@@ -334,9 +381,6 @@ function yukleDosya(c, dosya) {
   return s;
 }
 
-/** Rolün dosyasını yükler (önbellek DOSYA başına: iki rol aynı dosyayı iki kez indirmez). */
-const yukle = (c, rol) => yukleDosya(c, dosyaAdi(rol));
-
 function tamponCal(c, tampon, hacim, hiz, rol) {
   try {
     if (c.state === "suspended") c.resume();
@@ -377,20 +421,22 @@ function tamponCal(c, tampon, hacim, hiz, rol) {
  * @param {{carpan?:number, hiz?:number}} [secenek]
  */
 function cal(rol, yedek, { carpan = 1, hiz = 1 } = {}) {
-  if (!calabilir()) return;               // ses kapalı → indirme de yok
+  const dosya = dosyaAdi(rol);
+  taniKaydi(rol, sesAcikMi() ? dosya : "efekt-kapali");
+  if (!dosya || !calabilir()) return;     // sessiz seçildi / ses kapalı → indirme de yok
   const simdi = typeof performance !== "undefined" ? performance.now() : Date.now();
   if (simdi - (sonCalma.get(rol) ?? -Infinity) < ARKA_ARKAYA_MS) return;
   sonCalma.set(rol, simdi);
 
-  if (bozuk.has(dosyaAdi(rol))) { yedek(); return; }
+  if (bozuk.has(dosya)) { yedek(); return; }
   const c = context();
   if (!c) return;
-  const hacim = (HACIM[rol] ?? 0.8) * carpan;
+  const hacim = (dosya.startsWith("adaylar/") ? HACIM_ADAY[rol] ?? 0.8 : HACIM[rol] ?? 0.8) * carpan;
 
-  const hazir = tamponlar.get(dosyaAdi(rol));
+  const hazir = tamponlar.get(dosya);
   if (hazir) { tamponCal(c, hazir, hacim, hiz, rol); return; }
 
-  yukle(c, rol).then(
+  yukleDosya(c, dosya).then(
     (tampon) => {
       const gecen = (typeof performance !== "undefined" ? performance.now() : Date.now()) - simdi;
       if (gecen <= ILK_CALMA_SINIRI_MS) tamponCal(c, tampon, hacim, hiz, rol);
@@ -408,29 +454,34 @@ function cal(rol, yedek, { carpan = 1, hiz = 1 } = {}) {
 /** Son saniye tik'i. kalanSn: 5→1 (azaldıkça tizleşir ve sertleşir). */
 export function sesTik(kalanSn) {
   const n = Math.max(1, Math.min(5, Math.round(kalanSn)));
+  // "Son 3 saniye" anına aday seçildiyse son 3 saniye onu çalar (1'de biraz tiz).
+  if (n <= 3 && adayVar("son_3_saniye")) { cal("sayim_son", () => tonTik(kalanSn), { hiz: n === 1 ? 1.12 : 1 }); return; }
   cal("tik", () => tonTik(kalanSn), { carpan: 0.8 + (5 - n) * 0.05, hiz: 1 + (5 - n) * 0.06 });
 }
 
 /** Süre doldu. */
-export function sesSureDoldu() { cal("sure_doldu", tonSureDoldu); }
+export function sesSureDoldu() { kanca("cevap"); cal("sure_doldu", tonSureDoldu); }
 
 /** Doğru cevap. */
-export function sesDogru() { cal("dogru", tonDogru); }
+export function sesDogru() { kanca("cevap"); cal("dogru", tonDogru); }
 
 /** Yanlış cevap. */
-export function sesYanlis() { cal("yanlis", tonYanlis); }
+export function sesYanlis() { kanca("cevap"); cal("yanlis", tonYanlis); }
 
 /** Buton dokunuşu — kısık. */
 export function sesDokunus() { cal("dokunus", tonDokunus); }
 
 /** Maç kazandın. */
-export function sesKazandin() { cal("kazandin", tonKazandin); }
+export function sesKazandin() { kanca("cevap"); cal("kazandin", tonKazandin); }
 
 /** Rütbe atlama. */
 export function sesRutbeAtladi() { cal("rutbe", tonRutbeAtladi); }
 
 /** Maç kaybetme. */
-export function sesKaybettin() { cal("kaybettin", tonKaybettin); }
+export function sesKaybettin() { kanca("cevap"); cal("kaybettin", tonKaybettin); }
+
+/** Maç berabere bitti. */
+export function sesBeraberlik() { kanca("cevap"); cal("beraberlik", () => { ton({ frekans: 523, sure: 0.14, hacim: 0.14, tip: "triangle" }); ton({ frekans: 523, sure: 0.24, hacim: 0.14, tip: "triangle", gecikme: 0.16 }); }); }
 
 /** Joker kullanımı. */
 export function sesJoker() { cal("joker", tonJoker); }
@@ -480,7 +531,7 @@ export function sesOnYukle(grup = "mac") {
       : GRUPLAR[grup] ?? [];
     const aktif = !(typeof navigator !== "undefined" && navigator.userActivation && !navigator.userActivation.hasBeenActive);
     const c = aktif ? context() : null;   // dokunuş yoksa context açılmaz (Chrome uyarısı olmasın)
-    for (const rol of new Set(roller.map(dosyaAdi))) {
+    for (const rol of new Set(roller.map(dosyaAdi).filter(Boolean))) {
       if (bozuk.has(rol) || tamponlar.has(rol)) continue;
       (c ? yukleDosya(c, rol) : indir(rol)).catch(() => { /* yedek ton devreye girer */ });
     }
@@ -510,7 +561,7 @@ const tonTurnuva = () => {
 };
 
 /** Yeni soru ekrana geldi — soru kartı görünür olduğu karede çağır. */
-export function sesSoruGeldi() { cal("soru_geldi", tonSoruGeldi); }
+export function sesSoruGeldi() { kanca("soru"); cal("soru_geldi", tonSoruGeldi); }
 
 /** Soru/tur geçişi — geçiş animasyonu BAŞLARKEN çağır (whoosh ~0.37 sn). */
 export function sesTurGecis() { cal("tur_gecis", tonTurGecis); }
@@ -556,7 +607,8 @@ const SKILL_ROL = {
  */
 export function sesSkill(tur) {
   const rol = SKILL_ROL[String(tur ?? "").toLowerCase()];
-  if (!rol) { sesJoker(); return; }
+  // "Skill kullanıldı" anına aday seçildiyse bütün skill'ler onu çalar; "mevcut" → türe özel sesler.
+  if (!rol || adayVar("skill")) { sesJoker(); return; }
   cal(rol, tonJoker, rol === "skill_seri_koruma" ? { hiz: 1.15 } : undefined);
 }
 
@@ -568,3 +620,56 @@ export function sesCoin() { cal("coin", tonCoin); }
 
 /** Turnuva başladı. */
 export function sesTurnuvaBasladi() { cal("turnuva", tonTurnuva); }
+
+// ------------------------------------------------------------ Ajan H: /ses-secim'in yeni anları
+// Bugün dosyaları yok; yalnız /ses-secim'de aday seçildiyse çalarlar (seçim yoksa sessiz).
+const kisaTon = (frekans, tip = "triangle") => () => ton({ frekans, sure: 0.12, hacim: 0.12, tip });
+
+/** Alt menüden sekme/sayfa değişti. */
+export function sesSayfaGecis() { cal("sayfa_gecis", kisaTon(700)); }
+
+/** VS anı — iki oyuncu kartı karşı karşıya geldiği kare (rakip bulunduktan hemen sonra). */
+export function sesVsAni() { cal("vs_ani", tonTurnuva); }
+
+/** Düelloda kategori seçimi kesinleşti. */
+export function sesKategoriSecildi() { cal("kategori_secildi", kisaTon(880)); }
+
+/** Rakip cevabını verdi (sen hâlâ düşünürken) — soru başına bir kez. */
+export function sesRakipCevapladi() { cal("rakip_cevapladi", kisaTon(1046, "sine")); }
+
+/** Dükkânda satın alma başarılı. */
+export function sesSatinAlma() { cal("satin_alma", tonCoin); }
+
+/** Maç sonunda XP çubuğu dolmaya başladı (bir kez). */
+export function sesXpDolma() { cal("xp_dolma", kisaTon(660)); }
+
+/** Yeni rozet kartı açıldı. */
+export function sesRozet() { cal("rozet", tonRutbeAtladi); }
+
+/** Uygulama içi bildirim (davet, mesaj) geldi. */
+export function sesBildirim() { cal("bildirim", kisaTon(988, "sine")); }
+
+/** Bir işlem başarısız oldu / uyarı çıktı. */
+export function sesHataUyari() { cal("hata_uyari", tonYanlis); }
+
+// ------------------------------------------------------------ müzik tercihi (Ajan H)
+// Efekt tercihi eski anahtarda kaldı (`bildim_ses` → sesAcikMi/sesAyarla = EFEKTLER).
+// Müzik ayrı anahtar; varsayılan açık (seviye sunucudaki muzik_varsayilan_seviye).
+const MUZIK_ANAHTARI = "bildim_muzik";
+/** Müzik açık mı? (varsayılan açık) */
+export function muzikAcikMi() {
+  try { return localStorage.getItem(MUZIK_ANAHTARI) !== "0"; } catch { return true; }
+}
+/** Müzik tercihini yaz; müzik çalar ve bütün anahtarlar `bildim-muzik` olayıyla eşitlenir. */
+export function muzikAyarla(acik) {
+  try { localStorage.setItem(MUZIK_ANAHTARI, acik ? "1" : "0"); } catch { /* özel mod */ }
+  try { window.dispatchEvent(new CustomEvent("bildim-muzik", { detail: Boolean(acik) })); } catch { /* eski tarayıcı */ }
+}
+/** Müzik tercihi değişince haber verir. Aboneliği bırakan fonksiyon döner. */
+export function muzikDinle(cb) {
+  const f = (e) => cb(Boolean(e.detail));
+  window.addEventListener("bildim-muzik", f);
+  return () => window.removeEventListener("bildim-muzik", f);
+}
+/** Paylaşılan AudioContext (müzik de aynı bağlamı kullanır; iOS'ta tek kilit). */
+export const sesBaglami = () => context();

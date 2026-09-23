@@ -17,7 +17,46 @@ indirmez/çalmaz, dosya yoksa eski osilatör tonuna düşer. Kaynak ve lisans: `
   işleyicide), `setTimeout` ile geciktirme. Geçiş sesleri kısa (≤0.4 sn) olduğu için
   animasyonun 200–400 ms'lik giriş eğrisine oturur.
 
-## Hangi an → hangi fonksiyon
+## /ses-secim anları → fonksiyon (Ajan H, 23 Eyl 2026)
+
+Ida'nın `/ses-secim` seçimleri sunucudan okunur (`ses_secimleri_oyun()`, sürümlü yerel
+önbellek) ve aşağıdaki fonksiyonlar seçilen dosyayı çalar. "Mevcut" → aşağıdaki eski
+tablodaki dosya; "Sessiz kalsın" → çalmaz; dosya bozuksa osilatör yedeği. Çağıran kod
+hiçbir şey bilmez — yalnız fonksiyonu çağırır.
+
+| An (`/ses-secim`) | Fonksiyon |
+|---|---|
+| dokunus | `sesDokunus()` |
+| sayfa_gecis | `sesSayfaGecis()` — alt menüden sekme değişince |
+| rakip_bulundu | `sesRakipBulundu()` |
+| vs_ani | `sesVsAni()` — VS kartının geldiği kare |
+| soru_geldi | `sesSoruGeldi()` (müziği kısar) |
+| geri_sayim_tik | `sesTik(kalanSn)` kalan 5–4 (aday seçilmişse 3–1 son_3_saniye çalar) |
+| son_3_saniye | `sesTik(3..1)` + `sesKategoriGeriSayim(3..1)` |
+| sure_doldu | `sesSureDoldu()` (müziği açar) |
+| dogru / yanlis | `sesDogru()` / `sesYanlis()` (müziği açar) |
+| skill | `sesSkill(tur)` / `sesJoker()` — aday seçilmişse bütün skill'ler bunu çalar |
+| can_kaybi | `sesCanKaybi(kendi)` |
+| kategori_secildi | `sesKategoriSecildi()` |
+| tur_gecis | `sesTurGecis()` |
+| rakip_cevapladi | `sesRakipCevapladi()` — soru başına bir kez |
+| galibiyet / maglubiyet / beraberlik | `sesKazandin()` / `sesKaybettin()` / `sesBeraberlik()` |
+| coin | `sesCoin()` |
+| satin_alma | `sesSatinAlma()` |
+| xp_dolma | `sesXpDolma()` — XP çubuğu dolmaya başlarken bir kez |
+| level | `sesLevel()` |
+| rozet | `sesRozet()` |
+| lig_atlama | `sesRutbeAtladi()` |
+| turnuva | `sesTurnuvaBasladi()` |
+| bildirim | `sesBildirim()` |
+| hata_uyari | `sesHataUyari()` |
+| muzik_menu / muzik_mac / muzik_turnuva | çağrı yok — `oyun/lib/sesArkaPlan.js` rotaya göre çalar |
+
+Tercihler: efekt = `sesAcikMi()/sesAyarla()` (eski `bildim_ses` anahtarı), müzik =
+`muzikAcikMi()/muzikAyarla()` (`bildim_muzik`). Tanı: `?tani=1` oturumunda her çağrı
+`window.__sesKayit`'a `{rol, dosya, t}` olarak yazılır.
+
+## Hangi an → hangi fonksiyon (eski dosyalar)
 
 | An | Fonksiyon | Dosya / süre | Görsel eş |
 |---|---|---|---|
