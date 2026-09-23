@@ -80,6 +80,7 @@ test('ücretsiz mod düello: stoktan düşmez; savunmada Soru Değiştir maçta 
     const y = await oyuncuKur(c, 'jsd2');
     await skillSetiKur(c, x, ['zaman_baskisi']);
     await skillSetiKur(c, y, ['soru_degistir']);
+    await ayarla(c, 'duello_surum', 1);   // v1 kuralları: 297'den beri genel sürüm 2
     const id = await c.tek(`select public.duello_olustur(${a(x)}, ${a(y)}, true, null)`);
     const kategori = await c.tek(`select k from unnest(public.duello_kategorileri()) k limit 1`);
     await olarak(c, x);

@@ -219,6 +219,10 @@ async function duelloMaci(kapsam) {
   try { await s.waitForURL(/\/duello\/[0-9a-f-]{36}/, { timeout: 45000 }); }
   catch { basarisiz("Düello: rakip bulunamadı / maça girilemedi"); return "kritik"; }
   const id = s.url().match(/duello\/([0-9a-f-]{36})/)[1];
+  // Yarım kalmış bir maça katılındıysa (sunucu aktif maça yönlendirir) önceki turlar bu testin değildir.
+  const [giris] = await sorgu(`select coalesce(max(id), 0) m from duello_hamleler where duello_id = ${alintila(id)}`);
+  const girisHamle = Number(giris?.m ?? 0);
+  if (girisHamle > 0) console.log(`  (yarım maça katılındı — ${girisHamle} numaralı hamleye kadar olanlar sayılmaz)`);
   const [m] = await sorgu(`select surum from duellolar where id = ${alintila(id)}`);
   console.log(`  maç ${id} (sürüm ${m?.surum})`);
   if (Number(m?.surum) !== 2) { basarisiz("Düello: maç sürüm 2 değil", { surum: m?.surum }); }
@@ -227,7 +231,13 @@ async function duelloMaci(kapsam) {
   let sonCevapAnahtar = "";
   let skillSirasi = 0;
   const bas = Date.now();
+  let turBas = Date.now();
+  let sonAdim = "başlangıç";
   while (Date.now() - bas < 15 * 60 * 1000) {
+    // Döngü bir turda 4 sn'den uzun sürerse testin kendisi soru kaçırabilir: adımı yaz.
+    if (Date.now() - turBas > 4000) console.log(`  ! test döngüsü ${((Date.now() - turBas) / 1000).toFixed(1)} sn takıldı (son adım: ${sonAdim})`);
+    turBas = Date.now();
+    sonAdim = "durum okuma";
     const t = await s.evaluate(() => window.__bdTani ?? null);
     const [d] = await sorgu(`select durum, faz, tur, saldiran, uzatma, soru_id, cevaplar, oyuncu1, can1, can2,
                                (select dogru_cevap from questions q where q.id = soru_id) dogru
@@ -240,7 +250,7 @@ async function duelloMaci(kapsam) {
       // Son güvence: test hesabının yanıtsız kaldığı HER soru başarısızlıktır — test
       // akışı bir yerde takılsa bile yanıtsız soru sessizce geçemez.
       const yanitsiz = await sorgu(`select h.tur, h.uzatma, h.saldiran = ${alintila(BEN)} ben_saldiran from duello_hamleler h
-          where h.duello_id = ${alintila(id)} and ((h.saldiran = ${alintila(BEN)} and h.yanitsiz_saldiran)
+          where h.duello_id = ${alintila(id)} and h.id > ${girisHamle} and ((h.saldiran = ${alintila(BEN)} and h.yanitsiz_saldiran)
             or (h.saldiran is distinct from ${alintila(BEN)} and h.yanitsiz_savunan)) order by h.id`);
       for (const y of yanitsiz) {
         const rol = y.ben_saldiran === true || y.ben_saldiran === "t" ? "saldıran" : "savunan";
@@ -259,6 +269,7 @@ async function duelloMaci(kapsam) {
       if (!kapsam.olculen.has(tur)) {
         kapsam.olculen.add(tur);
         const t0 = Date.now();
+        sonAdim = "ekran ölçümü";
         await ekranOlc(`duello-${tur}`);
         console.log(`  · ekran ölçüldü: ${tur} (${((Date.now() - t0) / 1000).toFixed(1)} sn)`);
         continue;   // ölçüm sürerken faz değişmiş olabilir: durumu yeniden oku
@@ -271,7 +282,8 @@ async function duelloMaci(kapsam) {
       for (let i = 0; i < 8 && !n; i++) { n = await s.locator(".bd-duello-kat:not([disabled])").count(); if (!n) await s.waitForTimeout(200); }
       if (!n) { basarisiz("Düello: kategori sırası bende ama seçilebilir kategori yok", { tani: t }); return "kritik"; }
       const k0 = Date.now();
-      await s.locator(".bd-duello-kat:not([disabled])").first().tap({ timeout: 3000 })
+      sonAdim = "kategori dokunuşu";
+        await s.locator(".bd-duello-kat:not([disabled])").first().tap({ timeout: 3000 })
         .catch((e) => basarisiz(`Düello: kategoriye dokunulamadı (${Date.now() - k0} ms) — ${String(e.message).split(String.fromCharCode(10))[0]}`));
       await s.waitForTimeout(600);
       continue;
@@ -305,7 +317,8 @@ async function duelloMaci(kapsam) {
       if (skillSirasi++ % 3 === 1) {
         const sk = s.locator(".bd-d2-skill button:not([disabled])").filter({ hasNotText: /Soru Değiştir|İkinci Şans/ });
         if (await sk.count()) {
-          await sk.first().tap({ timeout: 3000 }).catch(() => {});
+          sonAdim = "skill dokunuşu";
+        await sk.first().tap({ timeout: 3000 }).catch(() => {});
           await s.waitForTimeout(900);
           // Hak yoksa satın alma penceresi açılır: coin yetiyorsa "Al ve kullan", yetmiyorsa "Vazgeç".
           const pencere = s.getByRole("dialog", { name: /Skill satın al/ });
@@ -313,7 +326,8 @@ async function duelloMaci(kapsam) {
             const al = pencere.getByRole("button", { name: /Al ve kullan/ });
             if (await al.count() && await al.isEnabled()) await al.tap({ timeout: 3000 }).catch(() => {});
             else await pencere.getByRole("button", { name: /Vazgeç/ }).tap({ timeout: 3000 }).catch(() => {});
-            for (let i = 0; i < 25 && await pencere.count(); i++) await s.waitForTimeout(200);
+            sonAdim = "satın alma penceresi";
+        for (let i = 0; i < 25 && await pencere.count(); i++) await s.waitForTimeout(200);
             if (await pencere.count()) {
               const metin = (await pencere.innerText().catch(() => "")).replace(/s+/g, " ").slice(0, 160);
               basarisiz("Düello: skill satın alma penceresi 5 sn içinde kapanmadı", { metin });
@@ -340,7 +354,8 @@ async function duelloMaci(kapsam) {
       if (await sik.isDisabled()) sik = s.locator(".bd-secenek:not([disabled]):not(.elendi)").first();
       await sik.tap({ timeout: 4000 }).catch((e) => basarisiz(`Düello: şıka dokunulamadı — ${String(e.message).split(String.fromCharCode(10))[0]}`));
       // Sunucuya ulaştı mı: cevaplar'da benim anahtarım ya da bu turun hamlesinde benim cevabım.
-      let ulasti = false;
+      sonAdim = "cevap sunucu kontrolü";
+        let ulasti = false;
       for (let i = 0; i < 20 && !ulasti; i++) {
         await bekle(250);
         const [r] = await sorgu(`select (cevaplar ? ${alintila(BEN)}) c,

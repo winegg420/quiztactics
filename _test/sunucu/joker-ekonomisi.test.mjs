@@ -146,6 +146,7 @@ test('düelloda saldırı jokeri ücretsiz değil, envanterden düşer', sec, as
     const x = await oyuncuKur(c, 'dsal1');
     const y = await oyuncuKur(c, 'dsal2');
     await skillSetiKur(c, x, ['zaman_baskisi']);
+    await ayarla(c, 'duello_surum', 1);   // v1 kuralları: 297'den beri genel sürüm 2
     const id = await c.tek(`select public.duello_olustur(${a(x)}, ${a(y)}, true, null)`);
     const kategori = await c.tek(`select k from unnest(public.duello_kategorileri()) k limit 1`);
     await olarak(c, x);
@@ -173,6 +174,7 @@ test('maç başına toplam hak dolunca yeni joker reddedilir', sec, async () => 
     const y = await oyuncuKur(c, 'hak2');
     const turler = ['elli', 'sure', 'soru_degistir'];
     await skillSetiKur(c, x, turler);
+    await ayarla(c, 'duello_surum', 1);   // v1 kuralları: 297'den beri genel sürüm 2
     const id = await c.tek(`select public.duello_olustur(${a(x)}, ${a(y)}, true, null)`);
     await olarak(c, x);
 

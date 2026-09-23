@@ -93,9 +93,12 @@ test('fiyatlar oyun_ayarlari\'nda: tek 20/20/30/30/30, 10\'lu 170/170/255/255/25
     const f = JSON.parse(await c.tek(`select public.joker_fiyatlari()::text`));
     assert.deepEqual({ elli: f.elli, sure: f.sure, soru_degistir: f.soru_degistir, zaman_baskisi: f.zaman_baskisi, ikinci_sans: f.ikinci_sans },
       { elli: 20, sure: 20, soru_degistir: 30, zaman_baskisi: 30, ikinci_sans: 30 });
+    // Karar 23 Eyl (307): Sigorta 30, 2X 40; 10'lu paket %15 indirimli.
+    assert.deepEqual({ sigorta: f.sigorta, cifte_puan: f.cifte_puan }, { sigorta: 30, cifte_puan: 40 });
     const paket = Object.fromEntries((await c.sorgu(
       `select urun_id, public.joker_paket_fiyati(urun_id) f from public.joker_paketleri where fiyat_anahtari is not null`)).map((r) => [r.urun_id, Number(r.f)]));
-    assert.deepEqual(paket, { skill_elli_10: 170, skill_sure_10: 170, skill_soru_degistir_10: 255, skill_zaman_baskisi_10: 255, skill_ikinci_sans_10: 255 });
+    assert.deepEqual(paket, { skill_elli_10: 170, skill_sure_10: 170, skill_soru_degistir_10: 255, skill_zaman_baskisi_10: 255, skill_ikinci_sans_10: 255,
+      skill_sigorta_10: 255, skill_cifte_puan_10: 340 });
     const aciklamasiz = await c.tek(`select count(*) from public.oyun_ayarlari where anahtar like 'coin_joker_%' and anahtar not in
       ('coin_joker_sis','coin_joker_savunma_kilidi','coin_joker_saldiri_degistir') and coalesce(aciklama,'') = ''`);
     assert.equal(aciklamasiz, '0', 'her fiyat ayarının açıklaması olmalı');
@@ -145,7 +148,8 @@ test('dükkân: skill_dukkani 7 aktif skill, fiyat + 10\'lu paket + kilit; envan
     const is = d.skiller.find((s) => s.tur === 'ikinci_sans');
     assert.deepEqual({ fiyat: is.fiyat, adet: is.adet, acik: is.acik, paket: is.paket },
       { fiyat: 30, adet: 4, acik: true, paket: { urun_id: 'skill_ikinci_sans_10', adet: 10, fiyat: 255 } });
-    assert.equal(d.skiller.find((s) => s.tur === 'sigorta').paket, null, 'Sigorta için 10\'lu paket tanımlanmadı');
+    // 307'den beri Sigorta'nın da 10'lu paketi var (255).
+    assert.equal(d.skiller.find((s) => s.tur === 'sigorta').paket?.fiyat, 255, 'Sigorta 10\'lu paketi 255');
     const env = await c.sorgu(`select tur, adet from public.envanterim()`);
     assert.equal(env.length, 8, '7 aktif skill + seri_koruma');
     assert.equal(env.find((r) => r.tur === 'ikinci_sans').adet, '4');

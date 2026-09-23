@@ -55,7 +55,15 @@ tercih hatırlanır (localStorage + `profiles.dereceli_tercih`).
 - **Hız bonusu yok** — süre içinde doğru cevaplayan herkes aynı puanı alır.
 - Normal maçta **berabere olabilir**. Turnuvada **altın soru**: biri
   kazanana kadar, skillsiz, kullanılmamış sorulardan.
-- Turnuvada ilk 5 soru en kolaydan başlar, sonra zorlaşır (`questions.zorluk`).
+- Turnuvada artan zorluk (`questions.zorluk`, sıralamaya göre): 1–5. soru zorluk 1–2 · 6–10 → 3 ·
+  11+ → 4–5; altın soru maçta kullanılmamış 4–5. Dilim boşsa alt dilime düşer (en kötü: herhangi
+  uygun soru). Sınırlar `oyun_ayarlari.turnuva_zorluk_*` / `turnuva_altin_zorluk_*` (300). Soru
+  sırası turnuva başında seçilir (`turnuva_soru_sec`).
+- **Şık ipucu filtresi (298):** Jev'in soru metnini görmeden şıklardan doğruyu >0,8 güvenle
+  bulduğu 1.310 soru `sik_ipucu_jev` (ağırlık 2) ile işaretli; `soru_sec` / `duello_soru_bul` /
+  `turnuva_soru_sec` havuzunda yok — Serbest Klasik dahil; yalnız Hatalarım (serbest havuz).
+  Rekabetçi havuz 6.694 → 6.303. İşaret "elle"dir (`soru_elle_isaret_mi`), tetikleyici korur.
+  Yeni soru ve denetim düzeltmeleri aynı Jev testinden geçer (`soru_denetim/kapi.mjs › sikIpucuTesti`).
 - Yanlış cevap sonrası bekleme **1 sn**.
 - Kategori yüzdesi için asgari örneklem 10 soru; altı "veri yok".
 
@@ -184,12 +192,25 @@ Aktif yedi maç skill'i vardır:
 - Dükkândaki her şey yalnız coin ile alınır.
 - **Rakamları koda gömme.** Yayından sonra SQL ile değiştirilebilmeli.
 
+- **Satın alma güvenliği (304–306):** coin satın alımları `coin_satin_alma_defteri`'ne yazılır;
+  Play jetonu ve orderId hesaptan bağımsız tekil (ilk işleyen hesap sahibi; TWA
+  obfuscatedAccountId desteklemiyor). Tüketim sunucuda (`satin_alma_dogrula` →
+  `purchases.products.consume`), istemci `tuket()` yalnız yedek. İade taraması
+  `satin_alma_iade_tara` (bakiye sıfırın altına inmez, açık `iade_eksik`) `satin_alma_iade_takibi`
+  = false ile kapalı. Reklam ödülü yalnız `reklam_jetonu_al()` jetonuyla, en az
+  `reklam_min_sure_sn` sonra; kalıcı çözüm reklam ağı SSV. İki Edge Function 23 Eyl'de
+  DAĞITILAMADI (CLI 403) — bkz. Açık İşler.
+
 ### Botlar
 
 - İki katman: **açık botlar** (adında "Bot" geçer, %50 coin, anında cevaplar)
   ve **gizli botlar** (gerçek oyuncu gibi, tam coin, gerçekçi sürede cevaplar).
 - `is_bot` istemciye **ASLA sızmaz** — gizli botun bot olduğu anlaşılmamalı.
 - Gizli botlar arkadaşlık kabul etmez, lig değiştirmez.
+- Botlar soru zorluğuna göre yanılır (`bot_soru_isabet`, 302): isabet = taban + kategori
+  sapması + zorluk farkı (`bot_zorluk_fark_1..5` = +15/+8/0/−8/−15, rekabetçi havuza göre
+  `bot_zorluk_ofset` ile normalize — ortalama değişmez, gece 04:25 tazelenir), sınır %5–98.
+  Klasik, Düello, Turnuva, Grup, Hızlı aynı fonksiyonu kullanır.
 
 ### Kararlar (23 Eyl, test değeri)
 
@@ -211,6 +232,13 @@ Ida "kendin doldur" dedi; hepsi test değeridir, yayından önce yeniden bakıla
 ---
 
 ## Arayüz ve Görsel Kararlar
+
+- **Tasarım Adım 1 (23 Eyl 2026):** `/tasarim-yonleri` (menüsüz, girişsiz) üç görsel yön sunar —
+  A Şeker Kutusu (parlak/kabartmalı), B Arena Gecesi (koyu/e-spor), C Stüdyo Işıkları
+  (bordo-altın yarışma programı). Karar verilene kadar canlı palet değişmez.
+- **Tasarım skill'leri (proje içi):** `.claude/skills/impeccable` (pbakaus/impeccable) ve
+  `.claude/skills/emil-design-eng` + 12 hareket skill'i (emilkowalski/skills). Impeccable
+  ikili dosyası git'e girmez; hook'ları `.claude/settings.local.json`'da.
 
 Arayüz yenilemesi **canlıdadır** (20 Eylül 2026). Tek görsel kaynak
 `tasarim/home-prototype/` — 24 sayfalık saf HTML/CSS prototip.
@@ -350,6 +378,11 @@ Her pakette: `node araclar/oyuncu-testi.mjs [--adres=https://quiztactics.vercel.
   (turnuva yalnız seans açıkken) aynı kontrol.
 
 ## Açık İşler
+
+- **Edge Function dağıtımı bekliyor (23 Eyl):** `satin_alma_dogrula` (yeni sürüm) ve
+  `satin_alma_iade_tara` depoda hazır, canlıda değil — CLI 403 (makinedeki Supabase belirteci
+  başka hesaba ait), Chrome eklentisi bağlı değildi. Migration'lar (304–306) uygulandı; canlıdaki
+  eski fonksiyon `coin_satin_alma_isle` üzerinden yeni deftere devreder. Satın alma zaten kapalı.
 
 
 - **1000 soru partisi + Jev zorluk (270–274) beklemede.** Üretildi ve provadan

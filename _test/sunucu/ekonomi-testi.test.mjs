@@ -8,7 +8,7 @@
 
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { islem, oyuncuKur, olarak, skillSetiKur, baglantiVarMi, hataVerir, alintila as a } from './yardim.mjs';
+import { islem, ayarla, oyuncuKur, olarak, skillSetiKur, baglantiVarMi, hataVerir, alintila as a } from './yardim.mjs';
 
 const atla = !(await baglantiVarMi());
 const sec = { skip: atla ? 'veritabanı bağlantısı yok (SUPABASE_DB_URL / .env.local)' : false };
@@ -59,6 +59,7 @@ test('düello: seçili saldırı ve savunma skilleri çalışır; aynı skill ik
     const y = await oyuncuKur(c, 'ekd2');
     await skillSetiKur(c, x, ['zaman_baskisi']);
     await skillSetiKur(c, y, ['elli', 'sure']);
+    await ayarla(c, 'duello_surum', 1);   // v1 kuralları: 297'den beri genel sürüm 2
     const id = await c.tek(`select public.duello_olustur(${a(x)}, ${a(y)}, true, null)`);
     const kategori = await c.tek(`select k from unnest(public.duello_kategorileri()) k limit 1`);
     await olarak(c, x);

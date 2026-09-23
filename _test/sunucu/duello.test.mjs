@@ -15,7 +15,7 @@
 
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { islem, oyuncuKur, olarak, baglantiVarMi, alintila as a } from './yardim.mjs';
+import { islem, ayarla, oyuncuKur, olarak, baglantiVarMi, alintila as a } from './yardim.mjs';
 
 const atla = !(await baglantiVarMi());
 const sec = { skip: atla ? 'veritabanı bağlantısı yok (SUPABASE_DB_URL / .env.local)' : false };
@@ -23,6 +23,7 @@ const sec = { skip: atla ? 'veritabanı bağlantısı yok (SUPABASE_DB_URL / .en
 async function duelloKur(c) {
   const x = await oyuncuKur(c, 'du1');
   const y = await oyuncuKur(c, 'du2');
+  await ayarla(c, 'duello_surum', 1);   // v1 kuralları: 297'den beri genel sürüm 2
   const id = await c.tek(`select public.duello_olustur(${a(x)}, ${a(y)}, true, null)`);
   return { x, y, id };
 }
