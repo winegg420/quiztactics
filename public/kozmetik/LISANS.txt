@@ -6,3 +6,6 @@ gumus-madalya.webp = U+1F948 · kanat.webp = U+1FABD · alev.webp = U+1F525 · p
 kar-tanesi.webp = U+2744
 Arayüzde bazıları CSS süzgeciyle tonlanır (altın/mor); dosyalar değiştirilmemiştir.
 Ayrıntı: docs/VARLIK_LISANSLARI.md
+Temalı çerçeveler (23 Eyl 2026): bulut.webp = U+2601 · sakura.webp = U+1F338 · papatya.webp = U+1F33C ·
+yaprak.webp = U+1F343 · dalga.webp = U+1F30A · deniz-kabugu.webp = U+1F41A · donen-yildiz.webp = U+1F4AB ·
+ejder.webp = U+1F432 · simsek.webp = U+26A1 · gezegen.webp = U+1FA90 · kuyruklu-yildiz.webp = U+2604
