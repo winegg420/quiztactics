@@ -485,7 +485,7 @@ async function klasikTesti() {
   }
   // Yarım maç sorusu çıkarsa devam et
   await s.waitForTimeout(1500);
-  const devam = s.getByRole("button", { name: /Maça dön|Devam et/ });
+  const devam = s.getByRole("button", { name: /Maça dön|Devam et|Kaldığın yerden devam/i });
   if (await devam.count()) await devam.first().tap().catch(() => {});
   // Beklemek yerine açık botla eşleş (akış aynı, süre kısa)
   for (let i = 0; i < 20 && !/\/mac\/[0-9a-f-]{36}/.test(s.url()); i++) {

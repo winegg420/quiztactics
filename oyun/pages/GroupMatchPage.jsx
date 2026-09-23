@@ -330,6 +330,8 @@ export default function GroupMatchPage() {
     const { data, error } = await supabase.rpc("submit_group_match_answer", {
       p_group_match_id: id,
       p_cevap: i,
+      // 329: hangi soruyu cevapladığımız — soru değiştiyse (eski kart) sunucu reddeder.
+      p_soru_index: soru?.soru_index ?? null,
     });
     if (error) throw error;
     cevapZamaniRef.current = Date.now();

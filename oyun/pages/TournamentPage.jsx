@@ -401,6 +401,8 @@ export default function TournamentPage() {
     const { data, error } = await supabase.rpc("submit_tournament_answer", {
       p_tournament_id: turnuva.id,
       p_cevap: i,
+      // 329: hangi soruyu cevapladığımız — soru değiştiyse (eski kart) sunucu reddeder.
+      p_soru_index: soru?.soru_index ?? null,
     });
     if (error) throw error;
     cevapZamaniRef.current = Date.now();

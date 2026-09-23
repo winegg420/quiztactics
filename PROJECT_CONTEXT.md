@@ -47,8 +47,10 @@ Turnuva bir mod değil, etkinliktir. Grup Maçı ödülsüz arkadaş modudur
 (coin/lig/seri yok, rozet var).
 
 Her mod iki girişlidir: **Dereceli** (lig puanı + tam coin) ve **Serbest**
-(lig puanı yok, coin %50). Arayüzde tek "Dereceli" anahtarı vardır, son
-tercih hatırlanır (localStorage + `profiles.dereceli_tercih`).
+(lig puanı yok, coin %50). Arayüzde her yerde aynı iki seçenekli **"Serbest | Dereceli"**
+anahtarı (`DereceliAnahtari`) vardır: Düello girişi, ana sayfa OYNA penceresinin en üstü (Saf Bilgi
+kısayolu da aynı pencereden geçer — sessiz başlama yok), Meydan okumalar, Modlar. Son tercih
+hatırlanır (localStorage + `profiles.dereceli_tercih`).
 
 ### Ortak mekanik
 
@@ -71,6 +73,11 @@ tercih hatırlanır (localStorage + `profiles.dereceli_tercih`).
   (test değeri) — sonra o gruptan mevcut kurallarla soru; grup boşsa komşu gruba düşer.
   `zorluk >= 2` filtresi kalktı. Turnuva kendi kuralında.
 - **Soru üretimi: yeni zor soru üretilmez; üretim yalnız kolay ve orta** (Ida, 23 Eyl 2026).
+- **Gösterim payı (325/326):** sunucu yeni fazın/sorunun bitişine pay ekler — Düello
+  `duello_gosterim_payi_ms` 1200 (kategori + cevap), Klasik/Grup/Turnuva sonraki soru
+  `soru_gosterim_payi_ms` 2000. İstemci sayacı pay bitene dek TAM süreyi gösterir, sonra gerçek
+  zamanla akar; sayaç yetişmek için hızlanmaz. İki oyuncunun bitişi aynı, geç cevap sunucuda
+  reddedilir. Düello `sunucu_zamani` = clock_timestamp(). Ölçüm: `oyuncu-testi` sayaç raporu (⏱).
 - Yanlış cevap sonrası bekleme **1 sn**.
 - Kategori yüzdesi için asgari örneklem 10 soru; altı "veri yok".
 
@@ -149,11 +156,13 @@ Aktif yedi maç skill'i vardır:
 | `cifte_puan` | 2X | yalnız Klasik | doğruda 20; yanlışta 0 |
 | `ikinci_sans` | İkinci Şans | Klasik · Düello | ilk yanlışta aynı sayaçla bir ikinci cevap |
 
-- **Loadout (skill seti) fiilen kapalı:** `oyun_ayarlari.skill_seti_slot` = 7
-  = aktif skill sayısı → seçim ekranı çizilmez, herkes bütün aktif skill'leri
-  kullanır; sunucu set kontrolünü atlar. Altyapı (tablo, RPC, kapı) duruyor;
-  açmak = `skill_seti_slot`'u aktif skill sayısının altına çekmek. Kataloğa yeni
-  aktif skill eklenince bu değer de artırılmalı.
+- **Loadout: 3 yuva, Klasik ve Düello (327).** `skill_seti_slot` = 3. Set moda göre ayrı:
+  Klasik `oyuncu_skill_setleri.skiller`, Düello `skiller_duello` (Düello'da Sigorta/2X seçilemez).
+  Klasik seti maç öncesi "Hazır mısın?" kapısında, Düello seti giriş ekranında seçilir; son set
+  hatırlanır ("Hazırım"/"Rakip ara" = aynısıyla oyna). Hakkı olmayan skill seçilebilir, "Hakkın
+  yok — Dükkân" işaretlenir. Kapı set kontrolünü yalnız Klasik/Düello'da yapar; Grup ve Turnuva'da
+  loadout yok. Botlar kapıdan muaf; bot mantığı yalnız Zaman Baskısı + Soru Değiştir kullanır.
+  `skill_seti_slot` ≥ aktif skill sayısı olursa loadout kapanır (herkes bütün skill'leri kullanır).
 - **Skill kataloğu ve kilit:** `skill_katalogu` (tur, aktif, kilit_fiyati,
   gereken_level). Bugünkü 7 skill fiyat 0 · level 1 (açık). Yeni skill'in kilidi
   coin'le bir kez açılır (`skill_kilidi_ac`); level şartı coinle atlanamaz.
@@ -198,6 +207,9 @@ Aktif yedi maç skill'i vardır:
 - Günlük tavan 400 · başlangıç **10.000 (test; `baslangic_coin`)** · reklam 25
   (günde 5). `coin_baslangic` (500) satırı DB'de durur ama okunmaz.
 - Eşya: sıradan 300–600, özel 1.200–2.500.
+- **Coin paketleri (328):** küçükten büyüğe Avuç / Kese / Sandık / Hazine (EN Handful / Pouch /
+  Chest / Treasure); "Define" (Hoard) 5. paket için ayrıldı — paket yok, fiyat kararı bekliyor.
+  Bonus etiketi `coin_paketleri.bonus`tan yüzde olarak hesaplanır; en büyükte "En iyi değer".
 - **Etkinlik eşyaları satılmaz** (Taç, Pelerin, Uzay Kıyafeti) — yalnız
   turnuva ödülüdür. Dükkânda kilitli görünür.
 - Dükkândaki her şey yalnız coin ile alınır.
@@ -260,6 +272,13 @@ karakter, Hızlı Mod hariç — dondurulmuş) bu sistemle yeniden yazıldı.
 - Arayüz metni TR+EN: anahtar Türkçe metin; EN karşılıkları `oyun/lib/dil.js` +
   şerit ekleri `oyun/lib/ceviri/*.js` (dil.js'e katılır).
 - Seçenekler sayfası `/tasarim-yonleri` (A/B/C) duruyor; silinmesine Ida karar verecek.
+- **Skill rozeti (`SkillRozeti`)** her yerde aynı: dükkân, loadout, maç çubuğu, maç içi satın alma,
+  maç sonu, envanter, level ödülü. Kabarık parlak rozet, renk token'ı `--qt-skill-<tur>`, sembol
+  Phosphor (MIT). Coin paketi görseli `CoinPaketGorseli` (Noto Emoji 3D, Apache 2.0). **Dış
+  kaynaklı her varlık `docs/VARLIK_LISANSLARI.md`'ye yazılır; ticari izni olmayan kullanılmaz.**
+- **Ana sayfa telefonda HİÇ kaydırılmaz:** `AnaSayfaA` `<html>`e `.as-kaydirmasiz` koyar, kabuk
+  100dvh esnek sütun + overflow hidden + overscroll-behavior none; sahne kalan alanı doldurur,
+  kısa ekranda avatar küçülür (container query). Diğer sayfalar kaydırılır.
 - **Ana sayfa = seçenek A (lobi, kaydırmasız)** — `oyun/pages/anasayfa/AnaSayfaA.jsx`, veri `veri.jsx`,
   parçalar `parcalar.jsx`. Sıra: lig/seri → avatar kartı → turnuva şeridi → OYNA/DÜELLO → kısayollar
   (Meydan Okumalar · Grup Maçı · Saf Bilgi · Hatalarım). Coin yalnız üst çubukta. Eski `pages/Home.jsx`
@@ -393,8 +412,8 @@ Her pakette: `node araclar/oyuncu-testi.mjs [--adres=https://quiztactics.vercel.
 - **1000 soru partisi + Jev zorluk (270–274) beklemede.** Üretildi ve provadan
   geçti ama Ida "soru üretimini durdur" dedi; uygulanmadı. Dosyalar
   `araclar/soru-parti-1000/bekleyen-migrationlar/` (migrations klasörü
-  dışında). 274 havuzun en kolay %10'unu zorluk 1 yapar → `soru_sec` onları
-  Klasik/Düello/Grup'tan çıkarır; açmadan önce karar gerekir.
+  dışında). Uygulanacaksa önce "yeni zor soru üretilmez" kuralına göre zorluk 4–5 çıkanlar
+  ayıklanmalı (324'ten beri zorluk 1 normal maçlarda da çıkar).
 
 - **Asenkron 1v1 maç dalı — karar bekliyor.** `matches` tablosundaki 48
   satırın tamamı `senkron = true`; `senkron = false` olan hiç maç yok. Ama
