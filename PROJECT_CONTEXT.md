@@ -69,8 +69,8 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
   Yeni soru ve denetim düzeltmeleri aynı Jev testinden geçer (`soru_denetim/kapi.mjs › sikIpucuTesti`).
 - **Ağırlıklı zorluk (324):** normal maçlarda (Klasik serbest/dereceli, Saf Bilgi, Düello, Grup,
   Soru Değiştir, Hatalarım dolgusu) `soru_sec` her yuva için önce grup seçer — kolay (zorluk 1–2)
-  `soru_agirlik_kolay` 55 · orta (3) `soru_agirlik_orta` 30 · zor (4–5) `soru_agirlik_zor` 15
-  (test değeri) — sonra o gruptan mevcut kurallarla soru; grup boşsa komşu gruba düşer.
+  `soru_agirlik_kolay` 70 · orta (3) `soru_agirlik_orta` 25 · zor (4–5) `soru_agirlik_zor` 5
+  (test değeri; 350: 55/30/15 → 70/25/5, 200 soruda ölçüm 71/21,5/7,5) — sonra o gruptan mevcut kurallarla soru; grup boşsa komşu gruba düşer.
   `zorluk >= 2` filtresi kalktı. Turnuva kendi kuralında.
 - **Soru üretimi: yeni zor soru üretilmez; üretim yalnız kolay ve orta** (Ida, 23 Eyl 2026).
 - **Gösterim payı (325/326):** sunucu yeni fazın/sorunun bitişine pay ekler — Düello
