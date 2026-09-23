@@ -186,7 +186,7 @@ istenmeli.
 | Öğe | Durum | Kanıt |
 |---|---|---|
 | Android projesi (`twa-manifest.json`, `build.gradle`, `AndroidManifest.xml`, keystore) | **Yok.** Depoda bulunamadı. | Dosya adıyla tüm depo tarandı |
-| `assetlinks.json` | **Yer tutucu.** Canlıda HTTP 200, `application/json` dönüyor. | `public/.well-known/assetlinks.json:6-8`: paket `com.idagg.bildim` (eski "Bildim" adı), parmak izi `BURAYA_IMZA_ANAHTARININ_SHA256_PARMAK_IZI_YAZILACAK` |
+| `assetlinks.json` | **Yer tutucu.** Canlıda HTTP 200, `application/json` dönüyor. | `public/.well-known/assetlinks.json:6-8`: paket `com.quiztactics.app` (23 Eyl 2026 kararı; eski `com.idagg.bildim`), parmak izi `BURAYA_IMZA_ANAHTARININ_SHA256_PARMAK_IZI_YAZILACAK` |
 | PWA manifesti | Var ve TWA için yeterli: `display: standalone`, 192 ve 512 ikon, maskable 512 | `public/bildim.webmanifest`, `index.html:34` |
 | Service worker | Var | `public/sw.js` |
 | Bubblewrap talimatı | Yalnız eski notlarda | `PROGRESS.md:1481-1491`. Adres eski hub'ı (`idagg-game-center.vercel.app`) gösteriyor; güncel değil. |
@@ -206,8 +206,10 @@ istenmeli.
    satmak için ödeme profili zorunlu. Kişisel hesaplarda Google, üretime çıkmadan önce
    kapalı test şartı koyuyor (bugünkü kural 12 test kullanıcısı ve 14 gün; başvuru
    sırasında Play Console'dan doğrulanmalı).
-4. **Paket adı.** `com.idagg.bildim` eski marka adını taşıyor. Paket adı yayından sonra
-   değiştirilemez; şimdi karar verilmeli (ör. `com.<ad>.quiztactics`).
+4. **Paket adı — karar verildi (23 Eyl 2026):** `com.quiztactics.app` (eski ad
+   `com.idagg.bildim`). `assetlinks.json` ve `satin_alma_dogrula` yorumu güncellendi.
+   Paket adı yayından sonra değiştirilemez; Play Console'da uygulama bu adla açılmalı,
+   `PLAY_PACKAGE_NAME` secret'ı bu değerle girilmeli.
 5. **Vergi.** Play Console'da vergi profili doldurulmalı. Google'ın Türkiye ve diğer
    ülkelerde KDV'yi kendisi tahsil edip etmediği Play'in güncel listesinden kontrol
    edilmeli. Gelirin beyanı için mali müşavire danışılmalı. (Bu rapor vergi durumunu

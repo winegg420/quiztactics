@@ -141,7 +141,7 @@ Aktif yedi maç skill'i vardır:
   Kapı (`skill_kullanim_kapisi`) kilitli skill'i reddeder.
 - **Kullanım hakkı:** skill envanterdeki haktan düşer. Fiyatlar
   `coin_joker_<tür>` (tek) ve `coin_joker_<tür>_10` (10'lu paket, %15 indirim).
-  Maç içinde hak yoksa onaylı "al ve kullan" akışı hâlâ var (karar bekliyor).
+  Maç içinde hak yoksa onaylı "al ve kullan" akışı kalır (karar, 23 Eyl).
 - Maç içi sınırlar herkese eşit: Klasik 6 / aynı skill 2 / soruda 1 · Düello
   4 / 2 / 1. Level ödülünden gelen haklar sınırları artırmaz.
 - `sis`, `savunma_kilidi`, `saldiri_degistir` **pasiftir** — geçmiş veri için
@@ -158,7 +158,8 @@ Aktif yedi maç skill'i vardır:
   Düello daha uzun sürdüğü için daha çok verir. Lig puanı ayrı: Klasik 25/10/0.
 - **XP ve level (test değerleri):** Klasik 30/15/10, Düello 45/15 (galibiyet/
   mağlubiyet), turnuva katılım 20 + ilk 3'e 50. Serbest ve Saf Bilgi'de XP tam.
-  Kaybeden ancak oynadıysa XP alır. Grup maçı XP vermez. Level ligden ayrı,
+  Kaybeden ancak oynadıysa XP alır; kazanansız Düello'da iki tarafa 15 XP.
+  Grup maçı XP vermez. Level ligden ayrı,
   kalıcı, sınırsız; herkes Level 1'den başladı (23 Eyl 2026). Gereken XP =
   round(`level_xp_taban` + `level_xp_katsayi` × level^`level_xp_us`) = 60 + 0,5 ×
   L^1,5. Level ödülü 20 coin; her 5 levelde 1 rastgele aktif skill hakkı; rütbe
@@ -175,7 +176,8 @@ Aktif yedi maç skill'i vardır:
 - Arkadaş daveti lig puanı VERMEZ — iki tarafa 200 coin.
 - İndirimler çarpılmaz: çift koruması / serbest / açık bot → en düşüğü uygulanır.
 - Çift koruması (1-5 tam, 6-10 %50, 11+ yok) lig puanına da uygulanır.
-- Günlük tavan 400 · başlangıç 500 · reklam 25 (günde 5).
+- Günlük tavan 400 · başlangıç **10.000 (test; `baslangic_coin`)** · reklam 25
+  (günde 5). `coin_baslangic` (500) satırı DB'de durur ama okunmaz.
 - Eşya: sıradan 300–600, özel 1.200–2.500.
 - **Etkinlik eşyaları satılmaz** (Taç, Pelerin, Uzay Kıyafeti) — yalnız
   turnuva ödülüdür. Dükkânda kilitli görünür.
@@ -188,6 +190,23 @@ Aktif yedi maç skill'i vardır:
   ve **gizli botlar** (gerçek oyuncu gibi, tam coin, gerçekçi sürede cevaplar).
 - `is_bot` istemciye **ASLA sızmaz** — gizli botun bot olduğu anlaşılmamalı.
 - Gizli botlar arkadaşlık kabul etmez, lig değiştirmez.
+
+### Kararlar (23 Eyl, test değeri)
+
+Ida "kendin doldur" dedi; hepsi test değeridir, yayından önce yeniden bakılabilir.
+
+- **Başlangıç coin'i 10.000 kalır** (test). **Yayın günü işi:** `baslangic_coin`'i
+  gerçek değere düşür ve test sırasında dağıtılan coin'e (şişkin bakiyeler) karar ver.
+- **Sigorta 30 · 2X 40 coin; 10'lu paket 255 / 340** (%15 indirim; migration 307,
+  `joker_paketleri.skill_sigorta_10` / `skill_cifte_puan_10`). Yalnız Klasik; Düello'ya
+  gelmez.
+- **Level hızı değişmez:** günde 10 maçla Level 100 ≈ 3,4 ay; katsayılara dokunulmaz.
+- **Maç içi "hak yoksa al ve kullan" kalır.**
+- **Paket 2 kuralları kabul:** oynamayan kaybedene XP yok · kazanansız Düello'da iki
+  tarafa 15 XP · level coini günlük tavanın dışında.
+- **Android paket adı `com.quiztactics.app`** (yayından sonra değiştirilemez):
+  `public/.well-known/assetlinks.json`; Play Console uygulaması ve `PLAY_PACKAGE_NAME`
+  secret'ı bu adla açılır. İmza parmak izi hâlâ yer tutucu.
 
 ---
 
