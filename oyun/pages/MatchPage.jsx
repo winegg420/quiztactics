@@ -14,7 +14,7 @@ import OdulDokumu from "../components/OdulDokumu.jsx";
 import MacSorulari from "../components/MacSorulari.jsx";
 import HesapGuvenceOnerisi from "../components/HesapGuvence.jsx";
 import MeydanaDonus from "../components/MeydanaDonus.jsx";
-import Maskot from "../components/Maskot.jsx";
+import "../tasarim/ekranlar/ikon-disk.css";
 import { QtBosDurum, QtCip, QtDugme, QtEtki, QtIkon, QtIkonDugme, QtMacUst, QtModal, QtRozet } from "../tasarim/index.js";
 import "../tasarim/ekranlar/m1-mac.css";
 import MacUstSerit, { SeviyeEtiketi } from "../components/MacUstSerit.jsx";
@@ -1055,7 +1055,8 @@ export default function MatchPage() {
     if (!senkron && mac.durum === "aktif" && benimSoru >= toplamSoru) {
       return (
         <div className="m1-mesaj">
-          <Maskot poz="selam" boyut={96} />
+          {/* Baykuş maskot kaldırıldı (Ida, 24 Eyl 2026) */}
+          <span className="qt-ikon-disk qt-ikon-disk--mavi" style={{ "--_boy": "96px" }} aria-hidden="true"><QtIkon ad="saat" boyut={46} /></span>
           <h1 className="qt-baslik-1">{tt("Senin bölümün bitti")}</h1>
           <p>
             {tt("{0} sorunun tamamını oynadın. {1} kendi zamanında oynayınca maç sonuçlanacak — bittiğinde sana haber vereceğiz.", { 0: toplamSoru, 1: rakipProfil?.gorunen_ad ?? "" })}

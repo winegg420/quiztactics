@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase.js";
-import Maskot from "../../oyun/components/Maskot.jsx";
 import { QtMarka, QtCip, QtKart, QtDugme, QtToast, QtBosDurum, QtIkon } from "../../oyun/tasarim/index.js";
 import "../../oyun/tasarim/ekranlar/g-ortak.css";
 import "../../oyun/tasarim/ekranlar/g-giris.css";
@@ -200,8 +199,12 @@ export default function Login() {
 
         <main className="g-giris-izgara">
           <section className="g-giris-vitrin">
-            {/* İlk ekranda oyunun yüzü — mevcut maskot Bilge */}
-            <Maskot poz="selam" boyut={96} className="g-giris-maskot" />
+            {/* İlk ekranda oyunun yüzü: baykuş maskot kaldırıldı (Ida, 24 Eyl 2026) — yerine mevcut profil avatarlarından üçlü */}
+            <span className="g-giris-avatarlar" aria-hidden="true">
+              {["/avatars/pro/tilki-k04.svg", "/avatars/pro/kedi-k01.svg", "/avatars/pro/robot-k15.svg"].map((src) => (
+                <img key={src} src={src} alt="" width="64" height="64" decoding="async" draggable="false" />
+              ))}
+            </span>
             <h1 className="g-giris-baslik">
               {ceviri("Bilgini oyuna")} <span className="g-giris-baslik-vurgu">{ceviri("dönüştür.")}</span>
             </h1>

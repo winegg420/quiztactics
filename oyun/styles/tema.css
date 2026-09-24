@@ -174,33 +174,7 @@ body::before {
 }
 
 /* ============================================================
-   MASKOT
-   ============================================================ */
-
-.bd-maskot { display: block; flex: 0 0 auto; }
-.bd-maskot-selam { animation: bd-maskot-sallan 3.4s ease-in-out infinite; transform-origin: 50% 90%; }
-@keyframes bd-maskot-sallan {
-  0%, 100% { transform: rotate(-2deg); }
-  50% { transform: rotate(2deg); }
-}
-.bd-maskot-kutluyor { animation: bd-maskot-zipla 1.1s ease-in-out infinite; }
-@keyframes bd-maskot-zipla {
-  0%, 100% { transform: translateY(0) scale(1); }
-  45% { transform: translateY(-7px) scale(1.03); }
-}
-.bd-maskot-parlak { animation: bd-parla 1.4s ease-in-out infinite; transform-origin: center; }
-@keyframes bd-parla {
-  0%, 100% { opacity: 0.55; }
-  50% { opacity: 1; }
-}
-.bd-maskot-dusunce { animation: bd-dusunce 2.6s ease-in-out infinite; }
-@keyframes bd-dusunce {
-  0%, 100% { opacity: 0.4; transform: translateY(0); }
-  50% { opacity: 1; transform: translateY(-3px); }
-}
-
-/* ============================================================
-   BOŞ DURUM — maskot + tek cümle + eylem
+   BOŞ DURUM — ikon + tek cümle + eylem
    ============================================================ */
 
 /* ============================================================
@@ -208,10 +182,6 @@ body::before {
    ============================================================ */
 
 @media (prefers-reduced-motion: reduce) {
-  .bd-maskot-selam,
-  .bd-maskot-kutluyor,
-  .bd-maskot-parlak,
-  .bd-maskot-dusunce,
   .sayfa > * {
     animation: none !important;
   }
@@ -655,7 +625,7 @@ body { overflow-x: clip; }
   from { transform: scale(0.8); opacity: 0; }
   to { transform: none; opacity: 1; }
 }
-/* Paket 29 B: arama ekranı "donmuş" görünmesin — maskot hafifçe süzülür,
+/* Paket 29 B: arama ekranı "donmuş" görünmesin — öğeler hafifçe süzülür,
    ipucu satırı her değişimde yumuşakça girer. Katman fixed; transform yalnız
    İÇ öğelerde, fixed öğenin kendisinde/atasında değil. */
 @keyframes bd-arama-suzul {
@@ -1268,8 +1238,6 @@ body::before { will-change: opacity; }
 }
 /* Büyük harf + geniş aralık yalnız KÜÇÜK etiketlerde kalır */
 
-/* Maskot artık odak değil, aksan */
-.app .bd-maskot { opacity: 0.95; }
 
 /* Bitiş perdesindeki başlık da düz altın (gradient metin kalktı) */
 
@@ -3696,7 +3664,6 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 /* ============================================================
    PAKET 42 S — giriş sayfası
    ============================================================ */
-/* S.3 maskot: logo ile slogan arasında, oyunun yüzü */
 /* S.2 hata basılan düğmenin hemen altında; tam genişlik, formla aynı en */
 
 /* ============================================================

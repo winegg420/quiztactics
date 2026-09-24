@@ -28,7 +28,7 @@
   margin-top: var(--qt-b-4);
 }
 
-/* Vitrin: telefonda maskot başlığın yanında, kısa; kart ilk ekranda görünsün. */
+/* Vitrin: telefonda avatar üçlüsü başlığın yanında, kısa; kart ilk ekranda görünsün. */
 .g-giris-vitrin {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
@@ -36,7 +36,14 @@
   column-gap: var(--qt-b-3);
   row-gap: var(--qt-b-2);
 }
-.g-giris-maskot { width: 72px; height: auto; }
+/* Avatar üçlüsü (baykuş maskotun yerine): ortadaki öne çıkar, yanlar arkada; genişlik = eski maskot yeri */
+.g-giris-avatarlar { --_a: 40px; display: flex; align-items: center; width: calc(var(--_a) * 2.1); }
+.g-giris-avatarlar img {
+  width: var(--_a); height: var(--_a); flex: 0 0 auto; border-radius: 50%;
+  border: 3px solid #fff; box-shadow: 0 3px 0 rgba(29, 33, 82, 0.18); background: #fff;
+}
+.g-giris-avatarlar img + img { margin-left: calc(var(--_a) * -0.45); }
+.g-giris-avatarlar img:nth-child(2) { position: relative; z-index: 1; width: calc(var(--_a) * 1.2); height: calc(var(--_a) * 1.2); }
 .g-giris-baslik {
   margin: 0;
   font-family: var(--qt-f-baslik);
@@ -138,12 +145,12 @@
     padding: var(--qt-b-8) 0;
   }
   .g-giris-vitrin { grid-template-columns: minmax(0, 1fr); row-gap: var(--qt-b-4); }
-  .g-giris-maskot { width: 120px; }
+  .g-giris-avatarlar { --_a: 64px; }
   .g-giris-baslik { font-size: var(--qt-y-4xl); }
   .g-giris-slogan { font-size: var(--qt-y-l); }
 }
 
 @media (max-width: 360px) {
-  .g-giris-maskot { width: 60px; }
+  .g-giris-avatarlar { --_a: 38px; }
   .g-giris-baslik { font-size: var(--qt-y-xl); }
 }

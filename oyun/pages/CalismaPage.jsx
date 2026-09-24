@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import KategoriIkon from "../components/KategoriIkon.jsx";
-import Maskot from "../components/Maskot.jsx";
+import "../tasarim/ekranlar/ikon-disk.css";
 import MacUstSerit from "../components/MacUstSerit.jsx";
 import Konfeti from "../components/Konfeti.jsx";
 import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesKazandin, sesDokunus, sesOnYukle, sesSoruGeldi } from "../lib/ses.js";
@@ -296,7 +296,8 @@ export default function CalismaPage() {
           />
         ) : bos ? (
           <QtKart className="m1-cal-bos">
-            <Maskot poz="dusunuyor" boyut={72} />
+            {/* Baykuş maskot kaldırıldı (Ida, 24 Eyl 2026) */}
+            <span className="qt-ikon-disk qt-ikon-disk--turuncu" aria-hidden="true"><QtIkon ad="kitap" boyut={34} /></span>
             <p>
               {tt("Henüz yanlışın yok — maç yaptıkça burada birikecek.")}
               <br />

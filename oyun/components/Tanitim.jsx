@@ -1,14 +1,13 @@
 import { useState } from "react";
-import Maskot from "./Maskot.jsx";
 import Modal from "./Modal.jsx";
 import { tt } from "../lib/dil.js";
 import { QtDugme, QtIkon } from "../tasarim/index.js";
 import "../tasarim/ekranlar/g-kurulum.css";
+import "../tasarim/ekranlar/ikon-disk.css";
 
 const KARTLAR = [
   {
     ikon: "kilic",
-    poz: "selam",
     baslik: tt("Nasıl oynanır?"),
     metin:
       tt("20 soruluk kapışmalarda rakibinle yarışırsın. Her doğru cevap 10 puan — ") +
@@ -18,7 +17,6 @@ const KARTLAR = [
   },
   {
     ikon: "yildiz",
-    poz: "dusunuyor",
     baslik: tt("On kategori"),
     metin:
       tt("Genel Kültür, Bilim, Tarih, Coğrafya, Edebiyat, Spor, Sanat, Sinema, ") +
@@ -27,7 +25,6 @@ const KARTLAR = [
   },
   {
     ikon: "lig",
-    poz: "kutluyor",
     baslik: tt("Şehrini zirveye taşı"),
     metin:
       tt("Kazandığın puanlar seni şehir, ülke ve dünya liglerinde yükseltir. ") +
@@ -64,9 +61,9 @@ export default function Tanitim({ onBitti }) {
 
         <div key={i} className="g-tanitim-icerik qt-h-gir">
           <div className={`g-tanitim-gorsel g-tanitim-gorsel--${k.ton}`}>
-            <Maskot poz={k.poz} boyut={104} />
-            <span className="g-tanitim-ikon" aria-hidden="true">
-              <QtIkon ad={k.ikon} boyut={24} />
+            {/* Baykuş maskot kaldırıldı (Ida, 24 Eyl 2026): kartın ikonu büyük diskte */}
+            <span className="qt-ikon-disk g-tanitim-disk" aria-hidden="true">
+              <QtIkon ad={k.ikon} boyut={52} />
             </span>
           </div>
           <h2 className="qt-baslik-1 g-tanitim-baslik">{k.baslik}</h2>

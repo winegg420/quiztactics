@@ -128,3 +128,6 @@
   .g-tanitim-nokta, .g-sihirbaz-parca, .g-avatar-sec { transition: none; }
   .g-avatar-sec:active { transform: none; }
 }
+
+/* Tanıtım ikon diski (maskot yerine) — kartın mod rengi */
+.g-tanitim-disk { --_boy: 104px; --_z: #fff; background: #fff; color: var(--_i); box-shadow: 0 var(--qt-dudak-s) 0 var(--_d, var(--qt-ikinci-dudak)); }

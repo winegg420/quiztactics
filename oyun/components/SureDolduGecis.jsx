@@ -1,9 +1,10 @@
 import { useEffect, useRef } from "react";
-import Maskot from "./Maskot.jsx";
 import PuanSayaci from "./PuanSayaci.jsx";
 import { sesSureDoldu, sesKazandin, sesKaybettin, sesBeraberlik } from "../lib/ses.js";
 import { titret } from "../lib/geriBildirim.js";
 import { tt } from "../lib/dil.js";
+import { QtIkon } from "../tasarim/index.js";
+import "../tasarim/ekranlar/ikon-disk.css";
 import "../tasarim/ekranlar/m1-sonuc.css";
 
 /**
@@ -64,7 +65,10 @@ export default function SureDolduGecis({
 
   return (
     <div className="m1-gecis" role="status" aria-live="polite">
-      <Maskot poz={kazandi ? "kutluyor" : "dusunuyor"} boyut={80} />
+      {/* Baykuş maskot kaldırıldı (Ida, 24 Eyl 2026) */}
+      <span className={`qt-ikon-disk ${kazandi ? "qt-ikon-disk--sari" : "qt-ikon-disk--mavi"}`} style={{ "--_boy": "80px" }} aria-hidden="true">
+        <QtIkon ad={kazandi ? "kupa" : "saat"} boyut={40} />
+      </span>
       <div className="m1-gecis-baslik">{baslik}</div>
       {skor !== null && (
         <div className="m1-gecis-skor">
