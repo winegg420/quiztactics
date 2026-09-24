@@ -21,7 +21,8 @@ import { elmasTazele } from "../lib/elmas.js";
 import { sesHataUyari, sesSatinAlma } from "../lib/ses.js";
 import { aktifDil, tt } from "../lib/dil.js";
 import { y } from "../lib/yol.js";
-import { QtDugme, QtIkon, QtKart } from "../tasarim/index.js";
+import { QtDugme, QtIkon, QtKart, QtModal } from "../tasarim/index.js";
+import { HAZIR_AVATARLAR } from "../lib/avatarKatalogu.js";
 import "../tasarim/ekranlar/dukkan-cerceve.css";
 import "../tasarim/ekranlar/dukkan-kozmetik.css";
 
@@ -77,14 +78,21 @@ const ZAFER_SIMGE = {
 const tepkiListesi = (x) => (Array.isArray(x?.icerik?.tepkiler) ? x.icerik.tepkiler : KOZMETIK_TANIMLARI[x?.anahtar]?.tepkiler ?? []);
 export const kozmetikAdi = (x) => x?.ad ?? tt(KOZMETIK_TANIMLARI[x?.anahtar]?.ad ?? x?.anahtar ?? "");
 
-/** Izgaradaki küçük görsel (64 px kutu). */
-export function KozmetikSimge({ kalem, profile, boyut = 64 }) {
-  // 560: premium — kendi avatarınla, yalnız o kalem (ızgarada durağan; süsler komşuya taşmasın diye küçük)
-  if (kalem.tur === "premium_cerceve" || kalem.tur === "premium_aura") {
-    const b = Math.min(boyut, 56) - 8;
+export const premiumMi = (x) => x?.tur === "premium_cerceve" || x?.tur === "premium_aura";
+
+/**
+ * Izgaradaki küçük görsel (64 px kutu).
+ * Premium (hareketli satış kalemi): avatar orta kademede (≥ 49 px → PremiumCerceve sade hareket: uzak süs ve
+ * parçacık yok) ve `hareketli` verilirse oynar; ekran dışında / azaltılmış harekette PremiumCerceve durdurur.
+ * Kutu avatardan 24 px geniş ve süsler kutuda KIRPILIR (overflow: clip) → komşu karta taşmaz.
+ */
+export function KozmetikSimge({ kalem, profile, boyut = 64, hareketli = false }) {
+  // 560: premium — kendi avatarınla, yalnız o kalem
+  if (premiumMi(kalem)) {
+    const b = Math.max(52, boyut - 4);
     return (
-      <span className="qt-kz-premium-simge" style={{ width: boyut, height: boyut }} aria-hidden="true">
-        <CerceveliAvatar profile={profile ?? {}} boyut={b} cerceve={null} aura={null}
+      <span className="qt-kz-premium-simge" style={{ width: b + 24, height: b + 24 }} aria-hidden="true">
+        <CerceveliAvatar profile={profile ?? {}} boyut={b} cerceve={null} aura={null} hareketli={hareketli}
                          premiumCerceve={kalem.tur === "premium_cerceve" ? kalem.anahtar : null}
                          premiumAura={kalem.tur === "premium_aura" ? kalem.anahtar : null} />
       </span>
@@ -112,14 +120,14 @@ export function KozmetikSimge({ kalem, profile, boyut = 64 }) {
 }
 
 /** Büyük önizleme: kalem gerçek yerinde (VS kartı, ad açık + koyu zeminde, maç sonu kutusu, tepki balonları). */
-export function KozmetikBuyukOnizleme({ kalem, profile, userId }) {
+export function KozmetikBuyukOnizleme({ kalem, profile, userId, boyut = 128 }) {
   const [tekrar, setTekrar] = useState(0);
   const ad = profile?.gorunen_ad || tt("Oyuncu");
-  if (kalem.tur === "premium_cerceve" || kalem.tur === "premium_aura") {
+  if (premiumMi(kalem)) {
     // 560: gerçek PremiumCerceve (tembel) — profil boyutunda, hareketli (önizlemedeki gibi)
     return (
-      <span className="qt-kz-premium-onizleme">
-        <CerceveliAvatar profile={profile ?? {}} userId={userId} boyut={128} hareketli cerceve={null} aura={null}
+      <span className="qt-kz-premium-onizleme" style={{ "--kz-b": `${boyut}px` }}>
+        <CerceveliAvatar profile={profile ?? {}} userId={userId} boyut={boyut} hareketli cerceve={null} aura={null}
                          premiumCerceve={kalem.tur === "premium_cerceve" ? kalem.anahtar : null}
                          premiumAura={kalem.tur === "premium_aura" ? kalem.anahtar : null} />
       </span>
@@ -159,21 +167,14 @@ export function KozmetikBuyukOnizleme({ kalem, profile, userId }) {
 }
 
 /**
- * Tek tür sekmesi. `katalog` JokerDukkani'nda bir kez okunur (sekmenin görünürlüğü de ondan: normal oyuncuya
- * satış kapalıyken boş döner). `sahipHesap` yalnız arayüz ipucu (kapı sunucuda).
+ * Satın al / tak işlevleri — Dükkân sahnesi, büyük önizleme penceresi ve Koleksiyon aynısını kullanır
+ * (kozmetik_satin_al / kozmetik_tak; kapı sunucuda, sahip test modu dahil).
  */
-export default function DukkanKozmetik({ tur, katalog, sahipHesap = false, yenile, elmasYetmedi, onBilgi, onHata }) {
-  const { user, profile } = useAuth();
-  const liste = (katalog ?? []).filter((x) => x.tur === tur).sort((a, b) => (a.sira ?? 0) - (b.sira ?? 0));
-  const [secili, setSecili] = useState(() => liste.find((x) => x.takili)?.anahtar ?? liste[0]?.anahtar ?? null);
+function useKozmetikEylem({ c, yenile, elmasYetmedi, onBilgi, onHata }) {
+  const { user } = useAuth();
   const [islem, setIslem] = useState(null);
-  const c = liste.find((x) => x.anahtar === secili) ?? liste[0] ?? null;
+  const tur = c?.tur;
   const takilir = tur !== "tepki_paketi";
-
-  if (!c) {
-    return <QtKart><p className="qt-kucuk qt-soluk">{tt("Bu bölümde şu an satışta bir şey yok.")}</p></QtKart>;
-  }
-
   const satinAl = async () => {
     if (islem) return;
     setIslem("al");
@@ -206,21 +207,15 @@ export default function DukkanKozmetik({ tur, katalog, sahipHesap = false, yenil
     }
   };
 
+  return { islem, satinAl, tak, takilir };
+}
+
+/** Kalemin durumuna göre tek düğme: Çıkar · Tak / Test için tak · Sende var · Satın al (fiyat) · Satılmıyor. */
+function KozmetikEylemDugmesi({ c, sahipHesap, eylem }) {
+  const { islem, satinAl, tak, takilir } = eylem;
   const testModu = sahipHesap && c.kapali && !c.sahip;
   return (
-    <div className="qt-dc qt-kz">
-      <QtKart className="qt-dc-sahne qt-kz-sahne" aria-live="polite">
-        <div className="qt-dc-onizleme qt-kz-onizleme">
-          <KozmetikBuyukOnizleme kalem={c} profile={profile} userId={user?.id} />
-        </div>
-        <div className="qt-dc-sahne-bilgi">
-          <h2 className="qt-baslik-2">{kozmetikAdi(c)}</h2>
-          {c.kapali && sahipHesap && (
-            <span className="qt-kz-kapali"><QtIkon ad="kilit" boyut={12} /> {tt("Satışta değil — yalnız sen görüyorsun")}</span>
-          )}
-          <p className="qt-kucuk qt-soluk">{tt(ACIKLAMA[tur])}</p>
-        </div>
-        <div className="qt-dc-sahne-eylem">
+    <>
           {takilir && c.takili ? (
             <QtDugme tur="ikincil" tamGenislik yukleniyor={islem === "tak"} onClick={() => tak(null)}>{tt("Çıkar")}</QtDugme>
           ) : takilir && (c.sahip || testModu) ? (
@@ -237,14 +232,91 @@ export default function DukkanKozmetik({ tur, katalog, sahipHesap = false, yenil
           ) : (
             <QtDugme tur="ikincil" tamGenislik devreDisi ikon="kilit">{tt("Satılmıyor")}</QtDugme>
           )}
+    </>
+  );
+}
+
+/** Büyük önizleme penceresinde avatar çapı: telefonda ~200 px, süsler (%170) pencereye sığsın diye genişliğe göre. */
+function pencereBoyutu() {
+  const en = typeof window !== "undefined" ? window.innerWidth : 390;
+  // Pencere genişliği min(ekran − 32, 440); süsler çapın %170'i → tamamı pencereye sığar (390 px'te 210, 360'ta 192).
+  return Math.max(160, Math.min(240, Math.floor(Math.min(en - 32, 440) / 1.7)));
+}
+
+/**
+ * BÜYÜK ÖNİZLEME PENCERESİ (premium çerçeve/aura) — karta dokununca açılır: kalem oyuncunun KENDİ avatarıyla,
+ * tam boyut ve tam hareketli; altında fiyat ve Satın al / Tak (mevcut işlevler, sahip test modu aynen).
+ * `kalem` null → kapalı. Dükkân ve Profil › Koleksiyon kullanır.
+ */
+export function KozmetikOnizlemePenceresi({ kalem, onKapat, sahipHesap = false, yenile, elmasYetmedi, onBilgi, onHata }) {
+  const { user, profile } = useAuth();
+  const eylem = useKozmetikEylem({ c: kalem, yenile, elmasYetmedi, onBilgi, onHata });
+  const [boyut] = useState(pencereBoyutu);
+  if (!kalem) return null;
+  return (
+    <QtModal acik onKapat={onKapat} baslik={kozmetikAdi(kalem)} className="qt-kz-pencere"
+             altlik={(
+               <>
+                 <KozmetikEylemDugmesi c={kalem} sahipHesap={sahipHesap} eylem={eylem} />
+                 <QtDugme tur="hayalet" tamGenislik onClick={onKapat}>{tt("Kapat")}</QtDugme>
+               </>
+             )}>
+      <div className="qt-kz-pencere-sahne">
+        <KozmetikBuyukOnizleme kalem={kalem} profile={profile} userId={user?.id} boyut={boyut} />
+      </div>
+      {kalem.kapali && sahipHesap && (
+        <span className="qt-kz-kapali"><QtIkon ad="kilit" boyut={12} /> {tt("Satışta değil — yalnız sen görüyorsun")}</span>
+      )}
+      <p className="qt-kucuk qt-soluk qt-kz-pencere-aciklama">{tt(ACIKLAMA[kalem.tur] ?? "")}</p>
+      {!kalem.sahip && kalem.satilik && kalem.fiyat != null && (
+        <p className="qt-kz-pencere-fiyat">{tt("Fiyat")} <ElmasFiyat fiyat={kalem.fiyat} boyut={18} /></p>
+      )}
+    </QtModal>
+  );
+}
+
+/**
+ * Tek tür sekmesi. `katalog` JokerDukkani'nda bir kez okunur (sekmenin görünürlüğü de ondan: normal oyuncuya
+ * satış kapalıyken boş döner). `sahipHesap` yalnız arayüz ipucu (kapı sunucuda).
+ */
+export default function DukkanKozmetik({ tur, katalog, sahipHesap = false, yenile, elmasYetmedi, onBilgi, onHata }) {
+  const { user, profile } = useAuth();
+  const liste = (katalog ?? []).filter((x) => x.tur === tur).sort((a, b) => (a.sira ?? 0) - (b.sira ?? 0));
+  const [secili, setSecili] = useState(() => liste.find((x) => x.takili)?.anahtar ?? liste[0]?.anahtar ?? null);
+  const [pencere, setPencere] = useState(null);   // premium: büyük önizleme penceresindeki kalemin anahtarı
+  const c = liste.find((x) => x.anahtar === secili) ?? liste[0] ?? null;
+  const eylem = useKozmetikEylem({ c, yenile, elmasYetmedi, onBilgi, onHata });
+  const premium = premiumMi({ tur });
+
+  if (!c) {
+    return <QtKart><p className="qt-kucuk qt-soluk">{tt("Bu bölümde şu an satışta bir şey yok.")}</p></QtKart>;
+  }
+
+  return (
+    <div className="qt-dc qt-kz">
+      <QtKart className="qt-dc-sahne qt-kz-sahne" aria-live="polite">
+        <div className="qt-dc-onizleme qt-kz-onizleme">
+          <KozmetikBuyukOnizleme kalem={c} profile={profile} userId={user?.id} />
+        </div>
+        <div className="qt-dc-sahne-bilgi">
+          <h2 className="qt-baslik-2">{kozmetikAdi(c)}</h2>
+          {c.kapali && sahipHesap && (
+            <span className="qt-kz-kapali"><QtIkon ad="kilit" boyut={12} /> {tt("Satışta değil — yalnız sen görüyorsun")}</span>
+          )}
+          <p className="qt-kucuk qt-soluk">{tt(ACIKLAMA[tur])}</p>
+        </div>
+        <div className="qt-dc-sahne-eylem">
+          <KozmetikEylemDugmesi c={c} sahipHesap={sahipHesap} eylem={eylem} />
         </div>
       </QtKart>
 
       <ul className="qt-dc-izgara">
         {liste.map((x) => (
           <li key={x.anahtar}>
-            <button type="button" className="qt-dc-oge" aria-pressed={x.anahtar === c.anahtar} onClick={() => setSecili(x.anahtar)}>
-              <KozmetikSimge kalem={x} profile={profile} />
+            <button type="button" className="qt-dc-oge" aria-pressed={x.anahtar === c.anahtar}
+                    aria-haspopup={premium ? "dialog" : undefined}
+                    onClick={() => { setSecili(x.anahtar); if (premium) setPencere(x.anahtar); }}>
+              <KozmetikSimge kalem={x} profile={profile} hareketli={premium} />
               <span className="qt-dc-ad">{kozmetikAdi(x)}</span>
               <span className="qt-dc-durum">
                 {x.takili ? tt("Takılı") : x.sahip ? tt("Sende var") : x.satilik && x.fiyat != null ? <ElmasFiyat fiyat={x.fiyat} />
@@ -258,6 +330,10 @@ export default function DukkanKozmetik({ tur, katalog, sahipHesap = false, yenil
         {tt("Aldıkların Profil › Koleksiyon'da; oradan takıp çıkarabilirsin.")}{" "}
         <Link to={y("/profil?sekme=koleksiyon")}>{tt("Koleksiyonuna bak")}</Link>
       </p>
+      {premium && (
+        <KozmetikOnizlemePenceresi kalem={liste.find((x) => x.anahtar === pencere) ?? null} onKapat={() => setPencere(null)}
+          sahipHesap={sahipHesap} yenile={yenile} elmasYetmedi={() => { setPencere(null); elmasYetmedi?.(); }} onBilgi={onBilgi} onHata={onHata} />
+      )}
     </div>
   );
 }
@@ -274,7 +350,13 @@ const ACIKLAMA = {
 /** Dükkân › Avatar — Ajan A'nın kataloğu (avatar_katalogu_oyun / avatar_satin_al / avatar_onayla). */
 export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYetmedi, onBilgi, onHata }) {
   const { user, profile, refreshProfile } = useAuth();
-  const liste = [...(avatarlar ?? [])].sort((a, b) => (a.sira ?? 0) - (b.sira ?? 0));
+  // 31 hazır profesyonel avatar (bedava, avatar_onayla kabul eder) + katalogdaki 27 — profil ve kurulumla aynı
+  // sıra; eskiden burada yalnız katalog (27) vardı → "yalnız son eklenen avatarlar görünüyor".
+  const liste = [
+    ...HAZIR_AVATARLAR.map((a, i) => ({ anahtar: a.url, url: a.url, ad_tr: a.ad, ad_en: a.ad, tur: "hazir", fiyat_elmas: 0,
+      sira: -100 + i, kullanabilir: true, kapali: false, sahibim: false })),
+    ...[...(avatarlar ?? [])].sort((a, b) => (a.sira ?? 0) - (b.sira ?? 0)),
+  ];
   const [secili, setSecili] = useState(() => liste.find((a) => profile?.avatar_url === a.url)?.anahtar ?? liste[0]?.anahtar ?? null);
   const [islem, setIslem] = useState(null);
   const c = liste.find((a) => a.anahtar === secili) ?? liste[0] ?? null;
@@ -352,7 +434,7 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
               <img className="qt-kz-avatar-simge" src={a.url} alt="" width="64" height="64" loading="lazy" decoding="async" />
               <span className="qt-dc-ad">{ad(a)}</span>
               <span className="qt-dc-durum">
-                {profile?.avatar_url === a.url ? tt("Takılı") : a.sahibim ? tt("Sende var") : a.tur === "gunluk" || (a.kullanabilir && !(a.fiyat_elmas > 0)) ? tt("Bedava")
+                {profile?.avatar_url === a.url ? tt("Takılı") : a.sahibim ? tt("Sende var") : a.tur === "gunluk" || a.tur === "hazir" || (a.kullanabilir && !(a.fiyat_elmas > 0)) ? tt("Bedava")
                   : a.fiyat_elmas != null && !a.kapali ? <ElmasFiyat fiyat={a.fiyat_elmas} /> : <><QtIkon ad="kilit" boyut={12} /> {tt("Kapalı")}</>}
               </span>
             </button>

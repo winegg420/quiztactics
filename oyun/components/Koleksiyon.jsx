@@ -12,7 +12,7 @@
  * (Eski CerceveSecici.jsx'in yerine; qt-cs- sınıfları aynı.)
  */
 import { useCallback, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Avatar from "../../src/components/Avatar.jsx";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import { supabase } from "../../src/lib/supabase.js";
@@ -21,10 +21,10 @@ import CerceveGorseli, { icBoyut } from "../tasarim/cerceveler/CerceveGorseli.js
 import { cerceveTanimiBul, auraTanimiBul } from "../tasarim/cerceveler/tanimlar.js";
 import DurumKutusu from "./DurumKutusu.jsx";
 import { NadirlikEtiketi, ElmasFiyat } from "./DukkanAuralar.jsx";
-import { KOZMETIK_SEKMELERI, KozmetikSimge, kozmetikAdi, useKozmetikDukkan } from "./DukkanKozmetik.jsx";
+import { KOZMETIK_SEKMELERI, KozmetikOnizlemePenceresi, KozmetikSimge, kozmetikAdi, premiumMi, useKozmetikDukkan } from "./DukkanKozmetik.jsx";
 import { kozmetikHatasi, kozmetikTak } from "../lib/kozmetik.js";
 import { aktifDil } from "../lib/dil.js";
-import { HAZIR_AVATARLAR } from "./ProfilAyarlari.jsx";
+import { HAZIR_AVATARLAR } from "../lib/avatarKatalogu.js";
 import { cerceveKatalogu, cerceveTak, auraKatalogu, auraTak, oyuncuKartiUnut } from "../lib/cerceve.js";
 import { LIG_ADLARI } from "../lib/lig.js";
 import { hataMesaji } from "../lib/hata.js";
@@ -54,6 +54,9 @@ export default function Koleksiyon() {
   const [mesgul, setMesgul] = useState(null);
   const [bilgi, setBilgi] = useState(null);
   const kozmetik = useKozmetikDukkan();
+  const navigate = useNavigate();
+  // Premium (hareketli) kalem: karta dokununca büyük önizleme penceresi (tak / satın al orada)
+  const [pencere, setPencere] = useState(null);
 
   const yukle = useCallback(async () => {
     setHata(null);
@@ -266,7 +269,17 @@ export default function Koleksiyon() {
                 const kullanir = x.sahip || kozmetik.sahipHesap;
                 return (
                   <li key={x.anahtar}>
-                    {takilir && kullanir ? (
+                    {premiumMi(x) ? (
+                      <button type="button" className={"qt-cs-oge" + (kullanir ? "" : " qt-cs-oge--kilitli")} aria-haspopup="dialog"
+                              aria-pressed={kullanir ? x.takili : undefined}
+                              aria-label={tt("{ad} — büyük önizleme", { ad: kozmetikAdi(x) })} onClick={() => setPencere(x.anahtar)}>
+                        <KozmetikSimge kalem={x} profile={profile} boyut={56} hareketli />
+                        <span className="qt-cs-ad">{kozmetikAdi(x)}</span>
+                        {kullanir
+                          ? <span className="qt-cs-durum">{durumYazi(x.takili, `k:${s.tur}:${x.anahtar}`)}</span>
+                          : <span className="qt-cs-kosul">{x.satilik && x.fiyat != null ? <ElmasFiyat fiyat={x.fiyat} boyut={14} /> : <QtIkon ad="kilit" boyut={12} />}</span>}
+                      </button>
+                    ) : takilir && kullanir ? (
                       <button type="button" className="qt-cs-oge" aria-pressed={x.takili} disabled={Boolean(mesgul)}
                               onClick={() => !x.takili && kozmetikSec(s.tur, x.anahtar)}>
                         <KozmetikSimge kalem={x} profile={profile} boyut={56} />
@@ -295,11 +308,29 @@ export default function Koleksiyon() {
         );
       })}
 
+      <KozmetikOnizlemePenceresi kalem={pencere ? kozmetik.katalog.find((x) => x.anahtar === pencere) ?? null : null}
+        onKapat={() => setPencere(null)} sahipHesap={kozmetik.sahipHesap} yenile={kozmetik.yenile}
+        elmasYetmedi={() => { setPencere(null); navigate(y("/joker?sekme=elmas")); }}
+        onBilgi={(m) => { setHata(null); setBilgi(m); }} onHata={(m) => { setBilgi(null); setHata(m); }} />
+
       {/* ---------- Avatarlar ---------- */}
       <QtKart as="section" className="qt-cs" aria-labelledby="qt-ks-avatar">
         <h2 id="qt-ks-avatar" className="qt-baslik-3">{tt("Avatarlar")}</h2>
         <ul className="qt-cs-izgara qt-ks-avatarlar">
-          {/* 520: yeni katalog avatarları (günlük + aldıkların; sahip test modunda hepsi) önce */}
+          {HAZIR_AVATARLAR.map((a) => {
+            const secili = profile?.avatar_url === a.url;
+            return (
+              <li key={a.url}>
+                <button type="button" className="qt-cs-oge qt-ks-avatar" aria-pressed={secili} disabled={Boolean(mesgul)}
+                        aria-label={tt("{0} avatarını seç", { 0: a.ad })} onClick={() => avatarSec(a.url)}>
+                  <img src={a.url} alt="" loading="lazy" decoding="async" width="56" height="56" />
+                  <span className="qt-cs-ad">{a.ad}</span>
+                </button>
+              </li>
+            );
+          })}
+          {/* 520/550: yeni katalog avatarları (27, ücretsiz) — 31 hazır avatarın ARDINDAN (profil ve kurulumla aynı sıra;
+              önce gelince telefonda ilk ekran yalnız yeni avatarlarla doluyordu) */}
           {yeniAvatarlar.map((a) => {
             const secili = profile?.avatar_url === a.url;
             const ad = (aktifDil() === "en" ? a.ad_en : a.ad_tr) ?? a.ad_tr;
@@ -309,18 +340,6 @@ export default function Koleksiyon() {
                         aria-label={tt("{0} avatarını seç", { 0: ad })} onClick={() => avatarSec(a.url)}>
                   <img src={a.url} alt="" loading="lazy" decoding="async" width="56" height="56" />
                   <span className="qt-cs-ad">{ad}</span>
-                </button>
-              </li>
-            );
-          })}
-          {HAZIR_AVATARLAR.map((a) => {
-            const secili = profile?.avatar_url === a.url;
-            return (
-              <li key={a.url}>
-                <button type="button" className="qt-cs-oge qt-ks-avatar" aria-pressed={secili} disabled={Boolean(mesgul)}
-                        aria-label={tt("{0} avatarını seç", { 0: a.ad })} onClick={() => avatarSec(a.url)}>
-                  <img src={a.url} alt="" loading="lazy" decoding="async" width="56" height="56" />
-                  <span className="qt-cs-ad">{a.ad}</span>
                 </button>
               </li>
             );

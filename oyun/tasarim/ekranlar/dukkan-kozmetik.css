@@ -98,4 +98,29 @@
 /* 560: premium çerçeve / aura — ızgarada kendi avatarınla (durağan), büyük önizlemede hareketli.
    Süsler kutunun %35'i kadar taşar → büyük önizlemede üst/alt pay. */
 .qt-kz-premium-simge { display: grid; place-items: center; }
+/* Izgara kartı: avatar orta kademede HAREKETLİ (ekrandayken). Süsler bu kutuda kırpılır → komşu karta taşmaz. */
+.qt-dc-oge > .qt-kz-premium-simge, .qt-cs-oge > .qt-kz-premium-simge {
+  overflow: hidden;
+  overflow: clip;
+  border-radius: var(--qt-r-m);
+  margin-top: calc(-1 * var(--qt-b-3));
+  /* kırpma kenarı sert görünmesin: süsler kutunun kenarına doğru yumuşakça söner */
+  -webkit-mask-image: radial-gradient(closest-side, #000 76%, transparent 100%);
+  mask-image: radial-gradient(closest-side, #000 76%, transparent 100%);
+}
+
+/* Büyük önizleme penceresi (QtModal): avatar ~200 px, tam kademe, tam hareketli. Süsler (%35 taşma) pencerenin
+   iç genişliğinde kırpılır — yatay kaydırma çıkmaz. */
+.qt-kz-pencere .qt-modal-govde { display: grid; justify-items: center; gap: var(--qt-b-2); text-align: center; }
+.qt-kz-pencere-sahne {
+  display: grid;
+  place-items: center;
+  width: calc(100% + 2 * var(--qt-b-5));
+  margin: calc(-1 * var(--qt-b-2)) calc(-1 * var(--qt-b-5)) 0;
+  overflow: hidden;
+  overflow: clip;
+}
+.qt-kz-pencere-sahne .qt-kz-premium-onizleme { padding: calc(var(--kz-b, 200px) * 0.34) 0 calc(var(--kz-b, 200px) * 0.28); }
+.qt-kz-pencere-aciklama { margin: 0; text-wrap: pretty; }
+.qt-kz-pencere-fiyat { display: inline-flex; align-items: center; gap: var(--qt-b-2); margin: 0; font-weight: var(--qt-a-siyah); }
 .qt-kz-premium-onizleme { display: grid; place-items: center; padding: 48px 0 28px; overflow: visible; }

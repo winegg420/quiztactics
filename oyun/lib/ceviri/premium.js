@@ -16,6 +16,8 @@ export default {
     "Animated frame: comes alive on your profile, home screen, VS moment and match end; stays calm in lists. Your opponent sees it too.",
   "Avatarının iç arka planı: düz zeminin yerine hareketli sahne. Maçta, lig tablosunda ve profilinde herkes görür.":
     "Your avatar's inner background: an animated scene instead of a flat color. Everyone sees it in matches, the league table and your profile.",
+  "Fiyat": "Price",
+  "{ad} — büyük önizleme": "{ad} — large preview",
   // Lig amblemi (ekler.jsx)
   "{lig} Lig": "{lig} League",
   "Bronz": "Bronze",
