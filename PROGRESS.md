@@ -8266,3 +8266,27 @@ ada dokununca kart yok, maç içi ses tek düğme; ek olarak 2. tur onayları (B
   (piksel farkı 0). Arkadaş listesi satırı artık isim efekti gösteriyor (FriendsPage tek satır). Lig satırında eskisiyle
   aynı noktada kısalır. Kontrast kontur/beyaz 15,1, sarı/kontur ≥8,6.
 - **Ana paket:** JS 408,89 (a8ae628) → 408,25 kB; CSS 473,24 → 476,38 kB. Build temiz; 390/360, reduce açık/kapalı taşma 0, hata 0.
+
+## 2026-09-24 — Canlıda üç oyun-kıran hata (Ida, Samsung Android Chrome) + denetim izleri temizlendi
+**Araç:** Claude Code (yönetici)
+- **Düello maç sonu boş (yalnız eylem çubuğu):** tema.css `.bd-duello > * { position: relative; z-index: 1 }` aynı
+  ağırlıkta; yüklenme sırasıyla kazanınca sahne (`.msk`, `c284fea`'dan beri `position: fixed`) akışa düşüyor, gövde
+  0 px'e çöküp `overflow: hidden` ile kırpılıyordu (ölçüm: `.msk` relative, `.msk-govde` h 0). Düzeltme:
+  `.bd-duello > .msk { position: fixed; z-index: 30 }`. Sunucu verisi (`mac_sonu_ozet`) sağlamdı. Klasik/Grup/Turnuva
+  sahneyi kapsız çiziyor — etkilenmemiş.
+- **"Devam eden bir düello var" (asılı düello) = denetim D-101:** 470'te zayıf noktası olmayan savunanda
+  `v_zayif_saldiri` NULL → `duello_hamleler.riskli` NOT NULL → tur çözülemiyor; `duello_tik_hepsi` hatayı yutuyordu.
+  Canlı: silaa'nın 18:08 bot düellosu 16 dk asılı (Ida o sırada davet edemedi), 5df65666, fde41b07. Migration 600:
+  `coalesce(…, false)` + güvenlik ağı (hata veren ve süresi 60 sn geçmiş maç ödülsüz `iptal`).
+- **Art arda ikinci maçta ikisinde de donma:** `/mac/:id`, `/duello/:id`, `/grup-mac/:id` maç kimliği değişince
+  yeniden kurulmuyordu (rövanş aynı rotada); bitmiş maçın ilerleme damgası (`damgaRef`, 1e9) yeni maçın bütün
+  güncellemelerini "eski" sayıp atıyordu → yeni maç adresinde eski "ZAFER!" sahnesi, soru 0'da donma (iki test
+  hesabıyla yeniden üretildi). Düzeltme: `MacAnahtarli` — sayfa maç kimliğine `key`li (BildimApp.jsx).
+- **Canlı doğrulama (390 px):** zayıf noktası olmayan hesapla Düello (bot) sonuna kadar → tur çözüldü, maç sonu
+  sahnesi tam (başlık, avatarlar, can, XP, görevler); iki hesap Klasik 20 soru → rövanş (sayfa yenilenmeden) → ikinci
+  maç 20/20 donmadan (skorlar 10–90 / 50–70, yeni sahne); iki arkadaş arasında Düello daveti + kabul → düello açıldı;
+  Grup 15/15 (çıkış onayı + "Maçtan ayrıldın"). Hareketi azalt açıkken de aynı.
+- **Denetim izleri silindi (Ida isteği):** 7 misafir hesap (Denetci1_42, Denetci1_83, DenetciIki36/70/40,
+  DenetimUc148, "Oyuncu" 0c59b999 — d2 EN ilk açılış betiği) → auth.users CASCADE: 10 maç, 2 düello (5df65666 dahil),
+  1 arkadaşlık, 3 mesaj, 4 bildirim, 1 davet, grup/turnuva kayıtları. Önce prova, sonra uygulandı. ArayuzDenetim*
+  araç hesapları duruyor (araçlar kullanıyor).
