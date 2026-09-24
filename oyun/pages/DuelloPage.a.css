@@ -448,8 +448,8 @@
   body.bd-oyun-modu .m2-cevap-faz .qt-soru-kart { padding: var(--qt-b-2) var(--qt-b-3) var(--qt-b-3); }
   body.bd-oyun-modu .m2-cevap-faz .qt-soru-kart--sayacli { margin-top: 24px; padding-top: 28px; }
   body.bd-oyun-modu .m2-cevap-faz .qt-soru-metin { font-size: clamp(19px, 3.2dvh, 26px); line-height: 1.2; }
-  body.bd-oyun-modu .m2-cevap-faz .m1-soru--uzun .qt-soru-metin { font-size: 17px; }
-  body.bd-oyun-modu .m2-cevap-faz .m1-soru--cok-uzun .qt-soru-metin { font-size: 15px; }
+  body.bd-oyun-modu .m2-cevap-faz .m1-soru--uzun .qt-soru-metin { font-size: clamp(16px, 2.5dvh, 21px); }
+  body.bd-oyun-modu .m2-cevap-faz .m1-soru--cok-uzun .qt-soru-metin { font-size: clamp(14px, 2.1dvh, 18px); }
   /* Şıklar sıkışır (dokunma ≥ 44 px) */
   body.bd-oyun-modu .m2-cevap-faz .qt-sikler { gap: 6px; }
   body.bd-oyun-modu .m2-cevap-faz .qt-sik-yuva { min-height: 44px; }

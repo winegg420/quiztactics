@@ -426,10 +426,9 @@ body.bd-oyun-modu .m1-mac { min-height: 100dvh; }
   body.bd-oyun-modu .m1-mac > .m1-soru .qt-soru-metin { margin-block: auto; min-height: 0; max-width: 100%; padding-bottom: 4px; overflow-y: auto; overscroll-behavior: contain; }
   body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .m1-alt { margin-top: 0; }
   body.bd-oyun-modu .m1-mac:has(> .m1-soru) .m1-skill { gap: var(--qt-b-1); }
-  body.bd-oyun-modu .m1-mac:has(> .m1-soru) .m1-tepki,
-  body.bd-oyun-modu .m1-mac:has(> .m1-soru) .m1-kaliplar { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; scrollbar-width: none; }
-  body.bd-oyun-modu .m1-mac:has(> .m1-soru) .m1-tepki:first-of-type { justify-content: center; }
-  body.bd-oyun-modu .m1-mac:has(> .m1-soru) :is(.m1-tepki, .m1-kaliplar) > * { flex: none; }
+  /* Açılan tepki paneli ve hazır cümleler tek satır, kendi içinde yatay kayar (sahne uzamaz) */
+  body.bd-oyun-modu .m1-mac:has(> .m1-soru) :is(.m1-tepki[role="group"], .m1-kaliplar) { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; scrollbar-width: none; }
+  body.bd-oyun-modu .m1-mac:has(> .m1-soru) :is(.m1-tepki[role="group"], .m1-kaliplar) > * { flex: none; }
 
   /* Grup: 5 satırlık skor tablosu tek satır yatay şerit olur (kendi içinde kayar, sen başta) */
   body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .mo-coklu:has(~ .m1-grup-skor) { display: none; }
@@ -485,8 +484,8 @@ body.bd-oyun-modu .m1-mac { min-height: 100dvh; }
   body.bd-oyun-modu .m1-mac > .m1-soru .qt-soru-kart--sayacli { margin-top: 24px; padding-top: 28px; }
   /* Kısa soru büyük kartta büyük yazı (ekran yüksekliğiyle: 640 → ~20 px, 844 → 26 px) */
   body.bd-oyun-modu .m1-mac > .m1-soru .qt-soru-metin { font-size: clamp(19px, 3.2dvh, 26px); line-height: 1.2; }
-  body.bd-oyun-modu .m1-mac > .m1-soru.m1-soru--uzun .qt-soru-metin { font-size: 17px; }
-  body.bd-oyun-modu .m1-mac > .m1-soru.m1-soru--cok-uzun .qt-soru-metin { font-size: 15px; }
+  body.bd-oyun-modu .m1-mac > .m1-soru.m1-soru--uzun .qt-soru-metin { font-size: clamp(16px, 2.5dvh, 21px); }
+  body.bd-oyun-modu .m1-mac > .m1-soru.m1-soru--cok-uzun .qt-soru-metin { font-size: clamp(14px, 2.1dvh, 18px); }
   /* Şıklar sıkışır: yazı küçülür, boşluk daralır (dokunma yüksekliği ≥ 44 px kalır) */
   body.bd-oyun-modu .m1-mac > .m1-soru .qt-sikler { gap: 6px; }
   body.bd-oyun-modu .m1-mac > .m1-soru .qt-sik-yuva { min-height: 44px; }
