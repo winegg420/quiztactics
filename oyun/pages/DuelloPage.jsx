@@ -112,7 +112,7 @@ const KURAL_V2 = [
   { ikon: "uyari", metin: "Zayıf nokta: rakibin en zayıf kategorisini seçersen ve rakip bilirse canı SEN kaybedersin" },
   { ikon: "kilit", metin: "Her kategori maçta en çok 3 kez, üst üste seçilemez" },
   { ikon: "saat", metin: "Beraberlik yok: can eşitse uzatma, kategori rastgele" },
-  { ikon: "yildiz", metin: "Maçta 4 skill: aynı skill en çok 2 kez, soru başına 1" },
+  { ikon: "yildiz", metin: "Maçta 4 joker: aynı joker en çok 2 kez, soru başına 1" },
 ];
 const KURAL_V1 = [
   { ikon: "kalp", metin: "3 can, en çok 10 tur" },
@@ -1304,7 +1304,7 @@ function DuelloMac({ id }) {
           <h2>{ceviri("Saldırı Hazırlığı")} · {katAdi}</h2>
           {sayac(false)}
         </div>
-        <p className="alt-yazi">{ceviri("Soruyu gör, istersen saldırı skill'i kullan. Süre dolunca soru rakibe gider.")}</p>
+        <p className="alt-yazi">{ceviri("Soruyu gör, istersen saldırı jokeri kullan. Süre dolunca soru rakibe gider.")}</p>
         {soruBlogu(false)}
       </div>
     ) : (
@@ -1346,7 +1346,7 @@ function DuelloMac({ id }) {
         <p className="alt-yazi">
           {d.altin?.ben_cevapladim
             ? ceviri("Cevabın kilitlendi. Rakip bekleniyor…")
-            : ceviri("Can ve doğru sayısı eşit. Tek doğru bilen kazanır — skill yok.")}
+            : ceviri("Can ve doğru sayısı eşit. Tek doğru bilen kazanır — joker yok.")}
         </p>
         {soruBlogu(!d.altin?.ben_cevapladim)}
       </div>
@@ -1553,20 +1553,20 @@ function JokerAlani({ set, d, calisan, onKullan, onSatinAl, ceviri, serbest = fa
   const setAcik = set === "saldiri" ? saldiriAcik : savunmaAcik;
   // Paket 20 IV.4: jokerler "yok" sanılıyordu — kapalıyken NEDEN kapalı olduğu yazılır
   const ipucu = !hakKaldi
-    ? ceviri("Bu maçtaki skill hakkın doldu.")
+    ? ceviri("Bu maçtaki joker hakkın doldu.")
     : set === "saldiri"
       ? (setAcik
           ? ceviri("Şimdi kullanabilirsin — soru rakibe gitmeden.")
           : saldiriAlinabilir
             // Paket 28 D: kategori seçerken kullanılamaz ama SATIN ALINABİLİR.
-            ? ceviri("Skill'in yoksa şimdi alabilirsin; kullanımı Saldırı Hazırlığı'nda açılır.")
+            ? ceviri("Jokerin yoksa şimdi alabilirsin; kullanımı Saldırı Hazırlığı'nda açılır.")
             : ceviri("Saldırı sırasında, soruyu gördüğün Saldırı Hazırlığı'nda açılır."))
       : (setAcik ? ceviri("Şimdi kullanabilirsin.") : ceviri("Soru sana gelince açılır."));
 
   return (
-    <div className={`bd-duello-jokerler ${set} ${(setAcik || (set === "saldiri" && saldiriAlinabilir)) && hakKaldi ? "acik" : "kapali"}`} key={`${set}-${setAcik && hakKaldi}`} aria-label={set === "saldiri" ? ceviri("Saldırı skilleri") : ceviri("Savunma skilleri")}>
+    <div className={`bd-duello-jokerler ${set} ${(setAcik || (set === "saldiri" && saldiriAlinabilir)) && hakKaldi ? "acik" : "kapali"}`} key={`${set}-${setAcik && hakKaldi}`} aria-label={set === "saldiri" ? ceviri("Saldırı jokerleri") : ceviri("Savunma jokerleri")}>
       <div className="bd-duello-joker-baslik">
-        {set === "saldiri" ? ceviri("Saldırı skilleri") : ceviri("Savunma skilleri")}
+        {set === "saldiri" ? ceviri("Saldırı jokerleri") : ceviri("Savunma jokerleri")}
       </div>
       <div className="bd-duello-joker-ipucu" role="status">{ipucu}</div>
       <div className="bd-duello-joker-sira">

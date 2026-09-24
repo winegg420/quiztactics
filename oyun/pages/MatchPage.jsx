@@ -1058,7 +1058,7 @@ export default function MatchPage() {
             Paket 41 B/E/H: ortak üst şerit — çıkış (aynı davranış) + mod rozeti + ses. */}
         <MacUstSerit
           onCik={() => (senkron && mac.basladi ? setCikisOnay(true) : navigate(y("/meydan")))}
-          rozet={mac.jokersiz ? tt("Saf Bilgi · skillsiz") : tt("Klasik Mod")}
+          rozet={mac.jokersiz ? tt("Saf Bilgi · jokersiz") : tt("Klasik Mod")}
         />
         {/* A.1 terk kuralı: başlamış maçtan çıkan hükmen mağlup, ödül almaz (sunucu: mac_iptal → 460).
             Onaysız çıkış da (sekme kapanması) 45 sn sonra aynı sonuca varır (mac_nabiz / advance_match). */}

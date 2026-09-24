@@ -81,7 +81,7 @@ export default function TurnuvaTanitim() {
             <span className="m1-tv-no" aria-hidden="true">3</span>
             <span>
               <b>{tt("Son kalan kazanır ve +150 lig puanı alır;")}</b>{" "}
-              {tt("ilk 10'a giren ve katılan herkes de puan kazanır. Finalde skill kullanılamaz — sadece bilgi.")}
+              {tt("ilk 10'a giren ve katılan herkes de puan kazanır. Finalde joker kullanılamaz — sadece bilgi.")}
             </span>
           </li>
         </ol>

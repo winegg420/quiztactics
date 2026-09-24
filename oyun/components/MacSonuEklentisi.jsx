@@ -92,7 +92,7 @@ export default function MacSonuEklentisi({ macTur, macId, kaybettim, rakipBot = 
           )}
           {jokerler.length > 0 && (
             <div className="m1-ek-skill">
-              <span className="m1-ek-etiket">{tt("Bu maçta kullandığın skiller:")}</span>
+              <span className="m1-ek-etiket">{tt("Bu maçta kullandığın jokerler:")}</span>
               <span className="m1-ss-satir">
                 {jokerler.map((j, i) => (
                   <QtRozet key={i} ton="mor" boyut="k" className="m1-ss-skill">

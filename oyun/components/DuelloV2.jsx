@@ -456,19 +456,19 @@ export function V2Skill({ d, calisan, kalanSn, serbest, sonKullanilan, onKullan,
   const elliVar = Array.isArray(cv.elli_kapali) && cv.elli_kapali.length > 0;
 
   const genelEngel = !soruAcik ? c("Soru açılınca kullanılır.")
-    : hakBitti ? c("Bu maçtaki skill hakkın doldu.")
-    : cevapladim ? c("Cevap verdikten sonra skill kullanılamaz.")
-    : soruHakBitti ? c("Bu soruda skill hakkını kullandın")
+    : hakBitti ? c("Bu maçtaki joker hakkın doldu.")
+    : cevapladim ? c("Cevap verdikten sonra joker kullanılamaz.")
+    : soruHakBitti ? c("Bu soruda joker hakkını kullandın")
     : kalanSn <= 0 ? c("Süren doldu — sonuç bekleniyor.")
     : null;
   // Soru Değiştir kilidi sunucudan gelir (ör. "Rakibin bu soruda skill kullandı…").
   const sdKilit = s.soru_degistir_kilit && s.soru_degistir_kilit !== "Soru açık değil" ? c(s.soru_degistir_kilit) : null;
 
   return (
-    <section className={sinif("m2-skill bd-d2-skill", genelEngel ? "m2-skill--kapali" : "m2-skill--acik")} aria-label={c("Skill")}>
+    <section className={sinif("m2-skill bd-d2-skill", genelEngel ? "m2-skill--kapali" : "m2-skill--acik")} aria-label={c("Joker")}>
       <div className="m2-skill-ust">
         <span className="m2-skill-ipucu" role="status">
-          {liste.length === 0 ? c("Setinde Düello'da kullanılabilen skill yok.") : (genelEngel ?? c("Şimdi kullanabilirsin."))}
+          {liste.length === 0 ? c("Setinde Düello'da kullanılabilen joker yok.") : (genelEngel ?? c("Şimdi kullanabilirsin."))}
         </span>
         <span className="m2-hak" role="img" aria-label={c("{k}/{t} kullanıldı", { k: kullanilan, t: toplam })}>
           {Array.from({ length: toplam }).map((_, i) => <i key={i} className={i < kullanilan ? "dolu" : ""} />)}
@@ -476,7 +476,7 @@ export function V2Skill({ d, calisan, kalanSn, serbest, sonKullanilan, onKullan,
         </span>
       </div>
       {liste.length > 0 && (
-        <QtSkillCubugu etiket={c("Skill")}>
+        <QtSkillCubugu etiket={c("Joker")}>
           {liste.map((tur) => {
             const bilgi = JOKER_BILGI[tur] ?? {};
             const n = Number(sayilar[tur] ?? 0);
@@ -486,7 +486,7 @@ export function V2Skill({ d, calisan, kalanSn, serbest, sonKullanilan, onKullan,
             let ozel = null;
             if (tur === "soru_degistir" && sdKilit) ozel = sdKilit;
             else if (tur === "zaman_baskisi" && cv.rakip_cevapladi) ozel = c("Rakibin bu soruyu zaten cevapladı");
-            else if (tur === "elli" && elliVar) ozel = c("Bu soruda skill hakkını kullandın");
+            else if (tur === "elli" && elliVar) ozel = c("Bu soruda joker hakkını kullandın");
             const fiyatGoster = !serbest && adet <= 0 && fiyat > 0;
             const coinYetmez = fiyatGoster && coin !== null && coin < fiyat;
             const acik = !genelEngel && !turBitti && !ozel && !coinYetmez && (serbest || adet > 0 || fiyatGoster);
@@ -511,7 +511,7 @@ export function V2Skill({ d, calisan, kalanSn, serbest, sonKullanilan, onKullan,
         </QtSkillCubugu>
       )}
       <p className="m2-skill-kural">
-        {c("Aynı skill en çok {n} kez, soru başına {s}.", { n: turBasi, s: soruBasi })}
+        {c("Aynı joker en çok {n} kez, soru başına {s}.", { n: turBasi, s: soruBasi })}
         {liste.includes("soru_degistir") && sdKilit && soruAcik && !cevapladim && (
           <span className="m2-skill-kilit"><QtIkon ad="kilit" boyut={12} /> {sdKilit}</span>
         )}

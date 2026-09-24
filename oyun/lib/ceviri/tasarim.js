@@ -32,7 +32,7 @@ export default {
   "{ad}: {dolu} / {toplam} can": "{ad}: {dolu} / {toplam} lives",
   "Senin canın": "Your lives",
   "Rakibin canı": "Opponent's lives",
-  "Skill'ler": "Jokers",
+  "Jokerler": "Jokers",
   "etkin": "active",
   "kullanıldı": "used",
   "kilitli": "locked",

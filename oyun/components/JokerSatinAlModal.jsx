@@ -38,7 +38,7 @@ export default function JokerSatinAlModal({ tur, fiyat, coin, yalnizAl = false, 
       await onOnay();
       onKapat?.();
     } catch (e) {
-      setHata(hataMesaji(e, tt("Skill alınamadı.")));
+      setHata(hataMesaji(e, tt("Joker alınamadı.")));
       setCalisiyor(false);
     }
   };
@@ -51,7 +51,7 @@ export default function JokerSatinAlModal({ tur, fiyat, coin, yalnizAl = false, 
       onKapat={kapat}
       ortuKapatir={!calisiyor}
       kapatDugmesi={!calisiyor}
-      baslik={`${tt("Skill satın al")}: ${bilgi.ad ?? tur}`}
+      baslik={`${tt("Joker satın al")}: ${bilgi.ad ?? tur}`}
       aciklama={bilgi.aciklama}
       altlik={
         <div className="m1-sat-dugmeler">
@@ -74,7 +74,7 @@ export default function JokerSatinAlModal({ tur, fiyat, coin, yalnizAl = false, 
         </QtListe>
 
         {yalnizAl && yeterli && (
-          <p className="m1-sat-not">{tt("Skill envanterine girer; saldırı hazırlığında kullanırsın.")}</p>
+          <p className="m1-sat-not">{tt("Joker envanterine girer; saldırı hazırlığında kullanırsın.")}</p>
         )}
         {!yeterli && (
           <div className="m1-bant m1-bant--hata" role="alert">

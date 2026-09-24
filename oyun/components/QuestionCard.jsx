@@ -539,7 +539,7 @@ export default function QuestionCard({
 
       {/* Eski joker çubuğu — yalnız macTur verilmeyen ekranlarda (geriye uyum) */}
       {!macTur && jokerler && !sonuc && secim === null && kalan > 0 && (
-        <QtSkillCubugu etiket={tt("Skill'ler")}>
+        <QtSkillCubugu etiket={tt("Jokerler")}>
           <QtSkill
             ikon="terazi"
             ad="50:50"

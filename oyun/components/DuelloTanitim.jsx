@@ -39,7 +39,7 @@ const ADIMLAR_V2 = [
   { ikon: "uyari", baslik: "Zayıf nokta", metin: "Maç başında ikinizin de en zayıf kategorisi sabitlenir ve ikinize de görünür (en az 5 cevap verdiğin kategoriler arasından doğru oranı en düşük olan; henüz yoksa zayıf noktan yok). Rakibin zayıf noktasını seçersen ve rakip bilirse canı SEN kaybedersin — sen de bilsen bile. İkiniz de yanlışsanız kimse kaybetmez; yalnız sen bilirsen rakip kaybeder. Uzatmada bu kural yok." },
   { ikon: "kilit", baslik: "Kategori sınırı", metin: "Her kategori maçta en çok 3 kez seçilebilir (zayıf nokta dahil) ve bir önceki seçilen kategori hemen tekrar seçilemez. Seçilemeyenler soluk görünür. Süre dolunca gelen rastgele kategori rakibin zayıf noktası olmaz." },
   { ikon: "terazi", baslik: "Uzatma", metin: "Beraberlik yok. Can eşitse uzatma başlar: kategori rastgele gelir, biri doğru öteki yanlış yapana kadar sürer." },
-  { ikon: "yildiz", baslik: "Skill", metin: "Maçta toplam 4 skill; aynı skill en çok 2 kez, bir soruda en çok 1. Soru Değiştir yalnız ikiniz de cevaplamamışken ve rakip o soruda skill kullanmamışken çalışır. Skill'in yoksa maçın içinden satın alabilirsin." },
+  { ikon: "yildiz", baslik: "Joker", metin: "Maçta toplam 4 joker; aynı joker en çok 2 kez, bir soruda en çok 1. Soru Değiştir yalnız ikiniz de cevaplamamışken ve rakip o soruda joker kullanmamışken çalışır. Jokerin yoksa maçın içinden satın alabilirsin." },
 ];
 
 export default function DuelloTanitim({ onKapat, surum = 1 }) {
