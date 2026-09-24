@@ -41,3 +41,11 @@
 .ao-ad { margin: 0; font-family: var(--qt-f-baslik); font-size: var(--qt-y-l); font-weight: var(--qt-a-siyah); color: var(--qt-metin); }
 .ao-secim { display: grid; grid-template-columns: 1fr 1fr; gap: var(--qt-b-2); }
 .ao-secim .qt-dugme { min-width: 0; padding-inline: var(--qt-b-2); }
+
+/* 3. set (12 yeni): katalog durumu + seçim özeti / kopyala (premium-onizleme ile aynı düzen). */
+.ao-durum { margin: 0; font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); }
+.ao-durum--yerel { color: var(--qt-yanlis-koyu); }
+.ao-ozet-kart { display: grid; gap: var(--qt-b-2); }
+.ao-ozet-kart p { margin: 0; overflow-wrap: anywhere; }
+.ao-kopya-not { min-height: 1.2em; font-size: var(--qt-y-s); }
+.ao-kopya-metin { width: 100%; box-sizing: border-box; font: inherit; font-size: var(--qt-y-s); border-radius: 12px; padding: 10px; }
