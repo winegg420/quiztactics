@@ -11,6 +11,7 @@ import DavetKodu from "./DavetKodu.jsx";
 import AvatarCerceve from "./AvatarCerceve.jsx";
 import { tt } from "../lib/dil.js";
 import { rpcDene } from "../lib/rpcDene.js";
+import { useKatalogAvatarlari } from "../lib/avatarKatalogu.js";
 import { QtAnahtar, QtDugme, QtIkon, QtKart, sayiBicim } from "../tasarim/index.js";
 import "../tasarim/ekranlar/dukkan-profil.css";
 
@@ -61,6 +62,8 @@ export default function ProfilAyarlari() {
   const [adHata, setAdHata] = useState(null);
   const [avatarDuzenle, setAvatarDuzenle] = useState(false);
   const [avatarHata, setAvatarHata] = useState(null);
+  // 550: 27 yeni avatar (ücretsiz) sunucu kataloğundan; migration yoksa boş → yalnız 31 hazır avatar
+  const katalogAvatarlari = useKatalogAvatarlari(avatarDuzenle);
   const [kategoriler, setKategoriler] = useState([]);
   const [kategoriHata, setKategoriHata] = useState(null);
   const [kopyalandi, setKopyalandi] = useState(false);
@@ -235,7 +238,7 @@ export default function ProfilAyarlari() {
         {avatarDuzenle ? (
           <>
             <div className="qt-pf-avatar-izgara">
-              {HAZIR_AVATARLAR.map((a) => {
+              {[...HAZIR_AVATARLAR, ...katalogAvatarlari].map((a) => {
                 const secili = profile.avatar_url === a.url;
                 return (
                   <button

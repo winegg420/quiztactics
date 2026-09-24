@@ -190,6 +190,7 @@ export default {
   "Aldıkların Profil › Koleksiyon'da; oradan takıp çıkarabilirsin.": "Your purchases are in Profile › Collection; equip or remove them there.",
   "Kostümlü avatar — elmasla alınır.": "Costume avatar — bought with diamonds.",
   "Günlük avatar — bedava.": "Everyday avatar — free.",
+  "Kostümlü avatar — bedava.": "Costume avatar — free.",
   "Bedava": "Free",
   "Bu maçta tepki hakkın bitti": "You've used all your reactions this match",
   "{n} tepki hakkın kaldı": "{n} reactions left",

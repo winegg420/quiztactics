@@ -299,7 +299,8 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
         <div className="qt-dc-sahne-bilgi">
           <h2 className="qt-baslik-2">{ad(c)}</h2>
           {c.kapali && sahipHesap && <span className="qt-kz-kapali"><QtIkon ad="kilit" boyut={12} /> {tt("Satışta değil — yalnız sen görüyorsun")}</span>}
-          <p className="qt-kucuk qt-soluk">{c.tur === "kostumlu" ? tt("Kostümlü avatar — elmasla alınır.") : tt("Günlük avatar — bedava.")}</p>
+          {/* 550: fiyat 0 → bedava (27 avatarın hepsi ücretsiz); fiyatlı kostümlü kalırsa eski metin */}
+          <p className="qt-kucuk qt-soluk">{c.tur === "kostumlu" ? (c.fiyat_elmas > 0 ? tt("Kostümlü avatar — elmasla alınır.") : tt("Kostümlü avatar — bedava.")) : tt("Günlük avatar — bedava.")}</p>
         </div>
         <div className="qt-dc-sahne-eylem">
           {takili ? (
@@ -324,7 +325,7 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
               <img className="qt-kz-avatar-simge" src={a.url} alt="" width="64" height="64" loading="lazy" decoding="async" />
               <span className="qt-dc-ad">{ad(a)}</span>
               <span className="qt-dc-durum">
-                {profile?.avatar_url === a.url ? tt("Takılı") : a.sahibim ? tt("Sende var") : a.tur === "gunluk" ? tt("Bedava")
+                {profile?.avatar_url === a.url ? tt("Takılı") : a.sahibim ? tt("Sende var") : a.tur === "gunluk" || (a.kullanabilir && !(a.fiyat_elmas > 0)) ? tt("Bedava")
                   : a.fiyat_elmas != null && !a.kapali ? <ElmasFiyat fiyat={a.fiyat_elmas} /> : <><QtIkon ad="kilit" boyut={12} /> {tt("Kapalı")}</>}
               </span>
             </button>
