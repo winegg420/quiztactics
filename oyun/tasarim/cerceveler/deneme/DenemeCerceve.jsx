@@ -19,6 +19,9 @@
  */
 import { useId } from "react";
 import "./deneme-cerceve.css";
+import { yumusakHareketKur } from "../../yumusakHareket.js";
+
+yumusakHareketKur();   // hareketi azalt → yumuşak mod (durmaz, yavaşlar)
 
 const R = 50;
 const DAL_R = 55.5;   // defne dalının yarıçapı — halkaya yakın, yana taşma ≤ %18

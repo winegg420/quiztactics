@@ -674,14 +674,13 @@
   100% { opacity: 1; transform: translateX(380%) skewX(-18deg); }
 }
 
+/* YUMUŞAK MOD (hareketi azalt; oyun/tasarim/yumusakHareket.js): önceden hepsi duruyordu. Şimdi çerçeve ve aura
+   2,5× yavaş döner/parlar (JS playbackRate); kıvılcımların yarısı gizli, alev salınımı küçük. */
 @media (prefers-reduced-motion: reduce) {
-  .qt-cerceve .qt-cerceve-aura,
-  .qt-cerceve .qt-cerceve-kozmik,
-  .qt-cerceve .qt-cerceve-kozmik-toz,
-  .qt-cerceve .qt-cerceve-alev,
-  .qt-cerceve .qt-cerceve-isik,
-  .qt-cerceve .qt-cerceve-kivilcim,
-  .qt-cerceve .qt-cerceve-parilti::before { animation: none !important; }
-  .qt-cerceve .qt-cerceve-isik { opacity: 0.95; }
-  .qt-cerceve .qt-cerceve-yer:nth-child(1) .qt-cerceve-kivilcim { opacity: 0.9; }
+  .qt-cerceve .qt-cerceve-yer:nth-child(2n) .qt-cerceve-kivilcim { display: none; }
+  .qt-cerceve--oynar .qt-cerceve-alev { animation-name: qt-cerceve-alev-y; }
+}
+@keyframes qt-cerceve-alev-y {
+  0% { transform: scale(1, 1); opacity: 0.94; }
+  100% { transform: scale(0.98, 1.04); opacity: 1; }
 }

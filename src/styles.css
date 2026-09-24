@@ -660,9 +660,13 @@ input:focus { border-color: var(--primary); }
 
 /* ---------- Hareket azaltma tercihi ---------- */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  /* Yumuşak hareket kapsamı (oyun/tasarim/yumusakHareket.js › YUMUSAK_KAPSAM ile aynı liste) hariç: çerçeve, aura,
+     isim parıltısı, elmas paketi ve maç sonu sahnesi durmaz, yavaşlar (Ida, 24 Eyl 2026). */
+  *:where(:not(.pc, .pc *, .p2, .p2 *, .qt-cerceve, .qt-cerceve *, .dc, .dc *, .ep, .ep *, .qt-isim-ef, .qt-isim-ef *, .p2-plaka, .p2-plaka *, .pp-plaka, .pp-plaka *, .msk--yumusak, .msk--yumusak *, [data-yumusak], [data-yumusak] *)), *:where(:not(.pc, .pc *, .p2, .p2 *, .qt-cerceve, .qt-cerceve *, .dc, .dc *, .ep, .ep *, .qt-isim-ef, .qt-isim-ef *, .p2-plaka, .p2-plaka *, .pp-plaka, .pp-plaka *, .msk--yumusak, .msk--yumusak *, [data-yumusak], [data-yumusak] *))::before, *:where(:not(.pc, .pc *, .p2, .p2 *, .qt-cerceve, .qt-cerceve *, .dc, .dc *, .ep, .ep *, .qt-isim-ef, .qt-isim-ef *, .p2-plaka, .p2-plaka *, .pp-plaka, .pp-plaka *, .msk--yumusak, .msk--yumusak *, [data-yumusak], [data-yumusak] *))::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
+  }
+  *, *::before, *::after {
     transition-duration: 0.001ms !important;
   }
 }

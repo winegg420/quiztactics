@@ -19,7 +19,10 @@
 // sonrası +800. Görseller CSS animation-delay ile (yalnız transform/opacity); JS yalnız
 // sayaçları, Lottie komutlarını, coin uçuşunu ve sesleri zamanlar.
 // Dokununca / Esc: her şey son hâline oturur. Düğmeler baştan tıklanabilir.
-// prefers-reduced-motion: huzme, uçuş, Lottie hareketi yok; her şey 0,2 sn solar.
+// prefers-reduced-motion → YUMUŞAK MOD (Ida, 24 Eyl 2026; tasarim/yumusakHareket.js): sahne atlanmaz, yavaş
+// girer (CSS girişleri 2,5× yavaş, afiş düşmek yerine süzülür), kupa/level Lottie yarı hızda; konfeti, coin/yıldız
+// patlaması ve coin uçuşu YOK (coin sayacı sayar, üst sayaç doğrudan güncellenir). Eski "msk--az" (hepsi 0,2 sn
+// solar, sahne atlanır) CSS'te duruyor, kullanılmıyor.
 //
 // iOS: kökte ve eylem çubuğunun atalarında transform/filter/perspective YOK.
 // Coin uçuşu body'ye portal; sabit kapsayıcı yerinde durur, hareket içteki span'larda.
@@ -44,6 +47,9 @@ import RozetMadalyonu, { rozetSembolu } from "./RozetMadalyonu.jsx";
 import MacSonuLottie, { KonfetiKatmani, konfetiYukle, lottieOnYukle } from "./MacSonuLottie.jsx";
 import { QtCan, QtDugme, QtIkon, QtIkonDugme } from "../tasarim/index.js";
 import { hareketAzaltildiMi } from "../tasarim/hareket.js";
+import { yumusakHareketKur } from "../tasarim/yumusakHareket.js";
+
+yumusakHareketKur();
 import { sesMacSonu, sesMuzikSahne } from "../lib/ses.js";
 import { coinTazele } from "../lib/coin.js";
 import { tt, ttSunucu } from "../lib/dil.js";
@@ -208,9 +214,9 @@ function MacSonuKutlama({
   const gorevler = benTerk ? [] : gorevlerVerilen;
   const rozetler = benTerk ? [] : rozetlerVerilen;
   const [detayAcik, setDetayAcik] = useState(false);
-  const [az] = useState(hareketAzaltildiMi);
-  const [atlandi, setAtlandi] = useState(az);
-  const [bitti, setBitti] = useState(az);
+  const [az] = useState(hareketAzaltildiMi);   // yumuşak mod (sahne oynar; patlama/konfeti/uçuş yok)
+  const [atlandi, setAtlandi] = useState(false);
+  const [bitti, setBitti] = useState(false);
   // Kademeli takılma (açılış takılması): tüm ağaç (React + ~210 öğe stil hesabı + düzen) tek
   // görevdeydi, 4× CPU'da açılış karesi 84–134 ms. Aşama 0: zemin + kupa + afiş (t=0'da görünen);
   // 1: karşılaşma (t.avatar=300 ms'de girer); 2: ödül + rozet kartı (t.coin−150 ms'de girer).
@@ -219,13 +225,13 @@ function MacSonuKutlama({
   // Kart içi Lottie kurulumları (hazirlaMs: coin 400 · level 600 · yıldız 800, aşama 2'den sayılır)
   // sahnenin sakin aralığına (~0,45–0,9 sn) alındı: level 1150 / yıldız 1650 iken kurulum (4× CPU'da
   // ~26–37 ms) coin sayımı + uçuş + XP'nin dolu karelerine denk gelip 67–84 ms'lik kare yapıyordu.
-  const [asama, setAsama] = useState(az ? 2 : 0);
-  const [zaferAn, setZaferAn] = useState(az);
+  const [asama, setAsama] = useState(0);
+  const [zaferAn, setZaferAn] = useState(false);
   const basRef = useRef(0);
   const karsilasmaRef = useRef(null);
   const kartRef = useRef(null);
   const rozetRef = useRef(null);
-  const coinGosterRef = useRef(az ? (oduller ?? []).find((o) => o?.ikon === "coin")?.deger ?? 0 : 0);
+  const coinGosterRef = useRef(0);
   const [ucus, setUcus] = useState(null);   // { x, y, hedef:{x,y} } | null
   const kokRef = useRef(null);
   const govdeRef = useRef(null);
@@ -311,7 +317,6 @@ function MacSonuKutlama({
     const odakIptal = () => {
       cancelAnimationFrame(odakKare); cancelAnimationFrame(asamaKare); cancelAnimationFrame(asamaKare2); clearTimeout(asamaYedek);
     };
-    if (az) { bitir(); if (kazandi) sesMacSonu("kazandin"); else if (durum === "berabere") sesMacSonu("beraberlik"); return odakIptal; }
     const z = (ms, f) => zamanlayicilar.current.push(setTimeout(f, ms));
     varisRef.current = 0;
     coinYaz(0);
@@ -326,7 +331,7 @@ function MacSonuKutlama({
 
     if (coin > 0) {
       z(t.coin, () => {
-        lottie.coin.current?.oynat();
+        if (!az) lottie.coin.current?.oynat();   // yumuşak mod: coin patlaması yok
         const bas = performance.now();
         const don = () => {
           const p = Math.min(1, (performance.now() - bas) / SAYIM_MS);
@@ -337,7 +342,7 @@ function MacSonuKutlama({
         // Uçuş: kaynak ödül satırındaki coin, hedef üst çubuktaki sayaç. Hedef yoksa uçuş yok.
         const k = coinIkonRef.current?.getBoundingClientRect?.();
         const h = hedefBul()?.getBoundingClientRect?.();
-        if (k && h?.width) {
+        if (k && h?.width && !az) {   // yumuşak mod: uçuş yok, sayaç doğrudan
           setUcus({ x: k.left + k.width / 2 - 14, y: k.top + k.height / 2 - 14,
                     dx: h.left + Math.min(h.width, 40) / 2 - (k.left + k.width / 2), dy: h.top + h.height / 2 - (k.top + k.height / 2) });
         } else {
@@ -353,7 +358,7 @@ function MacSonuKutlama({
       z(t.xp + 500, () => { lottie.level.current?.oynat(); sesMacSonu("level"); });
     }
     else if (xpv?.xp > 0) z(t.xp, () => sesMacSonu("xp_dolma"));
-    if (rozet) z(t.son + 150, () => { lottie.yildiz.current?.oynat(); sesMacSonu("rozet"); });
+    if (rozet) z(t.son + 150, () => { if (!az) lottie.yildiz.current?.oynat(); sesMacSonu("rozet"); });
     z(t.son, () => setZaferAn(true));
     z(toplamMs, () => setBitti(true));
 
@@ -484,7 +489,7 @@ function MacSonuKutlama({
 
   // Geç takılan bölümün gecikmeleri takıldığı an kadar kısalır (boyamadan önce, yeniden çizimsiz).
   useLayoutEffect(() => {
-    if (az || atlandi || !basRef.current) return;
+    if (atlandi || !basRef.current) return;
     const gecen = Math.round(performance.now() - basRef.current);
     const kaydir = (el, adlar) => {
       if (!el || el.dataset.kaydi) return;
@@ -536,7 +541,7 @@ function MacSonuKutlama({
   return (
     <div
       ref={kokRef}
-      className={`msk msk--${durum}${sade ? " msk--sade" : ""}${atlandi ? " msk--atla" : ""}${az ? " msk--az" : ""}${bitti ? " msk--bitti" : ""}`}
+      className={`msk msk--${durum}${sade ? " msk--sade" : ""}${atlandi ? " msk--atla" : ""}${az ? " msk--yumusak" : ""}${bitti ? " msk--bitti" : ""}`}
       style={stil}
       onClick={bitti ? undefined : bitir}
     >
@@ -551,7 +556,7 @@ function MacSonuKutlama({
       <div className="msk-sahne">
         {kutlama && (
           <div className="msk-kupa">
-            <MacSonuLottie ref={lottie.kupa} ad="kupa" kalici sonKare={0.9} />
+            <MacSonuLottie ref={lottie.kupa} ad="kupa" kalici sonKare={0.9} hiz={az ? 0.5 : 1} />
           </div>
         )}
 
@@ -603,7 +608,7 @@ function MacSonuKutlama({
             </div>
             {xpv.atladi && (
               <div className="msk-levelup">
-                <div className="msk-levelup-lottie"><MacSonuLottie ref={lottie.level} ad="level" kalici hiz={1.4} hazirlaMs={600} sonda={atlandi} /></div>
+                <div className="msk-levelup-lottie"><MacSonuLottie ref={lottie.level} ad="level" kalici hiz={az ? 0.7 : 1.4} hazirlaMs={600} sonda={atlandi} /></div>
                 <span className="msk-levelup-rozet" role="status">{tt("LEVEL {n}!", { n: xpv.level })}</span>
               </div>
             )}

@@ -290,7 +290,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .qt-isim-ef--hareketli[data-ef]::after { animation: none; opacity: 0.85; transform: none; }
+  /* isim parıltısı durmaz, yumuşak modda yavaşlar (yumusakHareket.js) */
   .qt-tepki-balon { animation: qt-tepki-balon-sade 2s linear both; }
   .qt-tepki-sec { transition: none; }
 }

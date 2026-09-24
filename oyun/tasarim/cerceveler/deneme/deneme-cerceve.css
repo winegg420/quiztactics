@@ -46,11 +46,10 @@
 .dc-kivilcim { opacity: 0.9; }
 .dc-kivilcim--2 { opacity: 0; }
 
-@media (prefers-reduced-motion: no-preference) {
-  .dc-serit--oynar { animation: dc-serit 6s cubic-bezier(0.45, 0, 0.25, 1) 1.2s infinite; }
-  .dc-kivilcim--oynar { animation: dc-kivilcim 6s ease-out 1.75s infinite both; }
-  .dc-kivilcim--2.dc-kivilcim--oynar { animation-delay: 2s; }
-}
+/* Hareketi azalt açıkken de oynar, yumuşak modda 2,5× yavaş (oyun/tasarim/yumusakHareket.js) */
+.dc-serit--oynar { animation: dc-serit 6s cubic-bezier(0.45, 0, 0.25, 1) 1.2s infinite; }
+.dc-kivilcim--oynar { animation: dc-kivilcim 6s ease-out 1.75s infinite both; }
+.dc-kivilcim--2.dc-kivilcim--oynar { animation-delay: 2s; }
 @keyframes dc-serit {
   0% { transform: translateX(-92px); }
   16% { transform: translateX(92px); }

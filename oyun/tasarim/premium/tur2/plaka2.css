@@ -109,9 +109,7 @@
   0%, 50% { transform: translateX(-120%) skewX(-18deg); }
   82%, 100% { transform: translateX(320%) skewX(-18deg); }
 }
-@media (prefers-reduced-motion: reduce) {
-  .p2-plaka--oynar::after { animation: none; opacity: 0; }
-}
+/* yumuşak modda (hareketi azalt) parıltı durmaz, yavaş geçer — yumusakHareket.js */
 /* Dar yerlerde (maç sonu, lig tablosu) uç süsleri düşer, ad en az ~3 harf */
 .msk-isim .p2-plaka-uc, .lg-ad .p2-plaka-uc { display: none; }
 .msk-isim:has(.p2-plaka) { background: none; box-shadow: none; padding: 0; }

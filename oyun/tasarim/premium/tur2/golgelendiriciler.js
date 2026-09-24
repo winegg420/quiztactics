@@ -8,7 +8,8 @@
  *            açık zeminde renkli ışık olarak kalır.
  * Sanat dokusu (u_doku) çerçevenin SVG çiziminin kendisidir: maske (altın/buz/çatlak nerede) ve
  * yükseklik (parlaklıktan normal → yansıma) için okunur.
- * Ortak uniform: u_t (sn) · u_px (tuval px) · u_a (efekte özel) · u_n[10] (nokta: x, y, boyut, faz) · u_nSay.
+ * Ortak uniform: u_t (sn) · u_px (tuval px) · u_a (efekte özel) · u_n[10] (nokta: x, y, boyut, faz) · u_nSay ·
+ * u_yumusak (1 = hareketi azalt: ani çakma/flaş kapalı, kıvılcım/zerre döngülerinde her ikinci atlanır).
  */
 export const KOSE = `
 #ifdef GL_FRAGMENT_PRECISION_HIGH
@@ -24,6 +25,7 @@ uniform float u_dokuVar;
 uniform vec4 u_a;
 uniform vec4 u_n[10];
 uniform float u_nSay;
+uniform float u_yumusak;   // 1 = yumuşak mod (hareketi azalt): çakma/flaş yok, parçacık yarı
 const float PI = 3.14159265;
 float h21(vec2 p){ vec3 p3 = fract(vec3(p.xyx) * .1031); p3 += dot(p3, p3.yzx + 33.33); return fract((p3.x + p3.y) * p3.z); }
 float h11(float n){ return h21(vec2(n, n * 1.37 + .11)); }
@@ -134,6 +136,7 @@ void main(){
   }
   // kıvılcımlar (üst ve yanlardan yükselir, avatarın üstüne düşmez)
   for (int i = 0; i < 14; i++) {
+    if (u_yumusak > .5 && mod(float(i), 2.) > .5) continue;   // yumuşak mod: yarı parçacık
     float yas; float bo;
     vec2 k = kivilcimYer(float(i), t, 1.9, 51., yas, bo);
     float dd = length(p - k);
@@ -183,6 +186,7 @@ void main(){
   }
   // ağızdan saçılan kıvılcımlar
   for (int i = 0; i < 10; i++) {
+    if (u_yumusak > .5 && mod(float(i), 2.) > .5) continue;   // yumuşak mod: yarı parçacık
     float fi = float(i);
     float per = .7 + h11(fi * 5.1) * .6;
     float c = t / per + h11(fi * 2.3);
@@ -212,6 +216,7 @@ void main(){
   }
   // halkadan yükselen közler
   for (int i = 0; i < 6; i++) {
+    if (u_yumusak > .5 && mod(float(i), 2.) > .5) continue;   // yumuşak mod: yarı parçacık
     float yas; float bo;
     vec2 k = kivilcimYer(float(i) + 30., t * .8, 2.4, 55., yas, bo);
     float dd = length(p - k);
@@ -322,7 +327,7 @@ void main(){
       float a = E0 + float(i) * 6.2832 / ES;
       vec2 e = vec2(sin(a), -cos(a)) * ER;
       float dd = length(p - e);
-      float tit = .7 + .3 * step(.4, h11(floor(t * 18.) + float(i)));
+      float tit = mix(.7 + .3 * step(.4, h11(floor(t * 18.) + float(i))), .9, u_yumusak);   // yumuşak: cızırtı yok
       o = isik(o, (vec3(.7, .9, 1.) * exp(-dd / 1.5) * 1.3 + vec3(.35, .55, 1.) * exp(-dd / 6.) * .45) * tit);
     }
   }
@@ -333,7 +338,7 @@ void main(){
     float c = t / per + fk * .31;
     float id = floor(c); float ph = fract(c);
     float omur = .3;
-    if (ph < omur) {
+    if (ph < omur && u_yumusak < .5) {
       float e = floor(h11(id * 1.9 + fk * 7.) * ES);
       float a = E0 + e * 6.2832 / ES;
       vec2 S = vec2(sin(a), -cos(a)) * ER;
@@ -342,17 +347,17 @@ void main(){
       float L = 22. + h11(id * 4.3 + fk) * 14.;
       float titre = floor(t * 26.);
       float dd = yildirimD(p, S, dir, L, id * 3. + fk, titre);
-      float env = (1. - ph / omur) * (.55 + .45 * step(.3, h11(titre + fk * 11.)));
+      float env = (1. - ph / omur) * (.55 + .45 * step(.3, h11(titre + fk * 11.))) * (1. - u_yumusak);   // yumuşak: yıldırım çakması yok
       float cek = smoothstep(.45 + aa, 0., dd);
       o = isik(o, (vec3(.5, .68, 1.) * (exp(-dd / 1.9) * 1.1 + exp(-dd / 8.) * .45) + vec3(1.) * cek) * env);
       // çakma anı: yıldırımın çevresi (avatar dahil) kısa, yumuşak aydınlanır
-      float fl = smoothstep(.06, 0., ph);
+      float fl = smoothstep(.06, 0., ph) * (1. - u_yumusak);
       o = isik(o, vec3(.55, .72, 1.) * fl * exp(-length(p - (S + dir * L * .45)) / 34.) * .4);
     }
   }
   // ara sıra bütün çerçeveyi aydınlatan büyük şimşek
   float b = fract(t / 5.7);
-  float fl2 = smoothstep(.035, 0., b) + smoothstep(.07, .05, b) * smoothstep(.04, .05, b) * .6;
+  float fl2 = (smoothstep(.035, 0., b) + smoothstep(.07, .05, b) * smoothstep(.04, .05, b) * .6) * (1. - u_yumusak);   // yumuşak: büyük flaş yok
   o = isik(o, vec3(.62, .78, 1.) * fl2 * smoothstep(92., 20., r) * .3);
   gl_FragColor = o * kenar(p);
 }`;
@@ -402,6 +407,7 @@ void main(){
   // altın tozu: tepede yavaşça yükselen parlak zerreler
   if (u_a.y > .5) {
     for (int i = 0; i < 8; i++) {
+      if (u_yumusak > .5 && mod(float(i), 2.) > .5) continue;   // yumuşak mod: yarı parçacık
       float yas; float bo;
       vec2 k = kivilcimYer(float(i) + 60., t * .45, 1.3, 50., yas, bo);
       float dd = length(p - k);

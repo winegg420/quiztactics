@@ -11,7 +11,7 @@
  * Aura İÇ arka plandır: resmî avatar SVG'sinin 320×320 düz zemini ayıklanır (useSeffafAvatar; dosya
  * değişmez). https/Google fotoğrafında ayıklanamaz → aura yine arkada, fotoğraf önde.
  * Hareket kuralı PremiumCerceve'de: ≤ 48 px sade + hareketsiz; yalnız `hareketli` verilen yerde,
- * ekrandayken (IntersectionObserver) ve prefers-reduced-motion yokken.
+ * ekrandayken (IntersectionObserver); hareketi azalt açıkken yumuşak mod (tasarim/yumusakHareket.js).
  * 2. TUR (570, Ida onayı): pc_alev2 / pc_simsek2 / pc_kraliyet2 (580: + pc_ejderha2) → Cerceve2 (tur2/, WebGL efekt; motor ayrı
  * tembel parça, aynı anda en çok 2 hareketli efekt, WebGL yoksa önceki SVG hâli). `ligAltin`: oyundaki
  * Altın Lig çerçevesi 2. tur hâliyle (Cerceve2 "altinlig") çizilir — kazanılır, satılmaz.

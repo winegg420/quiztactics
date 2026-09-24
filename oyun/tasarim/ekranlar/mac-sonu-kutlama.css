@@ -680,6 +680,12 @@ html.msk-acik .mobile-nav, html.msk-acik .a-kabuk .a-altmenu { display: none !im
 }
 .msk--az .msk-a * { animation: none !important; }
 
+/* ---------- YUMUŞAK MOD (hareketi azalt; oyun/tasarim/yumusakHareket.js — Ida, 24 Eyl 2026) ----------
+   Sahne atlanmaz: girişler 2,5× yavaş (JS playbackRate, .msk--yumusak kapsamı), afiş yukarıdan düşmek yerine
+   kısa süzülür; konfeti, coin/yıldız patlaması ve coin uçuşu yok (JS de çağırmaz). Eski .msk--az kullanılmıyor. */
+.msk--yumusak .msk-afis { animation-name: msk-afis-in; }
+.msk--yumusak .msk-coin-patlama, .msk--yumusak .msk-rozet-patlama { display: none; }
+
 /* ---------- A.4: yüksekliğe göre sıkışma kademeleri (gövdenin gerçek yüksekliği) ----------
    Önce boşluklar, kupa, avatar ve yazılar küçülür; yine sığmazsa JS içerik kutusunu ölçekler. */
 @container msk-govde (max-height: 780px) {

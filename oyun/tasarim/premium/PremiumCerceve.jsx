@@ -12,14 +12,18 @@
  * HTML katmanında (`pc-o`) → telefonda GPU'da birleşir, SVG her karede yeniden boyanmaz. Filtre/bulanıklık
  * animasyonu yok (yumuşaklık önceden degradeyle çizilir).
  * Kademe: ≥ 72 px tam · 49–71 orta (uzak süsler ve parçacıklar yok) · ≤ 48 yalnız halka + küçük vurgu
- * (komşu satıra taşmaz, hareket yok). Hareket yalnız `hareketli` verilen yerde, ekrandayken ve
- * prefers-reduced-motion yokken; aksi hâlde her şey durağan ilk karede kalır.
+ * (komşu satıra taşmaz, hareket yok). Hareket yalnız `hareketli` verilen yerde ve ekrandayken; aksi hâlde
+ * her şey durağan ilk karede kalır. Hareketi azalt açıkken YUMUŞAK MOD (oyun/tasarim/yumusakHareket.js):
+ * 2,5× yavaş, yarı parçacık, küçük genlik, çakma/flaş yok (premium.css @media reduce).
  */
 import { useEffect, useId, useRef, useState } from "react";
 import { Katman } from "./cizim.jsx";
 import { CERCEVELER } from "./sanatCerceveler.jsx";
 import { AURALAR } from "./sanatAuralar.jsx";
 import "./premium.css";
+import { yumusakHareketKur } from "../yumusakHareket.js";
+
+yumusakHareketKur();   // hareketi azalt → yumuşak mod (durmaz, yavaşlar)
 
 /** Çerçevesiz (yalnız aura) önizleme için ince halka. */
 function DuzHalka() {

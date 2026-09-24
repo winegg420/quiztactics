@@ -7,7 +7,9 @@
  * kopyalanır. Böylece yüzlerce yuva olsa da bağlam bir, program her efekt için bir.
  *
  * Kurallar:
- *  - Yalnız oynayan (ekranda + hareketli + hareket azaltılmamış; en büyük 2 tanesi) yuva her karede çizilir; öteki yuvalar
+ *  - YUMUŞAK MOD (hareketi azalt; tasarim/yumusakHareket.js): efekt durmaz — zaman YUMUSAK.hiz ile akar (2,5× yavaş),
+ *    en çok 30 fps, gölgelendiricide u_yumusak = 1 → şimşek çakması/flaş yok, kıvılcım/zerre yarıya iner.
+ *  - Yalnız oynayan (ekranda + hareketli; en büyük 2 tanesi) yuva her karede çizilir; öteki yuvalar
  *    yalnız bir kez (ilk kare / boyut değişimi) çizilir ve durur.
  *  - Sekme gizliyken döngü durur (requestAnimationFrame zaten durur; visibilitychange ile de kesilir).
  *  - En çok ~60 fps (120 Hz ekranda kare atlanır). Kareler yavaşsa çözünürlük kendiliğinden düşer
@@ -15,6 +17,7 @@
  *  - Bağlam kaybolursa (arka plan, bellek) yeniden kurulunca programlar ve dokular tazelenir.
  */
 import { KOSE, PARCALAR } from "./golgelendiriciler.js";
+import { YUMUSAK } from "../../yumusakHareket.js";
 
 const VS = "attribute vec2 a;varying vec2 v;void main(){v=a;gl_Position=vec4(a,0.,1.);}";
 const DOKU_PX = 512;
@@ -71,6 +74,8 @@ class Motor {
     this.son = 0;
     this.raf = 0;
     this.kayip = false;
+    this.saat = 0;                 // efekt saati (sn); yumuşak modda YUMUSAK.hiz ile ilerler
+    this.saatSon = 0;
     this.azalt = typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches;
     this.kareB = (z) => this.kare(z);
     this.kur();
@@ -129,7 +134,7 @@ class Motor {
     gl.linkProgram(pr);
     if (!gl.getProgramParameter(pr, gl.LINK_STATUS) && !gl.isContextLost()) throw new Error(gl.getProgramInfoLog(pr));
     const u = (ad) => gl.getUniformLocation(pr, ad);
-    p = { pr, t: u("u_t"), px: u("u_px"), doku: u("u_doku"), dokuVar: u("u_dokuVar"), a: u("u_a"), n: u("u_n"), nSay: u("u_nSay") };
+    p = { pr, yum: u("u_yumusak"), t: u("u_t"), px: u("u_px"), doku: u("u_doku"), dokuVar: u("u_dokuVar"), a: u("u_a"), n: u("u_n"), nSay: u("u_nSay") };
     this.programlar.set(efekt, p);
     return p;
   }
@@ -230,7 +235,7 @@ class Motor {
     const aday = [];
     this.yuvalar.forEach((y) => {
       if (!y.css || !y.hedef.isConnected) return;
-      if (y.oynar && !this.azalt) aday.push(y); else if (y.kirli) kirli.push(y);
+      if (y.oynar) aday.push(y); else if (y.kirli) kirli.push(y);
     });
     // Aynı anda en çok MAKS_OYNAYAN (en büyük) yuva hareket eder; ötekiler tek durağan karede kalır.
     aday.sort((a, b) => b.css - a.css);
@@ -240,12 +245,17 @@ class Motor {
     });
     if (!oynayan.length && !kirli.length) return;
     const dt = simdi - this.son;
-    if (oynayan.length && dt < this.aralik && !kirli.length) { this.raf = requestAnimationFrame(this.kareB); return; }
+    const aralik = this.azalt ? Math.max(this.aralik, 31) : this.aralik;   // yumuşak mod: en çok 30 fps
+    if (oynayan.length && dt < aralik && !kirli.length) { this.raf = requestAnimationFrame(this.kareB); return; }
     if (oynayan.length && this.son && dt < 200) this.uyarla(dt);
     this.son = simdi;
     const t0 = performance.now();
     try {
-      oynayan.forEach((y) => this.ciz(y, simdi / 1000 + y.t0));
+      // yumuşak modda zaman yavaş akar (ayrı saat: kip değişince efekt sıçramasın diye kendi birikimi)
+      const hiz = this.azalt ? YUMUSAK.hiz : 1;
+      if (this.saatSon) this.saat += Math.min(0.1, (simdi - this.saatSon) / 1000) * hiz;
+      this.saatSon = simdi;
+      oynayan.forEach((y) => this.ciz(y, this.saat + y.t0));
       // durağan kare: sabit, efektin dolu göründüğü an (ör. alev nefesinin ortası)
       kirli.forEach((y) => this.ciz(y, y.ayar.durgunT ?? 1.3));
     } catch (e) {
@@ -297,6 +307,7 @@ class Motor {
     gl.uniform1i(p.doku, 0);
     gl.uniform1f(p.dokuVar, k?.hazir ? 1 : 0);
     gl.uniform1f(p.t, t % 3600);
+    gl.uniform1f(p.yum, this.azalt ? 1 : 0);
     gl.uniform1f(p.px, px);
     gl.uniform4fv(p.a, y.ayar.a ?? [0, 0, 0, 0]);
     gl.uniform4fv(p.n, y.n);

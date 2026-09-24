@@ -18,6 +18,9 @@ import { useEffect, useState } from "react";
 import { oyuncuKarti, oyuncuKartiDinle } from "../lib/cerceve.js";
 import { kozmetikTemasi } from "../lib/kozmetik.js";
 import "../tasarim/ekranlar/kozmetik.css";
+import { yumusakHareketKur } from "../tasarim/yumusakHareket.js";
+
+yumusakHareketKur();   // hareketi azalt → yumuşak mod (durmaz, yavaşlar)
 
 /** Oyuncu kartından tek alan (önbellekli). Kart değişince (kendi kozmetiğimi takınca) tazelenir. */
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;

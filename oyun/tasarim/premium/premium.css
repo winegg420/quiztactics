@@ -66,8 +66,54 @@
 /* ---------------- Oynatma durumu ---------------- */
 .pc--oynar .pc-o, .pc--oynar .pc-p, .pc--oynar .pc-p > span { will-change: transform, opacity; }
 .pc--durgun .pc-o, .pc--durgun .pc-p, .pc--durgun .pc-p > span, .pc--durgun .pc-svg-kay { animation-play-state: paused !important; }
+/* YUMUŞAK MOD (hareketi azalt; oyun/tasarim/yumusakHareket.js): hareket DURMAZ — 2,5× yavaş (JS playbackRate),
+   parçacıkların yarısı gizli, büyük salınımlar küçük ("-y" anahtar kareleri); çakma/flaş/cızırtı kapalı. */
 @media (prefers-reduced-motion: reduce) {
-  .pc .pc-o, .pc .pc-p, .pc .pc-p > span, .pc .pc-svg-kay { animation-play-state: paused !important; will-change: auto; }
+  .pc .pc-a-cak, .pc .pc-a-flas, .pc .pc-a-citir2 { animation: none; opacity: 0; }
+  .pc .pc-a-citir { animation: none; opacity: 1; }
+  .pc .pc-p--kivilcim > span { animation: none; }
+  .pc .pc-p--dus:nth-child(2n), .pc .pc-p--yuksel:nth-child(2n), .pc .pc-p--kayan:nth-child(2n) { display: none; }
+  .pc .pc-k:nth-child(2n) > :is(.pc-a-kor, .pc-a-savrul, .pc-a-yaprak-dus, .pc-a-parilti) { display: none; }
+  .pc .pc-a-titre { animation-name: pc-titre-y; }
+  .pc .pc-a-titre2 { animation-name: pc-titre2-y; }
+  .pc .pc-a-kanat-sol { animation-name: pc-kanat-sol-y; }
+  .pc .pc-a-kanat-sag { animation-name: pc-kanat-sag-y; }
+  .pc .pc-a-yuvarlan { animation-name: pc-yuvarlan-y; }
+  .pc .pc-p--takla > span { animation-name: pa-takla-y; }
+  .pc .pc-p--titrek { animation-name: pa-titrek-y; }
+  .pc .pc-a-salin { animation-name: pc-salin-y; }
+}
+@keyframes pc-titre-y {
+  0%, 100% { transform: scale(1, 1) skewX(0deg); }
+  50% { transform: scale(0.97, 1.05) skewX(-1.5deg); }
+}
+@keyframes pc-titre2-y {
+  0%, 100% { transform: scale(1, 0.97); opacity: 0.9; }
+  50% { transform: scale(0.96, 1.05); opacity: 1; }
+}
+@keyframes pc-kanat-sol-y {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(5deg) scale(0.97, 1); }
+}
+@keyframes pc-kanat-sag-y {
+  0%, 100% { transform: rotate(3deg); }
+  50% { transform: rotate(-5deg) scale(0.97, 1); }
+}
+@keyframes pc-yuvarlan-y {
+  from { transform: rotate(-12deg); }
+  to { transform: rotate(16deg); }
+}
+@keyframes pc-salin-y {
+  from { transform: rotate(-9deg) translateY(-2%); }
+  to { transform: rotate(9deg) translateY(2%); }
+}
+@keyframes pa-takla-y {
+  from { transform: rotate(-16deg); }
+  to { transform: rotate(20deg); }
+}
+@keyframes pa-titrek-y {
+  from { opacity: 0.75; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1.04); }
 }
 
 /* ---------------- Hareket sınıfları (çerçeve) ---------------- */
@@ -317,5 +363,5 @@
   0%, 55% { background-position: 170% 0; }
   85%, 100% { background-position: -70% 0; }
 }
-@media (prefers-reduced-motion: reduce) { .pp-plaka--oynar .pp-altin::after { animation: none; opacity: 0; } }
+/* yumuşak modda parıltı yavaş geçer (yumusakHareket.js) */
 .pp-amblem { flex: none; display: inline-block; vertical-align: middle; filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.25)); }

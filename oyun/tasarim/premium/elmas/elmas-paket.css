@@ -14,6 +14,7 @@
   45% { transform: scale(1.1) rotate(45deg); opacity: 1; }
 }
 @keyframes ep-don { to { transform: rotate(360deg); } }
+/* Yumuşak mod (hareketi azalt): durmaz, yavaşlar (yumusakHareket.js); ışıltıların yarısı gizli */
 @media (prefers-reduced-motion: reduce) {
-  .ep--oynar .ep-p > svg, .ep--oynar .ep-isinlar { animation: none; }
+  .ep--oynar .ep-p:nth-of-type(2n) { display: none; }
 }

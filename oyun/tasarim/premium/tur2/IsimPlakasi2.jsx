@@ -6,6 +6,9 @@
  * Oyunda: isim_altin isim efekti bu plakanın "kulce" hâliyle çizilir (IsimEfekti.jsx).
  */
 import "./plaka2.css";
+import { yumusakHareketKur } from "../../yumusakHareket.js";
+
+yumusakHareketKur();   // hareketi azalt → yumuşak mod (durmaz, yavaşlar)
 
 export const PLAKA2 = {
   yakut: { ad: "Altın plaka — yakut zemin", aciklama: "Parlak sarı altın çerçeve ve yazı, derin yakut kadife zemin (ince şam deseni), altın elmas uçlar. Üstünden ışık geçer." },

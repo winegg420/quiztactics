@@ -15,6 +15,9 @@
 import { cerceveTanimiBul, auraTanimiBul, hareketIster, SUSLER } from "./tanimlar.js";
 import { useHareketHakki } from "./hareketHakki.js";
 import "./cerceveler.css";
+import { yumusakHareketKur } from "../yumusakHareket.js";
+
+yumusakHareketKur();   // hareketi azalt → yumuşak mod (durmaz, yavaşlar)
 
 const KUCUK_SINIR = 40;
 const ORTA_SINIR = 56;

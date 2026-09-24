@@ -7,6 +7,9 @@
  * → 5 altın ışıklı dev elmas dağı. Işıltı yalnız transform/opacity; "hareketi azalt"ta durur.
  */
 import "./elmas-paket.css";
+import { yumusakHareketKur } from "../../yumusakHareket.js";
+
+yumusakHareketKur();   // hareketi azalt → yumuşak mod (durmaz, yavaşlar)
 
 const KONTUR = "#0b1220";
 const R = { en: "#dcfcff", acik: "#8ae9ff", yan: "#5fd8f7", ana: "#2ec4f0", orta: "#1d9ee0", koyu: "#1565b8", derin: "#0d4a8f", pembe: "#ff7ab8" };
