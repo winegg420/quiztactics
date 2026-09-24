@@ -1,0 +1,438 @@
+/* =====================================================================
+   GÜNEŞ HALKASI — rakip arama ekranı (AramaGunesHalkasi.jsx, tembel parça).
+   Ida seçti: /tasarim-onizleme › arama › B. Sınıflar `gh-` önekli (önizlemenin `ra-`
+   ve eski ekranın `ara-` sınıflarıyla çakışmaz; VsKarti'nin `ara-kart`'ı olduğu gibi kalır).
+   Marka: açık gök mavisi, turuncu güneş ışınları, kontürlü bulutlar, lacivert yazı,
+   Baloo 2, kalın lacivert kontur. Koyu mor YOK.
+   iOS: kök position:fixed, kökte/atalarında transform YOK; 100dvh.
+   Performans: yalnız transform/opacity animasyonu; filter/blur YOK.
+   Zamanlama: bulunma anından maça ARAMA_GECIS_MS (2000 ms) var; VS 450 ms'de başlar
+   (VS sesiyle aynı an), ~1,1 sn'de oturur. Hareketi azalt'ta süreler kısalır, 0,4 hızla
+   yine 2 sn'ye sığar (en altta).
+   ===================================================================== */
+
+.gh {
+  --gh-lac: #1d2152;
+  --gh-lac-soluk: #46507f;
+  --gh-tur: #ff7a2e;
+  --gh-tur-koyu: #9a3a05;
+  --gh-sari: #ffc933;
+  --gh-krem: #fff7e8;
+  --gh-kontur: 3px solid var(--gh-lac);
+  --gh-dudak: 0 4px 0 var(--gh-lac);
+  --gh-halka: min(86cqw, 42cqh, 420px);
+  position: fixed;
+  inset: 0;
+  z-index: var(--qt-z-ortu, 90);
+  height: 100dvh;
+  container-type: size;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow: hidden;
+  overscroll-behavior: contain;
+  padding: calc(10px + env(safe-area-inset-top, 0px)) 16px calc(12px + env(safe-area-inset-bottom, 0px));
+  background: linear-gradient(180deg, #74c1ff 0%, #b3ddff 42%, #dff0ff 78%, #eef8ff 100%);
+  color: var(--gh-lac);
+  font-family: var(--qt-f-govde, "Nunito", system-ui, sans-serif);
+  font-weight: 700;
+  line-height: 1.3;
+  -webkit-tap-highlight-color: transparent;
+}
+.gh > :not(.gh-zemin) { position: relative; z-index: 1; width: 100%; max-width: 460px; margin-inline: auto; }
+.gh h1, .gh p { margin: 0; }
+
+/* Sekme gizliyken bütün hareket duraklar */
+.gh[data-durdu] *, .gh[data-durdu] *::before, .gh[data-durdu] *::after { animation-play-state: paused !important; }
+
+/* ---------------------------------------------------------------- zemin: güneş + bulutlar */
+.gh-zemin { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.gh-gunes {
+  position: absolute;
+  width: max(150cqw, 90cqh);
+  aspect-ratio: 1;
+  right: calc(max(150cqw, 90cqh) / -2 + 8cqw);
+  top: calc(max(150cqw, 90cqh) / -2 + 4cqh);
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff1b8 0 6%, #ffc15c 7.5%, rgba(255, 150, 60, 0.55) 14%, rgba(255, 122, 46, 0.18) 30%, rgba(255, 122, 46, 0) 50%);
+}
+.gh-gunes-isin {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: repeating-conic-gradient(from 0deg, rgba(255, 170, 80, 0.26) 0deg 9deg, rgba(255, 170, 80, 0) 9deg 22.5deg);
+  -webkit-mask-image: radial-gradient(circle, #000 0 18%, transparent 50%);
+  mask-image: radial-gradient(circle, #000 0 18%, transparent 50%);
+  animation: gh-don 70s linear infinite;
+  will-change: transform;
+}
+.gh-bulut {
+  position: absolute;
+  left: 0;
+  width: clamp(80px, 30cqw, 150px);
+  fill: #fff;
+  stroke: var(--gh-lac);
+  stroke-width: 3;
+  stroke-linejoin: round;
+  opacity: 0.85;
+  animation: gh-bulut 46s linear infinite;
+  will-change: transform;
+}
+/* Bulutlar yazı satırlarının arkasına düşmesin: üst boşluk, halka arkası, alt kart arkası */
+.gh-bulut--1 { top: 15%; animation-duration: 44s; animation-delay: -12s; }
+.gh-bulut--2 { top: 42%; width: clamp(60px, 22cqw, 110px); animation-duration: 58s; animation-delay: -40s; opacity: 0.7; }
+.gh-bulut--3 { top: 84%; width: clamp(70px, 26cqw, 130px); animation-duration: 51s; animation-delay: -26s; opacity: 0.6; }
+@keyframes gh-bulut { from { transform: translateX(-160px); } to { transform: translateX(calc(100cqw + 20px)); } }
+@keyframes gh-don { to { transform: rotate(360deg); } }
+@keyframes gh-don-ters { to { transform: rotate(-360deg); } }
+@keyframes gh-son { to { opacity: 0; } }
+
+/* ---------------------------------------------------------------- üst: kendi profilin + süre */
+.gh-ust { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 52px; }
+.gh-ben { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.gh-ben-yazi { display: grid; gap: 3px; min-width: 0; }
+.gh-ben-alt { display: inline-flex; align-items: center; gap: 6px; }
+.gh-ad {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--qt-f-baslik, "Baloo 2", system-ui, sans-serif);
+  font-size: clamp(17px, 2.6cqh, 22px);
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--gh-lac);
+}
+.gh-ad--kucuk { font-size: 19px; }
+.gh-lv {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 9px;
+  border-radius: 999px;
+  background: var(--gh-lac);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.gh-sure {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 36px;
+  padding: 0 12px;
+  border: var(--gh-kontur);
+  border-radius: 999px;
+  box-shadow: 0 3px 0 var(--gh-lac);
+  background: #fff;
+  font-family: var(--qt-f-baslik, "Baloo 2", system-ui, sans-serif);
+  font-size: 18px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+.gh-sure svg { fill: none; stroke: var(--gh-lac); stroke-width: 2.6; stroke-linecap: round; }
+
+/* Mod + Serbest/Dereceli */
+.gh-rozetler { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 8px; }
+.gh-rozet {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0 13px;
+  border: 2.5px solid var(--gh-lac);
+  border-radius: 999px;
+  box-shadow: 0 3px 0 var(--gh-lac);
+  background: #fff;
+  color: var(--gh-lac);
+  font-family: var(--qt-f-baslik, "Baloo 2", system-ui, sans-serif);
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1;
+  white-space: nowrap;
+}
+.gh-rozet--klasik { background: #ff8a3d; }
+.gh-rozet--saf { background: #7fd8ff; }
+.gh-rozet--duello { background: #ff7fa0; }
+.gh-rozet--dereceli { background: var(--gh-sari); }
+.gh-rozet--serbest { background: #fff; }
+
+/* "Rakip bağlanamadı, yeni rakip aranıyor" */
+.gh-not {
+  justify-self: center;
+  width: fit-content !important;
+  padding: 6px 14px;
+  border: 2.5px solid var(--gh-lac);
+  border-radius: 999px;
+  background: var(--gh-krem);
+  font-size: 14px;
+  font-weight: 800;
+  text-align: center;
+  animation: gh-yazi-gir 380ms cubic-bezier(0.2, 1.3, 0.4, 1) both;
+}
+
+/* ---------------------------------------------------------------- orta sahne: halka */
+.gh-sahne {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: clamp(6px, 1.8cqh, 18px);
+}
+.gh-alan { position: relative; display: grid; place-items: center; width: 100%; height: var(--gh-halka); flex: none; }
+.gh-halka { position: relative; flex: none; width: var(--gh-halka); height: var(--gh-halka); }
+
+.gh-radar { position: absolute; inset: 0; display: block; border-radius: 50%; }
+.gh-radar > span { position: absolute; border-radius: 50%; }
+.gh-radar-halka--1 { inset: 0; border: 3px dashed rgba(29, 33, 82, 0.45); animation: gh-don 16s linear infinite; }
+.gh-radar-halka--2 { inset: 17%; border: 3px solid rgba(255, 122, 46, 0.55); background: rgba(255, 255, 255, 0.35); }
+.gh-radar-tarama {
+  inset: 3px;
+  background: conic-gradient(from 0deg, rgba(255, 122, 46, 0.6), rgba(255, 122, 46, 0.18) 60deg, rgba(255, 122, 46, 0) 110deg);
+  animation: gh-don 1.8s linear infinite;
+  will-change: transform;
+}
+.gh-radar-dalga { inset: 0; border: 3px solid var(--gh-tur); opacity: 0; animation: gh-dalga 2.4s cubic-bezier(0.2, 0.6, 0.4, 1) infinite; }
+.gh-radar-dalga--2 { animation-delay: 1.2s; }
+@keyframes gh-dalga { 0% { opacity: 0.9; transform: scale(0.35); } 100% { opacity: 0; transform: scale(1.08); } }
+
+/* Yörüngede dönen avatarlar */
+.gh-yorunge { position: absolute; inset: 0; animation: gh-don 16s linear infinite; will-change: transform; }
+.gh-uydu {
+  --u: calc(var(--gh-halka) * 0.2);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--u);
+  height: var(--u);
+  margin: calc(var(--u) / -2) 0 0 calc(var(--u) / -2);
+  transform: rotate(calc(var(--i) * 45deg)) translateY(calc(var(--gh-halka) / -2 + var(--u) / 2 + 2px)) rotate(calc(var(--i) * -45deg));
+}
+.gh-uydu-ic {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2.5px solid var(--gh-lac);
+  background: #fff;
+  animation: gh-don-ters 16s linear infinite;
+}
+.gh-uydu-ic img { display: block; width: 100%; height: 100%; animation: gh-uydu 2.4s ease-in-out infinite; animation-delay: calc(var(--i) * 0.3s); }
+@keyframes gh-uydu { 0%, 100% { opacity: 0.55; } 30% { opacity: 1; } }
+
+/* Ortada slot makarası */
+.gh-merkez {
+  position: absolute;
+  left: 30%;
+  top: 30%;
+  width: 40%;
+  aspect-ratio: 1;
+  display: block;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 4px solid var(--gh-lac);
+  box-shadow: 0 5px 0 var(--gh-lac);
+  background: #fff;
+}
+.gh-makara-serit {
+  position: absolute;
+  inset: 0 0 auto 0;
+  display: flex;
+  flex-direction: column;
+  animation: gh-makara 0.95s linear infinite;
+  will-change: transform;
+}
+.gh-makara-serit img { display: block; flex: none; width: 100%; aspect-ratio: 1; }
+@keyframes gh-makara { to { transform: translateY(-50%); } }
+.gh-makara-kilit { position: absolute; inset: 0; display: block; }
+.gh-makara-kilit img { display: block; width: 100%; height: 100%; animation: gh-kilit 450ms cubic-bezier(0.25, 1.5, 0.5, 1) both; }
+@keyframes gh-kilit { from { transform: translateY(-70%); } 70% { transform: translateY(6%); } to { transform: none; } }
+.gh-harf {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  background: var(--gh-sari);
+  font: 800 clamp(32px, 7cqh, 56px)/1 var(--qt-f-baslik, "Baloo 2", system-ui, sans-serif);
+}
+
+/* Bulundu: tarama + dalgalar + yörünge söner; makara rakipte durur */
+.gh:is(.gh--bulundu, .gh--hata) .gh-radar-tarama,
+.gh:is(.gh--bulundu, .gh--hata) .gh-radar-dalga { animation: gh-son 400ms ease forwards; }
+.gh:is(.gh--bulundu, .gh--hata) .gh-yorunge { animation: gh-don 16s linear infinite, gh-son 420ms ease forwards; }
+.gh--hata .gh-makara-serit, .gh--hata .gh-radar-halka--1 { animation-play-state: paused; }
+
+/* VS: halka kapanır, iki avatar yanlardan gelir, ortaya VS çarpar */
+.gh--vs .gh-halka { animation: gh-kapan 380ms cubic-bezier(0.5, 0, 0.7, 0.4) 450ms both; }
+@keyframes gh-kapan { to { opacity: 0; transform: scale(0.55); } }
+.gh-vs {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 6px;
+}
+.gh-vs::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--gh-halka);
+  height: var(--gh-halka);
+  margin: calc(var(--gh-halka) / -2) 0 0 calc(var(--gh-halka) / -2);
+  border-radius: 50%;
+  background: repeating-conic-gradient(from 0deg, rgba(255, 150, 60, 0.4) 0deg 10deg, rgba(255, 150, 60, 0) 10deg 22.5deg);
+  -webkit-mask-image: radial-gradient(circle, #000 0 30%, transparent 70%);
+  mask-image: radial-gradient(circle, #000 0 30%, transparent 70%);
+  animation: gh-isin-gir 450ms ease 500ms both, gh-don 30s linear infinite;
+}
+@keyframes gh-isin-gir { from { opacity: 0; } }
+.gh-vs-kart { position: relative; display: grid; justify-items: center; gap: 5px; min-width: 0; }
+.gh-vs-av { display: block; border-radius: 50%; box-shadow: 0 5px 0 var(--gh-lac); }
+/* Çapraz dizilim: sen sol üstte, rakip sağ altta */
+.gh-vs-kart--ben { align-self: start; padding-top: 2%; animation: gh-soldan 480ms cubic-bezier(0.2, 1.3, 0.4, 1) 450ms both; }
+.gh-vs-kart--rakip { align-self: end; padding-bottom: 2%; animation: gh-sagdan 480ms cubic-bezier(0.2, 1.3, 0.4, 1) 450ms both; }
+@keyframes gh-soldan { from { opacity: 0; transform: translateX(-60%); } }
+@keyframes gh-sagdan { from { opacity: 0; transform: translateX(60%); } }
+.gh-vs-yazi {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: clamp(56px, 16cqw, 84px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: var(--gh-kontur);
+  box-shadow: var(--gh-dudak);
+  background: var(--gh-tur);
+  animation: gh-isin-gir 200ms ease 450ms both;
+}
+.gh-vs-yazi span {
+  font-family: var(--qt-f-baslik, "Baloo 2", system-ui, sans-serif);
+  font-size: clamp(24px, 3.9cqh, 36px);
+  font-weight: 800;
+  line-height: 1;
+  color: #fff;
+  -webkit-text-stroke: 1.5px var(--gh-lac);
+  paint-order: stroke fill;
+  animation: gh-vs-carp 560ms cubic-bezier(0.2, 1.4, 0.4, 1) 560ms both;
+}
+@keyframes gh-vs-carp { 0% { transform: scale(2.4); opacity: 0; } 55% { transform: scale(0.88); opacity: 1; } 100% { transform: scale(1); } }
+
+/* ---------------------------------------------------------------- başlık + alt satır */
+.gh-durum { display: grid; gap: 4px; text-align: center; animation: gh-yazi-gir 380ms cubic-bezier(0.2, 1.3, 0.4, 1) both; }
+@keyframes gh-yazi-gir { from { opacity: 0; transform: translateY(8px) scale(0.96); } }
+.gh-baslik { font-family: var(--qt-f-baslik, "Baloo 2", system-ui, sans-serif); font-size: clamp(22px, 3.4cqh, 30px); font-weight: 800; line-height: 1.1; }
+.gh-alt { font-size: 15px; line-height: 1.35; color: var(--gh-lac-soluk); text-wrap: balance; }
+.gh-alt p { margin: 0; }
+.gh-alt--ezeli { color: var(--gh-tur-koyu); font-weight: 800; }
+.gh-hata {
+  justify-self: center;
+  padding: 8px 14px;
+  border: 2.5px solid var(--gh-lac);
+  border-radius: 14px;
+  background: #ffe1d6;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+/* ---------------------------------------------------------------- alt: "Biliyor muydun?" + İptal */
+.gh-alt-bolum { display: grid; gap: 10px; }
+.gh-bilgi {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border: var(--gh-kontur);
+  border-radius: 18px;
+  box-shadow: var(--gh-dudak);
+  background: var(--gh-krem);
+  animation: gh-bilgi-gir 450ms cubic-bezier(0.2, 0.8, 0.3, 1) both;
+}
+@keyframes gh-bilgi-gir { from { opacity: 0; transform: translateY(10px); } }
+.gh-bilgi-ikon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2.5px solid var(--gh-lac);
+  background: var(--gh-tur);
+  color: #fff;
+  font-family: var(--qt-f-baslik, "Baloo 2", system-ui, sans-serif);
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1;
+}
+.gh-bilgi-metin { display: grid; gap: 2px; min-width: 0; font-size: clamp(13px, 1.9cqh, 15px); line-height: 1.35; }
+.gh-bilgi-metin b { color: var(--gh-tur-koyu); font-family: var(--qt-f-baslik, "Baloo 2", system-ui, sans-serif); font-size: 14px; font-weight: 800; line-height: 1.1; }
+
+.gh-dugme, .gh-baslat {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 50px;
+  margin: 0;
+  overflow: hidden;
+  border: var(--gh-kontur);
+  border-radius: 16px;
+  box-shadow: var(--gh-dudak);
+  background: #fff;
+  color: var(--gh-lac);
+  font: 800 18px/1 var(--qt-f-baslik, "Baloo 2", system-ui, sans-serif);
+}
+.gh-dugme { cursor: pointer; touch-action: manipulation; }
+.gh-dugme:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--gh-lac); }
+.gh-dugme:focus-visible { outline: 3px solid var(--gh-tur); outline-offset: 3px; }
+.gh-dugme--ana { background: var(--gh-sari); }
+.gh-baslat b { position: relative; }
+.gh-baslat-dolgu {
+  position: absolute;
+  inset: 0;
+  background: var(--gh-sari);
+  transform-origin: left center;
+  animation: gh-dol 2000ms linear both;
+}
+@keyframes gh-dol { from { transform: scaleX(0); } }
+
+/* ---------------------------------------------------------------- kısa ekran (360×640 vb.) */
+@container (max-height: 700px) {
+  .gh { gap: 6px; }
+  .gh-ust { min-height: 46px; }
+  .gh-bilgi { padding: 7px 10px; border-radius: 16px; }
+  .gh-bilgi-ikon { width: 26px; height: 26px; font-size: 16px; }
+  .gh-alt { font-size: 14px; }
+  .gh-dugme, .gh-baslat { min-height: 46px; }
+}
+@container (min-width: 700px) {
+  .gh-bulut { width: 180px; }
+}
+
+/* ---------------------------------------------------------------- hareketi azalt: DURMAZ, yumuşar
+   Hız: kök data-yumusak → yumusakHareket.js animasyonları 0,4 hızda oynatır (animasyon başlarken;
+   gecikmeler gerçek süredir). Aşama animasyonları burada kısalır ki 0,4 hızda da VS 2 sn'lik
+   gerçek süreye sığsın: kilit ~0,7 sn, halka/avatarlar 0,35 sn gecikme + ~0,75 sn, VS ~1,15 sn'de oturur.
+   Azlık/genlik: bir bulut ve ikinci dalga gizli, VS çarpması ve kayma küçük. */
+@media (prefers-reduced-motion: reduce) {
+  .gh-bulut--3, .gh-radar-dalga--2 { display: none; }
+  .gh-makara-kilit img { animation: gh-kilit-y 280ms ease-out both; }
+  .gh--vs .gh-halka { animation: gh-kapan 240ms ease-in 350ms both; }
+  .gh-vs-kart--ben { animation: gh-soldan-y 300ms ease-out 350ms both; }
+  .gh-vs-kart--rakip { animation: gh-sagdan-y 300ms ease-out 350ms both; }
+  .gh-vs-yazi { animation-delay: 350ms; }
+  .gh-vs-yazi span { animation: gh-vs-carp-y 280ms ease-out 450ms both; }
+  .gh-vs::before { animation: gh-isin-gir 240ms ease 400ms both, gh-don 30s linear infinite; }
+  .gh-durum, .gh-not { animation-name: gh-solgun; }
+}
+@keyframes gh-kilit-y { from { transform: translateY(-40%); opacity: 0.4; } }
+@keyframes gh-soldan-y { from { opacity: 0; transform: translateX(-24%); } }
+@keyframes gh-sagdan-y { from { opacity: 0; transform: translateX(24%); } }
+@keyframes gh-vs-carp-y { from { transform: scale(1.3); opacity: 0; } }
+@keyframes gh-solgun { from { opacity: 0; } }
