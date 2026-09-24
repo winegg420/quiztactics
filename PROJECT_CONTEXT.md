@@ -328,6 +328,8 @@ Aktif yedi maç skill'i vardır:
 - İki katman: **açık botlar** (adında "Bot" geçer, %50 coin, anında cevaplar)
   ve **gizli botlar** (gerçek oyuncu gibi, tam coin, gerçekçi sürede cevaplar).
 - `is_bot` istemciye **ASLA sızmaz** — gizli botun bot olduğu anlaşılmamalı.
+- **Gizli botların hepsinde avatar var (610):** avatarı boş olanlara açık avatarlardan (31 + aktif katalog) bot
+  adına göre sabit (hashtext) avatar verildi; baş harfli (avatarsız) gizli bot kalmadı.
 - Gizli botlar arkadaşlık kabul etmez, lig değiştirmez.
 - **Bot rozetleri (352/353):** rozet motoru botları atlar; `bot_rozetleri_uret` deterministik
   (tohum bot id) üretir: level rozetleri level'e göre, Klasik/Düello galibiyet o level için
@@ -346,6 +348,12 @@ Ida "kendin doldur" dedi; hepsi test değeridir, yayından önce yeniden bakıla
 
 - **Başlangıç coin'i 10.000 kalır** (test). **Yayın günü işi:** `baslangic_coin`'i
   gerçek değere düşür ve test sırasında dağıtılan coin'e (şişkin bakiyeler) karar ver.
+- **Başlangıç elması tek ayar (610):** `baslangic_elmas` = 10.000 (TEST; **yayında 150**) — yeni hesap ilk
+  girişte alır (`handle_new_user`; bot hesabı almaz). Test için mevcut insan hesapların bakiyesi 10.000'e
+  tamamlandı (defter `test` / `test_bakiye_baslangic`). Yayın günü: ayarı 150'ye çek, test elmaslarına karar ver.
+- **Yeni profil dili (610, D-203):** profil giriş ekranındaki dille doğar (misafir/e-posta kayıt verisi `dil`;
+  Google yönlendirmesinde cihazdaki `bildim_giris_dili` yeni hesaba bir kez yazılır). Mevcut profilin kayıtlı
+  dili ezilmez. Soru dili `profiles.dil` → `soru_dilinde` (aktif soruların ~12.200'ünün EN çevirisi var).
 - **Sigorta 30 · 2X 40 coin; 10'lu paket 255 / 340** (%15 indirim; migration 307,
   `joker_paketleri.skill_sigorta_10` / `skill_cifte_puan_10`). Yalnız Klasik; Düello'ya
   gelmez.

@@ -8290,3 +8290,16 @@ ada dokununca kart yok, maç içi ses tek düğme; ek olarak 2. tur onayları (B
   DenetimUc148, "Oyuncu" 0c59b999 — d2 EN ilk açılış betiği) → auth.users CASCADE: 10 maç, 2 düello (5df65666 dahil),
   1 arkadaşlık, 3 mesaj, 4 bildirim, 1 davet, grup/turnuva kayıtları. Önce prova, sonra uygulandı. ArayuzDenetim*
   araç hesapları duruyor (araçlar kullanıyor).
+
+## 2026-09-25 — D-203 (profil dili), test elması, avatarsız gizli botlar — migration 610
+**Araç:** Claude Code (yönetici)
+- **D-203:** yeni profil 'tr' doğup EN oyuncuyu Türkçeye düşürüyordu. `handle_new_user` kayıt verisindeki dili
+  (`raw_user_meta_data.dil`) yazar; Login misafir ve e-posta girişinde dili kayıt verisine koyar; Google yönlendirmesi
+  için dil cihazda (`bildim_giris_dili`) saklanır, profil < 30 dk ise `useDil` bir kez yazar (bu sırada hiçbir useDil
+  örneği sayfayı eski dile yenilemez). Mevcut profiller değişmedi. Canlı: EN tarayıcı + "Try as a guest" → profil `en`,
+  sayfa `en`, maç sorusu İngilizce ("Who performs dangerous scenes…"); kayıt verisiz yeni hesap + giriş dili en → `en`;
+  eski hesap (+2 gün) + giriş dili en → `tr` korundu. Test hesapları (3) silindi.
+- **Elmas:** `oyun_ayarlari.baslangic_elmas` = 10.000 (TEST, yayında 150), yeni hesap ilk girişte alır (bot hesabı
+  almaz); 79 insan hesabın bakiyesi 10.000'e tamamlandı, botlarda elmas 0. Yeni misafir hesap canlıda 10.000 aldı.
+- **Gizli bot avatarı:** avatarı boş 75 gizli bota (ege55 dahil → Büyücü) açık avatarlardan ada göre sabit avatar;
+  kalan 0. (Önceki kural "avatarsız botlar değişmez"di — Ida isteğiyle kaldırıldı.)
