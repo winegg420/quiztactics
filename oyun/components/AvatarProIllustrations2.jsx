@@ -198,8 +198,15 @@ function Sporcu() {
     <path d="M112 262h96" fill="none" stroke={KR} strokeWidth="8" />
     <path d="M136 226l24 40 24-40" fill="none" stroke={K} strokeWidth="14" strokeLinejoin="round" /><path d="M136 226l24 40 24-40" fill="none" stroke="#e8543f" strokeWidth="7" strokeLinejoin="round" />
     <circle cx="160" cy="276" r="18" fill="#f2b23c" {...CIZGI} /><path d="m160 266 4 8 8 1-6 5 2 8-8-4-8 4 2-8-6-5 8-1Z" fill="#c98a22" />
+    {/* Saç (düzeltme, Ajan C 24 Eyl): eskiden yalnız ince dikenlerdi, aralarda ve bant altında ten
+        görünüyordu → küçük boyutta kel okunuyordu. Şimdi bandın arkasında/üstünde dolu kıvırcık kütle
+        + şakaklarda kısa saç. */}
+    <path d="M84 170q-10-46 2-78 30-10 74-10 44 0 74 10 12 32 2 78-8 4-12-2l-4-26H100l-4 26q-4 6-12 2Z" fill="#1d1a19" {...CIZGI} />
     <path d={BAS} fill="#b07650" {...CIZGI} />
-    <path d="M94 116l6-44 20 22 12-38 18 30 18-34 14 34 20-24 6 50Z" fill="#1d1a19" {...CIZGI} />
+    <path d="M100 144q-2 14 2 28l7-3q-3-12-1-24ZM220 144q2 14-2 28l-7-3q3-12 1-24Z" fill="#1d1a19" {...CIZGI} />
+    <path d="M86 124q-10-30 6-52-2-18 16-26 6-18 26-18 12-12 28-6 16-8 30 4 20-2 26 16 16 8 14 28 14 22 2 54-74-24-148 0Z" fill="#1d1a19" {...CIZGI} />
+    <path d="M110 70q8-6 16-2M146 50q8-6 16-1M186 58q8-4 15 2M126 96q8-6 16-2M170 88q8-6 16-1M206 90q7-4 13 2" fill="none" stroke="#4a3a32" strokeWidth="5" strokeLinecap="round" />
+    <path d="M114 58q14-18 36-20" fill="none" stroke={KR} strokeWidth="7" strokeLinecap="round" opacity=".75" />
     <path d="M88 118q72-26 144 0v26q-72-26-144 0Z" fill={KR} {...CIZGI} />
     <path d="M90 132q70-24 140 0" fill="none" stroke="#e8543f" strokeWidth="6" />
     <path d="M108 150l32 7M212 150l-32 7" fill="none" stroke={K} strokeWidth="8" strokeLinecap="round" />
