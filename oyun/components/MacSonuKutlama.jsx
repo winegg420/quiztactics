@@ -302,10 +302,11 @@ function MacSonuKutlama({
     sesMuzikSahne(true);
     try {
       sessionStorage.setItem("bildim_bildirim_mac_sonrasi", "1");
-      // Sahnede gösterilen rozetler sonradan tost olarak tekrar çıkmasın (RozetBildirimi okur)
-      const onceki = JSON.parse(sessionStorage.getItem("bildim_sahne_rozetleri") || "[]");
+      // Sahnede gösterilen rozetler sonradan tost olarak tekrar çıkmasın (RozetBildirimi okur). Kalıcı: uygulama
+      // sahneden kapatılırsa sunucu "görüldü" işaretlemeden kalır; sonraki açılışta aynı rozet tost olmasın.
+      const onceki = JSON.parse(localStorage.getItem("bildim_sahne_rozetleri") || "[]");
       const yeni = (rozetler ?? []).map((r) => r?.anahtar).filter(Boolean);
-      if (yeni.length) sessionStorage.setItem("bildim_sahne_rozetleri", JSON.stringify([...onceki, ...yeni].slice(-50)));
+      if (yeni.length) localStorage.setItem("bildim_sahne_rozetleri", JSON.stringify([...onceki, ...yeni].slice(-50)));
     } catch { /* özel mod */ }
     return () => sesMuzikSahne(false);
   }, []);

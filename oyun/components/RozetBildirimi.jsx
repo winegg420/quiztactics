@@ -34,7 +34,7 @@ export default function RozetBildirimi() {
         if (!liste?.length) return;
         // A.3: maç sonu sahnesinin zaten gösterdiği rozetler tost olarak ikinci kez çıkmaz.
         let sahnede = [];
-        try { sahnede = JSON.parse(sessionStorage.getItem("bildim_sahne_rozetleri") || "[]"); } catch { /* özel mod */ }
+        try { sahnede = JSON.parse(localStorage.getItem("bildim_sahne_rozetleri") || "[]"); } catch { /* özel mod */ }
         const yeni = liste.filter((r) => !sahnede.includes(r.anahtar));
         if (!yeni.length) return;
         setKuyruk((k) => [...k, ...yeni]);
