@@ -82,6 +82,13 @@ Oynatıcı: `lottie-web` (MIT, Airbnb) — `build/player/lottie_light`.
 yazılmış SVG + CSS (`oyun/tasarim/premium/`). Yeni npm paketi yok, indirilen görsel/animasyon yok.
 Sahnede görünen taç `public/dukkan/tac.webp` mevcut maç sonu sahnesinindir (yukarıdaki Noto satırı).
 
+**2. tur (24 Eyl 2026):** Ejderha, Sönmeyen Alev, Buz Kristali, Şimşek, Kraliyet, Altın Lig çerçeveleri ve
+altın isim plakası da **dış varlık kullanmaz**: çizimler projede yazılmış SVG (`oyun/tasarim/premium/tur2/sanat.js`),
+efektler projede yazılmış WebGL gölgelendiricileri (`tur2/golgelendiriciler.js`, `tur2/motor.js` — düz WebGL,
+kütüphane yok). Yeni npm paketi yok. Elmas paketi görselleri (`oyun/tasarim/premium/elmas/`) elle çizilmiş SVG.
+PNG yuvaları (`public/kozmetik/premium/ejderha.png`, `kraliyet-tac.png`) şu an boş; dış kaynaklı bir görsel
+konursa önce buraya lisansıyla yazılır (sözleşme `public/kozmetik/premium/README.md`).
+
 ## Notlar
 
 - Apache 2.0: lisans metni ve bu atıf korunur; görseller yalnız küçültüldü (değişiklik bildirimi:
