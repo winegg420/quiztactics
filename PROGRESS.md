@@ -8065,3 +8065,15 @@ Ida önizlemelerde onaylayınca ayrı adımla açılır.
 - **Build temiz;** giriş paketi 387.970 → 391.407 B (gzip 125.511 → 126.714). Canlı testler erişim olmadığı için yapılamadı.
 - **Açık:** migration'ları uygula (`npx supabase db push`), sonra canlı Klasik/Antrenman testi; eski 6 emoji Klasik/Düello
   açılınca kaldırılacak; bütün çerçeveler seçilen tarzda yeniden çizilecek (ayrı paket). Özet `docs/KOZMETIK_AKTIVASYON.md`.
+
+## 2026-09-24 — Kozmetik aktivasyonu canlıda (bulut dalı birleşti) + 552
+**Araç:** Claude Code (yönetici)
+- `bulut/kozmetik-aktivasyon` main'e ileri sarmayla (fast-forward) birleşti; 550 + 551 + yeni 552 canlıya uygulandı
+  (her biri önce prova). 552: bütün dükkân auraları + etkinlik çerçeveleri/auraları pasif (silinmedi); 550'nin
+  `aura_katalogu`'su sahip olunan pasif aurayı koleksiyonda gösteriyordu → yalnız aktif.
+- Aktif olan: isim efekti Altın, tepki paketleri Eğlence + Rekabet (satışta); 27 avatar ücretsiz (botlara 27'si
+  dağıldı); çerçeve tarzı Çizgi; satış bayrağı açık; aura 0; çerçeveler lig + level + turnuva şampiyonu.
+- Kontrol (canlı): Klasik 20/20; Antrenman tepki özel kanalda — oyuncu SUBSCRIBED, yabancı hesap "Unauthorized",
+  yabancıya `tepki_durumu` kapalı, 10/10 ulaştı, en kısa 3.255 ms, gizleme 0, bot 2 tepki, eski tabloya 0. Normal
+  hesap: kozmetik kataloğu 3 kalem, aura 0, etkinlik çerçevesi yok, 27 avatar ücretsiz. Not: C'nin tepki test betiği
+  eski herkese açık kanalı dinliyordu → özel kanala uyarlandı (scratchpad `tepki-test2.mjs`).

@@ -262,6 +262,9 @@ Aktif yedi maç skill'i vardır:
   hepsi `CerceveliAvatar` içinde (veri `oyuncu_kartlari` / `lig_grubum_ozet`). Sahiplik
   `oyuncu_cerceveleri`, takılı `profiles.takili_cerceve`. Görünüm `oyun/tasarim/cerceveler/`;
   önizleme `/kozmetik-onizleme`.
+  **552 (Ida, 24 Eyl): bütün dükkân auraları ve etkinlik çerçeveleri/auraları (Yılbaşı, Ramazan)
+  PASİF** (`aktif = false`) — dükkânda, koleksiyonda, oyunda ve botlarda görünmez; satır/sahiplik/takılı
+  kayıt silinmez, yeniden açmak için `aktif = true` yeter. Aktif çerçeveler: lig, level, turnuva şampiyonu.
 - **Elmas kozmetikleri (520/540–542/550, Ida):** aktif = Ida'nın önizleme seçimi — `kozmetikler.onay`
   / dükkân `auralar.onay` = `'girsin'` (`/kozmetik-onizleme`), çerçeve tarzı `/cerceve-onizleme` seçimi.
   İşaretsiz/`girmesin` her kalem PASİF: dükkânda, koleksiyonda, oyunda (`oyuncu_kartlari`) ve botlarda
