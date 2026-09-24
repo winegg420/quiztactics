@@ -8242,3 +8242,15 @@ ada dokununca kart yok, maç içi ses tek düğme; ek olarak 2. tur onayları (B
 - `bulut/kozmetik-aktivasyon` ve `bulut/premium-aktivasyon` silindi (ikisi de main'de tamamen vardı).
 - Not: canlı test betikleri (scratchpad `kontrol-595.mjs`) yenilenen oturumu `.arayuz-denetim-oturum.json`'a geri
   yazıyor — ortak test oturumu artık tükenmiyor.
+
+## 2026-09-24 — /tasarim-onizleme: altın isim + rakip arama ekranı adayları (bulut, 2 ajan)
+**Araç:** Claude Code (yönetici + Ajan A/B). Oyunda değişen bir şey yok; migration yok.
+- **Kabuk (46189ad, 7fa43e4):** `/tasarim-onizleme` yalnız sahip (`sahip_mi`), tembel parça; iki bölüm, Girsin/Girmesin,
+  "Seçimlerimi kopyala"; giriş sonrası dönüş listesinde; yerel geliştirmede DEV istisnası.
+- **Altın isim adayları (101f12f):** Ida: canlıdaki metal altın harf açık zeminde bronz, normal isimden ayrılmıyor (koyu altın ↔
+  lacivert isim 2,6:1). 4 aday — Parlak, Taçlı, Işık Şeritli, Yıldızlı 3B; hepsi parlak sarı (#fff7c2→#ffd83a→#ffb700) +
+  lacivert kontur (arka katman 16 yönlü text-shadow, ön katman background-clip degrade; text-stroke iç çizgi bırakıyordu).
+  Lig satırı, maç şeridi, VS, maç sonu, profil; listede durağan, reduce'da 0,4 hız. Ödün: kontur/taç dar sütunda ismi erken kısaltır.
+- **Rakip arama adayları (3771aaf):** A "Gök Yolu" (dikey kartlar, radar + VS diski, slot avatar), B "Güneş Halkası" (ortada dönen
+  halka, yörüngede 8 avatar). Gök mavisi + turuncu ışınlar, süre, mod/Dereceli rozeti, kategori, "Biliyor muydun?" (14, TR/EN),
+  arama → bulundu → VS ~2 sn → maç başlıyor. Şimdiki ekran yanında. 4× CPU yavaşlatmada ~59–60 fps. Tam ekran portal (fixed + transform yok, 100dvh).
