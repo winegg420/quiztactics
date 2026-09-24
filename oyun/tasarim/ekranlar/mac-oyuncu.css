@@ -6,6 +6,10 @@
 /* 390 px: rakip tarafında "Lv 24 · Gümüş" tur sayısının üstüne taşıyordu — satır sütuna sığar, lig adı kısalır. */
 .qt-oyuncu-yazi:has(> .mo-seviye) { max-width: 100%; }
 .mo-lv { flex: none; }
+/* Telefonda maç şeridinde lig adı tek harfe ("G…") iniyordu → lig rengi nokta (metin ekran okuyucuda kalır). */
+@media (max-width: 599px) {
+  .qt-mac-ust .mo-lig { flex: none; width: 12px; height: 12px; padding: 0; font-size: 0; line-height: 0; box-shadow: inset 0 0 0 1.5px rgb(0 0 0 / 0.18); }
+}
 .mo-lv {
   padding: 1px 7px; border-radius: var(--qt-r-hap); background: var(--qt-ikinci); color: var(--qt-ikinci-yazi);
   font: var(--qt-a-siyah) 12px/1.4 var(--qt-f-govde); white-space: nowrap;
