@@ -51,3 +51,8 @@
 }
 .qt-sat-yetmez p { margin: 0; font-weight: 700; line-height: 1.4; }
 .qt-sat-yetmez .qt-dugme { min-height: 44px; }
+
+/* Kısa telefon ekranı (≤ 700 px yükseklik): görsel kutusu küçülür, düğmeler kaydırmadan görünsün */
+@media (max-height: 700px) {
+  .m1-sat-ikon.qt-sat-gorsel { min-width: 72px; min-height: 72px; padding: 4px; border-radius: 16px; }
+}
