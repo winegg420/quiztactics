@@ -12,7 +12,8 @@ import CerceveliAvatar from "./CerceveliAvatar.jsx";
 import { auraTanimiBul, NADIRLIK_ADI } from "../tasarim/cerceveler/tanimlar.js";
 import DurumKutusu from "./DurumKutusu.jsx";
 import { auraKatalogu, auraSatinAl, auraTak, CERCEVE_NADIRLIKLERI } from "../lib/cerceve.js";
-import { elmasHatasi, elmasTazele } from "../lib/elmas.js";
+import { elmasHatasi, elmasTazele, useElmas } from "../lib/elmas.js";
+import JokerSatinAlModal from "./JokerSatinAlModal.jsx";
 import { sesHataUyari, sesSatinAlma } from "../lib/ses.js";
 import { tt } from "../lib/dil.js";
 import { y } from "../lib/yol.js";
@@ -34,8 +35,23 @@ export function ElmasFiyat({ fiyat, boyut = 16 }) {
   );
 }
 
-export default function DukkanAuralar({ elmasYetmedi, onBilgi, onHata }) {
+/**
+ * D-301: elmasla alımların onay penceresi — maç içi joker penceresiyle AYNI bileşen (JokerSatinAlModal),
+ * para = elmas, "bakiyen → kalan", yetmezse "Elmasın yetmiyor: X gerekli, Y var" + "Nasıl kazanılır?".
+ * `bakiye` verilmezse (ör. Profil › Koleksiyon) mevcut useElmas() ile yalnız OKUNUR.
+ */
+export function ElmasliSatinAlOnayi({ bakiye, ...p }) {
+  if (bakiye === undefined) return <ElmasOkuyanOnay {...p} />;
+  return <JokerSatinAlModal para="elmas" kalanGoster yalnizAl onayMetni={tt("Al")} coin={bakiye} {...p} />;
+}
+function ElmasOkuyanOnay(p) {
+  const e = useElmas();
+  return <JokerSatinAlModal para="elmas" kalanGoster yalnizAl onayMetni={tt("Al")} coin={e.bakiye} {...p} />;
+}
+
+export default function DukkanAuralar({ elmasYetmedi, onBilgi, onHata, elmasBakiye }) {
   const { user, profile } = useAuth();
+  const [onayAcik, setOnayAcik] = useState(false);   // D-301
   const [katalog, setKatalog] = useState(null);
   const [hata, setHata] = useState(null);
   const [secili, setSecili] = useState(null);
@@ -130,7 +146,8 @@ export default function DukkanAuralar({ elmasYetmedi, onBilgi, onHata }) {
             ) : c.sahip ? (
               <QtDugme tamGenislik ikon="onay" yukleniyor={islem === "tak"} onClick={() => tak(c.anahtar)}>{tt("Tak")}</QtDugme>
             ) : c.satilik && c.fiyat != null ? (
-              <QtDugme tamGenislik yukleniyor={islem === "al"} onClick={satinAl}
+              <QtDugme tamGenislik yukleniyor={islem === "al"} onClick={() => setOnayAcik(true)}
+                       aria-haspopup="dialog"
                        aria-label={tt("{ad} aurasını satın al — {n} elmas", { ad: ad(c), n: c.fiyat })}>
                 <span className="qt-dc-fiyat">{tt("Satın al")} <ElmasFiyat fiyat={c.fiyat} boyut={18} /></span>
               </QtDugme>
@@ -146,6 +163,19 @@ export default function DukkanAuralar({ elmasYetmedi, onBilgi, onHata }) {
         <p className="qt-kucuk qt-soluk-zemin">{tt("Dokun, kendi avatarında dene. Aura elmasla alınır; taktığın aurayı maçta ve listelerde herkes görür.")}</p>
         <ul className="qt-dc-izgara">{katalog.map(kutu)}</ul>
       </section>
+
+      {onayAcik && c && (
+        <ElmasliSatinAlOnayi
+          bakiye={elmasBakiye}
+          baslik={ad(c)}
+          aciklama={tt("Aura avatarının arkasında durur; takılı çerçeven önde kalır.")}
+          gorsel={<CerceveliAvatar profile={profile ?? {}} userId={user?.id} aura={c.anahtar} boyut={72} />}
+          fiyat={c.fiyat}
+          yetersizEylem={() => elmasYetmedi?.()}
+          onOnay={satinAl}
+          onKapat={() => setOnayAcik(false)}
+        />
+      )}
 
       <p className="qt-kucuk qt-soluk-zemin qt-dc-not">
         {tt("Çerçeveler satılmaz: lig, turnuva, level ve etkinliklerle kazanılır.")}{" "}

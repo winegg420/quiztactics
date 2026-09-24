@@ -159,4 +159,10 @@ export default {
   "Beklenmedik bir hata oluştu. Tekrar dene; sorun sürerse sayfayı yenile.": "Something unexpected happened. Try again; if it keeps happening, reload the page.",
   "Bağlantı gelince sayfa kendiliğinden açılır.": "The page will open by itself once you're back online.",
   "Bağlantı yok": "No connection",
+  // Ajan B7 — dükkân satın alma onayı + elmas çıkmazı (D-301/D-304)
+  "{0} → kalan {1}": "{0} → {1} left",
+  "Elmasın yetmiyor: {0} gerekli, {1} var": "Not enough gems: you need {0}, you have {1}",
+  "Coin'in yetmiyor: {0} gerekli, {1} var": "Not enough coins: you need {0}, you have {1}",
+  "Nasıl kazanılır?": "How to earn",
+  "{0} kilidini aç": "Unlock {0}",
 };

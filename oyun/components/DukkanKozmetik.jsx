@@ -14,7 +14,7 @@ import { supabase } from "../../src/lib/supabase.js";
 import CerceveliAvatar from "./CerceveliAvatar.jsx";
 import IsimEfekti from "./IsimEfekti.jsx";
 import { VsKarti } from "./AramaSahnesi.jsx";
-import { ElmasFiyat } from "./DukkanAuralar.jsx";
+import { ElmasFiyat, ElmasliSatinAlOnayi } from "./DukkanAuralar.jsx";
 import { KOZMETIK_TANIMLARI, TEPKI_TANIMLARI, kozmetikHatasi, kozmetikKatalogu, kozmetikSatinAl, kozmetikTak, kozmetikTemasi, sahipMi, tepkiGorseli } from "../lib/kozmetik.js";
 import { oyuncuKartiUnut } from "../lib/cerceve.js";
 import { elmasTazele } from "../lib/elmas.js";
@@ -173,6 +173,8 @@ export function KozmetikBuyukOnizleme({ kalem, profile, userId, boyut = 128 }) {
 function useKozmetikEylem({ c, yenile, elmasYetmedi, onBilgi, onHata }) {
   const { user } = useAuth();
   const [islem, setIslem] = useState(null);
+  // D-301: "Satın al" önce onay penceresi açar (KozmetikSatinAlOnayi); asıl alım satinAl
+  const [onayAcik, setOnayAcik] = useState(false);
   const tur = c?.tur;
   const takilir = tur !== "tepki_paketi";
   const satinAl = async () => {
@@ -207,12 +209,30 @@ function useKozmetikEylem({ c, yenile, elmasYetmedi, onBilgi, onHata }) {
     }
   };
 
-  return { islem, satinAl, tak, takilir };
+  return { islem, satinAl, tak, takilir, onayAcik, onayAc: () => setOnayAcik(true), onayKapat: () => setOnayAcik(false) };
+}
+
+/** D-301: kozmetik alım onayı — ürün görseli, fiyat, bakiyen → kalan, Vazgeç / Al (JokerSatinAlModal). */
+function KozmetikSatinAlOnayi({ c, eylem, elmasBakiye, elmasYetmedi }) {
+  const { profile } = useAuth();
+  if (!eylem.onayAcik || !c) return null;
+  return (
+    <ElmasliSatinAlOnayi
+      bakiye={elmasBakiye}
+      baslik={kozmetikAdi(c)}
+      aciklama={tt(ACIKLAMA[c.tur] ?? "")}
+      gorsel={<KozmetikSimge kalem={c} profile={profile} boyut={80} />}
+      fiyat={c.fiyat}
+      yetersizEylem={() => elmasYetmedi?.()}
+      onOnay={eylem.satinAl}
+      onKapat={eylem.onayKapat}
+    />
+  );
 }
 
 /** Kalemin durumuna göre tek düğme: Çıkar · Tak / Test için tak · Sende var · Satın al (fiyat) · Satılmıyor. */
 function KozmetikEylemDugmesi({ c, sahipHesap, eylem }) {
-  const { islem, satinAl, tak, takilir } = eylem;
+  const { islem, tak, takilir, onayAc } = eylem;
   const testModu = sahipHesap && c.kapali && !c.sahip;
   return (
     <>
@@ -225,7 +245,7 @@ function KozmetikEylemDugmesi({ c, sahipHesap, eylem }) {
           ) : !takilir && (c.sahip || sahipHesap) ? (
             <QtDugme tur="ikincil" tamGenislik devreDisi ikon="onay">{c.sahip ? tt("Sende var") : tt("Test modunda açık")}</QtDugme>
           ) : c.satilik && c.fiyat != null ? (
-            <QtDugme tamGenislik yukleniyor={islem === "al"} onClick={satinAl}
+            <QtDugme tamGenislik yukleniyor={islem === "al"} onClick={onayAc} aria-haspopup="dialog"
                      aria-label={tt("{ad} satın al — {n} elmas", { ad: kozmetikAdi(c), n: c.fiyat })}>
               <span className="qt-dc-fiyat">{tt("Satın al")} <ElmasFiyat fiyat={c.fiyat} boyut={18} /></span>
             </QtDugme>
@@ -248,11 +268,15 @@ function pencereBoyutu() {
  * tam boyut ve tam hareketli; altında fiyat ve Satın al / Tak (mevcut işlevler, sahip test modu aynen).
  * `kalem` null → kapalı. Dükkân ve Profil › Koleksiyon kullanır.
  */
-export function KozmetikOnizlemePenceresi({ kalem, onKapat, sahipHesap = false, yenile, elmasYetmedi, onBilgi, onHata }) {
+export function KozmetikOnizlemePenceresi({ kalem, onKapat, sahipHesap = false, yenile, elmasYetmedi, onBilgi, onHata, elmasBakiye }) {
   const { user, profile } = useAuth();
   const eylem = useKozmetikEylem({ c: kalem, yenile, elmasYetmedi, onBilgi, onHata });
   const [boyut] = useState(pencereBoyutu);
   if (!kalem) return null;
+  // D-301: onay açıkken önizleme penceresinin YERİNE onay çizilir (iç içe iki pencere olmasın); Vazgeç → önizlemeye döner
+  if (eylem.onayAcik) {
+    return <KozmetikSatinAlOnayi c={kalem} eylem={eylem} elmasBakiye={elmasBakiye} elmasYetmedi={elmasYetmedi} />;
+  }
   return (
     <QtModal acik onKapat={onKapat} baslik={kozmetikAdi(kalem)} className="qt-kz-pencere"
              altlik={(
@@ -279,7 +303,7 @@ export function KozmetikOnizlemePenceresi({ kalem, onKapat, sahipHesap = false, 
  * Tek tür sekmesi. `katalog` JokerDukkani'nda bir kez okunur (sekmenin görünürlüğü de ondan: normal oyuncuya
  * satış kapalıyken boş döner). `sahipHesap` yalnız arayüz ipucu (kapı sunucuda).
  */
-export default function DukkanKozmetik({ tur, katalog, sahipHesap = false, yenile, elmasYetmedi, onBilgi, onHata }) {
+export default function DukkanKozmetik({ tur, katalog, sahipHesap = false, yenile, elmasYetmedi, onBilgi, onHata, elmasBakiye }) {
   const { user, profile } = useAuth();
   const liste = (katalog ?? []).filter((x) => x.tur === tur).sort((a, b) => (a.sira ?? 0) - (b.sira ?? 0));
   const [secili, setSecili] = useState(() => liste.find((x) => x.takili)?.anahtar ?? liste[0]?.anahtar ?? null);
@@ -309,6 +333,7 @@ export default function DukkanKozmetik({ tur, katalog, sahipHesap = false, yenil
           <KozmetikEylemDugmesi c={c} sahipHesap={sahipHesap} eylem={eylem} />
         </div>
       </QtKart>
+      <KozmetikSatinAlOnayi c={c} eylem={eylem} elmasBakiye={elmasBakiye} elmasYetmedi={elmasYetmedi} />
 
       <ul className="qt-dc-izgara">
         {liste.map((x) => (
@@ -332,7 +357,8 @@ export default function DukkanKozmetik({ tur, katalog, sahipHesap = false, yenil
       </p>
       {premium && (
         <KozmetikOnizlemePenceresi kalem={liste.find((x) => x.anahtar === pencere) ?? null} onKapat={() => setPencere(null)}
-          sahipHesap={sahipHesap} yenile={yenile} elmasYetmedi={() => { setPencere(null); elmasYetmedi?.(); }} onBilgi={onBilgi} onHata={onHata} />
+          sahipHesap={sahipHesap} yenile={yenile} elmasYetmedi={() => { setPencere(null); elmasYetmedi?.(); }} onBilgi={onBilgi} onHata={onHata}
+          elmasBakiye={elmasBakiye} />
       )}
     </div>
   );
@@ -348,7 +374,7 @@ const ACIKLAMA = {
 };
 
 /** Dükkân › Avatar — Ajan A'nın kataloğu (avatar_katalogu_oyun / avatar_satin_al / avatar_onayla). */
-export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYetmedi, onBilgi, onHata }) {
+export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYetmedi, onBilgi, onHata, elmasBakiye }) {
   const { user, profile, refreshProfile } = useAuth();
   // 31 hazır profesyonel avatar (bedava, avatar_onayla kabul eder) + katalogdaki 27 — profil ve kurulumla aynı
   // sıra; eskiden burada yalnız katalog (27) vardı → "yalnız son eklenen avatarlar görünüyor".
@@ -359,6 +385,7 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
   ];
   const [secili, setSecili] = useState(() => liste.find((a) => profile?.avatar_url === a.url)?.anahtar ?? liste[0]?.anahtar ?? null);
   const [islem, setIslem] = useState(null);
+  const [onayAcik, setOnayAcik] = useState(false);   // D-301
   const c = liste.find((a) => a.anahtar === secili) ?? liste[0] ?? null;
   if (!c) return <QtKart><p className="qt-kucuk qt-soluk">{tt("Bu bölümde şu an satışta bir şey yok.")}</p></QtKart>;
   const ad = (a) => (aktifDil() === "en" ? a.ad_en : a.ad_tr) ?? a.ad_tr;
@@ -419,7 +446,7 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
               {c.kapali && sahipHesap ? tt("Test için tak") : tt("Tak")}
             </QtDugme>
           ) : !c.kapali && c.fiyat_elmas != null ? (
-            <QtDugme tamGenislik yukleniyor={islem === "al"} onClick={satinAl}>
+            <QtDugme tamGenislik yukleniyor={islem === "al"} onClick={() => setOnayAcik(true)} aria-haspopup="dialog">
               <span className="qt-dc-fiyat">{tt("Satın al")} <ElmasFiyat fiyat={c.fiyat_elmas} boyut={18} /></span>
             </QtDugme>
           ) : (
@@ -427,6 +454,18 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
           )}
         </div>
       </QtKart>
+      {onayAcik && (
+        <ElmasliSatinAlOnayi
+          bakiye={elmasBakiye}
+          baslik={ad(c)}
+          aciklama={null}
+          gorsel={<img src={c.url} alt="" width="80" height="80" decoding="async" />}
+          fiyat={c.fiyat_elmas}
+          yetersizEylem={() => elmasYetmedi?.()}
+          onOnay={satinAl}
+          onKapat={() => setOnayAcik(false)}
+        />
+      )}
       <ul className="qt-dc-izgara">
         {liste.map((a) => (
           <li key={a.anahtar}>

@@ -7,6 +7,7 @@ import GorunumVitrini from "../vitrin/GorunumVitrini.jsx";
 import { supabase } from "../../src/lib/supabase.js";
 import { JOKER_BILGI, AKTIF_MAC_SKILLERI, jokerBilgi, envanterNesne } from "../lib/jokerler.js";
 import SkillRozeti from "../components/SkillRozeti.jsx";
+import JokerSatinAlModal from "../components/JokerSatinAlModal.jsx";
 import DukkanAuralar from "../components/DukkanAuralar.jsx";
 import DukkanKozmetik, { DukkanAvatarlar, useKozmetikDukkan } from "../components/DukkanKozmetik.jsx";
 import { jokerKurallari } from "../lib/jokerKurallari.js";
@@ -139,6 +140,10 @@ export default function JokerDukkani() {
   const { bakiye, tazele: coinOku } = useCoin();
   const elmas = useElmas();
   const [elmasVideo, setElmasVideo] = useState(false);
+  // D-301: dükkândaki her coin alımı önce onay penceresi (maç içi joker penceresiyle aynı bileşen).
+  // onay = { tur?, baslik?, aciklama?, gorsel?, fiyat, onayMetni?, calistir } — calistir mevcut alım işlevidir.
+  const [onay, setOnay] = useState(null);
+  const elmasKazanGoster = () => sekmeSec("elmas");
   const playVar = desteklenirMi();
 
   const yukle = useCallback(async () => {
@@ -413,19 +418,19 @@ export default function JokerDukkani() {
 
         {/* ---------- AURA (481: yalnız elmasla; çerçeveler satılmaz) ---------- */}
         {sekme === "aura" && (
-          <DukkanAuralar elmasYetmedi={() => sekmeSec("elmas")}
+          <DukkanAuralar elmasYetmedi={elmasKazanGoster} elmasBakiye={elmas.bakiye}
             onBilgi={(m) => { setHata(null); setBilgi(m); }} onHata={(m) => { setBilgi(null); setHata(m); }} />
         )}
 
         {/* ---------- ELMAS KOZMETİKLERİ (540) + yeni avatarlar (520) ---------- */}
         {sekme === "avatar" && (
           <DukkanAvatarlar avatarlar={kozmetik.avatarlar} sahipHesap={kozmetik.sahipHesap} yenile={kozmetik.yenile}
-            elmasYetmedi={() => sekmeSec("elmas")}
+            elmasYetmedi={elmasKazanGoster} elmasBakiye={elmas.bakiye}
             onBilgi={(m) => { setHata(null); setBilgi(m); }} onHata={(m) => { setBilgi(null); setHata(m); }} />
         )}
         {kozmetik.sekmeler.filter((s) => s.tur && s.kod === sekme).map((s) => (
           <DukkanKozmetik key={s.kod} tur={s.tur} katalog={kozmetik.katalog} sahipHesap={kozmetik.sahipHesap} yenile={kozmetik.yenile}
-            elmasYetmedi={() => sekmeSec("elmas")}
+            elmasYetmedi={elmasKazanGoster} elmasBakiye={elmas.bakiye}
             onBilgi={(m) => { setHata(null); setBilgi(m); }} onHata={(m) => { setBilgi(null); setHata(m); }} />
         ))}
 
@@ -504,7 +509,10 @@ export default function JokerDukkani() {
                               aria-label={levelYetmez
                                 ? tt("Level {0} gerekir", { 0: sd.gereken_level })
                                 : tt("{0} kilidini aç — {1} coin", { 0: JOKER_BILGI[tur].ad, 1: kilitFiyat })}
-                              onClick={() => skillKilidiAc(tur)}
+                              onClick={() => (kilitFiyat > 0
+                                ? setOnay({ tur, baslik: tt("{0} kilidini aç", { 0: JOKER_BILGI[tur].ad }), fiyat: kilitFiyat,
+                                  onayMetni: tt("Kilidi aç"), calistir: () => skillKilidiAc(tur) })
+                                : skillKilidiAc(tur))}
                               ikon="kilit"
                             >
                               {levelYetmez
@@ -519,7 +527,7 @@ export default function JokerDukkani() {
                                   devreDisi={jokerSerbest || yetmez}
                                   yukleniyor={alinan === `tek:${tur}`}
                                   aria-label={tt("{0} — {1} coin", { 0: JOKER_BILGI[tur].ad, 1: tek })}
-                                  onClick={() => jokerTekAl(tur)}
+                                  onClick={() => setOnay({ tur, fiyat: tek, calistir: () => jokerTekAl(tur) })}
                                 >
                                   <FiyatYazisi adet={1} fiyat={tek} />
                                 </QtDugme>
@@ -531,7 +539,8 @@ export default function JokerDukkani() {
                                   devreDisi={jokerSerbest}
                                   yukleniyor={alinan === paket10.urun_id}
                                   aria-label={tt("{0} × {1} — {2} coin", { 0: paket10.adet, 1: JOKER_BILGI[tur].ad, 2: paket10.fiyat })}
-                                  onClick={() => jokerCoinIleAl(paket10.urun_id)}
+                                  onClick={() => setOnay({ tur, baslik: `${paket10.adet}× ${JOKER_BILGI[tur].ad}`, fiyat: paket10.fiyat,
+                                    calistir: () => jokerCoinIleAl(paket10.urun_id) })}
                                 >
                                   <FiyatYazisi adet={paket10.adet} fiyat={paket10.fiyat} />
                                 </QtDugme>
@@ -574,7 +583,19 @@ export default function JokerDukkani() {
                           devreDisi={jokerSerbest}
                           yukleniyor={alinan === p.urun_id}
                           aria-label={tt("{0} — {1} coin", { 0: paketMetni(p.ad), 1: p.coin_fiyat })}
-                          onClick={() => jokerCoinIleAl(p.urun_id)}
+                          onClick={() => setOnay({
+                            baslik: paketMetni(p.ad),
+                            aciklama: p.aciklama ? paketMetni(p.aciklama) : null,
+                            gorsel: (
+                              <span className="qt-sat-paket">
+                                {Object.entries(p.icerik ?? {}).map(([tur, adet]) => (
+                                  <span key={tur} className="qt-sat-paket-parca"><SkillRozeti tur={tur} boyut={28} />{adet}</span>
+                                ))}
+                              </span>
+                            ),
+                            fiyat: p.coin_fiyat,
+                            calistir: () => jokerCoinIleAl(p.urun_id),
+                          })}
                         >
                           <FiyatYazisi fiyat={p.coin_fiyat} />
                         </QtDugme>
@@ -780,6 +801,24 @@ export default function JokerDukkani() {
           </p>
         )}
       </div>
+
+      {/* D-301: satın alma onayı — maç içi joker penceresiyle aynı bileşen (dükkân prop'larıyla) */}
+      {onay && (
+        <JokerSatinAlModal
+          tur={onay.tur}
+          baslik={onay.baslik}
+          aciklama={onay.aciklama}
+          gorsel={onay.gorsel}
+          fiyat={onay.fiyat}
+          coin={bakiye}
+          yalnizAl
+          kalanGoster
+          onayMetni={onay.onayMetni ?? tt("Al")}
+          yetersizEylem={() => sekmeSec("coin")}
+          onOnay={onay.calistir}
+          onKapat={() => setOnay(null)}
+        />
+      )}
     </div>
   );
 }

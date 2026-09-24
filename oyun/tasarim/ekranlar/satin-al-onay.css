@@ -1,0 +1,53 @@
+/* ============================================================
+   SATIN ALMA ONAYI — dükkân eki (D-301/D-304, Ajan B7)
+   JokerSatinAlModal'ın dükkân prop'ları: elmas hapı, "bakiyen → kalan", ürün görseli,
+   "Elmasın yetmiyor" kutusu. Maç içi görünüm (m1-mac.css) değişmez; burada yalnız yeni sınıflar.
+   ============================================================ */
+.qt-coin.qt-sat-elmas {
+  background: var(--qt-ikinci);
+  color: var(--qt-ikinci-yazi);
+  box-shadow: 0 var(--qt-dudak-s, 3px) 0 var(--qt-ikinci-dudak);
+}
+.qt-sat-kalan {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.qt-sat-ok { color: var(--qt-metin-soluk); flex: none; }
+
+/* Ürün görseli: kozmetik simgesi (64–88 px) daire yerine yumuşak kare kutuda */
+.m1-sat-ikon.qt-sat-gorsel {
+  width: auto;
+  min-width: 88px;
+  height: auto;
+  min-height: 88px;
+  padding: 8px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+.qt-sat-gorsel img { display: block; max-width: 96px; height: auto; }
+.qt-sat-paket {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  max-width: 220px;
+}
+.qt-sat-paket-parca { display: inline-flex; align-items: center; gap: 2px; font-weight: 800; color: var(--qt-metin); }
+
+/* Bakiye yetmiyor: eksik miktar + "Nasıl kazanılır?" (D-304 — çıkmaz yok) */
+.qt-sat-yetmez {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--qt-b-2, 8px);
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--qt-vurgu-acik, #ffe8da);
+  color: var(--qt-metin, #1d2152);
+  border: 2px solid var(--qt-vurgu-dudak, #c24a0c);
+}
+.qt-sat-yetmez p { margin: 0; font-weight: 700; line-height: 1.4; }
+.qt-sat-yetmez .qt-dugme { min-height: 44px; }
