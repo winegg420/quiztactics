@@ -262,21 +262,29 @@ Aktif yedi maç skill'i vardır:
   hepsi `CerceveliAvatar` içinde (veri `oyuncu_kartlari` / `lig_grubum_ozet`). Sahiplik
   `oyuncu_cerceveleri`, takılı `profiles.takili_cerceve`. Görünüm `oyun/tasarim/cerceveler/`;
   önizleme `/kozmetik-onizleme`.
-- **Elmas kozmetikleri (520/540–542, Ida — SATIŞTA KAPALI):** yeni kozmetikler yapılır ama
-  `kozmetik_satis_acik = false` iken normal oyuncu göremez/alamaz/takamaz (sunucu kapısı); bayrak
-  açılsa bile yalnız Ida'nın önizlemede "girsin" dediği kalemler satılır. Türler: 27 yeni avatar
-  (`avatar_katalogu`, 13 günlük bedava + 14 kostümlü 250; çizim `AvatarProIllustrations2.jsx`,
-  `public/avatars/pro2/`), VS kartı (6 tema, 150), isim efekti (6, 100; kontrast ≥ 4,5), zafer
-  efekti (5, 200; rakip küçük görür), tepki paketi (2 × 4, 100). **Sahip test modu:** sahip
-  satın almadan her şeyi takar, gerçek maçta rakibe de görünür. Gizli botlar yalnız satıştaki +
-  "girsin" kalemlerden, bot kimliğinden sabit takar. Aura bu bayraktan bağımsız, satışta.
-- **Maç içi tepki (542):** oyuncu tepkisi DB'ye yazılmaz, yalnız maç Realtime kanalında yayın;
-  3 sn'de 1, maçta 10 (gönderen + alıcı); bedava 👏😎😅🤔. Açık modlar `tepki_acik_modlar`
-  (şimdilik yalnız `antrenman`); bot tepkisi sunucudan %30 (`tepki_bot_olasilik`). "Rakip
-  tepkilerini gizle" cihazda. Tepkinin açık olduğu modda eski DB'ye yazan emojiler gizli.
-- **Tasarım seçimleri (530):** `sahip_tasarim_secimleri` (konu → seçim, yalnız sahip); ilk konu
-  `cerceve_tarzi` (cizgi / mucevher / isik) — seçilen tarzda bütün çerçeveler ayrı pakette yeniden
-  çizilecek.
+- **Elmas kozmetikleri (520/540–542/550, Ida):** aktif = Ida'nın önizleme seçimi — `kozmetikler.onay`
+  / dükkân `auralar.onay` = `'girsin'` (`/kozmetik-onizleme`), çerçeve tarzı `/cerceve-onizleme` seçimi.
+  İşaretsiz/`girmesin` her kalem PASİF: dükkânda, koleksiyonda, oyunda (`oyuncu_kartlari`) ve botlarda
+  görünmez, alınamaz/takılamaz; kayıt silinmez; kural dinamik (seçim değişince migration gerekmez).
+  `kozmetik_satis_acik = true` yalnız aktifleri satar; aura satışı bayraktan bağımsız, yalnız `girsin`
+  auralar. Türler: VS kartı (6 tema, 150), isim efekti (6, 100; kontrast ≥ 4,5), zafer efekti (5, 200;
+  rakip küçük görür), tepki paketi (2 × 4, 100). **Sahip test modu** yalnız aktif kalemlerde (satın
+  almadan takar). Gizli botlar yalnız aktif kalemlerden, bot kimliğinden sabit takar.
+  **27 yeni avatar** (`avatar_katalogu`, 13 günlük + 14 kostümlü; çizim `AvatarProIllustrations2.jsx`,
+  `public/avatars/pro2/`) herkese ÜCRETSİZ: profil, kurulum, Dükkân › Avatar ve Koleksiyon'da seçilir
+  (`avatar_katalogu.aktif` yeter; `/avatar-onizleme` onayı bu karar için bakılmaz).
+  (550 dalda `bulut/kozmetik-aktivasyon` — canlıya uygulanınca geçerli; bkz. `docs/KOZMETIK_AKTIVASYON.md`.)
+- **Maç içi tepki (542/551):** oyuncu tepkisi DB'ye yazılmaz; Realtime yayını yalnız o maçın iki
+  oyuncusuna açık ÖZEL kanalda (`tepki-mac-<id>` / `tepki-duello-<id>`, `realtime.messages` RLS ile
+  oyuncu1/oyuncu2; oyun kanalı ayrı ve değişmedi). 3 sn'de 1, maçta 10 (gönderen + alıcı); bedava
+  👏😎😅🤔. Açık modlar `tepki_acik_modlar` (Ida onaylayana dek yalnız `antrenman`; Klasik/Düello'ya
+  açılınca DB'ye yazan eski 6 emoji kaldırılacak). Bot tepkisi sunucudan %12 (`tepki_bot_olasilik`),
+  yalnız anlamlı anda: doğru serisi (`tepki_bot_seri` 3), maç sonu, rakip hatası. "Rakip tepkilerini
+  gizle" cihazda. Tepkinin açık olduğu modda eski DB'ye yazan emojiler gizli.
+- **Tasarım seçimleri (530/550):** `sahip_tasarim_secimleri` (konu → seçim, yalnız sahip yazar); ilk konu
+  `cerceve_tarzi` (cizgi / mucevher / isik) — seçim oyunda `cerceve_tarzi_aktif()` ile okunur: bugün
+  yalnız Altın Lig çerçevesi seçilen tarzda (aura takılıysa bugünkü); bütün çerçeveler ayrı pakette
+  yeniden çizilecek. Maç sonu: çerçevede taç varsa sahnenin taç emojisi gizli.
 - **Etkinlik eşyaları satılmaz** (Taç, Pelerin, Uzay Kıyafeti) — yalnız
   turnuva ödülüdür. Dükkânda kilitli görünür.
 - Dükkândaki her şey yalnız coin ile alınır.
@@ -404,12 +412,13 @@ kalın lacivert kontur, sıcak düz renk, güçlü siluet, hafif asimetri, küç
 boyutta net yüz. Plastik 3B render, stok degrade ve jenerik AI avatar
 görünümü kullanılmaz.
 
-Canlı profesyonel set **31 avatardır**. İlk 10 karaktere ek olarak Köpek,
+Canlı profesyonel set **31 avatar + 27 yeni katalog avatarı** (550, ücretsiz; ızgaralar 31'i koddan,
+27'yi `avatar_katalogu_oyun`'dan alır). İlk 10 karaktere ek olarak Köpek,
 Baykuş, Tilki, Penguen, Kurbağa, Ayı, Maymun, Ejderha, Köpekbalığı, Ahtapot,
 Arı, Ninja, Şövalye, Büyücü, Dedektif, Viking, Hayalet, Zombi, Mumya,
 Palyaço ve Kral aynı çizim dilinde yeniden yapılmıştır. Eski `k01.svg`…
 `k31.svg` dosyaları yalnız tarihsel geri dönüş için dondurulmuş kalır;
-seçimde yalnız `/avatars/pro/**` kullanılır.
+seçimde yalnız `/avatars/pro/**` ve `/avatars/pro2/**` kullanılır.
 
 ### Mod paritesi — KALICI KURAL
 

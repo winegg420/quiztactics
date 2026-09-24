@@ -8036,3 +8036,32 @@ Ida önizlemelerde onaylayınca ayrı adımla açılır.
   Realtime maç kanalı herkese açık (maç kimliğini bilen sahte tepki yollayabilir — yalnız 12 tepki, aynı sınırlarla);
   bot tepkisi Realtime mesaj tablosuna yazıyor (Supabase günlük temizler); dükkân sekme çubuğunda seçili sekme
   ekran dışında kalabiliyor; yeni avatarlar kurulum sihirbazında yok.
+
+## 2026-09-24 — Kozmetik aktivasyonu + 7 karar (bulut, `bulut/kozmetik-aktivasyon`)
+**Araç:** Claude Code (bulut oturumu, tek şerit)
+**Neden:** Ida'nın "kozmetik aktivasyonu + 7 karar" istemi — önizlemede seçilenler oyuna girsin, 27 avatar ücretsiz, maç sonu/tepki/dükkân düzeltmeleri.
+
+- **Ortam:** canlı Supabase'e erişim yoktu → 550 + 551 yazıldı, **uygulanmadı**; `main`'e push yok (dal `bulut/kozmetik-aktivasyon`).
+  Ida'ya soruldu: satış bayrağı açılsın mı → **evet**; auralar da aynı kurala girsin mi → **evet**.
+- **550:** aktif = `kozmetikler.onay` / dükkân `auralar.onay` = `'girsin'` (dinamik, liste kodda yok); pasif kalem dükkân,
+  koleksiyon, `oyuncu_kartlari`, bot ve tepki listesinden çıkar, alınamaz/takılamaz, kayıt silinmez; sahip test modu yalnız
+  aktiflerde. 27 avatar ücretsiz (`avatar_fiyati` 0, `avatar_acik_mi` = aktif, `avatar_onayla` sahiplik şartı kalktı,
+  `avatar_satin_al` "bedava" hatası). Gizli bot avatarları 461 kuralıyla 58 avatara (depoda "addan seçim" kuralı yok —
+  id sırası genişletildi). `kozmetik_satis_acik = true`. `cerceve_tarzi_aktif()` (yeni, yalnız authenticated).
+- **551:** tepki özel kanal `tepki-mac-<id>` / `tepki-duello-<id>` + `realtime.messages` RLS (yalnız maçın iki oyuncusu);
+  `tepki_durumu.kanal`; bot tepkisi `realtime.send(private)`, %12, yalnız seri (3) / maç sonu / rakip hatası.
+- **Yerel test (Postgres 16 taslağı, 520–542 + 550/551 iki kez):** normal oyuncu yalnız aktif kalemleri görür, pasif
+  isim_buz/aura_bulut sahipliği kalır ama kartta null, pasif alma/takma reddedilir, aktif alma çalışır (bayrak açık);
+  27 avatar kullanılabilir + fiyat 0, kostümlü seçilir; sahip yalnız aktif 2 kalemi görür, önizleme listesi 22 kalem;
+  60 bot 58 avatara dağıldı, açık bot aynı. Tepki: oyuncu gönderir, yabancı/oturumsuz RLS hatası, yabancı 0 okur;
+  bot: aynı doğru → yok, rakip hatası → 😎, seri 3 → 😎, bot yanlış → yok, son soru berabere → 🤔; Düello rakip hatası
+  ve can bitince tepki, yalnız ikili doğruda yok.
+- **İstemci:** `useMacTepki` özel kanal (alan yoksa eski kanal); profil + kurulum ızgarası 31 + katalog (`lib/avatarKatalogu.js`);
+  Dükkân › Avatar "bedava"; `QtSekmeler` seçili sekmeyi görünür alana kaydırır; `CerceveliAvatar` seçilen tarzda Altın Lig
+  (`lib/cerceveTarzi.js`, `DenemeCerceve` tembel); maç sonu `data-tac` ile taç emojisi gizlenir, plakada yuva açılır;
+  `/mac-sonu-onizleme ?cerceve= ?tarz=`.
+- **Ölçüm (önizleme, 5 genişlik):** plaka–isim 0,2 → 10,2–18,6 px; taç emojisi taçlı çerçevede gizli, taçsızda görünür;
+  yatay taşma yok, sayfa hatası yok. Sekme: 390 px'te 4/4 seçim tam görünür.
+- **Build temiz;** giriş paketi 387.970 → 391.407 B (gzip 125.511 → 126.714). Canlı testler erişim olmadığı için yapılamadı.
+- **Açık:** migration'ları uygula (`npx supabase db push`), sonra canlı Klasik/Antrenman testi; eski 6 emoji Klasik/Düello
+  açılınca kaldırılacak; bütün çerçeveler seçilen tarzda yeniden çizilecek (ayrı paket). Özet `docs/KOZMETIK_AKTIVASYON.md`.
