@@ -8,6 +8,7 @@ import { sureMetni } from "../lib/konum.js";
 import { y } from "../lib/yol.js";
 import { MEYDAN_ACIK } from "../lib/ozellikBayraklari.js";
 import DavetKodu from "./DavetKodu.jsx";
+import EngellediklerimBolumu from "./EngellediklerimBolumu.jsx";
 import AvatarCerceve from "./AvatarCerceve.jsx";
 import { tt } from "../lib/dil.js";
 import { rpcDene } from "../lib/rpcDene.js";
@@ -280,6 +281,9 @@ export default function ProfilAyarlari() {
           {kopyalandi ? tt("Kopyalandı") : tt("Davet linkini kopyala")}
         </QtDugme>
       </QtKart>
+
+      {/* ---------- 620: Engellediklerim ---------- */}
+      <EngellediklerimBolumu />
 
       {/* ---------- Varsayılan kategori ---------- */}
       <QtKart as="section" className="qt-pf-bolum" aria-labelledby="qt-pf-kategori-tercih">

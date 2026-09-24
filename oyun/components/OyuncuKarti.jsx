@@ -23,6 +23,9 @@ import { hataMesaji } from "../lib/hata.js";
 import Bayrak from "./Bayrak.jsx";
 import KategoriProfili from "./KategoriProfili.jsx";
 import { tt } from "../lib/dil.js";
+import { useAuth } from "../../src/context/AuthContext.jsx";
+import SikayetPenceresi, { EngelPenceresi, useIletisimDurumu } from "./SikayetPenceresi.jsx";
+import "../tasarim/ekranlar/sikayet.css";
 
 const ALANLAR =
   // `is_bot` BİLEREK YOK: gizli botlar gerçek oyuncudan ayırt edilmemeli
@@ -56,6 +59,12 @@ export default function OyuncuKarti({
   const [kartHata, setKartHata] = useState(false);
   const [deneme, setDeneme] = useState(0);
   const vsTema = kozmetikTemasi(useKartAlani(userId, "vs_karti"));   // 540: VS kartı teması (oyuncu kartı, önbellekli)
+  // 620: engel / şikâyet — kendi kartında yok; iletişim kararı sunucuda (iletisim_durumu)
+  const { user } = useAuth();
+  const baskasi = Boolean(user?.id && userId && user.id !== userId);
+  const [iletisim, iletisimYenile] = useIletisimDurumu(userId, baskasi);
+  const [pencere, setPencere] = useState(null);   // "sikayet" | "engel"
+  const engelli = iletisim ? !iletisim.iletisim : false;
 
   // Eylem düğmesi: çalışırken metin "…", hepsi kilitli; hata kartın içinde yazar.
   const eylem = async (kod, f) => {
@@ -71,7 +80,8 @@ export default function OyuncuKarti({
     }
   };
   // Birincil: Oyna varsa o, yoksa Meydan oku — dolu turuncu; ötekiler ikincil
-  const eylemler = [
+  // 620: engel varsa (hangi yönde olursa olsun) iletişim düğmeleri çizilmez
+  const eylemler = engelli ? [] : [
     onOyna && { kod: "oyna", ikon: "oyna", ad: tt("Oyna"), f: onOyna, pasif: Boolean(oynaPasifNeden) },
     onMeydanOku && { kod: "meydan", ikon: "kilic", ad: tt("Meydan oku"), f: onMeydanOku, pasif: Boolean(oynaPasifNeden) },
     onMesaj && { kod: "mesaj", ikon: "mesaj", ad: tt("Mesaj at"), f: onMesaj },
@@ -106,13 +116,22 @@ export default function OyuncuKarti({
 
   const sayi = (n) => sayiBicim(Number(n ?? 0));
 
+  if (pencere === "sikayet") {
+    return <SikayetPenceresi kisiId={userId} kisiAd={p?.gorunen_ad ?? tt("Oyuncu")} engelliMi={Boolean(iletisim?.engelledim)}
+                             onKapat={() => setPencere(null)} onTamam={() => iletisimYenile()} />;
+  }
+  if (pencere === "engel") {
+    return <EngelPenceresi kisiId={userId} kisiAd={p?.gorunen_ad ?? tt("Oyuncu")} engelliMi={Boolean(iletisim?.engelledim)}
+                           onKapat={() => setPencere(null)} onTamam={() => iletisimYenile()} />;
+  }
+
   return (
     <QtModal
       acik
       onKapat={onKapat}
       baslik={<span className="qt-gizli">{tt("Oyuncu kartı")}</span>}
       className="ok-kart"
-      altlik={eylemler.length > 0 || oynaPasifNeden || bilgiNotu ? (
+      altlik={eylemler.length > 0 || oynaPasifNeden || bilgiNotu || baskasi ? (
         <div className="ok-altlik">
           {eylemler.length > 0 && (
             <div className={`ok-eylemler${eylemler.length === 1 ? " ok-eylemler--tek" : ""}`}>
@@ -135,6 +154,22 @@ export default function OyuncuKarti({
             <p className="ok-not" role="status">{oynaPasifNeden}</p>
           )}
           {bilgiNotu && <p className="ok-not" role="status">{bilgiNotu}</p>}
+          {engelli && (
+            <p className="ok-not" role="status">
+              {iletisim?.engelledim ? tt("Bu oyuncuyu engelledin.") : tt("Bu oyuncuyla iletişim kuramazsın.")}
+            </p>
+          )}
+          {baskasi && (
+            <div className="ok-guvenlik">
+              <button type="button" onClick={() => setPencere("engel")}>
+                <QtIkon ad={iletisim?.engelledim ? "onay" : "kilit"} boyut={16} />
+                {iletisim?.engelledim ? tt("Engeli kaldır") : tt("Engelle")}
+              </button>
+              <button type="button" onClick={() => setPencere("sikayet")}>
+                <QtIkon ad="bayrak" boyut={16} /> {tt("Şikâyet et")}
+              </button>
+            </div>
+          )}
         </div>
       ) : null}
     >

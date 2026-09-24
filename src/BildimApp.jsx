@@ -88,6 +88,7 @@ const CerceveOnizlemePage = lazy(() => import("../oyun/tasarim/cerceveler/deneme
 const PremiumOnizlemePage = lazy(() => import("../oyun/tasarim/premium/PremiumOnizlemePage.jsx"));   // premium kozmetik önizlemesi — yalnız sahip, yalnız adresle (girişli)
 const IkonOnizlemePage = lazy(() => import("../oyun/tasarim/ikon/IkonOnizlemePage.jsx"));   // uygulama ikonu adayları (Ajan B) — yalnız sahip, yalnız adresle (girişli)
 const TasarimOnizlemePage = lazy(() => import("../oyun/tasarim/onizleme/TasarimOnizlemePage.jsx"));   // altın isim + rakip arama ekranı adayları — yalnız sahip, yalnız adresle (girişli)
+const YonetimSikayetlerPage = lazy(() => import("../oyun/pages/YonetimSikayetlerPage.jsx"));   // 620: şikâyet yönetimi — yalnız yönetici (sunucu), menüde yok
 
 // Maç sayfası maç kimliğine anahtarlı: rövanş / yeni maç aynı rotada /mac/eski → /mac/yeni geçince React
 // bileşeni yeniden kurmuyordu; eski maçın durumu (ilerleme damgası, kanallar, zamanlayıcılar) yeni maça
@@ -227,6 +228,7 @@ export default function BildimApp() {
           <Route path="gorunum" element={GARDIROP_ACIK ? <KarakterVitrini /> : <BulunamadiPage kapaliMod kapaliOzellik />} />
           <Route path="gorunum-3b" element={GARDIROP_ACIK ? <Navigate to="../gorunum" replace /> : <BulunamadiPage kapaliMod kapaliOzellik />} />
           <Route path="profil" element={<ProfilePage />} />
+          <Route path="yonetim/sikayetler" element={<YonetimSikayetlerPage />} />
           {/* Paket 41 I: bilinmeyen adres → 404 (eskiden sessizce ana sayfa) */}
           <Route path="*" element={<BulunamadiPage />} />
         </Route>

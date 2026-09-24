@@ -9,6 +9,10 @@ import EmojiSecici from "./EmojiSecici.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { dmTazele } from "../lib/mesajlar.js";
 import { tt, aktifDil } from "../lib/dil.js";
+import SikayetPenceresi, { EngelPenceresi, useIletisimDurumu } from "./SikayetPenceresi.jsx";
+import "../tasarim/ekranlar/sikayet.css";
+
+const UZUN_BAS_MS = 550;   // 620: gelen mesaja uzun basınca "Şikâyet et"
 
 // ============================================================
 // SOHBET KUTUSU — bire bir mesajlaşma ekranı (Paket 35 E.3.2)
@@ -67,6 +71,11 @@ export default function SohbetKutusu({ benId, kisiId, onGeri }) {
   const [emojiAcik, setEmojiAcik] = useState(false);
   const [kartAcik, setKartAcik] = useState(false);
   const [gorunum, setGorunum] = useState(null);       // { ust, yukseklik } — visualViewport
+  // 620: engel / şikâyet / koşul kabulü — kararlar sunucuda (iletisim_durumu, tetikleyiciler)
+  const [iletisim, iletisimYenile] = useIletisimDurumu(kisiId);
+  const [pencere, setPencere] = useState(null);       // { tur: "sikayet" | "engel", mesaj? }
+  const [kosulKabul, setKosulKabul] = useState(false);
+  const uzunBas = useRef(null);
 
   const listeRef = useRef(null);
   const girisRef = useRef(null);
@@ -177,10 +186,33 @@ export default function SohbetKutusu({ benId, kisiId, onGeri }) {
       .on("postgres_changes",
         { event: "INSERT", schema: "public", table: "direkt_mesajlar", filter: `alici_id=eq.${kisiId}` },
         (p) => { if (p.new?.gonderen_id === benId) ekle(p.new); })
-      .on("postgres_changes", { event: "*", schema: "public", table: "friendships" }, arkadasligiOku)
+      .on("postgres_changes", { event: "*", schema: "public", table: "friendships" }, () => { arkadasligiOku(); iletisimYenile(); })
       .subscribe();
     return () => supabase.removeChannel(kanal);
-  }, [benId, kisiId, okunduIsaretle, arkadasligiOku]);
+  }, [benId, kisiId, okunduIsaretle, arkadasligiOku, iletisimYenile]);
+
+  // 620: Kullanım Koşulları kabulü (ilk mesajdan önce; sunucu kabulsüz mesajı reddeder)
+  const kosullariKabulEt = async () => {
+    setKosulKabul(true);
+    setHata(null);
+    try {
+      const { error } = await supabase.rpc("kosullari_kabul_et");
+      if (error) throw error;
+      await iletisimYenile();
+    } catch (e) {
+      setHata(hataMesaji(e, tt("İşlem yapılamadı.")));
+    } finally {
+      setKosulKabul(false);
+    }
+  };
+
+  // 620: gelen mesaja uzun bas (dokunmatik) ya da sağ tık → şikâyet
+  const basmaBasla = (m) => {
+    clearTimeout(uzunBas.current);
+    uzunBas.current = setTimeout(() => setPencere({ tur: "sikayet", mesaj: m }), UZUN_BAS_MS);
+  };
+  const basmaBitti = () => clearTimeout(uzunBas.current);
+  useEffect(() => () => clearTimeout(uzunBas.current), []);
 
   // ---- Kaydırma: yeni mesajda aşağı, eski mesaj eklenince konumu koru
   useLayoutEffect(() => {
@@ -278,6 +310,8 @@ export default function SohbetKutusu({ benId, kisiId, onGeri }) {
       setHata(hataMesaji(e, tt("Mesaj gönderilemedi.")));
       // Arkadaşlık bitmişse kutu kapansın
       if (/arkadaşlarına/i.test(String(e?.message ?? ""))) setArkadas(false);
+      // 620: engel / kapatma / koşul kaynaklı red → durum yenilenir, uygun not çizilir
+      if (/iletişim|kapatıldı|askıya|Koşulları/i.test(String(e?.message ?? ""))) iletisimYenile();
     } finally {
       setGonderiliyor(false);
     }
@@ -311,6 +345,13 @@ export default function SohbetKutusu({ benId, kisiId, onGeri }) {
           {/* Paket 42 J.3: dokununca profil açıldığını belli eden ok */}
           <QtIkon ad="ileri" boyut={18} className="ms-kisi-ok" />
         </button>
+        {/* 620: engelle / şikâyet et */}
+        <span className="ms-guvenlik">
+          <QtIkonDugme ikon={iletisim?.engelledim ? "onay" : "kilit"} tur="saydam"
+                       etiket={iletisim?.engelledim ? tt("Engeli kaldır") : tt("Engelle")}
+                       onClick={() => setPencere({ tur: "engel" })} />
+          <QtIkonDugme ikon="bayrak" tur="saydam" etiket={tt("Şikâyet et")} onClick={() => setPencere({ tur: "sikayet" })} />
+        </span>
       </header>
 
       <div className="ms-liste" ref={listeRef} onScroll={kaydirildi} aria-live="polite">
@@ -338,7 +379,15 @@ export default function SohbetKutusu({ benId, kisiId, onGeri }) {
             <div key={m.id} className="ms-balon-grup">
               {yeniGun && <div className="ms-gun" role="separator"><span>{gunMetni(m.created_at)}</span></div>}
               <div className={`ms-balon-satir ${benden ? "ms-ben" : "ms-o"}`}>
-                <div className="ms-balon">
+                <div
+                  className="ms-balon"
+                  {...(benden ? {} : {
+                    onPointerDown: () => basmaBasla(m), onPointerUp: basmaBitti, onPointerLeave: basmaBitti,
+                    onPointerCancel: basmaBitti,
+                    onContextMenu: (e) => { e.preventDefault(); basmaBitti(); setPencere({ tur: "sikayet", mesaj: m }); },
+                    title: tt("Şikâyet etmek için basılı tut"),
+                  })}
+                >
                   <span className="ms-balon-metin">{m.metin}</span>
                   <span className="ms-balon-saat">{saatMetni(m.created_at)}</span>
                 </div>
@@ -360,9 +409,27 @@ export default function SohbetKutusu({ benId, kisiId, onGeri }) {
         </p>
       )}
 
-      {arkadas === false ? (
+      {iletisim && !iletisim.iletisim ? (
+        <div className="ms-kapali" role="status">
+          {iletisim.engelledim
+            ? tt("Bu oyuncuyu engelledin — mesaj gönderilemez. Eski mesajlar burada kalır.")
+            : tt("Bu oyuncuyla iletişim kuramazsın. Eski mesajlar burada kalır.")}
+        </div>
+      ) : iletisim?.mesaj_kapali ? (
+        <div className="ms-kapali" role="status">{tt("Mesajlaşman kapatıldı.")}</div>
+      ) : arkadas === false ? (
         <div className="ms-kapali" role="status">
           {tt("Artık arkadaş değilsiniz — yeni mesaj gönderemezsin. Eski mesajlar burada kalır.")}
+        </div>
+      ) : iletisim && !iletisim.kosullar_kabul ? (
+        <div className="ms-kosul" role="region" aria-label={tt("Kullanım Koşulları")}>
+          <p>
+            {tt("Mesajlaşmadan önce Kullanım Koşulları'nı kabul etmelisin: hakaret, taciz, cinsel içerik, spam, hile ve kişisel bilgi paylaşımı yasak.")}{" "}
+            <a href="/kosullar" target="_blank" rel="noopener">{tt("Kullanım koşulları")}</a>
+          </p>
+          <QtDugme tamGenislik ikon="onay" yukleniyor={kosulKabul} onClick={kosullariKabulEt}>
+            {tt("Okudum, kabul ediyorum")}
+          </QtDugme>
         </div>
       ) : (
         <div className="ms-alt">
@@ -409,7 +476,15 @@ export default function SohbetKutusu({ benId, kisiId, onGeri }) {
       )}
 
       {kartAcik && (
-        <OyuncuKarti userId={kisiId} onIzleme={kisi} onKapat={() => setKartAcik(false)} />
+        <OyuncuKarti userId={kisiId} onIzleme={kisi} onKapat={() => { setKartAcik(false); iletisimYenile(); }} />
+      )}
+      {pencere?.tur === "sikayet" && (
+        <SikayetPenceresi kisiId={kisiId} kisiAd={ad} mesaj={pencere.mesaj ?? null} engelliMi={Boolean(iletisim?.engelledim)}
+                          onKapat={() => setPencere(null)} onTamam={() => iletisimYenile()} />
+      )}
+      {pencere?.tur === "engel" && (
+        <EngelPenceresi kisiId={kisiId} kisiAd={ad} engelliMi={Boolean(iletisim?.engelledim)}
+                        onKapat={() => setPencere(null)} onTamam={() => { iletisimYenile(); arkadasligiOku(); }} />
       )}
     </div>,
     document.body
