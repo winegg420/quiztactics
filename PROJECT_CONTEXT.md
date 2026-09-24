@@ -164,7 +164,9 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
   kapanır) · geri al. **Küfür filtresi** `yasakli_kelimeler` (kapsam hepsi/ad, eşleşme tam/önek) + `izinli_kelimeler`
   (tam/önek) — koda gömülü liste yok; mesajda `***`, takma adda red; ı katlanmaz ("sıkıldım" masum; bilinen açık:
   tamamı BÜYÜK "SIK" yakalanmaz). Test: `node araclar/kufur-filtre-testi.mjs`. Hesap silinince mesajlar, engellemeler
-  ve açtığı şikâyetler silinir; hakkındaki şikâyetler kanıt olarak kalır (saklama süresi Ida'dan bekleniyor).
+  ve açtığı şikâyetler silinir; hakkındaki şikâyetler kanıt olarak **1 yıl** kalır (630: `sikayet_saklama_gun` 365,
+  günlük iş `bildim-sikayet-saklama`; Gizlilik'te yazılı). **Rastgele eşleşmede** (Klasik, Düello, Grup) birbirini
+  engellemiş iki oyuncu eşleşmez (630).
 - Aynı çift aynı gün: 1-5. maç tam ödül, 6-10. %50, 11+ ödülsüz. Aynı
   cihaz/IP'den iki hesap arasında sıralı maç hiç ödül vermez.
 

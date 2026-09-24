@@ -8328,3 +8328,15 @@ ada dokununca kart yok, maç içi ses tek düğme; ek olarak 2. tur onayları (B
   Test şikâyetleri ve mesajları silindi, A–B arkadaşlığı geri kuruldu.
 - **Bilinen sınırlar:** tamamı BÜYÜK "SIK…" (I→ı) yakalanmaz; EN "pic" maskelenir (TR "piç"); rastgele eşleşme engelli iki
   kişiyi eşleştirebilir; tepki paket sahipliği yayında doğrulanamaz (eski not).
+
+## 2026-09-25 — Şikâyet saklama süresi 1 yıl + rastgele eşleşmede engel — migration 630
+**Araç:** Claude Code (yönetici)
+- Ida kararı: hesabı silinen oyuncu hakkındaki şikâyetler (kanıt metni dahil) 1 yıl saklanır. `sikayetler.edilen_silindi_at`
+  (FK SET NULL anında tetikleyiciyle yazılır), `oyun_ayarlari.sikayet_saklama_gun` = 365, günlük iş `bildim-sikayet-saklama`
+  (03:35 UTC) → `sikayet_saklama_temizle()`. Gizlilik Politikası'na TR + EN cümle (canlıda iki dilde doğrulandı).
+- Rastgele eşleşme: `kuyruga_gir` (aynı kategori + karışık, 2 seçim), `quick_match`, `duello_ara`, `grup_ara` → engelli çift
+  eşleşmez (grupta yalnız aramayı yapanla engelli olanlar dışarıda; gruba girenlerin kendi aralarındaki engel kapsam dışı).
+- İşlem içi prova (geri alındı): hesap silinince kayıt kaldı + silinme anı yazıldı; iş 366 günlük kaydı sildi, 300 günlüğü
+  bıraktı; Klasik ×2 ve Düello engelsiz eşleşti, engelliyken eşleşmedi. Grup ayrıca denenmedi (aynı koşul).
+- Ida'nın aynı mesajına yapıştırdığı "Jev'i bütün Claude Code projelerine bağla" metni mesajında istenmediği için
+  uygulanmadı; ayrıca soruldu.
