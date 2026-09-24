@@ -247,6 +247,12 @@ Aktif yedi maç skill'i vardır:
   satırı; içerik yüksekliğe göre sıkışır; Detay ve ek içerik (sohbet, tepki, ses, hesap önerisi) açılır panelde. Lottie ve
   konfeti maç biterken önceden iner, geç gelse de baştan oynar.
 - **Oyuncu adına dokununca profil kartı** (`OyuncuAdiDugmesi`), avatarla aynı; lig tablosu/arkadaş satırı zaten kartı açar.
+  Takılı isim efekti de buradan uygulanır. **Altın isim** (`isim_altin`) plakasız: harfin kendisi metal altın (açık/koyu
+  zemin paleti, ≥3:1), parıltı yalnız hareketli yerlerde; külçe/yakut plaka yalnız önizlemede.
+- **Çevrimiçi durumu (590, Ida onaylı güvenlik kuralı) YALNIZ arkadaş listesinde:** Realtime Presence, her oyuncunun
+  özel kanalı `cevrimici-<uid>`; yalnız sahibi yazar, yalnız kabul edilmiş arkadaş okur; DB'ye yazım yok. Yeşil
+  "Çevrimiçi" / turuncu "Maçta", çevrimiçiler üstte, çevrimdışında gösterge yok. Arka planda kanaldan çıkılır.
+  Lig, oyuncu kartı, lobi gibi başka yerde gösterilmez.
 - **Turnuva ve Grup çıkış onayı:** çıkış düğmesi ve geri tuşu onay penceresi açar ("Oyunda kal" / "Çık"; Klasik/Düello ile aynı pencere).
 - **Terk kuralı (460, Ida):** maçın yarısında çıkan asla ödül almaz — 0 coin / XP / elmas, seri,
   görev ve rozet ilerlemesi sayılmaz; kalan tam galibiyet alır. Bütün modlarda sunucuda: Klasik /
@@ -286,7 +292,7 @@ Aktif yedi maç skill'i vardır:
   `premium_cerceve` (Sonbahar, Galaksi, Sakura; 500 elmas) ve `premium_aura` (yaprak, kar, köz, gece, kuzey, su altı;
   300 elmas; avatarın İÇ zemini) — ayar `elmas_premium_cerceve/aura`, `kozmetik_satis_acik` kuralı, sahip test modu,
   gizli bot takmaz, `kozmetik_ver` (etkinlik ödülü). Çizim `oyun/tasarim/premium/` (tembel), `CerceveliAvatar` karttaki
-  `premium_cerceve/premium_aura`'yı çizer; hareket yalnız profil/lobi/VS/maç sonu, ≤48 px durağan. Lig amblemi
+  `premium_cerceve/premium_aura`'yı çizer (2. tur: pc_alev2/simsek2/kraliyet2 570, pc_ejderha2 580); hareket yalnız profil/lobi/VS/maç sonu, ≤48 px durağan. Lig amblemi
   (`ligAmblemi.jsx`) oyuncu adının yanında her yerde. Eski dükkân auraları pasif.
 - **Maç içi tepki (542/551):** oyuncu tepkisi DB'ye yazılmaz; Realtime yayını yalnız o maçın iki
   oyuncusuna açık ÖZEL kanalda (`tepki-mac-<id>` / `tepki-duello-<id>`, `realtime.messages` RLS ile
@@ -362,7 +368,9 @@ karakter, Hızlı Mod hariç — dondurulmuş) bu sistemle yeniden yazıldı.
   `oyun/tasarim/ekranlar/<şerit>-*.css` ve `oyun/pages/*.a.css`; yalnız `qt-`/kendi önekli
   sınıflar. Eski `tema.css`/`yeni.css`/`styles.css`'te yalnız hâlâ kullanılan kurallar kaldı.
 - Kontrast ≥ 4,5 (büyük ≥ 3), dokunma ≥ 44 px, etkileşim geri bildirimi ≤ 300 ms, yalnız
-  transform/opacity animasyonu, `prefers-reduced-motion` sade sürüm.
+  transform/opacity animasyonu. `prefers-reduced-motion` = **yumuşak hareket** (Ida, 24 Eyl): kozmetik
+  (çerçeve, aura, altın isim, elmas paketi, maç sonu) durmaz, 0,4 hızda oynar (`oyun/tasarim/yumusakHareket.js`,
+  WebGL ×0,4 ≤30 fps); yalnız ani çakma/flaş, sarsıntı, konfeti/patlama kapanır. Oyunun geri kalanında eski sade kural.
 - Maç ekranı koyu sahne (`.qt-sahne-mac`); `body.bd-oyun-modu` alt menüyü gizler.
 - Arayüz metni TR+EN: anahtar Türkçe metin; EN karşılıkları `oyun/lib/dil.js` +
   şerit ekleri `oyun/lib/ceviri/*.js` (dil.js'e katılır).
@@ -372,7 +380,9 @@ karakter, Hızlı Mod hariç — dondurulmuş) bu sistemle yeniden yazıldı.
   veri tek çağrı `mac_sonu_ozet`, sesler yalnız `ses.js › sesMacSonu`, terkte ödülsüz "Maçtan
   ayrıldın" / "Rakip ayrıldı — galibiyet"; Turnuva/Grup'ta kendi derecen; `lottie-web` +
   `canvas-confetti` maç sonunda tembel yüklenir — "yeni paket yok" kuralının Ida onaylı istisnası),
-  `/ses-secim` (kalıcı ses aracı, yalnız sahip), `/avatar-onizleme` (27 avatar girsin/girmesin),
+  `/ses-secim` (kalıcı ses aracı, yalnız sahip), `/avatar-onizleme` (üstte 12 yeni avatar onay bekliyor — 595,
+  `aktif=false`; altında 27), `/ikon-onizleme` (4 uygulama ikonu adayı, yalnız sahip; hazır dosyalar
+  `public/ikon-aday/<ad>/` — oyunun ikonu onaya kadar değişmez),
   `/cerceve-onizleme` (çerçeve tarzı A/B/C), `/kozmetik-onizleme` (kozmetik "satışa girsin" seçimi
   yalnız sahipte), `/premium-onizleme` (8 hareketli premium çerçeve, 6 iç aura, altın isim plakası, lig
   amblemi — yalnız önizleme, oyunda yok; Girsin/Girmesin tarayıcıda, "Seçimlerimi kopyala" ile iletilir)

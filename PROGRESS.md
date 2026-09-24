@@ -8194,3 +8194,28 @@ ada dokununca kart yok, maç içi ses tek düğme; ek olarak 2. tur onayları (B
   Used"; çağrılar oturumsuz gidip "permission denied" veriyordu — yetki doğru) → canlı kayıt silindi, arayüz
   denetimi yeni misafir oturumu yazdı. Betiklerde setSession yenilenen belirteci dosyaya geri yazmıyor; ortak test
   oturumunu tüketir.
+
+## 2026-09-24 — Kozmetik tamamlama + çevrimiçi + ikon + yeni avatarlar (bulut, 3 ajan)
+**Araç:** Claude Code (yönetici + Ajan A/B/B2/C; ortak klasör, git kilidi)
+- **A — kozmetik (aaa0cbd, 147a486, 4307962, 7ff8c38):** Ejderha 2. tur `pc_ejderha2` (500 elmas TEST, bot takmaz,
+  önizlemede "Oyunda") — migration **580 UYGULANMADI**; uygulanmadan istemci değişmez. Dükkân › Elmas'ta 5 yeni paket
+  görseli (112×112, 390/360). Altın isim plakasız metal harf (kontrast en düşük 3,21 açık / 4,94 koyu; açık zeminde
+  bronza yakın — Ida bakacak), `OyuncuAdiDugmesi` üzerinden her yerde; ≤liste durağan. Yumuşak hareket: üç genel
+  reduce kuralı kozmetiği `:where(:not(…))` ile dışarıda bırakıyor, kozmetik 0,4 hızda; flaş/konfeti/patlama kapalı
+  (Chrome reducedMotion ölçümü: çalışıyor, hız 0,4; no-preference eskisi gibi). Kapsam dışı: ZaferEfekti, oyun içi
+  efektler. Risk: iOS <14 `:where` yok.
+- **B — ikon (432c9f7, e446f12, 18cf80f):** `/ikon-onizleme` 4 aday (Q Nabız, Şeker Q, Soru Balonu, Dört Şık), Android
+  ana ekran taklidi, 3 maske, açık/koyu, 48/72/192, güvenli alan kılavuzu, Girsin/Girmesin + kopyala. Hazır dosyalar
+  `public/ikon-aday/<ad>/`; oyunun ikonu değişmedi. Onayda: dosyaları `public/`'e kopyala + manifest `icons` + index.html
+  icon/apple-touch (+ isteğe bağlı sw.js bildirim ikonu).
+- **B2 — çevrimiçi (2407365, 8a7c593):** Ida güvenlik kuralını onayladı. Migration **590 UYGULANMADI**: `realtime.messages`
+  `cevrimici_oku`/`cevrimici_yaz` (yalnız extension=presence, `^cevrimici-<uuid>$`), `cevrimici_kanal_okur_mu` security
+  definer yalnız authenticated; 551 tepki politikalarına dokunulmadı. Yerel PG testi: sahip oku/yaz, arkadaş yalnız oku,
+  bekleyen/yabancı/anon hiçbir şey. İstemci `oyun/lib/cevrimici.js` (Layout'ta kendi durum, FriendsPage'de ≤50 dinleme);
+  realtime-js presenceState eski kaydı düşürmüyordu → join/leave defteri. Migration yokken tek uyarı, liste bugünkü gibi.
+- **C — avatarlar (2191278, d0e0b54, 9bc849d, cb4174c):** Sporcu (sporcu-y09) kel görünüyordu → dolu saç kütlesi,
+  dosya adı aynı. 12 yeni avatar (`AvatarProIllustrations3.jsx`, `public/avatars/pro2/*-y28…y39.svg`); migration **595
+  UYGULANMADI** (aktif=false, onay bekliyor); onay sonrası tek satır + bot bloğu dosyanın sonunda.
+- **Yönetici:** HEAD temiz kopyada derlendi; ana paket 403.529 → 408.462 B (çevrimiçi kancası kabukta). 390 px açılış
+  (normal + reduce) taşma 0, konsol hatası 0.
+- **Uygulama sırası:** 580 → 590 → 595 (sonra avatar onayı → 595 sonundaki satır).
