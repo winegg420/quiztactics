@@ -27,8 +27,9 @@ başka oyun modülleri de (`kafatopu/`, `meyvekes/`, `run/`, `gladius/`,
 `patirun/`, `driftgp/`) durur; her biri kabuğa tek lazy route satırıyla
 bağlıdır ve hiçbiri diğerinin klasöründen import etmez.
 
-Araçlar: **Jev (TypeSafe)** — toplu soru/çeviri kalite değerlendirmesi
-için; kullanım kuralı AGENTS.md'de.
+Araçlar: **Jev (TypeSafe)** — toplu soru/çeviri kalite değerlendirmesi (proje araçları `araclar/jev*.mjs`)
+ve 25 Eyl 2026'dan beri geliştirme adımlarında da (dosya seçimi, hata sınıflama, bulgu önceliği, commit öncesi
+kontrol) global araçla: `node C:/Users/ida/.claude/jev/jev.mjs`; kullanım kuralı AGENTS.md'de ve `jev-akis` skill'inde.
 
 ### Dil
 

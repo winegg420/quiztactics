@@ -160,16 +160,17 @@ Jev metin üretmez; kapalı uçlu bir soruya güven skoruyla cevap verir.
 Maliyeti LLM'in yüzde biri kadardır. Amaç: toplu değerlendirme işini
 Claude Code'un bağlamından çıkarmak.
 
-**Kural:** Yüzlerce kalemi tek tek okuyup değerlendirmen gerekiyorsa,
-işe başlamadan önce "bu Jev'e verilebilir mi?" diye sor.
+**Kural:** Metin yazmayı gerektirmeyen her karar adımında (dosya seçimi,
+hata sınıflama, bulgu önceliği, commit öncesi kontrol — bkz. aşağıdaki
+"Jev iş akışı" bölümü) ve yüzlerce kalemlik değerlendirmelerde önce Jev.
 
 Jev'e ver — üçü birden doğruysa:
 1. Soru kapalı uçlu (şıklardan biri, evet/hayır, sabit liste)
 2. Cevap nesnel olarak doğru/yanlış ayrılabiliyor (zevk meselesi değil)
 3. Kalem sayısı çok (onlarca, yüzlerce)
 
-Jev'e verme: kod, tasarım, metin yazımı, "hangisi daha iyi" kararları,
-5-10 kalemlik küçük işler.
+Jev'e verme: kod, tasarım, metin yazımı, "hangisi daha iyi" gibi zevk kararları,
+ekran görüntüsü değerlendirme.
 
 Somut örnekler: yeni soruların kalite kapısı, kategori/zorluk atama,
 çeviri kontrolü, muğlak soru tespiti, şık ipucu taraması.
@@ -201,3 +202,33 @@ bitirirsin:
 
 **İstisna:** yalnızca sahibinin bilebileceği bir şey varsa (gerçek şifre,
 API anahtarı doğruluğu, ürün kararı) sor.
+
+## Jev iş akışı (bütün projeler)
+
+<!-- TEK KAYNAK: C:/Users/ida/.claude/jev/is-akisi.md — bu bölüm oradan birebir kopyalanır
+     (~/.claude/skills/jev-akis/SKILL.md, ~/.codex/AGENTS.md, proje AGENTS.md). Değiştirirken kaynağı değiştir. -->
+
+Jev (TypeSafe System One) metin üretmez; kapalı uçlu sorulara olasılıkla cevap verir ve çok ucuzdur. Metin yazmayı
+gerektirmeyen her karar adımını ÖNCE Jev'e ver. Araç: `node C:/Users/ida/.claude/jev/jev.mjs <komut> --girdi dosya.json`
+(ya da stdin; çıktı JSON). Komutlar: `sirala` {soru, adaylar:[{id, metin}]} · `kontrol` {kanit, sorular:[{id, soru}]} ·
+`sinifla` {kalemler:[{id, metin}], siniflar:{kod: açıklama}} · `puanla` {kalemler, olcek:[düşük…yüksek], soru} · `rapor` ·
+`dosya-sec "<soru>" [--desen regex]`.
+
+1. **Dosya seçimi:** okumadan önce tek komut: `node C:/Users/ida/.claude/jev/jev.mjs dosya-sec "<ne arıyorsun>" [--desen "kodAdı|diğer"]`
+   (adayları kendisi bulur, özetler, sıralar) → yalnız `oku` listesini oku. Özel aday listen varsa `sirala`. "Bakayım" diye
+   dosya açma. Büyük dosyada önce bölüm adaylarını (fonksiyon/başlık) sırala.
+2. **Hata ayıklama:** derleme, test, lint, konsol, ağ hataları ve denetim çıktıları → `sinifla`
+   (gercek / gurultu / eski / ortam). Yalnız `gercek` olanları incele.
+3. **Bulgu önceliği:** denetim/inceleme bulguları → `puanla` (olcek: cila, onemli, engelleyici).
+4. **Değişiklik kontrolü:** commit öncesi diff özeti + görev maddeleri → `kontrol` (her madde yapıldı mı, kapsam dışı
+   dosyaya dokunuldu mu, istenmeden silinen kod var mı). `hayir`/`belirsiz` çıkan maddeye bak.
+5. **Log / hata raporları** (Sentry vb.): aynı kök sebebe göre grupla (`sinifla`), ciddiyeti `puanla`.
+6. **Veri kalitesi işleri** (soru bankası, içerik listeleri): doğruluk, kategori, zorluk, tekrar, çeviri anlamı —
+   yüzlerce kalemlik işlerde her zaman Jev.
+7. **`karar: "incele"`** çıkarsa veya girdi ~30k token'ı aşarsa: böl ya da kendin karar ver.
+   **`karar: "kendin_karar_ver"`** dönerse (Jev'e ulaşılamadı) iş durmaz: Jev'siz devam et. Çıktıda
+   `sebep: "jev_devre_disi"` görürsen oturumda BİR KEZ tek satır söyle: "Jev kredisi bitmiş görünüyor, Jev'siz devam ediyorum."
+
+Jev'in yapamadıkları (Claude/Codex'te kalır): resim/ekran görüntüsü değerlendirme, kod/metin yazma, çok adımlı akıl yürütme.
+Aday dosyaları bulmak için (Claude Code) salt-okunur `dosya-arayici` alt ajanı (Haiku) kullanılabilir; sıralamayı Jev yapar.
+Harcama: `node C:/Users/ida/.claude/jev/jev.mjs rapor` (proje ve güne göre çağrı / token).

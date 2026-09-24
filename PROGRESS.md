@@ -8372,3 +8372,20 @@ ada dokununca kart yok, maç içi ses tek düğme; ek olarak 2. tur onayları (B
   `oyun/karakter/karakterler.js` (görünmez).
 - Düello VS ~1,5 sn kalır (Ida kararı; sunucu süresi aynı).
 - Test: 390×664, 360×640 (+1280 giriş), hareketi azalt açık/kapalı; taşma 0, sayfa hatası 0. Build temiz.
+## 2026-09-25 — Jev bütün Claude Code / Codex projelerine bağlandı (global, kullanıcı düzeyi)
+**Araç:** Claude Code (yönetici)
+- Global dosyalar depo DIŞINDA (`C:/Users/ida/.claude/jev/`): `jev.mjs` (dosya-sec · sirala · kontrol · sinifla · puanla ·
+  rapor · durum; toplu istek, yerel doğrulama, 429/5xx'te 2 yeniden deneme, 30 sn; 401/402/403 → 6 sa devre dışı,
+  anında "kendin_karar_ver"), `esikler.json`, `kapi.mjs` (PreToolUse, Bash + PowerShell), `hatirlat.mjs`
+  (UserPromptSubmit), `is-akisi.md` (TEK KAYNAK kurallar) + `esitle.mjs` (kopyaları eşitler), `kayit.jsonl`, `kapi.jsonl`.
+  Skill `~/.claude/skills/jev-akis`, ajan `~/.claude/agents/dosya-arayici.md` (Haiku, salt-okunur), `~/.codex/AGENTS.md`.
+  Anahtar: Windows kullanıcı ortam değişkeni `TYPESAFE_API_KEY` + `~/.claude/jev/.env` (yedek).
+- Bu depoda: `AGENTS.md` dar kural ("yüzlerce kalem", "5–10 kalemlik işleri verme") genişletildi, sonuna tek kaynaktan
+  "Jev iş akışı" bölümü; PROJECT_CONTEXT araç satırı. Proje araçları `araclar/jev*.mjs` değişmedi.
+- Kapı: bariz yıkıcı kalıplar (rm -rf, del/rmdir /s, Remove-Item -Recurse -Force, git reset --hard, git push --force/-f/+ref,
+  git clean -f, DROP/TRUNCATE/DELETE FROM, .env'e yazma) Jev'e SORULMADAN anında onay (Jev kapalıyken de); belirsizler
+  Jev'e (≥ 0,6 → onay, 3 sn'de cevap yoksa geçer). Test 50/50; gerçek oturumda `git reset --hard` onaya düştü, iş korundu.
+- Ölçüm (clubafroditqr, aynı görev): Jev'li 3 dosya / 11 tur / 241k önbellek jetonu / 0,44 $; Jev'siz 5 dosya / 16 tur /
+  445k / 0,47 $. Skill ve CLAUDE.md kuralı TEK BAŞINA yetmedi (model Jev'i çağırmadı) — `dosya-sec` tek komutu +
+  hatırlatma kancasıyla çağırdı.
+- Bilinen: DELETE FROM / DROP geçen her komut (ör. grep ile arama, bu depodaki pg-mini temizlik betikleri) onay ister.
