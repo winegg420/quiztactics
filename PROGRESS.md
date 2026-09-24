@@ -8109,3 +8109,30 @@ Brawl Stars / Clash Royale seviyesinde katmanlı, ışıklı, sürekli hareketli
   470) payı koruyor; sunucu süre kontrolü değişmedi.
 - **Kontrol 3 — rakip arama sıklığı:** zaten yapılmış — migration 337 `rakip_ara_yoklama_ms = 3000` (±%25), `RakipAra.jsx`
   ayardan okur (`ffca638`).
+
+## 2026-09-24 — Premium: aktivasyon + 2. tur + elmas görselleri + çıkış onayı (bulut, `bulut/premium-aktivasyon`)
+**Araç:** Claude Code (yönetici + Ajan A, Ajan B; ortak klasör, git kilidi `araclar/soru-uretim/yazim.lock`)
+**Neden:** Ida `/premium-onizleme`'de 9 kozmetik + lig amblemini onayladı; beğenmediklerinin 2. turunu, yeni elmas paketi
+görsellerini ve Turnuva/Grup çıkış onayını istedi.
+
+- **A (b508b1a, 03872ec, 5e3548a, 8955018):** migration 560 (UYGULANMADI; bkz. docs/KOZMETIK_AKTIVASYON.md) — 9 kalem
+  (çerçeve 500, aura 300 elmas), yeni yuvalar, oyuncu_kartlari/lig_grubum_ozet alanları, bot null, `kozmetik_ver`. Yerel
+  Postgres iki kez + senaryolar geçti. `CerceveliAvatar` premium çerçeve/iç aurayı tembel çizer; Dükkân › Çerçeve/Aura
+  sekmeleri, Koleksiyon. Lig amblemi (`ligAmblemi.jsx`) şerit, VS, maç sonu, profil, oyuncu kartı, lig tablosu, podyum,
+  arkadaşlar, lobi (telefonda şerit/maç sonunda avatar köşesinde). Eski boş Aura sekmesi premium aura varken gizli (karar
+  A'nın; eski auralar açılırsa geri alınır). Turnuva/Grup çıkış onayı (`geriTusuOnayi.js`, QtModal) — düğme + geri tuşu;
+  izole test sayfasında Playwright ile doğrulandı, gerçek girişli sayfalar test edilemedi.
+- **B (eb63ca0, 04f7f49, e3d4f58, 1d8cdda, f3a342b):** 2. tur — düz WebGL 1 (paket yok), tek paylaşılan bağlam, görünmez
+  tuvalde çizip 2D tuvale kopya; Ejderha (ağızdan shader alev, göz, duman), Sönmeyen Alev (gürültü ateşi, duman, ısı dalgası),
+  Buz (kırılan ışık, buğu), Şimşek (dallı yıldırım, plazma, çakma aydınlatma), Kraliyet + Altın Lig (ortam yansıması);
+  en çok 2 hareketli efekt, ekran dışı/gizli sekme/azaltılmış harekette durur, ≤48 px WebGL yok, WebGL yoksa eski SVG.
+  PNG yuvaları `public/kozmetik/premium/README.md` (ejderha.png, kraliyet-tac.png). Altın plaka 2 aday (yakut zemin,
+  külçe). Elmas paketleri (`#pp-elmas`, `elmas/ElmasPaketGorseli.jsx`) avatar çizim dilinde; dükkâna bağlanmadı.
+  "Oyunda" rozeti 10 kalemde.
+- **Ölçüm (GPU'suz, 390 px, 4× CPU):** tek/iki WebGL çerçeve 51–57 fps, 50 ms üstü 0; kalabalık önizleme bölümleri
+  16–38 fps (SwiftShader'da gölgelendirici CPU'da + geri okuma) — gerçek telefonda ölçülmeli. Ana paket 391.681 →
+  397.383 B (A: amblem + tanımlar + çeviri); WebGL motoru 26 KB, premium çizim 57 KB, önizleme 70 KB ayrı tembel parça.
+- **Çeviri kontrolü (değişiklik yok):** oyuncu ekranlarında 1 kalıntı — TournamentPage "{k}/{t} oyuncu kaldı" EN'siz;
+  diğerleri laboratuvar/sahip önizlemeleri (18 dosya), kaldırılmış ana sayfa taslakları, dondurulmuş Hızlı Mod.
+- **Yerelde yapılacak:** `npx supabase db push` (560); canlıda satın al → tak → rakipte görünüm; girişli sayfalar (profil,
+  dükkân, turnuva/grup çıkış) elle kontrol; WebGL efektlerini telefonda ölç.

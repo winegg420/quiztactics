@@ -1,5 +1,6 @@
 /**
- * PREMIUM ÇERÇEVE + AURA — yalnız /premium-onizleme (oyunda kullanılmaz; katalog/satış değişmedi).
+ * PREMIUM ÇERÇEVE + AURA — /premium-onizleme ve (560'tan beri) oyun: CerceveliAvatar takılı premium
+ * çerçeve/aurayı tembel yüklenen oyun/components/PremiumAvatarCizim.jsx ile bununla çizer.
  *
  * <PremiumCerceve cerceve="ejderha" aura="kar" boyut={88} hareketli><Avatar … /></PremiumCerceve>
  *
@@ -52,8 +53,10 @@ export const kademeBul = (boyut) => (boyut <= 48 ? "kucuk" : boyut < 72 ? "orta"
  * @param {string|null} [p.aura]     sanatAuralar anahtarı (null → avatarın kendi zemini)
  * @param {number} [p.boyut=88]      dış çap (px)
  * @param {boolean} [p.hareketli]    yalnız büyük/tekil yerlerde
+ * @param {boolean} [p.halkasiz]    (oyun) çerçevesiz ve halkasız: iç daire kutunun tamamı — başka bir çerçevenin
+ *                                   (lig/level) içine yalnız aura sahnesi koymak için. Önizleme bunu kullanmaz.
  */
-export default function PremiumCerceve({ cerceve = null, aura = null, boyut = 88, hareketli = false, etiket, className = "", children }) {
+export default function PremiumCerceve({ cerceve = null, aura = null, boyut = 88, hareketli = false, etiket, className = "", halkasiz = false, children }) {
   const ref = useRef(null);
   const hamId = useId();
   const id = `pc${hamId.replace(/[^a-zA-Z0-9]/g, "")}`;
@@ -64,7 +67,7 @@ export default function PremiumCerceve({ cerceve = null, aura = null, boyut = 88
   const ekranda = useEkranda(ref, izle);
   const oynar = izle && ekranda;
   return (
-    <span ref={ref} className={`pc pc--${kademe}${oynar ? " pc--oynar" : " pc--durgun"} ${className}`.trim()}
+    <span ref={ref} className={`pc pc--${kademe}${oynar ? " pc--oynar" : " pc--durgun"}${halkasiz && !C ? " pc--halkasiz" : ""} ${className}`.trim()}
           data-cerceve={cerceve ?? undefined} data-aura={aura ?? undefined} data-tac={C?.tepe && kademe !== "kucuk" ? "" : undefined}
           style={{ "--pc-b": `${boyut}px` }} {...(etiket ? { role: "img", "aria-label": etiket } : {})}>
       <svg className="pc-defs" width="0" height="0" aria-hidden="true" focusable="false">
@@ -78,7 +81,7 @@ export default function PremiumCerceve({ cerceve = null, aura = null, boyut = 88
         {A && <A.Sahne id={id} k={kademe} />}
         {children}
       </span>
-      {C ? <C.On id={id} k={kademe} /> : <DuzHalka />}
+      {C ? <C.On id={id} k={kademe} /> : halkasiz ? null : <DuzHalka />}
     </span>
   );
 }

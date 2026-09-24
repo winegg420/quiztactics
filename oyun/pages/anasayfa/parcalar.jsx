@@ -2,13 +2,14 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import AvatarCerceve from "../../components/AvatarCerceve.jsx";
+import OyuncuLigAmblemi from "../../components/OyuncuLigAmblemi.jsx";
 import CerceveliAvatar from "../../components/CerceveliAvatar.jsx";
 import IsimEfekti from "../../components/IsimEfekti.jsx";
 import Avatar from "../../../src/components/Avatar.jsx";
 import SeriRozeti from "../../components/SeriRozeti.jsx";
 import Countdown from "../../components/Countdown.jsx";
 import { TurnuvaSaatEtiketi } from "../../components/TurnuvaSaatleri.jsx";
-import { QtIkon, QtIlerleme, QtLigRozeti } from "../../tasarim/index.js";
+import { QtIkon, QtIlerleme } from "../../tasarim/index.js";
 import { LIG_ADLARI } from "../../lib/lig.js";
 import { tt, ttSunucu } from "../../lib/dil.js";
 import { geriSayim, sonrakiTurnuva, turnuvaSaatleri } from "../../lib/zaman.js";
@@ -370,7 +371,8 @@ export function KompaktOyuncu({ v }) {
       <span className="as-ko-govde">
         <span className="as-ko-ust">
           <b className="as-ko-ad">{oyuncu.ad}</b>
-          {lig?.lig && <QtLigRozeti lig={lig.lig} boyut="k" />}
+          {/* 560: lig amblemi isim yanında (önizlemedeki gibi); lig adı amblemin erişilebilir adında */}
+          {lig?.lig && <OyuncuLigAmblemi lig={lig.lig} boyut={20} />}
         </span>
         <span className="as-ko-alt">
           <b className="as-ko-lv">{tt("Lv {n}", { n: oyuncu.level })}</b>
@@ -451,7 +453,9 @@ export function LigKarti({ v }) {
                   o.dusme_sirasi != null && r.sira === o.dusme_sirasi ? " as-lk-satir--dusme-siniri" : ""}`}>
               <span className="as-lk-no qt-sayi">{r.sira}</span>
               <CerceveliAvatar profile={{ gorunen_ad: r.ad, gorunen_avatar: r.avatar }} userId={r.user_id}
-                               cerceve={r.cerceve ?? null} kart={{ cerceve: r.cerceve ?? null, cerceve_nadirlik: r.cerceve_nadirlik }} boyut={28} />
+                               cerceve={r.cerceve ?? null} kart={{ cerceve: r.cerceve ?? null, cerceve_nadirlik: r.cerceve_nadirlik,
+                                 // 560: premium alanlar satırda varsa (lig_grubum_ozet) ek sorgu yok
+                                 ...("premium_cerceve" in r ? { premium_cerceve: r.premium_cerceve ?? null, premium_aura: r.premium_aura ?? null } : {}) }} boyut={28} />
               <span className="as-lk-ad"><IsimEfekti ef={r.isim_efekti ?? null}>{r.ben ? tt("Sen") : r.ad}</IsimEfekti></span>
               <span className="as-lk-puan qt-sayi">{sayi(r.puan)}</span>
             </li>

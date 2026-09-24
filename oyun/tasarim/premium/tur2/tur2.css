@@ -1,0 +1,146 @@
+/* =====================================================================
+   TUR 2 (yalnız /premium-onizleme) — Cerceve2 + IsimPlakasi2
+   iOS: position:fixed yok; kökte transform yok (fixed tuzağı yok). Tuval ve çizim kutunun %170'i,
+   tıklama yutmaz. Hareket WebGL tuvalinde (motor.js) — CSS animasyonu yalnız plaka parıltısında.
+   ===================================================================== */
+.p2 {
+  position: relative;
+  display: inline-block;
+  flex: none;
+  width: var(--p2-b);
+  height: var(--p2-b);
+  vertical-align: middle;
+  isolation: isolate;
+}
+.p2 > .p2-ic { position: absolute; left: 0; top: 0; }
+.p2-sanat,
+.p2-efekt {
+  position: absolute;
+  left: -35%;
+  top: -35%;
+  width: 170%;
+  height: 170%;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.p2-sanat { z-index: 4; }
+.p2-efekt { z-index: 5; }
+.p2-sanat.p2-sanat--tac { z-index: 4; }
+
+/* =====================================================================
+   ALTIN İSİM PLAKASI — 2. tur: canlı parlak sarı altın, güçlü parlama ve yansıma.
+   yakut: parlak altın çerçeveli, derin yakut kadife zemin (şam deseni) + altın yazı
+   kulce: plakanın kendisi cilalı altın külçe, isim kazınmış (koyu, kabartma ışıklı)
+   ===================================================================== */
+.p2-plaka {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.34em;
+  max-width: 100%;
+  min-width: 0;
+  padding: 0.24em 0.66em 0.28em;
+  border: 0.14em solid transparent;
+  border-radius: 0.55em;
+  line-height: 1.15;
+  vertical-align: middle;
+  isolation: isolate;
+  overflow: hidden;
+}
+.p2-plaka--k { font-size: 0.92em; padding: 0.16em 0.52em 0.2em; border-width: 0.12em; }
+.p2-plaka--b { font-size: 1.25em; }
+
+.p2-plaka--yakut {
+  background:
+    repeating-linear-gradient(45deg, rgba(255, 214, 110, 0.09) 0 1px, transparent 1px 6px) padding-box,
+    repeating-linear-gradient(-45deg, rgba(255, 214, 110, 0.09) 0 1px, transparent 1px 6px) padding-box,
+    radial-gradient(130% 150% at 50% 0%, #c21d45 0%, #7d0b2c 46%, #420417 100%) padding-box,
+    linear-gradient(180deg, #fffbe0 0%, #ffe45c 20%, #ffc81f 46%, #f5a510 60%, #ffe066 80%, #fff6c0 100%) border-box;
+  box-shadow:
+    0 0 0 1px #7a4200,
+    inset 0 0 0 1px rgba(255, 236, 160, 0.55),
+    inset 0 2px 0 rgba(255, 255, 255, 0.16),
+    inset 0 -4px 7px rgba(20, 0, 8, 0.5),
+    0 2px 0 #c77d00,
+    0 2px 12px rgba(255, 196, 40, 0.55);
+}
+.p2-plaka--kulce {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 38%) padding-box,
+    linear-gradient(180deg, #fff3a0 0%, #ffd23a 40%, #ffbe1a 62%, #ffd84a 82%, #fff0a0 100%) padding-box,
+    linear-gradient(180deg, #fffbe0 0%, #f5a510 50%, #ffe066 100%) border-box;
+  box-shadow:
+    0 0 0 1px #7a4200,
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -3px 5px rgba(200, 120, 0, 0.45),
+    0 2px 0 #c77d00,
+    0 2px 12px rgba(255, 196, 40, 0.6);
+}
+
+.p2-plaka-uc {
+  flex: none;
+  width: 0.4em;
+  height: 0.4em;
+  transform: rotate(45deg);
+  border: 1px solid #7a4200;
+  background: linear-gradient(135deg, #ffffff 0%, #fff08a 30%, #ffc81f 60%, #f5a510 100%);
+  box-shadow: 0 0 5px rgba(255, 220, 90, 0.9);
+}
+.p2-plaka--kulce .p2-plaka-uc {
+  background: radial-gradient(circle at 35% 30%, #ffb3c0 0%, #ff2a4a 45%, #9a0a24 100%);
+  box-shadow: 0 0 0 1px #ffe066;
+}
+
+.p2-altin {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--qt-f-baslik, inherit);
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+.p2-plaka--yakut .p2-altin {
+  color: #ffd23a;
+  background: linear-gradient(180deg, #ffffff 0%, #fff6b0 24%, #ffe04a 46%, #ffc21a 60%, #ffe066 78%, #fffbe0 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 0.5px #5a2400;
+  paint-order: stroke fill;
+  filter: drop-shadow(0 1px 0 #3a0010) drop-shadow(0 0 5px rgba(255, 200, 60, 0.65));
+}
+.p2-plaka--kulce .p2-altin {
+  color: #5a1a00;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.85), 0 -1px 0 rgba(120, 50, 0, 0.35);
+}
+
+/* Parıltı: plakanın üstünden geçen ışık şeridi (yalnız transform) */
+.p2-plaka--oynar::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  top: -30%;
+  bottom: -30%;
+  left: 0;
+  width: 38%;
+  pointer-events: none;
+  background: linear-gradient(100deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0) 100%);
+  transform: translateX(-120%) skewX(-18deg);
+  animation: p2-plaka-parla 3.6s ease-in-out 0.6s infinite;
+}
+.p2-plaka--kulce.p2-plaka--oynar::after { background: linear-gradient(100deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.95) 50%, rgba(255, 255, 255, 0) 100%); }
+@keyframes p2-plaka-parla {
+  0%, 50% { transform: translateX(-120%) skewX(-18deg); }
+  82%, 100% { transform: translateX(320%) skewX(-18deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .p2-plaka--oynar::after { animation: none; opacity: 0; }
+}
+/* Dar yerlerde (maç sonu, lig tablosu) uç süsleri düşer, ad en az ~3 harf */
+.msk-isim .p2-plaka-uc, .lg-ad .p2-plaka-uc { display: none; }
+.msk-isim:has(.p2-plaka) { background: none; box-shadow: none; padding: 0; }
+.msk-isim .p2-altin, .lg-ad .p2-altin { min-width: 2.6em; }

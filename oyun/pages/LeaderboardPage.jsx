@@ -12,6 +12,7 @@ import Bayrak from "../components/Bayrak.jsx";
 import OyuncuKarti from "../components/OyuncuKarti.jsx";
 import { useArkadaslik } from "../lib/arkadaslik.js";
 import AvatarCerceve from "../components/AvatarCerceve.jsx";
+import OyuncuLigAmblemi from "../components/OyuncuLigAmblemi.jsx";
 import IsimEfekti from "../components/IsimEfekti.jsx";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
@@ -262,6 +263,8 @@ export default function LeaderboardPage() {
             <span className="lg-bilgi">
               <span className="lg-ad">
                 <span className="lg-ad-metin"><IsimEfekti userId={s.user_id}>{s.gorunen_ad}</IsimEfekti></span>
+                {/* 560: lig amblemi (satırda lig yoksa oyuncu kartından — avatarla aynı toplu çağrı) */}
+                <OyuncuLigAmblemi lig={s.lig} userId={s.user_id} boyut={16} />
                 {s.bot && (
                   <span className="lg-yapay" title={tt("Yapay rakip")}>
                     <QtIkon ad="robot" boyut={14} etiket={tt("Yapay rakip")} />
@@ -505,6 +508,7 @@ export default function LeaderboardPage() {
                         />
                         <span className="lg-podyum-ad">
                           <span className="lg-ad-metin"><IsimEfekti userId={p.user_id}>{p.gorunen_ad}</IsimEfekti></span>
+                          <OyuncuLigAmblemi lig={p.lig} userId={p.user_id} boyut={16} />
                           {p.bot && (
                             <span className="lg-yapay" title={tt("Yapay rakip")}>
                               <QtIkon ad="robot" boyut={13} etiket={tt("Yapay rakip")} />

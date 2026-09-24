@@ -19,11 +19,12 @@ import { createPortal } from "react-dom";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import CerceveliAvatar from "./CerceveliAvatar.jsx";
 import IsimEfekti from "./IsimEfekti.jsx";
+import OyuncuLigAmblemi from "./OyuncuLigAmblemi.jsx";
 import { kozmetikTemasi } from "../lib/kozmetik.js";
 import { useOyuncuSeviyeleri } from "../lib/oyuncuSeviye.js";
 import { sesVsAni } from "../lib/ses.js";
 import { tt } from "../lib/dil.js";
-import { QtDugme, QtIkon, QtLigRozeti, QtRozet, sinif } from "../tasarim/index.js";
+import { QtDugme, QtIkon, QtRozet, sinif } from "../tasarim/index.js";
 import "../tasarim/ekranlar/a-arama-sahnesi.css";
 
 /** Rakip bulunduktan sonra maça/kapıya geçmeden önce VS anının süresi (ms). */
@@ -58,7 +59,8 @@ export function VsKarti({ profil, kart, taraf = "ben", className, children, vsKa
       </span>
       <span className="ara-kart-rozetler">
         {level != null && <QtRozet boyut="k" ton="koyu">{tt("Lv {0}", { 0: level })}</QtRozet>}
-        {lig && <QtLigRozeti lig={lig} boyut="k" />}
+        {/* 560: lig amblemi (önizlemedeki gibi, isim yanında; lig adı erişilebilir adında) */}
+        {lig && <OyuncuLigAmblemi lig={lig} boyut={24} />}
       </span>
       {children}
     </div>

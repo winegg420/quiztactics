@@ -44,6 +44,8 @@
   background: #1d2152;
   -webkit-mask-image: -webkit-radial-gradient(white, black);   /* Safari: yuvarlak kırpma + transform */
 }
+/* Oyun: başka çerçevenin içinde yalnız aura (halkasız) — iç daire kutunun tamamı */
+.pc--halkasiz > .pc-ic { left: 0; top: 0; width: 100%; height: 100%; }
 .pc-ic > .avatar {
   position: relative;
   z-index: 2;

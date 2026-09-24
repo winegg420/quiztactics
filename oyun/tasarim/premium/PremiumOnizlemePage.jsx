@@ -13,6 +13,11 @@ import PremiumCerceve, { useSeffafAvatar } from "./PremiumCerceve.jsx";
 import { CERCEVELER, CERCEVE_SIRASI } from "./sanatCerceveler.jsx";
 import { AURALAR, AURA_SIRASI } from "./sanatAuralar.jsx";
 import { AltinIsimPlakasi, LIGLER, LIG_ADI, LigAmblemi } from "./ekler.jsx";
+import Cerceve2, { TUR2, TUR2_SIRASI } from "./tur2/Cerceve2.jsx";
+import IsimPlakasi2, { PLAKA2 } from "./tur2/IsimPlakasi2.jsx";
+import ElmasPaketGorseli from "./elmas/ElmasPaketGorseli.jsx";
+import DenemeCerceve from "../cerceveler/deneme/DenemeCerceve.jsx";
+import { elmasPaketleri } from "../../lib/elmas.js";
 import IsimEfekti from "../../components/IsimEfekti.jsx";
 import { QtBosDurum, QtCan, QtDugme, QtIkon, QtIlerleme, QtIskelet, QtKart, QtMacUst, QtRozet } from "../index.js";
 import { SeviyeEtiketi } from "../../components/MacUstSerit.jsx";
@@ -22,6 +27,7 @@ import "../../pages/lig-a.css";
 import "../ekranlar/dukkan-profil.css";
 import "../ekranlar/mac-sonu-kutlama.css";
 import "../ekranlar/a-arama-sahnesi.css";
+import "../ekranlar/dukkan-magaza.css";
 import "./premium-onizleme.css";
 
 // Yerel geliştirme (npm run dev, .env yok): sahip kontrolü atlanır ki sayfa ölçülebilsin.
@@ -45,13 +51,30 @@ const KOMSU = [
   { id: "pp-k2", gorunen_ad: "Kaan", gorunen_avatar: "/avatars/pro/robot-k15.svg", lig: "gumus" },
 ];
 
-/** Kalemler (seçim listesi). */
+// Elmas paketleri: ad/miktar/bonus sunucudan (elmas_paketleri); yerelde (Supabase yok) migration 480'deki değerler.
+const ELMAS_YEDEK = [
+  { urun_id: "elmas_100", ad: "Avuç", elmas: 100, bonus: 0 },
+  { urun_id: "elmas_220", ad: "Kese", elmas: 220, bonus: 22 },
+  { urun_id: "elmas_500", ad: "Sandık", elmas: 500, bonus: 75 },
+  { urun_id: "elmas_1100", ad: "Hazine", elmas: 1100, bonus: 220 },
+  { urun_id: "elmas_2400", ad: "Define", elmas: 2400, bonus: 720 },
+];
+const ELMAS_KOD = ["avuc", "kese", "sandik", "hazine", "define"];
+
+/** Kalemler (seçim listesi). Eski kodlar aynen durur (tarayıcıdaki eski seçimler kaybolmasın). */
 const KALEMLER = [
   ...CERCEVE_SIRASI.map((k) => ({ kod: `cerceve:${k}`, ad: CERCEVELER[k].ad, tur: "Çerçeve" })),
   ...AURA_SIRASI.map((k) => ({ kod: `aura:${k}`, ad: AURALAR[k].ad, tur: "Aura" })),
   { kod: "plaka:altin", ad: "Altın isim plakası", tur: "İsim" },
   { kod: "rozet:lig", ad: "Lig amblemi (isim yanında)", tur: "Rozet" },
+  ...TUR2_SIRASI.map((k) => ({ kod: `cerceve2:${k}`, ad: TUR2[k].ad, tur: "Çerçeve 2. tur" })),
+  ...Object.keys(PLAKA2).map((k) => ({ kod: `plaka2:${k}`, ad: PLAKA2[k].ad, tur: "İsim 2. tur" })),
+  ...ELMAS_YEDEK.map((p, i) => ({ kod: `elmas:${ELMAS_KOD[i]}`, ad: `${p.ad} (yeni görsel)`, tur: "Elmas paketi" })),
 ];
+/** Oyuna alınan kalemler (Ajan A taşıdı) — katalogda "Oyunda" rozeti. */
+const OYUNDA = new Set(["cerceve:sonbahar", "cerceve:galaksi", "cerceve:sakura", "aura:yaprak", "aura:kar", "aura:kor",
+  "aura:gece", "aura:kuzey", "aura:sualti", "rozet:lig"]);
+const OyundaRozeti = ({ kod }) => (OYUNDA.has(kod) ? <QtRozet ton="dogru" boyut="k" className="pp-oyunda">{tt("Oyunda")}</QtRozet> : null);
 
 function secimOku() {
   try { return JSON.parse(localStorage.getItem(SAKLA) || "{}") || {}; } catch { return {}; }
@@ -64,6 +87,18 @@ function secimYaz(v) {
 function PremiumAvatar({ profil, boyut, hareketli = false, cerceve, aura }) {
   const url = profil?.gorunen_avatar ?? null;
   const seffaf = useSeffafAvatar(url, Boolean(aura));
+  const t2 = cerceve?.startsWith("t2:") ? cerceve.slice(3) : null;
+  if (t2) {
+    return (
+      <Cerceve2 tur={t2} aura={aura} boyut={boyut} hareketli={hareketli}
+                etiket={[`${TUR2[t2].ad} (2. tur)`, aura && AURALAR[aura]?.ad].filter(Boolean).join(" · ")}>
+        <Avatar profile={{ ...profil, gorunen_avatar: seffaf }} boyut={boyut} />
+      </Cerceve2>
+    );
+  }
+  if (cerceve === "cizgi") {
+    return <DenemeCerceve tarz="cizgi" boyut={boyut} hareketli={hareketli} etiket="Altın Lig (oyundaki Çizgi)"><Avatar profile={profil} boyut={boyut} /></DenemeCerceve>;
+  }
   return (
     <PremiumCerceve cerceve={cerceve} aura={aura} boyut={boyut} hareketli={hareketli}
                     etiket={[cerceve && CERCEVELER[cerceve]?.ad, aura && AURALAR[aura]?.ad].filter(Boolean).join(" · ") || undefined}>
@@ -72,11 +107,14 @@ function PremiumAvatar({ profil, boyut, hareketli = false, cerceve, aura }) {
   );
 }
 
-/** Ad + (seçiliyse) altın plaka + lig amblemi. */
+/** Ad + (seçiliyse) altın plaka (true = önceki, "yakut"/"kulce" = 2. tur) + lig amblemi. */
 function Ad({ ad, lig, plaka, amblem = true, boyut = "o", hareketli = true, amblemBoyut = 20 }) {
+  const plakaDugum = !plaka ? <span className="pp-ad-metin">{ad}</span>
+    : PLAKA2[plaka] ? <IsimPlakasi2 tur={plaka} boyut={boyut} hareketli={hareketli}>{ad}</IsimPlakasi2>
+      : <AltinIsimPlakasi boyut={boyut} hareketli={hareketli}>{ad}</AltinIsimPlakasi>;
   return (
     <span className="pp-ad">
-      {plaka ? <AltinIsimPlakasi boyut={boyut} hareketli={hareketli}>{ad}</AltinIsimPlakasi> : <span className="pp-ad-metin">{ad}</span>}
+      {plakaDugum}
       {amblem && <LigAmblemi lig={lig} boyut={amblemBoyut} />}
     </span>
   );
@@ -216,13 +254,60 @@ function SecimDugmeleri({ kod, secimler, onSec }) {
   );
 }
 
+/** Dükkân › Elmas kartının aynısı (sınıflar gerçek); gorsel = şimdiki ikon dizisi ya da yeni çizim. */
+function ElmasKarti({ p, i, son, yeni }) {
+  const elmas = Number(p.elmas) || 0;
+  const bonus = Number(p.bonus) > 0 ? Number(p.bonus) : 0;
+  const bonusYuzde = bonus > 0 && elmas > 0 ? Math.round((bonus / elmas) * 100) : 0;
+  const enIyi = i === son;
+  return (
+    <QtKart dolgu="k" className={"qt-dk-coin qt-dk-coin--elmas" + (enIyi ? " qt-dk-coin--eniyi" : "")}>
+      {enIyi && <span className="qt-dk-coin-eniyi">{tt("En iyi değer")}</span>}
+      {bonusYuzde > 0 && <QtRozet ton="dogru" boyut="k" className="qt-dk-coin-bonus">{tt("+%{n} bonus", { n: bonusYuzde })}</QtRozet>}
+      {yeni ? (
+        <span className="qt-dk-coin-gorsel pp-elmas-gorsel" aria-hidden="true"><ElmasPaketGorseli seviye={i + 1} /></span>
+      ) : (
+        <span className="qt-dk-coin-gorsel qt-dk-elmas-gorsel" data-seviye={i + 1} aria-hidden="true">
+          {Array.from({ length: Math.min(i + 1, 5) }, (_, k) => <QtIkon key={k} ad="elmas" boyut={i === 0 ? 40 : 28} />)}
+        </span>
+      )}
+      <b className="qt-dk-coin-miktar qt-sayi">{elmas.toLocaleString("tr-TR")}</b>
+      {bonus > 0 && <span className="qt-kucuk qt-dk-coin-ek">{tt("+{n} bonus elmas", { n: bonus.toLocaleString("tr-TR") })}</span>}
+      <span className="qt-kucuk qt-soluk qt-dk-coin-ad">{tt(p.ad)}</span>
+      <QtDugme boyut="k" tamGenislik devreDisi>{tt("Yakında")}</QtDugme>
+    </QtKart>
+  );
+}
+
+/** Ölçüm düzeni: ?olcum=ejderha,alev (yeni) ya da eski:ejderha — yalnız istenen çerçeveler, 120 px, hareketli. */
+function OlcumSahnesi({ liste, avatar }) {
+  return (
+    <div className="pp-olcum">
+      {liste.map((k, i) => {
+        const eski = k.startsWith("eski:");
+        const ad = eski ? k.slice(5) : k;
+        return (
+          <span key={`${k}${i}`} className="pp-olcum-kutu" data-olcum={k}>
+            <PremiumAvatar profil={{ id: `pp-o-${i}`, gorunen_ad: "Deniz", gorunen_avatar: avatar }} boyut={120} hareketli
+                           cerceve={eski ? ad : `t2:${ad}`} aura={null} />
+          </span>
+        );
+      })}
+    </div>
+  );
+}
+
 function Cip({ secili, onClick, children }) {
   return <button type="button" className={`pp-cip${secili ? " pp-cip--secili" : ""}`} aria-pressed={secili} onClick={onClick}>{children}</button>;
 }
 
 export default function PremiumOnizlemePage() {
   const [durum, setDurum] = useState(YEREL ? "hazir" : "yukleniyor");
-  const [s, setS] = useState({ cerceve: "ejderha", aura: "gece", avatar: "/avatars/pro2/samuray-y15.svg", lig: "altin", plaka: true });
+  const [s, setS] = useState({ cerceve: "t2:ejderha", aura: "gece", avatar: "/avatars/pro2/samuray-y15.svg", lig: "altin", plaka: "yakut" });
+  const [elmasPaket, setElmasPaket] = useState(ELMAS_YEDEK);
+  const olcum = useMemo(() => {
+    try { return new URLSearchParams(window.location.search).get("olcum")?.split(",").filter(Boolean) ?? null; } catch { return null; }
+  }, []);
   const [secimler, setSecimler] = useState(secimOku);
   const [kopyaNot, setKopyaNot] = useState("");
   const [kopyaMetni, setKopyaMetni] = useState("");
@@ -242,6 +327,15 @@ export default function PremiumOnizlemePage() {
     }
   }, []);
   useEffect(() => { yukle(); }, [yukle]);
+
+  // Elmas paketi adları/miktarları sunucudan (oturum yoksa ya da yerelde migration 480 değerleri kalır)
+  useEffect(() => {
+    if (durum !== "hazir" || !supabaseHazir) return undefined;
+    let aktif = true;
+    elmasPaketleri().then((liste) => { if (aktif && Array.isArray(liste) && liste.length) setElmasPaket(liste); })
+      .catch(() => { /* elmasPaketleri hatayı zaten günlüğe yazar; yedek değerler kalır */ });
+    return () => { aktif = false; };
+  }, [durum]);
 
   const sec = useCallback((kod, deger) => {
     setSecimler((eski) => {
@@ -291,6 +385,8 @@ export default function PremiumOnizlemePage() {
   }
 
   const benDeneme = { id: "pp-ben", gorunen_ad: "Deniz", gorunen_avatar: s.avatar };
+  if (olcum) return <OlcumSahnesi liste={olcum} avatar={s.avatar} />;
+  const denemeyeGit = (degisim) => { setS({ ...s, ...degisim }); document.getElementById("pp-deneme")?.scrollIntoView({ behavior: "smooth" }); };
 
   return (
     <div className="qt-sayfa pp-sayfa">
@@ -298,7 +394,83 @@ export default function PremiumOnizlemePage() {
         <header className="pp-giris">
           <h1 className="qt-baslik-1">{tt("Premium önizleme")}</h1>
           <p className="qt-govde pp-ozet">{tt("8 hareketli çerçeve, 6 iç arka plan aurası, altın isim plakası ve lig amblemi — gerçek avatarlar ve oyunun gerçek ekranlarıyla. Oyunda hiçbir şey değişmedi; seçimlerin yalnız bu tarayıcıda durur.")}</p>
+          <p className="qt-govde pp-ozet"><b>{tt("2. tur:")}</b> {tt("beğenilmeyenler (Ejderha, Sönmeyen Alev, Buz Kristali, Şimşek, Kraliyet, altın plaka, Altın Lig çerçevesi) gerçek zamanlı ışık efektleriyle yeniden yapıldı; her birinin yanında önceki hâli durur. Dükkândaki 5 elmas paketinin yeni görselleri en altta.")}</p>
+          <nav className="pp-atla" aria-label={tt("Bölümler")}>
+            <a href="#pp-tur2">{tt("2. tur")}</a><a href="#pp-deneme">{tt("Deneme alanı")}</a><a href="#pp-yerler">{tt("Gerçek yerler")}</a>
+            <a href="#pp-cerceveler">{tt("1. tur katalog")}</a><a href="#pp-elmas">{tt("Elmas paketleri")}</a><a href="#pp-secimler">{tt("Seçimlerim")}</a>
+          </nav>
         </header>
+
+        {/* ---------------- 2. tur ---------------- */}
+        <section className="pp-bolum" aria-labelledby="pp-tur2">
+          <h2 id="pp-tur2" className="qt-baslik-2">{tt("2. tur — yeniden yapılanlar")} <span className="pp-px">6 + {tt("plaka")}</span></h2>
+          <p className="qt-kucuk qt-soluk">{tt("Efektler artık WebGL gölgelendiricisiyle gerçek zamanlı çiziliyor: gürültü tabanlı ateş ve duman, plazma ve dallı yıldırım, kristalde kırılan ışık, altında ortam yansıması; kıvılcım ve toz parçacıkları. Tüm çerçeveler tek WebGL bağlamını paylaşır; ekran dışında, sekme gizliyken ve hareketi azalt açıkken durur. 48 px ve altı sade ve durağan. Solda önceki, sağda yeni.")}</p>
+          <div className="pp-katalog pp-katalog--tur2">
+            {TUR2_SIRASI.map((k) => (
+              <QtKart key={k} className="pp-kalem pp-kalem--tur2">
+                <div className="pp-kiyas">
+                  <figure className="pp-kiyas-kutu">
+                    <figcaption className="pp-kiyas-etiket">{k === "altinlig" ? tt("Şimdiki (oyunda · Çizgi)") : tt("Önceki")}</figcaption>
+                    <div className="pp-kalem-sahne pp-kalem-sahne--kiyas">
+                      <PremiumAvatar profil={{ id: `pp-e-${k}`, gorunen_ad: "Deniz", gorunen_avatar: s.avatar }} boyut={112} hareketli
+                                     cerceve={k === "altinlig" ? "cizgi" : TUR2[k].eski} aura={null} />
+                    </div>
+                  </figure>
+                  <figure className="pp-kiyas-kutu">
+                    <figcaption className="pp-kiyas-etiket pp-kiyas-etiket--yeni">{tt("Yeni")}</figcaption>
+                    <div className="pp-kalem-sahne pp-kalem-sahne--kiyas">
+                      <PremiumAvatar profil={{ id: `pp-y-${k}`, gorunen_ad: "Deniz", gorunen_avatar: s.avatar }} boyut={112} hareketli
+                                     cerceve={`t2:${k}`} aura={null} />
+                    </div>
+                  </figure>
+                </div>
+                <div className="pp-kalem-kucukler">
+                  {[64, 48, 40, 28].map((b) => <span key={b} className="pp-boy"><PremiumAvatar profil={benDeneme} boyut={b} cerceve={`t2:${k}`} aura={null} /><span className="pp-px">{b}</span></span>)}
+                </div>
+                <h3 className="qt-baslik-3">{tt(TUR2[k].ad)}</h3>
+                <p className="qt-kucuk qt-soluk">{tt(TUR2[k].aciklama)}</p>
+                <div className="pp-kalem-alt">
+                  <QtDugme boyut="k" tur="hayalet" onClick={() => denemeyeGit({ cerceve: `t2:${k}` })}>{tt("Denemede gör")}</QtDugme>
+                  <SecimDugmeleri kod={`cerceve2:${k}`} secimler={secimler} onSec={sec} />
+                </div>
+              </QtKart>
+            ))}
+            <QtKart className="pp-kalem pp-kalem--tur2">
+              <h3 className="qt-baslik-3">{tt("Altın isim plakası — 2. tur")}</h3>
+              <div className="pp-karsilastir">
+                <div className="pp-karsilastir-kutu pp-acik">
+                  <span className="pp-karsilastir-etiket">{tt("Önceki")}</span>
+                  <AltinIsimPlakasi boyut="b">Deniz</AltinIsimPlakasi>
+                </div>
+                <div className="pp-karsilastir-kutu qt-sahne-mac">
+                  <span className="pp-karsilastir-etiket">{tt("Önceki · koyu zemin")}</span>
+                  <AltinIsimPlakasi boyut="b">Deniz</AltinIsimPlakasi>
+                </div>
+                {Object.keys(PLAKA2).map((k) => [
+                  <div key={`${k}a`} className="pp-karsilastir-kutu pp-acik">
+                    <span className="pp-karsilastir-etiket pp-kiyas-etiket--yeni">{tt("Yeni")} · {tt(PLAKA2[k].ad)}</span>
+                    <IsimPlakasi2 tur={k} boyut="b">Deniz</IsimPlakasi2>
+                    <IsimPlakasi2 tur={k} boyut="k">Kıvılcım_42</IsimPlakasi2>
+                  </div>,
+                  <div key={`${k}k`} className="pp-karsilastir-kutu qt-sahne-mac">
+                    <span className="pp-karsilastir-etiket">{tt("Yeni · koyu zemin")}</span>
+                    <IsimPlakasi2 tur={k} boyut="b">Deniz</IsimPlakasi2>
+                    <IsimPlakasi2 tur={k} boyut="k">Kıvılcım_42</IsimPlakasi2>
+                  </div>,
+                ])}
+              </div>
+              {Object.keys(PLAKA2).map((k) => (
+                <div key={k} className="pp-plaka-karar">
+                  <p className="qt-kucuk"><b>{tt(PLAKA2[k].ad)}:</b> <span className="qt-soluk">{tt(PLAKA2[k].aciklama)}</span></p>
+                  <div className="pp-kalem-alt">
+                    <QtDugme boyut="k" tur="hayalet" onClick={() => denemeyeGit({ plaka: k })}>{tt("Denemede gör")}</QtDugme>
+                    <SecimDugmeleri kod={`plaka2:${k}`} secimler={secimler} onSec={sec} />
+                  </div>
+                </div>
+              ))}
+            </QtKart>
+          </div>
+        </section>
 
         {/* ---------------- Deneme alanı ---------------- */}
         <section className="pp-bolum" aria-labelledby="pp-deneme">
@@ -320,10 +492,17 @@ export default function PremiumOnizlemePage() {
             </div>
             <div className="pp-kontrol">
               <div className="pp-kontrol-sira">
-                <span className="pp-etiket">{tt("Çerçeve")}</span>
+                <span className="pp-etiket">{tt("Çerçeve — 2. tur")}</span>
+                <div className="pp-cipler">
+                  {TUR2_SIRASI.map((k) => <Cip key={k} secili={s.cerceve === `t2:${k}`} onClick={() => setS({ ...s, cerceve: `t2:${k}` })}>{tt(TUR2[k].ad)}</Cip>)}
+                </div>
+              </div>
+              <div className="pp-kontrol-sira">
+                <span className="pp-etiket">{tt("Çerçeve — 1. tur")}</span>
                 <div className="pp-cipler">
                   <Cip secili={!s.cerceve} onClick={() => setS({ ...s, cerceve: null })}>{tt("Yok")}</Cip>
                   {CERCEVE_SIRASI.map((k) => <Cip key={k} secili={s.cerceve === k} onClick={() => setS({ ...s, cerceve: k })}>{tt(CERCEVELER[k].ad)}</Cip>)}
+                  <Cip secili={s.cerceve === "cizgi"} onClick={() => setS({ ...s, cerceve: "cizgi" })}>{tt("Altın Lig (oyundaki)")}</Cip>
                 </div>
               </div>
               <div className="pp-kontrol-sira">
@@ -337,7 +516,14 @@ export default function PremiumOnizlemePage() {
                 <span className="pp-etiket">{tt("Lig")}</span>
                 <div className="pp-cipler">
                   {LIGLER.map((l) => <Cip key={l} secili={s.lig === l} onClick={() => setS({ ...s, lig: l })}><LigAmblemi lig={l} boyut={18} /> {tt(LIG_ADI[l])}</Cip>)}
-                  <Cip secili={s.plaka} onClick={() => setS({ ...s, plaka: !s.plaka })}>{tt("Altın plaka")}</Cip>
+                </div>
+              </div>
+              <div className="pp-kontrol-sira">
+                <span className="pp-etiket">{tt("İsim plakası")}</span>
+                <div className="pp-cipler">
+                  <Cip secili={!s.plaka} onClick={() => setS({ ...s, plaka: false })}>{tt("Yok")}</Cip>
+                  <Cip secili={s.plaka === true} onClick={() => setS({ ...s, plaka: true })}>{tt("Önceki")}</Cip>
+                  {Object.keys(PLAKA2).map((k) => <Cip key={k} secili={s.plaka === k} onClick={() => setS({ ...s, plaka: k })}>{tt(k === "yakut" ? "Yeni · yakut" : "Yeni · külçe")}</Cip>)}
                 </div>
               </div>
               <div className="pp-kontrol-sira">
@@ -364,7 +550,7 @@ export default function PremiumOnizlemePage() {
 
         {/* ---------------- Katalog ---------------- */}
         <section className="pp-bolum" aria-labelledby="pp-cerceveler">
-          <h2 id="pp-cerceveler" className="qt-baslik-2">{tt("Çerçeveler")} <span className="pp-px">8</span></h2>
+          <h2 id="pp-cerceveler" className="qt-baslik-2">{tt("Çerçeveler — 1. tur")} <span className="pp-px">8</span></h2>
           <div className="pp-katalog">
             {CERCEVE_SIRASI.map((k) => (
               <QtKart key={k} className="pp-kalem">
@@ -374,7 +560,7 @@ export default function PremiumOnizlemePage() {
                 <div className="pp-kalem-kucukler">
                   {[48, 40, 28].map((b) => <span key={b} className="pp-boy"><PremiumAvatar profil={benDeneme} boyut={b} cerceve={k} aura={null} /><span className="pp-px">{b}</span></span>)}
                 </div>
-                <h3 className="qt-baslik-3">{tt(CERCEVELER[k].ad)}</h3>
+                <h3 className="qt-baslik-3 pp-kalem-baslik">{tt(CERCEVELER[k].ad)} <OyundaRozeti kod={`cerceve:${k}`} /></h3>
                 <p className="qt-kucuk qt-soluk">{tt(CERCEVELER[k].aciklama)}</p>
                 <div className="pp-kalem-alt">
                   <QtDugme boyut="k" tur="hayalet" onClick={() => { setS({ ...s, cerceve: k }); document.getElementById("pp-deneme")?.scrollIntoView({ behavior: "smooth" }); }}>{tt("Denemede gör")}</QtDugme>
@@ -397,7 +583,7 @@ export default function PremiumOnizlemePage() {
                 <div className="pp-kalem-kucukler">
                   {[64, 48, 40].map((b) => <span key={b} className="pp-boy"><PremiumAvatar profil={benDeneme} boyut={b} cerceve={null} aura={k} /><span className="pp-px">{b}</span></span>)}
                 </div>
-                <h3 className="qt-baslik-3">{tt(AURALAR[k].ad)}</h3>
+                <h3 className="qt-baslik-3 pp-kalem-baslik">{tt(AURALAR[k].ad)} <OyundaRozeti kod={`aura:${k}`} /></h3>
                 <p className="qt-kucuk qt-soluk">{tt(AURALAR[k].aciklama)}</p>
                 <div className="pp-kalem-alt">
                   <QtDugme boyut="k" tur="hayalet" onClick={() => { setS({ ...s, aura: k }); document.getElementById("pp-deneme")?.scrollIntoView({ behavior: "smooth" }); }}>{tt("Denemede gör")}</QtDugme>
@@ -436,7 +622,7 @@ export default function PremiumOnizlemePage() {
               <SecimDugmeleri kod="plaka:altin" secimler={secimler} onSec={sec} />
             </QtKart>
             <QtKart className="pp-kalem">
-              <h3 className="qt-baslik-3">{tt("Lig amblemi")}</h3>
+              <h3 className="qt-baslik-3 pp-kalem-baslik">{tt("Lig amblemi")} <OyundaRozeti kod="rozet:lig" /></h3>
               <div className="pp-amblemler">
                 {LIGLER.map((l) => (
                   <span key={l} className="pp-amblem-kutu">
@@ -450,6 +636,25 @@ export default function PremiumOnizlemePage() {
               <SecimDugmeleri kod="rozet:lig" secimler={secimler} onSec={sec} />
             </QtKart>
           </div>
+        </section>
+
+        {/* ---------------- Elmas paketleri ---------------- */}
+        <section className="pp-bolum" aria-labelledby="pp-elmas">
+          <h2 id="pp-elmas" className="qt-baslik-2">{tt("Elmas paketleri — Dükkân görselleri")} <span className="pp-px">5</span></h2>
+          <p className="qt-kucuk qt-soluk">{tt("Dükkân › Elmas sekmesindeki kartların aynısı. Üstte şimdiki (oyunda), altta yeni çizim — avatarlarla aynı dil. Dükkân değişmedi; onaylanan görsel sonra tek satırla bağlanır. Adlar ve miktarlar sunucudaki paketlerden.")}</p>
+          <h3 className="qt-baslik-3">{tt("Şimdiki")}</h3>
+          <ul className="qt-dk-coin-izgara pp-elmas-izgara">
+            {elmasPaket.map((p, i) => <li key={p.urun_id}><ElmasKarti p={p} i={i} son={elmasPaket.length - 1} /></li>)}
+          </ul>
+          <h3 className="qt-baslik-3">{tt("Yeni")}</h3>
+          <ul className="qt-dk-coin-izgara pp-elmas-izgara">
+            {elmasPaket.map((p, i) => (
+              <li key={p.urun_id} className="pp-elmas-li">
+                <ElmasKarti p={p} i={i} son={elmasPaket.length - 1} yeni />
+                <SecimDugmeleri kod={`elmas:${ELMAS_KOD[i] ?? p.urun_id}`} secimler={secimler} onSec={sec} />
+              </li>
+            ))}
+          </ul>
         </section>
 
         {/* ---------------- Seçimler ---------------- */}

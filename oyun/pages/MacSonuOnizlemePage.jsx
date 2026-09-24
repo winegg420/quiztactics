@@ -30,6 +30,13 @@ const ZAFER_ONIZLEME = (() => {
 const ARAMA = (() => { try { return new URLSearchParams(window.location.search); } catch { return new URLSearchParams(); } })();
 const CERCEVE_ONIZLEME = ARAMA.get("cerceve");
 if (ARAMA.get("tarz")) cerceveTarziAyarla(ARAMA.get("tarz"));
+// 560: ?pcerceve=pc_galaksi · ?paura=pa_gece → "ben" tarafında premium çerçeve/aura (sunucusuz ölçüm) ·
+// ?lig=altin → lig amblemi (varsayılan altın; rakip gümüş).
+const PREMIUM_BEN = {
+  ...(ARAMA.get("pcerceve") ? { premiumCerceve: ARAMA.get("pcerceve") } : {}),
+  ...(ARAMA.get("paura") ? { premiumAura: ARAMA.get("paura") } : {}),
+};
+const LIG_BEN = ARAMA.get("lig") || "altin";
 const profil = (id, ad, dosya) => ({ id, gorunen_ad: ad, gorunen_avatar: `/avatars/pro/${dosya}.svg` });
 const BEN = profil("onizleme-ben", "Deniz", "astronot-k17");
 const RAKIP = profil("onizleme-rakip", "Mert", "baykus-k03");
@@ -173,7 +180,8 @@ export default function MacSonuOnizlemePage() {
       <MacSonuKutlama
         key={`${hal.kod}-${oynatma}`}
         {...hal.veri}
-        {...(CERCEVE_ONIZLEME ? { ben: { ...hal.veri.ben, cerceve: CERCEVE_ONIZLEME } } : {})}
+        ben={{ ...hal.veri.ben, lig: LIG_BEN, ...(CERCEVE_ONIZLEME ? { cerceve: CERCEVE_ONIZLEME } : {}), ...PREMIUM_BEN }}
+        rakip={{ ...hal.veri.rakip, lig: "gumus" }}
         coinHedefSecici="[data-ms-coin-hedef]"
         onCoinVaris={onCoinVaris}
         eylemler={eylemler}

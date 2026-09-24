@@ -60,3 +60,16 @@ Bu ortamdan Ida'nın canlıdaki seçimleri okunamadı. Migration listeyi koda g�
 1. `npx supabase db push` → günlükte `550 aktif …` satırları.
 2. `node araclar/oyuncu-testi.mjs --adres=https://quiztactics.vercel.app` (Klasik + Antrenman).
 3. Antrenman'da tepki gönder; başka hesapla `tepki-mac-<o maç id>` özel kanalına katılmayı dene → reddedilmeli.
+
+## Premium kozmetik — migration 560 (24 Eyl 2026, dal `bulut/premium-aktivasyon`, UYGULANMADI)
+
+Ida'nın `/premium-onizleme`'de onayladığı 9 kalem + lig amblemi oyuna alındı.
+
+| Anahtar | Tür | Test fiyatı |
+|---|---|---|
+| `pc_sonbahar`, `pc_galaksi`, `pc_sakura` | premium_cerceve | 500 elmas (`elmas_premium_cerceve`) |
+| `pa_yaprak`, `pa_kar`, `pa_kor`, `pa_gece`, `pa_kuzey`, `pa_sualti` | premium_aura (iç zemin) | 300 elmas (`elmas_premium_aura`) |
+
+- `onay = 'girsin'`, `kozmetik_satis_acik` kuralına uyar; `profiles.takili_premium_cerceve / takili_premium_aura`;
+  `oyuncu_kartlari` + `lig_grubum_ozet` yeni alanlar; gizli bot null; sahip test modu; `kozmetik_ver` (istemciye kapalı).
+- Yerel Postgres'te iki kez uygulandı; normal/sahip/bot/satın alma/tak senaryoları geçti. Uygulama: `npx supabase db push`.

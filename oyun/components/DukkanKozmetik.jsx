@@ -29,6 +29,10 @@ const ZaferEfekti = lazy(() => import("./ZaferEfekti.jsx"));
 
 /** Dükkân sekmelerinin kodu → kozmetik türü (sıra Ida'nın istediği: Aura · Avatar · VS · İsim · Zafer · Tepki). */
 export const KOZMETIK_SEKMELERI = [
+  // 560: premium — hareketli çerçeve + avatarın iç arka planı (aura). Kod "pcerceve"/"paura": eski dükkân
+  // "aura" sekmesiyle (481, pasif auralar) karışmasın.
+  { kod: "pcerceve", tur: "premium_cerceve", ad: "Çerçeve", ikon: "yildiz" },
+  { kod: "paura", tur: "premium_aura", ad: "Aura", ikon: "gunes" },
   { kod: "avatar", ad: "Avatar", ikon: "kisi" },
   { kod: "vs", tur: "vs_karti", ad: "VS Kartı", ikon: "duello" },
   { kod: "isim", tur: "isim_efekti", ad: "İsim Efekti", ikon: "kalem" },
@@ -75,6 +79,17 @@ export const kozmetikAdi = (x) => x?.ad ?? tt(KOZMETIK_TANIMLARI[x?.anahtar]?.ad
 
 /** Izgaradaki küçük görsel (64 px kutu). */
 export function KozmetikSimge({ kalem, profile, boyut = 64 }) {
+  // 560: premium — kendi avatarınla, yalnız o kalem (ızgarada durağan; süsler komşuya taşmasın diye küçük)
+  if (kalem.tur === "premium_cerceve" || kalem.tur === "premium_aura") {
+    const b = Math.min(boyut, 56) - 8;
+    return (
+      <span className="qt-kz-premium-simge" style={{ width: boyut, height: boyut }} aria-hidden="true">
+        <CerceveliAvatar profile={profile ?? {}} boyut={b} cerceve={null} aura={null}
+                         premiumCerceve={kalem.tur === "premium_cerceve" ? kalem.anahtar : null}
+                         premiumAura={kalem.tur === "premium_aura" ? kalem.anahtar : null} />
+      </span>
+    );
+  }
   const tema = kozmetikTemasi(kalem.anahtar);
   if (kalem.tur === "vs_karti") {
     return <span className="qt-kz-vs-simge qt-vs" data-vs={tema} style={{ width: boyut, height: boyut }} aria-hidden="true" />;
@@ -100,6 +115,16 @@ export function KozmetikSimge({ kalem, profile, boyut = 64 }) {
 export function KozmetikBuyukOnizleme({ kalem, profile, userId }) {
   const [tekrar, setTekrar] = useState(0);
   const ad = profile?.gorunen_ad || tt("Oyuncu");
+  if (kalem.tur === "premium_cerceve" || kalem.tur === "premium_aura") {
+    // 560: gerçek PremiumCerceve (tembel) — profil boyutunda, hareketli (önizlemedeki gibi)
+    return (
+      <span className="qt-kz-premium-onizleme">
+        <CerceveliAvatar profile={profile ?? {}} userId={userId} boyut={128} hareketli cerceve={null} aura={null}
+                         premiumCerceve={kalem.tur === "premium_cerceve" ? kalem.anahtar : null}
+                         premiumAura={kalem.tur === "premium_aura" ? kalem.anahtar : null} />
+      </span>
+    );
+  }
   if (kalem.tur === "vs_karti") {
     return <VsKarti profil={{ ...(profile ?? {}), id: userId }} kart={undefined} taraf="ben" vsKarti={kalem.anahtar} className="qt-kz-vs" />;
   }
@@ -242,6 +267,8 @@ const ACIKLAMA = {
   isim_efekti: "Lig tablosunda, maç şeridinde, maç sonunda ve profilinde adının görünümü.",
   zafer_efekti: "Kazandığında maç sonu sahnesine eklenir. Rakibin de görür.",
   tepki_paketi: "Maçta rakibine gönderebileceğin 4 yeni tepki. Paket takılmaz, alınca maçta hazır.",
+  premium_cerceve: "Hareketli çerçeve: profilinde, ana sayfada, VS anında ve maç sonunda canlanır; listelerde sade durur. Rakibin de görür.",
+  premium_aura: "Avatarının iç arka planı: düz zeminin yerine hareketli sahne. Maçta, lig tablosunda ve profilinde herkes görür.",
 };
 
 /** Dükkân › Avatar — Ajan A'nın kataloğu (avatar_katalogu_oyun / avatar_satin_al / avatar_onayla). */

@@ -12,6 +12,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
 import AvatarCerceve from "./AvatarCerceve.jsx";
+import OyuncuLigAmblemi from "./OyuncuLigAmblemi.jsx";
 import IsimEfekti, { useKartAlani } from "./IsimEfekti.jsx";
 import { kozmetikTemasi } from "../lib/kozmetik.js";
 import VitrinRozetleri from "./VitrinRozetleri.jsx";
@@ -148,6 +149,8 @@ export default function OyuncuKarti({
         </span>
         <p className="ok-ad">
           <span className="ok-ad-metin"><IsimEfekti userId={userId}>{p?.gorunen_ad ?? (yukleniyor ? "…" : tt("Oyuncu"))}</IsimEfekti></span>
+          {/* 560: lig amblemi isim yanında (kart verisinden; toplu + önbellekli) */}
+          {userId && <OyuncuLigAmblemi userId={userId} lig={p?.lig} boyut={22} />}
           {/* Yalnız açık bot (adında "Bot" geçen) işaretlenir; gizli bot asla (bkz. ALANLAR) */}
           {(p?.acik_bot ?? p?.is_bot) && (
             <span className="ok-yapay" title={tt("Yapay rakip")}>

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import AvatarCerceve from "../components/AvatarCerceve.jsx";
+import OyuncuLigAmblemi from "../components/OyuncuLigAmblemi.jsx";
 import { y } from "../lib/yol.js";
 import DavetKarti from "../components/DavetKarti.jsx";
 import { facebookArkadasOnerileri, facebookDavetAc } from "../lib/facebookArkadas.js";
@@ -437,7 +438,11 @@ export default function FriendsPage() {
                     >
                       <AvatarCerceve profile={p} boyut={44} />
                       <span className="ar-bilgi">
-                        <span className="ls-ad">{p?.gorunen_ad}</span>
+                        {/* 560: lig amblemi isim yanında (oyuncu kartından; toplu + önbellekli) */}
+                        <span className="qt-ad-amblem">
+                          <span className="ls-ad">{p?.gorunen_ad}</span>
+                          {p?.id && <OyuncuLigAmblemi userId={p.id} lig={p?.lig} boyut={16} />}
+                        </span>
                         <span className="ar-detay">
                           <QtIkon ad="yildiz" boyut={14} /> {tt("{n} puan", { n: sayiBicim(p?.puan ?? 0) })}
                         </span>

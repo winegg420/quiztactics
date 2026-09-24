@@ -94,3 +94,8 @@
 /* Koleksiyon kalemleri (qt-cs-oge içinde) */
 .qt-ks-kozmetik .qt-kz-vs-simge { width: 56px !important; height: 56px !important; }
 .qt-ks-yok { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; background: var(--qt-yuzey-2); color: var(--qt-metin-soluk); box-shadow: inset 0 0 0 2px var(--qt-cizgi); }
+
+/* 560: premium çerçeve / aura — ızgarada kendi avatarınla (durağan), büyük önizlemede hareketli.
+   Süsler kutunun %35'i kadar taşar → büyük önizlemede üst/alt pay. */
+.qt-kz-premium-simge { display: grid; place-items: center; }
+.qt-kz-premium-onizleme { display: grid; place-items: center; padding: 48px 0 28px; overflow: visible; }

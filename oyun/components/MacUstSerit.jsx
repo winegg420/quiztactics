@@ -8,6 +8,8 @@
 import { useEffect, useState } from "react";
 import { QtIkonDugme, QtRozet } from "../tasarim/index.js";
 import CerceveliAvatar from "./CerceveliAvatar.jsx";
+import OyuncuLigAmblemi from "./OyuncuLigAmblemi.jsx";
+import { LIGLER } from "../tasarim/premium/ligAmblemi.jsx";
 import { useOyuncuSeviyeleri } from "../lib/oyuncuSeviye.js";
 import { LIG_ADLARI } from "../lib/lig.js";
 import { muzikAcikMi, muzikAyarla, muzikDinle, sesAcikMi, sesAyarla, sesDinle, sesDokunus, sesKilidiAc } from "../lib/ses.js";
@@ -51,13 +53,19 @@ function SesAnahtari() {
   );
 }
 
-/** Oyuncu adının altındaki "Lv n · Lig" satırı (Klasik/Düello şeridi, çok oyunculu şerit). */
+/**
+ * Oyuncu adının altındaki "Lv n · lig" satırı (Klasik/Düello şeridi, çok oyunculu şerit).
+ * 560: lig adı yerine lig amblemi (önizlemedeki gibi) — telefonda nokta/tek harfe inmez, skora binmez;
+ * lig adı amblemin erişilebilir adında. Amblem çizilemezse (bilinmeyen lig) eski ad hapı.
+ */
 export function SeviyeEtiketi({ level, lig }) {
   if (!level && !lig) return null;
+  const bilinen = LIGLER.includes(lig);
   return (
     <span className="mo-seviye">
       {level ? <b className="mo-lv">{tt("Lv {n}", { n: level })}</b> : null}
-      {lig ? <span className={`mo-lig mo-lig--${lig}`}>{LIG_ADLARI[lig] ?? lig}</span> : null}
+      {lig && bilinen ? <OyuncuLigAmblemi lig={lig} boyut={18} className="mo-amblem" /> : null}
+      {lig && !bilinen ? <span className={`mo-lig mo-lig--${lig}`}>{LIG_ADLARI[lig] ?? lig}</span> : null}
     </span>
   );
 }

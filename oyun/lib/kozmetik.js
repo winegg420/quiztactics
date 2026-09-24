@@ -15,10 +15,11 @@ import { supabase } from "../../src/lib/supabase.js";
 import { oyuncuKartiUnut } from "./cerceve.js";
 import { tt } from "./dil.js";
 
-export const KOZMETIK_TURLERI = ["vs_karti", "isim_efekti", "zafer_efekti", "tepki_paketi"];
+export const KOZMETIK_TURLERI = ["vs_karti", "isim_efekti", "zafer_efekti", "tepki_paketi", "premium_cerceve", "premium_aura"];
 export const TUR_ADI = {
   aura: "Aura", avatar: "Avatar", vs_karti: "VS Kartı", isim_efekti: "İsim Efekti",
   zafer_efekti: "Zafer Efekti", tepki_paketi: "Tepki",
+  premium_cerceve: "Çerçeve", premium_aura: "Aura",
 };
 
 /** Kalem görünümü (adlar sunucudan da gelir; bunlar önizleme/yedek). `tema` CSS data-vs / data-ef / data-zafer değeri. */
@@ -42,8 +43,27 @@ export const KOZMETIK_TANIMLARI = {
   zafer_yildiz_yagmuru: { tur: "zafer_efekti", tema: "yildiz-yagmuru", ad: "Yıldız Yağmuru" },
   tepki_eglence: { tur: "tepki_paketi", ad: "Eğlence", tepkiler: ["gulen", "ates", "hedef", "tac"] },
   tepki_rekabet: { tur: "tepki_paketi", ad: "Rekabet", tepkiler: ["kas", "korku", "selam", "rica"] },
+  // 560: premium (hareketli çerçeve + iç arka plan aurası). `sanat` = oyun/tasarim/premium/ anahtarı.
+  pc_sonbahar: { tur: "premium_cerceve", sanat: "sonbahar", ad: "Sonbahar" },
+  pc_galaksi:  { tur: "premium_cerceve", sanat: "galaksi", ad: "Galaksi" },
+  pc_sakura:   { tur: "premium_cerceve", sanat: "sakura", ad: "Sakura" },
+  pa_yaprak:   { tur: "premium_aura", sanat: "yaprak", ad: "Düşen Sonbahar Yaprakları" },
+  pa_kar:      { tur: "premium_aura", sanat: "kar", ad: "Yağan Kar" },
+  pa_kor:      { tur: "premium_aura", sanat: "kor", ad: "Yükselen Köz" },
+  pa_gece:     { tur: "premium_aura", sanat: "gece", ad: "Yıldızlı Gece" },
+  pa_kuzey:    { tur: "premium_aura", sanat: "kuzey", ad: "Kuzey Işıkları" },
+  pa_sualti:   { tur: "premium_aura", sanat: "sualti", ad: "Su Altı" },
 };
 export const kozmetikTemasi = (anahtar) => KOZMETIK_TANIMLARI[anahtar]?.tema ?? null;
+/**
+ * Premium kalem anahtarı (pc_galaksi / pa_gece) → sanat anahtarı (galaksi / gece). Bilinmeyen kalem de
+ * önekinden çözülür (yeni kalem sunucuya eklenince sanat hazırsa istemci güncellemesi gerekmez);
+ * sanat yoksa çizen bileşen onu yok sayar (eski görünüm).
+ */
+export function premiumSanat(anahtar) {
+  if (!anahtar || typeof anahtar !== "string") return null;
+  return KOZMETIK_TANIMLARI[anahtar]?.sanat ?? (/^p[ca]_[a-z0-9_]+$/.test(anahtar) ? anahtar.slice(3) : null);
+}
 export const kozmetikTurdekiler = (tur) => Object.keys(KOZMETIK_TANIMLARI).filter((k) => KOZMETIK_TANIMLARI[k].tur === tur);
 
 /** Bilinen 12 tepki (alıcı yalnız bunları çizer). Görseller Noto Emoji 3D — public/kozmetik/tepki/. */

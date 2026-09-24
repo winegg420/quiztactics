@@ -1,0 +1,23 @@
+/* Lig amblemi (560) — oyun/components/OyuncuLigAmblemi.jsx. Çizim ekler.jsx › LigAmblemi (pp-amblem);
+   premium.css tembel parçada olduğu için temel kural burada da var (aynı değer). Durağan, küçülmez. */
+.pp-amblem { flex: none; display: inline-block; vertical-align: middle; filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.25)); }
+.qt-lig-amblem { flex: none; min-width: 0; }
+.ara-kart-rozetler { align-items: center; }
+/* Ad + amblem yan yana (profil, oyuncu kartı, listeler): ad kısalır, amblem küçülmez */
+.qt-ad-amblem { display: inline-flex; align-items: center; gap: 6px; min-width: 0; max-width: 100%; vertical-align: middle; }
+.qt-ad-amblem > :first-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.as-ko-ust:has(> .qt-lig-amblem) .as-ko-ad { flex: 0 1 auto; }
+/* Maç şeridi (Klasik + Düello, QtMacUst): telefonda Lv hapının yanına sığmıyor, skora biniyordu (3 basamaklı
+   puanda) → amblem avatarın alt köşesinde rozet olur; skor sütununa hiç girmez. Geniş ekranda Lv yanında. */
+@media (max-width: 599px) {
+  .qt-mac-ust .mo-amblem { position: absolute; z-index: 4; top: calc(50% + 8px); left: 32px; }
+  .qt-mac-ust .qt-oyuncu--rakip .mo-amblem { left: auto; right: 32px; }
+}
+/* Maç sonu (MacSonuKutlama): telefonda avatar köşesinde rozet, genişte ad hapının içinde (ikisinden biri görünür) */
+.msk-amblem-rozet { position: absolute; z-index: 5; right: -4px; bottom: -4px; }
+.msk-taraf--sag .msk-amblem-rozet { right: auto; left: -4px; }
+.msk-isim .msk-amblem { display: none; }
+@media (min-width: 600px) {
+  .msk-amblem-rozet { display: none; }
+  .msk-isim .msk-amblem { display: inline-block; }
+}
