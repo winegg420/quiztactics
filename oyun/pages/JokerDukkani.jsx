@@ -43,7 +43,7 @@ import "../tasarim/ekranlar/dukkan-magaza.css";
 const TUM_SEKMELER = [
   { kod: "joker",   ad: tt("Joker"),   ikon: "yildiz" },
   { kod: "aura",    ad: tt("Aura"),    ikon: "palet" },
-  { kod: "elmas",   ad: tt("Elmas"),   ikon: "elmas" },
+  { kod: "elmas",   ad: tt("Elmas|para"),   ikon: "elmas" },
   { kod: "coin",    ad: tt("Coin"),    ikon: "coin" },
   { kod: "kiyafet", ad: tt("Kıyafet"), ikon: "tisort" },
 ];

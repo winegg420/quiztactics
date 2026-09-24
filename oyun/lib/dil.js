@@ -1235,7 +1235,7 @@ const SOZLUK = {
     "Level ilerlemesi": "Level progress",
     "Level atladın: {n}!": "Level up: {n}!",
     "Yeni rütbe: {ad}": "New rank: {ad}",
-    "Level {n} ödülü: {adet} {skill} hakkı": "Level {n} reward: {adet}× {skill}",
+    "Level {n} ödülü: {adet} {skill} hakkı": "Level {n} reward: {adet}× {joker}",
     "Maçta cevap vermediğin için XP yok": "No XP — you didn't answer in this match",
     "çift koruması — XP yarı": "pair protection — half XP",
     "aynı rakiple bugün çok maç — XP yok": "too many matches with this opponent today — no XP",
@@ -2358,11 +2358,11 @@ const SOZLUK = {
     "Davet geri alınamadı.": "The invite could not be withdrawn.",
     // Dükkân
     "Gücünü seç.": "Choose your edge.",
-    "Skill": "Skill",
-    "skill": "skills",
-    "Skillerini coin ile al, doğru anda kullan.": "Buy skills with coins and use them at the right moment.",
-    "Maç Skillerin": "Your Match Skills",
-    "Maça götüreceğin {0} skill": "{0} skills for this match",
+    "Skill": "Joker",
+    "skill": "jokers",
+    "Skillerini coin ile al, doğru anda kullan.": "Buy jokers with coins and use them at the right moment.",
+    "Maç Skillerin": "Your Match Jokers",
+    "Maça götüreceğin {0} skill": "{0} jokers for this match",
     "Değiştir": "Change",
     "Bitti": "Done",
     "Ek Süre": "Extra Time",
@@ -2374,22 +2374,22 @@ const SOZLUK = {
     "Oyunun yeni sürümü var. Maça devam etmek için sayfayı yenile.": "A new version of the game is available. Refresh the page to continue the match.",
     "Yenile": "Refresh",
     "3 can · aynı soru, aynı anda": "3 lives · same question, same time",
-    "Skill satın al": "Buy skill",
-    "Skill alınamadı.": "The skill could not be purchased.",
-    "Skill envanterine girer; saldırı hazırlığında kullanırsın.": "The skill goes to your inventory; use it during Attack Prep.",
-    "Skill kullanılamadı.": "The skill could not be used.",
-    "Skill'in kalmadı": "You have no skills left",
-    "Skill al": "Get skills",
-    "Skiller hesabına eklendi.": "Skills were added to your account.",
-    "Skill paketleri": "Skill packs",
-    "Skiller şimdilik ücretsiz ve sınırsız — maçta stok gerekmez, satın almana gerek yok.": "Skills are currently free and unlimited — no stock or purchase is needed.",
-    "Skillerini doğru anda kullan, rakibinin planını boz.": "Use your skills at the right moment and disrupt your opponent's plan.",
-    "Skill yok. Sadece bilgi ve hız.": "No skills. Just knowledge and speed.",
-    "skill yok": "no skills",
-    "4 skill · aynı anda": "4 skills · live",
-    "4 skill · sıra sende": "4 skills · take turns",
-    "Saf Bilgi · skillsiz": "Pure Knowledge · no skills",
-    "Finalde skill yok — sadece bilgi.": "No skills in the final — knowledge only.",
+    "Skill satın al": "Buy joker",
+    "Skill alınamadı.": "The joker could not be purchased.",
+    "Skill envanterine girer; saldırı hazırlığında kullanırsın.": "The joker goes to your inventory; use it during Attack Prep.",
+    "Skill kullanılamadı.": "The joker could not be used.",
+    "Skill'in kalmadı": "You have no jokers left",
+    "Skill al": "Get jokers",
+    "Skiller hesabına eklendi.": "Jokers were added to your account.",
+    "Skill paketleri": "Joker packs",
+    "Skiller şimdilik ücretsiz ve sınırsız — maçta stok gerekmez, satın almana gerek yok.": "Jokers are currently free and unlimited — no stock or purchase is needed.",
+    "Skillerini doğru anda kullan, rakibinin planını boz.": "Use your jokers at the right moment and disrupt your opponent's plan.",
+    "Skill yok. Sadece bilgi ve hız.": "No jokers. Just knowledge and speed.",
+    "skill yok": "no jokers",
+    "4 skill · aynı anda": "4 jokers · live",
+    "4 skill · sıra sende": "4 jokers · take turns",
+    "Saf Bilgi · skillsiz": "Pure Knowledge · no jokers",
+    "Finalde skill yok — sadece bilgi.": "No jokers in the final — knowledge only.",
     "Jokerlerini coin ile al, doğru anda kullan.":
       "Buy your jokers with coins and use them at the right moment.",
     "BAKİYEN": "YOUR BALANCE",
@@ -2413,13 +2413,27 @@ const SOZLUK = {
     "Kilitli — bir kez açılır": "Locked — unlock once",
     "{0} kilidini aç — {1} coin": "Unlock {0} — {1} coins",
     "{0} × {1} — {2} coin": "{0} × {1} — {2} coins",
-    "Bu skill kilitli": "This skill is locked",
-    "Bu paketteki bir skill kilitli": "A skill in this pack is locked",
-    "Bu skill için Level % gerekir": "This skill requires Level %",
-    "Skill bulunamadı": "Skill not found",
+    "Bu skill kilitli": "This joker is locked",
+    "Bu paketteki bir skill kilitli": "A joker in this pack is locked",
+    "Bu skill için Level % gerekir": "This joker requires Level %",
+    "Skill bulunamadı": "Joker not found",
   },
 };
 Object.assign(SOZLUK.en, enMac, enAna, enLig, enDukkan, enGiris, enTasarim, enKozmetik, enAntrenman, enMacSonuOnizleme, enArama);
+
+/**
+ * JOKER ADI (Ida kararı, 24 Eyl 2026): oyuncuya görünen ad "Skill" değil **"Joker"** (TR ve EN).
+ * Anahtarı hâlâ "skill" geçen metinler (maç ekranları ve sunucu hata mesajları dahil) çıkışta
+ * çevrilir: Skill → Joker, skill'ler/skiller → jokerler, skill'i → jokeri, skillsiz → jokersiz …
+ * (skill ile joker'in son ünlüsü aynı sınıf — ek uyumu değişmez; kesme işareti düşer.)
+ * İç adlar (`skill_*`, RPC, kolon) etkilenmez: alt çizgiyle devam eden kelimeye dokunulmaz.
+ * Anahtarlar kaynakta "Joker"e çevrildikçe bu katman işsiz kalır; zararsızdır.
+ */
+const SKILL_RE = /(^|[^\p{L}_{])([Ss])kil(?:(?=ler)|l(?!_)'?)/gu;   // lookbehind yok (eski iOS Safari)
+export function jokerAdi(metin) {
+  if (typeof metin !== "string" || !/kill/i.test(metin)) return metin;
+  return metin.replace(SKILL_RE, (_, on, s) => on + (s === "S" ? "Joker" : "joker"));
+}
 
 /**
  * Çeviri. Anahtar Türkçe metnin kendisidir; sözlükte yoksa aynen döner.
@@ -2429,7 +2443,7 @@ Object.assign(SOZLUK.en, enMac, enAna, enLig, enDukkan, enGiris, enTasarim, enKo
  */
 export function t(dil, anahtar, degerler) {
   // "Açık|durum" gibi bağlamlı anahtar: aynı Türkçe kelimenin farklı karşılığı için.
-  const metin = (dil !== "tr" && SOZLUK[dil]?.[anahtar]) || anahtar.split("|")[0];
+  const metin = jokerAdi((dil !== "tr" && SOZLUK[dil]?.[anahtar]) || anahtar.split("|")[0]);
   if (!degerler) return metin;
   return metin.replace(/\{(\w+)\}/g, (tam, ad) =>
     // Paket 40 I: sunucudan eksik gelen alan ekrana "undefined"/"null" diye basılmasın
@@ -2460,8 +2474,8 @@ function kaliplariKur(sozluk) {
 export function ttSunucu(metin) {
   const dil = aktifDil();
   const sozluk = SOZLUK[dil];
-  if (dil === "tr" || !sozluk || typeof metin !== "string") return metin;
-  if (sozluk[metin]) return sozluk[metin];
+  if (dil === "tr" || !sozluk || typeof metin !== "string") return jokerAdi(metin);
+  if (sozluk[metin]) return jokerAdi(sozluk[metin]);
   if (!kaliplar) kaliplariKur(sozluk);
   for (const k of kaliplar) {
     const m = metin.match(k.re);
@@ -2470,10 +2484,10 @@ export function ttSunucu(metin) {
       // Yakalanan parça da sözlükte varsa (kategori, unvan) o da çevrilir.
       const parca = (n) => (m[n] === undefined ? "" : sozluk[m[n]] ?? m[n]);
       let i = 1;
-      return sozluk[k.anahtar].replace(/%(\d)?/g, (_, n) => parca(n ? Number(n) : i++));
+      return jokerAdi(sozluk[k.anahtar]).replace(/%(\d)?/g, (_, n) => parca(n ? Number(n) : i++));
     }
   }
-  return metin;
+  return jokerAdi(metin);
 }
 
 /** Bir dile bağlı `t` üretir: `const ceviri = tYap(dil)`. */
