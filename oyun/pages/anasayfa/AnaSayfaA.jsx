@@ -7,6 +7,8 @@ import { QtIkon, QtModal } from "../../tasarim/index.js";
 import BildirimIzniSor from "../../components/BildirimIzniSor.jsx";
 import { BILDIRIM_SONRA_ANAHTAR } from "../../components/MacSonuSahnesi.jsx";
 import { tt } from "../../lib/dil.js";
+import { useAuth } from "../../../src/context/AuthContext.jsx";
+import DurumKutusu, { useZamanAsimi } from "../../components/DurumKutusu.jsx";
 import { useAnaSayfaVerisi, useOyunBaslat } from "./veri.jsx";
 import {
   KompaktOyuncu, LigKarti, GorevSeridi, modListesi, etkinlikler, EtkinlikSatiri,
@@ -28,7 +30,28 @@ export default function AnaSayfaA() {
     kok.classList.add("as-kaydirmasiz");
     return () => kok.classList.remove("as-kaydirmasiz");
   }, []);
-  if (!v.profile) return <div className="as-yukleniyor" aria-busy="true" />;
+  // D-205: profil sunucudan gelmezse (hata ya da 12 sn) diğer sayfalar gibi "Yüklenemedi · Tekrar dene";
+  // bağlantı gelince kendiliğinden yeniden dener. (Eski pages/Home.jsx ile aynı kalıp.)
+  const { user, profilHata, refreshProfile } = useAuth();
+  const profilGecikti = useZamanAsimi(!v.profile);
+  const profilYok = !v.profile;
+  useEffect(() => {
+    if (!profilYok) return undefined;
+    const tekrar = () => refreshProfile?.(user?.id);
+    window.addEventListener("online", tekrar);
+    return () => window.removeEventListener("online", tekrar);
+  }, [profilYok, refreshProfile, user?.id]);
+  if (!v.profile) {
+    if (!profilHata && !profilGecikti) return <div className="as-yukleniyor" aria-busy="true" />;
+    return (
+      <div className="as-sayfa as-hata-kap">
+        <h1 className="qt-gizli">{tt("Ana sayfa")}</h1>
+        <div className="qt-kart qt-kart--yuzey qt-kart--dolgu-o">
+          <DurumKutusu durum="hata" satir={4} onTekrar={() => refreshProfile?.(user?.id)} />
+        </div>
+      </div>
+    );
+  }
   const modlar = modListesi(v, b);
   const olaylar = etkinlikler(v);
   const acil = olaylar.find((e) => e.ton === "acil") ?? olaylar[0];

@@ -1,5 +1,7 @@
-import { Outlet, NavLink, Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Outlet, NavLink, Link, useNavigate, useLocation } from "react-router-dom";
+import { Suspense, useEffect, useState } from "react";
+import HataSiniri from "../../src/components/HataSiniri.jsx";
+import BaglantiSeridi from "./BaglantiSeridi.jsx";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import { supabase } from "../../src/lib/supabase.js";
 import RankUpOverlay from "./RankUpOverlay.jsx";
@@ -15,6 +17,7 @@ import { QtUstCubuk, QtUstMenu, QtAltMenu, QtIkonDugme } from "../tasarim/index.
 // Başlık logosu Yön A öncesi hâline döndü (72b1fb4^): resmi Logo wordmark'ı.
 import Logo from "./Logo.jsx";
 import "../tasarim/ekranlar/a-kabuk.css";
+import "../tasarim/ekranlar/hata-kurtarma.css";
 import CoinHapi from "./CoinHapi.jsx";
 import AvatarMenu from "./AvatarMenu.jsx";
 // SADELEŞTİRME: tema ve ses düğmeleri üst bardan Profil sayfasına
@@ -38,6 +41,8 @@ function SesliBaglanti({ onClick, ...p }) {
 export default function Layout() {
   const { profile, user } = useAuth();
   const navigate = useNavigate();
+  // D-103: sayfa içi hata kartı adres değişince temizlenir
+  const { pathname } = useLocation();
   // Profildeki dil tercihi bu tarayıcıdaki sayfa dilinden farklıysa bir kez eşitler.
   useDil();
   const [bekleyen, setBekleyen] = useState(0);
@@ -217,8 +222,24 @@ export default function Layout() {
       {/* Kabuk 1180 px. `.shell` sınıfı henüz yeniden yazılmamış sayfaların
           eski düzeni için duruyor (Faz 4'te temizlenir). */}
       <main className="shell a-icerik qt-altmenu-payi">
-        <Outlet />
+        {/* D-103/D-201: sayfa parçası inemezse (bağlantı koptu / yeni sürüm) yalnız içerik alanında
+            "Tekrar dene" kartı — üst çubuk ve alt menü yerinde kalır; bağlantı gelince kendiliğinden
+            yeniden dener. Suspense burada: tembel sayfa inerken kabuk görünür kalır. */}
+        <HataSiniri sayfaIci anahtar={pathname}>
+          <Suspense
+            fallback={(
+              <div className="qt-sayfa-yukleniyor" role="status" aria-busy="true">
+                <span className="qt-donen" aria-hidden="true" />
+                {tt("Yükleniyor…")}
+              </div>
+            )}
+          >
+            <Outlet />
+          </Suspense>
+        </HataSiniri>
       </main>
+      {/* D-206: çevrimdışıyken üstte ince "Bağlantı yok" şeridi */}
+      <BaglantiSeridi />
 
       {/* ============ ALT MENÜ — yalnız 850 px altında ============
           Beş sekme: Ana Sayfa · Arkadaşlar · Lig · Dükkân · Profil.

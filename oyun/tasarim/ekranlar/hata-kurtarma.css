@@ -1,0 +1,99 @@
+/* ============================================================
+   HATA KURTARMA (D-103/D-201/D-206) — sayfa içi hata kartı, tembel sayfa
+   yükleniyor göstergesi ve "Bağlantı yok" şeridi. Yalnız yeni sınıflar.
+   iOS: sabit şeritte ve atalarında transform yok (portal ile body'de), 100vh yok.
+   ============================================================ */
+
+/* Tembel sayfa inerken kabuk görünür kalır; içerik alanında küçük gösterge */
+.qt-sayfa-yukleniyor {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 40dvh;
+  color: var(--qt-metin-soluk, #46507f);
+  font-weight: 700;
+}
+
+/* Sayfa içi hata kartı — üst çubuk ve alt menü yerinde */
+.qt-sayfa-hata {
+  display: flex;
+  justify-content: center;
+  padding: 24px 16px;
+}
+.qt-sayfa-hata-kart {
+  width: 100%;
+  max-width: 420px;
+  box-sizing: border-box;
+  padding: 24px 20px 20px;
+  text-align: center;
+  background: var(--qt-yuzey, #fff);
+  color: var(--qt-metin, #1d2152);
+  border: 2px solid var(--qt-metin, #1d2152);
+  border-radius: 20px;
+  box-shadow: 0 4px 0 var(--qt-metin, #1d2152);
+}
+.qt-sayfa-hata-ikon {
+  display: inline-grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--qt-vurgu-acik, #ffe8da);
+  color: var(--qt-vurgu-dudak, #c24a0c);
+  border: 2px solid var(--qt-vurgu-dudak, #c24a0c);
+  font: 800 26px/1 "Baloo 2", system-ui, sans-serif;
+  margin-bottom: 8px;
+}
+.qt-sayfa-hata-baslik {
+  margin: 0 0 6px;
+  font: 800 22px/1.2 "Baloo 2", system-ui, sans-serif;
+  color: var(--qt-metin, #1d2152);
+}
+.qt-sayfa-hata-metin {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--qt-metin, #1d2152);
+}
+.qt-sayfa-hata-not {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: var(--qt-metin-soluk, #46507f);
+}
+.qt-sayfa-hata-dugmeler {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+.qt-sayfa-hata-dugmeler > .qt-dugme {
+  flex: 1 1 140px;
+  min-height: 48px;
+}
+
+/* "Bağlantı yok" şeridi — en üstte, ince; çentik payı safe-area-inset-top */
+.qt-baglanti-yok {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2147483000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: calc(env(safe-area-inset-top, 0px) + 5px) 16px 5px;
+  background: var(--qt-metin, #1d2152);
+  color: #fff;
+  font: 700 13px/1.3 "Baloo 2", system-ui, sans-serif;
+  letter-spacing: 0.01em;
+  pointer-events: none;
+}
+.qt-baglanti-yok-nokta {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--qt-vurgu, #ff7a2e);
+  flex: none;
+}

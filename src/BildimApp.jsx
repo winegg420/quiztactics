@@ -10,7 +10,9 @@
 // Linkler oyun/lib/yol.js içindeki y() ile üretildiği için ikisi de doğru.
 // ============================================================
 
-import { lazy, Suspense, useEffect } from "react";
+import { Suspense, useEffect } from "react";
+// D-103/D-201: tembel sayfalar 1 yeniden denemeyle iner; inemezse Layout içindeki HataSiniri kartı.
+import { tembelYukle } from "./lib/tembelYukle.js";
 import { Routes, Route, Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
 import { girisHedefiniAl, bilinenYol } from "./lib/girisHedefi.js";
 import { useAuth } from "./context/AuthContext.jsx";
@@ -33,29 +35,29 @@ import AnaSayfa from "../oyun/pages/anasayfa/AnaSayfaA.jsx";
 import ChallengesPage from "../oyun/pages/ChallengesPage.jsx";
 import MatchPage from "../oyun/pages/MatchPage.jsx";
 // Ajan H: grup maçı tembel (nadir mod) — ses/müzik eklerinin ana paketi büyütmemesi için.
-const GroupMatchPage = lazy(() => import("../oyun/pages/GroupMatchPage.jsx"));
+const GroupMatchPage = tembelYukle(() => import("../oyun/pages/GroupMatchPage.jsx"));
 // DONDURULDU (Paket 24 B): HizliMacPage dosyasi duruyor, hicbir rota cagirmiyor.
 // Geri acmak: bu import + asagidaki rotayi geri koy, oyun_ayarlari.hizli_mac_acik = true.
-const TournamentPage = lazy(() => import("../oyun/pages/TournamentPage.jsx"));
-const LeaderboardPage = lazy(() => import("../oyun/pages/LeaderboardPage.jsx"));
-const FriendsPage = lazy(() => import("../oyun/pages/FriendsPage.jsx"));
-const MesajlarPage = lazy(() => import("../oyun/pages/MesajlarPage.jsx"));   // Paket 35 E
-const ProfilePage = lazy(() => import("../oyun/pages/ProfilePage.jsx"));
-const BulunamadiPage = lazy(() => import("../oyun/pages/BulunamadiPage.jsx"));   // Paket 41 I
-const DavetPage = lazy(() => import("../oyun/pages/DavetPage.jsx"));
-const JokerDukkani = lazy(() => import("../oyun/pages/JokerDukkani.jsx"));
+const TournamentPage = tembelYukle(() => import("../oyun/pages/TournamentPage.jsx"));
+const LeaderboardPage = tembelYukle(() => import("../oyun/pages/LeaderboardPage.jsx"));
+const FriendsPage = tembelYukle(() => import("../oyun/pages/FriendsPage.jsx"));
+const MesajlarPage = tembelYukle(() => import("../oyun/pages/MesajlarPage.jsx"));   // Paket 35 E
+const ProfilePage = tembelYukle(() => import("../oyun/pages/ProfilePage.jsx"));
+const BulunamadiPage = tembelYukle(() => import("../oyun/pages/BulunamadiPage.jsx"));   // Paket 41 I
+const DavetPage = tembelYukle(() => import("../oyun/pages/DavetPage.jsx"));
+const JokerDukkani = tembelYukle(() => import("../oyun/pages/JokerDukkani.jsx"));
 // Arayüz Yenileme (20 Eyl 2026): prototipin "Oyun Modları" sayfası.
 // YENİ MOD YOK — yalnız var olan rotalara götüren bir katalog sayfası.
-const ModlarPage = lazy(() => import("../oyun/pages/ModlarPage.jsx"));
+const ModlarPage = tembelYukle(() => import("../oyun/pages/ModlarPage.jsx"));
 // DONDURULDU (Paket 24 B): HizliModPage dosyasi duruyor, hicbir rota cagirmiyor.
 // Geri acmak: bu satir + rota geri konur, oyun_ayarlari.hizli_mod_acik = true.
-const DuelloPage = lazy(() => import("../oyun/pages/DuelloPage.jsx"));
-const CalismaPage = lazy(() => import("../oyun/pages/CalismaPage.jsx"));
+const DuelloPage = tembelYukle(() => import("../oyun/pages/DuelloPage.jsx"));
+const CalismaPage = tembelYukle(() => import("../oyun/pages/CalismaPage.jsx"));
 // Meydan (3B): three.js yalniz bu rotaya girilince iner (ayri chunk)
-const HaritaSayfasi = lazy(() => import("../oyun/harita/HaritaSayfasi.jsx"));
+const HaritaSayfasi = tembelYukle(() => import("../oyun/harita/HaritaSayfasi.jsx"));
 // Harita yenileme Aşama 1 test sahnesi (STIL.md) — oyunu etkilemez, ayrı rota
-const HaritaDeneme = lazy(() => import("../oyun/harita/deneme/DenemeSayfasi.jsx"));
-const HazirInsanPrototipi = lazy(() => import("../oyun/harita/aday/HazirInsanPrototipi.jsx"));
+const HaritaDeneme = tembelYukle(() => import("../oyun/harita/deneme/DenemeSayfasi.jsx"));
+const HazirInsanPrototipi = tembelYukle(() => import("../oyun/harita/aday/HazirInsanPrototipi.jsx"));
 // Görünüm = 3B GARDIROP (oyun/avatar3d/gardrop.html). Ayrı giriş noktası
 // olduğu için rota bileşen değil, yönlendirmedir (bkz. GardropaGit.jsx).
 // 2B KARAKTER SİSTEMİ TAMAMEN KALKTI: sayfası da rotadan çıktı, dosyaları
@@ -63,32 +65,32 @@ const HazirInsanPrototipi = lazy(() => import("../oyun/harita/aday/HazirInsanPro
 //   /gorunum-3b  → eski 3B görünüm sayfası
 // Paket 17 §D: eski gardırop DONDURULDU (dosyalar duruyor, arayüzden giriş yok). /gorunum yeni karakter vitrini;
 // /gorunum-3b ve eski HTML girişleri (oyun/avatar3d/*.html) buraya yönlenir. Geri açma: oyun/CLAUDE.md.
-const KarakterVitrini = lazy(() => import("../oyun/vitrin/KarakterVitrini.jsx"));
-const GorunumPage = lazy(() => import("../oyun/pages/GorunumPage.jsx"));
+const KarakterVitrini = tembelYukle(() => import("../oyun/vitrin/KarakterVitrini.jsx"));
+const GorunumPage = tembelYukle(() => import("../oyun/pages/GorunumPage.jsx"));
 // Yasal metinler giriş duvarının ÖNÜNDE olmalı (Play Store + reklam ağları).
-const GizlilikPage = lazy(() => import("../oyun/pages/GizlilikPage.jsx"));
-const KosullarPage = lazy(() => import("../oyun/pages/KosullarPage.jsx"));
+const GizlilikPage = tembelYukle(() => import("../oyun/pages/GizlilikPage.jsx"));
+const KosullarPage = tembelYukle(() => import("../oyun/pages/KosullarPage.jsx"));
 // Üretim akışından bağımsız, menüde görünmeyen avatar görsel laboratuvarı.
-const AvatarLabPage = lazy(() => import("../oyun/pages/AvatarLabPage.jsx"));
-const AvatarLabV2Page = lazy(() => import("../oyun/pages/AvatarLabV2Page.jsx"));
-const AvatarPreviewProPage = lazy(() => import("../oyun/pages/AvatarPreviewProPage.jsx"));
-const LogoExplorationPage = lazy(() => import("../oyun/pages/LogoExplorationPage.jsx"));
-const LogoExplorationV2Page = lazy(() => import("../oyun/pages/LogoExplorationV2Page.jsx"));
-const LogoExplorationV4Page = lazy(() => import("../oyun/pages/LogoExplorationV4Page.jsx"));
-const LogoExplorationV5Page = lazy(() => import("../oyun/pages/LogoExplorationV5Page.jsx"));
-const LogoFinalistsVNextPage = lazy(() => import("../oyun/pages/LogoFinalistsVNextPage.jsx"));
-const QLogoLabPage = lazy(() => import("../oyun/pages/QLogoLabPage.jsx"));
-const TasarimYonleriPage = lazy(() => import("../oyun/tasarim-yonleri/TasarimYonleriPage.jsx"));   // Tasarım Adım 1 — yalnız adresle
-const TasarimSistemiPage = lazy(() => import("../oyun/tasarim/TasarimSistemiPage.jsx"));   // Tasarım Adım 2 — yalnız adresle
-const KozmetikOnizlemePage = lazy(() => import("../oyun/tasarim/cerceveler/KozmetikOnizlemePage.jsx"));   // çerçeve + rozet önizleme — yalnız adresle
-const MacSonuOnizlemePage = lazy(() => import("../oyun/pages/MacSonuOnizlemePage.jsx"));   // maç sonu kutlama önizlemesi (Ajan G) — yalnız adresle
-const SesSecimPage = lazy(() => import("../oyun/tasarim/ses-secim/SesSecimPage.jsx"));   // ses seçimi — yalnız sahip, yalnız adresle (girişli)
-const AvatarOnizlemePage = lazy(() => import("../oyun/tasarim/avatar-onizleme/AvatarOnizlemePage.jsx"));   // yeni avatar onayı (Ajan A) — yalnız sahip, yalnız adresle (girişli)
-const CerceveOnizlemePage = lazy(() => import("../oyun/tasarim/cerceveler/deneme/CerceveOnizlemePage.jsx"));   // çerçeve tarzı seçimi (Ajan B) — yalnız sahip, yalnız adresle (girişli)
-const PremiumOnizlemePage = lazy(() => import("../oyun/tasarim/premium/PremiumOnizlemePage.jsx"));   // premium kozmetik önizlemesi — yalnız sahip, yalnız adresle (girişli)
-const IkonOnizlemePage = lazy(() => import("../oyun/tasarim/ikon/IkonOnizlemePage.jsx"));   // uygulama ikonu adayları (Ajan B) — yalnız sahip, yalnız adresle (girişli)
-const TasarimOnizlemePage = lazy(() => import("../oyun/tasarim/onizleme/TasarimOnizlemePage.jsx"));   // altın isim + rakip arama ekranı adayları — yalnız sahip, yalnız adresle (girişli)
-const YonetimSikayetlerPage = lazy(() => import("../oyun/pages/YonetimSikayetlerPage.jsx"));   // 620: şikâyet yönetimi — yalnız yönetici (sunucu), menüde yok
+const AvatarLabPage = tembelYukle(() => import("../oyun/pages/AvatarLabPage.jsx"));
+const AvatarLabV2Page = tembelYukle(() => import("../oyun/pages/AvatarLabV2Page.jsx"));
+const AvatarPreviewProPage = tembelYukle(() => import("../oyun/pages/AvatarPreviewProPage.jsx"));
+const LogoExplorationPage = tembelYukle(() => import("../oyun/pages/LogoExplorationPage.jsx"));
+const LogoExplorationV2Page = tembelYukle(() => import("../oyun/pages/LogoExplorationV2Page.jsx"));
+const LogoExplorationV4Page = tembelYukle(() => import("../oyun/pages/LogoExplorationV4Page.jsx"));
+const LogoExplorationV5Page = tembelYukle(() => import("../oyun/pages/LogoExplorationV5Page.jsx"));
+const LogoFinalistsVNextPage = tembelYukle(() => import("../oyun/pages/LogoFinalistsVNextPage.jsx"));
+const QLogoLabPage = tembelYukle(() => import("../oyun/pages/QLogoLabPage.jsx"));
+const TasarimYonleriPage = tembelYukle(() => import("../oyun/tasarim-yonleri/TasarimYonleriPage.jsx"));   // Tasarım Adım 1 — yalnız adresle
+const TasarimSistemiPage = tembelYukle(() => import("../oyun/tasarim/TasarimSistemiPage.jsx"));   // Tasarım Adım 2 — yalnız adresle
+const KozmetikOnizlemePage = tembelYukle(() => import("../oyun/tasarim/cerceveler/KozmetikOnizlemePage.jsx"));   // çerçeve + rozet önizleme — yalnız adresle
+const MacSonuOnizlemePage = tembelYukle(() => import("../oyun/pages/MacSonuOnizlemePage.jsx"));   // maç sonu kutlama önizlemesi (Ajan G) — yalnız adresle
+const SesSecimPage = tembelYukle(() => import("../oyun/tasarim/ses-secim/SesSecimPage.jsx"));   // ses seçimi — yalnız sahip, yalnız adresle (girişli)
+const AvatarOnizlemePage = tembelYukle(() => import("../oyun/tasarim/avatar-onizleme/AvatarOnizlemePage.jsx"));   // yeni avatar onayı (Ajan A) — yalnız sahip, yalnız adresle (girişli)
+const CerceveOnizlemePage = tembelYukle(() => import("../oyun/tasarim/cerceveler/deneme/CerceveOnizlemePage.jsx"));   // çerçeve tarzı seçimi (Ajan B) — yalnız sahip, yalnız adresle (girişli)
+const PremiumOnizlemePage = tembelYukle(() => import("../oyun/tasarim/premium/PremiumOnizlemePage.jsx"));   // premium kozmetik önizlemesi — yalnız sahip, yalnız adresle (girişli)
+const IkonOnizlemePage = tembelYukle(() => import("../oyun/tasarim/ikon/IkonOnizlemePage.jsx"));   // uygulama ikonu adayları (Ajan B) — yalnız sahip, yalnız adresle (girişli)
+const TasarimOnizlemePage = tembelYukle(() => import("../oyun/tasarim/onizleme/TasarimOnizlemePage.jsx"));   // altın isim + rakip arama ekranı adayları — yalnız sahip, yalnız adresle (girişli)
+const YonetimSikayetlerPage = tembelYukle(() => import("../oyun/pages/YonetimSikayetlerPage.jsx"));   // 620: şikâyet yönetimi — yalnız yönetici (sunucu), menüde yok
 
 // Maç sayfası maç kimliğine anahtarlı: rövanş / yeni maç aynı rotada /mac/eski → /mac/yeni geçince React
 // bileşeni yeniden kurmuyordu; eski maçın durumu (ilerleme damgası, kanallar, zamanlayıcılar) yeni maça

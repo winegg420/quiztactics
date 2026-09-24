@@ -11,6 +11,7 @@ import { AuthProvider } from "./context/AuthContext.jsx";
 import HataSiniri from "./components/HataSiniri.jsx";
 import YukleniyorEkrani from "../oyun/components/YukleniyorEkrani.jsx";
 import { hataIzlemeKur } from "./lib/hataIzleme.js";
+import { parcaYenilemeKur } from "./lib/tembelYukle.js";
 import "./styles.css";
 // Bildim görsel dili (tema tokenları) — global stillerden SONRA yüklenir
 import "../oyun/styles/tema.css";
@@ -38,6 +39,10 @@ cubukBaslat();
 // hiç yüklenmez ve konsola uyarı basılmaz — DSN'siz çalışmak normal durumdur.
 hataIzlemeKur();
 
+// D-103/D-201: yeni sürümden sonra eski sayfa parçası inemezse sayfa BİR KEZ sessizce yenilenir
+// (oturum başına bayrak; çevrimdışıyken yenilenmez — hata sayfa içi karta gider).
+parcaYenilemeKur();
+
 // Davet linkiyle gelindiyse sakla (girişten sonra ödül talep edilir)
 const params = new URLSearchParams(window.location.search);
 const davet = params.get("davet");
@@ -60,9 +65,12 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <Suspense fallback={<YukleniyorEkrani />}>
-          <KokUygulama />
-        </Suspense>
+        {/* Son savunma: kabuğun dışında bir hata olursa beyaz ekran yerine kart */}
+        <HataSiniri>
+          <Suspense fallback={<YukleniyorEkrani />}>
+            <KokUygulama />
+          </Suspense>
+        </HataSiniri>
       </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>

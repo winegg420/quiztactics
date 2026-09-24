@@ -153,4 +153,10 @@ export default {
   "Bu aura zaten sende": "You already own this aura",
   "Bu aura sende yok": "You don't own this aura",
   "Bugünkü elmas reklamı hakkın doldu (%/%)": "You've used today's gem video (%/%)",
+  // Ajan B7 — boş ekran kurtarma, "Bağlantı yok" şeridi (D-103/D-201/D-206)
+  "Sayfa yüklenemedi": "Couldn't load this page",
+  "Bağlantı yok. İnternetini kontrol edip tekrar dene.": "No connection. Check your internet and try again.",
+  "Beklenmedik bir hata oluştu. Tekrar dene; sorun sürerse sayfayı yenile.": "Something unexpected happened. Try again; if it keeps happening, reload the page.",
+  "Bağlantı gelince sayfa kendiliğinden açılır.": "The page will open by itself once you're back online.",
+  "Bağlantı yok": "No connection",
 };
