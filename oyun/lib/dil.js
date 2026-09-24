@@ -728,6 +728,7 @@ const SOZLUK = {
     "Turnuvadan çıkarsan elenirsin.": "If you leave the tournament, you're eliminated.",
     "Bu turnuvaya geri dönemezsin.": "You can't come back to this tournament.",
     "Çık ve elen": "Leave and be eliminated",
+    "{k}/{t} oyuncu kaldı": "{k}/{t} players left",
     "İçindekiler": "Contents",
     "{0} meydan okuma": "{0} challenges",
     "Coin'in şu an hiçbir jokere yetmiyor.": "You don't have enough coins for any joker right now.",
