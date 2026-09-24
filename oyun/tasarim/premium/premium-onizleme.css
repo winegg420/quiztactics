@@ -134,3 +134,43 @@
   .pp-yer-govde { padding-inline: 14px; }
   .msk-isim .pp-amblem { display: none; }
 }
+
+/* ---------------- 2. tur ---------------- */
+.pp-atla { display: flex; flex-wrap: wrap; gap: 6px 14px; font-weight: var(--qt-a-kalin); font-size: var(--qt-y-s); }
+.pp-atla a { display: inline-flex; align-items: center; min-height: 44px; color: var(--qt-vurgu, #6c4dff); }
+.pp-katalog--tur2 { grid-template-columns: repeat(auto-fill, minmax(min(100%, 470px), 1fr)); }
+.pp-kiyas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--qt-b-2); }
+.pp-kiyas-kutu { display: grid; gap: 6px; margin: 0; min-width: 0; }
+.pp-kiyas-etiket { font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); color: var(--qt-metin-soluk); }
+.pp-kiyas-etiket--yeni { color: var(--qt-dogru-koyu, #1a7f4b); }
+.pp-kalem-sahne--kiyas { min-height: 230px; padding: 58px 0 40px; }
+.pp-kalem-baslik { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.pp-oyunda { flex: none; }
+.pp-plaka-karar { display: grid; gap: 6px; }
+.pp-plaka-karar p { margin: 0; }
+.pp-kalem--tur2 .pp-kalem-kucukler { flex-wrap: wrap; row-gap: 18px; padding-top: 22px; }
+@media (max-width: 559px) {
+  .pp-kiyas { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Elmas paketleri: gerçek dükkân kartı; yeni görsel kutuyu doldurur */
+.pp-elmas-izgara { margin: 0; padding: 0; list-style: none; }
+.pp-elmas-li { display: grid; gap: 8px; align-content: start; }
+.pp-elmas-li .pp-karar { flex-wrap: wrap; justify-content: center; }
+.pp-elmas-gorsel { display: block; }
+
+/* Ölçüm düzeni (?olcum=…) */
+.pp-olcum-kutu { display: inline-block; line-height: 0; }
+.pp-olcum {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 90px;
+  align-items: flex-start;
+  align-content: flex-start;
+  justify-content: center;
+  padding: 120px 60px;
+  min-height: 100dvh;
+  background: radial-gradient(circle at 50% 35%, #2d2f7a, #121436 72%);
+}
+/* 2. tur çerçevelerinin efektleri (alev jeti, yıldırım) yana taşar: deneme boylarında daha geniş ara */
+.pp-boylar:has(.p2--tam, .p2--orta) { gap: 40px 58px; }
