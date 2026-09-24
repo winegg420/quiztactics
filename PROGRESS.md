@@ -8136,3 +8136,20 @@ görsellerini ve Turnuva/Grup çıkış onayını istedi.
   diğerleri laboratuvar/sahip önizlemeleri (18 dosya), kaldırılmış ana sayfa taslakları, dondurulmuş Hızlı Mod.
 - **Yerelde yapılacak:** `npx supabase db push` (560); canlıda satın al → tak → rakipte görünüm; girişli sayfalar (profil,
   dükkân, turnuva/grup çıkış) elle kontrol; WebGL efektlerini telefonda ölç.
+
+## 2026-09-24 — Premium aktivasyon canlıda (560) + yedek iş akışı düzeltmesi
+**Araç:** Claude Code (yönetici)
+- **Yedek iş akışı:** `veritabani-yedek.yml › bildir` silinmiş `testler`e bağlıydı → `needs: [yedek]`. Dosya geçersiz
+  olduğu için 24 Eyl gecesi zamanlanmış yedek hiç başlamamıştı. Elle çalıştırma başarılı: 77.256 satır, fark 0,
+  hesaplar geri geldi (`veritabani-yedek-20260924-1304`). 23 Eyl gecesi yedeği alınmış ve doğrulanmıştı (çalıştırmayı
+  `testler` düşürmüştü). Düzeltmeden sonra main'deki push'larda hata yok; kalan "failure"lar eski dosyayı taşıyan
+  `bulut/premium-aktivasyon` dalının push'ları.
+- **560 (prova → uygulandı):** yıkıcı bir şey yok (tür kısıtı genişledi, `oyuncu_kartlari` DROP+CREATE, yetkiler 541
+  ile aynı). `bulut/premium-aktivasyon` main'e birleşti (çakışmasız). Turnuva "{k}/{t} oyuncu kaldı" → EN
+  "{k}/{t} players left".
+- **Canlı kontrol:** normal hesap (satış açık) 12 kalem görüyor: onaylı 9 premium (3 çerçeve 500, 6 iç aura 300) +
+  önceki turda onaylı isim_altin + 2 tepki paketi; eski aura kataloğu 0; almadan takma reddedildi. Lig amblemi: ana
+  sayfa, profil, lig tablosu (11), arkadaşlar, Klasik şeridi (2, orta sütunla çakışmıyor), Düello şeridi, maç sonu —
+  taşma ve konsol hatası yok. Grup çıkış onayı 15/15 (X ve geri tuşu açar, "Oyunda kal" varsayılan odak ve oyunda
+  tutar, "Çık" → terk_at + "Maçtan ayrıldın"). Turnuva çıkış onayı canlıda DOĞRULANAMADI: 18:00 seansını bekleyen
+  test, makinede bellek azaldığı için Claude Code tarafından durduruldu (betik: scratchpad `premium-kontrol.mjs turnuva`).
