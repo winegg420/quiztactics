@@ -300,7 +300,13 @@ function MacSonuKutlama({
   // Sahne açıkken müzik kısık; ana sayfada bildirim izni bu maçtan sonra sorulsun (MacSonuSahnesi ile aynı işaret).
   useEffect(() => {
     sesMuzikSahne(true);
-    try { sessionStorage.setItem("bildim_bildirim_mac_sonrasi", "1"); } catch { /* özel mod */ }
+    try {
+      sessionStorage.setItem("bildim_bildirim_mac_sonrasi", "1");
+      // Sahnede gösterilen rozetler sonradan tost olarak tekrar çıkmasın (RozetBildirimi okur)
+      const onceki = JSON.parse(sessionStorage.getItem("bildim_sahne_rozetleri") || "[]");
+      const yeni = (rozetler ?? []).map((r) => r?.anahtar).filter(Boolean);
+      if (yeni.length) sessionStorage.setItem("bildim_sahne_rozetleri", JSON.stringify([...onceki, ...yeni].slice(-50)));
+    } catch { /* özel mod */ }
     return () => sesMuzikSahne(false);
   }, []);
 

@@ -32,7 +32,12 @@ export default function RozetBildirimi() {
       .then((liste) => {
         // Sunucu bunları "görüldü" işaretledi: sayfa değişse de kuyruğa alınır (kaybolmasın).
         if (!liste?.length) return;
-        setKuyruk((k) => [...k, ...liste]);
+        // A.3: maç sonu sahnesinin zaten gösterdiği rozetler tost olarak ikinci kez çıkmaz.
+        let sahnede = [];
+        try { sahnede = JSON.parse(sessionStorage.getItem("bildim_sahne_rozetleri") || "[]"); } catch { /* özel mod */ }
+        const yeni = liste.filter((r) => !sahnede.includes(r.anahtar));
+        if (!yeni.length) return;
+        setKuyruk((k) => [...k, ...yeni]);
         if (liste.some((r) => r.cerceve)) oyuncuKartiUnut();
       })
       .catch((e) => {
@@ -46,7 +51,9 @@ export default function RozetBildirimi() {
   const ilk = kuyruk[0];
   useEffect(() => {
     if (!ilk) return undefined;
-    sesRozet();   // Ajan H: yeni rozet kartı açıldığı an (kart başına bir kez; ilk değişince)
+    // Ajan H: yeni rozet kartı açıldığı an (kart başına bir kez). A.3: maç sonu sahnesi açıkken sesi
+    // sahne çalar — tost sesi üst üste binmesin.
+    if (!document.querySelector(".msk")) sesRozet();
     const t = setTimeout(() => setKuyruk((k) => k.slice(1)), GOSTERIM_MS);
     return () => clearTimeout(t);
   }, [ilk]);

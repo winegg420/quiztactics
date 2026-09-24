@@ -535,7 +535,11 @@
 .msk-eylem-yuva .mss-eylem-not { display: none; }
 .msk-eylem > .msk-eylem-yuva, .msk-eylem-yuva > .msk-eylem-yuva { flex: 1 1 0; min-width: 0; }
 .msk-eylem-yuva ~ .msk-eylem-yeni { flex: 1 1 0; min-width: 0; padding-inline: var(--qt-b-2); }
-.msk-eylem-yuva .qt-dugme { min-width: 0; width: 100%; }
+.msk-eylem-yuva .qt-dugme { min-width: 0; width: 100%; padding-inline: var(--qt-b-2); }
+@media (max-width: 459px) {
+  /* Telefonda rövanş yuvası + "Yeni düello" + ev yan yana: metin kesilmesin diye ikon düşer */
+  .msk-eylem-yuva .qt-dugme .qt-ikon { display: none; }
+}
 .msk-detay-govde[hidden] { display: none; }   /* Klasik rövanş notu çubuğu şişirmesin */
 /* Özet gelene dek (genelde < 0,3 sn) boş zemin: sahne zaman çizelgesi veriyle bir kez başlar */
 .msk-bekle { min-height: 60dvh; }
@@ -570,6 +574,8 @@
 .msk-detay--acik .msk-detay-dugme .qt-ikon:last-child { transform: rotate(180deg); }
 .msk-detay-govde { display: flex; flex-direction: column; gap: var(--qt-b-3); }
 .msk-ek { display: flex; flex-direction: column; gap: var(--qt-b-3); }
+/* Eski sahnenin not satırı koyu zemin için değildi: sahne zemininde okunur beyaz */
+.msk-ek .m1-ss-not { margin: 0; text-align: center; font-weight: var(--qt-a-kalin); color: var(--qt-beyaz, #fff); text-shadow: 0 1px 2px color-mix(in srgb, var(--qt-zemin-metin) 45%, transparent); }
 .msk--atla .msk-detay, .msk--atla .msk-ek, .msk--atla .msk-karsilasma--serbest,
 .msk--az .msk-detay, .msk--az .msk-ek, .msk--az .msk-karsilasma--serbest { animation: none; }
 
