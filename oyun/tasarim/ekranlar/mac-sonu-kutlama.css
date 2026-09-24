@@ -195,6 +195,13 @@
   transform: rotate(-12deg);
   animation: msk-tac 420ms var(--qt-egri-yay) calc(var(--t-avatar) + 400ms) backwards;
 }
+/* 550 · B1: kazananın çerçevesinde (ya da aurasında) taç süsü varsa sahnenin taç emojisi gizlenir — iki taç
+   üst üste binmesin. Çerçeve işareti: CerceveGorseli / DenemeCerceve › data-tac. Taçsız çerçevede aynen. */
+.msk-avatar:has([data-tac]) > .msk-tac { display: none; }
+/* 550 · B2: plakalı çerçeve (level/turnuva plakası, yeni tarz Altın Lig) kazanan ölçeğinde (×1,15) isim hapına
+   biniyordu (ölçüm: 0,2 px, gölgeyle üst üste). Plaka varken İKİ tarafın avatar yuvası birlikte açılır — adlar
+   aynı hizada kalır. Bütün genişliklerde aynı (ölçek genişliğe bağlı değil). */
+.msk-karsilasma:has(.qt-cerceve-plaka, .dc--tam) .msk-avatar { margin-bottom: calc(var(--qt-b-2) + 10px); }
 .msk-isim {
   display: flex;
   align-items: center;

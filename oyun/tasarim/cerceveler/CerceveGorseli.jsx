@@ -115,11 +115,13 @@ export default function CerceveGorseli({ anahtar, satir, boyut = 64, hareketli =
   const efekt = !kucuk ? tanim?.efekt : null;
   const auraSusler = kucuk || !auraT ? [] : auraT.sus.filter((s) => SUSLER[s] && (!orta || SUSLER[s].ana));
   const auraEfekt = !kucuk ? auraT?.efekt : null;
+  // Taç süsü görünüyor mu (çerçevede ya da aurada) — maç sonu sahnesi kendi taç emojisini buna göre gizler
+  const tacli = [...susler, ...auraSusler].some((s) => s.endsWith("_tac"));
 
   return (
     <span className={`qt-cerceve${tanim ? "" : " qt-cerceve--yok"}${kucuk ? " qt-cerceve--kucuk" : ""}${oynar ? " qt-cerceve--oynar" : ""} ${className}`.trim()}
           data-tur={tanim?.tur} data-malzeme={tanim?.malzeme} data-tema={tanim?.tema}
-          data-desen={tanim?.desen} data-kademe={kademe}
+          data-desen={tanim?.desen} data-kademe={kademe} data-tac={tacli ? "" : undefined}
           style={{ "--_b": `${boyut}px`, "--_k": `${k}px` }}
           {...(etiket ? { role: "img", "aria-label": etiket } : {})}>
       {auraT && (
