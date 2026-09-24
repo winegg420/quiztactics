@@ -8000,3 +8000,39 @@ eşleşme süresi + antrenman; ses seçimi; maç sonu önizlemesi; ses/müzik ba
   (katılım ödülü alıyor); ustalık sayacı terk edilen maçın doğrularını geri almıyor; Grup'ta rövanş yok; Sıradan aura
   75 elmas; elmas paket miktarları taban mı toplam mı; Efsanevi aura bedava oyuncuya ~4–6 ay; turnuva sonu sahnesi
   ekranda doğrulanmadı (DB doğru).
+
+## 2026-09-24 — Kozmetik paketi: A (27 avatar) · B (çerçeve tarzı) · C (elmas kozmetikleri + tepki) + kapanış
+**Araç:** Claude Code (yönetici + 3 alt ajan; ortak klasör, dizin kilidi)
+**Neden:** Ida'nın kozmetik paketi. İlke: her şey yapılır, oyuncuya satışta KAPALI (`kozmetik_satis_acik = false`);
+Ida önizlemelerde onaylayınca ayrı adımla açılır.
+
+- **A (520, uygulandı):** 27 avatar (`AvatarProIllustrations2.jsx`, `public/avatars/pro2/`; mevcut 31 bayt bayt aynı),
+  `avatar_katalogu` + `oyuncu_avatarlari`, `avatar_katalogu_oyun` / `avatar_satin_al` / `avatar_onizleme_listesi` /
+  `avatar_onay_kaydet` / `kozmetik_satis_acik_mi`; `avatar_onayla` kapalı avatarı normal oyuncuya reddeder, sahibe
+  kabul eder. `/avatar-onizleme`. Telif için: Pelerinli Kahraman (doğan güneş amblemi), Gece Bekçisi (kukuleta +
+  hilal, kulaklı maske yok), Yıldız Şövalyesi (siperli sivri enerji kılıcı, cüppe yok), Laboratuvar Canavarı (üç
+  gözlü mor jöle). `KurulumSihirbazi.jsx` sabit 31'lik listede kaldı.
+- **B (530, uygulandı):** `/cerceve-onizleme`, Altın Lig çerçevesi üç tarzda (Çizgi / Mücevher / Çizgi + Işık) SVG,
+  boyuta göre ayrıntı (≥56 tam · 40–55 sade · <40 yalnız halka); gerçek yerler ölçülerek: ana sayfa 64, maç şeridi 48,
+  lig 40, ana sayfa lig kartı 28, maç sonu VS 76, profil 88 px. `sahip_tasarim_secimleri` + `tasarim_secimi(_kaydet)`.
+- **C (540–542, uygulandı):** VS kartı 6 · isim efekti 6 (kontrast en düşük açık 5,30 / koyu 5,88) · zafer efekti 5
+  (tembel; 4× CPU'da efekt sonrası 50 ms üstü kare 0) · tepki paketleri 2; dükkân sekmeleri + Koleksiyon + dükkân
+  Avatar sekmesi (A'nın kataloğu); `kozmetik_katalogu` / `kozmetik_satin_al` / `kozmetik_tak` / `kozmetik_onay_*`;
+  sahip test modu; bot kozmetiği (yalnız gizli bot, satıştaki + "girsin" kalemlerden, kimlikten sabit); tepki yalnız
+  Realtime yayın, bot tepkisi sunucudan %30, `tepki_acik_modlar = ['antrenman']`, gizleme cihazda.
+- **Yönetici (kapanış):** maç şeridinde telefonda lig adı tek harfe iniyordu (önceki çakışma düzeltmesinin yan etkisi)
+  → < 600 px'te lig rengi nokta. A ve B'nin canlı Düello testindeki "Page crashed" tekrar etmedi (o sırada makine
+  yükü + eşzamanlı dağıtım).
+- **Canlı test (kapanış):** Düello 6 saldıran / 7 savunan, hepsi sunucuya ulaştı (yalnız bilinen sayaç gecikmesi, en
+  çok 2,9 sn); Klasik 20/20; Antrenman tepki testi: gönderme + balon, 0,3 sn'de ikinci deneme engelli, en kısa aralık
+  3.250 ms, kanala tam 10, alıcı sınırı (4 sahte → 2 balon, bilinmeyen/yabancı yok sayıldı), gizle açıkken 0, bot
+  tepkisi 3, eski tabloya 0 satır, konsol temiz. Normal hesap (canlı): `sahip_mi` false, `kozmetik_katalogu` 0,
+  `avatar_katalogu_oyun` 0, satın alma "satılmıyor", takma "sende yok", onay/tarz kaydı "yalnız sahibe açık".
+  Sahip yolu ajanların işlem içi provalarıyla (auth.uid taklidi, geri alındı) doğrulandı — Ida'nın gerçek oturumu
+  yok. Arayüz denetimi 16 sayfa TEMİZ. Build temiz; giriş paketi 376.439 → 388.380 B (gzip 121.808 → 125.847).
+- **Karar bekleyen:** avatar adları (Kıvırcık, Başörtülü, Gece Bekçisi, Yüce Kral…), Vampir tasarımı, kostümlü 250;
+  çerçeve tarzı; maç sonunda sahne tacı (`msk-tac`) çerçeve tacına biniyor, plaka isim hapına 2–3 px biniyor; tepkiyi
+  Klasik/Düello'ya açmak ve eski DB'ye yazan emojileri kaldırmak; kozmetik test fiyatları; bot tepki sıklığı %30;
+  Realtime maç kanalı herkese açık (maç kimliğini bilen sahte tepki yollayabilir — yalnız 12 tepki, aynı sınırlarla);
+  bot tepkisi Realtime mesaj tablosuna yazıyor (Supabase günlük temizler); dükkân sekme çubuğunda seçili sekme
+  ekran dışında kalabiliyor; yeni avatarlar kurulum sihirbazında yok.

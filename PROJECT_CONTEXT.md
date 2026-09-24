@@ -262,6 +262,21 @@ Aktif yedi maç skill'i vardır:
   hepsi `CerceveliAvatar` içinde (veri `oyuncu_kartlari` / `lig_grubum_ozet`). Sahiplik
   `oyuncu_cerceveleri`, takılı `profiles.takili_cerceve`. Görünüm `oyun/tasarim/cerceveler/`;
   önizleme `/kozmetik-onizleme`.
+- **Elmas kozmetikleri (520/540–542, Ida — SATIŞTA KAPALI):** yeni kozmetikler yapılır ama
+  `kozmetik_satis_acik = false` iken normal oyuncu göremez/alamaz/takamaz (sunucu kapısı); bayrak
+  açılsa bile yalnız Ida'nın önizlemede "girsin" dediği kalemler satılır. Türler: 27 yeni avatar
+  (`avatar_katalogu`, 13 günlük bedava + 14 kostümlü 250; çizim `AvatarProIllustrations2.jsx`,
+  `public/avatars/pro2/`), VS kartı (6 tema, 150), isim efekti (6, 100; kontrast ≥ 4,5), zafer
+  efekti (5, 200; rakip küçük görür), tepki paketi (2 × 4, 100). **Sahip test modu:** sahip
+  satın almadan her şeyi takar, gerçek maçta rakibe de görünür. Gizli botlar yalnız satıştaki +
+  "girsin" kalemlerden, bot kimliğinden sabit takar. Aura bu bayraktan bağımsız, satışta.
+- **Maç içi tepki (542):** oyuncu tepkisi DB'ye yazılmaz, yalnız maç Realtime kanalında yayın;
+  3 sn'de 1, maçta 10 (gönderen + alıcı); bedava 👏😎😅🤔. Açık modlar `tepki_acik_modlar`
+  (şimdilik yalnız `antrenman`); bot tepkisi sunucudan %30 (`tepki_bot_olasilik`). "Rakip
+  tepkilerini gizle" cihazda. Tepkinin açık olduğu modda eski DB'ye yazan emojiler gizli.
+- **Tasarım seçimleri (530):** `sahip_tasarim_secimleri` (konu → seçim, yalnız sahip); ilk konu
+  `cerceve_tarzi` (cizgi / mucevher / isik) — seçilen tarzda bütün çerçeveler ayrı pakette yeniden
+  çizilecek.
 - **Etkinlik eşyaları satılmaz** (Taç, Pelerin, Uzay Kıyafeti) — yalnız
   turnuva ödülüdür. Dükkânda kilitli görünür.
 - Dükkândaki her şey yalnız coin ile alınır.
@@ -335,7 +350,9 @@ karakter, Hızlı Mod hariç — dondurulmuş) bu sistemle yeniden yazıldı.
   veri tek çağrı `mac_sonu_ozet`, sesler yalnız `ses.js › sesMacSonu`, terkte ödülsüz "Maçtan
   ayrıldın" / "Rakip ayrıldı — galibiyet"; Turnuva/Grup'ta kendi derecen; `lottie-web` +
   `canvas-confetti` maç sonunda tembel yüklenir — "yeni paket yok" kuralının Ida onaylı istisnası),
-  `/ses-secim` (kalıcı ses aracı, yalnız sahip).
+  `/ses-secim` (kalıcı ses aracı, yalnız sahip), `/avatar-onizleme` (27 avatar girsin/girmesin),
+  `/cerceve-onizleme` (çerçeve tarzı A/B/C), `/kozmetik-onizleme` (kozmetik "satışa girsin" seçimi
+  yalnız sahipte) — seçim sayfaları yalnız sahip yazar.
 - **Skill rozeti (`SkillRozeti`)** her yerde aynı: dükkân, loadout, maç çubuğu, maç içi satın alma,
   maç sonu, envanter, level ödülü. Kabarık parlak rozet, renk token'ı `--qt-skill-<tur>`, sembol
   Phosphor (MIT). Coin paketi görseli `CoinPaketGorseli` (Noto Emoji 3D, Apache 2.0). **Dış
