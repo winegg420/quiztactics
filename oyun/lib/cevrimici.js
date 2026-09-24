@@ -120,7 +120,10 @@ export function useCevrimiciDurumum(uid) {
       }
       let kanal;
       try {
-        kanal = supabase.channel(kanalAdi(uid), { config: { private: true, presence: { key: uid } } });
+        // enabled: true şart — sahip kanalında presence dinleyicisi yok; realtime-js o zaman presence'ı kapalı
+        // katıldığından sunucu katılımı broadcast okuma iznine göre denetler ve 590'ın yalnız 'presence'
+        // politikası yüzünden "Unauthorized" döner (canlı ölçüm 24 Eyl: kimse kendi durumunu yayınlayamıyordu).
+        kanal = supabase.channel(kanalAdi(uid), { config: { private: true, presence: { key: uid, enabled: true } } });
       } catch (e) {
         tekUyari(e);
         return;
