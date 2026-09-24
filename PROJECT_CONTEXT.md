@@ -85,12 +85,19 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
 
 ### Düello
 
-- 3 can, en çok 10 tur (çift hamle — eşit hamle kuralı).
-- 6 sn Saldırı Hazırlığı; savunan 15 sn (Zaman Baskısı altındaysa 10 sn).
-- **Saldırı riski:** savunan kendi EN ZAYIF kategorisinde (maç başında
-  sabitlenir) bilirse SALDIRAN can kaybeder.
-- Aynı kategori üst üste gelmez, bir maçta en çok 2 kez çıkar.
-- Eşitlikte turnuvanın altın soru mekaniği uygulanır.
+- 3 can, en çok 10 tur (çift hamle — eşit hamle kuralı). Saldıran kategoriyi seçer, soru ikisine
+  aynı anda açılır (cevap 15 sn); yalnız biri doğruysa öteki 1 can kaybeder. Beraberlik yok: can
+  eşitse uzatma (kategori rastgele, ilk fark bitirir).
+- **Zayıf nokta (470, Ida kesin):** her oyuncunun en zayıf kategorisi maç başında sabitlenir
+  (`duello2_en_zayif`: en az `duello2_zayif_min_cevap` 5 cevaplı kategoriler arasından doğru oranı en
+  düşük; yoksa zayıf yok, kural o oyuncuda işlemez; botlarda kendi geçmişi) ve `profil.zayif` ile iki
+  tarafa görünür. Saldıran rakibin zayıfını seçer ve savunan bilirse **saldıran** 1 can kaybeder —
+  saldıran da bilse bile; ikisi yanlışsa kimse; yalnız saldıran doğruysa savunan. Uzatmada işlemez.
+  Kural sunucuda (`duello2_cozumle`); süre dolunca otomatik seçim savunanın zayıfını seçmez.
+- **Kategori sınırı (470):** her kategori maçta en çok 3 kez (`duello_kategori_max`, zayıf dahil,
+  uzatma sayılmaz); maçtaki bir önceki seçim (hangi oyuncu seçtiyse) hemen tekrar seçilemez. Sunucu
+  reddeder (`duello2_kategori_uygun_mu`), istemci soluk gösterir, bot ve otomatik seçim aynı kuraldan
+  geçer. Joker (skill) sınırları ayrı: 4 / aynı 2 / soruda 1.
 - Botlar kategoriye göre isabetle cevaplar (`bot_kategori_sapma`) —
   profil hem görünen hem gerçektir.
 - **Eşleşme (370, bütün modlar):** gerçek oyuncu varsa anında; yoksa gizli bot, sunucuda aramaya
@@ -110,12 +117,12 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
   aynı anda, simetrik can tablosu, uzatma (beraberlik yok), skill 4/2/1, Sigorta/2X
   yok. Sunucu 268, bot 269; arayüz `DuelloV2.jsx`. Test listesi
   (`duello_v2_test_kullanicilari`) ve v1 kodu silinmedi, yalnız kullanılmıyor.
-  Yukarıdaki "Saldırı riski" / "6 sn Saldırı Hazırlığı" maddeleri v1 içindir.
   İstemci tanımadığı bir sürüm görürse maçı çizmez, yenileme ister
   (`DUELLO_EN_YUKSEK_SURUM`).
 - **Strateji penceresi (351):** kategori süresi `duello2_kategori_sn` **15 sn**, son 3 sn renk + ses.
-  Saldıranın her kartında rakibin ve kendi doğru oranı + kalan hak; savunan "Rakip düşünüyor…" +
-  kendi en güçlü/zayıf 3 kategorisi. Oranlar maç başında `duello_olustur`'da bir kez
+  Saldıranın her kartında rakibin ve kendi doğru oranı + kalan hak, rakibin zayıf noktasında ⚠ "Bilirse
+  sen can kaybedersin"; savunan "Rakip düşünüyor…" + kendi en güçlü/zayıf 3 kategorisi; iki tarafta da
+  iki zayıf nokta bandı, savunanın cevap ekranında "Rakip zayıf noktana saldırdı!". Oranlar maç başında `duello_olustur`'da bir kez
   (`profil1/2.oranlar`; kategori_istatistik = bütün modlar; `duello_oran_min_cevap` 5 altı "—").
   Bot seçimi 3–8 sn (tik 2 sn); %65 rakibin en zayıf iki kategorisinden biri
   (`duello2_bot_zayif_secim_yuzde`), %20 kendi güçlüsü, kalan rastgele.
