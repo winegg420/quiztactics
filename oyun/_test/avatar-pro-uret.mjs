@@ -1,6 +1,8 @@
 // Onaylanan profesyonel avatar bileşenlerini üretimde kullanılan statik SVG'lere çevirir.
 // Kaynak: oyun/components/AvatarProIllustrations.jsx (31, public/avatars/pro)
 //       + oyun/components/AvatarProIllustrations2.jsx (27 yeni, public/avatars/pro2 — katalog 520, kapalı başlar)
+//       + oyun/components/AvatarProIllustrations3.jsx (12 yeni, yine public/avatars/pro2 — katalog 595, aktif=false başlar;
+//         klasör aynı ki avatar_katalogu.url kısıtı `^/avatars/pro2/` değişmesin)
 
 import fs from "node:fs";
 import path from "node:path";
@@ -25,6 +27,8 @@ try {
   const { AVATAR_PRO2 } = await vite.ssrLoadModule("/oyun/components/AvatarProIllustrations2.jsx");
   console.log(`Üretilen profesyonel avatar: ${yaz(AVATAR_PRO, "public/avatars/pro")}`);
   console.log(`Üretilen yeni avatar (pro2): ${yaz(AVATAR_PRO2, "public/avatars/pro2")}`);
+  const { AVATAR_PRO3 } = await vite.ssrLoadModule("/oyun/components/AvatarProIllustrations3.jsx");
+  console.log(`Üretilen 3. set avatar (pro2 klasörü): ${yaz(AVATAR_PRO3, "public/avatars/pro2")}`);
 } finally {
   await vite.close();
 }
