@@ -163,9 +163,11 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
 
 ### Skill sistemi
 
-Oyuncuya görünen ad **"Skill"**. Veritabanındaki `joker_*` adları eski
-istemci ve geçmiş kayıt uyumluluğu için **bilerek korunur** — yeniden
-adlandırılmaz. Tek kayıt kaynağı `oyun/lib/jokerler.js`.
+Oyuncuya görünen ad **"Joker"** (TR + EN; Ida, 24 Eyl 2026 — "Skill" kalktı). Kodda/DB'de
+`skill_*` ve `joker_*` iç adları **bilerek korunur** — yeniden adlandırılmaz. Anahtarı hâlâ
+"skill" geçen metinler `dil.js › jokerAdi()` ile çıkışta Joker olur. Tek kayıt kaynağı
+`oyun/lib/jokerler.js`. Jokerler **yalnız coin'le** alınır (test fiyatları: Ek Süre 20 · Soru
+Değiştir 30 · Zaman Baskısı 30 · Sigorta 40 · 2X 50 · 50:50 60 · İkinci Şans 60).
 
 Aktif yedi maç skill'i vardır:
 
@@ -233,19 +235,33 @@ Aktif yedi maç skill'i vardır:
 - Günlük tavan 400 · başlangıç **10.000 (test; `baslangic_coin`)** · reklam 25
   (günde 5). `coin_baslangic` (500) satırı DB'de durur ama okunmaz.
 - Eşya: sıradan 300–600, özel 1.200–2.500.
-- **Coin paketleri (328/336):** Avuç / Kese / Sandık / Hazine / Define (EN Handful / Pouch / Chest /
-  Treasure / Hoard); bonus %0/%10/%15/%20/%30; Define `coin_16000` = 16.000 + 4.800. Etiket
-  `coin_paketleri.bonus`tan hesaplanır; en büyükte "En iyi değer". Gerçek fiyatlar Play Console'da
-  (henüz tanımlı değil) — kural ve ad güncellemesi `docs/YAYIN_ONCESI.md`.
+- **İki para birimi (480, Ida — pay to win yok):** **coin** yalnız oynayarak kazanılır, parayla
+  satılmaz (coin paketleri pasif); jokerler coin'le. **Elmas** (`profiles.elmas`, defter
+  `elmas_hareketleri`; yazma yalnız sunucu `elmas_ekle`/`elmas_harca`) gerçek parayla + oyunla;
+  yalnız kozmetik alır. Elmas paketleri Avuç / Kese / Sandık / Hazine / Define = 100 / 220 / 500 /
+  1.100 / 2.400 taban + %0/10/15/20/30 bonus; satın alma kapalı (`elmas_satin_alma_acik = 0`,
+  "Yakında"); Play ürünleri `elmas_100…elmas_2400` sonra — `docs/YAYIN_ONCESI.md`. Oyunla elmas
+  (test): haftalık lig 1./2./3. 10/6/3 · turnuva birincisi 10 · her 10 level 20 · 7 günlük seri 5 ·
+  elmas kademeli rozet 5–20 · günde 1 elmas reklamı 2. Tahmin: düzenli bedava oyuncu ayda ~100–180.
+- **Terk kuralı (460, Ida):** maçın yarısında çıkan asla ödül almaz — 0 coin / XP / elmas, seri,
+  görev ve rozet ilerlemesi sayılmaz; kalan tam galibiyet alır. Bütün modlarda sunucuda: Klasik /
+  Saf Bilgi / Antrenman `mac_iptal` (başlamış maç) + kopukluk (insan 45 sn, bot maçı 57 sn nabızsız),
+  Düello `duellolar.terk_eden`, Grup `grup_mac_terk`, Turnuva `turnuva_terk` ("Çık ve elen");
+  10 dk duran maç ödülsüz iptal.
 - **Rozetler (331–333):** 101 rozet (`rozet_tanimlari`: level, Klasik/Düello galibiyet, seri, 10
   kategori × 4 ustalık, turnuva, lig, özel an, sosyal, 5 gizli), kazanma sunucuda olay anında; coin
   bronz 10 · gümüş 25 · altın 50 · elmas 100 (günlük tavana sayılmaz). Geriye dönük verilenler
   coin'siz (`geriye_donuk`). Vitrin `profiles.vitrin_rozetleri` (en çok 3). Level 25/50/75/100
   rozeti level çerçevesini de verir. Sözleşme `docs/SOZLESME_ROZET_CERCEVE.md`.
-- **Çerçeveler (331/334):** 20 (`cerceveler`: 4 lig, 4 level, 12 dükkân); dükkân fiyatı sıradan 400 ·
-  nadir 1.000 · epik 2.500 · efsanevi 6.000; lig/level/etkinlik satılmaz. Sahiplik `oyuncu_cerceveleri`,
-  takılı `profiles.takili_cerceve` (eski lig çerçeveleri taşındı; eski `lig_cerceve_*` çalışır).
-  Görünüm `oyun/tasarim/cerceveler/`, her avatar `CerceveliAvatar`; önizleme `/kozmetik-onizleme`.
+- **Kozmetik katmanları (481, Ida):** **çerçeve** = kazanılan prestij, **asla satılmaz** (lig, level,
+  turnuva şampiyonu, etkinlik — Yılbaşı, Ramazan Bayramı); dükkânda görünmez, Profil › Koleksiyon'da
+  (kilitliler "nasıl kazanılır"la). **Aura** = satılık tarz, avatarın arkasındaki tema katmanı; eski 12
+  dükkân çerçevesi auraya dönüştü (satırlar pasif durur), elmasla satılır: Sıradan 75 · Nadir 150 ·
+  Epik 300 · Efsanevi 600 (`aura_satin_al`, FOR UPDATE; coin yolu yok). Coin'le alınmış dükkân
+  çerçeveleri aynı temanın aurası olarak taşındı (1 hesap). Katman sırası aura → avatar → çerçeve,
+  hepsi `CerceveliAvatar` içinde (veri `oyuncu_kartlari` / `lig_grubum_ozet`). Sahiplik
+  `oyuncu_cerceveleri`, takılı `profiles.takili_cerceve`. Görünüm `oyun/tasarim/cerceveler/`;
+  önizleme `/kozmetik-onizleme`.
 - **Etkinlik eşyaları satılmaz** (Taç, Pelerin, Uzay Kıyafeti) — yalnız
   turnuva ödülüdür. Dükkânda kilitli görünür.
 - Dükkândaki her şey yalnız coin ile alınır.
@@ -315,8 +331,10 @@ karakter, Hızlı Mod hariç — dondurulmuş) bu sistemle yeniden yazıldı.
   şerit ekleri `oyun/lib/ceviri/*.js` (dil.js'e katılır).
 - Seçenekler sayfası `/tasarim-yonleri` (A/B/C) duruyor; silinmesine Ida karar verecek.
 - **Önizleme sayfaları (menüde yok):** `/kozmetik-onizleme` (çerçeve + rozet), `/mac-sonu-onizleme`
-  (yeni maç sonu sahnesi, 6 hâl — gerçek maçlara BAĞLI DEĞİL, Ida onayı bekliyor; `lottie-web` +
-  `canvas-confetti` yalnız bu sayfada tembel yüklenir — "yeni paket yok" kuralının Ida onaylı istisnası),
+  (maç sonu sahnesinin 6 hâli; aynı sahne `MacSonuKutlama` 24 Eyl'den beri BÜTÜN modlarda canlı —
+  veri tek çağrı `mac_sonu_ozet`, sesler yalnız `ses.js › sesMacSonu`, terkte ödülsüz "Maçtan
+  ayrıldın" / "Rakip ayrıldı — galibiyet"; Turnuva/Grup'ta kendi derecen; `lottie-web` +
+  `canvas-confetti` maç sonunda tembel yüklenir — "yeni paket yok" kuralının Ida onaylı istisnası),
   `/ses-secim` (kalıcı ses aracı, yalnız sahip).
 - **Skill rozeti (`SkillRozeti`)** her yerde aynı: dükkân, loadout, maç çubuğu, maç içi satın alma,
   maç sonu, envanter, level ödülü. Kabarık parlak rozet, renk token'ı `--qt-skill-<tur>`, sembol

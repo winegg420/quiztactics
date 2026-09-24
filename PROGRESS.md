@@ -7961,3 +7961,42 @@ eşleşme süresi + antrenman; ses seçimi; maç sonu önizlemesi; ses/müzik ba
   geçiş) — Ida `/ses-secim`'de listeleri kuracak. Yükleme dar geçici politikayla yapıldı ve kaldırıldı.
 - **BEKLİYOR:** Ajan N (yeni maç sonu ekranını canlıya alma — brif hazır, Ida'nın isteğiyle başlatılmadı) ve Düello zayıf
   nokta işi. Build temiz, canlı `d390be6` sonrası sürümde.
+
+## 2026-09-24 — Büyük paket: A (maç sonu + terk) · B (Düello zayıf nokta) · C (elmas/joker/kozmetik) + kapanış
+**Araç:** Claude Code (yönetici + 3 alt ajan; ortak klasör, dizin kilidi `araclar/soru-uretim/yazim.lock`)
+**Neden:** Ida'nın 24 Eyl paketi (eski N ve O/P brifleri bunun içine alındı).
+
+- **A (460–463, uygulandı):** terk kuralı bütün modlarda sunucuda (terk eden 0 coin/XP, seri/görev/rozet sayılmaz,
+  kalan tam galibiyet; Klasik/Saf Bilgi/Antrenman `mac_iptal` + kopukluk 45 sn / bot maçı 57 sn, Düello
+  `terk_eden`, Grup `grup_mac_terk`, Turnuva `turnuva_terk`, 10 dk duran maç ödülsüz iptal; 463 turnuvadan çıkana
+  seri coini). Rakibin Ida'nın avatarıyla görünmesi VERİYDİ: 256 eski avatarları ~10 avatara eşlemiş, 78 gizli
+  botun 18'i `kahraman-k29` → 461 ile 31 avatara döngüsel dağıtım. Yeni maç sonu sahnesi (`MacSonuKutlama`,
+  veri `mac_sonu_ozet` 462) Klasik/Saf Bilgi/Antrenman/Düello/Grup/Turnuva'da canlı; Turnuva/Grup'ta kendi derecen
+  (iki kişilik düzen anlamsız). Ses taraması: osilatör yok, Lottie'de gömülü ses yok, 5 tekrar kaldırıldı.
+  Kullanılmaz hâle gelenler (silinmedi): `MacSonuSahnesi.jsx` (yalnız dondurulmuş Hızlı Mod), `LevelKazanci.jsx`,
+  `m1-sonuc.css › m1-ss-*`, `mac_odulum` RPC'si Klasik'te çağrılmıyor.
+- **B (470, uygulandı):** zayıf nokta (≥5 cevaplı kategorilerin en düşük oranlısı, maç başında sabit; zayıfa saldırı +
+  savunan doğru → saldıran 1 can, ikisi doğruyken de; uzatmada işlemez) + kategori maçta en çok 3, maçtaki önceki
+  seçim tekrar seçilemez; süre dolunca otomatik seçim savunanın zayıfını seçmez. Sunucu testi 5/5; canlı 3 maç 33
+  hamlede ihlal 0. "Hazır mısın?" ekranı Düello'da yok → kural kartı Düello girişinde; Nasıl Oynanır = `DuelloTanitim`
+  (kategori süresi 8 → 15 sn düzeltmesi). PROJECT_CONTEXT Düello satırları güncellendi.
+- **C (480–481, uygulandı):** coin yalnız oynayarak (paketler pasif), elmas yeni (paketler 100/220/500/1.100/2.400 +
+  bonus, satın alma kapalı), oyunla elmas kazanımları, joker fiyatları, çerçeve (prestij, satılmaz) / aura (elmasla:
+  75/150/300/600) ayrımı, `CerceveliAvatar` aura katmanı, Profil › Koleksiyon; 1 hesabın dükkân çerçevesi auraya
+  taşındı. "Skill" → "Joker" `dil.js › jokerAdi()` ile çıkışta; sunucu provası 35/35.
+- **Yönetici (kapanış):** A/B dosyalarındaki sabit "skill" metinleri kaynakta "joker" (JokerCubugu, JokerSatinAlModal,
+  QuestionCard, MacSonuEklentisi, MatchPage, DuelloPage, DuelloV2, DuelloTanitim, TurnuvaTanitim; EN anahtarları
+  birlikte; DuelloPage'in eksik "Saldırı/Savunma jokerleri" çevirisi eşleşti). 390 px'te rakibin "Lv · Lig" etiketi
+  tur sayısına 21 px biniyordu → seviye satırı sütuna sığar (ölçüldü: çakışma yok). Maç içi joker satın alma penceresi
+  faz/soru bitince açık kalıp Düello kategori ekranını örtüyordu (canlı testte 5 kategori dokunuşu engellendi) →
+  faz/soru değişince kapanır. Maç sonunda gösterilen rozet, uygulama sahneden kapatılınca sonraki açılışta tekrar tost
+  oluyordu (sessionStorage) → localStorage.
+- **Canlı test (kapanış):** arayüz denetimi 16 sayfa TEMİZ; Klasik 20/20; Düello 7 saldıran / 6 savunan, hepsi
+  sunucuya ulaştı (test hesabının 50:50 ve Ek Süre envanteri bitmişti → 20'ye dolduruldu; kalan tek uyarı bilinen
+  sayaç ilk görünüş gecikmesi, en çok 3,2 sn); Antrenman bitir: ekran = DB (coin 70, XP 15), rakip avatarı doğru;
+  Klasik terk: terk edene ödül 0, rakip kazandı, "Maçtan ayrıldın". Build temiz; giriş paketi 363.789 → 376.437 B
+  (gzip 117.420 → 121.811).
+- **Karar bekleyen:** dereceli terkte eksi lig puanı (bugün mağlubiyet 0); turnuvada uygulamayı kapatan terk sayılmıyor
+  (katılım ödülü alıyor); ustalık sayacı terk edilen maçın doğrularını geri almıyor; Grup'ta rövanş yok; Sıradan aura
+  75 elmas; elmas paket miktarları taban mı toplam mı; Efsanevi aura bedava oyuncuya ~4–6 ay; turnuva sonu sahnesi
+  ekranda doğrulanmadı (DB doğru).
