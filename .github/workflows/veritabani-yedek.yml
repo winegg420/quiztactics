@@ -237,7 +237,7 @@ jobs:
 
   bildir:
     name: Başarısızsa görünür ol
-    needs: [testler, yedek]
+    needs: [yedek]
     if: failure()
     runs-on: ubuntu-latest
     steps:
