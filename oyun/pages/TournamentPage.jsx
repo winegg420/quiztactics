@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import MacUstSerit from "../components/MacUstSerit.jsx";
 import { hataMesaji } from "../lib/hata.js";
+import { useGeriTusuOnayi } from "../lib/geriTusuOnayi.js";
 import { useOyunModu } from "../lib/oyunModu.js";
 import { soruCek } from "../lib/soruCek.js";
 import TurnuvaTanitim from "../components/TurnuvaTanitim.jsx";
@@ -489,6 +490,11 @@ export default function TournamentPage() {
 
   useOyunModu(Boolean(soru) && turnuva?.durum === "aktif");
 
+  // Ida (24 Eyl): yarışırken geri tuşu da çıkış onayını açar (lobi, bitmiş turnuva, elenmiş/izleyici hariç).
+  const yarisiyorum = Boolean(turnuvaAktif && !yukleniyor && !turnuvaHata && !terkEttim
+    && oyuncular.some((o) => o.user_id === user?.id && !o.elendi));
+  useGeriTusuOnayi(yarisiyorum, () => setCikisOnay(true));
+
   if (yukleniyor) {
     return (
       <div className="m1-tv" aria-busy="true">
@@ -782,11 +788,12 @@ export default function TournamentPage() {
       <QtModal
         acik={cikisOnay}
         onKapat={() => setCikisOnay(false)}
-        baslik={tt("Turnuvadan çıkarsan elenirsin.")}
-        aciklama={tt("Bu turnuvaya geri dönemezsin ve ödül alamazsın.")}
+        baslik={tt("Çıkarsan turnuvadan elenirsin ve ödül alamazsın.")}
+        aciklama={tt("Çıkmak istiyor musun?")}
         altlik={
           <div className="m1-sat-dugmeler">
-            <QtDugme tur="ikincil" onClick={() => setCikisOnay(false)} data-qt-ilk-odak>{tt("Vazgeç")}</QtDugme>
+            {/* Ida (24 Eyl): "Oyunda kal" vurgulu ve varsayılan odak · "Çık" */}
+            <QtDugme onClick={() => setCikisOnay(false)} data-qt-ilk-odak>{tt("Oyunda kal")}</QtDugme>
             <QtDugme tur="tehlike" onClick={async () => {
               setCikisOnay(false);
               // A.1 terk kuralı: yarışırken çıkan terk eder — katılım dahil ödül almaz (turnuva_terk, 460).
@@ -799,7 +806,7 @@ export default function TournamentPage() {
                 navigate(y());
               }
             }}>
-              {tt("Çık ve elen")}
+              {tt("Çık")}
             </QtDugme>
           </div>
         }

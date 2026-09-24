@@ -14,6 +14,7 @@ import CerceveliAvatar from "../components/CerceveliAvatar.jsx";
 import { useMacSonuOzet, ozettenSahne } from "../lib/macSonuOzet.js";
 import MacYukleniyor from "../components/MacYukleniyor.jsx";
 import { hataMesaji } from "../lib/hata.js";
+import { useGeriTusuOnayi } from "../lib/geriTusuOnayi.js";
 import { useOyunModu } from "../lib/oyunModu.js";
 import { soruCek } from "../lib/soruCek.js";
 import { useParams, useNavigate } from "react-router-dom";
@@ -374,6 +375,12 @@ export default function GroupMatchPage() {
 
   useOyunModu(Boolean(soru) && mac?.durum === "aktif");
 
+  // Ida (24 Eyl): maç sürerken geri tuşu da çıkış onayını açar (lobi/bekleme, bitmiş ya da terk edilmiş maç hariç).
+  const grupKatilimim = (mac?.katilimcilar ?? []).find((k) => k.user_id === user?.id);
+  const grupMacinda = Boolean(mac?.durum === "aktif" && (mac.basladi ?? true) && !terkEttim
+    && grupKatilimim && !grupKatilimim.terk_at);
+  useGeriTusuOnayi(grupMacinda, () => setCikisOnay(true));
+
   // Tepki şeridi (maç içi ve maç sonu aynı): tepkiler + hazır cümleler.
   const tepkiSeridi = (
     <>
@@ -615,11 +622,12 @@ export default function GroupMatchPage() {
       <QtModal
         acik={cikisOnay}
         onKapat={() => setCikisOnay(false)}
-        baslik={tt("Maçtan çıkmak istiyor musun?")}
-        aciklama={tt("Çıkarsan maçtan ayrılmış sayılırsın: kazanan belirlenirken hesaba katılmazsın, maç kalanlarla sürer.")}
+        baslik={tt("Maçı yarıda bırakırsan ödül alamazsın.")}
+        aciklama={tt("Çıkmak istiyor musun?")}
         altlik={
           <div className="m1-sat-dugmeler">
-            <QtDugme tur="ikincil" data-qt-ilk-odak onClick={() => setCikisOnay(false)}>{tt("Vazgeç")}</QtDugme>
+            {/* Ida (24 Eyl): "Oyunda kal" vurgulu ve varsayılan odak · "Çık" */}
+            <QtDugme data-qt-ilk-odak onClick={() => setCikisOnay(false)}>{tt("Oyunda kal")}</QtDugme>
             <QtDugme tur="tehlike" onClick={async () => {
               setCikisOnay(false);
               // A.1 terk kuralı: sunucu anında terk yazar (grup_mac_terk, 460); diğerleri 45 sn beklemez.
@@ -632,7 +640,7 @@ export default function GroupMatchPage() {
                 navigate(y("/meydan"));
               }
             }}>
-              {tt("Maçtan çık")}
+              {tt("Çık")}
             </QtDugme>
           </div>
         }
