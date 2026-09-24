@@ -374,6 +374,10 @@ function DuelloMac({ id }) {
   // Paket 28 D: { tur, yalnizAl }. `yalnizAl` kategori ekranında true —
   // joker envantere girer, kullanımı Saldırı Hazırlığı'nda yapılır.
   const [satinAlinacak, setSatinAlinacak] = useState(null);
+  // Faz değişince (soru bitti, kategori ekranı geldi) açık satın alma penceresi kapanır — eski soruya ait
+  // "Al ve kullan" yeni fazın ekranını örtüyordu (canlı oyuncu testi, 24 Eyl).
+  const satinAlFazi = d ? `${d.tur}:${d.saldiri_sirasi}:${d.saldiran}:${d.faz}:${d.uzatma}` : "";
+  useEffect(() => { setSatinAlinacak(null); }, [satinAlFazi]);
   const [dokumToplam, setDokumToplam] = useState(null);   // Paket 20 I.3: sunucu dökümünün toplamı
   // Paket 40 D: öteki modlar gibi maç sürerken sekme/üst çubuk gizlenir (jokerleri örtüyordu).
   useOyunModu(d?.durum === "aktif");

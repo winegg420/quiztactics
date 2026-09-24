@@ -73,7 +73,7 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
     window.addEventListener("skill-seti-degisti", yenile);
     return () => window.removeEventListener("skill-seti-degisti", yenile);
   }, []);
-  useEffect(() => { setKullandigim([]); }, [soruIndex]);
+  useEffect(() => { setKullandigim([]); setSatinAlinacak(null); }, [soruIndex]);   // yeni soruda eski sorunun satın alma penceresi kapanır
   // B.4: kullanım anı — düğme parlaması + ekran ortasında şerit (≈850 ms)
   const [parlayan, setParlayan] = useState(null);
   // Tasarım A: kullanım şeridi artık ayrı katman değil — QuestionCard'ın sonuç bandında
