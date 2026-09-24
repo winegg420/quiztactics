@@ -265,7 +265,12 @@ Aktif yedi maç skill'i vardır:
   altın ışık (plaka değil); hareketli yerlerde ışık akar, liste/şeritte durağan. Önizleme aynı bileşeni çizer.
 - **Rakip arama ekranı "Güneş Halkası"** (Ida, 24 Eyl; `AramaSahnesi.jsx` → tembel `AramaGunesHalkasi.jsx`): gök mavisi,
   ortada dönen halka + yörüngede avatarlar, süre, mod/Dereceli rozeti, "Biliyor muydun?" (TR/EN), VS `ARAMA_GECIS_MS`
-  (2 sn) içinde. Klasik, Saf Bilgi, Düello; Grup'un kendi bekleme satırı (ChallengesPage) eski.
+  (2 sn) içinde. Klasik, Saf Bilgi, Düello ve Grup araması; ada dokununca oyuncu kartı.
+- **Maç ekranları gök mavisi** (`.qt-sahne-gok`; koyu mor sahne yok): Hazır mısın?, Düello, Çalışma, bekleme, terk hâlleri.
+  Soru açıkken sayfa 100dvh sütun, kaydırmasız; joker + tepki hep görünür. Baykuş maskot Hazır mısın?'dan çıktı.
+- **Hata kurtarma:** `HataSiniri` Layout'ta rota içeriğini sarar (alt menü kalır), `tembelYukle` (1 yeniden deneme),
+  vite:preloadError'da bir kez yenile, "Bağlantı yok" şeridi. Dükkân alımları onay penceresiyle (`JokerSatinAlModal`);
+  misafir çıkışında uyarı (`CikisOnayi`); ağ hatası metni tek yerden (`hataMesaji`).
 - **Çevrimiçi durumu (590, Ida onaylı güvenlik kuralı) YALNIZ arkadaş listesinde:** Realtime Presence, her oyuncunun
   özel kanalı `cevrimici-<uid>`; yalnız sahibi yazar, yalnız kabul edilmiş arkadaş okur; DB'ye yazım yok. Yeşil
   "Çevrimiçi" / turuncu "Maçta", çevrimiçiler üstte, çevrimdışında gösterge yok. Arka planda kanaldan çıkılır.
