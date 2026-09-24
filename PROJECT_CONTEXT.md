@@ -243,6 +243,7 @@ Aktif yedi maç skill'i vardır:
   "Yakında"); Play ürünleri `elmas_100…elmas_2400` sonra — `docs/YAYIN_ONCESI.md`. Oyunla elmas
   (test): haftalık lig 1./2./3. 10/6/3 · turnuva birincisi 10 · her 10 level 20 · 7 günlük seri 5 ·
   elmas kademeli rozet 5–20 · günde 1 elmas reklamı 2. Tahmin: düzenli bedava oyuncu ayda ~100–180.
+- **Turnuva ve Grup çıkış onayı:** çıkış düğmesi ve geri tuşu onay penceresi açar ("Oyunda kal" / "Çık"; Klasik/Düello ile aynı pencere).
 - **Terk kuralı (460, Ida):** maçın yarısında çıkan asla ödül almaz — 0 coin / XP / elmas, seri,
   görev ve rozet ilerlemesi sayılmaz; kalan tam galibiyet alır. Bütün modlarda sunucuda: Klasik /
   Saf Bilgi / Antrenman `mac_iptal` (başlamış maç) + kopukluk (insan 45 sn, bot maçı 57 sn nabızsız),
@@ -277,6 +278,12 @@ Aktif yedi maç skill'i vardır:
   `public/avatars/pro2/`) herkese ÜCRETSİZ: profil, kurulum, Dükkân › Avatar ve Koleksiyon'da seçilir
   (`avatar_katalogu.aktif` yeter; `/avatar-onizleme` onayı bu karar için bakılmaz).
   (550 dalda `bulut/kozmetik-aktivasyon` — canlıya uygulanınca geçerli; bkz. `docs/KOZMETIK_AKTIVASYON.md`.)
+- **Premium kozmetik (560, dal `bulut/premium-aktivasyon` — uygulanınca geçerli):** `kozmetikler` türleri
+  `premium_cerceve` (Sonbahar, Galaksi, Sakura; 500 elmas) ve `premium_aura` (yaprak, kar, köz, gece, kuzey, su altı;
+  300 elmas; avatarın İÇ zemini) — ayar `elmas_premium_cerceve/aura`, `kozmetik_satis_acik` kuralı, sahip test modu,
+  gizli bot takmaz, `kozmetik_ver` (etkinlik ödülü). Çizim `oyun/tasarim/premium/` (tembel), `CerceveliAvatar` karttaki
+  `premium_cerceve/premium_aura`'yı çizer; hareket yalnız profil/lobi/VS/maç sonu, ≤48 px durağan. Lig amblemi
+  (`ligAmblemi.jsx`) oyuncu adının yanında her yerde. Eski dükkân auraları pasif.
 - **Maç içi tepki (542/551):** oyuncu tepkisi DB'ye yazılmaz; Realtime yayını yalnız o maçın iki
   oyuncusuna açık ÖZEL kanalda (`tepki-mac-<id>` / `tepki-duello-<id>`, `realtime.messages` RLS ile
   oyuncu1/oyuncu2; oyun kanalı ayrı ve değişmedi). 3 sn'de 1, maçta 10 (gönderen + alıcı); bedava
