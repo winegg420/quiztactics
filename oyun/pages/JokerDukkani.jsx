@@ -115,12 +115,16 @@ export default function JokerDukkani() {
   // 540: elmas kozmetikleri sekmeleri (Avatar · VS Kartı · İsim Efekti · Zafer Efekti · Tepki) Aura'nın arkasına.
   // Satış kapalıyken normal oyuncuya katalog boş döner (sunucu) → sekmeler hiç görünmez; sahip test için görür.
   const kozmetik = useKozmetikDukkan();
+  // 560: premium aura sekmesi ("Aura", avatarın iç arka planı) varken eski dükkân aura sekmesi (481; bütün
+  // kalemleri 552'den beri pasif, sekme boş) gizlenir — iki "Aura" sekmesi olmasın; ?sekme=aura → paura.
+  const premiumAuraVar = kozmetik.sekmeler.some((s) => s.kod === "paura");
   const SEKMELER = [
-    ...TEMEL_SEKMELER.slice(0, 2),
+    ...TEMEL_SEKMELER.slice(0, 2).filter((x) => !(premiumAuraVar && x.kod === "aura")),
     ...kozmetik.sekmeler.map((s) => ({ kod: s.kod, ad: tt(s.ad), ikon: s.ikon })),
     ...TEMEL_SEKMELER.slice(2),
   ];
-  const istenenSekme = ESKI_SEKME[arama.get("sekme")] ?? arama.get("sekme");
+  const istenenSekme = (premiumAuraVar && arama.get("sekme") === "aura") ? "paura"
+    : ESKI_SEKME[arama.get("sekme")] ?? arama.get("sekme");
   const sekme = SEKMELER.some((x) => x.kod === istenenSekme)
     ? istenenSekme
     : VARSAYILAN_SEKME;
