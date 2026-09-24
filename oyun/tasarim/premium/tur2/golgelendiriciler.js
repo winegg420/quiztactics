@@ -93,7 +93,7 @@ void main(){
   // duman: tepede, alevlerin üstünde yükselen koyu is
   float dm = fbm3(vec2(p.x * .05 + sin(t * .3) * .4, p.y * .045 + t * .5));
   float dmB = smoothstep(-38., -64., p.y) * smoothstep(58., 18., abs(p.x)) * smoothstep(10., 22., d);
-  o = ust(o, vec3(.14, .11, .12), dmB * smoothstep(.4, .78, dm) * .6);
+  o = ust(o, vec3(.14, .11, .12), dmB * smoothstep(.4, .78, dm) * .38);
   // ısı ışıması (hale) + avatarın kenarına düşen sıcak ışık
   float hale = exp(-max(d, 0.) / 15.) * smoothstep(-10., 0., d);
   float titre = .82 + .1 * sin(t * 5.3) + .08 * sin(t * 8.9 + 1.);

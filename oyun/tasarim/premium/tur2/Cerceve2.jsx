@@ -6,6 +6,7 @@
  * Katmanlar (alttan üste): aura + avatar (mevcut PremiumCerceve, çerçevesiz) → çizim (<img>, vektör SVG; keskin)
  * → efekt tuvali (WebGL gölgelendirici; alev, buz, şimşek, altın yansıması, göz/alev ışığı). Tuval ve çizim
  * kutunun %170'i: süsler ve efektler taşar, tıklama yutmaz.
+ * WebGL yalnız `hareketli` verilen yerde; hareketsiz yerlerde (listeler) yalnız çizim (durağan, ucuz).
  * Kademe: ≥ 100 px tam · 49–99 px orta (ejderha kanadı kısa, dar yerlerde kesilmesin) — ikisinde de + (varsa) WebGL · ≤ 48 px sade çizim, durağan (WebGL yok, kutudan taşmaz).
  * WebGL yoksa (eski cihaz, bağlam açılamadı) önceki SVG + CSS hâli (sanatCerceveler) gösterilir; Altın Lig
  * için oyundaki "Çizgi" tarzı. Hareket: yalnız `hareketli`, ekrandayken (IntersectionObserver), sekme
@@ -101,16 +102,18 @@ export default function Cerceve2({ tur, aura = null, boyut = 88, hareketli = fal
   const tamPng = tur === "ejderha" && png;
   const tacPng = tur === "kraliyet" && png;
   const sanat = tamPng ? png.url : sanatAdresi(tur, kademe, { tacYok: Boolean(tacPng) });
-  const [gl, setGl] = useState(kademe !== "kucuk" ? "bekliyor" : "kapali");
+  // WebGL yalnız hareketli yerde (profil, lobi, VS, maç sonu, dükkân kartı/önizleme); listelerde sade çizim
+  const webglIster = kademe !== "kucuk" && hareketli;
+  const [gl, setGl] = useState(webglIster ? "bekliyor" : "kapali");
   const kok = useRef(null);
   const tuval = useRef(null);
 
   useEffect(() => {
-    if (kademe === "kucuk") { setGl("kapali"); return undefined; }
+    if (!webglIster) { setGl("kapali"); return undefined; }
     let aktif = true;
     motorYukle().then((m) => { if (aktif) setGl(m ? "var" : "yok"); });
     return () => { aktif = false; };
-  }, [kademe]);
+  }, [webglIster]);
 
   const ayar = useMemo(() => ({
     efekt: T.efekt, olcek: T.olcek, a: T.a, n: T.n(), durgunT: T.durgunT,

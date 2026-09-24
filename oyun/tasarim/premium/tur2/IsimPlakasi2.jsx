@@ -2,9 +2,10 @@
  * ALTIN İSİM PLAKASI — 2. tur (yalnız /premium-onizleme). Görünüm: tur2.css › p2-plaka.
  *   tur="yakut" — parlak altın çerçeve, derin yakut kadife zemin, altın yazı
  *   tur="kulce" — cilalı altın külçe, isim kazınmış
- * boyut: "k" | "o" | "b" (önceki AltinIsimPlakasi ile aynı ölçüler).
+ * boyut: "s" (satır içi, oyunda) | "k" | "o" | "b" (önceki AltinIsimPlakasi ile aynı ölçüler).
+ * Oyunda: isim_altin isim efekti bu plakanın "kulce" hâliyle çizilir (IsimEfekti.jsx).
  */
-import "./tur2.css";
+import "./plaka2.css";
 
 export const PLAKA2 = {
   yakut: { ad: "Altın plaka — yakut zemin", aciklama: "Parlak sarı altın çerçeve ve yazı, derin yakut kadife zemin (ince şam deseni), altın elmas uçlar. Üstünden ışık geçer." },

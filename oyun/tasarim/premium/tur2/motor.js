@@ -277,7 +277,8 @@ class Motor {
   ciz(y, t) {
     const gl = this.gl;
     const dpr = Math.min(1.5, window.devicePixelRatio || 1);   // efektler yumuşak: 1,5× yeter, dolgu maliyeti yarıya iner
-    const px = Math.max(24, Math.min(720, Math.round(y.css * dpr * (y.ayar.olcek ?? 0.75) * this.kalite)));
+    // küçük yuvalar ucuz: kalite düşse de en az ~0,8× piksel (dükkân kartında bulanık görünmesin)
+    const px = Math.max(24, Math.min(720, Math.round(Math.max(y.css * dpr * (y.ayar.olcek ?? 0.75) * this.kalite, Math.min(y.css * dpr * 0.8, 170)))));
     if (y.hedef.width !== px) { y.hedef.width = px; y.hedef.height = px; }
     if (this.kanvas.width < px) {
       const b = Math.min(1024, Math.ceil(px / 128) * 128);
