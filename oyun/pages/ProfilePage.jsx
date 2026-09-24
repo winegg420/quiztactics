@@ -38,6 +38,7 @@ import {
 import { DILLER, tt } from "../lib/dil.js";
 import { useDil } from "../lib/dilKanca.js";
 import { HesapGuvenceKarti, misafirMi } from "../components/HesapGuvence.jsx";
+import CikisOnayi from "../components/CikisOnayi.jsx";
 import {
   QtAnahtar,
   QtCip,
@@ -64,15 +65,18 @@ export default function ProfilePage() {
   const { dil, dilDegistir } = useDil();
   // Profil dört sekmeye ayrıldı; varsayılan İstatistiklerim.
   const [sekme, setSekme] = useState("istatistik");
+  const [cikisOnay, setCikisOnay] = useState(false);
   // Paket 41 C: avatar menüsündeki "Ayarlar" → /profil?sekme=ayarlar doğrudan Ayarlar sekmesini açar
   const konum = useLocation();
   useEffect(() => {
     const s = new URLSearchParams(konum.search).get("sekme");
     if (!s || !SEKME_KODLARI.includes(s)) return;
     setSekme(s);
+    const bagla = new URLSearchParams(konum.search).get("bagla") === "1";
     const t = setTimeout(() => {
       // Üst çubuk yapışkan: sekmeler onun hemen altına gelsin
-      const el = document.getElementById("profil-sekmeler");
+      // D-202: çıkış onayındaki "Önce hesabımı bağla" → "Hesabımı güvenceye al" kartına kaydır
+      const el = (bagla && document.querySelector(".qt-pf-guvence")) || document.getElementById("profil-sekmeler");
       if (!el) return;
       const ust = document.querySelector(".qt-ustcubuk, .bd-ust-blok")?.getBoundingClientRect().height ?? 0;
       window.scrollTo({ top: Math.max(0, el.getBoundingClientRect().top + window.scrollY - ust - 8), behavior: "auto" });
@@ -421,9 +425,11 @@ export default function ProfilePage() {
               <QtListeSatiri as={Link} to="/kosullar" ikon="liste" baslik={tt("Kullanım koşulları")} ok />
             </QtListe>
             {/* Paket 42 A: çıkış geri alınabilir — ikincil */}
-            <QtDugme tur="ikincil" ikon="cikis" tamGenislik onClick={signOut}>
+            <QtDugme tur="ikincil" ikon="cikis" tamGenislik onClick={() => setCikisOnay(true)}>
               {tt("Çıkış Yap")}
             </QtDugme>
+            {/* D-102/D-202: misafirde geri alınamaz uyarısı + "Önce hesabımı bağla"; normalde kısa onay */}
+            <CikisOnayi acik={cikisOnay} onKapat={() => setCikisOnay(false)} />
             {/* Paket 42 A: geri alınamaz eylem küçük ve en altta; sayfanın en belirgin öğesi değil */}
             <div className="qt-pf-sil">
               <QtDugme tur="tehlike" boyut="k" ikon="cop" onClick={() => { setSilHata(null); setSilOnay(true); }}>

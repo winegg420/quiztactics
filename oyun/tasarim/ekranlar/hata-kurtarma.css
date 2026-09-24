@@ -97,3 +97,12 @@
   background: var(--qt-vurgu, #ff7a2e);
   flex: none;
 }
+
+/* Çıkış onayı düğmeleri (D-102/D-202) — normal: yan yana; misafir: alt alta (uzun etiket) */
+.qt-cikis-dugmeler {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--qt-b-2, 8px);
+  width: 100%;
+}
+.qt-cikis-dugmeler--dikey { grid-template-columns: 1fr; }

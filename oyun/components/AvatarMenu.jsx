@@ -8,9 +8,9 @@
 // ============================================================
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../src/context/AuthContext.jsx";
 import { QtIkon, sinif } from "../tasarim/index.js";
 import CerceveliAvatar from "./CerceveliAvatar.jsx";
+import CikisOnayi from "./CikisOnayi.jsx";
 import { muzikAcikMi, muzikAyarla, muzikDinle, sesAcikMi, sesAyarla, sesDinle } from "../lib/ses.js";
 import { sesMetni } from "../lib/ceviri/ses.js";
 import { useDil } from "../lib/dilKanca.js";
@@ -19,7 +19,6 @@ import { y } from "../lib/yol.js";
 
 
 export default function AvatarMenu({ profile }) {
-  const { signOut } = useAuth();
   const { dil, dilDegistir } = useDil();
   const navigate = useNavigate();
   const [acik, setAcik] = useState(false);
@@ -55,9 +54,11 @@ export default function AvatarMenu({ profile }) {
   const git = (yol) => { setAcik(false); navigate(yol); };
   const sesDegistir = () => { const yeni = !ses; sesAyarla(yeni); setSes(yeni); };
   const muzikDegistir = () => { const yeni = !muzik; muzikAyarla(yeni); setMuzik(yeni); };
-  const cikis = async () => {
+  // D-102/D-202: çıkış önce onay penceresi açar (misafirde geri alınamaz uyarısı) — CikisOnayi.jsx
+  const [cikisOnay, setCikisOnay] = useState(false);
+  const cikis = () => {
     setAcik(false);
-    try { await signOut(); } catch (e) { console.error("[Bildim] çıkış yapılamadı:", e); }
+    setCikisOnay(true);
   };
 
   // Menü öğesi: ikon + yazı (+ sağda durum). Hepsi ≥ 44 px, qt- düzeninde.
@@ -99,6 +100,7 @@ export default function AvatarMenu({ profile }) {
           </button>
         </div>
       )}
+      <CikisOnayi acik={cikisOnay} onKapat={() => setCikisOnay(false)} />
     </div>
   );
 }
