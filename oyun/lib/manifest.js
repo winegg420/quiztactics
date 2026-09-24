@@ -41,7 +41,8 @@ export function useBildimManifest() {
       eskiManifest = manifestEtiket.getAttribute("href");
       eskiTema = temaEtiket.getAttribute("content");
 
-      manifestEtiket.setAttribute("href", BILDIM_MANIFEST);
+      // Zaten Bildim manifestiyse dokunma: index.html'deki ?v= önbellek kırıcısı (ikon değişimi) kalsın.
+      if (!(eskiManifest ?? "").startsWith(BILDIM_MANIFEST)) manifestEtiket.setAttribute("href", BILDIM_MANIFEST);
       temaEtiket.setAttribute("content", BILDIM_TEMA);
     } catch {
       /* belge erişimi yoksa PWA kimliği hub'da kalır — oyunu etkilemez */

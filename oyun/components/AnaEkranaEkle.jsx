@@ -171,7 +171,7 @@ export default function AnaEkranaEkle() {
       <div className="g-ekle-panel">
         <div className="g-ekle-ust">
           <img
-            src="/quiztactics-wordmark-icon-192.png?v=20260922-compact"
+            src="/quiztactics-sekerq-icon-192.png?v=20260924-sekerq"
             alt=""
             width="52"
             height="52"
