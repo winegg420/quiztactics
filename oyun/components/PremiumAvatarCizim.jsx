@@ -12,7 +12,7 @@
  * değişmez). https/Google fotoğrafında ayıklanamaz → aura yine arkada, fotoğraf önde.
  * Hareket kuralı PremiumCerceve'de: ≤ 48 px sade + hareketsiz; yalnız `hareketli` verilen yerde,
  * ekrandayken (IntersectionObserver) ve prefers-reduced-motion yokken.
- * 2. TUR (570, Ida onayı): pc_alev2 / pc_simsek2 / pc_kraliyet2 → Cerceve2 (tur2/, WebGL efekt; motor ayrı
+ * 2. TUR (570, Ida onayı): pc_alev2 / pc_simsek2 / pc_kraliyet2 (580: + pc_ejderha2) → Cerceve2 (tur2/, WebGL efekt; motor ayrı
  * tembel parça, aynı anda en çok 2 hareketli efekt, WebGL yoksa önceki SVG hâli). `ligAltin`: oyundaki
  * Altın Lig çerçevesi 2. tur hâliyle (Cerceve2 "altinlig") çizilir — kazanılır, satılmaz.
  */
@@ -24,8 +24,8 @@ import { AURALAR } from "../tasarim/premium/sanatAuralar.jsx";
 import Cerceve2 from "../tasarim/premium/tur2/Cerceve2.jsx";
 
 /** Premium kalem sanatı → 2. tur çerçeve türü (Cerceve2). */
-export const TUR2_SANAT = { alev2: "alev", simsek2: "simsek", kraliyet2: "kraliyet" };
-const TUR2_AD = { alev: "Sönmeyen Alev", simsek: "Şimşek", kraliyet: "Kraliyet" };
+export const TUR2_SANAT = { alev2: "alev", simsek2: "simsek", kraliyet2: "kraliyet", ejderha2: "ejderha" };
+const TUR2_AD = { alev: "Sönmeyen Alev", simsek: "Şimşek", kraliyet: "Kraliyet", ejderha: "Ejderha" };
 import { tt } from "../lib/dil.js";
 
 export default function PremiumAvatarCizim({ profile, boyut, hareketli = false, premiumCerceve = null, premiumAura = null,

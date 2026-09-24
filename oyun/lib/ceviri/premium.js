@@ -8,6 +8,7 @@ export default {
   "Sönmeyen Alev": "Eternal Flame",
   "Şimşek": "Lightning",
   "Kraliyet": "Royal",
+  "Ejderha": "Dragon",
   "Düşen Sonbahar Yaprakları": "Falling Autumn Leaves",
   "Yağan Kar": "Falling Snow",
   "Yükselen Köz": "Rising Embers",

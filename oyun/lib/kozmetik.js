@@ -51,6 +51,8 @@ export const KOZMETIK_TANIMLARI = {
   pc_alev2:     { tur: "premium_cerceve", sanat: "alev2", ad: "Sönmeyen Alev" },
   pc_simsek2:   { tur: "premium_cerceve", sanat: "simsek2", ad: "Şimşek" },
   pc_kraliyet2: { tur: "premium_cerceve", sanat: "kraliyet2", ad: "Kraliyet" },
+  // 580: Ejderha 2. tur (Ida onayı). public/kozmetik/premium/ejderha.png varsa kod çizimi yerine o (Cerceve2 › PNG_YUVALARI)
+  pc_ejderha2:  { tur: "premium_cerceve", sanat: "ejderha2", ad: "Ejderha" },
   pa_yaprak:   { tur: "premium_aura", sanat: "yaprak", ad: "Düşen Sonbahar Yaprakları" },
   pa_kar:      { tur: "premium_aura", sanat: "kar", ad: "Yağan Kar" },
   pa_kor:      { tur: "premium_aura", sanat: "kor", ad: "Yükselen Köz" },

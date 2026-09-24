@@ -75,7 +75,9 @@ const KALEMLER = [
 const OYUNDA = new Set(["cerceve:sonbahar", "cerceve:galaksi", "cerceve:sakura", "aura:yaprak", "aura:kar", "aura:kor",
   "aura:gece", "aura:kuzey", "aura:sualti", "rozet:lig",
   // 2. tur onayı (Ida, 24 Eyl 2026): Alev 2, Şimşek 2, Kraliyet 2 (pc_*2), Altın Lig 2 (lig_altin), külçe plaka (isim_altin)
-  "cerceve2:alev", "cerceve2:simsek", "cerceve2:kraliyet", "cerceve2:altinlig", "plaka2:kulce"]);
+  "cerceve2:alev", "cerceve2:simsek", "cerceve2:kraliyet", "cerceve2:altinlig", "plaka2:kulce",
+  // Ejderha 2. tur (pc_ejderha2, migration 580) — Ida onayı
+  "cerceve2:ejderha"]);
 const OyundaRozeti = ({ kod }) => (OYUNDA.has(kod) ? <QtRozet ton="dogru" boyut="k" className="pp-oyunda">{tt("Oyunda")}</QtRozet> : null);
 
 function secimOku() {
