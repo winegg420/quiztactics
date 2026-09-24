@@ -2,7 +2,10 @@
    Mobil: ince şerit. Masaüstü (≥1024): avatarlar ve adlar büyür, iki yanda.
    Renkler sahne rollerinden (--qt-zemin-metin) → koyu mor ve pastel zeminde okunur. */
 
-.mo-seviye { display: inline-flex; align-items: center; gap: 6px; min-width: 0; font-size: 12px; line-height: 1.2; }
+.mo-seviye { display: inline-flex; align-items: center; gap: 6px; min-width: 0; max-width: 100%; font-size: 12px; line-height: 1.2; }
+/* 390 px: rakip tarafında "Lv 24 · Gümüş" tur sayısının üstüne taşıyordu — satır sütuna sığar, lig adı kısalır. */
+.qt-oyuncu-yazi:has(> .mo-seviye) { max-width: 100%; }
+.mo-lv { flex: none; }
 .mo-lv {
   padding: 1px 7px; border-radius: var(--qt-r-hap); background: var(--qt-ikinci); color: var(--qt-ikinci-yazi);
   font: var(--qt-a-siyah) 12px/1.4 var(--qt-f-govde); white-space: nowrap;
