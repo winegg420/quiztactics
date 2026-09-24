@@ -59,6 +59,52 @@
     filter: drop-shadow(0 0 3px var(--ie-parilti));
   }
 }
+/* ---------------------------------------------------------------------
+   ALTIN (Ida, 24 Eyl 2026 — 2. karar): plaka/hap YOK, arka plan YOK. İsmin kendisi parlak metal altın
+   harf: dikey koyu→parlak altın degrade (metal bant), ince koyu kenar. `--hareketli` yerlerde (profil başı,
+   VS, maç sonu kazananı, oyuncu kartı, dükkân) harflerin üstünden ara sıra ince parıltı geçer; listelerde
+   (lig tablosu, şerit, arkadaşlar) durağan altın harf. Kontrast (WCAG, degradenin HER durağı, zeminle):
+   açık palet #6b4200 · #8f5a00 · #b07a00 → #fff / #f1f6ff / #dff0ff üzerinde en düşük 3,21:1 (#b07a00/#dff0ff);
+   koyu palet #fff4c0 · #ffd54a · #e0a526 → #3b2a93 / #2a1d74 / #1c1454 / #1d2152 üzerinde en düşük 4,94:1
+   (#e0a526/#3b2a93). Hedef ≥ 3:1 (Ida). Parıltı anlık (≈0,6 sn) geçer; degrade durağı sayılmaz.
+   --------------------------------------------------------------------- */
+.qt-isim-ef[data-ef="altin"] {
+  --ia-1: #6b4200; --ia-2: #b07a00; --ia-3: #8f5a00; --ia-kenar: rgba(58, 34, 0, 0.75); --ia-parilti: #e0aa12;
+  --ia-golge: drop-shadow(0 0 0.6px var(--ia-kenar));
+}
+:is(.qt-sahne-mac:not([data-kat]), .qt-vs) .qt-isim-ef[data-ef="altin"], .qt-isim-ef--koyu[data-ef="altin"] {
+  --ia-1: #e0a526; --ia-2: #fff4c0; --ia-3: #ffd54a; --ia-kenar: rgba(52, 26, 0, 0.9); --ia-parilti: #ffffff;
+  --ia-golge: drop-shadow(0 0 0.6px var(--ia-kenar)) drop-shadow(0 1px 0 rgba(40, 18, 0, 0.55));
+}
+.qt-isim-ef--acik[data-ef="altin"] {
+  --ia-1: #6b4200 !important; --ia-2: #b07a00 !important; --ia-3: #8f5a00 !important;
+  --ia-kenar: rgba(58, 34, 0, 0.75) !important; --ia-parilti: #e0aa12 !important;
+  --ia-golge: drop-shadow(0 0 0.6px rgba(58, 34, 0, 0.75)) !important;
+}
+.qt-isim-ef[data-ef="altin"] { color: var(--ia-3); }
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .qt-isim-ef[data-ef="altin"] {
+    /* 1. katman: parıltı bandı (başta kutunun dışında, görünmez) · 2. katman: metal altın bantları */
+    background:
+      linear-gradient(105deg, transparent 0 42%, var(--ia-parilti) 50%, transparent 58% 100%) 0 0 / 300% 100% no-repeat,
+      linear-gradient(180deg, var(--ia-2) 0%, var(--ia-3) 30%, var(--ia-1) 52%, var(--ia-3) 64%, var(--ia-2) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    /* ince koyu kenar: text-stroke değişken fontun üst üste binen konturlarını harf içinde çiziyordu → drop-shadow */
+    filter: var(--ia-golge);
+  }
+  .qt-isim-ef--hareketli[data-ef="altin"] { animation: qt-altin-parla 5.2s ease-in-out 1s infinite; }
+}
+/* Altında köşe yıldızı yok: parıltı harflerin üstünden geçer */
+.qt-isim-ef.qt-isim-ef--hareketli[data-ef="altin"]::after { content: none; }
+/* Band konumu: boyut %300 → konum %0 bandı sağda dışarıda, %100 solda dışarıda tutar (yalnız küçük metin boyanır) */
+@keyframes qt-altin-parla {
+  0%, 68% { background-position: 0% 0, 0 0; }
+  100% { background-position: 100% 0, 0 0; }
+}
+
 /* Hareketli: köşede küçük yıldız parıltısı (yalnız opacity/transform) */
 .qt-isim-ef--hareketli[data-ef]::after {
   content: "";

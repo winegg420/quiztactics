@@ -148,7 +148,7 @@ export default function OyuncuKarti({
           )}
         </span>
         <p className="ok-ad">
-          <span className="ok-ad-metin"><IsimEfekti userId={userId}>{p?.gorunen_ad ?? (yukleniyor ? "…" : tt("Oyuncu"))}</IsimEfekti></span>
+          <span className="ok-ad-metin"><IsimEfekti userId={userId} hareketli>{p?.gorunen_ad ?? (yukleniyor ? "…" : tt("Oyuncu"))}</IsimEfekti></span>
           {/* 560: lig amblemi isim yanında (kart verisinden; toplu + önbellekli) */}
           {userId && <OyuncuLigAmblemi userId={userId} lig={p?.lig} boyut={22} />}
           {/* Yalnız açık bot (adında "Bot" geçen) işaretlenir; gizli bot asla (bkz. ALANLAR) */}

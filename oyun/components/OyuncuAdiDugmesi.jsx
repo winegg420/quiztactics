@@ -16,6 +16,7 @@
 // ============================================================
 import { useState } from "react";
 import OyuncuKarti from "./OyuncuKarti.jsx";
+import IsimEfekti from "./IsimEfekti.jsx";
 import { tt } from "../lib/dil.js";
 import "../tasarim/ekranlar/l-kart.css";
 
@@ -39,13 +40,18 @@ function onIzlemeYap(userId, profil) {
  * @param {object} [o.kartOzellikleri] OyuncuKarti'na ek eylemler (onMeydanOku, onMesaj…)
  * @param {boolean} [o.odaklanmaz]  sekmeyle odak almaz (ör. aria-hidden bir özetin içinde; aynı kart
  *                                   klavyeyle başka yoldan açılıyorsa)
+ * @param {boolean} [o.efektsiz]   ad düz metinse (string) takılı isim efekti (ör. altın harf) kendiliğinden
+ *                                   uygulanır (oyuncu kartından, toplu + önbellekli); bunu kapatır. Çocuk zaten
+ *                                   <IsimEfekti> ya da karma içerikse dokunulmaz.
  * @param {() => void} [o.onAc]      verilirse kendi kartını açmaz, bunu çağırır (sayfanın zaten bir kartı
  *                                   varsa — lobi/arkadaş listesi — aynı eylemli kart açılsın)
  */
 export default function OyuncuAdiDugmesi({
-  userId, profil = null, ad, oge: Oge = "span", className, dugmeSinifi, kartOzellikleri, onAc, odaklanmaz = false, children, ...rest
+  userId, profil = null, ad, oge: Oge = "span", className, dugmeSinifi, kartOzellikleri, onAc, odaklanmaz = false, efektsiz = false, children: cocuk, ...rest
 }) {
   const [acik, setAcik] = useState(false);
+  // İsim efekti her yerde (Ida, 24 Eyl 2026 — altın isim: arkadaşlar, meydan okumalar, turnuva, davetler…)
+  const children = !efektsiz && userId && typeof cocuk === "string" ? <IsimEfekti userId={userId}>{cocuk}</IsimEfekti> : cocuk;
   if (!userId) return <Oge className={className || undefined} {...rest}>{children}</Oge>;
   const gorunen = ad ?? profil?.gorunen_ad ?? tt("Oyuncu");
   return (

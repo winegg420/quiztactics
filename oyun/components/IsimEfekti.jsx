@@ -8,14 +8,15 @@
  * - `koyu`: koyu zemin paleti (maç sahnesi/VS içinde CSS zaten seçer); `acik`: koyu bağlamdaki açık levha.
  * - `hareketli`: yalnız tekil yerler (profil başı, maç sonu) — köşede küçük parıltı. Listelerde verme.
  * Görünüm: oyun/tasarim/ekranlar/kozmetik.css (kontrast ≥ 4,5 her zeminde).
- * ALTIN (Ida, 24 Eyl 2026 — /premium-onizleme 2. tur): isim_altin artık "külçe" altın isim plakası
- * (IsimPlakasi2, tur2/plaka2.css). Yalnız istemci eşlemesi: DB/anahtar aynı, satın almış/takmış herkes
- * otomatik yeni hâli görür. `hareketli` → plakanın üstünden ışık geçer (azaltılmış harekette durur).
+ * ALTIN (Ida, 24 Eyl 2026 — 2. karar): isim_altin artık PLAKASIZ — ismin kendisi parlak metal altın harf
+ * (koyu→parlak altın degrade, ince koyu kenar, arka plan yok; kozmetik.css › [data-ef="altin"]). `hareketli`
+ * → harflerin üstünden ara sıra ince parıltı geçer (listelerde yok; hareketi azalt'ta yavaş/yumuşak).
+ * Yalnız istemci eşlemesi: DB/anahtar aynı, takmış herkes (gizli botlar dahil) otomatik yeni hâli görür.
+ * Önceki "külçe" plaka (IsimPlakasi2) yalnız /premium-onizleme'de aday olarak kalır.
  */
 import { useEffect, useState } from "react";
 import { oyuncuKarti, oyuncuKartiDinle } from "../lib/cerceve.js";
 import { kozmetikTemasi } from "../lib/kozmetik.js";
-import IsimPlakasi2 from "../tasarim/premium/tur2/IsimPlakasi2.jsx";
 import "../tasarim/ekranlar/kozmetik.css";
 
 /** Oyuncu kartından tek alan (önbellekli). Kart değişince (kendi kozmetiğimi takınca) tazelenir. */
@@ -47,9 +48,6 @@ export default function IsimEfekti({ ef, userId, kart, koyu = false, acik = fals
   const anahtar = ef !== undefined ? ef : verildi ? kart?.isim_efekti ?? null : okunan;
   const tema = kozmetikTemasi(anahtar);
   if (!tema) return <span className={className || undefined}>{children}</span>;
-  if (tema === "altin") {
-    return <IsimPlakasi2 tur="kulce" boyut="s" hareketli={hareketli} className={["qt-isim-ef--plaka", className].filter(Boolean).join(" ")}>{children}</IsimPlakasi2>;
-  }
   const s = ["qt-isim-ef", koyu && "qt-isim-ef--koyu", acik && "qt-isim-ef--acik", hareketli && "qt-isim-ef--hareketli", className]
     .filter(Boolean).join(" ");
   return <span className={s} data-ef={tema}>{children}</span>;

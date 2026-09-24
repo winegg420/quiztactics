@@ -59,7 +59,7 @@ export function VsKarti({ profil, kart, taraf = "ben", className, children, vsKa
       <CerceveliAvatar profile={profil} userId={profil?.id} boyut={92} hareketli {...(kart ? { kart } : {})} />
       {/* Ajan C: ada dokununca oyuncu kartı (önizlemelerde — vsKarti/isimEfekti verilince — kapalı) */}
       <OyuncuAdiDugmesi userId={adAcik ? profil?.id : null} profil={profil} className="ara-kart-ad">
-        <IsimEfekti userId={profil?.id} {...(ef !== undefined ? { ef } : {})} koyu>{profil?.gorunen_ad ?? tt("Sen")}</IsimEfekti>
+        <IsimEfekti userId={profil?.id} {...(ef !== undefined ? { ef } : {})} koyu hareketli>{profil?.gorunen_ad ?? tt("Sen")}</IsimEfekti>
       </OyuncuAdiDugmesi>
       <span className="ara-kart-rozetler">
         {level != null && <QtRozet boyut="k" ton="koyu">{tt("Lv {0}", { 0: level })}</QtRozet>}
