@@ -10,7 +10,7 @@ import "../tasarim/ekranlar/g-yasal.css";
 // Kullanım Koşulları. Gizlilik politikasıyla aynı biçimde, girişsiz erişilir.
 // Bu bir TASLAKTIR; yayına almadan önce hizmet sağlayıcı kimliği (şahıs mı
 // şirket mi, unvan, adres) ve uygulanacak hukuk maddesi doldurulmalıdır.
-const GUNCELLEME = tt("9 Eylül 2026");
+const GUNCELLEME = tt("25 Eylül 2026");
 const ILETISIM = "idagureli@gmail.com";
 
 export default function KosullarPage() {
@@ -73,6 +73,22 @@ export default function KosullarPage() {
         <li>{tt("Hizmete aşırı yük bindirmek, güvenlik önlemlerini aşmaya çalışmak.")}</li>
         <li>{tt("İçeriği izinsiz kopyalayıp başka bir yerde yayımlamak.")}</li>
       </ul>
+
+      <h3>{tt("Mesajlaşma: yasaklı içerik ve davranışlar")}</h3>
+      <p>
+        {tt("Özel mesajlaşma yalnız arkadaşlar arasındadır ve ilk mesajdan önce bu koşulları kabul etmen gerekir. Mesajlarda, takma adda, avatarda ve maç içi sohbette şunlar yasaktır:")}
+      </p>
+      <ul>
+        <li><b>{tt("Hakaret ve nefret söylemi:")}</b> {tt("küfür, aşağılama, bir kişiyi ya da grubu hedef alan nefret içeriği.")}</li>
+        <li><b>{tt("Taciz:")}</b> {tt("tehdit, zorbalık, istenmeyen mesajları ısrarla göndermek.")}</li>
+        <li><b>{tt("Cinsel içerik:")}</b> {tt("müstehcen metin veya görsel; reşit olmayanlara yönelik her türlü cinsel içerik kesinlikle yasaktır ve yetkililere bildirilir.")}</li>
+        <li><b>{tt("Spam:")}</b> {tt("reklam, zincir mesaj, dolandırıcılık ya da zararlı bağlantı göndermek.")}</li>
+        <li><b>{tt("Hile:")}</b> {tt("hesap, coin veya elmas alım-satımı teklif etmek, hile aracı paylaşmak.")}</li>
+        <li><b>{tt("Kişisel bilgi paylaşımı:")}</b> {tt("kendinin veya başkasının telefonunu, adresini, okulunu, şifresini ya da benzeri kişisel bilgisini paylaşmak veya istemek.")}</li>
+      </ul>
+      <p>
+        {tt("Rahatsız edildiğinde oyuncuyu profil kartından ya da sohbet ekranından engelleyebilir, şikâyet edebilirsin; bir mesaja uzun basarak o mesajı şikâyet edebilirsin. Küfür ve argo kelimeler otomatik olarak maskelenir. Kuralları çiğneyen oyuncunun mesajlaşması kapatılabilir veya hesabı askıya alınabilir.")}
+      </p>
 
       <h2>{tt("5. Kullanıcı içeriği")}</h2>
       <p>

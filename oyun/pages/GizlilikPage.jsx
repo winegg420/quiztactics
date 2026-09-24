@@ -9,7 +9,7 @@ import "../tasarim/ekranlar/g-yasal.css";
 // Google Play zorunluluğu: mağaza kaydında gösterilecek gizlilik politikası.
 // Bu bir TASLAKTIR; yayına almadan önce iletişim e-postası ve şirket/kişi
 // bilgisi kontrol edilmelidir.
-const GUNCELLEME = tt("9 Eylül 2026");
+const GUNCELLEME = tt("25 Eylül 2026");
 const ILETISIM = "idagureli@gmail.com";
 
 export default function GizlilikPage() {
@@ -44,6 +44,18 @@ export default function GizlilikPage() {
         </li>
         <li>
           <b>{tt("Oyun verileri:")}</b> {tt("puan, haftalık puan, rütbe, rozetler, maç sonuçları, gördüğün sorular, arkadaşlıklar ve maç içi sohbet mesajları.")}
+        </li>
+        <li>
+          <b>{tt("Özel mesajlar:")}</b> {tt("arkadaşlarınla yazıştığın mesajlar. Yalnız sen ve arkadaşın görürsünüz; konuşmayı göstermek ve bir şikâyet olursa incelemek için saklanır. Küfür ve argo kelimeler gönderilirken otomatik olarak maskelenir.")}
+        </li>
+        <li>
+          <b>{tt("Engellemeler:")}</b> {tt("engellediğin oyuncuların listesi — engellediğin kişinin sana ulaşmasını önlemek için.")}
+        </li>
+        <li>
+          <b>{tt("Şikâyetler:")}</b> {tt("gönderdiğin şikâyetler (kimi, hangi sebeple, açıklaman ve şikâyet ettiğin mesajın o anki metni) — kural ihlallerini incelemek ve oyuncuları korumak için. Şikâyetleri yalnız yöneticiler görür; şikâyet edilen kişiye kimin şikâyet ettiği söylenmez.")}
+        </li>
+        <li>
+          <b>{tt("Kullanım Koşulları kabulü:")}</b> {tt("mesajlaşmadan önce koşulları kabul ettiğin tarih.")}
         </li>
         <li>
           <b>{tt("Konum bilgisi:")}</b> {tt("yalnızca kendi seçtiğin")} <b>{tt("şehir ve ülke")}</b>{tt(". Cihazının GPS konumunu")} <b>{tt("almıyoruz")}</b>{tt(". Bu bilgi şehir/ülke liglerinde herkese görünür.")}
@@ -97,7 +109,7 @@ export default function GizlilikPage() {
       <h2>{tt("Saklama ve silme")}</h2>
       <p>
         {tt("Verilerini hesabın açık olduğu sürece saklarız. Hesabını")}{" "}
-        <Link to={y("/profil")}>{tt("Profil")}</Link> {tt("sayfasındaki")} <b>{tt("Hesabımı Sil")}</b> {tt("düğmesiyle kalıcı olarak silebilirsin; profilin, maç kayıtların, rozetlerin ve mesajların silinir. Bu işlem geri alınamaz. Dilersen")} {ILETISIM} {tt("adresine yazarak da silme talebinde bulunabilirsin.")}
+        <Link to={y("/profil")}>{tt("Profil")}</Link> {tt("sayfasındaki")} <b>{tt("Hesabımı Sil")}</b> {tt("düğmesiyle kalıcı olarak silebilirsin; profilin, maç kayıtların, rozetlerin, mesajların, engellemelerin ve gönderdiğin şikâyetler silinir. Bu işlem geri alınamaz. Dilersen")} {ILETISIM} {tt("adresine yazarak da silme talebinde bulunabilirsin.")}
       </p>
 
       <h2>{tt("Çocuklar")}</h2>
