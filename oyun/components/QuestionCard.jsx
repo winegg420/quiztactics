@@ -12,6 +12,7 @@ import { titret, macPuani } from "../lib/geriBildirim.js";
 import { kategoriAdi } from "../lib/kategoriler.js";
 import { useGorunurlukTazele } from "../lib/gorunurluk.js";
 import { tt } from "../lib/dil.js";
+import { soruUzunlukSinifi } from "../lib/soruUzunluk.js";
 
 const HARFLER = ["A", "B", "C", "D"];
 const SURE = 15;
@@ -28,17 +29,9 @@ const SAAT_PAYI_SN = 0.6;
  * onCevapla(cevapIndex) -> { dogru, dogru_cevap } döndüren async fonksiyon
  * onSureDoldu() -> süre bitince çağrılır (advance tetikler)
  */
-/**
- * Paket 41 M.7: uzun soru/şıkta yazı kademeli küçülür ki şıklar ve joker çubuğu
- * telefonda ekrana sığsın (390×844'te ölçüldü). Eşikler karakter sayısı.
- */
-function uzunlukSinifi(soru) {
-  const s = String(soru?.soru ?? "").length;
-  const enUzunSik = Math.max(0, ...(soru?.secenekler ?? []).map((x) => String(x ?? "").length));
-  if (s > 170 || enUzunSik > 48) return "m1-soru--cok-uzun";
-  if (s > 100 || enUzunSik > 30) return "m1-soru--uzun";
-  return "";
-}
+// Paket 41 M.7: uzun soru/şıkta yazı kademeli küçülür — eşikler ortak yardımcıda
+// (Çalışma ve Düello da aynısını kullanır).
+const uzunlukSinifi = soruUzunlukSinifi;
 
 // Soru kimliği → kategori (maç boyunca aynı soru tekrar sorulmasın).
 const KAT_ONBELLEK = new Map();

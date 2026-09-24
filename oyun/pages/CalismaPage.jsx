@@ -19,6 +19,7 @@ import { tt } from "../lib/dil.js";
 import MacSorulari from "../components/MacSorulari.jsx";
 import { useOyunModu } from "../lib/oyunModu.js";
 import { rpcDene } from "../lib/rpcDene.js";
+import { soruUzunlukSinifi } from "../lib/soruUzunluk.js";
 
 const SORU_SN = 20;
 const HARFLER = ["A", "B", "C", "D"];
@@ -448,7 +449,7 @@ export default function CalismaPage() {
         )}
 
         {soru && (
-          <div className={`m1-soru${sarsil ? " qt-h-salla" : ""}`}>
+          <div className={`m1-soru ${soruUzunlukSinifi(soru)}${sarsil ? " qt-h-salla" : ""}`}>
             <Konfeti aktif={kutlama} />
             {/* Çalışma modunda puan verilmez — uçan rozet yok, yalnız seri bandı */}
             <CevapEfekti dogru={Boolean(sonucSoru?.dogru)} puan={0} seri={seri} />

@@ -379,3 +379,99 @@
 .m2-zayif-etiket { flex: none; display: inline-flex; align-items: center; gap: 3px; padding: 1px 6px; border-radius: 999px; font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); background: var(--qt-uyari-acik); color: var(--qt-uyari-koyu); }
 .m2-zayif-not { display: flex; align-items: center; justify-content: center; gap: 6px; }
 .m2-zayif-not svg { flex: none; }
+
+/* =====================================================================
+   TELEFONDA DÜELLO TEK EKRAN (denetim D-104 / D-309, 24 Eyl 2026)
+   Maç sürerken sahne 100dvh esnek sütun, sayfa KAYMAZ: cevap fazında soru kartı esner
+   (aşırı uzun metin yalnız kart içinde kayar), kategori fazında orta bölüm kendi içinde
+   kayar; joker şeridi hep görünür. Düello'da ekran daha kalabalık: ≤ 900 px yükseklikte oyuncu şeridi, durum kutuları,
+   sayaç ve şıklar küçülür; alttaki ikinci "Düellodan çık" gizlenir (üstteki X aynı pencereyi açar).
+   iOS: fixed + transform yok; 100dvh.
+   ===================================================================== */
+@media (max-width: 559px) {
+  body.bd-oyun-modu .shell:has(> .m2-mac) { padding: 0; }
+  body.bd-oyun-modu .qt-sayfa:has(> .shell > .m2-mac) { padding-bottom: 0; }
+  body.bd-oyun-modu .m2-mac {
+    height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
+    border-radius: 0;
+    gap: var(--qt-b-2);
+    padding-top: calc(var(--qt-b-1) + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(var(--qt-b-2) + env(safe-area-inset-bottom, 0px));
+  }
+  body.bd-oyun-modu .m2-mac > * { flex: none; }
+  body.bd-oyun-modu .m2-mac > .m2-sahne {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--qt-b-2);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: none;
+  }
+  body.bd-oyun-modu .m2-mac > .m2-sahne > * { flex: none; }
+  body.bd-oyun-modu .m2-mac > .m2-sahne > .m2-cevap-faz { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; gap: var(--qt-b-2); }
+  body.bd-oyun-modu .m2-cevap-faz > * { flex: none; }
+  body.bd-oyun-modu .m2-cevap-faz > .qt-soru { flex: 1 1 auto; min-height: 0; gap: var(--qt-b-2); }
+  body.bd-oyun-modu .m2-cevap-faz .qt-soru-kart { flex: 1 1 auto; max-height: 36dvh; min-height: 0; display: flex; flex-direction: column; align-items: center; }
+  body.bd-oyun-modu .m2-cevap-faz .qt-soru-metin { margin-block: auto; min-height: 0; max-width: 100%; padding-bottom: 4px; overflow-y: auto; overscroll-behavior: contain; }
+  body.bd-oyun-modu .m2-mac > .m2-skill { margin-top: 0; }
+  /* Kart hiç kaybolmasın: en az iki satır; sığmazsa orta bölüm kayar (şıklar karta binmez) */
+  body.bd-oyun-modu .m2-cevap-faz .qt-soru-kart { min-height: 84px; }
+  /* Uzun soru/şıkta yazı kademeli küçülür (Klasik ile aynı eşikler: soruUzunlukSinifi) */
+  body.bd-oyun-modu .m2-cevap-faz:has(> .m1-soru--uzun) .qt-sik { font-size: var(--qt-y-m); min-height: 54px; }
+  body.bd-oyun-modu .m2-cevap-faz:has(> .m1-soru--cok-uzun) .qt-sik { font-size: var(--qt-y-s); min-height: 50px; }
+  body.bd-oyun-modu .m2-cevap-faz:has(> .m1-soru--cok-uzun) .qt-sik-harf { width: 34px; height: 34px; font-size: var(--qt-y-m); }
+}
+
+@media (max-width: 559px) and (max-height: 900px) {
+  /* Oyuncu şeridi */
+  body.bd-oyun-modu .m2-mac .m2-ust { padding: 2px var(--qt-b-2); }
+  body.bd-oyun-modu .m2-mac .m2-ust .qt-oyuncu > :first-child { zoom: 0.8; }
+  body.bd-oyun-modu .m2-mac .m2-ust .ls-ad-dugme,
+  body.bd-oyun-modu .m2-mac .m2-durum .ls-ad-dugme { min-height: 0; }
+  body.bd-oyun-modu .m2-mac .m2-tur b { font-size: var(--qt-y-l); }
+  /* "Sen düşünüyor / rakip cevapladı": tek satırlık iki hap */
+  body.bd-oyun-modu .m2-mac .m2-durum { flex-direction: row; align-items: center; justify-content: space-between; gap: 6px; min-height: 30px; padding: 2px var(--qt-b-2); }
+  body.bd-oyun-modu .m2-mac .m2-durum > b, body.bd-oyun-modu .m2-mac .m2-durum > .ls-ad-dugme { min-width: 0; flex: 0 1 auto; }
+  body.bd-oyun-modu .m2-mac .m2-durum > span { flex: none; }
+  body.bd-oyun-modu .m2-mac .m2-bant { padding: 4px var(--qt-b-2); font-size: var(--qt-y-xs); }
+  /* Soru kartı: kategori satırı sayacın iki yanına, sayaç küçük */
+  body.bd-oyun-modu .m2-cevap-faz > .qt-soru:has(> .qt-soru-ust) { position: relative; }
+  body.bd-oyun-modu .m2-cevap-faz > .qt-soru > .qt-soru-ust { position: absolute; top: 0; left: 0; right: 0; z-index: 1; min-height: 24px; pointer-events: none; }
+  body.bd-oyun-modu .m2-cevap-faz > .qt-soru > .qt-soru-ust > * { max-width: calc(50% - 32px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  body.bd-oyun-modu .m2-cevap-faz .qt-soru-kategori { padding: 4px 10px; }
+  body.bd-oyun-modu .m2-cevap-faz .qt-soru-sayac { top: -24px; }
+  body.bd-oyun-modu .m2-cevap-faz .qt-soru-sayac .qt-sayac { --_s: 48px; }
+  body.bd-oyun-modu .m2-cevap-faz .qt-soru-kart { padding: var(--qt-b-2) var(--qt-b-3) var(--qt-b-3); }
+  body.bd-oyun-modu .m2-cevap-faz .qt-soru-kart--sayacli { margin-top: 24px; padding-top: 28px; }
+  body.bd-oyun-modu .m2-cevap-faz .qt-soru-metin { font-size: var(--qt-y-xl); line-height: 1.2; }
+  body.bd-oyun-modu .m2-cevap-faz .m1-soru--uzun .qt-soru-metin { font-size: 17px; }
+  body.bd-oyun-modu .m2-cevap-faz .m1-soru--cok-uzun .qt-soru-metin { font-size: 15px; }
+  /* Şıklar sıkışır (dokunma ≥ 44 px) */
+  body.bd-oyun-modu .m2-cevap-faz .qt-sikler { gap: 6px; }
+  body.bd-oyun-modu .m2-cevap-faz .qt-sik-yuva { min-height: 44px; }
+  body.bd-oyun-modu .m2-cevap-faz .qt-sik { min-height: 46px; gap: var(--qt-b-2); padding: 3px 10px 3px 6px; font-size: 16px; line-height: 1.15; }
+  body.bd-oyun-modu .m2-cevap-faz:has(> .m1-soru--uzun) .qt-sik { font-size: 15px; }
+  body.bd-oyun-modu .m2-cevap-faz:has(> .m1-soru--cok-uzun) .qt-sik { min-height: 44px; font-size: 14px; }
+  body.bd-oyun-modu .m2-cevap-faz .qt-sik-harf { width: 32px; height: 32px; font-size: var(--qt-y-m); }
+  body.bd-oyun-modu .m2-cevap-faz .qt-sonuc-yuva { min-height: 32px; }
+  body.bd-oyun-modu .m2-cevap-faz .qt-sonuc-yuva:empty { min-height: 0; margin-top: calc(var(--qt-b-2) * -1); }
+  body.bd-oyun-modu .m2-cevap-faz .qt-sonuc { padding: 5px 14px; font-size: var(--qt-y-s); }
+  /* Joker şeridi: kısa düğmeler, kural satırı gizli (hak sayısı üst satırda kalır) */
+  body.bd-oyun-modu .m2-mac .m2-skill { gap: var(--qt-b-1); padding: 6px var(--qt-b-2); }
+  body.bd-oyun-modu .m2-mac .m2-skill-ust { min-height: 20px; }
+  body.bd-oyun-modu .m2-mac .m2-skill .qt-skill { min-height: 52px; padding: 4px 1px 3px; gap: 2px; }
+  body.bd-oyun-modu .m2-mac .m2-skill .qt-skill-ikon { zoom: 0.82; }
+  body.bd-oyun-modu .m2-mac .m2-skill-kural { display: none; }
+  body.bd-oyun-modu .m2-mac > .m2-terk { display: none; }
+}
+@media (max-width: 559px) and (max-height: 700px) {
+  body.bd-oyun-modu .m2-cevap-faz .qt-soru-metin { font-size: 19px; }
+  body.bd-oyun-modu .m2-cevap-faz .m1-soru--uzun .qt-soru-metin { font-size: 16px; }
+  body.bd-oyun-modu .m2-cevap-faz .m1-soru--cok-uzun .qt-soru-metin { font-size: 14px; line-height: 1.18; }
+  body.bd-oyun-modu .m2-mac .m2-skill .qt-skill { min-height: 48px; }
+  body.bd-oyun-modu .m2-cevap-faz .qt-sik { padding-right: 6px; letter-spacing: -0.01em; }
+}

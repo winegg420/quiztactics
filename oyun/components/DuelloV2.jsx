@@ -28,6 +28,7 @@ import OyuncuAdiDugmesi from "./OyuncuAdiDugmesi.jsx";
 import CerceveliAvatar from "./CerceveliAvatar.jsx";
 import IsimEfekti from "./IsimEfekti.jsx";
 import { TepkiAvatar } from "./Tepki.jsx";
+import { soruUzunlukSinifi } from "../lib/soruUzunluk.js";
 
 const HARFLER = ["A", "B", "C", "D"];
 
@@ -336,7 +337,7 @@ export function V2Cevap({ d, rakip, secenekler, secim, ikinciSansElendi, calisan
       </div>
       <QtSoruKarti
         key={d.soru?.soru ?? "soru"}
-        className="m2-soru"
+        className={sinif("m2-soru", soruUzunlukSinifi({ soru: d.soru?.soru, secenekler }))}
         kategori={d.kategori ? <><KategoriIkon anahtar={d.kategori} boyut={16} /> {katAdi}</> : null}
         sira={c("Aynı soru · aynı anda")}
         metin={d.soru?.soru}

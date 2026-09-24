@@ -12,6 +12,15 @@ export function useOyunModu(aktif) {
     if (typeof document === "undefined") return;
     if (!aktif) return;
     document.body.classList.add("bd-oyun-modu");
+    // D-104/D-309: maça önceki sayfanın kaydırma konumuyla girilmesin. React Router gezinmede
+    // pencere kaydırmasını sıfırlamıyor; aşağı kaydırılmış bir sayfadan (modlar, profil,
+    // meydan) gelince maç/Hazır kapısı ilk sorudan itibaren kaymış açılıyordu. Maç ekranı
+    // tek ekran olduğundan en üst doğru konumdur.
+    try {
+      if (window.scrollY || document.documentElement.scrollTop) window.scrollTo(0, 0);
+    } catch {
+      /* eski tarayıcı: kaydırma sıfırlanamadıysa ekran yine çalışır */
+    }
     return () => document.body.classList.remove("bd-oyun-modu");
   }, [aktif]);
 }
