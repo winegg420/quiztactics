@@ -1,6 +1,8 @@
 /* Elmas paketi görseli — gövde durağan SVG; ışıltı ve ışınlar ayrı HTML katmanında, yalnız transform/opacity
    (SVG her karede yeniden boyanmaz). "Hareketi azalt"ta durur. */
-.ep { position: relative; display: block; width: 100%; height: 100%; }
+/* Yükseklik kendi genişliğinden (kare): dükkân kartındaki kapsayıcı `.qt-dk-coin-gorsel` ızgara (place-items: center,
+   align-content: end) — içerik boyunda satırda `height: 100%` 0'a iniyordu, gövde SVG'si çizilmiyordu (canlı, Bölüm 7). */
+.ep { position: relative; display: block; width: 100%; height: auto; aspect-ratio: 1 / 1; }
 .ep > svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 .ep-isinlar { transform-origin: 50% 41.67%; }
 .ep-p { position: absolute; display: block; aspect-ratio: 1; translate: -50% -50%; pointer-events: none; }
