@@ -1,0 +1,308 @@
+/* =====================================================================
+   ALTIN İSİM ADAYLARI (/tasarim-onizleme › Altın isim) — yalnız önizleme, oyunda kullanılmaz.
+   Sorun: oyundaki isim_altin açık zeminde okunsun diye koyulaştırıldı → bronz/kahverengi göründü.
+   Yeni ilke: altın PARLAK SARI kalır; okunurluğu KOYU LACİVERT KONTUR sağlar (Brawl Stars / Clash
+   Royale başlık yazısı gibi).
+
+   TEKNİK (ölçüldü, scratchpad/ajanA5/teknik.png):
+     a) tek öğede background-clip:text + -webkit-text-stroke (+ paint-order) → dolgu saydam olduğu
+        için paint-order işlemiyor; kontur harfin içine taşıyor, değişken fontta iç çizgiler görünüyor.
+     b) iki katman, arkada text-stroke → temiz ama köşelerde (K, A) sivri "miter" çıkıntısı.
+     c) iki katman, arkada 16 yönlü text-shadow halkası → yuvarlak, temiz kontur; iç çizgi yok.  ← SEÇİLDİ
+     d) SVG <text> paint-order + round join → en temiz, ama satır içi üç nokta (…) ve kırpma yok.
+   Yapı: .ai-yazi (inline-grid) içinde üst üste iki kopya: .ai-kontur (aria-hidden, lacivert metin +
+   halka + alt derinlik [+ ışıma]) ve .ai-dolgu (asıl metin, degrade background-clip:text). Gölge ile
+   background-clip aynı öğede değil (iOS Safari'de gölge degradenin üstüne biner). İkisi de aynı
+   ellipsis'i taşır, kontur kutuya sığsın diye aynı iç boşluk.
+   Hareket: yalnız `--hareketli` (profil başı, VS, maç sonu kazananı); listelerde durağan.
+   data-yumusak → yumusakHareket kapsamı: "hareketi azalt"ta durmaz, 0,4 hızda oynar.
+   ===================================================================== */
+
+.ai {
+  /* halka yarıçapı (kontur kalınlığı), alt derinlik, kontur rengi */
+  --ai-k: 0.075em;
+  --ai-d: 0.055em;
+  --ai-kc: #1d2152;
+  /* parlak sarı altın (koyulaştırma yok) */
+  --ai-u: #fff7c2;
+  --ai-o: #ffd83a;
+  --ai-a: #ffb700;
+  --ai-isima: transparent;
+  --ai-parilti: rgba(255, 255, 255, 0.95);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.14em;
+  min-width: 0;
+  max-width: 100%;
+  vertical-align: middle;
+  isolation: isolate;
+  font-weight: inherit;
+}
+.ai-yazi {
+  position: relative;
+  display: inline-grid;
+  grid-template-columns: minmax(0, auto);
+  min-width: 0;
+  max-width: 100%;
+}
+.ai-yazi > .ai-kontur,
+.ai-yazi > .ai-dolgu {
+  grid-area: 1 / 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  /* kontur + derinlik kutunun içinde kalsın (ellipsis kırpması ve dış kaplar kesmesin) */
+  padding: calc(var(--ai-k) + 0.02em) calc(var(--ai-k) + 0.03em) calc(var(--ai-k) + var(--ai-d) + 0.02em);
+}
+.ai-kontur {
+  color: var(--ai-kc);
+  -webkit-text-fill-color: var(--ai-kc);
+  /* 16 yönlü halka (cos/sin 22,5°) + alt yarıda derinlik + ışıma */
+  text-shadow:
+    var(--ai-k) 0 0 var(--ai-kc),
+    calc(var(--ai-k) * -1) 0 0 var(--ai-kc),
+    0 var(--ai-k) 0 var(--ai-kc),
+    0 calc(var(--ai-k) * -1) 0 var(--ai-kc),
+    calc(var(--ai-k) * 0.924) calc(var(--ai-k) * 0.383) 0 var(--ai-kc),
+    calc(var(--ai-k) * -0.924) calc(var(--ai-k) * 0.383) 0 var(--ai-kc),
+    calc(var(--ai-k) * 0.924) calc(var(--ai-k) * -0.383) 0 var(--ai-kc),
+    calc(var(--ai-k) * -0.924) calc(var(--ai-k) * -0.383) 0 var(--ai-kc),
+    calc(var(--ai-k) * 0.707) calc(var(--ai-k) * 0.707) 0 var(--ai-kc),
+    calc(var(--ai-k) * -0.707) calc(var(--ai-k) * 0.707) 0 var(--ai-kc),
+    calc(var(--ai-k) * 0.707) calc(var(--ai-k) * -0.707) 0 var(--ai-kc),
+    calc(var(--ai-k) * -0.707) calc(var(--ai-k) * -0.707) 0 var(--ai-kc),
+    calc(var(--ai-k) * 0.383) calc(var(--ai-k) * 0.924) 0 var(--ai-kc),
+    calc(var(--ai-k) * -0.383) calc(var(--ai-k) * 0.924) 0 var(--ai-kc),
+    calc(var(--ai-k) * 0.383) calc(var(--ai-k) * -0.924) 0 var(--ai-kc),
+    calc(var(--ai-k) * -0.383) calc(var(--ai-k) * -0.924) 0 var(--ai-kc),
+    /* derinlik: halkanın alt yarısı aşağı kaydırılmış */
+    var(--ai-k) var(--ai-d) 0 var(--ai-kc),
+    calc(var(--ai-k) * -1) var(--ai-d) 0 var(--ai-kc),
+    calc(var(--ai-k) * 0.707) calc(var(--ai-k) * 0.707 + var(--ai-d)) 0 var(--ai-kc),
+    calc(var(--ai-k) * -0.707) calc(var(--ai-k) * 0.707 + var(--ai-d)) 0 var(--ai-kc),
+    calc(var(--ai-k) * 0.383) calc(var(--ai-k) * 0.924 + var(--ai-d)) 0 var(--ai-kc),
+    calc(var(--ai-k) * -0.383) calc(var(--ai-k) * 0.924 + var(--ai-d)) 0 var(--ai-kc),
+    0 calc(var(--ai-k) + var(--ai-d)) 0 var(--ai-kc),
+    /* ışıma (listelerde saydam) */
+    0 0 0.22em var(--ai-isima);
+  user-select: none;
+}
+.ai-dolgu { color: var(--ai-o); }
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .ai-dolgu {
+    /* 1. katman: parıltı bandı (başta kutunun dışında) · 2. katman: parlak sarı altın */
+    background:
+      linear-gradient(105deg, transparent 0 42%, var(--ai-parilti) 50%, transparent 58% 100%) 0 0 / 300% 100% no-repeat,
+      linear-gradient(180deg, var(--ai-u) 12%, var(--ai-o) 52%, var(--ai-a) 88%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .ai--hareketli .ai-dolgu { animation: ai-parla 4.8s ease-in-out 0.8s infinite; }
+}
+@keyframes ai-parla {
+  0%, 66% { background-position: 0% 0, 0 0; }
+  100% { background-position: 100% 0, 0 0; }
+}
+/* Büyük yerlerde hafif altın ışıma */
+.ai--hareketli { --ai-isima: rgba(255, 196, 0, 0.55); }
+
+/* ---------- 1. PARLAK: yukarıdaki temel (lacivert kontur + ince derinlik + ışıma) ---------- */
+
+/* ---------- 2. TAÇLI: ismin önünde küçük taç ---------- */
+.ai-tac {
+  flex: none;
+  width: 1.02em;
+  height: 0.86em;
+  margin-right: 0.02em;
+  overflow: visible;
+  transform: translateY(-0.04em);
+}
+.ai-tac-pirilti { opacity: 0; transform-box: fill-box; transform-origin: center; }
+.ai--hareketli .ai-tac-pirilti { animation: ai-pirilti 3.6s ease-in-out 1.4s infinite; }
+@keyframes ai-pirilti {
+  0%, 62%, 100% { opacity: 0; transform: scale(0.3) rotate(0deg); }
+  74% { opacity: 1; transform: scale(1) rotate(30deg); }
+  88% { opacity: 0.5; transform: scale(0.7) rotate(50deg); }
+}
+
+/* ---------- 3. IŞIK ŞERİDİ: ismin arkasında ince, yarı saydam altın ışık (plaka/hap DEĞİL) ---------- */
+.ai-serit {
+  position: absolute;
+  z-index: -1;
+  left: -0.12em;
+  right: -0.12em;
+  top: 50%;
+  height: 0.8em;
+  transform: translateY(-42%);
+  overflow: hidden;
+  pointer-events: none;
+  /* yumuşak altın hale: uçlarda kaybolur, kenarı yok */
+  background: radial-gradient(50% 50% at 50% 50%, rgba(255, 190, 0, 0.62), rgba(255, 190, 0, 0.26) 58%, transparent 100%);
+}
+/* çekirdek: saç teli inceliğinde parlak çizgi — yalnız iki uçta (ismin ortasında üstü çizili gibi durmasın) */
+.ai-serit::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: max(1px, 0.05em);
+  transform: translateY(-50%);
+  background: linear-gradient(90deg, transparent 0, rgba(255, 214, 60, 0.95) 7%, #fff3b0 13%, transparent 24% 76%, #fff3b0 87%, rgba(255, 214, 60, 0.95) 93%, transparent 100%);
+  opacity: 0;
+}
+/* büyük yerlerde şerit ismin iki yanına uzar (ışık bıyıkları); kutu içinde kalsın diye yan boşluk */
+.ai--serit.ai--hareketli { padding-inline: 0.42em; }
+.ai--hareketli .ai-serit { left: -0.42em; right: -0.42em; }
+.ai--hareketli .ai-serit::before { opacity: 1; }
+/* büyük yerlerde şeridin üstünden ışık süzülür */
+.ai-serit::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  background: radial-gradient(18% 60% at 50% 50%, rgba(255, 255, 255, 0.95), rgba(255, 236, 150, 0.6) 45%, transparent 100%);
+  transform: translateX(-100%);
+  opacity: 0;
+}
+.ai--hareketli .ai-serit::after { animation: ai-serit-akis 4.2s ease-in-out 0.6s infinite; }
+@keyframes ai-serit-akis {
+  0% { transform: translateX(-60%); opacity: 0; }
+  12% { opacity: 1; }
+  52% { transform: translateX(60%); opacity: 1; }
+  62%, 100% { transform: translateX(60%); opacity: 0; }
+}
+/* koyu zeminde şerit biraz daha belirgin */
+.ai--koyu .ai-serit { background: radial-gradient(50% 50% at 50% 50%, rgba(255, 214, 60, 0.5), rgba(255, 196, 0, 0.2) 60%, transparent 100%); }
+
+/* ---------- 4. YILDIZLI 3B: kalın kontur, belirgin derinlik, iki tonlu parlak metal + köşe yıldızı ---------- */
+.ai--yildiz {
+  --ai-k: 0.085em;
+  --ai-d: 0.1em;
+  --ai-u: #fffbe0;
+  --ai-o: #ffe45c;
+  --ai-a: #ffae00;
+  padding-right: 0.22em;
+}
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .ai--yildiz .ai-dolgu {
+    /* üst yarı açık, ortada keskin geçiş, alt yarı doygun altın → oyun başlığı "metal bant" etkisi (koyulaştırma yok) */
+    background:
+      linear-gradient(105deg, transparent 0 42%, var(--ai-parilti) 50%, transparent 58% 100%) 0 0 / 300% 100% no-repeat,
+      linear-gradient(180deg, var(--ai-u) 10%, var(--ai-o) 47%, #ffc400 53%, var(--ai-a) 90%);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+}
+.ai-yildiz {
+  position: absolute;
+  z-index: 1;
+  top: -0.02em;
+  right: -0.04em;
+  width: 0.72em;
+  height: 0.72em;
+  overflow: visible;
+  pointer-events: none;
+  transform-origin: 50% 50%;
+}
+.ai--hareketli .ai-yildiz { animation: ai-yildiz 3.2s ease-in-out 1s infinite; }
+@keyframes ai-yildiz {
+  0%, 55%, 100% { transform: scale(0.75) rotate(0deg); opacity: 0.85; }
+  70% { transform: scale(1.15) rotate(45deg); opacity: 1; }
+  84% { transform: scale(0.9) rotate(80deg); opacity: 0.95; }
+}
+
+/* Hareketi azalt: animasyon DURMAZ (yumusakHareket 0,4 hız), yalnız genlik küçülür */
+@media (prefers-reduced-motion: reduce) {
+  .ai--hareketli .ai-yildiz { animation-name: ai-yildiz-y; }
+  .ai--hareketli .ai-tac-pirilti { animation-name: ai-pirilti-y; }
+}
+@keyframes ai-yildiz-y {
+  0%, 55%, 100% { transform: scale(0.85) rotate(0deg); }
+  72% { transform: scale(1) rotate(20deg); }
+}
+@keyframes ai-pirilti-y {
+  0%, 60%, 100% { opacity: 0; transform: scale(0.6); }
+  78% { opacity: 0.85; transform: scale(0.9); }
+}
+
+/* =====================================================================
+   SAYFA DÜZENİ (yalnız bu bölüm) — ai-* sahneler gerçek oyun sınıflarını sarar
+   ===================================================================== */
+.aio { display: grid; gap: 18px; }
+.aio-giris { display: grid; gap: 6px; }
+.aio-giris p { margin: 0; }
+.aio-kart { display: grid; gap: 14px; }
+.aio-kart-bas { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.aio-kart-bas h3 { margin: 0; }
+.aio-kart-bas p { margin: 4px 0 0; }
+.aio-simdiki { border: 2px dashed var(--qt-cizgi-guclu, #b3bde6); }
+.aio-rozet {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--qt-yuzey-3, #e3ebfa);
+  color: var(--qt-metin);
+  font-size: 12px;
+  font-weight: 800;
+  vertical-align: middle;
+}
+.aio-kiyas { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; }
+.aio-kiyas-hucre {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: var(--qt-zemin, #dff0ff);
+  font-size: 16px;
+  font-weight: 800;
+}
+.aio-kiyas-hucre > small { font-size: 12px; font-weight: 700; color: var(--qt-metin-soluk); }
+.aio-yerler { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.aio-yer { display: grid; gap: 6px; margin: 0; min-width: 0; }
+.aio-yer--genis { grid-column: 1 / -1; }
+.aio-yer-ad { font-weight: 800; font-size: 14px; color: var(--qt-metin); }
+.aio-yer-ad span { font-weight: 700; color: var(--qt-metin-soluk); }
+.aio-yer-govde { min-width: 0; overflow: visible; }
+.aio-lig { margin: 0; }
+.aio-lig .lg-ad-metin { display: inline-flex; min-width: 0; }
+.aio-lig .lg-satir-ac { cursor: default; }
+.aio-mac, .aio-vs { padding: 14px 10px; border-radius: 22px; }
+.aio-vs .ara-kart { overflow: visible; }
+.aio-msk {
+  padding: 18px 10px 14px;
+  border-radius: 22px;
+  background: radial-gradient(120% 90% at 50% 0%, var(--qt-coin, #ffc933), var(--qt-vurgu, #ff7a2e));
+  color: var(--qt-metin);
+}
+.aio-msk .msk-avatar, .aio-msk .msk-isim { animation: none; }
+.aio-msk .msk-karsilasma { margin-top: 0; }
+.aio-pf { overflow: visible; }
+.aio-pf .qt-pf-ad { margin: 0; }
+.aio-zeminler { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+.aio-zemin {
+  display: grid;
+  gap: 4px;
+  justify-items: start;
+  min-width: 0;
+  padding: 8px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 800;
+}
+.aio-zemin small { font-size: 11px; font-weight: 700; opacity: 0.85; }
+.aio-not { margin: 0; font-size: 13px; color: var(--qt-metin-soluk); }
+
+@media (max-width: 700px) {
+  .aio-yerler { grid-template-columns: minmax(0, 1fr); }
+  .aio-zeminler { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 380px) {
+  .aio-kiyas { grid-template-columns: minmax(0, 1fr); }
+}
