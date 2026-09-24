@@ -8,6 +8,7 @@ import { CERCEVE_TANIMLARI, NADIRLIK_ADI } from "./tanimlar.js";
 import RozetMadalyonu, { KADEMELER } from "../../components/RozetMadalyonu.jsx";
 import { QtAnahtar, QtKart } from "../index.js";
 import { tt } from "../../lib/dil.js";
+import KozmetikElmasOnizleme from "./KozmetikElmasOnizleme.jsx";   // 540–542: elmas kozmetikleri + satış seçimi (yalnız sahip)
 import "./onizleme.css";
 
 const BOYUTLAR = [24, 40, 64, 120];
@@ -76,6 +77,8 @@ export default function KozmetikOnizlemePage() {
               aciklama={tt("Çerçeveleri koyu maç sahnesinde gör.")} />
           </div>
         </header>
+
+        <KozmetikElmasOnizleme />
 
         <section className="ko-bolum" aria-labelledby="ko-cerceveler">
           <h2 id="ko-cerceveler" className="qt-baslik-2">{tt("Çerçeveler")}</h2>

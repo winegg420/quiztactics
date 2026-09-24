@@ -8,6 +8,7 @@ import { supabase } from "../../src/lib/supabase.js";
 import { JOKER_BILGI, AKTIF_MAC_SKILLERI, jokerBilgi, envanterNesne } from "../lib/jokerler.js";
 import SkillRozeti from "../components/SkillRozeti.jsx";
 import DukkanAuralar from "../components/DukkanAuralar.jsx";
+import DukkanKozmetik, { DukkanAvatarlar, useKozmetikDukkan } from "../components/DukkanKozmetik.jsx";
 import { jokerKurallari } from "../lib/jokerKurallari.js";
 import { h5AdsYapilandirildi, odulluVideoGoster } from "../lib/h5ads.js";
 import { desteklenirMi, fiyatlariAl, satinAl, tuket } from "../lib/playFatura.js";
@@ -48,7 +49,7 @@ const TUM_SEKMELER = [
   { kod: "kiyafet", ad: tt("Kıyafet"), ikon: "tisort" },
 ];
 const ESKI_SEKME = { cerceve: "aura" };
-const SEKMELER = TUM_SEKMELER.filter((x) => x.kod !== "kiyafet" || GARDIROP_ACIK);
+const TEMEL_SEKMELER = TUM_SEKMELER.filter((x) => x.kod !== "kiyafet" || GARDIROP_ACIK);
 const VARSAYILAN_SEKME = "joker";
 
 // Paket adları/açıklamaları sunucudan gelir; oyuncuya görünen ad yine "Joker" (24 Eyl 2026).
@@ -111,6 +112,14 @@ export default function JokerDukkani() {
   // Sekme adres çubuğunda tutulur: "coin yetmiyor" uyarısı doğrudan Coin
   // sekmesine götürebilsin, geri tuşu da beklendiği gibi çalışsın.
   const [arama, setArama] = useSearchParams();
+  // 540: elmas kozmetikleri sekmeleri (Avatar · VS Kartı · İsim Efekti · Zafer Efekti · Tepki) Aura'nın arkasına.
+  // Satış kapalıyken normal oyuncuya katalog boş döner (sunucu) → sekmeler hiç görünmez; sahip test için görür.
+  const kozmetik = useKozmetikDukkan();
+  const SEKMELER = [
+    ...TEMEL_SEKMELER.slice(0, 2),
+    ...kozmetik.sekmeler.map((s) => ({ kod: s.kod, ad: tt(s.ad), ikon: s.ikon })),
+    ...TEMEL_SEKMELER.slice(2),
+  ];
   const istenenSekme = ESKI_SEKME[arama.get("sekme")] ?? arama.get("sekme");
   const sekme = SEKMELER.some((x) => x.kod === istenenSekme)
     ? istenenSekme
@@ -402,6 +411,18 @@ export default function JokerDukkani() {
           <DukkanAuralar elmasYetmedi={() => sekmeSec("elmas")}
             onBilgi={(m) => { setHata(null); setBilgi(m); }} onHata={(m) => { setBilgi(null); setHata(m); }} />
         )}
+
+        {/* ---------- ELMAS KOZMETİKLERİ (540) + yeni avatarlar (520) ---------- */}
+        {sekme === "avatar" && (
+          <DukkanAvatarlar avatarlar={kozmetik.avatarlar} sahipHesap={kozmetik.sahipHesap} yenile={kozmetik.yenile}
+            elmasYetmedi={() => sekmeSec("elmas")}
+            onBilgi={(m) => { setHata(null); setBilgi(m); }} onHata={(m) => { setBilgi(null); setHata(m); }} />
+        )}
+        {kozmetik.sekmeler.filter((s) => s.tur && s.kod === sekme).map((s) => (
+          <DukkanKozmetik key={s.kod} tur={s.tur} katalog={kozmetik.katalog} sahipHesap={kozmetik.sahipHesap} yenile={kozmetik.yenile}
+            elmasYetmedi={() => sekmeSec("elmas")}
+            onBilgi={(m) => { setHata(null); setBilgi(m); }} onHata={(m) => { setBilgi(null); setHata(m); }} />
+        ))}
 
         {(sekme === "joker" || sekme === "coin" || sekme === "elmas") && !hazir && (
           <QtKart>

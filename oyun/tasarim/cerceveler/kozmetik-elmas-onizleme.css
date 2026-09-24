@@ -1,0 +1,134 @@
+/* /kozmetik-onizleme › Elmas kozmetikleri (KozmetikElmasOnizleme.jsx) — kze- öneki. iOS: fixed yok. */
+.kze-liste { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--qt-b-3); }
+.kze-kalem {
+  display: grid;
+  gap: var(--qt-b-2);
+  padding-block: var(--qt-b-3);
+  border-top: 1px solid var(--qt-cizgi);
+  min-width: 0;
+}
+.kze-kalem:first-child { border-top: 0; }
+.kze-kalem-bas { display: flex; flex-wrap: wrap; align-items: center; gap: var(--qt-b-2); }
+.kze-alt { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); }
+.kze-yerler { display: flex; flex-wrap: wrap; align-items: center; gap: var(--qt-b-3); min-width: 0; }
+.kze-hata { margin: 0; color: var(--qt-yanlis-koyu); font-weight: var(--qt-a-kalin); }
+
+/* Satış seçimi (yalnız sahip) */
+.kze-secim { display: flex; flex-wrap: wrap; gap: var(--qt-b-2); }
+.kze-secim-dugme {
+  min-height: 44px;
+  padding: 0 var(--qt-b-4);
+  border: 0;
+  border-radius: var(--qt-r-hap);
+  background: var(--qt-yuzey-2);
+  color: var(--qt-metin);
+  font: inherit;
+  font-weight: var(--qt-a-siyah);
+  box-shadow: inset 0 0 0 2px var(--qt-cizgi);
+  cursor: pointer;
+}
+.kze-secim-dugme--evet[aria-pressed="true"] { background: var(--qt-dogru-koyu); color: #ffffff; box-shadow: 0 3px 0 var(--qt-dogru-dudak); }
+.kze-secim-dugme--hayir[aria-pressed="true"] { background: var(--qt-yanlis-koyu); color: #ffffff; box-shadow: 0 3px 0 var(--qt-yanlis-dudak); }
+.kze-secim-dugme:disabled { cursor: progress; opacity: 0.7; }
+.kze-secim-dugme:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 2px; }
+
+/* Lig satırı taklidi */
+.kze-lig {
+  display: grid;
+  grid-template-columns: 28px 40px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--qt-b-2);
+  width: min(100%, 300px);
+  padding: var(--qt-b-2) var(--qt-b-3);
+  border-radius: var(--qt-r-m);
+  background: var(--qt-yuzey);
+  box-shadow: inset 0 0 0 1px var(--qt-cizgi);
+}
+.kze-lig--ben { background: var(--qt-ikinci-acik); }
+.kze-lig-sira { font-weight: var(--qt-a-siyah); color: var(--qt-metin-soluk); text-align: center; }
+.kze-lig-ad { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: var(--qt-a-siyah); color: var(--qt-metin); }
+.kze-lig-puan { font-weight: var(--qt-a-siyah); color: var(--qt-metin); }
+
+/* Maç şeridi taklidi */
+.kze-serit {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 6px;
+  width: min(100%, 340px);
+  padding: var(--qt-b-3);
+  border-radius: var(--qt-r-m);
+  background: var(--qt-mac-zemin);
+  color: var(--qt-mac-metin);
+}
+.kze-serit-skor { font-family: var(--qt-f-baslik); font-weight: var(--qt-a-siyah); }
+
+/* Maç sonu ad hapı taklidi (MacSonuKutlama .msk-isim) */
+.kze-mac-sonu-ad {
+  padding: 2px var(--qt-b-3);
+  border-radius: var(--qt-r-hap);
+  background: var(--qt-yuzey);
+  box-shadow: 0 var(--qt-dudak-s) 0 rgba(29, 33, 82, 0.25), inset 0 0 0 1px var(--qt-cizgi);
+  font-family: var(--qt-f-baslik);
+  font-weight: var(--qt-a-siyah);
+  color: var(--qt-metin);
+}
+
+/* VS ekranı taklidi */
+.kze-vs {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--qt-b-2);
+  width: min(100%, 360px);
+  padding: var(--qt-b-3);
+  border-radius: var(--qt-r-l);
+  background: var(--qt-mac-zemin);
+}
+.kze-vs .ara-kart .qt-cerceve, .kze-vs .ara-kart { min-width: 0; }
+
+/* Zafer: kazanan kutusu + kaybedenin ekranı */
+.kze-zafer-ikili { display: flex; flex-wrap: wrap; gap: var(--qt-b-3); }
+.kze-zafer {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: var(--qt-b-1);
+  width: 260px;
+  height: 260px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--qt-r-l);
+  overflow: hidden;
+  background: radial-gradient(120% 70% at 50% 18%, var(--qt-coin) 0%, var(--qt-vurgu) 55%, var(--qt-vurgu-dudak) 100%);
+  color: var(--qt-vurgu-yazi);
+  font: inherit;
+  cursor: pointer;
+}
+.kze-zafer > :not(.qt-zafer) { position: relative; z-index: 1; }
+.kze-zafer-baslik { font-family: var(--qt-f-baslik); font-size: var(--qt-y-xl); font-weight: var(--qt-a-siyah); }
+.kze-zafer-ad { padding: 0 var(--qt-b-2); border-radius: var(--qt-r-hap); background: var(--qt-yuzey); font-weight: var(--qt-a-siyah); color: var(--qt-metin); }
+.kze-tekrar { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); }
+.kze-kaybeden {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: var(--qt-b-4);
+  width: 200px;
+  height: 260px;
+  border-radius: var(--qt-r-l);
+  background: radial-gradient(120% 70% at 50% 18%, var(--qt-bilgi) 0%, var(--qt-bilgi-koyu) 55%, var(--qt-zemin-metin) 100%);
+}
+.kze-kaybeden-baslik { color: #ffffff; font-family: var(--qt-f-baslik); font-weight: var(--qt-a-siyah); }
+.kze-kaybeden-avatar { position: relative; display: grid; place-items: center; width: 132px; height: 132px; }
+.kze-kaybeden-avatar .qt-zafer--kucuk { top: 0; }
+
+/* Tepki denemesi */
+.kze-tepki { display: grid; gap: var(--qt-b-2); }
+.kze-tepki-dugmeler { display: flex; flex-wrap: wrap; gap: var(--qt-b-1); }
+
+@media (max-width: 420px) {
+  .kze-zafer, .kze-kaybeden { width: 100%; }
+}

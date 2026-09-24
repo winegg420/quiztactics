@@ -1,0 +1,96 @@
+/* Dükkân › VS Kartı · İsim Efekti · Zafer Efekti · Tepki · Avatar (DukkanKozmetik.jsx) + Koleksiyon — qt-kz- öneki.
+   Kart/ızgara düzeni Aura sekmesinin qt-dc- sınıflarından gelir. */
+.qt-kz-onizleme { padding: var(--qt-b-3); min-width: 0; }
+.qt-kz-kapali {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px var(--qt-b-2);
+  border-radius: var(--qt-r-hap);
+  background: var(--qt-uyari-acik);
+  color: var(--qt-uyari-koyu);
+  font-size: var(--qt-y-xs);
+  font-weight: var(--qt-a-siyah);
+}
+
+/* Izgara simgeleri (64 px) */
+.qt-kz-vs-simge { display: block; border-radius: var(--qt-r-m); box-shadow: 0 var(--qt-dudak-s) 0 rgba(20, 16, 70, 0.25); }
+.qt-kz-vs-simge.qt-vs[data-vs]::before { width: 30px; height: 30px; right: 4px; bottom: 4px; }
+.qt-kz-vs-simge.qt-vs[data-vs]::after  { width: 20px; height: 20px; left: 5px; top: 5px; }
+.qt-kz-isim-simge {
+  display: grid;
+  place-items: center;
+  max-width: 100%;
+  padding: 0 var(--qt-b-1);
+  font-family: var(--qt-f-baslik);
+  font-size: var(--qt-y-m);
+  font-weight: var(--qt-a-siyah);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.qt-kz-zafer-simge { display: block; margin: 6px; }
+.qt-kz-tepki-simge { display: grid; grid-template-columns: 1fr 1fr; place-items: center; }
+.qt-kz-tepki-simge img { width: 28px; height: 28px; }
+.qt-kz-avatar-simge { display: block; width: 64px; height: 64px; border-radius: 50%; background: var(--qt-yuzey-2); }
+
+/* Büyük önizleme */
+.qt-kz-vs { min-width: 150px; }
+.qt-kz-isim-onizleme { display: grid; gap: var(--qt-b-2); min-width: 160px; }
+.qt-kz-isim-zemin {
+  display: block;
+  max-width: 220px;
+  padding: var(--qt-b-2) var(--qt-b-4);
+  border-radius: var(--qt-r-m);
+  font-family: var(--qt-f-baslik);
+  font-size: var(--qt-y-l);
+  font-weight: var(--qt-a-siyah);
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.qt-kz-isim-zemin--acik { background: var(--qt-zemin); color: var(--qt-metin); }
+.qt-kz-isim-zemin--koyu { background: var(--qt-mac-zemin); color: var(--qt-mac-metin); }
+
+.qt-kz-zafer-kutu {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: var(--qt-b-1);
+  width: min(240px, 72vw);
+  height: 180px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--qt-r-l);
+  overflow: hidden;
+  background: radial-gradient(120% 80% at 50% 20%, var(--qt-coin) 0%, var(--qt-vurgu) 55%, var(--qt-vurgu-dudak) 100%);
+  color: var(--qt-vurgu-yazi);
+  font: inherit;
+  cursor: pointer;
+}
+.qt-kz-zafer-kutu > :not(.qt-zafer) { position: relative; z-index: 1; }
+.qt-kz-zafer-yazi { font-family: var(--qt-f-baslik); font-size: var(--qt-y-l); font-weight: var(--qt-a-siyah); }
+.qt-kz-tekrar {
+  position: absolute !important;
+  right: 8px;
+  bottom: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px 8px;
+  border-radius: var(--qt-r-hap);
+  background: var(--qt-yuzey);
+  color: var(--qt-metin);
+  font-size: var(--qt-y-xs);
+  font-weight: var(--qt-a-siyah);
+}
+.qt-kz-tepki-onizleme { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--qt-b-2); min-width: 200px; }
+.qt-kz-tepki-kalem { display: grid; justify-items: center; gap: 2px; }
+.qt-kz-tepki-kalem small { font-size: var(--qt-y-xs); color: var(--qt-metin-soluk); font-weight: var(--qt-a-kalin); text-align: center; }
+
+/* Koleksiyon kalemleri (qt-cs-oge içinde) */
+.qt-ks-kozmetik .qt-kz-vs-simge { width: 56px !important; height: 56px !important; }
+.qt-ks-yok { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; background: var(--qt-yuzey-2); color: var(--qt-metin-soluk); box-shadow: inset 0 0 0 2px var(--qt-cizgi); }

@@ -5,6 +5,9 @@
  *   Aura    = avatarın arkasındaki tema katmanı — Dükkân'da elmasla alınır (etkinlik aurası satılmaz).
  *   Avatar  = profesyonel avatar seti (avatar_onayla).
  * Katman sırası her yerde aynı (CerceveliAvatar): aura (arkada) → avatar → çerçeve (önde).
+ * 540: VS Kartı · İsim Efekti · Zafer Efekti (tak/çıkar) · Tepki paketleri (sahip olunca maçta hazır) ve
+ *      yeni avatar kataloğu (520). Satış kapalıyken normal oyuncuya katalog boş döner → bölümler görünmez;
+ *      sahip hesabı test modunda hepsini takabilir (sunucu kontrolü).
  * Veri: cerceveKatalogu/cerceveTak, auraKatalogu/auraTak (oyun/lib/cerceve.js). Listeler durağan.
  * (Eski CerceveSecici.jsx'in yerine; qt-cs- sınıfları aynı.)
  */
@@ -18,6 +21,9 @@ import CerceveGorseli, { icBoyut } from "../tasarim/cerceveler/CerceveGorseli.js
 import { cerceveTanimiBul, auraTanimiBul } from "../tasarim/cerceveler/tanimlar.js";
 import DurumKutusu from "./DurumKutusu.jsx";
 import { NadirlikEtiketi, ElmasFiyat } from "./DukkanAuralar.jsx";
+import { KOZMETIK_SEKMELERI, KozmetikSimge, kozmetikAdi, useKozmetikDukkan } from "./DukkanKozmetik.jsx";
+import { kozmetikHatasi, kozmetikTak } from "../lib/kozmetik.js";
+import { aktifDil } from "../lib/dil.js";
 import { HAZIR_AVATARLAR } from "./ProfilAyarlari.jsx";
 import { cerceveKatalogu, cerceveTak, auraKatalogu, auraTak, oyuncuKartiUnut } from "../lib/cerceve.js";
 import { LIG_ADLARI } from "../lib/lig.js";
@@ -47,6 +53,7 @@ export default function Koleksiyon() {
   const [hata, setHata] = useState(null);
   const [mesgul, setMesgul] = useState(null);
   const [bilgi, setBilgi] = useState(null);
+  const kozmetik = useKozmetikDukkan();
 
   const yukle = useCallback(async () => {
     setHata(null);
@@ -115,6 +122,23 @@ export default function Koleksiyon() {
       setMesgul(null);
     }
   };
+
+  const kozmetikSec = async (tur, anahtar) => {
+    if (mesgul) return;
+    setMesgul(`k:${tur}:${anahtar ?? "yok"}`);
+    setHata(null);
+    try {
+      await kozmetikTak(tur, anahtar, user?.id);
+      await kozmetik.yenile();
+      setBilgi(anahtar ? tt("Takıldı.") : tt("Çıkarıldı."));
+    } catch (e) {
+      setHata(kozmetikHatasi(e));
+    } finally {
+      setMesgul(null);
+    }
+  };
+  // Yeni katalog avatarları (520): kullanabildiklerin (günlük, aldıkların; sahip test modunda hepsi)
+  const yeniAvatarlar = kozmetik.avatarlar.filter((a) => a.kullanabilir);
 
   const sahipCerceve = cerceveler.filter((c) => c.sahip).length;
   const sahipAura = auralar.filter((a) => a.sahip).length;
@@ -218,10 +242,77 @@ export default function Koleksiyon() {
         <QtDugme as={Link} to={y("/joker?sekme=aura")} tur="ikincil" ikon="dukkan" tamGenislik>{tt("Dükkân'da auralar")}</QtDugme>
       </QtKart>
 
+      {/* ---------- 540: VS Kartı · İsim Efekti · Zafer Efekti · Tepki ---------- */}
+      {KOZMETIK_SEKMELERI.filter((s) => s.tur && kozmetik.katalog.some((x) => x.tur === s.tur)).map((s) => {
+        const liste = kozmetik.katalog.filter((x) => x.tur === s.tur).sort((a, b) => (a.sira ?? 0) - (b.sira ?? 0));
+        const takilir = s.tur !== "tepki_paketi";
+        const takili = liste.find((x) => x.takili)?.anahtar ?? null;
+        return (
+          <QtKart as="section" key={s.kod} className="qt-cs qt-ks-kozmetik" aria-labelledby={`qt-ks-${s.kod}`}>
+            <h2 id={`qt-ks-${s.kod}`} className="qt-baslik-3">{tt(s.ad)}</h2>
+            {kozmetik.sahipHesap && <p className="qt-kucuk qt-soluk">{tt("Sahip test modu: satın almadan takabilirsin; taktığın maçta rakibe de görünür.")}</p>}
+            <ul className="qt-cs-izgara">
+              {takilir && (
+                <li>
+                  <button type="button" className="qt-cs-oge" aria-pressed={takili === null} disabled={Boolean(mesgul)}
+                          onClick={() => takili !== null && kozmetikSec(s.tur, null)}>
+                    <span className="qt-ks-yok" aria-hidden="true"><QtIkon ad="carpi" boyut={20} /></span>
+                    <span className="qt-cs-ad">{tt("Yok")}</span>
+                    <span className="qt-cs-durum">{durumYazi(takili === null, `k:${s.tur}:yok`)}</span>
+                  </button>
+                </li>
+              )}
+              {liste.map((x) => {
+                const kullanir = x.sahip || kozmetik.sahipHesap;
+                return (
+                  <li key={x.anahtar}>
+                    {takilir && kullanir ? (
+                      <button type="button" className="qt-cs-oge" aria-pressed={x.takili} disabled={Boolean(mesgul)}
+                              onClick={() => !x.takili && kozmetikSec(s.tur, x.anahtar)}>
+                        <KozmetikSimge kalem={x} profile={profile} boyut={56} />
+                        <span className="qt-cs-ad">{kozmetikAdi(x)}</span>
+                        <span className="qt-cs-durum">{durumYazi(x.takili, `k:${s.tur}:${x.anahtar}`)}</span>
+                      </button>
+                    ) : !takilir && kullanir ? (
+                      <div className="qt-cs-oge">
+                        <KozmetikSimge kalem={x} profile={profile} boyut={56} />
+                        <span className="qt-cs-ad">{kozmetikAdi(x)}</span>
+                        <span className="qt-cs-durum">{x.sahip ? tt("Maçta hazır") : tt("Test modunda açık")}</span>
+                      </div>
+                    ) : (
+                      <Link className="qt-cs-oge qt-cs-oge--kilitli" to={y(`/joker?sekme=${s.kod}`)}
+                            aria-label={tt("{ad} — Dükkân'da {n} elmas", { ad: kozmetikAdi(x), n: x.fiyat ?? "" })}>
+                        <KozmetikSimge kalem={x} profile={profile} boyut={56} />
+                        <span className="qt-cs-ad">{kozmetikAdi(x)}</span>
+                        <span className="qt-cs-kosul">{x.satilik && x.fiyat != null ? <ElmasFiyat fiyat={x.fiyat} boyut={14} /> : <QtIkon ad="kilit" boyut={12} />}</span>
+                      </Link>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </QtKart>
+        );
+      })}
+
       {/* ---------- Avatarlar ---------- */}
       <QtKart as="section" className="qt-cs" aria-labelledby="qt-ks-avatar">
         <h2 id="qt-ks-avatar" className="qt-baslik-3">{tt("Avatarlar")}</h2>
         <ul className="qt-cs-izgara qt-ks-avatarlar">
+          {/* 520: yeni katalog avatarları (günlük + aldıkların; sahip test modunda hepsi) önce */}
+          {yeniAvatarlar.map((a) => {
+            const secili = profile?.avatar_url === a.url;
+            const ad = (aktifDil() === "en" ? a.ad_en : a.ad_tr) ?? a.ad_tr;
+            return (
+              <li key={a.anahtar}>
+                <button type="button" className="qt-cs-oge qt-ks-avatar" aria-pressed={secili} disabled={Boolean(mesgul)}
+                        aria-label={tt("{0} avatarını seç", { 0: ad })} onClick={() => avatarSec(a.url)}>
+                  <img src={a.url} alt="" loading="lazy" decoding="async" width="56" height="56" />
+                  <span className="qt-cs-ad">{ad}</span>
+                </button>
+              </li>
+            );
+          })}
           {HAZIR_AVATARLAR.map((a) => {
             const secili = profile?.avatar_url === a.url;
             return (
