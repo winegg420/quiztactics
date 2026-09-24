@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512"><clipPath id="k"><rect width="512" height="512" rx="112"/></clipPath><g clip-path="url(#k)">
+    <defs>
+      <linearGradient id="z" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E4F6FF"/><stop offset="1" stop-color="#A9DBFF"/></linearGradient>
+      <radialGradient id="p" cx=".3" cy=".22" r=".6"><stop offset="0" stop-color="#fff" stop-opacity=".85"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+    </defs>
+    <rect width="512" height="512" fill="url(#z)"/>
+    <rect width="512" height="512" fill="url(#p)"/>
+    <g transform="translate(256 266) scale(2.75) translate(-62 -63) translate(7 -1) skewX(-7)" fill="#0A1330" opacity=".2" fill-rule="evenodd"><path d="M56 10C28 10 10 29 10 58s18 48 46 48c10 0 19-2 27-7l12 11h21L94 88c7-8 10-18 10-30 0-29-19-48-48-48Zm0 23c15 0 25 10 25 25S71 83 56 83 33 73 33 58s8-25 23-25Z"/><path d="m73 78 21 10 15 15H94L69 85Z"/></g>
+    <g transform="translate(256 256) scale(2.75) translate(-62 -63) translate(7 -1) skewX(-7)">
+      <path d="M56 10C28 10 10 29 10 58s18 48 46 48c10 0 19-2 27-7l12 11h21L94 88c7-8 10-18 10-30 0-29-19-48-48-48Zm0 23c15 0 25 10 25 25S71 83 56 83 33 73 33 58s8-25 23-25Z" fill="#17213C" fill-rule="evenodd"/>
+      <path d="m73 78 21 10 15 15H94L69 85Z" fill="#FF6B2C"/>
+    </g></g></svg>
