@@ -277,3 +277,44 @@ body.bd-oyun-modu .bz-toast { display: none; } /* maç sırasında oyunu bölmez
   .ls-avatar-dugme { transition: none; }
   .ls-avatar-dugme:active { transform: none; }
 }
+
+/* ---------- Oyuncu adı düğmesi (Ajan C, 24 Eyl 2026) ----------
+   Ada dokununca oyuncu kartı açılır. Görünüm değişmez: sıfırlama :where ile (özgüllük 0),
+   asıl ad öğesi içeride kendi sınıfıyla çizilir. inline-grid + minmax(0,1fr): iç öğe
+   genişliği doldurur → ortalı ad ortalı kalır, üç nokta (ellipsis) çalışır.
+   ::after görünmez dokunma alanı — en az 44 px yükseklik, yanlara 6 px. */
+:where(.ls-ad-dugme) {
+  position: relative;
+  display: inline-grid;
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+  text-align: inherit;
+  text-transform: inherit;
+  text-shadow: inherit;
+  vertical-align: baseline;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.ls-ad-dugme::after {
+  content: "";
+  position: absolute;
+  left: -6px;
+  right: -6px;
+  top: calc(50% - max(50%, 22px));
+  bottom: calc(50% - max(50%, 22px));
+}
+.ls-ad-dugme:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 2px; }
+.ls-ad-kart { display: contents !important; }   /* portal kabı: kutu üretmez (sayfanın "> span" kuralları değiştirmesin) */
+/* Ad, esnek bir satırda kalan genişliği dolduruyorsa (flex: 1) düğme o yeri alır */
+.ls-ad-dugme.ls-ad-dugme--esnek { flex: 1 1 0; min-width: 0; }

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
 import { QtKart, QtListe, QtListeSatiri, QtRozet } from "../tasarim/index.js";
 import CerceveliAvatar from "./CerceveliAvatar.jsx";
+import OyuncuAdiDugmesi from "./OyuncuAdiDugmesi.jsx";   // Ajan C: ada dokununca oyuncu kartı
 import "../tasarim/ekranlar/m1-turnuva.css";
 import { turnuvaSaatleri } from "../lib/zaman.js";
 import { tt } from "../lib/dil.js";
@@ -99,7 +100,7 @@ export default function TurnuvaTanitim() {
                 key={o.user_id}
                 vurgulu={i === 0}
                 bas={<CerceveliAvatar profile={o.profil} userId={o.user_id} boyut={40} />}
-                baslik={`${i + 1}. ${o.profil?.gorunen_ad ?? tt("Oyuncu")}`}
+                baslik={<>{`${i + 1}. `}<OyuncuAdiDugmesi userId={o.user_id} profil={o.profil}>{o.profil?.gorunen_ad ?? tt("Oyuncu")}</OyuncuAdiDugmesi></>}
                 sag={<QtRozet ton={i === 0 ? "coin" : "dogru"} boyut="k" ikon="onay">{o.dogru_sayisi ?? 0}</QtRozet>}
               />
             ))}

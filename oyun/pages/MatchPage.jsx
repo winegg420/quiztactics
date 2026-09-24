@@ -18,6 +18,7 @@ import Maskot from "../components/Maskot.jsx";
 import { QtBosDurum, QtCip, QtDugme, QtEtki, QtIkon, QtIkonDugme, QtMacUst, QtModal, QtRozet } from "../tasarim/index.js";
 import "../tasarim/ekranlar/m1-mac.css";
 import MacUstSerit, { SeviyeEtiketi } from "../components/MacUstSerit.jsx";
+import OyuncuAdiDugmesi from "../components/OyuncuAdiDugmesi.jsx";
 import CerceveliAvatar from "../components/CerceveliAvatar.jsx";
 import { VsKarti } from "../components/AramaSahnesi.jsx";
 import { useOyuncuSeviyeleri } from "../lib/oyuncuSeviye.js";
@@ -1021,6 +1022,10 @@ export default function MatchPage() {
         </TepkiAvatar>
       ),
       alt: <SeviyeEtiketi {...(seviyeler[benimProfil?.id] ?? {})} />,
+      // Ajan C: ada dokununca oyuncu kartı (kendi adın → kendi kartın)
+      adSar: (ad, sinifAdi) => (
+        <OyuncuAdiDugmesi userId={benimProfil?.id} profil={benimProfil} className={sinifAdi}>{ad}</OyuncuAdiDugmesi>
+      ),
     };
     const rakipOyuncu = {
       ad: <IsimEfekti userId={rakipProfil?.id} {...(seviyeler[rakipProfil?.id] ? { kart: seviyeler[rakipProfil?.id] } : {})}>{rakipProfil?.gorunen_ad ?? tt("Rakip")}</IsimEfekti>,
@@ -1031,6 +1036,9 @@ export default function MatchPage() {
         </TepkiAvatar>
       ),
       alt: <SeviyeEtiketi {...(seviyeler[rakipProfil?.id] ?? {})} />,
+      adSar: (ad, sinifAdi) => (
+        <OyuncuAdiDugmesi userId={rakipProfil?.id} profil={rakipProfil} className={sinifAdi}>{ad}</OyuncuAdiDugmesi>
+      ),
     };
     // Bu ekran YALNIZ eski asenkron maçlara ait: senkron maçta iki taraf aynı
     // anda bitirir, maç da o anda sonuçlanır.

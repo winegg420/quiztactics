@@ -263,13 +263,15 @@ export function QtSoruKarti({ metin, sayac, kategori, sira, cikiyor = false, sev
  *    skor={[3, 2]} skorAnahtar={3} rakipBaski={baskiAnahtari} />
  * can verilmezse kalpler çizilmez (Klasik). skorAnahtar değişince skor zıplar.
  * avatarDugum verilirse QtAvatar yerine o çizilir (ekran çerçeveli avatarı buradan verir).
+ * adSar(ad, sinif) verilirse ad öğesini o çizer (ör. OyuncuAdiDugmesi — tasarım sistemi kartı bilmez).
  */
 export function QtMacUst({ sen, rakip, skor = [0, 0], skorAnahtar, rakipBaski, className }) {
   const taraf = (o, rakipMi) => (
     <div className={sinif("qt-oyuncu", rakipMi && "qt-oyuncu--rakip", rakipMi && rakipBaski && "qt-h-baski")} key={rakipMi ? `r${rakipBaski ?? ""}` : "s"}>
       {o.avatarDugum ?? <QtAvatar src={o.avatar} ad={o.ad} boyut="m" halka={rakipMi ? "yanlis" : "vurgu"} />}
       <span className="qt-oyuncu-yazi">
-        <span className="qt-oyuncu-ad">{o.ad}</span>
+        {/* Ajan C: adSar verilirse ad ona sarılır (ekran ada dokununca oyuncu kartını açar) */}
+        {o.adSar ? o.adSar(o.ad, "qt-oyuncu-ad") : <span className="qt-oyuncu-ad">{o.ad}</span>}
         {o.alt ?? null}
         {o.can != null && <QtCan key={o.kayip ? String(o.kayip) : "can"} dolu={o.can} toplam={o.canToplam ?? 3} etiket={rakipMi ? tt("Rakibin canı") : tt("Senin canın")} kayip={Boolean(o.kayip)} ters={rakipMi} boyut={16} />}
       </span>

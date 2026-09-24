@@ -11,6 +11,7 @@ import { facebookArkadasOnerileri, facebookDavetAc } from "../lib/facebookArkada
 import { tt } from "../lib/dil.js";
 import ModSecimPenceresi from "../components/ModSecimPenceresi.jsx";
 import OyuncuKarti from "../components/OyuncuKarti.jsx";
+import OyuncuAdiDugmesi from "../components/OyuncuAdiDugmesi.jsx";
 import { useDmOkunmamis } from "../lib/mesajlar.js";
 import {
   QtIkon, QtDugme, QtIkonDugme, QtKart, QtListe, QtListeSatiri, QtBosDurum,
@@ -357,7 +358,7 @@ export default function FriendsPage() {
               <QtListeSatiri
                 key={f.id}
                 bas={<AvatarCerceve profile={f.req} boyut={44} />}
-                baslik={<span className="ls-ad">{f.req?.gorunen_ad}</span>}
+                baslik={<OyuncuAdiDugmesi userId={f.req?.id} profil={f.req} className="ls-ad">{f.req?.gorunen_ad}</OyuncuAdiDugmesi>}
                 alt={tt("arkadaşlık isteği gönderdi")}
                 sag={
                   <>
@@ -510,7 +511,7 @@ export default function FriendsPage() {
               <QtListeSatiri
                 key={f.id}
                 bas={<AvatarCerceve profile={f.add} boyut={44} />}
-                baslik={<span className="ls-ad">{f.add?.gorunen_ad}</span>}
+                baslik={<OyuncuAdiDugmesi userId={f.add?.id} profil={f.add} className="ls-ad">{f.add?.gorunen_ad}</OyuncuAdiDugmesi>}
                 alt={tt("cevap bekleniyor…")}
                 sag={
                   /* Paket 13: meydan okumadaki "Geri çek" gibi, gönderilen istek de geri alınır. */
@@ -553,7 +554,7 @@ export default function FriendsPage() {
               <QtListeSatiri
                 key={o.user_id}
                 bas={<AvatarCerceve profile={o} boyut={44} userId={o.user_id ?? o.id} />}
-                baslik={<span className="ls-ad">{o.gorunen_ad}</span>}
+                baslik={<OyuncuAdiDugmesi userId={o.user_id ?? o.id} profil={o} className="ls-ad">{o.gorunen_ad}</OyuncuAdiDugmesi>}
                 alt={tt("Facebook arkadaşın")}
                 sag={
                   <QtDugme tur="mor" boyut="k" ikon="kisiEkle" devreDisi={calisiyor} onClick={() => fbArkadasEkle(o.user_id)}>

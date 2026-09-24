@@ -7,6 +7,7 @@
 import { useCallback, useEffect, useState } from "react";
 import DavetKodu from "./DavetKodu.jsx";
 import CerceveliAvatar from "./CerceveliAvatar.jsx";
+import OyuncuAdiDugmesi from "./OyuncuAdiDugmesi.jsx";   // Ajan C: ada dokununca oyuncu kartı
 import DurumKutusu from "./DurumKutusu.jsx";
 import { davetKodum, davetDurumum, davetKoduBagla, davetBaglantisi } from "../lib/davet.js";
 import { hataMesaji } from "../lib/hata.js";
@@ -181,7 +182,7 @@ export default function DavetKarti({ ekDugmeler }) {
             {liste.map((d) => (
               <QtListeSatiri key={d.user_id}
                 bas={<CerceveliAvatar profile={{ gorunen_ad: d.ad, gorunen_avatar: d.avatar }} userId={d.user_id} cerceve={d.cerceve ?? null} boyut={40} />}
-                baslik={d.ad ?? tt("Oyuncu")}
+                baslik={<OyuncuAdiDugmesi userId={d.user_id} profil={{ gorunen_ad: d.ad, gorunen_avatar: d.avatar }}>{d.ad ?? tt("Oyuncu")}</OyuncuAdiDugmesi>}
                 sag={durumSag(d)} />
             ))}
           </QtListe>

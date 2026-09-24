@@ -5,6 +5,7 @@ import AvatarCerceve from "../../components/AvatarCerceve.jsx";
 import OyuncuLigAmblemi from "../../components/OyuncuLigAmblemi.jsx";
 import CerceveliAvatar from "../../components/CerceveliAvatar.jsx";
 import IsimEfekti from "../../components/IsimEfekti.jsx";
+import OyuncuAdiDugmesi from "../../components/OyuncuAdiDugmesi.jsx";
 import Avatar from "../../../src/components/Avatar.jsx";
 import SeriRozeti from "../../components/SeriRozeti.jsx";
 import Countdown from "../../components/Countdown.jsx";
@@ -370,7 +371,8 @@ export function KompaktOyuncu({ v }) {
       <CerceveliAvatar profile={profile} userId={user?.id} boyut={64} hareketli />
       <span className="as-ko-govde">
         <span className="as-ko-ust">
-          <b className="as-ko-ad">{oyuncu.ad}</b>
+          {/* Ajan C: ada dokununca kendi oyuncu kartın (kartın geri kalanı profile gider) */}
+          <OyuncuAdiDugmesi userId={user?.id} profil={profile} oge="b" className="as-ko-ad" dugmeSinifi="ls-ad-dugme--esnek">{oyuncu.ad}</OyuncuAdiDugmesi>
           {/* 560: lig amblemi isim yanında (önizlemedeki gibi); lig adı amblemin erişilebilir adında */}
           {lig?.lig && <OyuncuLigAmblemi lig={lig.lig} boyut={20} />}
         </span>
@@ -456,7 +458,10 @@ export function LigKarti({ v }) {
                                cerceve={r.cerceve ?? null} kart={{ cerceve: r.cerceve ?? null, cerceve_nadirlik: r.cerceve_nadirlik,
                                  // 560: premium alanlar satırda varsa (lig_grubum_ozet) ek sorgu yok
                                  ...("premium_cerceve" in r ? { premium_cerceve: r.premium_cerceve ?? null, premium_aura: r.premium_aura ?? null } : {}) }} boyut={28} />
-              <span className="as-lk-ad"><IsimEfekti ef={r.isim_efekti ?? null}>{r.ben ? tt("Sen") : r.ad}</IsimEfekti></span>
+              {/* Ajan C: ada dokununca oyuncu kartı (satırın geri kalanı lig sayfasına gider). Liste aria-hidden:
+                  klavye/ekran okuyucu aynı kartı lig sayfasındaki satırdan açar. */}
+              <OyuncuAdiDugmesi userId={r.user_id} profil={{ gorunen_ad: r.ad, gorunen_avatar: r.avatar }} ad={r.ad}
+                                className="as-lk-ad" odaklanmaz><IsimEfekti ef={r.isim_efekti ?? null}>{r.ben ? tt("Sen") : r.ad}</IsimEfekti></OyuncuAdiDugmesi>
               <span className="as-lk-puan qt-sayi">{sayi(r.puan)}</span>
             </li>
           );

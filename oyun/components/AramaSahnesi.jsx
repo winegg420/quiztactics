@@ -19,6 +19,7 @@ import { createPortal } from "react-dom";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import CerceveliAvatar from "./CerceveliAvatar.jsx";
 import IsimEfekti from "./IsimEfekti.jsx";
+import OyuncuAdiDugmesi from "./OyuncuAdiDugmesi.jsx";
 import OyuncuLigAmblemi from "./OyuncuLigAmblemi.jsx";
 import { kozmetikTemasi } from "../lib/kozmetik.js";
 import { useOyuncuSeviyeleri } from "../lib/oyuncuSeviye.js";
@@ -45,8 +46,10 @@ function sureYaz(sn) {
  * Oyuncu kartı: temalı çerçeveli avatar, ad, level, lig. Kapıdaki VS kartıyla aynı dil.
  * 540: kartın arka planı oyuncunun VS kartı teması (kart.vs_karti), adı isim efektiyle (kart.isim_efekti) —
  * ikisi de oyuncu kartından (oyuncu_kartlari; ek sorgu yok). `vsKarti` / `isimEfekti` verilirse onlar (önizleme).
+ * Ada dokununca oyuncu kartı açılır; önizlemede (vsKarti/isimEfekti verilince) kapalı — `adDokunur` ile zorlanır.
  */
-export function VsKarti({ profil, kart, taraf = "ben", className, children, vsKarti, isimEfekti }) {
+export function VsKarti({ profil, kart, taraf = "ben", className, children, vsKarti, isimEfekti, adDokunur }) {
+  const adAcik = adDokunur ?? (vsKarti === undefined && isimEfekti === undefined);
   const lig = LIGLER.includes(kart?.lig ?? profil?.lig) ? (kart?.lig ?? profil?.lig) : null;
   const level = kart?.level ?? profil?.level;
   const vsTema = kozmetikTemasi(vsKarti !== undefined ? vsKarti : kart?.vs_karti);
@@ -54,9 +57,10 @@ export function VsKarti({ profil, kart, taraf = "ben", className, children, vsKa
   return (
     <div className={sinif("ara-kart", `ara-kart--${taraf}`, vsTema && "qt-vs", className)} data-vs={vsTema ?? undefined}>
       <CerceveliAvatar profile={profil} userId={profil?.id} boyut={92} hareketli {...(kart ? { kart } : {})} />
-      <span className="ara-kart-ad">
+      {/* Ajan C: ada dokununca oyuncu kartı (önizlemelerde — vsKarti/isimEfekti verilince — kapalı) */}
+      <OyuncuAdiDugmesi userId={adAcik ? profil?.id : null} profil={profil} className="ara-kart-ad">
         <IsimEfekti userId={profil?.id} {...(ef !== undefined ? { ef } : {})} koyu>{profil?.gorunen_ad ?? tt("Sen")}</IsimEfekti>
-      </span>
+      </OyuncuAdiDugmesi>
       <span className="ara-kart-rozetler">
         {level != null && <QtRozet boyut="k" ton="koyu">{tt("Lv {0}", { 0: level })}</QtRozet>}
         {/* 560: lig amblemi (önizlemedeki gibi, isim yanında; lig adı erişilebilir adında) */}

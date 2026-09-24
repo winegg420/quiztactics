@@ -19,6 +19,7 @@ import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import Ikon from "../components/Ikon.jsx";
 import MacUstSerit from "../components/MacUstSerit.jsx";
+import OyuncuAdiDugmesi from "../components/OyuncuAdiDugmesi.jsx";
 import CerceveliAvatar from "../components/CerceveliAvatar.jsx";
 import { useOyuncuSeviyeleri } from "../lib/oyuncuSeviye.js";
 import { TepkiCubugu, useMacTepki } from "../components/Tepki.jsx";
@@ -1196,7 +1197,8 @@ function DuelloMac({ id }) {
     <div className={`bd-duello-oyuncu ${taraf} ${d.saldiran === o.id ? "saldiriyor" : ""}`}>
       <CerceveliAvatar profile={o} userId={o.id} boyut={48} hareketli kart={seviyeler[o.id]} />
       <div className="bd-duello-oyuncu-bilgi">
-        <div className="bd-duello-oyuncu-ad">{o.gorunen_ad}</div>
+        {/* Ajan C: ada dokununca oyuncu kartı */}
+        <div className="bd-duello-oyuncu-ad-kap"><OyuncuAdiDugmesi userId={o.id} profil={o} className="bd-duello-oyuncu-ad">{o.gorunen_ad}</OyuncuAdiDugmesi></div>
         {unvanAdi(o.unvan) && <div className="bd-unvan kucuk">{ceviri(unvanAdi(o.unvan))}</div>}
         <Kalpler can={Math.max(0, o.can)} sonCan={o.can === 1} />
       </div>

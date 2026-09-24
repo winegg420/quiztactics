@@ -23,6 +23,7 @@ import OyuncuKarti from "../components/OyuncuKarti.jsx";
 import { useArkadaslik } from "../lib/arkadaslik.js";
 import AvatarCerceve from "../components/AvatarCerceve.jsx";
 import AvatarDugmesi from "../components/AvatarDugmesi.jsx";
+import OyuncuAdiDugmesi from "../components/OyuncuAdiDugmesi.jsx";
 import { useNavigate } from "react-router-dom";
 import { y } from "../lib/yol.js";
 import { useGorunurlukTazele, zamanAsimiyla } from "../lib/gorunurluk.js";
@@ -592,7 +593,7 @@ export default function TournamentPage() {
                   <AvatarDugmesi userId={kazanan.user_id} profil={kazanan.profil} kendi={kazanan.user_id === user?.id}>
                     <AvatarCerceve profile={kazanan.profil} boyut={64} userId={kazanan.user_id} />
                   </AvatarDugmesi>
-                  <div className="m1-ss-isim"><span className="m1-ss-isim-metin">{kazanan.profil?.gorunen_ad}</span></div>
+                  <div className="m1-ss-isim"><OyuncuAdiDugmesi userId={kazanan.user_id} profil={kazanan.profil} className="m1-ss-isim-metin">{kazanan.profil?.gorunen_ad}</OyuncuAdiDugmesi></div>
                   <div className="m1-ss-taraf-ek">{tt("Şampiyon")}</div>
                 </div>
               )}
@@ -616,7 +617,8 @@ export default function TournamentPage() {
             <span className="m1-tv-sampiyon-ikon" aria-hidden="true"><QtIkon ad="kupa" boyut={28} /></span>
             <span>
               <span className="qt-kucuk qt-soluk">{tt("Son turnuvanın şampiyonu")}</span>
-              <span className="m1-tv-sampiyon-ad" style={{ display: "block" }}>{kazanan.profil?.gorunen_ad}</span>
+              {/* Ajan C: ada dokununca oyuncu kartı */}
+              <OyuncuAdiDugmesi userId={kazanan.user_id} profil={kazanan.profil} className="m1-tv-sampiyon-ad" style={{ display: "block" }}>{kazanan.profil?.gorunen_ad}</OyuncuAdiDugmesi>
             </span>
           </QtKart>
         )}
@@ -750,7 +752,12 @@ export default function TournamentPage() {
                       <AvatarCerceve profile={o.profil} boyut={36} userId={o.user_id} />
                     </button>
                   }
-                  baslik={o.profil?.gorunen_ad}
+                  baslik={
+                    <OyuncuAdiDugmesi userId={o.user_id} profil={o.profil}
+                                      onAc={() => setKartOyuncu({ id: o.user_id, ...(o.profil ?? {}) })}>
+                      {o.profil?.gorunen_ad}
+                    </OyuncuAdiDugmesi>
+                  }
                   sag={o.user_id !== user.id ? (
                     <QtIkonDugme
                       ikon="kilic"
@@ -879,9 +886,12 @@ export default function TournamentPage() {
         <h2 className="m1-tv-canli">{tt("Hayatta kalanlar")}</h2>
         <div className="m1-tv-hayatta">
           {hayatta.map((o) => (
-            <QtRozet key={o.user_id} ton={o.user_id === user.id ? "vurgu" : "notr"} boyut="k">
-              {tt("{ad} · {n} doğru", { ad: o.profil?.gorunen_ad ?? tt("Oyuncu"), n: o.dogru_sayisi ?? 0 })}
-            </QtRozet>
+            // Ajan C: rozetin tamamı ada dokunma alanı (ad çeviri kalıbının içinde)
+            <OyuncuAdiDugmesi key={o.user_id} userId={o.user_id} profil={o.profil}>
+              <QtRozet ton={o.user_id === user.id ? "vurgu" : "notr"} boyut="k">
+                {tt("{ad} · {n} doğru", { ad: o.profil?.gorunen_ad ?? tt("Oyuncu"), n: o.dogru_sayisi ?? 0 })}
+              </QtRozet>
+            </OyuncuAdiDugmesi>
           ))}
         </div>
       </div>

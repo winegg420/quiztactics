@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import OyuncuAdiDugmesi from "../components/OyuncuAdiDugmesi.jsx";   // Ajan C: ada dokununca oyuncu kartı
 import KategoriIkon from "../components/KategoriIkon.jsx";
 import {
   QtKart, QtDugme, QtIkonDugme, QtIkon, QtModKart, QtListe, QtListeSatiri, QtRozet, QtCip, QtIlerleme,
@@ -809,7 +810,7 @@ export default function ChallengesPage() {
                 key={d.id}
                 vurgulu
                 bas={<AvatarCerceve profile={kisi(d.kuran)} />}
-                baslik={kisi(d.kuran)?.gorunen_ad ?? tt("Rakip")}
+                baslik={<OyuncuAdiDugmesi userId={d.kuran} profil={kisi(d.kuran)}>{kisi(d.kuran)?.gorunen_ad ?? tt("Rakip")}</OyuncuAdiDugmesi>}
                 alt={`${tt("seni düelloya çağırdı")} · ${d.dereceli ? tt("Dereceli") : tt("Serbest")}`}
                 sag={cevapDugmeleri(() => duelloDavetCevap(d.id, true), () => duelloDavetCevap(d.id, false))}
               />
@@ -819,7 +820,7 @@ export default function ChallengesPage() {
                 key={m.id}
                 vurgulu
                 bas={<AvatarCerceve profile={m.p1} />}
-                baslik={m.p1?.gorunen_ad}
+                baslik={<OyuncuAdiDugmesi userId={m.p1?.id ?? m.oyuncu1} profil={m.p1}>{m.p1?.gorunen_ad}</OyuncuAdiDugmesi>}
                 alt={tt("sana meydan okudu!")}
                 sag={cevapDugmeleri(() => cevapVer(m.id, true), () => cevapVer(m.id, false))}
               />
@@ -1011,7 +1012,7 @@ export default function ChallengesPage() {
                 <QtListeSatiri
                   key={p.id}
                   bas={<AvatarCerceve profile={p} boyut={40} />}
-                  baslik={p.gorunen_ad}
+                  baslik={<OyuncuAdiDugmesi userId={p.id} profil={p}>{p.gorunen_ad}</OyuncuAdiDugmesi>}
                   alt={p.puan != null ? <span className="a-meydan-puan"><QtIkon ad="yildiz" boyut={14} /> {p.puan}</span> : null}
                   sag={mevcutMac
                     ? <QtRozet ton="bilgi" boyut="k">{tt("Maçınız var")}</QtRozet>
@@ -1166,7 +1167,7 @@ export default function ChallengesPage() {
                     bas={<AvatarCerceve profile={rakip(m)} />}
                     baslik={
                       <span className="a-meydan-bot-ad">
-                        {oyuncuAdi(rakip(m), benP1 ? m.oyuncu2 : m.oyuncu1)}
+                        <OyuncuAdiDugmesi userId={benP1 ? m.oyuncu2 : m.oyuncu1} profil={rakip(m)}>{oyuncuAdi(rakip(m), benP1 ? m.oyuncu2 : m.oyuncu1)}</OyuncuAdiDugmesi>
                         {siraSende && <QtRozet ton="vurgu" boyut="k">{tt("Sıra sende")}</QtRozet>}
                       </span>
                     }
@@ -1257,7 +1258,7 @@ export default function ChallengesPage() {
                 <QtListeSatiri
                   key={d.id}
                   bas={<AvatarCerceve profile={kisi(d.rakip)} boyut={40} />}
-                  baslik={kisi(d.rakip)?.gorunen_ad ?? tt("Rakip")}
+                  baslik={<OyuncuAdiDugmesi userId={d.rakip} profil={kisi(d.rakip)}>{kisi(d.rakip)?.gorunen_ad ?? tt("Rakip")}</OyuncuAdiDugmesi>}
                   alt={`${tt("Düello · yanıt bekleniyor")} · ${d.dereceli ? tt("Dereceli") : tt("Serbest")}`}
                   sag={
                     <QtDugme boyut="k" tur="ikincil" yukleniyor={iptalEdilen === d.id} onClick={() => duelloDavetIptal(d.id)}>
@@ -1270,7 +1271,7 @@ export default function ChallengesPage() {
                 <QtListeSatiri
                   key={m.id}
                   bas={<AvatarCerceve profile={m.p2} />}
-                  baslik={m.p2?.gorunen_ad}
+                  baslik={<OyuncuAdiDugmesi userId={m.p2?.id ?? m.oyuncu2} profil={m.p2}>{m.p2?.gorunen_ad}</OyuncuAdiDugmesi>}
                   alt={tt("cevap bekleniyor…")}
                   sag={
                     <QtIkonDugme ikon="carpi" tur="saydam" etiket={tt("Daveti geri al")}
@@ -1378,7 +1379,7 @@ export default function ChallengesPage() {
                 <QtListeSatiri
                   key={m.id}
                   bas={<AvatarCerceve profile={rakip(m)} />}
-                  baslik={rakip(m)?.gorunen_ad}
+                  baslik={<OyuncuAdiDugmesi userId={benP1 ? m.oyuncu2 : m.oyuncu1} profil={rakip(m)}>{rakip(m)?.gorunen_ad}</OyuncuAdiDugmesi>}
                   /* "Senin - rakibin" sırası; bkz. Devam eden bloğundaki not. */
                   alt={`${benP1 ? m.oyuncu1_skor : m.oyuncu2_skor} - ${benP1 ? m.oyuncu2_skor : m.oyuncu1_skor}`}
                   sag={sonucRozeti(m.kazanan === user.id, m.kazanan === null)}

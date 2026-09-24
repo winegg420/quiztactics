@@ -14,6 +14,7 @@ import RozetlerPaneli from "../components/RozetlerPaneli.jsx";
 import Koleksiyon from "../components/Koleksiyon.jsx";
 import VitrinRozetleri from "../components/VitrinRozetleri.jsx";
 import DavetKarti from "../components/DavetKarti.jsx";
+import OyuncuAdiDugmesi from "../components/OyuncuAdiDugmesi.jsx";
 import LevelCubugu from "../components/LevelCubugu.jsx";
 import SayanSayi from "../components/SayanSayi.jsx";
 import KonumSecici from "../components/KonumSecici.jsx";
@@ -202,7 +203,10 @@ export default function ProfilePage() {
           <p className="qt-baslik-2 qt-pf-ad">
             {/* 560: lig amblemi isim yanında */}
             <span className="qt-ad-amblem">
-              <IsimEfekti userId={user?.id} hareketli>{profile.gorunen_ad}</IsimEfekti>
+              {/* Ajan C: ada dokununca kendi oyuncu kartın (başkalarının gördüğü kart) */}
+              <OyuncuAdiDugmesi userId={user?.id} profil={profile}>
+                <IsimEfekti userId={user?.id} hareketli>{profile.gorunen_ad}</IsimEfekti>
+              </OyuncuAdiDugmesi>
               {user?.id && <OyuncuLigAmblemi userId={user.id} boyut={24} />}
             </span>
           </p>

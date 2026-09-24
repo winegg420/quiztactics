@@ -6,6 +6,7 @@ import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import { QtIkon, QtDugme, QtIkonDugme, sinif } from "../tasarim/index.js";
 import CerceveliAvatar from "./CerceveliAvatar.jsx";
+import OyuncuAdiDugmesi from "./OyuncuAdiDugmesi.jsx";
 import { kategoriEtiket } from "../lib/kategoriler.js";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
@@ -109,7 +110,8 @@ export default function DavetBandi() {
 
         <span className="a-davet-metin">
           <span className="a-davet-satir">
-            <b>{d.gorunen_ad ?? tt("Bir oyuncu")}</b> {bilgi.etiket}!
+            {/* Ajan C: ada dokununca davet edenin oyuncu kartı */}
+            <OyuncuAdiDugmesi userId={d.davet_eden} profil={d} oge="b">{d.gorunen_ad ?? tt("Bir oyuncu")}</OyuncuAdiDugmesi> {bilgi.etiket}!
           </span>
           <span className="a-davet-alt">
             {d.kategori ? kategoriEtiket(d.kategori) : tt("Karışık")}
