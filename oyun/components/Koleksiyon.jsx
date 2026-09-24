@@ -310,7 +310,7 @@ export default function Koleksiyon() {
 
       <KozmetikOnizlemePenceresi kalem={pencere ? kozmetik.katalog.find((x) => x.anahtar === pencere) ?? null : null}
         onKapat={() => setPencere(null)} sahipHesap={kozmetik.sahipHesap} yenile={kozmetik.yenile}
-        elmasYetmedi={() => { setPencere(null); navigate(y("/joker?sekme=elmas")); }}
+        elmasYetmedi={() => { setPencere(null); navigate(y("/joker?sekme=elmas&bolum=kazan")); }}
         onBilgi={(m) => { setHata(null); setBilgi(m); }} onHata={(m) => { setBilgi(null); setHata(m); }} />
 
       {/* ---------- Avatarlar ---------- */}

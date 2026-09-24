@@ -143,7 +143,12 @@ export default function JokerDukkani() {
   // D-301: dükkândaki her coin alımı önce onay penceresi (maç içi joker penceresiyle aynı bileşen).
   // onay = { tur?, baslik?, aciklama?, gorsel?, fiyat, onayMetni?, calistir } — calistir mevcut alım işlevidir.
   const [onay, setOnay] = useState(null);
-  const elmasKazanGoster = () => sekmeSec("elmas");
+  // D-304: "Nasıl kazanılır?" → Elmas sekmesi + "Oynayarak elmas kazan" listesine kaydır
+  const [elmasKaydir, setElmasKaydir] = useState(false);
+  const elmasKazanGoster = () => {
+    setArama({ sekme: "elmas" }, { replace: true });
+    setElmasKaydir(true);
+  };
   const playVar = desteklenirMi();
 
   const yukle = useCallback(async () => {
@@ -377,6 +382,26 @@ export default function JokerDukkani() {
 
   const reklamKaldi = reklam.tavan == null ? 1 : Math.max(0, reklam.tavan - (reklam.bugun ?? 0));
   const hazir = dukkanDurum === "hazir";
+  // D-304: Elmas sekmesi açılınca "Oynayarak elmas kazan" başlığına kaydır (üst çubuk yapışkan — payı düşülür).
+  // Koleksiyon'dan gelen bağlantı ?sekme=elmas&bolum=kazan ile aynısını ister.
+  const bolumKazan = arama.get("bolum") === "kazan";
+  useEffect(() => {
+    if (!elmasKaydir && !bolumKazan) return undefined;
+    if (sekme !== "elmas" || !hazir) return undefined;
+    const t = setTimeout(() => {
+      try {
+        const el = document.getElementById("qt-dk-elmas-kazan");
+        if (el) {
+          const ust = document.querySelector(".a-ust-blok, .qt-ustcubuk")?.getBoundingClientRect().height ?? 0;
+          window.scrollTo({ top: Math.max(0, el.getBoundingClientRect().top + window.scrollY - ust - 12), behavior: "auto" });
+        }
+      } catch { /* kaydırma kritik değil */ }
+      setElmasKaydir(false);
+      if (bolumKazan) setArama({ sekme: "elmas" }, { replace: true });
+    }, 60);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [elmasKaydir, bolumKazan, sekme, hazir]);
   const karisikPaketler = paketler.filter((p) => p.coin_fiyat != null && !p.fiyat_anahtari
     && Object.keys(p.icerik ?? {}).every((id) => AKTIF_MAC_SKILLERI.includes(id) || id === "seri_koruma"));
 
@@ -642,7 +667,9 @@ export default function JokerDukkani() {
         {/* ================= COIN ================= */}
         {sekme === "coin" && hazir && (
           <>
-            {/* Ödüllü video: jeton → reklam → sunucu ödülü (akış değişmez) */}
+            {/* Ödüllü video: jeton → reklam → sunucu ödülü (akış değişmez).
+                D-305: reklam yapılandırılmamışsa (ölü kart) hiç çizilmez; alttaki "Coin nasıl kazanılır?" kalır. */}
+            {h5AdsYapilandirildi() && (
             <QtKart ton="mor" className="qt-dk-video">
               <span className="qt-dk-video-ikon" aria-hidden="true"><QtIkon ad="oyna" boyut={28} /></span>
               <div className="qt-dk-video-metin">
@@ -672,6 +699,7 @@ export default function JokerDukkani() {
                 </QtDugme>
               )}
             </QtKart>
+            )}
 
             {/* Coin parayla satılmaz (480): yalnız oynayarak kazanılır */}
             <section className="qt-dk-bolum" aria-labelledby="qt-dk-coin-kazan">
@@ -687,7 +715,9 @@ export default function JokerDukkani() {
         {/* ================= ELMAS ================= */}
         {sekme === "elmas" && hazir && (
           <>
-            {/* Günde 1 elmas reklamı (normal reklam coin verir — ayrı hak) */}
+            {/* Günde 1 elmas reklamı (normal reklam coin verir — ayrı hak).
+                D-305: reklam yapılandırılmamışsa en üstteki ölü kart gizlenir. */}
+            {h5AdsYapilandirildi() && (
             <QtKart ton="mor" className="qt-dk-video">
               <span className="qt-dk-video-ikon" aria-hidden="true"><QtIkon ad="elmas" boyut={28} /></span>
               <div className="qt-dk-video-metin">
@@ -717,6 +747,7 @@ export default function JokerDukkani() {
                 </QtDugme>
               )}
             </QtKart>
+            )}
 
             {/* Oyunla elmas — rakamlar oyun_ayarlari'ndan (okunamayan satır gösterilmez) */}
             <section className="qt-dk-bolum" aria-labelledby="qt-dk-elmas-kazan">
@@ -794,7 +825,8 @@ export default function JokerDukkani() {
         )}
 
         {/* ---------- Yasal ---------- */}
-        {sekme !== "kiyafet" && (
+        {/* D-303: Google Play metni yalnız Elmas sekmesinde ve paketler satışa açıkken (başka ödeme yok) */}
+        {sekme === "elmas" && elmasPaketleriListe.some((p) => p.satista) && (
           <p className="qt-kucuk qt-soluk-zemin qt-dk-yasal">
             {tt("Satın alımlar Google Play üzerinden işlenir; ödeme bilgilerin Quiz Tactics ile paylaşılmaz. Tüketilebilir ürünlerde iade Google Play kurallarına tabidir. Ayrıntı için")}{" "}
             <Link to="/gizlilik">{tt("Gizlilik Politikası")}</Link>.
