@@ -8,8 +8,11 @@
  * süsler kutunun dışına taşar ama sınırlı: üst ≤ %32, yan ≤ %26, alt ≤ %16 (tam kademe) ·
  * 40–55 px yalnız `ana` süsler, merkeze biraz yaklaştırılmış · 40 px altında yalnız renkli halka ·
  * hareket yalnız transform/opacity, ekranda en çok 3 (hareketHakki.js), prefers-reduced-motion'da durağan.
+ *
+ * AURA (481): `aura` anahtarı verilirse avatarın ARKASINDA tema katmanı çizilir (hale + süsler + efekt).
+ * Katman sırası: aura (arkada) → halka/avatar → çerçeve süsleri (önde). 40 px altında yalnız renkli hale.
  */
-import { cerceveTanimiBul, hareketIster, SUSLER } from "./tanimlar.js";
+import { cerceveTanimiBul, auraTanimiBul, hareketIster, SUSLER } from "./tanimlar.js";
 import { useHareketHakki } from "./hareketHakki.js";
 import "./cerceveler.css";
 
@@ -92,14 +95,17 @@ function Sus({ ad, orta }) {
  * @param {boolean} [o.hareketli]    animasyon iste (ekranda en çok 3; listelerde verme)
  * @param {boolean} [o.sinirsiz]     3 sınırını atla — YALNIZ önizleme sayfası
  * @param {string} [o.etiket]        erişilebilir ad (ör. "Kraliyet çerçevesi")
+ * @param {string|null} [o.aura]     aura anahtarı (avatarın arkasındaki tema katmanı)
+ * @param {object} [o.auraSatir]     aura katalog satırı (nadirlik) — tanımsız anahtar için
  */
 export default function CerceveGorseli({ anahtar, satir, boyut = 64, hareketli = false, sinirsiz = false,
-  etiket, className = "", children }) {
+  etiket, aura = null, auraSatir, className = "", children }) {
   const tanim = cerceveTanimiBul(anahtar, satir);
+  const auraT = auraTanimiBul(aura, auraSatir);
   const kucuk = boyut < KUCUK_SINIR;
   const orta = !kucuk && boyut < ORTA_SINIR;
   const kademe = kucuk ? "kucuk" : orta ? "orta" : "tam";
-  const istek = !!(hareketli && hareketIster(tanim) && !kucuk);
+  const istek = !!(hareketli && (hareketIster(tanim) || hareketIster(auraT)) && !kucuk);
   const hak = useHareketHakki(istek && !sinirsiz);
   const oynar = istek && (sinirsiz || hak);
   const k = halkaKalinligi(boyut, !!tanim);
@@ -107,6 +113,8 @@ export default function CerceveGorseli({ anahtar, satir, boyut = 64, hareketli =
   const arka = susler.filter((s) => SUSLER[s].arka);
   const on = susler.filter((s) => !SUSLER[s].arka);
   const efekt = !kucuk ? tanim?.efekt : null;
+  const auraSusler = kucuk || !auraT ? [] : auraT.sus.filter((s) => SUSLER[s] && (!orta || SUSLER[s].ana));
+  const auraEfekt = !kucuk ? auraT?.efekt : null;
 
   return (
     <span className={`qt-cerceve${tanim ? "" : " qt-cerceve--yok"}${kucuk ? " qt-cerceve--kucuk" : ""}${oynar ? " qt-cerceve--oynar" : ""} ${className}`.trim()}
@@ -114,6 +122,24 @@ export default function CerceveGorseli({ anahtar, satir, boyut = 64, hareketli =
           data-desen={tanim?.desen} data-kademe={kademe}
           style={{ "--_b": `${boyut}px`, "--_k": `${k}px` }}
           {...(etiket ? { role: "img", "aria-label": etiket } : {})}>
+      {auraT && (
+        <span className="qt-aura" data-tema={auraT.tema ?? undefined} data-malzeme={auraT.malzeme} aria-hidden="true">
+          <span className="qt-aura-zemin" />
+          {auraEfekt === "aura" && <span className="qt-cerceve-aura" />}
+          {auraEfekt === "kozmik" && <span className="qt-cerceve-kozmik"><span className="qt-cerceve-kozmik-toz" /></span>}
+          {auraEfekt === "alev" && <span className="qt-cerceve-kor" />}
+          {auraSusler.map((s) => <Sus key={s} ad={s} orta={orta} />)}
+          {kademe === "tam" && auraT.kivilcim && (
+            <span className="qt-cerceve-kivilcimlar">
+              {KIVILCIMLAR.map(([a, g], i) => (
+                <span key={i} className="qt-cerceve-yer qt-cerceve-yer--dis" style={{ "--_a": `${a + 40}deg` }}>
+                  <span className="qt-cerceve-kivilcim" style={{ "--_g": `${g}s` }} />
+                </span>
+              ))}
+            </span>
+          )}
+        </span>
+      )}
       {efekt === "aura" && <span className="qt-cerceve-aura" aria-hidden="true" />}
       {efekt === "kozmik" && (
         <span className="qt-cerceve-kozmik" aria-hidden="true"><span className="qt-cerceve-kozmik-toz" /></span>

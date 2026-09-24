@@ -57,3 +57,8 @@
   .qt-dc-sahne { grid-template-columns: 1fr; grid-template-areas: "onizleme" "bilgi" "eylem"; justify-items: center; text-align: center; }
   .qt-dc-sahne-bilgi { justify-items: center; }
 }
+
+/* Aura (481): elmas fiyatı + koleksiyon notu */
+.qt-dc-durum .qt-dc-fiyat--elmas { color: var(--qt-ikinci-koyu, var(--qt-metin)); }
+.qt-dc-not { margin: 0; }
+.qt-dc-not a { font-weight: var(--qt-a-siyah); }

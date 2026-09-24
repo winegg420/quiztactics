@@ -107,7 +107,39 @@ export const CERCEVE_TANIMLARI = {
   level_50: { tur: "level", malzeme: "gumus", tema: "lig", sus: ["yildiz_2"], plaka: "50", ad: "Level 50 Gümüş" },
   level_75: { tur: "level", malzeme: "altin", tema: "lig", sus: ["yildiz_3"], plaka: "75", parilti: true, ad: "Level 75 Altın" },
   level_100: { tur: "level", malzeme: "elmas", tema: "prizma", sus: ["altin_kanatlar", "yildiz_4"], plaka: "100", efekt: "aura", kivilcim: true, ad: "Level 100 Altın Kanatlar" },
+
+  // ——— Turnuva çerçevesi (turnuva birincisi, satılmaz — migration 481)
+  turnuva_sampiyon: { tur: "lig", malzeme: "altin", tema: "lig", sus: ["defne_altin", "lig_tac"], plaka: "1", parilti: true, ad: "Turnuva Şampiyonu" },
+
+  // ——— Etkinlik çerçeveleri (etkinlik döneminde kazanılır, satılmaz — migration 481)
+  etkinlik_yilbasi: { tur: "nadirlik", malzeme: "nadir", tema: "buz", sus: ["buz_uclari", "kar_kucuk", "kar_tepe"], pirilti: true, ad: "Yılbaşı" },
+  etkinlik_ramazan: { tur: "nadirlik", malzeme: "nadir", tema: "yildiz", sus: ["parilti_alt", "donen_yildiz"], pirilti: true, ad: "Ramazan Bayramı" },
 };
+
+/**
+ * AURALAR (migration 481) — avatarın ARKASINDA duran tema katmanı; elmasla satılır (dükkân) ya da
+ * etkinlikte kazanılır. Eski temalı dükkân çerçevelerinin (D 360) teması aynen auraya geçti: renk
+ * ailesi (tema), süsler, canlı efekt. Halka yok — halka takılı ÇERÇEVENİN (kazanılan prestij).
+ * Katman sırası: aura (arkada) → avatar → çerçeve (önde). Görünüm: cerceveler.css › .qt-aura
+ */
+const AURA_ESKI_CERCEVE = {
+  aura_bulut: "dukkan_gece", aura_cicek: "dukkan_nane", aura_neon: "dukkan_mercan",
+  aura_buz: "dukkan_yakut", aura_okyanus: "dukkan_okyanus", aura_yildiz: "dukkan_zumrut",
+  aura_ejder: "dukkan_ametist", aura_simsek: "dukkan_kutup", aura_gezegen: "dukkan_nebula",
+  aura_alev: "dukkan_anka", aura_kraliyet: "dukkan_gunes", aura_kozmik: "dukkan_ejder",
+};
+export const AURA_TANIMLARI = Object.fromEntries(Object.entries(AURA_ESKI_CERCEVE).map(([a, c]) => {
+  const t = CERCEVE_TANIMLARI[c];
+  return [a, { malzeme: t.malzeme, tema: t.tema, sus: t.sus ?? [], efekt: t.efekt ?? null, kivilcim: !!t.kivilcim, ad: t.ad }];
+}));
+
+/** Aura anahtarı → görsel tanım; aura yoksa null. Bilinmeyen anahtar (etkinlik) nadirlik renginde sade hale. */
+export function auraTanimiBul(anahtar, satir) {
+  if (!anahtar) return null;
+  if (AURA_TANIMLARI[anahtar]) return { anahtar, ...AURA_TANIMLARI[anahtar] };
+  const n = ["siradan", "nadir", "epik", "efsanevi"].includes(satir?.nadirlik) ? satir.nadirlik : "nadir";
+  return { anahtar, malzeme: n, tema: null, sus: [], efekt: null, kivilcim: false };
+}
 
 /** Eski/alternatif anahtar adları → tanım (ör. eski lig_cerceveleri 'gumus'). */
 const TAKMA_AD = {

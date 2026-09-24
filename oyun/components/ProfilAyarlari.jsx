@@ -16,7 +16,7 @@ import "../tasarim/ekranlar/dukkan-profil.css";
 
 // Profesyonel avatar seti. Eski düşük ayrıntılı SVG'ler donduruldu; 31 karakter
 // aynı çizim dilinde yeniden üretildi. Kaynak: AvatarProIllustrations.jsx.
-const HAZIR_AVATARLAR = [
+export const HAZIR_AVATARLAR = [
   { url: "/avatars/pro/kedi-k01.svg", ad: tt("Kedi") },
   { url: "/avatars/pro/kopek-k02.svg", ad: tt("Köpek") },
   { url: "/avatars/pro/baykus-k03.svg", ad: tt("Baykuş") },

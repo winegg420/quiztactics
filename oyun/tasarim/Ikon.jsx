@@ -130,6 +130,13 @@ const Y = {
       <path d="M12 7.5v9M9.5 9.8c0-1.2 1.1-2 2.5-2s2.5.8 2.5 1.9-1 1.6-2.5 2-2.5.9-2.5 2 1.1 2 2.5 2 2.5-.8 2.5-2" />
     </>
   ),
+  // Elmas (480): kozmetik para birimi — kesik taş
+  elmas: (
+    <>
+      <path className={D} d="M7 4h10l4 5.5L12 21 3 9.5Z" />
+      <path d="M3 9.5h18M9.5 4 8 9.5l4 11.5 4-11.5L14.5 4" />
+    </>
+  ),
 
   // ——— Skill'ler ———
   yariyari: (

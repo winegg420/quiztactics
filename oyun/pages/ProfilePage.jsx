@@ -8,7 +8,7 @@ import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import AvatarCerceve from "../components/AvatarCerceve.jsx";
 import RozetlerPaneli from "../components/RozetlerPaneli.jsx";
-import CerceveSecici from "../components/CerceveSecici.jsx";
+import Koleksiyon from "../components/Koleksiyon.jsx";
 import VitrinRozetleri from "../components/VitrinRozetleri.jsx";
 import DavetKarti from "../components/DavetKarti.jsx";
 import LevelCubugu from "../components/LevelCubugu.jsx";
@@ -51,7 +51,7 @@ import {
 import "../tasarim/ekranlar/dukkan-profil.css";
 
 
-const SEKME_KODLARI = ["istatistik", "ayarlar", "rozet", "davet"];
+const SEKME_KODLARI = ["istatistik", "ayarlar", "rozet", "koleksiyon", "davet"];
 
 export default function ProfilePage() {
   const { user, profile, refreshProfile, signOut, profilHata } = useAuth();
@@ -179,6 +179,7 @@ export default function ProfilePage() {
     { kod: "istatistik", ad: tt("İstatistiklerim"), ikon: "grafik" },
     { kod: "ayarlar", ad: tt("Ayarlar"), ikon: "ayar" },
     { kod: "rozet", ad: tt("Rozetler"), ikon: "madalya" },
+    { kod: "koleksiyon", ad: tt("Koleksiyon"), ikon: "palet" },
     { kod: "davet", ad: tt("Davet"), ikon: "kisiEkle" },
   ];
 
@@ -419,10 +420,12 @@ export default function ProfilePage() {
         </>)}
 
         {sekme === "rozet" && (<>
-          {/* Rozet + çerçeve paketi: gruplu madalyonlar, ilerleme, vitrin; sahip olunan çerçeveler */}
+          {/* Rozet paketi: gruplu madalyonlar, ilerleme, vitrin (çerçeveler Koleksiyon'a taşındı) */}
           {user?.id && <RozetlerPaneli userId={user.id} />}
-          {user?.id && <CerceveSecici profile={profile} userId={user.id} />}
         </>)}
+
+        {/* 481: çerçeveler (kazanılan + kilitli), auralar, avatarlar tek yerde */}
+        {sekme === "koleksiyon" && user?.id && <Koleksiyon />}
 
         {sekme === "davet" && (
           /* Rozet + çerçeve paketi: yeni davet sistemi (300 / +100, Level 5, durum listesi) */

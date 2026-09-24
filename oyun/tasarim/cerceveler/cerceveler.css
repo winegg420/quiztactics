@@ -21,35 +21,35 @@
 }
 
 /* ---------- Renk aileleri ---------- */
-.qt-cerceve[data-malzeme="nadir"] { --_c: var(--qt-nadir-nadir); --_ca: var(--qt-nadir-nadir-acik); --_ck: var(--qt-nadir-nadir-koyu); }
-.qt-cerceve[data-malzeme="epik"] { --_c: var(--qt-nadir-epik); --_ca: var(--qt-nadir-epik-acik); --_ck: var(--qt-nadir-epik-koyu); }
-.qt-cerceve[data-malzeme="efsanevi"] { --_c: var(--qt-nadir-efsanevi); --_ca: var(--qt-nadir-efsanevi-acik); --_ck: var(--qt-nadir-efsanevi-koyu); }
-.qt-cerceve[data-malzeme="bronz"] { --_c: var(--qt-madalyon-bronz); --_ca: var(--qt-madalyon-bronz-acik); --_ck: var(--qt-madalyon-bronz-koyu); }
-.qt-cerceve[data-malzeme="gumus"] { --_c: var(--qt-madalyon-gumus); --_ca: var(--qt-madalyon-gumus-acik); --_ck: var(--qt-madalyon-gumus-koyu); }
-.qt-cerceve[data-malzeme="altin"] { --_c: var(--qt-madalyon-altin); --_ca: var(--qt-madalyon-altin-acik); --_ck: var(--qt-madalyon-altin-koyu); }
-.qt-cerceve[data-malzeme="elmas"] {
+:is(.qt-cerceve, .qt-aura)[data-malzeme="nadir"] { --_c: var(--qt-nadir-nadir); --_ca: var(--qt-nadir-nadir-acik); --_ck: var(--qt-nadir-nadir-koyu); }
+:is(.qt-cerceve, .qt-aura)[data-malzeme="epik"] { --_c: var(--qt-nadir-epik); --_ca: var(--qt-nadir-epik-acik); --_ck: var(--qt-nadir-epik-koyu); }
+:is(.qt-cerceve, .qt-aura)[data-malzeme="efsanevi"] { --_c: var(--qt-nadir-efsanevi); --_ca: var(--qt-nadir-efsanevi-acik); --_ck: var(--qt-nadir-efsanevi-koyu); }
+:is(.qt-cerceve, .qt-aura)[data-malzeme="bronz"] { --_c: var(--qt-madalyon-bronz); --_ca: var(--qt-madalyon-bronz-acik); --_ck: var(--qt-madalyon-bronz-koyu); }
+:is(.qt-cerceve, .qt-aura)[data-malzeme="gumus"] { --_c: var(--qt-madalyon-gumus); --_ca: var(--qt-madalyon-gumus-acik); --_ck: var(--qt-madalyon-gumus-koyu); }
+:is(.qt-cerceve, .qt-aura)[data-malzeme="altin"] { --_c: var(--qt-madalyon-altin); --_ca: var(--qt-madalyon-altin-acik); --_ck: var(--qt-madalyon-altin-koyu); }
+:is(.qt-cerceve, .qt-aura)[data-malzeme="elmas"] {
   --_c: var(--qt-madalyon-elmas); --_ca: var(--qt-madalyon-elmas-acik); --_ck: var(--qt-madalyon-elmas-koyu);
   --_au1: var(--qt-aura-elmas); --_au2: var(--qt-aura-elmas-2);
 }
-.qt-cerceve[data-malzeme="efsane"] {
+:is(.qt-cerceve, .qt-aura)[data-malzeme="efsane"] {
   --_c: var(--qt-lig-efsane); --_ca: var(--qt-aura-efsane); --_ck: var(--qt-lig-efsane-dudak);
   --_au1: var(--qt-aura-efsane); --_au2: var(--qt-aura-efsane-2);
 }
 /* Tema renkleri (malzemenin önüne geçer; 40 px altında da renk kalır) */
-.qt-cerceve[data-tema="bulut"] { --_c: var(--qt-tema-bulut); --_ca: var(--qt-tema-bulut-acik); --_ck: var(--qt-tema-bulut-koyu); }
-.qt-cerceve[data-tema="cicek"] { --_c: var(--qt-tema-cicek); --_ca: var(--qt-tema-cicek-acik); --_ck: var(--qt-tema-cicek-koyu); }
-.qt-cerceve[data-tema="neon"] { --_c: var(--qt-tema-neon); --_ca: var(--qt-tema-neon-acik); --_ck: var(--qt-tema-neon-koyu); }
-.qt-cerceve[data-tema="buz"] { --_c: var(--qt-tema-buz); --_ca: var(--qt-tema-buz-acik); --_ck: var(--qt-tema-buz-koyu); }
-.qt-cerceve[data-tema="okyanus"] { --_c: var(--qt-tema-okyanus); --_ca: var(--qt-tema-okyanus-acik); --_ck: var(--qt-tema-okyanus-koyu); }
-.qt-cerceve[data-tema="yildiz"] { --_c: var(--qt-tema-yildiz); --_ca: var(--qt-tema-yildiz-acik); --_ck: var(--qt-tema-yildiz-koyu); }
-.qt-cerceve[data-tema="ejder"] { --_c: var(--qt-tema-ejder); --_ca: var(--qt-tema-ejder-acik); --_ck: var(--qt-tema-ejder-koyu); }
-.qt-cerceve[data-tema="simsek"] { --_c: var(--qt-tema-simsek); --_ca: var(--qt-tema-simsek-acik); --_ck: var(--qt-tema-simsek-koyu); }
-.qt-cerceve[data-tema="gezegen"] { --_c: var(--qt-tema-gezegen); --_ca: var(--qt-tema-gezegen-acik); --_ck: var(--qt-tema-gezegen-koyu); }
-.qt-cerceve[data-tema="alev"] { --_c: var(--qt-tema-alev); --_ca: var(--qt-tema-alev-acik); --_ck: var(--qt-tema-alev-koyu); }
-.qt-cerceve[data-tema="kraliyet"] {
+:is(.qt-cerceve, .qt-aura)[data-tema="bulut"] { --_c: var(--qt-tema-bulut); --_ca: var(--qt-tema-bulut-acik); --_ck: var(--qt-tema-bulut-koyu); }
+:is(.qt-cerceve, .qt-aura)[data-tema="cicek"] { --_c: var(--qt-tema-cicek); --_ca: var(--qt-tema-cicek-acik); --_ck: var(--qt-tema-cicek-koyu); }
+:is(.qt-cerceve, .qt-aura)[data-tema="neon"] { --_c: var(--qt-tema-neon); --_ca: var(--qt-tema-neon-acik); --_ck: var(--qt-tema-neon-koyu); }
+:is(.qt-cerceve, .qt-aura)[data-tema="buz"] { --_c: var(--qt-tema-buz); --_ca: var(--qt-tema-buz-acik); --_ck: var(--qt-tema-buz-koyu); }
+:is(.qt-cerceve, .qt-aura)[data-tema="okyanus"] { --_c: var(--qt-tema-okyanus); --_ca: var(--qt-tema-okyanus-acik); --_ck: var(--qt-tema-okyanus-koyu); }
+:is(.qt-cerceve, .qt-aura)[data-tema="yildiz"] { --_c: var(--qt-tema-yildiz); --_ca: var(--qt-tema-yildiz-acik); --_ck: var(--qt-tema-yildiz-koyu); }
+:is(.qt-cerceve, .qt-aura)[data-tema="ejder"] { --_c: var(--qt-tema-ejder); --_ca: var(--qt-tema-ejder-acik); --_ck: var(--qt-tema-ejder-koyu); }
+:is(.qt-cerceve, .qt-aura)[data-tema="simsek"] { --_c: var(--qt-tema-simsek); --_ca: var(--qt-tema-simsek-acik); --_ck: var(--qt-tema-simsek-koyu); }
+:is(.qt-cerceve, .qt-aura)[data-tema="gezegen"] { --_c: var(--qt-tema-gezegen); --_ca: var(--qt-tema-gezegen-acik); --_ck: var(--qt-tema-gezegen-koyu); }
+:is(.qt-cerceve, .qt-aura)[data-tema="alev"] { --_c: var(--qt-tema-alev); --_ca: var(--qt-tema-alev-acik); --_ck: var(--qt-tema-alev-koyu); }
+:is(.qt-cerceve, .qt-aura)[data-tema="kraliyet"] {
   --_c: var(--qt-madalyon-altin); --_ca: var(--qt-madalyon-altin-acik); --_ck: var(--qt-madalyon-altin-koyu);
 }
-.qt-cerceve[data-tema="kozmik"] {
+:is(.qt-cerceve, .qt-aura)[data-tema="kozmik"] {
   --_c: var(--qt-tema-kozmik); --_ca: var(--qt-tema-kozmik-acik); --_ck: var(--qt-tema-kozmik-koyu);
   --_au1: var(--qt-tema-kozmik-acik); --_au2: var(--qt-tema-kozmik-2);
 }
@@ -622,6 +622,35 @@
   opacity: 0;
 }
 .qt-cerceve--oynar .qt-cerceve-parilti::before { animation: qt-cerceve-parilti 7s var(--qt-egri-gecis) infinite; }
+
+/* ---------- AURA (481): avatarın ARKASINDA tema katmanı — hale + süsler + canlı efekt ----------
+   Kutunun kendisi değişmez (yerleşim aynı); hale kutudan %14 taşar, tıklamayı yutmaz.
+   Renk ailesi yukarıdaki :is(.qt-cerceve, .qt-aura)[data-tema|data-malzeme] kurallarından. */
+.qt-aura {
+  --_c: var(--qt-nadir-siradan); --_ca: var(--qt-nadir-siradan-acik); --_ck: var(--qt-nadir-siradan-koyu);
+  --_au1: var(--qt-aura-efsanevi); --_au2: var(--qt-aura-efsanevi-2);
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.qt-aura-zemin {
+  position: absolute;
+  inset: calc(var(--_b) * -0.14);
+  border-radius: 50%;
+  background: radial-gradient(closest-side, var(--_ca) 0 56%, color-mix(in srgb, var(--_c) 80%, transparent) 70%,
+    color-mix(in srgb, var(--_c) 35%, transparent) 85%, transparent 100%);
+}
+.qt-aura[data-tema="neon"] .qt-aura-zemin,
+.qt-aura[data-tema="yildiz"] .qt-aura-zemin,
+.qt-aura[data-tema="kozmik"] .qt-aura-zemin {
+  background: radial-gradient(closest-side, var(--_c) 0 56%, color-mix(in srgb, var(--_ca) 70%, transparent) 72%,
+    color-mix(in srgb, var(--_ca) 25%, transparent) 86%, transparent 100%);
+}
+.qt-cerceve--kucuk .qt-aura-zemin { inset: calc(var(--_b) * -0.12); }
+.qt-aura .qt-cerceve-kozmik { inset: calc(var(--_b) * -0.18); }
+.qt-aura .qt-cerceve-aura { inset: calc(var(--_b) * -0.12); }
 
 @keyframes qt-cerceve-don { to { transform: rotate(360deg); } }
 @keyframes qt-cerceve-alev {

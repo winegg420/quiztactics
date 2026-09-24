@@ -203,3 +203,37 @@
 /* Define (en büyük paket): taç görseli bonus etiketinin altına girmesin — etiket üstte, görsel biraz aşağıda */
 .qt-dk-coin-bonus { z-index: 2; }
 .qt-dk-coin--eniyi .qt-dk-coin-gorsel { margin-top: calc(var(--qt-b-6) + var(--qt-b-6)); }
+
+/* ---------- 480: iki para birimi — başlıkta bakiyeler, elmas sekmesi ---------- */
+.qt-dk-ust { flex-wrap: wrap; }
+.qt-dk-bakiyeler { display: flex; flex-wrap: wrap; gap: var(--qt-b-2); }
+.qt-dk-bakiye {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--qt-b-1);
+  min-height: 36px;
+  padding: 0 var(--qt-b-3);
+  border-radius: var(--qt-r-hap);
+  background: var(--qt-coin);
+  color: var(--qt-coin-yazi);
+  box-shadow: 0 3px 0 var(--qt-coin-dudak);
+  font-weight: var(--qt-a-siyah);
+}
+.qt-dk-bakiye--elmas { background: var(--qt-ikinci); color: var(--qt-ikinci-yazi); box-shadow: 0 3px 0 var(--qt-ikinci-dudak); }
+.qt-dk-elmas-liste { display: grid; gap: var(--qt-b-2); }
+.qt-dk-elmas-satir {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--qt-b-3);
+  min-height: 44px;
+  padding: var(--qt-b-2) var(--qt-b-4);
+  border-radius: var(--qt-r-m);
+  background: var(--qt-yuzey);
+  color: var(--qt-metin);
+  box-shadow: var(--qt-kabartma-kart);
+}
+.qt-dk-elmas-miktar { display: inline-flex; align-items: center; gap: var(--qt-b-1); color: var(--qt-ikinci-koyu); flex: none; }
+.qt-dk-elmas-gorsel { display: flex; flex-wrap: wrap; justify-content: center; align-content: center; gap: 2px; color: var(--qt-ikinci); }
+.qt-dk-coin--elmas.qt-dk-coin--eniyi { box-shadow: inset 0 0 0 3px var(--qt-ikinci), 0 var(--qt-dudak-s) 0 var(--qt-ikinci-dudak); }
+.qt-dk-coin--elmas .qt-dk-coin-eniyi { background: var(--qt-ikinci); color: var(--qt-ikinci-yazi); box-shadow: 0 2px 0 var(--qt-ikinci-dudak); }

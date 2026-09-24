@@ -107,3 +107,22 @@ export function oyuncuKartiDinle(f) {
   dinleyiciler.add(f);
   return () => dinleyiciler.delete(f);
 }
+
+// ---------- AURALAR (481) — avatarın arkasındaki tema katmanı; yalnız ELMASLA satılır ----------
+
+/** Aura kataloğu + durumum. Dönüş: [{ anahtar, ad, ad_tr, ad_en, nadirlik, kaynak, fiyat (elmas), kosul, sira, satilik, sahip, takili }] */
+export async function auraKatalogu() {
+  return (await rpc("aura_katalogu")) ?? [];
+}
+
+/** Elmasla satın al (takmaz). Dönüş: { anahtar, fiyat, bakiye, sahip } — 'Yetersiz elmas' vb. hata atar. */
+export async function auraSatinAl(anahtar) {
+  return rpc("aura_satin_al", { p_anahtar: anahtar });
+}
+
+/** Aura tak; null = aurasız. Önbellekleri tazeler (her yerde yeni aura görünsün). Dönüş: { takili } */
+export async function auraTak(anahtar, userId) {
+  const data = await rpc("aura_tak", { p_anahtar: anahtar ?? null });
+  oyuncuKartiUnut(userId);
+  return data;
+}

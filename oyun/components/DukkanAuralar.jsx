@@ -1,0 +1,156 @@
+/**
+ * DÜKKÂN › AURALAR (481) — avatarın ARKASINDA duran tema katmanı; yalnız ELMASLA satılır.
+ * Dokununca KENDİ avatarında (takılı çerçevenle birlikte) önizleme, sonra satın al → tak.
+ * Veri: auraKatalogu / auraSatinAl / auraTak (oyun/lib/cerceve.js). Satın alma sunucuda (tek işlem,
+ * FOR UPDATE, elmas_harca); coin'le aura alınamaz. Çerçeveler satılmaz — Profil › Koleksiyon'da kazanılır.
+ * (Eski DukkanCerceveler.jsx; dükkân çerçeveleri aynı temanın aurasına dönüştü, qt-dc- sınıfları aynı.)
+ */
+import { useCallback, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useAuth } from "../../src/context/AuthContext.jsx";
+import CerceveliAvatar from "./CerceveliAvatar.jsx";
+import { auraTanimiBul, NADIRLIK_ADI } from "../tasarim/cerceveler/tanimlar.js";
+import DurumKutusu from "./DurumKutusu.jsx";
+import { auraKatalogu, auraSatinAl, auraTak, CERCEVE_NADIRLIKLERI } from "../lib/cerceve.js";
+import { elmasHatasi, elmasTazele } from "../lib/elmas.js";
+import { sesHataUyari, sesSatinAlma } from "../lib/ses.js";
+import { tt } from "../lib/dil.js";
+import { y } from "../lib/yol.js";
+import { QtDugme, QtIkon, QtKart, sayiBicim } from "../tasarim/index.js";
+import "../tasarim/ekranlar/dukkan-cerceve.css";
+
+export function NadirlikEtiketi({ nadirlik }) {
+  const n = CERCEVE_NADIRLIKLERI.includes(nadirlik) ? nadirlik : "siradan";
+  return <span className="qt-dc-nadirlik" data-nadirlik={n}>{tt(NADIRLIK_ADI[n])}</span>;
+}
+
+/** Elmas fiyatı: "◆ 150" */
+export function ElmasFiyat({ fiyat, boyut = 16 }) {
+  return (
+    <span className="qt-dc-fiyat qt-dc-fiyat--elmas">
+      <QtIkon ad="elmas" boyut={boyut} />
+      <span className="qt-sayi">{sayiBicim(Number(fiyat))}</span>
+    </span>
+  );
+}
+
+export default function DukkanAuralar({ elmasYetmedi, onBilgi, onHata }) {
+  const { user, profile } = useAuth();
+  const [katalog, setKatalog] = useState(null);
+  const [hata, setHata] = useState(null);
+  const [secili, setSecili] = useState(null);
+  const [islem, setIslem] = useState(null);   // "al" | "tak" | null
+
+  const yukle = useCallback(async () => {
+    setHata(null);
+    try {
+      const k = await auraKatalogu();
+      const sirali = [...k].sort((a, b) => (a.sira ?? 0) - (b.sira ?? 0));
+      setKatalog(sirali);
+      setSecili((s) => sirali.find((x) => x.anahtar === s) ? s : (sirali.find((x) => x.takili)?.anahtar ?? sirali.find((x) => x.satilik)?.anahtar ?? null));
+    } catch (e) {
+      setHata(elmasHatasi(e));
+    }
+  }, []);
+  useEffect(() => { yukle(); }, [yukle]);
+
+  if (!katalog) {
+    return (
+      <QtKart>
+        <DurumKutusu durum={hata ? "hata" : "yukleniyor"} metin={hata ?? undefined} onTekrar={yukle} satir={4} />
+      </QtKart>
+    );
+  }
+
+  const c = katalog.find((x) => x.anahtar === secili) ?? null;
+  const ad = (x) => x.ad ?? tt(auraTanimiBul(x.anahtar, x)?.ad ?? "");
+
+  const satinAl = async () => {
+    if (!c || islem) return;
+    setIslem("al");
+    try {
+      await auraSatinAl(c.anahtar);
+      sesSatinAlma();
+      elmasTazele();
+      onBilgi?.(tt("{ad} aurası senin. Şimdi takabilirsin.", { ad: ad(c) }));
+      await yukle();
+    } catch (e) {
+      const m = elmasHatasi(e);
+      sesHataUyari();
+      onHata?.(m);
+      if (m === tt("Elmas yetmiyor")) elmasYetmedi?.();
+    } finally {
+      setIslem(null);
+    }
+  };
+  const tak = async (anahtar) => {
+    if (islem) return;
+    setIslem("tak");
+    try {
+      await auraTak(anahtar, user?.id);
+      onBilgi?.(anahtar ? tt("Aura takıldı.") : tt("Aura çıkarıldı."));
+      setKatalog((k) => k.map((x) => ({ ...x, takili: x.anahtar === anahtar })));
+    } catch (e) {
+      onHata?.(elmasHatasi(e));
+    } finally {
+      setIslem(null);
+    }
+  };
+
+  const kutu = (x) => (
+    <li key={x.anahtar}>
+      <button type="button" className="qt-dc-oge" aria-pressed={x.anahtar === secili} onClick={() => setSecili(x.anahtar)}>
+        <CerceveliAvatar profile={profile ?? {}} userId={user?.id} aura={x.anahtar} boyut={64} />
+        <span className="qt-dc-ad">{ad(x)}</span>
+        <NadirlikEtiketi nadirlik={x.nadirlik} />
+        <span className="qt-dc-durum">
+          {x.takili ? tt("Takılı") : x.sahip ? tt("Sende var") : x.satilik && x.fiyat != null ? (
+            <ElmasFiyat fiyat={x.fiyat} />
+          ) : <><QtIkon ad="kilit" boyut={14} /> {tt("Etkinlik ödülü")}</>}
+        </span>
+      </button>
+    </li>
+  );
+
+  return (
+    <div className="qt-dc">
+      {c && (
+        <QtKart className="qt-dc-sahne" aria-live="polite">
+          <div className="qt-dc-onizleme">
+            <CerceveliAvatar profile={profile ?? {}} userId={user?.id} aura={c.anahtar} boyut={128} hareketli />
+          </div>
+          <div className="qt-dc-sahne-bilgi">
+            <h2 className="qt-baslik-2">{ad(c)}</h2>
+            <NadirlikEtiketi nadirlik={c.nadirlik} />
+            <p className="qt-kucuk qt-soluk">{tt("Aura avatarının arkasında durur; takılı çerçeven önde kalır.")}</p>
+          </div>
+          <div className="qt-dc-sahne-eylem">
+            {c.takili ? (
+              <QtDugme tur="ikincil" tamGenislik yukleniyor={islem === "tak"} onClick={() => tak(null)}>{tt("Çıkar")}</QtDugme>
+            ) : c.sahip ? (
+              <QtDugme tamGenislik ikon="onay" yukleniyor={islem === "tak"} onClick={() => tak(c.anahtar)}>{tt("Tak")}</QtDugme>
+            ) : c.satilik && c.fiyat != null ? (
+              <QtDugme tamGenislik yukleniyor={islem === "al"} onClick={satinAl}
+                       aria-label={tt("{ad} aurasını satın al — {n} elmas", { ad: ad(c), n: c.fiyat })}>
+                <span className="qt-dc-fiyat">{tt("Satın al")} <ElmasFiyat fiyat={c.fiyat} boyut={18} /></span>
+              </QtDugme>
+            ) : (
+              <QtDugme tur="ikincil" tamGenislik devreDisi ikon="kilit">{tt("Satılmaz")}</QtDugme>
+            )}
+          </div>
+        </QtKart>
+      )}
+
+      <section className="qt-dk-bolum" aria-labelledby="qt-dc-dukkan">
+        <h2 id="qt-dc-dukkan" className="qt-baslik-2">{tt("Auralar")}</h2>
+        <p className="qt-kucuk qt-soluk-zemin">{tt("Dokun, kendi avatarında dene. Aura elmasla alınır; taktığın aurayı maçta ve listelerde herkes görür.")}</p>
+        <ul className="qt-dc-izgara">{katalog.map(kutu)}</ul>
+      </section>
+
+      <p className="qt-kucuk qt-soluk-zemin qt-dc-not">
+        {tt("Çerçeveler satılmaz: lig, turnuva, level ve etkinliklerle kazanılır.")}{" "}
+        <Link to={y("/profil?sekme=koleksiyon")}>{tt("Koleksiyonuna bak")}</Link>
+      </p>
+    </div>
+  );
+}
