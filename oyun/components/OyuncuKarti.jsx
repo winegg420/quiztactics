@@ -12,6 +12,8 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
 import AvatarCerceve from "./AvatarCerceve.jsx";
+import IsimEfekti, { useKartAlani } from "./IsimEfekti.jsx";
+import { kozmetikTemasi } from "../lib/kozmetik.js";
 import VitrinRozetleri from "./VitrinRozetleri.jsx";
 import { QtModal, QtDugme, QtIkon, QtIskelet, sayiBicim } from "../tasarim/index.js";
 import "../tasarim/ekranlar/l-kart.css";
@@ -52,6 +54,7 @@ export default function OyuncuKarti({
   // Paket 41 A: kart verisi okunamazsa sahte "0 maç · 0 kupa" yerine hata + Tekrar dene
   const [kartHata, setKartHata] = useState(false);
   const [deneme, setDeneme] = useState(0);
+  const vsTema = kozmetikTemasi(useKartAlani(userId, "vs_karti"));   // 540: VS kartı teması (oyuncu kartı, önbellekli)
 
   // Eylem düğmesi: çalışırken metin "…", hepsi kilitli; hata kartın içinde yazar.
   const eylem = async (kod, f) => {
@@ -135,7 +138,7 @@ export default function OyuncuKarti({
       ) : null}
     >
       <div className="ok-ust">
-        <span className="ok-avatar">
+        <span className={"ok-avatar" + (vsTema ? " qt-vs qt-vs-bant" : "")} data-vs={vsTema ?? undefined}>
           <AvatarCerceve profile={p ?? {}} boyut={96} userId={userId} hareketli />
           {online && (
             <span className="ok-cevrimici" title={tt("Şu an oyunda")}>
@@ -144,7 +147,7 @@ export default function OyuncuKarti({
           )}
         </span>
         <p className="ok-ad">
-          <span className="ok-ad-metin">{p?.gorunen_ad ?? (yukleniyor ? "…" : tt("Oyuncu"))}</span>
+          <span className="ok-ad-metin"><IsimEfekti userId={userId}>{p?.gorunen_ad ?? (yukleniyor ? "…" : tt("Oyuncu"))}</IsimEfekti></span>
           {/* Yalnız açık bot (adında "Bot" geçen) işaretlenir; gizli bot asla (bkz. ALANLAR) */}
           {(p?.acik_bot ?? p?.is_bot) && (
             <span className="ok-yapay" title={tt("Yapay rakip")}>

@@ -21,6 +21,7 @@ import Ikon from "../components/Ikon.jsx";
 import MacUstSerit from "../components/MacUstSerit.jsx";
 import CerceveliAvatar from "../components/CerceveliAvatar.jsx";
 import { useOyuncuSeviyeleri } from "../lib/oyuncuSeviye.js";
+import { TepkiCubugu, useMacTepki } from "../components/Tepki.jsx";
 import MacYukleniyor from "../components/MacYukleniyor.jsx";
 import KategoriIkon from "../components/KategoriIkon.jsx";
 import MacSonuKutlama from "../components/MacSonuKutlama.jsx";
@@ -432,6 +433,13 @@ function DuelloMac({ id }) {
   const yukleniyorRef = useRef(false);
   const dImzaRef = useRef("");
   const kanalHazirRef = useRef(false);   // Realtime kanalı SUBSCRIBED mi
+  // 542: maç içi tepki — aynı düello kanalında broadcast (DB'ye yazılmaz). Açık mı: tepki_durumu (tek okuma).
+  const duelloKanalRef = useRef(null);
+  const tepkiRakipId = (d?.oyuncular ?? []).find((o) => o.id !== d?.ben)?.id ?? null;
+  const tepki = useMacTepki({ macTur: "duello", macId: id, benId: user?.id, rakipId: tepkiRakipId,
+                             kanal: () => duelloKanalRef.current, etkin: Boolean(d?.surum === 2 && d?.durum === "aktif") });
+  const tepkiAlRef = useRef(null);
+  tepkiAlRef.current = tepki.al;
   const sinyalZamanRef = useRef(null);
   const sonHamleRef = useRef(null);
   const bitisSesRef = useRef(false);
@@ -567,12 +575,15 @@ function DuelloMac({ id }) {
             if (sinyalZamanRef.current) return;
             sinyalZamanRef.current = setTimeout(() => { sinyalZamanRef.current = null; yukle(); }, SINYAL_BIRLESTIR_MS);
           })
+      // 542: rakibin (ya da botun) tepkisi — alıcı sınırı ve gizleme useMacTepki'de
+      .on("broadcast", { event: "tepki" }, (m) => { try { tepkiAlRef.current?.(m?.payload); } catch { /* tepki maçı bozmaz */ } })
       .subscribe((durum) => {
         const hazir = durum === "SUBSCRIBED";
         // Kanal (yeniden) bağlandığında arada kaçmış sinyal olabilir: bir kez tazele.
         if (hazir && !kanalHazirRef.current) yukle();
         kanalHazirRef.current = hazir;
       });
+    duelloKanalRef.current = kanal;
     // Yedek yoklama: kanal bağlıyken seyrek, değilken saniyede bir. Son okumadan beri
     // geçen süreye bakılır — sinyal ya da eylemle yeni okunduysa yoklama atlanır.
     const yoklama = setInterval(() => {
@@ -593,6 +604,7 @@ function DuelloMac({ id }) {
       clearTimeout(sinyalZamanRef.current);
       sinyalZamanRef.current = null;
       kanalHazirRef.current = false;
+      if (duelloKanalRef.current === kanal) duelloKanalRef.current = null;
       supabase.removeChannel(kanal);
     };
   }, [id, yukle]);
@@ -1131,7 +1143,7 @@ function DuelloMac({ id }) {
       <div className={sinif("m2-mac qt-sahne-mac", gerilim && "qt-h-gerilim", sonCan && "m2-mac--son-can")} data-kat={d.kategori || undefined}>
         <MacUstSerit onCik={() => setTerkOnay(true)} cikisEtiketi={ceviri("Düellodan çık")}
                      rozet={ceviri("Düello · Taktik Maçı")} />
-        <V2Ust d={d} ben={ben} rakip={rakip} kayip={kayip} c={c2} seviyeler={seviyeler} />
+        <V2Ust d={d} ben={ben} rakip={rakip} kayip={kayip} c={c2} seviyeler={seviyeler} tepkiBalonlar={tepki.balonlar} />
         {/* Paket 24 · A.4: bağlantı kopması. Kopukken sunucu fazları İLERLETMEZ. */}
         {baglanti?.kopuk && (
           <p className="m2-bant m2-bant--uyari" role="status">
@@ -1159,6 +1171,8 @@ function DuelloMac({ id }) {
         <V2Skill d={d} calisan={calisan} kalanSn={kalanSn} serbest={jokerSerbest}
                  sonKullanilan={sonKullanilan} onKullan={v2SkillKullan} c={c2} />
         {satinAlPenceresi}
+        {/* 542: maç içi tepki (yalnız tepki_acik_modlar'daki modda; ilk açılış Antrenman) */}
+        <TepkiCubugu tepki={tepki} className="m2-tepki" />
         <div className="m2-terk">
           <QtDugme tur="hayalet" boyut="k" ikon="cikis" devreDisi={!!calisan} onClick={() => setTerkOnay(true)}>
             {ceviri("Düellodan çık")}

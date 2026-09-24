@@ -15,6 +15,15 @@ import { aktifDil, dilKaydet, tt } from "../lib/dil.js";
 import "../tasarim/ekranlar/mac-sonu-onizleme.css";
 
 const BAKIYE = 1480;
+// 540: ?zafer=zafer_havai_fisek → kazanan tarafın zafer efekti (performans ölçümü ve önizleme). Yoksa efekt yok.
+const ZAFER_ONIZLEME = (() => {
+  try {
+    const z = new URLSearchParams(window.location.search).get("zafer");
+    return { ben: z || null, rakip: z || null };
+  } catch {
+    return { ben: null, rakip: null };
+  }
+})();
 const profil = (id, ad, dosya) => ({ id, gorunen_ad: ad, gorunen_avatar: `/avatars/pro/${dosya}.svg` });
 const BEN = profil("onizleme-ben", "Deniz", "astronot-k17");
 const RAKIP = profil("onizleme-rakip", "Mert", "baykus-k03");
@@ -161,6 +170,7 @@ export default function MacSonuOnizlemePage() {
         coinHedefSecici="[data-ms-coin-hedef]"
         onCoinVaris={onCoinVaris}
         eylemler={eylemler}
+        zaferEfekti={ZAFER_ONIZLEME}
       />
     </div>
   );

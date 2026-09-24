@@ -25,6 +25,8 @@ import SkillRozeti from "./SkillRozeti.jsx";
 import { QtCan, QtIkon, QtSik, QtSikler, QtSkill, QtSkillCubugu, QtSoruKarti, QtSonucBandi, sinif } from "../tasarim/index.js";
 import { SeviyeEtiketi } from "./MacUstSerit.jsx";
 import CerceveliAvatar from "./CerceveliAvatar.jsx";
+import IsimEfekti from "./IsimEfekti.jsx";
+import { TepkiAvatar } from "./Tepki.jsx";
 
 const HARFLER = ["A", "B", "C", "D"];
 
@@ -45,16 +47,21 @@ export function secenekleriCoz(s) {
 /**
  * İki oyuncu, canlar (3 kalp), ortada tur. Kategoriyi seçen tarafın avatarında
  * altın halka + kılıç rozeti. kayip = { [oyuncuId]: anahtar } → kalp kırılır.
+ * 540/542: ad isim efektiyle (oyuncu kartı); tepkiBalonlar = { [oyuncuId]: balon } → avatarın yanında tepki.
  */
-export function V2Ust({ d, ben, rakip, kayip = {}, c, seviyeler = {} }) {
+export function V2Ust({ d, ben, rakip, kayip = {}, c, seviyeler = {}, tepkiBalonlar = {} }) {
   const taraf = (o, rakipMi) => {
     const secen = d.saldiran === o.id;
     const can = Math.max(0, Number(o.can ?? 0));
     return (
       <div className={sinif("qt-oyuncu", rakipMi && "qt-oyuncu--rakip", secen && "m2-secen")}>
-        <CerceveliAvatar profile={o} userId={o.id} boyut={48} hareketli kart={seviyeler[o.id]} />
+        <TepkiAvatar balon={tepkiBalonlar[o.id]} yan={rakipMi ? "rakip" : "sen"}>
+          <CerceveliAvatar profile={o} userId={o.id} boyut={48} hareketli kart={seviyeler[o.id]} />
+        </TepkiAvatar>
         <span className="qt-oyuncu-yazi">
-          <span className="qt-oyuncu-ad">{rakipMi ? o.gorunen_ad : c("Sen")}</span>
+          <span className="qt-oyuncu-ad">
+            <IsimEfekti userId={o.id} {...(seviyeler[o.id] ? { kart: seviyeler[o.id] } : {})}>{rakipMi ? o.gorunen_ad : c("Sen")}</IsimEfekti>
+          </span>
           <SeviyeEtiketi {...(seviyeler[o.id] ?? {})} />
           <QtCan key={kayip[o.id] ?? "can"} dolu={can} toplam={Math.max(3, can)} boyut={16} ters={rakipMi}
                  kayip={Boolean(kayip[o.id])} etiket={rakipMi ? c("Rakibin canı") : c("Senin canın")} />

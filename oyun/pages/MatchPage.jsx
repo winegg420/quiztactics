@@ -22,6 +22,8 @@ import CerceveliAvatar from "../components/CerceveliAvatar.jsx";
 import { VsKarti } from "../components/AramaSahnesi.jsx";
 import { useOyuncuSeviyeleri } from "../lib/oyuncuSeviye.js";
 import { TEPKILER, tepkiIkonu } from "../lib/tepkiler.js";
+import { TepkiAvatar, TepkiCubugu, useMacTepki } from "../components/Tepki.jsx";
+import IsimEfekti from "../components/IsimEfekti.jsx";
 import MacYukleniyor from "../components/MacYukleniyor.jsx";
 import SesliSohbet from "../components/SesliSohbet.jsx";
 import { useOyunModu } from "../lib/oyunModu.js";
@@ -156,6 +158,7 @@ export default function MatchPage() {
   const advanceKilidi = useRef(false);
   const pollRef = useRef(null);
   const kanalRef = useRef(null);
+  const tepkiAlRef = useRef(null);   // 542: kanal kurulumu tepki alıcısını ref'ten çağırır
   // Performans (23 Eyl 2026): kanal bağlıyken maç satırı zaten Realtime ile (yükün kendisiyle)
   // gelir; 2 sn'lik yoklama yalnız yedektir → kanal bağlıyken YEDEK_YOKLAMA_MS'de bir.
   const kanalHazirRef = useRef(false);
@@ -284,6 +287,8 @@ export default function MatchPage() {
         { event: "INSERT", schema: "public", table: "match_messages", filter: `match_id=eq.${id}` },
         (payload) => balonGoster(payload.new.user_id, payload.new.mesaj)
       )
+      // 542: rakibin (ya da botun) tepkisi — alıcı sınırı ve gizleme useMacTepki'de
+      .on("broadcast", { event: "tepki" }, (m) => { try { tepkiAlRef.current?.(m?.payload); } catch { /* tepki maçı bozmaz */ } })
       // Kanal ölürse sessizce kalmasın: Realtime kopmasi (ag dalgalanmasi,
       // uyku, arka plan) CHANNEL_ERROR/TIMED_OUT/CLOSED olarak bildirilir.
       // Yoklama zaten veriyi getiriyor ama kanal geri kurulmazsa anlık
@@ -321,6 +326,14 @@ export default function MatchPage() {
   const [ciftDurum, setCiftDurum] = useState(null);
   // SADELEŞTİRME: tepki paneli açık mı (soru ekranı tek işe odaklansın)
   const [tepkiAcik, setTepkiAcik] = useState(false);
+  // 542: yeni maç içi tepki (emote) — aynı maç kanalında broadcast, DB'ye yazılmaz. Açıksa (tepki_acik_modlar;
+  // ilk açılış yalnız Antrenman) eski DB'ye yazan emoji tepkileri gizlenir, hazır cümleler aynen kalır.
+  const tepki = useMacTepki({
+    macTur: "klasik", macId: id, benId: user?.id,
+    rakipId: mac ? (mac.oyuncu1 === user?.id ? mac.oyuncu2 : mac.oyuncu1) : null,
+    kanal: () => kanalRef.current, etkin: Boolean(mac && mac.durum === "aktif"),
+  });
+  tepkiAlRef.current = tepki.al;
   useEffect(() => {
     if (!mac || !user) return;
     const rakip = mac.oyuncu1 === user.id ? mac.oyuncu2 : mac.oyuncu1;
@@ -1000,15 +1013,23 @@ export default function MatchPage() {
     // Maç burada kapanmaz — rakip kendi zamanında oynayınca sonuçlanır.
     const benimSoru = benP1 ? (mac.oyuncu1_soru ?? 0) : (mac.oyuncu2_soru ?? 0);
     const senOyuncu = {
-      ad: benimProfil?.gorunen_ad ?? tt("Sen"),
+      ad: <IsimEfekti userId={benimProfil?.id} {...(seviyeler[benimProfil?.id] ? { kart: seviyeler[benimProfil?.id] } : {})}>{benimProfil?.gorunen_ad ?? tt("Sen")}</IsimEfekti>,
       avatar: avatarSrc(benimProfil),
-      avatarDugum: <CerceveliAvatar profile={benimProfil} userId={benimProfil?.id} boyut={48} hareketli kart={seviyeler[benimProfil?.id]} />,
+      avatarDugum: (
+        <TepkiAvatar balon={tepki.balonlar[benimProfil?.id]} yan="sen">
+          <CerceveliAvatar profile={benimProfil} userId={benimProfil?.id} boyut={48} hareketli kart={seviyeler[benimProfil?.id]} />
+        </TepkiAvatar>
+      ),
       alt: <SeviyeEtiketi {...(seviyeler[benimProfil?.id] ?? {})} />,
     };
     const rakipOyuncu = {
-      ad: rakipProfil?.gorunen_ad ?? tt("Rakip"),
+      ad: <IsimEfekti userId={rakipProfil?.id} {...(seviyeler[rakipProfil?.id] ? { kart: seviyeler[rakipProfil?.id] } : {})}>{rakipProfil?.gorunen_ad ?? tt("Rakip")}</IsimEfekti>,
       avatar: avatarSrc(rakipProfil),
-      avatarDugum: <CerceveliAvatar profile={rakipProfil} userId={rakipProfil?.id} boyut={48} hareketli kart={seviyeler[rakipProfil?.id]} />,
+      avatarDugum: (
+        <TepkiAvatar balon={tepki.balonlar[rakipProfil?.id]} yan="rakip">
+          <CerceveliAvatar profile={rakipProfil} userId={rakipProfil?.id} boyut={48} hareketli kart={seviyeler[rakipProfil?.id]} />
+        </TepkiAvatar>
+      ),
       alt: <SeviyeEtiketi {...(seviyeler[rakipProfil?.id] ?? {})} />,
     };
     // Bu ekran YALNIZ eski asenkron maçlara ait: senkron maçta iki taraf aynı
@@ -1182,12 +1203,14 @@ export default function MatchPage() {
           {/* Sesli sohbet: yalnız arkadaş olan iki oyuncu aynı anda maçtayken çizilir. */}
           <div className="bd-ses-yuva" ref={setSesYuva} />
 
+          {/* 542: yeni tepki (emote) — açık modda eski emoji tepkilerinin yerine */}
+          <TepkiCubugu tepki={tepki} className="m1-tepki-yeni" />
           {/* SADELEŞTİRME (12 Eylül 2026): ekranın tek işi soruyu cevaplamak; tepkiler
               tek düğmenin arkasında. Panelde aynı tepkiler ve aynı kalıplar var. */}
           <div className="m1-tepki">
             <QtIkonDugme
               ikon="sohbet"
-              etiket={tt("Tepki gönder")}
+              etiket={tepki.acik ? tt("Hazır cümleler") : tt("Tepki gönder")}
               aria-expanded={tepkiAcik}
               tur={tepkiAcik ? "mor" : "yuzey"}
               onClick={() => setTepkiAcik((a) => !a)}
@@ -1195,7 +1218,7 @@ export default function MatchPage() {
           </div>
           {tepkiAcik && (
             <div className="m1-tepki" role="group" aria-label={tt("Tepkiler")}>
-              {TEPKILER.map((t) => (
+              {!tepki.acik && TEPKILER.map((t) => (
                 <QtIkonDugme
                   key={t.deger}
                   ikon={t.ad}

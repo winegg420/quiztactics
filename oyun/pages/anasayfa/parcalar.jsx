@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import AvatarCerceve from "../../components/AvatarCerceve.jsx";
 import CerceveliAvatar from "../../components/CerceveliAvatar.jsx";
+import IsimEfekti from "../../components/IsimEfekti.jsx";
 import Avatar from "../../../src/components/Avatar.jsx";
 import SeriRozeti from "../../components/SeriRozeti.jsx";
 import Countdown from "../../components/Countdown.jsx";
@@ -451,7 +452,7 @@ export function LigKarti({ v }) {
               <span className="as-lk-no qt-sayi">{r.sira}</span>
               <CerceveliAvatar profile={{ gorunen_ad: r.ad, gorunen_avatar: r.avatar }} userId={r.user_id}
                                cerceve={r.cerceve ?? null} kart={{ cerceve: r.cerceve ?? null, cerceve_nadirlik: r.cerceve_nadirlik }} boyut={28} />
-              <span className="as-lk-ad">{r.ben ? tt("Sen") : r.ad}</span>
+              <span className="as-lk-ad"><IsimEfekti ef={r.isim_efekti ?? null}>{r.ben ? tt("Sen") : r.ad}</IsimEfekti></span>
               <span className="as-lk-puan qt-sayi">{sayi(r.puan)}</span>
             </li>
           );

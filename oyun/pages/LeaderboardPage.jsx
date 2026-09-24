@@ -12,6 +12,7 @@ import Bayrak from "../components/Bayrak.jsx";
 import OyuncuKarti from "../components/OyuncuKarti.jsx";
 import { useArkadaslik } from "../lib/arkadaslik.js";
 import AvatarCerceve from "../components/AvatarCerceve.jsx";
+import IsimEfekti from "../components/IsimEfekti.jsx";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
 import {
@@ -260,7 +261,7 @@ export default function LeaderboardPage() {
             />
             <span className="lg-bilgi">
               <span className="lg-ad">
-                <span className="lg-ad-metin">{s.gorunen_ad}</span>
+                <span className="lg-ad-metin"><IsimEfekti userId={s.user_id}>{s.gorunen_ad}</IsimEfekti></span>
                 {s.bot && (
                   <span className="lg-yapay" title={tt("Yapay rakip")}>
                     <QtIkon ad="robot" boyut={14} etiket={tt("Yapay rakip")} />
@@ -503,7 +504,7 @@ export default function LeaderboardPage() {
                           userId={p.user_id}
                         />
                         <span className="lg-podyum-ad">
-                          <span className="lg-ad-metin">{p.gorunen_ad}</span>
+                          <span className="lg-ad-metin"><IsimEfekti userId={p.user_id}>{p.gorunen_ad}</IsimEfekti></span>
                           {p.bot && (
                             <span className="lg-yapay" title={tt("Yapay rakip")}>
                               <QtIkon ad="robot" boyut={13} etiket={tt("Yapay rakip")} />

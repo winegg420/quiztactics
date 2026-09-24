@@ -24,9 +24,10 @@
 // iOS: kökte ve eylem çubuğunun atalarında transform/filter/perspective YOK.
 // Coin uçuşu body'ye portal; sabit kapsayıcı yerinde durur, hareket içteki span'larda.
 // ============================================================
-import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { lazy, memo, Suspense, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import CerceveliAvatar from "./CerceveliAvatar.jsx";
+import IsimEfekti, { useKartAlani } from "./IsimEfekti.jsx";
 import AvatarDugmesi from "./AvatarDugmesi.jsx";
 import RozetMadalyonu, { rozetSembolu } from "./RozetMadalyonu.jsx";
 import MacSonuLottie, { KonfetiKatmani, konfetiYukle, lottieOnYukle } from "./MacSonuLottie.jsx";
@@ -46,6 +47,9 @@ const COIN_UCUS_MS = 520;
 const GOREV_ARA_MS = 120;
 const ROZET_MS = 500;
 const LOTTIE_ADLARI = ["kupa", "coin", "level", "yildiz"];
+// Zafer efekti (540): tembel yüklenir, sahnenin sakin anında (t.son) takılır — açılış kademeleri ve
+// Lottie kurulumları (aşama 2'den 400/600/800 ms) bitmiş olur; yalnız CSS transform/opacity.
+const ZaferEfekti = lazy(() => import("./ZaferEfekti.jsx"));
 
 const yuzde = (x) => Math.max(0, Math.min(1, Number.isFinite(x) ? x : 0));
 
@@ -68,12 +72,13 @@ function xpOranlari(v) {
 }
 
 /** Karşılaşmadaki bir taraf. rol: kazanan | kaybeden | esit */
-function Taraf({ kisi, rol, yan, canToplam, sen }) {
+function Taraf({ kisi, rol, yan, canToplam, sen, zafer }) {
   return (
     <div className={`msk-taraf msk-taraf--${yan} msk-taraf--${rol}`}>
       <div className="msk-avatar msk-a">
         {rol === "kazanan" && <span className="msk-halka" aria-hidden="true" />}
         {rol === "kazanan" && <img className="msk-tac msk-a" src="/dukkan/tac.webp" alt="" aria-hidden="true" />}
+        {zafer}
         {/* Rakibin avatarına dokununca profil kartı (kendi avatarın düz kalır). cerceve verilmezse
             CerceveliAvatar takılı çerçeveyi sunucudan (oyuncu_kartlari, kimliğe göre) okur. */}
         <AvatarDugmesi userId={kisi?.profil?.id} profil={kisi?.profil} kendi={Boolean(sen)}>
@@ -82,7 +87,11 @@ function Taraf({ kisi, rol, yan, canToplam, sen }) {
         </AvatarDugmesi>
       </div>
       <div className="msk-isim msk-a">
-        <span className="msk-isim-metin">{kisi?.profil?.gorunen_ad ?? ""}</span>
+        <span className="msk-isim-metin">
+          <IsimEfekti userId={kisi?.profil?.id} {...(kisi?.isimEfekti !== undefined ? { ef: kisi.isimEfekti } : {})} acik hareketli={rol === "kazanan"}>
+            {kisi?.profil?.gorunen_ad ?? ""}
+          </IsimEfekti>
+        </span>
         {sen && <span className="msk-sen">{tt("Sen")}</span>}
       </div>
       {canToplam ? (
@@ -111,6 +120,8 @@ function Taraf({ kisi, rol, yan, canToplam, sen }) {
  * @param {number} [detayRozet]        Detay düğmesindeki sayı (kaçırılan soru)
  * @param {ReactNode} [children]       sahnenin altına serbest içerik (sohbet, tepkiler…)
  * @param {string} [skorEtiket]        skorun altındaki kelime (varsayılan "doğru"; Klasik "puan")
+ * @param {{ben?:string|null, rakip?:string|null}} [zaferEfekti]  önizleme için elde efekt; verilmezse oyuncu
+ *        kartından (oyuncu_kartlari önbelleği — avatarla aynı çağrı, ek sorgu yok)
  */
 function MacSonuKutlama({
   durum: durumVerilen = "kazandi",
@@ -136,6 +147,7 @@ function MacSonuKutlama({
   detayRozet = 0,
   children,
   skorEtiket,
+  zaferEfekti,
 }) {
   // Terk eden: ödül bölümü hiç yok, kaybetti renginde sade sahne. Kalan: galibiyet, fanfarsız.
   const benTerk = terk === "ben";
@@ -159,6 +171,7 @@ function MacSonuKutlama({
   // sahnenin sakin aralığına (~0,45–0,9 sn) alındı: level 1150 / yıldız 1650 iken kurulum (4× CPU'da
   // ~26–37 ms) coin sayımı + uçuş + XP'nin dolu karelerine denk gelip 67–84 ms'lik kare yapıyordu.
   const [asama, setAsama] = useState(az ? 2 : 0);
+  const [zaferAn, setZaferAn] = useState(az);
   const basRef = useRef(0);
   const karsilasmaRef = useRef(null);
   const kartRef = useRef(null);
@@ -178,6 +191,12 @@ function MacSonuKutlama({
 
   const kazandi = durum === "kazandi";
   const kutlama = kazandi && !sade;   // kupa, huzme, konfeti yalnız normal galibiyette
+  // Zafer efekti: kazananınki. Ben kazandıysam büyük katman; rakip kazandıysa onun avatarında küçük ("Rakibin zaferi").
+  const zaferVerildi = zaferEfekti !== undefined;
+  const benZaferOkunan = useKartAlani(ben?.profil?.id, "zafer_efekti", zaferVerildi || !kazandi || sade);
+  const rakipZaferOkunan = useKartAlani(rakip?.profil?.id, "zafer_efekti", zaferVerildi || durum !== "kaybetti" || sade || Boolean(karsilasma));
+  const benZafer = !kazandi || sade ? null : zaferVerildi ? zaferEfekti?.ben ?? null : benZaferOkunan;
+  const rakipZafer = durum !== "kaybetti" || sade || karsilasma ? null : zaferVerildi ? zaferEfekti?.rakip ?? null : rakipZaferOkunan;
   const coin = (oduller ?? []).find((o) => o?.ikon === "coin")?.deger ?? 0;
   const xpv = useMemo(() => xpOranlari(level), [level]);
   const ek = xpv?.atladi ? LEVEL_EK_MS : 0;
@@ -214,6 +233,7 @@ function MacSonuKutlama({
     lottie.coin.current?.gizle();
     lottie.yildiz.current?.gizle();
     setAsama(2);
+    setZaferAn(true);
     setAtlandi(true);
     setBitti(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -282,6 +302,7 @@ function MacSonuKutlama({
     }
     else if (xpv?.xp > 0) z(t.xp, () => sesMacSonu("xp_dolma"));
     if (rozet) z(t.son + 150, () => { lottie.yildiz.current?.oynat(); sesMacSonu("rozet"); });
+    z(t.son, () => setZaferAn(true));
     z(toplamMs, () => setBitti(true));
 
     const tus = (e) => { if (e.key === "Escape") bitir(); };
@@ -395,6 +416,7 @@ function MacSonuKutlama({
     >
       <div className="msk-zemin" aria-hidden="true">
         {kutlama && <div className="msk-huzme" />}
+        {benZafer && zaferAn && <Suspense fallback={null}><ZaferEfekti ef={benZafer} /></Suspense>}
       </div>
 
       <div className="msk-sahne">
@@ -423,7 +445,8 @@ function MacSonuKutlama({
                 <span className="msk-skor-etiket">{canToplam ? tt("kalan can") : (skorEtiket ?? tt("doğru"))}</span>
               </div>
             )}
-            {rakip && <Taraf kisi={rakip} rol={rol("rakip")} yan="sag" canToplam={canToplam} />}
+            {rakip && <Taraf kisi={rakip} rol={rol("rakip")} yan="sag" canToplam={canToplam}
+                             zafer={rakipZafer && zaferAn ? <Suspense fallback={null}><ZaferEfekti ef={rakipZafer} boyut="kucuk" etiket /></Suspense> : null} />}
           </div>
         )}
       </div>

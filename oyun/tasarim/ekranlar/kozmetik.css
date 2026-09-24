@@ -1,0 +1,251 @@
+/* =====================================================================
+   ELMAS KOZMETİKLERİ (540–542) — İsim efekti · VS kartı teması · Maç içi tepki
+   Veri: oyuncu_kartlari (isim_efekti, vs_karti) · tepki_durumu. Mantık: oyun/lib/kozmetik.js.
+   Kurallar: yalnız transform/opacity animasyonu, prefers-reduced-motion'da durağan; iOS: bu dosyada
+   position:fixed yok. Görseller Noto Emoji 3D (Apache 2.0) — public/kozmetik/.
+   ===================================================================== */
+
+/* ---------------------------------------------------------------------
+   İSİM EFEKTİ — ad metni degrade/parıltı. HER ZEMİNDE kontrast ≥ 4,5:1 (ölçüm: PROGRESS / rapor):
+   varsayılan (açık yüzey/zemin) koyu tonlar; koyu bağlamda (maç sahnesi, arama/VS, VS kartı teması,
+   --koyu) açık tonlar. Degradenin her durağı ayrı ayrı 4,5'i geçer. Lig tablosunda çok satır: durağan
+   degrade (animasyon yok); yalnız `--hareketli` (profil başı, maç sonu) köşede küçük parıltı oynar.
+   --------------------------------------------------------------------- */
+.qt-isim-ef {
+  --ie-1: currentColor; --ie-2: var(--ie-1); --ie-3: var(--ie-1); --ie-4: var(--ie-3); --ie-5: var(--ie-4);
+  --ie-parilti: transparent;
+  position: relative;
+  display: inline;
+  color: var(--ie-1);
+  font-weight: inherit;
+}
+.qt-isim-ef[data-ef="altin"]      { --ie-1: #5e3900; --ie-2: #6b4100; --ie-3: #573500; }
+.qt-isim-ef[data-ef="gokkusagi"]  { --ie-1: #8f1018; --ie-2: #7a3300; --ie-3: #0f5522; --ie-4: #134685; --ie-5: #53229c; }
+.qt-isim-ef[data-ef="neon-mavi"]  { --ie-1: #073f9f; --ie-2: #004b87; --ie-3: #073f9f; --ie-parilti: rgba(47, 176, 255, 0.45); }
+.qt-isim-ef[data-ef="alev"]       { --ie-1: #8f1018; --ie-2: #862e03; --ie-3: #7a2200; }
+.qt-isim-ef[data-ef="buz"]        { --ie-1: #08516f; --ie-2: #16439a; --ie-3: #08516f; --ie-parilti: rgba(120, 210, 255, 0.4); }
+.qt-isim-ef[data-ef="mor-isilti"] { --ie-1: #5c1aa8; --ie-2: #7a167f; --ie-3: #4f1a9c; --ie-parilti: rgba(180, 110, 255, 0.45); }
+
+/* Koyu bağlam: maç sahnesi, arama/VS sahnesi, VS kartı teması, açıkça --koyu */
+:is(.qt-sahne-mac:not([data-kat]), .qt-vs, .qt-isim-ef--koyu) .qt-isim-ef[data-ef],
+.qt-isim-ef--koyu[data-ef] { --ie-parilti: transparent; }
+:is(.qt-sahne-mac:not([data-kat]), .qt-vs) .qt-isim-ef[data-ef="altin"],      .qt-isim-ef--koyu[data-ef="altin"]      { --ie-1: #ffd54a; --ie-2: #fff0a8; --ie-3: #ffc233; }
+:is(.qt-sahne-mac:not([data-kat]), .qt-vs) .qt-isim-ef[data-ef="gokkusagi"],  .qt-isim-ef--koyu[data-ef="gokkusagi"]  { --ie-1: #ffb8b8; --ie-2: #ffdca8; --ie-3: #b8f5c4; --ie-4: #b8e0ff; --ie-5: #e8ccff; }
+:is(.qt-sahne-mac:not([data-kat]), .qt-vs) .qt-isim-ef[data-ef="neon-mavi"],  .qt-isim-ef--koyu[data-ef="neon-mavi"]  { --ie-1: #8adcff; --ie-2: #d2f3ff; --ie-3: #8adcff; --ie-parilti: rgba(0, 190, 255, 0.75); }
+:is(.qt-sahne-mac:not([data-kat]), .qt-vs) .qt-isim-ef[data-ef="alev"],       .qt-isim-ef--koyu[data-ef="alev"]       { --ie-1: #ffc485; --ie-2: #ffe8a8; --ie-3: #ffb8a0; }
+:is(.qt-sahne-mac:not([data-kat]), .qt-vs) .qt-isim-ef[data-ef="buz"],        .qt-isim-ef--koyu[data-ef="buz"]        { --ie-1: #d8f7ff; --ie-2: #aee8ff; --ie-3: #d8f7ff; --ie-parilti: rgba(150, 225, 255, 0.6); }
+:is(.qt-sahne-mac:not([data-kat]), .qt-vs) .qt-isim-ef[data-ef="mor-isilti"], .qt-isim-ef--koyu[data-ef="mor-isilti"] { --ie-1: #eacfff; --ie-2: #f8cdff; --ie-3: #e2c2ff; --ie-parilti: rgba(200, 120, 255, 0.75); }
+/* Koyu bağlamın içindeki açık levha (ör. beyaz ad hapı) açık paleti geri ister */
+.qt-isim-ef--acik[data-ef] { --ie-parilti: transparent !important; }
+.qt-isim-ef--acik[data-ef="altin"]      { --ie-1: #5e3900 !important; --ie-2: #6b4100 !important; --ie-3: #573500 !important; }
+.qt-isim-ef--acik[data-ef="gokkusagi"]  { --ie-1: #8f1018 !important; --ie-2: #7a3300 !important; --ie-3: #0f5522 !important; --ie-4: #134685 !important; --ie-5: #53229c !important; }
+.qt-isim-ef--acik[data-ef="neon-mavi"]  { --ie-1: #073f9f !important; --ie-2: #004b87 !important; --ie-3: #073f9f !important; }
+.qt-isim-ef--acik[data-ef="alev"]       { --ie-1: #8f1018 !important; --ie-2: #862e03 !important; --ie-3: #7a2200 !important; }
+.qt-isim-ef--acik[data-ef="buz"]        { --ie-1: #08516f !important; --ie-2: #16439a !important; --ie-3: #08516f !important; }
+.qt-isim-ef--acik[data-ef="mor-isilti"] { --ie-1: #5c1aa8 !important; --ie-2: #7a167f !important; --ie-3: #4f1a9c !important; }
+
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .qt-isim-ef[data-ef] {
+    background: linear-gradient(100deg, var(--ie-1), var(--ie-2), var(--ie-3), var(--ie-4), var(--ie-5));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+  /* Parıltı: metin gölgesi degradeyi bozar; hafif drop-shadow (durağan, yalnız 3 efektte) */
+  .qt-isim-ef[data-ef="neon-mavi"], .qt-isim-ef[data-ef="buz"], .qt-isim-ef[data-ef="mor-isilti"] {
+    filter: drop-shadow(0 0 3px var(--ie-parilti));
+  }
+}
+/* Hareketli: köşede küçük yıldız parıltısı (yalnız opacity/transform) */
+.qt-isim-ef--hareketli[data-ef]::after {
+  content: "";
+  position: absolute;
+  top: -0.35em;
+  right: -0.55em;
+  width: 0.55em;
+  height: 0.55em;
+  background: url("/kozmetik/parlayan-yildiz.webp") center / contain no-repeat;
+  opacity: 0;
+  pointer-events: none;
+  animation: qt-isim-parilti 3.2s ease-in-out 0.8s infinite;
+}
+@keyframes qt-isim-parilti {
+  0%, 60%, 100% { opacity: 0; transform: scale(0.4) rotate(0deg); }
+  72% { opacity: 1; transform: scale(1) rotate(25deg); }
+  86% { opacity: 0.6; transform: scale(0.8) rotate(45deg); }
+}
+
+/* ---------------------------------------------------------------------
+   VS KARTI TEMASI — kartın arka planı (arama/VS sahnesi, Hazır mısın? kapısı, profil başlığı).
+   Hepsi koyu: üstteki beyaz yazı ve isim efektinin koyu paleti ≥ 4,5. Süsler Noto 3D, durağan.
+   --------------------------------------------------------------------- */
+.qt-vs[data-vs] {
+  position: relative;
+  isolation: isolate;
+  color: var(--qt-mac-metin);
+  background-color: #1c1454;
+}
+.qt-vs[data-vs]::before,
+.qt-vs[data-vs]::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.qt-vs[data-vs]::before { width: 46px; height: 46px; right: 6px; bottom: 6px; }
+.qt-vs[data-vs]::after  { width: 30px; height: 30px; left: 8px; top: 8px; opacity: 0.9; }
+
+.qt-vs[data-vs="uzay"] {
+  background:
+    radial-gradient(1.3px 1.3px at 9px 11px, #ffffff 60%, transparent 70%) 0 0 / 38px 34px,
+    radial-gradient(1px 1px at 27px 25px, #cdd6ff 60%, transparent 70%) 0 0 / 38px 34px,
+    radial-gradient(120% 90% at 85% 0%, #3f2896 0%, #1c1454 55%, #0d0b2e 100%);
+}
+.qt-vs[data-vs="uzay"]::before { background-image: url("/kozmetik/gezegen.webp"); }
+.qt-vs[data-vs="uzay"]::after  { background-image: url("/kozmetik/kuyruklu-yildiz.webp"); }
+
+.qt-vs[data-vs="orman"] {
+  background:
+    radial-gradient(3px 5px at 14px 10px, rgba(140, 220, 120, 0.28) 60%, transparent 70%) 0 0 / 44px 40px,
+    linear-gradient(180deg, #1a4d2e 0%, #123b25 60%, #0c2c1b 100%);
+}
+.qt-vs[data-vs="orman"]::before { background-image: url("/kozmetik/agac.webp"); }
+.qt-vs[data-vs="orman"]::after  { background-image: url("/kozmetik/yaprak.webp"); }
+
+.qt-vs[data-vs="neon-sehir"] {
+  background:
+    linear-gradient(0deg, rgba(255, 60, 200, 0.35) 0 2px, transparent 2px) 0 72% / 100% 100% no-repeat,
+    repeating-linear-gradient(90deg, transparent 0 22px, rgba(0, 220, 255, 0.14) 22px 23px),
+    linear-gradient(180deg, #2c0f5e 0%, #1a0a3d 65%, #0e0626 100%);
+}
+.qt-vs[data-vs="neon-sehir"]::before { background-image: url("/kozmetik/gece-sehir.webp"); opacity: 0.85; }
+.qt-vs[data-vs="neon-sehir"]::after  { background-image: url("/kozmetik/simsek.webp"); }
+
+.qt-vs[data-vs="okyanus"] {
+  background:
+    radial-gradient(2.5px 2.5px at 12px 30px, rgba(200, 240, 255, 0.35) 60%, transparent 70%) 0 0 / 40px 46px,
+    linear-gradient(180deg, #0a4478 0%, #073a68 55%, #042647 100%);
+}
+.qt-vs[data-vs="okyanus"]::before { background-image: url("/kozmetik/dalga.webp"); }
+.qt-vs[data-vs="okyanus"]::after  { background-image: url("/kozmetik/balik.webp"); }
+
+.qt-vs[data-vs="volkan"] {
+  background:
+    radial-gradient(90% 40% at 50% 122%, rgba(255, 110, 30, 0.34) 0%, rgba(160, 35, 10, 0.25) 45%, transparent 75%),
+    linear-gradient(180deg, #3b0f10 0%, #2a0a0a 60%, #1a0606 100%);
+}
+.qt-vs[data-vs="volkan"]::before { background-image: url("/kozmetik/volkan.webp"); }
+.qt-vs[data-vs="volkan"]::after  { background-image: url("/kozmetik/alev.webp"); }
+
+.qt-vs[data-vs="sakura"] {
+  background:
+    radial-gradient(3px 2px at 10px 14px, rgba(255, 190, 220, 0.4) 60%, transparent 70%) 0 0 / 36px 32px,
+    linear-gradient(180deg, #5e1f4a 0%, #45173a 60%, #2f0f28 100%);
+}
+.qt-vs[data-vs="sakura"]::before { background-image: url("/kozmetik/sakura.webp"); }
+.qt-vs[data-vs="sakura"]::after  { background-image: url("/kozmetik/sakura.webp"); transform: rotate(-30deg); opacity: 0.7; }
+
+/* Profil başlığı: avatarın arkasında tema levhası (başlıktaki yazılar kendi zeminlerinde kalır) */
+.qt-vs-bant {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: none;
+  padding: var(--qt-b-2);
+  border-radius: var(--qt-r-l);
+}
+
+/* ---------------------------------------------------------------------
+   MAÇ İÇİ TEPKİ — düğme + seçim + avatar balonu
+   --------------------------------------------------------------------- */
+.qt-tepki { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: var(--qt-b-2); }
+.qt-tepki-dugme img { display: block; width: 24px; height: 24px; }
+.qt-tepki-panel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--qt-b-1);
+  padding: var(--qt-b-1) var(--qt-b-2);
+  border-radius: var(--qt-r-hap);
+  background: color-mix(in srgb, var(--qt-yuzey) 92%, transparent);
+  box-shadow: 0 var(--qt-dudak-s) 0 var(--qt-cizgi);
+}
+.qt-tepki-sec {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  transition: transform var(--qt-s-basma) var(--qt-egri-gecis);
+  -webkit-tap-highlight-color: transparent;
+}
+.qt-tepki-sec img { width: 32px; height: 32px; }
+.qt-tepki-sec:active:not(:disabled) { transform: scale(0.88); }
+.qt-tepki-sec:disabled { opacity: 0.45; cursor: default; }
+.qt-tepki-sec:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 1px; }
+.qt-tepki-kalan {
+  min-width: 26px;
+  padding: 2px 6px;
+  border-radius: var(--qt-r-hap);
+  background: var(--qt-yuzey-2);
+  color: var(--qt-metin-soluk);
+  font-size: var(--qt-y-xs);
+  font-weight: var(--qt-a-siyah);
+  text-align: center;
+}
+
+.qt-tepki-yuva { position: relative; display: inline-flex; flex: none; }
+.qt-tepki-balon {
+  position: absolute;
+  z-index: 3;
+  top: -12px;
+  right: -16px;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 3px 0 rgba(29, 33, 82, 0.25), 0 6px 14px rgba(20, 16, 70, 0.3);
+  pointer-events: none;
+  transform-origin: 20% 100%;
+  animation: qt-tepki-balon 2s var(--qt-egri-yay, ease-out) both;
+}
+.qt-tepki-balon::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  bottom: -2px;
+  width: 10px;
+  height: 10px;
+  border-radius: 0 0 0 10px;
+  background: #ffffff;
+  transform: rotate(-12deg);
+}
+.qt-tepki-balon img { position: relative; z-index: 1; width: 30px; height: 30px; }
+.qt-tepki-balon--rakip { right: auto; left: -16px; transform-origin: 80% 100%; }
+.qt-tepki-balon--rakip::after { left: auto; right: 4px; border-radius: 0 0 10px 0; transform: rotate(12deg); }
+@keyframes qt-tepki-balon {
+  0% { opacity: 0; transform: translateY(6px) scale(0.4); }
+  12% { opacity: 1; transform: translateY(0) scale(1.12); }
+  20% { transform: scale(1); }
+  82% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-8px) scale(0.9); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qt-isim-ef--hareketli[data-ef]::after { animation: none; opacity: 0.85; transform: none; }
+  .qt-tepki-balon { animation: qt-tepki-balon-sade 2s linear both; }
+  .qt-tepki-sec { transition: none; }
+}
+@keyframes qt-tepki-balon-sade { 0% { opacity: 0; } 10%, 85% { opacity: 1; } 100% { opacity: 0; } }

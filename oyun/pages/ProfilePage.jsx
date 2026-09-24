@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import DurumKutusu, { useZamanAsimi } from "../components/DurumKutusu.jsx";
 import { muzikAcikMi, muzikAyarla, muzikDinle, sesAcikMi, sesAyarla, sesDinle, sesTik } from "../lib/ses.js";
+import { kozmetikTemasi, tepkiGizleAyarla, useTepkiGizli } from "../lib/kozmetik.js";
+import IsimEfekti, { useKartAlani } from "../components/IsimEfekti.jsx";
 import { sesMetni } from "../lib/ceviri/ses.js";
 import { hataMesaji } from "../lib/hata.js";
 import { Link, useLocation } from "react-router-dom";
@@ -89,6 +91,7 @@ export default function ProfilePage() {
   const [siliniyor, setSiliniyor] = useState(false);
   // Hatalarım bankası özeti
   const [banka, setBanka] = useState(null);
+  const vsTema = kozmetikTemasi(useKartAlani(user?.id, "vs_karti"));   // 540: profil başlığı VS kartı teması
 
   useEffect(() => {
     pushDurumu().then(setBildirim).catch((e) => console.error("[Bildim] bildirim durumu okunamadı:", e));
@@ -189,12 +192,13 @@ export default function ProfilePage() {
 
       {/* ---------- Kimlik: avatar (lig çerçevesiyle), takma ad, rütbe, level ---------- */}
       <QtKart className="qt-pf-kimlik">
-        <span className="qt-pf-avatar">
+        {/* 540: takılı VS kartı teması avatarın arkasında levha (başlıktaki yazılar kendi zemininde kalır) */}
+        <span className={"qt-pf-avatar" + (vsTema ? " qt-vs qt-vs-bant" : "")} data-vs={vsTema ?? undefined}>
           <AvatarCerceve profile={profile} boyut={88} userId={user?.id} hareketli />
         </span>
         <div className="qt-pf-kimlik-metin">
           {/* Görünen ad takma addır; gerçek kullanıcı adı gösterilmez. */}
-          <p className="qt-baslik-2 qt-pf-ad">{profile.gorunen_ad}</p>
+          <p className="qt-baslik-2 qt-pf-ad"><IsimEfekti userId={user?.id} hareketli>{profile.gorunen_ad}</IsimEfekti></p>
           <div className="qt-pf-rozetler">
             <QtRozet ton="mor" ikon={r.ikon}>{r.ad}</QtRozet>
             {/* Paket 20 III: misafir hesabı her yerde belli olsun */}
@@ -317,6 +321,8 @@ export default function ProfilePage() {
                 if (yeniDurum) sesTik(3); // örnek ses
               }}
             />
+            {/* 542: rakibin maç içi tepkileri (emote) — cihazda saklanır (bkz. lib/kozmetik.js) */}
+            <TepkiGizleAnahtari />
             <QtAnahtar
               acik={bildirim === "acik"}
               etiket={tt("Bildirimler")}
@@ -473,5 +479,18 @@ export default function ProfilePage() {
         {silHata && <p className="qt-pf-hata" role="alert">{silHata}</p>}
       </QtModal>
     </div>
+  );
+}
+
+/** Profil › Ayarlar: "Rakip tepkilerini gizle" (cihazda; maç ekranı anında uyar). */
+function TepkiGizleAnahtari() {
+  const gizli = useTepkiGizli();
+  return (
+    <QtAnahtar
+      acik={gizli}
+      etiket={tt("Rakip tepkilerini gizle")}
+      aciklama={tt("Maçta rakibinin gönderdiği tepkiler (emoji) ekranında görünmez. Bu cihazda saklanır.")}
+      onDegis={(yeni) => tepkiGizleAyarla(yeni)}
+    />
   );
 }

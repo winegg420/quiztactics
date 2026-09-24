@@ -18,6 +18,8 @@ import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import CerceveliAvatar from "./CerceveliAvatar.jsx";
+import IsimEfekti from "./IsimEfekti.jsx";
+import { kozmetikTemasi } from "../lib/kozmetik.js";
 import { useOyuncuSeviyeleri } from "../lib/oyuncuSeviye.js";
 import { sesVsAni } from "../lib/ses.js";
 import { tt } from "../lib/dil.js";
@@ -38,14 +40,22 @@ function sureYaz(sn) {
   return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
 }
 
-/** Oyuncu kartı: temalı çerçeveli avatar, ad, level, lig. Kapıdaki VS kartıyla aynı dil. */
-export function VsKarti({ profil, kart, taraf = "ben", className, children }) {
+/**
+ * Oyuncu kartı: temalı çerçeveli avatar, ad, level, lig. Kapıdaki VS kartıyla aynı dil.
+ * 540: kartın arka planı oyuncunun VS kartı teması (kart.vs_karti), adı isim efektiyle (kart.isim_efekti) —
+ * ikisi de oyuncu kartından (oyuncu_kartlari; ek sorgu yok). `vsKarti` / `isimEfekti` verilirse onlar (önizleme).
+ */
+export function VsKarti({ profil, kart, taraf = "ben", className, children, vsKarti, isimEfekti }) {
   const lig = LIGLER.includes(kart?.lig ?? profil?.lig) ? (kart?.lig ?? profil?.lig) : null;
   const level = kart?.level ?? profil?.level;
+  const vsTema = kozmetikTemasi(vsKarti !== undefined ? vsKarti : kart?.vs_karti);
+  const ef = isimEfekti !== undefined ? isimEfekti : kart && "isim_efekti" in kart ? kart.isim_efekti : undefined;
   return (
-    <div className={sinif("ara-kart", `ara-kart--${taraf}`, className)}>
+    <div className={sinif("ara-kart", `ara-kart--${taraf}`, vsTema && "qt-vs", className)} data-vs={vsTema ?? undefined}>
       <CerceveliAvatar profile={profil} userId={profil?.id} boyut={92} hareketli {...(kart ? { kart } : {})} />
-      <span className="ara-kart-ad">{profil?.gorunen_ad ?? tt("Sen")}</span>
+      <span className="ara-kart-ad">
+        <IsimEfekti userId={profil?.id} {...(ef !== undefined ? { ef } : {})} koyu>{profil?.gorunen_ad ?? tt("Sen")}</IsimEfekti>
+      </span>
       <span className="ara-kart-rozetler">
         {level != null && <QtRozet boyut="k" ton="koyu">{tt("Lv {0}", { 0: level })}</QtRozet>}
         {lig && <QtLigRozeti lig={lig} boyut="k" />}
