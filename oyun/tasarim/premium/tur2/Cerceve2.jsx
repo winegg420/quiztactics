@@ -6,7 +6,7 @@
  * Katmanlar (alttan üste): aura + avatar (mevcut PremiumCerceve, çerçevesiz) → çizim (<img>, vektör SVG; keskin)
  * → efekt tuvali (WebGL gölgelendirici; alev, buz, şimşek, altın yansıması, göz/alev ışığı). Tuval ve çizim
  * kutunun %170'i: süsler ve efektler taşar, tıklama yutmaz.
- * Kademe: > 48 px tam çizim + (varsa) WebGL · ≤ 48 px sade çizim, durağan (WebGL yok, kutudan taşmaz).
+ * Kademe: ≥ 100 px tam · 49–99 px orta (ejderha kanadı kısa, dar yerlerde kesilmesin) — ikisinde de + (varsa) WebGL · ≤ 48 px sade çizim, durağan (WebGL yok, kutudan taşmaz).
  * WebGL yoksa (eski cihaz, bağlam açılamadı) önceki SVG + CSS hâli (sanatCerceveler) gösterilir; Altın Lig
  * için oyundaki "Çizgi" tarzı. Hareket: yalnız `hareketli`, ekrandayken (IntersectionObserver), sekme
  * görünürken ve hareket azaltılmamışken; aksi hâlde tek durağan kare.
@@ -96,17 +96,17 @@ const motorYukle = () => (motorSoz ??= import("./motor.js").then((m) => m.motorA
 
 export default function Cerceve2({ tur, aura = null, boyut = 88, hareketli = false, etiket, className = "", children }) {
   const T = TUR2[tur];
-  const kademe = boyut <= 48 ? "kucuk" : "tam";
-  const png = usePng(tur, kademe === "tam");
+  const kademe = boyut <= 48 ? "kucuk" : boyut < 100 ? "orta" : "tam";   // orta: taşan süsler kısalır (dar yerler)
+  const png = usePng(tur, kademe !== "kucuk");
   const tamPng = tur === "ejderha" && png;
   const tacPng = tur === "kraliyet" && png;
   const sanat = tamPng ? png.url : sanatAdresi(tur, kademe, { tacYok: Boolean(tacPng) });
-  const [gl, setGl] = useState(kademe === "tam" ? "bekliyor" : "kapali");
+  const [gl, setGl] = useState(kademe !== "kucuk" ? "bekliyor" : "kapali");
   const kok = useRef(null);
   const tuval = useRef(null);
 
   useEffect(() => {
-    if (kademe !== "tam") { setGl("kapali"); return undefined; }
+    if (kademe === "kucuk") { setGl("kapali"); return undefined; }
     let aktif = true;
     motorYukle().then((m) => { if (aktif) setGl(m ? "var" : "yok"); });
     return () => { aktif = false; };
@@ -115,10 +115,10 @@ export default function Cerceve2({ tur, aura = null, boyut = 88, hareketli = fal
   const ayar = useMemo(() => ({
     efekt: T.efekt, olcek: T.olcek, a: T.a, n: T.n(), durgunT: T.durgunT,
     doku: {
-      anahtar: `${tur}:${png ? "png" : "kod"}`,
+      anahtar: `${tur}:${kademe}:${png ? "png" : "kod"}`,
       kaynaklar: tacPng ? [{ url: sanat }, { url: tacPng.url, kutu: tacPng.kutu }] : [{ url: sanat }],
     },
-  }), [T, tur, png, tacPng, sanat]);
+  }), [T, tur, kademe, png, tacPng, sanat]);
 
   useEffect(() => {
     if (gl !== "var" || !tuval.current) return undefined;
@@ -145,7 +145,7 @@ export default function Cerceve2({ tur, aura = null, boyut = 88, hareketli = fal
 
   return (
     <span ref={kok} className={`p2 p2--${kademe} p2--${tur} ${className}`.trim()} style={{ "--p2-b": `${boyut}px` }}
-          data-cerceve2={tur} data-tac={T.tepe && kademe === "tam" ? "" : undefined}
+          data-cerceve2={tur} data-tac={T.tepe && kademe !== "kucuk" ? "" : undefined}
           {...(etiket ? { role: "img", "aria-label": etiket } : {})}>
       <PremiumCerceve cerceve={null} aura={aura} boyut={boyut} hareketli={hareketli} className="p2-ic">{children}</PremiumCerceve>
       <img className="p2-sanat" src={sanat} alt="" aria-hidden="true" draggable="false" decoding="async" />

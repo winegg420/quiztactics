@@ -1,0 +1,13 @@
+/* Elmas paketi görseli — yalnız transform/opacity; "hareketi azalt"ta durur. */
+.ep { display: block; width: 100%; height: 100%; overflow: visible; }
+.ep-parilti { transform-box: fill-box; transform-origin: center; }
+.ep--oynar .ep-parilti { animation: ep-parilti 2.4s ease-in-out infinite; }
+.ep--oynar .ep-isinlar { animation: ep-don 24s linear infinite; }
+@keyframes ep-parilti {
+  0%, 100% { transform: scale(0.55) rotate(0deg); opacity: 0.35; }
+  45% { transform: scale(1.1) rotate(45deg); opacity: 1; }
+}
+@keyframes ep-don { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .ep--oynar .ep-parilti, .ep--oynar .ep-isinlar { animation: none; }
+}

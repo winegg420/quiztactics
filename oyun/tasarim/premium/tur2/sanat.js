@@ -2,7 +2,7 @@
  * TUR 2 ÇERÇEVE ÇİZİMLERİ — SVG metni üretir (görünür katman <img> + gölgelendirici dokusu aynı kaynak).
  * Birim: kutunun %1'i, merkez 0,0, y aşağı, tuval −85…85 (kutunun %170'i). Halka 43…51, avatar dairesi 43.
  * Çizim dili avatarlarla aynı: kalın koyu kontur (#0b1220), düz renk alanları, 2–3 ton gölge, beyaz parlama.
- * Kademe: "tam" (> 48 px; taşan süsler) · "kucuk" (≤ 48 px; yalnız halka + küçük vurgu, kutudan taşmaz).
+ * Kademe: "tam" (≥ 100 px; taşan süsler) · "orta" (49–99 px; ejderha kanadı küçük) · "kucuk" (≤ 48 px; yalnız halka + küçük vurgu, kutudan taşmaz).
  * Efekt noktaları (göz, ağız, mücevher, uç) buradan hesaplanır ve gölgelendiriciye aynen verilir.
  */
 import { kutup, f, tohum, yay } from "../cizim.jsx";
@@ -152,7 +152,7 @@ function ejParcalar() {
   return parcalar;   // [a0, a1, arka]
 }
 
-function ejKanat() {
+function ejKanat(orta = false) {
   const om = kutup(57, -34);
   const dirsek = [-45, -71];
   const bilek = [-60, -80];
@@ -163,7 +163,7 @@ function ejKanat() {
   // uzak kanat: aynı kanadın omuz çevresinde döndürülmüş, koyu, küçük kopyası (derinlik)
   const uzak = `<g transform="rotate(12 ${om[0]} ${om[1]}) translate(${om[0]} ${om[1]}) scale(.9) translate(${-om[0]} ${-om[1]})">`
     + `<path d="${zar}" fill="#5c0a18" ${cz(1.6)}/><path d="${kemik}" fill="none" stroke="#2a0409" stroke-width="2.2" stroke-linecap="round"/></g>`;
-  return uzak
+  const g = uzak
     + `<path d="${zar}" fill="#8a1024" ${cz(1.6)}/>`
     + `<path d="M${bilek.join(" ")}L${uclar[0].join(" ")}Q-74 -62 ${uclar[1].join(" ")}Z" fill="#c42a34"/>`
     + `<path d="M${bilek.join(" ")}L${uclar[1].join(" ")}Q-70 -45 ${uclar[2].join(" ")}Z" fill="#a51a2c"/>`
@@ -172,6 +172,8 @@ function ejKanat() {
     + `<path d="${kemik}" fill="none" stroke="#f0a64a" stroke-width=".8" stroke-linecap="round" opacity=".7"/>`
     + uclar.map(([x, y]) => `<path d="M${x} ${y}l-2.4 -1.2l1 2.8Z" fill="#f3e3c0" ${cz(0.7)}/>`).join("")
     + `<path d="M${bilek[0] + 1} ${bilek[1] - 1}l-3 -4l3.8 1.2Z" fill="#f3e3c0" ${cz(0.8)}/>`;
+  // orta kademe: kanat omuz çevresinde küçülür (dar yerlerde sola taşıp kesilmesin)
+  return orta ? `<g transform="translate(${om[0]} ${om[1]}) scale(.66) translate(${-om[0]} ${-om[1]})">${g}</g>` : g;
 }
 
 function ejPence(a, r = 47.6) {
@@ -244,7 +246,7 @@ function ejBoyun() {
     + `<path d="${bb.a}" fill="none" ${cz(1.5)}/><path d="${bb.b}" fill="none" ${cz(1.5)}/>`;
 }
 
-function ejderhaTam() {
+function ejderhaTam(orta = false) {
   const defs = lg("ejh", [[0, "#4a1a2c"], [0.45, "#22101a"], [1, "#12060c"]])
     + lg("ejA", [[0, "#fff1a8"], [0.5, "#ffc62a"], [1, "#c9820a"]]);
   const parcalar = ejParcalar();
@@ -252,7 +254,7 @@ function ejderhaTam() {
   const on = parcalar.filter((p) => !p[2]).map(([a0, a1]) => ejGovdeParca(a0, a1, false)).join("");
   let run = "";
   for (let a = 0; a < 360; a += 30) { const [x, y] = kutup(47, a + 15); run += `<circle cx="${x}" cy="${y}" r=".9" fill="#ffc62a"/>`; }
-  const g = ejKanat() + arka
+  const g = ejKanat(orta) + arka
     + halka({ bant: "ejh", isik: 0.35 })
     + `<circle r="50.2" fill="none" stroke="url(#ejA)" stroke-width="1.4"/><circle r="44" fill="none" stroke="url(#ejA)" stroke-width="1.1"/>${run}`
     + ejPence(-44) + ejPence(-160)
@@ -539,7 +541,7 @@ export function altinLigNoktalari() {
 // Kayıt
 // =====================================================================================================
 const URETICI = {
-  ejderha: (k) => (k === "kucuk" ? ejderhaKucuk() : ejderhaTam()),
+  ejderha: (k) => (k === "kucuk" ? ejderhaKucuk() : ejderhaTam(k === "orta")),
   alev: (k) => alevHalkasi(k === "kucuk"),
   buz: (k) => buzHalkasi(k === "kucuk"),
   simsek: (k) => simsekHalkasi(k === "kucuk"),
