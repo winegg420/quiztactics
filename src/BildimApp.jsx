@@ -11,7 +11,7 @@
 // ============================================================
 
 import { lazy, Suspense, useEffect } from "react";
-import { Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
 import { girisHedefiniAl, bilinenYol } from "./lib/girisHedefi.js";
 import { useAuth } from "./context/AuthContext.jsx";
 import { supabaseHazir } from "./lib/supabase.js";
@@ -88,6 +88,15 @@ const CerceveOnizlemePage = lazy(() => import("../oyun/tasarim/cerceveler/deneme
 const PremiumOnizlemePage = lazy(() => import("../oyun/tasarim/premium/PremiumOnizlemePage.jsx"));   // premium kozmetik önizlemesi — yalnız sahip, yalnız adresle (girişli)
 const IkonOnizlemePage = lazy(() => import("../oyun/tasarim/ikon/IkonOnizlemePage.jsx"));   // uygulama ikonu adayları (Ajan B) — yalnız sahip, yalnız adresle (girişli)
 const TasarimOnizlemePage = lazy(() => import("../oyun/tasarim/onizleme/TasarimOnizlemePage.jsx"));   // altın isim + rakip arama ekranı adayları — yalnız sahip, yalnız adresle (girişli)
+
+// Maç sayfası maç kimliğine anahtarlı: rövanş / yeni maç aynı rotada /mac/eski → /mac/yeni geçince React
+// bileşeni yeniden kurmuyordu; eski maçın durumu (ilerleme damgası, kanallar, zamanlayıcılar) yeni maça
+// taşınıyor, bitmiş maçın damgası yeni maçın bütün güncellemelerini "eski" sayıp atıyordu → iki tarafta da
+// ekran eski maçın sonuç sahnesinde donuyordu (canlı, 24 Eyl). Her maç temiz bir sayfayla başlar.
+function MacAnahtarli({ Sayfa }) {
+  const { id } = useParams();
+  return <Sayfa key={id ?? "lobi"} />;
+}
 
 // Eski hub adresleri (/oyun/...) bu sitede köke indirilir. Bookmark, push
 // bildirimi deep-link'i ve paylaşılmış davet linkleri kırılmasın diye.
@@ -196,8 +205,8 @@ export default function BildimApp() {
           <Route index element={<AnaSayfa />} />
           <Route path="turnuva" element={<TournamentPage />} />
           <Route path="meydan" element={<ChallengesPage />} />
-          <Route path="mac/:id" element={<MatchPage />} />
-          <Route path="grup-mac/:id" element={<GroupMatchPage />} />
+          <Route path="mac/:id" element={<MacAnahtarli Sayfa={MatchPage} />} />
+          <Route path="grup-mac/:id" element={<MacAnahtarli Sayfa={GroupMatchPage} />} />
           {/* DONDURULDU (Paket 24 B): sayfa duruyor, giris yok - ana sayfaya yonlendirir. */}
           {/* Paket 41 I: sessiz yönlendirme yerine "Bu mod şu an kapalı" notu, sonra ana sayfa */}
           <Route path="hizli-mac/:id" element={<BulunamadiPage kapaliMod />} />
@@ -209,7 +218,7 @@ export default function BildimApp() {
           <Route path="joker" element={<JokerDukkani />} />
           <Route path="hizli-mod" element={<BulunamadiPage kapaliMod />} />
           <Route path="duello" element={<DuelloPage />} />
-          <Route path="duello/:id" element={<DuelloPage />} />
+          <Route path="duello/:id" element={<MacAnahtarli Sayfa={DuelloPage} />} />
           <Route path="calisma" element={<CalismaPage />} />
           <Route path="modlar" element={<ModlarPage />} />
           {/* DONDURULDU — dosyalar ve veri yerinde; yalnız giriş kapalı. */}
