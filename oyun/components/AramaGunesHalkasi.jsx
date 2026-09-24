@@ -17,9 +17,10 @@
 // Performans: yalnız transform/opacity; filter/blur yok; sekme gizliyken bütün hareket duraklar.
 // Ekranda "bot" kelimesi GEÇMEZ.
 // ============================================================
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import CerceveliAvatar from "./CerceveliAvatar.jsx";
 import IsimEfekti from "./IsimEfekti.jsx";
+import OyuncuAdiDugmesi from "./OyuncuAdiDugmesi.jsx";
 import OyuncuLigAmblemi from "./OyuncuLigAmblemi.jsx";
 import { HAZIR_AVATARLAR } from "../lib/avatarKatalogu.js";
 import { aktifDil, tt } from "../lib/dil.js";
@@ -29,7 +30,7 @@ import "../tasarim/ekranlar/arama-gunes-halkasi.css";
 yumusakHareketKur();
 
 const LIGLER = ["bronz", "gumus", "altin", "elmas", "efsane"];
-const MOD_AD = { klasik: "Klasik", saf: "Saf Bilgi", duello: "Düello" };
+const MOD_AD = { klasik: "Klasik", saf: "Saf Bilgi", duello: "Düello", grup: "Grup Maçı" };
 
 // Yeni metinler (TR/EN) — ana paketteki sözlüğü büyütmemek için burada; dil aktifDil() ile seçilir.
 const METIN = {
@@ -126,7 +127,10 @@ function VsOyuncu({ profil, kart, taraf, boyut }) {
       <span className="gh-vs-av">
         <CerceveliAvatar profile={profil} userId={profil?.id} boyut={boyut} hareketli {...(kart ? { kart } : {})} />
       </span>
-      <b className="gh-ad"><IsimEfekti userId={profil?.id}>{profil?.gorunen_ad ?? tt("Sen")}</IsimEfekti></b>
+      {/* İsme dokununca oyuncu kartı (OyuncuAdiDugmesi: gizli bot işareti ön izlemeden ayıklanır) */}
+      <OyuncuAdiDugmesi userId={profil?.id} profil={profil} oge="b" className="gh-ad" dugmeSinifi="gh-ad-dugme">
+        <IsimEfekti userId={profil?.id}>{profil?.gorunen_ad ?? tt("Sen")}</IsimEfekti>
+      </OyuncuAdiDugmesi>
       {level != null && <span className="gh-lv">{tt("Lv {0}", { 0: level })}</span>}
     </span>
   );
@@ -146,6 +150,15 @@ export default function AramaGunesHalkasi({
 }) {
   const bulundu = durum === "bulundu";
   const vs = bulundu && Boolean(rakip);
+  // Düello: rakibin profili bulunma anından sonra ayrı okumayla gelir; maça geçiş anı sabit (ARAMA_GECIS_MS,
+  // çağıran tarafta) ve sunucuda kategori süresi düello kurulunca işlemeye başladığı için geçiş ERTELENMEZ.
+  // Profil geç gelirse (> 200 ms) makara durma aşaması atlanır, VS hemen çarpar → VS ekranda en uzun kalır.
+  const bulunmaRef = useRef(null);
+  if (bulundu && bulunmaRef.current === null) bulunmaRef.current = performance.now();
+  const vsHemen = useMemo(
+    () => vs && bulunmaRef.current !== null && performance.now() - bulunmaRef.current > 200,
+    [vs],
+  );
   const benKart = kartlar[ben?.id];
   const lig = LIGLER.includes(benKart?.lig ?? ben?.lig) ? (benKart?.lig ?? ben?.lig) : null;
   const benLevel = benKart?.level ?? ben?.level;
@@ -156,7 +169,8 @@ export default function AramaGunesHalkasi({
     const havuz = karistir(AVATARLAR.filter((a) => a !== ben?.gorunen_avatar));
     return { makara: havuz.slice(0, 8), yorunge: havuz.slice(8, 16), ilkBilgi: Math.floor(Math.random() * BILGILER.length) };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-  const bilgiler = useMemo(() => BILGILER.filter((b) => !b.duello || mod === "duello"), [mod]);
+  // Grup maçı ödülsüz: Dereceli/Serbest ipucu orada anlamsız (yalnız bilgiler döner)
+  const bilgiler = useMemo(() => BILGILER.filter((b) => (!b.duello || mod === "duello") && (mod !== "grup" || !b.ipucu)), [mod]);
   const bilgiNo = (secim.ilkBilgi + Math.floor(gecen / BILGI_SN)) % bilgiler.length;
   const b = bilgiler[bilgiNo];
 
@@ -179,7 +193,7 @@ export default function AramaGunesHalkasi({
 
   const dil = dilSec();
   return (
-    <div className={`gh gh--${durum}${vs ? " gh--vs" : ""}`} data-yumusak="" data-durdu={gizli ? "1" : undefined}
+    <div className={`gh gh--${durum}${vs ? " gh--vs" : ""}${vsHemen ? " gh--vs-hemen" : ""}`} data-yumusak="" data-durdu={gizli ? "1" : undefined}
          role="dialog" aria-modal="true" aria-labelledby="ara-baslik">
       <Zemin />
 
@@ -187,7 +201,9 @@ export default function AramaGunesHalkasi({
         <span className="gh-ben">
           <CerceveliAvatar profile={ben} userId={ben?.id} boyut={50} {...(benKart ? { kart: benKart } : {})} />
           <span className="gh-ben-yazi">
-            <b className="gh-ad gh-ad--kucuk"><IsimEfekti userId={ben?.id}>{ben?.gorunen_ad ?? tt("Sen")}</IsimEfekti></b>
+            <OyuncuAdiDugmesi userId={ben?.id} profil={ben} oge="b" className="gh-ad gh-ad--kucuk" dugmeSinifi="gh-ad-dugme">
+              <IsimEfekti userId={ben?.id}>{ben?.gorunen_ad ?? tt("Sen")}</IsimEfekti>
+            </OyuncuAdiDugmesi>
             <span className="gh-ben-alt">
               {benLevel != null && <span className="gh-lv">{tt("Lv {0}", { 0: benLevel })}</span>}
               {lig && <OyuncuLigAmblemi lig={lig} boyut={22} />}
@@ -202,7 +218,15 @@ export default function AramaGunesHalkasi({
 
       <div className="gh-rozetler">
         <span className={`gh-rozet gh-rozet--${MOD_AD[mod] ? mod : "klasik"}`}>{tt(MOD_AD[mod] ?? MOD_AD.klasik)}</span>
-        <span className={`gh-rozet gh-rozet--${dereceli ? "dereceli" : "serbest"}`}>{dereceli ? tt("Dereceli") : tt("Serbest")}</span>
+        {mod === "grup" ? (
+          /* Çok oyunculu bağlam: grup maçı ödülsüz; kaç kişiyle oynanacağı */
+          <>
+            <span className="gh-rozet gh-rozet--serbest">{tt("Ödülsüz")}</span>
+            <span className="gh-rozet gh-rozet--kisi">{tt("3–5 oyuncu")}</span>
+          </>
+        ) : (
+          <span className={`gh-rozet gh-rozet--${dereceli ? "dereceli" : "serbest"}`}>{dereceli ? tt("Dereceli") : tt("Serbest")}</span>
+        )}
       </div>
       {bilgi && !bulundu && <p className="gh-not" role="status">{bilgi}</p>}
 

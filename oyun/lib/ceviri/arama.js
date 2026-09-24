@@ -9,4 +9,7 @@ export default {
   "Maç iptal edildi": "Match cancelled",
   "Maç zamanında başlamadığı için iptal edildi. Kimse puan kaybetmedi.": "The match was cancelled because it didn't start in time. Nobody lost points.",
   "Yeni rakip ara": "Find a new opponent",
+  // Ajan A7 (24 Eyl 2026): grup araması Güneş Halkası'nda
+  "3–5 oyuncu": "3–5 players",
+  "3–5 oyunculu bir grup kuruluyor. Süre dolarsa boş yerler doldurulur.": "Building a group of 3–5 players. If time runs out, empty seats are filled.",
 };

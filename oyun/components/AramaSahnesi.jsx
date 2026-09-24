@@ -99,7 +99,7 @@ export function VsKarti({ profil, kart, taraf = "ben", className, children, vsKa
 
 /**
  * @param {object} p
- * @param {"klasik"|"saf"|"duello"} p.mod
+ * @param {"klasik"|"saf"|"duello"|"grup"} p.mod   grup: çok oyunculu kuyruk (ChallengesPage — VS anı yok, bulununca sayfa geçer)
  * @param {boolean} p.dereceli
  * @param {number}  p.gecen          geçen süre (sn, yukarı sayar — hedef süre sunucuda)
  * @param {"ariyor"|"hazirlaniyor"|"bulundu"|"hata"} p.durum
@@ -151,7 +151,7 @@ export default function AramaSahnesi({
     ? tt("Rakip bulundu!")
     : durum === "hata"
       ? tt("Rakip bulunamadı")
-      : durum === "hazirlaniyor" ? tt("Maç hazırlanıyor…") : tt("Rakip aranıyor…");
+      : durum === "hazirlaniyor" ? tt("Maç hazırlanıyor…") : mod === "grup" ? tt("Oyuncu aranıyor…") : tt("Rakip aranıyor…");
 
   // Görünüm: Güneş Halkası (tembel parça). Davranış (yukarıdaki etkiler) burada kalır.
   return createPortal(

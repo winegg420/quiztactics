@@ -47,6 +47,7 @@ import { useDereceliTercih } from "../lib/dereceli.js";
 import { useDil } from "../lib/dilKanca.js";
 import { tt } from "../lib/dil.js";
 import { rpcDene } from "../lib/rpcDene.js";
+import AramaSahnesi from "../components/AramaSahnesi.jsx";
 
 // "Hızlı Olan Kazanır" DONDURULDU (Paket 14, 3.6): kurulum paneli arayüzden
 // kaldırıldı; hizli_maclar / hizli_oyuncular ve /hizli-mac/:id rotası duruyor.
@@ -1054,11 +1055,19 @@ export default function ChallengesPage() {
             >
               {grupKuyrukAcMi ? tt("Aramayı durdur") : tt("Rastgele oyuncularla oyna")}
             </QtDugme>
+            {/* Grup araması da Güneş Halkası görünümünde (yalnız görünüm): kuyruk, 1 sn'lik yoklama ve
+                grup_ara / grup_aramadan_cik çağrıları aynen yukarıda. Bulununca sayfa zaten /grup-mac'a geçer
+                (grupta VS anı yok); İptal ve Esc = "Aramayı durdur". Katılan sayısını sunucu vermiyor
+                (grup_ara yalnız id ya da null döner) → beklenen "3–5 oyuncu" yazılır, sayı uydurulmaz. */}
             {grupKuyrukAcMi && (
-              <p className="a-meydan-durum" role="status">
-                <span className="qt-donen" aria-hidden="true" />
-                {tt("Oyuncu aranıyor…")} {grupKuyrukSn > 0 ? `(${grupKuyrukSn} ${tt("sn")})` : ""}
-              </p>
+              <AramaSahnesi
+                mod="grup"
+                dereceli={false}
+                gecen={grupKuyrukSn}
+                durum="ariyor"
+                alt={<span>{tt("3–5 oyunculu bir grup kuruluyor. Süre dolarsa boş yerler doldurulur.")}</span>}
+                onIptal={grupAramadanCik}
+              />
             )}
             <p className="a-meydan-ara">{tt("ya da arkadaşlarını seç:")}</p>
             <div className="a-meydan-cipler" role="group" aria-label={tt("Kişi")}>

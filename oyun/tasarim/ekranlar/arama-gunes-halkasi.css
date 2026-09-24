@@ -158,6 +158,11 @@
 .gh-rozet--duello { background: #ff7fa0; }
 .gh-rozet--dereceli { background: var(--gh-sari); }
 .gh-rozet--serbest { background: #fff; }
+.gh-rozet--grup { background: #b8f0c8; }
+.gh-rozet--kisi { background: #dff0ff; }
+/* Ada dokununca oyuncu kartı: düğme adın yerini alır (üç nokta içteki .gh-ad'de kalır) */
+.gh .gh-ad-dugme { max-width: 100%; justify-self: stretch; }
+.gh-vs-kart .gh-ad-dugme { justify-self: center; }
 
 /* "Rakip bağlanamadı, yeni rakip aranıyor" */
 .gh-not {
@@ -436,3 +441,15 @@
 @keyframes gh-sagdan-y { from { opacity: 0; transform: translateX(24%); } }
 @keyframes gh-vs-carp-y { from { transform: scale(1.3); opacity: 0; } }
 @keyframes gh-solgun { from { opacity: 0; } }
+
+/* ---------------------------------------------------------------- VS hemen (Düello: rakip profili geç geldi)
+   Maça geçiş anı sabit (ARAMA_GECIS_MS); geçiş ertelenmez (düello kurulunca sunucuda kategori süresi işler).
+   Profil > 200 ms geç gelince makara durma aşaması atlanır, halka hemen kapanır, VS hemen çarpar →
+   VS ekranda kalan sürenin tamamında görünür. Hareketi azalt'ta da aynı (özgül seçici). */
+.gh--vs-hemen .gh-makara-kilit img { animation-duration: 1ms; }
+.gh--vs-hemen.gh--vs .gh-halka { animation-delay: 0ms; }
+.gh--vs-hemen .gh-vs::before { animation-delay: 50ms, 0ms; }
+.gh--vs-hemen .gh-vs-kart--ben,
+.gh--vs-hemen .gh-vs-kart--rakip,
+.gh--vs-hemen .gh-vs-yazi { animation-delay: 0ms; }
+.gh--vs-hemen .gh-vs-yazi span { animation-delay: 110ms; }
