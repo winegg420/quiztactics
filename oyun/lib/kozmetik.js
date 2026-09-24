@@ -47,6 +47,10 @@ export const KOZMETIK_TANIMLARI = {
   pc_sonbahar: { tur: "premium_cerceve", sanat: "sonbahar", ad: "Sonbahar" },
   pc_galaksi:  { tur: "premium_cerceve", sanat: "galaksi", ad: "Galaksi" },
   pc_sakura:   { tur: "premium_cerceve", sanat: "sakura", ad: "Sakura" },
+  // 570: 2. tur (WebGL efektli; sanat oyun/tasarim/premium/tur2/ — PremiumAvatarCizim › TUR2_SANAT)
+  pc_alev2:     { tur: "premium_cerceve", sanat: "alev2", ad: "Sönmeyen Alev" },
+  pc_simsek2:   { tur: "premium_cerceve", sanat: "simsek2", ad: "Şimşek" },
+  pc_kraliyet2: { tur: "premium_cerceve", sanat: "kraliyet2", ad: "Kraliyet" },
   pa_yaprak:   { tur: "premium_aura", sanat: "yaprak", ad: "Düşen Sonbahar Yaprakları" },
   pa_kar:      { tur: "premium_aura", sanat: "kar", ad: "Yağan Kar" },
   pa_kor:      { tur: "premium_aura", sanat: "kor", ad: "Yükselen Köz" },

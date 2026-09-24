@@ -11,9 +11,10 @@
  * - AURA (481): avatarın arkasındaki tema katmanı da buradan çözülür — çağıran dosya bir şey yapmaz.
  *   `aura` verilirse o; `kart` içinde `aura` alanı varsa o; yoksa oyuncu kartı (toplu + önbellekli
  *   oyuncu_kartlari) okunur. Katman sırası: aura (arkada) → avatar → çerçeve (önde).
- * - ÇERÇEVE TARZI (550): Ida /cerceve-onizleme'de tarz seçtiyse Altın Lig çerçevesi o tarzda çizilir
- *   (DenemeCerceve, tembel yüklenir; yüklenirken bugünkü çerçeve). Aura takılıysa bugünkü çerçeve kalır
- *   (yeni tarzın aura katmanı yok). Seçim yoksa hiçbir şey değişmez.
+ * - ALTIN LİG (Ida, 24 Eyl 2026 — /premium-onizleme 2. tur): Altın Lig çerçevesi (lig_altin) her zaman
+ *   2. tur hâliyle çizilir (PremiumAvatarCizim › Cerceve2 "altinlig", tembel; yüklenirken bugünkü çerçeve;
+ *   WebGL yoksa önceki "Çizgi" tarzı). Eski dükkân aurası takılıysa bugünkü çerçeve kalır. Önceki kural
+ *   (550: /cerceve-onizleme tarzı, DenemeCerceve) bunun yerine geçti; tarz seçimi artık okunmaz.
  * - PREMIUM (560): takılı premium çerçeve / premium aura (oyuncu kartında premium_cerceve / premium_aura)
  *   varsa önizlemedeki sanatla çizilir — PremiumAvatarCizim TEMBEL yüklenir (ana paket büyümez); inerken
  *   bugünkü çizim. Premium çerçeve bugünkü çerçevenin yerine geçer; premium aura avatarın İÇ zeminidir
@@ -27,10 +28,8 @@ import CerceveGorseli, { icBoyut } from "../tasarim/cerceveler/CerceveGorseli.js
 import { cerceveTanimiBul } from "../tasarim/cerceveler/tanimlar.js";
 import { oyuncuKarti, oyuncuKartiDinle } from "../lib/cerceve.js";
 import { tt } from "../lib/dil.js";
-import { useCerceveTarzi } from "../lib/cerceveTarzi.js";
 import { premiumSanat } from "../lib/kozmetik.js";
 
-const DenemeCerceve = lazy(() => import("../tasarim/cerceveler/deneme/DenemeCerceve.jsx"));
 const PremiumAvatarCizim = lazy(() => import("./PremiumAvatarCizim.jsx"));
 
 const alanVar = (o, ad) => o != null && Object.prototype.hasOwnProperty.call(o, ad);
@@ -79,27 +78,19 @@ export default function CerceveliAvatar({ profile, userId, boyut = 44, cerceve, 
   const pc = premiumSanat(pcAnahtar);
   const pa = premiumSanat(paAnahtar);
 
-  const tarz = useCerceveTarzi();
+  const ligAltin = tanim?.anahtar === "lig_altin" && !auraAnahtar;
   const bugunku = (
     <CerceveGorseli anahtar={anahtar} satir={{ nadirlik }} aura={auraAnahtar} boyut={boyut} hareketli={hareketli}
                     className={className} etiket={etiket}>
       <Avatar profile={profile ?? {}} boyut={icBoyut(boyut, !!tanim)} />
     </CerceveGorseli>
   );
-  if (pc || pa) {
+  if (pc || pa || ligAltin) {
     return (
       <Suspense fallback={bugunku}>
         <PremiumAvatarCizim profile={profile} boyut={boyut} hareketli={hareketli} premiumCerceve={pc} premiumAura={pa}
-                            cerceveAnahtar={anahtar} cerceveSatir={{ nadirlik }} cerceveVar={!!tanim} etiket={etiket} className={className} />
-      </Suspense>
-    );
-  }
-  if (tarz && tanim?.anahtar === "lig_altin" && !auraAnahtar) {
-    return (
-      <Suspense fallback={bugunku}>
-        <DenemeCerceve tarz={tarz} boyut={boyut} hareketli={hareketli} etiket={etiket} className={className}>
-          <Avatar profile={profile ?? {}} boyut={icBoyut(boyut, true)} />
-        </DenemeCerceve>
+                            cerceveAnahtar={anahtar} cerceveSatir={{ nadirlik }} cerceveVar={!!tanim} ligAltin={ligAltin}
+                            etiket={etiket} className={className} />
       </Suspense>
     );
   }
