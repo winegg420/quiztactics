@@ -9,6 +9,7 @@ import { Link, useLocation } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import AvatarCerceve from "../components/AvatarCerceve.jsx";
+import OyuncuLigAmblemi from "../components/OyuncuLigAmblemi.jsx";
 import RozetlerPaneli from "../components/RozetlerPaneli.jsx";
 import Koleksiyon from "../components/Koleksiyon.jsx";
 import VitrinRozetleri from "../components/VitrinRozetleri.jsx";
@@ -198,7 +199,13 @@ export default function ProfilePage() {
         </span>
         <div className="qt-pf-kimlik-metin">
           {/* Görünen ad takma addır; gerçek kullanıcı adı gösterilmez. */}
-          <p className="qt-baslik-2 qt-pf-ad"><IsimEfekti userId={user?.id} hareketli>{profile.gorunen_ad}</IsimEfekti></p>
+          <p className="qt-baslik-2 qt-pf-ad">
+            {/* 560: lig amblemi isim yanında */}
+            <span className="qt-ad-amblem">
+              <IsimEfekti userId={user?.id} hareketli>{profile.gorunen_ad}</IsimEfekti>
+              {user?.id && <OyuncuLigAmblemi userId={user.id} boyut={24} />}
+            </span>
+          </p>
           <div className="qt-pf-rozetler">
             <QtRozet ton="mor" ikon={r.ikon}>{r.ad}</QtRozet>
             {/* Paket 20 III: misafir hesabı her yerde belli olsun */}

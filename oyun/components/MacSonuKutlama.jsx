@@ -27,6 +27,7 @@
 import { lazy, memo, Suspense, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import CerceveliAvatar from "./CerceveliAvatar.jsx";
+import OyuncuLigAmblemi from "./OyuncuLigAmblemi.jsx";
 import IsimEfekti, { useKartAlani } from "./IsimEfekti.jsx";
 import AvatarDugmesi from "./AvatarDugmesi.jsx";
 import RozetMadalyonu, { rozetSembolu } from "./RozetMadalyonu.jsx";
@@ -83,8 +84,12 @@ function Taraf({ kisi, rol, yan, canToplam, sen, zafer }) {
             CerceveliAvatar takılı çerçeveyi sunucudan (oyuncu_kartlari, kimliğe göre) okur. */}
         <AvatarDugmesi userId={kisi?.profil?.id} profil={kisi?.profil} kendi={Boolean(sen)}>
           <CerceveliAvatar profile={kisi?.profil} userId={kisi?.profil?.id} cerceve={kisi?.cerceve} boyut={76} hareketli={rol === "kazanan"}
-                           aura={kisi?.aura !== undefined ? kisi.aura : kisi?.cerceve !== undefined ? null : undefined} />
+                           aura={kisi?.aura !== undefined ? kisi.aura : kisi?.cerceve !== undefined ? null : undefined}
+                           {...(kisi?.premiumCerceve !== undefined ? { premiumCerceve: kisi.premiumCerceve } : {})}
+                           {...(kisi?.premiumAura !== undefined ? { premiumAura: kisi.premiumAura } : {})} />
         </AvatarDugmesi>
+        {/* 560: telefonda ad hapı dar (ad "D…"ya iniyordu) → amblem avatarın alt köşesinde rozet; genişte ad yanında */}
+        <OyuncuLigAmblemi lig={kisi?.lig} userId={kisi?.profil?.id} boyut={22} className="msk-amblem-rozet" />
       </div>
       <div className="msk-isim msk-a">
         <span className="msk-isim-metin">
@@ -92,6 +97,8 @@ function Taraf({ kisi, rol, yan, canToplam, sen, zafer }) {
             {kisi?.profil?.gorunen_ad ?? ""}
           </IsimEfekti>
         </span>
+        {/* 560: lig amblemi isim yanında (lig elde yoksa oyuncu kartından — avatarla aynı önbellek) */}
+        <OyuncuLigAmblemi lig={kisi?.lig} userId={kisi?.profil?.id} boyut={18} className="msk-amblem" />
         {sen && <span className="msk-sen">{tt("Sen")}</span>}
       </div>
       {canToplam ? (
