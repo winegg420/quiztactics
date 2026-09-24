@@ -12,7 +12,14 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
-import { DILLER, aktifDil, dilCoz, dilKaydet, tYap } from "./dil.js";
+import { DILLER, aktifDil, dilCoz, dilKaydet, girisDiliniAl, tYap } from "./dil.js";
+
+// Profil bu kadar yeniyse "yeni hesap" sayılır: giriş ekranındaki dil profile yazılır. Eski hesabın
+// kayıtlı tercihi hiçbir zaman ezilmez (D-203).
+const YENI_HESAP_MS = 30 * 60 * 1000;
+// useDil birçok bileşende aynı anda çalışır: giriş dili yazılırken hiçbir örnek profilin eski dilini
+// tarayıcıya yazıp sayfayı yenilemesin.
+let girisDiliYaziliyor = false;
 
 /**
  * @returns {{dil:string, ceviri:(a:string,d?:object)=>string, dilDegistir:(d:string)=>void}}
@@ -35,6 +42,27 @@ export function useDil() {
 
   // Profil sonradan gelirse (giriş yapılmışsa) tercih onun.
   useEffect(() => {
+    // D-203: yeni hesapta giriş ekranındaki dil profile bir kez yazılır (profil 'tr' doğup ezmesin).
+    if (profile?.id && user?.id) {
+      const giris = girisDiliniAl();
+      const olustu = Date.parse(profile.created_at ?? "");
+      if (giris && giris !== profile.dil && Number.isFinite(olustu) && Date.now() - olustu < YENI_HESAP_MS) {
+        girisDiliYaziliyor = true;
+        (async () => {
+          try {
+            const { error } = await supabase.from("profiles").update({ dil: giris }).eq("id", user.id);
+            if (error) throw error;
+            await refreshProfile?.(user.id);   // profil 'giris' diliyle döner; aşağıdaki kural yenilemez
+          } catch (e) {
+            console.error("[Dil] giriş dili profile yazılamadı:", e);
+          } finally {
+            girisDiliYaziliyor = false;
+          }
+        })();
+        return;
+      }
+    }
+    if (girisDiliYaziliyor) return;
     const yeni = dilCoz(profile);
     setDil((eski) => (eski === yeni ? eski : yeni));
     // Kancasız metinler (tt) sayfanın dilindedir; profil başka dil diyorsa

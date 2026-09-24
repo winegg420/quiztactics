@@ -6,7 +6,7 @@ import "../../oyun/tasarim/ekranlar/g-ortak.css";
 import "../../oyun/tasarim/ekranlar/g-giris.css";
 import { girisHedefiniKaydet } from "../lib/girisHedefi.js";
 import { useDil } from "../../oyun/lib/dilKanca.js";
-import { DILLER } from "../../oyun/lib/dil.js";
+import { DILLER, girisDiliniKaydet } from "../../oyun/lib/dil.js";
 import { turnuvaSaatleri } from "../../oyun/lib/zaman.js";
 
 import { ACIK_SAGLAYICILAR, acikSaglayicilariOku } from "../lib/saglayicilar.js";
@@ -95,6 +95,7 @@ export default function Login() {
     // Supabase izin listesi redirectTo'yu reddederse Site URL'ine düşer;
     // hedefi burada saklarız ki derin bağlantı kaybolmasın.
     girisHedefiniKaydet();
+    girisDiliniKaydet(dil);   // D-203: yeni profil bu dille başlasın (yönlendirme sonrası useDil yazar)
     try {
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
@@ -131,7 +132,9 @@ export default function Login() {
     setHata(null);
     setBekleyen("misafir");
     try {
-      const { error } = await supabase.auth.signInAnonymously();
+      girisDiliniKaydet(dil);
+      // D-203: yeni profil (handle_new_user) giriş ekranındaki dille doğar
+      const { error } = await supabase.auth.signInAnonymously({ options: { data: { dil } } });
       if (error) throw error;
     } catch (e) {
       setHataYeri("misafir");
@@ -156,10 +159,12 @@ export default function Login() {
     setEpostaHata(null);
     setBekleyen("eposta");
     girisHedefiniKaydet();
+    girisDiliniKaydet(dil);
     try {
       const { error } = await supabase.auth.signInWithOtp({
         email,
-        options: { emailRedirectTo: window.location.origin },
+        // D-203: yeni hesapsa profil bu dille doğar (mevcut hesapta veri yok sayılır)
+        options: { emailRedirectTo: window.location.origin, data: { dil } },
       });
       if (error) throw error;
       setGonderildi(true);

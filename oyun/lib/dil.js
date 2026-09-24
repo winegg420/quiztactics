@@ -66,6 +66,25 @@ export function dilKaydet(dil) {
   try { localStorage.setItem(ANAHTAR, dil); } catch { /* depolama kapalı */ }
 }
 
+// D-203: giriş düğmesine basıldığı andaki dil. Yeni profil 'tr' doğup İngilizce oyuncuyu Türkçeye
+// düşürüyordu; Google girişi yönlendirmeyle gittiği için dil kayıt verisine konamıyor — burada saklanır,
+// profil ilk geldiğinde (yeni hesapsa) bir kez profile yazılır (useDil).
+const GIRIS_DILI = "bildim_giris_dili";
+export function girisDiliniKaydet(dil) {
+  if (!DILLER.includes(dil)) return;
+  try { localStorage.setItem(GIRIS_DILI, dil); } catch { /* depolama kapalı */ }
+}
+/** Saklanan giriş dilini okur ve siler (bir kez kullanılır). */
+export function girisDiliniAl() {
+  try {
+    const d = localStorage.getItem(GIRIS_DILI);
+    localStorage.removeItem(GIRIS_DILI);
+    return DILLER.includes(d) ? d : null;
+  } catch {
+    return null;
+  }
+}
+
 // ------------------------------------------------------------ sayfa dili
 // Aşama 2: kancasız metinler (`tt`) sayfa yüklenirken çözülen dili kullanır.
 // Profil tercihi farklı çıkarsa `useDil` bunu tarayıcıya yazıp sayfayı bir
