@@ -360,3 +360,20 @@
   .m2-kat, .m2-kat-sayac { transition: none; }
 }
 @keyframes m2-gecis-sade { 0%, 100% { opacity: 0; } 20%, 75% { opacity: 1; } }
+
+/* 470 · zayıf nokta: iki tarafın zayıfı (kategori fazı), saldıranda ⚠ kart, savunanda uyarı bandı */
+.m2-zayif-bant { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--qt-b-2); }
+.m2-zayif-hucre {
+  display: grid; gap: 2px; min-width: 0; padding: var(--qt-b-2) var(--qt-b-3); border-radius: var(--qt-r-m);
+  background: var(--qt-uyari-acik); color: var(--qt-uyari-koyu); box-shadow: 0 var(--qt-dudak) 0 var(--qt-uyari-dudak);
+}
+.m2-zayif-hucre small { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); }
+.m2-zayif-hucre b { display: flex; align-items: center; gap: 4px; min-width: 0; overflow-wrap: anywhere; font-size: var(--qt-y-s); font-weight: var(--qt-a-siyah); color: var(--qt-metin); }
+.m2-kat--zayif:not(.m2-kat--kapali) { background: var(--qt-uyari-acik); box-shadow: 0 var(--qt-dudak) 0 var(--qt-uyari-dudak), inset 0 0 0 2px var(--qt-uyari); }
+.m2-kat-uyari { grid-column: 2; display: flex; align-items: center; gap: 3px; font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); color: var(--qt-uyari-koyu); line-height: 1.2; }
+.m2-kat--kapali .m2-kat-uyari { color: var(--qt-metin-soluk); }
+.m2-zayif-uyari { background: var(--qt-uyari-acik); color: var(--qt-uyari-koyu); text-align: left; }
+.m2-zayif-uyari b { color: var(--qt-metin); }
+.m2-zayif-uyari--savunan { background: var(--qt-uyari); color: var(--qt-uyari-yazi); }
+.m2-zayif-uyari--savunan b { color: var(--qt-uyari-yazi); }
+.m2-zayif-etiket { flex: none; display: inline-flex; align-items: center; gap: 3px; padding: 1px 6px; border-radius: 999px; font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); background: var(--qt-uyari-acik); color: var(--qt-uyari-koyu); }

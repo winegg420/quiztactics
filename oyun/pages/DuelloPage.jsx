@@ -107,6 +107,9 @@ function Kalpler({ can, max = DUELLO_CAN, sonCan }) {
 const KURAL_V2 = [
   { ikon: "kalp", metin: "3 can, en çok 10 tur" },
   { ikon: "terazi", metin: "Biri doğru öteki yanlış/yanıtsız → yanlış olan 1 can kaybeder; ikisi aynıysa nötr" },
+  // 470: zayıf nokta + kategori limiti (Ida, 24 Eyl 2026) — kısa kural kartı
+  { ikon: "uyari", metin: "Zayıf nokta: rakibin en zayıf kategorisini seçersen ve rakip bilirse canı SEN kaybedersin" },
+  { ikon: "kilit", metin: "Her kategori maçta en çok 3 kez, üst üste seçilemez" },
   { ikon: "saat", metin: "Beraberlik yok: can eşitse uzatma, kategori rastgele" },
   { ikon: "yildiz", metin: "Maçta 4 skill: aynı skill en çok 2 kez, soru başına 1" },
 ];
@@ -209,6 +212,7 @@ const ARAMA_IPUCLARI_V2 = [
   "Rakibin ne cevapladığını göremezsin, yalnız cevapladığını görürsün.",
   "Beraberlik yok: can eşitse uzatma.",
   "Kategori seçerken süre dolarsa rastgele gelir.",
+  "Rakibin zayıf noktasına saldırmak risklidir: bilirse canı sen kaybedersin.",
 ];
 const IPUCU_SN = 3;
 // Paket 41 F: düello aramasının üst sınırı (Klasik'teki gibi sonsuz bekleme yok)

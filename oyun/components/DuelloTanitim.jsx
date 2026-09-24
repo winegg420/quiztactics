@@ -11,7 +11,8 @@ import { tt } from "../lib/dil.js";
  */
 const DEPO = "bildim_duello_tanitim_v1";
 // Düello 1.0 (surum = 2) kuralları farklı: eskiyi görmüş oyuncuya yeni tanıtım bir kez daha açılır.
-const DEPO_V2 = "bildim_duello_tanitim_v2";
+// 470: zayıf nokta + kategori limiti geldi → yeni anahtar, tanıtım herkese bir kez daha açılır.
+const DEPO_V2 = "bildim_duello_tanitim_v3";
 const depo = (surum) => (surum === 2 ? DEPO_V2 : DEPO);
 
 export function duelloTanitimGoruldu(surum = 1) {
@@ -32,8 +33,11 @@ const ADIMLAR = [
 
 // Düello 1.0 (surum = 2) — kurallar sunucuda (migration 268); sayılar oyun_ayarlari varsayılanları.
 const ADIMLAR_V2 = [
-  { ikon: "duello", baslik: "Aynı soru, aynı anda", metin: "Kategoriyi sırayla biriniz seçer (8 sn; dolarsa rastgele). Soru ikinize aynı anda açılır, 15 sn'niz var. Rakibin cevapladığını görürsün ama ne cevapladığını göremezsin." },
+  { ikon: "duello", baslik: "Aynı soru, aynı anda", metin: "Kategoriyi sırayla biriniz seçer (15 sn; dolarsa rastgele). Soru ikinize aynı anda açılır, 15 sn'niz var. Rakibin cevapladığını görürsün ama ne cevapladığını göremezsin." },
   { ikon: "kalp", baslik: "Can tablosu", metin: "Yalnız biri doğruysa öteki 1 can kaybeder. İkiniz de doğru ya da ikiniz de yanlışsanız nötr: can değişmez. Süre dolarsa 'Yanıtsız' sayılır. 3 can, en çok 10 tur; tur iki tarafça tamamlanır." },
+  // 470 (Ida, 24 Eyl 2026)
+  { ikon: "uyari", baslik: "Zayıf nokta", metin: "Maç başında ikinizin de en zayıf kategorisi sabitlenir ve ikinize de görünür (en az 5 cevap verdiğin kategoriler arasından doğru oranı en düşük olan; henüz yoksa zayıf noktan yok). Rakibin zayıf noktasını seçersen ve rakip bilirse canı SEN kaybedersin — sen de bilsen bile. İkiniz de yanlışsanız kimse kaybetmez; yalnız sen bilirsen rakip kaybeder. Uzatmada bu kural yok." },
+  { ikon: "kilit", baslik: "Kategori sınırı", metin: "Her kategori maçta en çok 3 kez seçilebilir (zayıf nokta dahil) ve bir önceki seçilen kategori hemen tekrar seçilemez. Seçilemeyenler soluk görünür. Süre dolunca gelen rastgele kategori rakibin zayıf noktası olmaz." },
   { ikon: "terazi", baslik: "Uzatma", metin: "Beraberlik yok. Can eşitse uzatma başlar: kategori rastgele gelir, biri doğru öteki yanlış yapana kadar sürer." },
   { ikon: "yildiz", baslik: "Skill", metin: "Maçta toplam 4 skill; aynı skill en çok 2 kez, bir soruda en çok 1. Soru Değiştir yalnız ikiniz de cevaplamamışken ve rakip o soruda skill kullanmamışken çalışır. Skill'in yoksa maçın içinden satın alabilirsin." },
 ];

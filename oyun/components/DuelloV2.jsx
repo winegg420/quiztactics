@@ -122,6 +122,26 @@ function kategoriOrani(profil, k) {
 const oranMetni = (v, c) => (v === null ? "—" : c("%{n}", { n: v }));
 
 /**
+ * 470 · Zayıf nokta: maç başında sunucuda sabitlenen en zayıf kategori (profil.zayif; ≥ 5 cevaplı
+ * kategoriler arasından, yoksa null = kural o oyuncuda işlemez). Kural sunucuda (duello2_cozumle):
+ * saldıran rakibin zayıfını seçer ve rakip bilirse saldıran 1 can kaybeder. Uzatmada işlemez.
+ */
+export const zayifNokta = (o) => (typeof o?.profil?.zayif === "string" ? o.profil.zayif : null);
+
+/** Kategori ekranında iki tarafın zayıf noktası (iki oyuncuya da aynı bilgi). */
+function V2ZayifBant({ ben, rakip, c }) {
+  const bz = zayifNokta(ben);
+  const rz = zayifNokta(rakip);
+  const ad = (k) => (k ? <><KategoriIkon anahtar={k} boyut={14} /> {c(kategoriAdi(k))}</> : c("henüz yok"));
+  return (
+    <div className="m2-zayif-bant" role="group" aria-label={c("Zayıf noktalar")}>
+      <span className="m2-zayif-hucre"><small>{c("Rakibin zayıf noktası")}</small><b>{ad(rz)}</b></span>
+      <span className="m2-zayif-hucre"><small>{c("Senin zayıf noktan")}</small><b>{ad(bz)}</b></span>
+    </div>
+  );
+}
+
+/**
  * sayac: ekranın verdiği büyük geri sayım (QtSayac). Son 3 sn vurgusu ve ses ekranda.
  * Saldıran: her kartta rakibin ve senin oranın + kalan hak.
  * Savunan: "Rakip düşünüyor…", kendi en güçlü 3 / en zayıf 3 kategorin (kullanılanlar işaretli).
@@ -131,6 +151,7 @@ export function V2Kategori({ d, benSaldiran, ben, rakip, calisan, sayac, sonSani
   const sayim = d.kategori_sayim ?? {};
   const max = Number(d.kategori_max ?? 2);
   const kategoriler = d.kategoriler ?? [];
+  const rakipZayif = zayifNokta(rakip);
 
   const baslik = (
     <div className={sinif("m2-kat-ust", sonSaniye && "m2-kat-ust--son")}>
@@ -152,12 +173,14 @@ export function V2Kategori({ d, benSaldiran, ben, rakip, calisan, sayac, sonSani
       .sort((a, b) => b.v - a.v);
     const guclu = bilinen.slice(0, 3);
     const zayif = bilinen.slice(3).slice(-3).reverse();
+    const benimZayif = zayifNokta(ben);
     const satir = (x) => {
       const adet = Number(sayim[x.k] ?? 0);
       return (
-        <li key={x.k} className={sinif("m2-savun-kat", adet >= max && "m2-savun-kat--doldu")}>
+        <li key={x.k} className={sinif("m2-savun-kat", adet >= max && "m2-savun-kat--doldu", x.k === benimZayif && "m2-savun-kat--zayif")}>
           <KategoriIkon anahtar={x.k} boyut={18} plaka />
           <span className="m2-savun-ad">{c(kategoriAdi(x.k))}</span>
+          {x.k === benimZayif && <span className="m2-zayif-etiket"><QtIkon ad="uyari" boyut={12} /> {c("zayıf noktan")}</span>}
           {adet > 0 && (
             <span className="m2-savun-kullanildi">{adet >= max ? c("doldu") : c("{n}/{m} geldi", { n: adet, m: max })}</span>
           )}
@@ -168,6 +191,10 @@ export function V2Kategori({ d, benSaldiran, ben, rakip, calisan, sayac, sonSani
     return (
       <div className="m2-kat-faz">
         {baslik}
+        <V2ZayifBant ben={ben} rakip={rakip} c={c} />
+        {benimZayif && (
+          <p className="m2-not">{c("Rakip zayıf noktanı seçer ve sen bilirsen, rakip 1 can kaybeder.")}</p>
+        )}
         {bilinen.length ? (
           <div className="m2-savun">
             <section className="m2-savun-blok m2-savun-blok--guclu" aria-label={c("En güçlü kategorilerin")}>
@@ -200,6 +227,7 @@ export function V2Kategori({ d, benSaldiran, ben, rakip, calisan, sayac, sonSani
   return (
     <div className="m2-kat-faz">
       {baslik}
+      <V2ZayifBant ben={ben} rakip={rakip} c={c} />
       <p className="m2-not">{c("Her kategori maçta en çok {n} kez gelir; aynı kategori üst üste gelmez.", { n: max })}</p>
       <div className="m2-kat-izgara">
         {kategoriler.map((k) => {
@@ -210,12 +238,13 @@ export function V2Kategori({ d, benSaldiran, ben, rakip, calisan, sayac, sonSani
           const rOran = kategoriOrani(rakip.profil, k);
           const bOran = kategoriOrani(ben?.profil, k);
           const neden = secilebilir ? null : doldu ? c("doldu") : c("üst üste olmaz");
+          const zayif = k === rakipZayif;   // 470: rakip burada bilirse canı saldıran kaybeder
           return (
             <button key={k} type="button"
-                    className={sinif("m2-kat", !secilebilir && "m2-kat--kapali")}
+                    className={sinif("m2-kat", !secilebilir && "m2-kat--kapali", zayif && "m2-kat--zayif")}
                     disabled={!secilebilir || !!calisan}
                     aria-busy={calisan === "kategori" || undefined}
-                    aria-label={`${c(kategoriAdi(k))} · ${c("Rakip")} ${oranMetni(rOran, c)} · ${c("Sen")} ${oranMetni(bOran, c)} · ${c("Kalan hak: {n}", { n: kalan })}${neden ? ` · ${neden}` : ""}`}
+                    aria-label={`${c(kategoriAdi(k))} · ${c("Rakip")} ${oranMetni(rOran, c)} · ${c("Sen")} ${oranMetni(bOran, c)} · ${c("Kalan hak: {n}", { n: kalan })}${zayif ? ` · ${c("Rakibin zayıf noktası")}: ${c("Bilirse sen can kaybedersin")}` : ""}${neden ? ` · ${neden}` : ""}`}
                     onClick={() => onSec(k)}>
               <KategoriIkon anahtar={k} boyut={22} plaka />
               <span className="m2-kat-ad">{c(kategoriAdi(k))}</span>
@@ -227,6 +256,9 @@ export function V2Kategori({ d, benSaldiran, ben, rakip, calisan, sayac, sonSani
                   </>
                 )}
               </span>
+              {zayif && (
+                <span className="m2-kat-uyari"><QtIkon ad="uyari" boyut={12} /> {c("Bilirse sen can kaybedersin")}</span>
+              )}
               <span className="m2-kat-sayim" title={c("Kalan hak: {n}", { n: kalan })}>
                 <b className="qt-sayi">{kalan}</b>
                 {Array.from({ length: max }, (_, i) => <i key={i} className={i < kalan ? "dolu" : ""} />)}
@@ -255,6 +287,12 @@ export function V2Cevap({ d, rakip, secenekler, secim, ikinciSansElendi, calisan
   // 23 Eyl 2026 oyuncu testinde Ek Süre sonrası şıklar bu yüzden kapalı kalıyordu.
   const tiklanabilir = !kilitli && !sureBitti && secim === null && calisan !== "cevap";
   const katAdi = d.kategori ? c(kategoriAdi(d.kategori)) : "";
+  // 470: zayıf nokta saldırısı (uzatmada kategori rastgele → kural yok).
+  const benO = (d.oyuncular ?? []).find((o) => o.id === d.ben);
+  const zayifSaldiri = !d.uzatma && d.kategori
+    ? (d.savunan === d.ben && d.kategori === zayifNokta(benO) ? "savunan"
+      : d.saldiran === d.ben && d.kategori === zayifNokta(rakip) ? "saldiran" : null)
+    : null;
 
   const durum = (i) => {
     if (kapali.includes(i) || elenenler.has(i)) return kiriliyor.includes(i) ? "kilitli" : "elendi";
@@ -265,6 +303,16 @@ export function V2Cevap({ d, rakip, secenekler, secim, ikinciSansElendi, calisan
   return (
     <div className="m2-cevap-faz">
       {d.uzatma && <V2UzatmaBandi kategori={d.kategori} c={c} />}
+      {zayifSaldiri && (
+        <p className={sinif("m2-bant m2-zayif-uyari", zayifSaldiri === "savunan" && "m2-zayif-uyari--savunan qt-h-pop-gir")} role="status">
+          <QtIkon ad="uyari" boyut={18} />
+          <span>
+            {zayifSaldiri === "savunan"
+              ? <><b>{c("Rakip zayıf noktana saldırdı!")}</b> {c("Bilirsen rakip 1 can kaybeder.")}</>
+              : <><b>{c("Rakibin zayıf noktası")}</b> · {c("Bilirse sen can kaybedersin")}</>}
+          </span>
+        </p>
+      )}
       <div className="m2-durumlar" aria-live="polite">
         <span className={sinif("m2-durum", kilitli && "m2-durum--tamam")}>
           <b>{c("Sen")}</b>
@@ -318,6 +366,14 @@ export function v2SonucMetni(h, benId, c) {
   const r = durumu(rakipId ? h.cevaplar[rakipId] : null);
   let metin;
   let ton = "notr";
+  // 470: zayıf nokta — savunan bildiyse saldıran kaybeder, ikisi doğru olsa da (tek fark bu durum).
+  if (h?.zayif_saldiri && b === "dogru" && r === "dogru") {
+    const benKaybettim = h.can_kaybeden === benId;
+    metin = benKaybettim
+      ? c("İkiniz de doğru ama rakip zayıf noktasında bildi → sen 1 can kaybettin")
+      : c("İkiniz de doğru, zayıf noktanda bildin → rakip 1 can kaybetti");
+    return { metin, ton: benKaybettim ? "yanlis" : "dogru", b, r };
+  }
   if (b === "dogru" && r !== "dogru") { metin = c("Sen doğru, rakip {r} → rakip 1 can kaybetti", { r: c(DURUM_KUCUK[r]) }); ton = "dogru"; }
   else if (b !== "dogru" && r === "dogru") { metin = c("Sen {b}, rakip doğru → sen 1 can kaybettin", { b: c(DURUM_KUCUK[b]) }); ton = "yanlis"; }
   else if (b === "dogru") metin = c("İkiniz de doğru → nötr, can değişmedi");
@@ -343,6 +399,9 @@ export function V2Sonuc({ d, rakip, secenekler, c }) {
     <div className="m2-sonuc-faz">
       {h.uzatma && <V2UzatmaBandi kategori={h.kategori} c={c} />}
       <QtSonucBandi ton={ton} metin={metin} anahtar={`${h.tur}-${h.soru_id}`} />
+      {h.zayif_saldiri && (
+        <p className="m2-not"><QtIkon ad="uyari" boyut={12} /> {h.savunan === d.ben ? c("Zayıf noktana saldırıldı") : c("Rakibin zayıf noktasına saldırdın")}</p>
+      )}
       <div className="m2-tablo" role="group" aria-label={c("Can tablosu")}>
         {hucre(c("Sen"), b, h.can_kaybeden === d.ben)}
         {hucre(rakip.gorunen_ad, r, Boolean(h.can_kaybeden && h.can_kaybeden !== d.ben))}
