@@ -10,8 +10,18 @@
 //   gelen, bilinen 12 tepkiyi çizer; fazlasını yok sayar. "Rakip tepkilerini gizle" (cihaz) açıksa
 //   rakibinki çizilmez. Balon ~2 sn gönderenin avatarının yanında (kendinde de kendi avatarında).
 // iOS: fixed yok; balon avatar yuvasında absolute, hareket yalnız transform/opacity.
+//
+// ÖZEL KANAL (551): tepki_durumu `kanal` alanı dönerse (ör. "tepki-mac-<id>") tepki o ÖZEL Realtime
+//   kanalında gider/gelir — sunucu (realtime.messages RLS) yalnız maçın iki oyuncusunu katar ve
+//   gönderttirir; sayfanın herkese açık maç kanalındaki "tepki" olayı o zaman YOK SAYILIR (sahte
+//   gönderim çizilmez). Alan yoksa (migration uygulanmamış) eski davranış: sayfanın maç kanalı.
+//   Oyun kanalına dokunulmaz — özel kanal bağlanamazsa yalnız tepki susar, maç etkilenmez.
+// NOT (B3, Ida): tepki şimdilik yalnız Antrenman'da. Klasik/Düello'ya açılınca veritabanına yazan
+//   eski 6 emoji (lib/tepkiler.js › TEPKILER → match_messages; bot_oyna'daki eski tepki kolu)
+//   kaldırılacak — o güne dek dokunulmaz.
 // ============================================================
 import { useCallback, useEffect, useRef, useState } from "react";
+import { supabase } from "../../src/lib/supabase.js";
 import { TEPKI_TANIMLARI, tepkiBilinen, tepkiDurumu, tepkiGorseli, useTepkiGizli } from "../lib/kozmetik.js";
 import { tt } from "../lib/dil.js";
 import "../tasarim/ekranlar/kozmetik.css";
@@ -41,6 +51,7 @@ export function useMacTepki({ macTur, macId, benId, rakipId, kanal, etkin = true
   gizliRef.current = gizli;
   const durumRef = useRef(durum);
   durumRef.current = durum;
+  const ozelKanalRef = useRef(null);                    // 551: özel tepki kanalı (varsa)
 
   useEffect(() => {
     if (!etkin || !macId || !benId) return undefined;
@@ -63,8 +74,8 @@ export function useMacTepki({ macTur, macId, benId, rakipId, kanal, etkin = true
     }, balonMs);
   }, [balonMs]);
 
-  /** Kanal "tepki" yayını geldi. */
-  const al = useCallback((yuk) => {
+  /** Kanal "tepki" yayını geldi (özel kanaldan ya da — özel kanal yoksa — sayfanın maç kanalından). */
+  const alIc = useCallback((yuk) => {
     const d = durumRef.current;
     if (!d?.acik || !yuk) return;
     const kim = String(yuk.u ?? "");
@@ -80,13 +91,53 @@ export function useMacTepki({ macTur, macId, benId, rakipId, kanal, etkin = true
     balonGoster(kim, k);
   }, [balonGoster]);
 
+  /** Sayfanın herkese açık maç kanalı: özel kanal varken buradan gelen tepki yok sayılır. */
+  const al = useCallback((yuk) => {
+    if (durumRef.current?.kanal) return;
+    alIc(yuk);
+  }, [alIc]);
+  const alIcRef = useRef(alIc);
+  alIcRef.current = alIc;
+
+  // 551: özel tepki kanalı — yalnız tepki açıkken ve sunucu kanal adını verdiyse.
+  const ozelKanalAdi = etkin && durum?.acik && typeof durum?.kanal === "string" ? durum.kanal : null;
+  useEffect(() => {
+    if (!ozelKanalAdi || !supabase) return undefined;
+    let ch = null;
+    let kapandi = false;
+    (async () => {
+      try {
+        await supabase.realtime.setAuth?.();   // özel kanal oturum anahtarıyla yetkilenir
+      } catch (e) {
+        console.warn("[Bildim] tepki kanalı yetkisi alınamadı:", e?.message ?? e);
+      }
+      if (kapandi) return;
+      try {
+        ch = supabase
+          .channel(ozelKanalAdi, { config: { private: true } })
+          .on("broadcast", { event: "tepki" }, (m) => { try { alIcRef.current?.(m?.payload); } catch { /* tepki maçı bozmaz */ } })
+          .subscribe((d) => {
+            if (d === "CHANNEL_ERROR" || d === "TIMED_OUT") console.warn("[Bildim] tepki kanalı:", d);
+          });
+        ozelKanalRef.current = ch;
+      } catch (e) {
+        console.warn("[Bildim] tepki kanalı kurulamadı:", e?.message ?? e);
+      }
+    })();
+    return () => {
+      kapandi = true;
+      if (ozelKanalRef.current === ch) ozelKanalRef.current = null;
+      if (ch) { try { supabase.removeChannel(ch); } catch { /* zaten kapalı */ } }
+    };
+  }, [ozelKanalAdi]);
+
   /** Tepki gönder (yalnız sahip olunanlar; sınırlar istemcide). Dönüş: gönderildi mi. */
   const gonder = useCallback((k) => {
     const d = durumRef.current;
     if (!d?.acik || !tepkiBilinen(k) || !(d.tepkiler ?? []).includes(k)) return false;
     const simdi = Date.now();
     if (simdi - sonGonderim.current < aralikMs || gonderilen >= macMax) return false;
-    const ch = kanalRef.current?.();
+    const ch = d.kanal ? ozelKanalRef.current : kanalRef.current?.();
     if (!ch) return false;
     sonGonderim.current = simdi;
     setGonderilen((n) => n + 1);

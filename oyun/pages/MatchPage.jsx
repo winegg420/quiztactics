@@ -1203,7 +1203,9 @@ export default function MatchPage() {
           {/* Sesli sohbet: yalnız arkadaş olan iki oyuncu aynı anda maçtayken çizilir. */}
           <div className="bd-ses-yuva" ref={setSesYuva} />
 
-          {/* 542: yeni tepki (emote) — açık modda eski emoji tepkilerinin yerine */}
+          {/* 542: yeni tepki (emote) — açık modda eski emoji tepkilerinin yerine.
+              NOT (B3, Ida): yeni tepki yalnız Antrenman'da; Klasik/Düello'ya açılınca aşağıdaki DB'ye yazan
+              eski 6 emoji (TEPKILER → match_messages) kaldırılacak. O güne dek dokunulmaz. */}
           <TepkiCubugu tepki={tepki} className="m1-tepki-yeni" />
           {/* SADELEŞTİRME (12 Eylül 2026): ekranın tek işi soruyu cevaplamak; tepkiler
               tek düğmenin arkasında. Panelde aynı tepkiler ve aynı kalıplar var. */}
