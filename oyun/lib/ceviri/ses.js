@@ -12,6 +12,7 @@ const EN = {
   "Sayaç, doğru/yanlış ve maç sonu sesleri": "Timer, correct/wrong and match-end sounds",
   "Sesi kapat": "Mute",
   "Sesi aç": "Unmute",
+  "Ses ayarları": "Sound settings",
 };
 
 /** Bu ekin metni (EN'de karşılığı yoksa genel tt()). */

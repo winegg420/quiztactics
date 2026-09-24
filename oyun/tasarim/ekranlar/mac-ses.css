@@ -1,0 +1,31 @@
+/* ============================================================
+   MAÇ İÇİ SES PENCERESİ (Ajan C, 24 Eyl 2026) — m1-ses
+   Şeridin sağındaki hoparlöre basınca açılır: Müzik · Efektler anahtarları.
+   iOS: pencere `position: absolute` (düğmenin kabına göre); fixed YOK, kapta
+   transform YOK. Maç alanını örtmesin diye küçük; 390 px'te sağa yaslı sığar.
+   ============================================================ */
+.m1-ses { position: relative; display: inline-flex; }
+.m1-ses-panel {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: var(--qt-z-menu);
+  display: grid;
+  gap: 2px;
+  width: min(232px, calc(100vw - 32px));
+  padding: 6px var(--qt-b-3);
+  border-radius: var(--qt-r-l, 16px);
+  background: var(--qt-yuzey);
+  color: var(--qt-metin);
+  text-align: left;
+  box-shadow: 0 4px 0 var(--qt-cizgi), 0 10px 28px rgba(29, 33, 82, 0.22);
+  animation: m1-ses-gel var(--qt-s-kisa, 160ms) var(--qt-egri-cikis, ease-out) both;
+}
+.m1-ses-panel .qt-anahtar { min-height: 48px; }
+@keyframes m1-ses-gel {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .m1-ses-panel { animation: none; }
+}
