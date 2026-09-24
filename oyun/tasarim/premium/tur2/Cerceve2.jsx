@@ -29,22 +29,22 @@ export const PNG_YUVALARI = {
 const RAD = Math.PI / 180;
 export const TUR2 = {
   ejderha: {
-    ad: "Ejderha", eski: "ejderha", efekt: "ejderha", olcek: 0.72, tepe: true, durgunT: 1.4,
+    ad: "Ejderha", eski: "ejderha", efekt: "ejderha", olcek: 0.7, tepe: true, durgunT: 1.4,
     aciklama: "Halkaya sarılıp altından geçen kızıl pullu ejderha: altın karın, sırt dikenleri, açılmış kanat, halkayı kavrayan pençeler. Gözü yanar, ağzından gölgelendiriciyle çizilen gerçek alev püskürür; kıvılcım ve duman saçar.",
     n: ejderhaNoktalari,
   },
   alev: {
-    ad: "Sönmeyen Alev", eski: "alev", efekt: "alev", olcek: 0.8, tepe: true,
+    ad: "Sönmeyen Alev", eski: "alev", efekt: "alev", olcek: 0.7, tepe: true,
     aciklama: "Kor çatlaklı dövme demir halka; çevresinde gerçek zamanlı yanan ateş — yukarı akan alev dilleri, beyaz sıcak çekirdek, tepede tüten duman, yükselen kıvılcımlar ve alevin üstünde titreyen ısı dalgası.",
     n: () => [],
   },
   buz: {
-    ad: "Buz Kristali", eski: "buz", efekt: "buz", olcek: 0.8, tepe: true,
+    ad: "Buz Kristali", eski: "buz", efekt: "buz", olcek: 0.75, tepe: true,
     aciklama: "Buzul camı halkadan büyüyen yüzeyli kristaller, don deseni ve kar taneleri. İçlerinden geçen tayf renkli kırılan ışık, kristal uçlarında yıldız parıltıları, dipte süzülen soğuk buğu.",
     n: buzNoktalari,
   },
   simsek: {
-    ad: "Şimşek", eski: "simsek", efekt: "simsek", olcek: 0.9, tepe: true,
+    ad: "Şimşek", eski: "simsek", efekt: "simsek", olcek: 0.85, tepe: true,
     a: [SIMSEK_ELEKTROT.sayi, SIMSEK_ELEKTROT.ilk * RAD, SIMSEK_ELEKTROT.r, 0],
     aciklama: "Halka değil enerji: elektrotlardan dışarı çakan dallı yıldırımlar, olukta akan plazma, çakma anında çevreyi (avatarı da) aydınlatan mavi ışık; ara sıra bütün çerçeve parlar.",
     n: () => [],

@@ -133,7 +133,7 @@ void main(){
     o = isik(o, vec3(1., .66, .2) * catlak * nabiz * .7 + vec3(1., .35, .04) * (b / 6.) * .5 * nabiz);
   }
   // kıvılcımlar (üst ve yanlardan yükselir, avatarın üstüne düşmez)
-  for (int i = 0; i < 22; i++) {
+  for (int i = 0; i < 14; i++) {
     float yas; float bo;
     vec2 k = kivilcimYer(float(i), t, 1.9, 51., yas, bo);
     float dd = length(p - k);
@@ -182,7 +182,7 @@ void main(){
     o = ust(o, vec3(.16, .12, .12), smoothstep(.45, .8, dm) * smoothstep(g * 1.4, 0., abs(yan)) * .45 * nefes);
   }
   // ağızdan saçılan kıvılcımlar
-  for (int i = 0; i < 14; i++) {
+  for (int i = 0; i < 10; i++) {
     float fi = float(i);
     float per = .7 + h11(fi * 5.1) * .6;
     float c = t / per + h11(fi * 2.3);
@@ -211,7 +211,7 @@ void main(){
     }
   }
   // halkadan yükselen közler
-  for (int i = 0; i < 8; i++) {
+  for (int i = 0; i < 6; i++) {
     float yas; float bo;
     vec2 k = kivilcimYer(float(i) + 30., t * .8, 2.4, 55., yas, bo);
     float dd = length(p - k);
@@ -261,7 +261,7 @@ void main(){
     }
   }
   // düşen buz tozu
-  for (int i = 0; i < 14; i++) {
+  for (int i = 0; i < 10; i++) {
     float fi = float(i);
     float per = 3. + h11(fi * 4.1) * 3.;
     float c = t / per + h11(fi * 2.9);
@@ -401,7 +401,7 @@ void main(){
   }
   // altın tozu: tepede yavaşça yükselen parlak zerreler
   if (u_a.y > .5) {
-    for (int i = 0; i < 12; i++) {
+    for (int i = 0; i < 8; i++) {
       float yas; float bo;
       vec2 k = kivilcimYer(float(i) + 60., t * .45, 1.3, 50., yas, bo);
       float dd = length(p - k);

@@ -7,7 +7,7 @@
  * kopyalanır. Böylece yüzlerce yuva olsa da bağlam bir, program her efekt için bir.
  *
  * Kurallar:
- *  - Yalnız oynayan (ekranda + hareketli + hareket azaltılmamış) yuva her karede çizilir; öteki yuvalar
+ *  - Yalnız oynayan (ekranda + hareketli + hareket azaltılmamış; en büyük 2 tanesi) yuva her karede çizilir; öteki yuvalar
  *    yalnız bir kez (ilk kare / boyut değişimi) çizilir ve durur.
  *  - Sekme gizliyken döngü durur (requestAnimationFrame zaten durur; visibilitychange ile de kesilir).
  *  - En çok ~60 fps (120 Hz ekranda kare atlanır). Kareler yavaşsa çözünürlük kendiliğinden düşer
@@ -19,6 +19,7 @@ import { KOSE, PARCALAR } from "./golgelendiriciler.js";
 const VS = "attribute vec2 a;varying vec2 v;void main(){v=a;gl_Position=vec4(a,0.,1.);}";
 const DOKU_PX = 512;
 const N_SAY = 10;
+const MAKS_OYNAYAN = 2;   // telefonda aynı anda en çok iki hareketli efekt
 
 let tekil;   // undefined: denenmedi · false: WebGL yok · Motor
 
@@ -63,6 +64,8 @@ class Motor {
     this.programlar = new Map();
     this.dokular = new Map();      // anahtar → { doku, hazir, soz }
     this.kalite = 1;
+    this.cizimMs = 0;
+    this.aralik = 15;              // kareler arası en az ms (60 fps); yavaş cihazda 31 (30 fps)
     this.ort = 16.7;               // kare süresi ortalaması (ms)
     this.sayac = 0;
     this.son = 0;
@@ -224,15 +227,23 @@ class Motor {
     if (this.kayip || document.hidden) return;
     const oynayan = [];
     const kirli = [];
+    const aday = [];
     this.yuvalar.forEach((y) => {
       if (!y.css || !y.hedef.isConnected) return;
-      if (y.oynar && !this.azalt) oynayan.push(y); else if (y.kirli) kirli.push(y);
+      if (y.oynar && !this.azalt) aday.push(y); else if (y.kirli) kirli.push(y);
+    });
+    // Aynı anda en çok MAKS_OYNAYAN (en büyük) yuva hareket eder; ötekiler tek durağan karede kalır.
+    aday.sort((a, b) => b.css - a.css);
+    aday.forEach((y, i) => {
+      if (i < MAKS_OYNAYAN) { oynayan.push(y); y.bekler = false; }
+      else if (!y.bekler || y.kirli) { kirli.push(y); y.bekler = true; }
     });
     if (!oynayan.length && !kirli.length) return;
     const dt = simdi - this.son;
-    if (oynayan.length && dt < 14 && !kirli.length) { this.raf = requestAnimationFrame(this.kareB); return; }
+    if (oynayan.length && dt < this.aralik && !kirli.length) { this.raf = requestAnimationFrame(this.kareB); return; }
     if (oynayan.length && this.son && dt < 200) this.uyarla(dt);
     this.son = simdi;
+    const t0 = performance.now();
     try {
       oynayan.forEach((y) => this.ciz(y, simdi / 1000 + y.t0));
       // durağan kare: sabit, efektin dolu göründüğü an (ör. alev nefesinin ortası)
@@ -241,6 +252,8 @@ class Motor {
       console.warn("[Bildim] efekt çizilemedi:", e?.message ?? e);
       return;
     }
+    this.cizimMs = this.cizimMs * 0.9 + (performance.now() - t0) * 0.1;
+    if (typeof window !== "undefined") window.__p2 = { oynayan: oynayan.length, yuva: this.yuvalar.size, kalite: this.kalite, aralik: this.aralik, ms: this.cizimMs };
     if (oynayan.length) this.raf = requestAnimationFrame(this.kareB);
   }
 
@@ -249,13 +262,21 @@ class Motor {
     this.ort = this.ort * 0.92 + dt * 0.08;
     this.sayac += 1;
     if (this.sayac < 30) return;
-    if (this.ort > 24 && this.kalite > 0.5) { this.kalite = Math.max(0.5, this.kalite - 0.1); this.sayac = 0; }
-    else if (this.ort < 17.5 && this.kalite < 1 && this.sayac > 120) { this.kalite = Math.min(1, this.kalite + 0.1); this.sayac = 0; }
+    if (this.ort > 24) {
+      // önce çözünürlük, en altta kare hızı (30 fps) düşer
+      if (this.kalite > 0.6) this.kalite = Math.max(0.5, this.kalite - 0.15);
+      else if (this.aralik < 31) { this.aralik = 31; this.ort = 33; }
+      this.sayac = 0;
+    } else if (this.sayac > 120 && this.ort < (this.aralik > 20 ? 34 : 17.5)) {
+      if (this.aralik > 20 && this.ort < 34) { /* 30 fps'te kararlı: bırak */ }
+      else if (this.kalite < 1) this.kalite = Math.min(1, this.kalite + 0.1);
+      this.sayac = 0;
+    }
   }
 
   ciz(y, t) {
     const gl = this.gl;
-    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    const dpr = Math.min(1.5, window.devicePixelRatio || 1);   // efektler yumuşak: 1,5× yeter, dolgu maliyeti yarıya iner
     const px = Math.max(24, Math.min(720, Math.round(y.css * dpr * (y.ayar.olcek ?? 0.75) * this.kalite)));
     if (y.hedef.width !== px) { y.hedef.width = px; y.hedef.height = px; }
     if (this.kanvas.width < px) {

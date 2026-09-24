@@ -34,15 +34,25 @@ function Elmas({ x, y, s = 1, don = 0, pembe = true }) {
   );
 }
 
-function Parilti({ x, y, r = 5, g = 0, renk = "#fff" }) {
+/** Işıltı yıldızı — ayrı HTML katmanı (yalnız transform/opacity; SVG her karede yeniden boyanmaz). */
+function Parilti({ x, y, r = 5, g = 0 }) {
   const i = r * 0.24;
   return (
-    <g transform={`translate(${x} ${y})`}>
-      <path className="ep-parilti" style={{ animationDelay: `${g}s` }}
-            d={`M0 ${-r}L${i} ${-i}L${r} 0L${i} ${i}L0 ${r}L${-i} ${i}L${-r} 0L${-i} ${-i}Z`} fill={renk} stroke={KONTUR} strokeWidth=".9" strokeLinejoin="round" />
-    </g>
+    <span className="ep-p" style={{ left: `${(x / 120) * 100}%`, top: `${(y / 120) * 100}%`, width: `${((r * 2 + 2) / 120) * 100}%` }}>
+      <svg viewBox={`${-r - 1} ${-r - 1} ${r * 2 + 2} ${r * 2 + 2}`} style={{ animationDelay: `${g}s` }} aria-hidden="true" focusable="false">
+        <path d={`M0 ${-r}L${i} ${-i}L${r} 0L${i} ${i}L0 ${r}L${-i} ${i}L${-r} 0L${-i} ${-i}Z`} fill="#fff" stroke={KONTUR} strokeWidth=".9" strokeLinejoin="round" />
+      </svg>
+    </span>
   );
 }
+// [x, y, r, gecikme] — seviyeye göre
+const PARILTI = {
+  1: [[94, 28, 7, 0], [24, 40, 4.5, 0.9], [88, 86, 3.6, 1.6]],
+  2: [[98, 34, 6, 0], [20, 54, 4, 1.1]],
+  3: [[96, 30, 5.4, 0], [24, 40, 3.8, 1.2]],
+  4: [[104, 20, 6.4, 0], [16, 30, 4.4, 0.8], [80, 20, 3.4, 1.5]],
+  5: [[100, 22, 7, 0], [18, 30, 5, 0.7], [84, 58, 3.6, 1.4], [36, 60, 3.2, 2.1]],
+};
 
 const Golge = ({ cx = 60, cy = 106, rx = 34 }) => <ellipse cx={cx} cy={cy} rx={rx} ry={rx * 0.16} fill={KONTUR} opacity=".16" />;
 
@@ -52,9 +62,6 @@ function Avuc() {
       <circle cx="60" cy="56" r="40" fill={R.acik} opacity=".22" />
       <Golge rx={26} />
       <Elmas x={60} y={62} s={1.9} />
-      <Parilti x={94} y={28} r={7} />
-      <Parilti x={24} y={40} r={4.5} g={0.9} />
-      <Parilti x={88} y={86} r={3.6} g={1.6} />
     </>
   );
 }
@@ -70,8 +77,6 @@ function Kese() {
       <Elmas x={42} y={68} s={0.86} don={-6} pembe={false} />
       <Elmas x={78} y={68} s={0.86} don={8} />
       <Elmas x={60} y={42} s={1.05} don={-2} />
-      <Parilti x={98} y={34} r={6} />
-      <Parilti x={20} y={54} r={4} g={1.1} />
     </>
   );
 }
@@ -132,8 +137,6 @@ function SandikPaket() {
           <Elmas x={60} y={50} s={0.78} don={2} />
         </>
       )} />
-      <Parilti x={96} y={30} r={5.4} />
-      <Parilti x={24} y={40} r={3.8} g={1.2} />
     </>
   );
 }
@@ -158,15 +161,11 @@ function Hazine() {
       <Elmas x={22} y={104} s={0.52} don={-16} />
       <Elmas x={100} y={104} s={0.56} don={22} pembe={false} />
       <Elmas x={60} y={108} s={0.44} don={6} />
-      <Parilti x={104} y={20} r={6.4} />
-      <Parilti x={16} y={30} r={4.4} g={0.8} />
-      <Parilti x={80} y={20} r={3.4} g={1.5} />
     </>
   );
 }
 
 function Define() {
-  const isinlar = Array.from({ length: 12 }, (_, i) => i * 30);
   const yigin = [
     [16, 100, 0.5, -14], [34, 102, 0.56, 8], [52, 104, 0.52, -4], [70, 104, 0.54, 12], [88, 102, 0.56, -10], [104, 100, 0.5, 16],
     [26, 86, 0.54, 10], [44, 88, 0.58, -8], [62, 90, 0.56, 4], [80, 88, 0.58, -12], [96, 86, 0.52, 14],
@@ -174,11 +173,6 @@ function Define() {
   ];
   return (
     <>
-      <g className="ep-isinlar" style={{ transformOrigin: "60px 50px" }}>
-        {isinlar.map((a) => (
-          <path key={a} d="M60 50L55 -8H65Z" transform={`rotate(${a} 60 50)`} fill={ALTIN.ana} opacity=".55" />
-        ))}
-      </g>
       <circle cx="60" cy="50" r="40" fill={ALTIN.acik} opacity=".55" />
       <circle cx="60" cy="48" r="24" fill="#fff" opacity=".55" />
       <Golge rx={54} cy={110} />
@@ -186,23 +180,27 @@ function Define() {
       <path d="M16 102C28 82 44 64 60 58" fill="none" stroke={R.acik} strokeWidth="3" strokeLinecap="round" opacity=".8" />
       {yigin.map(([x, y, s, d], i) => <Elmas key={i} x={x} y={y} s={s} don={d} pembe={i % 3 === 0} />)}
       <Elmas x={60} y={42} s={1.3} />
-      <Parilti x={100} y={22} r={7} />
-      <Parilti x={18} y={30} r={5} g={0.7} />
-      <Parilti x={84} y={58} r={3.6} g={1.4} />
-      <Parilti x={36} y={60} r={3.2} g={2.1} />
     </>
   );
 }
 
 const PAKET = [null, Avuc, Kese, SandikPaket, Hazine, Define];
 
+const ISINLAR = Array.from({ length: 12 }, (_, i) => i * 30);
+
 /** @param {{ seviye: 1|2|3|4|5, hareketli?: boolean, className?: string }} p */
 export default function ElmasPaketGorseli({ seviye = 1, hareketli = true, className = "" }) {
   const s = Math.min(5, Math.max(1, Math.round(seviye)));
   const Paket = PAKET[s];
   return (
-    <svg className={`ep ep--${s}${hareketli ? " ep--oynar" : ""} ${className}`.trim()} viewBox="0 0 120 120" aria-hidden="true" focusable="false">
-      <Paket />
-    </svg>
+    <span className={`ep ep--${s}${hareketli ? " ep--oynar" : ""} ${className}`.trim()} aria-hidden="true">
+      {s === 5 && (
+        <svg className="ep-isinlar" viewBox="0 0 120 120" focusable="false">
+          {ISINLAR.map((a) => <path key={a} d="M60 50L55 -8H65Z" transform={`rotate(${a} 60 50)`} fill={ALTIN.ana} opacity=".55" />)}
+        </svg>
+      )}
+      <svg className="ep-govde" viewBox="0 0 120 120" focusable="false"><Paket /></svg>
+      {PARILTI[s].map(([x, y, r, g], i) => <Parilti key={i} x={x} y={y} r={r} g={g} />)}
+    </span>
   );
 }
