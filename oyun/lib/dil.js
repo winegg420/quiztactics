@@ -2208,6 +2208,7 @@ const SOZLUK = {
     "Nasıl oynamak istersin?": "How do you want to play?",
     "Mesaj at": "Message",
     "{ad} profilini aç": "Open {ad}'s profile",
+    "Maçta": "In a match",
     "Arkadaşlık isteği bekliyor.": "Friend request pending.",
     "Meydan okuma geri çekilemedi.": "Couldn't withdraw the challenge.",
     "Bu arkadaşına gönderdiğin meydan okuma yanıt bekliyor. Önce yanıtını bekle ya da geri çek.":

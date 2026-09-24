@@ -28,6 +28,7 @@ import { turnuvaSaatleriniAyarla, turnuvaListesiniAyarla } from "../lib/zaman.js
 import { tt } from "../lib/dil.js";
 import { useDil } from "../lib/dilKanca.js";
 import { sesSayfaGecis } from "../lib/ses.js";
+import { useCevrimiciDurumum } from "../lib/cevrimici.js";
 
 // Ajan H: üst/alt menüden sekme değişince "sayfa geçişi" sesi (NavLink'in aynısı + ses).
 function SesliBaglanti({ onClick, ...p }) {
@@ -43,6 +44,8 @@ export default function Layout() {
 
   // Bildim rotalarında PWA kimliği Bildim'in kendi manifesti olsun
   useBildimManifest();
+  // Çevrimiçi durumu (590): kendi özel Presence kanalına yalnız oturum varken track eder.
+  useCevrimiciDurumum(user?.id);
   // Tanıtım yalnız ilk girişte, kurulumdan ÖNCE gösterilir
   const [tanitimGosterildi, setTanitimGosterildi] = useState(() => {
     try {

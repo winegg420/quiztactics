@@ -1,0 +1,68 @@
+/* ============================================================
+   ARKADAŞ LİSTESİ — ÇEVRİMİÇİ DURUMU (590)
+   Yalnız FriendsPage'de. Çevrimdışı arkadaşta hiçbir öğe çizilmez.
+   • Avatar köşesinde nokta: yeşil = Çevrimiçi, turuncu = Maçta.
+     Nokta kartın yüzey rengiyle halkalanır → hangi zeminde olursa olsun ayrışır.
+   • Puan satırında etiket: kendi açık zemini + koyu yazısı olan hap (açık/koyu temada
+     aynı okunur; kontrast yeşil 5,1:1 · turuncu 6,2:1).
+   • Çevrimiçi arkadaşın "Oyna" düğmesi yeşile döner (maçtaki arkadaşta vurgu yok).
+   iOS: position:fixed yok, transform yok (nokta yalnız absolute).
+   ============================================================ */
+
+.ar-sayfa {
+  --ar-cevrimici: var(--qt-dogru, #2fd27a);
+  --ar-mac: #ff8a1f;
+}
+
+.ar-avatar-kap {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  line-height: 0;
+}
+
+.ar-durum-nokta {
+  position: absolute;
+  right: -1px;
+  bottom: -1px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2.5px solid var(--qt-yuzey, #fff);
+  box-sizing: border-box;
+  pointer-events: none;
+}
+.ar-durum-nokta--cevrimici { background: var(--ar-cevrimici); }
+.ar-durum-nokta--mac { background: var(--ar-mac); }
+
+/* Puan satırının altında kendi satırı (dar ekranda puanı kaydırmasın) */
+.ar-durum-etiket {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  padding: 0 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: var(--qt-a-kalin, 700);
+  line-height: 1.5;
+  white-space: nowrap;
+}
+.ar-durum-etiket--cevrimici {
+  background: var(--qt-dogru-acik, #dcf8ea);
+  color: var(--qt-dogru-koyu, #137a45);
+}
+.ar-durum-etiket--mac {
+  background: var(--qt-uyari-acik, #fff1d6);
+  color: #8a4200;
+}
+
+/* Çevrimiçi arkadaş: "Oyna" yeşil (mor yerine) — hemen oynanabilir */
+.qt-dugme.ar-oyna.ar-oyna--cevrimici:not(:disabled):not([aria-disabled="true"]) {
+  --_z: var(--qt-dogru, #2fd27a);
+  --_y: var(--qt-dogru-yazi, #0d2a1b);
+  --_d: var(--qt-dogru-dudak, #1c9a55);
+}
+
+/* Koyu tema: `--qt-*` yüzey token'ları koyuda değişmiyor (kart beyaz kalıyor; koyu tema da şu an
+   KOYU_TEMA_KAPALI ile kapalı) → ayrı koyu kural YOK. Hap kendi zeminini taşıdığı, nokta da
+   --qt-yuzey ile halkalandığı için yüzey ileride koyulaşsa da okunur kalır. */

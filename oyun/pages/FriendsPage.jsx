@@ -19,6 +19,9 @@ import {
 } from "../tasarim/index.js";
 // Tasarım A (Faz 2, şerit L): Arkadaşlar · Davet · Mesajlar ortak stilleri
 import "../tasarim/ekranlar/l-sosyal.css";
+// 590: çevrimiçi durumu YALNIZ bu listede (Realtime Presence; oyunun başka yerinde gösterilmez)
+import { useArkadasCevrimici } from "../lib/cevrimici.js";
+import "./arkadasCevrimici.css";
 
 const DOSTLUK_SECIMI = `id, requester, addressee, durum,
   req:profiles!friendships_requester_fkey(id, gorunen_ad, gorunen_avatar, gorunum, puan),
@@ -265,7 +268,16 @@ export default function FriendsPage() {
   const gidenIstekler = dostluklar.filter(
     (f) => f.durum === "bekliyor" && f.requester === user.id
   );
-  const arkadaslar = dostluklar.filter((f) => f.durum === "arkadas");
+  const arkadaslarHam = dostluklar.filter((f) => f.durum === "arkadas");
+  // 590: kabul edilmiş arkadaşların Presence kanalları dinlenir (ilk DINLEME_UST_SINIR kişi).
+  // Çevrimdışı arkadaş haritada yoktur → satırda hiçbir şey çizilmez.
+  const cevrimici = useArkadasCevrimici(arkadaslarHam.map((f) => digerProfil(f)?.id));
+  // Sıra: çevrimiçi → maçta → çevrimdışı; grup içinde sunucudan gelen sıra korunur.
+  const DURUM_SIRA = { cevrimici: 0, mac: 1 };
+  const arkadaslar = arkadaslarHam
+    .map((f, i) => ({ f, i, s: DURUM_SIRA[cevrimici.get(digerProfil(f)?.id)] ?? 2 }))
+    .sort((a, b) => a.s - b.s || a.i - b.i)
+    .map((x) => x.f);
 
 
   const silinecek = silOnay ? dostluklar.find((x) => x.id === silOnay) : null;
@@ -426,6 +438,8 @@ export default function FriendsPage() {
             {arkadaslar.map((f) => {
               const p = digerProfil(f);
               const bekleyen = bekleyenMeydan.get(p?.id);
+              const durum = cevrimici.get(p?.id) ?? null;   // "cevrimici" | "mac" | null
+              const durumEtiket = durum === "mac" ? tt("Maçta") : durum === "cevrimici" ? tt("Çevrimiçi") : null;
               return (
                 <div key={f.id} role="listitem" className="qt-satir-kap ar-kap">
                   <div className="ar-satir">
@@ -435,9 +449,12 @@ export default function FriendsPage() {
                       className="ar-ac"
                       onClick={() => setKartHedef(p)}
                       aria-haspopup="dialog"
-                      aria-label={tt("{ad} profilini aç", { ad: p?.gorunen_ad ?? tt("Arkadaşın") })}
+                      aria-label={tt("{ad} profilini aç", { ad: p?.gorunen_ad ?? tt("Arkadaşın") }) + (durumEtiket ? `, ${durumEtiket}` : "")}
                     >
-                      <AvatarCerceve profile={p} boyut={44} />
+                      <span className="ar-avatar-kap">
+                        <AvatarCerceve profile={p} boyut={44} />
+                        {durum && <span className={`ar-durum-nokta ar-durum-nokta--${durum}`} aria-hidden="true" />}
+                      </span>
                       <span className="ar-bilgi">
                         {/* 560: lig amblemi isim yanında (oyuncu kartından; toplu + önbellekli) */}
                         <span className="qt-ad-amblem">
@@ -447,6 +464,9 @@ export default function FriendsPage() {
                         <span className="ar-detay">
                           <QtIkon ad="yildiz" boyut={14} /> {tt("{n} puan", { n: sayiBicim(p?.puan ?? 0) })}
                         </span>
+                        {durumEtiket && (
+                          <span className={`ar-durum-etiket ar-durum-etiket--${durum}`} aria-hidden="true">{durumEtiket}</span>
+                        )}
                       </span>
                     </button>
                     {/* Paket 30 B: tek "Oyna" düğmesi → mod seçim penceresi.
@@ -455,7 +475,7 @@ export default function FriendsPage() {
                       tur="mor"
                       boyut="k"
                       ikon="oyna"
-                      className="ar-oyna"
+                      className={durum === "cevrimici" && !bekleyen ? "ar-oyna ar-oyna--cevrimici" : "ar-oyna"}
                       onClick={() => setModHedef(p)}
                       devreDisi={Boolean(bekleyen)}
                       title={bekleyen ? BEKLEYEN_NEDEN : undefined}
