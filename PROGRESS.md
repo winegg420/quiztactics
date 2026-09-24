@@ -8077,3 +8077,35 @@ Ida önizlemelerde onaylayınca ayrı adımla açılır.
   yabancıya `tepki_durumu` kapalı, 10/10 ulaştı, en kısa 3.255 ms, gizleme 0, bot 2 tepki, eski tabloya 0. Normal
   hesap: kozmetik kataloğu 3 kalem, aura 0, etkinlik çerçevesi yok, 27 avatar ücretsiz. Not: C'nin tepki test betiği
   eski herkese açık kanalı dinliyordu → özel kanala uyarlandı (scratchpad `tepki-test2.mjs`).
+
+## 2026-09-24 — Premium kozmetik önizlemesi + 2 kontrol (bulut, doğrudan main)
+**Araç:** Claude Code (bulut oturumu)
+**Neden:** Ida önceki çerçeve/auraları (CSS degrade + emoji süs) premium bulmadı; elmasla satılacak ürünler için
+Brawl Stars / Clash Royale seviyesinde katmanlı, ışıklı, sürekli hareketli önizleme istedi.
+
+- **`/premium-onizleme` (yalnız sahip, `sahip_mi`):** `oyun/tasarim/premium/` — 8 çerçeve (Ejderha: sarılan pullu gövde,
+  çırpan kanatlar, parlayan gözler, burundan alev · Sönmeyen Alev · Sonbahar · Buz Kristali · Şimşek · Galaksi · Sakura ·
+  Kraliyet), 6 iç aura (yaprak, kar, köz, yıldızlı gece + kayan yıldız, kuzey ışıkları, su altı; arka/ön katman derinliği;
+  önizlemede avatar SVG'sinin düz zemini ayıklanır, dosyalar değişmez), altın isim plakası (şimdiki `isim_altin` yanında),
+  lig amblemi (5 lig, isim yanında). Deneme alanı + gerçek yerler (profil 88 · lobi 64 · VS 92 · maç şeridi 48 · maç sonu 76 ·
+  lig tablosu 40, gerçek sınıflarla) + katalog; Girsin/Girmesin localStorage, "Seçimlerimi kopyala" düz liste. Oyun,
+  katalog, satış, veri değişmedi; migration yok.
+- **Teknik:** elle katmanlı SVG + yalnız transform/opacity CSS; her hareketli parça kendi küçük HTML katmanında (GPU);
+  kademe ≥72 tam · 49–71 orta · ≤48 halka + küçük vurgu (taşmaz, durağan). Hareket yalnız `hareketli` yerde, ekrandayken
+  (IntersectionObserver) ve azaltılmış hareket yokken. Dış varlık/paket yok (VARLIK_LISANSLARI notu).
+- **Bulunan/düzeltilen:** sonbahar aurasında hareketli parçalara `filter: blur` 13 fps'e düşürüyordu → kaldırıldı (41 fps);
+  `radial-gradient(circle, …)` köşeye ölçeklendiği için köz/kar noktaları küçük kalıyordu → `closest-side`; maç sonu önizlemesi
+  maç sahnesi sınıfıyla beyaz-üstüne-beyaz yazıyordu → gerçek altın zemin; 390 px'te plaka dar sütunda adı sıfıra
+  indiriyordu → hap yerine plaka, en az ~3 harf; şeritte lig adı yerine amblem (skora binmez).
+- **Ölçüm (geliştirme sunucusu, GPU'suz Chromium, 390 px, 3× piksel, 4× CPU, 8 sn):** deneme 42 fps / 50 ms üstü 4 · profil+lobi
+  45 / 5 · VS+şerit 50 / 1 · maç sonu+lig 51 / 0 · çerçeve kataloğu 47 / 1 · aura kataloğu 49 / 0 · sayfa boyunca kaydırma
+  26 fps / 6 sn'de 19 (yeni katmanların ilk çizimi). Ekran görüntüsü 390 + 1440: yatay taşma 0, süs kesilmesi yok, konsol
+  hatası yok; azaltılmış harekette 43/43 parça durur, plaka parıltısı kapalı.
+- **Build temiz;** ana paket `oyun-*.js` 391.407 → 391.681 B (gzip 126.714 → 126.766); önizleme ayrı tembel parça 80 KB
+  (gzip 23,9 KB) + CSS 14,9 KB.
+- **Kontrol 2 — Düello saldırı süresi:** zaten düzeltilmiş. Aynı şikâyet (23 Eyl) migration 325/326/330 ile (dosyalar
+  `ffca638` commit'inde): faz bitişine gösterim payı 1500 ms, sayaç `gosterim_bas`a dek tam süre, sonra gerçek zaman;
+  `sunucu_zamani` clock_timestamp; istemci `e5cb2db` (bitişe yakın 0,5 sn yoklama). Sonraki Düello migration'ları (327,
+  470) payı koruyor; sunucu süre kontrolü değişmedi.
+- **Kontrol 3 — rakip arama sıklığı:** zaten yapılmış — migration 337 `rakip_ara_yoklama_ms = 3000` (±%25), `RakipAra.jsx`
+  ayardan okur (`ffca638`).

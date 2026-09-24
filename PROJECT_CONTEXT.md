@@ -363,7 +363,9 @@ karakter, Hızlı Mod hariç — dondurulmuş) bu sistemle yeniden yazıldı.
   `canvas-confetti` maç sonunda tembel yüklenir — "yeni paket yok" kuralının Ida onaylı istisnası),
   `/ses-secim` (kalıcı ses aracı, yalnız sahip), `/avatar-onizleme` (27 avatar girsin/girmesin),
   `/cerceve-onizleme` (çerçeve tarzı A/B/C), `/kozmetik-onizleme` (kozmetik "satışa girsin" seçimi
-  yalnız sahipte) — seçim sayfaları yalnız sahip yazar.
+  yalnız sahipte), `/premium-onizleme` (8 hareketli premium çerçeve, 6 iç aura, altın isim plakası, lig
+  amblemi — yalnız önizleme, oyunda yok; Girsin/Girmesin tarayıcıda, "Seçimlerimi kopyala" ile iletilir)
+  — seçim sayfaları yalnız sahip yazar.
 - **Skill rozeti (`SkillRozeti`)** her yerde aynı: dükkân, loadout, maç çubuğu, maç içi satın alma,
   maç sonu, envanter, level ödülü. Kabarık parlak rozet, renk token'ı `--qt-skill-<tur>`, sembol
   Phosphor (MIT). Coin paketi görseli `CoinPaketGorseli` (Noto Emoji 3D, Apache 2.0). **Dış

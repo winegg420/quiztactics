@@ -76,6 +76,12 @@ Konfeti Lottie değil, `canvas-confetti` (MIT, npm paketi) ile kodla çizilir; i
 tam ekranda 4× CPU kısıtlamasında kareyi 67 ms'ye çıkardığı için kullanılmadı.
 Oynatıcı: `lottie-web` (MIT, Airbnb) — `build/player/lottie_light`.
 
+## Premium önizleme (`/premium-onizleme`, 24 Eyl 2026)
+
+8 çerçeve, 6 aura, altın isim plakası ve lig amblemi **dış varlık kullanmaz**: hepsi projede elle
+yazılmış SVG + CSS (`oyun/tasarim/premium/`). Yeni npm paketi yok, indirilen görsel/animasyon yok.
+Sahnede görünen taç `public/dukkan/tac.webp` mevcut maç sonu sahnesinindir (yukarıdaki Noto satırı).
+
 ## Notlar
 
 - Apache 2.0: lisans metni ve bu atıf korunur; görseller yalnız küçültüldü (değişiklik bildirimi:
