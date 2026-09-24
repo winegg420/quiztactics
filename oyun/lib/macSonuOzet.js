@@ -9,8 +9,22 @@
 // ============================================================
 import { useEffect, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
+import { macSonuOnYukle } from "../components/MacSonuLottie.jsx";
 
 const BEKLE = [0, 1200, 2500, 5000];
+
+// A.4: sahnenin Lottie oynatıcısı + animasyonları + konfeti, sahne takılmadan önce iner (bkz. MacSonuLottie.jsx
+// başındaki KÖK SEBEP). Maç sayfası açıkken tarayıcı boşta kalınca bir kez (oturum başına), maç bitince hemen.
+let bostaIsitildi = false;
+function bostaIsit() {
+  if (bostaIsitildi || typeof window === "undefined") return;
+  bostaIsitildi = true;
+  const calistir = () => { try { macSonuOnYukle(); } catch { /* ısınmazsa sahne yine kendisi indirir */ } };
+  setTimeout(() => {
+    if (window.requestIdleCallback) window.requestIdleCallback(calistir, { timeout: 4000 });
+    else calistir();
+  }, 5000);
+}
 
 /**
  * @param {string|null} kaynak  "mac:<id>" · "duello:<id>" · "turnuva:<id>" · "grup:<id>"
@@ -20,8 +34,11 @@ export function useMacSonuOzet(kaynak) {
   const [ozet, setOzet] = useState(null);
   const [hata, setHata] = useState(null);
 
+  useEffect(() => { bostaIsit(); }, []);
+
   useEffect(() => {
     if (!kaynak) return undefined;
+    try { macSonuOnYukle(); } catch { /* sahne yine kendisi indirir */ }
     let aktif = true;
     let zamanlayici = null;
     setOzet(null);

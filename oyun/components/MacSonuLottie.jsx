@@ -11,8 +11,18 @@
 // Komutlar (ref): oynat() · sonaGit() · gizle()
 //  - kalici: son kare ekranda kalır (kupa, level); değilse biter bitmez
 //    solar (coin, yıldız patlaması).
-//  - Komut, dosya henüz inmeden gelirse bekletilir; geç kalan geçici
-//    animasyon (GEC_SINIR_MS) oynatılmaz — geç gelen konfeti yanlış anda patlar.
+//  - Komut, dosya henüz inmeden gelirse bekletilir. Kalıcı animasyon (kupa, level)
+//    GEC_KALICI_MS'e kadar geç de olsa BAŞTAN oynar; geçici olan (coin, yıldız)
+//    GEC_SINIR_MS'e kadar oynar, daha geç kalırsa atlanır.
+//
+// KÖK SEBEP (A.4, 24 Eyl 2026 — "maç sonunda hiç canlı hareket yok"): oynatıcı ve
+// dosyalar yalnız sahne takılınca inmeye başlıyordu; kupa 150 ms'de oynat komutu alıp
+// 450 ms'lik sınırı aşınca son karede DONUK açılıyor, coin/yıldız patlaması hiç
+// oynamıyor, konfeti 700 ms'ye yetişmezse hiç atılmıyordu. Önizleme yerelde hızlı
+// indiği için oynuyordu; telefonda (soğuk önbellek, hücresel ağ) ölçüm: 300 ms gecikme
+// + 1,6 Mbit/sn'de oynatıcı 651 ms'de iniyor → kupa donuk. Düzeltme: indirme maç
+// biter bitmez (macSonuOzet.js › useMacSonuOzet) ve maç sayfası açıkken boşta başlar;
+// geç kalan animasyon atlanmak yerine geç oynar; konfeti komutu bekletilir.
 //
 // iOS: kapsayıcıda transform yok; tam ekran konfeti (canvas) `position: fixed`
 // katmanı da transform'suz (bkz. mac-sonu-kutlama.css).
@@ -20,7 +30,9 @@
 import { useEffect, useImperativeHandle, useRef, useState } from "react";
 
 const KLASOR = "/lottie/mac-sonu/";
-const GEC_SINIR_MS = 450;
+const GEC_SINIR_MS = 1200;    // geçici animasyon (coin, yıldız patlaması)
+const GEC_KALICI_MS = 3000;   // kalıcı animasyon (kupa, level): geç de olsa baştan oynar
+const KONFETI_GEC_MS = 2200;  // konfeti komutu parça inene dek bu kadar bekler
 
 let oynaticiSozu = null;
 const metinSozleri = new Map();
@@ -42,7 +54,8 @@ export function lottieOynaticiYukle() {
 function lottieMetni(ad) {
   let s = metinSozleri.get(ad);
   if (!s) {
-    s = fetch(`${KLASOR}${ad}.json`).then((y) => {
+    // force-cache: dosya adresi sabit (Vercel her istekte yeniden doğrulatıyor → her maçta bir gidiş-dönüş)
+    s = fetch(`${KLASOR}${ad}.json`, { cache: "force-cache" }).then((y) => {
       if (!y.ok) throw new Error(`lottie ${ad}: HTTP ${y.status}`);
       return y.text();
     });
@@ -56,6 +69,12 @@ function lottieMetni(ad) {
 export function lottieOnYukle(adlar) {
   lottieOynaticiYukle().catch(() => {});
   for (const ad of adlar) lottieMetni(ad).catch(() => {});
+}
+
+/** A.4: maç sonu sahnesinin bütün parçaları (oynatıcı, 4 animasyon, konfeti) — sahne takılmadan ÖNCE ısıtılır. */
+export function macSonuOnYukle() {
+  lottieOnYukle(["kupa", "coin", "level", "yildiz"]);
+  konfetiYukle().catch(() => {});
 }
 
 // ------------------------------------------------------------------ konfeti
@@ -83,10 +102,35 @@ function konfetiRenkleri() {
   }
 }
 
+/** Üç atış: ortadan + iki yandan. */
+function konfetiAt(ates) {
+  const ortak = { colors: konfetiRenkleri(), shapes: ["square", "circle"], scalar: 1.1, ticks: 220, gravity: 1.1 };
+  try {
+    ates({ ...ortak, particleCount: 110, spread: 100, startVelocity: 48, origin: { x: 0.5, y: 0.34 } });
+    ates({ ...ortak, particleCount: 45, angle: 60, spread: 60, startVelocity: 58, origin: { x: 0, y: 0.62 } });
+    ates({ ...ortak, particleCount: 45, angle: 120, spread: 60, startVelocity: 58, origin: { x: 1, y: 0.62 } });
+  } catch { /* konfeti çizilemedi: sahne sürer */ }
+}
+
+// iOS'ta (bütün iOS tarayıcıları WebKit) ve Safari'de iş parçacığı (OffscreenCanvas) kullanılmaz:
+// tuval devredildikten sonra çizim sessizce başarısız olursa konfeti hiç görünmez ve bunu ana iş
+// parçacığından anlamanın yolu yok. iPhone'da ana iş parçacığı bu yükü rahat taşır.
+function isciKullan() {
+  try {
+    const ua = navigator.userAgent || "";
+    const ios = /iP(hone|ad|od)/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    const safari = /AppleWebKit/.test(ua) && !/Chrome|Chromium|Edg|Android/.test(ua);
+    return !ios && !safari;
+  } catch {
+    return false;
+  }
+}
+
 /** Tam ekran konfeti katmanı. ref: oynat() · gizle() */
 export function KonfetiKatmani({ ref }) {
   const tuvalRef = useRef(null);
   const atesRef = useRef(null);
+  const bekleyenRef = useRef(0);   // parça inmeden gelen oynat komutunun zamanı (0 = yok)
 
   useEffect(() => {
     let aktif = true;
@@ -95,8 +139,12 @@ export function KonfetiKatmani({ ref }) {
         if (!aktif || !tuvalRef.current) return;
         // Tuval iş parçacığına bir kez devredilir (ikinci devir hata verir; StrictMode iki kez takar).
         const tuval = tuvalRef.current;
-        tuval.__msAtes ??= confetti.create(tuval, { resize: true, useWorker: true, disableForReducedMotion: true });
+        tuval.__msAtes ??= confetti.create(tuval, { resize: true, useWorker: isciKullan(), disableForReducedMotion: true });
         atesRef.current = tuval.__msAtes;
+        // Komut parça inmeden geldiyse: sınır içindeyse şimdi at (geç de olsa kutlama görünsün)
+        const b = bekleyenRef.current;
+        bekleyenRef.current = 0;
+        if (b && performance.now() - b <= KONFETI_GEC_MS) konfetiAt(atesRef.current);
       })
       .catch((e) => console.warn("[Bildim] konfeti yüklenemedi:", e?.message ?? e));
     return () => {
@@ -109,15 +157,10 @@ export function KonfetiKatmani({ ref }) {
   useImperativeHandle(ref, () => ({
     oynat: () => {
       const ates = atesRef.current;
-      if (!ates) return;   // henüz inmediyse bu maçta konfeti yok (geç patlama yanlış anda olur)
-      const ortak = { colors: konfetiRenkleri(), shapes: ["square", "circle"], scalar: 1.1, ticks: 220, gravity: 1.1 };
-      try {
-        ates({ ...ortak, particleCount: 110, spread: 100, startVelocity: 48, origin: { x: 0.5, y: 0.34 } });
-        ates({ ...ortak, particleCount: 45, angle: 60, spread: 60, startVelocity: 58, origin: { x: 0, y: 0.62 } });
-        ates({ ...ortak, particleCount: 45, angle: 120, spread: 60, startVelocity: 58, origin: { x: 1, y: 0.62 } });
-      } catch { /* konfeti çizilemedi: sahne sürer */ }
+      if (!ates) { bekleyenRef.current = performance.now(); return; }   // inince atılır (KONFETI_GEC_MS)
+      konfetiAt(ates);
     },
-    gizle: () => { try { atesRef.current?.reset(); } catch { /* yok */ } },
+    gizle: () => { bekleyenRef.current = 0; try { atesRef.current?.reset(); } catch { /* yok */ } },
   }), []);
 
   return <canvas ref={tuvalRef} className="msk-konfeti" aria-hidden="true" />;
@@ -145,7 +188,7 @@ export default function MacSonuLottie({ ref, ad, kalici = false, sonKare = 1, hi
     const son = Math.max(0, Math.round((a.totalFrames - 1) * sonKare));
     if (komut === "oynat") {
       const gec = performance.now() - zaman;
-      if (gec > GEC_SINIR_MS) {
+      if (gec > (kalici ? GEC_KALICI_MS : GEC_SINIR_MS)) {
         if (kalici) { a.goToAndStop(son, true); setDurum("acik"); }
         return;
       }
