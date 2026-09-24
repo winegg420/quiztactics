@@ -8181,3 +8181,16 @@ ada dokununca kart yok, maç içi ses tek düğme; ek olarak 2. tur onayları (B
 - **Ida telefonda:** maç sonu hareketi (iPhone'da "Hareketi Azalt" kapalıyken), kaydırmasızlık ve Detay paneli; dükkân kartları
   ve pencere hareketi; kurulum avatar kaydırma; ada dokunuş (VS geçişi, lobi lig kartı); ses penceresi; 570 uygulanınca
   Alev/Şimşek/Kraliyet satın al → tak. Not: tepki balonları artık maç sonunda Detay panelinde.
+
+## 2026-09-24 — Premium 2. tur çerçeveleri canlıda (570)
+**Araç:** Claude Code (yönetici)
+- `bulut/bekleyen-migration` dalından YALNIZ `20260612000570_premium_tur2.sql` alındı (dal eski, birleştirilmedi;
+  istemci sanatı `fa4a252` zaten main'deydi). Prova → uygulandı: pc_alev2 (Sönmeyen Alev), pc_simsek2 (Şimşek),
+  pc_kraliyet2 (Kraliyet), premium_cerceve, girsin, 500 elmas (TEST), bot_min_level 999. Dal silindi (uzak + yerel).
+- Canlı kontrol (390 px): Dükkân › Çerçeve ızgarasında üçü 500 elmasla, pencerede "Satın al 500", 0,7 sn arayla
+  iki kare farklı (hareketli); 3 kalem × 2 tur aç/kapat: tek WebGL bağlamı, heap 10–14 MB sabit, çökme yok, taşma ve
+  konsol hatası yok. Botlar: 160 botta premium takılı 0, bot_kozmetik premium 0. Arayüz denetimi 16 sayfa TEMİZ.
+- Not: `.arayuz-denetim-oturum.json`'daki canlı oturumun yenileme belirteci önceki betiklerde tükenmişti ("Already
+  Used"; çağrılar oturumsuz gidip "permission denied" veriyordu — yetki doğru) → canlı kayıt silindi, arayüz
+  denetimi yeni misafir oturumu yazdı. Betiklerde setSession yenilenen belirteci dosyaya geri yazmıyor; ortak test
+  oturumunu tüketir.
