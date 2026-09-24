@@ -267,7 +267,7 @@ Aktif yedi maç skill'i vardır:
   ortada dönen halka + yörüngede avatarlar, süre, mod/Dereceli rozeti, "Biliyor muydun?" (TR/EN), VS `ARAMA_GECIS_MS`
   (2 sn) içinde. Klasik, Saf Bilgi, Düello ve Grup araması; ada dokununca oyuncu kartı.
 - **Maç ekranları gök mavisi** (`.qt-sahne-gok`; koyu mor sahne yok): Hazır mısın?, Düello, Çalışma, bekleme, terk hâlleri.
-  Soru açıkken sayfa 100dvh sütun, kaydırmasız; joker + tepki hep görünür. Baykuş maskot Hazır mısın?'dan çıktı.
+  Soru açıkken sayfa 100dvh sütun, kaydırmasız; joker + tepki hep görünür. Baykuş maskot oyundan tamamen çıktı (giriş: avatar üçlüsü, diğerleri ikon diski); Düello VS ~1,5 sn.
 - **Hata kurtarma:** `HataSiniri` Layout'ta rota içeriğini sarar (alt menü kalır), `tembelYukle` (1 yeniden deneme),
   vite:preloadError'da bir kez yenile, "Bağlantı yok" şeridi. Dükkân alımları onay penceresiyle (`JokerSatinAlModal`);
   misafir çıkışında uyarı (`CikisOnayi`); ağ hatası metni tek yerden (`hataMesaji`).

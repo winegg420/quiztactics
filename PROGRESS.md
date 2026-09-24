@@ -8363,3 +8363,12 @@ ada dokununca kart yok, maç içi ses tek düğme; ek olarak 2. tur onayları (B
   Google Play metni yalnız Elmas sekmesi + satış açıkken.
 - **B5 ham hata (0425d2b):** coinHatasi/kozmetikHatasi → hataMesaji; ağ hatası her yerde "Bağlantı yok. İnternetini kontrol edip tekrar dene."
 - **Ana paket (sahte env, aynı koşul):** origin/main önce JS 414,21 / CSS 480,46 kB → sonra 422,87 / 494,44 kB.
+
+## 2026-09-24 — Baykuş maskot tamamen kaldırıldı
+**Araç:** Claude Code (yönetici). Migration yok.
+- Giriş: mevcut profil avatarlarından üçlü (tilki, kedi, robot). Tanıtım: kartın ikonu büyük diskte. "Maç bitti!" geçişi:
+  kupa/saat ikon diski. Asenkron "Senin bölümün bitti" ve Çalışma boş Hatalarım: ikon diski (`ekranlar/ikon-disk.css`).
+- `Maskot.jsx` ve `.bd-maskot*` CSS kaldırıldı; kalan "baykuş" geçişleri yalnız profil avatarı Baykuş (k03) ve dondurulmuş
+  `oyun/karakter/karakterler.js` (görünmez).
+- Düello VS ~1,5 sn kalır (Ida kararı; sunucu süresi aynı).
+- Test: 390×664, 360×640 (+1280 giriş), hareketi azalt açık/kapalı; taşma 0, sayfa hatası 0. Build temiz.
