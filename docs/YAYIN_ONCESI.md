@@ -3,7 +3,30 @@
 Yayından (Play Store'a çıkış) önce elle yapılacak işler. Her madde yapıldığında tarihiyle işaretlenir.
 Satın alma altyapısının ayrıntılı denetimi: `docs/SATIN_ALMA_DENETIMI.md`.
 
-## Play Console — coin paketleri
+## Play Console — ELMAS paketleri (24 Eyl 2026, migration 480 — coin paketlerinin yerine)
+
+**Karar (Ida):** coin artık parayla SATILMAZ (yalnız oynayarak kazanılır, jokerler yalnız coin'le);
+gerçek parayla yalnız **elmas** satılır, elmas yalnız kozmetik (aura) alır. Aşağıdaki coin paketi
+bölümü tarihçe olarak durur; `coin_paketleri` satırları pasif (`aktif = false`), sunucu coin satmaz.
+
+- [ ] **Play Console'da 5 tüketilebilir ürün aç** (kimlikler `elmas_paketleri.urun_id`). TL fiyatları ve
+  sıra eski coin paketleriyle aynı kalır (Avuç … Define aynı fiyat basamağı):
+
+  | urun_id | Ad (TR / EN) | Taban elmas (TEST) | Bonus | Toplam | Fiyat |
+  |---|---|---|---|---|---|
+  | `elmas_100` | Avuç / Handful | 100 | — | 100 | eski `coin_500` fiyatı |
+  | `elmas_220` | Kese / Pouch | 220 | %10 (22) | 242 | eski `coin_1200` fiyatı |
+  | `elmas_500` | Sandık / Chest | 500 | %15 (75) | 575 | eski `coin_3000` fiyatı |
+  | `elmas_1100` | Hazine / Treasure | 1.100 | %20 (220) | 1.320 | eski `coin_8000` fiyatı |
+  | `elmas_2400` | Define / Hoard | 2.400 | %30 (720) | 3.120 | eski `coin_16000` fiyatı |
+
+- [ ] **`satin_alma_dogrula` Edge Function'ı elmas ürünlerini işleyecek şekilde güncelle:** `elmas_*` ürününde
+  `elmas_paketleri`'nden (elmas + bonus) okuyup `elmas_ekle(user, miktar, 'satin_alma', purchaseToken)` yaz
+  (`elmas_hareketleri_satin_alma_tek` jetonu hesaptan bağımsız tekil tutar); tüketim/iade akışı coin'dekiyle aynı.
+- [ ] Ürünler tanımlanıp doğrulama hazır olunca: `update oyun_ayarlari set deger = '1' where anahtar = 'elmas_satin_alma_acik';`
+  (o zamana kadar Dükkân › Elmas'ta paketler "Yakında", Play'e fiyat sorulmaz).
+
+## Play Console — coin paketleri (TARİHÇE — 480'den beri satılmıyor)
 
 - [ ] **Play Console'daki ürün adlarını (Avuç, Kese, Sandık, Hazine, Define) ve yeni Define ürününü güncelle.**
   Ürün kimlikleri `coin_paketleri.urun_id`'den gelir; hepsi **tüketilebilir** ürün:
