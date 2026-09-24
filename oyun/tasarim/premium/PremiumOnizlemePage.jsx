@@ -77,7 +77,9 @@ const OYUNDA = new Set(["cerceve:sonbahar", "cerceve:galaksi", "cerceve:sakura",
   // 2. tur onayı (Ida, 24 Eyl 2026): Alev 2, Şimşek 2, Kraliyet 2 (pc_*2), Altın Lig 2 (lig_altin), külçe plaka (isim_altin)
   "cerceve2:alev", "cerceve2:simsek", "cerceve2:kraliyet", "cerceve2:altinlig", "plaka2:kulce",
   // Ejderha 2. tur (pc_ejderha2, migration 580) — Ida onayı
-  "cerceve2:ejderha"]);
+  "cerceve2:ejderha",
+  // Elmas paketi görselleri Dükkân › Elmas'ta (Ida onayı)
+  "elmas:avuc", "elmas:kese", "elmas:sandik", "elmas:hazine", "elmas:define"]);
 const OyundaRozeti = ({ kod }) => (OYUNDA.has(kod) ? <QtRozet ton="dogru" boyut="k" className="pp-oyunda">{tt("Oyunda")}</QtRozet> : null);
 
 function secimOku() {
@@ -645,7 +647,7 @@ export default function PremiumOnizlemePage() {
         {/* ---------------- Elmas paketleri ---------------- */}
         <section className="pp-bolum" aria-labelledby="pp-elmas">
           <h2 id="pp-elmas" className="qt-baslik-2">{tt("Elmas paketleri — Dükkân görselleri")} <span className="pp-px">5</span></h2>
-          <p className="qt-kucuk qt-soluk">{tt("Dükkân › Elmas sekmesindeki kartların aynısı. Üstte şimdiki (oyunda), altta yeni çizim — avatarlarla aynı dil. Dükkân değişmedi; onaylanan görsel sonra tek satırla bağlanır. Adlar ve miktarlar sunucudaki paketlerden.")}</p>
+          <p className="qt-kucuk qt-soluk">{tt("Dükkân › Elmas sekmesindeki kartların aynısı. Üstte şimdiki (oyunda), altta yeni çizim — avatarlarla aynı dil. Yeni çizim Dükkân › Elmas sekmesinde (Ida onayı, 24 Eyl 2026); üstteki eski simgeler yalnız burada. Adlar ve miktarlar sunucudaki paketlerden.")}</p>
           <h3 className="qt-baslik-3">{tt("Şimdiki")}</h3>
           <ul className="qt-dk-coin-izgara pp-elmas-izgara">
             {elmasPaket.map((p, i) => <li key={p.urun_id}><ElmasKarti p={p} i={i} son={elmasPaket.length - 1} /></li>)}
@@ -655,6 +657,7 @@ export default function PremiumOnizlemePage() {
             {elmasPaket.map((p, i) => (
               <li key={p.urun_id} className="pp-elmas-li">
                 <ElmasKarti p={p} i={i} son={elmasPaket.length - 1} yeni />
+                <OyundaRozeti kod={`elmas:${ELMAS_KOD[i] ?? p.urun_id}`} />
                 <SecimDugmeleri kod={`elmas:${ELMAS_KOD[i] ?? p.urun_id}`} secimler={secimler} onSec={sec} />
               </li>
             ))}

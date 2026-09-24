@@ -1,7 +1,7 @@
 /**
  * ELMAS PAKETİ GÖRSELİ — 5 paket (Avuç · Kese · Sandık · Hazine · Define), avatarlarla aynı çizim dilinde
  * (AvatarProIllustrations.jsx): kalın koyu kontur (#0b1220), düz renk alanları, 2–3 ton gölge, her yüzeyde
- * net beyaz parlama. Dış varlık yok. Şimdilik yalnız /premium-onizleme; Ida onaylayınca Dükkân'a tek satırla:
+ * net beyaz parlama. Dış varlık yok. Ida onayıyla (24 Eyl 2026) Dükkân › Elmas sekmesinde (JokerDukkani.jsx, dükkân tembel parçası) ve /premium-onizleme:
  *   <span className="qt-dk-coin-gorsel …"><ElmasPaketGorseli seviye={i + 1} /></span>
  * 1 tek büyük elmas → 2 küçük elmas yığını → 3 altın kenarlı küçük sandık (dolu) → 4 taşan büyük süslü sandık
  * → 5 altın ışıklı dev elmas dağı. Işıltı yalnız transform/opacity; "hareketi azalt"ta durur.

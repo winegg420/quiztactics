@@ -158,6 +158,7 @@
 .pp-elmas-li { display: grid; gap: 8px; align-content: start; }
 .pp-elmas-li .pp-karar { flex-wrap: wrap; justify-content: center; }
 .pp-elmas-gorsel { display: block; }
+.pp-elmas-li .pp-oyunda { justify-self: center; }
 
 /* Ölçüm düzeni (?olcum=…) */
 .pp-olcum-kutu { display: inline-block; line-height: 0; }

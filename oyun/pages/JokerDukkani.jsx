@@ -28,6 +28,7 @@ import {
   QtBosDurum,
   sayiBicim,
 } from "../tasarim/index.js";
+import ElmasPaketGorseli from "../tasarim/premium/elmas/ElmasPaketGorseli.jsx";
 import "../tasarim/ekranlar/dukkan-magaza.css";
 
 // Dükkân sekmeleri: Joker · Aura · Elmas · Coin · Kıyafet (Tasarım A, Yön A "Şeker Kutusu").
@@ -744,8 +745,10 @@ export default function JokerDukkani() {
                               {tt("+%{n} bonus", { n: bonusYuzde })}
                             </QtRozet>
                           )}
-                          <span className="qt-dk-coin-gorsel qt-dk-elmas-gorsel" data-seviye={i + 1} aria-hidden="true">
-                            {Array.from({ length: Math.min(i + 1, 5) }, (_, k) => <QtIkon key={k} ad="elmas" boyut={i === 0 ? 40 : 28} />)}
+                          {/* Ida onayı (24 Eyl 2026): 5 paket görseli (Avuç · Kese · Sandık · Hazine · Define) — eski mor
+                              elmas simgeleri (.qt-dk-elmas-gorsel, dukkan-magaza.css) kalktı; CSS kuralı kullanılmıyor, duruyor. */}
+                          <span className="qt-dk-coin-gorsel qt-dk-elmas-paket" data-seviye={i + 1} aria-hidden="true">
+                            <ElmasPaketGorseli seviye={i + 1} />
                           </span>
                           <b className="qt-dk-coin-miktar qt-sayi">{sayiBicim(Number(p.elmas))}</b>
                           {bonus > 0 && <span className="qt-kucuk qt-dk-coin-ek">{tt("+{n} bonus elmas", { n: sayiBicim(bonus) })}</span>}
