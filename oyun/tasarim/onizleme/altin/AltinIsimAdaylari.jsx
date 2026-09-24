@@ -4,8 +4,11 @@
 // Sorun (Ida, canlı lig tablosu): açık zeminde okunsun diye koyulaştırılan altın bronz/kahverengi görünüyor.
 // Dört adayın ortak ilkesi: altın PARLAK SARI kalır, okunurluğu KOYU LACİVERT KONTUR sağlar. Teknik ve
 // ölçüm: altin-isim.css başı. Sahneler gerçek oyun sınıflarıyla (lig tablosu, maç şeridi, VS, maç sonu, profil).
+// Ida "Işık Şeritli"yi seçti (24 Eyl 2026): oyundaki isim_altin artık o. Bu aday oyunun kendi bileşenini
+// (IsimEfekti › AltinIsim + tasarim/ekranlar/altin-isim.css) çizer → önizleme ile oyun birebir aynı;
+// "Şimdiki (oyunda)" da aynı görünür. Diğer üç aday burada kalır.
 import Avatar from "../../../../src/components/Avatar.jsx";
-import IsimEfekti from "../../../components/IsimEfekti.jsx";
+import IsimEfekti, { AltinIsim as OyunAltinIsim } from "../../../components/IsimEfekti.jsx";
 import OyuncuLigAmblemi from "../../../components/OyuncuLigAmblemi.jsx";
 import { SeviyeEtiketi } from "../../../components/MacUstSerit.jsx";
 import { QtCan, QtIkon, QtKart, QtMacUst, QtRozet } from "../../index.js";
@@ -70,6 +73,7 @@ function Yildiz() {
 
 /** Aday altın isim. Metin iki kez çizilir: arkada kontur katmanı (aria-hidden), önde degrade dolgu. */
 export function AltinIsim({ tur, hareketli = false, koyu = false, children }) {
+  if (tur === "serit") return <OyunAltinIsim hareketli={hareketli} koyu={koyu}>{children}</OyunAltinIsim>;
   const ad = String(children ?? "");
   const s = ["ai", `ai--${tur}`, hareketli && "ai--hareketli", koyu && "ai--koyu"].filter(Boolean).join(" ");
   return (

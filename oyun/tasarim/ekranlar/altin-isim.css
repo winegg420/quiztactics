@@ -1,0 +1,164 @@
+/* =====================================================================
+   ALTIN İSİM — "Işık Şeritli Altın" (Ida seçimi, 24 Eyl 2026; önizleme kodu altin-isim:serit)
+   Bileşen: oyun/components/IsimEfekti.jsx › AltinIsim. Değerler /tasarim-onizleme'deki adayın
+   (onizleme/altin/altin-isim.css › .ai + .ai--serit) BİREBİR aynısıdır; önizlemedeki aday da artık bu
+   bileşeni/dosyayı çizer. Diğer üç aday önizlemede kalır.
+
+   Yapı: .qt-ia-yazi (inline-grid) içinde üst üste iki kopya — .qt-ia-kontur (aria-hidden, seçilemez;
+   lacivert metin + 16 yönlü text-shadow halkası + alt derinlik [+ ışıma]) ve .qt-ia-dolgu (asıl metin,
+   parlak sarı degrade background-clip:text). Gölge ile background-clip aynı öğede değil (iOS Safari'de
+   gölge degradenin üstüne biner). İkisi de aynı üç noktayı taşır; kontur kutuya sığsın diye aynı iç
+   boşluk. Arkada .qt-ia-serit: uçlarda kaybolan yarı saydam altın ışık (plaka değil, kenarı yok).
+   Kademe: yalnız `--hareketli` (profil başı, VS, maç sonu kazananı, oyuncu kartı) — şerit iki yana ışık
+   teli olarak uzar, üstünden ışık süzülür, harflerden parıltı geçer; liste/şerit durağan, yan boşluk 0.
+   Hareketi azalt: .qt-isim-ef yumusakHareket kapsamında → durmaz, 0,4 hızda oynar.
+   Kontrast: kontur #1d2152 ↔ beyaz 15,1:1, ↔ #dff0ff 13,0:1; sarı dolgu ↔ kontur ≥ 8,1:1.
+   iOS: position:fixed yok, yalnız transform/opacity animasyonu (arka plan konumu parıltısı hariç).
+   ===================================================================== */
+
+.qt-isim-ef.qt-ia {
+  --ai-k: 0.075em;
+  --ai-d: 0.055em;
+  --ai-kc: #1d2152;
+  --ai-u: #fff7c2;
+  --ai-o: #ffd83a;
+  --ai-a: #ffb700;
+  --ai-isima: transparent;
+  --ai-parilti: rgba(255, 255, 255, 0.95);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.14em;
+  min-width: 0;
+  max-width: 100%;
+  vertical-align: middle;
+  isolation: isolate;
+  font-weight: inherit;
+}
+.qt-ia-yazi {
+  position: relative;
+  display: inline-grid;
+  grid-template-columns: minmax(0, auto);
+  min-width: 0;
+  max-width: 100%;
+}
+.qt-ia-yazi > .qt-ia-kontur,
+.qt-ia-yazi > .qt-ia-dolgu {
+  grid-area: 1 / 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: calc(var(--ai-k) + 0.02em) calc(var(--ai-k) + 0.03em) calc(var(--ai-k) + var(--ai-d) + 0.02em);
+}
+.qt-ia-kontur {
+  color: var(--ai-kc);
+  -webkit-text-fill-color: var(--ai-kc);
+  text-shadow:
+    var(--ai-k) 0 0 var(--ai-kc),
+    calc(var(--ai-k) * -1) 0 0 var(--ai-kc),
+    0 var(--ai-k) 0 var(--ai-kc),
+    0 calc(var(--ai-k) * -1) 0 var(--ai-kc),
+    calc(var(--ai-k) * 0.924) calc(var(--ai-k) * 0.383) 0 var(--ai-kc),
+    calc(var(--ai-k) * -0.924) calc(var(--ai-k) * 0.383) 0 var(--ai-kc),
+    calc(var(--ai-k) * 0.924) calc(var(--ai-k) * -0.383) 0 var(--ai-kc),
+    calc(var(--ai-k) * -0.924) calc(var(--ai-k) * -0.383) 0 var(--ai-kc),
+    calc(var(--ai-k) * 0.707) calc(var(--ai-k) * 0.707) 0 var(--ai-kc),
+    calc(var(--ai-k) * -0.707) calc(var(--ai-k) * 0.707) 0 var(--ai-kc),
+    calc(var(--ai-k) * 0.707) calc(var(--ai-k) * -0.707) 0 var(--ai-kc),
+    calc(var(--ai-k) * -0.707) calc(var(--ai-k) * -0.707) 0 var(--ai-kc),
+    calc(var(--ai-k) * 0.383) calc(var(--ai-k) * 0.924) 0 var(--ai-kc),
+    calc(var(--ai-k) * -0.383) calc(var(--ai-k) * 0.924) 0 var(--ai-kc),
+    calc(var(--ai-k) * 0.383) calc(var(--ai-k) * -0.924) 0 var(--ai-kc),
+    calc(var(--ai-k) * -0.383) calc(var(--ai-k) * -0.924) 0 var(--ai-kc),
+    var(--ai-k) var(--ai-d) 0 var(--ai-kc),
+    calc(var(--ai-k) * -1) var(--ai-d) 0 var(--ai-kc),
+    calc(var(--ai-k) * 0.707) calc(var(--ai-k) * 0.707 + var(--ai-d)) 0 var(--ai-kc),
+    calc(var(--ai-k) * -0.707) calc(var(--ai-k) * 0.707 + var(--ai-d)) 0 var(--ai-kc),
+    calc(var(--ai-k) * 0.383) calc(var(--ai-k) * 0.924 + var(--ai-d)) 0 var(--ai-kc),
+    calc(var(--ai-k) * -0.383) calc(var(--ai-k) * 0.924 + var(--ai-d)) 0 var(--ai-kc),
+    0 calc(var(--ai-k) + var(--ai-d)) 0 var(--ai-kc),
+    0 0 0.22em var(--ai-isima);
+  -webkit-user-select: none;
+  user-select: none;
+}
+/* Düz metinde kontur kopyası ::before içeriğidir (seçilmez, kopyalanmaz); üç nokta onda da çalışır */
+.qt-ia-kontur[data-ad]::before { content: attr(data-ad); }
+.qt-ia-dolgu { color: var(--ai-o); }
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .qt-ia-dolgu {
+    background:
+      linear-gradient(105deg, transparent 0 42%, var(--ai-parilti) 50%, transparent 58% 100%) 0 0 / 300% 100% no-repeat,
+      linear-gradient(180deg, var(--ai-u) 12%, var(--ai-o) 52%, var(--ai-a) 88%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .qt-ia--hareketli .qt-ia-dolgu { animation: qt-ia-parla 4.8s ease-in-out 0.8s infinite; }
+}
+@keyframes qt-ia-parla {
+  0%, 66% { background-position: 0% 0, 0 0; }
+  100% { background-position: 100% 0, 0 0; }
+}
+.qt-isim-ef.qt-ia--hareketli { --ai-isima: rgba(255, 196, 0, 0.55); }
+
+/* Işık şeridi */
+.qt-ia-serit {
+  position: absolute;
+  z-index: -1;
+  left: -0.12em;
+  right: -0.12em;
+  top: 50%;
+  height: 0.8em;
+  transform: translateY(-42%);
+  overflow: hidden;
+  pointer-events: none;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(255, 190, 0, 0.62), rgba(255, 190, 0, 0.26) 58%, transparent 100%);
+}
+.qt-ia-serit::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: max(1px, 0.05em);
+  transform: translateY(-50%);
+  background: linear-gradient(90deg, transparent 0, rgba(255, 214, 60, 0.95) 7%, #fff3b0 13%, transparent 24% 76%, #fff3b0 87%, rgba(255, 214, 60, 0.95) 93%, transparent 100%);
+  opacity: 0;
+}
+/* Işık tellerinin yan boşluğu (önizlemede padding-inline: 0.42em) burada iki esnek boşluk: yer varken tam
+   0.42em (önizlemeyle aynı), dar yerde (maç sonu ad hapı, dar profil) ÖNCE bu boşluk daralır, isim sonra kısalır. */
+.qt-isim-ef.qt-ia--hareketli { gap: 0; }
+.qt-isim-ef.qt-ia--hareketli::before,
+.qt-isim-ef.qt-ia--hareketli::after { content: ""; flex: 0 100000 auto; width: 0.42em; min-width: 0; }
+.qt-ia--hareketli .qt-ia-serit { left: -0.42em; right: -0.42em; }
+.qt-ia--hareketli .qt-ia-serit::before { opacity: 1; }
+.qt-ia-serit::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  background: radial-gradient(18% 60% at 50% 50%, rgba(255, 255, 255, 0.95), rgba(255, 236, 150, 0.6) 45%, transparent 100%);
+  transform: translateX(-100%);
+  opacity: 0;
+}
+.qt-ia--hareketli .qt-ia-serit::after { animation: qt-ia-serit-akis 4.2s ease-in-out 0.6s infinite; }
+@keyframes qt-ia-serit-akis {
+  0% { transform: translateX(-60%); opacity: 0; }
+  12% { opacity: 1; }
+  52% { transform: translateX(60%); opacity: 1; }
+  62%, 100% { transform: translateX(60%); opacity: 0; }
+}
+/* Koyu zemin (maç sahnesi, arama/VS, VS kartı teması ya da --koyu): şerit biraz daha belirgin.
+   Koyu bağlamdaki açık levha (--acik, ör. maç sonu beyaz ad hapı) açık zemin şeridini korur. */
+.qt-ia--koyu .qt-ia-serit,
+:is(.qt-sahne-mac:not([data-kat]), .qt-vs) .qt-ia:not(.qt-ia--acik) .qt-ia-serit {
+  background: radial-gradient(50% 50% at 50% 50%, rgba(255, 214, 60, 0.5), rgba(255, 196, 0, 0.2) 60%, transparent 100%);
+}
+/* Dar sütun (lig satırı, şerit, liste — durağan): sağdaki kontur boşluğu yerleşimden düşülür (boyanır ama
+   yer kaplamaz) → isim önizlemedeki adaydan ~1 harf geç kısalır. Hareketli (büyük) yerlerde dokunulmaz. */
+.qt-isim-ef.qt-ia:not(.qt-ia--hareketli) {
+  max-width: calc(100% + var(--ai-k) + 0.03em);
+  margin-right: calc((var(--ai-k) + 0.03em) * -1);
+}

@@ -12,6 +12,7 @@ import { tt } from "../lib/dil.js";
 import ModSecimPenceresi from "../components/ModSecimPenceresi.jsx";
 import OyuncuKarti from "../components/OyuncuKarti.jsx";
 import OyuncuAdiDugmesi from "../components/OyuncuAdiDugmesi.jsx";
+import IsimEfekti from "../components/IsimEfekti.jsx";
 import { useDmOkunmamis } from "../lib/mesajlar.js";
 import {
   QtIkon, QtDugme, QtIkonDugme, QtKart, QtListe, QtListeSatiri, QtBosDurum,
@@ -458,7 +459,8 @@ export default function FriendsPage() {
                       <span className="ar-bilgi">
                         {/* 560: lig amblemi isim yanında (oyuncu kartından; toplu + önbellekli) */}
                         <span className="qt-ad-amblem">
-                          <span className="ls-ad">{p?.gorunen_ad}</span>
+                          {/* Takılı isim efekti (altın isim) — satır zaten kartı açan düğme, OyuncuAdiDugmesi yok */}
+                          <span className="ls-ad"><IsimEfekti userId={p?.id}>{p?.gorunen_ad}</IsimEfekti></span>
                           {p?.id && <OyuncuLigAmblemi userId={p.id} lig={p?.lig} boyut={16} />}
                         </span>
                         <span className="ar-detay">
