@@ -32,15 +32,20 @@
   --msk-afis-z: var(--qt-ikinci);
   --msk-afis-d: var(--qt-ikinci-dudak);
 
-  position: relative;
+  /* A.4 — TEK EKRAN: üst çubuğun altından ekranın dibine sabit katman; sayfa kaydırılmaz
+     (<html>.msk-acik). Sütun: gövde (esner) + eylem çubuğu (akışta). Kökte transform YOK (iOS). */
+  position: fixed;
+  top: var(--msk-ust, 0px);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 30;                   /* alt sekme çubuğunun (20) üstü, üst çubuğun (40) ve pencerelerin altı */
   isolation: isolate;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: var(--qt-b-4);
-  min-height: 100dvh;
-  padding: var(--qt-b-4) var(--qt-kenar) calc(var(--msk-eylem-h) + var(--msk-eylem-alt, 0px) + var(--msk-guvenli, env(safe-area-inset-bottom)) + var(--qt-b-6));
-  overflow: clip;
+  align-items: stretch;
+  overflow: hidden;
+  overscroll-behavior: none;
   color: var(--qt-metin);
   font-family: var(--qt-f-govde);
   -webkit-tap-highlight-color: transparent;
@@ -61,6 +66,32 @@
   --msk-afis-z: var(--qt-mac-zemin);
   --msk-afis-d: var(--qt-mac-zemin-2);
 }
+
+/* ---------- A.4: sayfa kilidi + alt sekme çubuğu gizli (yalnız sahne açıkken) ---------- */
+html.msk-acik, html.msk-acik body { overflow: hidden; overscroll-behavior: none; }
+html.msk-acik .mobile-nav, html.msk-acik .a-kabuk .a-altmenu { display: none !important; }
+
+/* ---------- A.4: gövde + içerik kutusu ---------- */
+.msk-govde {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  container: msk-govde / size;   /* kademeler gövdenin gerçek yüksekliğine göre (üst çubuk, güvenli alan dahil) */
+}
+.msk-icerik {
+  --msk-bosluk: var(--qt-b-4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--msk-bosluk);
+  width: 100%;
+  padding: var(--qt-b-3) var(--qt-kenar) var(--qt-b-4);
+}
+/* Kademeler de yetmezse (çok kısa ekran) içerik kutusu ölçeklenir; içinde sabit (fixed) katman yok */
+.msk-icerik[data-sikisik] { transform: scale(var(--msk-sigdir, 1)); transform-origin: 50% 0; }
 
 /* ---------- Zemin + ışık huzmeleri ---------- */
 .msk-zemin {
@@ -171,7 +202,7 @@
   width: 76px;
   height: 76px;
   margin: var(--qt-b-3) 0 var(--qt-b-2);
-  transform: scale(var(--olcek));
+  transform: scale(calc(var(--olcek) * var(--msk-av, 1)));
   animation: msk-avatar-gir var(--msk-avatar) var(--qt-egri-cikis) var(--t-avatar) backwards;
 }
 .msk-taraf--sag .msk-avatar { --kay: 64px; }
@@ -216,6 +247,28 @@
   animation: msk-sol-gir var(--qt-s-orta) var(--qt-egri-cikis) calc(var(--t-avatar) + 200ms) backwards;
 }
 .msk-isim-metin { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* A.4: ada dokununca profil kartı — görünüm aynı; dokunma alanı görünmez katmanla ≥ 44 px */
+.msk-isim-dugme {
+  position: relative;
+  display: inline-grid;
+  grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+/* genel düğme kuralları (min-height 44, display) adı iki satır boyuna itiyordu: özgüllük artırıldı */
+.msk .msk-isim-dugme { display: inline-grid; min-height: 0; height: auto; padding: 0; line-height: inherit; box-shadow: none; }
+.msk-isim-dugme::after { content: ""; position: absolute; left: -8px; right: -8px; top: calc(50% - 22px); bottom: calc(50% - 22px); }
+.msk-isim-dugme:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 2px; border-radius: var(--qt-r-s, 6px); }
+.msk-kart-kap { display: contents; }
 .msk-sen {
   flex: none;
   padding: 0 6px;
@@ -516,24 +569,30 @@
 }
 .msk-ucus-y img { display: block; width: 100%; height: 100%; }
 
-/* ---------- Alt eylem çubuğu (sabit) ---------- */
+/* ---------- Alt eylem çubuğu ----------
+   A.4: artık ayrı sabit katman değil — sabit kökün sütununda son satır (gövdeyle üst üste kaymaz).
+   Alt sekme çubuğu sahne açıkken gizli; güvenli alanı (ana gösterge çubuğu) bu çubuk bırakır. */
 .msk-eylem {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: var(--msk-eylem-alt, 0px);   /* A.3: alt sekme çubuğunun üstü (MacSonuKutlama ölçer) */
-  z-index: var(--qt-z-yapiskan);
+  position: relative;
+  flex: none;
+  z-index: 2;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: var(--qt-b-2);
-  padding: var(--qt-b-3) var(--qt-kenar) calc(var(--qt-b-3) + var(--msk-guvenli, env(safe-area-inset-bottom)));
+  padding: var(--qt-b-3) var(--qt-kenar) calc(var(--qt-b-3) + env(safe-area-inset-bottom, 0px));
   background: var(--qt-yuzey);
   box-shadow: 0 -1px 0 var(--qt-cizgi), 0 -8px 24px color-mix(in srgb, var(--qt-zemin-metin) 14%, transparent);
 }
 .msk-eylem > * { flex: none; }
-.msk-eylem-rovans { flex: 1 1 auto; min-width: 0; padding-inline: var(--qt-b-4); }
-.msk-eylem-yeni { padding-inline: var(--qt-b-4); }
+/* A.4: Rövanş + Yeni maç + ev TEK satır (telefonda ev ikinci satıra düşüp çubuk 144 px oluyordu) */
+.msk-eylem-rovans { flex: 1 1 0; min-width: 0; padding-inline: var(--qt-b-3); }
+.msk-eylem-yeni { flex: 1 1 0; min-width: 0; padding-inline: var(--qt-b-3); }
+/* Telefonda yazı sığsın ("Rem…" / "New mat…" kesiliyordu): düğme iç boşluğu ve yazısı küçülür, ikon düşer */
+@media (max-width: 459px) {
+  .msk .msk-eylem .msk-eylem-rovans, .msk .msk-eylem .msk-eylem-yeni { padding-inline: var(--qt-b-2); font-size: var(--qt-y-m); }
+  .msk .msk-eylem .msk-eylem-rovans .qt-ikon { display: none; }
+}
 /* A.3: rövanş yuvası (istek / bekleniyor / kabul-reddet akışları), tam satır not, rövanşsız hâl */
 .msk-eylem-yuva { display: flex; flex-wrap: wrap; align-items: center; gap: var(--qt-b-2); }
 .msk-eylem-yuva:empty { display: none; }
@@ -580,6 +639,27 @@
 .msk-detay-dugme .qt-ikon { transition: transform var(--qt-s-kisa) var(--qt-egri-cikis); }
 .msk-detay--acik .msk-detay-dugme .qt-ikon:last-child { transform: rotate(180deg); }
 .msk-detay-govde { display: flex; flex-direction: column; gap: var(--qt-b-3); }
+/* A.4: Detay + ek içerik gövdenin üstünde açılan panelde; kaydırma YALNIZ burada (sayfa kaymaz) */
+.msk-panel {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--qt-b-3);
+  padding: var(--qt-b-3) var(--qt-kenar) var(--qt-b-6);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  background: var(--msk-z3);
+  background: color-mix(in srgb, var(--msk-z3) 94%, var(--qt-zemin-metin));
+}
+.msk-panel[hidden] { display: none; }
+/* Panel kapalıyken (display:none) giriş animasyonu işlemez; açılınca t.son gecikmesiyle 2,6 sn görünmez kalıyordu */
+.msk-panel .msk-ek, .msk-panel .msk-detay-govde { animation: none; }
+.msk-panel > * { width: 100%; max-width: 480px; flex: none; }
+.msk-panel-ust { display: flex; justify-content: flex-end; }
 .msk-ek { display: flex; flex-direction: column; gap: var(--qt-b-3); }
 /* Eski sahnenin not satırı koyu zemin için değildi: sahne zemininde okunur beyaz */
 .msk-ek .m1-ss-not { margin: 0; text-align: center; font-weight: var(--qt-a-kalin); color: var(--qt-beyaz, #fff); text-shadow: 0 1px 2px color-mix(in srgb, var(--qt-zemin-metin) 45%, transparent); }
@@ -600,6 +680,93 @@
 }
 .msk--az .msk-a * { animation: none !important; }
 
+/* ---------- A.4: yüksekliğe göre sıkışma kademeleri (gövdenin gerçek yüksekliği) ----------
+   Önce boşluklar, kupa, avatar ve yazılar küçülür; yine sığmazsa JS içerik kutusunu ölçekler. */
+@container msk-govde (max-height: 780px) {
+  .msk-icerik { --msk-bosluk: var(--qt-b-3); padding-top: var(--qt-b-2); }
+  .msk-kupa { width: 180px; height: 128px; margin-bottom: -30px; }
+  .msk-karsilasma { margin-top: var(--qt-b-3); }
+  .msk-kart { gap: var(--qt-b-3); padding: var(--qt-b-3); }
+  .msk--kaybetti .msk-sahne, .msk--berabere .msk-sahne { padding-top: var(--qt-b-4); }
+}
+@container msk-govde (max-height: 660px) {
+  .msk-icerik { --msk-bosluk: var(--qt-b-2); }
+  .msk-kupa { width: 140px; height: 100px; margin-bottom: -24px; }
+  .msk-baslik { font-size: var(--qt-y-3xl); }
+  .msk--kaybetti .msk-baslik, .msk--berabere .msk-baslik { font-size: var(--qt-y-2xl); }
+  .msk-afis { padding: var(--qt-b-1) var(--qt-b-6) var(--qt-b-2); }
+  .msk-alt { margin-top: var(--qt-b-2); }
+  .msk-avatar { --msk-av: 0.84; margin: var(--qt-b-2) 0 0; }
+  .msk-coin { min-height: 46px; padding-block: var(--qt-b-1); }
+  .msk-coin-ikon { width: 32px; height: 32px; }
+  .msk-coin-sayi { font-size: var(--qt-y-3xl); }
+  .msk-xp { gap: var(--qt-b-1); }
+  .msk-levelup { min-height: 64px; }
+  .msk-levelup-lottie { width: 64px; height: 64px; }
+  .msk-levelup-rozet { font-size: var(--qt-y-xl); }
+  .msk-gorev { min-height: 26px; }
+  .msk-gorevler { gap: var(--qt-b-1); }
+  .msk-gorev:nth-child(n + 3) { display: none; }
+  .msk-rozet { padding: var(--qt-b-2) var(--qt-b-3); }
+  .msk-rozet-madalyon { width: 56px; height: 56px; }
+  .msk-rozet-madalyon > :last-child { scale: 0.85; }
+  .msk-derece .qt-cerceveli-avatar, .msk-derece > :first-child { scale: 0.85; margin: -6px 0; }
+}
+@container msk-govde (max-height: 540px) {
+  .msk-kupa { width: 110px; height: 78px; margin-bottom: -20px; }
+  .msk-avatar { --msk-av: 0.72; margin: 0 0 -6px; }
+  .msk-karsilasma { margin-top: var(--qt-b-2); }
+  .msk-kart { gap: var(--qt-b-2); padding: var(--qt-b-2) var(--qt-b-3); }
+  .msk-xp-kalan { display: none; }
+  .msk-xp-ray { height: 12px; }
+  .msk-levelup { min-height: 48px; }
+  .msk-levelup-lottie { width: 48px; height: 48px; }
+  .msk-gorev:nth-child(n + 2) { display: none; }
+  .msk-rozet-madalyon { width: 44px; height: 44px; }
+  .msk-rozet-madalyon > :last-child { scale: 0.68; }
+  .msk-rozet-ad { font-size: var(--qt-y-l); }
+  .msk-derece > :first-child { scale: 0.7; margin: -14px 0; }
+  .msk-derece-sayi { font-size: var(--qt-y-3xl); }
+}
+
+/* A.4: içerik gövdeden çok uzunsa (level + lig + 3 görev + rozet) kademe beklemeden sıkışık düzen
+   (JS data-yogun koyar) — ölçek küçük yazıya inmesin. İki kademenin (660 + 540) aynısı. */
+.msk-icerik[data-yogun] {--msk-bosluk: var(--qt-b-2); }
+.msk-icerik[data-yogun] .msk-kupa {width: 140px; height: 100px; margin-bottom: -24px; }
+.msk-icerik[data-yogun] .msk-baslik {font-size: var(--qt-y-3xl); }
+.msk--kaybetti .msk-icerik[data-yogun] .msk-baslik, .msk--berabere .msk-icerik[data-yogun] .msk-baslik {font-size: var(--qt-y-2xl); }
+.msk-icerik[data-yogun] .msk-afis {padding: var(--qt-b-1) var(--qt-b-6) var(--qt-b-2); }
+.msk-icerik[data-yogun] .msk-alt {margin-top: var(--qt-b-2); }
+.msk-icerik[data-yogun] .msk-avatar {--msk-av: 0.84; margin: var(--qt-b-2) 0 0; }
+.msk-icerik[data-yogun] .msk-coin {min-height: 46px; padding-block: var(--qt-b-1); }
+.msk-icerik[data-yogun] .msk-coin-ikon {width: 32px; height: 32px; }
+.msk-icerik[data-yogun] .msk-coin-sayi {font-size: var(--qt-y-3xl); }
+.msk-icerik[data-yogun] .msk-xp {gap: var(--qt-b-1); }
+.msk-icerik[data-yogun] .msk-levelup {min-height: 64px; }
+.msk-icerik[data-yogun] .msk-levelup-lottie {width: 64px; height: 64px; }
+.msk-icerik[data-yogun] .msk-levelup-rozet {font-size: var(--qt-y-xl); }
+.msk-icerik[data-yogun] .msk-gorev {min-height: 26px; }
+.msk-icerik[data-yogun] .msk-gorevler {gap: var(--qt-b-1); }
+.msk-icerik[data-yogun] .msk-gorev:nth-child(n + 3) {display: none; }
+.msk-icerik[data-yogun] .msk-rozet {padding: var(--qt-b-2) var(--qt-b-3); }
+.msk-icerik[data-yogun] .msk-rozet-madalyon {width: 56px; height: 56px; }
+.msk-icerik[data-yogun] .msk-rozet-madalyon > :last-child {scale: 0.85; }
+.msk-icerik[data-yogun] .msk-derece .qt-cerceveli-avatar, .msk-icerik[data-yogun] .msk-derece > :first-child {scale: 0.85; margin: -6px 0; }
+.msk-icerik[data-yogun] .msk-kupa {width: 110px; height: 78px; margin-bottom: -20px; }
+.msk-icerik[data-yogun] .msk-avatar {--msk-av: 0.72; margin: 0 0 -6px; }
+.msk-icerik[data-yogun] .msk-karsilasma {margin-top: var(--qt-b-2); }
+.msk-icerik[data-yogun] .msk-kart {gap: var(--qt-b-2); padding: var(--qt-b-2) var(--qt-b-3); }
+.msk-icerik[data-yogun] .msk-xp-kalan {display: none; }
+.msk-icerik[data-yogun] .msk-xp-ray {height: 12px; }
+.msk-icerik[data-yogun] .msk-levelup {min-height: 48px; }
+.msk-icerik[data-yogun] .msk-levelup-lottie {width: 48px; height: 48px; }
+.msk-icerik[data-yogun] .msk-gorev:nth-child(n + 2) {display: none; }
+.msk-icerik[data-yogun] .msk-rozet-madalyon {width: 44px; height: 44px; }
+.msk-icerik[data-yogun] .msk-rozet-madalyon > :last-child {scale: 0.68; }
+.msk-icerik[data-yogun] .msk-rozet-ad {font-size: var(--qt-y-l); }
+.msk-icerik[data-yogun] .msk-derece > :first-child {scale: 0.7; margin: -14px 0; }
+.msk-icerik[data-yogun] .msk-derece-sayi {font-size: var(--qt-y-3xl); }
+
 /* ---------- Keyframe'ler (yalnız transform + opacity) ---------- */
 @keyframes msk-don { to { transform: rotate(360deg); } }
 @keyframes msk-sol-gir { from { opacity: 0; } }
@@ -607,7 +774,7 @@
 @keyframes msk-afis-dus { from { opacity: 0; transform: translateY(-160px); } 40% { opacity: 1; } }
 @keyframes msk-afis-in { from { opacity: 0; transform: translateY(-24px); } }
 @keyframes msk-parilti { from { transform: translateX(-110%); } }
-@keyframes msk-avatar-gir { from { opacity: 0; transform: translateX(var(--kay)) scale(var(--olcek)); } }
+@keyframes msk-avatar-gir { from { opacity: 0; transform: translateX(var(--kay)) scale(calc(var(--olcek) * var(--msk-av, 1))); } }
 @keyframes msk-tac { from { opacity: 0; transform: translateY(10px) rotate(-12deg) scale(0.6); } }
 @keyframes msk-pop { from { opacity: 0; transform: scale(0.7); } }
 @keyframes msk-xp { from { transform: translateX(calc((var(--xp-a) - 1) * 100%)); } }

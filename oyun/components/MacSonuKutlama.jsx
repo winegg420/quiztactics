@@ -23,13 +23,23 @@
 //
 // iOS: kökte ve eylem çubuğunun atalarında transform/filter/perspective YOK.
 // Coin uçuşu body'ye portal; sabit kapsayıcı yerinde durur, hareket içteki span'larda.
+//
+// A.4 (24 Eyl 2026, Ida'nın telefon testi): sahne TEK EKRAN — kaydırma yok.
+// Kök `position: fixed` katman (üst çubuğun altından ekranın dibine); <html>'e `msk-acik`
+// sınıfı konur: sayfa kaydırılmaz, alt sekme çubuğu gizlenir. Sütun: gövde (esner) + eylem
+// çubuğu (akışta, artık ayrı sabit katman değil → iki katman üst üste kaymaz). Gövde içerik
+// yüksekliğine göre önce CSS kademeleriyle (container query) sıkışır, yine sığmazsa içerik
+// kutusu ölçeklenir (yalnız .msk-icerik; içinde sabit katman yok). Detay + ek içerik (sohbet,
+// tepkiler) gövdenin üstünde açılan panelde; kaydırma yalnız o panelin içinde.
+// Oyuncu ADINA dokununca da profil kartı açılır (kendi adın → kendi kartın).
 // ============================================================
-import { lazy, memo, Suspense, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { lazy, memo, Suspense, useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import CerceveliAvatar from "./CerceveliAvatar.jsx";
 import OyuncuLigAmblemi from "./OyuncuLigAmblemi.jsx";
 import IsimEfekti, { useKartAlani } from "./IsimEfekti.jsx";
 import AvatarDugmesi from "./AvatarDugmesi.jsx";
+import OyuncuKarti from "./OyuncuKarti.jsx";
 import RozetMadalyonu, { rozetSembolu } from "./RozetMadalyonu.jsx";
 import MacSonuLottie, { KonfetiKatmani, konfetiYukle, lottieOnYukle } from "./MacSonuLottie.jsx";
 import { QtCan, QtDugme, QtIkon, QtIkonDugme } from "../tasarim/index.js";
@@ -51,6 +61,36 @@ const LOTTIE_ADLARI = ["kupa", "coin", "level", "yildiz"];
 // Zafer efekti (540): tembel yüklenir, sahnenin sakin anında (t.son) takılır — açılış kademeleri ve
 // Lottie kurulumları (aşama 2'den 400/600/800 ms) bitmiş olur; yalnız CSS transform/opacity.
 const ZaferEfekti = lazy(() => import("./ZaferEfekti.jsx"));
+
+// Aynı anda tek sahne: <html>.msk-acik sayacı (önizlemede "Tekrar oynat" eskisini sökerken yenisini takar)
+let acikSahne = 0;
+const durdur = (e) => e.stopPropagation();
+
+/** Oyuncu adına dokununca profil kartı (OyuncuKarti; AvatarDugmesi ile aynı kart). Kendi adın da açılır.
+ *  Gizli botlar gerçek oyuncu gibi: ön izlemeden is_bot/bot ayıklanır (kart yalnız herkese açık alanları okur). */
+function AdDugmesi({ userId, profil, children }) {
+  const [acik, setAcik] = useState(false);
+  const onIzleme = useMemo(() => {
+    if (!profil) return null;
+    const { is_bot: _gizli, bot: _bot, ...temiz } = profil;
+    return { id: userId, ...temiz };
+  }, [userId, profil]);
+  if (!userId) return children;
+  return (
+    <>
+      <button type="button" className="msk-isim-dugme"
+              aria-label={tt("{0} — kartını aç", { 0: profil?.gorunen_ad ?? tt("Oyuncu") })}
+              onClick={(e) => { e.stopPropagation(); setAcik(true); }}>
+        {children}
+      </button>
+      {acik && (
+        <span className="msk-kart-kap" onClick={durdur} onKeyDown={durdur} onPointerDown={durdur}>
+          <OyuncuKarti userId={userId} onIzleme={onIzleme} onKapat={() => setAcik(false)} />
+        </span>
+      )}
+    </>
+  );
+}
 
 const yuzde = (x) => Math.max(0, Math.min(1, Number.isFinite(x) ? x : 0));
 
@@ -92,11 +132,13 @@ function Taraf({ kisi, rol, yan, canToplam, sen, zafer }) {
         <OyuncuLigAmblemi lig={kisi?.lig} userId={kisi?.profil?.id} boyut={22} className="msk-amblem-rozet" />
       </div>
       <div className="msk-isim msk-a">
-        <span className="msk-isim-metin">
-          <IsimEfekti userId={kisi?.profil?.id} {...(kisi?.isimEfekti !== undefined ? { ef: kisi.isimEfekti } : {})} acik hareketli={rol === "kazanan"}>
-            {kisi?.profil?.gorunen_ad ?? ""}
-          </IsimEfekti>
-        </span>
+        <AdDugmesi userId={kisi?.profil?.id} profil={kisi?.profil}>
+          <span className="msk-isim-metin">
+            <IsimEfekti userId={kisi?.profil?.id} {...(kisi?.isimEfekti !== undefined ? { ef: kisi.isimEfekti } : {})} acik hareketli={rol === "kazanan"}>
+              {kisi?.profil?.gorunen_ad ?? ""}
+            </IsimEfekti>
+          </span>
+        </AdDugmesi>
         {/* 560: lig amblemi isim yanında (lig elde yoksa oyuncu kartından — avatarla aynı önbellek) */}
         <OyuncuLigAmblemi lig={kisi?.lig} userId={kisi?.profil?.id} boyut={18} className="msk-amblem" />
         {sen && <span className="msk-sen">{tt("Sen")}</span>}
@@ -186,6 +228,9 @@ function MacSonuKutlama({
   const coinGosterRef = useRef(az ? (oduller ?? []).find((o) => o?.ikon === "coin")?.deger ?? 0 : 0);
   const [ucus, setUcus] = useState(null);   // { x, y, hedef:{x,y} } | null
   const kokRef = useRef(null);
+  const govdeRef = useRef(null);
+  const icerikRef = useRef(null);
+  const panelKapatRef = useRef(null);
   const afisRef = useRef(null);
   const coinSayiRef = useRef(null);
   const coinIkonRef = useRef(null);
@@ -312,7 +357,7 @@ function MacSonuKutlama({
     z(t.son, () => setZaferAn(true));
     z(toplamMs, () => setBitti(true));
 
-    const tus = (e) => { if (e.key === "Escape") bitir(); };
+    const tus = (e) => { if (e.key === "Escape" && !document.querySelector(".msk-panel--acik")) bitir(); };
     window.addEventListener("keydown", tus);
     const liste = zamanlayicilar.current;
     return () => {
@@ -339,24 +384,77 @@ function MacSonuKutlama({
     return () => sesMuzikSahne(false);
   }, []);
 
-  // Eylem çubuğu alt sekme çubuğunun (.mobile-nav) hemen üstüne oturur; yoksa güvenli alanı kendisi
-  // bırakır. Maç biterken oyun modu (body.bd-oyun-modu) ölçümden sonra kalkabilir → body sınıfı izlenir.
+  // A.4: tek ekran. <html>.msk-acik → sayfa kaydırılmaz, alt sekme çubuğu gizli (mac-sonu-kutlama.css).
+  // Kök sabit katman üst çubuğun (.a-ust-blok; önizlemede [data-msk-ust]) altından başlar — coin'ler
+  // üst çubuktaki sayaca uçar. Maç biterken oyun modu (body.bd-oyun-modu) kalkınca üst çubuk görünür →
+  // body sınıfı ve üst bloğun boyu izlenir. Alt sekme çubuğu gizli olduğundan güvenli alanı çubuk bırakır.
   useLayoutEffect(() => {
     const kok = kokRef.current;
     if (!kok) return undefined;
+    const html = document.documentElement;
+    acikSahne += 1;
+    html.classList.add("msk-acik");
+    try { if (window.scrollY) window.scrollTo(0, 0); } catch { /* eski tarayıcı */ }
+    const ustler = () => [...document.querySelectorAll(".a-ust-blok, [data-msk-ust]")].filter((el) => !kok.contains(el));
     const olc = () => {
-      const tb = document.querySelector(".mobile-nav, .tabbar");
-      const h = tb && getComputedStyle(tb).display !== "none"
-        ? Math.max(0, window.innerHeight - tb.getBoundingClientRect().top) : 0;
-      kok.style.setProperty("--msk-eylem-alt", `${Math.round(h)}px`);
-      kok.style.setProperty("--msk-guvenli", h ? "0px" : "env(safe-area-inset-bottom)");
+      let ust = 0;
+      for (const el of ustler()) {
+        if (getComputedStyle(el).display === "none") continue;
+        ust = Math.max(ust, el.getBoundingClientRect().bottom);
+      }
+      kok.style.setProperty("--msk-ust", `${Math.max(0, Math.round(ust))}px`);
     };
     olc();
     window.addEventListener("resize", olc);
     const gozcu = typeof MutationObserver === "undefined" ? null : new MutationObserver(olc);
     gozcu?.observe(document.body, { attributes: true, attributeFilter: ["class"] });
-    return () => { window.removeEventListener("resize", olc); gozcu?.disconnect(); };
+    const boyGozcu = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(olc);
+    for (const el of ustler()) boyGozcu?.observe(el);
+    return () => {
+      window.removeEventListener("resize", olc);
+      gozcu?.disconnect();
+      boyGozcu?.disconnect();
+      acikSahne = Math.max(0, acikSahne - 1);
+      if (!acikSahne) html.classList.remove("msk-acik");
+    };
   }, []);
+
+  // A.4: içerik gövdeye sığmazsa (CSS kademelerinden sonra) içerik kutusu ölçeklenir — kaydırma yok.
+  // offsetHeight transform'dan etkilenmez: ölçek kendi ölçümünü değiştirmez (döngü yok).
+  useLayoutEffect(() => {
+    const kok = kokRef.current;
+    const govde = govdeRef.current;
+    const ic = icerikRef.current;
+    if (!kok || !govde || !ic) return undefined;
+    const sigdir = () => {
+      const h = govde.clientHeight;
+      let n = ic.offsetHeight;
+      // Çok uzunsa önce sıkışık düzen (CSS [data-yogun]) ve aynı anda yeniden ölçülür. Tek yönlü (salınmaz).
+      if (h > 0 && n > h * 1.12 && !ic.dataset.yogun) { ic.dataset.yogun = "1"; n = ic.offsetHeight; }
+      const o = n > h + 1 && h > 0 ? Math.max(0.4, Math.floor((h / n) * 1000) / 1000) : 1;
+      ic.style.setProperty("--msk-sigdir", String(o));
+      // Sınıf değil veri işareti: React kökün className'ini her çizimde yeniden yazar, bunu bilmez.
+      if (o < 1) ic.dataset.sikisik = "1"; else delete ic.dataset.sikisik;
+    };
+    sigdir();
+    if (typeof ResizeObserver === "undefined") {
+      window.addEventListener("resize", sigdir);
+      return () => window.removeEventListener("resize", sigdir);
+    }
+    const g = new ResizeObserver(sigdir);
+    g.observe(govde);
+    g.observe(ic);
+    return () => g.disconnect();
+  }, []);
+
+  // Detay paneli açılınca odak kapatma düğmesine; Esc paneli kapatır.
+  useEffect(() => {
+    if (!detayAcik) return undefined;
+    try { panelKapatRef.current?.querySelector("button")?.focus({ preventScroll: true }); } catch { /* eski tarayıcı */ }
+    const tus = (e) => { if (e.key === "Escape") setDetayAcik(false); };
+    window.addEventListener("keydown", tus);
+    return () => window.removeEventListener("keydown", tus);
+  }, [detayAcik]);
 
   // Zafer efekti parçası + görselleri sahnenin boş anında önceden iner/çözülür (takılma anı ucuz kalsın).
   useEffect(() => {
@@ -424,6 +522,8 @@ function MacSonuKutlama({
     : kazandi
       ? (mod === "duello" ? tt("Düello senin!") : tt("Harika maçtı!"))
       : durum === "kaybetti" ? tt("Rövanşta görüşürüz") : tt("Kimse pes etmedi");
+  const panelVar = Boolean(detay || children);
+  const panelId = useId();
   const skorSol = canToplam ? Math.max(0, ben?.can ?? 0) : (ben?.skor ?? 0);
   const skorSag = canToplam ? Math.max(0, rakip?.can ?? 0) : (rakip?.skor ?? 0);
 
@@ -445,6 +545,9 @@ function MacSonuKutlama({
         {benZafer && zaferAn && <Suspense fallback={null}><ZaferEfekti ef={benZafer} /></Suspense>}
       </div>
 
+      {/* A.4: gövde (esner, taşmaz) — içerik kutusu gerekirse ölçeklenir; Detay paneli gövdenin üstünde açılır */}
+      <div className="msk-govde" ref={govdeRef}>
+      <div className="msk-icerik" ref={icerikRef}>
       <div className="msk-sahne">
         {kutlama && (
           <div className="msk-kupa">
@@ -572,27 +675,30 @@ function MacSonuKutlama({
       )}
 
       {/* A.3: açılır Detay (ödül dökümü, sorular, paylaş) + serbest ek içerik (sohbet, tepkiler).
-          Sahnenin sonunda girer; kapalı başlar, açılınca başa kaydırılır. */}
-      {asama >= 2 && detay && (
-        <div className={`msk-detay msk-a${detayAcik ? " msk-detay--acik" : ""}`} onClick={(e) => e.stopPropagation()}>
+          A.4: sahnede yalnız düğme; içerik gövdenin üstünde açılan panelde (kaydırma yalnız panelde). */}
+      {asama >= 2 && panelVar && (
+        <div className={`msk-detay msk-a${detayAcik ? " msk-detay--acik" : ""}`} onClick={durdur}>
           <QtDugme tur="ikincil" boyut="k" className="msk-detay-dugme" ikonSag="asagi" aria-expanded={detayAcik}
-                   onClick={(e) => {
-                     if (!detayAcik) {
-                       const dugme = e.currentTarget;
-                       requestAnimationFrame(() => dugme.scrollIntoView({ block: "start", behavior: az ? "auto" : "smooth" }));
-                     }
-                     setDetayAcik((a) => !a);
-                   }}>
+                   aria-controls={panelId} onClick={() => setDetayAcik(true)}>
             {tt("Detay")}
             {detayRozet > 0 && <span className="msk-detay-rozet"> ({detayRozet})</span>}
           </QtDugme>
-          {/* Kapalıyken de takılı (rövanş portalı, yanlış sayısı gibi yan etkiler sürsün), yalnız gizli */}
-          <div className="msk-detay-govde" hidden={!detayAcik}>{detay}</div>
         </div>
       )}
-      {asama >= 2 && children && (
-        <div className="msk-ek msk-a" onClick={(e) => e.stopPropagation()}>{children}</div>
+      </div>{/* .msk-icerik */}
+
+      {/* Kapalıyken de takılı (rövanş portalı, yanlış sayısı, sohbet gibi yan etkiler sürsün), yalnız gizli */}
+      {asama >= 2 && panelVar && (
+        <div id={panelId} ref={panelKapatRef} className={`msk-panel${detayAcik ? " msk-panel--acik" : ""}`}
+             hidden={!detayAcik} role="region" aria-label={tt("Detay")} onClick={durdur}>
+          <div className="msk-panel-ust">
+            <QtDugme tur="ikincil" boyut="k" ikon="kapat" onClick={() => setDetayAcik(false)}>{tt("Kapat")}</QtDugme>
+          </div>
+          {detay && <div className="msk-detay-govde">{detay}</div>}
+          {children && <div className="msk-ek">{children}</div>}
+        </div>
       )}
+      </div>{/* .msk-govde */}
 
       {kutlama && !az && (
         <KonfetiKatmani ref={lottie.konfeti} />
