@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
 import { oyuncuKartiUnut } from "./cerceve.js";
 import { tt } from "./dil.js";
+import { hataMesaji } from "./hata.js";
 
 export const KOZMETIK_TURLERI = ["vs_karti", "isim_efekti", "zafer_efekti", "tepki_paketi", "premium_cerceve", "premium_aura"];
 export const TUR_ADI = {
@@ -163,9 +164,12 @@ export function useTepkiGizli() {
   return gizli;
 }
 
-/** Sunucu hata metni → kullanıcı metni. */
+/**
+ * Sunucu hata metni → kullanıcı metni. D-302: tek yardımcıya (hataMesaji) bağlı — ham ağ/teknik hata
+ * yerine "Bağlantı yok…"; anlamlı sunucu mesajları aynen. "Yetersiz elmas" → "Elmas yetmiyor".
+ */
 export function kozmetikHatasi(e) {
   const m = String(e?.message ?? e ?? "");
   if (m.includes("Yetersiz elmas")) return tt("Elmas yetmiyor");
-  return m || tt("İşlem tamamlanamadı");
+  return hataMesaji(e, tt("İşlem tamamlanamadı"));
 }

@@ -10,6 +10,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
 import { tt } from "./dil.js";
+import { hataMesaji } from "./hata.js";
 
 const OLAY = "bildim-coin-degisti";
 
@@ -56,9 +57,13 @@ export function useCoin() {
   return { bakiye, hareketler, yukleniyor, tazele: oku };
 }
 
-/** Sunucu hata metnini kullanıcıya uygun hâle getirir. */
+/**
+ * Sunucu hata metnini kullanıcıya uygun hâle getirir. D-302: tek yardımcıya (hataMesaji) bağlı —
+ * ham ağ/teknik hata ("TypeError: Failed to fetch") yerine "Bağlantı yok…"; anlamlı sunucu
+ * mesajları (iş kuralı) aynen geçer. "Yetersiz coin" → "Coin yetmiyor" (çağıranlar bu metne bakıyor).
+ */
 export function coinHatasi(e) {
   const m = String(e?.message ?? e ?? "");
   if (m.includes("Yetersiz coin")) return tt("Coin yetmiyor");
-  return m || tt("İşlem tamamlanamadı");
+  return hataMesaji(e, tt("İşlem tamamlanamadı"));
 }

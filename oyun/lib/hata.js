@@ -7,8 +7,10 @@ import { sesHataUyari } from "./ses.js";
 const BILINEN = [
   [/giriş gerekli/i, tt("Oturumun düşmüş görünüyor. Sayfayı yenileyip tekrar dene.")],
   [/jwt|token|expired/i, tt("Oturumun sona erdi. Tekrar giriş yapman gerekiyor.")],
-  [/failed to fetch|networkerror|network request failed/i,
-    tt("İnternet bağlantısına ulaşılamıyor. Bağlantını kontrol edip tekrar dene.")],
+  // D-302: tarayıcıların ham ağ hataları ("TypeError: Failed to fetch", Safari "Load failed",
+  // Firefox "NetworkError…", Supabase "FetchError") ekrana ASLA çıkmaz.
+  [/failed to fetch|networkerror|network request failed|load failed|fetcherror|err_internet_disconnected|the internet connection appears to be offline/i,
+    tt("Bağlantı yok. İnternetini kontrol edip tekrar dene.")],
   [/kota|çok fazla|too many/i, tt("Çok hızlı gidiyorsun! Biraz bekleyip tekrar dene.")],
   [/soru bulunamadı/i, tt("Bu kategoride şu an soru yok. Başka bir kategori seç.")],
   [/zaten devam eden bir maçın/i, tt("Bu oyuncuyla süren bir maçın zaten var.")],
@@ -30,6 +32,10 @@ export function hataMesaji(hata, yedek = tt("Bir şeyler ters gitti. Tekrar dene
   try { if (!document.hidden) sesHataUyari(); } catch { /* ses kritik değil */ }
   const ham = (hata?.message ?? hata?.error_description ?? String(hata ?? "")).trim();
   if (!ham) return yedek;
+  // Çevrimdışıyken gelen hata neredeyse her zaman bağlantıdandır (D-302)
+  try {
+    if (typeof navigator !== "undefined" && navigator.onLine === false) return tt("Bağlantı yok. İnternetini kontrol edip tekrar dene.");
+  } catch { /* navigator yok */ }
 
   for (const [kalip, karsilik] of BILINEN) {
     if (kalip.test(ham)) return karsilik ?? ttSunucu(ham);

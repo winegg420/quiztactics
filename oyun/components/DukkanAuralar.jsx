@@ -12,7 +12,9 @@ import CerceveliAvatar from "./CerceveliAvatar.jsx";
 import { auraTanimiBul, NADIRLIK_ADI } from "../tasarim/cerceveler/tanimlar.js";
 import DurumKutusu from "./DurumKutusu.jsx";
 import { auraKatalogu, auraSatinAl, auraTak, CERCEVE_NADIRLIKLERI } from "../lib/cerceve.js";
-import { elmasHatasi, elmasTazele, useElmas } from "../lib/elmas.js";
+import { elmasTazele, useElmas } from "../lib/elmas.js";
+// D-302: ham ağ hatası yerine "Bağlantı yok…" — kozmetikHatasi = hataMesaji + "Yetersiz elmas" → "Elmas yetmiyor" (elmasHatasi ile aynı)
+import { kozmetikHatasi } from "../lib/kozmetik.js";
 import JokerSatinAlModal from "./JokerSatinAlModal.jsx";
 import { sesHataUyari, sesSatinAlma } from "../lib/ses.js";
 import { tt } from "../lib/dil.js";
@@ -65,7 +67,7 @@ export default function DukkanAuralar({ elmasYetmedi, onBilgi, onHata, elmasBaki
       setKatalog(sirali);
       setSecili((s) => sirali.find((x) => x.anahtar === s) ? s : (sirali.find((x) => x.takili)?.anahtar ?? sirali.find((x) => x.satilik)?.anahtar ?? null));
     } catch (e) {
-      setHata(elmasHatasi(e));
+      setHata(kozmetikHatasi(e));
     }
   }, []);
   useEffect(() => { yukle(); }, [yukle]);
@@ -91,7 +93,7 @@ export default function DukkanAuralar({ elmasYetmedi, onBilgi, onHata, elmasBaki
       onBilgi?.(tt("{ad} aurası senin. Şimdi takabilirsin.", { ad: ad(c) }));
       await yukle();
     } catch (e) {
-      const m = elmasHatasi(e);
+      const m = kozmetikHatasi(e);
       sesHataUyari();
       onHata?.(m);
       if (m === tt("Elmas yetmiyor")) elmasYetmedi?.();
@@ -107,7 +109,7 @@ export default function DukkanAuralar({ elmasYetmedi, onBilgi, onHata, elmasBaki
       onBilgi?.(anahtar ? tt("Aura takıldı.") : tt("Aura çıkarıldı."));
       setKatalog((k) => k.map((x) => ({ ...x, takili: x.anahtar === anahtar })));
     } catch (e) {
-      onHata?.(elmasHatasi(e));
+      onHata?.(kozmetikHatasi(e));
     } finally {
       setIslem(null);
     }
