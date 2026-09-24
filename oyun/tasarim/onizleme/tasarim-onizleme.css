@@ -1,0 +1,11 @@
+/* /tasarim-onizleme kabuğu — bölüm stilleri kendi klasörlerinde (altin/, arama/). */
+.to-ic { display: grid; gap: 20px; padding-bottom: 32px; }
+.to-giris { display: grid; gap: 8px; }
+.to-atla { font-weight: 700; }
+.to-atla a { color: var(--qt-mor, #6a48f5); }
+.to-bolum { display: grid; gap: 14px; scroll-margin-top: 72px; }
+.to-karar { display: flex; gap: 10px; flex-wrap: wrap; }
+.to-ozet-kart { display: grid; gap: 10px; }
+.to-ozet-grup { display: grid; gap: 4px; }
+.to-kopya-not { min-height: 1.2em; margin: 0; }
+.to-kopya-metin { width: 100%; font: inherit; font-size: 13px; }
