@@ -129,7 +129,7 @@ export default function BildimApp() {
     pathname.startsWith("/kozmetik-onizleme") ||
     pathname.startsWith("/mac-sonu-onizleme") ||
     // Yalnız yerel geliştirme (.env yok): premium önizlemeyi ölçmek için; üretimde DEV false → girişli + sahip kontrolü
-    (import.meta.env.DEV && !supabaseHazir && pathname.startsWith("/premium-onizleme")) ||
+    (import.meta.env.DEV && !supabaseHazir && (pathname.startsWith("/premium-onizleme") || pathname.startsWith("/tasarim-onizleme"))) ||
     pathname.startsWith("/gizlilik") || pathname.startsWith("/kosullar");
 
   if (!supabaseHazir && !bagimsizModul) {
