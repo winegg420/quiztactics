@@ -9,3 +9,7 @@ Ayrıntı: docs/VARLIK_LISANSLARI.md
 Temalı çerçeveler (23 Eyl 2026): bulut.webp = U+2601 · sakura.webp = U+1F338 · papatya.webp = U+1F33C ·
 yaprak.webp = U+1F343 · dalga.webp = U+1F30A · deniz-kabugu.webp = U+1F41A · donen-yildiz.webp = U+1F4AB ·
 ejder.webp = U+1F432 · simsek.webp = U+26A1 · gezegen.webp = U+1FA90 · kuyruklu-yildiz.webp = U+2604
+Elmas kozmetikleri (24 Eyl 2026): tepki/ klasörü 128 px WebP — alkis = U+1F44F · havali = U+1F60E · terli = U+1F605 ·
+dusunen = U+1F914 · gulen = U+1F602 · ates = U+1F525 · hedef = U+1F3AF · tac = U+1F451 · kas = U+1F4AA · korku = U+1F631 ·
+selam = U+1FAE1 · rica = U+1F64F. 256 px: havai-fisek.webp = U+1F386 · agac.webp = U+1F332 · volkan.webp = U+1F30B ·
+gece-sehir.webp = U+1F303 · coin.webp = U+1FA99 · ejder-alev.webp = U+1F409 · kayan-yildiz.webp = U+1F320 · balik.webp = U+1F420
