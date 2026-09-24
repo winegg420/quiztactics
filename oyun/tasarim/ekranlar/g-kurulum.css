@@ -80,6 +80,10 @@
   max-height: min(40dvh, 300px);
   overflow-y: auto;
   overscroll-behavior: contain;
+  /* 58 avatar (31 hazır + 27 katalog) bu kutuda kaydırılır: iOS'ta iç kaydırma parmağı izlesin, yatay kaydırma yok */
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  overflow-x: hidden;
   padding: var(--qt-b-1) var(--qt-b-1) var(--qt-b-2);
   margin: 0 calc(-1 * var(--qt-b-1));
 }

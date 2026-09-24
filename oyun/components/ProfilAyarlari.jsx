@@ -11,45 +11,13 @@ import DavetKodu from "./DavetKodu.jsx";
 import AvatarCerceve from "./AvatarCerceve.jsx";
 import { tt } from "../lib/dil.js";
 import { rpcDene } from "../lib/rpcDene.js";
-import { useKatalogAvatarlari } from "../lib/avatarKatalogu.js";
+import { HAZIR_AVATARLAR, useKatalogAvatarlari } from "../lib/avatarKatalogu.js";
 import { QtAnahtar, QtDugme, QtIkon, QtKart, sayiBicim } from "../tasarim/index.js";
 import "../tasarim/ekranlar/dukkan-profil.css";
 
-// Profesyonel avatar seti. Eski düşük ayrıntılı SVG'ler donduruldu; 31 karakter
-// aynı çizim dilinde yeniden üretildi. Kaynak: AvatarProIllustrations.jsx.
-export const HAZIR_AVATARLAR = [
-  { url: "/avatars/pro/kedi-k01.svg", ad: tt("Kedi") },
-  { url: "/avatars/pro/kopek-k02.svg", ad: tt("Köpek") },
-  { url: "/avatars/pro/baykus-k03.svg", ad: tt("Baykuş") },
-  { url: "/avatars/pro/tilki-k04.svg", ad: tt("Tilki") },
-  { url: "/avatars/pro/panda-k05.svg", ad: tt("Panda") },
-  { url: "/avatars/pro/penguen-k06.svg", ad: tt("Penguen") },
-  { url: "/avatars/pro/kurbaga-k07.svg", ad: tt("Kurbağa") },
-  { url: "/avatars/pro/ayi-k08.svg", ad: tt("Ayı") },
-  { url: "/avatars/pro/maymun-k09.svg", ad: tt("Maymun") },
-  { url: "/avatars/pro/dinozor-k10.svg", ad: tt("Dinozor") },
-  { url: "/avatars/pro/ejderha-k11.svg", ad: tt("Ejderha") },
-  { url: "/avatars/pro/kopekbaligi-k12.svg", ad: tt("Köpekbalığı") },
-  { url: "/avatars/pro/ahtapot-k13.svg", ad: tt("Ahtapot") },
-  { url: "/avatars/pro/ari-k14.svg", ad: tt("Arı") },
-  { url: "/avatars/pro/robot-k15.svg", ad: tt("Robot") },
-  { url: "/avatars/pro/uzayli-k16.svg", ad: tt("Uzaylı") },
-  { url: "/avatars/pro/astronot-k17.svg", ad: tt("Astronot") },
-  { url: "/avatars/pro/ninja-k18.svg", ad: tt("Ninja") },
-  { url: "/avatars/pro/korsan-k19.svg", ad: tt("Korsan") },
-  { url: "/avatars/pro/sovalye-k20.svg", ad: tt("Şövalye") },
-  { url: "/avatars/pro/buyucu-k21.svg", ad: tt("Büyücü") },
-  { url: "/avatars/pro/dedektif-k22.svg", ad: tt("Dedektif") },
-  { url: "/avatars/pro/asci-k23.svg", ad: tt("Aşçı") },
-  { url: "/avatars/pro/profesor-k24.svg", ad: tt("Profesör") },
-  { url: "/avatars/pro/viking-k25.svg", ad: tt("Viking") },
-  { url: "/avatars/pro/hayalet-k26.svg", ad: tt("Hayalet") },
-  { url: "/avatars/pro/zombi-k27.svg", ad: tt("Zombi") },
-  { url: "/avatars/pro/mumya-k28.svg", ad: tt("Mumya") },
-  { url: "/avatars/pro/kahraman-k29.svg", ad: tt("Kahraman") },
-  { url: "/avatars/pro/palyaco-k30.svg", ad: tt("Palyaço") },
-  { url: "/avatars/pro/kral-k31.svg", ad: tt("Kral") },
-];
+// Profesyonel avatar seti (31) — liste oyun/lib/avatarKatalogu.js'te (Dükkân › Avatar da kullanır; profil
+// sayfası paketini dükkâna taşımasın diye). Buradan dışa aktarım geriye uyum için durur.
+export { HAZIR_AVATARLAR };
 
 // Takma ad günde bir kez değişir (sunucudaki takma_ad_sec ile aynı pencere).
 const TAKMA_AD_KILIT_MS = 24 * 60 * 60 * 1000;
