@@ -68,6 +68,11 @@
 }
 
 /* ---------- A.4: sayfa kilidi + alt sekme çubuğu gizli (yalnız sahne açıkken) ---------- */
+/* Düello sahneyi .bd-duello içinde çizer; tema.css'teki eski `.bd-duello > * { position: relative; z-index: 1 }`
+   aynı ağırlıkta olup yüklenme sırasına göre kazanınca sahne akışa düşüyor, gövde 0 px'e çöküp kırpılıyordu
+   (canlı: Düello maç sonunda yalnız eylem çubuğu — 24 Eyl). Daha özgül seçici sabit katmanı korur. */
+.bd-duello > .msk { position: fixed; z-index: 30; }
+
 html.msk-acik, html.msk-acik body { overflow: hidden; overscroll-behavior: none; }
 html.msk-acik .mobile-nav, html.msk-acik .a-kabuk .a-altmenu { display: none !important; }
 
