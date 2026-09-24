@@ -8389,3 +8389,8 @@ ada dokununca kart yok, maç içi ses tek düğme; ek olarak 2. tur onayları (B
   445k / 0,47 $. Skill ve CLAUDE.md kuralı TEK BAŞINA yetmedi (model Jev'i çağırmadı) — `dosya-sec` tek komutu +
   hatırlatma kancasıyla çağırdı.
 - Bilinen: DELETE FROM / DROP geçen her komut (ör. grep ile arama, bu depodaki pg-mini temizlik betikleri) onay ister.
+- **Kapı düzeltmesi (aynı gün, Ida):** kapı yalnız ÇALIŞTIRILACAK kısmı değerlendirir — heredoc gövdesi, tırnak içi metin,
+  commit mesajı, echo/printf/grep/rg/`git log --grep` argümanları atılır (yönlendirme `> .env` kalır); yorumlayıcıya kod olarak
+  giden metin (`psql -c`, `node -e`, `bash -c`, `python -c`, `ssh`, `psql/node/bash <<EOF`) korunur. Test 23/23 (11 yanlış
+  alarm örneği geçti, 12 gerçek yıkıcı anında onay) + önceki 50/50. Yukarıdaki "DELETE FROM geçen her komut onay ister"
+  notu artık geçerli değil; `node betik.mjs "…DROP…"` gibi yorumlayıcıya tırnaklı argüman temkinli olarak onay ister.
