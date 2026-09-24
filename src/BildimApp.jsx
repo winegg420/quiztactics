@@ -85,6 +85,7 @@ const MacSonuOnizlemePage = lazy(() => import("../oyun/pages/MacSonuOnizlemePage
 const SesSecimPage = lazy(() => import("../oyun/tasarim/ses-secim/SesSecimPage.jsx"));   // ses seçimi — yalnız sahip, yalnız adresle (girişli)
 const AvatarOnizlemePage = lazy(() => import("../oyun/tasarim/avatar-onizleme/AvatarOnizlemePage.jsx"));   // yeni avatar onayı (Ajan A) — yalnız sahip, yalnız adresle (girişli)
 const CerceveOnizlemePage = lazy(() => import("../oyun/tasarim/cerceveler/deneme/CerceveOnizlemePage.jsx"));   // çerçeve tarzı seçimi (Ajan B) — yalnız sahip, yalnız adresle (girişli)
+const PremiumOnizlemePage = lazy(() => import("../oyun/tasarim/premium/PremiumOnizlemePage.jsx"));   // premium kozmetik önizlemesi — yalnız sahip, yalnız adresle (girişli)
 
 // Eski hub adresleri (/oyun/...) bu sitede köke indirilir. Bookmark, push
 // bildirimi deep-link'i ve paylaşılmış davet linkleri kırılmasın diye.
@@ -125,6 +126,8 @@ export default function BildimApp() {
     pathname.startsWith("/tasarim-sistemi") ||
     pathname.startsWith("/kozmetik-onizleme") ||
     pathname.startsWith("/mac-sonu-onizleme") ||
+    // Yalnız yerel geliştirme (.env yok): premium önizlemeyi ölçmek için; üretimde DEV false → girişli + sahip kontrolü
+    (import.meta.env.DEV && !supabaseHazir && pathname.startsWith("/premium-onizleme")) ||
     pathname.startsWith("/gizlilik") || pathname.startsWith("/kosullar");
 
   if (!supabaseHazir && !bagimsizModul) {
@@ -183,6 +186,7 @@ export default function BildimApp() {
         <Route path="/ses-secim" element={<SesSecimPage />} />
         <Route path="/avatar-onizleme" element={<AvatarOnizlemePage />} />
         <Route path="/cerceve-onizleme" element={<CerceveOnizlemePage />} />
+        <Route path="/premium-onizleme" element={<PremiumOnizlemePage />} />
 
         <Route path="/" element={<Layout />}>
           <Route index element={<AnaSayfa />} />
