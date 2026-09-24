@@ -8219,3 +8219,26 @@ ada dokununca kart yok, maç içi ses tek düğme; ek olarak 2. tur onayları (B
 - **Yönetici:** HEAD temiz kopyada derlendi; ana paket 403.529 → 408.462 B (çevrimiçi kancası kabukta). 390 px açılış
   (normal + reduce) taşma 0, konsol hatası 0.
 - **Uygulama sırası:** 580 → 590 → 595 (sonra avatar onayı → 595 sonundaki satır).
+
+## 2026-09-24 — 580 / 590 / 595 / 596 canlıda, Şeker Q ikonu, çevrimiçi durumu düzeltmesi
+**Araç:** Claude Code (yönetici)
+- **Migration (her biri önce prova):** 580 Ejderha (pc_ejderha2, 500 elmas TEST, bot_min_level 999) · 590 çevrimiçi
+  durumu (Ida onaylı güvenlik kuralı: realtime.messages'ta yalnız 'presence' için cevrimici_oku / cevrimici_yaz) ·
+  595 12 avatar kapalı · **596 (yeni)**: 595'in açma adımı yalnız 8 avatar için — kristal-uzayli-y28,
+  gozsapli-uzayli-y29, savas-robotu-y30, siborg-y31, android-y32, kedili-kiz-y37, pilot-y38, hostes-y39 ücretsiz;
+  kasli-sampiyon-y33, demir-pazi-y34, fitness-kralicesi-y35, kedili-genc-y36 kapalı. Gizli botlar 550 kuralıyla
+  (31 + aktif katalog) yeniden dağıldı: 8 bot yeni avatarlardan aldı, kapalı avatarlı bot 0. Yorum: "botlar yalnız bu
+  8'i kullanabilsin" = yeni 12'den yalnız açık 8'i (31 + 27 önceki avatar da kullanılmaya devam eder).
+- **İkon:** Şeker Q (`public/ikon-aday/seker-q`) → `quiztactics-sekerq-*` (favicon SVG + 192, apple-touch 180, manifest
+  192/512 + maskable 512), sürüm `20260924-sekerq`; eski wordmark dosyaları durur; og:image değişmedi.
+  `useBildimManifest` manifest bağlantısını sürümsüz adrese çevirip önbellek kırıcıyı düşürüyordu → düzeltildi.
+- **Hata (canlıda bulundu):** arkadaş listesinde çevrimiçi durumu hiç görünmüyordu — oyuncunun kendi
+  `cevrimici-<uid>` kanalına katılımı "Unauthorized". Kök sebep: sahip kanalında presence dinleyicisi yok →
+  realtime-js presence'ı kapalı katılıyor → sunucu broadcast okuma iznine bakıyor (590'da yalnız presence
+  politikası). Sahip kanalı `presence.enabled: true` ile açılır; politika/yetki değişmedi.
+- **Canlı kontrol (390 px):** Ejderha dükkânda 500, pencerede "Satın al 500", hareketli; botlarda premium 0 ·
+  Dükkân › Elmas 5 görsel (ep--1…5) · Profil › Ayarlar › Avatar: 8 yeni var, kapalı 4 yok · iki test hesabı (arkadaş
+  yapıldı): B ana sayfadayken A'da "Çevrimiçi", maçtayken "Maçta", kapatınca kalkıyor · konsol/çökme 0.
+- `bulut/kozmetik-aktivasyon` ve `bulut/premium-aktivasyon` silindi (ikisi de main'de tamamen vardı).
+- Not: canlı test betikleri (scratchpad `kontrol-595.mjs`) yenilenen oturumu `.arayuz-denetim-oturum.json`'a geri
+  yazıyor — ortak test oturumu artık tükenmiyor.
