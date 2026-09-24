@@ -111,6 +111,9 @@ export default function GizlilikPage() {
         {tt("Verilerini hesabın açık olduğu sürece saklarız. Hesabını")}{" "}
         <Link to={y("/profil")}>{tt("Profil")}</Link> {tt("sayfasındaki")} <b>{tt("Hesabımı Sil")}</b> {tt("düğmesiyle kalıcı olarak silebilirsin; profilin, maç kayıtların, rozetlerin, mesajların, engellemelerin ve gönderdiğin şikâyetler silinir. Bu işlem geri alınamaz. Dilersen")} {ILETISIM} {tt("adresine yazarak da silme talebinde bulunabilirsin.")}
       </p>
+      <p>
+        {tt("İstisna: başka oyuncuların senin hakkında gönderdiği şikâyet kayıtları (şikâyet edilen mesajın o anki metni dahil), kural ihlallerinin kanıtı olarak hesabın silindikten sonra 1 yıl saklanır ve bu sürenin sonunda otomatik olarak silinir. Bu kayıtları yalnız yöneticiler görür.")}
+      </p>
 
       <h2>{tt("Çocuklar")}</h2>
       <p>
