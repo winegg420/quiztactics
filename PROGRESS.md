@@ -8340,3 +8340,26 @@ ada dokununca kart yok, maç içi ses tek düğme; ek olarak 2. tur onayları (B
   bıraktı; Klasik ×2 ve Düello engelsiz eşleşti, engelliyken eşleşmedi. Grup ayrıca denenmedi (aynı koşul).
 - Ida'nın aynı mesajına yapıştırdığı "Jev'i bütün Claude Code projelerine bağla" metni mesajında istenmediği için
   uygulanmadı; ayrıca soruldu.
+
+## 2026-09-24 — Yayını engelleyen denetim hataları (bulut, 2 ajan)
+**Araç:** Claude Code (yönetici + Ajan A/B). Migration yok; oyun mantığı/puanlama/sunucu aynı. PC oturumunun (dil, elmas,
+620/621/630) commit'leri pull --rebase ile alındı; tek çakışma BildimApp lazy satırları — iki taraf birleştirildi
+(YonetimSikayetlerPage satırı korundu, tembelYukle ile sarıldı).
+- **A1 maç ekranı sığıyor (d930b3a, 837cc53):** Klasik/Grup/Turnuva/Çalışma/Düello soru açıkken 100dvh sütun; 390×664 ve 360×640'ta
+  sayfa = ekran (önce 967–1425 px), joker + tepki hep görünür; Grup skor tablosu maçta yatay şerit; `lib/soruUzunluk.js`;
+  `useOyunModu` oyun moduna girerken en üste kaydırır (maç 187–400 px kaymış açılıyordu).
+- **A2 gök mavisi (6dcdbb1):** `.qt-sahne-gok` — Hazır mısın?, Düello, Çalışma, Klasik/Grup/Turnuva bekleme, terk hâlleri.
+  Hazır mısın? baykuşu kaldırıldı, altta maç bilgi kartı. Baykuş maskot hâlâ: Login, Tanitim, SureDolduGecis, MatchPage asenkron,
+  CalismaPage boş banka (karar Ida'da).
+- **A3 arama (e773b55):** Güneş Halkası'nda ada dokununca kart; Grup araması Güneş Halkası'nda (katılan sayısı sunucudan
+  gelmiyor → "3–5 oyuncu"). Düello VS 2 sn'ye UZATILMADI: düello kurulunca sunucu kategori süresi işliyor; yerine geç gelen
+  profilde ara animasyon atlanır (VS ~0,95 → ~1,45 sn).
+- **B1 boş ekran (1f8b988):** HataSiniri Layout'ta Outlet'i ve kökte main'i sarar; online'da yeniden dener; vite:preloadError
+  oturumda bir kez yenile; `src/lib/tembelYukle.js` (1 yeniden deneme) bütün lazy sayfalarda; AnaSayfaA "Yüklenemedi · Tekrar
+  dene"; `BaglantiSeridi` "Bağlantı yok". Üretimde çevrimdışı → kart + alt menü, bağlantı gelince sayfa kendiliğinden.
+- **B2 çıkış onayı (9bffc2b):** `CikisOnayi.jsx` — misafirde uyarı + "Önce hesabımı bağla" (Ayarlar güvence kartı).
+- **B3 satın alma onayı (355eef3, 3207896):** bütün dükkân alımları `JokerSatinAlModal` (isteğe bağlı prop; maç içi aynı).
+- **B4 elmas çıkmazı (14c11f5):** "Elmasın yetmiyor: X gerekli, Y var" + "Nasıl kazanılır?"; reklam yoksa video kartı gizli;
+  Google Play metni yalnız Elmas sekmesi + satış açıkken.
+- **B5 ham hata (0425d2b):** coinHatasi/kozmetikHatasi → hataMesaji; ağ hatası her yerde "Bağlantı yok. İnternetini kontrol edip tekrar dene."
+- **Ana paket (sahte env, aynı koşul):** origin/main önce JS 414,21 / CSS 480,46 kB → sonra 422,87 / 494,44 kB.
