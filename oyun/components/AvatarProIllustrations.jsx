@@ -1,11 +1,11 @@
-const CIZGI = {
+export const CIZGI = {
   stroke: "#0b1220",
   strokeWidth: 5,
   strokeLinecap: "round",
   strokeLinejoin: "round",
 };
 
-function Sahne({ renk, vurgu = "#fff8ec" }) {
+export function Sahne({ renk, vurgu = "#fff8ec" }) {
   return <><rect width="320" height="320" rx="38" fill={renk} /><circle cx="160" cy="309" r="105" fill="#0b1220" opacity=".1" /><path d="M31 64q23 12 43-3M246 50q16 14 37 4" fill="none" stroke={vurgu} strokeWidth="10" strokeLinecap="round" opacity=".45" /></>;
 }
 
