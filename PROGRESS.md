@@ -8303,3 +8303,28 @@ ada dokununca kart yok, maç içi ses tek düğme; ek olarak 2. tur onayları (B
   almaz); 79 insan hesabın bakiyesi 10.000'e tamamlandı, botlarda elmas 0. Yeni misafir hesap canlıda 10.000 aldı.
 - **Gizli bot avatarı:** avatarı boş 75 gizli bota (ege55 dahil → Büyücü) açık avatarlardan ada göre sabit avatar;
   kalan 0. (Önceki kural "avatarsız botlar değişmez"di — Ida isteğiyle kaldırıldı.)
+
+## 2026-09-25 — Mesajlaşma güvenliği (Google Play UGC + KVKK) — migration 620, 621
+**Araç:** Claude Code (yönetici)
+- **Önceden var olan (0. adım):** yalnız arkadaşa mesaj (`dm_gonder` + `dm_arkadas_mi`), sohbette arkadaş değilken giriş
+  kapalı + eski mesajlar okunur, hesap silme (`hesabimi_sil`, mesajlar CASCADE), `yasakli_kelimeler` (61 kelime, yalnız
+  takma adda alt dize — "Kemal/Cemal"i "mal" yüzünden reddediyordu). **Yoktu:** engelleme, şikâyet, yönetim, mesaj filtresi,
+  koşul kabulü (girişte yalnız bağlantı).
+- **620 (Ida isteğiyle yeni tablolar/RLS/yönetici kontrolü):** engellemeler + sikayetler (RLS açık, politikasız, yalnız RPC);
+  tetikleyiciler: direkt_mesajlar (askıda/mesaj kapalı/koşul/engel + maske), friendships, matches ('bekliyor'),
+  duello_davetleri, group_match_players ('bekliyor'), duellolar (rövanş), match_messages; tepki_kanal_uyesi_mi +
+  tepki_durumu engelde kapalı; takma_ad_sec yeni filtre. **621:** maskede noktalama korunur ("***,").
+- **Arayüz:** profil kartında Engelle/Engeli kaldır + Şikâyet et (engelde iletişim düğmeleri gizli); sohbette başlıkta
+  Engelle + Şikâyet, gelen mesaja uzun basınca/sağ tıkla şikâyet, koşul kabul kartı, engel/kapalı notları; şikâyet penceresi
+  (5 sebep, açıklama, "Bu kişiyi engelle"); Ayarlar › Engellediklerim; `/yonetim/sikayetler`. TR+EN (`ceviri/guvenlik.js`).
+- **Yasal:** Koşullar 4. bölüme "Mesajlaşma: yasaklı içerik ve davranışlar"; Gizlilik'e özel mesaj/engelleme/şikâyet/koşul
+  kabulü satırları + silinince neyin gittiği. Kanıt olarak kalan şikâyetlerin **saklama süresi yazılmadı — Ida'ya soruldu.**
+- **Test:** filtre 65/65 (`araclar/kufur-filtre-testi.mjs`; masum: sıkıldım, SIKILDIM, şikâyet, şike, sikke, siklet, Kemal,
+  mal, top, bot, I got it, Amin, Dickens, amcam, Scunthorpe; yakalanan: S1KT1R, s.i.k.t.i.r, o r o s p u, 0r0spu, siiiiktir,
+  F*U*C*K, @mk, $ik, ekli hâller). Canlı iki hesapla 28/28: arkadaş değilken mesaj reddi, koşulsuz mesaj reddi, maske,
+  mesaj şikâyeti + günde 1, yönetici olmayan liste reddi, yönetim listesi ve "mesajlaşmayı kapat" (sahip kimliğiyle,
+  geri alınan işlemde — test hesabına yetki verilmedi), engel → arkadaşlık biter, mesaj/istek/meydan okuma/Düello/tepki
+  reddi, bot etkilenmez, engel kalkınca mesaj gider, küfürlü takma ad reddi. 390 px görüntüler `denetim/goruntuler/guv-*`.
+  Test şikâyetleri ve mesajları silindi, A–B arkadaşlığı geri kuruldu.
+- **Bilinen sınırlar:** tamamı BÜYÜK "SIK…" (I→ı) yakalanmaz; EN "pic" maskelenir (TR "piç"); rastgele eşleşme engelli iki
+  kişiyi eşleştirebilir; tepki paket sahipliği yayında doğrulanamaz (eski not).

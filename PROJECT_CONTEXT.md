@@ -154,6 +154,17 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
   yalnızca arkadaşlarıyla maç yapmak için oynuyor olabilir. Arkadaşlar alt
   sekmeden kaldırılmaz, hiçbir limit onu cezalandırmaz.
 - "Ezeli rakip" istatistiği yalnız arkadaşlar için tutulur.
+- **Mesajlaşma güvenliği (620/621, Google Play UGC + KVKK; kurallar SUNUCUDA):** özel mesaj yalnız kabul edilmiş
+  arkadaşa (`dm_gonder`); ilk mesajdan önce Kullanım Koşulları kabulü (`profiles.kosullar_kabul_at`). **Engelleme**
+  (`engellemeler`, `oyuncu_engelle` / `engel_kaldir` / `engellediklerim`): engelli çift arasında mesaj, arkadaşlık,
+  meydan okuma/rövanş, grup ve Düello daveti, maç içi mesaj **tablo tetikleyicileriyle** reddedilir, tepki kanalı
+  kapanır; arkadaşlık ve bekleyen davetler biter; gizli botlar etkilenmez; rastgele eşleşme kapsam dışı. **Şikâyet**
+  (`sikayet_et`: günde aynı kişiye 1, mesaj metni kopyalanır) + `/yonetim/sikayetler` (yalnız `yonetici_mi` =
+  sahip ∪ `yonetici_kullanicilar`): incelendi · mesajlaşmayı kapat (`mesaj_kapali`) · askıya al (`askida`: iletişim
+  kapanır) · geri al. **Küfür filtresi** `yasakli_kelimeler` (kapsam hepsi/ad, eşleşme tam/önek) + `izinli_kelimeler`
+  (tam/önek) — koda gömülü liste yok; mesajda `***`, takma adda red; ı katlanmaz ("sıkıldım" masum; bilinen açık:
+  tamamı BÜYÜK "SIK" yakalanmaz). Test: `node araclar/kufur-filtre-testi.mjs`. Hesap silinince mesajlar, engellemeler
+  ve açtığı şikâyetler silinir; hakkındaki şikâyetler kanıt olarak kalır (saklama süresi Ida'dan bekleniyor).
 - Aynı çift aynı gün: 1-5. maç tam ödül, 6-10. %50, 11+ ödülsüz. Aynı
   cihaz/IP'den iki hesap arasında sıralı maç hiç ödül vermez.
 
