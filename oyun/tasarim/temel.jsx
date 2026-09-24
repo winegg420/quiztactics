@@ -2,7 +2,7 @@
 // Hepsi durumsuz ve sunumsaldır: veri prop'la gelir, RPC/Supabase çağrısı yoktur.
 // Metin prop'ları çağıranın çevirdiği (tt) metindir; bileşenin kendi iç metinleri
 // tt() ile çevrilir (İngilizce karşılıklar: oyun/lib/ceviri/tasarim.js).
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import QtIkon from "./Ikon.jsx";
 import { tt, aktifDil } from "../lib/dil.js";
 
@@ -162,6 +162,29 @@ export function QtCip({ secili = false, ikon, sayi, className, children, type, .
  */
 export function QtSekmeler({ sekmeler = [], aktif, onSec, etiket, className }) {
   const kok = useRef(null);
+  // Seçili sekme hep görünür: çubuk yatay kayıyorsa (telefon, çok sekme) seçili sekme kenarda
+  // kesik/ekran dışında kalmasın. Yalnız çubuğun kendi scrollLeft'i değişir (sayfa dikey kaymaz;
+  // scrollIntoView kullanılmaz). Azaltılmış harekette anında.
+  const sekmeSayisi = sekmeler.length;
+  useEffect(() => {
+    const cubuk = kok.current;
+    if (!cubuk || cubuk.scrollWidth <= cubuk.clientWidth + 1) return;
+    const el = cubuk.querySelector(`[data-kod="${CSS.escape(String(aktif ?? ""))}"]`);
+    if (!el) return;
+    try {
+      const c = cubuk.getBoundingClientRect();
+      const e = el.getBoundingClientRect();
+      const pay = 16;
+      let hedef = null;
+      if (e.left < c.left + pay) hedef = cubuk.scrollLeft - (c.left + pay - e.left);
+      else if (e.right > c.right - pay) hedef = cubuk.scrollLeft + (e.right - (c.right - pay));
+      if (hedef == null) return;
+      const azalt = typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+      cubuk.scrollTo({ left: Math.max(0, hedef), behavior: azalt ? "auto" : "smooth" });
+    } catch {
+      /* eski tarayıcı: kaydırma yok, sekme yine seçilir */
+    }
+  }, [aktif, sekmeSayisi]);
   const tus = (e, i) => {
     const yon = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
     if (!yon) return;
