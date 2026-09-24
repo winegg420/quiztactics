@@ -4,7 +4,6 @@
 //   KopukPerde  : maç sırasında rakip koptuğunda ekranı kilitleyen perde
 // ============================================================
 import { useEffect, useRef, useState } from "react";
-import Maskot from "./Maskot.jsx";
 import { ayar } from "../lib/ayarlar.js";
 import { QtDugme, QtIkon, QtKart, QtRozet } from "../tasarim/index.js";
 import "../tasarim/ekranlar/m1-mac.css";
@@ -55,6 +54,8 @@ function useLoadoutKalan(lobiSn) {
  * @param {() => void} p.onHazir
  * @param {() => void} p.onCik
  * @param {React.ReactNode} p.tabela  oyuncu kartları (moda özel)
+ * @param {{ ikon: string, metin: string }[]} [p.bilgiler]  maç bilgisi hapları (soru sayısı, süre, mod…)
+ * @param {string} [p.ipucu]  kısa ipucu (bilgi kartının altında)
  */
 export function HazirKapisi({
   benHazir,
@@ -68,13 +69,15 @@ export function HazirKapisi({
   tabela = null,
   skillSecimi = true,
   macTur = "1v1",
+  bilgiler = [],
+  ipucu = null,
 }) {
   const hepsiHazir = toplamOyuncu > 0 && hazirSayisi >= toplamOyuncu;
   const { kalan, sure } = useLoadoutKalan(bekleyenSn);
   const sayacGorunur = !hepsiHazir && kalan > 0;
   return (
-    <div className="m1-mesaj">
-      <Maskot poz={benHazir ? "kutluyor" : "selam"} boyut={96} />
+    <div className="m1-mesaj m1-hazir">
+      {/* Baykuş maskot kaldırıldı (Ida, 24 Eyl 2026): başlık doğrudan sahnenin üstünde */}
       <h1 className="qt-baslik-1">{hepsiHazir ? tt("Maç başlıyor…") : benHazir ? tt("Rakip bekleniyor") : tt("Hazır mısın?")}</h1>
       <p>
         {tt("Herkes aynı soruyu aynı anda görür. Maç hepiniz hazır olunca başlar.")}
@@ -120,6 +123,22 @@ export function HazirKapisi({
           </p>
           <QtDugme tur="mor" boyut="k" onClick={onAsenkron}>{tt("Asenkron bırak")}</QtDugme>
         </QtKart>
+      )}
+
+      {/* Alt kısım boş kalmasın: maç bilgisi + kısa ipucu (yalnız sunum; değerler sayfadan gelir) */}
+      {(bilgiler.length > 0 || ipucu) && (
+        <div className="m1-hazir-bilgi">
+          {bilgiler.length > 0 && (
+            <ul className="m1-hazir-haplar" aria-label={tt("Maç bilgisi")}>
+              {bilgiler.map((b) => (
+                <li key={b.metin} className="m1-hazir-hap"><QtIkon ad={b.ikon} boyut={16} />{b.metin}</li>
+              ))}
+            </ul>
+          )}
+          {ipucu && (
+            <p className="m1-hazir-ipucu"><QtIkon ad="ampul" boyut={18} /><span>{ipucu}</span></p>
+          )}
+        </div>
       )}
 
       <div className="m1-dugmeler">

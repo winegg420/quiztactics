@@ -374,7 +374,9 @@ export default function GroupMatchPage() {
     }
   };
 
-  useOyunModu(Boolean(soru) && mac?.durum === "aktif");
+  // Hazır kapısı da Klasik'teki gibi tam ekran sahne (alt menü gizli) — yalnız görünüm.
+  const grupHazirKapisi = mac?.durum === "aktif" && !(mac?.basladi ?? true);
+  useOyunModu((Boolean(soru) || grupHazirKapisi) && mac?.durum === "aktif");
 
   // Ida (24 Eyl): maç sürerken geri tuşu da çıkış onayını açar (lobi/bekleme, bitmiş ya da terk edilmiş maç hariç).
   const grupKatilimim = (mac?.katilimcilar ?? []).find((k) => k.user_id === user?.id);
@@ -407,8 +409,8 @@ export default function GroupMatchPage() {
     </>
   );
 
-  // Maç sonu sahnesi dışındaki bütün dallar mor maç sahnesinde çizilir.
-  const sahne = (icerik) => <div className="qt-sahne-mac m1-mac">{icerik}</div>;
+  // Maç sonu sahnesi dışındaki bütün dallar maç sahnesinde çizilir (kategorisiz: gök mavisi — qt-sahne-gok).
+  const sahne = (icerik) => <div className="qt-sahne-mac qt-sahne-gok m1-mac">{icerik}</div>;
 
   if (!mac) {
     return sahne(
@@ -500,6 +502,12 @@ export default function GroupMatchPage() {
           ad === siraliSkor.find((k) => k.user_id === user.id)?.profil?.gorunen_ad ? tt("Sen") : ad)}
         onHazir={hazirla}
         onCik={() => navigate(y("/meydan"))}
+        bilgiler={[
+          { ikon: "grup", metin: tt("{n} oyuncu", { n: siraliSkor.length }) },
+          { ikon: "soru", metin: tt("{0} soru", { 0: mac.soru_ids?.length ?? 0 }) },
+          { ikon: "saat", metin: tt("Soru başına 15 sn") },
+        ]}
+        ipucu={tt("Arkadaş maçı — ödül ve puan yok.")}
         tabela={
           <div className="m1-grup-liste">
             {/* Paket 41 M.1 / 42 D.4: satır durumu da sayaç gibi YALNIZ nabızdan (tek kaynak). */}

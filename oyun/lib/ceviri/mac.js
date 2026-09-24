@@ -165,4 +165,12 @@ export default {
   "Maç başında ikinizin de en zayıf kategorisi sabitlenir ve ikinize de görünür (en az 5 cevap verdiğin kategoriler arasından doğru oranı en düşük olan; henüz yoksa zayıf noktan yok). Rakibin zayıf noktasını seçersen ve rakip bilirse canı SEN kaybedersin — sen de bilsen bile. İkiniz de yanlışsanız kimse kaybetmez; yalnız sen bilirsen rakip kaybeder. Uzatmada bu kural yok.": "At the start of the match each player's weakest category is locked in and shown to both of you (the lowest accuracy among categories with at least 5 answers; none yet means no weak spot). Pick your opponent's weak spot and if they get it right, YOU lose the life — even if you got it right too. If you're both wrong, nobody loses; if only you are right, they lose. This rule doesn't apply in overtime.",
   "Kategori sınırı": "Category limit",
   "Her kategori maçta en çok 3 kez seçilebilir (zayıf nokta dahil) ve bir önceki seçilen kategori hemen tekrar seçilemez. Seçilemeyenler soluk görünür. Süre dolunca gelen rastgele kategori rakibin zayıf noktası olmaz.": "Each category can be picked up to 3 times per match (weak spots included), and the last picked category can't be picked again right away. Unavailable ones are greyed out. When time runs out, the random category is never your opponent's weak spot.",
+  // Ajan A7 (24 Eyl 2026): "Hazır mısın?" bilgi kartı
+  "{0} soru": "{0} questions",
+  "Soru başına 15 sn": "15 s per question",
+  "Jokersiz": "No jokers",
+  "Bu maçta joker yok — sadece bilgi ve hız.": "No jokers in this match — just knowledge and speed.",
+  "Jokerler soru ekranının altında: 50:50 iki yanlış şıkkı eler.": "Jokers sit below the question: 50:50 removes two wrong answers.",
+  "Maç bilgisi": "Match info",
+  "{n} oyuncu": "{n} players",
 };

@@ -55,12 +55,64 @@
 .qt-sahne-mac[data-kat="muzik"]        { --qt-kat-z: var(--qt-kat-muzik);        --qt-kat-z2: var(--qt-kat-muzik-2); }
 .qt-sahne-mac[data-kat="cografya"]     { --qt-kat-z: var(--qt-kat-cografya);     --qt-kat-z2: var(--qt-kat-cografya-2); }
 
-/* Koyu mor zemin için altın (--qt-coin) seçilmiş yazılar pastelde okunmaz → koyu amber (≥ 5:1). */
-.qt-sahne-mac[data-kat] .m2-secen .qt-oyuncu-ad,
-.qt-sahne-mac[data-kat] .m2-tur--uzatma b,
-.qt-sahne-mac[data-kat] .m2-skill--acik .m2-skill-ipucu,
-.qt-sahne-mac[data-kat] .m2-skill-kilit,
-.qt-sahne-mac[data-kat] .m1-vs-rozet { color: var(--qt-uyari-koyu); }
+/* ============================================================
+   GÖK MAVİSİ MAÇ ZEMİNİ (24 Eyl 2026 — Güneş Halkası'nın marka dili)
+   `.qt-sahne-mac.qt-sahne-gok` ve kategori yazılmamışsa (Hazır mısın?, Düello kategori fazı, Çalışma,
+   bekleme/iptal ekranları) koyu mor yerine açık gök degradesi + sağ üstte hafif turuncu güneş ve
+   ışınları. Yazı rolleri lacivert (metin #1d2152 → en koyu gökte ≥ 8:1; soluk #39436e → ≥ 5:1).
+   Kart/şık/skill yüzeyleri beyaz kalır. Kategori yazılınca pastel kategori zemini (yukarıda) geçer.
+   Koyu vitrin önizlemeleri (dükkân, premium) qt-sahne-gok kullanmaz → onlar koyu mor kalır.
+   ============================================================ */
+.qt-sahne-mac.qt-sahne-gok:not([data-kat]) {
+  --qt-zemin: #b3dcff;
+  --qt-zemin-2: #9ccfff;
+  --qt-mac-zemin: #cfe8ff;
+  --qt-mac-zemin-2: #b3dcff;
+  --qt-mac-metin: var(--qt-metin);
+  --qt-mac-soluk: #39436e;
+  --qt-zemin-metin: var(--qt-metin);
+  --qt-zemin-soluk: #39436e;
+  --qt-cizgi: rgba(29, 33, 82, 0.16);
+  --qt-odak: var(--qt-ikinci);
+  background-color: #b8dfff;
+  background-image:
+    radial-gradient(circle at 94% -2%, #fff1b8 0 34px, #ffc15c 42px, rgba(255, 150, 60, 0.42) 74px, rgba(255, 122, 46, 0) 170px),
+    radial-gradient(circle at 94% -2%, rgba(165, 214, 255, 0) 0 110px, #a6d6ff 300px),
+    repeating-conic-gradient(from 0deg at 94% -2%, rgba(255, 170, 80, 0.22) 0deg 8deg, rgba(255, 170, 80, 0) 8deg 20deg),
+    linear-gradient(180deg, #8fccff 0%, #bfe3ff 46%, #e3f2ff 100%);
+  background-repeat: no-repeat;
+}
+
+/* Koyu mor zemin için altın (--qt-coin) seçilmiş yazılar pastelde / gökte okunmaz → koyu amber (≥ 5:1). */
+:is(.qt-sahne-mac[data-kat], .qt-sahne-gok:not([data-kat])) .m2-secen .qt-oyuncu-ad,
+:is(.qt-sahne-mac[data-kat], .qt-sahne-gok:not([data-kat])) .m2-tur--uzatma b,
+:is(.qt-sahne-mac[data-kat], .qt-sahne-gok:not([data-kat])) .m2-skill--acik .m2-skill-ipucu,
+:is(.qt-sahne-mac[data-kat], .qt-sahne-gok:not([data-kat])) .m2-skill-kilit,
+:is(.qt-sahne-mac[data-kat], .qt-sahne-gok:not([data-kat])) .m1-vs-rozet { color: var(--qt-uyari-koyu); }
+
+/* Gökte VS kartları lacivert levha (Güneş Halkası konturu); isim efekti koyu paletini korur.
+   Kozmetik VS teması (.qt-vs) kendi zeminini çizer, ona dokunulmaz. */
+.qt-sahne-gok:not([data-kat]) .ara-kart:not(.qt-vs) {
+  --qt-mac-zemin-2: #1d2152;
+  --qt-mac-metin: #ffffff;
+  --qt-mac-soluk: #d6dcff;
+  background: #1d2152;
+  box-shadow: 0 5px 0 #0e1136;
+  color: #ffffff;
+}
+.qt-sahne-gok:not([data-kat]) .ara-vs-rozet span {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border: 3px solid #1d2152;
+  border-radius: 50%;
+  background: var(--qt-vurgu);
+  box-shadow: 0 4px 0 #1d2152;
+  color: #1d2152;                 /* lacivert/turuncu 5,9:1 */
+  font-size: var(--qt-y-xl);
+  -webkit-text-stroke: 0;
+}
 
 @media (prefers-reduced-motion: reduce) {
   .qt-sahne-mac[data-kat] { transition: none; }

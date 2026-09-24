@@ -27,14 +27,14 @@
 .qt-isim-ef[data-ef="mor-isilti"] { --ie-1: #5c1aa8; --ie-2: #7a167f; --ie-3: #4f1a9c; --ie-parilti: rgba(180, 110, 255, 0.45); }
 
 /* Koyu bağlam: maç sahnesi, arama/VS sahnesi, VS kartı teması, açıkça --koyu */
-:is(.qt-sahne-mac:not([data-kat]), .qt-vs, .qt-isim-ef--koyu) .qt-isim-ef[data-ef],
+:is(.qt-sahne-mac:not([data-kat]):not(.qt-sahne-gok), .qt-vs, .qt-isim-ef--koyu) .qt-isim-ef[data-ef],
 .qt-isim-ef--koyu[data-ef] { --ie-parilti: transparent; }
-:is(.qt-sahne-mac:not([data-kat]), .qt-vs) .qt-isim-ef[data-ef="altin"],      .qt-isim-ef--koyu[data-ef="altin"]      { --ie-1: #ffd54a; --ie-2: #fff0a8; --ie-3: #ffc233; }
-:is(.qt-sahne-mac:not([data-kat]), .qt-vs) .qt-isim-ef[data-ef="gokkusagi"],  .qt-isim-ef--koyu[data-ef="gokkusagi"]  { --ie-1: #ffb8b8; --ie-2: #ffdca8; --ie-3: #b8f5c4; --ie-4: #b8e0ff; --ie-5: #e8ccff; }
-:is(.qt-sahne-mac:not([data-kat]), .qt-vs) .qt-isim-ef[data-ef="neon-mavi"],  .qt-isim-ef--koyu[data-ef="neon-mavi"]  { --ie-1: #8adcff; --ie-2: #d2f3ff; --ie-3: #8adcff; --ie-parilti: rgba(0, 190, 255, 0.75); }
-:is(.qt-sahne-mac:not([data-kat]), .qt-vs) .qt-isim-ef[data-ef="alev"],       .qt-isim-ef--koyu[data-ef="alev"]       { --ie-1: #ffc485; --ie-2: #ffe8a8; --ie-3: #ffb8a0; }
-:is(.qt-sahne-mac:not([data-kat]), .qt-vs) .qt-isim-ef[data-ef="buz"],        .qt-isim-ef--koyu[data-ef="buz"]        { --ie-1: #d8f7ff; --ie-2: #aee8ff; --ie-3: #d8f7ff; --ie-parilti: rgba(150, 225, 255, 0.6); }
-:is(.qt-sahne-mac:not([data-kat]), .qt-vs) .qt-isim-ef[data-ef="mor-isilti"], .qt-isim-ef--koyu[data-ef="mor-isilti"] { --ie-1: #eacfff; --ie-2: #f8cdff; --ie-3: #e2c2ff; --ie-parilti: rgba(200, 120, 255, 0.75); }
+:is(.qt-sahne-mac:not([data-kat]):not(.qt-sahne-gok), .qt-vs) .qt-isim-ef[data-ef="altin"],      .qt-isim-ef--koyu[data-ef="altin"]      { --ie-1: #ffd54a; --ie-2: #fff0a8; --ie-3: #ffc233; }
+:is(.qt-sahne-mac:not([data-kat]):not(.qt-sahne-gok), .qt-vs) .qt-isim-ef[data-ef="gokkusagi"],  .qt-isim-ef--koyu[data-ef="gokkusagi"]  { --ie-1: #ffb8b8; --ie-2: #ffdca8; --ie-3: #b8f5c4; --ie-4: #b8e0ff; --ie-5: #e8ccff; }
+:is(.qt-sahne-mac:not([data-kat]):not(.qt-sahne-gok), .qt-vs) .qt-isim-ef[data-ef="neon-mavi"],  .qt-isim-ef--koyu[data-ef="neon-mavi"]  { --ie-1: #8adcff; --ie-2: #d2f3ff; --ie-3: #8adcff; --ie-parilti: rgba(0, 190, 255, 0.75); }
+:is(.qt-sahne-mac:not([data-kat]):not(.qt-sahne-gok), .qt-vs) .qt-isim-ef[data-ef="alev"],       .qt-isim-ef--koyu[data-ef="alev"]       { --ie-1: #ffc485; --ie-2: #ffe8a8; --ie-3: #ffb8a0; }
+:is(.qt-sahne-mac:not([data-kat]):not(.qt-sahne-gok), .qt-vs) .qt-isim-ef[data-ef="buz"],        .qt-isim-ef--koyu[data-ef="buz"]        { --ie-1: #d8f7ff; --ie-2: #aee8ff; --ie-3: #d8f7ff; --ie-parilti: rgba(150, 225, 255, 0.6); }
+:is(.qt-sahne-mac:not([data-kat]):not(.qt-sahne-gok), .qt-vs) .qt-isim-ef[data-ef="mor-isilti"], .qt-isim-ef--koyu[data-ef="mor-isilti"] { --ie-1: #eacfff; --ie-2: #f8cdff; --ie-3: #e2c2ff; --ie-parilti: rgba(200, 120, 255, 0.75); }
 /* Koyu bağlamın içindeki açık levha (ör. beyaz ad hapı) açık paleti geri ister */
 .qt-isim-ef--acik[data-ef] { --ie-parilti: transparent !important; }
 .qt-isim-ef--acik[data-ef="altin"]      { --ie-1: #5e3900 !important; --ie-2: #6b4100 !important; --ie-3: #573500 !important; }

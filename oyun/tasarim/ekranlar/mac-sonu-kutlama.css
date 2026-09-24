@@ -815,3 +815,22 @@ html.msk-acik .mobile-nav, html.msk-acik .a-kabuk .a-altmenu { display: none !im
   88% { opacity: 1; }
   100% { opacity: 0; transform: translateY(var(--dy)) scale(0.6); }
 }
+
+/* ---------- Terk hâlleri (sade "Maçtan ayrıldın" — Klasik/Düello/Grup/Turnuva): koyu lacivert zemin yerine
+   gök mavisi (24 Eyl 2026, Güneş Halkası marka dili). Afiş ve alt yazı hapı lacivert levha olarak kalır;
+   zemindeki yazı rolleri lacivert (≥ 7:1). Galibiyet ("Rakip ayrıldı") sıcak altın zeminde kalır. ---------- */
+.msk--sade.msk--kaybetti {
+  --msk-z1: #eef8ff;
+  --msk-z2: #b8dfff;
+  --msk-z3: #8fccff;
+  --msk-afis-d: #0e1136;
+}
+.msk--sade.msk--kaybetti .msk-huzme {
+  background: none;
+  background: repeating-conic-gradient(from 0deg, color-mix(in srgb, #ffaa50 22%, transparent) 0deg 9deg, transparent 9deg 22.5deg);
+}
+.msk--sade.msk--kaybetti .msk-ek .m1-ss-not { color: var(--qt-metin); text-shadow: none; }
+/* "Rakip ayrıldı — galibiyet" uzun başlık 44 px tek satırda afişten taşıyor, iki yandan kırpılıyordu (390 px):
+   sade (terk) sahnede başlık ekrana göre küçülür, gerekirse iki satıra dengeli iner. */
+.msk--sade .msk-afis { max-width: 100%; padding-inline: var(--qt-b-5); }
+.msk--sade.msk--kazandi .msk-baslik { font-size: clamp(24px, 7.6vw, 36px); white-space: normal; text-wrap: balance; }

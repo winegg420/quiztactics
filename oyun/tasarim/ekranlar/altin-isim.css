@@ -153,7 +153,7 @@
 /* Koyu zemin (maç sahnesi, arama/VS, VS kartı teması ya da --koyu): şerit biraz daha belirgin.
    Koyu bağlamdaki açık levha (--acik, ör. maç sonu beyaz ad hapı) açık zemin şeridini korur. */
 .qt-ia--koyu .qt-ia-serit,
-:is(.qt-sahne-mac:not([data-kat]), .qt-vs) .qt-ia:not(.qt-ia--acik) .qt-ia-serit {
+:is(.qt-sahne-mac:not([data-kat]):not(.qt-sahne-gok), .qt-vs) .qt-ia:not(.qt-ia--acik) .qt-ia-serit {
   background: radial-gradient(50% 50% at 50% 50%, rgba(255, 214, 60, 0.5), rgba(255, 196, 0, 0.2) 60%, transparent 100%);
 }
 /* Dar sütun (lig satırı, şerit, liste — durağan): sağdaki kontur boşluğu yerleşimden düşülür (boyanır ama

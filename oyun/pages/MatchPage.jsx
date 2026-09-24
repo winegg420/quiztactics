@@ -782,6 +782,16 @@ export default function MatchPage() {
           // Bot maçında asenkron seçeneği anlamsız (bot zaten hep hazır).
           onAsenkron={rakipBot ? null : asenkronaGec}
           bekleyenSn={nabiz?.lobi_saniye ?? 0}
+          bilgiler={[
+            { ikon: "soru", metin: tt("{0} soru", { 0: toplamSoru }) },
+            { ikon: "saat", metin: tt("Soru başına 15 sn") },
+            mac.jokersiz
+              ? { ikon: "safBilgi", metin: tt("Jokersiz") }
+              : { ikon: "kupa", metin: mac.dereceli === false ? tt("Serbest") : tt("Dereceli") },
+          ]}
+          ipucu={mac.jokersiz
+            ? tt("Bu maçta joker yok — sadece bilgi ve hız.")
+            : tt("Jokerler soru ekranının altında: 50:50 iki yanlış şıkkı eler.")}
           tabela={
             // Ajan I: arama sahnesiyle aynı VS kartları (çerçeve, ad, level, lig) + hazır rozeti
             <div className="ara-vs">
@@ -1257,11 +1267,11 @@ export default function MatchPage() {
     );
   })();
 
-  // Maç sonu sahnesi kendi zeminini çizer; diğer bütün dallar mor maç sahnesinde.
+  // Maç sonu sahnesi kendi zeminini çizer; diğer bütün dallar maç sahnesinde (kategorisiz: gök mavisi — qt-sahne-gok).
   const sonucEkrani = mac?.durum === "bitti" && sonucHazir && gecisBitti;
   return (
     <>
-      {sonucEkrani ? ekran : <div className="qt-sahne-mac m1-mac">{ekran}</div>}
+      {sonucEkrani ? ekran : <div className="qt-sahne-mac qt-sahne-gok m1-mac">{ekran}</div>}
       <SesliSohbet
         macId={id}
         benimId={user.id}

@@ -419,7 +419,7 @@ export default function CalismaPage() {
     };
 
     return (
-      <div className={`qt-sahne-mac m1-mac${kalan > 0 && kalan <= 5 && secim === null ? " qt-h-gerilim" : ""}`}>
+      <div className={`qt-sahne-mac qt-sahne-gok m1-mac${kalan > 0 && kalan <= 5 && secim === null ? " qt-h-gerilim" : ""}`}>
         {/* Paket 41 B/E: öteki modlarla aynı üst şerit; X turu bitirip sonucu gösterir. */}
         <MacUstSerit
           onCik={oturum?.oturum_id ? () => bitir(oturum.oturum_id) : undefined}

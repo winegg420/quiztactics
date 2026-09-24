@@ -781,7 +781,7 @@ export default function TournamentPage() {
   const toplamSoru = turnuva.soru_ids?.length ?? null;
 
   return (
-    <div className="qt-sahne-mac m1-mac">
+    <div className="qt-sahne-mac qt-sahne-gok m1-mac">
       <h1 className="qt-gizli">{tt("Turnuva")}</h1>
       {/* Paket 41 B/E/H: Klasik ile aynı çıkış (X), mod rozeti ve ses */}
       {/* Paket 43 C: hâlâ yarışan oyuncu için çıkış onaylı; elenmiş oyuncu / izleyici doğrudan çıkar.

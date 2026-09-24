@@ -940,7 +940,7 @@ function DuelloMac({ id }) {
 
   if (!d) {
     return (
-      <div className="m2-mac qt-sahne-mac">
+      <div className="m2-mac qt-sahne-mac qt-sahne-gok">
         {/* Paket 41 G: Klasik ile aynı kalıp — Tekrar dene + çıkış, ham metin yok */}
         {yuklemeHatasi ? (
           <MacYukleniyor hata={yuklemeHatasi} onTekrarDene={() => { setYuklemeHatasi(null); yukle(); }}
@@ -1141,7 +1141,7 @@ function DuelloMac({ id }) {
       sahne2 = <V2Sonuc d={d} rakip={rakip} secenekler={secenekler} c={c2} />;
     }
     return (
-      <div className={sinif("m2-mac qt-sahne-mac", gerilim && "qt-h-gerilim", sonCan && "m2-mac--son-can")} data-kat={d.kategori || undefined}>
+      <div className={sinif("m2-mac qt-sahne-mac qt-sahne-gok", gerilim && "qt-h-gerilim", sonCan && "m2-mac--son-can")} data-kat={d.kategori || undefined}>
         <MacUstSerit onCik={() => setTerkOnay(true)} cikisEtiketi={ceviri("Düellodan çık")}
                      rozet={ceviri("Düello · Taktik Maçı")} />
         <V2Ust d={d} ben={ben} rakip={rakip} kayip={kayip} c={c2} seviyeler={seviyeler} tepkiBalonlar={tepki.balonlar} />
