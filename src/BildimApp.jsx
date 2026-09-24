@@ -86,6 +86,7 @@ const SesSecimPage = lazy(() => import("../oyun/tasarim/ses-secim/SesSecimPage.j
 const AvatarOnizlemePage = lazy(() => import("../oyun/tasarim/avatar-onizleme/AvatarOnizlemePage.jsx"));   // yeni avatar onayı (Ajan A) — yalnız sahip, yalnız adresle (girişli)
 const CerceveOnizlemePage = lazy(() => import("../oyun/tasarim/cerceveler/deneme/CerceveOnizlemePage.jsx"));   // çerçeve tarzı seçimi (Ajan B) — yalnız sahip, yalnız adresle (girişli)
 const PremiumOnizlemePage = lazy(() => import("../oyun/tasarim/premium/PremiumOnizlemePage.jsx"));   // premium kozmetik önizlemesi — yalnız sahip, yalnız adresle (girişli)
+const IkonOnizlemePage = lazy(() => import("../oyun/tasarim/ikon/IkonOnizlemePage.jsx"));   // uygulama ikonu adayları (Ajan B) — yalnız sahip, yalnız adresle (girişli)
 
 // Eski hub adresleri (/oyun/...) bu sitede köke indirilir. Bookmark, push
 // bildirimi deep-link'i ve paylaşılmış davet linkleri kırılmasın diye.
@@ -187,6 +188,7 @@ export default function BildimApp() {
         <Route path="/avatar-onizleme" element={<AvatarOnizlemePage />} />
         <Route path="/cerceve-onizleme" element={<CerceveOnizlemePage />} />
         <Route path="/premium-onizleme" element={<PremiumOnizlemePage />} />
+        <Route path="/ikon-onizleme" element={<IkonOnizlemePage />} />
 
         <Route path="/" element={<Layout />}>
           <Route index element={<AnaSayfa />} />
