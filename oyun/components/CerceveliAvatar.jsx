@@ -11,13 +11,19 @@
  * - AURA (481): avatarın arkasındaki tema katmanı da buradan çözülür — çağıran dosya bir şey yapmaz.
  *   `aura` verilirse o; `kart` içinde `aura` alanı varsa o; yoksa oyuncu kartı (toplu + önbellekli
  *   oyuncu_kartlari) okunur. Katman sırası: aura (arkada) → avatar → çerçeve (önde).
+ * - ÇERÇEVE TARZI (550): Ida /cerceve-onizleme'de tarz seçtiyse Altın Lig çerçevesi o tarzda çizilir
+ *   (DenemeCerceve, tembel yüklenir; yüklenirken bugünkü çerçeve). Aura takılıysa bugünkü çerçeve kalır
+ *   (yeni tarzın aura katmanı yok). Seçim yoksa hiçbir şey değişmez.
  */
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import Avatar from "../../src/components/Avatar.jsx";
 import CerceveGorseli, { icBoyut } from "../tasarim/cerceveler/CerceveGorseli.jsx";
 import { cerceveTanimiBul } from "../tasarim/cerceveler/tanimlar.js";
 import { oyuncuKarti, oyuncuKartiDinle } from "../lib/cerceve.js";
 import { tt } from "../lib/dil.js";
+import { useCerceveTarzi } from "../lib/cerceveTarzi.js";
+
+const DenemeCerceve = lazy(() => import("../tasarim/cerceveler/deneme/DenemeCerceve.jsx"));
 
 export default function CerceveliAvatar({ profile, userId, boyut = 44, cerceve, kart, aura, hareketli = false, className = "" }) {
   const kimlik = userId ?? profile?.id ?? profile?.user_id ?? null;
@@ -48,10 +54,21 @@ export default function CerceveliAvatar({ profile, userId, boyut = 44, cerceve, 
   const tanim = cerceveTanimiBul(anahtar, { nadirlik });
   const etiket = tanim?.ad ? tt("{ad} çerçevesi", { ad: tt(tanim.ad) }) : undefined;
 
-  return (
+  const tarz = useCerceveTarzi();
+  const bugunku = (
     <CerceveGorseli anahtar={anahtar} satir={{ nadirlik }} aura={auraAnahtar} boyut={boyut} hareketli={hareketli}
                     className={className} etiket={etiket}>
       <Avatar profile={profile ?? {}} boyut={icBoyut(boyut, !!tanim)} />
     </CerceveGorseli>
   );
+  if (tarz && tanim?.anahtar === "lig_altin" && !auraAnahtar) {
+    return (
+      <Suspense fallback={bugunku}>
+        <DenemeCerceve tarz={tarz} boyut={boyut} hareketli={hareketli} etiket={etiket} className={className}>
+          <Avatar profile={profile ?? {}} boyut={icBoyut(boyut, true)} />
+        </DenemeCerceve>
+      </Suspense>
+    );
+  }
+  return bugunku;
 }

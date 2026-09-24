@@ -12,6 +12,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import MacSonuKutlama from "../components/MacSonuKutlama.jsx";
 import { QtCoinHapi, QtDugme, QtMarka } from "../tasarim/index.js";
 import { aktifDil, dilKaydet, tt } from "../lib/dil.js";
+import { cerceveTarziAyarla } from "../lib/cerceveTarzi.js";
 import "../tasarim/ekranlar/mac-sonu-onizleme.css";
 
 const BAKIYE = 1480;
@@ -24,6 +25,11 @@ const ZAFER_ONIZLEME = (() => {
     return { ben: null, rakip: null };
   }
 })();
+// 550: ?cerceve=level_75 → "ben" tarafının çerçevesi (taç/plaka çakışması ölçümü) · ?tarz=cizgi|mucevher|isik →
+// Altın Lig çerçevesi o tarzda (sunucudaki Ida seçimi yerine; yalnız bu sayfa).
+const ARAMA = (() => { try { return new URLSearchParams(window.location.search); } catch { return new URLSearchParams(); } })();
+const CERCEVE_ONIZLEME = ARAMA.get("cerceve");
+if (ARAMA.get("tarz")) cerceveTarziAyarla(ARAMA.get("tarz"));
 const profil = (id, ad, dosya) => ({ id, gorunen_ad: ad, gorunen_avatar: `/avatars/pro/${dosya}.svg` });
 const BEN = profil("onizleme-ben", "Deniz", "astronot-k17");
 const RAKIP = profil("onizleme-rakip", "Mert", "baykus-k03");
@@ -167,6 +173,7 @@ export default function MacSonuOnizlemePage() {
       <MacSonuKutlama
         key={`${hal.kod}-${oynatma}`}
         {...hal.veri}
+        {...(CERCEVE_ONIZLEME ? { ben: { ...hal.veri.ben, cerceve: CERCEVE_ONIZLEME } } : {})}
         coinHedefSecici="[data-ms-coin-hedef]"
         onCoinVaris={onCoinVaris}
         eylemler={eylemler}

@@ -1,7 +1,7 @@
 /**
- * DENEME ÇERÇEVE — Altın Lig çerçevesinin üç tarz adayı (Ajan B, 24 Eyl 2026). Yalnız /cerceve-onizleme
- * kullanır; oyundaki çerçeveler (CerceveGorseli / tanimlar.js) DEĞİŞMEDİ. Ida tarzı seçince bütün
- * çerçeveler ayrı pakette seçilen tarzda yeniden çizilecek.
+ * DENEME ÇERÇEVE — Altın Lig çerçevesinin üç tarz adayı (Ajan B, 24 Eyl 2026). /cerceve-onizleme kullanır;
+ * 550'den beri Ida'nın SEÇTİĞİ tarz oyunda da Altın Lig çerçevesi olarak çizilir (CerceveliAvatar, tembel).
+ * Diğer çerçeveler (CerceveGorseli / tanimlar.js) DEĞİŞMEDİ; ayrı pakette seçilen tarzda yeniden çizilecek.
  *
  * <DenemeCerceve tarz="cizgi" boyut={64} hareketli>{avatar}</DenemeCerceve>
  *
@@ -416,6 +416,7 @@ export default function DenemeCerceve({ tarz = "cizgi", boyut = 64, hareketli = 
 
   return (
     <span className={`dc dc--${tarz} dc--${kademe} ${className}`.trim()} style={{ "--dc-b": `${boyut}px`, "--dc-ic": `${ic}px` }}
+          data-tac={kademe !== "kucuk" ? "" : undefined}
           {...(etiket ? { role: "img", "aria-label": etiket } : {})}>
       <svg className="dc-svg dc-svg--arka" viewBox="-84 -84 168 168" aria-hidden="true" focusable="false">
         {tarz === "isik" && <IsikArka kademe={kademe} id={id} />}
