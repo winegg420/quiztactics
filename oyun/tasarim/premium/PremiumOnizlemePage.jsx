@@ -73,7 +73,9 @@ const KALEMLER = [
 ];
 /** Oyuna alınan kalemler (Ajan A taşıdı) — katalogda "Oyunda" rozeti. */
 const OYUNDA = new Set(["cerceve:sonbahar", "cerceve:galaksi", "cerceve:sakura", "aura:yaprak", "aura:kar", "aura:kor",
-  "aura:gece", "aura:kuzey", "aura:sualti", "rozet:lig"]);
+  "aura:gece", "aura:kuzey", "aura:sualti", "rozet:lig",
+  // 2. tur onayı (Ida, 24 Eyl 2026): Alev 2, Şimşek 2, Kraliyet 2 (pc_*2), Altın Lig 2 (lig_altin), külçe plaka (isim_altin)
+  "cerceve2:alev", "cerceve2:simsek", "cerceve2:kraliyet", "cerceve2:altinlig", "plaka2:kulce"]);
 const OyundaRozeti = ({ kod }) => (OYUNDA.has(kod) ? <QtRozet ton="dogru" boyut="k" className="pp-oyunda">{tt("Oyunda")}</QtRozet> : null);
 
 function secimOku() {
@@ -427,7 +429,7 @@ export default function PremiumOnizlemePage() {
                 <div className="pp-kalem-kucukler">
                   {[64, 48, 40, 28].map((b) => <span key={b} className="pp-boy"><PremiumAvatar profil={benDeneme} boyut={b} cerceve={`t2:${k}`} aura={null} /><span className="pp-px">{b}</span></span>)}
                 </div>
-                <h3 className="qt-baslik-3">{tt(TUR2[k].ad)}</h3>
+                <h3 className="qt-baslik-3 pp-kalem-baslik">{tt(TUR2[k].ad)} <OyundaRozeti kod={`cerceve2:${k}`} /></h3>
                 <p className="qt-kucuk qt-soluk">{tt(TUR2[k].aciklama)}</p>
                 <div className="pp-kalem-alt">
                   <QtDugme boyut="k" tur="hayalet" onClick={() => denemeyeGit({ cerceve: `t2:${k}` })}>{tt("Denemede gör")}</QtDugme>
@@ -461,7 +463,7 @@ export default function PremiumOnizlemePage() {
               </div>
               {Object.keys(PLAKA2).map((k) => (
                 <div key={k} className="pp-plaka-karar">
-                  <p className="qt-kucuk"><b>{tt(PLAKA2[k].ad)}:</b> <span className="qt-soluk">{tt(PLAKA2[k].aciklama)}</span></p>
+                  <p className="qt-kucuk"><b>{tt(PLAKA2[k].ad)}:</b> <OyundaRozeti kod={`plaka2:${k}`} /> <span className="qt-soluk">{tt(PLAKA2[k].aciklama)}</span></p>
                   <div className="pp-kalem-alt">
                     <QtDugme boyut="k" tur="hayalet" onClick={() => denemeyeGit({ plaka: k })}>{tt("Denemede gör")}</QtDugme>
                     <SecimDugmeleri kod={`plaka2:${k}`} secimler={secimler} onSec={sec} />
