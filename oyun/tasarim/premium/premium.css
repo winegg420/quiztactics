@@ -1,0 +1,319 @@
+/* =====================================================================
+   PREMIUM ÇERÇEVE + AURA (yalnız /premium-onizleme) — PremiumCerceve.jsx
+   Kutu --pc-b × --pc-b; süs katmanları kutunun %170'i (merkez aynı), tıklamayı yutmaz.
+   Hareket YALNIZ transform/opacity; her hareketli parça (`pc-o`) kendi katmanında.
+   iOS: position:fixed yok; transform'lu ata yok (kök durağan).
+   ===================================================================== */
+.pc {
+  position: relative;
+  display: inline-block;
+  flex: none;
+  width: var(--pc-b);
+  height: var(--pc-b);
+  vertical-align: middle;
+  isolation: isolate;
+}
+.pc-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+.pc-k {
+  position: absolute;
+  left: -35%;
+  top: -35%;
+  width: 170%;
+  height: 170%;
+  pointer-events: none;
+}
+.pc-k .pc-k { left: 0; top: 0; width: 100%; height: 100%; }
+.pc-k--arka { z-index: 0; }
+.pc-k--on { z-index: 3; }
+.pc-k > svg, .pc-o > svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.pc-o { position: absolute; pointer-events: none; }
+.pc-k.pc-o { left: -35%; top: -35%; }
+.pc-k .pc-k.pc-o { left: 0; top: 0; }
+
+/* İç daire: aura sahnesi + avatar (halkanın iç kenarına kadar) */
+.pc-ic {
+  position: absolute;
+  z-index: 1;
+  left: 7%;
+  top: 7%;
+  width: 86%;
+  height: 86%;
+  border-radius: 50%;
+  overflow: hidden;
+  container-type: size;
+  background: #1d2152;
+  -webkit-mask-image: -webkit-radial-gradient(white, black);   /* Safari: yuvarlak kırpma + transform */
+}
+.pc-ic > .avatar {
+  position: relative;
+  z-index: 2;
+  width: 100% !important;
+  height: 100% !important;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: none;
+}
+.pc-ic--aura > .avatar img { filter: drop-shadow(0 1.5cqh 1.5cqh rgba(5, 8, 30, 0.45)); }
+.pc-sahne { position: absolute; inset: 0; z-index: 1; overflow: hidden; }
+.pc-sahne > svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.pc-p { position: absolute; display: block; pointer-events: none; }
+.pc-p > svg, .pc-p > span > svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.pc-p > span { display: block; width: 100%; height: 100%; }
+
+/* ---------------- Oynatma durumu ---------------- */
+.pc--oynar .pc-o, .pc--oynar .pc-p, .pc--oynar .pc-p > span { will-change: transform, opacity; }
+.pc--durgun .pc-o, .pc--durgun .pc-p, .pc--durgun .pc-p > span, .pc--durgun .pc-svg-kay { animation-play-state: paused !important; }
+@media (prefers-reduced-motion: reduce) {
+  .pc .pc-o, .pc .pc-p, .pc .pc-p > span, .pc .pc-svg-kay { animation-play-state: paused !important; will-change: auto; }
+}
+
+/* ---------------- Hareket sınıfları (çerçeve) ---------------- */
+.pc-a-don { animation: pc-don 12s linear infinite; }
+.pc-a-don-ters { animation: pc-don 12s linear infinite reverse; }
+.pc-a-nabiz { animation: pc-nabiz 2.6s ease-in-out infinite; }
+.pc-a-titre { animation: pc-titre 1.1s ease-in-out infinite; }
+.pc-a-titre2 { animation: pc-titre2 0.8s ease-in-out infinite; }
+.pc-a-kanat-sol { animation: pc-kanat-sol 2.4s ease-in-out infinite; }
+.pc-a-kanat-sag { animation: pc-kanat-sag 2.4s ease-in-out infinite; }
+.pc-a-bas { animation: pc-bas 3.2s ease-in-out infinite; }
+.pc-a-nefes { opacity: 0; animation: pc-nefes 5.5s ease-out 1.5s infinite; }
+.pc-a-kor { opacity: 0; animation: pc-kor 2.8s ease-out infinite; }
+.pc-a-parilti { opacity: 0; animation: pc-parilti 2.4s ease-in-out infinite; }
+.pc-a-salin { animation: pc-salin 2.6s ease-in-out infinite alternate; }
+.pc-a-yaprak-dus { opacity: 0; animation: pc-yaprak-dus 5s ease-in infinite; }
+.pc-a-cak { opacity: 0; animation: pc-cak 3.4s linear infinite; }
+.pc-a-flas { opacity: 0; animation: pc-flas 4.6s linear infinite; }
+.pc-a-citir { animation: pc-citir 0.36s steps(1, end) infinite; }
+.pc-a-citir2 { opacity: 0; animation: pc-citir2 0.36s steps(1, end) infinite; }
+.pc-a-buyu { animation: pc-buyu 3.4s ease-in-out infinite; }
+.pc-a-sis { animation: pc-sis 7s ease-in-out infinite alternate; }
+.pc-a-yuvarlan { animation: pc-yuvarlan 1.6s ease-in-out infinite alternate; }
+.pc-a-savrul { opacity: 0; animation: pc-savrul 6s linear infinite; }
+.pc-a-kay { animation: pc-kay 5s ease-in-out infinite; }
+.pc-svg-kay { animation: pc-svg-kay 5s ease-in-out infinite; }
+
+@keyframes pc-don { to { transform: rotate(360deg); } }
+@keyframes pc-nabiz {
+  0%, 100% { opacity: 0.6; transform: scale(0.96); }
+  50% { opacity: 1; transform: scale(1.04); }
+}
+@keyframes pc-titre {
+  0%, 100% { transform: scale(1, 1) skewX(0deg); }
+  22% { transform: scale(0.9, 1.14) skewX(4deg); }
+  48% { transform: scale(1.06, 0.88) skewX(-2deg); }
+  74% { transform: scale(0.94, 1.08) skewX(-5deg); }
+}
+@keyframes pc-titre2 {
+  0%, 100% { transform: scale(1, 0.92); opacity: 0.85; }
+  35% { transform: scale(0.88, 1.16); opacity: 1; }
+  70% { transform: scale(1.05, 0.96); opacity: 0.9; }
+}
+@keyframes pc-kanat-sol {
+  0%, 100% { transform: rotate(-7deg) scale(1, 1); }
+  50% { transform: rotate(13deg) scale(0.9, 1.02); }
+}
+@keyframes pc-kanat-sag {
+  0%, 100% { transform: rotate(7deg) scale(1, 1); }
+  50% { transform: rotate(-13deg) scale(0.9, 1.02); }
+}
+@keyframes pc-bas {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-0.9%) rotate(-1deg); }
+}
+@keyframes pc-nefes {
+  0%, 60% { opacity: 0; transform: scale(0.2); }
+  66% { opacity: 1; transform: scale(0.85); }
+  80% { opacity: 1; transform: scale(1.1); }
+  92%, 100% { opacity: 0; transform: scale(1.3); }
+}
+@keyframes pc-kor {
+  0% { opacity: 0; transform: translate(0, 0) scale(1); }
+  15% { opacity: 1; }
+  100% { opacity: 0; transform: translate(var(--dx, 20%), -78%) scale(0.4); }
+}
+@keyframes pc-parilti {
+  0%, 55%, 100% { opacity: 0; transform: scale(0.1) rotate(0deg); }
+  72% { opacity: 1; transform: scale(1) rotate(45deg); }
+}
+@keyframes pc-salin {
+  from { transform: rotate(-22deg) translateY(-6%); }
+  to { transform: rotate(22deg) translateY(6%); }
+}
+@keyframes pc-yaprak-dus {
+  0% { opacity: 0; transform: translate(0, 0) rotate(0deg); }
+  12% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translate(var(--dx, -40%), 82%) rotate(var(--rot, 260deg)); }
+}
+@keyframes pc-cak {
+  0%, 70% { opacity: 0; }
+  71% { opacity: 1; }
+  73% { opacity: 0.15; }
+  75% { opacity: 1; }
+  79%, 100% { opacity: 0; }
+}
+@keyframes pc-flas {
+  0%, 86% { opacity: 0; }
+  88% { opacity: 0.95; }
+  90% { opacity: 0.2; }
+  92% { opacity: 0.8; }
+  97%, 100% { opacity: 0; }
+}
+@keyframes pc-citir { 0% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes pc-citir2 { 0% { opacity: 0; } 50% { opacity: 1; } }
+@keyframes pc-buyu {
+  0%, 100% { transform: scale(0.88, 0.84); }
+  50% { transform: scale(1, 1.06); }
+}
+@keyframes pc-sis {
+  from { opacity: 0.35; transform: translateX(-8%) scale(0.95); }
+  to { opacity: 0.8; transform: translateX(8%) scale(1.06); }
+}
+@keyframes pc-yuvarlan {
+  from { transform: rotate(-30deg) scaleX(1); }
+  to { transform: rotate(40deg) scaleX(-0.6); }
+}
+@keyframes pc-savrul {
+  0% { opacity: 0; transform: translate(0, 0) rotate(0deg); }
+  10% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { opacity: 0; transform: translate(var(--dx, -60%), var(--dy, 60%)) rotate(var(--rot, 300deg)); }
+}
+@keyframes pc-svg-kay {
+  0%, 50% { transform: translateX(-34px); }
+  80%, 100% { transform: translateX(34px); }
+}
+@keyframes pc-kay {
+  0%, 55% { transform: translateX(-130%); }
+  85%, 100% { transform: translateX(130%); }
+}
+
+/* ---------------- Aura parçacıkları (iç daireye göre: cqw/cqh) ---------------- */
+.pc-p--dus { top: 0; animation: pa-dus 7s linear infinite; }
+.pc-p--yuksel { top: 100%; animation: pa-yuksel 5s linear infinite; }
+.pc-p--sal > span { animation: pa-sal 2.4s ease-in-out infinite alternate; }
+.pc-p--don > span { animation: pa-don 4s linear infinite; }
+.pc-p--takla > span { animation: pa-takla 1.8s ease-in-out infinite alternate; }
+.pc-p--yanip { animation: pa-yanip 2.2s ease-in-out infinite alternate; }
+.pc-p--kayan { opacity: 0; animation: pa-kayan 6s ease-in 2s infinite; }
+.pc-p--aurora { animation: pa-aurora 9s ease-in-out infinite alternate; }
+.pc-p--huzme { animation: pa-huzme 5s ease-in-out infinite alternate; }
+.pc-p--titrek { animation: pa-titrek 0.9s ease-in-out infinite alternate; }
+.pc-p--kivilcim > span { animation: pa-kivilcim 0.7s steps(2, end) infinite; }
+
+@keyframes pa-dus {
+  from { transform: translate3d(0, -18cqh, 0); }
+  to { transform: translate3d(var(--dx, 0cqw), 112cqh, 0); }
+}
+@keyframes pa-yuksel {
+  0% { transform: translate3d(0, 8cqh, 0) scale(1); opacity: 0; }
+  12% { opacity: var(--op, 1); }
+  80% { opacity: var(--op, 1); }
+  100% { transform: translate3d(var(--dx, 0cqw), -112cqh, 0) scale(0.5); opacity: 0; }
+}
+@keyframes pa-sal {
+  from { transform: translateX(calc(var(--sw, 5cqw) * -1)) rotate(-28deg); }
+  to { transform: translateX(var(--sw, 5cqw)) rotate(28deg); }
+}
+@keyframes pa-don { to { transform: rotate(360deg); } }
+@keyframes pa-takla {
+  from { transform: rotate(-40deg) scaleX(1); }
+  to { transform: rotate(50deg) scaleX(-0.5); }
+}
+@keyframes pa-yanip {
+  from { opacity: 0.25; transform: scale(0.6); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes pa-kayan {
+  0%, 70% { opacity: 0; transform: translate3d(0, 0, 0); }
+  73% { opacity: 1; }
+  90%, 100% { opacity: 0; transform: translate3d(-75cqw, 42cqh, 0); }
+}
+@keyframes pa-aurora {
+  from { transform: translateX(-12cqw) scaleY(0.8) skewX(-10deg); opacity: 0.55; }
+  to { transform: translateX(12cqw) scaleY(1.18) skewX(10deg); opacity: 1; }
+}
+@keyframes pa-huzme {
+  from { transform: rotate(-7deg); opacity: 0.35; }
+  to { transform: rotate(7deg); opacity: 0.85; }
+}
+@keyframes pa-titrek {
+  from { opacity: 0.55; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1.12); }
+}
+@keyframes pa-kivilcim { 0% { opacity: 1; } 50% { opacity: 0.45; } }
+
+/* =====================================================================
+   ALTIN İSİM PLAKASI (ekler.jsx) — metal altın yazı, altın çerçeveli koyu plaka
+   ===================================================================== */
+.pp-plaka {
+  --pp-yuk: 1em;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.34em;
+  max-width: 100%;
+  min-width: 0;
+  padding: 0.22em 0.62em 0.26em;
+  border: 2px solid transparent;
+  border-radius: 0.62em;
+  background:
+    linear-gradient(180deg, #2c2356 0%, #17112f 55%, #0b0820 100%) padding-box,
+    linear-gradient(180deg, #fff3b8 0%, #f5c04a 28%, #9a5e08 55%, #ffe27a 80%, #7a4a06 100%) border-box;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.55),
+    0 2px 0 #5a3a06,
+    0 4px 10px rgba(10, 6, 30, 0.35);
+  line-height: 1.15;
+  vertical-align: middle;
+}
+.pp-plaka--k { font-size: 0.92em; padding: 0.14em 0.5em 0.18em; border-width: 1.5px; }
+.pp-plaka--b { font-size: 1.25em; }
+.pp-plaka-uc {
+  flex: none;
+  width: 0.36em;
+  height: 0.36em;
+  transform: rotate(45deg);
+  border: 1px solid #5a3a06;
+  background: linear-gradient(135deg, #fff6c9, #f5c04a 45%, #9a5e08);
+}
+.pp-altin {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--qt-f-baslik, inherit);
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  color: #f5c04a;
+  background: linear-gradient(180deg, #fff8d6 0%, #ffe07a 26%, #f5b82a 44%, #a8650c 56%, #e8a824 70%, #fff0a8 90%, #c98a12 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 0.55px #3a2204;
+  paint-order: stroke fill;
+  filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.55));
+}
+.pp-plaka--oynar .pp-altin::after {
+  content: attr(data-ad);
+  position: absolute;
+  inset: 0;
+  white-space: nowrap;
+  background: linear-gradient(100deg, transparent 38%, rgba(255, 255, 255, 0.95) 50%, transparent 62%) no-repeat;
+  background-size: 260% 100%;
+  background-position: 170% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 0;
+  animation: pp-altin-parla 4.2s ease-in-out 0.8s infinite;
+}
+@keyframes pp-altin-parla {
+  0%, 55% { background-position: 170% 0; }
+  85%, 100% { background-position: -70% 0; }
+}
+@media (prefers-reduced-motion: reduce) { .pp-plaka--oynar .pp-altin::after { animation: none; opacity: 0; } }
+.pp-amblem { flex: none; display: inline-block; vertical-align: middle; filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.25)); }
