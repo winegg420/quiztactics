@@ -247,8 +247,12 @@ Aktif yedi maç skill'i vardır:
   satırı; içerik yüksekliğe göre sıkışır; Detay ve ek içerik (sohbet, tepki, ses, hesap önerisi) açılır panelde. Lottie ve
   konfeti maç biterken önceden iner, geç gelse de baştan oynar.
 - **Oyuncu adına dokununca profil kartı** (`OyuncuAdiDugmesi`), avatarla aynı; lig tablosu/arkadaş satırı zaten kartı açar.
-  Takılı isim efekti de buradan uygulanır. **Altın isim** (`isim_altin`) plakasız: harfin kendisi metal altın (açık/koyu
-  zemin paleti, ≥3:1), parıltı yalnız hareketli yerlerde; külçe/yakut plaka yalnız önizlemede.
+  Takılı isim efekti de buradan uygulanır. **Altın isim** (`isim_altin`) = "Işık Şeritli Altın" (Ida, 24 Eyl;
+  `IsimEfekti.jsx › AltinIsim` + `ekranlar/altin-isim.css`): parlak sarı harf + lacivert kontur + arkada ince yarı saydam
+  altın ışık (plaka değil); hareketli yerlerde ışık akar, liste/şeritte durağan. Önizleme aynı bileşeni çizer.
+- **Rakip arama ekranı "Güneş Halkası"** (Ida, 24 Eyl; `AramaSahnesi.jsx` → tembel `AramaGunesHalkasi.jsx`): gök mavisi,
+  ortada dönen halka + yörüngede avatarlar, süre, mod/Dereceli rozeti, "Biliyor muydun?" (TR/EN), VS `ARAMA_GECIS_MS`
+  (2 sn) içinde. Klasik, Saf Bilgi, Düello; Grup'un kendi bekleme satırı (ChallengesPage) eski.
 - **Çevrimiçi durumu (590, Ida onaylı güvenlik kuralı) YALNIZ arkadaş listesinde:** Realtime Presence, her oyuncunun
   özel kanalı `cevrimici-<uid>`; yalnız sahibi yazar, yalnız kabul edilmiş arkadaş okur; DB'ye yazım yok. Yeşil
   "Çevrimiçi" / turuncu "Maçta", çevrimiçiler üstte, çevrimdışında gösterge yok. Arka planda kanaldan çıkılır.

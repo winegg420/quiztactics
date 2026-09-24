@@ -8254,3 +8254,15 @@ ada dokununca kart yok, maç içi ses tek düğme; ek olarak 2. tur onayları (B
 - **Rakip arama adayları (3771aaf):** A "Gök Yolu" (dikey kartlar, radar + VS diski, slot avatar), B "Güneş Halkası" (ortada dönen
   halka, yörüngede 8 avatar). Gök mavisi + turuncu ışınlar, süre, mod/Dereceli rozeti, kategori, "Biliyor muydun?" (14, TR/EN),
   arama → bulundu → VS ~2 sn → maç başlıyor. Şimdiki ekran yanında. 4× CPU yavaşlatmada ~59–60 fps. Tam ekran portal (fixed + transform yok, 100dvh).
+
+## 2026-09-24 — Altın isim "Işık Şeritli" + rakip arama "Güneş Halkası" oyunda (bulut, 2 ajan)
+**Araç:** Claude Code (yönetici + Ajan A/B). Migration yok. Maç sonu / Düello / rövanş dosyalarına dokunulmadı (PC'deki oturum).
+- **Arama ekranı (aac2da3):** `AramaSahnesi` görünümü tembel `AramaGunesHalkasi.jsx` + `ekranlar/arama-gunes-halkasi.css`;
+  eşleşme, süre (`ARAMA_GECIS_MS` 2000), sunucu çağrısı aynı. Makara 450 ms'de durur, VS ~1,2 sn'de oturur, "Maç başlıyor" 2 sn.
+  Klasik/Saf Bilgi/Düello (Düello'da VS profil gelince başlar). Grup kendi satır içi ekranı (ChallengesPage, dokunulmadı),
+  Turnuva'da arama yok. 4× CPU: 60 fps, reduce 0,4 hız. Kontrast ≥4,93. Not: bu ekranda isme dokununca kart yok.
+- **Altın isim (86c32d9):** `IsimEfekti › AltinIsim` (şerit + `::before` kontur + degrade dolgu; seçim/ekran okuyucu tek ad),
+  `ekranlar/altin-isim.css`; eski metal altın bloğu kozmetik.css'ten çıktı; önizlemedeki serit adayı oyun bileşenini çizer
+  (piksel farkı 0). Arkadaş listesi satırı artık isim efekti gösteriyor (FriendsPage tek satır). Lig satırında eskisiyle
+  aynı noktada kısalır. Kontrast kontur/beyaz 15,1, sarı/kontur ≥8,6.
+- **Ana paket:** JS 408,89 (a8ae628) → 408,25 kB; CSS 473,24 → 476,38 kB. Build temiz; 390/360, reduce açık/kapalı taşma 0, hata 0.
