@@ -351,6 +351,25 @@ function MacSonuKutlama({
     return () => { window.removeEventListener("resize", olc); gozcu?.disconnect(); };
   }, []);
 
+  // Zafer efekti parçası + görselleri sahnenin boş anında önceden iner/çözülür (takılma anı ucuz kalsın).
+  useEffect(() => {
+    if (!benZafer && !rakipZafer) return undefined;
+    const bosta = window.requestIdleCallback ?? ((f) => setTimeout(f, 1));
+    const iptal = window.cancelIdleCallback ?? clearTimeout;
+    const zamanRef = { current: null };
+    const zaman = setTimeout(() => {
+      const k = bosta(() => {
+        import("./ZaferEfekti.jsx").catch(() => {});
+        for (const src of ["/kozmetik/havai-fisek.webp", "/kozmetik/coin.webp", "/kozmetik/ejder-alev.webp", "/kozmetik/alev.webp",
+                           "/kozmetik/kar-tanesi.webp", "/kozmetik/kayan-yildiz.webp", "/kozmetik/yildiz.webp"]) {
+          try { const i = new Image(); i.src = src; i.decode?.().catch(() => {}); } catch { /* görsel yoksa efekt yine çizilir */ }
+        }
+      }, { timeout: 800 });
+      zamanRef.current = () => iptal(k);
+    }, 1900);
+    return () => { clearTimeout(zaman); zamanRef.current?.(); };
+  }, [benZafer, rakipZafer]);
+
   // Aşama 1 takıldı → aşama 2 bir sonraki karede.
   useEffect(() => {
     if (asama !== 1) return undefined;
