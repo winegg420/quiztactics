@@ -400,7 +400,7 @@ export function V2Sonuc({ d, rakip, secenekler, c }) {
       {h.uzatma && <V2UzatmaBandi kategori={h.kategori} c={c} />}
       <QtSonucBandi ton={ton} metin={metin} anahtar={`${h.tur}-${h.soru_id}`} />
       {h.zayif_saldiri && (
-        <p className="m2-not"><QtIkon ad="uyari" boyut={12} /> {h.savunan === d.ben ? c("Zayıf noktana saldırıldı") : c("Rakibin zayıf noktasına saldırdın")}</p>
+        <p className="m2-not m2-zayif-not"><QtIkon ad="uyari" boyut={14} /> {h.savunan === d.ben ? c("Zayıf noktana saldırıldı") : c("Rakibin zayıf noktasına saldırdın")}</p>
       )}
       <div className="m2-tablo" role="group" aria-label={c("Can tablosu")}>
         {hucre(c("Sen"), b, h.can_kaybeden === d.ben)}

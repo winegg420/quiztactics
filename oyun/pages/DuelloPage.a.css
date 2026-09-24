@@ -377,3 +377,5 @@
 .m2-zayif-uyari--savunan { background: var(--qt-uyari); color: var(--qt-uyari-yazi); }
 .m2-zayif-uyari--savunan b { color: var(--qt-uyari-yazi); }
 .m2-zayif-etiket { flex: none; display: inline-flex; align-items: center; gap: 3px; padding: 1px 6px; border-radius: 999px; font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); background: var(--qt-uyari-acik); color: var(--qt-uyari-koyu); }
+.m2-zayif-not { display: flex; align-items: center; justify-content: center; gap: 6px; }
+.m2-zayif-not svg { flex: none; }
