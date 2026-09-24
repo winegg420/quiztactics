@@ -1,6 +1,6 @@
 /* ============================================================
    MAÇ SONU KUTLAMA SAHNESİ (Ajan G) — MacSonuKutlama.jsx
-   Yalnız /mac-sonu-onizleme'de kullanılır (gerçek maç sonu m1-sonuc.css'te, değişmedi).
+   A.3 (24 Eyl 2026): bütün modların maç sonu + /mac-sonu-onizleme (eski sahne m1-sonuc.css'te durur).
 
    Kurallar:
    - Hareket yalnız transform + opacity. Her girişin DOĞAL stili son hâlidir;
@@ -39,7 +39,7 @@
   align-items: center;
   gap: var(--qt-b-4);
   min-height: 100dvh;
-  padding: var(--qt-b-4) var(--qt-kenar) calc(var(--msk-eylem-h) + env(safe-area-inset-bottom) + var(--qt-b-6));
+  padding: var(--qt-b-4) var(--qt-kenar) calc(var(--msk-eylem-h) + var(--msk-eylem-alt, 0px) + var(--msk-guvenli, env(safe-area-inset-bottom)) + var(--qt-b-6));
   overflow: clip;
   color: var(--qt-metin);
   font-family: var(--qt-f-govde);
@@ -255,6 +255,10 @@
   .msk-skor-sayi { font-size: var(--qt-y-2xl); }
   .msk-isim { padding-inline: var(--qt-b-2); }
 }
+/* A.3: Klasik puanı 3 basamaklı (200–110) — rozet avatar sütunlarını daraltmasın */
+.msk-skor--uzun { padding-inline: var(--qt-b-2); }
+.msk-skor--uzun .msk-skor-sayi { font-size: var(--qt-y-2xl); }
+.msk-skor--uzun .msk-skor-sayi i { font-size: var(--qt-y-l); }
 .msk-skor-etiket { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-mac-soluk); }
 
 /* ---------- Ödül kartı ---------- */
@@ -510,18 +514,33 @@
   position: fixed;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: var(--msk-eylem-alt, 0px);   /* A.3: alt sekme çubuğunun üstü (MacSonuKutlama ölçer) */
   z-index: var(--qt-z-yapiskan);
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--qt-b-2);
-  padding: var(--qt-b-3) var(--qt-kenar) calc(var(--qt-b-3) + env(safe-area-inset-bottom));
+  padding: var(--qt-b-3) var(--qt-kenar) calc(var(--qt-b-3) + var(--msk-guvenli, env(safe-area-inset-bottom)));
   background: var(--qt-yuzey);
   box-shadow: 0 -1px 0 var(--qt-cizgi), 0 -8px 24px color-mix(in srgb, var(--qt-zemin-metin) 14%, transparent);
 }
 .msk-eylem > * { flex: none; }
 .msk-eylem-rovans { flex: 1 1 auto; min-width: 0; padding-inline: var(--qt-b-4); }
 .msk-eylem-yeni { padding-inline: var(--qt-b-4); }
+/* A.3: rövanş yuvası (istek / bekleniyor / kabul-reddet akışları), tam satır not, rövanşsız hâl */
+.msk-eylem-yuva { display: flex; flex-wrap: wrap; align-items: center; gap: var(--qt-b-2); }
+.msk-eylem-yuva:empty { display: none; }
+.msk-eylem-yuva > * { flex: 1 1 auto; min-width: 0; }
+.msk-eylem-yuva > p, .msk-eylem-yuva .m1-bant { flex-basis: 100%; margin: 0; text-align: center; }
+.msk-eylem-yuva .mss-eylem-not { display: none; }
+.msk-eylem > .msk-eylem-yuva, .msk-eylem-yuva > .msk-eylem-yuva { flex: 1 1 0; min-width: 0; }
+.msk-eylem-yuva ~ .msk-eylem-yeni { flex: 1 1 0; min-width: 0; padding-inline: var(--qt-b-2); }
+.msk-eylem-yuva .qt-dugme { min-width: 0; width: 100%; }
+.msk-detay-govde[hidden] { display: none; }   /* Klasik rövanş notu çubuğu şişirmesin */
+/* Özet gelene dek (genelde < 0,3 sn) boş zemin: sahne zaman çizelgesi veriyle bir kez başlar */
+.msk-bekle { min-height: 60dvh; }
+.msk-eylem-yeni--genis { flex: 1 1 auto; }
+.msk-eylem-not { flex: 1 0 100%; min-width: 0; margin: 0; font-weight: var(--qt-a-kalin); text-align: center; color: var(--qt-metin-2); }
 /* Dar ekranda (EN "Rematch" + "New match") yazı kesilmesin: Rövanş ikonu düşer, metin kalır */
 @media (max-width: 389px) {
   .msk-eylem-rovans .qt-ikon { display: none; }
@@ -533,6 +552,26 @@
   .msk-eylem { justify-content: center; }
   .msk-eylem-rovans { flex: 0 1 260px; }
 }
+
+/* ---------- A.3: serbest orta sahne (turnuva/grup), Detay, ek içerik, terk (sade) ---------- */
+.msk-karsilasma--serbest { display: flex; flex-direction: column; align-items: center; gap: var(--qt-b-3); animation: msk-yuksel var(--msk-avatar) var(--qt-egri-cikis) var(--t-avatar) backwards; }
+.msk-derece { display: flex; flex-direction: column; align-items: center; gap: var(--qt-b-1); text-align: center; }
+.msk-derece-sayi { font-family: var(--qt-f-baslik); font-weight: var(--qt-a-siyah); font-size: var(--qt-y-4xl); line-height: 1; color: var(--qt-zemin-metin); }
+.msk-derece-etiket { font-weight: var(--qt-a-kalin); color: var(--qt-metin-2); }
+.msk-rozet-ek { font-size: var(--qt-y-s); color: var(--qt-metin-2); }
+.msk-detay, .msk-ek {
+  width: 100%;
+  max-width: 480px;
+  animation: msk-sol-gir var(--qt-s-orta) var(--qt-egri-cikis) var(--t-son) backwards;
+}
+.msk-detay { display: flex; flex-direction: column; gap: var(--qt-b-3); scroll-margin-top: var(--qt-b-4); }
+.msk-detay-dugme { align-self: center; }
+.msk-detay-dugme .qt-ikon { transition: transform var(--qt-s-kisa) var(--qt-egri-cikis); }
+.msk-detay--acik .msk-detay-dugme .qt-ikon:last-child { transform: rotate(180deg); }
+.msk-detay-govde { display: flex; flex-direction: column; gap: var(--qt-b-3); }
+.msk-ek { display: flex; flex-direction: column; gap: var(--qt-b-3); }
+.msk--atla .msk-detay, .msk--atla .msk-ek, .msk--atla .msk-karsilasma--serbest,
+.msk--az .msk-detay, .msk--az .msk-ek, .msk--az .msk-karsilasma--serbest { animation: none; }
 
 /* ---------- Atla: her şey son hâline ---------- */
 .msk--atla .msk-a,

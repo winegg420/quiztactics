@@ -9,7 +9,9 @@ import YanlisSatiri from "../components/YanlisSatiri.jsx";
 import OdulDokumu from "../components/OdulDokumu.jsx";
 import MacSorulari from "../components/MacSorulari.jsx";
 import SureDolduGecis from "../components/SureDolduGecis.jsx";
-import MacSonuSahnesi from "../components/MacSonuSahnesi.jsx";
+import MacSonuKutlama from "../components/MacSonuKutlama.jsx";
+import CerceveliAvatar from "../components/CerceveliAvatar.jsx";
+import { useMacSonuOzet, ozettenSahne } from "../lib/macSonuOzet.js";
 import MacYukleniyor from "../components/MacYukleniyor.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { useOyunModu } from "../lib/oyunModu.js";
@@ -82,7 +84,9 @@ export default function GroupMatchPage() {
   const [gecisBitti, setGecisBitti] = useState(false);
   // Paket 36: sonuç sahnesinin "Detay (n)" rozeti (YanlisSatiri sayar)
   const [yanlisAdet, setYanlisAdet] = useState(0);
-  const [gorevler, setGorevler] = useState([]);   // Paket 37 D.1: sahnede Detay'ın üstünde
+  const [terkEttim, setTerkEttim] = useState(false);   // A.1: "Maçtan çık" → grup_mac_terk (anında terk)
+  // A.3: yeni maç sonu sahnesinin verisi (tek çağrı: mac_sonu_ozet) — maç bitince bir kez okunur.
+  const { ozet: macSonuOzet } = useMacSonuOzet(mac?.durum === "bitti" ? `grup:${id}` : null);
   const balonTimer = useRef({});
 
   const balonGoster = useCallback((kimden, mesaj) => {
@@ -516,6 +520,23 @@ export default function GroupMatchPage() {
     );
   }
 
+  // A.1: maçtan çıkan (ya da sunucunun terk saydığı) oyuncu ödülsüz, sade sahneyi görür.
+  if (terkEttim || (benimKayit?.terk_at && mac.durum !== "iptal")) {
+    return (
+      <MacSonuKutlama
+        terk="ben"
+        mod="grup"
+        karsilasma={
+          <div className="msk-derece">
+            <CerceveliAvatar profile={benimKayit?.profil} userId={user.id} boyut={88} />
+          </div>
+        }
+        rovans={null}
+        eylemler={{ onYeniMac: () => navigate(y("/meydan?bolum=grup")), onAnaSayfa: () => navigate(y()) }}
+      />
+    );
+  }
+
   if (mac.durum === "bitti" && !gecisBitti) {
     return sahne(
       <SureDolduGecis
@@ -525,68 +546,54 @@ export default function GroupMatchPage() {
         kazandi={mac.kazanan === user.id}
         kaybetti={mac.kazanan !== null && mac.kazanan !== user.id}
         berabere={mac.kazanan === null}
+        sessiz
         onBitti={() => setGecisBitti(true)}
       />
     );
   }
 
   if (mac.durum === "bitti") {
+    if (!macSonuOzet) return <div className="msk-bekle" aria-busy="true" />;
     const kazandim = mac.kazanan === user.id;
     const berabere = mac.kazanan === null;
-    // Paket 36 C.3: podyum dizilişi — 2. solda, 1. ortada ve büyük, 3. sağda.
-    const podyum = [siraliSkor[1], siraliSkor[0], siraliSkor[2]]
-      .map((k, i) => (k ? { k, sira: [2, 1, 3][i] } : null))
-      .filter(Boolean);
+    const sahneVeri = ozettenSahne(macSonuOzet);
+    // A.3 kararı: grup maçında orta sahnede kendi sonucun + derecen (N oyuncu arasında kaçıncı olduğun);
+    // bütün sıralama Detay'da. Grup ödülsüz: coin/XP/lig yok, yalnız rozet ve görev.
+    const derece = Math.max(1, siraliSkor.findIndex((k) => k.user_id === user.id) + 1);
     return (
-      <MacSonuSahnesi
+      <MacSonuKutlama
         durum={berabere ? "berabere" : kazandim ? "kazandi" : "kaybetti"}
-        baslik={berabere ? tt("Berabere!") : kazandim ? tt("Kazandın!") : tt("Kaybettin")}
-        odulNotu={<QtRozet ton="notr" ikon="bilgi">{ceviri("Arkadaş maçı — ödül ve puan yok.")}</QtRozet>}
+        mod="grup"
+        baslik={berabere ? tt("BERABERE") : kazandim ? tt("ZAFER!") : tt("Maç bitti")}
+        altYazi={ceviri("Arkadaş maçı — ödül ve puan yok.")}
         karsilasma={
-          <div className="m1-podyum">
-            {podyum.map(({ k, sira }) => (
-              <div key={k.user_id} className={`m1-podyum-yer m1-podyum-yer--${sira}`}>
-                <div className="m1-ss-avatar" style={{ "--boyut": `${sira === 1 ? 88 : 64}px` }}>
-                  {sira === 1 && <span className="m1-ss-hale" aria-hidden="true" />}
-                  {sira === 1 && <span className="m1-ss-tac" aria-hidden="true"><QtIkon ad="kupa" boyut={18} /></span>}
-                  <AvatarDugmesi userId={k.user_id} profil={k.profil} kendi={k.user_id === user.id}>
-                    <AvatarCerceve profile={k.profil} boyut={sira === 1 ? 88 : 64} userId={k.user_id} />
-                  </AvatarDugmesi>
-                </div>
-                <div className="m1-ss-isim">
-                  <span className="m1-ss-isim-metin">{k.profil?.gorunen_ad}</span>
-                  {k.user_id === user.id && <SenRozeti />}
-                </div>
-                <div className="m1-ss-skor">{k.skor}</div>
-                <div className="m1-podyum-basamak" aria-label={tt("{n}. sıra", { n: sira })}>{sira}</div>
-              </div>
-            ))}
+          <div className="msk-derece">
+            <CerceveliAvatar profile={benimKayit?.profil} userId={user.id} boyut={88} hareketli={kazandim} />
+            <span className="msk-derece-sayi qt-sayi">{tt("{n}.", { n: derece })}</span>
+            <span className="msk-derece-etiket">{tt("{t} oyuncu arasında · {p} puan", { t: siraliSkor.length, p: benimKayit?.skor ?? 0 })}</span>
           </div>
         }
-        gorevler={gorevler}
+        gorevler={sahneVeri.gorevler}
+        rozetler={sahneVeri.rozetler}
         detayRozet={yanlisAdet}
-        ozet={
+        detay={
           <>
             {oyuncuListesi(siraliSkor, (k) => <b className="qt-sayi">{k.skor}</b>, true)}
             {/* Paket 20 I.3: ödülsüz mod — döküm yalnız açılan rozet + günlük görev ilerlemesini gösterir */}
-            <OdulDokumu kaynak={`grup:${id}`} onGorevler={setGorevler} gorevleriGoster={false} />
+            <OdulDokumu kaynak={`grup:${id}`} veri={macSonuOzet.dokum} gorevleriGoster={false} />
             <MacSorulari kaynak={`grup:${id}`} />
             <YanlisSatiri macTur="grup" macId={id} onAdet={setYanlisAdet} />
           </>
         }
-        eylemler={
-          <>
-            <QtDugme className="mss-tam" onClick={() => navigate(y("/meydan"))}>{tt("Meydan okumalara dön")}</QtDugme>
-            <QtDugme tur="ikincil" onClick={() => navigate(y())}>{tt("Ana sayfa")}</QtDugme>
-          </>
-        }
+        rovans={null}
+        eylemler={{ onYeniMac: () => navigate(y("/meydan?bolum=grup")), onAnaSayfa: () => navigate(y()) }}
       >
         {/* MAÇ BİTTİ AMA OTURUM KAPANMAZ — herkes isterse kalıp konuşur. */}
         <p className="m1-ss-not">
           {tt("Maç bitti ama oturum açık: istersen burada kalıp konuşmaya devam edebilirsin. Çıkmak sana kalmış.")}
         </p>
         {tepkiSeridi}
-      </MacSonuSahnesi>
+      </MacSonuKutlama>
     );
   }
 
@@ -609,11 +616,22 @@ export default function GroupMatchPage() {
         acik={cikisOnay}
         onKapat={() => setCikisOnay(false)}
         baslik={tt("Maçtan çıkmak istiyor musun?")}
-        aciklama={tt("Çıkarsan maç diğer oyuncular için duraklar. 45 saniye içinde dönmezsen maçtan ayrılmış sayılırsın: kazanan belirlenirken hesaba katılmazsın ve maç kalanlarla devam eder.")}
+        aciklama={tt("Çıkarsan maçtan ayrılmış sayılırsın: kazanan belirlenirken hesaba katılmazsın, maç kalanlarla sürer.")}
         altlik={
           <div className="m1-sat-dugmeler">
             <QtDugme tur="ikincil" data-qt-ilk-odak onClick={() => setCikisOnay(false)}>{tt("Vazgeç")}</QtDugme>
-            <QtDugme tur="tehlike" onClick={() => { setCikisOnay(false); navigate(y("/meydan")); }}>
+            <QtDugme tur="tehlike" onClick={async () => {
+              setCikisOnay(false);
+              // A.1 terk kuralı: sunucu anında terk yazar (grup_mac_terk, 460); diğerleri 45 sn beklemez.
+              try {
+                const { error } = await supabase.rpc("grup_mac_terk", { p_group_match_id: id });
+                if (error) throw error;
+                setTerkEttim(true);
+              } catch (e) {
+                console.error("[Bildim] grup maçından çıkılamadı:", e);
+                navigate(y("/meydan"));
+              }
+            }}>
               {tt("Maçtan çık")}
             </QtDugme>
           </div>

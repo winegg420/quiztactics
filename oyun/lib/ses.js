@@ -627,6 +627,19 @@ export function sesLevel() { cal("level", tonRutbeAtladi); }
 /** Coin kazanma — sayaç artmaya başladığında bir kez. */
 export function sesCoin() { cal("coin", tonCoin); }
 
+/**
+ * Maç sonu sahnesi (A.3): yalnız /ses-secim seçimi (ya da Ida'nın "mevcut" seçtiği dosya) çalar;
+ * dosya yüklenemezse OSİLATÖR YEDEĞİ YOK — sahne sessiz kalır.
+ * @param {"kazandin"|"kaybettin"|"beraberlik"|"coin"|"xp_dolma"|"level"|"rozet"} rol
+ */
+export function sesMacSonu(rol) {
+  if (rol === "kazandin" || rol === "kaybettin" || rol === "beraberlik") kanca("cevap");
+  cal(rol, () => {});
+}
+
+/** Maç sonu sahnesi açıkken müzik kısık (sahne kapanınca eski seviyeye döner). */
+export function sesMuzikSahne(acik) { kanca(acik ? "sahne_ac" : "sahne_kapa"); }
+
 /** Turnuva başladı. */
 export function sesTurnuvaBasladi() { cal("turnuva", tonTurnuva); }
 

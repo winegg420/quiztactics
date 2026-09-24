@@ -1,8 +1,11 @@
 // ============================================================
-// MAÇ SONU KUTLAMA SAHNESİ (Ajan G) — şimdilik YALNIZ /mac-sonu-onizleme
-//
-// Gerçek maç sonu (MacSonuSahnesi) DEĞİŞMEDİ; bu bileşen Ida onaylayınca ayrı
-// adımda bağlanacak. Bileşen içerik bilmez: RPC çağırmaz, verilen veriyi çizer.
+// MAÇ SONU KUTLAMA SAHNESİ (Ajan G) — A.3 (24 Eyl 2026, Ida onayı): BÜTÜN MODLARIN maç sonu
+// (Klasik, Saf Bilgi, Antrenman, Düello, Turnuva, Grup) + /mac-sonu-onizleme.
+// Veri sayfadan gelir (oyun/lib/macSonuOzet.js › mac_sonu_ozet — tek çağrı); bileşen RPC çağırmaz.
+// A.3 ekleri: terk hâli ("Maçtan ayrıldın" / "Rakip ayrıldı — galibiyet", sade), serbest orta sahne
+// (turnuva/grup derecesi), rövanş yuvası (Düello/Klasik rövanş akışları), Detay bölümü, rakibe
+// dokununca profil kartı, eylem çubuğu alt menünün üstünde, sahne açıkken müzik kısık, sesler
+// yalnız ses.js › sesMacSonu (/ses-secim seçimi; osilatör yedeği yok; aynı ses üst üste çalmaz).
 // Prop şekilleri gerçek kaynaklarla aynıdır:
 //   ben/rakip  → MacSonuSahnesi ile aynı { profil, skor, can } (+ cerceve anahtarı)
 //   oduller    → [{ ikon:"coin", deger, etiket }]
@@ -24,11 +27,13 @@
 import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import CerceveliAvatar from "./CerceveliAvatar.jsx";
+import AvatarDugmesi from "./AvatarDugmesi.jsx";
 import RozetMadalyonu, { rozetSembolu } from "./RozetMadalyonu.jsx";
 import MacSonuLottie, { KonfetiKatmani, konfetiYukle, lottieOnYukle } from "./MacSonuLottie.jsx";
 import { QtCan, QtDugme, QtIkon, QtIkonDugme } from "../tasarim/index.js";
 import { hareketAzaltildiMi } from "../tasarim/hareket.js";
-import { sesCoin, sesKaybettin, sesKazandin, sesLevel } from "../lib/ses.js";
+import { sesMacSonu, sesMuzikSahne } from "../lib/ses.js";
+import { coinTazele } from "../lib/coin.js";
 import { tt, ttSunucu } from "../lib/dil.js";
 import "../tasarim/ekranlar/mac-sonu-kutlama.css";
 
@@ -69,7 +74,12 @@ function Taraf({ kisi, rol, yan, canToplam, sen }) {
       <div className="msk-avatar msk-a">
         {rol === "kazanan" && <span className="msk-halka" aria-hidden="true" />}
         {rol === "kazanan" && <img className="msk-tac msk-a" src="/dukkan/tac.webp" alt="" aria-hidden="true" />}
-        <CerceveliAvatar profile={kisi?.profil} userId={kisi?.profil?.id} cerceve={kisi?.cerceve} boyut={76} hareketli={rol === "kazanan"} />
+        {/* Rakibin avatarına dokununca profil kartı (kendi avatarın düz kalır). cerceve verilmezse
+            CerceveliAvatar takılı çerçeveyi sunucudan (oyuncu_kartlari, kimliğe göre) okur. */}
+        <AvatarDugmesi userId={kisi?.profil?.id} profil={kisi?.profil} kendi={Boolean(sen)}>
+          <CerceveliAvatar profile={kisi?.profil} userId={kisi?.profil?.id} cerceve={kisi?.cerceve} boyut={76} hareketli={rol === "kazanan"}
+                           aura={kisi?.aura !== undefined ? kisi.aura : kisi?.cerceve !== undefined ? null : undefined} />
+        </AvatarDugmesi>
       </div>
       <div className="msk-isim msk-a">
         <span className="msk-isim-metin">{kisi?.profil?.gorunen_ad ?? ""}</span>
@@ -90,22 +100,53 @@ function Taraf({ kisi, rol, yan, canToplam, sen }) {
  * @param {object} eylemler { onRovans, onYeniMac, onAnaSayfa, onHatalar, rovansKapali }
  * @param {string} [coinHedefSecici]  coin'lerin uçacağı sayaç (gerçek üst çubukta .bd-coin-hap)
  * @param {(i:number, n:number) => void} [onCoinVaris] her coin varınca (i = 0..n-1)
+ * A.3 ekleri (hepsi isteğe bağlı; önizleme bunları vermez):
+ * @param {"ben"|"rakip"|null} [terk]  terk edilen maç: "ben" → ödülsüz sade sahne; "rakip" → sade galibiyet
+ * @param {string} [baslik]            afiş metni (turnuva/grup/iptal için)
+ * @param {string} [altYazi]           afiş altı satır
+ * @param {ReactNode} [karsilasma]     ben/rakip yerine serbest orta sahne (turnuva/grup derecesi)
+ * @param {ReactNode} [rovans]         Rövanş düğmesinin yerine (rövanş isteği/kabul akışları)
+ * @param {ReactNode} [eylemNotu]      eylem çubuğunun üstünde tam satır (rövanş yanıtı, hata)
+ * @param {ReactNode} [detay]          açılır "Detay" bölümü (döküm, sorular, paylaş)
+ * @param {number} [detayRozet]        Detay düğmesindeki sayı (kaçırılan soru)
+ * @param {ReactNode} [children]       sahnenin altına serbest içerik (sohbet, tepkiler…)
+ * @param {string} [skorEtiket]        skorun altındaki kelime (varsayılan "doğru"; Klasik "puan")
  */
 function MacSonuKutlama({
-  durum = "kazandi",
+  durum: durumVerilen = "kazandi",
   mod = "klasik",
   ben,
   rakip,
   canToplam,
-  oduller,
-  level,
-  lig,
-  gorevler,
-  rozetler,
+  oduller: odullerVerilen,
+  level: levelVerilen,
+  lig: ligVerilen,
+  gorevler: gorevlerVerilen,
+  rozetler: rozetlerVerilen,
   eylemler = {},
   coinHedefSecici = ".bd-coin-hap",
   onCoinVaris,
+  terk = null,
+  baslik: baslikVerilen,
+  altYazi: altYaziVerilen,
+  karsilasma,
+  rovans,
+  eylemNotu,
+  detay,
+  detayRozet = 0,
+  children,
+  skorEtiket,
 }) {
+  // Terk eden: ödül bölümü hiç yok, kaybetti renginde sade sahne. Kalan: galibiyet, fanfarsız.
+  const benTerk = terk === "ben";
+  const sade = Boolean(terk);
+  const durum = benTerk ? "kaybetti" : terk === "rakip" ? "kazandi" : durumVerilen;
+  const oduller = benTerk ? [] : odullerVerilen;
+  const level = benTerk ? null : levelVerilen;
+  const lig = benTerk ? null : ligVerilen;
+  const gorevler = benTerk ? [] : gorevlerVerilen;
+  const rozetler = benTerk ? [] : rozetlerVerilen;
+  const [detayAcik, setDetayAcik] = useState(false);
   const [az] = useState(hareketAzaltildiMi);
   const [atlandi, setAtlandi] = useState(az);
   const [bitti, setBitti] = useState(az);
@@ -136,6 +177,7 @@ function MacSonuKutlama({
   };
 
   const kazandi = durum === "kazandi";
+  const kutlama = kazandi && !sade;   // kupa, huzme, konfeti yalnız normal galibiyette
   const coin = (oduller ?? []).find((o) => o?.ikon === "coin")?.deger ?? 0;
   const xpv = useMemo(() => xpOranlari(level), [level]);
   const ek = xpv?.atladi ? LEVEL_EK_MS : 0;
@@ -165,7 +207,7 @@ function MacSonuKutlama({
     cancelAnimationFrame(rafRef.current);
     coinYaz(coin);
     setUcus(null);
-    if (coin > 0 && varisRef.current < COIN_ADET) { varisRef.current = COIN_ADET; onCoinVaris?.(COIN_ADET - 1, COIN_ADET); }
+    if (coin > 0 && varisRef.current < COIN_ADET) { varisRef.current = COIN_ADET; onCoinVaris?.(COIN_ADET - 1, COIN_ADET); coinTazele(); }
     lottie.kupa.current?.sonaGit();
     lottie.level.current?.sonaGit();
     lottie.konfeti.current?.gizle();
@@ -180,7 +222,7 @@ function MacSonuKutlama({
   // Zaman çizelgesi: tek kez, takılınca.
   useEffect(() => {
     lottieOnYukle(LOTTIE_ADLARI);
-    if (kazandi && !az) konfetiYukle().catch(() => {});
+    if (kutlama && !az) konfetiYukle().catch(() => {});
     basRef.current = performance.now();
     // Odak (ekran okuyucu) karenin rAF'ında: takılma görevinde focus() stil + düzeni zorla
     // hesaplatıyordu (4× CPU izi: açılış görevinin ~14 ms'si); rAF'ta o hesabı kare zaten yapar.
@@ -197,14 +239,18 @@ function MacSonuKutlama({
     const odakIptal = () => {
       cancelAnimationFrame(odakKare); cancelAnimationFrame(asamaKare); cancelAnimationFrame(asamaKare2); clearTimeout(asamaYedek);
     };
-    if (az) { bitir(); if (kazandi) sesKazandin(); return odakIptal; }
+    if (az) { bitir(); if (kazandi) sesMacSonu("kazandin"); else if (durum === "berabere") sesMacSonu("beraberlik"); return odakIptal; }
     const z = (ms, f) => zamanlayicilar.current.push(setTimeout(f, ms));
     varisRef.current = 0;
     coinYaz(0);
 
-    if (kazandi) z(t.kupa, () => lottie.kupa.current?.oynat());
-    if (kazandi) z(t.konfeti, () => { lottie.konfeti.current?.oynat(); sesKazandin(); });
-    if (durum === "kaybetti") z(t.avatar, () => sesKaybettin());
+    // Sonuç sesi TEK kez (ses.js › sesMacSonu: /ses-secim seçimi, osilatör yedeği yok). Terk eden
+    // oyuncunun sade sahnesinde sonuç sesi çalmaz.
+    if (kutlama) z(t.kupa, () => lottie.kupa.current?.oynat());
+    if (kutlama) z(t.konfeti, () => { lottie.konfeti.current?.oynat(); sesMacSonu("kazandin"); });
+    else if (kazandi) z(t.avatar, () => sesMacSonu("kazandin"));
+    if (durum === "kaybetti" && !benTerk) z(t.avatar, () => sesMacSonu("kaybettin"));
+    if (durum === "berabere") z(t.avatar, () => sesMacSonu("beraberlik"));
 
     if (coin > 0) {
       z(t.coin, () => {
@@ -225,15 +271,17 @@ function MacSonuKutlama({
         } else {
           varisRef.current = COIN_ADET;
           onCoinVaris?.(COIN_ADET - 1, COIN_ADET);
-          sesCoin();
+          sesMacSonu("coin");
+          coinTazele();
         }
       });
     }
 
     if (xpv?.atladi) {
-      z(t.xp + 500, () => { lottie.level.current?.oynat(); sesLevel(); });
+      z(t.xp + 500, () => { lottie.level.current?.oynat(); sesMacSonu("level"); });
     }
-    if (rozet) z(t.son + 150, () => { lottie.yildiz.current?.oynat(); sesLevel(); });
+    else if (xpv?.xp > 0) z(t.xp, () => sesMacSonu("xp_dolma"));
+    if (rozet) z(t.son + 150, () => { lottie.yildiz.current?.oynat(); sesMacSonu("rozet"); });
     z(toplamMs, () => setBitti(true));
 
     const tus = (e) => { if (e.key === "Escape") bitir(); };
@@ -247,6 +295,32 @@ function MacSonuKutlama({
     };
     // Sahne yalnız takılınca kurulur; "Tekrar oynat" key ile yeniden takar.
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Sahne açıkken müzik kısık; ana sayfada bildirim izni bu maçtan sonra sorulsun (MacSonuSahnesi ile aynı işaret).
+  useEffect(() => {
+    sesMuzikSahne(true);
+    try { sessionStorage.setItem("bildim_bildirim_mac_sonrasi", "1"); } catch { /* özel mod */ }
+    return () => sesMuzikSahne(false);
+  }, []);
+
+  // Eylem çubuğu alt sekme çubuğunun (.mobile-nav) hemen üstüne oturur; yoksa güvenli alanı kendisi
+  // bırakır. Maç biterken oyun modu (body.bd-oyun-modu) ölçümden sonra kalkabilir → body sınıfı izlenir.
+  useLayoutEffect(() => {
+    const kok = kokRef.current;
+    if (!kok) return undefined;
+    const olc = () => {
+      const tb = document.querySelector(".mobile-nav, .tabbar");
+      const h = tb && getComputedStyle(tb).display !== "none"
+        ? Math.max(0, window.innerHeight - tb.getBoundingClientRect().top) : 0;
+      kok.style.setProperty("--msk-eylem-alt", `${Math.round(h)}px`);
+      kok.style.setProperty("--msk-guvenli", h ? "0px" : "env(safe-area-inset-bottom)");
+    };
+    olc();
+    window.addEventListener("resize", olc);
+    const gozcu = typeof MutationObserver === "undefined" ? null : new MutationObserver(olc);
+    gozcu?.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+    return () => { window.removeEventListener("resize", olc); gozcu?.disconnect(); };
   }, []);
 
   // Aşama 1 takıldı → aşama 2 bir sonraki karede.
@@ -275,7 +349,8 @@ function MacSonuKutlama({
     if (varisRef.current > i) return;
     varisRef.current = i + 1;
     onCoinVaris?.(i, COIN_ADET);
-    sesCoin();
+    if (i === 0) sesMacSonu("coin");   // coin sesi uçuş başına bir kez (7 tane üst üste çalmasın)
+    if (i === COIN_ADET - 1) coinTazele();   // üst çubuk sayacı yeni bakiyeye geçer
     const h = hedefBul();
     try {
       h?.animate?.([{ transform: "scale(1)" }, { transform: "scale(1.14)" }, { transform: "scale(1)" }],
@@ -286,10 +361,15 @@ function MacSonuKutlama({
 
   const kazananYan = kazandi ? "ben" : durum === "kaybetti" ? "rakip" : null;
   const rol = (yan) => (!kazananYan ? "esit" : kazananYan === yan ? "kazanan" : "kaybeden");
-  const baslik = kazandi ? tt("ZAFER!") : durum === "kaybetti" ? tt("Bu sefer olmadı") : tt("BERABERE");
-  const altYazi = kazandi
-    ? (mod === "duello" ? tt("Düello senin!") : tt("Harika maçtı!"))
-    : durum === "kaybetti" ? tt("Rövanşta görüşürüz") : tt("Kimse pes etmedi");
+  const baslik = baslikVerilen
+    ?? (benTerk ? tt("Maçtan ayrıldın") : terk === "rakip" ? tt("Rakip ayrıldı — galibiyet")
+      : kazandi ? tt("ZAFER!") : durum === "kaybetti" ? tt("Bu sefer olmadı") : tt("BERABERE"));
+  const altYazi = altYaziVerilen !== undefined ? altYaziVerilen
+    : benTerk ? tt("Yarıda bırakılan maçta ödül yok")
+    : terk === "rakip" ? tt("Rakibin maçı yarıda bıraktı")
+    : kazandi
+      ? (mod === "duello" ? tt("Düello senin!") : tt("Harika maçtı!"))
+      : durum === "kaybetti" ? tt("Rövanşta görüşürüz") : tt("Kimse pes etmedi");
   const skorSol = canToplam ? Math.max(0, ben?.can ?? 0) : (ben?.skor ?? 0);
   const skorSag = canToplam ? Math.max(0, rakip?.can ?? 0) : (rakip?.skor ?? 0);
 
@@ -302,36 +382,38 @@ function MacSonuKutlama({
   return (
     <div
       ref={kokRef}
-      className={`msk msk--${durum}${atlandi ? " msk--atla" : ""}${az ? " msk--az" : ""}${bitti ? " msk--bitti" : ""}`}
+      className={`msk msk--${durum}${sade ? " msk--sade" : ""}${atlandi ? " msk--atla" : ""}${az ? " msk--az" : ""}${bitti ? " msk--bitti" : ""}`}
       style={stil}
       onClick={bitti ? undefined : bitir}
     >
       <div className="msk-zemin" aria-hidden="true">
-        {kazandi && <div className="msk-huzme" />}
+        {kutlama && <div className="msk-huzme" />}
       </div>
 
       <div className="msk-sahne">
-        {kazandi && (
+        {kutlama && (
           <div className="msk-kupa">
             <MacSonuLottie ref={lottie.kupa} ad="kupa" kalici sonKare={0.9} />
           </div>
         )}
 
-        <div className={`msk-afis msk-a${kazandi ? "" : " msk-afis--sakin"}`} ref={afisRef} tabIndex={-1} role="status" aria-live="polite">
+        <div className={`msk-afis msk-a${kutlama ? "" : " msk-afis--sakin"}`} ref={afisRef} tabIndex={-1} role="status" aria-live="polite">
           <h1 className="msk-baslik">{baslik}</h1>
           {durum === "berabere" && <span className="msk-parilti" aria-hidden="true" />}
         </div>
         <p className="msk-alt msk-a">{altYazi}</p>
 
-        {asama >= 1 && ben && (
+        {asama >= 1 && karsilasma ? (
+          <div className="msk-karsilasma msk-karsilasma--serbest msk-a" ref={karsilasmaRef}>{karsilasma}</div>
+        ) : asama >= 1 && ben && (
           <div className="msk-karsilasma" ref={karsilasmaRef}>
             <Taraf kisi={ben} rol={rakip ? rol("ben") : "esit"} yan="sol" canToplam={canToplam} sen />
             {rakip && (
-              <div className="msk-skor msk-a" role="img"
+              <div className={`msk-skor msk-a${Math.max(skorSol, skorSag) >= 100 ? " msk-skor--uzun" : ""}`} role="img"
                    aria-label={canToplam ? tt("Kalan can {a} – {b}", { a: skorSol, b: skorSag }) : tt("Skor {a} – {b}", { a: skorSol, b: skorSag })}>
                 {canToplam ? <QtIkon ad="kalp" boyut={18} /> : null}
                 <span className="msk-skor-sayi"><b>{skorSol}</b><i>–</i><b>{skorSag}</b></span>
-                <span className="msk-skor-etiket">{canToplam ? tt("kalan can") : tt("doğru")}</span>
+                <span className="msk-skor-etiket">{canToplam ? tt("kalan can") : (skorEtiket ?? tt("doğru"))}</span>
               </div>
             )}
             {rakip && <Taraf kisi={rakip} rol={rol("rakip")} yan="sag" canToplam={canToplam} />}
@@ -339,7 +421,7 @@ function MacSonuKutlama({
         )}
       </div>
 
-      {asama >= 2 && <section ref={kartRef} className="msk-kart" aria-label={tt("Maç ödülleri")}>
+      {asama >= 2 && !benTerk && <section ref={kartRef} className="msk-kart" aria-label={tt("Maç ödülleri")}>
         {coin > 0 && (
           <div className="msk-coin msk-a">
             <div className="msk-coin-patlama"><MacSonuLottie ref={lottie.coin} ad="coin" hiz={1.5} hazirlaMs={400} /></div>
@@ -376,7 +458,7 @@ function MacSonuKutlama({
               <QtIkon ad="lig" boyut={20} />
               {tt("+{n} lig puanı", { n: lig.puan })}
             </span>
-            {lig.siraOnce && lig.siraSonra ? (
+            {lig.siraOnce && lig.siraSonra && lig.siraOnce !== lig.siraSonra ? (
               <span className="msk-lig-sira" aria-label={tt("Lig sıran {a}. sıradan {b}. sıraya çıktı", { a: lig.siraOnce, b: lig.siraSonra })}>
                 <span aria-hidden="true">{lig.siraOnce}.</span>
                 <QtIkon ad="ok" boyut={16} />
@@ -428,21 +510,50 @@ function MacSonuKutlama({
           <div className="msk-rozet-metin">
             <span className="msk-rozet-etiket">{tt("Yeni rozet!")}</span>
             <b className="msk-rozet-ad">{ttSunucu(rozet.ad)}</b>
+            {rozetler.length > 1 && <span className="msk-rozet-ek">{tt("+{n} rozet daha", { n: rozetler.length - 1 })}</span>}
           </div>
         </section>
       )}
 
-      {kazandi && !az && (
+      {/* A.3: açılır Detay (ödül dökümü, sorular, paylaş) + serbest ek içerik (sohbet, tepkiler).
+          Sahnenin sonunda girer; kapalı başlar, açılınca başa kaydırılır. */}
+      {asama >= 2 && detay && (
+        <div className={`msk-detay msk-a${detayAcik ? " msk-detay--acik" : ""}`} onClick={(e) => e.stopPropagation()}>
+          <QtDugme tur="ikincil" boyut="k" className="msk-detay-dugme" ikonSag="asagi" aria-expanded={detayAcik}
+                   onClick={(e) => {
+                     if (!detayAcik) {
+                       const dugme = e.currentTarget;
+                       requestAnimationFrame(() => dugme.scrollIntoView({ block: "start", behavior: az ? "auto" : "smooth" }));
+                     }
+                     setDetayAcik((a) => !a);
+                   }}>
+            {tt("Detay")}
+            {detayRozet > 0 && <span className="msk-detay-rozet"> ({detayRozet})</span>}
+          </QtDugme>
+          {/* Kapalıyken de takılı (rövanş portalı, yanlış sayısı gibi yan etkiler sürsün), yalnız gizli */}
+          <div className="msk-detay-govde" hidden={!detayAcik}>{detay}</div>
+        </div>
+      )}
+      {asama >= 2 && children && (
+        <div className="msk-ek msk-a" onClick={(e) => e.stopPropagation()}>{children}</div>
+      )}
+
+      {kutlama && !az && (
         <KonfetiKatmani ref={lottie.konfeti} />
       )}
 
       <div className="msk-eylem" onClick={(e) => e.stopPropagation()}>
-        <QtDugme boyut="b" ikon="yenile" className="msk-eylem-rovans" devreDisi={Boolean(eylemler.rovansKapali)}
-                 onClick={() => eylemler.onRovans?.()}>
-          {tt("Rövanş")}
-        </QtDugme>
-        <QtDugme tur="ikincil" className="msk-eylem-yeni" onClick={() => eylemler.onYeniMac?.()}>
-          {tt("Yeni maç")}
+        {eylemNotu ? <div className="msk-eylem-not">{eylemNotu}</div> : null}
+        {rovans !== undefined ? (
+          rovans ? <div className="msk-eylem-rovans msk-eylem-yuva">{rovans}</div> : null
+        ) : (
+          <QtDugme boyut="b" ikon="yenile" className="msk-eylem-rovans" devreDisi={Boolean(eylemler.rovansKapali)}
+                   onClick={() => eylemler.onRovans?.()}>
+            {tt("Rövanş")}
+          </QtDugme>
+        )}
+        <QtDugme tur="ikincil" className={`msk-eylem-yeni${rovans === null ? " msk-eylem-yeni--genis" : ""}`} onClick={() => eylemler.onYeniMac?.()}>
+          {eylemler.yeniMacEtiketi ?? tt("Yeni maç")}
         </QtDugme>
         <QtIkonDugme ikon="ev" boyut="b" etiket={tt("Ana sayfa")} onClick={() => eylemler.onAnaSayfa?.()} />
       </div>

@@ -13,7 +13,9 @@ import YanlisSatiri from "../components/YanlisSatiri.jsx";
 import OdulDokumu from "../components/OdulDokumu.jsx";
 import MacSorulari from "../components/MacSorulari.jsx";
 import MeydanaDonus from "../components/MeydanaDonus.jsx";
-import MacSonuSahnesi from "../components/MacSonuSahnesi.jsx";
+import MacSonuKutlama from "../components/MacSonuKutlama.jsx";
+import CerceveliAvatar from "../components/CerceveliAvatar.jsx";
+import { useMacSonuOzet, ozettenSahne } from "../lib/macSonuOzet.js";
 import QuestionCard from "../components/QuestionCard.jsx";
 import SkillSeti from "../components/SkillSeti.jsx";
 import OyuncuKarti from "../components/OyuncuKarti.jsx";
@@ -57,6 +59,11 @@ export default function TournamentPage() {
   // Paket 43 C: turnuvada maçtan çıkmak elenmek demek — X onay ister (Düello'daki terkOnay kalıbı)
   const [cikisOnay, setCikisOnay] = useState(false);
   const [oyuncular, setOyuncular] = useState([]);
+  const [terkEttim, setTerkEttim] = useState(false);   // A.1: "Çık ve elen" → turnuva_terk (ödülsüz)
+  // A.3: yeni maç sonu sahnesinin verisi (tek çağrı: mac_sonu_ozet) — turnuva bitince, katıldıysan.
+  const turnuvaKatildim = oyuncular.some((o) => o.user_id === user?.id);
+  const { ozet: macSonuOzet } = useMacSonuOzet(
+    turnuva?.durum === "bitti" && turnuvaKatildim ? `turnuva:${turnuva.id}` : null);
   const [soru, setSoru] = useState(null);
   // Soru bütün denemelere rağmen gelmedi mi? (sessiz donma yerine görünür hata)
   const [soruHatasi, setSoruHatasi] = useState(false);
@@ -504,6 +511,20 @@ export default function TournamentPage() {
     );
   }
 
+  // A.1: turnuvadan çıkan oyuncu (turnuva_terk) ödülsüz, sade sahneyi görür.
+  if (terkEttim && turnuva?.durum === "aktif") {
+    const benSatir = oyuncular.find((o) => o.user_id === user?.id);
+    return (
+      <MacSonuKutlama
+        terk="ben"
+        mod="turnuva"
+        karsilasma={<div className="msk-derece"><CerceveliAvatar profile={benSatir?.profil ?? profile} userId={user?.id} boyut={88} /></div>}
+        rovans={null}
+        eylemler={{ onYeniMac: () => setTerkEttim(false), onAnaSayfa: () => navigate(y()), yeniMacEtiketi: tt("Turnuvalara dön") }}
+      />
+    );
+  }
+
   const hataBandi = hata ? (
     <div className="m1-bant m1-bant--hata" role="alert"><QtIkon ad="uyari" boyut={18} /><span>{hata}</span></div>
   ) : null;
@@ -519,57 +540,67 @@ export default function TournamentPage() {
     let kapandi = sonucKapandi > 0;
     try { kapandi = kapandi || (kapanmaAnahtari && sessionStorage.getItem(kapanmaAnahtari) === "1"); } catch { /* özel mod */ }
     if (turnuva?.durum === "bitti" && katildim && !kapandi) {
-      const ben = turnuvaDokum?.kalemler?.find((k) => k.kalem === "turnuva_derece");
-      const sira = ben?.detay?.sira ?? null;
+      const kapat = () => {
+        try { sessionStorage.setItem(kapanmaAnahtari, "1"); } catch { /* özel mod */ }
+        setSonucKapandi((x) => x + 1);
+      };
+      if (!macSonuOzet) return <div className="msk-bekle" aria-busy="true" />;
+      const sahneVeri = ozettenSahne(macSonuOzet);
+      const benSatir = oyuncular.find((o) => o.user_id === user?.id);
+      // Derece: sunucunun ödül dağıtımında yazdığı sıra (turnuva_derece); yoksa aynı düzenle istemcide.
+      const siraliOyuncular = [...oyuncular].filter((o) => !o.terk_at).sort((a, b) =>
+        (a.elendi === b.elendi ? 0 : a.elendi ? 1 : -1)
+        || ((b.elenme_sorusu ?? Infinity) - (a.elenme_sorusu ?? Infinity))
+        || ((b.dogru_sayisi ?? 0) - (a.dogru_sayisi ?? 0)));
+      const sira = macSonuOzet.dokum?.kalemler?.find((k) => k.kalem === "turnuva_derece")?.detay?.sira
+        ?? (siraliOyuncular.findIndex((o) => o.user_id === user?.id) + 1 || null);
       const sampiyonBenim = turnuva.kazanan === user?.id;
-      const toplam = turnuvaDokum?.toplam ?? {};
+      // A.3 kararı: turnuvada orta sahnede kendi sonucun + derecen ("N. · M oyuncu arasında"); şampiyon
+      // ve bütün sıra Detay'da. Şampiyonsan kutlama, değilsen sakin (mor) sahne.
       return (
-        <MacSonuSahnesi
+        <MacSonuKutlama
           durum={sampiyonBenim ? "kazandi" : "berabere"}
-          baslik={sampiyonBenim ? tt("Kazandın!") : tt("Turnuva bitti")}
-          altYazi={sira != null && !sampiyonBenim ? tt("{n}. oldun", { n: sira }) : null}
-          oduller={[
-            { ikon: "yildiz", deger: toplam.lig ?? 0, etiket: tt("lig puanı") },
-            { ikon: "coin", deger: toplam.coin ?? 0, etiket: tt("coin") },
-          ]}
-          levelKaynak={`turnuva:${turnuva.id}`}
-          karsilasma={kazanan ? (
-            <div className="m1-ss-sampiyon">
-              <div className="m1-ss-avatar" style={{ "--boyut": "96px" }}>
-                <span className="m1-ss-hale" aria-hidden="true" />
-                <span className="m1-ss-tac" aria-hidden="true"><QtIkon ad="kupa" boyut={18} /></span>
-                <AvatarDugmesi userId={kazanan.user_id} profil={kazanan.profil} kendi={kazanan.user_id === user?.id}>
-                  <AvatarCerceve profile={kazanan.profil} boyut={96} userId={kazanan.user_id} />
-                </AvatarDugmesi>
-              </div>
-              <div className="m1-ss-isim"><span className="m1-ss-isim-metin">{kazanan.profil?.gorunen_ad}</span></div>
-              <div className="m1-ss-taraf-ek">{tt("Şampiyon")}</div>
+          mod="turnuva"
+          terk={benSatir?.terk_at ? "ben" : null}
+          baslik={benSatir?.terk_at ? undefined : sampiyonBenim ? tt("ŞAMPİYON!") : tt("Turnuva bitti")}
+          altYazi={benSatir?.terk_at ? undefined : kazanan && !sampiyonBenim ? tt("Şampiyon: {ad}", { ad: kazanan.profil?.gorunen_ad ?? "" }) : undefined}
+          karsilasma={
+            <div className="msk-derece">
+              <CerceveliAvatar profile={benSatir?.profil} userId={user?.id} boyut={88} hareketli={sampiyonBenim} />
+              {sira && !benSatir?.terk_at ? <span className="msk-derece-sayi qt-sayi">{tt("{n}.", { n: sira })}</span> : null}
+              {!benSatir?.terk_at && (
+                <span className="msk-derece-etiket">{tt("{t} oyuncu arasında · {d} doğru", { t: oyuncular.length, d: benSatir?.dogru_sayisi ?? 0 })}</span>
+              )}
             </div>
-          ) : null}
-          gorevler={gorevler}
+          }
+          oduller={sahneVeri.oduller}
+          level={sahneVeri.level}
+          lig={sahneVeri.lig}
+          gorevler={sahneVeri.gorevler}
+          rozetler={sahneVeri.rozetler}
           detayRozet={turnuvaYanlis}
-          ozet={
+          detay={
             <>
-              <OdulDokumu kaynak={`turnuva:${turnuva.id}`} onDokum={setTurnuvaDokum} onGorevler={setGorevler} gorevleriGoster={false} />
+              {kazanan && (
+                <div className="m1-ss-sampiyon">
+                  <AvatarDugmesi userId={kazanan.user_id} profil={kazanan.profil} kendi={kazanan.user_id === user?.id}>
+                    <AvatarCerceve profile={kazanan.profil} boyut={64} userId={kazanan.user_id} />
+                  </AvatarDugmesi>
+                  <div className="m1-ss-isim"><span className="m1-ss-isim-metin">{kazanan.profil?.gorunen_ad}</span></div>
+                  <div className="m1-ss-taraf-ek">{tt("Şampiyon")}</div>
+                </div>
+              )}
+              <OdulDokumu kaynak={`turnuva:${turnuva.id}`} veri={macSonuOzet.dokum} gorevleriGoster={false} />
               <MacSorulari kaynak={`turnuva:${turnuva.id}`} />
               <YanlisSatiri macTur="turnuva" macId={turnuva.id} onAdet={setTurnuvaYanlis} />
             </>
           }
-          eylemler={
-            <>
-              <QtDugme className="mss-tam" onClick={() => {
-                try { sessionStorage.setItem(kapanmaAnahtari, "1"); } catch { /* özel mod */ }
-                setSonucKapandi((x) => x + 1);
-              }}>
-                {tt("Turnuvalara dön")}
-              </QtDugme>
-              <QtDugme tur="ikincil" onClick={() => navigate(y())}>{tt("Ana sayfa")}</QtDugme>
-            </>
-          }
+          rovans={null}
+          eylemler={{ onYeniMac: kapat, onAnaSayfa: () => navigate(y()), yeniMacEtiketi: tt("Turnuvalara dön") }}
         >
           {/* Meydandan girilmişse turnuva bitince oraya dönülür */}
           <MeydanaDonus />
-        </MacSonuSahnesi>
+        </MacSonuKutlama>
       );
     }
     return (
@@ -752,11 +783,22 @@ export default function TournamentPage() {
         acik={cikisOnay}
         onKapat={() => setCikisOnay(false)}
         baslik={tt("Turnuvadan çıkarsan elenirsin.")}
-        aciklama={tt("Bu turnuvaya geri dönemezsin.")}
+        aciklama={tt("Bu turnuvaya geri dönemezsin ve ödül alamazsın.")}
         altlik={
           <div className="m1-sat-dugmeler">
             <QtDugme tur="ikincil" onClick={() => setCikisOnay(false)} data-qt-ilk-odak>{tt("Vazgeç")}</QtDugme>
-            <QtDugme tur="tehlike" onClick={() => { setCikisOnay(false); navigate(y()); }}>
+            <QtDugme tur="tehlike" onClick={async () => {
+              setCikisOnay(false);
+              // A.1 terk kuralı: yarışırken çıkan terk eder — katılım dahil ödül almaz (turnuva_terk, 460).
+              try {
+                const { error } = await supabase.rpc("turnuva_terk", { p_tournament_id: turnuva.id });
+                if (error) throw error;
+                setTerkEttim(true);
+              } catch (e) {
+                console.error("[Bildim] turnuvadan çıkılamadı:", e);
+                navigate(y());
+              }
+            }}>
               {tt("Çık ve elen")}
             </QtDugme>
           </div>

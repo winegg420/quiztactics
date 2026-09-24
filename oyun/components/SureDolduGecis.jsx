@@ -31,6 +31,9 @@ export default function SureDolduGecis({
   kaybetti = false,
   // Ajan H: maç berabere bittiyse beraberlik sesi.
   berabere = false,
+  // A.3: ardından maç sonu sahnesi (MacSonuKutlama) geliyorsa sonuç sesini o çalar — burada çalınmaz
+  // (aynı ses üst üste gelmesin). Perde sessiz geçer.
+  sessiz = false,
 }) {
   // Ajan H: ebeveyn her render'da yeni onBitti verdiği için (satır içi ok fonksiyonu) etki her
   // render'da yeniden koşuyor, sonuç sesi 9 kez baştan çalıyor ve 0,8 sn'lik perde uzuyordu
@@ -39,7 +42,9 @@ export default function SureDolduGecis({
   bittiRef.current = onBitti;
   useEffect(() => {
     try {
-      if (kazandi) {
+      if (sessiz) {
+        if (kazandi) titret([15, 30, 15]);
+      } else if (kazandi) {
         sesKazandin();
         titret([15, 30, 15]);
       } else if (kaybetti) {

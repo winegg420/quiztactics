@@ -14,6 +14,7 @@ import "../tasarim/ekranlar/m1-sonuc.css";
  * onDokum(dokum): isteğe bağlı, hazır dökümün tamamı (Paket 36: turnuva sırası `turnuva_derece.detay.sira`).
  * onGorevler(gorevler): isteğe bağlı (Paket 37 D.1), alınmamış günlük görevler [{id, ad, ilerleme, hedef}];
  *   maç sonu sahnesi bunları Detay'ın üstünde gösterir — o zaman gorevleriGoster={false} ile Detay'dan çıkar.
+ * veri: A.3 — döküm elde varsa (mac_sonu_ozet.dokum) sorgu atılmaz, doğrudan çizilir.
  */
 const INDIRIM = {
   serbest: "serbest maç — coin yarı",
@@ -50,11 +51,12 @@ function miktar(k) {
   return p.length ? p.join(" · ") : "0";
 }
 
-export default function OdulDokumu({ kaynak, onToplam, onDokum, onGorevler, gorevleriGoster = true }) {
-  const [dokum, setDokum] = useState(null);
+export default function OdulDokumu({ kaynak, veri, onToplam, onDokum, onGorevler, gorevleriGoster = true }) {
+  const [okunan, setDokum] = useState(null);
+  const dokum = veri ?? okunan;
 
   useEffect(() => {
-    if (!kaynak) return;
+    if (!kaynak || veri) return;
     let aktif = true;
     let zamanlayici = null;
     // Ödül maçı bitiren işlemle aynı anda yazılır; sonuç ekranı çok erken açılırsa iki kez daha bakılır.

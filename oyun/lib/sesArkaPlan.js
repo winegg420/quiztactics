@@ -75,6 +75,7 @@ function donguSec(yol) {
 let rota = "/";
 let turnuvaMacta = false;
 let kisik = false;
+let sahneKisik = false;   // maç sonu sahnesi açık (ses.js › sesMuzikSahne)
 let gizli = typeof document !== "undefined" && document.hidden;
 let dokunuldu = typeof navigator !== "undefined" && Boolean(navigator.userActivation?.hasBeenActive);
 let ana = null;        // müzik ana kazancı (seviye · kısma · aç/kapa)
@@ -91,8 +92,8 @@ function taniYaz(olay, ek) {
     window.__muzik = {
       olay, an: donguSec(rota), liste: iz?.liste ?? null, sira: iz?.sira ?? null, id: iz?.calan?.id ?? null,
       dosya: el?.src || null, calan: Boolean(el && !el.paused),
-      acik: muzikAcikMi(), kisik, gizli, dokunuldu, baglam: dokunuldu ? (sesBaglami()?.state ?? null) : null,
-      hedef: muzikAcikMi() ? seviye * (kisik ? oran : 1) : 0, t: Math.round(performance.now()), ...ek,
+      acik: muzikAcikMi(), kisik, sahneKisik, gizli, dokunuldu, baglam: dokunuldu ? (sesBaglami()?.state ?? null) : null,
+      hedef: muzikAcikMi() ? seviye * (kisik || sahneKisik ? oran : 1) : 0, t: Math.round(performance.now()), ...ek,
     };
     (window.__muzikGecmis ||= []).push(window.__muzik);
     window.__muzikHavuz = havuz;
@@ -259,7 +260,7 @@ function seviyeUygula() {
   const c = sesBaglami();
   if (!c) return;
   const { seviye, kisik: oran } = ayar();
-  const hedef = muzikAcikMi() ? seviye * (kisik ? oran : 1) : 0;
+  const hedef = muzikAcikMi() ? seviye * (kisik || sahneKisik ? oran : 1) : 0;
   try { ana.gain.setTargetAtTime(hedef, c.currentTime, GECIS_SN / 3); } catch { /* eski tarayıcı */ }
 }
 
@@ -318,6 +319,14 @@ export function muzikTurnuvaMacta(macta) {
 // ------------------------------------------------------------ olaylar (modül bir kez yüklenir)
 if (typeof window !== "undefined") {
   sesMuzikKancasi((olay) => {
+    if (olay === "sahne_ac" || olay === "sahne_kapa") {
+      const acik = olay === "sahne_ac";
+      if (acik === sahneKisik) return;
+      sahneKisik = acik;
+      seviyeUygula();
+      taniYaz("olay");
+      return;
+    }
     const yeni = olay === "soru";
     if (yeni === kisik) return;
     kisik = yeni;

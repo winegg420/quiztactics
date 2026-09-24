@@ -6,7 +6,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import QuestionCard from "../components/QuestionCard.jsx";
-import MacSonuSahnesi from "../components/MacSonuSahnesi.jsx";
+import MacSonuKutlama from "../components/MacSonuKutlama.jsx";
+import { useMacSonuOzet, ozettenSahne } from "../lib/macSonuOzet.js";
 import MacSonuEklentisi from "../components/MacSonuEklentisi.jsx";
 import MacSonuDokum from "../components/MacSonuDokum.jsx";
 import OdulDokumu from "../components/OdulDokumu.jsx";
@@ -14,7 +15,7 @@ import MacSorulari from "../components/MacSorulari.jsx";
 import HesapGuvenceOnerisi from "../components/HesapGuvence.jsx";
 import MeydanaDonus from "../components/MeydanaDonus.jsx";
 import Maskot from "../components/Maskot.jsx";
-import { QtBosDurum, QtCip, QtDugme, QtEtki, QtIkon, QtIkonDugme, QtMacUst, QtRozet } from "../tasarim/index.js";
+import { QtBosDurum, QtCip, QtDugme, QtEtki, QtIkon, QtIkonDugme, QtMacUst, QtModal, QtRozet } from "../tasarim/index.js";
 import "../tasarim/ekranlar/m1-mac.css";
 import MacUstSerit, { SeviyeEtiketi } from "../components/MacUstSerit.jsx";
 import CerceveliAvatar from "../components/CerceveliAvatar.jsx";
@@ -144,12 +145,11 @@ export default function MatchPage() {
   // açılıyordu. Sonuç ekranı pencere dolana kadar bekler.
   const [sonucHazir, setSonucHazir] = useState(false);
   // Maç sonu gerçek kazanç (sunucudan: dereceli/serbest, çift çarpanı, günlük tavan)
-  const [odulum, setOdulum] = useState(null);
   // Paket 36: sonuç sahnesi — rövanş isteği yuvası (eylem çubuğu), Detay rozeti, bot rövanşı çalışıyor
   const [rovansYuva, setRovansYuva] = useState(null);
   const [yanlisAdet, setYanlisAdet] = useState(0);
-  const [gorevler, setGorevler] = useState([]);   // Paket 37 D.1: sahnede Detay'ın üstünde
   const [botRovans, setBotRovans] = useState(false);
+  const [cikisOnay, setCikisOnay] = useState(false);   // A.1: başlamış maçtan çıkış = terk (onaylı)
   const { ceviri } = useDil();
   // Uygulanmış en ileri damga (bkz. ilerlemeDamgasi)
   const damgaRef = useRef(-1);
@@ -549,6 +549,8 @@ export default function MatchPage() {
   // (mac_nabiz, loadout_secim_sn). Bekleyen oyuncu aynı türle yeniden aramaya döner.
   const rakipBaglanmadi = mac?.durum === "iptal" && Boolean(mac?.baglanmayan);
   const yenidenAraDurumu = mac ? { yenidenAra: { dereceli: mac.dereceli !== false, jokersiz: Boolean(mac.jokersiz) } } : null;
+  // A.3: yeni maç sonu sahnesinin verisi (tek çağrı: mac_sonu_ozet) — maç bitince bir kez okunur.
+  const { ozet: macSonuOzet } = useMacSonuOzet(mac?.durum === "bitti" ? `mac:${id}` : null);
   useEffect(() => {
     if (!rakipBaglanmadi || mac.baglanmayan === user?.id) return;
     navigate(y("/"), { replace: true, state: yenidenAraDurumu });
@@ -692,27 +694,7 @@ export default function MatchPage() {
     }
   }, [id, macYukle]);
 
-  // Maç bitince bu oyuncunun gerçek kazancı (lig puanı + coin) sunucudan okunur.
-  const macBitti = mac?.durum === "bitti" && sonucHazir;
-  useEffect(() => {
-    if (!macBitti || !id) return;
-    let aktif = true;
-    (async () => {
-      try {
-        const { data, error } = await supabase.rpc("mac_odulum", { p_match_id: id });
-        if (error) throw error;
-        const o = Array.isArray(data) ? data[0] : data;
-        if (aktif && o) {
-          setOdulum(o);
-          // Paket 36: üst bar coin sayacını MacSonuSahnesi coin uçuşu bitince tazeler
-          // (coinTazele); burada çağrılsaydı sayı coinler varmadan değişirdi.
-        }
-      } catch (e) {
-        console.error("[Bildim] mac odulu alinamadi:", e);
-      }
-    })();
-    return () => { aktif = false; };
-  }, [macBitti, id]);
+  // A.3: maç sonu kazancı (lig puanı + coin) artık mac_sonu_ozet ile tek çağrıda gelir (mac_odulum çağrılmaz).
 
   // SESLİ SOHBET TEK ÖRNEK (Paket 14, 5.1): maç bitince ekran başka bir dal
   // çiziyordu; bileşen sökülüp görüşmeyi kapatıyordu. Artık bileşen her dalda
@@ -829,7 +811,7 @@ export default function MatchPage() {
       );
     }
 
-    if (mac.durum === "bitti" && sonucHazir && !gecisBitti) {
+    if (mac.durum === "bitti" && sonucHazir && !gecisBitti && !mac.terk_eden) {
       return (
         <SureDolduGecis
           baslik={tt("Maç bitti!")}
@@ -838,6 +820,7 @@ export default function MatchPage() {
           kazandi={mac.kazanan === user.id}
           kaybetti={mac.kazanan !== null && mac.kazanan !== user.id}
           berabere={mac.kazanan === null}
+          sessiz
           onBitti={() => setGecisBitti(true)}
         />
       );
@@ -850,38 +833,42 @@ export default function MatchPage() {
       // Paket 36 I: yakınlık satırı veriden. Sunucu her doğruya SORU_PUANI verir
       // (cevap_ver, migration 250); fark 1-2 soru değilse kaybetmede satır hiç çizilmez.
       const farkSoru = Math.round(Math.abs((benimSkor ?? 0) - (rakipSkor ?? 0)) / SORU_PUANI);
-      const altYazi = mac.terk_eden
-        ? mac.terk_eden === user.id
-          ? tt("Maçtan ayrıldığın için hükmen mağlup sayıldın.")
-          : tt("{0} maçı terk etti — hükmen kazandın.", { 0: rakipProfil?.gorunen_ad })
-        : berabere || farkSoru < 1
-          ? null
-          : kazandim || farkSoru <= 2
-            ? tt("{n} soru farkla", { n: farkSoru })
-            : null;
+      // A.3: yeni sahne (MacSonuKutlama) — veriler mac_sonu_ozet'ten (tek çağrı). Özet gelene dek
+      // (genelde < 0,3 sn) sahne kurulmaz: zaman çizelgesi takılınca bir kez başlar.
+      if (!macSonuOzet) return <div className="msk-bekle" aria-busy="true" aria-label={tt("Yükleniyor…")} />;
+      const sahne = ozettenSahne(macSonuOzet);
+      const altYazi = sahne.terk || berabere || farkSoru < 1
+        ? undefined
+        : kazandim || farkSoru <= 2
+          ? tt("{n} soru farkla", { n: farkSoru })
+          : undefined;
       // Rövanş: bot rakipte doğrudan yeni maç (burada), gerçek oyuncuda istek
       // (MacSonuEklentisi, portal ile eylem çubuğuna). İkisi aynı anda ASLA görünmez.
       const rovansVar = rakipBot || (!kazandim && !berabere);
-      const oduller = [
-        { ikon: "yildiz", deger: odulum?.lig_puan ?? 0, etiket: tt("lig puanı") },
-        { ikon: "coin", deger: odulum?.coin ?? 0, etiket: tt("coin") },
-      ];
+      // Yeni maç: açık bot (Antrenman) ve arkadaş maçında Meydan Okumalar; eşleştirmede aynı türle yeniden arama.
+      const yeniMac = () => (rakipBot || mac.kabul_at
+        ? navigate(y("/meydan"))
+        : navigate(y("/"), { state: yenidenAraDurumu }));
       return (
-        <MacSonuSahnesi
+        <MacSonuKutlama
           durum={durumSinifi}
-          baslik={berabere ? tt("Berabere!") : kazandim ? tt("Kazandın!") : tt("Kaybettin")}
+          mod="klasik"
+          terk={sahne.terk}
           altYazi={altYazi}
-          ben={{ profil: benimProfil, skor: benimSkor, ek: `${ilerleme.ben}/${toplamSoru}` }}
-          rakip={{ profil: rakipProfil, skor: rakipSkor, ek: `${ilerleme.rakip}/${toplamSoru}` }}
-          oduller={oduller}
-          levelKaynak={`mac:${id}`}
-          gorevler={gorevler}
+          ben={{ profil: benimProfil, skor: benimSkor }}
+          rakip={{ profil: rakipProfil, skor: rakipSkor }}
+          skorEtiket={tt("puan")}
+          oduller={sahne.oduller}
+          level={sahne.level}
+          lig={sahne.lig}
+          gorevler={sahne.gorevler}
+          rozetler={sahne.rozetler}
           detayRozet={yanlisAdet}
-          ozet={
+          detay={
             <>
-              {/* Paket 20 I.3: satır satır döküm; üstteki ödül hapları da aynı sunucu toplamını gösterir */}
-              <OdulDokumu kaynak={`mac:${id}`} onGorevler={setGorevler} gorevleriGoster={false} onToplam={(t) => setOdulum((o) => ({ ...(o ?? {}), lig_puan: t.lig, coin: t.coin }))} />
-              <MacSonuDokum macId={id} kazanilanPuan={odulum?.lig_puan ?? 0} />
+              {/* Paket 20 I.3: satır satır döküm (aynı sunucu kaydı, ikinci sorgu yok) */}
+              <OdulDokumu kaynak={`mac:${id}`} veri={macSonuOzet.dokum} gorevleriGoster={false} />
+              <MacSonuDokum macId={id} kazanilanPuan={Number(macSonuOzet.dokum?.toplam?.lig) || 0} />
               <MacSorulari kaynak={`mac:${id}`} />
               <MacSonuEklentisi
                 macTur="1v1"
@@ -925,11 +912,11 @@ export default function MatchPage() {
               })()}
             </>
           }
-          eylemler={
+          rovans={rovansVar ? (
             <>
               {rakipBot && (
                 <QtDugme
-                  className="mss-tam"
+                  boyut="b"
                   ikon="yenile"
                   yukleniyor={botRovans}
                   onClick={async () => {
@@ -953,17 +940,14 @@ export default function MatchPage() {
                 </QtDugme>
               )}
               {/* Gerçek rakipte Rövanş isteği MacSonuEklentisi'nden buraya çizilir */}
-              <div className="mss-eylem-yuva" ref={setRovansYuva} />
-              <QtDugme
-                tur={rovansVar ? "ikincil" : "birincil"}
-                className={rovansVar ? "" : "mss-tam"}
-                onClick={() => navigate(y("/meydan"))}
-              >
-                {tt("Meydan okumalara dön")}
-              </QtDugme>
-              <QtDugme tur="ikincil" onClick={() => navigate(y())}>{tt("Ana sayfa")}</QtDugme>
+              {!rakipBot && <div className="mss-eylem-yuva msk-eylem-yuva" ref={setRovansYuva} />}
             </>
-          }
+          ) : null}
+          eylemler={{
+            onYeniMac: yeniMac,
+            onAnaSayfa: () => navigate(y()),
+            onHatalar: () => navigate(y("/calisma")),
+          }}
         >
           {/* Meydandan girilmişse maç bitince oraya dönülür (harita/donus.js) */}
           <MeydanaDonus />
@@ -1008,7 +992,7 @@ export default function MatchPage() {
               ))}
             </div>
           )}
-        </MacSonuSahnesi>
+        </MacSonuKutlama>
       );
     }
 
@@ -1073,8 +1057,33 @@ export default function MatchPage() {
         {/* Maç ekranında alt menü gizli; çıkış sol üstte.
             Paket 41 B/E/H: ortak üst şerit — çıkış (aynı davranış) + mod rozeti + ses. */}
         <MacUstSerit
-          onCik={() => navigate(y("/meydan"))}
+          onCik={() => (senkron && mac.basladi ? setCikisOnay(true) : navigate(y("/meydan")))}
           rozet={mac.jokersiz ? tt("Saf Bilgi · skillsiz") : tt("Klasik Mod")}
+        />
+        {/* A.1 terk kuralı: başlamış maçtan çıkan hükmen mağlup, ödül almaz (sunucu: mac_iptal → 460).
+            Onaysız çıkış da (sekme kapanması) 45 sn sonra aynı sonuca varır (mac_nabiz / advance_match). */}
+        <QtModal
+          acik={cikisOnay}
+          onKapat={() => setCikisOnay(false)}
+          baslik={tt("Maçtan çıkarsan hükmen mağlup sayılırsın.")}
+          aciklama={tt("Yarıda bırakılan maçta ödül yok; rakibin galibiyet alır.")}
+          altlik={
+            <div className="m1-sat-dugmeler">
+              <QtDugme tur="ikincil" data-qt-ilk-odak onClick={() => setCikisOnay(false)}>{tt("Vazgeç")}</QtDugme>
+              <QtDugme tur="tehlike" onClick={async () => {
+                setCikisOnay(false);
+                // Sayfada kalınır: maç "bitti" (terk_eden = ben) olarak yeniden okunur → sade "Maçtan ayrıldın" sahnesi.
+                try {
+                  const { error } = await supabase.rpc("mac_iptal", { p_match_id: id });
+                  if (error) throw error;
+                  macYukle();
+                } catch (e) {
+                  console.error("[Bildim] maçtan çıkılamadı:", e);
+                  navigate(y("/meydan"));
+                }
+              }}>{tt("Maçtan çık")}</QtDugme>
+            </div>
+          }
         />
 
         {rakipOnde && !bilgiKapandi && (

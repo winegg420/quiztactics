@@ -23,7 +23,8 @@ import CerceveliAvatar from "../components/CerceveliAvatar.jsx";
 import { useOyuncuSeviyeleri } from "../lib/oyuncuSeviye.js";
 import MacYukleniyor from "../components/MacYukleniyor.jsx";
 import KategoriIkon from "../components/KategoriIkon.jsx";
-import MacSonuSahnesi from "../components/MacSonuSahnesi.jsx";
+import MacSonuKutlama from "../components/MacSonuKutlama.jsx";
+import { useMacSonuOzet, ozettenSahne } from "../lib/macSonuOzet.js";
 import OdulDokumu from "../components/OdulDokumu.jsx";
 import DuelloOzet from "../components/DuelloOzet.jsx";
 import DuelloTanitim, { duelloTanitimGoruldu } from "../components/DuelloTanitim.jsx";
@@ -430,6 +431,8 @@ function DuelloMac({ id }) {
   const sinyalZamanRef = useRef(null);
   const sonHamleRef = useRef(null);
   const bitisSesRef = useRef(false);
+  // A.3: yeni maç sonu sahnesinin verisi (tek çağrı: mac_sonu_ozet) — düello bitince bir kez okunur.
+  const { ozet: macSonuOzet } = useMacSonuOzet(d?.durum === "bitti" && d?.id ? `duello:${d.id}` : null);
   const sonTikRef = useRef(null);
   const haleSureRef = useRef({ anahtar: "", sn: 0 });
   // Tasarım A anları (yalnız sunum)
@@ -670,8 +673,8 @@ function DuelloMac({ id }) {
   useEffect(() => {
     if (!d || d.durum !== "bitti" || bitisSesRef.current) return;
     bitisSesRef.current = true;
-    if (d.kazanan === d.ben) sesKazandin(); else if (d.kazanan == null) sesBeraberlik(); else sesKaybettin();
-    // Paket 36: coin sayacını MacSonuSahnesi coin uçuşu bitince tazeler (coinTazele)
+    // A.3: sonuç sesi yalnız maç sonu sahnesinde (MacSonuKutlama) — burada da çalsaydı aynı ses üst üste gelirdi.
+    // Coin sayacını sahnenin coin uçuşu bitince tazeler (coinTazele)
     refreshProfile?.(user?.id);
   }, [d, refreshProfile, user?.id]);
 
@@ -974,26 +977,28 @@ function DuelloMac({ id }) {
         : rakip.can === 2 && d.tur
           ? ceviri("{n} tur sürdü", { n: d.tur })
           : null;
-    const o = dokumToplam ? { lig_puan: dokumToplam.lig, coin: dokumToplam.coin } : d.odul;
-    const oduller = [
-      { ikon: "yildiz", deger: o?.lig_puan ?? 0, etiket: ceviri("lig puanı") },
-      { ikon: "coin", deger: o?.coin ?? 0, etiket: ceviri("coin") },
-    ];
+    // A.3: yeni sahne — veriler mac_sonu_ozet'ten (tek çağrı). Özet gelene dek sahne kurulmaz.
+    if (d.durum === "bitti" && !macSonuOzet) return <div className="bd-duello"><div className="msk-bekle" aria-busy="true" /></div>;
+    const sahne = ozettenSahne(d.durum === "bitti" ? macSonuOzet : null);
     return (
       <div className="bd-duello">
-        <MacSonuSahnesi
+        <MacSonuKutlama
           durum={durum}
-          baslik={d.durum === "iptal" ? ceviri("Düello iptal edildi") : kazandim ? ceviri("Kazandın!") : ceviri("Kaybettin")}
-          altYazi={altYazi}
+          mod="duello"
+          terk={sahne.terk}
+          baslik={d.durum === "iptal" ? ceviri("Düello iptal edildi") : undefined}
+          altYazi={sahne.terk ? undefined : altYazi ?? undefined}
           ben={{ profil: ben, can: ben.can }}
           rakip={{ profil: rakip, can: rakip.can }}
           canToplam={DUELLO_CAN}
-          oduller={oduller}
-          levelKaynak={d.durum === "bitti" ? `duello:${d.id}` : undefined}
-          gorevler={gorevler}
-          ozet={d.durum === "bitti" || ezeliMetin || (d.surum === 2 && d.gecmis?.length) ? (
+          oduller={sahne.oduller}
+          level={sahne.level}
+          lig={sahne.lig}
+          gorevler={sahne.gorevler}
+          rozetler={sahne.rozetler}
+          detay={d.durum === "bitti" || ezeliMetin || (d.surum === 2 && d.gecmis?.length) ? (
             <>
-              {d.durum === "bitti" && <OdulDokumu kaynak={`duello:${d.id}`} onToplam={setDokumToplam} onGorevler={setGorevler} gorevleriGoster={false} />}
+              {d.durum === "bitti" && <OdulDokumu kaynak={`duello:${d.id}`} veri={macSonuOzet?.dokum} gorevleriGoster={false} />}
               {d.surum !== 2 && d.durum === "bitti" && d.son_hamle?.altin && secenekler.length > 0 && (
                 <AltinSonucu h={d.son_hamle} ben={d.ben} soru={d.soru?.soru} secenekler={secenekler} ceviri={ceviri} />
               )}
@@ -1003,7 +1008,9 @@ function DuelloMac({ id }) {
               {ezeliMetin && <div className="bd-duello-ezeli">{ezeliMetin}</div>}
             </>
           ) : null}
-          eylemler={
+          eylemNotu={hata ? <span className="m2-hata" role="alert"><QtIkon ad="uyari" boyut={18} /> {hata}</span> : null}
+          eylemler={{ onYeniMac: () => navigate(y("/duello")), onAnaSayfa: () => navigate(y()), yeniMacEtiketi: ceviri("Yeni düello") }}
+          rovans={
             <>
               {rov.id ? (
                 <QtDugme className="mss-tam" tamGenislik ikon="duello" onClick={() => navigate(y(`/duello/${rov.id}`))}>{ceviri("Rövanşa git")}</QtDugme>
@@ -1040,14 +1047,11 @@ function DuelloMac({ id }) {
                   </QtDugme>
                 </>
               ) : null}
-              {hata && <p className="m2-hata mss-tam" role="alert"><QtIkon ad="uyari" boyut={18} /> {hata}</p>}
-              <QtDugme tur="ikincil" onClick={() => navigate(y("/duello"))}>{ceviri("Yeni düello")}</QtDugme>
-              <QtDugme tur="ikincil" ikon="ev" onClick={() => navigate(y())}>{ceviri("Ana sayfa")}</QtDugme>
             </>
           }
         >
           <HesapGuvenceOnerisi kazandim={d.durum === "bitti" && kazandim} />
-        </MacSonuSahnesi>
+        </MacSonuKutlama>
       </div>
     );
   }
