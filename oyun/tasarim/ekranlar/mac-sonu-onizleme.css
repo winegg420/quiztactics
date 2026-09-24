@@ -69,3 +69,7 @@
 .mso-kutu input { width: 22px; height: 22px; margin: 0; accent-color: var(--qt-ikinci); }
 .mso-not { flex-basis: 100%; margin: 0; min-height: 1.2em; color: var(--qt-zemin-soluk); font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); }
 .mso-not:empty { display: none; }
+
+/* A.4: örnek Detay içeriği (panelde kaydırılır) */
+.mso-detay-ornek { display: flex; flex-direction: column; gap: var(--qt-b-2); }
+.mso-detay-satir { margin: 0; padding: var(--qt-b-3); border-radius: var(--qt-r-m); background: var(--qt-yuzey); color: var(--qt-metin); font-weight: var(--qt-a-kalin); }
