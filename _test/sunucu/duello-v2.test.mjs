@@ -219,6 +219,7 @@ test('ikisi de yanıtsız → nötr', sec, async () => {
 test('kategori maçta en çok 2 kez (iki oyuncu birlikte), üst üste gelmez', sec, async () => {
   await islem(async (c) => {
     const { id, o1, o2 } = await kur(c);
+    await ayarla(c, 'duello_kategori_max', 2);   // 470'ten beri canlıda 3; bu test 268 kuralını (2) sınar
     const [k1, k2] = (await c.sorgu(`select k from unnest(public.duello_kategorileri()) k limit 2`)).map((r) => r.k);
     const uygun = async (k) => (await c.tek(`select public.duello2_kategori_uygun_mu(${a(id)}, ${a(k)})`)) === 't';
     const hamle = (sal, sav, k) => c.sorgu(`insert into public.duello_hamleler (duello_id, tur, saldiran, savunan, kategori, dogru, surum)
