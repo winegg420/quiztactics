@@ -1,0 +1,64 @@
+/* =====================================================================
+   DENEME ÇERÇEVE (DenemeCerceve.jsx) — Altın Lig üç tarz adayı. Yalnız /cerceve-onizleme.
+   Kutu --dc-b × --dc-b; iki SVG kutunun %168'i (merkez aynı) → süsler taşar, tıklamayı yutmaz.
+   Hareket yalnız transform/opacity, yalnız "isik" tarzında; azaltılmış harekette durağan.
+   iOS: position:fixed yok; transform yalnız SVG'nin kendi iç parçalarında.
+   ===================================================================== */
+.dc {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: var(--dc-b);
+  height: var(--dc-b);
+  border-radius: 50%;
+  isolation: isolate;
+  vertical-align: middle;
+}
+.dc-svg {
+  position: absolute;
+  left: -34%;
+  top: -34%;
+  width: 168%;
+  height: 168%;
+  overflow: visible;
+  pointer-events: none;
+}
+.dc-svg--arka { z-index: 0; }
+.dc-svg--on { z-index: 2; }
+.dc-ic {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: var(--dc-ic);
+  height: var(--dc-ic);
+  border-radius: 50%;
+  overflow: hidden;
+  background: #fff8ec;
+}
+.dc-ic > .avatar,
+.dc-ic > img { width: 100% !important; height: 100% !important; border: 0; border-radius: 50%; box-shadow: none; }
+
+/* ---------- C · Işık: şerit + kıvılcım ---------- */
+.dc-serit { transform: translateX(-92px); }
+.dc-kivilcim { transform-box: fill-box; transform-origin: center; }
+.dc-kivilcim { opacity: 0.9; }
+.dc-kivilcim--2 { opacity: 0; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .dc-serit--oynar { animation: dc-serit 6s cubic-bezier(0.45, 0, 0.25, 1) 1.2s infinite; }
+  .dc-kivilcim--oynar { animation: dc-kivilcim 6s ease-out 1.75s infinite both; }
+  .dc-kivilcim--2.dc-kivilcim--oynar { animation-delay: 2s; }
+}
+@keyframes dc-serit {
+  0% { transform: translateX(-92px); }
+  16% { transform: translateX(92px); }
+  100% { transform: translateX(92px); }
+}
+@keyframes dc-kivilcim {
+  0% { opacity: 0; transform: scale(0.2) rotate(0deg); }
+  5% { opacity: 1; transform: scale(1.1) rotate(35deg); }
+  12% { opacity: 0; transform: scale(0.3) rotate(80deg); }
+  100% { opacity: 0; transform: scale(0.3) rotate(80deg); }
+}

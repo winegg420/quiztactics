@@ -1,0 +1,57 @@
+/* /cerceve-onizleme — yalnız bu sayfanın düzeni (co- öneki). Gerçek yerlerin sınıfları kendi CSS'lerinden gelir. */
+.co-ic { padding-top: var(--qt-b-6); padding-bottom: var(--qt-b-16); display: grid; gap: var(--qt-b-8); min-width: 0; }
+.co-giris { display: grid; gap: var(--qt-b-2); max-width: 820px; }
+.co-ozet { font-weight: var(--qt-a-kalin); color: var(--qt-metin); }
+.co-alt { color: var(--qt-metin-soluk); }
+.co-durum { display: flex; flex-wrap: wrap; gap: var(--qt-b-2); margin: 0; }
+.co-bolum { display: grid; gap: var(--qt-b-4); min-width: 0; }
+
+/* ---------- Yan yana ---------- */
+.co-yanyana { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--qt-b-3); }
+@media (min-width: 900px) { .co-yanyana { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.co-yy {
+  display: grid;
+  justify-items: center;
+  gap: var(--qt-b-3);
+  padding: 44px var(--qt-b-2) var(--qt-b-3);
+  border-radius: var(--qt-r-l);
+  background: var(--qt-yuzey);
+  box-shadow: 0 4px 0 var(--qt-cizgi);
+  color: var(--qt-metin);
+  text-decoration: none;
+  min-width: 0;
+}
+.co-yy--secili { box-shadow: 0 0 0 3px var(--qt-dogru), 0 4px 0 var(--qt-cizgi); }
+.co-yy-buyuk { display: grid; place-items: center; min-height: 118px; }
+.co-yy-kucukler { display: flex; align-items: center; justify-content: center; gap: 14px; min-height: 64px; padding-top: 12px; }
+.co-yy-ad { font-family: var(--qt-f-baslik); font-size: var(--qt-y-m); font-weight: var(--qt-a-siyah); text-align: center; }
+
+/* ---------- Tarz sütunları ---------- */
+.co-sutunlar { display: grid; gap: var(--qt-b-4); grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 900px) { .co-sutunlar { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1400px) { .co-sutunlar { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.co-sutun { display: grid; gap: var(--qt-b-4); align-content: start; min-width: 0; scroll-margin-top: var(--qt-b-4); }
+.co-sutun--secili { box-shadow: 0 0 0 3px var(--qt-dogru); }
+.co-sutun-bas { display: grid; gap: var(--qt-b-1); }
+.co-yerler { display: grid; gap: var(--qt-b-5); min-width: 0; }
+.co-yer { display: grid; gap: var(--qt-b-2); margin: 0; min-width: 0; }
+.co-yer-ad { font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); color: var(--qt-metin-soluk); text-transform: uppercase; letter-spacing: 0.04em; }
+.co-px { font-weight: var(--qt-a-kalin); text-transform: none; letter-spacing: 0; opacity: 0.8; }
+.co-not { margin: 0; font-size: var(--qt-y-xs); color: var(--qt-metin-soluk); }
+
+/* Gerçek yerlerin çevresi (süsler taşar: üst/yan pay) */
+.co-as-ko { padding-top: 16px; }
+.as-ko > .dc { margin-inline: 4px 6px; }
+.co-mac { padding: 22px var(--qt-b-3) var(--qt-b-3); border-radius: var(--qt-r-l); }
+.co-lig { padding-top: 6px; }
+.co-lk { padding-top: 12px; }
+.co-msk {
+  padding: 28px var(--qt-b-3) var(--qt-b-4);
+  border-radius: var(--qt-r-l);
+  background: radial-gradient(120% 90% at 50% 0%, var(--qt-coin), var(--qt-vurgu));
+  color: var(--qt-metin);
+  overflow: hidden;
+}
+.co-msk .msk-karsilasma { margin-top: 0; }
+.co-msk .msk-avatar, .co-msk .msk-tac { animation: none; }
+.co-pf { padding-top: 26px; }

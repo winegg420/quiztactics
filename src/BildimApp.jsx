@@ -83,6 +83,7 @@ const TasarimSistemiPage = lazy(() => import("../oyun/tasarim/TasarimSistemiPage
 const KozmetikOnizlemePage = lazy(() => import("../oyun/tasarim/cerceveler/KozmetikOnizlemePage.jsx"));   // çerçeve + rozet önizleme — yalnız adresle
 const MacSonuOnizlemePage = lazy(() => import("../oyun/pages/MacSonuOnizlemePage.jsx"));   // maç sonu kutlama önizlemesi (Ajan G) — yalnız adresle
 const SesSecimPage = lazy(() => import("../oyun/tasarim/ses-secim/SesSecimPage.jsx"));   // ses seçimi — yalnız sahip, yalnız adresle (girişli)
+const CerceveOnizlemePage = lazy(() => import("../oyun/tasarim/cerceveler/deneme/CerceveOnizlemePage.jsx"));   // çerçeve tarzı seçimi (Ajan B) — yalnız sahip, yalnız adresle (girişli)
 
 // Eski hub adresleri (/oyun/...) bu sitede köke indirilir. Bookmark, push
 // bildirimi deep-link'i ve paylaşılmış davet linkleri kırılmasın diye.
@@ -179,6 +180,7 @@ export default function BildimApp() {
         <Route path="/kozmetik-onizleme" element={<KozmetikOnizlemePage />} />
         <Route path="/mac-sonu-onizleme" element={<MacSonuOnizlemePage />} />
         <Route path="/ses-secim" element={<SesSecimPage />} />
+        <Route path="/cerceve-onizleme" element={<CerceveOnizlemePage />} />
 
         <Route path="/" element={<Layout />}>
           <Route index element={<AnaSayfa />} />
