@@ -243,6 +243,10 @@ Aktif yedi maç skill'i vardır:
   "Yakında"); Play ürünleri `elmas_100…elmas_2400` sonra — `docs/YAYIN_ONCESI.md`. Oyunla elmas
   (test): haftalık lig 1./2./3. 10/6/3 · turnuva birincisi 10 · her 10 level 20 · 7 günlük seri 5 ·
   elmas kademeli rozet 5–20 · günde 1 elmas reklamı 2. Tahmin: düzenli bedava oyuncu ayda ~100–180.
+- **Maç sonu sahnesi tek ekran:** açıkken sayfa kaydırılmaz, alt menü gizli (`html.msk-acik`); eylem çubuğu sahnenin son
+  satırı; içerik yüksekliğe göre sıkışır; Detay ve ek içerik (sohbet, tepki, ses, hesap önerisi) açılır panelde. Lottie ve
+  konfeti maç biterken önceden iner, geç gelse de baştan oynar.
+- **Oyuncu adına dokununca profil kartı** (`OyuncuAdiDugmesi`), avatarla aynı; lig tablosu/arkadaş satırı zaten kartı açar.
 - **Turnuva ve Grup çıkış onayı:** çıkış düğmesi ve geri tuşu onay penceresi açar ("Oyunda kal" / "Çık"; Klasik/Düello ile aynı pencere).
 - **Terk kuralı (460, Ida):** maçın yarısında çıkan asla ödül almaz — 0 coin / XP / elmas, seri,
   görev ve rozet ilerlemesi sayılmaz; kalan tam galibiyet alır. Bütün modlarda sunucuda: Klasik /
@@ -404,7 +408,7 @@ karakter, Hızlı Mod hariç — dondurulmuş) bu sistemle yeniden yazıldı.
   seviye × `muzik_kisik_oran` (0,3), sekme gizliyken durur, ilk dokunuştan sonra başlar, tembel iner.
   Seviye `oyun_ayarlari.muzik_varsayilan_seviye` (0,35, test değeri). Motor `oyun/lib/sesArkaPlan.js`.
 - Ayar iki anahtar: **Müzik** (`bildim_muzik`) ve **Efektler** (`bildim_ses`, eski tercih) — avatar
-  menüsü + Profil › Ayarlar; maç şeridindeki tek düğme ikisini birlikte kapatır.
+  menüsü + Profil › Ayarlar; maç şeridindeki hoparlör küçük pencere açar — Müzik ve Efektler ayrı anahtar, aynı kaynak.
 - `oyun/lib/ses.js`: dosyadan çalar, yüklenemezse osilatör yedeği. 30 anın her biri bir fonksiyon
   (tablo `public/ses/OKU.md`); "mevcut" = eski dosya, "sessiz" = çalmaz.
 - **`/ses-secim` kalıcı araçtır** (menüde yok, yalnız sahip — `sahip_mi()`): Ida bir sesi orada

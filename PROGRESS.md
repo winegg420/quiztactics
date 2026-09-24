@@ -8153,3 +8153,31 @@ görsellerini ve Turnuva/Grup çıkış onayını istedi.
   taşma ve konsol hatası yok. Grup çıkış onayı 15/15 (X ve geri tuşu açar, "Oyunda kal" varsayılan odak ve oyunda
   tutar, "Çık" → terk_at + "Maçtan ayrıldın"). Turnuva çıkış onayı canlıda DOĞRULANAMADI: 18:00 seansını bekleyen
   test, makinede bellek azaldığı için Claude Code tarafından durduruldu (betik: scratchpad `premium-kontrol.mjs turnuva`).
+
+## 2026-09-24 — Canlı test düzeltmeleri (bulut, 3 ajan + Bölüm 6/7)
+**Araç:** Claude Code (yönetici + Ajan A/B/C + 2. tur ajanı; ortak klasör, git kilidi `araclar/soru-uretim/yazim.lock`)
+**Neden:** Ida'nın telefondan canlı testi: maç sonu hareketsiz ve kayıyor, dükkânda kozmetik hareketsiz, avatar listesi eksik,
+ada dokununca kart yok, maç içi ses tek düğme; ek olarak 2. tur onayları (Bölüm 6) ve boş elmas görselleri (Bölüm 7).
+
+- **1 Maç sonu (A: 56f455b, c284fea, 1f09849):** KÖK SEBEP — Lottie oynatıcısı (169 KB) + JSON'lar + konfeti ancak sahne açılınca
+  iniyordu; kupa 450 ms, konfeti 700 ms sınırını aşınca son karede donuk / hiç atılmıyordu (yerel hızlı ağda görünmüyordu;
+  300 ms gecikme + 1,6 Mbit/sn'de kupa 16 örnekte donuk). Şimdi maç biterken önceden iner, kupa/level 3 sn'ye kadar baştan
+  oynar, konfeti parça gelene dek bekler. Tek ekran: `html.msk-acik` (kaydırma kilidi, alt menü gizli), eylem çubuğu sahnenin
+  son satırı, 3 kademe sıkışma, Detay/ek içerik panelde. Ada dokununca kart. Ölçüm 17 hâl × 4 boy + azaltılmış hareket: 76/76
+  kaydırma 0, alt menü gizli, çakışma yok. Yönetici (üretim derlemesi, 360×640/390×844): belge = görünür, Lottie kareleri
+  ilerliyor, konfeti tuvali var, hata 0.
+- **2–3 Dükkân/Koleksiyon + avatar (B: e38c2b8, 48a4961):** kartlar 48 px'te "küçük kademe" (durağan) kalıyordu → 60/52 px,
+  hareketli, ekran dışında durur; karta dokununca 210 px önizleme penceresi (kendi avatarın, fiyat, Satın al/Tak). Avatar:
+  Dükkân › Avatar yalnız 27 yeniyi listeliyor, Koleksiyon yenileri öne koyuyordu → her yerde 31 + 27 (tek liste
+  `HAZIR_AVATARLAR`), kurulum ızgarası iOS iç kaydırma. 58/58 erişilebilir (390/360).
+- **4–5 İsim kartı + ses (C: 699b905, 87bfbb2):** `OyuncuAdiDugmesi` — şerit, Düello, VS, turnuva, grup, arkadaş istekleri,
+  meydan okumalar, davetler, lobi, profil. Maç şeridi hoparlörü pencere açar: Müzik/Efektler ayrı, Ayarlar ile aynı kaynak.
+- **6 2. tur oyunda (30adea5, fa4a252, 2be53cb):** Sönmeyen Alev / Şimşek / Kraliyet 2. tur (`pc_alev2`, `pc_simsek2`,
+  `pc_kraliyet2`, 500 elmas) — istemci main'de, katalog migration 570 `bulut/bekleyen-migration` dalında (UYGULANMADI);
+  Altın Lig her yerde 2. tur hâli (kazanılır); `isim_altin` külçe plakaya dönüşür (istemci eşlemesi). Onaylanmayanlar
+  önizlemede.
+- **7 Elmas görselleri (00b7d3d):** ızgara kapsayıcıda `height:100%` → 0 px; `aspect-ratio` ile düzeldi (üretimde 112×112).
+- **Build temiz;** ana paket 397.383 → 403.529 B (gzip 128.669 → 130.235). WebGL motoru, Lottie, konfeti tembel.
+- **Ida telefonda:** maç sonu hareketi (iPhone'da "Hareketi Azalt" kapalıyken), kaydırmasızlık ve Detay paneli; dükkân kartları
+  ve pencere hareketi; kurulum avatar kaydırma; ada dokunuş (VS geçişi, lobi lig kartı); ses penceresi; 570 uygulanınca
+  Alev/Şimşek/Kraliyet satın al → tak. Not: tepki balonları artık maç sonunda Detay panelinde.
