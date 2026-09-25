@@ -1,0 +1,15 @@
+/* Ajan A çizimleri — ortak hareket katmanı. Yalnız transform/opacity; ekran dışında ad yok (durur);
+   [data-yumusak] → "hareketi azalt"ta 0,4 hız (yumusakHareket.js). iOS: fixed yok. */
+.gra-hareket { position: relative; display: inline-block; flex: none; line-height: 0; vertical-align: middle; }
+.gra-hareket > svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.gra-isilti { position: absolute; display: block; aspect-ratio: 1; translate: -50% -50%; pointer-events: none; }
+.gra-isilti > svg { display: block; width: 100%; height: 100%; overflow: visible; opacity: 0; }
+.gra-hareket[data-gorunur="1"] .gra-isilti > svg { animation: gra-isilti 2.6s ease-in-out infinite; }
+@keyframes gra-isilti {
+  0%, 100% { transform: scale(0.4) rotate(0deg); opacity: 0; }
+  40% { transform: scale(1.08) rotate(45deg); opacity: 1; }
+  70% { transform: scale(0.8) rotate(70deg); opacity: 0.6; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gra-isilti:nth-of-type(2n) { display: none; }
+}

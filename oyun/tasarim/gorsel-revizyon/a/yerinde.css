@@ -1,0 +1,28 @@
+/* Ajan A bölümleri — ortak yerleşim (ga- öneki). 390 / 360 px'te taşma yok; iOS: fixed yok. */
+.ga-kutu { display: grid; gap: 12px; min-width: 0; }
+.ga-baslikcik { margin: 4px 0 0; font-size: 12px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; color: #46507f; }
+.ga-avsira { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.ga-avsira > img { border-radius: 10px; flex: none; }
+.ga-cubuk { border-radius: 14px; overflow: hidden; background: var(--qt-zemin, #dff0ff); }
+.ga-cubuk .qt-ustcubuk { position: static; }
+.ga-cubuk .qt-ustcubuk-ic { padding-inline: 8px; }
+.ga-cubuk .qt-marka-logo { width: auto; height: 32px; }
+.ga-cubuk .qt-coin { min-height: 34px; padding: 0 10px 0 6px; font-size: 15px; }
+.ga-izgara-tek { grid-template-columns: repeat(auto-fill, minmax(110px, 132px)); }
+.ga-macsonu { display: grid; gap: 8px; justify-items: center; padding: 12px 8px; border-radius: 16px; background: linear-gradient(#bfe3ff, #dff0ff); }
+.ga-macsonu .msk-kart { max-width: 100%; box-sizing: border-box; }
+.ga-msk-ikon { position: relative; display: inline-grid; place-items: center; }
+.ga-msk-elmas { background: var(--qt-ikinci-acik, #e7f4ff); color: var(--qt-ikinci-koyu, #1d2152); }
+.ga-boylar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; padding: 10px; border-radius: 14px; background: #fff; }
+.ga-buyuk { display: inline-grid; place-items: center; }
+.ga-boy-dizi { display: flex; align-items: flex-end; gap: 12px; }
+.ga-boy { display: grid; justify-items: center; gap: 4px; }
+.ga-boy small, .ga-test small { font-size: 10px; font-weight: 700; color: #6b7699; line-height: 1; }
+.ga-test { display: flex; flex-wrap: wrap; gap: 8px; }
+.ga-test-kutu { display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 12px; background: #fff; }
+.ga-test--siluet > :not(small) { filter: brightness(0); }
+.ga-test--gri > :not(small) { filter: grayscale(1); }
+.ga-paket { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 8px; border-radius: 14px; background: #fff; }
+.ga-paket-kutu { width: 72px; flex: none; }
+.ga-yan { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.ga-not { margin: 0; font-size: 13px; color: #46507f; }
