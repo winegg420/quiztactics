@@ -229,6 +229,12 @@ gerektirmeyen her karar adımını ÖNCE Jev'e ver. Araç: `node C:/Users/ida/.c
    **`karar: "kendin_karar_ver"`** dönerse (Jev'e ulaşılamadı) iş durmaz: Jev'siz devam et. Çıktıda
    `sebep: "jev_devre_disi"` görürsen oturumda BİR KEZ tek satır söyle: "Jev kredisi bitmiş görünüyor, Jev'siz devam ediyorum."
 
+**Tehlikeli komut kapısı** (`~/.claude/jev/kapi.mjs`, Claude Code PreToolUse): bariz yıkıcı kalıplar (rm -rf, del/rmdir /s,
+Remove-Item -Recurse -Force, git reset --hard, git push --force, git clean -f, komut satırında DROP/TRUNCATE/DELETE FROM,
+.env'e yazma) her zaman onay ister. **Migration uygulama** (`node araclar/migration-uygula.mjs <dosya>`, `supabase db push`)
+kalıcı onaylıdır, sorulmadan geçer; TEK istisna: uygulanacak migration dosyasında DROP TABLE, TRUNCATE ya da WHERE'siz DELETE
+varsa (ya da dosya okunamazsa) yine sorar (db push'ta en yeni 10 migration taranır). Belirsiz kalıplar Jev'e sorulur.
+
 Jev'in yapamadıkları (Claude/Codex'te kalır): resim/ekran görüntüsü değerlendirme, kod/metin yazma, çok adımlı akıl yürütme.
 Aday dosyaları bulmak için (Claude Code) salt-okunur `dosya-arayici` alt ajanı (Haiku) kullanılabilir; sıralamayı Jev yapar.
 Harcama: `node C:/Users/ida/.claude/jev/jev.mjs rapor` (proje ve güne göre çağrı / token).
