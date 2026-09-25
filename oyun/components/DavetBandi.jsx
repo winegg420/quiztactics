@@ -41,6 +41,7 @@ export default function DavetBandi() {
   const [davetler, setDavetler] = useState([]);
   const [islemde, setIslemde] = useState(false);
   const [hata, setHata] = useState(null);
+  const kok = useRef(null);
 
   const yukle = useCallback(async () => {
     if (!user) return;
@@ -75,6 +76,23 @@ export default function DavetBandi() {
     if (!document.body.classList.contains("bd-oyun-modu")) sesBildirim();
   }, [ilkDavet]);
 
+  // Bant yüksekliği sabit değil (ad/metin/hata satırı); üst bildirim şeridi (position: fixed) bandın
+  // altına insin diye ResizeObserver ile ölçülüp --qt-davet-yuk'e yazılır; bant kapanınca 0'a döner.
+  const bantVar = davetler.length > 0;
+  useEffect(() => {
+    const kok_ = document.documentElement;
+    const yaz = (px) => { try { kok_.style.setProperty("--qt-davet-yuk", `${Math.round(px)}px`); } catch { /* stil yazılamadı: şerit çubuğun altında kalır */ } };
+    const el = kok.current;
+    if (!bantVar || !el) { yaz(0); return undefined; }
+    yaz(el.getBoundingClientRect().height);
+    let ro = null;
+    try {
+      ro = new ResizeObserver(() => yaz(el.getBoundingClientRect().height));
+      ro.observe(el);
+    } catch { /* eski tarayıcı: ilk ölçüm yeter */ }
+    return () => { ro?.disconnect(); yaz(0); };
+  }, [bantVar]);
+
   if (davetler.length === 0) return null;
 
   const d = davetler[0];
@@ -101,7 +119,7 @@ export default function DavetBandi() {
 
   // Yön A: üst bloğun altında mor şerit. Maç ekranlarında üst blokla birlikte gizlenir.
   return (
-    <div className={sinif("a-davet", `a-davet--${d.tur}`)} role="alert">
+    <div ref={kok} className={sinif("a-davet", `a-davet--${d.tur}`)} role="alert">
       <div className="a-davet-ic">
         <span className="a-davet-avatar">
           <CerceveliAvatar profile={d} userId={d.davet_eden} boyut={40} />

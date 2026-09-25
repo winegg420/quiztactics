@@ -846,10 +846,10 @@
   pointer-events: none;
 }
 .qt-toast-yuvasi--ust { top: calc(env(safe-area-inset-top, 0px) + 12px); }
-/* Üst çubuk (Layout › .a-ust-blok) görünürken şerit çubuğun ALTINDA belirir; zil/coin/avatar dokunulabilir kalır.
+/* Üst çubuk (Layout › .a-ust-blok) görünürken şerit çubuğun (ve varsa davet bandının, --qt-davet-yuk: DavetBandi ölçer) ALTINDA belirir; zil/coin/avatar dokunulabilir kalır.
    Çubuk gizliyken (maç: body.bd-oyun-modu · tam ekran pencere: .qt-ortu · maç sonu: html.msk-acik) en üstte kalır. */
 html:not(.msk-acik) body:not(.bd-oyun-modu):has(.a-ust-blok):not(:has(.qt-ortu)) .qt-toast-yuvasi--ust {
-  top: calc(env(safe-area-inset-top, 0px) + var(--qt-ustcubuk-yuk) + 8px);
+  top: calc(env(safe-area-inset-top, 0px) + var(--qt-ustcubuk-yuk) + var(--qt-davet-yuk, 0px) + 8px);
 }
 .qt-toast-yuvasi--alt { bottom: calc(env(safe-area-inset-bottom, 0px) + 16px); }
 .qt-toast-yuvasi--gomulu { position: static; z-index: auto; padding: 0; }

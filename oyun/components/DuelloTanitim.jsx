@@ -12,7 +12,8 @@ import { tt } from "../lib/dil.js";
 const DEPO = "bildim_duello_tanitim_v1";
 // Düello 1.0 (surum = 2) kuralları farklı: eskiyi görmüş oyuncuya yeni tanıtım bir kez daha açılır.
 // 470: zayıf nokta + kategori limiti geldi → yeni anahtar, tanıtım herkese bir kez daha açılır.
-const DEPO_V2 = "bildim_duello_tanitim_v3";
+// 650: Kategori Kalkanı geldi → yeni anahtar, tanıtım herkese bir kez daha açılır.
+const DEPO_V2 = "bildim_duello_tanitim_v4";
 const depo = (surum) => (surum === 2 ? DEPO_V2 : DEPO);
 
 export function duelloTanitimGoruldu(surum = 1) {
@@ -25,7 +26,8 @@ function isaretle(surum) {
 const ADIMLAR = [
   { ikon: "kalp", baslik: "3 can", metin: "Savunmada yanlış bilirsen ya da süren dolarsa can kaybedersin. Canı biten kaybeder; en çok 10 tur." },
   { ikon: "kilic", baslik: "Sırayla saldır, savun", metin: "Her turda önce biri, sonra öbürü saldırır. Tur her zaman iki tarafça tamamlanır: canı biten rakip de o turdaki saldırısını yapar (eşit hamle kuralı)." },
-  { ikon: "kalkan", baslik: "Saldırı riski", metin: "Rakibin EN ZAYIF kategorisi maç başında sabitlenir (yüzdeler eşitse biri seçilip kilitlenir) ve kırmızı çerçeveyle görünür. Oradan saldırırsan ve rakip bilirse canı SEN kaybedersin." },
+  // 650: kalkan ikonu Düello'da yalnız Kategori Kalkanı anlamına gelir → bu kart "uyari"
+  { ikon: "uyari", baslik: "Saldırı riski", metin: "Rakibin EN ZAYIF kategorisi maç başında sabitlenir (yüzdeler eşitse biri seçilip kilitlenir) ve kırmızı çerçeveyle görünür. Oradan saldırırsan ve rakip bilirse canı SEN kaybedersin." },
   // Joker sayıları burada TEKRARLANMAZ; kural metni lib/jokerKurallari.js'te
   // tek yerde duruyor (Paket 28 B). Burada yalnız düelloya özel olan anlatılır.
   { ikon: "yildiz", baslik: "Jokerler", metin: "Saldırı jokerleri soruyu gördüğün Saldırı Hazırlığı'nda, savunma jokerleri soru sana gelince açılır. Düelloda hiçbir joker ücretsiz değil; jokerin yoksa maçın içinden satın alabilirsin. Maç eşit biterse Altın Soru sorulur: bilen kazanır, joker yok." },
@@ -38,6 +40,8 @@ const ADIMLAR_V2 = [
   // 470 (Ida, 24 Eyl 2026)
   { ikon: "uyari", baslik: "Zayıf nokta", metin: "Maç başında ikinizin de en zayıf kategorisi sabitlenir ve ikinize de görünür (en az 5 cevap verdiğin kategoriler arasından doğru oranı en düşük olan; henüz yoksa zayıf noktan yok). Rakibin zayıf noktasını seçersen ve rakip bilirse canı SEN kaybedersin — sen de bilsen bile. İkiniz de yanlışsanız kimse kaybetmez; yalnız sen bilirsen rakip kaybeder. Uzatmada bu kural yok." },
   { ikon: "kilit", baslik: "Kategori sınırı", metin: "Her kategori maçta en çok 3 kez seçilebilir (zayıf nokta dahil) ve bir önceki seçilen kategori hemen tekrar seçilemez. Seçilemeyenler soluk görünür. Süre dolunca gelen rastgele kategori rakibin zayıf noktası olmaz." },
+  // 650 (Ida, 25 Eyl 2026)
+  { ikon: "kalkan", baslik: "Kategori Kalkanı", metin: "Maçta 1 kez, rakip kategori seçerken kendi kategorilerinden birini o tur için kapatırsın. Zayıf noktanı korumak saldıranın riskini de kaldırır; ne zaman ve hangisini koruyacağın senin kararın." },
   { ikon: "terazi", baslik: "Uzatma", metin: "Beraberlik yok. Can eşitse uzatma başlar: kategori rastgele gelir, biri doğru öteki yanlış yapana kadar sürer." },
   { ikon: "yildiz", baslik: "Joker", metin: "Maçta toplam 4 joker; aynı joker en çok 2 kez, bir soruda en çok 1. Soru Değiştir yalnız ikiniz de cevaplamamışken ve rakip o soruda joker kullanmamışken çalışır. Jokerin yoksa maçın içinden satın alabilirsin." },
 ];

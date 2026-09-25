@@ -18,11 +18,12 @@
 // Test kancaları: .m2-kat (kategori), .qt-sik (şık; .elendi), .bd-d2-skill button.
 // iOS: bu dosyada position:fixed yok.
 // ============================================================
+import { useState } from "react";
 import KategoriIkon from "./KategoriIkon.jsx";
 import { kategoriAdi } from "../lib/kategoriler.js";
 import { JOKER_BILGI } from "../lib/jokerler.js";
 import SkillRozeti from "./SkillRozeti.jsx";
-import { QtCan, QtIkon, QtSik, QtSikler, QtSkill, QtSkillCubugu, QtSoruKarti, QtSonucBandi, sinif } from "../tasarim/index.js";
+import { QtCan, QtDugme, QtIkon, QtSik, QtSikler, QtSkill, QtSkillCubugu, QtSoruKarti, QtSonucBandi, sinif } from "../tasarim/index.js";
 import { SeviyeEtiketi } from "./MacUstSerit.jsx";
 import OyuncuAdiDugmesi from "./OyuncuAdiDugmesi.jsx";
 import CerceveliAvatar from "./CerceveliAvatar.jsx";
@@ -55,11 +56,20 @@ export function V2Ust({ d, ben, rakip, kayip = {}, c, seviyeler = {}, tepkiBalon
   const taraf = (o, rakipMi) => {
     const secen = d.saldiran === o.id;
     const can = Math.max(0, Number(o.can ?? 0));
+    const kalkan = kalkanDurumu(d, o.id);
     return (
       <div className={sinif("qt-oyuncu", rakipMi && "qt-oyuncu--rakip", secen && "m2-secen")}>
         <TepkiAvatar balon={tepkiBalonlar[o.id]} yan={rakipMi ? "rakip" : "sen"}>
           <CerceveliAvatar profile={o} userId={o.id} boyut={48} hareketli kart={seviyeler[o.id]} />
         </TepkiAvatar>
+        {/* 650 · Kategori Kalkanı: hazır (renkli) / kullanıldı (soluk) — saldıran rakibin hakkını görür */}
+        {kalkan && (
+          <span className={sinif("m2-kalkan-gosterge", kalkan.kullanildi && "m2-kalkan-gosterge--bitti")} role="img"
+                aria-label={`${rakipMi ? o.gorunen_ad : c("Sen")}: ${kalkan.kullanildi ? c("Kategori Kalkanı kullanıldı") : c("Kategori Kalkanı hazır")}`}
+                title={kalkan.kullanildi ? c("Kategori Kalkanı kullanıldı") : c("Kategori Kalkanı hazır")}>
+            <QtIkon ad="kalkan" boyut={12} />
+          </span>
+        )}
         <span className="qt-oyuncu-yazi">
           {/* Ajan C: ada dokununca oyuncu kartı (kendi "Sen" → kendi kartın) */}
           <OyuncuAdiDugmesi userId={o.id} profil={o} className="qt-oyuncu-ad">
@@ -113,6 +123,103 @@ export function V2UzatmaBandi({ kategori, c }) {
   );
 }
 
+// ---------------------------------------------------------------- 650 · Kategori Kalkanı
+/**
+ * Oyuncunun kalkan hakkı: null = bu maçta kalkan yok (eski maç / ayar kapalı);
+ * { kullanildi, kategori }. Kural sunucuda (duello2_kalkan · duello2_kalkan_engel).
+ */
+export function kalkanDurumu(d, oyuncuId) {
+  const k = d?.kalkan;
+  if (!k?.acik) return null;
+  const v = k.oyuncular?.[oyuncuId];
+  return v && typeof v === "object" ? { kullanildi: true, kategori: v.kategori ?? null } : { kullanildi: false, kategori: null };
+}
+
+/**
+ * Savunanın kalkan paneli: tek düğme → saldıranın şu an seçebileceği kategoriler (kendi oranın,
+ * zayıf noktan ⚠) → kısa onay → RPC. Son {son_sn} sn'de ve rakibe tek kategori kalıyorsa pasif.
+ * secim/setSecim üst bileşende: güçlü/zayıf listesindeki satıra dokunmak da aynı onayı açar.
+ */
+function V2KalkanPanel({ d, ben, kalanSn, calisan, onKalkan, secim, setSecim, c }) {
+  const [acik, setAcik] = useState(false);
+  const kd = kalkanDurumu(d, ben?.id);
+  if (!kd || d.uzatma || !onKalkan) return null;
+  const aktif = d.kalkan?.aktif ?? null;
+  const uygun = Array.isArray(d.uygun_kategoriler) ? d.uygun_kategoriler : [];
+  const sonSn = Number(d.kalkan?.son_sn ?? 5);
+  const benimZayif = zayifNokta(ben);
+  const neden = kd.kullanildi ? null
+    : kalanSn <= sonSn ? c("Son {n} saniyede kalkan kullanılamaz.", { n: sonSn })
+      : uygun.length < 2 ? c("Rakibe en az bir kategori kalmalı.") : null;
+  const kullanilabilir = !kd.kullanildi && !neden;
+
+  if (kd.kullanildi) {
+    const buTur = aktif && kd.kategori === aktif;
+    return (
+      <section className="m2-kalkan" aria-label={c("Kategori Kalkanı")}>
+        {buTur ? (
+          <div className="m2-kalkan-durum" role="status">
+            <span className="m2-kalkan-damga m2-kalkan-iner" aria-hidden="true"><QtIkon ad="kalkan" boyut={22} /></span>
+            <span className="m2-kalkan-durum-yazi">
+              <b><KategoriIkon anahtar={aktif} boyut={16} /> {c("{kategori} korumada", { kategori: c(kategoriAdi(aktif)) })}</b>
+              <small>{c("Rakip bu tur seçemez.")}</small>
+            </span>
+          </div>
+        ) : kd.kategori ? (
+          <p className="m2-kalkan-neden">{c("Kalkanı bu maçta kullandın: {kategori}", { kategori: c(kategoriAdi(kd.kategori)) })}</p>
+        ) : null}
+        <QtDugme tur="ikincil" ikon="kalkan" tamGenislik devreDisi className="m2-kalkan-dugme m2-kalkan-dugme--bitti">
+          {c("Kullanıldı")}
+        </QtDugme>
+      </section>
+    );
+  }
+
+  const siraliUygun = [...uygun].sort((a, b) => (kategoriOrani(ben?.profil, a) ?? 101) - (kategoriOrani(ben?.profil, b) ?? 101));
+  return (
+    <section className="m2-kalkan" aria-label={c("Kategori Kalkanı")}>
+      <QtDugme tur="ikincil" ikon="kalkan" tamGenislik className="m2-kalkan-dugme"
+               devreDisi={!kullanilabilir || !!calisan} aria-expanded={kullanilabilir ? acik || !!secim : undefined}
+               onClick={() => { setSecim(null); setAcik((x) => !x); }}>
+        {c("Kategori Kalkanı")} <span className="m2-kalkan-hak qt-sayi" aria-label={c("1 hak")}>1</span>
+      </QtDugme>
+      {neden ? (
+        <p className="m2-kalkan-neden">{neden}</p>
+      ) : !secim && !acik ? (
+        <p className="m2-kalkan-neden">{c("Maçta 1 kez: rakip seçerken bir kategorini bu tur için kapat.")}</p>
+      ) : null}
+      {kullanilabilir && secim ? (
+        <div className="m2-kalkan-onay qt-h-pop-gir" role="group" aria-label={c("Kalkan onayı")}>
+          <p><KategoriIkon anahtar={secim} boyut={18} plaka /> <b>{c("{kategori} bu tur korunsun mu?", { kategori: c(kategoriAdi(secim)) })}</b></p>
+          <div className="m2-kalkan-onay-eylem">
+            <QtDugme tur="ikincil" boyut="k" devreDisi={!!calisan} onClick={() => setSecim(null)}>{c("Vazgeç")}</QtDugme>
+            <QtDugme boyut="k" ikon="kalkan" className="m2-kalkan-dugme"
+                     yukleniyor={calisan === "kalkan"} devreDisi={!!calisan && calisan !== "kalkan"}
+                     onClick={() => onKalkan(secim)}>{c("Koru")}</QtDugme>
+          </div>
+        </div>
+      ) : kullanilabilir && acik ? (
+        <div className="m2-kalkan-izgara qt-h-gir" role="group" aria-label={c("Korunacak kategoriyi seç")}>
+          {siraliUygun.map((k) => {
+            const oran = kategoriOrani(ben?.profil, k);
+            const zayif = k === benimZayif;
+            return (
+              <button key={k} type="button" className={sinif("m2-kalkan-kat", zayif && "m2-kalkan-kat--zayif")}
+                      aria-label={`${c(kategoriAdi(k))} · ${c("Sen")} ${oranMetni(oran, c)}${zayif ? ` · ${c("zayıf noktan")}` : ""}`}
+                      onClick={() => setSecim(k)}>
+                <KategoriIkon anahtar={k} boyut={18} plaka />
+                <span className="m2-kalkan-kat-ad">{c(kategoriAdi(k))}</span>
+                {zayif && <QtIkon ad="uyari" boyut={12} />}
+                <b className="qt-sayi">{oranMetni(oran, c)}</b>
+              </button>
+            );
+          })}
+        </div>
+      ) : null}
+    </section>
+  );
+}
+
 // ---------------------------------------------------------------- kategori fazı
 /**
  * Oyuncunun kategori doğru oranı (0–100) ya da null ("—").
@@ -156,7 +263,9 @@ function V2ZayifBant({ ben, rakip, c }) {
  * Saldıran: her kartta rakibin ve senin oranın + kalan hak.
  * Savunan: "Rakip düşünüyor…", kendi en güçlü 3 / en zayıf 3 kategorin (kullanılanlar işaretli).
  */
-export function V2Kategori({ d, benSaldiran, ben, rakip, calisan, sayac, sonSaniye, onSec, c }) {
+export function V2Kategori({ d, benSaldiran, ben, rakip, calisan, sayac, sonSaniye, onSec, c,
+  kalanSn = 0, onKalkan, kalkanBildirim = null }) {
+  const [kalkanSecim, setKalkanSecim] = useState(null);   // 650: onay bekleyen kategori (savunan)
   const uygun = new Set(Array.isArray(d.uygun_kategoriler) ? d.uygun_kategoriler : []);
   const sayim = d.kategori_sayim ?? {};
   const max = Number(d.kategori_max ?? 2);
@@ -184,10 +293,14 @@ export function V2Kategori({ d, benSaldiran, ben, rakip, calisan, sayac, sonSani
     const guclu = bilinen.slice(0, 3);
     const zayif = bilinen.slice(3).slice(-3).reverse();
     const benimZayif = zayifNokta(ben);
+    // 650: kalkan kullanılabilirken uygun kategori satırı onayı açan kısayoldur
+    const kd = kalkanDurumu(d, ben?.id);
+    const kalkanAcik = Boolean(kd && !kd.kullanildi && !d.uzatma && onKalkan
+      && kalanSn > Number(d.kalkan?.son_sn ?? 5) && uygun.size >= 2 && !calisan);
     const satir = (x) => {
       const adet = Number(sayim[x.k] ?? 0);
-      return (
-        <li key={x.k} className={sinif("m2-savun-kat", adet >= max && "m2-savun-kat--doldu", x.k === benimZayif && "m2-savun-kat--zayif")}>
+      const icerik = (
+        <>
           <KategoriIkon anahtar={x.k} boyut={18} plaka />
           <span className="m2-savun-ad">{c(kategoriAdi(x.k))}</span>
           {x.k === benimZayif && <span className="m2-zayif-etiket"><QtIkon ad="uyari" boyut={12} /> {c("zayıf noktan")}</span>}
@@ -195,7 +308,20 @@ export function V2Kategori({ d, benSaldiran, ben, rakip, calisan, sayac, sonSani
             <span className="m2-savun-kullanildi">{adet >= max ? c("doldu") : c("{n}/{m} geldi", { n: adet, m: max })}</span>
           )}
           <b className="m2-savun-oran qt-sayi">{oranMetni(x.v, c)}</b>
+        </>
+      );
+      const sinifAdi = sinif("m2-savun-kat", adet >= max && "m2-savun-kat--doldu", x.k === benimZayif && "m2-savun-kat--zayif");
+      return kalkanAcik && uygun.has(x.k) ? (
+        <li key={x.k}>
+          <button type="button" className={sinif(sinifAdi, "m2-savun-kat--dugme")}
+                  aria-label={`${c(kategoriAdi(x.k))} · ${oranMetni(x.v, c)} · ${c("Kalkanla koru")}`}
+                  onClick={() => setKalkanSecim(x.k)}>
+            {icerik}
+            <span className="m2-savun-kalkan" aria-hidden="true"><QtIkon ad="kalkan" boyut={14} /></span>
+          </button>
         </li>
+      ) : (
+        <li key={x.k} className={sinifAdi}>{icerik}</li>
       );
     };
     return (
@@ -205,6 +331,8 @@ export function V2Kategori({ d, benSaldiran, ben, rakip, calisan, sayac, sonSani
         {benimZayif && (
           <p className="m2-not">{c("Rakip zayıf noktanı seçer ve sen bilirsen, rakip 1 can kaybeder.")}</p>
         )}
+        <V2KalkanPanel d={d} ben={ben} kalanSn={kalanSn} calisan={calisan} onKalkan={onKalkan}
+                       secim={kalkanSecim} setSecim={setKalkanSecim} c={c} />
         {bilinen.length ? (
           <div className="m2-savun">
             <section className="m2-savun-blok m2-savun-blok--guclu" aria-label={c("En güçlü kategorilerin")}>
@@ -238,6 +366,12 @@ export function V2Kategori({ d, benSaldiran, ben, rakip, calisan, sayac, sonSani
     <div className="m2-kat-faz">
       {baslik}
       <V2ZayifBant ben={ben} rakip={rakip} c={c} />
+      {kalkanBildirim && (
+        <p key={kalkanBildirim.anahtar} className="m2-bant m2-bant--kalkan qt-h-pop-gir" role="status">
+          <QtIkon ad="kalkan" boyut={18} />
+          <span>{c("{ad} bir kategoriyi korumaya aldı: {kategori}", { ad: rakip.gorunen_ad, kategori: c(kategoriAdi(kalkanBildirim.kategori)) })}</span>
+        </p>
+      )}
       <p className="m2-not">{c("Her kategori maçta en çok {n} kez gelir; aynı kategori üst üste gelmez.", { n: max })}</p>
       <div className="m2-kat-izgara">
         {kategoriler.map((k) => {
@@ -247,11 +381,12 @@ export function V2Kategori({ d, benSaldiran, ben, rakip, calisan, sayac, sonSani
           const secilebilir = uygun.has(k);
           const rOran = kategoriOrani(rakip.profil, k);
           const bOran = kategoriOrani(ben?.profil, k);
-          const neden = secilebilir ? null : doldu ? c("doldu") : c("üst üste olmaz");
+          const korumada = k === (d.kalkan?.aktif ?? null);   // 650: rakibin kalkanı
+          const neden = secilebilir ? null : korumada ? c("Korumada") : doldu ? c("doldu") : c("üst üste olmaz");
           const zayif = k === rakipZayif;   // 470: rakip burada bilirse canı saldıran kaybeder
           return (
             <button key={k} type="button"
-                    className={sinif("m2-kat", !secilebilir && "m2-kat--kapali", zayif && "m2-kat--zayif")}
+                    className={sinif("m2-kat", !secilebilir && "m2-kat--kapali", zayif && "m2-kat--zayif", korumada && "m2-kat--kalkan")}
                     disabled={!secilebilir || !!calisan}
                     aria-busy={calisan === "kategori" || undefined}
                     aria-label={`${c(kategoriAdi(k))} · ${c("Rakip")} ${oranMetni(rOran, c)} · ${c("Sen")} ${oranMetni(bOran, c)} · ${c("Kalan hak: {n}", { n: kalan })}${zayif ? ` · ${c("Rakibin zayıf noktası")}: ${c("Bilirse sen can kaybedersin")}` : ""}${neden ? ` · ${neden}` : ""}`}
@@ -259,13 +394,18 @@ export function V2Kategori({ d, benSaldiran, ben, rakip, calisan, sayac, sonSani
               <KategoriIkon anahtar={k} boyut={22} plaka />
               <span className="m2-kat-ad">{c(kategoriAdi(k))}</span>
               <span className="m2-kat-bilgi">
-                {neden ?? (
+                {korumada ? (
+                  <span className="m2-kat-korumada"><QtIkon ad="kalkan" boyut={12} /> {neden}</span>
+                ) : neden ?? (
                   <>
                     <span className="m2-kat-oran m2-kat-oran--rakip">{c("Rakip")} <b className="qt-sayi">{oranMetni(rOran, c)}</b></span>
                     <span className="m2-kat-oran m2-kat-oran--ben">{c("Sen")} <b className="qt-sayi">{oranMetni(bOran, c)}</b></span>
                   </>
                 )}
               </span>
+              {korumada && (
+                <span className="m2-kat-kalkan m2-kalkan-iner" aria-hidden="true"><QtIkon ad="kalkan" boyut={26} /></span>
+              )}
               {zayif && (
                 <span className="m2-kat-uyari"><QtIkon ad="uyari" boyut={12} /> {c("Bilirse sen can kaybedersin")}</span>
               )}
@@ -565,6 +705,12 @@ export function V2Gecmis({ gecmis, maxTur, benId, c }) {
                     ? <span>{c("Senin cevabın: {harf}", { harf: HARFLER[benimCevap] })}</span>
                     : null}
                 <span>{c("rakip {durum}", { durum: c(DURUM_KUCUK[rakip]) })}</span>
+                {g.kalkan && (
+                  <span className="m2-gecmis-kalkan">
+                    <QtIkon ad="kalkan" boyut={12} /> {c("{kategori} korundu", { kategori: c(kategoriAdi(g.kalkan)) })}
+                    {g.savunan ? ` (${g.savunan === benId ? c("sen") : c("rakip")})` : ""}
+                  </span>
+                )}
                 <span className={sinif("m2-gecmis-can", kaybeden && (kaybeden === benId ? "m2-gecmis-can--kotu" : "m2-gecmis-can--iyi"))}>{canMetni}</span>
               </div>
             </li>

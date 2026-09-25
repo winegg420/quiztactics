@@ -474,3 +474,95 @@
   body.bd-oyun-modu .m2-mac .m2-skill .qt-skill { min-height: 48px; }
   body.bd-oyun-modu .m2-cevap-faz .qt-sik { padding-right: 6px; letter-spacing: -0.01em; }
 }
+
+/* ---------------------------------------------------------------- 650 · Kategori Kalkanı
+   Renk: koruma = tasarım dilindeki "bilgi" tonu (--qt-bilgi*); yeni renk yok. İkon: QtIkon "kalkan"
+   (Düello'da yalnız bu anlamda). "Kalkan iner": ikon yukarıdan düşüp yerine oturur; azaltılmış
+   harekette yalnız kısa solma (hareket.css kuralı: konum/ölçek kalkar, opaklık kalır). */
+.m2-kalkan-gosterge {
+  position: absolute; left: 30px; bottom: -4px; z-index: 1;
+  display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%;
+  background: var(--qt-bilgi); color: var(--qt-bilgi-yazi);
+  box-shadow: 0 0 0 2px var(--qt-mac-zemin);
+}
+.qt-oyuncu--rakip .m2-kalkan-gosterge { left: auto; right: 30px; }
+.m2-kalkan-gosterge--bitti { background: var(--qt-mac-zemin-2); color: var(--qt-mac-soluk); opacity: 0.75; }
+
+/* Savunan paneli */
+.m2-kalkan { display: grid; gap: var(--qt-b-2); }
+.m2-kalkan-dugme { --_z: var(--qt-bilgi); --_y: var(--qt-bilgi-yazi); --_d: var(--qt-bilgi-dudak); }
+.m2-kalkan-dugme .qt-dugme-yazi { display: inline-flex; align-items: center; gap: var(--qt-b-2); }
+.m2-kalkan-dugme--bitti { --_z: var(--qt-yuzey-3); --_y: var(--qt-metin-soluk); --_d: transparent; }
+.m2-kalkan-hak {
+  display: inline-grid; place-items: center; min-width: 24px; height: 24px; padding: 0 6px; border-radius: 12px;
+  background: var(--qt-yuzey); color: var(--qt-bilgi-koyu); font-size: var(--qt-y-s); line-height: 1;
+}
+.m2-kalkan-neden { margin: 0; text-align: center; font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-mac-soluk); text-wrap: pretty; }
+.m2-kalkan-izgara { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--qt-b-2); }
+.m2-kalkan-kat {
+  display: flex; align-items: center; gap: 6px; min-width: 0; min-height: var(--qt-dokunma); margin-bottom: var(--qt-dudak-s);
+  padding: 4px var(--qt-b-2); border: 0; border-radius: var(--qt-r-m);
+  background: var(--qt-bilgi-acik); color: var(--qt-metin); font: inherit; font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin);
+  box-shadow: 0 var(--qt-dudak-s) 0 var(--qt-bilgi-dudak); cursor: pointer; text-align: left;
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+  transition: transform var(--qt-s-basma) var(--qt-egri-cikis), box-shadow var(--qt-s-basma) var(--qt-egri-cikis);
+}
+.m2-kalkan-kat:active { transform: translateY(var(--qt-dudak-s)); box-shadow: 0 0 0 var(--qt-bilgi-dudak); }
+.m2-kalkan-kat:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 2px; }
+.m2-kalkan-kat-ad { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.m2-kalkan-kat b { flex: none; font-weight: var(--qt-a-siyah); color: var(--qt-bilgi-yazi); }
+.m2-kalkan-kat--zayif { box-shadow: 0 var(--qt-dudak-s) 0 var(--qt-bilgi-dudak), inset 0 0 0 2px var(--qt-uyari); }
+.m2-kalkan-kat--zayif > .qt-ikon, .m2-kalkan-kat--zayif > svg { color: var(--qt-uyari-koyu); flex: none; }
+.m2-kalkan-onay {
+  display: grid; gap: var(--qt-b-2); padding: var(--qt-b-3); border-radius: var(--qt-r-m);
+  background: var(--qt-bilgi-acik); color: var(--qt-bilgi-yazi); box-shadow: 0 var(--qt-dudak) 0 var(--qt-bilgi-dudak);
+}
+.m2-kalkan-onay p { display: flex; align-items: center; justify-content: center; gap: var(--qt-b-2); margin: 0; text-align: center; overflow-wrap: anywhere; }
+.m2-kalkan-onay-eylem { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--qt-b-2); }
+.m2-kalkan-onay-eylem .qt-dugme { min-width: 0; padding-inline: var(--qt-b-2); }
+.m2-kalkan-durum {
+  display: flex; align-items: center; gap: var(--qt-b-3); padding: var(--qt-b-2) var(--qt-b-3); border-radius: var(--qt-r-m);
+  background: var(--qt-bilgi-acik); color: var(--qt-bilgi-yazi); box-shadow: 0 var(--qt-dudak) 0 var(--qt-bilgi-dudak);
+}
+.m2-kalkan-damga {
+  flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: var(--qt-r-m);
+  background: var(--qt-bilgi); color: var(--qt-bilgi-yazi); box-shadow: 0 var(--qt-dudak-s) 0 var(--qt-bilgi-dudak);
+}
+.m2-kalkan-durum-yazi { display: grid; gap: 1px; min-width: 0; }
+.m2-kalkan-durum-yazi b { display: flex; align-items: center; gap: 4px; font-weight: var(--qt-a-siyah); overflow-wrap: anywhere; }
+.m2-kalkan-durum-yazi small { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); }
+/* Güçlü/zayıf listesindeki kısayol satırı (satırın görünümü aynı, sağda kalkan ipucu) */
+.m2-savun-kat--dugme {
+  width: 100%; margin: 0; padding: 0 4px; border: 0; border-radius: var(--qt-r-s, 8px); background: transparent; color: inherit;
+  font: inherit; text-align: left; cursor: pointer; min-height: var(--qt-dokunma);
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+}
+.m2-savun-kat--dugme:active { background: var(--qt-bilgi-acik); }
+.m2-savun-kat--dugme:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 1px; }
+.m2-savun-kalkan { flex: none; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--qt-bilgi-acik); color: var(--qt-bilgi-koyu); }
+
+/* Saldıran: kalkanlı kategori kutusu */
+.m2-kat--kalkan { background: var(--qt-bilgi-acik); box-shadow: inset 0 0 0 2px var(--qt-bilgi); }
+.m2-kat--kalkan .m2-kat-ad { color: var(--qt-bilgi-yazi); }
+.m2-kat-korumada { display: inline-flex; align-items: center; gap: 3px; font-weight: var(--qt-a-siyah); color: var(--qt-bilgi-koyu); }
+.m2-kat-kalkan {
+  position: absolute; right: 8px; bottom: 6px; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%;
+  background: var(--qt-bilgi); color: var(--qt-bilgi-yazi); box-shadow: 0 var(--qt-dudak-s) 0 var(--qt-bilgi-dudak);
+  pointer-events: none;
+}
+.m2-kat--kalkan .m2-kat-sayim { display: none; }
+.m2-bant--kalkan { background: var(--qt-bilgi); color: var(--qt-bilgi-yazi); font-weight: var(--qt-a-siyah); }
+
+/* Maç sonu özeti */
+.m2-gecmis-kalkan { display: inline-flex; align-items: center; gap: 3px; padding: 0 6px; border-radius: 999px; background: var(--qt-bilgi-acik); color: var(--qt-bilgi-koyu); font-weight: var(--qt-a-siyah); }
+
+.m2-kalkan-iner { animation: m2-kalkan-iner 520ms var(--qt-egri-yay) both; }
+@keyframes m2-kalkan-iner {
+  0% { opacity: 0; transform: translateY(-18px) scale(1.35); }
+  60% { opacity: 1; transform: translateY(2px) scale(0.96); }
+  100% { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .m2-kalkan-iner { animation: qt-h-solgun-gir 200ms ease both !important; }
+  .m2-kalkan-kat, .m2-kalkan-kat:active { transition: none; transform: none; }
+}

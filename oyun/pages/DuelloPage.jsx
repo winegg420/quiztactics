@@ -114,6 +114,8 @@ const KURAL_V2 = [
   // 470: zayıf nokta + kategori limiti (Ida, 24 Eyl 2026) — kısa kural kartı
   { ikon: "uyari", metin: "Zayıf nokta: rakibin en zayıf kategorisini seçersen ve rakip bilirse canı SEN kaybedersin" },
   { ikon: "kilit", metin: "Her kategori maçta en çok 3 kez, üst üste seçilemez" },
+  // 650: Kategori Kalkanı (Ida, 25 Eyl 2026)
+  { ikon: "kalkan", metin: "Kategori Kalkanı: maçta 1 kez, rakip seçerken kategorilerinden birini o tur kapatırsın" },
   { ikon: "saat", metin: "Beraberlik yok: can eşitse uzatma, kategori rastgele" },
   { ikon: "yildiz", metin: "Maçta 4 joker: aynı joker en çok 2 kez, soru başına 1" },
 ];
@@ -672,6 +674,26 @@ function DuelloMac({ id }) {
   const fazAnahtari = d ? `${d.tur}-${d.saldiri_sirasi}-${d.faz}-${d.soru?.soru ?? ""}` : "";
   useEffect(() => { setSecim(null); setIkinciSansElendi([]); setHata(null); }, [fazAnahtari]);
 
+  // 650 · Kategori Kalkanı: saldıran ekrandayken rakibin kalkanı gelirse kısa bildirim (bir kez, ~3,5 sn).
+  const [kalkanBildirim, setKalkanBildirim] = useState(null);
+  const kalkanOncekiRef = useRef(null);
+  const kalkanAktif = d?.surum === 2 && d?.faz === "kategori" ? (d?.kalkan?.aktif ?? null) : null;
+  useEffect(() => {
+    const anahtar = kalkanAktif ? `${fazAnahtari}:${kalkanAktif}` : null;
+    if (anahtar && anahtar !== kalkanOncekiRef.current && d?.saldiran === d?.ben) {
+      setKalkanBildirim({ kategori: kalkanAktif, faz: fazAnahtari, anahtar });
+      sesJoker(); titret(20);
+    }
+    kalkanOncekiRef.current = anahtar;
+    // Yalnız aktif kalkan / faz değişince
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [kalkanAktif, fazAnahtari]);
+  useEffect(() => {
+    if (!kalkanBildirim) return undefined;
+    const t = setTimeout(() => setKalkanBildirim(null), 3500);
+    return () => clearTimeout(t);
+  }, [kalkanBildirim]);
+
   // Hamle sonucu sesi
   useEffect(() => {
     const h = d?.son_hamle;
@@ -964,6 +986,41 @@ function DuelloMac({ id }) {
     }
   };
 
+  // Kategori seçimi. 650: rakip tam o an kalkan koyduysa sunucu "Bu kategori şu an seçilemez" döner —
+  // ham hata yerine ekran tazelenir; kutu "Korumada" kilitlenir ve kalkan bildirimi çıkar.
+  const kategoriSec = async (k) => {
+    sesDokunus();
+    setHata(null);
+    setCalisan("kategori");
+    try {
+      const { error } = await supabase.rpc("duello_kategori_sec", { p_id: id, p_kategori: k });
+      if (error) throw error;
+      await yukle();
+    } catch (e) {
+      if (/şu an seçilemez/i.test(e?.message ?? "")) yukle().catch(() => {});
+      else setHata(ceviri(hataMesaji(e)));
+    } finally {
+      setCalisan(null);
+    }
+  };
+
+  // 650 · Kategori Kalkanı (savunan, maçta 1 kez). Kurallar sunucuda (duello2_kalkan).
+  const kalkanKullan = async (k) => {
+    setHata(null);
+    setCalisan("kalkan");
+    try {
+      const { error } = await supabase.rpc("duello2_kalkan", { p_id: id, p_kategori: k });
+      if (error) throw error;
+      sesJoker(); titret(12);
+      await yukle();
+    } catch (e) {
+      setHata(ceviri(hataMesaji(e)));
+      yukle().catch(() => {});
+    } finally {
+      setCalisan(null);
+    }
+  };
+
   const rovansVazgec = async () => {
     const tamam = await eylem("rovans-iptal", "duello_rovans_iptal", {});
     if (tamam) {
@@ -1163,7 +1220,9 @@ function DuelloMac({ id }) {
       sahne2 = (
         <V2Kategori d={d} benSaldiran={benSaldiran} ben={ben} rakip={rakip} calisan={calisan} sonSaniye={sonUc} c={c2}
                     sayac={<QtSayac kalan={gosterSn} toplam={toplamSn} esik={3} boyut="b" />}
-                    onSec={(k) => { sesDokunus(); eylem("kategori", "duello_kategori_sec", { p_kategori: k }); }} />
+                    kalanSn={gosterSn} onKalkan={kalkanKullan}
+                    kalkanBildirim={kalkanBildirim?.faz === fazAnahtari ? kalkanBildirim : null}
+                    onSec={kategoriSec} />
       );
     } else if (d.faz === "cevap") {
       sahne2 = (

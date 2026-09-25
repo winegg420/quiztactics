@@ -31,6 +31,14 @@ export default {
   "Bu skill yalnız eş zamanlı maçta kullanılabilir": "This joker can only be used in a live match",
   "Bu kategoride değiştirilecek yeni soru kalmadı": "No new questions left to swap in this category",
   // ——— maç ve düello
+  // 650 · Düello Kategori Kalkanı (duello2_kalkan_engel)
+  "Kategori Kalkanı bu maçta yok": "Category Shield isn't available in this match",
+  "Uzatmada Kategori Kalkanı kullanılamaz": "Category Shield can't be used in overtime",
+  "Kategori Kalkanı yalnız rakip kategori seçerken kullanılır": "Category Shield only works while your opponent is picking a category",
+  "Kategori Kalkanını bu maçta zaten kullandın": "You've already used your Category Shield this match",
+  "Kategori Kalkanı için süre çok az kaldı": "Too little time left to use the Category Shield",
+  "Bu kategori zaten seçilemez, korumaya gerek yok": "That category can't be picked anyway — no need to shield it",
+  "Rakibe seçebileceği kategori kalmaz, bu kategori korunamaz": "Your opponent would have no category left, so this one can't be shielded",
   "Başka bir cevap seç": "Pick a different answer",
   "Rövanş zaten başladı": "The rematch has already started",
   "Geri çekilecek rövanş isteği yok": "There's no rematch request to withdraw",
