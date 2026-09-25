@@ -8439,3 +8439,10 @@ unvan + kalıcı rozet; görünüm Görsel Paket 2'de.
 - **Ölçüm (yerel, canlı DB, 3 misafir hesap — sonra silindi):** sihirbaz 390×844 ve 360×640, TR ve EN: taşma 0,
   44 px altı hedef 0, konsol hatası 0; "bali" → Balıkesir, "IZMIR" → İzmir, bulunamadı metni TR/EN; seçim + "Oyuna başla"
   kaydetti. Profil kartı: 24 saat kilidi (TR) ve puan_hafta > 0 haftalık kilit (EN, 360 px) doğru metinle. Build temiz.
+
+## 2026-09-25 — Şehir Şampiyonu: açık konu kararları — migration 642
+**Araç:** Claude Code (PC). Ida kararları: (1) `profil_konum_kaydet` yalnız authenticated; (2) arşivde botların ülke/dünya sırasına girmesi kabul;
+(3) GeoNames ilçe kayıtları kalsın; (4) şampiyonluk bildirimi kapalı (`sehir_sampiyonu_bildirim_acik` = 0; Görsel Paket 2'de açılacak); bot kimlik deseni ayrı paket.
+- 642: `revoke ... from public, anon` + `grant authenticated, service_role` (deneme modunda geçti, canlıya uygulandı). **Düzeltme:** canlıda bu fonksiyonda
+  zaten anon/public yetkisi YOKTU (önceki raporumdaki "misafir rolüne açık" ifadesi ACL satırını yanlış eşlemekti); 642 fiilen değişiklik yapmadı, yalnız garanti altına aldı.
+  ACL taramasında anon'a açık bulunan tek ilgili fonksiyon `lig_siralama` (eskiden beri; giriş yoksa 'Giriş gerekli' der) — değiştirilmedi, karar Ida'da.
