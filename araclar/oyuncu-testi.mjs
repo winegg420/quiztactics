@@ -198,7 +198,7 @@ async function kesisimOlc() {
       const ust = document.elementFromPoint(cx, cy);
       if (!ust || el === ust || el.contains(ust) || ust.contains(el)) return true;
       const ustDok = ust.closest(SECICI);
-      if (ustDok && !ustDok.contains(el) && !el.contains(ustDok)) {
+      if (ustDok && !ustDok.contains(el) && !el.contains(ustDok) && !ustDok.closest(".qt-toast-yuvasi") === !el.closest(".qt-toast-yuvasi")) {
         ortulen.push({ metin: ad(el) + " ortası " + ad(ustDok) + " altında", sabitFark: sabitMi(el) !== sabitMi(ustDok) });
       }
       return false;
@@ -214,6 +214,9 @@ async function kesisimOlc() {
       for (let j = i + 1; j < liste.length; j++) {
         const A = liste[i], B = liste[j];
         if (A.el.contains(B.el) || B.el.contains(A.el)) continue;
+        // Üst bildirim şeridi (.qt-toast-yuvasi) tasarım gereği üst çubuğun ÜSTÜNE biner ve
+        // 7–9 sn'de kapanır (BildirimToast/RozetBildirimi); şerit × sayfa öğesi çakışma sayılmaz.
+        if (Boolean(A.el.closest(".qt-toast-yuvasi")) !== Boolean(B.el.closest(".qt-toast-yuvasi"))) continue;
         const w = Math.min(A.k.x2, B.k.x2) - Math.max(A.k.x1, B.k.x1);
         const h = Math.min(A.k.y2, B.k.y2) - Math.max(A.k.y1, B.k.y1);
         if (w > 2 && h > 2 && w * h > 4) (A.sabit !== B.sabit ? sabitle : cakisan).push(`${ad(A.el)} × ${ad(B.el)} (${Math.round(w)}×${Math.round(h)} px)`);
