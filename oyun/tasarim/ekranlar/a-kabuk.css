@@ -229,3 +229,40 @@ body.bd-oyun-modu .a-kabuk .a-altmenu { display: none; }
   .app .brand .brand-logo--tam { display: block; width: 120px; height: auto; }
   .app .brand .brand-logo--ikon { display: none; }
 }
+
+/* ---------- Masaüstü: Ana Sayfa dışı bütün sayfalar tek, ortalı sütun (≥ 1024 px) ----------
+   Telefon oyunu: masaüstünde yeni panel/yan menü yok. Ana Sayfa (`.as-sayfa`) kendi masaüstü panelini
+   taşır, buraya girmez. Sayfa kökleri (.qt-pf 880 · .qt-dk 880 · .lg-sayfa 760 · .a-meydan 860 · .m1-tv 640 …)
+   tek tek genişlik veriyordu; sütun `<main>`ın doğrudan çocuğuna tek yerden konur (özgüllük :not ile
+   yükselir), yeni sayfa da otomatik uyar. Telefon/tablet (< 1024) değişmez. Maç ekranları (body.bd-oyun-modu)
+   kendi sahne genişliğini (560 px) korur — zaten ortalı kart. */
+@media (min-width: 1024px) {
+  body:not(.bd-oyun-modu) .a-kabuk .a-icerik > :not(.as-sayfa) {
+    width: 100%;
+    max-width: var(--qt-sutun);
+    margin-inline: auto;
+  }
+
+  /* Sütunun iki yanı "boş" değil "kasıtlı" görünsün: noktalı zeminin üstünde sütunu 24 px taşan çok hafif
+     yüzey bandı + ince kenar çizgisi. Yalnız zemin token'ları (tema koyuya geçince kendiliğinden uyar).
+     Ana Sayfa'da yok; maç ekranında (kabuk şeffaf) yok. Yalnız arka plan — fonksiyon ve yerleşim aynı. */
+  body:not(.bd-oyun-modu) .app.a-kabuk:not(:has(.as-sayfa)) {
+    --a-bant-yari: calc(var(--qt-sutun) / 2 + 24px);
+    --a-bant: color-mix(in srgb, var(--qt-yuzey) 34%, transparent);
+    --a-bant-kenar: color-mix(in srgb, var(--qt-zemin-2) 85%, transparent);
+    background:
+      linear-gradient(
+        90deg,
+        transparent calc(50% - var(--a-bant-yari) - 1px),
+        var(--a-bant-kenar) calc(50% - var(--a-bant-yari) - 1px),
+        var(--a-bant-kenar) calc(50% - var(--a-bant-yari)),
+        var(--a-bant) calc(50% - var(--a-bant-yari)),
+        var(--a-bant) calc(50% + var(--a-bant-yari)),
+        var(--a-bant-kenar) calc(50% + var(--a-bant-yari)),
+        var(--a-bant-kenar) calc(50% + var(--a-bant-yari) + 1px),
+        transparent calc(50% + var(--a-bant-yari) + 1px)
+      ) 0 0 / 100% 100% no-repeat,
+      var(--qt-zemin-desen),
+      var(--qt-zemin);
+  }
+}

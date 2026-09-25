@@ -77,3 +77,8 @@
 /* Rakip bulununca: kartlar ortaya yaklaşır, VS bir kez zıplar */
 
 .a-modsecim-loadout-eylem { display: grid; gap: var(--qt-b-2); width: 100%; }
+
+/* Masaüstünde sayfa tek sütun (--qt-sutun, a-kabuk.css): dört kart bu genişliğe sığmaz, iki sütuna döner. */
+@media (min-width: 1024px) {
+  .a-modlar-izgara { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

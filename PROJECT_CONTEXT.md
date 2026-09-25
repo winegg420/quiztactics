@@ -480,6 +480,10 @@ karakter, Hızlı Mod hariç — dondurulmuş) bu sistemle yeniden yazıldı.
   `emil-design-eng` + hareket skill'leri (emilkowalski/skills). Ürün bağlamı `PRODUCT.md`.
 - Resmi marka işareti Q Logo Lab **03 Forward Pulse** Q'sudur + `QUIZ TACTICS` yazısı
   (`Logo.jsx`); yeni logo ayrı iş, bekliyor.
+- **Masaüstü (≥ 1024 px, Ida 25 Eyl 2026):** yeni yan menü/panel YOK (telefon oyunu). Ana Sayfa (`.as-sayfa`) kendi masaüstü panelini
+  taşır; diğer bütün sayfalar tek ortalı sütun, genişlik tek token `--qt-sutun` (640 px, `tokenlar.css`; kural `a-kabuk.css` › `.a-icerik > :not(.as-sayfa)`).
+  Maç ekranları (`body.bd-oyun-modu`) kendi 560 px sahnesini korur. Sütunun iki yanı: noktalı zemin + hafif yüzey bandı (yalnız zemin token'ları).
+  Alt menü yalnız < 850 px; masaüstünde üst çubuk menüsü var, sabit alt menü yok.
 - Baloo 2 başlık / Nunito gövde — **yerel paketli** (`public/fonts/`). Google Fonts YOK.
 - Oyun, bilgi yarışması gibi görünmeli; sakin/nötr "uygulama" estetiğine kaydırma.
 
