@@ -8601,3 +8601,11 @@ unvan + kalıcı rozet; görünüm Görsel Paket 2'de.
 - **Karar — CSS'e dokunulmadı:** şerit bilerek "ekranın EN ÜSTÜNDE beliren şerit" (BildirimToast başlık yorumu), 7–9 sn'de kendiliğinden kapanır, kendi Kapat düğmesi var; üst çubuğun üstüne binmesi tasarım. Toast Layout'ta tek bileşen → 360 px'te bütün sayfalarda (Lig, Arkadaşlar, Meydan Okumalar…) aynı davranış; ayrı düzeltme gerekmiyor. OyuncuKarti/AvatarMenu konumu doğru.
 - **Düzeltme (yalnız `araclar/oyuncu-testi.mjs › kesisimOlc`):** `.qt-toast-yuvasi` içindeki öğe × şerit dışı öğe çakışması artık sayılmıyor (hem kutu çakışması hem "ortası … altında"); şeridin kendi içindeki çakışmalar hâlâ ölçülür. Sahte alarm kaynağı: test bildirim şeridi açıkken ölçüyor (test hesabına düşen bir bildirim).
 - Test verisi (misafir hesap, bildirim, lobi kaydı) silindi; lobi sayısı eski değerine döndü.
+
+## 2026-09-25 — Üst bildirim şeridi üst çubuğu örtmesin (Ida kararı)
+**Araç:** Claude Code
+- **Karar (Ida):** üst çubuk görünürken bildirim şeridi çubuğun ALTINDA belirir (zil/coin/avatar 7–9 sn dokunulamaz olmasın); çubuk gizliyken bugünkü gibi en üstte.
+- **Değişen (yalnız CSS):** `tokenlar.css` › yeni `--qt-ustcubuk-yuk: 64px` (çubuk iç yüksekliği; `.qt-ustcubuk-ic min-height` de bunu kullanıyor, sabit sayı iki yerde durmuyor). `bilesenler.css` › `.qt-toast-yuvasi--ust` kuralı: `html:not(.msk-acik) body:not(.bd-oyun-modu):has(.a-ust-blok):not(:has(.qt-ortu))` iken `top = safe-area-inset-top + var(--qt-ustcubuk-yuk) + 8px`. Varsayılan `top: safe-area + 12px` duruyor → maç (`bd-oyun-modu`), açık tam ekran pencere/arama sahnesi (`.qt-ortu`), maç sonu (`html.msk-acik`) ve Layout dışı sayfalar eskisi gibi en üstte.
+- **Parite:** kural sınıfa bağlı olduğundan BildirimToast, RozetBildirimi, Meydan Okumalar (`ChallengesPage`), Dükkân (`JokerDukkani`) yuvaları hepsi aynı anda düzeldi; ayrı yuva kodu yok.
+- **Ölçüm (390×844 ve 360×640, gerçek bildirim satırıyla):** şerit çubuğun altında (üst = 72 px); zil, coin, avatar merkezinde `elementFromPoint` kendisini döndürüyor (dokunulabilir). Durum tablosu (sentetik yuva `top`): normal 72 px · maç 12 px · pencere açık 12 px · maç sonu 12 px. Build temiz. Test hesabı, bildirim satırı silindi.
+- **Bilinen sınır:** davet bandı (`.a-davet`) çubuğun altında durur; şerit çıktığı 7–9 sn boyunca bandın üstüne biner (istenen kural "çubuk yüksekliği + 8 px" idi).

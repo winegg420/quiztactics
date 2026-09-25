@@ -209,6 +209,7 @@
   --qt-z-menu: 40;
   --qt-z-ortu: 60;
   --qt-z-toast: 80;
+  --qt-ustcubuk-yuk: 64px;        /* üst çubuk iç yüksekliği (güvenli alan hariç); üst bildirim şeridi buna göre iner */
   --qt-altmenu-yukseklik: 72px;   /* sabit alt menü için içerik alt payı (+ güvenli alan) */
 }
 
