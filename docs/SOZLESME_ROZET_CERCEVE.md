@@ -101,12 +101,13 @@ biter. Kaynak `lig_arsiv.sehir_sampiyonu` (profilde kalıcı alan yok). Oyuncu s
 şehir gelir. Gizli bot şampiyonsa onda da dolu gelir (listede 1. görünenle aynı — bot ele verilmez). Görünüm
 (unvan, kart, VS, profil, Lig › Şehir) **Görsel Paket 2**'de; bu alanı okumayan ekranlar değişmez.
 
-**`unvan` (643):** görünen unvan — `null` | `{tur:"sehir", sehir, ulke}` (aktif şehir şampiyonluğu; takılı unvanın önüne
-geçer) | `{tur, anahtar, tr, en}` (takılı ve kazanılmış unvan; tur: lig · sezon · basari). Gizli bot kazandığı unvanlardan
-kimliğinden sabit birini (ya da hiç) taşır. Metin: `oyun/lib/unvan.js › unvanMetni` (şehir: "X Şampiyonu" / "Champion of X").
+**`unvan` (643, 647):** görünen unvan — `null` | `{tur:"dunya", tr, en}` | `{tur:"ulke", ulke:<kod>, ad:<ülke adı>}` | `{tur:"sehir", sehir, ulke}`
+(aktif şampiyonluklar, öncelik dünya > ülke > şehir; takılı unvanın önüne geçer) | `{tur, anahtar, tr, en}` (takılı ve kazanılmış unvan; tur: lig · sezon · basari). Gizli bot kazandığı unvanlardan
+kimliğinden sabit birini (ya da hiç) taşır. Metin: `oyun/lib/unvan.js › unvanMetni` (şehir/ülke: "X Şampiyonu" / "Champion of X"; dünya: "Dünya Şampiyonu" / "World Champion").
 
 ### `unvanlarim()` → jsonb (643)
-`{ unvanlar: [{anahtar, tur, ad_tr, ad_en, aciklama_tr, aciklama_en, kazanildi, takili}], takili, sehir_sampiyonu }`.
+`{ unvanlar: [{anahtar, tur, ad_tr, ad_en, aciklama_tr, aciklama_en, kazanildi, takili}], takili, sehir_sampiyonu, ulke_sampiyonu, dunya_sampiyonu }`
+(647: `ulke_sampiyonu` = `null` | `{ulke, ad, hafta}` · `dunya_sampiyonu` = `null` | `{hafta}`).
 Kazanım: `kural = rozet` → ilgili rozete sahipse (türetilir); `kural = olay` → haftalık lig kapanışı (`unvan_lig_kapanis`).
 
 ### `unvan_tak(p_anahtar text)` → `{ takili }` (643)
@@ -121,6 +122,13 @@ Kazanım: `kural = rozet` → ilgili rozete sahipse (türetilir); `kural = olay`
 Kural (sunucu, haftalık kapanış): şehir sırası canlı listeyle aynı (haftalık puan → toplam puan → ad → id);
 şehirde o hafta puanı > 0 en az `sehir_sampiyonu_min_oyuncu` (3) görünür oyuncu (bot dahil) ve 1.'nin o hafta en az
 `sehir_sampiyonu_min_galibiyet` (1) galibiyeti. Sağlanmazsa o hafta o şehirde şampiyon yok.
+
+### `ulke_dunya_sampiyonu()` → jsonb (647)
+Çağıranın ülkesinin ve dünyanın geçen hafta şampiyonu; yoksa ilgili alan `null`. Bot bilgisi dönmez.
+`{ "ulke": { "user_id", "ulke": "TR", "ad": "Türkiye", "hafta", "puan" } | null, "dunya": { "user_id", "hafta", "puan" } | null }`
+Kural (sunucu, haftalık kapanış): asgari şart yok; şampiyon `lig_kapanis_havuzu()`'nda yalnız görünür (`gorunur`) oyuncular
+arasından (haftalık puan → toplam puan → ad → id) seçilir; `sira_ulke`/`sira_global` tek başına şampiyonluk değildir.
+Rozetler: `lig_ulke_sampiyonu` · `lig_dunya_sampiyonu` (lig · elmas · `crown` · coin 0).
 
 ### `rozetlerim()` → jsonb
 ```json

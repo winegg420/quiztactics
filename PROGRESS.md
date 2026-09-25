@@ -8525,3 +8525,19 @@ unvan + kalıcı rozet; görünüm Görsel Paket 2'de.
 - **oyuncu-testi düzeltmesi:** Düello skill dokunuşunda satın alma penceresi artık "Joker satın al" adını taşıyor (skill→joker adlandırması); test eski "Skill satın al"ı arıyordu, pencere kapanmadığı için şık dokunuşları
   engelleniyordu (5–8 sahte başarısız). Regex `(Skill|Joker) satın al`. Sonra canlıda Düello koşusu: yalnız "sayaç ilk 3 sn hızlı" (kategori fazı, 1 faz) kaldı — önceki koşularda da vardı, bu işten bağımsız, izlenecek.
   Test hesapları (2 EN misafir) `hesabimi_sil()` ile silindi.
+
+## 2026-09-25 — Ülke Şampiyonu + Dünya Şampiyonu (647) + level çerçeve adları geri alındı
+**Araç:** Claude Code
+**Neden:** Şehir Şampiyonu (641) deseninin ülke ve dünya karşılığı; 643'teki "Level N Madalyası" adlandırması yanlış karardı.
+- **Migration 647** (canlıya uygulandı; önce transaction'da prova): 2 rozet (`lig_ulke_sampiyonu` 707, `lig_dunya_sampiyonu` 708, elmas kademe, coin 0);
+  `lig_arsiv.ulke_sampiyonu` / `dunya_sampiyonu` + dar indeksler; `haftayi_kapat` (canlıdan alınan 641 gövdesi) şehir bloğunun altında iki UPDATE + iki ödül döngüsü;
+  `push_metinleri` (ulke/dunya, tr/en) + `ulke_/dunya_sampiyonu_bildirim_acik` = 1; `ulke_dunya_sampiyonu()` RPC (ikisi tek fonksiyonda);
+  `unvanlarim()` (644 gövdesi) + `ulke_sampiyonu` / `dunya_sampiyonu`; `oyuncu_kartlari` (646 gövdesi, koleksiyon_puani korundu) unvan önceliği dünya > ülke > şehir > takılı;
+  geriye dönük işaretleme + rozet (coinsiz), `koleksiyon_hepsini_yenile()`; level çerçeve adları 360'taki hâline döndü (Bronz / Gümüş / Altın / Altın Kanatlar).
+- **Karar — görünür havuz:** şampiyonluk `sira_ulke`/`sira_global`'den değil, `lig_kapanis_havuzu()`'nda yalnız `gorunur` satırlardan hesaplanır (arşiv sırası gizli hesapları da sayar). Asgari şart yok, gizli bot şampiyon olabilir.
+- **Karar — tek fonksiyon:** ülke ve dünya şampiyonu `ulke_dunya_sampiyonu()` ile birlikte döner.
+- **Karar — dünya bildirimi sabit metin:** brif "%1" diyordu; EN'de "Champion of Dünya" çıkacağı için dünya metni parametresiz ("Dünya Şampiyonu oldun!" / "You are the World Champion!"). Ülke: "%1 Şampiyonu oldun!" (`ulkeler.ad`).
+- **Karar — dönüş tipi değişmedi:** ülke/dünya `oyuncu_kartlari.unvan` jsonb'unun `tur` değeri (`ulke` / `dunya`) olarak gelir; tablo kolonu eklenmedi → DROP/CREATE ve yetki yeniden verme gerekmedi (RLS/yetki değişikliği yok).
+- **İstemci:** `unvan.js › unvanMetni` (ulke/dunya), `UnvanSecici` "bu hafta ülke/dünya şampiyonusun" satırları (+EN `dil.js`), bildirim EN karşılığı `ceviri/sunucu.js`, unvan çizimine `ulke` (bayrak, yakut) ve `dunya` (küre, turkuaz) türü.
+- **Prova (transaction, geri alındı):** görünmeyen hesap 99999 puanla 1. iken şampiyon OLMADI; bot dünya + TR + şehir şampiyonu oldu, BG'de kendi ülke şampiyonu; insan 1. olunca 3 rozet + 3 bildirim; `oyuncu_kartlari` idagg için `{tur: dunya}`; retro 14 Eylül haftası: idagg ülke + dünya + şehir; koleksiyon puanı 23 → 63 (efsanevi × 2 dahil). Build temiz.
+- **Not:** aynı kişi üç unvanı birden kazanırsa üç ayrı bildirim gider (şehir/ülke/dünya) — brife uygun bırakıldı.

@@ -154,6 +154,12 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
   şampiyon olur (listede 1. görünen = şampiyon). Şart: şehirde puanı > 0 en az 3 görünür oyuncu + 1.'nin o hafta ≥ 1
   galibiyeti (`sehir_sampiyonu_min_*`). Kalıcı rozet `lig_sehir_sampiyonu` (coin yok); eski `sehir_krali` verilmez.
   Veri: `oyuncu_kartlari.sehir_sampiyonu`, `sehir_sampiyonu()`. Şampiyona bildirim gider (`sehir_sampiyonu_bildirim_acik` = 1, 643).
+- **Ülke + Dünya Şampiyonu (647):** aynı desen, kaynak `lig_arsiv.ulke_sampiyonu` / `dunya_sampiyonu` (aktif = `hafta_basi() − 7`).
+  Asgari oyuncu/galibiyet şartı YOK; gizli botlar şampiyon olabilir. Şampiyonluk `sira_ulke`/`sira_global`'den DEĞİL,
+  `lig_kapanis_havuzu()`'nda yalnız `gorunur` satırlar arasında yeniden hesaplanır (arşiv sırası gizli hesapları da sayar).
+  Rozetler `lig_ulke_sampiyonu` / `lig_dunya_sampiyonu` (elmas kademe, coin yok → Koleksiyon Puanı'nda efsanevi); bildirim açık
+  (`ulke_/dunya_sampiyonu_bildirim_acik` = 1). Unvan önceliği: dünya > ülke > şehir > takılı; ülke metni `ulkeler.ad` (tek dil).
+  Veri: `oyuncu_kartlari.unvan` (`tur` dunya/ulke), `unvanlarim()`, `ulke_dunya_sampiyonu()`.
 - **Konum:** şehir her ülkede listeden (aranabilir; `sehirler`: 81 il + GeoNames CC BY 4.0 100.000+ şehirler, 86 ülke).
   Günde en fazla 1 değişiklik; şehri olan oyuncu o hafta puan kazandıysa yeni haftayı bekler; ilk seçim serbest.
 
@@ -297,8 +303,8 @@ Aktif yedi maç skill'i vardır:
   (`premium/hizalama.js`), tek oyuncu kartı "Vitrin kartı" (`OyuncuVitrinKarti`: profil başı + oyuncu kartı penceresi;
   küçük hâli lig satırı, VS, maç şeridi ≥ 420 px). Coin/elmas, logo, joker, nadirlik (Nadir yeşil · Epik mor) bulutta.
   Adaylar `/gorsel-revizyon` sayfasında durur; çizim kaynağı oradaki `cizim/` dosyaları (tek kaynak).
-- **Unvan (643):** isim altında Kurdele. 12 unvan: 8'i rozete bağlı (türetilir), 4'ü lig olayı (haftalık kapanış). Aktif Şehir
-  Şampiyonluğu takılı unvanın önüne geçer. Seçim Profil › Koleksiyon › Unvanlar. Sezon unvanları Battle Pass sezon sistemi gelene kadar gizli (bağlı değil). "Bin Galibiyet" (644): Antrenman hariç Klasik + Düello + Grup + Turnuva toplam galibiyet ≥ 1.000 (`unvan_galibiyet_esik`); `unvanlarim()` ve haftalık kapanış kontrol eder. Bronz Lig çerçevesi (`lig_bronz`) katalogda; bütün insan oyuncular kazanır (takılı çerçeve değişmez).
+- **Unvan (643):** isim altında Kurdele. 12 unvan: 8'i rozete bağlı (türetilir), 4'ü lig olayı (haftalık kapanış). Aktif Dünya >
+  Ülke > Şehir Şampiyonluğu (647) takılı unvanın önüne geçer. Seçim Profil › Koleksiyon › Unvanlar. Sezon unvanları Battle Pass sezon sistemi gelene kadar gizli (bağlı değil). "Bin Galibiyet" (644): Antrenman hariç Klasik + Düello + Grup + Turnuva toplam galibiyet ≥ 1.000 (`unvan_galibiyet_esik`); `unvanlarim()` ve haftalık kapanış kontrol eder. Bronz Lig çerçevesi (`lig_bronz`) katalogda; bütün insan oyuncular kazanır (takılı çerçeve değişmez).
 - **Rozetler (331–333, 641):** 102 rozet (`rozet_tanimlari`: level, Klasik/Düello galibiyet, seri, 10
   kategori × 4 ustalık, turnuva, lig, özel an, sosyal, 5 gizli), kazanma sunucuda olay anında; coin
   bronz 10 · gümüş 25 · altın 50 · elmas 100 (günlük tavana sayılmaz). Geriye dönük verilenler
