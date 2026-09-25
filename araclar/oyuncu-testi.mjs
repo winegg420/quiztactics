@@ -44,6 +44,9 @@ const MODLAR = String(ARG.mod || "duello,klasik,turnuva").split(",");
 const GORSEL = Boolean(ARG.gorsel);
 const SIFIR_OLC = Boolean(ARG.sifir);
 
+// --dil=en : arayüz İngilizce (test hesabının profil dili geçici 'en', sonunda eski hâline döner)
+const DIL = ARG.dil === "en" ? "en" : null;
+
 const EN_COK_MAC = Number(ARG.mac || 2);
 const OTURUM = path.resolve(".arayuz-denetim-oturum.json");
 const GORSEL_DIZIN = path.resolve("oyuncu-testi-gorseller");
@@ -115,7 +118,32 @@ await baglam.addInitScript(() => {
   };
   requestAnimationFrame(tik);
 });
+if (DIL) await baglam.addInitScript((dil) => { try { localStorage.setItem("bildim_dil", dil); } catch { /* yok */ } }, DIL);
 const s = await baglam.newPage();
+
+// 650 · Kategori Kalkanı: kural reddi denemeleri istemcinin kendi oturumuyla doğrudan RPC'ye gider
+// (arayüz bu durumlarda düğmeyi zaten kapatır). Adres + anahtar .env'den.
+const ENV = Object.fromEntries(fs.readFileSync(path.resolve(".env"), "utf8").split(/\r?\n/)
+  .filter((x) => /^[A-Z_]+=/.test(x)).map((x) => [x.slice(0, x.indexOf("=")), x.slice(x.indexOf("=") + 1).trim()]));
+async function kalkanRpc(id, kategori) {
+  try {
+    const token = await s.evaluate(() => {
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k.includes("auth-token")) return JSON.parse(localStorage.getItem(k)).access_token;
+      }
+      return null;
+    });
+    const r = await fetch(`${ENV.VITE_SUPABASE_URL}/rest/v1/rpc/duello2_kalkan`, {
+      method: "POST",
+      headers: { apikey: ENV.VITE_SUPABASE_ANON_KEY, Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ p_id: id, p_kategori: kategori }),
+    });
+    if (r.ok) return null;
+    const j = await r.json().catch(() => ({}));
+    return j.message ?? `HTTP ${r.status}`;
+  } catch (e) { return "istek hatası: " + e.message; }
+}
 
 // Sayaç kaydını fazlara ayırıp çözümler: gecikme = ilk görünüş (sunucu saatine çevrilmiş) −
 // fazın sunucudaki başlangıcı; adımlar = ilk 3 saniyedeki rakam düşüşleri arası süre.
@@ -251,7 +279,7 @@ async function ekranOlc(etiket) {
     if (o.tasma) basarisiz(`${etiket} @${w}px: yatay taşma`);
     if (GORSEL) {
       fs.mkdirSync(GORSEL_DIZIN, { recursive: true });
-      const dosya = `${String(++gorselNo).padStart(3, "0")}-${etiket.replace(/[^a-z0-9ğüşıöç-]+/gi, "_")}-${w}.png`;
+      const dosya = `${String(++gorselNo).padStart(3, "0")}-${etiket.replace(/[^a-z0-9ğüşıöç-]+/gi, "_")}-${w}${DIL ? "-" + DIL : ""}.png`;
       await s.screenshot({ path: path.join(GORSEL_DIZIN, dosya) });
     }
   }
@@ -273,7 +301,134 @@ async function acikSiklar() {
   return s.locator(":is(.bd-secenek, .qt-sik):not([disabled]):not(.elendi):not(.qt-sik--elendi)").count();
 }
 
-// ================================================================ DÜELLO
+// ================================================================ DÜELLO · Kategori Kalkanı (650)
+// Test hesabının kendi maçında, sırayla:
+//   1. savunan (1. kez): düğme → ızgara → onay görselleri, "Vazgeç"; ardından faz süresi 4,6 sn'ye çekilip
+//      kalkan denenir → "süre çok az" reddi + düğme pasif (bot kısa süre sonra seçer).
+//   2. savunan (2. kez): arayüzden gerçek kullanım (en zayıf uygun kategorin) → DB'de yazıldı mı, "kullanıldı"
+//      görseli, hemen ikinci deneme → red; faz geçince bot saldıranın seçimi korunan kategori OLMAMALI.
+//   3. saldıran: RPC ile kullanma denemesi → red; sonra botun kalkanı DB'ye yazılır (botun kendi kararı yerine,
+//      görsel için) → kutu "Korumada" kilitli + bildirim; test ilk açık kategoriye dokunur → korunan OLMAMALI.
+// DB yazımı yalnız test hesabının bota karşı maçında (faz süresi, botun kalkanı); başka hiçbir şeye dokunulmaz.
+async function kalkanAdimi(id, d, benSaldiran, kt) {
+  const idx = `${d.tur}:${d.saldiran}`;
+  const fkalan = Number(d.fkalan);
+  const benimKol = d.oyuncu1 === BEN ? "kalkan1" : "kalkan2";
+  const rakipKol = d.oyuncu1 === BEN ? "kalkan2" : "kalkan1";
+  const bosMu = (v) => v === null || v === undefined;
+  const uygunlar = async () => (await sorgu(`select k from unnest(duello_kategorileri()) k
+      where duello2_kategori_uygun_mu(${alintila(id)}, k) order by k`)).map((r) => r.k);
+
+  if (benSaldiran) {
+    if (kt.saldiranRed === undefined) {
+      const h = await kalkanRpc(id, "bilim");
+      kt.saldiranRed = h;
+      if (!h || !/rakip kategori seçerken/.test(h)) basarisiz("Kalkan: saldıran kullanabildi ya da beklenmeyen red", { h });
+      else console.log(`  ✓ kalkan: saldıran olarak red — ${h}`);
+    }
+    if (!kt.simule && bosMu(d[rakipKol]) && fkalan > 9) {
+      const u = await uygunlar();
+      if (u.length >= 3) {
+        const k = u[1];
+        await sorgu(`update duellolar set ${rakipKol} = jsonb_build_object('kategori', ${alintila(k)}, 'idx', tur * 2 + saldiri_sirasi, 'tur', tur)
+                     where id = ${alintila(id)} and faz = 'kategori' and ${rakipKol} is null`);
+        kt.simule = { k, idx, macId: id, kontrol: null };
+        let kilitli = 0;
+        for (let i = 0; i < 20 && !kilitli; i++) { await s.waitForTimeout(200); kilitli = await s.locator("button.m2-kat.m2-kat--kalkan[disabled]").count(); }
+        const bildirim = await s.locator(".m2-bant--kalkan").count();
+        if (!kilitli) basarisiz("Kalkan: saldıranın ekranında korunan kategori kilitli görünmedi", { k });
+        else console.log(`  ✓ kalkan: saldıran ekranında ${k} kilitli ("Korumada")${bildirim ? " + bildirim" : " — bildirim GÖRÜNMEDİ"}`);
+        if (!bildirim) basarisiz("Kalkan: saldırana kalkan bildirimi görünmedi");
+        await ekranOlc("duello-kalkan-saldiran-kilitli");
+      }
+      return "devam";
+    }
+    return null;
+  }
+
+  // Savunan
+  if (!bosMu(d[benimKol])) return null;
+  const dugme = s.locator("button.m2-kalkan-dugme:not(.m2-kalkan-dugme--bitti)").first();
+  if (!kt.gorsel && fkalan > 8) {
+    kt.gorsel = true;
+    await dugme.tap({ timeout: 1500 }).catch(() => {});
+    if (await s.locator(".m2-kalkan-izgara").count()) {
+      await ekranOlc("duello-kalkan-izgara");
+      await s.locator(".m2-kalkan-kat").first().tap({ timeout: 1500 }).catch(() => {});
+      if (await s.locator(".m2-kalkan-onay").count()) {
+        await ekranOlc("duello-kalkan-onay");
+        await s.locator(".m2-kalkan-onay .qt-dugme--ikincil").tap({ timeout: 1500 }).catch(() => {});
+      }
+      console.log("  ✓ kalkan: savunan düğme → ızgara → onay açıldı (Vazgeç)");
+    } else kt.gorsel = false;   // bot erken seçtiyse bir sonraki savunmada tekrar
+    return "devam";
+  }
+  if (kt.sonBes === undefined && kt.gorsel) {
+    const [r] = await sorgu(`update duellolar set faz_bitis = now() + interval '4.6 seconds'
+        where id = ${alintila(id)} and faz = 'kategori' and extract(epoch from faz_bitis - now()) > 6 returning 1 ok`);
+    if (!r) return null;
+    // İstemci yeni bitişi sinyalle hemen okusun (yoksa bir sonraki yoklamaya dek eski süreyi gösterir)
+    await sorgu(`select duello_sinyal_ver(${alintila(id)})`).catch(() => {});
+    let pasif = false;
+    for (let i = 0; i < 10 && !pasif; i++) { await s.waitForTimeout(150); pasif = await s.locator("button.m2-kalkan-dugme[disabled]").count() > 0; }
+    const hala = (await sorgu(`select faz = 'kategori' k from duellolar where id = ${alintila(id)}`))[0]?.k;
+    if (pasif && GORSEL) await s.screenshot({ path: path.join(GORSEL_DIZIN, `kalkan-son5-pasif-${GENISLIKLER[0]}${DIL ? "-" + DIL : ""}.png`) }).catch(() => {});
+    const u = await uygunlar();
+    const h = await kalkanRpc(id, u[0]);
+    if (h && /süre çok az/.test(h)) {
+      kt.sonBes = h;
+      kt.sonBesPasif = pasif;
+      console.log(`  ✓ kalkan: son 5 sn red — ${h}${pasif ? " · düğme pasif" : ""}`);
+      if (!pasif && (hala === true || hala === "t")) basarisiz("Kalkan: son 5 sn'de düğme pasif görünmedi");
+    } else if (!h) basarisiz("Kalkan: son 5 sn'de kalkan KABUL edildi", { u: u[0] });
+    else console.log(`  · kalkan son-5 denemesi faz geçtiği için sayılmadı (${h}) — sonraki savunmada tekrar`);
+    return "devam";
+  }
+  if (!kt.kullanim && kt.sonBes && fkalan > 7) {
+    await dugme.tap({ timeout: 1500 }).catch(() => {});
+    const kat = s.locator(".m2-kalkan-kat").first();
+    if (!(await kat.count())) return "devam";
+    const k = await kat.evaluate((el) => el.getAttribute("aria-label"));
+    await kat.tap({ timeout: 1500 }).catch(() => {});
+    await s.locator(".m2-kalkan-onay .m2-kalkan-dugme").tap({ timeout: 1500 }).catch(() => {});
+    let yaz = null;
+    for (let i = 0; i < 15 && !yaz; i++) {
+      await bekle(200);
+      const [r] = await sorgu(`select ${benimKol} ->> 'kategori' k from duellolar where id = ${alintila(id)}`);
+      yaz = r?.k ?? null;
+    }
+    if (!yaz) { console.log(`  · kalkan kullanımı bu fazda tamamlanamadı (${k}) — sonraki savunmada tekrar`); return "devam"; }
+    kt.kullanim = { k: yaz, idx, macId: id, secilen: null };
+    console.log(`  ✓ kalkan: arayüzden kullanıldı → ${yaz} (DB'de yazıldı)`);
+    let durumVar = 0;
+    for (let i = 0; i < 10 && !durumVar; i++) { await s.waitForTimeout(150); durumVar = await s.locator(".m2-kalkan-durum").count(); }
+    if (!durumVar) basarisiz("Kalkan: kullanıldıktan sonra 'korumada' satırı görünmedi");
+    const h2 = await kalkanRpc(id, (await uygunlar())[0]);
+    kt.ikinci = h2;
+    if (!h2 || !/zaten kullandın/.test(h2)) basarisiz("Kalkan: ikinci kullanım reddedilmedi", { h2 });
+    else console.log(`  ✓ kalkan: ikinci kullanım red — ${h2}`);
+    await ekranOlc("duello-kalkan-kullanildi");
+    return "devam";
+  }
+  return null;
+}
+
+// Faz geçtikten sonra: korunan kategori seçilmiş mi (bot saldıran / test saldıran)?
+function kalkanSecimKontrol(d, kt, id) {
+  const idx = `${d.tur}:${d.saldiran}`;
+  if (d.faz === "kategori" || !d.kategori) return;
+  if (kt.kullanim && kt.kullanim.macId === id && kt.kullanim.idx === idx && !kt.kullanim.secilen) {
+    kt.kullanim.secilen = d.kategori;
+    if (d.kategori === kt.kullanim.k) basarisiz("Kalkan: bot saldıran KORUNAN kategoriyi seçti", kt.kullanim);
+    else console.log(`  ✓ kalkan: bot saldıran korunan ${kt.kullanim.k} yerine ${d.kategori} seçti`);
+  }
+  if (kt.simule && kt.simule.macId === id && kt.simule.idx === idx && !kt.simule.kontrol) {
+    kt.simule.kontrol = d.kategori;
+    if (d.kategori === kt.simule.k) basarisiz("Kalkan: saldıran (test) korunan kategoriyi seçebildi", kt.simule);
+    else console.log(`  ✓ kalkan: test saldıran korunan ${kt.simule.k} yerine ${d.kategori} seçti`);
+  }
+}
+
 async function duelloMaci(kapsam) {
   await s.goto(ADRES + "/duello", { waitUntil: "domcontentloaded" });
   await s.waitForTimeout(2500);
@@ -340,7 +495,7 @@ async function duelloMaci(kapsam) {
     turBas = Date.now();
     sonAdim = "durum okuma";
     const t = await s.evaluate(() => window.__bdTani ?? null);
-    const [d] = await sorgu(`select durum, faz, tur, saldiran, uzatma, soru_id, cevaplar, oyuncu1, can1, can2,
+    const [d] = await sorgu(`select durum, faz, tur, saldiran, uzatma, soru_id, cevaplar, oyuncu1, can1, can2, kategori, kalkan1, kalkan2,
                                (select dogru_cevap from questions q where q.id = soru_id) dogru,
                                extract(epoch from (faz_bitis - now())) fkalan, extract(epoch from (now() - created_at)) mac_yasi,
                                extract(epoch from ((case when oyuncu1 = ${alintila(BEN)} then bitis1 else bitis2 end) - now())) kkalan
@@ -357,6 +512,29 @@ async function duelloMaci(kapsam) {
       await s.waitForTimeout(2500);
       await ekranOlc("duello-mac-sonu");
       console.log(`  maç bitti (${d.durum})`);
+      // 650: kalkan kullanılan maçta özet "… korundu" işaretini göstermeli
+      if (d.durum === "bitti" && (kapsam.kalkan.kullanim?.macId === id || kapsam.kalkan.simule?.macId === id)) {
+        const ks = s.locator(".m2-gecmis-kalkan");
+        let n = 0;
+        for (let i = 0; i < 10 && !n; i++) { n = await ks.count(); if (!n) await s.waitForTimeout(300); }
+        if (!n) basarisiz("Kalkan: maç sonu özetinde kalkan işareti yok");
+        else {
+          console.log(`  ✓ kalkan: maç sonu özetinde ${n} işaret (${(await ks.first().innerText()).trim()})`);
+          kapsam.kalkan.ozet = n;
+          if (GORSEL) {
+            const detay = s.getByRole("button", { name: /^(Detay|Details)/ });
+            if (await detay.count()) { await detay.first().tap({ timeout: 2000 }).catch(() => {}); await s.waitForTimeout(500); }
+            for (const w of GENISLIKLER) {
+              await s.setViewportSize({ width: w, height: YUKSEKLIK });
+              await ks.first().scrollIntoViewIfNeeded().catch(() => {});
+              await s.evaluate(() => window.scrollBy(0, 120));
+              await s.waitForTimeout(200);
+              await s.screenshot({ path: path.join(GORSEL_DIZIN, `kalkan-mac-sonu-${w}${DIL ? "-" + DIL : ""}.png`) });
+            }
+            await s.setViewportSize({ width: GENISLIKLER[0], height: YUKSEKLIK });
+          }
+        }
+      }
       const sayac = await sayacRaporu("Düello");
       kapsam.sayac.push(...sayac);
       // Son güvence: test hesabının yanıtsız kaldığı HER soru başarısızlıktır — test
@@ -387,6 +565,13 @@ async function duelloMaci(kapsam) {
         console.log(`  · ekran ölçüldü: ${tur} (${((Date.now() - t0) / 1000).toFixed(1)} sn)`);
         continue;   // ölçüm sürerken faz değişmiş olabilir: durumu yeniden oku
       }
+    }
+
+    // 650 · Kategori Kalkanı senaryosu (uzatmada yok)
+    kalkanSecimKontrol(d, kapsam.kalkan, id);
+    if (d.faz === "kategori" && !(d.uzatma === true || d.uzatma === "t")) {
+      sonAdim = "kalkan";
+      if (await kalkanAdimi(id, d, benSaldiran, kapsam.kalkan) === "devam") continue;
     }
 
     // Kategori: seçme sırası bendeyse seçilebilir kategori OLMALI.
@@ -550,12 +735,20 @@ async function haleOlc() {
 
 async function duelloTesti() {
   console.log("\n▶ Düello");
-  const kapsam = { saldiran: 0, savunan: 0, durumlar: {}, olculen: new Set(), sayac: [], satinAlma: [] };
+  const kapsam = { saldiran: 0, savunan: 0, durumlar: {}, olculen: new Set(), sayac: [], satinAlma: [], kalkan: {} };
   for (let i = 0; i < EN_COK_MAC; i++) {
     if (await duelloMaci(kapsam) === "kritik") break;
     if (kapsam.saldiran >= 3 && kapsam.savunan >= 3 && Object.keys(kapsam.durumlar).some((k) => k.includes("uzatma"))) break;
     if (kapsam.saldiran >= 3 && kapsam.savunan >= 3 && i >= 0 && !ARG.uzatma) break;
   }
+  // 650 · Kategori Kalkanı özeti
+  const kt = kapsam.kalkan;
+  notlar.push(`Kalkan: saldıran reddi ${kt.saldiranRed ? "✓" : "—"} · son 5 sn reddi ${kt.sonBes ? "✓" : "—"} (düğme pasif ${kt.sonBesPasif ? "✓" : "—"}) · kullanım ${kt.kullanim ? kt.kullanim.k + " → bot " + (kt.kullanim.secilen ?? "?") + " seçti" : "—"} · ikinci kullanım reddi ${kt.ikinci ? "✓" : "—"} · saldıran kilitli kutu ${kt.simule ? kt.simule.k + " → test " + (kt.simule.kontrol ?? "?") + " seçti" : "—"} · maç sonu işareti ${kt.ozet ?? "—"}`);
+  if (!kt.saldiranRed) basarisiz("Kalkan: saldıran reddi denenemedi");
+  if (!kt.sonBes) basarisiz("Kalkan: son 5 sn reddi denenemedi");
+  if (!kt.kullanim) basarisiz("Kalkan: arayüzden kullanım gerçekleşmedi");
+  if (!kt.ikinci) basarisiz("Kalkan: ikinci kullanım reddi denenemedi");
+  if (!kt.simule) basarisiz("Kalkan: saldıran kilitli kutu senaryosu oluşmadı");
   if (kapsam.saldiran < 3 || kapsam.savunan < 3) basarisiz("Düello: kapsam eksik (en az 3 saldıran + 3 savunan)", { saldiran: kapsam.saldiran, savunan: kapsam.savunan });
   const tum = [];
   for (const rol of ["saldıran", "savunan"]) for (const a of ["ilk tur", "sonraki tur", "uzatma"]) for (const sk of ["skill yok", "skill var"]) {
@@ -724,6 +917,13 @@ async function turnuvaTesti() {
 }
 
 // ================================================================ çalıştır
+// --dil=en: profil dili geçici en (arayüz dili profilden okunur), sonunda eski hâli
+let eskiDil;
+if (DIL) {
+  const [p] = await sorgu(`select dil from profiles where id = ${alintila(BEN)}`);
+  eskiDil = p?.dil ?? null;
+  await sorgu(`update profiles set dil = ${alintila(DIL)} where id = ${alintila(BEN)}`);
+}
 console.log(`Oyuncu testi — ${ADRES} · kullanıcı ${BEN.slice(0, 8)} · modlar: ${MODLAR.join(", ")}`);
 try {
   await s.goto(ADRES + "/", { waitUntil: "domcontentloaded" });
@@ -739,6 +939,7 @@ try {
   basarisiz("Beklenmeyen hata: " + (e?.message ?? e));
 } finally {
   await tarayici.close();
+  if (DIL) await sorgu(`update profiles set dil = ${alintila(eskiDil)} where id = ${alintila(BEN)}`).catch((e) => console.log("profil dili geri alınamadı:", e.message));
   await db.kapat();
 }
 

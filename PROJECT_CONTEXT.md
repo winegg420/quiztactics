@@ -102,6 +102,18 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
   uzatma sayılmaz); maçtaki bir önceki seçim (hangi oyuncu seçtiyse) hemen tekrar seçilemez. Sunucu
   reddeder (`duello2_kategori_uygun_mu`), istemci soluk gösterir, bot ve otomatik seçim aynı kuraldan
   geçer. Joker (skill) sınırları ayrı: 4 / aynı 2 / soruda 1.
+- **Kategori Kalkanı (650, Ida 25 Eyl 2026):** her oyuncuya maç başına 1 ücretsiz hak (joker/skill
+  sistemine, envantere, loadout'a girmez). Rakip kategori seçerken (savunan) uygun kategorilerinden birini
+  o seçim için kapatır; seçim yapılınca (ya da süre dolup otomatik seçilince) biter. Yalnız uygun kategori;
+  koruma saldırana ≥ 1 uygun kategori bırakmalı; kategori fazında ≥ `duello2_kalkan_son_sn` (5) sn kalmalı
+  (son 5 sn düğme pasif); faz geçtiyse red ve hak harcanmaz; uzatmada yok; zayıf nokta kuralı aynen
+  (savunan kendi zayıfını da koruyabilir). Kural sunucuda (`duello2_kalkan`, kapı `duello2_kalkan_engel`);
+  `duello2_kategori_uygun_mu` aktif kalkanı uygun saymaz → saldıran, otomatik seçim, bot hep uyar.
+  Veri: `duellolar.kalkan1/2` (null = hazır), `duello_hamleler.kalkan`. Botlar savunurken fazın 1–4. sn'sinde
+  canı 1 ise %45, değilse %12 (`duello2_bot_kalkan_*`), kendi en zayıf İKİNCİ kategorisini korur.
+  Arayüz: savunanda "Kategori Kalkanı" düğmesi → ızgara → onay; saldıranda kutu "Korumada" kilitli + bildirim;
+  üst şeritte iki oyuncunun kalkan göstergesi; maç sonu özetinde "… korundu". Kalkan ikonu Düello'da yalnız
+  bu anlamda (Tanıtım'daki "Saldırı riski" kartı "uyari"). Ayar: `duello2_kalkan_acik`.
 - Botlar kategoriye göre isabetle cevaplar (`bot_kategori_sapma`) —
   profil hem görünen hem gerçektir.
 - **Eşleşme (370, bütün modlar):** gerçek oyuncu varsa anında; yoksa gizli bot, sunucuda aramaya

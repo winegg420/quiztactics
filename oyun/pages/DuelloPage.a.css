@@ -480,12 +480,12 @@
    (Düello'da yalnız bu anlamda). "Kalkan iner": ikon yukarıdan düşüp yerine oturur; azaltılmış
    harekette yalnız kısa solma (hareket.css kuralı: konum/ölçek kalkar, opaklık kalır). */
 .m2-kalkan-gosterge {
-  position: absolute; left: 30px; bottom: -4px; z-index: 1;
+  position: absolute; left: -4px; top: -4px; z-index: 1;
   display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%;
   background: var(--qt-bilgi); color: var(--qt-bilgi-yazi);
   box-shadow: 0 0 0 2px var(--qt-mac-zemin);
 }
-.qt-oyuncu--rakip .m2-kalkan-gosterge { left: auto; right: 30px; }
+.qt-oyuncu--rakip .m2-kalkan-gosterge { left: auto; right: -4px; }
 .m2-kalkan-gosterge--bitti { background: var(--qt-mac-zemin-2); color: var(--qt-mac-soluk); opacity: 0.75; }
 
 /* Savunan paneli */
