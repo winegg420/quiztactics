@@ -40,3 +40,19 @@
 .ga-rozet-profil b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ga-rozet-sira { display: flex; gap: 6px; }
 .ga-kod { margin: 0; padding: 8px 10px; border-radius: 10px; background: #1d2152; color: #dff0ff; font-size: 12px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.ga-stil-sahne { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; padding: 14px 10px; border-radius: 16px; background: #fff; }
+.ga-stil-sahne > img { border-radius: 12px; }
+.ga-kurallar { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.ga-kurallar li { display: grid; grid-template-columns: 84px 1fr; gap: 8px; font-size: 14px; line-height: 1.35; }
+.ga-kurallar b { color: #1d2152; }
+.ga-palet { display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr)); }
+.ga-palet-grup { display: grid; gap: 4px; padding: 8px; border-radius: 12px; background: #fff; }
+.ga-palet-grup > b { font-size: 12px; text-transform: capitalize; color: #1d2152; }
+.ga-palet-grup > div { display: flex; flex-wrap: wrap; gap: 6px; }
+.ga-renk { display: grid; justify-items: center; gap: 2px; width: 44px; }
+.ga-renk i { display: block; width: 32px; height: 32px; border-radius: 10px; border: 2px solid #0b1220; }
+.ga-renk small { font-size: 9px; font-weight: 700; color: #46507f; text-align: center; overflow-wrap: anywhere; line-height: 1.1; }
+.ga-beyaz { padding: 10px; border-radius: 14px; background: #fff; }
+.ga-eski-yeni { display: flex; flex-wrap: wrap; gap: 10px; }
+.ga-eski-yeni > span { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 14px; background: #fff; }
+.ga-eski-yeni i { font-style: normal; font-weight: 900; color: #46507f; }
