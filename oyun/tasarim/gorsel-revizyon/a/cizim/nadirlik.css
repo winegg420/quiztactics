@@ -1,0 +1,46 @@
+/* Nadirlik kart kenarı (Bölüm 3). --nd-r renk · --nd-k koyu · --nd-a açık (palet NADIRLIK). iOS: fixed yok. */
+.ga-nd { position: relative; isolation: isolate; overflow: hidden; }
+.ga-nd > :not(.ga-nd-isik):not(.ga-nd-zemin):not(.ga-nd-parilti) { position: relative; z-index: 2; }
+.ga-nd-zemin, .ga-nd-isik, .ga-nd-parilti { position: absolute; inset: 0; border-radius: inherit; pointer-events: none; }
+.ga-nd-etiket {
+  position: absolute !important; z-index: 3 !important;
+  padding: 2px 7px; border-radius: 8px; font-size: 10px; font-weight: 900; letter-spacing: 0.06em; line-height: 1.3;
+  background: var(--nd-k); color: #fff; box-shadow: 0 0 0 2px #0b1220;
+}
+.ga-nd--efsanevi .ga-nd-etiket { background: var(--nd-r); color: #1d2152; }
+
+/* ---- Stil KÖŞE: kalın renkli kenar (içte açık zemin) + sol üst köşe etiketi */
+.ga-nd--kose { box-shadow: 0 4px 0 var(--nd-k) !important; background: var(--nd-r) !important; }
+.ga-nd--kose .ga-nd-zemin { inset: 4px; border-radius: calc(var(--qt-r-m, 16px) - 3px); background: linear-gradient(var(--nd-a), var(--nd-a)) top / 100% 58% no-repeat, #fff; z-index: 1; }
+.ga-nd--kose .ga-nd-etiket { top: 7px; left: 7px; }
+.ga-nd--kose.ga-nd--siradan .ga-nd-zemin { background: #fff; }
+.qt-cs-oge.ga-nd--kose .ga-nd-zemin { background: linear-gradient(var(--nd-a), var(--nd-a)) top / 100% 58% no-repeat, var(--qt-yuzey-2, #f3f6fb); }
+
+/* ---- Stil BANT: ince kenar + altta renkli bant (ad + fiyat bandın üstünde), etiket bandın tepesinde */
+.ga-nd--bant { box-shadow: inset 0 0 0 2px var(--nd-r), 0 4px 0 var(--nd-k) !important; }
+.ga-nd--bant .ga-nd-zemin { z-index: 1; background: linear-gradient(var(--nd-a), var(--nd-a)) bottom / 100% 44% no-repeat; }
+.ga-nd--bant .ga-nd-zemin::after { content: ""; position: absolute; left: 0; right: 0; bottom: 44%; height: 3px; background: var(--nd-r); }
+.ga-nd--bant .ga-nd-etiket { left: 50%; bottom: calc(44% - 9px); translate: -50% 0; white-space: nowrap; }
+.ga-nd--bant.ga-nd--siradan .ga-nd-etiket { background: #5d6b85; }
+
+/* ---- Efsanevi: kenarda dolaşan ışık — büyük dönen ışık kaması, iç zemin üstünü örter (yalnız kenar görünür) */
+.ga-nd-isik { overflow: hidden; z-index: 0; }
+.ga-nd-isik > i { position: absolute; left: 50%; top: 50%; width: 180%; aspect-ratio: 1; translate: -50% -50%;
+  background: conic-gradient(from 0deg, transparent 0 62%, #fff3a0 72%, #ffffff 78%, #ffd23a 84%, transparent 92%); }
+.ga-nd--bant.ga-nd--efsanevi .ga-nd-zemin { inset: 3px; border-radius: calc(var(--qt-r-m, 16px) - 3px); background: linear-gradient(var(--nd-a), var(--nd-a)) bottom / 100% 44% no-repeat, var(--_zemin, #fff); }
+.qt-cs-oge.ga-nd--bant.ga-nd--efsanevi { --_zemin: var(--qt-yuzey-2, #f3f6fb); }
+.ga-nd--kose.ga-nd--efsanevi .ga-nd-zemin { inset: 5px; }
+
+/* ---- Epik: hafif parıltı — kartın üstünden ara ara geçen ince ışık şeridi */
+.ga-nd-parilti { overflow: hidden; z-index: 2; }
+.ga-nd-parilti > i { position: absolute; top: -20%; bottom: -20%; left: 0; width: 26%; opacity: 0;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.75) 50%, transparent); transform: translateX(-120%) skewX(-18deg); }
+
+[data-gorunur="1"] .ga-nd-isik > i { animation: ga-nd-don 3.2s linear infinite; }
+[data-gorunur="1"] .ga-nd-parilti > i { animation: ga-nd-gec 4.2s ease-in-out infinite; }
+@keyframes ga-nd-don { to { transform: rotate(360deg); } }
+@keyframes ga-nd-gec {
+  0%, 55% { transform: translateX(-120%) skewX(-18deg); opacity: 0; }
+  60% { opacity: 1; }
+  85%, 100% { transform: translateX(480%) skewX(-18deg); opacity: 0; }
+}
