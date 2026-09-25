@@ -1,10 +1,16 @@
 /* =====================================================================
-   SKILL ROZETİ (SkillRozeti.jsx) — kabarık, parlak, yuvarlak güçlendirme rozeti.
+   SKILL ROZETİ (SkillRozeti.jsx) — joker/skill rozeti, stil rehberine hizalandı
+   (görsel revizyon, Ida seçimi 25 Eyl 2026: tasarim/SECIMLER_GORSEL_REVIZYON.md madde 11
+   "7 jokerin hepsi GİRSİN"; kaynak aday oyun/tasarim/gorsel-revizyon/a/cizim/joker.jsx).
+   Değişen yalnız DİL: degrade + cam hilali + bulanık gölge yerine düz renk + sert kenarlı
+   hücre gölgesi + kalın #0b1220 kontur + TEK beyaz parlama vuruşu. Semboller AYNI
+   (skillSembolleri.jsx, Phosphor, MIT — yeniden çizilmedi).
    Renkler token: --qt-skill-<tur>(-acik|-koyu). Yalnız transform/opacity animasyonu yok;
    rozet statiktir. iOS: transform/filter yok (fixed ata tuzağı), gölgeler box-shadow.
    ===================================================================== */
 .qt-srozet {
   --_r: var(--qt-ikinci); --_r-acik: var(--qt-ikinci-acik); --_r-koyu: var(--qt-ikinci-dudak);
+  --_kontur: #0b1220;
   position: relative;
   display: inline-grid;
   place-items: center;
@@ -12,34 +18,46 @@
   width: var(--_boyut, 40px);
   height: var(--_boyut, 40px);
   border-radius: 50%;
+  overflow: hidden;
   color: var(--qt-skill-sembol);
-  /* Kenar (koyu halka) + gövde degrade: üstte açık, altta ana renk */
-  background:
-    radial-gradient(120% 90% at 50% 18%, var(--_r-acik) 0%, var(--_r) 58%, var(--_r-koyu) 100%);
+  background: var(--_r);
   box-shadow:
-    inset 0 0 0 calc(var(--_boyut, 40px) * 0.045) var(--_r-koyu),          /* kenar */
-    inset 0 calc(var(--_boyut, 40px) * -0.09) 0 rgba(0, 0, 0, 0.18),        /* iç gölge (alt) */
-    0 calc(var(--_boyut, 40px) * 0.07) 0 var(--_r-koyu),                     /* kabarık dudak */
-    0 calc(var(--_boyut, 40px) * 0.12) calc(var(--_boyut, 40px) * 0.18) rgba(29, 33, 82, 0.28); /* dış gölge */
+    inset 0 0 0 calc(var(--_boyut, 40px) * 0.07) var(--_kontur),           /* kalın koyu kontur (avatar oranı) */
+    0 calc(var(--_boyut, 40px) * 0.07) 0 var(--_kontur),                    /* kabarık dudak (düz, bulanıksız) */
+    0 calc(var(--_boyut, 40px) * 0.1) calc(var(--_boyut, 40px) * 0.14) rgba(11, 18, 32, 0.28);
 }
-/* Üst parlama (cam hilali) */
+/* Hücre gölgesi: sert kenarlı, ışığın tersi (sağ alt) koyu yarım; bulanıklık yok. */
 .qt-srozet::before {
   content: "";
   position: absolute;
-  left: 16%; right: 16%; top: 7%;
-  height: 38%;
-  border-radius: 50% 50% 45% 45% / 60% 60% 40% 40%;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.05));
+  inset: 0;
+  background: var(--_r-koyu);
+  clip-path: polygon(100% 30%, 100% 100%, 30% 100%, 55% 78%, 78% 55%);
+  pointer-events: none;
+}
+/* Tek beyaz parlama vuruşu: sol üstte kısa, kalın, keskin bir yay — cam hilali değil. */
+.qt-srozet::after {
+  content: "";
+  position: absolute;
+  left: 20%;
+  top: 16%;
+  width: 30%;
+  height: 12%;
+  border-radius: 999px;
+  background: #fff;
+  opacity: 0.9;
+  transform: rotate(-32deg);
   pointer-events: none;
 }
 .qt-srozet-sembol {
   position: relative;
+  z-index: 1;
   display: grid;
   place-items: center;
-  width: 62%;
-  height: 62%;
-  /* Sembol okunaklı kalsın: koyu kontur gölgesi */
-  filter: drop-shadow(0 calc(var(--_boyut, 40px) * 0.03) 0 var(--_r-koyu));
+  width: 58%;
+  height: 58%;
+  /* Sembol okunaklı kalsın: düz (bulanıksız) koyu kontur gölgesi */
+  filter: drop-shadow(0 calc(var(--_boyut, 40px) * 0.035) 0 var(--_kontur));
 }
 .qt-srozet-sembol > svg { width: 100%; height: 100%; display: block; }
 .qt-srozet--soluk { opacity: 0.45; }
