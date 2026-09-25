@@ -6,7 +6,7 @@
  */
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
-import RozetMadalyonu, { rozetSembolu } from "./RozetMadalyonu.jsx";
+import RozetMadalyonu from "./RozetMadalyonu.jsx";
 import { rozetBildirimlerim } from "../lib/rozet.js";
 import { oyuncuKartiUnut } from "../lib/cerceve.js";
 import { tt } from "../lib/dil.js";
@@ -63,7 +63,7 @@ export default function RozetBildirimi() {
     <QtToastYuvasi konum="ust">
       <div key={ilk.anahtar} className="qt-toast qt-toast--coin qt-rb" role="status">
         <span className="qt-rb-madalyon" aria-hidden="true">
-          <RozetMadalyonu grup={ilk.grup} kademe={ilk.kademe} boyut={48} sembol={rozetSembolu(ilk.ikon)} />
+          <RozetMadalyonu grup={ilk.grup} kademe={ilk.kademe} boyut={48} anahtar={ilk.anahtar} ikon={ilk.ikon} hareketli />
           <span className="qt-rb-parilti" />
         </span>
         <span className="qt-toast-metin">

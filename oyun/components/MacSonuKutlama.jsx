@@ -43,7 +43,7 @@ import OyuncuLigAmblemi from "./OyuncuLigAmblemi.jsx";
 import IsimEfekti, { useKartAlani } from "./IsimEfekti.jsx";
 import AvatarDugmesi from "./AvatarDugmesi.jsx";
 import OyuncuKarti from "./OyuncuKarti.jsx";
-import RozetMadalyonu, { rozetSembolu } from "./RozetMadalyonu.jsx";
+import RozetMadalyonu from "./RozetMadalyonu.jsx";
 import MacSonuLottie, { KonfetiKatmani, konfetiYukle, lottieOnYukle } from "./MacSonuLottie.jsx";
 import { QtCan, QtDugme, QtIkon, QtIkonDugme } from "../tasarim/index.js";
 import { hareketAzaltildiMi } from "../tasarim/hareket.js";
@@ -669,7 +669,7 @@ function MacSonuKutlama({
         <section ref={rozetRef} className="msk-rozet msk-a" aria-label={tt("Yeni rozet")}>
           <div className="msk-rozet-madalyon">
             <div className="msk-rozet-patlama"><MacSonuLottie ref={lottie.yildiz} ad="yildiz" hiz={0.8} hazirlaMs={800} /></div>
-            <RozetMadalyonu grup={rozet.grup ?? "level"} kademe={rozet.kademe ?? "altin"} boyut={64} sembol={rozetSembolu(rozet.ikon)} />
+            <RozetMadalyonu grup={rozet.grup ?? "level"} kademe={rozet.kademe ?? "altin"} boyut={64} anahtar={rozet.anahtar} ikon={rozet.ikon} hareketli />
           </div>
           <div className="msk-rozet-metin">
             <span className="msk-rozet-etiket">{tt("Yeni rozet!")}</span>

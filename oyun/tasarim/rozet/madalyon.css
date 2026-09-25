@@ -1,0 +1,4 @@
+/* Madalyon rozet (Madalyon.jsx) — qt-rm- öneki. Kazanılmamış rozet soluk ama silüeti okunur; gizli rozet "?".
+   Hareket yalnız ışıltıda (ortak.css › gra-isilti; transform/opacity, ekran dışında durur). */
+.qt-rm { flex: none; }
+.qt-rm--kilitli > svg { filter: grayscale(1) contrast(.9); opacity: .42; }

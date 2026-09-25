@@ -3,7 +3,7 @@
  * Veri oyuncu kartından (oyuncu_kartlari, toplu + önbellekli); `vitrin` verilirse sorgu yok.
  */
 import { useEffect, useState } from "react";
-import RozetMadalyonu, { rozetSembolu } from "./RozetMadalyonu.jsx";
+import RozetMadalyonu from "./RozetMadalyonu.jsx";
 import { oyuncuKarti, oyuncuKartiDinle } from "../lib/cerceve.js";
 import { tt } from "../lib/dil.js";
 import "../tasarim/ekranlar/rozet-panel.css";
@@ -33,7 +33,7 @@ export default function VitrinRozetleri({ userId, vitrin, boyut = 32, className 
     <span className={`qt-vitrin ${className}`.trim()} role="list" aria-label={tt("Vitrin rozetleri")}>
       {liste.map((r) => (
         <span key={r.anahtar} role="listitem">
-          <RozetMadalyonu grup={r.grup} kademe={r.kademe} boyut={boyut} sembol={rozetSembolu(r.ikon)}
+          <RozetMadalyonu grup={r.grup} kademe={r.kademe} boyut={boyut} anahtar={r.anahtar} ikon={r.ikon}
                           etiket={r.ad ?? tt("Rozet")} />
         </span>
       ))}

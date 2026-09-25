@@ -4,7 +4,7 @@
  * Listelerde madalyonlar durağandır.
  */
 import { useCallback, useEffect, useState } from "react";
-import RozetMadalyonu, { rozetSembolu } from "./RozetMadalyonu.jsx";
+import RozetMadalyonu from "./RozetMadalyonu.jsx";
 import DurumKutusu from "./DurumKutusu.jsx";
 import { rozetlerim, rozetVitriniSec } from "../lib/rozet.js";
 import { oyuncuKartiUnut } from "../lib/cerceve.js";
@@ -24,7 +24,7 @@ export function RozetGorseli({ r, boyut = 56, etiketli = false }) {
   const gizli = r.gizli && !r.kazanildi;
   return (
     <RozetMadalyonu grup={r.grup} kademe={r.kademe} boyut={boyut} kilitli={!r.kazanildi && !gizli} gizli={gizli}
-                    sembol={rozetSembolu(r.ikon)}
+                    anahtar={r.anahtar} ikon={r.ikon}
                     etiket={etiketli ? (gizli ? tt("Gizli rozet") : r.ad) : undefined} />
   );
 }

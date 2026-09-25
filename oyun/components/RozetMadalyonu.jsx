@@ -1,74 +1,25 @@
 /**
- * ROZET MADALYONU — kademe malzemesinde madalyon (bronz · gümüş · altın · elmas) + ortada grup sembolü.
- * Skill rozetiyle aynı aile (kabarık, parlak, kenarlı). Kademe yalnız renkle anlatılmaz: kenardaki
- * nokta sayısı (1–4) ve süsleme (gümüş iç hat, altın boncuk kenar, elmas faset + ışıltı) de değişir.
- * Gizli rozet kazanılana kadar "?" silüeti; kilitli rozet soluk.
+ * ROZET MADALYONU — oyunun her yerindeki rozet görseli (profil › rozetler, vitrin, oyuncu kartı, maç sonu, bildirim).
+ * 25 Eyl 2026 (Ida seçimi, Bölüm 10 "Madalyon"): çizim oyun/tasarim/rozet/Madalyon.jsx — temel amblem (kendi zemin
+ * rengi + sembolü) × seviye (kademe) süsü + gerekiyorsa eşik rakamı. Eski tek tip madalyon (grup sembolü + nokta)
+ * kalktı. API aynı; `anahtar` ve `ikon` verilirse rozete özgü amblem ve rakam seçilir (verilmezse grup amblemi).
  *
- * <RozetMadalyonu grup="duello" kademe="altin" boyut={64} />
+ * <RozetMadalyonu anahtar="klasik_50" grup="klasik" kademe="gumus" ikon="trophy" boyut={64} />
  * <RozetMadalyonu grup="gizli" gizli boyut={40} />
  */
-import { ROZET_SEMBOLLERI } from "./rozetSembolleri.jsx";
-import KategoriIkon from "./KategoriIkon.jsx";
-import "../tasarim/ekranlar/rozet-madalyon.css";
+import Madalyon, { KADEMELER } from "../tasarim/rozet/Madalyon.jsx";
 
-export const KADEMELER = ["bronz", "gumus", "altin", "elmas"];
+export { KADEMELER };
 
-/** Sunucunun Phosphor ikon önerisi → elimizdeki sembol anahtarı (olmayanlar grup sembolüne düşer). */
-const IKON_SEMBOL = {
-  star: "level", trophy: "klasik", sword: "duello", fire: "seri", flame: "seri", crown: "turnuva",
-  "shield-star": "lig", lightning: "ozel", "users-three": "sosyal", question: "gizli", "graduation-cap": "kategori",
-};
-
-/**
- * Rozetin kendi sembolü: `kategori:<k>` → kategori ikonu (madalyonda beyaz), bilinen Phosphor adı →
- * sembol; ikisi de değilse null (madalyon grup sembolünü çizer).
- */
-export function rozetSembolu(ikon) {
-  if (typeof ikon !== "string") return null;
-  if (ikon.startsWith("kategori:")) return <KategoriIkon anahtar={ikon.slice(9)} boyut={24} className="qt-madalyon-kat" />;
-  const S = ROZET_SEMBOLLERI[IKON_SEMBOL[ikon]];
-  return S ? <S /> : null;
+/** Geriye uyum: eski çağrılar `sembol={rozetSembolu(ikon)}` verirdi; artık amblemi `ikon` seçer. */
+export function rozetSembolu() {
+  return null;
 }
-const PIP = { bronz: 1, gumus: 2, altin: 3, elmas: 4 };
 
-/** Grup anahtarı → sembol anahtarı (sözleşmedeki grup adları farklıysa burada eşlenir). */
-const GRUP_SEMBOL = {
-  level: "level", klasik: "klasik", klasik_galibiyet: "klasik", duello: "duello", duello_galibiyet: "duello",
-  seri: "seri", gunluk_seri: "seri", kategori: "kategori", ustalik: "kategori", kategori_ustaligi: "kategori",
-  turnuva: "turnuva", lig: "lig", ozel: "ozel", ozel_an: "ozel", sosyal: "sosyal", gizli: "gizli",
-};
-
-/**
- * @param {object} o
- * @param {string} o.grup          rozet grubu (sembolü seçer)
- * @param {string} [o.kademe]      bronz|gumus|altin|elmas
- * @param {number} [o.boyut=48]
- * @param {boolean} [o.kilitli]    henüz kazanılmadı (soluk)
- * @param {boolean} [o.gizli]      gizli ve kazanılmadı → "?" silüeti
- * @param {string} [o.etiket]      erişilebilir ad; yoksa süs (aria-hidden)
- * @param {import("react").ReactNode} [o.sembol] grup sembolü yerine özel sembol (ör. kategori ikonu)
- */
-export default function RozetMadalyonu({ grup, kademe = "bronz", boyut = 48, kilitli = false, gizli = false,
-  etiket, sembol, className = "" }) {
-  const k = KADEMELER.includes(kademe) ? kademe : "bronz";
-  const silik = gizli;   // gizli + kazanılmamış → madalyon kademesi de gizlenir
-  const Sembol = ROZET_SEMBOLLERI[silik ? "gizli" : (GRUP_SEMBOL[grup] ?? grup)] ?? ROZET_SEMBOLLERI.level;
-  const kucuk = boyut < 40;
+export default function RozetMadalyonu({ anahtar, grup, kademe = "bronz", ikon, boyut = 48, kilitli = false, gizli = false,
+  hareketli = false, etiket, className = "" }) {
   return (
-    <span className={`qt-madalyon${kucuk ? " qt-madalyon--kucuk" : ""} ${className}`.trim()}
-          data-kademe={silik ? "gizli" : k}
-          data-durum={silik ? "gizli" : kilitli ? "kilitli" : "kazanildi"}
-          style={{ "--_b": `${boyut}px` }}
-          {...(etiket ? { role: "img", "aria-label": etiket } : { "aria-hidden": "true" })}>
-      <span className="qt-madalyon-yuz">
-        <span className="qt-madalyon-sembol">{(!silik && sembol) || <Sembol />}</span>
-      </span>
-      {!kucuk && !silik && (
-        <span className="qt-madalyon-pipler">
-          {Array.from({ length: PIP[k] }, (_, i) => <span key={i} />)}
-        </span>
-      )}
-      {!kucuk && !silik && k === "elmas" && <span className="qt-madalyon-isilti" />}
-    </span>
+    <Madalyon anahtar={anahtar} grup={grup} kademe={kademe} ikon={ikon} boyut={boyut} kilitli={kilitli} gizli={gizli}
+              hareketli={hareketli} etiket={etiket} className={className} />
   );
 }

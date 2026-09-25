@@ -20,7 +20,7 @@ export const KATEGORI_RENK = {
 };
 
 // 24x24 kutuda dolgu yollar
-const YOLLAR = {
+export const KATEGORI_YOLLARI = {
   // beyin
   genel_kultur:
     "M9 3a3.5 3.5 0 0 0-3.4 2.7A3.3 3.3 0 0 0 3 8.9c0 1 .4 1.9 1.1 2.5A3.4 3.4 0 0 0 4 14a3.4 3.4 0 0 0 2 3.1A3.3 3.3 0 0 0 9.2 21c.9 0 1.7-.4 2.3-1V3.9A3.4 3.4 0 0 0 9 3m6 0a3.4 3.4 0 0 0-2.5 1V20c.6.6 1.4 1 2.3 1a3.3 3.3 0 0 0 3.2-3.9 3.4 3.4 0 0 0 2-3.1c0-.9-.3-1.8-.9-2.4.7-.6 1.1-1.5 1.1-2.5a3.3 3.3 0 0 0-2.6-3.2A3.5 3.5 0 0 0 15 3",
@@ -58,7 +58,7 @@ const YOLLAR = {
  * plaka=true ise kendi renginde yuvarlak köşeli bir plakanın içinde çizilir.
  */
 export default function KategoriIkon({ anahtar, boyut = 22, plaka = false, className = "" }) {
-  const d = YOLLAR[anahtar] ?? YOLLAR.karisik;
+  const d = KATEGORI_YOLLARI[anahtar] ?? KATEGORI_YOLLARI.karisik;
   const renk = KATEGORI_RENK[anahtar] ?? KATEGORI_RENK.karisik;
 
   const svg = (
