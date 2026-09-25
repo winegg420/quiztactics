@@ -84,6 +84,10 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
   bitişle aynı anda (ölçüm: ±60 ms); mantık gerçek kalanda — Düello `gosterSn`, `QuestionCard` `gosterKalan`. Düello
   gösterimi için saat farkı sıçraması en çok %5 hızla kaydırılır. `oyuncu-testi --sifir` bu sıfır anını ölçer. İki oyuncunun bitişi aynı, geç cevap sunucuda
   reddedilir. Düello `sunucu_zamani` = clock_timestamp(). Ölçüm: `oyuncu-testi` sayaç raporu (⏱).
+  **Klasik maç başı 3-2-1 (651, 25 Eyl):** ilk sorunun başlangıcı = now + `mac_geri_sayim_sn` (3) + `mac_geri_sayim_payi_ms` (2000);
+  istemci en çok "3" gösterir (pay boyunca bekler), maç satırı "başladı" derse nabzı hemen atar, saat farkı gidiş-dönüş ortasından.
+  Sonraki soru geri bildirim penceresi sürerken arka planda çekilir (`soruCek › bekleMs`; Klasik/Grup/Turnuva). Yüksek gecikme
+  ölçümü: `node araclar/gecikme-testi.mjs --gecikme=300` (iki gerçek oyuncu, biri yavaşlatılmış; `--gorunum=375x553 --uzun` kısa ekran).
 - Yanlış cevap sonrası bekleme **1 sn**.
 - Kategori yüzdesi için asgari örneklem 10 soru; altı "veri yok".
 

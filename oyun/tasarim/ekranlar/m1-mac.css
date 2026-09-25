@@ -415,6 +415,12 @@ body.bd-oyun-modu .m1-mac { min-height: 100dvh; }
   /* Soru kartı artan yerin tamamını alır (arada boşluk kalmaz): şıklar, joker ve tepki ekranın altında
      (başparmak erişimi) toplanır; yer daralınca önce kart küçülür. */
   body.bd-oyun-modu .m1-mac > .m1-soru > .qt-soru { flex: 1 1 auto; min-height: 0; gap: var(--qt-b-2); }
+  /* 25 Eyl 2026 (iPhone Safari, araç çubuklu kısa görünür alan ≈ 375×553): uzun soru + uzun şıklar sığmayınca `.qt-soru`
+     kartın altına kadar daralıyor, kart taşıp şıkların ALTINDA kalıyordu — soru metni görünmüyordu. Kart (84) + sayaç payı (24)
+     altına inmez; sığmayan kısım orta bölümde kayar (Düello `.m2-sahne` ile aynı düzen), şıklar karta binmez. */
+  body.bd-oyun-modu .m1-mac > .m1-soru { overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; padding: 0 6px 6px; margin-inline: -6px; }   /* yan/alt pay: gölge, joker hak rozeti, "Soru n / t" kesilmesin */
+  body.bd-oyun-modu .m1-mac > .m1-soru::-webkit-scrollbar { display: none; }
+  body.bd-oyun-modu .m1-mac > .m1-soru > .qt-soru { min-height: calc(84px + 24px); }
   body.bd-oyun-modu .m1-mac > .m1-soru .qt-soru-kart {
     flex: 1 1 auto;
     min-height: 84px;   /* kart hiç kaybolmasın: en az iki satır */
@@ -503,6 +509,11 @@ body.bd-oyun-modu .m1-mac { min-height: 100dvh; }
   body.bd-oyun-modu .m1-mac > .m1-soru .qt-skill-ikon { zoom: 0.82; }
   body.bd-oyun-modu .m1-mac > .m1-soru .m1-skill-hak { font-size: 11px; line-height: 1.2; }
   body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .m1-bekleme { font-size: var(--qt-y-xs); line-height: 1.2; }
+}
+@media (max-width: 560px) and (max-height: 620px) {
+  /* çok kısa alan: kart en az ~üç satır (Düello ile aynı) */
+  body.bd-oyun-modu .m1-mac > .m1-soru > .qt-soru { min-height: calc(104px + 24px); }
+  body.bd-oyun-modu .m1-mac > .m1-soru .qt-soru-kart { min-height: 104px; }
 }
 @media (max-width: 560px) and (max-height: 700px) {
   body.bd-oyun-modu .m1-mac > .m1-soru.m1-soru--uzun .qt-soru-metin { font-size: 16px; }

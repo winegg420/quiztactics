@@ -26,6 +26,9 @@ const GECIKME = Number(ARG.gecikme ?? 300);
 const HAZIR_FARK = Number(ARG["hazir-fark"] ?? 2000);
 const SORU_SAYISI = Number(ARG.soru ?? 5);
 const SIL = Boolean(ARG.sil);
+// --gorunum=390x664 : iPhone Safari (araç çubuklarıyla) görünür alanı; her soruda soru metninin gerçekten görünür olup olmadığı ölçülür
+const [GEN, YUK] = String(ARG.gorunum ?? "390x800").split("x").map(Number);
+const GORUNUM_OLC = Boolean(ARG.gorunum);
 const SESSIZ = String(ARG.sessiz ?? "2,4").split(",").filter(Boolean).map(Number);   // bu numaralı sorularda iki taraf da cevap vermez (süre dolar)
 const bekle = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -98,8 +101,21 @@ async function misafirGiris(sayfa, ad) {
 }
 
 async function baglam(tarayici) {
-  const b = await tarayici.newContext({ ...devices["Pixel 7"], viewport: { width: 390, height: 800 } });
+  const b = await tarayici.newContext({ ...devices["Pixel 7"], viewport: { width: GEN, height: YUK } });
   await b.addInitScript(KAYIT_KODU);
+  if (ARG.uzun) {
+    // --uzun : en kötü durum — depodaki en uzun soru (154 harf) + en uzun şıklar (51 harf) her soruda; gerçek çizim yolundan geçer
+    await b.route("**/rpc/get_match_question*", async (route) => {
+      try {
+        const r = await route.fetch(); const j = await r.json();
+        if (Array.isArray(j) && j[0]) {
+          j[0].soru = "1912 Stockholm Olimpiyatları'nda pentatlon ve dekatlonu kazanıp daha önce yarı profesyonel beyzbol oynadığı için madalyaları elinden alınan sporcu kimdir?";
+          j[0].secenekler = ["Sahnenin oyuncularla gerçek zamanlı canlandırmasını", "Olayların uzmanlarca yorumlanmasını", "Konunun anlatıcı sesle özetlenmesini", "Tüm dillerin karakterlerini tek standartta toplamak"];
+        }
+        await route.fulfill({ response: r, json: j });
+      } catch { await route.continue().catch(() => {}); }
+    });
+  }
   return b;
 }
 
@@ -134,6 +150,34 @@ async function klasigeGir(sayfa) {
   }
   await sayfa.waitForTimeout(900);
   await sayfa.getByRole("button", { name: /^Klasik/ }).last().tap({ timeout: 8000 });
+}
+
+const OLCUMLER = [];
+async function metinOlc(sayfa, ad, q) {
+  await sayfa.waitForFunction(() => !document.querySelector(".m1-sayim"), null, { timeout: 9000 }).catch(() => {});   // 3-2-1 perdesi kalkınca ölç
+  await sayfa.waitForTimeout(900);
+  const o = await sayfa.evaluate(() => {
+    const m = document.querySelector(".qt-soru-metin");
+    if (!m) return null;
+    const r = m.getBoundingClientRect(); const cs = getComputedStyle(m);
+    const k = document.querySelector(".qt-soru-kart")?.getBoundingClientRect();
+    const ust = document.elementFromPoint(r.left + r.width / 2, r.top + Math.min(r.height / 2, 12));
+    return { h: Math.round(r.height), w: Math.round(r.width), scrollH: m.scrollHeight, clientH: m.clientHeight, font: cs.fontSize, renk: cs.color, opak: cs.opacity, gor: cs.visibility,
+      kartH: k ? Math.round(k.height) : null, ustte: ust ? (ust === m || m.contains(ust) || ust.contains(m) ? "metin" : ust.className.toString().slice(0, 40)) : "yok", vh: innerHeight };
+  });
+  if (ARG.dokum && OLCUMLER.length < 1) {
+    console.log("  blok dökümü:", JSON.stringify(await sayfa.evaluate(() => {
+      const mac = document.querySelector(".m1-mac"); const soru = mac?.querySelector(":scope > .m1-soru");
+      const d = (e) => { const r = e.getBoundingClientRect(); return `${(e.className || e.tagName).toString().split(" ")[0]}:${Math.round(r.top)}-${Math.round(r.bottom)}(${Math.round(r.height)})`; };
+      return { mac: mac ? d(mac) : null, macCocuk: [...(mac?.children ?? [])].map(d), soruCocuk: [...(soru?.children ?? [])].map(d), kartCocuk: [...(soru?.querySelector(".qt-soru")?.children ?? [])].map(d) };
+    })));
+  }
+  OLCUMLER.push({ ad, q: q.length, ...o });
+  if (OLCUMLER.length <= 2) await sayfa.screenshot({ path: `.tmp/soru-${GEN}x${YUK}-${ad}${OLCUMLER.length}.png` }).catch(() => {});
+  if (o && (o.h < 30 || o.scrollH > o.clientH + 2 || o.ustte !== "metin")) {
+    console.log(`  ! ${ad} soru (${q.length} harf) metin kutusu ${o.h}px, scroll ${o.scrollH}>${o.clientH}, üstte: ${o.ustte}`);
+    await sayfa.screenshot({ path: `.tmp/soru-${GEN}x${YUK}-${OLCUMLER.length}.png` }).catch(() => {});
+  }
 }
 
 async function cevapla(sayfa, sik = 0) {
@@ -200,6 +244,7 @@ try {
       const anahtarSoru = ad + q.slice(0, 40);
       if (gorulen.has(anahtarSoru)) continue;
       gorulen.add(anahtarSoru);
+      if (GORUNUM_OLC) await metinOlc(p, ad, q);
       const no = [...gorulen].filter((x) => x.startsWith(ad)).length;
       const gec = ad === "B" ? (no % 2 === 0 ? 6000 : 1500) : 1000;
       if (SESSIZ.includes(no)) continue;
@@ -210,6 +255,11 @@ try {
   }
   await bekle(3000);
 
+  if (GORUNUM_OLC) {
+    console.log(`
+--- soru metni ölçümü ${GEN}x${YUK} (innerHeight ${OLCUMLER[0]?.vh}) ---`);
+    for (const o of OLCUMLER) console.log(JSON.stringify(o));
+  }
   const kA = await A.evaluate(() => window.__kayit);
   const kB = await B.evaluate(() => window.__kayit);
   fs.mkdirSync(".tmp", { recursive: true });
@@ -226,6 +276,11 @@ try {
   const qA = kA.filter((o) => o.k === "soru" && o.v), qB = kB.filter((o) => o.k === "soru" && o.v);
   console.log("\n--- soru başına ekrana geliş farkı (B − A, ms; + = A önce) ---");
   for (let i = 0; i < Math.min(qA.length, qB.length); i++) console.log(`soru ${i + 1}: ${qB[i].t - qA[i].t} ms`);
+  // Soru ekrana geldiğinde sayaç kaç gösteriyor (15 = tam süre; 14/13 = sayaç geç başladı)
+  for (const [ad, k] of [["A", kA], ["B", kB]]) {
+    const ilk = k.map((o, i) => (o.k === "soru" && o.v ? (k.slice(i, i + 6).find((x) => x.k === "sayac" && x.v)?.v ?? "?") : null)).filter((x) => x !== null);
+    console.log(`--- ${ad}: soru geldiğinde ilk sayaç rakamı: ${ilk.join(" ")}`);
+  }
   // Sayaç sıfır anı
   const sA = kA.filter((o) => o.k === "sayac" && o.v === "0"), sB = kB.filter((o) => o.k === "sayac" && o.v === "0");
   console.log("--- sayaç '0' anı (B − A, ms) ---");
