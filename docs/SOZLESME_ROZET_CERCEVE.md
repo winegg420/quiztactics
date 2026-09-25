@@ -4,7 +4,8 @@ Sahibi: Ajan A (sunucu). Kullanan: Ajan B (arayüz). Adlar ve dönüş şekiller
 **bağlayıcıdır**; değişiklik yönetici kararıyla bu belgeye yazılır.
 Migration'lar: 331 (tablolar + katalog + RPC'ler), 332 (gizli rozet anahtarları), 333 (rozet motoru),
 334 (lig çerçevelerinin taşınması), 335 (davet), 336 (coin paketleri), 337 (rakip arama),
-641 (Şehir Şampiyonu: kart alanı + `sehir_sampiyonu()` + `lig_sehir_sampiyonu` rozeti).
+641 (Şehir Şampiyonu: kart alanı + `sehir_sampiyonu()` + `lig_sehir_sampiyonu` rozeti),
+643 (unvan: `unvan_tanimlari`, `oyuncu_unvanlari`, `profiles.takili_unvan`, `unvanlarim()`, `unvan_tak()`, kart alanı `unvan`).
 
 Bütün RPC'ler `security definer`, yalnız `authenticated`. İstemci RPC'yi doğrudan
 değil, `oyun/lib/*.js` sarmalayıcılarıyla çağırır. Sarmalayıcılar hatayı
@@ -99,6 +100,17 @@ Pazartesi'si) şehrinde 1. bitirdi; unvan sonraki hafta boyunca geçerlidir ve b
 biter. Kaynak `lig_arsiv.sehir_sampiyonu` (profilde kalıcı alan yok). Oyuncu sonradan şehir değiştirse de kazandığı
 şehir gelir. Gizli bot şampiyonsa onda da dolu gelir (listede 1. görünenle aynı — bot ele verilmez). Görünüm
 (unvan, kart, VS, profil, Lig › Şehir) **Görsel Paket 2**'de; bu alanı okumayan ekranlar değişmez.
+
+**`unvan` (643):** görünen unvan — `null` | `{tur:"sehir", sehir, ulke}` (aktif şehir şampiyonluğu; takılı unvanın önüne
+geçer) | `{tur, anahtar, tr, en}` (takılı ve kazanılmış unvan; tur: lig · sezon · basari). Gizli bot kazandığı unvanlardan
+kimliğinden sabit birini (ya da hiç) taşır. Metin: `oyun/lib/unvan.js › unvanMetni` (şehir: "X Şampiyonu" / "Champion of X").
+
+### `unvanlarim()` → jsonb (643)
+`{ unvanlar: [{anahtar, tur, ad_tr, ad_en, aciklama_tr, aciklama_en, kazanildi, takili}], takili, sehir_sampiyonu }`.
+Kazanım: `kural = rozet` → ilgili rozete sahipse (türetilir); `kural = olay` → haftalık lig kapanışı (`unvan_lig_kapanis`).
+
+### `unvan_tak(p_anahtar text)` → `{ takili }` (643)
+`null` = çıkar. Sahip değilse `Bu unvan sende yok`.
 
 ### `sehir_sampiyonu()` → jsonb | null (641)
 Çağıranın **şu anki** şehrinin geçen hafta şampiyonu. Şehri yoksa ya da o hafta şampiyon yoksa `null`.

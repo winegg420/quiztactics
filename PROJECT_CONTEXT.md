@@ -153,7 +153,7 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
   Şehir sırası canlı listeyle birebir: haftalık puan → toplam puan → ad → id; gizli botlar da arşive girer ve gerekirse
   şampiyon olur (listede 1. görünen = şampiyon). Şart: şehirde puanı > 0 en az 3 görünür oyuncu + 1.'nin o hafta ≥ 1
   galibiyeti (`sehir_sampiyonu_min_*`). Kalıcı rozet `lig_sehir_sampiyonu` (coin yok); eski `sehir_krali` verilmez.
-  Veri: `oyuncu_kartlari.sehir_sampiyonu`, `sehir_sampiyonu()`. Bildirim hazır ama `sehir_sampiyonu_bildirim_acik` = 0.
+  Veri: `oyuncu_kartlari.sehir_sampiyonu`, `sehir_sampiyonu()`. Şampiyona bildirim gider (`sehir_sampiyonu_bildirim_acik` = 1, 643).
 - **Konum:** şehir her ülkede listeden (aranabilir; `sehirler`: 81 il + GeoNames CC BY 4.0 100.000+ şehirler, 86 ülke).
   Günde en fazla 1 değişiklik; şehri olan oyuncu o hafta puan kazandıysa yeni haftayı bekler; ilk seçim serbest.
 
@@ -290,6 +290,15 @@ Aktif yedi maç skill'i vardır:
   Saf Bilgi / Antrenman `mac_iptal` (başlamış maç) + kopukluk (insan 45 sn, bot maçı 57 sn nabızsız),
   Düello `duellolar.terk_eden`, Grup `grup_mac_terk`, Turnuva `turnuva_terk` ("Çık ve elen");
   10 dk duran maç ödülsüz iptal.
+- **Görsel revizyon oyunda (Ida seçimleri 25 Eyl 2026, tasarim/SECIMLER_GORSEL_REVIZYON.md; stil rehberi `/stil-rehberi`):**
+  lig çerçeveleri Set A "Defne ve Taç" (Altın = onaylı WebGL Altın Lig), level Set A "Altıgen Madalya", Turnuva Şampiyonu
+  "Kupa Tepesi" (`tasarim/kazanilan/`, tembel; ≤ 48 px siluetleri kutudan taşmaz), lig amblemi "Fasetli Yıldız"
+  (`premium/ligAmblemi.jsx`), rozetler "Madalyon" (`tasarim/rozet/`: amblem × seviye + eşik rakamı), premium hizalama
+  (`premium/hizalama.js`), tek oyuncu kartı "Vitrin kartı" (`OyuncuVitrinKarti`: profil başı + oyuncu kartı penceresi;
+  küçük hâli lig satırı, VS, maç şeridi ≥ 420 px). Coin/elmas, logo, joker, nadirlik (Nadir yeşil · Epik mor) bulutta.
+  Adaylar `/gorsel-revizyon` sayfasında durur; çizim kaynağı oradaki `cizim/` dosyaları (tek kaynak).
+- **Unvan (643):** isim altında Kurdele. 12 unvan: 8'i rozete bağlı (türetilir), 4'ü lig olayı (haftalık kapanış). Aktif Şehir
+  Şampiyonluğu takılı unvanın önüne geçer. Seçim Profil › Koleksiyon › Unvanlar. Sezon unvanları yok (sezon sistemi yok).
 - **Rozetler (331–333, 641):** 102 rozet (`rozet_tanimlari`: level, Klasik/Düello galibiyet, seri, 10
   kategori × 4 ustalık, turnuva, lig, özel an, sosyal, 5 gizli), kazanma sunucuda olay anında; coin
   bronz 10 · gümüş 25 · altın 50 · elmas 100 (günlük tavana sayılmaz). Geriye dönük verilenler
