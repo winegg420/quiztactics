@@ -333,8 +333,8 @@ Aktif yedi maç skill'i vardır:
   auralar. Türler: VS kartı (6 tema, 150), isim efekti (6, 100; kontrast ≥ 4,5), zafer efekti (5, 200;
   rakip küçük görür), tepki paketi (2 × 4, 100). **Sahip test modu** yalnız aktif kalemlerde (satın
   almadan takar). Gizli botlar yalnız aktif kalemlerden, bot kimliğinden sabit takar.
-  **27 yeni avatar** (`avatar_katalogu`, 13 günlük + 14 kostümlü; çizim `AvatarProIllustrations2.jsx`,
-  `public/avatars/pro2/`) herkese ÜCRETSİZ: profil, kurulum, Dükkân › Avatar ve Koleksiyon'da seçilir
+  **Yeni avatarlar (katalog 39, oyunda 31 — Ida kararı, 649):** `avatar_katalogu` 27 (13 günlük + 14 kostümlü) + 12 yeni; KAPALI 8: Veteriner, Öğrenci, Sakallı, Kedili Genç, Fitness Kraliçesi, Demir Pazı, Kaslı Şampiyon, Android (`onay = girmesin`, `aktif = false`); çizim `AvatarProIllustrations2.jsx`,
+  `public/avatars/pro2/`; açık olanlar herkese ÜCRETSİZ: profil, kurulum, Dükkân › Avatar ve Koleksiyon'da seçilir
   (`avatar_katalogu.aktif` yeter; `/avatar-onizleme` onayı bu karar için bakılmaz).
   (550 dalda `bulut/kozmetik-aktivasyon` — canlıya uygulanınca geçerli; bkz. `docs/KOZMETIK_AKTIVASYON.md`.)
 - **Premium kozmetik (560, dal `bulut/premium-aktivasyon` — uygulanınca geçerli):** `kozmetikler` türleri
@@ -439,8 +439,8 @@ karakter, Hızlı Mod hariç — dondurulmuş) bu sistemle yeniden yazıldı.
   veri tek çağrı `mac_sonu_ozet`, sesler yalnız `ses.js › sesMacSonu`, terkte ödülsüz "Maçtan
   ayrıldın" / "Rakip ayrıldı — galibiyet"; Turnuva/Grup'ta kendi derecen; `lottie-web` +
   `canvas-confetti` maç sonunda tembel yüklenir — "yeni paket yok" kuralının Ida onaylı istisnası),
-  `/ses-secim` (kalıcı ses aracı, yalnız sahip), `/avatar-onizleme` (üstte 12 yeni avatar onay bekliyor — 595,
-  `aktif=false`; altında 27), `/ikon-onizleme` (4 uygulama ikonu adayı, yalnız sahip; hazır dosyalar
+  `/ses-secim` (kalıcı ses aracı, yalnız sahip), `/avatar-onizleme` (39 avatarın onayı verildi — 649; "Seçimlerimi kopyala" üç bölümü de kapsar),
+  `/ikon-onizleme` (4 uygulama ikonu adayı, yalnız sahip; hazır dosyalar
   `public/ikon-aday/<ad>/` — oyunun ikonu onaya kadar değişmez),
   `/cerceve-onizleme` (çerçeve tarzı A/B/C), `/kozmetik-onizleme` (kozmetik "satışa girsin" seçimi
   yalnız sahipte), `/premium-onizleme` (8 hareketli premium çerçeve, 6 iç arka plan, altın isim plakası, lig

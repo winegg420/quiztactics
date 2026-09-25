@@ -37,6 +37,7 @@ const EN = {
   "Tekrar dene": "Try again",
   "{ad}, 40 piksel": "{ad}, 40 pixels",
   "Yeni 12 — onay bekliyor": "New 12 — awaiting approval",
+  "Yeni 12": "New 12",
   "Katalogda yok — migration bekliyor": "Not in catalog — migration pending",
   "Kapalı — onayınla açılır": "Hidden — opens after your approval",
   "Oyunda": "In game",
@@ -204,16 +205,28 @@ export default function AvatarOnizlemePage() {
     return [...liste, ...eksik];
   }, [liste, yerelSecim]);
   const yeniler = useMemo(() => YENI_12.map((y) => tumListe.find((a) => a.anahtar === y.anahtar)).filter(Boolean), [tumListe]);
+  // Özet ve "Seçimlerimi kopyala" üç bölümü de kapsar (sayfadaki bölümlerle aynı sıra/küme).
+  const bolumler = useMemo(() => [
+    ["Yeni 12", yeniler],
+    ["Günlük", tumListe.filter((a) => a.tur === "gunluk" && !YENI_ANAHTAR.has(a.anahtar))],
+    ["Kostümlü", tumListe.filter((a) => a.tur === "kostumlu" && !YENI_ANAHTAR.has(a.anahtar))],
+  ], [tumListe, yeniler]);
 
   const kopyala = async () => {
     const tarih = new Date().toLocaleString("tr-TR");
-    const grup = (d) => yeniler.filter((a) => a.onay === d).map((a) => `${a.ad_tr} (${a.anahtar})`);
-    const girsin = grup("girsin"), girmesin = grup("girmesin"), bekliyor = grup("bekliyor");
     const metin = [
-      `Quiz Tactics — Avatar önizleme seçimlerim, yeni 12 (${tarih})`,
-      `GİRSİN (${girsin.length}): ${girsin.join(", ") || "—"}`,
-      `GİRMESİN (${girmesin.length}): ${girmesin.join(", ") || "—"}`,
-      `KARAR VERİLMEDİ (${bekliyor.length}): ${bekliyor.join(", ") || "—"}`,
+      `Quiz Tactics — Avatar önizleme seçimlerim (${tarih})`,
+      ...bolumler.flatMap(([baslik, alt]) => {
+        const grup = (d) => alt.filter((a) => a.onay === d).map((a) => `${a.ad_tr} (${a.anahtar})`);
+        const girsin = grup("girsin"), girmesin = grup("girmesin"), bekliyor = grup("bekliyor");
+        return [
+          "",
+          `## ${baslik} (${alt.length})`,
+          `GİRSİN (${girsin.length}): ${girsin.join(", ") || "—"}`,
+          `GİRMESİN (${girmesin.length}): ${girmesin.join(", ") || "—"}`,
+          `KARAR VERİLMEDİ (${bekliyor.length}): ${bekliyor.join(", ") || "—"}`,
+        ];
+      }),
     ].join("\n");
     setKopyaMetni(metin);
     try {
@@ -260,7 +273,6 @@ export default function AvatarOnizlemePage() {
   const secilen = tumListe.filter((a) => a.onay === "girsin").length;
   const bekleyen = tumListe.filter((a) => a.onay === "bekliyor").length;
   const satisAcik = liste.some((a) => a.satis_acik === true);
-  const yeniGrup = (d) => yeniler.filter((a) => a.onay === d).map(adi);
   const bolum = (tur, baslik) => {
     const alt = tur === "yeni" ? yeniler : tumListe.filter((a) => a.tur === tur && !YENI_ANAHTAR.has(a.anahtar));
     return (
@@ -309,12 +321,20 @@ export default function AvatarOnizlemePage() {
         <section className="ao-bolum" aria-labelledby="ao-secimler">
           <h2 id="ao-secimler" className="qt-baslik-2 ao-bolum-baslik">{ts("Seçimlerim")}</h2>
           <QtKart className="ao-ozet-kart">
-            <p><b>{ts("Girsin")} ({yeniGrup("girsin").length}):</b> {yeniGrup("girsin").join(", ") || "—"}</p>
-            <p><b>{ts("Girmesin")} ({yeniGrup("girmesin").length}):</b> {yeniGrup("girmesin").join(", ") || "—"}</p>
-            <p className="qt-soluk"><b>{ts("Karar verilmedi")} ({yeniGrup("bekliyor").length}):</b> {yeniGrup("bekliyor").join(", ") || "—"}</p>
+            {bolumler.map(([baslik, alt]) => {
+              const grup = (d) => alt.filter((a) => a.onay === d).map(adi);
+              return (
+                <div key={baslik} className="ao-ozet-bolum">
+                  <h3 className="ao-ozet-baslik">{ts(baslik)} · {alt.length}</h3>
+                  <p><b>{ts("Girsin")} ({grup("girsin").length}):</b> {grup("girsin").join(", ") || "—"}</p>
+                  <p><b>{ts("Girmesin")} ({grup("girmesin").length}):</b> {grup("girmesin").join(", ") || "—"}</p>
+                  <p className="qt-soluk"><b>{ts("Karar verilmedi")} ({grup("bekliyor").length}):</b> {grup("bekliyor").join(", ") || "—"}</p>
+                </div>
+              );
+            })}
             <QtDugme tamGenislik ikon="kopyala" onClick={kopyala}>{ts("Seçimlerimi kopyala")}</QtDugme>
             <p className="ao-kopya-not" role="status" aria-live="polite">{kopyaNot}</p>
-            {kopyaMetni && <textarea className="ao-kopya-metin" readOnly value={kopyaMetni} rows={5} onFocus={(e) => e.target.select()} aria-label={ts("Kopyalanacak metin")} />}
+            {kopyaMetni && <textarea className="ao-kopya-metin" readOnly value={kopyaMetni} rows={14} onFocus={(e) => e.target.select()} aria-label={ts("Kopyalanacak metin")} />}
           </QtKart>
         </section>
 
