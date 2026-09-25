@@ -260,7 +260,6 @@ export default function GroupMatchPage() {
     // işaret ~300 ms'de siliniyordu (Paket 14, 5.2).
     const bekle = Math.max(0, GB_MS - (Date.now() - cevapZamaniRef.current));
     let iptal = false;
-    let durdur = null;
     const zamanlayici = setTimeout(() => {
       if (iptal) return;
       advanceKilidi.current = false;
@@ -268,16 +267,18 @@ export default function GroupMatchPage() {
       setCevapladim(false);
       setSoruHatasi(false);
       if (pollRef.current) clearInterval(pollRef.current);
-      // PES ETMEYEN İSTEK (oyun/lib/soruCek.js) — Klasik maçtaki donma
-      // hatasının aynısı buradaydı: tek deneme, hata olunca sessizce boş ekran.
-      durdur = soruCek({
-        rpcAdi: "get_group_match_question",
-        param: { p_group_match_id: mac.id },
-        onSoru: setSoru,
-        onVazgecti: () => setSoruHatasi(true),
-      });
     }, bekle);
-    return () => { iptal = true; clearTimeout(zamanlayici); durdur?.(); };
+    // PES ETMEYEN İSTEK (oyun/lib/soruCek.js) — Klasik maçtaki donma
+    // hatasının aynısı buradaydı: tek deneme, hata olunca sessizce boş ekran.
+    // Soru geri bildirim penceresi sürerken arka planda çekilir, pencere bitince ekrana girer (bekleMs).
+    const durdur = soruCek({
+      rpcAdi: "get_group_match_question",
+      param: { p_group_match_id: mac.id },
+      onSoru: setSoru,
+      onVazgecti: () => setSoruHatasi(true),
+      bekleMs: bekle,
+    });
+    return () => { iptal = true; clearTimeout(zamanlayici); durdur(); };
   }, [mac?.id, mac?.durum, mac?.aktif_soru, mac?.soru_baslangic, mac?.basladi, mac?.duraklatildi_at, soruDeneme]);
 
   // ---- NABIZ ----

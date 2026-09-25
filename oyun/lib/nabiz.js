@@ -37,15 +37,19 @@ export function useMacNabiz(rpcAdi, parametreler, aktif = true) {
   const nabizAt = useCallback(async () => {
     if (typeof document !== "undefined" && document.hidden) return;
     try {
+      const gonderildiMs = Date.now();
       const { data, error } = await zamanAsimiyla(
         supabase.rpc(rpcAdi, { ...paramRef.current, p_hazir: hazirRef.current }),
         10000,
         rpcAdi
       );
+      const alindiMs = Date.now();
       if (error) throw error;
       const r = Array.isArray(data) ? data[0] : data;
       if (r) {
-        setNabiz(r);
+        // Sunucu saati yanıt gelince ölçülürse dönüş gecikmesinin tamamı saat farkına biner: gidiş-dönüşün
+        // orta noktası alınır (lib/soruCek.js ile aynı NTP yaklaşımı). Yüksek gecikmede geri sayım kayıyordu.
+        setNabiz({ ...r, _saat_ornek_ms: (gonderildiMs + alindiMs) / 2 });
         setNabizHatasi(null);
       }
     } catch (e) {

@@ -37,6 +37,8 @@ import { zamanAsimiyla } from "./gorunurluk.js";
  * @param {(hata:Error)=>void} [p.onVazgecti]  bütün denemeler bitti
  * @param {number} [p.enFazlaDeneme]
  * @param {number} [p.ilkGecikmeMs]
+ * @param {number} [p.bekleMs]  istek HEMEN gider, soru en erken bu kadar ms sonra teslim edilir (geri bildirim
+ *   penceresi sürerken sonraki soru arka planda çekilir: yüksek gecikmede soru ekrana geç gelmez)
  * @returns {() => void} iptal fonksiyonu
  */
 export function soruCek({
@@ -46,9 +48,12 @@ export function soruCek({
   onVazgecti,
   enFazlaDeneme = 5,
   ilkGecikmeMs = 900,
+  bekleMs = 0,
 }) {
   let iptal = false;
   let zamanlayici = null;
+  let teslimZamanlayici = null;
+  const t0 = Date.now();
 
   const dene = async (n) => {
     if (iptal) return;
@@ -68,11 +73,17 @@ export function soruCek({
       if (!s) throw new Error("boş yanıt");
       // Sunucu saati istek dönüşünde ölçülürse ağ gecikmesinin tamamı saat
       // farkına eklenir. NTP yaklaşımıyla gidiş-dönüşün orta noktasını kullan.
-      onSoru({
-        ...s,
-        _saat_ornek_ms: (gonderildiMs + alindiMs) / 2,
-        _ag_gecikmesi_ms: alindiMs - gonderildiMs,
-      });
+      const teslim = () => {
+        if (iptal) return;
+        onSoru({
+          ...s,
+          _saat_ornek_ms: (gonderildiMs + alindiMs) / 2,
+          _ag_gecikmesi_ms: alindiMs - gonderildiMs,
+        });
+      };
+      const kalanBekle = bekleMs - (Date.now() - t0);
+      if (kalanBekle > 0) teslimZamanlayici = setTimeout(teslim, kalanBekle);
+      else teslim();
     } catch (e) {
       if (iptal) return;
       console.warn(
@@ -92,5 +103,6 @@ export function soruCek({
   return () => {
     iptal = true;
     clearTimeout(zamanlayici);
+    clearTimeout(teslimZamanlayici);
   };
 }

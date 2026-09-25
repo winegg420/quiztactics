@@ -35,6 +35,10 @@ import { HazirKapisi, KopukPerde, GeriSayim } from "../components/MacHazirlik.js
 import { macBittiReklam } from "../lib/reklam.js";
 import { y } from "../lib/yol.js";
 import { GB_MS } from "../lib/geriBildirim.js";
+import { sunucuOffsetMs } from "../lib/zaman.js";
+
+// Maç başı geri sayımda ekranda görünen en büyük rakam (sunucu mac_geri_sayim_sn = 3).
+const GERI_SAYIM_RAKAM = 3;
 import { useDil } from "../lib/dilKanca.js";
 import { tt } from "../lib/dil.js";
 import { rpcDene } from "../lib/rpcDene.js";
@@ -433,23 +437,26 @@ export default function MatchPage() {
       ? (kendiIndeks === 0 ? 0 : GB_MS)
       : Math.max(0, GB_MS - (Date.now() - cevapZamaniRef.current));
     let iptal = false;
-    let durdur = null;
     const zamanlayici = setTimeout(() => {
       if (iptal) return;
       advanceKilidi.current = false;
       setCevapladim(false);
       setSoruHatasi(false);
-      // PES ETMEYEN İSTEK (bkz. oyun/lib/soruCek.js): eskiden tek seferlik
-      // `.then` vardı; istek hata verince ya da boş dönünce soru hiç gelmiyor,
-      // effect de yeniden çalışmadığı için ekran donuyordu ("soru takıldı").
-      durdur = soruCek({
-        rpcAdi: "get_match_question",
-        param: { p_match_id: mac.id },
-        onSoru: setSoru,
-        onVazgecti: () => setSoruHatasi(true),
-      });
     }, kalanGB);
-    return () => { iptal = true; clearTimeout(zamanlayici); durdur?.(); };
+    // PES ETMEYEN İSTEK (bkz. oyun/lib/soruCek.js): eskiden tek seferlik
+    // `.then` vardı; istek hata verince ya da boş dönünce soru hiç gelmiyor,
+    // effect de yeniden çalışmadığı için ekran donuyordu ("soru takıldı").
+    // Soru geri bildirim penceresi sürerken ARKA PLANDA çekilir, ekrana pencere bitince girer
+    // (bekleMs): yüksek gecikmede ilerleme gecikmesi + pencere + istek gidiş-dönüşü art arda
+    // binmesin (300 ms tek yönde soru rakipten ~0,9 sn geç geliyordu).
+    const durdur = soruCek({
+      rpcAdi: "get_match_question",
+      param: { p_match_id: mac.id },
+      onSoru: setSoru,
+      onVazgecti: () => setSoruHatasi(true),
+      bekleMs: kalanGB,
+    });
+    return () => { iptal = true; clearTimeout(zamanlayici); durdur(); };
   }, [mac?.id, mac?.durum, kendiIndeks, mac?.soru_ids?.length, senkronBekliyor, duraklamaTuru, sonKartBekliyor]);
 
   // ---- RAKİBİN JOKERİ (Paket 31 A) ----
@@ -503,7 +510,13 @@ export default function MatchPage() {
   // çizeceğini (kapı / kilit / oyun) sunucudan öğrenir. Sekme arka planda
   // olduğunda BİLEREK atılmaz — rakip o an ekranımızın kilitlenmesini görür.
   const nabizParam = useMemo(() => ({ p_match_id: id }), [id]);
-  const { nabiz, hazirla } = useMacNabiz("mac_nabiz", nabizParam, Boolean(mac));
+  const { nabiz, hazirla, nabizAt } = useMacNabiz("mac_nabiz", nabizParam, Boolean(mac));
+
+  // Maç satırı (Realtime / yoklama) "başladı" dediği an nabzı hemen at: geri sayım nabızdan gelir ve 3 sn
+  // beklemek, önce "Hazır"a basanın 3-2-1'i hiç görmemesine yol açıyordu (yüksek gecikmede daha da kötü).
+  useEffect(() => {
+    if (mac?.durum === "aktif" && mac?.basladi && nabiz && !nabiz.basladi) nabizAt();
+  }, [mac?.durum, mac?.basladi, nabiz?.basladi]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const duraklatildi = Boolean(nabiz?.duraklatildi) && mac?.durum === "aktif";
   const duraklamaSn = nabiz?.duraklama_sn ?? 0;
@@ -513,22 +526,31 @@ export default function MatchPage() {
   // cihaz saati yanlışsa bile geri sayım doğru çalışır.
   // 326: sonraki soruların başlangıcı da gösterim payı kadar ileridedir — 3-2-1 yalnız ilk soruda.
   const ilkSoruMu = (mac?.aktif_soru ?? 0) === 0;
+  // Sunucu, 3 sn'ye ayrıca gösterim payı ekler (mac_geri_sayim_payi_ms): geç haber alan taraf da 3-2-1'i baştan
+  // görür. Pay boyunca "3" bekler (kalan en çok 3 gösterilir), sonra gerçek zamanla akar.
   const [geriSayim, setGeriSayim] = useState(null);
+  const sayimBittiRef = useRef(null);   // geri sayımı biten başlangıç: sonraki nabız kaymasıyla "1" yeniden çıkmasın
   useEffect(() => {
-    if (!ilkSoruMu || !nabiz?.basladi || !nabiz?.baslangic || !nabiz?.sunucu_zamani) {
+    if (!ilkSoruMu || !nabiz?.basladi || !nabiz?.baslangic || !nabiz?.sunucu_zamani
+      || sayimBittiRef.current === nabiz.baslangic) {
       setGeriSayim(null);
       return undefined;
     }
-    const fark = new Date(nabiz.sunucu_zamani).getTime() - Date.now();
+    // Saat farkı gidiş-dönüşün orta noktasına göre (nabiz.js); yalnız yanıt anına göre ölçülürse dönüş gecikmesi biner.
+    const fark = sunucuOffsetMs(nabiz.sunucu_zamani, nabiz._saat_ornek_ms ?? Date.now());
     const bitis = new Date(nabiz.baslangic).getTime();
+    let id = null;
     const hesapla = () => {
       const kalan = (bitis - (Date.now() + fark)) / 1000;
-      setGeriSayim(kalan > 0.05 ? kalan : null);
+      if (kalan > 0.05) { setGeriSayim(Math.min(kalan, GERI_SAYIM_RAKAM)); return; }
+      sayimBittiRef.current = nabiz.baslangic;
+      setGeriSayim(null);
+      clearInterval(id);
     };
     hesapla();
-    const id = setInterval(hesapla, 100);
+    id = setInterval(hesapla, 100);
     return () => clearInterval(id);
-  }, [ilkSoruMu, nabiz?.basladi, nabiz?.baslangic, nabiz?.sunucu_zamani]);
+  }, [ilkSoruMu, nabiz?.basladi, nabiz?.baslangic, nabiz?.sunucu_zamani, nabiz?._saat_ornek_ms]);
 
   /** Rakip gelmiyor: maçı sıra tabanlı (asenkron) bırak. */
   const asenkronaGec = async () => {

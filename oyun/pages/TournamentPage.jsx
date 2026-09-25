@@ -317,22 +317,23 @@ export default function TournamentPage() {
     // Son cevaplayanın geri bildirimi GB_MS kalsın (Paket 14, 5.2 — grup maçıyla aynı hata)
     const bekle = Math.max(0, GB_MS - (Date.now() - cevapZamaniRef.current));
     let iptal = false;
-    let durdur = null;
     const zamanlayici = setTimeout(() => {
       if (iptal) return;
       advanceKilidi.current = false;
       bekleyenIlerletme.current = false;
       setSoruHatasi(false);
-      // PES ETMEYEN İSTEK (oyun/lib/soruCek.js) — Klasik maçtaki donma
-      // hatasının aynısı buradaydı: tek deneme, hata olunca sessizce boş ekran.
-      durdur = soruCek({
-        rpcAdi: "get_tournament_question",
-        param: { p_tournament_id: turnuva.id },
-        onSoru: setSoru,
-        onVazgecti: () => setSoruHatasi(true),
-      });
     }, bekle);
-    return () => { iptal = true; clearTimeout(zamanlayici); durdur?.(); };
+    // PES ETMEYEN İSTEK (oyun/lib/soruCek.js) — Klasik maçtaki donma
+    // hatasının aynısı buradaydı: tek deneme, hata olunca sessizce boş ekran.
+    // Soru geri bildirim penceresi sürerken arka planda çekilir, pencere bitince ekrana girer (bekleMs).
+    const durdur = soruCek({
+      rpcAdi: "get_tournament_question",
+      param: { p_tournament_id: turnuva.id },
+      onSoru: setSoru,
+      onVazgecti: () => setSoruHatasi(true),
+      bekleMs: bekle,
+    });
+    return () => { iptal = true; clearTimeout(zamanlayici); durdur(); };
   }, [turnuva?.id, turnuva?.durum, turnuva?.aktif_soru, soruDeneme]);
 
   // Turnuva bitince puanlar değişmiş olabilir
