@@ -127,3 +127,21 @@
 @media (max-width: 420px) { .grb-un-tr { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); } .grb-un-tr > :first-child { display: none; } }
 .grb-un-ic-plaka { padding: 4px 10px; border-radius: 8px; background: #1d2152; color: #ffd23a; font-weight: 900; }
 @media (max-width: 440px) { .grb-un-profil { flex-direction: column; } .grb-un-profil-metin { justify-items: center; } }
+
+/* ——— 13. Hizalama ——— */
+.grb-os { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.grb-os-taraf { margin: 0; display: grid; gap: 10px; justify-items: center; padding: 12px 6px 16px; border-radius: 14px; background: #1d2152; min-width: 0; overflow: hidden; }
+.grb-os-etiket { justify-self: start; font-size: 12px; font-weight: 900; color: #c9d4ff; letter-spacing: .04em; }
+.grb-os-etiket--sonra { color: var(--gr-altin-o); }
+.grb-os-buyuk { display: grid; place-items: center; min-height: 190px; }
+.grb-os-kucukler { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; gap: 14px 12px; }
+.grb-os .grb-boy-e { color: #c9d4ff; }
+.grb-hiza { position: relative; display: inline-block; width: var(--b); height: var(--b); flex: none; vertical-align: middle; }
+.grb-hiza > .pc { position: absolute; left: 0; top: 0; }
+.grb-hiza-kat { position: absolute; left: -35%; top: -35%; width: 170%; height: 170%; pointer-events: none; z-index: 4; }
+.grb-hiza-kat > svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.grb-hiza-ap { display: inline-block; }
+.grb-hiza-ap :is(.pc--kucuk, .pc--orta) .pc-p { scale: 1.45; }
+.grb-hiza-ap :is(.pc--kucuk, .pc--orta) .pc-sahne { filter: saturate(1.2) contrast(1.1); }
+.grb-hiza-ap .pc-ic::after { content: ""; position: absolute; inset: 0; z-index: 3; border-radius: 50%; box-shadow: inset 0 0 0 1.5px rgba(11, 18, 32, .6); pointer-events: none; }
+@media (max-width: 420px) { .grb-os { grid-template-columns: minmax(0, 1fr); } }

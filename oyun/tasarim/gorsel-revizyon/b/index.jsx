@@ -5,6 +5,7 @@ import B5Unvan from "./b5-unvan.jsx";
 import B6Lig from "./b6-lig.jsx";
 import B7Level from "./b7-level.jsx";
 import B8Turnuva from "./b8-turnuva.jsx";
+import B13Hizalama from "./b13-hizalama.jsx";
 
 export const BOLUMLER = [
   { no: 4, baslik: "Tek oyuncu kartı", tur: "sec", Bilesen: B4Kart },
@@ -12,4 +13,5 @@ export const BOLUMLER = [
   { no: 6, baslik: "Lig çerçeveleri", tur: "sec", Bilesen: B6Lig },
   { no: 7, baslik: "Level çerçeveleri", tur: "sec", Bilesen: B7Level },
   { no: 8, baslik: "Turnuva Şampiyonu çerçevesi", tur: "sec", Bilesen: B8Turnuva },
+  { no: 13, baslik: "Premium çerçeve + arka plan hizalaması", tur: "karar", Bilesen: B13Hizalama },
 ];

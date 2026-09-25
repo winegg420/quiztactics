@@ -24,9 +24,10 @@ export const motorYukle = () => (motorSoz ??= (efektleriKaydet(), import("../../
 
 export const kademeBul = (boyut) => (boyut <= 48 ? "kucuk" : boyut < 100 ? "orta" : "tam");
 
-export default function GrCerceve({ cizim, anahtar, efekt = null, boyut = 88, hareketli = false, aura = null, etiket, className = "", children }) {
+export default function GrCerceve({ cizim, sanatUrl = null, anahtar, efekt = null, boyut = 88, hareketli = false, aura = null, etiket, className = "", children }) {
   const kademe = kademeBul(boyut);
-  const sanat = useMemo(() => adres(`${anahtar}:${kademe}`, () => cizim(kademe)), [anahtar, kademe, cizim]);
+  // sanatUrl(kademe) verilirse hazır adres (ör. tur2 sanatı), yoksa cizim(kademe) SVG metni
+  const sanat = useMemo(() => (sanatUrl ? sanatUrl(kademe) : adres(`${anahtar}:${kademe}`, () => cizim(kademe))), [anahtar, kademe, cizim, sanatUrl]);
   const webglIster = Boolean(efekt) && hareketli && kademe !== "kucuk";
   const [gl, setGl] = useState(false);
   const kok = useRef(null);
