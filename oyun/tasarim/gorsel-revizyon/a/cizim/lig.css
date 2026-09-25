@@ -1,0 +1,4 @@
+/* Lig amblemleri — yalnız 48 px ve üstünde (vitrin) ve ekrandayken hareket; transform/opacity. */
+.gra-lig-isin { transform-box: view-box; }
+.gra-lig--oynar[data-gorunur="1"] .gra-lig-isin { animation: gra-lig-don 18s linear infinite; }
+@keyframes gra-lig-don { to { transform: rotate(360deg); } }

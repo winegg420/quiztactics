@@ -26,3 +26,10 @@
 .ga-paket-kutu { width: 72px; flex: none; }
 .ga-yan { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
 .ga-not { margin: 0; font-size: 13px; color: #46507f; }
+.ga-lig-vitrin { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 4px; padding: 10px; border-radius: 14px; background: #fff; }
+.ga-lig-kalem { display: grid; justify-items: center; gap: 4px; }
+.ga-lig-kalem small { font-size: 11px; font-weight: 800; color: #46507f; }
+.ga-isim-amblem { display: inline-flex; align-items: center; gap: 6px; min-width: 0; max-width: 100%; }
+.ga-isim { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.ga-lig-test { display: flex; flex-wrap: wrap; gap: 8px; }
+.ga-lig-test > span { display: inline-flex; gap: 6px; padding: 6px 8px; border-radius: 12px; background: #fff; }
