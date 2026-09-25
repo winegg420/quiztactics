@@ -3,7 +3,7 @@
 .grb-sahne--koyu { background: #1d2152; color: #fff; }
 .grb-sahne--sikisik { gap: 14px 16px; padding: 18px 8px; }
 .grb-sahne--vitrin { min-height: 236px; padding: 44px 12px 36px; }
-.grb-boy { display: inline-grid; justify-items: center; gap: 6px; min-width: 0; }
+.grb-boy { display: inline-grid; justify-items: center; gap: 16px; min-width: 0; }
 .grb-boy-g { display: inline-grid; place-items: center; }
 .grb-boy-e { font-size: 12px; font-weight: 800; color: #46507f; font-variant-numeric: tabular-nums; }
 .grb-sahne--koyu .grb-boy-e { color: #c9d4ff; }
