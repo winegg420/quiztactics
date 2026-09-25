@@ -146,7 +146,7 @@ function Taraf({ kisi, rol, yan, canToplam, sen, zafer }) {
           </span>
         </AdDugmesi>
         {/* 560: lig amblemi isim yanında (lig elde yoksa oyuncu kartından — avatarla aynı önbellek) */}
-        <OyuncuLigAmblemi lig={kisi?.lig} userId={kisi?.profil?.id} boyut={18} className="msk-amblem" />
+        <OyuncuLigAmblemi lig={kisi?.lig} userId={kisi?.profil?.id} boyut={20} className="msk-amblem" />
         {sen && <span className="msk-sen">{tt("Sen")}</span>}
       </div>
       {canToplam ? (

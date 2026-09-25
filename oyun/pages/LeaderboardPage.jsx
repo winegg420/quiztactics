@@ -13,6 +13,7 @@ import OyuncuKarti from "../components/OyuncuKarti.jsx";
 import { useArkadaslik } from "../lib/arkadaslik.js";
 import AvatarCerceve from "../components/AvatarCerceve.jsx";
 import OyuncuLigAmblemi from "../components/OyuncuLigAmblemi.jsx";
+import { LigAmblemi } from "../tasarim/premium/ligAmblemi.jsx";
 import IsimEfekti from "../components/IsimEfekti.jsx";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
@@ -264,7 +265,7 @@ export default function LeaderboardPage() {
               <span className="lg-ad">
                 <span className="lg-ad-metin"><IsimEfekti userId={s.user_id}>{s.gorunen_ad}</IsimEfekti></span>
                 {/* 560: lig amblemi (satırda lig yoksa oyuncu kartından — avatarla aynı toplu çağrı) */}
-                <OyuncuLigAmblemi lig={s.lig} userId={s.user_id} boyut={16} />
+                <OyuncuLigAmblemi lig={s.lig} userId={s.user_id} boyut={20} />
                 {s.bot && (
                   <span className="lg-yapay" title={tt("Yapay rakip")}>
                     <QtIkon ad="robot" boyut={14} etiket={tt("Yapay rakip")} />
@@ -303,7 +304,7 @@ export default function LeaderboardPage() {
 
   const sinirCizgisi = (tur) => (
     <div className={`lg-sinir lg-sinir-${tur}`} role="presentation">
-      <QtIkon ad={tur === "yukselme" ? "ok" : "asagi"} boyut={16} />
+      <QtIkon ad={tur === "yukselme" ? "ok" : "asagi"} boyut={20} />
       <span>{tur === "yukselme" ? tt("Yükselme hattı") : tt("Düşme hattı")}</span>
     </div>
   );
@@ -333,15 +334,16 @@ export default function LeaderboardPage() {
       {kapsam === "lig" && grupBilgi ? (
         <section className={`lg-pankart lg-pankart-${ligKod}`} aria-labelledby="lg-pankart-baslik">
           <div className="lg-pankart-ust">
-            <span className="lg-arma" aria-hidden="true">
-              <QtIkon ad="lig" boyut={40} />
+            {/* 25 Eyl: lig arması = yeni lig amblemi (Fasetli Yıldız), vitrin boyu, üst ligler ışıldar */}
+            <span className="lg-arma lg-arma--amblem" aria-hidden="true">
+              <LigAmblemi lig={grupBilgi.lig} boyut={52} hareketli />
             </span>
             <div className="lg-pankart-metin">
               <h1 id="lg-pankart-baslik" className="qt-baslik-2">
                 {tt("{lig} Ligi", { lig: LIG_ADLARI[grupBilgi.lig] ?? grupBilgi.lig })}
               </h1>
               <p className="lg-sure">
-                <QtIkon ad="saat" boyut={16} />
+                <QtIkon ad="saat" boyut={20} />
                 <span>{tt("Sezon bitimine {sure}", { sure: sureMetni(kalanSezon) })}</span>
               </p>
             </div>
@@ -416,7 +418,7 @@ export default function LeaderboardPage() {
 
       {kapsam !== "lig" && donem === "hafta" && (
         <p className="lg-bilgi-serit">
-          <QtIkon ad="saat" boyut={16} />
+          <QtIkon ad="saat" boyut={20} />
           <span>
             {tt("Hafta bitimine {sure} — ilk 3 rozet kazanır.", { sure: sureMetni(kalanHafta) })}
           </span>
@@ -508,7 +510,7 @@ export default function LeaderboardPage() {
                         />
                         <span className="lg-podyum-ad">
                           <span className="lg-ad-metin"><IsimEfekti userId={p.user_id}>{p.gorunen_ad}</IsimEfekti></span>
-                          <OyuncuLigAmblemi lig={p.lig} userId={p.user_id} boyut={16} />
+                          <OyuncuLigAmblemi lig={p.lig} userId={p.user_id} boyut={20} />
                           {p.bot && (
                             <span className="lg-yapay" title={tt("Yapay rakip")}>
                               <QtIkon ad="robot" boyut={13} etiket={tt("Yapay rakip")} />

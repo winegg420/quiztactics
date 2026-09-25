@@ -461,7 +461,7 @@ export default function FriendsPage() {
                         <span className="qt-ad-amblem">
                           {/* Takılı isim efekti (altın isim) — satır zaten kartı açan düğme, OyuncuAdiDugmesi yok */}
                           <span className="ls-ad"><IsimEfekti userId={p?.id}>{p?.gorunen_ad}</IsimEfekti></span>
-                          {p?.id && <OyuncuLigAmblemi userId={p.id} lig={p?.lig} boyut={16} />}
+                          {p?.id && <OyuncuLigAmblemi userId={p.id} lig={p?.lig} boyut={20} />}
                         </span>
                         <span className="ar-detay">
                           <QtIkon ad="yildiz" boyut={14} /> {tt("{n} puan", { n: sayiBicim(p?.puan ?? 0) })}

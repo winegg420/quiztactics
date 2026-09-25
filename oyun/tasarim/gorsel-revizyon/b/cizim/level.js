@@ -80,18 +80,22 @@ const percin = (x, y, r, m) => `<circle cx="${f(x)}" cy="${f(y)}" r="${r}" fill=
 function altigen(lv, k) {
   const m = RENK[lv];
   const kucuk = k === "kucuk";
+  // Düzeltme 2 (25 Eyl): her kademe ayrı siluet — 25 sivri altıgen · 50 ve 75 yatık altıgen (75'te tepe yıldızı)
+  // · 100 on iki uçlu ışın yıldızı. Küçük boyda (≤ 48 px) en dış nokta her kademede 54 (eskiden Lv100 ışınları 58 → taşıyordu).
   const R = kucuk ? 54 : 60;
-  const kos = yuvarlat(cokgen(6, R, 0), 0.12);
-  const ham = cokgen(6, R, 0);
+  const don = lv === "50" || lv === "75" ? 30 : 0;
+  const kos = yuvarlat(cokgen(6, R, don), 0.12);
+  const ham = cokgen(6, R, don);
   const g0 = fasetGovde(kos, m, { r: 43, kw: kucuk ? 3 : 2.6, id: "hx" });
   let arka = "";
   let on = "";
   if (lv === "100") {
     // altın ışın uçları (köşelerden) + altın iç bilezik
     ham.forEach(([x, y], i) => {
-      const a = i * 60;
-      const L = kucuk ? 8 : 16;
-      arka += yerlestir(a, R - 4, `<path d="M-6 0L0 ${-L}L6 0Z" fill="${A.orta}"/><path d="M-6 0L0 ${-L}L0 0Z" fill="${A.acik}"/><path d="M-6 0L0 ${-L}L6 0Z" fill="none" ${cz(1.6)}/>`);
+      // küçükte ışınlar köşelerin ARASINDAN çıkar (12 uçlu siluet, r ≤ 52); büyükte köşelerden dışa
+      const a = kucuk ? i * 60 + 30 : i * 60;
+      const L = kucuk ? 9 : 16;
+      arka += yerlestir(a, kucuk ? 45 : R - 4, `<path d="M-6 0L0 ${-L}L6 0Z" fill="${A.orta}"/><path d="M-6 0L0 ${-L}L0 0Z" fill="${A.acik}"/><path d="M-6 0L0 ${-L}L6 0Z" fill="none" ${cz(1.6)}/>`);
     });
     on += `<circle r="45.2" fill="none" stroke="${A.orta}" stroke-width="3.4"/><path d="M-33 -30A45 45 0 0 1 -8 -44.6" fill="none" stroke="${A.acik}" stroke-width="2"/>`
       + `<circle r="47" fill="none" ${cz(1.3)}/><circle r="43.4" fill="none" ${cz(1.8)}/>`;
@@ -103,8 +107,10 @@ function altigen(lv, k) {
       const bicak = (s) => `<g transform="scale(${s} 1)"><path d="M50 -10L70 -4L74 0L70 4L50 10Z" fill="${m.orta}"/><path d="M50 -10L70 -4L74 0H50Z" fill="${m.acik}"/><path d="M50 -10L70 -4L74 0L70 4L50 10Z" fill="none" ${cz(2)}/><path d="M56 -6L66 -2.6" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></g>`;
       arka += bicak(1) + bicak(-1);
     }
-    const sy = kucuk ? -47 : -64;
-    on += yildiz(0, sy, kucuk ? 6 : 9, lv === "100" ? A : { acik: KREM, orta: m.acik, koyu: m.orta }, kucuk ? 1.4 : 1.6);
+    const sy = kucuk ? -44 : -64;
+    on += yildiz(0, sy, kucuk ? 8.6 : 9, lv === "100" ? A : { acik: KREM, orta: m.acik, koyu: m.orta }, kucuk ? 1.4 : 1.6);
+    // küçükte 75, 50'den siluetle ayrılsın: üst köşelerde iki yıldız daha (kutunun köşe boşluğunda)
+    if (lv === "75" && kucuk) on += [-42, 42].map((a) => { const [x, y] = kutup(59, a); return yildiz(x, y, 7, { acik: KREM, orta: m.acik, koyu: m.orta }, 1.5); }).join("");
     if (lv === "100" && !kucuk) on += yildiz(-17, -58, 6, A, 1.3) + yildiz(17, -58, 6, A, 1.3);
   }
   if (!kucuk) on += plaka(lv, 58, lv === "100" ? { koyu: A.koyu, orta: A.orta } : m);

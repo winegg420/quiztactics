@@ -18,6 +18,7 @@ import { useAuth } from "../../src/context/AuthContext.jsx";
 import { supabase } from "../../src/lib/supabase.js";
 import CerceveliAvatar from "./CerceveliAvatar.jsx";
 import CerceveGorseli, { icBoyut } from "../tasarim/cerceveler/CerceveGorseli.jsx";
+import { kazanilanMi } from "../tasarim/kazanilan/anahtarlar.js";
 import { cerceveTanimiBul, auraTanimiBul } from "../tasarim/cerceveler/tanimlar.js";
 import DurumKutusu from "./DurumKutusu.jsx";
 import { NadirlikEtiketi, ElmasFiyat } from "./DukkanAuralar.jsx";
@@ -187,9 +188,14 @@ export default function Koleksiyon() {
                         aria-pressed={c.sahip ? c.takili : undefined} disabled={Boolean(mesgul) || !c.sahip}
                         aria-label={c.sahip ? undefined : tt("{ad} — kilitli: {kosul}", { ad, kosul: kosulMetni(c.kosul) })}
                         onClick={() => cerceveSec(c.anahtar)}>
-                  <CerceveGorseli anahtar={c.anahtar} satir={c} boyut={64}>
-                    <Avatar profile={profile ?? {}} boyut={icBoyut(64, !!tanim)} />
-                  </CerceveGorseli>
+                  {kazanilanMi(c.anahtar) ? (
+                    // lig / level / turnuva: yeni çizim (tembel; listede durağan)
+                    <CerceveliAvatar profile={profile ?? {}} cerceve={c.anahtar} aura={null} premiumCerceve={null} premiumAura={null} boyut={64} />
+                  ) : (
+                    <CerceveGorseli anahtar={c.anahtar} satir={c} boyut={64}>
+                      <Avatar profile={profile ?? {}} boyut={icBoyut(64, !!tanim)} />
+                    </CerceveGorseli>
+                  )}
                   <span className="qt-cs-ad">{ad}</span>
                   <span className="qt-cs-kaynak">{tt(KAYNAK_ADI[c.kaynak] ?? "Etkinlik")}</span>
                   {c.sahip

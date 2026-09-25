@@ -1,6 +1,7 @@
-/* Lig amblemi (560) — oyun/components/OyuncuLigAmblemi.jsx. Çizim ekler.jsx › LigAmblemi (pp-amblem);
+/* Lig amblemi (560; 25 Eyl: Fasetli Yıldız) — oyun/components/OyuncuLigAmblemi.jsx. Çizim premium/ligAmblemi.jsx (pp-amblem);
    premium.css tembel parçada olduğu için temel kural burada da var (aynı değer). Durağan, küçülmez. */
-.pp-amblem { flex: none; display: inline-block; vertical-align: middle; filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.25)); }
+.pp-amblem { flex: none; display: inline-flex; vertical-align: middle; line-height: 0; }
+.pp-amblem-ic { display: block; width: 100%; height: 100%; }
 .qt-lig-amblem { flex: none; min-width: 0; }
 .ara-kart-rozetler { align-items: center; }
 /* Ad + amblem yan yana (profil, oyuncu kartı, listeler): ad kısalır, amblem küçülmez */

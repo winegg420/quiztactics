@@ -112,7 +112,7 @@ export function SeviyeEtiketi({ level, lig }) {
   return (
     <span className="mo-seviye">
       {level ? <b className="mo-lv">{tt("Lv {n}", { n: level })}</b> : null}
-      {lig && bilinen ? <OyuncuLigAmblemi lig={lig} boyut={18} className="mo-amblem" /> : null}
+      {lig && bilinen ? <OyuncuLigAmblemi lig={lig} boyut={20} className="mo-amblem" /> : null}
       {lig && !bilinen ? <span className={`mo-lig mo-lig--${lig}`}>{LIG_ADLARI[lig] ?? lig}</span> : null}
     </span>
   );

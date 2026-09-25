@@ -90,6 +90,22 @@ function plaka({ gen = 21, kuyruk = null, isaret = "" }) {
   return k + `<path d="M${-gen} 50H${gen}L${gen + 2} 56L${gen} 62H${-gen}L${-gen - 2} 56Z" fill="url(#gA)" ${cz(1.4)}/>`
     + `<path d="M${-gen + 1.4} 52H${gen - 1.4}" stroke="#fff" stroke-width=".8" stroke-linecap="round" opacity=".85"/>` + isaret;
 }
+/**
+ * KÜÇÜK BOY SİLUET SÜSÜ (≤ 48 px; düzeltme 1, 25 Eyl): kademe renkten bağımsız okunsun diye halkanın dışında,
+ * kutunun KÖŞELERİNDE (daire ile kare arası boşluk; kutudan taşmaz). Bronz yalın · Gümüş alt köşelerde defne ·
+ * Altın alt defne + üst yıldız (sanat.js › altinLigHalkasi) · Elmas dört köşede kristal · Efsane üstte kanat.
+ */
+export function koseDefne(m, aci = [135, 225], s = 1) {
+  return aci.map((a) => {
+    const yon = a < 180 ? 1 : -1;
+    const yap = (don, L) => `<g transform="rotate(${don})"><path d="M0 0C3.6 ${-L * 0.3} 3.4 ${-L * 0.75} 0 ${-L}C-3.4 ${-L * 0.75} -3.6 ${-L * 0.3} 0 0Z" fill="${m.orta}" ${cz(1.9)}/><path d="M0 0C-3.6 ${-L * 0.3} -3.4 ${-L * 0.75} 0 ${-L}Z" fill="${m.acik}"/></g>`;
+    return yerlestir(a, 51, yap(-26 * yon, 15) + yap(22 * yon, 12), s);
+  }).join("");
+}
+export const koseYildiz = (renk, aci = [45, 315], r = 6.4) => aci.map((a) => {
+  const [x, y] = kutup(58, a);
+  return `<path d="${yildizYol(x, y, r)}" fill="${renk}" ${cz(1.6)}/>`;
+}).join("");
 const sevron = (y, renk) => `<path d="M-5 ${f(y + 2)}L0 ${f(y - 1.6)}L5 ${f(y + 2)}" fill="none" stroke="${K}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M-5 ${f(y + 2)}L0 ${f(y - 1.6)}L5 ${f(y + 2)}" fill="none" stroke="${renk}" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>`;
 const yildizIsaret = (x, y, r, renk) => `<path d="${yildizYol(x, y, r)}" fill="${renk}" ${cz(1)}/>`;
 
@@ -110,7 +126,7 @@ function gumus(k) {
     + `<path d="M-7.6 -47.4C-4.6 -50.6 -2 -52.6 0 -56" fill="none" stroke="#fff" stroke-width=".9" stroke-linecap="round"/>`
     + tas(0, -50.5, 2.3, TAS.safir, TAS.safirKoyu) + `</g>`;
   if (k === "kucuk") {
-    return svg(halka(m, { ic: 42, dis: 51, kw: 2.6, boncuk: false, oyma: false }) + tepe(0.88)
+    return svg(koseDefne(m) + halka(m, { ic: 42, dis: 51, kw: 2.6, boncuk: false, oyma: false }) + tepe(0.88)
       + `<path d="M-13 43H13L14.6 47L13 50H-13L-14.6 47Z" fill="url(#gA)" ${cz(1.8)}/>` + sevron(46.4, TAS.safir), defs(m));
   }
   return svg(dal(1, 5, m) + dal(-1, 5, m) + halka(m) + tepe(1)
@@ -122,7 +138,8 @@ function elmas(k) {
   const kris = (a, L, W, r = 50) => yerlestir(a, r, `<path d="M${-W} 2L${-W * 0.8} ${-L * 0.6}L0 ${-L}L${W * 0.8} ${-L * 0.6}L${W} 2Z" fill="url(#gB)" ${cz(1.3)}/>`
     + `<path d="M${-W} 2L${-W * 0.8} ${-L * 0.6}L0 ${-L}L0 2Z" fill="#fff" opacity=".55"/><path d="M${W * 0.35} 2L${W * 0.3} ${-L * 0.5}L0 ${-L}" fill="none" stroke="${m.kenar}" stroke-width=".6"/>`);
   if (k === "kucuk") {
-    return svg(kris(-26, 10, 3.6) + kris(26, 10, 3.6) + kris(0, 13, 4.4)
+    // kristaller köşelerde (üstte uzun, altta kısa) — kutudan taşmaz
+    return svg(kris(45, 15, 4.8) + kris(315, 15, 4.8) + kris(135, 11, 4) + kris(225, 11, 4)
       + halka(m, { ic: 42, dis: 51, kw: 2.6, boncuk: false, oyma: false }) + elmasTas(0, 46.6, 0.95), defs(m));
   }
   const tac = kris(-28, 14, 4.6) + kris(28, 14, 4.6) + kris(-14, 19, 5.2) + kris(14, 19, 5.2) + kris(0, 26, 6)

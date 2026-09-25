@@ -517,7 +517,12 @@ function defneDali(yon) {
 }
 function altinLigHalkasi(kucuk = false) {
   if (kucuk) {
-    const g = altinHalka({ ic: 42, dis: 51.5, boncuk: false, oyma: false, konturW: 2.4 })
+    // Düzeltme 1 (25 Eyl, lig seti A'nın Altın'ı): ≤ 48 px'te siluet — alt köşelerde defne + üst köşelerde yıldız
+    // (kutunun köşe boşluğunda, taşmaz). Bronz yalın, Gümüş yalnız alt defne; Altın bunlardan şekille ayrılır.
+    const yap = (don, L) => `<g transform="rotate(${don})"><path d="M0 0C3.6 ${-L * 0.3} 3.4 ${-L * 0.75} 0 ${-L}C-3.4 ${-L * 0.75} -3.6 ${-L * 0.3} 0 0Z" fill="url(#gC)" ${cz(1.9)}/></g>`;
+    const kose = [135, 225].map((a) => { const y = a < 180 ? 1 : -1; return `<g transform="rotate(${a}) translate(0 -51)">${yap(-26 * y, 15)}${yap(22 * y, 12)}</g>`; }).join("")
+      + [45, 315].map((a) => { const [x, y] = kutup(58, a); return `<path d="M${x} ${f(y - 7)}L${f(x + 2.1)} ${f(y - 2.3)}L${f(x + 6.8)} ${f(y - 2)}L${f(x + 3.3)} ${f(y + 1.3)}L${f(x + 4.4)} ${f(y + 6)}L${x} ${f(y + 3.4)}L${f(x - 4.4)} ${f(y + 6)}L${f(x - 3.3)} ${f(y + 1.3)}L${f(x - 6.8)} ${f(y - 2)}L${f(x - 2.1)} ${f(y - 2.3)}Z" fill="#ffe45c" ${cz(1.6)}/>`; }).join("");
+    const g = kose + altinHalka({ ic: 42, dis: 51.5, boncuk: false, oyma: false, konturW: 2.4 })
       + `<path d="M-8 -44L-9 -51.6L-4 -48.4L0 -53.4L4 -48.4L9 -51.6L8 -44Z" fill="url(#gA)" ${cz(1.4)}/>`
       + `<path d="M0 42.6L1.6 46L5.2 46.3L2.4 48.6L3.3 52.2L0 50.2L-3.3 52.2L-2.4 48.6L-5.2 46.3L-1.6 46Z" fill="#fff6b0" ${cz(1)}/>`;
     return svg(ALTIN_DEFS, g);

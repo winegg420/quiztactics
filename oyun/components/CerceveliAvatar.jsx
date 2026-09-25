@@ -21,6 +21,9 @@
  *   (bugünkü çerçeve kalır). `premiumCerceve` / `premiumAura` (kalem anahtarı, ör. "pc_galaksi") verilirse
  *   onlar (null = yok). `aura` elle verilirse (eski aura önizlemesi) premium aura karttan okunmaz.
  *   Migration 560 yoksa kartta alan yok → bugünkü çizim.
+ * - KAZANILAN ÇERÇEVELER (görsel revizyon, Ida seçimi 25 Eyl 2026): lig (Set A Defne ve Taç), level (Set A Altıgen
+ *   Madalya) ve Turnuva Şampiyonu (Kupa Tepesi) çerçeveleri yeni çizimle — tasarim/kazanilan/KazanilanCerceve.jsx,
+ *   PremiumAvatarCizim üzerinden TEMBEL; inerken bugünkü çizim. Eski dükkân aurası takılıysa bugünkü çizim kalır.
  */
 import { lazy, Suspense, useEffect, useState } from "react";
 import Avatar from "../../src/components/Avatar.jsx";
@@ -29,6 +32,7 @@ import { cerceveTanimiBul } from "../tasarim/cerceveler/tanimlar.js";
 import { oyuncuKarti, oyuncuKartiDinle } from "../lib/cerceve.js";
 import { tt } from "../lib/dil.js";
 import { premiumSanat } from "../lib/kozmetik.js";
+import { kazanilanMi } from "../tasarim/kazanilan/anahtarlar.js";
 
 const PremiumAvatarCizim = lazy(() => import("./PremiumAvatarCizim.jsx"));
 
@@ -78,18 +82,19 @@ export default function CerceveliAvatar({ profile, userId, boyut = 44, cerceve, 
   const pc = premiumSanat(pcAnahtar);
   const pa = premiumSanat(paAnahtar);
 
-  const ligAltin = tanim?.anahtar === "lig_altin" && !auraAnahtar;
+  // Kazanılan çerçeve (lig/level/turnuva) → yeni çizim; eski dükkân aurası takılıysa bugünkü çizim
+  const kazanilan = kazanilanMi(tanim?.anahtar) && !auraAnahtar ? tanim.anahtar : null;
   const bugunku = (
     <CerceveGorseli anahtar={anahtar} satir={{ nadirlik }} aura={auraAnahtar} boyut={boyut} hareketli={hareketli}
                     className={className} etiket={etiket}>
       <Avatar profile={profile ?? {}} boyut={icBoyut(boyut, !!tanim)} />
     </CerceveGorseli>
   );
-  if (pc || pa || ligAltin) {
+  if (pc || pa || kazanilan) {
     return (
       <Suspense fallback={bugunku}>
         <PremiumAvatarCizim profile={profile} boyut={boyut} hareketli={hareketli} premiumCerceve={pc} premiumAura={pa}
-                            cerceveAnahtar={anahtar} cerceveSatir={{ nadirlik }} cerceveVar={!!tanim} ligAltin={ligAltin}
+                            cerceveAnahtar={anahtar} cerceveSatir={{ nadirlik }} cerceveVar={!!tanim} kazanilan={kazanilan}
                             etiket={etiket} className={className} />
       </Suspense>
     );

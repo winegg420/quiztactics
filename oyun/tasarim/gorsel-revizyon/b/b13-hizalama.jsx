@@ -17,6 +17,7 @@ import { GrBolum, GrAday } from "../secim.jsx";
 import GrCerceve, { kademeBul } from "./GrCerceve.jsx";
 import { kutup, K, cz, METAL, TAS, yayYol } from "./cizim/araclar.js";
 import { profil } from "./ortak.jsx";
+import { HIZALI_CSS } from "../../premium/hizalama.js";
 
 const CSS_CERCEVE = ["sonbahar", "galaksi", "sakura"];
 const T2_CERCEVE = ["ejderha", "alev", "simsek", "kraliyet"];
@@ -39,8 +40,10 @@ function imza(cerceve) {
     + `<circle cx="-2.2" cy="-2.4" r="1.4" fill="#fff"/></g>`;
 }
 
-/** SVG + CSS premium çerçeve, hizalanmış: gerçek PremiumCerceve + üstte kontur/parlama/imza katmanı. */
+/** SVG + CSS premium çerçeve, hizalanmış. 25 Eyl: hizalama OYUNA ALINDI (premium/hizalama.js, PremiumCerceve katmanı) —
+ *  oyundaki bileşen artık hizalı; bu sarmalayıcı katmanı bir daha eklemez (iki taraf aynı görünür). */
 function HizaliCss({ cerceve, boyut, hareketli, children }) {
+  if (HIZALI_CSS.has(cerceve)) return <PremiumCerceve cerceve={cerceve} boyut={boyut} hareketli={hareketli}>{children}</PremiumCerceve>;
   const k = kademeBul(boyut);
   const kw = k === "kucuk" ? 3 : 2.4;
   const kat = `<circle r="50.6" fill="none" ${cz(kw)}/><circle r="43.2" fill="none" ${cz(kw * 0.85)}/>`
@@ -112,7 +115,7 @@ const CERCEVE_NOT = {
 export default function B13Hizalama() {
   return (
     <GrBolum no={13} baslik="Premium çerçeve + arka plan hizalaması" tur="karar"
-             aciklama="Oyundaki 7 premium çerçeve ve 6 arka plan: solda oyundaki hâli (gerçek bileşen), sağda stil rehberine hizalanmış hâli; büyük boy hareketli, 64 · 48 · 40 durağan. Kraliyet ve Ejderha'nın karakteri korunur. Her biri için ayrı Girsin / Girmesin."
+             aciklama="25 Eyl: Ida seçimiyle HEPSİ oyuna alındı — soldaki 'önce' artık oyundaki hizalı hâl. Oyundaki 7 premium çerçeve ve 6 arka plan: solda oyundaki hâli (gerçek bileşen), sağda stil rehberine hizalanmış hâli; büyük boy hareketli, 64 · 48 · 40 durağan. Kraliyet ve Ejderha'nın karakteri korunur. Her biri için ayrı Girsin / Girmesin."
              ic={2} gosterilen={1}
              elenen="Çerçevelerde 'baştan çizim' yönü denenmedi (brief: yalnız hizalama). Arka planda 'küçük boyda parçacık sayısını azaltma' yönü elendi: 40 px'te sahne boş göründü; iri parçacık + kontrast yönü gösteriliyor."
              zayif="Ejderha, Kraliyet ve Şimşek'te fark yalnız efekt keskinliği — gözle ince; karakteri korumak için çizime dokunulmadı. Sonbahar/Galaksi/Sakura'nın degradeli bantları duruyor (yalnız kontur ve imza eklendi); tam düz hücre gölgeye çevirmek baştan çizim demek. Arka planlarda önce/sonra farkı küçük: 40–48 px'te avatar sahnenin çoğunu örttüğü için okunurluk kazancı sınırlı.">

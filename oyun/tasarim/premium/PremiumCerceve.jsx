@@ -20,6 +20,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { Katman } from "./cizim.jsx";
 import { CERCEVELER } from "./sanatCerceveler.jsx";
 import { AURALAR } from "./sanatAuralar.jsx";
+import { HIZALI_CSS, hizaKatmani } from "./hizalama.js";
 import "./premium.css";
 import { yumusakHareketKur } from "../yumusakHareket.js";
 
@@ -86,6 +87,10 @@ export default function PremiumCerceve({ cerceve = null, aura = null, boyut = 88
         {children}
       </span>
       {C ? <C.On id={id} k={kademe} /> : halkasiz ? null : <DuzHalka />}
+      {/* Hizalama (25 Eyl, Bölüm 13): stil rehberi konturu + parlama (+ küçükte imza süsü) */}
+      {C && HIZALI_CSS.has(cerceve) && (
+        <span className="pc-hiza" aria-hidden="true" dangerouslySetInnerHTML={{ __html: `<svg viewBox="-85 -85 170 170">${hizaKatmani(cerceve, kademe)}</svg>` }} />
+      )}
     </span>
   );
 }

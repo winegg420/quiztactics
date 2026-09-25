@@ -28,14 +28,16 @@ export const PNG_YUVALARI = {
 };
 
 const RAD = Math.PI / 180;
+// Hizalama (25 Eyl, Bölüm 13): Ejderha, Sönmeyen Alev, Şimşek, Kraliyet efekt tuvali tam çözünürlükte (olcek 1;
+// eskiden 0,7–0,85 — Sönmeyen Alev'in pikselli alev kenarı buradan geliyordu). Çizim ve karakter aynen.
 export const TUR2 = {
   ejderha: {
-    ad: "Ejderha", eski: "ejderha", efekt: "ejderha", olcek: 0.7, tepe: true, durgunT: 1.4,
+    ad: "Ejderha", eski: "ejderha", efekt: "ejderha", olcek: 1, tepe: true, durgunT: 1.4,
     aciklama: "Halkaya sarılıp altından geçen kızıl pullu ejderha: altın karın, sırt dikenleri, açılmış kanat, halkayı kavrayan pençeler. Gözü yanar, ağzından gölgelendiriciyle çizilen gerçek alev püskürür; kıvılcım ve duman saçar.",
     n: ejderhaNoktalari,
   },
   alev: {
-    ad: "Sönmeyen Alev", eski: "alev", efekt: "alev", olcek: 0.7, tepe: true,
+    ad: "Sönmeyen Alev", eski: "alev", efekt: "alev", olcek: 1, tepe: true,
     aciklama: "Kor çatlaklı dövme demir halka; çevresinde gerçek zamanlı yanan ateş — yukarı akan alev dilleri, beyaz sıcak çekirdek, tepede tüten duman, yükselen kıvılcımlar ve alevin üstünde titreyen ısı dalgası.",
     n: () => [],
   },
@@ -45,13 +47,13 @@ export const TUR2 = {
     n: buzNoktalari,
   },
   simsek: {
-    ad: "Şimşek", eski: "simsek", efekt: "simsek", olcek: 0.85, tepe: true,
+    ad: "Şimşek", eski: "simsek", efekt: "simsek", olcek: 1, tepe: true,
     a: [SIMSEK_ELEKTROT.sayi, SIMSEK_ELEKTROT.ilk * RAD, SIMSEK_ELEKTROT.r, 0],
     aciklama: "Halka değil enerji: elektrotlardan dışarı çakan dallı yıldırımlar, olukta akan plazma, çakma anında çevreyi (avatarı da) aydınlatan mavi ışık; ara sıra bütün çerçeve parlar.",
     n: () => [],
   },
   kraliyet: {
-    ad: "Kraliyet", eski: "kraliyet", efekt: "altin", olcek: 0.8, tepe: true, a: [0.55, 1, 0, 0],
+    ad: "Kraliyet", eski: "kraliyet", efekt: "altin", olcek: 1, tepe: true, a: [0.55, 1, 0, 0],
     aciklama: "Parlak sarı altın; beş uçlu, kadife başlıklı taç (yakut, safir, zümrüt, inci), zambak süsleri ve yuvalı taşlar. Işık altın yüzeyde gerçek yansıma gibi dolaşır, taşlarda renkli parıltı, tepede altın tozu.",
     n: kraliyetNoktalari,
   },
