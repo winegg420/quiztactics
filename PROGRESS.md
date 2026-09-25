@@ -8446,3 +8446,11 @@ unvan + kalıcı rozet; görünüm Görsel Paket 2'de.
 - 642: `revoke ... from public, anon` + `grant authenticated, service_role` (deneme modunda geçti, canlıya uygulandı). **Düzeltme:** canlıda bu fonksiyonda
   zaten anon/public yetkisi YOKTU (önceki raporumdaki "misafir rolüne açık" ifadesi ACL satırını yanlış eşlemekti); 642 fiilen değişiklik yapmadı, yalnız garanti altına aldı.
   ACL taramasında anon'a açık bulunan tek ilgili fonksiyon `lig_siralama` (eskiden beri; giriş yoksa 'Giriş gerekli' der) — değiştirilmedi, karar Ida'da.
+
+## 2026-09-25 — Görsel entegrasyon A (bulut, tek ajan) — durum
+**Araç:** Claude Code (Sonnet 5, tek ajan, kredi sınırlı). Kaynak: `tasarim/SECIMLER_GORSEL_REVIZYON.md` › Görev A.
+- **Biten:** 1–2 Coin + Elmas ikonu (c41232a) — `oyun/components/ParaIkonlari.jsx` (CoinIkon "Dönen Sikke", ElmasIkon
+  "Pırlanta"), oyundaki her `QtIkon ad="coin"/"elmas"` bu tek bileşene geçti (üst çubuk, dükkân, satın alma penceresi,
+  davet, maç sonu, profil, ana sayfa görevleri). Düzeltme 5 uygulandı (≤22 px eğim azaltılmış varyant).
+- **Kalan (öncelik sırası):** 12 Logo (Şeker Q harfli yazı) → 11 Joker ikonları hizalama (7 joker) → 3 Nadirlik kart
+  kenarı (yeni renkler: Nadir yeşil, Epik mor + düzeltme 6).
