@@ -73,3 +73,12 @@ export const LIGLER = [
 export const ELMAS_FASET = {
   en: "#dcfcff", acik: "#8ae9ff", yan: "#5fd8f7", ana: "#2ec4f0", orta: "#1d9ee0", koyu: "#1565b8", derin: "#0d4a8f", pembe: "#ff7ab8",
 };
+
+/** Level tonları (Ajan B ekledi, 25 Eyl) — level çerçeveleri metal DEĞİL sahne renkleriyle ayrışır (lig ile karışmasın).
+ *  orta/koyu tonlar SAHNE ve TAS'taki mevcut değerler; yalnız açık ve kenar tonları yeni. */
+export const LEVEL = {
+  turkuaz: { acik: "#8ee8e0", orta: "#3bb6b0", koyu: "#1f7f7a", kenar: "#0f4f4c" },
+  safir:   { acik: "#9cc9ff", orta: "#3b91e8", koyu: "#1f5fb0", kenar: "#123a73" },
+  ametist: { acik: "#cbb5ff", orta: "#9d74f0", koyu: "#6a45c8", kenar: "#3f2587" },
+  yakut:   { acik: "#ff8e9c", orta: "#ff2a4a", koyu: "#b8102c", kenar: "#6e0618" },
+};

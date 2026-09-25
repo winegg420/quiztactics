@@ -10,4 +10,9 @@
   /* EK (Ajan A): pırlanta faset tonları — ELMAS_FASET (palet.js), elmas paketiyle aynı */
   --gr-faset-en: #dcfcff; --gr-faset-acik: #8ae9ff; --gr-faset-yan: #5fd8f7; --gr-faset-ana: #2ec4f0; --gr-faset-orta: #1d9ee0; --gr-faset-koyu: #1565b8; --gr-faset-derin: #0d4a8f; --gr-faset-pembe: #ff7ab8;
   --gr-n-siradan: #9aa6b8; --gr-n-nadir: #3b91e8; --gr-n-epik: #9d74f0; --gr-n-efsanevi: #ffd23a;
+  /* Level tonları (Ajan B ekledi — palet.js › LEVEL) */
+  --gr-lv-turkuaz-a: #8ee8e0; --gr-lv-turkuaz-o: #3bb6b0; --gr-lv-turkuaz-k: #1f7f7a; --gr-lv-turkuaz-e: #0f4f4c;
+  --gr-lv-safir-a: #9cc9ff; --gr-lv-safir-o: #3b91e8; --gr-lv-safir-k: #1f5fb0; --gr-lv-safir-e: #123a73;
+  --gr-lv-ametist-a: #cbb5ff; --gr-lv-ametist-o: #9d74f0; --gr-lv-ametist-k: #6a45c8; --gr-lv-ametist-e: #3f2587;
+  --gr-lv-yakut-a: #ff8e9c; --gr-lv-yakut-o: #ff2a4a; --gr-lv-yakut-k: #b8102c; --gr-lv-yakut-e: #6e0618;
 }

@@ -1,0 +1,32 @@
+/* Ajan B bölümleri (4, 5, 6, 7, 8, 13) — yalnız grb- önekli sınıflar. iOS: position:fixed yok, transform'lu ata yok. */
+.grb-sahne { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 22px 26px; padding: 26px 12px; border-radius: 14px; background: var(--gr-gok); min-width: 0; }
+.grb-sahne--koyu { background: #1d2152; color: #fff; }
+.grb-sahne--sikisik { gap: 14px 16px; padding: 18px 8px; }
+.grb-sahne--vitrin { min-height: 236px; padding: 44px 12px 36px; }
+.grb-boy { display: inline-grid; justify-items: center; gap: 6px; min-width: 0; }
+.grb-boy-g { display: inline-grid; place-items: center; }
+.grb-boy-e { font-size: 12px; font-weight: 800; color: #46507f; font-variant-numeric: tabular-nums; }
+.grb-sahne--koyu .grb-boy-e { color: #c9d4ff; }
+.grb-cipler { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+.grb-cip { min-height: 44px; padding: 0 14px; border-radius: 999px; border: 2px solid #cfdcf0; background: #fff; color: var(--gr-lacivert); font: inherit; font-weight: 800; font-size: 14px; cursor: pointer; }
+.grb-cip--secili { background: var(--gr-lacivert); border-color: var(--gr-lacivert); color: #fff; }
+.grb-cip:focus-visible { outline: 3px solid var(--gr-turuncu); outline-offset: 2px; }
+.grb-alt { display: grid; gap: 8px; min-width: 0; }
+.grb-alt-b { margin: 0; font-weight: 800; font-size: 14px; color: var(--gr-lacivert); }
+.grb-alt-not { margin: 0; font-size: 12px; color: #46507f; }
+.grb-izgara { display: grid; grid-template-columns: auto repeat(var(--grb-sutun, 5), minmax(0, 1fr)); align-items: center; justify-items: center; gap: 34px 6px; padding: 30px 8px; border-radius: 14px; background: var(--gr-gok); overflow: hidden; }
+.grb-izgara--koyu { background: #1d2152; }
+.grb-izgara-e { font-size: 12px; font-weight: 800; color: #46507f; justify-self: start; font-variant-numeric: tabular-nums; }
+.grb-izgara--koyu .grb-izgara-e { color: #c9d4ff; }
+.grb-siluet img.p2-sanat, .grb-siluet .avatar img { filter: brightness(0); }
+.grb-siluet .pc-ic { background: #000 !important; }
+.grb-gri { filter: grayscale(1); }
+.grb-cerceve { flex: none; }
+
+/* Lig tablosu satırı (gerçek lg- sınıflarıyla; kap bizim) */
+.grb-lig { display: grid; gap: 0; border-radius: 14px; overflow: hidden; background: #fff; }
+.grb-lig .lg-satir-kap { margin: 0; }
+
+/* ——— 4. Oyuncu kartı ——— */
+.grb-kart-yer { display: grid; gap: 14px; min-width: 0; }
+.grb-uzun { min-width: 0; max-width: 100%; }
