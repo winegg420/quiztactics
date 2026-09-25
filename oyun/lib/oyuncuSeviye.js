@@ -19,6 +19,8 @@ export function useOyuncuSeviyeleri(idler) {
           level: k.level, lig: k.lig ?? undefined, cerceve: k.cerceve ?? null, cerceve_nadirlik: k.cerceve_nadirlik,
           // 540: elmas kozmetikleri (aynı kart, ek sorgu yok)
           vs_karti: k.vs_karti ?? null, isim_efekti: k.isim_efekti ?? null, zafer_efekti: k.zafer_efekti ?? null,
+          // 643: unvan (tek oyuncu kartının küçük hâli, maç şeridinde)
+          unvan: k.unvan ?? null,
         }])));
       } catch (e) {
         console.warn("[Maç şeridi] oyuncu kartları okunamadı:", e?.message ?? e);

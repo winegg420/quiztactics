@@ -12,6 +12,7 @@ import AvatarCerceve from "../components/AvatarCerceve.jsx";
 import OyuncuLigAmblemi from "../components/OyuncuLigAmblemi.jsx";
 import RozetlerPaneli from "../components/RozetlerPaneli.jsx";
 import Koleksiyon from "../components/Koleksiyon.jsx";
+import OyuncuVitrinKarti from "../components/OyuncuVitrinKarti.jsx";
 import VitrinRozetleri from "../components/VitrinRozetleri.jsx";
 import DavetKarti from "../components/DavetKarti.jsx";
 import OyuncuAdiDugmesi from "../components/OyuncuAdiDugmesi.jsx";
@@ -199,28 +200,15 @@ export default function ProfilePage() {
 
       {/* ---------- Kimlik: avatar (lig çerçevesiyle), takma ad, rütbe, level ---------- */}
       <QtKart className="qt-pf-kimlik">
-        {/* 540: takılı VS kartı teması avatarın arkasında levha (başlıktaki yazılar kendi zemininde kalır) */}
-        <span className={"qt-pf-avatar" + (vsTema ? " qt-vs qt-vs-bant" : "")} data-vs={vsTema ?? undefined}>
-          <AvatarCerceve profile={profile} boyut={88} userId={user?.id} hareketli />
-        </span>
+        {/* Görsel revizyon (25 Eyl): tek oyuncu kartı — başkalarının gördüğü kartın aynısı (avatar + çerçeve + arka plan,
+            isim, unvan, lig + level, vitrin rozetleri). */}
+        <OyuncuVitrinKarti userId={user?.id} profile={profile} boyut={88} hareketli className="qt-pf-ok" />
         <div className="qt-pf-kimlik-metin">
-          {/* Görünen ad takma addır; gerçek kullanıcı adı gösterilmez. */}
-          <p className="qt-baslik-2 qt-pf-ad">
-            {/* 560: lig amblemi isim yanında */}
-            <span className="qt-ad-amblem">
-              {/* Ajan C: ada dokununca kendi oyuncu kartın (başkalarının gördüğü kart) */}
-              <OyuncuAdiDugmesi userId={user?.id} profil={profile}>
-                <IsimEfekti userId={user?.id} hareketli>{profile.gorunen_ad}</IsimEfekti>
-              </OyuncuAdiDugmesi>
-              {user?.id && <OyuncuLigAmblemi userId={user.id} boyut={24} />}
-            </span>
-          </p>
           <div className="qt-pf-rozetler">
             <QtRozet ton="mor" ikon={r.ikon}>{r.ad}</QtRozet>
             {/* Paket 20 III: misafir hesabı her yerde belli olsun */}
             {misafirMi(user) && <QtRozet ton="uyari" ikon="kisi">{tt("Misafir")}</QtRozet>}
           </div>
-          {user?.id && <VitrinRozetleri userId={user.id} boyut={36} className="qt-pf-vitrin" />}
         </div>
         <div className="qt-pf-level">
           <LevelCubugu profile={profile} />

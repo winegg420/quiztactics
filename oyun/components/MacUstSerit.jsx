@@ -9,6 +9,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { QtAnahtar, QtIkonDugme, QtRozet } from "../tasarim/index.js";
 import OyuncuAdiDugmesi from "./OyuncuAdiDugmesi.jsx";
 import CerceveliAvatar from "./CerceveliAvatar.jsx";
+import UnvanYazisi from "./UnvanYazisi.jsx";
 import OyuncuLigAmblemi from "./OyuncuLigAmblemi.jsx";
 import { LIGLER } from "../tasarim/premium/ligAmblemi.jsx";
 import { useOyuncuSeviyeleri } from "../lib/oyuncuSeviye.js";
@@ -106,15 +107,19 @@ function SesAnahtari() {
  * 560: lig adı yerine lig amblemi (önizlemedeki gibi) — telefonda nokta/tek harfe inmez, skora binmez;
  * lig adı amblemin erişilebilir adında. Amblem çizilemezse (bilinmeyen lig) eski ad hapı.
  */
-export function SeviyeEtiketi({ level, lig }) {
-  if (!level && !lig) return null;
+export function SeviyeEtiketi({ level, lig, unvan }) {
+  if (!level && !lig && !unvan) return null;
   const bilinen = LIGLER.includes(lig);
   return (
+    <>
     <span className="mo-seviye">
       {level ? <b className="mo-lv">{tt("Lv {n}", { n: level })}</b> : null}
       {lig && bilinen ? <OyuncuLigAmblemi lig={lig} boyut={20} className="mo-amblem" /> : null}
       {lig && !bilinen ? <span className={`mo-lig mo-lig--${lig}`}>{LIG_ADLARI[lig] ?? lig}</span> : null}
     </span>
+    {/* 643: unvan — tek oyuncu kartının küçük hâli (oyuncu_kartlari.unvan) */}
+    {unvan ? <UnvanYazisi unvan={unvan} boy="k" className="mo-unvan" /> : null}
+    </>
   );
 }
 

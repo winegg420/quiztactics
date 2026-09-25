@@ -318,3 +318,5 @@ body.bd-oyun-modu .bz-toast { display: none; } /* maç sırasında oyunu bölmez
 .ls-ad-kart { display: contents !important; }   /* portal kabı: kutu üretmez (sayfanın "> span" kuralları değiştirmesin) */
 /* Ad, esnek bir satırda kalan genişliği dolduruyorsa (flex: 1) düğme o yeri alır */
 .ls-ad-dugme.ls-ad-dugme--esnek { flex: 1 1 0; min-width: 0; }
+/* 25 Eyl: tek oyuncu kartı pencerenin tam genişliğinde */
+.ok-ust > .qt-ok { align-self: stretch; }

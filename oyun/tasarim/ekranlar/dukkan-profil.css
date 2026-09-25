@@ -210,3 +210,7 @@
   .qt-pf-avatar-sec, .qt-pf-kategori { transition: none; }
   .qt-pf-avatar-sec:active:not(:disabled), .qt-pf-kategori:active { transform: none; }
 }
+/* 25 Eyl: tek oyuncu kartı (qt-ok) başta tam genişlik; rütbe çipleri ve level çubuğu altında */
+.qt-pf-kimlik.qt-pf-kimlik:has(> .qt-pf-ok) { grid-template-columns: minmax(0, 1fr); }
+.qt-pf-ok { width: 100%; }
+.qt-pf-kimlik:has(> .qt-pf-ok) .qt-pf-rozetler { justify-content: center; }

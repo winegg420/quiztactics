@@ -453,3 +453,5 @@
 .gh--vs-hemen .gh-vs-kart--rakip,
 .gh--vs-hemen .gh-vs-yazi { animation-delay: 0ms; }
 .gh--vs-hemen .gh-vs-yazi span { animation-delay: 110ms; }
+/* 643: VS anında unvan (Kurdele, küçük) — kartın altında, sığmazsa kısalır */
+.gh-vs-kart .gh-unvan { max-width: calc(100% - 10px); }

@@ -10,6 +10,7 @@
 // konum ayarları burada YOK.
 // ============================================================
 import { useEffect, useState } from "react";
+import OyuncuVitrinKarti from "./OyuncuVitrinKarti.jsx";
 import { supabase } from "../../src/lib/supabase.js";
 import AvatarCerceve from "./AvatarCerceve.jsx";
 import OyuncuLigAmblemi from "./OyuncuLigAmblemi.jsx";
@@ -174,32 +175,25 @@ export default function OyuncuKarti({
       ) : null}
     >
       <div className="ok-ust">
-        <span className={"ok-avatar" + (vsTema ? " qt-vs qt-vs-bant" : "")} data-vs={vsTema ?? undefined}>
-          <AvatarCerceve profile={p ?? {}} boyut={96} userId={userId} hareketli />
-          {online && (
+        {/* Görsel revizyon (25 Eyl): tek oyuncu kartı — profil başındakiyle aynı kart (oyuncu_kartlari) */}
+        <OyuncuVitrinKarti userId={userId} profile={p ?? undefined} boyut={96} hareketli className="ok-vitrin-karti"
+          avatarEk={online ? (
             <span className="ok-cevrimici" title={tt("Şu an oyunda")}>
               <span className="qt-gizli">{tt("Şu an oyunda")}</span>
             </span>
-          )}
-        </span>
-        <p className="ok-ad">
-          <span className="ok-ad-metin"><IsimEfekti userId={userId} hareketli>{p?.gorunen_ad ?? (yukleniyor ? "…" : tt("Oyuncu"))}</IsimEfekti></span>
-          {/* 560: lig amblemi isim yanında (kart verisinden; toplu + önbellekli) */}
-          {userId && <OyuncuLigAmblemi userId={userId} lig={p?.lig} boyut={22} />}
-          {/* Yalnız açık bot (adında "Bot" geçen) işaretlenir; gizli bot asla (bkz. ALANLAR) */}
-          {(p?.acik_bot ?? p?.is_bot) && (
+          ) : null}
+          adEk={(p?.acik_bot ?? p?.is_bot) ? (
+            // Yalnız açık bot (adında "Bot" geçen) işaretlenir; gizli bot asla (bkz. ALANLAR)
             <span className="ok-yapay" title={tt("Yapay rakip")}>
               <QtIkon ad="robot" boyut={16} etiket={tt("Yapay rakip")} />
             </span>
-          )}
-        </p>
+          ) : null} />
         <div className="ok-rozetler">
           {p && <RankBadge level={p.level} userId={p.id} />}
           {p?.ulke && (
             <span className="ok-konum"><Bayrak kod={p.ulke} boyut={16} /> {p.sehir ?? ""}</span>
           )}
         </div>
-        {userId && <VitrinRozetleri userId={userId} boyut={36} className="ok-vitrin" />}
       </div>
 
       {hata && (

@@ -14,6 +14,7 @@ import { useArkadaslik } from "../lib/arkadaslik.js";
 import AvatarCerceve from "../components/AvatarCerceve.jsx";
 import OyuncuLigAmblemi from "../components/OyuncuLigAmblemi.jsx";
 import { LigAmblemi } from "../tasarim/premium/ligAmblemi.jsx";
+import { KartUnvani } from "../components/OyuncuVitrinKarti.jsx";
 import IsimEfekti from "../components/IsimEfekti.jsx";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
@@ -274,6 +275,8 @@ export default function LeaderboardPage() {
                 {benMi && <SenRozeti />}
               </span>
               <span className="lg-detay">
+                {/* 25 Eyl: unvan (tek oyuncu kartının küçük hâli; oyuncu_kartlari, avatarla aynı toplu çağrı) */}
+                <KartUnvani userId={s.user_id} />
                 <RankBadge level={s.level} userId={s.user_id} boyut={15} />
                 {s.ulke && (
                   <span className="lg-konum">
