@@ -148,6 +148,14 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
 - Misafir (anonim) hesap ligde ancak `lig_misafir_min_mac` (5) maçtan sonra
   görünür; oyuncu kendi satırını her zaman görür. Hesap silinmez.
 - **Toplam oyuncu sayısı hiçbir yerde gösterilmez.**
+- **Şehir Şampiyonu (641, arka plan; görünüm Görsel Paket 2'de):** kapanan haftayı şehrinde 1. bitiren sonraki hafta
+  boyunca o şehrin şampiyonudur (TEK kaynak `lig_arsiv.sehir_sampiyonu`, aktif = `hafta_basi() − 7`; profilde alan yok).
+  Şehir sırası canlı listeyle birebir: haftalık puan → toplam puan → ad → id; gizli botlar da arşive girer ve gerekirse
+  şampiyon olur (listede 1. görünen = şampiyon). Şart: şehirde puanı > 0 en az 3 görünür oyuncu + 1.'nin o hafta ≥ 1
+  galibiyeti (`sehir_sampiyonu_min_*`). Kalıcı rozet `lig_sehir_sampiyonu` (coin yok); eski `sehir_krali` verilmez.
+  Veri: `oyuncu_kartlari.sehir_sampiyonu`, `sehir_sampiyonu()`. Bildirim hazır ama `sehir_sampiyonu_bildirim_acik` = 0.
+- **Konum:** şehir her ülkede listeden (aranabilir; `sehirler`: 81 il + GeoNames CC BY 4.0 100.000+ şehirler, 86 ülke).
+  Günde en fazla 1 değişiklik; şehri olan oyuncu o hafta puan kazandıysa yeni haftayı bekler; ilk seçim serbest.
 
 ### Sosyal
 
@@ -282,7 +290,7 @@ Aktif yedi maç skill'i vardır:
   Saf Bilgi / Antrenman `mac_iptal` (başlamış maç) + kopukluk (insan 45 sn, bot maçı 57 sn nabızsız),
   Düello `duellolar.terk_eden`, Grup `grup_mac_terk`, Turnuva `turnuva_terk` ("Çık ve elen");
   10 dk duran maç ödülsüz iptal.
-- **Rozetler (331–333):** 101 rozet (`rozet_tanimlari`: level, Klasik/Düello galibiyet, seri, 10
+- **Rozetler (331–333, 641):** 102 rozet (`rozet_tanimlari`: level, Klasik/Düello galibiyet, seri, 10
   kategori × 4 ustalık, turnuva, lig, özel an, sosyal, 5 gizli), kazanma sunucuda olay anında; coin
   bronz 10 · gümüş 25 · altın 50 · elmas 100 (günlük tavana sayılmaz). Geriye dönük verilenler
   coin'siz (`geriye_donuk`). Vitrin `profiles.vitrin_rozetleri` (en çok 3). Level 25/50/75/100
@@ -350,6 +358,8 @@ Aktif yedi maç skill'i vardır:
 - **Gizli botların hepsinde avatar var (610):** avatarı boş olanlara açık avatarlardan (31 + aktif katalog) bot
   adına göre sabit (hashtext) avatar verildi; baş harfli (avatarsız) gizli bot kalmadı.
 - Gizli botlar arkadaşlık kabul etmez, lig değiştirmez.
+- **Gizli bot şehirleri (640) listeden ve nüfusa göre:** TR'de 81 ilin nüfus payı kadar (İstanbul 20, Ankara 7, İzmir 6…),
+  yurt dışında ülkesinin en kalabalık 10 şehrinden nüfus ağırlıklı; şehirsiz gizli bot yok.
 - **Bot rozetleri (352/353):** rozet motoru botları atlar; `bot_rozetleri_uret` deterministik
   (tohum bot id) üretir: level rozetleri level'e göre, Klasik/Düello galibiyet o level için
   gereken toplam XP'den (`bot_rozet_klasik_carpan` / `bot_rozet_duello_carpan`), seri level'den

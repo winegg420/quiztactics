@@ -170,6 +170,15 @@ export default function KosullarPage() {
         {tt("Sorular, itirazlar ve bildirimler için:")} <b>{ILETISIM}</b>
       </p>
 
+      <h2>{tt("18. Üçüncü taraf verileri ve lisanslar")}</h2>
+      <p>
+        {tt("Türkiye dışındaki ülkelerin şehir listesi GeoNames verisinden alınmıştır ve Creative Commons Atıf 4.0 lisansıyla kullanılır:")}{" "}
+        <a href="https://www.geonames.org" target="_blank" rel="noopener noreferrer">GeoNames</a>
+        {" · "}
+        <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>.{" "}
+        {tt("Listeyi oyuna uyarlarken nüfusu 100.000'in altındaki yerleri çıkardık ve aynı ülkede aynı adı taşıyan şehirlere bölge adını ekledik.")}
+      </p>
+
       <QtDugme as={Link} to={y()} tur="ikincil" ikon="ev" className="g-yasal-don">
         {tt("Ana sayfaya dön")}
       </QtDugme>

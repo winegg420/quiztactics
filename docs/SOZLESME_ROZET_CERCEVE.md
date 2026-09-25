@@ -3,7 +3,8 @@
 Sahibi: Ajan A (sunucu). Kullanan: Ajan B (arayüz). Adlar ve dönüş şekilleri
 **bağlayıcıdır**; değişiklik yönetici kararıyla bu belgeye yazılır.
 Migration'lar: 331 (tablolar + katalog + RPC'ler), 332 (gizli rozet anahtarları), 333 (rozet motoru),
-334 (lig çerçevelerinin taşınması), 335 (davet), 336 (coin paketleri), 337 (rakip arama).
+334 (lig çerçevelerinin taşınması), 335 (davet), 336 (coin paketleri), 337 (rakip arama),
+641 (Şehir Şampiyonu: kart alanı + `sehir_sampiyonu()` + `lig_sehir_sampiyonu` rozeti).
 
 Bütün RPC'ler `security definer`, yalnız `authenticated`. İstemci RPC'yi doğrudan
 değil, `oyun/lib/*.js` sarmalayıcılarıyla çağırır. Sarmalayıcılar hatayı
@@ -88,8 +89,26 @@ Rakibin **ligi** buradan gelir (`profiles.lig` istemciye kapalı). `is_bot` hiç
 ```json
 [{ "id": "5b55…", "ad": "ArayuzDenetim890", "avatar": "/avatars/pro/kedi-k01.svg",
    "level": 16, "lig": "bronz", "cerceve": "lig_gumus", "cerceve_nadirlik": "nadir",
-   "vitrin": [{ "anahtar": "klasik_10", "grup": "klasik", "kademe": "bronz", "ikon": "trophy" }] }]
+   "vitrin": [{ "anahtar": "klasik_10", "grup": "klasik", "kademe": "bronz", "ikon": "trophy" }],
+   "sehir_sampiyonu": { "sehir": "Balıkesir", "ulke": "TR", "hafta": "2026-09-14" } }]
 ```
+(Kozmetik alanları `aura`, `vs_karti`, `isim_efekti`, `zafer_efekti`, `premium_cerceve`, `premium_aura` da döner — 520/560.)
+
+**`sehir_sampiyonu` (641):** `null` ya da `{sehir, ulke, hafta}`. Oyuncu kapanan haftayı (`hafta` = o haftanın
+Pazartesi'si) şehrinde 1. bitirdi; unvan sonraki hafta boyunca geçerlidir ve bir sonraki kapanışta kendiliğinden
+biter. Kaynak `lig_arsiv.sehir_sampiyonu` (profilde kalıcı alan yok). Oyuncu sonradan şehir değiştirse de kazandığı
+şehir gelir. Gizli bot şampiyonsa onda da dolu gelir (listede 1. görünenle aynı — bot ele verilmez). Görünüm
+(unvan, kart, VS, profil, Lig › Şehir) **Görsel Paket 2**'de; bu alanı okumayan ekranlar değişmez.
+
+### `sehir_sampiyonu()` → jsonb | null (641)
+Çağıranın **şu anki** şehrinin geçen hafta şampiyonu. Şehri yoksa ya da o hafta şampiyon yoksa `null`.
+Şampiyonun bot olup olmadığı dönmez. Ad/avatar için `oyuncu_kartlari([user_id])`.
+```json
+{ "user_id": "…", "sehir": "Balıkesir", "ulke": "TR", "hafta": "2026-09-14", "puan": 955 }
+```
+Kural (sunucu, haftalık kapanış): şehir sırası canlı listeyle aynı (haftalık puan → toplam puan → ad → id);
+şehirde o hafta puanı > 0 en az `sehir_sampiyonu_min_oyuncu` (3) görünür oyuncu (bot dahil) ve 1.'nin o hafta en az
+`sehir_sampiyonu_min_galibiyet` (1) galibiyeti. Sağlanmazsa o hafta o şehirde şampiyon yok.
 
 ### `rozetlerim()` → jsonb
 ```json
@@ -247,7 +266,7 @@ nadirlik sütunu yalnız etiket/renk kodu içindir.
 
 ---
 
-## 5. Rozet grupları ve anahtarlar (101 rozet)
+## 5. Rozet grupları ve anahtarlar (102 rozet)
 
 | Grup | Sembol (Phosphor) | Anahtarlar · kademe |
 |---|---|---|
@@ -257,7 +276,7 @@ nadirlik sütunu yalnız etiket/renk kodu içindir.
 | `seri` | `fire` | `seri_3` `seri_7` (bronz) · `seri_14` `seri_30` (gümüş) · `seri_60` `seri_100` (altın) · `seri_365` (elmas) |
 | `ustalik` | `graduation-cap`; rozet `ikon` = `kategori:<k>` → KategoriIkon | `ustalik_<kategori>_<esik>`: 25 bronz (Çırak) · 100 gümüş (Kalfa) · 300 altın (Usta) · 750 elmas (Üstat). Kategoriler: `genel_kultur bilim tarih cografya edebiyat spor sanat sinema muzik teknoloji` (40 rozet) |
 | `turnuva` | `crown` | `turnuva_katilim` `turnuva_ilk10` (bronz) · `turnuva_ilk3` (gümüş) · `turnuva_sampiyon` `turnuva_sampiyon_5` (altın) · `turnuva_sampiyon_25` (elmas) |
-| `lig` | `shield-star` | `lig_cikis_gumus` (bronz) · `lig_cikis_altin` (gümüş) · `lig_cikis_elmas` (altın) · `lig_cikis_efsane` `lig_efsane_bir` (elmas) |
+| `lig` | `shield-star` | `lig_cikis_gumus` (bronz) · `lig_cikis_altin` (gümüş) · `lig_cikis_elmas` `lig_sehir_sampiyonu` (altın; şehir şampiyonu `crown`, coin 0, 641) · `lig_cikis_efsane` `lig_efsane_bir` (elmas) |
 | `ozel` | `lightning` | `ozel_kusursuz` (gümüş) · `ozel_son_can` (bronz) · `ozel_geri_donus` (altın) · `ozel_saf_10` (bronz) · `ozel_saf_50` (gümüş) · `ozel_seri_5` (gümüş) · `ozel_seri_10` (altın) |
 | `sosyal` | `users-three` | `sosyal_arkadas_1` (bronz) · `sosyal_arkadas_10` (gümüş) · `sosyal_davet_1` (bronz) · `sosyal_davet_5` (gümüş) · `sosyal_davet_20` (altın) · `sosyal_arkadas_mac_25` (gümüş) |
 | `gizli` | `question` (kazanılana dek) | `gizli_1` … `gizli_5` — adları kazanılana kadar sunucudan gelmez |

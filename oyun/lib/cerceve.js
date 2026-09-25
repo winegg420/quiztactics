@@ -6,6 +6,12 @@
 // (oyun/tasarim/cerceveler/, CerceveliAvatar). Başkasının çerçevesi, ligi ve
 // vitrini oyuncu_kartlari ile okunur: aynı karede istenen kimlikler tek çağrıda
 // gider, sonuç oturum boyunca önbellekte kalır (ligCerceve.js ile aynı desen).
+//
+// 641: karta `sehir_sampiyonu` eklendi — null ya da {sehir, ulke, hafta}: oyuncu geçen
+// haftayı şehrinde 1. bitirdi, bu hafta boyunca Şehir Şampiyonu unvanını taşır (kaynak
+// lig_arsiv; hafta = kapanan haftanın Pazartesi'si). Görünüm Görsel Paket 2'de; alanı
+// okumayan mevcut kullananlar etkilenmez. Önbellek oturumluktur: Pazartesi kapanışını
+// aşan açık oturumda eski değer kalabilir (oyuncuKartiUnut ile tazelenir).
 // ============================================================
 import { supabase } from "../../src/lib/supabase.js";
 import { ligCerceveUnut } from "./ligCerceve.js";
