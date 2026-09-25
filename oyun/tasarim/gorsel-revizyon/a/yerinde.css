@@ -58,3 +58,9 @@
 .ga-eski-yeni i { font-style: normal; font-weight: 900; color: #46507f; }
 .ga-nd-kap { display: block; line-height: normal; }
 .ga-nd-izgara { grid-template-columns: repeat(auto-fill, minmax(min(100%, 124px), 1fr)); }
+.ga-giris { display: grid; justify-items: center; gap: 12px; padding: 24px 16px; border-radius: 18px; background: linear-gradient(#cdeeff, #dff0ff); }
+.ga-giris-logo { max-width: 100%; height: auto; }
+.ga-giris-alt { margin: 0; font-weight: 800; color: #1d2152; }
+.ga-giris-uclu { display: flex; gap: 8px; }
+.ga-giris-uclu img { border-radius: 16px; }
+.ga-cubuk .ga-logo { display: block; }

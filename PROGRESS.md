@@ -8398,5 +8398,5 @@ ada dokununca kart yok, maç içi ses tek düğme; ek olarak 2. tur onayları (B
 ## 2026-09-25 — Görsel revizyon /gorsel-revizyon — durum
 **Araç:** Claude Code (yönetici + Ajan A/B). Kaynak: `tasarim/BRIEF_GORSEL_REVIZYON.md`. Oyunda değişen bir şey yok; migration yok.
 Öncelik (Ida): 0 → 6 → 4 → 1–2 → 9 → 10 → 7 → 8 → 3 → 5 → 12 → 11, 13. Her bölüm bitince ajan commit + push eder ve bu girdiyi günceller.
-- Biten: belge (a65bac4), sayfa kabuğu + ortak palet (8248eaf: `oyun/tasarim/gorsel-revizyon/` palet.js/palet.css, secim.jsx, a/, b/) · 6 lig çerçeveleri (B) · 1 coin (A) (89cabbb) · 2 elmas (A) (808b11d) · 9 lig amblemleri (A) (dbe470b) · 10 rozetler (A) · 0 stil rehberi (A) · 4 oyuncu kartı (B) · 3 nadirlik (A) · 7 level çerçeveleri (B)
-- Kalan: 8 turnuva (B) · 5 unvan (B) · 12 logo (A) · 11 joker hizalama (A) · 13 premium/arka plan hizalama (B)
+- Biten: belge (a65bac4), sayfa kabuğu + ortak palet (8248eaf: `oyun/tasarim/gorsel-revizyon/` palet.js/palet.css, secim.jsx, a/, b/) · 6 lig çerçeveleri (B) · 1 coin (A) (89cabbb) · 2 elmas (A) (808b11d) · 9 lig amblemleri (A) (dbe470b) · 10 rozetler (A) · 0 stil rehberi (A) · 4 oyuncu kartı (B) · 3 nadirlik (A) · 7 level çerçeveleri (B) · 12 logo (A)
+- Kalan: 8 turnuva (B) · 5 unvan (B) · 11 joker hizalama (A) · 13 premium/arka plan hizalama (B)
