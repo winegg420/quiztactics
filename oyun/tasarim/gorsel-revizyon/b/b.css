@@ -110,3 +110,20 @@
 .grb-kart-yer, .grb-alt { grid-template-columns: minmax(0, 1fr); }
 .grb-alt > *, .grb-kart-yer > * { min-width: 0; }
 .grb-lig > * { min-width: 0; }
+
+/* ——— 5. Unvan yerleri ——— */
+.grb-un-profil { display: flex; align-items: center; gap: 16px; padding: 28px 14px 20px; border-radius: 18px; background: #fff; border: 2px solid #dbe6f5; min-width: 0; }
+.grb-un-profil-metin { display: grid; gap: 8px; min-width: 0; justify-items: start; }
+.grb-un-ad { display: inline-flex; align-items: center; gap: 6px; min-width: 0; max-width: 100%; font-size: 20px; font-weight: 900; color: var(--gr-lacivert); }
+.grb-un-ad > svg { flex: none; }
+.grb-un-ad--koyu { color: #fff; font-size: 18px; }
+.grb-un-koyu { display: grid; justify-items: start; gap: 10px; padding: 16px; border-radius: 16px; min-width: 0; }
+.grb-un-liste { display: flex; flex-wrap: wrap; gap: 10px 14px; padding: 14px 10px; border-radius: 14px; background: var(--gr-gok); align-items: center; }
+.grb-un-tablo { display: grid; border-radius: 12px; overflow: hidden; border: 2px solid #dbe6f5; }
+.grb-un-tr { display: grid; grid-template-columns: minmax(0, 7.5em) minmax(0, 1fr) minmax(0, 1.3fr); gap: 8px; padding: 8px 10px; font-size: 13px; color: var(--gr-lacivert); border-top: 1px solid #e6eefa; }
+.grb-un-th { background: var(--gr-gok); font-weight: 900; border-top: 0; }
+.grb-un-tur { font-weight: 800; color: #46507f; }
+.grb-un-kaz { color: #39436e; }
+@media (max-width: 420px) { .grb-un-tr { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); } .grb-un-tr > :first-child { display: none; } }
+.grb-un-ic-plaka { padding: 4px 10px; border-radius: 8px; background: #1d2152; color: #ffd23a; font-weight: 900; }
+@media (max-width: 440px) { .grb-un-profil { flex-direction: column; } .grb-un-profil-metin { justify-items: center; } }
