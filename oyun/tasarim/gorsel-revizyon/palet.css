@@ -7,5 +7,7 @@
   --gr-elmas-a: #dcfcff; --gr-elmas-o: #8ae9ff; --gr-elmas-k: #3fc4ee; --gr-elmas-e: #1f7fb8;
   --gr-efsane-a: #ffd6f0; --gr-efsane-o: #ff7ab8; --gr-efsane-k: #9d74f0; --gr-efsane-e: #5a2fb0;
   --gr-gok: #dff0ff; --gr-gok-k: #a9d6ff; --gr-turuncu: #ff7a2e; --gr-turuncu-k: #c2410c; --gr-lacivert: #1d2152;
+  /* EK (Ajan A): pırlanta faset tonları — ELMAS_FASET (palet.js), elmas paketiyle aynı */
+  --gr-faset-en: #dcfcff; --gr-faset-acik: #8ae9ff; --gr-faset-yan: #5fd8f7; --gr-faset-ana: #2ec4f0; --gr-faset-orta: #1d9ee0; --gr-faset-koyu: #1565b8; --gr-faset-derin: #0d4a8f; --gr-faset-pembe: #ff7ab8;
   --gr-n-siradan: #9aa6b8; --gr-n-nadir: #3b91e8; --gr-n-epik: #9d74f0; --gr-n-efsanevi: #ffd23a;
 }

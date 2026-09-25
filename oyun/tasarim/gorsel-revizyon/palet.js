@@ -66,3 +66,10 @@ export const LIGLER = [
   { anahtar: "elmas", ad: "Elmas", metal: "elmas" },
   { anahtar: "efsane", ad: "Efsane", metal: "efsane" },
 ];
+
+/** EK (Ajan A): pırlanta faset tonları — elmas paketi görselleriyle (premium/elmas/ElmasPaketGorseli.jsx › R)
+ *  BİREBİR aynı; elmas ikonu paket ailesinden olsun diye. Bir faseti 4 tonla anlatmak yetmiyor (tabla, taç
+ *  yan yüzleri, alt yüzler, derin çizgi + tek pembe faset). METAL.elmas değişmedi. */
+export const ELMAS_FASET = {
+  en: "#dcfcff", acik: "#8ae9ff", yan: "#5fd8f7", ana: "#2ec4f0", orta: "#1d9ee0", koyu: "#1565b8", derin: "#0d4a8f", pembe: "#ff7ab8",
+};
