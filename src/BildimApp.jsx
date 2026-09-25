@@ -90,6 +90,7 @@ const CerceveOnizlemePage = tembelYukle(() => import("../oyun/tasarim/cerceveler
 const PremiumOnizlemePage = tembelYukle(() => import("../oyun/tasarim/premium/PremiumOnizlemePage.jsx"));   // premium kozmetik önizlemesi — yalnız sahip, yalnız adresle (girişli)
 const IkonOnizlemePage = tembelYukle(() => import("../oyun/tasarim/ikon/IkonOnizlemePage.jsx"));   // uygulama ikonu adayları (Ajan B) — yalnız sahip, yalnız adresle (girişli)
 const TasarimOnizlemePage = tembelYukle(() => import("../oyun/tasarim/onizleme/TasarimOnizlemePage.jsx"));   // altın isim + rakip arama ekranı adayları — yalnız sahip, yalnız adresle (girişli)
+const StilRehberiPage = tembelYukle(() => import("../oyun/tasarim/stil-rehberi/StilRehberiPage.jsx"));   // kalıcı stil rehberi (görsel revizyon 0; Ida onayı) — girişli herkes, menüde yok
 const GorselRevizyonPage = tembelYukle(() => import("../oyun/tasarim/gorsel-revizyon/GorselRevizyonPage.jsx"));   // görsel revizyon adayları (tasarim/BRIEF_GORSEL_REVIZYON.md) — girişli herkes, menüde yok
 const YonetimSikayetlerPage = tembelYukle(() => import("../oyun/pages/YonetimSikayetlerPage.jsx"));   // 620: şikâyet yönetimi — yalnız yönetici (sunucu), menüde yok
 
@@ -205,6 +206,7 @@ export default function BildimApp() {
         <Route path="/ikon-onizleme" element={<IkonOnizlemePage />} />
         <Route path="/tasarim-onizleme" element={<TasarimOnizlemePage />} />
         <Route path="/gorsel-revizyon" element={<GorselRevizyonPage />} />
+        <Route path="/stil-rehberi" element={<StilRehberiPage />} />
 
         <Route path="/" element={<Layout />}>
           <Route index element={<AnaSayfa />} />

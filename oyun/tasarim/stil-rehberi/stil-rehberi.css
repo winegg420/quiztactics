@@ -1,0 +1,22 @@
+/* /stil-rehberi — sr- öneki. iOS: fixed/transform'lu ata yok. 360 px'te taşma yok. */
+.sr-ic { display: grid; gap: var(--qt-b-4); padding-bottom: 96px; min-width: 0; }
+.sr-giris { display: grid; gap: var(--qt-b-2); }
+.sr-giris h1, .sr-giris p { margin: 0; }
+.sr-bolum { display: grid; gap: var(--qt-b-3); min-width: 0; }
+.sr-bolum h2, .sr-bolum p { margin: 0; }
+.sr-sahne, .sr-sira { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 22px 18px; padding: 26px 10px; border-radius: 14px; background: #dff0ff; min-width: 0; }
+.sr-sahne img { border-radius: 50%; }
+.sr-koyu { background: #1d2152; }
+.sr-siluet svg { filter: brightness(0); }
+.sr-kurallar { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.sr-kurallar li { display: grid; grid-template-columns: minmax(0, 7em) minmax(0, 1fr); gap: 10px; font-size: 14px; color: var(--qt-metin); }
+.sr-kurallar b { font-weight: 900; }
+@media (max-width: 420px) { .sr-kurallar li { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
+.sr-palet { display: grid; gap: 12px; }
+.sr-palet-grup { display: grid; gap: 6px; }
+.sr-palet-grup > b { font-size: 13px; color: var(--qt-metin); }
+.sr-palet-grup > div { display: flex; flex-wrap: wrap; gap: 8px; }
+.sr-renk { display: inline-grid; justify-items: center; gap: 3px; width: 54px; }
+.sr-renk i { display: block; width: 36px; height: 36px; border-radius: 10px; border: 2px solid #0b1220; }
+.sr-renk small { font-size: 10.5px; color: var(--qt-metin-soluk); text-align: center; overflow-wrap: anywhere; }
+.sr-mac { border-radius: 16px; padding: 10px 6px; min-width: 0; }

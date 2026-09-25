@@ -45,3 +45,7 @@
   .mo-coklu .qt-avatar--s { width: 52px; height: 52px; }
   .mo-ben-yazi b { font-size: 18px; }
 }
+/* 643: maç şeridinde unvan (küçük Kurdele). Telefonda (< 420 px) skor sütunu yüzünden 1–2 harfe iniyordu → gizli;
+   unvan orada kart penceresinde, VS sahnesinde ve lig tablosunda görünür. */
+.mo-unvan { margin-top: 3px; }
+@media (max-width: 419px) { .mo-unvan { display: none; } }
