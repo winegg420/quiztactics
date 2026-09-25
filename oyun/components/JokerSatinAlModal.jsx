@@ -6,6 +6,7 @@ import { JOKER_BILGI } from "../lib/jokerler.js";
 import SkillRozeti from "./SkillRozeti.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { tt } from "../lib/dil.js";
+import { ElmasIkon } from "./ParaIkonlari.jsx";
 
 /**
  * Maç içi joker satın alma onayı (Paket 27 C).
@@ -48,7 +49,7 @@ export default function JokerSatinAlModal({
   const elmasMi = para === "elmas";
   const Hap = ({ miktar }) => (elmasMi ? (
     <span className="qt-coin qt-sat-elmas" role="img" aria-label={tt("{n} elmas", { n: sayiBicim(miktar) })}>
-      <QtIkon ad="elmas" boyut={20} />
+      <ElmasIkon boyut={20} />
       <b>{sayiBicim(miktar)}</b>
     </span>
   ) : <QtCoinHapi miktar={miktar} />);

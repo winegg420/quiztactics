@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { QtModal, QtModKart, QtDugme, QtIkon } from "../tasarim/index.js";
+import { QtModal, QtModKart, QtDugme } from "../tasarim/index.js";
 import "../tasarim/ekranlar/a-modlar.css";
 import AvatarCerceve from "./AvatarCerceve.jsx";
 import DereceliAnahtari from "./DereceliAnahtari.jsx";
 import SkillSeti from "./SkillSeti.jsx";
 import { ayarlar } from "../lib/ayarlar.js";
 import { tt } from "../lib/dil.js";
+import { CoinIkon } from "./ParaIkonlari.jsx";
 
 /**
  * Arkadaşla oynarken mod seçimi (Paket 30 B).
@@ -179,7 +180,7 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
                   ) : (
                     <>
                       <span>{s.joker}</span>
-                      {s.odul && <span className="a-modsecim-odul"><QtIkon ad="coin" boyut={16} /> {s.odul}</span>}
+                      {s.odul && <span className="a-modsecim-odul"><CoinIkon boyut={16} /> {s.odul}</span>}
                     </>
                   )}
                 </span>

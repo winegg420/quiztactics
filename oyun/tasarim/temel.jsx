@@ -4,6 +4,7 @@
 // tt() ile çevrilir (İngilizce karşılıklar: oyun/lib/ceviri/tasarim.js).
 import { useEffect, useRef } from "react";
 import QtIkon from "./Ikon.jsx";
+import { CoinIkon } from "../components/ParaIkonlari.jsx";
 import { tt, aktifDil } from "../lib/dil.js";
 
 /** Sınıf adlarını birleştirir: sinif("a", kosul && "b") */
@@ -312,7 +313,7 @@ export function QtCoinHapi({ miktar, onClick, as, etiket, className, type, ...re
       {...(Oge === "button" ? { type: type ?? "button" } : {})}
       {...rest}
     >
-      <QtIkon ad="coin" boyut={20} />
+      <CoinIkon boyut={20} />
       <b>{metin}</b>
     </Oge>
   );

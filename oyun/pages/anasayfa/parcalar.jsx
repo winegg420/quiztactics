@@ -15,6 +15,7 @@ import { LIG_ADLARI } from "../../lib/lig.js";
 import { tt, ttSunucu } from "../../lib/dil.js";
 import { geriSayim, sonrakiTurnuva, turnuvaSaatleri } from "../../lib/zaman.js";
 import { y } from "../../lib/yol.js";
+import { CoinIkon } from "../../components/ParaIkonlari.jsx";
 
 const sayi = (n) => new Intl.NumberFormat("tr-TR").format(Number(n) || 0);
 
@@ -85,7 +86,7 @@ export function LigCipi({ v, as = "link" }) {
 export function CoinCipi({ v }) {
   return (
     <Link to={y("/joker?sekme=coin")} className="as-cip as-cip--coin">
-      <span className="as-coin-para" aria-hidden="true"><QtIkon ad="coin" boyut={18} /></span>
+      <span className="as-coin-para" aria-hidden="true"><CoinIkon boyut={18} /></span>
       <span className="as-cip-metin"><b className="qt-sayi">{sayi(v.oyuncu.coin)}</b><small>{tt("Coin")}</small></span>
     </Link>
   );
@@ -258,7 +259,7 @@ export function TurnuvaSeridi({ v, git }) {
               <span className="qt-sayi" role="timer" aria-label={tt("Turnuvaya kalan süre")}>{sure}</span>
               {odulMetni && (
                 <span className="as-serit-odul" aria-label={odulEtiketi}>
-                  <QtIkon ad="coin" boyut={14} /><span aria-hidden="true">{odulMetni}</span>
+                  <CoinIkon boyut={14} /><span aria-hidden="true">{odulMetni}</span>
                 </span>
               )}
             </small>
@@ -337,9 +338,9 @@ export function GorevListesi({ v, sinir = 3 }) {
               ? <span className="as-gorev-odul as-gorev-odul--alindi"><QtIkon ad="onay" boyut={16} />+{g.odul}</span>
               : tamam
                 ? <button type="button" className="as-mini-dugme as-mini-dugme--coin" onClick={() => v.odulAl(g.quest_id)}>
-                    <QtIkon ad="coin" boyut={16} />{tt("+{n} al", { n: g.odul })}
+                    <CoinIkon boyut={16} />{tt("+{n} al", { n: g.odul })}
                   </button>
-                : <span className="as-gorev-odul"><QtIkon ad="coin" boyut={16} />{g.odul}</span>}
+                : <span className="as-gorev-odul"><CoinIkon boyut={16} />{g.odul}</span>}
           </li>
         );
       })}
@@ -489,7 +490,7 @@ export function GorevSeridi({ v, onAc }) {
         ))}
       </span>
       {v.bekleyenOdul > 0
-        ? <span className="as-gs-odul"><QtIkon ad="coin" boyut={14} />{v.bekleyenOdul}</span>
+        ? <span className="as-gs-odul"><CoinIkon boyut={14} />{v.bekleyenOdul}</span>
         : <QtIkon ad="ileri" boyut={18} className="as-gs-ok" />}
     </button>
   );

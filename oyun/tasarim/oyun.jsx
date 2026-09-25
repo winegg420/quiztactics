@@ -6,6 +6,7 @@ import { Children } from "react";
 import QtIkon from "./Ikon.jsx";
 import { sinif, QtAvatar } from "./temel.jsx";
 import { tt } from "../lib/dil.js";
+import { CoinIkon } from "../components/ParaIkonlari.jsx";
 
 // ——————————————————————— MOD KARTI ———————————————————————
 const MOD_IKON = { klasik: "klasik", duello: "duello", turnuva: "kupa", grup: "grup", saf: "safBilgi" };
@@ -213,7 +214,7 @@ export function QtSkill({ ikon, rozet, ad, adet, fiyat, durum = "hazir", kilitMe
         <span className="qt-skill-rozet" aria-hidden="true">{adet}</span>
       ) : fiyat != null && durum === "hazir" ? (
         <span className="qt-skill-rozet qt-skill-rozet--fiyat" aria-hidden="true">
-          <QtIkon ad="coin" boyut={12} />
+          <CoinIkon boyut={12} />
           {fiyat}
         </span>
       ) : null}

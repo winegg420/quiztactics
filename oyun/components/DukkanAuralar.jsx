@@ -13,6 +13,7 @@ import { auraTanimiBul, NADIRLIK_ADI } from "../tasarim/cerceveler/tanimlar.js";
 import DurumKutusu from "./DurumKutusu.jsx";
 import { auraKatalogu, auraSatinAl, auraTak, CERCEVE_NADIRLIKLERI } from "../lib/cerceve.js";
 import { elmasTazele, useElmas } from "../lib/elmas.js";
+import { ElmasIkon } from "./ParaIkonlari.jsx";
 // D-302: ham ağ hatası yerine "Bağlantı yok…" — kozmetikHatasi = hataMesaji + "Yetersiz elmas" → "Elmas yetmiyor" (elmasHatasi ile aynı)
 import { kozmetikHatasi } from "../lib/kozmetik.js";
 import JokerSatinAlModal from "./JokerSatinAlModal.jsx";
@@ -31,7 +32,7 @@ export function NadirlikEtiketi({ nadirlik }) {
 export function ElmasFiyat({ fiyat, boyut = 16 }) {
   return (
     <span className="qt-dc-fiyat qt-dc-fiyat--elmas">
-      <QtIkon ad="elmas" boyut={boyut} />
+      <ElmasIkon boyut={boyut} />
       <span className="qt-sayi">{sayiBicim(Number(fiyat))}</span>
     </span>
   );

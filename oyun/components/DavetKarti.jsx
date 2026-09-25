@@ -15,6 +15,7 @@ import { tt } from "../lib/dil.js";
 import { coinTazele } from "../lib/coin.js";
 import { QtDugme, QtIkon, QtIlerleme, QtKart, QtListe, QtListeSatiri, QtRozet, sayiBicim } from "../tasarim/index.js";
 import "../tasarim/ekranlar/davet-karti.css";
+import { CoinIkon } from "./ParaIkonlari.jsx";
 
 /** davet_kodu_bagla durumu → kullanıcı metni. */
 export function davetBaglaMetni(s) {
@@ -152,8 +153,8 @@ export default function DavetKarti({ ekDugmeler }) {
         </div>
       </div>
       <div className="qt-dv-oduller" aria-hidden="true">
-        <span className="qt-dv-odul"><QtIkon ad="coin" boyut={18} /><b className="qt-sayi">{sayiBicim(kodBilgi.odul_davet_eden ?? 0)}</b><small>{tt("sana")}</small></span>
-        <span className="qt-dv-odul"><QtIkon ad="coin" boyut={18} /><b className="qt-sayi">+{sayiBicim(kodBilgi.odul_davet_edilen ?? 0)}</b><small>{tt("arkadaşına")}</small></span>
+        <span className="qt-dv-odul"><CoinIkon boyut={18} /><b className="qt-sayi">{sayiBicim(kodBilgi.odul_davet_eden ?? 0)}</b><small>{tt("sana")}</small></span>
+        <span className="qt-dv-odul"><CoinIkon boyut={18} /><b className="qt-sayi">+{sayiBicim(kodBilgi.odul_davet_edilen ?? 0)}</b><small>{tt("arkadaşına")}</small></span>
       </div>
       <DavetKodu kod={kodBilgi.kod} />
       <div className="qt-dv-dugmeler">

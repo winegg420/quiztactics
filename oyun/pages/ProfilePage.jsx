@@ -54,6 +54,7 @@ import {
   sayiBicim,
 } from "../tasarim/index.js";
 import "../tasarim/ekranlar/dukkan-profil.css";
+import { CoinIkon } from "../components/ParaIkonlari.jsx";
 
 
 const SEKME_KODLARI = ["istatistik", "ayarlar", "rozet", "koleksiyon", "davet"];
@@ -230,7 +231,7 @@ export default function ProfilePage() {
       <ul className="qt-pf-sayilar">
         <li>
           <QtKart dolgu="k" className="qt-pf-sayi">
-            <QtIkon ad="coin" boyut={22} className="qt-pf-sayi-ikon qt-pf-sayi-ikon--coin" />
+            <CoinIkon boyut={22} className="qt-pf-sayi-ikon qt-pf-sayi-ikon--coin" />
             <b className="qt-sayi"><SayanSayi deger={profile.puan} bicim={(n) => sayiBicim(n)} /></b>
             <span>{tt("Puan")}</span>
           </QtKart>

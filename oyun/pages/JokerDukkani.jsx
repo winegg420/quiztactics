@@ -31,6 +31,7 @@ import {
 } from "../tasarim/index.js";
 import ElmasPaketGorseli from "../tasarim/premium/elmas/ElmasPaketGorseli.jsx";
 import "../tasarim/ekranlar/dukkan-magaza.css";
+import { CoinIkon, ElmasIkon } from "../components/ParaIkonlari.jsx";
 
 // Dükkân sekmeleri: Joker · Aura · Elmas · Coin · Kıyafet (Tasarım A, Yön A "Şeker Kutusu").
 // İKİ PARA BİRİMİ (480, Ida kararı — pay to win olmasın): jokerler YALNIZ coin'le (coin yalnız
@@ -66,7 +67,7 @@ function FiyatYazisi({ adet, fiyat }) {
   return (
     <span className="qt-dk-fiyat">
       {adet != null && <span className="qt-dk-fiyat-adet">{adet}×</span>}
-      <QtIkon ad="coin" boyut={18} />
+      <CoinIkon boyut={18} />
       <span className="qt-sayi">{sayiBicim(Number(fiyat))}</span>
     </span>
   );
@@ -413,12 +414,12 @@ export default function JokerDukkani() {
         <div className="qt-dk-bakiyeler" aria-label={tt("Bakiyen")}>
           {bakiye !== null && (
             <span className="qt-dk-bakiye" aria-label={tt("{n} coin", { n: sayiBicim(bakiye) })}>
-              <QtIkon ad="coin" boyut={18} /><b className="qt-sayi">{sayiBicim(bakiye)}</b>
+              <CoinIkon boyut={18} /><b className="qt-sayi">{sayiBicim(bakiye)}</b>
             </span>
           )}
           {elmas.bakiye !== null && (
             <span className="qt-dk-bakiye qt-dk-bakiye--elmas" aria-label={tt("{n} elmas", { n: sayiBicim(elmas.bakiye) })}>
-              <QtIkon ad="elmas" boyut={18} /><b className="qt-sayi">{sayiBicim(elmas.bakiye)}</b>
+              <ElmasIkon boyut={18} /><b className="qt-sayi">{sayiBicim(elmas.bakiye)}</b>
             </span>
           )}
         </div>
@@ -478,7 +479,7 @@ export default function JokerDukkani() {
             {/* Paket 42 M.2: coin en ucuz jokere bile yetmiyorsa üstte tek satır */}
             {!jokerSerbest && bakiye !== null && Number.isFinite(enUcuzJoker) && bakiye < enUcuzJoker && (
               <div className="qt-dk-not qt-dk-not--uyari" role="status">
-                <QtIkon ad="coin" boyut={20} />
+                <CoinIkon boyut={20} />
                 <span>{tt("Coin'in şu an hiçbir jokere yetmiyor.")}</span>
                 <QtDugme tur="ikincil" boyut="k" onClick={() => sekmeSec("coin")}>{tt("Coin kazan")}</QtDugme>
               </div>
@@ -719,7 +720,7 @@ export default function JokerDukkani() {
                 D-305: reklam yapılandırılmamışsa en üstteki ölü kart gizlenir. */}
             {h5AdsYapilandirildi() && (
             <QtKart ton="mor" className="qt-dk-video">
-              <span className="qt-dk-video-ikon" aria-hidden="true"><QtIkon ad="elmas" boyut={28} /></span>
+              <span className="qt-dk-video-ikon" aria-hidden="true"><ElmasIkon boyut={28} /></span>
               <div className="qt-dk-video-metin">
                 <h2 className="qt-baslik-3">{tt("Video izle, elmas kazan")}</h2>
                 <p className="qt-kucuk">
@@ -762,7 +763,7 @@ export default function JokerDukkani() {
                 ].filter(Boolean).map(([ad, n]) => (
                   <li key={ad} className="qt-dk-elmas-satir">
                     <span>{ad}</span>
-                    <span className="qt-dk-elmas-miktar"><QtIkon ad="elmas" boyut={16} /><b className="qt-sayi">{n}</b></span>
+                    <span className="qt-dk-elmas-miktar"><ElmasIkon boyut={16} /><b className="qt-sayi">{n}</b></span>
                   </li>
                 ))}
               </ul>

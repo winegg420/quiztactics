@@ -32,6 +32,7 @@ import { coinTazele } from "../lib/coin.js";
 import { sesCoin } from "../lib/ses.js";
 import { tt, ttSunucu } from "../lib/dil.js";
 import "../tasarim/ekranlar/m1-sonuc.css";
+import { CoinIkon } from "./ParaIkonlari.jsx";
 
 // Adım eşikleri (ms). i. eşik geçilince adim = i + 1.
 // 1 zemin · 2 banner · 3 avatarlar · 4 kalp/skor · 5 ödül sayımı ·
@@ -166,7 +167,7 @@ function CoinUcusu({ kaynak, hedef, onBitti }) {
         <span key={i} className="m1-ss-coin-x" style={{ animationDelay: `${i * COIN_ARA_MS}ms` }}
               onAnimationEnd={i === 2 ? () => onBittiRef.current?.() : undefined}>
           <span className="m1-ss-coin-y" style={{ animationDelay: `${i * COIN_ARA_MS}ms` }}>
-            <QtIkon ad="coin" boyut={12} />
+            <CoinIkon boyut={12} />
           </span>
         </span>
       ))}
