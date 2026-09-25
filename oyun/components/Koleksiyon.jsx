@@ -21,6 +21,7 @@ import CerceveGorseli, { icBoyut } from "../tasarim/cerceveler/CerceveGorseli.js
 import { kazanilanMi } from "../tasarim/kazanilan/anahtarlar.js";
 import { cerceveTanimiBul, auraTanimiBul } from "../tasarim/cerceveler/tanimlar.js";
 import DurumKutusu from "./DurumKutusu.jsx";
+import UnvanSecici from "./UnvanSecici.jsx";
 import { NadirlikEtiketi, ElmasFiyat } from "./DukkanAuralar.jsx";
 import { KOZMETIK_SEKMELERI, KozmetikOnizlemePenceresi, KozmetikSimge, kozmetikAdi, premiumMi, useKozmetikDukkan } from "./DukkanKozmetik.jsx";
 import { kozmetikHatasi, kozmetikTak } from "../lib/kozmetik.js";
@@ -163,6 +164,9 @@ export default function Koleksiyon() {
       </QtKart>
       {bilgi && <p className="qt-ks-bilgi" role="status">{bilgi}</p>}
       {hata && <p className="qt-cs-hata" role="alert">{hata}</p>}
+
+      {/* ---------- Unvanlar (643) ---------- */}
+      <UnvanSecici />
 
       {/* ---------- Çerçeveler (kazanılır, satılmaz) ---------- */}
       <QtKart as="section" className="qt-cs" aria-labelledby="qt-ks-cerceve">

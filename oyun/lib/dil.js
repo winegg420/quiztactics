@@ -204,6 +204,13 @@ const SOZLUK = {
       "The city list for countries other than Türkiye comes from GeoNames data and is used under the Creative Commons Attribution 4.0 licence:",
     "Listeyi oyuna uyarlarken nüfusu 100.000'in altındaki yerleri çıkardık ve aynı ülkede aynı adı taşıyan şehirlere bölge adını ekledik.":
       "To adapt it for the game we removed places with fewer than 100,000 inhabitants and added the region name to cities that share a name within the same country.",
+    // 643: unvanlar
+    "Unvanlar": "Titles",
+    "Unvanlar yüklenemedi.": "Couldn't load titles.",
+    "Unvan takılamadı.": "Couldn't set the title.",
+    "Unvan isminin altında görünür. Birini seç; dokununca çıkar.": "Your title appears under your name. Pick one; tap it again to remove it.",
+    "Bu hafta şehir şampiyonusun: bu unvan kendiliğinden görünüyor.": "You're this week's city champion: this title shows automatically.",
+    "Bu unvan sende yok": "You don't have this title",
     "Oyuna başla": "Start playing",
     "Konum kaydedilemedi.": "Your location could not be saved.",
     "Ülke listesi yüklenemedi.": "The country list could not be loaded.",
