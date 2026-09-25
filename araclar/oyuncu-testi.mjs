@@ -389,7 +389,7 @@ async function duelloMaci(kapsam) {
         await sk.first().tap({ timeout: 3000 }).catch(() => {});
           await s.waitForTimeout(900);
           // Hak yoksa satın alma penceresi açılır: coin yetiyorsa "Al ve kullan", yetmiyorsa "Vazgeç".
-          const pencere = s.getByRole("dialog", { name: /Skill satın al/ });
+          const pencere = s.getByRole("dialog", { name: /(Skill|Joker) satın al/ });
           if (await pencere.count()) {
             const al = pencere.getByRole("button", { name: /Al ve kullan/ });
             if (await al.count() && await al.isEnabled()) await al.tap({ timeout: 3000 }).catch(() => {});

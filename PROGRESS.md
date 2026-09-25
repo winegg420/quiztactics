@@ -8522,3 +8522,6 @@ unvan + kalıcı rozet; görünüm Görsel Paket 2'de.
 - **Kalan (bilerek):** Türkiye/il adları ve açık bot adları (ÇaylakBot, ÜstatBot) özel ad; sorular çevrilmez (karar); statik `index.html` / manifest / sosyal önizleme Türkçe kalır (dil çalışma zamanında seçiliyor);
   Supabase Auth e-postaları kapsam dışı; önizleme/tasarım sayfaları kapsam dışı.
 - **Gerçek telefonda bakılacak:** yeni hesabın ilk açılışı (bu makinede headless Chrome ilk açılışta çöküyor — kodla ilgisiz, 813553e'de de aynı).
+- **oyuncu-testi düzeltmesi:** Düello skill dokunuşunda satın alma penceresi artık "Joker satın al" adını taşıyor (skill→joker adlandırması); test eski "Skill satın al"ı arıyordu, pencere kapanmadığı için şık dokunuşları
+  engelleniyordu (5–8 sahte başarısız). Regex `(Skill|Joker) satın al`. Sonra canlıda Düello koşusu: yalnız "sayaç ilk 3 sn hızlı" (kategori fazı, 1 faz) kaldı — önceki koşularda da vardı, bu işten bağımsız, izlenecek.
+  Test hesapları (2 EN misafir) `hesabimi_sil()` ile silindi.
