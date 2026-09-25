@@ -7,7 +7,7 @@
 .sr-sahne, .sr-sira { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 22px 18px; padding: 26px 10px; border-radius: 14px; background: #dff0ff; min-width: 0; }
 .sr-sahne img { border-radius: 50%; }
 .sr-koyu { background: #1d2152; }
-.sr-siluet svg { filter: brightness(0); }
+.sr-siluet svg, .sr-siluet img { filter: brightness(0); }
 .sr-kurallar { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
 .sr-kurallar li { display: grid; grid-template-columns: minmax(0, 7em) minmax(0, 1fr); gap: 10px; font-size: 14px; color: var(--qt-metin); }
 .sr-kurallar b { font-weight: 900; }

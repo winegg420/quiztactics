@@ -19,6 +19,7 @@ export default {
   "Alev Kanatları": "Flame Wings",
   "Kraliyet": "Royal",
   "Kozmik": "Cosmic",
+  "Bronz Lig": "Bronze League",
   "Gümüş Lig": "Silver League",
   "Altın Lig": "Gold League",
   "Elmas Lig": "Diamond League",

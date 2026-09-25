@@ -293,12 +293,12 @@ Aktif yedi maç skill'i vardır:
 - **Görsel revizyon oyunda (Ida seçimleri 25 Eyl 2026, tasarim/SECIMLER_GORSEL_REVIZYON.md; stil rehberi `/stil-rehberi`):**
   lig çerçeveleri Set A "Defne ve Taç" (Altın = onaylı WebGL Altın Lig), level Set A "Altıgen Madalya", Turnuva Şampiyonu
   "Kupa Tepesi" (`tasarim/kazanilan/`, tembel; ≤ 48 px siluetleri kutudan taşmaz), lig amblemi "Fasetli Yıldız"
-  (`premium/ligAmblemi.jsx`), rozetler "Madalyon" (`tasarim/rozet/`: amblem × seviye + eşik rakamı), premium hizalama
+  (`premium/ligAmblemi.jsx`; ana pakette çizim kodu yok: `public/lig-amblem/*.svg` <img>, hareketli hâl tembel parça; üretici `araclar/lig-amblem/uret.mjs`), rozetler "Madalyon" (`tasarim/rozet/`: amblem × seviye + eşik rakamı), premium hizalama
   (`premium/hizalama.js`), tek oyuncu kartı "Vitrin kartı" (`OyuncuVitrinKarti`: profil başı + oyuncu kartı penceresi;
   küçük hâli lig satırı, VS, maç şeridi ≥ 420 px). Coin/elmas, logo, joker, nadirlik (Nadir yeşil · Epik mor) bulutta.
   Adaylar `/gorsel-revizyon` sayfasında durur; çizim kaynağı oradaki `cizim/` dosyaları (tek kaynak).
 - **Unvan (643):** isim altında Kurdele. 12 unvan: 8'i rozete bağlı (türetilir), 4'ü lig olayı (haftalık kapanış). Aktif Şehir
-  Şampiyonluğu takılı unvanın önüne geçer. Seçim Profil › Koleksiyon › Unvanlar. Sezon unvanları yok (sezon sistemi yok).
+  Şampiyonluğu takılı unvanın önüne geçer. Seçim Profil › Koleksiyon › Unvanlar. Sezon unvanları Battle Pass sezon sistemi gelene kadar gizli (bağlı değil). "Bin Galibiyet" (644): Antrenman hariç Klasik + Düello + Grup + Turnuva toplam galibiyet ≥ 1.000 (`unvan_galibiyet_esik`); `unvanlarim()` ve haftalık kapanış kontrol eder. Bronz Lig çerçevesi (`lig_bronz`) katalogda; bütün insan oyuncular kazanır (takılı çerçeve değişmez).
 - **Rozetler (331–333, 641):** 102 rozet (`rozet_tanimlari`: level, Klasik/Düello galibiyet, seri, 10
   kategori × 4 ustalık, turnuva, lig, özel an, sosyal, 5 gizli), kazanma sunucuda olay anında; coin
   bronz 10 · gümüş 25 · altın 50 · elmas 100 (günlük tavana sayılmaz). Geriye dönük verilenler

@@ -18,7 +18,6 @@ export const UNVAN_LISTESI = [
   { tur: "sehir", metin: "Afyonkarahisar Şampiyonu", kazanma: "Şehir sıralamasında sezonu 1. bitir" },
   { tur: "sehir", metin: "Balıkesir Şampiyonu", kazanma: "Şehir sıralamasında sezonu 1. bitir" },
   { tur: "sehir", metin: "İstanbul Şampiyonu", kazanma: "Şehir sıralamasında sezonu 1. bitir" },
-  { tur: "sehir", metin: "Kahramanmaraş İkincisi", kazanma: "Şehir sıralamasında sezonu 2. bitir" },
   { tur: "lig", metin: "Efsane Lig Şampiyonu", kazanma: "Efsane Lig'de haftayı 1. bitir" },
   { tur: "lig", metin: "Elmas Lig Birincisi", kazanma: "Elmas Lig'de haftayı 1. bitir" },
   { tur: "lig", metin: "Altın Lig Fatihi", kazanma: "Altın Lig'den 3 kez yüksel" },
@@ -34,7 +33,7 @@ export const UNVAN_LISTESI = [
   { tur: "basari", metin: "Turnuva Şampiyonu", kazanma: "Bir turnuvayı 1. bitir" },
   { tur: "basari", metin: "Seri Canavarı", kazanma: "30 gün üst üste oyna" },
   { tur: "basari", metin: "Kusursuz", kazanma: "Bir maçta bütün soruları doğru bil" },
-  { tur: "basari", metin: "Bin Galibiyet", kazanma: "1.000 maç kazan" },
+  { tur: "basari", metin: "Bin Galibiyet", kazanma: "1.000 maç kazan (Antrenman hariç)" },
   { tur: "basari", metin: "Dâhi", kazanma: "Level 100'e ulaş" },
 ];
 

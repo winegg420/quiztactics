@@ -97,6 +97,7 @@ export const CERCEVE_TANIMLARI = {
   dukkan_ejder: { tur: "nadirlik", malzeme: "efsanevi", tema: "kozmik", sus: ["parilti_kozmik", "parlayan_yildiz_alt", "kuyruklu_yildiz"], efekt: "kozmik", kivilcim: true, ad: "Kozmik" },
 
   // ——— Lig çerçeveleri (lig atlayınca kazanılır, satılmaz)
+  lig_bronz: { tur: "lig", malzeme: "bronz", tema: "lig", sus: [], ad: "Bronz Lig" },   // 644: başlangıç ligi çerçevesi (herkes kazanır); yeni çizim KazanilanCerceve
   lig_gumus: { tur: "lig", malzeme: "gumus", tema: "lig", sus: ["defne_gumus", "kalkan_alt"], ad: "Gümüş Lig" },
   lig_altin: { tur: "lig", malzeme: "altin", tema: "lig", sus: ["defne_altin", "lig_tac"], ad: "Altın Lig" },
   lig_elmas: { tur: "lig", malzeme: "elmas", tema: "prizma", sus: ["elmas_uclari", "elmas_tas"], parilti: true, ad: "Elmas Lig" },

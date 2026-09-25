@@ -8489,3 +8489,14 @@ unvan + kalıcı rozet; görünüm Görsel Paket 2'de.
   ~11,5 kB'ı rozet çizimleri (ana pakette görünen yerlerde kullanılıyor), kalanı Görev A (logo, coin, joker). Test hesabı silindi.
 - **Belirsiz (bağlanmadı):** 4 sezon unvanı (sezon sistemi yok), "Kahramanmaraş İkincisi" (sezon/2.lik kuralı yok), "Bin Galibiyet"
   (Klasik mi toplam mı?). **Karar bekleyen:** Bronz Lig çerçevesi (`lig_bronz`) katalogda yok — çizimi hazır.
+
+## 2026-09-25 — Görev B kararları (Ida): Bin Galibiyet, Bronz çerçeve, paket boyutu — migration 644
+**Araç:** Claude Code (Sonnet 5, PC).
+- Sezon unvanları (4) DB'de hiç bağlı değildi → gizli kalır; "Kahramanmaraş İkincisi" önizleme listesinden çıkarıldı (20 unvan). "Level N Madalyası" adları kaldı.
+- **644:** `bin_galibiyet` unvanı — `toplam_galibiyet()` (Klasik + Düello, rakibi açık bot olan Antrenman hariç; Grup; Turnuva), eşik `unvan_galibiyet_esik` 1000,
+  `unvan_galibiyet_kontrol()` (unvanlarim + haftalık kapanış kancası), 80 insan için geriye dönük çalıştırıldı (kimse 1.000'e yakın değil: en çok 25). `lig_bronz` çerçevesi
+  kataloğa (sıradan · lig:bronz · sıra 100), 80/80 insana verildi, yeni insan hesapta tetikleyiciyle gelir; coin/popup yok, takılı çerçeve değişmedi. Prova: eşik en çok
+  galibiyet sayısına indirilince yalnız o oyuncu aldı, ikinci kez/bot almadı; yetkiler service_role/authenticated aynı düzen.
+- **Paket:** lig amblemi statik SVG (`public/lig-amblem/<lig>-<k|b>.svg`, 10 dosya ~1–2,5 kB) + tembel hareketli parça; ana paket `oyun-*.js` 457,17 → 452,02 kB (gzip 146,93 → 145,42).
+- Not: bu makinede headless Chrome yeni misafirin İLK ana sayfa açılışında (tanıtım) "Page crashed" veriyor; 813553e (B öncesi) dahil eski commit'lerde de aynı → benim kodumdan değil;
+  oturum, giriş sihirbazından hemen sonra kaydedilerek aşıldı. Gerçek telefonda kontrol edilmeli (yeni hesabın ilk açılışı).
