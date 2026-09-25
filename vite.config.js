@@ -124,6 +124,9 @@ export default defineConfig(({ mode }) => {
           manualChunks(id) {
             if (!id.includes("node_modules")) return;
             if (id.includes("react-router")) return "router";
+            // Sentry (VITE_SENTRY_DSN doluyken dinamik import): yolunda "/react/" geçtiği için aşağıdaki react kuralına
+            // düşüp ilk açılış paketini ~190 KB → ~690 KB şişiriyordu. Kendi parçası: yalnız DSN varken, ateşle-unut yüklenir.
+            if (id.includes("@sentry")) return "sentry";
             if (
               id.includes("/react/") ||
               id.includes("/react-dom/") ||

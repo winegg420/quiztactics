@@ -83,7 +83,10 @@ if (jsDosyalari.length === 0) {
 }
 
 for (const dosya of jsDosyalari) {
-  const icerik = fs.readFileSync(dosya, "utf8");
+  // Bilinen yanlış pozitif (25 Eyl 2026, Sentry açılınca): @sentry/replay-canvas'ın çalışan (Worker) kaynağı paketin içinde
+  // bir METİN sabiti olarak durur (`w?.transferFromImageBitmap`), ana iş parçacığında ayrıştırılmaz; ayrıca oturum tekrarı
+  // kapalı (src/lib/hataIzleme.js). Yalnız bu tam kalıp yok sayılır; başka `?.` hâlâ derlemeyi düşürür.
+  const icerik = fs.readFileSync(dosya, "utf8").replace(/([\w$])\?\.transferFromImageBitmap/g, "$1.transferFromImageBitmap");
   const ad = path.basename(dosya);
 
   for (const k of SOZDIZIMI) {
