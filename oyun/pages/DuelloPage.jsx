@@ -1139,7 +1139,8 @@ function DuelloMac({ id }) {
         } else sesJoker();
         titret(10);
         coinTazele();
-        await yukle();
+        // Alım bitti: pencere tam yeniden okumayı (iki ardışık RPC, yavaş ağda saniyeler) BEKLEMEZ; durum arkadan tazelenir.
+        yukle().catch(() => {});
       }}
     />
   );

@@ -84,6 +84,7 @@ export default {
   // ——— 480/481: elmas · aura · koleksiyon (Ajan C, 24 Eyl 2026) ———
   "Joker": "Jokers",
   "Arka Plan": "Background",
+  "İşlem uzun sürdü. Bağlantını kontrol et; alım yapıldıysa envanterinde görünür.": "That took too long. Check your connection; if the purchase went through it will show in your inventory.",
   "Elmas|para": "Gems",
   "Jokerler": "Jokers",
   "Bakiyen": "Your balance",

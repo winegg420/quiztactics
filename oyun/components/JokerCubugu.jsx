@@ -187,7 +187,8 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
       onEtki?.(data?.tur === "sure" && data.eklenen_sn == null
         ? { ...data, eklenen_sn: jokerBilgi("sure", macTur, ayar).etkiDegeri }
         : data);
-      await yukle();
+      // Satın alma penceresi açıkken (satinAl) pencere yeniden okumayı beklemesin; doğrudan kullanımda beklenir.
+      if (satinAl) yukle().catch(() => {}); else await yukle();
     } catch (e) {
       setHata(hataMesaji(e, tt("Joker kullanılamadı.")));
       throw e;   // satın alma penceresi hatayı kendi içinde göstersin

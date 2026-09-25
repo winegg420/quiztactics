@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { QtModal, QtDugme, QtIkon, QtListe, QtListeSatiri, QtCoinHapi, sayiBicim } from "../tasarim/index.js";
 import "../tasarim/ekranlar/m1-mac.css";
 import "../tasarim/ekranlar/satin-al-onay.css";
@@ -38,12 +38,17 @@ import NadirlikEtiketi from "./NadirlikEtiketi.jsx";
  *   yetersizEylem: () => void — bakiye yetmezse "{Para}ın yetmiyor: X gerekli, Y var" + "Nasıl kazanılır?"
  *   hataYedek / hataCevir — onOnay hata atarsa gösterilecek metin
  */
+// Satın alma çağrısı bu süre içinde dönmezse "Alınıyor…" sonsuza dek kilitli kalmasın (RPC asılı / ağ yarım kaldı).
+const ZAMAN_ASIMI_MS = 25000;
+
 export default function JokerSatinAlModal({
   tur, fiyat, coin, yalnizAl = false, onOnay, onKapat,
   baslik, aciklama, gorsel, nadirlik, para = "coin", kalanGoster = false, onayMetni, yetersizEylem, hataYedek, hataCevir,
 }) {
   const [calisiyor, setCalisiyor] = useState(false);
   const [hata, setHata] = useState(null);
+  const canliRef = useRef(true);
+  useEffect(() => { canliRef.current = true; return () => { canliRef.current = false; }; }, []);
   const bilgi = JOKER_BILGI[tur] ?? {};
   const bakiyeBilinmiyor = kalanGoster && (coin === null || coin === undefined);
   const yeterli = bakiyeBilinmiyor || Number(coin ?? 0) >= Number(fiyat ?? 0);
@@ -59,12 +64,23 @@ export default function JokerSatinAlModal({
     if (calisiyor || !yeterli) return;
     setCalisiyor(true);
     setHata(null);
+    let zamanlayici;
     try {
-      await onOnay();
+      // Hangi dalda olursa olsun (başarı, hata, asılı çağrı) "calisiyor" finally'de bırakılır.
+      await Promise.race([
+        onOnay(),
+        new Promise((_, red) => { zamanlayici = setTimeout(() => red(new Error("satin-alma-zaman-asimi")), ZAMAN_ASIMI_MS); }),
+      ]);
       onKapat?.();
     } catch (e) {
-      setHata(hataCevir ? hataCevir(e) : hataMesaji(e, hataYedek ?? tt("Joker alınamadı.")));
-      setCalisiyor(false);
+      if (!canliRef.current) return;
+      // Zaman aşımında alım sunucuda tamamlanmış olabilir: kullanıcıya bunu söyle, kör tekrar ettirme.
+      setHata(e?.message === "satin-alma-zaman-asimi"
+        ? tt("İşlem uzun sürdü. Bağlantını kontrol et; alım yapıldıysa envanterinde görünür.")
+        : hataCevir ? hataCevir(e) : hataMesaji(e, hataYedek ?? tt("Joker alınamadı.")));
+    } finally {
+      clearTimeout(zamanlayici);
+      if (canliRef.current) setCalisiyor(false);
     }
   };
 

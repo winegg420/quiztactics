@@ -397,6 +397,7 @@ async function duelloMaci(kapsam) {
       if (SIFIR_OLC && sifirTur === null && Number(d.tur) >= 2 && !(d.uzatma === true || d.uzatma === "t")) {
         sifirTur = Number(d.tur);
         console.log(`  · --sifir: ${rol} · tur ${sifirTur} bilerek yanıtsız bırakıldı (süre dolacak)`);
+        await haleOlc();
         await s.waitForTimeout(300);
         continue;
       }
@@ -413,10 +414,14 @@ async function duelloMaci(kapsam) {
           const pencere = s.getByRole("dialog", { name: /(Skill|Joker) satın al/ });
           if (await pencere.count()) {
             const al = pencere.getByRole("button", { name: /Al ve kullan/ });
-            if (await al.count() && await al.isEnabled()) await al.tap({ timeout: 3000 }).catch(() => {});
+            let alindi = false;
+            if (await al.count() && await al.isEnabled()) { await al.tap({ timeout: 3000 }).catch(() => {}); alindi = true; }
             else await pencere.getByRole("button", { name: /Vazgeç/ }).tap({ timeout: 3000 }).catch(() => {});
             sonAdim = "satın alma penceresi";
+            const pt0 = Date.now();
         for (let i = 0; i < 25 && await pencere.count(); i++) await s.waitForTimeout(200);
+            // Kapanış süresi kaydı: "Alınıyor…" takılması (RPC ya da ardından gelen yenileme yavaş/asılı) bu satırla görünür.
+            if (alindi) { const kapanis = Date.now() - pt0; kapsam.satinAlma.push(kapanis); console.log(`  · joker satın alma penceresi ${await pencere.count() ? "5 sn'de KAPANMADI" : kapanis + " ms'de kapandı"}`); }
             if (await pencere.count()) {
               const metin = (await pencere.innerText().catch(() => "")).replace(/s+/g, " ").slice(0, 160);
               basarisiz("Düello: skill satın alma penceresi 5 sn içinde kapanmadı", { metin });
@@ -470,9 +475,41 @@ async function duelloMaci(kapsam) {
   basarisiz("Düello: maç 15 dakikada bitmedi");
 }
 
+// Son 5 saniyenin kırmızı kenar nabzı (v2: `.qt-h-gerilim::after`; v1 halesi `.bd-duello-hale.kritik` artık çizilmiyor):
+// 4 px kenar çizgisi pikseli ile iç zemin arasındaki kontrast oranı. Süresi dolan (--sifir) fazda gerilim başlayınca
+// birkaç kare alınır, nabzın tepe/dip değeri yazılır.
+async function haleOlc() {
+  try {
+    const SEL = ".qt-h-gerilim, .bd-duello-hale.kritik";
+    for (let i = 0; i < 90 && !(await s.locator(SEL).count()); i++) await s.waitForTimeout(250);
+    if (!(await s.locator(SEL).count())) { console.log("  · hale ölçümü: son-5-sn kenar nabzı görülmedi"); return; }
+    const oranlar = [];
+    for (let i = 0; i < 6; i++) {
+      const b64 = (await s.screenshot()).toString("base64");
+      oranlar.push(await s.evaluate(async (b64) => {
+        const img = await createImageBitmap(await (await fetch("data:image/png;base64," + b64)).blob());
+        const c = new OffscreenCanvas(img.width, img.height); const x = c.getContext("2d"); x.drawImage(img, 0, 0);
+        const k = img.width / window.innerWidth;
+        const kap = (document.querySelector(".qt-h-gerilim") ?? document.body).getBoundingClientRect();
+        const x0 = Math.max(0, kap.left);
+        const lum = ([r, g, b]) => { const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }; return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b); };
+        const oran = (a, b) => (Math.max(lum(a), lum(b)) + 0.05) / (Math.min(lum(a), lum(b)) + 0.05);
+        const r = [];
+        for (let f = 0.3; f <= 0.71; f += 0.1) {
+          const y = Math.round(img.height * f);
+          r.push(oran(x.getImageData(Math.round((x0 + 2) * k), y, 1, 1).data, x.getImageData(Math.round((x0 + 90) * k), y, 1, 1).data));
+        }
+        return r.reduce((t, v) => t + v, 0) / r.length;
+      }, b64));
+      await s.waitForTimeout(150);
+    }
+    console.log(`  · son-5-sn kenar nabzı kontrastı (kenar / iç zemin): en yüksek ${Math.max(...oranlar).toFixed(2)}:1, en düşük ${Math.min(...oranlar).toFixed(2)}:1`);
+  } catch (e) { console.log("  · hale ölçümü başarısız: " + String(e.message).split(String.fromCharCode(10))[0]); }
+}
+
 async function duelloTesti() {
   console.log("\n▶ Düello");
-  const kapsam = { saldiran: 0, savunan: 0, durumlar: {}, olculen: new Set(), sayac: [] };
+  const kapsam = { saldiran: 0, savunan: 0, durumlar: {}, olculen: new Set(), sayac: [], satinAlma: [] };
   for (let i = 0; i < EN_COK_MAC; i++) {
     if (await duelloMaci(kapsam) === "kritik") break;
     if (kapsam.saldiran >= 3 && kapsam.savunan >= 3 && Object.keys(kapsam.durumlar).some((k) => k.includes("uzatma"))) break;
@@ -490,6 +527,7 @@ async function duelloTesti() {
   const gecikmeler = kapsam.sayac.map((r) => r.gecikme).sort((a, b) => a - b);
   if (gecikmeler.length) notlar.push(`Düello sayacı: ${kapsam.sayac.length} faz, ilk görünüş gecikmesi medyan ${gecikmeler[Math.floor(gecikmeler.length / 2)]} ms / en çok ${gecikmeler.at(-1)} ms, hızlı adımlı faz ${hizli.length}`);
   if (hizli.length) basarisiz("Düello: sayaç ilk 3 saniyede hızlı akıyor", hizli.slice(0, 4));
+  if (kapsam.satinAlma.length) notlar.push(`Düello joker satın alma penceresi kapanışı: ${kapsam.satinAlma.length} alım, ${kapsam.satinAlma.join(", ")} ms`);
   // Gösterilen sayaç 0'a gerçek bitişten 300 ms'den fazla önce düşmemeli (yalnız süresi dolan fazlarda gözlenir).
   const sifirlar = kapsam.sayac.filter((r) => r.sifirErken !== null);
   const erkenSifir = sifirlar.filter((r) => r.sifirErken > 300);
