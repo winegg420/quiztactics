@@ -8400,3 +8400,29 @@ ada dokununca kart yok, maç içi ses tek düğme; ek olarak 2. tur onayları (B
 Öncelik (Ida): 0 → 6 → 4 → 1–2 → 9 → 10 → 7 → 8 → 3 → 5 → 12 → 11, 13. Her bölüm bitince ajan commit + push eder ve bu girdiyi günceller.
 - Biten: belge (a65bac4), sayfa kabuğu + ortak palet (8248eaf: `oyun/tasarim/gorsel-revizyon/` palet.js/palet.css, secim.jsx, a/, b/) · 6 lig çerçeveleri (B) · 1 coin (A) (89cabbb) · 2 elmas (A) (808b11d) · 9 lig amblemleri (A) (dbe470b) · 10 rozetler (A) · 0 stil rehberi (A) · 4 oyuncu kartı (B) · 3 nadirlik (A) · 7 level çerçeveleri (B) · 12 logo (A) · 11 joker hizalama (A) · 8 turnuva şampiyonu (B) · 5 unvan (B) · 13 premium/arka plan hizalama (B)
 - Kalan: 
+
+## 2026-09-25 — Şehir Şampiyonu: arka plan (sunucu) — migration 640, 641
+**Araç:** Claude Code (PC). **Neden:** brif `tasarim/BRIEF_SEHIR_SAMPIYONU.md` — haftayı şehrinde 1. bitirene bir haftalık
+unvan + kalıcı rozet; görünüm Görsel Paket 2'de.
+- **Canlıdan okunan gerçek (önce):** `haftayi_kapat` arşive yalnız insanları yazıyordu (gizli botlar canlı şehir listesinde
+  görünür ama arşivde yoktu → listede 1. görünen ile arşiv 1.'si farklı olabilirdi), şehir sırası `rank()` (eşitlikte birden çok
+  1.), `lig_siralama` eşitlik bozucusu ad'da bitiyordu (id yok). `sehir_krali` eski `badges/user_badges` sistemine yazılıyordu;
+  istemcide bu tablo hiç okunmuyor (görünmez ödül). `sehirler` yalnız TR 81 il; diğer ülkede serbest metin.
+- **640 şehir listesi:** 81 il (Hakkâri → resmi "Hakkari") + GeoNames (CC BY 4.0) 84 ülkenin 100.000+ şehirleri (Lüksemburg'da
+  100.000+ yok → en kalabalık 3) = 4.956 şehir / 86 ülke; `nufus`, `kaynak`; `sehir_anahtar()` normalleştirme. Bir gizli botun
+  ülkesi (GH) listede yoktu → "Gana" eklendi. Üretici `araclar/sehir-listesi/uret.mjs`. Eski kayıt eşleme: tek insan kaydı
+  değişti (PH "Cebu" → "Cebu City"), eşlenemeyen insan kaydı yok. Gizli botlar: TR'de nüfus kotasıyla en az taşıma
+  (İstanbul 20 · Ankara 7 · İzmir 6 · Bursa 4 · …; önce Bursa 9, Trabzon/İstanbul 8), yabancı 49 bot ülkesinin en kalabalık 10
+  şehrinden nüfus ağırlıklı; 101 bot taşındı, şehirsiz gizli bot kalmadı.
+- **641:** `lig_arsiv.sehir_sampiyonu` (tek kaynak; aktif = hafta_basi() − 7), kapanışta gizli botlar da arşive girer, şehir
+  sırası canlı listeyle birebir (puan_hafta → puan → ad → id, aynı görünürlük), asgari şart ayarlarda (`sehir_sampiyonu_min_oyuncu`
+  3, `_min_galibiyet` 1; galibiyet `haftalik_galibiyet_sayisi`: Klasik/Düello/Grup/Turnuva kazananı, yalnız şehir 1.'leri için).
+  Rozet `lig_sehir_sampiyonu` (lig·altın·crown·olay·coin 0); `sehir_krali` artık verilmez (eski kayıtlar durur). Bildirim
+  anahtarlı (`push_metinleri.sehir_sampiyonu_oldun` TR/EN) ama `sehir_sampiyonu_bildirim_acik` = 0 (görünüm gelene dek kapalı).
+  `profil_konum_kaydet`: her ülkede listeden; şehri olan + puan_hafta > 0 → yeni haftayı bekler; ilk seçim serbest; 24 saat
+  kuralı aynen. `oyuncu_kartlari` + `sehir_sampiyonu jsonb` (DROP/CREATE, yetki birebir geri); `sehir_sampiyonu()` RPC.
+  Geriye dönük: 14 Eyl haftası (tek arşiv haftası) arşivdeki insan kayıtlarıyla şartlı → idagg (Balıkesir) şampiyon, rozet
+  coin'siz/görülmüş; bu hafta unvanı aktif.
+- **Prova (işlem içi, geri alındı) 36/36:** arşiv korundu, farklı puan / eşit puan→toplam / →ad / →id, gizli bot şampiyon =
+  canlı 1. (`bot=false`), 2 oyuncu → yok, 3 oyuncu galibiyetsiz → yok, konum 6 durum, süre (geçen hafta aktif, iki hafta önceki
+  değil), rozet ilk/ikinci/coin, `sehir_krali` yazılmadı, kart ve RPC'de bot bilgisi yok. Canlıya uygulandı.
