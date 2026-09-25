@@ -8,6 +8,8 @@ import { KONTUR as K, METAL, TAS, MARKA, KREM, LEVEL, EK_ACIK } from "../../pale
 /** Türler: renk (açık, orta, koyu) + simge. */
 export const UNVAN_TURLERI = {
   sehir:  { ad: "Şehir şampiyonu", r: { acik: EK_ACIK.turuncu, orta: MARKA.turuncu, koyu: MARKA.turuncuKoyu } },
+  ulke:   { ad: "Ülke şampiyonu",  r: LEVEL.yakut },
+  dunya:  { ad: "Dünya şampiyonu", r: LEVEL.turkuaz },
   lig:    { ad: "Lig",             r: METAL.altin },
   sezon:  { ad: "Sezon",           r: LEVEL.ametist },
   basari: { ad: "Başarı",          r: LEVEL.safir },
@@ -47,6 +49,21 @@ export function UnvanSimge({ tur, boyut = 14 }) {
     ic = (<>
       <path d="M8 15C5 11.4 3 9 3 6.6A5 5 0 0 1 13 6.6C13 9 11 11.4 8 15Z" fill={r.orta} {...cz} />
       <path d="M5.6 7.8L5.2 4.6L6.9 5.9L8 3.8L9.1 5.9L10.8 4.6L10.4 7.8Z" fill={METAL.altin.acik} {...cz} strokeWidth={0.9} />
+    </>);
+  } else if (tur === "ulke") {
+    // bayrak direği + dalgalı bayrak + küçük taç
+    ic = (<>
+      <path d="M4 15V2.4" fill="none" stroke={K} strokeWidth="2.2" strokeLinecap="round" />
+      <path d="M4.6 3.2C6.4 2 8 4.4 9.8 3.2C11.2 2.4 12.2 2.8 13 3.2V9C12.2 8.6 11.2 8.2 9.8 9C8 10.2 6.4 7.8 4.6 9Z" fill={r.orta} {...cz} />
+      <path d="M6.4 5.6L6.2 4.4L7 4.9L7.6 4L8.2 4.9L9 4.4L8.8 5.6Z" fill={METAL.altin.acik} {...cz} strokeWidth={0.6} />
+    </>);
+  } else if (tur === "dunya") {
+    // küre: daire + boylam/enlem çizgileri
+    ic = (<>
+      <circle cx="8" cy="8" r="6.2" fill={r.orta} {...cz} />
+      <ellipse cx="8" cy="8" rx="2.6" ry="6.2" fill="none" stroke={K} strokeWidth="1" />
+      <path d="M2 8H14M3.2 4.6H12.8M3.2 11.4H12.8" fill="none" stroke={K} strokeWidth="1" strokeLinecap="round" />
+      <path d="M4.2 3.6C5.4 2.6 6.6 2.2 7.8 2.2" fill="none" stroke={r.acik} strokeWidth="1.2" strokeLinecap="round" />
     </>);
   } else if (tur === "lig") {
     // defne çelengi içinde yıldız

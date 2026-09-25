@@ -79,6 +79,7 @@ export default {
   "% Level % ulaştı! +% coin": "% reached Level %2! +%3 coins",
   "% sana mesaj attı.": "% sent you a message.",
   "🏆 % Şampiyonu oldun! Unvanın bu hafta profilinde ve maçlarda görünecek.": "🏆 You are the Champion of %! Your title will appear on your profile and in matches this week.",
+  "🏆 Dünya Şampiyonu oldun! Unvanın bu hafta profilinde ve maçlarda görünecek.": "🏆 You are the World Champion! Your title will appear on your profile and in matches this week.",
   "Büyük turnuva 20:00'de başlıyor. Lobideki yerini al! 🏆": "The big tournament starts at 20:00. Grab your spot in the lobby! 🏆",
   "Turnuva 14:00'te başlıyor. Lobideki yerini al! 🏆": "The tournament starts at 14:00. Grab your spot in the lobby! 🏆",
   // ——— katalog metinleri (paket adları, eşya)

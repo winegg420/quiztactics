@@ -220,6 +220,8 @@ const SOZLUK = {
     "Unvan takılamadı.": "Couldn't set the title.",
     "Unvan isminin altında görünür. Birini seç; dokununca çıkar.": "Your title appears under your name. Pick one; tap it again to remove it.",
     "Bu hafta şehir şampiyonusun: bu unvan kendiliğinden görünüyor.": "You're this week's city champion: this title shows automatically.",
+    "Bu hafta ülke şampiyonusun: bu unvan kendiliğinden görünüyor.": "You're this week's country champion: this title shows automatically.",
+    "Bu hafta dünya şampiyonusun: bu unvan kendiliğinden görünüyor.": "You're this week's world champion: this title shows automatically.",
     "Bu unvan sende yok": "You don't have this title",
     "Oyuna başla": "Start playing",
     "Konum kaydedilemedi.": "Your location could not be saved.",

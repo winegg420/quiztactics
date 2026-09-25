@@ -58,6 +58,18 @@ export default function UnvanSecici() {
           {tt("Bu hafta şehir şampiyonusun: bu unvan kendiliğinden görünüyor.")}
         </p>
       )}
+      {veri.ulke_sampiyonu && (
+        <p className="qt-kucuk">
+          <UnvanYazisi unvan={{ tur: "ulke", ad: veri.ulke_sampiyonu.ad }} />{" "}
+          {tt("Bu hafta ülke şampiyonusun: bu unvan kendiliğinden görünüyor.")}
+        </p>
+      )}
+      {veri.dunya_sampiyonu && (
+        <p className="qt-kucuk">
+          <UnvanYazisi unvan={{ tur: "dunya" }} />{" "}
+          {tt("Bu hafta dünya şampiyonusun: bu unvan kendiliğinden görünüyor.")}
+        </p>
+      )}
       {hata && <p className="qt-cs-hata" role="alert">{hata}</p>}
       <ul className="qt-un-liste">
         {liste.map((u) => (
