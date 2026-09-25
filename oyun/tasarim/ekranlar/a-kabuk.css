@@ -239,15 +239,18 @@ body.bd-oyun-modu .a-kabuk .a-altmenu { display: none; }
 @media (min-width: 1024px) {
   body:not(.bd-oyun-modu) .a-kabuk .a-icerik > :not(.as-sayfa) {
     width: 100%;
-    max-width: var(--qt-sutun);
+    max-width: var(--a-sutun, var(--qt-sutun));
     margin-inline: auto;
   }
+
+  /* Tek istisna: Dükkân 8 sekmesi (EN adlarıyla) 640'a sığmıyor → --qt-sutun-dukkan. Sütun ve bant aynı değişkeni okur. */
+  .app.a-kabuk:has(> .a-icerik > .qt-dk) { --a-sutun: var(--qt-sutun-dukkan); }
 
   /* Sütunun iki yanı "boş" değil "kasıtlı" görünsün: noktalı zeminin üstünde sütunu 24 px taşan çok hafif
      yüzey bandı + ince kenar çizgisi. Yalnız zemin token'ları (tema koyuya geçince kendiliğinden uyar).
      Ana Sayfa'da yok; maç ekranında (kabuk şeffaf) yok. Yalnız arka plan — fonksiyon ve yerleşim aynı. */
   body:not(.bd-oyun-modu) .app.a-kabuk:not(:has(.as-sayfa)) {
-    --a-bant-yari: calc(var(--qt-sutun) / 2 + 24px);
+    --a-bant-yari: calc(var(--a-sutun, var(--qt-sutun)) / 2 + 24px);
     --a-bant: color-mix(in srgb, var(--qt-yuzey) 34%, transparent);
     --a-bant-kenar: color-mix(in srgb, var(--qt-zemin-2) 85%, transparent);
     background:

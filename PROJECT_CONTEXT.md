@@ -482,7 +482,7 @@ karakter, Hızlı Mod hariç — dondurulmuş) bu sistemle yeniden yazıldı.
   (`Logo.jsx`); yeni logo ayrı iş, bekliyor.
 - **Masaüstü (≥ 1024 px, Ida 25 Eyl 2026):** yeni yan menü/panel YOK (telefon oyunu). Ana Sayfa (`.as-sayfa`) kendi masaüstü panelini
   taşır; diğer bütün sayfalar tek ortalı sütun, genişlik tek token `--qt-sutun` (640 px, `tokenlar.css`; kural `a-kabuk.css` › `.a-icerik > :not(.as-sayfa)`).
-  Maç ekranları (`body.bd-oyun-modu`) kendi 560 px sahnesini korur. Sütunun iki yanı: noktalı zemin + hafif yüzey bandı (yalnız zemin token'ları).
+  **Tek istisna Dükkân:** `--qt-sutun-dukkan` 740 px (8 sekme TR 671 / EN 730 px ister; sekme çubuğu ≥ 1024'te 13 px yazı + 8 px dolgu). Maç ekranları (`body.bd-oyun-modu`) kendi 560 px sahnesini korur. Sütunun iki yanı: noktalı zemin + hafif yüzey bandı (yalnız zemin token'ları).
   Alt menü yalnız < 850 px; masaüstünde üst çubuk menüsü var, sabit alt menü yok.
 - Baloo 2 başlık / Nunito gövde — **yerel paketli** (`public/fonts/`). Google Fonts YOK.
 - Oyun, bilgi yarışması gibi görünmeli; sakin/nötr "uygulama" estetiğine kaydırma.

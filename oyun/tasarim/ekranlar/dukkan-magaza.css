@@ -237,3 +237,10 @@
 .qt-dk-elmas-gorsel { display: flex; flex-wrap: wrap; justify-content: center; align-content: center; gap: 2px; color: var(--qt-ikinci); }
 .qt-dk-coin--elmas.qt-dk-coin--eniyi { box-shadow: inset 0 0 0 3px var(--qt-ikinci), 0 var(--qt-dudak-s) 0 var(--qt-ikinci-dudak); }
 .qt-dk-coin--elmas .qt-dk-coin-eniyi { background: var(--qt-ikinci); color: var(--qt-ikinci-yazi); box-shadow: 0 2px 0 var(--qt-ikinci-dudak); }
+
+/* Masaüstü (≥ 1024 px): 8 sekme kaydırmadan sığsın. Yalnız Dükkân çubuğu (.qt-dk-sekmeler); ortak .qt-sekmeler
+   (Lig vb.) ve telefondaki kaydırma aynen kalır. Yazı/dolgu bir tık küçük, ikon aynı; sütun genişliği a-kabuk.css'te. */
+@media (min-width: 1024px) {
+  .qt-dk-sekmeler { gap: 2px; }
+  .qt-dk-sekmeler .qt-sekme { min-height: 40px; padding: 0 var(--qt-b-2); gap: 4px; font-size: 13px; }
+}

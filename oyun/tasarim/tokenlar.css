@@ -175,6 +175,7 @@
   --qt-kenar: 16px;          /* sayfa yan boşluğu */
   --qt-kabuk: 1180px;        /* masaüstü içerik genişliği */
   --qt-sutun: 640px;         /* masaüstünde Ana Sayfa dışı sayfaların tek sütun genişliği (≥ 1024 px) */
+  --qt-sutun-dukkan: 740px; /* Dükkân'ın masaüstü sütunu: 8 sekme TR 671 / EN 730 px ister (13 px yazı) */
   --qt-dokunma: 44px;        /* en küçük dokunma hedefi */
 
   /* ---------- 11. Köşe ---------- */
