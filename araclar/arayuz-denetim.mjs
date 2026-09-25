@@ -168,11 +168,13 @@ async function kurulumuTamamla(sayfa) {
   const avatarsiz = sayfa.getByRole("button", { name: /Avatarsız devam et/i });
   if (await kullan.count()) { await kullan.first().click(); await sayfa.waitForTimeout(1800); }
   else if (await avatarsiz.count()) { await avatarsiz.first().click(); await sayfa.waitForTimeout(1800); }
-  // 3) Şehir
-  const sehir = sayfa.locator(".bd-modal-katman select").last();
+  // 3) Şehir — 641'den beri aranabilir liste (ülke hâlâ select; varsayılan TR kalır)
+  const sehir = sayfa.locator(".bd-modal-katman [role=combobox]").first();
   if (await sehir.count()) {
-    const secenekler = await sehir.locator("option").count();
-    if (secenekler > 1) await sehir.selectOption({ index: 1 });
+    await sehir.click();
+    await sayfa.locator(".bd-modal-katman [role=option]").first().waitFor({ timeout: 8000 }).catch(() => {});
+    const secenek = sayfa.locator(".bd-modal-katman [role=option]").first();
+    if (await secenek.count()) await secenek.click();
     await sayfa.getByRole("button", { name: /Oyuna başla/i }).first().click();
     await sayfa.waitForTimeout(2500);
   }

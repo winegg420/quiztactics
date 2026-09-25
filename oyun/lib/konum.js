@@ -1,4 +1,4 @@
-import { tt } from "./dil.js";
+import { tt, aktifDil } from "./dil.js";
 // Konum (ülke/şehir) ve haftalık lig yardımcıları.
 // Ülke/şehir listeleri DB'deki `ulkeler` / `sehirler` tablolarından gelir
 // (sunucu doğrulaması için); burada yalnızca gösterim yardımcıları var.
@@ -13,8 +13,38 @@ export function bayrak(kod) {
   );
 }
 
+// Şehir arama anahtarı: harf/aksan/boşluk farkı yok (sunucudaki sehir_anahtar() ile aynı fikir).
+const OZEL_HARF = { ł: "l", Ł: "l", ø: "o", Ø: "o", ß: "ss", đ: "d", Đ: "d", æ: "ae", Æ: "ae", œ: "oe", Œ: "oe" };
+export function sehirAnahtari(metin) {
+  return String(metin ?? "")
+    .replace(/[İIı]/g, "i")
+    .replace(/[łŁøØßđĐæÆœŒ]/g, (h) => OZEL_HARF[h])
+    .normalize("NFD")
+    .replace(/\p{M}/gu, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, "");
+}
+
+// Ülke adı oyuncunun dilinde (tabloda Türkçe ad var; İngilizcede tarayıcının ülke adları kullanılır).
+let ulkeAdlari = null;
+export function ulkeAdi(kod, yedek) {
+  if (aktifDil() === "tr" || !kod) return yedek ?? kod;
+  try {
+    ulkeAdlari ??= new Intl.DisplayNames([aktifDil()], { type: "region" });
+    return ulkeAdlari.of(kod) ?? yedek ?? kod;
+  } catch {
+    return yedek ?? kod;
+  }
+}
+
 // Konum günde bir kez değişebilir (RPC de aynı kuralı uygular).
 export const KONUM_KILIT_MS = 24 * 60 * 60 * 1000;
+
+// Haftalık kilit (641): şehri olan oyuncu o hafta puan kazandıysa yeni hafta başlayana kadar
+// şehir/ülke değiştiremez. İlk şehir seçimi bu kilide takılmaz. Sunucu da aynı kuralı uygular.
+export function konumHaftaKilitli(profil) {
+  return Boolean(profil?.sehir) && Number(profil?.puan_hafta ?? 0) > 0;
+}
 
 // Kalan kilit süresi (ms). 0 = değiştirilebilir.
 export function konumKilidiKalan(konumDegistiAt) {

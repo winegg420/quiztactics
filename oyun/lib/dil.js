@@ -188,6 +188,22 @@ const SOZLUK = {
     "Şehrini yaz": "Type your city",
     "— Seç —": "— Select —",
     "Şehir seçmelisin.": "You must select a city.",
+    // 641: şehir listeden aranır; haftalık konum kilidi
+    "Şehir ve ülke liglerinde bu bilgiyle yarışırsın. Günde en fazla bir kez değiştirebilirsin; o hafta puan kazandıysan yeni haftayı beklersin.":
+      "This is what places you in the city and country leagues. You can change it at most once a day, and if you've earned points this week you'll need to wait for the new week.",
+    "Günde en fazla bir kez değiştirebilirsin; o hafta puan kazandıysan yeni haftayı beklersin.":
+      "You can change it at most once a day; if you've earned points this week, you'll need to wait for the new week.",
+    "Şehrini ara": "Search for your city",
+    "Şehrini listeden seç.": "Pick your city from the list.",
+    "Bu adla bir şehir bulamadık. Yazımı kontrol et ya da yakınındaki büyük şehri seç.":
+      "We couldn't find a city with that name. Check the spelling or pick the nearest big city.",
+    "Bu hafta puan kazandığın için şehrini yeni hafta başlayana kadar değiştiremezsin.":
+      "You have already earned points this week. You can change your city when the new week begins.",
+    "18. Üçüncü taraf verileri ve lisanslar": "18. Third-party data and licences",
+    "Türkiye dışındaki ülkelerin şehir listesi GeoNames verisinden alınmıştır ve Creative Commons Atıf 4.0 lisansıyla kullanılır:":
+      "The city list for countries other than Türkiye comes from GeoNames data and is used under the Creative Commons Attribution 4.0 licence:",
+    "Listeyi oyuna uyarlarken nüfusu 100.000'in altındaki yerleri çıkardık ve aynı ülkede aynı adı taşıyan şehirlere bölge adını ekledik.":
+      "To adapt it for the game we removed places with fewer than 100,000 inhabitants and added the region name to cities that share a name within the same country.",
     "Oyuna başla": "Start playing",
     "Konum kaydedilemedi.": "Your location could not be saved.",
     "Ülke listesi yüklenemedi.": "The country list could not be loaded.",

@@ -8426,3 +8426,16 @@ unvan + kalıcı rozet; görünüm Görsel Paket 2'de.
 - **Prova (işlem içi, geri alındı) 36/36:** arşiv korundu, farklı puan / eşit puan→toplam / →ad / →id, gizli bot şampiyon =
   canlı 1. (`bot=false`), 2 oyuncu → yok, 3 oyuncu galibiyetsiz → yok, konum 6 durum, süre (geçen hafta aktif, iki hafta önceki
   değil), rozet ilk/ikinci/coin, `sehir_krali` yazılmadı, kart ve RPC'de bot bilgisi yok. Canlıya uygulandı.
+
+## 2026-09-25 — Şehir Şampiyonu: konum ekranı listeye geçti + belgeler
+**Araç:** Claude Code (PC). **Neden:** aynı brif — istemcide yalnız konum seçimi ve kilit mesajı.
+- `SehirArama.jsx` + `ekranlar/sehir-arama.css`: aranabilir liste (serbest metin yok), nüfusa göre sıralı, harf/aksan
+  farkı önemsiz ("IZMIR" → İzmir), liste akışta açılır (yüzen katman yok), satır ≥ 44 px, klavye (↑↓ Enter Esc).
+  Profil kartı (`KonumSecici`) ve kurulum sihirbazı adım 3 bunu kullanır; ülke adları EN'de `Intl.DisplayNames`.
+  Haftalık kilit mesajı kartta ve Profil › Ayarlar satırında (`konumHaftaKilitli`); açıklama metni yeni kurala göre.
+- `araclar/arayuz-denetim.mjs` kurulum adımı şehri artık listeden seçer (eski `select` yolu ülkeyi değiştirirdi).
+- Atıf: Kullanım Koşulları › 18 (GeoNames, CC BY 4.0, yapılan değişiklik) + `docs/VARLIK_LISANSLARI.md`.
+  Sözleşme `docs/SOZLESME_ROZET_CERCEVE.md` (kart alanı, `sehir_sampiyonu()`, rozet 102) ve `cerceve.js` yorumu.
+- **Ölçüm (yerel, canlı DB, 3 misafir hesap — sonra silindi):** sihirbaz 390×844 ve 360×640, TR ve EN: taşma 0,
+  44 px altı hedef 0, konsol hatası 0; "bali" → Balıkesir, "IZMIR" → İzmir, bulunamadı metni TR/EN; seçim + "Oyuna başla"
+  kaydetti. Profil kartı: 24 saat kilidi (TR) ve puan_hafta > 0 haftalık kilit (EN, 360 px) doğru metinle. Build temiz.

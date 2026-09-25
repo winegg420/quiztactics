@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Modal from "./Modal.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import Avatar from "../../src/components/Avatar.jsx";
 import Bayrak from "./Bayrak.jsx";
+import SehirArama from "./SehirArama.jsx";
+import { ulkeAdi } from "../lib/konum.js";
 import { useDil } from "../lib/dilKanca.js";
 import { tt } from "../lib/dil.js";
 import { QtDugme, QtToast } from "../tasarim/index.js";
@@ -37,6 +39,13 @@ export default function KurulumSihirbazi({ onTamam }) {
   const [sehir, setSehir] = useState(profile?.sehir ?? "");
   const [hata, setHata] = useState(null);
   const [calisiyor, setCalisiyor] = useState(false);
+  const [sehirYukleniyor, setSehirYukleniyor] = useState(false);
+  const ulkeListesi = useMemo(
+    () => ulkeler
+      .map((u) => ({ ...u, gorunen: ulkeAdi(u.kod, u.ad) }))
+      .sort((a, b) => a.gorunen.localeCompare(b.gorunen)),
+    [ulkeler]
+  );
 
   // Hangi adımdan başlanacağını profil belirler (mevcut üyeler yarıda kalabilir)
   useEffect(() => {
@@ -77,17 +86,22 @@ export default function KurulumSihirbazi({ onTamam }) {
   useEffect(() => {
     if (adim !== 3 || !ulke) return;
     let aktif = true;
+    setSehirYukleniyor(true);
     (async () => {
       try {
+        // Büyük şehir önce (arama boşken listede en kalabalıklar üstte)
         const { data, error } = await supabase
           .from("sehirler")
-          .select("ad")
+          .select("ad, nufus")
           .eq("ulke", ulke)
+          .order("nufus", { ascending: false, nullsFirst: false })
           .order("ad");
         if (error) throw error;
         if (aktif) setSehirler(data ?? []);
       } catch (e) {
         if (aktif) setHata(hataMesaji(e, ceviri("Şehir listesi yüklenemedi.")));
+      } finally {
+        if (aktif) setSehirYukleniyor(false);
       }
     })();
     return () => {
@@ -127,8 +141,8 @@ export default function KurulumSihirbazi({ onTamam }) {
 
   const konumKaydet = async () => {
     setHata(null);
-    if (!sehir.trim()) {
-      setHata(ceviri("Şehir seçmelisin."));
+    if (!sehir.trim() || !sehirler.some((s) => s.ad === sehir)) {
+      setHata(ceviri("Şehrini listeden seç."));
       return;
     }
     setCalisiyor(true);
@@ -147,7 +161,6 @@ export default function KurulumSihirbazi({ onTamam }) {
     }
   };
 
-  const serbestSehir = sehirler.length === 0;
   const hataNotu = hata ? <QtToast ton="yanlis" metin={hata} className="g-sihirbaz-hata" /> : null;
 
   // Tasarım Adım 2 (Yön A): eski paylaşılan Modal (bd-modal-katman — araç testleri
@@ -253,7 +266,7 @@ export default function KurulumSihirbazi({ onTamam }) {
           <div key="a3" className="g-sihirbaz-adim qt-h-gir">
             <h2 className="qt-baslik-2">{ceviri("Hangi şehir için yarışıyorsun?")}</h2>
             <p className="qt-kucuk qt-soluk">
-              {ceviri("Şehir ve ülke liglerinde bu bilgiyle yarışırsın. Günde yalnızca bir kez değiştirebilirsin.")}
+              {ceviri("Şehir ve ülke liglerinde bu bilgiyle yarışırsın. Günde en fazla bir kez değiştirebilirsin; o hafta puan kazandıysan yeni haftayı beklersin.")}
             </p>
 
             <label className="g-alan">
@@ -268,36 +281,24 @@ export default function KurulumSihirbazi({ onTamam }) {
                   setSehir("");
                 }}
               >
-                {ulkeler.map((u) => (
+                {ulkeListesi.map((u) => (
                   <option key={u.kod} value={u.kod}>
-                    {u.ad}
+                    {u.gorunen}
                   </option>
                 ))}
               </select>
             </label>
 
-            <label className="g-alan">
-              <span className="g-alan-etiket">{ceviri("Şehir")}</span>
-              {serbestSehir ? (
-                <input
-                  className="g-girdi"
-                  type="text"
-                  placeholder={ceviri("Şehrini yaz")}
-                  maxLength={40}
-                  value={sehir}
-                  onChange={(e) => setSehir(e.target.value)}
-                />
-              ) : (
-                <select className="g-girdi" value={sehir} onChange={(e) => setSehir(e.target.value)}>
-                  <option value="">{ceviri("— Seç —")}</option>
-                  {sehirler.map((s) => (
-                    <option key={s.ad} value={s.ad}>
-                      {s.ad}
-                    </option>
-                  ))}
-                </select>
-              )}
-            </label>
+            <SehirArama
+              sarmalSinif="g-alan"
+              etiketSinif="g-alan-etiket"
+              girdiSinifi="g-girdi"
+              etiket={ceviri("Şehir")}
+              sehirler={sehirler}
+              deger={sehir}
+              onSec={setSehir}
+              yukleniyor={sehirYukleniyor}
+            />
 
             {/* Rozet + çerçeve paketi: davet kodu (isteğe bağlı; /davet/KOD ile gelindiyse dolu gelir) */}
             <DavetKoduGir />

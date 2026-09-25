@@ -23,7 +23,7 @@ import TemaDugmesi from "../components/TemaDugmesi.jsx";
 import { KOYU_TEMA_KAPALI } from "../lib/tema.js";
 import UstalikIzgarasi from "../components/UstalikIzgarasi.jsx";
 import KategoriProfili from "../components/KategoriProfili.jsx";
-import { konumKilidiKalan, sureMetni } from "../lib/konum.js";
+import { konumHaftaKilitli, konumKilidiKalan, sureMetni } from "../lib/konum.js";
 import Bayrak from "../components/Bayrak.jsx";
 import { rutbeBul, sonrakiRutbe } from "../lib/ranks.js";
 import { y } from "../lib/yol.js";
@@ -404,7 +404,11 @@ export default function ProfilePage() {
                       ? <><Bayrak kod={profile.ulke} /> {profile.sehir ?? "—"}</>
                       : tt("Henüz seçmedin — şehir ve ülke liglerine giremezsin.")}
                   </span>
-                  {konumKilidiKalan(profile.konum_degisti_at) > 0 && (
+                  {konumHaftaKilitli(profile) ? (
+                    <span className="qt-kucuk qt-soluk">
+                      {tt("Bu hafta puan kazandığın için şehrini yeni hafta başlayana kadar değiştiremezsin.")}
+                    </span>
+                  ) : konumKilidiKalan(profile.konum_degisti_at) > 0 && (
                     <span className="qt-kucuk qt-soluk">
                       {tt("Değiştirmek için {0} kaldı.", { 0: sureMetni(konumKilidiKalan(profile.konum_degisti_at)) })}
                     </span>

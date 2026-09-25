@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { hataMesaji } from "../lib/hata.js";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
-import { konumKilidiKalan, sureMetni } from "../lib/konum.js";
+import { konumHaftaKilitli, konumKilidiKalan, sureMetni, ulkeAdi } from "../lib/konum.js";
 import Bayrak from "./Bayrak.jsx";
+import SehirArama from "./SehirArama.jsx";
 import { tt } from "../lib/dil.js";
 import { QtDugme, QtIkon, QtKart, QtModal } from "../tasarim/index.js";
 import "../tasarim/ekranlar/dukkan-profil.css";
@@ -22,9 +23,18 @@ export default function KonumSecici({ mod = "kart", onKapat, onKaydedildi }) {
   const [sehir, setSehir] = useState(profile?.sehir ?? "");
   const [hata, setHata] = useState(null);
   const [kaydediyor, setKaydediyor] = useState(false);
+  const [sehirYukleniyor, setSehirYukleniyor] = useState(false);
 
   const kalan = konumKilidiKalan(profile?.konum_degisti_at);
-  const kilitli = mod === "kart" && kalan > 0;
+  // 641: şehri olan oyuncu bu hafta puan kazandıysa yeni haftayı bekler (ilk seçim serbest)
+  const haftaKilitli = mod === "kart" && konumHaftaKilitli(profile);
+  const kilitli = haftaKilitli || (mod === "kart" && kalan > 0);
+  const ulkeListesi = useMemo(
+    () => ulkeler
+      .map((u) => ({ ...u, gorunen: ulkeAdi(u.kod, u.ad) }))
+      .sort((a, b) => a.gorunen.localeCompare(b.gorunen)),
+    [ulkeler]
+  );
 
   useEffect(() => {
     let aktif = true;
@@ -50,16 +60,21 @@ export default function KonumSecici({ mod = "kart", onKapat, onKaydedildi }) {
     let aktif = true;
     const yukle = async () => {
       if (!ulke) return;
+      setSehirYukleniyor(true);
       try {
+        // Büyük şehir önce (arama boşken listede en kalabalıklar üstte)
         const { data, error } = await supabase
           .from("sehirler")
-          .select("ad")
+          .select("ad, nufus")
           .eq("ulke", ulke)
+          .order("nufus", { ascending: false, nullsFirst: false })
           .order("ad");
         if (error) throw error;
         if (aktif) setSehirler(data ?? []);
       } catch (e) {
         if (aktif) setHata(hataMesaji(e, tt("Şehir listesi yüklenemedi.")));
+      } finally {
+        if (aktif) setSehirYukleniyor(false);
       }
     };
     yukle();
@@ -68,16 +83,14 @@ export default function KonumSecici({ mod = "kart", onKapat, onKaydedildi }) {
     };
   }, [ulke]);
 
-  const serbestSehir = sehirler.length === 0;
-
   const kaydet = async () => {
     setHata(null);
     if (!ulke) {
       setHata(tt("Ülke seçmelisin."));
       return;
     }
-    if (!sehir.trim()) {
-      setHata(tt("Şehir seçmelisin."));
+    if (!sehir.trim() || !sehirler.some((s) => s.ad === sehir)) {
+      setHata(tt("Şehrini listeden seç."));
       return;
     }
     setKaydediyor(true);
@@ -109,45 +122,31 @@ export default function KonumSecici({ mod = "kart", onKapat, onKaydedildi }) {
             setSehir("");
           }}
         >
-          {ulkeler.map((u) => (
+          {ulkeListesi.map((u) => (
             <option key={u.kod} value={u.kod}>
-              {u.ad}
+              {u.gorunen}
             </option>
           ))}
         </select>
       </label>
 
-      <label className="qt-pf-alan">
-        <span>{tt("Şehir")}</span>
-        {serbestSehir ? (
-          <input
-            type="text"
-            placeholder={tt("Şehrini yaz")}
-            maxLength={40}
-            value={sehir}
-            disabled={kilitli}
-            onChange={(e) => setSehir(e.target.value)}
-          />
-        ) : (
-          <select
-            value={sehir}
-            disabled={kilitli}
-            onChange={(e) => setSehir(e.target.value)}
-          >
-            <option value="">{tt("— Seç —")}</option>
-            {sehirler.map((s) => (
-              <option key={s.ad} value={s.ad}>
-                {s.ad}
-              </option>
-            ))}
-          </select>
-        )}
-      </label>
+      <SehirArama
+        sarmalSinif="qt-pf-alan"
+        sehirler={sehirler}
+        deger={sehir}
+        onSec={setSehir}
+        devreDisi={kilitli}
+        yukleniyor={sehirYukleniyor}
+      />
 
       {kilitli && (
         <p className="qt-pf-not qt-pf-not--uyari">
           <QtIkon ad="saat" boyut={18} />
-          <span>{tt("Konumunu tekrar değiştirebilmen için {0} kaldı.", { 0: sureMetni(kalan) })}</span>
+          <span>
+            {haftaKilitli
+              ? tt("Bu hafta puan kazandığın için şehrini yeni hafta başlayana kadar değiştiremezsin.")
+              : tt("Konumunu tekrar değiştirebilmen için {0} kaldı.", { 0: sureMetni(kalan) })}
+          </span>
         </p>
       )}
 
@@ -158,7 +157,7 @@ export default function KonumSecici({ mod = "kart", onKapat, onKaydedildi }) {
   const aciklama = (
     <>
       {tt("Şehir ve ülke liglerinde bu bilgiyle yarışırsın.")}{" "}
-      <b>{tt("Günde yalnızca bir kez değiştirebilirsin.")}</b>
+      <b>{tt("Günde en fazla bir kez değiştirebilirsin; o hafta puan kazandıysan yeni haftayı beklersin.")}</b>
     </>
   );
 

@@ -1,0 +1,41 @@
+/* Aranabilir şehir listesi (SehirArama.jsx) — konum seçimi, profil kartı ve kurulum sihirbazı.
+   Liste kutunun altında AKIŞTA açılır; sabit/yüzen katman yok (iOS fixed+transform tuzağı yok). */
+.sehir-arama { display: grid; gap: 6px; min-width: 0; }
+.sehir-arama input[type="search"]::-webkit-search-cancel-button { display: none; }
+
+.sehir-arama-liste {
+  list-style: none;
+  margin: 0;
+  padding: 4px;
+  max-height: 232px;              /* ~5 satır; kısa ekranda modal kendisi kaydırılır */
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border: 2px solid var(--qt-cizgi-guclu);
+  border-radius: var(--qt-r-m);
+  background: var(--qt-yuzey);
+  color: var(--qt-metin);
+}
+
+.sehir-arama-secenek {
+  display: flex;
+  align-items: center;
+  min-height: var(--qt-dokunma, 44px);
+  padding: 0 var(--qt-b-3, 12px);
+  border-radius: var(--qt-r-s);
+  font-size: var(--qt-y-m);
+  font-weight: var(--qt-a-kalin);
+  cursor: pointer;
+  overflow-wrap: anywhere;
+  -webkit-tap-highlight-color: transparent;
+}
+.sehir-arama-secenek--aktif { background: var(--qt-yuzey-3); }
+.sehir-arama-secenek--secili { color: var(--qt-ikinci); }
+@media (hover: hover) {
+  .sehir-arama-secenek:hover { background: var(--qt-yuzey-3); }
+}
+
+.sehir-arama-bos {
+  padding: var(--qt-b-3, 12px);
+  font-size: var(--qt-y-s);
+  color: var(--qt-metin-soluk);
+}
