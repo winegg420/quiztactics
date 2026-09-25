@@ -32,10 +32,14 @@ const EPOSTA = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi;
 // tam da bu alandan sızıyordu — testte yakalandı.
 const DAVET = /((?:^|[?&])davet=)[^&#\s]*/gi;
 
+// Oyuncu kimliği (UUID): Supabase istek adresleri breadcrumb'a düşer (ör. `rakip=eq.<uuid>`, `user_id=eq.<uuid>`).
+// Kimlik takma adla eşleşebilir; rapora girmesin. Maç/soru kimlikleri de UUID — hata ayıklama için tür/sıra yeter.
+const UUID = /\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b/gi;
+
 /** Tek bir metni temizler: davet kodu ve e-posta çıkarılır. */
 export function temizleMetin(m) {
   if (typeof m !== "string" || !m) return m;
-  return m.replace(DAVET, "$1[gizlendi]").replace(EPOSTA, "[e-posta]");
+  return m.replace(DAVET, "$1[gizlendi]").replace(EPOSTA, "[e-posta]").replace(UUID, "[kimlik]");
 }
 
 /** Nesne ağacındaki tüm string alanları temizler (derinlik sınırlı). */

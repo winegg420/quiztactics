@@ -61,6 +61,13 @@ bekle(
 );
 bekle("normal metin bozulmamali", temizleMetin("Maç bulunamadı") === "Maç bulunamadı");
 bekle("bos/gecersiz girdi patlamamali", temizleMetin(null) === null);
+bekle(
+  "UUID (oyuncu kimligi) sorgu adresinde maskelenmeli",
+  temizleMetin("GET /rest/v1/duello_davetleri?rakip=eq.e4f6006f-d6bb-4ca8-be67-3bdf9efc9708&durum=eq.bekliyor") ===
+    "GET /rest/v1/duello_davetleri?rakip=eq.[kimlik]&durum=eq.bekliyor",
+);
+bekle("buyuk harfli UUID de maskelenmeli", !temizleMetin("id E4F6006F-D6BB-4CA8-BE67-3BDF9EFC9708").includes("E4F6006F"));
+bekle("UUID olmayan tireli metin bozulmamali", temizleMetin("a-b-c 1234-5678") === "a-b-c 1234-5678");
 
 // --- temizleOlay ------------------------------------------------------------
 const olay = {
@@ -75,6 +82,7 @@ const olay = {
   breadcrumbs: [
     { message: "navigate", data: { to: "/?davet=09RP84K3", from: "/" } },
     { message: "kullanici a@b.com", data: {} },
+    { category: "fetch", data: { url: "https://x.supabase.co/rest/v1/duello_davetleri?rakip=eq.e4f6006f-d6bb-4ca8-be67-3bdf9efc9708" } },
   ],
   extra: { yol: "/?davet=09RP84K3" },
   exception: { values: [{ value: "a@b.com adresi bulunamadi" }] },
@@ -90,6 +98,10 @@ bekle("user.ip_address silinmeli", t.user.ip_address === undefined);
 bekle("user.username silinmeli", t.user.username === undefined);
 bekle("cerezler silinmeli", t.request.cookies === undefined);
 bekle("breadcrumb data temizlenmeli", !JSON.stringify(t.breadcrumbs).includes("davet=09RP84K3"));
+bekle(
+  "breadcrumb'taki UUID maskelenmeli",
+  !JSON.stringify(t.breadcrumbs).includes("e4f6006f") && JSON.stringify(t.breadcrumbs).includes("rakip=eq.[kimlik]"),
+);
 bekle("extra temizlenmeli", !JSON.stringify(t.extra).includes("davet=09RP84K3"));
 bekle("exception degeri temizlenmeli", !JSON.stringify(t.exception).includes("a@b.com"));
 bekle("null olay patlamamali", temizleOlay(null) === null);
