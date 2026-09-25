@@ -110,7 +110,7 @@ export default function B6Lig() {
              aciklama="İki tam set. Ligler renkle değil ŞEKİL ve SÜSLE ayrışır; siluet daireyi taşar. Bronz ve Gümüş durağan (Gümüş'te yalnız yansıma), Altın–Elmas–Efsane hareketli. Vitrinde bir lig seçip büyük boyda hareketini gör; listelerde (40 px) her şey durağan."
              ic={4} gosterilen={2}
              elenen="C Yıldız Madalyon (uç sayısı 1→5 artan halka: 40 px'te Gümüş/Altın ayrışmadı, clip-art yıldız hissi) · D Arma Kalkanı (avatarın arkasında kalkan: A4'teki 'antivirüs kalkanı' çağrışımı, üst ligler Ejderha/Kraliyet yanında sönük)"
-             zayif={null}>
+             zayif="40 px'te (lig tablosu) kademeyi renk + küçük tepelik (taş, taç, kristal, boynuz) taşıyor; siluet testinde Bronz ile Gümüş birbirine yakın. Set A'nın Altın'ı oyundaki Altın Lig olduğu için A setinde bantlı (degradeli) metal dili korunuyor; Set B tamamen düz hücre gölgeli.">
       <GrAday kod="set-a" baslik="Set A — Defne ve Taç (Altın Lig ailesi)" genis
               fikir="Onaylı Altın Lig'in yapı taşları: bantlı metal halka, oyma, boncuk kenar, defne dalı, plaka. Bronz kısa dal + düz plaka · Gümüş yarım dal + tepe taşı + kurdele · Altın oyundaki Altın Lig · Elmas kristal yapraklar + beş kristalli taç + yan kristaller · Efsane açık kanatlar + büyük taç + arkada yanan mor alev."
               testler={{ siluet: true, kucuk: true, gri: true, set: true, avatar: true, hedef: true, mobil: true }}>

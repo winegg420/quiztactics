@@ -82,3 +82,6 @@ export const LEVEL = {
   ametist: { acik: "#cbb5ff", orta: "#9d74f0", koyu: "#6a45c8", kenar: "#3f2587" },
   yakut:   { acik: "#ff8e9c", orta: "#ff2a4a", koyu: "#b8102c", kenar: "#6e0618" },
 };
+
+/** Ek açık tonlar (Ajan B ekledi, 25 Eyl) — unvan kurdelesi (şehir şampiyonu türü) açık turuncu. */
+export const EK_ACIK = { turuncu: "#ffd9bf" };
