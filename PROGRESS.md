@@ -8511,3 +8511,14 @@ unvan + kalıcı rozet; görünüm Görsel Paket 2'de.
   aktif aura (auralar.nadirlik), `koleksiyon_ek_kalemleri` (Battle Pass ve gelecek kalemler için kanca), unvan / kozmetik / avatar için `nadirlik` sütunu eklendi ama BOŞ (tanımsız → puana girmez, uydurulmadı).
   Önbellek `profiles.koleksiyon_puani`, deyim düzeyi tetikleyicilerle güncellenir (7 sahiplik tablosu), `koleksiyon_hepsini_yenile()`; `oyuncu_kartlari.koleksiyon_puani`; `koleksiyon_dokum()`, `koleksiyon_siralama()` (lig_siralama görünürlüğü, gizli botlar dahil, bot alanı yok).
   Geriye dönük 237 oyuncu/bot puanlandı (insan en yüksek 37, gizli bot en yüksek 99 — botların rozetleri çok). Görünüm: oyuncu kartı "Koleksiyon N" (+VS), profilde özet, Koleksiyon sekmesinde döküm, Lig › Koleksiyoncular sekmesi. TR+EN (`ceviri/koleksiyon.js`).
+
+## 2026-09-25 — Arayüz tamamen İngilizce (İngilizce oyuncu için giriş → maç sonu)
+**Araç:** Claude Code (Sonnet 5, PC).
+- **Tarama (sözlükte olmayan metin):** `araclar/ceviri/tara.mjs` (AST ile kaynak tarama), `db-tara.mjs` (veritabanı hata mesajları + katalog metinleri), `bildirim-tara.mjs` (bildirim şablonları) — hepsi yeniden çalıştırılabilir.
+  Bulunan gerçek boşluklar: sunucudan gelen 87 hata mesajı (`raise exception`), 6 bildirim şablonu (`%` kalıplı), 8 katalog/paket adı, "Skill'ler" (Jokers), adsız kendi profilinde "Oyuncu",
+  sabit sayfa başlığı + meta açıklaması. Hepsi mevcut sözlük sistemine (`oyun/lib/ceviri/sunucu.js`, `tarama.js`; `ttSunucu`) taşındı, ~105 metin. Yeni sistem/paket yok.
+- **Çalışma zamanı testi (EN, yeni misafir, 390 px):** giriş/kayıt + kurulum sihirbazı → ana sayfa → Klasik maç (eğitim dahil) → Düello (Nasıl oynanır 6 sayfa, arama, kategori, sorular, sonuç) → Grup maçı → dükkân,
+  profil, sıralama, arkadaşlar, mesajlar, turnuva, antrenman düğme tıklama taraması. Türkçe kalan: yalnız özel adlar.
+- **Kalan (bilerek):** Türkiye/il adları ve açık bot adları (ÇaylakBot, ÜstatBot) özel ad; sorular çevrilmez (karar); statik `index.html` / manifest / sosyal önizleme Türkçe kalır (dil çalışma zamanında seçiliyor);
+  Supabase Auth e-postaları kapsam dışı; önizleme/tasarım sayfaları kapsam dışı.
+- **Gerçek telefonda bakılacak:** yeni hesabın ilk açılışı (bu makinede headless Chrome ilk açılışta çöküyor — kodla ilgisiz, 813553e'de de aynı).

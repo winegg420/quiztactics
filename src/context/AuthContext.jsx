@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState, useCallback } from "react";
+import { tt } from "../../oyun/lib/dil.js";
 import { supabase, supabaseHazir } from "../lib/supabase.js";
 import { fbBelirteciSakla, fbKimligiKaydet, facebookOturumuMu } from "../../oyun/lib/facebookArkadas.js";
 
@@ -20,7 +21,8 @@ export function AuthProvider({ children }) {
     try {
       const { data, error } = await supabase.rpc("profilim");
       if (error) throw error;
-      if (data) setProfile(data);
+      // Takma ad seçilmeden önce sunucu görünen adı "Oyuncu" üretir → oyuncunun dilinde göster (EN: Player)
+      if (data) setProfile(data.takma_ad_secildi === false && data.gorunen_ad === "Oyuncu" ? { ...data, gorunen_ad: tt("Oyuncu") } : data);
       setProfilHata(false);
     } catch (e) { console.warn("[Auth] profilim başarısız:", e?.message ?? e);
       setProfilHata(true);

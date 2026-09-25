@@ -32,6 +32,8 @@ import enPremium from "./ceviri/premium.js";
 import enCikisOnay from "./ceviri/cikis-onay.js";
 import enGuvenlik from "./ceviri/guvenlik.js";
 import enKoleksiyon from "./ceviri/koleksiyon.js";
+import enSunucu from "./ceviri/sunucu.js";
+import enTarama from "./ceviri/tarama.js";
 
 export const DILLER = ["tr", "en"];
 const ANAHTAR = "bildim_dil";
@@ -101,7 +103,14 @@ export function aktifDil() {
 }
 
 try {
-  if (typeof document !== "undefined") document.documentElement.lang = aktifDil();
+  if (typeof document !== "undefined") {
+    document.documentElement.lang = aktifDil();
+    // Sekme başlığı ve açıklama meta'sı (index.html Türkçe): İngilizce oyuncuya İngilizce (paylaşım/arama önizlemesi statik kalır)
+    if (aktifDil() === "en") {
+      document.title = "Quiz Tactics — Trivia Game";
+      document.querySelector('meta[name="description"]')?.setAttribute("content", "A trivia game: 1v1 challenges, daily tournaments, city and country leagues. Thousands of questions, free.");
+    }
+  }
 } catch { /* DOM yok */ }
 
 /**
@@ -2467,7 +2476,7 @@ const SOZLUK = {
     "Skill bulunamadı": "Joker not found",
   },
 };
-Object.assign(SOZLUK.en, enMac, enAna, enLig, enDukkan, enGiris, enTasarim, enKozmetik, enAntrenman, enMacSonuOnizleme, enArama, enPremium, enCikisOnay, enGuvenlik, enKoleksiyon);
+Object.assign(SOZLUK.en, enMac, enAna, enLig, enDukkan, enGiris, enTasarim, enKozmetik, enAntrenman, enMacSonuOnizleme, enArama, enPremium, enCikisOnay, enGuvenlik, enKoleksiyon, enSunucu, enTarama);
 
 /**
  * JOKER ADI (Ida kararı, 24 Eyl 2026): oyuncuya görünen ad "Skill" değil **"Joker"** (TR ve EN).
