@@ -16,4 +16,7 @@
   --gr-lv-ametist-a: #cbb5ff; --gr-lv-ametist-o: #9d74f0; --gr-lv-ametist-k: #6a45c8; --gr-lv-ametist-e: #3f2587;
   --gr-lv-yakut-a: #ff8e9c; --gr-lv-yakut-o: #ff2a4a; --gr-lv-yakut-k: #b8102c; --gr-lv-yakut-e: #6e0618;
   --gr-turuncu-a: #ffd9bf; /* Ajan B ekledi — palet.js › EK_ACIK.turuncu */
+  --gr-zumrut-a: #9ee8b8; --gr-zumrut-o: #2fbf71; --gr-zumrut-k: #1b8a4f; --gr-zumrut-e: #0f5a33; /* Ajan B — palet.js › ZUMRUT_TON */
+  /* EK (Ajan A): PEMBE_TON (palet.js) — joker pembesi */
+  --gr-pembe-a: #ffb3cf; --gr-pembe-o: #e0729a; --gr-pembe-k: #b0406c; --gr-pembe-e: #6e1f42;
 }

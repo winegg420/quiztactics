@@ -64,3 +64,9 @@
 .ga-giris-uclu { display: flex; gap: 8px; }
 .ga-giris-uclu img { border-radius: 16px; }
 .ga-cubuk .ga-logo { display: block; }
+.ga-oncesonra { display: flex; flex-wrap: wrap; gap: 10px; }
+.ga-oncesonra > span { display: inline-flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 14px; background: #fff; }
+.ga-oncesonra small { font-size: 11px; font-weight: 800; color: #46507f; width: 40px; }
+.ga-joker-set { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px; border-radius: 14px; background: #bfe3ff; }
+.ga-joker-set > span { display: inline-grid; border-radius: 50%; }
+.ga-joker-bu { box-shadow: 0 0 0 3px #ff7a2e; }

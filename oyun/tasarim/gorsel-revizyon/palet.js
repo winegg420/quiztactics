@@ -85,3 +85,9 @@ export const LEVEL = {
 
 /** Ek açık tonlar (Ajan B ekledi, 25 Eyl) — unvan kurdelesi (şehir şampiyonu türü) açık turuncu. */
 export const EK_ACIK = { turuncu: "#ffd9bf" };
+
+/** Zümrüt defne tonları (Ajan B ekledi, 25 Eyl) — Turnuva Şampiyonu çelengi; orta/koyu TAS.zumrut değerleri. */
+export const ZUMRUT_TON = { acik: "#9ee8b8", orta: "#2fbf71", koyu: "#1b8a4f", kenar: "#0f5a33" };
+
+/** EK (Ajan A, 25 Eyl): joker pembesi (İkinci Şans) 4 ton; orta = SAHNE.pembe. Yeşil için ZUMRUT_TON (Ajan B). */
+export const PEMBE_TON = { acik: "#ffb3cf", orta: "#e0729a", koyu: "#b0406c", kenar: "#6e1f42" };
