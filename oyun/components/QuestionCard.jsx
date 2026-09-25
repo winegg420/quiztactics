@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { QtSoruKarti, QtSayac, QtSik, QtSikler, QtSonucBandi, QtSkill, QtSkillCubugu, QtIkonDugme, QT_KIRILMA_MS, QT_KART_CIKIS_MS } from "../tasarim/index.js";
 import "../tasarim/ekranlar/m1-mac.css";
 import { supabase } from "../../src/lib/supabase.js";
-import { kalanSure, sunucuOffsetMs, gosterimTavani } from "../lib/zaman.js";
+import { kalanSure, sunucuOffsetMs, gosterimTavani, sayacKaymasi, sayacGoster } from "../lib/zaman.js";
 import JokerCubugu from "./JokerCubugu.jsx";
 import { SisPerdesi, SisKenar } from "./Sis.jsx";
 import Konfeti from "./Konfeti.jsx";
@@ -64,10 +64,11 @@ export default function QuestionCard({
 }) {
   const [kalan, setKalan] = useState(SURE);
   // GÖSTERİLEN sayaç (rakam, tik sesi, son-5-sn vurgusu): soru ekrana geç geldiyse ilk rakam kesirle başlar
-  // (13,12 sn kaldı → "14" yalnız 0,12 sn = "hızlı" adım). Kesir sorunun İLK göründüğü anda bir kez atılır;
-  // gösterilen = kalan − kesir. Sayaç hızlanmaz, rakam sınırları kayar. Süre mantığı (kilit, sunucu payı) gerçek `kalan`da.
+  // (13,12 sn kaldı → "14" yalnız 0,12 sn = "hızlı" adım). Kesir sorunun İLK göründüğü anda bir kez alınır, sonra
+  // kalanla orantılı erir (lib/zaman.js › sayacGoster): ilk rakam tam saniye, rakamlar 1 sn'den kısa olmaz ve gösterilen 0
+  // gerçek bitişle aynı anda gelir. Süre mantığı (kilit, sunucu payı) gerçek `kalan`da.
   const [gosterKalan, setGosterKalan] = useState(SURE);
-  const kaymaRef = useRef({ anahtar: null, kayma: 0 });
+  const kaymaRef = useRef({ anahtar: null, k0: 0, kayma: 0 });
   const [secim, setSecim] = useState(null);
   const [sonuc, setSonuc] = useState(null); // { dogru, dogru_cevap }
   const [oy, setOy] = useState(null);
@@ -196,11 +197,8 @@ export default function QuestionCard({
       const k = kalanSure(soru.baslangic, offset, SURE, tavan);
       setKalan(k);
       if (!cevapVerildiRef.current) kalanRef.current = k;
-      if (kaymaRef.current.anahtar !== soruAnahtar) {
-        const kesir = k - Math.floor(k);
-        kaymaRef.current = { anahtar: soruAnahtar, kayma: k > 0 && kesir > 0.02 && kesir < 0.9 ? kesir : 0 };
-      }
-      const g = Math.max(0, k - kaymaRef.current.kayma);
+      if (kaymaRef.current.anahtar !== soruAnahtar) kaymaRef.current = { anahtar: soruAnahtar, ...sayacKaymasi(k) };
+      const g = sayacGoster(k, kaymaRef.current);
       setGosterKalan(g);
       // Son 5 saniye: her tam saniyede bir tik sesi (cevap verildiyse susar)
       if (g > 0 && g <= 5 && !cevapVerildiRef.current) {
@@ -271,7 +269,7 @@ export default function QuestionCard({
     id = setInterval(tik, 100);
     // Tanı (?tani=1 ve oyuncu testi sayaç ölçümü): sunucu bitişi ve saat farkı.
     if (!window.__bdTani || window.__bdTani.mod === "soru") {
-      window.__bdTani = { mod: "soru", faz: "cevap", hedefBitis: new Date(new Date(soru.baslangic).getTime() + SURE * 1000).toISOString(),
+      window.__bdTani = { mod: "soru", faz: "cevap", soru: soru.soru_index, hedefBitis: new Date(new Date(soru.baslangic).getTime() + SURE * 1000).toISOString(),
         farkMs: Math.round(offset), sureler: { cevap: SURE } };
     }
     return () => {

@@ -80,8 +80,9 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
   `duello_gosterim_payi_ms` 1500 (kategori + cevap), Klasik/Grup/Turnuva sonraki soru
   `soru_gosterim_payi_ms` 2000. İstemci sayacı pay bitene dek TAM süreyi gösterir, sonra gerçek
   zamanla akar; sayaç yetişmek için hızlanmaz. Faz ekrana geç görünürse ilk rakamın kesri ilk görünüşte bir kez
-  atılır (ilk rakam tam saniye; gösterilen 0 gerçek bitişten ≤ 0,9 sn önce olabilir; mantık gerçek kalanda — Düello
-  `gosterSn`, `QuestionCard` `gosterKalan`). İki oyuncunun bitişi aynı, geç cevap sunucuda
+  alınır ve kalanla orantılı erir (`lib/zaman.js › sayacGoster`): ilk rakam tam saniye, rakamlar ≥ ~950 ms, gösterilen 0 gerçek
+  bitişle aynı anda (ölçüm: ±60 ms); mantık gerçek kalanda — Düello `gosterSn`, `QuestionCard` `gosterKalan`. Düello
+  gösterimi için saat farkı sıçraması en çok %5 hızla kaydırılır. `oyuncu-testi --sifir` bu sıfır anını ölçer. İki oyuncunun bitişi aynı, geç cevap sunucuda
   reddedilir. Düello `sunucu_zamani` = clock_timestamp(). Ölçüm: `oyuncu-testi` sayaç raporu (⏱).
 - Yanlış cevap sonrası bekleme **1 sn**.
 - Kategori yüzdesi için asgari örneklem 10 soru; altı "veri yok".

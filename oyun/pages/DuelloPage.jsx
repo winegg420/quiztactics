@@ -56,6 +56,7 @@ import { V2Ust, V2Kategori, V2Cevap, V2Sonuc, V2Skill, V2Gecmis } from "../compo
 import "./DuelloPage.a.css";
 import { QtBosDurum, QtDugme, QtIkon, QtModal, QtSayac, QT_KIRILMA_MS, sinif } from "../tasarim/index.js";
 import { rpcDene } from "../lib/rpcDene.js";
+import { sayacKaymasi, sayacGoster, sayacSinirMs } from "../lib/zaman.js";
 
 const HARFLER = ["A", "B", "C", "D"];
 
@@ -748,31 +749,44 @@ function DuelloMac({ id }) {
     return Math.max(0, (new Date(hedefBitis).getTime() - bas) / 1000);
   }, [hedefBitis, gosterimBas, simdi]);
   // GÖSTERİLEN sayaç (rakam, ses, son-3-sn vurgusu): faz ekrana geç geldiyse ilk rakam kesirle başlar
-  // (ör. 13,12 sn kaldı → "14" yalnız 0,12 sn görünür = "hızlı" adım). O kesir fazın İLK göründüğü anda bir kez
-  // atılır: gösterilen sayı = kalan − kesir; ilk rakam tam saniye kalır (13), sonrakiler gerçek saniye hızında.
-  // Sayaç hızlanmaz; yalnız rakam sınırları kayar (gösterilen 0, gerçek bitişten en çok 0,9 sn önce olabilir).
-  // Mantık (süre bitti, şık kilidi, sunucu toleransı) gerçek kalanSn ile aynen çalışır. Ek Süre / Zaman Baskısı /
-  // Soru Değiştir aynı fazda kesiri yeniden hesaplamaz.
-  const fazKaymaRef = useRef({ anahtar: null, kayma: 0 });
+  // (ör. 13,12 sn kaldı → "14" yalnız 0,12 sn görünür = "hızlı" adım). Kesir fazın İLK göründüğü anda bir kez
+  // alınır, sonra kalanla orantılı erir (lib/zaman.js › sayacGoster): ilk rakam tam saniye kalır, rakamlar hiçbir
+  // yerde 1 sn'den kısa olmaz ve gösterilen 0, gerçek bitişle AYNI anda gelir. Mantık (süre bitti, şık kilidi,
+  // sunucu toleransı) gerçek kalanSn ile aynen çalışır. Ek Süre / Zaman Baskısı / Soru Değiştir aynı fazda
+  // kaymayı yeniden hesaplamaz.
+  // Saat farkı tahmini (farkRef) yeni örnekle birden ~10–70 ms sıçrayabilir (sayacı o kadar ileri atar; rakam sınırına
+  // denk gelirse 16–900 ms'lik "hızlı" adım). Gösterim için fark en çok %5 hızla (50 ms/sn) yeni değere kaydırılır:
+  // rakam süreleri ≥ ~950 ms kalır. Yalnız gösterim: mantık gerçek kalanSn'de. Ek Süre / Zaman Baskısı hedef bitişi
+  // değiştirir, saat farkını değil — bunlar anında yansır.
+  const farkGosterRef = useRef(null);
+  const fazKaymaRef = useRef({ anahtar: null, k0: 0, kayma: 0 });
+  const kalanGoster = useMemo(() => {
+    if (!(kalanSn > 0)) return 0;
+    const an = Date.now();
+    const fg = farkGosterRef.current;
+    if (!fg) farkGosterRef.current = { fark: farkRef.current, an };
+    else {
+      const izin = 0.05 * Math.max(0, an - fg.an);
+      fg.fark += Math.max(-izin, Math.min(izin, farkRef.current - fg.fark));
+      fg.an = an;
+    }
+    const gosterimPayinda = gosterimBas && an + farkRef.current < gosterimBas;   // pay: sayaç sabit, kaydırma yok
+    return gosterimPayinda ? kalanSn : Math.max(0, kalanSn + (farkRef.current - farkGosterRef.current.fark) / 1000);
+  }, [kalanSn, gosterimBas]);
   const gosterSn = useMemo(() => {
     if (!(kalanSn > 0) || !d) return 0;
     const anahtar = `${d.tur}-${d.saldiri_sirasi}-${d.uzatma ?? ""}-${d.faz}`;
-    const k = fazKaymaRef.current;
-    if (k.anahtar !== anahtar) {
-      const kesir = kalanSn - Math.floor(kalanSn);
-      k.anahtar = anahtar;
-      k.kayma = kesir > 0.02 && kesir < 0.9 ? kesir : 0;
-    }
-    return Math.max(0, kalanSn - k.kayma);
-  }, [kalanSn, d?.tur, d?.saldiri_sirasi, d?.uzatma, d?.faz]);   // eslint-disable-line react-hooks/exhaustive-deps
+    if (fazKaymaRef.current.anahtar !== anahtar) fazKaymaRef.current = { anahtar, ...sayacKaymasi(kalanGoster) };
+    return sayacGoster(kalanGoster, fazKaymaRef.current);
+  }, [kalanGoster, kalanSn, d?.tur, d?.saldiri_sirasi, d?.uzatma, d?.faz]);   // eslint-disable-line react-hooks/exhaustive-deps
   // Rakam tam saniye sınırında değişsin: 200 ms'lik saat tikine ek olarak bir sonraki
   // sınıra kurulmuş tek zamanlayıcı (adımlar 800/1200 ms diye titremez).
   useEffect(() => {
     if (kalanSn <= 0) return undefined;
-    const bekle = gosterSn > 0 ? (Math.round(gosterSn * 1000) % 1000 || 1000) : Math.max(1, Math.round(kalanSn * 1000));
+    const bekle = sayacSinirMs(kalanGoster, fazKaymaRef.current);
     const zaman = setTimeout(() => setSimdi(Date.now()), bekle + 5);
     return () => clearTimeout(zaman);
-  }, [kalanSn, gosterSn]);
+  }, [kalanSn, kalanGoster, gosterSn]);
 
   // Tanı paneli (?tani=1): şıkları kapatan koşullar her an okunabilsin.
   useEffect(() => {

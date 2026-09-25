@@ -177,3 +177,32 @@ export function gosterimTavani(baslangicIso, ilkBaslangicIso, sureSn = 15) {
   const ek = (new Date(baslangicIso).getTime() - new Date(ilkBaslangicIso ?? baslangicIso).getTime()) / 1000;
   return sureSn + Math.max(0, ek);
 }
+
+// ---- İlk rakam kesri (Düello fazı / soru kartı sayacı) ----
+// Faz ekrana geç görünürse (ilk görünüşte k0 sn kalmış, k0 = n + kesir) ilk rakam yalnız `kesir` sn görünürdü
+// ("hızlı" ilk adım). Çözüm: gösterilen sayaç = kalan − kayma; kayma ilk görünüşte kesire eşitlenir ama HEP SABİT
+// kalırsa gösterilen 0 gerçek bitişten `kesir` sn önce çıkar. Bu yüzden kayma kalanla orantılı erir:
+//     gösterilen = kalan − kayma · min(1, kalan / k0)
+// Kalan k0'ın altındayken gösterilen, gerçekten daha YAVAŞ akar (hız 1 − kayma/k0 < 1): rakam süreleri hiçbir
+// yerde 1 sn'den kısa olmaz (hızlanma yok), ilk rakam tam saniye kalır, ve kalan 0'a indiği ANDA gösterilen de 0'dır
+// (erken sıfır yok). Kalan k0'ı aşarsa (Ek Süre) kayma tam değerinde kalır: "+N" tam N artar.
+// En kötü yavaşlama: k0 ≥ 1 + kesir şartıyla kayma/k0 ≤ 0,47 (son rakam en çok ~1,9 sn görünür); tipik geç
+// görünüşte (k0 ≈ 13, kesir ≈ 0,5) yalnız %4 — rakamlar 1,04 sn. k0 < 1 ise kayma hiç uygulanmaz.
+export function sayacKaymasi(k0) {
+  const kesir = k0 - Math.floor(k0);
+  return { k0, kayma: k0 >= 1 && kesir > 0.0002 && kesir < 0.9 ? kesir : 0 };
+}
+export function sayacGoster(kalan, { kayma, k0 }) {
+  if (!(kalan > 0)) return 0;
+  if (!(kayma > 0)) return kalan;
+  return kalan - kayma * Math.min(1, kalan / k0);
+}
+/** Gösterilen rakamın değişmesine (ya da gerçek bitişe) kalan ms — zamanlayıcı için. */
+export function sayacSinirMs(kalan, { kayma, k0 }) {
+  if (!(kalan > 0)) return 0;
+  const g = sayacGoster(kalan, { kayma, k0 });
+  const n = Math.max(0, Math.ceil(g) - 1);          // rakam ceil(g) → n'e inince değişir
+  let kalanN = n;
+  if (kayma > 0) kalanN = n < k0 - kayma ? n / (1 - kayma / k0) : n + kayma;
+  return Math.max(1, Math.round((kalan - kalanN) * 1000));
+}

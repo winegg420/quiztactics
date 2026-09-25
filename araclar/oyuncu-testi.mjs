@@ -21,6 +21,9 @@
 //        [--mod=duello,klasik,turnuva] [--gorsel] [--mac=2] [--genislik=390,360,1280]
 //   --gorsel : her ekranın 360/390 görüntüsü oyuncu-testi-gorseller/ altına
 //   --mac    : Düello'da kapsam (3 saldıran + 3 savunan) dolmazsa en çok kaç maç
+//   --sifir  : "ERKEN SIFIR" ölçümü için bir soruyu BİLEREK yanıtsız bırakır (süre dolar): gösterilen sayacın 0'a
+//              düştüğü an ile sunucu bitişi arasındaki fark ölçülür (> 300 ms = başarısız). Düello: 2. turdan sonraki
+//              ilk cevap fazı; Klasik: 2. soru, sonra test biter (yanıtsız soru bu bayrakla başarısız sayılmaz).
 //
 // Oturum: `.arayuz-denetim-oturum.json` (araclar/arayuz-denetim.mjs yazar). Başka
 // bir adres verilirse o oturumun localStorage'ı yeni adrese taşınır.
@@ -39,6 +42,8 @@ const ARG = Object.fromEntries(process.argv.slice(2).map((a) => {
 const ADRES = String(ARG.adres || "http://127.0.0.1:5173").replace(/\/$/, "");
 const MODLAR = String(ARG.mod || "duello,klasik,turnuva").split(",");
 const GORSEL = Boolean(ARG.gorsel);
+const SIFIR_OLC = Boolean(ARG.sifir);
+
 const EN_COK_MAC = Number(ARG.mac || 2);
 const OTURUM = path.resolve(".arayuz-denetim-oturum.json");
 const GORSEL_DIZIN = path.resolve("oyuncu-testi-gorseller");
@@ -102,7 +107,7 @@ await baglam.addInitScript(() => {
       const anahtar = `${t.faz}|${sayi}|${t.hedefBitis}`;
       if (anahtar !== son) {
         son = anahtar;
-        window.__sayacKayit.push({ an: Date.now(), sayi, faz: t.faz, hedef: t.hedefBitis, fark: t.farkMs,
+        window.__sayacKayit.push({ an: Date.now(), sayi, faz: t.faz, soru: t.soru ?? null, hedef: t.hedefBitis, fark: t.farkMs,
           kilitli: Boolean(t.kilitli), sureler: t.sureler ?? null, mod: t.mod ?? null });
       }
     }
@@ -116,13 +121,15 @@ const s = await baglam.newPage();
 // fazın sunucudaki başlangıcı; adımlar = ilk 3 saniyedeki rakam düşüşleri arası süre.
 async function sayacRaporu(etiket) {
   const kayit = await s.evaluate(() => { const k = window.__sayacKayit ?? []; window.__sayacKayit = []; return k; }).catch(() => []);
+  if (ARG.sayacdebug) console.log(`  [sayaç ham kayıt ${etiket}] ` + JSON.stringify(kayit.map((k) => [k.an - (kayit[0]?.an ?? 0), k.sayi, k.faz, k.kilitli ? 1 : 0])));
   const parcalar = [];
   let p = null;
   for (const k of kayit) {
     // Aynı faz içinde rakamın ARTMASI yeni faz değildir: Ek Süre (+sn) ya da Soru Değiştir — sayaç
     // saniyenin ortasından yeniden başlar, ilk adımı doğal olarak kısadır. Bu parçalar ölçülmez.
-    if (!p || k.faz !== p.faz || k.sayi > p.son.sayi) {
-      p = { faz: k.faz, ilk: k, satirlar: [], son: k, skillSicramasi: Boolean(p && k.faz === p.faz) };
+    // Klasik'te her soru aynı "cevap" fazındadır: soru numarası değişince yeni parça (Ek Süre sıçraması DEĞİL).
+    if (!p || k.faz !== p.faz || k.soru !== p.ilk.soru || k.sayi > p.son.sayi) {
+      p = { faz: k.faz, ilk: k, satirlar: [], son: k, skillSicramasi: Boolean(p && k.faz === p.faz && k.soru === p.ilk.soru) };
       parcalar.push(p);
     }
     p.satirlar.push(k); p.son = k;
@@ -136,11 +143,16 @@ async function sayacRaporu(etiket) {
     const gecikme = q.ilk.an + Number(q.ilk.fark || 0) - baslangic;
     const ilk3 = q.satirlar.filter((x) => x.an - q.ilk.an <= 3200);
     const adimlar = ilk3.slice(1).map((x, i) => x.an - ilk3[i].an);
-    sonuc.push({ faz: q.faz, ilkRakam: q.ilk.sayi, tam, gecikme: Math.round(gecikme), adimlar });
+    // ERKEN SIFIR: gösterilen sayaç 0'a düştüğü an, sunucu bitişinden (hedef, istemci saatine çevrilmiş) kaç ms ÖNCE.
+    // Pozitif = erken sıfır. Yalnız süresi gerçekten dolan (kilitlenmemiş) fazlarda görülür.
+    const sifir = q.satirlar.find((x) => x.sayi === 0 && !x.kilitli && x.hedef);
+    const sifirErken = sifir ? Math.round(new Date(sifir.hedef).getTime() - Number(sifir.fark || 0) - sifir.an) : null;
+    sonuc.push({ faz: q.faz, ilkRakam: q.ilk.sayi, tam, gecikme: Math.round(gecikme), adimlar, sifirErken });
   }
   for (const r of sonuc) {
     const hizli = r.adimlar.filter((a) => a < 900);
-    console.log(`  ⏱ ${etiket} ${r.faz}: ilk görünüş ${r.gecikme} ms sonra, ilk rakam ${r.ilkRakam}/${r.tam}, ilk 3 sn adımlar ${r.adimlar.join(" · ")} ms${hizli.length ? "  ← HIZLI" : ""}`);
+    const sifirMetni = r.sifirErken === null ? "" : `, sıfır gerçek bitişten ${r.sifirErken} ms ${r.sifirErken > 300 ? "önce  ← ERKEN SIFIR" : "önce/sonra (tamam)"}`;
+    console.log(`  ⏱ ${etiket} ${r.faz}: ilk görünüş ${r.gecikme} ms sonra, ilk rakam ${r.ilkRakam}/${r.tam}, ilk 3 sn adımlar ${r.adimlar.join(" · ")} ms${hizli.length ? "  ← HIZLI" : ""}${sifirMetni}`);
   }
   return sonuc;
 }
@@ -286,6 +298,7 @@ async function duelloMaci(kapsam) {
   let sonEkran = "";
   let sonCevapAnahtar = "";
   let skillSirasi = 0;
+  let sifirTur = null;   // --sifir: bilerek yanıtsız bırakılan turun numarası
   const bas = Date.now();
   let turBas = Date.now();
   let sonAdim = "başlangıç";
@@ -311,10 +324,11 @@ async function duelloMaci(kapsam) {
           where h.duello_id = ${alintila(id)} and h.id > ${girisHamle} and ((h.saldiran = ${alintila(BEN)} and h.yanitsiz_saldiran)
             or (h.saldiran is distinct from ${alintila(BEN)} and h.yanitsiz_savunan)) order by h.id`);
       for (const y of yanitsiz) {
+        if (SIFIR_OLC && sifirTur !== null && Number(y.tur) === sifirTur && !(y.uzatma === true || y.uzatma === "t")) continue;   // bilerek
         const rol = y.ben_saldiran === true || y.ben_saldiran === "t" ? "saldıran" : "savunan";
         basarisiz(`Düello: ${rol} · tur ${y.tur}${y.uzatma === true || y.uzatma === "t" ? " (uzatma)" : ""} — soru YANITSIZ kapandı`);
       }
-      if (yanitsiz.length) return "kritik";
+      if (yanitsiz.some((y) => !(SIFIR_OLC && sifirTur !== null && Number(y.tur) === sifirTur && !(y.uzatma === true || y.uzatma === "t")))) return "kritik";
       return;
     }
     const benSaldiran = d.saldiran === BEN;
@@ -378,6 +392,13 @@ async function duelloMaci(kapsam) {
         basarisiz(`Düello: ${rol} · ${asama} — cevap vermesi gerekirken şıklar kapalı`, { tani, faz: d.faz });
         kapsam.durumlar[`${rol} · ${asama} · —`] = "kaldı";
         return "kritik";
+      }
+      // --sifir: bu sorunun süresi DOLSUN (ERKEN SIFIR ölçümü). Şıklar açık olduğu doğrulandı; dokunma.
+      if (SIFIR_OLC && sifirTur === null && Number(d.tur) >= 2 && !(d.uzatma === true || d.uzatma === "t")) {
+        sifirTur = Number(d.tur);
+        console.log(`  · --sifir: ${rol} · tur ${sifirTur} bilerek yanıtsız bırakıldı (süre dolacak)`);
+        await s.waitForTimeout(300);
+        continue;
       }
       // Skill: her üç sorudan birinde, açık bir skill varsa kullan (Soru Değiştir ve
       // İkinci Şans hariç: akışı değiştirirler; kalanlar şıkların açık kalmasını dener).
@@ -469,6 +490,12 @@ async function duelloTesti() {
   const gecikmeler = kapsam.sayac.map((r) => r.gecikme).sort((a, b) => a - b);
   if (gecikmeler.length) notlar.push(`Düello sayacı: ${kapsam.sayac.length} faz, ilk görünüş gecikmesi medyan ${gecikmeler[Math.floor(gecikmeler.length / 2)]} ms / en çok ${gecikmeler.at(-1)} ms, hızlı adımlı faz ${hizli.length}`);
   if (hizli.length) basarisiz("Düello: sayaç ilk 3 saniyede hızlı akıyor", hizli.slice(0, 4));
+  // Gösterilen sayaç 0'a gerçek bitişten 300 ms'den fazla önce düşmemeli (yalnız süresi dolan fazlarda gözlenir).
+  const sifirlar = kapsam.sayac.filter((r) => r.sifirErken !== null);
+  const erkenSifir = sifirlar.filter((r) => r.sifirErken > 300);
+  notlar.push(`Düello sıfır anı: ${sifirlar.length} fazda gözlendi${sifirlar.length ? ` (gerçek bitişe göre ${sifirlar.map((r) => r.sifirErken).join(", ")} ms)` : SIFIR_OLC ? " — BEKLENEN gözlem oluşmadı" : " (süresi dolan faz yok; --sifir ile ölçülür)"}`);
+  if (SIFIR_OLC && !sifirlar.length) basarisiz("Düello: --sifir istendi ama sayacın 0'a düştüğü faz gözlenmedi");
+  if (erkenSifir.length) basarisiz("Düello: sayaç 0'a gerçek bitişten önce düştü (← ERKEN SIFIR)", erkenSifir.slice(0, 4));
 }
 
 // ================================================================ KLASİK
@@ -523,6 +550,12 @@ async function klasikTesti() {
   await ekranOlc("klasik-mac-sonu");
   const sayac = await sayacRaporu("Klasik");
   const hizli = sayac.filter((r) => r.adimlar.some((x) => x < 900));
+  const klasikSifir = sayac.filter((r) => r.sifirErken !== null);
+  if (SIFIR_OLC) {
+    notlar.push(`Klasik sıfır anı: ${klasikSifir.length} soruda gözlendi (gerçek bitişe göre ${klasikSifir.map((r) => r.sifirErken).join(", ")} ms)`);
+    if (!klasikSifir.length) basarisiz("Klasik: --sifir istendi ama sayacın 0'a düştüğü soru gözlenmedi");
+  }
+  if (klasikSifir.some((r) => r.sifirErken > 300)) basarisiz("Klasik: sayaç 0'a gerçek bitişten önce düştü (← ERKEN SIFIR)", klasikSifir.filter((r) => r.sifirErken > 300).slice(0, 4));
   if (sayac.length) notlar.push(`Klasik sayacı: ${sayac.length} soru, ilk görünüş gecikmesi medyan ${sayac.map((r) => r.gecikme).sort((x, y) => x - y)[Math.floor(sayac.length / 2)]} ms, hızlı adımlı soru ${hizli.length}`);
 }
 
@@ -547,6 +580,14 @@ async function soruDongusu(ad, ulastiMi, bittiMi, siradakiIndex, enCokSoru = 25,
       return;
     }
     if (n === 1) await ekranOlc(`${ad.toLowerCase()}-soru`);
+    // --sifir: 2. sorunun süresi DOLSUN (ERKEN SIFIR ölçümü), sonra test biter.
+    if (SIFIR_OLC && n === 1 && ad === "Klasik") {
+      console.log(`  · --sifir: ${ad} 2. soru bilerek yanıtsız bırakıldı (süre dolacak)`);
+      const t1 = Date.now();
+      while (Date.now() - t1 < 26000 && (await s.locator(":is(.bd-soru-metin, .qt-soru-metin)").first().innerText().catch(() => "")) === metin) await s.waitForTimeout(150);
+      await s.waitForTimeout(600);
+      break;
+    }
     const hedef = dogruSik ? await dogruSik() : null;
     const hedefSik = hedef !== null && hedef !== undefined ? s.locator(":is(.bd-secenek, .qt-sik)").nth(hedef) : null;
     const sik = hedefSik && await hedefSik.isEnabled().catch(() => false) ? hedefSik : s.locator(":is(.bd-secenek, .qt-sik):not([disabled]):not(.elendi):not(.qt-sik--elendi)").first();
