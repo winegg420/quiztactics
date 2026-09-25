@@ -20,7 +20,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import CerceveliAvatar from "./CerceveliAvatar.jsx";
 import IsimEfekti from "./IsimEfekti.jsx";
-import { KartUnvani } from "./OyuncuVitrinKarti.jsx";
+import { KartUnvani, KartKoleksiyonu } from "./OyuncuVitrinKarti.jsx";
 import OyuncuAdiDugmesi from "./OyuncuAdiDugmesi.jsx";
 import OyuncuLigAmblemi from "./OyuncuLigAmblemi.jsx";
 import { HAZIR_AVATARLAR } from "../lib/avatarKatalogu.js";
@@ -135,6 +135,8 @@ function VsOyuncu({ profil, kart, taraf, boyut }) {
       {level != null && <span className="gh-lv">{tt("Lv {0}", { 0: level })}</span>}
       {/* 643: unvan — tek oyuncu kartının küçük hâli (oyuncu_kartlari; aynı toplu çağrı) */}
       <KartUnvani userId={profil?.id} kart={kart?.unvan !== undefined ? kart : undefined} className="gh-unvan" />
+      {/* 646: Koleksiyon Puanı tek sayı (VS ekranı) */}
+      <KartKoleksiyonu puan={kart?.koleksiyon_puani} className="gh-kp" />
     </span>
   );
 }

@@ -455,3 +455,5 @@
 .gh--vs-hemen .gh-vs-yazi span { animation-delay: 110ms; }
 /* 643: VS anında unvan (Kurdele, küçük) — kartın altında, sığmazsa kısalır */
 .gh-vs-kart .gh-unvan { max-width: calc(100% - 10px); }
+/* 646: VS anında Koleksiyon Puanı — koyu sahnede altın sarısı */
+.gh-vs-kart .gh-kp { font-size: 12px; }

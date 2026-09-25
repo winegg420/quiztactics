@@ -13,6 +13,7 @@ import OyuncuLigAmblemi from "../components/OyuncuLigAmblemi.jsx";
 import RozetlerPaneli from "../components/RozetlerPaneli.jsx";
 import Koleksiyon from "../components/Koleksiyon.jsx";
 import OyuncuVitrinKarti from "../components/OyuncuVitrinKarti.jsx";
+import KoleksiyonDokumu from "../components/KoleksiyonDokumu.jsx";
 import VitrinRozetleri from "../components/VitrinRozetleri.jsx";
 import DavetKarti from "../components/DavetKarti.jsx";
 import OyuncuAdiDugmesi from "../components/OyuncuAdiDugmesi.jsx";
@@ -214,6 +215,9 @@ export default function ProfilePage() {
           <LevelCubugu profile={profile} />
         </div>
       </QtKart>
+
+      {/* 646: Koleksiyon Puanı özeti (rozet · unvan · puan + nadirlik dağılımı); tam döküm Koleksiyon sekmesinde */}
+      <KoleksiyonDokumu />
 
       {/* ---------- Üç sayı ---------- */}
       <ul className="qt-pf-sayilar">

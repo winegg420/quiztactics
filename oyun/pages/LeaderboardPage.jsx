@@ -42,6 +42,8 @@ const KAPSAMLAR = [
   { id: "ulke", ad: tt("Ülke"), ikon: "bayrak" },
   { id: "global", ad: tt("Dünya"), ikon: "dunya" },
   { id: "arkadas", ad: tt("Arkadaş"), ikon: "kisiler" },
+  // 646: Koleksiyon Puanı sıralaması (tüm zamanlar; yalnız statü)
+  { id: "koleksiyon", ad: tt("Koleksiyoncular"), ikon: "yildiz" },
 ];
 
 const DONEMLER = [
@@ -150,6 +152,10 @@ export default function LeaderboardPage() {
             setListe(satirlar);
             setGrupBilgi(satirlar[0] ?? null);
           }
+        } else if (kapsam === "koleksiyon") {
+          const { data, error } = await supabase.rpc("koleksiyon_siralama");
+          if (error) throw error;
+          if (aktif) setListe(data ?? []);
         } else if (kapsam === "arkadas") {
           const satirlar = await arkadasListesi();
           if (aktif) setListe(satirlar);
@@ -287,7 +293,7 @@ export default function LeaderboardPage() {
             </span>
             <span className="lg-puan">
               <SayanSayi deger={s.puan} className="qt-sayi" />
-              <span className="lg-puan-birim">{tt("puan")}</span>
+              <span className="lg-puan-birim">{kapsam === "koleksiyon" ? tt("Koleksiyon") : tt("puan")}</span>
             </span>
           </button>
           {/* Kendi satırında kılıç yok; puan sütunu hizada kalsın diye boş yuva */}
@@ -409,7 +415,7 @@ export default function LeaderboardPage() {
       />
 
       {/* Dönem seçimi yalnız gurur tablolarında anlamlı: kademeli lig zaten haftalık. */}
-      {kapsam !== "lig" && (
+      {kapsam !== "lig" && kapsam !== "koleksiyon" && (
         <div className="lg-donem" role="group" aria-label={tt("Dönem")}>
           {DONEMLER.map((d) => (
             <QtCip key={d.id} secili={donem === d.id} onClick={() => setDonem(d.id)}>
@@ -419,7 +425,7 @@ export default function LeaderboardPage() {
         </div>
       )}
 
-      {kapsam !== "lig" && donem === "hafta" && (
+      {kapsam !== "lig" && kapsam !== "koleksiyon" && donem === "hafta" && (
         <p className="lg-bilgi-serit">
           <QtIkon ad="saat" boyut={20} />
           <span>

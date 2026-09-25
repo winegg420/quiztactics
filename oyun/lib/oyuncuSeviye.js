@@ -21,6 +21,7 @@ export function useOyuncuSeviyeleri(idler) {
           vs_karti: k.vs_karti ?? null, isim_efekti: k.isim_efekti ?? null, zafer_efekti: k.zafer_efekti ?? null,
           // 643: unvan (tek oyuncu kartının küçük hâli, maç şeridinde)
           unvan: k.unvan ?? null,
+          koleksiyon_puani: k.koleksiyon_puani ?? 0,   // 646
         }])));
       } catch (e) {
         console.warn("[Maç şeridi] oyuncu kartları okunamadı:", e?.message ?? e);

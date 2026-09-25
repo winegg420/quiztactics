@@ -15,10 +15,13 @@ import IsimEfekti from "./IsimEfekti.jsx";
 import VitrinRozetleri from "./VitrinRozetleri.jsx";
 import UnvanYazisi from "./UnvanYazisi.jsx";
 import { LigAmblemi } from "../tasarim/premium/ligAmblemi.jsx";
+import { QtIkon } from "../tasarim/index.js";
+import { koleksiyonSayi } from "../lib/koleksiyon.js";
 import { oyuncuKarti, oyuncuKartiDinle } from "../lib/cerceve.js";
 import { LIG_ADLARI } from "../lib/lig.js";
 import { tt } from "../lib/dil.js";
 import "../tasarim/ekranlar/oyuncu-vitrin-karti.css";
+import "../tasarim/ekranlar/koleksiyon-puani.css";
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -47,6 +50,12 @@ export function useOyuncuKarti(userIdHam, verilen) {
 export function KartUnvani({ userId, kart, boy = "k", className = "" }) {
   const k = useOyuncuKarti(userId, kart);
   return k?.unvan ? <UnvanYazisi unvan={k.unvan} boy={boy} className={className} /> : null;
+}
+
+/** Koleksiyon Puanı tek sayı ("Koleksiyon 1.240"; 646). Puan yoksa çizilmez. */
+export function KartKoleksiyonu({ puan, className = "" }) {
+  if (!(puan > 0)) return null;
+  return <span className={`qt-ok-kp ${className}`.trim()}><QtIkon ad="yildiz" boyut={14} />{tt("Koleksiyon {n}", { n: koleksiyonSayi(puan) })}</span>;
 }
 
 /** Lig amblemi + lig adı + level hapı. */
@@ -81,6 +90,7 @@ export default function OyuncuVitrinKarti({ userId, profile, kart: verilenKart, 
       </p>
       {kart?.unvan && <UnvanYazisi unvan={kart.unvan} boy={kompakt ? "k" : "o"} />}
       <KartLigSatiri lig={kart?.lig} level={kart?.level} yazi={!kompakt} amblem={kompakt ? 20 : 24} />
+      <KartKoleksiyonu puan={kart?.koleksiyon_puani} />
       {kart?.vitrin?.length > 0 && <VitrinRozetleri vitrin={kart.vitrin} boyut={kompakt ? 28 : 36} className="qt-ok-vitrin" />}
       {children}
     </div>

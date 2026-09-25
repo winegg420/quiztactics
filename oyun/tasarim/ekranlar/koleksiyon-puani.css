@@ -1,0 +1,21 @@
+/* Koleksiyon Puanı (KoleksiyonDokumu, oyuncu kartı çipi) — qt-kp- / qt-ok-kp öneki. Stil rehberi: lacivert kontur, düz renk, nadirlik renkleri paletten. */
+.qt-kp { display: grid; gap: var(--qt-b-2); min-width: 0; }
+.qt-kp h2, .qt-kp p { margin: 0; }
+.qt-kp-baslik { display: flex; align-items: center; gap: 6px; }
+.qt-kp-ozet { font-size: var(--qt-y-s); color: var(--qt-metin); overflow-wrap: anywhere; }
+.qt-kp-puan { color: var(--qt-ikinci-koyu); font-weight: var(--qt-a-siyah); }
+.qt-kp-cubuk { display: flex; height: 12px; border-radius: 999px; overflow: hidden; border: 2px solid #0b1220; background: #eef1f6; }
+.qt-kp-dilim { flex-basis: 0; min-width: 0; }
+.qt-kp-dilim--siradan { background: #9aa6b8; } .qt-kp-dilim--nadir { background: #1f9d5c; }
+.qt-kp-dilim--epik { background: #8b2fd6; } .qt-kp-dilim--efsanevi { background: #ffd23a; }
+.qt-kp-nadir { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: var(--qt-y-xs); color: var(--qt-metin-soluk); font-weight: var(--qt-a-kalin); }
+.qt-kp-nadir b { color: var(--qt-metin); }
+.qt-kp-nokta { display: inline-block; width: 10px; height: 10px; border-radius: 50%; border: 2px solid #0b1220; margin-right: 4px; vertical-align: -1px; }
+.qt-kp-nokta--siradan { background: #9aa6b8; } .qt-kp-nokta--nadir { background: #1f9d5c; }
+.qt-kp-nokta--epik { background: #8b2fd6; } .qt-kp-nokta--efsanevi { background: #ffd23a; }
+.qt-kp-liste { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.qt-kp-liste li { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 10px; align-items: center; font-size: var(--qt-y-s); min-width: 0; }
+.qt-kp-liste li.qt-kp-not { display: block; font-size: var(--qt-y-xs); color: var(--qt-metin-soluk); }
+/* Oyuncu kartında tek sayı */
+.qt-ok-kp { display: inline-flex; align-items: center; gap: 4px; font-weight: 800; font-size: 12.5px; color: #ffd23a; white-space: nowrap; }
+.qt-ok-kp svg { flex: none; }

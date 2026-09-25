@@ -8500,3 +8500,14 @@ unvan + kalıcı rozet; görünüm Görsel Paket 2'de.
 - **Paket:** lig amblemi statik SVG (`public/lig-amblem/<lig>-<k|b>.svg`, 10 dosya ~1–2,5 kB) + tembel hareketli parça; ana paket `oyun-*.js` 457,17 → 452,02 kB (gzip 146,93 → 145,42).
 - Not: bu makinede headless Chrome yeni misafirin İLK ana sayfa açılışında (tanıtım) "Page crashed" veriyor; 813553e (B öncesi) dahil eski commit'lerde de aynı → benim kodumdan değil;
   oturum, giriş sihirbazından hemen sonra kaydedilerek aşıldı. Gerçek telefonda kontrol edilmeli (yeni hesabın ilk açılışı).
+
+## 2026-09-25 — Koleksiyon Puanı (646) + grup engel eşleşmesi (645) + üç kontrol
+**Araç:** Claude Code (Sonnet 5, PC).
+- **Kontroller (yapılmış, canlıda):** (1) ana sayfa kaydırmasız — `html.as-kaydirmasiz` (23 Eyl): 390×844, 360×640, 390×664 emülasyonunda scrollY 0, documentElement = innerHeight, overflow hidden;
+  gerçek telefonda (iOS/Android araç çubuğu) ayrıca bakılmalı. (2) OYNA penceresinde Serbest|Dereceli anahtarı (`ModSecimPenceresi` › `DereceliAnahtari`) var, Klasik/Saf Bilgi/Düello aynı.
+  (3) Terk kuralı bütün modlarda sunucuda: `mac_sonuclandir` terk edene XP/seri yok, kazanan tam ödül; `gorev_sayaci` terk edilen maçları saymaz; Düello/Grup/Turnuva terk fonksiyonları 460–463.
+- **645:** `grup_ara` adayları yalnız aramayı başlatanla değil kendi aralarında da engel açısından eler. Provada 4 oyuncu, 2–3 engelli: grup {1,2,4}, 3 kuyrukta kaldı, ikili engelli üye 0.
+- **646 Koleksiyon Puanı:** ağırlıklar `koleksiyon_agirlik_*` (1/3/5/10). Kalemler: rozet (kademe: bronz sıradan · gümüş nadir · altın epik · elmas efsanevi), kazanılan aktif çerçeve (cerceveler.nadirlik),
+  aktif aura (auralar.nadirlik), `koleksiyon_ek_kalemleri` (Battle Pass ve gelecek kalemler için kanca), unvan / kozmetik / avatar için `nadirlik` sütunu eklendi ama BOŞ (tanımsız → puana girmez, uydurulmadı).
+  Önbellek `profiles.koleksiyon_puani`, deyim düzeyi tetikleyicilerle güncellenir (7 sahiplik tablosu), `koleksiyon_hepsini_yenile()`; `oyuncu_kartlari.koleksiyon_puani`; `koleksiyon_dokum()`, `koleksiyon_siralama()` (lig_siralama görünürlüğü, gizli botlar dahil, bot alanı yok).
+  Geriye dönük 237 oyuncu/bot puanlandı (insan en yüksek 37, gizli bot en yüksek 99 — botların rozetleri çok). Görünüm: oyuncu kartı "Koleksiyon N" (+VS), profilde özet, Koleksiyon sekmesinde döküm, Lig › Koleksiyoncular sekmesi. TR+EN (`ceviri/koleksiyon.js`).
