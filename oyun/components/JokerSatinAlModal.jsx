@@ -7,6 +7,7 @@ import SkillRozeti from "./SkillRozeti.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { tt } from "../lib/dil.js";
 import { ElmasIkon } from "./ParaIkonlari.jsx";
+import NadirlikEtiketi from "./NadirlikEtiketi.jsx";
 
 /**
  * Maç içi joker satın alma onayı (Paket 27 C).
@@ -39,7 +40,7 @@ import { ElmasIkon } from "./ParaIkonlari.jsx";
  */
 export default function JokerSatinAlModal({
   tur, fiyat, coin, yalnizAl = false, onOnay, onKapat,
-  baslik, aciklama, gorsel, para = "coin", kalanGoster = false, onayMetni, yetersizEylem, hataYedek, hataCevir,
+  baslik, aciklama, gorsel, nadirlik, para = "coin", kalanGoster = false, onayMetni, yetersizEylem, hataYedek, hataCevir,
 }) {
   const [calisiyor, setCalisiyor] = useState(false);
   const [hata, setHata] = useState(null);
@@ -92,6 +93,8 @@ export default function JokerSatinAlModal({
         <span className={gorsel ? "m1-sat-ikon qt-sat-gorsel" : "m1-sat-ikon"} aria-hidden="true">
           {gorsel ?? <SkillRozeti tur={tur} boyut={48} />}
         </span>
+        {/* Nadirlik yalnız çağıran verirse gösterilir (D-301 genişlemesi; joker alımında yok) */}
+        {nadirlik && <NadirlikEtiketi nadirlik={nadirlik} />}
         <QtListe>
           <QtListeSatiri baslik={tt("Fiyat")} sag={<Hap miktar={Number(fiyat ?? 0)} />} />
           {!kalanGoster && (

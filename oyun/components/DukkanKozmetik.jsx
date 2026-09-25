@@ -222,6 +222,7 @@ function KozmetikSatinAlOnayi({ c, eylem, elmasBakiye, elmasYetmedi }) {
       baslik={kozmetikAdi(c)}
       aciklama={tt(ACIKLAMA[c.tur] ?? "")}
       gorsel={<KozmetikSimge kalem={c} profile={profile} boyut={64} />}
+      nadirlik={c.nadirlik}
       fiyat={c.fiyat}
       yetersizEylem={() => elmasYetmedi?.()}
       onOnay={eylem.satinAl}

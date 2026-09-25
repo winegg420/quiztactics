@@ -9,9 +9,9 @@ import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import CerceveliAvatar from "./CerceveliAvatar.jsx";
-import { auraTanimiBul, NADIRLIK_ADI } from "../tasarim/cerceveler/tanimlar.js";
+import { auraTanimiBul } from "../tasarim/cerceveler/tanimlar.js";
 import DurumKutusu from "./DurumKutusu.jsx";
-import { auraKatalogu, auraSatinAl, auraTak, CERCEVE_NADIRLIKLERI } from "../lib/cerceve.js";
+import { auraKatalogu, auraSatinAl, auraTak } from "../lib/cerceve.js";
 import { elmasTazele, useElmas } from "../lib/elmas.js";
 import { ElmasIkon } from "./ParaIkonlari.jsx";
 // D-302: ham ağ hatası yerine "Bağlantı yok…" — kozmetikHatasi = hataMesaji + "Yetersiz elmas" → "Elmas yetmiyor" (elmasHatasi ile aynı)
@@ -22,11 +22,9 @@ import { tt } from "../lib/dil.js";
 import { y } from "../lib/yol.js";
 import { QtDugme, QtIkon, QtKart, sayiBicim } from "../tasarim/index.js";
 import "../tasarim/ekranlar/dukkan-cerceve.css";
+import NadirlikEtiketi from "./NadirlikEtiketi.jsx";
 
-export function NadirlikEtiketi({ nadirlik }) {
-  const n = CERCEVE_NADIRLIKLERI.includes(nadirlik) ? nadirlik : "siradan";
-  return <span className="qt-dc-nadirlik" data-nadirlik={n}>{tt(NADIRLIK_ADI[n])}</span>;
-}
+export { default as NadirlikEtiketi } from "./NadirlikEtiketi.jsx";
 
 /** Elmas fiyatı: "◆ 150" */
 export function ElmasFiyat({ fiyat, boyut = 16 }) {
@@ -173,6 +171,7 @@ export default function DukkanAuralar({ elmasYetmedi, onBilgi, onHata, elmasBaki
           baslik={ad(c)}
           aciklama={tt("Aura avatarının arkasında durur; takılı çerçeven önde kalır.")}
           gorsel={<CerceveliAvatar profile={profile ?? {}} userId={user?.id} aura={c.anahtar} boyut={72} />}
+          nadirlik={c.nadirlik}
           fiyat={c.fiyat}
           yetersizEylem={() => elmasYetmedi?.()}
           onOnay={satinAl}

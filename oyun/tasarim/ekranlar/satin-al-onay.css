@@ -17,6 +17,10 @@
 }
 .qt-sat-ok { color: var(--qt-metin-soluk); flex: none; }
 
+/* Nadirlik etiketi burada (dükkân/koleksiyon kart köşesi değil, modal içi) düz akışta, ortada durur —
+   .qt-dc-nadirlik'in kart köşesi için tasarlanmış `position: absolute`'unu geçersiz kılar. */
+.m1-sat > .qt-dc-nadirlik { position: static; margin: 2px auto 0; }
+
 /* Ürün görseli: kozmetik simgesi (64–88 px) daire yerine yumuşak kare kutuda */
 .m1-sat-ikon.qt-sat-gorsel {
   width: auto;

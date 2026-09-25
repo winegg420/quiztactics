@@ -52,9 +52,12 @@ export const MARKA = {
 
 /** Nadirlik (A7): renk eşyaya değil KART KENARINA ve etikete. */
 export const NADIRLIK = {
+  // Nadir = YEŞİL, Epik = KESKİN MOR (Ida, 25 Eyl 2026: tasarim/SECIMLER_GORSEL_REVIZYON.md madde 3);
+  // gri tonda (renksiz görünüm) dört kademe ayrışsın diye (düzeltme 6) doygun/koyu tonlar seçildi
+  // (yaklaşık göreli parlaklık: epik 79 < nadir 107 < sıradan 165 < efsanevi 209).
   siradan:  { ad: "SIRADAN",  renk: "#9aa6b8", koyu: "#5d6b85", acik: "#eef1f6" },
-  nadir:    { ad: "NADİR",    renk: "#3b91e8", koyu: "#1f5fb0", acik: "#dcecff" },
-  epik:     { ad: "EPİK",     renk: "#9d74f0", koyu: "#5a2fb0", acik: "#efe6ff" },
+  nadir:    { ad: "NADİR",    renk: "#1f9d5c", koyu: "#146b3f", acik: "#d7f5e4" },
+  epik:     { ad: "EPİK",     renk: "#8b2fd6", koyu: "#5518a0", acik: "#efdcff" },
   efsanevi: { ad: "EFSANEVİ", renk: "#ffd23a", koyu: "#b86a00", acik: "#fff6cc" },
 };
 

@@ -103,12 +103,13 @@
 
   /* ---------- 7b. Kozmetik: çerçeve nadirliği + rozet madalyonu malzemesi ----------
      Nadirlik renk kodu her yerde aynı (çerçeve, dükkân etiketi, önizleme):
-     sıradan gri-mavi · nadir mavi · epik mor · efsanevi altın-turuncu.
+     sıradan gri-mavi · nadir YEŞİL · epik KESKİN MOR · efsanevi ALTIN (Ida, 25 Eyl 2026 —
+     tasarim/SECIMLER_GORSEL_REVIZYON.md madde 3; eskiden nadir mavi, epik açık mor, efsanevi turuncuydu).
      Her biri {ana, -acik (parlama), -koyu (kenar/gölge), -yazi (üstündeki yazı)}. */
   --qt-nadir-siradan: #8ea3c2;   --qt-nadir-siradan-acik: #dde6f3;   --qt-nadir-siradan-koyu: #4f6283;   --qt-nadir-siradan-yazi: #1d2152;
-  --qt-nadir-nadir: #3d8bff;     --qt-nadir-nadir-acik: #b4d3ff;     --qt-nadir-nadir-koyu: #1846a8;     --qt-nadir-nadir-yazi: #ffffff;
-  --qt-nadir-epik: #9a5cff;      --qt-nadir-epik-acik: #dcc4ff;      --qt-nadir-epik-koyu: #4f1fb0;      --qt-nadir-epik-yazi: #ffffff;
-  --qt-nadir-efsanevi: #ff9d1f;  --qt-nadir-efsanevi-acik: #ffe7a1;  --qt-nadir-efsanevi-koyu: #b8520a;  --qt-nadir-efsanevi-yazi: #3a1a00;
+  --qt-nadir-nadir: #1f9d5c;     --qt-nadir-nadir-acik: #d7f5e4;     --qt-nadir-nadir-koyu: #146b3f;     --qt-nadir-nadir-yazi: #ffffff;
+  --qt-nadir-epik: #8b2fd6;      --qt-nadir-epik-acik: #efdcff;      --qt-nadir-epik-koyu: #5518a0;      --qt-nadir-epik-yazi: #ffffff;
+  --qt-nadir-efsanevi: #ffd23a;  --qt-nadir-efsanevi-acik: #fff3a0;  --qt-nadir-efsanevi-koyu: #b86a00;  --qt-nadir-efsanevi-yazi: #3a1a00;
   /* Madalyon (rozet) ve level çerçevesi malzemeleri */
   --qt-madalyon-bronz: #d4874b;  --qt-madalyon-bronz-acik: #f7cfa4;  --qt-madalyon-bronz-koyu: #7f421a;
   --qt-madalyon-gumus: #bfcadb;  --qt-madalyon-gumus-acik: #f7f9fc;  --qt-madalyon-gumus-koyu: #66748c;
