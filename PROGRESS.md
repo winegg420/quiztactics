@@ -8454,3 +8454,15 @@ unvan + kalıcı rozet; görünüm Görsel Paket 2'de.
   davet, maç sonu, profil, ana sayfa görevleri). Düzeltme 5 uygulandı (≤22 px eğim azaltılmış varyant).
 - **Kalan (öncelik sırası):** 12 Logo (Şeker Q harfli yazı) → 11 Joker ikonları hizalama (7 joker) → 3 Nadirlik kart
   kenarı (yeni renkler: Nadir yeşil, Epik mor + düzeltme 6).
+
+## 2026-09-25 — Görsel entegrasyon A tamamlandı (bulut, tek ajan)
+**Araç:** Claude Code (Sonnet 5). Kaynak: `tasarim/SECIMLER_GORSEL_REVIZYON.md` › Görev A. Migration yok, oyun mantığı değişmedi.
+- 1-2 Coin/Elmas (c41232a): `oyun/components/ParaIkonlari.jsx`, tüm `QtIkon ad="coin"/"elmas"` bu tek bileşene geçti.
+- 12 Logo (dcb1abe): `oyun/components/Logo.jsx` "Şeker Q harfli yazı" — QtMarka/Layout üst çubuk + giriş ekranı.
+- 11 Joker ikonları (d1cc149): `skill-rozet.css` düz renk + hücre gölgesi + kalın kontur + tek parlama; sembol değişmedi.
+- 3 Nadirlik kart kenarı (00f30b0): tokenlar.css Nadir→yeşil, Epik→keskin mor, Efsanevi→altın; `qt-dc-oge`/`qt-cs-oge`
+  kartları `:has()` ile kart kenarı + köşe etiketiyle boyanıyor; yeni `NadirlikEtiketi.jsx` tek kaynak; satın alma
+  penceresine (JokerSatinAlModal) mevcut alanı olan çağrılarda (aura, premium kozmetik) bağlandı.
+- **GÖREV B'ye not:** Maç sonunda kozmetik ödül/düşme özelliği yok; nadirlik orada gösterilecek bir alan bulunmadı.
+- **Kalan yok** — Görev A'nın 4 maddesi de bitti. Görev B (lig/level/turnuva çerçeveleri, premium hizalama, rozet
+  sistemi, unvan, tek oyuncu kartı, stil rehberi sayfası, temizlik) PC'de sürüyor.
