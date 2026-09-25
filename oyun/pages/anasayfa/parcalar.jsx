@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import AvatarCerceve from "../../components/AvatarCerceve.jsx";
 import OyuncuLigAmblemi from "../../components/OyuncuLigAmblemi.jsx";
+import { LigAmblemi } from "../../tasarim/premium/ligAmblemi.jsx";
 import CerceveliAvatar from "../../components/CerceveliAvatar.jsx";
 import IsimEfekti from "../../components/IsimEfekti.jsx";
 import OyuncuAdiDugmesi from "../../components/OyuncuAdiDugmesi.jsx";
@@ -71,7 +72,7 @@ export function LigCipi({ v, as = "link" }) {
   const lig = v.lig?.lig ?? "bronz";
   const icerik = (
     <>
-      <span className={`as-lig-kalkan as-lig--${lig}`} aria-hidden="true"><QtIkon ad="kalkan" boyut={18} /></span>
+      <span className="as-lig-amblem" aria-hidden="true"><LigAmblemi lig={lig} boyut={30} /></span>
       <span className="as-cip-metin">
         <b>{LIG_ADLARI[lig] ?? lig}</b>
         <small>{v.lig?.sira ? tt("{n}. sıra", { n: v.lig.sira }) : tt("Lig")}</small>
@@ -420,7 +421,7 @@ export function LigKarti({ v }) {
   if (!o) {
     return (
       <Link to={y("/siralama")} className="as-lk as-lk--bos">
-        <span className="as-lig-kalkan as-lig--bronz" aria-hidden="true"><QtIkon ad="kalkan" boyut={18} /></span>
+        <span className="as-lig-amblem" aria-hidden="true"><LigAmblemi lig="bronz" boyut={32} /></span>
         <span className="as-lk-bos-metin">
           <b>{tt("Haftalık lig")}</b>
           <small>{tt("Dereceli bir maç oyna, lig grubuna katıl.")}</small>
@@ -441,7 +442,7 @@ export function LigKarti({ v }) {
     <Link to={y("/siralama")} className={`as-lk as-lk--${o.lig}`}
           aria-label={tt("{lig} Lig, {s}. sıra. Lig sayfasına git", { lig: LIG_ADLARI[o.lig] ?? o.lig, s: o.sira })}>
       <span className="as-lk-bas">
-        <span className={`as-lig-kalkan as-lig--${o.lig}`} aria-hidden="true"><QtIkon ad="kalkan" boyut={16} /></span>
+        <span className="as-lig-amblem" aria-hidden="true"><LigAmblemi lig={o.lig} boyut={26} /></span>
         <b>{tt("{lig} Lig", { lig: LIG_ADLARI[o.lig] ?? o.lig })}</b>
         <span className="as-lk-sira qt-sayi">{o.sira}/{o.grup_boyu}</span>
         {kalan && <small className="as-lk-kalan">{tt("Hafta bitimine {k}", { k: kalan })}</small>}

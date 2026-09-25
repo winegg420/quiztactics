@@ -1,5 +1,5 @@
 /**
- * OYUNCU LİG AMBLEMİ (560) — oyuncu adının yanında küçük lig kalkanı (Bronz · Gümüş · Altın · Elmas · Efsane).
+ * OYUNCU LİG AMBLEMİ (560; 25 Eyl Fasetli Yıldız) — oyuncu adının yanında küçük lig amblemi (Bronz · Gümüş · Altın · Elmas · Efsane).
  * Çizim önizlemedekiyle aynı: oyun/tasarim/premium/ligAmblemi.jsx (ekler.jsx da dışa verir) (küçük, durağan SVG; ana pakette).
  * Çerçeveden bağımsız: lig çerçevesi takmayan oyuncunun da ligi okunur.
  *
@@ -12,7 +12,7 @@ import { LIGLER, LigAmblemi } from "../tasarim/premium/ligAmblemi.jsx";
 import { oyuncuKarti, oyuncuKartiDinle } from "../lib/cerceve.js";
 import "../tasarim/ekranlar/lig-amblemi.css";
 
-export default function OyuncuLigAmblemi({ lig, userId, boyut = 18, className = "" }) {
+export default function OyuncuLigAmblemi({ lig, userId, boyut = 20, className = "" }) {
   const [okunan, setOkunan] = useState(null);
   const [tazele, setTazele] = useState(0);
   const oku = !lig && Boolean(userId);

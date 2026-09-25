@@ -378,3 +378,5 @@
 
 /* Durum rozetindeki "ok" ikonu yukarıyı göstersin (ikon seti sağa bakar). */
 .lg-durum .qt-rozet--dogru svg { transform: rotate(-90deg); }
+/* 25 Eyl: armada yeni lig amblemi — lacivert levha, metal yıldız öne çıksın */
+.lg-arma--amblem { background: #1d2152; box-shadow: 0 var(--qt-dudak-s) 0 #0b1220; }

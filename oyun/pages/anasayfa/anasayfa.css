@@ -661,3 +661,5 @@ a.as-cip:active { transform: translateY(2px); }
   .as-a2-kol--sag { grid-column: 3; grid-row: 1; }
   .as-a2-kol > * { order: 0 !important; }
 }
+/* 25 Eyl: lig amblemi (Fasetli Yıldız) disk yerine çıplak durur */
+.as-lig-amblem { flex: none; display: inline-grid; place-items: center; }
