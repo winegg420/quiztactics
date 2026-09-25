@@ -685,7 +685,12 @@ async function duelloMaci(kapsam) {
       const hedef = benimCan > rakipCan ? (dogru + 1) % 4 : dogru;
       let sik = s.locator(":is(.bd-secenek, .qt-sik)").nth(hedef);
       if (await sik.isDisabled()) sik = s.locator(":is(.bd-secenek, .qt-sik):not([disabled]):not(.elendi):not(.qt-sik--elendi)").first();
-      await sik.tap({ timeout: 4000 }).catch((e) => basarisiz(`Düello: şıka dokunulamadı — ${String(e.message).split(String.fromCharCode(10))[0]}`));
+      // 50:50 sonrası hedef şık kırılma animasyonunda (elenmek üzere) olabilir: dokunulamazsa açık bir şıkla bir kez daha dene.
+      await sik.tap({ timeout: 2500 }).catch(async () => {
+        await s.waitForTimeout(400);
+        await s.locator(":is(.bd-secenek, .qt-sik):not([disabled]):not(.elendi):not(.qt-sik--elendi)").first().tap({ timeout: 3000 })
+          .catch((e) => basarisiz(`Düello: şıka dokunulamadı — ${String(e.message).split(String.fromCharCode(10))[0]}`));
+      });
       // Sunucuya ulaştı mı: cevaplar'da benim anahtarım ya da bu turun hamlesinde benim cevabım.
       sonAdim = "cevap sunucu kontrolü";
         let ulasti = false;
