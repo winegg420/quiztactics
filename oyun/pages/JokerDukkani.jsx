@@ -46,7 +46,7 @@ import { CoinIkon, ElmasIkon } from "../components/ParaIkonlari.jsx";
 // Sekme kodu "joker" geriye uyum için korunur (?sekme=joker bağlantıları); eski "cerceve" → "aura".
 const TUM_SEKMELER = [
   { kod: "joker",   ad: tt("Joker"),   ikon: "yildiz" },
-  { kod: "aura",    ad: tt("Aura"),    ikon: "palet" },
+  { kod: "aura",    ad: tt("Arka Plan"),    ikon: "palet" },
   { kod: "elmas",   ad: tt("Elmas|para"),   ikon: "elmas" },
   { kod: "coin",    ad: tt("Coin"),    ikon: "coin" },
   { kod: "kiyafet", ad: tt("Kıyafet"), ikon: "tisort" },
@@ -775,8 +775,8 @@ export default function JokerDukkani() {
               <p className="qt-dk-not qt-dk-not--bilgi">
                 <QtIkon ad="bilgi" boyut={20} />
                 <span>{elmasPaketleriListe.some((p) => p.satista)
-                  ? tt("Satın alma yalnızca Android uygulamasında yapılabilir. Elmas yalnızca aura gibi görünüm eşyaları alır; oyunda avantaj sağlamaz.")
-                  : tt("Elmas paketleri yakında satışta. Elmas yalnızca aura gibi görünüm eşyaları alır; oyunda avantaj sağlamaz.")}</span>
+                  ? tt("Satın alma yalnızca Android uygulamasında yapılabilir. Elmas yalnızca arka plan ve çerçeve gibi görünüm eşyaları alır; oyunda avantaj sağlamaz.")
+                  : tt("Elmas paketleri yakında satışta. Elmas yalnızca arka plan ve çerçeve gibi görünüm eşyaları alır; oyunda avantaj sağlamaz.")}</span>
               </p>
               {elmasPaketleriListe.length === 0 ? (
                 <QtBosDurum ikon="elmas" ton="vurgu" baslik={tt("Şu an satışta elmas paketi yok")} />

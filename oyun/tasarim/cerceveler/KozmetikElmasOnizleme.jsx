@@ -176,8 +176,8 @@ export default function KozmetikElmasOnizleme() {
       {hata && <p className="kze-hata" role="alert">{hata}</p>}
 
       <QtKart dolgu="o" className="ko-kart">
-        <h3 className="qt-baslik-3">{tt("Aura")}</h3>
-        <p className="qt-kucuk qt-soluk">{tt("Aura zaten satışta; buradaki seçim satışı değiştirmez, yalnız gizli botların takmasını belirler. Yerleri: maç şeridi, lig tablosu.")}</p>
+        <h3 className="qt-baslik-3">{tt("Arka Plan")}</h3>
+        <p className="qt-kucuk qt-soluk">{tt("Arka plan zaten satışta; buradaki seçim satışı değiştirmez, yalnız gizli botların takmasını belirler. Yerleri: maç şeridi, lig tablosu.")}</p>
         <ul className="kze-liste">
           {Object.entries(AURA_TANIMLARI).map(([k, t]) => (
             <Kalem key={k} baslik={tt(t.ad ?? k)} alt={t.malzeme ? tt(NADIRLIK_ADI[t.malzeme] ?? "") : null} anahtar={k} secim={secim(k)}>

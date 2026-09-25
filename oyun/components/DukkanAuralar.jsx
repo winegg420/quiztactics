@@ -89,7 +89,7 @@ export default function DukkanAuralar({ elmasYetmedi, onBilgi, onHata, elmasBaki
       await auraSatinAl(c.anahtar);
       sesSatinAlma();
       elmasTazele();
-      onBilgi?.(tt("{ad} aurası senin. Şimdi takabilirsin.", { ad: ad(c) }));
+      onBilgi?.(tt("{ad} arka planı senin. Şimdi takabilirsin.", { ad: ad(c) }));
       await yukle();
     } catch (e) {
       const m = kozmetikHatasi(e);
@@ -105,7 +105,7 @@ export default function DukkanAuralar({ elmasYetmedi, onBilgi, onHata, elmasBaki
     setIslem("tak");
     try {
       await auraTak(anahtar, user?.id);
-      onBilgi?.(anahtar ? tt("Aura takıldı.") : tt("Aura çıkarıldı."));
+      onBilgi?.(anahtar ? tt("Arka plan takıldı.") : tt("Arka plan çıkarıldı."));
       setKatalog((k) => k.map((x) => ({ ...x, takili: x.anahtar === anahtar })));
     } catch (e) {
       onHata?.(kozmetikHatasi(e));
@@ -139,7 +139,7 @@ export default function DukkanAuralar({ elmasYetmedi, onBilgi, onHata, elmasBaki
           <div className="qt-dc-sahne-bilgi">
             <h2 className="qt-baslik-2">{ad(c)}</h2>
             <NadirlikEtiketi nadirlik={c.nadirlik} />
-            <p className="qt-kucuk qt-soluk">{tt("Aura avatarının arkasında durur; takılı çerçeven önde kalır.")}</p>
+            <p className="qt-kucuk qt-soluk">{tt("Arka plan avatarının arkasında durur; takılı çerçeven önde kalır.")}</p>
           </div>
           <div className="qt-dc-sahne-eylem">
             {c.takili ? (
@@ -149,7 +149,7 @@ export default function DukkanAuralar({ elmasYetmedi, onBilgi, onHata, elmasBaki
             ) : c.satilik && c.fiyat != null ? (
               <QtDugme tamGenislik yukleniyor={islem === "al"} onClick={() => setOnayAcik(true)}
                        aria-haspopup="dialog"
-                       aria-label={tt("{ad} aurasını satın al — {n} elmas", { ad: ad(c), n: c.fiyat })}>
+                       aria-label={tt("{ad} arka planını satın al — {n} elmas", { ad: ad(c), n: c.fiyat })}>
                 <span className="qt-dc-fiyat">{tt("Satın al")} <ElmasFiyat fiyat={c.fiyat} boyut={18} /></span>
               </QtDugme>
             ) : (
@@ -160,8 +160,8 @@ export default function DukkanAuralar({ elmasYetmedi, onBilgi, onHata, elmasBaki
       )}
 
       <section className="qt-dk-bolum" aria-labelledby="qt-dc-dukkan">
-        <h2 id="qt-dc-dukkan" className="qt-baslik-2">{tt("Auralar")}</h2>
-        <p className="qt-kucuk qt-soluk-zemin">{tt("Dokun, kendi avatarında dene. Aura elmasla alınır; taktığın aurayı maçta ve listelerde herkes görür.")}</p>
+        <h2 id="qt-dc-dukkan" className="qt-baslik-2">{tt("Arka Planlar")}</h2>
+        <p className="qt-kucuk qt-soluk-zemin">{tt("Dokun, kendi avatarında dene. Arka plan elmasla alınır; taktığın arka planı maçta ve listelerde herkes görür.")}</p>
         <ul className="qt-dc-izgara">{katalog.map(kutu)}</ul>
       </section>
 
@@ -169,7 +169,7 @@ export default function DukkanAuralar({ elmasYetmedi, onBilgi, onHata, elmasBaki
         <ElmasliSatinAlOnayi
           bakiye={elmasBakiye}
           baslik={ad(c)}
-          aciklama={tt("Aura avatarının arkasında durur; takılı çerçeven önde kalır.")}
+          aciklama={tt("Arka plan avatarının arkasında durur; takılı çerçeven önde kalır.")}
           gorsel={<CerceveliAvatar profile={profile ?? {}} userId={user?.id} aura={c.anahtar} boyut={72} />}
           nadirlik={c.nadirlik}
           fiyat={c.fiyat}

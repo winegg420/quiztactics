@@ -33,7 +33,7 @@ export const KOZMETIK_SEKMELERI = [
   // 560: premium — hareketli çerçeve + avatarın iç arka planı (aura). Kod "pcerceve"/"paura": eski dükkân
   // "aura" sekmesiyle (481, pasif auralar) karışmasın.
   { kod: "pcerceve", tur: "premium_cerceve", ad: "Çerçeve", ikon: "yildiz" },
-  { kod: "paura", tur: "premium_aura", ad: "Aura", ikon: "gunes" },
+  { kod: "paura", tur: "premium_aura", ad: "Arka Plan", ikon: "gunes" },
   { kod: "avatar", ad: "Avatar", ikon: "kisi" },
   { kod: "vs", tur: "vs_karti", ad: "VS Kartı", ikon: "duello" },
   { kod: "isim", tur: "isim_efekti", ad: "İsim Efekti", ikon: "kalem" },
@@ -371,7 +371,7 @@ const ACIKLAMA = {
   zafer_efekti: "Kazandığında maç sonu sahnesine eklenir. Rakibin de görür.",
   tepki_paketi: "Maçta rakibine gönderebileceğin 4 yeni tepki. Paket takılmaz, alınca maçta hazır.",
   premium_cerceve: "Hareketli çerçeve: profilinde, ana sayfada, VS anında ve maç sonunda canlanır; listelerde sade durur. Rakibin de görür.",
-  premium_aura: "Avatarının iç arka planı: düz zeminin yerine hareketli sahne. Maçta, lig tablosunda ve profilinde herkes görür.",
+  premium_aura: "Arka Plan — avatarının arkasındaki hareketli sahne. Maçta, lig tablosunda ve profilinde herkes görür.",
 };
 
 /** Dükkân › Avatar — Ajan A'nın kataloğu (avatar_katalogu_oyun / avatar_satin_al / avatar_onayla). */

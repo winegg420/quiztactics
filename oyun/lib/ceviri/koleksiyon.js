@@ -4,7 +4,6 @@ export default {
   "{n} unvan": "{n} titles",
   "Koleksiyon {n}": "Collection {n}",
   "Nadirliğe göre dağılım": "Breakdown by rarity",
-  "Arka plan": "Background",
   "Unvan": "Title",
   "Kozmetik": "Cosmetics",
   "{n} adet": "{n} items",

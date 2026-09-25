@@ -26,7 +26,7 @@ const BOLUMLER = [
   { baslik: "Dükkân · Nadir", aciklama: "Hafif parıltı: Buz Kristali · Okyanus Dalgası · Yıldız Tozu.", filtre: (t) => t.tur === "nadirlik" && t.malzeme === "nadir" },
   { baslik: "Dükkân · Epik", aciklama: "Belirgin süs, 7 sn'de bir parıltı: Ejder Pulu · Şimşek · Gezegen Halkası.", filtre: (t) => t.tur === "nadirlik" && t.malzeme === "epik" },
   { baslik: "Dükkân · Efsanevi", aciklama: "Sürekli canlı efekt + seyrek kıvılcım: Alev Kanatları · Kraliyet · Kozmik.", filtre: (t) => t.tur === "nadirlik" && t.malzeme === "efsanevi" },
-  { baslik: "Lig çerçeveleri", aciklama: "Lig atlayınca kazanılır, satılmaz. Gümüş: kalkan + defne · Altın: defne + taç · Elmas: kristal uçlar + ışık kırılması · Efsane: alev aurası + taç.", filtre: (t) => t.tur === "lig" },
+  { baslik: "Lig çerçeveleri", aciklama: "Lig atlayınca kazanılır, satılmaz. Gümüş: kalkan + defne · Altın: defne + taç · Elmas: kristal uçlar + ışık kırılması · Efsane: alev ışıltısı + taç.", filtre: (t) => t.tur === "lig" },
   { baslik: "Level çerçeveleri", aciklama: "Level 25 · 50 · 75 · 100 rozetiyle gelir. Alt plakada level, yıldız sayısı artar; 100'de altın kanatlar.", filtre: (t) => t.tur === "level" },
 ];
 

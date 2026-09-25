@@ -2529,10 +2529,21 @@ function kaliplariKur(sozluk) {
     }));
 }
 
+// Sunucuda hâlâ eski adı taşıyan Türkçe mesajlar (aura → Arka Plan, oyuncuya görünen ad): TR oyuncuda da düzeltilir.
+// Sunucu mesajı değişince (yeni migration) bu satırlar gereksizleşir.
+const TR_DUZELTME = {
+  "Böyle bir aura yok": "Böyle bir arka plan yok",
+  "Bu aura satılmıyor": "Bu arka plan satılmıyor",
+  "Bu aura sende yok": "Bu arka plan sende yok",
+  "Bu aura zaten sende": "Bu arka plan zaten sende",
+  "Bu aura şu an kullanılamıyor": "Bu arka plan şu an kullanılamıyor",
+};
+
 /** Sunucu hata mesajı çevirisi: önce birebir, sonra "%" kalıbıyla. */
 export function ttSunucu(metin) {
   const dil = aktifDil();
   const sozluk = SOZLUK[dil];
+  if (dil === "tr" && typeof metin === "string" && TR_DUZELTME[metin]) return TR_DUZELTME[metin];
   if (dil === "tr" || !sozluk || typeof metin !== "string") return jokerAdi(metin);
   if (sozluk[metin]) return jokerAdi(sozluk[metin]);
   if (!kaliplar) kaliplariKur(sozluk);

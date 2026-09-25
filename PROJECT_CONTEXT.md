@@ -312,7 +312,7 @@ Aktif yedi maç skill'i vardır:
   rozeti level çerçevesini de verir. Sözleşme `docs/SOZLESME_ROZET_CERCEVE.md`.
 - **Kozmetik katmanları (481, Ida):** **çerçeve** = kazanılan prestij, **asla satılmaz** (lig, level,
   turnuva şampiyonu, etkinlik — Yılbaşı, Ramazan Bayramı); dükkânda görünmez, Profil › Koleksiyon'da
-  (kilitliler "nasıl kazanılır"la). **Aura** = satılık tarz, avatarın arkasındaki tema katmanı; eski 12
+  (kilitliler "nasıl kazanılır"la). **Arka Plan** (kod adı: `aura`; oyuncuya görünen ad — ekranda "aura" kelimesi geçmez, Ida 24 Eyl. Açıklama: "Arka Plan — avatarının arkasındaki hareketli sahne") = satılık tarz, avatarın arkasındaki tema katmanı; eski 12
   dükkân çerçevesi auraya dönüştü (satırlar pasif durur), elmasla satılır: Sıradan 75 · Nadir 150 ·
   Epik 300 · Efsanevi 600 (`aura_satin_al`, FOR UPDATE; coin yolu yok). Coin'le alınmış dükkân
   çerçeveleri aynı temanın aurası olarak taşındı (1 hesap). Katman sırası aura → avatar → çerçeve,
@@ -440,7 +440,7 @@ karakter, Hızlı Mod hariç — dondurulmuş) bu sistemle yeniden yazıldı.
   `aktif=false`; altında 27), `/ikon-onizleme` (4 uygulama ikonu adayı, yalnız sahip; hazır dosyalar
   `public/ikon-aday/<ad>/` — oyunun ikonu onaya kadar değişmez),
   `/cerceve-onizleme` (çerçeve tarzı A/B/C), `/kozmetik-onizleme` (kozmetik "satışa girsin" seçimi
-  yalnız sahipte), `/premium-onizleme` (8 hareketli premium çerçeve, 6 iç aura, altın isim plakası, lig
+  yalnız sahipte), `/premium-onizleme` (8 hareketli premium çerçeve, 6 iç arka plan, altın isim plakası, lig
   amblemi — yalnız önizleme, oyunda yok; Girsin/Girmesin tarayıcıda, "Seçimlerimi kopyala" ile iletilir)
   — seçim sayfaları yalnız sahip yazar.
 - **Skill rozeti (`SkillRozeti`)** her yerde aynı: dükkân, loadout, maç çubuğu, maç içi satın alma,

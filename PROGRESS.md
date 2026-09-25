@@ -8541,3 +8541,13 @@ unvan + kalıcı rozet; görünüm Görsel Paket 2'de.
 - **İstemci:** `unvan.js › unvanMetni` (ulke/dunya), `UnvanSecici` "bu hafta ülke/dünya şampiyonusun" satırları (+EN `dil.js`), bildirim EN karşılığı `ceviri/sunucu.js`, unvan çizimine `ulke` (bayrak, yakut) ve `dunya` (küre, turkuaz) türü.
 - **Prova (transaction, geri alındı):** görünmeyen hesap 99999 puanla 1. iken şampiyon OLMADI; bot dünya + TR + şehir şampiyonu oldu, BG'de kendi ülke şampiyonu; insan 1. olunca 3 rozet + 3 bildirim; `oyuncu_kartlari` idagg için `{tur: dunya}`; retro 14 Eylül haftası: idagg ülke + dünya + şehir; koleksiyon puanı 23 → 63 (efsanevi × 2 dahil). Build temiz.
 - **Not:** aynı kişi üç unvanı birden kazanırsa üç ayrı bildirim gider (şehir/ülke/dünya) — brife uygun bırakıldı.
+
+## 2026-09-25 — "Aura" adı → "Arka Plan" (yalnız ekranda görünen metinler)
+**Araç:** Claude Code
+**Neden:** Ida kararı (24 Eyl): özellik aynı, oyuncunun gördüğü yerde "aura" kelimesi kalmasın (TR "Arka Plan/Arka Planlar", EN "Background/Backgrounds"). Migration yok.
+- **Değişen (yalnız metin):** Dükkân sekme adı (`JokerDukkani`, `DukkanKozmetik` paura), `lib/kozmetik.js` TUR_ADI, `DukkanAuralar`, `Koleksiyon`, Koleksiyon Puanı dökümü ("Arka Plan"), elmas notu ("arka plan ve çerçeve gibi görünüm eşyaları"), önizleme sayfaları; premium dükkân açıklaması tam onaylı metin ("Arka Plan — avatarının arkasındaki hareketli sahne. …"). EN sözlükler (`ceviri/dukkan|kozmetik|premium|koleksiyon.js`) yeni anahtarlarla; eski anahtarlar silindi.
+- **Sunucu mesajları (5, DB'de eski adla):** migration açılmadı; `dil.js › ttSunucu` TR için de eşliyor (`TR_DUZELTME`): "Böyle bir arka plan yok", "Bu arka plan satılmıyor / sende yok / zaten sende / şu an kullanılamıyor". EN'de sözlük zaten "background". DB'deki ham mesajlar aynı.
+- **Dokunulmadı:** DB anahtarları/tabloları, kod ad/prop/dosya adları, `?sekme=aura` / `paura`, CSS sınıfları.
+- **Karar:** lig çerçevesi açıklamasındaki "alev aurası" (çerçevenin ışıma efekti, Arka Plan özelliği değil) → "alev ışıltısı" / "flame glow" (önizleme sayfası + sözleşme).
+- **Kaza ve düzeltme:** toplu değiştirme `DukkanAuralar`/`sanatAuralar` import adlarına ve `setAuralar`'a bulaşmıştı, build öncesi geri alındı (diff'te yok).
+- **Test:** build temiz; `grep tt("…aura` boş; 390 px TR: Dükkân › Arka Plan sekmesi, `?sekme=aura` ve `paura` açılıyor, satın alma penceresi onaylı açıklamayı gösteriyor, Koleksiyon sayfasında "aura" yok (sayfa metni + aria/title taraması 0); EN metinleri sözlük düzeyinde doğrulandı (12 anahtar). Test misafir hesapları silindi.

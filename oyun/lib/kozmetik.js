@@ -18,9 +18,9 @@ import { hataMesaji } from "./hata.js";
 
 export const KOZMETIK_TURLERI = ["vs_karti", "isim_efekti", "zafer_efekti", "tepki_paketi", "premium_cerceve", "premium_aura"];
 export const TUR_ADI = {
-  aura: "Aura", avatar: "Avatar", vs_karti: "VS Kartı", isim_efekti: "İsim Efekti",
+  aura: "Arka Plan", avatar: "Avatar", vs_karti: "VS Kartı", isim_efekti: "İsim Efekti",
   zafer_efekti: "Zafer Efekti", tepki_paketi: "Tepki",
-  premium_cerceve: "Çerçeve", premium_aura: "Aura",
+  premium_cerceve: "Çerçeve", premium_aura: "Arka Plan",
 };
 
 /** Kalem görünümü (adlar sunucudan da gelir; bunlar önizleme/yedek). `tema` CSS data-vs / data-ef / data-zafer değeri. */

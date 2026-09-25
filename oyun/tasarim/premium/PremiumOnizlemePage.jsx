@@ -64,7 +64,7 @@ const ELMAS_KOD = ["avuc", "kese", "sandik", "hazine", "define"];
 /** Kalemler (seçim listesi). Eski kodlar aynen durur (tarayıcıdaki eski seçimler kaybolmasın). */
 const KALEMLER = [
   ...CERCEVE_SIRASI.map((k) => ({ kod: `cerceve:${k}`, ad: CERCEVELER[k].ad, tur: "Çerçeve" })),
-  ...AURA_SIRASI.map((k) => ({ kod: `aura:${k}`, ad: AURALAR[k].ad, tur: "Aura" })),
+  ...AURA_SIRASI.map((k) => ({ kod: `aura:${k}`, ad: AURALAR[k].ad, tur: "Arka Plan" })),
   { kod: "plaka:altin", ad: "Altın isim plakası", tur: "İsim" },
   { kod: "rozet:lig", ad: "Lig amblemi (isim yanında)", tur: "Rozet" },
   ...TUR2_SIRASI.map((k) => ({ kod: `cerceve2:${k}`, ad: TUR2[k].ad, tur: "Çerçeve 2. tur" })),
@@ -400,7 +400,7 @@ export default function PremiumOnizlemePage() {
       <main className="qt-sayfa-ic pp-ic">
         <header className="pp-giris">
           <h1 className="qt-baslik-1">{tt("Premium önizleme")}</h1>
-          <p className="qt-govde pp-ozet">{tt("8 hareketli çerçeve, 6 iç arka plan aurası, altın isim plakası ve lig amblemi — gerçek avatarlar ve oyunun gerçek ekranlarıyla. Oyunda hiçbir şey değişmedi; seçimlerin yalnız bu tarayıcıda durur.")}</p>
+          <p className="qt-govde pp-ozet">{tt("8 hareketli çerçeve, 6 iç arka plan, altın isim plakası ve lig amblemi — gerçek avatarlar ve oyunun gerçek ekranlarıyla. Oyunda hiçbir şey değişmedi; seçimlerin yalnız bu tarayıcıda durur.")}</p>
           <p className="qt-govde pp-ozet"><b>{tt("2. tur:")}</b> {tt("beğenilmeyenler (Ejderha, Sönmeyen Alev, Buz Kristali, Şimşek, Kraliyet, altın plaka, Altın Lig çerçevesi) gerçek zamanlı ışık efektleriyle yeniden yapıldı; her birinin yanında önceki hâli durur. Dükkândaki 5 elmas paketinin yeni görselleri en altta.")}</p>
           <nav className="pp-atla" aria-label={tt("Bölümler")}>
             <a href="#pp-tur2">{tt("2. tur")}</a><a href="#pp-deneme">{tt("Deneme alanı")}</a><a href="#pp-yerler">{tt("Gerçek yerler")}</a>
@@ -513,7 +513,7 @@ export default function PremiumOnizlemePage() {
                 </div>
               </div>
               <div className="pp-kontrol-sira">
-                <span className="pp-etiket">{tt("Aura")}</span>
+                <span className="pp-etiket">{tt("Arka Plan")}</span>
                 <div className="pp-cipler">
                   <Cip secili={!s.aura} onClick={() => setS({ ...s, aura: null })}>{tt("Yok")}</Cip>
                   {AURA_SIRASI.map((k) => <Cip key={k} secili={s.aura === k} onClick={() => setS({ ...s, aura: k })}>{tt(AURALAR[k].ad)}</Cip>)}
@@ -579,7 +579,7 @@ export default function PremiumOnizlemePage() {
         </section>
 
         <section className="pp-bolum" aria-labelledby="pp-auralar">
-          <h2 id="pp-auralar" className="qt-baslik-2">{tt("Arka plan auraları")} <span className="pp-px">6</span></h2>
+          <h2 id="pp-auralar" className="qt-baslik-2">{tt("Arka Planlar")} <span className="pp-px">6</span></h2>
           <p className="qt-kucuk qt-soluk">{tt("Çerçevenin içindeki düz duvarın yerine hareketli sahne; dairenin dışına taşmaz, avatar önde.")}</p>
           <div className="pp-katalog">
             {AURA_SIRASI.map((k) => (

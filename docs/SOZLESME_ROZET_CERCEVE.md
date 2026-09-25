@@ -281,7 +281,7 @@ altında, kırmızı çizgi `dusme_sirasi`'nın üstünde. "Altın'a çıkmana 4
 > Adlar 23 Eyl 2026 (migration 360) temalı adlara geçti; anahtar, nadirlik, fiyat ve sahiplikler değişmedi.
 
 Etkinlik çerçevesi: bugün **yok** (eşyalar/avatar kataloğunda çerçeve bulunmadı). `kaynak = 'etkinlik'` ileride.
-Lig çerçevesi görsel tanımı briften (Gümüş kalkan, Altın defne, Elmas kristal, Efsane alev aura) —
+Lig çerçevesi görsel tanımı briften (Gümüş kalkan, Altın defne, Elmas kristal, Efsane alev ışıltısı) —
 nadirlik sütunu yalnız etiket/renk kodu içindir.
 
 ---

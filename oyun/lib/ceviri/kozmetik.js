@@ -164,8 +164,8 @@ export default {
   "Belirgin süs, 7 sn'de bir parıltı: Ejder Pulu · Şimşek · Gezegen Halkası.": "Bold ornaments, a shine every 7 s: Dragon Scale · Lightning · Planet Ring.",
   "Sürekli canlı efekt + seyrek kıvılcım: Alev Kanatları · Kraliyet · Kozmik.": "A constant live effect + occasional sparks: Flame Wings · Royal · Cosmic.",
   "Lig çerçeveleri": "League frames",
-  "Lig atlayınca kazanılır, satılmaz. Gümüş: kalkan + defne · Altın: defne + taç · Elmas: kristal uçlar + ışık kırılması · Efsane: alev aurası + taç.":
-    "Earned by promotion; not for sale. Silver: shield + laurel · Gold: laurel + crown · Diamond: crystal spikes + light refraction · Legend: flame aura + crown.",
+  "Lig atlayınca kazanılır, satılmaz. Gümüş: kalkan + defne · Altın: defne + taç · Elmas: kristal uçlar + ışık kırılması · Efsane: alev ışıltısı + taç.":
+    "Earned by promotion; not for sale. Silver: shield + laurel · Gold: laurel + crown · Diamond: crystal spikes + light refraction · Legend: flame glow + crown.",
   "Level çerçeveleri": "Level frames",
   "Level 25 · 50 · 75 · 100 rozetiyle gelir. Alt plakada level, yıldız sayısı artar; 100'de altın kanatlar.":
     "Comes with the Level 25 · 50 · 75 · 100 badge. The level sits on the bottom plate, stars increase; golden wings at 100.",
@@ -208,7 +208,7 @@ export default {
   "Elmas kozmetikleri": "Diamond cosmetics",
   "Her kalemde seçimini yap. Satış bayrağı açılınca yalnız \"Satışa girsin\" dediklerin satılır; botlar da yalnız onları takar. Seçimler sunucuda, yenileyince durur.": "Choose for each item. When sales open, only items marked \"Put on sale\" are sold, and bots only wear those. Choices are saved on the server and survive a refresh.",
   "Her kozmetik gerçek yerinde. Satış seçimi yalnız sahip hesabıyla görünür.": "Every cosmetic in its real place. The sale choice is visible only to the owner account.",
-  "Aura zaten satışta; buradaki seçim satışı değiştirmez, yalnız gizli botların takmasını belirler. Yerleri: maç şeridi, lig tablosu.": "Auras are already on sale; this choice doesn't change that, it only decides what bots wear. Shown in: match bar, league table.",
+  "Arka plan zaten satışta; buradaki seçim satışı değiştirmez, yalnız gizli botların takmasını belirler. Yerleri: maç şeridi, lig tablosu.": "Backgrounds are already on sale; this choice doesn't change that, it only decides what bots wear. Shown in: match bar, league table.",
   "VS Kartı": "VS Card",
   "Rakip aranırken, VS anında ve profil başlığında kartının arka planı. Varsayılan düz kart bedava.": "Your card's background while searching, at the VS moment and in your profile header. The plain default card is free.",
   "İsim Efekti": "Name Effect",

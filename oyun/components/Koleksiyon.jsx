@@ -105,9 +105,9 @@ export default function Koleksiyon() {
     try {
       await auraTak(anahtar, user?.id);
       setAuralar((l) => l.map((a) => ({ ...a, takili: a.anahtar === anahtar })));
-      setBilgi(anahtar ? tt("Aura takıldı.") : tt("Aura çıkarıldı."));
+      setBilgi(anahtar ? tt("Arka plan takıldı.") : tt("Arka plan çıkarıldı."));
     } catch (e) {
-      setHata(hataMesaji(e, tt("Aura takılamadı.")));
+      setHata(hataMesaji(e, tt("Arka plan takılamadı.")));
     } finally {
       setMesgul(null);
     }
@@ -157,9 +157,9 @@ export default function Koleksiyon() {
         <CerceveliAvatar profile={profile ?? {}} userId={user?.id} boyut={112} hareketli />
         <div className="qt-ks-ozet">
           <h2 className="qt-baslik-3">{tt("Görünümün")}</h2>
-          <p className="qt-kucuk qt-soluk">{tt("Aura arkada, avatar ortada, çerçeve önde. Maçta, lig tablosunda ve profilinde herkes böyle görür.")}</p>
+          <p className="qt-kucuk qt-soluk">{tt("Arka plan arkada, avatar ortada, çerçeve önde. Maçta, lig tablosunda ve profilinde herkes böyle görür.")}</p>
           <p className="qt-kucuk">
-            {tt("{a}/{b} çerçeve · {c}/{d} aura", { a: sahipCerceve, b: cerceveler.length, c: sahipAura, d: auralar.length })}
+            {tt("{a}/{b} çerçeve · {c}/{d} arka plan", { a: sahipCerceve, b: cerceveler.length, c: sahipAura, d: auralar.length })}
           </p>
         </div>
       </QtKart>
@@ -216,16 +216,16 @@ export default function Koleksiyon() {
         </ul>
       </QtKart>
 
-      {/* ---------- Auralar (elmasla dükkândan) ---------- */}
+      {/* ---------- Arka Planlar (elmasla dükkândan) ---------- */}
       <QtKart as="section" className="qt-cs" aria-labelledby="qt-ks-aura">
-        <h2 id="qt-ks-aura" className="qt-baslik-3">{tt("Auralar")}</h2>
-        <p className="qt-kucuk qt-soluk">{tt("Aura avatarının arkasında durur. Dükkân'da elmasla alınır.")}</p>
+        <h2 id="qt-ks-aura" className="qt-baslik-3">{tt("Arka Planlar")}</h2>
+        <p className="qt-kucuk qt-soluk">{tt("Arka plan avatarının arkasında durur. Dükkân'da elmasla alınır.")}</p>
         <ul className="qt-cs-izgara">
           <li>
             <button type="button" className="qt-cs-oge" aria-pressed={takiliAura === null} disabled={Boolean(mesgul)}
                     onClick={() => auraSec(null)}>
               <CerceveliAvatar profile={profile ?? {}} userId={user?.id} aura={null} boyut={64} />
-              <span className="qt-cs-ad">{tt("Aurasız")}</span>
+              <span className="qt-cs-ad">{tt("Arka plansız")}</span>
               <span className="qt-cs-durum">{durumYazi(takiliAura === null, "a:yok")}</span>
             </button>
           </li>
@@ -256,7 +256,7 @@ export default function Koleksiyon() {
             );
           })}
         </ul>
-        <QtDugme as={Link} to={y("/joker?sekme=aura")} tur="ikincil" ikon="dukkan" tamGenislik>{tt("Dükkân'da auralar")}</QtDugme>
+        <QtDugme as={Link} to={y("/joker?sekme=aura")} tur="ikincil" ikon="dukkan" tamGenislik>{tt("Dükkân'da arka planlar")}</QtDugme>
       </QtKart>
 
       {/* ---------- 540: VS Kartı · İsim Efekti · Zafer Efekti · Tepki ---------- */}

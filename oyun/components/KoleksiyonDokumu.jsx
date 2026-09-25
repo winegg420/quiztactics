@@ -11,7 +11,7 @@ import { tt } from "../lib/dil.js";
 import { QtIkon, QtKart } from "../tasarim/index.js";
 import "../tasarim/ekranlar/koleksiyon-puani.css";
 
-const KATEGORI_AD = { rozet: "Rozet", cerceve: "Çerçeve", aura: "Arka plan", unvan: "Unvan", kozmetik: "Kozmetik", avatar: "Avatar" };
+const KATEGORI_AD = { rozet: "Rozet", cerceve: "Çerçeve", aura: "Arka Plan", unvan: "Unvan", kozmetik: "Kozmetik", avatar: "Avatar" };
 const NADIR = [["siradan", "Sıradan"], ["nadir", "Nadir"], ["epik", "Epik"], ["efsanevi", "Efsanevi"]];
 
 export default function KoleksiyonDokumu({ tam = false }) {
