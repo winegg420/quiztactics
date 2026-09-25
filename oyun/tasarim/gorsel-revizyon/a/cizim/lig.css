@@ -2,3 +2,5 @@
 .gra-lig-isin { transform-box: view-box; }
 .gra-lig--oynar[data-gorunur="1"] .gra-lig-isin { animation: gra-lig-don 18s linear infinite; }
 @keyframes gra-lig-don { to { transform: rotate(360deg); } }
+.gra-rozet-isin { transform-box: view-box; }
+.gra-rozet--oynar[data-gorunur="1"] .gra-rozet-isin { animation: gra-lig-don 20s linear infinite; }

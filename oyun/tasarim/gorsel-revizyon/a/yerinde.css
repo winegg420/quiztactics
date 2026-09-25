@@ -33,3 +33,10 @@
 .ga-isim { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
 .ga-lig-test { display: flex; flex-wrap: wrap; gap: 8px; }
 .ga-lig-test > span { display: inline-flex; gap: 6px; padding: 6px 8px; border-radius: 12px; background: #fff; }
+.ga-rozet-izgara { display: grid; grid-template-columns: repeat(4, minmax(0, 72px)); justify-content: start; justify-items: center; gap: 10px 8px; padding: 10px; border-radius: 14px; background: #fff; }
+.ga-rozet-izgara small { font-size: 11px; font-weight: 800; color: #46507f; }
+.ga-rozet-profil { display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 14px; background: #fff; min-width: 0; }
+.ga-rozet-profil > div { display: grid; gap: 4px; min-width: 0; }
+.ga-rozet-profil b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ga-rozet-sira { display: flex; gap: 6px; }
+.ga-kod { margin: 0; padding: 8px 10px; border-radius: 10px; background: #1d2152; color: #dff0ff; font-size: 12px; white-space: pre-wrap; overflow-wrap: anywhere; }
