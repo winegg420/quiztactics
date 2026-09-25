@@ -8394,3 +8394,9 @@ ada dokununca kart yok, maç içi ses tek düğme; ek olarak 2. tur onayları (B
   giden metin (`psql -c`, `node -e`, `bash -c`, `python -c`, `ssh`, `psql/node/bash <<EOF`) korunur. Test 23/23 (11 yanlış
   alarm örneği geçti, 12 gerçek yıkıcı anında onay) + önceki 50/50. Yukarıdaki "DELETE FROM geçen her komut onay ister"
   notu artık geçerli değil; `node betik.mjs "…DROP…"` gibi yorumlayıcıya tırnaklı argüman temkinli olarak onay ister.
+
+## 2026-09-25 — Görsel revizyon /gorsel-revizyon — durum
+**Araç:** Claude Code (yönetici + Ajan A/B). Kaynak: `tasarim/BRIEF_GORSEL_REVIZYON.md`. Oyunda değişen bir şey yok; migration yok.
+Öncelik (Ida): 0 → 6 → 4 → 1–2 → 9 → 10 → 7 → 8 → 3 → 5 → 12 → 11, 13. Her bölüm bitince ajan commit + push eder ve bu girdiyi günceller.
+- Biten: belge (a65bac4), sayfa kabuğu + ortak palet (8248eaf: `oyun/tasarim/gorsel-revizyon/` palet.js/palet.css, secim.jsx, a/, b/)
+- Kalan: 0 stil rehberi (A) · 6 lig çerçeveleri (B) · 4 oyuncu kartı (B) · 1 coin (A) · 2 elmas (A) · 9 lig amblemleri (A) · 10 rozetler (A) · 7 level (B) · 8 turnuva (B) · 3 nadirlik (A) · 5 unvan (B) · 12 logo (A) · 11 joker hizalama (A) · 13 premium/arka plan hizalama (B)
