@@ -57,7 +57,8 @@ function kupaTepesi(k) {
     const yap = (s) => `<g transform="scale(${s} 1)"><g transform="translate(36 38) rotate(-40)">${yaprak(12, 4.6, Z, 1.4)}</g><g transform="translate(43 29) rotate(-20)">${yaprak(10, 4, Z, 1.4)}</g></g>`;
     return svg(yap(1) + yap(-1) + halkaDuz({ m: LAC, ic: 41, dis: 49.5, kw: 2.8 })
       + [45, 135, 225, 315].map((a) => { const [x, y] = kutup(45.2, a); return `<circle cx="${x}" cy="${y}" r="1.6" fill="${A.orta}" ${cz(0.8)}/>`; }).join("")
-      + `<g transform="translate(0 -44)">${kupa(0.5)}</g>`);
+      // Düzeltme 3 (25 Eyl): kupa 40 px'te okunsun diye 0,5 → 0,9 (halkanın tepesine oturur, kutudan taşmaz)
+      + `<g transform="translate(0 -38)">${kupa(0.9)}</g>`);
   }
   const civi = [30, 70, 110, 150, 210, 250, 290, 330].map((a) => { const [x, y] = kutup(47, a); return `<circle cx="${x}" cy="${y}" r="1.7" fill="${A.orta}" ${cz(0.8)}/>`; }).join("");
   return svg(defne(1, 36) + defne(-1, 36) + halkaDuz({ m: LAC, kw: 2.6 })

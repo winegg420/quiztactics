@@ -46,3 +46,5 @@
 @media (max-width: 420px) {
   .qt-ks-onizleme { grid-template-columns: 1fr; justify-items: center; text-align: center; }
 }
+/* Yeni çizimli kazanılan çerçeveler (plaka, dal) kutunun altına taşar: ada binmesin */
+.qt-cs-oge > .p2 { margin: 0 6px 14px; }

@@ -557,6 +557,8 @@ a.as-cip:active { transform: translateY(2px); }
 .as-ko:active { transform: translateY(3px); }
 /* Çerçeve süsleri (kanat, defne) avatarın yanlarına taşar: karta ve ada binmesin diye yan pay */
 .as-ko > .qt-cerceve { margin-inline: 4px 6px; }
+/* Yeni çizimli (lig/level/turnuva, premium 2. tur) çerçeveler kutunun %35'ine kadar taşar: ada binmesin */
+.as-ko > .p2 { margin-inline: 12px 16px; }
 .as-ko-govde { display: grid; gap: 4px; min-width: 0; }
 .as-ko-ust { display: flex; align-items: center; gap: 8px; min-width: 0; }
 .as-ko-ad { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: var(--qt-a-siyah) var(--qt-y-l)/1.15 var(--qt-f-baslik); }
