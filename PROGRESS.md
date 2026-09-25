@@ -8466,3 +8466,26 @@ unvan + kalıcı rozet; görünüm Görsel Paket 2'de.
 - **GÖREV B'ye not:** Maç sonunda kozmetik ödül/düşme özelliği yok; nadirlik orada gösterilecek bir alan bulunmadı.
 - **Kalan yok** — Görev A'nın 4 maddesi de bitti. Görev B (lig/level/turnuva çerçeveleri, premium hizalama, rozet
   sistemi, unvan, tek oyuncu kartı, stil rehberi sayfası, temizlik) PC'de sürüyor.
+
+## 2026-09-25 — Görsel revizyon entegrasyonu B (PC) — migration 643
+**Araç:** Claude Code (Opus 5.5, PC). **Neden:** `tasarim/SECIMLER_GORSEL_REVIZYON.md` › Görev B (Ida seçimleri). Görev A bulutta bitti.
+- **1–3 Kazanılan çerçeveler (ed96c86):** `tasarim/kazanilan/` (KazanilanCerceve + anahtarlar), CerceveliAvatar → PremiumAvatarCizim
+  (tembel) → GrCerceve (tur2 motoru). Düzeltme 1: ≤ 48 px lig siluetleri köşelerde (Bronz yalın · Gümüş alt defne · Altın + üst
+  yıldız [tur2/sanat.js] · Elmas köşe kristali · Efsane kanat) — önce Bronz/Gümüş/Altın üçü de düz daireydi. Düzeltme 2: Level 25
+  sivri / 50–75 yatık altıgen (+75 köşe yıldızları) / 100 on iki uçlu; en dış nokta her kademede 54 (Lv100 ışınları 58'di).
+  Düzeltme 3: kupa 0,5 → 0,9. Koleksiyon ızgarası da yeni çizim; ana sayfa kartı ve koleksiyonda taşma payı.
+- **4 Lig amblemi Fasetli Yıldız (d2cbcbc):** `premium/ligAmblemi.jsx` tek kaynak; isim yanı 20 px; lig kartı/çipi, lig arması 52 px.
+- **5 Premium hizalama (ec135f6):** CSS 3 çerçeveye kontur + parlama + ≤ 48 px imza; 4 WebGL çerçevede tuval olcek 1; 6 arka plan
+  ≤ 71 px iri parçacık + doygunluk + iç kontur (premium.css). Önizleme 13 artık oyundakiyle aynı.
+- **6 Rozet Madalyon (5cd4927):** `tasarim/rozet/` — 26 amblem (+10 kategori), seviye süsü, kardeşlerde eşik rakamı; 102 rozetin hepsi.
+- **7 Unvan (692adf4, migration 643):** tablolar + RPC + lig kapanış kancası + oyuncu_kartlari.unvan; bildirim açıldı; level çerçeve
+  adları "Level N Madalyası". Prova: kazanılanlar, sahip olmadığı unvan reddi, kart unvanı, şehir önceliği (idagg Balıkesir),
+  33/150 gizli botta unvan, olay unvanları, yetkiler — hepsi doğru; canlıya uygulandı.
+- **8 Tek oyuncu kartı (324df83):** `OyuncuVitrinKarti`; profil başı + oyuncu kartı penceresi; lig satırı / VS / maç şeridinde unvan.
+  Maç şeridinde unvan < 420 px gizli (360 px'te 1–2 harfe iniyordu).
+- **9 `/stil-rehberi` (f0493ab)** · **10 Temizlik (a40a279):** rozetSembolleri.jsx + rozet-madalyon.css silindi.
+- **Ölçüm:** 360/390 px taşma 0, konsol hatası 0; siluet/gri testleri ekran görüntüsüyle; mobil taklidinde WebGL çerçeve hareketli,
+  "hareketi azalt"ta da hareketli (yavaş). Ana paket `oyun-*.js` 425,3 → 457,2 kB (gzip 138,4 → 146,9); bunun ~8 kB'ı lig amblemi,
+  ~11,5 kB'ı rozet çizimleri (ana pakette görünen yerlerde kullanılıyor), kalanı Görev A (logo, coin, joker). Test hesabı silindi.
+- **Belirsiz (bağlanmadı):** 4 sezon unvanı (sezon sistemi yok), "Kahramanmaraş İkincisi" (sezon/2.lik kuralı yok), "Bin Galibiyet"
+  (Klasik mi toplam mı?). **Karar bekleyen:** Bronz Lig çerçevesi (`lig_bronz`) katalogda yok — çizimi hazır.
