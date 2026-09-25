@@ -276,28 +276,57 @@ async function duelloMaci(kapsam) {
   await s.waitForTimeout(2500);
   await tanitimlariGec();
   await ekranOlc("duello-lobi");
+  const araBas = Date.now();
+  // Arama izi: sunucuda maçın KURULDUĞU an (DB yaşından yerel saate çevrilmiş) ile sayfanın maç adresine GEÇTİĞİ an ayrı ölçülür.
+  let kurulduAn = null;
+  let urlIlkAn = null;   // sayfa adresinin maça DÖNDÜĞÜ ilk an (döngü beklemelerinden bağımsız, 150 ms'de bir)
+  const urlIzleyici = (async () => {
+    for (let i = 0; i < 400 && !urlIlkAn; i++) {
+      if (s.url().includes("/duello/") && /[0-9a-f-]{36}/.test(s.url())) urlIlkAn = Date.now(); else await bekle(150);
+    }
+  })();
+  const izleyici = (async () => {
+    for (let i = 0; i < 140 && !kurulduAn; i++) {
+      const [a] = await sorgu(`select extract(epoch from (now() - created_at)) yas from duellolar
+                               where (oyuncu1 = ${alintila(BEN)} or oyuncu2 = ${alintila(BEN)}) and durum = 'aktif' order by created_at desc limit 1`).catch(() => []);
+      if (a) kurulduAn = Date.now() - Number(a.yas) * 1000;
+      else await bekle(400);
+    }
+  })();
   const macMi = () => /\/duello\/[0-9a-f-]{36}/.test(s.url());
-  for (let i = 0; i < 10 && !macMi(); i++) {
+  // KÖK SEBEP (26 Eyl): eski döngü "Rakip ara"ya timeout'suz tap ediyordu. Arama başlayınca düğme DOM'da kalır ama tam ekran
+  // arama sahnesi örter; Playwright 30 sn boyunca "tıklanabilir olmasını" bekledi, test bu sürede maça girmiş sayfayı izleyemedi
+  // → maça 24–30 sn geç girildi, ilk turun cevap fazı bitmiş oluyordu ("savunan · tur 1 yanıtsız"). Oyun hatası DEĞİL.
+  // Şimdi her dokunuş kısa timeout'lu, döngü 0,5 sn'de bir adresi kontrol eder.
+  for (let i = 0; i < 70 && !macMi(); i++) {
+    if (ARG.iz) console.log(`  [arama döngüsü i=${i} +${((Date.now() - araBas) / 1000).toFixed(1)}s url=…${s.url().slice(-45)} macMi=${macMi()}]`);
     const gec = s.getByRole("button", { name: /^(Geç|İleri)$/ });
-    if (await gec.count()) { await gec.last().tap().catch(() => {}); await s.waitForTimeout(600); continue; }
-    const ara = s.getByRole("button", { name: /Rakip ara/i });
-    if (await ara.count()) await ara.first().tap().catch(() => {});
-    await s.waitForTimeout(3000);
+    if (await gec.count()) { await gec.last().tap({ timeout: 1500 }).catch(() => {}); await s.waitForTimeout(600); continue; }
+    if (i % 6 === 0) {
+      const ara = s.getByRole("button", { name: /Rakip ara/i });
+      if (await ara.count()) await ara.first().tap({ timeout: 1500 }).catch(() => {});
+    }
+    await s.waitForTimeout(500);
   }
   try { await s.waitForURL(/\/duello\/[0-9a-f-]{36}/, { timeout: 45000 }); }
   catch { basarisiz("Düello: rakip bulunamadı / maça girilemedi"); return "kritik"; }
+  const urlAn = Date.now();
+  await izleyici.catch(() => {});
+  await urlIzleyici.catch(() => {});
+  if (kurulduAn) console.log(`  · arama izi: aramadan maç kurulana ${((kurulduAn - araBas) / 1000).toFixed(1)} sn, maç kurulduktan sayfa adresi maça dönene ${urlIlkAn ? ((urlIlkAn - kurulduAn) / 1000).toFixed(1) : "?"} sn, test döngüsü maça geçtiğini ${((urlAn - kurulduAn) / 1000).toFixed(1)} sn sonra fark etti`);
   const id = s.url().match(/duello\/([0-9a-f-]{36})/)[1];
   // Yarım kalmış bir maça katılındıysa (sunucu aktif maça yönlendirir) önceki turlar bu testin değildir.
   const [giris] = await sorgu(`select coalesce(max(id), 0) m from duello_hamleler where duello_id = ${alintila(id)}`);
   const girisHamle = Number(giris?.m ?? 0);
   if (girisHamle > 0) console.log(`  (yarım maça katılındı — ${girisHamle} numaralı hamleye kadar olanlar sayılmaz)`);
   const [m] = await sorgu(`select surum from duellolar where id = ${alintila(id)}`);
-  console.log(`  maç ${id} (sürüm ${m?.surum})`);
+  console.log(`  maç ${id} (sürüm ${m?.surum}) · arama+yönlenme ${((urlAn - araBas) / 1000).toFixed(1)} sn`);
   if (Number(m?.surum) !== 2) { basarisiz("Düello: maç sürüm 2 değil", { surum: m?.surum }); }
 
   let sonEkran = "";
   let sonCevapAnahtar = "";
   let skillSirasi = 0;
+  let girisYazildi = false;
   let sifirTur = null;   // --sifir: bilerek yanıtsız bırakılan turun numarası
   const bas = Date.now();
   let turBas = Date.now();
@@ -309,8 +338,17 @@ async function duelloMaci(kapsam) {
     sonAdim = "durum okuma";
     const t = await s.evaluate(() => window.__bdTani ?? null);
     const [d] = await sorgu(`select durum, faz, tur, saldiran, uzatma, soru_id, cevaplar, oyuncu1, can1, can2,
-                               (select dogru_cevap from questions q where q.id = soru_id) dogru
+                               (select dogru_cevap from questions q where q.id = soru_id) dogru,
+                               extract(epoch from (faz_bitis - now())) fkalan, extract(epoch from (now() - created_at)) mac_yasi,
+                               extract(epoch from ((case when oyuncu1 = ${alintila(BEN)} then bitis1 else bitis2 end) - now())) kkalan
                               from duellolar where id = ${alintila(id)}`);
+    // Maça ilk girişte: maç sunucuda ne kadar önce kuruldu, hangi fazdaydı (test oyuncudan geç kalıyorsa cevap süresi yenir).
+    if (!girisYazildi && d) {
+      girisYazildi = true;
+      console.log(`  · maça girildi: maç ${Number(d.mac_yasi).toFixed(1)} sn önce kurulmuş, faz=${d.faz}, rol=${d.saldiran === BEN ? "saldıran" : "savunan"}, faz kalan ${Number(d.fkalan).toFixed(1)} sn${Number(d.mac_yasi) > 8 ? "  ← TEST GEÇ GİRDİ (ilk turun cevabı yenmiş olabilir)" : ""}`);
+    }
+    // --iz: 1. turun izi (savunan/saldıran fark etmez): her döngüde faz, DB'deki kalan süre, açık şık, cevap durumu.
+    if (ARG.iz && d && Number(d.tur) === 1) console.log(`  [iz ${((Date.now() - bas) / 1000).toFixed(1)}s] faz=${d.faz} rol=${d.saldiran === BEN ? "saldıran" : "savunan"} faz_kalan=${Number(d.fkalan).toFixed(1)} kisisel_kalan=${Number(d.kkalan).toFixed(1)} cevapladim=${typeof d.cevaplar === "string" ? d.cevaplar.includes(BEN) : Boolean(d.cevaplar?.[BEN])} ekran_tani=${JSON.stringify((await s.evaluate(() => window.__bdTani ?? null))?.faz ?? null)}`);
     if (!d) { basarisiz("Düello: maç satırı okunamadı"); return "kritik"; }
     if (d.durum !== "aktif") {
       await s.waitForTimeout(2500);
