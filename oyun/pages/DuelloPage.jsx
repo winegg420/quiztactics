@@ -741,18 +741,38 @@ function DuelloMac({ id }) {
     ? new Date(d.sureler.gosterim_bas).getTime() : null;
   const kalanSn = useMemo(() => {
     if (!hedefBitis) return 0;
-    const sunucuSimdi = simdi + farkRef.current;
+    // `simdi` yalnız yeniden hesaplama tetikleyicisi: 200 ms bayat olabilir; rakam sınırı ve ilk-rakam kesri
+    // (gosterSn) render anının gerçek saatine göre hesaplanır.
+    const sunucuSimdi = Math.max(simdi, Date.now()) + farkRef.current;
     const bas = gosterimBas ? Math.max(sunucuSimdi, gosterimBas) : sunucuSimdi;
     return Math.max(0, (new Date(hedefBitis).getTime() - bas) / 1000);
   }, [hedefBitis, gosterimBas, simdi]);
+  // GÖSTERİLEN sayaç (rakam, ses, son-3-sn vurgusu): faz ekrana geç geldiyse ilk rakam kesirle başlar
+  // (ör. 13,12 sn kaldı → "14" yalnız 0,12 sn görünür = "hızlı" adım). O kesir fazın İLK göründüğü anda bir kez
+  // atılır: gösterilen sayı = kalan − kesir; ilk rakam tam saniye kalır (13), sonrakiler gerçek saniye hızında.
+  // Sayaç hızlanmaz; yalnız rakam sınırları kayar (gösterilen 0, gerçek bitişten en çok 0,9 sn önce olabilir).
+  // Mantık (süre bitti, şık kilidi, sunucu toleransı) gerçek kalanSn ile aynen çalışır. Ek Süre / Zaman Baskısı /
+  // Soru Değiştir aynı fazda kesiri yeniden hesaplamaz.
+  const fazKaymaRef = useRef({ anahtar: null, kayma: 0 });
+  const gosterSn = useMemo(() => {
+    if (!(kalanSn > 0) || !d) return 0;
+    const anahtar = `${d.tur}-${d.saldiri_sirasi}-${d.uzatma ?? ""}-${d.faz}`;
+    const k = fazKaymaRef.current;
+    if (k.anahtar !== anahtar) {
+      const kesir = kalanSn - Math.floor(kalanSn);
+      k.anahtar = anahtar;
+      k.kayma = kesir > 0.02 && kesir < 0.9 ? kesir : 0;
+    }
+    return Math.max(0, kalanSn - k.kayma);
+  }, [kalanSn, d?.tur, d?.saldiri_sirasi, d?.uzatma, d?.faz]);   // eslint-disable-line react-hooks/exhaustive-deps
   // Rakam tam saniye sınırında değişsin: 200 ms'lik saat tikine ek olarak bir sonraki
   // sınıra kurulmuş tek zamanlayıcı (adımlar 800/1200 ms diye titremez).
   useEffect(() => {
     if (kalanSn <= 0) return undefined;
-    const kesir = Math.round(kalanSn * 1000) % 1000;
-    const zaman = setTimeout(() => setSimdi(Date.now()), (kesir || 1000) + 5);
+    const bekle = gosterSn > 0 ? (Math.round(gosterSn * 1000) % 1000 || 1000) : Math.max(1, Math.round(kalanSn * 1000));
+    const zaman = setTimeout(() => setSimdi(Date.now()), bekle + 5);
     return () => clearTimeout(zaman);
-  }, [kalanSn]);
+  }, [kalanSn, gosterSn]);
 
   // Tanı paneli (?tani=1): şıkları kapatan koşullar her an okunabilsin.
   useEffect(() => {
@@ -771,9 +791,9 @@ function DuelloMac({ id }) {
   useEffect(() => {
     if (!d || !["cevap", "altin"].includes(d.faz)) return;
     if (d.surum === 2 && d.cevap?.ben_cevapladim) return;   // cevabı kilitleyene tik çalınmaz
-    const sn = Math.ceil(kalanSn);
+    const sn = Math.ceil(gosterSn);
     if (sn > 0 && sn <= 3 && sonTikRef.current !== sn) { sonTikRef.current = sn; sesTik(sn); }
-  }, [kalanSn, d]);
+  }, [gosterSn, d]);
 
   // ---------------- Düello 1.0: ses + görsel anlar (Tasarım A) ----------------
   // Yalnız sunum: durum akışına, RPC'lere, kilitlere dokunmaz. Her ses bir ref
@@ -782,7 +802,7 @@ function DuelloMac({ id }) {
 
   // Kategori seçimi geri sayımı: rakam her değiştiğinde ses; son 3 sn "bong".
   const v2Aktif = d?.surum === 2 && d?.durum === "aktif";
-  const kategoriSn = v2Aktif && d.faz === "kategori" ? Math.ceil(kalanSn) : 0;
+  const kategoriSn = v2Aktif && d.faz === "kategori" ? Math.ceil(gosterSn) : 0;
   useEffect(() => {
     if (kategoriSn <= 0) return;
     const anahtar = `${fazAnahtari}:${kategoriSn}`;
@@ -1116,8 +1136,8 @@ function DuelloMac({ id }) {
     const toplamSn = d.faz === "kategori"
       ? Number(d.sureler?.kategori ?? 8)
       : Math.max(Number(d.sureler?.cevap ?? 15), Math.ceil(kalanSn));
-    const sonUc = d.faz === "kategori" && kalanSn > 0 && kalanSn <= 3;   // kategori: son 3 sn vurgusu (renk + ses)
-    const gerilim = (d.faz === "cevap" && !kilitli && kalanSn > 0 && kalanSn <= 5) || sonUc;
+    const sonUc = d.faz === "kategori" && gosterSn > 0 && gosterSn <= 3;   // kategori: son 3 sn vurgusu (renk + ses)
+    const gerilim = (d.faz === "cevap" && !kilitli && gosterSn > 0 && gosterSn <= 5) || sonUc;
     const ekBalon = skillEfekt?.tur === "sure"
       ? { anahtar: `s${skillEfekt.deger}${fazAnahtari}`, metin: `+${skillEfekt.deger}` }
       : skillEfekt?.tur === "zaman_baskisi"
@@ -1127,7 +1147,7 @@ function DuelloMac({ id }) {
     if (d.faz === "kategori") {
       sahne2 = (
         <V2Kategori d={d} benSaldiran={benSaldiran} ben={ben} rakip={rakip} calisan={calisan} sonSaniye={sonUc} c={c2}
-                    sayac={<QtSayac kalan={kalanSn} toplam={toplamSn} esik={3} boyut="b" />}
+                    sayac={<QtSayac kalan={gosterSn} toplam={toplamSn} esik={3} boyut="b" />}
                     onSec={(k) => { sesDokunus(); eylem("kategori", "duello_kategori_sec", { p_kategori: k }); }} />
       );
     } else if (d.faz === "cevap") {
@@ -1135,7 +1155,7 @@ function DuelloMac({ id }) {
         <V2Cevap d={d} rakip={rakip} secenekler={secenekler} secim={secim}
                  ikinciSansElendi={ikinciSansElendi} calisan={calisan} kalanSn={kalanSn}
                  kiriliyor={kiriliyor} c={c2} onCevap={cevapVer}
-                 sayac={<QtSayac kalan={kalanSn} toplam={toplamSn} durdu={kilitli} ekBalon={ekBalon} />} />
+                 sayac={<QtSayac kalan={gosterSn} toplam={toplamSn} durdu={kilitli} ekBalon={ekBalon} />} />
       );
     } else if (d.faz === "sonuc") {
       sahne2 = <V2Sonuc d={d} rakip={rakip} secenekler={secenekler} c={c2} />;
@@ -1245,8 +1265,8 @@ function DuelloMac({ id }) {
   };
 
   const sayac = (buyuk) => (
-    <div className={`bd-duello-sayac ${buyuk ? "buyuk" : ""} ${kalanSn <= 3 ? "kritik" : ""} ${skillEfekt?.tur === "sure" ? "bd-skill-sure" : ""} ${skillEfekt?.tur === "zaman_baskisi" ? "bd-skill-zaman_baskisi" : ""}`} role="timer">
-      {Math.ceil(kalanSn)}
+    <div className={`bd-duello-sayac ${buyuk ? "buyuk" : ""} ${gosterSn <= 3 ? "kritik" : ""} ${skillEfekt?.tur === "sure" ? "bd-skill-sure" : ""} ${skillEfekt?.tur === "zaman_baskisi" ? "bd-skill-zaman_baskisi" : ""}`} role="timer">
+      {Math.ceil(gosterSn)}
       {(skillEfekt?.tur === "sure" || skillEfekt?.tur === "zaman_baskisi") && (
         <span className={`bd-skill-sure-deger ${skillEfekt.tur === "sure" ? "arti" : "eksi"}`}>
           {skillEfekt.tur === "sure" ? "+" : "−"}{skillEfekt.deger} sn

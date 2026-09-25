@@ -63,6 +63,11 @@ export default function QuestionCard({
   toplamSoru = null,
 }) {
   const [kalan, setKalan] = useState(SURE);
+  // GÖSTERİLEN sayaç (rakam, tik sesi, son-5-sn vurgusu): soru ekrana geç geldiyse ilk rakam kesirle başlar
+  // (13,12 sn kaldı → "14" yalnız 0,12 sn = "hızlı" adım). Kesir sorunun İLK göründüğü anda bir kez atılır;
+  // gösterilen = kalan − kesir. Sayaç hızlanmaz, rakam sınırları kayar. Süre mantığı (kilit, sunucu payı) gerçek `kalan`da.
+  const [gosterKalan, setGosterKalan] = useState(SURE);
+  const kaymaRef = useRef({ anahtar: null, kayma: 0 });
   const [secim, setSecim] = useState(null);
   const [sonuc, setSonuc] = useState(null); // { dogru, dogru_cevap }
   const [oy, setOy] = useState(null);
@@ -191,9 +196,15 @@ export default function QuestionCard({
       const k = kalanSure(soru.baslangic, offset, SURE, tavan);
       setKalan(k);
       if (!cevapVerildiRef.current) kalanRef.current = k;
+      if (kaymaRef.current.anahtar !== soruAnahtar) {
+        const kesir = k - Math.floor(k);
+        kaymaRef.current = { anahtar: soruAnahtar, kayma: k > 0 && kesir > 0.02 && kesir < 0.9 ? kesir : 0 };
+      }
+      const g = Math.max(0, k - kaymaRef.current.kayma);
+      setGosterKalan(g);
       // Son 5 saniye: her tam saniyede bir tik sesi (cevap verildiyse susar)
-      if (k > 0 && k <= 5 && !cevapVerildiRef.current) {
-        const sn = Math.ceil(k);
+      if (g > 0 && g <= 5 && !cevapVerildiRef.current) {
+        const sn = Math.ceil(g);
         if (sonTikRef.current !== sn) {
           // Son saniyelere girildi: tek seferlik uyarı, tik'ler sesTik ile sürer.
           if (sonTikRef.current === null) sesSonSaniyeler();
@@ -438,7 +449,7 @@ export default function QuestionCard({
 
   // Son 5 saniye: kenarlar kızarır (qt-h-gerilim), sayaç kırmızı + nabız.
   // Cevap verildikten sonra tetiklenmez (heyecan değil, rahatsızlık olurdu).
-  const sonDuzluk = kalan > 0 && kalan <= 5 && secim === null && !sonuc;
+  const sonDuzluk = gosterKalan > 0 && gosterKalan <= 5 && secim === null && !sonuc;
 
   // Şık durumu → QtSik durum. Kırılan (50:50) şık, animasyon bitene kadar "normal" + kiriliyor.
   const sikDurumu = (i) => {
@@ -488,7 +499,7 @@ export default function QuestionCard({
         sevinc={dogruCevapVerdim}
         sayac={
           <QtSayac
-            kalan={kalan}
+            kalan={gosterKalan}
             toplam={SURE}
             durdu={secim !== null || Boolean(sonuc)}
             ekBalon={skillEfekt?.tur === "sure" ? { anahtar: `sure-${soru.soru_index}`, metin: `+${skillEfekt.deger}` } : null}
