@@ -1,0 +1,30 @@
+/* /gorsel-revizyon kabuğu — bölüm stilleri kendi klasörlerinde (a/, b/). */
+.gr-ic { display: grid; gap: 28px; padding-bottom: 40px; }
+.gr-giris { display: grid; gap: 10px; }
+.gr-icindekiler { display: flex; flex-wrap: wrap; gap: 6px 12px; font-weight: 700; font-size: 14px; }
+.gr-icindekiler a { color: var(--gr-lacivert); text-decoration: none; padding: 6px 0; min-height: 32px; }
+.gr-bolum { display: grid; gap: 14px; scroll-margin-top: 72px; }
+.gr-bolum-bas { display: grid; gap: 6px; }
+.gr-no { display: inline-grid; place-items: center; min-width: 32px; height: 32px; padding: 0 8px; border-radius: 999px; background: var(--gr-lacivert); color: #fff; font-size: 16px; vertical-align: middle; }
+.gr-aciklama, .gr-fikir { margin: 0; }
+.gr-sayim { margin: 0; color: #46507f; }
+.gr-zayif { margin: 0; padding: 8px 10px; border-radius: 10px; background: #fff3d6; color: #6b4200; font-weight: 700; }
+.gr-adaylar { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); }
+.gr-aday { display: grid; gap: 10px; align-content: start; padding: 14px; border-radius: 20px; background: #fff; border: 2px solid #dbe6f5; box-shadow: 0 4px 0 #c9d8ee; min-width: 0; }
+.gr-aday--genis { grid-column: 1 / -1; }
+.gr-aday--secili { border-color: var(--gr-turuncu); box-shadow: 0 4px 0 var(--gr-turuncu-k); }
+.gr-aday-bas { display: flex; align-items: center; gap: 8px; justify-content: space-between; }
+.gr-aday-bas h3 { margin: 0; }
+.gr-aday-gorsel { min-width: 0; overflow: hidden; border-radius: 14px; }
+.gr-rozet { padding: 3px 10px; border-radius: 999px; font-weight: 800; font-size: 12px; }
+.gr-rozet--sec { background: #d9f7e6; color: #0f6b3a; }
+.gr-rozet--hayir { background: #ffe1e1; color: #a11b1b; }
+.gr-testler { display: flex; flex-wrap: wrap; gap: 4px 10px; margin: 0; padding: 0; list-style: none; font-size: 12px; font-weight: 700; }
+.gr-test--gecti { color: #0f6b3a; }
+.gr-test--kaldi { color: #a11b1b; }
+.gr-karar { display: flex; gap: 10px; flex-wrap: wrap; }
+.gr-not { width: 100%; box-sizing: border-box; font: inherit; font-size: 14px; padding: 8px 10px; border-radius: 12px; border: 2px solid #cfdcf0; resize: vertical; }
+.gr-dil { display: grid; gap: 10px; }
+.gr-kopya { display: grid; gap: 10px; }
+.gr-kopya-not { margin: 0; min-height: 1.2em; }
+.gr-kopya-metin { width: 100%; box-sizing: border-box; font: inherit; font-size: 13px; }

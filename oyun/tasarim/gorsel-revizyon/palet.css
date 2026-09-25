@@ -1,0 +1,11 @@
+/* Ortak palet — CSS değişkenleri (palet.js ile BİREBİR aynı; biri değişirse ikisi de). Kapsam: .gr-sayfa */
+.gr-sayfa {
+  --gr-kontur: #0b1220; --gr-parlama: #fff; --gr-krem: #fff8ec;
+  --gr-bronz-a: #ffc38f; --gr-bronz-o: #e0894a; --gr-bronz-k: #b35d24; --gr-bronz-e: #7a3a12;
+  --gr-gumus-a: #fff; --gr-gumus-o: #d3dcea; --gr-gumus-k: #95a3ba; --gr-gumus-e: #5d6b85;
+  --gr-altin-a: #fff3a0; --gr-altin-o: #ffd23a; --gr-altin-k: #f0a018; --gr-altin-e: #b86a00;
+  --gr-elmas-a: #dcfcff; --gr-elmas-o: #8ae9ff; --gr-elmas-k: #3fc4ee; --gr-elmas-e: #1f7fb8;
+  --gr-efsane-a: #ffd6f0; --gr-efsane-o: #ff7ab8; --gr-efsane-k: #9d74f0; --gr-efsane-e: #5a2fb0;
+  --gr-gok: #dff0ff; --gr-gok-k: #a9d6ff; --gr-turuncu: #ff7a2e; --gr-turuncu-k: #c2410c; --gr-lacivert: #1d2152;
+  --gr-n-siradan: #9aa6b8; --gr-n-nadir: #3b91e8; --gr-n-epik: #9d74f0; --gr-n-efsanevi: #ffd23a;
+}

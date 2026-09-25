@@ -90,6 +90,7 @@ const CerceveOnizlemePage = tembelYukle(() => import("../oyun/tasarim/cerceveler
 const PremiumOnizlemePage = tembelYukle(() => import("../oyun/tasarim/premium/PremiumOnizlemePage.jsx"));   // premium kozmetik önizlemesi — yalnız sahip, yalnız adresle (girişli)
 const IkonOnizlemePage = tembelYukle(() => import("../oyun/tasarim/ikon/IkonOnizlemePage.jsx"));   // uygulama ikonu adayları (Ajan B) — yalnız sahip, yalnız adresle (girişli)
 const TasarimOnizlemePage = tembelYukle(() => import("../oyun/tasarim/onizleme/TasarimOnizlemePage.jsx"));   // altın isim + rakip arama ekranı adayları — yalnız sahip, yalnız adresle (girişli)
+const GorselRevizyonPage = tembelYukle(() => import("../oyun/tasarim/gorsel-revizyon/GorselRevizyonPage.jsx"));   // görsel revizyon adayları (tasarim/BRIEF_GORSEL_REVIZYON.md) — girişli herkes, menüde yok
 const YonetimSikayetlerPage = tembelYukle(() => import("../oyun/pages/YonetimSikayetlerPage.jsx"));   // 620: şikâyet yönetimi — yalnız yönetici (sunucu), menüde yok
 
 // Maç sayfası maç kimliğine anahtarlı: rövanş / yeni maç aynı rotada /mac/eski → /mac/yeni geçince React
@@ -141,7 +142,7 @@ export default function BildimApp() {
     pathname.startsWith("/kozmetik-onizleme") ||
     pathname.startsWith("/mac-sonu-onizleme") ||
     // Yalnız yerel geliştirme (.env yok): premium önizlemeyi ölçmek için; üretimde DEV false → girişli + sahip kontrolü
-    (import.meta.env.DEV && !supabaseHazir && (pathname.startsWith("/premium-onizleme") || pathname.startsWith("/tasarim-onizleme"))) ||
+    (import.meta.env.DEV && !supabaseHazir && (pathname.startsWith("/premium-onizleme") || pathname.startsWith("/tasarim-onizleme") || pathname.startsWith("/gorsel-revizyon"))) ||
     pathname.startsWith("/gizlilik") || pathname.startsWith("/kosullar");
 
   if (!supabaseHazir && !bagimsizModul) {
@@ -203,6 +204,7 @@ export default function BildimApp() {
         <Route path="/premium-onizleme" element={<PremiumOnizlemePage />} />
         <Route path="/ikon-onizleme" element={<IkonOnizlemePage />} />
         <Route path="/tasarim-onizleme" element={<TasarimOnizlemePage />} />
+        <Route path="/gorsel-revizyon" element={<GorselRevizyonPage />} />
 
         <Route path="/" element={<Layout />}>
           <Route index element={<AnaSayfa />} />
