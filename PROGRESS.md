@@ -8836,3 +8836,10 @@ Migration gerekmedi. Aynı anda başka bir oturum (joker/çeviri metinleri) çal
 - **D-120:** Çalışma özeti 0 → `m1-cal-buyuk--sifir` (soluk lacivert) + "Henüz yok — denemeye devam et" / EN "None yet — keep trying"; >0 eskisi gibi yeşil.
 - **Süreç notu:** bu oturumda aynı çalışma klasöründe başka bir oturum eşzamanlı commit atıyordu (kök CLAUDE.md "tek araç" kuralı); commit'ler yol belirtilerek (`git commit -- <dosya>`) atıldı.
 - **Yayın/doğrulama (Denetim paketi 5):** 10 commit main'e push edildi; commit edilen HEAD temiz kopyada derlendi (temiz), `arayuz-denetim.mjs` 16 sayfa "konsol temiz"; canlıda (quiztactics.vercel.app) yeni `sw.js` yayında, EN: bot adları RookieBot/MasterBot/LegendBot, tek davet kutusu, katlanır İçindekiler, "This chat couldn't be found" ölçüldü. Test hesapları betik sonunda silindi.
+
+## 2026-09-26 — "Seri Kalkanı" paket adı kaynağında "Seri Koruma Paketi" oldu (D-317 kalıcı çözüm)
+**Araç:** Claude Code (Sonnet 5, PC)
+**Neden:** D-317 yalnız istemcide yamalanmıştı (`dil.js › TR_DUZELTME`); kaynak veri (052 tohumu) hâlâ "Seri Kalkanı"ydı, yeni bir ekran eski adı gösterebilirdi.
+- **Migration 660** (`seri_koruma_paket_adi`): `joker_paketleri` (`esyalar` diye tablo yok) `seri_koruma_3.ad` → "Seri Koruma Paketi" (diğer paketler "… Paketi" desenli). Açıklama "3 adet seri koruma" aynı kaldı. Yetki/fiyat değişmedi. Önce `migration-prova.mjs` (transaction + rollback), sonra canlıya uygulandı; canlıda ölçüldü: `ad = Seri Koruma Paketi`. Rutinlerde eski ad geçen fonksiyon yok.
+- **İstemci:** `dil.js` — `TR_DUZELTME["Seri Kalkanı"]` satırı gereksizleşti, kaldırıldı; EN sözlük anahtarı "Seri Kalkanı" → "Seri Koruma Paketi": "Streak Shield Pack". Ölçüm (vite ssrLoadModule): TR "Seri Koruma Paketi", EN "Streak Shield Pack", açıklama TR/EN doğru.
+- Kodda "Seri Kalkanı" kalan yer: `QUIZADOR_TASARIM_REFERANS.html` ve `docs/SATIN_ALMA_DENETIMI.md` (tasarım/tarihçe belgeleri, oyuncuya görünmez), eski migration 052 (düzenlenmez), PROGRESS.

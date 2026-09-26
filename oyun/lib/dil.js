@@ -2052,7 +2052,7 @@ const SOZLUK = {
     "30 karışık joker": "30 mixed jokers",
     "Usta Paketi": "Master Pack",
     "100 karışık joker": "100 mixed jokers",
-    "Seri Kalkanı": "Streak Shield",
+    "Seri Koruma Paketi": "Streak Shield Pack",
     "3 adet seri koruma": "3 streak shields",
     "Küçük Kese": "Small Pouch",
     "Orta Kese": "Medium Pouch",
@@ -2541,7 +2541,6 @@ function kaliplariKur(sozluk) {
 // Sunucuda hâlâ eski adı taşıyan Türkçe mesajlar (aura → Arka Plan, oyuncuya görünen ad): TR oyuncuda da düzeltilir.
 // Sunucu mesajı değişince (yeni migration) bu satırlar gereksizleşir.
 const TR_DUZELTME = {
-  "Seri Kalkanı": "Seri Koruma",   // Dükkân paketi (joker_paketleri.ad): envanterdeki ad ile aynı olsun
   "Böyle bir aura yok": "Böyle bir arka plan yok",
   "Bu aura satılmıyor": "Bu arka plan satılmıyor",
   "Bu aura sende yok": "Bu arka plan sende yok",
