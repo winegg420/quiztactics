@@ -101,6 +101,7 @@
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scroll-snap-type: x proximity;
+  scroll-padding-inline: var(--qt-kenar);   /* snap kenarı dolguyu saysın: ilk kart ekran kenarına yapışmasın */
   scrollbar-width: none;
 }
 .a-meydan-kat-liste::-webkit-scrollbar { display: none; }

@@ -1171,6 +1171,19 @@ html:not(.msk-acik) body:not(.bd-oyun-modu):has(.a-ust-blok):not(:has(.qt-ortu))
 .qt-skill-rozet--fiyat { background: var(--qt-coin); color: var(--qt-coin-yazi); padding: 0 5px 0 3px; }
 .qt-skill-rozet--kilit { background: var(--qt-yuzey-3); color: var(--qt-metin-soluk); padding: 0; }
 .qt-skill--aktif { --_d: var(--qt-coin-dudak); box-shadow: 0 4px 0 var(--_d), inset 0 0 0 3px var(--qt-coin); }
+/* İşleniyor: sunucu yanıtı gelene dek (50:50 ≈ 1,7 sn, Soru Değiştir ≈ 3,7 sn) ikonun üstünde dönen halka */
+.qt-skill[aria-busy="true"] .qt-skill-ikon { position: relative; }
+.qt-skill[aria-busy="true"] .qt-skill-ikon::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  z-index: 2;
+  border-radius: 50%;
+  border: 3px solid var(--qt-cizgi);
+  border-top-color: var(--qt-vurgu, #6c4dff);
+  animation: qt-h-donen 0.7s linear infinite;
+  pointer-events: none;
+}
 .qt-skill--kullanildi { opacity: 0.45; transform: translateY(4px); box-shadow: 0 0 0 transparent; cursor: default; }
 .qt-skill--kilitli { --_z: var(--qt-yuzey-3); color: var(--qt-metin-soluk); cursor: not-allowed; }
 .qt-skill--kilitli .qt-skill-ad { color: var(--qt-metin-soluk); }
