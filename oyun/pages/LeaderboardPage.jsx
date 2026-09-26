@@ -18,6 +18,7 @@ import { KartUnvani } from "../components/OyuncuVitrinKarti.jsx";
 import IsimEfekti from "../components/IsimEfekti.jsx";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
+import { ayarlar } from "../lib/ayarlar.js";
 import {
   QtIkon, QtIkonDugme, QtDugme, QtSekmeler, QtCip, QtRozet, QtIlerleme,
   QtBosDurum, QtIskelet, QtModal,
@@ -57,6 +58,15 @@ export default function LeaderboardPage() {
   const [kapsam, setKapsam] = useState("lig");
   // Kendi lig grubumun üst bilgisi (lig adı, grup boyu, sınırlar, sezon sonu)
   const [grupBilgi, setGrupBilgi] = useState(null);
+  // D-211: lig kuralları penceresi; ödül miktarları oyun_ayarlari'ndan (koda gömülmez)
+  const [kuralAcik, setKuralAcik] = useState(false);
+  const [ligAyar, setLigAyar] = useState(null);
+  useEffect(() => {
+    if (!kuralAcik || ligAyar) return undefined;
+    let aktif = true;
+    ayarlar().then((a) => { if (aktif) setLigAyar(a ?? {}); }).catch(() => { if (aktif) setLigAyar({}); });
+    return () => { aktif = false; };
+  }, [kuralAcik, ligAyar]);
   const [donem, setDonem] = useState("hafta");
   const [liste, setListe] = useState([]);
   const [sehirSirasi, setSehirSirasi] = useState(null);
@@ -227,13 +237,37 @@ export default function LeaderboardPage() {
     return null;
   };
   const benimBolgem = benimSiram ? bolge(benimSiram) : null;
-  // Pankart çubuğu: grupta ne kadar yukarıdasın (yüzde; sayı gösterilmez)
-  const ustOran = grupBilgi && benimSiram
-    ? Math.round(100 * (1 - (benimSiram - 1) / Math.max(1, grupBilgi.grup_boyu - 1)))
-    : 0;
-  const yukselmeIsaret = grupBilgi && yukselmeVar
-    ? Math.round(100 * (1 - (grupBilgi.yukselen - 0.5) / Math.max(1, grupBilgi.grup_boyu - 1)))
-    : null;
+  // D-226: pankart çubuğu TEK bir şeyi ölçer — bir sonraki sınıra uzaklık. Yükselme olan ligde: yükselme hattına
+  // yakınlık (grubun dibi %0, hat %100; düşme hattı olan ligde çizgi). Yükselmesi olmayan Efsane'de: düşme hattına uzaklık.
+  // Sıra tabloda GÖRÜNEN oyuncular arasında sayıldığı için ölçek de görünen satır sayısıdır (grup_boyu gizli üyeleri de
+  // sayar: 82 üyeli grupta #15 oyuncu %87 dolu görünüyordu). Grup boyu yazılmaz.
+  let cubuk = null;
+  if (grupBilgi && benimSiram) {
+    const N = Math.max(liste.length, benimSiram);
+    if (yukselmeVar) {
+      const yuk = grupBilgi.yukselen;
+      const aralik = Math.max(1, N - yuk);
+      cubuk = {
+        deger: benimSiram <= yuk ? 100 : Math.max(0, Math.round(100 * (1 - (benimSiram - yuk) / aralik))),
+        etiket: tt("Yükselme hattına yakınlığın"),
+        not: benimSiram <= yuk
+          ? tt("Yükselme hattının içindesin — sıranı koru.")
+          : tt("Yükselmek için {n} sıra yukarı çıkmalısın.", { n: benimSiram - yuk }),
+        isaret: dusmeVar && dusmeSiniri + 0.5 > yuk && dusmeSiniri < N
+          ? Math.round(100 * (1 - (dusmeSiniri + 0.5 - yuk) / aralik)) : null,
+      };
+    } else if (dusmeVar) {
+      const pay = dusmeSiniri - benimSiram;
+      cubuk = {
+        deger: pay < 0 ? 0 : Math.round(100 * pay / Math.max(1, dusmeSiniri - 1)),
+        etiket: tt("Düşme hattına uzaklığın"),
+        not: pay < 0
+          ? tt("Düşmemek için {n} sıra yukarı çıkmalısın.", { n: -pay })
+          : pay === 0 ? tt("Düşme hattının hemen üstündesin.") : tt("Düşmeden önce {n} sıra payın var.", { n: pay }),
+        isaret: null,
+      };
+    }
+  }
 
   const kartiAc = (s) => setKartOyuncu({
     id: s.user_id,
@@ -357,6 +391,7 @@ export default function LeaderboardPage() {
                 <span>{tt("Sezon bitimine {sure}", { sure: sureMetni(kalanSezon) })}</span>
               </p>
             </div>
+            <QtIkonDugme ikon="bilgi" tur="saydam" className="lg-kural-dugme" etiket={tt("Lig kuralları")} onClick={() => setKuralAcik(true)} />
           </div>
           <div className="lg-pankart-alt">
             <div className="lg-siram">
@@ -377,13 +412,13 @@ export default function LeaderboardPage() {
               )}
             </div>
           </div>
-          <QtIlerleme
-            deger={ustOran}
-            en={100}
-            ton="mor"
-            isaret={yukselmeIsaret ?? undefined}
-            etiket={tt("Gruptaki yerin")}
-          />
+          {cubuk && (
+            <div className="lg-ilerleme">
+              <span className="lg-ilerleme-etiket">{cubuk.etiket}</span>
+              <QtIlerleme deger={cubuk.deger} en={100} ton="mor" isaret={cubuk.isaret ?? undefined} etiket={cubuk.etiket} />
+              <span className="lg-ilerleme-not">{cubuk.not}</span>
+            </div>
+          )}
           <p className="lg-kural">
             {yukselmeVar && dusmeVar
               ? tt("İlk {0} yükselir, son {1} düşer.", { 0: grupBilgi.yukselen, 1: grupBilgi.dusen })
@@ -392,6 +427,7 @@ export default function LeaderboardPage() {
                 : dusmeVar
                   ? tt("Son {0} bir alt lige düşer.", { 0: grupBilgi.dusen })
                   : tt("Haftalık sezon")}
+            {cubuk?.isaret != null && ` ${tt("Çubuktaki çizgi düşme hattıdır.")}`}
           </p>
         </section>
       ) : (
@@ -566,6 +602,47 @@ export default function LeaderboardPage() {
           </div>
         )}
       </div>
+
+      <QtModal acik={kuralAcik} onKapat={() => setKuralAcik(false)} baslik={tt("Lig nasıl işler?")}>
+        {kuralAcik && grupBilgi && (() => {
+          const sayi = (k) => { const v = Number(ligAyar?.[k]); return Number.isFinite(v) ? v : null; };
+          const odul = [1, 2, 3].map((n) => ({ n, coin: sayi(`lig_odul_${ligKod}_${n}`), elmas: sayi(`elmas_lig_${n}`) }));
+          const pasif = sayi("lig_pasif_dusme_hafta");
+          return (
+            <ul className="lg-kurallar">
+              <li>{tt("Her hafta kendi grubunla yarışırsın; sıra haftalık puanına göre belirlenir. Sezon bitince (bitişe {sure} var) sıralama sıfırlanır.", { sure: sureMetni(kalanSezon) })}</li>
+              <li>
+                {ligKod === "efsane"
+                  ? tt("Efsane en üst lig: yükselme yok, zirvede kalmaya çalışırsın.")
+                  : tt("Yükselme: grubunda ilk {n} bir üst lige çıkar (haftada en az 1 puan gerekir).", { n: grupBilgi.yukselen })}
+              </li>
+              <li>
+                {ligKod === "bronz"
+                  ? tt("Bronz en alt lig: düşme yok.")
+                  : tt("Düşme: grubunda son {n} bir alt lige düşer.", { n: grupBilgi.dusen })}
+                {ligKod !== "bronz" && pasif ? " " + tt("Üst üste {n} hafta hiç maç oynamazsan da bir alt lige düşersin.", { n: pasif }) : ""}
+              </li>
+              <li>
+                {tt("Haftalık ödül (grubunda ilk 3):")}
+                {ligAyar === null ? (
+                  <span className="qt-soluk"> {tt("Yükleniyor…")}</span>
+                ) : (
+                  <ul className="lg-odul-liste">
+                    {odul.filter((o) => o.coin !== null || o.elmas !== null).map((o) => (
+                      <li key={o.n}>
+                        <b>{tt("{n}. sıra", { n: o.n })}</b>
+                        {o.coin !== null && <span> {tt("{n} coin", { n: o.coin })}</span>}
+                        {o.elmas !== null && <span> · {tt("{n} elmas", { n: o.elmas })}</span>}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                <span className="qt-soluk lg-odul-not">{tt("Elmas için o hafta en az 1 puan kazanmış olmalısın.")}</span>
+              </li>
+            </ul>
+          );
+        })()}
+      </QtModal>
 
       <QtModal acik={konumAc} onKapat={() => setKonumAc(false)} baslik={tt("Şehir seçimi")}>
         {konumAc && <KonumSecici mod="kart" onKapat={() => setKonumAc(false)} />}

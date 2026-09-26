@@ -85,6 +85,15 @@
   color: var(--qt-ikinci-koyu);
 }
 .lg-durum { min-width: 0; }
+/* D-226: çubuğun ne ölçtüğü görünür yazı */
+.lg-ilerleme { display: flex; flex-direction: column; gap: var(--qt-b-1); }
+.lg-ilerleme-etiket { font-size: var(--qt-y-s); font-weight: var(--qt-a-siyah); color: var(--qt-metin); }
+.lg-ilerleme-not { font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); }
+/* D-211: lig kuralları düğmesi + penceresi */
+.lg-pankart-ust .lg-kural-dugme { margin-left: auto; align-self: flex-start; flex: none; }
+.lg-kurallar { display: flex; flex-direction: column; gap: var(--qt-b-3); margin: 0; padding-left: 1.1em; font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); line-height: 1.45; }
+.lg-odul-liste { margin: var(--qt-b-1) 0; padding-left: 1.1em; }
+.lg-odul-not { display: block; font-size: var(--qt-y-xs, 12px); }
 .lg-kural {
   margin: 0;
   font-size: var(--qt-y-s);
