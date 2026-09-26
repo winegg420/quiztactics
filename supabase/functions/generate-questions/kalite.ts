@@ -73,6 +73,8 @@ export type Soru = {
   soru: string;
   secenekler: string[];
   dogru_cevap: number;
+  /** 652: evrensel = dünya geneli bilgi · yerel = Türkiye'ye özgü (DB'de global / yerel + ulke TR). */
+  kapsam?: "evrensel" | "yerel";
 };
 
 /**

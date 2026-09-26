@@ -40,3 +40,5 @@ oyuncu-testi-hata-*.png
 # Soru üretimi yazım kilidi (iki ajan sırayla DB yazar)
 araclar/soru-uretim/yazim.lock/
 araclar/soru-uretim/YAZIM_IZNI
+araclar/jev-tarama/kapsam-ham.jsonl
+araclar/jev-tarama/kapsam-calisma.log

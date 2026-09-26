@@ -168,8 +168,10 @@ const questionSchema = {
           secenekler: { type: "array", items: { type: "string" } },
           dogru_cevap: { type: "integer", enum: [0, 1, 2, 3] },
           kategori: { type: "string", enum: [...KATEGORILER] },
+          // 652: Türkiye dışı oyunculu maçta yalnız evrensel soru çıkar.
+          kapsam: { type: "string", enum: ["evrensel", "yerel"] },
         },
-        required: ["soru", "secenekler", "dogru_cevap", "kategori"],
+        required: ["soru", "secenekler", "dogru_cevap", "kategori", "kapsam"],
         additionalProperties: false,
       },
     },
@@ -308,7 +310,14 @@ Deno.serve(async (req) => {
       "'Aşağıdakilerden hangisi yanlıştır/değildir' gibi OLUMSUZ kalıplar KULLANMA. " +
       "Zamana bağlı bilgi sorma (şu anki, günümüzde, en son, kaç yaşında gibi) — " +
       "cevap yıllar sonra da aynı kalmalı. " +
-      "Türkçe karakterleri ve noktalamayı doğru kullan.",
+      "Türkçe karakterleri ve noktalamayı doğru kullan. " +
+      // 652: aynı ölçüt araclar/jev-kapsam.mjs › KAPSAM_SINIFLARI'nda (havuz etiketlemesi).
+      "Her soruya KAPSAM ver: 'yerel' = Türkiye'ye özgü — Türkiye ya da Osmanlı tarihi, Türkiye coğrafyası " +
+      "(il, ilçe, bölge, Türkiye'deki dağ/göl/nehir/yapı), Türk siyaseti ve kurumları, Türk edebiyatı/sineması/" +
+      "dizisi/müziği/sporu (Türk kişi, eser, kulüp, lig) ya da yalnız Türkiye'de bilinen kültürel öğe (yemek, " +
+      "gelenek, deyim); Türkiye dışında yaşayan ortalama bir yetişkinin bilmesi beklenemez. 'evrensel' = dünya " +
+      "geneli bilgi (bilim, dünya tarihi ve coğrafyası, uluslararası tanınmış kişi/eser/olay/marka/spor); " +
+      "Türkiye dışında yaşayan bir yetişkin de bilebilir. Kararsızsan 'yerel' seç.",
     messages: [
       {
         role: "user",
@@ -370,6 +379,9 @@ Deno.serve(async (req) => {
         dogru_cevap: q.dogru_cevap,
         // Kategori modelden DEĞİL, sunucudan: parti tek kategori için istendi.
         kategori: hedefKategori,
+        // 652: questions_kapsam_ulke_chk — global → ulke null · yerel → ulke dolu.
+        kapsam: q.kapsam === "evrensel" ? "global" : "yerel",
+        ulke: q.kapsam === "evrensel" ? null : "TR",
       })),
       { onConflict: "soru", ignoreDuplicates: true },
     )
