@@ -398,8 +398,10 @@ body.bd-oyun-modu .m1-mac { min-height: 100dvh; }
    (yükseklik ≤ 900 px — 844 px telefonlar dahil) başlık/skor şeridi, sayaç ve şıklar küçülür.
    Kabuk dolgusu yalnız bu durumda sıfırlanır (:has — desteklemeyen tarayıcı eski hâli görür).
    iOS: fixed + transform yok; 100dvh.
+   D-415: aynı tek ekran düzeni masaüstünde de KISA pencerelerde (yükseklik ≤ 960 px) çalışır — 1024×768'de sayfa 173 px taşıyor,
+   joker/tepki ekran dışında kalıyordu. Genişlik değil viewport YÜKSEKLİĞİ tetikler; sütun 560 px kalır.
    ===================================================================== */
-@media (max-width: 560px) {
+@media (max-width: 560px), (min-width: 561px) and (max-height: 960px) {
   body.bd-oyun-modu .shell:has(> .m1-mac > .m1-soru) { padding: 0; }
   body.bd-oyun-modu .qt-sayfa:has(> .shell > .m1-mac > .m1-soru) { padding-bottom: 0; }
   body.bd-oyun-modu .m1-mac:has(> .m1-soru) {
@@ -474,7 +476,7 @@ body.bd-oyun-modu .m1-mac { min-height: 100dvh; }
   body.bd-oyun-modu .m1-mac:has(> .m1-soru) .m1-grup-balon { right: auto; left: 50%; top: 100%; translate: -50% 4px; max-width: none; white-space: nowrap; }
 }
 
-@media (max-width: 560px) and (max-height: 900px) {
+@media (max-height: 900px) {
   /* Oyuncu/skor şeridi incelir */
   body.bd-oyun-modu .m1-mac:has(> .m1-soru) .qt-mac-ust .qt-oyuncu > :first-child { zoom: 0.8; }
   body.bd-oyun-modu .m1-mac:has(> .m1-soru) .qt-mac-ust .qt-oyuncu-ad { font-size: var(--qt-y-s); }
@@ -520,12 +522,12 @@ body.bd-oyun-modu .m1-mac { min-height: 100dvh; }
   body.bd-oyun-modu .m1-mac > .m1-soru .m1-skill-hak { font-size: 11px; line-height: 1.2; }
   body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .m1-bekleme { font-size: var(--qt-y-xs); line-height: 1.2; }
 }
-@media (max-width: 560px) and (max-height: 620px) {
+@media (max-height: 620px) {
   /* çok kısa alan: kart en az ~üç satır (Düello ile aynı) */
   body.bd-oyun-modu .m1-mac > .m1-soru > .qt-soru { min-height: calc(104px + 24px); }
   body.bd-oyun-modu .m1-mac > .m1-soru .qt-soru-kart { min-height: 104px; }
 }
-@media (max-width: 560px) and (max-height: 700px) {
+@media (max-height: 700px) {
   body.bd-oyun-modu .m1-mac > .m1-soru.m1-soru--uzun .qt-soru-metin { font-size: 16px; }
   body.bd-oyun-modu .m1-mac > .m1-soru.m1-soru--cok-uzun .qt-soru-metin { font-size: 14px; line-height: 1.18; }
   body.bd-oyun-modu .m1-mac > .m1-soru .qt-sik { padding-right: 6px; letter-spacing: -0.01em; }
@@ -535,7 +537,7 @@ body.bd-oyun-modu .m1-mac { min-height: 100dvh; }
    örtülüyordu, Grup'ta jokerler tepki şeridinin arkasında dokunulamıyordu. Çok kısa alanda: boşluklar daralır, bant tek
    kısa blok, Sesli sohbet + tepki TEK satır, joker hak yazısı gizlenir (hak rozetleri düğmelerde durur), soru kartı 84 px'e
    iner (uzun metin kart içinde kayar) — şıklar ve joker çubuğu ilk ekranda kalır. Düello aynı kuralı DuelloPage.a.css'te uygular. */
-@media (max-width: 560px) and (max-height: 600px) {
+@media (max-height: 600px) {
   body.bd-oyun-modu .m1-mac:has(> .m1-soru) { gap: 4px; }
   body.bd-oyun-modu .m1-mac > .m1-soru { gap: 4px; }
   body.bd-oyun-modu .m1-mac > .m1-soru > .qt-soru { min-height: calc(84px + 24px); gap: 4px; }

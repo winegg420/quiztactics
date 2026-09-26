@@ -390,8 +390,10 @@
    kayar; joker şeridi hep görünür. Düello'da ekran daha kalabalık: ≤ 900 px yükseklikte oyuncu şeridi, durum kutuları,
    sayaç ve şıklar küçülür; alttaki ikinci "Düellodan çık" gizlenir (üstteki X aynı pencereyi açar).
    iOS: fixed + transform yok; 100dvh.
+   D-415: aynı düzen masaüstünde KISA pencerelerde de (yükseklik ≤ 960 px) — 1024×768'de sayfa 378 px taşıyor, joker şeridi ekran
+   dışında kalıyordu. Genişlik değil viewport YÜKSEKLİĞİ tetikler (Klasik/Grup/Turnuva: m1-mac.css ile aynı kural).
    ===================================================================== */
-@media (max-width: 559px) {
+@media (max-width: 559px), (min-width: 560px) and (max-height: 960px) {
   body.bd-oyun-modu .shell:has(> .m2-mac) { padding: 0; }
   body.bd-oyun-modu .qt-sayfa:has(> .shell > .m2-mac) { padding-bottom: 0; }
   body.bd-oyun-modu .m2-mac {
@@ -433,7 +435,7 @@
   body.bd-oyun-modu .m2-cevap-faz:has(> .m1-soru--cok-uzun) .qt-sik-harf { width: 34px; height: 34px; font-size: var(--qt-y-m); }
 }
 
-@media (max-width: 559px) and (max-height: 900px) {
+@media (max-height: 900px) {
   /* Oyuncu şeridi */
   body.bd-oyun-modu .m2-mac .m2-ust { padding: 2px var(--qt-b-2); }
   body.bd-oyun-modu .m2-mac .m2-ust .qt-oyuncu > :first-child { zoom: 0.8; }
@@ -475,12 +477,12 @@
   body.bd-oyun-modu .m2-mac .m2-skill-kural { display: none; }
   body.bd-oyun-modu .m2-mac > .m2-terk { display: none; }
 }
-@media (max-width: 559px) and (max-height: 620px) {
+@media (max-height: 620px) {
   /* çok kısa alan: kart en az ~üç satır (Klasik ile aynı) */
   body.bd-oyun-modu .m2-cevap-faz > .qt-soru { min-height: calc(104px + 24px); }
   body.bd-oyun-modu .m2-cevap-faz .qt-soru-kart { min-height: 104px; }
 }
-@media (max-width: 559px) and (max-height: 700px) {
+@media (max-height: 700px) {
   body.bd-oyun-modu .m2-cevap-faz .m1-soru--uzun .qt-soru-metin { font-size: 16px; }
   body.bd-oyun-modu .m2-cevap-faz .m1-soru--cok-uzun .qt-soru-metin { font-size: 14px; line-height: 1.18; }
   body.bd-oyun-modu .m2-mac .m2-skill .qt-skill { min-height: 48px; }
@@ -489,7 +491,7 @@
 /* D-408 (denetim tur 2, 26 Eyl 2026; ≈ 375×553): kart 128 px'e sabitlenince dört şık (194) orta bölüme (330) sığmıyor, D şıkkı
    joker panelinin altında kalıyordu. Çok kısa alanda kart 84 px'e iner (uzun soru kart içinde kayar), boşluklar daralır. Klasik
    (m1-mac.css) ile aynı kural. */
-@media (max-width: 559px) and (max-height: 600px) {
+@media (max-height: 600px) {
   body.bd-oyun-modu .m2-cevap-faz > .qt-soru { min-height: calc(84px + 24px); gap: 4px; }
   body.bd-oyun-modu .m2-cevap-faz .qt-soru-kart { min-height: 84px; }
   body.bd-oyun-modu .m2-cevap-faz .qt-soru-metin { font-size: clamp(15px, 2.9dvh, 20px); line-height: 1.18; }
