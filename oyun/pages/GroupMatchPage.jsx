@@ -24,6 +24,7 @@ import AvatarCerceve from "../components/AvatarCerceve.jsx";
 import AvatarDugmesi from "../components/AvatarDugmesi.jsx";
 import OyuncuAdiDugmesi from "../components/OyuncuAdiDugmesi.jsx";
 import { adKisalt } from "../lib/adKisalt.js";
+import { kaydirIpucuBagla } from "../lib/kaydirIpucu.js";
 import QuestionCard from "../components/QuestionCard.jsx";
 import { y } from "../lib/yol.js";
 import { useGorunurlukTazele, zamanAsimiyla } from "../lib/gorunurluk.js";
@@ -659,7 +660,7 @@ export default function GroupMatchPage() {
       />
 
       {/* Skor tablosu: kim önde, tek bakışta. Balonlar oyuncunun satırında. */}
-      <div className="m1-grup-skor" role="list" aria-label={tt("Skor tablosu")}>
+      <div className="m1-grup-skor" role="list" aria-label={tt("Skor tablosu")} ref={kaydirIpucuBagla}>
         {siraliSkor.map((k, i) => (
           <div key={k.user_id} role="listitem" className={`m1-grup-satir${k.user_id === user.id ? " m1-grup-satir--sen" : ""}`}>
             <span className="m1-grup-sira" aria-hidden="true">{i + 1}</span>
