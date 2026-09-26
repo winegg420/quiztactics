@@ -139,8 +139,11 @@ export default function DavetBandi() {
 
         <span className="a-davet-metin">
           <span className="a-davet-satir">
-            {/* Ajan C: ada dokununca davet edenin oyuncu kartı */}
-            <OyuncuAdiDugmesi userId={d.davet_eden} profil={d} oge="b">{d.gorunen_ad ?? tt("Bir oyuncu")}</OyuncuAdiDugmesi> {bilgi.etiket}!
+            {/* -webkit-box yalnız DOĞRUDAN çocukları alt alta dizer → tek iç kap (satır içi akış korunur) */}
+            <span>
+              {/* Ajan C: ada dokununca davet edenin oyuncu kartı */}
+              <OyuncuAdiDugmesi userId={d.davet_eden} profil={d} oge="b">{d.gorunen_ad ?? tt("Bir oyuncu")}</OyuncuAdiDugmesi> {bilgi.etiket}!
+            </span>
           </span>
           {altSatir && <span className="a-davet-alt">{altSatir}</span>}
         </span>

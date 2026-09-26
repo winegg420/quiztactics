@@ -57,6 +57,7 @@ body.bd-oyun-modu .a-kabuk .a-ust-blok { display: none; }
    esner, --qt-davet-yuk ResizeObserver ile ölçülmeye devam eder. Çok uzun ad 2 satırdan sonra kesilir. */
 .a-davet-satir { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; overflow-wrap: anywhere; font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); line-height: 1.25; }
 .a-davet-satir b { font-weight: var(--qt-a-siyah); }
+.a-davet-satir .ls-ad-dugme { min-height: 0; }   /* satır yüksekliğini 44 px düğme şişirmesin; dokunma alanı ::after ile */
 .a-davet-alt { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); }
 .a-davet .a-davet-kabul { flex: none; }
 .a-davet .a-davet-ret { flex: none; color: var(--qt-ikinci-yazi); }
