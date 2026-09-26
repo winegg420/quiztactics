@@ -75,4 +75,6 @@
 /* Aura (481): elmas fiyatı + koleksiyon notu */
 .qt-dc-durum .qt-dc-fiyat--elmas { color: var(--qt-ikinci-koyu, var(--qt-metin)); }
 .qt-dc-not { margin: 0; }
-.qt-dc-not a { font-weight: var(--qt-a-siyah); }
+.qt-dc-not a { font-weight: var(--qt-a-siyah); position: relative; }
+/* D-118/D-320: satır içi bağlantının dokunma alanı 44 px yüksekliğe (yalnız görünmez katman; metin/yerleşim aynı) */
+.qt-dc-not a::after { content: ""; position: absolute; left: -6px; right: -6px; top: calc(50% - 22px); bottom: calc(50% - 22px); }

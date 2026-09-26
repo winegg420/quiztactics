@@ -311,8 +311,9 @@ body.bd-oyun-modu .bz-toast { display: none; } /* maç sırasında oyunu bölmez
 .ls-ad-dugme::after {
   content: "";
   position: absolute;
-  left: -6px;
-  right: -6px;
+  /* D-118/D-320: kısa adlarda da en az 44 px genişlik (yalnız dokunma alanı; görsel boyut değişmez) */
+  left: min(-6px, calc(50% - 22px));
+  right: min(-6px, calc(50% - 22px));
   top: calc(50% - max(50%, 22px));
   bottom: calc(50% - max(50%, 22px));
 }

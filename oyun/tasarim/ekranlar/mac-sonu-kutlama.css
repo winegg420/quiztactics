@@ -271,7 +271,8 @@ html.msk-acik .mobile-nav, html.msk-acik .a-kabuk .a-altmenu { display: none !im
 }
 /* genel düğme kuralları (min-height 44, display) adı iki satır boyuna itiyordu: özgüllük artırıldı */
 .msk .msk-isim-dugme { display: inline-grid; min-height: 0; height: auto; padding: 0; line-height: inherit; box-shadow: none; }
-.msk-isim-dugme::after { content: ""; position: absolute; left: -8px; right: -8px; top: calc(50% - 22px); bottom: calc(50% - 22px); }
+/* D-118/D-320: kısa adlarda da en az 44 px genişlik (yalnız dokunma alanı) */
+.msk-isim-dugme::after { content: ""; position: absolute; left: min(-8px, calc(50% - 22px)); right: min(-8px, calc(50% - 22px)); top: calc(50% - 22px); bottom: calc(50% - 22px); }
 .msk-isim-dugme:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 2px; border-radius: var(--qt-r-s, 6px); }
 .msk-kart-kap { display: contents; }
 .msk-sen {
@@ -519,6 +520,8 @@ html.msk-acik .mobile-nav, html.msk-acik .a-kabuk .a-altmenu { display: none !im
   animation: msk-parilti-an 700ms var(--qt-egri-cikis) calc(var(--g-gecikme) + 700ms) both;
 }
 
+.msk-terk-oneri { gap: var(--qt-b-3); text-align: center; }
+.msk-terk-metin { margin: 0; color: var(--qt-metin-soluk); font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); }
 .msk-hatalar { animation: msk-sol-gir var(--qt-s-orta) var(--qt-egri-cikis) calc(var(--t-gorev) + 300ms) backwards; }
 
 /* ---------- Yeni rozet kartı ---------- */
