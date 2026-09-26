@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import SenRozeti from "../components/SenRozeti.jsx";
-import { hataMesaji } from "../lib/hata.js";
+import { hataMesaji, hataTuru, hataTuruMesaji } from "../lib/hata.js";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
@@ -185,7 +185,7 @@ export default function LeaderboardPage() {
         if (aktif) {
           console.error("[Bildim] sıralama alınamadı:", e);
           setListe([]);
-          setListeHata(true);
+          setListeHata(hataTuruMesaji(hataTuru(e)) || true);
         }
       } finally {
         if (aktif) setYukleniyor(false);
@@ -470,7 +470,7 @@ export default function LeaderboardPage() {
               ikon="uyari"
               ton="yanlis"
               baslik={tt("Yüklenemedi.")}
-              metin={tt("Bağlantını kontrol edip tekrar dene.")}
+              metin={typeof listeHata === "string" ? listeHata : tt("Bağlantını kontrol edip tekrar dene.")}
               eylem={<QtDugme tur="ikincil" ikon="yenile" onClick={() => setDeneme((n) => n + 1)}>{tt("Tekrar dene")}</QtDugme>}
             />
           </div>

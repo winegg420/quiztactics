@@ -7,6 +7,7 @@ import { tt } from "../lib/dil.js";
 import { sesRakipBulundu } from "../lib/ses.js";
 import { rpcDene } from "../lib/rpcDene.js";
 import { ayar } from "../lib/ayarlar.js";
+import { islemHatasi } from "../lib/hata.js";
 
 // 370: gizli botun geliş süresi SUNUCUDA, aramaya özgü rastgele (üçgen, eslesme_bot_*_sn).
 // İstemci süreyi bilmez; yalnız en fazla "max + pay" kadar kuyruğu yoklar, sonra son çareye geçer.
@@ -124,7 +125,7 @@ export default function RakipAra({ kategori, dereceli = true, jokersiz = false, 
         if (data) { bitir(data); return true; }
         return false;                       // sunucu hâlâ arıyor
       } catch (e) {
-        setHata(tt("Maç başlatılamadı. Bağlantını kontrol edip tekrar dene."));
+        setHata(islemHatasi(e, "Maç başlatılamadı."));
         console.error("[Bildim] quick_match:", e);
         return true;                        // hata: yoklamayı durdur
       }
@@ -137,7 +138,7 @@ export default function RakipAra({ kategori, dereceli = true, jokersiz = false, 
         clearInterval(zamanlayiciRef.current);
         if (!bittiRef.current) {
           console.error("[Bildim] quick_match: üst sınır doldu, maç kimliği gelmedi");
-          setHata(tt("Maç başlatılamadı. Bağlantını kontrol edip tekrar dene."));
+          setHata(islemHatasi(new Error("timeout: maç kimliği gelmedi"), "Maç başlatılamadı."));
         }
         return;
       }
@@ -196,7 +197,7 @@ export default function RakipAra({ kategori, dereceli = true, jokersiz = false, 
           console.warn("[Bildim] kuyruga_gir hız sınırı — yoklama atlandı:", e?.message);
           return;
         }
-        setHata(tt("Rakip aranamadı. Bağlantını kontrol edip tekrar dene."));
+        setHata(islemHatasi(e, "Rakip aranamadı."));
         console.error("[Bildim] kuyruga_gir:", e);
         iptal = true;   // hata: yoklama ve sayaç durur
         clearInterval(zamanlayiciRef.current);

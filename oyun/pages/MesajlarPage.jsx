@@ -6,6 +6,7 @@ import AvatarCerceve from "../components/AvatarCerceve.jsx";
 import SohbetKutusu from "../components/SohbetKutusu.jsx";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
+import { hataTuru, hataTuruMesaji } from "../lib/hata.js";
 import GeriDugmesi from "../components/GeriDugmesi.jsx";
 import { QtKart, QtDugme, QtListe, QtListeSatiri, QtBosDurum, QtIskelet, QtSayiRozeti } from "../tasarim/index.js";
 import "../tasarim/ekranlar/l-sosyal.css";
@@ -46,7 +47,7 @@ export default function MesajlarPage() {
     } catch (e) {
       // Paket 41 A: ham sunucu metni gösterilmez
       console.error("[Bildim] sohbet listesi alınamadı:", e);
-      setHata(true);
+      setHata(hataTuruMesaji(hataTuru(e)) || true);
     } finally {
       setYukleniyor(false);
     }
@@ -92,7 +93,7 @@ export default function MesajlarPage() {
             ikon="uyari"
             ton="yanlis"
             baslik={tt("Yüklenemedi.")}
-            metin={tt("Bağlantını kontrol edip tekrar dene.")}
+            metin={typeof hata === "string" ? hata : tt("Bağlantını kontrol edip tekrar dene.")}
             eylem={
               <QtDugme tur="ikincil" ikon="yenile" onClick={() => { setHata(null); setYukleniyor(true); yukle(); }}>
                 {tt("Tekrar dene")}

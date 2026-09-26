@@ -157,6 +157,13 @@ export default {
   // Ajan B7 — boş ekran kurtarma, "Bağlantı yok" şeridi (D-103/D-201/D-206)
   "Sayfa yüklenemedi": "Couldn't load this page",
   "Bağlantı yok. İnternetini kontrol edip tekrar dene.": "No connection. Check your internet and try again.",
+  // D-407 / D-503: hata türüne göre ayrışan mesajlar (oyun/lib/hata.js)
+  "Sunucu geç yanıt verdi. Biraz sonra tekrar dene.": "The server took too long to respond. Try again in a moment.",
+  "Sunucuda geçici bir sorun var. Biraz sonra tekrar dene.": "The server has a temporary problem. Try again in a moment.",
+  "Sunucuya ulaşılamıyor. Bağlantını kontrol et ya da biraz sonra tekrar dene.": "Can't reach the server. Check your connection or try again in a moment.",
+  "Rakip aranamadı.": "Couldn't search for an opponent.",
+  "Maç başlatılamadı.": "The match couldn't be started.",
+  "Tekrar dene.": "Try again.",
   "Beklenmedik bir hata oluştu. Tekrar dene; sorun sürerse sayfayı yenile.": "Something unexpected happened. Try again; if it keeps happening, reload the page.",
   "Bağlantı gelince sayfa kendiliğinden açılır.": "The page will open by itself once you're back online.",
   "Bağlantı yok": "No connection",

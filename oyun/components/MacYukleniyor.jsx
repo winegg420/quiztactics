@@ -42,7 +42,10 @@ export default function MacYukleniyor({ hata, onTekrarDene, onIptal, donusYolu, 
       // Paket 41 G: ham sunucu metni oyuncuya gösterilmez (çağıran console'a yazar)
       metin={
         hata
-          ? tt("Maç bilgisi alınamadı. Bağlantını kontrol edip tekrar dene.")
+          // D-503: çağıran hataMesaji ile sınıflanmış metin verdiyse (bağlantı yok / sunucu / zaman aşımı) o gösterilir
+          ? typeof hata === "string" && hata !== tt("Maç bilgisi alınamadı.")
+            ? hata
+            : tt("Maç bilgisi alınamadı. Bağlantını kontrol edip tekrar dene.")
           : tt("Maç bilgisi gelmedi. Bağlantın kesilmiş olabilir ya da maç artık geçerli değil.")
       }
       eylem={

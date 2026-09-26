@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import MacUstSerit from "../components/MacUstSerit.jsx";
-import { hataMesaji } from "../lib/hata.js";
+import { hataMesaji, hataTuru, hataTuruMesaji } from "../lib/hata.js";
 import { useGeriTusuOnayi } from "../lib/geriTusuOnayi.js";
 import { useOyunModu } from "../lib/oyunModu.js";
 import { soruCek } from "../lib/soruCek.js";
@@ -155,7 +155,7 @@ export default function TournamentPage() {
       }
     } catch (e) {
       console.error("[Bildim] turnuvalar alınamadı:", e);
-      setTurnuvaHata(true);
+      setTurnuvaHata(hataTuruMesaji(hataTuru(e)) || true);
     }
     const liste = data ?? [];
     const secilen =
@@ -512,7 +512,7 @@ export default function TournamentPage() {
           ikon="uyari"
           ton="yanlis"
           baslik={tt("Turnuva bilgisi alınamadı")}
-          metin={tt("Bağlantını kontrol edip tekrar dene.")}
+          metin={typeof turnuvaHata === "string" ? turnuvaHata : tt("Bağlantını kontrol edip tekrar dene.")}
           eylem={<QtDugme ikon="yenile" onClick={() => { setTurnuvaHata(false); turnuvaYukle(); }}>{tt("Tekrar dene")}</QtDugme>}
         />
       </div>
