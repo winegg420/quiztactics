@@ -70,6 +70,8 @@
   border-radius: var(--qt-r-l);
 }
 .m1-soru.qt-h-gerilim::after { inset: -6px; border-radius: var(--qt-r-l); }
+/* 3-2-1 sürerken soru ve şıklar görünmez + klavye/okuyucuya kapalı: sayım perdesi altında okunmasın (D-410). Yerleşim aynı kalır. */
+.m1-soru--sayimda { visibility: hidden; }
 .m1-soru--uzun .qt-soru-metin { font-size: var(--qt-y-l); }
 .m1-soru--uzun .qt-sik { font-size: var(--qt-y-m); min-height: 54px; }
 .m1-soru--cok-uzun .qt-soru-metin { font-size: var(--qt-y-m); }
@@ -448,9 +450,17 @@ body.bd-oyun-modu .m1-mac { min-height: 100dvh; }
     scroll-snap-type: x proximity;
   }
   body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .m1-grup-skor::-webkit-scrollbar { display: none; }
+  /* D-412: şerit taşınca kesilen kenar solar (ortak desen: bilesenler.css › .qt-sekmeler[data-kaydir-*]) */
+  .m1-grup-skor[data-kaydir-sol], .m1-grup-skor[data-kaydir-sag] {
+    --_sol: 0px; --_sag: 0px;
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 var(--_sol), #000 calc(100% - var(--_sag)), transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0, #000 var(--_sol), #000 calc(100% - var(--_sag)), transparent 100%);
+  }
+  .m1-grup-skor[data-kaydir-sol] { --_sol: 24px; }
+  .m1-grup-skor[data-kaydir-sag] { --_sag: 24px; }
   body.bd-oyun-modu .m1-mac:has(> .m1-soru) .m1-grup-satir {
     flex: none;
-    max-width: 58vw;
+    max-width: 42vw;   /* iki satır tam + üçüncü kısmen görünür: kaydırma ipucu (D-412) */
     gap: 6px;
     padding: 2px var(--qt-b-3) 2px var(--qt-b-1);
     border-radius: var(--qt-r-hap);

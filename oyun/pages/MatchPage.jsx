@@ -535,19 +535,25 @@ export default function MatchPage() {
   // Sunucu, 3 sn'ye ayrıca gösterim payı ekler (mac_geri_sayim_payi_ms): geç haber alan taraf da 3-2-1'i baştan
   // görür. Pay boyunca "3" bekler (kalan en çok 3 gösterilir), sonra gerçek zamanla akar.
   const [geriSayim, setGeriSayim] = useState(null);
-  const sayimBittiRef = useRef(null);   // geri sayımı biten başlangıç: sonraki nabız kaymasıyla "1" yeniden çıkmasın
+  const sayimSonRef = useRef({ baslangic: null, kalan: Infinity, t: 0 });
+  const sayimBittiRef = useRef(null);  // geri sayımı biten başlangıç: sonraki nabız kaymasıyla "1" yeniden çıkmasın
   useEffect(() => {
     if (!ilkSoruMu || !nabiz?.basladi || !nabiz?.baslangic || !nabiz?.sunucu_zamani
       || sayimBittiRef.current === nabiz.baslangic) {
       setGeriSayim(null);
       return undefined;
     }
-    // Saat farkı gidiş-dönüşün orta noktasına göre (nabiz.js); yalnız yanıt anına göre ölçülürse dönüş gecikmesi biner.
-    const fark = sunucuOffsetMs(nabiz.sunucu_zamani, nabiz._saat_ornek_ms ?? Date.now());
+    // Saat farkı nabiz.js'ten: penceredeki en kısa gidiş-dönüşlü örnek (tek yavaş yanıt sayımı oynatmaz, D-409).
+    const fark = nabiz._saat_fark_ms ?? sunucuOffsetMs(nabiz.sunucu_zamani, nabiz._saat_ornek_ms ?? Date.now());
     const bitis = new Date(nabiz.baslangic).getTime();
     let id = null;
+    // Kalan süre YALNIZ azalır: saat farkı sonradan büyürse sayım geri sıçramaz, gerçek hızda akmaya devam eder.
+    const son = sayimSonRef.current.baslangic === nabiz.baslangic ? sayimSonRef.current : { baslangic: nabiz.baslangic, kalan: Infinity, t: performance.now() };
+    sayimSonRef.current = son;
     const hesapla = () => {
-      const kalan = (bitis - (Date.now() + fark)) / 1000;
+      const simdi = performance.now();
+      const kalan = Math.min((bitis - (Date.now() + fark)) / 1000, son.kalan - (simdi - son.t) / 1000);
+      son.kalan = kalan; son.t = simdi;
       if (kalan > 0.05) { setGeriSayim(Math.min(kalan, GERI_SAYIM_RAKAM)); return; }
       sayimBittiRef.current = nabiz.baslangic;
       setGeriSayim(null);
@@ -556,7 +562,7 @@ export default function MatchPage() {
     hesapla();
     id = setInterval(hesapla, 100);
     return () => clearInterval(id);
-  }, [ilkSoruMu, nabiz?.basladi, nabiz?.baslangic, nabiz?.sunucu_zamani, nabiz?._saat_ornek_ms]);
+  }, [ilkSoruMu, nabiz?.basladi, nabiz?.baslangic, nabiz?._saat_fark_ms, nabiz?.sunucu_zamani]);
 
   /** Rakip gelmiyor: maçı sıra tabanlı (asenkron) bırak. */
   const asenkronaGec = async () => {
@@ -1245,6 +1251,7 @@ export default function MatchPage() {
             onCevapla={cevapla}
             onSureDoldu={sureDoldu}
             macTur={"1v1"}
+            className={geriSayim !== null ? "m1-soru--sayimda" : ""}
             jokerSurum={jokerSurum}
             jokerYok={Boolean(mac.jokersiz)}
             sisBitis={sisBitis}
