@@ -1,0 +1,578 @@
+id,kategori,jev_egilim,guven,soru,dogru
+ff05f1c5-ce38-4655-97f7-806ae1e2f409,bilim,evrensel,0.11,Kurbağa yavrusuna ne ad verilir?,İribaş
+b412c0a7-4ddf-430a-8287-748a851c082f,bilim,evrensel,0.29,Hulusi Behçet hangi alanda dünyaca tanınır?,Tıp
+000140ce-fb2c-4f9b-bdba-f8ccd92fcbf4,bilim,evrensel,0.39,Mikronöroşirürjinin kurucusu sayılan ve 'yüzyılın beyin cerrahı' seçilen Türk hekim kimdir?,Gazi Yaşargil
+902dca8e-cf01-4067-875d-1f41d5350df3,bilim,yerel,0.45,Genç yaşta Yale'de profesör olan ve 'Türk Einstein'ı' diye anılan kuantum kimyacısı kimdir?,Oktay Sinanoğlu
+106a53ca-96ba-456e-8bfb-051c70add102,bilim,evrensel,0.57,Bebeklerin kafatası kemikleri arasındaki kapanmamış yumuşak bölgeye halk arasında ne denir?,Bıngıldak
+72f9fe6e-e678-441f-93a5-4b30f8df9f1f,bilim,evrensel,0.64,Behçet hastalığını tanımlayan bilim insanı hangi ülkedendir?,Türkiye
+d9e0cde9-d703-4216-84da-c576961a4897,cografya,evrensel,0.02,Türkiye'nin komşusu olmayan ülke hangisidir?,Mısır
+537af3e3-b933-4874-96b3-954cd277d3a0,cografya,evrensel,0.03,Türkiye'nin yüzölçümü yaklaşık ne kadardır?,780 bin kilometrekare
+e65d4b03-e4aa-44d5-a08b-089af18a49ec,cografya,yerel,0.04,Kıbrıs'ın en yüksek dağı hangisidir?,Trodos
+4beb7aea-71e5-4106-a392-f1e1f31e09d6,cografya,yerel,0.06,Türkiye'ye komşu olmayan ülke hangisidir?,Ukrayna
+971468db-1366-4059-a0b3-6f33c8e14897,cografya,evrensel,0.06,Smyrna hangi kentin antik adıdır?,İzmir
+637f1fcd-3f4f-480b-b61d-77f4038f31d0,cografya,evrensel,0.07,Türkiye'de alabalık yetiştiriciliği hangi ortamda yapılır?,Tatlı su
+5a541b71-f85a-4ec7-b8f0-ea282ffe608b,cografya,evrensel,0.08,Leylekler Türkiye'den hangi mevsimde göç eder?,Sonbaharda
+029f0d92-fe88-4f88-89c8-bebd279771c2,cografya,evrensel,0.09,Türkiye'nin matematik konumu neye göre belirlenir?,Enlem ve boylam
+27b700ef-6392-4cc2-a0a6-16fe385a2c86,cografya,yerel,0.12,Türkiye'de kişi başına su miktarı hangi kavramla değerlendirilir?,Su varlığı sınıflandırması
+348db667-3b01-482b-8300-e809bee532cc,cografya,yerel,0.12,Şehirlerde gecekondulaşmanın temel nedeni nedir?,Plansız hızlı göç
+4bba4a07-5dff-4c62-877f-2f721abd81ff,cografya,evrensel,0.12,Türkiye'nin Avrupa'daki komşuları hangileridir?,Yunanistan ve Bulgaristan
+0c65cbdc-5362-4c38-91ef-f88bb4826ef8,cografya,yerel,0.13,Türkiye'nin transit ticarette avantajı nereden gelir?,Asya-Avrupa arasında olmasından
+182e8dfd-c08b-4df4-b4c8-130bc46a83d4,cografya,yerel,0.14,Oba yerleşmesi hangi yaşam biçimiyle ilgilidir?,Göçebe hayvancılık
+6662a710-8749-4d90-ad88-4205a4ce79f2,cografya,evrensel,0.15,Karadeniz'de derinlerde oksijenin bulunmamasının nedeni nedir?,Tuzluluk farkıyla suyun karışmaması
+ff934607-fdd3-4acc-94b6-76ffd253c1dd,cografya,yerel,0.16,Dünyanın en işlek hava yollarından İstanbul Havalimanı hangi yakadadır?,Avrupa
+2895214a-5ce5-48e5-b595-70e89504e809,cografya,yerel,0.17,Karada deniz seviyesine göre en alçak nokta hangisidir?,Ölü Deniz kıyısı
+b3cce79a-8b88-464d-ad77-6ff5a2babacb,cografya,yerel,0.19,Kerkük-Yumurtalık boru hattı neyi taşır?,Ham petrol
+4fe3805b-ca92-4875-953e-10a72d535211,cografya,evrensel,0.20,Türkiye hangi yarım kürelerdedir?,Kuzey ve doğu
+b965ecec-9fde-4194-94ae-209c86436912,cografya,yerel,0.20,Karayolu ulaşımının Türkiye'de yaygınlaşmasının nedeni nedir?,Kapıdan kapıya taşıma esnekliği
+51cb6139-ecf7-41ac-8eac-ebe9c4645c9c,cografya,yerel,0.22,Mavi Akım doğal gaz hattı hangi denizin altından geçer?,Karadeniz
+6d234e27-5154-4be4-b322-72e1ad8845f8,cografya,evrensel,0.23,Lehçe ile ağız arasındaki fark nedir?,Lehçenin daha büyük ayrışma göstermesi
+4a78178b-b47c-4464-ad3a-88d642483ae2,cografya,evrensel,0.24,Selanik hangi denize kıyıdır?,Ege Denizi
+95fbb36a-93b4-4ee3-bd34-3b6839b27e4a,cografya,yerel,0.24,Peribacalarının oluşumunda hangi kayaç etkilidir?,Volkanik tüf
+699eb59e-1f7c-453a-9d83-11d11e32b798,cografya,yerel,0.25,Türkiye'de sel riskinin artmasının insan kaynaklı nedeni nedir?,Dere yataklarının yapılaşması
+6deffe08-cae8-4b12-8eb5-c50bd4eb2c1d,cografya,evrensel,0.28,Nadas uygulamasının amacı nedir?,Toprakta nem biriktirmek
+f6efd8aa-cdda-496c-8a1d-30398f328dcc,cografya,yerel,0.29,Boğazlar'daki alt akıntı hangi yönde ilerler?,Akdeniz'den Karadeniz'e
+72582474-cc35-46f0-9816-f22476398963,cografya,evrensel,0.30,Türkiye'nin başkenti neresidir?,Ankara
+42de67fe-f626-4ddc-9aff-01a6b7b77965,cografya,evrensel,0.31,Teraslama hangi soruna karşı yapılır?,Erozyon
+a944ca41-6a2d-4c11-818c-2e4ef7ad9284,cografya,yerel,0.31,Yayla yerleşmelerinin kullanım amacı nedir?,Yaz otlatması
+81ccceeb-0c3e-4e42-8611-8aaedb762ec9,cografya,evrensel,0.32,Kültür balıkçılığında en çok yetiştirilen tür hangisidir?,Levrek ve çipura
+8db8c5de-3efb-4a9f-85f6-f64d17d73fcb,cografya,yerel,0.32,Boğazlar'daki üst akıntının yönü nedir?,Karadeniz'den Akdeniz'e
+9b1354f1-bd60-4ec3-b715-b37274dfbee7,cografya,evrensel,0.32,Kadastro haritalarının konusu nedir?,Arazi mülkiyet sınırları
+30eccaf1-032f-4201-afb6-38f000453ad5,cografya,yerel,0.33,Ege Denizi'ndeki adaların çokluğu neyle açıklanır?,Kıyı dağlarının sular altında kalmasıyla
+bf1e095b-ecc6-4154-90cc-ccfe7ff495bb,cografya,yerel,0.34,Meriç Deltası hangi iki ülke arasında paylaşılır?,Türkiye ve Yunanistan
+2416da4a-05de-4d31-9c57-be0c5dfcc33d,cografya,yerel,0.36,Boğazların Türkiye için önemi öncelikle nedir?,Jeopolitik ve ticari
+fbcffc90-8664-497f-b36a-b2384bd72ded,cografya,evrensel,0.37,Aras Nehri hangi denize ulaşan havzadadır?,Hazar
+cf844256-3d0c-42ac-8587-4972575eb0d5,cografya,evrensel,0.38,Müsilaj sorununun temel nedeni nedir?,Aşırı besin kirliliği ve ısınma
+1db4254c-d3aa-4ad2-a97e-9381fdfddf2d,cografya,evrensel,0.39,Organize sanayi bölgelerinin amacı nedir?,Sanayiyi planlı bir alanda toplamak
+c60ca5e6-9738-47a6-991e-7ab9d1b4f1f2,cografya,yerel,0.39,Türkiye'de step alanlarının ağaçlandırılmasında hangi tür tercih edilir?,Kurağa dayanıklı türler
+6970dd56-a1fb-45a2-bd34-a9006197c520,cografya,evrensel,0.40,Nadas uygulaması hangi amaçla yapılır?,Toprağın nem ve verim kazanması
+7143914b-b7ff-4ced-99e2-90319a43ad52,cografya,evrensel,0.40,Karadeniz ikliminin belirgin özelliği nedir?,Her mevsim yağışlı olması
+5d45b333-a941-4e15-85d7-b56be1f5c8a7,cografya,yerel,0.41,Türkiye'de şeker pancarı hangi sanayi koluyla ilişkilidir?,Şeker fabrikaları
+1b6080cb-1de9-4621-8768-49fc80653a4a,cografya,evrensel,0.42,Obruk nedir?,Karstik çukur
+e7e4ce4a-e1da-4db1-b6a0-14d8b67aff2e,cografya,yerel,0.42,Kızılçam ağacı hangi iklim bölgesinde yaygındır?,Akdeniz
+bd2d80c9-a170-49b5-a8d9-9dde5e6270a6,cografya,yerel,0.43,Van kedisinin ayırt edici özelliği nedir?,İki farklı renkte göz
+9fe2a1e2-f5f9-41a7-8b60-061920298288,cografya,yerel,0.46,Türkiye'de kış yağışlarının baskın olduğu iklim tipi hangisidir?,Akdeniz iklimi
+1b0f6555-9612-4cd9-8eff-1a02959d815e,cografya,evrensel,0.47,Denizden yüksekliğe göre en yüksek yerleşim türü hangisidir?,Yayla
+0e129fdf-a99c-46e1-8f96-58e8c43775dd,cografya,yerel,0.48,Antiochia hangi kentin antik adıdır?,Antakya
+7881f712-b5cf-44a4-b1bf-93f707e9d0fd,cografya,yerel,0.48,Kuş göçlerinde Boğazlar'ın önemi nedir?,Göç yolu üzerinde geçiş noktası olması
+f672d030-0096-4e82-addf-c849aa280130,cografya,yerel,0.49,Ege'de kıyıdan iç kesime doğru yağışın azalmasının nedeni nedir?,Denizellik etkisinin azalması
+3c66ba43-290b-452f-893b-5333207ec1a3,cografya,yerel,0.50,Anadolu leoparının durumu nedir?,Nesli ciddi tehlike altında
+094b692a-fab7-4654-9468-787044f6d1c6,cografya,evrensel,0.51,Türkiye'de tarım alanlarının amaç dışı kullanımı neye yol açar?,Verimli toprak kaybına
+3cd83aa1-6251-4292-b43b-06c6e425ad6f,cografya,evrensel,0.51,Kafkasya'da Türkiye'ye komşu olan ülkelerden biri hangisidir?,Gürcistan
+2d897c5c-d113-4e57-afdb-e285076f171c,cografya,yerel,0.52,Marmara Denizi'ni Ege'ye bağlayan boğaz hangisidir?,Çanakkale Boğazı
+764d225f-bcb0-414e-a0c9-dd2d0e9d2355,cografya,yerel,0.52,Türkiye'nin deprem riskinin yüksek olmasının sebebi nedir?,Aktif fay kuşağında olması
+4403a40a-ba75-4f29-a53f-e4a2b4af7033,cografya,yerel,0.57,Asi Nehri hangi ilimizden Akdeniz'e ulaşır?,Hatay
+9582bf01-054f-468d-bb2c-97f6f6237cce,cografya,yerel,0.57,Türkiye'de tarımın makineleşmesi hangi sonucu doğurmuştur?,Kırdan kente göçün artması
+b5580643-dfd9-4d9e-81ea-361d58ef7452,cografya,evrensel,0.57,Kentsel donatı alanı neyi kapsar?,"Okul, park, sağlık gibi kamusal alanları"
+6e6fe042-7b4b-433e-88c9-9f616b2f009a,cografya,evrensel,0.58,Mera ıslahının amacı nedir?,Otlak verimini ve örtüyü iyileştirmek
+3f824394-7528-4d23-a100-3dcd1be89f90,cografya,evrensel,0.59,Karadeniz'in tuzluluk oranının Akdeniz'den düşük olmasının nedeni nedir?,Bol akarsuyla beslenmesi
+81b1a134-181b-44c6-ade2-fd5b412f27ca,cografya,evrensel,0.59,Kıyı yerleşmelerinde 'meltem' hangi rahatlığı sağlar?,Yaz sıcağını hafifletmesi
+b237b24b-3389-46e6-bb94-03855399b044,cografya,yerel,0.59,Türkiye'nin en kuzeydeki kara sınırı hangi ülkeyledir?,Gürcistan
+0ae03ee4-e36a-4f88-8f60-e4734b44f39d,cografya,yerel,0.60,Yayla yerleşmesi hangi ekonomik faaliyete bağlıdır?,Hayvancılık
+f14364ae-5255-469d-931b-e442ebd4413a,cografya,yerel,0.60,Nahçıvan üzerinden Türkiye hangi ülkeyle sınır komşusudur?,Azerbaycan
+fcc3a668-5b3c-4a38-80a1-484e8ac43bf2,cografya,evrensel,0.60,Meltem rüzgârları hangi zaman ölçeğinde yön değiştirir?,Günlük
+7bbd4253-27b8-41a5-a80f-0eebb4ca2f75,cografya,evrensel,0.61,Deprem yönetmeliğinin amacı nedir?,Yapıların dayanımını güvenceye almak
+e53a53a5-4661-46b9-9dcd-8e43fc9b4209,cografya,yerel,0.64,Çanakkale Boğazı hangi iki denizi birbirine bağlar?,Marmara ve Ege
+4f99f7fe-f0ac-4e5a-85ee-5de068ef055a,cografya,evrensel,0.65,Set gölü nasıl oluşur?,Vadinin bir engelle kapanmasıyla
+566660f2-5db3-41e8-a7c6-83d2697632c6,cografya,evrensel,0.66,Türkiye'de güney yamaçların tarımda erken ürün vermesinin nedeni nedir?,Daha fazla güneş alması
+5d6f0d69-8b04-4564-a842-6fa245532ecb,cografya,evrensel,0.66,İmar planı neyi belirler?,Arazi kullanım kararlarını
+0fb95653-aff2-4cf5-b7f0-9e5999cb9a96,cografya,yerel,0.67,Türkiye'nin ortalama yükseltisinin fazla olmasının sonucu nedir?,Sıcaklığın düşük olması
+430095a0-4f8e-4283-befc-3bbdc1d8a5e1,cografya,yerel,0.67,Türkiye su kaynakları bakımından nasıl tanımlanır?,Su azlığı yaşayan ülke
+2439b88d-c0fc-4f7f-9ea5-3d3fcc354e1d,cografya,yerel,0.68,Türkiye'nin dağlık ve engebeli olmasının ulaşıma etkisi nedir?,Yol maliyetini artırması
+6b8cfd1a-7b8c-470f-b23d-9221e25093a4,cografya,yerel,0.68,Türkiye'de lif bitkisi olarak öne çıkan ürün hangisidir?,Pamuk
+af4146d2-9e1b-47dc-a5f6-1ccac743b943,cografya,yerel,0.68,Türkiye'de kırsal nüfusun azalmasının temel nedeni nedir?,Kente göç
+b8d1ac79-60da-4ec2-af8c-c3cdbaf7fc90,cografya,evrensel,0.68,Kışın Akdeniz'e yağış getiren sistem hangisidir?,Gezici alçak basınçlar
+19e472ec-4678-443e-9dbb-be0eb5356e7e,cografya,evrensel,0.69,Fırat ve Dicle nehirleri hangi denize/körfeze dökülür?,Basra Körfezi
+6c55cbee-1f85-4015-a18e-0d8b3dc678b8,cografya,yerel,0.69,Türkiye'de sulak alanların azalmasının başlıca nedeni nedir?,Kurutma ve aşırı su çekimi
+94675947-c486-4714-83fc-841d9755946f,cografya,yerel,0.70,Türkiye'de aktif fay hattı deyince akla gelen kuşak hangisidir?,Kuzey Anadolu Fay Hattı
+10bdb9b2-e6a0-483b-9afe-a68823f2c615,cografya,yerel,0.71,Türkiye'de krom madeninin önemi nedir?,Dünya üretiminde söz sahibi olması
+20df9a12-79cd-4fb2-9ace-c45c8939445c,cografya,yerel,0.71,Türkiye'de karaca ve yaban keçisi hangi ortamda yaşar?,Dağlık ve ormanlık alanlarda
+8cd67629-6ac7-49b2-9ff6-ad2bc30fa31c,cografya,yerel,0.71,Karadeniz kıyısında kışların ılık geçmesinin nedeni nedir?,Deniz etkisi
+0e98e389-25f5-463a-bf07-8182a0dfe345,cografya,evrensel,0.72,Aral Gölü'nün küçülmesinin başlıca nedeni nedir?,Nehirlerin sulamaya çevrilmesi
+ae0b916e-64a3-47f1-878d-818121d98b5a,cografya,yerel,0.72,Türkiye'nin boylam aralığı hangisidir?,26-45 doğu
+a8e73d9f-f38a-411d-8f0f-5075dc6384aa,cografya,evrensel,0.73,Elbruz Dağı hangi sıradağdadır?,Kafkaslar
+d49905d2-0ab3-4f08-9241-38dd87f3b1d2,edebiyat,evrensel,0.01,Teşbih (benzetme) sanatı neye dayanır?,İki şeyin ortak yönle eşlenmesine
+f7e1db2c-00a6-4415-8fa0-a3b31a3b5066,edebiyat,yerel,0.03,'Makale' hangi özelliğiyle denemeden ayrılır?,Kanıtlamaya dayanmasıyla
+fd59272a-37d0-4ef8-92e2-4d963a4d7ffa,edebiyat,yerel,0.04,'Mektup' türü hangi özelliğiyle belgeye dönüşür?,Gerçek kişilere yazılmasıyla
+1021258e-3201-418f-a544-4f113f179df1,edebiyat,yerel,0.05,'Düz uyak' nasıl dizilir?,aabb
+a5e78ffa-2195-45c2-be92-851fcf2a6b01,edebiyat,evrensel,0.05,'İmge' şiirde ne yaratır?,Zihinde canlanan tasarım
+726ed38e-9c2b-4e75-a3fb-1afc11b0e2ef,edebiyat,evrensel,0.06,Bir metnin dil ve anlatım özelliklerine ne denir?,Üslup
+43c8f070-f092-41b8-aa9e-a3b3d3e2049d,edebiyat,evrensel,0.07,Rubai kaç dizeden oluşur?,4
+462a2b4d-d343-4db4-a2f9-9c4a5b705101,edebiyat,yerel,0.07,'Deyim aktarması' hangi türdendir?,Mecaz
+91ab159c-a0d7-4fd3-a033-eb3477fb6767,edebiyat,yerel,0.07,Zarf (belirteç) neyi niteler?,Eylemi veya sıfatı
+808cce7d-a155-45f7-b66e-cde43cb39417,edebiyat,evrensel,0.08,'Durum öyküsü' neyi öne çıkarır?,Anı ve atmosferi
+52df7797-459f-4670-a431-ca9252fcf576,edebiyat,yerel,0.10,Deneme türünün özelliği nedir?,Kişisel görüşü serbestçe anlatması
+e58c6dd8-8383-4f0d-b284-f4820f5ad80b,edebiyat,evrensel,0.10,'Anlatmaya bağlı' türlere örnek hangisidir?,Roman
+b3da57a7-1814-4a48-b34d-1d51d247fa93,edebiyat,evrensel,0.11,'Toplumcu gerçekçilik' neyi merkeze alır?,Toplumsal sorunları
+d322bc54-c280-47bd-a750-dbf6fe9605d3,edebiyat,yerel,0.11,Karşıt kavramların bir arada kullanılmasına ne denir?,Tezat
+1609a497-0d94-425b-8d6a-4c01bdde486c,edebiyat,evrensel,0.12,'Öyküleme' neyi aktarır?,Olayların akışını
+21972db9-5c60-48d8-a5ae-524f1627214a,edebiyat,evrensel,0.12,Bir yazarın tüm eserlerine ne denir?,Külliyat
+1e50c3ed-d2c9-4792-9683-15da79f2c50b,edebiyat,yerel,0.13,'Tartışma' anlatım biçiminde ne yapılır?,Karşı görüş çürütülür
+4a010c85-5142-4269-bd3b-989b9d69bbaa,edebiyat,evrensel,0.13,Anlatım bozukluğunun yaygın nedeni nedir?,Gereksiz sözcük kullanımı
+e7be97a6-906a-4a8f-9491-eea0644acbe5,edebiyat,evrensel,0.14,'Şehname' adlı destanın yazarı kimdir?,Firdevsi
+74070648-a64e-445d-86cf-cad9e340e867,edebiyat,yerel,0.15,Uzak yerlerin anlatıldığı yazı türü hangisidir?,Gezi yazısı
+d23ed043-6fb3-4b90-9339-81dd3fc67b94,edebiyat,evrensel,0.15,Tevriye sanatı neye dayanır?,Bir sözün iki anlamının kullanılmasına
+44cf684e-cb1f-400b-b40b-41fc9e561fd1,edebiyat,evrensel,0.16,Teşhis sanatı neyi yapar?,İnsan dışı varlığa insan özelliği verir
+1419f208-bd81-4d3a-8813-190f3f793705,edebiyat,evrensel,0.17,'Mektup' türünde temel öge nedir?,Belirli bir muhataba seslenme
+1dcc1f5f-8d10-450b-bc47-3fc53aa25113,edebiyat,yerel,0.17,Cümlenin temel öğesi hangisidir?,Yüklem
+5993f505-f11a-48e7-b01c-f69d8d7576a4,edebiyat,evrensel,0.18,'Öyküleme' hangi ögeyi öne çıkarır?,Olayların akışını
+b3746ab8-da10-4e04-8af5-02ef2d4b4c2e,edebiyat,yerel,0.18,'Bent' şiirde neyi ifade eder?,Dize kümesini
+84638baf-2012-4bef-aedf-edc1d83b88a7,edebiyat,yerel,0.19,'Üstkurmaca' nedir?,Metnin kurmaca olduğunu göstermesi
+3f2472f3-4707-440c-84b6-57a517d3268b,edebiyat,evrensel,0.20,Romanda 'kişi kadrosu' neyi anlatır?,Karakterlerin bütününü
+5bced05f-78af-4901-8d5c-90eca60847a1,edebiyat,yerel,0.20,'Telmih' sanatı ne yapar?,Bilinen olay veya kişiye gönderme yapar
+6a33315c-b036-4962-a98d-07c1e94aea82,edebiyat,yerel,0.20,Manas Destanı hangi Türk topluluğuna aittir?,Kırgız
+7682c116-3d39-46db-82db-720c842f6da4,edebiyat,yerel,0.21,'Telmih' sanatı neye gönderme yapar?,Bilinen bir olay ya da kişiye
+59aba97e-e0bd-4056-bbec-0700f1e60ea9,edebiyat,evrensel,0.22,Bir şiirde dize sonlarındaki ses benzerliğine ne denir?,Kafiye (uyak)
+0d596711-117c-4741-8021-7803aa0379a0,edebiyat,yerel,0.23,'Açıklama' anlatım biçimi neyi hedefler?,Bilgi vermeyi
+2b4954da-ccb5-49ee-bdb3-dd9745edf44f,edebiyat,evrensel,0.23,Halk hikâyesi ile destan arasındaki fark nedir?,Halk hikâyesinin daha gerçekçi olması
+de6cc6ff-fae0-4217-9a29-b0b9e24c4e0c,edebiyat,evrensel,0.23,'Kolofon' el yazmasında neyi bildirir?,İstinsah bilgilerini
+7aa09491-965a-459b-affd-6a5fd5e0e30f,edebiyat,evrensel,0.24,Mektup türünün edebiyattaki yeri nedir?,Edebî mektuplar tür sayılır
+f6ffcc05-fadc-43f9-956a-dee0f7f14237,edebiyat,evrensel,0.24,Edebî metinlerde çağrışım gücü yüksek dile ne denir?,Yan anlamlı dil
+1b1540b9-81df-465f-ae70-ee0f72f617f6,edebiyat,evrensel,0.25,'Gezi yazısı' neyi aktarır?,Görülen yerleri ve izlenimleri
+313fbac2-7146-461b-aa32-3a79770e9287,edebiyat,evrensel,0.25,'Didaktik şiir' ne amaçlar?,Öğretmeyi
+441ade3b-3171-4cd4-842e-9ce02d24e485,edebiyat,evrensel,0.25,'Mecaz anlam' neye dayanır?,Gerçek anlamın dışına çıkmaya
+41e91dbf-f948-4c23-9b96-cdd4c6ce1573,edebiyat,evrensel,0.26,Benzetmede kendisine benzetilen öğeye ne denir?,Benzetilen
+0c2694ad-9934-4c7e-b2f7-6a516caa9afd,edebiyat,yerel,0.27,Denemenin en belirgin özelliği nedir?,Kişisel düşüncenin serbestliği
+61848691-af19-4a6f-a4a1-679645c363c1,edebiyat,evrensel,0.27,Asonans nedir?,Ünlü seslerin yinelenmesi
+8477f9a5-2a61-4c98-8720-308b4ec743a5,edebiyat,evrensel,0.27,Aynı sesin şiirde tekrarına ne denir?,Aliterasyon
+22b837ec-c1be-4294-baf4-dcb6d1c765ef,edebiyat,yerel,0.28,'Yergi' (hiciv) neyi hedefler?,Eleştirip alaya almayı
+7adfea42-735a-4823-b21e-ed5fac4b1a34,edebiyat,yerel,0.29,Özne ile yüklem uyumu neyi gerektirir?,Kişi ve sayı bakımından uyuşmayı
+95a60b6c-65a0-4e79-a099-2e7531f1d4c6,edebiyat,yerel,0.30,"""Benim Adım Kırmızı"" romanı hangi sanat dalını konu alır?",Minyatür
+07dcf573-65dd-49a1-a088-deda9f4c7762,edebiyat,evrensel,0.31,'İzlek' (tema) neyi ifade eder?,Metnin temel düşüncesini
+5b972809-503d-47ca-ad65-60cd4e8015fa,edebiyat,evrensel,0.31,'Olay öyküsü' neye dayanır?,Serim düğüm çözüm yapısına
+739eb00f-532b-40ba-a069-70bf5b7d935d,edebiyat,evrensel,0.32,'Anı' türünde anlatılan nedir?,Yaşanmış olaylar
+84e35851-58bd-45a1-b47b-53d863232edf,edebiyat,yerel,0.32,Şiirde 'ahenk' neyle sağlanır?,"Ölçü, kafiye ve ses yinelemeleriyle"
+af7370ff-dee9-4971-828d-313c6fdf198c,edebiyat,evrensel,0.32,'Rubai' hangi uyak düzenine sahiptir?,aaxa
+cc11949c-b765-4c0a-bb8e-0cf2a2f1a44a,edebiyat,evrensel,0.32,"Olayları oluş sırasıyla anlatan, kişi-yer-zaman içeren yazı türü hangisidir?",Hikaye
+e5bdd987-206e-45da-9669-ea845ce3e61b,edebiyat,yerel,0.32,İki şeyin benzerlik yönünden karşılaştırılmasına ne denir?,Benzetme
+fae6c08b-cc6e-4cfc-8197-331e96e2f706,edebiyat,yerel,0.33,'Duraklama' anlatıda neyle oluşur?,Betimleme ile
+7c0051f8-0fce-4423-a070-cf01f587c657,edebiyat,evrensel,0.35,'Toplumcu eleştiri' hangi açıdan bakar?,Toplumsal koşullardan
+06f1bfc3-dc9f-48ed-aae7-7b800e4b5600,edebiyat,yerel,0.36,'Günce' (günlük) türünde zaman nasıldır?,Tarih düşülerek yazılır
+1ea85cc8-306a-4364-8375-ab51aacab775,edebiyat,yerel,0.36,'Deyim' hangi özelliğe sahiptir?,Kalıplaşmış mecazlı anlatım
+4601fd6f-5a24-4fe9-98e9-d7d35c092745,edebiyat,yerel,0.37,'Anlatım bozukluğu' neden kaynaklanır?,Yapı veya anlam hatasından
+bdbe463e-5522-4415-8973-7ba3244536c6,edebiyat,evrensel,0.37,'Tenkitli basım' neyi sunar?,Nüshalar karşılaştırılmış metni
+d5bdd378-e116-4aa5-aa69-bb3dc3129aa2,edebiyat,yerel,0.37,Ad aktarması (mecaz-ı mürsel) neye dayanır?,Parça-bütün ilişkisi
+2577c31c-9ffb-4e85-bfd5-a30b229be389,edebiyat,yerel,0.38,'Zengin kafiye' nasıl tanımlanır?,Üç ve daha çok ses benzerliği
+c6bb4866-ffd6-41fb-bbf0-7ba96ac86d16,edebiyat,yerel,0.38,Türkçenin yapı bakımından hangi dil grubunda yer aldığı kabul edilir?,Eklemeli diller
+cba03f9b-b67c-4694-9ec9-9043601de72d,edebiyat,evrensel,0.38,On dört dizeden oluşan şiir biçimi hangisidir?,Sone
+480d85e7-6387-412a-90cc-5a3f012b03af,edebiyat,yerel,0.39,'Sohbet' türünün dili nasıldır?,Samimi ve konuşma havasında
+8f169b3d-34fd-44b6-ae39-11e202d4216a,edebiyat,evrensel,0.39,Romanın olay dışı bölümlerinde kullanılan anlatım tekniği hangisidir?,İç konuşma
+04775870-139c-404f-864e-2810d328f2eb,edebiyat,evrensel,0.40,Sone nazım biçimi kaç dizeden oluşur?,On dört
+1980eb75-af69-4eb4-9390-4b955e7d43fd,edebiyat,evrensel,0.40,Romanda 'çevre' unsuru neyi kapsar?,Mekân ve toplumsal ortamı
+54195688-096e-4fa2-97ae-fb2708260010,edebiyat,evrensel,0.42,'Yazınsal dil' gündelik dilden nasıl ayrılır?,Sapmalar ve yoğunlukla
+7ca77966-9d4e-4e89-bc57-f3bc9f7ee6ad,edebiyat,evrensel,0.43,'Diyalog' metinde ne sağlar?,Karakterleri konuşturarak canlılık
+8076d272-d5d9-4ca5-9246-12c2e778133f,edebiyat,yerel,0.43,'Gülistan' adlı yapıtın yazarı kimdir?,Sadi
+be355ee8-1d1a-4d6d-be63-1214679dd823,edebiyat,evrensel,0.43,Sözcüklerin gerçek anlamı dışında kullanılmasına ne denir?,Mecaz
+d3fab47f-a43e-4b06-80fa-b13e88adde9b,edebiyat,yerel,0.43,'Dolaylama' ne yapar?,Bir kavramı birden çok sözcükle anlatır
+1a10fcf4-da8f-4238-a8a4-d115cfa56afd,edebiyat,evrensel,0.45,'Masal' hangi ögeyi barındırır?,Olağanüstülüğü
+3504a7b2-3753-4ace-bb95-47a6c99f91b1,edebiyat,yerel,0.45,'Mantıku't-Tayr' kime aittir?,Feridüddin Attar
+35c6b79e-6655-4505-96ed-5153149e48d2,edebiyat,evrensel,0.45,'Sone' kaç dizelik bir biçimdir?,On dört
+4c39c2ad-9ee2-48f3-94ab-f2ba390b0978,edebiyat,evrensel,0.45,'Betimleme' neyi yapar?,Görüntüyü sözle canlandırır
+4d5bbfbf-218e-42fe-ba2e-a0ec73ffb5aa,edebiyat,yerel,0.45,Atasözünün özelliği nedir?,Kalıplaşmış ve öğüt verici olması
+5165aeca-5d03-4094-9201-b26bdfdab593,edebiyat,yerel,0.45,"""Sobayı yaktık"" cümlesinde hangi sanat vardır?",Ad aktarması
+58dec42b-e9c1-483a-b2ac-ab84a59139bc,edebiyat,evrensel,0.45,'Masal' türünün zaman özelliği nedir?,Belirsiz zaman
+a2cddbc1-f000-4a7e-8042-50e69220ffbe,edebiyat,yerel,0.45,Şehnamenin yazarı kimdir?,Firdevsi
+744ceae2-7e3f-45cf-ab2e-ecff3ae952a5,edebiyat,yerel,0.46,'Atasözü' ile 'deyim' arasındaki temel fark nedir?,Atasözü yargı bildirir
+d49053e2-6515-4ad4-b729-c95a6bbab278,edebiyat,evrensel,0.48,Roman kişilerinden olayı sürükleyene ne denir?,Başkişi
+f6238189-5f73-493b-a7be-9d81bc58b411,edebiyat,evrensel,0.49,'Öznel anlatım' hangi ögeyi taşır?,Kişisel değerlendirmeyi
+3109c695-fd11-406c-8a31-74efb82befd4,edebiyat,evrensel,0.50,Anı (hatıra) türü neye dayanır?,Yazarın yaşadıklarına
+f31c0153-ed23-45bd-b702-19aa3d6bfefc,edebiyat,evrensel,0.51,Betimleme neyi anlatır?,Görüntüyü sözle canlandırmayı
+434594a7-4e2e-4b05-abc8-e8fa930f9e76,edebiyat,evrensel,0.53,'Üç birlik kuralı' neyi kapsar?,"Yer, zaman, olay"
+ab314745-931b-4a07-95f9-fae177c64518,edebiyat,yerel,0.53,'Lehçe' ile 'ağız' farkı nedir?,Lehçe daha büyük ayrışmadır
+4e020cae-c573-4946-83af-ed055e5308ec,edebiyat,yerel,0.55,Günlük türünün ayırt edici özelliği nedir?,Tarih atılarak yazılması
+cf8bf151-724a-4047-90c9-f47d0ddcf86e,edebiyat,evrensel,0.55,'Güzel adlandırma' neyi hedefler?,Kaba sözü yumuşatmayı
+80a80109-3a13-4fd2-8c3a-458185837743,edebiyat,evrensel,0.56,'Karakter yayı' ne demektir?,Karakterin değişim süreci
+1242e670-224f-4e76-a58f-568dd631d48c,edebiyat,evrensel,0.57,'Tanımlama' anlatımda ne yapar?,Kavramı açıklar
+6399dc40-27df-4dc6-9821-d33b89d4a528,edebiyat,evrensel,0.57,'Barbarları Beklerken' ve 'İthaka' şiirlerinin İskenderiyeli şairi kimdir?,Kavafis
+b5a201f4-fa2f-411d-b01e-142970d78408,edebiyat,yerel,0.57,Aynı sözcüğün tekrarlanmasıyla yapılan sanata ne denir?,Tekrir
+eda569e6-7c6b-4136-9471-e8ef2bd5ed40,edebiyat,evrensel,0.57,'Montaj' tekniği metne ne katar?,Başka metinlerden alıntı
+80f53995-07dc-4284-97c3-40970a087446,edebiyat,evrensel,0.58,'Betimleme' hangi amaçla yapılır?,Görüntü oluşturmak
+08421ab9-d93b-407f-81c5-71559c73edcb,edebiyat,yerel,0.59,'Hece ölçüsü' neyi sayar?,Dizedeki hece sayısını
+1a6d722b-0c9b-422e-a663-6b0cd6a4164f,edebiyat,evrensel,0.60,'Tezat' hangi ilişkiye dayanır?,Karşıtlığa
+3dd440db-241f-483f-bc4b-be7c7b99bfb7,edebiyat,evrensel,0.60,'Röportaj' türünde ne öne çıkar?,Yerinde gözlem ve görüşme
+83d53b0b-68de-4082-b36a-bac09091f328,edebiyat,evrensel,0.60,'Geriye dönüşlü anlatım' neyi sağlar?,Geçmişin açılmasını
+68e42208-ae31-449e-bee3-dfe4fd8ae4ed,edebiyat,evrensel,0.61,'Çeviri edebiyat' neyi sağlar?,Yapıtların başka dile aktarımını
+764cf84e-ecbf-4ad4-bf5b-fed9259b1385,edebiyat,evrensel,0.61,'Benzetmede benzeyen' nedir?,Niteliği zayıf olan öge
+a8c6da28-3bc4-4100-a9dc-af05e2537d65,edebiyat,evrensel,0.61,Batı'ya Yolculuk romanındaki ölümsüz maymun kral kimdir?,Sun Wukong
+d260e833-1bc5-4e5a-a589-4cc90a4f9f85,edebiyat,yerel,0.61,'Eğretileme' (istiare) nasıl kurulur?,Benzetmenin bir ögesiyle
+33527893-0e03-4ec4-bf91-d927eece1295,edebiyat,yerel,0.62,'Tam uyak' hangi ses benzerliğine dayanır?,İki veya daha çok sesin benzerliğine
+65500132-80ba-4ba7-9c6e-b68eeac0c836,edebiyat,yerel,0.62,Nobel Edebiyat Ödülü kazanan ilk Türk yazar kimdir?,Orhan Pamuk
+e7683eb1-f533-4797-9291-1f08fcca4b94,edebiyat,evrensel,0.62,'Ağız' dil biliminde neyi ifade eder?,Bölgesel konuşma farkını
+9f6a8987-6fcd-4026-ac22-a86913f06b35,edebiyat,evrensel,0.63,'Abartma' sanatı neyi büyütür?,Niteliği olduğundan çok göstermeyi
+192fcc63-12b5-4208-b9d8-e1ab78770abf,edebiyat,yerel,0.64,'Serbest nazım' neyi bırakır?,Ölçü ve uyak zorunluluğunu
+3b86d783-39ea-40f6-ab4a-256794847d82,edebiyat,evrensel,0.64,'Son söz' ne yapar?,Kapanış düşüncesini sunar
+5a6d51e9-b6fb-4034-8000-12e0b2ca6fd8,edebiyat,yerel,0.64,'Balad' hangi özelliği taşır?,Öykü anlatan halk şiiri
+766fb0d8-88f3-485b-b81c-89f7e8a5433e,edebiyat,evrensel,0.64,'Terim anlam' ne demektir?,Bilim dalına özgü anlam
+45015cd8-82c4-4d8b-941f-db89838ae720,edebiyat,yerel,0.65,Şehnâme adlı destanın şairi kimdir?,Firdevsî
+b789bf52-33d6-449e-8223-6f8bb647aa8a,edebiyat,yerel,0.66,Mevlana'nın Farsça yazdığı ünlü eseri hangisidir?,Mesnevi
+c03b7510-8edb-4d4a-9e58-576598dbd1f6,edebiyat,evrensel,0.66,'Zorba' romanının Giritli yazarı kimdir?,Nikos Kazancakis
+1addc4ea-5038-4c71-a3d0-e7221019e306,edebiyat,evrensel,0.67,Tezat sanatı neye dayanır?,Karşıt kavramların bir arada kullanımına
+3e38e1e8-f1c7-4346-ac1c-fb445e1912aa,edebiyat,evrensel,0.67,'Atasözü' neyi aktarır?,Toplumsal deneyim ve öğüdü
+78ea03dd-e097-4224-8afe-475b2d03e5e2,edebiyat,evrensel,0.67,Bir şeyin olduğundan çok büyük gösterilmesine ne denir?,Abartma
+ab1ea931-34b6-41be-b1af-54d503aace77,edebiyat,evrensel,0.67,'Sahneleme' anlatıda ne yapar?,Olayı gerçek zamanına yaklaştırır
+c1abd35c-a212-43e9-8898-8fd8c2a65427,edebiyat,yerel,0.67,'Şarkı' nazım biçimi hangi özelliğiyle bilinir?,Besteyle söylenmek üzere yazılmasıyla
+44428793-d87f-4e0e-aaf1-74c32697adbe,edebiyat,evrensel,0.68,'Köken bilgisi sözlüğü' neyi gösterir?,Sözcüğün geldiği kaynağı
+6b539c1c-6694-48d5-9b3e-a5c1c9a50c4c,edebiyat,yerel,0.68,İstiare (eğretileme) sanatı neyi yapar?,Benzetmenin bir öğesini söylemez
+a3847023-eedd-4e10-890b-fef86e883482,edebiyat,yerel,0.68,Eksiltili cümle nedir?,Yüklemi söylenmemiş cümle
+cdd6e995-a985-4bc6-bcea-5c92c7c304c6,edebiyat,evrensel,0.68,'Özetleme' anlatıda ne sağlar?,Zamanın hızlanmasını
+f7979e2f-7477-4f76-8154-acd0edb8524f,edebiyat,evrensel,0.68,'Pastiş' hangi yolla üretilir?,Bir üslubu öykünerek
+5fddf345-48bd-4bd8-a826-d0b661ddca0c,edebiyat,evrensel,0.69,Şiirde 'imge' ne işlev görür?,Zihinde görüntü uyandırır
+63521359-9a9f-40eb-a45d-f0275f84fbd6,edebiyat,evrensel,0.69,'Göstermeye bağlı' edebî tür hangisidir?,Tiyatro
+d14515e8-a673-41ab-983d-bb57dd5f74c3,edebiyat,yerel,0.69,Devrik cümlenin özelliği nedir?,Yüklemin sonda olmaması
+58336523-4d2b-4af8-bd3b-9692d449b783,edebiyat,evrensel,0.70,'Sayısal veri kullanımı' anlatıma ne katar?,İnandırıcılık
+d208dbd9-a8a5-48b5-9941-093364e79172,edebiyat,evrensel,0.70,'Deneme' türünün üslubu nasıldır?,Kişisel ve serbest
+1d8bf5d9-b2de-4eed-9e46-6235d78b5b86,edebiyat,yerel,0.71,'Nazım birimi' neyi ifade eder?,Şiirin yapı taşını
+240911d0-963b-4fd5-85e9-074de80b112d,edebiyat,evrensel,0.71,'Yinelenen sözcük' anlatımda neye yol açabilir?,Gereksiz tekrara
+2b423407-079b-4034-96a5-2aa2ecbc9ee2,edebiyat,yerel,0.71,'Duraklama' (durak) şiirde neyi sağlar?,Dize içi ritmik bölünme
+3cedeb16-edbf-4b17-9afd-bc309298f118,edebiyat,yerel,0.71,'Masumiyet Müzesi' kimin romanıdır?,Orhan Pamuk
+9168094f-27a7-40ee-a658-a1d00f5862d7,edebiyat,evrensel,0.71,Yazarın kendine özgü anlatım biçimine ne denir?,Üslup
+3d17539e-35c2-41c6-b161-8b9f56663287,edebiyat,evrensel,0.72,Destan türünün özelliği nedir?,Olağanüstü kahramanları anlatması
+53fdbcd9-22a8-457e-b5e3-ebcd49da9f19,edebiyat,evrensel,0.72,Yazarın bir konudaki düşüncelerini serbestçe anlattığı türe ne denir?,Deneme
+ad61a401-f00c-44ac-a98f-d44ce858c106,edebiyat,evrensel,0.72,Bir sözü gerçek anlamının dışında kullanmaya ne denir?,Mecaz
+de0baf05-dae5-47d1-b53c-23a592e670f5,edebiyat,evrensel,0.72,'Dipnot' metinde ne sağlar?,Açıklama ve kaynak
+3fe26291-9c1e-4d68-a51b-04ad3d17d405,edebiyat,evrensel,0.73,Yazarın bir konudaki kişisel görüşünü anlattığı türe ne denir?,Deneme
+42888ead-aeac-426a-afd2-62bc338fbd90,edebiyat,evrensel,0.73,Şiirde 'imge' ne anlama gelir?,Zihinde canlanan özgün tasarım
+64e4adef-4830-4131-9f57-051d9e2c7ea5,edebiyat,yerel,0.73,Şiirde ahenk hangi öğelerle sağlanır?,"Ölçü, kafiye ve redif"
+80d2a4fc-ebed-422a-88d1-6365ce2f4fe8,edebiyat,yerel,0.73,Bir sözcüğün iki anlama gelecek şekilde kullanılmasına ne denir?,Tevriye
+273ede0f-0de9-47dc-84f4-643b0af9308b,edebiyat,evrensel,0.74,"""Şeker Portakalı"" romanının yazarı kimdir?",Jose Mauro de Vasconcelos
+28675af0-c011-4f51-a785-bd61ea6cbf29,edebiyat,yerel,0.74,'Destan' halk edebiyatında ne anlatır?,Toplumsal olay ve kahramanlığı
+9b5ad6a4-057d-4b6a-8115-80359a8e3a9b,edebiyat,yerel,0.74,Kasidenin temel amacı nedir?,Birini övmek
+0f57c6dd-25c8-4f62-b843-12f93d011f26,genel_kultur,yerel,0.00,Türkiye'de tarım sigortasının amacı nedir?,Doğal afet zararını karşılamak
+731e635b-14cf-450b-81db-7d16ac28484d,genel_kultur,yerel,0.08,Noterin temel görevi nedir?,İşlemleri resmen onaylamak
+a42ca8cd-0d9c-4b21-af90-b7d3a6c2cdba,genel_kultur,evrensel,0.08,'Minber' ne için kullanılır?,Hutbe için
+2dc86cb7-39d8-4a69-95c4-f3bc66641702,genel_kultur,evrensel,0.09,Bir dilekçede bulunması gereken bilgi hangisidir?,"Ad, soyad ve imza"
+9a595f30-6894-471d-869a-d48fe284e40a,genel_kultur,yerel,0.12,Çeltik hangi ürünün tarladaki adıdır?,Pirinç
+82ac1904-03d3-412e-b62c-7f6884f8c827,genel_kultur,evrensel,0.13,Yoğurt hangi kültürün dünyaya kazandırdığı kabul edilen besindir?,Türk
+297afb2d-a25e-4864-bc70-f00c64390298,genel_kultur,evrensel,0.14,Bölgesel kalkınma ajanslarının amacı nedir?,Bölgeler arası farkı azaltmak
+e7970a93-9b10-4951-8eb8-f50123003209,genel_kultur,yerel,0.16,Tüketici hakları kapsamında 'ayıplı mal' ne demektir?,Sözleşmeye uygun olmayan ürün
+47213dfd-a440-4a95-ac38-b9ed72d77a46,genel_kultur,evrensel,0.17,Kısaltmalarda nokta hangi durumda kullanılır?,Bazı kısaltmalarda
+477e4ffe-7875-4204-8d13-51e1ef50f8fd,genel_kultur,evrensel,0.18,Red Kit çizgi romanındaki atın adı nedir?,Düldül
+37519cfb-9a3e-4af8-bf06-d8defb2af16f,genel_kultur,yerel,0.19,"Lale anlamındaki İngilizce 'tulip' kelimesi, çiçeğin benzetildiği hangi Türkçe kelimeye dayanır?",Tülbent
+89ea63a7-1a79-4502-b5be-6b56fd0bb65c,genel_kultur,evrensel,0.19,Orhun Yazıtları hangi ülkededir?,Moğolistan
+1c5cbb93-ea7c-4ef4-8c28-a5d98a63fc74,genel_kultur,evrensel,0.20,'Kabotaj Hakkı' neyi düzenler?,İç sularda taşıma hakkını
+f1181a9a-25f8-4bda-9c9c-9123012d0748,genel_kultur,evrensel,0.24,'Kalkınma planı' neyi düzenler?,Ekonomik hedef ve yatırımları
+7a6057e8-3706-4fa8-bc2b-01bfcd5a7921,genel_kultur,evrensel,0.25,Itri hangi alanda tanınır?,Müzik
+7f7a2974-4cae-4b9e-bcdb-e937617d0301,genel_kultur,evrensel,0.27,'Laiklik ilkesi' neyi ayırır?,Din işleri ile devlet işlerini
+b1907476-8ccd-41d6-9990-057077cc33f7,genel_kultur,evrensel,0.30,Mavi zeminli yuvarlak trafik levhaları neyi belirtir?,Mecburiyet
+433d8d6f-5d48-4a2c-beca-6da7a353ddde,genel_kultur,yerel,0.31,Teşvik bölgesi uygulaması neyi hedefler?,Geri kalmış bölgelere yatırım çekmek
+6b4aaa8d-47e2-41a6-ac61-b7a7eb84305e,genel_kultur,yerel,0.31,Türk kahvesi hangi kuruluşun kültür mirası listesindedir?,UNESCO
+c46be5c2-8539-4c49-9af5-13e2cf6b2f29,genel_kultur,yerel,0.32,Farabi hangi lakapla anılır?,Muallim-i Sani
+ba449593-5eec-4f4b-b52e-187d7862ca9d,genel_kultur,evrensel,0.33,"Sözleşmede ""fesih"" ne anlama gelir?",Sona erdirme
+05a49262-66bf-4d20-9188-15b0e5975267,genel_kultur,evrensel,0.34,Emniyet kemeri hangi koltuklarda zorunludur?,Tüm koltuklarda
+2543be5f-c8ff-48ba-9f44-63e07fa52f11,genel_kultur,evrensel,0.35,Zeytinin acılığını gidermek için ne yapılır?,Salamurada bekletilir
+b7e64d7b-634a-403b-a0c4-9daf0ea8d941,genel_kultur,yerel,0.36,Nadas ne demektir?,Toprağı dinlendirmek
+1eb0939e-1967-43e4-b8c3-a477e7d8e5bd,genel_kultur,evrensel,0.37,Uluğ Bey hangi alandaki çalışmalarıyla bilinir?,Astronomi
+3da5b27f-eb8e-4372-8975-394cc781d6b6,genel_kultur,evrensel,0.39,Mahkemede iddia makamını kim temsil eder?,Savcı
+925b3add-c3ff-4e94-9ddb-1d0ee1cc9fb5,genel_kultur,yerel,0.50,Kamu yararına dernek statüsü neyi sağlar?,Belirli hukuki ve mali kolaylıklar
+5bdf0ad5-8f91-4670-8625-bd968d95af76,genel_kultur,evrensel,0.51,Bir toplantının yazılı kaydına ne denir?,Tutanak
+d3dc8ec1-f399-4b9a-80cc-6ca890debc7b,genel_kultur,evrensel,0.51,Bir tavla oyununda kaç pul kullanılır?,30
+b941ae75-6891-4828-be53-d92bc02add3c,genel_kultur,evrensel,0.53,Kentsel dönüşümde 'yerinde dönüşüm' ne demektir?,Halkın aynı bölgede kalması
+e4e383dd-8f39-4a98-bc95-c26f353cada6,genel_kultur,evrensel,0.53,Kentsel dönüşümün temel amacı nedir?,Sağlıksız yapı stokunu yenilemek
+45828b01-4479-4773-b87e-1e7575070940,genel_kultur,yerel,0.56,Emeklilik primi hangi kuruma ödenir?,Sosyal güvenlik kurumuna
+954a8578-985a-4f6c-aa87-d3678ab8cad1,genel_kultur,evrensel,0.57,Çek ve senet hangi tür belgelerdir?,Kıymetli evrak
+0231dc2c-9f14-4cc5-87bd-5545e9ab886c,genel_kultur,evrensel,0.58,Türkiye'de mavi bayrak uygulaması neyi belgeler?,Plaj ve deniz temizliğini
+0be72282-d86a-4dd4-9020-6636a4a24b22,genel_kultur,evrensel,0.58,KDV hangi tür vergidir?,Dolaylı vergi
+72f56553-b2fa-4ebd-b06b-903c5c90b2c8,genel_kultur,yerel,0.58,Sultanahmet Camii hangi adla da bilinir?,Mavi Cami
+b15134f7-c134-4844-a67f-0691057bc9f6,genel_kultur,evrensel,0.59,Biruni hangi alanlarda eser vermiştir?,Astronomi ve matematik
+137cbe78-9044-4efb-b163-7153ee1fcf5e,genel_kultur,yerel,0.60,Türk kahvesi kültürü ve geleneği UNESCO Somut Olmayan Kültürel Miras listesine hangi yıl alınmıştır?,2013
+0b633087-bb45-46a3-81ec-452c6bf1113b,genel_kultur,evrensel,0.61,Laiklik ilkesi neyi ifade eder?,Din ve devlet işlerinin ayrılığı
+407120f6-5fec-421a-975d-9291b2db45e3,genel_kultur,evrensel,0.63,Bir işçinin yıllık izin hakkı neye bağlıdır?,Çalışma süresine
+18b43af8-f022-4c71-99f9-79fd028cc409,genel_kultur,evrensel,0.66,Serbest liman uygulaması ne sağlar?,Gümrük kolaylıklarıyla ticaret çekmeyi
+3252490e-bc7d-4f1c-a243-36915b029d55,genel_kultur,evrensel,0.67,'Redaksiyon' yayında ne yapar?,Metni düzeltip düzenler
+40096801-3d31-4f8c-8172-31152035b610,genel_kultur,evrensel,0.67,Kefil ne yapar?,Borcu garanti eder
+6afae723-c5a5-45b3-a1d5-559f239f45a2,genel_kultur,evrensel,0.67,Turşu hangi işlemle yapılır?,Salamura ve fermantasyon
+0a533414-1d49-44ba-878f-1bafe4b5aa69,genel_kultur,evrensel,0.68,Kızılay'ın uluslararası karşılığı olan kuruluş hangisidir?,Kızılhaç
+6d3629bd-3feb-4979-9463-404ba0c41b2e,genel_kultur,yerel,0.72,1932'de Belçika'da düzenlenen uluslararası güzellik yarışmasında 'Dünya Güzeli' seçilen Türk kadını kimdir?,Keriman Halis
+a6f7627a-e261-4899-b150-8a2eaf2ef7c4,genel_kultur,evrensel,0.72,Tüketici haklarından biri hangisidir?,Ayıplı malı iade
+0e8e7e43-8cdd-4510-8234-0e7b96f189b8,genel_kultur,evrensel,0.73,Resmî yazışmalarda kullanılan üslup nasıldır?,Resmî ve nesnel
+f229ebf5-5afc-459f-bccb-20bac852d331,genel_kultur,evrensel,0.73,'Müzayede' nasıl işler?,Artırmayla
+f371b454-3659-4e77-af69-4fb00636ed0b,muzik,evrensel,0.00,İdil Biret hangi enstrümanın virtüözüdür?,Piyano
+da1d6b40-7f15-4762-b94d-bbee3441788d,muzik,evrensel,0.03,Halk müziğinde 'yöre' bilgisi neden önemlidir?,Ezgi ve icra üslubunu belirlemesi
+a6de08d8-f9e4-4193-a1b2-5a7750daa3d9,muzik,evrensel,0.05,2003 Eurovision'u 'Everyway That I Can' ile kazanan Türk sanatçı kimdir?,Sertab Erener
+ac347fae-c72f-4208-9359-7e750b6040b3,muzik,yerel,0.08,"Türkiye, maNga grubunun 'We Could Be the Same' şarkısıyla katıldığı 2010 Eurovision'da kaçıncı olmuştur?",İkinci
+63805bc4-a5b2-46d5-93cd-63202f92e79c,muzik,yerel,0.09,Ud çalgısının en belirgin özelliği nedir?,Perdesiz sapı
+9029e9cc-45ed-4c49-8493-9ffdf005e533,muzik,evrensel,0.11,'Bando' hangi çalgılardan oluşur?,Üflemeli ve vurmalılardan
+58ae1962-cda2-432a-a05e-4251756c66ed,muzik,yerel,0.12,'Mey' hangi tekniğe dayanır?,Çift kamışlı üflemeli
+069ce708-87ba-4ece-a621-f75f73334878,muzik,evrensel,0.14,'Kırık hava' neyi içerir?,Belirli ölçülü ritmi
+816362d6-4c33-40f0-ab4c-b963ad541d21,muzik,evrensel,0.15,'Perde' telli çalgıda ne sağlar?,Belirli sesleri basmayı
+dd0489a8-9cf0-4fb7-8358-e48133128814,muzik,evrensel,0.16,'Rebap' hangi çalgı ailesindendir?,Yaylı
+1864db5e-ecbb-444c-a936-063ef40a3fce,muzik,evrensel,0.30,'Darbuka' hangi çalgı grubundadır?,Vurmalı
+75635756-3cf0-4e55-8832-9916cf0046f2,muzik,yerel,0.31,'Ud' çalgısının özelliği nedir?,Perdesiz sap
+f9ffd3e1-b207-4299-8026-0ff526ccc727,muzik,evrensel,0.34,Bağlamanın gövde kısmına ne denir?,Tekne
+95498055-0567-47c7-8254-4d472ce81b6f,muzik,yerel,0.35,'Çardaş' hangi ülkeyle özdeşleşir?,Macaristan
+e4d00c20-e0e9-41f6-810d-09eff228d99c,muzik,evrensel,0.35,'Darbuka' hangi malzemeden yapılır?,Toprak ya da metal gövde
+e635e409-c763-49b7-87d0-0551b2f09334,muzik,yerel,0.37,Türkiye'yi 2009 Eurovision Şarkı Yarışması'nda 'Düm Tek Tek' şarkısıyla temsil eden şarkıcı kimdir?,Hadise
+f5c87b9e-7cc5-4576-8c7f-fe0ea60b828f,muzik,evrensel,0.37,'Anakruz' nedir?,Ölçü öncesi eksik vuruş
+e22a25ff-2ff9-446f-b799-c7a653a199c5,muzik,yerel,0.41,"Ağızla üflenip çekilerek çalınan, cepte taşınabilen küçük nefesli çalgıya ne ad verilir?",Mızıka
+4e5aaae8-14d6-461c-b5e9-5daf86e99fe3,muzik,evrensel,0.44,'Konservatuvar' hangi eğitimi verir?,Mesleki müzik eğitimi
+6eeffd9a-efc8-4fd6-b19b-98a1d9ed34c8,muzik,evrensel,0.50,'Milliyetçi okul' besteciler neyden yararlanır?,Halk ezgilerinden
+77c705ee-a4d6-41c1-9283-381f88c7cb14,muzik,yerel,0.53,Def çalgısı nasıl çalınır?,Elle vurarak
+03ef6080-b327-43e7-a8e3-d7657acbc003,muzik,yerel,0.56,Uluslararası sahnelerde 'La Diva Turca' olarak anılan soprano kimdir?,Leyla Gencer
+ee01f10d-2de2-4d2a-b7a3-a788497e280e,muzik,evrensel,0.59,Kanunda 'mandal' ne işe yarar?,Perdeyi ince ayarlamaya
+f1a24532-77a1-4e69-9a3f-3331a81eff76,muzik,evrensel,0.59,'Deşifre' ne demektir?,İlk görüşte çalma ya da söyleme
+3bfea6cb-5bac-4d09-9496-170a618586c7,muzik,evrensel,0.60,'Usta çırak geleneği' müzikte ne sağlar?,Birebir aktarımı
+2c2fc8e8-6a7a-4b8b-835e-44df90d2cad9,muzik,yerel,0.61,'Kaşık' halk müziğinde ne işlev görür?,Ritim
+1cda23a8-a229-4501-aabd-4615bddfdf73,muzik,yerel,0.62,'Halk oyunlarında müzik' ne sağlar?,Ritim ve figür uyumunu
+a0d9bc48-653f-41ec-a830-1d89caa83da4,muzik,evrensel,0.63,Solfej ne demektir?,Notaları okuyarak seslendirme
+bb2465e7-3399-4791-984e-4f37da8ef1ef,muzik,yerel,0.64,Ud ve bağlamada tellere vurmak için kullanılan araca ne denir?,Mızrap
+d68209e1-a7c1-4736-a6a0-8b6ed3544eb6,muzik,yerel,0.66,"Kayısı ağacından yapılan, çift kamışlı geleneksel Ermeni üflemeli çalgısı hangisidir?",Duduk
+063be1e3-9fa6-46ca-b67c-9a7ef4eb8bc6,muzik,yerel,0.69,Kaval hangi tür çalgıdır?,Nefesli
+e0a25f0f-c69a-4c59-99a7-6db8d927f7c3,muzik,yerel,0.69,'İlahi' hangi tür bir eserdir?,Dinî içerikli ezgi
+66500752-960b-4d3d-869a-5b2592f86dd9,muzik,evrensel,0.70,Kemanda ses yayı neyle sürtülerek çıkarılır?,Yay
+417ae98e-fa7b-4f09-8fd2-ffe8a945406d,muzik,yerel,0.71,'Derleme' halk müziğinde ne yapar?,Yörede ezgi toplar
+73943626-c83d-49e6-bd21-1c18fe744d44,muzik,evrensel,0.71,'Solfej' çalışması neyi geliştirir?,Nota okuma ve işitmeyi
+5829e41b-c14d-4a35-af18-3a431add01f5,muzik,yerel,0.72,'Rebap' hangi teknikle çalınır?,Yayla
+aaf64033-ba6a-4e9a-a2ef-f16f8666e26c,sanat,evrensel,0.05,Tiyatroda sahne arkasına ne denir?,Kulis
+b1957df7-fe15-46ba-8021-3de90c3a2363,sanat,yerel,0.05,Kilim ile halı arasındaki temel fark nedir?,Kilim düğümsüzdür
+a9aaf1dc-a057-4985-9806-2f445f5cb146,sanat,evrensel,0.07,Çini sanatında ağırlıklı olarak hangi renk kullanılır?,Mavi tonları
+b90bf129-b701-46ae-8292-2abb72a65625,sanat,evrensel,0.09,Ahşap oymacılığında kullanılan alet hangisidir?,Iskarpela
+dc49870c-eddc-4a4a-a6cc-82b5e8a6dc0b,sanat,evrensel,0.09,'Hat sanatında' 'kufi' nedir?,Köşeli erken yazı türü
+b4effedf-b5b0-44a1-b7f2-a105c7f69e4f,sanat,evrensel,0.10,Mukarnas mimaride nerede kullanılır?,Taçkapı ve kubbe geçişlerinde
+80e14a2b-c711-4336-9426-a8f1bd3f693b,sanat,yerel,0.13,'Katı' sanatı neye dayanır?,Kâğıt oymacılığına
+8ce83c39-14c8-4dd6-8d35-ff6a985a6e0c,sanat,evrensel,0.13,Bir müzede eserin yanındaki bilgi etiketine ne denir?,Künye
+180ccbfc-0f89-4e55-ab85-f87ef7985b24,sanat,yerel,0.17,'Trienal' hangi aralıkla yapılır?,Üç yıl
+a6bfa961-1f73-4c48-b9af-044dac5446b8,sanat,yerel,0.25,'Çini' hangi malzemeden üretilir?,Pişmiş toprak
+4cef6c10-83ca-43e3-8201-474025b63f93,sanat,yerel,0.28,Osmanlı camisinde 'mihrap' neyi gösterir?,Kıble yönünü
+edcd1285-2090-4ea2-baee-a946ab91f640,sanat,yerel,0.28,"1950'lerde Paris'te büyük soyut tuvalleriyle ün kazanan, Irak prensiyle evli Türk kadın ressam kimdir?",Fahrelnissa Zeid
+255dfd17-fd7d-4880-8f41-c53c723c7710,sanat,yerel,0.29,Kilim dokumada motiflerin işlevi nedir?,Anlam ve kültürel simge taşımak
+37f33232-cdca-4d36-946d-a5294769e896,sanat,evrensel,0.32,Hat sanatı neyin güzel yazılması sanatıdır?,Yazı
+3995330a-e6e4-4b42-984b-8148c7d077b4,sanat,evrensel,0.33,Kat'ı sanatı neyi ifade eder?,Kâğıt oyma
+3ae6acf1-ca51-4c07-8d53-c146e37808c1,sanat,yerel,0.34,Türk-İslam mimarisinde 'medrese' ne işlev görür?,Eğitim yapısı
+0759064e-3072-4816-ae22-ab18be510639,sanat,evrensel,0.35,'Minyatür' hangi özelliğiyle bilinir?,Küçük boyutlu kitap resmiyle
+0ca305d2-3168-478b-95e7-f8db1aba16b6,sanat,evrensel,0.41,İstanbul'daki Ayasofya'nın 6. yüzyıldaki mimarları kimlerdir?,Anthemios ve İsidoros
+74a3332e-d251-471f-8fc7-8ab26d9f1a76,sanat,evrensel,0.42,'Reji' tiyatroda ne demektir?,Sahneye koyma işi
+e08dca55-7436-4fdb-8b21-3b3d74825d14,sanat,yerel,0.43,'Surname' türü yazmalarda ne anlatılır?,Şenlik ve törenler
+5571dc91-c985-4e8a-acb7-437f00541ea8,sanat,yerel,0.46,Medrese yapılarının işlevi neydi?,Eğitim
+b493bfa5-a97f-48c7-98ec-97f9e7d9eb11,sanat,evrensel,0.48,'Ödünç eser sözleşmesi' ne düzenler?,Geçici sergileme koşullarını
+5fbb321c-e3e7-45da-942f-b1655a1f666c,sanat,evrensel,0.52,Hat sanatı hangi alanda icra edilir?,Güzel yazı
+1a67fc51-6a9e-4e5d-a821-213094b0c5bd,sanat,yerel,0.56,Türk mimarisinde 'taşıyıcı ayak' ne işlev görür?,Kubbe yükünü zemine aktarmak
+2273d444-7769-4551-b11d-87f6e1caf816,sanat,yerel,0.56,Osmanlı mimarisinde kubbeyi taşıyan geçiş öğesi nedir?,Pandantif ve tromp
+24d6babd-6ba7-4c79-946e-1cf9cedcfe5f,sanat,yerel,0.56,'Çini' sanatında ana malzeme nedir?,Pişmiş toprak
+5db08e7a-c2de-4cf9-b11e-adf4cc81495b,sanat,yerel,0.57,'Selsebil' nedir?,Duvara gömülü akan su çeşmesi
+c10993ac-420f-4b8c-9ab5-c3a9cd3fbb2e,sanat,yerel,0.57,'Sedef kakma' işçiliği neyi kullanır?,Deniz kabuğu içi
+5680550a-1efc-4465-a3ae-355ade503b43,sanat,yerel,0.58,Kündekari tekniği hangi malzemede uygulanır?,Ahşap
+69f5baa7-a55f-40ba-a738-45c27dd2604e,sanat,evrensel,0.60,Kanatlı zafer tanrıçası heykeli 'Semadirek Nike'si' hangi müzede sergilenir?,Louvre
+aa637c77-85e9-4d79-b6fb-3ed38dc4acbc,sanat,evrensel,0.60,Minyatür sanatının özelliği nedir?,Perspektifsiz ayrıntılı küçük resim
+1d49ac59-3746-4f23-b3c1-8201fad9b64e,sanat,evrensel,0.61,'Galerici' hangi işi yapar?,Sanatçıyı temsil edip eser satar
+84d8e6c3-0b28-4d5a-829a-319953e35202,sanat,yerel,0.63,Kent duvarlarındaki yırtık afiş ve yazıları konu alan 'Duvarlar' serisiyle tanınan Türk ressam kimdir?,Burhan Doğançay
+5fcd5f86-3bb0-48c6-a7cc-e8ddceaf5645,sanat,evrensel,0.64,'Cilt sanatı' neyi kapsar?,Kitap kapağı yapımı
+69d1207d-337f-4ffd-8ef0-d04e963dcdc5,sanat,evrensel,0.65,Sit alanı ilan edilmesi neyi sağlar?,Bölgenin koruma altına alınmasını
+28fc1bc5-7210-409f-aae5-98afff914489,sanat,yerel,0.68,'Sedef kakma' ne demektir?,Yüzeye sedef gömme
+d264ad40-3227-40fe-b12c-6529893dd51f,sanat,yerel,0.68,İznik neyiyle ünlüdür?,Çinileri
+525aac49-e623-42a7-b94f-a268bf97df79,sanat,evrensel,0.69,'Payanda' mimaride ne yapar?,Duvarı dışarıdan destekler
+5ba4d1e3-c29b-434a-8408-9d2361149c3e,sanat,evrensel,0.69,'Sütun başlığı' neyi taşır?,Kirişi ve kemeri
+aa0ae147-db9e-449f-a24f-95f1921ffed6,sanat,evrensel,0.70,'Suluboya' hangi özelliğiyle bilinir?,Saydamlığıyla
+8e4b3638-9aea-419d-9005-b4abadc89281,sanat,evrensel,0.71,Halıda düğüm sıklığı neyi etkiler?,Kaliteyi
+efb06b78-45f3-4e0a-a495-390d418e045f,sanat,yerel,0.71,"""Mavi Cami"" olarak da bilinen İstanbul'daki cami hangisidir?",Sultanahmet Camii
+6e2c3121-4aa5-4e13-84c1-5c4c72e062f9,sanat,evrensel,0.72,"Resimde ""şase"" nedir?",Tuvalin gerildiği çerçeve
+e4cf16df-b76d-43cf-909d-aa1e6ef57ca3,sinema,evrensel,0.03,Uzak filmi Cannes'da hangi ödülü kazanmıştır?,Büyük Ödül
+b9cd1a4a-2804-4e1b-9aeb-e76ccb52a44a,sinema,yerel,0.11,'Ruhların Kaçışı' hangi festivalin en büyük ödülünü kazanmıştır?,Berlin
+d9b831c6-7690-4627-afc8-3d85736e6927,sinema,yerel,0.14,"""Sinematek"" ne işlev görür?",Film arşivi ve gösterim merkezi
+25e094d5-0aab-48ac-a228-76b30fd99026,sinema,yerel,0.18,'Sinematek' hangi işlevi görür?,Film gösterimi ve arşivi
+94beb290-dcf0-487e-820b-bf1084c28e6f,sinema,yerel,0.24,'Çek Yeni Dalgası' hangi dönemde etkili olmuştur?,1960'lar
+859bf775-ef54-4da9-bcd6-007a7bdb6ba0,sinema,evrensel,0.28,Hint sinemasının klasiği 'Sholay' (1975) filmindeki efsanevi haydudun adı nedir?,Gabbar Singh
+18ed0218-ad23-4e98-9abe-072fae090dad,sinema,yerel,0.30,Yol filminin Cannes'da kazandığı ödül hangisidir?,Altın Palmiye
+44ccb0de-bf30-468b-a692-cab285b2c03a,sinema,yerel,0.32,"""Reji"" ne anlama gelir?",Yönetmenlik işi
+7e44535e-b8bc-4cde-9b46-4b3d6a1921cd,sinema,evrensel,0.38,'Bölümlü anlatı' dizide ne sağlar?,Öykünün parçalara yayılmasını
+f61e4e86-4b9c-423b-90f9-94180417b911,sinema,evrensel,0.40,'Ozu' filmlerinde kamera genellikle nasıl konumlanır?,Alçak sabit açıda
+d31a8c85-d7af-4afc-9fe6-2008109000fd,sinema,yerel,0.41,'Yazar odası' dizide ne işlev görür?,Senaryoların ekipçe geliştirilmesi
+c8dd57d8-de54-4620-a8e2-c03909bfc158,sinema,yerel,0.42,Cannes'da 'Kış Uykusu' ile Altın Palmiye kazanan Türk yönetmen kimdir?,Nuri Bilge Ceylan
+39c744a3-f3b7-4159-8d6a-81f8b053481a,sinema,evrensel,0.43,'Esaretin Bedeli' hangi mekânda geçer?,Hapishane
+9b409f89-ccb0-4e1a-a585-e920dfc6b7f9,sinema,yerel,0.43,Oscar'a Fransa adına aday gösterilen 'Mustang' (2015) filminin Türk asıllı yönetmeni kimdir?,Deniz Gamze Ergüven
+2f073359-f58a-4eb7-a377-cc0c86f97a41,sinema,evrensel,0.48,'Set amiri' hangi işi yürütür?,Sette düzen ve akışı
+8cdfa0b7-97a9-454d-9977-33590ec6cdc9,sinema,evrensel,0.48,'Aksa binme' hatası ne yaratır?,Yön karışıklığı
+16fb56e6-f747-4695-a285-76514f4b84eb,sinema,yerel,0.51,2023 Cannes Film Festivali'nde 'Kuru Otlar Üstüne' filmiyle En İyi Kadın Oyuncu ödülünü kazanan Türk oyuncu kimdir?,Merve Dizdar
+a8b49278-8b0c-4a0d-99f8-448bef458214,sinema,yerel,0.53,Fatih Akın'a 2004'te Berlin'de Altın Ayı kazandıran film hangisidir?,Duvara Karşı
+fb7641ea-4680-4cda-a7d4-a5fa5cde5326,sinema,evrensel,0.55,'Dans filmi' hangi ögeyi merkeze alır?,Bedensel anlatımı
+1df37411-a594-458a-a2a1-fca6ed790814,sinema,evrensel,0.57,'Sigorta' film yapımında ne sağlar?,Risk güvencesi
+29ddfb4e-6171-4c8a-b3b0-571ebd1f4e98,sinema,yerel,0.58,Nuri Bilge Ceylan'ın Cannes'da Altın Palmiye kazanan filmi hangisidir?,Kış Uykusu
+ccf7cc8e-7c92-4666-be5f-852ffa747243,sinema,evrensel,0.59,'Yağmurda Şarkı' hangi film türündedir?,Müzikal
+504e509c-c0ed-415c-b356-d6ce57bc18f9,sinema,yerel,0.60,Nuri Bilge Ceylan'a 2008 Cannes Film Festivali'nde En İyi Yönetmen ödülünü kazandıran film hangisidir?,Üç Maymun
+bfc51282-bf9b-4d52-a673-d63bcc36096c,sinema,yerel,0.63,Yılmaz Güney'in 'Yol' filmi 1982 Cannes'da Altın Palmiye'yi hangi filmle paylaşmıştır?,Kayıp
+5d5cbe20-1252-4ede-ae1b-0002d3a2f4ee,sinema,evrensel,0.67,'Senaryo tescili' neyi korur?,Yazarın hakkını
+6d87a36c-d292-4754-b443-fa764fae43f9,sinema,evrensel,0.68,'Dağıtımcı' filmde ne yapar?,Filmi salonlara ulaştırır
+46b31e4b-c51b-4a98-a80d-61f87ce1d981,sinema,yerel,0.69,Nuri Bilge Ceylan'a 2003'te Cannes Büyük Jüri Ödülü'nü kazandıran ilk filmi hangisidir?,Uzak
+2c4f3937-9aa6-4602-a840-9ff696c79ec0,sinema,evrensel,0.73,'Figüran' filmde nasıl rol alır?,Arka planda
+361d5d6f-0a90-44d6-a657-7507dfaa768e,sinema,evrensel,0.74,Sinemateklerin işlevi nedir?,Sinema mirasını göstermek ve korumak
+5e7fa23c-8851-4278-a1b5-30167c8555de,sinema,yerel,0.74,Susuz Yaz hangi festivalde büyük ödül kazanmıştır?,Berlin Film Festivali
+50c91c1a-19b9-4569-afe4-c891161c0026,spor,evrensel,0.01,2002 Dünya Kupası'nda turnuvanın All-Star takımına seçilen Türk kaleci kimdir?,Rüştü Reçber
+09c4415f-1f85-463b-b0e5-d20e3cd40d3a,spor,yerel,0.03,Türkiye A Milli Futbol Takımı Euro 2008'de yarı finalde hangi ülkeye elenmiştir?,Almanya
+787b5f72-f426-40fd-bed0-d58e7e363e30,spor,evrensel,0.04,Hidayet Türkoğlu NBA kariyerine 2000 yılında hangi takımda başlamıştır?,Sacramento Kings
+53c1f6dc-764a-4929-97b1-452018afa27b,spor,yerel,0.05,Boksta 'nakavt' ne anlama gelir?,Rakibin sayılamayacak biçimde düşmesi
+ca4a7f5e-2373-40cc-96d8-665840b70da2,spor,yerel,0.05,Türkiye'nin ikinci olduğu 2010 FIBA Dünya Şampiyonası'nın finalinde kaybettiği takım hangisidir?,ABD
+4df87691-b03b-4244-a62d-8db81bcc51d1,spor,yerel,0.10,"Hakan Şükür, 2002 Dünya Kupası'nda Güney Kore'ye karşı Dünya Kupası tarihinin en hızlı golünü yaklaşık kaçıncı saniyede atmıştır?",11
+5c4c5d30-a3a1-43e8-87ca-30ef28634a74,spor,evrensel,0.10,Formula 1 İstanbul yarışları hangi pistte yapılmıştır?,İstanbul Park
+4e7b771b-8150-4e13-95f3-4d232c7b7b2d,spor,evrensel,0.11,'Küme düşme' ne anlama gelir?,Alt lige inmek
+03cc6087-e31b-4a93-9ec6-c4c245437ca5,spor,evrensel,0.12,'Kürsü' yarışmada neyi gösterir?,İlk üç dereceyi
+144d59b3-015c-40d0-80fb-6682bdaba971,spor,yerel,0.17,Mehmet Okur 2004'te hangi takımla NBA şampiyonu olmuştur?,Detroit Pistons
+f03ca851-68f9-48fa-bcab-32a39a726e81,spor,evrensel,0.17,Boksta 'aparkat' hangi yönde atılır?,Aşağıdan yukarı
+1a92aab2-1935-4224-bf77-359cd8d4da5b,spor,evrensel,0.19,Eskrimde puan nasıl kazanılır?,Geçerli bölgeye dokunarak
+15cb9698-9835-4844-8fec-0195bf4fc4f2,spor,yerel,0.23,Naim Süleymanoğlu hangi spor dalında dünya çapında başarılar kazanmıştır?,Halter
+4c617c9e-66b3-4c77-bda8-4d5e48d44a31,spor,evrensel,0.24,Eskrimde puan nasıl alınır?,Rakibe geçerli bölgeden dokunarak
+27a1d749-1920-498d-a012-f760086668bf,spor,evrensel,0.26,'Tahkim kurulu' neyi karara bağlar?,Disiplin itirazlarını
+79c8deb1-78c1-4563-924d-3a0553c0f7ab,spor,evrensel,0.26,Yelkende 'tramola' nedir?,Rüzgâra karşı dönüş
+a6f4d760-e9f4-4ff5-9520-135efee959eb,spor,yerel,0.28,Boksta 'klinç' ne demektir?,Rakibe sarılarak durdurma
+1bd29601-9c42-43aa-8a02-6f88cdea266d,spor,evrensel,0.29,Cirit atmada kullanılan alet nasıldır?,Uzun ve ince
+f7b00638-2904-4950-a0b1-10d487e22f6f,spor,yerel,0.30,"Mete Gazoz, Tokyo 2020 Olimpiyatları'nda hangi branşta olimpiyat şampiyonu olmuştur?",Okçuluk
+5d08fdc1-3be0-4927-a090-b062da29ca45,spor,evrensel,0.32,'Halı saha' futbolunda takımlar kaç kişiliktir?,Genelde 6 ile 8
+53f6506e-76c9-45c1-ab4b-75dbdcc3b9a2,spor,yerel,0.34,Türkiye A Milli Futbol Takımı 2002 Dünya Kupası'nda kaçıncı olmuştur?,Üçüncü
+3b0e3edb-e06e-42e8-8b25-f8694717695a,spor,yerel,0.35,2017 Londra Dünya Atletizm Şampiyonası'nda 200 metrede altın madalya kazanan Türk atlet kimdir?,Ramil Guliyev
+009a02c2-116a-4358-b918-78e255fb8e27,spor,yerel,0.36,Naim Süleymanoğlu hangi sporun efsanesidir?,Halter
+4d02165f-18b9-473e-9efe-3b8fb39945dd,spor,evrensel,0.41,Gülle atmada atış nasıl yapılır?,İterek
+7df1effb-63f2-42fe-8c61-826496e5c742,spor,evrensel,0.41,'Amatör küme' hangi düzeyi anlatır?,Profesyonel olmayan lig düzeyini
+f6bb3c6b-06f8-448e-9cdc-5909c7f945e2,spor,yerel,0.42,Milli futbolcu Arda Güler 2023'te Fenerbahçe'den hangi kulübe transfer olmuştur?,Real Madrid
+99772791-df8f-463e-b66a-24ba017581ae,spor,yerel,0.45,Euro 2008 çeyrek finalinde Hırvatistan'a karşı uzatmanın son saniyelerinde eşitliği getiren golü atan Türk futbolcu kimdir?,Semih Şentürk
+2df09031-91f0-4ef0-8846-9cdc2dc9c869,spor,yerel,0.47,2004'te Bergen'de 5000 metrede dünya rekoru kıran Türk atlet kimdir?,Elvan Abeylegesse
+15cf018d-118c-465c-9c40-cd59b5be5101,spor,evrensel,0.49,"Güreşte ""tuş"" ne demektir?",Rakibin iki omzunu mindere değdirmek
+64fe2b06-49d8-4014-a9da-91411e7ab775,spor,yerel,0.50,Halterci Halil Mutlu olimpiyatlarda toplam kaç altın madalya kazanmıştır?,3
+80f1837f-f476-42e6-88d4-30fcacbfb296,spor,yerel,0.50,'Bonservis' ne demektir?,Oyuncunun kulüpteki hak devri
+618c991e-155c-46a5-9b24-13fcfe756a9d,spor,evrensel,0.51,Voleybolda 'manşet' hangi vuruştur?,Alttan karşılama
+7ab4c526-2ce7-4456-9a32-a0d34f366a29,spor,evrensel,0.51,Güreşte 'tuş' ne anlama gelir?,Rakibin sırtını yere getirmek
+860efa9a-6bca-4374-8843-44b880e180c2,spor,yerel,0.51,Türkiye 2002 Dünya Kupası'nda kaçıncı olmuştur?,3.
+3d4f80cd-691d-4b50-b300-0f5044721f8b,spor,evrensel,0.52,Eskrimde 'epe'de hedef bölge nedir?,Tüm vücut
+bdb70237-a8ef-474f-8aa6-6144f82528f1,spor,evrensel,0.52,Halterde 'silkme' kaç aşamalıdır?,İki
+a9ec7e82-0597-4ad1-91e2-6dc883a1851c,spor,evrensel,0.53,Okçulukta hedefin merkezine ne ad verilir?,Altın
+bc933c87-555d-4063-b2a6-57baa576817c,spor,evrensel,0.53,Yelkende 'orsa' ne anlama gelir?,Rüzgar üstü yön
+3ffc28c4-cf51-4d4a-b43c-5cb32ec8b0be,spor,yerel,0.54,Türkiye'nin 2002 Dünya Kupası çeyrek finalinde Senegal'i uzatmada yendiği altın golü kim atmıştır?,İlhan Mansız
+1e7b2b3c-f10f-4d73-8ab7-fecc481d7052,spor,evrensel,0.55,Futbolda 'altıpas' hangi alandır?,Kaleye en yakın küçük alan
+8d564f4d-0869-45d1-9b56-3b4be46d4955,spor,yerel,0.56,Tokyo 2020 Olimpiyatları'nda kadınlar boksunda Türkiye'ye altın madalya kazandıran sporcu kimdir?,Busenaz Sürmeneli
+9bcdea26-66cd-48ad-abd5-0f07577f11f2,spor,evrensel,0.57,Bilardoda beyaz topa vurmak için kullanılan sopaya ne denir?,Isteka
+244adf5b-a485-4207-9ee8-da73b4bf0b47,spor,yerel,0.58,Galatasaray'ın 2000 UEFA Süper Kupası'nı kazandığı maçta yendiği takım hangisidir?,Real Madrid
+42acdaac-ab35-4f82-8c15-7dcfb583e9d2,spor,yerel,0.58,Türkiye Kadın Voleybol Milli Takımı 2023 Milletler Ligi finalinde hangi ülkeyi yenerek şampiyon olmuştur?,Çin
+7e6df4e7-4ad3-4c2f-bec4-163a65764ce2,spor,evrensel,0.60,'Halka' aleti hangi özelliği ölçer?,Üst beden gücünü
+4f0d25af-05b7-4011-88eb-2c67bff8a455,spor,evrensel,0.61,'Sporcu lisansı' neyi belgeler?,Federasyona kayıtlı olmayı
+e44bd695-3a76-4c55-9c37-b40d462a4287,spor,yerel,0.62,Taha Akgül 2016 Rio Olimpiyatları'nda hangi dalda olimpiyat şampiyonu olmuştur?,Serbest güreş
+3d0756c0-3dec-437b-8bab-433ef431a638,spor,evrensel,0.63,Cirit atmada sporcu neye dikkat etmelidir?,Çizgiyi geçmemeye
+4f4d5e04-19a8-401a-9358-0d9f99ae3b5d,spor,evrensel,0.67,'Averaj' sıralamada neyi ifade eder?,Gol farkı
+623dd574-6b63-483c-9f1d-f6f5cad15832,spor,yerel,0.71,Milli basketbolcu Cedi Osman NBA'deki ilk maçına 2017'de hangi takımın formasıyla çıkmıştır?,Cleveland Cavaliers
+d8fdb080-6321-4709-b31f-7459f32854e8,spor,evrensel,0.71,'Şike' ne anlama gelir?,Maç sonucunu anlaşmayla belirleme
+2605a484-303d-4189-b07a-f5f0ddbc4dbc,spor,yerel,0.72,Dünya şampiyonlukları ve olimpiyat madalyaları bulunan Rıza Kayaalp hangi güreş stilinde yarışır?,Grekoromen
+46312e51-7d26-4585-ad5d-81932d5ffa8e,spor,evrensel,0.72,'Kapalı stat' hangi sorunu çözer?,Hava koşulu sorununu
+ed67818a-aded-4de8-8455-ffee5f604bf6,spor,yerel,0.73,2012 Londra Olimpiyatları'nda tekvandoda Türkiye'ye altın madalya kazandıran sporcu kimdir?,Servet Tazegül
+ffc144d0-faaa-4b0e-b471-d91d81e6c84a,spor,evrensel,0.73,'Sporda ceza indirimi' neye bağlı olabilir?,İyi hâl ve itiraf
+25176a4c-7814-4c76-87cd-3ed4301301b3,tarih,evrensel,0.01,'Balkan Antantı' hangi ülkelerle kurulmuştur?,"Yunanistan, Yugoslavya, Romanya"
+6dcd7121-5786-435a-8234-78573b43db12,tarih,evrensel,0.01,Uygurların matbaaya benzer tekniği neydi?,Blok baskı
+cad4cfac-797b-4006-9d81-ac1944c859f3,tarih,evrensel,0.05,Gaznelilerin Hindistan seferlerinin sonucu nedir?,İslamiyetin yayılması
+05c0fc39-108a-4f70-9d27-a52ff5790ef0,tarih,yerel,0.06,Efes Antik Kenti hangi antik bölgede yer alır?,İyonya
+dbd3460a-d38d-4407-9c91-90ff8eccd578,tarih,yerel,0.07,Montrö Sözleşmesi hangi konuyu düzenler?,Türk Boğazları'ndan geçiş rejimini
+a93eaa1c-d875-4c32-bcdf-fe004c89f896,tarih,yerel,0.08,Türkiye NATO'ya hangi yıl katılmıştır?,1952
+7ae79fb3-2040-411a-a820-fa89905e2ce8,tarih,yerel,0.09,'Halkçılık ilkesi' neyi savunur?,Toplumsal eşitliği
+ad227b03-d64f-42b6-9650-c25659dad87f,tarih,evrensel,0.11,Çatalhöyük hangi döneme ait bir yerleşimdir?,Neolitik
+d1608a6b-0100-4ff0-9f06-9282b45dfdc9,tarih,yerel,0.11,İkinci Dünya Savaşı'nda Türkiye'nin tutumu nasıldı?,Uzun süre tarafsız
+b1152bb1-0e92-4d58-a6af-b3a26be1b5ac,tarih,yerel,0.12,Türkiye Kore Savaşı'na hangi yıl asker göndermiştir?,1950
+21e37e33-aca7-4757-aba3-f8a7407c1aa8,tarih,evrensel,0.14,Ölçü ve tartı birimlerinde değişiklik hangi amaçla yapılmıştır?,Uluslararası uyum
+7d052b83-0179-4c76-9914-2b9ec5223d24,tarih,yerel,0.14,'Kültürel miras yasası' neyi engeller?,Kaçak kazı ve tahribatı
+619e56c7-f29f-4175-8938-3210678cc8ac,tarih,yerel,0.15,Urartuların en bilinen faaliyeti nedir?,Su kanalları ve kaleler
+f5d281cb-b7bc-471b-9839-d64a5fbdd920,tarih,evrensel,0.15,Gazneliler'in en ünlü hükümdarı kimdir?,Gazneli Mahmud
+01214308-e727-46a7-868e-3af8edcc52a2,tarih,evrensel,0.16,Mercidabık ve Ridaniye savaşları hangi devletle yapılmıştır?,Memlükler
+2f938f6a-33ca-48df-8a47-ac5eacf1325a,tarih,evrensel,0.17,Anadolu'da Çatalhöyük hangi döneme aittir?,Neolitik
+b72cfb85-889a-4bd6-9a84-300f9f4b9fd8,tarih,yerel,0.18,İlk Türk devletlerinden Göktürkler hangi bölgede kurulmuştur?,Orta Asya
+02cc9b1e-ee29-40ce-a82f-7745edd1a606,tarih,yerel,0.19,Tarihte bilinen ilk Türk devleti hangisidir?,Asya Hun Devleti
+2114e2d5-a63f-4b44-bf65-e86766e7febd,tarih,yerel,0.19,İstanbul'un fethinde surları aşmak için ne kullanıldı?,Büyük toplar
+09f99c91-176b-4c3f-8d21-8728e07bd4d2,tarih,evrensel,0.20,İstanbul'un ilk adı nedir?,Byzantion
+99a99b25-f0ee-4552-868f-3b179d4ea183,tarih,yerel,0.20,'Kore Savaşı'na Türkiye'nin katılımı neyle sonuçlanmıştır?,NATO üyeliğinin hızlanmasıyla
+414e1fa1-6f94-44e3-8130-900b8a05dec5,tarih,evrensel,0.23,Hitit Devleti hangi bölgede kurulmuştur?,Orta Anadolu
+8b7d08f7-4a57-4189-85e1-1dbbac0ca5a2,tarih,yerel,0.23,'Esnaf loncası' üretimde neyi denetlerdi?,Kalite ve fiyatı
+94f5cd71-e85a-4cc1-ad86-17802964b34b,tarih,evrensel,0.23,'Altın Orda Devleti' hangi bölgede kurulmuştur?,Karadeniz'in kuzeyi
+30650e62-755b-494a-8ca0-38231dfa8173,tarih,yerel,0.24,Göbeklitepe'deki dikilitaşlar hangi biçimdedir?,T biçimli
+f62d2e31-0010-45c6-abe2-ad5e5adbb555,tarih,evrensel,0.24,'Grejuva' (Rum ateşi) neyle ilgilidir?,Deniz savaşında kullanılan yakıcı silah
+a32f757d-0933-4aca-9572-9a5616d05cee,tarih,evrensel,0.25,1444 Varna Savaşı'nda hayatını kaybeden Macar ve Leh kralı kimdir?,III. Vladislav
+3c9c8796-9c55-4caa-b323-c02b4b3bc841,tarih,evrensel,0.26,"1827'de Osmanlı-Mısır donanmasının İngiliz, Fransız ve Rus filolarınca yakıldığı baskın hangisidir?",Navarin
+40bda519-9c44-438e-bd98-5c0717354701,tarih,yerel,0.26,Antakya hangi antik uygarlığın önemli merkeziydi?,Roma
+8d56cfdf-6405-4433-ba5c-cc26e7319780,tarih,yerel,0.26,"Anadolu'da ""Frigya"" bölgesinin merkezi hangi antik kenttir?",Gordion
+5dbc0a23-5f07-43d3-830b-b34ec91ed448,tarih,yerel,0.27,1526 Mohaç Meydan Muharebesi'nde ölen Macar kralı kimdir?,II. Layoş
+97945ccb-f9f4-44d0-b2af-4a88ef31c71c,tarih,yerel,0.27,İstanbul Arkeoloji Müzeleri'nde sergilenen İskender Lahdi nereden çıkarılmıştır?,Sayda (Sidon)
+0fea14a7-42e1-453d-ac41-a865ad3acade,tarih,yerel,0.28,'Gayrimüslim vergisi' hangi adla anılırdı?,Cizye
+48caf2da-002c-41c8-a892-846fc067dced,tarih,evrensel,0.29,Osmanlı Devleti I. Dünya Savaşı'nda hangi blokta yer almıştır?,İttifak Devletleri
+61384374-02d7-4dc4-a56d-c1302618d617,tarih,yerel,0.30,Kanuni Sultan Süleyman'ın Avrupa'daki lakabı nedir?,Muhteşem
+20010ef1-534c-44db-abbd-1cb1286af36d,tarih,evrensel,0.31,Çanakkale Cephesi'nde Anzaklar hangi ülkelerden gelmiştir?,Avustralya ve Yeni Zelanda
+64750611-08b1-4e36-85ce-7bd317691979,tarih,yerel,0.31,'Düzenli ordunun kurulması' neyi sağladı?,Merkezî ve sürekli askerî gücü
+9c3fa7da-1187-48a9-a855-7ee9a62864a6,tarih,yerel,0.31,Uygurlar hangi özellikleriyle bilinir?,Yerleşik hayata geçmeleri
+4efb0077-e45d-4dd7-9102-69461eb75e66,tarih,evrensel,0.32,Kırım Savaşı'nda Osmanlı'nın müttefikleri kimlerdi?,İngiltere ve Fransa
+93476418-a0e4-4924-8961-147945641824,tarih,yerel,0.33,Berlin Antlaşması hangi savaşın ardından imzalanmıştır?,93 Harbi
+a395e6a0-bca2-4b5b-b8d9-227884a45bf9,tarih,yerel,0.33,'Anal' adı verilen yıllıkları hangi uygarlık tutmuştur?,Hititler
+a8183144-8b92-4c72-a048-19fad54f6856,tarih,yerel,0.34,Urartular hangi alanda ileriydi?,Su kanalları ve madencilik
+6b1e0467-0520-4e38-8cb0-daa20960b4be,tarih,yerel,0.36,Urartular hangi alanda ileri gitmiştir?,Su mühendisliği ve kale yapımı
+84502199-565b-454a-ae05-6c3b066f7f4b,tarih,evrensel,0.38,Osmanlı'nın Avrupa'daki ilerleyişini durduran II. Viyana Kuşatması hangi yıldadır?,1683
+1d27975c-cd7e-4d9d-b8a2-a31696074663,tarih,evrensel,0.40,'Balkan Savaşları' kaç aşamada gerçekleşti?,İki
+1e92cbc0-cab3-4e98-bcdb-5f88771b3399,tarih,yerel,0.40,'Sadabat Paktı' hangi bölgeyi kapsar?,Ortadoğu
+bbeb4070-9bdf-4f09-8671-8841bd0e5fa2,tarih,evrensel,0.40,'Karayolu ağının genişlemesi' neyi hızlandırdı?,Ulaşım ve iç göçü
+c544d840-af7d-4f6b-bfe2-feda061c1ca7,tarih,yerel,0.40,Lozan Antlaşması hangi ülkede imzalanmıştır?,İsviçre
+0d4cf7dc-b87f-48ee-b82a-e1ab7e8a9d03,tarih,yerel,0.41,'Marshall yardımı' Türkiye'de neyi etkiledi?,Tarım makineleşmesini
+473c75c2-cbea-4dd6-afa5-3063badad382,tarih,yerel,0.41,'Marshall yardımı' Türkiye'de hangi alanı etkilemiştir?,Tarım ve ulaşımı
+5ecc0892-c67c-4c4a-b190-1305ebe920b3,tarih,evrensel,0.41,Kosova Savaşı hangi bölgede yapılmıştır?,Balkanlar
+d0f66c17-5030-4333-bb11-c21d59b71912,tarih,evrensel,0.42,'Anzak' birlikleri hangi cephede savaşmıştır?,Çanakkale
+b7e2bf68-5d4c-4296-9f79-c3bd2ec9e312,tarih,yerel,0.43,Birinci Dünya Savaşı'nda Osmanlı hangi cephede başarı kazanmıştır?,Çanakkale
+22ff50b9-5558-4d53-ac8e-5f285d714336,tarih,evrensel,0.44,Lidyalıların başkenti neresiydi?,Sard
+7abc1fac-f88f-4530-867a-ba7fa07e9482,tarih,evrensel,0.44,Birinci Dünya Savaşı'nda Osmanlı hangi blokta yer aldı?,İttifak
+c1fee09c-0ed6-4d2c-8d7b-a337ae72908c,tarih,yerel,0.44,Halikarnas Mozolesi hangi ilimizdeydi?,Muğla (Bodrum)
+137dc199-d674-4d32-988a-853c85d50839,tarih,yerel,0.45,'Cumhuriyetçilik ilkesi' neyi öngörür?,Egemenliğin millete ait olmasını
+84eef9d9-5d91-4cfc-bd9f-8b827b9230ac,tarih,yerel,0.46,Piri Reis'in dünya haritası hangi yüzyılda çizilmiştir?,On altıncı yüzyıl
+e9645b67-7032-4e0e-ae9e-79bf36d37889,tarih,evrensel,0.46,"Bizans'ın deniz savaşlarında kullandığı, suyla sönmeyen 'Rum ateşi'ni 7. yüzyılda geliştirdiği anlatılan mimar kimdir?",Kallinikos
+8dc7d948-3d50-45f8-b5cc-ea91dfbd4a06,tarih,yerel,0.47,Anadolu'ya yazıyı getiren topluluk hangisidir?,Asurlular
+dcabf87f-95a0-4132-a478-6a4c070172b3,tarih,yerel,0.47,Türkiye Birleşmiş Milletler'e hangi yıl üye olmuştur?,1945
+1aa8694e-a6f7-460f-9f92-b628f9d641a8,tarih,evrensel,0.48,Frigyalıların ünlü kral yolu neyi bağlardı?,Anadolu ile doğu ticaret yollarını
+48572df8-1e90-45e2-87e7-1db405e01bca,tarih,evrensel,0.48,Ayasofya hangi dönemde inşa edilmiştir?,Doğu Roma (Bizans)
+79b1abea-ae2e-4750-b399-308006a77ace,tarih,yerel,0.49,Anadolu'da Urartuların başkenti neresiydi?,Tuşpa
+727a70c4-ab92-4596-8f96-2a48aab60b60,tarih,yerel,0.50,Mohaç Meydan Savaşı hangi ülke topraklarında yapılmıştır?,Macaristan
+5034fe10-945d-4c3c-91e0-5658e9d2c297,tarih,yerel,0.51,'Berlin Antlaşması' hangi antlaşmanın yerine geçmiştir?,Ayastefanos
+7eceb8bb-983e-4591-b567-b0ee961f640e,tarih,yerel,0.51,Mete Han hangi devletin hükümdarıdır?,Asya Hun
+de28facf-b5de-43c2-9a3e-ce5a4c74e561,tarih,evrensel,0.51,Hititler'in başkenti hangisidir?,Hattuşa
+0cb0c460-5b26-4203-b3b1-b6269af18345,tarih,evrensel,0.52,Friglerin başkenti neresiydi?,Gordion
+6aa94694-ac5c-4bdc-85f8-5b8d79fa5915,tarih,evrensel,0.52,'Gaznelilerin' etkili olduğu bölge neresidir?,Horasan ve Kuzey Hindistan
+8f7a97f6-53e8-442f-8e83-87983c29c4ba,tarih,yerel,0.52,Truva antik kenti bugün hangi ilimizin sınırları içindedir?,Çanakkale
+43a9129f-66fd-4c74-ac21-4fd6747505b1,tarih,yerel,0.53,Büyük Selçuklu Sultanı Sencer'in 1141'de Karahitaylara yenildiği savaş hangisidir?,Katvan
+7effd583-f05d-45f3-bf06-712ef23cd0e3,tarih,evrensel,0.53,Birinci Afyon Savaşı'nı bitiren 1842 Nanking Antlaşması ile Britanya'ya bırakılan yer neresidir?,Hong Kong
+0c26afe8-71a2-46e0-b805-e235c85d442e,tarih,evrensel,0.54,'Sanayi bölgeleri' kurulmasının amacı nedir?,Planlı üretim ve istihdam
+8d97ccd7-64ba-4501-9a56-1d2f2f056d73,tarih,yerel,0.54,Göktürk Devleti'nin kurucusu kimdir?,Bumin Kağan
+af61b9e3-4e83-4bcc-b2d7-75dc753844ca,tarih,evrensel,0.54,'İstanbul'un fethi' hangi çağı başlattı?,Yeni Çağ
+4c1518d3-975b-4fba-ab4b-1bbc26a0542e,tarih,yerel,0.55,'Montrö Sözleşmesi' neyi konu alır?,Boğazların yönetimini
+6424e0f4-787b-48a2-a2e4-c7a105c1c0f4,tarih,evrensel,0.55,İstanbul'un eski adlarından biri hangisidir?,Konstantinopolis
+03728bcd-eb39-42c6-93fd-fb996315aaa4,tarih,evrensel,0.56,'Höyük' arkeolojide neyi gösterir?,Üst üste yerleşim katmanlarını
+2d51efe2-8d05-4c52-bf3f-34a2af1c67a4,tarih,yerel,0.56,1916'da Kûtülamâre'de Osmanlı ordusuna teslim olan İngiliz komutan kimdir?,Charles Townshend
+f5087292-99ec-4b05-ba46-6fa6b16943d4,tarih,evrensel,0.56,Talas Savaşı hangi iki güç arasında olmuştur?,Araplar ve Çinliler
+7b805ace-bd34-4d19-840c-f105d4380939,tarih,yerel,0.57,Büyük Selçuklu Devleti'nin kurucusu kimdir?,Tuğrul Bey
+c025606b-2d0d-4f3c-a96d-14199ed9203b,tarih,yerel,0.57,Çanakkale Savaşları hangi yıllarda yaşanmıştır?,1915-1916
+1c75f226-dba4-4310-a66a-9b7ca342b1fe,tarih,yerel,0.59,Karahanlılar hangi dili resmî dil olarak kullanmıştır?,Türkçe
+2c557f3f-15b1-4298-8b92-c2f40da13bd5,tarih,evrensel,0.59,'Truman Doktrini' Türkiye için ne anlama geliyordu?,Askerî ve ekonomik yardım
+8c95c951-e1e4-48d1-936e-7c7793934c13,tarih,evrensel,0.59,Lidyalıların son kralı kimdir?,Krezüs
+b36ea262-832f-4ed3-a243-96bfa988ac08,tarih,evrensel,0.59,Ayasofya hangi imparatorluk döneminde yapılmıştır?,Doğu Roma
+5631a086-f1aa-416f-bf23-c214afda9253,tarih,evrensel,0.60,Balkan Savaşları hangi yıllarda yaşanmıştır?,1912-1913
+67c6db7b-20b9-42c8-a74b-4141f75a4418,tarih,yerel,0.61,Timur hangi savaşta Osmanlı'yı yenmiştir?,Ankara Savaşı
+df65d728-2da0-4d82-938f-3d8969a74a62,tarih,evrensel,0.61,Bergama Krallığı hangi buluşuyla anılır?,Parşömen
+376e76fc-211a-4999-9ca2-df65bc27ad0b,tarih,yerel,0.62,Balkan Savaşları sonucunda Osmanlı ne kaybetmiştir?,Balkanlardaki toprakların çoğunu
+aad97641-61d9-4181-95d9-209b70e25569,tarih,evrensel,0.62,'Memlükler' hangi bölgede egemen olmuştur?,Mısır ve Suriye
+ab4ad571-a9d9-444b-b904-d40ca47125ab,tarih,yerel,0.62,Ankara Savaşı'nda Yıldırım Bayezid kime yenilmiştir?,Timur
+82507bef-2763-4e70-87f2-ee3c040bcf24,tarih,yerel,0.63,"Osmanlı'da ""millet sistemi"" neyi düzenlerdi?",Dinî toplulukların iç işleyişini
+a1057071-ef5b-45f0-b7a3-ccec67eaef27,tarih,yerel,0.63,"Türk-İslam devletlerinde ""ikta"" ne demektir?",Toprak gelirinin tahsisi
+cd3fbc0f-c06f-46d6-954e-1bf164f5ced3,tarih,evrensel,0.63,İyon şehir devletlerinden biri hangisidir?,Milet
+eb0ed58c-1363-4a37-9e89-80be1f8eb028,tarih,yerel,0.63,'Kervansaray' hangi amaca hizmet ederdi?,Yolcu ve kervan konaklamasına
+eed80bff-3b14-4fd2-a91c-2c7e23c9bd8e,tarih,yerel,0.63,'Moskova Antlaşması' hangi devletle imzalanmıştır?,Sovyet Rusya
+28f367df-bef4-483a-8810-d2dcf8228efc,tarih,yerel,0.65,Montrö Boğazlar Sözleşmesi hangi yılda imzalanmıştır?,1936
+69c22582-85bc-4198-80b0-63de09fcabfb,tarih,yerel,0.65,İlk Türk devletlerinden Göktürkler'in alfabesi hangisidir?,Orhun Alfabesi
+2af56701-8d52-4cab-955e-6156a5e1d7f6,tarih,yerel,0.66,'Mübadele' ne anlama gelir?,Antlaşmayla nüfus değişimi
+0f4a26ad-67b4-4d43-a6e2-553e11108651,tarih,yerel,0.67,Osmanlı'da ilk kez Viyana ne zaman kuşatıldı?,Kanuni döneminde
+4075eea7-65a7-4f01-942b-05413fb98b16,tarih,yerel,0.67,Osmanlı Devleti hangi yüzyılda kurulmuştur?,13. yüzyıl
+a9ba5c91-2f9f-4e0e-9516-b5678cfeb62b,tarih,yerel,0.67,Uygurların yerleşik hayata geçmesinin sonucu nedir?,Şehir ve tapınak yapımı
+de3f634e-ea7c-45ec-9aba-56666ea6c8c6,tarih,yerel,0.67,Türklerin kullandığı ilk alfabelerden biri hangisidir?,Göktürk
+238a5ea6-5803-44c2-9e6f-11a0b4feff90,tarih,yerel,0.68,Ridaniye Savaşı sonucunda hangi devlet yıkılmıştır?,Memlük Devleti
+db3bb10e-bea9-4098-a317-134d1b7a6706,tarih,evrensel,0.68,'Gazneliler' hangi coğrafyada etkili olmuştur?,Afganistan ve Hindistan
+1182fa0f-363d-44fd-8742-1139fe09cd62,tarih,yerel,0.69,Sevr Antlaşması neyi öngörüyordu?,Osmanlı topraklarının paylaşımını
+242bd54e-71fb-469c-9cbe-1f383b704fbb,tarih,yerel,0.70,Mohaç Meydan Muharebesi hangi ülkeye karşı kazanılmıştır?,Macaristan
+370e7945-daa3-46af-9463-571f8e65d594,tarih,yerel,0.70,Piri Reis hangi alanda ünlüdür?,Denizcilik ve haritacılık
+3fa74812-5e60-4b9f-868b-9d2aebb5a65f,tarih,yerel,0.70,Balkan Savaşları sonucunda Osmanlı neyi kaybetmiştir?,Rumeli topraklarının çoğunu
+441fbcb2-14c0-44d4-9fed-82506d4a023e,tarih,evrensel,0.70,Mukaddime adlı eseriyle tarih felsefesinin öncüsü sayılan kimdir?,İbn Haldun
+93f23c0b-4ecd-4037-aedd-924e8535941b,tarih,evrensel,0.70,'Köyden kente göç' hangi sorunu büyüttü?,Kentleşme ve konut sorununu
+611dd7b1-87f7-4eaa-bdd7-a47ab5f93732,tarih,yerel,0.71,1833'te Osmanlı ile Rusya arasında imzalanan ve Boğazları Rusya dışındaki devletlerin savaş gemilerine kapatan antlaşma hangisidir?,Hünkâr İskelesi
+a5009d2d-e296-4f21-8372-a443e92a7c60,tarih,yerel,0.72,'Kapitülasyon' ne anlama gelir?,Yabancılara tanınan ayrıcalıklar
+e070e64b-d777-4399-a3f9-c4a3933df57f,tarih,yerel,0.72,'Sanayi Devrimi'nin Osmanlı ekonomisine etkisi ne oldu?,El sanatları geriledi
+f3eca545-9693-4a97-98f3-8746b7b75e28,tarih,evrensel,0.72,Talas Savaşı'nın kültürel sonucu nedir?,Kâğıdın Batı'ya yayılması
+fc61983c-6ac2-4884-ab9d-e8ad230517b9,tarih,yerel,0.72,Girit'in fethi hangi yüzyılda tamamlanmıştır?,17. yüzyıl
+4038e23b-56d8-48f3-8f9b-8a99e473071a,tarih,yerel,0.73,Halifelik hangi yılda kaldırılmıştır?,1924
+4ec561ca-f46a-4042-bbb1-b27f0c4c5e40,tarih,yerel,0.73,Montrö Boğazlar Sözleşmesi neyi düzenlemiştir?,Boğazların denetimini
+6f4aafaf-e8a2-4e20-bd05-855a16d66838,tarih,yerel,0.73,Osmanlı'da devşirme sistemiyle yetiştirilen askeri sınıf hangisidir?,Yeniçeriler
+981d02da-768e-4aa1-a154-d5ac3de5c3c5,tarih,evrensel,0.73,'Afyon Savaşları' hangi iki taraf arasındadır?,Çin ve İngiltere
+d54f656f-73c9-4ff7-af1b-2c7e022a0646,tarih,yerel,0.73,Lozan Antlaşması hangi yılda imzalanmıştır?,1923
+094f5133-adee-4429-b53e-647f7af6c39d,tarih,yerel,0.74,Çanakkale Savaşları'nın sonucu ne olmuştur?,İtilaf kuvvetlerinin geçememesi
+7ca21ac2-c0f8-40c5-9062-14ea50d6d24b,tarih,yerel,0.74,Trablusgarp Savaşı hangi devletle yapılmıştır?,İtalya
+b03a23bb-25f8-4c02-b189-5335bc528194,tarih,evrensel,0.74,'Kırım Savaşı' hangi güçler arasında geçti?,Osmanlı ittifakı ve Rusya
+1d2af53e-c392-429d-8ab1-bad6784b55f0,teknoloji,evrensel,0.36,"İnternette site adreslerinin sonundaki "".tr"" neyi ifade eder?",Türkiye
