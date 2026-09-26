@@ -118,7 +118,7 @@ const KURAL_V2 = [
   // 650: Kategori Kalkanı (Ida, 25 Eyl 2026)
   { ikon: "kalkan", metin: "Kategori Kalkanı: maçta 1 kez, rakip seçerken kategorilerinden birini o tur kapatırsın" },
   { ikon: "saat", metin: "Beraberlik yok: can eşitse uzatma, kategori rastgele" },
-  { ikon: "yildiz", metin: "Maçta 4 joker: aynı joker en çok 2 kez, soru başına 1" },
+  { ikon: "yildiz", metin: "Maçta en fazla 4 joker kullanımı: aynı joker en çok 2 kez, soru başına 1" },
 ];
 const KURAL_V1 = [
   { ikon: "kalp", metin: "3 can, en çok 10 tur" },
@@ -1683,7 +1683,7 @@ function JokerAlani({ set, d, calisan, onKullan, onSatinAl, ceviri, serbest = fa
   const setAcik = set === "saldiri" ? saldiriAcik : savunmaAcik;
   // Paket 20 IV.4: jokerler "yok" sanılıyordu — kapalıyken NEDEN kapalı olduğu yazılır
   const ipucu = !hakKaldi
-    ? ceviri("Bu maçtaki joker hakkın doldu.")
+    ? ceviri("Bu maçtaki joker kullanımın doldu.")
     : set === "saldiri"
       ? (setAcik
           ? ceviri("Şimdi kullanabilirsin — soru rakibe gitmeden.")

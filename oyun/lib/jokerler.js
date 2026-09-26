@@ -155,7 +155,8 @@ export const MAC_ICI_JOKERLER = AKTIF_MAC_SKILLERI.filter((id) =>
 export const KLASIK_JOKERLER = AKTIF_MAC_SKILLERI.filter((id) => SKILL_TANIMLARI[id].allowedModes?.includes("1v1"));
 export const SALDIRI_JOKERLERI = AKTIF_MAC_SKILLERI.filter((id) =>
   SKILL_TANIMLARI[id].allowedPhases?.includes("hazirlik") && SKILL_TANIMLARI[id].target === "opponent");
-export const KLASIK_BILGI = Object.fromEntries(KLASIK_JOKERLER.map((id) => [id, SKILL_TANIMLARI[id]]));
+export const DUELLO_JOKERLER = AKTIF_MAC_SKILLERI.filter((id) => SKILL_TANIMLARI[id].allowedModes?.includes("duello"));
+export const KLASIK_BILGI =Object.fromEntries(KLASIK_JOKERLER.map((id) => [id, SKILL_TANIMLARI[id]]));
 export const sisAyari = () => ({ sn: 0, esik: 0 });
 export const jokerAdi = (tur) => SKILL_TANIMLARI[tur]?.ad ?? tur;
 export const jokerIkon = (tur) => SKILL_TANIMLARI[tur]?.ikon ?? "soru";

@@ -270,7 +270,7 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
             ? tt("Jokerler şimdilik ücretsiz ve sınırsız")
             : durum.sinir === null || durum.sinir === undefined
             ? tt("Arkadaş maçı: joker hakkın sınırsız")
-            : tt("Bu maçta {0} joker hakkın kaldı", { 0: Math.max(0, durum.sinir - durum.kullanilan) })}
+            : tt("Bu maçta {0} joker kullanımın kaldı", { 0: Math.max(0, durum.sinir - durum.kullanilan) })}
         </div>
       )}
       {skiller.length > 0 && (
@@ -322,7 +322,7 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
         <div className="m1-skill-hak">
           {finalYasak
             ? tt("Finalde joker yok — sadece bilgi.")
-            : tt("Bu maçta joker hakkın doldu ({0}/{1}).", { 0: durum.kullanilan, 1: durum.sinir })}
+            : tt("Bu maçta joker kullanımın doldu ({0}/{1}).", { 0: durum.kullanilan, 1: durum.sinir })}
         </div>
       )}
 

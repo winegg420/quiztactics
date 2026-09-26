@@ -47,6 +47,7 @@ import { useDereceliTercih } from "../lib/dereceli.js";
 import { useDil } from "../lib/dilKanca.js";
 import { tt } from "../lib/dil.js";
 import { botAdi } from "../lib/botAdi.js";
+import { KLASIK_JOKERLER, DUELLO_JOKERLER } from "../lib/jokerler.js";
 import { rpcDene } from "../lib/rpcDene.js";
 import AramaSahnesi from "../components/AramaSahnesi.jsx";
 
@@ -860,9 +861,9 @@ export default function ChallengesPage() {
           <span className="qt-kucuk qt-soluk-zemin">{tt("arkadaşına")}</span>
         </div>
         <div className="a-meydan-modlar" role="group" aria-labelledby="a-meydan-mod-b">
-          <QtModKart mod="klasik" ad={tt("Klasik Mod")} alt={tt("4 skill · aynı anda")}
+          <QtModKart mod="klasik" ad={tt("Klasik Mod")} alt={tt("{n} joker türü · aynı anda", { n: KLASIK_JOKERLER.length })}
                      secili={meydanModu === "normal"} onClick={() => setMeydanModu("normal")} />
-          <QtModKart mod="duello" ad={tt("Düello")} alt={tt("4 skill · sıra sende")}
+          <QtModKart mod="duello" ad={tt("Düello")} alt={tt("{n} joker türü · sıra sende", { n: DUELLO_JOKERLER.length })}
                      secili={meydanModu === "duello"} onClick={() => setMeydanModu("duello")} />
           <QtModKart mod="saf" ad={tt("Saf Bilgi")} alt={tt("skill yok")}
                      secili={meydanModu === "saf"} onClick={() => setMeydanModu("saf")} />

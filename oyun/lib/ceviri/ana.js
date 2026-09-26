@@ -26,9 +26,11 @@ export default {
   // Modlar, mod seçimi, rakip arama
   "Oyun modları": "Game modes",
   "Hızlı cevap ver, skillerini kullan ve rakibini geç.": "Answer fast, use your jokers and pull ahead.",
-  "{n} skill": "{n} jokers",
+  "{n} joker türü": "{n} joker types",
   "Skillerini doğru anda kullan. Rakibinin planını boz ve taktik üstünlük kur.": "Time your jokers, wreck their plan and take the tactical edge.",
-  "{n} skill · 3 can": "{n} jokers · 3 lives",
+  "{n} joker türü · 3 can": "{n} joker types · 3 lives",
+  "{n} joker türü · aynı anda": "{n} joker types · live",
+  "{n} joker türü · sıra sende": "{n} joker types · take turns",
   "Skillsiz": "No jokers",
   "Her gün": "Every day",
   "3–5 arkadaş · ödülsüz. Aynı sorularda eğlencesine yarış.": "3–5 friends · just for fun. Same questions, pure bragging rights.",

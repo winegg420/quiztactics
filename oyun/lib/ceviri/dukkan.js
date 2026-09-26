@@ -72,7 +72,7 @@ export default {
   "Turnuva finalinde ve altın soruda skill kullanılamaz.": "Jokers can't be used in the tournament final or on the golden question.",
   "Skill'in bittiyse maçın içinden alabilirsin — dükkâna gitmene gerek yok.":
     "Out of a joker? You can buy it during the match — no need to visit the shop.",
-  "Maçta {0} skill · tür başına 2 · soru başına 1": "{0} jokers per match · 2 per type · 1 per question",
+  "Maçta en fazla {0} joker kullanımı · tür başına 2 · soru başına 1": "Up to {0} joker uses per match · 2 per type · 1 per question",
   // Coin paketleri (328) — küçükten büyüğe
   "Avuç": "Handful",
   "Kese": "Pouch",

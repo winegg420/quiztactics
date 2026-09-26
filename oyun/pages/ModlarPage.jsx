@@ -14,7 +14,7 @@ import { useAuth } from "../../src/context/AuthContext.jsx";
 import RakipAra from "../components/RakipAra.jsx";
 import DereceliAnahtari from "../components/DereceliAnahtari.jsx";
 import { useDereceliTercih } from "../lib/dereceli.js";
-import { KLASIK_JOKERLER, MAC_ICI_JOKERLER, SALDIRI_JOKERLERI } from "../lib/jokerler.js";
+import { KLASIK_JOKERLER, DUELLO_JOKERLER } from "../lib/jokerler.js";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
 import { useDil } from "../lib/dilKanca.js";
@@ -22,7 +22,7 @@ import { QtModKart, QtListe, QtListeSatiri } from "../tasarim/index.js";
 import "../tasarim/ekranlar/a-modlar.css";
 
 // Gerçek joker sayıları — prototipteki "6 JOKER / 5 JOKER" yazıları uydurmaydı.
-const DUELLO_JOKER = MAC_ICI_JOKERLER.length + SALDIRI_JOKERLERI.length;
+const DUELLO_JOKER = DUELLO_JOKERLER.length;
 const KLASIK_JOKER = KLASIK_JOKERLER.length;
 
 export default function ModlarPage() {
@@ -62,14 +62,14 @@ export default function ModlarPage() {
           mod="klasik"
           ad={tt("Klasik Maç")}
           alt={tt("Hızlı cevap ver, skillerini kullan ve rakibini geç.")}
-          rozet={tt("{n} skill", { n: KLASIK_JOKER })}
+          rozet={tt("{n} joker türü", { n: KLASIK_JOKER })}
           onClick={() => macAra(false)}
         />
         <QtModKart
           mod="duello"
           ad={ceviri("Düello")}
           alt={tt("Skillerini doğru anda kullan. Rakibinin planını boz ve taktik üstünlük kur.")}
-          rozet={tt("{n} skill · 3 can", { n: DUELLO_JOKER })}
+          rozet={tt("{n} joker türü · 3 can", { n: DUELLO_JOKER })}
           onClick={() => navigate(y("/duello"))}
         />
         <QtModKart

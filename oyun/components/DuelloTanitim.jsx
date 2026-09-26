@@ -43,7 +43,7 @@ const ADIMLAR_V2 = [
   // 650 (Ida, 25 Eyl 2026)
   { ikon: "kalkan", baslik: "Kategori Kalkanı", metin: "Maçta 1 kez, rakip kategori seçerken kendi kategorilerinden birini o tur için kapatırsın. Zayıf noktanı korumak saldıranın riskini de kaldırır; ne zaman ve hangisini koruyacağın senin kararın." },
   { ikon: "terazi", baslik: "Uzatma", metin: "Beraberlik yok. Can eşitse uzatma başlar: kategori rastgele gelir, biri doğru öteki yanlış yapana kadar sürer." },
-  { ikon: "yildiz", baslik: "Joker", metin: "Maçta toplam 4 joker; aynı joker en çok 2 kez, bir soruda en çok 1. Soru Değiştir yalnız ikiniz de cevaplamamışken ve rakip o soruda joker kullanmamışken çalışır. Jokerin yoksa maçın içinden satın alabilirsin." },
+  { ikon: "yildiz", baslik: "Joker", metin: "Maçta toplam 4 joker kullanımın var; aynı joker en çok 2 kez, bir soruda en çok 1. Soru Değiştir yalnız ikiniz de cevaplamamışken ve rakip o soruda joker kullanmamışken çalışır. Jokerin yoksa maçın içinden satın alabilirsin." },
 ];
 
 export default function DuelloTanitim({ onKapat, surum = 1 }) {

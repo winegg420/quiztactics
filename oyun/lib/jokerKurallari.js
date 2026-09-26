@@ -36,5 +36,5 @@ export function jokerKurallari(hak = 6) {
 
 /** Tek satırlık kısa özet (dar alanlar için). */
 export function jokerKuraliOzet(hak = 6) {
-  return tt("Maçta {0} skill · tür başına 2 · soru başına 1", { 0: hak });
+  return tt("Maçta en fazla {0} joker kullanımı · tür başına 2 · soru başına 1", { 0: hak });
 }
