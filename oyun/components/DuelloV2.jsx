@@ -291,9 +291,10 @@ export function V2Kategori({ d, benSaldiran, ben, rakip, calisan, sayac, sonSani
       .map((k) => ({ k, v: kategoriOrani(ben?.profil, k) }))
       .filter((x) => x.v !== null)
       .sort((a, b) => b.v - a.v);
-    const guclu = bilinen.slice(0, 3);
-    const zayif = bilinen.slice(3).slice(-3).reverse();
     const benimZayif = zayifNokta(ben);
+    // Zayıf nokta ve %0'lık kategori "güçlü" listesine girmez (az kategoride geçmişi olan oyuncuda yanıltıcıydı).
+    const guclu = bilinen.filter((x) => x.k !== benimZayif && x.v > 0).slice(0, 3);
+    const zayif = bilinen.filter((x) => !guclu.includes(x)).slice(-3).reverse();
     // 650: kalkan kullanılabilirken uygun kategori satırı onayı açan kısayoldur
     const kd = kalkanDurumu(d, ben?.id);
     const kalkanAcik = Boolean(kd && !kd.kullanildi && !d.uzatma && onKalkan
@@ -336,10 +337,12 @@ export function V2Kategori({ d, benSaldiran, ben, rakip, calisan, sayac, sonSani
                        secim={kalkanSecim} setSecim={setKalkanSecim} c={c} />
         {bilinen.length ? (
           <div className="m2-savun">
-            <section className="m2-savun-blok m2-savun-blok--guclu" aria-label={c("En güçlü kategorilerin")}>
-              <h3>{c("En güçlü kategorilerin")}</h3>
-              <ul>{guclu.map(satir)}</ul>
-            </section>
+            {guclu.length > 0 && (
+              <section className="m2-savun-blok m2-savun-blok--guclu" aria-label={c("En güçlü kategorilerin")}>
+                <h3>{c("En güçlü kategorilerin")}</h3>
+                <ul>{guclu.map(satir)}</ul>
+              </section>
+            )}
             {zayif.length > 0 && (
               <section className="m2-savun-blok m2-savun-blok--zayif" aria-label={c("En zayıf kategorilerin")}>
                 <h3>{c("En zayıf kategorilerin")}</h3>
@@ -607,7 +610,7 @@ export function V2Skill({ d, calisan, kalanSn, serbest, sonKullanilan, onKullan,
   const elliVar = Array.isArray(cv.elli_kapali) && cv.elli_kapali.length > 0;
 
   const genelEngel = !soruAcik ? c("Soru açılınca kullanılır.")
-    : hakBitti ? c("Bu maçtaki joker hakkın doldu.")
+    : hakBitti ? c("Bu maçtaki joker kullanımın doldu.")
     : cevapladim ? c("Cevap verdikten sonra joker kullanılamaz.")
     : soruHakBitti ? c("Bu soruda joker hakkını kullandın")
     : kalanSn <= 0 ? c("Süren doldu — sonuç bekleniyor.")
