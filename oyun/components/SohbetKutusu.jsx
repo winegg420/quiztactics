@@ -54,6 +54,8 @@ const gunMetni = (iso) => {
   }
 };
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 export default function SohbetKutusu({ benId, kisiId, onGeri }) {
   const [kisi, setKisi] = useState(null);
   const [arkadas, setArkadas] = useState(null);      // null = bilinmiyor
@@ -66,6 +68,8 @@ export default function SohbetKutusu({ benId, kisiId, onGeri }) {
   const [hata, setHata] = useState(null);
   // Paket 41 A: geçmiş okunamadıysa "İlk mesajı sen at" yerine hata + Tekrar dene (ham metin yok)
   const [gecmisHata, setGecmisHata] = useState(false);
+  // D-220: adreste geçersiz / var olmayan kişi → "Sohbet bulunamadı" (boş "? …" başlıklı sohbet açılmasın)
+  const [bulunamadi, setBulunamadi] = useState(() => !UUID_RE.test(String(kisiId ?? "")));
   const [deneme, setDeneme] = useState(0);
   const [yeniVar, setYeniVar] = useState(false);      // aşağıda okunmamış yeni mesaj şeridi
   const [emojiAcik, setEmojiAcik] = useState(false);
@@ -141,6 +145,7 @@ export default function SohbetKutusu({ benId, kisiId, onGeri }) {
       setYukleniyor(true);
       setHata(null);
       setGecmisHata(false);
+      if (!UUID_RE.test(String(kisiId ?? ""))) { setBulunamadi(true); setYukleniyor(false); return; }
       try {
         const [pr, ms] = await Promise.all([
           supabase.from("profiles").select("id, gorunen_ad, gorunen_avatar, gorunum").eq("id", kisiId).maybeSingle(),
@@ -149,6 +154,7 @@ export default function SohbetKutusu({ benId, kisiId, onGeri }) {
         if (ms.error) throw ms.error;
         if (!aktif) return;
         if (!pr.error) setKisi(pr.data ?? null);
+        if (!pr.error && !pr.data) { setBulunamadi(true); return; }
         const liste = [...(ms.data ?? [])].reverse();
         setMesajlar(liste);
         setBitti(liste.length < SAYFA);
@@ -328,6 +334,24 @@ export default function SohbetKutusu({ benId, kisiId, onGeri }) {
 
   const ad = kisi?.gorunen_ad ?? tt("Arkadaşın");
   const stil = gorunum ? { top: `${gorunum.ust}px`, height: `${gorunum.yukseklik}px` } : undefined;
+
+  if (bulunamadi) {
+    return createPortal(
+      <div className="ms-sohbet" style={stil} role="dialog" aria-label={tt("Sohbet bulunamadı")}>
+        <header className="ms-ust">
+          <QtIkonDugme ikon="geri" tur="saydam" etiket={tt("Geri")} onClick={onGeri} className="ms-geri" />
+        </header>
+        <div className="ms-liste">
+          <div className="ms-ilk" role="status">
+            <span className="ms-ilk-ikon" aria-hidden="true"><QtIkon ad="sohbet" boyut={32} /></span>
+            <p>{tt("Bu sohbet bulunamadı.")}</p>
+            <QtDugme ikon="geri" onClick={onGeri}>{tt("Mesajlara dön")}</QtDugme>
+          </div>
+        </div>
+      </div>,
+      document.body,
+    );
+  }
 
   return createPortal(
     <div className="ms-sohbet" style={stil} role="dialog" aria-label={tt("{0} ile sohbet", { 0: ad })}>
