@@ -5,6 +5,7 @@ import { useGeriTusuOnayi } from "../lib/geriTusuOnayi.js";
 import { useOyunModu } from "../lib/oyunModu.js";
 import { soruCek } from "../lib/soruCek.js";
 import TurnuvaTanitim from "../components/TurnuvaTanitim.jsx";
+import { ayarlar } from "../lib/ayarlar.js";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import Countdown from "../components/Countdown.jsx";
@@ -93,6 +94,15 @@ export default function TournamentPage() {
   const ligOkunuyor = useRef(false);
   // Paket 24 · D: bu haftanın ilk-3 giysi ödülü (haftalık rotasyonla değişir)
   const [haftalikGiysi, setHaftalikGiysi] = useState(null);
+  // Lobi "Turnuva nasıl işler?" penceresi; ödül miktarları oyun_ayarlari'ndan (koda gömülmez)
+  const [kuralAcik, setKuralAcik] = useState(false);
+  const [tvAyar, setTvAyar] = useState(null);
+  useEffect(() => {
+    if (!kuralAcik || tvAyar) return undefined;
+    let aktif = true;
+    ayarlar().then((a) => { if (aktif) setTvAyar(a ?? {}); }).catch(() => { if (aktif) setTvAyar({}); });
+    return () => { aktif = false; };
+  }, [kuralAcik, tvAyar]);
   const navigate = useNavigate();
   const advanceKilidi = useRef(false);
   // Paket 36: biten turnuvanın sonuç sahnesi. Ödül toplamı ve sıra SUNUCUNUN
@@ -661,6 +671,7 @@ export default function TournamentPage() {
           <Countdown bicim="qt" onSifir={turnuvaYukle} />
           <BugunKalanTurnuvalar className="m1-tv-kalanlar" />
           {hataBandi}
+          <QtDugme tur="hayalet" boyut="k" ikon="bilgi" onClick={() => setKuralAcik(true)}>{tt("Turnuva nasıl işler?")}</QtDugme>
           <SkillSeti macTur="turnuva" />
           <div className="m1-tv-dugmeler">
             {benimKayit ? (
@@ -772,6 +783,39 @@ export default function TournamentPage() {
             </QtListe>
           )}
         </section>
+
+        <QtModal acik={kuralAcik} onKapat={() => setKuralAcik(false)} baslik={tt("Turnuva nasıl işler?")}>
+          {kuralAcik && (() => {
+            const sayi = (k) => { const v = Number(tvAyar?.[k]); return Number.isFinite(v) ? v : null; };
+            const katilim = sayi("coin_turnuva_katilim");
+            const odul = [1, 2, 3].map((n) => ({ n, coin: sayi(`coin_turnuva_${n}`), elmas: sayi(`elmas_turnuva_${n}`) }));
+            return (
+              <ul className="m1-tv-kurallar">
+                <li>{tt("Herkese aynı soru aynı anda gelir. Yanlış cevap ya da süre aşımı seni eler; son kalan kazanır.")}</li>
+                <li>
+                  {tt("Ödüller:")}
+                  {tvAyar === null ? (
+                    <span className="qt-soluk"> {tt("Yükleniyor…")}</span>
+                  ) : (
+                    <ul className="m1-tv-odul-liste">
+                      {odul.filter((o) => o.coin !== null || (o.elmas ?? 0) > 0).map((o) => (
+                        <li key={o.n}>
+                          <b>{tt("{n}. sıra", { n: o.n })}</b>
+                          {o.coin !== null && <span> {tt("{n} coin", { n: o.coin })}</span>}
+                          {(o.elmas ?? 0) > 0 && <span> · {tt("{n} elmas", { n: o.elmas })}</span>}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+                {katilim !== null && katilim > 0 && (
+                  <li>{tt("Katılan herkese {n} coin verilir.", { n: katilim })} {tt("Turnuvadan yarıda çıkarsan katılım ödülü de gitmez.")}</li>
+                )}
+                {haftalikGiysi?.ad && <li>{tt("Bu haftanın ilk 3 ödülü: {ad}", { ad: haftalikGiysi.ad })}</li>}
+              </ul>
+            );
+          })()}
+        </QtModal>
       </div>
     );
   }

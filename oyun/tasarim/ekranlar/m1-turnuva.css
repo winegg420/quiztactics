@@ -71,3 +71,7 @@
 @media (prefers-reduced-motion: reduce) {
   .m1-tv-nokta { animation: none; }
 }
+
+/* Lobi › "Turnuva nasıl işler?" penceresi (Lig kurallarıyla aynı desen) */
+.m1-tv-kurallar { display: flex; flex-direction: column; gap: var(--qt-b-3); margin: 0; padding-left: 1.1em; font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); line-height: 1.45; }
+.m1-tv-odul-liste { margin: var(--qt-b-1) 0; padding-left: 1.1em; }

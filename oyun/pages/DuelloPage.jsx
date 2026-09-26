@@ -108,24 +108,8 @@ function Kalpler({ can, max = DUELLO_CAN, sonCan }) {
 }
 
 // ------------------------------------------------------------ giriş + arama
-// Tasarım A: tek sütun, mod rengi pembe başlık kartı + kural satırları + tek birincil eylem.
-const KURAL_V2 = [
-  { ikon: "kalp", metin: "3 can, en çok 10 tur" },
-  { ikon: "terazi", metin: "Biri doğru öteki yanlış/yanıtsız → yanlış olan 1 can kaybeder; ikisi aynıysa nötr" },
-  // 470: zayıf nokta + kategori limiti (Ida, 24 Eyl 2026) — kısa kural kartı
-  { ikon: "uyari", metin: "Zayıf nokta: rakibin en zayıf kategorisini seçersen ve rakip bilirse canı SEN kaybedersin" },
-  { ikon: "kilit", metin: "Her kategori maçta en çok 3 kez, üst üste seçilemez" },
-  // 650: Kategori Kalkanı (Ida, 25 Eyl 2026)
-  { ikon: "kalkan", metin: "Kategori Kalkanı: maçta 1 kez, rakip seçerken kategorilerinden birini o tur kapatırsın" },
-  { ikon: "saat", metin: "Beraberlik yok: can eşitse uzatma, kategori rastgele" },
-  { ikon: "yildiz", metin: "Maçta en fazla 4 joker kullanımı: aynı joker en çok 2 kez, soru başına 1" },
-];
-const KURAL_V1 = [
-  { ikon: "kalp", metin: "3 can, en çok 10 tur" },
-  { ikon: "uyari", metin: "Rakip en zayıf kategorisinde bilirse canı SEN kaybedersin" },
-  { ikon: "kilit", metin: "Aynı kategori üst üste seçilemez, maçta en çok 2 kez" },
-];
-
+// Tasarım A: tek sütun, mod rengi pembe başlık kartı + tek birincil eylem.
+// Kurallar giriş ekranında zorla gösterilmez: "Kurallar nasıl işliyor?" → DuelloTanitim (V1/V2 tam kural metni orada).
 const SURUM_DEPO = "bildim_duello_surum";
 function surumOnbellek() {
   try { const v = Number(localStorage.getItem(SURUM_DEPO)); return v === 1 || v === 2 ? v : null; } catch { return null; }
@@ -170,7 +154,6 @@ function DuelloGiris() {
   }, []);
   const gecerliSurum = surum ?? 2;
   const v2 = gecerliSurum === 2;
-  const kurallar = v2 ? KURAL_V2 : KURAL_V1;
   const gizli = surum === null ? { visibility: "hidden" } : undefined;
 
   return (
@@ -184,14 +167,6 @@ function DuelloGiris() {
             : ceviri("Sırayla birbirinize soru gönderin. Rakibin zayıf kategorisini bul, oradan vur.")}</p>
         </div>
       </header>
-      <ul className="m2-giris-kurallar" aria-label={ceviri("Taktik Maçı")} style={gizli}>
-        {kurallar.map((k) => (
-          <li key={k.metin}>
-            <span className="m2-giris-kural-ikon" aria-hidden="true"><QtIkon ad={k.ikon} boyut={20} /></span>
-            <span>{ceviri(k.metin)}</span>
-          </li>
-        ))}
-      </ul>
       <DereceliAnahtari dereceli={dereceli} onDegistir={setDereceli} />
       <SkillSeti macTur="duello" />
       <div className="m2-giris-eylem">

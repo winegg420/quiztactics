@@ -23,4 +23,10 @@ export default {
   "Üst üste {n} hafta hiç maç oynamazsan da bir alt lige düşersin.": "You also drop a league if you play no matches for {n} weeks in a row.",
   "Haftalık ödül (grubunda ilk 3):": "Weekly reward (top 3 in your group):",
   "Elmas için o hafta en az 1 puan kazanmış olmalısın.": "To get gems you must have earned at least 1 point that week.",
+  // Turnuva lobisi: "Turnuva nasıl işler?" penceresi (ödüller oyun_ayarlari'ndan)
+  "Turnuva nasıl işler?": "How does the tournament work?",
+  "Herkese aynı soru aynı anda gelir. Yanlış cevap ya da süre aşımı seni eler; son kalan kazanır.": "Everyone gets the same question at the same time. A wrong answer or running out of time eliminates you; the last player standing wins.",
+  "Ödüller:": "Rewards:",
+  "Katılan herkese {n} coin verilir.": "Everyone who takes part gets {n} coins.",
+  "Turnuvadan yarıda çıkarsan katılım ödülü de gitmez.": "If you quit a tournament midway you also lose the participation reward.",
 };

@@ -23,17 +23,6 @@
 .m2-giris-yazi { min-width: 0; display: grid; gap: var(--qt-b-1); }
 .m2-giris-yazi .qt-baslik-1 { font-size: var(--qt-y-3xl); color: var(--qt-mod-yazi); }
 .m2-giris-yazi p { margin: 0; font-size: var(--qt-y-m); font-weight: var(--qt-a-kalin); line-height: var(--qt-sa-govde); text-wrap: pretty; }
-.m2-giris-kurallar {
-  list-style: none; margin: 0; padding: var(--qt-b-2) var(--qt-b-4);
-  border-radius: var(--qt-r-l); background: var(--qt-yuzey); color: var(--qt-metin);
-  box-shadow: var(--qt-kabartma-kart);
-}
-.m2-giris-kurallar li { display: flex; align-items: center; gap: var(--qt-b-3); padding: var(--qt-b-3) 0; font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); line-height: 1.35; }
-.m2-giris-kurallar li + li { border-top: 2px dashed var(--qt-cizgi); }
-.m2-giris-kural-ikon {
-  flex: none; display: grid; place-items: center; width: 40px; height: 40px;
-  border-radius: var(--qt-r-m); background: var(--qt-ikinci-acik); color: var(--qt-ikinci-koyu);
-}
 .m2-giris-eylem { display: grid; gap: var(--qt-b-2); justify-items: center; }
 .m2-giris-not { margin: 0; text-align: center; font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); color: var(--qt-zemin-soluk); }
 
