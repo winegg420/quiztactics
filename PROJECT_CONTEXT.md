@@ -178,6 +178,9 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
 - 25 kişilik gruplar. Grup = yalnız sıralama tablosu, eşleşmeyle ilgisi yok.
   İlk 5 yükselir, son 5 düşer. Pazartesi 00:00 (TSİ) sıfırlanır.
 - Eşleşme kendi ligi ± 1 lig ile sınırlıdır.
+- **Lig sayfası:** ⓘ "Lig kuralları" penceresi (yükselme/düşme sayıları `lig_grubum`'dan, haftalık coin `lig_odul_<lig>_<1-3>` + elmas
+  `elmas_lig_1-3`, pasiflik düşmesi `lig_pasif_dusme_hafta` — hepsi `oyun_ayarlari`'ndan). Pankart çubuğu tek ölçüdür: yükselme
+  hattına yakınlık (Efsane'de düşme hattına uzaklık); ölçek tabloda GÖRÜNEN satır sayısıdır (`grup_boyu` gizli üyeleri de sayar).
 - Misafir (anonim) hesap ligde ancak `lig_misafir_min_mac` (5) maçtan sonra
   görünür; oyuncu kendi satırını her zaman görür. Hesap silinmez.
 - **Toplam oyuncu sayısı hiçbir yerde gösterilmez.**
@@ -319,7 +322,7 @@ Aktif yedi maç skill'i vardır:
   kaynak `profiles.ulke` (gizli botlar dahil aynı alan, `lib/oyuncuSeviye.js` toplu sorgu + önbellek); ülke yoksa bayrak çizilmez.
   Klasik ve Düello'da iki oyuncu, Turnuva/Grup'ta kendi şeridin.
 - **Maç ekranları gök mavisi** (`.qt-sahne-gok`; koyu mor sahne yok): Hazır mısın?, Düello, Çalışma, bekleme, terk hâlleri.
-  Soru açıkken sayfa 100dvh sütun, kaydırmasız; joker + tepki hep görünür. Çok kısa alan (≤ 600 px yükseklik, ≈ iPhone Safari 375×553; Klasik/Grup/Turnuva `m1-mac.css`, Düello `DuelloPage.a.css`): kart 84 px'e iner, Sesli sohbet + tepki tek satır, joker hak yazısı gizli, Düello kategori fazı sıkışır — dört şık, joker çubuğu ve ≥ 3 kategori satırı ilk ekranda (ölçüm: gerçek 2–3 hesapla, `elementFromPoint`). Baykuş maskot oyundan tamamen çıktı (giriş: avatar üçlüsü, diğerleri ikon diski); Düello VS ~1,5 sn.
+  Soru açıkken sayfa 100dvh sütun, kaydırmasız; joker + tepki hep görünür. Çok kısa alan (≤ 600 px yükseklik, ≈ iPhone Safari 375×553; Klasik/Grup/Turnuva `m1-mac.css`, Düello `DuelloPage.a.css`): kart 84 px'e iner, Sesli sohbet + tepki tek satır, joker hak yazısı gizli, Düello kategori fazı sıkışır — dört şık, joker çubuğu ve ≥ 3 kategori satırı ilk ekranda (ölçüm: gerçek 2–3 hesapla, `elementFromPoint`). Tek ekran düzeni masaüstünde de KISA pencerede (yükseklik ≤ 960 px, genişlikten bağımsız) çalışır — maç sayfası dikey taşmaz (1024×768 ölçüldü; Klasik/Grup/Turnuva `m1-mac.css`, Düello `DuelloPage.a.css`). Baykuş maskot oyundan tamamen çıktı (giriş: avatar üçlüsü, diğerleri ikon diski); Düello VS ~1,5 sn.
 - **Hata kurtarma:** `HataSiniri` Layout'ta rota içeriğini sarar (alt menü kalır), `tembelYukle` (1 yeniden deneme),
   vite:preloadError'da bir kez yenile, "Bağlantı yok" şeridi. Dükkân alımları onay penceresiyle (`JokerSatinAlModal`);
   misafir çıkışında uyarı (`CikisOnayi`); ağ hatası metni tek yerden (`hataMesaji`) ve hata TÜRÜNE göre ayrışır (`hata.js › hataTuru`: çevrimdışı / zaman aşımı / sunucu / sunucuya ulaşılamıyor; "İnternetini kontrol et" her hatada yazılmaz).
@@ -408,8 +411,9 @@ Aktif yedi maç skill'i vardır:
 - İki katman: **açık botlar** (adında "Bot" geçer, %50 coin, anında cevaplar)
   ve **gizli botlar** (gerçek oyuncu gibi, tam coin, gerçekçi sürede cevaplar).
 - `is_bot` istemciye **ASLA sızmaz** — gizli botun bot olduğu anlaşılmamalı.
-- **Gizli botların hepsinde avatar var (610):** avatarı boş olanlara açık avatarlardan (31 + aktif katalog) bot
-  adına göre sabit (hashtext) avatar verildi; baş harfli (avatarsız) gizli bot kalmadı.
+- **Gizli botların hepsinde avatar var (610, 659):** avatarı boş olanlara açık avatarlardan (31 + aktif katalog) bot
+  adına göre sabit (hashtext) avatar verildi; `avatar_onayli` da açık olmalı (`gorunen_avatar` yalnız onaylıyken avatar_url'i verir) —
+  659 ile 75 botta açıldı; baş harfli (avatarsız) gizli bot kalmadı.
 - Gizli botlar arkadaşlık kabul etmez, lig değiştirmez.
 - **Gizli bot şehirleri (640) listeden ve nüfusa göre:** TR'de 81 ilin nüfus payı kadar (İstanbul 20, Ankara 7, İzmir 6…),
   yurt dışında ülkesinin en kalabalık 10 şehrinden nüfus ağırlıklı; şehirsiz gizli bot yok.
