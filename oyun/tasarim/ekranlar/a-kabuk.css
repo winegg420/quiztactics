@@ -53,7 +53,9 @@ body.bd-oyun-modu .a-kabuk .a-ust-blok { display: none; }
   box-shadow: 0 0 0 2px var(--qt-ikinci);
 }
 .a-davet-metin { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
-.a-davet-satir { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); }
+/* D-453: iki satıra sarılır (tek satır + ellipsis kısa adda bile "sana meydan …" kesiyordu); bant yüksekliği
+   esner, --qt-davet-yuk ResizeObserver ile ölçülmeye devam eder. Çok uzun ad 2 satırdan sonra kesilir. */
+.a-davet-satir { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; overflow-wrap: anywhere; font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); line-height: 1.25; }
 .a-davet-satir b { font-weight: var(--qt-a-siyah); }
 .a-davet-alt { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); }
 .a-davet .a-davet-kabul { flex: none; }

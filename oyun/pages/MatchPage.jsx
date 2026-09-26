@@ -591,7 +591,7 @@ export default function MatchPage() {
   const rakipBaglanmadi = mac?.durum === "iptal" && Boolean(mac?.baglanmayan);
   const yenidenAraDurumu = mac ? { yenidenAra: { dereceli: mac.dereceli !== false, jokersiz: Boolean(mac.jokersiz) } } : null;
   // A.3: yeni maç sonu sahnesinin verisi (tek çağrı: mac_sonu_ozet) — maç bitince bir kez okunur.
-  const { ozet: macSonuOzet } = useMacSonuOzet(mac?.durum === "bitti" ? `mac:${id}` : null);
+  const { ozet: macSonuOzet, hata: macSonuHata } = useMacSonuOzet(mac?.durum === "bitti" ? `mac:${id}` : null);
   useEffect(() => {
     if (!rakipBaglanmadi || mac.baglanmayan === user?.id) return;
     navigate(y("/"), { replace: true, state: yenidenAraDurumu });
@@ -862,7 +862,8 @@ export default function MatchPage() {
       );
     }
 
-    if (mac.durum === "bitti" && sonucHazir && !gecisBitti && !mac.terk_eden) {
+    // D-456: sonuç özeti gelene dek "Maç bitti!" perdesi kalır (özet yavaşken boş kabuk görünüyordu); özet hata verirse perde kalkar.
+    if (mac.durum === "bitti" && sonucHazir && (!gecisBitti || (!macSonuOzet && !macSonuHata)) && !mac.terk_eden) {
       return (
         <SureDolduGecis
           baslik={tt("Maç bitti!")}
@@ -891,7 +892,7 @@ export default function MatchPage() {
       const altYazi = sahne.terk || berabere || farkSoru < 1
         ? undefined
         : kazandim || farkSoru <= 2
-          ? tt("{n} soru farkla", { n: farkSoru })
+          ? (farkSoru === 1 ? tt("1 soru farkla") : tt("{n} soru farkla", { n: farkSoru }))
           : undefined;
       // Rövanş: bot rakipte doğrudan yeni maç (burada), gerçek oyuncuda istek
       // (MacSonuEklentisi, portal ile eylem çubuğuna). İkisi aynı anda ASLA görünmez.
@@ -1311,7 +1312,7 @@ export default function MatchPage() {
   })();
 
   // Maç sonu sahnesi kendi zeminini çizer; diğer bütün dallar maç sahnesinde (kategorisiz: gök mavisi — qt-sahne-gok).
-  const sonucEkrani = mac?.durum === "bitti" && sonucHazir && gecisBitti;
+  const sonucEkrani = mac?.durum === "bitti" && sonucHazir && gecisBitti && Boolean(macSonuOzet);
   return (
     <>
       {sonucEkrani ? ekran : <div className="qt-sahne-mac qt-sahne-gok m1-mac">{ekran}</div>}

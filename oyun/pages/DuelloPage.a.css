@@ -87,6 +87,9 @@
 .m2-ust .qt-oyuncu-ad { color: var(--qt-mac-metin); font-size: var(--qt-y-s); }
 .m2-secen .qt-oyuncu-ad { color: var(--qt-coin); }
 .m2-secen-rozet { background: var(--qt-coin); color: var(--qt-coin-yazi); }
+/* D-458: saldıran rozeti süs — dokunuşu tutmaz (rakip adı altında kalıyordu) ve avatarın köşesine oturur (ada binmez). */
+.m2-ust .qt-oyuncu-etkiler { pointer-events: none; left: 20px; }
+.m2-ust .qt-oyuncu--rakip .qt-oyuncu-etkiler { left: auto; right: 20px; }
 .m2-tur {
   display: grid; justify-items: center; gap: 0; min-width: 58px; padding: 0 var(--qt-b-1);
   color: var(--qt-mac-soluk); font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); line-height: 1.1;

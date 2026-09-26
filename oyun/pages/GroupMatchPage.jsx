@@ -88,7 +88,7 @@ export default function GroupMatchPage() {
   const [yanlisAdet, setYanlisAdet] = useState(0);
   const [terkEttim, setTerkEttim] = useState(false);   // A.1: "Maçtan çık" → grup_mac_terk (anında terk)
   // A.3: yeni maç sonu sahnesinin verisi (tek çağrı: mac_sonu_ozet) — maç bitince bir kez okunur.
-  const { ozet: macSonuOzet } = useMacSonuOzet(mac?.durum === "bitti" ? `grup:${id}` : null);
+  const { ozet: macSonuOzet, hata: macSonuHata } = useMacSonuOzet(mac?.durum === "bitti" ? `grup:${id}` : null);
   const balonTimer = useRef({});
 
   const balonGoster = useCallback((kimden, mesaj) => {
@@ -554,7 +554,8 @@ export default function GroupMatchPage() {
     );
   }
 
-  if (mac.durum === "bitti" && !gecisBitti) {
+  // D-456 (mod paritesi): özet gelene dek "Maç bitti!" perdesi kalır, boş kabuk görünmez.
+  if (mac.durum === "bitti" && (!gecisBitti || (!macSonuOzet && !macSonuHata))) {
     return sahne(
       <SureDolduGecis
         baslik={tt("Maç bitti!")}

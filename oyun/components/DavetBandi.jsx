@@ -117,6 +117,17 @@ export default function DavetBandi() {
     }
   };
 
+  // Alt satır (D-454): Düello'da kategori maç içinde seçilir, "kişi" grup bilgisidir → yalnız "+N davet daha".
+  // Meydan/rövanş: kategori · grup/hızlı: kategori · kişi sayısı (eskisi gibi).
+  const ekDavet = davetler.length > 1 ? tt("+{0} davet daha", { 0: davetler.length - 1 }) : "";
+  const altSatir = d.tur === "duello"
+    ? ekDavet
+    : [
+        d.kategori ? kategoriEtiket(d.kategori) : tt("Karışık"),
+        d.tur !== "mac" && d.tur !== "rovans" && d.kisi_sayisi ? tt("{0} kişi", { 0: d.kisi_sayisi }) : "",
+        ekDavet,
+      ].filter(Boolean).join(" · ");
+
   // Yön A: üst bloğun altında mor şerit. Maç ekranlarında üst blokla birlikte gizlenir.
   return (
     <div ref={kok} className={sinif("a-davet", `a-davet--${d.tur}`)} role="alert">
@@ -131,13 +142,7 @@ export default function DavetBandi() {
             {/* Ajan C: ada dokununca davet edenin oyuncu kartı */}
             <OyuncuAdiDugmesi userId={d.davet_eden} profil={d} oge="b">{d.gorunen_ad ?? tt("Bir oyuncu")}</OyuncuAdiDugmesi> {bilgi.etiket}!
           </span>
-          <span className="a-davet-alt">
-            {d.kategori ? kategoriEtiket(d.kategori) : tt("Karışık")}
-            {d.tur !== "mac" && d.tur !== "rovans" && d.kisi_sayisi
-              ? tt(" · {0} kişi", { 0: d.kisi_sayisi })
-              : ""}
-            {davetler.length > 1 ? tt(" · +{0} davet daha", { 0: davetler.length - 1 }) : ""}
-          </span>
+          {altSatir && <span className="a-davet-alt">{altSatir}</span>}
         </span>
 
         <QtDugme boyut="k" tur="ikincil" devreDisi={islemde} onClick={() => cevapla(true)} className="a-davet-kabul">

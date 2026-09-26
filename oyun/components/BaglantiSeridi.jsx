@@ -28,6 +28,13 @@ export default function BaglantiSeridi() {
       window.removeEventListener("offline", guncelle);
     };
   }, []);
+  // D-457: maçta sayfayı şerit yüksekliği kadar aşağı itmek için html'e işaret (bkz. hata-kurtarma.css)
+  useEffect(() => {
+    if (cevrimici) return undefined;
+    const kok = document.documentElement;
+    kok.classList.add("qt-cevrimdisi");
+    return () => kok.classList.remove("qt-cevrimdisi");
+  }, [cevrimici]);
   if (cevrimici || typeof document === "undefined") return null;
   return createPortal(
     <div className="qt-baglanti-yok" role="status" aria-live="polite">

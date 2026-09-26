@@ -841,6 +841,8 @@ const SOZLUK = {
     "Karışık": "Mixed",
     " · {0} kişi": " · {0} players",
     " · +{0} davet daha": " · +{0} more invites",
+    "{0} kişi": "{0} players",
+    "+{0} davet daha": "+{0} more invites",
     "Kabul Et": "Accept",
     "Daveti reddet": "Decline invite",
     "Kodu kopyala": "Copy code",
@@ -2307,6 +2309,7 @@ const SOZLUK = {
     "Mesaj en fazla 500 karakter olabilir": "Messages can be at most 500 characters",
     // Paket 36 — maç sonu sahnesi
     "{n} soru farkla": "by {n} questions",
+    "1 soru farkla": "by 1 question",
     "lig puanı": "league points",
     "Detay": "Details",
     "{can}/{toplam} can": "{can}/{toplam} lives",

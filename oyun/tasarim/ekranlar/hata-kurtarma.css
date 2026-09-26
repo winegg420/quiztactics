@@ -73,12 +73,24 @@
 }
 
 /* "Bağlantı yok" şeridi — en üstte, ince; çentik payı safe-area-inset-top */
+/* D-457: şerit artık başlığın/X düğmesinin ÜSTÜNE binmez.
+   • Üst çubuk görünürken (toast şeridiyle aynı kural) çubuğun (+ davet bandının) ALTINDA belirir;
+   • maçta (üst çubuk yok) şerit en üstte kalır ama sayfa şerit yüksekliği kadar aşağı itilir
+     (html.qt-cevrimdisi — BaglantiSeridi ekler; --qt-baglanti-yuk = şerit yüksekliği). */
+html.qt-cevrimdisi { --qt-baglanti-yuk: calc(env(safe-area-inset-top, 0px) + 27px); }
+html.qt-cevrimdisi body.bd-oyun-modu .app.a-kabuk { padding-top: var(--qt-baglanti-yuk); box-sizing: border-box; }
+html:not(.msk-acik) body:not(.bd-oyun-modu):has(.a-ust-blok):not(:has(.qt-ortu)) .qt-baglanti-yok {
+  top: calc(env(safe-area-inset-top, 0px) + var(--qt-ustcubuk-yuk) + var(--qt-davet-yuk, 0px));
+  padding-top: 5px;
+}
 .qt-baglanti-yok {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 2147483000;
+  z-index: var(--qt-z-toast, 80);
+  box-sizing: border-box;
+  min-height: 27px;
   display: flex;
   align-items: center;
   justify-content: center;
