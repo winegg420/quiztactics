@@ -17,6 +17,8 @@ const yerelSay = async (dizi) => Number(await tek(`select count(*) from unnest($
 
 try {
   await db.sorgu('begin');
+  // Canlı DB: kaçak bir sorgu (26 Eyl: soru_sec satır başına çağrıldı, 615 sn DB zamanı) herkesi kilitlemesin.
+  await db.sorgu("set local statement_timeout = '30s'");
   for (const m of process.argv.slice(2)) await db.sorgu(fs.readFileSync(m, 'utf8'));
   await db.sorgu(`update oyun_ayarlari set deger='1' where anahtar='soru_kapsam_filtresi_acik'`);
 

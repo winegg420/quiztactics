@@ -13,6 +13,8 @@ async function hata(sql) { await db.sorgu('savepoint s'); try { await db.sorgu(s
 const tek = (s) => db.tek(s);
 try {
   await db.sorgu('begin');
+  // Canlı DB: kaçak bir sorgu (26 Eyl: soru_sec satır başına çağrıldı, 615 sn DB zamanı) herkesi kilitlemesin.
+  await db.sorgu("set local statement_timeout = '30s'");
   if (MIG) await db.sorgu(fs.readFileSync(MIG, 'utf8'));
   await db.sorgu(`update duellolar set durum='iptal' where durum='aktif' and (oyuncu1 in ('${A}','${B}') or oyuncu2 in ('${A}','${B}'))`);
   const yeniMac = async () => {

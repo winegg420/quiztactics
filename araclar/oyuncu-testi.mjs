@@ -190,6 +190,18 @@ async function sayacRaporu(etiket) {
 const konsol = [];
 s.on("console", (m) => { if (m.type() === "error") konsol.push(m.text().slice(0, 200)); });
 s.on("pageerror", (e) => konsol.push("pageerror: " + String(e).slice(0, 200)));
+// Nabız izi: Klasik 3-2-1 katmanı takılırsa hangi nabız yanıtının onu beslediği görülsün.
+const nabizIzi = [];
+const IZ_BAS = Date.now();
+s.on("response", async (r) => {
+  if (!/\/rpc\/(mac_nabiz|submit_match_answer)/.test(r.url())) return;
+  try {
+    const g = await r.json();
+    const x = Array.isArray(g) ? g[0] : g;
+    nabizIzi.push({ t: Date.now() - IZ_BAS, rpc: r.url().split("/rpc/")[1], durum: r.status(),
+      basladi: x?.basladi, baslangic: x?.baslangic, sunucu: x?.sunucu_zamani, sure: r.timing?.().responseEnd ?? null });
+  } catch { nabizIzi.push({ t: Date.now() - IZ_BAS, rpc: r.url().split("/rpc/")[1], durum: r.status(), govde: "okunamadı" }); }
+});
 
 // ---------------------------------------------------------------- ölçüm: kutu kesişimi
 // Görünür ve dokunulabilir öğeler; biri ötekinin atası/torunu değilse kutuları
@@ -885,10 +897,28 @@ async function soruDongusu(ad, ulastiMi, bittiMi, siradakiIndex, enCokSoru = 25,
       await s.waitForTimeout(600);
       break;
     }
+    // Klasik ilk soru: kart 3-2-1 sırasında çizilir, şıklar "etkin" ama üstlerinde sayım katmanı (.m1-sayim) durur
+    // (kasıtlı). Katman kalkmadan dokunulursa 4 sn'lik dokunuş zaman aşımı sayımın kalanından (≤ 5 sn) kısa kalıyordu.
+    await s.locator(".m1-sayim").first().waitFor({ state: "detached", timeout: 9000 })
+      .catch(() => basarisiz(`${ad}: ${n + 1}. soruda 3-2-1 katmanı 9 sn'de kalkmadı`));
     const hedef = dogruSik ? await dogruSik() : null;
     const hedefSik = hedef !== null && hedef !== undefined ? s.locator(":is(.bd-secenek, .qt-sik)").nth(hedef) : null;
     const sik = hedefSik && await hedefSik.isEnabled().catch(() => false) ? hedefSik : s.locator(":is(.bd-secenek, .qt-sik):not([disabled]):not(.elendi):not(.qt-sik--elendi)").first();
-    await sik.tap({ timeout: 4000 }).catch((e) => basarisiz(`${ad}: şıka dokunulamadı — ${String(e.message).split(String.fromCharCode(10))[0]}`));
+    await sik.tap({ timeout: 4000 }).catch(async (e) => {
+      // Tanı: şıkın ortasında gerçekte hangi öğe duruyor, şık neden dokunulmaz (Playwright iletisinin tamamı + ekran).
+      const tani = await sik.evaluate((el) => {
+        const r = el.getBoundingClientRect();
+        const ust = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2);
+        const cs = getComputedStyle(el);
+        return { sik: el.className, disabled: el.disabled, pe: cs.pointerEvents, opak: cs.opacity, kutu: [r.x, r.y, r.width, r.height].map(Math.round),
+                 ust: ust ? `${ust.tagName}.${String(ust.className).slice(0, 80)}` : null, ustSikMi: !!ust && el.contains(ust),
+                 kaydirma: [window.scrollY, innerHeight], sayac: document.querySelector(".qt-sayac, .m1-sayac")?.textContent ?? null };
+      }).catch((x) => ({ hata: String(x.message).slice(0, 120) }));
+      console.log("  nabız izi (son 12):", JSON.stringify(nabizIzi.slice(-12).map((k) => ({ ...k, t: k.t - (Date.now() - IZ_BAS) }))));
+      const dosya = `oyuncu-testi-hata-dokunus-${Date.now()}.png`;
+      await s.screenshot({ path: dosya }).catch(() => {});
+      basarisiz(`${ad}: şıka dokunulamadı — ${String(e.message).split(String.fromCharCode(10))[0]}`, { tani, iz: String(e.message).split(String.fromCharCode(10)).slice(1, 12).join(" | "), dosya });
+    });
     let ulasti = false;
     for (let i = 0; i < 20 && !ulasti; i++) { await bekle(250); ulasti = await ulastiMi(index); }
     if (!ulasti) { basarisiz(`${ad}: ${n + 1}. soruda dokunuldu ama cevap sunucuya ulaşmadı`, { index }); return; }
