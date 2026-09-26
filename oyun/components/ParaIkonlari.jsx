@@ -1,6 +1,6 @@
 // COIN ve ELMAS — TEK ikon seti (görsel revizyon entegrasyonu, Ida seçimi 25 Eyl 2026).
-// Kaynak: tasarim/BRIEF_GORSEL_REVIZYON.md + tasarim/SECIMLER_GORSEL_REVIZYON.md (seçim 1 "Dönen Sikke",
-// seçim 2 "Pırlanta"), aday çizimi oyun/tasarim/gorsel-revizyon/a/cizim/para.jsx (CoinC/ElmasA) — burada
+// Kaynak: tasarim/BRIEF_GORSEL_REVIZYON.md + tasarim/SECIMLER_GORSEL_REVIZYON.md (seçim 1 "Q Sikke, önden" — önce
+// "Dönen Sikke" idi, 26 Eyl 2026'da değişti; seçim 2 "Pırlanta"), aday çizimi oyun/tasarim/gorsel-revizyon/a/cizim/para.jsx (CoinA/ElmasA) — burada
 // oyunun HER YERİNDE kullanılan hafif, animasyonsuz üretim sürümü olarak yeniden çizildi (küçük inline
 // simge; büyük "hareketli" gösterim elmas paketi görsellerinde zaten var, ona dokunulmadı).
 // Eskiden coin/elmas için İKİ FARKLI çizim vardı: bu dosyadan önce QtIkon'un tek renkli "coin"/"elmas"
@@ -37,51 +37,72 @@ let sayac = 0;
 function kimlikUret(on) { sayac += 1; return `${on}${sayac}`; }
 
 /**
- * Coin ikonu — "Dönen Sikke" (Ida seçimi). Eğik elips gövde + Q kabartma.
- * ≤ 22 px: eğim azaltılır (düzeltme 5 — ince çizgiye dönmesin), iç ayrıntı sadeleşir.
+ * Coin ikonu — "Q Sikke" (önden; Ida seçimi 26 Eyl 2026, önceki "Dönen Sikke" yerine). Aday çizimi CoinA ile aynı mantık:
+ * kalınlık (yan yüz) + yüz + kabarık kenar ışığı + çukur alan + Q kabartma; hareketsiz üretim sürümü.
+ * ≤ 28 px (boy kuralı A9): iç ayrıntı azalır, kontur kalınlaşır, Q "koyu oyma harf" olur.
  */
 export function CoinIkon({ boyut = 20, className, etiket }) {
   const id = kimlikUret("ci");
-  const kucuk = boyut <= 22;
-  const w = kucuk ? 4.6 : 3.2;
-  const cx = 28, cy = 32, ry = 25;
-  // Küçük boyda daha az eğik (rx büyür) → ince çizgi yerine okunur oval.
-  const rx = kucuk ? 15.5 : 19.5;
-  const t = kucuk ? 5.5 : 7;
-  const yuz = elips(cx, cy, rx, ry);
-  const ic = elips(cx, cy, rx - 5, ry - 6.6);
+  const kucuk = boyut <= 28;
+  const w = kucuk ? 4.8 : 3.2;
+  const t = kucuk ? 3.6 : 4;
+  const cx = 32, cy = 30, r = 25;
+  const ic = r - (kucuk ? 5.5 : 7);
+  const yuz = daire(cx, cy, r);
   return (
     <svg width={boyut} height={boyut} viewBox="0 0 64 64" className={className} role={etiket ? "img" : undefined}
          aria-label={etiket} aria-hidden={etiket ? undefined : "true"} focusable="false">
-      <path d={`M${cx} ${cy - ry}H${cx + t}A${rx} ${ry} 0 0 1 ${cx + t} ${cy + ry}H${cx}Z`} fill={A.koyu} {...cz(w)} />
-      <path d={elips(cx + t, cy, rx, ry)} fill={A.koyu} {...cz(w)} />
-      <HucreGolge id={`${id}y`} d={yuz} acik={A.orta} koyu={A.koyu} dx={-2} dy={-2.4} />
+      <path d={daire(cx, cy + t, r)} fill={A.koyu} {...cz(w)} />
+      {!kucuk && Array.from({ length: 9 }, (_, i) => {
+        const [x0, y0] = kutup(r, 112 + i * 17, cx, cy);
+        return <path key={i} d={`M${x0} ${f(y0 + 0.6)}V${f(y0 + t - 0.4)}`} stroke={A.kenar} strokeWidth="1.1" strokeLinecap="round" />;
+      })}
+      <HucreGolge id={`${id}y`} d={yuz} acik={A.orta} koyu={A.koyu} />
+      <path d={dilim(r - 1, ic + 1.2, 262, 352, cx, cy)} fill={A.acik} />
       {!kucuk && (
         <>
-          <HucreGolge id={`${id}a`} d={ic} acik={A.orta} koyu={A.koyu} dx={1.6} dy={2} />
-          <path d={ic} fill="none" stroke={A.kenar} strokeWidth="1.4" />
+          <HucreGolge id={`${id}a`} d={daire(cx, cy, ic)} acik={A.orta} koyu={A.koyu} dx={1.8} dy={2.2} />
+          <circle cx={cx} cy={cy} r={ic} fill="none" stroke={A.kenar} strokeWidth="1.4" />
         </>
       )}
-      <g transform={`translate(${f(cx + 0.4)} ${f(cy + 0.4)}) scale(${kucuk ? 0.27 : 0.19}) translate(-60 -60) skewX(-7) translate(7 0)`}>
-        {kucuk ? (
-          <>
-            <path d={Q_YOL} fillRule="evenodd" fill={A.kenar} />
-            <path d={Q_KUYRUK} fill={BEYAZ} stroke={A.kenar} strokeWidth="7.4" />
-          </>
-        ) : (
-          <>
-            <g transform="translate(1.5 1.5)" fill={A.kenar}><path d={Q_YOL} fillRule="evenodd" /><path d={Q_KUYRUK} /></g>
-            <path d={Q_YOL} fillRule="evenodd" fill={A.acik} stroke={A.kenar} strokeWidth="7.9" strokeLinejoin="round" />
-            <path d={Q_KUYRUK} fill={BEYAZ} stroke={A.kenar} strokeWidth="7.9" strokeLinejoin="round" />
-          </>
-        )}
-      </g>
-      <path d={`M${f(cx - rx + 4.2)} ${f(cy - 5)}Q${f(cx - rx + 5)} ${f(cy - ry + 7)} ${f(cx - 4)} ${f(cy - ry + 3.6)}`} fill="none" stroke={BEYAZ} strokeWidth={kucuk ? 3.4 : 2.6} strokeLinecap="round" />
+      {kucuk ? (
+        <g transform="translate(32.4 30.4) scale(0.27) translate(-60 -60) skewX(-7) translate(7 0)" strokeLinejoin="round">
+          <path d={Q_YOL} fillRule="evenodd" fill={A.kenar} />
+          <path d={Q_KUYRUK} fill={BEYAZ} stroke={A.kenar} strokeWidth={f(2 / 0.27)} />
+        </g>
+      ) : (
+        <>
+          <g transform="translate(34.1 31.9) scale(0.2) translate(-60 -60) skewX(-7) translate(7 0)" fill={A.kenar}>
+            <path d={Q_YOL} fillRule="evenodd" /><path d={Q_KUYRUK} />
+          </g>
+          <g transform="translate(32.6 30.4) scale(0.2) translate(-60 -60) skewX(-7) translate(7 0)" strokeLinejoin="round" strokeWidth={f(1.5 / 0.2)} stroke={A.kenar}>
+            <path d={Q_YOL} fillRule="evenodd" fill={A.acik} />
+            <path d={Q_KUYRUK} fill={BEYAZ} />
+          </g>
+        </>
+      )}
+      <path d={yay(r - 3.4, 292, 334, cx, cy)} fill="none" stroke={BEYAZ} strokeWidth={kucuk ? 3.2 : 2.6} strokeLinecap="round" />
       <path d={yuz} fill="none" {...cz(w)} />
     </svg>
   );
 }
-function elips(cx, cy, rx, ry) { return `M${f(cx - rx)} ${cy}a${rx} ${ry} 0 1 0 ${f(2 * rx)} 0a${rx} ${ry} 0 1 0 ${f(-2 * rx)} 0Z`; }
+function daire(cx, cy, r) { return `M${f(cx - r)} ${cy}a${r} ${r} 0 1 0 ${f(2 * r)} 0a${r} ${r} 0 1 0 ${f(-2 * r)} 0Z`; }
+const RAD = Math.PI / 180;
+/** Kutupsal nokta: a derece, 0 = tepe, saat yönünde. */
+function kutup(r, a, cx, cy) { return [f(cx + r * Math.sin(a * RAD)), f(cy - r * Math.cos(a * RAD))]; }
+function yay(r, a0, a1, cx, cy) {
+  const [x0, y0] = kutup(r, a0, cx, cy);
+  const [x1, y1] = kutup(r, a1, cx, cy);
+  return `M${x0} ${y0}A${r} ${r} 0 0 1 ${x1} ${y1}`;
+}
+/** Halka dilimi (r1 dış, r2 iç) — kabarık kenarın ışık aldığı sol üst yay. */
+function dilim(r1, r2, a0, a1, cx, cy) {
+  const [x0, y0] = kutup(r1, a0, cx, cy);
+  const [x1, y1] = kutup(r1, a1, cx, cy);
+  const [x2, y2] = kutup(r2, a1, cx, cy);
+  const [x3, y3] = kutup(r2, a0, cx, cy);
+  return `M${x0} ${y0}A${r1} ${r1} 0 0 1 ${x1} ${y1}L${x2} ${y2}A${r2} ${r2} 0 0 0 ${x3} ${y3}Z`;
+}
 
 /**
  * Elmas ikonu — "Pırlanta" (Ida seçimi), elmas paketi görselleriyle aynı aile.

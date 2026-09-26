@@ -14,7 +14,7 @@ Her push öncesi `git pull --rebase`; çakışmada diğer tarafın değişikliğ
 | # | Konu | Seçim |
 |---|---|---|
 | 0 | Stil rehberi | **Onaylandı** |
-| 1 | Coin ikonu | C — Dönen Sikke (yandan) `coin-egik` |
+| 1 | Coin ikonu | C — Dönen Sikke (yandan) `coin-egik` | — **26.09.2026 GÜNCELLEME (Ida): A — Q Sikke (önden) `coin-q` seçildi, canlı ikon değişti**
 | 2 | Elmas ikonu | A — Pırlanta (paket ailesi) `elmas-pirlanta` |
 | 3 | Nadirlik kart kenarı | 1 — Köşe etiketi + kalın kenar `nadir-kose` — **renkler değişti:** Sıradan gri · **Nadir YEŞİL** · **Epik KESKİN MOR** · Efsanevi altın |
 | 4 | Tek oyuncu kartı | A — Vitrin kartı (dikey) `kart-a` |
