@@ -497,8 +497,8 @@ export default function CalismaPage() {
       <QtKart className="m1-cal-sonuc">
         <QtRozet ton="mor" ikon="kitap">{tt("Çalışma · puan verilmez")}</QtRozet>
         {oturum?.bankadan === 0 && <p className="m1-cal-not">{tt("Pratik turu — bankan temizdi.")}</p>}
-        <div className="m1-cal-buyuk qt-sayi">{ogrenilen}</div>
-        <p className="m1-cal-not">{tt("soru öğrenildi")}</p>
+        <div className={`m1-cal-buyuk qt-sayi${ogrenilen > 0 ? "" : " m1-cal-buyuk--sifir"}`}>{ogrenilen}</div>
+        <p className="m1-cal-not">{ogrenilen > 0 ? tt("soru öğrenildi") : tt("Henüz yok — denemeye devam et")}</p>
 
         <div className="m1-cal-sayilar m1-cal-sayilar--uc">
           <div><b className="qt-sayi">{sonuc?.dogru ?? 0}</b><span>{tt("doğru")}</span></div>

@@ -37,6 +37,9 @@ export default {
   "Klasik Ustası": "Classic Master",
   // ——— A.3: sahne bütün modlarda canlı + A.1 terk kuralı ———
   "Maçtan ayrıldın": "You left the match",
+  "Sonraki adım": "Next step",
+  "Hazır olduğunda yeni bir maçla devam et.": "Jump into a new match whenever you're ready.",
+  "Yeni maç bul": "Find a new match",
   "Rakip ayrıldı — galibiyet": "Opponent left — victory",
   "Yarıda bırakılan maçta ödül yok": "No rewards for an abandoned match",
   "Rakibin maçı yarıda bıraktı": "Your opponent left mid-match",

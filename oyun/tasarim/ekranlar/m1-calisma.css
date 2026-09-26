@@ -52,6 +52,7 @@
 .m1-cal-sonuc { display: flex; flex-direction: column; align-items: center; gap: var(--qt-b-3); text-align: center; color: var(--qt-metin); }
 .m1-cal-sonuc .m1-cal-not { color: var(--qt-metin-soluk); }
 .m1-cal-buyuk { font-family: var(--qt-f-baslik); font-weight: var(--qt-a-siyah); font-size: var(--qt-y-4xl); line-height: 1; color: var(--qt-dogru-koyu); animation: qt-h-pop-gir var(--qt-s-uzun) var(--qt-egri-yay) both; }
+.m1-cal-buyuk.m1-cal-buyuk--sifir { color: var(--qt-metin-soluk); }
 
 @media (prefers-reduced-motion: reduce) {
   .m1-cal-buyuk { animation: none; }
