@@ -62,8 +62,8 @@ export default function FriendsPage() {
           .eq("kuran", user.id).eq("durum", "bekliyor").limit(50),
         supabase.from("matches").select("id, oyuncu1, oyuncu2")
           .or(`oyuncu1.eq.${user.id},oyuncu2.eq.${user.id}`).eq("durum", "aktif").limit(50),
-        supabase.from("duellolar").select("id, oyuncu1, oyuncu2")
-          .or(`oyuncu1.eq.${user.id},oyuncu2.eq.${user.id}`).eq("durum", "aktif").limit(50),
+        // duellolar tablosu istemciye kapalı (403) → dar okuma RPC'si
+        supabase.rpc("duello_aktif_benim"),
       ]);
       if (mac.error) throw mac.error;
       const m = new Map();
