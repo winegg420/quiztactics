@@ -26,6 +26,7 @@ import enGiris from "./ceviri/giris.js";
 import enTasarim from "./ceviri/tasarim.js";
 import enKozmetik from "./ceviri/kozmetik.js";
 import enAntrenman from "./ceviri/antrenman.js";
+import enDenetim5 from "./ceviri/denetim5.js";
 import enMacSonuOnizleme from "./ceviri/mac-sonu-onizleme.js";
 import enArama from "./ceviri/arama.js";
 import enPremium from "./ceviri/premium.js";
@@ -2485,7 +2486,7 @@ const SOZLUK = {
     "Skill bulunamadı": "Joker not found",
   },
 };
-Object.assign(SOZLUK.en, enMac, enAna, enLig, enDukkan, enGiris, enTasarim, enKozmetik, enAntrenman, enMacSonuOnizleme, enArama, enPremium, enCikisOnay, enGuvenlik, enKoleksiyon, enSunucu, enTarama);
+Object.assign(SOZLUK.en, enMac, enAna, enLig, enDukkan, enGiris, enTasarim, enKozmetik, enAntrenman, enMacSonuOnizleme, enArama, enPremium, enCikisOnay, enGuvenlik, enKoleksiyon, enSunucu, enTarama, enDenetim5);
 
 /**
  * JOKER ADI (Ida kararı, 24 Eyl 2026): oyuncuya görünen ad "Skill" değil **"Joker"** (TR ve EN).

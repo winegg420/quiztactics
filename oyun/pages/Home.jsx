@@ -451,7 +451,7 @@ export default function Home() {
         tur="altSayfa"
         onKapat={() => setKategoriSheet(false)}
         baslik={tt("Rakip kategorisi")}
-        aciklama={tt("\"Hemen oyna\" bu kategoride rakip arar.")}
+        aciklama={tt("Klasik Maç ve Saf Bilgi bu kategoride rakip arar.")}
       >
         <QtListe etiket={tt("Rakip kategorisi seç")} className="a-ana-kategori-liste">
           {[{ kategori: "", soru_sayisi: null }, ...kategorileriSirala(kategoriler)].map((k) => {

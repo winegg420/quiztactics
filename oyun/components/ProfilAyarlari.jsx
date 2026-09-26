@@ -176,7 +176,7 @@ export default function ProfilAyarlari() {
               <span className="qt-pf-takma-ad">{profile.gorunen_ad}</span>
               <span className="qt-kucuk qt-soluk">
                 {kalanKilit > 0
-                  ? tt("Tekrar değiştirebilmen için {0} kaldı.", { 0: sureMetni(kalanKilit) })
+                  ? tt("Seçimin kaydedildi. Bir sonraki değişiklik için {0} var.", { 0: sureMetni(kalanKilit) })
                   : tt("Günde bir kez değiştirebilirsin.")}
               </span>
             </div>
@@ -232,11 +232,13 @@ export default function ProfilAyarlari() {
                   {tt("Google fotoğrafım")}
                 </QtDugme>
               )}
-              <QtDugme tur="ikincil" boyut="k" devreDisi={calisiyor} onClick={() => avatarKaydet(null)}>
-                {tt("Kaldır")}
+              <QtDugme tur="ikincil" boyut="k" devreDisi={calisiyor} onClick={() => avatarKaydet(null)}
+                        title={tt("Seçili avatarı kaldırır; yerine adının baş harfi görünür.")}>
+                {tt("Avatarı kaldır")}
               </QtDugme>
-              <QtDugme tur="hayalet" boyut="k" onClick={() => setAvatarDuzenle(false)}>
-                {tt("Kapat")}
+              <QtDugme tur="hayalet" boyut="k" onClick={() => setAvatarDuzenle(false)}
+                        title={tt("Avatar seçiciyi kapatır; avatarın olduğu gibi kalır.")}>
+                {tt("Seçiciyi kapat")}
               </QtDugme>
             </div>
           </>
@@ -289,7 +291,7 @@ export default function ProfilAyarlari() {
       <QtKart as="section" className="qt-pf-bolum" aria-labelledby="qt-pf-kategori-tercih">
         <h2 id="qt-pf-kategori-tercih" className="qt-baslik-3">{tt("Varsayılan kategorim")}</h2>
         <p className="qt-kucuk qt-soluk">
-          {tt("\"Hemen Oyna\" ve \"Dereceli Maç\" bu kategoride rakip arar. Ana Sayfa'dan da değiştirebilirsin.")}
+          {tt("Klasik Maç ve Saf Bilgi bu kategoride rakip arar. Ana Sayfa'dan da değiştirebilirsin.")}
         </p>
         <div className="qt-pf-kategori-izgara">
           <button

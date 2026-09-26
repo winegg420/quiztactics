@@ -149,7 +149,7 @@ export default function KonumSecici({ mod = "kart", onKapat, onKaydedildi }) {
           <span>
             {haftaKilitli
               ? tt("Bu hafta puan kazandığın için şehrini yeni hafta başlayana kadar değiştiremezsin.")
-              : tt("Konumunu tekrar değiştirebilmen için {0} kaldı.", { 0: sureMetni(kalan) })}
+              : tt("Konumun kaydedildi. Bir sonraki değişiklik için {0} var.", { 0: sureMetni(kalan) })}
           </span>
         </p>
       )}

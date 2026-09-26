@@ -403,7 +403,7 @@ export default function ProfilePage() {
                     </span>
                   ) : konumKilidiKalan(profile.konum_degisti_at) > 0 && (
                     <span className="qt-kucuk qt-soluk">
-                      {tt("Değiştirmek için {0} kaldı.", { 0: sureMetni(konumKilidiKalan(profile.konum_degisti_at)) })}
+                      {tt("Bir sonraki değişiklik için {0} var.", { 0: sureMetni(konumKilidiKalan(profile.konum_degisti_at)) })}
                     </span>
                   )}
                 </div>
