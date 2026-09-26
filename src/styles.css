@@ -220,6 +220,8 @@ input:focus { border-color: var(--primary); }
   border: 2px solid var(--border);
 }
 .avatar img { width: 100%; height: 100%; object-fit: cover; }
+/* D-414: avatarsız oyuncuda baş harf her zeminde okunur (turuncu zemin + lacivert yazı ≥ 5:1); premium/lig kuralları daha özgüldür */
+.avatar--harf { background: #ff7a2e; color: #1d2152; border-color: #c24a0c; }
 .sira-no { width: 28px; text-align: center; font-weight: 800; color: var(--text-dim); flex-shrink: 0; }
 .sira-no.ilk3 { color: var(--accent); }
 

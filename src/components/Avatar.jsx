@@ -28,7 +28,7 @@ export default function Avatar({ profile, boyut = 42 }) {
 
   return (
     <div
-      className="avatar"
+      className={gorsel ? "avatar" : "avatar avatar--harf"}
       style={{ width: boyut, height: boyut, fontSize: boyut * 0.4 }}
     >
       {gorsel ? (
