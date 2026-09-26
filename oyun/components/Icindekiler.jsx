@@ -29,14 +29,15 @@ export default function Icindekiler() {
   return (
     <nav ref={ref} className="g-icindekiler" aria-label={tt("İçindekiler")}>
       {basliklar.length > 0 && (
-        <>
-          <p className="qt-baslik-3 g-icindekiler-baslik">{tt("İçindekiler")}</p>
+        // D-228: kapalı başlar — telefonda ilk ekranı liste değil asıl metin ("Kısaca") doldursun
+        <details className="g-icindekiler-kap">
+          <summary className="qt-baslik-3 g-icindekiler-baslik">{tt("İçindekiler")}</summary>
           <ol className="g-icindekiler-liste">
             {basliklar.map((b) => (
               <li key={b.id}><a href={`#${b.id}`} onClick={(e) => git(e, b.id)}>{b.ad}</a></li>
             ))}
           </ol>
-        </>
+        </details>
       )}
     </nav>
   );
