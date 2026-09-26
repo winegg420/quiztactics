@@ -26,6 +26,7 @@ import SkillRozeti from "./SkillRozeti.jsx";
 import { QtCan, QtDugme, QtIkon, QtSik, QtSikler, QtSkill, QtSkillCubugu, QtSoruKarti, QtSonucBandi, sinif } from "../tasarim/index.js";
 import { SeviyeEtiketi } from "./MacUstSerit.jsx";
 import OyuncuAdiDugmesi from "./OyuncuAdiDugmesi.jsx";
+import { adKisalt } from "../lib/adKisalt.js";
 import CerceveliAvatar from "./CerceveliAvatar.jsx";
 import IsimEfekti from "./IsimEfekti.jsx";
 import { TepkiAvatar } from "./Tepki.jsx";
@@ -73,7 +74,7 @@ export function V2Ust({ d, ben, rakip, kayip = {}, c, seviyeler = {}, tepkiBalon
         <span className="qt-oyuncu-yazi">
           {/* Ajan C: ada dokununca oyuncu kartı (kendi "Sen" → kendi kartın) */}
           <OyuncuAdiDugmesi userId={o.id} profil={o} className="qt-oyuncu-ad">
-            <IsimEfekti userId={o.id} {...(seviyeler[o.id] ? { kart: seviyeler[o.id] } : {})}>{rakipMi ? o.gorunen_ad : c("Sen")}</IsimEfekti>
+            <IsimEfekti userId={o.id} {...(seviyeler[o.id] ? { kart: seviyeler[o.id] } : {})}>{rakipMi ? adKisalt(o.gorunen_ad) : c("Sen")}</IsimEfekti>
           </OyuncuAdiDugmesi>
           <SeviyeEtiketi {...(seviyeler[o.id] ?? {})} />
           <QtCan key={kayip[o.id] ?? "can"} dolu={can} toplam={Math.max(3, can)} boyut={16} ters={rakipMi}
@@ -471,7 +472,7 @@ export function V2Cevap({ d, rakip, secenekler, secim, ikinciSansElendi, calisan
           </span>
         </span>
         <span key={cv.rakip_cevapladi ? "c" : "d"} className={sinif("m2-durum", cv.rakip_cevapladi && "m2-durum--tamam qt-h-pop-gir")}>
-          <OyuncuAdiDugmesi userId={rakip.id} profil={rakip} oge="b">{rakip.gorunen_ad}</OyuncuAdiDugmesi>
+          <OyuncuAdiDugmesi userId={rakip.id} profil={rakip} oge="b">{adKisalt(rakip.gorunen_ad)}</OyuncuAdiDugmesi>
           <span>{cv.rakip_cevapladi ? <><QtIkon ad="onay" boyut={14} /> {c("cevapladı")}</> : c("düşünüyor…")}</span>
         </span>
       </div>

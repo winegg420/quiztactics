@@ -22,6 +22,7 @@ import CerceveliAvatar from "./CerceveliAvatar.jsx";
 import IsimEfekti from "./IsimEfekti.jsx";
 import { KartUnvani, KartKoleksiyonu } from "./OyuncuVitrinKarti.jsx";
 import OyuncuAdiDugmesi from "./OyuncuAdiDugmesi.jsx";
+import { adKisalt } from "../lib/adKisalt.js";
 import OyuncuLigAmblemi from "./OyuncuLigAmblemi.jsx";
 import { HAZIR_AVATARLAR } from "../lib/avatarKatalogu.js";
 import { aktifDil, tt } from "../lib/dil.js";
@@ -130,7 +131,7 @@ function VsOyuncu({ profil, kart, taraf, boyut }) {
       </span>
       {/* İsme dokununca oyuncu kartı (OyuncuAdiDugmesi: gizli bot işareti ön izlemeden ayıklanır) */}
       <OyuncuAdiDugmesi userId={profil?.id} profil={profil} oge="b" className="gh-ad" dugmeSinifi="gh-ad-dugme">
-        <IsimEfekti userId={profil?.id}>{profil?.gorunen_ad ?? tt("Sen")}</IsimEfekti>
+        <IsimEfekti userId={profil?.id}>{adKisalt(profil?.gorunen_ad) ?? tt("Sen")}</IsimEfekti>
       </OyuncuAdiDugmesi>
       {level != null && <span className="gh-lv">{tt("Lv {0}", { 0: level })}</span>}
       {/* 643: unvan — tek oyuncu kartının küçük hâli (oyuncu_kartlari; aynı toplu çağrı) */}
@@ -207,7 +208,7 @@ export default function AramaGunesHalkasi({
           <CerceveliAvatar profile={ben} userId={ben?.id} boyut={50} {...(benKart ? { kart: benKart } : {})} />
           <span className="gh-ben-yazi">
             <OyuncuAdiDugmesi userId={ben?.id} profil={ben} oge="b" className="gh-ad gh-ad--kucuk" dugmeSinifi="gh-ad-dugme">
-              <IsimEfekti userId={ben?.id}>{ben?.gorunen_ad ?? tt("Sen")}</IsimEfekti>
+              <IsimEfekti userId={ben?.id}>{adKisalt(ben?.gorunen_ad) ?? tt("Sen")}</IsimEfekti>
             </OyuncuAdiDugmesi>
             <span className="gh-ben-alt">
               {benLevel != null && <span className="gh-lv">{tt("Lv {0}", { 0: benLevel })}</span>}

@@ -23,6 +23,7 @@ import { useAuth } from "../../src/context/AuthContext.jsx";
 import AvatarCerceve from "../components/AvatarCerceve.jsx";
 import AvatarDugmesi from "../components/AvatarDugmesi.jsx";
 import OyuncuAdiDugmesi from "../components/OyuncuAdiDugmesi.jsx";
+import { adKisalt } from "../lib/adKisalt.js";
 import QuestionCard from "../components/QuestionCard.jsx";
 import { y } from "../lib/yol.js";
 import { useGorunurlukTazele, zamanAsimiyla } from "../lib/gorunurluk.js";
@@ -664,7 +665,7 @@ export default function GroupMatchPage() {
             <span className="m1-grup-sira" aria-hidden="true">{i + 1}</span>
             <AvatarCerceve profile={k.profil} boyut={30} userId={k.user_id} />
             {/* Ajan C: ada dokununca oyuncu kartı (düğme satırda adın yerini alır: esnek) */}
-            <OyuncuAdiDugmesi userId={k.user_id} profil={k.profil} className="m1-grup-ad" dugmeSinifi="ls-ad-dugme--esnek">{k.profil?.gorunen_ad}{k.user_id === user.id && <SenRozeti />}</OyuncuAdiDugmesi>
+            <OyuncuAdiDugmesi userId={k.user_id} profil={k.profil} className="m1-grup-ad" dugmeSinifi="ls-ad-dugme--esnek">{adKisalt(k.profil?.gorunen_ad)}{k.user_id === user.id && <SenRozeti />}</OyuncuAdiDugmesi>
             {balonlar[k.user_id] && (
               <span className={`m1-balon${k.user_id === user.id ? "" : " m1-balon--rakip"} m1-grup-balon`}>
                 {balonIcerik(balonlar[k.user_id])}

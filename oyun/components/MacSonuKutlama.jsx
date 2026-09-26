@@ -53,6 +53,7 @@ yumusakHareketKur();
 import { sesMacSonu, sesMuzikSahne } from "../lib/ses.js";
 import { coinTazele } from "../lib/coin.js";
 import { tt, ttSunucu } from "../lib/dil.js";
+import { adKisalt } from "../lib/adKisalt.js";
 import "../tasarim/ekranlar/mac-sonu-kutlama.css";
 
 export const MS_ZAMAN = { afis: 0, kupa: 150, avatar: 300, konfeti: 700, coin: 1000, xp: 1400, lig: 1800, gorev: 2000, son: 2600 };
@@ -141,7 +142,7 @@ function Taraf({ kisi, rol, yan, canToplam, sen, zafer }) {
         <AdDugmesi userId={kisi?.profil?.id} profil={kisi?.profil}>
           <span className="msk-isim-metin">
             <IsimEfekti userId={kisi?.profil?.id} {...(kisi?.isimEfekti !== undefined ? { ef: kisi.isimEfekti } : {})} acik hareketli={rol === "kazanan"}>
-              {kisi?.profil?.gorunen_ad ?? ""}
+              {adKisalt(kisi?.profil?.gorunen_ad) ?? ""}
             </IsimEfekti>
           </span>
         </AdDugmesi>
@@ -664,6 +665,14 @@ function MacSonuKutlama({
           </div>
         )}
       </section>}
+
+      {asama >= 2 && benTerk && (
+        <section className="msk-kart msk-terk-oneri" aria-label={tt("Sonraki adım")} onClick={durdur}>
+          <p className="msk-terk-metin">{tt("Hazır olduğunda yeni bir maçla devam et.")}</p>
+          <QtDugme tamGenislik ikon="yenile" onClick={() => eylemler.onYeniMac?.()}>{eylemler.yeniMacEtiketi ?? tt("Yeni maç bul")}</QtDugme>
+          <QtDugme tur="ikincil" tamGenislik ikon="ev" onClick={() => eylemler.onAnaSayfa?.()}>{tt("Ana sayfaya dön")}</QtDugme>
+        </section>
+      )}
 
       {asama >= 2 && rozet && (
         <section ref={rozetRef} className="msk-rozet msk-a" aria-label={tt("Yeni rozet")}>

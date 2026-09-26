@@ -19,6 +19,7 @@ import { QtBosDurum, QtCip, QtDugme, QtEtki, QtIkon, QtIkonDugme, QtMacUst, QtMo
 import "../tasarim/ekranlar/m1-mac.css";
 import MacUstSerit, { SeviyeEtiketi } from "../components/MacUstSerit.jsx";
 import OyuncuAdiDugmesi from "../components/OyuncuAdiDugmesi.jsx";
+import { adKisalt } from "../lib/adKisalt.js";
 import CerceveliAvatar from "../components/CerceveliAvatar.jsx";
 import { VsKarti } from "../components/AramaSahnesi.jsx";
 import { useOyuncuSeviyeleri } from "../lib/oyuncuSeviye.js";
@@ -1067,7 +1068,7 @@ export default function MatchPage() {
     // Maç burada kapanmaz — rakip kendi zamanında oynayınca sonuçlanır.
     const benimSoru = benP1 ? (mac.oyuncu1_soru ?? 0) : (mac.oyuncu2_soru ?? 0);
     const senOyuncu = {
-      ad: <IsimEfekti userId={benimProfil?.id} {...(seviyeler[benimProfil?.id] ? { kart: seviyeler[benimProfil?.id] } : {})}>{benimProfil?.gorunen_ad ?? tt("Sen")}</IsimEfekti>,
+      ad: <IsimEfekti userId={benimProfil?.id} {...(seviyeler[benimProfil?.id] ? { kart: seviyeler[benimProfil?.id] } : {})}>{adKisalt(benimProfil?.gorunen_ad) ?? tt("Sen")}</IsimEfekti>,
       avatar: avatarSrc(benimProfil),
       avatarDugum: (
         <TepkiAvatar balon={tepki.balonlar[benimProfil?.id]} yan="sen">
@@ -1081,7 +1082,7 @@ export default function MatchPage() {
       ),
     };
     const rakipOyuncu = {
-      ad: <IsimEfekti userId={rakipProfil?.id} {...(seviyeler[rakipProfil?.id] ? { kart: seviyeler[rakipProfil?.id] } : {})}>{rakipProfil?.gorunen_ad ?? tt("Rakip")}</IsimEfekti>,
+      ad: <IsimEfekti userId={rakipProfil?.id} {...(seviyeler[rakipProfil?.id] ? { kart: seviyeler[rakipProfil?.id] } : {})}>{adKisalt(rakipProfil?.gorunen_ad) ?? tt("Rakip")}</IsimEfekti>,
       avatar: avatarSrc(rakipProfil),
       avatarDugum: (
         <TepkiAvatar balon={tepki.balonlar[rakipProfil?.id]} yan="rakip">
