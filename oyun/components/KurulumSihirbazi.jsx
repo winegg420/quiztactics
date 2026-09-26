@@ -277,8 +277,12 @@ export default function KurulumSihirbazi({ onTamam }) {
                 className="g-girdi"
                 value={ulke}
                 onChange={(e) => {
+                  if (e.target.value === ulke) return;
                   setUlke(e.target.value);
                   setSehir("");
+                  // Önceki ülkenin şehirleri yeni ülkeyle seçilip sunucuda "Geçersiz şehir" olmasın
+                  setSehirler([]);
+                  setSehirYukleniyor(true);
                 }}
               >
                 {ulkeListesi.map((u) => (
