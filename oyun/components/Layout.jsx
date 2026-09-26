@@ -27,7 +27,7 @@ import { y } from "../lib/yol.js";
 import { GARDIROP_ACIK } from "../lib/ozellikBayraklari.js";
 import { cihazBildir } from "../lib/cihaz.js";
 import { ayarlar } from "../lib/ayarlar.js";
-import { turnuvaSaatleriniAyarla, turnuvaListesiniAyarla } from "../lib/zaman.js";
+import { turnuvaSaatleriniAyarla, turnuvaListesiniAyarla, oyuncuUlkesiniAyarla } from "../lib/zaman.js";
 import { tt } from "../lib/dil.js";
 import { useDil } from "../lib/dilKanca.js";
 import { sesSayfaGecis } from "../lib/ses.js";
@@ -88,6 +88,9 @@ export default function Layout() {
     try { localStorage.setItem("bildim_karakter_secildi", "1"); } catch { /* yut */ }
     navigate(y("/gorunum"));
   }, [profile?.id, profile?.takma_ad_secildi, profile?.avatar_onayli, profile?.ulke]);
+
+  // Turnuva saatleri oyuncunun ülkesi TR değilse yerel saate çevrilerek gösterilir (zaman.js).
+  useEffect(() => { oyuncuUlkesiniAyarla(profile?.ulke); }, [profile?.ulke]);
 
   // Turnuva saatleri sunucudan (oyun_ayarlari) okunur; geri sayımlar ve
   // meydandaki kupa binası bu değerleri kullanır.

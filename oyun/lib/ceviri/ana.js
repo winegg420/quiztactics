@@ -69,5 +69,6 @@ export default {
   "Katılıyor…": "Joining…",
   "Günde {n} turnuva": "{n} tournaments a day",
   "Türkiye saati": "Türkiye time",
+  "Saatler cihazının saat dilimine göre": "Times shown in your device's time zone",
   "Katıl, son kalan kazansın": "Join — last one standing wins",
 };

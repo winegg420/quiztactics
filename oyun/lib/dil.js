@@ -132,6 +132,8 @@ const SOZLUK = {
     "Her gün {saat}'de (Türkiye saati) turnuva.": "A tournament every day at {saat} (Türkiye time).",
     "Her gün {n} turnuva: ilki {ilk}, sonuncusu {son} (Türkiye saati).":
       "{n} tournaments every day: the first at {ilk}, the last at {son} (Türkiye time).",
+    "Her gün {saat}'de turnuva.": "A tournament every day at {saat}.",
+    "Her gün {n} turnuva: ilki {ilk}, sonuncusu {son}.": "{n} tournaments every day: the first at {ilk}, the last at {son}.",
     "7/24 meydan okumalar. Sen de yerini al.":
       "Challenges around the clock. Take your place.",
     "Google ile devam et": "Continue with Google",

@@ -59,6 +59,7 @@ export default {
   "Canlı · {n} oyuncu hayatta": "Live · {n} players left",
   "Hayatta kalanlar": "Still standing",
   "{ad} · {n} doğru": "{ad} · {n} correct",
+  "Turnuvalar her gün {saatler} saatlerinde başlar; başlamadan lobide olman gerekir.": "Tournaments start every day at {saatler}; you need to be in the lobby before it starts.",
   "Turnuvalar her gün {saatler} saatlerinde başlar (Türkiye saati); başlamadan lobide olman gerekir.": "Tournaments start every day at {saatler} (Turkey time); you need to be in the lobby before it starts.",
   "Son kalan kazanır ve +150 lig puanı alır;": "Last one standing wins +150 league points;",
   "ilk 10'a giren ve katılan herkes de puan kazanır. Finalde joker kullanılamaz — sadece bilgi.": "the top 10 and everyone who joins earn points too. No jokers in the final — just knowledge.",

@@ -6,7 +6,7 @@ import "../../oyun/tasarim/ekranlar/g-giris.css";
 import { girisHedefiniKaydet } from "../lib/girisHedefi.js";
 import { useDil } from "../../oyun/lib/dilKanca.js";
 import { DILLER, girisDiliniKaydet } from "../../oyun/lib/dil.js";
-import { turnuvaSaatleri } from "../../oyun/lib/zaman.js";
+import { turnuvaSaatleri, turnuvaSaatiGoster, yerelSaatGoster } from "../../oyun/lib/zaman.js";
 
 import { ACIK_SAGLAYICILAR, acikSaglayicilariOku } from "../lib/saglayicilar.js";
 
@@ -213,6 +213,12 @@ export default function Login() {
                   Giriş öncesi ayar okunamazsa kod varsayılanı. */}
               {(() => {
                 const s = turnuvaSaatleri();
+                // Türkçe dışında saatler cihazın saat dilimine çevrilir, TSİ parantezde (zaman.js).
+                if (yerelSaatGoster()) {
+                  return s.length === 1
+                    ? ceviri("Her gün {saat}'de turnuva.", { saat: turnuvaSaatiGoster(s[0]) })
+                    : ceviri("Her gün {n} turnuva: ilki {ilk}, sonuncusu {son}.", { n: s.length, ilk: turnuvaSaatiGoster(s[0]), son: turnuvaSaatiGoster(s[s.length - 1]) });
+                }
                 return s.length === 1
                   ? ceviri("Her gün {saat}'de (Türkiye saati) turnuva.", { saat: s[0] })
                   : ceviri("Her gün {n} turnuva: ilki {ilk}, sonuncusu {son} (Türkiye saati).", { n: s.length, ilk: s[0], son: s[s.length - 1] });

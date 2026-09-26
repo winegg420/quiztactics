@@ -163,6 +163,9 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
 - Dakikalık zamanlayıcı (`turnuva_zamanlayici_tik`) listeyi `turnuva_saatleri_listesi()` ile okur.
   Lobi başlangıçtan `turnuva_lobi_acilis_dk` (120) önce "açık" sayılır: botlar dolar, ana sayfa
   şeridi nabız atar. Hatırlatma push'u 14:00 ve 20:00 seanslarından 45 dk önce (günde 2).
+- **Saat gösterimi (26 Eyl 2026):** turnuva anı hep TSİ'de sabit; yalnız GÖSTERİM cihaz saat dilimine çevrilir.
+  Arayüz dili TR ya da profil ülkesi TR (ya da cihaz zaten TSİ'de) → eskisi gibi yalnız TSİ; başkası → yerel saat + "(TSİ …)".
+  Tek hesap `lib/zaman.js › turnuvaSaatiGoster / turnuvaSaatleriniGoster`; turnuva saatinin yazıldığı her yer bunu kullanır.
 - Turnuva önemli etkinliktir: ana sayfa oyuncuyu katılmaya iter (avatar kartı altındaki şerit).
 
 ### Lig
@@ -308,6 +311,9 @@ Aktif yedi maç skill'i vardır:
 - **Rakip arama ekranı "Güneş Halkası"** (Ida, 24 Eyl; `AramaSahnesi.jsx` → tembel `AramaGunesHalkasi.jsx`): gök mavisi,
   ortada dönen halka + yörüngede avatarlar, süre, mod/Dereceli rozeti, "Biliyor muydun?" (TR/EN), VS `ARAMA_GECIS_MS`
   (2 sn) içinde. Klasik, Saf Bilgi, Düello ve Grup araması; ada dokununca oyuncu kartı.
+- **Maç şeridinde ülke bayrağı (26 Eyl 2026):** oyuncu adının altındaki "Lv · lig" satırının başında (`SeviyeEtiketi` › `Bayrak`);
+  kaynak `profiles.ulke` (gizli botlar dahil aynı alan, `lib/oyuncuSeviye.js` toplu sorgu + önbellek); ülke yoksa bayrak çizilmez.
+  Klasik ve Düello'da iki oyuncu, Turnuva/Grup'ta kendi şeridin.
 - **Maç ekranları gök mavisi** (`.qt-sahne-gok`; koyu mor sahne yok): Hazır mısın?, Düello, Çalışma, bekleme, terk hâlleri.
   Soru açıkken sayfa 100dvh sütun, kaydırmasız; joker + tepki hep görünür. Çok kısa alan (≤ 600 px yükseklik, ≈ iPhone Safari 375×553; Klasik/Grup/Turnuva `m1-mac.css`, Düello `DuelloPage.a.css`): kart 84 px'e iner, Sesli sohbet + tepki tek satır, joker hak yazısı gizli, Düello kategori fazı sıkışır — dört şık, joker çubuğu ve ≥ 3 kategori satırı ilk ekranda (ölçüm: gerçek 2–3 hesapla, `elementFromPoint`). Baykuş maskot oyundan tamamen çıktı (giriş: avatar üçlüsü, diğerleri ikon diski); Düello VS ~1,5 sn.
 - **Hata kurtarma:** `HataSiniri` Layout'ta rota içeriğini sarar (alt menü kalır), `tembelYukle` (1 yeniden deneme),

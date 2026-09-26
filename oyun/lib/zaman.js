@@ -5,6 +5,8 @@
 // ESKİ sabah/akşam ayarları (turnuva_saat_sabah/aksam) yalnız eski satırların
 // anını çözmek için; saat listesi aşağıda (turnuva_saatleri).
 // Türkiye yıl boyu UTC+3 (aşağıdaki değerler UTC).
+import { aktifDil } from "./dil.js";
+
 const VARSAYILAN = { sabah: [10, 0], aksam: [18, 50] };   // UTC
 let saatler = VARSAYILAN;
 
@@ -32,10 +34,71 @@ export function turnuvaListesiniAyarla(dizi) {
     const temiz = [...new Set((Array.isArray(dizi) ? dizi : []).map(String))]
       .filter((x) => dakikaCoz(x) !== null)
       .sort((a, b) => dakikaCoz(a) - dakikaCoz(b));
-    if (temiz.length) turnuvaListesi = temiz;
+    if (temiz.length) {
+      turnuvaListesi = temiz;
+      saatAyariDegisti();
+    }
   } catch {
     /* varsayılan liste kalır */
   }
+}
+
+// ---- YEREL SAAT GÖSTERİMİ (26 Eyl 2026) ----
+// Turnuva anı hâlâ TSİ'de sabittir; yalnız GÖSTERİM oyuncunun cihaz saat
+// dilimine çevrilir. Türkiye oyuncusu (arayüz dili TR ya da profil ülkesi TR)
+// eskisi gibi yalnız TSİ görür; başkası kendi saatini + "(TSİ …)" görür.
+// Turnuva saatlerinin listelendiği her yer BURADAKİ iki fonksiyonu kullanır.
+let oyuncuUlkesi = null;
+
+function saatAyariDegisti() {
+  try {
+    if (typeof window !== "undefined") window.dispatchEvent(new Event("qt-saat-ayar"));
+  } catch {
+    /* DOM yok */
+  }
+}
+
+/** Oyuncunun profildeki ülke kodu (Layout profil yüklenince çağırır). */
+export function oyuncuUlkesiniAyarla(kod) {
+  const k = kod ? String(kod).toUpperCase() : null;
+  if (k === oyuncuUlkesi) return;
+  oyuncuUlkesi = k;
+  saatAyariDegisti();
+}
+
+/** Saatler oyuncunun yerel saatine çevrilip gösterilsin mi? (TR oyuncuda hayır.) */
+export function yerelSaatGoster() {
+  if (aktifDil() === "tr" || oyuncuUlkesi === "TR") return false;
+  try {
+    return new Date().getTimezoneOffset() !== -180;   // cihaz zaten TSİ'deyse çevirecek bir şey yok
+  } catch {
+    return false;
+  }
+}
+
+/** Bir turnuva seansının ("20:00" TSİ) bugünkü anını cihazın saat dilimine göre biçimler. */
+function yerelSaatMetni(saat) {
+  try {
+    const dk = dakikaCoz(saat);
+    if (dk === null) return null;
+    const an = new Date(tsiGunBasi(Date.now()) + dk * 60000);
+    return new Intl.DateTimeFormat(undefined, { hour: "numeric", minute: "2-digit" }).format(an);
+  } catch {
+    return null;   // Intl yoksa TSİ gösterilir
+  }
+}
+
+/** Tek seans: TR → "20:00"; yabancı → "1:00 PM (TSİ 20:00)". */
+export function turnuvaSaatiGoster(saat) {
+  const yerel = yerelSaatGoster() ? yerelSaatMetni(saat) : null;
+  return yerel ? `${yerel} (TSİ ${saat})` : saat;
+}
+
+/** Seans listesi: TR → "10:00, 14:00"; yabancı → "3:00 AM, 7:00 AM (TSİ 10:00, 14:00)". */
+export function turnuvaSaatleriniGoster(saatler, ayrac = ", ") {
+  const yerel = yerelSaatGoster() ? saatler.map(yerelSaatMetni) : [];
+  if (!yerel.length || yerel.some((x) => !x)) return saatler.join(ayrac);
+  return `${yerel.join(ayrac)} (TSİ ${saatler.join(ayrac)})`;
 }
 
 /** Günün turnuva saatleri (TSİ metin, sıralı). */

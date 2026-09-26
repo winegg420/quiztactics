@@ -4,7 +4,8 @@ import { QtKart, QtListe, QtListeSatiri, QtRozet } from "../tasarim/index.js";
 import CerceveliAvatar from "./CerceveliAvatar.jsx";
 import OyuncuAdiDugmesi from "./OyuncuAdiDugmesi.jsx";   // Ajan C: ada dokununca oyuncu kartı
 import "../tasarim/ekranlar/m1-turnuva.css";
-import { turnuvaSaatleri } from "../lib/zaman.js";
+import { turnuvaSaatleri, turnuvaSaatleriniGoster, yerelSaatGoster } from "../lib/zaman.js";
+import { useSaatAyari } from "./TurnuvaSaatleri.jsx";
 import { tt } from "../lib/dil.js";
 
 /**
@@ -12,6 +13,7 @@ import { tt } from "../lib/dil.js";
  * nasıl oynanır (3 madde) + son turnuvanın ilk 3'ü + katılımcı sayısı.
  */
 export default function TurnuvaTanitim() {
+  useSaatAyari();
   const [sonTurnuva, setSonTurnuva] = useState(null);
   const [ilkUc, setIlkUc] = useState([]);
   const [katilan, setKatilan] = useState(0);
@@ -69,7 +71,9 @@ export default function TurnuvaTanitim() {
             <span className="m1-tv-no" aria-hidden="true">1</span>
             <span>
               <b>{tt("Lobiye katıl.")}</b>{" "}
-              {tt("Turnuvalar her gün {saatler} saatlerinde başlar (Türkiye saati); başlamadan lobide olman gerekir.", { saatler: turnuvaSaatleri().join(", ") })}
+              {yerelSaatGoster()
+                ? tt("Turnuvalar her gün {saatler} saatlerinde başlar; başlamadan lobide olman gerekir.", { saatler: turnuvaSaatleriniGoster(turnuvaSaatleri()) })
+                : tt("Turnuvalar her gün {saatler} saatlerinde başlar (Türkiye saati); başlamadan lobide olman gerekir.", { saatler: turnuvaSaatleri().join(", ") })}
             </span>
           </li>
           <li>

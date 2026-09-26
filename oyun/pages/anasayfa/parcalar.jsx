@@ -10,11 +10,11 @@ import OyuncuAdiDugmesi from "../../components/OyuncuAdiDugmesi.jsx";
 import Avatar from "../../../src/components/Avatar.jsx";
 import SeriRozeti from "../../components/SeriRozeti.jsx";
 import Countdown from "../../components/Countdown.jsx";
-import { TurnuvaSaatEtiketi } from "../../components/TurnuvaSaatleri.jsx";
+import { TurnuvaSaatEtiketi, useSaatAyari } from "../../components/TurnuvaSaatleri.jsx";
 import { QtIkon, QtIlerleme } from "../../tasarim/index.js";
 import { LIG_ADLARI } from "../../lib/lig.js";
 import { tt, ttSunucu } from "../../lib/dil.js";
-import { geriSayim, sonrakiTurnuva, turnuvaSaatleri } from "../../lib/zaman.js";
+import { geriSayim, sonrakiTurnuva, turnuvaSaatleri, turnuvaSaatiGoster, yerelSaatGoster } from "../../lib/zaman.js";
 import { y } from "../../lib/yol.js";
 import { CoinIkon } from "../../components/ParaIkonlari.jsx";
 
@@ -255,7 +255,7 @@ export function TurnuvaSeridi({ v, git }) {
         )}
         {hal === "bekleme" && (
           <>
-            <b>{tt("Sonraki turnuva {saat}", { saat: sonraki.saat })}</b>
+            <b>{tt("Sonraki turnuva {saat}", { saat: turnuvaSaatiGoster(sonraki.saat) })}</b>
             <small>
               <span className="qt-sayi" role="timer" aria-label={tt("Turnuvaya kalan süre")}>{sure}</span>
               {odulMetni && (
@@ -278,6 +278,7 @@ export function TurnuvaSeridi({ v, git }) {
 
 /** Günün seans listesi (masaüstü sağ panel): saatler oyun_ayarlari.turnuva_saatleri'nden. */
 export function TurnuvaSeansListesi() {
+  useSaatAyari();
   const [, setTik] = useState(0);
   useEffect(() => {
     const id = setInterval(() => setTik((x) => x + 1), 30000);
@@ -292,11 +293,11 @@ export function TurnuvaSeansListesi() {
         {saatler.map((s) => (
           <li key={s} className={s === siradaki ? "as-seans as-seans--siradaki" : "as-seans"}
               aria-current={s === siradaki ? "true" : undefined}>
-            {s}
+            {turnuvaSaatiGoster(s)}
           </li>
         ))}
       </ul>
-      <small className="as-seans-not">{tt("Türkiye saati")}</small>
+      <small className="as-seans-not">{yerelSaatGoster() ? tt("Saatler cihazının saat dilimine göre") : tt("Türkiye saati")}</small>
     </div>
   );
 }
