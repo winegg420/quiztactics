@@ -202,7 +202,8 @@ export default function Home() {
       if (error) throw error;
       const satirlar = data ?? [];
       if (!satirlar.length) { setLigDurum(null); return; }
-      const sira = satirlar.findIndex((s) => s.user_id === user.id) + 1;
+      // 661: sıra sunucudan gerçek gelir (gizli üyeler dahil); satır indeksi + 1 görünen satırları sayardı.
+      const sira = Number(satirlar.find((s) => s.user_id === user.id)?.sira) || 0;
       setLigDurum({
         lig: satirlar[0].lig,
         grupBoyu: satirlar[0].grup_boyu,

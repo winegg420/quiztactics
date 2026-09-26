@@ -180,7 +180,8 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
 - Eşleşme kendi ligi ± 1 lig ile sınırlıdır.
 - **Lig sayfası:** ⓘ "Lig kuralları" penceresi (yükselme/düşme sayıları `lig_grubum`'dan, haftalık coin `lig_odul_<lig>_<1-3>` + elmas
   `elmas_lig_1-3`, pasiflik düşmesi `lig_pasif_dusme_hafta` — hepsi `oyun_ayarlari`'ndan). Pankart çubuğu tek ölçüdür: yükselme
-  hattına yakınlık (Efsane'de düşme hattına uzaklık); ölçek tabloda GÖRÜNEN satır sayısıdır (`grup_boyu` gizli üyeleri de sayar).
+  hattına yakınlık (Efsane'de düşme hattına uzaklık); ölçek gerçek grup boyudur (`grup_boyu`; sıra da gerçek — aşağıya bak).
+- **Gösterilen sıra = gerçek sıra (661, Ida 26 Eyl):** `lig_grubum` sırayı grubun TÜM üyeleri arasında (haftalık kapanışla birebir: `puan_hafta`, `puan`, ad, id) hesaplar, görünürlüğü sonra süzer; gizli üyeler satır olarak görünmez ama numarada boşluk bırakır (1,2,…,11,13,16). Yükselme/düşme bölgesi ve çizgileri bu sıraya göre.
 - Misafir (anonim) hesap ligde ancak `lig_misafir_min_mac` (5) maçtan sonra
   görünür; oyuncu kendi satırını her zaman görür. Hesap silinmez.
 - **Toplam oyuncu sayısı hiçbir yerde gösterilmez.**

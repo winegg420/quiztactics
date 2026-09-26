@@ -449,13 +449,15 @@ export function LigKarti({ v }) {
         {kalan && <small className="as-lk-kalan">{tt("Hafta bitimine {k}", { k: kalan })}</small>}
       </span>
       <ol className="as-lk-liste" aria-hidden="true">
-        {satirlar.map((r) => {
-          const uzak = Math.abs(r.sira - o.sira) >= 2;
+        {satirlar.map((r, i) => {
+          // 661: sıra gerçek (gizli üyeler boşluk bırakır) → sınır işareti tam sıraya değil, sınırı geçen ilk/son GÖRÜNEN satıra düşer.
+          const onceki = satirlar[i - 1], sonraki = satirlar[i + 1];
+          const yukSiniri = o.yukselme_sirasi != null && r.sira <= o.yukselme_sirasi && (!sonraki || sonraki.sira > o.yukselme_sirasi);
+          const dusSiniri = o.dusme_sirasi != null && r.sira >= o.dusme_sirasi && onceki && onceki.sira < o.dusme_sirasi;
+          const uzak = Math.abs(i - satirlar.findIndex((x) => x.ben)) >= 2;
           return (
             <li key={r.user_id ?? r.sira}
-                className={`as-lk-satir${r.ben ? " as-lk-satir--ben" : ""}${uzak ? " as-lk-satir--uzak" : ""}${
-                  o.yukselme_sirasi != null && r.sira === o.yukselme_sirasi ? " as-lk-satir--yukselme-siniri" : ""}${
-                  o.dusme_sirasi != null && r.sira === o.dusme_sirasi ? " as-lk-satir--dusme-siniri" : ""}`}>
+                className={`as-lk-satir${r.ben ? " as-lk-satir--ben" : ""}${uzak ? " as-lk-satir--uzak" : ""}${yukSiniri ? " as-lk-satir--yukselme-siniri" : ""}${dusSiniri ? " as-lk-satir--dusme-siniri" : ""}`}>
               <span className="as-lk-no qt-sayi">{r.sira}</span>
               <CerceveliAvatar profile={{ gorunen_ad: r.ad, gorunen_avatar: r.avatar }} userId={r.user_id}
                                cerceve={r.cerceve ?? null} kart={{ cerceve: r.cerceve ?? null, cerceve_nadirlik: r.cerceve_nadirlik,

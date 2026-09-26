@@ -239,11 +239,11 @@ export default function LeaderboardPage() {
   const benimBolgem = benimSiram ? bolge(benimSiram) : null;
   // D-226: pankart çubuğu TEK bir şeyi ölçer — bir sonraki sınıra uzaklık. Yükselme olan ligde: yükselme hattına
   // yakınlık (grubun dibi %0, hat %100; düşme hattı olan ligde çizgi). Yükselmesi olmayan Efsane'de: düşme hattına uzaklık.
-  // Sıra tabloda GÖRÜNEN oyuncular arasında sayıldığı için ölçek de görünen satır sayısıdır (grup_boyu gizli üyeleri de
-  // sayar: 82 üyeli grupta #15 oyuncu %87 dolu görünüyordu). Grup boyu yazılmaz.
+  // 661: sıra sunucudan GERÇEK gelir (grubun tüm üyeleri arasında, haftalık kapanışla aynı) — gizli üyeler satır olarak
+  // görünmez ama sırada yer tutar; bu yüzden ölçek de gerçek grup boyudur. Grup boyu yazılmaz.
   let cubuk = null;
   if (grupBilgi && benimSiram) {
-    const N = Math.max(liste.length, benimSiram);
+    const N = Math.max(grupBilgi.grup_boyu ?? 0, benimSiram);
     if (yukselmeVar) {
       const yuk = grupBilgi.yukselen;
       const aralik = Math.max(1, N - yuk);
@@ -577,16 +577,19 @@ export default function LeaderboardPage() {
                    aria-label={kapsam === "lig" && grupBilgi
                      ? tt("{lig} Ligi", { lig: LIG_ADLARI[grupBilgi.lig] ?? grupBilgi.lig })
                      : kapsamAdi}>
-                {(podyum.length === 3 ? kalanlar : ilk100).map((s) => {
+                {(podyum.length === 3 ? kalanlar : ilk100).map((s, i, dizi) => {
                   if (kapsam !== "lig" || !grupBilgi) return satir(s);
                   // Kademeli ligde sınır çizgileri: kimin yükseleceği ve
-                  // kimin düşeceği listeye bakınca görünsün.
+                  // kimin düşeceği listeye bakınca görünsün. Sıra gerçek (gizli üyeler
+                  // boşluk bırakır), bu yüzden çizgi tam sınır sırasındaki satıra değil,
+                  // sınırın üstündeki SON görünen satıra çizilir.
+                  const sonraki = dizi[i + 1];
                   return [
                     satir(s),
-                    yukselmeVar && s.sira === grupBilgi.yukselen
+                    yukselmeVar && s.sira <= grupBilgi.yukselen && (!sonraki || sonraki.sira > grupBilgi.yukselen)
                       ? <div key={`cizgi-y-${s.user_id}`} role="listitem" className="lg-sinir-kap">{sinirCizgisi("yukselme")}</div>
                       : null,
-                    dusmeVar && s.sira === dusmeSiniri
+                    dusmeVar && s.sira <= dusmeSiniri && sonraki && sonraki.sira > dusmeSiniri
                       ? <div key={`cizgi-d-${s.user_id}`} role="listitem" className="lg-sinir-kap">{sinirCizgisi("dusme")}</div>
                       : null,
                   ];
