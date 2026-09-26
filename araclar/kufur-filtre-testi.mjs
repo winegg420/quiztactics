@@ -14,12 +14,21 @@ const MESAJ = [
   ["serefsizsin", true], ["piç", true], ["fuck you", true], ["F*U*C*K", true], ["you are a bitch", true],
   ["motherfucker", true], ["salak mısın", true], ["salaklar", true], ["gerizekalı", true], ["yavşak", true],
   ["@mk", true], ["$ik", true], ["ibne", true], ["pezevenk", true],
+  // 653: tamamı BÜYÜK yazım (I hem ı hem i okunur); ı'lı okuması yaygın kelime olanlar masum kalır
+  ["SIKTIR", true], ["SIKTIR GIT", true], ["SIKEYIM", true], ["GERIZEKALI", true], ["IBNE", true], ["AMCIK", true],
+  ["SIKINTI", false], ["SIKISTIM", false], ["SIK SIK", false], ["ISIK", false], ["SIKKE", false], ["SISTEM", false],
+];
+// [metin, dil, maskelenmeli mi] — 653: İngilizce hesapta çıplak "pic" (picture) masum; piç/p1c/p i c hep maske
+const MESAJ_DIL = [
+  ["send me a pic", "en", false], ["nice PIC!", "en", false], ["picture", "en", false], ["pic", "tr", true], ["PIC", "tr", true],
+  ["send me a pic", null, true], ["piç", "en", true], ["PİÇ", "en", true], ["PIÇ", "en", true], ["p1c", "en", true], ["p i c", "en", true],
 ];
 const AD = [
   ["Kemal", true], ["Cemal_34", true], ["Robot123", true], ["Topcu", true], ["Sikkeci", true], ["Isik", true],
   ["Scunthorpe", true], ["Assassin", true], ["Dickens", true],
   ["orospu", false], ["0r0spu_34", false], ["benorospu", false], ["s1k", false], ["fuck_you", false], ["admin", false],
   ["Admin_1", false], ["bot", false], ["mal", false], ["amk", false], ["Serefsiz", false], ["xXsiktirXx", false],
+  ["SIKTIR", false], ["XSIKTIRX", false], ["SIKTIR_GIT", false], ["IBNE", false], ["ISIK", true], ["SIKINTI", true], ["KEMAL", true], ["MISIRLI", true],
 ];
 try {
   let hata = 0;
@@ -29,6 +38,13 @@ try {
     const maskeli = r.s !== m;
     const ok = maskeli === beklenen; if (!ok) hata++;
     console.log(`${ok ? "  ✓" : "  ✗"} ${beklenen ? "MASKE " : "MASUM "} "${m}" → "${r.s}"`);
+  }
+  console.log("— MESAJ (dile göre pic)");
+  for (const [m, dil, beklenen] of MESAJ_DIL) {
+    const [r] = await db.sorgu(`select public.kufur_maskele_dil(${alintila(m)}, ${dil ? alintila(dil) : "null"}) as s`);
+    const maskeli = r.s !== m;
+    const ok = maskeli === beklenen; if (!ok) hata++;
+    console.log(`${ok ? "  ✓" : "  ✗"} ${beklenen ? "MASKE " : "MASUM "} [${dil ?? "-"}] "${m}" → "${r.s}"`);
   }
   console.log("— TAKMA AD");
   for (const [a, uygun] of AD) {
