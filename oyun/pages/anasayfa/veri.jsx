@@ -11,7 +11,7 @@
 // (canlı mı, sıradaki lobi ve anı, lobidekiler, ödül ve lobi açılış ayarı),
 // Hatalarım bankası.
 // ============================================================
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "../../../src/lib/supabase.js";
 import { useAuth } from "../../../src/context/AuthContext.jsx";
@@ -77,6 +77,21 @@ export function useAnaSayfaVerisi() {
     })();
     return () => { aktif = false; };
   }, [uid]);
+
+  // Kurulumda avatar/takma ad sonradan seçilir; lig kartındaki "Sen" satırı sunucudan eski hâliyle gelmişti.
+  const kimlikRef = useRef(null);
+  const kimlik = profile ? `${profile.gorunen_avatar ?? ""}|${profile.gorunen_ad ?? ""}` : null;
+  useEffect(() => {
+    if (!uid || kimlik === null) return undefined;
+    const onceki = kimlikRef.current;
+    kimlikRef.current = kimlik;
+    if (onceki === null || onceki === kimlik) return undefined;
+    let aktif = true;
+    ligGrubumOzet().then((o) => {
+      if (aktif && o) setLigOzet(o);
+    }).catch((e) => console.warn("[Ana sayfa] lig_grubum_ozet yenileme:", e?.message ?? e));
+    return () => { aktif = false; };
+  }, [uid, kimlik]);
 
   const turnuvaYukle = useCallback(async () => {
     if (!uid) return;
