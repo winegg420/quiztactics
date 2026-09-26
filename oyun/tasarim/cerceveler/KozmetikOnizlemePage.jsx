@@ -1,5 +1,5 @@
 // /kozmetik-onizleme — bütün çerçeveler ve rozet madalyonları 24 / 40 / 64 / 120 px'te yan yana.
-// Menüde yok, girişsiz açılır (BildimApp › bagimsizModul). Sunucuya bağlanmaz; avatarlar sabit.
+// Menüde yok; giriş + yalnız sahip (BildimApp › SahipKapisi). Sunucuya bağlanmaz; avatarlar sabit.
 // Bu sayfa kalite kontrolü içindir: ekranda-en-çok-3-hareket sınırı burada bilerek atlanır (sinirsiz).
 import { useEffect, useState } from "react";
 import Avatar from "../../../src/components/Avatar.jsx";

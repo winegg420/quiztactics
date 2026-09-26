@@ -1,6 +1,6 @@
 # Quiz Tactics Tasarım Sistemi (Yön A "Şeker Kutusu") — Faz 2 kılavuzu
 
-Canlı örnek: **`/tasarim-sistemi`** (girişsiz, menüde yok). Her bileşeni orada dene.
+Canlı örnek: **`/tasarim-sistemi`** (giriş + yalnız sahip, menüde yok). Her bileşeni orada dene.
 Parlak, yuvarlak, kabartmalı: her düğme elle bastırılan bir oyuncak gibi aşağı iner.
 Hedef bir web sitesi değil, **mobil oyun** (Play Store'a TWA). TR + EN.
 

@@ -1,7 +1,7 @@
 // ============================================================
 // /mac-sonu-onizleme — Maç sonu kutlama sahnesinin ÖNİZLEMESİ (Ajan G)
 //
-// Menüde yok, girişsiz açılır (BildimApp › bagimsizModul). Gerçek maçlara
+// Menüde yok; giriş + yalnız sahip (BildimApp › SahipKapisi). Gerçek maçlara
 // BAĞLI DEĞİL: altı hâl örnek verilerle çizilir. Örnek verilerin şekli
 // gerçek kaynaklarla aynıdır (MacSonuKutlama.jsx başındaki not), böylece
 // Ida onaylayınca bağlama ayrı adımda veri eşlemesinden ibaret kalır.

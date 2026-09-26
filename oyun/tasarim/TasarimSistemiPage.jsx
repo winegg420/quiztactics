@@ -1,5 +1,5 @@
 // /tasarim-sistemi — Quiz Tactics tasarım sisteminin canlı örnek sayfası.
-// Menüde yok, girişsiz açılır (BildimApp › bagimsizModul). Sunucuya bağlanmaz;
+// Menüde yok; giriş + yalnız sahip (BildimApp › SahipKapisi). Sunucuya bağlanmaz;
 // bütün veriler sahtedir. Token değerleri ve kontrast oranları CSS'ten canlı okunur.
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
