@@ -9,6 +9,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { QtAnahtar, QtIkonDugme, QtRozet } from "../tasarim/index.js";
 import OyuncuAdiDugmesi from "./OyuncuAdiDugmesi.jsx";
 import CerceveliAvatar from "./CerceveliAvatar.jsx";
+import Bayrak from "./Bayrak.jsx";
 import UnvanYazisi from "./UnvanYazisi.jsx";
 import OyuncuLigAmblemi from "./OyuncuLigAmblemi.jsx";
 import { LIGLER } from "../tasarim/premium/ligAmblemi.jsx";
@@ -107,12 +108,14 @@ function SesAnahtari() {
  * 560: lig adı yerine lig amblemi (önizlemedeki gibi) — telefonda nokta/tek harfe inmez, skora binmez;
  * lig adı amblemin erişilebilir adında. Amblem çizilemezse (bilinmeyen lig) eski ad hapı.
  */
-export function SeviyeEtiketi({ level, lig, unvan }) {
-  if (!level && !lig && !unvan) return null;
+export function SeviyeEtiketi({ level, lig, unvan, ulke }) {
+  if (!level && !lig && !unvan && !ulke) return null;
   const bilinen = LIGLER.includes(lig);
   return (
     <>
     <span className="mo-seviye">
+      {/* Ülke bayrağı: profildeki ülke; seçilmemişse hiç çizilmez */}
+      {ulke ? <Bayrak kod={ulke} boyut={13} className="mo-bayrak" /> : null}
       {level ? <b className="mo-lv">{tt("Lv {n}", { n: level })}</b> : null}
       {lig && bilinen ? <OyuncuLigAmblemi lig={lig} boyut={20} className="mo-amblem" /> : null}
       {lig && !bilinen ? <span className={`mo-lig mo-lig--${lig}`}>{LIG_ADLARI[lig] ?? lig}</span> : null}
@@ -147,7 +150,7 @@ export default function MacUstSerit({ onCik, cikisEtiketi, rozet, oyuncu, sayi }
         {oyuncu && (
           <span className="mo-ben">
             <CerceveliAvatar profile={{ gorunen_ad: oyuncu.ad, gorunen_avatar: oyuncu.avatar }} userId={oyuncu.id} boyut={40} kart={kart} />
-            <span className="mo-ben-yazi"><OyuncuAdiDugmesi userId={oyuncu.id} profil={{ gorunen_ad: oyuncu.ad, gorunen_avatar: oyuncu.avatar }} oge="b">{oyuncu.ad}</OyuncuAdiDugmesi><SeviyeEtiketi level={oyuncu.level ?? kart?.level} lig={oyuncu.lig ?? kart?.lig} /></span>
+            <span className="mo-ben-yazi"><OyuncuAdiDugmesi userId={oyuncu.id} profil={{ gorunen_ad: oyuncu.ad, gorunen_avatar: oyuncu.avatar }} oge="b">{oyuncu.ad}</OyuncuAdiDugmesi><SeviyeEtiketi level={oyuncu.level ?? kart?.level} lig={oyuncu.lig ?? kart?.lig} ulke={oyuncu.ulke ?? kart?.ulke} /></span>
           </span>
         )}
         {sayi && <span className="mo-sayi"><b>{sayi}</b></span>}
