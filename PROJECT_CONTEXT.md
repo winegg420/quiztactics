@@ -138,6 +138,10 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
   cezasız iptal (kazanan/coin/XP/lig yok), bekleyen otomatik yeniden arar. Rakip kapıya hiç gelmediyse
   bekleme `klasik_baglanma_sn` 15 (441); Düello'da `duello_baglanma_sn` 15. Arkadaş maçı/rövanşta iptal yok.
   Antrenman (açık bot) maçları her zaman serbest (440, sunucu zorlar).
+- **Bota rövanş anında (657, Ida — D-402):** Klasik maç sonu "Rövanş" bot rakipte (açık VE gizli) `rovans_iste` içinde aynı transaction'da
+  'aktif' maç açar; kabul beklenmez (eski gizli bot 8–90 sn gecikmesi rövanşta kalktı). Geri alma `bot_rovans_anlik` = 0 (gizli bota
+  gecikmeli davet). Gerçek oyuncu rövanşı istek olarak kalır. `MatchPage › ilerlemeDamgasi` 'bekliyor' maçı (aktif_soru −1) eski
+  görüntü saymaz. Not: gizli botun anında kabulü bir zamanlama ipucudur — ürün kararı Ida'nındır.
 - Rövanş bekleme penceresindeki “Vazgeç”, `duello_rovans_iptal` ile sunucu
   isteğini de geri çeker; yalnız pencereyi kapatıp hayalet istek bırakmaz.
 - **Düello 1.0 herkese açık (23 Eyl 2026):** `duello_surum` = **2**. Aynı soru
@@ -454,7 +458,7 @@ karakter, Hızlı Mod hariç — dondurulmuş) bu sistemle yeniden yazıldı.
 - **Tek kaynak: `oyun/tasarim/`** — token'lar (`--qt-*`, `tokenlar.css`), bileşenler (`Qt*`:
   düğme, kart, mod kartı, şık, sayaç, can, skill, üst çubuk, alt menü, modal, toast…),
   ikon seti (`Ikon.jsx`), hareket (`hareket.css/js`). Kılavuz `oyun/tasarim/OKU.md`,
-  canlı örnek `/tasarim-sistemi` (menüsüz, girişsiz). Ekran stilleri
+  canlı örnek `/tasarim-sistemi` (menüsüz; giriş + yalnız sahip — `SahipKapisi`). Ekran stilleri
   `oyun/tasarim/ekranlar/<şerit>-*.css` ve `oyun/pages/*.a.css`; yalnız `qt-`/kendi önekli
   sınıflar. Eski `tema.css`/`yeni.css`/`styles.css`'te yalnız hâlâ kullanılan kurallar kaldı.
 - Kontrast ≥ 4,5 (büyük ≥ 3), dokunma ≥ 44 px, etkileşim geri bildirimi ≤ 300 ms, yalnız
@@ -465,6 +469,10 @@ karakter, Hızlı Mod hariç — dondurulmuş) bu sistemle yeniden yazıldı.
 - Arayüz metni TR+EN: anahtar Türkçe metin; EN karşılıkları `oyun/lib/dil.js` +
   şerit ekleri `oyun/lib/ceviri/*.js` (dil.js'e katılır).
 - Seçenekler sayfası `/tasarim-yonleri` (A/B/C) duruyor; silinmesine Ida karar verecek.
+- **Geliştirici/tasarım sayfaları girişsiz DEĞİL (26 Eyl 2026):** `/insan-prototip`, `/preview/*`, `/tasarim-yonleri`, `/tasarim-sistemi`,
+  `/kozmetik-onizleme`, `/mac-sonu-onizleme` giriş ister ve `SahipKapisi` (`sahip_mi()`) ile yalnız sahibe açılır (oturumsuz → giriş
+  ekranı, misafir/normal oyuncu → "Bu sayfa yalnız sahibe açık"). `bagimsizModul` yalnız Gizlilik + Koşullar. Bu adresler
+  robots.txt'te Disallow (kaynak `vite.config.js › ROBOTS_YASAK` + `public/robots.txt`). Yerel geliştirmede (.env yok) kapı atlanır.
 - **Önizleme sayfaları (menüde yok):** `/kozmetik-onizleme` (çerçeve + rozet), `/mac-sonu-onizleme`
   (maç sonu sahnesinin 6 hâli; aynı sahne `MacSonuKutlama` 24 Eyl'den beri BÜTÜN modlarda canlı —
   veri tek çağrı `mac_sonu_ozet`, sesler yalnız `ses.js › sesMacSonu`, terkte ödülsüz "Maçtan

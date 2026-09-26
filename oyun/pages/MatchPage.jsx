@@ -96,7 +96,9 @@ function ilerlemeDamgasi(m) {
   return (
     kapandi * 1e9 +
     (m.basladi ? 1 : 0) * 1e8 +
-    (m.aktif_soru ?? 0) * 1e6 +
+    // 'bekliyor' maçta aktif_soru = -1 (varsayılan): negatif damga başlangıç değeri (-1) altında kalıp
+    // ilk yüklemeyi "eski görüntü" diye atıyordu → mac hiç kurulmuyor, "Maç açılamadı" çıkıyordu (D-402).
+    Math.max(m.aktif_soru ?? 0, 0) * 1e6 +
     ((m.oyuncu1_soru ?? 0) + (m.oyuncu2_soru ?? 0)) * 1e4 +
     (m.oyuncu1_skor ?? 0) + (m.oyuncu2_skor ?? 0)
   );
@@ -281,6 +283,9 @@ export default function MatchPage() {
         (payload) => {
           // Realtime paketleri de sırasız gelebilir (yeniden bağlanma,
           // arka plandan dönüş). Geriye giden paket çizime alınmaz.
+          // İlk tam satır (p1/p2 profilleriyle) gelmeden paket de alınmaz: birleştirilecek eski satır
+          // yok, profilsiz satır Hazır ekranında "? Sen" çiziyordu (D-402); yoklama tam satırı getirir.
+          if (macImzaRef.current == null) return;
           const damga = ilerlemeDamgasi(payload.new);
           if (damga < damgaRef.current) return;
           damgaRef.current = damga;
@@ -968,11 +973,26 @@ export default function MatchPage() {
                   onClick={async () => {
                     setBotRovans(true);
                     try {
-                      const { data, error } = await supabase.rpc("create_challenge", {
-                        p_rakip: rakipProfil.id,
-                        p_kategori: mac.kategori,
-                      });
-                      if (error) throw error;
+                      // Kaybedilen maçta rovans_iste: bot rakip aynı transaction'da 'aktif' açılır (< 1 sn).
+                      // Kazanılan/berabere maçta (rovans_iste izin vermez) ya da hata olursa meydan okuma
+                      // yolu: açık bot bot_oyna ile birkaç sn içinde kabul eder.
+                      let data = null;
+                      if (!kazandim && !berabere) {
+                        try {
+                          const r = await supabase.rpc("rovans_iste", { p_mac_id: id });
+                          if (!r.error) data = r.data;
+                        } catch (e2) {
+                          console.warn("[Bildim] rovans_iste başarısız, meydan okumaya düşülüyor:", e2?.message ?? e2);
+                        }
+                      }
+                      if (!data) {
+                        const r = await supabase.rpc("create_challenge", {
+                          p_rakip: rakipProfil.id,
+                          p_kategori: mac.kategori,
+                        });
+                        if (r.error) throw r.error;
+                        data = r.data;
+                      }
                       navigate(y(data ? `/mac/${data}` : "/meydan"));
                     } catch (e) {
                       console.error("[Bildim] bot rövanşı kurulamadı:", e);
