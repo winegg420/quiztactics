@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { hataMesaji } from "../lib/hata.js";
+import { hataMesaji, hataTuru, hataTuruMesaji } from "../lib/hata.js";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
@@ -36,6 +36,7 @@ export default function FriendsPage() {
   const [hata, setHata] = useState(null);
   // Paket 41 A: liste okunamadıysa "Henüz arkadaşın yok" yerine hata + Tekrar dene
   const [listeDurum, setListeDurum] = useState("yukleniyor");   // yukleniyor | hata | hazir
+  const [listeHataMetni, setListeHataMetni] = useState(null);   // D-503: hata türüne göre metin (yoksa genel)
   const [bilgi, setBilgi] = useState(null);
   const [calisiyor, setCalisiyor] = useState(false);
   // Arkadaş silme geri alınamaz: tek dokunuşla değil, onaylı iki adımda.
@@ -46,17 +47,23 @@ export default function FriendsPage() {
   // Paket 35 D: gönderdiğim, yanıt bekleyen meydan okumalar — rakip id → { tur, id }.
   // Sayfa açılınca sunucudan okunur (yenileyince kaybolmaz); kabul/red/geri çekme realtime ile düşer.
   const [bekleyenMeydan, setBekleyenMeydan] = useState(() => new Map());
+  // D-455: kabul edilip BAŞLAYAN maçlar — rakip id → { tur, id }. Satırda "Maça gir" şeridi (bildirimi kaçıran için).
+  const [aktifMaclar, setAktifMaclar] = useState(() => new Map());
   const [geriCekilen, setGeriCekilen] = useState(null);
 
   const bekleyenleriYukle = useCallback(async () => {
     try {
       // Klasik / Saf Bilgi: create_challenge → matches (durum 'bekliyor', kuran oyuncu1)
       // Düello: duello_davet_et → duello_davetleri (durum 'bekliyor', kuran)
-      const [mac, duello] = await Promise.all([
+      const [mac, duello, aktifMac, aktifDuello] = await Promise.all([
         supabase.from("matches").select("id, oyuncu2")
           .eq("oyuncu1", user.id).eq("durum", "bekliyor").limit(50),
         supabase.from("duello_davetleri").select("id, rakip")
           .eq("kuran", user.id).eq("durum", "bekliyor").limit(50),
+        supabase.from("matches").select("id, oyuncu1, oyuncu2")
+          .or(`oyuncu1.eq.${user.id},oyuncu2.eq.${user.id}`).eq("durum", "aktif").limit(50),
+        supabase.from("duellolar").select("id, oyuncu1, oyuncu2")
+          .or(`oyuncu1.eq.${user.id},oyuncu2.eq.${user.id}`).eq("durum", "aktif").limit(50),
       ]);
       if (mac.error) throw mac.error;
       const m = new Map();
@@ -64,6 +71,12 @@ export default function FriendsPage() {
       // Düello tablosu okunamazsa klasik şeritler yine görünür
       if (!duello.error) for (const r of duello.data ?? []) m.set(r.rakip, { tur: "duello", id: r.id });
       setBekleyenMeydan(m);
+      // Aktif maç okunamazsa şerit yalnız çıkmaz; bekleyen şeritler etkilenmez
+      const a = new Map();
+      const digeri = (r) => (r.oyuncu1 === user.id ? r.oyuncu2 : r.oyuncu1);
+      if (!aktifMac.error) for (const r of aktifMac.data ?? []) a.set(digeri(r), { tur: "klasik", id: r.id });
+      if (!aktifDuello.error) for (const r of aktifDuello.data ?? []) a.set(digeri(r), { tur: "duello", id: r.id });
+      setAktifMaclar(a);
     } catch (e) {
       console.warn("[Bildim] bekleyen meydan okumalar okunamadı:", e?.message ?? e);
     }
@@ -75,9 +88,12 @@ export default function FriendsPage() {
       .channel("arkadas-meydan")
       .on("postgres_changes", { event: "*", schema: "public", table: "matches" }, bekleyenleriYukle)
       .on("postgres_changes", { event: "*", schema: "public", table: "duello_davetleri" }, bekleyenleriYukle)
+      .on("postgres_changes", { event: "*", schema: "public", table: "duellolar" }, bekleyenleriYukle)
+      // D-455: kabul bildirimi geldiği anda satır tazelenir (matches olayı geç/kaçarsa "yanıt bekleniyor" bayat kalmasın)
+      .on("postgres_changes", { event: "INSERT", schema: "public", table: "bildirimler", filter: `user_id=eq.${user.id}` }, bekleyenleriYukle)
       .subscribe();
     return () => supabase.removeChannel(kanal);
-  }, [bekleyenleriYukle]);
+  }, [bekleyenleriYukle, user.id]);
 
   /** Bekleyen meydan okumayı geri çeker (Meydan sayfasındaki "Geri al" ile aynı RPC'ler). */
   const meydanGeriCek = async (b) => {
@@ -108,6 +124,7 @@ export default function FriendsPage() {
       setListeDurum("hazir");
     } catch (e) {
       console.error("[Bildim] arkadaş listesi alınamadı:", e);
+      setListeHataMetni(hataTuruMesaji(hataTuru(e)));
       setListeDurum("hata");
     }
   }, [user.id]);
@@ -414,7 +431,7 @@ export default function FriendsPage() {
               ikon="uyari"
               ton="yanlis"
               baslik={tt("Yüklenemedi.")}
-              metin={tt("Bağlantını kontrol edip tekrar dene.")}
+              metin={listeHataMetni ?? tt("Bağlantını kontrol edip tekrar dene.")}
               eylem={
                 <QtDugme tur="ikincil" ikon="yenile" onClick={() => { setListeDurum("yukleniyor"); yukle(); }}>
                   {tt("Tekrar dene")}
@@ -439,6 +456,7 @@ export default function FriendsPage() {
             {arkadaslar.map((f) => {
               const p = digerProfil(f);
               const bekleyen = bekleyenMeydan.get(p?.id);
+              const aktifMac = !bekleyen ? aktifMaclar.get(p?.id) : null;
               const durum = cevrimici.get(p?.id) ?? null;   // "cevrimici" | "mac" | null
               const durumEtiket = durum === "mac" ? tt("Maçta") : durum === "cevrimici" ? tt("Çevrimiçi") : null;
               return (
@@ -494,6 +512,16 @@ export default function FriendsPage() {
                       onClick={() => setSilOnay(f.id)}
                     />
                   </div>
+                  {aktifMac && (
+                    <div className="ar-bekleyen" role="status">
+                      <span className="ar-bekleyen-metin">{tt("Maç başladı")}</span>
+                      <span className="ar-bekleyen-dugmeler">
+                        <QtDugme tur="birincil" boyut="k" onClick={() => navigate(y(aktifMac.tur === "duello" ? "/duello/" : "/mac/") + aktifMac.id)}>
+                          {tt("Maça gir")}
+                        </QtDugme>
+                      </span>
+                    </div>
+                  )}
                   {bekleyen && (
                     <div className="ar-bekleyen" role="status">
                       <span className="ar-noktalar" aria-hidden="true"><i /><i /><i /></span>

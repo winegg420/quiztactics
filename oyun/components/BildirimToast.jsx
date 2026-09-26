@@ -36,6 +36,9 @@ const BANTTA_GOSTERILEN = new Set(["mac_daveti", "rovans", "grup_daveti", "hizli
 // Kabul bildirimi ekranda daha uzun kalsın: oyun başlamıştır, kaçırılmamalı.
 const KABUL_TIPLERI = new Set(["meydan_kabul", "duello_kabul", "grup_kabul"]);
 
+// Kabulde davet edeni doğrudan maça alan tipler (grup maçı kalabalık davettir: şeritle kalır).
+const OTOMATIK_GIRIS = new Set(["meydan_kabul", "duello_kabul"]);
+
 const SURE = 7000;
 const SURE_KABUL = 9000;
 
@@ -50,6 +53,8 @@ export default function BildirimToast() {
   const [kuyruk, setKuyruk] = useState([]);
   const [kapaniyor, setKapaniyor] = useState(false);
   const sayacRef = useRef(null);
+  const navigateRef = useRef(navigate);
+  navigateRef.current = navigate;
 
   const kapat = useCallback(() => {
     setKapaniyor(true);
@@ -74,6 +79,12 @@ export default function BildirimToast() {
         (yuk) => {
           const b = yuk.new;
           if (!b || BANTTA_GOSTERILEN.has(b.tip)) return;
+          // D-455: davet edilen kabul etti, maçı açıp ekranında bekliyor (Klasik ~48 sn'ye kadar). Şerit kaçırılabildiği için
+          // davet eden, başka bir maçın içinde değilse (maç modunda toast zaten gizli) doğrudan maça geçer.
+          if (OTOMATIK_GIRIS.has(b.tip) && b.yol && !document.body.classList.contains("bd-oyun-modu")) {
+            navigateRef.current(b.yol);
+            return;
+          }
           setKuyruk((k) => (k.some((x) => x.id === b.id) ? k : [...k, b].slice(-4)));
         }
       )
