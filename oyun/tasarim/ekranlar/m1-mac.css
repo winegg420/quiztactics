@@ -520,6 +520,25 @@ body.bd-oyun-modu .m1-mac { min-height: 100dvh; }
   body.bd-oyun-modu .m1-mac > .m1-soru.m1-soru--cok-uzun .qt-soru-metin { font-size: 14px; line-height: 1.18; }
   body.bd-oyun-modu .m1-mac > .m1-soru .qt-sik { padding-right: 6px; letter-spacing: -0.01em; }
 }
+/* D-404 / D-452 (denetim tur 2, 26 Eyl 2026; iPhone Safari araç çubuklu ≈ 375×553): dostluk bandı (2 satır) + Sesli sohbet satırı +
+   tepki düğmesi altta ~150 px yiyor; uzun soruda D şıkkı ve joker çubuğu orta bölümün altında kalıp kaydırma ipucu olmadan
+   örtülüyordu, Grup'ta jokerler tepki şeridinin arkasında dokunulamıyordu. Çok kısa alanda: boşluklar daralır, bant tek
+   kısa blok, Sesli sohbet + tepki TEK satır, joker hak yazısı gizlenir (hak rozetleri düğmelerde durur), soru kartı 84 px'e
+   iner (uzun metin kart içinde kayar) — şıklar ve joker çubuğu ilk ekranda kalır. Düello aynı kuralı DuelloPage.a.css'te uygular. */
+@media (max-width: 560px) and (max-height: 600px) {
+  body.bd-oyun-modu .m1-mac:has(> .m1-soru) { gap: 4px; }
+  body.bd-oyun-modu .m1-mac > .m1-soru { gap: 4px; }
+  body.bd-oyun-modu .m1-mac > .m1-soru > .qt-soru { min-height: calc(84px + 24px); gap: 4px; }
+  body.bd-oyun-modu .m1-mac > .m1-soru .qt-soru-kart { min-height: 84px; }
+  body.bd-oyun-modu .m1-mac > .m1-soru .qt-soru-metin { font-size: clamp(15px, 2.9dvh, 20px); line-height: 1.18; }
+  body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .m1-bant { padding: 3px 10px; font-size: var(--qt-y-xs); line-height: 1.2; }
+  body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .m1-bant > span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  body.bd-oyun-modu .m1-mac > .m1-soru .m1-skill-hak { display: none; }
+  body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .m1-alt { flex-direction: row; align-items: center; justify-content: space-between; gap: var(--qt-b-2); }
+  body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .m1-alt > .bd-ses-yuva { flex: 1 1 auto; min-width: 0; }
+  body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .m1-alt > .m1-tepki { flex: none; }
+  body.bd-oyun-modu .m1-mac:has(> .m1-soru) > .m1-alt > .bd-ses-yuva:empty ~ .m1-tepki { margin-inline: auto; }
+}
 
 /* =====================================================================
    HAZIR MISIN? (HazirKapisi) — gök mavisi sahne, baykuş yok (24 Eyl 2026)

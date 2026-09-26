@@ -203,8 +203,9 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
   (`sikayet_et`: günde aynı kişiye 1, mesaj metni kopyalanır) + `/yonetim/sikayetler` (yalnız `yonetici_mi` =
   sahip ∪ `yonetici_kullanicilar`): incelendi · mesajlaşmayı kapat (`mesaj_kapali`) · askıya al (`askida`: iletişim
   kapanır) · geri al. **Küfür filtresi** `yasakli_kelimeler` (kapsam hepsi/ad, eşleşme tam/önek) + `izinli_kelimeler`
-  (tam/önek) — koda gömülü liste yok; mesajda `***`, takma adda red; ı katlanmaz ("sıkıldım" masum; bilinen açık:
-  tamamı BÜYÜK "SIK" yakalanmaz). Test: `node araclar/kufur-filtre-testi.mjs`. Hesap silinince mesajlar, engellemeler
+  (tam/önek) — koda gömülü liste yok; mesajda `***`, takma adda red; ı katlanmaz ("sıkıldım" masum) ama tamamı BÜYÜK kelimede I ayrıca i okunur
+  (653: SIKTIR/IBNE yakalanır; SIK, SIKIK, SIKILDIM masum kalır); gönderenin dili `en` ise çıplak "pic" maskelenmez
+  (`kufur_maskele_dil`; TR hesapta maskeli). Test: `node araclar/kufur-filtre-testi.mjs`. Hesap silinince mesajlar, engellemeler
   ve açtığı şikâyetler silinir; hakkındaki şikâyetler kanıt olarak **1 yıl** kalır (630: `sikayet_saklama_gun` 365,
   günlük iş `bildim-sikayet-saklama`; Gizlilik'te yazılı). **Rastgele eşleşmede** (Klasik, Düello, Grup) birbirini
   engellemiş iki oyuncu eşleşmez (630).
@@ -308,10 +309,11 @@ Aktif yedi maç skill'i vardır:
   ortada dönen halka + yörüngede avatarlar, süre, mod/Dereceli rozeti, "Biliyor muydun?" (TR/EN), VS `ARAMA_GECIS_MS`
   (2 sn) içinde. Klasik, Saf Bilgi, Düello ve Grup araması; ada dokununca oyuncu kartı.
 - **Maç ekranları gök mavisi** (`.qt-sahne-gok`; koyu mor sahne yok): Hazır mısın?, Düello, Çalışma, bekleme, terk hâlleri.
-  Soru açıkken sayfa 100dvh sütun, kaydırmasız; joker + tepki hep görünür. Baykuş maskot oyundan tamamen çıktı (giriş: avatar üçlüsü, diğerleri ikon diski); Düello VS ~1,5 sn.
+  Soru açıkken sayfa 100dvh sütun, kaydırmasız; joker + tepki hep görünür. Çok kısa alan (≤ 600 px yükseklik, ≈ iPhone Safari 375×553; Klasik/Grup/Turnuva `m1-mac.css`, Düello `DuelloPage.a.css`): kart 84 px'e iner, Sesli sohbet + tepki tek satır, joker hak yazısı gizli, Düello kategori fazı sıkışır — dört şık, joker çubuğu ve ≥ 3 kategori satırı ilk ekranda (ölçüm: gerçek 2–3 hesapla, `elementFromPoint`). Baykuş maskot oyundan tamamen çıktı (giriş: avatar üçlüsü, diğerleri ikon diski); Düello VS ~1,5 sn.
 - **Hata kurtarma:** `HataSiniri` Layout'ta rota içeriğini sarar (alt menü kalır), `tembelYukle` (1 yeniden deneme),
   vite:preloadError'da bir kez yenile, "Bağlantı yok" şeridi. Dükkân alımları onay penceresiyle (`JokerSatinAlModal`);
-  misafir çıkışında uyarı (`CikisOnayi`); ağ hatası metni tek yerden (`hataMesaji`).
+  misafir çıkışında uyarı (`CikisOnayi`); ağ hatası metni tek yerden (`hataMesaji`) ve hata TÜRÜNE göre ayrışır (`hata.js › hataTuru`: çevrimdışı / zaman aşımı / sunucu / sunucuya ulaşılamıyor; "İnternetini kontrol et" her hatada yazılmaz).
+  **Meydan okuma kabulü:** davet eden başka maçın içinde değilse `meydan_kabul`/`duello_kabul` bildirimiyle doğrudan maça geçer (`BildirimToast`); kaçırılırsa Arkadaşlar satırında "Maç başladı · Maça gir".
 - **Çevrimiçi durumu (590, Ida onaylı güvenlik kuralı) YALNIZ arkadaş listesinde:** Realtime Presence, her oyuncunun
   özel kanalı `cevrimici-<uid>`; yalnız sahibi yazar, yalnız kabul edilmiş arkadaş okur; DB'ye yazım yok. Yeşil
   "Çevrimiçi" / turuncu "Maçta", çevrimiçiler üstte, çevrimdışında gösterge yok. Arka planda kanaldan çıkılır.
