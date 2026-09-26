@@ -205,7 +205,9 @@
   white-space: nowrap;
   cursor: pointer;
 }
-.bz-tumu:disabled { color: var(--qt-metin-soluk); cursor: default; }
+/* D-459: etkin düğme dolgulu + koyu, pasif düğme soluk ve dolgusuz — artık ayırt edilir */
+.bz-tumu:not(:disabled) { background: color-mix(in srgb, var(--qt-ikinci) 14%, transparent); }
+.bz-tumu:disabled { color: var(--qt-metin-soluk); opacity: 0.55; cursor: default; font-weight: var(--qt-a-kalin); }
 .bz-tumu:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 1px; }
 .bz-panel > .bz-hata { margin: var(--qt-b-2) var(--qt-b-3) 0; }
 .bz-govde { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }

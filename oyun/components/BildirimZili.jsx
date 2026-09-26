@@ -66,8 +66,7 @@ const oncelikSirala = (liste) =>
   [...liste].sort((a, b) => {
     // Okunmamışlar her zaman üstte
     if (Boolean(a.okundu) !== Boolean(b.okundu)) return a.okundu ? 1 : -1;
-    const fark = oncelikNo(a.tip) - oncelikNo(b.tip);
-    if (fark !== 0) return fark;
+    // D-459: tür önceliği (ONCELIK) sıralamayı bozuyordu ("19 · 21 · 29 · 5 · 15 dk önce"); artık en yeni en üstte.
     return new Date(b.created_at) - new Date(a.created_at);
   });
 

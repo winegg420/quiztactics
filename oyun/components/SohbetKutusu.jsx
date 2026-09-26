@@ -452,6 +452,7 @@ export default function SohbetKutusu({ benId, kisiId, onGeri }) {
               ref={girisRef}
               className="ms-metin"
               rows={1}
+              maxLength={SINIR}
               value={metin}
               placeholder={tt("Mesaj yaz…")}
               aria-label={tt("Mesaj")}
@@ -469,8 +470,9 @@ export default function SohbetKutusu({ benId, kisiId, onGeri }) {
               {gonderiliyor ? <span className="qt-donen" aria-hidden="true" /> : <QtIkon ad="gonder" boyut={22} />}
             </button>
           </div>
-          {temiz.length > SINIR - 50 && (
-            <div className={`ms-sayac${temiz.length > SINIR ? " ms-sayac--asti" : ""}`}>{temiz.length}/{SINIR}</div>
+          {/* D-463: sınıra yaklaşınca (son 50 karakter) sayaç; maxLength yazarken 500'ü aştırmaz */}
+          {metin.length > SINIR - 50 && (
+            <div className={`ms-sayac${metin.length >= SINIR ? " ms-sayac--asti" : ""}`} aria-live="polite">{metin.length}/{SINIR}</div>
           )}
         </div>
       )}
