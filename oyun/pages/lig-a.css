@@ -310,6 +310,9 @@
   list-style: none;
 }
 .lg-podyum-yer { min-width: 0; }
+/* D-218: ad kendi satırında tam genişlikte; lig amblemi / yapay rozeti altına iner (uzun ad daha az kesilir) */
+.lg-podyum-ad { flex-wrap: wrap; row-gap: 2px; }
+.lg-podyum-ad > .lg-ad-metin { flex: 1 0 100%; text-align: center; }
 .lg-podyum-dugme {
   --_ton: var(--qt-lig-gumus);
   --_ton-dudak: var(--qt-lig-gumus-dudak);
@@ -319,7 +322,7 @@
   align-items: center;
   gap: var(--qt-b-1);
   margin: 0;
-  padding: var(--qt-b-3) var(--qt-b-2) var(--qt-b-3);
+  padding: var(--qt-b-3) var(--qt-b-1) var(--qt-b-3);
   border: 0;
   border-radius: var(--qt-r-l);
   background: var(--qt-yuzey);
