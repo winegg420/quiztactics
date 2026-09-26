@@ -24,6 +24,7 @@ import {
   QtKart,
   QtRozet,
   QtSekmeler,
+  QtIskelet,
   QtToast,
   QtToastYuvasi,
   QtBosDurum,
@@ -128,9 +129,16 @@ export default function JokerDukkani() {
   ];
   const istenenSekme = (premiumAuraVar && arama.get("sekme") === "aura") ? "paura"
     : ESKI_SEKME[arama.get("sekme")] ?? arama.get("sekme");
-  const sekme = SEKMELER.some((x) => x.kod === istenenSekme)
+  // D-507: kozmetik katalog gelmeden sekme sayısı belli değil (4 → 8 sıçrıyor, istenen sekme "Joker"e düşüp atlıyordu).
+  // Katalog yüklenene dek çubuk iskelet; istenen sekme kozmetik sekmesiyse (henüz listede yok) panel de iskelet bekler
+  // ve "Joker"e düşülmez.
+  const sekmelerBelirsiz = !kozmetik.hazir;
+  const istenenBekliyor = sekmelerBelirsiz && Boolean(istenenSekme) && !TEMEL_SEKMELER.some((x) => x.kod === istenenSekme);
+  const sekme = istenenBekliyor
     ? istenenSekme
-    : VARSAYILAN_SEKME;
+    : SEKMELER.some((x) => x.kod === istenenSekme)
+      ? istenenSekme
+      : VARSAYILAN_SEKME;
   const sekmeSec = (kod) => setArama({ sekme: kod }, { replace: true });
   // Paket 42 M.2: en ucuz skill (tek tek ya da paket) — bakiye bunun altındaysa üstte uyarı
   const enUcuzJoker = Math.min(
@@ -425,20 +433,27 @@ export default function JokerDukkani() {
         </div>
       </header>
 
-      <QtSekmeler
-        className="qt-dk-sekmeler"
-        etiket={tt("Dükkân bölümleri")}
-        sekmeler={SEKMELER}
-        aktif={sekme}
-        onSec={sekmeSec}
-      />
+      {sekmelerBelirsiz ? (
+        <div className="qt-sekmeler qt-dk-sekmeler qt-dk-sekmeler--iskelet" aria-busy="true" aria-label={tt("Yükleniyor…")}>
+          {[84, 96, 78, 88, 72, 80].map((g, i) => <span key={i} className="qt-iskelet qt-iskelet--dugme" style={{ width: g, height: 40, flex: "none" }} />)}
+        </div>
+      ) : (
+        <QtSekmeler
+          className="qt-dk-sekmeler"
+          etiket={tt("Dükkân bölümleri")}
+          sekmeler={SEKMELER}
+          aktif={sekme}
+          onSec={sekmeSec}
+        />
+      )}
 
       <QtToastYuvasi>
         {hata && <QtToast ton="yanlis" baslik={hata} onKapat={() => setHata(null)} />}
         {bilgi && <QtToast ton="coin" baslik={bilgi} onKapat={() => setBilgi(null)} />}
       </QtToastYuvasi>
 
-      <div id={`qt-panel-${sekme}`} role="tabpanel" className="qt-dk-panel">
+      <div id={`qt-panel-${sekme}`} role="tabpanel" className="qt-dk-panel" aria-busy={istenenBekliyor || undefined}>
+        {istenenBekliyor && <QtIskelet tur="kart" adet={2} />}
         {/* ---------- KIYAFET (dondurulmuş vitrin, bayrakla) ---------- */}
         {sekme === "kiyafet" && <GorunumVitrini />}
 
@@ -449,7 +464,7 @@ export default function JokerDukkani() {
         )}
 
         {/* ---------- ELMAS KOZMETİKLERİ (540) + yeni avatarlar (520) ---------- */}
-        {sekme === "avatar" && (
+        {sekme === "avatar" && !istenenBekliyor && (
           <DukkanAvatarlar avatarlar={kozmetik.avatarlar} sahipHesap={kozmetik.sahipHesap} yenile={kozmetik.yenile}
             elmasYetmedi={elmasKazanGoster} elmasBakiye={elmas.bakiye}
             onBilgi={(m) => { setHata(null); setBilgi(m); }} onHata={(m) => { setBilgi(null); setHata(m); }} />

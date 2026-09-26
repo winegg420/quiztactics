@@ -167,6 +167,27 @@ export function QtSekmeler({ sekmeler = [], aktif, onSec, etiket, className }) {
   // kesik/ekran dışında kalmasın. Yalnız çubuğun kendi scrollLeft'i değişir (sayfa dikey kaymaz;
   // scrollIntoView kullanılmaz). Azaltılmış harekette anında.
   const sekmeSayisi = sekmeler.length;
+  // D-505: çubuk taşıyorsa ve o yönde daha içerik varsa kenarda ince solma (bilesenler.css › [data-kaydir-*]);
+  // yalnız öznitelik yazılır (render yok). Tıklanamaz, salt görsel ipucu; TÜM sekme şeritlerinde otomatik.
+  useEffect(() => {
+    const cubuk = kok.current;
+    if (!cubuk) return undefined;
+    const olc = () => {
+      try {
+        const sol = cubuk.scrollLeft > 2;
+        const sag = cubuk.scrollLeft + cubuk.clientWidth < cubuk.scrollWidth - 2;
+        if (sol) cubuk.setAttribute("data-kaydir-sol", ""); else cubuk.removeAttribute("data-kaydir-sol");
+        if (sag) cubuk.setAttribute("data-kaydir-sag", ""); else cubuk.removeAttribute("data-kaydir-sag");
+      } catch { /* ipucu kritik değil */ }
+    };
+    olc();
+    cubuk.addEventListener("scroll", olc, { passive: true });
+    window.addEventListener("resize", olc);
+    let ro = null;
+    try { ro = new ResizeObserver(olc); ro.observe(cubuk); Array.from(cubuk.children).forEach((c) => ro.observe(c)); } catch { /* eski tarayıcı: resize yeter */ }
+    try { document.fonts?.ready?.then(olc); } catch { /* yazı tipi beklenemedi */ }
+    return () => { cubuk.removeEventListener("scroll", olc); window.removeEventListener("resize", olc); ro?.disconnect(); };
+  }, [sekmeSayisi]);
   useEffect(() => {
     const cubuk = kok.current;
     if (!cubuk || cubuk.scrollWidth <= cubuk.clientWidth + 1) return;

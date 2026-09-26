@@ -280,9 +280,10 @@ export default function LeaderboardPage() {
                 )}
                 {benMi && <SenRozeti />}
               </span>
+              {/* 25 Eyl: unvan (tek oyuncu kartının küçük hâli; oyuncu_kartlari, avatarla aynı toplu çağrı).
+                  D-506: kendi satırında — rütbe/konumla aynı satırda 52 px'e sıkışıp kesiliyordu. */}
+              <span className="lg-unvan"><KartUnvani userId={s.user_id} /></span>
               <span className="lg-detay">
-                {/* 25 Eyl: unvan (tek oyuncu kartının küçük hâli; oyuncu_kartlari, avatarla aynı toplu çağrı) */}
-                <KartUnvani userId={s.user_id} />
                 <RankBadge level={s.level} userId={s.user_id} boyut={15} />
                 {s.ulke && (
                   <span className="lg-konum">

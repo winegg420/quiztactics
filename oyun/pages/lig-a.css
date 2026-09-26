@@ -383,3 +383,8 @@
 /* 25 Eyl: satırda unvan (Kurdele, küçük) — sığmazsa kısalır; rütbe ve konum yanında küçülmez */
 .lg-detay .qt-unvan { flex: 0 1 auto; min-width: 0; }
 .lg-detay .qt-unvan ~ .lg-konum { display: none; }
+/* D-506: unvan artık ad satırıyla detay satırı ARASINDA kendi satırında (72/52 px'e sıkışıp kesiliyordu); tam genişlikte,
+   sığmazsa "…" ve tam metin title'da (UnvanYazisi). Unvanı olmayan satır aynı yükseklikte (boş yuva gizli). */
+.lg-unvan { display: flex; min-width: 0; overflow: hidden; }
+.lg-unvan:empty { display: none; }
+.lg-bilgi:has(.lg-unvan .qt-unvan) .lg-konum { display: none; }

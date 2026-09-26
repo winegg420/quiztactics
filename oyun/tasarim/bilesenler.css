@@ -328,6 +328,15 @@
   scrollbar-width: none;
 }
 .qt-sekmeler::-webkit-scrollbar { display: none; }
+/* D-505: kaydırma ipucu — taşan şeridin kesilen kenarı solar (QtSekmeler o yönde içerik varken öznitelik koyar).
+   Maske yalnız yatay; sekmelerin gölgesini/altını kesmez. Tıklamayı etkilemez. */
+.qt-sekmeler[data-kaydir-sol], .qt-sekmeler[data-kaydir-sag] {
+  --_sol: 0px; --_sag: 0px;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 var(--_sol), #000 calc(100% - var(--_sag)), transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 var(--_sol), #000 calc(100% - var(--_sag)), transparent 100%);
+}
+.qt-sekmeler[data-kaydir-sol] { --_sol: 28px; }
+.qt-sekmeler[data-kaydir-sag] { --_sag: 28px; }
 .qt-sekme {
   position: relative;
   flex: 1 0 auto;
