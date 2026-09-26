@@ -3,6 +3,7 @@ import { supabase } from "../lib/supabase.js";
 import { QtMarka, QtCip, QtKart, QtDugme, QtToast, QtBosDurum, QtIkon } from "../../oyun/tasarim/index.js";
 import "../../oyun/tasarim/ekranlar/g-ortak.css";
 import "../../oyun/tasarim/ekranlar/g-giris.css";
+import AnaEkranaEkle from "../../oyun/components/AnaEkranaEkle.jsx";
 import { girisHedefiniKaydet } from "../lib/girisHedefi.js";
 import { useDil } from "../../oyun/lib/dilKanca.js";
 import { DILLER, girisDiliniKaydet } from "../../oyun/lib/dil.js";
@@ -371,6 +372,7 @@ export default function Login() {
             </nav>
           </section>
         </main>
+        <AnaEkranaEkle satirIci />
       </div>
     </div>
   );

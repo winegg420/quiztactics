@@ -169,10 +169,7 @@ export default function BildimApp() {
 
   if (!session && !bagimsizModul)
     return (
-      <>
-        <Login />
-        <AnaEkranaEkle />
-      </>
+      <Login />
     );
 
   return (

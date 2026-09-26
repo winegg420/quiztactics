@@ -117,7 +117,8 @@ function ArtiKutuIkonu({ boyut = 20 }) {
   );
 }
 
-export default function AnaEkranaEkle() {
+// satirIci: giriş ekranında panel sayfanın akışında, formun ALTINDA durur (sabit katman formu/“Misafir olarak dene”yi örtmesin, D-209).
+export default function AnaEkranaEkle({ satirIci = false }) {
   const [gorunur, setGorunur] = useState(false);
   const [kapaniyor, setKapaniyor] = useState(false);
 
@@ -131,7 +132,7 @@ export default function AnaEkranaEkle() {
   // Kart sayfanın altına oturuyor; altta kalan içeriği (misafir düğmesi,
   // yasal linkler) kapatmasın diye gövdeye yer açtırıyoruz.
   useEffect(() => {
-    if (!gorunur) return undefined;
+    if (!gorunur || satirIci) return undefined;
     try {
       document.body.classList.add("bd-ekle-acik");
     } catch {
@@ -144,7 +145,7 @@ export default function AnaEkranaEkle() {
         /* sayfa kapanıyor olabilir */
       }
     };
-  }, [gorunur]);
+  }, [gorunur, satirIci]);
 
   const kapat = () => {
     setKapaniyor(true);
@@ -163,7 +164,7 @@ export default function AnaEkranaEkle() {
   // giriş/çıkış hareketi yalnız içindeki panelde.
   return (
     <div
-      className={"g-ekle" + (kapaniyor ? " g-ekle--kapaniyor" : "")}
+      className={"g-ekle" + (satirIci ? " g-ekle--satir" : "") + (kapaniyor ? " g-ekle--kapaniyor" : "")}
       role="dialog"
       aria-modal="false"
       aria-label={tt("Uygulamayı ana ekrana ekle")}
