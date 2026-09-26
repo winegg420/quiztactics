@@ -18,7 +18,7 @@
 // Kullanım:
 //   npm run dev                                   (yerel için, başka kabukta)
 //   node araclar/oyuncu-testi.mjs [--adres=https://quiztactics.vercel.app]
-//        [--mod=duello,klasik,turnuva] [--gorsel] [--mac=2] [--genislik=390,360,1280]
+//        [--mod=duello,klasik,turnuva] [--gorsel] [--mac=2] [--genislik=390,360,1280] [--dil=en] [--ulke=DE]
 //   --gorsel : her ekranın 360/390 görüntüsü oyuncu-testi-gorseller/ altına
 //   --mac    : Düello'da kapsam (3 saldıran + 3 savunan) dolmazsa en çok kaç maç
 //   --sifir  : "ERKEN SIFIR" ölçümü için bir soruyu BİLEREK yanıtsız bırakır (süre dolar): gösterilen sayacın 0'a
@@ -46,6 +46,9 @@ const SIFIR_OLC = Boolean(ARG.sifir);
 
 // --dil=en : arayüz İngilizce (test hesabının profil dili geçici 'en', sonunda eski hâline döner)
 const DIL = ARG.dil === "en" ? "en" : null;
+// --ulke=DE : test hesabının ülkesi geçici DE (sonunda eski hâli). Ülke ≠ TR ya da dil en ise
+// soru kapsamı kuralı (652) gereği bu koşuda açılan maçların BÜTÜN soruları global olmalı.
+const ULKE = typeof ARG.ulke === "string" ? ARG.ulke.toUpperCase() : null;
 
 const EN_COK_MAC = Number(ARG.mac || 2);
 const OTURUM = path.resolve(".arayuz-denetim-oturum.json");
@@ -853,7 +856,7 @@ async function klasikTesti() {
 }
 
 // Soru kartı modları (Klasik, turnuva): her yeni soruda şıklar açılmalı, dokunuş
-// sunucuya ulaşmalı. İlk sorudaki 3-2-1 sayımı için 5 sn pay var.
+// sunucuya ulaşmalı. İlk sorudaki 3-2-1 sayımı + gösterim payı için 8 sn pay var.
 async function soruDongusu(ad, ulastiMi, bittiMi, siradakiIndex, enCokSoru = 25, dogruSik = null) {
   let n = 0;
   let sonMetin = "";
@@ -865,7 +868,8 @@ async function soruDongusu(ad, ulastiMi, bittiMi, siradakiIndex, enCokSoru = 25,
     sonMetin = metin;
     const index = await siradakiIndex();
     let acik = 0;
-    const sinir = n === 0 ? 5500 : 2000;
+    // İlk soru: 3-2-1 (3 sn) + mac_geri_sayim_payi_ms (2 sn, 651) sırasında metin görünür, şıklar sonra açılır.
+    const sinir = n === 0 ? 8000 : 2000;
     const t0 = Date.now();
     while (Date.now() - t0 < sinir && acik < 2) { acik = await acikSiklar(); if (acik < 2) await s.waitForTimeout(150); }
     if (acik < 2) {
@@ -945,6 +949,13 @@ if (DIL) {
   eskiDil = p?.dil ?? null;
   await sorgu(`update profiles set dil = ${alintila(DIL)} where id = ${alintila(BEN)}`);
 }
+let eskiUlke;
+if (ULKE) {
+  const [p] = await sorgu(`select ulke from profiles where id = ${alintila(BEN)}`);
+  eskiUlke = p?.ulke ?? null;
+  await sorgu(`update profiles set ulke = ${alintila(ULKE)} where id = ${alintila(BEN)}`);
+}
+const [{ simdi: TEST_BASI }] = await sorgu(`select now()::text as simdi`);
 console.log(`Oyuncu testi — ${ADRES} · kullanıcı ${BEN.slice(0, 8)} · modlar: ${MODLAR.join(", ")}`);
 try {
   await s.goto(ADRES + "/", { waitUntil: "domcontentloaded" });
@@ -960,6 +971,21 @@ try {
   basarisiz("Beklenmeyen hata: " + (e?.message ?? e));
 } finally {
   await tarayici.close();
+  // 652: bu koşuda açılan maçların sorularında kapsam (yabancı test hesabında yerel 0 olmalı)
+  try {
+    const yabanci = (ULKE && ULKE !== "TR") || DIL === "en";
+    const [k] = await sorgu(`with s as (
+        select unnest(m.soru_ids) id from matches m where ${alintila(BEN)} in (m.oyuncu1, m.oyuncu2) and m.created_at >= ${alintila(TEST_BASI)}
+        union all select unnest(d.kullanilan_sorular) from duellolar d where ${alintila(BEN)} in (d.oyuncu1, d.oyuncu2) and d.created_at >= ${alintila(TEST_BASI)}
+        union all select sd.question_id from soru_degisimleri sd where sd.user_id = ${alintila(BEN)} and sd.baslangic >= ${alintila(TEST_BASI)})
+      select count(*) toplam, count(*) filter (where q.kapsam <> 'global') yerel from s join questions q on q.id = s.id`);
+    const msj = `Soru kapsamı (${yabanci ? "yabancı hesap" : "TR hesap"}): ${k.toplam} soru, yerel ${k.yerel}`;
+    if (yabanci && Number(k.yerel) > 0) basarisiz(msj);
+    else notlar.push(msj);
+  } catch (e) {
+    console.log("kapsam denetimi yapılamadı:", e.message);
+  }
+  if (ULKE) await sorgu(`update profiles set ulke = ${alintila(eskiUlke)} where id = ${alintila(BEN)}`).catch((e) => console.log("profil ülkesi geri alınamadı:", e.message));
   if (DIL) await sorgu(`update profiles set dil = ${alintila(eskiDil)} where id = ${alintila(BEN)}`).catch((e) => console.log("profil dili geri alınamadı:", e.message));
   await db.kapat();
 }

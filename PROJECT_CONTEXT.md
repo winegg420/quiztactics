@@ -76,6 +76,13 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
   (test değeri; 350: 55/30/15 → 70/25/5, 200 soruda ölçüm 71/21,5/7,5) — sonra o gruptan mevcut kurallarla soru; grup boşsa komşu gruba düşer.
   `zorluk >= 2` filtresi kalktı. Turnuva kendi kuralında.
 - **Soru üretimi: yeni zor soru üretilmez; üretim yalnız kolay ve orta** (Ida, 23 Eyl 2026).
+- **Soru kapsamı (652–655, Ida 26 Eyl):** `questions.kapsam` = `global` (evrensel) | `yerel` (+ `ulke` TR; Türkiye
+  tarihi/coğrafyası/siyaseti, yalnız Türkiye'de bilinen kültür). Aktif havuz 9.931 global / 2.302 yerel (Jev, `araclar/jev-kapsam.mjs`;
+  belirsizler yerel). Maçta bot OLMAYAN bir oyuncunun ülkesi ≠ TR ya da dili ≠ tr ise o maçta HERKESE yalnız global —
+  bütün modlar (`soru_sec` içinde, gevşetilmez; Turnuva katılımcılara göre `app.soru_kapsam`). Türkiye-Türkiye ve yabancı
+  gizli bota karşı maç değişmez. Kategoride global < `soru_kapsam_min_havuz` (60) ise yabancılı maçta seçilemez (Düello),
+  karışığa düşer (Klasik) ve `get_categories`'ten düşer. Anahtar `soru_kapsam_filtresi_acik`. Yeni üretim `kapsam` alanıyla
+  (generate-questions). Test: `node araclar/kapsam-sql-testi.mjs`, `oyuncu-testi --ulke=DE`.
 - **Gösterim payı (325/326):** sunucu yeni fazın/sorunun bitişine pay ekler — Düello
   `duello_gosterim_payi_ms` 1500 (kategori + cevap), Klasik/Grup/Turnuva sonraki soru
   `soru_gosterim_payi_ms` 2000. İstemci sayacı pay bitene dek TAM süreyi gösterir, sonra gerçek
