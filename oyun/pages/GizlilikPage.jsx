@@ -10,7 +10,7 @@ import "../tasarim/ekranlar/g-yasal.css";
 // Bu bir TASLAKTIR; yayına almadan önce iletişim e-postası ve şirket/kişi
 // bilgisi kontrol edilmelidir.
 const GUNCELLEME = tt("25 Eylül 2026");
-const ILETISIM = "idagureli@gmail.com";
+const ILETISIM = "quiztacticsapp@gmail.com";
 
 export default function GizlilikPage() {
   return (

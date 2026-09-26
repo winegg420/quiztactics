@@ -8788,3 +8788,14 @@ Doğrulama: yerel dev + canlı Supabase, Chrome, misafir test hesapları (ikinci
 - **Doğrulama (yerel dev sunucusu, canlı DB, sonuçlar SQL ile):** sihirbaz TR → İstanbul, DE → Berlin, JP → Tokyo, BR → São Paulo (dördü de `profiles.ulke/sehir` doğru, modal kapandı, RPC 204). KonumSecici: TR → DE (Berlin), DE'yi yeniden seç (Berlin), DE → JP (Tokyo) hepsi DB'de doğru. Build temiz. Test hesapları silindi (0 kaldı).
 - **Not (ayrı bulgu değil):** kayıt sonrası arayüz gecikmesi yok — `refreshProfile` sonrası modal hemen kapanıyor.
 - **Canlı doğrulama (push sonrası, quiztactics.vercel.app, gerçek Chrome):** yeni misafir hesapla sihirbaz DE → Berlin, ES → Madrid; `profiles.ulke/sehir` SQL'de doğru. Test hesapları silindi (0 kaldı). Commit 0e99c85.
+
+## 2026-09-26 — İletişim e-postası + Arkadaşlar sayfası 403 kökü (D-455 kalıntısı)
+**Araç:** Claude Code
+**Neden:** Ida: oyuncuya görünen iletişim adresi değişsin; TUR 2 denetiminde not düşülen 403 konsol uyarıları incelensin.
+
+- **1) E-posta:** `GizlilikPage.jsx:13` ve `KosullarPage.jsx:14` `ILETISIM` → `quiztacticsapp@gmail.com`. Kod/migration/yorumda başka yere dokunulmadı (kaynakta başka `idagureli` geçişi yok).
+- **2) 403 kök sebebi (ölçüldü, gerçek oturumla ağ yanıtları yakalanarak):** yalnız **Arkadaşlar** sayfası; `bekleyenleriYukle` (D-455 "Maça gir" şeridi) `duellolar` tablosunu doğrudan okuyordu → `GET /rest/v1/duellolar … 403 (42501 permission denied for table duellolar)`. Tablo **bilinçli kapalı** (205: `revoke all … from anon, authenticated`; soru/hamle durumu sızmasın). Sayfa açılışında + her yenilemede 1 istek → konsolda 2–3 uyarı. Meydan sayfasında 403 üreten istek yok (ölçüldü; uyarılar Arkadaşlar'dan geliyordu).
+- **Gerçek işlev kaybıydı, zararsız değil:** hata sessiz yutulduğu için aktif düello şeridi HİÇBİR ZAMAN çıkmıyordu (yalnız klasik maç şeridi çalışıyordu). Anonim ve normal hesapta aynı (rol düzeyinde: iki tip kullanıcıyla `authenticated` rolünde ölçüldü, ikisi de `permission denied`).
+- **Düzeltme:** tabloyu açmak (GRANT SELECT) yerine dar okuma RPC'si — migration `658_duello_aktif_benim` (`duello_aktif_benim()`: çağıranın kendi aktif düellolarının id/oyuncu1/oyuncu2'si; security definer, yalnız `authenticated`). Önce transaction'da prova → canlıya uygulandı. `FriendsPage.jsx` doğrudan sorgu yerine `supabase.rpc("duello_aktif_benim")`. Tablonun izinleri DEĞİŞMEDİ.
+- **Kalan not:** aynı sayfadaki realtime aboneliği `duellolar` `postgres_changes` dinliyor; tablo kapalı olduğundan olay zaten gelmez (403 üretmez, sessiz). Şerit sayfa açılışında + `matches`/`duello_davetleri`/`bildirimler` olaylarında tazelenir; düello kabulü `bildirimler` INSERT'iyle düşer. Şu an canlıda aktif düello yok → RPC boş döndü; dolu dönüş canlıda ölçülemedi.
+- **Doğrulama:** Arkadaşlar + Meydan gerçek misafir oturumuyla açıldı: 400+ yanıt yok. Test hesabı açılmadı (mevcut denetim oturumu kullanıldı).
