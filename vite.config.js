@@ -15,6 +15,13 @@ import path from "node:path";
 // Aşağıdaki eklentinin tek işi, adrese bağlı olduğu için elle yazılamayan iki
 // dosyayı üretmek: robots.txt ve sitemap.xml.
 // ============================================================
+// Arama motorları görmesin: geliştirici/tasarım/önizleme sayfaları (giriş + sahip kapısı arkasında).
+const ROBOTS_YASAK = [
+  "/insan-prototip", "/preview/", "/tasarim-yonleri", "/tasarim-sistemi", "/tasarim-onizleme",
+  "/kozmetik-onizleme", "/mac-sonu-onizleme", "/avatar-onizleme", "/cerceve-onizleme", "/premium-onizleme",
+  "/ikon-onizleme", "/ses-secim", "/gorsel-revizyon", "/stil-rehberi", "/yonetim/",
+];
+
 function yayinDosyalari(siteUrl) {
   return {
     name: "yayin-dosyalari",
@@ -31,7 +38,7 @@ function yayinDosyalari(siteUrl) {
 
       yaz(
         "robots.txt",
-        "User-agent: *\nAllow: /\n" + (siteUrl ? `\nSitemap: ${siteUrl}/sitemap.xml\n` : "")
+        "User-agent: *\nAllow: /\n" + ROBOTS_YASAK.map((y) => `Disallow: ${y}\n`).join("") + (siteUrl ? `\nSitemap: ${siteUrl}/sitemap.xml\n` : "")
       );
 
       // sitemap.xml — yalnız giriş gerektirmeyen adresler

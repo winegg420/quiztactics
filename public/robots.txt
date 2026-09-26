@@ -1,4 +1,19 @@
 User-agent: *
 Allow: /
+Disallow: /insan-prototip
+Disallow: /preview/
+Disallow: /tasarim-yonleri
+Disallow: /tasarim-sistemi
+Disallow: /tasarim-onizleme
+Disallow: /kozmetik-onizleme
+Disallow: /mac-sonu-onizleme
+Disallow: /avatar-onizleme
+Disallow: /cerceve-onizleme
+Disallow: /premium-onizleme
+Disallow: /ikon-onizleme
+Disallow: /ses-secim
+Disallow: /gorsel-revizyon
+Disallow: /stil-rehberi
+Disallow: /yonetim/
 
 Sitemap: https://idagg-game-center.vercel.app/sitemap.xml

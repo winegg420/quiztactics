@@ -20,6 +20,7 @@ import { supabaseHazir } from "./lib/supabase.js";
 import Login from "./pages/Login.jsx";
 import { QtMarka, QtKart, QtBosDurum } from "../oyun/tasarim/index.js";
 import { tt } from "../oyun/lib/dil.js";
+import SahipKapisi from "./components/SahipKapisi.jsx";
 import YukleniyorEkrani from "../oyun/components/YukleniyorEkrani.jsx";
 // Meydan (3B harita) ve gardırop DONDURULDU (Arayüz Yenileme, 20 Eyl 2026).
 // Rotalar SİLİNMEDİ; bayrak kapalıyken "Bu bölüm şu an kapalı" notu gösterip
@@ -132,18 +133,13 @@ export default function BildimApp() {
   }, [pathname]);
 
   const bagimsizModul =
-    pathname.startsWith("/insan-prototip") ||
-    pathname.startsWith("/preview/avatar-lab") ||
-    pathname.startsWith("/preview/avatar-pro") ||
-    pathname.startsWith("/preview/logo-exploration") ||
-    pathname.startsWith("/preview/logo-finalists") ||
-    pathname.startsWith("/preview/q-logo-lab") ||
-    pathname.startsWith("/tasarim-yonleri") ||
-    pathname.startsWith("/tasarim-sistemi") ||
-    pathname.startsWith("/kozmetik-onizleme") ||
-    pathname.startsWith("/mac-sonu-onizleme") ||
-    // Yalnız yerel geliştirme (.env yok): premium önizlemeyi ölçmek için; üretimde DEV false → girişli + sahip kontrolü
-    (import.meta.env.DEV && !supabaseHazir && (pathname.startsWith("/premium-onizleme") || pathname.startsWith("/tasarim-onizleme") || pathname.startsWith("/gorsel-revizyon"))) ||
+    // Geliştirici/tasarım sayfaları (insan-prototip, preview/*, tasarim-yonleri, tasarim-sistemi,
+    // kozmetik-onizleme, mac-sonu-onizleme) artık bağımsız DEĞİL: giriş + sahip kapısı (SahipKapisi).
+    // Yalnız yerel geliştirme (.env yok): önizlemeleri ölçmek için; üretimde DEV false → girişli + sahip kontrolü
+    (import.meta.env.DEV && !supabaseHazir && (
+      pathname.startsWith("/premium-onizleme") || pathname.startsWith("/tasarim-onizleme") || pathname.startsWith("/gorsel-revizyon") ||
+      pathname.startsWith("/insan-prototip") || pathname.startsWith("/preview/") || pathname.startsWith("/tasarim-yonleri") ||
+      pathname.startsWith("/tasarim-sistemi") || pathname.startsWith("/kozmetik-onizleme") || pathname.startsWith("/mac-sonu-onizleme"))) ||
     pathname.startsWith("/gizlilik") || pathname.startsWith("/kosullar");
 
   if (!supabaseHazir && !bagimsizModul) {
@@ -185,20 +181,20 @@ export default function BildimApp() {
         <Route path="/gizlilik" element={<GizlilikPage />} />
         <Route path="/kosullar" element={<KosullarPage />} />
         {/* Dondurulmuş (22 Eyl 2026): meydan prototipi; varlıkları varliklar-dondurulmus/meydan/. Geri açma: MEYDAN_ACIK + klasörü public/meydan/ olarak geri taşı. */}
-        <Route path="/insan-prototip" element={MEYDAN_ACIK ? <HazirInsanPrototipi /> : <BulunamadiPage kapaliMod kapaliOzellik />} />
-        <Route path="/preview/avatar-lab" element={<AvatarLabPage />} />
-        <Route path="/preview/avatar-lab-v2" element={<AvatarLabV2Page />} />
-        <Route path="/preview/avatar-pro" element={<AvatarPreviewProPage />} />
-        <Route path="/preview/logo-exploration" element={<LogoExplorationPage />} />
-        <Route path="/preview/logo-exploration-v2" element={<LogoExplorationV2Page />} />
-        <Route path="/preview/logo-exploration-v4" element={<LogoExplorationV4Page />} />
-        <Route path="/preview/logo-exploration-v5" element={<LogoExplorationV5Page />} />
-        <Route path="/preview/logo-finalists-vnext" element={<LogoFinalistsVNextPage />} />
-        <Route path="/preview/q-logo-lab" element={<QLogoLabPage />} />
-        <Route path="/tasarim-yonleri" element={<TasarimYonleriPage />} />
-        <Route path="/tasarim-sistemi" element={<TasarimSistemiPage />} />
-        <Route path="/kozmetik-onizleme" element={<KozmetikOnizlemePage />} />
-        <Route path="/mac-sonu-onizleme" element={<MacSonuOnizlemePage />} />
+        <Route path="/insan-prototip" element={<SahipKapisi>{MEYDAN_ACIK ? <HazirInsanPrototipi /> : <BulunamadiPage kapaliMod kapaliOzellik />}</SahipKapisi>} />
+        <Route path="/preview/avatar-lab" element={<SahipKapisi><AvatarLabPage /></SahipKapisi>} />
+        <Route path="/preview/avatar-lab-v2" element={<SahipKapisi><AvatarLabV2Page /></SahipKapisi>} />
+        <Route path="/preview/avatar-pro" element={<SahipKapisi><AvatarPreviewProPage /></SahipKapisi>} />
+        <Route path="/preview/logo-exploration" element={<SahipKapisi><LogoExplorationPage /></SahipKapisi>} />
+        <Route path="/preview/logo-exploration-v2" element={<SahipKapisi><LogoExplorationV2Page /></SahipKapisi>} />
+        <Route path="/preview/logo-exploration-v4" element={<SahipKapisi><LogoExplorationV4Page /></SahipKapisi>} />
+        <Route path="/preview/logo-exploration-v5" element={<SahipKapisi><LogoExplorationV5Page /></SahipKapisi>} />
+        <Route path="/preview/logo-finalists-vnext" element={<SahipKapisi><LogoFinalistsVNextPage /></SahipKapisi>} />
+        <Route path="/preview/q-logo-lab" element={<SahipKapisi><QLogoLabPage /></SahipKapisi>} />
+        <Route path="/tasarim-yonleri" element={<SahipKapisi><TasarimYonleriPage /></SahipKapisi>} />
+        <Route path="/tasarim-sistemi" element={<SahipKapisi><TasarimSistemiPage /></SahipKapisi>} />
+        <Route path="/kozmetik-onizleme" element={<SahipKapisi><KozmetikOnizlemePage /></SahipKapisi>} />
+        <Route path="/mac-sonu-onizleme" element={<SahipKapisi><MacSonuOnizlemePage /></SahipKapisi>} />
         <Route path="/ses-secim" element={<SesSecimPage />} />
         <Route path="/avatar-onizleme" element={<AvatarOnizlemePage />} />
         <Route path="/cerceve-onizleme" element={<CerceveOnizlemePage />} />
