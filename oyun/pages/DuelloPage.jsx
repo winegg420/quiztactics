@@ -35,7 +35,7 @@ import DereceliAnahtari from "../components/DereceliAnahtari.jsx";
 import JokerSatinAlModal from "../components/JokerSatinAlModal.jsx";
 import { useDereceliTercih } from "../lib/dereceli.js";
 import { useDil } from "../lib/dilKanca.js";
-import { hataMesaji } from "../lib/hata.js";
+import { hataMesaji, islemHatasi } from "../lib/hata.js";
 import { kategoriAdi } from "../lib/kategoriler.js";
 import { unvanAdi } from "../lib/unvanlar.js";
 import { JOKER_BILGI, SALDIRI_JOKERLERI, macJokerleri, skillSetiOku } from "../lib/jokerler.js";
@@ -125,6 +125,14 @@ const KURAL_V1 = [
   { ikon: "kilit", metin: "Aynı kategori üst üste seçilemez, maçta en çok 2 kez" },
 ];
 
+const SURUM_DEPO = "bildim_duello_surum";
+function surumOnbellek() {
+  try { const v = Number(localStorage.getItem(SURUM_DEPO)); return v === 1 || v === 2 ? v : null; } catch { return null; }
+}
+function surumOnbellegeYaz(s) {
+  try { localStorage.setItem(SURUM_DEPO, String(s)); } catch { /* özel pencere: yalnız önbellek */ }
+}
+
 function DuelloGiris() {
   const navigate = useNavigate();
   const { ceviri } = useDil();
@@ -140,22 +148,29 @@ function DuelloGiris() {
   const [tanitim, setTanitim] = useState(null);   // null | "arama" (bitince aramaya geç) | "kurallar"
   // Düello 1.0: oyuncunun yeni maçının sürümü (genel bayrak ya da test listesi —
   // duello_surum_benim). Giriş metinleri ve tanıtım ona göre. Okunamazsa eski kurallar (1).
-  const [surum, setSurum] = useState(1);
+  // D-406: ilk değer 1 değil — sunucu yavaşken lobi V1 kurallarını gösterip V1 tanıtım anahtarına bakıyordu.
+  // Son okunan sürüm cihazda saklanır; hiç yoksa (null) metinler gizli çizilir, tıklama güncel sürüm (2) sayar.
+  const [surum, setSurum] = useState(surumOnbellek);
   useEffect(() => {
     let aktif = true;
     (async () => {
       try {
         const { data, error } = await supabase.rpc("duello_surum_benim");
         if (error) throw error;
-        if (aktif) setSurum(Number(data) === 2 ? 2 : 1);
+        const s = Number(data) === 2 ? 2 : 1;
+        surumOnbellegeYaz(s);
+        if (aktif) setSurum(s);
       } catch (e) {
         console.warn("[Bildim] duello sürümü okunamadı:", e?.message ?? e);
+        if (aktif) setSurum((onceki) => onceki ?? 1);
       }
     })();
     return () => { aktif = false; };
   }, []);
-  const v2 = surum === 2;
+  const gecerliSurum = surum ?? 2;
+  const v2 = gecerliSurum === 2;
   const kurallar = v2 ? KURAL_V2 : KURAL_V1;
+  const gizli = surum === null ? { visibility: "hidden" } : undefined;
 
   return (
     <div className="m2-giris">
@@ -163,12 +178,12 @@ function DuelloGiris() {
         <span className="m2-giris-ikon" aria-hidden="true"><QtIkon ad="duello" boyut={40} /></span>
         <div className="m2-giris-yazi">
           <h1 className="qt-baslik-1">{ceviri("Düello")}</h1>
-          <p>{v2
+          <p style={gizli}>{v2
             ? ceviri("Sırayla kategori seçin, aynı soruyu aynı anda cevaplayın. Yalnız biri bilirse öteki can kaybeder.")
             : ceviri("Sırayla birbirinize soru gönderin. Rakibin zayıf kategorisini bul, oradan vur.")}</p>
         </div>
       </header>
-      <ul className="m2-giris-kurallar" aria-label={ceviri("Taktik Maçı")}>
+      <ul className="m2-giris-kurallar" aria-label={ceviri("Taktik Maçı")} style={gizli}>
         {kurallar.map((k) => (
           <li key={k.metin}>
             <span className="m2-giris-kural-ikon" aria-hidden="true"><QtIkon ad={k.ikon} boyut={20} /></span>
@@ -180,7 +195,7 @@ function DuelloGiris() {
       <SkillSeti macTur="duello" />
       <div className="m2-giris-eylem">
         <QtDugme tamGenislik boyut="b" ikon="duello"
-                 onClick={() => { sesKilidiAc(); sesDokunus(); if (duelloTanitimGoruldu(surum)) setArama(true); else setTanitim("arama"); }}>
+                 onClick={() => { sesKilidiAc(); sesDokunus(); if (duelloTanitimGoruldu(gecerliSurum)) setArama(true); else setTanitim("arama"); }}>
           {ceviri("Rakip ara")}
         </QtDugme>
         <p className="m2-giris-not">
@@ -189,7 +204,7 @@ function DuelloGiris() {
         {/* Paket 20 IV.1: kurallar her zaman yeniden açılabilir */}
         <QtDugme tur="hayalet" boyut="k" ikon="bilgi" onClick={() => setTanitim("kurallar")}>{ceviri("Kurallar nasıl işliyor?")}</QtDugme>
       </div>
-      {tanitim && <DuelloTanitim surum={surum} onKapat={() => { const aramaya = tanitim === "arama"; setTanitim(null); if (aramaya) setArama(true); }} />}
+      {tanitim && <DuelloTanitim surum={gecerliSurum}onKapat={() => { const aramaya = tanitim === "arama"; setTanitim(null); if (aramaya) setArama(true); }} />}
       {arama && (
         <DuelloArama
           dereceli={dereceli}
@@ -279,7 +294,7 @@ function DuelloArama({ dereceli, onBulundu, onIptal, ipuclari = ARAMA_IPUCLARI, 
         }
       } catch (e) {
         console.error("[Bildim] duello_ara:", e);
-        setHata(ceviri("Rakip aranamadı. Bağlantını kontrol edip tekrar dene."));
+        setHata(islemHatasi(e, "Rakip aranamadı."));
         bittiRef.current = true;
         clearInterval(zaman);   // hata: sayaç ve yoklama durur
       }

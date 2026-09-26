@@ -54,6 +54,8 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
         setOdul({
           klasik: { lig: s("lig_mac_galibiyet"), coin: s("coin_mac_galibiyet") },
           duello: { lig: s("lig_duello_galibiyet"), coin: s("coin_duello_galibiyet") },
+          serbestCarpan: s("serbest_coin_carpani") ?? 0.5,
+          safCarpan: s("saf_bilgi_odul_carpani") ?? 0.5,
         });
         setOdulDurum("hazir");
       })
@@ -86,12 +88,18 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
 
   const ad = profil?.gorunen_ad ?? tt("Arkadaşın");
   // Paket 41 M.3: ayar okunamazsa satır yok olmasın — yüklenirken "…", okunamazsa "—"
-  const odulMetni = (o) =>
-    o && o.lig != null && o.coin != null
-      ? tt("Galibiyet: +{lig} lig puanı · {coin} coin", { lig: o.lig, coin: o.coin })
-      : odulDurum === "yukleniyor"
-        ? tt("Ödül: …")
-        : tt("Ödül: —");
+  // Sunucu (mac_sonuclandir / duello_bitir): Serbest'te lig puanı yok, coin × serbest_coin_carpani;
+  // Saf Bilgi'de lig ve coin × saf_bilgi_odul_carpani (indirimler çarpılmaz, en düşüğü uygulanır).
+  const serbest = dereceli === false;
+  const odulMetni = (o, saf = false) => {
+    if (!(o && o.lig != null && o.coin != null)) {
+      return odulDurum === "yukleniyor" ? tt("Ödül: …") : tt("Ödül: —");
+    }
+    const carpan = Math.min(serbest ? odul.serbestCarpan : 1, saf ? odul.safCarpan : 1);
+    const coin = Math.floor(o.coin * carpan);
+    if (serbest) return tt("Galibiyet: lig puanı yok · {coin} coin", { coin });
+    return tt("Galibiyet: +{lig} lig puanı · {coin} coin", { lig: Math.floor(o.lig * carpan), coin });
+  };
 
   const TUM_SECENEKLER = [
     {
@@ -118,7 +126,7 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
       ad: tt("Saf Bilgi"),
       aciklama: tt("Skill yok. Sadece bilgi ve hız."),
       joker: tt("skill yok"),
-      odul: odulMetni(odul?.klasik),
+      odul: odulMetni(odul?.klasik, true),
     },
   ];
 

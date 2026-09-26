@@ -252,4 +252,8 @@ export default {
   "Lig tablosunda, maç şeridinde, maç sonunda ve profilinde adının görünümü.": "How your name looks in the league table, match bar, match end and on your profile.",
   "Kazandığında maç sonu sahnesine eklenir. Rakibin de görür.": "Added to the match-end scene when you win. Your opponent sees it too.",
   "Maçta rakibine gönderebileceğin 4 yeni tepki. Paket takılmaz, alınca maçta hazır.": "4 new reactions to send your opponent in matches. Packs aren't equipped — once bought they're ready.",
+  "Kazanılan Çerçeveler": "Earned Frames",
+  "Premium Çerçeveler": "Premium Frames",
+  "Premium Arka Planlar": "Premium Backgrounds",
+  "Premium önde": "Premium on top",
 };

@@ -323,6 +323,7 @@ const SOZLUK = {
     "Düello (Taktik Maçı)": "Duel (Tactics Match)",
     "Rakibinin zayıf kategorisini bul, oradan vur. 3 can, en çok 10 tur.": "Find your opponent's weak category and strike there. 3 lives, up to 10 rounds.",
     "Galibiyet: +{lig} lig puanı · {coin} coin": "Win: +{lig} league points · {coin} coins",
+    "Galibiyet: lig puanı yok · {coin} coin": "Win: no league points · {coin} coins",
     "En çok ödül": "Top rewards",
     "Davet gönderiliyor…": "Sending invite…",
     // Paket 30 C: rövanş bekleme penceresi
@@ -1583,6 +1584,7 @@ const SOZLUK = {
     "meydan okumanı kabul etti": "accepted your challenge",
     "Maç ekranında seni bekliyor — hemen gir": "Waiting for you on the match screen — jump in",
     "Maça gir": "Join match",
+    "Maç başladı": "Match started",
     "Geçen hafta {sehir} liginde {sira}. oldun ({puan} puan). Yeni hafta başladı!": "Last week you finished #{sira} in the {sehir} league ({puan} points). A new week has begun!",
     "Geçen hafta dünya liginde {sira}. oldun ({puan} puan). Yeni hafta başladı!": "Last week you finished #{sira} in the world league ({puan} points). A new week has begun!",
     "Hoş geldin,": "Welcome,",

@@ -47,6 +47,7 @@ export function kosulMetni(kosul) {
   return tt("Etkinlik ödülü");
 }
 
+const PREMIUM_BASLIK = { premium_cerceve: "Premium Çerçeveler", premium_aura: "Premium Arka Planlar" };
 const KAYNAK_ADI = { lig: "Lig", turnuva: "Turnuva", level: "Level", etkinlik: "Etkinlik" };
 
 export default function Koleksiyon() {
@@ -146,9 +147,15 @@ export default function Koleksiyon() {
   // Yeni katalog avatarları (520): kullanabildiklerin (günlük, aldıkların; sahip test modunda hepsi)
   const yeniAvatarlar = kozmetik.avatarlar.filter((a) => a.kullanabilir);
 
-  const sahipCerceve = cerceveler.filter((c) => c.sahip).length;
-  const sahipAura = auralar.filter((a) => a.sahip).length;
+  // Premium çerçeve/arka plan ayrı katalogdan gelir; sayaç ve "Takılı" durumu ikisini birlikte hesaplar.
+  const premiumCerceveler = kozmetik.katalog.filter((x) => x.tur === "premium_cerceve");
+  const premiumAuralar = kozmetik.katalog.filter((x) => x.tur === "premium_aura");
+  const premiumCerceveTakili = premiumCerceveler.some((x) => x.takili);
+  const sahipCerceve = cerceveler.filter((c) => c.sahip).length + premiumCerceveler.filter((x) => x.sahip).length;
+  const sahipAura = auralar.filter((a) => a.sahip).length + premiumAuralar.filter((x) => x.sahip).length;
   const durumYazi = (secili, anahtarMesgul) => (secili ? tt("Takılı") : mesgul === anahtarMesgul ? tt("Takılıyor…") : tt("Tak"));
+  // Premium çerçeve takılıyken kazanılan çerçevenin üstünü örter (CerceveliAvatar): ikisi "Takılı" görünmesin
+  const prestijDurum = (secili, anahtarMesgul) => (secili && premiumCerceveTakili ? tt("Premium önde") : durumYazi(secili, anahtarMesgul));
 
   return (
     <div className="qt-ks">
@@ -159,7 +166,7 @@ export default function Koleksiyon() {
           <h2 className="qt-baslik-3">{tt("Görünümün")}</h2>
           <p className="qt-kucuk qt-soluk">{tt("Arka plan arkada, avatar ortada, çerçeve önde. Maçta, lig tablosunda ve profilinde herkes böyle görür.")}</p>
           <p className="qt-kucuk">
-            {tt("{a}/{b} çerçeve · {c}/{d} arka plan", { a: sahipCerceve, b: cerceveler.length, c: sahipAura, d: auralar.length })}
+            {tt("{a}/{b} çerçeve · {c}/{d} arka plan", { a: sahipCerceve, b: cerceveler.length + premiumCerceveler.length, c: sahipAura, d: auralar.length + premiumAuralar.length })}
           </p>
         </div>
       </QtKart>
@@ -174,7 +181,7 @@ export default function Koleksiyon() {
 
       {/* ---------- Çerçeveler (kazanılır, satılmaz) ---------- */}
       <QtKart as="section" className="qt-cs" aria-labelledby="qt-ks-cerceve">
-        <h2 id="qt-ks-cerceve" className="qt-baslik-3">{tt("Çerçeveler")}</h2>
+        <h2 id="qt-ks-cerceve" className="qt-baslik-3">{tt("Kazanılan Çerçeveler")}</h2>
         <p className="qt-kucuk qt-soluk">{tt("Çerçeve satılmaz, kazanılır: lig, turnuva, level ve etkinliklerle.")}</p>
         <ul className="qt-cs-izgara">
           <li>
@@ -184,7 +191,7 @@ export default function Koleksiyon() {
                 <Avatar profile={profile ?? {}} boyut={icBoyut(64, false)} />
               </CerceveGorseli>
               <span className="qt-cs-ad">{tt("Çerçevesiz")}</span>
-              <span className="qt-cs-durum">{durumYazi(takiliCerceve === null, "c:yok")}</span>
+              <span className="qt-cs-durum">{prestijDurum(takiliCerceve === null, "c:yok")}</span>
             </button>
           </li>
           {cerceveler.map((c) => {
@@ -207,7 +214,7 @@ export default function Koleksiyon() {
                   <span className="qt-cs-ad">{ad}</span>
                   <span className="qt-cs-kaynak">{tt(KAYNAK_ADI[c.kaynak] ?? "Etkinlik")}</span>
                   {c.sahip
-                    ? <span className="qt-cs-durum">{durumYazi(c.takili, `c:${c.anahtar}`)}</span>
+                    ? <span className="qt-cs-durum">{prestijDurum(c.takili, `c:${c.anahtar}`)}</span>
                     : <span className="qt-cs-kosul"><QtIkon ad="kilit" boyut={12} /> {kosulMetni(c.kosul)}</span>}
                 </button>
               </li>
@@ -216,7 +223,8 @@ export default function Koleksiyon() {
         </ul>
       </QtKart>
 
-      {/* ---------- Arka Planlar (elmasla dükkândan) ---------- */}
+      {/* ---------- Arka Planlar (eski katalog) — 552'den beri boş; boşken çizilmez, premium arka planlar aşağıda ---------- */}
+      {auralar.length > 0 && (
       <QtKart as="section" className="qt-cs" aria-labelledby="qt-ks-aura">
         <h2 id="qt-ks-aura" className="qt-baslik-3">{tt("Arka Planlar")}</h2>
         <p className="qt-kucuk qt-soluk">{tt("Arka plan avatarının arkasında durur. Dükkân'da elmasla alınır.")}</p>
@@ -258,6 +266,7 @@ export default function Koleksiyon() {
         </ul>
         <QtDugme as={Link} to={y("/joker?sekme=aura")} tur="ikincil" ikon="dukkan" tamGenislik>{tt("Dükkân'da arka planlar")}</QtDugme>
       </QtKart>
+      )}
 
       {/* ---------- 540: VS Kartı · İsim Efekti · Zafer Efekti · Tepki ---------- */}
       {KOZMETIK_SEKMELERI.filter((s) => s.tur && kozmetik.katalog.some((x) => x.tur === s.tur)).map((s) => {
@@ -266,7 +275,7 @@ export default function Koleksiyon() {
         const takili = liste.find((x) => x.takili)?.anahtar ?? null;
         return (
           <QtKart as="section" key={s.kod} className="qt-cs qt-ks-kozmetik" aria-labelledby={`qt-ks-${s.kod}`}>
-            <h2 id={`qt-ks-${s.kod}`} className="qt-baslik-3">{tt(s.ad)}</h2>
+            <h2 id={`qt-ks-${s.kod}`} className="qt-baslik-3">{tt(PREMIUM_BASLIK[s.tur] ?? s.ad)}</h2>
             {kozmetik.sahipHesap && <p className="qt-kucuk qt-soluk">{tt("Sahip test modu: satın almadan takabilirsin; taktığın maçta rakibe de görünür.")}</p>}
             <ul className="qt-cs-izgara">
               {takilir && (
