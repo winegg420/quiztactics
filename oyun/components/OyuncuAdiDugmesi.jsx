@@ -18,6 +18,7 @@ import { useState } from "react";
 import OyuncuKarti from "./OyuncuKarti.jsx";
 import IsimEfekti from "./IsimEfekti.jsx";
 import { tt } from "../lib/dil.js";
+import { botAdi } from "../lib/botAdi.js";
 import "../tasarim/ekranlar/l-kart.css";
 
 const durdur = (e) => e.stopPropagation();
@@ -47,13 +48,14 @@ function onIzlemeYap(userId, profil) {
  *                                   varsa — lobi/arkadaş listesi — aynı eylemli kart açılsın)
  */
 export default function OyuncuAdiDugmesi({
-  userId, profil = null, ad, oge: Oge = "span", className, dugmeSinifi, kartOzellikleri, onAc, odaklanmaz = false, efektsiz = false, children: cocuk, ...rest
+  userId, profil = null, ad, oge: Oge = "span", className, dugmeSinifi, kartOzellikleri, onAc, odaklanmaz = false, efektsiz = false, children: cocukHam, ...rest
 }) {
+  const cocuk = botAdi(cocukHam);   // açık bot adı EN'de çevrilir (yalnız bilinen üç ad)
   const [acik, setAcik] = useState(false);
   // İsim efekti her yerde (Ida, 24 Eyl 2026 — altın isim: arkadaşlar, meydan okumalar, turnuva, davetler…)
   const children = !efektsiz && userId && typeof cocuk === "string" ? <IsimEfekti userId={userId}>{cocuk}</IsimEfekti> : cocuk;
   if (!userId) return <Oge className={className || undefined} {...rest}>{children}</Oge>;
-  const gorunen = ad ?? profil?.gorunen_ad ?? tt("Oyuncu");
+  const gorunen = botAdi(ad ?? profil?.gorunen_ad ?? tt("Oyuncu"));
   return (
     <>
       <button

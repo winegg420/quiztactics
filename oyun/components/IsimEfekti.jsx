@@ -20,6 +20,7 @@
 import { useEffect, useState } from "react";
 import { oyuncuKarti, oyuncuKartiDinle } from "../lib/cerceve.js";
 import { kozmetikTemasi } from "../lib/kozmetik.js";
+import { botAdi } from "../lib/botAdi.js";
 import "../tasarim/ekranlar/kozmetik.css";
 import "../tasarim/ekranlar/altin-isim.css";
 import { yumusakHareketKur } from "../tasarim/yumusakHareket.js";
@@ -49,7 +50,8 @@ export function useKartAlani(userIdHam, alan, verildi = false) {
   return deger;
 }
 
-export default function IsimEfekti({ ef, userId, kart, koyu = false, acik = false, hareketli = false, className = "", children }) {
+export default function IsimEfekti({ ef, userId, kart, koyu = false, acik = false, hareketli = false, className = "", children: cocuk }) {
+  const children = botAdi(cocuk);   // açık bot adı EN'de çevrilir (yalnız bilinen üç ad)
   const verildi = ef !== undefined || (kart != null && Object.prototype.hasOwnProperty.call(kart, "isim_efekti"));
   const okunan = useKartAlani(userId, "isim_efekti", verildi);
   const anahtar = ef !== undefined ? ef : verildi ? kart?.isim_efekti ?? null : okunan;

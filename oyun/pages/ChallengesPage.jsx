@@ -46,6 +46,7 @@ import DereceliAnahtari from "../components/DereceliAnahtari.jsx";
 import { useDereceliTercih } from "../lib/dereceli.js";
 import { useDil } from "../lib/dilKanca.js";
 import { tt } from "../lib/dil.js";
+import { botAdi } from "../lib/botAdi.js";
 import { rpcDene } from "../lib/rpcDene.js";
 import AramaSahnesi from "../components/AramaSahnesi.jsx";
 
@@ -946,7 +947,7 @@ export default function ChallengesPage() {
                     >
                       <AvatarCerceve profile={b} boyut={48} />
                       <span className="a-meydan-antrenman-ad">
-                        <span className="a-meydan-bot-ad">{b.gorunen_ad} <QtIkon ad="robot" boyut={16} /></span>
+                        <span className="a-meydan-bot-ad">{botAdi(b.gorunen_ad)} <QtIkon ad="robot" boyut={16} /></span>
                         <QtRozet ton={zorlukTonu(isabet)} boyut="k">{z.etiket}</QtRozet>
                       </span>
                       <span className="a-meydan-antrenman-not">{tt("Antrenman — yarım ödül")}</span>
@@ -963,7 +964,7 @@ export default function ChallengesPage() {
         <QtModal
           acik
           onKapat={() => { if (!antrenmanBasliyor) setAntrenmanBot(null); }}
-          baslik={tt("{0} ile antrenman", { 0: antrenmanBot.gorunen_ad })}
+          baslik={tt("{0} ile antrenman", { 0: botAdi(antrenmanBot.gorunen_ad) })}
           aciklama={tt("Mod seç, maç hemen başlasın. Antrenmanda coin ve XP yarıya iner.")}
           className="a-meydan-onay"
         >
