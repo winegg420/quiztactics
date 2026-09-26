@@ -163,17 +163,24 @@
 .qt-dk-video-metin { display: grid; gap: var(--qt-b-1); }
 .qt-dk-video-metin p, .qt-dk-video-yok { margin: 0; }
 .qt-dk-coin-izgara { display: grid; gap: var(--qt-b-3); grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr)); }
-@media (max-width: 400px) { .qt-dk-coin-izgara { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* D-314: dar ekranda iki sütun; tek kalan son paket (Define) yarım satırda kalmasın → tam genişlik.
+   Eşik 500 px: üstünde ızgara zaten 3+ sütuna açılıyor (auto-fill), altında hep 2. */
+@media (max-width: 500px) {
+  .qt-dk-coin-izgara { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .qt-dk-coin-izgara > li:last-child:nth-child(odd) { grid-column: 1 / -1; }
+}
 .qt-dk-coin-izgara > li { display: grid; min-width: 0; }
+/* D-314: sütun (flex) — düğme her kartta kartın dibine oturur. Eskiden grid satırları içeriğe göre
+   daraldığı için `margin-top: auto` işe yaramıyor, bonus satırı olmayan kartta düğme 23 px yukarıda kalıyordu. */
 .qt-dk-coin.qt-dk-coin {
   position: relative;
-  display: grid;
-  justify-items: center;
-  align-content: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: var(--qt-b-1);
   text-align: center;
 }
-.qt-dk-coin.qt-dk-coin > .qt-dugme { margin-top: auto; align-self: end; }
+.qt-dk-coin.qt-dk-coin > .qt-dugme { margin-top: auto; align-self: stretch; }
 .qt-dk-coin-bonus { position: absolute; top: var(--qt-b-2); right: var(--qt-b-2); }
 .qt-dk-coin-gorsel { display: grid; place-items: center; width: 72px; height: 72px; margin-top: var(--qt-b-6); }
 .qt-dk-coin-miktar { font-family: var(--qt-f-baslik); font-size: var(--qt-y-xl); font-weight: var(--qt-a-siyah); line-height: 1.1; }
