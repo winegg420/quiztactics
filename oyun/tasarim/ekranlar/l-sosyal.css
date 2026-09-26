@@ -228,6 +228,7 @@
 
 /* ---------- Davet koduyla ekle ---------- */
 .ar-kod-satir { display: flex; gap: var(--qt-b-2); align-items: stretch; }
+.ar-kod-not { margin: 0 0 var(--qt-b-2); }
 .ar-kod-giris {
   flex: 1 1 auto;
   min-width: 0;

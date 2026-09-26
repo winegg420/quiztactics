@@ -85,7 +85,7 @@ export function DavetKoduGir({ onBaglandi }) {
   );
 }
 
-export default function DavetKarti({ ekDugmeler }) {
+export default function DavetKarti({ ekDugmeler, kodGirisiGizle = false }) {
   const [kodBilgi, setKodBilgi] = useState(null);
   const [durum, setDurum] = useState(null);
   const [hata, setHata] = useState(null);
@@ -173,7 +173,7 @@ export default function DavetKarti({ ekDugmeler }) {
       {durum?.davet_eden && (
         <p className="qt-kucuk">{tt("Seni {ad} davet etti.", { ad: durum.davet_eden.ad ?? tt("bir arkadaşın") })}</p>
       )}
-      {durum?.baglanabilir && <DavetKoduGir onBaglandi={(s) => { setBagSonuc(davetBaglaMetni(s)); yukle(); }} />}
+      {durum?.baglanabilir && !kodGirisiGizle && <DavetKoduGir onBaglandi={(s) => { setBagSonuc(davetBaglaMetni(s)); yukle(); }} />}
       {bagSonuc && <p className="qt-dv-sonuc" role="status">{bagSonuc}</p>}
 
       {liste.length > 0 && (

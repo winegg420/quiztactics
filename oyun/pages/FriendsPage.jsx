@@ -6,7 +6,9 @@ import { useAuth } from "../../src/context/AuthContext.jsx";
 import AvatarCerceve from "../components/AvatarCerceve.jsx";
 import OyuncuLigAmblemi from "../components/OyuncuLigAmblemi.jsx";
 import { y } from "../lib/yol.js";
-import DavetKarti from "../components/DavetKarti.jsx";
+import DavetKarti, { davetBaglaMetni } from "../components/DavetKarti.jsx";
+import { davetKoduBagla } from "../lib/davet.js";
+import { coinTazele } from "../lib/coin.js";
 import { facebookArkadasOnerileri, facebookDavetAc } from "../lib/facebookArkadas.js";
 import { tt } from "../lib/dil.js";
 import ModSecimPenceresi from "../components/ModSecimPenceresi.jsx";
@@ -176,6 +178,20 @@ export default function FriendsPage() {
     }
     setCalisiyor(true);
     try {
+      // D-217: tek kod kutusu. Yeni hesapta (ilk 3 gün) kod önce DAVET olarak bağlanır (ödül + arkadaşlık);
+      // bağlanamazsa (eski hesap, zaten bağlı, geçersiz…) aşağıdaki normal arkadaş ekleme yoluna düşer.
+      try {
+        const b = await davetKoduBagla(temiz);
+        if (b?.durum === "baglandi" || b?.durum === "ayni_cihaz") {
+          setBilgi(davetBaglaMetni(b));
+          setKod("");
+          coinTazele();
+          yukle();
+          return;
+        }
+      } catch (e) {
+        console.warn("[Bildim] davet kodu bağlanamadı, arkadaş ekleme deneniyor:", e?.message ?? e);
+      }
       const { data, error } = await supabase.rpc("arkadas_davet_kodu_ile_ekle", {
         p_kod: temiz,
       });
@@ -584,7 +600,7 @@ export default function FriendsPage() {
       <section className="ls-bolum" aria-labelledby="ar-davet">
         <h2 id="ar-davet" className="qt-baslik-3 ls-bolum-baslik">{tt("Arkadaş davet et")}</h2>
         {/* Rozet + çerçeve paketi: kod, bağlantı paylaşımı, ödül (300 / +100) ve davet durumu tek kartta */}
-        <DavetKarti ekDugmeler={
+        <DavetKarti kodGirisiGizle ekDugmeler={
           /* Facebook'ta "tüm arkadaşlarını davet et" MÜMKÜN DEĞİL (2014'ten
              beri kapalı); onun yerine paylaşım diyaloğu açılır. */
           <QtDugme tur="ikincil" tamGenislik devreDisi={!davetLinki} onClick={() => facebookDavetAc(davetLinki)}>
@@ -619,6 +635,7 @@ export default function FriendsPage() {
 
       <section className="ls-bolum" aria-labelledby="ar-kodla">
         <h2 id="ar-kodla" className="qt-baslik-3 ls-bolum-baslik">{tt("Davet koduyla ekle")}</h2>
+        <p className="qt-kucuk qt-soluk ar-kod-not">{tt("Arkadaşının davet kodunu gir: arkadaş olursunuz; yeni hesapsan davet ödülünü de alırsın.")}</p>
         <QtKart>
           <form
             className="ar-kod-satir"
