@@ -10,9 +10,9 @@ const KARTLAR = [
     ikon: "kilic",
     baslik: tt("Nasıl oynanır?"),
     metin:
-      tt("20 soruluk kapışmalarda rakibinle yarışırsın. Her doğru cevap 10 puan — ") +
-      tt("hızlı basmak fark etmez, bilmek yeter. Sıra beklemek yok: sen istediğin ") +
-      tt("zaman oynarsın, rakibin de kendi zamanında."),
+      tt("20 soruluk kapışmalarda rakibinle aynı sorulara aynı anda cevap verirsin. Her doğru cevap 10 puan — ") +
+      tt("hızlı basmak fark etmez, bilmek yeter. Süre sınırlıdır; ") +
+      tt("rakibin geç kalırsa onu beklemen gerekebilir."),
     ton: "duello",
   },
   {
@@ -20,7 +20,7 @@ const KARTLAR = [
     baslik: tt("On kategori"),
     metin:
       tt("Genel Kültür, Bilim, Tarih, Coğrafya, Edebiyat, Spor, Sanat, Sinema, ") +
-      tt("Müzik ve Teknoloji. 5.000'den fazla doğrulanmış soru seni bekliyor."),
+      tt("Müzik ve Teknoloji. 12.000'den fazla doğrulanmış soru seni bekliyor."),
     ton: "turnuva",
   },
   {
