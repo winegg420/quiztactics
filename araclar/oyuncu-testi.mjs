@@ -492,10 +492,13 @@ function kalkanSecimKontrol(d, kt, id) {
 // 666 · Kategori ekranındaki yıldız rozetleri sunucunun maç başı yıldızlarıyla aynı mı (renk sınıfı + ★ sayısı + puan)?
 async function yildizKontrol(id, kapsam) {
   if (kapsam.yildizMac === id) return;
-  const [r] = await sorgu(`select case when oyuncu1 = ${alintila(BEN)} then yildiz2 else yildiz1 end y, puan_degerleri p
-      from duellolar where id = ${alintila(id)}`);
+  const [r] = await sorgu(`select case when oyuncu1 = ${alintila(BEN)} then yildiz2 else yildiz1 end y, puan_degerleri p,
+      tur, carpanli_turlar, carpan_katsayi from duellolar where id = ${alintila(id)}`);
   const y = typeof r.y === "string" ? JSON.parse(r.y) : r.y;
-  const p = typeof r.p === "string" ? JSON.parse(r.p) : r.p;
+  const pBase = typeof r.p === "string" ? JSON.parse(r.p) : r.p;
+  const carpanTurlar = (typeof r.carpanli_turlar === "string" ? JSON.parse(r.carpanli_turlar) : r.carpanli_turlar ?? [9, 10]).map(Number);
+  const carpan = carpanTurlar.includes(Number(r.tur)) ? Number(r.carpan_katsayi ?? 2) : 1;   // 667
+  const p = Object.fromEntries(Object.entries(pBase).map(([k, v]) => [k, Math.round(Number(v) * carpan)]));
   const ekran = await s.evaluate(() => [...document.querySelectorAll("button.m2-kat")].map((b) => {
     const r = b.querySelector(".m2-yildiz");
     return { ad: b.getAttribute("aria-label"), sinif: r?.className ?? "", yildiz: r?.querySelector(".m2-yildiz-y")?.textContent ?? "", puan: r?.querySelector("b")?.textContent ?? "" };
@@ -520,15 +523,20 @@ async function yildizKontrol(id, kapsam) {
   }
 }
 
-// 666 · Maç sonu: her hamlenin puanı kurala uyuyor mu, toplam ve kazanan doğru mu, bot kalkan sınırına uymuş mu?
+// 666/667 · Maç sonu: her hamlenin puanı kurala uyuyor mu (saldırana eksi + taban 0 + son 2 tur ×çarpan),
+// toplam ve kazanan doğru mu, bot kalkan sınırına uymuş mu?
 async function puanDenetimi(id, kapsam) {
   const [d] = await sorgu(`select oyuncu1, oyuncu2, puan1, puan2, kazanan, uzatma, terk_eden, yildiz1, yildiz2, puan_degerleri,
-      kalkanlar1, kalkanlar2, durum from duellolar where id = ${alintila(id)}`);
-  const hm = await sorgu(`select tur, saldiran, savunan, kategori, uzatma, dogru, dogru_saldiran, yildiz, deger,
+      carpanli_turlar, carpan_katsayi, kalkanlar1, kalkanlar2, durum from duellolar where id = ${alintila(id)}`);
+  const hm = await sorgu(`select tur, saldiran, savunan, kategori, uzatma, dogru, dogru_saldiran, yildiz, deger, carpan,
       puan_saldiran, puan_savunan, altin_kazanan from duello_hamleler where duello_id = ${alintila(id)} order by id`);
   const j = (v) => (typeof v === "string" ? JSON.parse(v) : v);
   const pd = j(d.puan_degerleri); const y1 = j(d.yildiz1); const y2 = j(d.yildiz2);
+  const carpanTurlar = (j(d.carpanli_turlar) ?? [9, 10]).map(Number);
+  const carpanKatsayi = Number(d.carpan_katsayi ?? 2);
+  const carpanOf = (tur) => (carpanTurlar.includes(Number(tur)) ? carpanKatsayi : 1);
   const b = (v) => v === true || v === "t";
+  // 667: saldıranın cezası taban 0'da durur — sunucudaki gibi ilerleyen toplamla izlenir.
   const top = { [d.oyuncu1]: 0, [d.oyuncu2]: 0 };
   const hata = [];
   let altin = 0;
@@ -537,17 +545,21 @@ async function puanDenetimi(id, kapsam) {
       altin++;
       const bek = b(h.dogru_saldiran) && !b(h.dogru) ? h.saldiran : b(h.dogru) && !b(h.dogru_saldiran) ? h.savunan : null;
       if ((h.altin_kazanan ?? null) !== bek) hata.push({ altin: h, bek });
+      if (Number(h.deger) || Number(h.puan_saldiran) || Number(h.puan_savunan)) hata.push({ altinPuanliOlmamali: h });
       continue;
     }
     const yMap = h.savunan === d.oyuncu1 ? y1 : y2;
     const yl = Number(yMap?.[h.kategori] ?? 2);
-    const deger = Number(pd[String(yl)]);
-    if (Number(h.yildiz) !== yl || Number(h.deger) !== deger) hata.push({ tur: h.tur, k: h.kategori, yildiz: h.yildiz, bek: yl, deger: h.deger, bekD: deger });
-    const ps = b(h.dogru_saldiran) ? deger : 0; const pv = b(h.dogru) ? deger : 0;
-    if (Number(h.puan_saldiran) !== ps || Number(h.puan_savunan) !== pv) hata.push({ tur: h.tur, ps: h.puan_saldiran, bekS: ps, pv: h.puan_savunan, bekV: pv });
-    top[h.saldiran] += ps; top[h.savunan] += pv;
+    const carpan = carpanOf(h.tur);
+    const deger = Math.round(Number(pd[String(yl)]) * carpan);
+    if (Number(h.yildiz) !== yl || Number(h.deger) !== deger || Number(h.carpan) !== carpan) hata.push({ tur: h.tur, k: h.kategori, yildiz: h.yildiz, bek: yl, deger: h.deger, bekD: deger, carpan: h.carpan, bekC: carpan });
+    const pv = b(h.dogru) ? deger : 0;
+    const ps = b(h.dogru_saldiran) ? deger : -Math.min(deger, top[h.saldiran]);   // taban 0 — kalanla sınırlı ceza
+    if (Number(h.puan_saldiran) !== ps || Number(h.puan_savunan) !== pv) hata.push({ tur: h.tur, ps: h.puan_saldiran, bekS: ps, pv: h.puan_savunan, bekV: pv, once: top[h.saldiran] });
+    top[h.saldiran] = Math.max(0, top[h.saldiran] + ps); top[h.savunan] += pv;
   }
   if (top[d.oyuncu1] !== Number(d.puan1) || top[d.oyuncu2] !== Number(d.puan2)) hata.push({ toplam: top, p1: d.puan1, p2: d.puan2 });
+  if (Object.values(top).some((v) => v < 0) || Number(d.puan1) < 0 || Number(d.puan2) < 0) hata.push({ negatifPuan: [d.puan1, d.puan2] });
   const normal = hm.filter((h) => !b(h.uzatma)).length;
   if (d.durum === "bitti" && !d.terk_eden) {
     if (normal !== 20) hata.push({ normalHamle: normal, bek: 20 });
@@ -563,7 +575,7 @@ async function puanDenetimi(id, kapsam) {
   const rakip = d.oyuncu1 === BEN ? Number(d.puan2) : Number(d.puan1);
   kapsam.maclar.push({ id: id.slice(0, 8), skor: `${benim}-${rakip}`, altin, botKalkan: botKol.length, hata: hata.length });
   if (hata.length) basarisiz("Düello: puan/kazanan denetimi tutmadı", hata.slice(0, 4));
-  else console.log(`  ✓ puan denetimi: ${hm.length} hamle kurala uygun (simetrik puan, yıldız değeri), skor ${benim}-${rakip}${altin ? `, ${altin} Altın Soru` : ""}, kazanan doğru, bot kalkanı ${botKol.length} (sınırda)`);
+  else console.log(`  ✓ puan denetimi: ${hm.length} hamle kurala uygun (saldırana eksi + taban 0 + son 2 tur ×çarpan), skor ${benim}-${rakip}${altin ? `, ${altin} Altın Soru` : ""}, kazanan doğru, bot kalkanı ${botKol.length} (sınırda)`);
 }
 
 async function duelloMaci(kapsam) {
