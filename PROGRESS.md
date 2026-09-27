@@ -8918,3 +8918,21 @@ ansiklopedik/uzmanlık sorularını (ör. "Vesti la giubba" aryası hangi opera)
 - **Bekleyen:** Ida ölçütü ve kapsam sorusunu onaylarsa `--migration` ile
   `update questions set aktif=false where id in (...)` üretilecek (yalnız asiri_uzmanlik,
   idempotent, silme yok) ve canlıya uygulanacak.
+
+## 2026-09-27 — Zorluk dondurma migration 662 canlıya uygulandı
+**Araç:** Claude Code (Sonnet 5)
+**Neden:** Yukarıdaki PROVA'nın (Jev zorluk dondurma) onaylanan sonucu — 73 "aşırı uzmanlık"
+sorusunu pasife almak.
+
+- **Migration:** `20260612000662_zorluk_asiri_uzmanlik_dondur.sql` — önce
+  `araclar/migration-prova.mjs` ile transaction'da denendi/geri alındı, hedef 73 id'nin hâlâ
+  `aktif=true` olduğu doğrulandı, sonra `araclar/migration-uygula.mjs` ile canlıya uygulandı.
+  `update questions set aktif=false where aktif and id in (...)`; silme yok, geri açmak için
+  `aktif=true` yeter.
+- **Doğrulama:** 73 id artık `aktif=false` (0/73 hâlâ true); aktif TR zorluk 4-5 havuzu
+  3.664 → 3.591; `soru_sec('teknoloji', 500, ...)` donan listede artık donan bir id yok
+  (elle test edildi). Kategori başına kalan aktif soru en düşük teknoloji'de 1.221 — havuz
+  daralması yok.
+- **Bekleyen (kapatılmadı):** edebiyat/sinema/coğrafya/genel_kültür kategorilerinde ölçütün
+  düşük tespit oranı (yukarıdaki PROVA kaydına bkz.) için ikinci bir geçiş yapılıp
+  yapılmayacağı Ida'nın kararına bağlı.
