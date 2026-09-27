@@ -8880,3 +8880,41 @@ Migration gerekmedi. Aynı anda başka bir oturum (joker/çeviri metinleri) çal
 - **Parite:** `CoinIkon` tek kaynak — üst çubuk, Dükkân/joker fiyatları, maç sonu ödülü, ana sayfa, davet, mod seçim, Düello/tasarım parçaları hepsi bu bileşeni içe aktarıyor; başka bir coin çizimi yok.
 - **Doğrulama:** `npm run build` temiz. Gerçek Chrome 390×844 (x3): ana sayfa üst çubuk + görev ödülü, Dükkân üst çubuk + bakiye + 1×/10× joker fiyatları, Coin sekmesi — hepsinde önden Q sikke; DOM'da eski eğik elips yolu 0; konsol hatası 0. 96/64/48/32/28/20/14 px SSR çizimi CoinA ile aynı görünüm.
 - **Not:** `tasarim/SECIMLER_GORSEL_REVIZYON.md` 1. satırına güncelleme notu eklendi (eski seçim silinmedi).
+
+## 2026-09-27 — Jev zorluk dondurma: aşırı uzmanlık soru tespiti (PROVA)
+**Araç:** Claude Code (Sonnet 5)
+**Neden:** Ida — zorluk 4-5 aktif sorularda ortalama oyuncunun bilme ihtimali olmayan
+ansiklopedik/uzmanlık sorularını (ör. "Vesti la giubba" aryası hangi opera) dondurmak.
+
+- **Araç:** `araclar/jev-zorluk-dondurma.mjs` (jev-kapsam.mjs deseni). Aktif TR, zorluk
+  IN (4,5) 3.664 soru Jev'e 3 sınıfta taratıldı: normal / zor_bilinebilir / asiri_uzmanlik.
+  Ölçüt: "Türkiye'de ortalama eğitimli bir yetişkin bu soruyu makul ihtimalle bilir mi?"
+  PROVA modu (varsayılan): veritabanına yazmaz, ham veri `jev-tarama/zorluk-dondurma-ham.jsonl`
+  (git'e girmez), özet+örnekler `zorluk-dondurma-ozet.md`, tam aday listesi
+  `zorluk-dondurma-adaylar.csv`. Maliyet $0.10.
+- **Sonuç (ham):** normal 408 · zor_bilinebilir 3.183 · asiri_uzmanlik 73.
+- **Kalibrasyon bulgusu 1:** kapsam betiğinden kopyalanan 0,7 güven eşiği bu 3'lü
+  sınıflandırmada işe yaramadı — asiri_uzmanlik ortalama güveni 0,39 çıktı, eşik 73 adaydan
+  yalnız 1'ini bırakıyordu. 73 örneğin tamamı elle okundu, düşük güvende bile isabetliydi
+  (ör. Cook–Levin teoremi, CAP teoremi, Paxos algoritması gibi net uzmanlık soruları) →
+  eşik script'te 0'a çekildi (devre dışı), ham veride güven değeri saklı kalıyor.
+- **Kalibrasyon bulgusu 2 (Ida'ya soruldu, henüz karar yok):** kategoriler arası tutarsızlık
+  var — teknoloji %5,6 işaretlendi (37/656), müzik %2,8, sanat %2,1; edebiyat/sinema ~%0,2,
+  coğrafya/genel_kültür %0. Elle bakılan edebiyat/sanat örnekleri (ör. Nabokov'un Solgun
+  Ateş'inde "Kinbote" karakteri, Saint-Denis'i yeniden yapan başrahip "Suger") benzer
+  derecede ansiklopedik ama zor_bilinebilir'de kaldı — teknoloji dışı kategorilerde
+  muhtemelen düşük tespit. İlk aşamada yalnız net teknoloji-ağırlıklı 73 aday ile mi
+  devam edilecek, yoksa düşük-kapsamlı kategoriler için ikinci bir geçiş mi yapılacak,
+  karar Ida'da.
+- **Havuz daralması riski yok:** kategori başına dondurma sonrası kalan aktif soru sayısı
+  en düşük teknoloji'de 1.221 (mevcut 1.258) — `soru_kapsam_min_havuz` (60) eşiğinin çok
+  üstünde, hiçbir kategori daralmıyor.
+- **Doğrulama (kod okuması, migration'lardan):** `aktif=false` zaten Klasik/Grup/Saf Bilgi
+  (`soru_sec`), Düello (`duello_soru_bul`, `duello_tur_sonu`, `duello_altin_degerlendir`,
+  `duello2_soru_ac`), Turnuva (`turnuva_soru_sec`, `turnuva_soru_aday`,
+  `turnuva_altin_soru_ekle`) ve Antrenman/Hatalarım (`calisma_baslat`, `soru_sec` üzerinden)
+  fonksiyonlarının hepsinde `q.aktif` filtresiyle var — donan bir soru ek kod değişikliği
+  gerekmeden hiçbir modda çıkmayacak.
+- **Bekleyen:** Ida ölçütü ve kapsam sorusunu onaylarsa `--migration` ile
+  `update questions set aktif=false where id in (...)` üretilecek (yalnız asiri_uzmanlik,
+  idempotent, silme yok) ve canlıya uygulanacak.

@@ -1,0 +1,74 @@
+id,kategori,zorluk,guven,soru,dogru_cevap
+2ef6a198-9f5f-441b-aae1-0e9d55add513,bilim,5,0.43,Protonun değerlik kuark bileşimi hangisidir?,uud
+8feca7d2-db3c-4969-b6eb-4a4409b03d1a,bilim,5,0.27,Fizikçi Murray Gell-Mann 'kuark' sözcüğünü hangi yazarın bir kitabından almıştır?,James Joyce
+c1c4e3bb-0d8b-4ccb-83b7-8972a106fb05,bilim,5,0.28,1962'de bir soy gaz bileşiği sentezleyerek soy gazların tepkimeye girebildiğini gösteren kimyager kimdir?,Neil Bartlett
+0871e77e-a0c4-42ba-ae70-fa03e713144e,edebiyat,5,0.28,Sestina biçiminde dize sonlarında dönüşümlü yinelenen kaç sözcük vardır?,6
+1292a5b1-67b3-4a11-ab92-c1bc2880e3d5,muzik,5,0.25,'Polovets Dansları' hangi operanın bir bölümüdür?,Knyaz İgor
+3baa4944-e0ec-4406-b278-65553c499865,muzik,5,0.36,'Neuma' işaretleri neyi göstermek için kullanılırdı?,Ezginin yönünü
+60be4561-339c-4461-98ba-ba00c7fbcece,muzik,5,0.27,Rahmaninov'un 'Paganini'nin Bir Teması Üzerine Rapsodi'si kaç varyasyondan oluşur?,24
+6f2a9130-adcd-4553-a99b-71c7b0dd13d7,muzik,5,0.28,'Gesang der Jünglinge' ile elektronik müziğin öncülerinden sayılan Alman besteci kimdir?,Karlheinz Stockhausen
+9096cde9-42ce-4f85-9ae6-206b04515c54,muzik,5,0.55,Modern çift hareketli pedallı konser arpında kaç pedal bulunur?,7
+ad8de850-23a3-4277-8b31-2a540f6fd5f7,muzik,5,0.37,Üçlü ölçüde iki ölçünün tek bir büyük ölçü gibi vurgulandığı 3'e 2 ritmik kaymaya ne denir?,Hemiola
+bd1b5be4-4570-4c4e-83fe-b026cbd50267,muzik,5,0.41,"Erik Satie'nin kısa piyano parçası 'Vexations', notadaki bir yoruma göre kaç kez art arda çalınmalıdır?",840
+cc8e1882-64bd-418b-bf07-9855b9c4fff5,muzik,5,0.30,Klarneti chalumeau'dan geliştirdiği kabul edilen Nürnbergli çalgı yapımcısı kimdir?,Denner
+cd9373ae-bfeb-47b5-8ed8-e141478614fc,muzik,5,0.30,'Obua' hangi kamışı kullanır?,Çift kamış
+d2344bbb-f6a4-43f6-944c-d55518c70f2c,muzik,5,0.26,Türk müziğinde 'saz semaisi' fasılda nerede yer alır?,Sonlara doğru
+e7458b17-b284-4640-a50c-4556115a47e9,muzik,5,0.30,'Saz semaisi' genellikle hangi usulle biter?,Farklı bir usulle (dördüncü hane)
+edfb6adb-aeb4-4ca5-8bac-cf6dfe24ee0a,muzik,5,0.29,Türk müziğinde Curcuna usulü kaç zamanlıdır?,10
+f762f03e-104e-4fb4-9aa2-4c407d7c615f,muzik,5,0.30,"Rahmaninov 2. Piyano Konçertosu'nu, bunalımını atlatmasına yardım eden hangi doktora ithaf etmiştir?",Nikolay Dahl
+f7ace137-f3f3-42bf-87ff-d07debe023f8,muzik,5,0.37,Schönberg'in 'Pierrot Lunaire' eserinde kullandığı konuşur gibi şarkı söyleme tekniğinin adı nedir?,Sprechstimme
+f9f93789-c0a8-4166-b90d-3b76cfc32baa,muzik,5,0.38,Mahler'in 'Dünyanın Şarkısı' eserindeki şiirler özgün olarak hangi dilde yazılmıştır?,Çince
+13fea49d-6307-46b9-a83f-43ef59afc7d7,sanat,5,0.52,Edward Hopper'ın 'Gece Kuşları' tablosunda lokantanın üstündeki tabelada hangi puro markasının adı yazar?,Phillies
+19cc0fb9-51e0-43bf-a571-d13d7faeaaae,sanat,5,0.26,"Wyndham Lewis'in öncülük ettiği, 'BLAST' dergisini çıkaran İngiliz avangart akımı hangisidir?",Vortisizm
+2834a482-42c2-4acc-a204-ebb9414e4b7a,sanat,5,0.52,"Emile Bernard ile Louis Anquetin'in geliştirdiği, koyu konturlu düz renk alanlarına dayanan üslup hangisidir?",Kloazonizm
+2e5406c5-201b-4949-9dcd-0abdaf97b565,sanat,5,0.44,Bir sunak panosunun alt kısmında küçük sahnelerden oluşan yatay şeride ne ad verilir?,Predella
+43be8e35-7f1f-45a4-af0a-94e1934ba32d,sanat,5,0.50,Metal levhanın 'rocker' denen dişli aletle baştan sona pürüzlendirildiği baskı tekniği hangisidir?,Mezzotint
+464aa2e7-a1c3-4944-9c66-a6ee1f3c1083,sanat,5,0.57,Barnett Newman'ın geniş renk alanlarını bölen ince dikey şeritlerine ne ad verilir?,Zip
+5009ab2b-a84f-4fd8-8c88-9080578889ac,sanat,5,0.28,Kaliforniya'daki beton Salk Enstitüsü binalarını tasarlayan mimar kimdir?,Louis Kahn
+54aee8e4-2ef0-4525-8b85-ddaee591f275,sanat,5,0.30,Kazanı andıran dev bir figürü gösteren 'Celebes Fili' (1921) tablosunun ressamı kimdir?,Max Ernst
+63bdaefd-dd41-40d9-a87f-877fe6b49532,sanat,5,0.29,"Berlin Dadacıları arasında fotomontajlarıyla öne çıkan, 'Mutfak Bıçağıyla Kesmek' (1919) yapıtının sanatçısı kimdir?",Hannah Höch
+df6a79c2-90dd-4dc3-9e60-9f0ee5cbd52b,sanat,5,0.29,İzlenimcilerin 1874-1886 arasında açtığı sekiz serginin hepsine katılan tek ressam kimdir?,Camille Pissarro
+f64a2fc5-c00d-4488-beec-2e46d5c138f4,sanat,5,0.36,"III. Ahmed'in şehzadelerinin 1720 sünnet şenliğini anlatan, Levni minyatürlü eser hangisidir?",Surname-i Vehbi
+628bebea-a2ee-4a53-b04e-5753742423c0,sinema,5,0.31,Üç şeritli Technicolor ile baştan sona renkli çekilen ilk uzun metrajlı film hangisidir?,Becky Sharp
+2f1ee6ca-2ea3-4b26-8f23-4e05a95b0744,spor,5,0.36,Curlingde hedef dairelerin tam merkezine ne ad verilir?,Button
+3d4f80cd-691d-4b50-b300-0f5044721f8b,spor,5,0.51,Eskrimde 'epe'de hedef bölge nedir?,Tüm vücut
+58a4d0a9-0f8c-4d59-a94f-9f5af7bccdd7,spor,5,0.43,"Buz hokeyinde bir oyuncunun aynı maçta gol, asist ve kavga yapmasına ne ad verilir?",Gordie Howe hat-trick
+79c8deb1-78c1-4563-924d-3a0553c0f7ab,spor,5,0.36,Yelkende 'tramola' nedir?,Rüzgâra karşı dönüş
+237ed964-ea30-4d13-b463-0f763cfc8d72,tarih,5,0.33,1919'da dev bir tanktan taşan melasın 21 kişinin ölümüne yol açtığı 'Büyük Melas Seli' hangi şehirde yaşanmıştır?,Boston
+000fcf74-48bc-42bc-9d08-26febff8e37b,teknoloji,5,0.39,'Bağımlılık enjeksiyonu' ne sağlar?,Gevşek bağlılığı
+0ed0df00-d1bd-4cc7-8ba5-0aad89801034,teknoloji,5,0.39,İlk bilgisayar solucanı sayılan Creeper'ı ağdan silmek için yazılan programın adı nedir?,Reaper
+14b081ee-6102-423f-aadb-3620ba6c0b2f,teknoloji,5,0.60,1917'de teleks için bir akış şifreleme makinesi geliştirip patentini alan AT&T mühendisi kimdir?,Gilbert Vernam
+20f09263-6b5e-458f-b1f8-a96627e08c73,teknoloji,5,0.36,RFC belgelerinin editörlüğünü uzun yıllar yürüten ve sağlamlık ilkesiyle anılan kişi kimdir?,Jon Postel
+292831a5-92d9-4007-86bb-e31c528cd458,teknoloji,5,0.57,Dağıtık sistemlerdeki CAP teoremini ortaya atan bilgisayar bilimci kimdir?,Eric Brewer
+30f0e5e1-1a74-4c03-8d5e-468876dba664,teknoloji,5,0.38,Nesne yönelimli programlamanın öncüsü sayılan Simula dili 1960'larda hangi ülkede geliştirilmiştir?,Norveç
+356fbed7-a63e-4e80-8e63-d62e98627be0,teknoloji,5,0.38,Jupyter projesinin adı hangi üç programlama dilinin adından türetilmiştir?,"Julia, Python ve R"
+4367daf7-dccb-4e4c-bd08-8dd113eaa7f6,teknoloji,5,0.31,'Tuzlama' (salt) parolada ne sağlar?,Aynı parolaların farklı özetlenmesini
+4afa9e93-7176-4884-ae9f-9aa52450ef8c,teknoloji,5,0.58,Negatif ağırlıklı kenarları da işleyebilen tek kaynaklı en kısa yol algoritması hangisidir?,Bellman-Ford
+569966f2-ce0a-4845-b5cd-4f7f924322ad,teknoloji,5,0.30,Birleştirmeli sıralamanın (merge sort) en kötü durum zaman karmaşıklığı nedir?,O(n log n)
+5ba8580b-f5e7-4987-816c-c97743ea88c1,teknoloji,5,0.53,Rust programlama dilini kişisel bir proje olarak başlatan kişi kimdir?,Graydon Hoare
+6407c0ff-2737-4a37-8a04-35ce0136da0b,teknoloji,5,0.34,'İzlenebilirlik' (observability) neyi kapsar?,"Günlük, ölçüm ve izleri"
+6f895684-3c15-4866-849b-1640375639e6,teknoloji,5,0.31,'Mavi yeşil dağıtım' neyi sağlar?,Kesintisiz sürüm geçişi
+76f27cc3-20af-4d1b-975c-c17ab83b1982,teknoloji,5,0.48,"İstatistik programlama dili R, 1990'larda hangi ülkedeki bir üniversitede geliştirilmiştir?",Yeni Zelanda
+78bab7bb-f83f-44ad-8a7f-03a3ffad5d2f,teknoloji,5,0.50,Unix'teki 'grep' komutu adını hangi metin düzenleyicisinin 'g/re/p' komutundan almıştır?,ed
+7c8a1bcb-1f00-437b-84bb-e5db5cb7a43f,teknoloji,5,0.27,Rust programlama dilinin gayriresmî maskotu olan yengecin adı nedir?,Ferris
+7e338053-a162-4a55-882a-86ec25c00c6d,teknoloji,5,0.54,Mantık programlama dili Prolog 1972'de hangi ülkede geliştirilmiştir?,Fransa
+80680f42-5e89-4317-bbbd-d39ea68af058,teknoloji,5,0.64,Paxos uzlaşma (consensus) algoritmasını geliştiren kişi kimdir?,Leslie Lamport
+8987681d-1f6f-4da2-a420-92ac0c1cec68,teknoloji,5,0.39,C# ve TypeScript dillerinin baş tasarımcısı kimdir?,Anders Hejlsberg
+a4f5c15b-e1c3-46d9-b81f-6f6e72c92d15,teknoloji,5,0.39,"Ağ iletişiminde ""paket"" (packet) terimini ilk kullanan İngiliz bilim insanı kimdir?",Donald Davies
+a4fc392e-4754-414d-a99c-36e5476cc1a3,teknoloji,5,0.31,Blowfish ve Twofish şifreleme algoritmalarının tasarımcısı kimdir?,Bruce Schneier
+a94f840b-6ed3-4620-9e63-cdb08420611a,teknoloji,5,0.62,'Byte' terimini 1956'da IBM'de ortaya atan bilgisayar bilimci kimdir?,Werner Buchholz
+ab49be54-6397-4a1f-b2bd-f19d67de8802,teknoloji,5,0.30,SQL sorgu dilini 1970'lerde IBM'de geliştiren ikili kimdir?,Chamberlin ve Boyce
+af14f9b5-cacc-4d83-b5af-2c05567543f6,teknoloji,5,0.58,Kubernetes'te bir veya daha fazla konteyneri barındıran en küçük dağıtım birimine ne ad verilir?,Pod
+c292586c-0c4c-4e11-8297-aed97ece0935,teknoloji,5,0.50,Tek transistörlü DRAM bellek hücresini icat eden IBM mühendisi kimdir?,Robert Dennard
+c49a4439-5b01-49e5-bc0b-ae623697e548,teknoloji,5,0.25,"Şaka amaçlı HTTP 418 durum kodu, sunucunun kendini hangi nesne olarak tanıttığını bildirir?",Çaydanlık
+c8ad5793-f04f-47eb-b26c-380292998d63,teknoloji,5,0.24,'İlk içerikli boyama' (FCP) neyi ölçer?,İlk içeriğin görünme süresini
+c937bbca-f6c3-4f8d-b008-935d05df1af0,teknoloji,5,0.34,'RTO' hangi süreyi ifade eder?,Hedeflenen kurtarma süresini
+d521181a-7e64-4598-9ed1-7248d6a3a73a,teknoloji,5,0.25,Atanasoff–Berry bilgisayarı hangi üniversitede geliştirildi?,Iowa State
+e03c3613-8070-4517-920d-11e10a2ac8c2,teknoloji,5,0.35,Birleştirmeli sıralama (merge sort) algoritmasını 1945'te tanımlayan kişi kimdir?,John von Neumann
+e2a87508-b37b-4d62-8b79-cde7268042b2,teknoloji,5,0.35,'Kritik yol' web performansında neyi anlatır?,İlk çizim için gereken kaynakları
+ec7c8864-b602-4a0c-a188-b5e344b518d9,teknoloji,5,0.84,Cook–Levin teoremi hangi problemin NP-tam olduğunu kanıtlar?,SAT
+ef02eced-6eb6-4100-8386-89360a05c955,teknoloji,5,0.57,"Dağıtık sistemlerdeki CAP teoreminde ""P"" harfi neyi temsil eder?",Bölünme toleransı
+f1f2fb64-e999-4d08-bb3e-54b8bfd47fcc,teknoloji,5,0.29,Yaygın web sunucusu nginx'i ilk olarak geliştiren programcı kimdir?,Igor Sysoev
+f62d44c3-19f4-4179-a1cf-73e76eae86e2,teknoloji,5,0.62,"Nesne yönelimli tasarımdaki SOLID ilkelerinde ""L"" harfi hangi bilgisayar bilimcinin adını taşır?",Liskov
+f6b93992-4c09-4208-9848-ad534c551bd6,teknoloji,5,0.42,Ağlarda döngüleri önleyen Spanning Tree Protokolü'nü geliştiren mühendis kimdir?,Radia Perlman
+fdd1b3ae-02e9-4940-a84c-f7834d20c192,teknoloji,5,0.28,DES şifreleme algoritmasının etkin anahtar uzunluğu kaç bittir?,56
