@@ -1026,8 +1026,11 @@ function DuelloMac({ id }) {
     const durum = d.durum === "iptal" ? "berabere" : kazandim ? "kazandi" : "kaybetti";
     // Yakınlık satırı veriden: Altın Soru'ya giden ya da en çok 3 puanla kaybedilen maçta çizilir.
     const fark = Math.abs(Number(rakip.puan ?? 0) - Number(ben.puan ?? 0));
-    const altYazi = d.durum !== "bitti" || kazandim
+    // Altın Soru'da puan eşit kalır (ör. 14–14): kazanana da neden kazandığı yazılır.
+    const altYazi = d.durum !== "bitti"
       ? null
+      : kazandim
+        ? (d.uzatma ? ceviri("Puanlar eşitti — Altın Soru'yu sen bildin") : null)
       : d.uzatma
         ? ceviri("Altın Soru'ya kadar götürdün")
         : fark > 0 && fark <= 3

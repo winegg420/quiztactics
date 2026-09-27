@@ -151,6 +151,7 @@ export default {
   "Kategori Kalkanı: maçta 2 hak, Tur 1–5 ve Tur 6–10.": "Category Shield: 2 uses per match, rounds 1–5 and 6–10.",
   "10 tur sonunda puan eşitse Altın Soru.": "Tied after 10 rounds? Golden Question.",
   "Altın Soru'ya kadar götürdün": "You took it all the way to the Golden Question",
+  "Puanlar eşitti — Altın Soru'yu sen bildin": "Points were tied — you got the Golden Question",
   "Yalnız {n} puan farkla": "Only {n} points apart",
   "zayıf": "weak",
   "orta": "medium",
