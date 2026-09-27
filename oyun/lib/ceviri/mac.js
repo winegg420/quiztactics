@@ -218,4 +218,9 @@ export default {
   // --- 667: saldırana eksi puan + son 2 tur ×2 ---
   "Kategoriyi seçen (saldıran) yanlış bilirse aynı puanı kaybeder — savunan hiç kaybetmez.": "The picker loses the same points if they get it wrong — the other side never loses points.",
   "Son 2 tur (9–10) puanlar ×2: kazanç da ceza da katlanır.": "Last 2 rounds (9–10) points ×2: both the gain and the penalty double.",
+  // --- 669: kategori kartı sadeleştirme (yıldız yerine renk = eşleşme) ---
+  "Kartın rengi": "Card color",
+  "Rakibin iyi olduğu konuda puan almak zor, bu yüzden daha değerlidir. Kartın rengi o konuda kimin daha iyi olduğunu gösterir: yeşil sen, kırmızı rakip, gri denk.": "Scoring against your opponent's strength is hard, so it's worth more. The card's color shows who's better at it: green is you, red is your opponent, gray is even.",
+  "Kartın rengi rakiple aranızdaki farkı gösterir. Doğru bilen puanı alır — sen de rakip de.": "The card's color shows the gap between you and your opponent. Whoever answers correctly scores — you or them.",
+  "Kartın rengi bu kategoride kimin daha iyi olduğunu gösterir: yeşil sen, kırmızı rakip, gri denk.": "The card's color shows who's better in this category: green is you, red is your opponent, gray is even.",
 };

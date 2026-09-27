@@ -384,11 +384,13 @@ function DuelloMac({ id }) {
   const [jokerSerbest, setJokerSerbest] = useState(false);
   const [skillEfekt, setSkillEfekt] = useState(null);
   const [skillDeger, setSkillDeger] = useState({ ek: 5, baski: 5 });
+  const [katEsik, setKatEsik] = useState(10);   // 669: kategori kartı renk eşiği (duello_kat_esik_yuzde)
   const skillDurumRef = useRef(null);
   const skillTimerRef = useRef(null);
   useEffect(() => {
     let aktif = true;
     ayar("jokerler_ucretsiz", 0).then((v) => { if (aktif) setJokerSerbest(Number(v) > 0); }, () => {});
+    ayar("duello_kat_esik_yuzde", 10).then((v) => { if (aktif) setKatEsik(Number(v)); }, () => {});
     Promise.all([ayar("duello_ek_sure_sn", 5), ayar("duello_zaman_baskisi_sn", 10)])
       .then(([ek, toplam]) => { if (aktif) setSkillDeger({ ek: Number(ek), baski: Math.max(0, 15 - Number(toplam)) }); });
     return () => { aktif = false; };
@@ -1185,7 +1187,7 @@ function DuelloMac({ id }) {
     sahne2 = (
       <V2Kategori d={d} benSaldiran={benSaldiran} ben={ben} rakip={rakip} calisan={calisan} sonSaniye={sonUc} c={c2}
                   sayac={<QtSayac kalan={gosterSn} toplam={toplamSn} esik={3} boyut="b" />}
-                  kalanSn={gosterSn} onKalkan={kalkanKullan}
+                  kalanSn={gosterSn} onKalkan={kalkanKullan} esikYuzde={katEsik}
                   kalkanBildirim={kalkanBildirim?.faz === fazAnahtari ? kalkanBildirim : null}
                   onSec={kategoriSec} />
     );

@@ -156,14 +156,20 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
   (surum 1/2, puan1 boş) yalnız geçmiş kaydıdır. Arayüz `DuelloV2.jsx` + `DuelloPage.jsx` (eski V1 ekranı silindi).
   İstemci tanımadığı bir sürüm görürse maçı çizmez, yenileme ister (`DUELLO_EN_YUKSEK_SURUM`). Joker 4 / aynı 2 / soruda 1,
   Sigorta/2X yok.
-- **Strateji penceresi (351, 666, 667):** kategori süresi `duello2_kategori_sn` **15 sn**, son 3 sn renk +
-  (667) son 5 sn'de geri sayım sesi (`KATEGORI_SES_ESIK_SN`; eskiden sürenin tamamında çalıyordu). Saldıranın her
-  kartında rakibe göre yıldız rozeti (★ sayısı + trafik ışığı rengi: kırmızı zayıf · sarı orta · yeşil güçlü +
-  "+puan"), **kendi yıldızı ("Sen: ★★ orta", aynı eşik/renk)** ve **"Doğru +N · Yanlış −N"** satırı; 9-10. turda
-  kart köşesinde "×2" rozeti + maça bir kez "Son 2 tur: puanlar ×2" bandı. Savunan "Rakip düşünüyor…" + kalkan
-  paneli + "Rakibin gördüğü kategorilerin" (kendi yıldızların). Cevap ekranında "★★ +3 · Doğru bilen 3 puan alır;
-  saldıran yanlış/yanıtsız bırakırsa 3 kaybeder"; üst şeritte puan + "+N"/"−N" balonu (kırmızı eksi). Oranlar ve
-  yıldızlar maç başında `duello_olustur`'da bir kez (`profil1/2.oranlar`, `yildiz1/2`).
+- **Strateji penceresi (351, 666, 667, 669):** kategori süresi `duello2_kategori_sn` **15 sn**, son 3 sn renk +
+  (667) son 5 sn'de geri sayım sesi (`KATEGORI_SES_ESIK_SN`; eskiden sürenin tamamında çalıyordu).
+  **Kategori kartı sadeleştirildi (669, Ida): yıldız rozeti ve "zayıf/orta/güçlü" yazısı kartlarda YOK.**
+  Saldıranın her kartında büyük **"+N / −N"** (puanın kendisi, savunanın yıldızından 1/3/6 × tur
+  çarpanı — hesap değişmedi) ve küçük gri **"Sen %.. · Rakip %.."** (< 5 cevap "—"). **Kartın rengi =
+  eşleşme:** kendi oranı rakipten `duello_kat_esik_yuzde` (10) puan yüksekse yeşil, düşükse kırmızı,
+  arası/veri yoksa gri (`eslesmeRengi()`, `oyun/components/DuelloV2.jsx`). 9-10. turda kart köşesinde
+  "×2" rozeti + maça bir kez "Son 2 tur: puanlar ×2" bandı aynen duruyor. Savunan "Rakip düşünüyor…" +
+  kalkan paneli + "Rakibin gördüğü kategorilerin" — aynı sade dil (renk + "+N" + oranlar, "−N" yok
+  çünkü savunan hiç kaybetmez); Kategori Kalkanı ızgarası da aynı tasarımda. Cevap ekranında (bu ekran
+  DOKUNULMADI) hâlâ "★★ +3 · Doğru bilen 3 puan alır; saldıran yanlış/yanıtsız bırakırsa 3 kaybeder";
+  üst şeritte puan + "+N"/"−N" balonu (kırmızı eksi). Oranlar ve yıldızlar maç başında
+  `duello_olustur`'da bir kez (`profil1/2.oranlar`, `yildiz1/2`) — sunucudaki puan hesabı hâlâ yıldıza
+  dayanır, yalnız arayüz artık yıldızı GÖSTERMİYOR.
   Bot seçimi 3–8 sn (tik 2 sn); %65 beklenen avantajı (değer(çarpanlı) × (2×bot isabeti − 1 − rakip oranı), saldıranın
   eksi riski dahil, 667) en yüksek iki kategoriden biri (`duello2_bot_zayif_secim_yuzde`), %20 kendi güçlüsü, kalan
   rastgele. **Maç sonu risk (667):** Tur `duello2_bot_risk_esik_tur` (8) sonrası `duello2_bot_risk_puan_farki` (6)+

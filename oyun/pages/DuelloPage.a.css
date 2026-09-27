@@ -188,9 +188,6 @@
 .m2-savun-kat { display: flex; align-items: center; gap: var(--qt-b-2); min-height: 32px; }
 .m2-savun-ad { flex: 1; min-width: 0; color: var(--qt-metin); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: var(--qt-a-kalin); }
 .m2-savun-kullanildi { flex: none; padding: 1px 6px; border-radius: 999px; font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); background: var(--qt-yuzey-3); color: var(--qt-metin-soluk); }
-.m2-savun-oran { flex: none; min-width: 3.2em; text-align: right; font-weight: var(--qt-a-siyah); }
-.m2-savun-blok--guclu .m2-savun-oran { color: var(--qt-dogru-koyu); }
-.m2-savun-blok--zayif .m2-savun-oran { color: var(--qt-yanlis-koyu); }
 
 /* ---------------------------------------------------------------- cevap fazı */
 .m2-cevap-faz, .m2-sonuc-faz { display: grid; gap: var(--qt-b-3); }
@@ -403,6 +400,10 @@
 .m2-kalkan-kat:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 2px; }
 .m2-kalkan-kat-ad { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .m2-kalkan-kat b { flex: none; font-weight: var(--qt-a-siyah); color: var(--qt-bilgi-yazi); }
+.m2-kalkan-kat--yesil { background: var(--qt-dogru-acik); box-shadow: 0 var(--qt-dudak-s) 0 var(--qt-dogru); }
+.m2-kalkan-kat--yesil b { color: var(--qt-dogru-koyu); }
+.m2-kalkan-kat--kirmizi { background: var(--qt-yanlis-acik); box-shadow: 0 var(--qt-dudak-s) 0 var(--qt-yanlis); }
+.m2-kalkan-kat--kirmizi b { color: var(--qt-yanlis-koyu); }
 .m2-kalkan-onay {
   display: grid; gap: var(--qt-b-2); padding: var(--qt-b-3); border-radius: var(--qt-r-m);
   background: var(--qt-bilgi-acik); color: var(--qt-bilgi-yazi); box-shadow: 0 var(--qt-dudak) 0 var(--qt-bilgi-dudak);
@@ -440,7 +441,6 @@
   background: var(--qt-bilgi); color: var(--qt-bilgi-yazi); box-shadow: 0 var(--qt-dudak-s) 0 var(--qt-bilgi-dudak);
   pointer-events: none;
 }
-.m2-kat--kalkan .m2-kat-yildiz { visibility: hidden; }
 .m2-bant--kalkan { background: var(--qt-bilgi); color: var(--qt-bilgi-yazi); font-weight: var(--qt-a-siyah); }
 
 /* Maç sonu özeti */
@@ -472,18 +472,19 @@
 .m2-yildiz--3 { background: var(--qt-dogru-acik); color: var(--qt-dogru-koyu); box-shadow: inset 0 0 0 1.5px var(--qt-dogru); }
 .m2-yildiz--kucuk { padding: 1px 5px; }
 
-/* Kategori kartı: ikon | ad + oranlar | yıldız rozeti; sol kenar şeridi yıldız tonunda */
-.m2-kat { grid-template-columns: auto minmax(0, 1fr) auto; }
-.m2-kat-yildiz { grid-column: 3; grid-row: 1 / 3; align-self: center; }
-.m2-kat--y1:not(.m2-kat--kapali) { box-shadow: 0 var(--qt-dudak) 0 var(--qt-cizgi), inset 4px 0 0 var(--qt-yanlis); }
-.m2-kat--y2:not(.m2-kat--kapali) { box-shadow: 0 var(--qt-dudak) 0 var(--qt-cizgi), inset 4px 0 0 var(--qt-uyari); }
-.m2-kat--y3:not(.m2-kat--kapali) { box-shadow: 0 var(--qt-dudak) 0 var(--qt-cizgi), inset 4px 0 0 var(--qt-dogru); }
-.m2-kat--kapali .m2-yildiz { opacity: 0.55; }
+/* Kategori kartı: ikon | ad + değer/oranlar; sol kenar şeridi EŞLEŞME rengiyle (669: yıldız yerine) */
+.m2-kat--yesil:not(.m2-kat--kapali) { box-shadow: 0 var(--qt-dudak) 0 var(--qt-cizgi), inset 4px 0 0 var(--qt-dogru); }
+.m2-kat--kirmizi:not(.m2-kat--kapali) { box-shadow: 0 var(--qt-dudak) 0 var(--qt-cizgi), inset 4px 0 0 var(--qt-yanlis); }
 
-/* Savunan listesi: rakibin gördüğü yıldızlar */
+/* Savunan listesi: kendi kategorilerin, sol kenar şeridi eşleşme rengiyle */
 .m2-savun-not { margin: 0; font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); }
-.m2-savun-kat .m2-savun-oran { min-width: 2.8em; color: var(--qt-metin-soluk); font-size: var(--qt-y-xs); }
-.m2-savun-kat--korumada { background: var(--qt-bilgi-acik); border-radius: 8px; padding-inline: 4px; }
+.m2-savun-kat { border-left: 3px solid var(--qt-cizgi); padding-left: 6px; border-radius: 4px; }
+.m2-savun-kat--yesil { border-left-color: var(--qt-dogru); }
+.m2-savun-kat--kirmizi { border-left-color: var(--qt-yanlis); }
+.m2-savun-kat--korumada { background: var(--qt-bilgi-acik); border-radius: 8px; padding-inline: 6px; }
+.m2-savun-bilgi { flex: none; display: grid; justify-items: end; gap: 0; text-align: right; }
+.m2-savun-deger { font-size: var(--qt-y-s); font-weight: var(--qt-a-siyah); color: var(--qt-metin); white-space: nowrap; }
+.m2-savun-oranlar { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); white-space: nowrap; }
 
 /* Cevap fazı: sorunun değeri */
 .m2-deger { color: var(--qt-mac-metin); font-weight: var(--qt-a-siyah); }
@@ -511,16 +512,12 @@
 .m2-kalkan-gosterge { width: auto; min-width: 20px; padding: 0 4px; border-radius: 10px; grid-auto-flow: column; gap: 1px; }
 .m2-kalkan-gosterge b { font-size: 11px; line-height: 1; }
 
-/* ---------------------------------------------------------------- 667 · saldırana eksi + son 2 tur ×2
-   Kategori kartı: "Sen" satırı kendi gücünü rakiple aynı renk koduyla gösterir; saldıranda ayrıca
-   "Doğru +N · Yanlış −N" satırı. 390 px'de kart taşmasın diye ham yüzdeler bu satırlarla değişti. */
-.m2-kat-guc { display: block; width: 100%; font-weight: var(--qt-a-kalin); }
-.m2-kat-guc b { font-weight: var(--qt-a-siyah); letter-spacing: -0.04em; }
-.m2-kat-guc--y1 { color: var(--qt-yanlis-koyu); }
-.m2-kat-guc--y2 { color: var(--qt-uyari-koyu); }
-.m2-kat-guc--y3 { color: var(--qt-dogru-koyu); }
-.m2-kat-ceza { display: block; width: 100%; color: var(--qt-metin-soluk); }
-.m2-kat--kapali .m2-kat-guc, .m2-kat--kapali .m2-kat-ceza { opacity: 0.55; }
+/* ---------------------------------------------------------------- 669 · kart sadeleştirme (yıldız yerine renk)
+   "+N / −N" büyük ve net, altında küçük gri "Sen %.. · Rakip %..". Kartın rengi (yeşil/gri/kırmızı)
+   sol kenar şeridiyle (yukarıda .m2-kat--yesil/--kirmizi) — eşleşmeyi ayrıca burada tekrar etmiyoruz. */
+.m2-kat-deger { display: block; width: 100%; font-size: var(--qt-y-m); font-weight: var(--qt-a-siyah); color: var(--qt-metin); letter-spacing: -0.02em; }
+.m2-kat-oranlar { display: block; width: 100%; color: var(--qt-metin-soluk); }
+.m2-kat--kapali .m2-kat-deger, .m2-kat--kapali .m2-kat-oranlar { opacity: 0.55; }
 
 /* Son 2 tur rozeti: küçük satır içi rozet (kategori adının yanında, bantlarda) */
 .m2-kat-ad-satir { display: flex; align-items: center; gap: 4px; min-width: 0; }
