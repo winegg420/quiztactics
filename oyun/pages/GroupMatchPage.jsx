@@ -235,6 +235,10 @@ export default function GroupMatchPage() {
   // Sekmeden dönünce: sunucudaki güncel durumu çek + Realtime kanalını yenile.
   // Ortak soru saati olduğu için istemci ekstra atlama tetiklemez; sunucudaki
   // aktif_soru neyse oradan devam edilir.
+  // KOŞULSUZ (eskiden yalnız "aktif"ken): davet beklerken arka plana düşülüp
+  // maç aktife geçerse (Turnuva'daki lobi → aktif kaçırma bugu ile aynı
+  // desen, 27 Eyl 2026) dinleyici hiç kurulmadığı için geri dönüşte ekran
+  // eski durumda takılı kalıyordu.
   useGorunurlukTazele(() => {
     macYukle();
     // Arka planda setTimeout donduğu için bekleyen ilerletme burada çalışır.
@@ -247,7 +251,7 @@ export default function GroupMatchPage() {
     } catch (e) {
       console.error('[Bildim] realtime yeniden kurulamadi:', e);
     }
-  }, mac?.durum === 'aktif');
+  });
 
   // Soru değişince çek
   useEffect(() => {

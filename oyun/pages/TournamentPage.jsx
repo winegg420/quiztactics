@@ -304,6 +304,12 @@ export default function TournamentPage() {
 
   // Sekmeden dönünce: sunucudaki güncel durumu çek + Realtime kanalını yenile.
   // Ortak soru saati olduğu için istemci ekstra atlama tetiklemez.
+  // KOŞULSUZ çalışır (eskiden yalnız "aktif"ken): lobide bekleyip arka
+  // planda kalan oyuncu turnuva başlarken (lobi → aktif) bunu kaçırıyordu —
+  // "aktif" durumuna bağlı olduğu için dinleyici hiç kurulmamış oluyordu,
+  // oyuncu geri döndüğünde ekran hâlâ lobi gösteriyor ve ilk soruyu hiç
+  // göremeden süre bitip eleniyordu (27 Eyl 2026, canlı vaka: 48 oyuncudan
+  // 1'i 1. soruya hiç cevap veremeden elendi).
   useGorunurlukTazele(() => {
     turnuvaYukle();
     // Arka planda setTimeout donduğu için bekleyen ilerletme burada çalışır.
@@ -316,7 +322,7 @@ export default function TournamentPage() {
     } catch (e) {
       console.error("[Bildim] realtime yeniden kurulamadi:", e);
     }
-  }, turnuva?.durum === "aktif");
+  });
 
   // Aktif soru değiştiğinde soruyu çek
   useEffect(() => {

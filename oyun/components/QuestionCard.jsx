@@ -439,9 +439,17 @@ export default function QuestionCard({
     }
   };
 
-  const secenekler = Array.isArray(soru.secenekler)
-    ? soru.secenekler
-    : JSON.parse(soru.secenekler);
+  // Bozuk/eksik veriye karşı savunma: JSON.parse patlarsa kart tamamen
+  // çökmesin (oyuncu soruyu görüp şıksız kalır, sessizce elenir) — boş
+  // dizi ile devam edilir, aşağıda "Şıklar yüklenemedi" bandı çıkar.
+  let secenekler;
+  try {
+    secenekler = Array.isArray(soru.secenekler) ? soru.secenekler : JSON.parse(soru.secenekler);
+    if (!Array.isArray(secenekler)) secenekler = [];
+  } catch (e) {
+    console.error("[Bildim] şıklar okunamadı:", e?.message ?? e, soru.question_id);
+    secenekler = [];
+  }
 
   const dogruCevapVerdim = Boolean(sonuc) && secim === sonuc.dogru_cevap;
 
@@ -465,7 +473,10 @@ export default function QuestionCard({
 
   // Sonuç bandı: tek yerde, yer ayırır (ekran zıplamaz).
   let bant = null;
-  if (cevapHatasi) bant = { ton: "yanlis", metin: tt("Cevabın gitmedi — tekrar dokun"), anahtar: "hata" };
+  // Şıklar boş geldi (bozuk veri/parse hatası): en öncelikli uyarı — süre
+  // dolsa bile oyuncu "neden cevaplayamadım" diye sessizce elenmesin.
+  if (!sonuc && secenekler.length === 0) bant = { ton: "yanlis", metin: tt("Şıklar yüklenemedi — bağlantını kontrol et"), anahtar: "sik-yok" };
+  else if (cevapHatasi) bant = { ton: "yanlis", metin: tt("Cevabın gitmedi — tekrar dokun"), anahtar: "hata" };
   else if (zamanAsimi) bant = { ton: "yanlis", metin: tt("Süre doldu"), anahtar: "sure" };
   else if (sonuc && dogruCevapVerdim) bant = { ton: "dogru", metin: tt("Doğru!"), anahtar: "dogru" };
   else if (sonuc && secim !== null && secim >= 0)

@@ -384,6 +384,10 @@ export default function MatchPage() {
   }, [id, macYukle, kanalKur]);
 
   // Sekmeden dönünce: veriyi tazele ve ölmüş olabilecek Realtime kanalını yenile.
+  // KOŞULSUZ (eskiden yalnız "aktif"ken): "Hazır mısın?" kapısında/eşleşme
+  // beklerken arka plana düşülüp maç aktife geçerse (Turnuva'daki lobi →
+  // aktif kaçırma bugu ile aynı desen, 27 Eyl 2026) dinleyici hiç
+  // kurulmadığı için geri dönüşte ekran eski durumda takılı kalıyordu.
   useGorunurlukTazele(() => {
     macYukle();
     try {
@@ -394,7 +398,7 @@ export default function MatchPage() {
     } catch (e) {
       console.error("[Bildim] realtime yeniden kurulamadi:", e);
     }
-  }, mac?.durum === "aktif");
+  });
 
   // Soru değişince çek.
   // SENKRON maçta indeks ORTAK (`aktif_soru`): iki oyuncu da aynı soruda.

@@ -2473,6 +2473,7 @@ const SOZLUK = {
     "Bu bölüm şu an kapalı.": "This section is closed for now.",
     "Soru gelmedi. Bağlantını kontrol edip tekrar dene.": "The question did not arrive. Check your connection and try again.",
     "Cevabın gitmedi — tekrar dokun": "Your answer did not go through — tap again",
+    "Şıklar yüklenemedi — bağlantını kontrol et": "The options didn't load — check your connection",
     // Paket 2 · Şerit B — skill kilidi ve 10'lu paket
     "{0} kilidi açıldı.": "{0} unlocked.",
     "Level {0} gerekir": "Requires Level {0}",
