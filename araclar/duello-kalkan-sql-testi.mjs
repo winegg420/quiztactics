@@ -1,8 +1,9 @@
 // Düello Kategori Kalkanı (650) SQL provası — tek transaction, sonunda ROLLBACK (canlıya iz bırakmaz).
 // Kullanım: node araclar/duello-kalkan-sql-testi.mjs [migration.sql]  (migration verilirse önce onu uygular, uygulanmamış hâli sınamak için)
-import { PgIstemci, baglantiDizgisi } from './pg-mini.mjs';
+import { PgIstemci, baglantiDizgisi, alintila } from './pg-mini.mjs';
 import fs from 'node:fs';
 const MIG = process.argv[2];
+const BOT_EPOSTA = process.env.BOT_EPOSTA;
 const A = '5b555bd3-9371-4f35-90a5-39289111335e';   // insan (ArayuzDenetim890) — saldıran
 const db = await new PgIstemci(await baglantiDizgisi()).baglan();
 let B;   // etkin gizli bot — migration provası varsa yeni UUID'siyle seçilir
@@ -16,9 +17,11 @@ try {
   // Canlı DB: kaçak bir sorgu (26 Eyl: soru_sec satır başına çağrıldı, 615 sn DB zamanı) herkesi kilitlemesin.
   await db.sorgu("set local statement_timeout = '30s'");
   if (MIG) await db.sorgu(fs.readFileSync(MIG, 'utf8'));
-  B = await db.tek(`select id from profiles
-    where is_bot and bot_turu = 'gizli' and coalesce(bot_aktif, true)
-    order by bot_seviye_puan nulls last, id limit 1`);
+  B = await db.tek(`select p.id from profiles p
+    join auth.users u on u.id = p.id
+    where p.is_bot and p.bot_turu = 'gizli' and coalesce(p.bot_aktif, true)
+      ${BOT_EPOSTA ? `and u.email = ${alintila(BOT_EPOSTA)}` : ''}
+    order by p.bot_seviye_puan nulls last, p.id limit 1`);
   if (!B) throw new Error('Etkin gizli bot bulunamadı.');
   await db.sorgu(`update duellolar set durum='iptal' where durum='aktif' and (oyuncu1 in ('${A}','${B}') or oyuncu2 in ('${A}','${B}'))`);
   const yeniMac = async () => {

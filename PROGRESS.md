@@ -9019,3 +9019,34 @@ memnun değildi — hepsi dokunuş sesine kıyasla fazla süslü/uzun/katmanlıy
 - `npm run build` temiz (postbuild tarayıcı uyumluluk denetimi de TEMİZ).
 - **Test edilmesi gereken:** `/ses-secim` sayfasında "Sayfa geçişi" bölümünde
   5 yeni adayı dinleyip birini seçmek (Ida'nın kendi kulağıyla karar vereceği bir tercih).
+
+## 2026-09-27 — İkinci 75 gizli botun UUID'leri rastgeleleştirildi
+**Araç:** Codex
+**Neden:** Migration 175'te eklenen ikinci gizli bot grubunun kimlikleri de
+`b27b0000-0000-4000-8000-…` sabit gövdesi ve sıralı son ekiyle ayırt edilebiliyordu.
+
+- **Kesin keşif:** canlıdaki 155 gizli bot biçimsel tarandı. Tek kalan sistematik grup
+  tam olarak `b27b0000-0000-4000-8000-000000000001–075`: 75 kayıt, min=1,
+  max=75, eksik/tekrar yok. Diğer 80 bot bu kalıba girmiyordu ve migration dışında kaldı.
+- **Migration 665 (`20260612000665`):** yalnız bu 75 tam UUID'yi `gen_random_uuid()` ile benzersiz UUID v4'e
+  taşır. 664 ile aynı kilit, geçici FK erteleme/geri yükleme, tüm `auth`/`public` UUID
+  kolonlarını dinamik tarama, profil/auth JSON karşılaştırması ve kapsam dışı 80 botun
+  tam profil anlık görüntüsü kontrollerini kullanır. Uyuşmazlıkta transaction bütünüyle
+  geri alınır.
+- **Prova ve veri kanıtı:** ilk transaction provası hedef UUID metnindeki yazım hatasını
+  canlıya dokunmadan yakaladı; düzeltmeden sonraki prova temiz ve geri alındı. Hedef grubun
+  güncel verisi **31 tablo / 38 UUID kolonunda 19.965 → 19.965 satır** olarak birebir
+  eşleşti. Profil/auth içeriği (id hariç), toplam 155 bot ve kapsam dışı 80 profil de
+  transaction içinde değişmezlik kontrolünden geçti.
+- **Canlı sonuç:** ledger `20260612000665`; `gb2_…@bildim.local` grubunda 75/75 auth+profil,
+  75/75 UUID v4, 75 farklı dört haneli önek, `b27b` kalan 0. Bütün 155 gizli botta
+  sabit `????0000-0000-4000-8000-############` deseni kalan 0.
+- **Davranış:** hedef `gb2_raymalifalitikko` botuyla migration uygulanmış rollback
+  provasında ve canlı migration sonrasında sunucu testi ayrı ayrı 34/34 geçti. Canlı
+  gerçek oyuncu oturumunda Düello rakibi `gb2_muhammedsalah`, Klasik rakibi
+  `gb2_ozan06` oldu; Düello bitti, Klasik 20/20 cevap sunucuya ulaştı. Oyuncu testinde
+  uygun zamanlama oluşmadığı için denenemeyen üç Kalkan alt senaryosu hedefli 34/34
+  sunucu testinde doğrulandı. Yeni test hesabı açılmadı.
+- **Kod ve derleme:** SQL davranış testi isteğe bağlı `BOT_EPOSTA` ile belirli gizli botu
+  seçebiliyor. `npm run build` ve postbuild tarayıcı uyumluluk denetimi temiz; RLS,
+  bot davranış fonksiyonları ve profil görünüm verileri değiştirilmedi.
