@@ -1,0 +1,33 @@
+id,kategori,zorluk,guven,soru,dogru_cevap
+0420ca75-c41f-41a4-9ea3-a3521558e0ec,edebiyat,5,0.66,Aruzda 'zihaf' ne yapar?,Uzun heceyi kısa okur
+1c5540f1-6675-48ca-b313-bcec3f6cc496,edebiyat,5,0.49,Godot'yu Beklerken'de Pozzo'nun boynundan iple çektiği uşağın adı nedir?,Lucky
+25c73703-9524-4110-a8f9-fd284aa95e8a,edebiyat,5,0.61,Nabokov'un Solgun Ateş'inde John Shade'in şiirine şerh yazan karakter kimdir?,Kinbote
+64486c32-b526-42e5-bfb1-025dc90af614,edebiyat,4,0.34,Reşat Nuri'nin 'Çalıkuşu' romanında Feride'nin öğretmenlik yaptığı ilk köy hangisidir?,Zeyniler
+76987671-bdf9-4ffd-a85e-2f23941f7f6b,edebiyat,5,0.55,Villanel nazım biçimindeki bir şiir kaç dizeden oluşur?,19
+8f5a282d-0869-46e0-9de8-3a4f7ad0ab7e,edebiyat,5,0.40,Lampedusa'nın Leopar romanındaki Salina Prensi'nin adı nedir?,Don Fabrizio
+a72fcc6f-9a1d-464d-a38b-de381ab0ed1a,edebiyat,4,0.26,'Sefiller'de Jean Valjean'ın kürek mahkûmu olarak taşıdığı numara nedir?,24601
+cbcc56c0-3979-4e50-9545-f2219210f2ba,edebiyat,5,0.44,"Bulgakov'un 'Usta ile Margarita'sında Woland'ın maiyetindeki, iki ayak üstünde yürüyen dev kara kedinin adı nedir?",Behemot
+dd50795f-30bc-4e7d-8bd1-6d2ff6b488f8,edebiyat,5,0.34,Yevgeni Onegin'de Onegin'in düelloda öldürdüğü şair arkadaşı kimdir?,Lenski
+dd0c7f1c-8a70-468b-a5ab-5ad6192918ea,edebiyat,4,0.37,Canterbury Hikâyeleri'nde hacıların yola çıkmadan önce buluştuğu hanın adı nedir?,Tabard
+ddd96512-9e08-44d6-8af3-6b36c0dd61ba,edebiyat,4,0.25,Notre-Dame'ın Kamburu'nda Esmeralda'nın keçisinin adı nedir?,Djali
+de34ff29-9f90-48c2-9ff1-3017144d81b7,edebiyat,5,0.53,"Oğuz Atay'ın 'Tutunamayanlar' romanında Turgut Özben'in hayatının izini sürdüğü, intihar etmiş arkadaşı kimdir?",Selim Işık
+e3fb2c38-5e13-4a54-afc8-53b9b88e52bb,edebiyat,5,0.54,'Terkib-i bent' ile 'terci-i bent' farkı nedir?,Bağlayıcı beytin değişip değişmemesi
+e73ab383-d953-4f73-864b-0f63857cace9,edebiyat,5,0.63,Varolmanın Dayanılmaz Hafifliği'nde Tereza'nın köpeğinin adı nedir?,Karenin
+f28cf9bd-dcdb-4160-aeb3-4f9f4c0fdeae,edebiyat,5,0.59,Aruzda 'imale' nedir?,Kısa heceyi uzun okuma
+fd7c4d5c-5711-49b8-bb2e-59cfe7abd3ab,edebiyat,4,0.34,Oliver Twist'te Artful Dodger lakaplı yankesicinin gerçek adı nedir?,Jack Dawkins
+ff87fa40-b2a3-409c-8f5e-fa1567ddca6e,edebiyat,4,0.53,Yakup Kadri'nin 'Kiralık Konak' romanında konağın alafranga yaşayan genç torunu kimdir?,Seniha
+21386368-e2e6-4f20-8cc1-bf7639294dde,sinema,5,0.41,Sokurov'un tek planda çekilen 'Rus Kutusu' (2002) filmi hangi müzede geçer?,Ermitaj
+6b696754-7940-4e6e-b73d-788d917e5fe0,sinema,4,0.35,'Ucuz Roman' filminde Jules'un Brett'in dairesinde tadına baktığı hamburger hangi hayalî zincirdendir?,Big Kahuna Burger
+88d0913c-fd52-4c64-a6bf-487648dc2b3c,sinema,5,0.50,Fritz Lang'ın 'M' (1931) filminde çocuk katili ıslıkla hangi klasik ezgiyi çalar?,Dağ Kralının Salonunda
+9dcea119-ae82-436b-9870-5e758dd9fa27,sinema,5,0.31,Abel Gance'ın 'Napoléon' (1927) filminin finalinde kullandığı üç ekranlı gösterim tekniğinin adı nedir?,Polyvision
+b8e75a0d-ab7e-4a1c-bc2f-8357cc88779b,sinema,5,0.60,Bergman'ın 'Persona' filminde konuşmayı bırakan aktris Elisabet'e bakan hemşirenin adı nedir?,Alma
+c1db1ff3-a1da-41c9-815d-499be23b8f02,sinema,5,0.62,Hitchcock'un 'Vertigo' filminde Madeleine'in ruhunu ele geçirdiğine inandığı ölü büyük büyükannesinin adı nedir?,Carlotta Valdes
+cba69715-b510-448a-9b65-743170ec856b,sinema,5,0.76,Godard'ın 'Serseri Aşıklar' filminde Jean Seberg'in Paris sokaklarında sattığı gazete hangisidir?,Herald Tribune
+d66d948f-d4a1-43ce-b7f2-566d398d8d2d,sinema,5,0.46,Lütfi Ö. Akad'ın göç üçlemesinin ilk filmi hangisidir?,Gelin
+ed901387-94d6-4776-9052-f0d6a64290ff,sinema,5,0.36,Kubrick 'Barry Lyndon'ı mum ışığında çekmek için ilk olarak hangi kurum için üretilen objektifleri kullandı?,NASA
+f81a8783-5305-452a-aca7-d2c593ca701a,sinema,5,0.34,"Metin Erksan'ın 'Sevmek Zamanı' (1965) filminde badanacı Halil, Meral'in neyine âşık olur?",Fotoğrafına
+f8f3348e-d692-4653-9b33-59ed64278e58,sinema,5,0.64,"Wong Kar-wai'nin 'Chungking Express' filminde 223 numaralı polis, son kullanma tarihi 1 Mayıs olan hangi konserveleri toplar?",Ananas
+faac1f8a-8739-48ab-9622-fb7e4e10a7a7,sinema,5,0.51,Tarkovski'nin 'Andrey Rublyov' filminin son bölümünde genç Boriska neyin dökümünü üstlenir?,Çan
+9b5f22aa-d7ef-4f40-97c3-a1d7fa0e15c5,spor,5,0.65,NBA'in tarihindeki ilk maç sayılan 1 Kasım 1946 karşılaşmasında New York Knicks hangi takıma rakip oldu?,Toronto Huskies
+9c57f3e5-9f23-41f1-8a83-1c9ce2dedd64,spor,5,0.28,NBA'de üç sayı çizgisi ilk kez hangi sezonda kullanıldı?,1979-80
+2d9f3f10-4bd9-44bc-af44-4a41d07697a7,tarih,5,0.30,Bilinen ilk yazılı hukuk kuralları hangi hükümdara atfedilir?,Urgakina

@@ -8936,3 +8936,25 @@ sorusunu pasife almak.
 - **Bekleyen (kapatılmadı):** edebiyat/sinema/coğrafya/genel_kültür kategorilerinde ölçütün
   düşük tespit oranı (yukarıdaki PROVA kaydına bkz.) için ikinci bir geçiş yapılıp
   yapılmayacağı Ida'nın kararına bağlı.
+
+## 2026-09-27 — Jev zorluk dondurma ikinci geçiş: düşük tespitli kategoriler
+**Araç:** Claude Code (Sonnet 5)
+**Neden:** İlk PROVA'da teknoloji %5,6 aşırı uzmanlık işaretlenirken edebiyat/sinema/tarih/
+coğrafya/genel_kültür/spor %0-1,2 arası kalmıştı; ölçütün örnekleri STEM ağırlıklıydı ve
+bu kategorilerde benzer derecede ansiklopedik soruları (ör. Nabokov'un "Kinbote"si)
+kaçırdığından şüphelenildi.
+
+- **Araç:** `araclar/jev-zorluk-dondurma-ikinci-gecis.mjs` — ilk geçişte bu 6 kategoride
+  `zor_bilinebilir` kalan 1.565 soruyu, çok alanlı çapa örnekli (opera aryası + roman yan
+  karakteri + film sahne ayrıntısı + spor istatistiği + tarih ayrıntısı) yeni bir ölçütle
+  yeniden denedi. PROVA (DB'ye yazmadı), maliyet $0.058.
+- **Sonuç:** 32 yeni aşırı uzmanlık adayı: edebiyat 17 (ör. "Godot'yu Beklerken'de Pozzo'nun
+  uşağının adı → Lucky", "Nabokov'un Solgun Ateş'inde şerh yazan karakter → Kinbote"), sinema
+  12 (ör. "Bergman'ın Persona filminde hemşirenin adı → Alma"), spor 2, tarih 1. Coğrafya ve
+  genel_kültür'de yeni aday çıkmadı (ikinci ölçütle de) — üçüncü bir geçiş yapılmadı,
+  gerekçesi zayıf (kanıt yok).
+- **Migration:** `20260612000663_zorluk_asiri_uzmanlik_ikinci_gecis.sql` — aynı akış (önce
+  `migration-prova.mjs` ile transaction'da denendi, 32/32 hedefin aktif olduğu doğrulandı,
+  sonra `migration-uygula.mjs` ile canlıya uygulandı). Doğrulama: 0/32 hâlâ aktif=true.
+- **Toplam (662+663):** 105 soru donduruldu (73+32). Kategori başına kalan aktif soru en
+  düşük spor'da 1.120, teknoloji'de 1.221 — `soru_kapsam_min_havuz` (60) eşiğinin çok üstünde.
