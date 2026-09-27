@@ -10,7 +10,8 @@
 //     Değilse test ANINDA başarısız — sebep ve tanı bilgisi yazılır.
 //   · Her dokunuştan sonra cevabın SUNUCUYA ulaştığı veritabanından doğrulanır.
 //   · Düello: test hesabı en az 3 kez saldıran (kategoriyi seçen), 3 kez savunan
-//     olur; canlar eşit tutularak mümkünse uzatmaya kadar oynanır.
+//     olur; puanlar eşit tutulmaya çalışılır. --altin: 10. tur sonunda puan eşitlenir → Altın Soru.
+//     Maç sonunda her hamlenin puanı, toplam ve kazanan veritabanından denetlenir (666).
 //   · Her yeni ekranda 360 ve 390 px ölçülür: dokunulabilir öğelerin kutuları
 //     birbirine biniyorsa başarısız. Maç öncesi ekran ve maç içi skill çubuğu dahil.
 //   · Telefon taklidi (dokunuş, mobil), gerçek akış, bota karşı.
@@ -316,23 +317,29 @@ async function acikSiklar() {
   return s.locator(":is(.bd-secenek, .qt-sik):not([disabled]):not(.elendi):not(.qt-sik--elendi)").count();
 }
 
-// ================================================================ DÜELLO · Kategori Kalkanı (650)
+// ================================================================ DÜELLO · Kategori Kalkanı (666: 2 hak, iki pencere)
 // Test hesabının kendi maçında, sırayla:
-//   1. savunan (1. kez): düğme → ızgara → onay görselleri, "Vazgeç"; ardından faz süresi 4,6 sn'ye çekilip
-//      kalkan denenir → "süre çok az" reddi + düğme pasif (bot kısa süre sonra seçer).
-//   2. savunan (2. kez): arayüzden gerçek kullanım (en zayıf uygun kategorin) → DB'de yazıldı mı, "kullanıldı"
-//      görseli, hemen ikinci deneme → red; faz geçince bot saldıranın seçimi korunan kategori OLMAMALI.
-//   3. saldıran: RPC ile kullanma denemesi → red; sonra botun kalkanı DB'ye yazılır (botun kendi kararı yerine,
-//      görsel için) → kutu "Korumada" kilitli + bildirim; test ilk açık kategoriye dokunur → korunan OLMAMALI.
+//   1. savunan, Tur 1–5: düğme → ızgara → onay görselleri, "Vazgeç" (hak KULLANILMAZ — biriktirme senaryosu);
+//      ardından faz süresi 4,6 sn'ye çekilip kalkan denenir → "süre çok az" reddi + düğme pasif.
+//   2. Tur 6'ya gelindiğinde düğmedeki kalan hak 2 olmalı (1. pencerenin hakkı kaybolmadı).
+//   3. savunan, Tur 6+: arayüzden gerçek kullanım (1.) → DB'de yazıldı mı, "korumada" görseli, aynı seçimde ikinci
+//      deneme → red; sonraki savunmada (art arda) 2. kullanım → DB'de 2 kayıt; sonra RPC denemesi → "hakların bitti".
+//      Her kullanımda bot saldıranın seçimi korunan kategori OLMAMALI.
+//   4. saldıran: RPC ile kullanma denemesi → red; sonra botun kalkanı DB'ye yazılır (görsel için) → kutu "Korumada"
+//      kilitli + bildirim; test ilk açık kategoriye dokunur → korunan OLMAMALI.
 // DB yazımı yalnız test hesabının bota karşı maçında (faz süresi, botun kalkanı); başka hiçbir şeye dokunulmaz.
+const P1_SON = 5;
+const jsonDizi = (v) => (Array.isArray(v) ? v : typeof v === "string" ? JSON.parse(v || "[]") : []);
 async function kalkanAdimi(id, d, benSaldiran, kt) {
   const idx = `${d.tur}:${d.saldiran}`;
+  const tur = Number(d.tur);
   const fkalan = Number(d.fkalan);
-  const benimKol = d.oyuncu1 === BEN ? "kalkan1" : "kalkan2";
-  const rakipKol = d.oyuncu1 === BEN ? "kalkan2" : "kalkan1";
-  const bosMu = (v) => v === null || v === undefined;
+  const benimKol = d.oyuncu1 === BEN ? "kalkanlar1" : "kalkanlar2";
+  const rakipKol = d.oyuncu1 === BEN ? "kalkanlar2" : "kalkanlar1";
+  const benimKalkan = jsonDizi(d[benimKol]);
   const uygunlar = async () => (await sorgu(`select k from unnest(duello_kategorileri()) k
       where duello2_kategori_uygun_mu(${alintila(id)}, k) order by k`)).map((r) => r.k);
+  kt.kullanimlar ??= [];
 
   if (benSaldiran) {
     if (kt.saldiranRed === undefined) {
@@ -341,12 +348,12 @@ async function kalkanAdimi(id, d, benSaldiran, kt) {
       if (!h || !/rakip kategori seçerken/.test(h)) basarisiz("Kalkan: saldıran kullanabildi ya da beklenmeyen red", { h });
       else console.log(`  ✓ kalkan: saldıran olarak red — ${h}`);
     }
-    if (!kt.simule && bosMu(d[rakipKol]) && fkalan > 9) {
+    if (!kt.simule && jsonDizi(d[rakipKol]).length === 0 && fkalan > 9) {
       const u = await uygunlar();
       if (u.length >= 3) {
         const k = u[1];
-        await sorgu(`update duellolar set ${rakipKol} = jsonb_build_object('kategori', ${alintila(k)}, 'idx', tur * 2 + saldiri_sirasi, 'tur', tur)
-                     where id = ${alintila(id)} and faz = 'kategori' and ${rakipKol} is null`);
+        await sorgu(`update duellolar set ${rakipKol} = ${rakipKol} || jsonb_build_array(jsonb_build_object('kategori', ${alintila(k)}, 'idx', tur * 2 + saldiri_sirasi, 'tur', tur))
+                     where id = ${alintila(id)} and faz = 'kategori' and jsonb_array_length(${rakipKol}) = 0`);
         await sorgu(`select duello_sinyal_ver(${alintila(id)})`).catch(() => {});   // istemci hemen okusun
         kt.simule = { k, idx, macId: id, kontrol: null };
         let kilitli = 0;
@@ -363,80 +370,103 @@ async function kalkanAdimi(id, d, benSaldiran, kt) {
   }
 
   // Savunan
-  if (!bosMu(d[benimKol])) return null;
   const dugme = s.locator("button.m2-kalkan-dugme:not(.m2-kalkan-dugme--bitti)").first();
-  if (!kt.gorsel && fkalan > 8) {
-    kt.gorsel = true;
-    await dugme.tap({ timeout: 1500 }).catch(() => {});
-    if (await s.locator(".m2-kalkan-izgara").count()) {
-      await ekranOlc("duello-kalkan-izgara");
-      await s.locator(".m2-kalkan-kat").first().tap({ timeout: 1500 }).catch(() => {});
-      if (await s.locator(".m2-kalkan-onay").count()) {
-        await ekranOlc("duello-kalkan-onay");
-        await s.locator(".m2-kalkan-onay .qt-dugme--ikincil").tap({ timeout: 1500 }).catch(() => {});
+  const hakRozeti = async () => Number((await s.locator(".m2-kalkan-hak").first().textContent({ timeout: 800 }).catch(() => "")) || NaN);
+  if (tur <= P1_SON) {
+    // 1. pencere: hak KULLANILMAZ (biriktirme). Yalnız görsel + son 5 sn reddi.
+    if (benimKalkan.length) return null;
+    if (!kt.gorsel && fkalan > 8) {
+      kt.gorsel = true;
+      const hak = await hakRozeti();
+      if (hak !== 1) basarisiz("Kalkan: Tur 1–5'te düğmedeki hak 1 değil", { hak, tur });
+      await dugme.tap({ timeout: 1500 }).catch(() => {});
+      if (await s.locator(".m2-kalkan-izgara").count()) {
+        const yildizli = await s.locator(".m2-kalkan-izgara .m2-kalkan-kat .m2-yildiz").count();
+        if (!yildizli) basarisiz("Kalkan: ızgarada yıldız rozeti yok");
+        await ekranOlc("duello-kalkan-izgara");
+        await s.locator(".m2-kalkan-kat").first().tap({ timeout: 1500 }).catch(() => {});
+        if (await s.locator(".m2-kalkan-onay").count()) {
+          await ekranOlc("duello-kalkan-onay");
+          await s.locator(".m2-kalkan-onay .qt-dugme--ikincil").tap({ timeout: 1500 }).catch(() => {});
+        }
+        console.log(`  ✓ kalkan: Tur ${tur} savunan düğme (hak ${hak}) → ızgara (yıldızlı) → onay açıldı (Vazgeç, hak saklandı)`);
+      } else kt.gorsel = false;   // bot erken seçtiyse bir sonraki savunmada tekrar
+      return "devam";
+    }
+    if (kt.sonBes === undefined && kt.gorsel) {
+      const [r] = await sorgu(`update duellolar set faz_bitis = now() + interval '4.6 seconds'
+          where id = ${alintila(id)} and faz = 'kategori' and extract(epoch from faz_bitis - now()) > 6 returning 1 ok`);
+      if (!r) return null;
+      const t0 = Date.now();
+      const h0 = await s.evaluate(() => window.__bdTani?.hedefBitis ?? null).catch(() => null);
+      const u = await uygunlar();
+      const h = await kalkanRpc(id, u[0]);   // hemen: bot yeni bitişi görüp seçmeden
+      await sorgu(`select duello_sinyal_ver(${alintila(id)})`).catch(() => {});
+      let pasif = false;
+      for (let i = 0; i < 20 && !pasif; i++) { await s.waitForTimeout(150); pasif = await s.locator("button.m2-kalkan-dugme[disabled]").count() > 0; }
+      const hala = (await sorgu(`select faz = 'kategori' k from duellolar where id = ${alintila(id)}`))[0]?.k;
+      if (pasif && GORSEL) await s.screenshot({ path: path.join(GORSEL_DIZIN, `kalkan-son5-pasif-${GENISLIKLER[0]}${DIL ? "-" + DIL : ""}.png`) }).catch(() => {});
+      for (let i = 0; i < 40; i++) {
+        const [f] = await sorgu(`select faz from duellolar where id = ${alintila(id)}`);
+        if (f?.faz !== "kategori") break;
+        await bekle(200);
       }
-      console.log("  ✓ kalkan: savunan düğme → ızgara → onay açıldı (Vazgeç)");
-    } else kt.gorsel = false;   // bot erken seçtiyse bir sonraki savunmada tekrar
-    return "devam";
-  }
-  if (kt.sonBes === undefined && kt.gorsel) {
-    const [r] = await sorgu(`update duellolar set faz_bitis = now() + interval '4.6 seconds'
-        where id = ${alintila(id)} and faz = 'kategori' and extract(epoch from faz_bitis - now()) > 6 returning 1 ok`);
-    if (!r) return null;
-    const t0 = Date.now();
-    const h0 = await s.evaluate(() => window.__bdTani?.hedefBitis ?? null).catch(() => null);
-    const u = await uygunlar();
-    const h = await kalkanRpc(id, u[0]);   // hemen: bot yeni bitişi görüp seçmeden
-    // İstemci yeni bitişi sinyalle hemen okusun (yoksa bir sonraki yoklamaya dek eski süreyi gösterir)
-    await sorgu(`select duello_sinyal_ver(${alintila(id)})`).catch(() => {});
-    let pasif = false;
-    for (let i = 0; i < 20 && !pasif; i++) { await s.waitForTimeout(150); pasif = await s.locator("button.m2-kalkan-dugme[disabled]").count() > 0; }
-    const tani = pasif ? null : await s.evaluate(() => ({ faz: window.__bdTani?.faz, hedef: window.__bdTani?.hedefBitis,
-      sayac: document.querySelector(".qt-sayac .qt-sayac-sayi")?.textContent, neden: document.querySelector(".m2-kalkan-neden")?.textContent })).catch(() => null);
-    const hala = (await sorgu(`select faz = 'kategori' k from duellolar where id = ${alintila(id)}`))[0]?.k;
-    if (pasif && GORSEL) await s.screenshot({ path: path.join(GORSEL_DIZIN, `kalkan-son5-pasif-${GENISLIKLER[0]}${DIL ? "-" + DIL : ""}.png`) }).catch(() => {});
-    // Bu kategori fazının süresini TEST kısalttı (15 → 5 sıçraması): sayaç ölçümünden çıkar.
-    for (let i = 0; i < 40; i++) {
-      const [f] = await sorgu(`select faz from duellolar where id = ${alintila(id)}`);
-      if (f?.faz !== "kategori") break;
-      await bekle(200);
+      await s.evaluate(([t, hb]) => { window.__sayacKayit = (window.__sayacKayit ?? []).filter((k) => !(k.faz === "kategori" && (k.an >= t || (hb !== null && k.hedef === hb)))); }, [t0, h0]).catch(() => {});
+      if (h && /süre çok az/.test(h)) {
+        kt.sonBes = h;
+        kt.sonBesPasif = pasif;
+        console.log(`  ✓ kalkan: son 5 sn red — ${h}${pasif ? " · düğme pasif" : ""}`);
+        if (!pasif && (hala === true || hala === "t")) basarisiz("Kalkan: son 5 sn'de düğme pasif görünmedi");
+      } else if (!h) basarisiz("Kalkan: son 5 sn'de kalkan KABUL edildi", { u: u[0] });
+      else console.log(`  · kalkan son-5 denemesi faz geçtiği için sayılmadı (${h}) — sonraki savunmada tekrar`);
+      return "devam";
     }
-    await s.evaluate(([t, h]) => { window.__sayacKayit = (window.__sayacKayit ?? []).filter((k) => !(k.faz === "kategori" && (k.an >= t || (h !== null && k.hedef === h)))); }, [t0, h0]).catch(() => {});
-    if (h && /süre çok az/.test(h)) {
-      kt.sonBes = h;
-      kt.sonBesPasif = pasif;
-      console.log(`  ✓ kalkan: son 5 sn red — ${h}${pasif ? " · düğme pasif" : ""}`);
-      if (!pasif && (hala === true || hala === "t")) basarisiz("Kalkan: son 5 sn'de düğme pasif görünmedi", tani);
-      else if (!pasif) console.log("  · kalkan pasif ölçümü: bot o arada seçti, faz geçti (sayılmadı)", JSON.stringify(tani));
-    } else if (!h) basarisiz("Kalkan: son 5 sn'de kalkan KABUL edildi", { u: u[0] });
-    else console.log(`  · kalkan son-5 denemesi faz geçtiği için sayılmadı (${h}) — sonraki savunmada tekrar`);
-    return "devam";
+    return null;
   }
-  if (!kt.kullanim && kt.sonBes && fkalan > 7) {
-    await dugme.tap({ timeout: 1500 }).catch(() => {});
+
+  // 2. pencere (Tur 6+): biriktirilen hak dahil iki kullanım, art arda iki savunmada.
+  if (kt.biriktirmeMac === undefined && benimKalkan.length === 0) {
+    kt.biriktirmeMac = id;
+    const hak = await hakRozeti();
+    kt.biriktirme = hak;
+    if (hak !== 2) basarisiz("Kalkan: Tur 6'da kullanılmamış 1. hak 2. hakla birleşmedi (düğmede 2 bekleniyordu)", { hak, tur });
+    else console.log(`  ✓ kalkan: Tur ${tur} — 1. pencerede kullanılmayan hak kaybolmadı, düğmede 2 hak`);
+  }
+  if (kt.biriktirmeMac !== id) return null;
+  const buSecimde = benimKalkan.some((x) => Number(x.idx) === Number(d.tur) * 2 + Number(d.saldiri_sirasi ?? 0));
+  if (benimKalkan.length < 2 && !buSecimde && fkalan > 8) {
+    // Kısa zaman aşımları: bot o arada seçerse test cevap fazını kaçırmasın (yavaş DB anında 3×1,5 sn takılıyordu).
+    const fazHala = async () => (await sorgu(`select faz from duellolar where id = ${alintila(id)}`))[0]?.faz === "kategori";
+    await dugme.tap({ timeout: 700 }).catch(() => {});
     const kat = s.locator(".m2-kalkan-kat").first();
-    if (!(await kat.count())) return "devam";
-    const k = await kat.evaluate((el) => el.getAttribute("aria-label"));
-    await kat.tap({ timeout: 1500 }).catch(() => {});
-    await s.locator(".m2-kalkan-onay .m2-kalkan-dugme").tap({ timeout: 1500 }).catch(() => {});
+    if (!(await kat.count()) || !(await fazHala())) return null;
+    await kat.tap({ timeout: 700 }).catch(() => {});
+    await s.locator(".m2-kalkan-onay .m2-kalkan-dugme").tap({ timeout: 700 }).catch(() => {});
     let yaz = null;
-    for (let i = 0; i < 15 && !yaz; i++) {
+    for (let i = 0; i < 10 && !yaz; i++) {
       await bekle(200);
-      const [r] = await sorgu(`select ${benimKol} ->> 'kategori' k from duellolar where id = ${alintila(id)}`);
-      yaz = r?.k ?? null;
+      const [r] = await sorgu(`select jsonb_array_length(${benimKol}) n, ${benimKol} -> -1 ->> 'kategori' k from duellolar where id = ${alintila(id)}`);
+      if (Number(r?.n) > benimKalkan.length) yaz = r.k;
     }
-    if (!yaz) { console.log(`  · kalkan kullanımı bu fazda tamamlanamadı (${k}) — sonraki savunmada tekrar`); return "devam"; }
-    kt.kullanim = { k: yaz, idx, macId: id, secilen: null };
-    console.log(`  ✓ kalkan: arayüzden kullanıldı → ${yaz} (DB'de yazıldı)`);
+    if (!yaz) { console.log("  · kalkan kullanımı bu fazda tamamlanamadı (bot önce seçti) — sonraki savunmada tekrar"); return null; }
+    kt.kullanimlar.push({ k: yaz, idx, macId: id, secilen: null, tur });
+    console.log(`  ✓ kalkan: Tur ${tur} arayüzden ${benimKalkan.length + 1}. kullanım → ${yaz} (DB'de ${benimKalkan.length + 1} kayıt)`);
     let durumVar = 0;
     for (let i = 0; i < 10 && !durumVar; i++) { await s.waitForTimeout(150); durumVar = await s.locator(".m2-kalkan-durum").count(); }
     if (!durumVar) basarisiz("Kalkan: kullanıldıktan sonra 'korumada' satırı görünmedi");
     const h2 = await kalkanRpc(id, (await uygunlar())[0]);
-    kt.ikinci = h2;
-    if (!h2 || !/zaten kullandın/.test(h2)) basarisiz("Kalkan: ikinci kullanım reddedilmedi", { h2 });
-    else console.log(`  ✓ kalkan: ikinci kullanım red — ${h2}`);
-    await ekranOlc("duello-kalkan-kullanildi");
+    if (!h2 || !/zaten bir kategoriyi koruyorsun/.test(h2)) basarisiz("Kalkan: aynı seçimde ikinci kalkan reddedilmedi", { h2 });
+    else if (!kt.ayniSecimRed) { kt.ayniSecimRed = h2; console.log(`  ✓ kalkan: aynı seçimde ikinci kalkan red — ${h2}`); }
+    await ekranOlc(`duello-kalkan-kullanildi-${benimKalkan.length + 1}`);
     return "devam";
+  }
+  if (benimKalkan.length >= 2 && !buSecimde && !kt.ucuncu) {
+    const h3 = await kalkanRpc(id, (await uygunlar())[0]);
+    kt.ucuncu = h3 ?? "KABUL";
+    if (!h3 || !/hakların bitti/.test(h3)) basarisiz("Kalkan: 3. kullanım reddedilmedi", { h3 });
+    else console.log(`  ✓ kalkan: 3. kullanım red — ${h3}`);
+    const hak = await hakRozeti();
+    if (hak !== 0) basarisiz("Kalkan: haklar bitince düğmede 0 görünmedi", { hak });
   }
   return null;
 }
@@ -445,16 +475,95 @@ async function kalkanAdimi(id, d, benSaldiran, kt) {
 function kalkanSecimKontrol(d, kt, id) {
   const idx = `${d.tur}:${d.saldiran}`;
   if (d.faz === "kategori" || !d.kategori) return;
-  if (kt.kullanim && kt.kullanim.macId === id && kt.kullanim.idx === idx && !kt.kullanim.secilen) {
-    kt.kullanim.secilen = d.kategori;
-    if (d.kategori === kt.kullanim.k) basarisiz("Kalkan: bot saldıran KORUNAN kategoriyi seçti", kt.kullanim);
-    else console.log(`  ✓ kalkan: bot saldıran korunan ${kt.kullanim.k} yerine ${d.kategori} seçti`);
+  for (const ku of kt.kullanimlar ?? []) {
+    if (ku.macId === id && ku.idx === idx && !ku.secilen) {
+      ku.secilen = d.kategori;
+      if (d.kategori === ku.k) basarisiz("Kalkan: bot saldıran KORUNAN kategoriyi seçti", ku);
+      else console.log(`  ✓ kalkan: bot saldıran korunan ${ku.k} yerine ${d.kategori} seçti`);
+    }
   }
   if (kt.simule && kt.simule.macId === id && kt.simule.idx === idx && !kt.simule.kontrol) {
     kt.simule.kontrol = d.kategori;
     if (d.kategori === kt.simule.k) basarisiz("Kalkan: saldıran (test) korunan kategoriyi seçebildi", kt.simule);
     else console.log(`  ✓ kalkan: test saldıran korunan ${kt.simule.k} yerine ${d.kategori} seçti`);
   }
+}
+
+// 666 · Kategori ekranındaki yıldız rozetleri sunucunun maç başı yıldızlarıyla aynı mı (renk sınıfı + ★ sayısı + puan)?
+async function yildizKontrol(id, kapsam) {
+  if (kapsam.yildizMac === id) return;
+  const [r] = await sorgu(`select case when oyuncu1 = ${alintila(BEN)} then yildiz2 else yildiz1 end y, puan_degerleri p
+      from duellolar where id = ${alintila(id)}`);
+  const y = typeof r.y === "string" ? JSON.parse(r.y) : r.y;
+  const p = typeof r.p === "string" ? JSON.parse(r.p) : r.p;
+  const ekran = await s.evaluate(() => [...document.querySelectorAll("button.m2-kat")].map((b) => {
+    const r = b.querySelector(".m2-yildiz");
+    return { ad: b.getAttribute("aria-label"), sinif: r?.className ?? "", yildiz: r?.querySelector(".m2-yildiz-y")?.textContent ?? "", puan: r?.querySelector("b")?.textContent ?? "" };
+  }));
+  if (!ekran.length) return;
+  kapsam.yildizMac = id;
+  const hatali = [];
+  const kats = Object.keys(y);
+  // Kartlar duello_kategorileri() sırasıyla çizilir; aria-label'daki yıldız sayısı + görünen rozet eşleşmeli.
+  const sira = (await sorgu(`select unnest(duello_kategorileri()) k`)).map((x) => x.k);
+  sira.forEach((k, i) => {
+    const e = ekran[i];
+    const beklenen = Number(y[k] ?? 2);
+    const puan = Number(p?.[String(beklenen)]);
+    if (!e || !e.sinif.includes(`m2-yildiz--${beklenen}`) || e.yildiz.length !== beklenen || e.puan !== `+${puan}`) hatali.push({ k, beklenen, puan, e });
+  });
+  if (hatali.length) basarisiz("Düello: kategori yıldız rozeti sunucuyla uyuşmuyor", hatali.slice(0, 3));
+  else {
+    const dagilim = [1, 2, 3].map((n) => kats.filter((k) => Number(y[k]) === n).length);
+    kapsam.yildizlar.push(dagilim.join("/"));
+    console.log(`  ✓ yıldızlar: 10 kategori rozeti sunucuyla aynı (★ ${dagilim[0]} · ★★ ${dagilim[1]} · ★★★ ${dagilim[2]}; renk + sayı + puan)`);
+  }
+}
+
+// 666 · Maç sonu: her hamlenin puanı kurala uyuyor mu, toplam ve kazanan doğru mu, bot kalkan sınırına uymuş mu?
+async function puanDenetimi(id, kapsam) {
+  const [d] = await sorgu(`select oyuncu1, oyuncu2, puan1, puan2, kazanan, uzatma, terk_eden, yildiz1, yildiz2, puan_degerleri,
+      kalkanlar1, kalkanlar2, durum from duellolar where id = ${alintila(id)}`);
+  const hm = await sorgu(`select tur, saldiran, savunan, kategori, uzatma, dogru, dogru_saldiran, yildiz, deger,
+      puan_saldiran, puan_savunan, altin_kazanan from duello_hamleler where duello_id = ${alintila(id)} order by id`);
+  const j = (v) => (typeof v === "string" ? JSON.parse(v) : v);
+  const pd = j(d.puan_degerleri); const y1 = j(d.yildiz1); const y2 = j(d.yildiz2);
+  const b = (v) => v === true || v === "t";
+  const top = { [d.oyuncu1]: 0, [d.oyuncu2]: 0 };
+  const hata = [];
+  let altin = 0;
+  for (const h of hm) {
+    if (b(h.uzatma)) {
+      altin++;
+      const bek = b(h.dogru_saldiran) && !b(h.dogru) ? h.saldiran : b(h.dogru) && !b(h.dogru_saldiran) ? h.savunan : null;
+      if ((h.altin_kazanan ?? null) !== bek) hata.push({ altin: h, bek });
+      continue;
+    }
+    const yMap = h.savunan === d.oyuncu1 ? y1 : y2;
+    const yl = Number(yMap?.[h.kategori] ?? 2);
+    const deger = Number(pd[String(yl)]);
+    if (Number(h.yildiz) !== yl || Number(h.deger) !== deger) hata.push({ tur: h.tur, k: h.kategori, yildiz: h.yildiz, bek: yl, deger: h.deger, bekD: deger });
+    const ps = b(h.dogru_saldiran) ? deger : 0; const pv = b(h.dogru) ? deger : 0;
+    if (Number(h.puan_saldiran) !== ps || Number(h.puan_savunan) !== pv) hata.push({ tur: h.tur, ps: h.puan_saldiran, bekS: ps, pv: h.puan_savunan, bekV: pv });
+    top[h.saldiran] += ps; top[h.savunan] += pv;
+  }
+  if (top[d.oyuncu1] !== Number(d.puan1) || top[d.oyuncu2] !== Number(d.puan2)) hata.push({ toplam: top, p1: d.puan1, p2: d.puan2 });
+  const normal = hm.filter((h) => !b(h.uzatma)).length;
+  if (d.durum === "bitti" && !d.terk_eden) {
+    if (normal !== 20) hata.push({ normalHamle: normal, bek: 20 });
+    const bekKazanan = altin ? hm.filter((h) => b(h.uzatma)).at(-1)?.altin_kazanan
+      : Number(d.puan1) > Number(d.puan2) ? d.oyuncu1 : Number(d.puan2) > Number(d.puan1) ? d.oyuncu2 : null;
+    if (d.kazanan !== bekKazanan) hata.push({ kazanan: d.kazanan, bekKazanan });
+    if (altin && Number(d.puan1) !== Number(d.puan2)) hata.push({ altinAmaPuanFarkli: [d.puan1, d.puan2] });
+  }
+  // Bot kalkanı: 1. pencerede en çok 1, toplam en çok 2, seçim başına 1
+  const botKol = d.oyuncu1 === BEN ? j(d.kalkanlar2) : j(d.kalkanlar1);
+  if (botKol.filter((x) => Number(x.tur) <= P1_SON).length > 1 || botKol.length > 2 || new Set(botKol.map((x) => x.idx)).size !== botKol.length) hata.push({ botKalkan: botKol });
+  const benim = d.oyuncu1 === BEN ? Number(d.puan1) : Number(d.puan2);
+  const rakip = d.oyuncu1 === BEN ? Number(d.puan2) : Number(d.puan1);
+  kapsam.maclar.push({ id: id.slice(0, 8), skor: `${benim}-${rakip}`, altin, botKalkan: botKol.length, hata: hata.length });
+  if (hata.length) basarisiz("Düello: puan/kazanan denetimi tutmadı", hata.slice(0, 4));
+  else console.log(`  ✓ puan denetimi: ${hm.length} hamle kurala uygun (simetrik puan, yıldız değeri), skor ${benim}-${rakip}${altin ? `, ${altin} Altın Soru` : ""}, kazanan doğru, bot kalkanı ${botKol.length} (sınırda)`);
 }
 
 async function duelloMaci(kapsam) {
@@ -523,7 +632,7 @@ async function duelloMaci(kapsam) {
     turBas = Date.now();
     sonAdim = "durum okuma";
     const t = await s.evaluate(() => window.__bdTani ?? null);
-    const [d] = await sorgu(`select durum, faz, tur, saldiran, uzatma, soru_id, cevaplar, oyuncu1, can1, can2, kategori, kalkan1, kalkan2,
+    const [d] = await sorgu(`select durum, faz, tur, saldiri_sirasi, saldiran, uzatma, soru_id, cevaplar, oyuncu1, puan1, puan2, kategori, kalkanlar1, kalkanlar2,
                                (select dogru_cevap from questions q where q.id = soru_id) dogru,
                                extract(epoch from (faz_bitis - now())) fkalan, extract(epoch from (now() - created_at)) mac_yasi,
                                extract(epoch from ((case when oyuncu1 = ${alintila(BEN)} then bitis1 else bitis2 end) - now())) kkalan
@@ -540,8 +649,9 @@ async function duelloMaci(kapsam) {
       await s.waitForTimeout(2500);
       await ekranOlc("duello-mac-sonu");
       console.log(`  maç bitti (${d.durum})`);
+      if (d.durum === "bitti") await puanDenetimi(id, kapsam);
       // 650: kalkan kullanılan maçta özet "… korundu" işaretini göstermeli
-      if (d.durum === "bitti" && (kapsam.kalkan.kullanim?.macId === id || kapsam.kalkan.simule?.macId === id)) {
+      if (d.durum === "bitti" && ((kapsam.kalkan.kullanimlar ?? []).some((x) => x.macId === id) || kapsam.kalkan.simule?.macId === id)) {
         const ks = s.locator(".m2-gecmis-kalkan");
         let n = 0;
         for (let i = 0; i < 30 && !n; i++) { n = await ks.count(); if (!n) await s.waitForTimeout(300); }
@@ -595,7 +705,27 @@ async function duelloMaci(kapsam) {
       }
     }
 
-    // 650 · Kategori Kalkanı senaryosu (uzatmada yok)
+    // --altin: 10. turun son sonucunda puanlar eşitlenir → sunucu Altın Soru açar (yalnız test hesabının bota karşı maçı).
+    if (ARG.altin && !kapsam.altinZorlandi?.has(id) && d.faz === "sonuc" && Number(d.tur) === 10 && Number(d.saldiri_sirasi) === 1
+        && !(d.uzatma === true || d.uzatma === "t")) {
+      (kapsam.altinZorlandi ??= new Set()).add(id);
+      await sorgu(`update duellolar set puan2 = puan1 where id = ${alintila(id)} and faz = 'sonuc' and not uzatma`);
+      console.log(`  · --altin: 10. tur sonunda puanlar eşitlendi (${d.puan1}-${d.puan1}) → Altın Soru bekleniyor`);
+      kapsam.altinBekle = id;
+    }
+    if (kapsam.altinBekle === id && (d.uzatma === true || d.uzatma === "t") && d.faz === "cevap" && !kapsam.altinGoruldu?.has(id)) {
+      (kapsam.altinGoruldu ??= new Set()).add(id);
+      let bant = 0;
+      for (let i = 0; i < 15 && !bant; i++) { bant = await s.locator(".m2-uzatma").count(); if (!bant) await s.waitForTimeout(200); }
+      const jokerKapali = await s.locator(".bd-d2-skill button:not([disabled])").count() === 0;
+      if (!bant) basarisiz("Altın Soru: bant görünmedi");
+      if (!jokerKapali) basarisiz("Altın Soru: joker düğmeleri açık");
+      if (bant && jokerKapali) console.log("  ✓ Altın Soru açıldı: bant görünüyor, jokerler kapalı");
+      await ekranOlc("duello-altin-soru");
+    }
+    // 666 · yıldız rozetleri (kategori seçme sırası bendeyken bir kez)
+    if (d.faz === "kategori" && benSaldiran && !(d.uzatma === true || d.uzatma === "t")) await yildizKontrol(id, kapsam);
+    // 650 · Kategori Kalkanı senaryosu (Altın Soru'da yok)
     kalkanSecimKontrol(d, kapsam.kalkan, id);
     if (d.faz === "kategori" && !(d.uzatma === true || d.uzatma === "t")) {
       sonAdim = "kalkan";
@@ -691,13 +821,13 @@ async function duelloMaci(kapsam) {
           }
         }
       }
-      // Canlar eşit kalsın (maç uzasın, uzatmaya gitsin): öndeysem yanlış, gerideysem doğru.
-      const [g] = await sorgu(`select can1, can2, oyuncu1, (select dogru_cevap from questions q where q.id = soru_id) dogru
+      // Puanlar yakın kalsın (maç çekişmeli, kazanan iki taraf da olabilsin): öndeysem yanlış, gerideysem/eşitsem doğru.
+      const [g] = await sorgu(`select puan1, puan2, oyuncu1, (select dogru_cevap from questions q where q.id = soru_id) dogru
                                  from duellolar where id = ${alintila(id)}`);
-      const benimCan = g.oyuncu1 === BEN ? Number(g.can1) : Number(g.can2);
-      const rakipCan = g.oyuncu1 === BEN ? Number(g.can2) : Number(g.can1);
+      const benimPuan = g.oyuncu1 === BEN ? Number(g.puan1) : Number(g.puan2);
+      const rakipPuan = g.oyuncu1 === BEN ? Number(g.puan2) : Number(g.puan1);
       const dogru = Number(g.dogru);
-      const hedef = benimCan > rakipCan ? (dogru + 1) % 4 : dogru;
+      const hedef = benimPuan > rakipPuan ? (dogru + 1) % 4 : dogru;
       let sik = s.locator(":is(.bd-secenek, .qt-sik)").nth(hedef);
       if (await sik.isDisabled()) sik = s.locator(":is(.bd-secenek, .qt-sik):not([disabled]):not(.elendi):not(.qt-sik--elendi)").first();
       // 50:50 sonrası hedef şık kırılma animasyonunda (elenmek üzere) olabilir: dokunulamazsa açık bir şıkla bir kez daha dene.
@@ -768,26 +898,31 @@ async function haleOlc() {
 
 async function duelloTesti() {
   console.log("\n▶ Düello");
-  const kapsam = { saldiran: 0, savunan: 0, durumlar: {}, olculen: new Set(), sayac: [], satinAlma: [], kalkan: {} };
+  const kapsam = { saldiran: 0, savunan: 0, durumlar: {}, olculen: new Set(), sayac: [], satinAlma: [], kalkan: {}, maclar: [], yildizlar: [] };
   for (let i = 0; i < EN_COK_MAC; i++) {
     if (await duelloMaci(kapsam) === "kritik") break;
     // 650: kalkan senaryosunun bütün adımları bitmeden durma (bir maçta savunma sayısı yetmeyebilir)
     const kk = kapsam.kalkan;
-    if (!(kk.saldiranRed && kk.sonBes && kk.kullanim?.secilen && kk.ikinci && kk.simule?.kontrol)) continue;
+    if (ARG.hepsi) continue;   // --hepsi: --mac kadar maçın hepsi oynanır
+    if (!(kk.saldiranRed && kk.sonBes && kk.kullanimlar?.length >= 2 && kk.ucuncu && kk.simule?.kontrol)) continue;
     if (kapsam.saldiran >= 3 && kapsam.savunan >= 3 && Object.keys(kapsam.durumlar).some((k) => k.includes("uzatma"))) break;
     if (kapsam.saldiran >= 3 && kapsam.savunan >= 3 && i >= 0 && !ARG.uzatma) break;
   }
   // 650 · Kategori Kalkanı özeti
   const kt = kapsam.kalkan;
-  notlar.push(`Kalkan: saldıran reddi ${kt.saldiranRed ? "✓" : "—"} · son 5 sn reddi ${kt.sonBes ? "✓" : "—"} (düğme pasif ${kt.sonBesPasif ? "✓" : "—"}) · kullanım ${kt.kullanim ? kt.kullanim.k + " → bot " + (kt.kullanim.secilen ?? "?") + " seçti" : "—"} · ikinci kullanım reddi ${kt.ikinci ? "✓" : "—"} · saldıran kilitli kutu ${kt.simule ? kt.simule.k + " → test " + (kt.simule.kontrol ?? "?") + " seçti" : "—"} · maç sonu işareti ${kt.ozet ?? "—"}`);
+  const ku = kt.kullanimlar ?? [];
+  notlar.push(`Kalkan: saldıran reddi ${kt.saldiranRed ? "✓" : "—"} · son 5 sn reddi ${kt.sonBes ? "✓" : "—"} (düğme pasif ${kt.sonBesPasif ? "✓" : "—"}) · Tur 6'da biriken hak ${kt.biriktirme ?? "—"} · kullanımlar ${ku.map((x) => `Tur ${x.tur} ${x.k} → bot ${x.secilen ?? "?"}`).join(", ") || "—"} · aynı seçimde 2. red ${kt.ayniSecimRed ? "✓" : "—"} · 3. kullanım reddi ${kt.ucuncu ? "✓" : "—"} · saldıran kilitli kutu ${kt.simule ? kt.simule.k + " → test " + (kt.simule.kontrol ?? "?") + " seçti" : "—"} · maç sonu işareti ${kt.ozet ?? "—"}`);
+  notlar.push(`Düello maçları (${kapsam.maclar.length}): ${kapsam.maclar.map((m) => `${m.id} ${m.skor}${m.altin ? " +Altın×" + m.altin : ""} botKalkan ${m.botKalkan}${m.hata ? " HATA" : ""}`).join(" · ")}`);
+  if (kapsam.yildizlar.length) notlar.push(`Yıldız dağılımları (★/★★/★★★): ${kapsam.yildizlar.join(" · ")}`);
   if (!kt.saldiranRed) basarisiz("Kalkan: saldıran reddi denenemedi");
   if (!kt.sonBes) basarisiz("Kalkan: son 5 sn reddi denenemedi");
-  if (!kt.kullanim) basarisiz("Kalkan: arayüzden kullanım gerçekleşmedi");
-  if (!kt.ikinci) basarisiz("Kalkan: ikinci kullanım reddi denenemedi");
+  if (ku.length < 2) basarisiz("Kalkan: 2. pencerede iki kullanım gerçekleşmedi", { kullanim: ku.length });
+  if (kt.biriktirme !== 2) basarisiz("Kalkan: biriktirme (Tur 6'da 2 hak) doğrulanamadı", { biriktirme: kt.biriktirme });
+  if (!kt.ucuncu) basarisiz("Kalkan: 3. kullanım reddi denenemedi");
   if (!kt.simule) basarisiz("Kalkan: saldıran kilitli kutu senaryosu oluşmadı");
   if (kapsam.saldiran < 3 || kapsam.savunan < 3) basarisiz("Düello: kapsam eksik (en az 3 saldıran + 3 savunan)", { saldiran: kapsam.saldiran, savunan: kapsam.savunan });
   const tum = [];
-  for (const rol of ["saldıran", "savunan"]) for (const a of ["ilk tur", "sonraki tur", "uzatma"]) for (const sk of ["skill yok", "skill var"]) {
+  for (const rol of ["saldıran", "savunan"]) for (const a of ["ilk tur", "sonraki tur", "uzatma"]) for (const sk of (a === "uzatma" ? ["skill yok"] : ["skill yok", "skill var"])) {
     const k = `${rol} · ${a} · ${sk}`;
     tum.push(`${k}: ${kapsam.durumlar[k] ?? "oluşmadı"}`);
   }
