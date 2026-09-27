@@ -28,7 +28,7 @@ const EFEKT_TANIM = [
   ["dokunus", "Dokunuş", "Tap", "Her düğmeye basışta (çok kısa, kısık).", "Every button press (very short, quiet).", "dokunus.mp3",
     [k("IS", "click_002"), k("IS", "select_001"), k("UI", "click3")]],
   ["sayfa_gecis", "Sayfa geçişi", "Page change", "Alt menüden sekme/sayfa değişince.", "When switching tabs/pages from the bottom menu.", null,
-    [k("IS", "switch_004"), k("IS", "scroll_003"), k("IS", "maximize_001")]],
+    [k("UI", "switch5"), k("UI", "switch10"), k("IS", "tick_002"), p(523625, "SoundShelfStudio", "UI Swipe Navigation Soft", "sound-effects/film-special-effects-ui-swipe-navigation-soft-523625"), p(522221, "SoundShelfStudio", "UI Swipe Confirm", "sound-effects/film-special-effects-ui-swipe-confirm-522221")]],
   ["rakip_bulundu", "Rakip bulundu", "Opponent found", "Rakip arama katmanı kapanıp maç açılırken.", "When the search overlay closes and the match opens.", "rakip_bulundu.mp3",
     [k("IS", "confirmation_002"), k("DA", "threeTone2"), k("MJ", "jingles_HIT02"), p(6104, "freesound_community", "Game Start", "sound-effects/film-special-effects-game-start-6104")]],
   ["vs_ani", "VS anı", "VS moment", "İki oyuncunun karşı karşıya geldiği VS kartı.", "The VS card where both players face off.", null,

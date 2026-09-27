@@ -8993,3 +8993,29 @@ kaçırdığından şüphelenildi.
 - **Kod:** `duello-kalkan-sql-testi.mjs` artık sabit `b17b` UUID yerine etkin
   gizli botu profilden dinamik seçer. RLS, GRANT/REVOKE ve üretim bot davranış
   fonksiyonlarında değişiklik yok.
+
+## 2026-09-27 — Sayfa geçişi (sayfa_gecis) ses adayları baştan
+
+**Araç:** Claude Code
+**Neden:** Ida, 23 Eyl'deki üç adaydan (switch_004/scroll_003/maximize_001)
+memnun değildi — hepsi dokunuş sesine kıyasla fazla süslü/uzun/katmanlıydı
+(180 ms – 1 sn). Baştan, dokunuşla aynı basitlik seviyesinde yeni adaylar istendi.
+
+- Eski üç `.wav` `public/ses/adaylar/`'dan silindi, `adaylar.js` listesinden çıkarıldı.
+- Yerine 5 yeni aday: Kenney UI Audio › switch5/switch10 + Interface Sounds ›
+  tick_002 (CC0, .ogg → 16 bit mono WAV 32 kHz, sessizlik kırpıldı, -1 dBFS
+  normalize) ve Pixabay'den SoundShelfStudio'nun "UI Swipe Navigation Soft" /
+  "UI Swipe Confirm" (Pixabay İçerik Lisansı, MP3 çerçeve sınırından kırpıldı,
+  yeniden kodlama yok). Sonuç süreleri: 20/98/122 ms (Kenney), 287/287 ms
+  (Pixabay) — dokunuş adaylarıyla (9–80 ms) aynı basitlik aralığında.
+- **Dönüştürme yöntemi:** Chrome'da (Claude in Chrome) yerel bir Node
+  statik sunucusu + Web Audio API sayfası: ogg/mp3 decode edilip sessizlik
+  eşiğiyle kırpıldı, WAV'lar yeniden kodlandı, MP3'ler ise ham baytlardan
+  MPEG çerçeve sınırında kesildi (yeniden kodlama yok) — mevcut süreçle
+  (`KAYNAKLAR.md`) aynı.
+- Değişen dosyalar: `public/ses/adaylar/sayfa_gecis-k1..k3.wav`,
+  `sayfa_gecis-p1/p2.mp3` (yeni), `oyun/tasarim/ses-secim/adaylar.js`,
+  `public/ses/adaylar/KAYNAKLAR.md`.
+- `npm run build` temiz (postbuild tarayıcı uyumluluk denetimi de TEMİZ).
+- **Test edilmesi gereken:** `/ses-secim` sayfasında "Sayfa geçişi" bölümünde
+  5 yeni adayı dinleyip birini seçmek (Ida'nın kendi kulağıyla karar vereceği bir tercih).

@@ -58,9 +58,15 @@ Mevcut: — (bugün sessiz)
 
 | Dosya | Kaynak | Parça | Yazar | Bağlantı | Lisans | kB |
 |---|---|---|---|---|---|---|
-| `sayfa_gecis-k1.wav` | Kenney | Interface Sounds › switch_004 | Kenney | https://kenney.nl/assets/interface-sounds | CC0 | 11.2 |
-| `sayfa_gecis-k2.wav` | Kenney | Interface Sounds › scroll_003 | Kenney | https://kenney.nl/assets/interface-sounds | CC0 | 62.5 |
-| `sayfa_gecis-k3.wav` | Kenney | Interface Sounds › maximize_001 | Kenney | https://kenney.nl/assets/interface-sounds | CC0 | 16.0 |
+| `sayfa_gecis-k1.wav` | Kenney | UI Audio › switch5 | Kenney | https://kenney.nl/assets/ui-audio | CC0 | 7.6 |
+| `sayfa_gecis-k2.wav` | Kenney | UI Audio › switch10 | Kenney | https://kenney.nl/assets/ui-audio | CC0 | 6.1 |
+| `sayfa_gecis-k3.wav` | Kenney | Interface Sounds › tick_002 | Kenney | https://kenney.nl/assets/interface-sounds | CC0 | 1.3 |
+| `sayfa_gecis-p1.mp3` | Pixabay | UI Swipe Navigation Soft | SoundShelfStudio | https://pixabay.com/sound-effects/film-special-effects-ui-swipe-navigation-soft-523625/ | Pixabay İçerik Lisansı | 9.0 |
+| `sayfa_gecis-p2.mp3` | Pixabay | UI Swipe Confirm | SoundShelfStudio | https://pixabay.com/sound-effects/film-special-effects-ui-swipe-confirm-522221/ | Pixabay İçerik Lisansı | 9.0 |
+
+23 Eyl'deki ilk üç aday (switch_004/scroll_003/maximize_001) Ida'yı memnun etmedi — hepsi
+fazla süslü/uzun/katmanlıydı (180 ms–1 sn). Yerine dokunuş sesiyle aynı basitlik seviyesinde
+(20–290 ms, tek katman) 5 yeni aday kondu (27 Eyl 2026). Eskiler klasörden silindi.
 
 ## Rakip bulundu (`rakip_bulundu`)
 
