@@ -18,6 +18,9 @@ supabase/.branches
 
 # Gecici calisma dosyalari (repoya girmez)
 .tmp/
+/_q.mjs
+/araclar/_q*.tmp.mjs
+/--1.png
 
 # Aşama 1E muayene: ham görünümler ara üründür (her çalıştırmada yeniden üretilir); kontakt sayfası + adaylar.json commit edilir
 oyun/harita/muayene/cikti/**/*.png
