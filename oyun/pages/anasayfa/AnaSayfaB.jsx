@@ -19,7 +19,7 @@ export default function AnaSayfaB() {
   // Yatay şeritte iki ana mod önde, diğerleri arkasında — hepsi aynı kart dili.
   const kartlar = [
     { anahtar: "klasik", ad: tt("Klasik"), ikon: "klasik", alt: tt("20 soru · canlı rakip"), git: b.oyna, buyuk: true },
-    { anahtar: "duello", ad: tt("Düello"), ikon: "duello", alt: tt("3 can · aynı soru, aynı anda"), git: () => b.git("/duello"), buyuk: true },
+    { anahtar: "duello", ad: tt("Düello"), ikon: "duello", alt: tt("10 tur · aynı soru, aynı anda"), git: () => b.git("/duello"), buyuk: true },
     ...modListesi(v, b),
   ];
   const lig = v.lig?.lig ?? "bronz";

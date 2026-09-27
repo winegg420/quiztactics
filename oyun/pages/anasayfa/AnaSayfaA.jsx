@@ -103,7 +103,7 @@ export default function AnaSayfaA() {
           </button>
           <button type="button" className="as-buyuk-dugme as-buyuk-dugme--duello" onClick={() => b.git("/duello")}>
             <span className="as-buyuk-dugme-ikon"><QtIkon ad="duello" boyut={28} /></span>
-            <span className="as-buyuk-dugme-metin"><b>{tt("DÜELLO")}</b><small>{tt("3 can")}</small></span>
+            <span className="as-buyuk-dugme-metin"><b>{tt("DÜELLO")}</b><small>{tt("10 tur")}</small></span>
           </button>
         </div>
 

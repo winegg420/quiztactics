@@ -14,22 +14,16 @@
 // ============================================================
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { createPortal } from "react-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
-import Ikon from "../components/Ikon.jsx";
 import MacUstSerit from "../components/MacUstSerit.jsx";
-import OyuncuAdiDugmesi from "../components/OyuncuAdiDugmesi.jsx";
-import { adKisalt } from "../lib/adKisalt.js";
 import CerceveliAvatar from "../components/CerceveliAvatar.jsx";
 import { useOyuncuSeviyeleri } from "../lib/oyuncuSeviye.js";
 import { TepkiCubugu, useMacTepki } from "../components/Tepki.jsx";
 import MacYukleniyor from "../components/MacYukleniyor.jsx";
-import KategoriIkon from "../components/KategoriIkon.jsx";
 import MacSonuKutlama from "../components/MacSonuKutlama.jsx";
 import { useMacSonuOzet, ozettenSahne } from "../lib/macSonuOzet.js";
 import OdulDokumu from "../components/OdulDokumu.jsx";
-import DuelloOzet from "../components/DuelloOzet.jsx";
 import DuelloTanitim, { duelloTanitimGoruldu } from "../components/DuelloTanitim.jsx";
 import HesapGuvenceOnerisi from "../components/HesapGuvence.jsx";
 import DereceliAnahtari from "../components/DereceliAnahtari.jsx";
@@ -37,21 +31,17 @@ import JokerSatinAlModal from "../components/JokerSatinAlModal.jsx";
 import { useDereceliTercih } from "../lib/dereceli.js";
 import { useDil } from "../lib/dilKanca.js";
 import { hataMesaji, islemHatasi } from "../lib/hata.js";
-import { kategoriAdi } from "../lib/kategoriler.js";
-import { unvanAdi } from "../lib/unvanlar.js";
-import { JOKER_BILGI, SALDIRI_JOKERLERI, macJokerleri, skillSetiOku } from "../lib/jokerler.js";
 import { y } from "../lib/yol.js";
 import { coinTazele } from "../lib/coin.js";
 import { ayar } from "../lib/ayarlar.js";
 import AramaSahnesi, { ARAMA_GECIS_MS } from "../components/AramaSahnesi.jsx";
-import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesJoker, sesKazandin, sesKaybettin, sesDokunus, sesRakipBulundu, sesCanKaybi,
+import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesJoker, sesDokunus, sesRakipBulundu,
   sesOnYukle, sesKategoriGeriSayim, sesSoruGeldi, sesTurGecis, sesSkill,
-  sesBeraberlik, sesKategoriSecildi, sesRakipCevapladi } from "../lib/ses.js";
+  sesKategoriSecildi, sesRakipCevapladi } from "../lib/ses.js";
 import { titret } from "../lib/geriBildirim.js";
-import { tt } from "../lib/dil.js";
 import { useOyunModu } from "../lib/oyunModu.js";
 import SkillSeti from "../components/SkillSeti.jsx";
-// Düello 1.0 (surum = 2) arayüzü — eski arayüz aşağıda aynen durur.
+// Maç ekranı parçaları (Tasarım A).
 import { V2Ust, V2Kategori, V2Cevap, V2Sonuc, V2Skill, V2Gecmis } from "../components/DuelloV2.jsx";
 // Tasarım A görünümü (m2- önekli). Eski duello-v2.css artık yüklenmez (dosya Faz 4'e kadar durur).
 import "./DuelloPage.a.css";
@@ -59,20 +49,6 @@ import { QtBosDurum, QtDugme, QtIkon, QtModal, QtSayac, QT_KIRILMA_MS, sinif } f
 import { rpcDene } from "../lib/rpcDene.js";
 import { sayacKaymasi, sayacGoster, sayacSinirMs } from "../lib/zaman.js";
 
-const HARFLER = ["A", "B", "C", "D"];
-
-// Savunma jokerlerinin Düello'daki adları (Ek Süre +5 sn; sunucu ayarı duello_ek_sure_sn)
-const SAVUNMA_AD = { elli: "50:50", sure: tt("Ek Süre"), soru_degistir: tt("Soru Değiştir"), ikinci_sans: tt("İkinci Şans") };
-const SAVUNMA_ACIKLAMA = {
-  elli: tt("İki yanlış şık silinir"),
-  sure: tt("Cevap süresine 5 saniye ekler"),
-  soru_degistir: tt("Aynı kategoriden başka soru gelir"),
-  ikinci_sans: tt("İlk yanlışta aynı süre içinde bir kez daha denersin"),
-};
-const SALDIRI_AD = { zaman_baskisi: tt("Zaman Baskısı") };
-
-// Düelloda can sayısı (sunucu 3 canla başlatır; Kalpler'in varsayılanıyla aynı)
-const DUELLO_CAN = 3;
 // Bu istemcinin çizebildiği en yüksek Düello sürümü. 23 Eyl 2026: canlıdaki eski paket
 // (yalnız v1 arayüzü) v2 maçını v1 gibi çizdi — saldıran tarafın şıkları kapalı kaldı.
 // Tanımadığı sürümde maç çizilmez, yenileme istenir.
@@ -94,30 +70,12 @@ const BAGLANTI_MS = 5000;          // duello_baglanti (kopukluk bandı) aralığ
 const CEVAP_TOLERANS_MS = 1100;
 const SINYAL_BIRLESTIR_MS = 30;    // aynı anda gelen Realtime sinyallerini tek okumada birleştir
 
-function Kalpler({ can, max = DUELLO_CAN, sonCan }) {
-  return (
-    <span className={`bd-duello-kalpler ${sonCan ? "son" : ""}`} aria-label={`${can}`}>
-      {Array.from({ length: Math.max(max, can) }).map((_, i) => (
-        <svg key={i} viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"
-             className={i < can ? "dolu" : "bos"}>
-          <path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.3 3 4.5 6.6 4.5c2.1 0 3.6 1.2 4.4 2.5.8-1.3 2.3-2.5 4.4-2.5 3.6 0 5.7 3.8 4.2 7.2C19.5 16.4 12 21 12 21z" />
-        </svg>
-      ))}
-    </span>
-  );
-}
-
 // ------------------------------------------------------------ giriş + arama
 // Tasarım A: tek sütun, mod rengi pembe başlık kartı + tek birincil eylem.
-// Kurallar giriş ekranında zorla gösterilmez: "Kurallar nasıl işliyor?" → DuelloTanitim (V1/V2 tam kural metni orada).
-const SURUM_DEPO = "bildim_duello_surum";
-function surumOnbellek() {
-  try { const v = Number(localStorage.getItem(SURUM_DEPO)); return v === 1 || v === 2 ? v : null; } catch { return null; }
-}
-function surumOnbellegeYaz(s) {
-  try { localStorage.setItem(SURUM_DEPO, String(s)); } catch { /* özel pencere: yalnız önbellek */ }
-}
-
+// Kurallar giriş ekranında zorla gösterilmez: "Kurallar nasıl işliyor?" → DuelloTanitim (tam kural metni orada).
+// 666 · Yeni oyuncu kilidi: Düello en az duello_acilis_mac_esigi (5) bitmiş Klasik/Saf Bilgi maçıyla açılır.
+// Kural sunucuda (duello_ara / davet); lobi yalnız durumu gösterir (duello_acilis_benim). Okunamazsa kilit
+// gösterilmez — sunucu zaten reddeder ve hata metni aramada görünür.
 function DuelloGiris() {
   const navigate = useNavigate();
   const { ceviri } = useDil();
@@ -131,30 +89,27 @@ function DuelloGiris() {
     if (location.state?.yenidenAra) navigate(location.pathname, { replace: true, state: null });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
   const [tanitim, setTanitim] = useState(null);   // null | "arama" (bitince aramaya geç) | "kurallar"
-  // Düello 1.0: oyuncunun yeni maçının sürümü (genel bayrak ya da test listesi —
-  // duello_surum_benim). Giriş metinleri ve tanıtım ona göre. Okunamazsa eski kurallar (1).
-  // D-406: ilk değer 1 değil — sunucu yavaşken lobi V1 kurallarını gösterip V1 tanıtım anahtarına bakıyordu.
-  // Son okunan sürüm cihazda saklanır; hiç yoksa (null) metinler gizli çizilir, tıklama güncel sürüm (2) sayar.
-  const [surum, setSurum] = useState(surumOnbellek);
+  const [acilis, setAcilis] = useState(null);     // { acik, gereken, oynanan, kalan } | null (okunmadı)
   useEffect(() => {
     let aktif = true;
     (async () => {
       try {
-        const { data, error } = await supabase.rpc("duello_surum_benim");
+        const { data, error } = await supabase.rpc("duello_acilis_benim");
         if (error) throw error;
-        const s = Number(data) === 2 ? 2 : 1;
-        surumOnbellegeYaz(s);
-        if (aktif) setSurum(s);
+        if (aktif) setAcilis(data ?? { acik: true });
       } catch (e) {
-        console.warn("[Bildim] duello sürümü okunamadı:", e?.message ?? e);
-        if (aktif) setSurum((onceki) => onceki ?? 1);
+        // Okunamazsa kilit gösterilmez; sunucu yine reddeder ve hata metni aramada görünür.
+        console.warn("[Bildim] düello açılış durumu okunamadı:", e?.message ?? e);
+        if (aktif) setAcilis({ acik: true });
       }
     })();
     return () => { aktif = false; };
   }, []);
-  const gecerliSurum = surum ?? 2;
-  const v2 = gecerliSurum === 2;
-  const gizli = surum === null ? { visibility: "hidden" } : undefined;
+  const hazir = acilis !== null;   // durum gelmeden eylem çizilmez (kilitli oyuncu bir an "Rakip ara" görmesin)
+  const kilitli = hazir && acilis.acik === false;
+  const kalan = Number(acilis?.kalan ?? 0);
+  const gereken = Number(acilis?.gereken ?? 0);
+  const oynanan = Math.max(0, gereken - kalan);
 
   return (
     <div className="m2-giris">
@@ -162,29 +117,46 @@ function DuelloGiris() {
         <span className="m2-giris-ikon" aria-hidden="true"><QtIkon ad="duello" boyut={40} /></span>
         <div className="m2-giris-yazi">
           <h1 className="qt-baslik-1">{ceviri("Düello")}</h1>
-          <p style={gizli}>{v2
-            ? ceviri("Sırayla kategori seçin, aynı soruyu aynı anda cevaplayın. Yalnız biri bilirse öteki can kaybeder.")
-            : ceviri("Sırayla birbirinize soru gönderin. Rakibin zayıf kategorisini bul, oradan vur.")}</p>
+          <p>{ceviri("Sırayla kategori seçin, aynı soruyu aynı anda cevaplayın. Doğru bilen kategorinin yıldız puanını alır.")}</p>
         </div>
       </header>
-      <DereceliAnahtari dereceli={dereceli} onDegistir={setDereceli} />
-      <SkillSeti macTur="duello" />
+      {kilitli ? (
+        <section className="m2-kilit qt-h-gir" role="status" aria-label={ceviri("Düello kilitli")}>
+          <span className="m2-kilit-ikon" aria-hidden="true"><QtIkon ad="kilit" boyut={28} /></span>
+          <div className="m2-kilit-yazi">
+            <b>{ceviri("Düello'yu açmak için {n} maç daha oyna", { n: kalan })}</b>
+            <span>{ceviri("Klasik ya da Saf Bilgi: {o}/{g} maç", { o: oynanan, g: gereken })}</span>
+            <span className="m2-kilit-cubuk" aria-hidden="true">
+              <i style={{ width: `${gereken ? Math.round((100 * oynanan) / gereken) : 0}%` }} />
+            </span>
+          </div>
+          <QtDugme tamGenislik ikon="oyna" onClick={() => navigate(y())}>{ceviri("Klasik maç oyna")}</QtDugme>
+        </section>
+      ) : !hazir ? null : (
+        <>
+          <DereceliAnahtari dereceli={dereceli} onDegistir={setDereceli} />
+          <SkillSeti macTur="duello" />
+        </>
+      )}
       <div className="m2-giris-eylem">
-        <QtDugme tamGenislik boyut="b" ikon="duello"
-                 onClick={() => { sesKilidiAc(); sesDokunus(); if (duelloTanitimGoruldu(gecerliSurum)) setArama(true); else setTanitim("arama"); }}>
-          {ceviri("Rakip ara")}
-        </QtDugme>
-        <p className="m2-giris-not">
-          {dereceli ? ceviri("Klasik ile aynı lig puanı ve coin ödülü") : ceviri("Serbest: lig puanı yok, coin yarı.")}
-        </p>
+        {hazir && !kilitli && (
+          <>
+            <QtDugme tamGenislik boyut="b" ikon="duello"
+                     onClick={() => { sesKilidiAc(); sesDokunus(); if (duelloTanitimGoruldu()) setArama(true); else setTanitim("arama"); }}>
+              {ceviri("Rakip ara")}
+            </QtDugme>
+            <p className="m2-giris-not">
+              {dereceli ? ceviri("Klasik ile aynı lig puanı ve coin ödülü") : ceviri("Serbest: lig puanı yok, coin yarı.")}
+            </p>
+          </>
+        )}
         {/* Paket 20 IV.1: kurallar her zaman yeniden açılabilir */}
         <QtDugme tur="hayalet" boyut="k" ikon="bilgi" onClick={() => setTanitim("kurallar")}>{ceviri("Kurallar nasıl işliyor?")}</QtDugme>
       </div>
-      {tanitim && <DuelloTanitim surum={gecerliSurum}onKapat={() => { const aramaya = tanitim === "arama"; setTanitim(null); if (aramaya) setArama(true); }} />}
-      {arama && (
+      {tanitim && <DuelloTanitim onKapat={() => { const aramaya = tanitim === "arama"; setTanitim(null); if (aramaya) setArama(true); }} />}
+      {arama && !kilitli && (
         <DuelloArama
           dereceli={dereceli}
-          ipuclari={v2 ? ARAMA_IPUCLARI_V2 : ARAMA_IPUCLARI}
           bilgi={aramaBilgi}
           onBulundu={(id) => navigate(y(`/duello/${id}`))}
           onIptal={() => setArama(false)}
@@ -197,19 +169,13 @@ function DuelloGiris() {
 // Arama ekranında dönen ipuçları (Paket 29 B) — yalnız sunum, eşleştirmeye dokunmaz.
 // "15 sn'yi geçerse botla eşleştireceğiz" satırı BİLEREK yok: rakip gizli bot olur
 // ve bu sayfa botu asla ele vermez (bkz. dosya başı gizlilik notu).
+// İngilizcesi ceviri/mac.js › Düello (M2).
 const ARAMA_IPUCLARI = [
-  "Rakibinin zayıf kategorisini bul, oradan vur.",
-  "Aynı kategoriyi üst üste seçemezsin.",
-  "Rakip en zayıf kategorisinde bilirse canı SEN kaybedersin",
-  "Saldırı hazırlığında joker kullanabilirsin.",
-];
-// Düello 1.0 ipuçları (İngilizcesi ceviri/mac.js › Düello (M2)).
-const ARAMA_IPUCLARI_V2 = [
   "Aynı soruyu aynı anda cevaplarsınız.",
-  "Rakibin ne cevapladığını göremezsin, yalnız cevapladığını görürsün.",
-  "Beraberlik yok: can eşitse uzatma.",
-  "Kategori seçerken süre dolarsa rastgele gelir.",
-  "Rakibin zayıf noktasına saldırmak risklidir: bilirse canı sen kaybedersin.",
+  "Rakibin güçlü olduğu kategori ★★★: doğru bilen 6 puan alır.",
+  "Doğru bilen puanı alır — saldıran da savunan da.",
+  "Kategori Kalkanı: maçta 2 hak, Tur 1–5 ve Tur 6–10.",
+  "10 tur sonunda puan eşitse Altın Soru.",
 ];
 const IPUCU_SN = 3;
 // Paket 41 F: düello aramasının üst sınırı (Klasik'teki gibi sonsuz bekleme yok)
@@ -441,14 +407,13 @@ function DuelloMac({ id }) {
   // A.3: yeni maç sonu sahnesinin verisi (tek çağrı: mac_sonu_ozet) — düello bitince bir kez okunur.
   const { ozet: macSonuOzet } = useMacSonuOzet(d?.durum === "bitti" && d?.id ? `duello:${d.id}` : null);
   const sonTikRef = useRef(null);
-  const haleSureRef = useRef({ anahtar: "", sn: 0 });
   // Tasarım A anları (yalnız sunum)
   const sayimRef = useRef(null);            // kategori geri sayımı: son çalınan saniye
   const gecisRef = useRef(null);            // son görülen faz/tur/soru (geçiş ve soru sesi)
   const soruSesTimerRef = useRef(null);
   const kirilmaTimerRef = useRef(null);
-  const canRef = useRef({});
-  const [kayip, setKayip] = useState({});   // { oyuncuId: anahtar } → kalp kırılır
+  const puanRef = useRef({});
+  const [artis, setArtis] = useState({});   // { oyuncuId: { anahtar, miktar } } → puan "+N" balonu
   const [kiriliyor, setKiriliyor] = useState([]);   // 50:50 ile kırılan şıklar
   const [turGecis, setTurGecis] = useState(null);   // geçiş bandı anahtarı
   const [sonKullanilan, setSonKullanilan] = useState(null);   // { tur, anahtar } skill anı   // savunma halesi: fazın toplam süresi (ek süreyle büyür)
@@ -692,12 +657,8 @@ function DuelloMac({ id }) {
     const anahtar = `${h.tur}-${h.saldiran}-${h.soru_id}`;
     if (sonHamleRef.current === anahtar) return;
     sonHamleRef.current = anahtar;
-    const benKaybettim = h.can_kaybeden === d.ben;
-    // Düello 1.0: ses kendi cevabına göre (nötr turda da yanlışsan yanlış sesi).
-    const iyiSes = d.surum === 2 ? Boolean(h.cevaplar?.[d.ben]?.dogru) : !benKaybettim;
-    if (!iyiSes) { sesYanlis(); titret(40); } else { sesDogru(); titret(10); }
-    // Paket 29 E.2: can eksildiyse cevap sesinin hemen ardından can sesi (kendi canın daha yüksek)
-    if (h.can_kaybeden) setTimeout(() => sesCanKaybi(benKaybettim), 220);
+    // Ses kendi cevabına göre: doğru bildiysen (puan aldın) doğru sesi, değilse yanlış sesi.
+    if (h.cevaplar?.[d.ben]?.dogru) { sesDogru(); titret(10); } else { sesYanlis(); titret(40); }
   }, [d]);
 
   // Maç sonu sesi + coin/profil tazeleme
@@ -878,18 +839,18 @@ function DuelloMac({ id }) {
     sesRakipCevapladi();
   }, [rakipCevapAnahtari]);
 
-  // Can kaybı: kalp kırılma animasyonu (QtCan kayip) — anahtar her yeni kayıpta değişir.
+  // Puan artışı: skor rozetinde "+N" balonu — anahtar her yeni artışta değişir.
   useEffect(() => {
     if (!d?.oyuncular) return;
-    const onceki = canRef.current;
+    const onceki = puanRef.current;
     const yeni = {};
-    const kayiplar = {};
+    const artislar = {};
     for (const o of d.oyuncular) {
-      yeni[o.id] = Number(o.can);
-      if (onceki[o.id] !== undefined && Number(o.can) < onceki[o.id]) kayiplar[o.id] = Date.now();
+      yeni[o.id] = Number(o.puan ?? 0);
+      if (onceki[o.id] !== undefined && yeni[o.id] > onceki[o.id]) artislar[o.id] = { anahtar: Date.now(), miktar: yeni[o.id] - onceki[o.id] };
     }
-    canRef.current = yeni;
-    if (Object.keys(kayiplar).length) setKayip((k) => ({ ...k, ...kayiplar }));
+    puanRef.current = yeni;
+    if (Object.keys(artislar).length) setArtis((a) => ({ ...a, ...artislar }));
   }, [d?.oyuncular]);
 
   // 50:50 anı: kapanan iki şık kırılıp düşer, QT_KIRILMA_MS sonra "elendi" olur.
@@ -1049,10 +1010,6 @@ function DuelloMac({ id }) {
   const ben = d.oyuncular.find((o) => o.id === d.ben) ?? d.oyuncular[0];
   const rakip = d.oyuncular.find((o) => o.id !== d.ben) ?? d.oyuncular[1];
   const benSaldiran = d.saldiran === d.ben;
-  const benSavunan = !benSaldiran;
-  const sonCan = d.durum === "aktif" && (ben.can === 1 || rakip.can === 1);
-  const kullanim = d.kullanim?.[d.saldiran] ?? { sayim: {}, son: null };
-  const savunanOyuncu = d.oyuncular.find((o) => o.id === d.savunan);
   const secenekler = d.soru ? (Array.isArray(d.soru.secenekler) ? d.soru.secenekler : JSON.parse(d.soru.secenekler)) : [];
   const ezeliMetin = d.ezeli
     ? d.ezeli.ben > d.ezeli.rakip
@@ -1067,14 +1024,14 @@ function DuelloMac({ id }) {
     const kazandim = d.kazanan === d.ben;
     const rov = d.rovans ?? {};
     const durum = d.durum === "iptal" ? "berabere" : kazandim ? "kazandi" : "kaybetti";
-    // Paket 36 I: yakınlık satırı veriden — rakibin 1 canı kaldıysa "son canına kadar",
-    // 2 canı kaldıysa tur sayısı; rakip hiç can kaybetmediyse satır çizilmez.
+    // Yakınlık satırı veriden: Altın Soru'ya giden ya da en çok 3 puanla kaybedilen maçta çizilir.
+    const fark = Math.abs(Number(rakip.puan ?? 0) - Number(ben.puan ?? 0));
     const altYazi = d.durum !== "bitti" || kazandim
       ? null
-      : rakip.can === 1
-        ? ceviri("Son canına kadar götürdün")
-        : rakip.can === 2 && d.tur
-          ? ceviri("{n} tur sürdü", { n: d.tur })
+      : d.uzatma
+        ? ceviri("Altın Soru'ya kadar götürdün")
+        : fark > 0 && fark <= 3
+          ? ceviri("Yalnız {n} puan farkla", { n: fark })
           : null;
     // A.3: yeni sahne — veriler mac_sonu_ozet'ten (tek çağrı). Özet gelene dek sahne kurulmaz.
     if (d.durum === "bitti" && !macSonuOzet) return <div className="bd-duello"><div className="msk-bekle" aria-busy="true" /></div>;
@@ -1087,23 +1044,19 @@ function DuelloMac({ id }) {
           terk={sahne.terk}
           baslik={d.durum === "iptal" ? ceviri("Düello iptal edildi") : undefined}
           altYazi={sahne.terk ? undefined : altYazi ?? undefined}
-          ben={{ profil: ben, can: ben.can }}
-          rakip={{ profil: rakip, can: rakip.can }}
-          canToplam={DUELLO_CAN}
+          ben={{ profil: ben, skor: Number(ben.puan ?? 0) }}
+          rakip={{ profil: rakip, skor: Number(rakip.puan ?? 0) }}
+          skorEtiket={ceviri("puan")}
           oduller={sahne.oduller}
           level={sahne.level}
           lig={sahne.lig}
           gorevler={sahne.gorevler}
           rozetler={sahne.rozetler}
-          detay={d.durum === "bitti" || ezeliMetin || (d.surum === 2 && d.gecmis?.length) ? (
+          detay={d.durum === "bitti" || ezeliMetin || d.gecmis?.length ? (
             <>
               {d.durum === "bitti" && <OdulDokumu kaynak={`duello:${d.id}`} veri={macSonuOzet?.dokum} gorevleriGoster={false} />}
-              {d.surum !== 2 && d.durum === "bitti" && d.son_hamle?.altin && secenekler.length > 0 && (
-                <AltinSonucu h={d.son_hamle} ben={d.ben} soru={d.soru?.soru} secenekler={secenekler} ceviri={ceviri} />
-              )}
-              {d.surum !== 2 && d.durum === "bitti" && <DuelloOzet id={d.id} />}
-              {/* Düello 1.0: her soru, doğru cevap ve "şık işaretlenmedi" notu (sunucu: gecmis) */}
-              {d.surum === 2 && <V2Gecmis gecmis={d.gecmis} maxTur={d.max_tur} benId={d.ben} c={c2} />}
+              {/* Her soru: yıldızı, kazanılan puan, doğru cevap ve "şık işaretlenmedi" notu (sunucu: gecmis) */}
+              <V2Gecmis gecmis={d.gecmis} maxTur={d.max_tur} benId={d.ben} c={c2} />
               {ezeliMetin && <div className="bd-duello-ezeli">{ezeliMetin}</div>}
             </>
           ) : null}
@@ -1155,13 +1108,13 @@ function DuelloMac({ id }) {
     );
   }
 
-  // Skill satın alma penceresi (v1 ve v2 ortak; JokerSatinAlModal paylaşılan bileşen).
+  // Skill satın alma penceresi (JokerSatinAlModal paylaşılan bileşen).
   const satinAlPenceresi = satinAlinacak && (
     <JokerSatinAlModal
       tur={satinAlinacak.tur}
       yalnizAl={satinAlinacak.yalnizAl}
-      fiyat={Number((d.surum === 2 ? d.skill : d.jokerler)?.fiyatlar?.[satinAlinacak.tur] ?? 0)}
-      coin={Number((d.surum === 2 ? d.skill : d.jokerler)?.coin ?? 0)}
+      fiyat={Number(d.skill?.fiyatlar?.[satinAlinacak.tur] ?? 0)}
+      coin={Number(d.skill?.coin ?? 0)}
       onKapat={() => setSatinAlinacak(null)}
       onOnay={async () => {
         if (satinAlinacak.yalnizAl) {
@@ -1181,7 +1134,7 @@ function DuelloMac({ id }) {
           });
           if (error) throw error;
         }
-        if (d.surum === 2 && !satinAlinacak.yalnizAl) {
+        if (!satinAlinacak.yalnizAl) {
           sesSkill(satinAlinacak.tur);
           setSonKullanilan({ tur: satinAlinacak.tur, anahtar: Date.now() });
         } else sesJoker();
@@ -1193,532 +1146,82 @@ function DuelloMac({ id }) {
     />
   );
 
-  // ================= Düello 1.0 (surum 2) — Tasarım A maç ekranı =================
-  if (d.surum === 2) {
-    const kilitli = Boolean(d.cevap?.ben_cevapladim);
-    const toplamSn = d.faz === "kategori"
-      ? Number(d.sureler?.kategori ?? 8)
-      : Math.max(Number(d.sureler?.cevap ?? 15), Math.ceil(kalanSn));
-    const sonUc = d.faz === "kategori" && gosterSn > 0 && gosterSn <= 3;   // kategori: son 3 sn vurgusu (renk + ses)
-    const gerilim = (d.faz === "cevap" && !kilitli && gosterSn > 0 && gosterSn <= 5) || sonUc;
-    const ekBalon = skillEfekt?.tur === "sure"
-      ? { anahtar: `s${skillEfekt.deger}${fazAnahtari}`, metin: `+${skillEfekt.deger}` }
-      : skillEfekt?.tur === "zaman_baskisi"
-        ? { anahtar: `z${skillEfekt.deger}${fazAnahtari}`, metin: `−${skillEfekt.deger}` }
-        : null;
-    let sahne2 = null;
-    if (d.faz === "kategori") {
-      sahne2 = (
-        <V2Kategori d={d} benSaldiran={benSaldiran} ben={ben} rakip={rakip} calisan={calisan} sonSaniye={sonUc} c={c2}
-                    sayac={<QtSayac kalan={gosterSn} toplam={toplamSn} esik={3} boyut="b" />}
-                    kalanSn={gosterSn} onKalkan={kalkanKullan}
-                    kalkanBildirim={kalkanBildirim?.faz === fazAnahtari ? kalkanBildirim : null}
-                    onSec={kategoriSec} />
-      );
-    } else if (d.faz === "cevap") {
-      sahne2 = (
-        <V2Cevap d={d} rakip={rakip} secenekler={secenekler} secim={secim}
-                 ikinciSansElendi={ikinciSansElendi} calisan={calisan} kalanSn={kalanSn}
-                 kiriliyor={kiriliyor} c={c2} onCevap={cevapVer}
-                 sayac={<QtSayac kalan={gosterSn} toplam={toplamSn} durdu={kilitli} ekBalon={ekBalon} />} />
-      );
-    } else if (d.faz === "sonuc") {
-      sahne2 = <V2Sonuc d={d} rakip={rakip} secenekler={secenekler} c={c2} />;
-    }
-    return (
-      <div className={sinif("m2-mac qt-sahne-mac qt-sahne-gok", gerilim && "qt-h-gerilim", sonCan && "m2-mac--son-can")} data-kat={d.kategori || undefined}>
-        <MacUstSerit onCik={() => setTerkOnay(true)} cikisEtiketi={ceviri("Düellodan çık")}
-                     rozet={ceviri("Düello · Taktik Maçı")} />
-        <V2Ust d={d} ben={ben} rakip={rakip} kayip={kayip} c={c2} seviyeler={seviyeler} tepkiBalonlar={tepki.balonlar} />
-        {/* Paket 24 · A.4: bağlantı kopması. Kopukken sunucu fazları İLERLETMEZ. */}
-        {baglanti?.kopuk && (
-          <p className="m2-bant m2-bant--uyari" role="status">
-            <QtIkon ad="uyari" boyut={18} />
-            <span>
-              {baglanti.ben_mi ? ceviri("Bağlantın koptu — düello bekliyor.") : ceviri("Rakibin bağlantısı koptu — düello durduruldu.")}
-              {baglanti.kalan_sn === null || baglanti.kalan_sn === undefined ? ""
-                : ` ${Math.max(0, baglanti.kalan_sn - Math.floor((simdi - (baglanti.alindi ?? simdi)) / 1000))} ${ceviri("sn")}`}
-            </span>
-          </p>
-        )}
-        {ezeliMetin && d.tur <= 1 && d.faz === "kategori" && <p className="m2-bant">{ezeliMetin}</p>}
-        {(ben.can <= 0 || rakip.can <= 0) && (
-          <p className="m2-bant">{ceviri("Eşit hamle kuralı: canı biten oyuncu bu turdaki saldırısını yine de yapar, tur tamamlanınca maç biter.")}</p>
-        )}
-        <div className="m2-sahne" key={`${d.faz}-${d.tur}-${d.saldiri_sirasi}-${d.uzatma}`}>
-          {turGecis && simdi - turGecis < 900 && (
-            <span key={turGecis} className="m2-gecis" aria-hidden="true">
-              <span>{d.uzatma ? c2("UZATMA") : c2("Tur {n}/{t}", { n: d.tur, t: d.max_tur })}</span>
-            </span>
-          )}
-          {sahne2}
-        </div>
-        {hata && <p className="m2-hata" role="alert"><QtIkon ad="uyari" boyut={18} /> {hata}</p>}
-        <V2Skill d={d} calisan={calisan} kalanSn={kalanSn} serbest={jokerSerbest}
-                 sonKullanilan={sonKullanilan} onKullan={v2SkillKullan} c={c2} />
-        {satinAlPenceresi}
-        {/* 542: maç içi tepki (yalnız tepki_acik_modlar'daki modda; ilk açılış Antrenman) */}
-        <TepkiCubugu tepki={tepki} className="m2-tepki" />
-        <div className="m2-terk">
-          <QtDugme tur="hayalet" boyut="k" ikon="cikis" devreDisi={!!calisan} onClick={() => setTerkOnay(true)}>
-            {ceviri("Düellodan çık")}
-          </QtDugme>
-        </div>
-        <QtModal acik={terkOnay} onKapat={() => setTerkOnay(false)} baslik={ceviri("Düellodan çık")}
-                 aciklama={ceviri("Düellodan çıkarsan hükmen kaybedersin. Emin misin?")}
-                 altlik={
-                   <div className="m2-onay-eylem">
-                     <QtDugme tur="ikincil" data-qt-ilk-odak onClick={() => setTerkOnay(false)}>{ceviri("Vazgeç")}</QtDugme>
-                     <QtDugme tur="tehlike" devreDisi={!!calisan}
-                              onClick={() => { setTerkOnay(false); eylem("terk", "duello_terk", {}); }}>{ceviri("Çık")}</QtDugme>
-                   </div>
-                 } />
-      </div>
-    );
-  }
-
-  // ---------------- oyuncu şeridi ----------------
-  const oyuncuKart = (o, taraf) => (
-    <div className={`bd-duello-oyuncu ${taraf} ${d.saldiran === o.id ? "saldiriyor" : ""}`}>
-      <CerceveliAvatar profile={o} userId={o.id} boyut={48} hareketli kart={seviyeler[o.id]} />
-      <div className="bd-duello-oyuncu-bilgi">
-        {/* Ajan C: ada dokununca oyuncu kartı */}
-        <div className="bd-duello-oyuncu-ad-kap"><OyuncuAdiDugmesi userId={o.id} profil={o} className="bd-duello-oyuncu-ad">{adKisalt(o.gorunen_ad)}</OyuncuAdiDugmesi></div>
-        {unvanAdi(o.unvan) && <div className="bd-unvan kucuk">{ceviri(unvanAdi(o.unvan))}</div>}
-        <Kalpler can={Math.max(0, o.can)} sonCan={o.can === 1} />
-      </div>
-    </div>
-  );
-
-  // ---------------- soru bloğu ----------------
-  const soruBlogu = (tiklanabilir) => {
-    const h = d.son_hamle;
-    const altinMi = d.faz === "altin";
-    const sonucMu = d.faz === "sonuc" && h && !h.altin;
-    const kapali = d.elli_kapali ?? [];
-    const benimAltin = d.altin?.benim_cevabim;
-    return (
-      <div className={`bd-duello-soru ${skillEfekt ? `bd-skill-${skillEfekt.tur} ${skillEfekt.asama ? `bd-skill-${skillEfekt.asama}` : ""}` : ""}`}>
-        <div className="bd-soru-metin bd-soru-giris">{d.soru?.soru}</div>
-        <div className="bd-secenekler">
-          {secenekler.map((s, i) => {
-            let sinif = "bd-secenek";
-            if (sonucMu) {
-              if (i === h.dogru_cevap) sinif += " dogru";
-              else if (i === h.cevap) sinif += " yanlis";
-              else sinif += " solgun";
-            } else if (altinMi && benimAltin !== undefined && benimAltin !== null) {
-              if (i === Number(benimAltin)) sinif += " secili";
-            } else if (i === secim) sinif += " secili";
-            const ikinciSanslaElendi = ikinciSansElendi.includes(i);
-            if ((kapali.includes(i) || ikinciSanslaElendi) && !sonucMu) {
-              sinif += ikinciSanslaElendi ? " elendi ikinci-sans-elendi" : " elendi";
-            }
-            return (
-              <button key={i} className={sinif}
-                      disabled={!tiklanabilir || secim !== null || !!calisan || kapali.includes(i) || ikinciSanslaElendi}
-                      onClick={() => cevapVer(i)}>
-                <span className="bd-harf">{HARFLER[i]}</span>
-                <span className="bd-secenek-metin">{s}</span>
-                {sonucMu && i === h.dogru_cevap && <Ikon ad="onay" boyut={18} className="bd-secenek-isaret" />}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-    );
-  };
-
-  const sayac = (buyuk) => (
-    <div className={`bd-duello-sayac ${buyuk ? "buyuk" : ""} ${gosterSn <= 3 ? "kritik" : ""} ${skillEfekt?.tur === "sure" ? "bd-skill-sure" : ""} ${skillEfekt?.tur === "zaman_baskisi" ? "bd-skill-zaman_baskisi" : ""}`} role="timer">
-      {Math.ceil(gosterSn)}
-      {(skillEfekt?.tur === "sure" || skillEfekt?.tur === "zaman_baskisi") && (
-        <span className={`bd-skill-sure-deger ${skillEfekt.tur === "sure" ? "arti" : "eksi"}`}>
-          {skillEfekt.tur === "sure" ? "+" : "−"}{skillEfekt.deger} sn
-        </span>
-      )}
-    </div>
-  );
-
-  // ---------------- faz içeriği ----------------
-  let sahne = null;
-  const katAdi = d.kategori ? ceviri(kategoriAdi(d.kategori)) : "";
-  // Düello 1.0 (surum 2) yukarıda kendi ekranıyla döndü; buradan sonrası yalnız eski (v1) maç.
-  const v2 = false;
+  // ================= Maç ekranı (Tasarım A) =================
+  const kilitli = Boolean(d.cevap?.ben_cevapladim);
+  const toplamSn = d.faz === "kategori"
+    ? Number(d.sureler?.kategori ?? 8)
+    : Math.max(Number(d.sureler?.cevap ?? 15), Math.ceil(kalanSn));
+  const sonUc = d.faz === "kategori" && gosterSn > 0 && gosterSn <= 3;   // kategori: son 3 sn vurgusu (renk + ses)
+  const gerilim = (d.faz === "cevap" && !kilitli && gosterSn > 0 && gosterSn <= 5) || sonUc;
+  const ekBalon = skillEfekt?.tur === "sure"
+    ? { anahtar: `s${skillEfekt.deger}${fazAnahtari}`, metin: `+${skillEfekt.deger}` }
+    : skillEfekt?.tur === "zaman_baskisi"
+      ? { anahtar: `z${skillEfekt.deger}${fazAnahtari}`, metin: `−${skillEfekt.deger}` }
+      : null;
+  let sahne2 = null;
   if (d.faz === "kategori") {
-    if (benSaldiran) {
-      const profil = rakip.profil?.kategoriler ?? [];
-      sahne = (
-        <div className="bd-duello-kategori">
-          <div className="bd-duello-baslik-satir">
-            <h2>{ceviri("Saldırı kategorini seç")}</h2>
-            {sayac(false)}
-          </div>
-          {/* Paket 42 F: kural ilk turda tam okunur; sonraki turlarda tek satır + "Detay" ile açılır */}
-          {(d.tur ?? 1) <= 1 ? (
-            <>
-              <p className="alt-yazi">{ceviri("Rakibinin kategori başarısı. Kırmızı çerçeve: en zayıf kategorisi — bilirse canı sen kaybedersin.")}</p>
-              <p className="alt-yazi bd-duello-kural-not">{ceviri("En zayıf kategori maç başında sabitlenir; yüzdeler eşitse biri seçilip kilitlenir. Bu yüzden eşit görünen kategorilerden yalnız biri riskli.")}</p>
-            </>
-          ) : (
-            <details className="bd-duello-kural-kisa">
-              <summary className="alt-yazi">{ceviri("Kırmızı çerçeve: riskli kategori")} <span className="bd-duello-kural-detay">{ceviri("Detay")}</span></summary>
-              <p className="alt-yazi">{ceviri("Rakibinin kategori başarısı. Kırmızı çerçeve: en zayıf kategorisi — bilirse canı sen kaybedersin.")}</p>
-              <p className="alt-yazi bd-duello-kural-not">{ceviri("En zayıf kategori maç başında sabitlenir; yüzdeler eşitse biri seçilip kilitlenir. Bu yüzden eşit görünen kategorilerden yalnız biri riskli.")}</p>
-            </details>
-          )}
-          <div className="bd-duello-kat-grid">
-            {d.kategoriler.map((k) => {
-              const adet = Number(kullanim.sayim?.[k] ?? 0);
-              const kullanilamaz = adet >= d.kategori_max || kullanim.son === k;
-              const riskli = rakip.zayif === k;
-              const p = profil.find((x) => x.kategori === k);
-              return (
-                <button key={k} type="button"
-                        className={`bd-duello-kat ${riskli ? "riskli" : ""}`}
-                        disabled={kullanilamaz || !!calisan}
-                        aria-label={`${kategoriAdi(k)} ${adet}/${d.kategori_max}${riskli ? " " + ceviri("riskli") : ""}`}
-                        onClick={() => { sesDokunus(); eylem("kategori", "duello_kategori_sec", { p_kategori: k }); }}>
-                  <KategoriIkon anahtar={k} boyut={22} plaka />
-                  <span className="bd-duello-kat-ad">{ceviri(kategoriAdi(k))}</span>
-                  <span className="bd-duello-kat-yuzde">
-                    {p?.yuzde === null || p?.yuzde === undefined ? ceviri("veri yok") : `%${p.yuzde}`}
-                  </span>
-                  <span className="bd-duello-kat-sayac">{adet}/{d.kategori_max}</span>
-                  {riskli && <span className="bd-duello-riskli">{ceviri("riskli")}</span>}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      );
-    } else {
-      sahne = (
-        <div className="bd-duello-bekle">
-          <span className="bd-duello-bekle-ikon" aria-hidden="true"><Ikon ad="saat" boyut={30} /></span>
-          <h2>{ceviri("{ad} saldırı kategorisini seçiyor…", { ad: rakip.gorunen_ad })}</h2>
-          {sayac(false)}
-          {d.son_hamle && !d.son_hamle.altin && <SonHamleOzet h={d.son_hamle} ben={d.ben} ceviri={ceviri} />}
-        </div>
-      );
-    }
-  } else if (d.faz === "hazirlik") {
-    sahne = benSaldiran ? (
-      <div className="bd-duello-hazirlik">
-        <div className="bd-duello-baslik-satir">
-          <h2>{ceviri("Saldırı Hazırlığı")} · {katAdi}</h2>
-          {sayac(false)}
-        </div>
-        <p className="alt-yazi">{ceviri("Soruyu gör, istersen saldırı jokeri kullan. Süre dolunca soru rakibe gider.")}</p>
-        {soruBlogu(false)}
-      </div>
-    ) : (
-      <div className="bd-duello-bekle">
-        <KategoriIkon anahtar={d.kategori} boyut={48} plaka />
-        <h2>{ceviri("{kategori} saldırısı geliyor!", { kategori: katAdi })}</h2>
-        {sayac(false)}
-      </div>
+    sahne2 = (
+      <V2Kategori d={d} benSaldiran={benSaldiran} ben={ben} rakip={rakip} calisan={calisan} sonSaniye={sonUc} c={c2}
+                  sayac={<QtSayac kalan={gosterSn} toplam={toplamSn} esik={3} boyut="b" />}
+                  kalanSn={gosterSn} onKalkan={kalkanKullan}
+                  kalkanBildirim={kalkanBildirim?.faz === fazAnahtari ? kalkanBildirim : null}
+                  onSec={kategoriSec} />
     );
   } else if (d.faz === "cevap") {
-    sahne = (
-      <div className="bd-duello-cevap">
-        <div className="bd-duello-baslik-satir">
-          <h2>{benSavunan ? ceviri("Savun!") : ceviri("{ad} düşünüyor…", { ad: rakip.gorunen_ad })} · {katAdi}</h2>
-          {sayac(sonCan)}
-        </div>
-        {d.zaman_baskisi && <div className="bd-duello-bant baski">{ceviri("Zaman Baskısı: cevap süresi 10 saniye")}</div>}
-        {benSavunan && savunanOyuncu?.zayif === d.kategori && (
-          <div className="bd-duello-bant firsat">{ceviri("En zayıf kategorin! Bilirsen saldıran can kaybeder.")}</div>
-        )}
-        {soruBlogu(benSavunan)}
-      </div>
+    sahne2 = (
+      <V2Cevap d={d} rakip={rakip} secenekler={secenekler} secim={secim}
+               ikinciSansElendi={ikinciSansElendi} calisan={calisan} kalanSn={kalanSn}
+               kiriliyor={kiriliyor} c={c2} onCevap={cevapVer}
+               sayac={<QtSayac kalan={gosterSn} toplam={toplamSn} durdu={kilitli} ekBalon={ekBalon} />} />
     );
   } else if (d.faz === "sonuc") {
-    const h = d.son_hamle;
-    sahne = (
-      <div className="bd-duello-sonuc">
-        {h && <SonHamleOzet h={h} ben={d.ben} ceviri={ceviri} buyuk secenekler={secenekler} />}
-        {soruBlogu(false)}
-      </div>
-    );
-  } else if (d.faz === "altin") {
-    sahne = (
-      <div className="bd-duello-altin">
-        <div className="bd-duello-baslik-satir">
-          <h2><Ikon ad="yildiz" boyut={20} /> {ceviri("Altın Soru")}</h2>
-          {sayac(true)}
-        </div>
-        <p className="alt-yazi">
-          {d.altin?.ben_cevapladim
-            ? ceviri("Cevabın kilitlendi. Rakip bekleniyor…")
-            : ceviri("Can ve doğru sayısı eşit. Tek doğru bilen kazanır — joker yok.")}
-        </p>
-        {soruBlogu(!d.altin?.ben_cevapladim)}
-      </div>
-    );
+    sahne2 = <V2Sonuc d={d} rakip={rakip} secenekler={secenekler} c={c2} />;
   }
-
-  const jokerSeti = v2 || d.faz === "altin" ? null : benSaldiran ? "saldiri" : "savunma";
-
-  // ---------------- faz halesi (2C-C) ----------------
-  // Ekran kenarında: saldırıda turuncu (sabit), savunmada mavi → süre azaldıkça kırmızı.
-  // Kırmızıya tam geçiş sayacın "kritik" eşiğiyle (≤3 sn) aynı an. Renk tek başına yetmez:
-  // yanında ikonlu metin bandı var. Hale portal + position:fixed, transform YOK (iOS).
-  const rolFazi = ["kategori", "hazirlik", "cevap"].includes(d.faz);
-  // Düello 1.0: cevapta iki oyuncu da "savunur" (aynı soru) → mavi hale ikisine de.
-  const haleSavunma = v2 ? d.faz === "cevap" && !d.cevap?.ben_cevapladim : benSavunan;
-  const haleVar = v2 ? (d.faz === "kategori" && benSaldiran) || haleSavunma : rolFazi;
-  let kirmizilik = 0;
-  if (rolFazi && haleSavunma && d.faz === "cevap") {
-    const hs = haleSureRef.current;
-    if (hs.anahtar !== fazAnahtari) { hs.anahtar = fazAnahtari; hs.sn = kalanSn; } else hs.sn = Math.max(hs.sn, kalanSn);
-    kirmizilik = kalanSn <= 3 ? 1 : Math.min(1, Math.max(0, (hs.sn - kalanSn) / Math.max(1, hs.sn - 3))) * 0.7;
-  }
-  const hale = rolFazi && haleVar && createPortal(
-    <div key={`${d.faz}-${d.tur}-${d.saldiri_sirasi}-${benSaldiran}`}
-         className={`bd-duello-hale ${(v2 ? !haleSavunma : benSaldiran) ? "saldiri" : "savunma"} ${kirmizilik >= 1 ? "kritik" : ""}`}
-         style={{ "--hale-kirmizi": kirmizilik.toFixed(2) }} aria-hidden="true" />,
-    document.body,
-  );
-
   return (
-    <div className={`bd-duello ${v2 ? "bd-d2" : ""} ${sonCan ? "son-can" : ""}`}>
-      {hale}
-      {/* Paket 41 B/H: öteki modlarla aynı üst şerit; X mevcut "Düellodan çık" onayını açar */}
-      {d.durum === "aktif" && (
-        <MacUstSerit onCik={() => setTerkOnay(true)} cikisEtiketi={ceviri("Düellodan çık")}
-                     rozet={ceviri("Düello · Taktik Maçı")} />
-      )}
-      <div className="bd-duello-ust">
-        {oyuncuKart(ben, "sol")}
-        <div className={`bd-duello-tur ${v2 && d.uzatma ? "uzatma" : ""}`}>
-          {!(v2 && d.uzatma) && <span>{ceviri("Tur")}</span>}
-          <b>{v2 && d.uzatma ? c2("UZATMA") : `${d.tur}/${d.max_tur}`}</b>
-          {!d.dereceli && <small>{ceviri("Serbest")}</small>}
-        </div>
-        {oyuncuKart(rakip, "sag")}
-      </div>
-      {v2 && d.faz === "kategori" && benSaldiran && (
-        <div className="bd-d2-rol kategori"><Ikon ad="kilic" boyut={18} /><span>{c2("Kategori seçme sırası sende")}</span></div>
-      )}
-      {v2 && d.faz === "cevap" && (
-        <div className="bd-d2-rol"><Ikon ad="kalkan" boyut={18} /><span>{c2("Aynı soru · aynı anda")}</span></div>
-      )}
-      {!v2 && rolFazi && (
-        <div className={`bd-duello-rol ${benSaldiran ? "saldiri" : "savunma"} ${kirmizilik >= 1 ? "kritik" : ""}`}>
-          <Ikon ad={benSaldiran ? "kilic" : "kalkan"} boyut={20} />
-          <span>{benSaldiran ? ceviri("SALDIRIYORSUN") : ceviri("SAVUNUYORSUN")}</span>
-        </div>
-      )}
-      {/* Paket 24 · A.4: bağlantı kopması. Kopukken sunucu fazları İLERLETMEZ —
-          geri dönen oyuncu canlarını kaybetmiş olmaz. Süre dolarsa bekleyen kazanır. */}
-      {d.durum === "aktif" && baglanti?.kopuk && (
-        <div className="bd-duello-bant kopuk" role="status">
-          <Ikon ad="uyari" boyut={18} />
+    <div className={sinif("m2-mac qt-sahne-mac qt-sahne-gok", gerilim && "qt-h-gerilim", d.uzatma && "m2-mac--altin")} data-kat={d.kategori || undefined}>
+      <MacUstSerit onCik={() => setTerkOnay(true)} cikisEtiketi={ceviri("Düellodan çık")}
+                   rozet={ceviri("Düello · Taktik Maçı")} />
+      <V2Ust d={d} ben={ben} rakip={rakip} artis={artis} c={c2} seviyeler={seviyeler} tepkiBalonlar={tepki.balonlar} />
+      {/* Paket 24 · A.4: bağlantı kopması. Kopukken sunucu fazları İLERLETMEZ. */}
+      {baglanti?.kopuk && (
+        <p className="m2-bant m2-bant--uyari" role="status">
+          <QtIkon ad="uyari" boyut={18} />
           <span>
-            {baglanti.ben_mi
-              ? ceviri("Bağlantın koptu — düello bekliyor.")
-              : ceviri("Rakibin bağlantısı koptu — düello durduruldu.")}
-            {baglanti.kalan_sn === null || baglanti.kalan_sn === undefined
-              ? ""
+            {baglanti.ben_mi ? ceviri("Bağlantın koptu — düello bekliyor.") : ceviri("Rakibin bağlantısı koptu — düello durduruldu.")}
+            {baglanti.kalan_sn === null || baglanti.kalan_sn === undefined ? ""
               : ` ${Math.max(0, baglanti.kalan_sn - Math.floor((simdi - (baglanti.alindi ?? simdi)) / 1000))} ${ceviri("sn")}`}
           </span>
-        </div>
+        </p>
       )}
-      {ezeliMetin && <div className="bd-duello-ezeli">{ezeliMetin}</div>}
-      {d.durum === "aktif" && (ben.can <= 0 || rakip.can <= 0) && (
-        <div className="bd-duello-bant kural">
-          {ceviri("Eşit hamle kuralı: canı biten oyuncu bu turdaki saldırısını yine de yapar, tur tamamlanınca maç biter.")}
-        </div>
-      )}
-
-      <div className="bd-duello-sahne" key={`${d.faz}-${d.tur}-${d.saldiri_sirasi}`}>{sahne}</div>
-
-      {hata && <div className="hata-kutu">{hata}</div>}
-
-      {v2 && (
-        <V2Skill d={d} calisan={calisan} kalanSn={kalanSn} serbest={jokerSerbest}
-                 onKullan={v2SkillKullan} c={c2} />
-      )}
-
-      {jokerSeti && (
-        <JokerAlani
-          set={jokerSeti}
-          d={d}
-          serbest={jokerSerbest}
-          calisan={calisan}
-          onKullan={async (tur) => {
-            const ok = await eylem(`joker-${tur}`,
-              jokerSeti === "saldiri" ? "duello_saldiri_jokeri" : "duello_savunma_jokeri",
-              { p_tur: tur });
-            if (ok) { sesJoker(); titret(10); }
-          }}
-          // Paket 27 C: envanterde 0 varsa maç içinde satın alma penceresi açılır.
-          onSatinAl={(tur, yalnizAl) => setSatinAlinacak({ tur, yalnizAl: Boolean(yalnizAl) })}
-          ceviri={ceviri}
-        />
-      )}
-
+      {ezeliMetin && d.tur <= 1 && d.faz === "kategori" && <p className="m2-bant">{ezeliMetin}</p>}
+      <div className="m2-sahne" key={`${d.faz}-${d.tur}-${d.saldiri_sirasi}-${d.uzatma}`}>
+        {turGecis && simdi - turGecis < 900 && (
+          <span key={turGecis} className="m2-gecis" aria-hidden="true">
+            <span>{d.uzatma ? c2("ALTIN SORU") : c2("Tur {n}/{t}", { n: d.tur, t: d.max_tur })}</span>
+          </span>
+        )}
+        {sahne2}
+      </div>
+      {hata && <p className="m2-hata" role="alert"><QtIkon ad="uyari" boyut={18} /> {hata}</p>}
+      <V2Skill d={d} calisan={calisan} kalanSn={kalanSn} serbest={jokerSerbest}
+               sonKullanilan={sonKullanilan} onKullan={v2SkillKullan} c={c2} />
       {satinAlPenceresi}
-
-      {terkOnay ? (
-        <div className="bd-duello-terk-onay" role="alertdialog">
-          <span>{ceviri("Düellodan çıkarsan hükmen kaybedersin. Emin misin?")}</span>
-          <div className="bd-konum-butonlar">
-            <button type="button" className="btn tehlike kucuk" disabled={!!calisan}
-                    onClick={() => { setTerkOnay(false); eylem("terk", "duello_terk", {}); }}>
-              {ceviri("Çık")}
-            </button>
-            <button type="button" className="btn ikincil kucuk" onClick={() => setTerkOnay(false)}>
-              {ceviri("Vazgeç")}
-            </button>
-          </div>
-        </div>
-      ) : (
-        <button type="button" className="bd-duello-terk" disabled={!!calisan} onClick={() => setTerkOnay(true)}>
+      {/* 542: maç içi tepki (yalnız tepki_acik_modlar'daki modda; ilk açılış Antrenman) */}
+      <TepkiCubugu tepki={tepki} className="m2-tepki" />
+      <div className="m2-terk">
+        <QtDugme tur="hayalet" boyut="k" ikon="cikis" devreDisi={!!calisan} onClick={() => setTerkOnay(true)}>
           {ceviri("Düellodan çık")}
-        </button>
-      )}
-    </div>
-  );
-}
-
-function SonHamleOzet({ h, ben, ceviri, buyuk = false, secenekler = null }) {
-  let metin;
-  if (h.dogru && h.riskli) {
-    metin = h.saldiran === ben
-      ? ceviri("Riskli saldırı geri tepti — sen can kaybettin!")
-      : ceviri("En zayıf kategorinde savuşturdun — rakip can kaybetti!");
-  } else if (h.dogru) {
-    metin = h.savunan === ben ? ceviri("Savuşturdun!") : ceviri("Rakip saldırıyı savuşturdu.");
-  } else if (h.cevap === null || h.cevap === undefined) {
-    metin = h.savunan === ben ? ceviri("Süre doldu — can kaybettin.") : ceviri("Rakibin süresi doldu — can kaybetti!");
-  } else {
-    metin = h.savunan === ben ? ceviri("Yanlış — can kaybettin.") : ceviri("İsabet! Rakip can kaybetti.");
-  }
-  const iyi = h.can_kaybeden && h.can_kaybeden !== ben;
-  // Paket 20 IV.2: yanlış/süre dolduysa doğru cevap METİNLE yazılır (yalnız renk yetmiyordu; C düğmesi "üçüncü" okunabiliyordu)
-  const dogruMetin = !h.dogru && secenekler && h.dogru_cevap != null ? secenekler[h.dogru_cevap] : null;
-  return (
-    <>
-      <div className={`bd-duello-hamle ${iyi ? "iyi" : h.can_kaybeden ? "kotu" : ""} ${buyuk ? "buyuk" : ""}`}>{metin}</div>
-      {dogruMetin && (
-        <div className="bd-duello-dogru-cevap">{ceviri("Doğru cevap: {harf} · {metin}", { harf: HARFLER[h.dogru_cevap], metin: dogruMetin })}</div>
-      )}
-    </>
-  );
-}
-
-/** Paket 20 IV.2 — maç altın soruyla bittiyse o sorunun doğru cevabı sonuç ekranında. */
-function AltinSonucu({ h, ben, soru, secenekler, ceviri }) {
-  const benim = h.cevaplar?.[ben];
-  const dogru = h.dogru_cevap;
-  return (
-    <div className="bd-duello-altin-sonuc">
-      <div className="bd-mac-soru-etiket">{ceviri("Altın Soru")}</div>
-      {soru && <div className="bd-mac-soru-metin">{soru}</div>}
-      <div className="bd-duello-dogru-cevap">{ceviri("Doğru cevap: {harf} · {metin}", { harf: HARFLER[dogru], metin: secenekler[dogru] })}</div>
-      {benim && benim.cevap != null && !benim.dogru && (
-        <div className="bd-mac-soru-not ayri">{ceviri("Senin cevabın: {harf} · {metin}", { harf: HARFLER[benim.cevap], metin: secenekler[benim.cevap] })}</div>
-      )}
-    </div>
-  );
-}
-
-function JokerAlani({ set, d, calisan, onKullan, onSatinAl, ceviri, serbest = false }) {
-  const j = d.jokerler ?? {};
-  const env = j.envanter ?? {};
-  const k = j.kullanim ?? {};
-  const benSaldiran = d.saldiran === d.ben;
-  const seciliSet = new Set(skillSetiOku());
-  // Saldırı alanı aktif saldırı registry'sinden gelir; varsayılan savunma
-  // loadout'unda Zaman Baskısı seçili değil diye alan boş bırakılamaz.
-  const liste = set === "saldiri"
-    ? SALDIRI_JOKERLERI
-    : macJokerleri("duello", [...seciliSet]).filter((id) => JOKER_BILGI[id]?.target === "self");
-
-  const saldiriAcik = benSaldiran && d.faz === "hazirlik";
-  // Paket 28 D: saldırı jokerleri KATEGORİ ekranında da SATIN ALINABİLİR.
-  // Hazırlık yalnız 6 saniye (Paket 30 D; ayar duello_hazirlik_sn); jokeri olmayan oyuncunun o sürede altın rozeti
-  // fark edip onayı okuyup onaylaması çok dardı. Satın alma kategori seçerken
-  // (20 sn) yapılır, KULLANIM yine Hazırlık'ta kalır — maç ritmi uzamaz.
-  const saldiriAlinabilir = benSaldiran && (d.faz === "hazirlik" || d.faz === "kategori");
-  const savunmaAcik = !benSaldiran && d.faz === "cevap";
-  // Paket 27 B: saldırı ve savunma ayrı ayrı değil, TEK toplam hak sayılır.
-  // Paket 35 A.3: maç başına hak ücretsiz modda da geçerli (sunucu anahtardan bağımsız uygular)
-  const hakKaldi = Number(j.kullanilan ?? 0) < Number(j.hak ?? 0);
-  const saldiriHakKaldi = hakKaldi;
-  const savunmaHakKaldi = hakKaldi;
-  // Düelloda hiçbir joker artık ücretsiz değil (Paket 27 B.1.1 / B.1.4).
-  const ucretsizSaldiri = false;
-  // Maçta zaten kullanılmış türler — aynı joker maç başına bir kez.
-  // Paket 35 A.3: "maçta bir kez" ücretsiz modda da geçerli
-  const kullanilanTurler = Array.isArray(k.turler) ? k.turler : [];
-  const fiyatlar = j.fiyatlar ?? {};
-  const setAcik = set === "saldiri" ? saldiriAcik : savunmaAcik;
-  // Paket 20 IV.4: jokerler "yok" sanılıyordu — kapalıyken NEDEN kapalı olduğu yazılır
-  const ipucu = !hakKaldi
-    ? ceviri("Bu maçtaki joker kullanımın doldu.")
-    : set === "saldiri"
-      ? (setAcik
-          ? ceviri("Şimdi kullanabilirsin — soru rakibe gitmeden.")
-          : saldiriAlinabilir
-            // Paket 28 D: kategori seçerken kullanılamaz ama SATIN ALINABİLİR.
-            ? ceviri("Jokerin yoksa şimdi alabilirsin; kullanımı Saldırı Hazırlığı'nda açılır.")
-            : ceviri("Saldırı sırasında, soruyu gördüğün Saldırı Hazırlığı'nda açılır."))
-      : (setAcik ? ceviri("Şimdi kullanabilirsin.") : ceviri("Soru sana gelince açılır."));
-
-  return (
-    <div className={`bd-duello-jokerler ${set} ${(setAcik || (set === "saldiri" && saldiriAlinabilir)) && hakKaldi ? "acik" : "kapali"}`} key={`${set}-${setAcik && hakKaldi}`} aria-label={set === "saldiri" ? ceviri("Saldırı jokerleri") : ceviri("Savunma jokerleri")}>
-      <div className="bd-duello-joker-baslik">
-        {set === "saldiri" ? ceviri("Saldırı jokerleri") : ceviri("Savunma jokerleri")}
+        </QtDugme>
       </div>
-      <div className="bd-duello-joker-ipucu" role="status">{ipucu}</div>
-      <div className="bd-duello-joker-sira">
-        {liste.map((tur) => {
-          const adet = Number(env[tur] ?? 0);
-          const fiyat = Number(fiyatlar[tur] ?? 0);
-          let ucretsiz = false;
-          let kullanildi = false;
-          let acik;
-          if (set === "saldiri") {
-            ucretsiz = ucretsizSaldiri;
-            kullanildi = (tur === "zaman_baskisi" && d.zaman_baskisi) || kullanilanTurler.includes(tur);
-          } else {
-            kullanildi = (tur === "elli" && (d.elli_kapali ?? []).length > 0) || (tur === "sure" && d.ek_sure)
-              || kullanilanTurler.includes(tur);
-          }
-          // Paket 27 C: envanterde yoksa düğme KAPANMAZ — satın alma açılır.
-          // Paket 28 D: satın alma penceresi KULLANIM penceresinden geniş.
-          // Saldırıda kategori ekranı da dahil (20 sn); kullanım yine Hazırlık'ta.
-          const alimFazi = set === "saldiri" ? saldiriAlinabilir : savunmaAcik;
-          const kullanimFazi = set === "saldiri" ? saldiriAcik : savunmaAcik;
-          // Paket 35 A.2: stok yoksa fiyat hep görünür; coin yetmiyorsa alınamaz (soluk fiyat)
-          const fiyatGoster = !serbest && !kullanildi && adet <= 0 && fiyat > 0;
-          const coinYetmez = j.coin !== null && j.coin !== undefined && Number(j.coin) < fiyat;
-          const satilik = fiyatGoster && !coinYetmez && hakKaldi && alimFazi;
-          acik = (kullanimFazi && hakKaldi && !kullanildi && (serbest || ucretsiz || adet > 0)) || satilik;
-          const ad = set === "saldiri" ? SALDIRI_AD[tur] : SAVUNMA_AD[tur];
-          const aciklama = set === "saldiri" ? JOKER_BILGI[tur]?.aciklama : SAVUNMA_ACIKLAMA[tur];
-          return (
-            <button key={tur} type="button"
-                    className={`bd-duello-joker ${kullanildi ? "kullanildi" : ""} ${satilik ? "satilik" : ""}`}
-                    disabled={!acik || !!calisan}
-                    title={satilik ? ceviri("{0} coin — dokun, al ve kullan").replace("{0}", fiyat)
-                      : fiyatGoster && coinYetmez ? ceviri("Yetersiz coin") : ceviri(aciklama)}
-                    onClick={() => (satilik ? onSatinAl?.(tur, !kullanimFazi) : onKullan(tur))}>
-              {satilik && (
-                <span className="bd-joker-satilik" aria-hidden="true"><Ikon ad="coin" boyut={12} /></span>
-              )}
-              <Ikon ad={JOKER_BILGI[tur]?.ikon ?? "soru"} boyut={20} />
-              <span className="bd-duello-joker-ad">{ceviri(ad)}</span>
-              <span className={`bd-duello-joker-adet ${fiyatGoster ? "fiyat" : ""} ${fiyatGoster && !satilik ? "soluk" : ""}`}>
-                {fiyatGoster ? `${fiyat}` : serbest ? "∞" : `×${adet}`}
-              </span>
-            </button>
-          );
-        })}
-      </div>
+      <QtModal acik={terkOnay} onKapat={() => setTerkOnay(false)} baslik={ceviri("Düellodan çık")}
+               aciklama={ceviri("Düellodan çıkarsan hükmen kaybedersin. Emin misin?")}
+               altlik={
+                 <div className="m2-onay-eylem">
+                   <QtDugme tur="ikincil" data-qt-ilk-odak onClick={() => setTerkOnay(false)}>{ceviri("Vazgeç")}</QtDugme>
+                   <QtDugme tur="tehlike" devreDisi={!!calisan}
+                            onClick={() => { setTerkOnay(false); eylem("terk", "duello_terk", {}); }}>{ceviri("Çık")}</QtDugme>
+                 </div>
+               } />
     </div>
   );
 }

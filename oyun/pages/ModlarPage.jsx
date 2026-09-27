@@ -69,7 +69,7 @@ export default function ModlarPage() {
           mod="duello"
           ad={ceviri("Düello")}
           alt={tt("Skillerini doğru anda kullan. Rakibinin planını boz ve taktik üstünlük kur.")}
-          rozet={tt("{n} joker türü · 3 can", { n: DUELLO_JOKER })}
+          rozet={tt("{n} joker türü · 10 tur · puan", { n: DUELLO_JOKER })}
           onClick={() => navigate(y("/duello"))}
         />
         <QtModKart

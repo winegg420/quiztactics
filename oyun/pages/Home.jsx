@@ -567,7 +567,7 @@ export default function Home() {
                 mod="duello"
                 ikon="duello"
                 ad={ceviri("Düello")}
-                alt={tt("3 can · aynı soru, aynı anda")}
+                alt={tt("10 tur · aynı soru, aynı anda")}
                 className="mobile-core-mode duello"
                 onClick={() => navigate(y("/duello"))}
               />
