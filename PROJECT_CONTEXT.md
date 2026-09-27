@@ -412,6 +412,11 @@ Aktif yedi maç skill'i vardır:
 - İki katman: **açık botlar** (adında "Bot" geçer, %50 coin, anında cevaplar)
   ve **gizli botlar** (gerçek oyuncu gibi, tam coin, gerçekçi sürede cevaplar).
 - `is_bot` istemciye **ASLA sızmaz** — gizli botun bot olduğu anlaşılmamalı.
+- **İlk 80 gizli botun kimlikleri rastgele (664):** migration 150'deki
+  `b17b…001–080` kimlikleri, 36 UUID kolonundaki bütün bağlı satırlar korunarak
+  benzersiz UUID v4 değerlerine taşındı. Bu 80 bot üretim mantığında kimlikten
+  değil, erişimi kısıtlı `profiles.is_bot` / `bot_turu` alanlarından ayrılır.
+  Sonradan eklenen 75 gizli bot bu migration'ın açıkça kapsamı dışındadır ve değiştirilmedi.
 - **Gizli botların hepsinde avatar var (610, 659):** avatarı boş olanlara açık avatarlardan (31 + aktif katalog) bot
   adına göre sabit (hashtext) avatar verildi; `avatar_onayli` da açık olmalı (`gorunen_avatar` yalnız onaylıyken avatar_url'i verir) —
   659 ile 75 botta açıldı; baş harfli (avatarsız) gizli bot kalmadı.

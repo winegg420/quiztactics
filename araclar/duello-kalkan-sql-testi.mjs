@@ -4,8 +4,8 @@ import { PgIstemci, baglantiDizgisi } from './pg-mini.mjs';
 import fs from 'node:fs';
 const MIG = process.argv[2];
 const A = '5b555bd3-9371-4f35-90a5-39289111335e';   // insan (ArayuzDenetim890) — saldıran
-const B = 'b17b0000-0000-4000-8000-000000000041';   // gizli bot — savunan
 const db = await new PgIstemci(await baglantiDizgisi()).baglan();
+let B;   // etkin gizli bot — migration provası varsa yeni UUID'siyle seçilir
 let gecti = 0, kaldi = 0;
 const ok = (ad, kosul, ek = '') => { if (kosul) { gecti++; console.log('  ✓', ad, ek); } else { kaldi++; console.log('  ✗', ad, ek); } };
 const ben = (u) => db.sorgu(`select set_config('request.jwt.claim.sub', '${u}', true), set_config('request.jwt.claims', '{"sub":"${u}","role":"authenticated"}', true)`);
@@ -16,6 +16,10 @@ try {
   // Canlı DB: kaçak bir sorgu (26 Eyl: soru_sec satır başına çağrıldı, 615 sn DB zamanı) herkesi kilitlemesin.
   await db.sorgu("set local statement_timeout = '30s'");
   if (MIG) await db.sorgu(fs.readFileSync(MIG, 'utf8'));
+  B = await db.tek(`select id from profiles
+    where is_bot and bot_turu = 'gizli' and coalesce(bot_aktif, true)
+    order by bot_seviye_puan nulls last, id limit 1`);
+  if (!B) throw new Error('Etkin gizli bot bulunamadı.');
   await db.sorgu(`update duellolar set durum='iptal' where durum='aktif' and (oyuncu1 in ('${A}','${B}') or oyuncu2 in ('${A}','${B}'))`);
   const yeniMac = async () => {
     const id = await tek(`select duello_olustur('${A}','${B}',false,null)`);

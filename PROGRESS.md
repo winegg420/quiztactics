@@ -8958,3 +8958,38 @@ kaçırdığından şüphelenildi.
   sonra `migration-uygula.mjs` ile canlıya uygulandı). Doğrulama: 0/32 hâlâ aktif=true.
 - **Toplam (662+663):** 105 soru donduruldu (73+32). Kategori başına kalan aktif soru en
   düşük spor'da 1.120, teknoloji'de 1.221 — `soru_kapsam_min_havuz` (60) eşiğinin çok üstünde.
+
+## 2026-09-27 — İlk 80 gizli botun UUID'leri rastgeleleştirildi
+**Araç:** Codex
+**Neden:** Migration 150'de eklenen 80 gizli botun `b17b…001–080` biçimindeki
+öngörülebilir kimlikleri teknik olarak ayırt edilebiliyordu.
+
+- **Kapsam:** yalnız `b17b0000-0000-4000-8000-000000000001–080`; canlıdaki
+  diğer 75 gizli bot sahibinin açık kararıyla değiştirilmedi.
+- **Migration 664:** her hedef için `gen_random_uuid()` ile benzersiz UUID v4
+  üretir. `auth.users.id`, `profiles.id` ve `public`/`auth` içindeki eşleşen bütün
+  UUID kolonlarını dinamik taşır. 129 kullanıcı FK'sinin public tarafındakileri
+  yalnız transaction boyunca erteler, sonunda özgün `NOT DEFERRABLE` durumuna
+  döndürür. FK'siz tarihsel kolonlar (`duello_hamleler.saldiran/savunan/
+  can_kaybeden`, `duello_sinyal.*`, `duellolar.saldiran`) da kapsandı.
+- **Yarış güvenliği:** UUID kolonu taşıyan public tablolarda kısa süreli yazma
+  kilidi; bot cron'u veya devam eden maç eski UUID ile yeni satır ekleyemez.
+  Profil/auth JSON içeriği (id hariç), toplam gizli bot sayısı ve kapsam dışı 75
+  profil transaction içinde birebir karşılaştırılır; uyuşmazlıkta tamamı geri alınır.
+- **Prova:** önce transaction'da uygulanıp geri alındı. 36 dolu UUID kolonunda
+  **20.423 → 20.423** bağlı satır; hedef 80, `b17b` kalan 0, kapsam dışı 75.
+  İlk provada yönetilen `auth.identities` sahipliği, ikinci uzun provada canlı
+  cron yarışı yakalanıp migration güvenli hâle getirildi; son prova temiz.
+- **Canlı sonuç:** ledger `20260612000664`; 80/80 hedef auth+profil kaydı,
+  80/80 UUID v4, 80 farklı dört haneli önek, `b17b` kalan 0; gizli bot toplamı
+  155; 129 FK'nın ertelenebilir olanı yine 0. Profil adları, seviyeleri,
+  ülkeleri, avatarları, rozetleri ve geçmiş verileri değişmedi.
+- **Davranış:** yeni UUID'li `mrkaya` botuyla transaction içinde birkaç Düello
+  maçı ve 34/34 sunucu davranış kontrolü geçti. Canlı gerçek oyuncu oturumunda
+  bir Düello + 20 soruluk Klasik maç geçti; ikinci Düello'nun oyun/bot adımları
+  geçti, yalnız ilk fazın 2,6 sn geç açılmasına bağlı 874 ms sayaç ölçümü mevcut
+  test eşiğine (900 ms) takıldı ve Jev tarafından görev dışı zamanlama gürültüsü
+  sınıflandı. Yeni test hesabı oluşturulmadı.
+- **Kod:** `duello-kalkan-sql-testi.mjs` artık sabit `b17b` UUID yerine etkin
+  gizli botu profilden dinamik seçer. RLS, GRANT/REVOKE ve üretim bot davranış
+  fonksiyonlarında değişiklik yok.
