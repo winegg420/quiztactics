@@ -100,11 +100,14 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
 
 ### Düello
 
-- **Puan sistemi (666, Ida 27 Eyl 2026) — can yok.** Sabit 10 tur (her turda ikisi de bir kez kategori seçer =
+- **Puan sistemi (666/671, Ida 27 Eyl 2026) — can yok.** Sabit 10 tur (her turda ikisi de bir kez kategori seçer =
   20 soru). Saldıran kategoriyi seçer, soru ikisine aynı anda açılır (cevap 15 sn). **Kategoriler maç başında
-  yıldızlanır ve maç içinde değişmez:** rakibin o kategorideki genel doğru oranı (`duello_oranlar_ic`,
-  `duello_oran_min_cevap` 5 altı = veri yok → ★★) ≤ %45 ★ (1 puan) · ≤ %70 ★★ (3) · üstü ★★★ (6)
-  (`duello_yildiz_zayif_esik` / `_orta_esik`, `duello_puan_yildiz1..3`; maçta `duellolar.yildiz1/2` + `puan_degerleri`).
+  rakibin kendi doğru oranları içinde sıralanıp yıldızlanır ve maç içinde değişmez:** sayısal verili kategorilerin
+  üst yaklaşık `%30`'u ★★★ (6 puan), alt yaklaşık `%30`'u ★ (1), kalanı ★★ (3); 10 verili kategoride tam
+  **3/4/3**. Oranı yetersiz olanlar (`duello_oran_min_cevap` 5 altı) sıralamaya girmez, doğrudan ★★ olur;
+  kalanlar aynı oranla bölünür, eşitlik kategori anahtarıyla kırılır. Oranlar `duello_yildiz_ust_yuzde` /
+  `duello_yildiz_alt_yuzde`; eski sabit `duello_yildiz_zayif_esik` / `_orta_esik` ayarları KULLANILMIYOR.
+  Puan yapısı değişmedi: `duello_puan_yildiz1..3`; maçta `duellolar.yildiz1/2` + `puan_degerleri`.
   Değer = savunanın o kategorideki yıldızı. **Doğru bilen değeri alır; SALDIRAN yanlış/yanıtsız bırakırsa aynı
   değeri kaybeder (667), SAVUNAN hiç kaybetmez** — puan **sıfırın altına inmez** (uygulanan ceza kalan puanla
   sınırlı; `duello_hamleler.puan_saldiran` GERÇEKTE UYGULANAN miktarı taşır, nominal değeri değil). İkisi doğru →
@@ -127,7 +130,7 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
   (`duello2_kalkan`, kapı `duello2_kalkan_engel`, hak `duello_kalkan_kalan`). Veri: `duellolar.kalkanlar1/2`
   (`[{kategori, idx, tur}]`), `duello_hamleler.kalkan`. Bot savunurken fazın 1–4. sn'sinde %12, 2. pencerede puanda
   gerideyse %45 (`duello2_bot_kalkan_*`); saldıranın en çok kazanacağı kategoriyi korur (değer × (saldıran oranı −
-  bot isabeti)). Arayüz: savunanda hak rozetli "Kategori Kalkanı" düğmesi → yıldızlı ızgara → onay; saldıranda kutu
+  bot isabeti)). Arayüz: savunanda hak rozetli "Kategori Kalkanı" düğmesi → renkli, puanlı ızgara → onay; saldıranda kutu
   "Korumada" kilitli + bildirim; üst şeritte iki oyuncunun kalan hakkı; maç sonu özetinde "… korundu".
 - **Yeni oyuncu kilidi (666):** Düello en az `duello_acilis_mac_esigi` (5) bitmiş Klasik + Saf Bilgi maçıyla açılır
   (`matches`, terk edilen sayılmaz; level'e bağlı değil). `duello_ara` / `duello_davet_et` (iki taraf) /
@@ -156,16 +159,16 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
   (surum 1/2, puan1 boş) yalnız geçmiş kaydıdır. Arayüz `DuelloV2.jsx` + `DuelloPage.jsx` (eski V1 ekranı silindi).
   İstemci tanımadığı bir sürüm görürse maçı çizmez, yenileme ister (`DUELLO_EN_YUKSEK_SURUM`). Joker 4 / aynı 2 / soruda 1,
   Sigorta/2X yok.
-- **Strateji penceresi (351, 666, 667, 669):** kategori süresi `duello2_kategori_sn` **15 sn**, son 3 sn renk +
+- **Strateji penceresi (351, 666, 667, 669, 671):** kategori süresi `duello2_kategori_sn` **15 sn**, son 3 sn renk +
   (667) son 5 sn'de geri sayım sesi (`KATEGORI_SES_ESIK_SN`; eskiden sürenin tamamında çalıyordu).
-  **Kategori kartı sadeleştirildi (669, Ida): yıldız rozeti ve "zayıf/orta/güçlü" yazısı kartlarda YOK.**
-  Saldıranın her kartında büyük **"+N / −N"** (puanın kendisi, savunanın yıldızından 1/3/6 × tur
-  çarpanı — hesap değişmedi) ve küçük gri **"Sen %.. · Rakip %.."** (< 5 cevap "—"). **Kartın rengi =
-  eşleşme:** kendi oranı rakipten `duello_kat_esik_yuzde` (10) puan yüksekse yeşil, düşükse kırmızı,
-  arası/veri yoksa gri (`eslesmeRengi()`, `oyun/components/DuelloV2.jsx`). 9-10. turda kart köşesinde
-  "×2" rozeti + maça bir kez "Son 2 tur: puanlar ×2" bandı aynen duruyor. Savunan "Rakip düşünüyor…" +
-  kalkan paneli + "Rakibin gördüğü kategorilerin" — aynı sade dil (renk + "+N" + oranlar, "−N" yok
-  çünkü savunan hiç kaybetmez); Kategori Kalkanı ızgarası da aynı tasarımda. Cevap ekranında (bu ekran
+  **Kategori seçimi (671, Ida):** saldıranın kartları puana göre üç başlıkta: “Rakibin güçlü alanları · 6 puan”
+  (★★★), “Orta alanlar · 3 puan” (★★), “Rakibin zayıf alanları · 1 puan” (★); grup içinde kategori adına göre.
+  Her kartta büyük **"+N / −N"** ve tek satır **"Sen %.. · Rakip %.."** (< 5 cevap "—"). **Kartın rengi =
+  eşleşme:** kendi oranı rakipten `duello_kat_esik_yuzde` (10) puan yüksekse düz açık yeşil zemin, düşükse
+  düz açık kırmızı, arası/veri yoksa düz gri (`eslesmeRengi()`, `oyun/components/DuelloV2.jsx`); ton kademesi yok.
+  9-10. turda başlık ve kart puanları ×2, mevcut "×2" rozeti/bandı durur. Savunan “Rakip düşünüyor…” ekranı
+  kendi güçlü/orta/zayıf gruplarını aynı zemin diliyle gösterir; yalnız “−N” yoktur. Kategori Kalkanı ızgarası
+  aynı düz zemin renklerini kullanır, sıralanmaz. Cevap ekranında (bu ekran
   DOKUNULMADI) hâlâ "★★ +3 · Doğru bilen 3 puan alır; saldıran yanlış/yanıtsız bırakırsa 3 kaybeder";
   üst şeritte puan + "+N"/"−N" balonu (kırmızı eksi). Oranlar ve yıldızlar maç başında
   `duello_olustur`'da bir kez (`profil1/2.oranlar`, `yildiz1/2`) — sunucudaki puan hesabı hâlâ yıldıza

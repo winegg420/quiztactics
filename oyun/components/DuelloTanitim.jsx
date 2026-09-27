@@ -9,8 +9,8 @@ import { tt } from "../lib/dil.js";
  * Tasarım A: QtModal (body'ye portal, odak tuzağı, Esc). Stiller DuelloPage.a.css › m2-tanitim.
  * Metinlerin İngilizcesi: ceviri/mac.js › Düello (M2).
  */
-// 669: yıldız anlatımı kalktı, kategori kartı rengi (yeşil/gri/kırmızı) geldi → yeni anahtar.
-const DEPO = "bildim_duello_tanitim_v7";
+// 671: göreli 3/4/3 puan grupları ve renk anlamı birlikte anlatılıyor → yeni anahtar.
+const DEPO = "bildim_duello_tanitim_v8";
 
 export function duelloTanitimGoruldu() {
   try { return localStorage.getItem(DEPO) === "1"; } catch (e) { console.warn("[Bildim] localStorage okunamadı:", e?.message ?? e); return false; }
@@ -22,7 +22,7 @@ function isaretle() {
 // Kurallar sunucuda (migration 666); sayılar oyun_ayarlari varsayılanları.
 const ADIMLAR = [
   { ikon: "duello", baslik: "Aynı soru, aynı anda", metin: "Kategoriyi sırayla biriniz seçer (15 sn; dolarsa rastgele). Soru ikinize aynı anda açılır, 15 sn'niz var. Rakibin cevapladığını görürsün ama ne cevapladığını göremezsin." },
-  { ikon: "palet", baslik: "Kartın rengi", metin: "Rakibin iyi olduğu konuda puan almak zor, bu yüzden daha değerlidir. Kartın rengi o konuda kimin daha iyi olduğunu gösterir: yeşil sen, kırmızı rakip, gri denk." },
+  { ikon: "palet", baslik: "3 güçlü · 4 orta · 3 zayıf", metin: "Her maçta rakibin en güçlü 3 alanı 6 puan, en zayıf 3 alanı 1 puan, kalanlar 3 puan. Kartın rengi o alanda kimin daha iyi olduğunu gösterir: yeşil sen, kırmızı rakip, gri denk." },
   { ikon: "onay", baslik: "Doğru bilen alır, saldıran yanlış bilirse kaybeder", metin: "Soruyu doğru bilen kategorinin puanını alır. Kategoriyi SEÇEN (saldıran) yanlış bilir ya da süresi dolarsa aynı puanı kaybeder — puanın SIFIRIN ALTINA inmez. Savunan hiçbir zaman puan kaybetmez. İkiniz de doğruysanız ikiniz de alırsınız." },
   { ikon: "yildiz", baslik: "Son 2 tur: puanlar ×2", metin: "9. ve 10. turda kategori değerleri iki katıdır — kazanç da saldıranın cezası da ×2. Altın Soru bundan etkilenmez." },
   { ikon: "kalkan", baslik: "Kategori Kalkanı", metin: "Rakip kategori seçerken kendi kategorilerinden birini o seçim için kapatırsın. Maçta 2 hakkın var ve ikisi de ücretsiz: 1. hak Tur 1–5'te, 2. hak Tur 6–10'da açılır. İlk hakkı kullanmazsan kaybolmaz; Tur 6'dan sonra iki hakkı da istediğin zaman kullanırsın." },

@@ -121,7 +121,7 @@ function DuelloGiris() {
         <span className="m2-giris-ikon" aria-hidden="true"><QtIkon ad="duello" boyut={40} /></span>
         <div className="m2-giris-yazi">
           <h1 className="qt-baslik-1">{ceviri("Düello")}</h1>
-          <p>{ceviri("Sırayla kategori seçin, aynı soruyu aynı anda cevaplayın. Doğru bilen kategorinin yıldız puanını alır.")}</p>
+          <p>{ceviri("Sırayla kategori seçin, aynı soruyu aynı anda cevaplayın. Her maçta rakibin en güçlü 3 alanı 6, en zayıf 3 alanı 1, kalanlar 3 puandır.")}</p>
         </div>
       </header>
       {kilitli ? (
@@ -176,7 +176,7 @@ function DuelloGiris() {
 // İngilizcesi ceviri/mac.js › Düello (M2).
 const ARAMA_IPUCLARI = [
   "Aynı soruyu aynı anda cevaplarsınız.",
-  "Rakibin güçlü olduğu kategori ★★★: doğru bilen 6 puan alır.",
+  "Her maçta rakibin en güçlü 3 alanı 6, en zayıf 3 alanı 1, kalanlar 3 puandır.",
   "Kategoriyi seçen (saldıran) yanlış bilirse aynı puanı kaybeder — savunan hiç kaybetmez.",
   "Kategori Kalkanı: maçta 2 hak, Tur 1–5 ve Tur 6–10.",
   "Son 2 tur (9–10) puanlar ×2: kazanç da ceza da katlanır.",

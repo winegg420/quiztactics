@@ -1,5 +1,5 @@
 // Düello puan sistemi (666) SQL provası — tek transaction, sonunda ROLLBACK (canlıya iz bırakmaz).
-// Sınar: yıldız hesabı, simetrik puan, 10 tur sonu, Altın Soru (eşitlik, jokersiz, sınırsız), kalkan 2 hak +
+// Sınar: maç başına 3/4/3 yıldız hesabı, simetrik puan, 10 tur sonu, Altın Soru (eşitlik, jokersiz, sınırsız), kalkan 2 hak +
 // biriktirme, kaldırılan kurallar, yeni oyuncu kilidi, bot kategori/kalkan, durum() şekli.
 // Kullanım: node araclar/duello-puan-sql-testi.mjs [migration.sql]  (verilirse önce onu uygular — uygulanmamış hâli sınar)
 import { PgIstemci, baglantiDizgisi, alintila } from './pg-mini.mjs';
@@ -17,15 +17,43 @@ const json = async (s) => JSON.parse(await tek(s));
 try {
   await db.sorgu('begin');
   await db.sorgu("set local statement_timeout = '30s'");
+  const aktifOzetOnce = MIG ? await tek(`select md5(coalesce(string_agg(id::text||':'||coalesce(yildiz1::text,'')||':'||coalesce(yildiz2::text,''), '|' order by id), '')) from duellolar where durum='aktif'`) : null;
   if (MIG) await db.sorgu(fs.readFileSync(MIG, 'utf8'));
+  if (MIG) {
+    const aktifOzetSonra = await tek(`select md5(coalesce(string_agg(id::text||':'||coalesce(yildiz1::text,'')||':'||coalesce(yildiz2::text,''), '|' order by id), '')) from duellolar where durum='aktif'`);
+    ok('migration devam eden maçların yıldızlarına dokunmaz', aktifOzetSonra === aktifOzetOnce);
+  }
   B = await tek(`select p.id from profiles p where p.is_bot and p.bot_turu = 'gizli' and coalesce(p.bot_aktif, true)
     order by p.bot_seviye_puan nulls last, p.id limit 1`);
   if (!B) throw new Error('Etkin gizli bot bulunamadı.');
   await db.sorgu(`update duellolar set durum='iptal' where durum='aktif' and (oyuncu1 in ('${A}','${B}') or oyuncu2 in ('${A}','${B}'))`);
   await db.sorgu(`update profiles set last_seen=now() where id='${A}'`);
 
-  // A'nın kategori oranları bilinen değerlere: bilim %45 (★), tarih %46 (★★), spor %70 (★★), sanat %71 (★★★),
-  // muzik %100 (★★★), cografya 4 cevap (veri yok → ★★), kalan kategoriler silinir (veri yok → ★★).
+  const kategoriler = (await db.sorgu(`select k from unnest(public.duello_kategorileri()) k order by k`)).map((r) => r.k);
+  const yildizSenaryosu = async (oranlar) => json(`select public.duello_yildizlar_ic(${alintila(JSON.stringify(oranlar))}::jsonb)::text`);
+  const dagilim = (y) => [1, 2, 3].map((n) => Object.values(y).filter((v) => Number(v) === n).length);
+
+  console.log('A) Göreli yıldız dağılımı: yüksek/düşük/karışık/verisiz/eşit');
+  for (const [ad, degerler] of [
+    ['hepsi yüksek', [99,98,97,96,95,94,93,92,91,90]],
+    ['hepsi düşük', [10,9,8,7,6,5,4,3,2,1]],
+    ['karışık', [88,12,64,37,91,55,23,76,44,69]],
+  ]) {
+    const y = await yildizSenaryosu(Object.fromEntries(kategoriler.map((k, i) => [k, degerler[i]])));
+    ok(`${ad}: ★/★★/★★★ = 3/4/3`, JSON.stringify(dagilim(y)) === '[3,4,3]', JSON.stringify(y));
+  }
+  const verisizOranlar = Object.fromEntries(kategoriler.map((k, i) => [k, i < 4 ? null : 20 + i * 5]));
+  const verisizY = await yildizSenaryosu(verisizOranlar);
+  ok('4 verisiz kategori doğrudan ★★', kategoriler.slice(0, 4).every((k) => verisizY[k] === 2), JSON.stringify(verisizY));
+  ok('kalan 6 sayısal kategori oranla 2/2/2 dağılır', JSON.stringify(dagilim(verisizY)) === '[2,6,2]', JSON.stringify(dagilim(verisizY)));
+  const esitY = await yildizSenaryosu(Object.fromEntries(kategoriler.map((k) => [k, 50])));
+  ok('eşit oranlarda kategori adı sabit sıra: ilk 3 ★★★, son 3 ★',
+    kategoriler.slice(0, 3).every((k) => esitY[k] === 3)
+      && kategoriler.slice(-3).every((k) => esitY[k] === 1)
+      && kategoriler.slice(3, -3).every((k) => esitY[k] === 2), JSON.stringify(esitY));
+
+  // A'nın 5 sayısal kategorisi kendi içinde sıralanır: en yüksek 2 ★★★, orta 1 ★★, en düşük 2 ★.
+  // cografya 4 cevap ve kalanlar veri yok → doğrudan ★★.
   await db.sorgu(`delete from kategori_istatistik where user_id='${A}'`);
   await db.sorgu(`insert into kategori_istatistik(user_id,kategori,toplam,dogru) values
     ('${A}','bilim',20,9),('${A}','tarih',50,23),('${A}','spor',10,7),('${A}','sanat',100,71),('${A}','muzik',5,5),('${A}','cografya',4,4)`);
@@ -81,14 +109,17 @@ try {
   await db.sorgu(`update oyun_ayarlari set deger='12' where anahtar='duello2_bot_kalkan_yuzde'`);
   await db.sorgu(`update oyun_ayarlari set deger='45' where anahtar='duello2_bot_kalkan_kritik_yuzde'`);
 
-  console.log('1) Yıldızlar maç başında (rakibin oranından; <5 cevap = ★★)');
+  console.log('1) Yıldızlar maç başında göreli dağıtılır (rakibin oranından; <5 cevap = ★★)');
   id = await yeniMac();
   const y1 = await json(`select yildiz1::text from duellolar where id='${id}'`);
   ok('bilim %45 → ★', y1.bilim === 1, JSON.stringify(y1));
-  ok('tarih %46 → ★★', y1.tarih === 2);
+  ok('tarih %46 → ★', y1.tarih === 1);
   ok('spor %70 → ★★', y1.spor === 2);
   ok('sanat %71 → ★★★', y1.sanat === 3);
-  ok('muzik %100 → ★★★', y1.muzik === 3);
+  ok('muzik %100 → ★★★; sayısal dağılım 2/1/2', y1.muzik === 3
+    && [y1.bilim, y1.tarih, y1.spor, y1.sanat, y1.muzik].filter((v) => v === 1).length === 2
+    && [y1.bilim, y1.tarih, y1.spor, y1.sanat, y1.muzik].filter((v) => v === 2).length === 1
+    && [y1.bilim, y1.tarih, y1.spor, y1.sanat, y1.muzik].filter((v) => v === 3).length === 2);
   ok('cografya 4 cevap → ★★ (veri yok)', y1.cografya === 2);
   ok('teknoloji hiç veri yok → ★★', y1.teknoloji === 2);
   ok('puan değerleri 1/3/6', (await tek(`select puan_degerleri::text from duellolar where id='${id}'`)) === '{"1": 1, "2": 3, "3": 6}');
@@ -289,15 +320,16 @@ try {
 
   console.log('13) Bot kategori seçimi: maç sonu risk (667) — A nin yıldızları biliniyor (y1)');
   id = await yeniMac();   // A=oyuncu1, B=oyuncu2
+  const botRakipYildiz = await json(`select yildiz1::text from duellolar where id='${id}'`);
   await db.sorgu(`update duellolar set tur=9, saldiri_sirasi=1, saldiran=oyuncu2, puan1=20, puan2=10 where id='${id}'`);
   let secimler = new Set();
   for (let i = 0; i < 20; i++) secimler.add(await tek(`select duello2_bot_kategori('${id}','${B}')`));
-  ok('bot 10 puan geride, Tur 9: yalnız en yüksek yıldızlı (★★★) seçildi', [...secimler].every((k) => y1[k] === 3), JSON.stringify([...secimler]));
+  ok('bot 10 puan geride, Tur 9: yalnız en yüksek yıldızlı (★★★) seçildi', [...secimler].every((k) => botRakipYildiz[k] === 3), JSON.stringify([...secimler]));
 
   await db.sorgu(`update duellolar set puan1=10, puan2=20 where id='${id}'`);   // şimdi B önde
   secimler = new Set();
   for (let i = 0; i < 20; i++) secimler.add(await tek(`select duello2_bot_kategori('${id}','${B}')`));
-  ok('bot 10 puan önde, Tur 9: yalnız en düşük yıldızlı (★) seçildi', [...secimler].every((k) => y1[k] === 1), JSON.stringify([...secimler]));
+  ok('bot 10 puan önde, Tur 9: yalnız en düşük yıldızlı (★) seçildi', [...secimler].every((k) => botRakipYildiz[k] === 1), JSON.stringify([...secimler]));
 
   await db.sorgu(`update duellolar set tur=8, puan1=20, puan2=10 where id='${id}'`);   // eşik altı (Tur 8) → risk yok
   secimler = new Set();

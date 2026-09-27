@@ -384,6 +384,10 @@ async function kalkanAdimi(id, d, benSaldiran, kt) {
         // 669: yıldız rozeti kalktı — ızgara kartında artık puan değeri (+N) var.
         const puanli = await s.locator(".m2-kalkan-izgara .m2-kalkan-kat b").count();
         if (!puanli) basarisiz("Kalkan: ızgarada puan değeri yok");
+        const renkliZemin = await s.evaluate(() => [...document.querySelectorAll(".m2-kalkan-izgara .m2-kalkan-kat")].every((kart) =>
+          /m2-kalkan-kat--(yesil|kirmizi|gri)/.test(kart.className)
+            && !["", "rgba(0, 0, 0, 0)"].includes(getComputedStyle(kart).backgroundColor)));
+        if (!renkliZemin) basarisiz("Kalkan: ızgara kartlarında yeşil/kırmızı/gri zemin yok");
         await ekranOlc("duello-kalkan-izgara");
         await s.locator(".m2-kalkan-kat").first().tap({ timeout: 1500 }).catch(() => {});
         if (await s.locator(".m2-kalkan-onay").count()) {
@@ -490,14 +494,15 @@ function kalkanSecimKontrol(d, kt, id) {
   }
 }
 
-// 669 · Kategori kartındaki değer ("+N / −N") ve renk (eşleşme) sunucu verisiyle aynı mı?
-async function yildizKontrol(id, kapsam) {
-  if (kapsam.yildizMac === id) return;
+// 671 · Saldıran/savunan kartları 3 başlıkta mı; değer, renkli zemin ve tek satır oran doğru mu?
+async function yildizKontrol(id, kapsam, benSaldiran) {
+  const anahtar = `${id}:${benSaldiran ? "saldiran" : "savunan"}`;
+  if (kapsam.kategoriKartlari.has(anahtar)) return;
   const [r] = await sorgu(`select oyuncu1, oyuncu2, yildiz1, yildiz2, profil1, profil2, puan_degerleri p,
       tur, carpanli_turlar, carpan_katsayi from duellolar where id = ${alintila(id)}`);
   const benOyuncu1 = r.oyuncu1 === BEN;
-  const y = typeof (benOyuncu1 ? r.yildiz2 : r.yildiz1) === "string"
-    ? JSON.parse(benOyuncu1 ? r.yildiz2 : r.yildiz1) : (benOyuncu1 ? r.yildiz2 : r.yildiz1);
+  const hamYildiz = benSaldiran ? (benOyuncu1 ? r.yildiz2 : r.yildiz1) : (benOyuncu1 ? r.yildiz1 : r.yildiz2);
+  const y = typeof hamYildiz === "string" ? JSON.parse(hamYildiz) : hamYildiz;
   const benProfil = typeof (benOyuncu1 ? r.profil1 : r.profil2) === "string"
     ? JSON.parse(benOyuncu1 ? r.profil1 : r.profil2) : (benOyuncu1 ? r.profil1 : r.profil2);
   const rakipProfil = typeof (benOyuncu1 ? r.profil2 : r.profil1) === "string"
@@ -510,30 +515,52 @@ async function yildizKontrol(id, kapsam) {
   const p = Object.fromEntries(Object.entries(pBase).map(([k, v]) => [k, Math.round(Number(v) * carpan)]));
   const [esikSatir] = await sorgu(`select ayar_sayi('duello_kat_esik_yuzde', 10) v`);
   const esik = Number(esikSatir?.v ?? 10);
-  const ekran = await s.evaluate(() => [...document.querySelectorAll("button.m2-kat")].map((b) => ({
-    ad: b.getAttribute("aria-label"), sinif: b.className, deger: b.querySelector(".m2-kat-deger")?.textContent ?? "",
-  })));
-  if (!ekran.length) return;
-  kapsam.yildizMac = id;
+  const ekran = await s.evaluate((saldiran) => {
+    const dugumler = saldiran
+      ? [...document.querySelectorAll("button.m2-kat[data-kategori]")]
+      : [...document.querySelectorAll(".m2-savun-grup li[data-kategori]")];
+    const kart = (d) => saldiran ? d : (d.matches(".m2-savun-kat") ? d : d.querySelector(".m2-savun-kat"));
+    const kartlar = dugumler.map((d) => {
+      const k = kart(d);
+      const oran = k?.querySelector(saldiran ? ".m2-kat-oranlar" : ".m2-savun-oranlar");
+      return {
+        kategori: d.dataset.kategori, sinif: k?.className ?? "",
+        deger: k?.querySelector(saldiran ? ".m2-kat-deger" : ".m2-savun-deger")?.textContent ?? "",
+        oranTasti: Boolean(oran && oran.scrollWidth > oran.clientWidth + 1),
+        oranTekSatir: oran ? getComputedStyle(oran).whiteSpace === "nowrap" : false,
+        zemin: k ? getComputedStyle(k).backgroundColor : "",
+      };
+    });
+    const basliklar = [...document.querySelectorAll(saldiran ? ".m2-kat-grup > h3" : ".m2-savun-grup > h4")].map((h) => h.textContent.trim());
+    return { kartlar, basliklar };
+  }, benSaldiran);
+  if (!ekran.kartlar.length) return;
+  kapsam.kategoriKartlari.add(anahtar);
   const hatali = [];
   const kats = Object.keys(y);
-  // Kartlar duello_kategorileri() sırasıyla çizilir.
-  const sira = (await sorgu(`select unnest(duello_kategorileri()) k`)).map((x) => x.k);
+  const sira = ekran.kartlar.map((e) => e.kategori);
   sira.forEach((k, i) => {
-    const e = ekran[i];
+    const e = ekran.kartlar[i];
     const beklenenYildiz = Number(y[k] ?? 2);
     const puan = Number(p?.[String(beklenenYildiz)]);
     const benOran = typeof benOranlar[k] === "number" ? benOranlar[k] : null;
     const rakipOran = typeof rakipOranlar[k] === "number" ? rakipOranlar[k] : null;
     const fark = benOran === null || rakipOran === null ? null : benOran - rakipOran;
     const renk = fark === null ? "gri" : fark >= esik ? "yesil" : fark <= -esik ? "kirmizi" : "gri";
-    if (!e || !e.sinif.includes(`m2-kat--${renk}`) || e.deger !== `+${puan} / −${puan}`) hatali.push({ k, renk, puan, e });
+    const sinif = `${benSaldiran ? "m2-kat" : "m2-savun-kat"}--${renk}`;
+    const beklenenDeger = benSaldiran ? `+${puan} / −${puan}` : `+${puan}`;
+    const oncekiYildiz = i ? Number(y[sira[i - 1]] ?? 2) : 3;
+    if (!e.sinif.includes(sinif) || e.deger !== beklenenDeger || e.oranTasti || !e.oranTekSatir
+        || !e.zemin || Number(beklenenYildiz) > oncekiYildiz) hatali.push({ k, renk, puan, e, oncekiYildiz });
   });
-  if (hatali.length) basarisiz("Düello: kategori kartı sunucuyla uyuşmuyor", hatali.slice(0, 3));
+  const baslikPuanlari = [3, 2, 1].map((n) => Number(p?.[String(n)]));
+  const basliklarDogru = ekran.basliklar.length === 3 && baslikPuanlari.every((puan, i) => ekran.basliklar[i].includes(String(puan)));
+  if (!basliklarDogru) hatali.push({ basliklar: ekran.basliklar, beklenenPuanlar: baslikPuanlari });
+  if (hatali.length) basarisiz(`Düello: ${benSaldiran ? "saldıran" : "savunan"} kategori grupları sunucuyla uyuşmuyor`, hatali.slice(0, 3));
   else {
     const dagilim = [1, 2, 3].map((n) => kats.filter((k) => Number(y[k]) === n).length);
-    kapsam.yildizlar.push(dagilim.join("/"));
-    console.log(`  ✓ kategori kartları: 10 kart sunucuyla aynı (değer + renk; eski yıldız dağılımı ★ ${dagilim[0]} · ★★ ${dagilim[1]} · ★★★ ${dagilim[2]})`);
+    if (benSaldiran) kapsam.yildizlar.push(dagilim.join("/"));
+    console.log(`  ✓ ${benSaldiran ? "saldıran" : "savunan"} kategori grupları: 3 başlık + değer + zemin rengi + tek satır oran (★ ${dagilim[0]} · ★★ ${dagilim[1]} · ★★★ ${dagilim[2]})`);
   }
 }
 
@@ -749,8 +776,8 @@ async function duelloMaci(kapsam) {
       if (bant && jokerKapali) console.log("  ✓ Altın Soru açıldı: bant görünüyor, jokerler kapalı");
       await ekranOlc("duello-altin-soru");
     }
-    // 666 · yıldız rozetleri (kategori seçme sırası bendeyken bir kez)
-    if (d.faz === "kategori" && benSaldiran && !(d.uzatma === true || d.uzatma === "t")) await yildizKontrol(id, kapsam);
+    // 671 · saldıran ve savunan ekranında üç grup + zemin rengi + tek satır oran.
+    if (d.faz === "kategori" && !(d.uzatma === true || d.uzatma === "t")) await yildizKontrol(id, kapsam, benSaldiran);
     // 650 · Kategori Kalkanı senaryosu (Altın Soru'da yok)
     kalkanSecimKontrol(d, kapsam.kalkan, id);
     if (d.faz === "kategori" && !(d.uzatma === true || d.uzatma === "t")) {
@@ -924,7 +951,7 @@ async function haleOlc() {
 
 async function duelloTesti() {
   console.log("\n▶ Düello");
-  const kapsam = { saldiran: 0, savunan: 0, durumlar: {}, olculen: new Set(), sayac: [], satinAlma: [], kalkan: {}, maclar: [], yildizlar: [] };
+  const kapsam = { saldiran: 0, savunan: 0, durumlar: {}, olculen: new Set(), sayac: [], satinAlma: [], kalkan: {}, maclar: [], yildizlar: [], kategoriKartlari: new Set() };
   for (let i = 0; i < EN_COK_MAC; i++) {
     if (await duelloMaci(kapsam) === "kritik") break;
     // 650: kalkan senaryosunun bütün adımları bitmeden durma (bir maçta savunma sayısı yetmeyebilir)
