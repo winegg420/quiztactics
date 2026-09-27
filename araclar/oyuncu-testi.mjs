@@ -381,15 +381,16 @@ async function kalkanAdimi(id, d, benSaldiran, kt) {
       if (hak !== 1) basarisiz("Kalkan: Tur 1–5'te düğmedeki hak 1 değil", { hak, tur });
       await dugme.tap({ timeout: 1500 }).catch(() => {});
       if (await s.locator(".m2-kalkan-izgara").count()) {
-        const yildizli = await s.locator(".m2-kalkan-izgara .m2-kalkan-kat .m2-yildiz").count();
-        if (!yildizli) basarisiz("Kalkan: ızgarada yıldız rozeti yok");
+        // 669: yıldız rozeti kalktı — ızgara kartında artık puan değeri (+N) var.
+        const puanli = await s.locator(".m2-kalkan-izgara .m2-kalkan-kat b").count();
+        if (!puanli) basarisiz("Kalkan: ızgarada puan değeri yok");
         await ekranOlc("duello-kalkan-izgara");
         await s.locator(".m2-kalkan-kat").first().tap({ timeout: 1500 }).catch(() => {});
         if (await s.locator(".m2-kalkan-onay").count()) {
           await ekranOlc("duello-kalkan-onay");
           await s.locator(".m2-kalkan-onay .qt-dugme--ikincil").tap({ timeout: 1500 }).catch(() => {});
         }
-        console.log(`  ✓ kalkan: Tur ${tur} savunan düğme (hak ${hak}) → ızgara (yıldızlı) → onay açıldı (Vazgeç, hak saklandı)`);
+        console.log(`  ✓ kalkan: Tur ${tur} savunan düğme (hak ${hak}) → ızgara (puanlı) → onay açıldı (Vazgeç, hak saklandı)`);
       } else kt.gorsel = false;   // bot erken seçtiyse bir sonraki savunmada tekrar
       return "devam";
     }
@@ -489,37 +490,50 @@ function kalkanSecimKontrol(d, kt, id) {
   }
 }
 
-// 666 · Kategori ekranındaki yıldız rozetleri sunucunun maç başı yıldızlarıyla aynı mı (renk sınıfı + ★ sayısı + puan)?
+// 669 · Kategori kartındaki değer ("+N / −N") ve renk (eşleşme) sunucu verisiyle aynı mı?
 async function yildizKontrol(id, kapsam) {
   if (kapsam.yildizMac === id) return;
-  const [r] = await sorgu(`select case when oyuncu1 = ${alintila(BEN)} then yildiz2 else yildiz1 end y, puan_degerleri p,
+  const [r] = await sorgu(`select oyuncu1, oyuncu2, yildiz1, yildiz2, profil1, profil2, puan_degerleri p,
       tur, carpanli_turlar, carpan_katsayi from duellolar where id = ${alintila(id)}`);
-  const y = typeof r.y === "string" ? JSON.parse(r.y) : r.y;
+  const benOyuncu1 = r.oyuncu1 === BEN;
+  const y = typeof (benOyuncu1 ? r.yildiz2 : r.yildiz1) === "string"
+    ? JSON.parse(benOyuncu1 ? r.yildiz2 : r.yildiz1) : (benOyuncu1 ? r.yildiz2 : r.yildiz1);
+  const benProfil = typeof (benOyuncu1 ? r.profil1 : r.profil2) === "string"
+    ? JSON.parse(benOyuncu1 ? r.profil1 : r.profil2) : (benOyuncu1 ? r.profil1 : r.profil2);
+  const rakipProfil = typeof (benOyuncu1 ? r.profil2 : r.profil1) === "string"
+    ? JSON.parse(benOyuncu1 ? r.profil2 : r.profil1) : (benOyuncu1 ? r.profil2 : r.profil1);
+  const benOranlar = benProfil?.oranlar ?? {};
+  const rakipOranlar = rakipProfil?.oranlar ?? {};
   const pBase = typeof r.p === "string" ? JSON.parse(r.p) : r.p;
   const carpanTurlar = (typeof r.carpanli_turlar === "string" ? JSON.parse(r.carpanli_turlar) : r.carpanli_turlar ?? [9, 10]).map(Number);
   const carpan = carpanTurlar.includes(Number(r.tur)) ? Number(r.carpan_katsayi ?? 2) : 1;   // 667
   const p = Object.fromEntries(Object.entries(pBase).map(([k, v]) => [k, Math.round(Number(v) * carpan)]));
-  const ekran = await s.evaluate(() => [...document.querySelectorAll("button.m2-kat")].map((b) => {
-    const r = b.querySelector(".m2-yildiz");
-    return { ad: b.getAttribute("aria-label"), sinif: r?.className ?? "", yildiz: r?.querySelector(".m2-yildiz-y")?.textContent ?? "", puan: r?.querySelector("b")?.textContent ?? "" };
-  }));
+  const [esikSatir] = await sorgu(`select ayar_sayi('duello_kat_esik_yuzde', 10) v`);
+  const esik = Number(esikSatir?.v ?? 10);
+  const ekran = await s.evaluate(() => [...document.querySelectorAll("button.m2-kat")].map((b) => ({
+    ad: b.getAttribute("aria-label"), sinif: b.className, deger: b.querySelector(".m2-kat-deger")?.textContent ?? "",
+  })));
   if (!ekran.length) return;
   kapsam.yildizMac = id;
   const hatali = [];
   const kats = Object.keys(y);
-  // Kartlar duello_kategorileri() sırasıyla çizilir; aria-label'daki yıldız sayısı + görünen rozet eşleşmeli.
+  // Kartlar duello_kategorileri() sırasıyla çizilir.
   const sira = (await sorgu(`select unnest(duello_kategorileri()) k`)).map((x) => x.k);
   sira.forEach((k, i) => {
     const e = ekran[i];
-    const beklenen = Number(y[k] ?? 2);
-    const puan = Number(p?.[String(beklenen)]);
-    if (!e || !e.sinif.includes(`m2-yildiz--${beklenen}`) || e.yildiz.length !== beklenen || e.puan !== `+${puan}`) hatali.push({ k, beklenen, puan, e });
+    const beklenenYildiz = Number(y[k] ?? 2);
+    const puan = Number(p?.[String(beklenenYildiz)]);
+    const benOran = typeof benOranlar[k] === "number" ? benOranlar[k] : null;
+    const rakipOran = typeof rakipOranlar[k] === "number" ? rakipOranlar[k] : null;
+    const fark = benOran === null || rakipOran === null ? null : benOran - rakipOran;
+    const renk = fark === null ? "gri" : fark >= esik ? "yesil" : fark <= -esik ? "kirmizi" : "gri";
+    if (!e || !e.sinif.includes(`m2-kat--${renk}`) || e.deger !== `+${puan} / −${puan}`) hatali.push({ k, renk, puan, e });
   });
-  if (hatali.length) basarisiz("Düello: kategori yıldız rozeti sunucuyla uyuşmuyor", hatali.slice(0, 3));
+  if (hatali.length) basarisiz("Düello: kategori kartı sunucuyla uyuşmuyor", hatali.slice(0, 3));
   else {
     const dagilim = [1, 2, 3].map((n) => kats.filter((k) => Number(y[k]) === n).length);
     kapsam.yildizlar.push(dagilim.join("/"));
-    console.log(`  ✓ yıldızlar: 10 kategori rozeti sunucuyla aynı (★ ${dagilim[0]} · ★★ ${dagilim[1]} · ★★★ ${dagilim[2]}; renk + sayı + puan)`);
+    console.log(`  ✓ kategori kartları: 10 kart sunucuyla aynı (değer + renk; eski yıldız dağılımı ★ ${dagilim[0]} · ★★ ${dagilim[1]} · ★★★ ${dagilim[2]})`);
   }
 }
 
