@@ -489,23 +489,47 @@
 .m2-deger { color: var(--qt-mac-metin); font-weight: var(--qt-a-siyah); }
 .m2-sonuc-deger { display: flex; align-items: center; justify-content: center; gap: 6px; }
 .m2-tablo-hucre small.m2-tablo-puan { color: var(--qt-dogru-koyu); font-size: var(--qt-y-s); }
+.m2-tablo-hucre small.m2-tablo-puan--eksi { color: var(--qt-yanlis-koyu); }
 
-/* Üst şerit: puan (kalp yerine) + "+N" balonu */
+/* Üst şerit: puan (kalp yerine) + "+N"/"−N" balonu */
 .m2-puan { position: relative; display: inline-flex; align-items: baseline; gap: 3px; color: var(--qt-mac-soluk); line-height: 1; }
 .qt-oyuncu--rakip .m2-puan { flex-direction: row-reverse; }
 .m2-puan b { font-family: var(--qt-f-baslik); font-size: var(--qt-y-l); color: var(--qt-mac-metin); }
 .m2-puan small { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); }
 .m2-puan-sayi--artti { animation: m2-puan-pop var(--qt-s-orta) var(--qt-egri-yay) both; }
+.m2-puan-sayi--dustu { animation: m2-puan-dustu var(--qt-s-orta) var(--qt-egri-yay) both; }
 @keyframes m2-puan-pop { 40% { scale: 1.3; color: var(--qt-dogru); } }
+@keyframes m2-puan-dustu { 40% { scale: 1.2; color: var(--qt-yanlis); } }
 .m2-puan-artis {
   position: absolute; left: 100%; top: -10px; margin-left: 2px; pointer-events: none;
   font-family: var(--qt-f-baslik); font-size: var(--qt-y-s); font-weight: var(--qt-a-siyah); color: var(--qt-dogru);
   animation: m2-puan-artis 1400ms var(--qt-egri-cikis) both;
 }
+.m2-puan-artis--eksi { color: var(--qt-yanlis); }
 .qt-oyuncu--rakip .m2-puan-artis { left: auto; right: 100%; margin: 0 2px 0 0; }
 @keyframes m2-puan-artis { 0% { opacity: 0; translate: 0 6px; } 20% { opacity: 1; translate: 0 0; } 75% { opacity: 1; } 100% { opacity: 0; translate: 0 -8px; } }
 .m2-kalkan-gosterge { width: auto; min-width: 20px; padding: 0 4px; border-radius: 10px; grid-auto-flow: column; gap: 1px; }
 .m2-kalkan-gosterge b { font-size: 11px; line-height: 1; }
+
+/* ---------------------------------------------------------------- 667 · saldırana eksi + son 2 tur ×2
+   Kategori kartı: "Sen" satırı kendi gücünü rakiple aynı renk koduyla gösterir; saldıranda ayrıca
+   "Doğru +N · Yanlış −N" satırı. 390 px'de kart taşmasın diye ham yüzdeler bu satırlarla değişti. */
+.m2-kat-guc { display: block; width: 100%; font-weight: var(--qt-a-kalin); }
+.m2-kat-guc b { font-weight: var(--qt-a-siyah); letter-spacing: -0.04em; }
+.m2-kat-guc--y1 { color: var(--qt-yanlis-koyu); }
+.m2-kat-guc--y2 { color: var(--qt-uyari-koyu); }
+.m2-kat-guc--y3 { color: var(--qt-dogru-koyu); }
+.m2-kat-ceza { display: block; width: 100%; color: var(--qt-metin-soluk); }
+.m2-kat--kapali .m2-kat-guc, .m2-kat--kapali .m2-kat-ceza { opacity: 0.55; }
+
+/* Son 2 tur rozeti: küçük satır içi rozet (kategori adının yanında, bantlarda) */
+.m2-kat-ad-satir { display: flex; align-items: center; gap: 4px; min-width: 0; }
+.m2-kat-carpan {
+  flex: none; padding: 1px 6px; border-radius: var(--qt-r-hap);
+  background: var(--qt-coin); color: var(--qt-coin-yazi); font-size: 10px; font-weight: var(--qt-a-siyah);
+  box-shadow: 0 var(--qt-dudak-s) 0 var(--qt-coin-dudak);
+}
+.m2-bant--carpan { background: var(--qt-coin); color: var(--qt-coin-yazi); font-weight: var(--qt-a-siyah); }
 
 /* Altın Soru: sahne kenarı altın */
 .m2-mac--altin { box-shadow: inset 0 0 0 3px var(--qt-coin); }

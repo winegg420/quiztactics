@@ -9,8 +9,8 @@ import { tt } from "../lib/dil.js";
  * Tasarım A: QtModal (body'ye portal, odak tuzağı, Esc). Stiller DuelloPage.a.css › m2-tanitim.
  * Metinlerin İngilizcesi: ceviri/mac.js › Düello (M2).
  */
-// 666: puan sistemi geldi → yeni anahtar, tanıtım herkese bir kez daha açılır.
-const DEPO = "bildim_duello_tanitim_v5";
+// 667: saldırana eksi puan + son 2 tur ×2 geldi → yeni anahtar, tanıtım herkese bir kez daha açılır.
+const DEPO = "bildim_duello_tanitim_v6";
 
 export function duelloTanitimGoruldu() {
   try { return localStorage.getItem(DEPO) === "1"; } catch (e) { console.warn("[Bildim] localStorage okunamadı:", e?.message ?? e); return false; }
@@ -23,7 +23,8 @@ function isaretle() {
 const ADIMLAR = [
   { ikon: "duello", baslik: "Aynı soru, aynı anda", metin: "Kategoriyi sırayla biriniz seçer (15 sn; dolarsa rastgele). Soru ikinize aynı anda açılır, 15 sn'niz var. Rakibin cevapladığını görürsün ama ne cevapladığını göremezsin." },
   { ikon: "yildiz", baslik: "Yıldızlı kategoriler", metin: "Maç başında her kategori, rakibin o kategorideki doğru oranına göre yıldızlanır ve maç boyunca değişmez: %45'e kadar ★ zayıf (1 puan), %70'e kadar ★★ orta (3 puan), üstü ★★★ güçlü (6 puan). Rakibin o kategoride 5'ten az cevabı varsa ★★ sayılır." },
-  { ikon: "onay", baslik: "Doğru bilen alır", metin: "Saldıran ya da savunan fark etmez: soruyu doğru bilen kategorinin puanını alır. İkiniz de doğruysanız ikiniz de alırsınız, ikiniz de yanlışsanız kimse alamaz. Süre dolarsa 'Yanıtsız' sayılır." },
+  { ikon: "onay", baslik: "Doğru bilen alır, saldıran yanlış bilirse kaybeder", metin: "Soruyu doğru bilen kategorinin puanını alır. Kategoriyi SEÇEN (saldıran) yanlış bilir ya da süresi dolarsa aynı puanı kaybeder — puanın SIFIRIN ALTINA inmez. Savunan hiçbir zaman puan kaybetmez. İkiniz de doğruysanız ikiniz de alırsınız." },
+  { ikon: "yildiz", baslik: "Son 2 tur: puanlar ×2", metin: "9. ve 10. turda kategori değerleri iki katıdır — kazanç da saldıranın cezası da ×2. Altın Soru bundan etkilenmez." },
   { ikon: "kalkan", baslik: "Kategori Kalkanı", metin: "Rakip kategori seçerken kendi kategorilerinden birini o seçim için kapatırsın. Maçta 2 hakkın var ve ikisi de ücretsiz: 1. hak Tur 1–5'te, 2. hak Tur 6–10'da açılır. İlk hakkı kullanmazsan kaybolmaz; Tur 6'dan sonra iki hakkı da istediğin zaman kullanırsın." },
   { ikon: "terazi", baslik: "10 tur ve Altın Soru", metin: "Maç her zaman 10 tur sürer; sonunda puanı yüksek olan kazanır. Puanlar eşitse Altın Soru gelir: zor, daha önce sorulmamış bir soru, joker yok. Yalnız biriniz bilene kadar sürer." },
   { ikon: "yariyari", baslik: "Joker", metin: "Maçta toplam 4 joker kullanımın var; aynı joker en çok 2 kez, bir soruda en çok 1. Soru Değiştir yalnız ikiniz de cevaplamamışken ve rakip o soruda joker kullanmamışken çalışır. Jokerin yoksa maçın içinden satın alabilirsin." },

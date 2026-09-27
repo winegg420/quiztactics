@@ -57,10 +57,22 @@ export function kategoriYildizi(oyuncu, k) {
   return v >= 1 && v <= 3 ? v : 2;
 }
 
-/** Yıldızın puan değeri (maç başında sabitlenen puan_degerleri; yoksa 1/3/6). */
+/**
+ * Yıldızın puan değeri (maç başında sabitlenen puan_degerleri; yoksa 1/3/6).
+ * 667: son 2 turda (d.tur_carpani, Altın Soru'da her zaman 1) çarpanla katlanır — doğru bilen bu kadar
+ * alır, saldıran yanlış/yanıtsız bırakırsa bu kadar kaybeder (taban 0, kural sunucuda).
+ */
 export function yildizPuani(d, y) {
   const v = Number(d?.puan_degerleri?.[String(y)]);
-  return Number.isFinite(v) && v > 0 ? v : ({ 1: 1, 2: 3, 3: 6 })[y] ?? 3;
+  const taban = Number.isFinite(v) && v > 0 ? v : ({ 1: 1, 2: 3, 3: 6 })[y] ?? 3;
+  const carpan = !d?.uzatma && Number(d?.tur_carpani) > 1 ? Number(d.tur_carpani) : 1;
+  return Math.round(taban * carpan);
+}
+
+/** Son 2 tur ×çarpan rozeti (Altın Soru'da yok). */
+export function V2CarpanRozeti({ d, className }) {
+  if (d?.uzatma || !(Number(d?.tur_carpani) > 1)) return null;
+  return <span className={sinif("m2-kat-carpan", className)} aria-hidden="true">×{d.tur_carpani}</span>;
 }
 
 /**
@@ -111,9 +123,13 @@ export function V2Ust({ d, ben, rakip, artis = {}, c, seviyeler = {}, tepkiBalon
           </OyuncuAdiDugmesi>
           <SeviyeEtiketi {...(seviyeler[o.id] ?? {})} />
           <span className="m2-puan" role="img" aria-label={rakipMi ? c("Rakibin puanı: {n}", { n: puan }) : c("Senin puanın: {n}", { n: puan })}>
-            <b key={a ? `p${a.anahtar}` : "p"} className={sinif("qt-sayi", a && "m2-puan-sayi--artti")}>{puan}</b>
+            <b key={a ? `p${a.anahtar}` : "p"} className={sinif("qt-sayi", a && (a.miktar < 0 ? "m2-puan-sayi--dustu" : "m2-puan-sayi--artti"))}>{puan}</b>
             <small>{c("puan")}</small>
-            {a && <span key={`a${a.anahtar}`} className="m2-puan-artis qt-sayi" aria-hidden="true">+{a.miktar}</span>}
+            {a && (
+              <span key={`a${a.anahtar}`} className={sinif("m2-puan-artis qt-sayi", a.miktar < 0 && "m2-puan-artis--eksi")} aria-hidden="true">
+                {a.miktar > 0 ? `+${a.miktar}` : a.miktar}
+              </span>
+            )}
           </span>
         </span>
         {secen && (
@@ -356,9 +372,8 @@ export function V2Kategori({ d, benSaldiran, ben, rakip, calisan, sayac, sonSani
       <div className="m2-kat-izgara">
         {kategoriler.map((k) => {
           const secilebilir = uygun.has(k);
-          const rOran = kategoriOrani(rakip.profil, k);
-          const bOran = kategoriOrani(ben?.profil, k);
           const yl = kategoriYildizi(rakip, k);
+          const benYl = kategoriYildizi(ben, k);
           const puan = yildizPuani(d, yl);
           const korumada = k === (d.kalkan?.aktif ?? null);   // rakibin kalkanı
           const neden = secilebilir ? null : korumada ? c("Korumada") : c("Seçilemez");
@@ -367,17 +382,22 @@ export function V2Kategori({ d, benSaldiran, ben, rakip, calisan, sayac, sonSani
                     className={sinif("m2-kat", `m2-kat--y${yl}`, !secilebilir && "m2-kat--kapali", korumada && "m2-kat--kalkan")}
                     disabled={!secilebilir || !!calisan}
                     aria-busy={calisan === "kategori" || undefined}
-                    aria-label={`${c(kategoriAdi(k))} · ${c("{y} yıldız, {ad} · doğru bilene {p} puan", { y: yl, ad: c(YILDIZ_AD[yl]), p: puan })} · ${c("Rakip")} ${oranMetni(rOran, c)} · ${c("Sen")} ${oranMetni(bOran, c)}${neden ? ` · ${neden}` : ""}`}
+                    aria-label={`${c(kategoriAdi(k))} · ${c("{y} yıldız, {ad} · doğru bilene {p} puan", { y: yl, ad: c(YILDIZ_AD[yl]), p: puan })} · ${c("Sen: {y} yıldız, {ad}", { y: benYl, ad: c(YILDIZ_AD[benYl]) })}${neden ? ` · ${neden}` : ""}`}
                     onClick={() => onSec(k)}>
               <KategoriIkon anahtar={k} boyut={22} plaka />
-              <span className="m2-kat-ad">{c(kategoriAdi(k))}</span>
+              <span className="m2-kat-ad-satir">
+                <span className="m2-kat-ad">{c(kategoriAdi(k))}</span>
+                <V2CarpanRozeti d={d} />
+              </span>
               <span className="m2-kat-bilgi">
                 {korumada ? (
                   <span className="m2-kat-korumada"><QtIkon ad="kalkan" boyut={12} /> {neden}</span>
                 ) : neden ?? (
                   <>
-                    <span className="m2-kat-oran m2-kat-oran--rakip">{c("Rakip")} <b className="qt-sayi">{oranMetni(rOran, c)}</b></span>
-                    <span className="m2-kat-oran m2-kat-oran--ben">{c("Sen")} <b className="qt-sayi">{oranMetni(bOran, c)}</b></span>
+                    <span className={sinif("m2-kat-guc", `m2-kat-guc--y${benYl}`)}>
+                      {c("Sen")}: <b>{"★".repeat(benYl)}</b> {c(YILDIZ_AD[benYl])}
+                    </span>
+                    <span className="m2-kat-ceza">{c("Doğru +{p} · Yanlış −{p}", { p: puan })}</span>
                   </>
                 )}
               </span>
@@ -429,7 +449,8 @@ export function V2Cevap({ d, rakip, secenekler, secim, ikinciSansElendi, calisan
       {d.uzatma ? <V2AltinBandi kategori={d.kategori} c={c} /> : (
         <p className={sinif("m2-bant m2-deger", `m2-deger--${yl}`)} role="status">
           <YildizEtiket yildiz={yl} puan={puan} c={c} />
-          <span>{c("Doğru bilen {n} puan alır.", { n: puan })}</span>
+          <V2CarpanRozeti d={d} />
+          <span>{c("Doğru bilen {n} puan alır; saldıran yanlış/yanıtsız bırakırsa {n} kaybeder.", { n: puan })}</span>
         </p>
       )}
       <div className="m2-durumlar" aria-live="polite">
@@ -490,12 +511,21 @@ export function v2SonucMetni(h, benId, c) {
   }
   const bp = Number(h?.puanlar?.[benId] ?? 0);
   const rp = Number(rakipId ? h?.puanlar?.[rakipId] ?? 0 : 0);
+  // 667: yalnız saldıran taraf eksiye düşebilir (savunan hiç kaybetmez) — hamlede en çok biri saldırandır.
   let metin;
   let ton = "notr";
   if (b === "dogru" && r === "dogru") metin = c("İkiniz de doğru → ikiniz de +{n}", { n: bp });
   else if (b === "dogru") { metin = c("Sen doğru, rakip {r} → sen +{n}", { r: c(DURUM_KUCUK[r]), n: bp }); ton = "dogru"; }
   else if (r === "dogru") { metin = c("Sen {b}, rakip doğru → rakip +{n}", { b: c(DURUM_KUCUK[b]), n: rp }); ton = "yanlis"; }
-  else metin = c("Sen {b}, rakip {r} → kimse puan almadı", { b: c(DURUM_KUCUK[b]), r: c(DURUM_KUCUK[r]) });
+  else if (bp < 0) {
+    metin = c("Sen {b} (saldırıyken) → −{n}; rakip de {r} ama puan kaybetmedi", { b: c(DURUM_KUCUK[b]), n: Math.abs(bp), r: c(DURUM_KUCUK[r]) });
+    ton = "yanlis";
+  } else if (rp < 0) {
+    metin = c("Rakip {r} (saldırıyken) → rakip −{n}; sen de {b} ama puan kaybetmedin", { r: c(DURUM_KUCUK[r]), n: Math.abs(rp), b: c(DURUM_KUCUK[b]) });
+    ton = "dogru";
+  } else {
+    metin = c("Sen {b}, rakip {r} → kimse puan almadı", { b: c(DURUM_KUCUK[b]), r: c(DURUM_KUCUK[r]) });
+  }
   return { metin, ton, b, r, bp, rp };
 }
 
@@ -511,7 +541,11 @@ export function V2Sonuc({ d, rakip, secenekler, c }) {
     <div className={`m2-tablo-hucre m2-tablo-hucre--${x}`}>
       <span className="m2-tablo-ad">{etiket}</span>
       <b><QtIkon ad={DURUM_IKON[x]} boyut={18} /> {c(DURUM_ETIKET[x])}</b>
-      {kazanc > 0 && <small className="m2-tablo-puan qt-h-pop-gir qt-sayi">+{kazanc}</small>}
+      {kazanc !== 0 && (
+        <small className={sinif("m2-tablo-puan qt-h-pop-gir qt-sayi", kazanc < 0 && "m2-tablo-puan--eksi")}>
+          {kazanc > 0 ? `+${kazanc}` : kazanc}
+        </small>
+      )}
     </div>
   );
   return (
@@ -519,7 +553,11 @@ export function V2Sonuc({ d, rakip, secenekler, c }) {
       {h.uzatma && <V2AltinBandi kategori={h.kategori} c={c} />}
       <QtSonucBandi ton={ton} metin={metin} anahtar={`${h.tur}-${h.soru_id}`} />
       {!h.uzatma && h.yildiz && (
-        <p className="m2-not m2-sonuc-deger"><YildizEtiket yildiz={h.yildiz} puan={Number(h.deger ?? yildizPuani(d, h.yildiz))} c={c} kucuk /> {c(kategoriAdi(h.kategori ?? ""))}</p>
+        <p className="m2-not m2-sonuc-deger">
+          <YildizEtiket yildiz={h.yildiz} puan={Number(h.deger ?? yildizPuani(d, h.yildiz))} c={c} kucuk />
+          {Number(h.carpan) > 1 && <span className="m2-kat-carpan" aria-hidden="true">×{h.carpan}</span>}
+          {c(kategoriAdi(h.kategori ?? ""))}
+        </p>
       )}
       <div className="m2-tablo" role="group" aria-label={c("Puan tablosu")}>
         {hucre(c("Sen"), b, puanOf(d.ben))}
@@ -650,9 +688,10 @@ export function V2Gecmis({ gecmis, maxTur, benId, c }) {
           const benimCevap = g.benim_cevabim === null || g.benim_cevabim === undefined ? null : Number(g.benim_cevabim);
           const bp = Number(g.benim_puanim ?? 0);
           const rp = Number(g.rakip_puani ?? 0);
+          const isaretli = (n) => (n < 0 ? `−${Math.abs(n)}` : `+${n}`);
           const puanMetni = g.uzatma
             ? (g.altin_kazanan ? (g.altin_kazanan === benId ? c("Altın Soru'yu sen bildin") : c("Altın Soru'yu rakip bildi")) : c("Eşitlik sürdü"))
-            : c("Sen +{b} · Rakip +{r}", { b: bp, r: rp });
+            : c("Sen {b} · Rakip {r}", { b: isaretli(bp), r: isaretli(rp) });
           const iyi = g.uzatma ? g.altin_kazanan === benId : bp > rp;
           const kotu = g.uzatma ? Boolean(g.altin_kazanan && g.altin_kazanan !== benId) : rp > bp;
           return (
@@ -663,6 +702,7 @@ export function V2Gecmis({ gecmis, maxTur, benId, c }) {
                 </span>
                 {g.kategori && <span className="m2-gecmis-kat"><KategoriIkon anahtar={g.kategori} boyut={14} /> {c(kategoriAdi(g.kategori))}</span>}
                 {!g.uzatma && g.yildiz ? <YildizEtiket yildiz={g.yildiz} puan={Number(g.deger ?? 0)} c={c} kucuk /> : null}
+                {!g.uzatma && Number(g.carpan) > 1 && <span className="m2-kat-carpan" aria-hidden="true">×{g.carpan}</span>}
                 <span className={`m2-rozet m2-rozet--${ben}`}><QtIkon ad={DURUM_IKON[ben]} boyut={12} /> {c(DURUM_ETIKET[ben])}</span>
               </div>
               {g.soru && <p className="m2-gecmis-metin">{g.soru}</p>}

@@ -54,6 +54,10 @@ import { sayacKaymasi, sayacGoster, sayacSinirMs } from "../lib/zaman.js";
 // Tanımadığı sürümde maç çizilmez, yenileme istenir.
 const DUELLO_EN_YUKSEK_SURUM = 2;
 
+// Kategori geri sayım sesi yalnız son KATEGORI_SES_ESIK_SN saniyede çalar (küçük hata, 27 Eyl 2026):
+// eskiden 15 sn'lik kategori süresinin tamamında tik çalıyordu.
+const KATEGORI_SES_ESIK_SN = 5;
+
 // Canlılık (23 Eyl 2026, ölçüldü): her duello_durum okuması sunucuda satır kilidi +
 // iki yazma (hız sınırı sayacı, last_seen) yapar. Eskiden saniyede bir yoklama +
 // her sinyalde okuma + her okumada duello_baglanti vardı (oyuncu başına ~1,4 durum
@@ -173,8 +177,9 @@ function DuelloGiris() {
 const ARAMA_IPUCLARI = [
   "Aynı soruyu aynı anda cevaplarsınız.",
   "Rakibin güçlü olduğu kategori ★★★: doğru bilen 6 puan alır.",
-  "Doğru bilen puanı alır — saldıran da savunan da.",
+  "Kategoriyi seçen (saldıran) yanlış bilirse aynı puanı kaybeder — savunan hiç kaybetmez.",
   "Kategori Kalkanı: maçta 2 hak, Tur 1–5 ve Tur 6–10.",
+  "Son 2 tur (9–10) puanlar ×2: kazanç da ceza da katlanır.",
   "10 tur sonunda puan eşitse Altın Soru.",
 ];
 const IPUCU_SN = 3;
@@ -650,6 +655,20 @@ function DuelloMac({ id }) {
     return () => clearTimeout(t);
   }, [kalkanBildirim]);
 
+  // 667 · Son 2 tur ×çarpan: bu maçta ilk kez etkinleştiğinde tek seferlik duyuru (~3,5 sn).
+  const [carpanBildirim, setCarpanBildirim] = useState(null);
+  const carpanOncekiRef = useRef(false);
+  const carpanAktif = d?.surum === 2 && d?.durum === "aktif" && !d?.uzatma && Number(d?.tur_carpani) > 1;
+  useEffect(() => {
+    if (carpanAktif && !carpanOncekiRef.current) { setCarpanBildirim(Number(d.tur_carpani)); sesJoker(); titret(20); }
+    carpanOncekiRef.current = carpanAktif;
+  }, [carpanAktif, d?.tur_carpani]);
+  useEffect(() => {
+    if (!carpanBildirim) return undefined;
+    const t = setTimeout(() => setCarpanBildirim(null), 3500);
+    return () => clearTimeout(t);
+  }, [carpanBildirim]);
+
   // Hamle sonucu sesi
   useEffect(() => {
     const h = d?.son_hamle;
@@ -792,7 +811,7 @@ function DuelloMac({ id }) {
   const v2Aktif = d?.surum === 2 && d?.durum === "aktif";
   const kategoriSn = v2Aktif && d.faz === "kategori" ? Math.ceil(gosterSn) : 0;
   useEffect(() => {
-    if (kategoriSn <= 0) return;
+    if (kategoriSn <= 0 || kategoriSn > KATEGORI_SES_ESIK_SN) return;
     const anahtar = `${fazAnahtari}:${kategoriSn}`;
     if (sayimRef.current === anahtar) return;
     sayimRef.current = anahtar;
@@ -839,7 +858,7 @@ function DuelloMac({ id }) {
     sesRakipCevapladi();
   }, [rakipCevapAnahtari]);
 
-  // Puan artışı: skor rozetinde "+N" balonu — anahtar her yeni artışta değişir.
+  // Puan değişimi: skor rozetinde "+N"/"−N" balonu — anahtar her değişimde değişir (667: eksi de olabilir).
   useEffect(() => {
     if (!d?.oyuncular) return;
     const onceki = puanRef.current;
@@ -847,7 +866,7 @@ function DuelloMac({ id }) {
     const artislar = {};
     for (const o of d.oyuncular) {
       yeni[o.id] = Number(o.puan ?? 0);
-      if (onceki[o.id] !== undefined && yeni[o.id] > onceki[o.id]) artislar[o.id] = { anahtar: Date.now(), miktar: yeni[o.id] - onceki[o.id] };
+      if (onceki[o.id] !== undefined && yeni[o.id] !== onceki[o.id]) artislar[o.id] = { anahtar: Date.now(), miktar: yeni[o.id] - onceki[o.id] };
     }
     puanRef.current = yeni;
     if (Object.keys(artislar).length) setArtis((a) => ({ ...a, ...artislar }));
@@ -1197,6 +1216,12 @@ function DuelloMac({ id }) {
         </p>
       )}
       {ezeliMetin && d.tur <= 1 && d.faz === "kategori" && <p className="m2-bant">{ezeliMetin}</p>}
+      {carpanBildirim && (
+        <p className="m2-bant m2-bant--carpan qt-h-pop-gir" role="status">
+          <QtIkon ad="yildiz" boyut={18} />
+          <span>{c2("Son 2 tur: puanlar ×{n}", { n: carpanBildirim })}</span>
+        </p>
+      )}
       <div className="m2-sahne" key={`${d.faz}-${d.tur}-${d.saldiri_sirasi}-${d.uzatma}`}>
         {turGecis && simdi - turGecis < 900 && (
           <span key={turGecis} className="m2-gecis" aria-hidden="true">
