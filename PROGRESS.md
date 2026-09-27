@@ -9050,3 +9050,16 @@ memnun değildi — hepsi dokunuş sesine kıyasla fazla süslü/uzun/katmanlıy
 - **Kod ve derleme:** SQL davranış testi isteğe bağlı `BOT_EPOSTA` ile belirli gizli botu
   seçebiliyor. `npm run build` ve postbuild tarayıcı uyumluluk denetimi temiz; RLS,
   bot davranış fonksiyonları ve profil görünüm verileri değiştirilmedi.
+
+## 2026-09-27 — Ana sayfa Düello kartı kırmızıya çevrildi
+**Araç:** Codex
+
+- Yalnız ana sayfadaki `.as-buyuk-dugme--duello` yerel renk eşlemesi, stil rehberinin
+  kırmızı `--qt-yanlis` / `--qt-yanlis-dudak` tokenlarına geçirildi (`#ff5a6a` /
+  `#c9303f`). Global Düello tokenı ve maç ekranı renkleri değiştirilmedi.
+- Lacivert kart metniyle kontrast **4,97:1** (WCAG AA). Turuncu OYNA, mor ve diğer mod
+  renkleri değişmedi.
+- TR/EN, 390 px ve 1280 px görsel doğrulamalarında kart etiketi ve renkleri doğru,
+  yatay taşma yok. Kalıcı test profilinin dili EN kontrolü için geçici değiştirildi ve
+  sonunda `tr` değerine geri yüklendi; yeni test hesabı açılmadı.
+- `npm run build` ve postbuild tarayıcı uyumluluk denetimi temiz.
