@@ -94,20 +94,25 @@ try {
   ok('puan değerleri 1/3/6', (await tek(`select puan_degerleri::text from duellolar where id='${id}'`)) === '{"1": 1, "2": 3, "3": 6}');
   ok('başlangıç puanı 0-0, can yok', (await tek(`select puan1||'-'||puan2||'-'||coalesce(can1::text,'yok') from duellolar where id='${id}'`)) === '0-0-yok');
 
-  console.log('2) Simetrik puan');
-  // A saldırıyor → değer B'nin (rakibin) yıldızı. B saldırırken değer A'nın yıldızı.
+  console.log('2) Simetrik puan (667: saldıranın cezası taban sifirda durur bağımsızca izlenir)');
+  // A saldırıyor → değer B'nin (rakibin) yıldızı. B saldırırken değer A'nın yıldızı (A'nın yıldızları 1) adımdan bilinir).
   const yB = await json(`select yildiz2::text from duellolar where id='${id}'`);
   const deger = { 1: 1, 2: 3, 3: 6 };
-  let r = await hamle(id, 'bilim', true, true);
   const vB = deger[yB.bilim];
-  ok('ikisi doğru → ikisi alır', r.p1 === vB && r.p2 === vB, `${r.p1}-${r.p2} (B bilim ★${yB.bilim})`);
+  let p1 = 0, p2 = 0;
+  let r = await hamle(id, 'bilim', true, true);
+  p1 += vB; p2 += vB;
+  ok('ikisi doğru → ikisi alır', r.p1 === p1 && r.p2 === p2, `${r.p1}-${r.p2} (B bilim ★${yB.bilim})`);
   await db.sorgu(`update duellolar set saldiran=oyuncu2, saldiri_sirasi=1 where id='${id}'`);
-  r = await hamle(id, 'sanat', false, true);   // B saldırdı, A (savunan) doğru, değer A'nın sanat ★★★ = 6
-  ok('yalnız savunan doğru → savunan alır (6)', r.p1 === vB + 6 && r.p2 === vB, `${r.p1}-${r.p2}`);
+  r = await hamle(id, 'sanat', false, true);   // B saldırdı(yanlış), A (savunan) doğru — değer A'nın sanat ★★★ = 6
+  p1 += 6; p2 = Math.max(0, p2 - 6);           // 667: B (saldıran) o kadar kaybeder, taban 0
+  ok('yalnız savunan doğru → savunan alır (6), saldıranın cezası taban sifirda durur (667)', r.p1 === p1 && r.p2 === p2, `${r.p1}-${r.p2}`);
   r = await hamle(id, 'bilim', true, false);    // B saldırdı doğru, A yanlış; değer A'nın bilim ★ = 1
-  ok('yalnız saldıran doğru → saldıran alır (1)', r.p1 === vB + 6 && r.p2 === vB + 1, `${r.p1}-${r.p2}`);
-  r = await hamle(id, 'spor', false, null);     // ikisi de bilemedi (A yanıtsız)
-  ok('ikisi yanlış/yanıtsız → kimse almaz', r.p1 === vB + 6 && r.p2 === vB + 1);
+  p2 += 1;
+  ok('yalnız saldıran doğru → saldıran alır (1)', r.p1 === p1 && r.p2 === p2, `${r.p1}-${r.p2}`);
+  r = await hamle(id, 'spor', false, null);     // B(saldıran) yanlış, A(savunan) yanıtsız — değer A'nın spor ★★ = 3
+  p2 = Math.max(0, p2 - 3);                     // 667: B eksi, A (savunan) kayıpsız
+  ok('saldıran (B) yanlış → eksi puan, savunan (A) kayıpsız (667)', r.p1 === p1 && r.p2 === p2, `${r.p1}-${r.p2}`);
   ok('son_hamle yıldız/değer/puanlar', r.sh.yildiz === 2 && r.sh.deger === 3 && r.sh.puanlar[A] === 0, JSON.stringify({ y: r.sh.yildiz, d: r.sh.deger }));
   const hm = await json(`select json_agg(json_build_object('y',yildiz,'d',deger,'ps',puan_saldiran,'pv',puan_savunan,'ck',can_kaybeden) order by id)::text from duello_hamleler where duello_id='${id}'`);
   ok('hamle kaydı puanları taşır, can_kaybeden boş', hm.length === 4 && hm.every((h) => h.ck === null) && hm[1].pv === 6 && hm[2].ps === 1, JSON.stringify(hm));
@@ -239,6 +244,65 @@ try {
   ok('oyuncu: puan + yıldızlar, can yok', oA.puan === 0 && oA.yildizlar?.bilim === 1 && !('can' in oA));
   ok('puan_degerleri var, kategori_max yok', du.puan_degerleri?.['3'] === 6 && !('kategori_max' in du));
   ok('kalkan: toplam 2, pencere 5/10, A kalan 1', du.kalkan.toplam_hak === 2 && du.kalkan.pencere1_son === 5 && du.kalkan.pencere2_son === 10 && du.kalkan.oyuncular[A].kalan === 1);
+
+  console.log('10) Saldırana eksi puan + taban 0 (667)');
+  // B'nin oranları da bilinir hale getirilir: bilim %90 → ★★★ (6) · tarih %10 → ★ (1) · diğerleri veri yok → ★★ (3).
+  await db.sorgu(`delete from kategori_istatistik where user_id='${B}'`);
+  await db.sorgu(`insert into kategori_istatistik(user_id,kategori,toplam,dogru) values ('${B}','bilim',20,18),('${B}','tarih',20,2)`);
+  id = await yeniMac();   // A saldırır (tur 1, saldiri_sirasi 0)
+  r = await hamle(id, 'tarih', true, false);   // ısınma: A doğru → +1 (B tarih ★), B savunan yanlış → 0
+  ok('ısınma: saldıran doğru kazanır (★1)', r.p1 === 1 && r.p2 === 0, `${r.p1}/${r.p2}`);
+  r = await hamle(id, 'bilim', false, false);  // A(saldıran) yanlış (ceza ★★★=6, elde yalnız 1) — B(savunan) da yanlış
+  ok('saldıran yanlış → eksi puan, taban 0da durur', r.p1 === 0, `p1=${r.p1}`);
+  ok('savunan yanlış → puan kaybetmez (0)', r.p2 === 0, `p2=${r.p2}`);
+  ok('gösterilen ceza gerçekte UYGULANAN miktar (-1, nominal -6 değil)', r.sh.puanlar[A] === -1, JSON.stringify(r.sh.puanlar));
+  r = await hamle(id, 'bilim', null, false);   // saldıran yanıtsız, puan zaten 0 → delta 0
+  ok('saldıran yanıtsız → aynı ceza kuralı (delta 0, zaten tabanda)', r.p1 === 0 && r.sh.puanlar[A] === 0, JSON.stringify(r.sh.puanlar));
+  r = await hamle(id, 'spor', true, false);    // headroom: spor veri yok → ★★ (3)
+  r = await hamle(id, 'spor', true, false);    // p1 = 6
+  r = await hamle(id, 'bilim', false, false);  // yeterli puanla TAM ceza (-6) uygulanır
+  ok('yeterli puanla tam ceza uygulanır (-6)', r.p1 === 0 && r.sh.puanlar[A] === -6, JSON.stringify(r.sh.puanlar));
+
+  console.log('11) Son 2 tur (9-10) puanlar ×2 — kazanç ve ceza (667)');
+  id = await yeniMac();
+  await db.sorgu(`update duellolar set tur=9, saldiri_sirasi=0, saldiran=oyuncu1 where id='${id}'`);
+  r = await hamle(id, 'tarih', true, false);
+  ok('Tur 9 doğru: değer ×2 (★1 → 2)', r.sh.deger === 2 && Number(r.sh.carpan) === 2 && r.p1 === 2, JSON.stringify(r.sh));
+  r = await hamle(id, 'bilim', false, false);
+  ok('Tur 9 yanlış: ceza ×2 (★★★6 → 12), taban 0da durur', r.p1 === 0 && r.sh.deger === 12 && Number(r.sh.carpan) === 2 && r.sh.puanlar[A] === -2, JSON.stringify(r.sh));
+  await db.sorgu(`update duellolar set tur=8, saldiri_sirasi=0, saldiran=oyuncu1, puan1=0 where id='${id}'`);
+  r = await hamle(id, 'tarih', true, false);
+  ok('Tur 8: çarpan yok (×1)', Number(r.sh.carpan) === 1 && r.sh.deger === 1 && r.p1 === 1, JSON.stringify(r.sh));
+  await db.sorgu(`update duellolar set tur=10, saldiri_sirasi=0, saldiran=oyuncu1 where id='${id}'`);
+  r = await hamle(id, 'tarih', true, false);
+  ok('Tur 10: çarpan ×2', Number(r.sh.carpan) === 2 && r.sh.deger === 2, JSON.stringify(r.sh));
+
+  console.log('12) Altın Soru: çarpansız ve cezasız, tur numarası fark etmez (667)');
+  id = await yeniMac();
+  await db.sorgu(`update duellolar set tur=10, saldiri_sirasi=1, faz='sonuc', puan1=9, puan2=9 where id='${id}'`);
+  await db.sorgu(`select duello2_sonraki('${id}')`);
+  a = await alt(true, true);   // ikisi doğru → yeni Altın Soru (puan değişmez)
+  const shGold = await json(`select son_hamle::text from duellolar where id='${id}'`);
+  const golPuanlar = Object.values(shGold.puanlar ?? {});
+  ok('Altın Soru: puan/çarpan/ceza yok', shGold.deger === null && Number(shGold.carpan) === 1
+     && golPuanlar.every((p) => p === 0), JSON.stringify(shGold));
+
+  console.log('13) Bot kategori seçimi: maç sonu risk (667) — A nin yıldızları biliniyor (y1)');
+  id = await yeniMac();   // A=oyuncu1, B=oyuncu2
+  await db.sorgu(`update duellolar set tur=9, saldiri_sirasi=1, saldiran=oyuncu2, puan1=20, puan2=10 where id='${id}'`);
+  let secimler = new Set();
+  for (let i = 0; i < 20; i++) secimler.add(await tek(`select duello2_bot_kategori('${id}','${B}')`));
+  ok('bot 10 puan geride, Tur 9: yalnız en yüksek yıldızlı (★★★) seçildi', [...secimler].every((k) => y1[k] === 3), JSON.stringify([...secimler]));
+
+  await db.sorgu(`update duellolar set puan1=10, puan2=20 where id='${id}'`);   // şimdi B önde
+  secimler = new Set();
+  for (let i = 0; i < 20; i++) secimler.add(await tek(`select duello2_bot_kategori('${id}','${B}')`));
+  ok('bot 10 puan önde, Tur 9: yalnız en düşük yıldızlı (★) seçildi', [...secimler].every((k) => y1[k] === 1), JSON.stringify([...secimler]));
+
+  await db.sorgu(`update duellolar set tur=8, puan1=20, puan2=10 where id='${id}'`);   // eşik altı (Tur 8) → risk yok
+  secimler = new Set();
+  for (let i = 0; i < 30; i++) secimler.add(await tek(`select duello2_bot_kategori('${id}','${B}')`));
+  ok('Tur 8 (eşik altı): risk modu devrede değil, birden çok kategori mümkün', secimler.size > 1, JSON.stringify([...secimler]));
 } catch (e) { kaldi++; console.log('BEKLENMEYEN HATA:', e.message); }
 finally { await db.sorgu('rollback'); await db.kapat(); }
 console.log(`\nSonuç: ${gecti} geçti, ${kaldi} kaldı (transaction geri alındı)`);
