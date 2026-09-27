@@ -9134,3 +9134,47 @@ ve maç sonu gerideyken/öndeyken insan gibi risk alsın/almasın; ayrıca kateg
 **Test:** `npm run build` temiz (yalnız var olan chunk-size/renk uyumluluk uyarıları, ilgisiz). Gerçek turnuva seansları günde 5 kez sabit saatte (10:00/14:00/18:00/20:00/24:00 TSİ) sunucu cron'uyla açıldığından **canlı, uçtan uca (lobi → arka plana al → öne getir → aktif) doğrulama bu oturumda yapılamadı** (bir sonraki seans 24:00 TSİ) — kök sebep kod okumasıyla ve DB kanıtıyla kesinleştirildi, düzeltme mevcut davranışı bozmayacak şekilde (yalnız kısıtlayıcı şartı kaldırarak) yapıldı. Sahibi isterse bir sonraki seansta test hesabıyla (uygulamayı lobide arka plana alıp aktife geçişte öne getirerek) doğrulanabilir.
 
 **Dağıtım:** `main`'e push edilecek (bu commit'le), migration yok (yalnız istemci kodu).
+
+## 2026-09-27 — Düello kategori kartı sadeleştirme: renk = eşleşme (yıldız kalktı)
+**Araç:** Claude Code (Sonnet 5, PC)
+**Neden:** Ida — kategori kartında rakip yıldızı + "zayıf/orta/güçlü" + kendi yıldızı + puan bir aradaydı,
+oyuncu kafasında birleştirip karar veremiyordu; yıldız zaten puan değerini ikinci kez anlatıyordu.
+
+- **Migration 669** (`duello_kategori_kart_esik.sql`): tek satır `duello_kat_esik_yuzde` = 10
+  (`oyun_ayarlari`) — kartın rengini belirleyen eşik. Güvenlik/yetki değişikliği değil; prova +
+  canlıya uygulandı, `pg-mini` ile doğrulandı.
+- **Kart (saldıran, `oyun/components/DuelloV2.jsx › V2Kategori`):** yıldız rozeti ve "zayıf/orta/güçlü"
+  yazıları TAMAMEN kalktı. Yeni gösterim: kategori adı altında büyük **"+N / −N"** (9-10. turda ×2
+  rozeti aynen kalıyor) ve küçük gri **"Sen %.. · Rakip %.."** (< 5 cevap → "—", zaten sunucudaki
+  `duello_oran_min_cevap`'tan geliyordu). Kartın rengi artık yıldız değil **eşleşme**: yeni
+  `eslesmeRengi(benOran, rakipOran, esik)` — kendi oranın rakipten `esik` (10) puan yüksekse yeşil,
+  düşükse kırmızı, arası ya da biri veri yoksa gri. Puanın hesabı (savunanın yıldızından 1/3/6 ×
+  tur çarpanı) DEĞİŞMEDİ, yalnız gösterim değişti.
+- **Savunan ekranı ("Rakip düşünüyor…") ve Kategori Kalkanı ızgarası:** aynı sade dil — yıldız
+  yerine renkli sol kenar şeridi (savunan listesi) / renkli zemin (kalkan ızgarası) + "+N" ve
+  "Sen %.. · Rakip %..". Savunan hiç puan kaybetmeyeceği için "−N" hiç gösterilmiyor.
+  `V2KalkanPanel` artık `rakip` ve `esikYuzde` prop'u da alıyor (rengi hesaplamak için).
+- **Kural metinleri:** `DuelloTanitim.jsx`'teki "Yıldızlı kategoriler" adımı → "Kartın rengi":
+  "Rakibin iyi olduğu konuda puan almak zor, bu yüzden daha değerlidir. Kartın rengi o konuda kimin
+  daha iyi olduğunu gösterir: yeşil sen, kırmızı rakip, gri denk." (aynı bileşen hem ilk tanıtımda
+  hem lobi "Kurallar nasıl işliyor?"da). Tanıtım anahtarı `bildim_duello_tanitim_v7`'ye yükseltildi —
+  herkese bir kez daha açılır. Kategori ekranındaki iki kısa açıklama cümlesi de (saldıran/savunan) aynı
+  çerçeveye güncellendi. TR + EN (`oyun/lib/ceviri/mac.js`); eski yıldız çevirileri (V2Cevap/V2Sonuc/
+  maç geçmişinde hâlâ kullanılan `YıldızEtiket` bileşeni ve onun aria metni) DOKUNULMADI — kapsam
+  yalnız kategori SEÇİM kartlarıydı.
+- **CSS** (`DuelloPage.a.css`): `.m2-kat--y1/2/3` + `.m2-kat-guc/-ceza` + `.m2-kat-yildiz` kaldırıldı,
+  yerine `.m2-kat--yesil/--kirmizi` (gri = varsayılan), `.m2-kat-deger`, `.m2-kat-oranlar`;
+  `.m2-savun-kat--yesil/--kirmizi` (sol kenar şeridi) + `.m2-savun-bilgi/-deger/-oranlar`;
+  `.m2-kalkan-kat--yesil/--kirmizi`. Kart 2 sütuna döndü (3. sütun yıldız için ayrılmıştı).
+- **Test aracı güncellendi** (`araclar/oyuncu-testi.mjs`): eski `yildizKontrol` (★ rozeti + sınıfını
+  sunucudaki `yildiz1/2`'yle karşılaştırıyordu) yeni tasarıma göre yeniden yazıldı — artık
+  `profil1/2.oranlar` + `duello_kat_esik_yuzde`'den beklenen rengi hesaplayıp kartın
+  `m2-kat--{renk}` sınıfını ve `.m2-kat-deger` metnini ("+N / −N") sunucuyla karşılaştırıyor; kalkan
+  ızgarası kontrolü de yıldız yerine puan rozetine (`b` metni) bakıyor. Bu güncelleme olmadan test
+  eski tasarımı arayıp başarısız olurdu (kısa süre böyle oldu, kodda değil test aracında).
+- **Doğrulama:** `npm run build` temiz (yalnız var olan chunk-size/color-mix uyarıları, ilgisiz).
+  `node araclar/oyuncu-testi.mjs` (varsayılan 390+360 px, Düello dahil) **2 tam bota karşı Düello
+  maçı** ile GEÇTİ — biri Altın Soru'ya gitti; kategori kartı denetimi (10 kart × renk + değer),
+  Kategori Kalkanı ızgarası, savunan listesi, maç sonu özeti hepsi sunucu verisiyle birebir eşleşti;
+  iki genişlikte de kart taşması yok.
+- **Dağıtım:** `main`'e push edilecek, migration 669 canlıda uygulandı.
