@@ -9218,3 +9218,39 @@ oyuncu kafasında birleştirip karar veremiyordu; yıldız zaten puan değerini 
 - `oyun/pages/Home.jsx`: eski, route'suz ana sayfa dosyası — hiçbir yerden import edilmiyor
   (`BildimApp.jsx`'te yalnız bir yorum satırında adı geçiyor), dokunulmadı.
 - `npm run build` temiz.
+
+### İş 3 — Ana sayfada kalıcı "devam eden maçın var" kartı (tüm modlar)
+- Senaryo: oyuncu maç ortasında kısa süreliğine çıkıp geri dönünce (WhatsApp vb.) hiçbir şeye
+  basmadan ana sayfada aktif maçını görsün — eski `YarimMac.jsx` yalnız Klasik'i ve yalnız "Oyna"ya
+  basınca kapsıyordu.
+- **Güvenlik onayı (28 Eyl 2026, Ida):** Düello'da "X. tur" göstermek için `duellolar` tablosu
+  istemciye tamamen kapalı (`revoke all`) olduğundan dar okuma RPC'si `duello_aktif_benim()`'i
+  genişletmem gerekti — bu bir security-definer yetki değişikliği olduğundan önce soruldu, onay
+  alındı. **Migration 672** (`duello_aktif_benim_tur.sql`): fonksiyon artık `tur` alanını da
+  döndürüyor (soru/kategori/hamle gibi stratejik bilgi hâlâ sızmıyor). Transaction'da prova edildi,
+  sonra canlıya uygulandı (`npx supabase db push`).
+- **Veri (`oyun/pages/anasayfa/veri.jsx › useDevamEdenMaclar`):** 4 kaynaktan toplar — Klasik/Saf
+  Bilgi `matches` (durum='aktif', RLS zaten kendi maçlarına sınırlı), Düello `duello_aktif_benim()`
+  RPC'si + rakip adı için `profiles` sorgusu, Grup `group_matches` (RLS katılımcıya sınırlı, migration
+  25), Turnuva `tournaments` (durum='aktif') + `tournament_players` (`user_id` = ben, `elendi=false`).
+  Sekme arka plandan öne gelince (`visibilitychange`/`focus`) ve ilgili tablolarda realtime olay
+  olunca yeniden okunuyor — sunucudaki kopma toleransı/10 dk iptal cron'ları zaten `durum`'u
+  güncellediği için istemci ayrıca süre hesaplamıyor.
+- **Arayüz (`parcalar.jsx › DevamEdenMaclarKarti`, `AnaSayfaA.jsx`):** kart(lar) "Oyna" sütununun EN
+  ÜSTÜNE eklendi (mevcut mobil flex `order` düzeninde açık sınıf olmadığı için `order:0` varsayılanı
+  onu bildirim izninden hemen sonra, oyuncu kartından ÖNCE gösteriyor — CSS grid yapısına
+  dokunulmadı). Her satır: mod ikonu, "{rakip} ile {mod} sürüyor" / "{mod} sürüyor", alt metin
+  (Klasik/Grup "Soru n/t", Düello "n. tur/10", Turnuva "n doğru"), "Devam et" → `/mac/:id`,
+  `/duello/:id`, `/grup-mac/:id`, `/turnuva`. Birden fazla aktif maç varsa hepsi listelenir. Mevcut
+  `YarimMac.jsx` pop-up'ına dokunulmadı, çakışmıyor (biri kalıcı kart, biri "Oyna" bastığındaki soru).
+  Süresi dolmuş/biten/terk edilmiş maçlar `durum` filtresiyle zaten dışarıda kalıyor.
+- **TR/EN:** yeni metinler `dil.js`'e eklendi (mod adları zaten vardı).
+- **Test:** yerel `npm run dev` + gerçek tarayıcı oturumu (mevcut test hesabı). `pg-mini` ile bir
+  gizli bota karşı 4 modun hepsinde gerçek 'aktif' satır kuruldu (Düello/Grup/Turnuva'da tabloya
+  doğrudan yazıldı, Turnuva için sahte geçmiş tarihli bir seans satırı kullanıldı) → ana sayfa açılır
+  açılmaz 4 kart da doğru mod/rakip/alt metinle göründü, "Devam et" hepsinde doğru sayfaya (`/mac/…`,
+  `/duello/…`, `/grup-mac/…`, `/turnuva`) yönlendirdi, sayfalar hatasız açıldı. Düello sayfasını
+  ziyaret etmek (test verisi eksik olduğu için) sunucu tarafında maçı "bitti" sonuçlandırdı — bu
+  RLS/oyun mantığının beklenen tepkisiydi, kartın kendisi anında realtime ile kayboldu (istenen
+  davranış: "maç bitince kart kayboluyor" doğrulandı). Test satırları ve sahte turnuva satırı
+  sonda silindi, test hesabı gerçek durumuna döndü. `npm run build` temiz.

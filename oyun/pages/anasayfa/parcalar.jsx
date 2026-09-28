@@ -160,6 +160,39 @@ export function EtkinlikSatiri({ e }) {
   );
 }
 
+const DEVAM_MOD_BILGI = {
+  klasik: { ikon: "oyna", baslik: () => tt("Klasik Maç") },
+  saf: { ikon: "safBilgi", baslik: () => tt("Saf Bilgi") },
+  duello: { ikon: "duello", baslik: () => tt("Düello") },
+  grup: { ikon: "grup", baslik: () => tt("Grup Maçı") },
+  turnuva: { ikon: "kupa", baslik: () => tt("Turnuva") },
+};
+
+/**
+ * Ana sayfa açılır açılmaz görünen "devam eden maçın var" kartı (bütün modlar).
+ * `useDevamEdenMaclar()`'dan gelen listeyi çizer; liste boşsa hiçbir şey çizmez.
+ */
+export function DevamEdenMaclarKarti({ liste }) {
+  if (!liste?.length) return null;
+  return (
+    <div className="as-devam" role="list" aria-label={tt("Devam eden maçların")}>
+      {liste.map((m) => {
+        const bilgi = DEVAM_MOD_BILGI[m.mod] ?? DEVAM_MOD_BILGI.klasik;
+        return (
+          <Link key={m.id} to={y(m.yol)} className="as-devam-satir" role="listitem">
+            <span className="as-devam-ikon"><QtIkon ad={bilgi.ikon} boyut={22} /></span>
+            <span className="as-devam-metin">
+              <b>{m.rakipAd ? tt("{ad} ile {mod} sürüyor", { ad: m.rakipAd, mod: bilgi.baslik() }) : tt("{mod} sürüyor", { mod: bilgi.baslik() })}</b>
+              <small>{m.alt}</small>
+            </span>
+            <span className="as-devam-devam">{tt("Devam et")}<QtIkon ad="ileri" boyut={18} /></span>
+          </Link>
+        );
+      })}
+    </div>
+  );
+}
+
 const iki = (n) => String(n).padStart(2, "0");
 /** UTC ms → TSİ "HH:MM" (Türkiye yıl boyu UTC+3; gece yarısı listedeki gibi "24:00"). */
 const tsiSaat = (ms) => {

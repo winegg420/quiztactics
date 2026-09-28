@@ -308,3 +308,110 @@ export function useOyunBaslat() {
     katmanlar,
   };
 }
+
+/**
+ * Ana sayfa açılır açılmaz (Oyna'ya basmadan) bütün modlardaki devam eden maçları toplar:
+ * Klasik/Saf Bilgi (`matches`), Düello (`duellolar` — tablo istemciye kapalı, dar okuma RPC'si
+ * `duello_aktif_benim`), Grup (`group_matches`), Turnuva (`tournament_players` + `tournaments`).
+ * Sekme arka plandan öne gelince (kısa süreliğine çıkıp dönme senaryosu) yeniden okur.
+ */
+export function useDevamEdenMaclar() {
+  const { user } = useAuth();
+  const uid = user?.id;
+  const [liste, setListe] = useState([]);
+
+  const yukle = useCallback(async () => {
+    if (!uid) { setListe([]); return; }
+    const sonuc = [];
+
+    try {
+      const { data, error } = await supabase.from("matches")
+        .select(`id, oyuncu1, oyuncu2, aktif_soru, soru_ids, jokersiz,
+                 p1:profiles!matches_oyuncu1_fkey(gorunen_ad), p2:profiles!matches_oyuncu2_fkey(gorunen_ad)`)
+        .eq("durum", "aktif").or(`oyuncu1.eq.${uid},oyuncu2.eq.${uid}`).limit(20);
+      if (error) throw error;
+      for (const m of data ?? []) {
+        const benim1 = m.oyuncu1 === uid;
+        const rakipAd = (benim1 ? m.p2 : m.p1)?.gorunen_ad ?? null;
+        const toplam = m.soru_ids?.length ?? 0;
+        sonuc.push({ id: `mac-${m.id}`, mod: m.jokersiz ? "saf" : "klasik", rakipAd,
+          alt: tt("Soru {n}/{t}", { n: Math.max(0, m.aktif_soru ?? 0) + 1, t: toplam }),
+          yol: `/mac/${m.id}` });
+      }
+    } catch (e) {
+      console.warn("[Ana sayfa] devam eden Klasik/Saf Bilgi maçları:", e?.message ?? e);
+    }
+
+    try {
+      const { data: duellolar, error } = await supabase.rpc("duello_aktif_benim");
+      if (error) throw error;
+      const rakipIdler = (duellolar ?? []).map((d) => (d.oyuncu1 === uid ? d.oyuncu2 : d.oyuncu1));
+      let adlar = new Map();
+      if (rakipIdler.length) {
+        const { data: profiller } = await supabase.from("profiles").select("id, gorunen_ad").in("id", rakipIdler);
+        adlar = new Map((profiller ?? []).map((p) => [p.id, p.gorunen_ad]));
+      }
+      for (const d of duellolar ?? []) {
+        const rakipId = d.oyuncu1 === uid ? d.oyuncu2 : d.oyuncu1;
+        sonuc.push({ id: `duello-${d.id}`, mod: "duello", rakipAd: adlar.get(rakipId) ?? null,
+          alt: tt("{n}. tur/10", { n: d.tur ?? 1 }), yol: `/duello/${d.id}` });
+      }
+    } catch (e) {
+      console.warn("[Ana sayfa] devam eden Düello:", e?.message ?? e);
+    }
+
+    try {
+      const { data, error } = await supabase.from("group_matches")
+        .select("id, aktif_soru, soru_ids, oyuncu_sayisi").eq("durum", "aktif").limit(20);
+      if (error) throw error;
+      for (const g of data ?? []) {
+        const toplam = g.soru_ids?.length ?? 0;
+        sonuc.push({ id: `grup-${g.id}`, mod: "grup", rakipAd: null,
+          alt: tt("Soru {n}/{t}", { n: Math.max(0, g.aktif_soru ?? 0) + 1, t: toplam }),
+          yol: `/grup-mac/${g.id}` });
+      }
+    } catch (e) {
+      console.warn("[Ana sayfa] devam eden Grup maçları:", e?.message ?? e);
+    }
+
+    try {
+      const { data: aktifTurnuvalar, error } = await supabase.from("tournaments")
+        .select("id").eq("durum", "aktif").limit(5);
+      if (error) throw error;
+      const ids = (aktifTurnuvalar ?? []).map((t) => t.id);
+      if (ids.length) {
+        const { data: oyuncular, error: e2 } = await supabase.from("tournament_players")
+          .select("tournament_id, dogru_sayisi").eq("user_id", uid).eq("elendi", false).in("tournament_id", ids);
+        if (e2) throw e2;
+        for (const o of oyuncular ?? []) {
+          sonuc.push({ id: `turnuva-${o.tournament_id}`, mod: "turnuva", rakipAd: null,
+            alt: tt("{n} doğru", { n: o.dogru_sayisi ?? 0 }), yol: "/turnuva" });
+        }
+      }
+    } catch (e) {
+      console.warn("[Ana sayfa] devam eden Turnuva:", e?.message ?? e);
+    }
+
+    setListe(sonuc);
+  }, [uid]);
+
+  useEffect(() => {
+    yukle();
+    const gorunurlukDegisti = () => { if (document.visibilityState === "visible") yukle(); };
+    document.addEventListener("visibilitychange", gorunurlukDegisti);
+    window.addEventListener("focus", yukle);
+    const kanal = supabase.channel("as-devam-eden")
+      .on("postgres_changes", { event: "*", schema: "public", table: "matches" }, yukle)
+      .on("postgres_changes", { event: "*", schema: "public", table: "duellolar" }, yukle)
+      .on("postgres_changes", { event: "*", schema: "public", table: "group_matches" }, yukle)
+      .on("postgres_changes", { event: "*", schema: "public", table: "tournament_players" }, yukle)
+      .subscribe();
+    return () => {
+      document.removeEventListener("visibilitychange", gorunurlukDegisti);
+      window.removeEventListener("focus", yukle);
+      supabase.removeChannel(kanal);
+    };
+  }, [yukle]);
+
+  return liste;
+}

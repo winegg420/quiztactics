@@ -349,6 +349,11 @@ Aktif yedi maç skill'i vardır:
   vite:preloadError'da bir kez yenile, "Bağlantı yok" şeridi. Dükkân alımları onay penceresiyle (`JokerSatinAlModal`);
   misafir çıkışında uyarı (`CikisOnayi`); ağ hatası metni tek yerden (`hataMesaji`) ve hata TÜRÜNE göre ayrışır (`hata.js › hataTuru`: çevrimdışı / zaman aşımı / sunucu / sunucuya ulaşılamıyor; "İnternetini kontrol et" her hatada yazılmaz).
   **Meydan okuma kabulü:** davet eden başka maçın içinde değilse `meydan_kabul`/`duello_kabul` bildirimiyle doğrudan maça geçer (`BildirimToast`); kaçırılırsa Arkadaşlar satırında "Maç başladı · Maça gir".
+- **Ana sayfa "devam eden maçın var" kartı (28 Eyl 2026, `useDevamEdenMaclar` + `DevamEdenMaclarKarti`):**
+  ana sayfa açılır açılmaz (Oyna'ya basmadan), bütün modlarda (Klasik/Saf Bilgi, Düello, Grup, Turnuva)
+  aktif maçı olan oyuncuya "Oyna" sütununun en üstünde kart(lar) gösterir; "Devam et" ilgili maç
+  sayfasına götürür. Ayrı bir mekanizmadır, yalnız "Oyna"ya basınca soran `YarimMac.jsx`
+  pop-up'ının (Klasik) yerini almaz.
 - **Çevrimiçi durumu (590, Ida onaylı güvenlik kuralı) YALNIZ arkadaş listesinde:** Realtime Presence, her oyuncunun
   özel kanalı `cevrimici-<uid>`; yalnız sahibi yazar, yalnız kabul edilmiş arkadaş okur; DB'ye yazım yok. Yeşil
   "Çevrimiçi" / turuncu "Maçta", çevrimiçiler üstte, çevrimdışında gösterge yok. Arka planda kanaldan çıkılır.

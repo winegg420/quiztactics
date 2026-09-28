@@ -9,16 +9,17 @@ import { BILDIRIM_SONRA_ANAHTAR } from "../../components/MacSonuSahnesi.jsx";
 import { tt } from "../../lib/dil.js";
 import { useAuth } from "../../../src/context/AuthContext.jsx";
 import DurumKutusu, { useZamanAsimi } from "../../components/DurumKutusu.jsx";
-import { useAnaSayfaVerisi, useOyunBaslat } from "./veri.jsx";
+import { useAnaSayfaVerisi, useOyunBaslat, useDevamEdenMaclar } from "./veri.jsx";
 import {
   KompaktOyuncu, LigKarti, GorevSeridi, modListesi, etkinlikler, EtkinlikSatiri,
-  TurnuvaSeridi, TurnuvaSeansListesi, GorevListesi,
+  TurnuvaSeridi, TurnuvaSeansListesi, GorevListesi, DevamEdenMaclarKarti,
 } from "./parcalar.jsx";
 import "./anasayfa.css";
 
 export default function AnaSayfaA() {
   const v = useAnaSayfaVerisi();
   const b = useOyunBaslat();
+  const devamEden = useDevamEdenMaclar();
   const [gorevAcik, setGorevAcik] = useState(false);
   // Bildirim izni maç sonucundan ana sayfaya dönünce sorulur (MacSonuSahnesi işaret bırakır).
   const [bildirimSor] = useState(() => {
@@ -87,6 +88,7 @@ export default function AnaSayfaA() {
       </section>
 
       <section className="as-a2-kol as-a2-kol--orta" aria-label={tt("Oyna")}>
+        <DevamEdenMaclarKarti liste={devamEden} />
         {acil && (
           <a href={acil.yol} className="as-a-acil" onClick={(e) => { e.preventDefault(); b.git(acil.yol); }}>
             <span className="as-canli-nokta" aria-hidden="true" />

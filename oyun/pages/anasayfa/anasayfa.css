@@ -98,6 +98,23 @@ a.as-cip:active { transform: translateY(2px); }
 .as-etkinlik-metin small { font-size: 13px; font-weight: 700; color: var(--qt-metin-soluk); }
 .as-etkinlik-ok { color: var(--qt-metin-soluk); flex: none; }
 
+/* Devam eden maç kartı (bütün modlar): ana sayfa açılır açılmaz, Oyna'ya basmadan görünür. */
+.as-devam { display: grid; gap: 8px; }
+.as-devam-satir {
+  display: flex; align-items: center; gap: 10px; min-height: 60px; padding: 10px 12px; border-radius: var(--qt-r-m);
+  background: var(--qt-mod-duello-acik); box-shadow: inset 0 0 0 2px var(--qt-mod-duello);
+  color: var(--qt-metin); text-decoration: none; transition: transform .12s ease-out;
+}
+.as-devam-satir:active { transform: scale(.98); }
+.as-devam-ikon { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--qt-yuzey); color: var(--qt-ikinci); flex: none; }
+.as-devam-metin { display: grid; gap: 2px; min-width: 0; flex: 1; }
+.as-devam-metin b { font-size: 14px; line-height: 1.25; overflow-wrap: anywhere; }
+.as-devam-metin small { font-size: 12px; font-weight: 700; color: var(--qt-metin-soluk); }
+.as-devam-devam {
+  display: inline-flex; align-items: center; gap: 4px; flex: none; padding: 0 12px; height: 36px; border-radius: var(--qt-r-hap);
+  background: var(--qt-vurgu); color: var(--qt-vurgu-yazi); font: var(--qt-a-siyah) 13px/1 var(--qt-f-govde); white-space: nowrap;
+}
+
 .as-mini-dugme {
   display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; min-width: 44px; padding: 0 16px;
   border: 0; border-radius: var(--qt-r-hap); background: var(--qt-vurgu); color: var(--qt-vurgu-yazi);
