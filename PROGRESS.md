@@ -9189,3 +9189,17 @@ oyuncu kafasında birleştirip karar veremiyordu; yıldız zaten puan değerini 
 - **Test ve canlı:** migration önce transaction'da prova edildi, sonra canlıya uygulandı. SQL provası migration ile **79/79**, canlı kural üzerinde **78/78**: yüksek/düşük/karışık/eşit/verisiz dağılımlar, devam eden maç yıldızlarının değişmemesi, puan/ceza, ×2, Altın Soru, Kalkan ve bot davranışı geçti. Bot risk testindeki bir ilk başarısızlık ürün hatası değil, testin önceki maçın yıldız haritasını kullanmasıydı; test güncel maçın sabit yıldızlarını okuyacak şekilde düzeltildi, bot kodu değişmedi.
 - **Oyuncu testi:** `--mod=duello --mac=2 --hepsi --gorsel --genislik=390,360` ile bota karşı iki tam maç GEÇTİ (20+20 hamle; skorlar 64–78 ve 41–46). Saldıran/savunan 3/4/3 grupları, puanlar, renkli zemin, tek satır oran, Kalkan ızgarası, son iki tur çarpanı ve maç sonu puan hesabı doğrulandı; 390/360 görselleri ayrıca incelendi, yatay taşma yok.
 - `npm run build` temiz. Migration 671 canlıda; `main` push ve dağıtım doğrulaması bu kaydın commit'iyle yapılacak.
+
+## 2026-09-28 — Dört küçük iş: geri sayım sesi, varsayılan kategori kaldırma, devam eden maç kartı, bot tepki sıklığı
+**Araç:** Claude Code (Sonnet 5, PC)
+**Neden:** Ida — dört bağımsız küçük düzeltme/özellik, tek oturumda sırayla.
+
+### İş 1 — 3-2-1 geri sayımında bildirim sesi
+- Kök sebep: `MatchPage.jsx`'teki `useOyunModu` koşulu yalnız `soru` veya `senkronBekliyor`'a bakıyordu;
+  3-2-1 geri sayımı sırasında (`geriSayim !== null`, henüz `soru` yok) `bd-oyun-modu` sınıfı body'ye
+  eklenmiyor, `BildirimToast`/`DavetBandi`'nin `!body.classList.contains("bd-oyun-modu")` koruması
+  geçersiz kalıp o sırada gelen bildirim/davet sesi çalıyordu.
+- `MatchPage.jsx:631`: koşula `|| geriSayim !== null` eklendi. `BildirimToast`/`DavetBandi` mantığına
+  dokunulmadı. Düello'da ayrı bir 3-2-1 ön-maç geri sayımı yok (`useOyunModu(d?.durum === "aktif")`
+  zaten maç aktif olur olmaz devrede) — kapsam dışı bırakıldı.
+- `npm run build` temiz.

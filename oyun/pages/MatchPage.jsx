@@ -628,7 +628,9 @@ export default function MatchPage() {
   }, [ilerleme.rakip]);
 
   // Ajan I: "Hazır mısın?" kapısı da tam ekran sahne (arama sahnesiyle aynı; üst/alt menü gizli)
-  useOyunModu((Boolean(soru) || senkronBekliyor) && mac?.durum === "aktif");
+  // geriSayim !== null: 3-2-1 geri sayımı da oyun modu sayılır, yoksa o sırada gelen
+  // bildirim/davet sesi bd-oyun-modu korumasını atlayıp çalıyordu.
+  useOyunModu((Boolean(soru) || senkronBekliyor || geriSayim !== null) && mac?.durum === "aktif");
 
   useEffect(() => {
     if (mac?.durum !== "bitti") { setSonucHazir(false); return undefined; }
