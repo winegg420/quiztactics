@@ -9203,3 +9203,18 @@ oyuncu kafasında birleştirip karar veremiyordu; yıldız zaten puan değerini 
   dokunulmadı. Düello'da ayrı bir 3-2-1 ön-maç geri sayımı yok (`useOyunModu(d?.durum === "aktif")`
   zaten maç aktif olur olmaz devrede) — kapsam dışı bırakıldı.
 - `npm run build` temiz.
+
+### İş 2 — "Varsayılan kategorim" kaldırıldı
+- Karar: Klasik/Saf Bilgi'de kategori filtresi kalksın (az oyunculu oyunda eşleşme havuzunu
+  bölüyor; kategoriye göre pratik zaten Çalışma modunda var).
+- `ProfilAyarlari.jsx`: "Varsayılan kategorim" bölümü (başlık, açıklama, ızgara), `kategoriKaydet`,
+  `kategoriler`/`kategoriHata` state'i ve fetch effect'i tamamen kaldırıldı; artık kullanılmayan
+  importlar (`KategoriIkon`, `kategoriEtiket`, `kategorileriSirala`, `rpcDene`, `sayiBicim`) silindi.
+  Veritabanında `tercih_kategori` kolonu ve `tercih_kategori_kaydet` RPC'si DOKUNULMADI.
+- `ModlarPage.jsx` ve `anasayfa/veri.jsx` (`useOyunBaslat`): Klasik/Saf Bilgi rakip arama çağrılarında
+  `RakipAra`'ya artık her zaman `kategori={null}` (karışık) veriliyor; `profile.tercih_kategori` oradan
+  okunmuyor. İkisinde de artık kullanılmayan `profile` destructure'ı kaldırıldı.
+- `oyun/lib/dil.js`: artık hiçbir yerde kullanılmayan "Varsayılan kategorim" + açıklama çevirisi silindi.
+- `oyun/pages/Home.jsx`: eski, route'suz ana sayfa dosyası — hiçbir yerden import edilmiyor
+  (`BildimApp.jsx`'te yalnız bir yorum satırında adı geçiyor), dokunulmadı.
+- `npm run build` temiz.

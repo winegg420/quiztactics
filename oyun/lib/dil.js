@@ -1010,8 +1010,6 @@ const SOZLUK = {
     "Davet kodun": "Your invite code",
     "Kopyalandı": "Copied",
     "Davet linkini kopyala": "Copy invite link",
-    "Varsayılan kategorim": "My default category",
-    "\"Hemen Oyna\" ve \"Dereceli Maç\" bu kategoride rakip arar. Ana Sayfa'dan da değiştirebilirsin.": "\"Play Now\" and \"Ranked Match\" look for opponents in this category. You can also change it on the Home page.",
     "soru": "questions",
     "Soru": "Question",
     "{0} saniye kaldı": "{0} seconds left",

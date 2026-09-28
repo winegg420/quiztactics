@@ -232,7 +232,7 @@ export function useAnaSayfaVerisi() {
  * sorusu → rakip arama). `oyna()` mod penceresini açar; `katmanlar` sayfada çizilir.
  */
 export function useOyunBaslat() {
-  const { user, profile } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [dereceliTercih, setDereceliTercih] = useDereceliTercih();
   const [modAcik, setModAcik] = useState(false);   // false | "hepsi" | "saf"
@@ -292,7 +292,7 @@ export function useOyunBaslat() {
           onKapat={() => setModAcik(false)} />
       )}
       {arama && (
-        <RakipAra kategori={profile?.tercih_kategori ?? null} dereceli={arama.dereceli} jokersiz={arama.jokersiz}
+        <RakipAra kategori={null} dereceli={arama.dereceli} jokersiz={arama.jokersiz}
           bilgi={arama.bilgi ?? null}
           onBulundu={(macId) => { setArama(null); navigate(y(`/mac/${macId}`)); }}
           onIptal={() => setArama(null)} />

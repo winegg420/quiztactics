@@ -10,7 +10,6 @@
 // ============================================================
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../src/context/AuthContext.jsx";
 import RakipAra from "../components/RakipAra.jsx";
 import DereceliAnahtari from "../components/DereceliAnahtari.jsx";
 import { useDereceliTercih } from "../lib/dereceli.js";
@@ -26,7 +25,6 @@ const DUELLO_JOKER = DUELLO_JOKERLER.length;
 const KLASIK_JOKER = KLASIK_JOKERLER.length;
 
 export default function ModlarPage() {
-  const { profile } = useAuth();
   const navigate = useNavigate();
   const [dereceliTercih, setDereceliTercih] = useDereceliTercih();
   // Arama açıkken hangi tür: jokersiz = Saf Bilgi
@@ -39,7 +37,7 @@ export default function ModlarPage() {
     <div className="a-modlar">
       {arama && (
         <RakipAra
-          kategori={profile?.tercih_kategori ?? null}
+          kategori={null}
           dereceli={dereceliTercih}
           jokersiz={arama.jokersiz}
           onBulundu={(macId) => { setArama(null); navigate(y(`/mac/${macId}`)); }}

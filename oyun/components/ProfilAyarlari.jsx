@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-import KategoriIkon from "./KategoriIkon.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
-import { kategoriEtiket, kategorileriSirala } from "../lib/kategoriler.js";
 import { sureMetni } from "../lib/konum.js";
 import { y } from "../lib/yol.js";
 import { MEYDAN_ACIK } from "../lib/ozellikBayraklari.js";
@@ -11,9 +9,8 @@ import DavetKodu from "./DavetKodu.jsx";
 import EngellediklerimBolumu from "./EngellediklerimBolumu.jsx";
 import AvatarCerceve from "./AvatarCerceve.jsx";
 import { tt } from "../lib/dil.js";
-import { rpcDene } from "../lib/rpcDene.js";
 import { HAZIR_AVATARLAR, useKatalogAvatarlari } from "../lib/avatarKatalogu.js";
-import { QtAnahtar, QtDugme, QtIkon, QtKart, sayiBicim } from "../tasarim/index.js";
+import { QtAnahtar, QtDugme, QtIkon, QtKart } from "../tasarim/index.js";
 import "../tasarim/ekranlar/dukkan-profil.css";
 
 // Profesyonel avatar seti (31) — liste oyun/lib/avatarKatalogu.js'te (Dükkân › Avatar da kullanır; profil
@@ -23,7 +20,7 @@ export { HAZIR_AVATARLAR };
 // Takma ad günde bir kez değişir (sunucudaki takma_ad_sec ile aynı pencere).
 const TAKMA_AD_KILIT_MS = 24 * 60 * 60 * 1000;
 
-/** Profil sayfasındaki kimlik ayarları: takma ad, avatar, davet kodu, varsayılan kategori. */
+/** Profil sayfasındaki kimlik ayarları: takma ad, avatar, davet kodu. */
 export default function ProfilAyarlari() {
   const { user, profile, refreshProfile } = useAuth();
   const [yeniAd, setYeniAd] = useState("");
@@ -33,8 +30,6 @@ export default function ProfilAyarlari() {
   const [avatarHata, setAvatarHata] = useState(null);
   // 550: 27 yeni avatar (ücretsiz) sunucu kataloğundan; migration yoksa boş → yalnız 31 hazır avatar
   const katalogAvatarlari = useKatalogAvatarlari(avatarDuzenle);
-  const [kategoriler, setKategoriler] = useState([]);
-  const [kategoriHata, setKategoriHata] = useState(null);
   const [kopyalandi, setKopyalandi] = useState(false);
   const [calisiyor, setCalisiyor] = useState(false);
 
@@ -63,10 +58,6 @@ export default function ProfilAyarlari() {
       setIkramCalisiyor(false);
     }
   };
-
-  useEffect(() => {
-    rpcDene("get_categories").then(({ data }) => setKategoriler(data ?? []));
-  }, []);
 
   if (!profile) return null;
 
@@ -107,19 +98,6 @@ export default function ProfilAyarlari() {
       setAvatarHata(hataMesaji(e, tt("Avatar kaydedilemedi.")));
     } finally {
       setCalisiyor(false);
-    }
-  };
-
-  const kategoriKaydet = async (kategori) => {
-    setKategoriHata(null);
-    try {
-      const { error } = await supabase.rpc("tercih_kategori_kaydet", {
-        p_kategori: kategori,
-      });
-      if (error) throw error;
-      await refreshProfile(user.id);
-    } catch (e) {
-      setKategoriHata(hataMesaji(e, tt("Kategori kaydedilemedi.")));
     }
   };
 
@@ -286,42 +264,6 @@ export default function ProfilAyarlari() {
 
       {/* ---------- 620: Engellediklerim ---------- */}
       <EngellediklerimBolumu />
-
-      {/* ---------- Varsayılan kategori ---------- */}
-      <QtKart as="section" className="qt-pf-bolum" aria-labelledby="qt-pf-kategori-tercih">
-        <h2 id="qt-pf-kategori-tercih" className="qt-baslik-3">{tt("Varsayılan kategorim")}</h2>
-        <p className="qt-kucuk qt-soluk">
-          {tt("Klasik Maç ve Saf Bilgi bu kategoride rakip arar. Ana Sayfa'dan da değiştirebilirsin.")}
-        </p>
-        <div className="qt-pf-kategori-izgara">
-          <button
-            type="button"
-            className={"qt-pf-kategori" + (!profile.tercih_kategori ? " qt-pf-kategori--secili" : "")}
-            aria-pressed={!profile.tercih_kategori}
-            onClick={() => kategoriKaydet(null)}
-          >
-            <KategoriIkon anahtar="karisik" boyut={22} plaka />
-            <span className="qt-pf-kategori-ad">{tt("Karışık")}</span>
-          </button>
-          {kategorileriSirala(kategoriler).map((k) => {
-            const secili = profile.tercih_kategori === k.kategori;
-            return (
-              <button
-                type="button"
-                key={k.kategori}
-                className={"qt-pf-kategori" + (secili ? " qt-pf-kategori--secili" : "")}
-                aria-pressed={secili}
-                onClick={() => kategoriKaydet(k.kategori)}
-              >
-                <KategoriIkon anahtar={k.kategori} boyut={22} plaka />
-                <span className="qt-pf-kategori-ad">{tt(kategoriEtiket(k.kategori))}</span>
-                <span className="qt-pf-kategori-alt">{tt("{n} soru", { n: sayiBicim(Number(k.soru_sayisi)) })}</span>
-              </button>
-            );
-          })}
-        </div>
-        {kategoriHata && <p className="qt-pf-hata" role="alert">{kategoriHata}</p>}
-      </QtKart>
     </>
   );
 }
