@@ -9254,3 +9254,40 @@ oyuncu kafasında birleştirip karar veremiyordu; yıldız zaten puan değerini 
   RLS/oyun mantığının beklenen tepkisiydi, kartın kendisi anında realtime ile kayboldu (istenen
   davranış: "maç bitince kart kayboluyor" doğrulandı). Test satırları ve sahte turnuva satırı
   sonda silindi, test hesabı gerçek durumuna döndü. `npm run build` temiz.
+
+### İş 4 — Botlar çok sık ve saliselik gecikmeyle emoji atıyor
+- **Kök sebep 1 (gecikme):** `bot_oyna()` botun cevabını yazdığı transaction içinde tepkiyi de
+  gönderiyordu — gecikme tam olarak 0 sn'ydi.
+- **Kök sebep 2 (sıklık, asıl büyük olan):** yeni tepki sistemi (`tepki_bot_olasilik`, eskiden %12,
+  yalnız "anlamlı an") yalnız `tepki_acik_modlar`'da olan modlarda (bugün yalnız `antrenman`) devrede.
+  Klasik ve Grup Maçı'nda (gerçek maçların çoğu — gizli bot rakip normal eşleşmeden gelir)
+  `tepki_mod_acik` false döndüğü için `bot_oyna()` hiçbir gate'e uğramayan ESKİ bir yola
+  düşüyordu: kodda sabit `random() < 0.15`, "anlamlı an" kontrolü yok, sıklık ayarı yok, gecikme yok
+  — Klasik'te her bot cevabında, Grup Maçı'nda da aynı şekilde. Bu, Ida'nın "arkadaşımla oynadığım
+  maçta da oluyor" gözlemini açıklıyor: Grup Maçı'nda dolgu bot varsa bu eski yol gerçek
+  arkadaşların gördüğü ortak sohbete de yazıyordu.
+- **İstemci tarafı kontrol edildi, ayrı hata YOK:** `match_messages` INSERT'i yalnız görsel balon
+  açıyor (`MatchPage.jsx › balonGoster`, 4 sn, sessiz); yeni "tepki" broadcast'i de yalnız görsel
+  balon (`Tepki.jsx`, sessiz — grep'te "ses" hiç geçmiyor). Duyulan ses, botun cevabıyla AYNI anda
+  çalan `sesRakipCevapladi()` — emoji + o ses gecikmesiz üst üste bindiği için "tepki sesi" gibi
+  algılanıyor; `sesRakipCevapladi` botun GERÇEKTEN cevapladığı anı bildirdiği için DOKUNULMADI.
+- **Migration 673 (`bot_tepki_sikligi_gecikmesi.sql`):**
+  1. Sıklık ~%25'e indi: `tepki_bot_olasilik` 0.12 → 0.03; yeni ayar `bot_eski_tepki_olasilik` (0.04,
+     eski sabit 0.15'in ~%25'i) eski Klasik/Grup düz-metin yolunu artık koddan değil ayardan okuyor.
+  2. Yeni tablo `bot_tepki_bekleyen` (gecikmeli kuyruk): karar (gönderilsin mi, ne gönderilsin) cevap
+     ANINDA verilir (cron'un her 2 sn'lik turunda aynı roll'un tekrar tekrar atılmaması için) ama
+     gönderim `bot_tepki_gecikme_min_sn`/`_max_sn` (1–4 sn, `bot_gecikme_sn`'deki insan gecikmesi
+     deseniyle tutarlı) sonrası için kuyruklanır; `bot_oyna()`'nın YENİ 0. adımı her turda (2 sn'de
+     bir) süresi geleni gönderir/siler. Yeni sistem (realtime `tepki_bot_gonder`) ve eski düz-metin
+     yolu (`match_messages`/`group_match_messages`, yeni fonksiyon `bot_eski_tepki_kuyrukla`) AYNI
+     kuyruğu kullanır.
+  3. `bot_oyna()` (~480 satır, önceki tanımın aynısı + yalnız bu iki değişiklik) yeniden tanımlandı —
+     Postgres `create or replace function` gövdeyi bütün ister, bu depoda köklü örnek (27 önceki
+     migration'ın hepsi aynı şekilde tam gövdeyi taşıyor).
+- **Test:** transaction'da prova edildi, sonra canlıya uygulandı; `pg-mini` ile ayarlar doğrulandı
+  (0.03/0.04/1/4) ve `select bot_oyna();` elle çağrılıp hatasız çalıştığı, `bot_tepki_bekleyen`
+  tablosunun okunabildiği doğrulandı.
+- **Öneri (karar Ida'da):** tepki her cevaptan sonra değil, yalnız doğruda sevinç/yanlışta şaşkınlık
+  gibi belirli durumlarda mı verilsin — yeni sistem zaten "anlamlı an"a (seri/maç sonu/rakip hatası)
+  sınırlı, eski Klasik/Grup yolu değil (rastgele, doğru/yanlış ayırmıyor); istenirse eski yol da aynı
+  "anlamlı an" kuralına bağlanabilir.
