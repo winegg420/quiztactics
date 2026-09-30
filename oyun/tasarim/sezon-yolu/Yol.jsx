@@ -67,7 +67,7 @@ export default function YolSeridi({ durum, toplam, bpVar, harita, yeniAlinan, ye
   const tasmaCol = toplam + 1;
   return (
     <div className="sy-yol-kaydirma" ref={yolRef} tabIndex={0} role="region" aria-label={tt("Yatay kaydırılan seviye yolu")}>
-      <div className="sy-yol" style={{ gridTemplateColumns: sablon }}>
+      <div className="sy-yol" data-yumusak="" style={{ gridTemplateColumns: sablon }}>
         <span className="sy-bant sy-bant--ucretsiz" aria-hidden="true" />
         <span className="sy-bant sy-bant--ucretli" aria-hidden="true" />
         {duraklar.map((n) => {

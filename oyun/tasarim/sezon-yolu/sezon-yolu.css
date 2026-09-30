@@ -259,6 +259,7 @@
 .sy-miktar { font-family: var(--qt-f-baslik); font-size: var(--qt-y-2xl); font-weight: var(--qt-a-siyah); color: var(--qt-metin); }
 .sy-etiketler { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--qt-b-2); }
 .sy-etiketler .qt-dc-nadirlik { position: static; min-height: 26px; padding: 0 var(--qt-b-3); font-size: var(--qt-y-xs); }
+.sy-etiketler .qt-dc-nadirlik[data-nadirlik="nadir"] { background: var(--qt-nadir-nadir-koyu); }   /* beyaz yazı ≥ 4,5:1 (açık yeşil zeminde 3,5) */
 .sy-kol-etiket {
   display: inline-flex; align-items: center; min-height: 26px; padding: 0 var(--qt-b-3); border: 2px solid var(--qt-cizgi-guclu); border-radius: var(--qt-r-hap);
   background: var(--qt-bilgi-acik); color: var(--qt-metin); font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah);
@@ -333,9 +334,8 @@
 @keyframes sy-dus { 0% { translate: 0 -46px; opacity: 0; } 70% { translate: 0 4px; opacity: 1; } 100% { translate: 0 0; opacity: 1; } }
 @keyframes sy-ucus-y-yumusak { 0% { transform: translateY(0); opacity: 0; } 25% { opacity: 1; } 100% { transform: translateY(var(--dy)); opacity: 0.9; } }
 
-/* Hareketi azalt (yumuşak mod): patlama/halka/nabız/düşüş kapanır; uçuş tek coin, yavaş ve düz; yıldızların yarısı gizli */
+/* Hareketi azalt (yumuşak mod): patlama/halka/düşüş kapanır; nabız ve uçuş KALIR ama yavaş ve sade (data-yumusak → yumusakHareket.js ×0,4); uçuş tek coin; yıldızların yarısı gizli */
 @media (prefers-reduced-motion: reduce) {
-  .sy-yuva--alinabilir { animation: none; }
   .sy-durak--acildi .sy-daire { animation: none; }
   .sy-durak--acildi .sy-daire::after { display: none; }
   .sy-yuva--acildi { animation: none; }
@@ -346,8 +346,8 @@
   .sy-yuva { transition: none; }
   .sy-yuva:active { translate: none; }
   .sy-ucus-x:nth-child(n + 2) { display: none; }
-  .sy-ucus-x { animation: sy-ucus-x 1400ms linear both; }
-  .sy-ucus-y { animation: sy-ucus-y-yumusak 1400ms linear both; }
+  .sy-ucus-x { animation: sy-ucus-x 700ms linear both; }   /* data-yumusak: yumusakHareket.js oynatmayı ×0,4 yavaşlatır (≈1,75 sn) */
+  .sy-ucus-y { animation: sy-ucus-y-yumusak 700ms linear both; }
   .sy-sanat .sy-yildiz:nth-child(even) { display: none; }
 }
 @keyframes sy-yumusak-gir { from { opacity: 0.2; } to { opacity: 1; } }

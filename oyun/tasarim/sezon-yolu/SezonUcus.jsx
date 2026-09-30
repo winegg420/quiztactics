@@ -29,7 +29,7 @@ export default function SezonUcus({ kaynak, onBitti }) {
 
   if (!yol) return null;
   return createPortal(
-    <div className="sy-ucus" aria-hidden="true" style={{ left: yol.x, top: yol.y, "--dx": `${yol.dx}px`, "--dy": `${yol.dy}px` }}>
+    <div className="sy-ucus" aria-hidden="true" data-yumusak="" style={{ left: yol.x, top: yol.y, "--dx": `${yol.dx}px`, "--dy": `${yol.dy}px` }}>
       {[0, 1, 2].map((i) => (
         <span key={i} className="sy-ucus-x" style={{ animationDelay: `${i * ARA_MS}ms` }}
               onAnimationEnd={coinBitti}>

@@ -12,6 +12,7 @@ import path from "node:path";
 const ADRES = (process.argv.find((a) => a.startsWith("--adres=")) ?? "--adres=http://localhost:5192").slice(8);
 const GERCEK = process.argv.includes("--gercek");
 const SADECE_GERCEK = process.argv.includes("--sadece-gercek");
+const ATLA_SENARYO = process.argv.includes("--atla-senaryo");   // yalnız önizleme + akışlar (+ --gercek)
 const HIZLI = process.argv.includes("--hizli");   // yalnız seviye 5 · 390×700 TR: ekran görüntüsü + yükseklik (yineleme için)
 const OTURUM = path.resolve(".sezon-b-oturum.json");
 const CIKTI = path.resolve("tasarim/sezon-yolu/v2");
@@ -210,6 +211,7 @@ async function sayfaAc(w, h, dil, durum, { azalt = false } = {}) {
   });
   await sayfa.goto(`${ADRES}/sezon-yolu`, { waitUntil: "domcontentloaded" });
   await sayfa.waitForSelector(".sy-yol", { timeout: 30000 });
+  await sayfa.waitForSelector(".bd-coin-hap", { timeout: 20000 }).catch(() => {});   // üst çubuk coin çipi (uçuşun hedefi) yüklensin
   await sayfa.waitForTimeout(1200);
   return { baglam, sayfa, konsol };
 }
@@ -363,6 +365,7 @@ const SENARYO = {
 const GORUNUM = [[390, 700], [360, 640], [390, 844]];
 
 for (const [ad, sn] of Object.entries(SENARYO)) {
+  if (ATLA_SENARYO) break;
   if (HIZLI && ad !== (process.argv.find((a) => a.startsWith("--sn="))?.slice(5) ?? "s5")) continue;
   for (const [w, h] of GORUNUM) {
     if (HIZLI && !(w === 390 && h === 700)) continue;
@@ -490,7 +493,7 @@ console.log("\n== akışlar (390×844 TR)");
   await sayfa.waitForTimeout(700);
   const rozet2 = await sayfa.locator('[data-yuva="tasma:ucretsiz"] .sy-yuva-rozet--sayi').innerText();
   ok("taşma al: sayı 2 → 1", rozet2.trim() === "1", rozet2);
-  await sayfa.getByRole("button", { name: /Hepsini al \(2\)/ }).tap().catch(() => {});
+  await sayfa.getByRole("button", { name: /Hepsini al|Claim all/ }).tap().catch(() => {});
   await sayfa.waitForTimeout(900);
   ok("Hepsini al: taşma dahil hepsi alındı (rozet yok)", (await sayfa.locator(".sy-yuva-rozet--sayi").count()) === 0);
   await genel(sayfa, konsol, "akış taşma");
@@ -539,15 +542,16 @@ console.log("\n== akışlar (390×844 TR)");
 // Hareketi azalt: nabız kapalı, uçuş tek coin
 {
   const { baglam, sayfa } = await sayfaAc(390, 844, "tr", { d: yeniDurum({ sp: 530, alinan: herSeviyeAlinmis(4) }) }, { azalt: true });
-  const nabiz = await sayfa.evaluate(() => { const e = document.querySelector(".sy-yuva--alinabilir"); return e ? getComputedStyle(e).animationName : "yok"; });
-  ok("hareketi azalt: nabız kapalı", nabiz === "none", nabiz);
+  await sayfa.waitForTimeout(600);
+  const nabiz = await sayfa.evaluate(() => { const e = document.querySelector(".sy-yuva--alinabilir"); return e ? e.getAnimations().map((a) => [a.animationName, a.playbackRate]) : "yok"; });
+  ok("hareketi azalt: nabız kalır ama yavaş (yumuşak mod, hız ×0,4)", Array.isArray(nabiz) && nabiz.some(([ad, h]) => ad === "sy-nabiz" && Math.abs(h - 0.4) < 0.01), JSON.stringify(nabiz));
   await sayfa.locator('[data-yuva="5:ucretsiz"]').tap();
   await sayfa.waitForSelector("[role=dialog]");
   await sayfa.getByRole("button", { name: /Ödülü al/ }).tap();
   await sayfa.waitForTimeout(400);
   const gorunen = await sayfa.evaluate(() => [...document.querySelectorAll(".sy-ucus-x")].filter((e) => getComputedStyle(e).display !== "none").length);
   ok("hareketi azalt: uçuşta tek coin, yavaş", gorunen === 1, `gorunen=${gorunen}`);
-  await sayfa.waitForTimeout(1500);
+  await sayfa.waitForTimeout(2600);
   ok("hareketi azalt: uçuş bitti ve kaldırıldı", (await sayfa.locator(".sy-ucus").count()) === 0);
   await baglam.close();
 }
