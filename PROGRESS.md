@@ -9299,3 +9299,15 @@ oyuncu kafasında birleştirip karar veremiyordu; yıldız zaten puan değerini 
 - **Geometri:** deliğin çapı = çerçeve genişliğinin %40'ı; `boyut` = halka dış çapı, kanat/taç/plaka kutunun dışına taşar (overflow visible). ≤ 48 px'te viewBox "-84 -84 168 168" gibi kırpılır (kırpma sarmalayıcıda, dosya tek). Avatar dairesel kırpılır (köşe halkadan taşmasın). Altın Lig artık hareketsiz (WebGL yok).
 - **Bronz:** katalogda `lig_bronz` (migration 644, herkes sahip), `kazanilanMi` true → takılıysa çizilir. "Bronz ligdekine varsayılan gösterilir" mantığı kodda ayrıca YOK (takılı çerçeve değişmedi) — dokunulmadı, karar Ida'da.
 - **Test:** 36/48/64/96/200 px görsel, 390 ve 360 px'te ana/profil/lig ekranı, yatay taşma yok; `npm run build` temiz. Migration yok.
+
+## 2026-09-30 — Düello Hâkimiyet çekirdeği: sunucu (680)
+**Araç:** Claude Code (Opus 5.5, ana oturum).
+**Neden:** Ida kararı — Düello puan sistemi (666/667/671) yerine puansız 4 yuvalı Hâkimiyet + Baskın/Kalkan jokerleri.
+
+- **Ida kararları (30 Eyl):** 1 tur = 1 hamle (maç 10 soru, her oyuncu 5 kez saldırır; kilit sıradaki 2 hamle). Baskın/Kalkan 3 yuvalı Düello joker setine (loadout) girer.
+- **Migration 680 (`duello_hakimiyet.sql`), provadan sonra canlıya uygulandı.** Yeni kolonlar: `duellolar.hakimiyet/sahiplik/kilitler/hakimiyet_esik/kilit_tur/yuva1/yuva2`, `duello_hamleler.hakimiyet` (jsonb özet: eylem, tuttu, neden, sahip_once/sonra, kilit, baskin, kalkan, cakisma, yuvalar). Tur sırası: tek tur oyuncu1, çift tur oyuncu2 saldırır; `saldiri_sirasi` soru indeksini (tur*2+sıra) benzersiz tutmak için korunur. Eski puan maçları (`hakimiyet=false`) eski dallarla çözülür.
+- Hamle kuralı + kilit `duello2_cozumle`'de, nakavt / 10. tur sayımı / Altın Soru `duello2_sonraki`'de, kilit kapısı `duello2_kategori_uygun_mu`'da (insan, otomatik seçim ve bot aynı kapı). `duello2_durum` → `hakimiyet {acik, esik, kilit_tur, sahiplik, kilitler{kat: kalan tur}, yuvalar{id: n}, rol_joker, rol_joker_hak, avantaj_esik}`; son_hamle ve geçmiş satırlarında `hakimiyet`.
+- Jokerler `baskin` / `kalkan`: `skill_katalogu` + envanter kısıtı + `coin_joker_baskin` 70 / `coin_joker_kalkan` 50 (+ 10'lu paket). Kurallar `duello2_skill_hak_kontrol`'de (rol, sahiplik, maçta 1 — `duello_rol_joker_mac_hak`, toplam 4 içinde, soru başına 1 kuralı aynen). Rakibin `rakip_bu_soruda` bilgisinden gizlenir; Soru Değiştir'i engellemez. Klasik sete giremez.
+- Eski Kategori Kalkanı: `duello2_kalkan_acik`=0 + `duello2_kalkan` her çağrıda reddeder (kolonlar/geçmiş duruyor). Puan/yıldız/çarpan/kalkan ayarları "KULLANILMIYOR (680)" işaretlendi, silinmedi.
+- Rozet: Son Nefes = rakip 3 yuvadayken kazan; Büyük Geri Dönüş = bir an 2 yuva (`rozet_geri_donus_yuva_farki`) gerideyken kazan; Altın Dokunuş aynen.
+- **Test:** `node araclar/duello-hakimiyet-sql-testi.mjs` → 59/59 (3 tür × 4 cevap, kilit, rol, nakavt, 10. tur, Altın Soru, Baskın/Kalkan/çakışma/gizlilik/hak, çift çözümleme, eski kalkan kapalı, yeni oyuncu kilidi).
