@@ -464,7 +464,7 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
   Testler: `sezon-yolu-sql-testi` · `sezon-tasma-sql-testi` · `sezon-kapanis-sql-testi` (ROLLBACK) · `sezon-tasma-yaris-testi` ·
   `sezon-yolu-yaris-testi` (sahip test sezonunu SİLER) · ekran `araclar/sezon-yolu-v2-ekran.mjs` (390×700 ve 360×640 ana ölçü).
 
-### Görevler — 740–743 (30 Eyl 2026, Ida kararları; sunucu tamam, ekran Ajan B)
+### Görevler — 740–744 (30 Eyl 2026, Ida kararları; sunucu + ekran tamam)
 
 - **Günlük:** her gün 3 görev (1 kolay + 1 orta + 1 zor), **herkese aynı**, `gorev_havuzu`'ndan (10 görev, hedef + TR/EN ad TABLODA, koda gömülü
   değil). Seçim tarihten deterministik ve döngülü (her görev eşit sıklıkta, ardışık günde aynı görev yok); `gunluk_gorev_secimi`'ne tembel
@@ -481,6 +481,11 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
 - **RPC:** `gorevlerim()` · `gorev_al(kapsam, quest_id)` · `haftalik_sandik_al()` (hepsi security definer, yalnız authenticated, oyuncu satırı kilidi,
   idempotent: ikinci alım `{alindi:false, zaten:true}`). Eski `get_daily_quests` / `claim_quest` aynı imzayla yeni günlük seçimle çalışır.
   Test: `node araclar/gorevler-sql-testi.mjs` (ROLLBACK) · `node araclar/gorevler-yaris-testi.mjs` (iki bağlantı, test hesabında, temizler).
+- **Ekran:** `/gorevler` (`pages/GorevlerPage.jsx` + `gorevler.css`, veri `lib/gorevler.js`, çeviri `lib/ceviri/gorevler.js`): Günlük (kolay/orta/zor çipi) + Haftalık
+  bölümü + Haftalık sandık; alınca sunucunun döndüğü GERÇEK coin/SP uçan çipte görünür. SP çipleri ve alt not yalnız sezon sistemi görünürken
+  (`sezon_ozetim.gorunur`) çizilir. Ana sayfada tek satırlık Görevler şeridi (`GorevSeridi`, "Günlük a/3 · Haftalık b/3", alınabilir ödül varsa 8 px sessiz nokta);
+  şerit yalnız ekran yüksekliği ≥ 700 px iken görünür (<700'de sığmaz; OYNA/DÜELLO yerinde kalsın diye gizli) — her ekranda avatar (dişli) menüsü ›
+  Görevler satırı var. Ölçüm: `node araclar/gorevler-ekran.mjs` (taklit veri, sunucuya yazmaz).
 
 ### Botlar
 
