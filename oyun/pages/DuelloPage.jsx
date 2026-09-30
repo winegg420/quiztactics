@@ -121,7 +121,7 @@ function DuelloGiris() {
         <span className="m2-giris-ikon" aria-hidden="true"><QtIkon ad="duello" boyut={40} /></span>
         <div className="m2-giris-yazi">
           <h1 className="qt-baslik-1">{ceviri("Düello")}</h1>
-          <p>{ceviri("Sırayla kategori seçin, aynı soruyu aynı anda cevaplayın. Her maçta rakibin en güçlü 3 alanı 6, en zayıf 3 alanı 1, kalanlar 3 puandır.")}</p>
+          <p>{ceviri("4 yuvayı ilk dolduran kazanır. Hamlen tutması için sen doğru, rakip yanlış bilmelisin. Boşta bilen alır. Tutan hamle kategoriyi 2 tur kilitler.")}</p>
         </div>
       </header>
       {kilitli ? (
@@ -173,14 +173,14 @@ function DuelloGiris() {
 // Arama ekranında dönen ipuçları (Paket 29 B) — yalnız sunum, eşleştirmeye dokunmaz.
 // "15 sn'yi geçerse botla eşleştireceğiz" satırı BİLEREK yok: rakip gizli bot olur
 // ve bu sayfa botu asla ele vermez (bkz. dosya başı gizlilik notu).
-// İngilizcesi ceviri/mac.js › Düello (M2).
+// İngilizcesi ceviri/hakimiyet.js (680 · Hâkimiyet).
 const ARAMA_IPUCLARI = [
   "Aynı soruyu aynı anda cevaplarsınız.",
-  "Her maçta rakibin en güçlü 3 alanı 6, en zayıf 3 alanı 1, kalanlar 3 puandır.",
-  "Kategoriyi seçen (saldıran) yanlış bilirse aynı puanı kaybeder — savunan hiç kaybetmez.",
-  "Kategori Kalkanı: maçta 2 hak, Tur 1–5 ve Tur 6–10.",
-  "Son 2 tur (9–10) puanlar ×2: kazanç da ceza da katlanır.",
-  "10 tur sonunda puan eşitse Altın Soru.",
+  "4 yuvayı ilk dolduran kazanır.",
+  "Hamlen tutması için sen doğru, rakip yanlış bilmelisin.",
+  "Boş kategoride bilen alır.",
+  "Tutan hamle kategoriyi 2 tur kilitler.",
+  "10 tur sonunda yuvalar eşitse Altın Soru.",
 ];
 const IPUCU_SN = 3;
 // Paket 41 F: düello aramasının üst sınırı (Klasik'teki gibi sonsuz bekleme yok)
