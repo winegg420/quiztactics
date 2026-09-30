@@ -81,19 +81,7 @@ function Kivircik() {
 
 function Kizil() {
   return <svg viewBox="0 0 320 320" role="img" aria-label="Kızıl saçlı kadın avatarı">
-    <Sahne renk="#3fa9a0" vurgu="#c6f1ef" />
-    <path d="M72 236q-22-88-2-132 24-58 90-62 66 4 90 62 20 44-2 132-14 18-34 6V160H106v82q-20 12-34-6Z" fill="#d9562b" {...CIZGI} />
-    <path d="M86 196q12 22 0 44M234 196q-12 22 0 44" fill="none" stroke="#a8401f" strokeWidth="7" strokeLinecap="round" />
-    <path d={GOVDE} fill="#f2b23c" {...CIZGI} />
-    <path d="M124 228q36 30 72 0" fill="#c98a22" {...CIZGI} />
-    <path d={BAS_INCE} fill="#f0cfa6" {...CIZGI} />
-    <path d="M90 152q-8-88 70-94 62 2 74 66-54 2-86-34-16 42-58 62Z" fill="#d9562b" {...CIZGI} />
-    <path d="M124 80q20 16 40 20" fill="none" stroke="#a8401f" strokeWidth="7" strokeLinecap="round" />
-    <path d="M112 146q14-9 28 1M182 145q14-10 28-1" fill="none" {...CIZGI} />
-    <Goz x={127} y={163} /><Goz x={195} y={163} />
-    <g fill="#c0703f"><circle cx="106" cy="188" r="3.5" /><circle cx="118" cy="196" r="3.5" /><circle cx="102" cy="200" r="3.5" /><circle cx="214" cy="188" r="3.5" /><circle cx="202" cy="196" r="3.5" /><circle cx="218" cy="200" r="3.5" /></g>
-    <Burun y={166} />
-    <path d="M136 206q26 18 50-2" fill="none" {...CIZGI} />
+    <rect width="320" height="320" rx="38" fill="#3fa9a0"></rect><circle cx="160" cy="309" r="105" fill="#0b1220" opacity=".1"></circle><path d="M72 236q-22-88-2-132 24-58 90-62 66 4 90 62 20 44-2 132-14 18-34 6V160H106v82q-20 12-34-6Z" fill="#d9562b" stroke="#0b1220" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"></path><path d="M86 196q12 22 0 44M234 196q-12 22 0 44" fill="none" stroke="#a8401f" strokeWidth="7" strokeLinecap="round"></path><path d="M58 300q8-68 102-78 94 10 102 78" fill="#f2b23c" stroke="#0b1220" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"></path><path d="M124 228q36 30 72 0" fill="#c98a22" stroke="#0b1220" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"></path><path d="M94 150q0-84 66-90 68 6 66 91-3 80-66 90-63-9-66-91Z" fill="#f0cfa6" stroke="#0b1220" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"></path><path d="M90 152q-8-88 70-94 62 2 74 66-54 2-86-34-16 42-58 62Z" fill="#d9562b" stroke="#0b1220" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"></path><path d="M112 92Q128 70 158 66" fill="none" stroke="#f08a5a" strokeWidth="7" strokeLinecap="round" opacity=".8"></path><path d="M112 146q14-9 28 1M182 145q14-10 28-1" fill="none" stroke="#0b1220" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"></path><circle cx="127" cy="163" r="8" fill="#0b1220"></circle><circle cx="129" cy="160" r="2.88" fill="#fff8ec"></circle><circle cx="195" cy="163" r="8" fill="#0b1220"></circle><circle cx="197" cy="160" r="2.88" fill="#fff8ec"></circle><g fill="#c0703f"><circle cx="106" cy="188" r="3.5"></circle><circle cx="118" cy="196" r="3.5"></circle><circle cx="102" cy="200" r="3.5"></circle><circle cx="214" cy="188" r="3.5"></circle><circle cx="202" cy="196" r="3.5"></circle><circle cx="218" cy="200" r="3.5"></circle></g><path d="M160 166q-6 22 5 25l9-2" fill="none" stroke="#0b1220" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"></path><path d="M136 206q26 18 50-2" fill="none" stroke="#0b1220" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"></path>
   </svg>;
 }
 

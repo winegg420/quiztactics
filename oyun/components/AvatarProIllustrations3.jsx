@@ -286,34 +286,7 @@ function FitnessKralicesi() {
 // Erkek: kızıl-kahve dalgalı saç, yeşil kapüşonlu; sol omzunda oturan turuncu tekir yavru, gözü açık.
 function KediliGenc() {
   return <svg viewBox="0 0 320 320" role="img" aria-label="Omzunda turuncu tekir yavru kedi olan genç avatarı">
-    <Sahne renk="#5aa9e6" vurgu="#d5efff" />
-    <path d={GOVDE} fill="#2fbf71" {...CIZGI} />
-    <path d="M104 236q56 34 112 0l6 16q-62 36-124 0Z" fill="#218452" {...CIZGI} />
-    <path d="M144 250v26M176 250v26" fill="none" stroke={KR} strokeWidth="5" strokeLinecap="round" />
-    <ellipse cx="228" cy="166" rx="12" ry="17" fill="#f0cfa6" {...CIZGI} />
-    <path d={BAS} fill="#f0cfa6" {...CIZGI} />
-    <path d="M88 140q-10-72 38-90 20-8 40-4 20-10 40 2 30 18 26 86-14-16-20-34-18 14-40 10-8 16-30 16-10 10-32 14-10-4-22 0Z" fill="#9a4a24" {...CIZGI} />
-    <path d="M120 70q16-10 34-8M180 58q14 2 24 12" fill="none" stroke="#6e3216" strokeWidth="6" strokeLinecap="round" />
-    <Parlama d="M112 78q10-12 24-14" en={6} />
-    <path d="M110 144q15-10 30 1M182 145q15-11 30-1" fill="none" {...CIZGI} />
-    <IriGoz x={127} y={165} bak={-3} /><IriGoz x={195} y={165} bak={-3} />
-    <Burun y={170} /><Yanak y={200} />
-    <path d="M136 206q24 16 48 0-6 22-24 22-18 0-24-22Z" fill="#b83e60" {...CIZGI} />
-    {/* Yavru kedi (turuncu tekir, oturuyor) */}
-    <path d="M58 262q-30 0-30-26 0-14 10-16" fill="none" stroke={K} strokeWidth="17" strokeLinecap="round" /><path d="M58 262q-30 0-30-26 0-14 10-16" fill="none" stroke="#f2a23c" strokeWidth="8" strokeLinecap="round" />
-    <path d="M52 262q-4-44 32-48 36 4 32 48Z" fill="#f2a23c" {...CIZGI} />
-    <path d="M70 244q14 6 28 0" fill="none" stroke="#c9731f" strokeWidth="5" strokeLinecap="round" />
-    <path d="M70 262q2-14 14-16 12 2 14 16Z" fill={KR} {...CIZGI} />
-    <path d="M52 204l-4-34 26 18M116 204l4-34-26 18" fill="#f2a23c" {...CIZGI} />
-    <path d="M56 198l-2-18 12 10M112 198l2-18-12 10" fill="#f5a8c0" />
-    <ellipse cx="84" cy="210" rx="34" ry="28" fill="#f2a23c" {...CIZGI} />
-    <path d="M76 186l2 10M84 184v12M92 186l-2 10" fill="none" stroke="#c9731f" strokeWidth="4" strokeLinecap="round" />
-    <path d="M70 218q14 16 28 0-2 12-14 12-12 0-14-12Z" fill={KR} />
-    <Parlama d="M60 196q6-8 14-10" en={5} />
-    <circle cx="72" cy="208" r="6.5" fill={K} /><circle cx="74" cy="206" r="2.4" fill={KR} />
-    <circle cx="96" cy="208" r="6.5" fill={K} /><circle cx="98" cy="206" r="2.4" fill={KR} />
-    <path d="M81 218h6l-3 4Z" fill="#e0729a" stroke={K} strokeWidth="2" strokeLinejoin="round" />
-    <path d="M84 222q-4 5-8 3M84 222q4 5 8 3M50 214l16 2M50 224l16-2M118 214l-16 2M118 224l-16-2" fill="none" stroke={K} strokeWidth="2.5" strokeLinecap="round" />
+    <rect width="320" height="320" rx="38" fill="#5aa9e6"></rect><circle cx="160" cy="309" r="105" fill="#0b1220" opacity=".1"></circle><path d="M22 300Q24 246 78 234Q124 224 160 222Q196 224 242 234Q296 246 298 300Z" fill="#2fbf71" stroke="#0b1220" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"></path><path d="M104 236q56 34 112 0l6 16q-62 36-124 0Z" fill="#218452" stroke="#0b1220" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"></path><path d="M144 250v26M176 250v26" fill="none" stroke="#fff8ec" strokeWidth="5" strokeLinecap="round"></path><ellipse cx="228" cy="166" rx="12" ry="17" fill="#f0cfa6" stroke="#0b1220" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"></ellipse><path d="M91 149q0-86 69-92 71 6 69 93-2 85-69 94-67-9-69-95Z" fill="#f0cfa6" stroke="#0b1220" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"></path><path d="M88 140q-10-72 38-90 20-8 40-4 20-10 40 2 30 18 26 86-14-16-20-34-18 14-40 10-8 16-30 16-10 10-32 14-10-4-22 0Z" fill="#9a4a24" stroke="#0b1220" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"></path><path d="M120 70q16-10 34-8M180 58q14 2 24 12" fill="none" stroke="#6e3216" strokeWidth="6" strokeLinecap="round"></path><path d="M112 78q10-12 24-14" fill="none" stroke="#fff8ec" strokeWidth="6" strokeLinecap="round" opacity="0.75"></path><path d="M110 144q15-10 30 1M182 145q15-11 30-1" fill="none" stroke="#0b1220" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"></path><ellipse cx="127" cy="165" rx="12" ry="13" fill="#fff8ec" stroke="#0b1220" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"></ellipse><circle cx="124" cy="167" r="7" fill="#0b1220"></circle><circle cx="126" cy="164" r="2.5" fill="#fff8ec"></circle><ellipse cx="195" cy="165" rx="12" ry="13" fill="#fff8ec" stroke="#0b1220" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"></ellipse><circle cx="192" cy="167" r="7" fill="#0b1220"></circle><circle cx="194" cy="164" r="2.5" fill="#fff8ec"></circle><path d="M160 170q-6 22 5 25l9-2" fill="none" stroke="#0b1220" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"></path><circle cx="106" cy="200" r="12" fill="#e8543f" opacity=".32"></circle><circle cx="214" cy="200" r="12" fill="#e8543f" opacity=".32"></circle><path d="M136 206q24 16 48 0-6 22-24 22-18 0-24-22Z" fill="#b83e60" stroke="#0b1220" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"></path><g transform="translate(22.8 36.4) scale(0.8)"><path d="M58 262q-30 0-30-26 0-14 10-16" fill="none" stroke="#0b1220" strokeWidth="17" strokeLinecap="round"></path><path d="M58 262q-30 0-30-26 0-14 10-16" fill="none" stroke="#f2a23c" strokeWidth="8" strokeLinecap="round"></path><path d="M52 262q-4-44 32-48 36 4 32 48Z" fill="#f2a23c" stroke="#0b1220" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"></path><path d="M70 244q14 6 28 0" fill="none" stroke="#c9731f" strokeWidth="5" strokeLinecap="round"></path><path d="M70 262q2-14 14-16 12 2 14 16Z" fill="#fff8ec" stroke="#0b1220" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"></path><path d="M52 204l-4-34 26 18M116 204l4-34-26 18" fill="#f2a23c" stroke="#0b1220" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"></path><path d="M56 198l-2-18 12 10M112 198l2-18-12 10" fill="#f5a8c0"></path><ellipse cx="84" cy="210" rx="34" ry="28" fill="#f2a23c" stroke="#0b1220" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"></ellipse><path d="M76 186l2 10M84 184v12M92 186l-2 10" fill="none" stroke="#c9731f" strokeWidth="4" strokeLinecap="round"></path><path d="M70 218q14 16 28 0-2 12-14 12-12 0-14-12Z" fill="#fff8ec"></path><path d="M60 196q6-8 14-10" fill="none" stroke="#fff8ec" strokeWidth="5" strokeLinecap="round" opacity="0.75"></path><circle cx="72" cy="208" r="6.5" fill="#0b1220"></circle><circle cx="74" cy="206" r="2.4" fill="#fff8ec"></circle><circle cx="96" cy="208" r="6.5" fill="#0b1220"></circle><circle cx="98" cy="206" r="2.4" fill="#fff8ec"></circle><path d="M81 218h6l-3 4Z" fill="#e0729a" stroke="#0b1220" strokeWidth="2" strokeLinejoin="round"></path><path d="M84 222q-4 5-8 3M84 222q4 5 8 3M50 214l16 2M50 224l16-2M118 214l-16 2M118 224l-16-2" fill="none" stroke="#0b1220" strokeWidth="2.5" strokeLinecap="round"></path></g>
   </svg>;
 }
 
