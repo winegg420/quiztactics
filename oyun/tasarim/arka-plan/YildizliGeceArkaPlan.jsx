@@ -45,9 +45,7 @@ function yildizlar(k, yeni) {
 
 const PARILTI_YOL = "M0 -5L1.1 -1.1L5 0L1.1 1.1L0 5L-1.1 1.1L-5 0L-1.1 -1.1Z";
 
-export default function YildizliGeceArkaPlan({ hareketli = false, yukseklik = 100, className = "", children, katman = false, duzen = "yatay", tamGorunur = false }) {
-  const k = yukseklik < 60;
-  const liste = useMemo(() => yildizlar(k, tamGorunur), [k, tamGorunur]);
+export default function YildizliGeceArkaPlan({ hareketli = false, yukseklik = 100, className = "", children, katman = false, duzen = "yatay", tamGorunur = true }) {
   const zemin = (
     <>
       <i className="abp-gece-bant" />
@@ -63,7 +61,18 @@ export default function YildizliGeceArkaPlan({ hareketli = false, yukseklik = 10
   );
   return (
     <YeniSahne tur="gece" tamGorunur={tamGorunur} katman={katman} duzen={duzen} taban={TABAN} hareketli={hareketli} yukseklik={yukseklik} className={className} zemin={zemin}
-      parcalar={() => (
+      parcalar={(_s, _h, k) => (
+        <Yildizlar k={k} tamGorunur={tamGorunur} />
+      )}>
+      {children}
+    </YeniSahne>
+  );
+}
+
+/** Yıldızlar + kayan yıldız; k (küçük satır) YeniSahne'de ölçülür. */
+function Yildizlar({ k, tamGorunur }) {
+  const liste = useMemo(() => yildizlar(k, tamGorunur), [k, tamGorunur]);
+  return (
         <>
           {liste.map((p, i) => {
             return (
@@ -79,8 +88,5 @@ export default function YildizliGeceArkaPlan({ hareketli = false, yukseklik = 10
           })}
           <span className="abp-gece-kayan" style={{ "--kdur": `${KAYAN_DUR}s`, "--kgec": `${(-KAYAN_FAZ * KAYAN_DUR).toFixed(2)}s` }} />
         </>
-      )}>
-      {children}
-    </YeniSahne>
   );
 }

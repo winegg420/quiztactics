@@ -4,7 +4,7 @@
  * Hareket koşulları KartArkaPlan'daki useHareket'ten gelir (sekme gizli, ekranda değil, pil düşük, hareketi azalt, en çok 3 kart).
  * KartArkaPlan.jsx ve arka-plan.css'e dokunulmaz.
  */
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useHareketAyrinti, sabitYer } from "./KartArkaPlan.jsx";
 import SabitTasarim, { SABIT_TURLER } from "./sabit-tasarim.jsx";
 import "./arka-plan.css";
@@ -26,16 +26,25 @@ export const yumusakEgri = (f) => f * f * (3 - 2 * f);
 
 export default function YeniSahne({ tur, taban, hareketli, yukseklik, className = "", zemin, parcalar, children, katman = false, duzen = "yatay", tamGorunur = false }) {
   const kok = useRef(null);
-  const k = yukseklik < 60;
+  // katman (oyun içi kart): yükseklik kartınkidir, ölçülür (KartArkaPlan ile aynı; yukseklik = ilk tahmin) → lig satırı (~56 px) küçük düzene geçer
+  const [olcu, setOlcu] = useState(yukseklik);
+  useEffect(() => {
+    if (!katman || !kok.current || typeof ResizeObserver === "undefined") return undefined;
+    const ro = new ResizeObserver(() => { const h = kok.current?.clientHeight; if (h > 0) setOlcu((o) => (Math.abs(o - h) > 2 ? h : o)); });
+    ro.observe(kok.current);
+    return () => ro.disconnect();
+  }, [katman]);
+  const yuk = katman ? olcu : yukseklik;
+  const k = yuk < 60;
   const { mod, statik } = useHareketAyrinti(hareketli, kok);
   // yeni mod + kalıcı durgunluk (hareketi azalt · pil · 3 kart sınırı · hareketsiz kart) → ayrı çizilmiş özel sabit kompozisyon (sabit-tasarim.jsx)
-  const sabitTam = tamGorunur && mod === "sabit" && statik && SABIT_TURLER.includes(tur);   // zemin/parcalar işlev olabilir: (sabitTam, tamHareketli) => düğüm
-  const al = (d) => (typeof d === "function" ? d(sabitTam, tamGorunur && !sabitTam) : d);
+  const sabitTam = tamGorunur && mod === "sabit" && statik && SABIT_TURLER.includes(tur);   // zemin/parcalar işlev olabilir: (sabitTam, tamHareketli, k, yuk) => düğüm
+  const al = (d) => (typeof d === "function" ? d(sabitTam, tamGorunur && !sabitTam, k, yuk) : d);
   return (
     <div ref={kok} className={`abp abp--${tur} abp--${mod}${k ? " abp--kucuk" : ""}${katman ? " abp--katman" : ""}${duzen === "dikey" ? " abp--dikey" : ""}${tamGorunur ? " abp--tam" : ""} ${className}`.trim()}
          style={{ "--abp-taban": taban, ...(katman ? {} : { height: yukseklik }) }} data-yumusak="" data-arka-plan={tur}>
       <span className="abp-zemin" aria-hidden="true">{sabitTam ? null : al(zemin)}</span>
-      <span className="abp-parca" aria-hidden="true">{sabitTam ? <SabitTasarim tur={tur} k={k} duzen={duzen} /> : al(parcalar)}</span>
+      <span className="abp-parca" aria-hidden="true">{sabitTam ? <SabitTasarim tur={tur} k={k} duzen={duzen} katman={katman} /> : al(parcalar)}</span>
       {!tamGorunur && <span className="abp-okuma" aria-hidden="true" />}
       {!katman && <div className="abp-icerik">{children}</div>}
     </div>

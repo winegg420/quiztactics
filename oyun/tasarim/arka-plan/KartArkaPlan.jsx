@@ -13,7 +13,7 @@
  *   en çok MAX_HAREKETLI kart (maç başı 2 + ana sayfa 1). Aksi hâlde sabit hâl. "Hareketi azalt" davranışı
  *   AZALT_DAVRANISI ile seçilir: "sabit" (varsayılan) ya da "yumusak" (oyundaki yumuşak mod: 2,5× yavaş, yarı parçacık).
  * - Yazı arkasında koyu yarı saydam okunabilirlik alanı (.abp-okuma) + parçacık maskesi (yazı bölgesinde sönük).
- * - tamGorunur = YENİ MOD (varsayılan false = yukarıdaki eski davranış BİREBİR). Yalnız önizleme (katman ile birlikte desteklenmez):
+ * - tamGorunur = YENİ MOD — OYUNDA VARSAYILAN (30 Eyl 2026, Ida onayı); yukarıdaki eski davranış tamGorunur={false} ile birebir erişilir (önizleme anahtarı):
  *   · parçacıklar yazının, avatarın ve çerçevenin ARKASINDA (z 1 < içerik z 3); okunabilirlik alanı ve maske YOK (tam opaklık);
  *   · yönler: kar ve yapraklar yalnız yukarıdan aşağı (dönme iç öğede → yol saf dikey), baloncuklar karışık (genel yön yukarı);
  *   · hareketi azalt / pil düşük / 4. kart → hareketli hâlin donmuş karesi DEĞİL, ayrı çizilmiş özel sabit kompozisyon (sabit-tasarim.jsx).
@@ -287,7 +287,7 @@ export function useHareket(hareketli, kok) {
   return useHareketAyrinti(hareketli, kok).mod;
 }
 
-export default function KartArkaPlan({ tur = "su", hareketli = false, yukseklik = 100, className = "", children, katman = false, duzen = "yatay", tamGorunur = false }) {
+export default function KartArkaPlan({ tur = "su", hareketli = false, yukseklik = 100, className = "", children, katman = false, duzen = "yatay", tamGorunur = true }) {
   const kok = useRef(null);
   // katman: kart öğesinin İÇİNDE arka katman (oyundaki kartlar) — yükseklik kartınkidir, ölçülür (yukseklik = ilk tahmin)
   const [olcu, setOlcu] = useState(yukseklik);
@@ -310,7 +310,7 @@ export default function KartArkaPlan({ tur = "su", hareketli = false, yukseklik 
         {tur === "su" && <><i className="abp-huzme abp-huzme--1" /><i className="abp-huzme abp-huzme--2" /><i className="abp-huzme abp-huzme--3" /></>}
       </span>
       <span className="abp-parca" aria-hidden="true">
-        {sabitTasarim ? <SabitTasarim tur={tur} k={k} duzen={duzen} />
+        {sabitTasarim ? <SabitTasarim tur={tur} k={k} duzen={duzen} katman={katman} />
           : tamGorunur ? liste.map((p, i) => <ParcacikYeni key={i} p={p} sabit={mod === "sabit"} />)
           : liste.map((p, i) => <Parcacik key={i} p={p} tur={tur} h={yuk} sabit={mod === "sabit"} />)}
       </span>
