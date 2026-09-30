@@ -229,7 +229,7 @@ body.bd-oyun-modu .a-kabuk .a-altmenu { display: none; }
 .brand .brand-logo--ikon { display: none; }
 .a-kabuk .qt-ustcubuk-marka .brand { min-height: var(--qt-dokunma); }
 @media (max-width: 560px) {
-  .app .brand .brand-logo--tam { display: block; width: 120px; height: auto; }
+  .app .brand .brand-logo--tam { display: block; width: 144px; height: auto; }
   .app .brand .brand-logo--ikon { display: none; }
 }
 

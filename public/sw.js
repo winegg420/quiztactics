@@ -8,8 +8,8 @@
 //   · /assets/* (içeriğe göre adlandırılmış, değişmez JS/CSS/görsel): önbellek öncelikli.
 //   · diğer aynı kökenli statik dosyalar (avatar svg, ikon, font): ağ öncelikli, çevrimdışıysa önbellek.
 //   · Supabase / başka köken, POST ve Range istekleri OLDUĞU GİBİ ağa gider (dokunulmaz).
-const KABUK = "qt-kabuk-v1";
-const VARLIK = "qt-varlik-v1";
+const KABUK = "qt-kabuk-v2";
+const VARLIK = "qt-varlik-v2";
 const VARLIK_SINIR = 400;
 const STATIK = /.(?:svg|png|jpe?g|webp|gif|ico|woff2?|css|js|json|glb)$/i;
 

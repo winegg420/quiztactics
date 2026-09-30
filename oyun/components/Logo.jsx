@@ -40,7 +40,8 @@ function Yazi({ x, y, boy, dolgu, kontur = LACIVERT, w = 8, derin = 6, ls = -2, 
   );
 }
 
-export default function Logo({ boyut = 38, className = "", koyu = false, sadeceIkon = false }) {
+/** ESKİ Şeker Q logosu — saklanıyor (30 Eyl 2026: resmi logo aşağıdaki yeni Logo). */
+export function LogoSekerQ({ boyut = 38, className = "", koyu = false, sadeceIkon = false }) {
   const kontur = koyu ? "#0a1330" : LACIVERT;
   if (sadeceIkon) {
     return (
@@ -58,5 +59,20 @@ export default function Logo({ boyut = 38, className = "", koyu = false, sadeceI
       <Yazi x={196} y={84} boy={62} dolgu={koyu ? "#dfe6f7" : "#fff"} kontur={kontur} w={9} derin={5}>UIZ</Yazi>
       <Yazi x={178} y={178} boy={104} dolgu={TURUNCU} kontur={kontur} w={10} derin={8}>TACTICS</Yazi>
     </svg>
+  );
+}
+
+/**
+ * RESMİ LOGO (Ida onayı, 30 Eyl 2026): at hamlesi oku olan Q + "QUIZ TACTICS" yatay logosu.
+ * Kaynak: tasarim/marka/logo-uretici.js → public/quiztactics-logo-yatay.svg (yatay) ve
+ * public/quiztactics-q-favicon.svg (yalnız Q). Giriş, açılış, üst çubuk hepsi bu bileşenden gelir.
+ * `boyut` = yükseklik px; genişlik oranla (345:84). CSS width verilirse görsel oranla ölçeklenir.
+ */
+export default function Logo({ boyut = 38, className = "", sadeceIkon = false }) {
+  const src = sadeceIkon ? "/quiztactics-q-favicon.svg?v=20260930-q" : "/quiztactics-logo-yatay.svg?v=20260930-q";
+  const genislik = sadeceIkon ? boyut : Math.round(boyut * (345 / 84));
+  return (
+    <img className={`bd-logo ${className}`} src={src} width={genislik} height={boyut}
+         alt="Quiz Tactics" decoding="async" draggable="false" />
   );
 }

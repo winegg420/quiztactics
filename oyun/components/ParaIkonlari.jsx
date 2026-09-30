@@ -16,9 +16,21 @@ const A = METAL.altin;
 const f = (n) => Math.round(n * 100) / 100;
 const cz = (w) => ({ stroke: K, strokeWidth: w, strokeLinejoin: "round", strokeLinecap: "round" });
 
-// Şeker Q — public/quiztactics-sekerq-favicon.svg ile aynı yol (küçük ölçek).
-const Q_YOL = "M56 10C28 10 10 29 10 58s18 48 46 48c10 0 19-2 27-7l12 11h21L94 88c7-8 10-18 10-30 0-29-19-48-48-48Zm0 23c15 0 25 10 25 25S71 83 56 83 33 73 33 58s8-25 23-25Z";
-const Q_KUYRUK = "m73 78 21 10 15 15H94L69 85Z";
+// Marka amblemi (30 Eyl 2026): halka + L şeklinde at hamlesi oku — tasarim/marka/coin-uretici.js ile aynı geometri.
+// Amblem 100'lük koordinatta çizilir (merkez ≈ 56,56); sikke yüzüne (r=25) EMBLEM_OLCEK ile oturur.
+const EMBLEM_KOYU = "#5C3A00", EMBLEM_ACIK = "#FFF3B0", EMBLEM_KUCUK = "#1f2a44";
+const EMBLEM_OLCEK = 25 / 42;
+
+/** Halka (45,45 · r 14.5) + L ok (M58 58 V74 H72, uçta üçgen başı). */
+function Amblem({ renk, sw }) {
+  return (
+    <>
+      <circle cx="45" cy="45" r="14.5" fill="none" stroke={renk} strokeWidth={sw} />
+      <path d="M58 58V74H72" fill="none" stroke={renk} strokeWidth={f(sw * 0.72)} strokeLinecap="round" strokeLinejoin="round" />
+      <polygon points="82,74 71,66.5 71,81.5" fill={renk} stroke={renk} strokeWidth="1.4" strokeLinejoin="round" />
+    </>
+  );
+}
 
 /** Hücre gölgesi: şekil içinde sağ-alta düşen koyu ton, sol üstten aynı şeklin açık kopyası. */
 function HucreGolge({ id, d, acik, koyu, dx = -2.2, dy = -2.6 }) {
@@ -38,8 +50,8 @@ function kimlikUret(on) { sayac += 1; return `${on}${sayac}`; }
 
 /**
  * Coin ikonu — "Q Sikke" (önden; Ida seçimi 26 Eyl 2026, önceki "Dönen Sikke" yerine). Aday çizimi CoinA ile aynı mantık:
- * kalınlık (yan yüz) + yüz + kabarık kenar ışığı + çukur alan + Q kabartma; hareketsiz üretim sürümü.
- * ≤ 28 px (boy kuralı A9): iç ayrıntı azalır, kontur kalınlaşır, Q "koyu oyma harf" olur.
+ * kalınlık (yan yüz) + yüz + kabarık kenar ışığı + çukur alan + amblem kabartma; hareketsiz üretim sürümü.
+ * ≤ 28 px (boy kuralı A9): iç ayrıntı azalır, kontur kalınlaşır, amblem kalın lacivert olur.
  */
 export function CoinIkon({ boyut = 20, className, etiket }) {
   const id = kimlikUret("ci");
@@ -66,20 +78,14 @@ export function CoinIkon({ boyut = 20, className, etiket }) {
         </>
       )}
       {kucuk ? (
-        <g transform="translate(32.4 30.4) scale(0.27) translate(-60 -60) skewX(-7) translate(7 0)" strokeLinejoin="round">
-          <path d={Q_YOL} fillRule="evenodd" fill={A.kenar} />
-          <path d={Q_KUYRUK} fill={BEYAZ} stroke={A.kenar} strokeWidth={f(2 / 0.27)} />
+        <g transform={`translate(${cx} ${cy}) scale(${f(EMBLEM_OLCEK)}) translate(-56 -56)`}>
+          <Amblem renk={EMBLEM_KUCUK} sw={11.5} />
         </g>
       ) : (
-        <>
-          <g transform="translate(34.1 31.9) scale(0.2) translate(-60 -60) skewX(-7) translate(7 0)" fill={A.kenar}>
-            <path d={Q_YOL} fillRule="evenodd" /><path d={Q_KUYRUK} />
-          </g>
-          <g transform="translate(32.6 30.4) scale(0.2) translate(-60 -60) skewX(-7) translate(7 0)" strokeLinejoin="round" strokeWidth={f(1.5 / 0.2)} stroke={A.kenar}>
-            <path d={Q_YOL} fillRule="evenodd" fill={A.acik} />
-            <path d={Q_KUYRUK} fill={BEYAZ} />
-          </g>
-        </>
+        <g transform={`translate(${cx} ${cy}) scale(${f(EMBLEM_OLCEK * 0.82)}) translate(-56 -56)`}>
+          <g transform="translate(-1.8 -1.8)"><Amblem renk={EMBLEM_ACIK} sw={9} /></g>
+          <Amblem renk={EMBLEM_KOYU} sw={9} />
+        </g>
       )}
       <path d={yay(r - 3.4, 292, 334, cx, cy)} fill="none" stroke={BEYAZ} strokeWidth={kucuk ? 3.2 : 2.6} strokeLinecap="round" />
       <path d={yuz} fill="none" {...cz(w)} />

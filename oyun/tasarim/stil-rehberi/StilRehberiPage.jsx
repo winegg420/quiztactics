@@ -9,6 +9,7 @@ import UnvanYazisi from "../../components/UnvanYazisi.jsx";
 import OyuncuVitrinKarti from "../../components/OyuncuVitrinKarti.jsx";
 import { SeviyeEtiketi } from "../../components/MacUstSerit.jsx";
 import { CoinIkon, ElmasIkon } from "../../components/ParaIkonlari.jsx";
+import Logo from "../../components/Logo.jsx";
 import { LigAmblemi } from "../premium/ligAmblemi.jsx";
 import { KONTUR, KREM, MARKA, METAL, NADIRLIK, SAHNE, TAS, LEVEL } from "../gorsel-revizyon/palet.js";
 import { QtKart, QtMacUst } from "../index.js";
@@ -77,6 +78,15 @@ export default function StilRehberiPage() {
             <ElmasIkon boyut={48} etiket="Elmas" />
             <RozetMadalyonu anahtar="klasik_500" grup="klasik" kademe="altin" ikon="trophy" boyut={64} />
             <LigAmblemi lig="altin" boyut={64} hareketli />
+          </div>
+        </Bolum>
+
+        <Bolum baslik="Marka" not="Q + at hamlesi oku (30 Eyl 2026). Kaynak: tasarim/marka/logo-uretici.js · coin: coin-uretici.js. Renkler: zemin #3D8CE8, halka beyaz, ok #FFB020, kontur #1f2a44.">
+          <div className="sr-sahne">
+            <Logo boyut={44} />
+            <Logo boyut={48} sadeceIkon />
+            <img className="sr-simge" src="/quiztactics-q-icon-192.png" alt="Uygulama simgesi" width="96" height="96" loading="lazy" decoding="async" />
+            {[16, 24, 32, 48].map((b) => <CoinIkon key={b} boyut={b} etiket={`Coin ${b} px`} />)}
           </div>
         </Bolum>
 

@@ -172,7 +172,7 @@ export default function AnaEkranaEkle({ satirIci = false }) {
       <div className="g-ekle-panel">
         <div className="g-ekle-ust">
           <img
-            src="/quiztactics-sekerq-icon-192.png?v=20260924-sekerq"
+            src="/quiztactics-q-icon-192.png?v=20260930-q"
             alt=""
             width="52"
             height="52"

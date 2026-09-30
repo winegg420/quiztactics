@@ -9328,3 +9328,14 @@ oyuncu kafasında birleştirip karar veremiyordu; yıldız zaten puan değerini 
 - **Okunabilirlik (ölçüldü, pikseller üzerinden, beyaz yazıya karşı):** yazı arkasında rgba(10,20,40,.34) alan + yazı bölgesinde parçacık maskesi (su .4 · kar .12 · yaprak .6; beyaz parçacıklar kontrastı düşürdüğü için). En kötü piksel: Su 4,62 · Kar 5,65 · Yaprak 4,87 · lig satırı 5,0/8,6/6,7 (hepsi ≥ 4,5; hareketli kartta 4 farklı kare). Bedel: yazı bölgesinde parçacıklar sönük, sahne kartın kenarlarında ve avatar çevresinde belirgin.
 - **Performans:** CPU 6× yavaşlatılmış headless Chrome'da 2 hareketli kart (64 parçacık) ≈ 19 fps; aynı ortamda mevcut /premium-onizleme ≈ 12 fps (yani daha hafif). Gerçek telefon ölçümü Ida'da.
 - **Bulgu:** avatarın arkasındaki eski arka plan hâlâ çiziliyor (bu iş dokunmadı).
+
+## 2026-09-30 — Marka paketi: yeni logo (Q + at hamlesi oku), uygulama simgesi, coin amblemi
+**Araç:** Claude Code (Sonnet 5.5, PC). Ida onaylı tasarım; tasarım değiştirilmedi.
+- **Üreticiler:** `tasarim/marka/logo-uretici.js` (logo-q.svg, logo-yatay.svg, uygulama-simgesi.svg) ve `coin-uretici.js` (`out/coin.svg`, `out/coin-kucuk.svg`, referans); klasörde commonjs `package.json`. PNG'ler `@resvg/resvg-js` ile (`npm i --no-save`, depoya bağımlılık girmedi).
+- **public/ (yeni adlar, eskiler duruyor):** `quiztactics-q-icon-1024/512/192.png`, `quiztactics-q-apple-touch-180.png`, `quiztactics-q-favicon-32.png`, `quiztactics-q-og-512.png`, `quiztactics-q-favicon.svg` (=logo-q), `quiztactics-logo-yatay.svg`.
+- **Logo.jsx:** varsayılan `Logo` artık `<img>` ile yatay logoyu çizer (`sadeceIkon` → yalnız Q). Eski Şeker Q çizimi `LogoSekerQ` adıyla dosyada duruyor. Üst çubuk logosu 120 → 144 px (`a-kabuk.css`, ≤560 px); 360 ve 390 px'te yatay taşma yok (ölçüldü).
+- **index.html:** favicon SVG + 32/192 PNG, apple-touch 180, theme-color #3D8CE8, og/twitter görseli yeni Q simgesi. `bildim.webmanifest`: 192/512 için `any` ve `maskable` ayrı girdi, tema/zemin #3D8CE8. `AnaEkranaEkle.jsx` simgesi yeni dosya. Not: `oyun/lib/tema.js` çalışma anında theme-color'ı açık temada #CDEEFF yapar (üst çubuk açık zemin); dokunulmadı, karar Ida'da.
+- **CoinIkon:** eski Q_YOL/Q_KUYRUK kaldırıldı; `Amblem` (halka + L ok) çizilir. Büyük: kahve #5C3A00 + sol üst açık kopya #FFF3B0; ≤28 px: kalın lacivert #1f2a44, iç halka yok. Sikke ölçüleri/kenar aynı. Paket görsellerine (CoinGorseli, yığın/sandık) dokunulmadı.
+- **Stil rehberi:** yeni "Marka" bölümü (logo, Q, simge, coin 16/24/32/48).
+- **Önbellek:** `public/sw.js` `qt-kabuk-v2` / `qt-varlik-v2`. Build temiz. Ekran görüntüleri: `tasarim/marka/ekran-*.png`.
+- **Ida'ya not:** TÜRKPATENT / WIPO tescil ve benzerlik sorgusu yayından önce Ida'dadır.
