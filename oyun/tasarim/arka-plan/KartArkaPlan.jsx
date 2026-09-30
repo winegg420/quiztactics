@@ -134,7 +134,7 @@ function Parcacik({ p, tur, h, sabit }) {
 // ------------------------- hareket koşulları -------------------------
 const aktifler = new Set();
 
-function useHareket(hareketli, kok) {
+export function useHareket(hareketli, kok) {
   const id = useId();
   const [azalt, setAzalt] = useState(false);
   const [gorunur, setGorunur] = useState(true);
@@ -180,23 +180,32 @@ function useHareket(hareketli, kok) {
   return azalt ? "yumusak" : "oynar";
 }
 
-export default function KartArkaPlan({ tur = "su", hareketli = false, yukseklik = 100, className = "", children }) {
+export default function KartArkaPlan({ tur = "su", hareketli = false, yukseklik = 100, className = "", children, katman = false, duzen = "yatay" }) {
   const kok = useRef(null);
-  const k = yukseklik < 60;
+  // katman: kart öğesinin İÇİNDE arka katman (oyundaki kartlar) — yükseklik kartınkidir, ölçülür (yukseklik = ilk tahmin)
+  const [olcu, setOlcu] = useState(yukseklik);
+  useEffect(() => {
+    if (!katman || !kok.current || typeof ResizeObserver === "undefined") return undefined;
+    const ro = new ResizeObserver(() => { const h = kok.current?.clientHeight; if (h > 0) setOlcu((o) => (Math.abs(o - h) > 2 ? h : o)); });
+    ro.observe(kok.current);
+    return () => ro.disconnect();
+  }, [katman]);
+  const yuk = katman ? olcu : yukseklik;
+  const k = yuk < 60;
   const liste = useMemo(() => parcaciklar(tur, k), [tur, k]);
   const mod = useHareket(hareketli, kok);
   const cfg = ARKA_PLANLAR[tur];
   return (
-    <div ref={kok} className={`abp abp--${tur} abp--${mod}${k ? " abp--kucuk" : ""} ${className}`.trim()}
-         style={{ "--abp-taban": cfg.taban, height: yukseklik }} data-yumusak="" data-arka-plan={tur}>
+    <div ref={kok} className={`abp abp--${tur} abp--${mod}${k ? " abp--kucuk" : ""}${katman ? " abp--katman" : ""}${duzen === "dikey" ? " abp--dikey" : ""} ${className}`.trim()}
+         style={{ "--abp-taban": cfg.taban, ...(katman ? {} : { height: yukseklik }) }} data-yumusak="" data-arka-plan={tur}>
       <span className="abp-zemin" aria-hidden="true">
         {tur === "su" && <><i className="abp-huzme abp-huzme--1" /><i className="abp-huzme abp-huzme--2" /><i className="abp-huzme abp-huzme--3" /></>}
       </span>
       <span className="abp-parca" aria-hidden="true">
-        {liste.map((p, i) => <Parcacik key={i} p={p} tur={tur} h={yukseklik} sabit={mod === "sabit"} />)}
+        {liste.map((p, i) => <Parcacik key={i} p={p} tur={tur} h={yuk} sabit={mod === "sabit"} />)}
       </span>
       <span className="abp-okuma" aria-hidden="true" />
-      <div className="abp-icerik">{children}</div>
+      {!katman && <div className="abp-icerik">{children}</div>}
     </div>
   );
 }

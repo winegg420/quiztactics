@@ -1,0 +1,119 @@
+/* =====================================================================
+   YENİ ÜÇ KART ARKA PLANI (önizleme): Yükselen Köz (abp-kor-*) · Yıldızlı Gece (abp-gece-*) · Kuzey Işıkları (abp-kuzey-*)
+   Ortak .abp kuralları arka-plan.css'te. Yalnız transform/translate/scale/rotate + opacity anime edilir; blur filtresi YOK.
+   Sabit hâl = hareketli hâlin ilk karesi (satır içi değerler; animasyon-gecikme = −faz × süre).
+   iOS: position:fixed yok; transform'lu atada fixed katman yok.
+   ===================================================================== */
+
+/* yazı bölgesinde parçacık saydamlığı + okunabilirlik alanı: yazı bandında koyu (--ok-m), alt/üst kenarda hafif (--ok-k) → sahne kenarlarda canlı kalır.
+   Özgüllük .abp-okuma / .abp--kucuk .abp-okuma kurallarının üstünde (0,3,0). Kart içeriğinin sol %20-30'u (avatar) daha açık. */
+.abp--kor { --abp-maske: .62; --ok: 20, 5, 3; --ok-m: .36; --ok-k: .1; }
+.abp--kor.abp--kucuk { --ok-m: .46; --abp-maske: .45; }
+.abp--gece { --abp-maske: .6; --ok: 5, 8, 30; --ok-m: .4; --ok-k: .12; }
+.abp--kuzey { --abp-maske: .8; --ok: 3, 14, 24; --ok-m: .48; --ok-k: .1; }
+.abp.abp--kor .abp-okuma, .abp.abp--gece .abp-okuma, .abp.abp--kuzey .abp-okuma {
+  background: linear-gradient(180deg, rgba(var(--ok), var(--ok-k)) 0, rgba(var(--ok), var(--ok-m)) 30%, rgba(var(--ok), var(--ok-m)) 70%, rgba(var(--ok), var(--ok-k)) 100%);
+  -webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, .28) 0, rgba(0, 0, 0, .28) 20%, #000 30%);
+  mask-image: linear-gradient(90deg, rgba(0, 0, 0, .28) 0, rgba(0, 0, 0, .28) 20%, #000 30%);
+}
+/* lig satırı (42 px): dikey bant anlamsız, düz alan */
+.abp.abp--kor.abp--kucuk .abp-okuma, .abp.abp--gece.abp--kucuk .abp-okuma, .abp.abp--kuzey.abp--kucuk .abp-okuma {
+  background: rgba(var(--ok), var(--ok-m));
+  -webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, .28) 0, rgba(0, 0, 0, .28) 10%, #000 18%);
+  mask-image: linear-gradient(90deg, rgba(0, 0, 0, .28) 0, rgba(0, 0, 0, .28) 10%, #000 18%);
+}
+
+/* ============================ YÜKSELEN KÖZ ============================ */
+.abp--kor .abp-zemin { background: linear-gradient(180deg, rgba(20, 4, 2, .28) 0, rgba(0, 0, 0, 0) 55%); }
+/* dipten turuncu ışıma; hareketli hâlde yavaş nefes alır (ilk kare = sabit hâl: tam parlaklık) */
+.abp-kor-isima {
+  position: absolute; left: -10%; right: -10%; bottom: -8%; height: 88%; display: block;
+  background: radial-gradient(ellipse 30% 46% at 50% 100%, rgba(255, 140, 40, .26) 0, rgba(255, 140, 40, 0) 100%), radial-gradient(ellipse 60% 78% at 50% 100%, rgba(255, 106, 31, .35) 0, rgba(255, 106, 31, .16) 55%, rgba(255, 106, 31, 0) 100%);
+}
+.abp--kucuk .abp-kor-isima { height: 70%; background: radial-gradient(ellipse 60% 100% at 50% 100%, rgba(255, 106, 31, .2) 0, rgba(255, 106, 31, 0) 100%); }
+.abp--oynar .abp-kor-isima, .abp--yumusak .abp-kor-isima { will-change: opacity; animation: abp-kor-nefes 2.6s ease-in-out infinite alternate; }
+@keyframes abp-kor-nefes { from { opacity: 1; } to { opacity: .72; } }
+
+.abp-kor-koz {
+  position: absolute; top: 0; display: block; border-radius: 50%;
+  background: radial-gradient(circle at 38% 36%, rgba(255, 250, 225, .95) 0, var(--kz) 52%, var(--kz) 100%);
+  box-shadow: 0 0 var(--gl, 6px) var(--kzg, rgba(255, 122, 47, .9));
+  transform: translate3d(0, var(--yy), 0);
+}
+.abp--oynar .abp-kor-koz, .abp--yumusak .abp-kor-koz {
+  will-change: transform, opacity;
+  animation: abp-kor-yol var(--dur) linear var(--gec) infinite,
+             abp-kor-son var(--dur) linear var(--gec) infinite,
+             abp-kor-sal var(--sdur) ease-in-out calc(var(--sdur) / -2) infinite alternate;
+}
+.abp--yumusak .abp-kor-koz:nth-child(even) { display: none; }
+@keyframes abp-kor-yol { from { transform: translate3d(0, var(--y0), 0); } to { transform: translate3d(0, var(--y1), 0); } }
+@keyframes abp-kor-son { 0% { opacity: 0; } 10% { opacity: var(--op); } 55% { opacity: calc(var(--op) * .85); } 100% { opacity: 0; } }
+@keyframes abp-kor-sal { from { translate: calc(var(--amp) * -1) 0; } to { translate: var(--amp) 0; } }
+
+/* ============================ YILDIZLI GECE ============================ */
+.abp--gece .abp-zemin {
+  background: radial-gradient(ellipse at 72% 30%, rgba(120, 110, 255, .28) 0, rgba(0, 0, 0, 0) 55%), linear-gradient(180deg, #0E1440 0, #1F2F7A 100%);
+}
+.abp-gece-bant {
+  position: absolute; left: -20%; top: 20%; width: 140%; height: 40%; display: block; rotate: -14deg;
+  background: radial-gradient(ellipse closest-side, rgba(143, 160, 255, .2) 0, rgba(143, 160, 255, .08) 55%, rgba(143, 160, 255, 0) 100%);
+}
+.abp-gece-hale {
+  position: absolute; left: calc(72% - 22px); top: calc(12% - 20px); width: 64px; height: 64px; display: block;
+  background: radial-gradient(circle closest-side, rgba(255, 244, 200, .2) 0, rgba(255, 244, 200, 0) 100%);
+}
+.abp-gece-ay { position: absolute; left: 72%; top: 12%; width: 18px; height: 18px; display: block; }
+.abp--kucuk .abp-gece-hale { left: calc(70% - 14px); top: calc(14% - 12px); width: 40px; height: 40px; }
+.abp--kucuk .abp-gece-ay { left: 70%; top: 14%; width: 12px; height: 12px; }
+.abp-gece-tepe { position: absolute; left: 0; bottom: 0; width: 100%; height: 34%; display: block; }
+
+.abp-gece-yildiz { position: absolute; display: block; }
+.abp-gece-yildiz--nokta { border-radius: 50%; background: radial-gradient(circle closest-side, var(--yr) 0, var(--yr) 55%, rgba(255, 255, 255, 0) 100%); }
+.abp-gece-yildiz > svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.abp--oynar .abp-gece-yildiz, .abp--yumusak .abp-gece-yildiz {
+  will-change: opacity;
+  animation: abp-gece-parla var(--sdur) ease-in-out var(--gec) infinite alternate;
+}
+.abp--yumusak .abp-gece-yildiz:nth-child(even) { display: none; }
+@keyframes abp-gece-parla { from { opacity: .35; } to { opacity: 1; } }
+
+/* kayan yıldız: sabit hâl = yolun %9'undaki kare; hareketli hâlde her 11 sn'de bir geçer (gecikme = −%9 × süre) */
+.abp-gece-kayan {
+  position: absolute; left: 82%; top: 10%; width: 30%; height: 2px; display: block; border-radius: 2px; rotate: -20deg; transform-origin: 0 50%;
+  background: linear-gradient(90deg, #fff 0, rgba(200, 220, 255, .8) 14%, rgba(160, 190, 255, 0) 100%);
+  transform: translateX(-52%); opacity: .54;
+}
+.abp--kucuk .abp-gece-kayan { height: 1.5px; }
+.abp--oynar .abp-gece-kayan, .abp--yumusak .abp-gece-kayan {
+  will-change: transform, opacity;
+  animation: abp-gece-kayan var(--kdur) linear var(--kgec) infinite;
+}
+@keyframes abp-gece-kayan {
+  0% { transform: translateX(0); opacity: 0; }
+  3% { opacity: .9; }
+  18% { transform: translateX(-130%); opacity: 0; }
+  100% { transform: translateX(-130%); opacity: 0; }
+}
+
+/* ============================ KUZEY IŞIKLARI ============================ */
+.abp--kuzey .abp-zemin { background: linear-gradient(180deg, #0A2233 0, #10384A 100%); }
+.abp-kuzey-serit {
+  position: absolute; left: -25%; width: 150%; display: block; rotate: -12deg;
+  background: repeating-linear-gradient(90deg, rgba(255, 255, 255, .18) 0 1.2%, rgba(255, 255, 255, 0) 1.2% 3.8%), var(--c);
+  -webkit-mask-image: radial-gradient(ellipse closest-side, #000 22%, rgba(0, 0, 0, .55) 58%, rgba(0, 0, 0, 0) 100%);
+  mask-image: radial-gradient(ellipse closest-side, #000 22%, rgba(0, 0, 0, .55) 58%, rgba(0, 0, 0, 0) 100%);
+}
+.abp--oynar .abp-kuzey-serit, .abp--yumusak .abp-kuzey-serit {
+  will-change: transform;
+  animation: abp-kuzey-dalga var(--dur) ease-in-out var(--gec) infinite alternate;
+}
+@keyframes abp-kuzey-dalga { from { translate: -14px 0; scale: 1 .9; } to { translate: 14px 0; scale: 1 1.1; } }
+.abp-kuzey-dag { position: absolute; left: 0; bottom: 0; width: 100%; height: 30%; display: block; }
+.abp-kuzey-yildiz { position: absolute; display: block; border-radius: 50%; background: #fff; }
+
+/* Köz lig satırı: sıra numarası (sol %18 içinde) parlak közlerin altında kalmasın → parçacık katmanı satır boyunca sönük */
+.abp.abp--kor.abp--kucuk .abp-parca {
+  -webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, .4), rgba(0, 0, 0, .4));
+  mask-image: linear-gradient(90deg, rgba(0, 0, 0, .4), rgba(0, 0, 0, .4));
+}

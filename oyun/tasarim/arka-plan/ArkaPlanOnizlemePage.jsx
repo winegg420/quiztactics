@@ -7,10 +7,19 @@ import CerceveliAvatar from "../../components/CerceveliAvatar.jsx";
 import { QtDugme } from "../index.js";
 import { tt } from "../../lib/dil.js";
 import KartArkaPlan, { ARKA_PLANLAR } from "./KartArkaPlan.jsx";
+import KozArkaPlan, { AD as KOZ_AD } from "./KozArkaPlan.jsx";
+import YildizliGeceArkaPlan, { AD as GECE_AD } from "./YildizliGeceArkaPlan.jsx";
+import KuzeyIsiklariArkaPlan, { AD as KUZEY_AD } from "./KuzeyIsiklariArkaPlan.jsx";
 import "./arka-plan-onizleme.css";
 
 const SAKLA = "qt_arka_plan_onizleme_secimler";
 const SIRA = ["su", "kar", "yaprak"];
+// Yeni üç arka plan (onay bekliyor) — ARKA_PLANLAR'a yazılmaz; aynı localStorage seçimini paylaşırlar.
+const YENI = [
+  { tur: "kor", ad: KOZ_AD, Bilesen: KozArkaPlan },
+  { tur: "gece", ad: GECE_AD, Bilesen: YildizliGeceArkaPlan },
+  { tur: "kuzey", ad: KUZEY_AD, Bilesen: KuzeyIsiklariArkaPlan },
+];
 const PROFIL = { id: "abp-ornek", gorunen_ad: "idagg", gorunen_avatar: "/avatars/pro/kedi-k01.svg" };
 
 function secimOku() {
@@ -62,7 +71,8 @@ export default function ArkaPlanOnizlemePage() {
     });
   };
   const liste = useMemo(() => {
-    const grup = (d) => SIRA.filter((t) => (secimler[t] ?? null) === d).map((t) => ARKA_PLANLAR[t].ad);
+    const hepsi = [...SIRA.map((t) => [t, ARKA_PLANLAR[t].ad]), ...YENI.map((y) => [y.tur, y.ad])];
+    const grup = (d) => hepsi.filter(([t]) => (secimler[t] ?? null) === d).map(([, ad]) => ad);
     return { girsin: grup("girsin"), girmesin: grup("girmesin"), bekliyor: grup(null) };
   }, [secimler]);
 
@@ -115,6 +125,29 @@ export default function ArkaPlanOnizlemePage() {
               <div className="abpo-kart"><KartArkaPlan tur={tur} yukseklik={100}><KartIcerik /></KartArkaPlan></div>
               <p className="abpo-etiket">{tt("Lig sıralaması — yalnız kendi satırın (sabit)")}</p>
               <div className="abpo-kart"><KartArkaPlan tur={tur} yukseklik={42}><SatirIcerik /></KartArkaPlan></div>
+            </section>
+          );
+        })}
+
+        {YENI.map(({ tur, ad, Bilesen }) => {
+          const d = secimler[tur] ?? null;
+          return (
+            <section key={tur} className="abpo-bolum" style={{ "--abpo-g": `${genislik}px` }}>
+              <div className="abpo-bolum-ust">
+                <h2>{tt(ad)} <span className="abpo-rozet">{tt("Onay bekliyor")}</span></h2>
+                <div className="abpo-secim">
+                  <QtDugme boyut="k" tur={d === "girsin" ? "birincil" : "ikincil"} ikon={d === "girsin" ? "tik" : undefined}
+                           aria-pressed={d === "girsin"} onClick={() => sec(tur, d === "girsin" ? null : "girsin")}>{tt("Girsin")}</QtDugme>
+                  <QtDugme boyut="k" tur={d === "girmesin" ? "birincil" : "ikincil"}
+                           aria-pressed={d === "girmesin"} onClick={() => sec(tur, d === "girmesin" ? null : "girmesin")}>{tt("Girmesin")}</QtDugme>
+                </div>
+              </div>
+              <p className="abpo-etiket">{tt("Hareketli kart · ana sayfa / profil / maç başı")}</p>
+              <div className="abpo-kart"><Bilesen hareketli yukseklik={100}><KartIcerik /></Bilesen></div>
+              <p className="abpo-etiket">{tt("Sabit kart (aynı kompozisyon)")}</p>
+              <div className="abpo-kart"><Bilesen yukseklik={100}><KartIcerik /></Bilesen></div>
+              <p className="abpo-etiket">{tt("Lig sıralaması — yalnız kendi satırın (sabit)")}</p>
+              <div className="abpo-kart"><Bilesen yukseklik={42}><SatirIcerik /></Bilesen></div>
             </section>
           );
         })}

@@ -1,0 +1,81 @@
+/**
+ * KART ARKA PLANI KAYDI — oyundaki oyuncu kartlarının arkasına giren arka planlar (avatarın arkasındaki eski
+ * "premium_aura" çiziminin yerine).
+ *
+ * YENİ ARKA PLAN EKLEMEK = bu dosyada TEK SATIR (KAYIT) + katalogda kalemi aktif=true yapmak.
+ * Anahtar = premium sanat anahtarı (pa_sualti → "sualti", bkz. lib/kozmetik.js › premiumSanat).
+ * Değer = { ad, Bilesen } — Bilesen, KartArkaPlan ile aynı props'u alır ({ hareketli, yukseklik, katman, duzen, className }).
+ *
+ * Kaydı olmayan (ya da henüz kart karşılığı çizilmemiş) arka plan → kart eskisi gibi düz kalır, hata yok.
+ *
+ * Kullanım (kartın kendi öğesi kalır; arka plan İÇİNE katman olarak girer):
+ *   const sanat = useKartArkaPlani(userId, kart);
+ *   <div className={`kart${kartArkaPlanSinifi(sanat)}`}> <KartArkaPlanKatmani sanat={sanat} hareketli />  …içerik… </div>
+ */
+import { useEffect, useState } from "react";
+import { oyuncuKarti, oyuncuKartiDinle } from "../../lib/cerceve.js";
+import { premiumSanat } from "../../lib/kozmetik.js";
+import KartArkaPlan from "./KartArkaPlan.jsx";
+// ONAY BEKLEYEN ÜÇ (çizildi, /arka-plan-onizleme'de; katman/dikey desteği hazır, 30 Eyl'de kart üzerinde denendi).
+// Ida onaylayınca: bu 3 import'u ve aşağıdaki 3 satırı aç + migration'da pa_kor / pa_gece / pa_kuzey aktif = true yap.
+// import KozArkaPlan from "./KozArkaPlan.jsx";
+// import YildizliGeceArkaPlan from "./YildizliGeceArkaPlan.jsx";
+// import KuzeyIsiklariArkaPlan from "./KuzeyIsiklariArkaPlan.jsx";
+
+// ---- KAYIT: yeni arka plan = bir satır. ----
+export const KAYIT = {
+  sualti: { ad: "Su Altı", Bilesen: (p) => <KartArkaPlan tur="su" {...p} /> },
+  kar: { ad: "Yağan Kar", Bilesen: (p) => <KartArkaPlan tur="kar" {...p} /> },
+  yaprak: { ad: "Düşen Sonbahar Yaprakları", Bilesen: (p) => <KartArkaPlan tur="yaprak" {...p} /> },
+  // kor: { ad: "Yükselen Köz", Bilesen: KozArkaPlan },
+  // gece: { ad: "Yıldızlı Gece", Bilesen: YildizliGeceArkaPlan },
+  // kuzey: { ad: "Kuzey Işıkları", Bilesen: KuzeyIsiklariArkaPlan },
+};
+
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/** Oyuncunun takılı arka planının sanat anahtarı (kayıtlıysa) ya da null. `kart` verilmişse ve alanı taşıyorsa ek sorgu yok. */
+export function useKartArkaPlani(userIdHam, kart) {
+  const userId = typeof userIdHam === "string" && UUID.test(userIdHam) ? userIdHam : null;
+  const kartta = kart != null && Object.prototype.hasOwnProperty.call(kart, "premium_aura");
+  const [okunan, setOkunan] = useState(null);
+  const [tazele, setTazele] = useState(0);
+  useEffect(() => {
+    if (kartta || !userId) return undefined;
+    return oyuncuKartiDinle((id) => { if (!id || id === userId) setTazele((x) => x + 1); });
+  }, [kartta, userId]);
+  useEffect(() => {
+    if (kartta || !userId) { setOkunan(null); return undefined; }
+    let aktif = true;
+    oyuncuKarti(userId)
+      .then((k) => { if (aktif) setOkunan(k?.premium_aura ?? null); })
+      .catch((e) => { console.warn("[Bildim] arka plan okunamadı:", e?.message ?? e); if (aktif) setOkunan(null); });
+    return () => { aktif = false; };
+  }, [kartta, userId, tazele]);
+  const sanat = premiumSanat(kartta ? kart.premium_aura : okunan);
+  return sanat && KAYIT[sanat] ? sanat : null;
+}
+
+/** Kart öğesine eklenecek sınıf (yalnız arka plan varsa; başında boşluk). */
+export const kartArkaPlanSinifi = (sanat) => (sanat && KAYIT[sanat] ? " abp-sahip" : "");
+
+/** Kartın İÇİNE ilk çocuk olarak konur. `sanat` yoksa hiçbir şey çizmez. */
+export function KartArkaPlanKatmani({ sanat, hareketli = false, yukseklik = 100, duzen = "yatay" }) {
+  const K = sanat ? KAYIT[sanat] : null;
+  if (!K) return null;
+  return <K.Bilesen katman hareketli={hareketli} yukseklik={yukseklik} duzen={duzen} />;
+}
+
+/**
+ * Kart öğesi + arka plan tek parça (kartın kendi öğesi olarak div): `userId` yoksa/arka plan yoksa düz div.
+ * Kart bir bileşen içinde değil de liste `map`'inde çiziliyorsa (kanca kullanılamayan yer) bunu kullan.
+ */
+export function KartArkaPlanSahibi({ userId, kart, hareketli = false, yukseklik = 100, duzen = "yatay", className = "", children, ...ek }) {
+  const sanat = useKartArkaPlani(userId, kart);
+  return (
+    <div className={`${className}${kartArkaPlanSinifi(sanat)}`.trim()} {...ek}>
+      <KartArkaPlanKatmani sanat={sanat} hareketli={hareketli} yukseklik={yukseklik} duzen={duzen} />
+      {children}
+    </div>
+  );
+}
