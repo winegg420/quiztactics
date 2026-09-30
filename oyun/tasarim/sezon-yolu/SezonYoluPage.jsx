@@ -1,282 +1,41 @@
 // ============================================================
 // SEZON YOLU (Battle Pass, 720) — /sezon-yolu tam ekran sayfası.
-// Yatay kaydırılan TEK SIRA yol: üstte ÜCRETSİZ kol, ortada numaralı duraklar, altta ÜCRETLİ (Battle Pass) kol.
 // Bütün sayılar ve "alınabilir / alındı" kararı SUNUCUDAN gelir (oyun/lib/sezonYolu.js); istemci hesap yapmaz,
 // ödül vermez — yalnız RPC çağırır ve cevabı çizer. Sistem kapalıysa (gorunur=false) "Bu bölüm şu an kapalı" +
 // ana sayfaya replace. Sahip için kapalı sistemde test sezonu görünür (durum.test) ve test araçları açılır.
-// Hareketi azalt: patlama/parlama kapanır, kalan hareket yumuşar (oyun/tasarim/yumusakHareket.js; CSS @media).
+// Bu dosya yalnız DURUM + akış (yükle/al/satın al); görünüm parçaları yan dosyalarda:
+//   sezonTemalari.jsx (sezon teması) · SezonUst.jsx (hero, seviye, BP düğmesi) · Yol.jsx (yatay yol) · SiradakiOdul.jsx
+//   OdulSayfasi.jsx (önizleme) · TasmaSayfasi.jsx (28+) · SatinAlSayfasi.jsx · Kutlama.jsx · SezonUcus.jsx (coin uçuşu)
+// Hareketi azalt: patlama/parlama/uçuş sadeleşir (oyun/tasarim/yumusakHareket.js; CSS @media).
 // ============================================================
 import { useCallback, useEffect, useRef, useState } from "react";
-import { QtKart, QtDugme, QtIlerleme, QtRozet, QtModal, QtIkon, QtBosDurum, QtIskelet, sayiBicim } from "../index.js";
-import { UnvanSimge } from "../gorsel-revizyon/b/cizim/unvan.jsx";
+import { QtKart, QtDugme, QtRozet, QtIkon, QtBosDurum, QtIskelet, QtIlerleme, sayiBicim } from "../index.js";
 import { useAuth } from "../../../src/context/AuthContext.jsx";
 import { tt } from "../../lib/dil.js";
 import { useDil } from "../../lib/dilKanca.js";
 import { hataMesaji } from "../../lib/hata.js";
-import {
-  sezonDurumu, bpSatinAl, bpOdulAl, bpTopluAl, bpBonusGorevAl, sahipSpEkle, sahipTestSifirla, odulAdi,
-} from "../../lib/sezonYolu.js";
-import { KOZMETIK_TANIMLARI, TEPKI_TANIMLARI, tepkiGorseli } from "../../lib/kozmetik.js";
-import { CoinIkon, ElmasIkon } from "../../components/ParaIkonlari.jsx";
-import SkillRozeti from "../../components/SkillRozeti.jsx";
+import { sesCoin, sesRozet, sesSatinAlma } from "../../lib/ses.js";
+import { sezonDurumu, bpSatinAl, bpTopluAl, bpBonusGorevAl, sahipSpEkle, sahipTestSifirla } from "../../lib/sezonYolu.js";
 import UnvanYazisi from "../../components/UnvanYazisi.jsx";
-import CerceveliAvatar from "../../components/CerceveliAvatar.jsx";
-import { AltinIsim } from "../../components/IsimEfekti.jsx";
 import BulunamadiPage from "../../pages/BulunamadiPage.jsx";
+import { sezonTemasi } from "./sezonTemalari.jsx";
+import { SezonHero, SeviyeSatiri, BpDugmesi, FaydaCipleri, Lejant } from "./SezonUst.jsx";
+import YolSeridi from "./Yol.jsx";
+import SiradakiOdul from "./SiradakiOdul.jsx";
+import OdulSayfasi from "./OdulSayfasi.jsx";
+import TasmaSayfasi from "./TasmaSayfasi.jsx";
+import SatinAlSayfasi from "./SatinAlSayfasi.jsx";
+import Kutlama from "./Kutlama.jsx";
+import SezonUcus from "./SezonUcus.jsx";
+import { anahtar, paraMiktari } from "./OdulGorsel.jsx";
 import "./sezon-yolu.css";
 
 const OLAY = "bildim-sezon-degisti";   // sezonYolu.js her işlemden sonra yayar (maç sonu da)
 const VURGU_MS = 1600;                 // açılma/dolma vurgusunun süresi
-const anahtar = (o) => `${o.seviye}:${o.kol}`;
 
 const azaltMi = () => {
   try { return window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch { return false; }
 };
-
-/** Sunucu hata mesajı → oyuncunun dilinde (bilinmeyen mesajlar hataMesaji'nda ttSunucu'dan geçer). */
-const hataYaz = (e, yedek) => hataMesaji(e, yedek);
-
-/** Ödül görseli: coin/elmas/joker/tepki/unvan için mevcut bileşenler; placeholder'da gerçek görsel YOK, "?". */
-function OdulGorsel({ odul, boyut = 36 }) {
-  if (!odul) return null;
-  const v = odul.veri ?? {};
-  if (odul.placeholder) return <span className="sy-soru" style={{ "--sy-b": `${boyut}px` }} aria-hidden="true">?</span>;
-  switch (odul.tur) {
-    case "coin": return <CoinIkon boyut={boyut} />;
-    case "elmas": return <ElmasIkon boyut={boyut} />;
-    case "joker": return <SkillRozeti tur={v.tur} boyut={boyut} />;
-    case "tepki_paketi": {
-      const liste = (KOZMETIK_TANIMLARI[v.anahtar]?.tepkiler ?? []).filter((k) => TEPKI_TANIMLARI[k]).slice(0, 4);
-      if (!liste.length) return <QtIkon ad="gulen" boyut={Math.round(boyut * 0.8)} />;
-      const k = Math.round(boyut / 2) - 1;
-      return (
-        <span className="sy-tepkiler" style={{ "--sy-k": `${k}px` }} aria-hidden="true">
-          {liste.map((t) => <img key={t} src={tepkiGorseli(t)} alt="" width={k} height={k} loading="lazy" decoding="async" draggable="false" />)}
-        </span>
-      );
-    }
-    case "unvan": return <UnvanSimge tur="basari" boyut={Math.round(boyut * 0.9)} />;
-    case "avatar": return <QtIkon ad="kisi" boyut={Math.round(boyut * 0.8)} />;
-    case "cerceve": return <QtIkon ad="madalya" boyut={Math.round(boyut * 0.8)} />;
-    default: return <QtIkon ad="hediye" boyut={Math.round(boyut * 0.8)} />;
-  }
-}
-
-/** Yuvanın altındaki kısa yazı (sayı ya da tür). */
-function kisaYazi(o) {
-  const v = o.veri ?? {};
-  if (o.placeholder) return tt("Yakında");
-  if (o.tur === "coin" || o.tur === "elmas") return sayiBicim(Number(v.miktar ?? 0));
-  if (o.tur === "joker") return `×${Number(v.adet ?? 1)}`;
-  if (o.tur === "tepki_paketi") return tt("Tepki");
-  if (o.tur === "unvan") return tt("Unvan");
-  if (o.tur === "avatar") return tt("Avatar");
-  if (o.tur === "cerceve") return tt("Çerçeve");
-  return "";
-}
-
-const NADIR_ADI = { siradan: "Sıradan", nadir: "Nadir", epik: "Epik", efsanevi: "Efsanevi" };
-
-function Yuva({ odul, durum, yeniAlindi, yeniAcildi, bpVar, onSec }) {
-  const acik = odul.seviye <= durum.seviye;
-  const bpKilit = odul.kol === "ucretli" && !bpVar;
-  const s = odul.alindi ? "alindi" : odul.alinabilir ? "alinabilir" : "kilitli";
-  const bitis = odul.seviye === durum.seviye_sayisi;
-  const d = [
-    "sy-yuva", `sy-yuva--${odul.kol}`, `sy-yuva--${s}`,
-    acik && "sy-yuva--acik", bpKilit && "sy-yuva--bp-kilit", bitis && "sy-yuva--final",
-    yeniAlindi && "sy-yuva--doldu", yeniAcildi && "sy-yuva--acildi",
-  ].filter(Boolean).join(" ");
-  const kolAdi = odul.kol === "ucretli" ? tt("Battle Pass kolu") : tt("Ücretsiz kol");
-  const durumYazi = odul.alindi ? tt("alındı") : odul.alinabilir ? tt("alınabilir") : tt("kilitli");
-  return (
-    <button type="button" className={d} data-nadirlik={odul.nadirlik ?? undefined}
-      aria-label={`${tt("{n}. seviye", { n: odul.seviye })}, ${kolAdi}: ${odul.placeholder ? tt("Yakında") : odulAdi(odul, durum.dil)}, ${durumYazi}`}
-      onClick={() => onSec(odul)}>
-      <span className="sy-yuva-gorsel"><OdulGorsel odul={odul} boyut={bitis ? 48 : 36} /></span>
-      <span className="sy-yuva-yazi">{kisaYazi(odul)}</span>
-      {odul.alindi && <span className="sy-yuva-rozet sy-yuva-rozet--alindi" aria-hidden="true"><QtIkon ad="onay" boyut={12} /></span>}
-      {!odul.alindi && odul.alinabilir && <span className="sy-yuva-rozet sy-yuva-rozet--al" aria-hidden="true"><QtIkon ad="hediye" boyut={12} /></span>}
-      {!odul.alindi && !odul.alinabilir && bpKilit && <span className="sy-yuva-rozet sy-yuva-rozet--kilit" aria-hidden="true"><QtIkon ad="kilit" boyut={12} /></span>}
-    </button>
-  );
-}
-
-/** Ödül alt sayfası: adı/görseli, "Al" (hak edilmiş ve alınmamışsa), kilit nedeni. */
-function OdulSayfasi({ odul, durum, dil, userId, onKapat, onBpAl }) {
-  const [calisiyor, setCalisiyor] = useState(false);
-  const [hata, setHata] = useState(null);
-  const canli = useRef(true);
-  useEffect(() => { canli.current = true; return () => { canli.current = false; }; }, []);
-  const bpVar = Boolean(durum.bp?.aktif);
-  const ucretli = odul.kol === "ucretli";
-  const seviyeYok = odul.seviye > durum.seviye;
-  const kalanSp = seviyeYok ? Math.max(0, Number(durum.esikler?.[odul.seviye - 1] ?? 0) - Number(durum.sp ?? 0)) : 0;
-  const nedenler = [];
-  if (!odul.alindi && !odul.alinabilir) {
-    if (seviyeYok) nedenler.push(tt("{n}. seviyeye ulaşınca açılır. Kalan: {sp} SP", { n: odul.seviye, sp: sayiBicim(kalanSp) }));
-    if (ucretli && !bpVar) nedenler.push(tt("Bu ödül için Battle Pass gerekir."));
-  }
-  const ad = odulAdi(odul, dil);
-  const al = async () => {
-    if (calisiyor) return;
-    setCalisiyor(true);
-    setHata(null);
-    try {
-      await bpOdulAl(odul.seviye, odul.kol, userId);
-      onKapat();
-    } catch (e) {
-      if (canli.current) setHata(hataYaz(e, tt("Ödül alınamadı. Tekrar dener misin?")));
-    } finally {
-      if (canli.current) setCalisiyor(false);
-    }
-  };
-  return (
-    <QtModal acik tur="altSayfa" onKapat={calisiyor ? undefined : onKapat} ortuKapatir={!calisiyor} baslik={ad}
-      aciklama={tt("{n}. seviye · {kol}", { n: odul.seviye, kol: ucretli ? tt("Battle Pass kolu") : tt("Ücretsiz kol") })}
-      altlik={
-        <div className="sy-alt-dugmeler">
-          {odul.alinabilir && !odul.alindi ? (
-            <QtDugme tamGenislik boyut="b" ikon="hediye" onClick={al} yukleniyor={calisiyor} devreDisi={calisiyor} data-qt-ilk-odak>
-              {calisiyor ? tt("Alınıyor…") : tt("Ödülü al")}
-            </QtDugme>
-          ) : ucretli && !bpVar ? (
-            <QtDugme tamGenislik boyut="b" onClick={onBpAl} data-qt-ilk-odak>
-              {tt("Battle Pass Al · {n} elmas", { n: sayiBicim(Number(durum.bp?.fiyat ?? 0)) })}
-            </QtDugme>
-          ) : (
-            <QtDugme tamGenislik tur="ikincil" onClick={onKapat} data-qt-ilk-odak>{tt("Kapat")}</QtDugme>
-          )}
-        </div>
-      }>
-      <div className="sy-sayfa-ic">
-        <span className={`sy-buyuk sy-buyuk--${odul.kol}`} data-nadirlik={odul.nadirlik ?? undefined}><OdulGorsel odul={odul} boyut={64} /></span>
-        <div className="sy-etiketler">
-          {odul.placeholder && <QtRozet ton="uyari" ikon="saat">{tt("Yakında")}</QtRozet>}
-          {odul.nadirlik && <span className="sy-nadir" data-nadirlik={odul.nadirlik}>{tt(NADIR_ADI[odul.nadirlik] ?? "Sıradan")}</span>}
-          {odul.alindi && <QtRozet ton="dogru" ikon="onay">{tt("Alındı")}</QtRozet>}
-        </div>
-        {odul.placeholder && <p className="sy-not">{tt("Bu ödül yakında eklenecek. Görseli açıklanınca burada görünür.")}</p>}
-        {odul.tur === "unvan" && !odul.placeholder && <UnvanYazisi metin={ad} tur="basari" boy="o" />}
-        {nedenler.length > 0 && (
-          <ul className="sy-neden" role="status">
-            {nedenler.map((n) => <li key={n}><QtIkon ad="kilit" boyut={16} /><span>{n}</span></li>)}
-          </ul>
-        )}
-        {hata && <p className="sy-hata" role="alert">{hata}</p>}
-      </div>
-    </QtModal>
-  );
-}
-
-const AVANTAJLAR = [
-  ["hediye", "Geriye dönük ücretli ödüller: ulaştığın bütün seviyelerin ödülü hemen düşer"],
-  ["yildiz", "Sezon boyunca altın isim"],
-  ["madalya", "Avatar çerçevende altın halka"],
-  ["hizli", "SP ×{c}: seviyeler daha hızlı dolar"],
-  ["bayrak", "Günlük bonus görev"],
-  ["kupa", "28/28'de sezona özel unvan"],
-  ["ates", "Özel zafer efekti"],
-];
-
-/** Battle Pass satın alma onayı (alt sayfa). Karar ve bakiye kontrolü sunucuda; burada yalnız gösterilir. */
-function SatinAlSayfasi({ durum, dil, onOnay, onKapat }) {
-  const [calisiyor, setCalisiyor] = useState(false);
-  const [hata, setHata] = useState(null);
-  const canli = useRef(true);
-  useEffect(() => { canli.current = true; return () => { canli.current = false; }; }, []);
-  const fiyat = Number(durum.bp?.fiyat ?? 0);
-  const elmas = durum.elmas == null ? null : Number(durum.elmas);
-  const yeterli = elmas == null || elmas >= fiyat;
-  const carpan = Number(durum.bp?.sp_carpan ?? 1).toLocaleString(dil === "en" ? "en-US" : "tr-TR");
-  const onayla = async () => {
-    if (calisiyor || !yeterli) return;
-    setCalisiyor(true);
-    setHata(null);
-    try {
-      await onOnay();
-    } catch (e) {
-      if (canli.current) setHata(hataYaz(e, tt("Battle Pass alınamadı. Tekrar dener misin?")));
-    } finally {
-      if (canli.current) setCalisiyor(false);
-    }
-  };
-  return (
-    <QtModal acik tur="altSayfa" onKapat={calisiyor ? undefined : onKapat} ortuKapatir={!calisiyor}
-      baslik={tt("Battle Pass")} aciklama={tt("Sezon {n} boyunca geçerli", { n: durum.sezon?.no ?? "" })}
-      altlik={
-        <div className="sy-alt-dugmeler sy-alt-dugmeler--iki">
-          <QtDugme tur="ikincil" onClick={onKapat} devreDisi={calisiyor}>{tt("Vazgeç")}</QtDugme>
-          <QtDugme onClick={onayla} devreDisi={!yeterli || calisiyor} yukleniyor={calisiyor} data-qt-ilk-odak>
-            {calisiyor ? tt("Alınıyor…") : tt("Satın al")}
-          </QtDugme>
-        </div>
-      }>
-      <div className="sy-sayfa-ic">
-        <ul className="sy-avantaj">
-          {AVANTAJLAR.map(([ikon, metin]) => (
-            <li key={ikon}><span className="sy-avantaj-ikon"><QtIkon ad={ikon} boyut={18} /></span><span>{tt(metin, { c: carpan })}</span></li>
-          ))}
-        </ul>
-        <div className="sy-fiyat">
-          <span>{tt("Fiyat")}</span>
-          <b className="sy-elmas"><ElmasIkon boyut={22} /> {sayiBicim(fiyat)}</b>
-        </div>
-        {elmas != null && (
-          <div className={`sy-fiyat${yeterli ? "" : " sy-fiyat--yetmez"}`}>
-            <span>{tt("Bakiyen")}</span>
-            <b className="sy-elmas"><ElmasIkon boyut={22} /> {sayiBicim(elmas)}</b>
-          </div>
-        )}
-        {!yeterli && (
-          <p className="sy-hata" role="alert">{tt("Elmasın yetmiyor: {0} gerekli, {1} var", { 0: sayiBicim(fiyat), 1: sayiBicim(elmas) })}</p>
-        )}
-        {hata && <p className="sy-hata" role="alert">{hata}</p>}
-      </div>
-    </QtModal>
-  );
-}
-
-/** Satın alma kutlaması: isim altın olur, avatara altın halka biner (CerceveliAvatar sezonBp), geriye dönük ödüller sırayla düşer. */
-function Kutlama({ verilen, profile, userId, onKapat }) {
-  const [altin, setAltin] = useState(false);
-  const azalt = azaltMi();
-  useEffect(() => {
-    const t = setTimeout(() => setAltin(true), azalt ? 200 : 650);
-    return () => clearTimeout(t);
-  }, [azalt]);
-  const ad = profile?.gorunen_ad ?? "";
-  const liste = (Array.isArray(verilen) ? verilen : []).slice(0, 12);
-  const fazla = Math.max(0, (Array.isArray(verilen) ? verilen.length : 0) - liste.length);
-  return (
-    <QtModal acik baslik={tt("Battle Pass aktif!")} aciklama={tt("Altın isim ve altın halka artık sende.")} onKapat={onKapat}
-      altlik={<QtDugme tamGenislik onClick={onKapat} data-qt-ilk-odak>{tt("Harika")}</QtDugme>}>
-      <div className="sy-kutlama" data-yumusak>
-        <div className="sy-kutlama-sahne">
-          <span className="sy-dalga" aria-hidden="true" />
-          <CerceveliAvatar profile={profile} userId={userId} boyut={96} hareketli sezonBp />
-        </div>
-        <div className="sy-kutlama-isim">
-          {altin ? <AltinIsim hareketli>{ad}</AltinIsim> : <span>{ad}</span>}
-        </div>
-        {liste.length > 0 && (
-          <>
-            <p className="sy-not">{tt("Geriye dönük ödüllerin:")}</p>
-            <ul className="sy-dusen" aria-label={tt("Verilen ödüller")}>
-              {liste.map((o, i) => (
-                <li key={`${o.seviye}:${o.kol}:${i}`} className="sy-dus" style={{ animationDelay: `${i * 110}ms` }}>
-                  <OdulGorsel odul={o} boyut={30} />
-                  <span>{kisaYazi(o)}</span>
-                </li>
-              ))}
-              {fazla > 0 && <li className="sy-dus sy-dus--fazla" style={{ animationDelay: `${liste.length * 110}ms` }}>+{fazla}</li>}
-            </ul>
-          </>
-        )}
-      </div>
-    </QtModal>
-  );
-}
 
 export default function SezonYoluPage() {
   const { user, profile } = useAuth();
@@ -285,13 +44,16 @@ export default function SezonYoluPage() {
   const [durum, setDurum] = useState(null);
   const [hata, setHata] = useState(false);
   const [secili, setSecili] = useState(null);          // açık ödül alt sayfası (anahtar)
+  const [tasmaKol, setTasmaKol] = useState(null);      // açık taşma alt sayfası ("ucretsiz" | "ucretli")
   const [satinAlAcik, setSatinAlAcik] = useState(false);
   const [kutlama, setKutlama] = useState(null);        // { verilen }
+  const [ucus, setUcus] = useState(null);              // { kaynak } — coin uçuşu
   const [yeniAcilan, setYeniAcilan] = useState(() => new Set());
   const [yeniAlinan, setYeniAlinan] = useState(() => new Set());
   const [islem, setIslem] = useState(null);            // "toplu" | "bonus" | "test"
   const [islemHata, setIslemHata] = useState(null);
   const yolRef = useRef(null);
+  const topluRef = useRef(null);
   const istek = useRef(0);
   const canli = useRef(true);
   const onceki = useRef(null);
@@ -300,7 +62,7 @@ export default function SezonYoluPage() {
 
   const kaydir = useCallback((seviye, yumusak) => {
     const yol = yolRef.current;
-    const el = yol?.querySelector(`[data-durak="${Math.max(1, seviye)}"]`);
+    const el = yol?.querySelector(`[data-durak="${seviye === "tasma" ? "tasma" : Math.max(1, seviye)}"]`);
     if (!yol || !el) return;
     const sol = Math.max(0, el.offsetLeft - (yol.clientWidth - el.offsetWidth) / 2);
     try { yol.scrollTo({ left: sol, behavior: yumusak && !azaltMi() ? "smooth" : "auto" }); } catch { yol.scrollLeft = sol; }
@@ -361,9 +123,19 @@ export default function SezonYoluPage() {
     try {
       await fonk();
     } catch (e) {
-      if (canli.current) setIslemHata(hataYaz(e, yedek));
+      if (canli.current) setIslemHata(hataMesaji(e, yedek));
     } finally {
       if (canli.current) setIslem(null);
+    }
+  };
+
+  /** Ödül alındı: coin ise ses + üst çubuktaki coin çipine uçuş; değilse yalnız rozet sesi. Bakiye çipte kendiliğinden sayar. */
+  const odulAlindi = (odul, yuvaAnahtar) => {
+    const coin = odul?.tur === "coin" ? paraMiktari(odul) : 0;
+    try { if (coin > 0) sesCoin(); else sesRozet(); } catch { /* ses yok */ }
+    if (coin > 0) {
+      const kaynak = document.querySelector(`[data-yuva="${yuvaAnahtar}"]`) ?? topluRef.current;
+      setUcus({ kaynak });
     }
   };
 
@@ -380,8 +152,9 @@ export default function SezonYoluPage() {
           </QtKart>
         ) : (
           <>
-            <QtIskelet tur="kart" yukseklik="180px" />
-            <QtIskelet tur="kart" yukseklik="300px" />
+            <QtIskelet tur="kart" yukseklik="84px" />
+            <QtIskelet tur="kart" yukseklik="72px" />
+            <QtIskelet tur="kart" yukseklik="280px" />
           </>
         )}
       </div>
@@ -391,76 +164,73 @@ export default function SezonYoluPage() {
   const d = { ...durum, dil };
   const bpVar = Boolean(durum.bp?.aktif);
   const toplam = Number(durum.seviye_sayisi ?? 28);
-  const son = durum.sonraki_esik == null;
   const oduller = Array.isArray(durum.oduller) ? durum.oduller : [];
   const harita = new Map(oduller.map((o) => [anahtar(o), o]));
-  const alinabilirSayi = oduller.filter((o) => o.alinabilir && !o.alindi).length;
+  const tasma = durum.tasma;
+  const alinabilirSayi = oduller.filter((o) => o.alinabilir && !o.alindi).length
+    + (Number(tasma?.alinabilir_ucretsiz) || 0) + (Number(tasma?.alinabilir_ucretli) || 0);
   const seciliOdul = secili ? harita.get(secili) : null;
-  const ustEsik = Number(durum.onceki_esik ?? 0);
-  const ilerDeger = Math.max(0, Number(durum.sp ?? 0) - ustEsik);
-  const ilerEn = son ? 1 : Math.max(1, Number(durum.sonraki_esik) - ustEsik);
   const bonus = durum.bonus_gorev;
   const final = durum.final_unvan;
   const carpan = Number(durum.bp?.sp_carpan ?? 1).toLocaleString(dil === "en" ? "en-US" : "tr-TR");
-  const kalanGun = Number(durum.sezon?.kalan_gun ?? 0);
-  const duraklar = Array.from({ length: toplam }, (_, i) => i + 1);
-  const gorunenAd = profile?.gorunen_ad ?? "";
+  const tema = sezonTemasi(durum.sezon?.no);
+  const finalOdul = harita.get(`${toplam}:ucretli`);
 
   const bpSatinAlOnay = async () => {
     const r = await bpSatinAl(userId);   // hata → sayfa içinde gösterilir (SatinAlSayfasi catch)
+    try { sesSatinAlma(); } catch { /* ses yok */ }
     setSatinAlAcik(false);
     setSecili(null);
+    setTasmaKol(null);
     setKutlama({ verilen: r?.verilen ?? [] });
   };
+  const bpAcilsin = () => { setSecili(null); setTasmaKol(null); setSatinAlAcik(true); };
+
+  const topluAl = () => calistir("toplu", async () => {
+    const r = await bpTopluAl(userId);
+    const liste = [...(Array.isArray(r?.verilen) ? r.verilen : []), ...(Array.isArray(r?.tasma_verilen) ? r.tasma_verilen : [])];
+    const coin = liste.filter((o) => o.tur === "coin").reduce((t, o) => t + paraMiktari(o), 0);
+    odulAlindi({ tur: coin > 0 ? "coin" : "diger", miktar: coin }, "toplu");
+  }, tt("Ödüller alınamadı. Tekrar dener misin?"));
 
   return (
     <div className="sy-sayfa">
-      <QtKart dolgu="o" className="sy-ust">
-        <div className="sy-ust-baslik">
-          <div className="sy-baslik-blok">
-            <h1 className="qt-baslik-1">{tt("Sezon Yolu")}</h1>
-            <span className="sy-sezon qt-soluk">{tt("Sezon {n}", { n: durum.sezon?.no ?? "" })}</span>
-          </div>
-          <QtRozet ton="bilgi" ikon="saat">
-            {kalanGun <= 0 ? tt("Bugün bitiyor") : tt("{n} gün kaldı", { n: kalanGun })}
-          </QtRozet>
-        </div>
+      <SezonHero durum={durum} tema={tema} finalOdul={finalOdul} toplam={toplam} testNotu={Boolean(durum.test)}
+        onFinal={(o) => setSecili(anahtar(o))} />
 
-        {durum.test && (
-          <p className="sy-test-not" role="note">{tt("Test sezonu: yalnız sen görüyorsun, gerçek sezon değil.")}</p>
+      <QtKart dolgu="o" className="sy-kart-seviye">
+        <SeviyeSatiri durum={durum} toplam={toplam} bpVar={bpVar} carpan={carpan} />
+      </QtKart>
+
+      <BpDugmesi durum={durum} bpVar={bpVar} onAl={() => setSatinAlAcik(true)} />
+
+      {islemHata && <p className="sy-hata sy-hata--sayfa" role="alert">{islemHata}</p>}
+
+      <section className="sy-yol-kutu" aria-label={tt("Sezon Yolu ödülleri")}>
+        <YolSeridi durum={d} toplam={toplam} bpVar={bpVar} harita={harita} yeniAlinan={yeniAlinan} yeniAcilan={yeniAcilan}
+          onSec={(o) => setSecili(anahtar(o))} onTasma={setTasmaKol} profile={profile} userId={userId} yolRef={yolRef} />
+      </section>
+
+      <div className="sy-yol-arac">
+        <QtDugme tur="ikincil" boyut="k" ikon="ileri" onClick={() => kaydir(Math.max(1, durum.seviye), true)}>
+          {tt("Seviyem")}
+        </QtDugme>
+        {alinabilirSayi > 0 && (
+          <QtDugme boyut="k" ikon="hediye" className="sy-hepsini" yukleniyor={islem === "toplu"} devreDisi={Boolean(islem)}
+            ref={topluRef} onClick={topluAl}>
+            {tt("Hepsini al ({n})", { n: alinabilirSayi })}
+          </QtDugme>
         )}
+      </div>
 
-        <div className="sy-seviye">
-          <span className="sy-seviye-daire" aria-hidden="true">{durum.seviye}</span>
-          <div className="sy-seviye-ic">
-            <div className="sy-seviye-satir">
-              <b>{tt("Seviye {n} / {m}", { n: durum.seviye, m: toplam })}</b>
-              <span className="qt-sayi">
-                {son ? tt("Son seviye") : `${sayiBicim(Number(durum.sp ?? 0))} / ${sayiBicim(Number(durum.sonraki_esik))} SP`}
-              </span>
-            </div>
-            <QtIlerleme ton="vurgu" boyut="b" deger={ilerDeger} en={ilerEn} etiket={tt("Sonraki seviyeye ilerleme")} />
-            {bpVar && <span className="sy-carpan">{tt("Battle Pass: SP ×{c}", { c: carpan })}</span>}
-          </div>
-        </div>
+      <SiradakiOdul durum={durum} toplam={toplam} harita={harita} dil={dil} onGit={(n) => kaydir(n, true)} />
+      {!bpVar && <FaydaCipleri carpan={carpan} />}
+      <Lejant />
 
-        {bpVar ? (
-          <div className="sy-bp sy-bp--aktif">
-            <CerceveliAvatar profile={profile} userId={userId} boyut={48} sezonBp />
-            <div className="sy-bp-ad">
-              <AltinIsim>{gorunenAd}</AltinIsim>
-              <span className="sy-bp-not">{tt("Altın isim · altın halka")}</span>
-            </div>
-            <QtRozet ton="coin" ikon="onay">{tt("Aktif")}</QtRozet>
-          </div>
-        ) : (
-          <div className="sy-bp">
-            <QtDugme tamGenislik boyut="b" ikon="kilit" onClick={() => setSatinAlAcik(true)}>
-              {tt("Battle Pass Al · {n} elmas", { n: sayiBicim(Number(durum.bp?.fiyat ?? 0)) })}
-            </QtDugme>
-          </div>
-        )}
-
+      <div className="sy-notlar">
+        <p className="sy-mac-sp qt-soluk">
+          {tt("Bugün maçlardan: {n} / {m} SP", { n: sayiBicim(Number(durum.bugun_mac_sp ?? 0)), m: sayiBicim(Number(durum.gunluk_mac_tavan ?? 0)) })}
+        </p>
         {bpVar && final?.anahtar && (
           <div className="sy-final">
             <span>{tt("Sezon unvanı")}</span>
@@ -470,70 +240,6 @@ export default function SezonYoluPage() {
             </QtRozet>
           </div>
         )}
-      </QtKart>
-
-      {islemHata && <p className="sy-hata sy-hata--sayfa" role="alert">{islemHata}</p>}
-
-      <section className="sy-yol-kutu" aria-label={tt("Sezon Yolu ödülleri")}>
-        <div className="sy-yol-arac">
-          <QtDugme tur="ikincil" boyut="k" ikon="ileri" onClick={() => kaydir(Math.max(1, durum.seviye), true)}>
-            {tt("Seviyem")}
-          </QtDugme>
-          {alinabilirSayi > 1 && (
-            <QtDugme boyut="k" ikon="hediye" yukleniyor={islem === "toplu"} devreDisi={Boolean(islem)}
-              onClick={() => calistir("toplu", () => bpTopluAl(userId), tt("Ödüller alınamadı. Tekrar dener misin?"))}>
-              {tt("Hepsini al ({n})", { n: alinabilirSayi })}
-            </QtDugme>
-          )}
-        </div>
-        <div className="sy-yol-kaydirma" ref={yolRef} tabIndex={0} role="region" aria-label={tt("Yatay kaydırılan seviye yolu")}>
-          <div className="sy-yol" style={{ gridTemplateColumns: `repeat(${toplam - 1}, var(--sy-kol)) var(--sy-kol-final)` }}>
-            <span className="sy-bant sy-bant--ucretsiz" aria-hidden="true" />
-            <span className="sy-bant sy-bant--ucretli" aria-hidden="true" />
-            <div className="sy-kol-etiket sy-kol-etiket--ucretsiz">
-              <QtRozet ton="dogru" ikon="hediye" boyut="k">{tt("Ücretsiz")}</QtRozet>
-            </div>
-            <div className="sy-kol-etiket sy-kol-etiket--ucretli">
-              <QtRozet ton="coin" ikon={bpVar ? "yildiz" : "kilit"} boyut="k">{bpVar ? tt("Battle Pass") : tt("Battle Pass'li")}</QtRozet>
-            </div>
-            {duraklar.map((n) => {
-              const acik = n <= durum.seviye;
-              const simdi = n === durum.seviye;
-              const finalMi = n === toplam;
-              const gecildi = n < durum.seviye;
-              const c = [
-                "sy-durak", acik && "sy-durak--acik", simdi && "sy-durak--simdi", finalMi && "sy-durak--final",
-                gecildi && "sy-durak--gecildi", n === 1 && "sy-durak--ilk", finalMi && "sy-durak--son",
-                yeniAcilan.has(n) && "sy-durak--acildi",
-              ].filter(Boolean).join(" ");
-              return (
-                <div key={`d${n}`} className={c} data-durak={n} style={{ gridColumn: n }}>
-                  <span className="sy-daire" aria-label={tt("{n}. seviye", { n })} aria-current={simdi ? "step" : undefined}>
-                    {finalMi ? <QtIkon ad="kupa" boyut={24} /> : null}
-                    <b>{n}</b>
-                  </span>
-                </div>
-              );
-            })}
-            {duraklar.flatMap((n) => ["ucretsiz", "ucretli"].map((kol) => {
-              const o = harita.get(`${n}:${kol}`);
-              if (!o) return null;
-              return (
-                <div key={`${n}:${kol}`} className={`sy-hucre sy-hucre--${kol}${n === toplam ? " sy-hucre--final" : ""}`} style={{ gridColumn: n }}>
-                  <Yuva odul={o} durum={d} bpVar={bpVar} yeniAlindi={yeniAlinan.has(`${n}:${kol}`)}
-                    yeniAcildi={yeniAcilan.has(n)} onSec={(x) => setSecili(anahtar(x))} />
-                </div>
-              );
-            }))}
-          </div>
-        </div>
-      </section>
-
-      <div className="sy-notlar">
-        <p className="sy-mac-sp qt-soluk">
-          {tt("Bugün maçlardan: {n} / {m} SP", { n: sayiBicim(Number(durum.bugun_mac_sp ?? 0)), m: sayiBicim(Number(durum.gunluk_mac_tavan ?? 0)) })}
-        </p>
-        {!bpVar && <p className="sy-bp-ozet">{tt("Altın isim, altın halka, SP ×{c}, geriye dönük ödüller ve daha fazlası.", { c: carpan })}</p>}
       </div>
 
       {bpVar && bonus && (
@@ -575,11 +281,13 @@ export default function SezonYoluPage() {
       )}
 
       {seciliOdul && (
-        <OdulSayfasi key={secili} odul={seciliOdul} durum={d} dil={dil} userId={userId}
-          onKapat={() => setSecili(null)} onBpAl={() => { setSecili(null); setSatinAlAcik(true); }} />
+        <OdulSayfasi key={secili} odul={seciliOdul} durum={d} dil={dil} userId={userId} profile={profile}
+          onKapat={() => setSecili(null)} onBpAl={bpAcilsin} onAlindi={odulAlindi} />
       )}
+      {tasmaKol && <TasmaSayfasi key={tasmaKol} kol={tasmaKol} durum={d} userId={userId} onKapat={() => setTasmaKol(null)} onBpAl={bpAcilsin} onAlindi={odulAlindi} />}
       {satinAlAcik && <SatinAlSayfasi durum={d} dil={dil} onOnay={bpSatinAlOnay} onKapat={() => setSatinAlAcik(false)} />}
       {kutlama && <Kutlama verilen={kutlama.verilen} profile={profile} userId={userId} onKapat={() => setKutlama(null)} />}
+      {ucus && <SezonUcus kaynak={ucus.kaynak} onBitti={() => setUcus(null)} />}
     </div>
   );
 }

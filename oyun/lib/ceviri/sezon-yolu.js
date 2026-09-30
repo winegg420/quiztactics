@@ -89,7 +89,7 @@ export default {
   // Sezon Yolu v2 (30 Eyl 2026): tema bandı, seviye satırı, BP düğmesi, yol, önizleme, taşma
   "Test sezonu · yalnız sen görüyorsun": "Test season · only you can see it",
   "Sezon finali": "Season finale",
-  "Sezon yolu tamam": "Season Path complete",
+  "Sezon yolu tamam": "Path complete",
   "Taşma {n} / {m}": "Overflow {n} / {m}",
   "Taşma ödülüne ilerleme": "Progress to overflow reward",
   "Bu sezonun taşma ödüllerinin hepsi kazanıldı": "You earned every overflow reward this season",
