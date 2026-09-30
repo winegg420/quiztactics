@@ -23,7 +23,7 @@ import { sesHataUyari, sesSatinAlma } from "../lib/ses.js";
 import { aktifDil, tt } from "../lib/dil.js";
 import { y } from "../lib/yol.js";
 import { QtDugme, QtIkon, QtKart, QtModal } from "../tasarim/index.js";
-import { HAZIR_AVATARLAR } from "../lib/avatarKatalogu.js";
+import { useHazirAvatarlar } from "../lib/avatarKatalogu.js";
 import "../tasarim/ekranlar/dukkan-cerceve.css";
 import "../tasarim/ekranlar/dukkan-kozmetik.css";
 
@@ -400,10 +400,11 @@ const ACIKLAMA = {
 /** Dükkân › Avatar — Ajan A'nın kataloğu (avatar_katalogu_oyun / avatar_satin_al / avatar_onayla). */
 export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYetmedi, onBilgi, onHata, elmasBakiye }) {
   const { user, profile, refreshProfile } = useAuth();
+  const hazirAvatarlar = useHazirAvatarlar();   // 701: açılmamış hazır avatarlar süzülür
   // 31 hazır profesyonel avatar (bedava, avatar_onayla kabul eder) + katalogdaki 27 — profil ve kurulumla aynı
   // sıra; eskiden burada yalnız katalog (27) vardı → "yalnız son eklenen avatarlar görünüyor".
   const liste = [
-    ...HAZIR_AVATARLAR.map((a, i) => ({ anahtar: a.url, url: a.url, ad_tr: a.ad, ad_en: a.ad, tur: "hazir", fiyat_elmas: 0,
+    ...hazirAvatarlar.map((a, i) => ({ anahtar: a.url, url: a.url, ad_tr: a.ad, ad_en: a.ad, tur: "hazir", fiyat_elmas: 0,
       sira: -100 + i, kullanabilir: true, kapali: false, sahibim: false })),
     ...[...(avatarlar ?? [])].sort((a, b) => (a.sira ?? 0) - (b.sira ?? 0)),
   ];

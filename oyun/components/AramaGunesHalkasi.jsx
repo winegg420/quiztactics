@@ -24,7 +24,7 @@ import { KartUnvani, KartKoleksiyonu } from "./OyuncuVitrinKarti.jsx";
 import OyuncuAdiDugmesi from "./OyuncuAdiDugmesi.jsx";
 import { adKisalt } from "../lib/adKisalt.js";
 import OyuncuLigAmblemi from "./OyuncuLigAmblemi.jsx";
-import { HAZIR_AVATARLAR } from "../lib/avatarKatalogu.js";
+import { HAZIR_AVATARLAR, kilitliAvatarKumesi, kilitliAvatarlariYukle } from "../lib/avatarKatalogu.js";
 import { aktifDil, tt } from "../lib/dil.js";
 import { YUMUSAK, yumusakHareketKur, yumusakMu } from "../tasarim/yumusakHareket.js";
 import "../tasarim/ekranlar/arama-gunes-halkasi.css";
@@ -172,7 +172,8 @@ export default function AramaGunesHalkasi({
 
   // Arama başına bir kez: makara ve yörünge için ayrı avatarlar (kendi avatarın hariç), ilk bilgi
   const secim = useMemo(() => {
-    const havuz = karistir(AVATARLAR.filter((a) => a !== ben?.gorunen_avatar));
+    kilitliAvatarlariYukle();   // 701: açılmamış avatar aramada da görünmez (ilk aramada liste henüz gelmemiş olabilir; sonraki aramalar süzer)
+    const havuz = karistir(AVATARLAR.filter((a) => a !== ben?.gorunen_avatar && !kilitliAvatarKumesi().has(a)));
     return { makara: havuz.slice(0, 8), yorunge: havuz.slice(8, 16), ilkBilgi: Math.floor(Math.random() * BILGILER.length) };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
   // Grup maçı ödülsüz: Dereceli/Serbest ipucu orada anlamsız (yalnız bilgiler döner)

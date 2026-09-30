@@ -18,6 +18,8 @@
 // Dosyalar depoda duruyor ama hiçbir ekran onları çağırmıyor.
 // ============================================================
 
+import { useNadirlikSahneli } from "../lib/avatarNadirlik.js";
+
 export default function Avatar({ profile, boyut = 42 }) {
   const ad = profile?.gorunen_ad ?? profile?.username ?? "?";
   const gorsel =
@@ -25,6 +27,8 @@ export default function Avatar({ profile, boyut = 42 }) {
       ? profile.gorunen_avatar
       : profile?.avatar_url;
   const harf = ad.charAt(0).toUpperCase();
+  // 700: bayrak açıkken Sahne zemini nadirlikten türer; kapalıyken null → özgün adres
+  const sahneli = useNadirlikSahneli(gorsel);
 
   return (
     <div
@@ -32,7 +36,7 @@ export default function Avatar({ profile, boyut = 42 }) {
       style={{ width: boyut, height: boyut, fontSize: boyut * 0.4 }}
     >
       {gorsel ? (
-        <img src={gorsel} alt={ad} referrerPolicy="no-referrer" />
+        <img src={sahneli ?? gorsel} alt={ad} referrerPolicy="no-referrer" />
       ) : (
         harf
       )}

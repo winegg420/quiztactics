@@ -6,7 +6,7 @@
 // Migration 550 uygulanmadan önce normal oyuncuya liste boş döner → ızgaralar eski 31 avatarla kalır.
 // Oturum boyunca bir kez okunur (aynı anda birden çok ekran tek istek paylaşır).
 // ============================================================
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
 import { aktifDil, tt } from "./dil.js";
 
@@ -80,4 +80,46 @@ export function useKatalogAvatarlari(etkin = true) {
     return () => { aktif = false; };
   }, [etkin]);
   return liste;
+}
+
+// ------------------------------------------------------------
+// 701 · KADEMELİ AÇILIŞ: acilis_zamani gelmemiş avatar oyuncuya görünmez.
+// Katalog avatarlarını sunucu zaten süzer (avatar_katalogu_oyun); koddaki 31 hazır avatarın
+// süzülmesi için sunucudan kilitli adres listesi okunur (oturum başına bir kez). Seçimi ayrıca
+// avatar_onayla reddeder. Okuma başarısızsa liste süzülmez (sunucu kapısı yine korur).
+// ------------------------------------------------------------
+let kilitliBekleyen = null;
+let kilitliKume = new Set();
+let kilitliSurum = 0;
+
+export function kilitliAvatarlariYukle() {
+  if (!kilitliBekleyen) {
+    kilitliBekleyen = (async () => {
+      try {
+        if (!supabase) return;
+        const { data, error } = await supabase.rpc("avatar_kilitli_urller");
+        if (error) throw error;
+        kilitliKume = new Set(Array.isArray(data) ? data : []);
+        kilitliSurum += 1;
+      } catch (e) {
+        console.error("[Bildim] kilitli avatarlar okunamadı:", e?.message ?? e);
+        kilitliBekleyen = null;   // sonraki açılışta yeniden dener
+      }
+    })();
+  }
+  return kilitliBekleyen;
+}
+
+/** Henüz açılmamış (gösterilmeyecek) hazır avatar adreslerinin o anki kümesi (eşzamanlı okuma). */
+export const kilitliAvatarKumesi = () => kilitliKume;
+
+/** HAZIR_AVATARLAR'ın açılmış olanları; kilitli liste gelince kendiliğinden süzülür. */
+export function useHazirAvatarlar() {
+  const [surum, setSurum] = useState(kilitliSurum);
+  useEffect(() => {
+    let aktif = true;
+    kilitliAvatarlariYukle().then(() => { if (aktif) setSurum(kilitliSurum); });
+    return () => { aktif = false; };
+  }, []);
+  return useMemo(() => HAZIR_AVATARLAR.filter((a) => !kilitliKume.has(a.url)), [surum]);
 }

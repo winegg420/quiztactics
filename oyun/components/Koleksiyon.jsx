@@ -27,7 +27,7 @@ import { NadirlikEtiketi, ElmasFiyat } from "./DukkanAuralar.jsx";
 import { KOZMETIK_SEKMELERI, KozmetikOnizlemePenceresi, KozmetikSimge, kozmetikAdi, premiumMi, useKozmetikDukkan } from "./DukkanKozmetik.jsx";
 import { kozmetikHatasi, kozmetikTak } from "../lib/kozmetik.js";
 import { aktifDil } from "../lib/dil.js";
-import { HAZIR_AVATARLAR } from "../lib/avatarKatalogu.js";
+import { useHazirAvatarlar } from "../lib/avatarKatalogu.js";
 import { cerceveKatalogu, cerceveTak, auraKatalogu, auraTak, oyuncuKartiUnut } from "../lib/cerceve.js";
 import { LIG_ADLARI } from "../lib/lig.js";
 import { hataMesaji } from "../lib/hata.js";
@@ -51,6 +51,7 @@ const PREMIUM_BASLIK = { premium_cerceve: "Premium Çerçeveler", premium_aura: 
 const KAYNAK_ADI = { lig: "Lig", turnuva: "Turnuva", level: "Level", etkinlik: "Etkinlik" };
 
 export default function Koleksiyon() {
+  const hazirAvatarlar = useHazirAvatarlar();   // 701: açılmamış hazır avatarlar süzülür
   const { user, profile, refreshProfile } = useAuth();
   const [cerceveler, setCerceveler] = useState(null);
   const [auralar, setAuralar] = useState(null);
@@ -340,7 +341,7 @@ export default function Koleksiyon() {
       <QtKart as="section" className="qt-cs" aria-labelledby="qt-ks-avatar">
         <h2 id="qt-ks-avatar" className="qt-baslik-3">{tt("Avatarlar")}</h2>
         <ul className="qt-cs-izgara qt-ks-avatarlar">
-          {HAZIR_AVATARLAR.map((a) => {
+          {hazirAvatarlar.map((a) => {
             const secili = profile?.avatar_url === a.url;
             return (
               <li key={a.url}>

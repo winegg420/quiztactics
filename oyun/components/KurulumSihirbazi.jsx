@@ -11,7 +11,7 @@ import { useDil } from "../lib/dilKanca.js";
 import { tt } from "../lib/dil.js";
 import { QtDugme, QtToast } from "../tasarim/index.js";
 import { DavetKoduGir } from "./DavetKarti.jsx";
-import { HAZIR_AVATARLAR, useKatalogAvatarlari } from "../lib/avatarKatalogu.js";
+import { useHazirAvatarlar, useKatalogAvatarlari } from "../lib/avatarKatalogu.js";
 import "../tasarim/ekranlar/g-ortak.css";
 import "../tasarim/ekranlar/g-kurulum.css";
 
@@ -32,6 +32,7 @@ export default function KurulumSihirbazi({ onTamam }) {
   const [secilenAvatar, setSecilenAvatar] = useState(null);
   // 550: 27 yeni avatar (günlük + kostümlü, hepsi ücretsiz) sunucu kataloğundan; migration yoksa boş
   const katalogAvatarlari = useKatalogAvatarlari(adim === 2);
+  const hazirAvatarlar = useHazirAvatarlar();   // 701: açılmamış hazır avatarlar süzülür
   const [googleFoto, setGoogleFoto] = useState(null);
   const [ulkeler, setUlkeler] = useState([]);
   const [sehirler, setSehirler] = useState([]);
@@ -222,7 +223,7 @@ export default function KurulumSihirbazi({ onTamam }) {
             </p>
 
             <div className="g-avatar-izgara" role="group" aria-label={ceviri("Avatarını seç")}>
-              {[...HAZIR_AVATARLAR, ...katalogAvatarlari].map((a) => (
+              {[...hazirAvatarlar, ...katalogAvatarlari].map((a) => (
                 <button
                   key={a.url}
                   type="button"
