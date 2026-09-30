@@ -47,6 +47,7 @@ const ProfilePage = tembelYukle(() => import("../oyun/pages/ProfilePage.jsx"));
 const BulunamadiPage = tembelYukle(() => import("../oyun/pages/BulunamadiPage.jsx"));   // Paket 41 I
 const DavetPage = tembelYukle(() => import("../oyun/pages/DavetPage.jsx"));
 const JokerDukkani = tembelYukle(() => import("../oyun/pages/JokerDukkani.jsx"));
+const GorevlerPage = tembelYukle(() => import("../oyun/pages/GorevlerPage.jsx"));   // Görevler: günlük (kolay/orta/zor) + haftalık + sandık (740–744)
 const SezonYoluPage = tembelYukle(() => import("../oyun/tasarim/sezon-yolu/SezonYoluPage.jsx"));   // Sezon Yolu (Battle Pass, 720) — sistem kapalıyken yalnız sahip
 // Arayüz Yenileme (20 Eyl 2026): prototipin "Oyun Modları" sayfası.
 // YENİ MOD YOK — yalnız var olan rotalara götüren bir katalog sayfası.
@@ -222,6 +223,7 @@ export default function BildimApp() {
           <Route path="davet/:kod" element={<DavetPage />} />
           <Route path="joker" element={<JokerDukkani />} />
           <Route path="sezon-yolu" element={<SezonYoluPage />} />
+          <Route path="gorevler" element={<GorevlerPage />} />
           <Route path="hizli-mod" element={<BulunamadiPage kapaliMod />} />
           <Route path="duello" element={<DuelloPage />} />
           <Route path="duello/:id" element={<MacAnahtarli Sayfa={DuelloPage} />} />

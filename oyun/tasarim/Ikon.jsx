@@ -356,6 +356,26 @@ const Y = {
       <circle className={D} cx="17.5" cy="15.5" r="2.5" />
     </>
   ),
+  // ——— Görevler ———
+  gorevListesi: (
+    <>
+      <rect className={D} x="4" y="4" width="16" height="16.5" rx="3" />
+      <path d="m7.5 9 1.5 1.5 2.5-3M13.5 9h3M7.5 15l1.5 1.5 2.5-3M13.5 15h3" />
+    </>
+  ),
+  hedef: (
+    <>
+      <circle className={D} cx="12" cy="12" r="8.5" />
+      <circle cx="12" cy="12" r="4.5" />
+      <path d="M12 12h.01" />
+    </>
+  ),
+  takvim: (
+    <>
+      <rect className={D} x="3.5" y="5" width="17" height="15.5" rx="3" />
+      <path d="M3.5 10h17M8 3v4M16 3v4" />
+    </>
+  ),
   liste: <path d="M9 6h12M9 12h12M9 18h12M4 6h.01M4 12h.01M4 18h.01" />,
   kalem: (
     <>

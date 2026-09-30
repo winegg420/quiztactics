@@ -1,0 +1,128 @@
+/* =====================================================================
+   GÖREVLER (/gorevler) — yalnız gv- sınıfları. Düzen: onaylı maket (30 Eyl 2026): 3 px lacivert kontur, beyaz kart,
+   turuncu = alınabilir/eylem, yeşil = alınmış, altın = sandık. Renk/ölçü token'dan (tokenlar.css).
+   iOS: position:fixed yok; uçan ödül çipi kartın içinde (absolute) — fixed+transform çakışması olmaz. Yükseklik dvh gerekmez.
+   ===================================================================== */
+
+.gv-sayfa {
+  --gv-kontur: var(--qt-metin);
+  --gv-mavi: var(--qt-bilgi-acik);
+  --gv-altin: #ffe7a3;
+  --gv-altin-acik: #fff1c9;
+  --gv-iz: #dcebff;
+  display: grid; gap: var(--qt-b-2); align-content: start;
+  padding-block: 0 var(--qt-b-4); min-width: 0; color: var(--qt-zemin-metin);
+}
+.gv-sayfa > * { min-width: 0; }
+.gv-sayfa h1, .gv-sayfa h2, .gv-sayfa p, .gv-sayfa ul { margin: 0; padding: 0; }
+
+/* ---------- Üst: geri + başlık ---------- */
+.gv-ust { display: flex; align-items: center; gap: var(--qt-b-2); min-height: var(--qt-dokunma); }
+.gv-h1 { font: var(--qt-a-siyah) var(--qt-y-2xl)/var(--qt-sa-baslik) var(--qt-f-baslik); letter-spacing: -0.01em; }
+
+/* ---------- Bölüm ---------- */
+.gv-bolum { display: grid; gap: var(--qt-b-2); }
+.gv-bolum-ust { display: flex; align-items: center; justify-content: space-between; gap: var(--qt-b-2); padding-top: var(--qt-b-1); }
+.gv-h2 { font: var(--qt-a-siyah) var(--qt-y-m)/1.2 var(--qt-f-baslik); min-width: 0; }
+.gv-liste { display: grid; gap: var(--qt-b-2); list-style: none; }
+
+/* ---------- Çipler ---------- */
+.gv-cip {
+  display: inline-flex; align-items: center; gap: 4px; flex: none; min-height: 24px; padding: 1px 8px;
+  border: 2px solid var(--gv-kontur); border-radius: var(--qt-r-hap); background: var(--qt-yuzey);
+  color: var(--qt-metin); font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); line-height: 1.2; white-space: nowrap;
+}
+.gv-cip b { font-weight: var(--qt-a-siyah); }
+.gv-cip--sure { font-weight: var(--qt-a-kalin); }
+.gv-cip--kilit { background: var(--gv-altin-acik); }
+
+/* ---------- Kart ---------- */
+.gv-kart {
+  position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 10px;
+  padding: 10px; border: 3px solid var(--gv-kontur); border-radius: 16px; background: var(--qt-yuzey); color: var(--qt-metin);
+}
+.gv-kart--alinabilir { border-color: var(--qt-vurgu); }
+.gv-kart--alindi { border-color: var(--qt-dogru); }
+
+.gv-ik {
+  display: grid; place-items: center; flex: none; width: 40px; height: 40px; border: 3px solid var(--gv-kontur); border-radius: 12px;
+  background: var(--gv-mavi); color: var(--qt-metin);
+}
+.gv-ik--hft { background: var(--gv-altin); }
+.gv-ik--sandik { width: 48px; height: 48px; background: var(--qt-uyari); }
+
+.gv-govde { display: grid; gap: 5px; min-width: 0; }
+.gv-baslik { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 8px; min-width: 0; }
+.gv-ad { font: var(--qt-a-siyah) var(--qt-y-s)/1.25 var(--qt-f-govde); overflow-wrap: anywhere; }
+.gv-alt { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); }
+
+.gv-zor, .gv-kat {
+  display: inline-flex; align-items: center; padding: 0 8px; border: 2px solid var(--gv-kontur); border-radius: var(--qt-r-hap);
+  font-size: 11px; font-weight: var(--qt-a-siyah); line-height: 1.5; white-space: nowrap;
+}
+.gv-zor--kolay { background: #eaf3de; color: #27500a; }
+.gv-zor--orta { background: #faeeda; color: #633806; }
+.gv-zor--zor { background: #fcebeb; color: #791f1f; }
+.gv-kat { background: var(--qt-bilgi-acik); color: var(--qt-bilgi-koyu); }
+
+/* İlerleme çubuğu */
+.gv-bar { height: 12px; overflow: hidden; border: 2px solid var(--gv-kontur); border-radius: 8px; background: var(--gv-iz); }
+.gv-bar i { display: block; height: 100%; border-radius: 0 6px 6px 0; background: var(--qt-vurgu); transition: width var(--qt-s-orta) var(--qt-egri-cikis); }
+.gv-kart--alindi .gv-bar i { background: var(--qt-dogru); }
+.gv-bar i[style*="width: 0%"] { border-radius: 0; }
+
+.gv-oduller { display: flex; flex-wrap: wrap; gap: 6px; }
+.gv-oduller:empty { display: none; }
+
+/* Sağ sütun: ilerleme metni / Al düğmesi / tik */
+.gv-sag { display: grid; place-items: center; align-self: center; min-width: 0; }
+.gv-sayi { font: var(--qt-a-siyah) var(--qt-y-s)/1 var(--qt-f-govde); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.gv-al { min-height: var(--qt-dokunma); min-width: 52px; white-space: nowrap; }
+.gv-tik {
+  display: grid; place-items: center; width: 32px; height: 32px; border: 2px solid var(--gv-kontur); border-radius: 50%;
+  background: var(--qt-dogru); color: var(--qt-dogru-yazi);
+}
+.gv-kart--alindi .gv-tik, .gv-sandik--alindi .gv-tik { animation: gv-tik-gel var(--qt-s-orta) var(--qt-egri-yay) both; }
+
+/* Haftalık sandık */
+.gv-sandik { background: var(--gv-altin); }
+.gv-sandik--alinabilir { border-color: var(--qt-vurgu); }
+.gv-sandik--alindi { border-color: var(--qt-dogru); }
+.gv-sandik .gv-cip { background: var(--qt-yuzey); }
+.gv-sandik .gv-cip--kilit { background: var(--gv-altin-acik); }
+
+/* Alınca uçan ödül çipi (kartın içinde; fixed yok) */
+.gv-ucan {
+  position: absolute; right: 10px; top: -14px; z-index: 2; display: inline-flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px;
+  max-width: calc(100% - 20px); pointer-events: none; animation: gv-uc 2200ms var(--qt-egri-cikis) both;
+}
+.gv-ucan-oge {
+  display: inline-flex; align-items: center; gap: 3px; min-height: 24px; padding: 1px 9px; border: 2px solid var(--gv-kontur);
+  border-radius: var(--qt-r-hap); background: var(--qt-coin); color: var(--qt-coin-yazi); font-size: var(--qt-y-s); font-weight: var(--qt-a-siyah);
+}
+
+.gv-mesaj { padding: var(--qt-b-2) var(--qt-b-3); border: 2px solid var(--qt-yanlis-dudak); border-radius: var(--qt-r-m); background: var(--qt-yanlis-acik); color: var(--qt-yanlis-koyu); font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); }
+.gv-not { padding-top: var(--qt-b-1); font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-zemin-soluk); }
+.gv-yukleniyor, .gv-hata-kutu { display: grid; gap: var(--qt-b-2); }
+
+@keyframes gv-uc {
+  0% { opacity: 0; transform: translateY(10px) scale(0.9); }
+  14% { opacity: 1; transform: translateY(0) scale(1); }
+  72% { opacity: 1; transform: translateY(-14px) scale(1); }
+  100% { opacity: 0; transform: translateY(-22px) scale(1); }
+}
+@keyframes gv-tik-gel { from { transform: scale(0.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+/* Hareketi azalt → yumuşak mod: çip yerinde kalıp solar (yumuşak hız: data-yumusak), tik zıplamadan görünür, çubuk anında dolar */
+@media (prefers-reduced-motion: reduce) {
+  .gv-ucan { animation-name: gv-uc-y; }
+  .gv-kart--alindi .gv-tik, .gv-sandik--alindi .gv-tik { animation: none; }
+  .gv-bar i { transition: none; }
+}
+@keyframes gv-uc-y { 0% { opacity: 0; } 18% { opacity: 1; } 75% { opacity: 1; } 100% { opacity: 0; } }
+
+/* Geniş ekran: Layout sütunu zaten sınırlar; kartlar biraz nefes alır */
+@media (min-width: 1024px) {
+  .gv-kart { padding: 12px 14px; gap: 14px; }
+  .gv-ad { font-size: var(--qt-y-m); }
+}
