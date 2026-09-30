@@ -449,16 +449,20 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
   `oyuncu_bp_odul_alimi`. Sezon kapanınca hak edilip alınmamış ödüller verilir. Placeholder (`placeholder=true`, "?" + "Yakında"):
   4 avatar, 5 çerçeve, 1 tepki paketi — gerçek ödül = satırı güncelle (`placeholder=false`, `veri`), tetikleyici önceden alanlara verir.
   Coin ödülü `coin_ekle(..., 'sezon_yolu')` günlük tavan dışı. Kalıcı kozmetikler Koleksiyon Puanı'na mevcut tetikleyicilerle girer.
+- **Taşma ödülü (730):** 28. eşik (2.800 SP) geçilince her `sezon_tasma_sp` 100 SP = 1 taşma ödülü, sezonda en çok `sezon_tasma_azami` 10;
+  ücretsiz kol `sezon_tasma_ucretsiz_coin` 25, ücretli (yalnız BP, geriye dönük) `sezon_tasma_ucretli_coin` 40 coin (TEST DEĞERLERİ). `bp_tasma_al(p_kol)`,
+  alım `oyuncu_bp_tasma_alimi`; `sezon_yolu_durumum().tasma`, `bp_toplu_al` ve `sezon_kapat` taşmayı da kapsar. Seviye 28'de kalır.
 - **Battle Pass:** yalnız elmas, `bp_fiyat_elmas` 500; `bp_satin_al` tek atomik işlem (profil FOR UPDATE, `elmas_harca`, sahiplik,
   hak edilen ücretli ödüller geriye dönük, çift alım reddedilir). BP sahibi: ismi altın (`oyuncu_kartlari.isim_efekti = 'isim_altin'`,
   takılı efektin önüne geçer), çerçevesine altın halka (`oyuncu_kartlari.sezon_bp` → `CerceveliAvatar` `AltinHalka`), SP ×`bp_sp_carpan` 1,25
   (maç/turnuva/görev), günlük bonus görev (`bp_bonus_gorev_al`: bugün `bp_bonus_gorev_hedef` 2 maç → `sp_bp_bonus_gorev` 20 SP),
   maç sonu altın şerit (1,8 sn, sonucu örtmez), 28/28'e sezona özgü unvan (`sezon_<no>_final` "Sezon N Ustası", efsanevi, bir daha
   verilmez). Sezon kapanınca BP, altın isim ve halka kapanır; kalıcı ödüller kalır. **Pay-to-win yok:** maç/soru/lig/eşleşme kodu BP okumaz.
-- **Arayüz:** `/sezon-yolu` (`oyun/tasarim/sezon-yolu/`), üst çubukta rozet (`oyun/components/sezon/SezonRozeti.jsx`; rozet varken
-  telefonda ≤ 560 px logo Q simgesine iner), seviye bildirimi (localStorage son seviye), istemci `oyun/lib/sezonYolu.js`.
-  Testler: `node araclar/sezon-yolu-sql-testi.mjs` (ROLLBACK) · `node araclar/sezon-yolu-yaris-testi.mjs` (sahip test sezonu, temizler) ·
-  `araclar/sezon-yolu-ekran.mjs` / `sezon-parca-ekran.mjs`.
+- **Arayüz:** `/sezon-yolu` (`oyun/tasarim/sezon-yolu/`, v2 onaylı maket): sezon teması `sezonTemalari.jsx` (sezon no → tema,
+  oyuncunun arka planıyla ilgisiz; ayda bir sezon = kayda bir satır), ödül önizleme (`OdulSayfasi`, oyuncunun kendi avatarıyla), 28+ taşma sütunu.
+  Rozet ana sayfa oyuncu kartında + dişli menüde "Sezon Yolu" satırı (`oyun/components/sezon/`), istemci `oyun/lib/sezonYolu.js`.
+  Testler: `sezon-yolu-sql-testi` · `sezon-tasma-sql-testi` · `sezon-kapanis-sql-testi` (ROLLBACK) · `sezon-tasma-yaris-testi` ·
+  `sezon-yolu-yaris-testi` (sahip test sezonunu SİLER) · ekran `araclar/sezon-yolu-v2-ekran.mjs` (390×700 ve 360×640 ana ölçü).
 
 ### Görevler — 740–743 (30 Eyl 2026, Ida kararları; sunucu tamam, ekran Ajan B)
 
