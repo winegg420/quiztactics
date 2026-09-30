@@ -2,7 +2,7 @@
 // AVATAR MENÜSÜ (Paket 41 C) — üst çubuktaki avatara dokununca açılır.
 // Profil › Ayarlar'a ulaşmak 3 adımdı (sekme → kaydır → Ayarlar). Bu menü KISAYOL;
 // Profil › Ayarlar sekmesi yerinde duruyor.
-//   Profilim · Ayarlar · Müzik (bildim_muzik) · Efektler (bildim_ses, maç şeridi ve Ayarlar ile ortak) · Dil (TR/EN) · Çıkış Yap
+//   Profilim · Ayarlar · Görevler · (Sezon Yolu) · Müzik (bildim_muzik) · Efektler (bildim_ses, maç şeridi ve Ayarlar ile ortak) · Dil (TR/EN) · Çıkış Yap
 // Erişilebilirlik: aria-haspopup/expanded, açılınca ilk öğeye odak, ↑/↓ gezinme,
 // Esc ve dışarı dokunma kapatır, bütün öğeler ≥ 44 px.
 // ============================================================
@@ -76,6 +76,10 @@ export default function AvatarMenu({ profile }) {
           </button>
           <button type="button" role="menuitem" className="a-avatar-menu-oge" onClick={() => git(y("/profil?sekme=ayarlar"))}>
             <QtIkon ad="ayar" boyut={20} /> <span>{tt("Ayarlar")}</span>
+          </button>
+          {/* Görevler: ana sayfa şeridi kısa ekranda (<700 px) gizlidir; buradan her ekranda erişilir */}
+          <button type="button" role="menuitem" className="a-avatar-menu-oge" onClick={() => git(y("/gorevler"))}>
+            <QtIkon ad="gorevListesi" boyut={20} /> <span>{tt("Görevler")}</span>
           </button>
           {sezonOzet?.gorunur && (
             <button type="button" role="menuitem" className="a-avatar-menu-oge" onClick={() => git(y("/sezon-yolu"))}>

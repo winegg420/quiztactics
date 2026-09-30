@@ -18,6 +18,7 @@ import { tt, ttSunucu } from "../../lib/dil.js";
 import { geriSayim, sonrakiTurnuva, turnuvaSaatleri, turnuvaSaatiGoster, yerelSaatGoster } from "../../lib/zaman.js";
 import { y } from "../../lib/yol.js";
 import { CoinIkon } from "../../components/ParaIkonlari.jsx";
+import { useGorevler, gorevOzeti } from "../../lib/gorevler.js";
 
 const sayi = (n) => new Intl.NumberFormat("tr-TR").format(Number(n) || 0);
 const MADALYA_TON = ["altin", "gumus", "bronz"];   // turnuva ödül sırası: 1. 2. 3.
@@ -519,25 +520,28 @@ export function LigKarti({ v }) {
   );
 }
 
-/** Günlük görev şeridi: 3 görev, mini ilerleme çubukları; dokununca görev listesi (ödül alma orada). */
-export function GorevSeridi({ v, onAc }) {
-  if (!v.gorevler.length) return null;
-  const liste = v.gorevler.slice(0, 3);
-  const biten = liste.filter((g) => g.ilerleme >= g.hedef).length;
+/**
+ * Görev şeridi (tek satır): "Görevler · Günlük 1/3 · Haftalık 2/3", alınabilir ödül varsa sessiz nokta (sayı yok;
+ * sayı yalnız ekran okuyucuda), dokununca /gorevler (ödül alma orada). Veri gorevlerim() RPC'sinden (lib/gorevler.js).
+ * Veri gelmezse sahte "0/3" gösterilmez: yalnız başlık durur, şerit yine sayfaya götürür.
+ */
+export function GorevSeridi() {
+  const { veri } = useGorevler();
+  const o = veri ? gorevOzeti(veri) : null;
+  const bekleyen = (o?.alinabilir ?? 0) > 0;
+  const sayilar = o ? { a: o.gunTamam, b: o.gunToplam, c: o.hftTamam, d: o.hftToplam } : null;
+  const etiket = sayilar
+    ? `${tt("Görevler. Günlük {a}/{b}, haftalık {c}/{d}.", sayilar)}${bekleyen ? ` ${tt("Alınabilir ödül var.")}` : ""}`
+    : tt("Görevler");
   return (
-    <button type="button" className="as-gs" onClick={onAc} aria-haspopup="dialog"
-            aria-label={tt("Günlük görevler: {a}/{b} tamam", { a: biten, b: liste.length })}>
-      <span className="as-gs-ikon" aria-hidden="true"><QtIkon ad="hediye" boyut={20} /></span>
-      <span className="as-gs-baslik">{tt("Görevler")}</span>
-      <span className="as-gs-cubuklar" aria-hidden="true">
-        {liste.map((g) => (
-          <QtIlerleme key={g.quest_id} deger={Math.min(g.ilerleme, g.hedef)} en={g.hedef || 1}
-                      ton={g.ilerleme >= g.hedef ? "dogru" : "mor"} />
-        ))}
+    <Link to={y("/gorevler")} className="as-gs" aria-label={etiket}>
+      <span className="as-gs-ikon" aria-hidden="true"><QtIkon ad="gorevListesi" boyut={22} /></span>
+      <span className="as-gs-metin" aria-hidden="true">
+        <b>{tt("Görevler")}</b>
+        {sayilar && <small>{tt("Günlük {a}/{b} · Haftalık {c}/{d}", sayilar)}</small>}
       </span>
-      {v.bekleyenOdul > 0
-        ? <span className="as-gs-odul"><CoinIkon boyut={14} />{v.bekleyenOdul}</span>
-        : <QtIkon ad="ileri" boyut={18} className="as-gs-ok" />}
-    </button>
+      {bekleyen && <span className="as-gs-nokta" aria-hidden="true" />}
+      <QtIkon ad="ileri" boyut={18} className="as-gs-ok" />
+    </Link>
   );
 }

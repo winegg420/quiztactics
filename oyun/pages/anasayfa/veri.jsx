@@ -29,7 +29,7 @@ import RakipAra from "../../components/RakipAra.jsx";
 import YarimMacPenceresi from "../../components/YarimMac.jsx";
 import ModSecimPenceresi from "../../components/ModSecimPenceresi.jsx";
 
-export function useAnaSayfaVerisi() {
+export function useAnaSayfaVerisi({ gorevYukle = true } = {}) {   // gorevYukle=false: eski get_daily_quests okunmaz (AnaSayfaA görevleri /gorevler'den alır)
   const { user, profile, refreshProfile } = useAuth();
   const uid = user?.id;
   const [gorevler, setGorevler] = useState([]);
@@ -48,8 +48,9 @@ export function useAnaSayfaVerisi() {
   const { bakiye } = useCoin();
 
   const gorevleriYukle = useCallback(() => {
+    if (!gorevYukle) return;
     rpcDene("get_daily_quests").then(({ data }) => setGorevler(data ?? []));
-  }, []);
+  }, [gorevYukle]);
   useEffect(() => { gorevleriYukle(); }, [gorevleriYukle]);
 
   useEffect(() => {

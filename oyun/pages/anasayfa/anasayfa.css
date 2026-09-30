@@ -620,31 +620,46 @@ a.as-cip:active { transform: translateY(2px); }
 .as-lk-bos-metin b { font: var(--qt-a-siyah) var(--qt-y-m)/1.1 var(--qt-f-baslik); }
 .as-lk-bos-metin small { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); }
 
-/* ---------- Günlük görev şeridi ---------- */
+/* ---------- Görev şeridi (tek satır → /gorevler) ---------- */
 .as-gs {
-  display: grid; grid-template-columns: auto auto minmax(0, 1fr) auto; align-items: center; gap: 10px;
-  width: 100%; min-height: 48px; padding: 6px 12px 6px 8px; border: 0; border-radius: var(--qt-r-hap); cursor: pointer;
-  background: var(--qt-yuzey); color: var(--qt-metin); font-family: var(--qt-f-govde);
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; align-items: center; gap: 10px;
+  width: 100%; min-height: 48px; padding: 4px 12px 4px 7px; border-radius: var(--qt-r-l); cursor: pointer;
+  background: var(--qt-yuzey); color: var(--qt-metin); font-family: var(--qt-f-govde); text-decoration: none;
   box-shadow: 0 3px 0 var(--qt-cizgi), var(--as-golge-kucuk); transition: transform var(--qt-s-basma) var(--qt-egri-cikis);
 }
 .as-gs:active { transform: translateY(2px); }
-.as-gs-ikon { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--qt-coin-acik); color: var(--qt-coin-yazi); }
-.as-gs-baslik { font-size: var(--qt-y-s); font-weight: var(--qt-a-siyah); }
-.as-gs-cubuklar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; min-width: 0; }
-.as-gs-odul { display: inline-flex; align-items: center; gap: 3px; padding: 2px 8px; border-radius: var(--qt-r-hap); background: var(--qt-coin); color: var(--qt-coin-yazi); font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); }
+.as-gs-ikon { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 11px; background: var(--qt-coin-acik); color: var(--qt-coin-yazi); }
+.as-gs-metin { display: grid; min-width: 0; line-height: 1.2; }
+.as-gs-metin b { font-size: var(--qt-y-s); font-weight: var(--qt-a-siyah); }
+.as-gs-metin small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); }
+/* Sessiz rozet kuralı: sayı yok, 8 px soluk gri-mavi nokta (rengi .as-rozet-nokta ile aynı) */
+.as-gs-nokta { width: 8px; height: 8px; border-radius: 50%; background: #8fa3bd; }
 
 /* ---------- Telefon: kaydırmasız sığdırma ---------- */
 @media (max-width: 1023px) {
   html.as-kaydirmasiz .as-a2-lig { flex: 0 1 auto; overflow: hidden; }
   .as-a2 .as-a-eylem .as-buyuk-dugme { min-height: 68px; }
 }
-/* Öncelik: OYNA/DÜELLO > turnuva > lig kartı > kısayol > görev şeridi */
-@media (max-width: 1023px) and (max-height: 800px) {
-  .as-a2-gorev { display: none; }
-}
 @media (max-width: 1023px) and (max-height: 760px) {
   .as-lk-satir--uzak { display: none; }
   .as-a.as-a2 { gap: 8px; }
+}
+/* Öncelik: OYNA/DÜELLO > turnuva > lig kartı > kısayol > görev şeridi. Şerit artık ≥700 px yükseklikte görünür
+   (eskiden ≤800 px'te gizliydi); 700–760 px arası şerit 44 px'e iner, oyuncu kartı ve OYNA/DÜELLO biraz sıkışır ki
+   lig kartı kesilmesin. <700 px'te (ör. 390×664) sığmaz: şerit gizli, OYNA/DÜELLO yerinde; Görevler avatar menüsünde. */
+@media (max-width: 1023px) and (max-height: 699px) {
+  .as-a2-gorev { display: none; }
+}
+@media (max-width: 1023px) and (max-height: 830px) {
+  .as-lk-satir--uzak { display: none; }   /* şerit yer açsın: lig kartı en yakın 3 satıra iner (eskiden ≤760) */
+}
+@media (max-width: 1023px) and (min-height: 700px) and (max-height: 760px) {
+  .as-gs { min-height: var(--qt-dokunma); padding-block: 0; }
+  .as-gs-ikon { width: 32px; height: 32px; }
+  .as-ko { padding-block: 6px; }
+  .as-a.as-a2 { gap: 6px; }
+  .as-a2 .as-a-eylem .as-buyuk-dugme { min-height: 60px; }
+  .as-a2 .as-serit { min-height: 56px; }
 }
 @media (max-width: 1023px) and (max-height: 660px) {
   .as-lk-alt { display: none; }
@@ -659,7 +674,6 @@ a.as-cip:active { transform: translateY(2px); }
   .as-a.as-a2 { display: grid; grid-template-columns: 320px minmax(0, 1fr) 320px; align-items: start; gap: 20px; }
   .as-a2-kol { display: grid; gap: 14px; align-content: start; min-width: 0; }
   .as-a2-masaustu { display: block; }
-  .as-a2-gorev { display: none; }   /* masaüstünde tam görev paneli var */
   .as-a2 .as-a-kisayol { display: grid; grid-template-columns: repeat(2, 1fr); }
   .as-a2 .as-kisayol { min-height: 96px; }
   .as-a2 .as-a-eylem { grid-template-columns: 1fr 1fr; }

@@ -1,9 +1,10 @@
 // ANA SAYFA (kök rota, 23 Eyl 2026'dan beri; önceki ana sayfa pages/Home.jsx kullanılmıyor).
 // Seçenek A — TEK EKRAN (lobi), kaydırmasız. Rozet + çerçeve paketiyle yeniden düzenlendi:
 // kompakt oyuncu kartı, canlı lig kartı, turnuva şeridi, OYNA + DÜELLO, kısayollar, görev şeridi.
-// Masaüstü: solda oyuncu + lig, ortada oyna alanı, sağda turnuva + seanslar + görevler + etkinlik.
+// Masaüstü: solda oyuncu + lig, ortada oyna alanı, sağda turnuva + seanslar + görev şeridi + etkinlik.
+// Görev şeridi (740–744): eski günlük görev kartı/penceresi kalktı; tek satır, dokununca /gorevler.
 import { useEffect, useState } from "react";
-import { QtIkon, QtModal } from "../../tasarim/index.js";
+import { QtIkon } from "../../tasarim/index.js";
 import BildirimIzniSor from "../../components/BildirimIzniSor.jsx";
 import { BILDIRIM_SONRA_ANAHTAR } from "../../components/MacSonuSahnesi.jsx";
 import { tt } from "../../lib/dil.js";
@@ -12,15 +13,14 @@ import DurumKutusu, { useZamanAsimi } from "../../components/DurumKutusu.jsx";
 import { useAnaSayfaVerisi, useOyunBaslat, useDevamEdenMaclar } from "./veri.jsx";
 import {
   KompaktOyuncu, LigKarti, GorevSeridi, modListesi, etkinlikler, EtkinlikSatiri,
-  TurnuvaSeridi, TurnuvaSeansListesi, GorevListesi, DevamEdenMaclarKarti,
+  TurnuvaSeridi, TurnuvaSeansListesi, DevamEdenMaclarKarti,
 } from "./parcalar.jsx";
 import "./anasayfa.css";
 
 export default function AnaSayfaA() {
-  const v = useAnaSayfaVerisi();
+  const v = useAnaSayfaVerisi({ gorevYukle: false });   // görevleri GorevSeridi kendi okur (gorevlerim)
   const b = useOyunBaslat();
   const devamEden = useDevamEdenMaclar();
-  const [gorevAcik, setGorevAcik] = useState(false);
   // Bildirim izni maç sonucundan ana sayfaya dönünce sorulur (MacSonuSahnesi işaret bırakır).
   const [bildirimSor] = useState(() => {
     try { return sessionStorage.getItem(BILDIRIM_SONRA_ANAHTAR) === "1"; } catch { return false; }
@@ -74,11 +74,7 @@ export default function AnaSayfaA() {
       <section className="as-a2-kol as-a2-kol--sag" aria-label={tt("Etkinlikler")}>
         <div className="as-a2-turnuva"><TurnuvaSeridi v={v} git={b.git} /></div>
         <div className="as-a2-masaustu"><TurnuvaSeansListesi /></div>
-        <div className="as-a2-gorev"><GorevSeridi v={v} onAc={() => setGorevAcik(true)} /></div>
-        <div className="as-panel as-a2-masaustu">
-          <h2 className="as-panel-baslik"><QtIkon ad="hediye" boyut={20} />{tt("Günlük görevler")}</h2>
-          <GorevListesi v={v} sinir={3} />
-        </div>
+        <div className="as-a2-gorev"><GorevSeridi /></div>
         {olaylar.length > 0 && (
           <div className="as-panel as-a2-masaustu">
             <h2 className="as-panel-baslik"><QtIkon ad="zil" boyut={20} />{tt("Seni bekleyenler")}</h2>
@@ -120,11 +116,6 @@ export default function AnaSayfaA() {
         </nav>
         {v.mesaj && <p className="as-hata" role="alert">{v.mesaj}</p>}
       </section>
-
-      {/* Görev şeridine dokununca: görev listesi (ödül alma burada) */}
-      <QtModal acik={gorevAcik} onKapat={() => setGorevAcik(false)} tur="altSayfa" baslik={tt("Günlük görevler")}>
-        <GorevListesi v={v} sinir={10} />
-      </QtModal>
     </div>
   );
 }
