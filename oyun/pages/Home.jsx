@@ -1,3 +1,4 @@
+import { useAyar } from "../lib/ayarlar.js";
 import { useCallback, useEffect, useState } from "react";
 import { hataMesaji } from "../lib/hata.js";
 import { Link, useNavigate } from "react-router-dom";
@@ -32,6 +33,7 @@ import {
 import "../tasarim/ekranlar/a-ana.css";
 
 export default function Home() {
+  const turSayisi = useAyar("duello_max_tur", 16);   // Düello tur sayısı metne gömülmez (1 Eki 2026: 16 tur)
   const { user, profile, refreshProfile, profilHata } = useAuth();
   // Paket 41 A: profil hiç gelmezse sonsuz bekleme yerine hata durumu
   const profilGecikti = useZamanAsimi(!profile);
@@ -567,7 +569,7 @@ export default function Home() {
                 mod="duello"
                 ikon="duello"
                 ad={ceviri("Düello")}
-                alt={tt("10 tur · aynı soru, aynı anda")}
+                alt={tt("{t} tur · aynı soru, aynı anda", { t: turSayisi })}
                 className="mobile-core-mode duello"
                 onClick={() => navigate(y("/duello"))}
               />

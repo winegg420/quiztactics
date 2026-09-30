@@ -1,5 +1,5 @@
 // Düello Hâkimiyet (680) SQL provası — tek transaction, sonunda ROLLBACK (canlıya iz bırakmaz).
-// Sınar: yeni maç şekli · hamle kuralı (3 kategori türü × 4 cevap) · kilit · nakavt · 10. tur sayımı ·
+// Sınar: yeni maç şekli · hamle kuralı (3 kategori türü × 4 cevap) · kilit · nakavt · son tur (duello_max_tur, 16) sayımı ·
 // eşitlik → Altın Soru (sahiplik değişmez) · rol değişimi · Baskın / Kalkan / çakışma / gizlilik / hak ·
 // çift çözümleme (yarış) · eski Kategori Kalkanı kapalı · yeni oyuncu kilidi · durum() şekli.
 // Kullanım: node araclar/duello-hakimiyet-sql-testi.mjs [migration.sql ...]  (verilenler önce uygulanır)
@@ -139,22 +139,30 @@ try {
   ok('maç bitti, kazanan A (tur 5)', d.durum === 'bitti' && d.kazanan === A, JSON.stringify(d));
   ok('Son Nefes değil (rakip 1 yuva)', true);
 
-  console.log('6) 10. tur sonu sayımı + eşitlik → Altın Soru');
+  // 1 Eki 2026: tur sayısı ayardan (duello_max_tur = 16; eskiden sabit 10). Roller tek/çift tura göre: son tur çift → B saldırır.
+  const SON_TUR = Number(await json(`select public.ayar_sayi('duello_max_tur', 10)::int::text`));
+  console.log(`6) ${SON_TUR}. tur sonu sayımı + eşitlik → Altın Soru (ara tur bitirmez)`);
   id = await yeniMac();
-  await kur(id, { sahip: { [k1]: 'A', [k2]: 'A', [k3]: 'A', [k4]: 'B', [k5]: 'B' }, tur: 10, saldiran: 'B' });
+  await kur(id, { sahip: { [k1]: 'A', [k2]: 'A', [k3]: 'A', [k4]: 'B', [k5]: 'B' }, tur: SON_TUR - 1, saldiran: SON_TUR % 2 ? 'B' : 'A' });
+  r = await hamle(id, k6, true, true);   // tutmadı
+  await db.sorgu(`select duello2_sonraki('${id}')`);
+  d = await json(`select json_build_object('durum',durum,'tur',tur)::text from duellolar where id='${id}'`);
+  ok(`tur ${SON_TUR - 1} sonunda maç sürer (tur ${SON_TUR})`, d.durum === 'aktif' && Number(d.tur) === SON_TUR, JSON.stringify(d));
+  id = await yeniMac();
+  await kur(id, { sahip: { [k1]: 'A', [k2]: 'A', [k3]: 'A', [k4]: 'B', [k5]: 'B' }, tur: SON_TUR, saldiran: SON_TUR % 2 ? 'A' : 'B' });
   r = await hamle(id, k6, true, true);   // tutmadı
   await db.sorgu(`select duello2_sonraki('${id}')`);
   d = await json(`select json_build_object('durum',durum,'kazanan',kazanan)::text from duellolar where id='${id}'`);
-  ok('10 tur bitti 3-2: A kazanır', d.durum === 'bitti' && d.kazanan === A, JSON.stringify(d));
+  ok(`${SON_TUR} tur bitti 3-2: A kazanır`, d.durum === 'bitti' && d.kazanan === A, JSON.stringify(d));
   id = await yeniMac();
-  await kur(id, { sahip: { [k1]: 'A', [k2]: 'A', [k4]: 'B', [k5]: 'B' }, tur: 10, saldiran: 'B' });
+  await kur(id, { sahip: { [k1]: 'A', [k2]: 'A', [k4]: 'B', [k5]: 'B' }, tur: SON_TUR, saldiran: SON_TUR % 2 ? 'A' : 'B' });
   r = await hamle(id, k6, false, false);
   await db.sorgu(`select duello2_sonraki('${id}')`);
   d = await json(`select json_build_object('durum',durum,'uzatma',uzatma,'faz',faz,'sahiplik',sahiplik)::text from duellolar where id='${id}'`);
   ok('2-2 eşit → Altın Soru açıldı', d.durum === 'aktif' && d.uzatma === true && d.faz === 'cevap', JSON.stringify(d));
   const qAltin = await json(`select json_build_object('id',soru_id,'dc',(select dogru_cevap from questions where id=soru_id))::text from duellolar where id='${id}'`);
   const onceSahip = JSON.stringify(d.sahiplik);
-  r = await cevapla(id, qAltin, true, false);   // saldıran (A, tur 11) bildi
+  r = await cevapla(id, qAltin, true, false);   // saldıran (A, Altın Soru turu) bildi
   ok('Altın Soru sahipliği değiştirmez', JSON.stringify(r.sahiplik) === onceSahip && r.hk === null, JSON.stringify(r));
   await db.sorgu(`select duello2_sonraki('${id}')`);
   d = await json(`select json_build_object('durum',durum,'kazanan',kazanan)::text from duellolar where id='${id}'`);

@@ -5,6 +5,7 @@
 // yeniden dağıtım gerektirmeden oyunda karşılığını bulur. Tablo herkese
 // açık okunabilir (RLS: select true).
 
+import { useEffect, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
 
 let onbellek = null;
@@ -37,4 +38,21 @@ export async function ayar(anahtar, varsayilan) {
   const o = await ayarlar();
   const v = Number(o?.[anahtar]);
   return Number.isFinite(v) ? v : varsayilan;
+}
+
+/**
+ * React kancası: tek ayar (ör. Düello tur sayısı `duello_max_tur`). Önbellekte varsa ilk çizimde o,
+ * yoksa varsayılan; tablo okununca güncellenir. Metinlerde sabit sayı yerine bunu kullan (1 Eki 2026, 16 tur).
+ */
+export function useAyar(anahtar, varsayilan) {
+  const [deger, setDeger] = useState(() => {
+    const v = Number(onbellek?.[anahtar]);
+    return Number.isFinite(v) ? v : varsayilan;
+  });
+  useEffect(() => {
+    let aktif = true;
+    ayar(anahtar, varsayilan).then((v) => { if (aktif) setDeger(v); }, () => {});
+    return () => { aktif = false; };
+  }, [anahtar, varsayilan]);
+  return deger;
 }

@@ -3,6 +3,7 @@
 // Masaüstü: solda yapışkan oyuncu paneli, sağda geniş mod ızgarası + iki sütunlu akış.
 import { QtIkon } from "../../tasarim/index.js";
 import { tt } from "../../lib/dil.js";
+import { useAyar } from "../../lib/ayarlar.js";
 import { LIG_ADLARI } from "../../lib/lig.js";
 import { useAnaSayfaVerisi, useOyunBaslat } from "./veri.jsx";
 import {
@@ -12,6 +13,7 @@ import {
 import "./anasayfa.css";
 
 export default function AnaSayfaB() {
+  const turSayisi = useAyar("duello_max_tur", 16);   // Düello tur sayısı metne gömülmez (1 Eki 2026: 16 tur)
   const v = useAnaSayfaVerisi();
   const b = useOyunBaslat();
   if (!v.profile) return <div className="as-yukleniyor" aria-busy="true" />;
@@ -19,7 +21,7 @@ export default function AnaSayfaB() {
   // Yatay şeritte iki ana mod önde, diğerleri arkasında — hepsi aynı kart dili.
   const kartlar = [
     { anahtar: "klasik", ad: tt("Klasik"), ikon: "klasik", alt: tt("20 soru · canlı rakip"), git: b.oyna, buyuk: true },
-    { anahtar: "duello", ad: tt("Düello"), ikon: "duello", alt: tt("10 tur · aynı soru, aynı anda"), git: () => b.git("/duello"), buyuk: true },
+    { anahtar: "duello", ad: tt("Düello"), ikon: "duello", alt: tt("{t} tur · aynı soru, aynı anda", { t: turSayisi }), git: () => b.git("/duello"), buyuk: true },
     ...modListesi(v, b),
   ];
   const lig = v.lig?.lig ?? "bronz";

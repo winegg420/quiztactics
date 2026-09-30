@@ -6,7 +6,7 @@
 //   · Hâkimiyet: PUAN YOK. 10 kategori boş başlar; hamle "saldıran doğru + savunan yanlış" ise tutar;
 //     4 yuvaya ilk ulaşan kazanır (tahta, kartlar, mesaj ve alt çubuk: DuelloTahta.jsx).
 //   · Cevap: iki oyuncu AYNI soruyu AYNI ANDA görür; rakibin yalnız CEVAPLADIĞI görünür.
-//   · 10 tur sonunda yuvalar eşitse Altın Soru (uzatma bayrağı): zor soru, jokersiz.
+//   · Son tur (duello_max_tur, 16) sonunda yuvalar eşitse Altın Soru (uzatma bayrağı): zor soru, jokersiz.
 //   · Joker: toplam 4 · aynı joker 2 · soru başına 1 (sayılar sunucudan); Baskın/Kalkan joker şeridinde.
 //
 // Görünüm: oyun/tasarim bileşenleri + oyun/styles/duello-tahta.css (hk- önekli) + DuelloPage.a.css (m2-).
@@ -38,8 +38,8 @@ export function secenekleriCoz(s) {
 
 // ---------------------------------------------------------------- üst başlık
 /**
- * Tek satır: solda sen (avatar, ad, seviye), ortada "Tur N/10" + büyük süre, sağda rakip.
- * Altında 10 tur noktası, en altta ince süre çubuğu. PUAN YAZMAZ (Hâkimiyet'te puan yok).
+ * Tek satır: solda sen (avatar, ad, seviye), ortada "Tur N/T" + büyük süre, sağda rakip.
+ * Altında T tur noktası (T = d.max_tur), en altta ince süre çubuğu. PUAN YAZMAZ (Hâkimiyet'te puan yok).
  * sayac: ekranın verdiği QtSayac (büyük süre; son 5 sn kırmızı + nabız). oran: 0–1 süre çubuğu.
  * 540/542: ad isim efektiyle (oyuncu kartı); tepkiBalonlar = { [oyuncuId]: balon } → avatarın yanında tepki.
  */
@@ -74,7 +74,7 @@ export function V2Ust({ d, ben, rakip, c, seviyeler = {}, tepkiBalonlar = {}, sa
       </div>
     );
   };
-  const maxTur = Number(d.max_tur) || 10;
+  const maxTur = Number(d.max_tur) || 16;   // sunucu her zaman gönderir (duello_max_tur); 16 yalnız yedek
   const biten = d.uzatma ? maxTur : d.faz === "sonuc" ? d.tur : d.tur - 1;
   return (
     <header className={sinif("hk-ust", d.uzatma && "hk-ust--altin", son && "hk-ust--son")}>
@@ -212,7 +212,7 @@ export function V2Gecmis({ gecmis, maxTur, benId, c }) {
             <li key={i} className={`m2-gecmis-soru m2-gecmis-soru--${ben}`}>
               <div className="m2-gecmis-ust">
                 <span className="m2-gecmis-tur">
-                  {g.uzatma ? c("Altın Soru") : c("Tur {n}/{t}", { n: g.tur, t: maxTur ?? 10 })}
+                  {g.uzatma ? c("Altın Soru") : c("Tur {n}/{t}", { n: g.tur, t: maxTur ?? 16 })}
                 </span>
                 {g.kategori && <span className="m2-gecmis-kat"><KategoriIkon anahtar={g.kategori} boyut={14} /> {c(kategoriAdi(g.kategori))}</span>}
                 <span className={`m2-rozet m2-rozet--${ben}`}><QtIkon ad={DURUM_IKON[ben]} boyut={12} /> {c(DURUM_ETIKET[ben])}</span>

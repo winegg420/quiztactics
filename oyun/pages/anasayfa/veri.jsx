@@ -19,7 +19,7 @@ import { rutbeBul } from "../../lib/ranks.js";
 import { siradakiLobi, turnuvaAniMs } from "../../lib/zaman.js";
 import { rpcDene } from "../../lib/rpcDene.js";
 import { ligGrubumOzet } from "../../lib/lig.js";
-import { ayarlar } from "../../lib/ayarlar.js";
+import { ayar, ayarlar } from "../../lib/ayarlar.js";
 import { useCoin } from "../../lib/coin.js";
 import { useDereceliTercih } from "../../lib/dereceli.js";
 import { hataMesaji } from "../../lib/hata.js";
@@ -352,10 +352,11 @@ export function useDevamEdenMaclar() {
         const { data: profiller } = await supabase.from("profiles").select("id, gorunen_ad").in("id", rakipIdler);
         adlar = new Map((profiller ?? []).map((p) => [p.id, p.gorunen_ad]));
       }
+      const turSayisi = await ayar("duello_max_tur", 16);
       for (const d of duellolar ?? []) {
         const rakipId = d.oyuncu1 === uid ? d.oyuncu2 : d.oyuncu1;
         sonuc.push({ id: `duello-${d.id}`, mod: "duello", rakipAd: adlar.get(rakipId) ?? null,
-          alt: tt("{n}. tur/10", { n: d.tur ?? 1 }), yol: `/duello/${d.id}` });
+          alt: tt("{n}. tur/{t}", { n: d.tur ?? 1, t: turSayisi }), yol: `/duello/${d.id}` });
       }
     } catch (e) {
       console.warn("[Ana sayfa] devam eden Düello:", e?.message ?? e);

@@ -8,6 +8,7 @@
 //
 // Dondurulmuş modlar (Hızlı Mod, "Hızlı Olan Kazanır") burada YOKTUR.
 // ============================================================
+import { useAyar } from "../lib/ayarlar.js";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import RakipAra from "../components/RakipAra.jsx";
@@ -25,6 +26,7 @@ const DUELLO_JOKER = DUELLO_JOKERLER.length;
 const KLASIK_JOKER = KLASIK_JOKERLER.length;
 
 export default function ModlarPage() {
+  const turSayisi = useAyar("duello_max_tur", 16);   // Düello tur sayısı metne gömülmez (1 Eki 2026: 16 tur)
   const navigate = useNavigate();
   const [dereceliTercih, setDereceliTercih] = useDereceliTercih();
   // Arama açıkken hangi tür: jokersiz = Saf Bilgi
@@ -67,7 +69,7 @@ export default function ModlarPage() {
           mod="duello"
           ad={ceviri("Düello")}
           alt={tt("Skillerini doğru anda kullan. Rakibinin planını boz ve taktik üstünlük kur.")}
-          rozet={tt("{n} joker türü · 10 tur · puan", { n: DUELLO_JOKER })}
+          rozet={tt("{n} joker türü · {t} tur", { n: DUELLO_JOKER, t: turSayisi })}
           onClick={() => navigate(y("/duello"))}
         />
         <QtModKart

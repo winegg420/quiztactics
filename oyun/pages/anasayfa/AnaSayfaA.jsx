@@ -8,6 +8,7 @@ import { QtIkon } from "../../tasarim/index.js";
 import BildirimIzniSor from "../../components/BildirimIzniSor.jsx";
 import { BILDIRIM_SONRA_ANAHTAR } from "../../components/MacSonuSahnesi.jsx";
 import { tt } from "../../lib/dil.js";
+import { useAyar } from "../../lib/ayarlar.js";
 import { useAuth } from "../../../src/context/AuthContext.jsx";
 import DurumKutusu, { useZamanAsimi } from "../../components/DurumKutusu.jsx";
 import { useAnaSayfaVerisi, useOyunBaslat, useDevamEdenMaclar } from "./veri.jsx";
@@ -18,6 +19,7 @@ import {
 import "./anasayfa.css";
 
 export default function AnaSayfaA() {
+  const turSayisi = useAyar("duello_max_tur", 16);   // Düello tur sayısı metne gömülmez (1 Eki 2026: 16 tur)
   const v = useAnaSayfaVerisi({ gorevYukle: false });   // görevleri GorevSeridi kendi okur (gorevlerim)
   const b = useOyunBaslat();
   const devamEden = useDevamEdenMaclar();
@@ -101,7 +103,7 @@ export default function AnaSayfaA() {
           </button>
           <button type="button" className="as-buyuk-dugme as-buyuk-dugme--duello" onClick={() => b.git("/duello")}>
             <span className="as-buyuk-dugme-ikon"><QtIkon ad="duello" boyut={28} /></span>
-            <span className="as-buyuk-dugme-metin"><b>{tt("DÜELLO")}</b><small>{tt("10 tur")}</small></span>
+            <span className="as-buyuk-dugme-metin"><b>{tt("DÜELLO")}</b><small>{tt("{t} tur", { t: turSayisi })}</small></span>
           </button>
         </div>
 

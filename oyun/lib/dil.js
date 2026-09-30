@@ -1413,7 +1413,7 @@ const SOZLUK = {
     "{ad} ile {mod} sürüyor": "{mod} with {ad} is ongoing",
     "{mod} sürüyor": "{mod} is ongoing",
     "Soru {n}/{t}": "Question {n}/{t}",
-    "{n}. tur/10": "Round {n}/10",
+    "{n}. tur/{t}": "Round {n}/{t}",
     "{n} doğru": "{n} correct",
     "Gör": "View",
     "Gönderdiğin": "Sent",
