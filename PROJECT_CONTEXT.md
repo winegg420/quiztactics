@@ -100,38 +100,30 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
 
 ### Düello
 
-- **Puan sistemi (666/671, Ida 27 Eyl 2026) — can yok.** Sabit 10 tur (her turda ikisi de bir kez kategori seçer =
-  20 soru). Saldıran kategoriyi seçer, soru ikisine aynı anda açılır (cevap 15 sn). **Kategoriler maç başında
-  rakibin kendi doğru oranları içinde sıralanıp yıldızlanır ve maç içinde değişmez:** sayısal verili kategorilerin
-  üst yaklaşık `%30`'u ★★★ (6 puan), alt yaklaşık `%30`'u ★ (1), kalanı ★★ (3); 10 verili kategoride tam
-  **3/4/3**. Oranı yetersiz olanlar (`duello_oran_min_cevap` 5 altı) sıralamaya girmez, doğrudan ★★ olur;
-  kalanlar aynı oranla bölünür, eşitlik kategori anahtarıyla kırılır. Oranlar `duello_yildiz_ust_yuzde` /
-  `duello_yildiz_alt_yuzde`; eski sabit `duello_yildiz_zayif_esik` / `_orta_esik` ayarları KULLANILMIYOR.
-  Puan yapısı değişmedi: `duello_puan_yildiz1..3`; maçta `duellolar.yildiz1/2` + `puan_degerleri`.
-  Değer = savunanın o kategorideki yıldızı. **Doğru bilen değeri alır; SALDIRAN yanlış/yanıtsız bırakırsa aynı
-  değeri kaybeder (667), SAVUNAN hiç kaybetmez** — puan **sıfırın altına inmez** (uygulanan ceza kalan puanla
-  sınırlı; `duello_hamleler.puan_saldiran` GERÇEKTE UYGULANAN miktarı taşır, nominal değeri değil). İkisi doğru →
-  ikisi alır. **Son 2 tur (Tur 9–10, `duello_carpanli_turlar`) puanlar ×`duello_carpan_katsayi` (2)** — kazanç da
-  ceza da katlanır; maç başında sabitlenir (`duellolar.carpanli_turlar/carpan_katsayi`, `duello_tur_carpani`).
-  Altın Soru çarpansız ve cezasız. `duellolar.puan1/2`, `duello_hamleler.yildiz/deger/carpan/puan_saldiran/
-  puan_savunan`. 10. tur bitince puanı yüksek kazanır. Hesap sunucuda (`duello2_cozumle`, `duello2_sonraki`).
-- **Altın Soru (eşitlik):** 10 tur sonunda puan eşitse Turnuva'nın seçicisiyle (`turnuva_soru_aday`: kullanılmamış,
+- **Hâkimiyet (680/681, Ida 30 Eyl 2026) — PUAN YOK.** 10 tur, **1 tur = 1 hamle** (maç 10 soru; tek turda oyuncu1,
+  çift turda oyuncu2 saldırır), 10 kategori; herkes 0-0, bütün kategoriler boş başlar. Saldıran kategoriyi seçer
+  (15 sn; dolarsa rastgele uygun), soru ikisine aynı anda açılır (cevap 15 sn, süre dolarsa yanlış).
+  **Hamle yalnız "saldıran doğru + savunan yanlış" ise tutar.** Rakibin kategorisi (Elinden al) → tutarsa saldırana
+  geçer · boş (Al) → tutarsa saldıran alır, saldıran yanlış + savunan doğru → savunan alır ("boşta bilen alır") ·
+  kendi kategorisi (Pekiştir) → tutarsa kilitlenir. **Kilit:** sahipliği değişen / pekiştirilen kategori
+  `duello_kilit_tur` (2) tur kimse tarafından seçilemez; tutmayan hamlede kilit yok. **Kazanma:** `duello_hakimiyet_esik`
+  (4) yuvaya ilk ulaşan kazanır (sonuç fazından sonra biter); 10. tur sonunda yuvası çok olan; eşitse Altın Soru.
+  Hesap sunucuda: `duello2_cozumle` (kural + kilit), `duello2_sonraki` (nakavt / sayım / roller), kilit kapısı
+  `duello2_kategori_uygun_mu`. Veri: `duellolar.hakimiyet/sahiplik/kilitler/hakimiyet_esik/kilit_tur/yuva1/yuva2`,
+  `duello_hamleler.hakimiyet` (eylem, tuttu, neden, sahip_once/sonra, kilit, baskin, kalkan, cakisma, yuvalar);
+  `duello_durum › hakimiyet` (sahiplik, kilitler{kat: kalan tur}, yuvalar, rol_joker). Eski puan maçları
+  (`hakimiyet=false`) eski dallarla çözülür; puan/yıldız/×2 ayarları "KULLANILMIYOR (680)".
+  Test: `node araclar/duello-hakimiyet-sql-testi.mjs` · `node araclar/duello-hakimiyet-bot-testi.mjs`.
+- **Altın Soru (eşitlik):** 10 tur sonunda yuvalar eşitse Turnuva'nın seçicisiyle (`turnuva_soru_aday`: kullanılmamış,
   önce zorluk 4–5, boşsa alt dilim; `duello_altin_soru_bul`) Altın Soru; **jokersiz** (`duello2_skill_hak_kontrol` reddeder),
-  kalkansız, puan vermez. Yalnız biri bilirse o kazanır (`altin_kazanan`), yoksa yeni Altın Soru — sınırsız. Veride
+  sahiplik değişmez. Yalnız biri bilirse o kazanır (`altin_kazanan`), yoksa yeni Altın Soru — sınırsız. Veride
   `uzatma` bayrağı Altın Soru demektir (iç ad korunur).
-- **Kaldırıldı (666):** zayıf nokta kuralı (bilen savunan → saldıran can kaybı), kategori başına 3 kullanım sınırı,
-  üst üste aynı kategori yasağı. `duello2_kategori_uygun_mu` yalnız: listede · aktif kalkanlı değil · kapsam uygun.
-  Eski can kolonları (`can1/2`, `can_kaybeden`, `zayif1/2`) geçmiş maçlar için durur, yeni maçta boş.
-- **Kategori Kalkanı (650 → 666):** tek kategoriyi o seçim için kapatır (joker/skill sistemine, envantere, dükkâna
-  girmez; **ücretsiz**). Maçta **2 hak**: 1. hak Tur 1–5 (`duello_kalkan_pencere1_son_tur`), 2. hak Tur 6–10
-  (`_pencere2_son_tur`) penceresinde açılır; 1. pencerede kullanılmayan hak **kaybolmaz**, Tur 6'dan sonra ikisi
-  istenen an (art arda ya da ayrı) kullanılır. Seçim başına tek kalkan. Yalnız savunan, kategori fazında ≥
-  `duello2_kalkan_son_sn` (5) sn kala, saldırana ≥ 1 uygun kategori kalırken; Altın Soru'da yok. Kural sunucuda
-  (`duello2_kalkan`, kapı `duello2_kalkan_engel`, hak `duello_kalkan_kalan`). Veri: `duellolar.kalkanlar1/2`
-  (`[{kategori, idx, tur}]`), `duello_hamleler.kalkan`. Bot savunurken fazın 1–4. sn'sinde %12, 2. pencerede puanda
-  gerideyse %45 (`duello2_bot_kalkan_*`); saldıranın en çok kazanacağı kategoriyi korur (değer × (saldıran oranı −
-  bot isabeti)). Arayüz: savunanda hak rozetli "Kategori Kalkanı" düğmesi → renkli, puanlı ızgara → onay; saldıranda kutu
-  "Korumada" kilitli + bildirim; üst şeritte iki oyuncunun kalan hakkı; maç sonu özetinde "… korundu".
+- **Kaldırıldı:** puan sistemi (666/667/671: yıldız, 1/3/6, 3-4-3, saldırana eksi, son 2 tur ×2 — 680), zayıf nokta
+  kuralı, kategori kullanım sınırı, üst üste aynı kategori yasağı (666). Eski can/puan kolonları geçmiş için durur.
+- **Eski ücretsiz Kategori Kalkanı KAPALI (680):** `duello2_kalkan_acik` = 0 ve `duello2_kalkan` her çağrıda reddeder;
+  kolonlar (`kalkanlar1/2`, `duello_hamleler.kalkan`) geçmiş için durur. Yeni **Kalkan jokeri** ondan ayrıdır (Skill bölümü).
+- **Rozetler (680):** Son Nefes = rakip eşik−1 (3) yuvadayken kazan; Büyük Geri Dönüş = bir an `rozet_geri_donus_yuva_farki`
+  (2) yuva gerideyken kazan; Altın Dokunuş aynen.
 - **Yeni oyuncu kilidi (666):** Düello en az `duello_acilis_mac_esigi` (5) bitmiş Klasik + Saf Bilgi maçıyla açılır
   (`matches`, terk edilen sayılmaz; level'e bağlı değil). `duello_ara` / `duello_davet_et` (iki taraf) /
   `duello_davet_cevap` sunucuda reddeder; lobi `duello_acilis_benim` ile "Düello'yu açmak için X maç daha oyna" +
@@ -159,25 +151,20 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
   (surum 1/2, puan1 boş) yalnız geçmiş kaydıdır. Arayüz `DuelloV2.jsx` + `DuelloPage.jsx` (eski V1 ekranı silindi).
   İstemci tanımadığı bir sürüm görürse maçı çizmez, yenileme ister (`DUELLO_EN_YUKSEK_SURUM`). Joker 4 / aynı 2 / soruda 1,
   Sigorta/2X yok.
-- **Strateji penceresi (351, 666, 667, 669, 671):** kategori süresi `duello2_kategori_sn` **15 sn**, son 3 sn renk +
-  (667) son 5 sn'de geri sayım sesi (`KATEGORI_SES_ESIK_SN`; eskiden sürenin tamamında çalıyordu).
-  **Kategori seçimi (671, Ida):** saldıranın kartları puana göre üç başlıkta: “Rakibin güçlü alanları · 6 puan”
-  (★★★), “Orta alanlar · 3 puan” (★★), “Rakibin zayıf alanları · 1 puan” (★); grup içinde kategori adına göre.
-  Her kartta büyük **"+N / −N"** ve tek satır **"Sen %.. · Rakip %.."** (< 5 cevap "—"). **Kartın rengi =
-  eşleşme:** kendi oranı rakipten `duello_kat_esik_yuzde` (10) puan yüksekse düz açık yeşil zemin, düşükse
-  düz açık kırmızı, arası/veri yoksa düz gri (`eslesmeRengi()`, `oyun/components/DuelloV2.jsx`); ton kademesi yok.
-  9-10. turda başlık ve kart puanları ×2, mevcut "×2" rozeti/bandı durur. Savunan “Rakip düşünüyor…” ekranı
-  kendi güçlü/orta/zayıf gruplarını aynı zemin diliyle gösterir; yalnız “−N” yoktur. Kategori Kalkanı ızgarası
-  aynı düz zemin renklerini kullanır, sıralanmaz. Cevap ekranında (bu ekran
-  DOKUNULMADI) hâlâ "★★ +3 · Doğru bilen 3 puan alır; saldıran yanlış/yanıtsız bırakırsa 3 kaybeder";
-  üst şeritte puan + "+N"/"−N" balonu (kırmızı eksi). Oranlar ve yıldızlar maç başında
-  `duello_olustur`'da bir kez (`profil1/2.oranlar`, `yildiz1/2`) — sunucudaki puan hesabı hâlâ yıldıza
-  dayanır, yalnız arayüz artık yıldızı GÖSTERMİYOR.
-  Bot seçimi 3–8 sn (tik 2 sn); %65 beklenen avantajı (değer(çarpanlı) × (2×bot isabeti − 1 − rakip oranı), saldıranın
-  eksi riski dahil, 667) en yüksek iki kategoriden biri (`duello2_bot_zayif_secim_yuzde`), %20 kendi güçlüsü, kalan
-  rastgele. **Maç sonu risk (667):** Tur `duello2_bot_risk_esik_tur` (8) sonrası `duello2_bot_risk_puan_farki` (6)+
-  puan gerideyse en yüksek yıldızlı kategoriye, öndeyse en düşüğe yönelir (normal seçimin yerine geçer). Kalkan
-  mantığı değişmedi.
+- **Ekran (680, `DuelloTahta.jsx` + `duello-tahta.css`, açık tema, `--hk-*` renkler: sen mavi / rakip kırmızı / boş gri /
+  vurgu turuncu):** tek ekran, 390 ve 360 px × 640'ta kaydırmasız (`oyuncu-testi` ölçer). Üst başlık (Tur N/10 + büyük
+  süre, 10 tur noktası) · rozet yuvaları (kategori ikonu yuvaya oturur, eşik−1'de son yuva turuncu yanıp söner, kilitli
+  yuvada altın çerçeve + kilit) · 2 satırlık sabit mesaj (kural / 3-4 uyarısı / tur sonucu + tutmama nedeni HER ZAMAN) ·
+  aidiyete göre 3 grup kart ("Rakibin kategorileri · elinden al" / "Boş kategoriler · al" / "Senin kategorilerin ·
+  pekiştir"; sıra Sen% − Rakip%, ↑ = ↓ eşiği `duello_kat_esik_yuzde` 10; kilitli kart soluk + "N tur kilitli") · alt
+  seçim çubuğu ("tutarsa Sen 2→3, Rakip 2→1" / "Kazanırsın!" + Elinden al / Al / Pekiştir). Savunan: saldıranın dokunduğu
+  kart kesikli turuncu çerçeveyle canlı parlar (realtime broadcast `dokunus`, DB'ye yazılmaz) ve sıradaki saldırısı için
+  kart işaretler ("Hazır", istemcide; sıra gelince seçili gelir). Maç sonu: nakavtta "Hâkimiyet zaferi! 4 yuva doldu",
+  10 turda "3-2 önde, kazandın" / "geride, kaybettin" / eşit → Altın Soru; skor = yuva. Oyunda "fetih" kelimesi geçmez.
+- **Bot (681):** hedef değeri = bot isabeti × (1 − rakip oranı); pekiştir × `duello_bot_pekistir_agirlik` (0.5);
+  `duello_bot_hamle_en_iyi_yuzde` (70) en iyi, kalanı rastgele başka uygun; bot eşik−1'deyse nakavt için boş/rakip
+  kategorisine, rakip eşik−1'deyse rakibin kategorisine öncelik; kilitliyi seçmez. Cevap gecikmesi ve joker davranışı
+  aynen (Baskın/Kalkan kullanmaz).
 
 ### Turnuva
 
@@ -254,9 +241,9 @@ Oyuncuya görünen ad **"Joker"** (TR + EN; Ida, 24 Eyl 2026 — "Skill" kalktı
 `skill_*` ve `joker_*` iç adları **bilerek korunur** — yeniden adlandırılmaz. Anahtarı hâlâ
 "skill" geçen metinler `dil.js › jokerAdi()` ile çıkışta Joker olur. Tek kayıt kaynağı
 `oyun/lib/jokerler.js`. Jokerler **yalnız coin'le** alınır (test fiyatları: Ek Süre 20 · Soru
-Değiştir 30 · Zaman Baskısı 30 · Sigorta 40 · 2X 50 · 50:50 60 · İkinci Şans 60).
+Değiştir 30 · Zaman Baskısı 30 · Sigorta 40 · 2X 50 · 50:50 60 · İkinci Şans 60 · Kalkan 50 · Baskın 70).
 
-Aktif yedi maç skill'i vardır:
+Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düello):
 
 | id | Ad | Mod | Davranış |
 |---|---|---|---|
@@ -267,6 +254,10 @@ Aktif yedi maç skill'i vardır:
 | `sigorta` | Sigorta | yalnız Klasik | yanlışta 5; doğruda normal 10 |
 | `cifte_puan` | 2X | yalnız Klasik | doğruda 20; yanlışta 0 |
 | `ikinci_sans` | İkinci Şans | Klasik · Düello | ilk yanlışta aynı sayaçla bir ikinci cevap |
+| `baskin` | Baskın | yalnız Düello | saldıran, soru ekranında: bu hamlede savunanın cevabı sayılmaz; saldıran doğruysa hamle tutar |
+| `kalkan` | Kalkan | yalnız Düello | savunan, yalnız kendi kategorisine saldırılırken: hamle tutmaz |
+
+- **Baskın / Kalkan (680):** her biri maçta 1 kez (`duello_rol_joker_mac_hak`), Düello 4 / aynı 2 / soruda 1 sınırları içinde; Düello joker setine (3 yuva) seçilir, Klasik sete giremez. Oyuncuya yalnız kendi rolünün jokeri görünür (`hakimiyet.rol_joker`). Basılan joker tur sonuna kadar rakibe gizli (Soru Değiştir kilidine de yansımaz); ikisi aynı hamlede → birbirini götürür, ikisi de harcanır, hamle normal kurala göre. Kural `duello2_skill_hak_kontrol`, etkisi `duello2_cozumle`. Fiyat `coin_joker_baskin` / `coin_joker_kalkan`. Semboller GEÇİCİ (Ida ikonları sonra seçecek); rozet renkleri `--qt-skill-baskin` (turuncu) / `--qt-skill-kalkan` (limon yeşili).
 
 - **Loadout: 3 yuva, Klasik ve Düello (327).** `skill_seti_slot` = 3. Set moda göre ayrı:
   Klasik `oyuncu_skill_setleri.skiller`, Düello `skiller_duello` (Düello'da Sigorta/2X seçilemez).

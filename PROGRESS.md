@@ -9346,3 +9346,15 @@ oyuncu kafasında birleştirip karar veremiyordu; yıldız zaten puan değerini 
 - **Dosyalar:** `oyun/components/ParaIkonlari.jsx` (CoinIkon tek kaynak; başka kopya yok — logo/paket görsellerine dokunulmadı), `tasarim/marka/coin-uretici.js` + `out/coin.svg`, `out/coin-kucuk.svg` yenilendi, stil rehberi Marka notu, `public/sw.js` → `qt-kabuk-v3` / `qt-varlik-v3`.
 - **Test:** 16/24/32/48 px stil rehberinde görsel (Q okunuyor, ok küçük, ortalı); 360 ve 390 px'te yatay taşma yok; build temiz. Ekran görüntüleri: `tasarim/marka/ekran-coin-24.png`, `ekran-coin-48.png`.
 - **Gözlem (dokunulmadı):** stil rehberi Marka bölümündeki yatay logo görüntüsünde "QUIZ"in Q'su ikonla üst üste biniyor, "UIZ" gibi okunuyor — logo bu işin dışında; Ida karar versin.
+
+## 2026-09-30 — Düello Hâkimiyet: bot, ekran, jokerler, doğrulama (kapanış)
+**Araç:** Claude Code (Opus 5.5 ana oturum + 4 Sonnet 5.5 alt ajan; `CLAUDE_CODE_SUBAGENT_MODEL` ayarlı değildi, alt ajanların hepsi raporlarında Sonnet 5.5 bildirdi).
+**Neden:** Hâkimiyet çekirdeğinin (680) botu, ekranı, joker ön yüzü ve uçtan uca doğrulaması.
+
+- **Alt Ajan A (bot, 681):** `duello2_bot_kategori` hâkimiyet dalı (değer = bot isabeti × (1 − rakip oranı), %70 en iyi, nakavt/geri alma önceliği, pekiştir × 0.5). Test `duello-hakimiyet-bot-testi.mjs` 18/18. Canlıya uygulandı.
+- **Alt Ajan C (metinler):** tanıtım v9, mod seçimi, çeviriler (`ceviri/hakimiyet.js`). 682 gerekmedi (rozet metinleri 680'de).
+- **Alt Ajan D (joker ön yüzü):** `jokerler.js` baskin/kalkan, geçici semboller (nişangâh, onaylı kalkan), `--qt-skill-baskin/kalkan`, `DuelloJokerSeridi.jsx` rol filtresi, dükkân/set "Yalnız Düello'da". Ana oturum `oyun/_test/skill-sistemi-test.mjs`'i 9'lu listeye güncelledi (8/8).
+- **Alt Ajan B (ekran):** `DuelloTahta.jsx` + `duello-tahta.css`; DuelloV2/DuelloPage/DuelloOzet'ten Kategori Kalkanı + yıldız/puan/×2 kaldırıldı; `oyuncu-testi.mjs` Düello bölümü hâkimiyete göre (eski `--altin` zorlaması kalktı; `--hizli`, `--zincir` eklendi). Canlı dokunuş broadcast'i yazıldı, iki gerçek oyuncuyla DENENMEDİ (bot dokunuş göndermez).
+- Ana oturum: V2Skill → `DuelloJokerSeridi.jsx` ayrıldı (ajanlar aynı dosyaya dokunmasın), lobi metni/arama ipuçları, çeviri dosyaları `dil.js`'e bağlandı, PROJECT_CONTEXT Düello + Skill bölümleri yeniden yazıldı.
+- **Doğrulama:** SQL 59/59 + bot 18/18; canlıda 11 bot–bot maçı (1 nakavt 4-0 tur 9, 1 Altın Soru, kazanan hep çok yuvalı, kilit ihlali 0; sonra silindi); `oyuncu-testi --mod=duello --mac=3` GEÇTİ (tam maç 3-2, 5 saldıran + 5 savunan, "Hazır" kart sırası gelince seçili, bütün ekranlar 390/360 × 640 kaydırmasız, en kötü benzetim 627 px); `npm run build` temiz. Test hesabı misafir olduğu için yeni oyuncu kilidine takıldı (kilit çalışıyor) — test süresince `duello_acilis_mac_esigi` 0'a çekildi, sonra 5'e geri alındı. Yeni test hesabı açılmadı.
+- **Gözlem:** bot–bot maçlarında nakavt seyrek (10'da 1); yuva sayıları düşük (0-3). Ürün ayarı (eşik/kilit) Ida'nın kararı.
