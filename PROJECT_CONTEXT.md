@@ -433,9 +433,9 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
   `reklam_min_sure_sn` sonra; kalıcı çözüm reklam ağı SSV. İki Edge Function 23 Eyl'de
   DAĞITILAMADI (CLI 403) — bkz. Açık İşler.
 
-### Sezon Yolu (Battle Pass) — 720–722 (30 Eyl 2026, Ida kararları; sistem KAPALI, Ida telefonda onaylayınca açılır)
+### Sezon Yolu (Battle Pass) — 720–722 (30 Eyl 2026, Ida kararları; **sistem 1 Eki 2026'da AÇILDI** — Sezon 1: 1 Eki 00:53 TSİ → 29 Eki 00:00 TSİ)
 
-- **Anahtar:** `oyun_ayarlari.sezon_yolu_acik` (false). Açıldığı AN 1. sezon başlar (tetikleyici + `bildim-sezon-tik` 5 dk cron,
+- **Anahtar:** `oyun_ayarlari.sezon_yolu_acik` (**true**, 1 Eki 2026). Açıldığı AN 1. sezon başlar (tetikleyici + `bildim-sezon-tik` 5 dk cron,
   `sezon_tik` idempotent). Sezon 28 gün (`sezon_gun`), bitiş 00:00 TSİ, biten sezonun yerine yenisi kendiliğinden açılır.
   Kapalıyken yalnız SAHİP bir **test sezonunda** (no 0) gerçek veriyle dener: sayfa + rozet görünür, kendi maçları SP verir,
   BP alabilir; altın isim/halka yalnız kendine görünür; `sezon_sahip_sp_ekle` / `sezon_sahip_test_sifirla` (BP elması iade).
