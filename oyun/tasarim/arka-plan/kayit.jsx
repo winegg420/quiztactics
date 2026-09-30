@@ -16,10 +16,9 @@ import { useEffect, useState } from "react";
 import { oyuncuKarti, oyuncuKartiDinle } from "../../lib/cerceve.js";
 import { premiumSanat } from "../../lib/kozmetik.js";
 import KartArkaPlan from "./KartArkaPlan.jsx";
-// ONAY BEKLEYEN ÜÇ (çizildi, /arka-plan-onizleme'de; katman/dikey desteği hazır, 30 Eyl'de kart üzerinde denendi).
-// Ida onaylayınca: bu 3 import'u ve aşağıdaki 3 satırı aç + migration'da pa_kor / pa_gece / pa_kuzey aktif = true yap.
+import YildizliGeceArkaPlan from "./YildizliGeceArkaPlan.jsx";
+// Yükselen Köz ve Kuzey Işıkları oyuna GİRMEZ (Ida, 30 Eyl 2026): dosyalar durur, migration 690'da aktif=false kalır.
 // import KozArkaPlan from "./KozArkaPlan.jsx";
-// import YildizliGeceArkaPlan from "./YildizliGeceArkaPlan.jsx";
 // import KuzeyIsiklariArkaPlan from "./KuzeyIsiklariArkaPlan.jsx";
 
 // ---- KAYIT: yeni arka plan = bir satır. ----
@@ -28,7 +27,7 @@ export const KAYIT = {
   kar: { ad: "Yağan Kar", Bilesen: (p) => <KartArkaPlan tur="kar" {...p} /> },
   yaprak: { ad: "Düşen Sonbahar Yaprakları", Bilesen: (p) => <KartArkaPlan tur="yaprak" {...p} /> },
   // kor: { ad: "Yükselen Köz", Bilesen: KozArkaPlan },
-  // gece: { ad: "Yıldızlı Gece", Bilesen: YildizliGeceArkaPlan },
+  gece: { ad: "Yıldızlı Gece", Bilesen: YildizliGeceArkaPlan },
   // kuzey: { ad: "Kuzey Işıkları", Bilesen: KuzeyIsiklariArkaPlan },
 };
 
