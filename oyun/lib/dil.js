@@ -929,6 +929,7 @@ const SOZLUK = {
     "Görünüm — karakterini giydir": "Style — dress up your character",
     "Görünüm": "Style",
     "Profilim ve ayarlar": "My profile and settings",
+    "Menü": "Menu",
     "Profilim": "My profile",
     "Ana Sayfa": "Home",
     "Arkadaşlar": "Friends",

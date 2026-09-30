@@ -680,3 +680,63 @@ a.as-cip:active { transform: translateY(2px); }
 }
 /* 25 Eyl: lig amblemi (Fasetli Yıldız) disk yerine çıplak durur */
 .as-lig-amblem { flex: none; display: inline-grid; place-items: center; }
+
+/* ============================================================
+   30 Eyl 2026 — ana sayfa düzeltmeleri (oyuncu kartı istatistikleri, DÜELLO kırmızısı,
+   turnuva madalyaları, lig yükselme çizgisi etiketi, sessiz rozet)
+   ============================================================ */
+/* Oyuncu kartı: avatar · ad + rütbe + XP · iki etiketli istatistik (sağda) */
+.as-ko { grid-template-columns: auto minmax(0, 1fr) auto; }
+.as-ko-rutbe {
+  padding: 1px 8px; border-radius: var(--qt-r-hap); background: var(--qt-ikinci-acik); color: var(--qt-ikinci-koyu);
+  line-height: 1.4;
+}
+.as-ko-stat { display: grid; gap: 6px; justify-items: end; align-content: center; position: relative; }
+.as-ko-stat-oge, .as-ko-seri .bd-seri-kart { display: grid; gap: 1px; justify-items: end; line-height: 1.1; }
+.as-ko-stat b { font: var(--qt-a-siyah) var(--qt-y-m)/1.1 var(--qt-f-baslik); color: var(--qt-metin); white-space: nowrap; }
+.as-ko-stat-etiket {
+  display: inline-flex; align-items: center; gap: 3px; font-size: 11px; font-weight: var(--qt-a-siyah);
+  color: var(--qt-metin-soluk); white-space: nowrap;
+}
+.as-ko-seri { margin-left: 0; }
+
+/* DÜELLO: pembe yerine koyu kırmızı, beyaz yazı (beyaz / #C93030 ≈ 5,3:1) */
+.as-buyuk-dugme--duello { --as-bg: #c93030; --as-bg-d: #8f1f27; color: #fff; }
+.as-buyuk-dugme--duello .as-buyuk-dugme-ikon { color: #c93030; }
+
+/* Turnuva bandı: 1. 2. 3. ödül madalyalı */
+.as-serit-odul { gap: 6px; }
+.as-odul-madalya { display: inline-flex; align-items: center; gap: 2px; font-weight: var(--qt-a-siyah); }
+.as-odul-madalya .qt-ikon .qt-ikon-d { fill-opacity: 1; }
+.as-odul-madalya--altin { --_m: var(--qt-madalyon-altin); color: var(--qt-madalyon-altin-koyu); }
+.as-odul-madalya--gumus { --_m: var(--qt-madalyon-gumus); color: var(--qt-madalyon-gumus-koyu); }
+.as-odul-madalya--bronz { --_m: var(--qt-madalyon-bronz); color: var(--qt-madalyon-bronz-koyu); }
+.as-odul-madalya .qt-ikon .qt-ikon-d { fill: var(--_m); }
+
+/* Lig kartı: satırda ad avatara dikey ortalı; yükselme çizgisi etiketi çizginin üstünde */
+.as-lk-satir > .as-lk-ad, .as-lk-satir > .ls-ad-dugme { align-self: center; }
+.as-lk-ad { display: flex; align-items: center; align-self: center; }
+.as-lk-alt { justify-content: flex-start; }
+.as-lk-alt .qt-ikon { margin-left: auto; }
+.as-lk-cizgi-etiket {
+  position: absolute; right: 8px; bottom: -9px; z-index: 1; padding: 0 5px; border-radius: var(--qt-r-hap);
+  background: var(--qt-yuzey); color: var(--qt-dogru-koyu); font-size: 10px; font-weight: var(--qt-a-siyah); line-height: 12px;
+  pointer-events: none;
+}
+
+/* Sessiz rozet: sayı yerine küçük soluk nokta (sayı yalnız ekran okuyucuda) */
+.as-rozet-nokta {
+  min-width: 0; width: 8px; height: 8px; padding: 0; top: 8px; right: 8px; font-size: 0;
+  background: #8fa3bd; color: transparent; box-shadow: none;
+}
+
+/* Kısa telefonda (≤760 px) uzaklık satırı başlığa girer: kart yüksekliği artmaz, sıra satırları kesilmez */
+@media (max-width: 1023px) and (max-height: 760px) {
+  .as-lk { position: relative; }
+  .as-lk-bas .as-lig-kalkan, .as-lk-bas .as-lig-amblem, .as-lk-kalan { display: none; }
+  .as-lk-alt { position: absolute; top: 10px; right: 12px; max-width: 58%; min-height: 28px; font-size: 12px; justify-content: flex-end; text-align: right; }
+  .as-lk-alt .qt-ikon { display: none; }
+}
+@media (max-width: 1023px) and (max-height: 660px) {
+  .as-lk-alt { display: flex; }
+}

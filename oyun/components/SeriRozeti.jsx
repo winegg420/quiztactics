@@ -35,6 +35,16 @@ export default function SeriRozeti({ bicim = "rozet" }) {
   // istemeyeceği tek şey — görsel olarak da öyle dursun.
   const isi = gun >= 7 ? "sicak" : gun >= 3 ? "orta" : gun >= 1 ? "sonuk" : "yok";
 
+  // Ana sayfa oyuncu kartı: etiketli istatistik — "Seri" + "N gün"
+  if (bicim === "kart") {
+    return (
+      <span className={`bd-seri-kart isi-${isi}`}>
+        <span className="as-ko-stat-etiket"><Ikon ad="ates" boyut={13} />{tt("Seri")}</span>
+        <b className="qt-sayi">{tt("{n} gün", { n: gun })}</b>
+      </span>
+    );
+  }
+
   if (bicim === "serit") {
     return (
       <div className={`bd-seri-serit isi-${isi}`}>

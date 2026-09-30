@@ -2,7 +2,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import AvatarCerceve from "../../components/AvatarCerceve.jsx";
-import OyuncuLigAmblemi from "../../components/OyuncuLigAmblemi.jsx";
 import { LigAmblemi } from "../../tasarim/premium/ligAmblemi.jsx";
 import CerceveliAvatar from "../../components/CerceveliAvatar.jsx";
 import { KartArkaPlanKatmani, kartArkaPlanSinifi, useKartArkaPlani } from "../../tasarim/arka-plan/kayit.jsx";
@@ -20,6 +19,7 @@ import { y } from "../../lib/yol.js";
 import { CoinIkon } from "../../components/ParaIkonlari.jsx";
 
 const sayi = (n) => new Intl.NumberFormat("tr-TR").format(Number(n) || 0);
+const MADALYA_TON = ["altin", "gumus", "bronz"];   // turnuva ödül sırası: 1. 2. 3.
 
 /** Level halkası: avatarın çevresinde XP ilerlemesi (SVG, yalnız stroke-dashoffset başta çizilir). */
 export function LevelHalkasi({ oran = 0, boyut = 168, kalinlik = 10, children }) {
@@ -263,7 +263,7 @@ export function TurnuvaSeridi({ v, git }) {
     git("/turnuva");
   };
 
-  const odulMetni = oduller?.length ? oduller.map(sayi).join(" · ") : null;
+  const odulMetni = oduller?.length ? oduller.slice(0, 3) : null;
   const odulEtiketi = oduller?.length
     ? tt("Ödüller: {liste} coin", { liste: oduller.map((o, i) => `${i + 1}. ${sayi(o)}`).join(", ") })
     : undefined;
@@ -293,8 +293,13 @@ export function TurnuvaSeridi({ v, git }) {
             <small>
               <span className="qt-sayi" role="timer" aria-label={tt("Turnuvaya kalan süre")}>{sure}</span>
               {odulMetni && (
-                <span className="as-serit-odul" aria-label={odulEtiketi}>
-                  <CoinIkon boyut={14} /><span aria-hidden="true">{odulMetni}</span>
+                <span className="as-serit-odul" role="img" aria-label={odulEtiketi}>
+                  {odulMetni.map((o, i) => (
+                    <span key={i} className={`as-odul-madalya as-odul-madalya--${MADALYA_TON[i]}`} aria-hidden="true">
+                      <QtIkon ad="madalya" boyut={15} />{sayi(o)}
+                    </span>
+                  ))}
+                  <CoinIkon boyut={14} />
                 </span>
               )}
             </small>
@@ -402,7 +407,8 @@ export function Susleme({ tur = "lobi" }) {
 
 /** Kompakt oyuncu kartı: çerçeveli avatar, ad, rütbe, level + XP, lig rozeti, seri. Dokununca profil. */
 export function KompaktOyuncu({ v }) {
-  const { oyuncu, profile, user, lig } = v;
+  const { oyuncu, profile, user, ligOzet } = v;
+  const benPuan = ligOzet?.satirlar?.find((r) => r.ben)?.puan;
   const arkaPlan = useKartArkaPlani(user?.id);   // 30 Eyl: takılı arka plan kartın arkasında (hareketli, ~100 px)
   return (
     <Link to={y("/profil")} className={`as-ko${kartArkaPlanSinifi(arkaPlan)}`} aria-label={tt("Profilim: {ad}, Level {n}", { ad: oyuncu.ad, n: oyuncu.level })}>
@@ -412,15 +418,23 @@ export function KompaktOyuncu({ v }) {
         <span className="as-ko-ust">
           {/* Ajan C: ada dokununca kendi oyuncu kartın (kartın geri kalanı profile gider) */}
           <OyuncuAdiDugmesi userId={user?.id} profil={profile} oge="b" className="as-ko-ad" dugmeSinifi="ls-ad-dugme--esnek">{oyuncu.ad}</OyuncuAdiDugmesi>
-          {/* 560: lig amblemi isim yanında (önizlemedeki gibi); lig adı amblemin erişilebilir adında */}
-          {lig?.lig && <OyuncuLigAmblemi lig={lig.lig} boyut={20} />}
+          {/* Lig amblemi kartın altındaki lig kartında; burada yıldız yalnız etiketli Puan (30 Eyl) */}
         </span>
         <span className="as-ko-alt">
           <b className="as-ko-lv">{tt("Lv {n}", { n: oyuncu.level })}</b>
           <span className="as-ko-rutbe">{oyuncu.rutbe.ad}</span>
-          <span className="as-ko-seri"><SeriRozeti bicim="serit" /></span>
         </span>
         <QtIlerleme deger={oyuncu.xp} en={oyuncu.xpGereken > 0 ? oyuncu.xpGereken : 1} etiket={tt("Seviye ilerlemesi")} />
+      </span>
+      {/* İki ETİKETLİ istatistik: Puan (haftalık lig puanı, lig kartıyla aynı veri) ve Seri */}
+      <span className="as-ko-stat">
+        {benPuan != null && (
+          <span className="as-ko-stat-oge">
+            <span className="as-ko-stat-etiket"><QtIkon ad="yildiz" boyut={13} />{tt("Puan")}</span>
+            <b className="qt-sayi">{sayi(benPuan)}</b>
+          </span>
+        )}
+        <span className="as-ko-seri"><SeriRozeti bicim="kart" /></span>
       </span>
     </Link>
   );
@@ -434,17 +448,6 @@ function haftaKalan(bitis) {
   const s = Math.floor((ms % 86400000) / 3600000);
   const dk = Math.floor((ms % 3600000) / 60000);
   return g > 0 ? tt("{g}g {s}s", { g, s }) : tt("{s}s {dk}dk", { s, dk });
-}
-
-/** "Altın'a çıkmana 40 puan" — Türkçe ek lige göre değişir, her lig ayrı metin. */
-function yukselmeMetni(ustLig, n) {
-  switch (ustLig) {
-    case "gumus": return tt("Gümüş'e çıkmana {n} puan", { n: sayi(n) });
-    case "altin": return tt("Altın'a çıkmana {n} puan", { n: sayi(n) });
-    case "elmas": return tt("Elmas'a çıkmana {n} puan", { n: sayi(n) });
-    case "efsane": return tt("Efsane'ye çıkmana {n} puan", { n: sayi(n) });
-    default: return null;
-  }
 }
 
 /**
@@ -472,7 +475,7 @@ export function LigKarti({ v }) {
   const alt = o.bolge === "yukselme" && o.ust_lig
     ? tt("Yükselme bölgesindesin")
     : o.ust_lig && o.yukselme_cizgisine_fark > 0
-      ? yukselmeMetni(o.ust_lig, o.yukselme_cizgisine_fark)
+      ? tt("Yükselmeye {n} puan kaldı", { n: sayi(o.yukselme_cizgisine_fark) })
       : o.ust_siraya_fark > 0 ? tt("Bir üst sıraya {n} puan", { n: sayi(o.ust_siraya_fark) })
         : o.sira === 1 ? tt("Grubun zirvesindesin") : null;
   return (
@@ -484,6 +487,7 @@ export function LigKarti({ v }) {
         <span className="as-lk-sira qt-sayi">{o.sira}/{o.grup_boyu}</span>
         {kalan && <small className="as-lk-kalan">{tt("Hafta bitimine {k}", { k: kalan })}</small>}
       </span>
+      {alt && <span className="as-lk-alt">{alt}<QtIkon ad="ileri" boyut={16} /></span>}
       <ol className="as-lk-liste" aria-hidden="true">
         {satirlar.map((r, i) => {
           // 661: sıra gerçek (gizli üyeler boşluk bırakır) → sınır işareti tam sıraya değil, sınırı geçen ilk/son GÖRÜNEN satıra düşer.
@@ -504,11 +508,11 @@ export function LigKarti({ v }) {
               <OyuncuAdiDugmesi userId={r.user_id} profil={{ gorunen_ad: r.ad, gorunen_avatar: r.avatar }} ad={r.ad}
                                 className="as-lk-ad" odaklanmaz><IsimEfekti ef={r.isim_efekti ?? null}>{r.ben ? tt("Sen") : r.ad}</IsimEfekti></OyuncuAdiDugmesi>
               <span className="as-lk-puan qt-sayi">{sayi(r.puan)}</span>
+              {yukSiniri && <span className="as-lk-cizgi-etiket">{tt("Yükselme çizgisi")}</span>}
             </li>
           );
         })}
       </ol>
-      {alt && <span className="as-lk-alt">{alt}<QtIkon ad="ileri" boyut={16} /></span>}
     </Link>
   );
 }

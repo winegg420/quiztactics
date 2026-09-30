@@ -114,7 +114,7 @@ export default function AnaSayfaA() {
             <button key={m.anahtar} type="button" className={`as-kisayol as-renk--${m.anahtar}`} onClick={m.git}>
               <span className="as-kisayol-ikon"><QtIkon ad={m.ikon} boyut={24} /></span>
               <span className="as-kisayol-ad">{m.ad}</span>
-              {m.rozet && <span className="as-rozet-nokta" aria-label={m.rozetEtiketi}>{m.rozet}</span>}
+              {m.rozet && <span className="as-rozet-nokta"><span className="qt-gizli">{m.rozetEtiketi}</span></span>}
             </button>
           ))}
         </nav>

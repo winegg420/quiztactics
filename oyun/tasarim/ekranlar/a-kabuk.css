@@ -217,6 +217,35 @@ body.bd-oyun-modu .a-kabuk .a-altmenu { display: none; }
   }
 }
 
+/* Etiketler tek satır ve aynı taban çizgisinde; sekme genişliğine göre hafifçe küçülür (EN dahil) */
+.app .a-altmenu.mobile-nav .qt-altmenu-oge { justify-content: flex-start; padding-top: 4px; }
+.app .a-altmenu.mobile-nav .qt-altmenu-oge span.qt-altmenu-ad {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  text-align: center;
+  white-space: nowrap;
+  line-height: 1.2;
+  font-size: clamp(10px, 3.1vw, var(--qt-y-xs));
+  overflow: hidden;
+  text-overflow: clip;
+}
+/* Bekleyen sayısı sessiz: sayı yok, küçük soluk gri-mavi nokta (sayı ekran okuyucuda gizli metinde) */
+.app .a-altmenu.mobile-nav .qt-altmenu-rozet {
+  top: 1px;
+  right: 10px;
+  min-width: 8px;
+  width: 8px;
+  height: 8px;
+  background: #8a9bb5;
+  opacity: 0.75;
+  box-shadow: 0 0 0 2px var(--qt-yuzey);
+  animation: none;
+}
+
+/* Üst çubuk menü düğmesi: dişli, 44×44 */
+.a-menu-dugme { width: 44px; height: 44px; color: var(--qt-metin-soluk); }
+
 @media (prefers-reduced-motion: reduce) {
   .a-avatar-menu { animation: none; }
 }

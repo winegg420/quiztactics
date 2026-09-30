@@ -8,8 +8,7 @@
 // ============================================================
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { QtIkon, sinif } from "../tasarim/index.js";
-import CerceveliAvatar from "./CerceveliAvatar.jsx";
+import { QtIkon, QtIkonDugme, sinif } from "../tasarim/index.js";
 import CikisOnayi from "./CikisOnayi.jsx";
 import { muzikAcikMi, muzikAyarla, muzikDinle, sesAcikMi, sesAyarla, sesDinle } from "../lib/ses.js";
 import { sesMetni } from "../lib/ceviri/ses.js";
@@ -64,11 +63,10 @@ export default function AvatarMenu({ profile }) {
   // Menü öğesi: ikon + yazı (+ sağda durum). Hepsi ≥ 44 px, qt- düzeninde.
   return (
     <div className="a-avatar-menu-kap" ref={kapRef}>
-      <button type="button" ref={dugmeRef} className="qt-avatar-dugme"
-              aria-haspopup="menu" aria-expanded={acik} aria-label={tt("Profilim ve ayarlar")}
-              onClick={() => setAcik((a) => !a)}>
-        <CerceveliAvatar profile={profile} userId={profile?.id} boyut={44} />
-      </button>
+      {/* Avatar düğmesi kalktı (profil kartıyla tekrar ediyordu): aynı menüyü dişli açar. 44×44 dokunma hedefi. */}
+      <QtIkonDugme ref={dugmeRef} ikon="ayar" tur="saydam" etiket={tt("Menü")} className="a-menu-dugme"
+                   aria-haspopup="menu" aria-expanded={acik}
+                   onClick={() => setAcik((a) => !a)} />
       {acik && (
         <div className="a-avatar-menu" role="menu" ref={menuRef} aria-label={tt("Profilim ve ayarlar")}>
           <button type="button" role="menuitem" className="a-avatar-menu-oge" onClick={() => git(y("/profil"))}>

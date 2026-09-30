@@ -51,4 +51,9 @@ export default {
   // ---------- Bildirimler / rozetler ----------
   "Göster": "View",
   "sen": "you",
+  // ---------- Ana sayfa (30 Eyl): oyuncu kartı etiketleri, yükselme çizgisi ----------
+  "Seri": "Streak",
+  "{n} gün": "{n} days",
+  "Yükselme çizgisi": "Promotion line",
+  "Yükselmeye {n} puan kaldı": "{n} points to promotion",
 };
