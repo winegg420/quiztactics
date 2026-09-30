@@ -9,10 +9,13 @@
 //                                 oduller:[{seviye, kol:'ucretsiz'|'ucretli', tur, veri, placeholder, ad_tr, ad_en,
 //                                           nadirlik, alindi, alinabilir}],
 //                                 bonus_gorev:{hedef, ilerleme, sp, alindi}, final_unvan:{anahtar, ad_tr, ad_en, kazanildi},
-//                                 bugun_mac_sp, gunluk_mac_tavan }
+//                                 bugun_mac_sp, gunluk_mac_tavan,
+//                                 tasma:{acik, azami, kazanilan, alinan_ucretsiz, alinan_ucretli, alinabilir_ucretsiz, alinabilir_ucretli,
+//                                        sonraki_icin_sp|null, odul:{ucretsiz:{tur,miktar}, ucretli:{tur,miktar}}} }
 //   bp_satin_al()             → { ok, elmas_bakiye, verilen:[ödül satırı] }   hata: 'Yetersiz elmas' | 'Battle Pass zaten sende'
 //   bp_odul_al(p_seviye, p_kol) → { ok, odul }                                hata: 'Bu ödülü zaten aldın' | …
-//   bp_toplu_al()             → { ok, verilen:[…] }
+//   bp_toplu_al()             → { ok, verilen:[…], tasma_verilen:[{n,kol,tur:'coin',miktar}] }
+//   bp_tasma_al(p_kol)        → { ok, n, kol, odul:{tur,miktar}, tasma }   (28. seviye sonrası; hata: Henüz taşma ödülü kazanmadın …)
 //   bp_bonus_gorev_al()       → { ok, sp }
 //   sezon_sahip_sp_ekle(p_miktar) / sezon_sahip_test_sifirla()   (yalnız sahip, sistem kapalıyken test sezonu)
 // Kartlar: oyuncu_kartlari.sezon_bp (altın halka) ve isim_efekti = 'isim_altin' (BP sahibi).
@@ -102,9 +105,16 @@ export async function bpOdulAl(seviye, kol, userId) {
   return d;
 }
 
-/** Hak edilen bütün yuvaları al. Dönüş: { ok, verilen } */
+/** Hak edilen bütün yuvaları (taşma dahil) al. Dönüş: { ok, verilen, tasma_verilen:[{n,kol,tur,miktar}] } */
 export async function bpTopluAl(userId) {
   const d = await rpc("bp_toplu_al");
+  sonrasiTazele(userId);
+  return d;
+}
+
+/** Sıradaki taşma ödülünü al (28. seviye sonrası). kol: 'ucretsiz' | 'ucretli'. Dönüş: { ok, n, kol, odul:{tur,miktar}, tasma } */
+export async function bpTasmaAl(kol, userId) {
+  const d = await rpc("bp_tasma_al", { p_kol: kol });
   sonrasiTazele(userId);
   return d;
 }
