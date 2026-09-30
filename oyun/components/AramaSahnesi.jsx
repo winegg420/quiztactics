@@ -24,6 +24,7 @@ import { lazy, Suspense, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import CerceveliAvatar from "./CerceveliAvatar.jsx";
+import { KartArkaPlanKatmani, kartArkaPlanSinifi, useKartArkaPlani } from "../tasarim/arka-plan/kayit.jsx";
 import IsimEfekti from "./IsimEfekti.jsx";
 import OyuncuAdiDugmesi from "./OyuncuAdiDugmesi.jsx";
 import { adKisalt } from "../lib/adKisalt.js";
@@ -75,14 +76,18 @@ const LIGLER = ["bronz", "gumus", "altin", "elmas", "efsane"];
  * ikisi de oyuncu kartından (oyuncu_kartlari; ek sorgu yok). `vsKarti` / `isimEfekti` verilirse onlar (önizleme).
  * Ada dokununca oyuncu kartı açılır; önizlemede (vsKarti/isimEfekti verilince) kapalı — `adDokunur` ile zorlanır.
  */
-export function VsKarti({ profil, kart, taraf = "ben", className, children, vsKarti, isimEfekti, adDokunur }) {
+export function VsKarti({ profil, kart, taraf = "ben", className, children, vsKarti, isimEfekti, adDokunur, arkaPlan }) {
+  // 30 Eyl: herkes KENDİ kart arka planıyla (oyuncu kartından; ek sorgu yok). `arkaPlan` verilirse (dükkân önizlemesi) o.
+  const kartArkaPlani = useKartArkaPlani(arkaPlan !== undefined ? null : profil?.id, kart ?? undefined);
+  const arkaPlanSanat = arkaPlan !== undefined ? arkaPlan : kartArkaPlani;
   const adAcik = adDokunur ?? (vsKarti === undefined && isimEfekti === undefined);
   const lig = LIGLER.includes(kart?.lig ?? profil?.lig) ? (kart?.lig ?? profil?.lig) : null;
   const level = kart?.level ?? profil?.level;
   const vsTema = kozmetikTemasi(vsKarti !== undefined ? vsKarti : kart?.vs_karti);
   const ef = isimEfekti !== undefined ? isimEfekti : kart && "isim_efekti" in kart ? kart.isim_efekti : undefined;
   return (
-    <div className={sinif("ara-kart", `ara-kart--${taraf}`, vsTema && "qt-vs", className)} data-vs={vsTema ?? undefined}>
+    <div className={sinif("ara-kart", `ara-kart--${taraf}`, vsTema && "qt-vs", className) + kartArkaPlanSinifi(arkaPlanSanat)} data-vs={vsTema ?? undefined}>
+      <KartArkaPlanKatmani sanat={arkaPlanSanat} hareketli yukseklik={200} duzen="dikey" />
       <CerceveliAvatar profile={profil} userId={profil?.id} boyut={92} hareketli {...(kart ? { kart } : {})} />
       {/* Ajan C: ada dokununca oyuncu kartı (önizlemelerde — vsKarti/isimEfekti verilince — kapalı) */}
       <OyuncuAdiDugmesi userId={adAcik ? profil?.id : null} profil={profil} className="ara-kart-ad">

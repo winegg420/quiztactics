@@ -18,6 +18,7 @@ import { LigAmblemi } from "../tasarim/premium/ligAmblemi.jsx";
 import { QtIkon } from "../tasarim/index.js";
 import { koleksiyonSayi } from "../lib/koleksiyon.js";
 import { oyuncuKarti, oyuncuKartiDinle } from "../lib/cerceve.js";
+import { KartArkaPlanKatmani, kartArkaPlanSinifi, useKartArkaPlani } from "../tasarim/arka-plan/kayit.jsx";
 import { LIG_ADLARI } from "../lib/lig.js";
 import { tt } from "../lib/dil.js";
 import "../tasarim/ekranlar/oyuncu-vitrin-karti.css";
@@ -74,12 +75,15 @@ export function KartLigSatiri({ lig, level, yazi = true, amblem = 22 }) {
 }
 
 export default function OyuncuVitrinKarti({ userId, profile, kart: verilenKart, boyut = 88, hareketli = false, kompakt = false,
-  className = "", avatarEk = null, adEk = null, children }) {
+  className = "", avatarEk = null, adEk = null, arkaPlan = false, children }) {
   const kart = useOyuncuKarti(userId, verilenKart);
+  // 30 Eyl: arkaPlan → takılı kart arka planı kartın arkasında (yalnız profil sayfası ister; diğer kullananlar aynı)
+  const arkaPlanSanat = useKartArkaPlani(arkaPlan ? userId : null, kart ?? undefined);
   const ad = kart?.ad ?? profile?.gorunen_ad ?? tt("Oyuncu");
   const profil = profile ?? (kart ? { id: kart.id, gorunen_ad: kart.ad, gorunen_avatar: kart.avatar } : {});
   return (
-    <div className={`qt-ok${kompakt ? " qt-ok--kompakt" : ""} ${className}`.trim()}>
+    <div className={`qt-ok${kompakt ? " qt-ok--kompakt" : ""}${kartArkaPlanSinifi(arkaPlanSanat)} ${className}`.trim()}>
+      <KartArkaPlanKatmani sanat={arkaPlanSanat} hareketli={hareketli} yukseklik={220} duzen="dikey" />
       <div className="qt-ok-avatar">
         <CerceveliAvatar profile={profil} userId={userId} boyut={boyut} hareketli={hareketli} {...(kart ? { kart } : {})} />
         {avatarEk}

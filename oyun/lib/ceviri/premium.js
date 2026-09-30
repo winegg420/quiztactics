@@ -20,6 +20,8 @@ export default {
     "Animated frame: comes alive on your profile, home screen, VS moment and match end; stays calm in lists. Your opponent sees it too.",
   "Arka Plan — avatarının arkasındaki hareketli sahne. Maçta, lig tablosunda ve profilinde herkes görür.":
     "Background — a moving scene behind your avatar. Everyone sees it in matches, the league table and your profile.",
+  "Arka Plan — oyuncu kartının arkasındaki hareketli sahne. Ana sayfada, profilinde ve maç başında herkes görür.":
+    "Background — a moving scene behind your player card. Everyone sees it on the home screen, your profile and at the start of a match.",
   "Fiyat": "Price",
   "{ad} — büyük önizleme": "{ad} — large preview",
   // Lig amblemi (ekler.jsx)

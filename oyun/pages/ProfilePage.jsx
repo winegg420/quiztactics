@@ -202,7 +202,7 @@ export default function ProfilePage() {
       <QtKart className="qt-pf-kimlik">
         {/* Görsel revizyon (25 Eyl): tek oyuncu kartı — başkalarının gördüğü kartın aynısı (avatar + çerçeve + arka plan,
             isim, unvan, lig + level, vitrin rozetleri). */}
-        <OyuncuVitrinKarti userId={user?.id} profile={profile} boyut={88} hareketli className="qt-pf-ok" />
+        <OyuncuVitrinKarti userId={user?.id} profile={profile} boyut={88} hareketli arkaPlan className="qt-pf-ok" />
         <div className="qt-pf-kimlik-metin">
           <div className="qt-pf-rozetler">
             <QtRozet ton="mor" ikon={r.ikon}>{r.ad}</QtRozet>

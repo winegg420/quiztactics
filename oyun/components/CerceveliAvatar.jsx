@@ -76,11 +76,10 @@ export default function CerceveliAvatar({ profile, userId, boyut = 44, cerceve, 
   const pcAnahtar = premiumCerceve !== undefined ? premiumCerceve
     : alanVar(kart, "premium_cerceve") ? kart.premium_cerceve
     : (cerceve !== undefined && aura !== undefined) ? null : (okunan?.premium_cerceve ?? null);
-  const paAnahtar = premiumAura !== undefined ? premiumAura
-    : aura !== undefined ? null
-    : alanVar(kart, "premium_aura") ? kart.premium_aura : (okunan?.premium_aura ?? null);
   const pc = premiumSanat(pcAnahtar);
-  const pa = premiumSanat(paAnahtar);
+  // 30 Eyl: arka plan (premium_aura) artık oyuncu KARTININ arkasında (tasarim/arka-plan/kayit.jsx); avatarın arkasında
+  // çizilmez. Eski çizim (tasarim/premium/sanatAuralar.jsx) ve `premiumAura` prop'u duruyor, silinmedi.
+  const pa = null;
 
   // Kazanılan çerçeve (lig/level/turnuva) → yeni çizim; eski dükkân aurası takılıysa bugünkü çizim
   const kazanilan = kazanilanMi(tanim?.anahtar) && !auraAnahtar ? tanim.anahtar : null;

@@ -26,6 +26,7 @@ import {
 // Tasarım A (Faz 2, şerit L): sayfa stilleri lig-a.css'te. Eski lig.css
 // dosyası duruyor (Faz 4'te temizlenecek) ama bu sayfa artık onu yüklemiyor.
 import "./lig-a.css";
+import { KartArkaPlanSahibi } from "../tasarim/arka-plan/kayit.jsx";
 
 // Lig adları oyun/lib/lig.js'e taşındı (Arayüz Yenileme, 20 Eyl 2026);
 // buradan yeniden dışa verilir ki eski import'lar kırılmasın.
@@ -284,10 +285,13 @@ export default function LeaderboardPage() {
     const benMi = s.user_id === user.id;
     const b = kapsam === "lig" ? bolge(s.sira) : null;
     return (
-      <div
+      // 30 Eyl: yalnız KENDİ satırımda takılı kart arka planı (sabit, hareketsiz)
+      <KartArkaPlanSahibi
+        userId={benMi ? s.user_id : null}
         key={`${s.user_id}-${vurgu ? "ben" : "liste"}`}
         role="listitem"
         className={`qt-satir-kap lg-satir-kap${benMi ? " qt-satir-kap--vurgulu lg-ben" : ""}${b ? ` lg-bolge-${b}` : ""}`}
+        yukseklik={64}
       >
         <div className="lg-satir">
           <button
@@ -342,7 +346,7 @@ export default function LeaderboardPage() {
             />
           )}
         </div>
-      </div>
+      </KartArkaPlanSahibi>
     );
   };
 

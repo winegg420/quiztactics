@@ -15,6 +15,7 @@ import CerceveliAvatar from "./CerceveliAvatar.jsx";
 import IsimEfekti from "./IsimEfekti.jsx";
 import { VsKarti } from "./AramaSahnesi.jsx";
 import { ElmasFiyat, ElmasliSatinAlOnayi } from "./DukkanAuralar.jsx";
+import { KAYIT as ARKA_PLAN_KAYIT } from "../tasarim/arka-plan/kayit.jsx";
 import { KOZMETIK_TANIMLARI, TEPKI_TANIMLARI, kozmetikHatasi, kozmetikKatalogu, kozmetikSatinAl, kozmetikTak, kozmetikTemasi, sahipMi, tepkiGorseli } from "../lib/kozmetik.js";
 import { oyuncuKartiUnut } from "../lib/cerceve.js";
 import { elmasTazele } from "../lib/elmas.js";
@@ -86,7 +87,28 @@ export const premiumMi = (x) => x?.tur === "premium_cerceve" || x?.tur === "prem
  * parçacık yok) ve `hareketli` verilirse oynar; ekran dışında / azaltılmış harekette PremiumCerceve durdurur.
  * Kutu avatardan 24 px geniş ve süsler kutuda KIRPILIR (overflow: clip) → komşu karta taşmaz.
  */
+/**
+ * 30 Eyl: Arka Plan kalemi KART üzerinde gösterilir (avatarın arkasında değil): örnek oyuncu kartı, kalemin arka planıyla.
+ * Kart karşılığı kayıtta yoksa (henüz çizilmedi) düz kart; kalem dükkânda zaten kapalı olur.
+ */
+function ArkaPlanOrnegi({ kalem, profile, yukseklik = 100, hareketli = false, kucuk = false }) {
+  const K = ARKA_PLAN_KAYIT[KOZMETIK_TANIMLARI[kalem.anahtar]?.sanat ?? String(kalem.anahtar).slice(3)];
+  const ad = profile?.gorunen_ad || tt("Oyuncu");
+  const icerik = (
+    <>
+      <CerceveliAvatar profile={profile ?? {}} boyut={kucuk ? 30 : 56} cerceve={null} aura={null} premiumCerceve={null} premiumAura={null} />
+      {kucuk ? <b className="qt-kz-abp-ad">{tt("Lv {0}", { 0: 17 })}</b> : <b className="qt-kz-abp-ad">{ad}</b>}
+    </>
+  );
+  return (
+    <span className={`qt-kz-abp${kucuk ? " qt-kz-abp--kucuk" : ""}`} style={{ height: yukseklik }} aria-hidden="true">
+      {K ? <K.Bilesen hareketli={hareketli} yukseklik={yukseklik}>{icerik}</K.Bilesen> : <span className="qt-kz-abp-duz">{icerik}</span>}
+    </span>
+  );
+}
+
 export function KozmetikSimge({ kalem, profile, boyut = 64, hareketli = false }) {
+  if (kalem.tur === "premium_aura") return <ArkaPlanOrnegi kalem={kalem} profile={profile} yukseklik={Math.min(boyut, 64)} hareketli={hareketli} kucuk />;
   // 560: premium — kendi avatarınla, yalnız o kalem
   if (premiumMi(kalem)) {
     const b = Math.max(52, boyut - 4);
@@ -123,6 +145,7 @@ export function KozmetikSimge({ kalem, profile, boyut = 64, hareketli = false })
 export function KozmetikBuyukOnizleme({ kalem, profile, userId, boyut = 128 }) {
   const [tekrar, setTekrar] = useState(0);
   const ad = profile?.gorunen_ad || tt("Oyuncu");
+  if (kalem.tur === "premium_aura") return <ArkaPlanOrnegi kalem={kalem} profile={profile} yukseklik={100} hareketli />;
   if (premiumMi(kalem)) {
     // 560: gerçek PremiumCerceve (tembel) — profil boyutunda, hareketli (önizlemedeki gibi)
     return (
@@ -371,7 +394,7 @@ const ACIKLAMA = {
   zafer_efekti: "Kazandığında maç sonu sahnesine eklenir. Rakibin de görür.",
   tepki_paketi: "Maçta rakibine gönderebileceğin 4 yeni tepki. Paket takılmaz, alınca maçta hazır.",
   premium_cerceve: "Hareketli çerçeve: profilinde, ana sayfada, VS anında ve maç sonunda canlanır; listelerde sade durur. Rakibin de görür.",
-  premium_aura: "Arka Plan — avatarının arkasındaki hareketli sahne. Maçta, lig tablosunda ve profilinde herkes görür.",
+  premium_aura: "Arka Plan — oyuncu kartının arkasındaki hareketli sahne. Ana sayfada, profilinde ve maç başında herkes görür.",
 };
 
 /** Dükkân › Avatar — Ajan A'nın kataloğu (avatar_katalogu_oyun / avatar_satin_al / avatar_onayla). */

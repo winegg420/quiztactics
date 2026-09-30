@@ -5,6 +5,7 @@ import AvatarCerceve from "../../components/AvatarCerceve.jsx";
 import OyuncuLigAmblemi from "../../components/OyuncuLigAmblemi.jsx";
 import { LigAmblemi } from "../../tasarim/premium/ligAmblemi.jsx";
 import CerceveliAvatar from "../../components/CerceveliAvatar.jsx";
+import { KartArkaPlanKatmani, kartArkaPlanSinifi, useKartArkaPlani } from "../../tasarim/arka-plan/kayit.jsx";
 import IsimEfekti from "../../components/IsimEfekti.jsx";
 import OyuncuAdiDugmesi from "../../components/OyuncuAdiDugmesi.jsx";
 import Avatar from "../../../src/components/Avatar.jsx";
@@ -402,8 +403,10 @@ export function Susleme({ tur = "lobi" }) {
 /** Kompakt oyuncu kartı: çerçeveli avatar, ad, rütbe, level + XP, lig rozeti, seri. Dokununca profil. */
 export function KompaktOyuncu({ v }) {
   const { oyuncu, profile, user, lig } = v;
+  const arkaPlan = useKartArkaPlani(user?.id);   // 30 Eyl: takılı arka plan kartın arkasında (hareketli, ~100 px)
   return (
-    <Link to={y("/profil")} className="as-ko" aria-label={tt("Profilim: {ad}, Level {n}", { ad: oyuncu.ad, n: oyuncu.level })}>
+    <Link to={y("/profil")} className={`as-ko${kartArkaPlanSinifi(arkaPlan)}`} aria-label={tt("Profilim: {ad}, Level {n}", { ad: oyuncu.ad, n: oyuncu.level })}>
+      <KartArkaPlanKatmani sanat={arkaPlan} hareketli yukseklik={100} />
       <CerceveliAvatar profile={profile} userId={user?.id} boyut={64} hareketli />
       <span className="as-ko-govde">
         <span className="as-ko-ust">
