@@ -1,5 +1,6 @@
 // /arka-plan-onizleme — kart arka planı ÖNİZLEMESİ (yalnız sahip; menüde yok, yalnız adresle; SahipKapisi).
-// Su Altı · Yağan Kar · Düşen Sonbahar Yaprakları — her biri için hareketli kart (~100 px), sabit kart, lig satırı (~42 px).
+// Su Altı · Yağan Kar · Düşen Sonbahar Yaprakları · Yıldızlı Gece — her biri için hareketli kart (~100 px), özel sabit kart, özel lig satırı (~42 px).
+// Üstte anahtar: "Yeni (yazının arkasında, tam görünür)" | "Eski (oyundaki şu anki)". Köz ve Kuzey Işıkları bu sayfada GÖSTERİLMEZ (Ida: girmesin; dosyalar durur).
 // Oyuna bağlanmadı; katalog/DB'ye dokunmaz. Seçimler yalnız bu tarayıcıda (localStorage), "Seçimlerimi kopyala" düz liste verir.
 // Onaydan sonra (ayrı iş): oyuncu kartına bağlama, katalog/DB, avatar arkasındaki eski arka planın kaldırılması.
 import { useEffect, useMemo, useState } from "react";
@@ -7,19 +8,23 @@ import CerceveliAvatar from "../../components/CerceveliAvatar.jsx";
 import { QtDugme } from "../index.js";
 import { tt } from "../../lib/dil.js";
 import KartArkaPlan, { ARKA_PLANLAR } from "./KartArkaPlan.jsx";
-import KozArkaPlan, { AD as KOZ_AD } from "./KozArkaPlan.jsx";
+// Köz ve Kuzey Işıkları: Ida "girmesin" dedi → önizlemede yok (dosyalar silinmedi):
+// import KozArkaPlan, { AD as KOZ_AD } from "./KozArkaPlan.jsx";
+// import KuzeyIsiklariArkaPlan, { AD as KUZEY_AD } from "./KuzeyIsiklariArkaPlan.jsx";
 import YildizliGeceArkaPlan, { AD as GECE_AD } from "./YildizliGeceArkaPlan.jsx";
-import KuzeyIsiklariArkaPlan, { AD as KUZEY_AD } from "./KuzeyIsiklariArkaPlan.jsx";
 import "./arka-plan-onizleme.css";
 
 const SAKLA = "qt_arka_plan_onizleme_secimler";
-const SAKLA_TAM = "qt_arka_plan_onizleme_tam";   // { mod: "yeni" | "eski", karar: "onay" | "begenmedim" | null }
+const SAKLA_TAM = "qt_arka_plan_onizleme_tam";   // { mod: "yeni" | "eski" }
 const SIRA = ["su", "kar", "yaprak"];
-// Yeni üç arka plan (onay bekliyor) — ARKA_PLANLAR'a yazılmaz; aynı localStorage seçimini paylaşırlar.
+// Yıldızlı Gece (oyuna girecek, onay bekliyor) — ARKA_PLANLAR'a yazılmaz; aynı localStorage seçimini paylaşır.
 const YENI = [
-  { tur: "kor", ad: KOZ_AD, Bilesen: KozArkaPlan },
   { tur: "gece", ad: GECE_AD, Bilesen: YildizliGeceArkaPlan },
-  { tur: "kuzey", ad: KUZEY_AD, Bilesen: KuzeyIsiklariArkaPlan },
+];
+// Önizlemedeki dört arka plan (sıra: oyundaki üçü, sonra Yıldızlı Gece). Bilesen = aynı props'u alan çizim bileşeni.
+const TUMU = [
+  ...SIRA.map((t) => ({ tur: t, ad: ARKA_PLANLAR[t].ad, Bilesen: KartArkaPlan })),
+  ...YENI,
 ];
 const PROFIL = { id: "abp-ornek", gorunen_ad: "idagg", gorunen_avatar: "/avatars/pro/kedi-k01.svg" };
 
@@ -27,7 +32,7 @@ function secimOku() {
   try { return JSON.parse(localStorage.getItem(SAKLA) || "{}") || {}; } catch { return {}; }
 }
 function tamOku() {
-  try { const v = JSON.parse(localStorage.getItem(SAKLA_TAM) || "{}") || {}; return { mod: v.mod === "eski" ? "eski" : "yeni", karar: v.karar === "onay" || v.karar === "begenmedim" ? v.karar : null }; } catch { return { mod: "yeni", karar: null }; }
+  try { const v = JSON.parse(localStorage.getItem(SAKLA_TAM) || "{}") || {}; return { mod: v.mod === "eski" ? "eski" : "yeni" }; } catch { return { mod: "yeni" }; }
 }
 function tamYaz(v) {
   try { localStorage.setItem(SAKLA_TAM, JSON.stringify(v)); } catch { /* özel mod: yalnız bu oturum */ }
@@ -66,7 +71,7 @@ export default function ArkaPlanOnizlemePage() {
   const [secimler, setSecimler] = useState(secimOku);
   const [kopyaNot, setKopyaNot] = useState("");
   const [kopyaMetni, setKopyaMetni] = useState("");
-  const [tam, setTam] = useState(tamOku);   // mod: yeni = tam görünür, eski = yazı arkası sönük
+  const [tam, setTam] = useState(tamOku);   // mod: yeni = yazının arkasında, tam görünür · eski = oyundaki şu anki
   const tamGorunur = tam.mod === "yeni";
   const tamAyarla = (kismi) => setTam((e) => { const y = { ...e, ...kismi }; tamYaz(y); return y; });
 
@@ -81,19 +86,20 @@ export default function ArkaPlanOnizlemePage() {
     });
   };
   const liste = useMemo(() => {
-    const hepsi = [...SIRA.map((t) => [t, ARKA_PLANLAR[t].ad]), ...YENI.map((y) => [y.tur, y.ad])];
+    const hepsi = TUMU.map((x) => [x.tur, x.ad]);
     const grup = (d) => hepsi.filter(([t]) => (secimler[t] ?? null) === d).map(([, ad]) => ad);
-    return { girsin: grup("girsin"), girmesin: grup("girmesin"), bekliyor: grup(null) };
+    return { girsin: grup("girsin"), girmesin: grup("girmesin"), begenmedim: grup("begenmedim"), bekliyor: grup(null) };
   }, [secimler]);
 
-  const kopyala = async (yalnizTam = false) => {
+  const kopyala = async () => {
     const metin = [
       "KART ARKA PLANI SEÇİMİM (/arka-plan-onizleme)",
-      `TAM GÖRÜNÜR MODU: ${tam.karar === "onay" ? "ONAYLIYORUM" : tam.karar === "begenmedim" ? "BEĞENMEDİM" : "KARAR YOK"}`,
+      `GÖRÜNÜM: ${tamGorunur ? "YENİ (yazının arkasında, tam görünür)" : "ESKİ (oyundaki şu anki)"}`,
       `GİRSİN (${liste.girsin.length}): ${liste.girsin.join(", ") || "—"}`,
       `GİRMESİN (${liste.girmesin.length}): ${liste.girmesin.join(", ") || "—"}`,
+      `BEĞENMEDİM (${liste.begenmedim.length}): ${liste.begenmedim.join(", ") || "—"}`,
       `BEKLİYOR (${liste.bekliyor.length}): ${liste.bekliyor.join(", ") || "—"}`,
-    ].slice(...(yalnizTam === true ? [1, 2] : [0])).join("\n");
+    ].join("\n");
     setKopyaMetni(metin);
     try {
       await navigator.clipboard.writeText(metin);
@@ -112,14 +118,8 @@ export default function ArkaPlanOnizlemePage() {
           {tt("Arka plan avatarın arkasından kalkıp oyuncu kartının arkasına geçer. Hareketli ve sabit hâl aynı kompozisyon; hareketi azalt açıksa kart sabit kalır. Oyuna bağlı değil.")}
         </p>
         <div className="abpo-mod" role="group" aria-label={tt("Görünüm modu")}>
-          <QtDugme boyut="k" tur={tamGorunur ? "birincil" : "ikincil"} aria-pressed={tamGorunur} onClick={() => tamAyarla({ mod: "yeni" })}>{tt("Tam görünür (YENİ)")}</QtDugme>
-          <QtDugme boyut="k" tur={!tamGorunur ? "birincil" : "ikincil"} aria-pressed={!tamGorunur} onClick={() => tamAyarla({ mod: "eski" })}>{tt("Eski (yazı arkası sönük)")}</QtDugme>
-        </div>
-        <div className="abpo-tamkarar">
-          <b>{tt("Tam görünür modu:")}</b>
-          <QtDugme boyut="k" tur={tam.karar === "onay" ? "birincil" : "ikincil"} ikon={tam.karar === "onay" ? "tik" : undefined} aria-pressed={tam.karar === "onay"} onClick={() => tamAyarla({ karar: tam.karar === "onay" ? null : "onay" })}>{tt("Onaylıyorum")}</QtDugme>
-          <QtDugme boyut="k" tur={tam.karar === "begenmedim" ? "birincil" : "ikincil"} aria-pressed={tam.karar === "begenmedim"} onClick={() => tamAyarla({ karar: tam.karar === "begenmedim" ? null : "begenmedim" })}>{tt("Beğenmedim")}</QtDugme>
-          <QtDugme boyut="k" ikon="kopyala" onClick={() => kopyala(true)}>{tt("Seçimi kopyala")}</QtDugme>
+          <QtDugme boyut="k" tur={tamGorunur ? "birincil" : "ikincil"} aria-pressed={tamGorunur} onClick={() => tamAyarla({ mod: "yeni" })}>{tt("Yeni (yazının arkasında, tam görünür)")}</QtDugme>
+          <QtDugme boyut="k" tur={!tamGorunur ? "birincil" : "ikincil"} aria-pressed={!tamGorunur} onClick={() => tamAyarla({ mod: "eski" })}>{tt("Eski (oyundaki şu anki)")}</QtDugme>
         </div>
         <div className="abpo-genislik" role="group" aria-label={tt("Kart genişliği")}>
           {[360, 390].map((g) => (
@@ -127,48 +127,24 @@ export default function ArkaPlanOnizlemePage() {
           ))}
         </div>
 
-        {SIRA.map((tur) => {
+        {TUMU.map(({ tur, ad, Bilesen }) => {
           const d = secimler[tur] ?? null;
-          return (
-            <section key={tur} className="abpo-bolum" style={{ "--abpo-g": `${genislik}px` }}>
-              <div className="abpo-bolum-ust">
-                <h2>{tt(ARKA_PLANLAR[tur].ad)}</h2>
-                <div className="abpo-secim">
-                  <QtDugme boyut="k" tur={d === "girsin" ? "birincil" : "ikincil"} ikon={d === "girsin" ? "tik" : undefined}
-                           aria-pressed={d === "girsin"} onClick={() => sec(tur, d === "girsin" ? null : "girsin")}>{tt("Girsin")}</QtDugme>
-                  <QtDugme boyut="k" tur={d === "girmesin" ? "birincil" : "ikincil"}
-                           aria-pressed={d === "girmesin"} onClick={() => sec(tur, d === "girmesin" ? null : "girmesin")}>{tt("Girmesin")}</QtDugme>
-                </div>
-              </div>
-              <p className="abpo-etiket">{tt("Hareketli kart · ana sayfa / profil / maç başı")}</p>
-              <div className="abpo-kart"><KartArkaPlan tur={tur} tamGorunur={tamGorunur} hareketli yukseklik={100}><KartIcerik /></KartArkaPlan></div>
-              <p className="abpo-etiket">{tt("Sabit kart (aynı kompozisyon)")}</p>
-              <div className="abpo-kart"><KartArkaPlan tur={tur} tamGorunur={tamGorunur} yukseklik={100}><KartIcerik /></KartArkaPlan></div>
-              <p className="abpo-etiket">{tt("Lig sıralaması — yalnız kendi satırın (sabit)")}</p>
-              <div className="abpo-kart"><KartArkaPlan tur={tur} tamGorunur={tamGorunur} yukseklik={42}><SatirIcerik /></KartArkaPlan></div>
-            </section>
+          const dugme = (deger, etiket, ikon) => (
+            <QtDugme boyut="k" tur={d === deger ? "birincil" : "ikincil"} ikon={d === deger ? ikon : undefined}
+                     aria-pressed={d === deger} onClick={() => sec(tur, d === deger ? null : deger)}>{tt(etiket)}</QtDugme>
           );
-        })}
-
-        {YENI.map(({ tur, ad, Bilesen }) => {
-          const d = secimler[tur] ?? null;
           return (
-            <section key={tur} className="abpo-bolum" style={{ "--abpo-g": `${genislik}px` }}>
+            <section key={tur} className="abpo-bolum" style={{ "--abpo-g": `${genislik}px` }} data-bolum={tur}>
               <div className="abpo-bolum-ust">
-                <h2>{tt(ad)} <span className="abpo-rozet">{tt("Onay bekliyor")}</span></h2>
-                <div className="abpo-secim">
-                  <QtDugme boyut="k" tur={d === "girsin" ? "birincil" : "ikincil"} ikon={d === "girsin" ? "tik" : undefined}
-                           aria-pressed={d === "girsin"} onClick={() => sec(tur, d === "girsin" ? null : "girsin")}>{tt("Girsin")}</QtDugme>
-                  <QtDugme boyut="k" tur={d === "girmesin" ? "birincil" : "ikincil"}
-                           aria-pressed={d === "girmesin"} onClick={() => sec(tur, d === "girmesin" ? null : "girmesin")}>{tt("Girmesin")}</QtDugme>
-                </div>
+                <h2>{tt(ad)}</h2>
+                <div className="abpo-secim">{dugme("girsin", "Girsin", "tik")}{dugme("girmesin", "Girmesin")}{dugme("begenmedim", "Beğenmedim")}</div>
               </div>
               <p className="abpo-etiket">{tt("Hareketli kart · ana sayfa / profil / maç başı")}</p>
-              <div className="abpo-kart"><Bilesen tamGorunur={tamGorunur} hareketli yukseklik={100}><KartIcerik /></Bilesen></div>
-              <p className="abpo-etiket">{tt("Sabit kart (aynı kompozisyon)")}</p>
-              <div className="abpo-kart"><Bilesen tamGorunur={tamGorunur} yukseklik={100}><KartIcerik /></Bilesen></div>
-              <p className="abpo-etiket">{tt("Lig sıralaması — yalnız kendi satırın (sabit)")}</p>
-              <div className="abpo-kart"><Bilesen tamGorunur={tamGorunur} yukseklik={42}><SatirIcerik /></Bilesen></div>
+              <div className="abpo-kart"><Bilesen tur={tur} tamGorunur={tamGorunur} hareketli yukseklik={100}><KartIcerik /></Bilesen></div>
+              <p className="abpo-etiket">{tt(tamGorunur ? "Özel sabit kart (hareketi azalt · sabit kart)" : "Sabit kart (hareketli hâlin ilk karesi)")}</p>
+              <div className="abpo-kart"><Bilesen tur={tur} tamGorunur={tamGorunur} yukseklik={100}><KartIcerik /></Bilesen></div>
+              <p className="abpo-etiket">{tt(tamGorunur ? "Özel lig satırı — yalnız kendi satırın (sabit)" : "Lig sıralaması — yalnız kendi satırın (sabit)")}</p>
+              <div className="abpo-kart"><Bilesen tur={tur} tamGorunur={tamGorunur} yukseklik={42}><SatirIcerik /></Bilesen></div>
             </section>
           );
         })}
@@ -176,6 +152,7 @@ export default function ArkaPlanOnizlemePage() {
         <section className="abpo-bolum abpo-ozet">
           <p><b>{tt("Girsin")} ({liste.girsin.length}):</b> {liste.girsin.join(", ") || "—"}</p>
           <p><b>{tt("Girmesin")} ({liste.girmesin.length}):</b> {liste.girmesin.join(", ") || "—"}</p>
+          <p><b>{tt("Beğenmedim")} ({liste.begenmedim.length}):</b> {liste.begenmedim.join(", ") || "—"}</p>
           <p><b>{tt("Bekliyor")} ({liste.bekliyor.length}):</b> {liste.bekliyor.join(", ") || "—"}</p>
           <QtDugme tamGenislik ikon="kopyala" onClick={() => kopyala()}>{tt("Seçimlerimi kopyala")}</QtDugme>
           {kopyaNot && <p className="abpo-not" role="status">{kopyaNot}</p>}

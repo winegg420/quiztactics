@@ -5,7 +5,8 @@
  * KartArkaPlan.jsx ve arka-plan.css'e dokunulmaz.
  */
 import { useRef } from "react";
-import { useHareket, sabitYer } from "./KartArkaPlan.jsx";
+import { useHareketAyrinti, sabitYer } from "./KartArkaPlan.jsx";
+import SabitTasarim, { SABIT_TURLER } from "./sabit-tasarim.jsx";
 import "./arka-plan.css";
 import "./arka-plan-yeni.css";
 
@@ -26,14 +27,15 @@ export const yumusakEgri = (f) => f * f * (3 - 2 * f);
 export default function YeniSahne({ tur, taban, hareketli, yukseklik, className = "", zemin, parcalar, children, katman = false, duzen = "yatay", tamGorunur = false }) {
   const kok = useRef(null);
   const k = yukseklik < 60;
-  const mod = useHareket(hareketli, kok);
-  const sabitTam = tamGorunur && mod === "sabit";   // zemin/parcalar işlev olabilir: (sabitTam, tamHareketli) => düğüm
-  const al = (d) => (typeof d === "function" ? d(sabitTam, tamGorunur && mod !== "sabit") : d);
+  const { mod, statik } = useHareketAyrinti(hareketli, kok);
+  // yeni mod + kalıcı durgunluk (hareketi azalt · pil · 3 kart sınırı · hareketsiz kart) → ayrı çizilmiş özel sabit kompozisyon (sabit-tasarim.jsx)
+  const sabitTam = tamGorunur && mod === "sabit" && statik && SABIT_TURLER.includes(tur);   // zemin/parcalar işlev olabilir: (sabitTam, tamHareketli) => düğüm
+  const al = (d) => (typeof d === "function" ? d(sabitTam, tamGorunur && !sabitTam) : d);
   return (
     <div ref={kok} className={`abp abp--${tur} abp--${mod}${k ? " abp--kucuk" : ""}${katman ? " abp--katman" : ""}${duzen === "dikey" ? " abp--dikey" : ""}${tamGorunur ? " abp--tam" : ""} ${className}`.trim()}
          style={{ "--abp-taban": taban, ...(katman ? {} : { height: yukseklik }) }} data-yumusak="" data-arka-plan={tur}>
-      <span className="abp-zemin" aria-hidden="true">{al(zemin)}</span>
-      <span className="abp-parca" aria-hidden="true">{al(parcalar)}</span>
+      <span className="abp-zemin" aria-hidden="true">{sabitTam ? null : al(zemin)}</span>
+      <span className="abp-parca" aria-hidden="true">{sabitTam ? <SabitTasarim tur={tur} k={k} duzen={duzen} /> : al(parcalar)}</span>
       {!tamGorunur && <span className="abp-okuma" aria-hidden="true" />}
       {!katman && <div className="abp-icerik">{children}</div>}
     </div>

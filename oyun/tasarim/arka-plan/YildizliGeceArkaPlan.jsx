@@ -2,23 +2,26 @@
  * YILDIZLI GECE (ÖNİZLEME) — dikey gece gradyanı, hilal, soluk gök bandı, tepeler; yavaş parıldayan noktalar ve dört köşeli
  * parıltılar, arada bir kayan yıldız. Eski avatar-arkası "gece" çiziminin (hilal + tepeler + yıldızlar + kayan yıldız) kart formu.
  * Sabit hâl = hareketli hâlin ilk karesi (parıltı fazı −f × süre; kayan yıldız yolun %9'unda donmuş). Yalnız transform + opacity.
- * 20 nokta + 7 parıltı + 1 kayan yıldız = 28.
+ * Eski mod: 20 nokta + 7 parıltı + 1 kayan yıldız = 28. YENİ MOD (tamGorunur): 31 nokta + 13 parıltı + 1 kayan yıldız = 45; yıldızlar yazının
+ * ARKASINDA dahil kartın her yerinde; ay üst sağ köşede; kalıcı durgunlukta ayrı çizilmiş sabit kompozisyon (sabit-tasarim.jsx).
  */
 import { useMemo } from "react";
-import YeniSahne, { rng, ara, yumusakEgri, sabitYer } from "./arka-plan-yeni-ortak.jsx";
+import YeniSahne, { rng, ara, yumusakEgri } from "./arka-plan-yeni-ortak.jsx";
 
 export const AD = "Yıldızlı Gece";
 export const TABAN = "#0E1440";
 const N_NOKTA = 20;
 const N_PARILTI = 7;
+const N_NOKTA_YENI = 31;
+const N_PARILTI_YENI = 13;
 const KAYAN_DUR = 11;
 const KAYAN_FAZ = 0.09;   // sabit kare: kayan yıldızın yolu ne kadar aldığı (keyframe %9)
 
-function yildizlar(k) {
-  const r = rng(k ? 8123 : 7019);
+function yildizlar(k, yeni) {
+  const r = rng(k ? 8123 : yeni ? 7331 : 7019);
   const olcek = k ? 0.7 : 1;
-  const nn = k ? Math.round(N_NOKTA * 0.6) : N_NOKTA;
-  const np = k ? Math.round(N_PARILTI * 0.6) : N_PARILTI;
+  const nn = Math.round((yeni ? N_NOKTA_YENI : N_NOKTA) * (k ? 0.6 : 1));
+  const np = Math.round((yeni ? N_PARILTI_YENI : N_PARILTI) * (k ? 0.6 : 1));
   const liste = [];
   for (let i = 0; i < nn; i++) {
     const f = r();
@@ -44,7 +47,7 @@ const PARILTI_YOL = "M0 -5L1.1 -1.1L5 0L1.1 1.1L0 5L-1.1 1.1L-5 0L-1.1 -1.1Z";
 
 export default function YildizliGeceArkaPlan({ hareketli = false, yukseklik = 100, className = "", children, katman = false, duzen = "yatay", tamGorunur = false }) {
   const k = yukseklik < 60;
-  const liste = useMemo(() => yildizlar(k), [k]);
+  const liste = useMemo(() => yildizlar(k, tamGorunur), [k, tamGorunur]);
   const zemin = (
     <>
       <i className="abp-gece-bant" />
@@ -60,14 +63,12 @@ export default function YildizliGeceArkaPlan({ hareketli = false, yukseklik = 10
   );
   return (
     <YeniSahne tur="gece" tamGorunur={tamGorunur} katman={katman} duzen={duzen} taban={TABAN} hareketli={hareketli} yukseklik={yukseklik} className={className} zemin={zemin}
-      parcalar={(sabitTam) => (
+      parcalar={() => (
         <>
           {liste.map((p, i) => {
-            // tamGorunur + sabit: yıldız yazı bölgesinin dışına yerleşir (sabitYer)
-            const yer = sabitTam ? sabitYer(i, p.s, p.y / 68, p.x, yukseklik, k, duzen) : null;
             return (
             <span key={i} className={`abp-gece-yildiz abp-gece-yildiz--${p.tip}`} style={{
-              left: `${(yer ? yer.x : p.x).toFixed(1)}%`, top: yer ? `${yer.y.toFixed(1)}px` : `${p.y.toFixed(1)}%`, width: p.s, height: p.s, opacity: p.op,
+              left: `${p.x.toFixed(1)}%`, top: `${p.y.toFixed(1)}%`, width: p.s, height: p.s, opacity: p.op,
               "--yr": p.renk, "--sdur": `${p.sdur.toFixed(2)}s`, "--gec": `${(-p.f * p.sdur).toFixed(2)}s`,
             }}>
               {p.tip === "parilti" && (
@@ -76,7 +77,7 @@ export default function YildizliGeceArkaPlan({ hareketli = false, yukseklik = 10
             </span>
             );
           })}
-          {!(sabitTam && k) && <span className="abp-gece-kayan" style={{ "--kdur": `${KAYAN_DUR}s`, "--kgec": `${(-KAYAN_FAZ * KAYAN_DUR).toFixed(2)}s` }} />}
+          <span className="abp-gece-kayan" style={{ "--kdur": `${KAYAN_DUR}s`, "--kgec": `${(-KAYAN_FAZ * KAYAN_DUR).toFixed(2)}s` }} />
         </>
       )}>
       {children}
