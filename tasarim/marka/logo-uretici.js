@@ -23,5 +23,5 @@ function mark(){
 }
 const X='xmlns="http://www.w3.org/2000/svg"';
 fs.writeFileSync('logo-q.svg',`<svg ${X} viewBox="-6 -6 132 132" width="528" height="528">${mark()}</svg>`);
-fs.writeFileSync('logo-yatay.svg',`<svg ${X} viewBox="0 0 345 84" width="1035" height="252"><g transform="translate(0 2) scale(.66)">${mark()}</g>${word('UIZ',90,8,.5,'#fff')}${word('TACTICS',96,32,1.06,OR)}</svg>`);
+fs.writeFileSync('logo-yatay.svg',`<svg ${X} viewBox="-6 0 305 92" width="915" height="276"><g transform="translate(2 2) scale(.66)">${mark()}</g>${word('UIZ',74,13,.76,'#fff')}${word('TACTICS',96,52.5,.84,OR)}</svg>`);
 fs.writeFileSync('uygulama-simgesi.svg',`<svg ${X} viewBox="0 0 1024 1024" width="1024" height="1024"><rect width="1024" height="1024" fill="#3D8CE8"/><circle cx="250" cy="90" r="600" fill="#fff" opacity=".12"/><g transform="translate(512 512) scale(4.6) translate(-57 -57)">${mark()}</g></svg>`);

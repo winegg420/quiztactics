@@ -66,11 +66,11 @@ export function LogoSekerQ({ boyut = 38, className = "", koyu = false, sadeceIko
  * RESMİ LOGO (Ida onayı, 30 Eyl 2026): at hamlesi oku olan Q + "QUIZ TACTICS" yatay logosu.
  * Kaynak: tasarim/marka/logo-uretici.js → public/quiztactics-logo-yatay.svg (yatay) ve
  * public/quiztactics-q-favicon.svg (yalnız Q). Giriş, açılış, üst çubuk hepsi bu bileşenden gelir.
- * `boyut` = yükseklik px; genişlik oranla (345:84). CSS width verilirse görsel oranla ölçeklenir.
+ * `boyut` = yükseklik px; genişlik oranla (305:92 — UIZ Q halkasının yanında, TACTICS altta; 30 Eyl 2026). CSS width verilirse görsel oranla ölçeklenir.
  */
 export default function Logo({ boyut = 38, className = "", sadeceIkon = false }) {
-  const src = sadeceIkon ? "/quiztactics-q-favicon.svg?v=20260930-q" : "/quiztactics-logo-yatay.svg?v=20260930-q";
-  const genislik = sadeceIkon ? boyut : Math.round(boyut * (345 / 84));
+  const src = sadeceIkon ? "/quiztactics-q-favicon.svg?v=20260930-q" : "/quiztactics-logo-yatay.svg?v=20260930-r";
+  const genislik = sadeceIkon ? boyut : Math.round(boyut * (305 / 92));
   return (
     <img className={`bd-logo ${className}`} src={src} width={genislik} height={boyut}
          alt="Quiz Tactics" decoding="async" draggable="false" />
