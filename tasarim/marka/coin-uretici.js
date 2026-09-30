@@ -6,8 +6,8 @@ const f=v=>v.toFixed(1);
 const pt=(r,a)=>{const t=a*Math.PI/180;return [50+r*Math.cos(t),50+r*Math.sin(t)];};
 function emblem(c,sw){
   return `<circle cx="45" cy="45" r="14.5" fill="none" stroke="${c}" stroke-width="${sw}"/>`+
-  `<path d="M58 58V74H72" fill="none" stroke="${c}" stroke-width="${sw*0.72}" stroke-linecap="round" stroke-linejoin="round"/>`+
-  `<polygon points="82,74 71,66.5 71,81.5" fill="${c}" stroke="${c}" stroke-width="1.4" stroke-linejoin="round"/>`;
+  `<path d="M56 56V66H63" fill="none" stroke="${c}" stroke-width="${sw*0.62}" stroke-linecap="round" stroke-linejoin="round"/>`+
+  `<polygon points="70,66 62.5,61.5 62.5,70.5" fill="${c}" stroke="${c}" stroke-width="1.2" stroke-linejoin="round"/>`;
 }
 function coin(kucuk){
   const sc=kucuk?1.0:0.82, ow=kucuk?4.8:5;
@@ -17,7 +17,7 @@ function coin(kucuk){
   const a=pt(37,200),b=pt(37,248);
   s+=`<path d="M${f(a[0])} ${f(a[1])} A37 37 0 0 1 ${f(b[0])} ${f(b[1])}" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".75"/>`;
   const sw=kucuk?11.5:9;
-  s+=`<g transform="translate(50 50) scale(${sc}) translate(-56 -56)"><g transform="translate(-1.8 -1.8)">${emblem(LT,sw)}</g>${emblem(kucuk?DKS:DK,sw)}</g>`;
+  s+=`<g transform="translate(50 50) scale(${sc}) translate(-48 -48)"><g transform="translate(-1.8 -1.8)">${emblem(LT,sw)}</g>${emblem(kucuk?DKS:DK,sw)}</g>`;
   return s;
 }
 const X='xmlns="http://www.w3.org/2000/svg"';

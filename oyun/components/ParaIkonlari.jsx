@@ -17,17 +17,17 @@ const f = (n) => Math.round(n * 100) / 100;
 const cz = (w) => ({ stroke: K, strokeWidth: w, strokeLinejoin: "round", strokeLinecap: "round" });
 
 // Marka amblemi (30 Eyl 2026): halka + L şeklinde at hamlesi oku — tasarim/marka/coin-uretici.js ile aynı geometri.
-// Amblem 100'lük koordinatta çizilir (merkez ≈ 56,56); sikke yüzüne (r=25) EMBLEM_OLCEK ile oturur.
+// Amblem 100'lük koordinatta çizilir (merkez ≈ 48,48); sikke yüzüne (r=25) EMBLEM_OLCEK ile oturur.
 const EMBLEM_KOYU = "#5C3A00", EMBLEM_ACIK = "#FFF3B0", EMBLEM_KUCUK = "#1f2a44";
 const EMBLEM_OLCEK = 25 / 42;
 
-/** Halka (45,45 · r 14.5) + L ok (M58 58 V74 H72, uçta üçgen başı). */
+/** Halka (45,45 · r 14.5) + L ok (M56 56 V66 H63, uçta üçgen başı). */
 function Amblem({ renk, sw }) {
   return (
     <>
       <circle cx="45" cy="45" r="14.5" fill="none" stroke={renk} strokeWidth={sw} />
-      <path d="M58 58V74H72" fill="none" stroke={renk} strokeWidth={f(sw * 0.72)} strokeLinecap="round" strokeLinejoin="round" />
-      <polygon points="82,74 71,66.5 71,81.5" fill={renk} stroke={renk} strokeWidth="1.4" strokeLinejoin="round" />
+      <path d="M56 56V66H63" fill="none" stroke={renk} strokeWidth={f(sw * 0.62)} strokeLinecap="round" strokeLinejoin="round" />
+      <polygon points="70,66 62.5,61.5 62.5,70.5" fill={renk} stroke={renk} strokeWidth="1.2" strokeLinejoin="round" />
     </>
   );
 }
@@ -78,11 +78,11 @@ export function CoinIkon({ boyut = 20, className, etiket }) {
         </>
       )}
       {kucuk ? (
-        <g transform={`translate(${cx} ${cy}) scale(${f(EMBLEM_OLCEK)}) translate(-56 -56)`}>
+        <g transform={`translate(${cx} ${cy}) scale(${f(EMBLEM_OLCEK)}) translate(-48 -48)`}>
           <Amblem renk={EMBLEM_KUCUK} sw={11.5} />
         </g>
       ) : (
-        <g transform={`translate(${cx} ${cy}) scale(${f(EMBLEM_OLCEK * 0.82)}) translate(-56 -56)`}>
+        <g transform={`translate(${cx} ${cy}) scale(${f(EMBLEM_OLCEK * 0.82)}) translate(-48 -48)`}>
           <g transform="translate(-1.8 -1.8)"><Amblem renk={EMBLEM_ACIK} sw={9} /></g>
           <Amblem renk={EMBLEM_KOYU} sw={9} />
         </g>

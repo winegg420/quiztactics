@@ -81,7 +81,7 @@ export default function StilRehberiPage() {
           </div>
         </Bolum>
 
-        <Bolum baslik="Marka" not="Q + at hamlesi oku (30 Eyl 2026). Kaynak: tasarim/marka/logo-uretici.js · coin: coin-uretici.js. Renkler: zemin #3D8CE8, halka beyaz, ok #FFB020, kontur #1f2a44.">
+        <Bolum baslik="Marka" not="Q + at hamlesi oku (30 Eyl 2026). Kaynak: tasarim/marka/logo-uretici.js · coin: coin-uretici.js (coin oku kısa L, 30 Eyl 2026 sadeleştirme). Renkler: zemin #3D8CE8, halka beyaz, ok #FFB020, kontur #1f2a44.">
           <div className="sr-sahne">
             <Logo boyut={44} />
             <Logo boyut={48} sadeceIkon />

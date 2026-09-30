@@ -9339,3 +9339,10 @@ oyuncu kafasında birleştirip karar veremiyordu; yıldız zaten puan değerini 
 - **Stil rehberi:** yeni "Marka" bölümü (logo, Q, simge, coin 16/24/32/48).
 - **Önbellek:** `public/sw.js` `qt-kabuk-v2` / `qt-varlik-v2`. Build temiz. Ekran görüntüleri: `tasarim/marka/ekran-*.png`.
 - **Ida'ya not:** TÜRKPATENT / WIPO tescil ve benzerlik sorgusu yayından önce Ida'dadır.
+
+## 2026-09-30 — Coin amblemi sadeleştirme (kısa ok)
+**Araç:** Claude Code (Sonnet 5.5, PC). Ida: "Q'nun oku çok uzun, coin üzerinde farklı bir simge gibi; daha sade olsun."
+- **Değişiklik (büyük + ≤28 px aynı geometri):** kuyruk `M58 58V74H72` → `M56 56V66H63`, kalınlık `sw*0.72` → `sw*0.62`; ok başı `70,66 62.5,61.5 62.5,70.5` (stroke 1.2); amblem grubu `translate(-56 -56)` → `translate(-48 -48)` (coin ortasına hizalı). Halka, renkler, kabartma kopya, sikke ölçüleri aynı.
+- **Dosyalar:** `oyun/components/ParaIkonlari.jsx` (CoinIkon tek kaynak; başka kopya yok — logo/paket görsellerine dokunulmadı), `tasarim/marka/coin-uretici.js` + `out/coin.svg`, `out/coin-kucuk.svg` yenilendi, stil rehberi Marka notu, `public/sw.js` → `qt-kabuk-v3` / `qt-varlik-v3`.
+- **Test:** 16/24/32/48 px stil rehberinde görsel (Q okunuyor, ok küçük, ortalı); 360 ve 390 px'te yatay taşma yok; build temiz. Ekran görüntüleri: `tasarim/marka/ekran-coin-24.png`, `ekran-coin-48.png`.
+- **Gözlem (dokunulmadı):** stil rehberi Marka bölümündeki yatay logo görüntüsünde "QUIZ"in Q'su ikonla üst üste biniyor, "UIZ" gibi okunuyor — logo bu işin dışında; Ida karar versin.
