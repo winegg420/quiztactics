@@ -19,6 +19,7 @@ import Logo from "./Logo.jsx";
 import "../tasarim/ekranlar/a-kabuk.css";
 import "../tasarim/ekranlar/hata-kurtarma.css";
 import CoinHapi from "./CoinHapi.jsx";
+import SezonRozeti from "./sezon/SezonRozeti.jsx";   // Sezon Yolu (720): yalnız sistem açıkken çizilir
 import AvatarMenu from "./AvatarMenu.jsx";
 // SADELEŞTİRME: tema ve ses düğmeleri üst bardan Profil sayfasına
 // taşındı (sadeleştirme). Bileşenler silinmedi; geri istenirse tek satır.
@@ -202,6 +203,7 @@ export default function Layout() {
             profile ? (
               <>
                 <BildirimZili />
+                <SezonRozeti />
                 <CoinHapi />
                 {/* GÖRÜNÜM KISAYOLU — gardırop DONDURULDU (bkz.
                     oyun/lib/ozellikBayraklari.js). Bayrak true olunca geri gelir. */}

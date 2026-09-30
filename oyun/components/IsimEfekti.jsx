@@ -50,11 +50,15 @@ export function useKartAlani(userIdHam, alan, verildi = false) {
   return deger;
 }
 
-export default function IsimEfekti({ ef, userId, kart, koyu = false, acik = false, hareketli = false, className = "", children: cocuk }) {
+export default function IsimEfekti({ ef, userId, kart, koyu = false, acik = false, hareketli = false, className = "", sezonBp, children: cocuk }) {
   const children = botAdi(cocuk);   // açık bot adı EN'de çevrilir (yalnız bilinen üç ad)
   const verildi = ef !== undefined || (kart != null && Object.prototype.hasOwnProperty.call(kart, "isim_efekti"));
   const okunan = useKartAlani(userId, "isim_efekti", verildi);
-  const anahtar = ef !== undefined ? ef : verildi ? kart?.isim_efekti ?? null : okunan;
+  let anahtar = ef !== undefined ? ef : verildi ? kart?.isim_efekti ?? null : okunan;
+  // SEZON YOLU (720): Battle Pass sahibinin ismi altın. Sunucu kartta zaten 'isim_altin' verir; bu yol, efekti kartın
+  // dışından (ör. elle `ef={null}`/profil satırı) gelen yerlerde `sezonBp` (ya da kart.sezon_bp) ile aynı altını çizer.
+  // Hiçbiri verilmezse davranış eskisi gibi. Dükkân önizlemeleri (ef="isim_…" + sezonBp yok) değişmez.
+  if (!anahtar && (sezonBp === true || (sezonBp === undefined && kart?.sezon_bp === true))) anahtar = "isim_altin";
   const tema = kozmetikTemasi(anahtar);
   if (!tema) return <span className={className || undefined}>{children}</span>;
   if (tema === "altin") return <AltinIsim koyu={koyu} acik={acik} hareketli={hareketli} className={className}>{children}</AltinIsim>;

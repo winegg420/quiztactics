@@ -1,0 +1,300 @@
+{
+  "misafirId": "ccfcaefc-a23a-4852-8fdc-6d64af66e289",
+  "olcumler": [
+    {
+      "ad": "390 BP yok: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "390 BP yok: dokunma hedefleri ≥ 44 px",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "390 BP yok: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "390 BP yok: mevcut seviye (7) otomatik görünür alana kaydı",
+      "gecti": true,
+      "ek": "{\"scrollLeft\":366,\"gorunur\":true,\"son\":64,\"bir\":40,\"yolTasar\":true,\"panelSigar\":true}"
+    },
+    {
+      "ad": "390 BP yok: 28. durak büyük",
+      "gecti": true,
+      "ek": "son=64 ilk=40"
+    },
+    {
+      "ad": "390 BP yok: yatay kaydırma yalnız yol şeridinde",
+      "gecti": true,
+      "ek": "{\"scrollLeft\":366,\"gorunur\":true,\"son\":64,\"bir\":40,\"yolTasar\":true,\"panelSigar\":true}"
+    },
+    {
+      "ad": "açık durak sayısı = 7",
+      "gecti": true,
+      "ek": "{\"acikSayi\":7,\"kilitli\":28,\"placeholder\":10}"
+    },
+    {
+      "ad": "ücretli kol 28 yuva kilit ikonlu (BP yok)",
+      "gecti": true,
+      "ek": "{\"acikSayi\":7,\"kilitli\":28,\"placeholder\":10}"
+    },
+    {
+      "ad": "placeholder yuvalar '?' çiziyor (10)",
+      "gecti": true,
+      "ek": "{\"acikSayi\":7,\"kilitli\":28,\"placeholder\":10}"
+    },
+    {
+      "ad": "390 alt sayfa (Al): sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "390 alt sayfa (Al): dokunma hedefleri ≥ 44 px",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "390 alt sayfa (Al): konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "Al → yuva doldu (alındı sayısı 2 → 3)",
+      "gecti": true,
+      "ek": "alindi=3"
+    },
+    {
+      "ad": "Al sonrası alt sayfa kapandı",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "kilit nedeni 'Battle Pass gerekir' yazıyor",
+      "gecti": true,
+      "ek": "20 elmas\n\n7. seviye · Battle Pass kolu\n\nBu ödül için Battle Pass gerekir.\nBattle Pass Al · 500 elmas"
+    },
+    {
+      "ad": "seviye kilidi 'Kalan: N SP' yazıyor",
+      "gecti": true,
+      "ek": "5 elmas\n\n20. seviye · Ücretsiz kol\n\n20. seviyeye ulaşınca açılır. Kalan: 1.260 SP\nKapat"
+    },
+    {
+      "ad": "placeholder alt sayfası 'Yakında' gösteriyor",
+      "gecti": true,
+      "ek": "Yeni avatar\n\n5. seviye · Battle Pass kolu\n\n?\nYakında\nEpik\n\nBu ödül yakında eklenecek. Görseli açıklanınca burada görünür"
+    },
+    {
+      "ad": "390 satın alma penceresi: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "390 satın alma penceresi: dokunma hedefleri ≥ 44 px",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "390 satın alma penceresi: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "kutlama: geriye dönük ödüller düşüyor, isim altın",
+      "gecti": true,
+      "ek": "{\"dus\":7,\"altin\":1,\"dalga\":1}"
+    },
+    {
+      "ad": "390 kutlama: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "390 kutlama: dokunma hedefleri ≥ 44 px",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "390 kutlama: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "BP sonrası: Aktif kutusu + altın isim, kilitler kalktı",
+      "gecti": true,
+      "ek": "{\"aktif\":true,\"altin\":true,\"kilit\":0}"
+    },
+    {
+      "ad": "390 BP var: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "390 BP var: dokunma hedefleri ≥ 44 px",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "390 BP var: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "360 BP var: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "360 BP var: dokunma hedefleri ≥ 44 px",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "360 BP var: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "360 BP var: mevcut seviye (12) otomatik görünür alana kaydı",
+      "gecti": true,
+      "ek": "{\"scrollLeft\":798,\"gorunur\":true,\"son\":64,\"bir\":40,\"yolTasar\":true,\"panelSigar\":true}"
+    },
+    {
+      "ad": "360 BP var: 28. durak büyük",
+      "gecti": true,
+      "ek": "son=64 ilk=40"
+    },
+    {
+      "ad": "360 BP var: yatay kaydırma yalnız yol şeridinde",
+      "gecti": true,
+      "ek": "{\"scrollLeft\":798,\"gorunur\":true,\"son\":64,\"bir\":40,\"yolTasar\":true,\"panelSigar\":true}"
+    },
+    {
+      "ad": "günlük görev alındı rozeti",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "Hepsini al: alınabilir 21 → 0",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "EN: Türkçe kalıntı yok",
+      "gecti": true,
+      "ek": "Season Path | Season 1 | 21 days left | 7 | Level 7 / 28 | 740 / 800 SP |  | From matches today: 60 / 200 SP |  | Get Battle Pass · 500 gems |  | Gold name, gold ring, SP ×1.25, back-dated rewards and more. |  | My level | Claim"
+    },
+    {
+      "ad": "EN: başlık 'Season Path'",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "390 EN: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "390 EN: dokunma hedefleri ≥ 44 px",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "390 EN: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "EN alt sayfa: Türkçe kalıntı yok",
+      "gecti": true,
+      "ek": "Fun reaction pack |  | Level 3 · Battle Pass lane |  | Rare | This reward needs the Battle Pass. | Get Battle Pass · 500 gems"
+    },
+    {
+      "ad": "EN satın alma: Türkçe kalıntı yok",
+      "gecti": true,
+      "ek": "Battle Pass |  | Valid for all of Season 1 |  | Back-dated paid rewards: prizes for every level you've reached drop right away | Gold name all season | Gold ring on your avatar frame | SP ×1.25: levels fill faster | Daily bonus task | Season-only title at 28/28 | Specia"
+    },
+    {
+      "ad": "hareketi azalt: nabız animasyonu kapalı",
+      "gecti": true,
+      "ek": "animationName=none"
+    },
+    {
+      "ad": "hareketi azalt: dalga yok, düşüş sadeleşti",
+      "gecti": true,
+      "ek": "{\"dalga\":\"none\",\"dus\":\"sy-yumusak-gir\"}"
+    },
+    {
+      "ad": "390 hareketi azalt: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "390 hareketi azalt: dokunma hedefleri ≥ 44 px",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "390 hareketi azalt: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "test kutusu görünür (test+sahip)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "+100 SP → durak kilidi açıldı animasyonu (sy-durak--acildi)",
+      "gecti": true,
+      "ek": "acildi=1"
+    },
+    {
+      "ad": "+500 SP sonrası seviye 6",
+      "gecti": true,
+      "ek": "6"
+    },
+    {
+      "ad": "390 test modu: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "390 test modu: dokunma hedefleri ≥ 44 px",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "390 test modu: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "sahip değilken test kutusu yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "kapalıyken 'Bu bölüm şu an kapalı.' görünür",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "ana sayfaya replace ile döndü",
+      "gecti": true,
+      "ek": "http://localhost:5191/"
+    },
+    {
+      "ad": "geri gidince /sezon-yolu'na düşmüyor (replace)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "kapalı: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    }
+  ]
+}

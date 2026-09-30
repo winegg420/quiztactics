@@ -52,6 +52,8 @@ import { yumusakHareketKur } from "../tasarim/yumusakHareket.js";
 yumusakHareketKur();
 import { sesMacSonu, sesMuzikSahne } from "../lib/ses.js";
 import { coinTazele } from "../lib/coin.js";
+import { sezonTazele, useSezonOzeti } from "../lib/sezonYolu.js";
+import SezonZaferSeridi from "./sezon/SezonZaferSeridi.jsx";
 import { tt, ttSunucu } from "../lib/dil.js";
 import { adKisalt } from "../lib/adKisalt.js";
 import "../tasarim/ekranlar/mac-sonu-kutlama.css";
@@ -178,6 +180,8 @@ function Taraf({ kisi, rol, yan, canToplam, sen, zafer }) {
  * @param {string} [skorEtiket]        skorun altındaki kelime (varsayılan "doğru"; Klasik "puan")
  * @param {{ben?:string|null, rakip?:string|null}} [zaferEfekti]  önizleme için elde efekt; verilmezse oyuncu
  *        kartından (oyuncu_kartlari önbelleği — avatarla aynı çağrı, ek sorgu yok)
+ * @param {boolean} [sezonBp]  Sezon Yolu (720): oyuncu Battle Pass sahibi mi (önizleme taklidi). Verilmezse sezon_ozetim.bp
+ *        (üst çubuk rozetiyle aynı önbellek). Sahip kazanınca sahnenin arkasında 1,8 sn altın şerit (SezonZaferSeridi).
  */
 function MacSonuKutlama({
   durum: durumVerilen = "kazandi",
@@ -204,6 +208,7 @@ function MacSonuKutlama({
   children,
   skorEtiket,
   zaferEfekti,
+  sezonBp,
 }) {
   // Terk eden: ödül bölümü hiç yok, kaybetti renginde sade sahne. Kalan: galibiyet, fanfarsız.
   const benTerk = terk === "ben";
@@ -250,6 +255,10 @@ function MacSonuKutlama({
 
   const kazandi = durum === "kazandi";
   const kutlama = kazandi && !sade;   // kupa, huzme, konfeti yalnız normal galibiyette
+  // Sezon Yolu (720): maç sonunda özet tazelenir (seviye atlama bildirimi); BP sahibi kazandıysa altın şerit.
+  const { ozet: sezonOzet } = useSezonOzeti();
+  const sezonZafer = kutlama && (sezonBp !== undefined ? sezonBp === true : sezonOzet?.bp === true);
+  useEffect(() => { if (!benTerk) sezonTazele(); }, []);   // eslint-disable-line react-hooks/exhaustive-deps
   // Zafer efekti: kazananınki. Ben kazandıysam büyük katman; rakip kazandıysa onun avatarında küçük ("Rakibin zaferi").
   const zaferVerildi = zaferEfekti !== undefined;
   const benZaferOkunan = useKartAlani(ben?.profil?.id, "zafer_efekti", zaferVerildi || !kazandi || sade);
@@ -548,6 +557,7 @@ function MacSonuKutlama({
     >
       <div className="msk-zemin" aria-hidden="true">
         {kutlama && <div className="msk-huzme" />}
+        {sezonZafer && <SezonZaferSeridi />}
         {benZafer && zaferAn && <Suspense fallback={null}><ZaferEfekti ef={benZafer} /></Suspense>}
       </div>
 

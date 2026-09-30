@@ -1,0 +1,143 @@
+/* =====================================================================
+   SEZON YOLU (720) — ön yüz parçaları: altın halka, üst çubuk rozeti, maç sonu zafer şeridi.
+   Yalnız `sz-` sınıfları; renk/ölçü/süre token'dan. iOS: fixed öğede ve atalarında transform yok.
+   ===================================================================== */
+
+/* ---------- Altın halka ---------- */
+.sz-halka-kap {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: var(--sz-b);
+  height: var(--sz-b);
+  line-height: 0;
+  vertical-align: middle;
+}
+.sz-halka {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  overflow: visible;
+}
+.sz-halka-kontur { stroke: var(--qt-metin); }
+.sz-halka-altin { stroke: var(--qt-coin); }
+.sz-halka-parilti { stroke: var(--qt-coin-acik); opacity: 0.95; stroke-linecap: round; }
+.sz-halka-don { animation: sz-don 16s linear infinite; }
+@keyframes sz-don { to { transform: rotate(360deg); } }
+
+/* ---------- Üst çubuk rozeti ---------- */
+.app a.sz-rozet,
+.sz-rozet {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: var(--qt-dokunma);
+  height: var(--qt-dokunma);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--qt-metin);
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.sz-rozet-gorsel {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--qt-yuzey);
+  transition: transform var(--qt-s-basma) var(--qt-egri-cikis);
+}
+.sz-rozet:active .sz-rozet-gorsel { transform: scale(0.92); }
+.sz-rozet-halka { position: absolute; inset: 0; width: 36px; height: 36px; pointer-events: none; }
+.sz-rozet-iz { stroke: var(--qt-cizgi-guclu); }
+.sz-rozet-doluluk { stroke: var(--qt-vurgu); transform: rotate(-90deg); transform-origin: 50% 50%; }
+.sz-rozet--bp .sz-rozet-doluluk { stroke: var(--qt-coin); }
+.sz-rozet--bp .sz-rozet-iz { stroke: var(--qt-metin); }
+.sz-rozet .sz-rozet-sayi {
+  color: var(--qt-metin);
+  text-decoration: none;
+  position: relative;
+  font-family: var(--qt-f-baslik);
+  font-size: var(--qt-y-s);
+  font-weight: var(--qt-a-siyah);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.sz-rozet-nokta {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--qt-vurgu);
+  box-shadow: 0 0 0 2px var(--qt-zemin);
+}
+.sz-rozet:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: -2px; border-radius: 50%; }
+/* Telefonda (≤ 560 px) rozet varken tam logo (144 px) yer açmak için yalnız Q simgesine iner (Logo'nun kendi ikon sürümü; 360 px'te
+   avatar menüsü taşıyordu). Rozet yoksa (sistem kapalı) üst çubuk eskisi gibi. */
+@media (max-width: 560px) {
+  .app .qt-ustcubuk-ic:has(.sz-rozet) .brand .brand-logo--tam { display: none; }
+  .app .qt-ustcubuk-ic:has(.sz-rozet) .brand .brand-logo--ikon { display: block; }
+}
+
+/* ---------- Seviye atlama bildirimi (QtToast içinde) ---------- */
+.sz-seviye-toast .qt-toast-baslik { font-weight: var(--qt-a-siyah); }
+.sz-seviye-toast { cursor: pointer; }
+body.bd-oyun-modu .sz-seviye-toast { display: none; }   /* maç sırasında oyunu bölmez */
+
+/* ---------- Maç sonu zafer şeridi (BP sahibi kazanınca; 1,8 sn, sonucu örtmez) ---------- */
+.sz-zafer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.sz-zafer-serit {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 34%;
+  height: 56px;
+  background: linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--qt-coin-acik) 85%, transparent) 30%, color-mix(in srgb, var(--qt-coin-acik) 85%, transparent) 70%, transparent 100%);
+  opacity: 0;
+  animation: sz-serit 1800ms var(--qt-egri-cikis) 300ms both;
+}
+.sz-zafer-halka {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  width: 120px;
+  height: 120px;
+  margin: -60px 0 0 -60px;
+  border-radius: 50%;
+  border: 4px solid var(--qt-coin-acik);
+  box-shadow: 0 0 0 2px var(--qt-metin), inset 0 0 0 2px var(--qt-metin);
+  opacity: 0;
+  animation: sz-halka-yay 1500ms var(--qt-egri-cikis) 350ms both;
+}
+@keyframes sz-serit {
+  0% { opacity: 0; transform: scaleX(0.3); }
+  25% { opacity: 1; }
+  100% { opacity: 0; transform: scaleX(1); }
+}
+@keyframes sz-halka-yay {
+  0% { opacity: 0.95; transform: scale(0.4); }
+  100% { opacity: 0; transform: scale(3.2); }
+}
+/* Hareketi azalt: yumuşak mod — flaş/patlama yok; halka kapalı, şerit yalnız yavaşça belirip solar (renk + opaklık) */
+@media (prefers-reduced-motion: reduce) {
+  .sz-zafer-halka { display: none; }
+  .sz-zafer-serit { animation: sz-serit-yumusak 1000ms ease both 200ms; }
+  @keyframes sz-serit-yumusak { 0% { opacity: 0; } 40% { opacity: 0.7; } 100% { opacity: 0; } }
+}

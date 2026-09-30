@@ -1,3 +1,89 @@
 // Sezon Yolu (Battle Pass, 720) — sayfa EN karşılıkları (anahtar = Türkçe metin).
+// Ortak kelimeler (Vazgeç, Fiyat, Kapat, Nadir…) başka şeritlerde var; burada yalnız bu sayfaya özel metinler.
 export default {
+  // Sunucu mesajları (bp_*, sezon_*)
+  "Battle Pass zaten sende": "You already have the Battle Pass",
+  "Sezon Yolu şu an kapalı": "Season Path is closed right now",
+  "Bu ödülü zaten aldın": "You already claimed this reward",
+  "Bu seviyeye henüz ulaşmadın": "You haven't reached this level yet",
+  "Bu ödül Battle Pass'li": "This reward needs the Battle Pass",
+  "Bu görev Battle Pass'li": "This task needs the Battle Pass",
+  "Bugünkü bonus görevi zaten aldın": "You already claimed today's bonus task",
+  "Görev henüz tamamlanmadı": "The task isn't finished yet",
+
+  // Üst bölüm
+  "Sezon Yolu": "Season Path",
+  "Sezon {n}": "Season {n}",
+  "{n} gün kaldı": "{n} days left",
+  "Bugün bitiyor": "Ends today",
+  "Test sezonu: yalnız sen görüyorsun, gerçek sezon değil.": "Test season: only you can see it; it isn't the real season.",
+  "Seviye {n} / {m}": "Level {n} / {m}",
+  "Son seviye": "Final level",
+  "Sonraki seviyeye ilerleme": "Progress to next level",
+  "Battle Pass: SP ×{c}": "Battle Pass: SP ×{c}",
+  "Bugün maçlardan: {n} / {m} SP": "From matches today: {n} / {m} SP",
+  "Battle Pass": "Battle Pass",
+  "Battle Pass'li": "Battle Pass",
+  "Battle Pass Al · {n} elmas": "Get Battle Pass · {n} gems",
+  "Altın isim · altın halka": "Gold name · gold ring",
+  "Aktif": "Active",
+  "Altın isim, altın halka, SP ×{c}, geriye dönük ödüller ve daha fazlası.": "Gold name, gold ring, SP ×{c}, back-dated rewards and more.",
+  "Sezon unvanı": "Season title",
+  "Kazanıldı": "Earned",
+  "{n}. seviyede": "At level {n}",
+
+  // Yol
+  "Sezon Yolu ödülleri": "Season Path rewards",
+  "Yatay kaydırılan seviye yolu": "Level path, scrolls sideways",
+  "Seviyem": "My level",
+  "Hepsini al ({n})": "Claim all ({n})",
+  "{n}. seviye": "Level {n}",
+  "Battle Pass kolu": "Battle Pass lane",
+  "Ücretsiz kol": "Free lane",
+  "alındı": "claimed",
+  "alınabilir": "ready to claim",
+  "kilitli": "locked",
+
+  // Ödül alt sayfası
+  "{n}. seviye · {kol}": "Level {n} · {kol}",
+  "{n}. seviyeye ulaşınca açılır. Kalan: {sp} SP": "Unlocks at level {n}. Remaining: {sp} SP",
+  "Bu ödül için Battle Pass gerekir.": "This reward needs the Battle Pass.",
+  "Ödülü al": "Claim reward",
+  "Alındı": "Claimed",
+  "Bu ödül yakında eklenecek. Görseli açıklanınca burada görünür.": "This reward is coming soon. Its look will show here once revealed.",
+  "Ödül alınamadı. Tekrar dener misin?": "Couldn't claim the reward. Try again?",
+  "Ödüller alınamadı. Tekrar dener misin?": "Couldn't claim the rewards. Try again?",
+
+  // Satın alma
+  "Sezon {n} boyunca geçerli": "Valid for all of Season {n}",
+  "Geriye dönük ücretli ödüller: ulaştığın bütün seviyelerin ödülü hemen düşer": "Back-dated paid rewards: prizes for every level you've reached drop right away",
+  "Sezon boyunca altın isim": "Gold name all season",
+  "Avatar çerçevende altın halka": "Gold ring on your avatar frame",
+  "SP ×{c}: seviyeler daha hızlı dolar": "SP ×{c}: levels fill faster",
+  "Günlük bonus görev": "Daily bonus task",
+  "28/28'de sezona özel unvan": "Season-only title at 28/28",
+  "Özel zafer efekti": "Special victory effect",
+  "Battle Pass alınamadı. Tekrar dener misin?": "Couldn't get the Battle Pass. Try again?",
+
+  // Kutlama
+  "Battle Pass aktif!": "Battle Pass active!",
+  "Altın isim ve altın halka artık sende.": "You now have the gold name and gold ring.",
+  "Geriye dönük ödüllerin:": "Your back-dated rewards:",
+  "Verilen ödüller": "Rewards given",
+
+  // Günlük görev
+  "Bugün {n} maç oyna": "Play {n} matches today",
+  "Günlük görev ilerlemesi": "Daily task progress",
+  "Görevi al": "Claim task",
+  "Görev ödülü alınamadı. Tekrar dener misin?": "Couldn't claim the task reward. Try again?",
+
+  // Hata / yükleme
+  "Sezon Yolu açılamadı": "Couldn't open Season Path",
+  "Bağlantını kontrol edip tekrar dene.": "Check your connection and try again.",
+
+  // Test modu (yalnız sahip)
+  "Test modu": "Test mode",
+  "Yalnız sahip görür; sistem kapalıyken test sezonunu dener.": "Owner only; tries the test season while the system is closed.",
+  "SP eklenemedi.": "Couldn't add SP.",
+  "Sıfırlanamadı.": "Couldn't reset.",
 };

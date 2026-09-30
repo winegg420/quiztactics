@@ -24,6 +24,9 @@
  * - KAZANILAN ÇERÇEVELER (görsel revizyon, Ida seçimi 25 Eyl 2026): lig (Set A Defne ve Taç), level (Set A Altıgen
  *   Madalya) ve Turnuva Şampiyonu (Kupa Tepesi) çerçeveleri yeni çizimle — tasarim/kazanilan/KazanilanCerceve.jsx,
  *   PremiumAvatarCizim üzerinden TEMBEL; inerken bugünkü çizim. Eski dükkân aurası takılıysa bugünkü çizim kalır.
+ * - SEZON YOLU (720): `sezonBp` (isteğe bağlı; verilmezse `kart.sezon_bp`, o da yoksa okunan oyuncu kartı) true ise
+ *   mevcut çerçevenin ÜZERİNE ince altın halka biner (sezon/AltinHalka.jsx; çerçeve çizimi değişmez). Yoksa/false iken
+ *   DOM ve piksel eskisiyle aynı (sarmal eklenmez). `hareketli` + boyut > 48 px iken halkada çok yavaş parıltı.
  */
 import { lazy, Suspense, useEffect, useState } from "react";
 import Avatar from "../../src/components/Avatar.jsx";
@@ -33,13 +36,14 @@ import { oyuncuKarti, oyuncuKartiDinle } from "../lib/cerceve.js";
 import { tt } from "../lib/dil.js";
 import { premiumSanat } from "../lib/kozmetik.js";
 import { kazanilanMi } from "../tasarim/kazanilan/anahtarlar.js";
+import AltinHalka from "./sezon/AltinHalka.jsx";
 
 const PremiumAvatarCizim = lazy(() => import("./PremiumAvatarCizim.jsx"));
 
 const alanVar = (o, ad) => o != null && Object.prototype.hasOwnProperty.call(o, ad);
 
 export default function CerceveliAvatar({ profile, userId, boyut = 44, cerceve, kart, aura, premiumCerceve, premiumAura,
-  hareketli = false, className = "" }) {
+  hareketli = false, className = "", sezonBp }) {
   const kimlik = userId ?? profile?.id ?? profile?.user_id ?? null;
   const cerceveVerildi = cerceve !== undefined || kart !== undefined;
   const auraVerildi = aura !== undefined || alanVar(kart, "aura");
@@ -61,7 +65,8 @@ export default function CerceveliAvatar({ profile, userId, boyut = 44, cerceve, 
     let aktif = true;
     oyuncuKarti(kimlik)
       .then((k) => { if (aktif) setOkunan(k ? { cerceve: k.cerceve ?? null, nadirlik: k.cerceve_nadirlik, aura: k.aura ?? null,
-                                                premium_cerceve: k.premium_cerceve ?? null, premium_aura: k.premium_aura ?? null } : null); })
+                                                premium_cerceve: k.premium_cerceve ?? null, premium_aura: k.premium_aura ?? null,
+                                                sezon_bp: k.sezon_bp === true } : null); })
       .catch((e) => { console.error("[Bildim] çerçeve okunamadı:", e?.message ?? e); if (aktif) setOkunan(null); });
     return () => { aktif = false; };
   }, [verildi, kimlik, tazele]);
@@ -89,8 +94,16 @@ export default function CerceveliAvatar({ profile, userId, boyut = 44, cerceve, 
       <Avatar profile={profile ?? {}} boyut={icBoyut(boyut, !!tanim)} />
     </CerceveGorseli>
   );
+  // Sezon Yolu: prop > kart alanı > okunan kart. Yoksa/false → aşağıdaki çizim değişmeden döner.
+  const bp = sezonBp !== undefined ? sezonBp === true : alanVar(kart, "sezon_bp") ? kart.sezon_bp === true : okunan?.sezon_bp === true;
+  const halkali = (cizim) => (bp ? (
+    <span className="sz-halka-kap" style={{ "--sz-b": `${boyut}px` }}>
+      {cizim}
+      <AltinHalka boyut={boyut} hareketli={hareketli && boyut > 48} />
+    </span>
+  ) : cizim);
   if (pc || pa || kazanilan) {
-    return (
+    return halkali(
       <Suspense fallback={bugunku}>
         <PremiumAvatarCizim profile={profile} boyut={boyut} hareketli={hareketli} premiumCerceve={pc} premiumAura={pa}
                             cerceveAnahtar={anahtar} cerceveSatir={{ nadirlik }} cerceveVar={!!tanim} kazanilan={kazanilan}
@@ -98,5 +111,5 @@ export default function CerceveliAvatar({ profile, userId, boyut = 44, cerceve, 
       </Suspense>
     );
   }
-  return bugunku;
+  return halkali(bugunku);
 }
