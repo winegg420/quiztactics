@@ -150,7 +150,8 @@ try {
   ok('maç/soru/lig/eşleşme fonksiyonları BP okumuyor', await tek(`select count(*) from pg_proc p join pg_namespace n on n.oid=p.pronamespace
       where n.nspname='public' and (prosrc ~ 'oyuncu_bp_sahipligi|bp_aktif_mi|sezon_bp_gorunur')
         and proname not in ('bp_aktif_mi','sezon_bp_gorunur','sezon_puani_ekle','sezon_kapat','sezon_final_kontrol','sezon_yolu_durumum','sezon_ozetim',
-                            'bp_satin_al','bp_odul_al','bp_toplu_al','bp_bonus_gorev_al','sezon_sahip_test_sifirla','oyuncu_kartlari')`) === '0');
+                            'bp_satin_al','bp_odul_al','bp_toplu_al','bp_bonus_gorev_al','sezon_sahip_test_sifirla','oyuncu_kartlari',
+                            'bp_tasma_al','sezon_tasma_bilgi')`) === '0');
   ok('ödüller yalnız kozmetik/para/küçük joker (≤3)', await tek(`select count(*) from bp_seviye_odulleri where tur='joker' and (veri->>'adet')::int > 3`) === '0');
 
   console.log('— yetkiler');
