@@ -9515,3 +9515,9 @@ Sonnet 5.5 alt ajan B: üst çubuk rozeti, altın halka, altın isim yolu, seviy
 - **Sahip hesap (idaGG) önce = sonra:** coin 3155 · elmas 9126 · puan 1805 · joker aynı (soru_degistir 32) · SP 5:100 · quest_progress 15 · coin_hareketleri 242.
 - **Gözlem:** Supabase pooler oturum modunda 15 istemci sınırı var (`MAXCONNSESSION`); paralel test pencereleri dolduruyor, `pg-mini` bu hatada sessizce takılır (yeniden dene).
 - **Bekleyen:** Ajan B (ekran: /gorevler, ana sayfa şeridi, çeviri, sw.js).
+
+
+## 2026-09-30 — Görev sistemi: maç sonu özeti "önceki ilerleme" yeni havuzla (migration 744, Ajan A)
+**Araç:** Claude Code (Opus 5.5) **Neden:** `mac_sonu_ozet` yeni günlük görev kimliklerinde `onceki`'yi doğru veremiyordu (eski 3 kimliğe sabitliydi).
+- **Migration 744** (prova + canlı): `gorev_olcum` / `gorev_dogru_satirlari` bir maçı HARİÇ tutan sürümler (eski imzalar sarmalayıcı, davranış aynı); `mac_sonu_ozet` yeni havuz görevlerinde `onceki` = bu maç hariç yeniden ölçüm; eski 3 kimlik 462 hesabıyla aynen. Dönüş biçimi korundu; ekleyici anahtar `haftalik_gorevler` [{id, ad, ilerleme, hedef, alindi, onceki}]. Antrenman/terk katkı vermez (onceki = ilerleme). Yetki/politika değişmedi.
+- **Test:** `araclar/gorevler-mac-sonu-sql-testi.mjs` 15/15 (ROLLBACK); `gorevler-sql-testi` 102/102 yeniden. Sahip hesap önce = sonra (coin 3155, elmas 9126, joker/SP aynı). Lig puanına dokunulmadı.
