@@ -1,0 +1,111 @@
+/* =====================================================================
+   KART ARKA PLANI (önizleme) — KartArkaPlan.jsx
+   Yalnız transform + opacity anime edilir. iOS: position:fixed yok, transform'lu atada fixed katman yok.
+   Sabit hâl = hareketli hâlin ilk karesi (konum --yy, dönme --rot; animasyon-gecikme = −ilerleme × süre).
+   ===================================================================== */
+.abp {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: 18px;
+  background: var(--abp-taban, #0F6E7A);
+  color: #fff;
+  box-shadow: 0 2px 0 rgba(10, 20, 40, .25);
+}
+.abp--kucuk { border-radius: 12px; }
+/* yazı bölgesinde parçacık saydamlığı (beyaz parçacıklar kontrastı düşürür → daha sönük) */
+.abp--su { --abp-maske: .4; }
+.abp--kar { --abp-maske: .12; }
+.abp-zemin, .abp-parca, .abp-okuma { position: absolute; inset: 0; pointer-events: none; }
+.abp-zemin { z-index: 0; }
+.abp-parca {
+  z-index: 1;
+  /* yazı bölgesinde parçacıklar sönük (kontrast); sol tarafta (avatar) tam */
+  -webkit-mask-image: linear-gradient(90deg, #000 0, #000 22%, rgba(0, 0, 0, var(--abp-maske, .6)) 30%, rgba(0, 0, 0, var(--abp-maske, .6)) 100%);
+  mask-image: linear-gradient(90deg, #000 0, #000 22%, rgba(0, 0, 0, var(--abp-maske, .6)) 30%, rgba(0, 0, 0, var(--abp-maske, .6)) 100%);
+}
+.abp--kucuk .abp-parca {
+  -webkit-mask-image: linear-gradient(90deg, #000 0, #000 10%, rgba(0, 0, 0, var(--abp-maske, .6)) 18%, rgba(0, 0, 0, var(--abp-maske, .6)) 100%);
+  mask-image: linear-gradient(90deg, #000 0, #000 10%, rgba(0, 0, 0, var(--abp-maske, .6)) 18%, rgba(0, 0, 0, var(--abp-maske, .6)) 100%);
+}
+.abp-okuma { z-index: 2; background: linear-gradient(90deg, rgba(10, 20, 40, .1) 0, rgba(10, 20, 40, .1) 20%, rgba(10, 20, 40, .34) 30%, rgba(10, 20, 40, .34) 100%); }
+.abp--kucuk .abp-okuma { background: linear-gradient(90deg, rgba(10, 20, 40, .1) 0, rgba(10, 20, 40, .1) 10%, rgba(10, 20, 40, .34) 18%, rgba(10, 20, 40, .34) 100%); }
+.abp-icerik { position: relative; z-index: 3; height: 100%; display: flex; align-items: center; gap: 12px; padding: 0 14px; min-width: 0; text-shadow: 0 1px 2px rgba(10, 20, 40, .55); }
+.abp--kucuk .abp-icerik { gap: 10px; padding: 0 10px; }
+
+/* ---------- zeminler (taban rengi + hafif derinlik; palet aynı) ---------- */
+.abp--su .abp-zemin {
+  background: linear-gradient(180deg, rgba(120, 225, 235, .3) 0, rgba(0, 0, 0, 0) 56%), linear-gradient(0deg, rgba(4, 50, 64, .55) 0, rgba(0, 0, 0, 0) 46%);
+}
+.abp--kar .abp-zemin {
+  background: linear-gradient(180deg, rgba(10, 25, 60, .35) 0, rgba(0, 0, 0, 0) 52%), radial-gradient(ellipse at 20% 115%, rgba(220, 235, 255, .24) 0, rgba(0, 0, 0, 0) 62%);
+}
+.abp--yaprak .abp-zemin {
+  background: radial-gradient(circle at 86% 0, rgba(255, 190, 90, .36) 0, rgba(0, 0, 0, 0) 56%), linear-gradient(0deg, rgba(50, 15, 5, .46) 0, rgba(0, 0, 0, 0) 52%);
+}
+/* Su Altı: üç yumuşak ışık huzmesi */
+.abp-huzme {
+  position: absolute; top: -10%; height: 120%; width: 20%;
+  background: linear-gradient(90deg, rgba(220, 255, 255, 0), rgba(220, 255, 255, .22) 50%, rgba(220, 255, 255, 0));
+  -webkit-mask-image: linear-gradient(180deg, #000 0, rgba(0, 0, 0, 0) 92%);
+  mask-image: linear-gradient(180deg, #000 0, rgba(0, 0, 0, 0) 92%);
+  transform: skewX(-16deg);
+}
+.abp-huzme--1 { left: 10%; }
+.abp-huzme--2 { left: 44%; width: 15%; opacity: .8; }
+.abp-huzme--3 { left: 74%; width: 22%; opacity: .65; }
+.abp--su.abp--oynar .abp-huzme, .abp--su.abp--yumusak .abp-huzme { animation: abp-huzme 7s ease-in-out infinite alternate; }
+.abp--su.abp--oynar .abp-huzme--2, .abp--su.abp--yumusak .abp-huzme--2 { animation-duration: 9s; animation-delay: -3s; }
+.abp--su.abp--oynar .abp-huzme--3, .abp--su.abp--yumusak .abp-huzme--3 { animation-duration: 11s; animation-delay: -6s; }
+@keyframes abp-huzme { from { opacity: .55; } to { opacity: 1; } }
+
+/* ---------- parçacıklar ---------- */
+/* Tek öğe: transform = düşme/yükselme, translate = sallanma, rotate = dönme/sallanma (bağımsız özellikler, tek katman). */
+.abp-d { position: absolute; top: 0; display: block; transform: translate3d(0, var(--yy), 0); }
+.abp-d > svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.abp-d--tane { rotate: calc(var(--rot) * 1deg); }
+.abp-d--yaprak { rotate: var(--rot); }
+
+.abp--oynar .abp-d, .abp--yumusak .abp-d {
+  will-change: transform;
+  animation: abp-yol var(--dur) linear var(--gec) infinite,
+             abp-sal var(--sdur) ease-in-out calc(var(--sdur) / -2) infinite alternate;   /* sallanma merkezde başlar → sabit hâlle aynı kare */
+}
+.abp--oynar .abp-d--tane, .abp--yumusak .abp-d--tane {
+  animation: abp-yol var(--dur) linear var(--gec) infinite,
+             abp-sal var(--sdur) ease-in-out calc(var(--sdur) / -2) infinite alternate,
+             abp-don var(--don) linear calc(var(--rot) / 360 * var(--don) * -1) infinite;
+}
+.abp--oynar .abp-d--yaprak, .abp--yumusak .abp-d--yaprak {
+  animation: abp-yol var(--dur) linear var(--gec) infinite,
+             abp-sal var(--sdur) ease-in-out calc(var(--sdur) / -2) infinite alternate,
+             abp-wob var(--don) ease-in-out var(--wgec) infinite alternate;
+}
+/* Yumuşak mod (hareketi azalt + AZALT_DAVRANISI = "yumusak"): parçacıkların yarısı gizli; hız katsayısı yumusakHareket.js'ten */
+.abp--yumusak .abp-d:nth-child(even) { display: none; }
+@keyframes abp-yol { from { transform: translate3d(0, var(--y0), 0); } to { transform: translate3d(0, var(--y1), 0); } }
+@keyframes abp-sal { from { translate: calc(var(--amp) * -1) 0; } to { translate: var(--amp) 0; } }
+@keyframes abp-don { from { rotate: 0deg; } to { rotate: 360deg; } }
+@keyframes abp-wob { from { rotate: -40deg; } to { rotate: 40deg; } }
+
+/* Su Altı baloncuğu: 1,5 px beyaz kenar, iç beyaz, sol üstte %24 parıltı noktası, sağ altta ince yansıma */
+.abp-kabarcik {
+  display: block; width: 100%; height: 100%; position: relative; box-sizing: border-box; border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, .85);
+  background: radial-gradient(circle at 34% 30%, rgba(255, 255, 255, .5) 0, rgba(255, 255, 255, .16) 38%, rgba(190, 245, 255, .1) 70%, rgba(255, 255, 255, .3) 100%);
+}
+.abp-kabarcik::before {
+  content: ""; position: absolute; left: 18%; top: 16%; width: 24%; height: 24%; border-radius: 50%;
+  background: rgba(255, 255, 255, .95);
+}
+.abp-kabarcik--b::after {
+  content: ""; position: absolute; right: 12%; bottom: 12%; width: 46%; height: 46%; border-radius: 50%;
+  border: 1.5px solid transparent; border-right-color: rgba(255, 255, 255, .55); border-bottom-color: rgba(255, 255, 255, .35);
+  transform: rotate(-8deg);
+}
+/* Kar: küçük yumuşak yuvarlak, büyük kristalin hafif ışıltısı */
+.abp-nokta { display: block; width: 100%; height: 100%; border-radius: 50%; background: radial-gradient(circle closest-side, #fff 0, rgba(255, 255, 255, .92) 45%, rgba(255, 255, 255, 0) 100%); }
+.abp-hale {
+  position: absolute; inset: -28%; border-radius: 50%;
+  background: radial-gradient(circle closest-side, rgba(255, 255, 255, .22) 0, rgba(255, 255, 255, 0) 100%);
+}
