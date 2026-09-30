@@ -114,7 +114,7 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
       mod: "duello",
       ikon: "duello",
       ad: tt("Düello (Taktik Maçı)"),
-      aciklama: tt("Rakibinin güçlü kategorisinde soru 6 puan eder: doğru bilen alır. 10 tur, eşitlikte Altın Soru."),
+      aciklama: tt("4 yuvayı ilk dolduran kazanır. Hamle için sen doğru, rakip yanlış bilmelisin. 10 tur, eşitlikte Altın Soru."),
       joker: tt("Maça 3 joker seçersin"),
       odul: odulMetni(odul?.duello),
       rozet: tt("En çok ödül"),

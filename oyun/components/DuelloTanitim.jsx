@@ -7,10 +7,10 @@ import { tt } from "../lib/dil.js";
  * Maçın İÇİNDE değil, "Rakip ara"ya ilk basışta açılır: sayaç işlemezken okunur.
  * Bir kez gösterilir; kapatınca / "Geç" deyince saklanır. Lobi altındaki "Kurallar" yeniden açar.
  * Tasarım A: QtModal (body'ye portal, odak tuzağı, Esc). Stiller DuelloPage.a.css › m2-tanitim.
- * Metinlerin İngilizcesi: ceviri/mac.js › Düello (M2).
+ * Metinlerin İngilizcesi: ceviri/hakimiyet.js.
  */
-// 671: göreli 3/4/3 puan grupları ve renk anlamı birlikte anlatılıyor → yeni anahtar.
-const DEPO = "bildim_duello_tanitim_v8";
+// 680: Hâkimiyet kuralları (puansız, 4 yuva, Baskın/Kalkan) → yeni anahtar; herkes bir kez görür.
+const DEPO = "bildim_duello_tanitim_v9";
 
 export function duelloTanitimGoruldu() {
   try { return localStorage.getItem(DEPO) === "1"; } catch (e) { console.warn("[Bildim] localStorage okunamadı:", e?.message ?? e); return false; }
@@ -19,15 +19,15 @@ function isaretle() {
   try { localStorage.setItem(DEPO, "1"); } catch (e) { console.warn("[Bildim] localStorage yazılamadı:", e?.message ?? e); }
 }
 
-// Kurallar sunucuda (migration 666); sayılar oyun_ayarlari varsayılanları.
+// Kurallar sunucuda (Hâkimiyet, migration 680); puan yok — yuva sayılır.
 const ADIMLAR = [
-  { ikon: "duello", baslik: "Aynı soru, aynı anda", metin: "Kategoriyi sırayla biriniz seçer (15 sn; dolarsa rastgele). Soru ikinize aynı anda açılır, 15 sn'niz var. Rakibin cevapladığını görürsün ama ne cevapladığını göremezsin." },
-  { ikon: "palet", baslik: "3 güçlü · 4 orta · 3 zayıf", metin: "Her maçta rakibin en güçlü 3 alanı 6 puan, en zayıf 3 alanı 1 puan, kalanlar 3 puan. Kartın rengi o alanda kimin daha iyi olduğunu gösterir: yeşil sen, kırmızı rakip, gri denk." },
-  { ikon: "onay", baslik: "Doğru bilen alır, saldıran yanlış bilirse kaybeder", metin: "Soruyu doğru bilen kategorinin puanını alır. Kategoriyi SEÇEN (saldıran) yanlış bilir ya da süresi dolarsa aynı puanı kaybeder — puanın SIFIRIN ALTINA inmez. Savunan hiçbir zaman puan kaybetmez. İkiniz de doğruysanız ikiniz de alırsınız." },
-  { ikon: "yildiz", baslik: "Son 2 tur: puanlar ×2", metin: "9. ve 10. turda kategori değerleri iki katıdır — kazanç da saldıranın cezası da ×2. Altın Soru bundan etkilenmez." },
-  { ikon: "kalkan", baslik: "Kategori Kalkanı", metin: "Rakip kategori seçerken kendi kategorilerinden birini o seçim için kapatırsın. Maçta 2 hakkın var ve ikisi de ücretsiz: 1. hak Tur 1–5'te, 2. hak Tur 6–10'da açılır. İlk hakkı kullanmazsan kaybolmaz; Tur 6'dan sonra iki hakkı da istediğin zaman kullanırsın." },
-  { ikon: "terazi", baslik: "10 tur ve Altın Soru", metin: "Maç her zaman 10 tur sürer; sonunda puanı yüksek olan kazanır. Puanlar eşitse Altın Soru gelir: zor, daha önce sorulmamış bir soru, joker yok. Yalnız biriniz bilene kadar sürer." },
-  { ikon: "yariyari", baslik: "Joker", metin: "Maçta toplam 4 joker kullanımın var; aynı joker en çok 2 kez, bir soruda en çok 1. Soru Değiştir yalnız ikiniz de cevaplamamışken ve rakip o soruda joker kullanmamışken çalışır. Jokerin yoksa maçın içinden satın alabilirsin." },
+  { ikon: "duello", baslik: "Aynı soru, aynı anda", metin: "Her turda soru ikinize aynı anda açılır, ikiniz de cevaplarsınız (süre dolarsa yanlış sayılır). Saldıran kategoriyi seçer (15 sn; dolarsa rastgele). Savunan beklemez: saldıranın dokunduğu kartı canlı görür ve sıradaki saldırısına şimdiden hazırlanır." },
+  { ikon: "bayrak", baslik: "4 yuva: ilk dolduran kazanır", metin: "Herkes 0-0 başlar, 10 kategorinin hepsi boştur. Kazandığın kategoriler senin yuvandır. 4 yuvaya ilk ulaşan maçı anında kazanır." },
+  { ikon: "onay", baslik: "Hamle kuralı", metin: "Hamlenin tutması için saldıran doğru, savunan yanlış bilmelidir. Boş kategoride kural biraz farklı: sen yanlış, rakip doğru bilirse kategoriyi rakip alır. Yani boşta bilen alır." },
+  { ikon: "kilit", baslik: "Elinden al · Al · Pekiştir", metin: "Rakibin kategorisi: hamle tutarsa \"Elinden al\" ile sana geçer. Boş kategori: tutarsa \"Al\" ile yuvan olur. Kendi kategorin: tutarsa \"Pekiştir\" ile kilitlenir. Sahibi değişen ya da pekiştirilen kategori 2 tur kimse tarafından seçilemez; tutmayan hamlede kilit yok." },
+  { ikon: "terazi", baslik: "10 tur ve Altın Soru", metin: "Maç en çok 10 tur sürer; her tur bir hamledir ve saldıran/savunan her tur el değiştirir. 10. tur sonunda kimse 4 yuvaya ulaşamadıysa yuvası çok olan kazanır. Yuvalar eşitse Altın Soru gelir: zor soru, joker yok, yalnız biriniz bilene kadar sürer. Sahiplik değişmez." },
+  { ikon: "kalkan", baslik: "Baskın ve Kalkan", metin: "Baskın (saldırırken, soru ekranında): bu hamlede rakibin cevabı sayılmaz; sen doğruysan hamle tutar. Kalkan (savunurken, kendi kategorine saldırılırken): rakibin hamlesi tutmaz, kategori sende kalır. Her biri maçta 1 kez. Basılan joker tur sonuna kadar rakipten gizlidir; ikisi aynı hamlede basılırsa birbirini götürür ve ikisi de harcanır." },
+  { ikon: "yariyari", baslik: "Joker sınırları", metin: "Maçta toplam 4 joker kullanımın var; aynı joker en çok 2 kez, bir soruda en çok 1. Baskın ve Kalkan dükkândan alınır, Düello joker setine seçilir." },
 ];
 
 export default function DuelloTanitim({ onKapat }) {

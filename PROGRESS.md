@@ -9311,3 +9311,11 @@ oyuncu kafasında birleştirip karar veremiyordu; yıldız zaten puan değerini 
 - Eski Kategori Kalkanı: `duello2_kalkan_acik`=0 + `duello2_kalkan` her çağrıda reddeder (kolonlar/geçmiş duruyor). Puan/yıldız/çarpan/kalkan ayarları "KULLANILMIYOR (680)" işaretlendi, silinmedi.
 - Rozet: Son Nefes = rakip 3 yuvadayken kazan; Büyük Geri Dönüş = bir an 2 yuva (`rozet_geri_donus_yuva_farki`) gerideyken kazan; Altın Dokunuş aynen.
 - **Test:** `node araclar/duello-hakimiyet-sql-testi.mjs` → 59/59 (3 tür × 4 cevap, kilit, rol, nakavt, 10. tur, Altın Soru, Baskın/Kalkan/çakışma/gizlilik/hak, çift çözümleme, eski kalkan kapalı, yeni oyuncu kilidi).
+
+## 2026-09-30 — Düello Hâkimiyet metinleri (tanıtım, lobi, mod seçimi)
+**Araç:** Claude Code (alt ajan C, Sonnet 5.5)
+**Neden:** Hâkimiyet kuralları (puansız, 4 yuva, Baskın/Kalkan) eski puan/yıldız/×2/Kategori Kalkanı anlatımının yerine geçti.
+- `DuelloTanitim.jsx`: 7 adım yeniden yazıldı, `DEPO` → `bildim_duello_tanitim_v9`.
+- `ModSecimPenceresi.jsx`: Düello açıklaması hâkimiyete çevrildi.
+- `ceviri/hakimiyet.js`: 21 İngilizce çeviri (tanıtım, lobi cümlesi, arama ipuçları, mod seçimi).
+- Rozetler (`rozet_tanimlari`) 680'de zaten uyarlanmış; ek metin değişikliği gerekmedi, 682 migration'ı eklenmedi.
