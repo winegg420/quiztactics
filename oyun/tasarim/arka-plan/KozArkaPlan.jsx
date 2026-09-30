@@ -5,7 +5,7 @@
  * Yalnız transform + opacity anime edilir; parçacık başına tek öğe; en çok 26 köz.
  */
 import { useMemo } from "react";
-import YeniSahne, { rng, ara } from "./arka-plan-yeni-ortak.jsx";
+import YeniSahne, { rng, ara, sabitYer } from "./arka-plan-yeni-ortak.jsx";
 
 export const AD = "Yükselen Köz";
 export const TABAN = "#3A1208";
@@ -38,21 +38,25 @@ function kozler(k, h) {
   return liste.sort((a, b) => a.kat - b.kat);                // uzak önce çizilir
 }
 
-export default function KozArkaPlan({ hareketli = false, yukseklik = 100, className = "", children, katman = false, duzen = "yatay" }) {
+export default function KozArkaPlan({ hareketli = false, yukseklik = 100, className = "", children, katman = false, duzen = "yatay", tamGorunur = false }) {
   const k = yukseklik < 60;
   const liste = useMemo(() => kozler(k, yukseklik), [k, yukseklik]);
   return (
-    <YeniSahne tur="kor" katman={katman} duzen={duzen} taban={TABAN} hareketli={hareketli} yukseklik={yukseklik} className={className}
+    <YeniSahne tur="kor" tamGorunur={tamGorunur} katman={katman} duzen={duzen} taban={TABAN} hareketli={hareketli} yukseklik={yukseklik} className={className}
       zemin={<i className="abp-kor-isima" />}
-      parcalar={liste.map((p, i) => (
+      parcalar={(sabitTam) => liste.map((p, i) => {
+        // tamGorunur + sabit: köz yazı bölgesinin dışına yerleşir (sabitYer); hareketli hâlde özgün konum
+        const yer = sabitTam ? sabitYer(i, p.s, 1 - p.t, p.x, yukseklik, k, duzen) : null;
+        return (
         <span key={i} className="abp-kor-koz" style={{
-          left: `${p.x.toFixed(1)}%`, width: p.s, height: p.s, opacity: +(p.op * gorunurluk(p.t)).toFixed(3),
+          left: `${(yer ? yer.x : p.x).toFixed(1)}%`, width: p.s, height: p.s, opacity: +(p.op * gorunurluk(p.t)).toFixed(3),
           "--op": p.op, "--kz": p.renk[0], "--kzg": `rgba(${p.renk[1]},.9)`, "--gl": `${p.gl.toFixed(1)}px`,
-          "--y0": `${p.y0.toFixed(1)}px`, "--y1": `${p.y1.toFixed(1)}px`, "--yy": `${p.yy.toFixed(1)}px`,
+          "--y0": `${p.y0.toFixed(1)}px`, "--y1": `${p.y1.toFixed(1)}px`, "--yy": `${(yer ? yer.y : p.yy).toFixed(1)}px`,
           "--dur": `${p.dur.toFixed(2)}s`, "--gec": `${(-p.t * p.dur).toFixed(2)}s`,
           "--amp": `${p.amp.toFixed(1)}px`, "--sdur": `${p.sdur.toFixed(2)}s`,
         }} />
-      ))}>
+        );
+      })}>
       {children}
     </YeniSahne>
   );

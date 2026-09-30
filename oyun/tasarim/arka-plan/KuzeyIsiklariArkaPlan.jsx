@@ -5,7 +5,7 @@
  * 3 şerit + 14 yıldız.
  */
 import { useMemo } from "react";
-import YeniSahne, { rng, ara, yumusakEgri } from "./arka-plan-yeni-ortak.jsx";
+import YeniSahne, { rng, ara, yumusakEgri, sabitYer } from "./arka-plan-yeni-ortak.jsx";
 
 export const AD = "Kuzey Işıkları";
 export const TABAN = "#0A2233";
@@ -29,12 +29,11 @@ function yildizlar(k) {
   return liste;
 }
 
-export default function KuzeyIsiklariArkaPlan({ hareketli = false, yukseklik = 100, className = "", children, katman = false, duzen = "yatay" }) {
+export default function KuzeyIsiklariArkaPlan({ hareketli = false, yukseklik = 100, className = "", children, katman = false, duzen = "yatay", tamGorunur = false }) {
   const k = yukseklik < 60;
   const liste = useMemo(() => yildizlar(k), [k]);
-  const zemin = (
-    <>
-      {SERITLER.map((s, i) => {
+  // Işık şeritleri: tamGorunur + hareketli hâlde yazının ÜSTÜNDEN geçer (parçacık katmanında); sabit hâlde ve eski modda zeminde (yazının altında).
+  const seritler = SERITLER.map((s, i) => {
         const e = yumusakEgri(s.f);
         return (
           <i key={i} className="abp-kuzey-serit" style={{
@@ -43,7 +42,9 @@ export default function KuzeyIsiklariArkaPlan({ hareketli = false, yukseklik = 1
             translate: `${(-DALGA_X + 2 * DALGA_X * e).toFixed(2)}px 0`, scale: `1 ${(OLCEK_ALT + (OLCEK_UST - OLCEK_ALT) * e).toFixed(3)}`,
           }} />
         );
-      })}
+  });
+  const dag = (
+    <>
       <svg className="abp-kuzey-dag" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true" focusable="false">
         <path d="M0 26L14 12L24 20L38 4L52 18L64 9L78 22L90 10L100 18V40H0Z" fill="#0A1C2A" />
         <path d="M38 4L44 12L41 12L46 18L36 12L40 12ZM14 12L18 17L11 16ZM90 10L94 15L87 15ZM64 9L68 14L60 14Z" fill="#DFF2FF" opacity=".8" />
@@ -52,10 +53,17 @@ export default function KuzeyIsiklariArkaPlan({ hareketli = false, yukseklik = 1
     </>
   );
   return (
-    <YeniSahne tur="kuzey" katman={katman} duzen={duzen} taban={TABAN} hareketli={hareketli} yukseklik={yukseklik} className={className} zemin={zemin}
-      parcalar={liste.map((p, i) => (
-        <span key={i} className="abp-kuzey-yildiz" style={{ left: `${p.x.toFixed(1)}%`, top: `${p.y.toFixed(1)}%`, width: p.s, height: p.s, opacity: +p.op.toFixed(2) }} />
-      ))}>
+    <YeniSahne tur="kuzey" tamGorunur={tamGorunur} katman={katman} duzen={duzen} taban={TABAN} hareketli={hareketli} yukseklik={yukseklik} className={className}
+      zemin={(sabitTam, ustte) => <>{tamGorunur && ustte ? null : seritler}{dag}</>}
+      parcalar={(sabitTam, ustte) => (
+        <>
+          {tamGorunur && ustte ? seritler : null}
+          {liste.map((p, i) => {
+            const yer = sabitTam ? sabitYer(i, p.s, p.y / 62, p.x, yukseklik, k, duzen) : null;   // tamGorunur + sabit: yazı dışına
+            return <span key={i} className="abp-kuzey-yildiz" style={{ left: `${(yer ? yer.x : p.x).toFixed(1)}%`, top: yer ? `${yer.y.toFixed(1)}px` : `${p.y.toFixed(1)}%`, width: p.s, height: p.s, opacity: +p.op.toFixed(2) }} />;
+          })}
+        </>
+      )}>
       {children}
     </YeniSahne>
   );

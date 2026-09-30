@@ -13,9 +13,12 @@
  *   en çok MAX_HAREKETLI kart (maç başı 2 + ana sayfa 1). Aksi hâlde sabit hâl. "Hareketi azalt" davranışı
  *   AZALT_DAVRANISI ile seçilir: "sabit" (varsayılan) ya da "yumusak" (oyundaki yumuşak mod: 2,5× yavaş, yarı parçacık).
  * - Yazı arkasında koyu yarı saydam okunabilirlik alanı (.abp-okuma) + parçacık maskesi (yazı bölgesinde sönük).
+ * - tamGorunur (varsayılan false = yukarıdaki eski davranış BİREBİR): okunabilirlik alanı ve maske YOK, parçacıklar yazının ÜSTÜNDEN
+ *   geçer (pointer-events: none). Sabit hâlde parçacıklar yazı bölgesinin DIŞINA yerleşir (sabitYer). Yalnız önizleme (katman ile birlikte desteklenmez).
  */
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import "./arka-plan.css";
+import "./arka-plan-tam.css";
 
 export const MAX_HAREKETLI = 3;
 const AZALT_DAVRANISI = "sabit";   // "sabit" | "yumusak"
@@ -37,6 +40,25 @@ function rng(tohum) {
 }
 const ara = (r, a, b) => a + r() * (b - a);
 const YAPRAK_RENK = ["#E8552F", "#F5A623", "#C8461F", "#F2C14E", "#D9731C"];
+
+/**
+ * tamGorunur + SABİT hâl: parçacığı yazı bölgesinin dışına koyar (kalıcı bindirme olmasın). Dönen: x (% sol), y (px, üst kenar).
+ * yatay: üçte biri avatar tarafında (sol şerit), üçte biri üst banta, üçte biri alt banta; parçacığın alt/üst kenarı banttan taşmaz.
+ * dikey (avatar üstte, yazı altta): hepsi üst %44'te. k = lig satırı (dar bant; sol şerit sıra numarasından sonra başlar).
+ * Dönen parçacıkların (kar tanesi, yaprak) sınır kutusu ≈ 1,2 s: bantlar buna göre pay bırakılarak hesaplanır.
+ */
+export function sabitYer(i, s, q, x, h, k, duzen) {
+  if (duzen === "dikey") return { x, y: Math.max(0, h * 0.44 - s) * q };
+  const bant = k ? 9 : 20;
+  const oda = bant - 1.2 * s;   // üst bant: alt kenar ≤ bant
+  const b = i % 3;
+  if (b === 0) {
+    const bas = k ? 8 : 0.07 * s; const gen = (k ? 20 : 26) - bas - 0.35 * s;   // yüzde; s px → en dar kartta (328 px) ≈ 0,31 s %
+    return { x: bas + (x / 94) * gen, y: -s + q * (h + 2 * s) };
+  }
+  if (b === 1) return { x, y: oda >= 0 ? oda * q : oda - (1 - q) * s * 0.3 };
+  return { x, y: h - bant + 0.2 * s + (oda >= 0 ? oda * q : 0) };
+}
 
 /** Parçacık listesi (tur + boyut sınıfına göre sabit; aynı girdi → aynı sahne). k = küçük satır (≈42 px). */
 function parcaciklar(tur, k) {
@@ -105,14 +127,14 @@ function Yaprak({ renk }) {
   );
 }
 
-function Parcacik({ p, tur, h, sabit }) {
+function Parcacik({ p, tur, h, sabit, yer }) {
   const toplam = h + 2 * p.s;
   const y0 = p.yon === "dus" ? -p.s : h + p.s;
   const y1 = p.yon === "dus" ? h + p.s : -p.s;
-  const yy = -p.s + p.q * toplam;   // sabit hâlde konum
+  const yy = yer ? yer.y : -p.s + p.q * toplam;   // sabit hâlde konum (tamGorunur: yazı dışına yerleşmiş)
   const ilerleme = p.yon === "dus" ? p.q : 1 - p.q;
   const stil = {
-    left: `${p.x}%`, opacity: p.op,
+    left: `${yer ? yer.x : p.x}%`, opacity: p.op,
     "--y0": `${y0.toFixed(1)}px`, "--y1": `${y1.toFixed(1)}px`, "--yy": `${yy.toFixed(1)}px`,
     "--dur": `${p.dur.toFixed(2)}s`, "--gec": `${(-ilerleme * p.dur).toFixed(2)}s`,
     "--amp": `${p.amp.toFixed(1)}px`, "--sdur": `${p.sdur.toFixed(2)}s`,
@@ -125,6 +147,12 @@ function Parcacik({ p, tur, h, sabit }) {
   else if (p.tip === "nokta") ic = <span className="abp-nokta" />;
   else if (p.tip === "tane") ic = <><span className="abp-hale" /><Tane v={p.varyant} /></>;
   else ic = <Yaprak renk={p.renk} />;
+  // tamGorunur + sabit: `rotate` özelliği translate3d'den ÖNCE uygulandığı için (öğe kendi merkezi çevresinde döner, konum ötelemesi de
+  // dönen eksende kalır) döndürülen parçacığın yeri kayar → dönme öğeden çıkarılıp içteki sarmalayıcıya verilir; konum tam hesaplanan yerde olur.
+  if (yer && (p.tip === "tane" || p.tip === "yaprak")) {
+    ic = <span className="abp-don-ic" style={{ rotate: `${p.tip === "tane" ? p.rot.toFixed(0) : p.rot.toFixed(1)}deg` }}>{ic}</span>;
+    stil.rotate = "0deg";
+  }
   // Tek öğe, üç anahtar-kare (transform: düşme · translate: sallanma · rotate: dönme) → derinlikli parçacık başına tek katman
   return (
     <span className={`abp-d abp-d--${p.tip}`} style={{ ...stil, width: p.s, height: p.s }} data-sabit={sabit ? "" : undefined}>{ic}</span>
@@ -180,7 +208,7 @@ export function useHareket(hareketli, kok) {
   return azalt ? "yumusak" : "oynar";
 }
 
-export default function KartArkaPlan({ tur = "su", hareketli = false, yukseklik = 100, className = "", children, katman = false, duzen = "yatay" }) {
+export default function KartArkaPlan({ tur = "su", hareketli = false, yukseklik = 100, className = "", children, katman = false, duzen = "yatay", tamGorunur = false }) {
   const kok = useRef(null);
   // katman: kart öğesinin İÇİNDE arka katman (oyundaki kartlar) — yükseklik kartınkidir, ölçülür (yukseklik = ilk tahmin)
   const [olcu, setOlcu] = useState(yukseklik);
@@ -196,15 +224,15 @@ export default function KartArkaPlan({ tur = "su", hareketli = false, yukseklik 
   const mod = useHareket(hareketli, kok);
   const cfg = ARKA_PLANLAR[tur];
   return (
-    <div ref={kok} className={`abp abp--${tur} abp--${mod}${k ? " abp--kucuk" : ""}${katman ? " abp--katman" : ""}${duzen === "dikey" ? " abp--dikey" : ""} ${className}`.trim()}
+    <div ref={kok} className={`abp abp--${tur} abp--${mod}${k ? " abp--kucuk" : ""}${katman ? " abp--katman" : ""}${duzen === "dikey" ? " abp--dikey" : ""}${tamGorunur ? " abp--tam" : ""} ${className}`.trim()}
          style={{ "--abp-taban": cfg.taban, ...(katman ? {} : { height: yukseklik }) }} data-yumusak="" data-arka-plan={tur}>
       <span className="abp-zemin" aria-hidden="true">
         {tur === "su" && <><i className="abp-huzme abp-huzme--1" /><i className="abp-huzme abp-huzme--2" /><i className="abp-huzme abp-huzme--3" /></>}
       </span>
       <span className="abp-parca" aria-hidden="true">
-        {liste.map((p, i) => <Parcacik key={i} p={p} tur={tur} h={yuk} sabit={mod === "sabit"} />)}
+        {liste.map((p, i) => <Parcacik key={i} p={p} tur={tur} h={yuk} sabit={mod === "sabit"} yer={tamGorunur && mod === "sabit" ? sabitYer(i, p.s, p.q, p.x, yuk, k, duzen) : null} />)}
       </span>
-      <span className="abp-okuma" aria-hidden="true" />
+      {!tamGorunur && <span className="abp-okuma" aria-hidden="true" />}
       {!katman && <div className="abp-icerik">{children}</div>}
     </div>
   );

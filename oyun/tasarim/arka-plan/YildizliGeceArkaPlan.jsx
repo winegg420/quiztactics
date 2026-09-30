@@ -5,7 +5,7 @@
  * 20 nokta + 7 parıltı + 1 kayan yıldız = 28.
  */
 import { useMemo } from "react";
-import YeniSahne, { rng, ara, yumusakEgri } from "./arka-plan-yeni-ortak.jsx";
+import YeniSahne, { rng, ara, yumusakEgri, sabitYer } from "./arka-plan-yeni-ortak.jsx";
 
 export const AD = "Yıldızlı Gece";
 export const TABAN = "#0E1440";
@@ -42,7 +42,7 @@ function yildizlar(k) {
 
 const PARILTI_YOL = "M0 -5L1.1 -1.1L5 0L1.1 1.1L0 5L-1.1 1.1L-5 0L-1.1 -1.1Z";
 
-export default function YildizliGeceArkaPlan({ hareketli = false, yukseklik = 100, className = "", children, katman = false, duzen = "yatay" }) {
+export default function YildizliGeceArkaPlan({ hareketli = false, yukseklik = 100, className = "", children, katman = false, duzen = "yatay", tamGorunur = false }) {
   const k = yukseklik < 60;
   const liste = useMemo(() => yildizlar(k), [k]);
   const zemin = (
@@ -59,22 +59,26 @@ export default function YildizliGeceArkaPlan({ hareketli = false, yukseklik = 10
     </>
   );
   return (
-    <YeniSahne tur="gece" katman={katman} duzen={duzen} taban={TABAN} hareketli={hareketli} yukseklik={yukseklik} className={className} zemin={zemin}
-      parcalar={
+    <YeniSahne tur="gece" tamGorunur={tamGorunur} katman={katman} duzen={duzen} taban={TABAN} hareketli={hareketli} yukseklik={yukseklik} className={className} zemin={zemin}
+      parcalar={(sabitTam) => (
         <>
-          {liste.map((p, i) => (
+          {liste.map((p, i) => {
+            // tamGorunur + sabit: yıldız yazı bölgesinin dışına yerleşir (sabitYer)
+            const yer = sabitTam ? sabitYer(i, p.s, p.y / 68, p.x, yukseklik, k, duzen) : null;
+            return (
             <span key={i} className={`abp-gece-yildiz abp-gece-yildiz--${p.tip}`} style={{
-              left: `${p.x.toFixed(1)}%`, top: `${p.y.toFixed(1)}%`, width: p.s, height: p.s, opacity: p.op,
+              left: `${(yer ? yer.x : p.x).toFixed(1)}%`, top: yer ? `${yer.y.toFixed(1)}px` : `${p.y.toFixed(1)}%`, width: p.s, height: p.s, opacity: p.op,
               "--yr": p.renk, "--sdur": `${p.sdur.toFixed(2)}s`, "--gec": `${(-p.f * p.sdur).toFixed(2)}s`,
             }}>
               {p.tip === "parilti" && (
                 <svg viewBox="-5 -5 10 10" aria-hidden="true" focusable="false"><path d={PARILTI_YOL} fill={p.renk} /></svg>
               )}
             </span>
-          ))}
-          <span className="abp-gece-kayan" style={{ "--kdur": `${KAYAN_DUR}s`, "--kgec": `${(-KAYAN_FAZ * KAYAN_DUR).toFixed(2)}s` }} />
+            );
+          })}
+          {!(sabitTam && k) && <span className="abp-gece-kayan" style={{ "--kdur": `${KAYAN_DUR}s`, "--kgec": `${(-KAYAN_FAZ * KAYAN_DUR).toFixed(2)}s` }} />}
         </>
-      }>
+      )}>
       {children}
     </YeniSahne>
   );

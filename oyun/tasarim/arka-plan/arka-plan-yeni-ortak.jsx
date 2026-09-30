@@ -5,7 +5,7 @@
  * KartArkaPlan.jsx ve arka-plan.css'e dokunulmaz.
  */
 import { useRef } from "react";
-import { useHareket } from "./KartArkaPlan.jsx";
+import { useHareket, sabitYer } from "./KartArkaPlan.jsx";
 import "./arka-plan.css";
 import "./arka-plan-yeni.css";
 
@@ -18,20 +18,23 @@ export function rng(tohum) {
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
   };
 }
+export { sabitYer };
 export const ara = (r, a, b) => a + r() * (b - a);
 /** ease-in-out'a yakın yumuşak eğri: sabit hâlin, animasyonun ilk karesiyle aynı değeri vermesi için. */
 export const yumusakEgri = (f) => f * f * (3 - 2 * f);
 
-export default function YeniSahne({ tur, taban, hareketli, yukseklik, className = "", zemin, parcalar, children, katman = false, duzen = "yatay" }) {
+export default function YeniSahne({ tur, taban, hareketli, yukseklik, className = "", zemin, parcalar, children, katman = false, duzen = "yatay", tamGorunur = false }) {
   const kok = useRef(null);
   const k = yukseklik < 60;
   const mod = useHareket(hareketli, kok);
+  const sabitTam = tamGorunur && mod === "sabit";   // zemin/parcalar işlev olabilir: (sabitTam, tamHareketli) => düğüm
+  const al = (d) => (typeof d === "function" ? d(sabitTam, tamGorunur && mod !== "sabit") : d);
   return (
-    <div ref={kok} className={`abp abp--${tur} abp--${mod}${k ? " abp--kucuk" : ""}${katman ? " abp--katman" : ""}${duzen === "dikey" ? " abp--dikey" : ""} ${className}`.trim()}
+    <div ref={kok} className={`abp abp--${tur} abp--${mod}${k ? " abp--kucuk" : ""}${katman ? " abp--katman" : ""}${duzen === "dikey" ? " abp--dikey" : ""}${tamGorunur ? " abp--tam" : ""} ${className}`.trim()}
          style={{ "--abp-taban": taban, ...(katman ? {} : { height: yukseklik }) }} data-yumusak="" data-arka-plan={tur}>
-      <span className="abp-zemin" aria-hidden="true">{zemin}</span>
-      <span className="abp-parca" aria-hidden="true">{parcalar}</span>
-      <span className="abp-okuma" aria-hidden="true" />
+      <span className="abp-zemin" aria-hidden="true">{al(zemin)}</span>
+      <span className="abp-parca" aria-hidden="true">{al(parcalar)}</span>
+      {!tamGorunur && <span className="abp-okuma" aria-hidden="true" />}
       {!katman && <div className="abp-icerik">{children}</div>}
     </div>
   );
