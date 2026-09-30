@@ -431,6 +431,33 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
   `reklam_min_sure_sn` sonra; kalıcı çözüm reklam ağı SSV. İki Edge Function 23 Eyl'de
   DAĞITILAMADI (CLI 403) — bkz. Açık İşler.
 
+### Sezon Yolu (Battle Pass) — 720–722 (30 Eyl 2026, Ida kararları; sistem KAPALI, Ida telefonda onaylayınca açılır)
+
+- **Anahtar:** `oyun_ayarlari.sezon_yolu_acik` (false). Açıldığı AN 1. sezon başlar (tetikleyici + `bildim-sezon-tik` 5 dk cron,
+  `sezon_tik` idempotent). Sezon 28 gün (`sezon_gun`), bitiş 00:00 TSİ, biten sezonun yerine yenisi kendiliğinden açılır.
+  Kapalıyken yalnız SAHİP bir **test sezonunda** (no 0) gerçek veriyle dener: sayfa + rozet görünür, kendi maçları SP verir,
+  BP alabilir; altın isim/halka yalnız kendine görünür; `sezon_sahip_sp_ekle` / `sezon_sahip_test_sifirla` (BP elması iade).
+- **SP (Sezon Puanı)** coin/elmas değil; herkes toplar. Tek giriş `sezon_puani_ekle` (idempotent: sezon+oyuncu+kaynak+referans,
+  oyuncu satırı FOR UPDATE). Kaynak tetikleyicileri: Klasik/Saf Bilgi/Antrenman (`matches`), Düello, Turnuva, günlük görev
+  (`quest_progress` INSERT). Maç `sp_mac_oyna` 10 + galibiyet `sp_mac_galibiyet` 10, × `odul_carpan`, açık bota × `sp_acik_bot_carpani` 0,5;
+  terk eden almaz; günlük maç tavanı `sp_gunluk_mac_tavan` 150 (çarpan öncesi). Turnuva bitiren 15 (+ kazanana 10). Görev 10.
+  Grup Maçı SP vermez (ödülsüz mod). Haftalık görev sistemi YOK (bağlanmadı).
+- **Seviye:** 28 (`sezon_seviye_sayisi`), eşik `sezon_sp_esik_taban` 100 + `sezon_sp_esik_artis` 0 (sabit) → toplam 2.800 SP.
+- **Ödüller:** `bp_seviye_odulleri` (56 yuva, seviye × `ucretsiz|ucretli`), "Al" ile bir kez (`bp_odul_al`, `bp_toplu_al`); alım
+  `oyuncu_bp_odul_alimi`. Sezon kapanınca hak edilip alınmamış ödüller verilir. Placeholder (`placeholder=true`, "?" + "Yakında"):
+  4 avatar, 5 çerçeve, 1 tepki paketi — gerçek ödül = satırı güncelle (`placeholder=false`, `veri`), tetikleyici önceden alanlara verir.
+  Coin ödülü `coin_ekle(..., 'sezon_yolu')` günlük tavan dışı. Kalıcı kozmetikler Koleksiyon Puanı'na mevcut tetikleyicilerle girer.
+- **Battle Pass:** yalnız elmas, `bp_fiyat_elmas` 500; `bp_satin_al` tek atomik işlem (profil FOR UPDATE, `elmas_harca`, sahiplik,
+  hak edilen ücretli ödüller geriye dönük, çift alım reddedilir). BP sahibi: ismi altın (`oyuncu_kartlari.isim_efekti = 'isim_altin'`,
+  takılı efektin önüne geçer), çerçevesine altın halka (`oyuncu_kartlari.sezon_bp` → `CerceveliAvatar` `AltinHalka`), SP ×`bp_sp_carpan` 1,25
+  (maç/turnuva/görev), günlük bonus görev (`bp_bonus_gorev_al`: bugün `bp_bonus_gorev_hedef` 2 maç → `sp_bp_bonus_gorev` 20 SP),
+  maç sonu altın şerit (1,8 sn, sonucu örtmez), 28/28'e sezona özgü unvan (`sezon_<no>_final` "Sezon N Ustası", efsanevi, bir daha
+  verilmez). Sezon kapanınca BP, altın isim ve halka kapanır; kalıcı ödüller kalır. **Pay-to-win yok:** maç/soru/lig/eşleşme kodu BP okumaz.
+- **Arayüz:** `/sezon-yolu` (`oyun/tasarim/sezon-yolu/`), üst çubukta rozet (`oyun/components/sezon/SezonRozeti.jsx`; rozet varken
+  telefonda ≤ 560 px logo Q simgesine iner), seviye bildirimi (localStorage son seviye), istemci `oyun/lib/sezonYolu.js`.
+  Testler: `node araclar/sezon-yolu-sql-testi.mjs` (ROLLBACK) · `node araclar/sezon-yolu-yaris-testi.mjs` (sahip test sezonu, temizler) ·
+  `araclar/sezon-yolu-ekran.mjs` / `sezon-parca-ekran.mjs`.
+
 ### Botlar
 
 - İki katman: **açık botlar** (adında "Bot" geçer, %50 coin, anında cevaplar)

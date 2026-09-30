@@ -9432,3 +9432,35 @@ oyuncu kafasında birleştirip karar veremiyordu; yıldız zaten puan değerini 
 - **703:** `kedili-genc-y36` aktif+girsin; `sporcu-y09` pasif+girmesin (satır, nitelik satırı ve SVG durur). Takılı avatar korunur (`profiles.avatar_url` dokunulmaz); yalnız Sporcu'lu 2 gizli bot 649 kuralıyla taşındı; gerçek oyuncu yoktu (ölçüldü). Yetki/politika/fonksiyon değişmedi → güvenlik onayı gerekmedi. 702 main'de yoktu, beklenmedi. Transaction provası `araclar/avatar-703-sql-testi.mjs` 12/12, sonra `supabase db push`: katalogda açık 31 (+31 hazır = 62), kapalı avatarlı bot 0.
 - **Test** (`araclar/avatar-703-ekran.mjs`, 390/360, TR/EN): profil ızgarası 62 avatar, Kedili Genç var, Sporcu yok; Dükkân ızgarası aynı; kırık görsel yok; yatay taşma yok; konsol hatası yok; 8 dosyada Sahne boyama (`sahneyiBoya`) dört nadirlikte de çalışıyor (bayrak kapalıyken kod özgün adresi kullanır). `/avatar-nadirlik` 62 aktif; sayaç DB'deki nadirlikle Yaygın 25 · Nadir 15 · Epik 16 · Efsanevi 6 (Ida'nın yerel işaretleri farklı olabilir; nadirlik dokunulmadı). Ekran görüntüleri `tasarim/avatar-703/`.
 - `avatarNadirlik.js` içindeki `SAHNE_VURGU` artık eşleşmez (yay yok), zararsız bırakıldı. `public/sw.js` önbellek v10.
+
+## 2026-09-30 — Sezon Yolu (Battle Pass): 28 günlük sezon, SP, BP satın alma, 56 yuva, sayfa + rozet + halka (sistem KAPALI)
+**Araç:** Claude Code (Opus 5.5 ana oturum: bütün veritabanı/sunucu, testler, doğrulama · Sonnet 5.5 alt ajan A: `/sezon-yolu` sayfası ·
+Sonnet 5.5 alt ajan B: üst çubuk rozeti, altın halka, altın isim yolu, seviye bildirimi, maç sonu şeridi — ikisi de gerçekten Sonnet 5.5'te çalıştı).
+**Neden:** Ida'nın onayladığı Battle Pass kararları (28 gün, SP, 28×2 yuva, yalnız elmas 500, geriye dönük ödül, 5 ücretli cazibe, altın isim, pay-to-win yok).
+- **Repo bulguları:** haftalık görev sistemi YOK (yalnız 3 günlük görev, `claim_quest`; SP'ye bağlanmadı, uydurulmadı). Maç sonu ödülü her modda
+  ayrı fonksiyonda → SP maç tabloları üzerindeki `durum → bitti` tetikleyicileriyle tek fonksiyona (`sezon_puani_ekle`) bağlandı; tetikleyici hatası
+  maçı ASLA bozmaz (exception → warning). Tepki paketi 2 (`tepki_eglence`, `tepki_rekabet`) → ikisi dolu, 3. "?". Unvan sistemi `unvan_tanimlari`/
+  `oyuncu_unvanlari` (kural `olay`) — 3 yol unvanı + sezon başına final unvanı eklendi. Koleksiyon Puanı mevcut tetikleyicilerle otomatik.
+- **Migration 720** (şema, RPC'ler, tetikleyiciler, cron `bildim-sezon-tik` */5, `coin_ekle`/`coin_gunluk_kalan`'da `sezon_yolu` tavan dışı,
+  `oyuncu_kartlari` DROP+CREATE: `sezon_bp` kolonu + BP'de `isim_efekti='isim_altin'`, yetkiler aynı), **721** (56 yuva + 3 unvan), **722**
+  (`lig_grubum_ozet` satırlarına `sezon_bp`). Hepsi transaction provasından sonra canlıya uygulandı. Tablolar RLS açık + politika yok; iç
+  fonksiyonlar istemciye kapalı, istemci RPC'leri yalnız authenticated (yeni tablo/RPC; mevcut hiçbir politika değişmedi).
+- **Testler:** `sezon-yolu-sql-testi.mjs` 76/76 (ROLLBACK): bayrak kapısı, sahip test sezonu, bitiş 00:00 TSİ/28 gün, eşik sınırları (99/100,
+  2799/2800), çift sayma, gerçek maç tetikleyicisi (terk eden ve bot almaz), günlük tavan 150, görev SP'si, elmas yetersiz → hata + bakiye aynı,
+  satın alma (−500 defter, 12 geriye dönük ücretli yuva, placeholder verildi=false), çift alım, ×1,25, ödül kuralları, placeholder→gerçek çerçeve
+  tetikleyicisi, 28/28 unvanı, kapanış (56 yuva verildi, BP/altın isim/halka kapandı, kalıcılar kaldı, sezon 2 açıldı), pay-to-win taraması, yetkiler.
+  `sezon-yolu-yaris-testi.mjs` 7/7 (iki bağlantı aynı anda: satın alma tek, ödül alımı tek, SP kaynağı tek) — sahibin test sezonunda, sonunda
+  iade + silme; sahip hesapta kalan tek iz L1 ücretsiz ödülü 50 coin.
+- **Ön yüz:** `oyun/tasarim/sezon-yolu/` (sayfa: sezon/kalan gün/SP çubuğu, BP düğmesi + cazibe listesi, iki kol yatay yol, 28. durak büyük,
+  mevcut seviyeye kaydırma, alt sayfa Al/kilit nedeni/"Yakında", satın alma onayı + kutlama, bonus görev kartı, sahip test kutusu, kapalıyken
+  "Bu bölüm şu an kapalı" → ana sayfa). `oyun/components/sezon/` (SezonRozeti + seviye bildirimi, AltinHalka, SezonZaferSeridi). Eklemeli
+  dokunuşlar: CerceveliAvatar (`sezonBp`; yokken DOM/piksel birebir — 25 kombinasyonda karma aynı), IsimEfekti (`sezonBp`), Layout (rozet),
+  MacSonuKutlama (şerit + `sezonTazele`). Ana oturum düzeltmesi: rozet ilerleme halkası `--qt-ikinci` (mor) → `--qt-vurgu` (turuncu).
+- **Ölçüm:** sayfa betiği 59/59 (390/360, TR/EN, taşma 0, konsol 0, dokunma ≥ 44, hareketi azalt); parça betiği hatasız (halka 36–200 px ×
+  çerçevesiz/lig/level/turnuva/premium, rozet 390/360 TR/EN). Canlı (sahip olmayan hesap): rozet yok, `/sezon-yolu` → `/`, RPC 200, konsol 0.
+  Build temiz. `public/sw.js` v11. Görüntüler `tasarim/sezon-yolu/` (a-* sayfa, b-* parçalar). Alt ajan misafir hesapları (2) silindi.
+- **Not:** ölçüm betiğinde art arda bağlamlar aynı yenileme belirtecini kullanınca oturum düşebiliyor (a-sayfa-bp-var-360.png'de isim/üst çubuk
+  boş) — sayfa ölçümleri sahte veriyle yine geçer; gerçek 360 üst çubuk ölçümü b-ustcubuk-360-*.png.
+- **Ida'nın kararı bekleyenler:** ödül tablosu değerleri (taslak), SP miktarları/eşikler, haftalık görev (yok — kurulsun mu?), sezon kapanışında
+  alınmamış ödüllerin otomatik verilmesi, rozet varken telefonda logonun Q simgesine inmesi, sayfada ücretli kolun 390×844'te yarısının alt
+  menü altında kalması (kaydırınca görünür), final unvanı adı "Sezon N Ustası", sistemi açma (`update oyun_ayarlari set deger='true' where anahtar='sezon_yolu_acik'`).
