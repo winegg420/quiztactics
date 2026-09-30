@@ -9291,3 +9291,11 @@ oyuncu kafasında birleştirip karar veremiyordu; yıldız zaten puan değerini 
   gibi belirli durumlarda mı verilsin — yeni sistem zaten "anlamlı an"a (seri/maç sonu/rakip hatası)
   sınırlı, eski Klasik/Grup yolu değil (rastgele, doğru/yanlış ayırmıyor); istenirse eski yol da aynı
   "anlamlı an" kuralına bağlanabilir.
+
+## 2026-09-30 — Lig çerçeveleri yeni SVG (Bronz, Gümüş, Altın, Elmas, Efsane)
+**Araç:** Claude Code (Sonnet 5.5, PC).
+- **Kaynak:** `tasarim/lig-cerceveleri/uretici.js` (Ida'nın kodu, aynen; ESM depoda çalışsın diye klasörde `package.json` commonjs) → `out/` → `public/lig-cerceveleri/cerceve-<lig>.svg` (5 dosya, statik).
+- **Bağlantı (tek nokta):** `oyun/tasarim/kazanilan/KazanilanCerceve.jsx` — `tur === "lig"` artık yeni `LigCerceveSvg.jsx` çizer (eski Set A / Altın Cerceve2 çizimleri dosyalarda duruyor, silinmedi). Bütün ekranlar (ana sayfa, üst çubuk, profil, lig satırı, maç başı VS, Koleksiyon "Lig çerçevelerim") `CerceveliAvatar` üzerinden geldiği için tek değişiklik yetti. Hareketli premium, level, turnuva çerçevelerine dokunulmadı.
+- **Geometri:** deliğin çapı = çerçeve genişliğinin %40'ı; `boyut` = halka dış çapı, kanat/taç/plaka kutunun dışına taşar (overflow visible). ≤ 48 px'te viewBox "-84 -84 168 168" gibi kırpılır (kırpma sarmalayıcıda, dosya tek). Avatar dairesel kırpılır (köşe halkadan taşmasın). Altın Lig artık hareketsiz (WebGL yok).
+- **Bronz:** katalogda `lig_bronz` (migration 644, herkes sahip), `kazanilanMi` true → takılıysa çizilir. "Bronz ligdekine varsayılan gösterilir" mantığı kodda ayrıca YOK (takılı çerçeve değişmedi) — dokunulmadı, karar Ida'da.
+- **Test:** 36/48/64/96/200 px görsel, 390 ve 360 px'te ana/profil/lig ekranı, yatay taşma yok; `npm run build` temiz. Migration yok.

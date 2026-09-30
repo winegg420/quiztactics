@@ -11,7 +11,7 @@
  * (0,4 hız = 2,5× yavaş, parçacık yarı, flaş yok). ≤ 48 px sade çizim, kutudan taşmaz.
  * Kimlikler (anahtar) ve sahiplikler DEĞİŞMEDİ; yalnız görünüm.
  */
-import Cerceve2 from "../premium/tur2/Cerceve2.jsx";
+import LigCerceveSvg from "./LigCerceveSvg.jsx";
 import GrCerceve from "../gorsel-revizyon/b/GrCerceve.jsx";
 import { LIG_A, LIG_A_EFEKT } from "../gorsel-revizyon/b/cizim/ligSetA.js";
 import { LEVEL_A, LEVEL_EFEKT } from "../gorsel-revizyon/b/cizim/level.js";
@@ -28,8 +28,9 @@ const cizimler = new Map();
 export default function KazanilanCerceve({ anahtar, aura = null, boyut = 64, hareketli = false, etiket, className = "", children }) {
   const t = KAZANILAN[anahtar];
   if (!t) return null;
-  if (t.tur === "lig" && t.lig === "altin") {
-    return <Cerceve2 tur="altinlig" aura={aura} boyut={boyut} hareketli={hareketli} etiket={etiket} className={className}>{children}</Cerceve2>;
+  // 30 Eyl: lig çerçeveleri (Bronz…Efsane) yeni statik SVG çizimle — LigCerceveSvg. Eski Set A / Cerceve2 çizimleri dosyada durur.
+  if (t.tur === "lig") {
+    return <LigCerceveSvg lig={t.lig} aura={aura} boyut={boyut} etiket={etiket} className={className}>{children}</LigCerceveSvg>;
   }
   if (!cizimler.has(anahtar)) cizimler.set(anahtar, cizimBul(t));
   const { cizim, efekt } = cizimler.get(anahtar);
