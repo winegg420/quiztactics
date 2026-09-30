@@ -403,8 +403,9 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
   (`CerceveliAvatar` `premiumAura`'yı yok sayar; eski çizim `premium/sanatAuralar.jsx` durur). Yer: ana sayfa kompakt kart (hareketli), profil vitrin kartı
   (hareketli), maç başı VS kartları (`VsKarti`, herkes kendi arka planıyla; Düello dahil), lig sayfasında yalnız kendi satırım (sabit), dükkân/koleksiyon
   önizlemesi (örnek kart). Kod `oyun/tasarim/arka-plan/`: `kayit.jsx` › `KAYIT` (sanat anahtarı → bileşen; YENİ ARKA PLAN = TEK SATIR + kalemi `aktif=true`),
-  `KartArkaPlan.jsx` (Su Altı, Yağan Kar, Sonbahar). Kaydı olmayan arka plan → düz kart. Yükselen Köz / Yıldızlı Gece / Kuzey Işıkları çizildi
-  (`/arka-plan-onizleme`, onay bekliyor); onaya kadar dükkânda kapalı (migration 690, `aktif=false`), KAYIT'ta satırları yorumda.
+  `KartArkaPlan.jsx` (Su Altı, Yağan Kar, Sonbahar). Kaydı olmayan arka plan → düz kart. Yıldızlı Gece çizildi (`/arka-plan-onizleme`, onay bekliyor); **Yükselen Köz ve Kuzey Işıkları girmeyecek** (Ida, 30 Eyl 2026 — dosyalar durur, önizlemede yok).
+  Önizleme YENİ modu (`tamGorunur`): parçacıklar yazının ARKASINDA, tam görünür (okuma alanı/maske yok), kar/yaprak yalnız aşağı iner, baloncuklar karışık, Gece ~45 yıldız,
+  sabit kart ve lig satırı için ayrı çizilmiş özel kompozisyon (`sabit-tasarim.jsx`); Ida onaylayana kadar oyundaki kartlar ESKİ davranışta aynen kalır. Onaya kadar dükkânda kapalı (migration 690, `aktif=false`), KAYIT'ta satırları yorumda.
 - **Maç içi tepki (542/551):** oyuncu tepkisi DB'ye yazılmaz; Realtime yayını yalnız o maçın iki
   oyuncusuna açık ÖZEL kanalda (`tepki-mac-<id>` / `tepki-duello-<id>`, `realtime.messages` RLS ile
   oyuncu1/oyuncu2; oyun kanalı ayrı ve değişmedi). 3 sn'de 1, maçta 10 (gönderen + alıcı); bedava
