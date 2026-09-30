@@ -581,6 +581,14 @@ Palyaço ve Kral aynı çizim dilinde yeniden yapılmıştır. Eski `k01.svg`…
 `k31.svg` dosyaları yalnız tarihsel geri dönüş için dondurulmuş kalır;
 seçimde yalnız `/avatars/pro/**` ve `/avatars/pro2/**` kullanılır.
 
+**Avatar nitelikleri (700/701, 30 Eyl 2026):** `avatar_nitelikleri` (70 satır = 31 hazır + 39 katalog; anahtar avatar adresi) tutar
+grup (hayvan·insan·meslek·kahraman·fantastik·robot·uzayli·uzay; göz atma, rengi etkilemez), nadirlik (`yaygin|nadir|epik|efsanevi`; katalogdaki
+`avatar_katalogu.nadirlik` Koleksiyon Puanı'nındır, ayrı), seri (nullable), edinme (hepsi `ucretsiz`), `acilis_zamani` (null = açık).
+`acilis_zamani` gelmemiş avatar katalogda/seçimde/kurulumda görünmez, `avatar_onayla` reddeder (takılı avatar hariç); Ida takvimi SQL ile verir.
+Sahne (zemin) rengi nadirlikten türetme hazır ama `oyun_ayarlari.avatar_nadirlik_renk = false` (Ida işaretlemeyi onaylayınca açılır);
+renkler Yaygın gri-mavi · Nadir yeşil · Epik turuncu · Efsanevi altın (mor/kırmızı yok). İşaretleme sayfası `/avatar-nadirlik` (yalnız sahip,
+seçim DB'ye yazılmaz, "Kopyala"). Tek çizim noktası `src/components/Avatar.jsx`; Dükkân avatar ızgarası ham `<img>` (renk bağlanınca ayrıca ele alınır).
+
 ### Mod paritesi — KALICI KURAL
 
 Bir moda yapılan kozmetik/arayüz düzeltmesi, aynı sorunun bulunduğu

@@ -87,6 +87,7 @@ const KozmetikOnizlemePage = tembelYukle(() => import("../oyun/tasarim/cercevele
 const MacSonuOnizlemePage = tembelYukle(() => import("../oyun/pages/MacSonuOnizlemePage.jsx"));   // maç sonu kutlama önizlemesi (Ajan G) — yalnız adresle
 const SesSecimPage = tembelYukle(() => import("../oyun/tasarim/ses-secim/SesSecimPage.jsx"));   // ses seçimi — yalnız sahip, yalnız adresle (girişli)
 const AvatarOnizlemePage = tembelYukle(() => import("../oyun/tasarim/avatar-onizleme/AvatarOnizlemePage.jsx"));   // yeni avatar onayı (Ajan A) — yalnız sahip, yalnız adresle (girişli)
+const AvatarNadirlikPage = tembelYukle(() => import("../oyun/tasarim/avatar-nadirlik/AvatarNadirlikPage.jsx"));   // avatar nadirlik işaretleme (700) — yalnız sahip, menüde yok
 const CerceveOnizlemePage = tembelYukle(() => import("../oyun/tasarim/cerceveler/deneme/CerceveOnizlemePage.jsx"));   // çerçeve tarzı seçimi (Ajan B) — yalnız sahip, yalnız adresle (girişli)
 const ArkaPlanOnizlemePage = tembelYukle(() => import("../oyun/tasarim/arka-plan/ArkaPlanOnizlemePage.jsx"));   // kart arka planı önizlemesi — yalnız sahip, yalnız adresle
 const PremiumOnizlemePage = tembelYukle(() => import("../oyun/tasarim/premium/PremiumOnizlemePage.jsx"));   // premium kozmetik önizlemesi — yalnız sahip, yalnız adresle (girişli)
@@ -195,6 +196,7 @@ export default function BildimApp() {
         <Route path="/mac-sonu-onizleme" element={<SahipKapisi><MacSonuOnizlemePage /></SahipKapisi>} />
         <Route path="/ses-secim" element={<SesSecimPage />} />
         <Route path="/avatar-onizleme" element={<AvatarOnizlemePage />} />
+        <Route path="/avatar-nadirlik" element={<SahipKapisi><AvatarNadirlikPage /></SahipKapisi>} />
         <Route path="/cerceve-onizleme" element={<CerceveOnizlemePage />} />
         <Route path="/arka-plan-onizleme" element={<SahipKapisi><ArkaPlanOnizlemePage /></SahipKapisi>} />
         <Route path="/premium-onizleme" element={<PremiumOnizlemePage />} />

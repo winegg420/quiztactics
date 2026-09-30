@@ -18,7 +18,7 @@ import path from "node:path";
 // Arama motorları görmesin: geliştirici/tasarım/önizleme sayfaları (giriş + sahip kapısı arkasında).
 const ROBOTS_YASAK = [
   "/insan-prototip", "/preview/", "/tasarim-yonleri", "/tasarim-sistemi", "/tasarim-onizleme",
-  "/kozmetik-onizleme", "/mac-sonu-onizleme", "/avatar-onizleme", "/cerceve-onizleme", "/premium-onizleme",
+  "/kozmetik-onizleme", "/mac-sonu-onizleme", "/avatar-onizleme", "/avatar-nadirlik", "/cerceve-onizleme", "/premium-onizleme",
   "/ikon-onizleme", "/ses-secim", "/gorsel-revizyon", "/stil-rehberi", "/yonetim/",
 ];
 

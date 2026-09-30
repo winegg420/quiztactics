@@ -1,0 +1,68 @@
+/* /avatar-nadirlik — yalnız bu sayfanın düzeni (an- öneki). Esas ölçü 390 px; 360 px'te taşmaz. */
+.an-ic { padding-top: var(--qt-b-4, 16px); padding-bottom: var(--qt-b-8, 32px); display: grid; gap: var(--qt-b-4, 16px); max-width: 1100px; min-width: 0; }
+.an-giris { display: grid; gap: var(--qt-b-2, 8px); }
+.an-baslik { margin: 0; color: var(--qt-zemin-metin, #1d2152); font-family: var(--qt-f-baslik, inherit); font-size: var(--qt-y-xl, 1.5rem); }
+.an-giris p { margin: 0; font-size: var(--qt-y-s, .9rem); color: var(--qt-zemin-metin, #1d2152); overflow-wrap: anywhere; }
+.an-durum { margin: 0; font-weight: 700; color: var(--qt-zemin-metin, #1d2152); }
+
+/* Sayaç: kaydırınca üstte kalır (sticky; fixed değil → iOS güvenli). */
+.an-sayac {
+  position: sticky; top: 0; z-index: var(--qt-z-yapiskan, 10);
+  display: flex; flex-wrap: wrap; align-items: center; gap: 2px 6px;
+  padding: 8px 12px; background: var(--qt-yuzey, #fff); color: var(--qt-metin, #1d2152);
+  border-radius: var(--qt-r-l, 16px); box-shadow: var(--qt-kabartma-kart, 0 2px 8px rgba(0, 0, 0, .15));
+  font-size: .85rem; font-weight: 700; min-width: 0;
+}
+.an-sayac-oge { display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+.an-sayac-oge b { font-size: 1rem; }
+.an-sayac-nokta { opacity: .5; margin-right: 2px; }
+.an-renk { display: inline-block; width: 12px; height: 12px; border-radius: 4px; border: 2px solid #0b1220; }
+
+.an-grup { display: grid; gap: 12px; min-width: 0; }
+.an-grup-baslik { margin: 0; color: var(--qt-zemin-metin, #1d2152); font-family: var(--qt-f-baslik, inherit); font-size: var(--qt-y-l, 1.2rem); }
+.an-izgara { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+@media (min-width: 560px) { .an-izgara { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 14px; } }
+
+.an-kart {
+  display: grid; gap: 8px; min-width: 0; padding: 10px;
+  background: var(--qt-yuzey, #fff); color: var(--qt-metin, #1d2152);
+  border-radius: var(--qt-r-l, 16px); box-shadow: var(--qt-kabartma-kart, 0 2px 8px rgba(0, 0, 0, .15));
+}
+.an-avatar { display: block; width: 100%; max-width: 160px; height: auto; aspect-ratio: 1; margin-inline: auto; border-radius: 18px; }
+.an-ad { margin: 0; text-align: center; font-family: var(--qt-f-baslik, inherit); font-size: 1rem; font-weight: 800; overflow-wrap: anywhere; }
+
+.an-dugmeler { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.an-nadirlik {
+  min-height: 44px; min-width: 0; padding: 4px 6px; cursor: pointer;
+  font: inherit; font-size: .8rem; font-weight: 800; color: #0b1220;
+  background: var(--qt-yuzey, #fff); border: 3px solid var(--an-renk); border-radius: 12px;
+  touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+}
+.an-nadirlik[aria-pressed="true"] { background: var(--an-renk); border-color: #0b1220; }
+.an-nadirlik:focus-visible, .an-seri:focus-visible, .an-dugme-genis:focus-visible, .an-dugme-ikincil:focus-visible { outline: 3px solid #0b1220; outline-offset: 2px; }
+
+.an-seri {
+  box-sizing: border-box; width: 100%; min-height: 44px; padding: 6px 10px; min-width: 0;
+  font: inherit; font-size: 16px;   /* 16 px altı iOS'ta sayfayı yakınlaştırır */
+  color: var(--qt-metin, #1d2152); background: var(--qt-yuzey, #fff); border: 2px solid rgba(11, 18, 32, .25); border-radius: 12px;
+}
+
+.an-kopya-metin { width: 100%; box-sizing: border-box; font: inherit; font-size: 16px; border-radius: 12px; padding: 10px; }
+
+/* Alt çubuk: sticky (fixed değil), Kopyala her zaman erişilebilir. */
+.an-alt {
+  position: sticky; bottom: 0; z-index: var(--qt-z-yapiskan, 10);
+  display: grid; gap: 6px; padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px));
+  background: var(--qt-yuzey, #fff); border-radius: var(--qt-r-l, 16px) var(--qt-r-l, 16px) 0 0;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, .15);
+}
+.an-kopya-not { margin: 0; min-height: 1.2em; font-size: .85rem; color: var(--qt-metin, #1d2152); overflow-wrap: anywhere; }
+.an-alt-dugmeler { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 8px; }
+.an-dugme-genis, .an-dugme-ikincil {
+  display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box;
+  min-height: 48px; padding: 6px 12px; min-width: 0; cursor: pointer; text-decoration: none;
+  font: inherit; font-weight: 800; border-radius: 14px; border: 3px solid #0b1220; color: #0b1220;
+  touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+}
+.an-dugme-genis { background: #f5c431; }
+.an-dugme-ikincil { background: var(--qt-yuzey, #fff); }
