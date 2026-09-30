@@ -443,7 +443,7 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
   oyuncu satırı FOR UPDATE). Kaynak tetikleyicileri: Klasik/Saf Bilgi/Antrenman (`matches`), Düello, Turnuva, günlük görev
   (`quest_progress` INSERT). Maç `sp_mac_oyna` 10 + galibiyet `sp_mac_galibiyet` 10, × `odul_carpan`, açık bota × `sp_acik_bot_carpani` 0,5;
   terk eden almaz; günlük maç tavanı `sp_gunluk_mac_tavan` 150 (çarpan öncesi). Turnuva bitiren 15 (+ kazanana 10). Görev 10.
-  Grup Maçı SP vermez (ödülsüz mod). Haftalık görev sistemi YOK (bağlanmadı).
+  Grup Maçı SP vermez (ödülsüz mod). Haftalık görev (25 SP) ve Haftalık sandık (75 SP) de SP verir — bkz. "Görevler" bölümü.
 - **Seviye:** 28 (`sezon_seviye_sayisi`), eşik `sezon_sp_esik_taban` 100 + `sezon_sp_esik_artis` 0 (sabit) → toplam 2.800 SP.
 - **Ödüller:** `bp_seviye_odulleri` (56 yuva, seviye × `ucretsiz|ucretli`), "Al" ile bir kez (`bp_odul_al`, `bp_toplu_al`); alım
   `oyuncu_bp_odul_alimi`. Sezon kapanınca hak edilip alınmamış ödüller verilir. Placeholder (`placeholder=true`, "?" + "Yakında"):
@@ -459,6 +459,24 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
   telefonda ≤ 560 px logo Q simgesine iner), seviye bildirimi (localStorage son seviye), istemci `oyun/lib/sezonYolu.js`.
   Testler: `node araclar/sezon-yolu-sql-testi.mjs` (ROLLBACK) · `node araclar/sezon-yolu-yaris-testi.mjs` (sahip test sezonu, temizler) ·
   `araclar/sezon-yolu-ekran.mjs` / `sezon-parca-ekran.mjs`.
+
+### Görevler — 740–743 (30 Eyl 2026, Ida kararları; sunucu tamam, ekran Ajan B)
+
+- **Günlük:** her gün 3 görev (1 kolay + 1 orta + 1 zor), **herkese aynı**, `gorev_havuzu`'ndan (10 görev, hedef + TR/EN ad TABLODA, koda gömülü
+  değil). Seçim tarihten deterministik ve döngülü (her görev eşit sıklıkta, ardışık günde aynı görev yok); `gunluk_gorev_secimi`'ne tembel
+  yazılır, yazılınca o gün DEĞİŞMEZ (havuz sonradan değişse de). Zor havuzda "günün kategorisinde 10 doğru" — kategori aktif soru kategorilerinden
+  aynı döngüyle (parametre jsonb). Ödül: `coin_gunluk_gorev` 15 coin (günlük coin tavanına TAKILIR, tur `gorev`) + `sp_gunluk_gorev` 10 SP.
+  Lig puanı (`profiles.puan`) YENİ görevlerde verilmez (eski 3 sabit görevde 20/50/30 idi).
+- **Haftalık:** havuzdan 3 görev (`haftalik_gorev_secimi`, pazartesi 00:00 TSİ = lig haftası), her biri `gorev_haftalik_coin` 50 + `sp_haftalik_gorev` 25.
+  3'ü de ALININCA **Haftalık sandık**: `gorev_haftalik_sandik_sp` 75 SP + `gorev_haftalik_sandik_joker_adet` 1 × `gorev_haftalik_sandik_joker_tur` (soru_degistir;
+  joker kaynağı `hediye`). Alım kaydı `haftalik_gorev_alimi` (sandık = quest_id `sandik`); günlük alım eskisi gibi `quest_progress`.
+- **Sayaç kuralı (741):** TSİ gün/hafta penceresi; **Antrenman (açık bot) maçı/düellosu SAYILMAZ** (sezon_mac_sp ile aynı tespit: rakip `acik_bot`
+  ya da `acik_bot_mu`), gizli bot normal oyuncu; terk eden sayılmaz; modlar eski `gorev_sayaci` ile aynı (Klasik/Saf Bilgi + Düello + Hızlı Mod + Grup +
+  Turnuva; Düello sayaçları yalnız Düello). Düello doğrusu savunan + saldıran. Eski `gorev_sayaci` (mac_oyna_3…) aynen durur (BP bonus görevi onu kullanır).
+- **SP:** sezon kapalı/yoksa SP verilmez, coin/joker verilir; açıkken `sezon_puani_ekle(kaynak 'gorev')`, BP sahibinde ×`bp_sp_carpan`.
+- **RPC:** `gorevlerim()` · `gorev_al(kapsam, quest_id)` · `haftalik_sandik_al()` (hepsi security definer, yalnız authenticated, oyuncu satırı kilidi,
+  idempotent: ikinci alım `{alindi:false, zaten:true}`). Eski `get_daily_quests` / `claim_quest` aynı imzayla yeni günlük seçimle çalışır.
+  Test: `node araclar/gorevler-sql-testi.mjs` (ROLLBACK) · `node araclar/gorevler-yaris-testi.mjs` (iki bağlantı, test hesabında, temizler).
 
 ### Botlar
 
