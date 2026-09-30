@@ -11,8 +11,8 @@ import "../../tasarim.css";
 import { VsKarti } from "../../../components/AramaSahnesi.jsx";
 const q = new URLSearchParams(location.search);
 const KART = (level, pa) => ({ level, lig: "altin", cerceve: null, cerceve_nadirlik: null, aura: null, premium_cerceve: null, premium_aura: pa });
-const ben = { id: "a", gorunen_ad: "idagg", gorunen_avatar: "/avatars/pro/kedi.svg" };
-const rakip = { id: "b", gorunen_ad: "Rakip", gorunen_avatar: "/avatars/pro/kedi.svg" };
+const ben = { id: "a", gorunen_ad: "idagg", gorunen_avatar: "/avatars/pro/kedi-k01.svg" };
+const rakip = { id: "b", gorunen_ad: "Rakip", gorunen_avatar: "/avatars/pro/kedi-k01.svg" };
 ReactDOM.createRoot(document.getElementById("root")).render(
   <MemoryRouter>
     <div className="ara qt-sahne-mac" style={{ minHeight: "100dvh" }}><main className="ara-govde"><div className="ara-vs">

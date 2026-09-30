@@ -26,7 +26,7 @@ try {
       const ad = (yol === "/" ? "ana" : yol.slice(1).replace(/\//g, "-")) + `-${tur.slice(3)}-${GEN}-${DIL}${process.env.AZALT ? "-azalt" : ""}`;
       if (yol === "/siralama") { }
       await p.screenshot({ path: `${dizin}/${ad}.png`, fullPage: false });
-      if (yol === "/siralama") { const satir = p.locator(".lg-ben.abp-sahip").first(); try { await satir.scrollIntoViewIfNeeded({ timeout: 4000 }); await p.waitForTimeout(600); const kr = await satir.boundingBox(); if (kr) await p.screenshot({ path: `${dizin}/lig-satiri-${tur.slice(3)}-${GEN}-${DIL}${process.env.AZALT ? "-azalt" : ""}.png`, clip: { x: 0, y: Math.max(0, kr.y - 10), width: GEN, height: kr.height + 20 } }); } catch { console.log("  lig satırı bulunamadı"); } }
+      if (yol === "/siralama") { const satir = p.locator(".lg-ben.abp-sahip").first(); try { await satir.evaluate((e) => e.scrollIntoView({ block: "center" })); await p.waitForTimeout(700); const kr = await satir.boundingBox(); if (kr) await p.screenshot({ path: `${dizin}/lig-satiri-${tur.slice(3)}-${GEN}-${DIL}${process.env.AZALT ? "-azalt" : ""}.png`, clip: { x: 0, y: Math.max(0, kr.y - 10), width: GEN, height: kr.height + 20 } }); } catch { console.log("  lig satırı bulunamadı"); } }
       const olcum = await p.evaluate(() => {
         const hareketli = document.querySelectorAll(".abp--oynar, .abp--yumusak").length;
         let kesisen = 0, statik = 0; const detay = [];
