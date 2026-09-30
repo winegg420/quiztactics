@@ -9552,3 +9552,12 @@ haftalık görev YOK; ödül tablosu, SP değerleri, BP fiyatı (500 elmas), `se
 - **Dokunulan dosyalar:** migration 730; `araclar/sezon-tasma-sql-testi.mjs`, `sezon-tasma-yaris-testi.mjs`, `sezon-yolu-sql-testi.mjs`,
   `sezon-yolu-v2-ekran.mjs`; `oyun/tasarim/sezon-yolu/*`; `oyun/lib/sezonYolu.js`; `oyun/lib/ceviri/sezon-yolu.js`; `public/sw.js`; `tasarim/sezon-yolu/v2/`.
   Başka pencerelerin dosyalarına (mac.js, BildimApp.jsx, duello-tahta, gorevler, avatar nadirlik) dokunulmadı.
+
+## 2026-09-30 — Yayın öncesi SALT OKUNUR kalite denetimi
+**Araç:** Claude Code (Sonnet 5.5, tek oturum). **Neden:** Ida, bugünkü ekran/sistem değişikliklerinin yayın öncesi ölçülmesini istedi; hiçbir çalışan dosya değişmedi.
+- **Çıktı:** `tasarim/denetim/2026-09-30/rapor.md` + ekran görüntüleri + ham ölçüm `_tara/*.json`. Sonuç: 0 ENGEL · 7 ÖNEMLİ · 9 KÜÇÜK.
+- **En önemliler:** (1) kart arka planında sarı yazı açık çip üstünde (Çaylak/"sen" 1,19:1; `arka-plan.css:126`), (2) Koleksiyon puanı arama VS ekranında 1,02:1 (`koleksiyon-puani.css:20`), (3) Düello joker ipucu sarı ≈1,3:1 (`DuelloPage.a.css:270`), (4) Düello yük altında `57014 statement timeout` + ekran takılması (`DuelloPage.jsx:516`), (5) CPU 6×'te Yağan Kar 23 / Su Altı 33 fps, (6) Vercel Güvenlik Kontrol Noktası canlıda otomasyonu 403'ledi (etkisi ölçülemedi), (7) Bronz grup 1 = 76 üye, kural 25 (`lig_uyeligi_kur`).
+- **Yöntem kararı:** canlı site ~150 istekten sonra Vercel tarafından engellendi → aynı HEAD'in üretim derlemesi yerel sunucuda, aynı Supabase'e karşı ölçüldü. Kontrast taban kareye (metin saydam + parçacık gizli) karşı.
+- **Bilinen iki konu:** avatar nadirlik 401 = RPC'nin oturumsuz/süresi dolmuş anahtara doğru cevabı (test düzeneği artığı); 360 px 404 = `Cerceve2.jsx` isteğe bağlı PNG yuvaları (boyuta bağlı değil).
+- **Temizlik:** 7 test hesabı (`Denetim####`) silindi; geçici hediye kozmetik/takılı arka plan ve profil dili geri alındı; `sezon_yolu_acik` dokunulmadı; coin/elmas harcanmadı. Önceden var olan `ArayuzDenetim758` hesabına oyuncu-testi birkaç maç ekledi.
+- **Ölçülemeyen:** gerçek iPhone/WebKit, ses, gerçek iki kişilik maç, push, canlı ağ süreleri, Kalkan düğmesi görseli, maç başı kare hızı.
