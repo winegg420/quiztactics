@@ -1,0 +1,2546 @@
+{
+  "olcumler": [
+    {
+      "ad": "s0 390×700 tr: iki kol + Seviyem alt menünün üstünde (606 ≤ 630)",
+      "gecti": true,
+      "ek": "{\"navUst\":630,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":null,\"heroAlt\":181,\"yolUst\":324,\"vh\":700}"
+    },
+    {
+      "ad": "s0 390×700 tr: yol kutusu tam (alt 554 ≤ 630)",
+      "gecti": true,
+      "ek": "{\"navUst\":630,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":null,\"heroAlt\":181,\"yolUst\":324,\"vh\":700}"
+    },
+    {
+      "ad": "s0 390×700 tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s0 390×700 tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s0 390×700 tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s0 390×700 tr ilk ekran: yazı kontrastı (gerçek piksel, 21 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s0 390×700 en: iki kol + Seviyem alt menünün üstünde (606 ≤ 630)",
+      "gecti": true,
+      "ek": "{\"navUst\":630,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":null,\"heroAlt\":181,\"yolUst\":324,\"vh\":700}"
+    },
+    {
+      "ad": "s0 390×700 en: yol kutusu tam (alt 554 ≤ 630)",
+      "gecti": true,
+      "ek": "{\"navUst\":630,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":null,\"heroAlt\":181,\"yolUst\":324,\"vh\":700}"
+    },
+    {
+      "ad": "s0 390×700 en: EN — Türkçe kalıntı yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s0 390×700 en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s0 390×700 en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s0 390×700 en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s0 390×700 en ilk ekran: yazı kontrastı (gerçek piksel, 21 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s0 360×640 tr: iki kol + Seviyem alt menünün üstünde (542 ≤ 570)",
+      "gecti": true,
+      "ek": "{\"navUst\":570,\"yolAlt\":492,\"aracAlt\":542,\"hepsiniAlt\":null,\"heroAlt\":177,\"yolUst\":292,\"vh\":640}"
+    },
+    {
+      "ad": "s0 360×640 tr: yol kutusu tam (alt 492 ≤ 570)",
+      "gecti": true,
+      "ek": "{\"navUst\":570,\"yolAlt\":492,\"aracAlt\":542,\"hepsiniAlt\":null,\"heroAlt\":177,\"yolUst\":292,\"vh\":640}"
+    },
+    {
+      "ad": "s0 360×640 tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s0 360×640 tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s0 360×640 tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s0 360×640 tr ilk ekran: yazı kontrastı (gerçek piksel, 21 metin) en düşük 5.37",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s0 360×640 en: iki kol + Seviyem alt menünün üstünde (542 ≤ 570)",
+      "gecti": true,
+      "ek": "{\"navUst\":570,\"yolAlt\":492,\"aracAlt\":542,\"hepsiniAlt\":null,\"heroAlt\":177,\"yolUst\":292,\"vh\":640}"
+    },
+    {
+      "ad": "s0 360×640 en: yol kutusu tam (alt 492 ≤ 570)",
+      "gecti": true,
+      "ek": "{\"navUst\":570,\"yolAlt\":492,\"aracAlt\":542,\"hepsiniAlt\":null,\"heroAlt\":177,\"yolUst\":292,\"vh\":640}"
+    },
+    {
+      "ad": "s0 360×640 en: EN — Türkçe kalıntı yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s0 360×640 en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s0 360×640 en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s0 360×640 en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s0 360×640 en ilk ekran: yazı kontrastı (gerçek piksel, 21 metin) en düşük 5.37",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s0 390×844 tr: iki kol + Seviyem alt menünün üstünde (606 ≤ 774)",
+      "gecti": true,
+      "ek": "{\"navUst\":774,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":null,\"heroAlt\":181,\"yolUst\":324,\"vh\":844}"
+    },
+    {
+      "ad": "s0 390×844 tr: yol kutusu tam (alt 554 ≤ 774)",
+      "gecti": true,
+      "ek": "{\"navUst\":774,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":null,\"heroAlt\":181,\"yolUst\":324,\"vh\":844}"
+    },
+    {
+      "ad": "s0 390×844 tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s0 390×844 tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s0 390×844 tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s0 390×844 tr ilk ekran: yazı kontrastı (gerçek piksel, 34 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s0 390×844 tr aşağı: yazı kontrastı (gerçek piksel, 27 metin) en düşük 5.78",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s0 390×844 tr yol sonu: yazı kontrastı (gerçek piksel, 32 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s0 390×844 en: iki kol + Seviyem alt menünün üstünde (606 ≤ 774)",
+      "gecti": true,
+      "ek": "{\"navUst\":774,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":null,\"heroAlt\":181,\"yolUst\":324,\"vh\":844}"
+    },
+    {
+      "ad": "s0 390×844 en: yol kutusu tam (alt 554 ≤ 774)",
+      "gecti": true,
+      "ek": "{\"navUst\":774,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":null,\"heroAlt\":181,\"yolUst\":324,\"vh\":844}"
+    },
+    {
+      "ad": "s0 390×844 en: EN — Türkçe kalıntı yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s0 390×844 en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s0 390×844 en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s0 390×844 en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s0 390×844 en ilk ekran: yazı kontrastı (gerçek piksel, 34 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s0 390×844 en aşağı: yazı kontrastı (gerçek piksel, 27 metin) en düşük 5.78",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s0 390×844 en yol sonu: yazı kontrastı (gerçek piksel, 32 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×700 tr: iki kol + Hepsini al alt menünün üstünde (606 ≤ 630)",
+      "gecti": true,
+      "ek": "{\"navUst\":630,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":700}"
+    },
+    {
+      "ad": "s5 390×700 tr: yol kutusu tam (alt 554 ≤ 630)",
+      "gecti": true,
+      "ek": "{\"navUst\":630,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":700}"
+    },
+    {
+      "ad": "s5 390×700 tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s5 390×700 tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×700 tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×700 tr ilk ekran: yazı kontrastı (gerçek piksel, 21 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×700 tr azalt: iki kol + Hepsini al alt menünün üstünde (606 ≤ 630)",
+      "gecti": true,
+      "ek": "{\"navUst\":630,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":700}"
+    },
+    {
+      "ad": "s5 390×700 tr azalt: yol kutusu tam (alt 554 ≤ 630)",
+      "gecti": true,
+      "ek": "{\"navUst\":630,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":700}"
+    },
+    {
+      "ad": "s5 390×700 tr azalt: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s5 390×700 tr azalt: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×700 tr azalt: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×700 en: iki kol + Hepsini al alt menünün üstünde (606 ≤ 630)",
+      "gecti": true,
+      "ek": "{\"navUst\":630,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":700}"
+    },
+    {
+      "ad": "s5 390×700 en: yol kutusu tam (alt 554 ≤ 630)",
+      "gecti": true,
+      "ek": "{\"navUst\":630,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":700}"
+    },
+    {
+      "ad": "s5 390×700 en: EN — Türkçe kalıntı yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×700 en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s5 390×700 en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×700 en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×700 en ilk ekran: yazı kontrastı (gerçek piksel, 21 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 360×640 tr: iki kol + Hepsini al alt menünün üstünde (542 ≤ 570)",
+      "gecti": true,
+      "ek": "{\"navUst\":570,\"yolAlt\":492,\"aracAlt\":542,\"hepsiniAlt\":542,\"heroAlt\":177,\"yolUst\":292,\"vh\":640}"
+    },
+    {
+      "ad": "s5 360×640 tr: yol kutusu tam (alt 492 ≤ 570)",
+      "gecti": true,
+      "ek": "{\"navUst\":570,\"yolAlt\":492,\"aracAlt\":542,\"hepsiniAlt\":542,\"heroAlt\":177,\"yolUst\":292,\"vh\":640}"
+    },
+    {
+      "ad": "s5 360×640 tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s5 360×640 tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 360×640 tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 360×640 tr ilk ekran: yazı kontrastı (gerçek piksel, 21 metin) en düşük 5.37",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 360×640 tr azalt: iki kol + Hepsini al alt menünün üstünde (542 ≤ 570)",
+      "gecti": true,
+      "ek": "{\"navUst\":570,\"yolAlt\":492,\"aracAlt\":542,\"hepsiniAlt\":542,\"heroAlt\":177,\"yolUst\":292,\"vh\":640}"
+    },
+    {
+      "ad": "s5 360×640 tr azalt: yol kutusu tam (alt 492 ≤ 570)",
+      "gecti": true,
+      "ek": "{\"navUst\":570,\"yolAlt\":492,\"aracAlt\":542,\"hepsiniAlt\":542,\"heroAlt\":177,\"yolUst\":292,\"vh\":640}"
+    },
+    {
+      "ad": "s5 360×640 tr azalt: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s5 360×640 tr azalt: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 360×640 tr azalt: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 360×640 en: iki kol + Hepsini al alt menünün üstünde (542 ≤ 570)",
+      "gecti": true,
+      "ek": "{\"navUst\":570,\"yolAlt\":492,\"aracAlt\":542,\"hepsiniAlt\":542,\"heroAlt\":177,\"yolUst\":292,\"vh\":640}"
+    },
+    {
+      "ad": "s5 360×640 en: yol kutusu tam (alt 492 ≤ 570)",
+      "gecti": true,
+      "ek": "{\"navUst\":570,\"yolAlt\":492,\"aracAlt\":542,\"hepsiniAlt\":542,\"heroAlt\":177,\"yolUst\":292,\"vh\":640}"
+    },
+    {
+      "ad": "s5 360×640 en: EN — Türkçe kalıntı yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 360×640 en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s5 360×640 en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 360×640 en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 360×640 en ilk ekran: yazı kontrastı (gerçek piksel, 21 metin) en düşük 5.37",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×844 tr: iki kol + Hepsini al alt menünün üstünde (606 ≤ 774)",
+      "gecti": true,
+      "ek": "{\"navUst\":774,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":844}"
+    },
+    {
+      "ad": "s5 390×844 tr: yol kutusu tam (alt 554 ≤ 774)",
+      "gecti": true,
+      "ek": "{\"navUst\":774,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":844}"
+    },
+    {
+      "ad": "s5 390×844 tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s5 390×844 tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×844 tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×844 tr ilk ekran: yazı kontrastı (gerçek piksel, 35 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×844 tr aşağı: yazı kontrastı (gerçek piksel, 27 metin) en düşük 5.78",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×844 tr yol sonu: yazı kontrastı (gerçek piksel, 33 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×844 tr azalt: iki kol + Hepsini al alt menünün üstünde (606 ≤ 774)",
+      "gecti": true,
+      "ek": "{\"navUst\":774,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":844}"
+    },
+    {
+      "ad": "s5 390×844 tr azalt: yol kutusu tam (alt 554 ≤ 774)",
+      "gecti": true,
+      "ek": "{\"navUst\":774,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":844}"
+    },
+    {
+      "ad": "s5 390×844 tr azalt: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s5 390×844 tr azalt: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×844 tr azalt: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×844 en: iki kol + Hepsini al alt menünün üstünde (606 ≤ 774)",
+      "gecti": true,
+      "ek": "{\"navUst\":774,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":844}"
+    },
+    {
+      "ad": "s5 390×844 en: yol kutusu tam (alt 554 ≤ 774)",
+      "gecti": true,
+      "ek": "{\"navUst\":774,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":844}"
+    },
+    {
+      "ad": "s5 390×844 en: EN — Türkçe kalıntı yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×844 en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s5 390×844 en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×844 en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×844 en ilk ekran: yazı kontrastı (gerçek piksel, 34 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×844 en aşağı: yazı kontrastı (gerçek piksel, 27 metin) en düşük 5.78",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×844 en yol sonu: yazı kontrastı (gerçek piksel, 33 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 390×700 tr: iki kol + Seviyem alt menünün üstünde (606 ≤ 630)",
+      "gecti": true,
+      "ek": "{\"navUst\":630,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":null,\"heroAlt\":181,\"yolUst\":324,\"vh\":700}"
+    },
+    {
+      "ad": "s12bp 390×700 tr: yol kutusu tam (alt 554 ≤ 630)",
+      "gecti": true,
+      "ek": "{\"navUst\":630,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":null,\"heroAlt\":181,\"yolUst\":324,\"vh\":700}"
+    },
+    {
+      "ad": "s12bp 390×700 tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s12bp 390×700 tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 390×700 tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 390×700 tr ilk ekran: yazı kontrastı (gerçek piksel, 22 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 390×700 en: iki kol + Seviyem alt menünün üstünde (606 ≤ 630)",
+      "gecti": true,
+      "ek": "{\"navUst\":630,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":null,\"heroAlt\":181,\"yolUst\":324,\"vh\":700}"
+    },
+    {
+      "ad": "s12bp 390×700 en: yol kutusu tam (alt 554 ≤ 630)",
+      "gecti": true,
+      "ek": "{\"navUst\":630,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":null,\"heroAlt\":181,\"yolUst\":324,\"vh\":700}"
+    },
+    {
+      "ad": "s12bp 390×700 en: EN — Türkçe kalıntı yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 390×700 en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s12bp 390×700 en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 390×700 en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 390×700 en ilk ekran: yazı kontrastı (gerçek piksel, 22 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 360×640 tr: iki kol + Seviyem alt menünün üstünde (538 ≤ 570)",
+      "gecti": true,
+      "ek": "{\"navUst\":570,\"yolAlt\":488,\"aracAlt\":538,\"hepsiniAlt\":null,\"heroAlt\":177,\"yolUst\":288,\"vh\":640}"
+    },
+    {
+      "ad": "s12bp 360×640 tr: yol kutusu tam (alt 488 ≤ 570)",
+      "gecti": true,
+      "ek": "{\"navUst\":570,\"yolAlt\":488,\"aracAlt\":538,\"hepsiniAlt\":null,\"heroAlt\":177,\"yolUst\":288,\"vh\":640}"
+    },
+    {
+      "ad": "s12bp 360×640 tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s12bp 360×640 tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 360×640 tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 360×640 tr ilk ekran: yazı kontrastı (gerçek piksel, 20 metin) en düşük 5.37",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 360×640 en: iki kol + Seviyem alt menünün üstünde (538 ≤ 570)",
+      "gecti": true,
+      "ek": "{\"navUst\":570,\"yolAlt\":488,\"aracAlt\":538,\"hepsiniAlt\":null,\"heroAlt\":177,\"yolUst\":288,\"vh\":640}"
+    },
+    {
+      "ad": "s12bp 360×640 en: yol kutusu tam (alt 488 ≤ 570)",
+      "gecti": true,
+      "ek": "{\"navUst\":570,\"yolAlt\":488,\"aracAlt\":538,\"hepsiniAlt\":null,\"heroAlt\":177,\"yolUst\":288,\"vh\":640}"
+    },
+    {
+      "ad": "s12bp 360×640 en: EN — Türkçe kalıntı yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 360×640 en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s12bp 360×640 en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 360×640 en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 360×640 en ilk ekran: yazı kontrastı (gerçek piksel, 20 metin) en düşük 5.37",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 390×844 tr: iki kol + Seviyem alt menünün üstünde (606 ≤ 774)",
+      "gecti": true,
+      "ek": "{\"navUst\":774,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":null,\"heroAlt\":181,\"yolUst\":324,\"vh\":844}"
+    },
+    {
+      "ad": "s12bp 390×844 tr: yol kutusu tam (alt 554 ≤ 774)",
+      "gecti": true,
+      "ek": "{\"navUst\":774,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":null,\"heroAlt\":181,\"yolUst\":324,\"vh\":844}"
+    },
+    {
+      "ad": "s12bp 390×844 tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s12bp 390×844 tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 390×844 tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 390×844 tr ilk ekran: yazı kontrastı (gerçek piksel, 34 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 390×844 tr aşağı: yazı kontrastı (gerçek piksel, 30 metin) en düşük 5.78",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 390×844 tr yol sonu: yazı kontrastı (gerçek piksel, 32 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 390×844 en: iki kol + Seviyem alt menünün üstünde (606 ≤ 774)",
+      "gecti": true,
+      "ek": "{\"navUst\":774,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":null,\"heroAlt\":181,\"yolUst\":324,\"vh\":844}"
+    },
+    {
+      "ad": "s12bp 390×844 en: yol kutusu tam (alt 554 ≤ 774)",
+      "gecti": true,
+      "ek": "{\"navUst\":774,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":null,\"heroAlt\":181,\"yolUst\":324,\"vh\":844}"
+    },
+    {
+      "ad": "s12bp 390×844 en: EN — Türkçe kalıntı yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 390×844 en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s12bp 390×844 en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 390×844 en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 390×844 en ilk ekran: yazı kontrastı (gerçek piksel, 34 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 390×844 en aşağı: yazı kontrastı (gerçek piksel, 30 metin) en düşük 5.78",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 390×844 en yol sonu: yazı kontrastı (gerçek piksel, 32 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 390×700 tr: iki kol + Hepsini al alt menünün üstünde (606 ≤ 630)",
+      "gecti": true,
+      "ek": "{\"navUst\":630,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":700}"
+    },
+    {
+      "ad": "s28 390×700 tr: yol kutusu tam (alt 554 ≤ 630)",
+      "gecti": true,
+      "ek": "{\"navUst\":630,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":700}"
+    },
+    {
+      "ad": "s28 390×700 tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s28 390×700 tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 390×700 tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 390×700 tr ilk ekran: yazı kontrastı (gerçek piksel, 18 metin) en düşük 5.8",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 390×700 en: iki kol + Hepsini al alt menünün üstünde (606 ≤ 630)",
+      "gecti": true,
+      "ek": "{\"navUst\":630,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":700}"
+    },
+    {
+      "ad": "s28 390×700 en: yol kutusu tam (alt 554 ≤ 630)",
+      "gecti": true,
+      "ek": "{\"navUst\":630,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":700}"
+    },
+    {
+      "ad": "s28 390×700 en: EN — Türkçe kalıntı yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 390×700 en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s28 390×700 en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 390×700 en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 390×700 en ilk ekran: yazı kontrastı (gerçek piksel, 17 metin) en düşük 5.8",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 360×640 tr: iki kol + Hepsini al alt menünün üstünde (562 ≤ 570)",
+      "gecti": true,
+      "ek": "{\"navUst\":570,\"yolAlt\":512,\"aracAlt\":562,\"hepsiniAlt\":562,\"heroAlt\":177,\"yolUst\":312,\"vh\":640}"
+    },
+    {
+      "ad": "s28 360×640 tr: yol kutusu tam (alt 512 ≤ 570)",
+      "gecti": true,
+      "ek": "{\"navUst\":570,\"yolAlt\":512,\"aracAlt\":562,\"hepsiniAlt\":562,\"heroAlt\":177,\"yolUst\":312,\"vh\":640}"
+    },
+    {
+      "ad": "s28 360×640 tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s28 360×640 tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 360×640 tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 360×640 tr ilk ekran: yazı kontrastı (gerçek piksel, 15 metin) en düşük 5.8",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 360×640 en: iki kol + Hepsini al alt menünün üstünde (562 ≤ 570)",
+      "gecti": true,
+      "ek": "{\"navUst\":570,\"yolAlt\":512,\"aracAlt\":562,\"hepsiniAlt\":562,\"heroAlt\":177,\"yolUst\":312,\"vh\":640}"
+    },
+    {
+      "ad": "s28 360×640 en: yol kutusu tam (alt 512 ≤ 570)",
+      "gecti": true,
+      "ek": "{\"navUst\":570,\"yolAlt\":512,\"aracAlt\":562,\"hepsiniAlt\":562,\"heroAlt\":177,\"yolUst\":312,\"vh\":640}"
+    },
+    {
+      "ad": "s28 360×640 en: EN — Türkçe kalıntı yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 360×640 en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s28 360×640 en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 360×640 en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 360×640 en ilk ekran: yazı kontrastı (gerçek piksel, 15 metin) en düşük 5.8",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 390×844 tr: iki kol + Hepsini al alt menünün üstünde (606 ≤ 774)",
+      "gecti": true,
+      "ek": "{\"navUst\":774,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":844}"
+    },
+    {
+      "ad": "s28 390×844 tr: yol kutusu tam (alt 554 ≤ 774)",
+      "gecti": true,
+      "ek": "{\"navUst\":774,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":844}"
+    },
+    {
+      "ad": "s28 390×844 tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s28 390×844 tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 390×844 tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 390×844 tr ilk ekran: yazı kontrastı (gerçek piksel, 26 metin) en düşük 5.8",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 390×844 tr aşağı: yazı kontrastı (gerçek piksel, 22 metin) en düşük 5.8",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 390×844 tr yol sonu: yazı kontrastı (gerçek piksel, 26 metin) en düşük 5.8",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 390×844 en: iki kol + Hepsini al alt menünün üstünde (606 ≤ 774)",
+      "gecti": true,
+      "ek": "{\"navUst\":774,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":844}"
+    },
+    {
+      "ad": "s28 390×844 en: yol kutusu tam (alt 554 ≤ 774)",
+      "gecti": true,
+      "ek": "{\"navUst\":774,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":844}"
+    },
+    {
+      "ad": "s28 390×844 en: EN — Türkçe kalıntı yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 390×844 en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s28 390×844 en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 390×844 en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 390×844 en ilk ekran: yazı kontrastı (gerçek piksel, 26 metin) en düşük 5.8",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 390×844 en aşağı: yazı kontrastı (gerçek piksel, 22 metin) en düşük 5.8",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 390×844 en yol sonu: yazı kontrastı (gerçek piksel, 26 metin) en düşük 5.8",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28bp 390×700 tr: iki kol + Hepsini al alt menünün üstünde (606 ≤ 630)",
+      "gecti": true,
+      "ek": "{\"navUst\":630,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":700}"
+    },
+    {
+      "ad": "s28bp 390×700 tr: yol kutusu tam (alt 554 ≤ 630)",
+      "gecti": true,
+      "ek": "{\"navUst\":630,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":700}"
+    },
+    {
+      "ad": "s28bp 390×700 tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s28bp 390×700 tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28bp 390×700 tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28bp 390×700 tr ilk ekran: yazı kontrastı (gerçek piksel, 21 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28bp 390×700 en: iki kol + Hepsini al alt menünün üstünde (606 ≤ 630)",
+      "gecti": true,
+      "ek": "{\"navUst\":630,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":700}"
+    },
+    {
+      "ad": "s28bp 390×700 en: yol kutusu tam (alt 554 ≤ 630)",
+      "gecti": true,
+      "ek": "{\"navUst\":630,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":700}"
+    },
+    {
+      "ad": "s28bp 390×700 en: EN — Türkçe kalıntı yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28bp 390×700 en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s28bp 390×700 en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28bp 390×700 en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28bp 390×700 en ilk ekran: yazı kontrastı (gerçek piksel, 21 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28bp 360×640 tr: iki kol + Hepsini al alt menünün üstünde (558 ≤ 570)",
+      "gecti": true,
+      "ek": "{\"navUst\":570,\"yolAlt\":508,\"aracAlt\":558,\"hepsiniAlt\":558,\"heroAlt\":177,\"yolUst\":308,\"vh\":640}"
+    },
+    {
+      "ad": "s28bp 360×640 tr: yol kutusu tam (alt 508 ≤ 570)",
+      "gecti": true,
+      "ek": "{\"navUst\":570,\"yolAlt\":508,\"aracAlt\":558,\"hepsiniAlt\":558,\"heroAlt\":177,\"yolUst\":308,\"vh\":640}"
+    },
+    {
+      "ad": "s28bp 360×640 tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s28bp 360×640 tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28bp 360×640 tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28bp 360×640 tr ilk ekran: yazı kontrastı (gerçek piksel, 17 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28bp 360×640 en: iki kol + Hepsini al alt menünün üstünde (558 ≤ 570)",
+      "gecti": true,
+      "ek": "{\"navUst\":570,\"yolAlt\":508,\"aracAlt\":558,\"hepsiniAlt\":558,\"heroAlt\":177,\"yolUst\":308,\"vh\":640}"
+    },
+    {
+      "ad": "s28bp 360×640 en: yol kutusu tam (alt 508 ≤ 570)",
+      "gecti": true,
+      "ek": "{\"navUst\":570,\"yolAlt\":508,\"aracAlt\":558,\"hepsiniAlt\":558,\"heroAlt\":177,\"yolUst\":308,\"vh\":640}"
+    },
+    {
+      "ad": "s28bp 360×640 en: EN — Türkçe kalıntı yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28bp 360×640 en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s28bp 360×640 en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28bp 360×640 en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28bp 360×640 en ilk ekran: yazı kontrastı (gerçek piksel, 17 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28bp 390×844 tr: iki kol + Hepsini al alt menünün üstünde (606 ≤ 774)",
+      "gecti": true,
+      "ek": "{\"navUst\":774,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":844}"
+    },
+    {
+      "ad": "s28bp 390×844 tr: yol kutusu tam (alt 554 ≤ 774)",
+      "gecti": true,
+      "ek": "{\"navUst\":774,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":844}"
+    },
+    {
+      "ad": "s28bp 390×844 tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s28bp 390×844 tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28bp 390×844 tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28bp 390×844 tr ilk ekran: yazı kontrastı (gerçek piksel, 32 metin) en düşük 5.37",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28bp 390×844 tr aşağı: yazı kontrastı (gerçek piksel, 28 metin) en düşük 5.8",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28bp 390×844 tr yol sonu: yazı kontrastı (gerçek piksel, 32 metin) en düşük 5.37",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28bp 390×844 en: iki kol + Hepsini al alt menünün üstünde (606 ≤ 774)",
+      "gecti": true,
+      "ek": "{\"navUst\":774,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":844}"
+    },
+    {
+      "ad": "s28bp 390×844 en: yol kutusu tam (alt 554 ≤ 774)",
+      "gecti": true,
+      "ek": "{\"navUst\":774,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":844}"
+    },
+    {
+      "ad": "s28bp 390×844 en: EN — Türkçe kalıntı yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28bp 390×844 en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s28bp 390×844 en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28bp 390×844 en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28bp 390×844 en ilk ekran: yazı kontrastı (gerçek piksel, 32 metin) en düşük 5.37",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28bp 390×844 en aşağı: yazı kontrastı (gerçek piksel, 28 metin) en düşük 5.8",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28bp 390×844 en yol sonu: yazı kontrastı (gerçek piksel, 32 metin) en düşük 5.37",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "sfinal 390×700 tr: iki kol + Hepsini al alt menünün üstünde (606 ≤ 630)",
+      "gecti": true,
+      "ek": "{\"navUst\":630,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":700}"
+    },
+    {
+      "ad": "sfinal 390×700 tr: yol kutusu tam (alt 554 ≤ 630)",
+      "gecti": true,
+      "ek": "{\"navUst\":630,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":700}"
+    },
+    {
+      "ad": "sfinal 390×700 tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "sfinal 390×700 tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "sfinal 390×700 tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "sfinal 390×700 tr ilk ekran: yazı kontrastı (gerçek piksel, 21 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "sfinal 390×700 en: iki kol + Hepsini al alt menünün üstünde (606 ≤ 630)",
+      "gecti": true,
+      "ek": "{\"navUst\":630,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":700}"
+    },
+    {
+      "ad": "sfinal 390×700 en: yol kutusu tam (alt 554 ≤ 630)",
+      "gecti": true,
+      "ek": "{\"navUst\":630,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":700}"
+    },
+    {
+      "ad": "sfinal 390×700 en: EN — Türkçe kalıntı yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "sfinal 390×700 en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "sfinal 390×700 en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "sfinal 390×700 en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "sfinal 390×700 en ilk ekran: yazı kontrastı (gerçek piksel, 21 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "sfinal 360×640 tr: iki kol + Hepsini al alt menünün üstünde (542 ≤ 570)",
+      "gecti": true,
+      "ek": "{\"navUst\":570,\"yolAlt\":492,\"aracAlt\":542,\"hepsiniAlt\":542,\"heroAlt\":177,\"yolUst\":292,\"vh\":640}"
+    },
+    {
+      "ad": "sfinal 360×640 tr: yol kutusu tam (alt 492 ≤ 570)",
+      "gecti": true,
+      "ek": "{\"navUst\":570,\"yolAlt\":492,\"aracAlt\":542,\"hepsiniAlt\":542,\"heroAlt\":177,\"yolUst\":292,\"vh\":640}"
+    },
+    {
+      "ad": "sfinal 360×640 tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "sfinal 360×640 tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "sfinal 360×640 tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "sfinal 360×640 tr ilk ekran: yazı kontrastı (gerçek piksel, 21 metin) en düşük 5.37",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "sfinal 360×640 en: iki kol + Hepsini al alt menünün üstünde (542 ≤ 570)",
+      "gecti": true,
+      "ek": "{\"navUst\":570,\"yolAlt\":492,\"aracAlt\":542,\"hepsiniAlt\":542,\"heroAlt\":177,\"yolUst\":292,\"vh\":640}"
+    },
+    {
+      "ad": "sfinal 360×640 en: yol kutusu tam (alt 492 ≤ 570)",
+      "gecti": true,
+      "ek": "{\"navUst\":570,\"yolAlt\":492,\"aracAlt\":542,\"hepsiniAlt\":542,\"heroAlt\":177,\"yolUst\":292,\"vh\":640}"
+    },
+    {
+      "ad": "sfinal 360×640 en: EN — Türkçe kalıntı yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "sfinal 360×640 en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "sfinal 360×640 en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "sfinal 360×640 en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "sfinal 360×640 en ilk ekran: yazı kontrastı (gerçek piksel, 21 metin) en düşük 5.37",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "sfinal 390×844 tr: iki kol + Hepsini al alt menünün üstünde (606 ≤ 774)",
+      "gecti": true,
+      "ek": "{\"navUst\":774,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":844}"
+    },
+    {
+      "ad": "sfinal 390×844 tr: yol kutusu tam (alt 554 ≤ 774)",
+      "gecti": true,
+      "ek": "{\"navUst\":774,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":844}"
+    },
+    {
+      "ad": "sfinal 390×844 tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "sfinal 390×844 tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "sfinal 390×844 tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "sfinal 390×844 tr ilk ekran: yazı kontrastı (gerçek piksel, 34 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "sfinal 390×844 tr aşağı: yazı kontrastı (gerçek piksel, 27 metin) en düşük 5.78",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "sfinal 390×844 tr yol sonu: yazı kontrastı (gerçek piksel, 33 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "sfinal 390×844 en: iki kol + Hepsini al alt menünün üstünde (606 ≤ 774)",
+      "gecti": true,
+      "ek": "{\"navUst\":774,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":844}"
+    },
+    {
+      "ad": "sfinal 390×844 en: yol kutusu tam (alt 554 ≤ 774)",
+      "gecti": true,
+      "ek": "{\"navUst\":774,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":844}"
+    },
+    {
+      "ad": "sfinal 390×844 en: EN — Türkçe kalıntı yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "sfinal 390×844 en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "sfinal 390×844 en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "sfinal 390×844 en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "sfinal 390×844 en ilk ekran: yazı kontrastı (gerçek piksel, 34 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "sfinal 390×844 en aşağı: yazı kontrastı (gerçek piksel, 27 metin) en düşük 5.78",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "sfinal 390×844 en yol sonu: yazı kontrastı (gerçek piksel, 33 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme coin tr: alt sayfa açıldı (coin)",
+      "gecti": true,
+      "ek": "acik=1"
+    },
+    {
+      "ad": "önizleme coin tr: nadirlik etiketi + seviye·kol etiketi",
+      "gecti": true,
+      "ek": "Sıradan | 1. seviye · Ücretsiz kol | Alındı"
+    },
+    {
+      "ad": "önizleme coin: yazı kontrastı (gerçek piksel, 7 metin) en düşük 4.79",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme coin tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "önizleme coin tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme coin tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme joker tr: alt sayfa açıldı (joker)",
+      "gecti": true,
+      "ek": "acik=1"
+    },
+    {
+      "ad": "önizleme joker tr: nadirlik etiketi + seviye·kol etiketi",
+      "gecti": true,
+      "ek": "Sıradan | 2. seviye · Ücretsiz kol | Alındı"
+    },
+    {
+      "ad": "önizleme joker tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "önizleme joker tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme joker tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme tepki tr: alt sayfa açıldı (tepki)",
+      "gecti": true,
+      "ek": "acik=1"
+    },
+    {
+      "ad": "önizleme tepki tr: nadirlik etiketi + seviye·kol etiketi",
+      "gecti": true,
+      "ek": "Nadir | 3. seviye · Battle Pass kolu"
+    },
+    {
+      "ad": "önizleme tepki tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "önizleme tepki tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme tepki tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme unvan tr: alt sayfa açıldı (unvan)",
+      "gecti": true,
+      "ek": "acik=1"
+    },
+    {
+      "ad": "önizleme unvan tr: nadirlik etiketi + seviye·kol etiketi",
+      "gecti": true,
+      "ek": "Sıradan | 8. seviye · Ücretsiz kol"
+    },
+    {
+      "ad": "önizleme unvan tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "önizleme unvan tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme unvan tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme cerceve tr: alt sayfa açıldı (cerceve)",
+      "gecti": true,
+      "ek": "acik=1"
+    },
+    {
+      "ad": "önizleme cerceve tr: oyuncunun avatarı + çerçeve, \"Avatarında böyle görünür\"",
+      "gecti": true,
+      "ek": "{\"avatar\":6,\"yazi\":\"Avatarında böyle görünür\"}"
+    },
+    {
+      "ad": "önizleme cerceve tr: nadirlik etiketi + seviye·kol etiketi",
+      "gecti": true,
+      "ek": "Nadir | 8. seviye · Battle Pass kolu"
+    },
+    {
+      "ad": "önizleme cerceve: yazı kontrastı (gerçek piksel, 5 metin) en düşük 3.48",
+      "gecti": false,
+      "ek": "Nadir=3.48/3.48"
+    },
+    {
+      "ad": "önizleme cerceve tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "önizleme cerceve tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme cerceve tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme cerceve-premium tr: alt sayfa açıldı (cerceve)",
+      "gecti": true,
+      "ek": "acik=1"
+    },
+    {
+      "ad": "önizleme cerceve-premium tr: oyuncunun avatarı + çerçeve, \"Avatarında böyle görünür\"",
+      "gecti": true,
+      "ek": "{\"avatar\":2,\"yazi\":\"Avatarında böyle görünür\"}"
+    },
+    {
+      "ad": "önizleme cerceve-premium tr: nadirlik etiketi + seviye·kol etiketi",
+      "gecti": true,
+      "ek": "Epik | 17. seviye · Battle Pass kolu"
+    },
+    {
+      "ad": "önizleme cerceve-premium tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "önizleme cerceve-premium tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme cerceve-premium tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme avatar tr: alt sayfa açıldı (avatar)",
+      "gecti": true,
+      "ek": "acik=1"
+    },
+    {
+      "ad": "önizleme avatar tr: nadirlik etiketi + seviye·kol etiketi",
+      "gecti": true,
+      "ek": "Epik | 5. seviye · Battle Pass kolu"
+    },
+    {
+      "ad": "önizleme avatar: yazı kontrastı (gerçek piksel, 4 metin) en düşük 5.8",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme avatar tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "önizleme avatar tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme avatar tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme placeholder tr: alt sayfa açıldı (placeholder/dz)",
+      "gecti": true,
+      "ek": "acik=1"
+    },
+    {
+      "ad": "önizleme placeholder tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "önizleme placeholder tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme placeholder tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme elmas tr: alt sayfa açıldı (joker)",
+      "gecti": true,
+      "ek": "acik=1"
+    },
+    {
+      "ad": "önizleme elmas tr: nadirlik etiketi + seviye·kol etiketi",
+      "gecti": true,
+      "ek": "Sıradan | 4. seviye · Battle Pass kolu"
+    },
+    {
+      "ad": "önizleme elmas tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "önizleme elmas tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme elmas tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme final tr: alt sayfa açıldı (cerceve)",
+      "gecti": true,
+      "ek": "acik=1"
+    },
+    {
+      "ad": "önizleme final tr: nadirlik etiketi + seviye·kol etiketi",
+      "gecti": true,
+      "ek": "Efsanevi | 28. seviye · Battle Pass kolu"
+    },
+    {
+      "ad": "önizleme final tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "önizleme final tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme final tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme coin en: alt sayfa açıldı (coin)",
+      "gecti": true,
+      "ek": "acik=1"
+    },
+    {
+      "ad": "önizleme coin en: nadirlik etiketi + seviye·kol etiketi",
+      "gecti": true,
+      "ek": "Common | Level 1 · Free lane | Claimed"
+    },
+    {
+      "ad": "önizleme coin en: Türkçe kalıntı yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme coin en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "önizleme coin en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme coin en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme joker en: alt sayfa açıldı (joker)",
+      "gecti": true,
+      "ek": "acik=1"
+    },
+    {
+      "ad": "önizleme joker en: nadirlik etiketi + seviye·kol etiketi",
+      "gecti": true,
+      "ek": "Common | Level 2 · Free lane | Claimed"
+    },
+    {
+      "ad": "önizleme joker en: Türkçe kalıntı yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme joker en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "önizleme joker en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme joker en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme tepki en: alt sayfa açıldı (tepki)",
+      "gecti": true,
+      "ek": "acik=1"
+    },
+    {
+      "ad": "önizleme tepki en: nadirlik etiketi + seviye·kol etiketi",
+      "gecti": true,
+      "ek": "Rare | Level 3 · Battle Pass lane"
+    },
+    {
+      "ad": "önizleme tepki en: Türkçe kalıntı yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme tepki en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "önizleme tepki en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme tepki en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme unvan en: alt sayfa açıldı (unvan)",
+      "gecti": true,
+      "ek": "acik=1"
+    },
+    {
+      "ad": "önizleme unvan en: nadirlik etiketi + seviye·kol etiketi",
+      "gecti": true,
+      "ek": "Common | Level 8 · Free lane"
+    },
+    {
+      "ad": "önizleme unvan en: Türkçe kalıntı yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme unvan en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "önizleme unvan en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme unvan en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme cerceve en: alt sayfa açıldı (cerceve)",
+      "gecti": true,
+      "ek": "acik=1"
+    },
+    {
+      "ad": "önizleme cerceve en: oyuncunun avatarı + çerçeve, \"Avatarında böyle görünür\"",
+      "gecti": true,
+      "ek": "{\"avatar\":6,\"yazi\":\"This is how it looks on your avatar\"}"
+    },
+    {
+      "ad": "önizleme cerceve en: nadirlik etiketi + seviye·kol etiketi",
+      "gecti": true,
+      "ek": "Rare | Level 8 · Battle Pass lane"
+    },
+    {
+      "ad": "önizleme cerceve en: Türkçe kalıntı yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme cerceve en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "önizleme cerceve en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme cerceve en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme cerceve-premium en: alt sayfa açıldı (cerceve)",
+      "gecti": true,
+      "ek": "acik=1"
+    },
+    {
+      "ad": "önizleme cerceve-premium en: oyuncunun avatarı + çerçeve, \"Avatarında böyle görünür\"",
+      "gecti": true,
+      "ek": "{\"avatar\":2,\"yazi\":\"This is how it looks on your avatar\"}"
+    },
+    {
+      "ad": "önizleme cerceve-premium en: nadirlik etiketi + seviye·kol etiketi",
+      "gecti": true,
+      "ek": "Epic | Level 17 · Battle Pass lane"
+    },
+    {
+      "ad": "önizleme cerceve-premium en: Türkçe kalıntı yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme cerceve-premium en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "önizleme cerceve-premium en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme cerceve-premium en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme avatar en: alt sayfa açıldı (avatar)",
+      "gecti": true,
+      "ek": "acik=1"
+    },
+    {
+      "ad": "önizleme avatar en: nadirlik etiketi + seviye·kol etiketi",
+      "gecti": true,
+      "ek": "Epic | Level 5 · Battle Pass lane"
+    },
+    {
+      "ad": "önizleme avatar en: Türkçe kalıntı yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme avatar en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "önizleme avatar en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme avatar en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme placeholder en: alt sayfa açıldı (placeholder/dz)",
+      "gecti": true,
+      "ek": "acik=1"
+    },
+    {
+      "ad": "önizleme placeholder en: Türkçe kalıntı yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme placeholder en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "önizleme placeholder en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme placeholder en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme elmas en: alt sayfa açıldı (joker)",
+      "gecti": true,
+      "ek": "acik=1"
+    },
+    {
+      "ad": "önizleme elmas en: nadirlik etiketi + seviye·kol etiketi",
+      "gecti": true,
+      "ek": "Common | Level 4 · Battle Pass lane"
+    },
+    {
+      "ad": "önizleme elmas en: Türkçe kalıntı yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme elmas en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "önizleme elmas en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme elmas en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme final en: alt sayfa açıldı (cerceve)",
+      "gecti": true,
+      "ek": "acik=1"
+    },
+    {
+      "ad": "önizleme final en: nadirlik etiketi + seviye·kol etiketi",
+      "gecti": true,
+      "ek": "Legendary | Level 28 · Battle Pass lane"
+    },
+    {
+      "ad": "önizleme final en: Türkçe kalıntı yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme final en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "önizleme final en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme final en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "Ödülü al: coin uçuşu çiziliyor (üst çubuk coin çipine)",
+      "gecti": true,
+      "ek": "ucus=1"
+    },
+    {
+      "ad": "uçuş bitince kaldırıldı",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "yuva alındı durumuna geçti",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "BP sonrası 'Battle Pass aktif' görünür, düğme yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "akış BP: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "akış BP: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "akış BP: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "28+ sütunu: ücretsiz kolda alınabilir taşma sayısı rozeti (2)",
+      "gecti": true,
+      "ek": "2"
+    },
+    {
+      "ad": "taşma alt sayfası: kazanılan/alınan/sonraki için SP",
+      "gecti": true,
+      "ek": "Taşma ödülü |  | 28. seviyeden sonra her 100 SP = 1 ödül |  | +25 | Ücretsiz kol | Kazanılan | 2 / 10 | Alınan | 0 | Alınabilir | 2 | Sonraki ödül için | 50 SP | Ödülü al"
+    },
+    {
+      "ad": "taşma alt sayfası: yazı kontrastı (gerçek piksel, 14 metin) en düşük 5.8",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "taşma al: sayı 2 → 1",
+      "gecti": true,
+      "ek": "1"
+    },
+    {
+      "ad": "Hepsini al: taşma dahil hepsi alındı (rozet yok)",
+      "gecti": false,
+      "ek": ""
+    },
+    {
+      "ad": "akış taşma: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "akış taşma: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "akış taşma: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "ücretli taşma, BP yok: 'Battle Pass Al' yönlendirmesi",
+      "gecti": true,
+      "ek": "Taşma ödülü |  | 28. seviyeden sonra her 100 SP = 1 ödül |  | +40 | Battle Pass kolu | Kazanılan | 2 / 10 | Alınan | 0 | Alınabilir | 0 | Sonraki ödül için | 50 SP | Bu ödül için Battle Pass gerekir. "
+    },
+    {
+      "ad": "sıradaki büyük ödül şeridi: dokununca yol kayıyor (146 → 518)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "yuvalarda data-nadirlik (siradan/nadir/epik/efsanevi) var",
+      "gecti": true,
+      "ek": "{\"siradan\":44,\"nadir\":5,\"epik\":7,\"efsanevi\":2}"
+    },
+    {
+      "ad": "nadirlik kenar renkleri dört ayrı",
+      "gecti": true,
+      "ek": "[\"rgb(142, 163, 194)\",\"rgb(31, 157, 92)\",\"rgb(139, 47, 214)\",\"rgb(194, 139, 0)\"]"
+    },
+    {
+      "ad": "sahip değilken test etiketi ve test kutusu yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "sahip test sezonunda: ince 'Test sezonu' etiketi + test kutusu",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "test sezonu (no 0) → Yıldızlı Gece teması",
+      "gecti": true,
+      "ek": "yildizli_gece"
+    },
+    {
+      "ad": "hareketi azalt: nabız kapalı",
+      "gecti": true,
+      "ek": "none"
+    },
+    {
+      "ad": "hareketi azalt: uçuşta tek coin, yavaş",
+      "gecti": true,
+      "ek": "gorunen=1"
+    },
+    {
+      "ad": "hareketi azalt: uçuş bitti ve kaldırıldı",
+      "gecti": false,
+      "ek": ""
+    },
+    {
+      "ad": "gerçek 390×700: kollar + Seviyem/Hepsini al alt menü üstünde",
+      "gecti": true,
+      "ek": "{\"navUst\":630,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":700}"
+    },
+    {
+      "ad": "gerçek 390×700: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "gerçek 390×700: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "gerçek 390×700: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "gerçek 360×640: kollar + Seviyem/Hepsini al alt menü üstünde",
+      "gecti": true,
+      "ek": "{\"navUst\":570,\"yolAlt\":492,\"aracAlt\":542,\"hepsiniAlt\":542,\"heroAlt\":177,\"yolUst\":292,\"vh\":640}"
+    },
+    {
+      "ad": "gerçek 360×640: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "gerçek 360×640: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "gerçek 360×640: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "gerçek 390×844: kollar + Seviyem/Hepsini al alt menü üstünde",
+      "gecti": true,
+      "ek": "{\"navUst\":774,\"yolAlt\":554,\"aracAlt\":606,\"hepsiniAlt\":606,\"heroAlt\":181,\"yolUst\":324,\"vh\":844}"
+    },
+    {
+      "ad": "gerçek 390×844: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "gerçek 390×844: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "gerçek 390×844: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    }
+  ],
+  "sayilar": {
+    "yukseklik:s0 390×700 tr": {
+      "navUst": 630,
+      "yolAlt": 554,
+      "aracAlt": 606,
+      "hepsiniAlt": null,
+      "heroAlt": 181,
+      "yolUst": 324,
+      "vh": 700
+    },
+    "kontrast:s0 390×700 tr ilk ekran": 5.72,
+    "yukseklik:s0 390×700 en": {
+      "navUst": 630,
+      "yolAlt": 554,
+      "aracAlt": 606,
+      "hepsiniAlt": null,
+      "heroAlt": 181,
+      "yolUst": 324,
+      "vh": 700
+    },
+    "kontrast:s0 390×700 en ilk ekran": 5.72,
+    "yukseklik:s0 360×640 tr": {
+      "navUst": 570,
+      "yolAlt": 492,
+      "aracAlt": 542,
+      "hepsiniAlt": null,
+      "heroAlt": 177,
+      "yolUst": 292,
+      "vh": 640
+    },
+    "kontrast:s0 360×640 tr ilk ekran": 5.37,
+    "yukseklik:s0 360×640 en": {
+      "navUst": 570,
+      "yolAlt": 492,
+      "aracAlt": 542,
+      "hepsiniAlt": null,
+      "heroAlt": 177,
+      "yolUst": 292,
+      "vh": 640
+    },
+    "kontrast:s0 360×640 en ilk ekran": 5.37,
+    "yukseklik:s0 390×844 tr": {
+      "navUst": 774,
+      "yolAlt": 554,
+      "aracAlt": 606,
+      "hepsiniAlt": null,
+      "heroAlt": 181,
+      "yolUst": 324,
+      "vh": 844
+    },
+    "kontrast:s0 390×844 tr ilk ekran": 5.72,
+    "kontrast:s0 390×844 tr aşağı": 5.78,
+    "kontrast:s0 390×844 tr yol sonu": 5.72,
+    "yukseklik:s0 390×844 en": {
+      "navUst": 774,
+      "yolAlt": 554,
+      "aracAlt": 606,
+      "hepsiniAlt": null,
+      "heroAlt": 181,
+      "yolUst": 324,
+      "vh": 844
+    },
+    "kontrast:s0 390×844 en ilk ekran": 5.72,
+    "kontrast:s0 390×844 en aşağı": 5.78,
+    "kontrast:s0 390×844 en yol sonu": 5.72,
+    "yukseklik:s5 390×700 tr": {
+      "navUst": 630,
+      "yolAlt": 554,
+      "aracAlt": 606,
+      "hepsiniAlt": 606,
+      "heroAlt": 181,
+      "yolUst": 324,
+      "vh": 700
+    },
+    "kontrast:s5 390×700 tr ilk ekran": 5.72,
+    "yukseklik:s5 390×700 tr azalt": {
+      "navUst": 630,
+      "yolAlt": 554,
+      "aracAlt": 606,
+      "hepsiniAlt": 606,
+      "heroAlt": 181,
+      "yolUst": 324,
+      "vh": 700
+    },
+    "yukseklik:s5 390×700 en": {
+      "navUst": 630,
+      "yolAlt": 554,
+      "aracAlt": 606,
+      "hepsiniAlt": 606,
+      "heroAlt": 181,
+      "yolUst": 324,
+      "vh": 700
+    },
+    "kontrast:s5 390×700 en ilk ekran": 5.72,
+    "yukseklik:s5 360×640 tr": {
+      "navUst": 570,
+      "yolAlt": 492,
+      "aracAlt": 542,
+      "hepsiniAlt": 542,
+      "heroAlt": 177,
+      "yolUst": 292,
+      "vh": 640
+    },
+    "kontrast:s5 360×640 tr ilk ekran": 5.37,
+    "yukseklik:s5 360×640 tr azalt": {
+      "navUst": 570,
+      "yolAlt": 492,
+      "aracAlt": 542,
+      "hepsiniAlt": 542,
+      "heroAlt": 177,
+      "yolUst": 292,
+      "vh": 640
+    },
+    "yukseklik:s5 360×640 en": {
+      "navUst": 570,
+      "yolAlt": 492,
+      "aracAlt": 542,
+      "hepsiniAlt": 542,
+      "heroAlt": 177,
+      "yolUst": 292,
+      "vh": 640
+    },
+    "kontrast:s5 360×640 en ilk ekran": 5.37,
+    "yukseklik:s5 390×844 tr": {
+      "navUst": 774,
+      "yolAlt": 554,
+      "aracAlt": 606,
+      "hepsiniAlt": 606,
+      "heroAlt": 181,
+      "yolUst": 324,
+      "vh": 844
+    },
+    "kontrast:s5 390×844 tr ilk ekran": 5.72,
+    "kontrast:s5 390×844 tr aşağı": 5.78,
+    "kontrast:s5 390×844 tr yol sonu": 5.72,
+    "yukseklik:s5 390×844 tr azalt": {
+      "navUst": 774,
+      "yolAlt": 554,
+      "aracAlt": 606,
+      "hepsiniAlt": 606,
+      "heroAlt": 181,
+      "yolUst": 324,
+      "vh": 844
+    },
+    "yukseklik:s5 390×844 en": {
+      "navUst": 774,
+      "yolAlt": 554,
+      "aracAlt": 606,
+      "hepsiniAlt": 606,
+      "heroAlt": 181,
+      "yolUst": 324,
+      "vh": 844
+    },
+    "kontrast:s5 390×844 en ilk ekran": 5.72,
+    "kontrast:s5 390×844 en aşağı": 5.78,
+    "kontrast:s5 390×844 en yol sonu": 5.72,
+    "yukseklik:s12bp 390×700 tr": {
+      "navUst": 630,
+      "yolAlt": 554,
+      "aracAlt": 606,
+      "hepsiniAlt": null,
+      "heroAlt": 181,
+      "yolUst": 324,
+      "vh": 700
+    },
+    "kontrast:s12bp 390×700 tr ilk ekran": 5.72,
+    "yukseklik:s12bp 390×700 en": {
+      "navUst": 630,
+      "yolAlt": 554,
+      "aracAlt": 606,
+      "hepsiniAlt": null,
+      "heroAlt": 181,
+      "yolUst": 324,
+      "vh": 700
+    },
+    "kontrast:s12bp 390×700 en ilk ekran": 5.72,
+    "yukseklik:s12bp 360×640 tr": {
+      "navUst": 570,
+      "yolAlt": 488,
+      "aracAlt": 538,
+      "hepsiniAlt": null,
+      "heroAlt": 177,
+      "yolUst": 288,
+      "vh": 640
+    },
+    "kontrast:s12bp 360×640 tr ilk ekran": 5.37,
+    "yukseklik:s12bp 360×640 en": {
+      "navUst": 570,
+      "yolAlt": 488,
+      "aracAlt": 538,
+      "hepsiniAlt": null,
+      "heroAlt": 177,
+      "yolUst": 288,
+      "vh": 640
+    },
+    "kontrast:s12bp 360×640 en ilk ekran": 5.37,
+    "yukseklik:s12bp 390×844 tr": {
+      "navUst": 774,
+      "yolAlt": 554,
+      "aracAlt": 606,
+      "hepsiniAlt": null,
+      "heroAlt": 181,
+      "yolUst": 324,
+      "vh": 844
+    },
+    "kontrast:s12bp 390×844 tr ilk ekran": 5.72,
+    "kontrast:s12bp 390×844 tr aşağı": 5.78,
+    "kontrast:s12bp 390×844 tr yol sonu": 5.72,
+    "yukseklik:s12bp 390×844 en": {
+      "navUst": 774,
+      "yolAlt": 554,
+      "aracAlt": 606,
+      "hepsiniAlt": null,
+      "heroAlt": 181,
+      "yolUst": 324,
+      "vh": 844
+    },
+    "kontrast:s12bp 390×844 en ilk ekran": 5.72,
+    "kontrast:s12bp 390×844 en aşağı": 5.78,
+    "kontrast:s12bp 390×844 en yol sonu": 5.72,
+    "yukseklik:s28 390×700 tr": {
+      "navUst": 630,
+      "yolAlt": 554,
+      "aracAlt": 606,
+      "hepsiniAlt": 606,
+      "heroAlt": 181,
+      "yolUst": 324,
+      "vh": 700
+    },
+    "kontrast:s28 390×700 tr ilk ekran": 5.8,
+    "yukseklik:s28 390×700 en": {
+      "navUst": 630,
+      "yolAlt": 554,
+      "aracAlt": 606,
+      "hepsiniAlt": 606,
+      "heroAlt": 181,
+      "yolUst": 324,
+      "vh": 700
+    },
+    "kontrast:s28 390×700 en ilk ekran": 5.8,
+    "yukseklik:s28 360×640 tr": {
+      "navUst": 570,
+      "yolAlt": 512,
+      "aracAlt": 562,
+      "hepsiniAlt": 562,
+      "heroAlt": 177,
+      "yolUst": 312,
+      "vh": 640
+    },
+    "kontrast:s28 360×640 tr ilk ekran": 5.8,
+    "yukseklik:s28 360×640 en": {
+      "navUst": 570,
+      "yolAlt": 512,
+      "aracAlt": 562,
+      "hepsiniAlt": 562,
+      "heroAlt": 177,
+      "yolUst": 312,
+      "vh": 640
+    },
+    "kontrast:s28 360×640 en ilk ekran": 5.8,
+    "yukseklik:s28 390×844 tr": {
+      "navUst": 774,
+      "yolAlt": 554,
+      "aracAlt": 606,
+      "hepsiniAlt": 606,
+      "heroAlt": 181,
+      "yolUst": 324,
+      "vh": 844
+    },
+    "kontrast:s28 390×844 tr ilk ekran": 5.8,
+    "kontrast:s28 390×844 tr aşağı": 5.8,
+    "kontrast:s28 390×844 tr yol sonu": 5.8,
+    "yukseklik:s28 390×844 en": {
+      "navUst": 774,
+      "yolAlt": 554,
+      "aracAlt": 606,
+      "hepsiniAlt": 606,
+      "heroAlt": 181,
+      "yolUst": 324,
+      "vh": 844
+    },
+    "kontrast:s28 390×844 en ilk ekran": 5.8,
+    "kontrast:s28 390×844 en aşağı": 5.8,
+    "kontrast:s28 390×844 en yol sonu": 5.8,
+    "yukseklik:s28bp 390×700 tr": {
+      "navUst": 630,
+      "yolAlt": 554,
+      "aracAlt": 606,
+      "hepsiniAlt": 606,
+      "heroAlt": 181,
+      "yolUst": 324,
+      "vh": 700
+    },
+    "kontrast:s28bp 390×700 tr ilk ekran": 5.72,
+    "yukseklik:s28bp 390×700 en": {
+      "navUst": 630,
+      "yolAlt": 554,
+      "aracAlt": 606,
+      "hepsiniAlt": 606,
+      "heroAlt": 181,
+      "yolUst": 324,
+      "vh": 700
+    },
+    "kontrast:s28bp 390×700 en ilk ekran": 5.72,
+    "yukseklik:s28bp 360×640 tr": {
+      "navUst": 570,
+      "yolAlt": 508,
+      "aracAlt": 558,
+      "hepsiniAlt": 558,
+      "heroAlt": 177,
+      "yolUst": 308,
+      "vh": 640
+    },
+    "kontrast:s28bp 360×640 tr ilk ekran": 5.72,
+    "yukseklik:s28bp 360×640 en": {
+      "navUst": 570,
+      "yolAlt": 508,
+      "aracAlt": 558,
+      "hepsiniAlt": 558,
+      "heroAlt": 177,
+      "yolUst": 308,
+      "vh": 640
+    },
+    "kontrast:s28bp 360×640 en ilk ekran": 5.72,
+    "yukseklik:s28bp 390×844 tr": {
+      "navUst": 774,
+      "yolAlt": 554,
+      "aracAlt": 606,
+      "hepsiniAlt": 606,
+      "heroAlt": 181,
+      "yolUst": 324,
+      "vh": 844
+    },
+    "kontrast:s28bp 390×844 tr ilk ekran": 5.37,
+    "kontrast:s28bp 390×844 tr aşağı": 5.8,
+    "kontrast:s28bp 390×844 tr yol sonu": 5.37,
+    "yukseklik:s28bp 390×844 en": {
+      "navUst": 774,
+      "yolAlt": 554,
+      "aracAlt": 606,
+      "hepsiniAlt": 606,
+      "heroAlt": 181,
+      "yolUst": 324,
+      "vh": 844
+    },
+    "kontrast:s28bp 390×844 en ilk ekran": 5.37,
+    "kontrast:s28bp 390×844 en aşağı": 5.8,
+    "kontrast:s28bp 390×844 en yol sonu": 5.37,
+    "yukseklik:sfinal 390×700 tr": {
+      "navUst": 630,
+      "yolAlt": 554,
+      "aracAlt": 606,
+      "hepsiniAlt": 606,
+      "heroAlt": 181,
+      "yolUst": 324,
+      "vh": 700
+    },
+    "kontrast:sfinal 390×700 tr ilk ekran": 5.72,
+    "yukseklik:sfinal 390×700 en": {
+      "navUst": 630,
+      "yolAlt": 554,
+      "aracAlt": 606,
+      "hepsiniAlt": 606,
+      "heroAlt": 181,
+      "yolUst": 324,
+      "vh": 700
+    },
+    "kontrast:sfinal 390×700 en ilk ekran": 5.72,
+    "yukseklik:sfinal 360×640 tr": {
+      "navUst": 570,
+      "yolAlt": 492,
+      "aracAlt": 542,
+      "hepsiniAlt": 542,
+      "heroAlt": 177,
+      "yolUst": 292,
+      "vh": 640
+    },
+    "kontrast:sfinal 360×640 tr ilk ekran": 5.37,
+    "yukseklik:sfinal 360×640 en": {
+      "navUst": 570,
+      "yolAlt": 492,
+      "aracAlt": 542,
+      "hepsiniAlt": 542,
+      "heroAlt": 177,
+      "yolUst": 292,
+      "vh": 640
+    },
+    "kontrast:sfinal 360×640 en ilk ekran": 5.37,
+    "yukseklik:sfinal 390×844 tr": {
+      "navUst": 774,
+      "yolAlt": 554,
+      "aracAlt": 606,
+      "hepsiniAlt": 606,
+      "heroAlt": 181,
+      "yolUst": 324,
+      "vh": 844
+    },
+    "kontrast:sfinal 390×844 tr ilk ekran": 5.72,
+    "kontrast:sfinal 390×844 tr aşağı": 5.78,
+    "kontrast:sfinal 390×844 tr yol sonu": 5.72,
+    "yukseklik:sfinal 390×844 en": {
+      "navUst": 774,
+      "yolAlt": 554,
+      "aracAlt": 606,
+      "hepsiniAlt": 606,
+      "heroAlt": 181,
+      "yolUst": 324,
+      "vh": 844
+    },
+    "kontrast:sfinal 390×844 en ilk ekran": 5.72,
+    "kontrast:sfinal 390×844 en aşağı": 5.78,
+    "kontrast:sfinal 390×844 en yol sonu": 5.72,
+    "kontrast:önizleme coin": 4.79,
+    "kontrast:önizleme cerceve": 3.48,
+    "kontrast:önizleme avatar": 5.8,
+    "kontrast:taşma alt sayfası": 5.8
+  }
+}
