@@ -33,7 +33,7 @@ import { useDil } from "../lib/dilKanca.js";
 import { hataMesaji, islemHatasi } from "../lib/hata.js";
 import { y } from "../lib/yol.js";
 import { coinTazele } from "../lib/coin.js";
-import { ayar } from "../lib/ayarlar.js";
+import { ayar, useAyar } from "../lib/ayarlar.js";
 import AramaSahnesi, { ARAMA_GECIS_MS } from "../components/AramaSahnesi.jsx";
 import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesJoker, sesDokunus, sesRakipBulundu,
   sesOnYukle, sesKategoriGeriSayim, sesSoruGeldi, sesTurGecis, sesSkill,
@@ -76,6 +76,16 @@ const BAGLANTI_MS = 5000;          // duello_baglanti (kopukluk bandı) aralığ
 // duello2_ilerlet cevap fazını kişisel bitiş + duello2_cevap_tolerans_sn (1 sn) sonra kapatır.
 const CEVAP_TOLERANS_MS = 1100;
 const SINYAL_BIRLESTIR_MS = 30;    // aynı anda gelen Realtime sinyallerini tek okumada birleştir
+// 760 (1 Eki 2026, Ida + arkadaşının ilk iki kişilik maçı): durum okuması hata verince (57014 statement timeout,
+// ağ kopması) sahne eski fazda donup kalıyordu. Artık geri çekilmeli yeniden deneme (1 → 2 → 4 → 8 sn) yapılır ve
+// "Bağlantı yeniden kuruluyor…" bandı çıkar; son bilinen sunucu fazı ekranda kalır, ilk başarılı okumada toparlanır.
+// Hata sürerken yedek yoklama DURUR (yeniden deneme zamanlayıcısı tek kaynak) — sunucuya ek yük binmez.
+const HATA_GERI_CEKILME_MS = [1000, 2000, 4000, 8000];
+// Faz bitişi geçtiği hâlde yeni faz gelmediyse (cron/DB takılması) yoklama 4 sn yerine 2 sn'de bir sürer
+// (her durum okuması sunucuda fazı tembel ilerletir) ve GECIKME_BANT_MS'den sonra bant görünür.
+const GECIKMIS_YOKLAMA_MS = 2000;
+const GECIKMIS_PENCERE_MS = 30000;
+const GECIKME_BANT_MS = 4000;
 
 // ------------------------------------------------------------ giriş + arama
 // Tasarım A: tek sütun, mod rengi pembe başlık kartı + tek birincil eylem.
@@ -183,7 +193,7 @@ const ARAMA_IPUCLARI = [
   "Hamlen tutması için sen doğru, rakip yanlış bilmelisin.",
   "Boş kategoride bilen alır.",
   "Tutan hamle kategoriyi 2 tur kilitler.",
-  "10 tur sonunda yuvalar eşitse Altın Soru.",
+  "{t} tur sonunda yuvalar eşitse Altın Soru.",
 ];
 const IPUCU_SN = 3;
 // Paket 41 F: düello aramasının üst sınırı (Klasik'teki gibi sonsuz bekleme yok)
@@ -191,6 +201,7 @@ const DUELLO_ARAMA_SINIR_SN = 60;
 
 function DuelloArama({ dereceli, onBulundu, onIptal, ipuclari = ARAMA_IPUCLARI, bilgi = null }) {
   const { ceviri } = useDil();
+  const turSayisi = useAyar("duello_max_tur", 16);   // Düello tur sayısı metne gömülmez (1 Eki 2026: 16 tur)
   const [gecen, setGecen] = useState(0);
   const ipucu = Math.floor(gecen / IPUCU_SN) % ipuclari.length;
   const [hata, setHata] = useState(null);
@@ -283,7 +294,7 @@ function DuelloArama({ dereceli, onBulundu, onIptal, ipuclari = ARAMA_IPUCLARI, 
       bilgi={bilgi}
       hata={hata}
       // key değişince satır yeniden takılır → giriş animasyonu her ipucunda oynar
-      alt={<p key={ipucu} className="qt-h-gir" aria-live="polite">{ceviri(ipuclari[ipucu])}</p>}
+      alt={<p key={ipucu} className="qt-h-gir" aria-live="polite">{ceviri(ipuclari[ipucu], { t: turSayisi })}</p>}
       onIptal={onIptal}
       onTekrar={yenidenDene}
     />
@@ -445,6 +456,10 @@ function DuelloMac({ id }) {
   const yukleRef = useRef(null);
   const sonYukleRef = useRef(0);         // son okumanın başladığı an (yoklama seyreltme)
   const sonBaglantiRef = useRef(0);
+  // 760: art arda başarısız okuma sayısı + tek yeniden deneme zamanlayıcısı (geri çekilmeli)
+  const hataSayisiRef = useRef(0);
+  const yenidenDeneRef = useRef(null);
+  const [yenidenBaglaniyor, setYenidenBaglaniyor] = useState(false);
   const yukleTek = useCallback(async () => {
     yukleniyorRef.current = true;
     sonYukleRef.current = Date.now();
@@ -502,6 +517,12 @@ function DuelloMac({ id }) {
         }
         setYuklemeHatasi(null);
       }
+      if (hataSayisiRef.current) {
+        hataSayisiRef.current = 0;
+        window.clearTimeout(yenidenDeneRef.current);
+        yenidenDeneRef.current = null;
+        setYenidenBaglaniyor(false);
+      }
       if (!baglantiCevap) {
         // Bu okumada bağlantı sorulmadı: son değer geçerli.
       } else if (baglantiCevap.error) {
@@ -514,7 +535,17 @@ function DuelloMac({ id }) {
       }
     } catch (e) {
       console.error("[Bildim] düello yüklenemedi:", e);
-      setYuklemeHatasi(true);
+      // İlk okuma hiç gelmediyse "Tekrar dene" ekranı; maç ekrandaysa sahne son bilinen fazda kalır, bant çıkar.
+      if (!dImzaRef.current) setYuklemeHatasi(true);
+      setYenidenBaglaniyor(true);
+      const n = hataSayisiRef.current++;
+      if (!yenidenDeneRef.current) {
+        const ms = HATA_GERI_CEKILME_MS[Math.min(n, HATA_GERI_CEKILME_MS.length - 1)];
+        yenidenDeneRef.current = window.setTimeout(() => {
+          yenidenDeneRef.current = null;
+          yukleRef.current?.();
+        }, ms);
+      }
     } finally {
       yukleniyorRef.current = false;
     }
@@ -565,18 +596,35 @@ function DuelloMac({ id }) {
     // geçen süreye bakılır — sinyal ya da eylemle yeni okunduysa yoklama atlanır.
     const yoklama = setInterval(() => {
       if (document.visibilityState !== "visible") return;
+      if (hataSayisiRef.current) return;   // 760: hata sürerken yalnız geri çekilmeli yeniden deneme çalışır
       const kalanMs = fazBitisRef.current == null ? Infinity : fazBitisRef.current - (Date.now() + farkRef.current);
       const bitiseYakin = kalanMs <= SON_YOKLAMA_PENCERE_MS && kalanMs > -2000;
-      const aralik = bitiseYakin ? SON_YOKLAMA_MS : kanalHazirRef.current ? YEDEK_YOKLAMA_MS : KANALSIZ_YOKLAMA_MS;
+      const gecikmis = kalanMs <= -2000 && kalanMs > -GECIKMIS_PENCERE_MS;
+      const aralik = bitiseYakin ? SON_YOKLAMA_MS
+        : kanalHazirRef.current ? (gecikmis ? GECIKMIS_YOKLAMA_MS : YEDEK_YOKLAMA_MS) : KANALSIZ_YOKLAMA_MS;
       if (Date.now() - sonYukleRef.current >= aralik - 50) yukle();
     }, SON_YOKLAMA_MS);
-    const gorunur = () => { if (document.visibilityState === "visible") yukle(); };
+    // 760: sayfa öne gelince / bfcache'ten dönünce / ağ geri gelince HEMEN sunucudan tazele (iOS Safari arka planda
+    // zamanlayıcıları askıya alır; dönüşte eski faz ve eski geri sayım ekranda kalmasın). Bekleyen yeniden deneme iptal.
+    const tazeleHemen = () => {
+      if (document.visibilityState !== "visible") return;
+      window.clearTimeout(yenidenDeneRef.current);
+      yenidenDeneRef.current = null;
+      yukle();
+    };
+    const gorunur = () => { if (document.visibilityState === "visible") tazeleHemen(); };
     document.addEventListener("visibilitychange", gorunur);
+    window.addEventListener("pageshow", tazeleHemen);
+    window.addEventListener("online", tazeleHemen);
     const saat = setInterval(() => setSimdi(Date.now()), 200);
     return () => {
       clearInterval(yoklama);
       clearInterval(saat);
+      window.clearTimeout(yenidenDeneRef.current);
+      yenidenDeneRef.current = null;
       document.removeEventListener("visibilitychange", gorunur);
+      window.removeEventListener("pageshow", tazeleHemen);
+      window.removeEventListener("online", tazeleHemen);
       clearTimeout(skillTimerRef.current);
       clearTimeout(sinyalZamanRef.current);
       sinyalZamanRef.current = null;
@@ -591,7 +639,9 @@ function DuelloMac({ id }) {
   // Faz bitişinde tek okuma: sunucu fazı tembel ilerletir (okuyan ilk çağrı ya da 2 sn'lik
   // cron). Bitiş anında iki istemci de okur → yeni faz iki ekrana aynı anda gelir.
   // Anahtar: "c|bitiş1|bitiş2" (cevap fazı: iki kişisel bitişin geç olanı + tolerans) ya da "f|faz_bitis".
-  const bitisAnahtar = d?.durum === "aktif"
+  // 760: rakip (ya da ben) kopukken sunucu fazı dondurur ve her ilerletmede bitişi ileri iter — bu bitiş
+  // gerçek değildir: zamanlayıcı kurulmaz, bitişe yakın sık yoklama da yapılmaz (dönüşte sinyal/yoklama getirir).
+  const bitisAnahtar = d?.durum === "aktif" && !d.kopuk
     ? d.faz === "cevap" && d.cevap
       ? `c|${d.cevap.benim_bitis}|${d.cevap.rakip_bitis}`
       : `f|${d.faz_bitis}`
@@ -638,10 +688,14 @@ function DuelloMac({ id }) {
     at();                                   // ekran açılır açılmaz bir kez
     const zaman = setInterval(at, nabizSn * 1000);
     document.addEventListener("visibilitychange", at);
+    window.addEventListener("pageshow", at);   // 760: bfcache dönüşü ve ağ geri gelişi de nabız atar
+    window.addEventListener("online", at);
     return () => {
       durdu = true;
       clearInterval(zaman);
       document.removeEventListener("visibilitychange", at);
+      window.removeEventListener("pageshow", at);
+      window.removeEventListener("online", at);
     };
   }, [id, nabizSn]);
 
@@ -810,16 +864,21 @@ function DuelloMac({ id }) {
     const gosterimPayinda = gosterimBas && an + farkRef.current < gosterimBas;   // pay: sayaç sabit, kaydırma yok
     return gosterimPayinda ? kalanSn : Math.max(0, kalanSn + (farkRef.current - farkGosterRef.current.fark) / 1000);
   }, [kalanSn, gosterimBas]);
+  // 760: kopuklukta sunucu kalan süreyi dondurur (kopuk_kalan, en az duello_kopuk_taban_sn) ve dönüşte fazı
+  // tam o kalanla sürdürür. Ekran da aynı donuk değeri gösterir: itilen bitiş yüzünden sayaç tekrar tekrar
+  // "3"ten başlamaz (30 Eyl gece ~22 kez başlamıştı); dönüşte kaldığı rakamdan akar.
+  const kopukDonukSn = d?.kopuk && Number.isFinite(Number(d.kopuk.faz_kalan_sn)) ? Math.max(0, Number(d.kopuk.faz_kalan_sn)) : null;
   const gosterSn = useMemo(() => {
+    if (kopukDonukSn != null) return kopukDonukSn;
     if (!(kalanSn > 0) || !d) return 0;
     const anahtar = `${d.tur}-${d.saldiri_sirasi}-${d.uzatma ?? ""}-${d.faz}`;
     if (fazKaymaRef.current.anahtar !== anahtar) fazKaymaRef.current = { anahtar, ...sayacKaymasi(kalanGoster) };
     return sayacGoster(kalanGoster, fazKaymaRef.current);
-  }, [kalanGoster, kalanSn, d?.tur, d?.saldiri_sirasi, d?.uzatma, d?.faz]);   // eslint-disable-line react-hooks/exhaustive-deps
+  }, [kalanGoster, kalanSn, kopukDonukSn, d?.tur, d?.saldiri_sirasi, d?.uzatma, d?.faz]);   // eslint-disable-line react-hooks/exhaustive-deps
   // Rakam tam saniye sınırında değişsin: 200 ms'lik saat tikine ek olarak bir sonraki
   // sınıra kurulmuş tek zamanlayıcı (adımlar 800/1200 ms diye titremez).
   useEffect(() => {
-    if (kalanSn <= 0) return undefined;
+    if (kalanSn <= 0 || kopukDonukSn != null) return undefined;
     const bekle = sayacSinirMs(kalanGoster, fazKaymaRef.current);
     const zaman = setTimeout(() => setSimdi(Date.now()), bekle + 5);
     return () => clearTimeout(zaman);
@@ -1064,7 +1123,7 @@ function DuelloMac({ id }) {
     const kazandim = d.kazanan === d.ben;
     const rov = d.rovans ?? {};
     const durum = d.durum === "iptal" ? "berabere" : kazandim ? "kazandi" : "kaybetti";
-    // 680 · Hâkimiyet: skor yerine yuva sayısı. Nakavt: 4 yuvaya ulaşan kazanır; 10 tur sonunda yuvası çok olan;
+    // 680 · Hâkimiyet: skor yerine yuva sayısı. Nakavt: 4 yuvaya ulaşan kazanır; son tur (duello_max_tur) sonunda yuvası çok olan;
     // eşitse Altın Soru (kim bildiyse o kazanır).
     const hkS = hkModel(d, ben, rakip);
     const nakavt = d.durum === "bitti" && hkS.acik && Math.max(hkS.benY, hkS.rakipY) >= hkS.esik;
@@ -1208,9 +1267,19 @@ function DuelloMac({ id }) {
   // Büyük süre: kategori ve cevap fazında geri sayım halkası/rakamı; sonuç fazında sayaç yerine sade işaret.
   const sayacGosterilir = d.faz === "kategori" || d.faz === "cevap";
   const sayacNode = sayacGosterilir
-    ? <QtSayac kalan={gosterSn} toplam={toplamSn} esik={5} boyut="k" durdu={kilitli} ekBalon={ekBalon} className="hk-sayac" />
+    ? <QtSayac kalan={gosterSn} toplam={toplamSn} esik={5} boyut="k" durdu={kilitli || kopukDonukSn != null} ekBalon={ekBalon} className="hk-sayac" />
     : <span className="hk-sayac hk-sayac--sonuc" aria-hidden="true">·</span>;
-  const sureOrani = sayacGosterilir ? kalanGoster / Math.max(1, toplamSn) : 0;
+  const sureOrani = sayacGosterilir ? (kopukDonukSn ?? kalanGoster) / Math.max(1, toplamSn) : 0;
+  // 760: kopukluk bandı önce durum okumasındaki `kopuk`tan (her okumada, sunucunun dondurduğu an ve bekleme bitişi),
+  // yoksa 5 sn'lik duello_baglanti'dan. Kalan süre sunucu saatine göre.
+  const kopukBant = d.kopuk
+    ? { benMi: Boolean(d.kopuk.ben_mi), kalan: d.kopuk.bitis ? Math.max(0, Math.ceil((new Date(d.kopuk.bitis).getTime() - (simdi + farkRef.current)) / 1000)) : null }
+    : baglanti?.kopuk
+      ? { benMi: Boolean(baglanti.ben_mi), kalan: baglanti.kalan_sn == null ? null : Math.max(0, baglanti.kalan_sn - Math.floor((simdi - (baglanti.alindi ?? simdi)) / 1000)) }
+      : null;
+  // Faz bitişi GECIKME_BANT_MS geçtiği hâlde yeni faz gelmediyse ya da okuma hata veriyorsa: "Bağlantı yeniden kuruluyor…"
+  const gecikmisMs = fazBitisRef.current != null ? simdi + farkRef.current - fazBitisRef.current : 0;
+  const yenidenBant = !kopukBant && (yenidenBaglaniyor || (sayacGosterilir && !kilitli && gecikmisMs > GECIKME_BANT_MS));
   let sahne2 = null;
   if (d.faz === "kategori") {
     sahne2 = (
@@ -1234,14 +1303,19 @@ function DuelloMac({ id }) {
              sayac={sayacNode} oran={sureOrani} son={gerilim}
              onay={d.faz === "cevap" ? { [ben.id]: kilitli, [rakip.id]: Boolean(d.cevap?.rakip_cevapladi) } : {}} />
       {/* Paket 24 · A.4: bağlantı kopması. Kopukken sunucu fazları İLERLETMEZ. */}
-      {baglanti?.kopuk && (
+      {kopukBant && (
         <p className="m2-bant m2-bant--uyari" role="status">
           <QtIkon ad="uyari" boyut={18} />
           <span>
-            {baglanti.ben_mi ? ceviri("Bağlantın koptu — düello bekliyor.") : ceviri("Rakibin bağlantısı koptu — düello durduruldu.")}
-            {baglanti.kalan_sn === null || baglanti.kalan_sn === undefined ? ""
-              : ` ${Math.max(0, baglanti.kalan_sn - Math.floor((simdi - (baglanti.alindi ?? simdi)) / 1000))} ${ceviri("sn")}`}
+            {kopukBant.benMi ? ceviri("Bağlantın koptu — düello bekliyor.") : ceviri("Rakibin bağlantısı koptu — düello durduruldu.")}
+            {kopukBant.kalan == null ? "" : ` ${kopukBant.kalan} ${ceviri("sn")}`}
           </span>
+        </p>
+      )}
+      {yenidenBant && (
+        <p className="m2-bant m2-bant--uyari" role="status">
+          <QtIkon ad="yenile" boyut={18} />
+          <span>{ceviri("Bağlantı yeniden kuruluyor…")}</span>
         </p>
       )}
       {/* Cevap fazında tahta küçülür (yalnız yuva şeridi): soru + 4 şık + joker şeridi kaydırmasız sığsın */}
