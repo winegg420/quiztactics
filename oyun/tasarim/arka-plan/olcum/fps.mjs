@@ -2,14 +2,14 @@
 import { chromium } from "playwright-core";
 const b = await chromium.launch();
 const sonuc = [];
-for (const mod of ["eski", "yeni", "eski", "yeni"]) {
-  for (const t of ["su", "kar", "yaprak"]) {
+for (const mod of ["yeni", "yeni"]) {
+  for (const t of ["su", "kar", "yaprak", "gece"]) {
     const c = await b.newContext({ viewport: { width: 390, height: 844 } });
     await c.addInitScript((m) => { localStorage.setItem("qt_arka_plan_onizleme_tam", JSON.stringify({ mod: m })); }, mod);
     const p = await c.newPage();
     await p.goto(""+(process.env.ADRES||"http://localhost:5173")+"/oyun/tasarim/arka-plan/olcum/index.html"); await p.waitForTimeout(800);
     // iki bölümü birlikte görünür yap: seçilen bölüm + bir sonraki
-    await p.evaluate((t) => { const s = document.querySelector(`section[data-bolum="${t === "yaprak" ? "kar" : t}"]`); window.scrollTo(0, s.getBoundingClientRect().top + scrollY - 70); }, t);
+    await p.evaluate((t) => { const s = document.querySelector(`section[data-bolum="${t === "yaprak" ? "kar" : t === "gece" ? "yaprak" : t}"]`); window.scrollTo(0, s.getBoundingClientRect().top + scrollY - 70); }, t);
     await p.waitForTimeout(600);
     const cdp = await c.newCDPSession(p);
     await cdp.send("Emulation.setCPUThrottlingRate", { rate: 6 });
