@@ -13,12 +13,15 @@
  *   en çok MAX_HAREKETLI kart (maç başı 2 + ana sayfa 1). Aksi hâlde sabit hâl. "Hareketi azalt" davranışı
  *   AZALT_DAVRANISI ile seçilir: "sabit" (varsayılan) ya da "yumusak" (oyundaki yumuşak mod: 2,5× yavaş, yarı parçacık).
  * - Yazı arkasında koyu yarı saydam okunabilirlik alanı (.abp-okuma) + parçacık maskesi (yazı bölgesinde sönük).
- * - tamGorunur (varsayılan false = yukarıdaki eski davranış BİREBİR): okunabilirlik alanı ve maske YOK, parçacıklar yazının ÜSTÜNDEN
- *   geçer (pointer-events: none). Sabit hâlde parçacıklar yazı bölgesinin DIŞINA yerleşir (sabitYer). Yalnız önizleme (katman ile birlikte desteklenmez).
+ * - tamGorunur = YENİ MOD (varsayılan false = yukarıdaki eski davranış BİREBİR). Yalnız önizleme (katman ile birlikte desteklenmez):
+ *   · parçacıklar yazının, avatarın ve çerçevenin ARKASINDA (z 1 < içerik z 3); okunabilirlik alanı ve maske YOK (tam opaklık);
+ *   · yönler: kar ve yapraklar yalnız yukarıdan aşağı (dönme iç öğede → yol saf dikey), baloncuklar karışık (genel yön yukarı);
+ *   · hareketi azalt / pil düşük / 4. kart → hareketli hâlin donmuş karesi DEĞİL, ayrı çizilmiş özel sabit kompozisyon (sabit-tasarim.jsx).
  */
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import "./arka-plan.css";
 import "./arka-plan-tam.css";
+import SabitTasarim from "./sabit-tasarim.jsx";
 
 export const MAX_HAREKETLI = 3;
 const AZALT_DAVRANISI = "sabit";   // "sabit" | "yumusak"
@@ -39,10 +42,11 @@ function rng(tohum) {
   };
 }
 const ara = (r, a, b) => a + r() * (b - a);
-const YAPRAK_RENK = ["#E8552F", "#F5A623", "#C8461F", "#F2C14E", "#D9731C"];
+export const YAPRAK_RENK = ["#E8552F", "#F5A623", "#C8461F", "#F2C14E", "#D9731C"];
 
 /**
- * tamGorunur + SABİT hâl: parçacığı yazı bölgesinin dışına koyar (kalıcı bindirme olmasın). Dönen: x (% sol), y (px, üst kenar).
+ * ESKİ denemenin (yazının üstünden geçen tamGorunur) yerleşimi — artık KartArkaPlan/Yıldızlı Gece kullanmaz; yalnız önizlemede
+ * gösterilmeyen Köz/Kuzey (arka-plan-yeni-ortak) içe aktarır. Parçacığı yazı bölgesinin dışına koyar. Dönen: x (% sol), y (px, üst kenar).
  * yatay: üçte biri avatar tarafında (sol şerit), üçte biri üst banta, üçte biri alt banta; parçacığın alt/üst kenarı banttan taşmaz.
  * dikey (avatar üstte, yazı altta): hepsi üst %44'te. k = lig satırı (dar bant; sol şerit sıra numarasından sonra başlar).
  * Dönen parçacıkların (kar tanesi, yaprak) sınır kutusu ≈ 1,2 s: bantlar buna göre pay bırakılarak hesaplanır.
@@ -97,13 +101,65 @@ function parcaciklar(tur, k) {
   return liste.sort((a, b) => a.kat - b.kat);   // uzak önce çizilir
 }
 
+/**
+ * YENİ MOD parçacıkları (tamGorunur). Kar ve yapraklar YALNIZ aşağı iner: dönme iç öğede (dış öğe sadece dikey yol + hafif yatay sallanma),
+ * başlangıç/bitiş kart dışında (döngü dikişi görünmez). Su Altı: baloncuklar kartın her yerinde, farklı zaman/boyut/hızda karışık çıkar
+ * (alttan girenler · kartın içinde yumuşakça belirenler · belirip bir süre bekleyenler); genel yön yukarı. h = kart yüksekliği (px).
+ */
+function parcaciklarYeni(tur, k, h) {
+  const cfg = ARKA_PLANLAR[tur];
+  const r = rng(cfg.tohum + 500 + (k ? 100 : 0));
+  const n = k ? Math.round(cfg.n * 0.55) : cfg.n;
+  const olcek = k ? 0.62 : 1;
+  const liste = [];
+  for (let i = 0; i < n; i++) {
+    const p = { q: r(), x: r() * 96, varyant: Math.floor(r() * 3), rot: 0 };
+    if (tur === "su") {
+      const buyuk = r() < 0.25;
+      p.s = (buyuk ? ara(r, 10, 18) : ara(r, 3, 9)) * olcek;
+      p.amp = ara(r, 4, 11); p.tip = "kabarcik"; p.yon = "yuk";
+      p.kat = p.s < 5 * olcek ? 0 : p.s < 10 * olcek ? 1 : 2;
+      p.op = [0.45, 0.72, 0.95][p.kat];
+      const t3 = r();
+      p.ml = t3 < 0.4 ? "gir" : t3 < 0.72 ? "belir" : "ara";
+      p.y0 = p.ml === "gir" ? h + p.s : h * ara(r, 0.12, 0.9);
+      p.y1 = -p.s * 1.2;
+      const hiz = ara(r, 8, 22) * [0.85, 1, 1.2][p.kat];   // px/sn: küçük yavaş, büyük hızlı
+      const yol = Math.max(3.5, (p.y0 - p.y1) / hiz);
+      p.dur = p.ml === "ara" ? yol / 0.68 : yol;
+      p.gec = -r() * p.dur;
+    } else if (tur === "kar") {
+      const buyuk = r() < 0.42;
+      p.s = (buyuk ? ara(r, 11, 23) : ara(r, 2.5, 5.5)) * olcek;
+      p.dur = (buyuk ? 7 : 10) + r() * 7 + (buyuk ? 0 : 3); p.amp = ara(r, 2, 6);
+      p.tip = buyuk ? "tane" : "nokta"; p.yon = "dus"; p.rot = r() * 360; p.don = ara(r, 9, 18);
+      p.kat = buyuk ? (p.s < 15 * olcek ? 0 : p.s < 19 * olcek ? 1 : 2) : (p.s < 4 * olcek ? 0 : 1);
+      p.op = buyuk ? [0.6, 0.82, 1][p.kat] : [0.5, 0.75][p.kat];
+    } else {
+      p.s = ara(r, 13, 23) * olcek;
+      p.dur = ara(r, 7, 13); p.amp = ara(r, 2, 4); p.tip = "yaprak"; p.yon = "dus";
+      p.rot = ara(r, -40, 40); p.don = ara(r, 3, 5); p.renk = YAPRAK_RENK[Math.floor(r() * 5)];
+      p.kat = p.s < 16 * olcek ? 0 : p.s < 20 * olcek ? 1 : 2;
+      p.op = [0.8, 0.95, 1][p.kat];
+    }
+    if (tur !== "su") {
+      p.dur *= [1.15, 1, 0.88][p.kat];
+      p.y0 = -1.5 * p.s; p.y1 = h + 0.5 * p.s;   // dönen kutu tamamen kart dışında başlar/biter → döngü dikişi görünmez
+      p.gec = -p.q * p.dur;
+    }
+    p.sdur = (tur === "su" ? 2.2 : 3.4) + r() * 2.6;
+    liste.push(p);
+  }
+  return liste.sort((a, b) => a.kat - b.kat);   // uzak önce çizilir
+}
+
 // ------------------------- çizimler -------------------------
 const TANE_KOL = [
   "M0 0V-9M0 -5L-2.6 -7.6M0 -5L2.6 -7.6M0 -2.4L-1.8 -4.2M0 -2.4L1.8 -4.2",
   "M0 0V-9M0 -6.2L-2.4 -8.4M0 -6.2L2.4 -8.4M0 -3.6L-3 -5.4M0 -3.6L3 -5.4",
   "M0 0V-8.6M-2 -7.2L0 -9.2L2 -7.2M0 -4.4L-2.6 -6M0 -4.4L2.6 -6",
 ];
-function Tane({ v }) {
+export function Tane({ v }) {
   return (
     <svg viewBox="-10 -10 20 20" aria-hidden="true" focusable="false">
       <g stroke="#fff" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" fill="none">
@@ -114,7 +170,7 @@ function Tane({ v }) {
     </svg>
   );
 }
-function Yaprak({ renk }) {
+export function Yaprak({ renk }) {
   return (
     <svg viewBox="-10 -12 20 27" aria-hidden="true" focusable="false">
       <path d="M0 -11Q9 -3 0 11Q-9 -3 0 -11Z" fill={renk} />
@@ -127,14 +183,14 @@ function Yaprak({ renk }) {
   );
 }
 
-function Parcacik({ p, tur, h, sabit, yer }) {
+function Parcacik({ p, tur, h, sabit }) {
   const toplam = h + 2 * p.s;
   const y0 = p.yon === "dus" ? -p.s : h + p.s;
   const y1 = p.yon === "dus" ? h + p.s : -p.s;
-  const yy = yer ? yer.y : -p.s + p.q * toplam;   // sabit hâlde konum (tamGorunur: yazı dışına yerleşmiş)
+  const yy = -p.s + p.q * toplam;   // sabit hâlde konum
   const ilerleme = p.yon === "dus" ? p.q : 1 - p.q;
   const stil = {
-    left: `${yer ? yer.x : p.x}%`, opacity: p.op,
+    left: `${p.x}%`, opacity: p.op,
     "--y0": `${y0.toFixed(1)}px`, "--y1": `${y1.toFixed(1)}px`, "--yy": `${yy.toFixed(1)}px`,
     "--dur": `${p.dur.toFixed(2)}s`, "--gec": `${(-ilerleme * p.dur).toFixed(2)}s`,
     "--amp": `${p.amp.toFixed(1)}px`, "--sdur": `${p.sdur.toFixed(2)}s`,
@@ -147,28 +203,46 @@ function Parcacik({ p, tur, h, sabit, yer }) {
   else if (p.tip === "nokta") ic = <span className="abp-nokta" />;
   else if (p.tip === "tane") ic = <><span className="abp-hale" /><Tane v={p.varyant} /></>;
   else ic = <Yaprak renk={p.renk} />;
-  // tamGorunur + sabit: `rotate` özelliği translate3d'den ÖNCE uygulandığı için (öğe kendi merkezi çevresinde döner, konum ötelemesi de
-  // dönen eksende kalır) döndürülen parçacığın yeri kayar → dönme öğeden çıkarılıp içteki sarmalayıcıya verilir; konum tam hesaplanan yerde olur.
-  if (yer && (p.tip === "tane" || p.tip === "yaprak")) {
-    ic = <span className="abp-don-ic" style={{ rotate: `${p.tip === "tane" ? p.rot.toFixed(0) : p.rot.toFixed(1)}deg` }}>{ic}</span>;
-    stil.rotate = "0deg";
-  }
   // Tek öğe, üç anahtar-kare (transform: düşme · translate: sallanma · rotate: dönme) → derinlikli parçacık başına tek katman
   return (
     <span className={`abp-d abp-d--${p.tip}`} style={{ ...stil, width: p.s, height: p.s }} data-sabit={sabit ? "" : undefined}>{ic}</span>
   );
 }
 
+/** YENİ MOD parçacığı: dış öğe yalnız dikey yol + hafif yatay sallanma (yol saf dikey); dönme İÇ öğede (rotate, translate3d'den önce uygulandığı için dış öğede yolu kaydırırdı). */
+function ParcacikYeni({ p, sabit }) {
+  const f = Math.min(1, Math.max(0, -p.gec / p.dur));   // dönen ilerleme: sabit kare (yalnız geçici durgunluk) bu noktada
+  const stil = {
+    left: `${p.x.toFixed(1)}%`, opacity: p.op,
+    "--y0": `${p.y0.toFixed(1)}px`, "--y1": `${p.y1.toFixed(1)}px`, "--yy": `${(p.y0 + f * (p.y1 - p.y0)).toFixed(1)}px`,
+    "--dur": `${p.dur.toFixed(2)}s`, "--gec": `${p.gec.toFixed(2)}s`,
+    "--amp": `${p.amp.toFixed(1)}px`, "--sdur": `${p.sdur.toFixed(2)}s`, "--op": p.op,
+    "--rot": `${p.rot.toFixed(1)}deg`, "--rotn": p.rot.toFixed(0),
+    "--don": `${(p.don ?? 4).toFixed(1)}s`, "--wgec": `${(-((p.rot + 40) / 80) * (p.don ?? 4)).toFixed(2)}s`,
+  };
+  let ic;
+  if (p.tip === "kabarcik") ic = <span className={`abp-kabarcik${p.s >= 10 ? " abp-kabarcik--b" : ""}`} />;
+  else if (p.tip === "nokta") ic = <span className="abp-nokta" />;
+  else if (p.tip === "tane") ic = <span className="abp-y-ic"><span className="abp-hale" /><Tane v={p.varyant} /></span>;
+  else ic = <span className="abp-y-ic"><Yaprak renk={p.renk} /></span>;
+  return (
+    <span className={`abp-y abp-y--${p.tip}${p.ml ? ` abp-y--${p.ml}` : ""}`} style={{ ...stil, width: p.s, height: p.s }} data-sabit={sabit ? "" : undefined}>{ic}</span>
+  );
+}
+
 // ------------------------- hareket koşulları -------------------------
 const aktifler = new Set();
 
-export function useHareket(hareketli, kok) {
+/** Hareket kararı + nedeni. statik = sabit kalma nedeni KALICI (hareketsiz kart · hareketi azalt · pil düşük · 3 kart sınırı) → yeni modda özel sabit
+ *  kompozisyon gösterilir; geçici nedenlerde (sekme gizli · ekranda değil · ilk kare) parçacıklar donmuş durur, kompozisyon değişmez. */
+export function useHareketAyrinti(hareketli, kok) {
   const id = useId();
   const [azalt, setAzalt] = useState(false);
   const [gorunur, setGorunur] = useState(true);
   const [ekranda, setEkranda] = useState(true);
   const [pilDusuk, setPilDusuk] = useState(false);
   const [yer, setYer] = useState(false);
+  const [sinirda, setSinirda] = useState(false);
 
   useEffect(() => {
     let mq = null; let fn = null;
@@ -198,14 +272,19 @@ export function useHareket(hareketli, kok) {
 
   const iste = hareketli && gorunur && ekranda && !pilDusuk && !(azalt && AZALT_DAVRANISI === "sabit");
   useEffect(() => {
-    if (!iste) { setYer(false); return undefined; }
-    if (aktifler.size >= MAX_HAREKETLI) { setYer(false); return undefined; }
+    if (!iste) { setYer(false); setSinirda(false); return undefined; }
+    if (aktifler.size >= MAX_HAREKETLI) { setYer(false); setSinirda(true); return undefined; }
+    setSinirda(false);
     aktifler.add(id); setYer(true);
     return () => { aktifler.delete(id); };
   }, [iste, id]);
 
-  if (!yer) return "sabit";
-  return azalt ? "yumusak" : "oynar";
+  if (!yer) return { mod: "sabit", statik: !hareketli || pilDusuk || (azalt && AZALT_DAVRANISI === "sabit") || sinirda };
+  return { mod: azalt ? "yumusak" : "oynar", statik: false };
+}
+
+export function useHareket(hareketli, kok) {
+  return useHareketAyrinti(hareketli, kok).mod;
 }
 
 export default function KartArkaPlan({ tur = "su", hareketli = false, yukseklik = 100, className = "", children, katman = false, duzen = "yatay", tamGorunur = false }) {
@@ -220,8 +299,9 @@ export default function KartArkaPlan({ tur = "su", hareketli = false, yukseklik 
   }, [katman]);
   const yuk = katman ? olcu : yukseklik;
   const k = yuk < 60;
-  const liste = useMemo(() => parcaciklar(tur, k), [tur, k]);
-  const mod = useHareket(hareketli, kok);
+  const liste = useMemo(() => (tamGorunur ? parcaciklarYeni(tur, k, yuk) : parcaciklar(tur, k)), [tur, k, tamGorunur, yuk]);
+  const { mod, statik } = useHareketAyrinti(hareketli, kok);
+  const sabitTasarim = tamGorunur && mod === "sabit" && statik;   // yeni mod + kalıcı durgunluk → özel sabit kompozisyon
   const cfg = ARKA_PLANLAR[tur];
   return (
     <div ref={kok} className={`abp abp--${tur} abp--${mod}${k ? " abp--kucuk" : ""}${katman ? " abp--katman" : ""}${duzen === "dikey" ? " abp--dikey" : ""}${tamGorunur ? " abp--tam" : ""} ${className}`.trim()}
@@ -230,7 +310,9 @@ export default function KartArkaPlan({ tur = "su", hareketli = false, yukseklik 
         {tur === "su" && <><i className="abp-huzme abp-huzme--1" /><i className="abp-huzme abp-huzme--2" /><i className="abp-huzme abp-huzme--3" /></>}
       </span>
       <span className="abp-parca" aria-hidden="true">
-        {liste.map((p, i) => <Parcacik key={i} p={p} tur={tur} h={yuk} sabit={mod === "sabit"} yer={tamGorunur && mod === "sabit" ? sabitYer(i, p.s, p.q, p.x, yuk, k, duzen) : null} />)}
+        {sabitTasarim ? <SabitTasarim tur={tur} k={k} duzen={duzen} />
+          : tamGorunur ? liste.map((p, i) => <ParcacikYeni key={i} p={p} sabit={mod === "sabit"} />)
+          : liste.map((p, i) => <Parcacik key={i} p={p} tur={tur} h={yuk} sabit={mod === "sabit"} />)}
       </span>
       {!tamGorunur && <span className="abp-okuma" aria-hidden="true" />}
       {!katman && <div className="abp-icerik">{children}</div>}

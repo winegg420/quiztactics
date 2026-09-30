@@ -1,23 +1,68 @@
 /* =====================================================================
-   TAM GÖRÜNÜR MOD (.abp--tam) — YALNIZ ÖNİZLEME. Oyundaki kartlar bu sınıfı taşımaz → eski görünüm birebir aynı.
-   Okunabilirlik alanı (.abp-okuma) JSX'te çizilmez; parçacık maskesi kalkar; parçacık/ışık katmanı yazının ÜSTÜNDE (z 4 > içerik z 3).
-   Dokunmalar kartın kendisine gider (pointer-events: none). Yazıya yalnız ince, koyu, yumuşak gölge; yeni koyu katman yok.
+   YENİ MOD (.abp--tam) — YALNIZ ÖNİZLEME. Oyundaki kartlar bu sınıfı taşımaz → eski görünüm birebir aynı (arka-plan.css ve
+   arka-plan-yeni.css'e dokunulmaz; her kural .abp--tam ile sınırlı).
+   · Parçacık/ışık katmanı yazının, avatarın ve çerçevenin ARKASINDA (z 1 < içerik z 3). Okunabilirlik alanı (.abp-okuma) JSX'te çizilmez,
+     parçacık maskesi yok → arka plan tam opaklıkta. Yazıya yalnız ince, koyu, yumuşak gölge.
+   · Kar/yaprak: dış öğe yalnız dikey yol + hafif yatay sallanma; dönme İÇ öğede (.abp-y-ic) → yol saf dikey.
+   · Su Altı baloncukları: üç hareket biçimi (gir · belir · ara) karışık, bkz. KartArkaPlan › parcaciklarYeni.
+   · Özel sabit kompozisyon (.abp-st*): sabit-tasarim.jsx.
    Özgüllük bilerek yüksek (yeni-arka-plan kuralları .abp.abp--kor.abp--kucuk .abp-parca gibi 0,4,0'a kadar çıkar).
    ===================================================================== */
 .abp.abp.abp--tam.abp--tam .abp-okuma { display: none; }
 .abp.abp.abp--tam.abp--tam .abp-parca {
-  z-index: 4; pointer-events: none;
+  z-index: 1; pointer-events: none;
   -webkit-mask-image: none; mask-image: none;
 }
-.abp.abp--tam .abp-icerik { text-shadow: 0 1px 2px rgba(0, 0, 0, .35); }
+.abp.abp--tam .abp-icerik { text-shadow: 0 1px 2px rgba(0, 0, 0, .45), 0 0 4px rgba(0, 0, 0, .3); }
 
-/* sabit + tam görünür: döndürülen parçacığın dönmesi içteki sarmalayıcıda (bkz. KartArkaPlan › Parcacik) */
-.abp-don-ic { display: block; width: 100%; height: 100%; }
-.abp-don-ic > svg { display: block; width: 100%; height: 100%; overflow: visible; }
+/* ---------- hareketli parçacık (kar, yaprak, baloncuk) ---------- */
+.abp-y { position: absolute; top: 0; display: block; transform: translate3d(0, var(--yy), 0); }
+.abp-y-ic { display: block; width: 100%; height: 100%; rotate: var(--rot); }
+.abp-y--tane > .abp-y-ic { rotate: calc(var(--rotn) * 1deg); }
+.abp-y-ic > svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.abp--oynar .abp-y, .abp--yumusak .abp-y {
+  will-change: transform;
+  animation: abp-yol var(--dur) linear var(--gec) infinite,
+             abp-sal var(--sdur) ease-in-out calc(var(--sdur) / -2) infinite alternate;
+}
+.abp--oynar .abp-y--tane > .abp-y-ic, .abp--yumusak .abp-y--tane > .abp-y-ic { animation: abp-don var(--don) linear calc(var(--rotn) / 360 * var(--don) * -1) infinite; }
+.abp--oynar .abp-y--yaprak > .abp-y-ic, .abp--yumusak .abp-y--yaprak > .abp-y-ic { animation: abp-wob var(--don) ease-in-out var(--wgec) infinite alternate; }
+.abp--yumusak .abp-y:nth-child(even) { display: none; }
+/* Su Altı: kartın içinde yumuşakça beliren baloncuk (belir) · belirip bir süre bekleyen (ara). Alttan girenler (gir) düz abp-yol. */
+.abp--oynar .abp-y--belir, .abp--yumusak .abp-y--belir {
+  animation: abp-ysu-belir var(--dur) linear var(--gec) infinite, abp-sal var(--sdur) ease-in-out calc(var(--sdur) / -2) infinite alternate;
+}
+.abp--oynar .abp-y--ara, .abp--yumusak .abp-y--ara {
+  animation: abp-ysu-ara var(--dur) linear var(--gec) infinite, abp-sal var(--sdur) ease-in-out calc(var(--sdur) / -2) infinite alternate;
+}
+@keyframes abp-ysu-belir {
+  0% { transform: translate3d(0, var(--y0), 0); opacity: 0; }
+  14% { opacity: var(--op); }
+  84% { opacity: var(--op); }
+  100% { transform: translate3d(0, var(--y1), 0); opacity: 0; }
+}
+@keyframes abp-ysu-ara {
+  0% { transform: translate3d(0, var(--y0), 0); opacity: 0; }
+  7% { opacity: var(--op); }
+  58% { opacity: var(--op); }
+  68% { transform: translate3d(0, var(--y1), 0); opacity: 0; }
+  100% { transform: translate3d(0, var(--y1), 0); opacity: 0; }
+}
 
-/* okunabilirlik alanı olmadığı için, taban karede beyaz yazıya karşı 4,5:1 altına düşen iki parlak zemin ışığı (yalnız tam modda) yumuşatılır; taban renkleri aynı */
+/* ---------- özel sabit kompozisyon (hareketli hâlin donmuş karesi DEĞİL; ayrı çizilmiş) ---------- */
+.abp-st { position: absolute; display: block; }
+.abp-st > svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.abp-st--uzak { filter: blur(.6px); }
+.abp-st-ic { display: block; width: 100%; height: 100%; }
+.abp-st-tepe { position: absolute; left: 0; bottom: 0; width: 100%; display: block; }
+
+/* ---------- taban kontrastı: yazı (beyaz) taban karede ≥ 4,5:1 (ölçüm: _olcum/kontrast.mjs); taban renkleri aynı, yalnız üstteki ışık katmanları ---------- */
 .abp--tam.abp--su .abp-zemin { background: linear-gradient(180deg, rgba(120, 225, 235, .1) 0, rgba(0, 0, 0, 0) 56%), linear-gradient(0deg, rgba(4, 50, 64, .55) 0, rgba(0, 0, 0, 0) 46%); }
 .abp--tam .abp-huzme { background: linear-gradient(90deg, rgba(220, 255, 255, 0), rgba(220, 255, 255, .1) 50%, rgba(220, 255, 255, 0)); }
-.abp--tam.abp--kuzey .abp-kuzey-serit:nth-child(1) { opacity: .3 !important; }
-.abp--tam.abp--kuzey .abp-kuzey-serit:nth-child(2) { opacity: .27 !important; }
-.abp--tam.abp--kuzey .abp-kuzey-serit:nth-child(3) { opacity: .25 !important; }
+
+/* Yıldızlı Gece (hareketli): ay üst sağ köşeye (yazı satırlarının üstüne); yazının arkasında kalan yıldızlar serbest */
+.abp--tam.abp--gece .abp-gece-ay { left: auto; right: 14px; top: 3px; width: 16px; height: 16px; }
+.abp--tam.abp--gece .abp-gece-hale { left: auto; right: -2px; top: -13px; width: 48px; height: 48px; }
+
+/* lig satırında (42 px) sağ üst ışık puan yazısına çok yakın düşer → taban karede 4,5:1 altına iner; yalnız ışığın şiddeti azalır (taban rengi aynı) */
+.abp--tam.abp--yaprak.abp--kucuk .abp-zemin { background: radial-gradient(circle at 86% 0, rgba(255, 190, 90, .18) 0, rgba(0, 0, 0, 0) 56%), linear-gradient(0deg, rgba(50, 15, 5, .46) 0, rgba(0, 0, 0, 0) 52%); }
