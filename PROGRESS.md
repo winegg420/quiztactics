@@ -9521,3 +9521,34 @@ Sonnet 5.5 alt ajan B: üst çubuk rozeti, altın halka, altın isim yolu, seviy
 **Araç:** Claude Code (Opus 5.5) **Neden:** `mac_sonu_ozet` yeni günlük görev kimliklerinde `onceki`'yi doğru veremiyordu (eski 3 kimliğe sabitliydi).
 - **Migration 744** (prova + canlı): `gorev_olcum` / `gorev_dogru_satirlari` bir maçı HARİÇ tutan sürümler (eski imzalar sarmalayıcı, davranış aynı); `mac_sonu_ozet` yeni havuz görevlerinde `onceki` = bu maç hariç yeniden ölçüm; eski 3 kimlik 462 hesabıyla aynen. Dönüş biçimi korundu; ekleyici anahtar `haftalik_gorevler` [{id, ad, ilerleme, hedef, alindi, onceki}]. Antrenman/terk katkı vermez (onceki = ilerleme). Yetki/politika değişmedi.
 - **Test:** `araclar/gorevler-mac-sonu-sql-testi.mjs` 15/15 (ROLLBACK); `gorevler-sql-testi` 102/102 yeniden. Sahip hesap önce = sonra (coin 3155, elmas 9126, joker/SP aynı). Lig puanına dokunulmadı.
+
+## 2026-09-30 — Sezon Yolu v2: onaylı maket görünümü + 28 sonrası taşma ödülü (sistem KAPALI)
+**Araç:** Claude Code (Opus 5.5 ana oturum: brif, denetim, PROGRESS · Sonnet 5.5 Ajan A: veritabanı · Sonnet 5.5 Ajan B: ekran; SIRALI).
+**Neden:** Ida sayfanın onayladığı maketle aynı görünmesini ve 28. seviyeden sonra her 100 SP'ye küçük ödül istedi. Seviye satın alma YOK,
+haftalık görev YOK; ödül tablosu, SP değerleri, BP fiyatı (500 elmas), `sezon_seviye_sayisi` (28) DEĞİŞMEDİ. `sezon_yolu_acik=false` kaldı.
+- **Veritabanı (migration 730 `sezon_tasma_odulu`, prova + canlı):** ayarlar (TEST DEĞERİ) `sezon_tasma_sp=100`, `sezon_tasma_ucretsiz_coin=25`,
+  `sezon_tasma_ucretli_coin=40`, `sezon_tasma_azami=10`. Yeni tablo `oyuncu_bp_tasma_alimi` (sezon, user_id, n, kol; RLS açık, istemciye yetki yok) —
+  `oyuncu_bp_odul_alimi`'ne 28+n yazmak yuva kısıtı/placeholder tetikleyicisiyle karışırdı. `sezon_yolu_durumum().tasma` alanı, `sezon_ozetim().alinabilir`
+  taşmayı sayar, yeni RPC `bp_tasma_al(p_kol)` (definer, yalnız authenticated, FOR UPDATE, idempotent, coin `sezon_yolu` tavan dışı — normal ödüllerle
+  aynı), `bp_toplu_al` → `tasma_verilen`, `sezon_kapat` alınmamış taşmayı verir, `sezon_sahip_test_sifirla` taşmayı da siler. `sezon_puani_ekle`
+  değişmedi (SP 28'de kırpılmıyordu). Mevcut hiçbir politika/GRANT değişmedi. Taşmanın ücretli kolu BP alınınca otomatik verilmez, "Al" ile alınır.
+- **Testler:** yeni `sezon-tasma-sql-testi` 79/79 (ROLLBACK), `sezon-tasma-yaris-testi` 7/7 (geçici kayıtlar temizlendi); eski `sezon-yolu-sql-testi`
+  76/76 (pay-to-win beyaz listesine `bp_tasma_al`, `sezon_tasma_bilgi` eklendi), `sezon-kapanis-sql-testi` 23/23. Eski `sezon-yolu-yaris-testi`
+  ÇALIŞTIRILMADI: sahibin test sezonunu `sezon_sahip_test_sifirla` ile siliyor (sahip hesap değişmesin kuralı).
+- **Ekran:** `oyun/tasarim/sezon-yolu/` yeni `sezonTemalari.jsx` (sezon no → tema; 0 ve 1 "Yıldızlı Gece", `sanat/YildizliGeceSanat.jsx` tembel;
+  oyuncunun arka planına bakmaz), `SezonUst`, `Yol`, `OdulGorsel`, `OdulSayfasi` (tür bazlı önizleme: kendi avatarı + çerçeve, premium tembel),
+  `TasmaSayfasi`, `SiradakiOdul`, `SatinAlSayfasi`, `Kutlama`, `SezonUcus` (coin üst çubuk çipine uçar), `simgeler`, `tasma.js`. `SezonYoluPage.jsx`
+  585 → 293 satır. `oyun/lib/sezonYolu.js` (`bpTasmaAl`, toplu al taşmayı sayar), `oyun/lib/ceviri/sezon-yolu.js`, `sezon-yolu.css`, `public/sw.js` v14.
+  Ses yalnız mevcut `sesCoin/sesRozet/sesSatinAlma`. 700 px altı ekranda "Seviye N için X SP" satırı gizli (sağdaki x/y SP aynı bilgiyi verir).
+- **Ölçüm (`araclar/sezon-yolu-v2-ekran.mjs`, sahte RPC yanıtlarıyla; 425 + 140 kontrol):** iki kol + Hepsini al alt menünün üstünde: 390×700 606 < 630,
+  360×640 538–542 < 570, en kötü 28+ 562 < 570. Taşma 0, dokunma ihlali 0, konsol 0 (64/64); en düşük kontrast 4,79 (gerçek piksel). Önizleme 10 türde
+  TR/EN açıldı. Görüntüler `tasarim/sezon-yolu/v2/`. Eski `sezon-yolu-ekran.mjs` / `sezon-revizyon-ekran.mjs` eski sınıf adlarına bakıyor → geçersiz.
+- **Sahip hesap önce/sonra:** coin 3155/3155, elmas 9126/9126, joker aynı, BP alım 0/0, taşma alım 0/0. Test sezonu SP'si A'nın ilk ölçümünde 540 idi,
+  19:46 UTC'de bir `sahip_test` +100 kaydıyla 100 oldu — ajanlar yazmadı (Ida'nın ya da başka pencerenin işlemi); B boyunca 100 kaldı.
+- **Maketten kalan fark:** seviye 0'da avatar işaretçisi yok; elmas uçuşu yok (üst çubukta elmas çipi yok); düğmeler gerçek `QtDugme`; "Her N SP"
+  `sonraki_icin_sp`'den türetiliyor (azami dolunca "Taşma ödülü" yazar; durumum'a `tasma_sp` eklenirse sadeleşir); avatar ödülü görsel yolu varsayım
+  (gerçek ödül satırı gelince doğrulanmalı).
+- **Canlı:** sw v14 yayında; sahip olmayan misafirle `/sezon-yolu` → `/`, konsol 0. Misafir test hesapları (2) silindi.
+- **Dokunulan dosyalar:** migration 730; `araclar/sezon-tasma-sql-testi.mjs`, `sezon-tasma-yaris-testi.mjs`, `sezon-yolu-sql-testi.mjs`,
+  `sezon-yolu-v2-ekran.mjs`; `oyun/tasarim/sezon-yolu/*`; `oyun/lib/sezonYolu.js`; `oyun/lib/ceviri/sezon-yolu.js`; `public/sw.js`; `tasarim/sezon-yolu/v2/`.
+  Başka pencerelerin dosyalarına (mac.js, BildimApp.jsx, duello-tahta, gorevler, avatar nadirlik) dokunulmadı.
