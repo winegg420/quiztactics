@@ -100,21 +100,21 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
 
 ### Düello
 
-- **Hâkimiyet (680/681, Ida 30 Eyl 2026) — PUAN YOK.** 10 tur, **1 tur = 1 hamle** (maç 10 soru; tek turda oyuncu1,
+- **Hâkimiyet (680/681, Ida 30 Eyl 2026) — PUAN YOK.** **16 tur** (`duello_max_tur`, 761 — 1 Eki 2026 Ida: 10 → 16, eşik 4 yuva aynı; metinler sayıyı ayardan okur, `useAyar`), **1 tur = 1 hamle** (maç 16 soru, her oyuncu 8 kez saldırır; tek turda oyuncu1,
   çift turda oyuncu2 saldırır), 10 kategori; herkes 0-0, bütün kategoriler boş başlar. Saldıran kategoriyi seçer
   (15 sn; dolarsa rastgele uygun), soru ikisine aynı anda açılır (cevap 15 sn, süre dolarsa yanlış).
   **Hamle yalnız "saldıran doğru + savunan yanlış" ise tutar.** Rakibin kategorisi (Elinden al) → tutarsa saldırana
   geçer · boş (Al) → tutarsa saldıran alır, saldıran yanlış + savunan doğru → savunan alır ("boşta bilen alır") ·
   kendi kategorisi (Pekiştir) → tutarsa kilitlenir. **Kilit:** sahipliği değişen / pekiştirilen kategori
   `duello_kilit_tur` (2) tur kimse tarafından seçilemez; tutmayan hamlede kilit yok. **Kazanma:** `duello_hakimiyet_esik`
-  (4) yuvaya ilk ulaşan kazanır (sonuç fazından sonra biter); 10. tur sonunda yuvası çok olan; eşitse Altın Soru.
+  (4) yuvaya ilk ulaşan kazanır (sonuç fazından sonra biter); son tur (16.) sonunda yuvası çok olan; eşitse Altın Soru.
   Hesap sunucuda: `duello2_cozumle` (kural + kilit), `duello2_sonraki` (nakavt / sayım / roller), kilit kapısı
   `duello2_kategori_uygun_mu`. Veri: `duellolar.hakimiyet/sahiplik/kilitler/hakimiyet_esik/kilit_tur/yuva1/yuva2`,
   `duello_hamleler.hakimiyet` (eylem, tuttu, neden, sahip_once/sonra, kilit, baskin, kalkan, cakisma, yuvalar);
   `duello_durum › hakimiyet` (sahiplik, kilitler{kat: kalan tur}, yuvalar, rol_joker). Eski puan maçları
   (`hakimiyet=false`) eski dallarla çözülür; puan/yıldız/×2 ayarları "KULLANILMIYOR (680)".
   Test: `node araclar/duello-hakimiyet-sql-testi.mjs` · `node araclar/duello-hakimiyet-bot-testi.mjs`.
-- **Altın Soru (eşitlik):** 10 tur sonunda yuvalar eşitse Turnuva'nın seçicisiyle (`turnuva_soru_aday`: kullanılmamış,
+- **Altın Soru (eşitlik):** son tur sonunda yuvalar eşitse Turnuva'nın seçicisiyle (`turnuva_soru_aday`: kullanılmamış,
   önce zorluk 4–5, boşsa alt dilim; `duello_altin_soru_bul`) Altın Soru; **jokersiz** (`duello2_skill_hak_kontrol` reddeder),
   sahiplik değişmez. Yalnız biri bilirse o kazanır (`altin_kazanan`), yoksa yeni Altın Soru — sınırsız. Veride
   `uzatma` bayrağı Altın Soru demektir (iç ad korunur).
@@ -145,6 +145,7 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
   'aktif' maç açar; kabul beklenmez (eski gizli bot 8–90 sn gecikmesi rövanşta kalktı). Geri alma `bot_rovans_anlik` = 0 (gizli bota
   gecikmeli davet). Gerçek oyuncu rövanşı istek olarak kalır. `MatchPage › ilerlemeDamgasi` 'bekliyor' maçı (aktif_soru −1) eski
   görüntü saymaz. Not: gizli botun anında kabulü bir zamanlama ipucudur — ürün kararı Ida'nındır.
+- **Kopukluk + takılma (760/762, 1 Eki 2026):** oyuncu `duello_kopuk_sn` (25) nabızsız kalınca sunucu fazı dondurur, `duello_kopuk_bekleme_sn` (45) sonra terk; dondurma sırasında her ilerletme faz bitişini "şimdi + kalan (taban 3 sn)"a iter. `duello_durum` bunu `kopuk {ben_mi, bitis, faz_kalan_sn}` ile bildirir; istemci sayacı donuk gösterir (eskiden ~2 sn'de bir yeniden "3"ten başlıyordu), bantta bekleme sayılır. Durum okuması hata verirse (57014, ağ) sahne son fazda kalır, 1→2→4→8 sn geri çekilmeli yeniden deneme + "Bağlantı yeniden kuruluyor…" (faz bitişi 4 sn geçip yeni faz gelmezse de); görünür olunca / pageshow / online anında tazeler. `duello_kategorileri()` gevşek dizin taramasıyla (762). Bilinen dış risk: Supabase örneği aralıklı 20–70 sn donuyor (cron `job startup timeout`); kod bunu önleyemez. Test: `node araclar/duello-iki-oyuncu-testi.mjs` (iki gerçek bağlam, ağ kısıtı, 5 sn kopma, arka plan, uzun kopma).
 - Rövanş bekleme penceresindeki “Vazgeç”, `duello_rovans_iptal` ile sunucu
   isteğini de geri çeker; yalnız pencereyi kapatıp hayalet istek bırakmaz.
 - **Tek sürüm:** bütün yeni maçlar `surum` = 2 (kurallar yerinde değişir; V3/sürüm dalı yok). Eski can maçları
@@ -152,15 +153,15 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
   İstemci tanımadığı bir sürüm görürse maçı çizmez, yenileme ister (`DUELLO_EN_YUKSEK_SURUM`). Joker 4 / aynı 2 / soruda 1,
   Sigorta/2X yok.
 - **Ekran (680, `DuelloTahta.jsx` + `duello-tahta.css`, açık tema, `--hk-*` renkler: sen mavi / rakip kırmızı / boş gri /
-  vurgu turuncu):** tek ekran, 390 ve 360 px × 640'ta kaydırmasız (`oyuncu-testi` ölçer). Üst başlık (Tur N/10 + büyük
-  süre, 10 tur noktası) · rozet yuvaları (kategori ikonu yuvaya oturur, eşik−1'de son yuva turuncu yanıp söner, kilitli
+  vurgu turuncu):** tek ekran, 390 ve 360 px × 640'ta kaydırmasız (`oyuncu-testi` ölçer). Üst başlık (Tur N/16 + büyük
+  süre, 16 tur noktası) · rozet yuvaları (kategori ikonu yuvaya oturur, eşik−1'de son yuva turuncu yanıp söner, kilitli
   yuvada altın çerçeve + kilit) · 2 satırlık sabit mesaj (kural / 3-4 uyarısı / tur sonucu + tutmama nedeni HER ZAMAN) ·
   aidiyete göre 3 grup kart ("Rakibin kategorileri · elinden al" / "Boş kategoriler · al" / "Senin kategorilerin ·
   pekiştir"; sıra Sen% − Rakip%, ↑ = ↓ eşiği `duello_kat_esik_yuzde` 10; kilitli kart soluk + "N tur kilitli") · alt
   seçim çubuğu ("tutarsa Sen 2→3, Rakip 2→1" / "Kazanırsın!" + Elinden al / Al / Pekiştir). Savunan: saldıranın dokunduğu
   kart kesikli turuncu çerçeveyle canlı parlar (realtime broadcast `dokunus`, DB'ye yazılmaz) ve sıradaki saldırısı için
   kart işaretler ("Hazır", istemcide; sıra gelince seçili gelir). Maç sonu: nakavtta "Hâkimiyet zaferi! 4 yuva doldu",
-  10 turda "3-2 önde, kazandın" / "geride, kaybettin" / eşit → Altın Soru; skor = yuva. Oyunda "fetih" kelimesi geçmez.
+  son turda "3-2 önde, kazandın" / "geride, kaybettin" / eşit → Altın Soru; skor = yuva. Oyunda "fetih" kelimesi geçmez.
 - **Bot (681):** hedef değeri = bot isabeti × (1 − rakip oranı); pekiştir × `duello_bot_pekistir_agirlik` (0.5);
   `duello_bot_hamle_en_iyi_yuzde` (70) en iyi, kalanı rastgele başka uygun; bot eşik−1'deyse nakavt için boş/rakip
   kategorisine, rakip eşik−1'deyse rakibin kategorisine öncelik; kilitliyi seçmez. Cevap gecikmesi ve joker davranışı
