@@ -1,0 +1,82 @@
+[
+ {
+  "mod": "eski",
+  "tur": "su",
+  "oynayan": 2,
+  "rafFps": 28.7,
+  "isSnPerSn": 1.006,
+  "scriptSnPerSn": 0.014
+ },
+ {
+  "mod": "eski",
+  "tur": "kar",
+  "oynayan": 2,
+  "rafFps": 37.5,
+  "isSnPerSn": 1.007,
+  "scriptSnPerSn": 0.012
+ },
+ {
+  "mod": "eski",
+  "tur": "kuzey",
+  "oynayan": 2,
+  "rafFps": 60.1,
+  "isSnPerSn": 0.58,
+  "scriptSnPerSn": 0.015
+ },
+ {
+  "mod": "eski",
+  "tur": "kor",
+  "oynayan": 2,
+  "rafFps": 43.6,
+  "isSnPerSn": 0.998,
+  "scriptSnPerSn": 0.014
+ },
+ {
+  "mod": "eski",
+  "tur": "gece",
+  "oynayan": 2,
+  "rafFps": 60.2,
+  "isSnPerSn": 0.608,
+  "scriptSnPerSn": 0.016
+ },
+ {
+  "mod": "yeni",
+  "tur": "su",
+  "oynayan": 2,
+  "rafFps": 28.6,
+  "isSnPerSn": 0.999,
+  "scriptSnPerSn": 0.01
+ },
+ {
+  "mod": "yeni",
+  "tur": "kar",
+  "oynayan": 2,
+  "rafFps": 36.2,
+  "isSnPerSn": 1.008,
+  "scriptSnPerSn": 0.013
+ },
+ {
+  "mod": "yeni",
+  "tur": "kuzey",
+  "oynayan": 2,
+  "rafFps": 60.1,
+  "isSnPerSn": 0.607,
+  "scriptSnPerSn": 0.017
+ },
+ {
+  "mod": "yeni",
+  "tur": "kor",
+  "oynayan": 2,
+  "rafFps": 44.6,
+  "isSnPerSn": 0.998,
+  "scriptSnPerSn": 0.016
+ },
+ {
+  "mod": "yeni",
+  "tur": "gece",
+  "oynayan": 2,
+  "rafFps": 60,
+  "isSnPerSn": 0.619,
+  "scriptSnPerSn": 0.017
+ }
+]

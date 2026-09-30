@@ -1,0 +1,434 @@
+[
+ {
+  "mod": "yeni",
+  "tur": "su",
+  "kart": "kart",
+  "enKotu": 4.96,
+  "ayrinti": [
+   {
+    "ad": ".abpo-ad",
+    "enKotuKontrast": 4.96
+   },
+   {
+    "ad": ".abpo-lv",
+    "enKotuKontrast": 5.46
+   }
+  ]
+ },
+ {
+  "mod": "yeni",
+  "tur": "su",
+  "kart": "satir",
+  "enKotu": 4.82,
+  "ayrinti": [
+   {
+    "ad": ".abpo-ad",
+    "enKotuKontrast": 4.82
+   },
+   {
+    "ad": ".abpo-sira",
+    "enKotuKontrast": 5.39
+   },
+   {
+    "ad": ".abpo-puan",
+    "enKotuKontrast": 4.9
+   }
+  ]
+ },
+ {
+  "mod": "yeni",
+  "tur": "kar",
+  "kart": "kart",
+  "enKotu": 6.18,
+  "ayrinti": [
+   {
+    "ad": ".abpo-ad",
+    "enKotuKontrast": 7.25
+   },
+   {
+    "ad": ".abpo-lv",
+    "enKotuKontrast": 6.18
+   }
+  ]
+ },
+ {
+  "mod": "yeni",
+  "tur": "kar",
+  "kart": "satir",
+  "enKotu": 5.9,
+  "ayrinti": [
+   {
+    "ad": ".abpo-ad",
+    "enKotuKontrast": 5.9
+   },
+   {
+    "ad": ".abpo-sira",
+    "enKotuKontrast": 6.09
+   },
+   {
+    "ad": ".abpo-puan",
+    "enKotuKontrast": 8.05
+   }
+  ]
+ },
+ {
+  "mod": "yeni",
+  "tur": "yaprak",
+  "kart": "kart",
+  "enKotu": 7.22,
+  "ayrinti": [
+   {
+    "ad": ".abpo-ad",
+    "enKotuKontrast": 7.81
+   },
+   {
+    "ad": ".abpo-lv",
+    "enKotuKontrast": 7.22
+   }
+  ]
+ },
+ {
+  "mod": "yeni",
+  "tur": "yaprak",
+  "kart": "satir",
+  "enKotu": 4.54,
+  "ayrinti": [
+   {
+    "ad": ".abpo-ad",
+    "enKotuKontrast": 8.59
+   },
+   {
+    "ad": ".abpo-sira",
+    "enKotuKontrast": 8.59
+   },
+   {
+    "ad": ".abpo-puan",
+    "enKotuKontrast": 4.54
+   }
+  ]
+ },
+ {
+  "mod": "yeni",
+  "tur": "kor",
+  "kart": "kart",
+  "enKotu": 13.32,
+  "ayrinti": [
+   {
+    "ad": ".abpo-ad",
+    "enKotuKontrast": 15.88
+   },
+   {
+    "ad": ".abpo-lv",
+    "enKotuKontrast": 13.32
+   }
+  ]
+ },
+ {
+  "mod": "yeni",
+  "tur": "kor",
+  "kart": "satir",
+  "enKotu": 14.47,
+  "ayrinti": [
+   {
+    "ad": ".abpo-ad",
+    "enKotuKontrast": 14.47
+   },
+   {
+    "ad": ".abpo-sira",
+    "enKotuKontrast": 15.72
+   },
+   {
+    "ad": ".abpo-puan",
+    "enKotuKontrast": 15.22
+   }
+  ]
+ },
+ {
+  "mod": "yeni",
+  "tur": "gece",
+  "kart": "kart",
+  "enKotu": 9.49,
+  "ayrinti": [
+   {
+    "ad": ".abpo-ad",
+    "enKotuKontrast": 9.52
+   },
+   {
+    "ad": ".abpo-lv",
+    "enKotuKontrast": 9.49
+   }
+  ]
+ },
+ {
+  "mod": "yeni",
+  "tur": "gece",
+  "kart": "satir",
+  "enKotu": 10.66,
+  "ayrinti": [
+   {
+    "ad": ".abpo-ad",
+    "enKotuKontrast": 10.66
+   },
+   {
+    "ad": ".abpo-sira",
+    "enKotuKontrast": 13.69
+   },
+   {
+    "ad": ".abpo-puan",
+    "enKotuKontrast": 11.59
+   }
+  ]
+ },
+ {
+  "mod": "yeni",
+  "tur": "kuzey",
+  "kart": "kart",
+  "enKotu": 5.34,
+  "ayrinti": [
+   {
+    "ad": ".abpo-ad",
+    "enKotuKontrast": 5.34
+   },
+   {
+    "ad": ".abpo-lv",
+    "enKotuKontrast": 5.56
+   }
+  ]
+ },
+ {
+  "mod": "yeni",
+  "tur": "kuzey",
+  "kart": "satir",
+  "enKotu": 5.75,
+  "ayrinti": [
+   {
+    "ad": ".abpo-ad",
+    "enKotuKontrast": 5.75
+   },
+   {
+    "ad": ".abpo-sira",
+    "enKotuKontrast": 12.71
+   },
+   {
+    "ad": ".abpo-puan",
+    "enKotuKontrast": 13.46
+   }
+  ]
+ },
+ {
+  "mod": "eski",
+  "tur": "su",
+  "kart": "kart",
+  "enKotu": 5.9,
+  "ayrinti": [
+   {
+    "ad": ".abpo-ad",
+    "enKotuKontrast": 5.9
+   },
+   {
+    "ad": ".abpo-lv",
+    "enKotuKontrast": 7.58
+   }
+  ]
+ },
+ {
+  "mod": "eski",
+  "tur": "su",
+  "kart": "satir",
+  "enKotu": 5.22,
+  "ayrinti": [
+   {
+    "ad": ".abpo-ad",
+    "enKotuKontrast": 6.38
+   },
+   {
+    "ad": ".abpo-sira",
+    "enKotuKontrast": 5.22
+   },
+   {
+    "ad": ".abpo-puan",
+    "enKotuKontrast": 6.57
+   }
+  ]
+ },
+ {
+  "mod": "eski",
+  "tur": "kar",
+  "kart": "kart",
+  "enKotu": 8.64,
+  "ayrinti": [
+   {
+    "ad": ".abpo-ad",
+    "enKotuKontrast": 9.73
+   },
+   {
+    "ad": ".abpo-lv",
+    "enKotuKontrast": 8.64
+   }
+  ]
+ },
+ {
+  "mod": "eski",
+  "tur": "kar",
+  "kart": "satir",
+  "enKotu": 6.86,
+  "ayrinti": [
+   {
+    "ad": ".abpo-ad",
+    "enKotuKontrast": 8.94
+   },
+   {
+    "ad": ".abpo-sira",
+    "enKotuKontrast": 6.86
+   },
+   {
+    "ad": ".abpo-puan",
+    "enKotuKontrast": 10.99
+   }
+  ]
+ },
+ {
+  "mod": "eski",
+  "tur": "yaprak",
+  "kart": "kart",
+  "enKotu": 10.57,
+  "ayrinti": [
+   {
+    "ad": ".abpo-ad",
+    "enKotuKontrast": 11.1
+   },
+   {
+    "ad": ".abpo-lv",
+    "enKotuKontrast": 10.57
+   }
+  ]
+ },
+ {
+  "mod": "eski",
+  "tur": "yaprak",
+  "kart": "satir",
+  "enKotu": 7.61,
+  "ayrinti": [
+   {
+    "ad": ".abpo-ad",
+    "enKotuKontrast": 11.76
+   },
+   {
+    "ad": ".abpo-sira",
+    "enKotuKontrast": 9.39
+   },
+   {
+    "ad": ".abpo-puan",
+    "enKotuKontrast": 7.61
+   }
+  ]
+ },
+ {
+  "mod": "eski",
+  "tur": "kor",
+  "kart": "kart",
+  "enKotu": 15.79,
+  "ayrinti": [
+   {
+    "ad": ".abpo-ad",
+    "enKotuKontrast": 17.38
+   },
+   {
+    "ad": ".abpo-lv",
+    "enKotuKontrast": 15.79
+   }
+  ]
+ },
+ {
+  "mod": "eski",
+  "tur": "kor",
+  "kart": "satir",
+  "enKotu": 16.29,
+  "ayrinti": [
+   {
+    "ad": ".abpo-ad",
+    "enKotuKontrast": 17.32
+   },
+   {
+    "ad": ".abpo-sira",
+    "enKotuKontrast": 16.29
+   },
+   {
+    "ad": ".abpo-puan",
+    "enKotuKontrast": 17.69
+   }
+  ]
+ },
+ {
+  "mod": "eski",
+  "tur": "gece",
+  "kart": "kart",
+  "enKotu": 13.49,
+  "ayrinti": [
+   {
+    "ad": ".abpo-ad",
+    "enKotuKontrast": 13.52
+   },
+   {
+    "ad": ".abpo-lv",
+    "enKotuKontrast": 13.49
+   }
+  ]
+ },
+ {
+  "mod": "eski",
+  "tur": "gece",
+  "kart": "satir",
+  "enKotu": 14.38,
+  "ayrinti": [
+   {
+    "ad": ".abpo-ad",
+    "enKotuKontrast": 14.43
+   },
+   {
+    "ad": ".abpo-sira",
+    "enKotuKontrast": 14.38
+   },
+   {
+    "ad": ".abpo-puan",
+    "enKotuKontrast": 15.1
+   }
+  ]
+ },
+ {
+  "mod": "eski",
+  "tur": "kuzey",
+  "kart": "kart",
+  "enKotu": 6.86,
+  "ayrinti": [
+   {
+    "ad": ".abpo-ad",
+    "enKotuKontrast": 6.86
+   },
+   {
+    "ad": ".abpo-lv",
+    "enKotuKontrast": 8.1
+   }
+  ]
+ },
+ {
+  "mod": "eski",
+  "tur": "kuzey",
+  "kart": "satir",
+  "enKotu": 8.97,
+  "ayrinti": [
+   {
+    "ad": ".abpo-ad",
+    "enKotuKontrast": 8.97
+   },
+   {
+    "ad": ".abpo-sira",
+    "enKotuKontrast": 13.24
+   },
+   {
+    "ad": ".abpo-puan",
+    "enKotuKontrast": 16.55
+   }
+  ]
+ }
+]
