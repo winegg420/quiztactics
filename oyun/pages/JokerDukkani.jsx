@@ -525,6 +525,7 @@ export default function JokerDukkani() {
                           <h3 className="qt-baslik-3">{JOKER_BILGI[tur].ad}</h3>
                           <p className="qt-kucuk qt-soluk">{b.aciklama}</p>
                           <div className="qt-dk-skill-rozetler">
+                            {JOKER_BILGI[tur].yalnizDuello && <QtRozet boyut="k" ton="notr">{tt("Yalnız Düello'da")}</QtRozet>}
                             {!kilitli && (
                               <QtRozet boyut="k" ton={(envanter[tur] ?? 0) > 0 ? "mor" : "notr"}>
                                 {tt("Sende: {n}", { n: envanter[tur] ?? 0 })}

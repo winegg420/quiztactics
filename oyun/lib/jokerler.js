@@ -50,6 +50,18 @@ export const SKILL_TANIMLARI = {
     kategori: "bilgi", allowedModes: ["1v1", "duello"], allowedPhases: ["cevap"],
     target: "self", animation: "second-chance", aktif: true, shopVisible: true,
   },
+  // 680 Düello Hâkimiyet rol jokerleri: YALNIZ Düello (Klasik/Grup/Turnuva listelerine girmez; sunucu da reddeder).
+  // Baskın yalnız saldıranda, Kalkan yalnız kendi kategorisine saldırılan savunanda görünür (DuelloJokerSeridi).
+  baskin: {
+    id: "baskin", ad: tt("Baskın"), aciklama: tt("Saldırırken: bu hamlede rakibin cevabı sayılmaz"), ikon: "baski",
+    kategori: "saldırı", allowedModes: ["duello"], allowedPhases: ["cevap"],
+    target: "opponent", animation: "ambush", aktif: true, shopVisible: true, yalnizDuello: true,
+  },
+  kalkan: {
+    id: "kalkan", ad: tt("Kalkan"), aciklama: tt("Savunurken: kendi kategorine yapılan hamle tutmaz"), ikon: "kalkan",
+    kategori: "savunma", allowedModes: ["duello"], allowedPhases: ["cevap"],
+    target: "self", animation: "shield", aktif: true, shopVisible: true, yalnizDuello: true,
+  },
   // Geçmiş envanter/kullanım kayıtları silinmez; bu üç kayıt yalnız görünmez
   // uyumluluk girdileridir ve hiçbir aktif listeye girmez.
   sis: { id: "sis", ad: tt("Sis"), ikon: "sis", kategori: "saldırı", aktif: false, shopVisible: false },

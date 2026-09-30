@@ -10,6 +10,8 @@ const IKON = {
   sigorta: "sigorta",
   cifte_puan: "ikiKat",
   ikinci_sans: "ikinciSans",
+  baskin: "baski",
+  kalkan: "kalkan",
   seri_koruma: "kalkan",
 };
 

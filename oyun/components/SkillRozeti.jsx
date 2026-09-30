@@ -10,11 +10,17 @@ import { QtIkon } from "../tasarim/index.js";
 import { SKILL_TANIMLARI } from "../lib/jokerler.js";
 import "../tasarim/ekranlar/skill-rozet.css";
 
+// Düello rol jokerleri (baskin, kalkan): renk token'ları skill-rozet.css yerine burada eşlenir.
+const ROL_RENGI = new Set(["baskin", "kalkan"]);
+const rolRengi = (tur) => ({
+  "--_r": `var(--qt-skill-${tur})`, "--_r-acik": `var(--qt-skill-${tur}-acik)`, "--_r-koyu": `var(--qt-skill-${tur}-koyu)`,
+});
+
 export default function SkillRozeti({ tur, boyut = 40, className = "", soluk = false }) {
   const Sembol = SKILL_SEMBOLLERI[tur];
   return (
     <span className={`qt-srozet${soluk ? " qt-srozet--soluk" : ""} ${className}`.trim()}
-          data-tur={tur} style={{ "--_boyut": `${boyut}px` }} aria-hidden="true">
+          data-tur={tur} style={{ ...(ROL_RENGI.has(tur) ? rolRengi(tur) : null), "--_boyut": `${boyut}px` }} aria-hidden="true">
       <span className="qt-srozet-sembol">
         {Sembol ? <Sembol /> : <QtIkon ad={SKILL_TANIMLARI[tur]?.ikon ?? "soru"} boyut={Math.round(boyut * 0.5)} />}
       </span>

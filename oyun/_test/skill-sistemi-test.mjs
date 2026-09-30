@@ -12,8 +12,9 @@ import {
 import { kalanSure, sunucuOffsetMs } from "../lib/zaman.js";
 
 test("aktif maç skill listesi yeni Klasik skilllerini içerir", () => {
-  assert.deepEqual(AKTIF_MAC_SKILLERI, ["elli", "sure", "soru_degistir", "zaman_baskisi", "sigorta", "cifte_puan", "ikinci_sans"]);
-  assert.deepEqual(KLASIK_JOKERLER, AKTIF_MAC_SKILLERI);
+  // 680: Baskın/Kalkan aktif maç skill'i ama yalnız Düello — Klasik listesine girmez.
+  assert.deepEqual(AKTIF_MAC_SKILLERI, ["elli", "sure", "soru_degistir", "zaman_baskisi", "sigorta", "cifte_puan", "ikinci_sans", "baskin", "kalkan"]);
+  assert.deepEqual(KLASIK_JOKERLER, AKTIF_MAC_SKILLERI.filter((t) => t !== "baskin" && t !== "kalkan"));
   assert.deepEqual(SALDIRI_JOKERLERI, ["zaman_baskisi"]);
   assert.deepEqual(VARSAYILAN_SKILL_SETI, ["elli", "sure", "soru_degistir"]);
 });

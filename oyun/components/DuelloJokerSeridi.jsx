@@ -7,7 +7,11 @@ import { QtIkon, QtSkill, QtSkillCubugu, sinif } from "../tasarim/index.js";
 // Klasik'e özel skill'ler Düello şeridinde gösterilmez (sunucu da reddeder).
 const DUELLODA_YOK = new Set(["sigorta", "cifte_puan"]);
 // Tasarım sistemi ikonları (DuelloV2 ile aynı eşleme)
-const SKILL_IKON = { elli: "yariyari", sure: "ekSure", soru_degistir: "degistir", zaman_baskisi: "baski", ikinci_sans: "ikinciSans" };
+const SKILL_IKON = { elli: "yariyari", sure: "ekSure", soru_degistir: "degistir", zaman_baskisi: "baski", ikinci_sans: "ikinciSans", baskin: "baski", kalkan: "kalkan" };
+// 680 rol jokerleri: yalnız KENDİ rolünün jokeri görünür. Sunucu (duello_durum › hakimiyet.rol_joker) bu an
+// bana gösterilecek olanı söyler: 'baskin' (saldırıyorum, soru açık) · 'kalkan' (savunuyorum ve saldırılan kategori benim) · null.
+// Setimde olsa bile rol_joker eşleşmiyorsa şeritte HİÇ çizilmez (yer kaplamaz).
+const ROL_JOKERLERI = new Set(["baskin", "kalkan"]);
 
 // ---------------------------------------------------------------- skill şeridi
 /**
@@ -18,7 +22,10 @@ export function V2Skill({ d, calisan, kalanSn, serbest, sonKullanilan, onKullan,
   const s = d.skill ?? {};
   const izinli = Array.isArray(s.izinli) ? s.izinli : [];
   const set = Array.isArray(s.set) ? s.set : [];
-  const liste = set.filter((t) => izinli.includes(t) && !DUELLODA_YOK.has(t));
+  const rolJoker = d.hakimiyet?.rol_joker ?? null;
+  const rolHak = Math.max(1, Number(d.hakimiyet?.rol_joker_hak ?? 1));
+  const setteKullanilabilir = set.filter((t) => izinli.includes(t) && !DUELLODA_YOK.has(t));
+  const liste = setteKullanilabilir.filter((t) => !ROL_JOKERLERI.has(t) || t === rolJoker);
   const toplam = Number(s.toplam_hak ?? 4);
   const turBasi = Number(s.tur_basi_hak ?? 2);
   const soruBasi = Number(s.soru_basi_hak ?? 1);
@@ -48,7 +55,9 @@ export function V2Skill({ d, calisan, kalanSn, serbest, sonKullanilan, onKullan,
     <section className={sinif("m2-skill bd-d2-skill", genelEngel ? "m2-skill--kapali" : "m2-skill--acik")} aria-label={c("Joker")}>
       <div className="m2-skill-ust">
         <span className="m2-skill-ipucu" role="status">
-          {liste.length === 0 ? c("Setinde Düello'da kullanılabilen joker yok.") : (genelEngel ?? c("Şimdi kullanabilirsin."))}
+          {liste.length === 0
+            ? (setteKullanilabilir.length === 0 ? c("Setinde Düello'da kullanılabilen joker yok.") : c("Bu hamlede rolüne uygun jokerin yok."))
+            : (genelEngel ?? c("Şimdi kullanabilirsin."))}
         </span>
         <span className="m2-hak" role="img" aria-label={c("{k}/{t} kullanıldı", { k: kullanilan, t: toplam })}>
           {Array.from({ length: toplam }).map((_, i) => <i key={i} className={i < kullanilan ? "dolu" : ""} />)}
@@ -62,7 +71,7 @@ export function V2Skill({ d, calisan, kalanSn, serbest, sonKullanilan, onKullan,
             const n = Number(sayilar[tur] ?? 0);
             const adet = Number(env[tur] ?? 0);
             const fiyat = Number(fiyatlar[tur] ?? 0);
-            const turBitti = n >= turBasi;
+            const turBitti = n >= (ROL_JOKERLERI.has(tur) ? rolHak : turBasi);
             let ozel = null;
             if (tur === "soru_degistir" && sdKilit) ozel = sdKilit;
             else if (tur === "zaman_baskisi" && cv.rakip_cevapladi) ozel = c("Rakibin bu soruyu zaten cevapladı");
@@ -94,6 +103,11 @@ export function V2Skill({ d, calisan, kalanSn, serbest, sonKullanilan, onKullan,
         {c("Aynı joker en çok {n} kez, soru başına {s}.", { n: turBasi, s: soruBasi })}
         {liste.includes("soru_degistir") && sdKilit && soruAcik && !cevapladim && (
           <span className="m2-skill-kilit"><QtIkon ad="kilit" boyut={12} /> {sdKilit}</span>
+        )}
+        {rolJoker && liste.includes(rolJoker) && (
+          <span role="status"> {c("{j} maçta {n} kez kullanılır.", { j: c(JOKER_BILGI[rolJoker]?.ad ?? rolJoker), n: rolHak })}
+            {Number(sayilar[rolJoker] ?? 0) >= rolHak && <b> {c("Rakip tur sonunda görecek.")}</b>}
+          </span>
         )}
       </p>
     </section>

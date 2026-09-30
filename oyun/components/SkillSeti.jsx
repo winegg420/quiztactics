@@ -150,6 +150,7 @@ export default function SkillSeti({ macTur = "1v1", acikBaslar = false }) {
                 <span>
                   <b>{s.ad}</b>
                   <small>{s.aciklama}</small>
+                  {s.yalnizDuello && <small>{tt("Yalnız Düello'da")}</small>}
                   <small className={adet(id) > 0 ? "qt-dk-seti-adet" : "qt-dk-seti-adet qt-dk-seti-adet--yok"}>
                     {kilitli ? tt("Kilitli") : adet(id) > 0 ? tt("{0} hak", { 0: adet(id) }) : tt("Hakkın yok — Dükkân")}
                   </small>

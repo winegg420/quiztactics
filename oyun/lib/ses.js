@@ -606,6 +606,9 @@ const SKILL_ROL = {
   seri_koruma: "skill_seri_koruma",
   cifte_puan: "skill_2x", "2x": "skill_2x", x2: "skill_2x",
   ikinci_sans: "skill_ikinci_sans",
+  // 680 rol jokerleri: yeni ses eklenmedi; en yakın mevcut sese eşlenir.
+  baskin: "skill_zaman_baskisi",
+  kalkan: "skill_sigorta",
 };
 
 /**
