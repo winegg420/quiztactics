@@ -1,14 +1,15 @@
 /**
- * SEZON YOLU ROZETİ + SEVİYE ATLAMA BİLDİRİMİ (720) — üst çubukta coin hapının yanı (Layout › sag).
- * - Rozet: ~36 px yuvarlak, içinde seviye numarası, çevresinde sonraki seviyeye ince ilerleme halkası; dokunma alanı 44 px.
- *   Dokununca `/sezon-yolu`. Yalnız `ozet.gorunur` iken çizilir (sunucu: sistem kapalıyken yalnız sahibe true).
+ * SEZON YOLU ROZETİ + SEVİYE ATLAMA BİLDİRİMİ (720).
+ * - Varsayılan dışa aktarım (Layout): yalnız seviye atlama bildirimi; üst çubukta görsel öğe ÇİZMEZ (30 Eyl: rozet üst çubuktan kalktı).
+ * - `SezonMiniRozet`: ana sayfa profil kartının içinde küçük rozet (seviye no + ince ilerleme halkası). Dokununca `/sezon-yolu`.
+ *   Yalnız `ozet.gorunur` iken çizilir (sunucu: sistem kapalıyken yalnız sahibe true).
  *   Bekleyen ödül (`alinabilir > 0`) → küçük sessiz nokta. Battle Pass sahibinde halka altın.
  * - Bildirim: seviye atlayınca sessiz QtToast ("Sezon Yolu · Seviye N!" + varsa "Ödülün hazır"); dokununca sayfaya gider.
  *   Son görülen seviye localStorage'da (kullanıcı + sezon başına; try/catch). İlk açılışta (kayıt yok) bildirim YOK.
  *   Maç sırasında / maç sonu sahnesi açıkken bekler, sahne kapanınca gösterir. Uygulama odağa gelince özet tazelenir (30 sn'de bir).
  */
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../src/context/AuthContext.jsx";
 import { QtToast, QtToastYuvasi, QtDugme } from "../../tasarim/index.js";
 import { seviyeOrani, sezonTazele, useSezonOzeti } from "../../lib/sezonYolu.js";
@@ -91,27 +92,8 @@ export default function SezonRozeti() {
 
   const git = useCallback(() => { setToast(null); navigate(y("/sezon-yolu")); }, [navigate]);
 
-  if (!ozet?.gorunur) return null;
-  const seviye = Number(ozet.seviye) || 1;
-  const oran = seviyeOrani(ozet);
-  const odulVar = Number(ozet.alinabilir) > 0;
-  const etiket = odulVar
-    ? tt("Sezon Yolu, seviye {n} — ödül hazır", { n: seviye })
-    : tt("Sezon Yolu, seviye {n}", { n: seviye });
-
   return (
     <>
-      <Link to={y("/sezon-yolu")} className={`sz-rozet${ozet.bp ? " sz-rozet--bp" : ""}`} aria-label={etiket}>
-        <span className="sz-rozet-gorsel" aria-hidden="true">
-          <svg className="sz-rozet-halka" viewBox="0 0 36 36" width="36" height="36" focusable="false">
-            <circle className="sz-rozet-iz" cx="18" cy="18" r={R} fill="none" strokeWidth="3" />
-            <circle className="sz-rozet-doluluk" cx="18" cy="18" r={R} fill="none" strokeWidth="3" strokeLinecap="round"
-                    strokeDasharray={`${(CEVRE * oran).toFixed(2)} ${CEVRE.toFixed(2)}`} />
-          </svg>
-          <span className="sz-rozet-sayi">{seviye}</span>
-        </span>
-        {odulVar && <span className="sz-rozet-nokta" aria-hidden="true" />}
-      </Link>
       {toast && (
         <QtToastYuvasi konum="ust">
           <div className="sz-seviye-sarmal" onClick={git}>
@@ -129,5 +111,32 @@ export default function SezonRozeti() {
         </QtToastYuvasi>
       )}
     </>
+  );
+}
+
+/** Profil kartı içi küçük rozet. Kart bir bağlantı olduğundan (bağlantı içinde bağlantı olmasın) düğme; tıklama karta geçmez. */
+export function SezonMiniRozet() {
+  const navigate = useNavigate();
+  const { ozet } = useSezonOzeti();
+  if (!ozet?.gorunur) return null;
+  const seviye = Number(ozet.seviye) || 1;
+  const oran = seviyeOrani(ozet);
+  const odulVar = Number(ozet.alinabilir) > 0;
+  const etiket = odulVar
+    ? tt("Sezon Yolu, seviye {n} — ödül hazır", { n: seviye })
+    : tt("Sezon Yolu, seviye {n}", { n: seviye });
+  const git = (e) => { e.preventDefault(); e.stopPropagation(); navigate(y("/sezon-yolu")); };
+  return (
+    <button type="button" className={`sz-mini${ozet.bp ? " sz-rozet--bp" : ""}`} aria-label={etiket} onClick={git}>
+      <span className="sz-mini-gorsel" aria-hidden="true">
+        <svg className="sz-rozet-halka" viewBox="0 0 36 36" width="22" height="22" focusable="false">
+          <circle className="sz-rozet-iz" cx="18" cy="18" r={R} fill="none" strokeWidth="4" />
+          <circle className="sz-rozet-doluluk" cx="18" cy="18" r={R} fill="none" strokeWidth="4" strokeLinecap="round"
+                  strokeDasharray={`${(CEVRE * oran).toFixed(2)} ${CEVRE.toFixed(2)}`} />
+        </svg>
+        <span className="sz-mini-sayi">{seviye}</span>
+      </span>
+      {odulVar && <span className="sz-mini-nokta" aria-hidden="true" />}
+    </button>
   );
 }

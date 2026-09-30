@@ -443,9 +443,6 @@ export default function SezonYoluPage() {
             {bpVar && <span className="sy-carpan">{tt("Battle Pass: SP ×{c}", { c: carpan })}</span>}
           </div>
         </div>
-        <p className="sy-mac-sp qt-soluk">
-          {tt("Bugün maçlardan: {n} / {m} SP", { n: sayiBicim(Number(durum.bugun_mac_sp ?? 0)), m: sayiBicim(Number(durum.gunluk_mac_tavan ?? 0)) })}
-        </p>
 
         {bpVar ? (
           <div className="sy-bp sy-bp--aktif">
@@ -461,7 +458,6 @@ export default function SezonYoluPage() {
             <QtDugme tamGenislik boyut="b" ikon="kilit" onClick={() => setSatinAlAcik(true)}>
               {tt("Battle Pass Al · {n} elmas", { n: sayiBicim(Number(durum.bp?.fiyat ?? 0)) })}
             </QtDugme>
-            <p className="sy-bp-ozet">{tt("Altın isim, altın halka, SP ×{c}, geriye dönük ödüller ve daha fazlası.", { c: carpan })}</p>
           </div>
         )}
 
@@ -532,6 +528,13 @@ export default function SezonYoluPage() {
           </div>
         </div>
       </section>
+
+      <div className="sy-notlar">
+        <p className="sy-mac-sp qt-soluk">
+          {tt("Bugün maçlardan: {n} / {m} SP", { n: sayiBicim(Number(durum.bugun_mac_sp ?? 0)), m: sayiBicim(Number(durum.gunluk_mac_tavan ?? 0)) })}
+        </p>
+        {!bpVar && <p className="sy-bp-ozet">{tt("Altın isim, altın halka, SP ×{c}, geriye dönük ödüller ve daha fazlası.", { c: carpan })}</p>}
+      </div>
 
       {bpVar && bonus && (
         <QtKart dolgu="o" className="sy-bonus">

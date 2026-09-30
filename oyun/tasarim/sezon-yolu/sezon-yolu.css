@@ -254,3 +254,20 @@
 @media (min-width: 850px) {
   .sy-sayfa { --sy-kol: 92px; --sy-kol-final: 148px; }
 }
+
+/* ---------- Kompakt yerleşim (30 Eyl): iki kol ilk ekranda bütün yüksekliğiyle görünsün ----------
+   Üst blok: başlık + sezon + kalan gün tek satır; seviye + SP çubuğu tek satır; satın alma düğmesi tek satır.
+   Günlük maç SP notu ve Battle Pass özeti yolun ALTINA taşındı. Alt menü payı Layout'un .qt-altmenu-payi sınıfından gelir. */
+.sy-sayfa { gap: var(--qt-b-2); padding-block: 0 var(--qt-b-4); }
+.sy-ust { gap: var(--qt-b-2); }
+.sy-ust-baslik { flex-wrap: nowrap; }
+.sy-baslik-blok { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0 var(--qt-b-2); }
+.sy-sayfa .sy-baslik-blok .qt-baslik-1 { font-size: var(--qt-y-xl); line-height: 1.2; }
+.sy-seviye { gap: var(--qt-b-2); }
+.sy-seviye-daire { width: 40px; height: 40px; font-size: var(--qt-y-l); }
+.sy-bp { gap: 0; }
+.sy-bp--aktif { padding: var(--qt-b-2) var(--qt-b-3); }
+.sy-yol-kutu { padding-block: var(--qt-b-2); gap: var(--qt-b-1); }
+.sy-yol { padding-block: var(--qt-b-1); }
+.sy-notlar { display: grid; gap: var(--qt-b-1); }
+.sy-notlar .sy-bp-ozet { text-align: start; }

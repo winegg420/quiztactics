@@ -15,11 +15,13 @@ import { sesMetni } from "../lib/ceviri/ses.js";
 import { useDil } from "../lib/dilKanca.js";
 import { DILLER, tt } from "../lib/dil.js";
 import { y } from "../lib/yol.js";
+import { useSezonOzeti } from "../lib/sezonYolu.js";
 
 
 export default function AvatarMenu({ profile }) {
   const { dil, dilDegistir } = useDil();
   const navigate = useNavigate();
+  const { ozet: sezonOzet } = useSezonOzeti();   // Sezon Yolu satırı yalnız sistem açıkken (sunucu: gorunur)
   const [acik, setAcik] = useState(false);
   const [ses, setSes] = useState(() => sesAcikMi());
   const [muzik, setMuzik] = useState(() => muzikAcikMi());
@@ -75,6 +77,11 @@ export default function AvatarMenu({ profile }) {
           <button type="button" role="menuitem" className="a-avatar-menu-oge" onClick={() => git(y("/profil?sekme=ayarlar"))}>
             <QtIkon ad="ayar" boyut={20} /> <span>{tt("Ayarlar")}</span>
           </button>
+          {sezonOzet?.gorunur && (
+            <button type="button" role="menuitem" className="a-avatar-menu-oge" onClick={() => git(y("/sezon-yolu"))}>
+              <QtIkon ad="kupa" boyut={20} /> <span>{tt("Sezon Yolu")}</span>
+            </button>
+          )}
           <button type="button" role="menuitemcheckbox" aria-checked={muzik} className="a-avatar-menu-oge" onClick={muzikDegistir}>
             <QtIkon ad="muzik" boyut={20} /> <span>{sesMetni("Müzik")}</span>
             <span className={sinif("a-avatar-menu-durum", muzik && "a-avatar-menu-durum--acik")}>{muzik ? sesMetni("Açık") : sesMetni("Kapalı")}</span>

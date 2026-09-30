@@ -203,7 +203,6 @@ export default function Layout() {
             profile ? (
               <>
                 <BildirimZili />
-                <SezonRozeti />
                 <CoinHapi />
                 {/* GÖRÜNÜM KISAYOLU — gardırop DONDURULDU (bkz.
                     oyun/lib/ozellikBayraklari.js). Bayrak true olunca geri gelir. */}
@@ -221,6 +220,7 @@ export default function Layout() {
 
         {profile && <DavetBandi />}
         <BildirimToast />
+        {profile && <SezonRozeti />}   {/* yalnız seviye atlama bildirimi; görsel öğe yok */}
         {profile && <RozetBildirimi />}
       </div>
 

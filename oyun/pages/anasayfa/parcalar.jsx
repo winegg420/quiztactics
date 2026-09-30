@@ -8,6 +8,7 @@ import { KartArkaPlanKatmani, kartArkaPlanSinifi, useKartArkaPlani } from "../..
 import IsimEfekti from "../../components/IsimEfekti.jsx";
 import OyuncuAdiDugmesi from "../../components/OyuncuAdiDugmesi.jsx";
 import Avatar from "../../../src/components/Avatar.jsx";
+import { SezonMiniRozet } from "../../components/sezon/SezonRozeti.jsx";
 import SeriRozeti from "../../components/SeriRozeti.jsx";
 import Countdown from "../../components/Countdown.jsx";
 import { TurnuvaSaatEtiketi, useSaatAyari } from "../../components/TurnuvaSaatleri.jsx";
@@ -423,6 +424,7 @@ export function KompaktOyuncu({ v }) {
         <span className="as-ko-alt">
           <b className="as-ko-lv">{tt("Lv {n}", { n: oyuncu.level })}</b>
           <span className="as-ko-rutbe">{oyuncu.rutbe.ad}</span>
+          <SezonMiniRozet />
         </span>
         <QtIlerleme deger={oyuncu.xp} en={oyuncu.xpGereken > 0 ? oyuncu.xpGereken : 1} etiket={tt("Seviye ilerlemesi")} />
       </span>
