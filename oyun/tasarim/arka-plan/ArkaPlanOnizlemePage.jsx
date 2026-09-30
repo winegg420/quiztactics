@@ -13,6 +13,7 @@ import KuzeyIsiklariArkaPlan, { AD as KUZEY_AD } from "./KuzeyIsiklariArkaPlan.j
 import "./arka-plan-onizleme.css";
 
 const SAKLA = "qt_arka_plan_onizleme_secimler";
+const SAKLA_TAM = "qt_arka_plan_onizleme_tam";   // { mod: "yeni" | "eski", karar: "onay" | "begenmedim" | null }
 const SIRA = ["su", "kar", "yaprak"];
 // Yeni üç arka plan (onay bekliyor) — ARKA_PLANLAR'a yazılmaz; aynı localStorage seçimini paylaşırlar.
 const YENI = [
@@ -24,6 +25,12 @@ const PROFIL = { id: "abp-ornek", gorunen_ad: "idagg", gorunen_avatar: "/avatars
 
 function secimOku() {
   try { return JSON.parse(localStorage.getItem(SAKLA) || "{}") || {}; } catch { return {}; }
+}
+function tamOku() {
+  try { const v = JSON.parse(localStorage.getItem(SAKLA_TAM) || "{}") || {}; return { mod: v.mod === "eski" ? "eski" : "yeni", karar: v.karar === "onay" || v.karar === "begenmedim" ? v.karar : null }; } catch { return { mod: "yeni", karar: null }; }
+}
+function tamYaz(v) {
+  try { localStorage.setItem(SAKLA_TAM, JSON.stringify(v)); } catch { /* özel mod: yalnız bu oturum */ }
 }
 function secimYaz(v) {
   try { localStorage.setItem(SAKLA, JSON.stringify(v)); } catch { /* özel mod: yalnız bu oturum */ }
@@ -59,6 +66,9 @@ export default function ArkaPlanOnizlemePage() {
   const [secimler, setSecimler] = useState(secimOku);
   const [kopyaNot, setKopyaNot] = useState("");
   const [kopyaMetni, setKopyaMetni] = useState("");
+  const [tam, setTam] = useState(tamOku);   // mod: yeni = tam görünür, eski = yazı arkası sönük
+  const tamGorunur = tam.mod === "yeni";
+  const tamAyarla = (kismi) => setTam((e) => { const y = { ...e, ...kismi }; tamYaz(y); return y; });
 
   useEffect(() => { document.title = "Quiz Tactics — " + tt("Arka plan önizleme"); }, []);
 
@@ -76,13 +86,14 @@ export default function ArkaPlanOnizlemePage() {
     return { girsin: grup("girsin"), girmesin: grup("girmesin"), bekliyor: grup(null) };
   }, [secimler]);
 
-  const kopyala = async () => {
+  const kopyala = async (yalnizTam = false) => {
     const metin = [
       "KART ARKA PLANI SEÇİMİM (/arka-plan-onizleme)",
+      `TAM GÖRÜNÜR MODU: ${tam.karar === "onay" ? "ONAYLIYORUM" : tam.karar === "begenmedim" ? "BEĞENMEDİM" : "KARAR YOK"}`,
       `GİRSİN (${liste.girsin.length}): ${liste.girsin.join(", ") || "—"}`,
       `GİRMESİN (${liste.girmesin.length}): ${liste.girmesin.join(", ") || "—"}`,
       `BEKLİYOR (${liste.bekliyor.length}): ${liste.bekliyor.join(", ") || "—"}`,
-    ].join("\n");
+    ].slice(...(yalnizTam === true ? [1, 2] : [0])).join("\n");
     setKopyaMetni(metin);
     try {
       await navigator.clipboard.writeText(metin);
@@ -100,6 +111,16 @@ export default function ArkaPlanOnizlemePage() {
         <p className="abpo-not">
           {tt("Arka plan avatarın arkasından kalkıp oyuncu kartının arkasına geçer. Hareketli ve sabit hâl aynı kompozisyon; hareketi azalt açıksa kart sabit kalır. Oyuna bağlı değil.")}
         </p>
+        <div className="abpo-mod" role="group" aria-label={tt("Görünüm modu")}>
+          <QtDugme boyut="k" tur={tamGorunur ? "birincil" : "ikincil"} aria-pressed={tamGorunur} onClick={() => tamAyarla({ mod: "yeni" })}>{tt("Tam görünür (YENİ)")}</QtDugme>
+          <QtDugme boyut="k" tur={!tamGorunur ? "birincil" : "ikincil"} aria-pressed={!tamGorunur} onClick={() => tamAyarla({ mod: "eski" })}>{tt("Eski (yazı arkası sönük)")}</QtDugme>
+        </div>
+        <div className="abpo-tamkarar">
+          <b>{tt("Tam görünür modu:")}</b>
+          <QtDugme boyut="k" tur={tam.karar === "onay" ? "birincil" : "ikincil"} ikon={tam.karar === "onay" ? "tik" : undefined} aria-pressed={tam.karar === "onay"} onClick={() => tamAyarla({ karar: tam.karar === "onay" ? null : "onay" })}>{tt("Onaylıyorum")}</QtDugme>
+          <QtDugme boyut="k" tur={tam.karar === "begenmedim" ? "birincil" : "ikincil"} aria-pressed={tam.karar === "begenmedim"} onClick={() => tamAyarla({ karar: tam.karar === "begenmedim" ? null : "begenmedim" })}>{tt("Beğenmedim")}</QtDugme>
+          <QtDugme boyut="k" ikon="kopyala" onClick={() => kopyala(true)}>{tt("Seçimi kopyala")}</QtDugme>
+        </div>
         <div className="abpo-genislik" role="group" aria-label={tt("Kart genişliği")}>
           {[360, 390].map((g) => (
             <QtDugme key={g} boyut="k" tur={genislik === g ? "birincil" : "ikincil"} aria-pressed={genislik === g} onClick={() => setGenislik(g - 32)}>{g} px</QtDugme>
@@ -120,11 +141,11 @@ export default function ArkaPlanOnizlemePage() {
                 </div>
               </div>
               <p className="abpo-etiket">{tt("Hareketli kart · ana sayfa / profil / maç başı")}</p>
-              <div className="abpo-kart"><KartArkaPlan tur={tur} hareketli yukseklik={100}><KartIcerik /></KartArkaPlan></div>
+              <div className="abpo-kart"><KartArkaPlan tur={tur} tamGorunur={tamGorunur} hareketli yukseklik={100}><KartIcerik /></KartArkaPlan></div>
               <p className="abpo-etiket">{tt("Sabit kart (aynı kompozisyon)")}</p>
-              <div className="abpo-kart"><KartArkaPlan tur={tur} yukseklik={100}><KartIcerik /></KartArkaPlan></div>
+              <div className="abpo-kart"><KartArkaPlan tur={tur} tamGorunur={tamGorunur} yukseklik={100}><KartIcerik /></KartArkaPlan></div>
               <p className="abpo-etiket">{tt("Lig sıralaması — yalnız kendi satırın (sabit)")}</p>
-              <div className="abpo-kart"><KartArkaPlan tur={tur} yukseklik={42}><SatirIcerik /></KartArkaPlan></div>
+              <div className="abpo-kart"><KartArkaPlan tur={tur} tamGorunur={tamGorunur} yukseklik={42}><SatirIcerik /></KartArkaPlan></div>
             </section>
           );
         })}
@@ -143,11 +164,11 @@ export default function ArkaPlanOnizlemePage() {
                 </div>
               </div>
               <p className="abpo-etiket">{tt("Hareketli kart · ana sayfa / profil / maç başı")}</p>
-              <div className="abpo-kart"><Bilesen hareketli yukseklik={100}><KartIcerik /></Bilesen></div>
+              <div className="abpo-kart"><Bilesen tamGorunur={tamGorunur} hareketli yukseklik={100}><KartIcerik /></Bilesen></div>
               <p className="abpo-etiket">{tt("Sabit kart (aynı kompozisyon)")}</p>
-              <div className="abpo-kart"><Bilesen yukseklik={100}><KartIcerik /></Bilesen></div>
+              <div className="abpo-kart"><Bilesen tamGorunur={tamGorunur} yukseklik={100}><KartIcerik /></Bilesen></div>
               <p className="abpo-etiket">{tt("Lig sıralaması — yalnız kendi satırın (sabit)")}</p>
-              <div className="abpo-kart"><Bilesen yukseklik={42}><SatirIcerik /></Bilesen></div>
+              <div className="abpo-kart"><Bilesen tamGorunur={tamGorunur} yukseklik={42}><SatirIcerik /></Bilesen></div>
             </section>
           );
         })}
@@ -156,7 +177,7 @@ export default function ArkaPlanOnizlemePage() {
           <p><b>{tt("Girsin")} ({liste.girsin.length}):</b> {liste.girsin.join(", ") || "—"}</p>
           <p><b>{tt("Girmesin")} ({liste.girmesin.length}):</b> {liste.girmesin.join(", ") || "—"}</p>
           <p><b>{tt("Bekliyor")} ({liste.bekliyor.length}):</b> {liste.bekliyor.join(", ") || "—"}</p>
-          <QtDugme tamGenislik ikon="kopyala" onClick={kopyala}>{tt("Seçimlerimi kopyala")}</QtDugme>
+          <QtDugme tamGenislik ikon="kopyala" onClick={() => kopyala()}>{tt("Seçimlerimi kopyala")}</QtDugme>
           {kopyaNot && <p className="abpo-not" role="status">{kopyaNot}</p>}
           {kopyaMetni && <textarea className="abpo-kopya" readOnly value={kopyaMetni} rows={5} onFocus={(e) => e.target.select()} aria-label={tt("Kopyalanacak metin")} />}
         </section>
