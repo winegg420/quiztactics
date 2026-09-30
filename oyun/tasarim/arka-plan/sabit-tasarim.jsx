@@ -157,7 +157,7 @@ const BOLGE = {
     { r: [-2, 5], y: [10, 98], n: 3 },             // sağ kenar
   ],
   lig: [
-    { x: [-2, 14], y: [6, 50], n: 4 },             // sıra numarasının solu
+    { x: [-4, 5], y: [6, 50], n: 3, max: 14 },             // sıra numarasının solu
     { x: [108, 296], y: [-12, -6], n: 3, kes: 1 },  // üst kenardan taşan
     { r: [14, 46], y: [8, 48], n: 6 },             // puanın sağı
     { x: [108, 296], y: [62, 68], n: 3, kes: 1 },  // alt kenardan taşan
