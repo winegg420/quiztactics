@@ -6,7 +6,7 @@ import MacSorulari from "./MacSorulari.jsx";
 
 /**
  * Paket 20 IV.5 — Düello maç özeti: doğru/yanlış, en etkili saldırı, rakibin şaşırtıldığı kategoriler,
- * kaçırılan sorular + doğru cevapları. Veri `mac_sorulari` (sunucu); burada yalnız sayılıp gösterilir,
+ * kaçırılan sorular + doğru cevapları. 680 (Hâkimiyet): "riskli saldırı" kavramı kalktı; puan da yok. Veri `mac_sorulari` (sunucu); burada yalnız sayılıp gösterilir,
  * ödül hesaplanmaz (ödül dökümü OdulDokumu'nda, sunucudan).
  */
 export default function DuelloOzet({ id }) {
@@ -33,16 +33,15 @@ export default function DuelloOzet({ id }) {
   const saldiri = sorular.filter((s) => s.ben_saldirdim);
   const savDogru = savunma.filter((s) => s.dogru).length;
   const isabet = saldiri.filter((s) => !s.dogru);
-  const geriTepen = saldiri.filter((s) => s.dogru && s.riskli).length;
   const sayim = {};
   for (const s of isabet) sayim[s.kategori] = (sayim[s.kategori] ?? 0) + 1;
   const kategoriler = Object.entries(sayim).sort((a, b) => b[1] - a[1]);
   const enEtkili = kategoriler[0];
   const kacirilan = savunma.filter((s) => !s.dogru);
-  return { savunma, saldiri, savDogru, isabet, geriTepen, kategoriler, enEtkili, kacirilan };
+  return { savunma, saldiri, savDogru, isabet, kategoriler, enEtkili, kacirilan };
   }, [sorular]);
   if (!o) return null;
-  const { savunma, saldiri, savDogru, isabet, geriTepen, kategoriler, enEtkili, kacirilan } = o;
+  const { savunma, saldiri, savDogru, isabet, kategoriler, enEtkili, kacirilan } = o;
 
   return (
     <>
@@ -61,11 +60,6 @@ export default function DuelloOzet({ id }) {
         {kategoriler.length > 0 && (
           <div className="bd-odul-satir bilgi">
             <span className="ad">{tt("Rakibi şaşırttığın kategoriler: {liste}", { liste: kategoriler.map(([k]) => tt(kategoriAdi(k))).join(", ") })}</span>
-          </div>
-        )}
-        {geriTepen > 0 && (
-          <div className="bd-odul-satir bilgi">
-            <span className="ad">{tt("Geri tepen riskli saldırı: {n}", { n: geriTepen })}</span>
           </div>
         )}
       </div>

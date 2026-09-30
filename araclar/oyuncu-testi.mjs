@@ -125,30 +125,6 @@ await baglam.addInitScript(() => {
 if (DIL) await baglam.addInitScript((dil) => { try { localStorage.setItem("bildim_dil", dil); } catch { /* yok */ } }, DIL);
 const s = await baglam.newPage();
 
-// 650 · Kategori Kalkanı: kural reddi denemeleri istemcinin kendi oturumuyla doğrudan RPC'ye gider
-// (arayüz bu durumlarda düğmeyi zaten kapatır). Adres + anahtar .env'den.
-const ENV = Object.fromEntries(fs.readFileSync(path.resolve(".env"), "utf8").split(/\r?\n/)
-  .filter((x) => /^[A-Z_]+=/.test(x)).map((x) => [x.slice(0, x.indexOf("=")), x.slice(x.indexOf("=") + 1).trim()]));
-async function kalkanRpc(id, kategori) {
-  try {
-    const token = await s.evaluate(() => {
-      for (let i = 0; i < localStorage.length; i++) {
-        const k = localStorage.key(i);
-        if (k.includes("auth-token")) return JSON.parse(localStorage.getItem(k)).access_token;
-      }
-      return null;
-    });
-    const r = await fetch(`${ENV.VITE_SUPABASE_URL}/rest/v1/rpc/duello2_kalkan`, {
-      method: "POST",
-      headers: { apikey: ENV.VITE_SUPABASE_ANON_KEY, Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ p_id: id, p_kategori: kategori }),
-    });
-    if (r.ok) return null;
-    const j = await r.json().catch(() => ({}));
-    return j.message ?? `HTTP ${r.status}`;
-  } catch (e) { return "istek hatası: " + e.message; }
-}
-
 // Sayaç kaydını fazlara ayırıp çözümler: gecikme = ilk görünüş (sunucu saatine çevrilmiş) −
 // fazın sunucudaki başlangıcı; adımlar = ilk 3 saniyedeki rakam düşüşleri arası süre.
 async function sayacRaporu(etiket) {
@@ -317,306 +293,156 @@ async function acikSiklar() {
   return s.locator(":is(.bd-secenek, .qt-sik):not([disabled]):not(.elendi):not(.qt-sik--elendi)").count();
 }
 
-// ================================================================ DÜELLO · Kategori Kalkanı (666: 2 hak, iki pencere)
-// Test hesabının kendi maçında, sırayla:
-//   1. savunan, Tur 1–5: düğme → ızgara → onay görselleri, "Vazgeç" (hak KULLANILMAZ — biriktirme senaryosu);
-//      ardından faz süresi 4,6 sn'ye çekilip kalkan denenir → "süre çok az" reddi + düğme pasif.
-//   2. Tur 6'ya gelindiğinde düğmedeki kalan hak 2 olmalı (1. pencerenin hakkı kaybolmadı).
-//   3. savunan, Tur 6+: arayüzden gerçek kullanım (1.) → DB'de yazıldı mı, "korumada" görseli, aynı seçimde ikinci
-//      deneme → red; sonraki savunmada (art arda) 2. kullanım → DB'de 2 kayıt; sonra RPC denemesi → "hakların bitti".
-//      Her kullanımda bot saldıranın seçimi korunan kategori OLMAMALI.
-//   4. saldıran: RPC ile kullanma denemesi → red; sonra botun kalkanı DB'ye yazılır (görsel için) → kutu "Korumada"
-//      kilitli + bildirim; test ilk açık kategoriye dokunur → korunan OLMAMALI.
-// DB yazımı yalnız test hesabının bota karşı maçında (faz süresi, botun kalkanı); başka hiçbir şeye dokunulmaz.
-const P1_SON = 5;
-const jsonDizi = (v) => (Array.isArray(v) ? v : typeof v === "string" ? JSON.parse(v || "[]") : []);
-async function kalkanAdimi(id, d, benSaldiran, kt) {
-  const idx = `${d.tur}:${d.saldiran}`;
-  const tur = Number(d.tur);
-  const fkalan = Number(d.fkalan);
-  const benimKol = d.oyuncu1 === BEN ? "kalkanlar1" : "kalkanlar2";
-  const rakipKol = d.oyuncu1 === BEN ? "kalkanlar2" : "kalkanlar1";
-  const benimKalkan = jsonDizi(d[benimKol]);
-  const uygunlar = async () => (await sorgu(`select k from unnest(duello_kategorileri()) k
-      where duello2_kategori_uygun_mu(${alintila(id)}, k) order by k`)).map((r) => r.k);
-  kt.kullanimlar ??= [];
+// ================================================================ DÜELLO · Hâkimiyet (680)
+// Ekran ölçümü (Alt Ajan B): Hâkimiyet ekranı KAYDIRMASIZ olmalı. Her fazdan (kategori saldıran / savunan,
+// cevap, sonuç) bir örnek 390×640 ve 360×640'ta ölçülür:
+//   · document.scrollingElement.scrollHeight <= innerHeight, yatay taşma yok;
+//   · dokunma hedefleri (kart, şık, alt çubuk düğmesi, joker, tepki) < 44 px raporlanır;
+//   · EN KÖTÜ DURUM benzetimi (gizli kopya): kategori fazında 3 grup başlığı + 6 kart satırı (1/1/8 dağılımı),
+//     cevap fazında en uzun soru/şık kademesi — gerçek sayfa toplamına oranlanarak yazılır.
+// Hâkimiyet kuralı denetimi (maç sonu): yuva sayıları sahiplikle tutarlı mı, hamle "tuttu" kuralı ve kazanan doğru mu.
+const OLCUM_YUKSEKLIK = 640;
+const OLCUM_GENISLIKLER = [390, 360];
+const olcumTablosu = [];
+const kapsam0 = {};   // { ekran, w, sh, ih, sigiyor, tasma, kucuk[], enKotu }
 
-  if (benSaldiran) {
-    if (kt.saldiranRed === undefined) {
-      const h = await kalkanRpc(id, "bilim");
-      kt.saldiranRed = h;
-      if (!h || !/rakip kategori seçerken/.test(h)) basarisiz("Kalkan: saldıran kullanabildi ya da beklenmeyen red", { h });
-      else console.log(`  ✓ kalkan: saldıran olarak red — ${h}`);
-    }
-    if (!kt.simule && jsonDizi(d[rakipKol]).length === 0 && fkalan > 9) {
-      const u = await uygunlar();
-      if (u.length >= 3) {
-        const k = u[1];
-        await sorgu(`update duellolar set ${rakipKol} = ${rakipKol} || jsonb_build_array(jsonb_build_object('kategori', ${alintila(k)}, 'idx', tur * 2 + saldiri_sirasi, 'tur', tur))
-                     where id = ${alintila(id)} and faz = 'kategori' and jsonb_array_length(${rakipKol}) = 0`);
-        await sorgu(`select duello_sinyal_ver(${alintila(id)})`).catch(() => {});   // istemci hemen okusun
-        kt.simule = { k, idx, macId: id, kontrol: null };
-        let kilitli = 0;
-        for (let i = 0; i < 20 && !kilitli; i++) { await s.waitForTimeout(200); kilitli = await s.locator("button.m2-kat.m2-kat--kalkan[disabled]").count(); }
-        const bildirim = await s.locator(".m2-bant--kalkan").count();
-        if (!kilitli) basarisiz("Kalkan: saldıranın ekranında korunan kategori kilitli görünmedi", { k });
-        else console.log(`  ✓ kalkan: saldıran ekranında ${k} kilitli ("Korumada")${bildirim ? " + bildirim" : " — bildirim GÖRÜNMEDİ"}`);
-        if (!bildirim) basarisiz("Kalkan: saldırana kalkan bildirimi görünmedi");
-        await ekranOlc("duello-kalkan-saldiran-kilitli");
-      }
-      return "devam";
-    }
-    return null;
+const OLCUM_FN = (faz) => {
+  const de = document.scrollingElement;
+  const kok = document.querySelector(".hk-mac");
+  if (!kok) return { yok: true, sh: de.scrollHeight, ih: innerHeight };
+  const gor = (e) => { const c = getComputedStyle(e); const r = e.getBoundingClientRect(); return c.display !== "none" && c.visibility !== "hidden" && r.width > 0 && r.height > 0; };
+  const ad = (e) => `${e.tagName.toLowerCase()}.${String(e.className || "").split(" ")[0]}「${(e.getAttribute("aria-label") || e.innerText || "").trim().replace(/\s+/g, " ").slice(0, 24)}」`;
+  const kucuk = [...document.querySelectorAll(".hk-kart, .qt-sik, .hk-cubuk-dugme, .bd-d2-skill button, .hk-tepki button, .hk-cubuk button")]
+    .filter((e) => gor(e) && !e.disabled && !e.closest(".qt-sik-kirik")).map((e) => ({ e, r: e.getBoundingClientRect() }))
+    .filter((x) => x.r.height < 43.5 || x.r.width < 43.5).map((x) => `${ad(x.e)} ${Math.round(x.r.width)}×${Math.round(x.r.height)}`);
+  const r0 = kok.getBoundingClientRect();
+  const sh = de.scrollHeight;
+  const ih = innerHeight;
+  // Sayfa toplamı = kökün üstündeki + altındaki boşluklar + kökün doğal yüksekliği (kök min-height:0, doğal yükseklikte).
+  let altPay = 0;
+  for (let a = kok; a && a !== document.documentElement; a = a.parentElement) { const c = getComputedStyle(a); altPay += parseFloat(c.paddingBottom) + parseFloat(c.marginBottom) + parseFloat(c.borderBottomWidth || 0); }
+  const ustPay = r0.top + scrollY;
+  const zincir = [];
+  for (let a = kok; a && a !== document.documentElement; a = a.parentElement) {
+    const c = getComputedStyle(a);
+    zincir.push(`${a.tagName.toLowerCase()}.${String(a.className).split(" ")[0]} üst=${Math.round(a.getBoundingClientRect().top + scrollY)} yük=${Math.round(a.getBoundingClientRect().height)} pb=${c.paddingBottom} mb=${c.marginBottom} min=${c.minHeight}`);
   }
-
-  // Savunan
-  const dugme = s.locator("button.m2-kalkan-dugme:not(.m2-kalkan-dugme--bitti)").first();
-  const hakRozeti = async () => Number((await s.locator(".m2-kalkan-hak").first().textContent({ timeout: 800 }).catch(() => "")) || NaN);
-  if (tur <= P1_SON) {
-    // 1. pencere: hak KULLANILMAZ (biriktirme). Yalnız görsel + son 5 sn reddi.
-    if (benimKalkan.length) return null;
-    if (!kt.gorsel && fkalan > 8) {
-      kt.gorsel = true;
-      const hak = await hakRozeti();
-      if (hak !== 1) basarisiz("Kalkan: Tur 1–5'te düğmedeki hak 1 değil", { hak, tur });
-      await dugme.tap({ timeout: 1500 }).catch(() => {});
-      if (await s.locator(".m2-kalkan-izgara").count()) {
-        // 669: yıldız rozeti kalktı — ızgara kartında artık puan değeri (+N) var.
-        const puanli = await s.locator(".m2-kalkan-izgara .m2-kalkan-kat b").count();
-        if (!puanli) basarisiz("Kalkan: ızgarada puan değeri yok");
-        const renkliZemin = await s.evaluate(() => [...document.querySelectorAll(".m2-kalkan-izgara .m2-kalkan-kat")].every((kart) =>
-          /m2-kalkan-kat--(yesil|kirmizi|gri)/.test(kart.className)
-            && !["", "rgba(0, 0, 0, 0)"].includes(getComputedStyle(kart).backgroundColor)));
-        if (!renkliZemin) basarisiz("Kalkan: ızgara kartlarında yeşil/kırmızı/gri zemin yok");
-        await ekranOlc("duello-kalkan-izgara");
-        await s.locator(".m2-kalkan-kat").first().tap({ timeout: 1500 }).catch(() => {});
-        if (await s.locator(".m2-kalkan-onay").count()) {
-          await ekranOlc("duello-kalkan-onay");
-          await s.locator(".m2-kalkan-onay .qt-dugme--ikincil").tap({ timeout: 1500 }).catch(() => {});
-        }
-        console.log(`  ✓ kalkan: Tur ${tur} savunan düğme (hak ${hak}) → ızgara (puanlı) → onay açıldı (Vazgeç, hak saklandı)`);
-      } else kt.gorsel = false;   // bot erken seçtiyse bir sonraki savunmada tekrar
-      return "devam";
-    }
-    if (kt.sonBes === undefined && kt.gorsel) {
-      const [r] = await sorgu(`update duellolar set faz_bitis = now() + interval '4.6 seconds'
-          where id = ${alintila(id)} and faz = 'kategori' and extract(epoch from faz_bitis - now()) > 6 returning 1 ok`);
-      if (!r) return null;
-      const t0 = Date.now();
-      const h0 = await s.evaluate(() => window.__bdTani?.hedefBitis ?? null).catch(() => null);
-      const u = await uygunlar();
-      const h = await kalkanRpc(id, u[0]);   // hemen: bot yeni bitişi görüp seçmeden
-      await sorgu(`select duello_sinyal_ver(${alintila(id)})`).catch(() => {});
-      let pasif = false;
-      for (let i = 0; i < 20 && !pasif; i++) { await s.waitForTimeout(150); pasif = await s.locator("button.m2-kalkan-dugme[disabled]").count() > 0; }
-      const hala = (await sorgu(`select faz = 'kategori' k from duellolar where id = ${alintila(id)}`))[0]?.k;
-      if (pasif && GORSEL) await s.screenshot({ path: path.join(GORSEL_DIZIN, `kalkan-son5-pasif-${GENISLIKLER[0]}${DIL ? "-" + DIL : ""}.png`) }).catch(() => {});
-      for (let i = 0; i < 40; i++) {
-        const [f] = await sorgu(`select faz from duellolar where id = ${alintila(id)}`);
-        if (f?.faz !== "kategori") break;
-        await bekle(200);
-      }
-      await s.evaluate(([t, hb]) => { window.__sayacKayit = (window.__sayacKayit ?? []).filter((k) => !(k.faz === "kategori" && (k.an >= t || (hb !== null && k.hedef === hb)))); }, [t0, h0]).catch(() => {});
-      if (h && /süre çok az/.test(h)) {
-        kt.sonBes = h;
-        kt.sonBesPasif = pasif;
-        console.log(`  ✓ kalkan: son 5 sn red — ${h}${pasif ? " · düğme pasif" : ""}`);
-        if (!pasif && (hala === true || hala === "t")) basarisiz("Kalkan: son 5 sn'de düğme pasif görünmedi");
-      } else if (!h) basarisiz("Kalkan: son 5 sn'de kalkan KABUL edildi", { u: u[0] });
-      else console.log(`  · kalkan son-5 denemesi faz geçtiği için sayılmadı (${h}) — sonraki savunmada tekrar`);
-      return "devam";
-    }
-    return null;
-  }
-
-  // 2. pencere (Tur 6+): biriktirilen hak dahil iki kullanım, art arda iki savunmada.
-  if (kt.biriktirmeMac === undefined && benimKalkan.length === 0) {
-    kt.biriktirmeMac = id;
-    const hak = await hakRozeti();
-    kt.biriktirme = hak;
-    if (hak !== 2) basarisiz("Kalkan: Tur 6'da kullanılmamış 1. hak 2. hakla birleşmedi (düğmede 2 bekleniyordu)", { hak, tur });
-    else console.log(`  ✓ kalkan: Tur ${tur} — 1. pencerede kullanılmayan hak kaybolmadı, düğmede 2 hak`);
-  }
-  if (kt.biriktirmeMac !== id) return null;
-  const buSecimde = benimKalkan.some((x) => Number(x.idx) === Number(d.tur) * 2 + Number(d.saldiri_sirasi ?? 0));
-  if (benimKalkan.length < 2 && !buSecimde && fkalan > 8) {
-    // Kısa zaman aşımları: bot o arada seçerse test cevap fazını kaçırmasın (yavaş DB anında 3×1,5 sn takılıyordu).
-    const fazHala = async () => (await sorgu(`select faz from duellolar where id = ${alintila(id)}`))[0]?.faz === "kategori";
-    await dugme.tap({ timeout: 700 }).catch(() => {});
-    const kat = s.locator(".m2-kalkan-kat").first();
-    if (!(await kat.count()) || !(await fazHala())) return null;
-    await kat.tap({ timeout: 700 }).catch(() => {});
-    await s.locator(".m2-kalkan-onay .m2-kalkan-dugme").tap({ timeout: 700 }).catch(() => {});
-    let yaz = null;
-    for (let i = 0; i < 10 && !yaz; i++) {
-      await bekle(200);
-      const [r] = await sorgu(`select jsonb_array_length(${benimKol}) n, ${benimKol} -> -1 ->> 'kategori' k from duellolar where id = ${alintila(id)}`);
-      if (Number(r?.n) > benimKalkan.length) yaz = r.k;
-    }
-    if (!yaz) { console.log("  · kalkan kullanımı bu fazda tamamlanamadı (bot önce seçti) — sonraki savunmada tekrar"); return null; }
-    kt.kullanimlar.push({ k: yaz, idx, macId: id, secilen: null, tur });
-    console.log(`  ✓ kalkan: Tur ${tur} arayüzden ${benimKalkan.length + 1}. kullanım → ${yaz} (DB'de ${benimKalkan.length + 1} kayıt)`);
-    let durumVar = 0;
-    for (let i = 0; i < 10 && !durumVar; i++) { await s.waitForTimeout(150); durumVar = await s.locator(".m2-kalkan-durum").count(); }
-    if (!durumVar) basarisiz("Kalkan: kullanıldıktan sonra 'korumada' satırı görünmedi");
-    const h2 = await kalkanRpc(id, (await uygunlar())[0]);
-    if (!h2 || !/zaten bir kategoriyi koruyorsun/.test(h2)) basarisiz("Kalkan: aynı seçimde ikinci kalkan reddedilmedi", { h2 });
-    else if (!kt.ayniSecimRed) { kt.ayniSecimRed = h2; console.log(`  ✓ kalkan: aynı seçimde ikinci kalkan red — ${h2}`); }
-    await ekranOlc(`duello-kalkan-kullanildi-${benimKalkan.length + 1}`);
-    return "devam";
-  }
-  if (benimKalkan.length >= 2 && !buSecimde && !kt.ucuncu) {
-    const h3 = await kalkanRpc(id, (await uygunlar())[0]);
-    kt.ucuncu = h3 ?? "KABUL";
-    if (!h3 || !/hakların bitti/.test(h3)) basarisiz("Kalkan: 3. kullanım reddedilmedi", { h3 });
-    else console.log(`  ✓ kalkan: 3. kullanım red — ${h3}`);
-    const hak = await hakRozeti();
-    if (hak !== 0) basarisiz("Kalkan: haklar bitince düğmede 0 görünmedi", { hak });
-  }
-  return null;
-}
-
-// Faz geçtikten sonra: korunan kategori seçilmiş mi (bot saldıran / test saldıran)?
-function kalkanSecimKontrol(d, kt, id) {
-  const idx = `${d.tur}:${d.saldiran}`;
-  if (d.faz === "kategori" || !d.kategori) return;
-  for (const ku of kt.kullanimlar ?? []) {
-    if (ku.macId === id && ku.idx === idx && !ku.secilen) {
-      ku.secilen = d.kategori;
-      if (d.kategori === ku.k) basarisiz("Kalkan: bot saldıran KORUNAN kategoriyi seçti", ku);
-      else console.log(`  ✓ kalkan: bot saldıran korunan ${ku.k} yerine ${d.kategori} seçti`);
-    }
-  }
-  if (kt.simule && kt.simule.macId === id && kt.simule.idx === idx && !kt.simule.kontrol) {
-    kt.simule.kontrol = d.kategori;
-    if (d.kategori === kt.simule.k) basarisiz("Kalkan: saldıran (test) korunan kategoriyi seçebildi", kt.simule);
-    else console.log(`  ✓ kalkan: test saldıran korunan ${kt.simule.k} yerine ${d.kategori} seçti`);
-  }
-}
-
-// 671 · Saldıran/savunan kartları 3 başlıkta mı; değer, renkli zemin ve tek satır oran doğru mu?
-async function yildizKontrol(id, kapsam, benSaldiran) {
-  const anahtar = `${id}:${benSaldiran ? "saldiran" : "savunan"}`;
-  if (kapsam.kategoriKartlari.has(anahtar)) return;
-  const [r] = await sorgu(`select oyuncu1, oyuncu2, yildiz1, yildiz2, profil1, profil2, puan_degerleri p,
-      tur, carpanli_turlar, carpan_katsayi from duellolar where id = ${alintila(id)}`);
-  const benOyuncu1 = r.oyuncu1 === BEN;
-  const hamYildiz = benSaldiran ? (benOyuncu1 ? r.yildiz2 : r.yildiz1) : (benOyuncu1 ? r.yildiz1 : r.yildiz2);
-  const y = typeof hamYildiz === "string" ? JSON.parse(hamYildiz) : hamYildiz;
-  const benProfil = typeof (benOyuncu1 ? r.profil1 : r.profil2) === "string"
-    ? JSON.parse(benOyuncu1 ? r.profil1 : r.profil2) : (benOyuncu1 ? r.profil1 : r.profil2);
-  const rakipProfil = typeof (benOyuncu1 ? r.profil2 : r.profil1) === "string"
-    ? JSON.parse(benOyuncu1 ? r.profil2 : r.profil1) : (benOyuncu1 ? r.profil2 : r.profil1);
-  const benOranlar = benProfil?.oranlar ?? {};
-  const rakipOranlar = rakipProfil?.oranlar ?? {};
-  const pBase = typeof r.p === "string" ? JSON.parse(r.p) : r.p;
-  const carpanTurlar = (typeof r.carpanli_turlar === "string" ? JSON.parse(r.carpanli_turlar) : r.carpanli_turlar ?? [9, 10]).map(Number);
-  const carpan = carpanTurlar.includes(Number(r.tur)) ? Number(r.carpan_katsayi ?? 2) : 1;   // 667
-  const p = Object.fromEntries(Object.entries(pBase).map(([k, v]) => [k, Math.round(Number(v) * carpan)]));
-  const [esikSatir] = await sorgu(`select ayar_sayi('duello_kat_esik_yuzde', 10) v`);
-  const esik = Number(esikSatir?.v ?? 10);
-  const ekran = await s.evaluate((saldiran) => {
-    const dugumler = saldiran
-      ? [...document.querySelectorAll("button.m2-kat[data-kategori]")]
-      : [...document.querySelectorAll(".m2-savun-grup li[data-kategori]")];
-    const kart = (d) => saldiran ? d : (d.matches(".m2-savun-kat") ? d : d.querySelector(".m2-savun-kat"));
-    const kartlar = dugumler.map((d) => {
-      const k = kart(d);
-      const oran = k?.querySelector(saldiran ? ".m2-kat-oranlar" : ".m2-savun-oranlar");
-      return {
-        kategori: d.dataset.kategori, sinif: k?.className ?? "",
-        deger: k?.querySelector(saldiran ? ".m2-kat-deger" : ".m2-savun-deger")?.textContent ?? "",
-        oranTasti: Boolean(oran && oran.scrollWidth > oran.clientWidth + 1),
-        oranTekSatir: oran ? getComputedStyle(oran).whiteSpace === "nowrap" : false,
-        zemin: k ? getComputedStyle(k).backgroundColor : "",
-      };
+  const yuk = (mod) => {
+    const k = kok.cloneNode(true);
+    k.style.cssText = `position:absolute;left:${r0.left + scrollX}px;top:0;width:${r0.width}px;visibility:hidden;pointer-events:none;height:auto;min-height:0;`;
+    k.querySelectorAll("*").forEach((n) => { n.style.animation = "none"; });
+    mod(k);
+    document.body.appendChild(k);
+    const h = k.getBoundingClientRect().height;
+    k.remove();
+    return h;
+  };
+  const gercekH = yuk(() => {});
+  let enKotu = null;
+  if (faz === "kategori") {
+    enKotu = yuk((k) => {
+      const kap = k.querySelector(".hk-kartlar");
+      const kartlar = [...k.querySelectorAll(".hk-kart")];
+      const baslik = k.querySelector(".hk-grup-baslik");
+      if (!kap || kartlar.length < 10 || !baslik) return;
+      const boyut = [1, 1, 8];
+      const adlar = ["Rakibin kategorileri · elinden al", "Boş kategoriler · al", "Senin kategorilerin · pekiştir"];
+      const tur = ["rakip", "bos", "ben"];
+      kap.innerHTML = "";
+      let i = 0;
+      boyut.forEach((n, g) => {
+        const sec = document.createElement("section"); sec.className = "hk-grup";
+        const h = baslik.cloneNode(true); h.textContent = adlar[g]; h.className = `hk-grup-baslik hk-grup-baslik--${tur[g]}`; sec.appendChild(h);
+        const iz = document.createElement("div"); iz.className = "hk-izgara";
+        for (let j = 0; j < n; j++) { const c = kartlar[i++].cloneNode(true); c.className = c.className.replace(/hk-kart--(rakip|bos|ben)/, `hk-kart--${tur[g]}`); iz.appendChild(c); }
+        sec.appendChild(iz); kap.appendChild(sec);
+      });
     });
-    const basliklar = [...document.querySelectorAll(saldiran ? ".m2-kat-grup > h3" : ".m2-savun-grup > h4")].map((h) => h.textContent.trim());
-    return { kartlar, basliklar };
-  }, benSaldiran);
-  if (!ekran.kartlar.length) return;
-  kapsam.kategoriKartlari.add(anahtar);
-  const hatali = [];
-  const kats = Object.keys(y);
-  const sira = ekran.kartlar.map((e) => e.kategori);
-  sira.forEach((k, i) => {
-    const e = ekran.kartlar[i];
-    const beklenenYildiz = Number(y[k] ?? 2);
-    const puan = Number(p?.[String(beklenenYildiz)]);
-    const benOran = typeof benOranlar[k] === "number" ? benOranlar[k] : null;
-    const rakipOran = typeof rakipOranlar[k] === "number" ? rakipOranlar[k] : null;
-    const fark = benOran === null || rakipOran === null ? null : benOran - rakipOran;
-    const renk = fark === null ? "gri" : fark >= esik ? "yesil" : fark <= -esik ? "kirmizi" : "gri";
-    const sinif = `${benSaldiran ? "m2-kat" : "m2-savun-kat"}--${renk}`;
-    const beklenenDeger = benSaldiran ? `+${puan} / −${puan}` : `+${puan}`;
-    const oncekiYildiz = i ? Number(y[sira[i - 1]] ?? 2) : 3;
-    if (!e.sinif.includes(sinif) || e.deger !== beklenenDeger || e.oranTasti || !e.oranTekSatir
-        || !e.zemin || Number(beklenenYildiz) > oncekiYildiz) hatali.push({ k, renk, puan, e, oncekiYildiz });
-  });
-  const baslikPuanlari = [3, 2, 1].map((n) => Number(p?.[String(n)]));
-  const basliklarDogru = ekran.basliklar.length === 3 && baslikPuanlari.every((puan, i) => ekran.basliklar[i].includes(String(puan)));
-  if (!basliklarDogru) hatali.push({ basliklar: ekran.basliklar, beklenenPuanlar: baslikPuanlari });
-  if (hatali.length) basarisiz(`Düello: ${benSaldiran ? "saldıran" : "savunan"} kategori grupları sunucuyla uyuşmuyor`, hatali.slice(0, 3));
-  else {
-    const dagilim = [1, 2, 3].map((n) => kats.filter((k) => Number(y[k]) === n).length);
-    if (benSaldiran) kapsam.yildizlar.push(dagilim.join("/"));
-    console.log(`  ✓ ${benSaldiran ? "saldıran" : "savunan"} kategori grupları: 3 başlık + değer + zemin rengi + tek satır oran (★ ${dagilim[0]} · ★★ ${dagilim[1]} · ★★★ ${dagilim[2]})`);
+  } else if (faz === "cevap" || faz === "sonuc") {
+    enKotu = yuk((k) => {
+      const soru = k.querySelector(".qt-soru");
+      if (soru) soru.classList.add("m1-soru--cok-uzun");
+      const m = k.querySelector(".qt-soru-metin");
+      if (m) m.textContent = "Bu, ölçüm için uydurulmuş en uzun kademedeki bir soru metnidir; gerçek sorular bunu nadiren aşar ve yine de ekrana sığmalıdır, çünkü kaydırma yoktur ve şıklar her zaman görünmelidir.".slice(0, 190);
+      k.querySelectorAll(".qt-sik-metin").forEach((n) => { n.textContent = "Bu şık metni ölçüm için elli karakterden uzun tutuldu".slice(0, 52); });
+    });
   }
+  const toplam = (h) => Math.round(ustPay + h + altPay);
+  return {
+    sh, ih, sw: de.scrollWidth, cw: de.clientWidth, kucuk, gercekToplam: toplam(gercekH), enKotuToplam: enKotu === null ? null : toplam(enKotu),
+    ust: [...document.querySelectorAll(".hk-ust .qt-oyuncu, .hk-ust .qt-oyuncu *, .hk-orta, .hk-orta *")].slice(0, 40).map((e) => { const r = e.getBoundingClientRect(); const c = getComputedStyle(e); return e.tagName.toLowerCase() + "." + String(e.className.baseVal ?? e.className).split(" ").slice(0, 2).join(".") + " y=" + Math.round(r.top) + " h=" + Math.round(r.height) + " w=" + Math.round(r.width) + " disp=" + c.display; }),
+    kokYuk: Math.round(r0.height), zincir, ustPay: Math.round(ustPay), altPay: Math.round(altPay),
+  };
+};
+
+// Tek görüntü: 390×640 (Hâkimiyet ekranı durumları için: seçili kart, Hazır etiketi…).
+async function gorselAl(etiket) {
+  try {
+    fs.mkdirSync(GORSEL_DIZIN, { recursive: true });
+    await s.setViewportSize({ width: OLCUM_GENISLIKLER[0], height: OLCUM_YUKSEKLIK });
+    await s.waitForTimeout(250);
+    await s.screenshot({ path: path.join(GORSEL_DIZIN, `hakimiyet-${etiket}-${OLCUM_GENISLIKLER[0]}x${OLCUM_YUKSEKLIK}${DIL ? "-" + DIL : ""}.png`) });
+  } catch { /* görüntü alınamadı: test etkilenmez */ }
+  await s.setViewportSize({ width: GENISLIKLER[0], height: YUKSEKLIK });
 }
 
-// 666/667 · Maç sonu: her hamlenin puanı kurala uyuyor mu (saldırana eksi + taban 0 + son 2 tur ×çarpan),
-// toplam ve kazanan doğru mu, bot kalkan sınırına uymuş mu?
-async function puanDenetimi(id, kapsam) {
-  const [d] = await sorgu(`select oyuncu1, oyuncu2, puan1, puan2, kazanan, uzatma, terk_eden, yildiz1, yildiz2, puan_degerleri,
-      carpanli_turlar, carpan_katsayi, kalkanlar1, kalkanlar2, durum from duellolar where id = ${alintila(id)}`);
-  const hm = await sorgu(`select tur, saldiran, savunan, kategori, uzatma, dogru, dogru_saldiran, yildiz, deger, carpan,
-      puan_saldiran, puan_savunan, altin_kazanan from duello_hamleler where duello_id = ${alintila(id)} order by id`);
-  const j = (v) => (typeof v === "string" ? JSON.parse(v) : v);
-  const pd = j(d.puan_degerleri); const y1 = j(d.yildiz1); const y2 = j(d.yildiz2);
-  const carpanTurlar = (j(d.carpanli_turlar) ?? [9, 10]).map(Number);
-  const carpanKatsayi = Number(d.carpan_katsayi ?? 2);
-  const carpanOf = (tur) => (carpanTurlar.includes(Number(tur)) ? carpanKatsayi : 1);
-  const b = (v) => v === true || v === "t";
-  // 667: saldıranın cezası taban 0'da durur — sunucudaki gibi ilerleyen toplamla izlenir.
-  const top = { [d.oyuncu1]: 0, [d.oyuncu2]: 0 };
-  const hata = [];
-  let altin = 0;
-  for (const h of hm) {
-    if (b(h.uzatma)) {
-      altin++;
-      const bek = b(h.dogru_saldiran) && !b(h.dogru) ? h.saldiran : b(h.dogru) && !b(h.dogru_saldiran) ? h.savunan : null;
-      if ((h.altin_kazanan ?? null) !== bek) hata.push({ altin: h, bek });
-      if (Number(h.deger) || Number(h.puan_saldiran) || Number(h.puan_savunan)) hata.push({ altinPuanliOlmamali: h });
-      continue;
+async function hakimiyetOlc(etiket, faz) {
+  for (const w of OLCUM_GENISLIKLER) {
+    await s.setViewportSize({ width: w, height: OLCUM_YUKSEKLIK });
+    await s.waitForTimeout(260);
+    const o = await s.evaluate(OLCUM_FN, faz).catch(() => null);
+    if (!o || o.yok) { console.log(`  · ölçüm atlandı (${etiket} @${w}): Hâkimiyet kökü yok`); continue; }
+    const sigiyor = o.sh <= o.ih;
+    const tasma = o.sw > o.cw + 1;
+    const enKotuSigiyor = o.enKotuToplam === null ? null : o.enKotuToplam <= o.ih;
+    if (ARG.zincir && !kapsam0.zincirYazildi) { kapsam0.zincirYazildi = true; console.log(`  · ata zinciri (üst ${o.ustPay}, alt boşluk ${o.altPay}):\n    ` + o.zincir.join("\n    ") + "\n  · başlık:\n    " + o.ust.join("\n    ")); }
+    olcumTablosu.push({ ekran: etiket, w, sh: o.sh, ih: o.ih, sigiyor, tasma, kucuk: o.kucuk, enKotu: o.enKotuToplam, enKotuSigiyor });
+    console.log(`  · ölçüm ${etiket} @${w}×${OLCUM_YUKSEKLIK}: scrollHeight ${o.sh} / innerHeight ${o.ih} → ${sigiyor ? "SIĞIYOR" : "SIĞMIYOR"}${tasma ? " · YATAY TAŞMA" : ""}${o.enKotuToplam !== null ? ` · en kötü durum ${o.enKotuToplam} px → ${enKotuSigiyor ? "sığıyor" : "SIĞMIYOR"}` : ""}${o.kucuk.length ? ` · <44px hedef: ${o.kucuk.slice(0, 3).join(" | ")}${o.kucuk.length > 3 ? " …" : ""}` : ""}`);
+    if (!sigiyor) basarisiz(`Hâkimiyet ${etiket} @${w}×${OLCUM_YUKSEKLIK}: kaydırma var`, { scrollHeight: o.sh, innerHeight: o.ih });
+    if (tasma) basarisiz(`Hâkimiyet ${etiket} @${w}×${OLCUM_YUKSEKLIK}: yatay taşma`);
+    if (enKotuSigiyor === false) basarisiz(`Hâkimiyet ${etiket} @${w}×${OLCUM_YUKSEKLIK}: en kötü durumda kaydırma gerekir`, { enKotu: o.enKotuToplam, innerHeight: o.ih });
+    if (GORSEL) {
+      fs.mkdirSync(GORSEL_DIZIN, { recursive: true });
+      await s.screenshot({ path: path.join(GORSEL_DIZIN, `hakimiyet-${etiket}-${w}x${OLCUM_YUKSEKLIK}${DIL ? "-" + DIL : ""}.png`) }).catch(() => {});
     }
-    const yMap = h.savunan === d.oyuncu1 ? y1 : y2;
-    const yl = Number(yMap?.[h.kategori] ?? 2);
-    const carpan = carpanOf(h.tur);
-    const deger = Math.round(Number(pd[String(yl)]) * carpan);
-    if (Number(h.yildiz) !== yl || Number(h.deger) !== deger || Number(h.carpan) !== carpan) hata.push({ tur: h.tur, k: h.kategori, yildiz: h.yildiz, bek: yl, deger: h.deger, bekD: deger, carpan: h.carpan, bekC: carpan });
-    const pv = b(h.dogru) ? deger : 0;
-    const ps = b(h.dogru_saldiran) ? deger : -Math.min(deger, top[h.saldiran]);   // taban 0 — kalanla sınırlı ceza
-    if (Number(h.puan_saldiran) !== ps || Number(h.puan_savunan) !== pv) hata.push({ tur: h.tur, ps: h.puan_saldiran, bekS: ps, pv: h.puan_savunan, bekV: pv, once: top[h.saldiran] });
-    top[h.saldiran] = Math.max(0, top[h.saldiran] + ps); top[h.savunan] += pv;
   }
-  if (top[d.oyuncu1] !== Number(d.puan1) || top[d.oyuncu2] !== Number(d.puan2)) hata.push({ toplam: top, p1: d.puan1, p2: d.puan2 });
-  if (Object.values(top).some((v) => v < 0) || Number(d.puan1) < 0 || Number(d.puan2) < 0) hata.push({ negatifPuan: [d.puan1, d.puan2] });
-  const normal = hm.filter((h) => !b(h.uzatma)).length;
+  await s.setViewportSize({ width: GENISLIKLER[0], height: YUKSEKLIK });
+}
+
+// Maç sonu: yuvalar sahiplikle tutarlı mı, kazanan kurala uygun mu, her hamlenin "tuttu" bilgisi cevaplarla uyuşuyor mu?
+async function hakimiyetDenetimi(id, kapsam) {
+  const [d] = await sorgu(`select oyuncu1, oyuncu2, yuva1, yuva2, sahiplik, kazanan, uzatma, terk_eden, durum, hakimiyet_esik
+      from duellolar where id = ${alintila(id)}`);
+  const hm = await sorgu(`select tur, saldiran, savunan, kategori, uzatma, dogru, dogru_saldiran, altin_kazanan, hakimiyet
+      from duello_hamleler where duello_id = ${alintila(id)} order by id`);
+  const j = (v) => (typeof v === "string" ? JSON.parse(v) : v);
+  const b = (v) => v === true || v === "t";
+  const sahip = j(d.sahiplik) ?? {};
+  const say = (o) => Object.values(sahip).filter((v) => v === o).length;
+  const esik = Number(d.hakimiyet_esik ?? 4);
+  const hata = [];
+  if (say(d.oyuncu1) !== Number(d.yuva1) || say(d.oyuncu2) !== Number(d.yuva2)) hata.push({ yuvaSahiplikUyusmuyor: [d.yuva1, d.yuva2, say(d.oyuncu1), say(d.oyuncu2)] });
+  for (const h of hm.filter((x) => !b(x.uzatma))) {
+    const x = j(h.hakimiyet);
+    if (!x) { hata.push({ tur: h.tur, hakimiyetYok: true }); continue; }
+    const bekTuttu = b(h.dogru_saldiran) && !b(h.dogru);
+    // Baskın/Kalkan hamleyi değiştirir; onlar yokken kural birebir.
+    if (!x.baskin && !x.kalkan && Boolean(x.tuttu) !== bekTuttu) hata.push({ tur: h.tur, tuttu: x.tuttu, bekTuttu });
+    if (!x.tuttu && !x.neden) hata.push({ tur: h.tur, nedenYok: true });
+  }
   if (d.durum === "bitti" && !d.terk_eden) {
-    if (normal !== 20) hata.push({ normalHamle: normal, bek: 20 });
-    const bekKazanan = altin ? hm.filter((h) => b(h.uzatma)).at(-1)?.altin_kazanan
-      : Number(d.puan1) > Number(d.puan2) ? d.oyuncu1 : Number(d.puan2) > Number(d.puan1) ? d.oyuncu2 : null;
-    if (d.kazanan !== bekKazanan) hata.push({ kazanan: d.kazanan, bekKazanan });
-    if (altin && Number(d.puan1) !== Number(d.puan2)) hata.push({ altinAmaPuanFarkli: [d.puan1, d.puan2] });
+    const y1 = Number(d.yuva1); const y2 = Number(d.yuva2);
+    const bek = Math.max(y1, y2) >= esik || y1 !== y2
+      ? (y1 > y2 ? d.oyuncu1 : d.oyuncu2)
+      : hm.filter((x) => b(x.uzatma)).at(-1)?.altin_kazanan;
+    if (d.kazanan !== bek) hata.push({ kazanan: d.kazanan, bek, yuvalar: [y1, y2] });
+    if (hm.filter((x) => !b(x.uzatma)).length > 20) hata.push({ fazlaHamle: hm.length });
   }
-  // Bot kalkanı: 1. pencerede en çok 1, toplam en çok 2, seçim başına 1
-  const botKol = d.oyuncu1 === BEN ? j(d.kalkanlar2) : j(d.kalkanlar1);
-  if (botKol.filter((x) => Number(x.tur) <= P1_SON).length > 1 || botKol.length > 2 || new Set(botKol.map((x) => x.idx)).size !== botKol.length) hata.push({ botKalkan: botKol });
-  const benim = d.oyuncu1 === BEN ? Number(d.puan1) : Number(d.puan2);
-  const rakip = d.oyuncu1 === BEN ? Number(d.puan2) : Number(d.puan1);
-  kapsam.maclar.push({ id: id.slice(0, 8), skor: `${benim}-${rakip}`, altin, botKalkan: botKol.length, hata: hata.length });
-  if (hata.length) basarisiz("Düello: puan/kazanan denetimi tutmadı", hata.slice(0, 4));
-  else console.log(`  ✓ puan denetimi: ${hm.length} hamle kurala uygun (saldırana eksi + taban 0 + son 2 tur ×çarpan), skor ${benim}-${rakip}${altin ? `, ${altin} Altın Soru` : ""}, kazanan doğru, bot kalkanı ${botKol.length} (sınırda)`);
+  const benim = d.oyuncu1 === BEN ? Number(d.yuva1) : Number(d.yuva2);
+  const rakip = d.oyuncu1 === BEN ? Number(d.yuva2) : Number(d.yuva1);
+  kapsam.maclar.push({ id: id.slice(0, 8), skor: `${benim}-${rakip}`, altin: hm.filter((x) => b(x.uzatma)).length, hata: hata.length });
+  if (hata.length) basarisiz("Düello: Hâkimiyet denetimi tutmadı", hata.slice(0, 4));
+  else console.log(`  ✓ hâkimiyet denetimi: ${hm.length} hamle, yuvalar ${benim}-${rakip} sahiplikle tutarlı, tuttu kuralı ve kazanan doğru`);
 }
 
 async function duelloMaci(kapsam) {
@@ -685,7 +511,7 @@ async function duelloMaci(kapsam) {
     turBas = Date.now();
     sonAdim = "durum okuma";
     const t = await s.evaluate(() => window.__bdTani ?? null);
-    const [d] = await sorgu(`select durum, faz, tur, saldiri_sirasi, saldiran, uzatma, soru_id, cevaplar, oyuncu1, puan1, puan2, kategori, kalkanlar1, kalkanlar2,
+    const [d] = await sorgu(`select durum, faz, tur, saldiri_sirasi, saldiran, uzatma, soru_id, cevaplar, oyuncu1, yuva1, yuva2, kategori,
                                (select dogru_cevap from questions q where q.id = soru_id) dogru,
                                extract(epoch from (faz_bitis - now())) fkalan, extract(epoch from (now() - created_at)) mac_yasi,
                                extract(epoch from ((case when oyuncu1 = ${alintila(BEN)} then bitis1 else bitis2 end) - now())) kkalan
@@ -702,29 +528,13 @@ async function duelloMaci(kapsam) {
       await s.waitForTimeout(2500);
       await ekranOlc("duello-mac-sonu");
       console.log(`  maç bitti (${d.durum})`);
-      if (d.durum === "bitti") await puanDenetimi(id, kapsam);
-      // 650: kalkan kullanılan maçta özet "… korundu" işaretini göstermeli
-      if (d.durum === "bitti" && ((kapsam.kalkan.kullanimlar ?? []).some((x) => x.macId === id) || kapsam.kalkan.simule?.macId === id)) {
-        const ks = s.locator(".m2-gecmis-kalkan");
-        let n = 0;
-        for (let i = 0; i < 30 && !n; i++) { n = await ks.count(); if (!n) await s.waitForTimeout(300); }
-        if (!n) basarisiz("Kalkan: maç sonu özetinde kalkan işareti yok");
-        else {
-          console.log(`  ✓ kalkan: maç sonu özetinde ${n} işaret (${(await ks.first().innerText()).trim()})`);
-          kapsam.kalkan.ozet = n;
-          if (GORSEL) {
-            const detay = s.getByRole("button", { name: /^(Detay|Details)/ });
-            if (await detay.count()) { await detay.first().tap({ timeout: 2000 }).catch(() => {}); await s.waitForTimeout(500); }
-            for (const w of GENISLIKLER) {
-              await s.setViewportSize({ width: w, height: YUKSEKLIK });
-              await ks.first().scrollIntoViewIfNeeded().catch(() => {});
-              await s.evaluate(() => window.scrollBy(0, 120));
-              await s.waitForTimeout(200);
-              await s.screenshot({ path: path.join(GORSEL_DIZIN, `kalkan-mac-sonu-${w}${DIL ? "-" + DIL : ""}.png`) });
-            }
-            await s.setViewportSize({ width: GENISLIKLER[0], height: YUKSEKLIK });
-          }
-        }
+      if (d.durum === "bitti") {
+        await hakimiyetDenetimi(id, kapsam);
+        // Maç sonu sahnesi skoru YUVA olarak yazar (puan değil): etiket ve son tahta görünmeli.
+        const metin = await s.evaluate(() => document.body.innerText).catch(() => "");
+        if (!/yuva|slots/i.test(metin)) basarisiz("Düello: maç sonu ekranında yuva skoru/etiketi yok");
+        else console.log("  ✓ maç sonu: skor yuva olarak yazıldı");
+        if (/\bpuan\b(?!ı)|\bpoints?\b/i.test(metin.replace(/lig puan[ıi]|league points/gi, ""))) console.log("  ! maç sonu ekranında 'puan' kelimesi geçiyor (lig puanı dışında) — gözle kontrol");
       }
       const sayac = await sayacRaporu("Düello");
       kapsam.sayac.push(...sayac);
@@ -753,38 +563,32 @@ async function duelloMaci(kapsam) {
         const t0 = Date.now();
         sonAdim = "ekran ölçümü";
         await ekranOlc(`duello-${tur}`);
+        await hakimiyetOlc(tur, d.faz);
+        // --hizli: yalnız ilk tur fazları ölçülür, sonra düellodan çıkılır (yerleşim ayarı için hızlı döngü)
+        if (ARG.hizli && ["kategori", "cevap", "sonuc"].every((f) => [...kapsam.olculen].some((x) => x.startsWith(f)))) {
+          await s.getByRole("button", { name: /Düellodan çık|Leave the duel|Leave duel/i }).first().tap({ timeout: 3000 }).catch(() => {});
+          await s.waitForTimeout(400);
+          await s.getByRole("dialog").getByRole("button", { name: /^(Çık|Leave|Exit)$/ }).tap({ timeout: 3000 }).catch(() => {});
+          await s.waitForTimeout(800);
+          return "hizli";
+        }
         console.log(`  · ekran ölçüldü: ${tur} (${((Date.now() - t0) / 1000).toFixed(1)} sn)`);
         continue;   // ölçüm sürerken faz değişmiş olabilir: durumu yeniden oku
       }
     }
 
-    // --altin: 10. turun son sonucunda puanlar eşitlenir → sunucu Altın Soru açar (yalnız test hesabının bota karşı maçı).
-    if (ARG.altin && !kapsam.altinZorlandi?.has(id) && d.faz === "sonuc" && Number(d.tur) === 10 && Number(d.saldiri_sirasi) === 1
-        && !(d.uzatma === true || d.uzatma === "t")) {
-      (kapsam.altinZorlandi ??= new Set()).add(id);
-      await sorgu(`update duellolar set puan2 = puan1 where id = ${alintila(id)} and faz = 'sonuc' and not uzatma`);
-      console.log(`  · --altin: 10. tur sonunda puanlar eşitlendi (${d.puan1}-${d.puan1}) → Altın Soru bekleniyor`);
-      kapsam.altinBekle = id;
-    }
-    if (kapsam.altinBekle === id && (d.uzatma === true || d.uzatma === "t") && d.faz === "cevap" && !kapsam.altinGoruldu?.has(id)) {
+    // Altın Soru (yuvalar 10 tur sonunda eşitse doğal olarak gelir): üst başlıkta "ALTIN SORU", joker kapalı.
+    if ((d.uzatma === true || d.uzatma === "t") && d.faz === "cevap" && !kapsam.altinGoruldu?.has(id)) {
       (kapsam.altinGoruldu ??= new Set()).add(id);
       let bant = 0;
-      for (let i = 0; i < 15 && !bant; i++) { bant = await s.locator(".m2-uzatma").count(); if (!bant) await s.waitForTimeout(200); }
+      for (let i = 0; i < 15 && !bant; i++) { bant = await s.locator(".hk-ust--altin").count(); if (!bant) await s.waitForTimeout(200); }
       const jokerKapali = await s.locator(".bd-d2-skill button:not([disabled])").count() === 0;
-      if (!bant) basarisiz("Altın Soru: bant görünmedi");
+      if (!bant) basarisiz("Altın Soru: üst başlıkta ALTIN SORU işareti görünmedi");
       if (!jokerKapali) basarisiz("Altın Soru: joker düğmeleri açık");
-      if (bant && jokerKapali) console.log("  ✓ Altın Soru açıldı: bant görünüyor, jokerler kapalı");
+      if (bant && jokerKapali) console.log("  ✓ Altın Soru açıldı: başlık işaretli, jokerler kapalı");
       await ekranOlc("duello-altin-soru");
+      await hakimiyetOlc("altin-soru-cevap", "cevap");
     }
-    // 671 · saldıran ve savunan ekranında üç grup + zemin rengi + tek satır oran.
-    if (d.faz === "kategori" && !(d.uzatma === true || d.uzatma === "t")) await yildizKontrol(id, kapsam, benSaldiran);
-    // 650 · Kategori Kalkanı senaryosu (Altın Soru'da yok)
-    kalkanSecimKontrol(d, kapsam.kalkan, id);
-    if (d.faz === "kategori" && !(d.uzatma === true || d.uzatma === "t")) {
-      sonAdim = "kalkan";
-      if (await kalkanAdimi(id, d, benSaldiran, kapsam.kalkan) === "devam") continue;
-    }
-
     // Kategori: seçme sırası bendeyse seçilebilir kategori OLMALI.
     if (d.faz === "kategori" && benSaldiran) {
       // Kategori isteği yoldaysa (calisan = "kategori") düğmeler bilerek kilitli: bekle, süreyi ölç.
@@ -797,14 +601,76 @@ async function duelloMaci(kapsam) {
         continue;
       }
       let n = 0;
-      for (let i = 0; i < 8 && !n; i++) { n = await s.locator(":is(.bd-duello-kat, button.m2-kat):not([disabled])").count(); if (!n) await s.waitForTimeout(200); }
-      if (!n) { basarisiz("Düello: kategori sırası bende ama seçilebilir kategori yok", { tani: t }); return "kritik"; }
+      const KART = "button.hk-kart:not([disabled])";
+      for (let i = 0; i < 8 && !n; i++) { n = await s.locator(KART).count(); if (!n) await s.waitForTimeout(200); }
+      if (!n) {
+        const ek = await s.evaluate(() => ({ url: location.pathname, tani: window.__bdTani ?? null, kartlar: document.querySelectorAll("button.hk-kart").length, kilitli: document.querySelectorAll("button.hk-kart:disabled").length, metin: document.body.innerText.replace(/\s+/g, " ").slice(0, 160) })).catch(() => null);
+        basarisiz("Düello: kategori sırası bende ama seçilebilir kategori yok", { tani: t, ek });
+        return "kritik";
+      }
+      // Savunmada "Hazır" işaretlediğim kart (hâlâ seçilebilirse) bu turda ÖNCEDEN SEÇİLİ gelmeli.
+      const hz = kapsam.hazir;
+      if (hz && hz.macId === id && Number(d.tur) === hz.tur + 1 && !hz.kontrol) {
+        hz.kontrol = true;
+        const acikMi = await s.locator(`button.hk-kart[data-kategori="${hz.k}"]:not([disabled])`).count();
+        const secili = await s.locator(`button.hk-kart--secili[data-kategori="${hz.k}"]`).count();
+        if (acikMi && !secili) basarisiz("Hâkimiyet: savunmada hazırlanan kart sırası gelince önceden seçili gelmedi", hz);
+        else console.log(acikMi ? `  ✓ hazırlanan kart (${hz.k}) sırası gelince önceden seçili geldi` : `  · hazırlanan kart (${hz.k}) artık seçilemez (kilit/el değişimi) — seçili gelmesi beklenmez`);
+        kapsam.hazirDogru = (kapsam.hazirDogru ?? 0) + (acikMi && secili ? 1 : 0);
+      }
+      // Oyun ilerleyince (gerçek yuva/kilit dağılımıyla) bir kez daha ölç: kartlar 3 gruba bölünür, kilitler ve yuvalar dolar.
+      if (Number(d.tur) >= 5 && !kapsam.ortaOlculdu) {
+        kapsam.ortaOlculdu = true;
+        await hakimiyetOlc(`kategori-saldiran-tur${d.tur}`, "kategori");
+        continue;
+      }
       const k0 = Date.now();
       sonAdim = "kategori dokunuşu";
-        await s.locator(":is(.bd-duello-kat, button.m2-kat):not([disabled])").first().tap({ timeout: 3000 })
-        .catch((e) => basarisiz(`Düello: kategoriye dokunulamadı (${Date.now() - k0} ms) — ${String(e.message).split(String.fromCharCode(10))[0]}`));
+      // Her turda farklı bir kart: üç grup (rakibin · boş · senin) ve üç eylem (Elinden al / Al / Pekiştir) dolaşılsın.
+      const kart = s.locator(KART).nth(Number(d.tur) % n);
+      let onIz = await s.locator(".hk-kart--secili").count();
+      if (!onIz) {
+        await kart.tap({ timeout: 3000 })
+          .catch((e) => basarisiz(`Düello: kategoriye dokunulamadı (${Date.now() - k0} ms) — ${String(e.message).split(String.fromCharCode(10))[0]}`));
+        await s.waitForTimeout(200);
+      }
+      if (GORSEL && !kapsam.seciliGorsel) { kapsam.seciliGorsel = true; await gorselAl("kategori-secili"); }
+      const cubuk = (await s.locator(".hk-cubuk-yazi").first().innerText().catch(() => "")).replace(/\s+/g, " ").trim();
+      if (!/→|2 tur|turn|lock/i.test(cubuk)) basarisiz("Hâkimiyet: alt çubukta seçim özeti (tutarsa …) yok", { cubuk });
+      kapsam.cubukOrnekleri.add(cubuk.slice(0, 70));
+      await s.locator(".hk-cubuk-dugme:not([disabled])").first().tap({ timeout: 3000 })
+        .catch((e) => basarisiz(`Düello: alt çubuk eylem düğmesine dokunulamadı — ${String(e.message).split(String.fromCharCode(10))[0]}`));
       await s.waitForTimeout(600);
       continue;
+    }
+    if (d.faz === "kategori" && !benSaldiran && !kapsam.hazirTurlari.has(`${id}:${d.tur}`)) {
+      kapsam.hazirTurlari.add(`${id}:${d.tur}`);
+      // Savunan: bir karta dokun → "Hazır" etiketi; ikinci dokunuş kaldırır (üçüncü dokunuşta yeniden işaretlenir).
+      const adaylar = s.locator("button.hk-kart:not([disabled])");
+      if (await adaylar.count()) {
+        const kart = adaylar.nth(Number(d.tur) % (await adaylar.count()));
+        const k = await kart.getAttribute("data-kategori");
+        await kart.tap({ timeout: 2500 }).catch(() => {});
+        await s.waitForTimeout(150);
+        const var1 = await s.locator(`button.hk-kart--hazir[data-kategori="${k}"] .hk-kart-hazir`).count();
+        if (!var1) basarisiz("Hâkimiyet: savunmada kart işaretlenince 'Hazır' etiketi çıkmadı", { k });
+        else {
+          kapsam.hazirSayisi++;
+          if (!kapsam.hazirKaldirmaDenendi) {
+            kapsam.hazirKaldirmaDenendi = true;
+            await kart.tap({ timeout: 2500 }).catch(() => {});
+            await s.waitForTimeout(150);
+            const var2 = await s.locator(`button.hk-kart--hazir[data-kategori="${k}"]`).count();
+            if (var2) basarisiz("Hâkimiyet: ikinci dokunuş 'Hazır'ı kaldırmadı", { k });
+            else console.log("  ✓ savunma: ikinci dokunuş 'Hazır'ı kaldırdı");
+            await kart.tap({ timeout: 2500 }).catch(() => {});
+            await s.waitForTimeout(150);
+          }
+          if (GORSEL && !kapsam.hazirGorsel) { kapsam.hazirGorsel = true; await gorselAl("savunma-hazir"); }
+          kapsam.hazir = { macId: id, tur: Number(d.tur), k, kontrol: false };
+          console.log(`  ✓ savunma: ${k} kartı 'Hazır' işaretlendi (istemcide tutulur)`);
+        }
+      }
     }
 
     // Cevap: bu soruyu henüz cevaplamadıysam şıklar AÇIK olmalı.
@@ -874,11 +740,11 @@ async function duelloMaci(kapsam) {
           }
         }
       }
-      // Puanlar yakın kalsın (maç çekişmeli, kazanan iki taraf da olabilsin): öndeysem yanlış, gerideysem/eşitsem doğru.
-      const [g] = await sorgu(`select puan1, puan2, oyuncu1, (select dogru_cevap from questions q where q.id = soru_id) dogru
+      // Yuvalar yakın kalsın (maç çekişmeli, kazanan iki taraf da olabilsin): öndeysem yanlış, gerideysem/eşitsem doğru.
+      const [g] = await sorgu(`select yuva1, yuva2, oyuncu1, (select dogru_cevap from questions q where q.id = soru_id) dogru
                                  from duellolar where id = ${alintila(id)}`);
-      const benimPuan = g.oyuncu1 === BEN ? Number(g.puan1) : Number(g.puan2);
-      const rakipPuan = g.oyuncu1 === BEN ? Number(g.puan2) : Number(g.puan1);
+      const benimPuan = g.oyuncu1 === BEN ? Number(g.yuva1) : Number(g.yuva2);
+      const rakipPuan = g.oyuncu1 === BEN ? Number(g.yuva2) : Number(g.yuva1);
       const dogru = Number(g.dogru);
       const hedef = benimPuan > rakipPuan ? (dogru + 1) % 4 : dogru;
       let sik = s.locator(":is(.bd-secenek, .qt-sik)").nth(hedef);
@@ -951,29 +817,23 @@ async function haleOlc() {
 
 async function duelloTesti() {
   console.log("\n▶ Düello");
-  const kapsam = { saldiran: 0, savunan: 0, durumlar: {}, olculen: new Set(), sayac: [], satinAlma: [], kalkan: {}, maclar: [], yildizlar: [], kategoriKartlari: new Set() };
+  const kapsam = { saldiran: 0, savunan: 0, durumlar: {}, olculen: new Set(), sayac: [], satinAlma: [], maclar: [], cubukOrnekleri: new Set(), hazirTurlari: new Set(), hazirSayisi: 0 };
   for (let i = 0; i < EN_COK_MAC; i++) {
-    if (await duelloMaci(kapsam) === "kritik") break;
-    // 650: kalkan senaryosunun bütün adımları bitmeden durma (bir maçta savunma sayısı yetmeyebilir)
-    const kk = kapsam.kalkan;
+    const macSonucu = await duelloMaci(kapsam);
+    if (macSonucu === "kritik" || macSonucu === "hizli") break;
+    // Hazırlık senaryosu (savunmada işaretle → sırada önceden seçili gel) en az bir kez doğrulanmadan durma.
     if (ARG.hepsi) continue;   // --hepsi: --mac kadar maçın hepsi oynanır
-    if (!(kk.saldiranRed && kk.sonBes && kk.kullanimlar?.length >= 2 && kk.ucuncu && kk.simule?.kontrol)) continue;
+    if (!(kapsam.hazirDogru > 0)) continue;
     if (kapsam.saldiran >= 3 && kapsam.savunan >= 3 && Object.keys(kapsam.durumlar).some((k) => k.includes("uzatma"))) break;
     if (kapsam.saldiran >= 3 && kapsam.savunan >= 3 && i >= 0 && !ARG.uzatma) break;
   }
-  // 650 · Kategori Kalkanı özeti
-  const kt = kapsam.kalkan;
-  const ku = kt.kullanimlar ?? [];
-  notlar.push(`Kalkan: saldıran reddi ${kt.saldiranRed ? "✓" : "—"} · son 5 sn reddi ${kt.sonBes ? "✓" : "—"} (düğme pasif ${kt.sonBesPasif ? "✓" : "—"}) · Tur 6'da biriken hak ${kt.biriktirme ?? "—"} · kullanımlar ${ku.map((x) => `Tur ${x.tur} ${x.k} → bot ${x.secilen ?? "?"}`).join(", ") || "—"} · aynı seçimde 2. red ${kt.ayniSecimRed ? "✓" : "—"} · 3. kullanım reddi ${kt.ucuncu ? "✓" : "—"} · saldıran kilitli kutu ${kt.simule ? kt.simule.k + " → test " + (kt.simule.kontrol ?? "?") + " seçti" : "—"} · maç sonu işareti ${kt.ozet ?? "—"}`);
-  notlar.push(`Düello maçları (${kapsam.maclar.length}): ${kapsam.maclar.map((m) => `${m.id} ${m.skor}${m.altin ? " +Altın×" + m.altin : ""} botKalkan ${m.botKalkan}${m.hata ? " HATA" : ""}`).join(" · ")}`);
-  if (kapsam.yildizlar.length) notlar.push(`Yıldız dağılımları (★/★★/★★★): ${kapsam.yildizlar.join(" · ")}`);
-  if (!kt.saldiranRed) basarisiz("Kalkan: saldıran reddi denenemedi");
-  if (!kt.sonBes) basarisiz("Kalkan: son 5 sn reddi denenemedi");
-  if (ku.length < 2) basarisiz("Kalkan: 2. pencerede iki kullanım gerçekleşmedi", { kullanim: ku.length });
-  if (kt.biriktirme !== 2) basarisiz("Kalkan: biriktirme (Tur 6'da 2 hak) doğrulanamadı", { biriktirme: kt.biriktirme });
-  if (!kt.ucuncu) basarisiz("Kalkan: 3. kullanım reddi denenemedi");
-  if (!kt.simule) basarisiz("Kalkan: saldıran kilitli kutu senaryosu oluşmadı");
-  if (kapsam.saldiran < 3 || kapsam.savunan < 3) basarisiz("Düello: kapsam eksik (en az 3 saldıran + 3 savunan)", { saldiran: kapsam.saldiran, savunan: kapsam.savunan });
+  notlar.push(`Düello maçları (${kapsam.maclar.length}): ${kapsam.maclar.map((m) => `${m.id} ${m.skor}${m.altin ? " +Altın×" + m.altin : ""}${m.hata ? " HATA" : ""}`).join(" · ")}`);
+  notlar.push(`Hâkimiyet: savunmada 'Hazır' ${kapsam.hazirSayisi} kez işaretlendi, sırası gelince önceden seçili gelen ${kapsam.hazirDogru ?? 0} · alt çubuk örnekleri: ${[...kapsam.cubukOrnekleri].join(" | ") || "—"}`);
+  if (!ARG.hizli && !kapsam.hazirSayisi) basarisiz("Hâkimiyet: savunmada 'Hazır' senaryosu oluşmadı");
+  if (!ARG.hizli && !(kapsam.hazirDogru > 0)) basarisiz("Hâkimiyet: hazırlanan kartın sırada önceden seçili geldiği doğrulanamadı (kart seçilebilir kalmadıysa yeniden dene: --mac=3)");
+  // Ölçüm tablosu (390×640 ve 360×640)
+  for (const o of olcumTablosu) notlar.push(`Ölçüm ${o.ekran} @${o.w}×${OLCUM_YUKSEKLIK}: scrollHeight ${o.sh} / innerHeight ${o.ih} ${o.sigiyor ? "sığıyor" : "SIĞMIYOR"}${o.enKotu !== null ? ` · en kötü durum ${o.enKotu} ${o.enKotuSigiyor ? "sığıyor" : "SIĞMIYOR"}` : ""}${o.kucuk.length ? ` · <44px: ${o.kucuk.slice(0, 2).join(" | ")}` : ""}`);
+  if (!ARG.hizli && (kapsam.saldiran < 3 || kapsam.savunan < 3)) basarisiz("Düello: kapsam eksik (en az 3 saldıran + 3 savunan)", { saldiran: kapsam.saldiran, savunan: kapsam.savunan });
   const tum = [];
   for (const rol of ["saldıran", "savunan"]) for (const a of ["ilk tur", "sonraki tur", "uzatma"]) for (const sk of (a === "uzatma" ? ["skill yok"] : ["skill yok", "skill var"])) {
     const k = `${rol} · ${a} · ${sk}`;

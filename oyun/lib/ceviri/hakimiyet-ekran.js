@@ -1,4 +1,91 @@
 // İngilizce çeviri eki — Düello Hâkimiyet (680), maç ekranı (Alt Ajan B). Anahtar Türkçe metnin kendisidir.
-// dil.js en sonda katar: buradaki karşılık eski dosyalardakini ezer.
+// dil.js en sonda katar: buradaki karşılık eski dosyalardakini ezer — bu yüzden "Al" gibi başka ekranlarda
+// başka anlamı olan anahtarlar BURAYA KONMAZ (DuelloTahta.jsx › eylemEtiketi "Al"ı dile göre kendisi çözer: Claim).
+// Sözlük: yuva = slot · Elinden al = Take · Al = Claim · Pekiştir = Reinforce · Baskın/Kalkan = Ambush/Shield.
 export default {
+  // Belirtme hâlleri (Rakip Sanat'ı aldı → Opponent took Art)
+  "Bilim'i": "Science", "Tarih'i": "History", "Coğrafya'yı": "Geography", "Edebiyat'ı": "Literature", "Spor'u": "Sports",
+  "Sanat'ı": "Art", "Sinema'yı": "Cinema", "Müzik'i": "Music", "Teknoloji'yi": "Technology", "Genel Kültür'ü": "General Knowledge",
+  "Genel'i": "General", "Karışık'ı": "Mixed",
+
+  // Yuvalar + kartlar
+  "Yuva durumu": "Slot status",
+  "{n} tur kilitli": "Locked · {n} rounds",
+  "Rakibin kategorileri · elinden al": "Opponent's categories · take",
+  "Boş kategoriler · al": "Empty categories · claim",
+  "Senin kategorilerin · pekiştir": "Your categories · reinforce",
+  "sen önde": "you lead",
+  "denk": "even",
+  "rakip önde": "opponent leads",
+  "Elinden al": "Take",
+  "Pekiştir": "Reinforce",
+
+  // Mesaj satırı
+  "{n} yuvaya ilk ulaşan kazanır": "First to {n} slots wins",
+  "Hamle tutması için: sen doğru, rakip yanlış": "For a move to land: you right, opponent wrong",
+  "Rakip {n}'te! Bir tane daha alırsa kazanır.": "Opponent is at {n}! One more and they win.",
+  "{n}'tesin! Bir tane daha al, maçı kazan.": "You're at {n}! Take one more and win.",
+  "Rakip seçiyor…": "Opponent is choosing…",
+  "Sıradaki hamleni şimdiden hazırla": "Prepare your next move now",
+  "Yalnız biriniz bilirse o kazanır": "Whoever alone knows it wins",
+  "rakibin kategorisi": "opponent's category",
+  "boş kategori": "empty category",
+  "senin kategorin": "your category",
+  "Elinden almak için: sen doğru, rakip yanlış": "To take it: you right, opponent wrong",
+  "Boşta bilen alır · sen doğru, rakip yanlış": "Empty: the one who knows takes it",
+  "Pekiştirmek için: sen doğru, rakip yanlış": "To reinforce: you right, opponent wrong",
+  "Rakip {kat} için saldırıyor": "Opponent attacks {kat}",
+  "Sen doğru bilirsen kategori sende kalır": "If you're right, it stays yours",
+  "Rakip yanlış, sen doğru bilirsen alırsın": "Opponent wrong + you right: you take it",
+  "Rakip doğru, sen yanlış bilirse 2 tur kilitlenir": "Opponent right + you wrong: locked 2 rounds",
+
+  // Tur sonucu bandı
+  "Sen: {b} · Rakip: {r}": "You: {b} · Opponent: {r}",
+  "{kat} artık senin!": "{kat} is yours now!",
+  "Rakip {kat} aldı": "Opponent took {kat}",
+  "Rakip {kat} elinden aldı": "Opponent took {kat} from you",
+  "{kat} {n} tur kilitlendi": "{kat} locked for {n} rounds",
+  "Rakip {kat} pekiştirdi": "Opponent reinforced {kat}",
+  "Kontra: boşta bilen aldı": "Counter: the one who knew the empty category took it",
+  "Hamle tutmadı": "The move didn't land",
+  "ikiniz de bildiniz": "you both knew it",
+  "ikiniz de bilemediniz": "neither of you knew it",
+  "sen bilemedin": "you got it wrong",
+  "rakip bilemedi": "the opponent got it wrong",
+  "Baskın kullandın": "You used Ambush",
+  "Rakip Baskın kullandı": "Opponent used Ambush",
+  "Kalkan hamleyi durdurdu": "Shield stopped the move",
+  "Baskın ve Kalkan birbirini götürdü": "Ambush and Shield cancelled each other out",
+
+  // Alt çubuk
+  "Bir kategori seç": "Pick a category",
+  "Seçim": "Selection",
+  "Hazırlık": "Preparation",
+  "tutarsa Sen {a}→{b}, Rakip {r}→{s}": "if it lands: You {a}→{b}, Opponent {r}→{s}",
+  "tutarsa Sen {a}→{b}": "if it lands: You {a}→{b}",
+  "tutarsa {n} tur kilitli": "if it lands: locked {n} rounds",
+  "Kazanırsın!": "You win!",
+  "Hazır: {kat}": "Ready: {kat}",
+  "Sıradaki hamlen için bir kart işaretle": "Mark a card for your next move",
+  "Sıra sana gelince bu kart seçili gelir.": "It will be pre-selected on your turn.",
+  "Sıra sana gelince seçili gelir; değiştirebilirsin.": "Pre-selected on your turn; you can change it.",
+
+  // Maç sonu
+  "Son tahta": "Final board",
+  "yuva": "slots",
+  "Hâkimiyet zaferi! {n} yuva doldu": "Domination victory! {n} slots filled",
+  "Rakip {n} yuvayı doldurdu": "The opponent filled {n} slots",
+  "Eşit ({a}-{b}) — Altın Soru'yu sen bildin": "Tied ({a}-{b}) — you got the Golden Question",
+  "Eşit ({a}-{b}) — Altın Soru'yu rakip bildi": "Tied ({a}-{b}) — the opponent got the Golden Question",
+  "{a}-{b} önde, kazandın": "Ahead {a}-{b}, you won",
+  "{a}-{b} geride, kaybettin": "Behind {a}-{b}, you lost",
+  "Tutmadı": "Didn't land",
+  "Aldın": "You claimed it",
+  "Elinden aldın": "You took it",
+  "Pekiştirdin": "You reinforced it",
+  "Rakip aldı": "Opponent claimed it",
+  "Rakip elinden aldı": "Opponent took it",
+  "Rakip pekiştirdi": "Opponent reinforced it",
+  "Kontra: aldın": "Counter: you took it",
+  "Kontra: rakip aldı": "Counter: opponent took it",
 };

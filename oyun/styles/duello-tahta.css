@@ -1,0 +1,281 @@
+/* ============================================================
+   DÜELLO — HÂKİMİYET TAHTASI (680, Alt Ajan B)
+   Tek ekran, KAYDIRMASIZ: üst başlık · rozet yuvaları · mesaj satırı · kartlar / soru · alt çubuk.
+   Açık tema (koyu mor YOK). Renk yalnız --hk-* değişkenleri; ölçü/gölge tasarım tokenlarından.
+   iOS: position:fixed YOK (alt çubuk akışta, sayfanın en altında); yükseklik dvh; transform'lu atada
+   fixed katman yok. Hareket kısa ve prefers-reduced-motion'da kapalı.
+   Ölçüm: araclar/oyuncu-testi.mjs (Düello › "Hâkimiyet ekranı ölçümü"): 390 ve 360 × 640.
+   ============================================================ */
+:root {
+  --hk-zemin: #f4f8fd;
+  /* sen: mavi */
+  --hk-mavi: #378ADD; --hk-mavi-kenar: #185FA5; --hk-mavi-metin: #0C447C; --hk-mavi-zemin: #E6F1FB;
+  /* rakip: kırmızı */
+  --hk-kirmizi: #E24B4A; --hk-kirmizi-kenar: #A32D2D; --hk-kirmizi-metin: #791F1F; --hk-kirmizi-zemin: #FCEBEB;
+  /* boş: gri */
+  --hk-gri: #D3D1C7; --hk-gri-kenar: #B4B2A9; --hk-gri-metin: #444441; --hk-gri-zemin: #F1EFE8;
+  /* vurgu: turuncu (yanıp sönen son yuva, seçili kart, canlı dokunuş) */
+  --hk-vurgu: #EF9F27; --hk-vurgu-zemin: #FAEEDA; --hk-vurgu-metin: #633806;
+  --hk-altin: #C98F00;
+  --hk-cizgi: #d5e2f1;
+  --hk-metin: #1d2152;
+  --hk-soluk: #46507f;
+}
+
+/* ---------------------------------------------------------------- kök: açık zemin, sıkı düzen */
+.hk-mac {
+  --qt-mac-zemin: var(--hk-zemin); --qt-mac-zemin-2: #e6eef8;
+  --qt-mac-metin: var(--hk-metin); --qt-mac-soluk: var(--hk-soluk);
+  --qt-zemin-metin: var(--hk-metin); --qt-zemin-soluk: var(--hk-soluk);
+  --qt-cizgi: rgba(29, 33, 82, 0.16);
+  background: var(--hk-zemin); color: var(--hk-metin);
+  gap: 6px;
+  padding: 2px 10px calc(6px + env(safe-area-inset-bottom, 0px));
+  /* Kaydırmasız tek ekran: kök görünür alanı doldurur (alt çubuk en altta durur). Kabuğun (.shell 12 px + .app 24 px + güvenli
+     alan) alt boşluğu bu ekranda boştur — negatif alt kenar boşluğuyla geri alınır; kendi alt dolgum güvenli alanı zaten içerir. */
+  min-height: calc(100dvh - 16px);
+  margin-bottom: calc(-1 * (var(--bd-b-5, 24px) + 12px + env(safe-area-inset-bottom, 0px)));
+}
+.hk-mac > * { flex: none; }
+.hk-mac .m2-secen .qt-oyuncu-ad { color: var(--hk-vurgu-metin); }
+.hk-mac .m2-secen-rozet { background: var(--hk-vurgu); color: #412402; }
+
+/* ---------------------------------------------------------------- üst başlık */
+.hk-ust {
+  display: grid; gap: 3px; padding: 4px 8px 0; overflow: hidden;
+  border-radius: 14px; background: #fff; box-shadow: 0 0 0 1.5px var(--hk-cizgi);
+}
+.hk-ust .m2-ust { padding: 0; background: transparent; }
+.hk-ust .qt-oyuncu { gap: 6px; }
+.hk-ust .qt-oyuncu-ad { font-size: 13px; }
+.hk-ust .qt-oyuncu-yazi { gap: 1px; }
+.hk-ust .mo-bayrak, .hk-ust .mo-amblem, .hk-ust .mo-lig, .hk-ust .mo-unvan { display: none !important; }
+/* ad düğmesi 44 px yükseklik şişirmesin: dokunma alanı ::after ile zaten 44 px (l-kart.css) */
+.hk-ust .ls-ad-dugme { min-height: 0; }
+/* "kategoriyi seçen" kılıç rozeti avatarın dış köşesinde (ada binmez) */
+.hk-ust .qt-oyuncu-etkiler { top: -3px; left: -6px; }
+.hk-ust .qt-oyuncu--rakip .qt-oyuncu-etkiler { left: auto; right: -6px; }
+.hk-orta { display: grid; justify-items: center; gap: 0; min-width: 84px; line-height: 1; }
+.hk-tur { font-size: 11px; font-weight: 800; color: var(--hk-soluk); letter-spacing: .02em; }
+.hk-tur b { font-size: 12px; color: var(--hk-metin); }
+.hk-ust--altin .hk-tur { color: var(--hk-vurgu-metin); }
+.hk-mac .hk-sayac.qt-sayac {
+  width: auto; min-width: 52px; height: 32px; border-radius: 10px; background: transparent; box-shadow: none;
+  color: var(--hk-metin);
+}
+.hk-mac .hk-sayac svg { display: none; }
+.hk-mac .hk-sayac .qt-sayac-sayi { font-size: 30px; line-height: 1; }
+.hk-mac .hk-sayac.qt-sayac--gerilim { color: var(--hk-kirmizi-kenar); animation: hk-nabiz 1s ease-in-out infinite; }
+.hk-mac .hk-sayac--sonuc { display: grid; place-items: center; min-width: 52px; height: 32px; font-size: 30px; font-weight: 900; color: var(--hk-gri-kenar); }
+.hk-noktalar { display: flex; justify-content: center; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.hk-nokta { width: 8px; height: 8px; border-radius: 50%; background: #d3dbe8; }
+.hk-nokta--bitti { background: var(--hk-mavi); }
+.hk-nokta--simdi { background: var(--hk-vurgu); box-shadow: 0 0 0 2px var(--hk-vurgu-zemin); }
+.hk-ust--altin .hk-nokta--bitti { background: var(--hk-vurgu); }
+.hk-cubuk-sure { height: 4px; margin: 0 -8px; background: #e3ebf5; }
+.hk-cubuk-sure i { display: block; height: 100%; background: var(--hk-mavi); transition: width .25s linear, background-color .2s; }
+.hk-ust--son .hk-cubuk-sure i { background: var(--hk-kirmizi); }
+@keyframes hk-nabiz { 50% { transform: scale(1.12); } }
+
+/* ---------------------------------------------------------------- rozet yuvaları */
+.hk-tahta { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 6px; }
+.hk-taraf {
+  --c: var(--hk-mavi); --z: var(--hk-mavi-zemin); --m: var(--hk-mavi-metin);
+  display: grid; gap: 2px; padding: 6px 6px 3px; min-width: 0;
+  border: 2px solid var(--c); border-radius: 14px; background: var(--z); color: var(--m);
+}
+.hk-taraf--rakip { --c: var(--hk-kirmizi); --z: var(--hk-kirmizi-zemin); --m: var(--hk-kirmizi-metin); }
+.hk-yuvalar { display: grid; grid-template-columns: repeat(var(--hk-n, 4), minmax(0, 1fr)); gap: 4px; justify-self: center; width: 100%; max-width: 208px; }
+.hk-yuva {
+  position: relative; display: grid; place-items: center; aspect-ratio: 1; max-height: 40px; justify-self: center; width: 100%;
+  border: 2px dashed var(--hk-gri-kenar); border-radius: 11px; background: var(--hk-gri-zemin); box-sizing: border-box;
+}
+.hk-yuva--dolu { border: 2px solid var(--c); background: #fff; animation: hk-yuva-pop .55s var(--qt-egri-yay, cubic-bezier(.34,1.56,.64,1)) both; }
+.hk-yuva--kilit { border-color: var(--hk-altin); box-shadow: 0 0 0 2px #ffe08a; }
+.hk-yuva-kilit {
+  position: absolute; right: -5px; bottom: -5px; display: grid; place-items: center; width: 15px; height: 15px;
+  border-radius: 50%; background: var(--qt-coin, #ffc933); color: var(--qt-coin-yazi, #3a2600); box-shadow: 0 0 0 1.5px #fff;
+}
+.hk-yuva--son { border-color: var(--hk-vurgu); background: var(--hk-vurgu-zemin); animation: hk-son .9s ease-in-out infinite; }
+.hk-taraf--kritik { animation: hk-cerceve 1.1s ease-in-out infinite; }
+.hk-say { display: flex; align-items: baseline; justify-content: center; gap: 4px; line-height: 1.1; font-weight: 800; }
+.hk-say span { font-size: 12px; }
+.hk-say b { font-size: 22px; line-height: 1; }
+.hk-vs {
+  display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%;
+  background: #fff; box-shadow: 0 0 0 2px var(--hk-cizgi); color: var(--hk-soluk);
+  font-family: var(--qt-f-baslik, inherit); font-size: 11px; font-weight: 900; letter-spacing: .02em;
+}
+.hk-tahta--altin .hk-vs { color: var(--hk-vurgu-metin); box-shadow: 0 0 0 2px var(--hk-vurgu); }
+/* Cevap fazı: tahta küçülür — yuva şeridi + tek satır sayı */
+.hk-tahta--kucuk { gap: 4px; }
+.hk-tahta--kucuk .hk-taraf { grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 6px; padding: 3px 6px; border-radius: 12px; }
+.hk-tahta--kucuk .hk-yuvalar { gap: 3px; max-width: none; }
+.hk-tahta--kucuk .hk-yuva { max-height: 27px; border-radius: 8px; }
+.hk-tahta--kucuk .hk-yuva-kilit { width: 12px; height: 12px; right: -4px; bottom: -4px; }
+.hk-tahta--kucuk .hk-say span { display: none; }
+.hk-tahta--kucuk .hk-say b { font-size: 17px; }
+.hk-tahta--kucuk .hk-vs { width: 22px; height: 22px; font-size: 9px; }
+.hk-yuva-ikon { width: 68% !important; height: 68% !important; }
+@keyframes hk-yuva-pop { 0% { transform: scale(.4); opacity: 0; } 55% { transform: scale(1.18); opacity: 1; } 100% { transform: none; } }
+@keyframes hk-son { 50% { border-color: #ba7517; background: #fff; } }
+@keyframes hk-cerceve { 50% { box-shadow: 0 0 0 4px rgba(239, 159, 39, .45); } }
+
+/* ---------------------------------------------------------------- mesaj satırı (2 satır, SABİT yükseklik) */
+.hk-mesaj {
+  display: flex; align-items: center; gap: 6px; height: 46px; box-sizing: border-box; padding: 0 4px 0 10px;
+  border-radius: 12px; border: 1.5px solid var(--hk-cizgi); background: #fff; color: var(--hk-metin);
+}
+.hk-mesaj-yazi { flex: 1; min-width: 0; display: grid; gap: 1px; line-height: 1.2; }
+.hk-mesaj-yazi b, .hk-mesaj-yazi span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hk-mesaj-yazi b { font-size: clamp(12px, 3.4vw, 14px); font-weight: 800; }
+.hk-mesaj-yazi span { font-size: clamp(11px, 3.1vw, 12.5px); font-weight: 700; color: var(--hk-soluk); }
+.hk-mesaj--ben { background: var(--hk-mavi-zemin); border-color: var(--hk-mavi); color: var(--hk-mavi-metin); }
+.hk-mesaj--ben .hk-mesaj-yazi span { color: var(--hk-mavi-metin); }
+.hk-mesaj--rakip { background: var(--hk-kirmizi-zemin); border-color: var(--hk-kirmizi); color: var(--hk-kirmizi-metin); }
+.hk-mesaj--rakip .hk-mesaj-yazi span { color: var(--hk-kirmizi-metin); }
+.hk-mesaj--sonuc.hk-mesaj--notr { background: var(--hk-gri-zemin); border-color: var(--hk-gri-kenar); color: var(--hk-gri-metin); }
+.hk-mesaj--sonuc.hk-mesaj--notr .hk-mesaj-yazi span { color: var(--hk-gri-metin); }
+.hk-mesaj-yazi { animation: hk-mesaj-gir .25s ease-out both; }
+@keyframes hk-mesaj-gir { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+/* tepki düğmesi mesaj satırının sağında; panel yukarıdakinin üstüne açılır (akışı itmez) */
+.hk-tepki.qt-tepki { position: relative; display: block; flex: none; }
+.hk-tepki .qt-ikon-dugme { width: 40px; height: 40px; min-width: 40px; min-height: 40px; }
+.hk-tepki .qt-tepki-panel { position: absolute; z-index: 30; right: 0; top: calc(100% + 4px); width: max-content; max-width: min(320px, 92vw); }
+
+/* ---------------------------------------------------------------- sahne + kartlar */
+.hk-sahne { display: grid; gap: 4px; animation-duration: .18s; }
+.hk-hata { margin: 0; padding: 4px 10px; font-size: 12px; }
+.hk-kartlar { display: grid; gap: 3px; }
+.hk-grup { display: grid; gap: 2px; }
+.hk-grup-baslik { margin: 0; padding-left: 2px; font-size: 11px; line-height: 1.15; font-weight: 800; color: var(--hk-gri-metin); }
+.hk-grup-baslik--rakip { color: var(--hk-kirmizi-metin); }
+.hk-grup-baslik--ben { color: var(--hk-mavi-metin); }
+.hk-izgara { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; }
+.hk-kart {
+  --c: var(--hk-gri); --z: var(--hk-gri-zemin); --m: var(--hk-gri-metin);
+  position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-rows: auto auto; align-content: center;
+  column-gap: 6px; align-items: center; text-align: left; min-width: 0; box-sizing: border-box;
+  height: var(--hk-kart-h, 44px); padding: 0 8px 0 6px;
+  border: 2px solid var(--c); border-radius: 10px; background: var(--z); color: var(--m);
+  font: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+  -webkit-user-select: none; user-select: none;
+  transition: transform .12s ease-out, background-color .25s, border-color .25s, opacity .2s;
+}
+.hk-kart--rakip { --c: var(--hk-kirmizi); --z: var(--hk-kirmizi-zemin); --m: var(--hk-kirmizi-metin); }
+.hk-kart--ben { --c: var(--hk-mavi); --z: var(--hk-mavi-zemin); --m: var(--hk-mavi-metin); }
+.hk-kart-ikon { grid-row: 1 / 3; }
+.hk-kart:active:not(:disabled) { transform: scale(.97); }
+.hk-kart:focus-visible { outline: 3px solid var(--qt-odak, #6a48f5); outline-offset: 2px; }
+.hk-kart:disabled { cursor: default; }
+.hk-kart-ust { display: flex; align-items: center; justify-content: space-between; gap: 4px; min-width: 0; }
+.hk-kart-ad { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; font-weight: 800; line-height: 1.2; }
+.hk-ok { flex: none; font-size: 15px; line-height: 1; font-weight: 900; }
+.hk-ok--yukari { color: #0F6E56; }
+.hk-ok--asagi { color: #A32D2D; }
+.hk-ok--esit { color: currentColor; opacity: .7; }
+.hk-kart-alt { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: clamp(9.5px, 2.7vw, 11px); font-weight: 700; line-height: 1.2; opacity: .88; }
+.hk-kart-kilit { display: inline-flex; align-items: center; gap: 3px; font-weight: 800; }
+.hk-kart--kilitli { opacity: .5; }
+.hk-kart--secili { outline: 3px solid var(--hk-vurgu); outline-offset: 1px; transform: translateY(-1px); }
+.hk-kart--hazir { border-style: solid; box-shadow: 0 0 0 2px var(--hk-vurgu); }
+.hk-kart-hazir {
+  position: absolute; top: -6px; right: 6px; padding: 0 6px; border-radius: 8px;
+  background: var(--hk-vurgu); color: #412402; font-size: 9.5px; font-weight: 900; line-height: 14px;
+}
+/* saldıranın CANLI dokunuşu: kesikli turuncu çerçeve, yumuşak parlama */
+.hk-kart--dokunus { outline: 2.5px dashed var(--hk-vurgu); outline-offset: 1px; animation: hk-canli .8s ease-in-out infinite; }
+@keyframes hk-canli { 50% { box-shadow: 0 0 0 5px rgba(239, 159, 39, .35); } }
+/* el değiştirince sıçra */
+.hk-kart--zipla { animation: hk-zipla .6s var(--qt-egri-yay, cubic-bezier(.34,1.56,.64,1)) both; }
+@keyframes hk-zipla { 0% { transform: scale(.94); } 35% { transform: translateY(-6px) scale(1.06); } 65% { transform: scale(.98); } 100% { transform: none; } }
+
+/* ---------------------------------------------------------------- alt çubuk (akışta, ekranın en altında) */
+.hk-cubuk {
+  display: flex; align-items: center; gap: 8px; margin-top: auto; min-height: 56px; box-sizing: border-box; padding: 5px 8px 5px 12px;
+  border-radius: 14px; border: 1.5px solid var(--hk-cizgi); background: #fff; color: var(--hk-metin);
+}
+.hk-cubuk--secili { border-color: var(--hk-mavi); }
+.hk-cubuk--kazan { border-color: var(--hk-vurgu); background: var(--hk-vurgu-zemin); }
+.hk-cubuk-yazi { flex: 1; min-width: 0; display: grid; gap: 1px; line-height: 1.2; }
+.hk-cubuk-yazi b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; font-weight: 800; }
+.hk-cubuk-yazi span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; font-weight: 700; color: var(--hk-soluk); }
+.hk-kazan { font-style: normal; color: var(--hk-vurgu-metin); }
+.hk-cubuk-dugme { flex: none; min-width: 112px; }
+.hk-cubuk--savunan { min-height: 50px; }
+
+/* ---------------------------------------------------------------- cevap / sonuç: sıkı düzen
+   390×640'ta üst çubuk + başlık + yuva şeridi + mesaj + soru + 4 şık + joker şeridi KAYDIRMASIZ sığmalı. */
+.hk-gizli { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.hk-mac .m2-cevap-faz, .hk-mac .m2-sonuc-faz { gap: 4px; }
+.hk-mac .m2-not { color: var(--hk-soluk); margin: 0; font-size: 12px; }
+.hk-mac .qt-soru { gap: 3px; }
+.hk-mac .qt-soru-ust { min-height: 0; font-size: 12px; }
+.hk-mac .qt-soru-kategori { display: inline-flex; align-items: center; gap: 5px; padding: 2px 10px; font-size: 12px; }
+.hk-mac .qt-soru-sira { font-size: 11px; color: var(--hk-soluk); }
+.hk-mac .qt-soru-kart { min-height: 72px; padding: 8px 12px; box-shadow: 0 3px 0 var(--qt-cizgi), 0 6px 12px rgba(20, 10, 70, .12); }
+.hk-mac .qt-soru-metin { font-size: clamp(15px, 4.5vw, 19px); line-height: 1.2; }
+.hk-mac .m1-soru--uzun .qt-soru-metin { font-size: clamp(13.5px, 3.9vw, 16px); }
+.hk-mac .m1-soru--cok-uzun .qt-soru-metin { font-size: clamp(12.5px, 3.5vw, 14px); line-height: 1.18; }
+.hk-mac .qt-sikler { gap: 6px; }
+.hk-mac .qt-sik-yuva { min-height: 44px; }
+.hk-mac .qt-sik {
+  min-height: 44px; padding: 3px 10px 3px 6px; gap: 8px; border-radius: 22px; font-size: 15px; line-height: 1.15;
+  box-shadow: 0 3px 0 var(--_d);
+}
+.hk-mac .qt-sik-harf { width: 32px; height: 32px; font-size: 15px; padding-top: 1px; }
+.hk-mac .qt-sik-isaret { width: 22px; height: 22px; }
+.hk-mac .m1-soru--uzun .qt-sik, .hk-mac .m1-soru--cok-uzun .qt-sik { min-height: 44px; }
+.hk-mac .m1-soru--uzun .qt-sik { font-size: 14px; }
+.hk-mac .m1-soru--cok-uzun .qt-sik { font-size: 12.5px; line-height: 1.12; }
+.hk-mac .m1-soru--cok-uzun .qt-sik-harf { width: 28px; height: 28px; font-size: 13px; }
+/* joker şeridi (Alt Ajan D'nin bileşeni; yalnız ekran düzeni): sıkı dolgu, kısa ekranda ipucu satırı gizli */
+.hk-mac .m2-skill { padding: 4px 6px; gap: 3px; }
+.hk-mac .m2-skill .qt-skill { min-height: 58px; }
+/* cevabını kilitleyenin avatarında onay işareti */
+.hk-onay {
+  position: absolute; right: -2px; bottom: -2px; z-index: 2; display: grid; place-items: center; width: 17px; height: 17px;
+  border-radius: 50%; background: var(--hk-mavi); color: #fff; box-shadow: 0 0 0 2px #fff;
+}
+.qt-oyuncu--rakip .hk-onay { background: var(--hk-kirmizi); }
+
+/* ---------------------------------------------------------------- maç sonu: son tahta */
+.hk-son { display: grid; gap: 6px; text-align: left; }
+.hk-son .qt-baslik-3 { color: var(--qt-metin); }
+
+/* ---------------------------------------------------------------- dar / kısa ekran: KAYDIRMA EKLENMEZ, sıkışır */
+@media (max-height: 760px) {
+  .hk-mac { gap: 5px; }
+  .hk-mesaj { height: 42px; }
+  .hk-cubuk { min-height: 52px; }
+}
+@media (max-height: 700px) {
+  .hk-mac { gap: 3px; }
+  .hk-mesaj { height: 40px; }
+  .hk-cubuk { min-height: 50px; }
+  .hk-mac .qt-sikler { gap: 4px; }
+  .hk-mac .m2-cevap-faz, .hk-mac .m2-sonuc-faz, .hk-sahne { gap: 3px; }
+  /* joker şeridi (D'nin bileşeni): kısa ekranda kural notu satırı gizli (kural tanıtımda ve ipucunda yazılı) */
+  .hk-mac .m2-skill .m2-skill-kural { display: none; }
+  .hk-ust { padding-top: 3px; }
+  .hk-mac .hk-sayac.qt-sayac { height: 30px; }
+  .hk-mac .hk-sayac .qt-sayac-sayi { font-size: 27px; }
+  .hk-yuva { max-height: 36px; }
+  .hk-say b { font-size: 20px; }
+  .hk-taraf { padding: 4px 5px 2px; }
+  .hk-kartlar { gap: 2px; }
+  .hk-mac .m2-skill .m2-skill-ust { display: none; }
+}
+@media (max-width: 380px) {
+  .hk-mac { padding-inline: 8px; }
+  .hk-kart { padding: 0 6px 0 5px; column-gap: 5px; }
+  .hk-cubuk-dugme { min-width: 96px; }
+  .hk-vs { width: 24px; height: 24px; font-size: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hk-yuva--dolu, .hk-yuva--son, .hk-taraf--kritik, .hk-kart--dokunus, .hk-kart--zipla, .hk-mesaj-yazi,
+  .hk-mac .hk-sayac.qt-sayac--gerilim { animation: none !important; }
+  .hk-kart, .hk-cubuk-sure i { transition: none; }
+  .hk-yuva--son { background: var(--hk-vurgu-zemin); }
+}
