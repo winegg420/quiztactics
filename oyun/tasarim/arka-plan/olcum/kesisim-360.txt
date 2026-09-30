@@ -1,0 +1,16 @@
+su kart 328x100 | yazı: idagg:98:19:154:46 Lv 17 :98:47:180:66 
+   kesişen: yok
+su serit 328x42 | yazı: 8:14:11:22:30 idagg:80:11:122:31 186:263:10:292:30 puan:292:14:318:29 
+   kesişen: yok
+kar kart 328x100 | yazı: idagg:98:19:154:46 Lv 17 :98:47:180:66 
+   kesişen: yok
+kar serit 328x42 | yazı: 8:14:11:22:30 idagg:80:11:122:31 186:263:10:292:30 puan:292:14:318:29 
+   kesişen: yok
+yaprak kart 328x100 | yazı: idagg:98:19:154:46 Lv 17 :98:47:180:66 
+   kesişen: yok
+yaprak serit 328x42 | yazı: 8:14:11:22:30 idagg:80:11:122:31 186:263:10:292:30 puan:292:14:318:29 
+   kesişen: yok
+gece kart 328x100 | yazı: idagg:98:19:154:46 Lv 17 :98:47:180:66 
+   kesişen: yok
+gece serit 328x42 | yazı: 8:14:11:22:30 idagg:80:11:122:31 186:263:10:292:30 puan:292:14:318:29 
+   kesişen: yok

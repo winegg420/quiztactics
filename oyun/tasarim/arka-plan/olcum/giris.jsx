@@ -1,0 +1,11 @@
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { MemoryRouter } from "react-router-dom";
+import "../../../../src/styles.css";
+import "../../../styles/tema.css";
+import "../../../styles/koyu.css";
+import "../../../styles/yeni.css";
+import "../../../styles/mobile-game.css";
+import "../../tasarim.css";
+import Sayfa from "../ArkaPlanOnizlemePage.jsx";
+ReactDOM.createRoot(document.getElementById("root")).render(<MemoryRouter><Sayfa /></MemoryRouter>);

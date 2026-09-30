@@ -1,0 +1,16 @@
+┌─────────┬──────────┬───────────────────┬──────────────┬────────┬───────────────────────┬──────────────────────────────┐
+│ (index) │ arka     │ yer               │ min kontrast │ tamam  │ en kötü               │ yazıya değen kalıcı parçacık │
+├─────────┼──────────┼───────────────────┼──────────────┼────────┼───────────────────────┼──────────────────────────────┤
+│ 0       │ 'su'     │ 'hareketli kart'  │ 5.17         │ 'EVET' │ 'idagg@98,18'         │ '(hareketli)'                │
+│ 1       │ 'su'     │ 'özel sabit kart' │ 5.11         │ 'EVET' │ 'idagg@98,18'         │ 0                            │
+│ 2       │ 'su'     │ 'özel lig satırı' │ 4.64         │ 'EVET' │ 'puan@291,14'         │ 1                            │
+│ 3       │ 'kar'    │ 'hareketli kart'  │ 6.25         │ 'EVET' │ 'Lv 17 · Bilg@99,64'  │ '(hareketli)'                │
+│ 4       │ 'kar'    │ 'özel sabit kart' │ 6.18         │ 'EVET' │ 'Lv 17 · Bilg@99,65'  │ 0                            │
+│ 5       │ 'kar'    │ 'özel lig satırı' │ 5.98         │ 'EVET' │ 'idagg@83,30'         │ 0                            │
+│ 6       │ 'yaprak' │ 'hareketli kart'  │ 6.82         │ 'EVET' │ 'Lv 17 · Bilg@179,46' │ '(hareketli)'                │
+│ 7       │ 'yaprak' │ 'özel sabit kart' │ 6.82         │ 'EVET' │ 'Lv 17 · Bilg@178,46' │ 0                            │
+│ 8       │ 'yaprak' │ 'özel lig satırı' │ 5.49         │ 'EVET' │ 'puan@291,14'         │ 1                            │
+│ 9       │ 'gece'   │ 'hareketli kart'  │ 9.14         │ 'EVET' │ 'idagg@151,44'        │ '(hareketli)'                │
+│ 10      │ 'gece'   │ 'özel sabit kart' │ 12.14        │ 'EVET' │ 'Lv 17 · Bilg@175,46' │ 0                            │
+│ 11      │ 'gece'   │ 'özel lig satırı' │ 10.06        │ 'EVET' │ 'puan@291,14'         │ 3                            │
+└─────────┴──────────┴───────────────────┴──────────────┴────────┴───────────────────────┴──────────────────────────────┘

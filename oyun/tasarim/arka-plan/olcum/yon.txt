@@ -1,0 +1,6 @@
+kar sınıf: abp abp--kar abp--oynar abp--tam | öğe: 34 | yukarı-adım: 0 | dikiş atlaması(toplam): 21 | durgun kare: 0 | en büyük yatay hız px/sn: 5.5 | yatay genlik en çok: 11.8 px
+yaprak sınıf: abp abp--yaprak abp--oynar abp--tam | öğe: 15 | yukarı-adım: 0 | dikiş atlaması(toplam): 12 | durgun kare: 0 | en büyük yatay hız px/sn: 4.8 | yatay genlik en çok: 7 px
+su sınıf: abp abp--su abp--oynar abp--tam | öğe: 30 | yukarı-adım: 0 | dikiş atlaması(toplam): 46 | durgun kare: 873 | en büyük yatay hız px/sn: 15.8 | yatay genlik en çok: 21.8 px
+  su: x aralığı 38 - 322 | en küçük komşu aralığı 0.5 | aşağı adım (sallanma gürültüsü dışında): 4
+  su: 9 sn'de kartın içinde beliren baloncuk: 19
+gece sınıf: abp abp--gece abp--oynar abp--tam yıldız öğesi: 44
