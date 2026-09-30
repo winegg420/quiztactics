@@ -36,6 +36,7 @@ export const NADIRLIK_AD = {
 };
 
 const SAHNE_RECT = /(<rect width="320" height="320" rx="38" fill=")#[0-9a-fA-F]{3,8}(")/;
+// Işık çizgisi (köşe yayları) çizimlerden kaldırıldı (30 Eyl 2026); eşleşme olmaz, replace zararsız kalır.
 const SAHNE_VURGU = /(<path d="M31 64q23 12 43-3M246 50q16 14 37 4" fill="none" stroke=")#[0-9a-fA-F]{3,8}(")/;
 
 /** SVG metninde Sahne zeminini (ve ışık çizgisini) nadirlik rengine çevirir. Bulamazsa metni aynen döndürür. */

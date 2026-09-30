@@ -74,12 +74,12 @@ const PRO = ["ahtapot-k13", "ari-k14", "asci-k23", "astronot-k17", "ayi-k08", "b
   "dinozor-k10", "ejderha-k11", "hayalet-k26", "kahraman-k29", "kedi-k01", "kopek-k02", "kopekbaligi-k12", "korsan-k19",
   "kral-k31", "kurbaga-k07", "maymun-k09", "mumya-k28", "ninja-k18", "palyaco-k30", "panda-k05", "penguen-k06",
   "profesor-k24", "robot-k15", "sovalye-k20", "tilki-k04", "uzayli-k16", "viking-k25", "zombi-k27"];
-// 596: kasli-sampiyon-y33, demir-pazi-y34, fitness-kralicesi-y35, kedili-genc-y36 kapalı → listede yok
+// 596: kasli-sampiyon-y33, demir-pazi-y34, fitness-kralicesi-y35 kapalı → listede yok · 703: kedili-genc-y36 geri girdi, sporcu-y09 çıktı
 const PRO2 = ["android-y32", "ates-buyucu-y20", "basortulu-y04", "bilim-y11", "canavar-y25", "dede-y08", "doktor-y12",
-  "gece-y23", "golge-ninja-y14", "gozluklu-y05", "gozsapli-uzayli-y29", "hostes-y39", "kaptan-y17", "kedili-kiz-y37",
+  "gece-y23", "golge-ninja-y14", "gozluklu-y05", "gozsapli-uzayli-y29", "hostes-y39", "kaptan-y17", "kedili-genc-y36", "kedili-kiz-y37",
   "kel-y06", "kivircik-y02", "kizil-y03", "kralice-y27", "kristal-uzayli-y28", "mekanik-y21", "noel-baba-y16",
   "ogrenci-y10", "pelerinli-y22", "pilot-y38", "sakalli-y07", "samuray-y15", "sarisin-y01", "savas-robotu-y30",
-  "siborg-y31", "sporcu-y09", "uzay-kasifi-y18", "uzay-sovalye-y24", "vampir-y19", "veteriner-y13", "yuce-kral-y26"];
+  "siborg-y31", "uzay-kasifi-y18", "uzay-sovalye-y24", "vampir-y19", "veteriner-y13", "yuce-kral-y26"];
 export const AVATARLAR = [...PRO.map((a) => `/avatars/pro/${a}.svg`), ...PRO2.map((a) => `/avatars/pro2/${a}.svg`)];
 
 export const BEN = { ad: "Deniz", avatar: "/avatars/pro/astronot-k17.svg", level: 14 };
