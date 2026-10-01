@@ -67,3 +67,5 @@ Durum: `durum.json › kolay_seri`. Klasör `kolay-NN/`, migration `20260612000N
   `birlestir-parti.mjs --taslak <k> --jev <jsonl> --parti N --klasor kolay-NN --kararlar <json> --kota <j> --zorluk '{"1-2":50,"3":0,"4":0,"5":0}'`
   `uret-migration-parti.mjs --parti N --no NNN --klasor kolay-NN --ad soru_parti_kolay_NN --cevirisiz`
 - Migration, Ida örnekleri onaylamadan uygulanmaz ve commit edilmez.
+
+- **Jev zorluk eşiği (1 Eki 2026, kolay_02):** zorluk-2 kabulü Jev puanı < 2,4. Ölçüm: kolay-01'in Ida onaylı 50 sorusunda puan 1,12–2,39 (medyan 1,79; %16'sı ≥ 2,03). Puan ≥ 2,82 (seviye 4) alınmaz. Doygunluk: havuzla anlamca tekrar (aynı cevap + kök-kelime Jaccard ≥ 0,3) taslakların %20-30'unu eler; sanat/müzik/edebiyat en zor kategoriler.

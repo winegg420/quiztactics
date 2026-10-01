@@ -9802,3 +9802,14 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 - **Yeni bant:** 1-5 → 1-2 (aynı) · 6-10 → 2-3 (dilim2_min 3→2) · 11+ → 3 (dilim3_min 4→3, dilim3_max 5→3).
 - **Migration:** `20260612000841_turnuva_zorluk_bandi_daralt.sql` (4 idempotent update; altın soru ve diğer ayarlara dokunulmadı). Prova + canlıya uygulama tamam, değerler canlıdan tekrar okundu.
 - **Doğrulama:** aktif zorluk 3 havuzu 4929 soru; `turnuva_soru_sec(15)` → 11-15. sıra hepsi zorluk 3. Build temiz.
+
+## 2026-10-01 — kolay_02: 491 zorluk-2 soru (5 parça, migration hazır, UYGULANMADI)
+**Araç:** Claude Code
+**Neden:** Ida zorluk 2'yi artırmak istiyor; hedef 500 soruluk kolay_02 üretimi (sanat/müzik öncelikli).
+- **Çıktı:** `araclar/soru-uretim/kolay-02a … kolay-02e/` (sorular.json + ozet.json), parça başına ayrı commit. a=100 · b=86 · c=85 · d=71 · e=149 → **491 soru**; kategori: sanat 83 · müzik 92 · teknoloji 75 · genel_kultur 81 · sinema 60 · edebiyat 48 · spor 32 · tarih 20 (31'i yerel TR). Hedefe göre: sanat −7, teknoloji −5, edebiyat −2; müzik +2, genel_kultur +1, spor +2.
+- **Eleme (Jev kapısına giren 662 benzersiz taslak):** Jev zorluk puanı ≥ 2,4 → 62 · şık ipucu → 17 · belirsiz ("bu da doğru" ≥ 0,35 / Jev farklı şık) → 24 · eskiyebilir → 8 · kategori kotası/zayıf → 60. Jev'e girmeden havuzla (aktif+pasif 15.404 soru + kolay-01 + önceki parçalar) birebir/anlamca tekrar ve şık-denge hatası nedeniyle ≈ 240 taslak daha atıldı.
+- **Eşik kararı:** a–d parçaları sıkı eşikle (Jev puanı < 2,03) üretildi; kolay-01'in Ida onaylı 50 sorusu Jev'e yeniden sorulunca %16'sı ≥ 2,03, en yüksek 2,39 çıktı → e parçasında eşik < 2,4'e gevşetildi (a–d'de elenen sınırdaki sorular e'ye taşındı). Jev seviye ≥ 4 (≥ 2,82) hâlâ alınmaz.
+- **Doygunluk:** Havuz bu tarzda çok dolu — taslakların ≈ %20-30'u havuzda aynı bilgiyle vardı. En çok sanat, müzik (şarkı→sanatçı soruları Jev'e göre hep 2,0-2,4) ve edebiyat (yazar soruları "orta") zorlandı; edebiyatta yalnız masal/çocuk kitabı soruları kolay çıktı.
+- **Migration:** `supabase/migrations/20260612000842 … 846_soru_parti_kolay_02a … 02e.sql` HAZIR (`--cevirisiz`, kapı 1+2 geçti); **UYGULANMADI, COMMIT EDİLMEDİ** (kolay_01'in …840 dosyasıyla birlikte izlenmeyen). Ida soruları görüp çıkaracağı numaraları yazınca: çıkar → `uret-migration-parti.mjs` ile yeniden üret → prova/uygula.
+- **Araç değişikliği:** yok (mevcut `birlestir-parti.mjs` / `uret-migration-parti.mjs`). Ara betikler (tekrar tarama, otomatik eleme, kota seçimi) geçici oturum klasöründeydi; kalıcı değil.
+- **Test edilmesi gereken:** Ida'nın 491 soruluk listeyi okuyup çıkaracağı numaraları belirtmesi; ardından uygulanan migration sonrası aktif zorluk-2 sayısının artması.
