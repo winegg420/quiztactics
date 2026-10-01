@@ -161,12 +161,13 @@ async function kurulumuTamamla(sayfa) {
     await sayfa.getByRole("button", { name: /^Devam$/ }).first().click();
     await sayfa.waitForTimeout(1800);
   }
-  // 2) Avatar — hazır ikonlardan ilki
-  const ikon = sayfa.locator(".bd-modal-katman .bd-avatar-secenek, .bd-modal-katman img[src*='/avatars/']").first();
+  // 2) Avatar — kilitli OLMAYAN ilk hazır avatar. Sihirbazda sınıf `g-avatar-sec`; kilitliler `qt-av-kilitli`
+  //    taşır ve tıklanınca seçilmez. Eski seçici (.bd-avatar-secenek) artık yok → "Bu avatarı kullan" kapalı kalıyordu.
+  const ikon = sayfa.locator(".bd-modal-katman .g-avatar-sec:not(.qt-av-kilitli)").first();
   if (await ikon.count()) { await ikon.click(); await sayfa.waitForTimeout(400); }
   const kullan = sayfa.getByRole("button", { name: /Bu avatarı kullan/i });
   const avatarsiz = sayfa.getByRole("button", { name: /Avatarsız devam et/i });
-  if (await kullan.count()) { await kullan.first().click(); await sayfa.waitForTimeout(1800); }
+  if (await kullan.count() && await kullan.first().isEnabled()) { await kullan.first().click(); await sayfa.waitForTimeout(1800); }
   else if (await avatarsiz.count()) { await avatarsiz.first().click(); await sayfa.waitForTimeout(1800); }
   // 3) Şehir — 641'den beri aranabilir liste (ülke hâlâ select; varsayılan TR kalır)
   const sehir = sayfa.locator(".bd-modal-katman [role=combobox]").first();
