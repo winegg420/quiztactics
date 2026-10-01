@@ -1,27 +1,134 @@
 /* =====================================================================
-   GÖREVLER (/gorevler) — yalnız YERLEŞİM. Görünüm ortak parçalardan gelir (1 Eki 2026, Aşama 0):
-   kart / çip / etiket / özet şerit / ödül anı → oyun/tasarim/oyun-hissi.css (qt-oyk-*)
-   sıralı giriş / nabız / zıplama / parıltı / konfeti → oyun/tasarim/hareket.css (qt-h-*, qt-konfeti)
-   canlı çubuk → QtIlerleme (konturlu, canli, parilti). Kılavuz: oyun/tasarim/OKU.md §11.
-   Renk ekseni: zorluk (kolay yeşil · orta kehribar · zor MOR — kırmızı rakip/Düello rengidir), haftalık altın.
-   Geri kalan `gv-` sınıfları (gv-kart, gv-ucan, gv-tik …) stil taşımaz: ölçüm betiğinin (araclar/gorevler-ekran.mjs) kancalarıdır.
-   iOS: position:fixed yok; uçan ödül çipi kartın içinde (absolute).
+   GÖREVLER (/gorevler) — TAM EKRAN SAHNE (QtSahne; tasarim/sahne/sahne.css kabuğu çizer). Bu dosya yalnız sahnenin içini çizer.
+   Ida onaylı gri kutu taslağı: tek odak = sabit özet (halka + yenilenme); satırlar NÖTR (renksiz ikon kutusu, kontur nötr);
+   yalnız ALINABİLİR satır tek vurgu rengiyle (turuncu çerçeve + "Al"); zorluk 3 nokta; ödül tek satır; sandık sakin kesikli kart.
+   Renk/ölçü/süre token'dan (--qt-*); çıplak hex yok. Hareket yalnız transform/opacity; position:fixed yok (uçan çip satırın içinde absolute).
+   Ortak: nabız / sıralı giriş / konfeti → tasarim/hareket.css · uçan çip → tasarim/oyun-hissi.css (.qt-oyk-ucan) · çubuk → QtIlerleme.
+   `gv-` kanca sınıfları (gv-kart, gv-al, gv-tik, gv-ucan, gv-sandik …) ölçüm betiklerinin okuduğu adlardır; korunur.
    ===================================================================== */
 
 .gv-sayfa {
-  display: grid; gap: var(--qt-b-2); align-content: start;
-  padding-block: 0 var(--qt-b-4); min-width: 0; color: var(--qt-zemin-metin);
+  display: grid; gap: var(--qt-b-4); align-content: start; min-width: 0; color: var(--qt-zemin-metin);
 }
 .gv-sayfa > * { min-width: 0; }
-/* Yalnız dış boşluk sıfırlanır; iç boşluk (padding) bileşenin kendi kuralında kalır (eski sıfırlama şerit ve hata kutusunun iç boşluğunu eziyordu). */
-.gv-sayfa h1, .gv-sayfa h2, .gv-sayfa p, .gv-sayfa ul { margin: 0; }
+.gv-sayfa h2, .gv-sayfa p, .gv-sayfa ul { margin: 0; }
 
-.gv-mesaj { padding: var(--qt-b-2) var(--qt-b-3); border: 2px solid var(--qt-yanlis-dudak); border-radius: var(--qt-r-m); background: var(--qt-yanlis-acik); color: var(--qt-yanlis-koyu); font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); }
-.gv-not { padding-top: var(--qt-b-1); font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-zemin-soluk); }
 .gv-yukleniyor, .gv-hata-kutu { display: grid; gap: var(--qt-b-2); }
 
-/* Hareketi azalt: uçan çip yerinde kalıp solar. Kareler ortak qt-h-uc-y ile aynı; ölçüm betiği bu adı (gv-uc-y) okuduğu için ad korunur. */
+/* Alt yuvadaki hata mesajı (her zaman görünür). Kehribar: kırmızı yalnız Düello/rakip rengidir. */
+.gv-mesaj {
+  margin: 0; padding: var(--qt-b-2) var(--qt-b-3); border: 2px solid var(--qt-uyari-dudak); border-radius: var(--qt-r-m);
+  background: var(--qt-uyari-acik); color: var(--qt-uyari-koyu); font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin);
+}
+
+/* ---------- Sabit özet: halka + metin (ekranın tek odağı) ---------- */
+.gv-ozet {
+  position: relative; display: flex; align-items: center; gap: var(--qt-b-3); min-width: 0; padding: var(--qt-b-1) 0;
+  color: var(--qt-zemin-metin);
+}
+.gv-halka { position: relative; display: grid; place-items: center; flex: none; width: 56px; height: 56px; }
+.gv-halka svg { grid-area: 1 / 1; width: 56px; height: 56px; }
+.gv-halka circle { fill: none; stroke-width: 6; }
+.gv-halka-iz { stroke: var(--qt-yuzey); }
+.gv-halka-dolgu { stroke: var(--qt-vurgu); stroke-linecap: round; transition: stroke-dasharray 600ms var(--qt-egri-cikis); }
+.gv-halka-sayi {
+  grid-area: 1 / 1; font: var(--qt-a-siyah) var(--qt-y-s)/1 var(--qt-f-baslik); font-variant-numeric: tabular-nums; color: var(--qt-zemin-metin);
+}
+.gv-ozet-metin { display: grid; gap: 2px; min-width: 0; }
+.gv-ozet-ana {
+  display: inline-flex; align-items: center; gap: 6px; min-width: 0;
+  font: var(--qt-a-siyah) var(--qt-y-l)/1.2 var(--qt-f-baslik); overflow-wrap: anywhere;
+}
+.gv-ozet-ana svg { flex: none; }
+.gv-yenilenme {
+  display: inline-flex; align-items: center; gap: 5px; min-width: 0; font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); color: var(--qt-zemin-soluk);
+}
+.gv-yenilenme svg { flex: none; }
+/* Aciliyet (1 saatten az): kehribar — kırmızı değil (kırmızı rakip/Düello rengidir) */
+.gv-yenilenme--acil { color: var(--qt-uyari-koyu); font-weight: var(--qt-a-siyah); }
+
+/* ---------- Liste ve bölüm etiketi ---------- */
+.gv-bolum { display: grid; gap: var(--qt-b-2); }
+.gv-h2 {
+  font: var(--qt-a-siyah) var(--qt-y-s)/1.2 var(--qt-f-baslik); letter-spacing: 0.02em; color: var(--qt-zemin-soluk);
+}
+.gv-liste { display: grid; gap: var(--qt-b-2); margin: 0; padding: 0; list-style: none; }
+/* Üstten taşan uçan çip (top:-14px) kaydırma bölgesinde kırpılmasın */
+.gv-bolum:first-child .gv-liste { padding-top: var(--qt-b-2); }
+
+/* ---------- Satır: [nötr ikon kutusu] başlık + ödül · nokta/kategori · çubuk + sayı + eylem ---------- */
+.gv-kart {
+  position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: start; gap: var(--qt-b-3);
+  padding: var(--qt-b-3); border: 2px solid var(--qt-cizgi-guclu); border-radius: var(--qt-r-m);
+  background: var(--qt-yuzey); color: var(--qt-metin);
+}
+.gv-ik {
+  position: relative; display: grid; place-items: center; flex: none; width: 40px; height: 40px;
+  border-radius: var(--qt-r-s); background: var(--qt-yuzey-2); color: var(--qt-metin-soluk);
+}
+.gv-govde { display: grid; gap: 6px; min-width: 0; }
+.gv-ust-satir { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--qt-b-2); min-width: 0; }
+.gv-ad { flex: 1; min-width: 0; font: var(--qt-a-siyah) var(--qt-y-s)/1.25 var(--qt-f-govde); overflow-wrap: anywhere; }
+.gv-odul {
+  display: inline-flex; align-items: center; gap: 4px; flex: none; white-space: nowrap;
+  font-size: var(--qt-y-s); font-weight: var(--qt-a-siyah); color: var(--qt-metin); font-variant-numeric: tabular-nums;
+}
+.gv-odul b { font-weight: var(--qt-a-siyah); }
+.gv-odul--sol { justify-self: start; }
+.gv-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px var(--qt-b-2); min-width: 0; }
+.gv-alt-yazi { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); }
+
+/* Zorluk = 3 nokta (renksiz): dolu sayısı kolay 1 · orta 2 · zor 3 */
+.gv-noktalar { display: inline-flex; align-items: center; gap: 4px; }
+.gv-nokta { display: block; width: 8px; height: 8px; border: 1.5px solid var(--qt-metin-soluk); border-radius: 50%; background: transparent; }
+.gv-nokta--dolu { background: var(--qt-metin); border-color: var(--qt-metin); }
+.gv-noktalar--b { gap: 6px; }
+.gv-noktalar--b .gv-nokta { width: 12px; height: 12px; border-width: 2px; }
+/* Kategori etiketi: nötr */
+.gv-kat {
+  display: inline-flex; align-items: center; padding: 0 8px; border: 1.5px solid var(--qt-cizgi-guclu); border-radius: var(--qt-r-hap);
+  background: var(--qt-yuzey-2); color: var(--qt-metin-soluk); font-size: 11px; font-weight: var(--qt-a-siyah); line-height: 1.5; white-space: nowrap;
+}
+
+/* Alt satır: ince çubuk + "sayı/hedef" + eylem (Al / tik) */
+.gv-alt-satir { display: flex; align-items: center; gap: var(--qt-b-2); min-width: 0; min-height: 32px; }
+.gv-alt-satir .gv-bar { flex: 1; min-width: 40px; height: 8px; --_r: var(--qt-metin-soluk); }
+.gv-sayi { flex: none; font: var(--qt-a-siyah) var(--qt-y-xs)/1 var(--qt-f-govde); font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--qt-metin-soluk); }
+.gv-bosluk { flex: 1; }
+.gv-alt-satir .qt-oyk-al { flex: none; }
+/* Alınmış tiki NÖTR ve küçük: alınmış satır soluk kalır, ekrandaki tek vurgu alınabilir satırın turuncusudur */
+.gv-alt-satir .gv-tik { flex: none; width: 28px; height: 28px; border-color: var(--qt-cizgi-guclu); background: var(--qt-yuzey-2); color: var(--qt-metin-soluk); box-shadow: none; }
+.gv-kilit { display: grid; place-items: center; width: 32px; height: 32px; color: var(--qt-metin-soluk); }
+
+/* Hâller: yalnız ALINABİLİR vurgulu (tek vurgu rengi) · alınmış soluk */
+.gv-kart--alinabilir { border-color: var(--qt-vurgu); box-shadow: 0 0 0 1px var(--qt-vurgu); }
+.gv-kart--alinabilir .gv-bar { --_r: var(--qt-vurgu); }
+.gv-kart--alinabilir .gv-ik { color: var(--qt-metin); }
+.gv-kart--alindi { background: transparent; border-color: var(--qt-cizgi); color: var(--qt-metin-soluk); }
+.gv-kart--alindi .gv-ik { background: transparent; }
+.gv-kart--alindi .gv-odul, .gv-kart--alindi .gv-ad { color: var(--qt-metin-soluk); }
+.gv-kart--alindi .gv-nokta--dolu { background: var(--qt-metin-soluk); border-color: var(--qt-metin-soluk); }
+
+/* Haftalık sandık: sakin, kesikli çerçeveli (yüzey dolgusu yok) */
+.gv-sandik { border-style: dashed; border-color: var(--qt-cizgi-guclu); background: transparent; }
+.gv-sandik.gv-sandik--alinabilir { border-color: var(--qt-vurgu); box-shadow: none; }
+.gv-sandik .gv-ik { background: transparent; box-shadow: inset 0 0 0 2px var(--qt-cizgi-guclu); }
+
+/* Ödül anı: ikon bir kez zıplar (uçan çip + parıltı OdulAni'den) */
+.gv-kart--kutla .gv-ik { animation: qt-h-zipla 360ms var(--qt-egri-cikis); }
+
+/* Alt yuva: tek birincil düğme */
+.gv-toplu { min-height: 52px; }
+
+@media (max-width: 379px) {
+  .gv-odul { font-size: var(--qt-y-xs); }
+  .gv-kart { gap: 10px; padding: 10px; }
+}
+
+/* Hareketi azalt: uçan çip yerinde kalıp solar; halka ve ikon animasyonsuz. Kareler ortak qt-h-uc-y ile aynı; ölçüm betiği gv-uc-y adını okuduğu için ad korunur. */
 @media (prefers-reduced-motion: reduce) {
   .gv-ucan { animation-name: gv-uc-y; }
+  .gv-halka-dolgu { transition: none; }
+  .gv-kart--kutla .gv-ik { animation: none; }
 }
 @keyframes gv-uc-y { 0% { opacity: 0; } 18% { opacity: 1; } 75% { opacity: 1; } 100% { opacity: 0; } }

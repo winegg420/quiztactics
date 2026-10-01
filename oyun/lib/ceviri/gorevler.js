@@ -32,6 +32,13 @@ export default {
   "Görevler alınamadı. Bağlantını kontrol edip tekrar dene.": "Couldn't load quests. Check your connection and try again.",
   "Görev SP'leri sezon yoluna işler. Battle Pass sahibinde SP ×1,25.": "Quest SP count toward the Season Path. Battle Pass owners get SP ×1.25.",
 
+  // Tam ekran sahne (2 Eki 2026): sabit özet + bölüm etiketleri + toplu alma düğmesi
+  "Günlük|bölüm": "Daily",
+  "Haftalık, {s}": "Weekly, {s}",
+  "{s} sonra yenilenir": "Resets in {s}",
+  "Bugün {n} görev tamam": "{n} done today",
+  "Ödülü al ({n})": "Claim reward ({n})",
+
   // Ana sayfa şeridi
   "Günlük {a}/{b} · Haftalık {c}/{d}": "Daily {a}/{b} · Weekly {c}/{d}",
   "Görevler. Günlük {a}/{b}, haftalık {c}/{d}.": "Quests. Daily {a}/{b}, weekly {c}/{d}.",
