@@ -251,3 +251,29 @@
   .qt-dk-sekmeler { gap: 2px; }
   .qt-dk-sekmeler .qt-sekme { min-height: 40px; padding: 0 var(--qt-b-2); gap: 4px; font-size: 13px; }
 }
+
+/* ---------- Oyun hissi (1 Eki 2026, OKU.md §11): afiş + oyun kartı dili ----------
+   Kartın görünümü ortak `qt-oyk` sınıflarından gelir (3 px kontur, sol şerit, kabartma); burada yalnız yerleşim ve
+   dükkâna özel hâller var. Renk ekseni: Joker sekmesinde joker rengi (--qt-skill-<tur>, şerit), paketlerde altın. */
+.qt-dk-afis .qt-dk-bakiye { min-height: 32px; border: 2px solid var(--oyk-kontur); box-shadow: none; }
+/* Joker kartı: qt-oyk'un üç sütunu yerine dükkânın kendi yerleşimi (yukarıdaki .qt-dk-skill kuralları) */
+.qt-oyk.qt-dk-skill, .qt-oyk.qt-dk-seri { padding: var(--qt-b-3) var(--qt-b-3) var(--qt-b-3) calc(var(--qt-b-3) + 6px); }
+.qt-oyk.qt-dk-skill h3, .qt-oyk.qt-dk-skill p, .qt-oyk.qt-dk-seri h3, .qt-oyk.qt-dk-seri p, .qt-oyk.qt-dk-paket h3, .qt-oyk.qt-dk-paket p { margin: 0; }
+/* Coin yetmiyor: kart soluk (şerit gri, rozet soluk); alınabilen kart canlı kalır. Düğme zaten pasif. */
+.qt-dk-skill.qt-dk-skill--yetmez { --oyk-serit: var(--qt-cizgi-guclu); }
+.qt-dk-skill--yetmez .qt-dk-skill-ikon--rozet .qt-srozet { opacity: 0.6; }
+/* Fiyat düğmeleri kart içinde: dokunma hedefi 44 px */
+.qt-dk-skill-al > .qt-dugme, .qt-dk-paket > .qt-dugme { min-height: var(--qt-dokunma); }
+/* Paket kartı: tek sütun */
+.qt-oyk.qt-dk-paket { grid-template-columns: minmax(0, 1fr); align-items: stretch; height: 100%; }
+/* Satın alma anı (kart `qt-oyk--kutla` alır — yalnız sunucu başarı dönünce): joker rozeti zıplar + altın halka */
+.qt-oyk--kutla .qt-dk-skill-ikon { animation: qt-h-zipla 360ms var(--qt-egri-cikis); }
+.qt-oyk--kutla .qt-dk-skill-ikon::after {
+  content: ""; position: absolute; inset: -5px; border: 3px solid var(--qt-coin); border-radius: 50%; pointer-events: none; opacity: 0;
+  animation: qt-h-halka 520ms ease-out;
+}
+/* Elmas paket kartı: aynı kontur dili */
+.qt-dk-coin.qt-dk-coin { border: 3px solid var(--oyk-kontur); }
+@media (prefers-reduced-motion: reduce) {
+  .qt-oyk--kutla .qt-dk-skill-ikon, .qt-oyk--kutla .qt-dk-skill-ikon::after { animation: none !important; }
+}

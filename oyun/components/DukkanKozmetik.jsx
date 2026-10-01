@@ -6,6 +6,9 @@
  * SAHİP TEST MODU: sahip hesabı her kalemi görür (kapalı olanlar "Satışta değil" işaretli) ve satın almadan
  * takıp çıkarabilir (kozmetik_tak sunucuda sahip_mi() ile izin verir). Takılan kalem gerçek maçta görünür.
  * Veri: oyun/lib/kozmetik.js. Görünüm: qt-dc- (Aura sekmesiyle aynı dil) + dukkan-kozmetik.css.
+ * Oyun hissi (1 Eki 2026, OKU.md §11): satın alma anı (parıltı + konfeti + uçan çip + ses/titreşim) YALNIZ sunucu alımı
+ * onaylayıp katalog tazelendikten sonra oynar; hata / yetersiz elmas dalında kutlama yoktur. Kart seçimi ve eylem düğmeleri
+ * dokunus() çalar. Sıralı giriş sınıfı (`sirali`) JokerDukkani'ndan gelir: yalnız ilk açılışta, sekme değişiminde oynamaz.
  */
 import { Fragment, lazy, Suspense, useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -19,10 +22,11 @@ import { KAYIT as ARKA_PLAN_KAYIT } from "../tasarim/arka-plan/kayit.jsx";
 import { KOZMETIK_TANIMLARI, TEPKI_TANIMLARI, kozmetikHatasi, kozmetikKatalogu, kozmetikSatinAl, kozmetikTak, kozmetikTemasi, sahipMi, tepkiGorseli } from "../lib/kozmetik.js";
 import { oyuncuKartiUnut } from "../lib/cerceve.js";
 import { elmasTazele } from "../lib/elmas.js";
-import { sesHataUyari, sesSatinAlma } from "../lib/ses.js";
+import { sesHataUyari } from "../lib/ses.js";
 import { aktifDil, tt } from "../lib/dil.js";
 import { y } from "../lib/yol.js";
-import { QtDugme, QtIkon, QtKart, QtModal } from "../tasarim/index.js";
+import { QtBosDurum, QtDugme, QtIkon, QtKart, QtModal, dokunus, siraStili } from "../tasarim/index.js";
+import OdulAni, { UcanOge, useOdulAni } from "./OdulAni.jsx";
 import { avatarSatinAl, useAvatarSahiplik, useHazirAvatarlar } from "../lib/avatarKatalogu.js";
 import { NADIRLIKLAR, NADIRLIK_AD, nadirligeGoreBolumle, useNadirlikHaritasi } from "../../src/lib/avatarNadirlik.js";
 import { AvatarBolumBasligi, AvatarKilitRozeti, NadirlikImg, etiketNadirligi } from "./AvatarNadirlikGoruntu.jsx";
@@ -91,6 +95,21 @@ export const dukkanNadirligi = (x) => (NADIRLIKLAR.includes(x?.icerik?.nadirlik)
  * 821: ızgara bölümleri — Yaygın → Nadir → Epik → Efsanevi; boş bölüm çizilmez (Yaygın arka plan henüz yok → başlığı da yok).
  * Hiçbir kalemin nadirliği yoksa tek başlıksız bölüm (diğer kozmetik türleri eskisi gibi).
  */
+/** Sıralı giriş: her bölüme ızgaradaki başlangıç sırasını (`bas`) ekler — yalnız ilk 8 kart sıralı gelir. */
+function siraliBolumler(bolumler) {
+  let n = 0;
+  return bolumler.map((b) => { const bas = n; n += b.ogeler.length; return { ...b, bas }; });
+}
+
+/** Satın alma anının uçan çipi + parıltı + konfeti (kozmetik = nadir an). Kapsayıcı `position: relative` olmalı. */
+function SatinAlmaAni({ aktif }) {
+  return (
+    <OdulAni aktif={Boolean(aktif)} buyuk konfeti ucanSinif="qt-dc-ucan">
+      {aktif && <UcanOge><QtIkon ad="onay" boyut={16} />{tt("Senin!|ürün")}</UcanOge>}
+    </OdulAni>
+  );
+}
+
 function nadirlikBolumleri(liste) {
   if (!liste.some((x) => dukkanNadirligi(x))) return [{ nadirlik: null, ogeler: liste }];
   return [
@@ -216,6 +235,7 @@ export function KozmetikBuyukOnizleme({ kalem, profile, userId, boyut = 128 }) {
 function useKozmetikEylem({ c, yenile, elmasYetmedi, onBilgi, onHata }) {
   const { user } = useAuth();
   const [islem, setIslem] = useState(null);
+  const { kutla, ucan } = useOdulAni();   // satın alma anı: yalnız sunucu alımı onaylayınca
   // D-301: "Satın al" önce onay penceresi açar (KozmetikSatinAlOnayi); asıl alım satinAl
   const [onayAcik, setOnayAcik] = useState(false);
   const tur = c?.tur;
@@ -225,10 +245,10 @@ function useKozmetikEylem({ c, yenile, elmasYetmedi, onBilgi, onHata }) {
     setIslem("al");
     try {
       await kozmetikSatinAl(c.anahtar);
-      sesSatinAlma();
       elmasTazele();
       onBilgi?.(takilir ? tt("{ad} senin. Şimdi takabilirsin.", { ad: kozmetikAdi(c) }) : tt("{ad} paketi senin. Maçta tepkilerin arasında.", { ad: kozmetikAdi(c) }));
       await yenile?.();
+      kutla(c.anahtar, {}, { his: "buyuk" });   // sunucu onayladı + katalog tazelendi → an (onay penceresi kapanırken)
     } catch (e) {
       const m = kozmetikHatasi(e);
       sesHataUyari();
@@ -252,7 +272,8 @@ function useKozmetikEylem({ c, yenile, elmasYetmedi, onBilgi, onHata }) {
     }
   };
 
-  return { islem, satinAl, tak, takilir, onayAcik, onayAc: () => setOnayAcik(true), onayKapat: () => setOnayAcik(false) };
+  return { islem, satinAl, tak, takilir, onayAcik, onayAc: () => { dokunus(); setOnayAcik(true); }, onayKapat: () => setOnayAcik(false),
+    kutlama: Boolean(c && ucan(c.anahtar)) };
 }
 
 /** D-301: kozmetik alım onayı — ürün görseli, fiyat, bakiyen → kalan, Vazgeç / Al (JokerSatinAlModal). */
@@ -281,9 +302,9 @@ function KozmetikEylemDugmesi({ c, sahipHesap, eylem }) {
   return (
     <>
           {takilir && c.takili ? (
-            <QtDugme tur="ikincil" tamGenislik yukleniyor={islem === "tak"} onClick={() => tak(null)}>{tt("Çıkar")}</QtDugme>
+            <QtDugme tur="ikincil" tamGenislik yukleniyor={islem === "tak"} onClick={() => { dokunus(); tak(null); }}>{tt("Çıkar")}</QtDugme>
           ) : takilir && (c.sahip || testModu) ? (
-            <QtDugme tamGenislik ikon="onay" yukleniyor={islem === "tak"} onClick={() => tak(c.anahtar)}>
+            <QtDugme tamGenislik ikon="onay" yukleniyor={islem === "tak"} onClick={() => { dokunus(); tak(c.anahtar); }}>
               {testModu ? tt("Test için tak") : tt("Tak")}
             </QtDugme>
           ) : !takilir && (c.sahip || sahipHesap) ? (
@@ -331,6 +352,7 @@ export function KozmetikOnizlemePenceresi({ kalem, onKapat, sahipHesap = false, 
              )}>
       <div className="qt-kz-pencere-sahne">
         <KozmetikBuyukOnizleme kalem={kalem} profile={profile} userId={user?.id} boyut={boyut} />
+        <SatinAlmaAni aktif={eylem.kutlama} />
       </div>
       {kalem.kapali && sahipHesap && (
         <span className="qt-kz-kapali"><QtIkon ad="kilit" boyut={12} /> {tt("Satışta değil — yalnız sen görüyorsun")}</span>
@@ -347,7 +369,7 @@ export function KozmetikOnizlemePenceresi({ kalem, onKapat, sahipHesap = false, 
  * Tek tür sekmesi. `katalog` JokerDukkani'nda bir kez okunur (sekmenin görünürlüğü de ondan: normal oyuncuya
  * satış kapalıyken boş döner). `sahipHesap` yalnız arayüz ipucu (kapı sunucuda).
  */
-export default function DukkanKozmetik({ tur, katalog, sahipHesap = false, yenile, elmasYetmedi, onBilgi, onHata, elmasBakiye }) {
+export default function DukkanKozmetik({ tur, katalog, sahipHesap = false, yenile, elmasYetmedi, onBilgi, onHata, elmasBakiye, sirali }) {
   const { user, profile } = useAuth();
   const liste = (katalog ?? []).filter((x) => x.tur === tur).sort((a, b) => (a.sira ?? 0) - (b.sira ?? 0));
   const [secili, setSecili] = useState(() => liste.find((x) => x.takili)?.anahtar ?? liste[0]?.anahtar ?? null);
@@ -355,9 +377,11 @@ export default function DukkanKozmetik({ tur, katalog, sahipHesap = false, yenil
   const c = liste.find((x) => x.anahtar === secili) ?? liste[0] ?? null;
   const eylem = useKozmetikEylem({ c, yenile, elmasYetmedi, onBilgi, onHata });
   const premium = premiumMi({ tur });
+  // Hareketli sekmelerde (Çerçeve / Arka Plan) kartlar zaten oynuyor → sıralı giriş eklenmez (denetim §7 S3).
+  const giris = premium ? undefined : sirali;
 
   if (!c) {
-    return <QtKart><p className="qt-kucuk qt-soluk">{tt("Bu bölümde şu an satışta bir şey yok.")}</p></QtKart>;
+    return <QtBosDurum boyut="k" ikon="dukkan" ton="mor" baslik={tt("Bu bölümde şu an satışta bir şey yok.")} />;
   }
 
   return (
@@ -377,18 +401,19 @@ export default function DukkanKozmetik({ tur, katalog, sahipHesap = false, yenil
         <div className="qt-dc-sahne-eylem">
           <KozmetikEylemDugmesi c={c} sahipHesap={sahipHesap} eylem={eylem} />
         </div>
+        <SatinAlmaAni aktif={eylem.kutlama} />
       </QtKart>
       <KozmetikSatinAlOnayi c={c} eylem={eylem} elmasBakiye={elmasBakiye} elmasYetmedi={elmasYetmedi} />
 
       <ul className="qt-dc-izgara">
-        {nadirlikBolumleri(liste).map((b) => (
+        {siraliBolumler(nadirlikBolumleri(liste)).map((b) => (
           <Fragment key={b.nadirlik ?? "diger"}>
             {b.nadirlik && <AvatarBolumBasligi as="li" nadirlik={b.nadirlik} sayi={b.ogeler.length} />}
-            {b.ogeler.map((x) => (
-              <li key={x.anahtar}>
+            {b.ogeler.map((x, j) => (
+              <li key={x.anahtar} className={b.bas + j < 8 ? giris : undefined} style={siraStili(b.bas + j)}>
                 <button type="button" className="qt-dc-oge" aria-pressed={x.anahtar === c.anahtar}
                         aria-haspopup={premium ? "dialog" : undefined}
-                        onClick={() => { setSecili(x.anahtar); if (premium) setPencere(x.anahtar); }}>
+                        onClick={() => { dokunus(); setSecili(x.anahtar); if (premium) setPencere(x.anahtar); }}>
                   {etiketNadirligi(dukkanNadirligi(x)) && <NadirlikEtiketi nadirlik={etiketNadirligi(dukkanNadirligi(x))} />}
                   <KozmetikSimge kalem={x} profile={profile} hareketli={premium} />
                   <span className="qt-dc-ad">{kozmetikAdi(x)}</span>
@@ -425,8 +450,9 @@ const ACIKLAMA = {
 };
 
 /** Dükkân › Avatar — Ajan A'nın kataloğu (avatar_katalogu_oyun / avatar_satin_al / avatar_onayla). */
-export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYetmedi, onBilgi, onHata, elmasBakiye }) {
+export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYetmedi, onBilgi, onHata, elmasBakiye, sirali }) {
   const { user, profile, refreshProfile } = useAuth();
+  const { kutla, ucan } = useOdulAni();   // satın alma anı: yalnız sunucu alımı onaylayınca
   const hazirAvatarlar = useHazirAvatarlar();   // 701: açılmamış hazır avatarlar süzülür
   const nadirlikHaritasi = useNadirlikHaritasi();   // 770: bayrak açıkken nadirliğe göre bölümler
   // 31 hazır profesyonel avatar (bedava, avatar_onayla kabul eder) + katalogdaki 27 — profil ve kurulumla aynı
@@ -446,7 +472,7 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
   const [islem, setIslem] = useState(null);
   const [onayAcik, setOnayAcik] = useState(false);   // D-301
   const c = liste.find((a) => a.anahtar === secili) ?? liste[0] ?? null;
-  if (!c) return <QtKart><p className="qt-kucuk qt-soluk">{tt("Bu bölümde şu an satışta bir şey yok.")}</p></QtKart>;
+  if (!c) return <QtBosDurum boyut="k" ikon="dukkan" ton="mor" baslik={tt("Bu bölümde şu an satışta bir şey yok.")} />;
   const ad = (a) => (aktifDil() === "en" ? a.ad_en : a.ad_tr) ?? a.ad_tr;
   const takili = profile?.avatar_url === c.url;
   const nadirlik = (a) => nadirlikHaritasi.get(a.url) ?? sahiplik.get(a.url)?.nadirlik ?? null;
@@ -457,10 +483,10 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
     setIslem("al");
     try {
       await avatarSatinAl(c.anahtar);   // sahiplik durumunu da tazeler
-      sesSatinAlma();
       elmasTazele();
       onBilgi?.(tt("{ad} senin. Şimdi takabilirsin.", { ad: ad(c) }));
       await yenile?.();
+      kutla(c.anahtar, {}, { his: "buyuk" });   // sunucu onayladı → an
     } catch (e) {
       const m = kozmetikHatasi(e);
       sesHataUyari();
@@ -488,9 +514,10 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
 
   return (
     <div className="qt-dc qt-kz">
-      <QtKart className="qt-dc-sahne" aria-live="polite">
+      {/* Önizleme kartı yatay ve küçük (solda avatar, sağda ad; altında düğme) → ızgara ilk ekrana girer (denetim §3.2 madde 6) */}
+      <QtKart className="qt-dc-sahne qt-dc-sahne--yatay" aria-live="polite">
         <div className="qt-dc-onizleme">
-          <CerceveliAvatar profile={{ ...(profile ?? {}), gorunen_avatar: c.url, avatar_url: c.url }} userId={user?.id} boyut={128} hareketli />
+          <CerceveliAvatar profile={{ ...(profile ?? {}), gorunen_avatar: c.url, avatar_url: c.url }} userId={user?.id} boyut={88} hareketli />
         </div>
         <div className="qt-dc-sahne-bilgi">
           <h2 className="qt-baslik-2">{ad(c)}</h2>
@@ -509,17 +536,18 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
           {takili ? (
             <QtDugme tur="ikincil" tamGenislik devreDisi ikon="onay">{tt("Takılı")}</QtDugme>
           ) : c.kullanabilir ? (
-            <QtDugme tamGenislik ikon="onay" yukleniyor={islem === "tak"} onClick={tak}>
+            <QtDugme tamGenislik ikon="onay" yukleniyor={islem === "tak"} onClick={() => { dokunus(); tak(); }}>
               {c.kapali && sahipHesap ? tt("Test için tak") : tt("Tak")}
             </QtDugme>
           ) : !c.kapali && c.fiyat_elmas != null ? (
-            <QtDugme tamGenislik yukleniyor={islem === "al"} onClick={() => setOnayAcik(true)} aria-haspopup="dialog">
+            <QtDugme tamGenislik yukleniyor={islem === "al"} onClick={() => { dokunus(); setOnayAcik(true); }} aria-haspopup="dialog">
               <span className="qt-dc-fiyat">{tt("Satın al")} <ElmasFiyat fiyat={c.fiyat_elmas} boyut={18} /></span>
             </QtDugme>
           ) : (
             <QtDugme tur="ikincil" tamGenislik devreDisi ikon="kilit">{tt("Satılmıyor")}</QtDugme>
           )}
         </div>
+        <SatinAlmaAni aktif={ucan(c.anahtar)} />
       </QtKart>
       {onayAcik && (
         <ElmasliSatinAlOnayi
@@ -535,12 +563,12 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
         />
       )}
       <ul className="qt-dc-izgara">
-        {nadirligeGoreBolumle(liste, (a) => a.url, nadirlikHaritasi).map((b) => (
+        {siraliBolumler(nadirligeGoreBolumle(liste, (a) => a.url, nadirlikHaritasi)).map((b) => (
           <Fragment key={b.nadirlik ?? "tumu"}>
             {b.nadirlik && <AvatarBolumBasligi as="li" nadirlik={b.nadirlik} sayi={b.ogeler.length} />}
-            {b.ogeler.map((a) => (
-              <li key={a.anahtar}>
-                <button type="button" className={"qt-dc-oge" + (a.ucretli && !a.sahibim ? " qt-av-kilitli" : "")} aria-pressed={a.anahtar === c.anahtar} onClick={() => setSecili(a.anahtar)}>
+            {b.ogeler.map((a, j) => (
+              <li key={a.anahtar} className={b.bas + j < 8 ? sirali : undefined} style={siraStili(b.bas + j)}>
+                <button type="button" className={"qt-dc-oge" + (a.ucretli && !a.sahibim ? " qt-av-kilitli" : "")} aria-pressed={a.anahtar === c.anahtar} onClick={() => { dokunus(); setSecili(a.anahtar); }}>
                   {etiketNadirligi(nadirlik(a)) && <NadirlikEtiketi nadirlik={etiketNadirligi(nadirlik(a))} />}
                   <span className="qt-av-kilit-kutu">
                     <NadirlikImg className="qt-kz-avatar-simge" src={a.url} alt="" width="64" height="64" loading="lazy" decoding="async" />

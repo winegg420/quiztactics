@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import DurumKutusu from "../components/DurumKutusu.jsx";
 import { hataMesaji } from "../lib/hata.js";
-import { sesHataUyari, sesSatinAlma } from "../lib/ses.js";
+import { sesHataUyari } from "../lib/ses.js";
 import { Link, useSearchParams } from "react-router-dom";
 import GorunumVitrini from "../vitrin/GorunumVitrini.jsx";
 import { supabase } from "../../src/lib/supabase.js";
@@ -28,8 +28,14 @@ import {
   QtToast,
   QtToastYuvasi,
   QtBosDurum,
+  QtAfis,
   sayiBicim,
+  sinif,
+  siraStili,
+  useSiraliGiris,
+  dokunus,
 } from "../tasarim/index.js";
+import OdulAni, { UcanOge, useOdulAni } from "../components/OdulAni.jsx";
 import ElmasPaketGorseli from "../tasarim/premium/elmas/ElmasPaketGorseli.jsx";
 import "../tasarim/ekranlar/dukkan-magaza.css";
 import { CoinIkon, ElmasIkon } from "../components/ParaIkonlari.jsx";
@@ -40,6 +46,9 @@ import { CoinIkon, ElmasIkon } from "../components/ParaIkonlari.jsx";
 // kazanılır). Çerçeveler satılmaz (Profil › Koleksiyon).
 // Bütün rakamlar sunucudan gelir (skill_dukkani(), joker_paketleri, elmas_paketleri(),
 // oyun_ayarlari); koda gömülü fiyat/ödül/tavan YOKTUR — okunamayan rakam gösterilmez.
+// Oyun hissi (1 Eki 2026, OKU.md §11): sayfa afişi, oyun kartı dili (qt-oyk), ilk açılışta sıralı kart girişi, eylem
+// düğmelerinde dokunus(). SATIN ALMA ANI (parıltı + uçan çip + ses + titreşim) YALNIZ sunucu başarı döndükten sonra
+// oynar (kutla); hata / yetersiz coin dalında kutlama yoktur. Ürünler vitrinde fiyatıyla, doğrudan satılır.
 
 // GARDIROP DONDURULDU (Arayüz Yenileme, 20 Eyl 2026): "Kıyafet" sekmesi
 // bayrak kapalıyken listeye hiç girmez ve varsayılan sekme "Joker" olur.
@@ -152,6 +161,9 @@ export default function JokerDukkani() {
   // D-301: dükkândaki her coin alımı önce onay penceresi (maç içi joker penceresiyle aynı bileşen).
   // onay = { tur?, baslik?, aciklama?, gorsel?, fiyat, onayMetni?, calistir } — calistir mevcut alım işlevidir.
   const [onay, setOnay] = useState(null);
+  const onayAc = (o) => { dokunus(); setOnay(o); };
+  // Satın alma anı: kutla() yalnız RPC hatasız dönünce çağrılır; ucan(anahtar) an sürerken veriyi döner.
+  const { kutla, ucan } = useOdulAni();
   // D-304: "Nasıl kazanılır?" → Elmas sekmesi + "Oynayarak elmas kazan" listesine kaydır
   const [elmasKaydir, setElmasKaydir] = useState(false);
   const elmasKazanGoster = () => {
@@ -320,18 +332,19 @@ export default function JokerDukkani() {
   };
 
   /** Joker paketini COİN ile alır. Coin yetmezse Coin sekmesine götürür. */
-  const jokerCoinIleAl = async (urunId) => {
+  const jokerCoinIleAl = async (urunId, an) => {
     setHata(null);
     setBilgi(null);
     setAlinan(urunId);
     try {
       const { error } = await supabase.rpc("joker_coin_ile_al", { p_urun_id: urunId });
       if (error) throw error;
-      sesSatinAlma();
       setBilgi(tt("Jokerler hesabına eklendi."));
       coinTazele();
       coinOku();
       await yukle();
+      // Sunucu "verildi" dedi ve envanter tazelendi → an (onay penceresi kapanırken kartta oynar)
+      kutla(an?.anahtar ?? `paket:${urunId}`, an?.veri ?? { paket: true }, { his: "satinAlma" });
     } catch (e) {
       const m = coinHatasi(e);
       sesHataUyari();
@@ -351,11 +364,11 @@ export default function JokerDukkani() {
     try {
       const { error } = await supabase.rpc("joker_tek_al", { p_tur: tur });
       if (error) throw error;
-      sesSatinAlma();
       setBilgi(tt("{0} hesabına eklendi.", { 0: JOKER_BILGI[tur].ad }));
       coinTazele();
       coinOku();
       await yukle();
+      kutla(`joker:${tur}`, { adet: 1 }, { his: "satinAlma" });
     } catch (e) {
       const m = coinHatasi(e);
       sesHataUyari();
@@ -374,11 +387,11 @@ export default function JokerDukkani() {
     try {
       const { error } = await supabase.rpc("skill_kilidi_ac", { p_tur: tur });
       if (error) throw error;
-      sesSatinAlma();
       setBilgi(tt("{0} kilidi açıldı.", { 0: JOKER_BILGI[tur]?.ad ?? tur }));
       coinTazele();
       coinOku();
       await yukle();
+      kutla(`joker:${tur}`, { kilit: true }, { his: "satinAlma" });
     } catch (e) {
       const m = coinHatasi(e);
       sesHataUyari();
@@ -391,6 +404,8 @@ export default function JokerDukkani() {
 
   const reklamKaldi = reklam.tavan == null ? 1 : Math.max(0, reklam.tavan - (reklam.bugun ?? 0));
   const hazir = dukkanDurum === "hazir";
+  // Sıralı kart girişi yalnız İLK açılışta (sekme değişince / veri yenilenince yeniden oynamaz); kozmetik sekmelerine prop ile iner.
+  const sirali = useSiraliGiris(!sekmelerBelirsiz && (["joker", "coin", "elmas"].includes(sekme) ? hazir : true));
   // D-304: Elmas sekmesi açılınca "Oynayarak elmas kazan" başlığına kaydır (üst çubuk yapışkan — payı düşülür).
   // Koleksiyon'dan gelen bağlantı ?sekme=elmas&bolum=kazan ile aynısını ister.
   const bolumKazan = arama.get("bolum") === "kazan";
@@ -416,22 +431,13 @@ export default function JokerDukkani() {
 
   return (
     <div className="qt-dk">
-      <header className="qt-dk-ust">
-        <h1 className="qt-baslik-1">{tt("Dükkân")}</h1>
-        {/* İki para birimi yan yana: coin jokerler için, elmas auralar için */}
-        <div className="qt-dk-bakiyeler" aria-label={tt("Bakiyen")}>
-          {bakiye !== null && (
-            <span className="qt-dk-bakiye" aria-label={tt("{n} coin", { n: sayiBicim(bakiye) })}>
-              <CoinIkon boyut={18} /><b className="qt-sayi">{sayiBicim(bakiye)}</b>
-            </span>
-          )}
-          {elmas.bakiye !== null && (
-            <span className="qt-dk-bakiye qt-dk-bakiye--elmas" aria-label={tt("{n} elmas", { n: sayiBicim(elmas.bakiye) })}>
-              <ElmasIkon boyut={18} /><b className="qt-sayi">{sayiBicim(elmas.bakiye)}</b>
-            </span>
-          )}
-        </div>
-      </header>
+      {/* Afiş: ikon diski + başlık + elmas bakiyesi. Coin bakiyesi üst çubukta zaten var → burada tekrarlanmaz (denetim §7 S7). */}
+      <QtAfis className="qt-dk-afis" ikon="dukkan" baslik={tt("Dükkân")}
+        sag={elmas.bakiye !== null && (
+          <span className="qt-dk-bakiye qt-dk-bakiye--elmas" role="img" aria-label={tt("{n} elmas", { n: sayiBicim(elmas.bakiye) })}>
+            <ElmasIkon boyut={18} /><b className="qt-sayi">{sayiBicim(elmas.bakiye)}</b>
+          </span>
+        )} />
 
       {sekmelerBelirsiz ? (
         <div className="qt-sekmeler qt-dk-sekmeler qt-dk-sekmeler--iskelet" aria-busy="true" aria-label={tt("Yükleniyor…")}>
@@ -465,12 +471,12 @@ export default function JokerDukkani() {
 
         {/* ---------- ELMAS KOZMETİKLERİ (540) + yeni avatarlar (520) ---------- */}
         {sekme === "avatar" && !istenenBekliyor && (
-          <DukkanAvatarlar avatarlar={kozmetik.avatarlar} sahipHesap={kozmetik.sahipHesap} yenile={kozmetik.yenile}
+          <DukkanAvatarlar avatarlar={kozmetik.avatarlar} sahipHesap={kozmetik.sahipHesap} yenile={kozmetik.yenile} sirali={sirali}
             elmasYetmedi={elmasKazanGoster} elmasBakiye={elmas.bakiye}
             onBilgi={(m) => { setHata(null); setBilgi(m); }} onHata={(m) => { setBilgi(null); setHata(m); }} />
         )}
         {kozmetik.sekmeler.filter((s) => s.tur && s.kod === sekme).map((s) => (
-          <DukkanKozmetik key={s.kod} tur={s.tur} katalog={kozmetik.katalog} sahipHesap={kozmetik.sahipHesap} yenile={kozmetik.yenile}
+          <DukkanKozmetik key={s.kod} tur={s.tur} katalog={kozmetik.katalog} sahipHesap={kozmetik.sahipHesap} yenile={kozmetik.yenile} sirali={sirali}
             elmasYetmedi={elmasKazanGoster} elmasBakiye={elmas.bakiye}
             onBilgi={(m) => { setHata(null); setBilgi(m); }} onHata={(m) => { setBilgi(null); setHata(m); }} />
         ))}
@@ -503,7 +509,7 @@ export default function JokerDukkani() {
             <section className="qt-dk-bolum" aria-labelledby="qt-dk-skiller">
               <h2 id="qt-dk-skiller" className="qt-baslik-2">{tt("Jokerler")}</h2>
               <ul className="qt-dk-skill-liste">
-                {AKTIF_MAC_SKILLERI.map((tur) => {
+                {AKTIF_MAC_SKILLERI.map((tur, i) => {
                   // Paket 2 B1/B2: sunucudan gelen satır (fiyat, 10'lu paket, kilit).
                   const sd = skillDukkan?.skiller?.[tur] ?? null;
                   const kilitli = Boolean(sd && sd.acik === false);
@@ -514,9 +520,12 @@ export default function JokerDukkani() {
                   const tek = Number(tekFiyat[tur]);
                   const yetmez = !kilitli && tekVar && bakiye !== null && bakiye < tek;
                   const b = jokerBilgi(tur, "1v1", ayar);
+                  const u = ucan(`joker:${tur}`);   // satın alma anı (sunucu onayından sonra): { adet } | { kilit }
+                  // Oyun kartı: 3 px kontur + sol şerit joker renginde; kilitli / coin yetmeyen kart soluk (şerit gri).
                   return (
-                    <li key={tur}>
-                      <QtKart dolgu="k" className={"qt-dk-skill" + (kilitli ? " qt-dk-skill--kilitli" : "")}>
+                    <li key={tur} className={i < 8 ? sirali : undefined} style={siraStili(i)}>
+                      <div className={sinif("qt-oyk qt-dk-skill", kilitli && "qt-oyk--kilitli qt-dk-skill--kilitli", yetmez && "qt-dk-skill--yetmez", u && "qt-oyk--kutla")}
+                           style={kilitli || yetmez ? undefined : { "--oyk-serit": `var(--qt-skill-${tur}, var(--qt-ikinci))` }}>
                         <span className="qt-dk-skill-ikon qt-dk-skill-ikon--rozet" aria-hidden="true">
                           <SkillRozeti tur={tur} boyut={52} />
                           {kilitli && <span className="qt-dk-skill-kilit"><QtIkon ad="kilit" boyut={14} /></span>}
@@ -527,9 +536,11 @@ export default function JokerDukkani() {
                           <div className="qt-dk-skill-rozetler">
                             {JOKER_BILGI[tur].yalnizDuello && <QtRozet boyut="k" ton="notr">{tt("Yalnız Düello'da")}</QtRozet>}
                             {!kilitli && (
-                              <QtRozet boyut="k" ton={(envanter[tur] ?? 0) > 0 ? "mor" : "notr"}>
-                                {tt("Sende: {n}", { n: envanter[tur] ?? 0 })}
-                              </QtRozet>
+                              <span className={u ? "qt-h-zipla" : undefined}>
+                                <QtRozet boyut="k" ton={(envanter[tur] ?? 0) > 0 ? "mor" : "notr"}>
+                                  {tt("Sende: {n}", { n: envanter[tur] ?? 0 })}
+                                </QtRozet>
+                              </span>
                             )}
                             {kilitli && (
                               <QtRozet boyut="k" ton="uyari" ikon="kilit">
@@ -538,7 +549,7 @@ export default function JokerDukkani() {
                                   : tt("Kilitli — bir kez açılır")}
                               </QtRozet>
                             )}
-                            {yetmez && <QtRozet boyut="k" ton="yanlis">{tt("Yetersiz coin")}</QtRozet>}
+                            {yetmez && <QtRozet boyut="k" ton="uyari">{tt("Yetersiz coin")}</QtRozet>}
                           </div>
                         </div>
                         <div className="qt-dk-skill-al">
@@ -552,9 +563,9 @@ export default function JokerDukkani() {
                                 ? tt("Level {0} gerekir", { 0: sd.gereken_level })
                                 : tt("{0} kilidini aç — {1} coin", { 0: JOKER_BILGI[tur].ad, 1: kilitFiyat })}
                               onClick={() => (kilitFiyat > 0
-                                ? setOnay({ tur, baslik: tt("{0} kilidini aç", { 0: JOKER_BILGI[tur].ad }), fiyat: kilitFiyat,
+                                ? onayAc({ tur, baslik: tt("{0} kilidini aç", { 0: JOKER_BILGI[tur].ad }), fiyat: kilitFiyat,
                                   onayMetni: tt("Kilidi aç"), calistir: () => skillKilidiAc(tur) })
-                                : skillKilidiAc(tur))}
+                                : (dokunus(), skillKilidiAc(tur)))}
                               ikon="kilit"
                             >
                               {levelYetmez
@@ -569,7 +580,7 @@ export default function JokerDukkani() {
                                   devreDisi={jokerSerbest || yetmez}
                                   yukleniyor={alinan === `tek:${tur}`}
                                   aria-label={tt("{0} — {1} coin", { 0: JOKER_BILGI[tur].ad, 1: tek })}
-                                  onClick={() => setOnay({ tur, fiyat: tek, calistir: () => jokerTekAl(tur) })}
+                                  onClick={() => onayAc({ tur, fiyat: tek, calistir: () => jokerTekAl(tur) })}
                                 >
                                   <FiyatYazisi adet={1} fiyat={tek} />
                                 </QtDugme>
@@ -581,8 +592,8 @@ export default function JokerDukkani() {
                                   devreDisi={jokerSerbest}
                                   yukleniyor={alinan === paket10.urun_id}
                                   aria-label={tt("{0} × {1} — {2} coin", { 0: paket10.adet, 1: JOKER_BILGI[tur].ad, 2: paket10.fiyat })}
-                                  onClick={() => setOnay({ tur, baslik: `${paket10.adet}× ${JOKER_BILGI[tur].ad}`, fiyat: paket10.fiyat,
-                                    calistir: () => jokerCoinIleAl(paket10.urun_id) })}
+                                  onClick={() => onayAc({ tur, baslik: `${paket10.adet}× ${JOKER_BILGI[tur].ad}`, fiyat: paket10.fiyat,
+                                    calistir: () => jokerCoinIleAl(paket10.urun_id, { anahtar: `joker:${tur}`, veri: { adet: paket10.adet } }) })}
                                 >
                                   <FiyatYazisi adet={paket10.adet} fiyat={paket10.fiyat} />
                                 </QtDugme>
@@ -590,7 +601,12 @@ export default function JokerDukkani() {
                             </>
                           )}
                         </div>
-                      </QtKart>
+                        <OdulAni aktif={Boolean(u)}>
+                          {u && (u.kilit
+                            ? <UcanOge><QtIkon ad="onay" boyut={14} />{tt("Açıldı|kilit")}</UcanOge>
+                            : <UcanOge><SkillRozeti tur={tur} boyut={18} />+{u.adet}</UcanOge>)}
+                        </OdulAni>
+                      </div>
                     </li>
                   );
                 })}
@@ -604,7 +620,7 @@ export default function JokerDukkani() {
                 <ul className="qt-dk-paket-izgara">
                   {karisikPaketler.map((p) => (
                     <li key={p.urun_id}>
-                      <QtKart dolgu="k" className="qt-dk-paket">
+                      <div className={sinif("qt-oyk qt-oyk--ton-coin qt-dk-paket", ucan(`paket:${p.urun_id}`) && "qt-oyk--kutla")}>
                         <div className="qt-dk-paket-metin">
                           <h3 className="qt-baslik-3">{paketMetni(p.ad)}</h3>
                           {p.aciklama && <p className="qt-kucuk qt-soluk">{paketMetni(p.aciklama)}</p>}
@@ -625,7 +641,7 @@ export default function JokerDukkani() {
                           devreDisi={jokerSerbest}
                           yukleniyor={alinan === p.urun_id}
                           aria-label={tt("{0} — {1} coin", { 0: paketMetni(p.ad), 1: p.coin_fiyat })}
-                          onClick={() => setOnay({
+                          onClick={() => onayAc({
                             baslik: paketMetni(p.ad),
                             aciklama: p.aciklama ? paketMetni(p.aciklama) : null,
                             gorsel: (
@@ -641,7 +657,13 @@ export default function JokerDukkani() {
                         >
                           <FiyatYazisi fiyat={p.coin_fiyat} />
                         </QtDugme>
-                      </QtKart>
+                        {/* Uçan çip: paketin sunucudan gelen içeriği (yalnız alım onaylanınca) */}
+                        <OdulAni aktif={Boolean(ucan(`paket:${p.urun_id}`))}>
+                          {ucan(`paket:${p.urun_id}`) && Object.entries(p.icerik ?? {}).map(([tur, adet]) => (
+                            <UcanOge key={tur}><SkillRozeti tur={tur} boyut={18} />+{adet}</UcanOge>
+                          ))}
+                        </OdulAni>
+                      </div>
                     </li>
                   ))}
                 </ul>
@@ -650,7 +672,7 @@ export default function JokerDukkani() {
 
             {/* ---------- Seri Koruma (maç jokeri değil) + kurallar ---------- */}
             <section className="qt-dk-bolum" aria-labelledby="qt-dk-kurallar-baslik">
-              <QtKart dolgu="k" className="qt-dk-seri">
+              <div className="qt-oyk qt-oyk--ton-coin qt-oyk--hafif qt-dk-seri">
                 <span className="qt-dk-skill-ikon qt-dk-skill-ikon--coin" aria-hidden="true">
                   <QtIkon ad={JOKER_BILGI.seri_koruma.ikon} boyut={24} />
                 </span>
@@ -661,7 +683,7 @@ export default function JokerDukkani() {
                 <QtRozet ton={(envanter.seri_koruma ?? 0) > 0 ? "coin" : "notr"}>
                   {tt("Sende: {n}", { n: envanter.seri_koruma ?? 0 })}
                 </QtRozet>
-              </QtKart>
+              </div>
               {/* Kural metni TEK KAYNAKTAN: oyun/lib/jokerKurallari.js */}
               {jokerHak != null && (
                 <details className="qt-dk-kurallar">
@@ -795,7 +817,7 @@ export default function JokerDukkani() {
                   : tt("Elmas paketleri yakında satışta. Elmas yalnızca arka plan ve çerçeve gibi görünüm eşyaları alır; oyunda avantaj sağlamaz.")}</span>
               </p>
               {elmasPaketleriListe.length === 0 ? (
-                <QtBosDurum ikon="elmas" ton="vurgu" baslik={tt("Şu an satışta elmas paketi yok")} />
+                <QtBosDurum boyut="k" ikon="elmas" ton="mor" baslik={tt("Şu an satışta elmas paketi yok")} />
               ) : (
                 <ul className="qt-dk-coin-izgara">
                   {elmasPaketleriListe.map((p, i) => {
@@ -806,7 +828,7 @@ export default function JokerDukkani() {
                     const enIyi = elmasPaketleriListe.length > 1 && i === elmasPaketleriListe.length - 1;
                     const alinabilir = p.satista && playVar;
                     return (
-                      <li key={p.urun_id}>
+                      <li key={p.urun_id} className={i < 8 ? sirali : undefined} style={siraStili(i)}>
                         <QtKart dolgu="k" className={"qt-dk-coin qt-dk-coin--elmas" + (enIyi ? " qt-dk-coin--eniyi" : "")}>
                           {enIyi && <span className="qt-dk-coin-eniyi">{tt("En iyi değer")}</span>}
                           {bonusYuzde > 0 && (
@@ -827,7 +849,7 @@ export default function JokerDukkani() {
                             tamGenislik
                             devreDisi={!alinabilir}
                             yukleniyor={alinan === p.urun_id}
-                            onClick={() => paketAl(p.urun_id)}
+                            onClick={() => { dokunus(); paketAl(p.urun_id); }}
                           >
                             {!p.satista ? tt("Yakında") : f?.fiyat ?? (playVar ? tt("Satın al") : tt("Uygulamada"))}
                           </QtDugme>

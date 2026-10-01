@@ -4,6 +4,7 @@
  * Veri: auraKatalogu / auraSatinAl / auraTak (oyun/lib/cerceve.js). Satın alma sunucuda (tek işlem,
  * FOR UPDATE, elmas_harca); coin'le aura alınamaz. Çerçeveler satılmaz — Profil › Koleksiyon'da kazanılır.
  * (Eski DukkanCerceveler.jsx; dükkân çerçeveleri aynı temanın aurasına dönüştü, qt-dc- sınıfları aynı.)
+ * Oyun hissi (1 Eki 2026): satın alma anı (OdulAni) yalnız sunucu alımı onaylayınca; kart seçimi / eylem düğmesi dokunus().
  */
 import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -17,10 +18,11 @@ import { ElmasIkon } from "./ParaIkonlari.jsx";
 // D-302: ham ağ hatası yerine "Bağlantı yok…" — kozmetikHatasi = hataMesaji + "Yetersiz elmas" → "Elmas yetmiyor" (elmasHatasi ile aynı)
 import { kozmetikHatasi } from "../lib/kozmetik.js";
 import JokerSatinAlModal from "./JokerSatinAlModal.jsx";
-import { sesHataUyari, sesSatinAlma } from "../lib/ses.js";
+import { sesHataUyari } from "../lib/ses.js";
 import { tt } from "../lib/dil.js";
 import { y } from "../lib/yol.js";
-import { QtDugme, QtIkon, QtKart, sayiBicim } from "../tasarim/index.js";
+import { QtDugme, QtIkon, QtKart, sayiBicim, dokunus } from "../tasarim/index.js";
+import OdulAni, { UcanOge, useOdulAni } from "./OdulAni.jsx";
 import "../tasarim/ekranlar/dukkan-cerceve.css";
 import NadirlikEtiketi from "./NadirlikEtiketi.jsx";
 
@@ -57,6 +59,7 @@ export default function DukkanAuralar({ elmasYetmedi, onBilgi, onHata, elmasBaki
   const [hata, setHata] = useState(null);
   const [secili, setSecili] = useState(null);
   const [islem, setIslem] = useState(null);   // "al" | "tak" | null
+  const { kutla, ucan } = useOdulAni();       // satın alma anı: yalnız sunucu alımı onaylayınca
 
   const yukle = useCallback(async () => {
     setHata(null);
@@ -87,10 +90,10 @@ export default function DukkanAuralar({ elmasYetmedi, onBilgi, onHata, elmasBaki
     setIslem("al");
     try {
       await auraSatinAl(c.anahtar);
-      sesSatinAlma();
       elmasTazele();
       onBilgi?.(tt("{ad} arka planı senin. Şimdi takabilirsin.", { ad: ad(c) }));
       await yukle();
+      kutla(c.anahtar, {}, { his: "buyuk" });   // sunucu onayladı + katalog tazelendi → an
     } catch (e) {
       const m = kozmetikHatasi(e);
       sesHataUyari();
@@ -116,7 +119,7 @@ export default function DukkanAuralar({ elmasYetmedi, onBilgi, onHata, elmasBaki
 
   const kutu = (x) => (
     <li key={x.anahtar}>
-      <button type="button" className="qt-dc-oge" aria-pressed={x.anahtar === secili} onClick={() => setSecili(x.anahtar)}>
+      <button type="button" className="qt-dc-oge" aria-pressed={x.anahtar === secili} onClick={() => { dokunus(); setSecili(x.anahtar); }}>
         <CerceveliAvatar profile={profile ?? {}} userId={user?.id} aura={x.anahtar} boyut={64} />
         <span className="qt-dc-ad">{ad(x)}</span>
         <NadirlikEtiketi nadirlik={x.nadirlik} />
@@ -143,11 +146,11 @@ export default function DukkanAuralar({ elmasYetmedi, onBilgi, onHata, elmasBaki
           </div>
           <div className="qt-dc-sahne-eylem">
             {c.takili ? (
-              <QtDugme tur="ikincil" tamGenislik yukleniyor={islem === "tak"} onClick={() => tak(null)}>{tt("Çıkar")}</QtDugme>
+              <QtDugme tur="ikincil" tamGenislik yukleniyor={islem === "tak"} onClick={() => { dokunus(); tak(null); }}>{tt("Çıkar")}</QtDugme>
             ) : c.sahip ? (
-              <QtDugme tamGenislik ikon="onay" yukleniyor={islem === "tak"} onClick={() => tak(c.anahtar)}>{tt("Tak")}</QtDugme>
+              <QtDugme tamGenislik ikon="onay" yukleniyor={islem === "tak"} onClick={() => { dokunus(); tak(c.anahtar); }}>{tt("Tak")}</QtDugme>
             ) : c.satilik && c.fiyat != null ? (
-              <QtDugme tamGenislik yukleniyor={islem === "al"} onClick={() => setOnayAcik(true)}
+              <QtDugme tamGenislik yukleniyor={islem === "al"} onClick={() => { dokunus(); setOnayAcik(true); }}
                        aria-haspopup="dialog"
                        aria-label={tt("{ad} arka planını satın al — {n} elmas", { ad: ad(c), n: c.fiyat })}>
                 <span className="qt-dc-fiyat">{tt("Satın al")} <ElmasFiyat fiyat={c.fiyat} boyut={18} /></span>
@@ -156,6 +159,9 @@ export default function DukkanAuralar({ elmasYetmedi, onBilgi, onHata, elmasBaki
               <QtDugme tur="ikincil" tamGenislik devreDisi ikon="kilit">{tt("Satılmaz")}</QtDugme>
             )}
           </div>
+          <OdulAni aktif={Boolean(ucan(c.anahtar))} buyuk konfeti ucanSinif="qt-dc-ucan">
+            {ucan(c.anahtar) && <UcanOge><QtIkon ad="onay" boyut={16} />{tt("Senin!|ürün")}</UcanOge>}
+          </OdulAni>
         </QtKart>
       )}
 

@@ -173,4 +173,7 @@ export default {
   "Coin'in yetmiyor: {0} gerekli, {1} var": "Not enough coins: you need {0}, you have {1}",
   "Nasıl kazanılır?": "How to earn",
   "{0} kilidini aç": "Unlock {0}",
+  // Oyun hissi (1 Eki 2026) — satın alma anının uçan çipi
+  "Açıldı|kilit": "Unlocked",
+  "Senin!|ürün": "Yours!",
 };

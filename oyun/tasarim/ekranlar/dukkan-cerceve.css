@@ -79,3 +79,34 @@
 .qt-dc-not a { font-weight: var(--qt-a-siyah); position: relative; }
 /* D-118/D-320: satır içi bağlantının dokunma alanı 44 px yüksekliğe (yalnız görünmez katman; metin/yerleşim aynı) */
 .qt-dc-not a::after { content: ""; position: absolute; left: -6px; right: -6px; top: calc(50% - 22px); bottom: calc(50% - 22px); }
+
+/* ---------- Oyun hissi (1 Eki 2026, OKU.md §11) ----------
+   Renk ekseni NADİRLİK: kartın konturu + alt dudağı nadirlik renginde ve nadirlik arttıkça ağırlaşır
+   (Sıradan gri 3 px · Nadir yeşil 4 · Epik mor 5 · Efsanevi altın 6) — Görevler'deki zorluk ağırlığının karşılığı.
+   Hareket eklenmez (Arka Plan / Çerçeve kartları zaten oynuyor); yalnız satın alma anı (OdulAni) oynar. */
+.qt-dc-izgara { row-gap: var(--qt-b-3); }
+.qt-dc-oge {
+  --dc-dudak: var(--qt-nadir-siradan-koyu); --dc-kalinlik: 3px; --dc-secili: 0px;
+  border-color: var(--qt-nadir-siradan);
+  box-shadow: 0 var(--dc-kalinlik) 0 var(--dc-dudak), inset 0 0 0 var(--dc-secili) var(--qt-ikinci);
+}
+.qt-dc-oge[aria-pressed="true"] { --dc-secili: 3px; box-shadow: 0 var(--dc-kalinlik) 0 var(--dc-dudak), inset 0 0 0 var(--dc-secili) var(--qt-ikinci); }
+.qt-dc-oge:has(> .qt-dc-nadirlik[data-nadirlik="nadir"]) { --dc-dudak: var(--qt-nadir-nadir-koyu); --dc-kalinlik: 4px; }
+.qt-dc-oge:has(> .qt-dc-nadirlik[data-nadirlik="epik"]) { --dc-dudak: var(--qt-nadir-epik-koyu); --dc-kalinlik: 5px; }
+.qt-dc-oge:has(> .qt-dc-nadirlik[data-nadirlik="efsanevi"]) { --dc-dudak: var(--qt-nadir-efsanevi-koyu); --dc-kalinlik: 6px; }
+/* Fiyat hapı: ızgara kartında elmas fiyatı konturlu çip (ortak çip dili) */
+.qt-dc-oge .qt-dc-durum > .qt-dc-fiyat--elmas {
+  min-height: 22px; padding: 0 7px; border: 2px solid var(--oyk-kontur); border-radius: var(--qt-r-hap); background: var(--qt-yuzey);
+}
+/* Önizleme (sahne) kartı: oyun kartı konturu + kabartma; satın alma anının parıltısı kartın iç köşesine oturur */
+.qt-dc-sahne.qt-dc-sahne { border: 3px solid var(--oyk-kontur); --_d: var(--oyk-kontur); --_dudak: 4px; --isilti-kose: calc(var(--qt-r-l) - 3px); }
+/* Yatay küçük sahne (Avatar sekmesi): solda avatar, sağda ad + açıklama, altta düğme — dar ekranda da yatay kalır */
+.qt-dc-sahne--yatay { gap: var(--qt-b-2) var(--qt-b-3); }
+.qt-dc-sahne--yatay .qt-dc-onizleme { padding: var(--qt-b-6) var(--qt-b-3) var(--qt-b-2); }
+@media (max-width: 420px) {
+  .qt-dc-sahne--yatay { grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "onizleme bilgi" "eylem eylem"; justify-items: stretch; text-align: start; }
+  .qt-dc-sahne--yatay .qt-dc-sahne-bilgi { justify-items: start; }
+}
+/* Uçan çip (satın alma anı) sahne kartının ve önizleme penceresinin içinde kalır (pencere sahnesi taşanı kırpar) */
+.qt-kz-pencere-sahne { position: relative; }
+.qt-kz-pencere-sahne > .qt-dc-ucan { top: var(--qt-b-3); }

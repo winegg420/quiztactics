@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { QtModal, QtDugme, QtIkon, QtListe, QtListeSatiri, QtCoinHapi, sayiBicim } from "../tasarim/index.js";
+import { QtModal, QtDugme, QtIkon, QtListe, QtListeSatiri, QtCoinHapi, sayiBicim, dokunus } from "../tasarim/index.js";
 import "../tasarim/ekranlar/m1-mac.css";
 import "../tasarim/ekranlar/satin-al-onay.css";
 import { JOKER_BILGI } from "../lib/jokerler.js";
@@ -62,6 +62,7 @@ export default function JokerSatinAlModal({
 
   const onayla = async () => {
     if (calisiyor || !yeterli) return;
+    dokunus();   // eylem düğmesi: kısa ses + titreşim (kutlama DEĞİL — o, çağıranda sunucu başarı dönünce oynar)
     setCalisiyor(true);
     setHata(null);
     let zamanlayici;
