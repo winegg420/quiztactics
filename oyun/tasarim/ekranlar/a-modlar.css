@@ -82,3 +82,16 @@
 @media (min-width: 1024px) {
   .a-modlar-izgara { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
+/* ---------- Oyun hissi (1 Eki 2026): afiş, ince anahtar şeridi, ikon zıplaması ---------- */
+.a-modlar-afis { --oyk-serit: var(--qt-ikinci); }
+/* Serbest | Dereceli anahtarı: kutusuz, afişin hemen altında ince şerit (a-ortak.css'teki kutu bu sayfada yok) */
+.a-modlar .a-dereceli--serit { padding: 0; border-radius: 0; background: transparent; box-shadow: none; gap: 2px; }
+.a-modlar .a-dereceli--serit .a-dereceli-aciklama { font-size: var(--qt-y-xs); padding-inline: 0; }
+.a-modlar { gap: var(--qt-b-4); }
+/* Giriş bitince ikon diski tek kez zıplar (sıra gecikmesi + kartın giriş süresi); azaltılmış harekette hiç oynamaz */
+@media (prefers-reduced-motion: no-preference) {
+  .a-modlar .qt-h-sirali .qt-mod-ikon {
+    animation: qt-h-zipla 360ms var(--qt-egri-cikis) calc(min(var(--sira, 0), 7) * 60ms + 320ms) backwards;
+  }
+}

@@ -73,4 +73,7 @@ export default {
   "Türkiye saati": "Türkiye time",
   "Saatler cihazının saat dilimine göre": "Times shown in your device's time zone",
   "Katıl, son kalan kazansın": "Join — last one standing wins",
+  // Arkadaşlar afişi (oyun hissi, 1 Eki 2026)
+  "{n} arkadaş": "{n} friends",
+  "{n} çevrimiçi": "{n} online",
 };

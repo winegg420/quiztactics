@@ -18,7 +18,7 @@ import { KLASIK_JOKERLER, DUELLO_JOKERLER } from "../lib/jokerler.js";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
 import { useDil } from "../lib/dilKanca.js";
-import { QtModKart, QtListe, QtListeSatiri } from "../tasarim/index.js";
+import { QtModKart, QtListe, QtListeSatiri, QtAfis, dokunus, siraStili, useSiraliGiris } from "../tasarim/index.js";
 import "../tasarim/ekranlar/a-modlar.css";
 
 // Gerçek joker sayıları — prototipteki "6 JOKER / 5 JOKER" yazıları uydurmaydı.
@@ -34,6 +34,10 @@ export default function ModlarPage() {
 
   const macAra = (jokersiz) => setArama({ jokersiz });
   const { ceviri } = useDil();
+  // Sıralı giriş yalnız ilk açılışta oynar (arama penceresi/tercih değişince yeniden oynamaz).
+  const sirali = useSiraliGiris(true, 1200);
+  // Mod kartı = seçim eylemi: dokunuş sesi + titreşim (yalnız dokunus()), sonra asıl iş.
+  const sec = (is) => () => { dokunus(); is(); };
 
   return (
     <div className="a-modlar">
@@ -47,44 +51,49 @@ export default function ModlarPage() {
         />
       )}
 
-      <header className="a-modlar-bas">
-        <h1 className="qt-baslik-1">{tt("Tarzını seç, bilgini göster")}</h1>
-        <p className="qt-govde qt-soluk-zemin">{tt("Taktik ya da saf bilgi. Her mücadelede başka bir yol var.")}</p>
-      </header>
+      <QtAfis ikon="oyna" baslik={tt("Tarzını seç, bilgini göster")} className="a-modlar-afis" />
 
       {/* Dereceli/serbest ayrımı tek anahtarla — ana sayfadakiyle AYNI tercih
           (localStorage + profiles.dereceli_tercih). */}
-      <DereceliAnahtari dereceli={dereceliTercih} onDegistir={setDereceliTercih} />
+      <DereceliAnahtari className="a-dereceli--serit" dereceli={dereceliTercih} onDegistir={setDereceliTercih} />
 
       {/* Canlı maç modları: sayılar oyun/lib/jokerler.js'ten hesaplanır */}
       <section className="a-modlar-izgara" aria-label={tt("Oyun modları")}>
         <QtModKart
           mod="klasik"
+          className={sirali}
+          style={siraStili(0)}
           ad={tt("Klasik Maç")}
           alt={tt("Hızlı cevap ver, skillerini kullan ve rakibini geç.")}
           rozet={tt("{n} joker türü", { n: KLASIK_JOKER })}
-          onClick={() => macAra(false)}
+          onClick={sec(() => macAra(false))}
         />
         <QtModKart
           mod="duello"
+          className={sirali}
+          style={siraStili(1)}
           ad={ceviri("Düello")}
           alt={tt("Skillerini doğru anda kullan. Rakibinin planını boz ve taktik üstünlük kur.")}
           rozet={tt("{n} joker türü · {t} tur", { n: DUELLO_JOKER, t: turSayisi })}
-          onClick={() => navigate(y("/duello"))}
+          onClick={sec(() => navigate(y("/duello")))}
         />
         <QtModKart
           mod="saf"
+          className={sirali}
+          style={siraStili(2)}
           ad={ceviri("Saf Bilgi")}
           alt={tt("Yardım yok. Sadece bilgi, dikkat ve hız.")}
           rozet={tt("Skillsiz")}
-          onClick={() => macAra(true)}
+          onClick={sec(() => macAra(true))}
         />
         <QtModKart
           mod="turnuva"
+          className={sirali}
+          style={siraStili(3)}
           ad={tt("Turnuva")}
           alt={tt("Elene elene sona kal ve büyük ödülü kazan.")}
           rozet={tt("Her gün")}
-          onClick={() => navigate(y("/turnuva"))}
+          onClick={sec(() => navigate(y("/turnuva")))}
         />
       </section>
 
@@ -93,10 +102,12 @@ export default function ModlarPage() {
       <QtModKart
         mod="grup"
         genis
+        className={sirali}
+        style={siraStili(4)}
         ad={tt("Grup Maçı")}
         alt={tt("3–5 arkadaş · ödülsüz. Aynı sorularda eğlencesine yarış.")}
         rozet={tt("Kur")}
-        onClick={() => navigate(y("/meydan"))}
+        onClick={sec(() => navigate(y("/meydan")))}
       />
 
       <section className="a-modlar-bolum" aria-labelledby="a-modlar-diger-b">
@@ -116,14 +127,6 @@ export default function ModlarPage() {
             baslik={tt("Hatalarım")}
             alt={tt("Yanlış yaptığın soruları tekrar et, açığını kapat.")}
             onClick={() => navigate(y("/calisma"))}
-            ok
-          />
-          <QtListeSatiri
-            ikon="lig"
-            ikonTon="bilgi"
-            baslik={tt("Lig")}
-            alt={tt("Maç kazan, yüksel ve hafta sonunda sıranı gör.")}
-            onClick={() => navigate(y("/siralama"))}
             ok
           />
         </QtListe>

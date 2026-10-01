@@ -13,7 +13,7 @@ import { davetKodum, davetDurumum, davetKoduBagla, davetBaglantisi } from "../li
 import { hataMesaji } from "../lib/hata.js";
 import { tt } from "../lib/dil.js";
 import { coinTazele } from "../lib/coin.js";
-import { QtDugme, QtIkon, QtIlerleme, QtKart, QtListe, QtListeSatiri, QtRozet, sayiBicim } from "../tasarim/index.js";
+import { QtDugme, QtIkon, QtIlerleme, QtKart, QtListe, QtListeSatiri, QtRozet, dokunus, sayiBicim, sinif } from "../tasarim/index.js";
 import "../tasarim/ekranlar/davet-karti.css";
 import { CoinIkon } from "./ParaIkonlari.jsx";
 
@@ -85,7 +85,8 @@ export function DavetKoduGir({ onBaglandi }) {
   );
 }
 
-export default function DavetKarti({ ekDugmeler, kodGirisiGizle = false }) {
+// vurgulu: ana eylem bu kart olduğunda (arkadaşı yok) hediye ikonu ve paylaş düğmesi ara ara dikkat çeker.
+export default function DavetKarti({ ekDugmeler, kodGirisiGizle = false, vurgulu = false }) {
   const [kodBilgi, setKodBilgi] = useState(null);
   const [durum, setDurum] = useState(null);
   const [hata, setHata] = useState(null);
@@ -120,6 +121,7 @@ export default function DavetKarti({ ekDugmeler, kodGirisiGizle = false }) {
     });
     try {
       if (navigator.share) {
+        dokunus();
         await navigator.share({ title: "Quiz Tactics", text: metin, url: link });
         return;
       }
@@ -129,6 +131,7 @@ export default function DavetKarti({ ekDugmeler, kodGirisiGizle = false }) {
     }
     try {
       await navigator.clipboard.writeText(metin);
+      dokunus();
       setKopyalandi(true);
       setTimeout(() => setKopyalandi(false), 2500);
     } catch (e) {
@@ -140,9 +143,9 @@ export default function DavetKarti({ ekDugmeler, kodGirisiGizle = false }) {
   const liste = durum?.davetlerim ?? [];
   const ozet = durum?.ozet;
   return (
-    <QtKart as="section" className="qt-dv" aria-labelledby="qt-dv-baslik">
+    <QtKart as="section" className="qt-dv qt-dv--odul" aria-labelledby="qt-dv-baslik">
       <div className="qt-dv-ust">
-        <span className="qt-dv-ikon" aria-hidden="true"><QtIkon ad="hediye" boyut={30} /></span>
+        <span className={sinif("qt-dv-ikon", vurgulu && "qt-h-salla-ara")} aria-hidden="true"><QtIkon ad="hediye" boyut={30} /></span>
         <div className="qt-dv-ust-metin">
           <h2 id="qt-dv-baslik" className="qt-baslik-3">{tt("Arkadaşını davet et")}</h2>
           <p className="qt-kucuk qt-soluk">
@@ -158,9 +161,11 @@ export default function DavetKarti({ ekDugmeler, kodGirisiGizle = false }) {
       </div>
       <DavetKodu kod={kodBilgi.kod} />
       <div className="qt-dv-dugmeler">
-        <QtDugme tamGenislik ikon={kopyalandi ? "onay" : "paylas"} onClick={paylas} devreDisi={!link}>
-          {kopyalandi ? tt("Kopyalandı") : tt("Bağlantıyı paylaş")}
-        </QtDugme>
+        <div className={vurgulu ? "qt-h-hop" : undefined}>
+          <QtDugme tamGenislik ikon={kopyalandi ? "onay" : "paylas"} onClick={paylas} devreDisi={!link}>
+            {kopyalandi ? tt("Kopyalandı") : tt("Bağlantıyı paylaş")}
+          </QtDugme>
+        </div>
         {ekDugmeler}
       </div>
       <p className="qt-kucuk qt-soluk">

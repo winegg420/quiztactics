@@ -28,3 +28,13 @@
 .qt-dv-gir-alan:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 1px; }
 .qt-dv-sonuc { font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); color: var(--qt-dogru-koyu); }
 .qt-dv-sonuc--hata { color: var(--qt-yanlis-koyu); }
+
+/* Oyun hissi (1 Eki 2026): davet kartı ödül kartı — altın zemin + 3 px kontur + kabartma (Görevler sandık kalıbı).
+   Arkadaşlar ve Profil › Davet aynı kartı kullanır. İçteki beyaz parçalar (kod, çipler) okunur kalır. */
+.qt-kart.qt-dv--odul {
+  border: 3px solid var(--oyk-kontur);
+  background: var(--oyk-altin-acik);
+  box-shadow: 0 5px 0 var(--oyk-kontur);
+}
+.qt-dv-liste { border-top-color: var(--oyk-kontur); }
+.qt-dv--odul .qt-dv-odul { background: var(--oyk-altin); }

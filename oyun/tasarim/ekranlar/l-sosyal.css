@@ -537,3 +537,39 @@
   .ms-yeni, .ms-gonder { transition: none; }
   .ms-yeni:active, .ms-gonder:active:not(:disabled) { transform: none; }
 }
+
+/* ---------- Oyun hissi (1 Eki 2026): Arkadaşlar ---------- */
+/* Gelen istekler: turuncu konturlu "alınabilir" kart; nabız halkası kabın dışında (qt-h-nabiz), liste kendi köşesini kırpar */
+.ar-istek-kart {
+  border: 3px solid var(--qt-vurgu);
+  border-radius: calc(var(--qt-r-l) + 3px);
+  box-shadow: 0 4px 0 var(--qt-vurgu-dudak);
+}
+.ar-istek-kart > .qt-liste { box-shadow: none; }
+
+/* Arkadaş satırı: çevrimiçi yeşil, maçta turuncu sol şerit (renk + durum etiketi birlikte; yalnız renge bağlı değil) */
+.ar-kap { position: relative; }
+.ar-kap--cevrimici::before, .ar-kap--mac::before {
+  content: ""; position: absolute; left: 0; top: 8px; bottom: 8px; width: 4px; border-radius: 0 4px 4px 0; pointer-events: none;
+}
+.ar-kap--cevrimici::before { background: var(--ar-cevrimici); }
+.ar-kap--mac::before { background: var(--ar-mac); }
+/* Satır basışı: yalnız renk değil, hafif çökme (alt menü/başlık değil, satırın kendisi) */
+.ar-ac { transition: background-color var(--qt-s-kisa) var(--qt-egri-cikis), transform var(--qt-s-kisa) var(--qt-egri-cikis); }
+.ar-ac:active { transform: scale(0.985); }
+/* "Oyna" kabı: ara ara zıplama kabın kendisinde (düğmenin basma hareketi bozulmaz) */
+.ar-oyna-kap { display: inline-flex; flex: none; }
+/* Kabul edilen istek: satır kısa süre yeşil parlar */
+@media (prefers-reduced-motion: no-preference) {
+  .ar-kap--yeni { animation: ar-yeni 1.4s var(--qt-egri-cikis); }
+}
+@keyframes ar-yeni { 0%, 55% { background-color: var(--qt-dogru-acik); } 100% { background-color: transparent; } }
+
+/* "Davet koduyla ekle": katlanır (nadir kullanılır) */
+.ar-katla > summary { list-style: none; cursor: pointer; }
+.ar-katla > summary::-webkit-details-marker { display: none; }
+.ar-katla-ust { display: flex; align-items: center; justify-content: space-between; gap: var(--qt-b-2); min-height: var(--qt-dokunma, 44px); -webkit-tap-highlight-color: transparent; }
+.ar-katla-ust:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 2px; border-radius: var(--qt-r-m); }
+.ar-katla-ust svg { flex: none; color: var(--qt-metin-soluk); transition: transform var(--qt-s-kisa) var(--qt-egri-cikis); }
+.ar-katla[open] .ar-katla-ust svg { transform: rotate(180deg); }
+.ar-katla[open] > summary { margin-bottom: var(--qt-b-3); }

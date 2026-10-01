@@ -18,7 +18,7 @@ import IsimEfekti from "../components/IsimEfekti.jsx";
 import { useDmOkunmamis } from "../lib/mesajlar.js";
 import {
   QtIkon, QtDugme, QtIkonDugme, QtKart, QtListe, QtListeSatiri, QtBosDurum,
-  QtIskelet, QtModal, QtSayiRozeti, sayiBicim,
+  QtIskelet, QtModal, QtSayiRozeti, QtAfis, sayiBicim, sinif, siraStili, useSiraliGiris, dokunus,
 } from "../tasarim/index.js";
 // Tasarım A (Faz 2, şerit L): Arkadaşlar · Davet · Mesajlar ortak stilleri
 import "../tasarim/ekranlar/l-sosyal.css";
@@ -52,6 +52,7 @@ export default function FriendsPage() {
   // D-455: kabul edilip BAŞLAYAN maçlar — rakip id → { tur, id }. Satırda "Maça gir" şeridi (bildirimi kaçıran için).
   const [aktifMaclar, setAktifMaclar] = useState(() => new Map());
   const [geriCekilen, setGeriCekilen] = useState(null);
+  const [yeniArkadas, setYeniArkadas] = useState(null);   // az önce kabul edilen isteğin satırı: kısa vurgu
 
   const bekleyenleriYukle = useCallback(async () => {
     try {
@@ -224,6 +225,10 @@ export default function FriendsPage() {
         p_kabul: kabul,
       });
       if (error) throw error;
+      if (kabul) {
+        setYeniArkadas(fId);
+        setTimeout(() => setYeniArkadas((k) => (k === fId ? null : k)), 1600);
+      }
       yukle();
     } catch (e) {
       setHata(hataMesaji(e, tt("İşlem yapılamadı.")));
@@ -314,6 +319,21 @@ export default function FriendsPage() {
     .map((x) => x.f);
 
 
+  const sirali = useSiraliGiris(listeDurum === "hazir");   // yalnız ilk açılışta; veri yenilenince yeniden oynamaz
+  const cevrimiciSayisi = arkadaslar.filter((f) => cevrimici.get(digerProfil(f)?.id)).length;
+  const bosMu = listeDurum === "hazir" && arkadaslar.length === 0;
+  const ilkCevrimiciId = arkadaslar.find((f) => cevrimici.get(digerProfil(f)?.id) === "cevrimici" && !bekleyenMeydan.has(digerProfil(f)?.id))?.id;
+  const davetBolumu = (
+    <section className="ls-bolum" aria-labelledby="ar-davet">
+      <h2 id="ar-davet" className="qt-baslik-3 ls-bolum-baslik">{tt("Arkadaş davet et")}</h2>
+      <DavetKarti vurgulu={bosMu} kodGirisiGizle ekDugmeler={
+        <QtDugme tur="ikincil" tamGenislik devreDisi={!davetLinki} onClick={() => facebookDavetAc(davetLinki)}>
+          {tt("Facebook'ta paylaş")}
+        </QtDugme>
+      } />
+    </section>
+  );
+
   const silinecek = silOnay ? dostluklar.find((x) => x.id === silOnay) : null;
   const silinecekProfil = silinecek ? digerProfil(silinecek) : null;
 
@@ -322,24 +342,31 @@ export default function FriendsPage() {
       {/* ---------- SAYFA BAŞLIĞI (Tasarım A) ----------
           Sahte sayı yok: çevrimiçi / haftalık maç gibi şeritler gerçek veriden
           gelmediği için çizilmez. Mesajlar alt menüde değil, buradan açılır. */}
-      <header className="ls-baslik">
-        <div className="ls-baslik-metin">
-          <h1 className="qt-baslik-1">{tt("Arkadaşlar")}</h1>
-          <p className="qt-soluk-zemin">{tt("Arkadaşlarını bul, meydan oku ve kimin daha bilgili olduğunu göster.")}</p>
-        </div>
-        {/* Paket 35 E: alt çubuğa yedinci sekme yerine buradan (okunmamış varsa rozet) */}
-        <QtDugme
-          tur="ikincil"
-          boyut="k"
-          ikon="mesaj"
-          className="ls-mesaj-dugme"
-          onClick={() => navigate(y("/mesajlar"))}
-          aria-label={dmOkunmamis > 0 ? tt("Mesajlar, {0} okunmamış", { 0: dmOkunmamis }) : tt("Mesajlar")}
-        >
-          {tt("Mesajlar")}
-          <QtSayiRozeti sayi={dmOkunmamis} />
-        </QtDugme>
-      </header>
+      <QtAfis
+        ikon="kisiler"
+        baslik={tt("Arkadaşlar")}
+        ton="mor"
+        sag={
+          <QtDugme
+            tur="ikincil"
+            boyut="k"
+            ikon="mesaj"
+            className="ls-mesaj-dugme"
+            onClick={() => navigate(y("/mesajlar"))}
+            aria-label={dmOkunmamis > 0 ? tt("Mesajlar, {0} okunmamış", { 0: dmOkunmamis }) : tt("Mesajlar")}
+          >
+            {tt("Mesajlar")}
+            <QtSayiRozeti sayi={dmOkunmamis} />
+          </QtDugme>
+        }
+      >
+        {listeDurum === "hazir" && arkadaslar.length > 0 && (
+          <>
+            <span className="qt-oyk-ozet-metin">{tt("{n} arkadaş", { n: sayiBicim(arkadaslar.length) })}</span>
+            {cevrimiciSayisi > 0 && <span className="qt-oyk-ozet-hazir">{tt("{n} çevrimiçi", { n: sayiBicim(cevrimiciSayisi) })}</span>}
+          </>
+        )}
+      </QtAfis>
 
       {hata && (
         <p className="ls-uyari ls-uyari-hata" role="alert">
@@ -399,6 +426,7 @@ export default function FriendsPage() {
           <h2 id="ar-gelen" className="qt-baslik-3 ls-bolum-baslik">
             {tt("Gelen istekler")} <span className="ls-sayi">{gelenIstekler.length}</span>
           </h2>
+          <div className="ar-istek-kart qt-h-nabiz">
           <QtListe etiket={tt("Gelen istekler")}>
             {gelenIstekler.map((f) => (
               <QtListeSatiri
@@ -408,7 +436,7 @@ export default function FriendsPage() {
                 alt={tt("arkadaşlık isteği gönderdi")}
                 sag={
                   <>
-                    <QtDugme tur="mor" boyut="k" ikon="onay" onClick={() => cevapla(f.id, true)}>
+                    <QtDugme tur="mor" boyut="k" ikon="onay" onClick={() => { dokunus(); cevapla(f.id, true); }}>
                       {tt("Kabul")}
                     </QtDugme>
                     {/* Paket 42 A: arkadaşlık isteği/davet reddi her yerde "Reddet" (kayıt silme "Sil") */}
@@ -424,8 +452,11 @@ export default function FriendsPage() {
               />
             ))}
           </QtListe>
+          </div>
         </section>
       )}
+
+      {bosMu && davetBolumu}
 
       <section className="ls-bolum" aria-labelledby="ar-arkadaslar">
         <h2 id="ar-arkadaslar" className="qt-baslik-3 ls-bolum-baslik">
@@ -457,26 +488,21 @@ export default function FriendsPage() {
           </QtKart>
         )}
         {listeDurum === "hazir" && arkadaslar.length === 0 && (
-          <QtKart>
-            {/* Paket 42 I: paylaş düğmesi alttaki davet kartında; burada yönlendirme var */}
-            <QtBosDurum
-              ikon="kisiler"
-              baslik={tt("Henüz arkadaşın yok")}
-              metin={tt("Aşağıdaki davet linkini paylaş, birlikte yarışın.")}
-            />
-          </QtKart>
+          <QtBosDurum boyut="k" ikon="kisiler" baslik={tt("Henüz arkadaşın yok")} />
         )}
 
         {listeDurum === "hazir" && arkadaslar.length > 0 && (
           <QtListe etiket={tt("Arkadaşların")}>
-            {arkadaslar.map((f) => {
+            {arkadaslar.map((f, i) => {
               const p = digerProfil(f);
               const bekleyen = bekleyenMeydan.get(p?.id);
               const aktifMac = !bekleyen ? aktifMaclar.get(p?.id) : null;
               const durum = cevrimici.get(p?.id) ?? null;   // "cevrimici" | "mac" | null
               const durumEtiket = durum === "mac" ? tt("Maçta") : durum === "cevrimici" ? tt("Çevrimiçi") : null;
               return (
-                <div key={f.id} role="listitem" className="qt-satir-kap ar-kap">
+                <div key={f.id} role="listitem"
+                     className={sinif("qt-satir-kap ar-kap", durum && `ar-kap--${durum}`, yeniArkadas === f.id && "ar-kap--yeni", sirali)}
+                     style={siraStili(i)}>
                   <div className="ar-satir">
                     {/* Paket 35 C: satıra (avatar + ad) dokunmak profil kartını açar; "Oyna" kısayol olarak kalır */}
                     <button
@@ -507,12 +533,13 @@ export default function FriendsPage() {
                     </button>
                     {/* Paket 30 B: tek "Oyna" düğmesi → mod seçim penceresi.
                         Paket 35 D: bekleyen meydan okuma varken ikinci kez meydan okunamaz. */}
+                    <span className={sinif("ar-oyna-kap", f.id === ilkCevrimiciId && "qt-h-hop")}>
                     <QtDugme
                       tur="mor"
                       boyut="k"
                       ikon="oyna"
                       className={durum === "cevrimici" && !bekleyen ? "ar-oyna ar-oyna--cevrimici" : "ar-oyna"}
-                      onClick={() => setModHedef(p)}
+                      onClick={() => { dokunus(); setModHedef(p); }}
                       devreDisi={Boolean(bekleyen)}
                       title={bekleyen ? BEKLEYEN_NEDEN : undefined}
                       aria-label={tt("{ad} ile oyna", { ad: p?.gorunen_ad ?? tt("Arkadaşın") })}
@@ -520,6 +547,7 @@ export default function FriendsPage() {
                     >
                       {tt("Oyna")}
                     </QtDugme>
+                    </span>
                     <QtIkonDugme
                       ikon="carpi"
                       tur="saydam"
@@ -596,18 +624,8 @@ export default function FriendsPage() {
         </section>
       )}
 
-      {/* ---------- Davet (listenin altında) ---------- */}
-      <section className="ls-bolum" aria-labelledby="ar-davet">
-        <h2 id="ar-davet" className="qt-baslik-3 ls-bolum-baslik">{tt("Arkadaş davet et")}</h2>
-        {/* Rozet + çerçeve paketi: kod, bağlantı paylaşımı, ödül (300 / +100) ve davet durumu tek kartta */}
-        <DavetKarti kodGirisiGizle ekDugmeler={
-          /* Facebook'ta "tüm arkadaşlarını davet et" MÜMKÜN DEĞİL (2014'ten
-             beri kapalı); onun yerine paylaşım diyaloğu açılır. */
-          <QtDugme tur="ikincil" tamGenislik devreDisi={!davetLinki} onClick={() => facebookDavetAc(davetLinki)}>
-            {tt("Facebook'ta paylaş")}
-          </QtDugme>
-        } />
-      </section>
+      {/* ---------- Davet (listenin altında; arkadaşı yoksa listenin üstünde) ---------- */}
+      {!bosMu && davetBolumu}
 
       {/* ---------- Facebook arkadaşların ----------
           `user_friends` izni App Review ister; onay yoksa liste boş döner
@@ -633,8 +651,11 @@ export default function FriendsPage() {
         </section>
       )}
 
-      <section className="ls-bolum" aria-labelledby="ar-kodla">
-        <h2 id="ar-kodla" className="qt-baslik-3 ls-bolum-baslik">{tt("Davet koduyla ekle")}</h2>
+      <details className="ls-bolum ar-katla">
+        <summary className="ar-katla-ust">
+          <h2 id="ar-kodla" className="qt-baslik-3 ls-bolum-baslik">{tt("Davet koduyla ekle")}</h2>
+          <QtIkon ad="asagi" boyut={18} />
+        </summary>
         <p className="qt-kucuk qt-soluk ar-kod-not">{tt("Arkadaşının davet kodunu gir: arkadaş olursunuz; yeni hesapsan davet ödülünü de alırsın.")}</p>
         <QtKart>
           <form
@@ -665,7 +686,7 @@ export default function FriendsPage() {
             </QtDugme>
           </form>
         </QtKart>
-      </section>
+      </details>
     </div>
   );
 }
