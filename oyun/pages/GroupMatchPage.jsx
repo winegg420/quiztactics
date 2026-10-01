@@ -27,7 +27,7 @@ import { adKisalt } from "../lib/adKisalt.js";
 import { kaydirIpucuBagla } from "../lib/kaydirIpucu.js";
 import QuestionCard from "../components/QuestionCard.jsx";
 import { y } from "../lib/yol.js";
-import { useGorunurlukTazele, zamanAsimiyla } from "../lib/gorunurluk.js";
+import { kanalBekleme, useGorunurlukTazele, zamanAsimiyla } from "../lib/gorunurluk.js";
 import { useMacNabiz } from "../lib/nabiz.js";
 import { HazirKapisi, KopukPerde } from "../components/MacHazirlik.jsx";
 import { useDil } from "../lib/dilKanca.js";
@@ -83,6 +83,7 @@ export default function GroupMatchPage() {
   const kanalRef = useRef(null);
   // Kanal düştüğünde yeniden kurma zamanlayıcısı ve güncel kanalKur referansı
   const yenidenBaglaRef = useRef(null);
+  const kanalDenemeRef = useRef(0);   // art arda kaç kez düştü (yeniden kurma aralığı buna göre büyür)
   const kanalKurRef = useRef(null);
   // Maç bitişinde sonuç ekranından önce 0.8 sn'lik "Maç bitti!" perdesi
   const [gecisBitti, setGecisBitti] = useState(false);
@@ -197,6 +198,7 @@ export default function GroupMatchPage() {
         // Paket 20 VI: sayfadan çıkışta / sekme dönüşünde kanal BİLEREK kapatılır (kanalRef artık başka kanalı
         // ya da null'u gösterir); Supabase bunu da CLOSED diye bildiriyordu → yanlış "kanal düştü" uyarısı.
         if (kanalRef.current !== kanal) return;
+        if (durum === "SUBSCRIBED") kanalDenemeRef.current = 0;
         if (durum === "CHANNEL_ERROR" || durum === "TIMED_OUT" || durum === "CLOSED") {
           console.warn("[Bildim] grup mac kanali dustu:", durum);
           if (yenidenBaglaRef.current) clearTimeout(yenidenBaglaRef.current);
@@ -209,7 +211,7 @@ export default function GroupMatchPage() {
             } catch (e) {
               console.error("[Bildim] kanal yeniden kurulamadi:", e);
             }
-          }, 2000);
+          }, kanalBekleme(kanalDenemeRef.current++));
         }
       });
     kanalRef.current = kanal;
@@ -292,7 +294,8 @@ export default function GroupMatchPage() {
   // ayrılınca sunucu maçı duraklatır; 45 sn dönmezse maçtan ayrılmış sayılır
   // ve maç kalanlarla sürer.
   const nabizParam = useMemo(() => ({ p_group_match_id: id }), [id]);
-  const { nabiz, hazirla } = useMacNabiz("grup_mac_nabiz", nabizParam, Boolean(mac));
+  // Maç kapandıktan (bitti / iptal) sonra nabız atılmaz: sonuç ekranı açık kaldıkça 3 sn'de bir satır yazıyordu.
+  const { nabiz, hazirla } = useMacNabiz("grup_mac_nabiz", nabizParam, Boolean(mac) && mac.durum !== "bitti" && mac.durum !== "iptal");
 
   const duraklatildi = Boolean(nabiz?.duraklatildi) && mac?.durum === "aktif";
 

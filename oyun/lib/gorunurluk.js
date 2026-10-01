@@ -52,6 +52,14 @@ export function useGorunurlukTazele(fn, aktif = true) {
  * ekran donuk görünüyordu. Süre dolunca reddedilirse çağıran hata yolunu
  * işletip kilidini açabiliyor ve iş yeniden denenebiliyor.
  */
+/**
+ * Düşen Realtime kanalını yeniden kurmadan önce beklenecek süre (ms): 2, 4, 8, 16, 30 sn.
+ * İlk deneme eskisi gibi 2 sn; Realtime uzun süre yoksa (kota, sunucu takılması) sayfa 2 sn'de bir
+ * kanal kurup yıkmaz. Kanal bağlanınca sayaç çağıran tarafta sıfırlanır. Veri bu sırada yedek
+ * yoklamayla akmaya devam eder.
+ */
+export const kanalBekleme = (deneme) => Math.min(2000 * 2 ** Math.max(0, deneme), 30000);
+
 export function zamanAsimiyla(soz, ms = 10000, etiket = "istek") {
   return Promise.race([
     Promise.resolve(soz),

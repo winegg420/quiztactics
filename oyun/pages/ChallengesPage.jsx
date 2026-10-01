@@ -454,6 +454,8 @@ export default function ChallengesPage() {
   }, [grupYukle, hizliYukle, yukle]);
 
   useEffect(() => {
+    // Dondurulmuş mod: bayrak kapalıyken ne okunur ne kanal açılır (sayfa her açılışta 2 sorgu + 1 kanal harcıyordu).
+    if (!HIZLI_OLAN_KAZANIR_ACIK) return undefined;
     hizliYukle();
     const kanal = supabase
       .channel("hizli_maclar")
@@ -677,8 +679,11 @@ export default function ChallengesPage() {
   // Kuyruktayken saniyede bir yokla; sayfa kapanırsa kuyruktan çık (sonsuza kadar bekleme yok).
   useEffect(() => {
     if (!grupKuyrukAcMi) return;
+    let istekte = false;   // önceki grup_ara bitmeden yenisi atılmaz (yavaş sunucuda üst üste binmesin)
     const tik = setInterval(async () => {
       setGrupKuyrukSn((s) => s + 1);
+      if (istekte) return;
+      istekte = true;
       try {
         const { data, error } = await supabase.rpc("grup_ara", { p_kategori: kategori });
         if (error) throw error;
@@ -689,6 +694,8 @@ export default function ChallengesPage() {
       } catch (e) {
         setGrupKuyrukAcMi(false);
         setGrupHata(hataMesaji(e, tt("Grup maçı araması başlatılamadı.")));
+      } finally {
+        istekte = false;
       }
     }, 1000);
     return () => clearInterval(tik);

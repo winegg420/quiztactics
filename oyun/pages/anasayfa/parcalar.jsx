@@ -244,7 +244,7 @@ export function TurnuvaSeridi({ v, git }) {
   // Canlıyken bitişi yakalamak için seyrek yoklama (turnuva birkaç dakika sürer).
   useEffect(() => {
     if (!t.canli) return undefined;
-    const id = setInterval(() => turnuvaYukle?.(), 30000);
+    const id = setInterval(() => { if (!document.hidden) turnuvaYukle?.(); }, 30000);   // gizli sekmede yoklama yok
     return () => clearInterval(id);
   }, [t.canli, turnuvaYukle]);
 

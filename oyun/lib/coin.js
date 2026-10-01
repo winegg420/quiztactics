@@ -14,6 +14,18 @@ import { hataMesaji } from "./hata.js";
 
 const OLAY = "bildim-coin-degisti";
 
+// Aynı anda (aynı tikte) başlayan okumalar TEK isteği paylaşır: bir ekranda bakiyeyi gösteren birden
+// çok yer var (üst çubuk hapı + ana sayfa / dükkân) ve `coinTazele()` hepsini aynı anda tetikler.
+// Paylaşım yalnız o tik içindir (harcamadan ÖNCE başlamış eski bir okumaya katılınmaz).
+let ortakOkuma = null;
+function bakiyeOku() {
+  if (!ortakOkuma) {
+    ortakOkuma = (async () => supabase.rpc("coin_bakiyem"))();
+    setTimeout(() => { ortakOkuma = null; }, 0);
+  }
+  return ortakOkuma;
+}
+
 /** Bakiyeyi gösteren tüm bileşenlere "yeniden oku" der. */
 export function coinTazele() {
   try {
@@ -34,7 +46,7 @@ export function useCoin() {
 
   const oku = useCallback(async () => {
     try {
-      const { data, error } = await supabase.rpc("coin_bakiyem");
+      const { data, error } = await bakiyeOku();
       if (error) throw error;
       const r = Array.isArray(data) ? data[0] : data;
       setBakiye(Number(r?.bakiye ?? 0));

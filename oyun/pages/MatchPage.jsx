@@ -30,7 +30,7 @@ import MacYukleniyor from "../components/MacYukleniyor.jsx";
 import SesliSohbet from "../components/SesliSohbet.jsx";
 import { useOyunModu } from "../lib/oyunModu.js";
 import { soruCek } from "../lib/soruCek.js";
-import { useGorunurlukTazele, zamanAsimiyla } from "../lib/gorunurluk.js";
+import { kanalBekleme, useGorunurlukTazele, zamanAsimiyla } from "../lib/gorunurluk.js";
 import { useMacNabiz } from "../lib/nabiz.js";
 import { HazirKapisi, KopukPerde, GeriSayim } from "../components/MacHazirlik.jsx";
 import { macBittiReklam } from "../lib/reklam.js";
@@ -49,6 +49,8 @@ import { rpcDene } from "../lib/rpcDene.js";
 const SORU_PUANI = 10;
 // Kanal bağlıyken maç satırı yoklaması (yedek) — bkz. kanalHazirRef.
 const YEDEK_YOKLAMA_MS = 6000;
+// Kapanmış maç durumları: nabız bu durumlarda atılmaz.
+const MAC_KAPALI = ["bitti", "iptal", "reddedildi"];
 
 // acik_bot: maç sonunda hangi rövanş eyleminin gösterileceğini belirler.
 // `is_bot` BİLEREK KULLANILMIYOR (kolon istemciye kapalı, migration 155):
@@ -173,6 +175,7 @@ export default function MatchPage() {
   const sonYoklamaRef = useRef(0);
   // Kanal düştüğünde yeniden kurma zamanlayıcısı ve güncel kanalKur referansı
   const yenidenBaglaRef = useRef(null);
+  const kanalDenemeRef = useRef(0);   // art arda kaç kez düştü (yeniden kurma aralığı buna göre büyür)
   const kanalKurRef = useRef(null);
   // Son yüklenen maç satırının imzası — yoklama aynı veriyi getirdiğinde
   // gereksiz yeniden çizimi engeller (bkz. macYukle).
@@ -309,6 +312,7 @@ export default function MatchPage() {
         // ya da null'u gösterir); Supabase bunu da CLOSED diye bildiriyordu → yanlış "kanal düştü" uyarısı.
         if (kanalRef.current !== kanal) return;
         kanalHazirRef.current = durum === "SUBSCRIBED";
+        if (durum === "SUBSCRIBED") kanalDenemeRef.current = 0;
         if (durum === "CHANNEL_ERROR" || durum === "TIMED_OUT" || durum === "CLOSED") {
           console.warn("[Bildim] mac kanali dustu:", durum);
           if (yenidenBaglaRef.current) clearTimeout(yenidenBaglaRef.current);
@@ -321,7 +325,7 @@ export default function MatchPage() {
             } catch (e) {
               console.error("[Bildim] kanal yeniden kurulamadi:", e);
             }
-          }, 2000);
+          }, kanalBekleme(kanalDenemeRef.current++));
         }
       });
     kanalRef.current = kanal;
@@ -520,7 +524,8 @@ export default function MatchPage() {
   // çizeceğini (kapı / kilit / oyun) sunucudan öğrenir. Sekme arka planda
   // olduğunda BİLEREK atılmaz — rakip o an ekranımızın kilitlenmesini görür.
   const nabizParam = useMemo(() => ({ p_match_id: id }), [id]);
-  const { nabiz, hazirla, nabizAt } = useMacNabiz("mac_nabiz", nabizParam, Boolean(mac));
+  // Maç kapandıktan (bitti / iptal / reddedildi) sonra nabız atılmaz: sonuç ekranı açık kaldıkça 3 sn'de bir boşa gidiyordu.
+  const { nabiz, hazirla, nabizAt } = useMacNabiz("mac_nabiz", nabizParam, Boolean(mac) && !MAC_KAPALI.includes(mac.durum));
 
   // Maç satırı (Realtime / yoklama) "başladı" dediği an nabzı hemen at: geri sayım nabızdan gelir ve 3 sn
   // beklemek, önce "Hazır"a basanın 3-2-1'i hiç görmemesine yol açıyordu (yüksek gecikmede daha da kötü).

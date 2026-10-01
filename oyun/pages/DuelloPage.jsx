@@ -245,8 +245,10 @@ function DuelloArama({ dereceli, onBulundu, onIptal, ipuclari = ARAMA_IPUCLARI, 
 
   useEffect(() => {
     let iptal = false;
+    let istekte = false;   // önceki duello_ara bitmeden yenisi atılmaz (yavaş sunucuda üst üste binmesin)
     const dene = async () => {
-      if (iptal || bittiRef.current) return;
+      if (iptal || bittiRef.current || istekte) return;
+      istekte = true;
       try {
         const { data, error } = await supabase.rpc("duello_ara", { p_dereceli: dereceli });
         if (error) throw error;
@@ -259,6 +261,8 @@ function DuelloArama({ dereceli, onBulundu, onIptal, ipuclari = ARAMA_IPUCLARI, 
         setHata(islemHatasi(e, "Rakip aranamadı."));
         bittiRef.current = true;
         clearInterval(zaman);   // hata: sayaç ve yoklama durur
+      } finally {
+        istekte = false;
       }
     };
     dene();

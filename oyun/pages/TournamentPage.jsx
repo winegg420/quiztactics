@@ -27,7 +27,7 @@ import AvatarDugmesi from "../components/AvatarDugmesi.jsx";
 import OyuncuAdiDugmesi from "../components/OyuncuAdiDugmesi.jsx";
 import { useNavigate } from "react-router-dom";
 import { y } from "../lib/yol.js";
-import { useGorunurlukTazele, zamanAsimiyla } from "../lib/gorunurluk.js";
+import { kanalBekleme, useGorunurlukTazele, zamanAsimiyla } from "../lib/gorunurluk.js";
 import { GB_MS } from "../lib/geriBildirim.js";
 import { tt } from "../lib/dil.js";
 import { sesOnYukle, sesTurnuvaBasladi } from "../lib/ses.js";
@@ -133,6 +133,7 @@ export default function TournamentPage() {
   const kanalRef = useRef(null);
   // Kanal düştüğünde yeniden kurma zamanlayıcısı ve güncel kanalKur referansı
   const yenidenBaglaRef = useRef(null);
+  const kanalDenemeRef = useRef(0);   // art arda kaç kez düştü (yeniden kurma aralığı buna göre büyür)
   const kanalKurRef = useRef(null);
 
   // Paket 41 G: turnuva okunamadıysa "sıradaki turnuva" (turnuva yok) görünümü çizilmez
@@ -252,6 +253,7 @@ export default function TournamentPage() {
         // Paket 20 VI: sayfadan çıkışta / sekme dönüşünde kanal BİLEREK kapatılır (kanalRef artık başka kanalı
         // ya da null'u gösterir); Supabase bunu da CLOSED diye bildiriyordu → yanlış "kanal düştü" uyarısı.
         if (kanalRef.current !== kanal) return;
+        if (durum === "SUBSCRIBED") kanalDenemeRef.current = 0;
         if (durum === "CHANNEL_ERROR" || durum === "TIMED_OUT" || durum === "CLOSED") {
           console.warn("[Bildim] turnuva kanali dustu:", durum);
           if (yenidenBaglaRef.current) clearTimeout(yenidenBaglaRef.current);
@@ -264,7 +266,7 @@ export default function TournamentPage() {
             } catch (e) {
               console.error("[Bildim] kanal yeniden kurulamadi:", e);
             }
-          }, 2000);
+          }, kanalBekleme(kanalDenemeRef.current++));
         }
       });
     kanalRef.current = kanal;

@@ -14,6 +14,17 @@ import { sesSkill } from "../lib/ses.js";
 import { titret } from "../lib/geriBildirim.js";
 import { tt } from "../lib/dil.js";
 
+// Joker fiyat listesi maç içinde her soruda yeniden okunuyordu; fiyatlar oyun_ayarlari'ndan gelir ve
+// maç sırasında değişmez → 10 dk önbellek (satın almada gerçek fiyatı yine sunucu uygular).
+const FIYAT_ONBELLEK_MS = 600000;
+let fiyatOnbellek = null;   // { at, veri }
+async function fiyatlariOku() {
+  if (fiyatOnbellek && Date.now() - fiyatOnbellek.at < FIYAT_ONBELLEK_MS) return { data: fiyatOnbellek.veri, error: null };
+  const r = await supabase.rpc("joker_fiyatlari");
+  if (!r.error && r.data) fiyatOnbellek = { at: Date.now(), veri: r.data };
+  return r;
+}
+
 /**
  * Maç içi joker çubuğu. Tüm kararlar sunucudadır (joker_kullan RPC);
  * burası yalnız adet rozetini, ücretsiz hakkı ve pasiflik nedenini gösterir.
@@ -102,7 +113,7 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
       const [env, mac, fiy, bak] = await Promise.all([
         supabase.rpc("envanterim"),
         supabase.rpc("joker_mac_durumu", { p_mac_tur: macTur, p_mac_id: macId }),
-        supabase.rpc("joker_fiyatlari"),
+        fiyatlariOku(),
         supabase.rpc("coin_bakiyem"),
       ]);
       if (env.error) throw env.error;

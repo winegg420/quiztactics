@@ -72,11 +72,14 @@ export function useGorevler() {
   const istek = useRef(0);
   const canli = useRef(true);
 
+  const sonOkuma = useRef(0);
+
   const yukle = useCallback(async () => {
     const no = ++istek.current;
     try {
       const d = await gorevlerimOku();
       if (no !== istek.current || !canli.current) return;
+      sonOkuma.current = Date.now();
       setVeri({ ...d, okunma: Date.now() });
       setHata(false);
     } catch (e) {
@@ -89,7 +92,9 @@ export function useGorevler() {
     canli.current = true;
     yukle();
     const f = () => { yukle(); };
-    const gorunur = () => { if (document.visibilityState === "visible") yukle(); };
+    // Sekme öne gelince: son başarılı okuma 60 sn'den yeniyse yeniden okunmaz (gorevlerim ağır bir RPC;
+    // ilerleme bu cihazda yalnız maçla değişir, o da gorevTazele() / yeni açılışla okunur).
+    const gorunur = () => { if (document.visibilityState === "visible" && Date.now() - sonOkuma.current > 60000) yukle(); };
     window.addEventListener(OLAY, f);
     window.addEventListener("online", f);
     document.addEventListener("visibilitychange", gorunur);

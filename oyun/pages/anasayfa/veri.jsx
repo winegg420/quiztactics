@@ -399,21 +399,31 @@ export function useDevamEdenMaclar() {
 
   useEffect(() => {
     yukle();
-    const gorunurlukDegisti = () => { if (document.visibilityState === "visible") yukle(); };
-    document.addEventListener("visibilitychange", gorunurlukDegisti);
-    window.addEventListener("focus", yukle);
+    // Yük azaltma (2 Eki 2026): Realtime / odak / görünürlük olayları TEK okumaya toplanır — iki okuma
+    // arası en az 3 sn, sekme gizliyken okuma yok (görünür olunca bir kez okunur). Eskiden canlı
+    // turnuvada HER oyuncunun her cevabı (tournament_players herkese açık) boşta duran bütün ana
+    // sayfaları 4–6 sorguyla yeniden okutuyordu; artık yalnız kendi turnuva satırım dinlenir.
+    let son = Date.now();
+    let zaman = null;
+    const tetikle = () => {
+      if (zaman || document.visibilityState !== "visible") return;
+      zaman = setTimeout(() => { zaman = null; son = Date.now(); yukle(); }, Math.max(250, 3000 - (Date.now() - son)));
+    };
+    document.addEventListener("visibilitychange", tetikle);
+    window.addEventListener("focus", tetikle);
     const kanal = supabase.channel("as-devam-eden")
-      .on("postgres_changes", { event: "*", schema: "public", table: "matches" }, yukle)
-      .on("postgres_changes", { event: "*", schema: "public", table: "duellolar" }, yukle)
-      .on("postgres_changes", { event: "*", schema: "public", table: "group_matches" }, yukle)
-      .on("postgres_changes", { event: "*", schema: "public", table: "tournament_players" }, yukle)
+      .on("postgres_changes", { event: "*", schema: "public", table: "matches" }, tetikle)
+      .on("postgres_changes", { event: "*", schema: "public", table: "duellolar" }, tetikle)
+      .on("postgres_changes", { event: "*", schema: "public", table: "group_matches" }, tetikle)
+      .on("postgres_changes", { event: "*", schema: "public", table: "tournament_players", ...(uid ? { filter: `user_id=eq.${uid}` } : {}) }, tetikle)
       .subscribe();
     return () => {
-      document.removeEventListener("visibilitychange", gorunurlukDegisti);
-      window.removeEventListener("focus", yukle);
+      clearTimeout(zaman);
+      document.removeEventListener("visibilitychange", tetikle);
+      window.removeEventListener("focus", tetikle);
       supabase.removeChannel(kanal);
     };
-  }, [yukle]);
+  }, [yukle, uid]);
 
   return liste;
 }

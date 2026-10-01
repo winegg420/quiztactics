@@ -133,6 +133,7 @@ export default function RakipAra({ kategori, dereceli = true, jokersiz = false, 
 
     if (await dene()) return;
     const baslangic = Date.now();
+    let suruyor = false;
     zamanlayiciRef.current = setInterval(async () => {
       if (Date.now() - baslangic > HAZIRLIK_SINIR_MS) {
         clearInterval(zamanlayiciRef.current);
@@ -142,7 +143,9 @@ export default function RakipAra({ kategori, dereceli = true, jokersiz = false, 
         }
         return;
       }
-      if (await dene()) clearInterval(zamanlayiciRef.current);
+      if (suruyor) return;   // önceki istek bitmeden yenisi atılmaz (yavaş sunucuda üst üste binmesin)
+      suruyor = true;
+      try { if (await dene()) clearInterval(zamanlayiciRef.current); } finally { suruyor = false; }
     }, 1000);
   }, [kategori, dereceli, jokersiz, bitir]);
 
