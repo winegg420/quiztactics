@@ -644,6 +644,11 @@ karakter, Hızlı Mod hariç — dondurulmuş) bu sistemle yeniden yazıldı.
   turnuva maçı, Hatalarım çalışma) · turnuva lobisi. Rota tabanlı, 0,8 sn geçiş, soru ekrandayken
   seviye × `muzik_kisik_oran` (0,3), sekme gizliyken durur, ilk dokunuştan sonra başlar, tembel iner.
   Seviye `oyun_ayarlari.muzik_varsayilan_seviye` (0,35, test değeri). Motor `oyun/lib/sesArkaPlan.js`.
+- **Müzik indirme kuralı (2 Eki 2026, Supabase önbellekli egress kotası):** tam parçalar Supabase Storage `muzik` kovasında KALIR
+  (Ida `/ses-secim`'den dağıtımsız değiştirir); taban adres tek yerde (`muzikParcalari.js › KOVA`). Yalnız çalan parça iner:
+  `preload="none"`, adres çalma anında verilir (gizli sekmede/müzik kapalıyken indirme yok). Parça cihazda kalıcı önbellekte
+  (`public/sw.js › qt-muzik-v1`, anahtar = dosya adı, sınır 14, sürümü kabukla ARTIRILMAZ; Range istekleri önbellekten). Otomasyon
+  tarayıcısında (`navigator.webdriver`) müzik inmez — müzik testi `?tani=1` ile açar. Test: `node oyun/_test/sw-muzik-testi.mjs`. Ayrıntı `docs/YUK_AZALTMA.md`.
 - Ayar iki anahtar: **Müzik** (`bildim_muzik`) ve **Efektler** (`bildim_ses`, eski tercih) — avatar
   menüsü + Profil › Ayarlar; maç şeridindeki hoparlör küçük pencere açar — Müzik ve Efektler ayrı anahtar, aynı kaynak.
 - `oyun/lib/ses.js`: dosyadan çalar, yüklenemezse osilatör yedeği. 30 anın her biri bir fonksiyon
@@ -762,8 +767,12 @@ ayrı test ortamına (yerel `supabase start` — Docker gerekir — ya da ayrı 
 Yerelde de aynı anda tek koşu; oyuncu testini canlıda tekrar tekrar çalıştırma (her maç DB yükü).
 - **Disk IO (23 Eyl 2026):** pg_cron çalışma kayıtları saatlik budanır (`bildim-cron-kayit-budama`,
   6 saat); `duello_kilitle` son görülmeyi 5 sn'de bir yazar; Düello istemcisi Realtime bağlıyken
-  4 sn'de bir yedek yoklar, `duello_baglanti` 5 sn'de bir. Oyun cron'ları (bot_oyna, duello_tik 2 sn)
-  maç akışını belirler — seyreltmek ürün kararıdır.
+  4 sn'de bir yedek yoklar, `duello_baglanti` 5 sn'de bir. Oyun cron'ları (bot_oyna, duello_tik) iş varken 2 sn,
+  boşta 15 sn (830/831 sarmalayıcıları `cron_*`; 850: gizli bot nabzına kapı, bot_oyna kapısı insana giden bekleyen daveti iş saymaz,
+  bot tepki kuyruğunu sayar). Zamanlamayı seyreltmek ürün kararıdır. Yük envanteri ve 12 Eki sonrası ölçüm listesi: `docs/YUK_AZALTMA.md`.
+- **İstemci yük kuralları (2 Eki 2026):** biten/iptal maçta nabız atılmaz; arama yoklamaları önceki istek bitmeden yenisini atmaz;
+  düşen Realtime kanalı 2→30 sn geri çekilmeyle yeniden kurulur (`gorunurluk.js › kanalBekleme`); ana sayfa "devam eden maçlar" olayları
+  3 sn'ye toplar ve gizli sekmede okumaz. Yeni yoklama eklerken: gizli sekmede dur, unmount'ta temizle, üst üste binmeyi engelle.
 
 Her pakette: `node araclar/oyuncu-testi.mjs [--adres=https://quiztactics.vercel.app]`.
 
