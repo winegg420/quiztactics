@@ -9752,3 +9752,12 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 - **Test:** `araclar/duello-yuk-sql-testi.mjs` 32/32 (rollback'li, canlıya yazma yok); `oyun/_test/yenidene-testi.mjs` 7/7; `npm run build` temiz.
 - **Ders (test sırasında):** ilk prova sürümü, DDL kilidi + ikinci oturumun advisory kilit beklemesi yüzünden canlı cron işlerini ~2 dk birbirine bekletti (kalıcı etki yok; oturumlar sonlandırıldı, canlıda sarmalayıcı/tetikleyici 0, zamanlama aynı). Prova üçe bölündü (kilit/DDL ayrı); migration'da `create or replace trigger` + `lock_timeout 10s`.
 - **Uygulama sırası:** 830 (zararsız: fonksiyon+tetikleyici+indeks) → 831 (cron komutları). Geri alma SQL'i 831 başında.
+
+## 2026-10-01 — Birleştirme 1 — AŞAMA 1 tamamlandı (4. dal + Düello doğrulaması)
+**Araç:** Claude Code (Sonnet 5.5). **Migration UYGULANMADI, push YOK.**
+- **4. dal:** duello-yuk-azaltma `--no-ff` birleşti; yalnız PROGRESS.md çakıştı (iki taraf da sona eklenmişti), iki taraf da aynen korundu. Birleşik tepe: 25372654 + bu kayıt.
+- **Migration sırası:** 820, 821, 822, 830, 831; yinelenen numara yok, canlı defter 781'de. **Not:** `lock_timeout = '10s'` yalnız 830'da var; 831'de yok (831 yalnız `cron.alter_job` çağırır, geri alma SQL'i başında yorumda).
+- **Doğrulama:** build TEMİZ · `arayuz-denetim.mjs` TEMİZ (16 sayfa × 4 genişlik; `/duello` dahil: taşma 0, konsol hatası 0) · `kontrast-tarama.mjs` (derlenmiş preview, TR+EN) önceki oturumla aynı: `/sezon-yolu` 10 eşik altı (hero "Sezon 1"/"Sezon Yolu" 1,16 = açılış perdesi animasyonu; "?" 4,18), `/duello` 0. Dev sunucusunda `/sezon-yolu` 128 çıkar (yavaş derleme + perde) — ölçüm preview'da yapılmalı.
+- **Önceki durum (cron):** `duello_tik` ve `bildim-bot-oyna` = `2 seconds`, aktif. Diğerleri: turnuva-zamanlayici/bot-turnuva-tik `* * * * *`, sezon-tik `*/5 * * * *`.
+- **Olay 2:** Oturum dosyasında 5175 kökeni yoktu; `arayuz-denetim.mjs` bir misafir hesabı daha açmaya çalıştı ve kurulumda "Bu avatarı kullan" düğmesi pasif kaldığı için (kilitli avatar mantığı istemcide, 820 henüz uygulanmadı) yarıda kaldı. Hesap açılmış olabilir (canlı DB'de anonim). Sonra 5174 oturumu 5175/4173 kökenlerine kopyalanarak yeniden koşuldu.
+- **Uygulama öncesi uyarı:** İstemci 820'den önce yayınlanırsa yeni misafirlerin kurulumunda ilk (Epik/Efsanevi olabilecek) avatar kilitli görünebilir; Aşama 2'de migration → push sırası (aralarında gecikme olmadan) bu yüzden korunmalı.
