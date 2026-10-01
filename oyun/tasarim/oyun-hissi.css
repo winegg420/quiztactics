@@ -132,8 +132,10 @@
 .qt-oyk-ozet--tamam { position: relative; overflow: hidden; background: var(--qt-dogru); color: var(--qt-dogru-yazi); }
 
 /* Sayfa afişi: [baş yuvası] ikon diski + başlık + sağ yuva; altında özet şerit. QtAfis (temel.jsx) bunu çizer. */
+/* Afişin varsayılan şeridi (mavi) :where ile özgüllüksüz: ton sınıfı (.qt-oyk--ton-*) kazanır, ton verilmeyen afiş mavi kalır. */
+:where(.qt-oyk-afis) { --oyk-serit: var(--qt-bilgi); }
 .qt-oyk-afis {
-  --oyk-serit: var(--qt-bilgi); --oyk-ik-zemin: var(--qt-yuzey); --oyk-ik-yazi: var(--qt-metin);
+  --oyk-ik-zemin: var(--qt-yuzey); --oyk-ik-yazi: var(--qt-metin);
   position: relative; display: grid; gap: 0; min-width: 0; border: 3px solid var(--oyk-kontur); border-radius: 16px; overflow: hidden;
   background: var(--qt-yuzey); background: color-mix(in srgb, var(--oyk-serit) 30%, var(--qt-yuzey)); color: var(--qt-metin);
   box-shadow: 0 4px 0 var(--oyk-kontur);
