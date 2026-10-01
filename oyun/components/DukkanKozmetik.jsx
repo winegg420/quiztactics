@@ -110,10 +110,10 @@ function nadirlikBolumleri(liste) {
  * Kart karşılığı kayıtta yoksa (henüz çizilmedi) düz kart; kalem dükkânda zaten kapalı olur.
  */
 function ArkaPlanOrnegi({ kalem, profile, yukseklik = 100, hareketli = false, kucuk = false }) {
-  const K = ARKA_PLAN_KAYIT[KOZMETIK_TANIMLARI[kalem.anahtar]?.sanat ?? String(kalem.anahtar).slice(3)];
-  const ad = profile?.gorunen_ad || tt("Oyuncu");
   // grup "dukkan": aynı ekranda en çok 2 kart TAM oynar (büyük önizleme önce), kalan görünür kartlar hafif oynar; hareketi azalt açıkken yumuşak oynar
   // (genel 3 kart sınırı burada kartları donduruyordu; bkz. KartArkaPlan › GRUP_TAM)
+  const K = ARKA_PLAN_KAYIT[KOZMETIK_TANIMLARI[kalem.anahtar]?.sanat ?? String(kalem.anahtar).slice(3)];
+  const ad = profile?.gorunen_ad || tt("Oyuncu");
   const icerik = (
     <>
       <CerceveliAvatar profile={profile ?? {}} boyut={kucuk ? 30 : 56} cerceve={null} aura={null} premiumCerceve={null} premiumAura={null} />
