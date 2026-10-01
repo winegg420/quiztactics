@@ -76,6 +76,7 @@
 .a-meydan-kisi--arkadas { justify-content: space-between; }
 .a-meydan-kisi--arkadas .qt-dugme { width: 100%; padding-inline: var(--qt-b-2); }
 .a-meydan-kisi--arkadas .a-meydan-puan { color: var(--qt-metin-soluk); font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); }
+.a-meydan a.a-meydan-kisi--ekle { color: var(--qt-metin); text-decoration: none; }
 .a-meydan-kisi--ekle { -webkit-tap-highlight-color: transparent; touch-action: manipulation; transition: transform var(--qt-s-basma) var(--qt-egri-cikis), box-shadow var(--qt-s-kisa) ease; }
 .a-meydan-kisi--ekle:active { transform: translateY(var(--qt-dudak-s)); box-shadow: 0 0 0 var(--qt-cizgi); }
 .a-meydan-kisi--ekle:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 2px; }
@@ -293,6 +294,54 @@
 .a-meydan-katlanir[open] > summary::after { transform: rotate(-135deg); }
 .a-meydan-katlanir > summary:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 2px; }
 .a-meydan-katlanir[open] > summary { margin-bottom: 0; }
+
+/* =====================================================================
+   OYUN HİSSİ (1 Eki 2026) — kart dili + gelen davet kartı + seçim onayı.
+   Ortak parçalar (qt-oyk-*, qt-h-*) tasarim/oyun-hissi.css ve hareket.css'ten gelir; burada yalnız bu ekranın yerleşimi.
+   Hareket sınıfları (nabız, zıplama, sıralı giriş, canlı çubuk) azaltılmış harekette hareket.css §4'te kapanır.
+   ===================================================================== */
+/* Kart dili: Görevler'in 3 px lacivert konturlu, kabartmalı kartı. Kontur KARTA; listelerde tek konturlu kutu, satırlar içinde.
+   Mod kartları (turuncu / kan kırmızısı / mavi) olduğu gibi. */
+.a-meydan-kat,
+.a-meydan-kisi,
+.a-meydan .qt-liste,
+.a-meydan .a-meydan-panel,
+.a-meydan .a-meydan-kurulum,
+.a-meydan .a-dereceli {
+  border: 3px solid var(--oyk-kontur);
+  border-radius: 16px;
+  box-shadow: 0 4px 0 var(--oyk-kontur);
+}
+.a-meydan-kat:active,
+.a-meydan-antrenman-kart:active,
+.a-meydan-kisi--ekle:active { transform: translateY(4px); box-shadow: 0 0 0 var(--oyk-kontur); }
+/* Seçili kategori: mor zemin + mor dudak + onay işareti (yalnız kontur değil) */
+.a-meydan-kat { position: relative; }
+.a-meydan-kat.a-meydan-kat--secili { background: var(--qt-ikinci-acik); box-shadow: 0 4px 0 var(--qt-ikinci-dudak); }
+.a-meydan .a-meydan-onay-isareti {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--oyk-kontur);
+  border-radius: 50%;
+  background: var(--qt-ikinci);
+  color: var(--qt-ikinci-yazi);
+  line-height: 0;
+}
+.a-meydan .a-meydan-kat-onay { position: absolute; top: 8px; right: 8px; }
+/* Mod kartında onay işareti QtModKart'ın rozet yuvasına oturur: hap zemini kalkar, yalnız yuvarlak işaret kalır */
+/* (bilesenler.css dar ekranda rozeti metnin altına indirip karta üst boşluk ekler; burada işaret hep sağ üstte, kart boyu değişmez) */
+.a-meydan-modlar .qt-mod:not(.qt-mod--genis) .qt-mod-rozet { position: absolute; top: 6px; right: 6px; order: 0; margin: 0; padding: 0; background: transparent; box-shadow: none; }
+.a-meydan-modlar .qt-mod:not(.qt-mod--genis):has(.qt-mod-rozet) { padding-top: var(--qt-b-2); }
+@media (min-width: 560px) { .a-meydan-modlar .qt-mod:not(.qt-mod--genis):has(.qt-mod-rozet) { padding-top: var(--qt-b-3); } }
+.a-meydan-modlar .a-meydan-onay-isareti { background: var(--qt-yuzey); color: var(--qt-metin); }
+
+/* Gelen davet kartı (qt-oyk qt-oyk--alinabilir): büyük avatar | ad + açıklama | Kabul + Reddet */
+.a-meydan-davet { padding-left: 14px; }
+.a-meydan-davet .qt-oyk-ad { font-size: var(--qt-y-m); }
+.a-meydan .a-meydan-davet-sag { display: flex; align-items: center; gap: var(--qt-b-1); }
+.a-meydan-davet-kabul { display: inline-flex; }
 
 @media (prefers-reduced-motion: reduce) {
   .a-meydan-kat, .a-meydan-kisi--ekle, .a-meydan-antrenman-kart, .a-meydan-panel-ok, .a-meydan-katlanir > summary::after { transition: none; }

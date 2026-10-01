@@ -3,8 +3,9 @@ import OyuncuAdiDugmesi from "../components/OyuncuAdiDugmesi.jsx";   // Ajan C: 
 import KategoriIkon from "../components/KategoriIkon.jsx";
 import {
   QtKart, QtDugme, QtIkonDugme, QtIkon, QtModKart, QtListe, QtListeSatiri, QtRozet, QtCip, QtIlerleme,
-  QtModal, QtToast, QtToastYuvasi, QtAfis, QtIskelet, sinif,
+  QtModal, QtToast, QtToastYuvasi, QtAfis, QtIskelet, sinif, dokunus, siraStili, useSiraliGiris,
 } from "../tasarim/index.js";
+import { sesKategoriSecildi, sesRakipBulundu } from "../lib/ses.js";
 import "../tasarim/ekranlar/a-meydan.css";
 import DurumKutusu from "../components/DurumKutusu.jsx";
 import { hataMesaji } from "../lib/hata.js";
@@ -149,6 +150,11 @@ export default function ChallengesPage() {
   const [antrenmanBot, setAntrenmanBot] = useState(null);
   const [antrenmanBasliyor, setAntrenmanBasliyor] = useState(null);   // "klasik" | "duello" | null
   const [antrenmanHata, setAntrenmanHata] = useState(null);
+  // Oyun hissi (1 Eki 2026) — yalnız ses / titreşim / görsel; seçim state'i ve RPC'ler aynı.
+  // secimYapildi: oyuncu bir mod/kategori seçene kadar onay işareti zıplamaz (sayfa açılışındaki varsayılan seçim sessizdir).
+  const [secimYapildi, setSecimYapildi] = useState(false);
+  const secimHissi = () => { sesKategoriSecildi(); dokunus(); setSecimYapildi(true); };
+  const sirali = useSiraliGiris(botlar.length > 0);   // bot kartlarının sıralı girişi: yalnız ilk açılışta
 
   // Bildirim şeridi (QtToast) ~4 sn sonra kendiliğinden kapanır; zamanlama ekranın işi.
   useEffect(() => {
@@ -170,7 +176,13 @@ export default function ChallengesPage() {
     if (!e) return;
     const secili = e.querySelector(".a-meydan-kat--secili");
     try {
-      secili?.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" });
+      // Yalnız ŞERİT yatay kayar. scrollIntoView sayfayı da dikey kaydırıyordu: kategori artık sayfanın altında
+      // olduğundan (1 Eki 2026 sırası) sayfa açılışta gelen davetleri atlayıp aşağı iniyordu.
+      if (secili) {
+        const s = secili.getBoundingClientRect();
+        const k = e.getBoundingClientRect();
+        e.scrollBy({ left: s.left + s.width / 2 - (k.left + k.width / 2), behavior: "smooth" });
+      }
     } catch {
       /* eski tarayıcı — kaydırma olmadan da çalışır */
     }
@@ -775,12 +787,32 @@ export default function ChallengesPage() {
     .map((k) => (skorlu ? `${k.profil?.gorunen_ad} (${k.skor})` : oyuncuAdi(k.profil, k.user_id)))
     .join(", ");
   // Kabul / Reddet çifti (gelen davet satırları)
-  const cevapDugmeleri = (kabul, ret) => (
+  // Kabul: dokunuş + "rakip bulundu" sesi, sonra AYNI kabul çağrısı. Reddet sessizdir. ilk: sayfadaki tek zıplayan düğme.
+  const cevapDugmeleri = (kabul, ret, ilk = false) => (
     <>
-      <QtDugme boyut="k" tur="mor" onClick={kabul}>{tt("Kabul")}</QtDugme>
+      <span className={sinif("a-meydan-davet-kabul", ilk && "qt-h-hop")}>
+        <QtDugme boyut="k" className="qt-oyk-al" onClick={() => { dokunus(); sesRakipBulundu(); kabul(); }}>{tt("Kabul")}</QtDugme>
+      </span>
       <QtIkonDugme ikon="carpi" etiket={tt("Reddet")} onClick={ret} className="a-meydan-ret" />
     </>
   );
+  // Gelen davet = alınabilir oyun kartı (turuncu kontur). Bir ekranda en çok 1 nabız: yalnız İLK davet nabız + zıplama alır.
+  const ilkDavet = duelloGelen[0]?.id ?? gelen[0]?.id ?? hizliGelen[0]?.id ?? grupGelen[0]?.id ?? null;
+  const davetKarti = ({ id, serit, bas, baslik, alt, kabul, ret }) => (
+    <li key={id} className={sinif("qt-oyk qt-oyk--alinabilir a-meydan-davet", id === ilkDavet && "qt-h-nabiz")} style={{ "--oyk-serit": serit }}>
+      {bas}
+      <div className="qt-oyk-govde">
+        <span className="qt-oyk-ad">{baslik}</span>
+        <span className="qt-oyk-alt">{alt}</span>
+      </div>
+      <div className="qt-oyk-sag a-meydan-davet-sag">{cevapDugmeleri(kabul, ret, id === ilkDavet)}</div>
+    </li>
+  );
+  const davetIkonu = (ad) => <span className="qt-oyk-ik qt-oyk-ik--b" aria-hidden="true"><QtIkon ad={ad} boyut={26} /></span>;
+  // Seçili mod / kategori kartındaki onay işareti; oyuncu seçince bir kez zıplar.
+  const secimOnayi = (secili, ek) => (secili
+    ? <span className={sinif("a-meydan-onay-isareti", ek, secimYapildi && "qt-h-zipla")} aria-hidden="true"><QtIkon ad="onay" boyut={14} /></span>
+    : undefined);
 
   return (
     <div className="a-meydan">
@@ -801,52 +833,46 @@ export default function ChallengesPage() {
         <section className="a-meydan-bolum" aria-labelledby="a-meydan-gelen-b">
           <h2 id="a-meydan-gelen-b" className="qt-baslik-2">
             {tt("Sana gelen davetler")}{" "}
-            <QtRozet ton="yanlis" boyut="k">{duelloGelen.length + gelen.length + hizliGelen.length + grupGelen.length}</QtRozet>
+            <QtRozet ton="vurgu" boyut="k">{duelloGelen.length + gelen.length + hizliGelen.length + grupGelen.length}</QtRozet>
           </h2>
-          <QtListe etiket={tt("Sana gelen davetler")}>
-            {duelloGelen.map((d) => (
-              <QtListeSatiri
-                key={d.id}
-                vurgulu
-                bas={<AvatarCerceve profile={kisi(d.kuran)} />}
-                baslik={<OyuncuAdiDugmesi userId={d.kuran} profil={kisi(d.kuran)}>{kisi(d.kuran)?.gorunen_ad ?? tt("Rakip")}</OyuncuAdiDugmesi>}
-                alt={`${tt("seni düelloya çağırdı")} · ${d.dereceli ? tt("Dereceli") : tt("Serbest")}`}
-                sag={cevapDugmeleri(() => duelloDavetCevap(d.id, true), () => duelloDavetCevap(d.id, false))}
-              />
-            ))}
-            {gelen.map((m) => (
-              <QtListeSatiri
-                key={m.id}
-                vurgulu
-                bas={<AvatarCerceve profile={m.p1} />}
-                baslik={<OyuncuAdiDugmesi userId={m.p1?.id ?? m.oyuncu1} profil={m.p1}>{m.p1?.gorunen_ad}</OyuncuAdiDugmesi>}
-                alt={tt("sana meydan okudu!")}
-                sag={cevapDugmeleri(() => cevapVer(m.id, true), () => cevapVer(m.id, false))}
-              />
-            ))}
-            {hizliGelen.map((hm) => (
-              <QtListeSatiri
-                key={hm.id}
-                vurgulu
-                ikon="hizli"
-                ikonTon="vurgu"
-                baslik={adlar(hm.katilimcilar)}
-                alt={tt("Hızlı Olan Kazanır — 5 kişilik yarış")}
-                sag={cevapDugmeleri(() => hizliCevapVer(hm.id, true), () => hizliCevapVer(hm.id, false))}
-              />
-            ))}
-            {grupGelen.map((gm) => (
-              <QtListeSatiri
-                key={gm.id}
-                vurgulu
-                ikon="kisiler"
-                ikonTon="dogru"
-                baslik={adlar(gm.katilimcilar)}
-                alt={`${gm.oyuncu_sayisi} ${tt("kişilik gruba davet edildin")}`}
-                sag={cevapDugmeleri(() => grupCevapVer(gm.id, true), () => grupCevapVer(gm.id, false))}
-              />
-            ))}
-          </QtListe>
+          <ul className="qt-oyk-liste" aria-label={tt("Sana gelen davetler")}>
+            {duelloGelen.map((d) => davetKarti({
+              id: d.id,
+              serit: "var(--qt-mod-duello)",   // kırmızı yalnız Düello
+              bas: <AvatarCerceve profile={kisi(d.kuran)} boyut={56} />,
+              baslik: <OyuncuAdiDugmesi userId={d.kuran} profil={kisi(d.kuran)}>{kisi(d.kuran)?.gorunen_ad ?? tt("Rakip")}</OyuncuAdiDugmesi>,
+              alt: `${tt("seni düelloya çağırdı")} · ${d.dereceli ? tt("Dereceli") : tt("Serbest")}`,
+              kabul: () => duelloDavetCevap(d.id, true),
+              ret: () => duelloDavetCevap(d.id, false),
+            }))}
+            {gelen.map((m) => davetKarti({
+              id: m.id,
+              serit: "var(--qt-mod-klasik)",
+              bas: <AvatarCerceve profile={m.p1} boyut={56} />,
+              baslik: <OyuncuAdiDugmesi userId={m.p1?.id ?? m.oyuncu1} profil={m.p1}>{m.p1?.gorunen_ad}</OyuncuAdiDugmesi>,
+              alt: tt("sana meydan okudu!"),
+              kabul: () => cevapVer(m.id, true),
+              ret: () => cevapVer(m.id, false),
+            }))}
+            {hizliGelen.map((hm) => davetKarti({
+              id: hm.id,
+              serit: "var(--qt-vurgu)",
+              bas: davetIkonu("hizli"),
+              baslik: adlar(hm.katilimcilar),
+              alt: tt("Hızlı Olan Kazanır — 5 kişilik yarış"),
+              kabul: () => hizliCevapVer(hm.id, true),
+              ret: () => hizliCevapVer(hm.id, false),
+            }))}
+            {grupGelen.map((gm) => davetKarti({
+              id: gm.id,
+              serit: "var(--qt-mod-grup)",
+              bas: davetIkonu("kisiler"),
+              baslik: adlar(gm.katilimcilar),
+              alt: `${gm.oyuncu_sayisi} ${tt("kişilik gruba davet edildin")}`,
+              kabul: () => grupCevapVer(gm.id, true),
+              ret: () => grupCevapVer(gm.id, false),
+            }))}
+          </ul>
         </section>
       )}
 
@@ -1009,14 +1035,15 @@ export default function ChallengesPage() {
                       ["bekliyor", "aktif"].includes(m.durum)
                   )
               )
-              .map((b) => {
+              .map((b, i) => {
                 const isabet = Number(b.acik_bot_isabet);
                 const z = botZorluk(isabet);
                 return (
                   <div key={b.id} role="listitem">
                     <button
                       type="button"
-                      className="a-meydan-antrenman-kart a-meydan-kisi a-meydan-kisi--bot"
+                      className={sinif("a-meydan-antrenman-kart a-meydan-kisi a-meydan-kisi--bot", sirali)}
+                      style={siraStili(i)}
                       aria-haspopup="dialog"
                       onClick={() => { setAntrenmanHata(null); setAntrenmanBot(b); }}
                     >
@@ -1068,11 +1095,14 @@ export default function ChallengesPage() {
         <h2 id="a-meydan-mod-b" className="qt-baslik-2">{tt("Meydan okuma modu")}</h2>
         <div className="a-meydan-modlar" role="group" aria-labelledby="a-meydan-mod-b">
           <QtModKart mod="klasik" ad={tt("Klasik Mod")} alt={tt("{n} joker türü · aynı anda", { n: KLASIK_JOKERLER.length })}
-                     secili={meydanModu === "normal"} onClick={() => setMeydanModu("normal")} />
+                     secili={meydanModu === "normal"} rozet={secimOnayi(meydanModu === "normal")}
+                     onClick={() => { secimHissi(); setMeydanModu("normal"); }} />
           <QtModKart mod="duello" ad={tt("Düello")} alt={tt("{n} joker türü · sıra sende", { n: DUELLO_JOKERLER.length })}
-                     secili={meydanModu === "duello"} onClick={() => setMeydanModu("duello")} />
+                     secili={meydanModu === "duello"} rozet={secimOnayi(meydanModu === "duello")}
+                     onClick={() => { secimHissi(); setMeydanModu("duello"); }} />
           <QtModKart mod="saf" ad={tt("Saf Bilgi")} alt={tt("skill yok")}
-                     secili={meydanModu === "saf"} onClick={() => setMeydanModu("saf")} />
+                     secili={meydanModu === "saf"} rozet={secimOnayi(meydanModu === "saf")}
+                     onClick={() => { secimHissi(); setMeydanModu("saf"); }} />
         </div>
       </section>
 
@@ -1085,8 +1115,9 @@ export default function ChallengesPage() {
               type="button"
               className={sinif("a-meydan-kat", kategori === null && "a-meydan-kat--secili")}
               aria-pressed={kategori === null}
-              onClick={() => setKategori(null)}
+              onClick={() => { secimHissi(); setKategori(null); }}
             >
+              {secimOnayi(kategori === null, "a-meydan-kat-onay")}
               <KategoriIkon anahtar="karisik" boyut={26} plaka />
               <span className="a-meydan-kat-ad">{tt("Karışık")}</span>
               <span className="a-meydan-kat-alt">{tt("Tüm kategoriler")}</span>
@@ -1101,15 +1132,16 @@ export default function ChallengesPage() {
                   type="button"
                   className={sinif("a-meydan-kat", kategori === k.kategori && "a-meydan-kat--secili")}
                   aria-pressed={kategori === k.kategori}
-                  onClick={() => setKategori(k.kategori)}
+                  onClick={() => { secimHissi(); setKategori(k.kategori); }}
                 >
+                  {secimOnayi(kategori === k.kategori, "a-meydan-kat-onay")}
                   <KategoriIkon anahtar={k.kategori} boyut={26} plaka />
                   <span className="a-meydan-kat-ad">{kategoriAdi(k.kategori)}</span>
                   {/* %0 iken yüzde yazısı ve boş çubuk çizilmez (boş çubuk = gürültü) */}
                   <span className="a-meydan-kat-alt">
                     {toplam} {tt("soru")}{yuzde > 0 && <> · {tt("%{0}", { 0: yuzde })} {tt("çözüldü")}</>}
                   </span>
-                  {yuzde > 0 && <QtIlerleme deger={yuzde} en={100} ton="dogru" etiket={tt("Çözülen sorular")} className="a-meydan-kat-bar" />}
+                  {yuzde > 0 && <QtIlerleme canli deger={yuzde} en={100} ton="dogru" etiket={tt("Çözülen sorular")} className="a-meydan-kat-bar" />}
                 </button>
               );
             })}
