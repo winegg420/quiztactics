@@ -46,6 +46,11 @@ const ONIZLEME = {
   "muzik_mac-9": "onizleme/muzik_mac-9-a4da8d974e.aac",
 };
 
+// MÜZİK TABAN ADRESİ — TEK YER. Bütün tam parça ve önizleme adresleri bu sabitten üretilir;
+// ileride Vercel/CDN'e taşınabilir tek satır (ör. "/muzik/"). Dosyalar bugün Supabase Storage'da
+// KALIR: Ida parçaları /ses-secim üzerinden dağıtımsız değiştirir (2 Eki 2026 kararı).
+// Kota notu: bu adresten inen her bayt Supabase "önbellekli egress" kotasından yer; cihazda kalıcı
+// önbellek public/sw.js › qt-muzik-v1 (yol deseni orada: …/muzik/<ad>-<10 hane sha>.aac).
 const KOVA = `${String(import.meta.env?.VITE_SUPABASE_URL ?? "").replace(/\/$/, "")}/storage/v1/object/public/muzik/`;
 
 /** Tam parçanın herkese açık adresi; yoksa null (çağıran 30 sn önizlemeye düşer). */

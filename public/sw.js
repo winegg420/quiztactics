@@ -8,9 +8,22 @@
 //   · /assets/* (içeriğe göre adlandırılmış, değişmez JS/CSS/görsel): önbellek öncelikli.
 //   · diğer aynı kökenli statik dosyalar (avatar svg, ikon, font): ağ öncelikli, çevrimdışıysa önbellek.
 //   · Supabase / başka köken, POST ve Range istekleri OLDUĞU GİBİ ağa gider (dokunulmaz).
+//   · TEK İSTİSNA — müzik parçaları (2 Eki 2026, Supabase önbellekli egress kotası): …/muzik/<ad>-<sha>.aac
+//     cihazda KALICI önbelleğe alınır. Ad içerik sürümlü olduğundan dosya adı değişmedikçe bir daha
+//     inmez. <audio> Range ister; tam dosya BİR kez (Range'siz) indirilir, sonraki her istek
+//     (Range dahil) önbellekten 206 dilimiyle cevaplanır. Yarıda bırakılan parça da önbelleğe girer.
+//     Herhangi bir hata → istek olduğu gibi ağa gider (eski davranış).
 const KABUK = "qt-kabuk-v18";
 const VARLIK = "qt-varlik-v18";
 const VARLIK_SINIR = 400;
+// Müzik önbelleğinin sürümü kabukla birlikte ARTIRILMAZ (artarsa bütün parçalar yeniden iner).
+const MUZIK = "qt-muzik-v1";
+// Anahtar = parçanın TAM ADRESİ (dosya adı). /ses-secim'de seçim değişince yeni dosya adı önbellekte
+// yoktur → indirilir; eski parça kendi adıyla kalır ama bir daha istenmez ve sınır aşılınca EN ESKİ
+// silinir. Sınır = en büyük çalma listesi (3 oda × 4 parça) + pay.
+const MUZIK_SINIR = 14;
+// Supabase Storage `muzik` kovası ya da aynı kökenli /muzik/ (taban adres: oyun/lib/muzikParcalari.js › KOVA).
+const MUZIK_YOL = /(?:^|\/storage\/v1\/object\/public)\/muzik\/(?:[^/]+\/)?[^/]+-[0-9a-f]{10}\.aac$/i;
 const STATIK = /.(?:svg|png|jpe?g|webp|gif|ico|woff2?|css|js|json|glb)$/i;
 
 self.addEventListener("install", (event) => {
@@ -29,7 +42,7 @@ self.addEventListener("activate", (event) => {
   event.waitUntil((async () => {
     try {
       const adlar = await caches.keys();
-      await Promise.all(adlar.filter((a) => a !== KABUK && a !== VARLIK).map((a) => caches.delete(a)));
+      await Promise.all(adlar.filter((a) => a !== KABUK && a !== VARLIK && a !== MUZIK).map((a) => caches.delete(a)));
     } catch { /* önemli değil */ }
     await self.clients.claim();
   })());
@@ -93,10 +106,77 @@ async function agOnce(istek) {
   }
 }
 
+// ---------- müzik: kalıcı önbellek + Range ----------
+const muzikInen = new Map();   // adres → süren indirme (aynı parça aynı anda iki kez inmesin)
+
+/** Parçanın tamamı: önbellekte varsa oradan, yoksa ağdan BİR kez (Range'siz) indirip önbelleğe yazar. */
+async function muzikTam(adres) {
+  let cache = null;
+  try {
+    cache = await caches.open(MUZIK);
+    const bulunan = await cache.match(adres);
+    if (bulunan) return { blob: await bulunan.blob(), tur: bulunan.headers.get("content-type") || "audio/aac" };
+  } catch { /* önbellek kullanılamıyor (özel mod, kota) → ağdan */ }
+  let is = muzikInen.get(adres);
+  if (!is) {
+    is = (async () => {
+      const cevap = await fetch(adres, { mode: "cors", credentials: "omit" });
+      if (cevap.status !== 200 || cevap.type === "opaque") return null;
+      const tur = cevap.headers.get("content-type") || "audio/aac";
+      const blob = await cevap.blob();
+      if (!blob.size) return null;
+      try {
+        if (cache) {
+          await cache.put(adres, new Response(blob, { status: 200, headers: { "Content-Type": tur, "Content-Length": String(blob.size) } }));
+          const anahtarlar = await cache.keys();
+          for (let i = 0; i < anahtarlar.length - MUZIK_SINIR; i++) await cache.delete(anahtarlar[i]);
+        }
+      } catch { /* kota doldu → bu seferlik bellekten çalar */ }
+      return { blob, tur };
+    })().finally(() => muzikInen.delete(adres));
+    muzikInen.set(adres, is);
+  }
+  return is;
+}
+
+/** Tam dosyadan cevap: Range yoksa 200, varsa 206 dilimi (geçersiz aralık 416). */
+function muzikCevap(tam, range) {
+  const boy = tam.blob.size;
+  const ortak = { "Content-Type": tam.tur, "Accept-Ranges": "bytes", "Cache-Control": "public, max-age=31536000, immutable" };
+  if (!range) return new Response(tam.blob, { status: 200, headers: { ...ortak, "Content-Length": String(boy) } });
+  const m = /^bytes=(\d*)-(\d*)$/.exec(range.trim());
+  let bas = -1;
+  let son = boy - 1;
+  if (m && m[1] !== "") {
+    bas = Number(m[1]);
+    if (m[2] !== "") son = Math.min(Number(m[2]), boy - 1);
+  } else if (m && m[2] !== "") {
+    bas = Math.max(0, boy - Number(m[2]));   // "bytes=-N": son N bayt
+  }
+  if (bas < 0 || bas >= boy || bas > son) return new Response(null, { status: 416, headers: { "Content-Range": `bytes */${boy}` } });
+  return new Response(tam.blob.slice(bas, son + 1, tam.tur), {
+    status: 206,
+    headers: { ...ortak, "Content-Range": `bytes ${bas}-${son}/${boy}`, "Content-Length": String(son - bas + 1) },
+  });
+}
+
+async function muzik(istek) {
+  try {
+    const tam = await muzikTam(istek.url.split("#")[0]);
+    if (tam) return muzikCevap(tam, istek.headers.get("range"));
+  } catch { /* aşağıda ağa düş */ }
+  return fetch(istek);
+}
+
 self.addEventListener("fetch", (event) => {
   const istek = event.request;
-  if (istek.method !== "GET" || istek.headers.has("range")) return;
+  if (istek.method !== "GET") return;
   const url = new URL(istek.url);
+  if (MUZIK_YOL.test(url.pathname) && (url.origin === self.location.origin || istek.mode === "cors")) {
+    event.respondWith(muzik(istek));
+    return;
+  }
+  if (istek.headers.has("range")) return;
   if (url.origin !== self.location.origin || url.pathname === "/sw.js") return;
   if (istek.mode === "navigate") { event.respondWith(gezinme(istek)); return; }
   if (url.pathname.startsWith("/assets/")) { event.respondWith(onbellekOnce(istek)); return; }

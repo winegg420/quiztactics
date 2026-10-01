@@ -18,6 +18,11 @@
 //    * Soru gelince seviye × muzik_kisik_oran; cevap/sonuçta geri açılır (ses.js kancası).
 //    * Sekme gizlenince parçalar ve AudioContext durur, dönünce kaldığı yerden sürer.
 //    * Tarayıcı kuralı: ilk dokunuştan önce başlamaz. Müzik kapalıyken hiçbir şey indirilmez.
+//    * İNDİRME KURALI (2 Eki 2026, Supabase önbellekli egress kotası): <audio> preload = "none" ve
+//      adres ancak ÇALMA anında verilir → sekme gizliyken başlayan parça görünür olana dek inmez.
+//      Parça cihazda kalıcı önbelleğe alınır (public/sw.js › qt-muzik-v1; ad içerik sürümlü).
+//      Otomasyon tarayıcısında (navigator.webdriver; test/ölçüm araçları) müzik HİÇ inmez —
+//      müziği ölçen test tanı bayrağıyla açar (?tani=1 / bd_ses_tani).
 //    * Çalma: <audio> → MediaElementSource → gain (akış; 3 dk'lık parçayı belleğe çözmez).
 //      iOS: oynatıcı havuzu ilk dokunuşta kilitten çıkarılır (sessiz kısa çalış).
 
@@ -78,9 +83,11 @@ let kisik = false;
 let sahneKisik = false;   // maç sonu sahnesi açık (ses.js › sesMuzikSahne)
 let gizli = typeof document !== "undefined" && document.hidden;
 let dokunuldu = typeof navigator !== "undefined" && Boolean(navigator.userActivation?.hasBeenActive);
+// Otomasyon tarayıcısı (Playwright vb.): her koşu boş önbellekle açılır ve her seferinde parça indirir.
+const otomasyon = typeof navigator !== "undefined" && navigator.webdriver === true;
 let ana = null;        // müzik ana kazancı (seviye · kısma · aç/kapa)
 let iz = null;         // çalan oda {an, liste, anahtar, sira, calan, bitti, zaman}
-const havuz = [];      // oynatıcılar {el, kazanc, bosta, id, gecti, bekleyen}
+const havuz = [];      // oynatıcılar {el, kazanc, bosta, id, gecti, bekleyen, kaynak}
 const sonBaslangic = {};   // an → son başlangıç sırası (aynı parçadan iki kez üst üste başlamasın)
 
 /** Tanı (test bayrağı açıkken): window.__muzik = son durum, __muzikGecmis = hepsi, __muzikHavuz = oynatıcılar. */
@@ -131,12 +138,12 @@ const SESSIZ = `data:audio/wav;base64,UklGRsQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AA
 function oynaticiEkle(c) {
   const el = new Audio();
   el.crossOrigin = "anonymous";   // Storage CORS "*" — Web Audio'ya bağlanabilsin
-  el.preload = "auto";
+  el.preload = "none";   // çalma anına dek hiçbir bayt inmez (ön yükleme yok)
   el.setAttribute("playsinline", "");
   const kazanc = c.createGain();
   kazanc.gain.value = 0;
   c.createMediaElementSource(el).connect(kazanc).connect(ana);
-  const o = { el, kazanc, bosta: true, id: null, gecti: false, bekleyen: false };
+  const o = { el, kazanc, bosta: true, id: null, gecti: false, bekleyen: false, kaynak: null };
   havuz.push(o);
   return o;
 }
@@ -177,6 +184,7 @@ function parcaBirak(o) {
   o.el.onended = null;
   o.bosta = true;
   o.id = null;
+  o.kaynak = null;
 }
 
 /** Oynatıcıyı `sn` saniyede söndürüp bırakır. */
@@ -193,11 +201,13 @@ function parcaSondur(o, sn) {
   o.zaman = setTimeout(() => parcaBirak(o), sn * 1000 + 120);
 }
 
-/** Oynatıcıyı çal (sekme gizliyse bekler; görünür olunca sürer). */
+/** Oynatıcıyı çal (sekme gizliyse bekler; görünür olunca sürer). Adres ancak burada verilir:
+ *  gizli sekmede başlayan parça indirilmez. */
 function oynat(o) {
   if (gizli) { o.bekleyen = true; return; }
   o.bekleyen = false;
   try {
+    if (o.kaynak) { o.el.src = o.kaynak; o.kaynak = null; }
     const p = o.el.play();
     if (p && typeof p.catch === "function") p.catch((e) => { if (e?.name !== "AbortError") console.warn("müzik çalınamadı:", e?.message ?? e); });
   } catch (e) { console.warn("müzik çalınamadı:", e?.message ?? e); }
@@ -217,7 +227,7 @@ function parcaBaslat(c, oda, i, girisSn) {
     if (o.el.src && !o.el.src.endsWith(yedek)) { o.sure = null; console.warn("müzik tam parça inemedi, önizleme çalıyor:", id); o.el.src = yedek; oynat(o); }
   };
   o.el.onended = () => { if (!oda.bitti && iz === oda && oda.calan === o) sonrakine(c, oda); };
-  o.el.src = tam ?? onizlemeUrl(id);
+  o.kaynak = tam ?? onizlemeUrl(id);   // adres oynat() içinde verilir (gizli sekmede indirme yok)
   o.sure = tam ? muzikTamSure(id) : null;   // gerçek süre (ADTS'de duration tahmin)
   try { o.el.currentTime = 0; } catch { /* meta yok */ }
   try {
@@ -279,7 +289,7 @@ function guncelle() {
 /** Rotanın odasını seçer: aynı listeyse yalnız seviye, farklıysa eskisini söndürüp yenisini başlatır. */
 function izSec() {
   const an = donguSec(rota);
-  const liste = muzikAcikMi() ? odaListesi(an) : [];
+  const liste = muzikAcikMi() && (!otomasyon || sesTaniAcik()) ? odaListesi(an) : [];
   const anahtar = liste.length ? `${an}:${liste.join(",")}` : null;
   const c = baglam();
   if (!c) return;
