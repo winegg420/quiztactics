@@ -40,6 +40,47 @@
 .a-meydan-iptal { color: var(--qt-metin-soluk); }
 .a-meydan-bot-ad { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 6px; }
 .a-meydan-bot-ad .qt-ikon { color: var(--qt-metin-soluk); }
+/* ---------- Kime? — arkadaşlar + antrenman botları tek yatay şerit (1 Eki 2026) ---------- */
+/* Seçim özeti çipi (qt-oyk-cip): uzun kategori adında satıra sığmazsa üç nokta */
+.a-meydan .a-meydan-ozet { display: inline-block; flex: 0 1 auto; min-width: 0; max-width: 100%; overflow: hidden; text-overflow: ellipsis; line-height: 20px; }
+.a-meydan-kime-serit { margin-inline: calc(-1 * var(--qt-kenar)); }
+.a-meydan-kime {
+  display: flex;
+  gap: var(--qt-b-2);
+  padding: 2px var(--qt-kenar) var(--qt-b-3);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;   /* scroll-snap YOK: arkadaşlar sonradan yüklenince tarayıcı eski karta yeniden yapışıp şeridi kaydırıyordu */
+}
+.a-meydan-kime::-webkit-scrollbar { display: none; }
+.a-meydan-kime > [role="listitem"], .a-meydan-kime > .qt-iskelet { flex: none; display: flex; width: 140px; }
+.a-meydan-kime > .qt-iskelet { height: auto; min-height: 148px; }
+.a-meydan-kisi {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--qt-b-2);
+  width: 100%;
+  min-height: 148px;
+  margin: 0;
+  padding: var(--qt-b-3) var(--qt-b-2);
+  border-radius: var(--qt-r-l);
+  background: var(--qt-yuzey);
+  color: var(--qt-metin);
+  box-shadow: 0 var(--qt-dudak-s) 0 var(--qt-cizgi);
+  text-align: center;
+  text-decoration: none;
+}
+.a-meydan-kisi-ad { display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 0; max-width: 100%; font-weight: var(--qt-a-siyah); line-height: 1.2; overflow-wrap: anywhere; }
+.a-meydan-kisi--arkadas { justify-content: space-between; }
+.a-meydan-kisi--arkadas .qt-dugme { width: 100%; padding-inline: var(--qt-b-2); }
+.a-meydan-kisi--arkadas .a-meydan-puan { color: var(--qt-metin-soluk); font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); }
+.a-meydan-kisi--ekle { -webkit-tap-highlight-color: transparent; touch-action: manipulation; transition: transform var(--qt-s-basma) var(--qt-egri-cikis), box-shadow var(--qt-s-kisa) ease; }
+.a-meydan-kisi--ekle:active { transform: translateY(var(--qt-dudak-s)); box-shadow: 0 0 0 var(--qt-cizgi); }
+.a-meydan-kisi--ekle:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 2px; }
+.a-meydan-kisi-ikon { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; background: var(--qt-ikinci-acik); color: var(--qt-ikinci-koyu); }
+
 /* ---------- Antrenman: açık bot kartları (Ajan E, E.2) ---------- */
 .a-meydan-antrenman { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--qt-b-2); }
 @media (min-width: 560px) { .a-meydan-antrenman { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: var(--qt-b-3); } }
@@ -254,6 +295,6 @@
 .a-meydan-katlanir[open] > summary { margin-bottom: 0; }
 
 @media (prefers-reduced-motion: reduce) {
-  .a-meydan-kat, .a-meydan-panel-ok, .a-meydan-katlanir > summary::after { transition: none; }
+  .a-meydan-kat, .a-meydan-kisi--ekle, .a-meydan-antrenman-kart, .a-meydan-panel-ok, .a-meydan-katlanir > summary::after { transition: none; }
   .a-meydan-panel-govde { animation: none; }
 }

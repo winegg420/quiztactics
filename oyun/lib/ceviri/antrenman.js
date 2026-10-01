@@ -8,4 +8,7 @@ export default {
   "Mod seç, maç hemen başlasın. Antrenmanda coin ve XP yarıya iner.": "Pick a mode and the match starts right away. Practice matches give half coins and XP.",
   "Mod seç": "Pick a mode",
   "Antrenman maçı başlatılamadı.": "Couldn't start the practice match.",
+  // Meydan Oku › "Kime?" bölümü (1 Eki 2026): arkadaş + bot tek şerit, yanında seçim özeti çipi
+  "Kime?": "Challenge who?",
+  "Seçimin:": "Your pick:",
 };

@@ -3,7 +3,7 @@ import OyuncuAdiDugmesi from "../components/OyuncuAdiDugmesi.jsx";   // Ajan C: 
 import KategoriIkon from "../components/KategoriIkon.jsx";
 import {
   QtKart, QtDugme, QtIkonDugme, QtIkon, QtModKart, QtListe, QtListeSatiri, QtRozet, QtCip, QtIlerleme,
-  QtBosDurum, QtModal, QtToast, QtToastYuvasi, sinif,
+  QtModal, QtToast, QtToastYuvasi, QtAfis, QtIskelet, sinif,
 } from "../tasarim/index.js";
 import "../tasarim/ekranlar/a-meydan.css";
 import DurumKutusu from "../components/DurumKutusu.jsx";
@@ -784,12 +784,8 @@ export default function ChallengesPage() {
 
   return (
     <div className="a-meydan">
-      {/* Sayfa başlığı */}
-      <header className="a-meydan-bas">
-        <h1 className="qt-baslik-1">{tt("Meydan Oku")}</h1>
-        {/* Paket 42 H.2: tek cümle; artık olmayan "Dereceli Maç" düğmesinden bahsetmiyor */}
-        <p className="qt-govde qt-soluk-zemin">{tt("Bir arkadaşını seç ve bire bir kapış; ya da grup maçı kur.")}</p>
-      </header>
+      {/* Sayfa başlığı: afiş (1 Eki 2026 — açıklama cümlesi kalktı) */}
+      <QtAfis ikon="duello" ton="vurgu" baslik={tt("Meydan Oku")} />
       {hata && <p className="a-meydan-hata" role="alert">{hata}</p>}
       {macHata && (
         <QtKart><DurumKutusu durum="hata" kucuk metin={tt("Maç ve davet listen alınamadı.")} onTekrar={yukle} /></QtKart>
@@ -854,78 +850,156 @@ export default function ChallengesPage() {
         </section>
       )}
 
-      {/* Meydan okuma modu: Klasik Mod, Düello ya da Saf Bilgi. Arkadaşlara geçerli; antrenman kendi modunu sorar. */}
-      <section className="a-meydan-bolum" aria-labelledby="a-meydan-mod-b">
-        <div className="a-meydan-bolum-bas">
-          <h2 id="a-meydan-mod-b" className="qt-baslik-2">{tt("Meydan okuma modu")}</h2>
-          <span className="qt-kucuk qt-soluk-zemin">{tt("arkadaşına")}</span>
-        </div>
-        <div className="a-meydan-modlar" role="group" aria-labelledby="a-meydan-mod-b">
-          <QtModKart mod="klasik" ad={tt("Klasik Mod")} alt={tt("{n} joker türü · aynı anda", { n: KLASIK_JOKERLER.length })}
-                     secili={meydanModu === "normal"} onClick={() => setMeydanModu("normal")} />
-          <QtModKart mod="duello" ad={tt("Düello")} alt={tt("{n} joker türü · sıra sende", { n: DUELLO_JOKERLER.length })}
-                     secili={meydanModu === "duello"} onClick={() => setMeydanModu("duello")} />
-          <QtModKart mod="saf" ad={tt("Saf Bilgi")} alt={tt("skill yok")}
-                     secili={meydanModu === "saf"} onClick={() => setMeydanModu("saf")} />
-        </div>
-      </section>
+      {/* ---------- Devam eden maçlar (1 Eki 2026: gelen davetlerin hemen altına taşındı) ---------- */}
+      <div className="a-meydan-suren">
+        {aktif.length > 0 && (
+          <section className="a-meydan-bolum" aria-labelledby="a-meydan-aktif-b">
+            <h2 id="a-meydan-aktif-b" className="qt-baslik-2">{tt("Devam eden")}</h2>
+            <QtListe etiket={tt("Devam eden")}>
+              {aktif.map((m) => {
+                // Asenkron maç: herkes kendi hızında oynar. Kendi sıramız bitmediyse
+                // "sıra sende" — yarım kalan müsabaka buradan sürdürülür.
+                const benP1 = m.oyuncu1 === user.id;
+                const benimSoru = benP1 ? (m.oyuncu1_soru ?? 0) : (m.oyuncu2_soru ?? 0);
+                const toplam = m.soru_ids?.length ?? 20;
+                const siraSende = benimSoru < toplam;
+                return (
+                  <QtListeSatiri
+                    key={m.id}
+                    vurgulu={siraSende}
+                    bas={<AvatarCerceve profile={rakip(m)} />}
+                    baslik={
+                      <span className="a-meydan-bot-ad">
+                        <OyuncuAdiDugmesi userId={benP1 ? m.oyuncu2 : m.oyuncu1} profil={rakip(m)}>{oyuncuAdi(rakip(m), benP1 ? m.oyuncu2 : m.oyuncu1)}</OyuncuAdiDugmesi>
+                        {siraSende && <QtRozet ton="vurgu" boyut="k">{tt("Sıra sende")}</QtRozet>}
+                      </span>
+                    }
+                    /* Skor DAİMA "senin - rakibin" sırasında. Konumsal yazılırsa
+                       (oyuncu1 - oyuncu2) rakip seni davet ettiğinde sen sağa
+                       geçiyorsun ve satır tersine okunuyor. */
+                    alt={`${benP1 ? m.oyuncu1_skor : m.oyuncu2_skor} - ${benP1 ? m.oyuncu2_skor : m.oyuncu1_skor} · ${benimSoru}/${toplam} ${tt("soru")}${!siraSende ? tt(" · rakip oynuyor") : ""}`}
+                    sag={
+                      <>
+                        <QtDugme boyut="k" tur={siraSende ? "mor" : "ikincil"} onClick={() => navigate(y(`/mac/${m.id}`))}>
+                          {siraSende ? tt("Devam et") : tt("Gör")}
+                        </QtDugme>
+                        {/* İptal: sade ve ayrı; onay penceresi zorunlu */}
+                        <QtIkonDugme
+                          ikon="carpi"
+                          tur="saydam"
+                          etiket={tt("Maçı iptal et")}
+                          disabled={iptalEdilen === m.id}
+                          onClick={() => setIptalSorulan(m)}
+                          className="a-meydan-iptal"
+                        />
+                      </>
+                    }
+                  />
+                );
+              })}
+            </QtListe>
+          </section>
+        )}
 
-      {/* Kategori seçimi 1v1, grup ve hızlı modun HEPSİ için geçerlidir. Düelloda kategoriyi saldıran tur başında seçer. */}
-      <section className="a-meydan-bolum" aria-labelledby="a-meydan-kat-b">
+        {grupAktif.length > 0 && (
+          <section className="a-meydan-bolum" aria-labelledby="a-meydan-grupaktif-b">
+            <h2 id="a-meydan-grupaktif-b" className="qt-baslik-2">{tt("Devam eden grup maçları")}</h2>
+            <QtListe etiket={tt("Devam eden grup maçları")}>
+              {grupAktif.map((gm) => (
+                <QtListeSatiri
+                  key={gm.id}
+                  ikon="kisiler"
+                  ikonTon="dogru"
+                  baslik={adlar(gm.katilimcilar)}
+                  alt={`${gm.oyuncu_sayisi} ${tt("kişilik grup maçı")}`}
+                  sag={
+                    <>
+                      <QtDugme boyut="k" tur="mor" onClick={() => navigate(y(`/grup-mac/${gm.id}`))}>{tt("Oyna")}</QtDugme>
+                      {/* Yarım kalmış maçları temizlemek için */}
+                      <QtIkonDugme ikon="carpi" tur="saydam" etiket={tt("İptal")}
+                                   disabled={iptalEdilen === gm.id} onClick={() => davetIptal("grup", gm.id)}
+                                   className="a-meydan-iptal" />
+                    </>
+                  }
+                />
+              ))}
+            </QtListe>
+          </section>
+        )}
+
+        {hizliAktif.length > 0 && (
+          <section className="a-meydan-bolum" aria-labelledby="a-meydan-hizliaktif-b">
+            <h2 id="a-meydan-hizliaktif-b" className="qt-baslik-2">{tt("Devam eden hızlı yarışlar")}</h2>
+            <QtListe etiket={tt("Devam eden hızlı yarışlar")}>
+              {hizliAktif.map((hm) => (
+                <QtListeSatiri
+                  key={hm.id}
+                  ikon="hizli"
+                  ikonTon="vurgu"
+                  baslik={adlar(hm.katilimcilar)}
+                  alt={tt("Hızlı Olan Kazanır")}
+                  sag={
+                    <>
+                      <QtDugme boyut="k" tur="mor" onClick={() => navigate(y(`/hizli-mac/${hm.id}`))}>{tt("Oyna")}</QtDugme>
+                      <QtIkonDugme ikon="carpi" tur="saydam" etiket={tt("İptal")}
+                                   disabled={iptalEdilen === hm.id} onClick={() => davetIptal("hizli", hm.id)}
+                                   className="a-meydan-iptal" />
+                    </>
+                  }
+                />
+              ))}
+            </QtListe>
+          </section>
+        )}
+      </div>
+
+      {/* KİME? (1 Eki 2026, Ida): arkadaşlar ve antrenman botları TEK yatay şeritte. Seçimler (mod, kategori, dereceli)
+          bu bölümün ALTINDA kaldığı için başlığın yanındaki özet çipi neyin gönderileceğini gösterir (yalnız mevcut state).
+          Arkadaş kartı → meydanOku (mod + kategori + dereceli kullanır). Bot kartı → mod penceresi → antrenmanBaslat
+          (açık botlarla oynamanın TEK yeri; antrenman her zaman serbest, modu pencerede sorar). */}
+      <section className="a-meydan-bolum" aria-labelledby="a-meydan-kime-b">
         <div className="a-meydan-bolum-bas">
-          <h2 id="a-meydan-kat-b" className="qt-baslik-2">{tt("Kategori")}</h2>
-          <span className="qt-kucuk qt-soluk-zemin">{meydanModu === "duello" ? tt("düelloda kullanılmaz") : tt("1v1 · grup · hızlı mod için")}</span>
+          <h2 id="a-meydan-kime-b" className="qt-baslik-2">{tt("Kime?")}</h2>
+          <span className="qt-oyk-cip a-meydan-ozet">
+            <span className="qt-gizli">{tt("Seçimin:")} </span>
+            {[
+              meydanModu === "duello" ? tt("Düello") : meydanModu === "saf" ? tt("Saf Bilgi") : tt("Klasik"),
+              meydanModu === "duello" ? null : kategori ? kategoriAdi(kategori) : tt("Karışık"),
+              dereceli ? tt("Dereceli") : tt("Serbest"),
+            ].filter(Boolean).join(" · ")}
+          </span>
         </div>
-        <div className={sinif("a-meydan-kat-serit", seritSonda && "a-meydan-kat-serit--sonda", meydanModu === "duello" && "a-meydan-kat-serit--sonuk")}>
-          <div className="a-meydan-kat-liste" ref={katSeritRef} onScroll={seritKaydi} role="group" aria-labelledby="a-meydan-kat-b">
-            <button
-              type="button"
-              className={sinif("a-meydan-kat", kategori === null && "a-meydan-kat--secili")}
-              aria-pressed={kategori === null}
-              onClick={() => setKategori(null)}
-            >
-              <KategoriIkon anahtar="karisik" boyut={26} plaka />
-              <span className="a-meydan-kat-ad">{tt("Karışık")}</span>
-              <span className="a-meydan-kat-alt">{tt("Tüm kategoriler")}</span>
-            </button>
-            {kategorileriSirala(kategoriler).map((k) => {
-              const toplam = Number(k.soru_sayisi ?? 0);
-              const gorulen = Number(k.gorulen_sayisi ?? 0);
-              const yuzde = toplam > 0 ? Math.round((gorulen / toplam) * 100) : 0;
+        <div className="a-meydan-kime-serit">
+          <div className="a-meydan-kime" role="list" aria-labelledby="a-meydan-kime-b">
+            {/* Arkadaşlar yüklenirken yer tutucu: botlar sonradan sağa kaymasın */}
+            {oyuncuDurum === "yukleniyor" && <QtIskelet tur="kart" />}
+            {oyuncuDurum === "hazir" && oyuncular.length === 0 && (
+              <div role="listitem">
+                <Link to={y("/arkadaslar")} className="a-meydan-kisi a-meydan-kisi--ekle">
+                  <span className="a-meydan-kisi-ikon" aria-hidden="true"><QtIkon ad="kisiler" boyut={24} /></span>
+                  <span className="a-meydan-kisi-ad">{tt("Arkadaş ekle")}</span>
+                </Link>
+              </div>
+            )}
+            {oyuncuDurum === "hazir" && oyuncular.map((p) => {
+              const mevcutMac = maclar.some(
+                (m) =>
+                  (m.oyuncu1 === p.id || m.oyuncu2 === p.id) &&
+                  ["bekliyor", "aktif"].includes(m.durum)
+              );
               return (
-                <button
-                  key={k.kategori}
-                  type="button"
-                  className={sinif("a-meydan-kat", kategori === k.kategori && "a-meydan-kat--secili")}
-                  aria-pressed={kategori === k.kategori}
-                  onClick={() => setKategori(k.kategori)}
-                >
-                  <KategoriIkon anahtar={k.kategori} boyut={26} plaka />
-                  <span className="a-meydan-kat-ad">{kategoriAdi(k.kategori)}</span>
-                  <span className="a-meydan-kat-alt">
-                    {toplam} {tt("soru")} · {tt("%{0}", { 0: yuzde })} {tt("çözüldü")}
+                <div key={p.id} role="listitem" className="a-meydan-kisi a-meydan-kisi--arkadas">
+                  <AvatarCerceve profile={p} boyut={48} />
+                  <span className="a-meydan-kisi-ad">
+                    <OyuncuAdiDugmesi userId={p.id} profil={p}>{p.gorunen_ad}</OyuncuAdiDugmesi>
+                    {p.puan != null && <span className="a-meydan-puan"><QtIkon ad="yildiz" boyut={14} /> {p.puan}</span>}
                   </span>
-                  <QtIlerleme deger={yuzde} en={100} ton="dogru" etiket={tt("Çözülen sorular")} className="a-meydan-kat-bar" />
-                </button>
+                  {mevcutMac
+                    ? <QtRozet ton="bilgi" boyut="k">{tt("Maçınız var")}</QtRozet>
+                    : <QtDugme boyut="k" tur="ikincil" onClick={() => meydanOku(p.id)}>{tt("Meydan oku")}</QtDugme>}
+                </div>
               );
             })}
-          </div>
-          {/* Kaydırılabilir olduğunu belli eden ipucu; sona gelince kaybolur */}
-          <span className="a-meydan-kat-ipucu" aria-hidden="true"><QtIkon ad="ileri" boyut={20} /></span>
-        </div>
-      </section>
-
-      <DereceliAnahtari dereceli={dereceli} onDegistir={setDereceli} />
-
-      {/* Antrenman (Ajan E, E.2): açık botlarla oynamanın TEK yeri. Rakip arama ekranlarındaki
-          "Beklemeden bot ile oyna" kalktı. Kart → mod seç (Klasik / Düello) → maç hemen başlar. */}
-      {botlar.some((b) => !maclar.some((m) => (m.oyuncu1 === b.id || m.oyuncu2 === b.id) && ["bekliyor", "aktif"].includes(m.durum))) && (
-        <section className="a-meydan-bolum" aria-labelledby="a-meydan-bot-b">
-          <div className="a-meydan-bolum-bas">
-            <h2 id="a-meydan-bot-b" className="qt-baslik-2">{tt("Antrenman — Botlara meydan oku")}</h2>
-            <span className="qt-kucuk qt-soluk-zemin">{tt("her zaman hazır")}</span>
-          </div>
-          <div className="a-meydan-antrenman" role="list">
             {botlar
               .filter(
                 (b) =>
@@ -942,7 +1016,7 @@ export default function ChallengesPage() {
                   <div key={b.id} role="listitem">
                     <button
                       type="button"
-                      className="a-meydan-antrenman-kart"
+                      className="a-meydan-antrenman-kart a-meydan-kisi a-meydan-kisi--bot"
                       aria-haspopup="dialog"
                       onClick={() => { setAntrenmanHata(null); setAntrenmanBot(b); }}
                     >
@@ -951,14 +1025,16 @@ export default function ChallengesPage() {
                         <span className="a-meydan-bot-ad">{botAdi(b.gorunen_ad)} <QtIkon ad="robot" boyut={16} /></span>
                         <QtRozet ton={zorlukTonu(isabet)} boyut="k">{z.etiket}</QtRozet>
                       </span>
-                      <span className="a-meydan-antrenman-not">{tt("Antrenman — yarım ödül")}</span>
                     </button>
                   </div>
                 );
               })}
           </div>
-        </section>
-      )}
+        </div>
+        {oyuncuDurum === "hata" && (
+          <QtKart><DurumKutusu durum={oyuncuDurum} kucuk satir={2} onTekrar={arkadaslariYukle} /></QtKart>
+        )}
+      </section>
 
       {/* Antrenman mod seçimi — seçilen modda maç hemen başlar */}
       {antrenmanBot && (
@@ -987,45 +1063,63 @@ export default function ChallengesPage() {
         </QtModal>
       )}
 
-      <section className="a-meydan-bolum" aria-labelledby="a-meydan-ark-b">
-        <div className="a-meydan-bolum-bas">
-          <h2 id="a-meydan-ark-b" className="qt-baslik-2">{tt("Arkadaşlarına meydan oku")}</h2>
-          {oyuncuDurum === "hazir" && <span className="qt-kucuk qt-soluk-zemin">{oyuncular.length} {tt("arkadaş")}</span>}
+      {/* Meydan okuma modu: Klasik Mod, Düello ya da Saf Bilgi. Arkadaşlara geçerli; antrenman kendi modunu sorar. */}
+      <section className="a-meydan-bolum" aria-labelledby="a-meydan-mod-b">
+        <h2 id="a-meydan-mod-b" className="qt-baslik-2">{tt("Meydan okuma modu")}</h2>
+        <div className="a-meydan-modlar" role="group" aria-labelledby="a-meydan-mod-b">
+          <QtModKart mod="klasik" ad={tt("Klasik Mod")} alt={tt("{n} joker türü · aynı anda", { n: KLASIK_JOKERLER.length })}
+                     secili={meydanModu === "normal"} onClick={() => setMeydanModu("normal")} />
+          <QtModKart mod="duello" ad={tt("Düello")} alt={tt("{n} joker türü · sıra sende", { n: DUELLO_JOKERLER.length })}
+                     secili={meydanModu === "duello"} onClick={() => setMeydanModu("duello")} />
+          <QtModKart mod="saf" ad={tt("Saf Bilgi")} alt={tt("skill yok")}
+                     secili={meydanModu === "saf"} onClick={() => setMeydanModu("saf")} />
         </div>
-        {oyuncuDurum !== "hazir" ? (
-          <QtKart><DurumKutusu durum={oyuncuDurum} kucuk satir={2} onTekrar={arkadaslariYukle} /></QtKart>
-        ) : oyuncular.length === 0 ? (
-          <QtKart dolgu="yok">
-            <QtBosDurum
-              ikon="kisiler"
-              baslik={tt("Henüz arkadaşın yok.")}
-              metin={tt("Arkadaşlar sekmesinden davet linkini paylaş.")}
-              eylem={<QtDugme as={Link} to={y("/arkadaslar")} tur="ikincil" boyut="k">{tt("Arkadaşlar")}</QtDugme>}
-            />
-          </QtKart>
-        ) : (
-          <QtListe etiket={tt("Arkadaşlarına meydan oku")}>
-            {oyuncular.map((p) => {
-              const mevcutMac = maclar.some(
-                (m) =>
-                  (m.oyuncu1 === p.id || m.oyuncu2 === p.id) &&
-                  ["bekliyor", "aktif"].includes(m.durum)
-              );
+      </section>
+
+      {/* Kategori seçimi 1v1, grup ve hızlı modun HEPSİ için geçerlidir. Düelloda kategoriyi saldıran tur başında seçer. */}
+      <section className="a-meydan-bolum" aria-labelledby="a-meydan-kat-b">
+        <h2 id="a-meydan-kat-b" className="qt-baslik-2">{tt("Kategori")}</h2>
+        <div className={sinif("a-meydan-kat-serit", seritSonda && "a-meydan-kat-serit--sonda", meydanModu === "duello" && "a-meydan-kat-serit--sonuk")}>
+          <div className="a-meydan-kat-liste" ref={katSeritRef} onScroll={seritKaydi} role="group" aria-labelledby="a-meydan-kat-b">
+            <button
+              type="button"
+              className={sinif("a-meydan-kat", kategori === null && "a-meydan-kat--secili")}
+              aria-pressed={kategori === null}
+              onClick={() => setKategori(null)}
+            >
+              <KategoriIkon anahtar="karisik" boyut={26} plaka />
+              <span className="a-meydan-kat-ad">{tt("Karışık")}</span>
+              <span className="a-meydan-kat-alt">{tt("Tüm kategoriler")}</span>
+            </button>
+            {kategorileriSirala(kategoriler).map((k) => {
+              const toplam = Number(k.soru_sayisi ?? 0);
+              const gorulen = Number(k.gorulen_sayisi ?? 0);
+              const yuzde = toplam > 0 ? Math.round((gorulen / toplam) * 100) : 0;
               return (
-                <QtListeSatiri
-                  key={p.id}
-                  bas={<AvatarCerceve profile={p} boyut={40} />}
-                  baslik={<OyuncuAdiDugmesi userId={p.id} profil={p}>{p.gorunen_ad}</OyuncuAdiDugmesi>}
-                  alt={p.puan != null ? <span className="a-meydan-puan"><QtIkon ad="yildiz" boyut={14} /> {p.puan}</span> : null}
-                  sag={mevcutMac
-                    ? <QtRozet ton="bilgi" boyut="k">{tt("Maçınız var")}</QtRozet>
-                    : <QtDugme boyut="k" tur="ikincil" onClick={() => meydanOku(p.id)}>{tt("Meydan oku")}</QtDugme>}
-                />
+                <button
+                  key={k.kategori}
+                  type="button"
+                  className={sinif("a-meydan-kat", kategori === k.kategori && "a-meydan-kat--secili")}
+                  aria-pressed={kategori === k.kategori}
+                  onClick={() => setKategori(k.kategori)}
+                >
+                  <KategoriIkon anahtar={k.kategori} boyut={26} plaka />
+                  <span className="a-meydan-kat-ad">{kategoriAdi(k.kategori)}</span>
+                  {/* %0 iken yüzde yazısı ve boş çubuk çizilmez (boş çubuk = gürültü) */}
+                  <span className="a-meydan-kat-alt">
+                    {toplam} {tt("soru")}{yuzde > 0 && <> · {tt("%{0}", { 0: yuzde })} {tt("çözüldü")}</>}
+                  </span>
+                  {yuzde > 0 && <QtIlerleme deger={yuzde} en={100} ton="dogru" etiket={tt("Çözülen sorular")} className="a-meydan-kat-bar" />}
+                </button>
               );
             })}
-          </QtListe>
-        )}
+          </div>
+          {/* Kaydırılabilir olduğunu belli eden ipucu; sona gelince kaybolur */}
+          <span className="a-meydan-kat-ipucu" aria-hidden="true"><QtIkon ad="ileri" boyut={20} /></span>
+        </div>
       </section>
+
+      <DereceliAnahtari dereceli={dereceli} onDegistir={setDereceli} />
 
       {/* Grup ve hızlı mod kurulumu açılır panelde: sayfa uzayıp dağılmasın */}
       <QtKart dolgu="yok" className="a-meydan-panel" ref={grupPanelRef}>
@@ -1158,108 +1252,8 @@ export default function ChallengesPage() {
         </QtKart>
       )}
 
-      {/* ---------- Süren işler: devam eden maçlar, gönderdiğin davetler ---------- */}
+      {/* ---------- Gönderdiğin ve yanıt bekleyen davetler EN ALTTA; davet gönderince buraya kaydırılır ---------- */}
       <div ref={bekleyenlerRef} className="a-meydan-suren">
-        {aktif.length > 0 && (
-          <section className="a-meydan-bolum" aria-labelledby="a-meydan-aktif-b">
-            <h2 id="a-meydan-aktif-b" className="qt-baslik-2">{tt("Devam eden")}</h2>
-            <QtListe etiket={tt("Devam eden")}>
-              {aktif.map((m) => {
-                // Asenkron maç: herkes kendi hızında oynar. Kendi sıramız bitmediyse
-                // "sıra sende" — yarım kalan müsabaka buradan sürdürülür.
-                const benP1 = m.oyuncu1 === user.id;
-                const benimSoru = benP1 ? (m.oyuncu1_soru ?? 0) : (m.oyuncu2_soru ?? 0);
-                const toplam = m.soru_ids?.length ?? 20;
-                const siraSende = benimSoru < toplam;
-                return (
-                  <QtListeSatiri
-                    key={m.id}
-                    vurgulu={siraSende}
-                    bas={<AvatarCerceve profile={rakip(m)} />}
-                    baslik={
-                      <span className="a-meydan-bot-ad">
-                        <OyuncuAdiDugmesi userId={benP1 ? m.oyuncu2 : m.oyuncu1} profil={rakip(m)}>{oyuncuAdi(rakip(m), benP1 ? m.oyuncu2 : m.oyuncu1)}</OyuncuAdiDugmesi>
-                        {siraSende && <QtRozet ton="vurgu" boyut="k">{tt("Sıra sende")}</QtRozet>}
-                      </span>
-                    }
-                    /* Skor DAİMA "senin - rakibin" sırasında. Konumsal yazılırsa
-                       (oyuncu1 - oyuncu2) rakip seni davet ettiğinde sen sağa
-                       geçiyorsun ve satır tersine okunuyor. */
-                    alt={`${benP1 ? m.oyuncu1_skor : m.oyuncu2_skor} - ${benP1 ? m.oyuncu2_skor : m.oyuncu1_skor} · ${benimSoru}/${toplam} ${tt("soru")}${!siraSende ? tt(" · rakip oynuyor") : ""}`}
-                    sag={
-                      <>
-                        <QtDugme boyut="k" tur={siraSende ? "mor" : "ikincil"} onClick={() => navigate(y(`/mac/${m.id}`))}>
-                          {siraSende ? tt("Devam et") : tt("Gör")}
-                        </QtDugme>
-                        {/* İptal: sade ve ayrı; onay penceresi zorunlu */}
-                        <QtIkonDugme
-                          ikon="carpi"
-                          tur="saydam"
-                          etiket={tt("Maçı iptal et")}
-                          disabled={iptalEdilen === m.id}
-                          onClick={() => setIptalSorulan(m)}
-                          className="a-meydan-iptal"
-                        />
-                      </>
-                    }
-                  />
-                );
-              })}
-            </QtListe>
-          </section>
-        )}
-
-        {grupAktif.length > 0 && (
-          <section className="a-meydan-bolum" aria-labelledby="a-meydan-grupaktif-b">
-            <h2 id="a-meydan-grupaktif-b" className="qt-baslik-2">{tt("Devam eden grup maçları")}</h2>
-            <QtListe etiket={tt("Devam eden grup maçları")}>
-              {grupAktif.map((gm) => (
-                <QtListeSatiri
-                  key={gm.id}
-                  ikon="kisiler"
-                  ikonTon="dogru"
-                  baslik={adlar(gm.katilimcilar)}
-                  alt={`${gm.oyuncu_sayisi} ${tt("kişilik grup maçı")}`}
-                  sag={
-                    <>
-                      <QtDugme boyut="k" tur="mor" onClick={() => navigate(y(`/grup-mac/${gm.id}`))}>{tt("Oyna")}</QtDugme>
-                      {/* Yarım kalmış maçları temizlemek için */}
-                      <QtIkonDugme ikon="carpi" tur="saydam" etiket={tt("İptal")}
-                                   disabled={iptalEdilen === gm.id} onClick={() => davetIptal("grup", gm.id)}
-                                   className="a-meydan-iptal" />
-                    </>
-                  }
-                />
-              ))}
-            </QtListe>
-          </section>
-        )}
-
-        {hizliAktif.length > 0 && (
-          <section className="a-meydan-bolum" aria-labelledby="a-meydan-hizliaktif-b">
-            <h2 id="a-meydan-hizliaktif-b" className="qt-baslik-2">{tt("Devam eden hızlı yarışlar")}</h2>
-            <QtListe etiket={tt("Devam eden hızlı yarışlar")}>
-              {hizliAktif.map((hm) => (
-                <QtListeSatiri
-                  key={hm.id}
-                  ikon="hizli"
-                  ikonTon="vurgu"
-                  baslik={adlar(hm.katilimcilar)}
-                  alt={tt("Hızlı Olan Kazanır")}
-                  sag={
-                    <>
-                      <QtDugme boyut="k" tur="mor" onClick={() => navigate(y(`/hizli-mac/${hm.id}`))}>{tt("Oyna")}</QtDugme>
-                      <QtIkonDugme ikon="carpi" tur="saydam" etiket={tt("İptal")}
-                                   disabled={iptalEdilen === hm.id} onClick={() => davetIptal("hizli", hm.id)}
-                                   className="a-meydan-iptal" />
-                    </>
-                  }
-                />
-              ))}
-            </QtListe>
-          </section>
-        )}
-
         {(giden.length > 0 || duelloBeklenen.length > 0) && (
           <section className="a-meydan-bolum" aria-labelledby="a-meydan-giden-b">
             <h2 id="a-meydan-giden-b" className="qt-baslik-2">{tt("Gönderdiğin")}</h2>
