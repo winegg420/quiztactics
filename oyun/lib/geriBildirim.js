@@ -4,6 +4,8 @@
 // bildirim penceresini kullanır. Süreler ve yardımcılar tek yerde dursun ki
 // bir ekranda düzeltilen davranış diğerlerinde eskimesin.
 
+import { hisAcikMi } from "../tasarim/hareket.js";
+
 /**
  * Standart geri bildirim penceresi (ms): cevaptan sonra doğru/yanlış bu kadar
  * ekranda kalır, sonra bir sonraki soru gelir.
@@ -37,10 +39,9 @@ export function hareketAzalt() {
  */
 export function titret(desen) {
   try {
-    if (hareketAzalt()) return;
-    // Paket 20 VI: sayfa henüz hiç dokunulmadan (ör. bitmiş maç linkiyle açılınca) Chrome titreşimi engelleyip
-    // konsola hata yazıyordu. Etkileşim yoksa hiç denenmez; eski tarayıcıda (userActivation yok) eskisi gibi.
-    if (navigator.userActivation && !navigator.userActivation.hasBeenActive) return;
+    // Oyun hissi (1 Eki 2026): dokunuş tek kapısıyla (tasarim/hareket.js › hisAcikMi) aynı kural — "Efektler" kapalıysa,
+    // hareket azaltılmışsa ya da sayfaya henüz dokunulmadıysa (Paket 20 VI: Chrome engelleyip konsola yazıyordu) çalmaz.
+    if (!hisAcikMi()) return;
     navigator.vibrate?.(desen);
   } catch {
     /* tarayıcı izin vermedi — dokunsal geri bildirim yok, oyun etkilenmez */
