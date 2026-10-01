@@ -9769,3 +9769,9 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 - **Build** TEMİZ; `/`, `/joker`, `/sezon-yolu`, `/duello` × 1440/850/560/390: taşma 0, konsol 0.
 - **arayuz-denetim:** 2 konsol hatası, ikisi `profil?sekme=ayarlar` 404 `rpc/avatar_sahiplik_durumu` = 820 canlıya UYGULANMADI → beklenen; 820'den sonra kapanır. Aynı sebeple yeni istemci + eski DB'de kurulum sihirbazında "Bu avatarı kullan" devre dışı kaldı (yeni misafir akışı) → Aşama 2'de migration'lar push'tan ÖNCE uygulanmalı (zaten öyle sıralı).
 - **Olay (misafir hesaplar):** denetim aracı oturumu yalnız kayıtlı köken (5174) için bulur, başka portta YENİ MİSAFİR AÇAR. Bu oturumda toplam 3 `ArayuzDenetim*` anonim hesap açıldı (183, 789, 542); üçü de `auth.users`'tan silindi (profil cascade ile gitti, doğrulandı). Kontrast aracı oturumu başka porta taşıyor, denetim aracı taşımıyor: oturum dosyasının kökenini hedef porta çevirip koş.
+
+## 2026-10-01 — Birleştirme 1 — AŞAMA 2 (migration + canlı doğrulama)
+**Araç:** Claude Code (Sonnet 5.5). Ida "push et" dedi.
+- **Durum tespiti:** Aşama 2 başladığında `origin/main` zaten birleşik dalı içeriyordu (97ab9dd2; başka bir oturum push etmişti) ve 820–822 canlıda zaten uygulanmıştı. Bu oturum: 820/821/822 "Zaten uygulanmış" (atlandı), **830 ve 831 uygulandı** (`migration-uygula.mjs`, aralarında 5 sn; hatasız). Yük testi koşulmadı. Yeni push yalnız bu kayıt.
+- **Canlı sonuç:** `duello_tik` ve `bildim-bot-oyna` = `15 seconds` (önce 2 seconds) · `oyuncu_avatarlari` 12 satır (hedef 12 insan; bot sahipliği 0) · defter 820–831 · bot profili 160 (820–822 yalnız `auth.uid()` RPC'lerinde profil günceller, toplu bot güncellemesi yok; eski md5 yöntemi bilinmediğinden birebir karşılaştırma yapılamadı) · BP: avatar 4 + arka_plan 2 gerçek, çerçeve 1 gerçek + 2 yer tutucu, tepki_paketi 1 yer tutucu (önceki: 9 yer tutucu) · site, /duello, /sezon-yolu 200.
+- **Not:** 831'de `lock_timeout` yok (yalnız 830'da var); sorun çıkmadı.
