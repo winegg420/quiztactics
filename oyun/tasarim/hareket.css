@@ -122,7 +122,8 @@
 .qt-h-gir { animation: qt-h-gir var(--qt-s-orta) var(--qt-egri-cikis) both; }
 .qt-h-pop-gir { animation: qt-h-pop-gir var(--qt-s-orta) var(--qt-egri-cikis) both; }
 .qt-h-salla { animation: qt-h-salla 380ms ease-out; }
-.qt-h-zipla { display: inline-block; animation: qt-h-zipla 360ms var(--qt-egri-cikis); }
+:where(.qt-h-zipla) { display: inline-block; } /* özgüllüksüz: öğenin kendi display değeri (grid/flex) her zaman kazanır, ızgara yerleşimi bozulmaz */
+.qt-h-zipla { animation: qt-h-zipla 360ms var(--qt-egri-cikis); }
 .qt-h-tik { animation: qt-h-tik 1s var(--qt-egri-cikis); }
 .qt-h-baski { animation: qt-h-baski 520ms ease-out; }
 .qt-h-sevin { animation: qt-h-kart-sevin 480ms var(--qt-egri-cikis); }
