@@ -1,0 +1,830 @@
+{
+  "parti": 3,
+  "tarih": "2026-10-01",
+  "taslak": 206,
+  "net": 86,
+  "kota": {
+    "sanat": 13,
+    "muzik": 16,
+    "teknoloji": 16,
+    "genel_kultur": 16,
+    "sinema": 12,
+    "edebiyat": 7,
+    "spor": 3,
+    "tarih": 2,
+    "yerel": 2
+  },
+  "zorluk_hedef": {
+    "1-2": 100
+  },
+  "eksik": {
+    "teknoloji": 1
+  },
+  "elenen_sebep": {
+    "jev_zor": 93,
+    "sik_ipucu": 12,
+    "belirsiz": 4,
+    "eskiyebilir": 3,
+    "kota_fazlasi": 8
+  },
+  "kova": {
+    "sanat": 13,
+    "muzik": 16,
+    "teknoloji": 15,
+    "genel_kultur": 16,
+    "sinema": 12,
+    "edebiyat": 7,
+    "spor": 3,
+    "tarih": 2,
+    "yerel_tr": 2
+  },
+  "kategori": {
+    "sanat": 14,
+    "muzik": 16,
+    "teknoloji": 15,
+    "genel_kultur": 16,
+    "sinema": 12,
+    "edebiyat": 8,
+    "spor": 3,
+    "tarih": 2
+  },
+  "zorluk": [
+    0,
+    86,
+    0,
+    0,
+    0
+  ],
+  "zorluk_kova": {
+    "3": 0,
+    "4": 0,
+    "5": 0,
+    "1-2": 86
+  },
+  "cevrilmeyen": 86,
+  "jev": {
+    "cagri": 412,
+    "girdi_jetonu": 314172,
+    "usd": 0.0132,
+    "not": "jev.jsonl içindeki tüm denemeler dahil (düzeltilip yeniden sorulanlar da)"
+  },
+  "zorluk_etiket_duzeltme": [],
+  "elenenler": [
+    {
+      "sebep": "jev_zor",
+      "kova": "sanat",
+      "s": "Çin ve Japonya'da görülen, çok katlı çatılı kule biçimli yapıya ne ad verilir?",
+      "d": "Pagoda"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "yerel",
+      "s": "İzmir'in simgesi olan Saat Kulesi hangi meydandadır?",
+      "d": "Konak"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "yerel",
+      "s": "Kütahya hangi el sanatıyla ünlüdür?",
+      "d": "Çini"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "yerel",
+      "s": "Nevşehir'in Avanos ilçesi hangi sanatıyla ünlüdür?",
+      "d": "Çömlekçilik"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sanat",
+      "s": "La Scala Opera Binası hangi İtalyan şehrindedir?",
+      "d": "Milano"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sanat",
+      "s": "Dünyaca ünlü Bolşoy Balesi hangi ülkededir?",
+      "d": "Rusya"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sanat",
+      "s": "Karagöz figürleri geleneksel olarak hangi malzemeden yapılır?",
+      "d": "Deri"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sanat",
+      "s": "Gotik katedrallerde ışık süzen renkli cam pencerelere ne ad verilir?",
+      "d": "Vitray"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "Beyoncé'nin hayran kitlesi hangi böcek adıyla anılır?",
+      "d": "Arı"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "DJ David Guetta hangi ülkelidir?",
+      "d": "Fransa"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "Körük hareketiyle çalınan, tuşlu ve düğmeli çalgı hangisidir?",
+      "d": "Akordeon"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "Latin müziğinde sallanarak çalınan, içi taneli çalgı hangisidir?",
+      "d": "Marakas"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "Ortadoğu'da yaygın olan kadeh biçimli vurmalı çalgı hangisidir?",
+      "d": "Darbuka"
+    },
+    {
+      "sebep": "sik_ipucu",
+      "duzelt_yeniden_dene": true,
+      "kova": "muzik",
+      "s": "2010 Dünya Kupası'nda tribünlerde sıkça duyulan plastik boru çalgı hangisidir?",
+      "d": "Vuvuzela",
+      "y": [
+        "Düdük",
+        "Davul",
+        "Trompet"
+      ],
+      "ipucuP": 0.81
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "Müzikte sesin giderek yükselmesine ne ad verilir?",
+      "d": "Crescendo"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "Tavuk ve horoz sesleriyle başlayan 'Aserejé' (Ketchup Şarkısı) hangi dilde söylenir?",
+      "d": "İspanyolca"
+    },
+    {
+      "sebep": "sik_ipucu",
+      "duzelt_yeniden_dene": true,
+      "kova": "teknoloji",
+      "s": "Herkesin düzenleyebildiği çevrim içi ansiklopedi hangisidir?",
+      "d": "Vikipedi",
+      "y": [
+        "Netflix",
+        "Spotify",
+        "Pinterest"
+      ],
+      "ipucuP": 0.87
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "genel_kultur",
+      "s": "Hindistan'da insanların birbirine renkli toz attığı bahar festivali hangisidir?",
+      "d": "Holi"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "genel_kultur",
+      "s": "İspanya'da insanların birbirine domates attığı festivalin adı nedir?",
+      "d": "La Tomatina"
+    },
+    {
+      "sebep": "belirsiz",
+      "kova": "genel_kultur",
+      "s": "Çikolatasıyla ve saatleriyle ünlü Avrupa ülkesi hangisidir?",
+      "d": "İsviçre"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "genel_kultur",
+      "s": "Bilardoda siyah top kaç numaralıdır?",
+      "d": "8"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "genel_kultur",
+      "s": "Ferrari'nin logosunda hangi hayvan yer alır?",
+      "d": "At"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "genel_kultur",
+      "s": "Lamborghini'nin logosunda hangi hayvan yer alır?",
+      "d": "Boğa"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sinema",
+      "s": "Harry Potter dünyasında süpürgelerin üzerinde oynanan spor hangisidir?",
+      "d": "Quidditch"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sinema",
+      "s": "'Yüzüklerin Efendisi'nde yüzüğe 'Değerlim' diyen yaratık kimdir?",
+      "d": "Gollum"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sinema",
+      "s": "'Ratatouille' filminde Paris'te şef olmak isteyen hayvan hangisidir?",
+      "d": "Fare"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "yerel",
+      "s": "'Tosun Paşa' ve 'Şabaniye' filmlerinin ünlü başrol oyuncusu kimdir?",
+      "d": "Kemal Sunal"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sinema",
+      "s": "'Para Hırsızı' dizisinde hırsızların taktığı maske hangi ressamın yüzüdür?",
+      "d": "Salvador Dalí"
+    },
+    {
+      "sebep": "belirsiz",
+      "kova": "sinema",
+      "s": "Hogwarts Cadılık ve Büyücülük Okulu'nun müdürü kimdir?",
+      "d": "Dumbledore"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "edebiyat",
+      "s": "Asterix çizgi romanında Obelix'in taşımasıyla ünlü olduğu şey nedir?",
+      "d": "Dikilitaş"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "spor",
+      "s": "Galatasaray'ın simgesi hangi hayvandır?",
+      "d": "Aslan"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "spor",
+      "s": "Fenerbahçe'nin simgesi hangi hayvandır?",
+      "d": "Kanarya"
+    },
+    {
+      "sebep": "eskiyebilir",
+      "kova": "spor",
+      "s": "Basketbolda potaya atılan topla elde edilen en çok sayılı atış kaç sayıdır?",
+      "d": "3"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sanat",
+      "s": "Yelken biçimli lüks otel Burj Al Arab hangi şehirdedir?",
+      "d": "Dubai"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sanat",
+      "s": "Madrid'deki ünlü ressam müzesi hangisidir?",
+      "d": "Prado"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sanat",
+      "s": "Chichén Itzá piramidi hangi ülkededir?",
+      "d": "Meksika"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "Kemanın yayında genellikle hangi hayvanın kılı kullanılır?",
+      "d": "At"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "Kızıl saçlarıyla tanınan 'Perfect' şarkısının sahibi sanatçı kimdir?",
+      "d": "Ed Sheeran"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "yerel",
+      "s": "'Ceddin Deden' marşı hangi geleneksel müzik topluluğuyla özdeşleşmiştir?",
+      "d": "Mehter"
+    },
+    {
+      "sebep": "sik_ipucu",
+      "duzelt_yeniden_dene": true,
+      "kova": "muzik",
+      "s": "'Eye of the Tiger' şarkısı hangi boks filminin müziğidir?",
+      "d": "Rocky",
+      "y": [
+        "Creed",
+        "Karate Kid",
+        "Rambo"
+      ],
+      "ipucuP": 0.86
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'God Save the King' hangi ülkenin milli marşıdır?",
+      "d": "İngiltere"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "Bas gitarda genellikle kaç tel bulunur?",
+      "d": "4"
+    },
+    {
+      "sebep": "sik_ipucu",
+      "duzelt_yeniden_dene": true,
+      "kova": "sanat",
+      "s": "Kimliği hâlâ gizli olan, duvarlara yaptığı eleştirel resimlerle tanınan sokak sanatçısı kimdir?",
+      "d": "Banksy",
+      "y": [
+        "Keith Haring",
+        "Basquiat",
+        "Shepard Fairey"
+      ],
+      "ipucuP": 0.86
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sanat",
+      "s": "Picasso'nun Alman bombardımanını anlatan, siyah beyaz dev tablosunun adı nedir?",
+      "d": "Guernica"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sanat",
+      "s": "Mimar Sinan'ın 'ustalık eserim' dediği Selimiye Camii hangi şehrimizdedir?",
+      "d": "Edirne"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sanat",
+      "s": "Çin'in kapalı saray kenti olan, İmparatorların yaşadığı yer hangisidir?",
+      "d": "Yasak Şehir"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sanat",
+      "s": "Hollandalı ressam Vermeer'in en ünlü tablosunda ne giyen genç bir kız resmedilmiştir?",
+      "d": "İnci küpe"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'Sweet Child O' Mine' şarkısı hangi gruba aittir?",
+      "d": "Guns N' Roses"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'Highway to Hell' ve 'Back in Black' şarkılarının grubu hangisidir?",
+      "d": "AC/DC"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'Dynamite' şarkısıyla Billboard birinciliğine ulaşan Güney Koreli grup hangisidir?",
+      "d": "BTS"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'Levitating' ve 'Don't Start Now' şarkılarının sahibi sanatçı kimdir?",
+      "d": "Dua Lipa"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'Dancing Queen' ve 'Waterloo' şarkılarının grubu ABBA hangi ülkeden çıkmıştır?",
+      "d": "İsveç"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "Mozart'ın ünlü 'Türk Marşı' eseri hangi çalgı için yazılmıştır?",
+      "d": "Piyano"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "yerel",
+      "s": "'Gülpembe' şarkısıyla tanınan, uzun bıyığıyla bilinen sanatçı kimdir?",
+      "d": "Barış Manço"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "yerel",
+      "s": "'Sanat Güneşi' lakabıyla anılan Türk sanatçı kimdir?",
+      "d": "Zeki Müren"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "yerel",
+      "s": "Türkiye'ye Eurovision birinciliğini getiren sanatçı kimdir?",
+      "d": "Sertab Erener"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "Blackpink adlı Güney Koreli kız grubunda kaç üye vardır?",
+      "d": "4"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "Robot kasklarıyla tanınan Fransız elektronik müzik ikilisi hangisidir?",
+      "d": "Daft Punk"
+    },
+    {
+      "sebep": "eskiyebilir",
+      "kova": "teknoloji",
+      "s": "Facebook, Instagram ve WhatsApp hangi şirketin çatısı altındadır?",
+      "d": "Meta"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "teknoloji",
+      "s": "Minecraft'ta her şey hangi şekildeki bloklardan oluşur?",
+      "d": "Küp"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "teknoloji",
+      "s": "Twitter'ın mavi kuş logosu yerine 2023'te geçilen yeni adı nedir?",
+      "d": "X"
+    },
+    {
+      "sebep": "sik_ipucu",
+      "duzelt_yeniden_dene": true,
+      "kova": "teknoloji",
+      "s": "Bilgisayarda yapılan son işlemi geri almak için hangi kısayol kullanılır?",
+      "d": "Ctrl+Z",
+      "y": [
+        "Ctrl+Y",
+        "Ctrl+X",
+        "Ctrl+B"
+      ],
+      "ipucuP": 0.85
+    },
+    {
+      "sebep": "eskiyebilir",
+      "kova": "teknoloji",
+      "s": "YouTube'da bir kanala abone olmak için basılan düğme hangi renktir?",
+      "d": "Kırmızı"
+    },
+    {
+      "sebep": "belirsiz",
+      "kova": "teknoloji",
+      "s": "'Candy Crush' oyununda oyuncular neyi eşleştirir?",
+      "d": "Şekerleri"
+    },
+    {
+      "sebep": "sik_ipucu",
+      "duzelt_yeniden_dene": true,
+      "kova": "teknoloji",
+      "s": "Pokémon dünyasında yanaklarından elektrik saçan sarı karakter hangisidir?",
+      "d": "Pikachu",
+      "y": [
+        "Charmander",
+        "Bulbasaur",
+        "Squirtle"
+      ],
+      "ipucuP": 0.84
+    },
+    {
+      "sebep": "sik_ipucu",
+      "duzelt_yeniden_dene": true,
+      "kova": "genel_kultur",
+      "s": "Dubai'deki dünyanın en yüksek yapısı hangisidir?",
+      "d": "Burj Halife",
+      "y": [
+        "Burj Al Arab",
+        "Petronas Kuleleri",
+        "Taipei 101"
+      ],
+      "ipucuP": 0.88
+    },
+    {
+      "sebep": "sik_ipucu",
+      "duzelt_yeniden_dene": true,
+      "kova": "genel_kultur",
+      "s": "Londra'da Parlamento Sarayı'nın saat kulesindeki ünlü çanın lakabı nedir?",
+      "d": "Big Ben",
+      "y": [
+        "Little Ben",
+        "Great Paul",
+        "Old Tom"
+      ],
+      "ipucuP": 0.84
+    },
+    {
+      "sebep": "sik_ipucu",
+      "duzelt_yeniden_dene": true,
+      "kova": "sinema",
+      "s": "Dünya çapında büyük ses getiren 'Squid Game' dizisi hangi platformda yayımlanmıştır?",
+      "d": "Netflix",
+      "y": [
+        "Disney+",
+        "HBO Max",
+        "Prime Video"
+      ],
+      "ipucuP": 0.87
+    },
+    {
+      "sebep": "sik_ipucu",
+      "duzelt_yeniden_dene": true,
+      "kova": "sinema",
+      "s": "Walt Disney'in yarattığı ilk ünlü çizgi film karakteri hangisidir?",
+      "d": "Mickey Mouse",
+      "y": [
+        "Donald Duck",
+        "Bugs Bunny",
+        "Pluto"
+      ],
+      "ipucuP": 0.9
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "edebiyat",
+      "s": "'Olmak ya da olmamak' sözü Shakespeare'in hangi oyunundadır?",
+      "d": "Hamlet"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "edebiyat",
+      "s": "'Hobbit' kitabında Bilbo'nun karşılaştığı ejderhanın adı nedir?",
+      "d": "Smaug"
+    },
+    {
+      "sebep": "sik_ipucu",
+      "duzelt_yeniden_dene": true,
+      "kova": "spor",
+      "s": "Dünyanın en hızlı insanı unvanıyla bilinen sprinter kimdir?",
+      "d": "Usain Bolt",
+      "y": [
+        "Carl Lewis",
+        "Justin Gatlin",
+        "Yohan Blake"
+      ],
+      "ipucuP": 0.96
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "yerel",
+      "s": "Beşiktaş'ın simgesi hangi kuştur?",
+      "d": "Kartal"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sanat",
+      "s": "Londra'da Thames Nehri üzerindeki, ortası açılabilen ünlü köprü hangisidir?",
+      "d": "Tower Bridge"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sanat",
+      "s": "Paris'teki ünlü kabare Moulin Rouge'un çatısında hangi yapı vardır?",
+      "d": "Yel değirmeni"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sanat",
+      "s": "Andy Warhol'un tekrarlı renkli portreleriyle ölümsüzleştirdiği ünlü oyuncu kimdir?",
+      "d": "Marilyn Monroe"
+    },
+    {
+      "sebep": "sik_ipucu",
+      "duzelt_yeniden_dene": true,
+      "kova": "sanat",
+      "s": "Altın maskesiyle ünlü genç firavun Tutankamon'un mezarı hangi ülkede bulunmuştur?",
+      "d": "Mısır",
+      "y": [
+        "Irak",
+        "Sudan",
+        "Libya"
+      ],
+      "ipucuP": 0.84
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sanat",
+      "s": "Heykellerde en çok kullanılan değerli beyaz taş hangisidir?",
+      "d": "Mermer"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "Justin Bieber hayranlarına ne ad verilir?",
+      "d": "Beliebers"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "One Direction'ın üyesiyken solo kariyerine başlayıp 'As It Was' şarkısını söyleyen sanatçı kimdir?",
+      "d": "Harry Styles"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'My Way' ve 'New York, New York' şarkılarını seslendiren efsane şarkıcı kimdir?",
+      "d": "Frank Sinatra"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'What a Wonderful World' şarkısını söyleyen trompetçi caz efsanesi kimdir?",
+      "d": "Louis Armstrong"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'Believer' ve 'Thunder' şarkılarıyla tanınan grup hangisidir?",
+      "d": "Imagine Dragons"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "U2 grubu hangi ülkenin grubudur?",
+      "d": "İrlanda"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "Vals müziğiyle özdeşleşen, Strauss'un şehri hangi başkenttir?",
+      "d": "Viyana"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "Country müziğinin başkenti sayılan ABD şehri hangisidir?",
+      "d": "Nashville"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "Prince'in simgesi hangi renkti?",
+      "d": "Mor"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "teknoloji",
+      "s": "Kulaklıkla kasetli müzik dinletmeyi yaygınlaştıran Sony ürünü hangisidir?",
+      "d": "Walkman"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "teknoloji",
+      "s": "Instagram Hikâyeleri kaç saat sonra kaybolur?",
+      "d": "24"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "teknoloji",
+      "s": "Oyuncuların canlı yayın yaptığı, mor logolu platform hangisidir?",
+      "d": "Twitch"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "teknoloji",
+      "s": "Roblox'ta oyun içi para birimi hangisidir?",
+      "d": "Robux"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "spor",
+      "s": "En çok olimpiyat madalyası kazanan yüzücü Michael Phelps hangi ülkelidir?",
+      "d": "ABD"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "yerel",
+      "s": "'Cep Herkülü' lakabıyla anılan Türk halterci kimdir?",
+      "d": "Naim Süleymanoğlu"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "spor",
+      "s": "Tour de France'ta lider bisikletçinin giydiği mayo hangi renktir?",
+      "d": "Sarı"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sinema",
+      "s": "'Bohemian Rhapsody' filminde Freddie Mercury'yi canlandıran oyuncu kimdir?",
+      "d": "Rami Malek"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "yerel",
+      "s": "'Müslüm Baba' lakabıyla bilinen arabesk sanatçı kimdir?",
+      "d": "Müslüm Gürses"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "yerel",
+      "s": "Neşet Ertaş hangi çalgıyla özdeşleşmiş bir halk ozanıdır?",
+      "d": "Bağlama"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "yerel",
+      "s": "Geleneksel Türk düğünlerinde davulla birlikte çalınan üflemeli çalgı hangisidir?",
+      "d": "Zurna"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "Piyanonun şairi olarak anılan Chopin hangi ülkelidir?",
+      "d": "Polonya"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "Avustralya yerlilerinin uzun borulu geleneksel çalgısı hangisidir?",
+      "d": "Didgeridoo"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "Bir müzisyenin kendi bestelerini yayımladığı kayıt şirketine ne ad verilir?",
+      "d": "Plak şirketi"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "yerel",
+      "s": "'Filenin Sultanları' lakabıyla anılan Türk kadın milli takımı hangi sporda yarışır?",
+      "d": "Voleybol"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "Güney Koreli ünlü grup BTS'te kaç üye vardır?",
+      "d": "7"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "Jonas Brothers adlı müzik grubunda kaç kardeş vardır?",
+      "d": "3"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'How Far I'll Go' şarkısı hangi Disney filminde yer alır?",
+      "d": "Moana"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'Star Wars' ve 'Jaws' film müziklerini bestelemiş ünlü besteci kimdir?",
+      "d": "John Williams"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "teknoloji",
+      "s": "Dil öğrenme uygulaması Duolingo'nun yeşil maskotu hangi hayvandır?",
+      "d": "Baykuş"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sanat",
+      "s": "Osmanlı'da kitapları süsleyen küçük boyutlu resim sanatına ne ad verilir?",
+      "d": "Minyatür"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sanat",
+      "s": "Çizgi roman ya da film karakterlerinin kostümlerini giymeye ne ad verilir?",
+      "d": "Cosplay"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'Wonderwall' şarkısı hangi gruba aittir?",
+      "d": "Oasis"
+    },
+    {
+      "sebep": "belirsiz",
+      "kova": "muzik",
+      "s": "'Halo' şarkısının sahibi sanatçı kimdir?",
+      "d": "Beyoncé"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'Smoke on the Water' şarkısı hangi gruba aittir?",
+      "d": "Deep Purple"
+    }
+  ]
+}
