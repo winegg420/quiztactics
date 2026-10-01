@@ -262,3 +262,4 @@ const u = ucan(`urun:${id}`);
 
 Eksik bir parça görürsen ortak dosyayı sayfa penceresinde DÜZELTME — not düş; Aşama 1 sonunda tek pencere toplar.
 Bilinen açık: maç içindeki `geriBildirim.js › titret` henüz bu kapıya bağlı değil ("Efektler" ayarına bakmıyor).
+Güncelleme (1 Eki 2026, commit 2436a696): yukarıdaki açık KAPANDI — `geriBildirim.js › titret` artık dokunuş tek kapısından (`hisAcikMi`) geçiyor; "Efektler" kapalıyken ya da hareket azaltılmışken titreşim çalmaz.
