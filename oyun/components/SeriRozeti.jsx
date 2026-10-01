@@ -40,7 +40,7 @@ export default function SeriRozeti({ bicim = "rozet" }) {
     return (
       <span className={`bd-seri-kart isi-${isi}`}>
         <span className="as-ko-stat-etiket"><Ikon ad="ates" boyut={13} />{tt("Seri")}</span>
-        <b className="qt-sayi">{tt("{n} gün", { n: gun })}</b>
+        <b className="qt-sayi">{gun === 1 ? tt("1 gün") : tt("{n} gün", { n: gun })}</b>
       </span>
     );
   }

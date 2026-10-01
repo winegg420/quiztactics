@@ -54,4 +54,21 @@ export default {
   "ŞAMPİYON!": "CHAMPION!",
   "Şampiyon: {ad}": "Champion: {ad}",
   "Bu turnuvaya geri dönemezsin ve ödül alamazsın.": "You can't return to this tournament and you won't get any rewards.",
+  // Görev havuzu adları (gorev_havuzu.ad_tr → ad_en): maç sonu ilerleme satırı sunucudan TR adı alır, ttSunucu çevirir.
+  "2 maç oyna": "Play 2 matches",
+  "10 soruyu doğru cevapla": "Answer 10 questions correctly",
+  "50 soruyu doğru cevapla": "Answer 50 questions correctly",
+  "100 soruyu doğru cevapla": "Answer 100 questions correctly",
+  "2 maç kazan": "Win 2 matches",
+  "5 maç kazan": "Win 5 matches",
+  "Düello'da 1 maç oyna": "Play 1 Duel match",
+  "Düello'da 1 galibiyet al": "Win 1 Duel match",
+  "Düello'da 3 galibiyet": "Win 3 Duel matches",
+  "Düello'da 5 maç oyna": "Play 5 Duel matches",
+  "Bugünün kategorisinde 10 soruyu doğru cevapla": "Answer 10 questions correctly in today's category",
+  "5 farklı kategoride doğru cevap": "Answer correctly in 5 different categories",
+  "Bu hafta 7 maç kazan": "Win 7 matches this week",
+  "Bu hafta 15 maç oyna": "Play 15 matches this week",
+  "1 gün": "1 day",
+  "Günlük seri (1 gün)": "Daily streak (1 day)",   // tekil: "1 days" olmasın
 };

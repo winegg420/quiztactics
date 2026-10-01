@@ -30,7 +30,7 @@ function kalemAdi(k) {
   switch (k.kalem) {
     case "galibiyet": return tt("Galibiyet");
     case "beraberlik": return tt("Beraberlik");
-    case "seri": return tt("Günlük seri ({gun} gün)", { gun: d.gun ?? 1 });
+    case "seri": return (d.gun ?? 1) === 1 ? tt("Günlük seri (1 gün)") : tt("Günlük seri ({gun} gün)", { gun: d.gun });
     case "hizli_dogru": return tt("{dogru} doğru cevap", { dogru: d.dogru ?? 0 });
     case "turnuva_derece": return tt("Turnuva: {sira}. sıra", { sira: d.sira ?? "?" });
     case "turnuva_katilim": return tt("Turnuvaya katılım");

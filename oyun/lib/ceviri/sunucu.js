@@ -126,4 +126,6 @@ export default {
   "Çeviri: % numaralı şık boş": "Translation: option # % is empty",
   "Çeviri: şıklar birbirinden farklı olmalı": "Translation: options must be different from each other",
   "Çeviri: dogru_cevap indeksi şık sayısının dışında": "Translation: the correct-answer index is out of range",
+  // 680 · Düello Hâkimiyet: eski Kategori Kalkanı RPC'si artık bu mesajı verir
+  "Kategori Kalkanı kaldırıldı": "Category Shield has been removed",
 };
