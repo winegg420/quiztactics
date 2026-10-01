@@ -798,8 +798,8 @@ export default function ChallengesPage() {
   );
   // Gelen davet = alınabilir oyun kartı (turuncu kontur). Bir ekranda en çok 1 nabız: yalnız İLK davet nabız + zıplama alır.
   const ilkDavet = duelloGelen[0]?.id ?? gelen[0]?.id ?? hizliGelen[0]?.id ?? grupGelen[0]?.id ?? null;
-  const davetKarti = ({ id, serit, bas, baslik, alt, kabul, ret }) => (
-    <li key={id} className={sinif("qt-oyk qt-oyk--alinabilir a-meydan-davet", id === ilkDavet && "qt-h-nabiz")} style={{ "--oyk-serit": serit }}>
+  const davetKarti = ({ id, serit, ton, bas, baslik, alt, kabul, ret }) => (
+    <li key={id} className={sinif("qt-oyk qt-oyk--alinabilir a-meydan-davet", ton && `qt-oyk--ton-${ton}`, id === ilkDavet && "qt-h-nabiz")} style={serit ? { "--oyk-serit": serit } : undefined}>
       {bas}
       <div className="qt-oyk-govde">
         <span className="qt-oyk-ad">{baslik}</span>
@@ -838,7 +838,7 @@ export default function ChallengesPage() {
           <ul className="qt-oyk-liste" aria-label={tt("Sana gelen davetler")}>
             {duelloGelen.map((d) => davetKarti({
               id: d.id,
-              serit: "var(--qt-mod-duello)",   // kırmızı yalnız Düello
+              ton: "duello",   // kırmızı yalnız Düello
               bas: <AvatarCerceve profile={kisi(d.kuran)} boyut={56} />,
               baslik: <OyuncuAdiDugmesi userId={d.kuran} profil={kisi(d.kuran)}>{kisi(d.kuran)?.gorunen_ad ?? tt("Rakip")}</OyuncuAdiDugmesi>,
               alt: `${tt("seni düelloya çağırdı")} · ${d.dereceli ? tt("Dereceli") : tt("Serbest")}`,
