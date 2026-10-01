@@ -487,8 +487,9 @@ export function LigKarti({ v }) {
       <span className="as-lk-bas">
         <span className="as-lig-amblem" aria-hidden="true"><LigAmblemi lig={o.lig} boyut={26} /></span>
         <b>{tt("{lig} Lig", { lig: LIG_ADLARI[o.lig] ?? o.lig })}</b>
-        <span className="as-lk-sira qt-sayi">{o.sira}/{o.grup_boyu}</span>
+        <span className="as-lk-sira qt-sayi">{tt("Sıra {n}/{m}", { n: o.sira, m: o.grup_boyu })}</span>
         {kalan && <small className="as-lk-kalan">{tt("Hafta bitimine {k}", { k: kalan })}</small>}
+        {alt && <small className="as-lk-alt-kisa" aria-hidden="true">{alt}</small>}   {/* kısa ekranda alt satır başlığa girer (ellipsis; çakışmaz) */}
       </span>
       {alt && <span className="as-lk-alt">{alt}<QtIkon ad="ileri" boyut={16} /></span>}
       <ol className="as-lk-liste" aria-hidden="true">

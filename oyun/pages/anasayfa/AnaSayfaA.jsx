@@ -11,6 +11,7 @@ import { tt } from "../../lib/dil.js";
 import { useAyar } from "../../lib/ayarlar.js";
 import { useAuth } from "../../../src/context/AuthContext.jsx";
 import DurumKutusu, { useZamanAsimi } from "../../components/DurumKutusu.jsx";
+import SezonSeridi from "../../components/sezon/SezonSeridi.jsx";
 import { useAnaSayfaVerisi, useOyunBaslat, useDevamEdenMaclar } from "./veri.jsx";
 import {
   KompaktOyuncu, LigKarti, GorevSeridi, modListesi, etkinlikler, EtkinlikSatiri,
@@ -76,6 +77,7 @@ export default function AnaSayfaA() {
       <section className="as-a2-kol as-a2-kol--sag" aria-label={tt("Etkinlikler")}>
         <div className="as-a2-turnuva"><TurnuvaSeridi v={v} git={b.git} /></div>
         <div className="as-a2-masaustu"><TurnuvaSeansListesi /></div>
+        <div className="as-a2-sezon"><SezonSeridi /></div>{/* Sezon Yolu şeridi (1 Eki 2026): yalnız sezon_yolu_acik açıkken; kapalı/yüklenmiyorsa boş */}
         <div className="as-a2-gorev"><GorevSeridi /></div>
         {olaylar.length > 0 && (
           <div className="as-panel as-a2-masaustu">
