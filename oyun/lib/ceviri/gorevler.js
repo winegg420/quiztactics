@@ -35,6 +35,9 @@ export default {
   // Ana sayfa şeridi
   "Günlük {a}/{b} · Haftalık {c}/{d}": "Daily {a}/{b} · Weekly {c}/{d}",
   "Görevler. Günlük {a}/{b}, haftalık {c}/{d}.": "Quests. Daily {a}/{b}, weekly {c}/{d}.",
+  "Bugün {a}/{b} tamam": "Today {a}/{b} done",
+  "{n} ödül hazır": "{n} reward ready",
+  "{n} ödül hazır|çoğul": "{n} rewards ready",
   "Alınabilir ödül var.": "A reward is ready to claim.",
   "Görevler yüklenemedi": "Quests couldn't load",
 };

@@ -291,12 +291,12 @@ export default function GorevlerPage() {
           <p className="gv-ozet">
             <span className="gv-ozet-metin">
               <QtIkon ad="gorevListesi" boyut={16} />
-              {tt("Günlük {a}/{b} · Haftalık {c}/{d}", { a: ozet.gunTamam, b: ozet.gunToplam, c: ozet.hftTamam, d: ozet.hftToplam })}
+              {tt("Bugün {a}/{b} tamam", { a: ozet.gunTamam, b: ozet.gunToplam })}
+              {ozet.alinabilir > 0 && ` · ${tt(ozet.alinabilir === 1 ? "{n} ödül hazır" : "{n} ödül hazır|çoğul", { n: sayiMetni(ozet.alinabilir) })}`}
             </span>
             {ozet.alinabilir > 0 && (
-              <span className="gv-ozet-hazir">
-                <QtIkon ad="hediye" boyut={14} /><b>{sayiMetni(ozet.alinabilir)}</b>
-                <span className="qt-gizli"> {tt("Alınabilir ödül var.")}</span>
+              <span className="gv-ozet-hazir" aria-hidden="true">
+                <QtIkon ad="hediye" boyut={14} />
               </span>
             )}
           </p>
