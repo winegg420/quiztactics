@@ -8,7 +8,7 @@
 //   OdulSayfasi.jsx (önizleme) · TasmaSayfasi.jsx (28+) · SatinAlSayfasi.jsx · Kutlama.jsx · SezonUcus.jsx (coin uçuşu)
 // Hareketi azalt: patlama/parlama/uçuş sadeleşir (oyun/tasarim/yumusakHareket.js; CSS @media).
 // ============================================================
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { QtKart, QtDugme, QtRozet, QtIkon, QtBosDurum, QtIskelet, QtIlerleme, sayiBicim } from "../index.js";
 import { useAuth } from "../../../src/context/AuthContext.jsx";
 import { tt } from "../../lib/dil.js";
@@ -27,16 +27,14 @@ import TasmaSayfasi from "./TasmaSayfasi.jsx";
 import SatinAlSayfasi from "./SatinAlSayfasi.jsx";
 import Kutlama from "./Kutlama.jsx";
 import SezonUcus from "./SezonUcus.jsx";
+import SezonAcilisPerdesi from "./SezonAcilisPerdesi.jsx";
+import { ACILIS_MS, PARLA_MS, azaltMi, hayaletBirak, perdeGerekliMi } from "./acilis.js";
 import { anahtar, paraMiktari } from "./OdulGorsel.jsx";
 import { OdulKimlik } from "./CerceveOdulGorsel.jsx";
 import "./sezon-yolu.css";
 
 const OLAY = "bildim-sezon-degisti";   // sezonYolu.js her işlemden sonra yayar (maç sonu da)
 const VURGU_MS = 1600;                 // açılma/dolma vurgusunun süresi
-
-const azaltMi = () => {
-  try { return window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch { return false; }
-};
 
 export default function SezonYoluPage() {
   const { user, profile } = useAuth();
@@ -60,6 +58,17 @@ export default function SezonYoluPage() {
   const onceki = useRef(null);
   const kaydirildi = useRef(false);
   const vurguZaman = useRef(null);
+  const kabukEl = useRef(null);            // son bilinen sayfa kabuğu (kapanış geçişi için; sökülürken ref null olur)
+  const acilisBasladi = useRef(false);
+  const kaydirAnimId = useRef(0);
+  const parlaZaman = useRef(null);
+  const [acilis, setAcilis] = useState("bekle");   // "bekle": veri/perde bekleniyor (görünmez) · "oyna": sayfa kayarak açılır
+  const [perde, setPerde] = useState(false);       // sezonun ilk açılışı: tam perde
+  const [parla, setParla] = useState(null);        // açılışta parlayan durak (mevcut seviye)
+  const kabukRef = useCallback((el) => { if (el) kabukEl.current = el; }, []);
+
+  // Kapanış: sayfa sökülmeden hemen önce kabuğun donmuş kopyası alta kayıp solar (250 ms; hareketi azaltta yok)
+  useLayoutEffect(() => () => hayaletBirak(kabukEl.current), []);
 
   const kaydir = useCallback((seviye, yumusak) => {
     const yol = yolRef.current;
@@ -101,21 +110,56 @@ export default function SezonYoluPage() {
   useEffect(() => {
     canli.current = true;
     yukle();
+    // Açılış perdesi / final kartı Ejderha gibi premium çerçeveyi çizer: tembel parça veri beklenirken inmeye başlasın (perde 1,5 sn)
+    import("../../components/PremiumAvatarCizim.jsx").catch(() => { /* çizilemezse ödül görseli kendi yedeğine düşer */ });
     const f = () => { yukle(); };
     window.addEventListener(OLAY, f);
     return () => {
       canli.current = false;
       window.removeEventListener(OLAY, f);
       clearTimeout(vurguZaman.current);
+      clearTimeout(parlaZaman.current);
+      cancelAnimationFrame(kaydirAnimId.current);
     };
   }, [yukle]);
 
-  // İlk yüklemede mevcut seviyeye otomatik kaydır
+  /** Yolu seviyeye `sure` ms'de kaydırır (kübik yavaşlama; hareketi azaltta anında). Bitince `bitti`. */
+  const kaydirAnimli = useCallback((seviye, sure, bitti) => {
+    const yol = yolRef.current;
+    const el = yol?.querySelector(`[data-durak="${Math.max(1, seviye)}"]`);
+    if (!yol || !el) { bitti?.(); return; }
+    const hedef = Math.max(0, el.offsetLeft - (yol.clientWidth - el.offsetWidth) / 2);
+    const bas = yol.scrollLeft;
+    const fark = hedef - bas;
+    if (azaltMi() || sure <= 0 || Math.abs(fark) < 2) { yol.scrollLeft = hedef; bitti?.(); return; }
+    const t0 = performance.now();
+    const adim = (t) => {
+      const o = Math.min(1, (t - t0) / sure);
+      yol.scrollLeft = bas + fark * (1 - (1 - o) ** 3);
+      if (o < 1) kaydirAnimId.current = requestAnimationFrame(adim); else bitti?.();
+    };
+    kaydirAnimId.current = requestAnimationFrame(adim);
+  }, []);
+
+  // Açılış sırası (veri gelince bir kez): sezonun ilk açılışıysa önce tam perde, değilse hemen sayfa kayarak açılır
   useEffect(() => {
-    if (!durum || kaydirildi.current || !yolRef.current) return;
+    if (!durum || durum.gorunur === false || acilisBasladi.current) return;
+    acilisBasladi.current = true;
+    if (!durum.test && perdeGerekliMi(userId, durum.sezon?.no)) setPerde(true);
+    else setAcilis("oyna");
+  }, [durum, userId]);
+
+  // Sayfa açılırken (400 ms) yol mevcut seviyeye kayar; bitince o durak kısa parlar
+  useEffect(() => {
+    if (!durum || acilis !== "oyna" || kaydirildi.current || !yolRef.current) return;
     kaydirildi.current = true;
-    requestAnimationFrame(() => kaydir(Math.max(1, Number(durum.seviye ?? 1)), false));
-  }, [durum, kaydir]);
+    const seviye = Math.max(1, Number(durum.seviye ?? 1));
+    requestAnimationFrame(() => kaydirAnimli(seviye, ACILIS_MS, () => {
+      if (!canli.current || azaltMi()) return;
+      setParla(seviye);
+      parlaZaman.current = setTimeout(() => { if (canli.current) setParla(null); }, PARLA_MS);
+    }));
+  }, [durum, acilis, kaydirAnimli]);
 
   const calistir = async (ad, fonk, yedek) => {
     if (islem) return;
@@ -196,7 +240,7 @@ export default function SezonYoluPage() {
 
   return (
     <OdulKimlik.Provider value={{ profile }}>
-    <div className="sy-sayfa">
+    <div className={`sy-sayfa${acilis === "oyna" ? " sy-sayfa--ac" : " sy-sayfa--bekle"}`} ref={kabukRef}>
       <SezonHero durum={durum} tema={tema} finalOdul={finalOdul} toplam={toplam} testNotu={Boolean(durum.test)}
         onFinal={(o) => setSecili(anahtar(o))} />
 
@@ -210,7 +254,7 @@ export default function SezonYoluPage() {
 
       <section className="sy-yol-kutu" aria-label={tt("Sezon Yolu ödülleri")}>
         <YolSeridi durum={d} toplam={toplam} bpVar={bpVar} harita={harita} yeniAlinan={yeniAlinan} yeniAcilan={yeniAcilan}
-          onSec={(o) => setSecili(anahtar(o))} onTasma={setTasmaKol} profile={profile} userId={userId} yolRef={yolRef} />
+          onSec={(o) => setSecili(anahtar(o))} onTasma={setTasmaKol} profile={profile} userId={userId} yolRef={yolRef} parla={parla} />
       </section>
 
       <div className="sy-yol-arac">
@@ -290,6 +334,10 @@ export default function SezonYoluPage() {
       {satinAlAcik && <SatinAlSayfasi durum={d} dil={dil} finalOdul={finalOdul} toplam={toplam} onOnay={bpSatinAlOnay} onKapat={() => setSatinAlAcik(false)} />}
       {kutlama && <Kutlama verilen={kutlama.verilen} profile={profile} userId={userId} onKapat={() => setKutlama(null)} />}
       {ucus && <SezonUcus kaynak={ucus.kaynak} onBitti={() => setUcus(null)} />}
+      {perde && (
+        <SezonAcilisPerdesi sezonNo={durum.sezon?.no} finalOdul={finalOdul} tema={tema} dil={dil} userId={userId}
+          onKapat={() => { setPerde(false); setAcilis("oyna"); }} />
+      )}
     </div>
     </OdulKimlik.Provider>
   );
