@@ -88,17 +88,22 @@ function yerelSaatMetni(saat) {
   }
 }
 
+/** Parantezdeki Türkiye saati etiketi: TR "TSİ", EN "Turkey time" (TSİ yabancı oyuncuya Türkçe kısaltma kalırdı). */
+function tsiEtiketi() {
+  return aktifDil() === "en" ? "Turkey time" : "TSİ";
+}
+
 /** Tek seans: TR → "20:00"; yabancı → "1:00 PM (TSİ 20:00)". */
 export function turnuvaSaatiGoster(saat) {
   const yerel = yerelSaatGoster() ? yerelSaatMetni(saat) : null;
-  return yerel ? `${yerel} (TSİ ${saat})` : saat;
+  return yerel ? `${yerel} (${tsiEtiketi()} ${saat})` : saat;
 }
 
 /** Seans listesi: TR → "10:00, 14:00"; yabancı → "3:00 AM, 7:00 AM (TSİ 10:00, 14:00)". */
 export function turnuvaSaatleriniGoster(saatler, ayrac = ", ") {
   const yerel = yerelSaatGoster() ? saatler.map(yerelSaatMetni) : [];
   if (!yerel.length || yerel.some((x) => !x)) return saatler.join(ayrac);
-  return `${yerel.join(ayrac)} (TSİ ${saatler.join(ayrac)})`;
+  return `${yerel.join(ayrac)} (${tsiEtiketi()} ${saatler.join(ayrac)})`;
 }
 
 /** Günün turnuva saatleri (TSİ metin, sıralı). */

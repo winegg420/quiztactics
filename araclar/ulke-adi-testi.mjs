@@ -29,15 +29,15 @@ for (const dil of ['en', 'tr']) {
   console.log(`— ${dil.toUpperCase()} arayüz (algılanan: ${sonuc.dil}), ${sonuc.satirlar.length} ülke`);
   if (dil === 'en') {
     ok('arayüz dili EN', sonuc.dil === 'en');
-    const kotu = sonuc.satirlar.filter((s) => !s.unvanKodlu.startsWith('Champion of ') || s.unvanKodlu !== s.unvanKodsuz);
-    ok('unvan: hepsi "Champion of …", kodlu ve kodsuz aynı', kotu.length === 0, JSON.stringify(kotu.slice(0, 3)));
+    const kotu = sonuc.satirlar.filter((s) => !s.unvanKodlu.endsWith(' Champion') || s.unvanKodlu !== s.unvanKodsuz);
+    ok('unvan: hepsi "… Champion", kodlu ve kodsuz aynı', kotu.length === 0, JSON.stringify(kotu.slice(0, 3)));
     const trKaldi = sonuc.satirlar.filter((s) => (s.unvanKodlu.replace('Türkiye', '') + s.bildirim.replace('Türkiye', '')).match(TR_HARF));
     ok('hiçbir ülke adında Türkçe harf kalmadı (Türkiye hariç)', trKaldi.length === 0, JSON.stringify(trKaldi.slice(0, 5).map((s) => [s.ad, s.unvanKodlu, s.bildirim])));
-    const esit = sonuc.satirlar.filter((s) => s.ad !== 'Türkiye' && s.unvanKodlu === `Champion of ${s.ad}` && s.ad.match(/[a-z]/i) && !['Fransa'].includes(s.ad) && /[ğşıöçü]|lar$|ler$/i.test(s.ad));
+    const esit = sonuc.satirlar.filter((s) => s.ad !== 'Türkiye' && s.unvanKodlu === `${s.ad} Champion` && s.ad.match(/[a-z]/i) && !['Fransa'].includes(s.ad) && /[ğşıöçü]|lar$|ler$/i.test(s.ad));
     ok('Türkçe ad (…lar/…ler/Türkçe harf) İngilizceye dönmüş', esit.length === 0, JSON.stringify(esit.slice(0, 5).map((s) => s.ad)));
     const bk = sonuc.satirlar.filter((s) => s.bildirim !== `🏆 You are the Champion of ${ENAD.of(s.kod)}! Your title will appear on your profile and in matches this week.`);
     ok('bildirim: cümle İngilizce ve ülke adı çevrildi (86/86 beklenen metin)', bk.length === 0, JSON.stringify(bk.slice(0, 3).map((s) => s.bildirim)));
-    ok('şehir adı DEĞİŞMEDİ (İstanbul)', sonuc.satirlar.every((s) => s.sehir === 'Champion of İstanbul'), sonuc.satirlar[0].sehir);
+    ok('şehir adı DEĞİŞMEDİ (İstanbul)', sonuc.satirlar.every((s) => s.sehir === 'İstanbul Champion'), sonuc.satirlar[0].sehir);
     console.log('   örnek:', sonuc.satirlar.filter((s) => ['IT', 'PH', 'TR', 'DE', 'RS', 'VN', 'US'].includes(s.kod)).map((s) => `${s.ad} → ${s.unvanKodlu}`).join(' | '));
   } else {
     ok('arayüz dili TR', sonuc.dil === 'tr');

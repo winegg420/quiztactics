@@ -103,7 +103,7 @@ biter. Kaynak `lig_arsiv.sehir_sampiyonu` (profilde kalıcı alan yok). Oyuncu s
 
 **`unvan` (643, 647):** görünen unvan — `null` | `{tur:"dunya", tr, en}` | `{tur:"ulke", ulke:<kod>, ad:<ülke adı>}` | `{tur:"sehir", sehir, ulke}`
 (aktif şampiyonluklar, öncelik dünya > ülke > şehir; takılı unvanın önüne geçer) | `{tur, anahtar, tr, en}` (takılı ve kazanılmış unvan; tur: lig · sezon · basari). Gizli bot kazandığı unvanlardan
-kimliğinden sabit birini (ya da hiç) taşır. Metin: `oyun/lib/unvan.js › unvanMetni` (şehir/ülke: "X Şampiyonu" / "Champion of X"; dünya: "Dünya Şampiyonu" / "World Champion").
+kimliğinden sabit birini (ya da hiç) taşır. Metin: `oyun/lib/unvan.js › unvanMetni` (şehir/ülke: "X Şampiyonu" / "X Champion"; dünya: "Dünya Şampiyonu" / "World Champion").
 
 ### `unvanlarim()` → jsonb (643)
 `{ unvanlar: [{anahtar, tur, ad_tr, ad_en, aciklama_tr, aciklama_en, kazanildi, takili}], takili, sehir_sampiyonu, ulke_sampiyonu, dunya_sampiyonu }`

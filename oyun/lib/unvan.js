@@ -34,14 +34,14 @@ export async function unvanTak(anahtar, userId) {
 
 /**
  * Oyuncu kartındaki unvan → görünen metin (oyuncunun dilinde).
- * Şehir: TR "Balıkesir Şampiyonu" · EN "Champion of Balıkesir". Ülke (647): TR "Türkiye Şampiyonu" · EN "Champion of Türkiye"
+ * Şehir: TR "Balıkesir Şampiyonu" · EN "Balıkesir Champion" (şehir başta: dar şeritte "…" ile kesilince kısalan kısım unvan olur, şehir görünür kalır). Ülke (647): TR "Türkiye Şampiyonu" · EN "Türkiye Champion"
  * (ad = ulkeler.ad Türkçe kalır; EN'de ülke adı istemcide çevrilir: kod varsa Intl, yoksa Türkçe adın karşılığı). Dünya (647): sabit "Dünya Şampiyonu" / "World Champion". Diğerleri sunucudan iki dilde gelir.
  */
 export function unvanMetni(unvan) {
   if (!unvan) return null;
   const en = aktifDil() === "en";
-  if (unvan.tur === "sehir") return en ? `Champion of ${unvan.sehir}` : `${unvan.sehir} Şampiyonu`;
-  if (unvan.tur === "ulke") return en ? `Champion of ${unvan.ulke ? ulkeAdi(unvan.ulke, unvan.ad) : ulkeAdiCevir(unvan.ad)}` : `${unvan.ad} Şampiyonu`;
+  if (unvan.tur === "sehir") return en ? `${unvan.sehir} Champion` : `${unvan.sehir} Şampiyonu`;
+  if (unvan.tur === "ulke") return en ? `${unvan.ulke ? ulkeAdi(unvan.ulke, unvan.ad) : ulkeAdiCevir(unvan.ad)} Champion` : `${unvan.ad} Şampiyonu`;
   if (unvan.tur === "dunya") return en ? "World Champion" : "Dünya Şampiyonu";
   return (en ? unvan.en : unvan.tr) ?? unvan.tr ?? null;
 }
