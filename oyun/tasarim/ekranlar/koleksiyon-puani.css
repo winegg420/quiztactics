@@ -2,9 +2,11 @@
 .qt-kp { display: grid; gap: var(--qt-b-2); min-width: 0; }
 .qt-kp h2, .qt-kp p { margin: 0; }
 .qt-kp-baslik { display: flex; align-items: center; gap: 6px; }
+/* Boş koleksiyonda tek satır hedef (QtBosDurum boyut=k): kart içinde ekstra kutu/çizgi taşımaz */
+.qt-kp .qt-bos--k { padding: 0; border: 0; background: transparent; box-shadow: none; }
 .qt-kp-ozet { font-size: var(--qt-y-s); color: var(--qt-metin); overflow-wrap: anywhere; }
 .qt-kp-puan { color: var(--qt-ikinci-koyu); font-weight: var(--qt-a-siyah); }
-.qt-kp-cubuk { display: flex; height: 12px; border-radius: 999px; overflow: hidden; border: 2px solid #0b1220; background: #eef1f6; }
+.qt-kp-cubuk { display: flex; height: 14px; border-radius: 999px; overflow: hidden; border: 2px solid #0b1220; background: #eef1f6; }
 .qt-kp-dilim { flex-basis: 0; min-width: 0; }
 .qt-kp-dilim--siradan { background: #9aa6b8; } .qt-kp-dilim--nadir { background: #1f9d5c; }
 .qt-kp-dilim--epik { background: #8b2fd6; } .qt-kp-dilim--efsanevi { background: #ffd23a; }

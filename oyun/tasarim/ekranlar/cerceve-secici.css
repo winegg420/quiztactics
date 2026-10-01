@@ -20,6 +20,10 @@
   transition: transform var(--qt-s-basma) var(--qt-egri-cikis);
 }
 .qt-cs-oge:active { transform: scale(0.97); }
+/* Sahip olunan kalem konturlu; kilitli soluk ve konturlu değil (kazanılmış / kilitli ayrımı) */
+.qt-cs-oge:not(.qt-cs-oge--kilitli):not(:disabled) { border-color: var(--qt-cizgi-guclu); }
+.qt-cs-oge.qt-cs-oge[aria-pressed="true"] { border-color: var(--qt-ikinci); }
+@media (prefers-reduced-motion: reduce) { .qt-cs-oge { transition: none; } .qt-cs-oge:active { transform: none; } }
 .qt-cs-oge[aria-pressed="true"] { background: var(--qt-ikinci-acik); box-shadow: inset 0 0 0 2px var(--qt-ikinci); }
 .qt-cs-oge:disabled { cursor: default; }
 /* Nadirlik kart kenarı — dükkânla aynı dil (dukkan-cerceve.css'teki .qt-dc-nadirlik köşe etiketi ve

@@ -22,7 +22,7 @@ import { kazanilanMi } from "../tasarim/kazanilan/anahtarlar.js";
 import { cerceveTanimiBul, auraTanimiBul } from "../tasarim/cerceveler/tanimlar.js";
 import DurumKutusu from "./DurumKutusu.jsx";
 import UnvanSecici from "./UnvanSecici.jsx";
-import KoleksiyonDokumu from "./KoleksiyonDokumu.jsx";
+import KoleksiyonDokumu, { useBirKezSirali } from "./KoleksiyonDokumu.jsx";
 import { NadirlikEtiketi, ElmasFiyat } from "./DukkanAuralar.jsx";
 import { KOZMETIK_SEKMELERI, KozmetikOnizlemePenceresi, KozmetikSimge, kozmetikAdi, premiumMi, useKozmetikDukkan } from "./DukkanKozmetik.jsx";
 import { kozmetikHatasi, kozmetikTak } from "../lib/kozmetik.js";
@@ -35,7 +35,7 @@ import { LIG_ADLARI } from "../lib/lig.js";
 import { hataMesaji } from "../lib/hata.js";
 import { tt } from "../lib/dil.js";
 import { y } from "../lib/yol.js";
-import { QtDugme, QtIkon, QtKart } from "../tasarim/index.js";
+import { QtDugme, QtIkon, QtKart, dokunus, sinif, siraStili } from "../tasarim/index.js";
 import "../tasarim/ekranlar/cerceve-secici.css";
 
 /** Kazanılmamış çerçevenin nasıl kazanılacağı (kosul: "lig:gumus" | "level:25" | "turnuva:1" | "etkinlik:yilbasi"). */
@@ -66,6 +66,8 @@ export default function Koleksiyon() {
   const navigate = useNavigate();
   // Premium (hareketli) kalem: karta dokununca büyük önizleme penceresi (tak / satın al orada)
   const [pencere, setPencere] = useState(null);
+  // Oyun hissi: ilk kartlar sıralı girer (≤ 4 öğe); yalnız oturumdaki ilk açılışta, sekme değişiminde yeniden oynamaz.
+  const sirali = useBirKezSirali("koleksiyon", Boolean(cerceveler && auralar));
 
   const yukle = useCallback(async () => {
     setHata(null);
@@ -92,6 +94,7 @@ export default function Koleksiyon() {
 
   const cerceveSec = async (anahtar) => {
     if (mesgul || anahtar === takiliCerceve) return;
+    dokunus();
     setMesgul(`c:${anahtar ?? "yok"}`);
     setHata(null);
     try {
@@ -106,6 +109,7 @@ export default function Koleksiyon() {
   };
   const auraSec = async (anahtar) => {
     if (mesgul || anahtar === takiliAura) return;
+    dokunus();
     setMesgul(`a:${anahtar ?? "yok"}`);
     setHata(null);
     try {
@@ -120,6 +124,7 @@ export default function Koleksiyon() {
   };
   const avatarSec = async (url) => {
     if (mesgul || profile?.avatar_url === url) return;
+    dokunus();
     setMesgul(`v:${url}`);
     setHata(null);
     try {
@@ -137,6 +142,7 @@ export default function Koleksiyon() {
 
   const kozmetikSec = async (tur, anahtar) => {
     if (mesgul) return;
+    dokunus();
     setMesgul(`k:${tur}:${anahtar ?? "yok"}`);
     setHata(null);
     try {
@@ -165,7 +171,7 @@ export default function Koleksiyon() {
   return (
     <div className="qt-ks">
       {/* Önizleme: şu an herkesin gördüğü hâl */}
-      <QtKart className="qt-ks-onizleme" aria-live="polite">
+      <QtKart className={sinif("qt-ks-onizleme", sirali)} style={siraStili(0)} aria-live="polite">
         <CerceveliAvatar profile={profile ?? {}} userId={user?.id} boyut={112} hareketli />
         <div className="qt-ks-ozet">
           <h2 className="qt-baslik-3">{tt("Görünümün")}</h2>
@@ -179,13 +185,13 @@ export default function Koleksiyon() {
       {hata && <p className="qt-cs-hata" role="alert">{hata}</p>}
 
       {/* ---------- Koleksiyon Puanı dökümü (646) ---------- */}
-      <KoleksiyonDokumu tam />
+      <KoleksiyonDokumu tam sirali={sirali} sira={1} />
 
       {/* ---------- Unvanlar (643) ---------- */}
       <UnvanSecici />
 
       {/* ---------- Çerçeveler (kazanılır, satılmaz) ---------- */}
-      <QtKart as="section" className="qt-cs" aria-labelledby="qt-ks-cerceve">
+      <QtKart as="section" className={sinif("qt-cs", sirali)} style={siraStili(2)} aria-labelledby="qt-ks-cerceve">
         <h2 id="qt-ks-cerceve" className="qt-baslik-3">{tt("Kazanılan Çerçeveler")}</h2>
         <p className="qt-kucuk qt-soluk">{tt("Çerçeve satılmaz, kazanılır: lig, turnuva, level ve etkinliklerle.")}</p>
         <ul className="qt-cs-izgara">
@@ -230,7 +236,7 @@ export default function Koleksiyon() {
 
       {/* ---------- Arka Planlar (eski katalog) — 552'den beri boş; boşken çizilmez, premium arka planlar aşağıda ---------- */}
       {auralar.length > 0 && (
-      <QtKart as="section" className="qt-cs" aria-labelledby="qt-ks-aura">
+      <QtKart as="section" className={sinif("qt-cs", sirali)} style={siraStili(3)} aria-labelledby="qt-ks-aura">
         <h2 id="qt-ks-aura" className="qt-baslik-3">{tt("Arka Planlar")}</h2>
         <p className="qt-kucuk qt-soluk">{tt("Arka plan avatarının arkasında durur. Dükkân'da elmasla alınır.")}</p>
         <ul className="qt-cs-izgara">

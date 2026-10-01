@@ -3,17 +3,24 @@
  * Veri: rozetlerim() / rozetVitriniSec() (oyun/lib/rozet.js). Kazanma mantığı sunucuda.
  * Listelerde madalyonlar durağandır.
  */
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import RozetMadalyonu from "./RozetMadalyonu.jsx";
 import DurumKutusu from "./DurumKutusu.jsx";
+import { useBirKezSirali } from "./KoleksiyonDokumu.jsx";
 import { rozetlerim, rozetVitriniSec } from "../lib/rozet.js";
 import { oyuncuKartiUnut } from "../lib/cerceve.js";
 import { hataMesaji } from "../lib/hata.js";
 import { tt } from "../lib/dil.js";
-import { QtDugme, QtIlerleme, QtKart, QtModal, QtRozet, sayiBicim } from "../tasarim/index.js";
+import { QtDugme, QtIlerleme, QtKart, QtModal, QtRozet, dokunus, sayiBicim, sinif, siraStili } from "../tasarim/index.js";
 import "../tasarim/ekranlar/rozet-panel.css";
 
 const KADEME_ADI = { bronz: "Bronz", gumus: "Gümüş", altin: "Altın", elmas: "Elmas" };
+// "Yeni": sunucunun verdiği kazanıldı_at son 24 saat içindeyse (rozetlerim() ayrı bir "görüldü" alanı döndürmez).
+const YENI_MS = 24 * 3600 * 1000;
+const yeniMi = (r) => {
+  const t = r.kazanildi && r.kazanildi_at ? new Date(r.kazanildi_at).getTime() : NaN;
+  return Number.isFinite(t) && Date.now() - t >= 0 && Date.now() - t < YENI_MS;
+};
 
 function tarih(t) {
   try { return new Date(t).toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" }); } catch { return ""; }
@@ -35,6 +42,9 @@ export default function RozetlerPaneli({ userId }) {
   const [secili, setSecili] = useState(null);
   const [kaydediliyor, setKaydediliyor] = useState(false);
   const [vitrinHata, setVitrinHata] = useState(null);
+  // Sıralı giriş + yeni rozet parıltısı yalnız oturumdaki ilk açılışta (sekme değişiminde yeniden oynamaz).
+  const sirali = useBirKezSirali("rozet", Boolean(veri));
+  const ilkAcilis = useRef(sirali !== "").current;
 
   const yukle = useCallback(async () => {
     setHata(null);
@@ -74,14 +84,16 @@ export default function RozetlerPaneli({ userId }) {
     }
   };
   const vitrindeMi = secili ? vitrin.includes(secili.anahtar) : false;
+  const sec = (r) => { dokunus(); setSecili(r); };
   const vitrinDegistir = () => {
     if (!secili) return;
+    dokunus();
     vitrinKaydet(vitrindeMi ? vitrin.filter((k) => k !== secili.anahtar) : [...vitrin, secili.anahtar].slice(-vitrinMax));
   };
 
   return (
     <div className="qt-rp">
-      <QtKart as="section" className="qt-rp-kart" aria-labelledby="qt-rp-vitrin">
+      <QtKart as="section" className={sinif("qt-rp-kart", sirali)} style={siraStili(0)} aria-labelledby="qt-rp-vitrin">
         <div className="qt-rp-baslik">
           <h2 id="qt-rp-vitrin" className="qt-baslik-3">{tt("Vitrinim")}</h2>
           <QtRozet ton="coin" boyut="k">{sayiBicim(veri.ozet?.kazanilan ?? 0)}/{sayiBicim(veri.ozet?.toplam ?? rozetler.length)}</QtRozet>
@@ -93,7 +105,7 @@ export default function RozetlerPaneli({ userId }) {
             return (
               <li key={i}>
                 {r ? (
-                  <button type="button" className="qt-rp-vitrin-yuva qt-rp-vitrin-yuva--dolu" onClick={() => setSecili(r)}>
+                  <button type="button" className="qt-rp-vitrin-yuva qt-rp-vitrin-yuva--dolu" onClick={() => sec(r)}>
                     <RozetGorseli r={r} boyut={64} />
                     <span className="qt-rp-ad">{r.ad}</span>
                   </button>
@@ -107,12 +119,12 @@ export default function RozetlerPaneli({ userId }) {
         {vitrinHata && !secili && <p className="qt-rp-hata" role="alert">{vitrinHata}</p>}
       </QtKart>
 
-      {gruplar.map((g) => {
+      {gruplar.map((g, gi) => {
         const liste = rozetler.filter((r) => r.grup === g.anahtar);
         if (!liste.length) return null;
         const kazanilan = liste.filter((r) => r.kazanildi).length;
         return (
-          <QtKart as="section" key={g.anahtar} className="qt-rp-kart" aria-labelledby={`qt-rp-g-${g.anahtar}`}>
+          <QtKart as="section" key={g.anahtar} className={sinif("qt-rp-kart", sirali)} style={siraStili(gi + 1)} aria-labelledby={`qt-rp-g-${g.anahtar}`}>
             <div className="qt-rp-baslik">
               <h3 id={`qt-rp-g-${g.anahtar}`} className="qt-baslik-3">{g.ad}</h3>
               <span className="qt-kucuk qt-soluk">{kazanilan}/{liste.length}</span>
@@ -121,12 +133,15 @@ export default function RozetlerPaneli({ userId }) {
               {liste.map((r) => {
                 const gizli = r.gizli && !r.kazanildi;
                 const ilerliyor = !r.kazanildi && r.hedef > 0;
+                const yeni = yeniMi(r);
                 return (
                   <li key={r.anahtar}>
-                    <button type="button" className={`qt-rp-rozet${r.kazanildi ? "" : " qt-rp-rozet--kilitli"}`}
-                            onClick={() => setSecili(r)}
-                            aria-label={gizli ? tt("Gizli rozet") : `${r.ad}${r.kazanildi ? "" : ` — ${tt("Kilitli")}`}`}>
+                    <button type="button" className={sinif("qt-rp-rozet", !r.kazanildi && "qt-rp-rozet--kilitli", yeni && "qt-rp-rozet--yeni")}
+                            onClick={() => sec(r)}
+                            aria-label={gizli ? tt("Gizli rozet") : `${r.ad}${r.kazanildi ? "" : ` — ${tt("Kilitli")}`}${yeni ? ` — ${tt("Yeni kazanıldı")}` : ""}`}>
                       <RozetGorseli r={r} boyut={56} />
+                      {yeni && <span className="qt-rp-yeni" aria-hidden="true">{tt("Yeni")}</span>}
+                      {yeni && ilkAcilis && <span className="qt-rb-parilti" aria-hidden="true" />}
                       <span className="qt-rp-ad">{gizli ? tt("Gizli rozet") : r.ad}</span>
                       {ilerliyor && (
                         <span className="qt-rp-ilerleme">

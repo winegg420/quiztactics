@@ -5,7 +5,8 @@ import KategoriIkon from "./KategoriIkon.jsx";
 import { JOKER_BILGI } from "../lib/jokerler.js";
 import SkillRozeti from "./SkillRozeti.jsx";
 import { tt, ttSunucu } from "../lib/dil.js";
-import { QtIkon, QtIlerleme, QtKart, QtRozet, sayiBicim } from "../tasarim/index.js";
+import { QtIkon, QtIlerleme, QtKart, QtRozet, sayiBicim, sinif, siraStili } from "../tasarim/index.js";
+import { useBirKezSirali } from "./KoleksiyonDokumu.jsx";
 import "../tasarim/ekranlar/dukkan-bilesen.css";
 
 // Tasarım A: ustalık seviyesi → ilerleme çubuğu tonu (token). Veri ve eşikler sunucudan.
@@ -16,9 +17,14 @@ const SEVIYE_TON = {
   "Üstat": "mor",
   "Efsane": "coin",
 };
+// Seviye adı etiketi (qt-dk-ustalik-seviye--*): hepsi açık zemin üstünde koyu yazı, ≥ 4,5:1 (dukkan-bilesen.css).
+const SEVIYE_KOD = { "Çırak": "cirak", "Kalfa": "kalfa", "Usta": "usta", "Üstat": "ustat", "Efsane": "efsane" };
 
-/** Profil sayfası: kategori ustalığı, en uzun seri ve skill istatistikleri. */
-export default function UstalikIzgarasi() {
+/**
+ * Profil sayfası: kategori ustalığı, en uzun seri ve skill istatistikleri.
+ * `sirali`/`sira`: ilk kartın sıralı girişi (ProfilePage verir). Çubuklar dolarak gelir, yalnız oturumdaki ilk açılışta.
+ */
+export default function UstalikIzgarasi({ sirali = "", sira = null }) {
   const [seviyeler, setSeviyeler] = useState([]);
   const [seri, setSeri] = useState(null);
   const [envanter, setEnvanter] = useState([]);
@@ -65,6 +71,7 @@ export default function UstalikIzgarasi() {
     };
   }, []);
 
+  const giris = useBirKezSirali("ustalik", seviyeler.length > 0);
   const toplamDogru = seviyeler.reduce((t, s) => t + (s.dogru_sayisi ?? 0), 0);
   const kutular = [
     { ikon: "ates", deger: seri?.seri_gun ?? 0, ad: tt("güncel seri") },
@@ -76,7 +83,7 @@ export default function UstalikIzgarasi() {
   return (
     <>
       {/* ---------- Seri + skill istatistikleri ---------- */}
-      <QtKart as="section" className="qt-dk-ust-kart" aria-labelledby="qt-dk-seri-baslik">
+      <QtKart as="section" className={sinif("qt-dk-ust-kart", sirali)} style={sira != null ? siraStili(sira) : undefined} aria-labelledby="qt-dk-seri-baslik">
         <h2 id="qt-dk-seri-baslik" className="qt-baslik-3">{tt("Seri ve skiller")}</h2>
         <ul className="qt-dk-sayilar">
           {kutular.map((k) => (
@@ -118,11 +125,12 @@ export default function UstalikIzgarasi() {
                   <span className="qt-dk-ustalik-ad">
                     <KategoriIkon anahtar={s.kategori} boyut={18} plaka /> {tt(kategoriAdi(s.kategori))}
                   </span>
-                  <span className="qt-dk-ustalik-seviye">{s.seviye ? ttSunucu(s.seviye) : "—"}</span>
+                  <span className={sinif("qt-dk-ustalik-seviye", SEVIYE_KOD[s.seviye] && `qt-dk-ustalik-seviye--${SEVIYE_KOD[s.seviye]}`)}>{s.seviye ? ttSunucu(s.seviye) : "—"}</span>
                 </div>
                 <QtIlerleme
                   deger={Number(s.ilerleme ?? 0)}
                   en={100}
+                  canli={Boolean(giris)}
                   ton={SEVIYE_TON[s.seviye] ?? "mor"}
                   etiket={tt("{0} ustalığı", { 0: tt(kategoriAdi(s.kategori)) })}
                 />

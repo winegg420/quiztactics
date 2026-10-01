@@ -78,12 +78,13 @@ export default function KategoriProfili({ userId, profil: disaridan = null, kucu
           {satirlar.map((k) => {
             const ad = ceviri(kategoriAdi(k.kategori));
             const yok = k.yuzde === null || k.yuzde === undefined;
+            const sifir = !yok && Number(k.yuzde) === 0;   // %0 çubuğu çizilmez (boş iz gürültü); yüzde yazısı kalır
             return (
               <li key={k.kategori} className="qt-dk-kprofil-satir">
                 <KategoriIkon anahtar={k.kategori} boyut={18} plaka />
                 <span className="qt-dk-kprofil-ad">{ad}</span>
-                {yok ? (
-                  <span className="qt-dk-kprofil-yok">{ceviri("veri yok")}</span>
+                {yok || sifir ? (
+                  <span className="qt-dk-kprofil-yok">{yok ? ceviri("veri yok") : ceviri("%{0}", { 0: k.yuzde })}</span>
                 ) : (
                   <>
                     <QtIlerleme deger={Number(k.yuzde)} en={100} ton="dogru"

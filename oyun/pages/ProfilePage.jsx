@@ -54,6 +54,9 @@ import {
   QtRozet,
   QtSekmeler,
   sayiBicim,
+  sinif,
+  siraStili,
+  useSiraliGiris,
 } from "../tasarim/index.js";
 import "../tasarim/ekranlar/dukkan-profil.css";
 
@@ -100,6 +103,8 @@ export default function ProfilePage() {
   // Hatalarım bankası özeti
   const [banka, setBanka] = useState(null);
   const vsTema = kozmetikTemasi(useKartAlani(user?.id, "vs_karti"));   // 540: profil başlığı VS kartı teması
+  // Oyun hissi: ilk ekran blokları sıralı girer (6 öğe ≤ 360 ms); yalnız ilk açılışta, sekme değişiminde yeniden oynamaz.
+  const sirali = useSiraliGiris(Boolean(profile));
 
   useEffect(() => {
     pushDurumu().then(setBildirim).catch((e) => console.error("[Bildim] bildirim durumu okunamadı:", e));
@@ -199,39 +204,38 @@ export default function ProfilePage() {
       <h1 className="qt-gizli">{tt("Profil")}</h1>
 
       {/* ---------- Kimlik: avatar (lig çerçevesiyle), takma ad, rütbe, level ---------- */}
-      <QtKart className="qt-pf-kimlik">
+      {/* Oyun hissi: kart içinde kart yok — koyu oyuncu kartı tek afiş, rütbe + level çubuğu ona bitişik şerit. */}
+      <section className={sinif("qt-pf-kimlik", sirali)} style={siraStili(0)} aria-label={tt("Oyuncu kimliği")}>
         {/* Görsel revizyon (25 Eyl): tek oyuncu kartı — başkalarının gördüğü kartın aynısı (avatar + çerçeve + arka plan,
             isim, unvan, lig + level, vitrin rozetleri). */}
         <OyuncuVitrinKarti userId={user?.id} profile={profile} boyut={88} hareketli arkaPlan className="qt-pf-ok" />
-        <div className="qt-pf-kimlik-metin">
+        <div className="qt-pf-serit">
           <div className="qt-pf-rozetler">
             <QtRozet ton="mor" ikon={r.ikon}>{r.ad}</QtRozet>
             {/* Paket 20 III: misafir hesabı her yerde belli olsun */}
             {misafirMi(user) && <QtRozet ton="uyari" ikon="kisi">{tt("Misafir")}</QtRozet>}
           </div>
+          <LevelCubugu profile={profile} canli />
         </div>
-        <div className="qt-pf-level">
-          <LevelCubugu profile={profile} />
-        </div>
-      </QtKart>
+      </section>
 
       {/* 646: Koleksiyon Puanı özeti (rozet · unvan · puan + nadirlik dağılımı); tam döküm Koleksiyon sekmesinde */}
-      <KoleksiyonDokumu />
+      <KoleksiyonDokumu sirali={sirali} sira={1} />
 
-      {/* ---------- Üç sayı ---------- */}
+      {/* ---------- Üç sayı: puan mor · kupa altın · seri turuncu (oyun kartı dili); hedefi olan kart soluk ---------- */}
       <ul className="qt-pf-sayilar">
-        <li>
-          <QtKart dolgu="k" className="qt-pf-sayi">
+        <li className={sirali} style={siraStili(2)}>
+          <div className="qt-pf-sayi qt-pf-sayi--mor">
             {/* D-504: lig puanı coin ikonuyla karışıyordu → lig (kalkan) ikonu */}
-            <QtIkon ad="lig" boyut={22} className="qt-pf-sayi-ikon qt-pf-sayi-ikon--vurgu" />
+            <span className="qt-pf-sayi-ikon" aria-hidden="true"><QtIkon ad="lig" boyut={20} /></span>
             <b className="qt-sayi"><SayanSayi deger={profile.puan} bicim={(n) => sayiBicim(n)} /></b>
             <span>{tt("Puan")}</span>
-          </QtKart>
+          </div>
         </li>
         {/* Boş durum: kocaman bir "0" yerine hedefi göster. */}
-        <li>
-          <QtKart dolgu="k" className="qt-pf-sayi">
-            <QtIkon ad="kupa" boyut={22} className="qt-pf-sayi-ikon" />
+        <li className={sirali} style={siraStili(3)}>
+          <div className={sinif("qt-pf-sayi qt-pf-sayi--altin", !(profile.sampiyonluk > 0) && "qt-pf-sayi--bos")}>
+            <span className="qt-pf-sayi-ikon" aria-hidden="true"><QtIkon ad="kupa" boyut={20} /></span>
             {profile.sampiyonluk > 0 ? (
               <>
                 <b className="qt-sayi"><SayanSayi deger={profile.sampiyonluk} /></b>
@@ -240,11 +244,11 @@ export default function ProfilePage() {
             ) : (
               <span className="qt-pf-sayi-hedef">{tt("Turnuva kazan, ilk kupan gelsin")}</span>
             )}
-          </QtKart>
+          </div>
         </li>
-        <li>
-          <QtKart dolgu="k" className="qt-pf-sayi">
-            <QtIkon ad="ates" boyut={22} className="qt-pf-sayi-ikon qt-pf-sayi-ikon--vurgu" />
+        <li className={sirali} style={siraStili(4)}>
+          <div className={sinif("qt-pf-sayi qt-pf-sayi--vurgu", !((profile.seri ?? 0) > 0) && "qt-pf-sayi--bos")}>
+            <span className={sinif("qt-pf-sayi-ikon", (profile.seri ?? 0) > 0 && "qt-h-salla-ara")} aria-hidden="true"><QtIkon ad="ates" boyut={20} /></span>
             {(profile.seri ?? 0) > 0 ? (
               <>
                 <b className="qt-sayi">{profile.seri}</b>
@@ -253,23 +257,23 @@ export default function ProfilePage() {
             ) : (
               <span className="qt-pf-sayi-hedef">{tt("Maç oyna, serin başlasın")}</span>
             )}
-          </QtKart>
+          </div>
         </li>
       </ul>
 
       {/* ---------- SEKMELER ---------- */}
-      <div id="profil-sekmeler" className="qt-pf-sekmeler">
+      <div id="profil-sekmeler" className={sinif("qt-pf-sekmeler", sirali)} style={siraStili(5)}>
         <QtSekmeler etiket={tt("Profil bölümleri")} sekmeler={sekmeler} aktif={sekme} onSec={setSekme} />
       </div>
 
       <div id={`qt-panel-${sekme}`} role="tabpanel" className="qt-pf-panel">
         {sekme === "istatistik" && (<>
           {/* Kategori başarısı + unvan (Paket 14, 4.8/4.10) */}
-          <QtKart as="section" className="qt-pf-bolum" aria-labelledby="qt-pf-kategori">
+          <QtKart as="section" className={sinif("qt-pf-bolum", sirali)} style={siraStili(6)} aria-labelledby="qt-pf-kategori">
             <h2 id="qt-pf-kategori" className="qt-baslik-3">{tt("Kategori başarın")}</h2>
             <KategoriProfili userId={user?.id} />
           </QtKart>
-          <UstalikIzgarasi />
+          <UstalikIzgarasi sirali={sirali} sira={7} />
 
           {/* ---------- Hatalarım bankası ---------- */}
           {banka && (
@@ -298,6 +302,7 @@ export default function ProfilePage() {
                 deger={level - r.min}
                 en={Math.max(1, sonraki.min - r.min)}
                 ton="vurgu"
+                canli
                 etiket={tt("{0} rütbesine ilerleme", { 0: sonraki.ad })}
               />
             </QtKart>

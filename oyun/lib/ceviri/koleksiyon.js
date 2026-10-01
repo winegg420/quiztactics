@@ -10,4 +10,7 @@ export default {
   "{n} kalemin nadirliği henüz belirlenmedi; puana girmiyor.": "{n} items don't have a rarity yet, so they don't count toward your score.",
   "Sıradan {a} · Nadir {b} · Epik {c} · Efsanevi {e} puan": "Common {a} · Rare {b} · Epic {c} · Legendary {e} points",
   "Koleksiyoncular": "Collectors",
+  "Oyuncu kimliği": "Player identity",
+  "İlk rozetin için maç oyna": "Play a match to earn your first badge",
+  "Yeni kazanıldı": "Just earned",
 };

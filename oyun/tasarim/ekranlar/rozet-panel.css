@@ -29,6 +29,8 @@
 
 .qt-rp-izgara { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: var(--qt-b-2); }
 .qt-rp-rozet {
+  position: relative;
+  overflow: hidden;
   display: grid;
   justify-items: center;
   align-content: start;
@@ -37,15 +39,25 @@
   min-height: 44px;
   height: 100%;
   padding: var(--qt-b-3) var(--qt-b-1) var(--qt-b-2);
-  border: 0;
+  /* Kazanılmış: konturlu + renkli; kilitli: soluk ve yassı (aşağıda). Basınca kabartma çöker. */
+  border: 2px solid var(--oyk-kontur, #0b1220);
   border-radius: var(--qt-r-m);
-  background: var(--qt-yuzey-2);
+  background: var(--qt-coin-acik);
+  box-shadow: 0 3px 0 var(--oyk-kontur, #0b1220);
   font: inherit;
   color: inherit;
   cursor: pointer;
-  transition: transform var(--qt-s-basma) var(--qt-egri-cikis);
+  transition: transform var(--qt-s-basma) var(--qt-egri-cikis), box-shadow var(--qt-s-basma) var(--qt-egri-cikis);
 }
-.qt-rp-rozet:active { transform: scale(0.97); }
+.qt-rp-rozet:active { transform: translateY(3px); box-shadow: 0 0 0 var(--oyk-kontur, #0b1220); }
+.qt-rp-rozet--kilitli { border-color: var(--qt-cizgi-guclu); background: var(--qt-yuzey-2); box-shadow: none; }
+.qt-rp-rozet--kilitli:active { transform: scale(0.97); }
+.qt-rp-rozet:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 2px; }
+/* Son 24 saatte kazanılan rozet: köşe etiketi (parıltı bir kez, ilk açılışta) */
+.qt-rp-yeni {
+  position: absolute; top: 4px; right: 4px; padding: 0 6px; border: 2px solid var(--oyk-kontur, #0b1220); border-radius: var(--qt-r-hap);
+  background: var(--qt-vurgu); color: var(--qt-vurgu-yazi); font-size: 10px; font-weight: var(--qt-a-siyah); line-height: 1.4;
+}
 .qt-rp-ad {
   font-size: var(--qt-y-xs);
   font-weight: var(--qt-a-siyah);
@@ -99,3 +111,7 @@
 }
 @keyframes qt-rb-parilti { to { transform: translateX(320%) skewX(-18deg); } }
 @media (prefers-reduced-motion: reduce) { .qt-rb-parilti { animation: none; opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .qt-rp-rozet { transition: none; }
+  .qt-rp-rozet:active, .qt-rp-rozet--kilitli:active { transform: none; }
+}

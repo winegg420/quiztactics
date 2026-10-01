@@ -5,16 +5,26 @@
  * <KoleksiyonDokumu />          — özet satırı + nadirlik çubuğu
  * <KoleksiyonDokumu tam />      — + kategori listesi
  */
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { koleksiyonDokum, koleksiyonSayi } from "../lib/koleksiyon.js";
 import { tt } from "../lib/dil.js";
-import { QtIkon, QtKart } from "../tasarim/index.js";
+import { QtBosDurum, QtIkon, QtKart, sinif, siraStili, useSiraliGiris } from "../tasarim/index.js";
 import "../tasarim/ekranlar/koleksiyon-puani.css";
 
 const KATEGORI_AD = { rozet: "Rozet", cerceve: "Çerçeve", aura: "Arka Plan", unvan: "Unvan", kozmetik: "Kozmetik", avatar: "Avatar" };
 const NADIR = [["siradan", "Sıradan"], ["nadir", "Nadir"], ["epik", "Epik"], ["efsanevi", "Efsanevi"]];
 
-export default function KoleksiyonDokumu({ tam = false }) {
+// Profil sekmeleri açılıp kapanınca bileşen yeniden kurulur: sıralı giriş oturum başına BİR kez oynar (sekme değişiminde tekrar etmez).
+const OYNANAN = new Set();
+/** Profil alt panelleri (Rozetler, Koleksiyon) için: `anahtar` ilk kez açılıyorsa sıralı giriş sınıfı, sonra "". */
+export function useBirKezSirali(anahtar, hazir) {
+  const ilk = useRef(!OYNANAN.has(anahtar)).current;
+  const sirali = useSiraliGiris(hazir);
+  useEffect(() => { if (hazir) OYNANAN.add(anahtar); }, [hazir, anahtar]);
+  return ilk ? sirali : "";
+}
+
+export default function KoleksiyonDokumu({ tam = false, sirali = "", sira = null }) {
   const [d, setD] = useState(null);
   useEffect(() => {
     let aktif = true;
@@ -26,23 +36,34 @@ export default function KoleksiyonDokumu({ tam = false }) {
   const rozet = k.rozet?.adet ?? 0;
   const unvan = k.unvan?.adet ?? 0;
   const toplam = NADIR.reduce((t, [a]) => t + (d.nadirlik?.[a]?.puan ?? 0), 0) || 1;
+  // Boş koleksiyon: gri çubuk + "0 rozet · 0 unvan" yerine tek satır hedef (özet kartında; döküm sekmesinde sayılar durur).
+  const bos = !tam && rozet === 0 && unvan === 0;
   return (
-    <QtKart as="section" className="qt-kp" aria-labelledby="qt-kp-b">
+    <QtKart as="section" className={sinif("qt-kp", sirali)} style={sira != null ? siraStili(sira) : undefined} aria-labelledby="qt-kp-b">
       <h2 id="qt-kp-b" className="qt-baslik-3 qt-kp-baslik"><QtIkon ad="yildiz" boyut={20} /> {tt("Koleksiyon")}</h2>
-      <p className="qt-kp-ozet">
-        <span>{tt("{n} rozet", { n: rozet })}</span> · <span>{tt("{n} unvan", { n: unvan })}</span> ·{" "}
-        <b className="qt-kp-puan qt-sayi">{tt("Koleksiyon {n}", { n: koleksiyonSayi(d.puan) })}</b>
-      </p>
-      <div className="qt-kp-cubuk" role="img" aria-label={tt("Nadirliğe göre dağılım")}>
-        {NADIR.map(([a]) => (
-          <span key={a} className={`qt-kp-dilim qt-kp-dilim--${a}`} style={{ flexGrow: Math.max(d.nadirlik?.[a]?.puan ?? 0, 0) / toplam * 100 || 0 }} />
-        ))}
-      </div>
-      <ul className="qt-kp-nadir">
-        {NADIR.map(([a, ad]) => (
-          <li key={a}><i className={`qt-kp-nokta qt-kp-nokta--${a}`} />{tt(ad)} <b>{d.nadirlik?.[a]?.adet ?? 0}</b></li>
-        ))}
-      </ul>
+      {bos ? (
+        <QtBosDurum boyut="k" ikon="madalya" ton="mor" baslik={tt("İlk rozetin için maç oyna")} />
+      ) : (
+        <>
+          <p className="qt-kp-ozet">
+            <span>{tt("{n} rozet", { n: rozet })}</span> · <span>{tt("{n} unvan", { n: unvan })}</span> ·{" "}
+            <b className="qt-kp-puan qt-sayi">{tt("Koleksiyon {n}", { n: koleksiyonSayi(d.puan) })}</b>
+          </p>
+          <div className="qt-kp-cubuk" role="img" aria-label={tt("Nadirliğe göre dağılım")}>
+            {NADIR.map(([a]) => (
+              <span key={a} className={`qt-kp-dilim qt-kp-dilim--${a}`} style={{ flexGrow: Math.max(d.nadirlik?.[a]?.puan ?? 0, 0) / toplam * 100 || 0 }} />
+            ))}
+          </div>
+        </>
+      )}
+      {/* Nadirlik açıklaması yalnız döküm sekmesinde: profilin ilk ekranı sade kalır (renk anlamı Koleksiyon sekmesinde). */}
+      {tam && (
+        <ul className="qt-kp-nadir">
+          {NADIR.map(([a, ad]) => (
+            <li key={a}><i className={`qt-kp-nokta qt-kp-nokta--${a}`} />{tt(ad)} <b>{d.nadirlik?.[a]?.adet ?? 0}</b></li>
+          ))}
+        </ul>
+      )}
       {tam && (
         <ul className="qt-kp-liste">
           {Object.entries(KATEGORI_AD).filter(([a]) => k[a]).map(([a, ad]) => (

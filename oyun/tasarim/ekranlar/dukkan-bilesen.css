@@ -126,7 +126,15 @@
 .qt-dk-ustalik-satir { display: grid; gap: 6px; min-width: 0; }
 .qt-dk-ustalik-ust { display: flex; align-items: center; justify-content: space-between; gap: var(--qt-b-2); }
 .qt-dk-ustalik-ad { display: inline-flex; align-items: center; gap: var(--qt-b-2); min-width: 0; font-weight: var(--qt-a-siyah); }
-.qt-dk-ustalik-seviye { font-size: var(--qt-y-s); font-weight: var(--qt-a-siyah); color: var(--qt-ikinci-koyu); }
+.qt-dk-ustalik-seviye { flex: none; padding: 1px 9px; border-radius: var(--qt-r-hap); background: var(--qt-ikinci-acik); font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); line-height: 1.5; color: var(--qt-ikinci-koyu); }
+/* Seviye etiketi: açık zemin + koyu yazı (hepsi ≥ 4,5:1). Çırak gümüş-gri idi: yazı da çubuk da okunmuyordu. */
+.qt-dk-ustalik-seviye--cirak { background: #e4e9f2; color: #354158; }
+.qt-dk-ustalik-seviye--kalfa { background: #eaf3de; color: #27500a; }
+.qt-dk-ustalik-seviye--usta { background: #dff1fb; color: #0a4b6e; }
+.qt-dk-ustalik-seviye--ustat { background: var(--qt-ikinci-acik); color: var(--qt-ikinci-koyu); }
+.qt-dk-ustalik-seviye--efsane { background: #fff1c9; color: #5c3d00; }
+/* Gümüş çubuk açık izde 2,9:1 idi → koyu gümüş (5,1:1) */
+.qt-dk-ustalik .qt-ilerleme--lig-gumus { --_r: #5b6985; }
 .qt-dk-ustalik-alt { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); }
 
 /* ——— KategoriProfili ——— */
