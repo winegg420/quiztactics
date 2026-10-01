@@ -45,7 +45,10 @@ const OLC = () => {
   const sar = document.querySelector(".as-a2-lig"), lk = document.querySelector(".as-lk");
   const ligKes = sar && lk ? Math.round((lk.getBoundingClientRect().height - sar.clientHeight) * 10) / 10 : null;   // >0: lig kartı kesiliyor
   const ligSatir = document.querySelectorAll(".as-lk-satir").length - [...document.querySelectorAll(".as-lk-satir")].filter((e) => getComputedStyle(e).display === "none").length;
-  return { ligKes, ligSatir, parcalar: k, bosluk, kartTasan: tasan.slice(0, 8), nokta, yatayTasma: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+  // İki yarım kart (Sezon Yolu + Görevler): boyut, metin kısalması (scrollWidth > clientWidth), dokunma hedefi
+  const ikili = [...document.querySelectorAll(".sz-ser, .as-gs")].map((e) => { const b = e.getBoundingClientRect(); return { kart: e.className.split(" ")[0], sol: Math.round(b.left * 10) / 10, sag: Math.round(b.right * 10) / 10, y: Math.round(b.height * 10) / 10, g: Math.round(b.width * 10) / 10, ust: Math.round(b.top), alt: Math.round(b.bottom),
+    kisaltilan: [...e.querySelectorAll("b, small, .sz-ser-seviye")].filter((t) => t.scrollWidth > t.clientWidth + 0.5).map((t) => t.innerText), metin: e.innerText.split(String.fromCharCode(10)).join(" | ") }; });
+  return { ikili, ligKes, ligSatir, parcalar: k, bosluk, kartTasan: tasan.slice(0, 8), nokta, yatayTasma: document.documentElement.scrollWidth - document.documentElement.clientWidth,
     pencere: { g: innerWidth, y: innerHeight }, altMenuUst: alt ? Math.round(alt.top) : null,
     sezonMetin: document.querySelector(".as-a2-sezon")?.innerText?.replace(/\n/g, " | ") ?? null, lig8: document.querySelector(".as-lk-sira")?.innerText ?? null };
 };
@@ -82,4 +85,4 @@ for (const dil of ["tr", "en"]) for (const [g, y] of (ARG.boyut ? ARG.boyut.spli
 }
 await t.close();
 fs.writeFileSync(path.join(CIKTI, `${ETIKET}-${SEZON}-olcum.json`), JSON.stringify(sonuc, null, 1));
-for (const [ad, o] of Object.entries(sonuc)) console.log(ad, JSON.stringify({ bosluk: o.bosluk, eylemY: o.parcalar.eylem?.y, eylemAlt: o.parcalar.eylem?.alt, pencereY: o.pencere.y, altMenuUst: o.altMenuUst, ligKes: o.ligKes, ligSatir: o.ligSatir, tasma: o.yatayTasma, lig8: o.lig8, nokta: o.nokta, kartTasan: o.kartTasan.length, sezon: o.sezonMetin, konsol: o.konsol.length }));
+for (const [ad, o] of Object.entries(sonuc)) console.log(ad, JSON.stringify({ ikili: o.ikili.map((k) => `${k.kart}:${k.g}x${k.y}@${k.ust}-${k.alt}${k.kisaltilan.length ? ' KISALAN=' + k.kisaltilan.join('/') : ''}`), bosluk: o.bosluk, eylemY: o.parcalar.eylem?.y, eylemAlt: o.parcalar.eylem?.alt, pencereY: o.pencere.y, altMenuUst: o.altMenuUst, ligKes: o.ligKes, ligSatir: o.ligSatir, tasma: o.yatayTasma, lig8: o.lig8, nokta: o.nokta, kartTasan: o.kartTasan.length, sezon: o.sezonMetin, konsol: o.konsol.length }));

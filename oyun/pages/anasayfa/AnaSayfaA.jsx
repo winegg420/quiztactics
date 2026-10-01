@@ -77,8 +77,11 @@ export default function AnaSayfaA() {
       <section className="as-a2-kol as-a2-kol--sag" aria-label={tt("Etkinlikler")}>
         <div className="as-a2-turnuva"><TurnuvaSeridi v={v} git={b.git} /></div>
         <div className="as-a2-masaustu"><TurnuvaSeansListesi /></div>
-        <div className="as-a2-sezon"><SezonSeridi /></div>{/* Sezon Yolu şeridi (1 Eki 2026): yalnız sezon_yolu_acik açıkken; kapalı/yüklenmiyorsa boş */}
-        <div className="as-a2-gorev"><GorevSeridi /></div>
+        {/* Sezon Yolu + Görevler: tek satırda iki yarım kart (1 Eki 2026). Sezon kartı yalnız sezon_yolu_acik açıkken çizilir; kapalı/yüklenmiyorsa kap boş kalır, Görevler tam genişlik olur. Hiçbir yükseklikte gizlenmez. */}
+        <div className="as-a2-seritlar">
+          <div className="as-a2-sezon"><SezonSeridi /></div>
+          <div className="as-a2-gorev"><GorevSeridi /></div>
+        </div>
         {olaylar.length > 0 && (
           <div className="as-panel as-a2-masaustu">
             <h2 className="as-panel-baslik"><QtIkon ad="zil" boyut={20} />{tt("Seni bekleyenler")}</h2>

@@ -1,5 +1,6 @@
 // Kontrast + dokunma hedefi taraması (360 px, TR/EN). Önce `npm run dev`, sonra:
-//   node araclar/kontrast-tarama.mjs [--dil=en] [--esik=4.5]
+//   node araclar/kontrast-tarama.mjs [--dil=en] [--esik=4.5] [--sayfalar=/,/gorevler] [--sezon=degil|sahip|odul]
+//   --sezon: ana sayfa Sezon Yolu kartı için sezon_ozetim/sezon_yolu_durumum yanıtlarını TARAYICIDA taklit eder (sunucuya yazmaz).
 // Oturum: araclar/arayuz-denetim.mjs'in yazdığı .arayuz-denetim-oturum.json.
 import { chromium } from "playwright-core";
 import fs from "node:fs";
@@ -9,7 +10,8 @@ const ARG = Object.fromEntries(process.argv.slice(2).map((a) => { const [k, v] =
 const ADRES = ARG.adres || "http://localhost:4173"; // npm run build && npx vite preview --port 4173
 const DIL = ARG.dil || "tr";
 const OTURUM = path.resolve(".arayuz-denetim-oturum.json");
-const SAYFALAR = ["/", "/siralama", "/profil", "/turnuva", "/sezon-yolu", "/gorevler", "/joker", "/gizlilik", "/kosullar"];
+const SAYFALAR = typeof ARG.sayfalar === "string" ? ARG.sayfalar.split(",") : ["/", "/siralama", "/profil", "/turnuva", "/sezon-yolu", "/gorevler", "/joker", "/gizlilik", "/kosullar"];
+const SEZON = { degil: { bp: false, alinabilir: 0 }, sahip: { bp: true, alinabilir: 0 }, odul: { bp: false, alinabilir: 3 } }[ARG.sezon];
 
 const OLC = () => {
   const ayril = (s) => { const m = s.match(/rgba?\(([^)]+)\)/); if (!m) return null; const p = m[1].split(/[ ,\/]+/).filter(Boolean).map(Number); return { r: p[0], g: p[1], b: p[2], a: p[3] ?? 1 }; };
@@ -52,6 +54,11 @@ const s = await b.newPage();
 await s.route(/\/rest\/v1\/(profiles|rpc)/, async (r) => {
   try { const y = await r.fetch(); const m = (await y.text()).replace(/"dil":\s*"(tr|en)"/g, `"dil":"${DIL}"`); await r.fulfill({ response: y, body: m }); } catch { await r.continue(); }
 });
+if (SEZON) {
+  const json = (x) => (r) => r.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(x) });
+  await s.route("**/rest/v1/rpc/sezon_ozetim*", json({ gorunur: true, sezon: 1, seviye: 9, seviye_sayisi: 28, sp: 940, onceki_esik: 900, sonraki_esik: 1000, bp: SEZON.bp, alinabilir: SEZON.alinabilir }));
+  await s.route("**/rest/v1/rpc/sezon_yolu_durumum*", json({ gorunur: true, acik: true, test: false, sezon: { id: 1, no: 1, kalan_gun: 21 }, seviye_sayisi: 28, oduller: [] }));
+}
 // Dil değişince uygulama bir kez yeniden yükleyebilir: ilk açılışı ısıt.
 try { await s.goto(ADRES + "/", { waitUntil: "domcontentloaded" }); await s.waitForTimeout(4000); } catch {}
 const hepsi = {};

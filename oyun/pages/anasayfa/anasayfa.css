@@ -561,7 +561,7 @@ a.as-cip:active { transform: translateY(2px); }
 .as-a2 .as-a-acil { order: 4; }
 .as-a2 .as-a-eylem { order: 5; }
 .as-a2 .as-a-kisayol { order: 6; }
-.as-a2-gorev { order: 7; }
+.as-a2-seritlar { order: 7; }
 .as-a2 .as-hata { order: 8; }
 
 /* ---------- Kompakt oyuncu kartı ---------- */
@@ -647,9 +647,6 @@ a.as-cip:active { transform: translateY(2px); }
 /* Öncelik: OYNA/DÜELLO > turnuva > lig kartı > kısayol > görev şeridi. Şerit artık ≥700 px yükseklikte görünür
    (eskiden ≤800 px'te gizliydi); 700–760 px arası şerit 44 px'e iner, oyuncu kartı ve OYNA/DÜELLO biraz sıkışır ki
    lig kartı kesilmesin. <700 px'te (ör. 390×664) sığmaz: şerit gizli, OYNA/DÜELLO yerinde; Görevler avatar menüsünde. */
-@media (max-width: 1023px) and (max-height: 699px) {
-  .as-a2-gorev { display: none; }
-}
 @media (max-width: 1023px) and (max-height: 830px) {
   .as-lk-satir--uzak { display: none; }   /* şerit yer açsın: lig kartı en yakın 3 satıra iner (eskiden ≤760) */
 }
@@ -760,8 +757,15 @@ a.as-cip:active { transform: translateY(2px); }
    (telefon ekran görüntüsünden ölçüldü; ölçüm: araclar/ana-sayfa-olcum.mjs)
    ============================================================ */
 /* Sezon şeridi Görevler'in hemen üstünde (ikisi de order 7; DOM sırası şerit → görev). Şerit çizilmezse (kapalı/yükleniyor) boş kalan kap yer tutmaz. */
-.as-a2-sezon { order: 7; }
+/* İki yarım kart tek satırda; sezon kartı çizilmezse (kapalı/yükleniyor/hata) kap boş → gizlenir, Görevler tam genişlik. */
+.as-a2-seritlar { display: flex; align-items: stretch; gap: 8px; }
+.as-a2-sezon, .as-a2-gorev { flex: 1 1 0; min-width: 0; display: flex; }
+.as-a2-sezon > a, .as-a2-gorev > a { flex: 1 1 auto; }
 .as-a2-sezon:empty { display: none; }
+/* Yarım kartta Görevler: simge ve ok gider (yer metne kalır); tam genişlikte (sezon yok) eski görünüm */
+.as-a2-sezon:not(:empty) + .as-a2-gorev .as-gs { grid-template-columns: minmax(0, 1fr) auto; gap: 6px; min-height: 48px; padding: 6px 10px; }
+.as-a2-sezon:not(:empty) + .as-a2-gorev .as-gs-ikon, .as-a2-sezon:not(:empty) + .as-a2-gorev .as-gs-ok { display: none; }
+.as-a2-sezon:not(:empty) + .as-a2-gorev .as-gs-metin small { font-size: 11.5px; }
 
 /* Turnuva bandı: komşu kartlarla 12–14 px (akış boşluğu + kendi payı); lobi halkası içeride kalır (eskiden 9–11 px dışarı taşıp komşunun üstüne biniyordu). */
 .as-a2-turnuva { margin-block: 4px; }
@@ -807,16 +811,14 @@ a.as-cip:active { transform: translateY(2px); }
   .as-a2 .as-kisayol-ikon { width: 34px; height: 34px; }
   .as-a2 .as-serit { min-height: 50px; padding-block: 6px; }
   .as-a2 .as-serit-kupa { width: 38px; height: 38px; }
-  .sz-ser { min-height: 50px; padding-block: 6px; }
-  .sz-ser-odul { width: 36px; height: 36px; }
+  .sz-ser, .as-a2-sezon:not(:empty) + .as-a2-gorev .as-gs { min-height: 46px; padding-block: 4px; }
 }
 
-/* Öncelik (telefon): OYNA/DÜELLO > turnuva > Sezon Yolu şeridi > lig kartı > kısayol > Görevler.
-   <700 px: şerit ve görev gizli (sığmaz; Sezon Yolu avatar menüsünde + oyuncu kartındaki rozet). 700–899 px: şerit görünür, Görevler gizli
-   (Görevler avatar menüsünde). ≥900 px: ikisi de. Lig kartı ≤940 px'te en yakın 3 satıra iner (şerit yer açsın; kesik satır kalmasın). */
-@media (max-width: 1023px) and (max-height: 699px) { .as-a2-sezon { display: none; } }
-@media (max-width: 1023px) and (max-height: 899px) { .as-a2-gorev { display: none; } }
+/* Öncelik (telefon): OYNA/DÜELLO > turnuva > Sezon Yolu + Görevler (iki yarım kart, hiçbir yükseklikte gizlenmez) > lig kartı > kısayol.
+   Lig kartı ≤940 px'te en yakın 3 satıra iner (kartlar yer açsın; kesik satır kalmasın). */
 @media (max-width: 1023px) and (max-height: 940px) { .as-lk-satir--uzak { display: none; } }
+/* <700 px (664): iki yarım kart yer kazandırmaz → lig kartı yalnız başlık + kendi satırın (kesik satır kalmasın; sıra başlıktaki pill'de) */
+@media (max-width: 1023px) and (max-height: 699px) { .as-lk-satir:not(.as-lk-satir--ben) { display: none; } }
 
 /* Sessiz nokta artık marka renginde (turuncu + beyaz/koyu çift kenar ≥ 3:1); eskiden soluk gri-mavi, anlamsız görünüyordu */
 .as-rozet-nokta, .as-gs-nokta { background: var(--qt-vurgu); box-shadow: 0 0 0 2px var(--qt-yuzey), 0 0 0 3px var(--qt-vurgu-dudak); }
