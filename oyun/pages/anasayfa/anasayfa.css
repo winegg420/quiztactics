@@ -561,7 +561,7 @@ a.as-cip:active { transform: translateY(2px); }
 .as-a2 .as-a-acil { order: 4; }
 .as-a2 .as-a-eylem { order: 5; }
 .as-a2 .as-a-kisayol { order: 6; }
-.as-a2-gorev { order: 7; }
+.as-a2-seritlar { order: 7; }
 .as-a2 .as-hata { order: 8; }
 
 /* ---------- Kompakt oyuncu kartı ---------- */
@@ -647,9 +647,6 @@ a.as-cip:active { transform: translateY(2px); }
 /* Öncelik: OYNA/DÜELLO > turnuva > lig kartı > kısayol > görev şeridi. Şerit artık ≥700 px yükseklikte görünür
    (eskiden ≤800 px'te gizliydi); 700–760 px arası şerit 44 px'e iner, oyuncu kartı ve OYNA/DÜELLO biraz sıkışır ki
    lig kartı kesilmesin. <700 px'te (ör. 390×664) sığmaz: şerit gizli, OYNA/DÜELLO yerinde; Görevler avatar menüsünde. */
-@media (max-width: 1023px) and (max-height: 699px) {
-  .as-a2-gorev { display: none; }
-}
 @media (max-width: 1023px) and (max-height: 830px) {
   .as-lk-satir--uzak { display: none; }   /* şerit yer açsın: lig kartı en yakın 3 satıra iner (eskiden ≤760) */
 }
@@ -753,4 +750,92 @@ a.as-cip:active { transform: translateY(2px); }
 }
 @media (max-width: 1023px) and (max-height: 660px) {
   .as-lk-alt { display: flex; }
+}
+
+/* ============================================================
+   1 Eki 2026 — ana sayfa kozmetik düzeltmeleri + Sezon Yolu şeridi yeri
+   (telefon ekran görüntüsünden ölçüldü; ölçüm: araclar/ana-sayfa-olcum.mjs)
+   ============================================================ */
+/* Sezon şeridi Görevler'in hemen üstünde (ikisi de order 7; DOM sırası şerit → görev). Şerit çizilmezse (kapalı/yükleniyor) boş kalan kap yer tutmaz. */
+/* İki yarım kart tek satırda; sezon kartı çizilmezse (kapalı/yükleniyor/hata) kap boş → gizlenir, Görevler tam genişlik. */
+.as-a2-seritlar { display: flex; align-items: stretch; gap: 8px; }
+.as-a2-sezon, .as-a2-gorev { flex: 1 1 0; min-width: 0; display: flex; }
+.as-a2-sezon > a, .as-a2-gorev > a { flex: 1 1 auto; }
+.as-a2-sezon:empty { display: none; }
+/* Yarım kartta Görevler: simge ve ok gider (yer metne kalır); tam genişlikte (sezon yok) eski görünüm */
+.as-a2-sezon:not(:empty) + .as-a2-gorev .as-gs { grid-template-columns: minmax(0, 1fr) auto; gap: 6px; min-height: 48px; padding: 6px 10px; }
+.as-a2-sezon:not(:empty) + .as-a2-gorev .as-gs-ikon, .as-a2-sezon:not(:empty) + .as-a2-gorev .as-gs-ok { display: none; }
+.as-a2-sezon:not(:empty) + .as-a2-gorev .as-gs-metin small { font-size: 11.5px; }
+
+/* Turnuva bandı: komşu kartlarla 12–14 px (akış boşluğu + kendi payı); lobi halkası içeride kalır (eskiden 9–11 px dışarı taşıp komşunun üstüne biniyordu). */
+.as-a2-turnuva { margin-block: 4px; }
+@media (max-width: 1023px) and (max-height: 760px) { .as-a2-turnuva { margin-block: 5px; } }
+@media (max-width: 1023px) and (min-height: 700px) and (max-height: 760px) { .as-a2-turnuva { margin-block: 6px; } }
+@media (min-width: 1024px) { .as-a2-turnuva { margin-block: 0; } }
+
+/* Turnuva bandı: koyu lacivert zemin + altın kupa/vurgu (eskiden sarı-turuncu bant + turuncu OYNA tek turuncu blok oluyordu).
+   KATIL turuncu kalır. Beyaz / #1B2260 ≈ 14:1 · altın #FFE08A / lacivert ≈ 10:1. Mor ve kırmızı ayrılmış (mavi = sen, kırmızı = rakip). */
+.as-serit {
+  --as-tn: #1b2260; --as-tn-2: #2b3596; --as-tn-dudak: #0d1240;
+  color: #fff;
+  background:
+    radial-gradient(110% 150% at 100% 0%, rgba(255, 201, 51, .22), transparent 55%),
+    linear-gradient(135deg, var(--as-tn-2), var(--as-tn) 70%),
+    var(--as-tn);
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, .14), 0 5px 0 var(--as-tn-dudak), var(--as-golge-kucuk);
+}
+.as-serit:active { box-shadow: inset 0 2px 0 rgba(255, 255, 255, .14), 0 1px 0 var(--as-tn-dudak); }
+.as-serit--canli { background: radial-gradient(110% 150% at 100% 0%, rgba(255, 201, 51, .3), transparent 55%), linear-gradient(135deg, var(--as-tn-2), var(--as-tn) 70%), var(--as-tn); }
+.as-serit-kupa { background: rgba(255, 255, 255, .1); color: var(--qt-coin); box-shadow: inset 0 0 0 2px var(--qt-coin); }
+.as-serit-metin small { color: #ffe08a; }
+.as-serit-odul { background: var(--qt-coin-acik); }
+/* Lobi açık: ince altın halka + nabız; ikisi de bandın en çok 5–6 px dışında (komşu karta ve ekran kenarına taşmaz) */
+.as-serit--lobi { box-shadow: inset 0 2px 0 rgba(255, 255, 255, .14), 0 5px 0 var(--as-tn-dudak), 0 0 0 3px var(--qt-coin); }
+.as-serit--lobi::after {
+  inset: -3px; border-radius: calc(var(--qt-r-l) + 3px); box-shadow: 0 0 0 2px var(--qt-coin);
+  animation: as-serit-nabiz-ic 1.6s ease-out infinite;
+}
+@keyframes as-serit-nabiz-ic { 0% { opacity: .8; transform: scale(1); } 100% { opacity: 0; transform: scale(1.02); } }
+@media (prefers-reduced-motion: reduce) { .as-serit--lobi::after { animation: none; } }
+
+/* OYNA / DÜELLO: uzun ekranda 128 px'e uzayıp (412×915'te ölçülen 109,5 px) içeriği üst yarıda bırakıyordu → en çok 92 px, içerik dikey ortalı.
+   Kısa ekranda (≤800 px) OYNA/DÜELLO 54 px, turnuva 50, kısayol 62, şerit 50 (eskiden 60–68 / 62 / 84–90); kazanılan yer Sezon Yolu şeridine gider. */
+@media (max-width: 1023px) {
+  html.as-kaydirmasiz .as-a2 .as-a-eylem { max-height: 92px; align-content: start; }
+  .as-a2 .as-a-eylem .as-buyuk-dugme { min-height: 64px; align-items: center; }
+}
+@media (max-width: 1023px) and (max-height: 800px) {
+  .as-a2 .as-a-eylem .as-buyuk-dugme { min-height: 52px; padding-block: 6px; }
+  .as-a2 .as-a-eylem .as-buyuk-dugme-ikon { width: 36px; height: 36px; }
+  .as-a2 .as-kisayol { min-height: 62px; padding-top: 6px; gap: 4px; }
+  .as-a2 .as-kisayol-ikon { width: 34px; height: 34px; }
+  .as-a2 .as-serit { min-height: 50px; padding-block: 6px; }
+  .as-a2 .as-serit-kupa { width: 38px; height: 38px; }
+  .sz-ser, .as-a2-sezon:not(:empty) + .as-a2-gorev .as-gs { min-height: 46px; padding-block: 4px; }
+}
+
+/* Öncelik (telefon): OYNA/DÜELLO > turnuva > Sezon Yolu + Görevler (iki yarım kart, hiçbir yükseklikte gizlenmez) > lig kartı > kısayol.
+   Lig kartı ≤940 px'te en yakın 3 satıra iner (kartlar yer açsın; kesik satır kalmasın). */
+@media (max-width: 1023px) and (max-height: 940px) { .as-lk-satir--uzak { display: none; } }
+/* <700 px (664): iki yarım kart yer kazandırmaz → lig kartı yalnız başlık + kendi satırın (kesik satır kalmasın; sıra başlıktaki pill'de) */
+@media (max-width: 1023px) and (max-height: 699px) { .as-lk-satir:not(.as-lk-satir--ben) { display: none; } }
+
+/* Sessiz nokta artık marka renginde (turuncu + beyaz/koyu çift kenar ≥ 3:1); eskiden soluk gri-mavi, anlamsız görünüyordu */
+.as-rozet-nokta, .as-gs-nokta { background: var(--qt-vurgu); box-shadow: 0 0 0 2px var(--qt-yuzey), 0 0 0 3px var(--qt-vurgu-dudak); }
+.as-rozet-nokta { width: 10px; height: 10px; top: 10px; right: 10px; }
+.as-gs-nokta { width: 10px; height: 10px; }
+
+/* Lig kartı: "15/25" yerine "Sıra 15/25" — pill biraz uzar, "Hafta bitimine" yazısı zaten kısalır */
+.as-lk-sira { white-space: nowrap; }
+
+
+/* Lig kartı (kısa ekran): "Yükselmeye n puan kaldı" mutlak konumlu kutu yerine başlık satırında kalan boşluğa sığar, taşarsa "…" ile kısalır
+   ("Rank 15/25" pill'i uzayınca 360 px EN'de üst üste biniyordu). Uzun ekranda eski alt satır durur. */
+.as-lk-alt-kisa { display: none; }
+@media (max-width: 1023px) and (max-height: 760px) {
+  .as-lk-alt { display: none; }
+  .as-lk-alt-kisa {
+    display: block; flex: 1 1 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: right;
+    font-size: 12px; font-weight: var(--qt-a-siyah); color: var(--qt-dogru-koyu);
+  }
 }

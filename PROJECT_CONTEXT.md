@@ -464,6 +464,9 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
 - **Arayüz:** `/sezon-yolu` (`oyun/tasarim/sezon-yolu/`, v2 onaylı maket): sezon teması `sezonTemalari.jsx` (sezon no → tema,
   oyuncunun arka planıyla ilgisiz; ayda bir sezon = kayda bir satır), ödül önizleme (`OdulSayfasi`, oyuncunun kendi avatarıyla), 28+ taşma sütunu.
   Rozet ana sayfa oyuncu kartında + dişli menüde "Sezon Yolu" satırı (`oyun/components/sezon/`), istemci `oyun/lib/sezonYolu.js`.
+  **Açılış/kapanış (1 Eki 2026):** her açılışta sayfa alttan kayar (400 ms), yol seviyeye kayar, o durak parlar; sezonun İLK açılışında önce tam perde (1,5 sn, dokununca atlanır:
+  "Sezon N" + sezon sonu ödülü, "gördü" `bildim_sezon_perde:<kullanıcı>:<sezon no>` localStorage); kapanışta 250 ms ters geçiş (donmuş kopya). Yalnız transform/opacity; "hareketi azalt" → anında (perde hareketsiz).
+  Dosyalar: `SezonYoluPage.jsx`, `SezonAcilisPerdesi.jsx`, `acilis.js`; ölçüm `araclar/sezon-acilis-olcum.mjs`.
   Testler: `sezon-yolu-sql-testi` · `sezon-tasma-sql-testi` · `sezon-kapanis-sql-testi` (ROLLBACK) · `sezon-tasma-yaris-testi` ·
   `sezon-yolu-yaris-testi` (sahip test sezonunu SİLER) · ekran `araclar/sezon-yolu-v2-ekran.mjs` (390×700 ve 360×640 ana ölçü).
 
@@ -488,7 +491,7 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
   bölümü + Haftalık sandık; alınca sunucunun döndüğü GERÇEK coin/SP uçan çipte görünür. SP çipleri ve alt not yalnız sezon sistemi görünürken
   (`sezon_ozetim.gorunur`) çizilir. Ana sayfada tek satırlık Görevler şeridi (`GorevSeridi`, "Günlük a/3 · Haftalık b/3", alınabilir ödül varsa 8 px sessiz nokta);
   şerit yalnız ekran yüksekliği ≥ 700 px iken görünür (<700'de sığmaz; OYNA/DÜELLO yerinde kalsın diye gizli) — her ekranda avatar (dişli) menüsü ›
-  Görevler satırı var. Ölçüm: `node araclar/gorevler-ekran.mjs` (taklit veri, sunucuya yazmaz).
+  Görevler satırı var. Ölçüm: `node araclar/gorevler-ekran.mjs` (taklit veri, sunucuya yazmaz). **Güncel görünürlük (1 Eki 2026): Görevler şeridi yalnız ekran yüksekliği ≥ 900 px'te** (Sezon Yolu şeridi yer aldı; 700–899'da gizli).
 
 ### Botlar
 
@@ -588,8 +591,12 @@ karakter, Hızlı Mod hariç — dondurulmuş) bu sistemle yeniden yazıldı.
 - **Ana sayfa = seçenek A (lobi, kaydırmasız)** — `oyun/pages/anasayfa/AnaSayfaA.jsx`, veri `veri.jsx`,
   parçalar `parcalar.jsx`. Sıra: kompakt oyuncu kartı (çerçeveli avatar, level + XP, lig, seri) → canlı
   lig kartı (`lig_grubum_ozet`: üstümdeki 2 · ben · altımdaki 2, yükselme/düşme çizgisi, fark) → turnuva
-  şeridi → OYNA/DÜELLO → kısayollar (Meydan Okumalar · Grup Maçı · Saf Bilgi · Hatalarım) → görev şeridi.
-  Sığmazsa önce görev şeridi gizlenir, sonra lig kartı 3 satıra iner. Masaüstü üç sütun. Coin yalnız üst çubukta. Eski `pages/Home.jsx`
+  şeridi (lacivert zemin + altın kupa/vurgu, KATIL turuncu; komşularla 12–14 px) → OYNA/DÜELLO (en çok 92 px) → kısayollar
+  (Meydan Okumalar · Grup Maçı · Saf Bilgi · Hatalarım) → **Sezon Yolu şeridi** (`SezonSeridi`, 1 Eki 2026) → görev şeridi. Lig kartı "Sıra 15/25".
+  Şerit: "Sezon N · Seviye X/28 · ilerleme · sıradaki ödül · X gün kaldı"; BP sahibi değilse altın "Battle Pass" çipi, alınabilir ödül varsa altın nokta + sayı;
+  bütün şerit tek bağlantı (/sezon-yolu); yalnız `sezon_yolu_durumum().acik` iken (test sezonu değil) çizilir; veri sezon_ozetim + sezon_yolu_durumum (yeni RPC yok).
+  Telefonda öncelik OYNA/DÜELLO > turnuva > Sezon şeridi > lig > kısayol > Görevler: ekran yüksekliği <700 px şerit ve Görevler gizli, 700–899 px şerit görünür/Görevler gizli
+  (Görevler avatar menüsünde), ≥900 px ikisi de; lig kartı ≤940 px'te en yakın 3 satıra iner. Masaüstü üç sütun. Coin yalnız üst çubukta. Eski `pages/Home.jsx`
   ve B/C/seçim dosyaları duruyor, rotasız. Meydan Okumalar `/meydan`, Grup Maçı `/meydan?bolum=grup`.
 - **Tasarım skill'leri (proje içi):** `.claude/skills/impeccable` (pbakaus/impeccable; ikili
   dosyası git'e girmez; otomatik hook YOK — denetim elle, `impeccable.cmd detect`) ve

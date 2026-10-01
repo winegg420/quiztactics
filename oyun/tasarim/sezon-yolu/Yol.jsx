@@ -62,7 +62,7 @@ function TasmaYuva({ kol, durum, bpVar, onTasma }) {
   );
 }
 
-export default function YolSeridi({ durum, toplam, bpVar, harita, yeniAlinan, yeniAcilan, onSec, onTasma, profile, userId, yolRef }) {
+export default function YolSeridi({ durum, toplam, bpVar, harita, yeniAlinan, yeniAcilan, onSec, onTasma, profile, userId, yolRef, parla = null }) {
   const duraklar = Array.from({ length: toplam }, (_, i) => i + 1);
   const sablon = `${duraklar.map((n) => (tasMi(n, toplam) ? "var(--sy-tas)" : "var(--sy-kol)")).join(" ")} var(--sy-tasma)`;
   const tasmaCol = toplam + 1;
@@ -78,7 +78,7 @@ export default function YolSeridi({ durum, toplam, bpVar, harita, yeniAlinan, ye
           const c = [
             "sy-durak", acik && "sy-durak--acik", simdi && "sy-durak--simdi", tas && "sy-durak--tas",
             n < durum.seviye && "sy-durak--gecildi", n === 1 && "sy-durak--ilk", yeniAcilan.has(n) && "sy-durak--acildi",
-            n === toplam && simdi && "sy-durak--tam",
+            n === toplam && simdi && "sy-durak--tam", parla === n && simdi && "sy-durak--parla",
           ].filter(Boolean).join(" ");
           return (
             <div key={`d${n}`} className={c} data-durak={n} style={{ gridColumn: n }}>

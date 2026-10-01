@@ -4,4 +4,8 @@ export default {
   "Sezon Yolu, seviye {n} — ödül hazır": "Season Path, level {n} — reward ready",
   "Sezon Yolu · Seviye {n}!": "Season Path · Level {n}!",
   "Ödülün hazır": "Your reward is ready",
+  // Ana sayfa Sezon Yolu şeridi + lig kartı sıra etiketi (1 Eki 2026)
+  "Seviye {n}/{m}": "Level {n}/{m}",
+  "Alınabilir ödül: {n}": "Rewards ready: {n}",
+  "Sıra {n}/{m}": "Rank {n}/{m}",
 };

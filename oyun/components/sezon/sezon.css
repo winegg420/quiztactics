@@ -147,3 +147,34 @@ body.bd-oyun-modu .sz-seviye-toast { display: none; }   /* maç sırasında oyun
   .sz-zafer-serit { animation: sz-serit-yumusak 1000ms ease both 200ms; }
   @keyframes sz-serit-yumusak { 0% { opacity: 0; } 40% { opacity: 0.7; } 100% { opacity: 0; } }
 }
+
+/* ---------- Ana sayfa Sezon Yolu kartı (1 Eki 2026) ----------
+   Görevler ile yan yana yarım kart (≥48 px; kısa ekranda 46). Beyaz yüzey + mavi ince ilerleme; Battle Pass sahibinde ince altın kenar.
+   iOS: fixed/transform yok (yalnız basma hareketi, kartın kendisinde, fixed değil). */
+.sz-ser {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 6px;
+  width: 100%; min-height: 48px; padding: 6px 10px; border-radius: var(--qt-r-l); cursor: pointer;
+  background: var(--qt-yuzey); color: var(--qt-metin); font-family: var(--qt-f-govde); text-decoration: none;
+  box-shadow: 0 3px 0 var(--qt-cizgi), var(--as-golge-kucuk, 0 6px 14px -8px rgba(29, 33, 82, .3));
+  transition: transform var(--qt-s-basma) var(--qt-egri-cikis);
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+}
+.sz-ser:active { transform: translateY(2px); }
+.sz-ser--bp { box-shadow: inset 0 0 0 2px var(--qt-coin), 0 3px 0 var(--qt-coin-dudak), var(--as-golge-kucuk, 0 6px 14px -8px rgba(29, 33, 82, .3)); }
+.sz-ser-metin { display: grid; gap: 2px; min-width: 0; line-height: 1.2; }
+.sz-ser-metin b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: var(--qt-a-siyah) var(--qt-y-s)/1.2 var(--qt-f-baslik); }
+.sz-ser-seviye { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); color: var(--qt-bilgi-koyu); }
+.sz-ser-cubuk { position: relative; display: block; height: 4px; overflow: hidden; border-radius: var(--qt-r-hap); background: var(--qt-yuzey-3); }
+.sz-ser-dolgu { position: absolute; inset: 0; border-radius: inherit; background: var(--qt-bilgi); transform-origin: left center; transform: scaleX(var(--sz-oran, 0)); }
+.sz-ser-yan { display: flex; align-items: center; gap: 4px; }
+/* BP çipi ve alınabilir ödül: altın zemin + koyu lacivert-kahve yazı (≈ 9:1) */
+.sz-ser-bp {
+  display: inline-flex; align-items: center; min-height: 20px; padding: 0 6px; border-radius: var(--qt-r-hap); white-space: nowrap;
+  background: var(--qt-coin); color: var(--qt-coin-yazi); box-shadow: 0 2px 0 var(--qt-coin-dudak);
+  font: var(--qt-a-siyah) 11px/1 var(--qt-f-baslik);
+}
+.sz-ser-adet {
+  display: grid; place-items: center; min-width: 20px; height: 20px; padding: 0 5px; border-radius: var(--qt-r-hap);
+  background: var(--qt-coin); color: var(--qt-coin-yazi); box-shadow: 0 0 0 2px var(--qt-yuzey), 0 0 0 3px var(--qt-coin-dudak);
+  font: var(--qt-a-siyah) 12px/1 var(--qt-f-baslik); font-variant-numeric: tabular-nums;
+}

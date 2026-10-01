@@ -405,3 +405,62 @@
   .sy-hero-ic { padding-block: 4px; }
   .sy-final-vitrin-gorsel { width: 112px; height: 104px; }
 }
+
+/* ============================================================
+   AÇILIŞ / KAPANIŞ GEÇİŞLERİ (1 Eki 2026) — yalnız transform + opacity (kar/su arka planı performans denetimini bozmaz).
+   Açılış 400 ms (sayfa alttan kayar, yol seviyeye kayar, durak parlar) · sezonun ilk açılışında 1,5 sn tam perde · kapanış 250 ms.
+   iOS: perde ve hayalet dış kapları fixed ve HAREKETSİZ; hareket içteki öğede. Hareketi azaltta hiçbiri oynamaz.
+   ============================================================ */
+.sy-sayfa--bekle { opacity: 0; }
+.sy-sayfa--ac { animation: sy-sayfa-ac 400ms var(--qt-egri-cikis) backwards; }
+@keyframes sy-sayfa-ac {
+  from { opacity: 0; transform: translateY(min(64px, 12dvh)); }
+  to { opacity: 1; transform: none; }
+}
+/* Mevcut durak kısa parlar: halka yayılır + daire bir kez büyüyüp küçülür (scale/opacity) */
+.sy-durak--parla .sy-daire { animation: sy-durak-parla 500ms var(--qt-egri-yay) both; }
+.sy-durak--parla .sy-daire::after {
+  content: ""; position: absolute; inset: -3px; border-radius: 50%; border: 4px solid var(--qt-coin); pointer-events: none;
+  animation: sy-halka 700ms var(--qt-egri-cikis) both;
+}
+@keyframes sy-durak-parla { 0% { scale: 1; } 40% { scale: 1.18; } 100% { scale: 1; } }
+
+/* Kapanış: sökülen sayfanın donmuş kopyası alta kayıp solar (250 ms) */
+.sy-hayalet { position: fixed; z-index: 1; overflow: hidden; pointer-events: none; }
+.sy-hayalet-ic { position: absolute; left: 0; background: var(--qt-zemin); animation: sy-hayalet 250ms cubic-bezier(0.4, 0, 1, 1) both; }
+@keyframes sy-hayalet {
+  from { opacity: 1; transform: none; }
+  to { opacity: 0; transform: translateY(min(48px, 8dvh)); }
+}
+
+/* Sezonun ilk açılışı: tam perde (≈1,5 sn, dokununca atlanır) */
+.sy-perde {
+  position: fixed; inset: 0; z-index: var(--qt-z-ortu, 60); display: grid; place-items: center; padding: 24px 16px; cursor: pointer;
+  background: radial-gradient(120% 90% at 50% 20%, var(--sy-t-zemin2), var(--sy-t-zemin)); color: var(--sy-t-yazi, #fff);
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation; animation: sy-perde-gir 250ms var(--qt-egri-cikis) both;
+}
+.sy-perde--kapan { animation: sy-perde-cik 250ms cubic-bezier(0.4, 0, 1, 1) both; }
+.sy-perde-ic { display: grid; justify-items: center; gap: 14px; max-width: 320px; text-align: center; animation: sy-perde-ic-gir 450ms var(--qt-egri-cikis) both; }
+.sy-perde-baslik { margin: 0; font-family: var(--qt-f-baslik); font-weight: var(--qt-a-siyah); font-size: 44px; line-height: 1.05; letter-spacing: 0.01em; }
+.sy-perde-vitrin { display: grid; justify-items: center; gap: 8px; }
+.sy-perde-gorsel {
+  display: grid; place-items: center; width: 120px; height: 120px; border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1); box-shadow: inset 0 0 0 3px var(--qt-coin);
+}
+.sy-perde-gorsel--cerceve { width: 164px; height: 164px; }
+.sy-perde-etiket { font-size: var(--qt-y-s); font-weight: var(--qt-a-siyah); color: #ffe08a; }
+.sy-perde-ad { font-family: var(--qt-f-baslik); font-size: var(--qt-y-l); font-weight: var(--qt-a-siyah); }
+.sy-perde-atla { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--sy-t-yazi, #fff); opacity: 0.9; }
+@keyframes sy-perde-gir { from { opacity: 0; } to { opacity: 1; } }
+@keyframes sy-perde-cik { from { opacity: 1; } to { opacity: 0; } }
+@keyframes sy-perde-ic-gir { from { opacity: 0; transform: translateY(18px) scale(0.96); } to { opacity: 1; transform: none; } }
+@media (max-height: 560px) { .sy-perde-baslik { font-size: 34px; } .sy-perde-gorsel--cerceve { width: 124px; height: 124px; } .sy-perde-gorsel { width: 96px; height: 96px; } }
+
+/* Hareketi azalt: sayfa anında açılır, durak parlamaz, perde hareketsiz (süre aynı), kapanışta kopya bırakılmaz */
+@media (prefers-reduced-motion: reduce) {
+  .sy-sayfa--ac { animation: none; }
+  .sy-durak--parla .sy-daire { animation: none; }
+  .sy-durak--parla .sy-daire::after { display: none; }
+  .sy-perde, .sy-perde--kapan, .sy-perde-ic { animation: none; }
+  .sy-hayalet { display: none; }
+}
