@@ -113,6 +113,69 @@ export function kilitliAvatarlariYukle() {
 /** Henüz açılmamış (gösterilmeyecek) hazır avatar adreslerinin o anki kümesi (eşzamanlı okuma). */
 export const kilitliAvatarKumesi = () => kilitliKume;
 
+// ------------------------------------------------------------
+// 820 · ÜCRETLİ AVATARLAR: Epik / Efsanevi avatar elmasla alınır ya da Sezon Yolu ödülüdür; seçmek SAHİPLİK ister.
+// Sunucu yalnız sahiplik isteyen avatarları döner (avatar_sahiplik_durumu); listede olmayan avatar ücretsizdir.
+// Kilit kararı SUNUCUDA (avatar_onayla reddeder) — burası yalnız arayüz ipucu. Okunamazsa (ör. migration henüz
+// uygulanmadı) harita boş kalır: hiçbir avatar kilitli görünmez, eski davranış.
+// ------------------------------------------------------------
+let sahiplikBekleyen = null;
+let sahiplikHaritasi = new Map();   // url → { anahtar, nadirlik, fiyat, sahibim, satilik }
+let sahiplikSurum = 0;
+const sahiplikDinleyenler = new Set();
+
+/** Ücretli avatar durumunu okur (oturum başına bir kez; `taze` → yeniden). */
+export function avatarSahiplikYukle(taze = false) {
+  if (taze) sahiplikBekleyen = null;
+  if (!sahiplikBekleyen) {
+    sahiplikBekleyen = (async () => {
+      try {
+        if (!supabase) return;
+        const { data, error } = await supabase.rpc("avatar_sahiplik_durumu");
+        if (error) throw error;
+        sahiplikHaritasi = new Map((Array.isArray(data) ? data : []).map((s) => [s.url, s]));
+        sahiplikSurum += 1;
+        sahiplikDinleyenler.forEach((f) => f(sahiplikSurum));
+      } catch (e) {
+        // PGRST202: işlev yok (migration 820 uygulanmadan dağıtılan istemci) → sessizce eski davranış
+        if (e?.code !== "PGRST202") console.error("[Bildim] avatar sahipliği okunamadı:", e?.message ?? e);
+        sahiplikBekleyen = null;   // sonraki açılışta yeniden dener
+      }
+    })();
+  }
+  return sahiplikBekleyen;
+}
+
+/** url → { anahtar, nadirlik, fiyat, sahibim, satilik } (yalnız ücretli avatarlar). Satın alma sonrası kendiliğinden tazelenir. */
+export function useAvatarSahiplik() {
+  const [, setSurum] = useState(sahiplikSurum);
+  useEffect(() => {
+    sahiplikDinleyenler.add(setSurum);
+    avatarSahiplikYukle();
+    return () => { sahiplikDinleyenler.delete(setSurum); };
+  }, []);
+  return sahiplikHaritasi;
+}
+
+/** Avatar kilitli mi: ücretli ve oyuncu sahip değil. */
+export const avatarKilitliMi = (harita, url) => {
+  const s = harita?.get(url);
+  return Boolean(s) && !s.sahibim;
+};
+
+/** Elmasla avatar al (anahtar ya da adres). 'Yetersiz elmas' / 'Bu avatar zaten sende' hata atar; sonra durumu tazeler. */
+export async function avatarSatinAl(anahtar) {
+  try {
+    const { data, error } = await supabase.rpc("avatar_satin_al", { p_anahtar: anahtar });
+    if (error) throw error;
+    await avatarSahiplikYukle(true);
+    return data;
+  } catch (e) {
+    console.error("[Bildim] avatar_satin_al başarısız:", e?.message ?? e);
+    throw e;
+  }
+}
+
 /** HAZIR_AVATARLAR'ın açılmış olanları; kilitli liste gelince kendiliğinden süzülür. */
 export function useHazirAvatarlar() {
   const [surum, setSurum] = useState(kilitliSurum);

@@ -63,7 +63,8 @@
   color: var(--qt-nadir-siradan-yazi);
   box-shadow: 0 2px 0 var(--qt-nadir-siradan-koyu);
 }
-.qt-dc-nadirlik[data-nadirlik="nadir"] { background: var(--qt-nadir-nadir); color: var(--qt-nadir-nadir-yazi); box-shadow: 0 2px 0 var(--qt-nadir-nadir-koyu); }
+/* Nadir: koyu yeşil zemin — açık yeşilde beyaz 10 px yazı 3,5:1 kalıyordu (≥ 4,5 gerekir; Sezon Yolu etiketiyle aynı ton) */
+.qt-dc-nadirlik[data-nadirlik="nadir"] { background: var(--qt-nadir-nadir-koyu); color: var(--qt-nadir-nadir-yazi); box-shadow: 0 2px 0 rgba(10, 20, 40, 0.3); }
 .qt-dc-nadirlik[data-nadirlik="epik"] { background: var(--qt-nadir-epik); color: var(--qt-nadir-epik-yazi); box-shadow: 0 2px 0 var(--qt-nadir-epik-koyu); }
 .qt-dc-nadirlik[data-nadirlik="efsanevi"] { background: var(--qt-nadir-efsanevi); color: var(--qt-nadir-efsanevi-yazi); box-shadow: 0 2px 0 var(--qt-nadir-efsanevi-koyu); }
 

@@ -29,15 +29,25 @@ export const KAYIT = {
   // kor: { ad: "Yükselen Köz", Bilesen: KozArkaPlan },
   gece: { ad: "Yıldızlı Gece", Bilesen: YildizliGeceArkaPlan },
   // kuzey: { ad: "Kuzey Işıkları", Bilesen: KuzeyIsiklariArkaPlan },
+  // 821 · LİG ARKA PLANI (varsayılan): arka plan takılı değilse oyuncunun ligine göre `lig_<lig>` satırı kullanılır
+  // (lig_bronz · lig_gumus · lig_altin · lig_elmas · lig_efsane). Çizimleri HENÜZ YOK → satır yok → kart düz kalır.
+  // Çizim gelince buraya satır eklemek yeter; sunucu ve kartlar değişmez.
 };
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
-/** Oyuncunun takılı arka planının sanat anahtarı (kayıtlıysa) ya da null. `kart` verilmişse ve alanı taşıyorsa ek sorgu yok. */
+/** Kayıtta varsa oyuncunun lig arka planının anahtarı (`lig_<lig>`), yoksa null. */
+const ligArkaPlani = (lig) => (lig && KAYIT[`lig_${lig}`] ? `lig_${lig}` : null);
+
+/**
+ * Oyuncunun takılı arka planının sanat anahtarı (kayıtlıysa); takılı yoksa lig arka planı (kayıtlıysa); o da yoksa null.
+ * `kart` verilmişse ve alanı taşıyorsa ek sorgu yok.
+ */
 export function useKartArkaPlani(userIdHam, kart) {
   const userId = typeof userIdHam === "string" && UUID.test(userIdHam) ? userIdHam : null;
   const kartta = kart != null && Object.prototype.hasOwnProperty.call(kart, "premium_aura");
   const [okunan, setOkunan] = useState(null);
+  const [okunanLig, setOkunanLig] = useState(null);
   const [tazele, setTazele] = useState(0);
   useEffect(() => {
     if (kartta || !userId) return undefined;
@@ -47,12 +57,13 @@ export function useKartArkaPlani(userIdHam, kart) {
     if (kartta || !userId) { setOkunan(null); return undefined; }
     let aktif = true;
     oyuncuKarti(userId)
-      .then((k) => { if (aktif) setOkunan(k?.premium_aura ?? null); })
+      .then((k) => { if (aktif) { setOkunan(k?.premium_aura ?? null); setOkunanLig(k?.lig ?? null); } })
       .catch((e) => { console.warn("[Bildim] arka plan okunamadı:", e?.message ?? e); if (aktif) setOkunan(null); });
     return () => { aktif = false; };
   }, [kartta, userId, tazele]);
   const sanat = premiumSanat(kartta ? kart.premium_aura : okunan);
-  return sanat && KAYIT[sanat] ? sanat : null;
+  if (sanat && KAYIT[sanat]) return sanat;
+  return ligArkaPlani(kartta ? kart.lig : okunanLig);   // 821: hiçbiri takılı değil → lig arka planı
 }
 
 /** Kart öğesine eklenecek sınıf (yalnız arka plan varsa; başında boşluk). */
