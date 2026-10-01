@@ -38,7 +38,8 @@ const ARG = Object.fromEntries(
 );
 const ADRES = ARG.adres || "http://localhost:5173";
 const GORSEL = Boolean(ARG.gorsel);
-const OTURUM = path.resolve(".arayuz-denetim-oturum.json");
+const OTURUM = path.resolve(typeof ARG.oturum === "string" ? ARG.oturum : ".arayuz-denetim-oturum.json"); // --oturum=dosya: ikinci hesap (ör. İngilizce)
+const SADECE_OTURUM = Boolean(ARG["sadece-oturum"]); // yalnız hesabı aç/kaydet, ölçme
 const GORSEL_DIZIN = path.resolve("arayuz-denetim-gorseller");
 
 const GENISLIKLER = [
@@ -215,6 +216,8 @@ async function misafirGiris(sayfa) {
     // onun altında yapılır ve sayfa hiç görünmez. Önce kapat.
     await kurulumuTamamla(sayfa);
   }
+
+  if (SADECE_OTURUM) { await baglam.storageState({ path: OTURUM }); await tarayici.close(); return; }
 
   // Ölçümden önce hiçbir tam ekran katman açık olmamalı.
   const katman = await sayfa.locator(".bd-modal-katman, .bd-tanitim-katman").count();
