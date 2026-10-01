@@ -38,6 +38,7 @@ export default {
   "Bugün {a}/{b} tamam": "Today {a}/{b} done",
   "{n} ödül hazır": "{n} reward ready",
   "{n} ödül hazır|çoğul": "{n} rewards ready",
+  "Bugünlük tamam": "Done for today",
   "Alınabilir ödül var.": "A reward is ready to claim.",
   "Görevler yüklenemedi": "Quests couldn't load",
 };
