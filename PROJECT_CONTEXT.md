@@ -798,3 +798,5 @@ Her pakette: `node araclar/oyuncu-testi.mjs [--adres=https://quiztactics.vercel.
   tek canlı yoldur ve `oyun/pages/MatchPage.jsx:428` üzerinden, rakip maça
   gelmediğinde (rakip bot değilse) oyuncuya düğme olarak sunulur. Dalı
   kaldırmadan önce o düğmenin ne olacağına karar verilmelidir.
+
+- Oyunda arka plan YOK (dondurulmuş, 1 Eki 2026): `oyun_ayarlari.arka_plan_acik=false`, pa_* pasif; ayrıntı PROGRESS.md.
