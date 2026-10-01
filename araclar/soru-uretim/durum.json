@@ -928,6 +928,52 @@
         "ceviri": "yok",
         "jev_usd": 0.005
       }
-    ]
+    ],
+    "kolay_02": {
+      "aciklama": "kolay_02 üretimi: hedef 500 soru, 5 parça (a-e), yalnız zorluk 2. Yeni oturum buradan devam eder: durumu \"bitti\" olmayan ilk parçayı üret. Migration dosyaları HAZIR ama UYGULANMADI/COMMIT EDİLMEDİ (Ida soruları görecek).",
+      "hedef": {
+        "toplam": 500,
+        "kategori": {
+          "sanat": 90,
+          "muzik": 90,
+          "teknoloji": 80,
+          "genel_kultur": 80,
+          "sinema": 60,
+          "edebiyat": 50,
+          "spor": 30,
+          "tarih": 20
+        }
+      },
+      "parcalar": {
+        "a": {
+          "klasor": "kolay-02a",
+          "durum": "bitti",
+          "soru": 100,
+          "migration": "20260612000842_soru_parti_kolay_02a",
+          "migration_not": "hazır, uygulanmadı, commit edilmedi",
+          "tarih": "2026-10-01",
+          "kategori": {
+            "sanat": 18,
+            "muzik": 18,
+            "teknoloji": 16,
+            "genel_kultur": 17,
+            "sinema": 12,
+            "edebiyat": 11,
+            "spor": 4,
+            "tarih": 4
+          },
+          "elenen": {
+            "sik_ipucu": 11,
+            "jev_zor": 55,
+            "eskiyebilir": 3,
+            "belirsiz": 1,
+            "kota_fazlasi": 17
+          },
+          "taslak": 187,
+          "jev_usd": 0.0138
+        }
+      },
+      "toplam_soru": 100
+    }
   }
 }
