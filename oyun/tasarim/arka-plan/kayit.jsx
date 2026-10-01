@@ -8,6 +8,10 @@
  *
  * Kaydı olmayan (ya da henüz kart karşılığı çizilmemiş) arka plan → kart eskisi gibi düz kalır, hata yok.
  *
+ * DONDURULDU (Ida, 1 Eki 2026): oyun_ayarlari.arka_plan_acik = false iken (lib/arkaPlanBayrak.js) kartlara HİÇBİR arka plan
+ * girmez — useKartArkaPlani null döner (sorgu bile yapmaz), katman hiçbir şey çizmez (parçacık/animasyon başlamaz).
+ * Kartlar bu üç kapıdan geçtiği için tek nokta burasıdır. Geri açmak: bayrağı true yap.
+ *
  * Kullanım (kartın kendi öğesi kalır; arka plan İÇİNE katman olarak girer):
  *   const sanat = useKartArkaPlani(userId, kart);
  *   <div className={`kart${kartArkaPlanSinifi(sanat)}`}> <KartArkaPlanKatmani sanat={sanat} hareketli />  …içerik… </div>
@@ -15,6 +19,7 @@
 import { useEffect, useState } from "react";
 import { oyuncuKarti, oyuncuKartiDinle } from "../../lib/cerceve.js";
 import { premiumSanat } from "../../lib/kozmetik.js";
+import { arkaPlanAcik, useArkaPlanAcik } from "../../lib/arkaPlanBayrak.js";
 import KartArkaPlan from "./KartArkaPlan.jsx";
 import YildizliGeceArkaPlan from "./YildizliGeceArkaPlan.jsx";
 // Yükselen Köz ve Kuzey Işıkları oyuna GİRMEZ (Ida, 30 Eyl 2026): dosyalar durur, migration 690'da aktif=false kalır.
@@ -44,34 +49,37 @@ const ligArkaPlani = (lig) => (lig && KAYIT[`lig_${lig}`] ? `lig_${lig}` : null)
  * `kart` verilmişse ve alanı taşıyorsa ek sorgu yok.
  */
 export function useKartArkaPlani(userIdHam, kart) {
+  const acik = useArkaPlanAcik();
   const userId = typeof userIdHam === "string" && UUID.test(userIdHam) ? userIdHam : null;
   const kartta = kart != null && Object.prototype.hasOwnProperty.call(kart, "premium_aura");
   const [okunan, setOkunan] = useState(null);
   const [okunanLig, setOkunanLig] = useState(null);
   const [tazele, setTazele] = useState(0);
   useEffect(() => {
-    if (kartta || !userId) return undefined;
+    if (!acik || kartta || !userId) return undefined;
     return oyuncuKartiDinle((id) => { if (!id || id === userId) setTazele((x) => x + 1); });
-  }, [kartta, userId]);
+  }, [acik, kartta, userId]);
   useEffect(() => {
-    if (kartta || !userId) { setOkunan(null); return undefined; }
+    if (!acik || kartta || !userId) { setOkunan(null); return undefined; }
     let aktif = true;
     oyuncuKarti(userId)
       .then((k) => { if (aktif) { setOkunan(k?.premium_aura ?? null); setOkunanLig(k?.lig ?? null); } })
       .catch((e) => { console.warn("[Bildim] arka plan okunamadı:", e?.message ?? e); if (aktif) setOkunan(null); });
     return () => { aktif = false; };
-  }, [kartta, userId, tazele]);
+  }, [acik, kartta, userId, tazele]);
+  if (!acik) return null;   // dondurulmuş: kart düz kalır
   const sanat = premiumSanat(kartta ? kart.premium_aura : okunan);
   if (sanat && KAYIT[sanat]) return sanat;
   return ligArkaPlani(kartta ? kart.lig : okunanLig);   // 821: hiçbiri takılı değil → lig arka planı
 }
 
 /** Kart öğesine eklenecek sınıf (yalnız arka plan varsa; başında boşluk). */
-export const kartArkaPlanSinifi = (sanat) => (sanat && KAYIT[sanat] ? " abp-sahip" : "");
+export const kartArkaPlanSinifi = (sanat) => (sanat && KAYIT[sanat] && arkaPlanAcik() ? " abp-sahip" : "");
 
 /** Kartın İÇİNE ilk çocuk olarak konur. `sanat` yoksa hiçbir şey çizmez. */
 export function KartArkaPlanKatmani({ sanat, hareketli = false, yukseklik = 100, duzen = "yatay" }) {
-  const K = sanat ? KAYIT[sanat] : null;
+  const acik = useArkaPlanAcik();
+  const K = acik && sanat ? KAYIT[sanat] : null;
   if (!K) return null;
   return <K.Bilesen katman hareketli={hareketli} yukseklik={yukseklik} duzen={duzen} />;
 }

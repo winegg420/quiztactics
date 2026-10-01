@@ -10,6 +10,7 @@ import SkillRozeti from "../../components/SkillRozeti.jsx";
 import CerceveOdulGorsel, { odulCerceveSanati } from "./CerceveOdulGorsel.jsx";
 import { NadirlikImg } from "../../components/AvatarNadirlikGoruntu.jsx";
 import { KAYIT as ARKA_PLAN_KAYIT } from "../arka-plan/kayit.jsx";
+import { arkaPlanAcik } from "../../lib/arkaPlanBayrak.js";
 import { NADIRLIK_ADI } from "../cerceveler/tanimlar.js";
 import { premiumSanat } from "../../lib/kozmetik.js";
 import "./odul-gorsel.css";
@@ -25,15 +26,17 @@ export function odulAvatarAdresi(v) {
 
 // ARKA PLANLAR oyundan DONDURULDU (Ida, 1 Eki 2026): Sezon Yolu'nda arka plan görseli ÇİZİLMEZ. Arka plan türündeki ödül yuvası
 // jenerik yedek görselle (ikon) çizilir; sezon verisi değişmez. Geri açmak: bayrağı false yap.
-const ARKA_PLAN_DONDURULDU = true;
+// 1 Eki: bayrak tek kaynaktan (oyun_ayarlari.arka_plan_acik, lib/arkaPlanBayrak.js) okunur; bayrak true olursa çizim geri gelir.
+const ARKA_PLAN_DONDURULDU_ESKI = true;
+const arkaPlanDonduruldu = () => ARKA_PLAN_DONDURULDU_ESKI && !arkaPlanAcik();
 
 /** Arka plan ödülünün kayıt satırı (veri.sanat | anahtarın öneksiz hâli); çizimi yoksa (ya da arka planlar donmuşsa) null. */
-export const odulArkaPlani = (v) => (ARKA_PLAN_DONDURULDU ? null : ARKA_PLAN_KAYIT[v?.sanat ?? premiumSanat(v?.anahtar)] ?? null);
+export const odulArkaPlani = (v) => (arkaPlanDonduruldu() ? null : ARKA_PLAN_KAYIT[v?.sanat ?? premiumSanat(v?.anahtar)] ?? null);
 
 /** Arka plan ödülü: arka planın kendisi küçük bir kart olarak (yuvada durağan, önizlemede hareketli). */
 export function ArkaPlanOdulGorsel({ odul, boyut = 36, hareketli = false }) {
   const K = odulArkaPlani(odul?.veri);
-  if (!K) return <QtIkon ad={ARKA_PLAN_DONDURULDU ? "hediye" : "gunes"} boyut={Math.round(boyut * 0.8)} />;
+  if (!K) return <QtIkon ad={arkaPlanDonduruldu() ? "hediye" : "gunes"} boyut={Math.round(boyut * 0.8)} />;
   return (
     <span className="sy-odul-abp" style={{ "--sy-b": `${boyut}px` }} aria-hidden="true">
       <K.Bilesen hareketli={hareketli} yukseklik={boyut} grup="dukkan" />
