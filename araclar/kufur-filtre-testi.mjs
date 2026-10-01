@@ -17,6 +17,10 @@ const MESAJ = [
   // 653: tamamı BÜYÜK yazım (I hem ı hem i okunur); ı'lı okuması yaygın kelime olanlar masum kalır
   ["SIKTIR", true], ["SIKTIR GIT", true], ["SIKEYIM", true], ["GERIZEKALI", true], ["IBNE", true], ["AMCIK", true],
   ["SIKINTI", false], ["SIKISTIM", false], ["SIK SIK", false], ["ISIK", false], ["SIKKE", false], ["SISTEM", false],
+  // masum İngilizce kelimeler (içinde kısa bir küfür dizisi geçenler, Scunthorpe tipi)
+  ["pickle jar", false], ["PICKLE", false], ["first class ticket", false], ["CLASS", false], ["I assume so", false], ["ASSUME", false],
+  ["a nice picture", false], ["PICTURE", false], ["Penistone Road", false], ["Cockburn Street", false], ["Hancock", false], ["classic", false],
+  ["passage", false], ["therapist", false], ["Essex", false],
 ];
 // [metin, dil, maskelenmeli mi] — 653: İngilizce hesapta çıplak "pic" (picture) masum; piç/p1c/p i c hep maske
 const MESAJ_DIL = [
@@ -26,6 +30,7 @@ const MESAJ_DIL = [
 const AD = [
   ["Kemal", true], ["Cemal_34", true], ["Robot123", true], ["Topcu", true], ["Sikkeci", true], ["Isik", true],
   ["Scunthorpe", true], ["Assassin", true], ["Dickens", true],
+  ["Pickle", true], ["Class", true], ["Assume", true], ["Picture", true], ["Penistone", true], ["Classic", true],
   ["orospu", false], ["0r0spu_34", false], ["benorospu", false], ["s1k", false], ["fuck_you", false], ["admin", false],
   ["Admin_1", false], ["bot", false], ["mal", false], ["amk", false], ["Serefsiz", false], ["xXsiktirXx", false],
   ["SIKTIR", false], ["XSIKTIRX", false], ["SIKTIR_GIT", false], ["IBNE", false], ["ISIK", true], ["SIKINTI", true], ["KEMAL", true], ["MISIRLI", true],

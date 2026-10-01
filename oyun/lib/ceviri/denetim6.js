@@ -15,7 +15,7 @@ export default {
   // D-211: lig kuralları penceresi
   "Lig kuralları": "League rules",
   "Lig nasıl işler?": "How does the league work?",
-  "Her hafta kendi grubunla yarışırsın; sıra haftalık puanına göre belirlenir. Sezon bitince (bitişe {sure} var) sıralama sıfırlanır.": "You compete with your group every week; the ranking follows your weekly points. When the season ends ({sure} left) the ranking resets.",
+  "Her hafta kendi grubunla yarışırsın; sıra haftalık puanına göre belirlenir. Hafta bitince (bitişe {sure} var) sıralama sıfırlanır.": "You compete with your group every week; the ranking follows your weekly points. When the week ends ({sure} left) the ranking resets.",
   "Efsane en üst lig: yükselme yok, zirvede kalmaya çalışırsın.": "Legend is the top league: no promotion, you fight to stay at the top.",
   "Yükselme: grubunda ilk {n} bir üst lige çıkar (haftada en az 1 puan gerekir).": "Promotion: the top {n} in your group move up a league (at least 1 point that week).",
   "Bronz en alt lig: düşme yok.": "Bronze is the bottom league: no relegation.",

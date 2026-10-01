@@ -722,8 +722,8 @@ a.as-cip:active { transform: translateY(2px); }
 .as-serit-odul { gap: 6px; }
 .as-odul-madalya { display: inline-flex; align-items: center; gap: 2px; font-weight: var(--qt-a-siyah); }
 .as-odul-madalya .qt-ikon .qt-ikon-d { fill-opacity: 1; }
-.as-odul-madalya--altin { --_m: var(--qt-madalyon-altin); color: var(--qt-madalyon-altin-koyu); }
-.as-odul-madalya--gumus { --_m: var(--qt-madalyon-gumus); color: var(--qt-madalyon-gumus-koyu); }
+.as-odul-madalya--altin { --_m: var(--qt-madalyon-altin); color: #8a5500; } /* 13 px yazı ≥ 4,5:1 (jeton rengi 3,9 idi) */
+.as-odul-madalya--gumus { --_m: var(--qt-madalyon-gumus); color: #4f5c73; }
 .as-odul-madalya--bronz { --_m: var(--qt-madalyon-bronz); color: var(--qt-madalyon-bronz-koyu); }
 .as-odul-madalya .qt-ikon .qt-ikon-d { fill: var(--_m); }
 

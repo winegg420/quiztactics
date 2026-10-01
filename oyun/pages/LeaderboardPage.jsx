@@ -392,7 +392,7 @@ export default function LeaderboardPage() {
               </h1>
               <p className="lg-sure">
                 <QtIkon ad="saat" boyut={20} />
-                <span>{tt("Sezon bitimine {sure}", { sure: sureMetni(kalanSezon) })}</span>
+                <span>{tt("Hafta bitimine {sure}", { sure: sureMetni(kalanSezon) })}</span>
               </p>
             </div>
             <QtIkonDugme ikon="bilgi" tur="saydam" className="lg-kural-dugme" etiket={tt("Lig kuralları")} onClick={() => setKuralAcik(true)} />
@@ -430,7 +430,7 @@ export default function LeaderboardPage() {
                 ? tt("İlk {0} bir üst lige yükselir.", { 0: grupBilgi.yukselen })
                 : dusmeVar
                   ? tt("Son {0} bir alt lige düşer.", { 0: grupBilgi.dusen })
-                  : tt("Haftalık sezon")}
+                  : tt("Haftalık lig")}
             {cubuk?.isaret != null && ` ${tt("Çubuktaki çizgi düşme hattıdır.")}`}
           </p>
         </section>
@@ -617,7 +617,7 @@ export default function LeaderboardPage() {
           const pasif = sayi("lig_pasif_dusme_hafta");
           return (
             <ul className="lg-kurallar">
-              <li>{tt("Her hafta kendi grubunla yarışırsın; sıra haftalık puanına göre belirlenir. Sezon bitince (bitişe {sure} var) sıralama sıfırlanır.", { sure: sureMetni(kalanSezon) })}</li>
+              <li>{tt("Her hafta kendi grubunla yarışırsın; sıra haftalık puanına göre belirlenir. Hafta bitince (bitişe {sure} var) sıralama sıfırlanır.", { sure: sureMetni(kalanSezon) })}</li>
               <li>
                 {ligKod === "efsane"
                   ? tt("Efsane en üst lig: yükselme yok, zirvede kalmaya çalışırsın.")
