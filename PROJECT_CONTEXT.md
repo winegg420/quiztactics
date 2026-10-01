@@ -184,7 +184,7 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
 ### Lig
 
 - 5 kademe: Bronz → Gümüş → Altın → Elmas → Efsane.
-- 25 kişilik gruplar. Grup = yalnız sıralama tablosu, eşleşmeyle ilgisi yok.
+- 25 kişilik gruplar. Grup = yalnız sıralama tablosu, eşleşmeyle ilgisi yok. **Tek tanım (750, 1 Eki 2026):** gerçek grup = `grup_no >= 1`; doluluk (`lig_uyeligim_kur`), gösterilen `grup_boyu`, `sira` ve kapanış AYNI kümeyi (açık bot hariç grup üyeleri) sayar; kurulumu bitmemiş / `lig_gizli` hesaplar **grup 0 (bekleme)**: hiçbir grubu şişirmez, sıraya/ödüle/terfiye girmez, kurulumu bitirince bir sonraki `lig_uyeligim_kur`'da yeri olan gruba alınır. Haftalık karma aynı kural; `lig_gruplari_dengele` (istemciye kapalı) taşanı dağıtır.
   İlk 5 yükselir, son 5 düşer. Pazartesi 00:00 (TSİ) sıfırlanır.
 - Eşleşme kendi ligi ± 1 lig ile sınırlıdır.
 - **Lig sayfası:** ⓘ "Lig kuralları" penceresi (yükselme/düşme sayıları `lig_grubum`'dan, haftalık coin `lig_odul_<lig>_<1-3>` + elmas
@@ -204,7 +204,7 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
   Asgari oyuncu/galibiyet şartı YOK; gizli botlar şampiyon olabilir. Şampiyonluk `sira_ulke`/`sira_global`'den DEĞİL,
   `lig_kapanis_havuzu()`'nda yalnız `gorunur` satırlar arasında yeniden hesaplanır (arşiv sırası gizli hesapları da sayar).
   Rozetler `lig_ulke_sampiyonu` / `lig_dunya_sampiyonu` (elmas kademe, coin yok → Koleksiyon Puanı'nda efsanevi); bildirim açık
-  (`ulke_/dunya_sampiyonu_bildirim_acik` = 1). Unvan önceliği: dünya > ülke > şehir > takılı; ülke metni `ulkeler.ad` (tek dil).
+  (`ulke_/dunya_sampiyonu_bildirim_acik` = 1). Unvan önceliği: dünya > ülke > şehir > takılı; ülke adı `ulkeler.ad` Türkçe kalır, EN arayüzde istemcide çevrilir (`konum.js › ulkeAdiCevir/bildirimMetni`, Intl.DisplayNames; şehir adı çevrilmez; sunucu PUSH gövdesi çevrilemez — açık konu).
   Veri: `oyuncu_kartlari.unvan` (`tur` dunya/ulke), `unvanlarim()`, `ulke_dunya_sampiyonu()`.
 - **Konum:** şehir her ülkede listeden (aranabilir; `sehirler`: 81 il + GeoNames CC BY 4.0 100.000+ şehirler, 86 ülke).
   Günde en fazla 1 değişiklik; şehri olan oyuncu o hafta puan kazandıysa yeni haftayı bekler; ilk seçim serbest.
@@ -408,6 +408,7 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
   **Yükselen Köz ve Kuzey Işıkları girmez** (Ida, 30 Eyl 2026): dosyalar durur, `KAYIT`'ta yorumda, dükkânda kapalı (migration 690, `aktif=false`).
   **YENİ mod (`tamGorunur`) oyunda HERKES için varsayılan** (Ida onayı, 30 Eyl 2026; `tamGorunur={false}` eski modu verir, önizlemedeki Yeni/Eski anahtarı bunu kullanır):
   parçacıklar yazının/avatarın/çerçevenin ARKASINDA, okunabilirlik alanı ve maske yok, yazıya ince koyu gölge (`arka-plan-tam.css`); kar/yaprak yalnız aşağı iner, baloncuklar karışık, Gece 45 yıldız.
+  **Performans/dükkân (1 Eki 2026):** maliyet animasyon sayısıyla doğrusal → en küçük baloncuk/kar noktasında sallanma yok; ADAPTİF KALİTE (`KartArkaPlan › kaliteOlc`: kare süresi >22,5 ms ise parçacıkların %67'si, ≥30 ms ise %33'ü, `.abp[data-kalite]`, oturum boyu). Dükkân/Koleksiyon örnek kartları `grup="dukkan"`: en çok 2 kart TAM oynar (büyük önizleme önce), kalanı hafif; hareketi azalt/pil düşükte de yumuşak oynar (genel 3 kart sınırı orada kartları donduruyordu).
   Kalıcı durgunlukta (hareketi azalt, pil düşük, 3 hareketli kart sınırı aşıldı, hareketsiz kart, lig satırı; sekme gizliyken değil) → ayrı çizilmiş özel sabit kompozisyon (`sabit-tasarim.jsx`: `kart` ~100 px yatay · `serit` lig satırı · `dikey` profil/maç başı ortalı kartlar).
 - **Maç içi tepki (542/551):** oyuncu tepkisi DB'ye yazılmaz; Realtime yayını yalnız o maçın iki
   oyuncusuna açık ÖZEL kanalda (`tepki-mac-<id>` / `tepki-duello-<id>`, `realtime.messages` RLS ile
