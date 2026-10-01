@@ -21,8 +21,7 @@
 .lg-sayfa > * { min-width: 0; }
 
 /* ---------- Başlık (lig dışı sekmeler) ---------- */
-.lg-baslik h1 { margin: 0; }
-.lg-baslik p { margin: var(--qt-b-1) 0 0; font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); }
+.lg-baslik { --oyk-serit: var(--qt-lig-altin); }
 
 /* ---------- Lig pankartı ---------- */
 .lg-pankart {
@@ -33,10 +32,12 @@
   gap: var(--qt-b-3);
   padding: var(--qt-b-4);
   border-radius: var(--qt-r-xl);
-  background: var(--qt-yuzey);
-  color: var(--qt-metin);
-  box-shadow: 0 var(--qt-dudak) 0 var(--_lig-dudak), var(--qt-golge-yuzen);
-  border-top: var(--qt-b-2) solid var(--_lig);
+  /* Lig bayrağı: lig renginde dolu zemin + 3 px kontur + kabartma. Yazılar --qt-lig-yazi (#1d2152): beş lig zemininde ≥ 4,5:1. */
+  border: 3px solid var(--oyk-kontur, var(--qt-metin));
+  background: var(--_lig);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--_lig) 82%, #fff), var(--_lig) 70%);
+  color: var(--qt-lig-yazi);
+  box-shadow: 0 var(--qt-dudak) 0 var(--oyk-kontur, var(--qt-metin));
 }
 .lg-pankart-gumus { --_lig: var(--qt-lig-gumus); --_lig-dudak: var(--qt-lig-gumus-dudak); }
 .lg-pankart-altin { --_lig: var(--qt-lig-altin); --_lig-dudak: var(--qt-lig-altin-dudak); }
@@ -56,7 +57,7 @@
   box-shadow: 0 var(--qt-dudak-s) 0 var(--_lig-dudak);
 }
 .lg-pankart-metin { min-width: 0; }
-.lg-pankart-metin h1 { margin: 0; overflow-wrap: anywhere; }
+.lg-pankart-metin h1 { margin: 0; overflow-wrap: anywhere; color: inherit; }
 .lg-sure {
   display: flex;
   align-items: center;
@@ -64,7 +65,7 @@
   margin: var(--qt-b-1) 0 0;
   font-size: var(--qt-y-s);
   font-weight: var(--qt-a-kalin);
-  color: var(--qt-metin-soluk);
+  color: var(--qt-lig-yazi);
 }
 .lg-sure .qt-ikon, .lg-sure svg { flex: none; }
 
@@ -76,30 +77,27 @@
   flex-wrap: wrap;
 }
 .lg-siram { display: flex; align-items: baseline; gap: var(--qt-b-2); }
-.lg-siram-etiket { font-size: var(--qt-y-s); font-weight: var(--qt-a-siyah); color: var(--qt-metin-soluk); }
+.lg-siram-etiket { font-size: var(--qt-y-s); font-weight: var(--qt-a-siyah); color: var(--qt-lig-yazi); }
 .lg-siram b {
   font-family: var(--qt-f-baslik);
   font-size: var(--qt-y-3xl);
   font-weight: 800;
   line-height: 1;
-  color: var(--qt-ikinci-koyu);
+  color: var(--qt-lig-yazi);
 }
 .lg-durum { min-width: 0; }
 /* D-226: çubuğun ne ölçtüğü görünür yazı */
 .lg-ilerleme { display: flex; flex-direction: column; gap: var(--qt-b-1); }
-.lg-ilerleme-etiket { font-size: var(--qt-y-s); font-weight: var(--qt-a-siyah); color: var(--qt-metin); }
-.lg-ilerleme-not { font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); }
+.lg-ilerleme-not { font-size: var(--qt-y-s); font-weight: var(--qt-a-siyah); color: var(--qt-lig-yazi); }
+/* Ödül şeridi: "1. → coin + elmas" çipleri (sayılar oyun_ayarlari'ndan) */
+.lg-oduller { display: flex; flex-wrap: wrap; gap: var(--qt-b-2); margin: 0; padding: 0; list-style: none; }
+.lg-oduller .qt-oyk-cip { min-height: 28px; }
+.lg-oduller .qt-oyk-cip svg { flex: none; }
 /* D-211: lig kuralları düğmesi + penceresi */
 .lg-pankart-ust .lg-kural-dugme { margin-left: auto; align-self: flex-start; flex: none; }
 .lg-kurallar { display: flex; flex-direction: column; gap: var(--qt-b-3); margin: 0; padding-left: 1.1em; font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); line-height: 1.45; }
 .lg-odul-liste { margin: var(--qt-b-1) 0; padding-left: 1.1em; }
 .lg-odul-not { display: block; font-size: var(--qt-y-xs, 12px); }
-.lg-kural {
-  margin: 0;
-  font-size: var(--qt-y-s);
-  font-weight: var(--qt-a-kalin);
-  color: var(--qt-metin-soluk);
-}
 
 /* ---------- Hata / bilgi şeritleri ---------- */
 .lg-hata {
@@ -135,6 +133,8 @@
 .lg-panel { display: flex; flex-direction: column; gap: var(--qt-b-4); min-width: 0; }
 .lg-eylemler { display: flex; flex-wrap: wrap; gap: var(--qt-b-2); justify-content: center; }
 .lg-iskelet { padding: var(--qt-b-2) var(--qt-b-4); }
+/* Kontur KARTA, satıra değil: liste tek konturlu kutu; yalnız "ben" satırı ayrı ağırlık alır. */
+.lg-liste, .lg-benim { border: 3px solid var(--oyk-kontur, var(--qt-metin)); border-radius: 16px; box-shadow: 0 4px 0 var(--oyk-kontur, var(--qt-metin)); }
 
 /* ---------- Satır ---------- */
 .lg-satir-kap { position: relative; }
@@ -151,7 +151,18 @@
   border-radius: 0 var(--qt-r-s) var(--qt-r-s) 0;
   background: var(--qt-dogru);
 }
-.lg-bolge-dusen::before { background: var(--qt-yanlis); }
+.lg-bolge-dusen::before { background: var(--qt-uyari); }
+/* Üst 5 yükselir (yeşil), alt 5 düşer (kehribar — kırmızı yalnız Düello/rakip): zemin tonu + sol şerit + yazılı çizgi */
+.lg-bolge-yukselen { background: color-mix(in srgb, var(--qt-dogru) 13%, var(--qt-yuzey)); }
+.lg-bolge-dusen { background: color-mix(in srgb, var(--qt-uyari) 20%, var(--qt-yuzey)); }
+.lg-bolge-yukselen::before, .lg-bolge-dusen::before { width: 6px; }
+/* Kendi satırım: turuncu kontur + sakin nabız (yalnız açılışta 2 tur; ekranda tek nabız) */
+.lg-satir-kap.lg-ben { background: var(--qt-vurgu-acik); box-shadow: inset 0 0 0 3px var(--qt-vurgu); }
+.lg-satir-kap.lg-ben::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--qt-vurgu) 45%, transparent), 0 0 14px 2px color-mix(in srgb, var(--qt-vurgu) 55%, transparent);
+  animation: qt-h-nabiz 1800ms ease-in-out 2;
+}
 
 .lg-satir {
   display: flex;
@@ -177,9 +188,9 @@
   text-align: left;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  transition: background-color var(--qt-s-kisa) var(--qt-egri-cikis);
+  transition: background-color var(--qt-s-kisa) var(--qt-egri-cikis), transform var(--qt-s-basma) var(--qt-egri-cikis);
 }
-.lg-satir-ac:active { background: var(--qt-yuzey-2); }
+.lg-satir-ac:active { background: var(--qt-yuzey-2); transform: scale(0.985); }
 .lg-satir-ac:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: -3px; }
 @media (hover: hover) and (pointer: fine) {
   .lg-satir-ac:hover { background: var(--qt-yuzey-2); }
@@ -297,7 +308,11 @@
   font-size: var(--qt-y-xs);
   font-weight: var(--qt-a-siyah);
   color: var(--qt-dogru-koyu);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
+.lg-sinir-ik { display: inline-flex; flex: none; }
+.lg-sinir-ik--zipla { animation: qt-h-zipla 360ms var(--qt-egri-cikis) 500ms backwards; }
 .lg-sinir::after {
   content: "";
   flex: 1;
@@ -306,7 +321,7 @@
   opacity: 0.6;
 }
 .lg-sinir-yukselme svg { transform: rotate(-90deg); }
-.lg-sinir-dusme { color: var(--qt-yanlis-koyu); }
+.lg-sinir-dusme { color: var(--qt-uyari-koyu); }
 
 /* ---------- Podyum (şehir / ülke / dünya / arkadaş) ---------- */
 .lg-podyum {
@@ -337,17 +352,17 @@
   background: var(--qt-yuzey);
   color: var(--qt-metin);
   font: inherit;
-  box-shadow: 0 var(--qt-dudak) 0 var(--_ton-dudak);
-  border-top: var(--qt-b-1) solid var(--_ton);
+  border: 3px solid var(--oyk-kontur, var(--qt-metin));
+  box-shadow: inset 0 var(--qt-b-2) 0 var(--_ton), 0 var(--qt-dudak) 0 var(--oyk-kontur, var(--qt-metin));
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   transition: transform var(--qt-s-basma) var(--qt-egri-cikis), box-shadow var(--qt-s-basma) var(--qt-egri-cikis);
 }
-.lg-podyum-dugme:active { transform: translateY(var(--qt-dudak-s)); box-shadow: 0 2px 0 var(--_ton-dudak); }
+.lg-podyum-dugme:active { transform: translateY(var(--qt-dudak-s)); box-shadow: inset 0 var(--qt-b-2) 0 var(--_ton), 0 2px 0 var(--oyk-kontur, var(--qt-metin)); }
 .lg-podyum-dugme:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 2px; }
 .lg-yer-1 .lg-podyum-dugme { --_ton: var(--qt-lig-altin); --_ton-dudak: var(--qt-lig-altin-dudak); padding-top: var(--qt-b-5); }
 .lg-yer-3 .lg-podyum-dugme { --_ton: var(--qt-lig-bronz); --_ton-dudak: var(--qt-lig-bronz-dudak); }
-.lg-ben .lg-podyum-dugme { background: var(--qt-ikinci-acik); }
+.lg-ben .lg-podyum-dugme { background: var(--qt-vurgu-acik); border-color: var(--qt-vurgu); }
 .lg-madalya {
   display: grid;
   place-items: center;
@@ -379,7 +394,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .lg-podyum-dugme, .lg-satir-ac { transition: none; }
-  .lg-podyum-dugme:active { transform: none; }
+  .lg-podyum-dugme:active, .lg-satir-ac:active { transform: none; }
+  .lg-satir-kap.lg-ben::after, .lg-sinir-ik--zipla { animation: none; }
 }
 
 /* Masaüstü: pankart yatay, liste ortada okunur genişlikte. */

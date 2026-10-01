@@ -56,4 +56,5 @@ export default {
   "{n} gün": "{n} days",
   "Yükselme çizgisi": "Promotion line",
   "Yükselmeye {n} puan kaldı": "{n} points to promotion",
+  "Haftalık ödül": "Weekly reward",
 };

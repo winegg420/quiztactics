@@ -21,8 +21,9 @@ import { tt } from "../lib/dil.js";
 import { ayarlar } from "../lib/ayarlar.js";
 import {
   QtIkon, QtIkonDugme, QtDugme, QtSekmeler, QtCip, QtRozet, QtIlerleme,
-  QtBosDurum, QtIskelet, QtModal,
+  QtBosDurum, QtIskelet, QtModal, QtAfis, siraStili, useSiraliGiris, dokunus,
 } from "../tasarim/index.js";
+import { CoinIkon, ElmasIkon } from "../components/ParaIkonlari.jsx";
 // Tasarım A (Faz 2, şerit L): sayfa stilleri lig-a.css'te. Eski lig.css
 // dosyası duruyor (Faz 4'te temizlenecek) ama bu sayfa artık onu yüklemiyor.
 import "./lig-a.css";
@@ -63,11 +64,12 @@ export default function LeaderboardPage() {
   const [kuralAcik, setKuralAcik] = useState(false);
   const [ligAyar, setLigAyar] = useState(null);
   useEffect(() => {
-    if (!kuralAcik || ligAyar) return undefined;
+    // Ödül çipleri pankartta durduğu için ayar Ligim sekmesinde de okunur (önbellekli).
+    if ((!kuralAcik && kapsam !== "lig") || ligAyar) return undefined;
     let aktif = true;
     ayarlar().then((a) => { if (aktif) setLigAyar(a ?? {}); }).catch(() => { if (aktif) setLigAyar({}); });
     return () => { aktif = false; };
-  }, [kuralAcik, ligAyar]);
+  }, [kuralAcik, kapsam, ligAyar]);
   const [donem, setDonem] = useState("hafta");
   const [liste, setListe] = useState([]);
   const [sehirSirasi, setSehirSirasi] = useState(null);
@@ -223,6 +225,9 @@ export default function LeaderboardPage() {
   // yükselme/düşme sınırları çizgiyle belli edilir.
   const podyum = kapsam === "lig" ? [] : ilk100.slice(0, 3);
   const kalanlar = ilk100.slice(3);
+  // Sıralı giriş yalnız ilk açılışta oynar (sekme değişimi / veri yenilemede yeniden oynamaz); en çok 8 öğe.
+  const sirali = useSiraliGiris(!yukleniyor && ilk100.length > 0);
+  const siraliOge = (i) => (sirali && i < 8 ? { className: sirali, style: siraStili(i) } : { className: "", style: undefined });
 
   // Tasarım A: kademeli ligin görsel bölgeleri. En üst ligde yükselme, en alt
   // ligde düşme yok — o çizgiler çizilmez. Grup boyu (oyuncu sayısı) EKRANA
@@ -242,6 +247,10 @@ export default function LeaderboardPage() {
   // yakınlık (grubun dibi %0, hat %100; düşme hattı olan ligde çizgi). Yükselmesi olmayan Efsane'de: düşme hattına uzaklık.
   // 661: sıra sunucudan GERÇEK gelir (grubun tüm üyeleri arasında, haftalık kapanışla aynı) — gizli üyeler satır olarak
   // görünmez ama sırada yer tutar; bu yüzden ölçek de gerçek grup boyudur. Grup boyu yazılmaz.
+  // Yükselme hattındaki (tam {yukselen}. sıradaki) görünür oyuncunun puanı; gizli üyeyse bilinmez → sıra notuna düşer.
+  const hatSatiri = yukselmeVar ? liste.find((s) => s.sira === grupBilgi.yukselen) : null;
+  const yukselmeKalanPuan = hatSatiri && benimSatirimHam && benimSiram > grupBilgi.yukselen
+    ? Math.max(1, Number(hatSatiri.puan) - Number(benimSatirimHam.puan) + 1) : null;
   let cubuk = null;
   if (grupBilgi && benimSiram) {
     const N = Math.max(grupBilgi.grup_boyu ?? 0, benimSiram);
@@ -253,7 +262,9 @@ export default function LeaderboardPage() {
         etiket: tt("Yükselme hattına yakınlığın"),
         not: benimSiram <= yuk
           ? tt("Yükselme hattının içindesin — sıranı koru.")
-          : tt("Yükselmek için {n} sıra yukarı çıkmalısın.", { n: benimSiram - yuk }),
+          : yukselmeKalanPuan != null
+            ? tt("Yükselmeye {n} puan kaldı", { n: yukselmeKalanPuan })
+            : tt("Yükselmek için {n} sıra yukarı çıkmalısın.", { n: benimSiram - yuk }),
         isaret: dusmeVar && dusmeSiniri + 0.5 > yuk && dusmeSiniri < N
           ? Math.round(100 * (1 - (dusmeSiniri + 0.5 - yuk) / aralik)) : null,
       };
@@ -270,7 +281,7 @@ export default function LeaderboardPage() {
     }
   }
 
-  const kartiAc = (s) => setKartOyuncu({
+  const kartiAc = (s) => { dokunus(); setKartOyuncu({
     id: s.user_id,
     gorunen_ad: s.gorunen_ad,
     gorunen_avatar: s.gorunen_avatar,
@@ -279,18 +290,20 @@ export default function LeaderboardPage() {
     is_bot: s.bot,
     sehir: s.sehir,
     ulke: s.ulke,
-  });
+  }); };
 
-  const satir = (s, vurgu = false) => {
+  const satir = (s, vurgu = false, sirIdx = -1) => {
     const benMi = s.user_id === user.id;
     const b = kapsam === "lig" ? bolge(s.sira) : null;
+    const g = sirIdx >= 0 ? siraliOge(sirIdx) : { className: "", style: undefined };
     return (
       // 30 Eyl: yalnız KENDİ satırımda takılı kart arka planı (sabit, hareketsiz)
       <KartArkaPlanSahibi
         userId={benMi ? s.user_id : null}
         key={`${s.user_id}-${vurgu ? "ben" : "liste"}`}
         role="listitem"
-        className={`qt-satir-kap lg-satir-kap${benMi ? " qt-satir-kap--vurgulu lg-ben" : ""}${b ? ` lg-bolge-${b}` : ""}`}
+        className={`qt-satir-kap lg-satir-kap${benMi ? " qt-satir-kap--vurgulu lg-ben" : ""}${b ? ` lg-bolge-${b}` : ""}${g.className ? ` ${g.className}` : ""}`}
+        style={g.style}
         yukseklik={64}
       >
         <div className="lg-satir">
@@ -342,7 +355,7 @@ export default function LeaderboardPage() {
               tur="saydam"
               className="lg-meydan"
               etiket={tt("{0} oyuncusuna meydan oku", { 0: s.gorunen_ad })}
-              onClick={() => meydanOku(s.user_id)}
+              onClick={() => { dokunus(); meydanOku(s.user_id); }}
             />
           )}
         </div>
@@ -352,7 +365,7 @@ export default function LeaderboardPage() {
 
   const sinirCizgisi = (tur) => (
     <div className={`lg-sinir lg-sinir-${tur}`} role="presentation">
-      <QtIkon ad={tur === "yukselme" ? "ok" : "asagi"} boyut={20} />
+      <span className={`lg-sinir-ik${sirali ? " lg-sinir-ik--zipla" : ""}`}><QtIkon ad={tur === "yukselme" ? "ok" : "asagi"} boyut={20} /></span>
       <span>{tur === "yukselme" ? tt("Yükselme hattı") : tt("Düşme hattı")}</span>
     </div>
   );
@@ -380,7 +393,7 @@ export default function LeaderboardPage() {
           Bütün sayılar `lig_grubum`'dan: lig adı, sıram, sınırlar, sezon süresi.
           Grup boyu ve toplam oyuncu sayısı BİLEREK yazılmaz. */}
       {kapsam === "lig" && grupBilgi ? (
-        <section className={`lg-pankart lg-pankart-${ligKod}`} aria-labelledby="lg-pankart-baslik">
+        <section className={`lg-pankart lg-pankart-${ligKod}${siraliOge(0).className ? " " + siraliOge(0).className : ""}`} style={siraliOge(0).style} aria-labelledby="lg-pankart-baslik">
           <div className="lg-pankart-ust">
             {/* 25 Eyl: lig arması = yeni lig amblemi (Fasetli Yıldız), vitrin boyu, üst ligler ışıldar */}
             <span className="lg-arma lg-arma--amblem" aria-hidden="true">
@@ -407,7 +420,7 @@ export default function LeaderboardPage() {
                 benimBolgem === "yukselen" ? (
                   <QtRozet ton="dogru" ikon="ok">{tt("Yükselme bölgesindesin")}</QtRozet>
                 ) : benimBolgem === "dusen" ? (
-                  <QtRozet ton="yanlis" ikon="asagi">{tt("Düşme bölgesindesin")}</QtRozet>
+                  <QtRozet ton="uyari" ikon="asagi">{tt("Düşme bölgesindesin")}</QtRozet>
                 ) : (
                   <QtRozet ton="notr" ikon="kalkan">{tt("Güvendesin")}</QtRozet>
                 )
@@ -418,27 +431,30 @@ export default function LeaderboardPage() {
           </div>
           {cubuk && (
             <div className="lg-ilerleme">
-              <span className="lg-ilerleme-etiket">{cubuk.etiket}</span>
-              <QtIlerleme deger={cubuk.deger} en={100} ton="mor" isaret={cubuk.isaret ?? undefined} etiket={cubuk.etiket} />
+              <QtIlerleme konturlu canli deger={cubuk.deger} en={100} ton="mor" isaret={cubuk.isaret ?? undefined} etiket={cubuk.etiket} />
               <span className="lg-ilerleme-not">{cubuk.not}</span>
             </div>
           )}
-          <p className="lg-kural">
-            {yukselmeVar && dusmeVar
-              ? tt("İlk {0} yükselir, son {1} düşer.", { 0: grupBilgi.yukselen, 1: grupBilgi.dusen })
-              : yukselmeVar
-                ? tt("İlk {0} bir üst lige yükselir.", { 0: grupBilgi.yukselen })
-                : dusmeVar
-                  ? tt("Son {0} bir alt lige düşer.", { 0: grupBilgi.dusen })
-                  : tt("Haftalık lig")}
-            {cubuk?.isaret != null && ` ${tt("Çubuktaki çizgi düşme hattıdır.")}`}
-          </p>
+          {ligAyar && (
+            <ul className="lg-oduller" aria-label={tt("Haftalık ödül")}>
+              {[1, 2, 3].map((n) => {
+                const ay = (k) => { const v = Number(ligAyar[k]); return Number.isFinite(v) && ligAyar[k] != null ? v : null; };
+                const coin = ay(`lig_odul_${ligKod}_${n}`);
+                const elmas = ay(`elmas_lig_${n}`);
+                if (coin === null && elmas === null) return null;
+                return (
+                  <li key={n} className="qt-oyk-cip">
+                    <b>{n}.</b>
+                    {coin !== null && <><CoinIkon boyut={16} /><span>{coin}</span></>}
+                    {elmas !== null && <><ElmasIkon boyut={16} /><span>{elmas}</span></>}
+                  </li>
+                );
+              })}
+            </ul>
+          )}
         </section>
       ) : (
-        <header className="lg-baslik">
-          <h1 className="qt-baslik-1">{tt("Lig")}</h1>
-          <p className="qt-soluk-zemin">{tt("Maç kazan, yüksel ve hafta sonunda sıranı gör.")}</p>
-        </header>
+        <QtAfis className={`lg-baslik ${siraliOge(0).className}`.trim()} style={siraliOge(0).style} ikon="lig" baslik={tt("Lig")} />
       )}
 
       {hata && (
@@ -545,7 +561,7 @@ export default function LeaderboardPage() {
                 {[podyum[1], podyum[0], podyum[2]].map((p, i) => {
                   const basamak = [2, 1, 3][i];
                   return (
-                    <li key={p.user_id} className={`lg-podyum-yer lg-yer-${basamak}${p.user_id === user.id ? " lg-ben" : ""}`}>
+                    <li key={p.user_id} className={`lg-podyum-yer lg-yer-${basamak}${p.user_id === user.id ? " lg-ben" : ""}${siraliOge(i).className ? " " + siraliOge(i).className : ""}`} style={siraliOge(i).style}>
                       <button
                         type="button"
                         className="lg-podyum-dugme"
@@ -582,14 +598,15 @@ export default function LeaderboardPage() {
                      ? tt("{lig} Ligi", { lig: LIG_ADLARI[grupBilgi.lig] ?? grupBilgi.lig })
                      : kapsamAdi}>
                 {(podyum.length === 3 ? kalanlar : ilk100).map((s, i, dizi) => {
-                  if (kapsam !== "lig" || !grupBilgi) return satir(s);
+                  const sIdx = (podyum.length === 3 ? 3 : 1) + i;
+                  if (kapsam !== "lig" || !grupBilgi) return satir(s, false, sIdx);
                   // Kademeli ligde sınır çizgileri: kimin yükseleceği ve
                   // kimin düşeceği listeye bakınca görünsün. Sıra gerçek (gizli üyeler
                   // boşluk bırakır), bu yüzden çizgi tam sınır sırasındaki satıra değil,
                   // sınırın üstündeki SON görünen satıra çizilir.
                   const sonraki = dizi[i + 1];
                   return [
-                    satir(s),
+                    satir(s, false, sIdx),
                     yukselmeVar && s.sira <= grupBilgi.yukselen && (!sonraki || sonraki.sira > grupBilgi.yukselen)
                       ? <div key={`cizgi-y-${s.user_id}`} role="listitem" className="lg-sinir-kap">{sinirCizgisi("yukselme")}</div>
                       : null,
