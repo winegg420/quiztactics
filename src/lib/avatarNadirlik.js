@@ -1,11 +1,12 @@
 // ============================================================
-// AVATAR NADİRLİĞİ → SAHNE RENGİ (700) — kod hazır, bayrakla KAPALI
+// AVATAR NADİRLİĞİ → SAHNE RENGİ (700, açıldı: 770) — bayrak avatar_nadirlik_renk
 //
 // Avatar çizimleri statik SVG'dir (public/avatars/pro, pro2); "Sahne" = ilk <rect> (renkli yuvarlatılmış kare).
 // `oyun_ayarlari.avatar_nadirlik_renk` false iken sunucu (avatar_nadirlik_renkleri) BOŞ liste döner →
 // hiçbir avatar yeniden boyanmaz, her şey eskisi gibi. Ida işaretlemeyi onaylayıp bayrağı açınca Sahne
 // zemini nadirlikten türer. Tek çizim noktası: src/components/Avatar.jsx (kabuk ortak bileşeni → bu dosya src/lib'te) (bkz. useNadirlikSahneli).
-// Renkler: mavi = sen, kırmızı = rakip olduğu için mor ve kırmızı KULLANILMAZ.
+// Renkler (Ida, 1 Eki 2026): Yaygın gri-mavi · Nadir yeşil · Epik = oyunun Epik moru (--qt-nadir-epik) · Efsanevi altın.
+// Mor YALNIZ Epik için ayrılmıştır; kırmızı kullanılmaz (mavi = sen, kırmızı = rakip).
 // ============================================================
 import { useEffect, useState } from "react";
 import { supabase } from "./supabase.js";
@@ -16,7 +17,7 @@ export const NADIRLIKLAR = ["yaygin", "nadir", "epik", "efsanevi"];
 export const NADIRLIK_RENK = {
   yaygin: "#7d93ad",    // gri-mavi
   nadir: "#3fae6a",     // yeşil
-  epik: "#ee7a2c",      // turuncu
+  epik: "#8b2fd6",      // keskin mor (tokenlar.css › --qt-nadir-epik)
   efsanevi: "#f5c431",  // altın
 };
 
@@ -24,7 +25,7 @@ export const NADIRLIK_RENK = {
 export const NADIRLIK_VURGU = {
   yaygin: "#dbe5f1",
   nadir: "#c8f0d8",
-  epik: "#ffd9b8",
+  epik: "#efdcff",          // --qt-nadir-epik-acik
   efsanevi: "#fff2b8",
 };
 
@@ -51,6 +52,7 @@ const svgAdresi = (svg) => `data:image/svg+xml;charset=utf-8,${encodeURIComponen
 // ---- Bayrak + harita (oturum başına bir kez; bayrak kapalıyken harita boş) ----
 let haritaBekleyen = null;
 let harita = new Map();
+let haritaSurum = 0;
 let sonDeneme = 0;
 
 function haritaYukle() {
@@ -63,6 +65,7 @@ function haritaYukle() {
       const { data, error } = await supabase.rpc("avatar_nadirlik_renkleri");
       if (error) throw error;
       harita = new Map((Array.isArray(data) ? data : []).map((r) => [r.url, r.nadirlik]));
+      haritaSurum += 1;
     } catch (e) {
       console.error("[Bildim] avatar nadirlik renkleri okunamadı:", e?.message ?? e);
       haritaBekleyen = null;
@@ -71,22 +74,36 @@ function haritaYukle() {
   return haritaBekleyen;
 }
 
-const boyali = new Map();   // "url|nadirlik" → data adresi
+const boyali = new Map();   // "url|nadirlik" → data adresi (ya da null) | bekleyen söz
+const bekleyenler = new Map();
 
-async function boyaliAdres(url, nadirlik) {
+function boyaliAdres(url, nadirlik) {
   const anahtar = `${url}|${nadirlik}`;
-  if (boyali.has(anahtar)) return boyali.get(anahtar);
-  try {
-    const cevap = await fetch(url);
-    if (!cevap.ok) throw new Error(`HTTP ${cevap.status}`);
-    const adres = svgAdresi(sahneyiBoya(await cevap.text(), nadirlik));
-    boyali.set(anahtar, adres);
-    return adres;
-  } catch (e) {
-    console.error("[Bildim] avatar Sahne boyanamadı:", url, e?.message ?? e);
-    boyali.set(anahtar, null);
-    return null;
-  }
+  if (boyali.has(anahtar)) return Promise.resolve(boyali.get(anahtar));
+  if (bekleyenler.has(anahtar)) return bekleyenler.get(anahtar);
+  const soz = (async () => {
+    try {
+      const cevap = await fetch(url);
+      if (!cevap.ok) throw new Error(`HTTP ${cevap.status}`);
+      const adres = svgAdresi(sahneyiBoya(await cevap.text(), nadirlik));
+      boyali.set(anahtar, adres);
+      return adres;
+    } catch (e) {
+      console.error("[Bildim] avatar Sahne boyanamadı:", url, e?.message ?? e);
+      boyali.set(anahtar, null);
+      return null;
+    } finally {
+      bekleyenler.delete(anahtar);
+    }
+  })();
+  bekleyenler.set(anahtar, soz);
+  return soz;
+}
+
+/** Bellekteki sonuç (eşzamanlı): yeniden bağlanan bileşen ilk karede doğru renkle çıkar, yanıp sönmez. */
+function onbellektenAdres(url) {
+  const nadirlik = harita.get(url);
+  return nadirlik ? boyali.get(`${url}|${nadirlik}`) ?? null : null;
 }
 
 /**
@@ -95,7 +112,7 @@ async function boyaliAdres(url, nadirlik) {
  */
 export function useNadirlikSahneli(url) {
   const yerel = typeof url === "string" && url.startsWith("/avatars/pro");
-  const [sonuc, setSonuc] = useState(null);
+  const [sonuc, setSonuc] = useState(() => (yerel ? onbellektenAdres(url) : null));
   useEffect(() => {
     if (!yerel) { setSonuc(null); return undefined; }
     let aktif = true;
@@ -109,4 +126,27 @@ export function useNadirlikSahneli(url) {
     return () => { aktif = false; };
   }, [url, yerel]);
   return sonuc;
+}
+
+/** url → nadirlik haritası (bayrak kapalıyken boş; yüklenince bileşen yeniden çizilir). */
+export function useNadirlikHaritasi() {
+  const [, setSurum] = useState(haritaSurum);
+  useEffect(() => {
+    let aktif = true;
+    haritaYukle().then(() => { if (aktif) setSurum(haritaSurum); });
+    return () => { aktif = false; };
+  }, []);
+  return harita;
+}
+
+/**
+ * Avatar seçim ekranları için bölümleme: Yaygın → Nadir → Epik → Efsanevi (Ida: kaliteliler aşağıda).
+ * Aynı nadirlikte gelen sıra korunur. Harita boşsa (bayrak kapalı) tek bölüm, başlıksız: [{ nadirlik: null, ogeler }].
+ * Haritada olmayan avatar Yaygın bölümüne düşer.
+ */
+export function nadirligeGoreBolumle(ogeler, urlAl, haritaDegeri) {
+  if (!haritaDegeri || haritaDegeri.size === 0) return [{ nadirlik: null, ogeler }];
+  const kovalar = new Map(NADIRLIKLAR.map((n) => [n, []]));
+  for (const o of ogeler) kovalar.get(haritaDegeri.get(urlAl(o)) ?? "yaygin").push(o);
+  return NADIRLIKLAR.filter((n) => kovalar.get(n).length > 0).map((n) => ({ nadirlik: n, ogeler: kovalar.get(n) }));
 }

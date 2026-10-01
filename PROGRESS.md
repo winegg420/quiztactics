@@ -9673,3 +9673,12 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 - `ulkeler.ad_en` eklendi (86/86 dolu, Intl'den; Türkçe `ad` ve veri değişmedi). `push_metni`: dil Türkçe değilse ve anahtar `ulke_sampiyonu_oldun` ise Türkçe ülke adı → `ad_en`. Push şablonları zaten dile göre (214); eksik olan yalnız ülke adıydı.
 - Karar: çeviri yalnız bu anahtarda (oyuncu adı/şehir parametreleri ülke adıyla karışmasın). 710 (yildizli_gece_ac) uygulanmamış/sırasız; `db push --include-all` kullanılmadı, 781 doğrudan uygulandı + schema_migrations'a işlendi.
 - Doğrulandı: en → "Champion of Philippines", tr → "Filipinler", başka anahtar etkilenmedi.
+
+## 2026-10-01 — Avatar nadirliği 770: seçim ızgaraları nadirliğe göre bölümlü + Sahne rengi (bayrak açık)
+- **770 canlıda** (önceden uygulanmıştı; bayrak `avatar_nadirlik_renk` = true, `schema_migrations`'ta var): aktif 62 avatar Yaygın 21 · Nadir 15 · Epik 18 · Efsanevi 8; Epik zemini oyunun moru `#8b2fd6`.
+- Kod: `AvatarNadirlikGoruntu.jsx` (`NadirlikImg`, `AvatarBolumBasligi` "● Efsanevi · 8"), `avatar-bolum.css`, `avatarNadirlik.js` (`nadirligeGoreBolumle`, `useNadirlikHaritasi`); Profil/Kurulum/Dükkân/Koleksiyon ızgaraları bölümlü (Yaygın → Nadir → Epik → Efsanevi), arama halkası avatarları Sahne renkli.
+- **Ölçüm (rebase sonrası, `araclar/avatar-770-ekran.mjs sonra --g=…`, tek tarayıcı, DB'ye yalnız birkaç hafif sorgu, timeout yok):** Profil/Dükkân/Koleksiyon 360×640 TR + Profil/Dükkân/Koleksiyon 390 TR/EN: 62 avatar, Sahne renkleri doğru, başlık sırası doğru, başlıklar sığıyor, yatay taşma 0, dokunma hedefi ≥ 44, konsol hatası 0 (38/39; tek ✗ aşağıdaki Kurulum yolu). Kurulum 390 TR elle ölçüldü: başlıklar sığıyor, 62 öğe, en küçük hedef 57 px, taşma 0, 4 renk doğru. Görüntüleri incelendi.
+- Bulgu: `--kurulum` yolu bozuk — yeni misafir artık sihirbaz açmadan ana sayfaya düşüyor (takma ad/avatar bayrakları dolu) ve önce Tanıtım ekranı var. Kurulum ölçümü test hesabında `avatar_onayli=false` + `bildim_tanitim=1` ile yapıldı; betikteki `--kurulum` adımı güncellenmeden güvenilmez.
+- Test amaçlı 4 misafir hesap (aracın 3 başarısız denemesi + 1) silindi. Eski denetim misafirine (eeb11c7e) dokunulmadı.
+- Ana paket gzip (giriş): 469,4 → 470,3 KB. `sw.js` v18. Ekran görüntüleri repoya alınmadı (boyut).
+- Başka pencerelerin bitmemiş işleri (Düello tahta: `mac.js`, `BildimApp.jsx`, `duello-tahta/`, `tasarim/duello/`) ve `DukkanKozmetik.jsx › ArkaPlanOrnegi` yorum yeri değişikliği commit dışı bırakıldı.

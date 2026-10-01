@@ -21,6 +21,7 @@ try {
   ok('dağılım: hepsi dört değerden biri', await tek(`select count(*) from avatar_nitelikleri where nadirlik not in ('yaygin','nadir','epik','efsanevi')`) === '0');
   ok('hepsi ücretsiz, hiçbiri kilitli değil', await tek(`select count(*) from avatar_nitelikleri where edinme <> 'ucretsiz' or acilis_zamani is not null`) === '0');
   ok('başlangıçta kilitli liste boş', await tek('select cardinality(avatar_kilitli_urller())') === '0');
+  await db.sorgu(`update oyun_ayarlari set deger = to_jsonb(false) where anahtar = 'avatar_nadirlik_renk'`);   // 770 bayrağı açtı; kapalı davranışı ayrıca sınanır
   ok('bayrak kapalı → renk listesi boş', await tek('select count(*) from avatar_nadirlik_renkleri()') === '0');
   await db.sorgu(`update oyun_ayarlari set deger = to_jsonb(true) where anahtar = 'avatar_nadirlik_renk'`);
   ok('bayrak açık → 70 satır', await tek('select count(*) from avatar_nadirlik_renkleri()') === '70');

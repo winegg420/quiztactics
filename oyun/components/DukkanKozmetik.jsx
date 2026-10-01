@@ -7,7 +7,7 @@
  * takıp çıkarabilir (kozmetik_tak sunucuda sahip_mi() ile izin verir). Takılan kalem gerçek maçta görünür.
  * Veri: oyun/lib/kozmetik.js. Görünüm: qt-dc- (Aura sekmesiyle aynı dil) + dukkan-kozmetik.css.
  */
-import { lazy, Suspense, useCallback, useEffect, useState } from "react";
+import { Fragment, lazy, Suspense, useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import { supabase } from "../../src/lib/supabase.js";
@@ -24,6 +24,8 @@ import { aktifDil, tt } from "../lib/dil.js";
 import { y } from "../lib/yol.js";
 import { QtDugme, QtIkon, QtKart, QtModal } from "../tasarim/index.js";
 import { useHazirAvatarlar } from "../lib/avatarKatalogu.js";
+import { nadirligeGoreBolumle, useNadirlikHaritasi } from "../../src/lib/avatarNadirlik.js";
+import { AvatarBolumBasligi, NadirlikImg } from "./AvatarNadirlikGoruntu.jsx";
 import "../tasarim/ekranlar/dukkan-cerceve.css";
 import "../tasarim/ekranlar/dukkan-kozmetik.css";
 
@@ -403,6 +405,7 @@ const ACIKLAMA = {
 export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYetmedi, onBilgi, onHata, elmasBakiye }) {
   const { user, profile, refreshProfile } = useAuth();
   const hazirAvatarlar = useHazirAvatarlar();   // 701: açılmamış hazır avatarlar süzülür
+  const nadirlikHaritasi = useNadirlikHaritasi();   // 770: bayrak açıkken nadirliğe göre bölümler
   // 31 hazır profesyonel avatar (bedava, avatar_onayla kabul eder) + katalogdaki 27 — profil ve kurulumla aynı
   // sıra; eskiden burada yalnız katalog (27) vardı → "yalnız son eklenen avatarlar görünüyor".
   const liste = [
@@ -486,7 +489,7 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
           bakiye={elmasBakiye}
           baslik={ad(c)}
           aciklama={null}
-          gorsel={<img src={c.url} alt="" width="80" height="80" decoding="async" />}
+          gorsel={<NadirlikImg src={c.url} alt="" width="80" height="80" decoding="async" />}
           fiyat={c.fiyat_elmas}
           yetersizEylem={() => elmasYetmedi?.()}
           onOnay={satinAl}
@@ -494,17 +497,22 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
         />
       )}
       <ul className="qt-dc-izgara">
-        {liste.map((a) => (
-          <li key={a.anahtar}>
-            <button type="button" className="qt-dc-oge" aria-pressed={a.anahtar === c.anahtar} onClick={() => setSecili(a.anahtar)}>
-              <img className="qt-kz-avatar-simge" src={a.url} alt="" width="64" height="64" loading="lazy" decoding="async" />
-              <span className="qt-dc-ad">{ad(a)}</span>
-              <span className="qt-dc-durum">
-                {profile?.avatar_url === a.url ? tt("Takılı") : a.sahibim ? tt("Sende var") : a.tur === "gunluk" || a.tur === "hazir" || (a.kullanabilir && !(a.fiyat_elmas > 0)) ? tt("Bedava")
-                  : a.fiyat_elmas != null && !a.kapali ? <ElmasFiyat fiyat={a.fiyat_elmas} /> : <><QtIkon ad="kilit" boyut={12} /> {tt("Kapalı")}</>}
-              </span>
-            </button>
-          </li>
+        {nadirligeGoreBolumle(liste, (a) => a.url, nadirlikHaritasi).map((b) => (
+          <Fragment key={b.nadirlik ?? "tumu"}>
+            {b.nadirlik && <AvatarBolumBasligi as="li" nadirlik={b.nadirlik} sayi={b.ogeler.length} />}
+            {b.ogeler.map((a) => (
+              <li key={a.anahtar}>
+                <button type="button" className="qt-dc-oge" aria-pressed={a.anahtar === c.anahtar} onClick={() => setSecili(a.anahtar)}>
+                  <NadirlikImg className="qt-kz-avatar-simge" src={a.url} alt="" width="64" height="64" loading="lazy" decoding="async" />
+                  <span className="qt-dc-ad">{ad(a)}</span>
+                  <span className="qt-dc-durum">
+                    {profile?.avatar_url === a.url ? tt("Takılı") : a.sahibim ? tt("Sende var") : a.tur === "gunluk" || a.tur === "hazir" || (a.kullanabilir && !(a.fiyat_elmas > 0)) ? tt("Bedava")
+                      : a.fiyat_elmas != null && !a.kapali ? <ElmasFiyat fiyat={a.fiyat_elmas} /> : <><QtIkon ad="kilit" boyut={12} /> {tt("Kapalı")}</>}
+                  </span>
+                </button>
+              </li>
+            ))}
+          </Fragment>
         ))}
       </ul>
     </div>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { hataMesaji } from "../lib/hata.js";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
@@ -10,6 +10,8 @@ import EngellediklerimBolumu from "./EngellediklerimBolumu.jsx";
 import AvatarCerceve from "./AvatarCerceve.jsx";
 import { tt } from "../lib/dil.js";
 import { HAZIR_AVATARLAR, useHazirAvatarlar, useKatalogAvatarlari } from "../lib/avatarKatalogu.js";
+import { nadirligeGoreBolumle, useNadirlikHaritasi } from "../../src/lib/avatarNadirlik.js";
+import { AvatarBolumBasligi, NadirlikImg } from "./AvatarNadirlikGoruntu.jsx";
 import { QtAnahtar, QtDugme, QtIkon, QtKart } from "../tasarim/index.js";
 import "../tasarim/ekranlar/dukkan-profil.css";
 
@@ -31,6 +33,7 @@ export default function ProfilAyarlari() {
   // 550: 27 yeni avatar (ücretsiz) sunucu kataloğundan; migration yoksa boş → yalnız 31 hazır avatar
   const katalogAvatarlari = useKatalogAvatarlari(avatarDuzenle);
   const hazirAvatarlar = useHazirAvatarlar();   // 701: açılmamış hazır avatarlar süzülür
+  const nadirlikHaritasi = useNadirlikHaritasi();   // 770: bayrak açıkken nadirliğe göre bölümler
   const [kopyalandi, setKopyalandi] = useState(false);
   const [calisiyor, setCalisiyor] = useState(false);
 
@@ -186,23 +189,28 @@ export default function ProfilAyarlari() {
         {avatarDuzenle ? (
           <>
             <div className="qt-pf-avatar-izgara">
-              {[...hazirAvatarlar, ...katalogAvatarlari].map((a) => {
-                const secili = profile.avatar_url === a.url;
-                return (
-                  <button
-                    type="button"
-                    key={a.url}
-                    className={"qt-pf-avatar-sec" + (secili ? " qt-pf-avatar-sec--secili" : "")}
-                    aria-label={tt("{0} avatarını seç", { 0: a.ad })}
-                    aria-pressed={secili}
-                    title={a.ad}
-                    disabled={calisiyor}
-                    onClick={() => avatarKaydet(a.url)}
-                  >
-                    <img src={a.url} alt="" loading="lazy" decoding="async" />
-                  </button>
-                );
-              })}
+              {nadirligeGoreBolumle([...hazirAvatarlar, ...katalogAvatarlari], (a) => a.url, nadirlikHaritasi).map((b) => (
+                <Fragment key={b.nadirlik ?? "tumu"}>
+                  {b.nadirlik && <AvatarBolumBasligi nadirlik={b.nadirlik} sayi={b.ogeler.length} />}
+                  {b.ogeler.map((a) => {
+                    const secili = profile.avatar_url === a.url;
+                    return (
+                      <button
+                        type="button"
+                        key={a.url}
+                        className={"qt-pf-avatar-sec" + (secili ? " qt-pf-avatar-sec--secili" : "")}
+                        aria-label={tt("{0} avatarını seç", { 0: a.ad })}
+                        aria-pressed={secili}
+                        title={a.ad}
+                        disabled={calisiyor}
+                        onClick={() => avatarKaydet(a.url)}
+                      >
+                        <NadirlikImg src={a.url} alt="" loading="lazy" decoding="async" />
+                      </button>
+                    );
+                  })}
+                </Fragment>
+              ))}
             </div>
             {avatarHata && <p className="qt-pf-hata" role="alert">{avatarHata}</p>}
             <div className="qt-pf-dugme-sira">

@@ -1,0 +1,22 @@
+/* Avatar seçim ızgaralarında nadirlik bölüm başlığı (770) — ızgaranın tam genişliğini kaplar. */
+.qt-av-bolum {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: var(--qt-b-2);
+  margin: var(--qt-b-2) 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.8125rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--qt-metin-soluk);
+}
+.qt-av-bolum:first-child { margin-top: 0; }
+.qt-av-bolum-nokta {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--qt-yuzey, #fff), 0 0 0 3px rgba(29, 33, 82, 0.25);
+}

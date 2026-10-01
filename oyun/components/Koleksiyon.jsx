@@ -11,7 +11,7 @@
  * Veri: cerceveKatalogu/cerceveTak, auraKatalogu/auraTak (oyun/lib/cerceve.js). Listeler durağan.
  * (Eski CerceveSecici.jsx'in yerine; qt-cs- sınıfları aynı.)
  */
-import { useCallback, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Avatar from "../../src/components/Avatar.jsx";
 import { useAuth } from "../../src/context/AuthContext.jsx";
@@ -28,6 +28,8 @@ import { KOZMETIK_SEKMELERI, KozmetikOnizlemePenceresi, KozmetikSimge, kozmetikA
 import { kozmetikHatasi, kozmetikTak } from "../lib/kozmetik.js";
 import { aktifDil } from "../lib/dil.js";
 import { useHazirAvatarlar } from "../lib/avatarKatalogu.js";
+import { nadirligeGoreBolumle, useNadirlikHaritasi } from "../../src/lib/avatarNadirlik.js";
+import { AvatarBolumBasligi, NadirlikImg } from "./AvatarNadirlikGoruntu.jsx";
 import { cerceveKatalogu, cerceveTak, auraKatalogu, auraTak, oyuncuKartiUnut } from "../lib/cerceve.js";
 import { LIG_ADLARI } from "../lib/lig.js";
 import { hataMesaji } from "../lib/hata.js";
@@ -52,6 +54,7 @@ const KAYNAK_ADI = { lig: "Lig", turnuva: "Turnuva", level: "Level", etkinlik: "
 
 export default function Koleksiyon() {
   const hazirAvatarlar = useHazirAvatarlar();   // 701: açılmamış hazır avatarlar süzülür
+  const nadirlikHaritasi = useNadirlikHaritasi();   // 770: bayrak açıkken nadirliğe göre bölümler
   const { user, profile, refreshProfile } = useAuth();
   const [cerceveler, setCerceveler] = useState(null);
   const [auralar, setAuralar] = useState(null);
@@ -341,33 +344,28 @@ export default function Koleksiyon() {
       <QtKart as="section" className="qt-cs" aria-labelledby="qt-ks-avatar">
         <h2 id="qt-ks-avatar" className="qt-baslik-3">{tt("Avatarlar")}</h2>
         <ul className="qt-cs-izgara qt-ks-avatarlar">
-          {hazirAvatarlar.map((a) => {
-            const secili = profile?.avatar_url === a.url;
-            return (
-              <li key={a.url}>
-                <button type="button" className="qt-cs-oge qt-ks-avatar" aria-pressed={secili} disabled={Boolean(mesgul)}
-                        aria-label={tt("{0} avatarını seç", { 0: a.ad })} onClick={() => avatarSec(a.url)}>
-                  <img src={a.url} alt="" loading="lazy" decoding="async" width="56" height="56" />
-                  <span className="qt-cs-ad">{a.ad}</span>
-                </button>
-              </li>
-            );
-          })}
-          {/* 520/550: yeni katalog avatarları (27, ücretsiz) — 31 hazır avatarın ARDINDAN (profil ve kurulumla aynı sıra;
-              önce gelince telefonda ilk ekran yalnız yeni avatarlarla doluyordu) */}
-          {yeniAvatarlar.map((a) => {
-            const secili = profile?.avatar_url === a.url;
-            const ad = (aktifDil() === "en" ? a.ad_en : a.ad_tr) ?? a.ad_tr;
-            return (
-              <li key={a.anahtar}>
-                <button type="button" className="qt-cs-oge qt-ks-avatar" aria-pressed={secili} disabled={Boolean(mesgul)}
-                        aria-label={tt("{0} avatarını seç", { 0: ad })} onClick={() => avatarSec(a.url)}>
-                  <img src={a.url} alt="" loading="lazy" decoding="async" width="56" height="56" />
-                  <span className="qt-cs-ad">{ad}</span>
-                </button>
-              </li>
-            );
-          })}
+          {/* 520/550: hazır 31 avatar, ardından katalog avatarları (aynı sıra: profil ve kurulumla); 770: bayrak açıkken
+              nadirliğe göre bölümlenir (Yaygın → Efsanevi), aynı nadirlikte bu sıra korunur */}
+          {nadirligeGoreBolumle([
+            ...hazirAvatarlar.map((a) => ({ url: a.url, ad: a.ad })),
+            ...yeniAvatarlar.map((a) => ({ url: a.url, ad: (aktifDil() === "en" ? a.ad_en : a.ad_tr) ?? a.ad_tr })),
+          ], (a) => a.url, nadirlikHaritasi).map((b) => (
+            <Fragment key={b.nadirlik ?? "tumu"}>
+              {b.nadirlik && <AvatarBolumBasligi as="li" nadirlik={b.nadirlik} sayi={b.ogeler.length} />}
+              {b.ogeler.map((a) => {
+                const secili = profile?.avatar_url === a.url;
+                return (
+                  <li key={a.url}>
+                    <button type="button" className="qt-cs-oge qt-ks-avatar" aria-pressed={secili} disabled={Boolean(mesgul)}
+                            aria-label={tt("{0} avatarını seç", { 0: a.ad })} onClick={() => avatarSec(a.url)}>
+                      <NadirlikImg src={a.url} alt="" loading="lazy" decoding="async" width="56" height="56" />
+                      <span className="qt-cs-ad">{a.ad}</span>
+                    </button>
+                  </li>
+                );
+              })}
+            </Fragment>
+          ))}
         </ul>
       </QtKart>
     </div>

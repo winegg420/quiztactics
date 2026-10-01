@@ -28,6 +28,7 @@ import { HAZIR_AVATARLAR, kilitliAvatarKumesi, kilitliAvatarlariYukle } from "..
 import { aktifDil, tt } from "../lib/dil.js";
 import { YUMUSAK, yumusakHareketKur, yumusakMu } from "../tasarim/yumusakHareket.js";
 import "../tasarim/ekranlar/arama-gunes-halkasi.css";
+import { NadirlikImg } from "./AvatarNadirlikGoruntu.jsx";
 
 yumusakHareketKur();
 
@@ -104,7 +105,7 @@ function sureYaz(sn) {
 
 /** Yuvarlak avatar resmi (makara/yörünge/kilit); resim yoksa baş harf. */
 function AvatarResim({ src, ad }) {
-  if (src) return <img src={src} alt="" width="120" height="120" decoding="async" draggable="false" referrerPolicy="no-referrer" />;
+  if (src) return <NadirlikImg src={src} alt="" width="120" height="120" decoding="async" draggable="false" referrerPolicy="no-referrer" />;
   return <span className="gh-harf">{(ad ?? "?").charAt(0).toUpperCase()}</span>;
 }
 
@@ -250,7 +251,7 @@ export default function AramaGunesHalkasi({
             <span className="gh-yorunge" aria-hidden="true">
               {secim.yorunge.map((src, i) => (
                 <span key={src} className="gh-uydu" style={{ "--i": i }}>
-                  <span className="gh-uydu-ic"><img src={src} alt="" width="120" height="120" decoding="async" draggable="false" /></span>
+                  <span className="gh-uydu-ic"><NadirlikImg src={src} alt="" width="120" height="120" decoding="async" draggable="false" /></span>
                 </span>
               ))}
             </span>
@@ -262,7 +263,7 @@ export default function AramaGunesHalkasi({
               ) : (
                 <span className="gh-makara-serit" key="serit">
                   {[...secim.makara, ...secim.makara].map((src, i) => (
-                    <img key={i} src={src} alt="" width="120" height="120" decoding="async" draggable="false" />
+                    <NadirlikImg key={i} src={src} alt="" width="120" height="120" decoding="async" draggable="false" />
                   ))}
                 </span>
               )}

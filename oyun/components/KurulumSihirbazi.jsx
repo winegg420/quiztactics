@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import Modal from "./Modal.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { supabase } from "../../src/lib/supabase.js";
@@ -12,6 +12,8 @@ import { tt } from "../lib/dil.js";
 import { QtDugme, QtToast } from "../tasarim/index.js";
 import { DavetKoduGir } from "./DavetKarti.jsx";
 import { useHazirAvatarlar, useKatalogAvatarlari } from "../lib/avatarKatalogu.js";
+import { nadirligeGoreBolumle, useNadirlikHaritasi } from "../../src/lib/avatarNadirlik.js";
+import { AvatarBolumBasligi, NadirlikImg } from "./AvatarNadirlikGoruntu.jsx";
 import "../tasarim/ekranlar/g-ortak.css";
 import "../tasarim/ekranlar/g-kurulum.css";
 
@@ -33,6 +35,7 @@ export default function KurulumSihirbazi({ onTamam }) {
   // 550: 27 yeni avatar (günlük + kostümlü, hepsi ücretsiz) sunucu kataloğundan; migration yoksa boş
   const katalogAvatarlari = useKatalogAvatarlari(adim === 2);
   const hazirAvatarlar = useHazirAvatarlar();   // 701: açılmamış hazır avatarlar süzülür
+  const nadirlikHaritasi = useNadirlikHaritasi();   // 770: bayrak açıkken nadirliğe göre bölümler
   const [googleFoto, setGoogleFoto] = useState(null);
   const [ulkeler, setUlkeler] = useState([]);
   const [sehirler, setSehirler] = useState([]);
@@ -223,18 +226,23 @@ export default function KurulumSihirbazi({ onTamam }) {
             </p>
 
             <div className="g-avatar-izgara" role="group" aria-label={ceviri("Avatarını seç")}>
-              {[...hazirAvatarlar, ...katalogAvatarlari].map((a) => (
-                <button
-                  key={a.url}
-                  type="button"
-                  className={"g-avatar-sec" + (secilenAvatar === a.url ? " g-avatar-sec--secili" : "")}
-                  aria-pressed={secilenAvatar === a.url}
-                  aria-label={ceviri("{ad} avatarını seç", { ad: ceviri(a.ad) })}
-                  title={ceviri(a.ad)}
-                  onClick={() => setSecilenAvatar(a.url)}
-                >
-                  <img src={a.url} alt="" loading="lazy" />
-                </button>
+              {nadirligeGoreBolumle([...hazirAvatarlar, ...katalogAvatarlari], (a) => a.url, nadirlikHaritasi).map((b) => (
+                <Fragment key={b.nadirlik ?? "tumu"}>
+                  {b.nadirlik && <AvatarBolumBasligi nadirlik={b.nadirlik} sayi={b.ogeler.length} />}
+                  {b.ogeler.map((a) => (
+                    <button
+                      key={a.url}
+                      type="button"
+                      className={"g-avatar-sec" + (secilenAvatar === a.url ? " g-avatar-sec--secili" : "")}
+                      aria-pressed={secilenAvatar === a.url}
+                      aria-label={ceviri("{ad} avatarını seç", { ad: ceviri(a.ad) })}
+                      title={ceviri(a.ad)}
+                      onClick={() => setSecilenAvatar(a.url)}
+                    >
+                      <NadirlikImg src={a.url} alt="" loading="lazy" />
+                    </button>
+                  ))}
+                </Fragment>
               ))}
             </div>
 
