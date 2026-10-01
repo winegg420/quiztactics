@@ -1,0 +1,515 @@
+{
+  "parti": 6,
+  "tarih": "2026-10-01",
+  "taslak": 206,
+  "net": 137,
+  "kota": {
+    "sanat": 30,
+    "muzik": 34,
+    "teknoloji": 23,
+    "genel_kultur": 9,
+    "sinema": 4,
+    "edebiyat": 15,
+    "spor": 8,
+    "tarih": 4,
+    "yerel": 10
+  },
+  "zorluk_hedef": {
+    "1-2": 200
+  },
+  "eksik": {},
+  "elenen_sebep": {
+    "belirsiz": 2,
+    "kota_puan": 54,
+    "sik_ipucu": 4,
+    "jev_zor": 5,
+    "zayif_soru": 3,
+    "eskiyebilir": 1
+  },
+  "kova": {
+    "sanat": 30,
+    "muzik": 34,
+    "teknoloji": 23,
+    "genel_kultur": 9,
+    "sinema": 4,
+    "edebiyat": 15,
+    "spor": 8,
+    "tarih": 4,
+    "yerel_tr": 10
+  },
+  "kategori": {
+    "sanat": 31,
+    "muzik": 36,
+    "teknoloji": 25,
+    "genel_kultur": 12,
+    "sinema": 4,
+    "edebiyat": 15,
+    "spor": 10,
+    "tarih": 4
+  },
+  "zorluk": [
+    0,
+    137,
+    0,
+    0,
+    0
+  ],
+  "zorluk_kova": {
+    "3": 0,
+    "4": 0,
+    "5": 0,
+    "1-2": 137
+  },
+  "cevrilmeyen": 137,
+  "jev": {
+    "cagri": 1366,
+    "girdi_jetonu": 1042295,
+    "usd": 0.0438,
+    "not": "jev.jsonl içindeki tüm denemeler dahil (düzeltilip yeniden sorulanlar da)"
+  },
+  "zorluk_etiket_duzeltme": [],
+  "elenenler": [
+    {
+      "sebep": "belirsiz",
+      "kova": "sinema",
+      "s": "Homer Simpson'ın en sevdiği yiyecek hangisidir?",
+      "d": "Donut"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "sinema",
+      "s": "Harry Potter'ın baş düşmanı olan kötü büyücü kimdir?",
+      "d": "Voldemort"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "sinema",
+      "s": "Dost canlısı hayalet Casper hangi renktedir?",
+      "d": "Beyaz"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "sinema",
+      "s": "Mary Poppins uçmak için neyi kullanır?",
+      "d": "Şemsiye"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "sinema",
+      "s": "Mulan hangi ülkenin efsanesidir?",
+      "d": "Çin"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "sinema",
+      "s": "Bugs Bunny hangi yiyeceği çiğnerken görülür?",
+      "d": "Havuç"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "sinema",
+      "s": "Süpermen'in pelerini hangi renktedir?",
+      "d": "Kırmızı"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "sinema",
+      "s": "Süngerbob'un en yakın arkadaşı olan deniz yıldızının adı nedir?",
+      "d": "Patrick"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "sinema",
+      "s": "Süngerbob'un evcil salyangozunun adı nedir?",
+      "d": "Gary"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "sinema",
+      "s": "'Harry Potter' serisinde Hermione'nin soyadı nedir?",
+      "d": "Granger"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "sinema",
+      "s": "'Ice Age' filmindeki tembel hayvanın adı nedir?",
+      "d": "Sid"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "sinema",
+      "s": "'Peter Pan'daki kötü korsan kaptanın adı nedir?",
+      "d": "Kaptan Hook"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "sinema",
+      "s": "'Küçük Denizkızı'nın kötü cadısı kimdir?",
+      "d": "Ursula"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "sinema",
+      "s": "'Uyuyan Güzel'i uykuya mahkûm eden kötü peri kimdir?",
+      "d": "Maleficent"
+    },
+    {
+      "sebep": "sik_ipucu",
+      "duzelt_yeniden_dene": true,
+      "kova": "sanat",
+      "s": "Moda başkenti olarak bilinen Fransız şehri hangisidir?",
+      "d": "Paris",
+      "y": [
+        "Lyon",
+        "Marsilya",
+        "Nice"
+      ],
+      "ipucuP": 0.85
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sanat",
+      "s": "Sari hangi ülkenin geleneksel kadın kıyafetidir?",
+      "d": "Hindistan"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "muzik",
+      "s": "'Sweet Dreams' şarkısı hangi gruba aittir?",
+      "d": "Eurythmics"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "muzik",
+      "s": "'Total Eclipse of the Heart' şarkısı hangi sanatçıya aittir?",
+      "d": "Bonnie Tyler"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "muzik",
+      "s": "'Careless Whisper' şarkısıyla tanınan sanatçı kimdir?",
+      "d": "George Michael"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "muzik",
+      "s": "'Sweet Home Alabama' şarkısı hangi gruba aittir?",
+      "d": "Lynyrd Skynyrd"
+    },
+    {
+      "sebep": "sik_ipucu",
+      "duzelt_yeniden_dene": true,
+      "kova": "muzik",
+      "s": "'Enter Sandman' şarkısı hangi gruba aittir?",
+      "d": "Metallica",
+      "y": [
+        "Slayer",
+        "Megadeth",
+        "Pantera"
+      ],
+      "ipucuP": 0.89
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "muzik",
+      "s": "'Paradise City' ve 'November Rain' şarkıları hangi gruba aittir?",
+      "d": "Guns N' Roses"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'Zombie' şarkısı hangi gruba aittir?",
+      "d": "The Cranberries"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "muzik",
+      "s": "'Chandelier' şarkısı hangi sanatçıya aittir?",
+      "d": "Sia"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "muzik",
+      "s": "'Sorry' ve 'Peaches' şarkıları hangi sanatçıya aittir?",
+      "d": "Justin Bieber"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "muzik",
+      "s": "'Starboy' şarkısı hangi sanatçıya aittir?",
+      "d": "The Weeknd"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "muzik",
+      "s": "'drivers license' şarkısı hangi sanatçıya aittir?",
+      "d": "Olivia Rodrigo"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "muzik",
+      "s": "'Watermelon Sugar' şarkısı hangi sanatçıya aittir?",
+      "d": "Harry Styles"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "muzik",
+      "s": "'New Rules' şarkısı hangi sanatçıya aittir?",
+      "d": "Dua Lipa"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "muzik",
+      "s": "'Someone You Loved' şarkısı hangi sanatçıya aittir?",
+      "d": "Lewis Capaldi"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'Lovely' şarkısını Billie Eilish ile söyleyen sanatçı kimdir?",
+      "d": "Khalid"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "teknoloji",
+      "s": "Yılan adıyla anılan yaygın programlama dili hangisidir?",
+      "d": "Python"
+    },
+    {
+      "sebep": "sik_ipucu",
+      "duzelt_yeniden_dene": true,
+      "kova": "teknoloji",
+      "s": "Google'ın video paylaşım platformu hangisidir?",
+      "d": "YouTube",
+      "y": [
+        "Vimeo",
+        "Twitch",
+        "Dailymotion"
+      ],
+      "ipucuP": 0.96
+    },
+    {
+      "sebep": "zayif_soru",
+      "kova": "spor",
+      "s": "Kayakçıların kullandığı iki uzun tahtaya ne ad verilir?",
+      "d": "Kayak"
+    },
+    {
+      "sebep": "zayif_soru",
+      "kova": "spor",
+      "s": "Yelkenle yapılan spora ne ad verilir?",
+      "d": "Yelken"
+    },
+    {
+      "sebep": "sik_ipucu",
+      "duzelt_yeniden_dene": true,
+      "kova": "tarih",
+      "s": "Osmanlı padişahlarının oturduğu ünlü İstanbul sarayı hangisidir?",
+      "d": "Topkapı Sarayı",
+      "y": [
+        "Dolmabahçe Sarayı",
+        "Yıldız Sarayı",
+        "Çırağan Sarayı"
+      ],
+      "ipucuP": 0.84
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "muzik",
+      "s": "Robot kasklarıyla tanınan Fransız elektronik müzik ikilisi hangisidir?",
+      "d": "Daft Punk"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "muzik",
+      "s": "One Direction'ın üyesiyken solo kariyerine başlayıp 'As It Was' şarkısını söyleyen sanatçı kimdir?",
+      "d": "Harry Styles"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "muzik",
+      "s": "'My Way' ve 'New York, New York' şarkılarını seslendiren efsane şarkıcı kimdir?",
+      "d": "Frank Sinatra"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "muzik",
+      "s": "'What a Wonderful World' şarkısını söyleyen trompetçi caz efsanesi kimdir?",
+      "d": "Louis Armstrong"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "muzik",
+      "s": "'Believer' ve 'Thunder' şarkılarıyla tanınan grup hangisidir?",
+      "d": "Imagine Dragons"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "muzik",
+      "s": "Country müziğinin başkenti sayılan ABD şehri hangisidir?",
+      "d": "Nashville"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "muzik",
+      "s": "Piyanonun şairi olarak anılan Chopin hangi ülkelidir?",
+      "d": "Polonya"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "muzik",
+      "s": "Bir müzisyenin kendi bestelerini yayımladığı kayıt şirketine ne ad verilir?",
+      "d": "Plak şirketi"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "sinema",
+      "s": "Harry Potter dünyasında süpürgelerin üzerinde oynanan spor hangisidir?",
+      "d": "Quidditch"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "sinema",
+      "s": "'Yüzüklerin Efendisi'nde yüzüğe 'Değerlim' diyen yaratık kimdir?",
+      "d": "Gollum"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "sinema",
+      "s": "'Ratatouille' filminde Paris'te şef olmak isteyen hayvan hangisidir?",
+      "d": "Fare"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "muzik",
+      "s": "Kızıl saçlarıyla tanınan 'Perfect' şarkısının sahibi sanatçı kimdir?",
+      "d": "Ed Sheeran"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "muzik",
+      "s": "'Smoke on the Water' şarkısı hangi gruba aittir?",
+      "d": "Deep Purple"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "genel_kultur",
+      "s": "Japonya'nın ünlü hızlı trenine ne ad verilir?",
+      "d": "Şinkansen"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "tarih",
+      "s": "Kolomb'un yola çıktığı gemi filosunda kaç gemi vardı?",
+      "d": "3"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "muzik",
+      "s": "'Sugar' şarkısı hangi gruba aittir?",
+      "d": "Maroon 5"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "muzik",
+      "s": "'Stay With Me' şarkısı hangi sanatçıya aittir?",
+      "d": "Sam Smith"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "muzik",
+      "s": "'Dark Horse' şarkısı hangi sanatçıya aittir?",
+      "d": "Katy Perry"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "muzik",
+      "s": "'Angels' şarkısıyla tanınan şarkıcı Robbie Williams hangi ülkelidir?",
+      "d": "İngiltere"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "muzik",
+      "s": "'Ring of Fire' şarkısıyla tanınan country efsanesi kimdir?",
+      "d": "Johnny Cash"
+    },
+    {
+      "sebep": "zayif_soru",
+      "kova": "muzik",
+      "s": "Chopin'in yaşadığı döneme damga vurduğu çalgı hangisidir?",
+      "d": "Piyano"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "genel_kultur",
+      "s": "Eskiden Osmanlı'da kullanılan, başı ve boynu saran baş giysisine ne ad verilir?",
+      "d": "Fes"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "sinema",
+      "s": "Mark Ruffalo hangi Marvel karakterini canlandırmıştır?",
+      "d": "Hulk"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "sinema",
+      "s": "Scarlett Johansson hangi Marvel karakterini canlandırmıştır?",
+      "d": "Kara Dul"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "sinema",
+      "s": "'Zootropolis' filminin tavşan polis kahramanının adı nedir?",
+      "d": "Judy"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "sinema",
+      "s": "'Rapunzel' filminde Rapunzel'in kameleonunun adı nedir?",
+      "d": "Pascal"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "sinema",
+      "s": "'Rapunzel' filmindeki hırsız kahramanın adı nedir?",
+      "d": "Flynn"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "sinema",
+      "s": "'Güzel ve Çirkin'de Belle'in babasının mesleği nedir?",
+      "d": "Mucit"
+    },
+    {
+      "sebep": "eskiyebilir",
+      "kova": "genel_kultur",
+      "s": "Dubai'deki dünyanın en yüksek yapısı hangisidir?",
+      "d": "Burj Halife"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "sinema",
+      "s": "Walt Disney'in yarattığı ilk ünlü çizgi film karakteri hangisidir?",
+      "d": "Mickey Mouse"
+    },
+    {
+      "sebep": "kota_puan",
+      "kova": "sinema",
+      "s": "Keanu Reeves 'Matrix' filminde hangi karakteri canlandırmıştır?",
+      "d": "Neo"
+    },
+    {
+      "sebep": "belirsiz",
+      "kova": "yerel",
+      "s": "Anıtkabir'e giden yolun iki yanında hangi hayvanların heykelleri bulunur?",
+      "d": "Aslan"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "yerel",
+      "s": "Topkapı Sarayı'ndaki ünlü elmasın adı nedir?",
+      "d": "Kaşıkçı Elması"
+    }
+  ]
+}
