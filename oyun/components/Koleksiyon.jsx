@@ -164,6 +164,7 @@ export default function Koleksiyon() {
   const premiumCerceveTakili = premiumCerceveler.some((x) => x.takili);
   const sahipCerceve = cerceveler.filter((c) => c.sahip).length + premiumCerceveler.filter((x) => x.sahip).length;
   const sahipAura = auralar.filter((a) => a.sahip).length + premiumAuralar.filter((x) => x.sahip).length;
+  const arkaPlanVar = kozmetik.arkaPlanAcik;   // 1 Eki: arka planlar dondurulmuş → bölüm, sayaç ve metin görünmez
   const durumYazi = (secili, anahtarMesgul) => (secili ? tt("Takılı") : mesgul === anahtarMesgul ? tt("Takılıyor…") : tt("Tak"));
   // Premium çerçeve takılıyken kazanılan çerçevenin üstünü örter (CerceveliAvatar): ikisi "Takılı" görünmesin
   const prestijDurum = (secili, anahtarMesgul) => (secili && premiumCerceveTakili ? tt("Premium önde") : durumYazi(secili, anahtarMesgul));
@@ -175,9 +176,13 @@ export default function Koleksiyon() {
         <CerceveliAvatar profile={profile ?? {}} userId={user?.id} boyut={112} hareketli />
         <div className="qt-ks-ozet">
           <h2 className="qt-baslik-3">{tt("Görünümün")}</h2>
-          <p className="qt-kucuk qt-soluk">{tt("Arka plan arkada, avatar ortada, çerçeve önde. Maçta, lig tablosunda ve profilinde herkes böyle görür.")}</p>
+          <p className="qt-kucuk qt-soluk">{arkaPlanVar
+            ? tt("Arka plan arkada, avatar ortada, çerçeve önde. Maçta, lig tablosunda ve profilinde herkes böyle görür.")
+            : tt("Avatar ortada, çerçeve önde. Maçta, lig tablosunda ve profilinde herkes böyle görür.")}</p>
           <p className="qt-kucuk">
-            {tt("{a}/{b} çerçeve · {c}/{d} arka plan", { a: sahipCerceve, b: cerceveler.length + premiumCerceveler.length, c: sahipAura, d: auralar.length + premiumAuralar.length })}
+            {arkaPlanVar
+              ? tt("{a}/{b} çerçeve · {c}/{d} arka plan", { a: sahipCerceve, b: cerceveler.length + premiumCerceveler.length, c: sahipAura, d: auralar.length + premiumAuralar.length })
+              : tt("{a}/{b} çerçeve", { a: sahipCerceve, b: cerceveler.length + premiumCerceveler.length })}
           </p>
         </div>
       </QtKart>
@@ -235,7 +240,7 @@ export default function Koleksiyon() {
       </QtKart>
 
       {/* ---------- Arka Planlar (eski katalog) — 552'den beri boş; boşken çizilmez, premium arka planlar aşağıda ---------- */}
-      {auralar.length > 0 && (
+      {arkaPlanVar && auralar.length > 0 && (
       <QtKart as="section" className={sinif("qt-cs", sirali)} style={siraStili(3)} aria-labelledby="qt-ks-aura">
         <h2 id="qt-ks-aura" className="qt-baslik-3">{tt("Arka Planlar")}</h2>
         <p className="qt-kucuk qt-soluk">{tt("Arka plan avatarının arkasında durur. Dükkân'da elmasla alınır.")}</p>

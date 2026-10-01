@@ -129,6 +129,8 @@ export default {
   "Görünümün": "Your look",
   "Arka plan arkada, avatar ortada, çerçeve önde. Maçta, lig tablosunda ve profilinde herkes böyle görür.": "Background behind, avatar in the middle, frame in front. That's how everyone sees you in matches, the league table and your profile.",
   "{a}/{b} çerçeve · {c}/{d} arka plan": "{a}/{b} frames · {c}/{d} backgrounds",
+  "{a}/{b} çerçeve": "{a}/{b} frames",
+  "Avatar ortada, çerçeve önde. Maçta, lig tablosunda ve profilinde herkes böyle görür.": "Avatar in the middle, frame in front. That's how everyone sees you in matches, the league table and your profile.",
   "Çerçeve satılmaz, kazanılır: lig, turnuva, level ve etkinliklerle.": "Frames aren't sold — they're earned through leagues, tournaments, levels and events.",
   "{ad} — kilitli: {kosul}": "{ad} — locked: {kosul}",
   "Arka plan avatarının arkasında durur. Dükkân'da elmasla alınır.": "A background sits behind your avatar. Buy them with gems in the Shop.",

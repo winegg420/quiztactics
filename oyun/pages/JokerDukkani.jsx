@@ -132,7 +132,8 @@ export default function JokerDukkani() {
   // kalemleri 552'den beri pasif, sekme boş) gizlenir — iki "Aura" sekmesi olmasın; ?sekme=aura → paura.
   const premiumAuraVar = kozmetik.sekmeler.some((s) => s.kod === "paura");
   const SEKMELER = [
-    ...TEMEL_SEKMELER.slice(0, 2).filter((x) => !(premiumAuraVar && x.kod === "aura")),
+    // 1 Eki: arka planlar dondurulmuş (oyun_ayarlari.arka_plan_acik = false) → "Arka Plan" sekmesi (eski aura dahil) hiç çıkmaz
+    ...TEMEL_SEKMELER.slice(0, 2).filter((x) => !(premiumAuraVar && x.kod === "aura") && !(!kozmetik.arkaPlanAcik && x.kod === "aura")),
     ...kozmetik.sekmeler.map((s) => ({ kod: s.kod, ad: tt(s.ad), ikon: s.ikon })),
     ...TEMEL_SEKMELER.slice(2),
   ];

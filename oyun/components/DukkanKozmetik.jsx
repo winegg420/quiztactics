@@ -19,6 +19,7 @@ import IsimEfekti from "./IsimEfekti.jsx";
 import { VsKarti } from "./AramaSahnesi.jsx";
 import { ElmasFiyat, ElmasliSatinAlOnayi } from "./DukkanAuralar.jsx";
 import { KAYIT as ARKA_PLAN_KAYIT } from "../tasarim/arka-plan/kayit.jsx";
+import { useArkaPlanAcik } from "../lib/arkaPlanBayrak.js";
 import { KOZMETIK_TANIMLARI, TEPKI_TANIMLARI, kozmetikHatasi, kozmetikKatalogu, kozmetikSatinAl, kozmetikTak, kozmetikTemasi, sahipMi, tepkiGorseli } from "../lib/kozmetik.js";
 import { oyuncuKartiUnut } from "../lib/cerceve.js";
 import { elmasTazele } from "../lib/elmas.js";
@@ -54,6 +55,7 @@ export const KOZMETIK_SEKMELERI = [
  * iki katalog da boş döner (sunucu kapısı) → sekmeler hiç çizilmez.
  */
 export function useKozmetikDukkan() {
+  const arkaPlanAcik = useArkaPlanAcik();   // 1 Eki: arka planlar dondurulmuş → premium_aura katalogdan düşer (sekme, Koleksiyon bölümü, sayaç)
   const [durum, setDurum] = useState({ katalog: [], avatarlar: [], sahipHesap: false, hazir: false });
   const yenile = useCallback(async () => {
     const [k, a, s] = await Promise.all([
@@ -73,9 +75,10 @@ export function useKozmetikDukkan() {
     setDurum({ katalog: k, avatarlar: a, sahipHesap: s, hazir: true });
   }, []);
   useEffect(() => { yenile(); }, [yenile]);
-  const turVar = (tur) => durum.katalog.some((x) => x.tur === tur);
+  const katalog = arkaPlanAcik ? durum.katalog : durum.katalog.filter((x) => x.tur !== "premium_aura");
+  const turVar = (tur) => katalog.some((x) => x.tur === tur);
   const sekmeler = KOZMETIK_SEKMELERI.filter((s) => (s.kod === "avatar" ? durum.avatarlar.length > 0 : turVar(s.tur)));
-  return { ...durum, yenile, sekmeler };
+  return { ...durum, katalog, arkaPlanAcik, yenile, sekmeler };
 }
 
 const ZAFER_SIMGE = {
