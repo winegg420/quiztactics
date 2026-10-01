@@ -9668,3 +9668,8 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 - **Dükkân (gerçek sayfa, 390×844):** normal: 5 kart, 2 tam + 3 hafif oynuyor; "hareketi azalt" açık: 5 kart yumuşak oynuyor, hiçbiri statik değil; yatay taşma 0; "Lv 17" koyu hap üstünde okunur. Görüntüler `scratchpad` (repoya alınmadı).
 - **Test hesapları SİLİNDİ** (4 adet; profil/auth/lig 0). Sahip hesaba dokunulmadı. Dev sunucusu kapatıldı. `sw.js` v17.
 - **Ölçülemeyen/açık:** arama ekranı VS karesindeki Koleksiyon puanı ve Düello joker ipucunun GERÇEK piksel ölçümü (maç gerektirir; hesapla 5,9:1 ve ≈7:1) · sunucu PUSH gövdesinde EN'de Türkçe ülke adı · gerçek iOS/Samsung.
+
+## 2026-10-01 — Ülke adı İngilizce + push dili (781)
+- `ulkeler.ad_en` eklendi (86/86 dolu, Intl'den; Türkçe `ad` ve veri değişmedi). `push_metni`: dil Türkçe değilse ve anahtar `ulke_sampiyonu_oldun` ise Türkçe ülke adı → `ad_en`. Push şablonları zaten dile göre (214); eksik olan yalnız ülke adıydı.
+- Karar: çeviri yalnız bu anahtarda (oyuncu adı/şehir parametreleri ülke adıyla karışmasın). 710 (yildizli_gece_ac) uygulanmamış/sırasız; `db push --include-all` kullanılmadı, 781 doğrudan uygulandı + schema_migrations'a işlendi.
+- Doğrulandı: en → "Champion of Philippines", tr → "Filipinler", başka anahtar etkilenmedi.
