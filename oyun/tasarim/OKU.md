@@ -263,3 +263,23 @@ const u = ucan(`urun:${id}`);
 Eksik bir parça görürsen ortak dosyayı sayfa penceresinde DÜZELTME — not düş; Aşama 1 sonunda tek pencere toplar.
 Bilinen açık: maç içindeki `geriBildirim.js › titret` henüz bu kapıya bağlı değil ("Efektler" ayarına bakmıyor).
 Güncelleme (1 Eki 2026, commit 2436a696): yukarıdaki açık KAPANDI — `geriBildirim.js › titret` artık dokunuş tek kapısından (`hisAcikMi`) geçiyor; "Efektler" kapalıyken ya da hareket azaltılmışken titreşim çalmaz.
+
+## 12. Tam ekran oyun sahnesi — `QtSahne` (1 Eki 2026)
+
+"Web sayfası" gibi duran ekranlar (Sezon Yolu, Görevler) için kabuk: `oyun/tasarim/sahne/QtSahne.jsx` + `sahne.css` (`qt-sahne-*`).
+Uygulama üst çubuğu ve alt menü gizlenir (`useOyunModu`), ekran 100dvh kilitlidir, sayfa gövdesi kaymaz; yalnız `children` kayar.
+
+```jsx
+import { QtSahne, QT_SAHNE_COIN_HAPI, ziplat } from "../tasarim/index.js";
+
+<QtSahne baslik={tt("Görevler")} altBaslik={…} ust={<Ozet />} alt={hazir > 0 ? <QtDugme tamGenislik>…</QtDugme> : null} govdeRef={ref}>
+  …tek kaydırılan bölge…
+</QtSahne>
+```
+
+- Üst şerit: 44 px geri (geçmiş yoksa ana sayfa) · `baslik` + `altBaslik` · sağda coin hapı (`CoinHapi`, yeniden çizilmez; `sag` ile değiştirilir).
+- `ust` = üst şeridin altında SABİT alan · `alt` = altta SABİT eylem alanı (null/boşsa yer kaplamaz) · `children` = tek kaydırılan bölge.
+- Sahnede uygulama üst çubuğu gizli olduğundan coin hapı hedefi `QT_SAHNE_COIN_HAPI`'dir: `ziplat(QT_SAHNE_COIN_HAPI)`
+  (`useOdulAni › coinZipla` gizli üst çubuk hapını arar — sahnede `coinZipla: false` ver, zıplatmayı kendin çağır).
+- Kök `position: fixed` ve hareketsiz; giriş (sağdan, `--qt-s-orta`) içteki sarmalayıcıda. Azaltılmış harekette anında açılır.
+- Zemin düz (desen/görsel yok). Sahne başına tek odak, tek birincil düğme (`alt` yuvasında).

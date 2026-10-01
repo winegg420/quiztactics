@@ -1,0 +1,106 @@
+/* =====================================================================
+   QtSahne — tam ekran oyun sahnesi kabuğu (yalnız qt-sahne-* sınıfları; renk/ölçü/süre token'dan).
+   Kök: position:fixed + 100dvh, HAREKETSİZ (iOS: fixed ile transform aynı öğede olmaz) → sayfa gövdesi kaymaz.
+   Giriş geçişi içteki .qt-sahne-ic'te (sağdan kayar). Tek kaydırılan bölge: .qt-sahne-govde.
+   Zemin düz ve nötr (desen/görsel/gradyan yok): odak içerikte kalır.
+   ===================================================================== */
+
+.qt-sahne-kok {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100dvh;
+  z-index: calc(var(--qt-z-menu) + 5);   /* uygulama üst çubuğunun üstünde, modal örtüsünün (--qt-z-ortu) altında */
+  overflow: hidden;
+  background: var(--qt-zemin);
+  color: var(--qt-zemin-metin);
+}
+/* Eski kabuk `.shell > *` çocuğuna giriş animasyonu (transform) veriyor: sabit kökte olmaz. */
+.app .shell > .qt-sahne-kok { animation: none; }
+/* Çevrimdışı şeridi (en üstte, sabit) sahnenin başlığını örtmesin */
+html.qt-cevrimdisi .qt-sahne-kok { top: var(--qt-baglanti-yuk); height: calc(100dvh - var(--qt-baglanti-yuk)); }
+html.qt-cevrimdisi .qt-sahne-ic { padding-top: 0; }
+
+.qt-sahne-ic {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 560px;
+  height: 100%;
+  margin-inline: auto;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+  animation: qt-sahne-gir var(--qt-s-orta) var(--qt-egri-cikis) backwards;
+}
+.qt-sahne-ic > * { flex: none; min-width: 0; }
+@keyframes qt-sahne-gir {
+  from { opacity: 0; transform: translateX(28%); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ---------- Üst şerit: [geri] başlık [coin] ---------- */
+.qt-sahne-ust {
+  display: grid;
+  grid-template-columns: minmax(var(--qt-dokunma), 1fr) auto minmax(var(--qt-dokunma), 1fr);
+  align-items: center;
+  gap: var(--qt-b-2);
+  min-height: 52px;
+  padding: var(--qt-b-1) var(--qt-kenar);
+}
+.qt-sahne-geri { justify-self: start; }
+.qt-sahne-baslik { display: grid; justify-items: center; min-width: 0; text-align: center; line-height: 1.1; }
+.qt-sahne-baslik h1 {
+  margin: 0; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-family: var(--qt-f-baslik); font-size: var(--qt-y-xl); font-weight: var(--qt-a-siyah); line-height: 1.15; color: var(--qt-zemin-metin);
+}
+.qt-sahne-altbaslik {
+  max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); line-height: 1.2; color: var(--qt-zemin-soluk);
+}
+.qt-sahne-coin { display: flex; justify-content: flex-end; align-items: center; min-width: 0; }
+
+/* ---------- Sabit üst alan (ust yuvası) ---------- */
+.qt-sahne-sabit {
+  padding: 0 var(--qt-kenar) var(--qt-b-2);
+  border-bottom: 2px solid var(--qt-zemin-2);
+}
+
+/* ---------- Tek kaydırılan bölge ---------- */
+.qt-sahne-ic > .qt-sahne-govde {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: var(--qt-b-3) var(--qt-kenar);
+}
+.qt-sahne-govde::-webkit-scrollbar { display: none; }
+.qt-sahne-govde:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: -3px; }
+
+/* ---------- Sabit alt eylem alanı (alt yuvası); içeriği boşsa yer kaplamaz ---------- */
+.qt-sahne-alt {
+  display: grid;
+  gap: var(--qt-b-2);
+  padding: var(--qt-b-2) var(--qt-kenar) var(--qt-b-3);
+  border-top: 2px solid var(--qt-zemin-2);
+  background: var(--qt-zemin);
+}
+.qt-sahne-alt:empty { display: none; }
+
+/* Kısa ekran (≈ 390×664 ve altı): şeritler sıkışır, kaydırılan bölgeye yer kalır */
+@media (max-height: 699px) {
+  .qt-sahne-ust { min-height: 48px; padding-block: 2px; }
+  .qt-sahne-ic > .qt-sahne-govde { padding-block: var(--qt-b-2); }
+  .qt-sahne-alt { padding-block: 6px var(--qt-b-2); }
+}
+
+/* Hareketi azalt: sahne anında açılır */
+@media (prefers-reduced-motion: reduce) {
+  .qt-sahne-ic { animation: none; }
+}
