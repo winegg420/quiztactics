@@ -53,3 +53,17 @@ Parametreli sarmalayıcılar (parti 1'de yazıldı, o araçlar değiştirilmeden
   yaklaştırılır. Zorluk = yazar etiketi; Jev seviyesiyle fark ≥ 2 ise 1 adım Jev'e kayar,
   z=4 + Jev yanlış + seviye 5 ise 5 olur.
 - `uret-migration-parti.mjs --parti N --no NNN [--kontrol]` → tek migration dosyası.
+
+## Kolay seri — yalnız zorluk 2 (1 Eki 2026, Ida)
+Stil ve kategori önceliği: `docs/SORU_STIL_PROFILI.md` (tek kaynak; her partiden sonra Ida'nın
+geri bildirimi oraya eklenir). Yukarıdaki Paket 3 hedefi (zorluk 3–5 oranları) bu seri için GEÇERSİZ.
+Durum: `durum.json › kolay_seri`. Klasör `kolay-NN/`, migration `20260612000NNN_soru_parti_kolay_NN.sql`
+(numara: `supabase/migrations` içindeki en büyük numaradan sonra). Dal: `main`.
+- Kalite kapısı aynı (denetle → jev-kapi → birleştir → migration kapıları); ek eleme: Jev seviye ≥ 4
+  olan taslak alınmaz (etiket 2'den kaymasın), `eskiyebilir` yüksek ve "bu da doğru" belirsiz olanlar alınmaz.
+- İngilizce çeviri yapılmaz: taslakta `en: null` + `en_neden`; migration `--cevirisiz` ile üretilir
+  (ne `question_translations` ne `ceviri_atlanan` yazılır).
+- Komutlar:
+  `birlestir-parti.mjs --taslak <k> --jev <jsonl> --parti N --klasor kolay-NN --kararlar <json> --kota <j> --zorluk '{"1-2":50,"3":0,"4":0,"5":0}'`
+  `uret-migration-parti.mjs --parti N --no NNN --klasor kolay-NN --ad soru_parti_kolay_NN --cevirisiz`
+- Migration, Ida örnekleri onaylamadan uygulanmaz ve commit edilmez.

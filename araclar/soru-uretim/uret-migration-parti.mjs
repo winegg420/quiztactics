@@ -26,8 +26,15 @@ if (!Number.isInteger(parti) || !Number.isInteger(no)) {
   process.exit(1);
 }
 const pp = String(parti).padStart(2, '0');
-const GIRDI = new URL(`./parti-${pp}/sorular.json`, import.meta.url);
-const DOSYA = `2026061200${String(no).padStart(4, '0')}_soru_uretim_parti_${pp}.sql`;
+// Paket 3 dışı seriler (docs/SORU_STIL_PROFILI.md — yalnız zorluk 2):
+//   --klasor kolay-01  girdi klasörü (varsayılan parti-NN)
+//   --ad soru_parti_kolay_01  migration dosya adı (varsayılan soru_uretim_parti_NN)
+//   --cevirisiz  İngilizce çeviri ve ceviri_atlanan YAZILMAZ (soru çevirisi şimdilik yok)
+const klasorAd = arg('--klasor') || `parti-${pp}`;
+const dosyaAd = arg('--ad') || `soru_uretim_parti_${pp}`;
+const cevirisiz = process.argv.includes('--cevirisiz');
+const GIRDI = new URL(`./${klasorAd}/sorular.json`, import.meta.url);
+const DOSYA = `2026061200${String(no).padStart(4, '0')}_${dosyaAd}.sql`;
 const HEDEF = new URL(`../../supabase/migrations/${DOSYA}`, import.meta.url);
 
 const lit = (s) => `'${String(s).replace(/'/g, "''")}'`;
@@ -50,34 +57,34 @@ function sql(kayitlar) {
   const say = {};
   for (const t of kayitlar) say[t.k] = (say[t.k] || 0) + 1;
   const yerel = kayitlar.filter((t) => t.yerel).length;
-  const cevrilmez = kayitlar.filter((t) => !t.en);
-  const ceviri = kayitlar.filter((t) => t.en);
+  const cevrilmez = cevirisiz ? [] : kayitlar.filter((t) => !t.en);
+  const ceviri = cevirisiz ? [] : kayitlar.filter((t) => t.en);
   const zd = [1, 2, 3, 4, 5].map((z) => kayitlar.filter((t) => t.zorluk === z).length);
   const satir = (t) => `(${lit(t.s)}, ${jsonLit([t.d, ...t.y])}, 0, ${lit(t.k)}, ${t.yerel ? "'yerel', 'TR'" : "'global', null"}, ${t.zorluk})`;
   return `-- ============================================================
--- ${String(no).padStart(3, '0')} — Paket 3 soru üretimi, parti ${parti}: ${kayitlar.length} soru · ${new Date().toISOString().slice(0, 10)}
+-- ${String(no).padStart(3, '0')} — ${arg('--ad') ? `${dosyaAd} (stil: docs/SORU_STIL_PROFILI.md)` : `Paket 3 soru üretimi, parti ${parti}`}: ${kayitlar.length} soru · ${new Date().toISOString().slice(0, 10)}
 --
 -- Kategori: ${Object.entries(say).sort().map(([k, v]) => `${k} ${v}`).join(' · ')}
 -- Yerel (kapsam='yerel', ulke='TR'): ${yerel} · zorluk 1–5: ${zd.join('/')}
--- İngilizce çeviri: ${ceviri.length} · çevrilmeyen (ceviri_atlanan, kod 'cevrilemez'): ${cevrilmez.length}
+-- İngilizce çeviri: ${cevirisiz ? 'YAPILMADI (arayüz kararı: soru çevirisi şimdilik yok)' : `${ceviri.length} · çevrilmeyen (ceviri_atlanan, kod 'cevrilemez'): ${cevrilmez.length}`}
 --
 -- Kalite: her soru Jev kapısından geçti (doğru cevap verilmeden, şıklar karıştırılarak;
 -- Jev >0,9 güvenle başka şık diyen soru elendi ya da düzeltilip yeniden soruldu), şık
 -- denge kapısı (soru_kural_isaretleri, ağırlık ≥ 2) veritabanında doğrulandı, havuzla
 -- birebir ve anlamca tekrar tarandı. Zorluk: yazar etiketi; Jev puanıyla açık çelişkide
--- düzeltildi (araclar/soru-uretim/birlestir-parti.mjs). İngilizce taraf da Jev'den geçti.
+-- düzeltildi (araclar/soru-uretim/birlestir-parti.mjs).${cevirisiz ? '' : " İngilizce taraf da Jev'den geçti."}
 --
 -- Sıra: sorular doğru şık 0'da eklenir, çeviriler aynı sırayla yazılır, sonunda YALNIZ
 -- bu işlemde eklenen satırların şıkları karıştırılır — TR ve EN AYNI permütasyonla
 -- (dogru_cevap indeksi ortak olduğu için şart). \`created_at >= transaction_timestamp()\`
 -- koşulu ZORUNLUDUR; onsuz tüm havuz karışır ve oynanan maçlarda indeks kayar.
--- Üretici: node araclar/soru-uretim/uret-migration-parti.mjs --parti ${parti} --no ${no}
+-- Üretici: node araclar/soru-uretim/uret-migration-parti.mjs --parti ${parti} --no ${no}${arg('--klasor') ? ` --klasor ${klasorAd}` : ''}${arg('--ad') ? ` --ad ${dosyaAd}` : ''}${cevirisiz ? ' --cevirisiz' : ''}
 -- ============================================================
 
 insert into public.questions (soru, secenekler, dogru_cevap, kategori, kapsam, ulke, zorluk) values
 ${kayitlar.map(satir).join(',\n')}
 on conflict (soru) do nothing;
-
+${ceviri.length ? `
 -- ---------------------------------------------------- İngilizce çeviri
 insert into public.question_translations (question_id, dil, soru, secenekler)
 select q.id, 'en', v.en_soru, v.en_secenekler
@@ -86,7 +93,7 @@ ${ceviri.map((t) => `  (${lit(t.s)}, ${lit(t.en.s)}, ${jsonLit([t.en.d, ...t.en.
   ) v(soru, en_soru, en_secenekler)
   join public.questions q on q.soru = v.soru and q.created_at >= transaction_timestamp()
 on conflict (question_id, dil) do nothing;
-${cevrilmez.length ? `
+` : ''}${cevrilmez.length ? `
 -- ---------------------------------------------------- Çevrilmeyenler
 insert into public.ceviri_atlanan (question_id, dil, neden, kod)
 select q.id, 'en', v.neden, 'cevrilemez'

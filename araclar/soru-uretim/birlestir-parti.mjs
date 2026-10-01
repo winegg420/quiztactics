@@ -20,6 +20,7 @@
 // Kullanım:
 //   node araclar/soru-uretim/birlestir-parti.mjs --taslak <klasor> --jev <jev.jsonl> --parti 1
 //        [--kararlar <json>] [--kota '{"sinema":33,...}'] [--zorluk '{"1-2":38,"3":75,"4":87,"5":50}'] [--rapor]
+//        [--klasor kolay-01]
 //   --rapor: dosya yazmaz, yalnız dağılımı basar.
 import fs from 'node:fs';
 import { sonuclariOku, taslaklariOku, icerikAnahtari } from '../soru-parti-1000/jev-kapi.mjs';
@@ -190,7 +191,8 @@ if (rapor) {
   console.log(JSON.stringify({ ...ozet, zorluk_etiket_duzeltme: ozet.zorluk_etiket_duzeltme.length, elenenler: ozet.elenenler }, null, 2));
   process.exit(0);
 }
-const klasor = new URL(`./parti-${String(parti).padStart(2, '0')}/`, import.meta.url);
+// --klasor: Paket 3 dışı seriler (ör. kolay-01) kendi klasörüne yazar; verilmezse parti-NN.
+const klasor = new URL(`./${arg('--klasor') || `parti-${String(parti).padStart(2, '0')}`}/`, import.meta.url);
 fs.mkdirSync(klasor, { recursive: true });
 fs.writeFileSync(new URL('sorular.json', klasor), JSON.stringify(son, null, 1) + '\n');
 fs.writeFileSync(new URL('ozet.json', klasor), JSON.stringify(ozet, null, 2) + '\n');

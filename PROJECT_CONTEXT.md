@@ -75,7 +75,9 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
   `soru_agirlik_kolay` 70 · orta (3) `soru_agirlik_orta` 25 · zor (4–5) `soru_agirlik_zor` 5
   (test değeri; 350: 55/30/15 → 70/25/5, 200 soruda ölçüm 71/21,5/7,5) — sonra o gruptan mevcut kurallarla soru; grup boşsa komşu gruba düşer.
   `zorluk >= 2` filtresi kalktı. Turnuva kendi kuralında.
-- **Soru üretimi: yeni zor soru üretilmez; üretim yalnız kolay ve orta** (Ida, 23 Eyl 2026).
+- **Soru üretimi: YALNIZ zorluk 2** (Ida, 1 Eki 2026) — zorluk 1, 3, 4, 5 üretilmez; bilim ve cografya için
+  üretilmez. Stil, kategori önceliği ve Ida'nın onaylı örnekleri: `docs/SORU_STIL_PROFILI.md` (her partiden sonra
+  geri bildirimle eklenerek güncellenir). Yeni sorulara İngilizce çeviri şimdilik yapılmaz. Hat: `araclar/soru-uretim/OKU.md › Kolay seri`.
 - **Soru kapsamı (652–655, Ida 26 Eyl):** `questions.kapsam` = `global` (evrensel) | `yerel` (+ `ulke` TR; Türkiye
   tarihi/coğrafyası/siyaseti, yalnız Türkiye'de bilinen kültür). Aktif havuz 9.931 global / 2.302 yerel (Jev, `araclar/jev-kapsam.mjs`;
   belirsizler yerel). Maçta bot OLMAYAN bir oyuncunun ülkesi ≠ TR ya da dili ≠ tr ise o maçta HERKESE yalnız global —

@@ -1,0 +1,702 @@
+[
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Picasso'nun öncülüğünü yaptığı, nesneleri geometrik parçalara bölen sanat akımı hangisidir?",
+  "d": "Kübizm",
+  "y": [
+   "Sürrealizm",
+   "Empresyonizm",
+   "Dadaizm"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Paris'teki Louvre Müzesi'nin avlusunda yer alan cam yapı hangi biçimdedir?",
+  "d": "Piramit",
+  "y": [
+   "Küre",
+   "Küp",
+   "Kubbe"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Andy Warhol'un tablolarında defalarca resmettiği konserve çorba markası hangisidir?",
+  "d": "Campbell's",
+  "y": [
+   "Kellogg's",
+   "Hellmann's",
+   "Heinz"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Mimar Gaudí'nin sıra dışı yapılarıyla ünlü İspanyol şehri hangisidir?",
+  "d": "Barselona",
+  "y": [
+   "Madrid",
+   "Sevilla",
+   "Valensiya"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Kâğıdı kesmeden katlayarak şekiller yapma sanatına ne ad verilir?",
+  "d": "Origami",
+  "y": [
+   "İkebana",
+   "Kirigami",
+   "Bonsai"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Michelangelo'nun ünlü 'Davut' heykeli hangi şehirde sergilenir?",
+  "d": "Floransa",
+  "y": [
+   "Roma",
+   "Venedik",
+   "Milano"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Van Gogh'un defalarca resmettiği, vazodaki sarı çiçekler hangisidir?",
+  "d": "Ayçiçekleri",
+  "y": [
+   "Papatyalar",
+   "Laleler",
+   "Nergisler"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Ünlülerin balmumu heykelleriyle tanınan müze hangisidir?",
+  "d": "Madame Tussauds",
+  "y": [
+   "Tate Modern",
+   "Uffizi Galerisi",
+   "Prado Müzesi"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Mısır'da piramitlerin yanında duran, aslan gövdeli ve insan başlı dev heykelin adı nedir?",
+  "d": "Sfenks",
+  "y": [
+   "Anubis",
+   "Ramses",
+   "Obelisk"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "'Poker Face' ve 'Bad Romance' şarkılarının sahibi kimdir?",
+  "d": "Lady Gaga",
+  "y": [
+   "Katy Perry",
+   "Britney Spears",
+   "Miley Cyrus"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "'Hello', 'Someone Like You' ve 'Rolling in the Deep' şarkılarını seslendiren şarkıcı kimdir?",
+  "d": "Adele",
+  "y": [
+   "Rihanna",
+   "Dua Lipa",
+   "Sia"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "BTS ve Blackpink gibi gruplarla dünyaya yayılan müzik türü hangisidir?",
+  "d": "K-pop",
+  "y": [
+   "J-pop",
+   "Reggaeton",
+   "Afrobeat"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "'Shake It Off' ve 'Blank Space' şarkılarının sahibi kimdir?",
+  "d": "Taylor Swift",
+  "y": [
+   "Katy Perry",
+   "Ariana Grande",
+   "Selena Gomez"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "'Baby' şarkısıyla çocuk yaşta dünyaca ünlenen şarkıcı kimdir?",
+  "d": "Justin Bieber",
+  "y": [
+   "Shawn Mendes",
+   "Bruno Mars",
+   "Harry Styles"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "İskoçya ile özdeşleşen, torbasına hava üflenerek çalınan çalgı hangisidir?",
+  "d": "Gayda",
+  "y": [
+   "Obua",
+   "Klarnet",
+   "Flüt"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "Elton John sahnede hangi çalgının başında şarkı söyler?",
+  "d": "Piyano",
+  "y": [
+   "Gitar",
+   "Keman",
+   "Bateri"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "Eminem hangi müzik türünün sanatçısıdır?",
+  "d": "Rap",
+  "y": [
+   "Rock",
+   "Caz",
+   "Country"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "Tellerine yay sürtülerek çalınan ve çene altında tutulan çalgı hangisidir?",
+  "d": "Keman",
+  "y": [
+   "Çello",
+   "Arp",
+   "Ud"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "Dört müzisyenden oluşan topluluğa ne ad verilir?",
+  "d": "Kuartet",
+  "y": [
+   "Düet",
+   "Trio",
+   "Kentet"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Google'ın geliştirdiği mobil işletim sistemi hangisidir?",
+  "d": "Android",
+  "y": [
+   "iOS",
+   "Symbian",
+   "HarmonyOS"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Google'ın geliştirdiği internet tarayıcısı hangisidir?",
+  "d": "Chrome",
+  "y": [
+   "Firefox",
+   "Safari",
+   "Opera"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Apple'ın iPhone'larda kullanılan sesli asistanının adı nedir?",
+  "d": "Siri",
+  "y": [
+   "Alexa",
+   "Cortana",
+   "Bixby"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Windows'ta bir belgedeki her şeyi seçmek için kullanılan klavye kısayolu hangisidir?",
+  "d": "Ctrl+A",
+  "y": [
+   "Ctrl+S",
+   "Ctrl+T",
+   "Ctrl+E"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Sony'nin ilki 1994'te çıkan oyun konsolu serisinin adı nedir?",
+  "d": "PlayStation",
+  "y": [
+   "GameCube",
+   "Dreamcast",
+   "Game Boy"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Snapchat uygulamasının sarı logosunda hangi figür yer alır?",
+  "d": "Hayalet",
+  "y": [
+   "Baykuş",
+   "Tilki",
+   "Zarf"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "'The Legend of Zelda' oyunlarında oyuncunun yönettiği kahramanın adı nedir?",
+  "d": "Link",
+  "y": [
+   "Zelda",
+   "Ganon",
+   "Epona"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "'Pac-Man' oyununda oyuncuyu labirentte kovalayan düşmanlar nedir?",
+  "d": "Hayaletler",
+  "y": [
+   "Robotlar",
+   "Uzaylılar",
+   "Canavarlar"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Mobilya devi IKEA hangi ülkenin markasıdır?",
+  "d": "İsveç",
+  "y": [
+   "Danimarka",
+   "Norveç",
+   "Finlandiya"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Barbie bebeğin erkek arkadaşının adı nedir?",
+  "d": "Ken",
+  "y": [
+   "Tom",
+   "Max",
+   "Ben"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "İtalyancada 'teşekkürler' anlamına gelen sözcük hangisidir?",
+  "d": "Grazie",
+  "y": [
+   "Gracias",
+   "Merci",
+   "Danke"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Pizzanın anavatanı sayılan İtalyan şehri hangisidir?",
+  "d": "Napoli",
+  "y": [
+   "Roma",
+   "Milano",
+   "Venedik"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Venedik'in kanallarında kullanılan uzun ve dar geleneksel teknenin adı nedir?",
+  "d": "Gondol",
+  "y": [
+   "Kano",
+   "Sandal",
+   "Kayık"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "ABD'de Şükran Günü sofrasının geleneksel yemeği hangi hayvanın etidir?",
+  "d": "Hindi",
+  "y": [
+   "Ördek",
+   "Kaz",
+   "Tavuk"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Burçlar kuşağında ilk sırada yer alan burç hangisidir?",
+  "d": "Koç",
+  "y": [
+   "Boğa",
+   "Oğlak",
+   "Kova"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Bir bowling atışında devrilmesi gereken kaç lobut vardır?",
+  "d": "10",
+  "y": [
+   "8",
+   "9",
+   "12"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Titanic' filminde Rose'u canlandıran oyuncu kimdir?",
+  "d": "Kate Winslet",
+  "y": [
+   "Nicole Kidman",
+   "Julia Roberts",
+   "Cate Blanchett"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Avatar' filminde Pandora gezegeninde yaşayan mavi tenli halkın adı nedir?",
+  "d": "Na'vi",
+  "y": [
+   "Twi'lek",
+   "Ewok",
+   "Wookiee"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Star Wars' serisinde Luke Skywalker'ın babası olduğu ortaya çıkan karakter kimdir?",
+  "d": "Darth Vader",
+  "y": [
+   "Obi-Wan Kenobi",
+   "Han Solo",
+   "Boba Fett"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Matrix' filminde Neo gerçeği görmek için hangi renk hapı seçer?",
+  "d": "Kırmızı",
+  "y": [
+   "Mavi",
+   "Yeşil",
+   "Sarı"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Buz Devri' filmlerinde palamudunun peşinden koşan Scrat hangi hayvandır?",
+  "d": "Sincap",
+  "y": [
+   "Kunduz",
+   "Gelincik",
+   "Köstebek"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Moby Dick' romanında Kaptan Ahab'ın peşine düştüğü Moby Dick nedir?",
+  "d": "Balina",
+  "y": [
+   "Köpekbalığı",
+   "Ahtapot",
+   "Timsah"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Küçük Prens' kitabında Küçük Prens'e 'evcilleştirmeyi' öğreten hayvan hangisidir?",
+  "d": "Tilki",
+  "y": [
+   "Kuzu",
+   "Yılan",
+   "Kedi"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Sherlock Holmes'un maceralarını anlatan yakın dostu ve yardımcısı kimdir?",
+  "d": "Watson",
+  "y": [
+   "Moriarty",
+   "Lestrade",
+   "Mycroft"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Açlık Oyunları' serisinin okçu kahramanının adı nedir?",
+  "d": "Katniss",
+  "y": [
+   "Tris",
+   "Bella",
+   "Hermione"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Tenisçi Rafael Nadal hangi ülkelidir?",
+  "d": "İspanya",
+  "y": [
+   "Arjantin",
+   "İtalya",
+   "Portekiz"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "NBA'de 'Black Mamba' lakabıyla tanınan efsane oyuncu kimdir?",
+  "d": "Kobe Bryant",
+  "y": [
+   "LeBron James",
+   "Allen Iverson",
+   "Kevin Durant"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Michael Jordan'ın Chicago Bulls'ta giydiği efsanevi forma numarası kaçtır?",
+  "d": "23",
+  "y": [
+   "10",
+   "32",
+   "24"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Japonya'nın kılıç kuşanan geleneksel savaşçı sınıfına ne ad verilir?",
+  "d": "Samuray",
+  "y": [
+   "Şogun",
+   "Geyşa",
+   "Sumo"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Rusya'da imparatorlara verilen unvan hangisidir?",
+  "d": "Çar",
+  "y": [
+   "Şah",
+   "Kayzer",
+   "Han"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sanat",
+  "yerel": true,
+  "s": "Suyun üzerine serpilen boyaların kâğıda aktarılmasıyla yapılan geleneksel süsleme sanatı hangisidir?",
+  "d": "Ebru",
+  "y": [
+   "Tezhip",
+   "Hat",
+   "Çini"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ }
+]

@@ -1,0 +1,290 @@
+{
+  "parti": 1,
+  "tarih": "2026-10-01",
+  "taslak": 78,
+  "net": 50,
+  "kota": {
+    "sanat": 9,
+    "muzik": 10,
+    "teknoloji": 8,
+    "genel_kultur": 8,
+    "sinema": 5,
+    "edebiyat": 4,
+    "spor": 3,
+    "tarih": 2,
+    "yerel": 1
+  },
+  "zorluk_hedef": {
+    "3": 0,
+    "4": 0,
+    "5": 0,
+    "1-2": 50
+  },
+  "eksik": {},
+  "elenen_sebep": {
+    "pilot_disi_yedek": 19,
+    "jev_sinirda_itiraz": 1,
+    "sik_ipucu": 3,
+    "belirsiz": 1,
+    "eskiyebilir": 2,
+    "jev_zor": 2
+  },
+  "kova": {
+    "sanat": 9,
+    "muzik": 10,
+    "teknoloji": 8,
+    "genel_kultur": 8,
+    "sinema": 5,
+    "edebiyat": 4,
+    "spor": 3,
+    "tarih": 2,
+    "yerel_tr": 1
+  },
+  "kategori": {
+    "sanat": 10,
+    "muzik": 10,
+    "teknoloji": 8,
+    "genel_kultur": 8,
+    "sinema": 5,
+    "edebiyat": 4,
+    "spor": 3,
+    "tarih": 2
+  },
+  "zorluk": [
+    0,
+    50,
+    0,
+    0,
+    0
+  ],
+  "zorluk_kova": {
+    "3": 0,
+    "4": 0,
+    "5": 0,
+    "1-2": 50
+  },
+  "cevrilmeyen": 50,
+  "jev": {
+    "cagri": 156,
+    "girdi_jetonu": 118902,
+    "usd": 0.005,
+    "not": "jev.jsonl içindeki tüm denemeler dahil (düzeltilip yeniden sorulanlar da)"
+  },
+  "zorluk_etiket_duzeltme": [],
+  "elenenler": [
+    {
+      "sebep": "pilot_disi_yedek",
+      "kova": "edebiyat",
+      "s": "Agatha Christie'nin bıyıklarıyla ünlü Belçikalı dedektifi kimdir?",
+      "d": "Hercule Poirot",
+      "not": "kota fazlası / çok kolay ya da orta kenarı; sonraki partide kullanılabilir"
+    },
+    {
+      "sebep": "pilot_disi_yedek",
+      "kova": "genel_kultur",
+      "s": "Noel Baba'nın kızağını hangi hayvanlar çeker?",
+      "d": "Ren geyikleri",
+      "not": "kota fazlası / çok kolay ya da orta kenarı; sonraki partide kullanılabilir"
+    },
+    {
+      "sebep": "pilot_disi_yedek",
+      "kova": "genel_kultur",
+      "s": "Fransızcada 'merhaba' anlamına gelen sözcük hangisidir?",
+      "d": "Bonjour",
+      "not": "kota fazlası / çok kolay ya da orta kenarı; sonraki partide kullanılabilir"
+    },
+    {
+      "sebep": "pilot_disi_yedek",
+      "kova": "genel_kultur",
+      "s": "Kimono hangi ülkenin geleneksel giysisidir?",
+      "d": "Japonya",
+      "not": "kota fazlası / çok kolay ya da orta kenarı; sonraki partide kullanılabilir"
+    },
+    {
+      "sebep": "pilot_disi_yedek",
+      "kova": "genel_kultur",
+      "s": "Monopoly oyununda oyuncuların 'Başlangıç' karesinden her geçişte aldığı şey nedir?",
+      "d": "Para",
+      "not": "kota fazlası / çok kolay ya da orta kenarı; sonraki partide kullanılabilir"
+    },
+    {
+      "sebep": "jev_sinirda_itiraz",
+      "kova": "genel_kultur",
+      "s": "Çizgi roman kahramanı Tenten'in sadık beyaz köpeğinin adı nedir?",
+      "d": "Milu",
+      "not": "Jev İdefiks dedi (0,90); bilgi doğru ama sınırda güven → pilot dışı"
+    },
+    {
+      "sebep": "sik_ipucu",
+      "duzelt_yeniden_dene": true,
+      "kova": "genel_kultur",
+      "s": "Uçak ve gemilerin telsizle yaptığı uluslararası imdat çağrısı hangi sözcüktür?",
+      "d": "Mayday",
+      "y": [
+        "Roger",
+        "Bravo",
+        "Copy"
+      ],
+      "ipucuP": 0.81
+    },
+    {
+      "sebep": "pilot_disi_yedek",
+      "kova": "genel_kultur",
+      "s": "Paskalya'da boyalı yumurtalarla birlikte anılan hayvan hangisidir?",
+      "d": "Tavşan",
+      "not": "kota fazlası / çok kolay ya da orta kenarı; sonraki partide kullanılabilir"
+    },
+    {
+      "sebep": "pilot_disi_yedek",
+      "kova": "muzik",
+      "s": "Rihanna'nın 'ella, ella' nakaratıyla akıllara kazınan şarkısı hangisidir?",
+      "d": "Umbrella",
+      "not": "kota fazlası / çok kolay ya da orta kenarı; sonraki partide kullanılabilir"
+    },
+    {
+      "sebep": "pilot_disi_yedek",
+      "kova": "muzik",
+      "s": "Bateri hangi çalgı grubuna girer?",
+      "d": "Vurmalı",
+      "not": "kota fazlası / çok kolay ya da orta kenarı; sonraki partide kullanılabilir"
+    },
+    {
+      "sebep": "pilot_disi_yedek",
+      "kova": "sanat",
+      "s": "'Çığlık' tablosunun ressamı Edvard Munch hangi ülkelidir?",
+      "d": "Norveç",
+      "not": "kota fazlası / çok kolay ya da orta kenarı; sonraki partide kullanılabilir"
+    },
+    {
+      "sebep": "belirsiz",
+      "kova": "sanat",
+      "s": "Sydney Opera Binası'nın çatısı en çok neye benzetilir?",
+      "d": "Yelkenlere",
+      "not": "Jev başka şıkkı da doğru sayabiliyor (0,43); 'neye benzetilir' öznel"
+    },
+    {
+      "sebep": "pilot_disi_yedek",
+      "kova": "sanat",
+      "s": "Japonların geleneksel çiçek düzenleme sanatına ne ad verilir?",
+      "d": "İkebana",
+      "not": "kota fazlası / çok kolay ya da orta kenarı; sonraki partide kullanılabilir"
+    },
+    {
+      "sebep": "pilot_disi_yedek",
+      "kova": "sanat",
+      "s": "Atina'da Parthenon tapınağının üzerinde yükseldiği tepenin adı nedir?",
+      "d": "Akropolis",
+      "not": "kota fazlası / çok kolay ya da orta kenarı; sonraki partide kullanılabilir"
+    },
+    {
+      "sebep": "pilot_disi_yedek",
+      "kova": "sinema",
+      "s": "Marvel filmlerinde Iron Man zırhını giyen dâhi milyarderin adı nedir?",
+      "d": "Tony Stark",
+      "not": "kota fazlası / çok kolay ya da orta kenarı; sonraki partide kullanılabilir"
+    },
+    {
+      "sebep": "pilot_disi_yedek",
+      "kova": "sinema",
+      "s": "Marvel filmlerinde Thor'un silahı nedir?",
+      "d": "Çekiç",
+      "not": "kota fazlası / çok kolay ya da orta kenarı; sonraki partide kullanılabilir"
+    },
+    {
+      "sebep": "pilot_disi_yedek",
+      "kova": "sinema",
+      "s": "'Yüzüklerin Efendisi' filmlerinde Tek Yüzük'ü yok etmek için taşıyan hobbit kimdir?",
+      "d": "Frodo",
+      "not": "kota fazlası / çok kolay ya da orta kenarı; sonraki partide kullanılabilir"
+    },
+    {
+      "sebep": "eskiyebilir",
+      "kova": "spor",
+      "s": "Cristiano Ronaldo'nun adıyla özdeşleşen forma numarası kaçtır?",
+      "d": "7",
+      "not": "Jev eskiyebilir 0,49; başka numaralar da giydi"
+    },
+    {
+      "sebep": "pilot_disi_yedek",
+      "kova": "tarih",
+      "s": "Efsaneye göre Truva Savaşı'nda Yunanlılar şehre hangi hileyle girmiştir?",
+      "d": "Tahta at",
+      "not": "kota fazlası / çok kolay ya da orta kenarı; sonraki partide kullanılabilir"
+    },
+    {
+      "sebep": "pilot_disi_yedek",
+      "kova": "tarih",
+      "s": "Titanic ilk seferinde neye çarparak batmıştır?",
+      "d": "Buz dağı",
+      "not": "kota fazlası / çok kolay ya da orta kenarı; sonraki partide kullanılabilir"
+    },
+    {
+      "sebep": "pilot_disi_yedek",
+      "kova": "tarih",
+      "s": "Korsan gemilerinin siyah bayrağında hangi simge yer alır?",
+      "d": "Kurukafa",
+      "not": "kota fazlası / çok kolay ya da orta kenarı; sonraki partide kullanılabilir"
+    },
+    {
+      "sebep": "eskiyebilir",
+      "kova": "teknoloji",
+      "s": "Facebook, Instagram ve WhatsApp'ın sahibi olan şirketin adı nedir?",
+      "d": "Meta",
+      "not": "Jev eskiyebilir 0,76 (şirket adı/sahiplik değişebilir)"
+    },
+    {
+      "sebep": "pilot_disi_yedek",
+      "kova": "teknoloji",
+      "s": "Amazon'un akıllı hoparlörlerinde kullanılan sesli asistanın adı nedir?",
+      "d": "Alexa",
+      "not": "kota fazlası / çok kolay ya da orta kenarı; sonraki partide kullanılabilir"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "teknoloji",
+      "s": "Mesajlaşmada kullanılan emojiler ilk olarak hangi ülkede ortaya çıkmıştır?",
+      "d": "Japonya",
+      "not": "Jev seviye 4 — stil profili yalnız zorluk 2"
+    },
+    {
+      "sebep": "pilot_disi_yedek",
+      "kova": "teknoloji",
+      "s": "Herkesin düzenleyebildiği Wikipedia ne tür bir sitedir?",
+      "d": "Ansiklopedi",
+      "not": "kota fazlası / çok kolay ya da orta kenarı; sonraki partide kullanılabilir"
+    },
+    {
+      "sebep": "sik_ipucu",
+      "duzelt_yeniden_dene": true,
+      "kova": "teknoloji",
+      "s": "Kısa videolarıyla tanınan ve Çinli ByteDance şirketine ait olan uygulama hangisidir?",
+      "d": "TikTok",
+      "y": [
+        "Snapchat",
+        "Twitch",
+        "Pinterest"
+      ],
+      "ipucuP": 0.84
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "teknoloji",
+      "s": "'Among Us' oyununda mürettebatın arasına gizlenip sabotaj yapan oyuncuya ne ad verilir?",
+      "d": "Sahtekâr",
+      "not": "Jev seviye 4 — stil profili yalnız zorluk 2"
+    },
+    {
+      "sebep": "sik_ipucu",
+      "duzelt_yeniden_dene": true,
+      "kova": "teknoloji",
+      "s": "Nintendo'nun kırmızı şapkalı, bıyıklı tesisatçı kahramanının adı nedir?",
+      "d": "Mario",
+      "y": [
+        "Luigi",
+        "Wario",
+        "Toad"
+      ],
+      "ipucuP": 0.92
+    }
+  ]
+}

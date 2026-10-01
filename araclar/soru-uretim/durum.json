@@ -899,5 +899,35 @@
   "yarida_birakilan": {
     "ajan": 1,
     "not": "Parti 13 (tüm kategoriler) taslak/fikir aşamasında durdu: veritabanına ve repoya hiçbir şey yazılmadı, migration yok. Parti 11 kota fazlası 34 taslak (Jev sonuçlarıyla) scratchpad P3/ajan1/taslak + jev.jsonl içinde; yeni kategori (teknoloji/edebiyat/bilim/tarih/genel kültür) taslağı henüz yazılmadı, yalnız havuzda boş konu taraması yapıldı."
+  },
+  "kolay_seri": {
+    "aciklama": "Yalnız zorluk 2 serisi (stil: docs/SORU_STIL_PROFILI.md). Paket 3 sayaçlarından ve siradaki_parti/siradaki_migration_no alanlarından BAĞIMSIZ; migration no supabase/migrations içindeki en büyük numaradan sonra seçilir.",
+    "siradaki_parti": 2,
+    "partiler": [
+      {
+        "no": 1,
+        "klasor": "kolay-01",
+        "soru": 50,
+        "migration": "20260612000840_soru_parti_kolay_01",
+        "durum": "hazir_uygulanmadi (Ida örnekleri görecek; migration dosyası commit edilmedi)",
+        "tarih": "2026-10-01",
+        "kategori": {
+          "sanat": 10,
+          "muzik": 10,
+          "teknoloji": 8,
+          "genel_kultur": 8,
+          "sinema": 5,
+          "edebiyat": 4,
+          "spor": 3,
+          "tarih": 2
+        },
+        "yerel_tr": 1,
+        "zorluk": {
+          "2": 50
+        },
+        "ceviri": "yok",
+        "jev_usd": 0.005
+      }
+    ]
   }
 }
