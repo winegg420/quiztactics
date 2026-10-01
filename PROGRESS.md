@@ -9653,3 +9653,10 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 - Satın alma vitrini için kontrast düzeltmesi (CSS: 128 px kutu + yazıya düz zemin) yapıldı ama **ekran ölçümüyle doğrulanmadı** (DB'ye yük bindirmemek için). Ekran aracı 276 geçmişti; kalan 2 madde (vitrin kontrastı 360×640, iskelet testi) yeniden ölçülmeli.
 - Ekran aracının açtığı misafir hesap `732725ee-4824-4fbd-baa0-cd699aca1565` HÂLÂ SİLİNMEDİ (silme DB isteği; Ida onayıyla/yük sakinleşince `hesabimi_sil`). `.sezon-b-oturum.json` git'e girmez.
 - sw.js v15 → v16, PROJECT_CONTEXT Sezon Yolu bölümüne finali satırı eklendi.
+
+### 2026-10-01 · Sezon finali — TAMAMLANDI (canlı doğrulama)
+- `git pull --rebase` temiz; **push edildi** (d63ec5be..ca90865b, Düello 760–762 commit'leriyle birlikte, Ida onayı). Vercel dağıtımı bitti (sw.js v16 canlıda).
+- **Canlı doğrulama** (`araclar/sezon-yolu-v3-canli.mjs`, quiztactics.vercel.app, 360×640 TR, tek tarayıcı, yalnız okuma): hero'da yük sırasında iskelet var ve "?" yok · "Sezon sonu ödülü" etiketi · BP satın alma vitrininde Ejderha çizildi · yatay taşma 0 · vitrin metinleri gerçek piksel kontrastı en düşük **6,8** (≥ 4,5) · sayfa hatası 0. Görüntüler `tasarim/sezon-yolu/v3/canli-*.png`. (Not: Playwright'ta `serviceWorkers: "block"` gerekir; yoksa SW önbelleği route gecikmesini atlar.)
+- **Test hesabı silindi:** `732725ee-…` (`hesabimi_sil`, tek çağrı): auth 0, profil 0; `.sezon-b-oturum.json` silindi.
+- **Yarış testi KOŞULMADI** (Ida söyleyince bir kez: `TEST_KULLANICI=<yeni test hesabı>` ile `sezon-tasma-yaris-testi` + `sezon-yolu-yaris-testi`; sonra hesabı sil).
+- Ekran aracının eski ölçüm maddeleri (vitrin kontrastı, iskelet) canlıda kapandı.
