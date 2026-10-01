@@ -1001,6 +1001,12 @@ html:not(.msk-acik) body:not(.bd-oyun-modu):has(.a-ust-blok):not(:has(.qt-ortu))
 .qt-mod--genis { flex-direction: row; align-items: center; justify-content: flex-start; gap: var(--qt-b-3); min-height: 84px; padding: var(--qt-b-3) var(--qt-b-4); }
 .qt-mod--genis .qt-mod-ikon { position: static; flex: none; }
 .qt-mod--genis .qt-mod-rozet { position: static; margin-left: auto; align-self: center; }
+/* Dar kart (telefon, iki sütun): uzun rozet (ör. "7 joker types · 16 rounds") ikon diskini örter. Rozet metnin altına kayar,
+   kart ikonun altından başlar; metin sığmazsa kırılır. Geniş (yatay) kartlar zaten satır içi — dokunulmaz. */
+@media (max-width: 600px) {
+  .qt-mod:not(.qt-mod--genis):has(.qt-mod-rozet) { padding-top: calc(var(--qt-b-3) + 52px + 8px); }
+  .qt-mod:not(.qt-mod--genis) .qt-mod-rozet { position: static; order: 1; align-self: flex-start; margin-top: 6px; max-width: 100%; white-space: normal; }
+}
 
 /* ---------- 15. Soru kartı ---------- */
 .qt-soru { display: flex; flex-direction: column; gap: var(--qt-b-3); }
