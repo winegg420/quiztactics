@@ -473,12 +473,18 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
   (maç/turnuva/görev), günlük bonus görev (`bp_bonus_gorev_al`: bugün `bp_bonus_gorev_hedef` 2 maç → `sp_bp_bonus_gorev` 20 SP),
   maç sonu altın şerit (1,8 sn, sonucu örtmez), 28/28'e sezona özgü unvan (`sezon_<no>_final` "Sezon N Ustası", efsanevi, bir daha
   verilmez). Sezon kapanınca BP, altın isim ve halka kapanır; kalıcı ödüller kalır. **Pay-to-win yok:** maç/soru/lig/eşleşme kodu BP okumaz.
-- **Arayüz:** `/sezon-yolu` (`oyun/tasarim/sezon-yolu/`, v2 onaylı maket): sezon teması `sezonTemalari.jsx` (sezon no → tema,
-  oyuncunun arka planıyla ilgisiz; ayda bir sezon = kayda bir satır), ödül önizleme (`OdulSayfasi`, oyuncunun kendi avatarıyla), 28+ taşma sütunu.
+- **Arayüz — TAM EKRAN SAHNE (Ida onaylı gri kutu taslağı, 1 Eki 2026):** `/sezon-yolu` (`oyun/tasarim/sezon-yolu/`) `QtSahne` içinde açılır (üst çubuk + alt menü gizli,
+  ekran kilitli). Üst şerit "Sezon N · X gün kaldı" + coin hapı; sabit üst: "Seviye N · x / y SP" + ince çubuk + sütun başlıkları (Ücretsiz | Battle Pass);
+  tek odak **dikey iki şeritli yol** (satır = seviye: ücretsiz kutu · düğüm · Battle Pass kutusu, 64 px; açılışta mevcut seviye ekranın ortasında; alınabilir kutu
+  tek dokunuşla `bp_odul_al`, diğerleri önizleme `OdulSayfasi`; 28. satır özel geniş kutu = iki ödül + sezon unvanı; sonda 28+ taşma satırı → `TasmaSayfasi`);
+  sabit alt: "Sıradaki büyük ödül" şeridi · (BP) günlük bonus satırı · tek büyük düğme (BP aktif + alınabilir → "Ödülleri al (n)" `bp_toplu_al`; BP yok → "Battle Pass al";
+  alınacak yoksa düğme yok). Renk: tek vurgu (turuncu) + nadirlik yalnız ÇERÇEVE rengiyle; lejant, fayda çipleri, hero pankartı, "Seviyem", "Battle Pass aktif" şeridi,
+  yatay yol görünümden kalktı (bileşenler durur). Sezon teması (`sezonTemalari.jsx`) arka plan çizmez, yalnız ilk açılış perdesinde kullanılır.
+  **Arka planlar bu sayfada DONDURULDU (Ida):** `arka_plan` türü ödül yuvası jenerik hediye ikonuyla çizilir (`OdulGorsel.jsx › ARKA_PLAN_DONDURULDU`); sezon verisi değişmedi
+  (Sezon 1: ücretli kol 8 Yıldızlı Gece, 17 Su Altı). Sahibin test araçları yolun sonunda katlanır "Test modu" alanında.
   Rozet ana sayfa oyuncu kartında + dişli menüde "Sezon Yolu" satırı (`oyun/components/sezon/`), istemci `oyun/lib/sezonYolu.js`.
-  **Açılış/kapanış (1 Eki 2026):** her açılışta sayfa alttan kayar (400 ms), yol seviyeye kayar, o durak parlar; sezonun İLK açılışında önce tam perde (1,5 sn, dokununca atlanır:
-  "Sezon N" + sezon sonu ödülü, "gördü" `bildim_sezon_perde:<kullanıcı>:<sezon no>` localStorage); kapanışta 250 ms ters geçiş (donmuş kopya). Yalnız transform/opacity; "hareketi azalt" → anında (perde hareketsiz).
-  Dosyalar: `SezonYoluPage.jsx`, `SezonAcilisPerdesi.jsx`, `acilis.js`; ölçüm `araclar/sezon-acilis-olcum.mjs`.
+  Sezonun İLK açılışında tam perde (1,5 sn, dokununca atlanır; "gördü" `bildim_sezon_perde:<kullanıcı>:<sezon no>` localStorage). "Hareketi azalt" → sahne ve yol anında.
+  Dosyalar: `SezonYoluPage.jsx` (durum/akış), `SezonUst.jsx`, `Yol.jsx` (DikeyYol), `SiradakiOdul.jsx`, `SezonAcilisPerdesi.jsx`; ölçüm `araclar/sahne-ekran-sezon.mjs` (taklit RPC).
   Testler: `sezon-yolu-sql-testi` · `sezon-tasma-sql-testi` · `sezon-kapanis-sql-testi` (ROLLBACK) · `sezon-tasma-yaris-testi` ·
   `sezon-yolu-yaris-testi` (sahip test sezonunu SİLER) · ekran `araclar/sezon-yolu-v2-ekran.mjs` (390×700 ve 360×640 ana ölçü).
 
@@ -499,9 +505,12 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
 - **RPC:** `gorevlerim()` · `gorev_al(kapsam, quest_id)` · `haftalik_sandik_al()` (hepsi security definer, yalnız authenticated, oyuncu satırı kilidi,
   idempotent: ikinci alım `{alindi:false, zaten:true}`). Eski `get_daily_quests` / `claim_quest` aynı imzayla yeni günlük seçimle çalışır.
   Test: `node araclar/gorevler-sql-testi.mjs` (ROLLBACK) · `node araclar/gorevler-yaris-testi.mjs` (iki bağlantı, test hesabında, temizler).
-- **Ekran:** `/gorevler` (`pages/GorevlerPage.jsx` + `gorevler.css`, veri `lib/gorevler.js`, çeviri `lib/ceviri/gorevler.js`): Günlük (kolay/orta/zor çipi) + Haftalık
-  bölümü + Haftalık sandık; alınca sunucunun döndüğü GERÇEK coin/SP uçan çipte görünür. SP çipleri ve alt not yalnız sezon sistemi görünürken
-  (`sezon_ozetim.gorunur`) çizilir. Ana sayfada tek satırlık Görevler şeridi (`GorevSeridi`, "Günlük a/3 · Haftalık b/3", alınabilir ödül varsa 8 px sessiz nokta);
+- **Ekran — TAM EKRAN SAHNE (Ida onaylı gri kutu taslağı, 1 Eki 2026):** `/gorevler` (`pages/GorevlerPage.jsx` + `gorevler.css`, veri `lib/gorevler.js`, çeviri
+  `lib/ceviri/gorevler.js`) `QtSahne` içinde. Sabit üst (tek odak): halka "1/3" + "Bugün N görev tamam" + "X sa Y dk sonra yenilenir" (1 saatten azsa kehribar; hepsi alınınca
+  "Bugünlük tamam"). Liste: "Günlük" (3 satır) · "Haftalık, N gün M sa" · sonda kesikli çerçeveli Haftalık sandık (3 nokta). Satır NÖTR: renksiz ikon kutusu, zorluk = 3 nokta
+  (Kolay/Orta/Zor etiketi ve zorluk renkleri yok), ince çubuk + sayı/hedef, tek satır ödül "15 · 10 SP"; yalnız ALINABİLİR satır turuncu çerçeve + "Al"; alınmış soluk.
+  Sabit alt: alınabilir varsa tek düğme "Ödülü al (n)" (mevcut `gorev_al` / `haftalik_sandik_al` ile tek tek, sırayla; hata olursa durur), yoksa alan çöker.
+  Alınca sunucunun döndüğü GERÇEK coin/SP uçan çipte görünür; SP yalnız sezon sistemi görünürken (`sezon_ozetim.gorunur`). Ölçüm `araclar/sahne-ekran-gorevler.mjs`. Ana sayfada tek satırlık Görevler şeridi (`GorevSeridi`, "Günlük a/3 · Haftalık b/3", alınabilir ödül varsa 8 px sessiz nokta);
   şerit yalnız ekran yüksekliği ≥ 700 px iken görünür (<700'de sığmaz; OYNA/DÜELLO yerinde kalsın diye gizli) — her ekranda avatar (dişli) menüsü ›
   Görevler satırı var. Ölçüm: `node araclar/gorevler-ekran.mjs` (taklit veri, sunucuya yazmaz). **Güncel görünürlük (1 Eki 2026): Görevler şeridi yalnız ekran yüksekliği ≥ 900 px'te** (Sezon Yolu şeridi yer aldı; 700–899'da gizli).
 
@@ -597,6 +606,10 @@ karakter, Hızlı Mod hariç — dondurulmuş) bu sistemle yeniden yazıldı.
   maç sonu, envanter, level ödülü. Kabarık parlak rozet, renk token'ı `--qt-skill-<tur>`, sembol
   Phosphor (MIT). Coin paketi görseli `CoinPaketGorseli` (Noto Emoji 3D, Apache 2.0). **Dış
   kaynaklı her varlık `docs/VARLIK_LISANSLARI.md`'ye yazılır; ticari izni olmayan kullanılmaz.**
+- **Tam ekran oyun sahnesi `QtSahne` (1 Eki 2026, `oyun/tasarim/sahne/`; kılavuz OKU.md §12):** Sezon Yolu ve Görevler "web sayfası" değil sahnedir —
+  `useOyunModu` ile uygulama üst çubuğu + alt menü gizlenir, kök `position: fixed` 100dvh (sayfa gövdesi kaymaz), üst şerit [geri · başlık · coin hapı],
+  `ust` sabit alan, `alt` sabit eylem alanı (boşsa yok), tek kaydırılan bölge; giriş sağdan ~240 ms (içteki sarmalayıcıda; hareketi azaltta anında). Sahne kuralı:
+  tek odak, tek vurgu rengi (turuncu) + en çok 3 ton, kırmızı yok (hata şeridi kehribar), en çok 1 nabız. Sahnede coin hapı hedefi `QT_SAHNE_COIN_HAPI`.
 - **Ana sayfa telefonda HİÇ kaydırılmaz:** `AnaSayfaA` `<html>`e `.as-kaydirmasiz` koyar, kabuk
   100dvh esnek sütun + overflow hidden + overscroll-behavior none; sahne kalan alanı doldurur,
   kısa ekranda avatar küçülür (container query). Diğer sayfalar kaydırılır.
