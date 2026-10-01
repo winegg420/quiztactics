@@ -1,5 +1,7 @@
 # Oyun Hissi Denetimi — 1 Ekim 2026
 
+> Not: ortak önek `qt-oyk-` olarak kuruldu (rapordaki `qt-ok-` değil).
+
 Salt okunur denetim; kod değişmedi. Referans: Görevler sayfasının yeni hâli (commit `48c9414a`).
 Renk değişikliği (`8fe8d31a`: Turnuva sarı, Düello kan kırmızısı) ekranlarda yeni hâliyle görüldü.
 

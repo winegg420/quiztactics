@@ -677,6 +677,18 @@ Bir moda yapılan kozmetik/arayüz düzeltmesi, aynı sorunun bulunduğu
 ayrı tutulmaz.** Her düzeltmede "düelloda (ve öteki modlarda) da var mı"
 diye bak, varsa aynısını orada da yap. Sorma.
 
+### Oyun hissi — KALICI KURALLAR (1 Eki 2026)
+
+Ortak "oyun hissi" parçaları tek yerde: `oyun/tasarim/oyun-hissi.css` (`qt-oyk-*`, `--oyk-*`; `hareket.css` üzerinden global) +
+`QtAfis`, `OdulAni`, `useSiraliGiris`; kılavuz `oyun/tasarim/OKU.md` §11. Sayfa kendi kart/çip/afiş stilini yazmaz, bu parçaları kullanır.
+
+- **Dokunuş tek kapı:** ses + titreşim `dokunus()` / `odulHissi()` / `titresim()` ile verilir; hepsi `hisAcikMi()` kapısından geçer. Titreşim ayrı ayar değildir:
+  "Efektler" kapalıysa, hareket azaltılmışsa ya da sayfaya henüz dokunulmadıysa çalmaz. Maç içi `geriBildirim.js › titret` de aynı kapıdadır. Yalnız seçim/eylem düğmelerinde çağrılır (gezinme, sekme, geri değil).
+- **Kutlama yalnız sunucu onayından sonra:** ödül/satın alma anı (`kutla`, konfeti, uçan çip, coin hapı zıplaması) sunucu "verildi" demeden oynamaz; iyimser kutlama yok.
+- **Azaltılmış harekette sürekli animasyon yok:** giriş/nabız/zıplama/parıltı/konfeti kapanır; renk ve durum kalır. Sonsuz döngülü her yeni önizleme/süs bunu kendi kuralıyla sağlar (Dükkân önizlemeleri: `dukkan-cerceve.css` › `.qt-dk` kapsamı).
+- **Tek renk ekseni / tek nabız:** sayfa başına tek renk ekseni (Görevler zorluk, Dükkân nadirlik, Lig lig rengi; kırmızı yalnız Düello/rakip, aciliyet kehribar); ekranda en çok 1 nabız, sürekli dönen hareket ≤ 3; sıralı giriş ≤ 8 öğe ve yalnız ilk açılışta.
+- **Ölçüm:** arayüz değişikliğinden sonra `node araclar/arayuz-denetim.mjs` (16 sayfa × 7 genişlik) temiz olmalı; ikinci/İngilizce hesap için `--oturum=dosya`.
+
 ---
 
 ## Reddedilenler ve Dondurulanlar

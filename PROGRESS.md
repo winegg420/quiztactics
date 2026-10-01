@@ -9813,3 +9813,29 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 - **Migration:** `supabase/migrations/20260612000842 … 846_soru_parti_kolay_02a … 02e.sql` HAZIR (`--cevirisiz`, kapı 1+2 geçti); **UYGULANMADI, COMMIT EDİLMEDİ** (kolay_01'in …840 dosyasıyla birlikte izlenmeyen). Ida soruları görüp çıkaracağı numaraları yazınca: çıkar → `uret-migration-parti.mjs` ile yeniden üret → prova/uygula.
 - **Araç değişikliği:** yok (mevcut `birlestir-parti.mjs` / `uret-migration-parti.mjs`). Ara betikler (tekrar tarama, otomatik eleme, kota seçimi) geçici oturum klasöründeydi; kalıcı değil.
 - **Test edilmesi gereken:** Ida'nın 491 soruluk listeyi okuyup çıkaracağı numaraları belirtmesi; ardından uygulanan migration sonrası aktif zorluk-2 sayısının artması.
+
+## 2026-10-01 — Oyun hissi: Aşama 1 toplayıcı işler + bu turun toplu kaydı
+**Araç:** Claude Code (Sonnet 5.5)
+**Neden:** Aşama 1'de sayfa pencerelerinin düşürdüğü ortak parça/ölçüm borçlarını tek pencerede toplamak ve turun kaydını bir yere yazmak.
+
+**Bu turun önceki işleri (kayıt için):**
+- **Renkler (8fe8d31a):** Turnuva bandı sarıya döndü; Düello pembeden kan kırmızısına (#c93030, tek token), kırmızı yüzeylerde beyaz yazı. Kural: kırmızı yalnız Düello/rakip.
+- **Soru ağırlığı (2ca695a9):** normal maçta zorluk dağılımı 80/17/3 (kolay artırıldı).
+- **Soru stil profili + üretim:** `docs/SORU_STIL_PROFILI.md`; yalnız zorluk 2. kolay_01 (50 soru) ve kolay_02a–e (491 soru) üretildi; migration'lar (…840, …842–846) HAZIR, **UYGULANMADI**, çalışma klasöründe izlenmeyen dosya — Ida listeyi görüp numara çıkaracak.
+- **Oyun hissi denetimi (8b48582c):** `docs/OYUN_HISSI_DENETIMI.md` — altı sayfa + ortak parça planı.
+- **Aşama 0 (f1866cde, ff36ef94):** ortak parçalar (`qt-oyk-*` oyun kartı, QtAfis, OdulAni, dokunuş tek kapısı, sıralı giriş, canlı çubuk) + Görevler bu parçalara geçti.
+- **Aşama 1 (944639cb Lig, 81b69270 Profil, bec2ee04 Arkadaşlar+Modlar, e583c32f Dükkân, 9c48dddb DukkanKozmetik yorum).**
+
+**Toplayıcı işler (her biri ayrı commit):**
+1. **araclar/arayuz-denetim.mjs** — kök neden: kurulum sihirbazında avatar seçici eski sınıfı (`.bd-avatar-secenek`) arıyordu; sihirbaz artık `.g-avatar-sec` kullanıyor → hiçbir avatar seçilmiyor, "Bu avatarı kullan" kapalı kalıp zaman aşımı veriyordu (Görevler/Profil ölçümlerinde takılma bundandı). Seçici kilitsiz (`:not(.qt-av-kilitli)`) ilk avatara çevrildi; düğme kapalıysa "Avatarsız devam et"e düşer. Yeni: `--oturum=dosya` ve `--sadece-oturum` (ikinci/İngilizce hesap; `.arayuz-denetim-oturum-*.json` .gitignore'da). Sonuç: 16 sayfa × 7 genişlik TEMİZ.
+2. **QtAfis ton** — `.qt-oyk-afis` kendi `--oyk-serit`'ini ton sınıfından sonra tanımladığı için afiş hep maviydi. Varsayılan `:where()` ile özgüllüksüz yapıldı. 6 ton hesaplanmış stille doğrulandı. Etki: ton vermeyen sayfalar (Görevler, Lig, Modlar, Dükkân) mavi aynen; **Arkadaşlar `ton="mor"` veriyordu → artık gerçekten mor** (kodun asıl niyeti).
+3. **QtModKart rozeti** — ≤600 px'te rozet metnin altına kayar, kart ikonun altından başlar (`:has`). 360/390 × TR/EN ölçüldü: örtüşme/taşma 0; Düello kırmızı aynen.
+4. **Titreşim** — `geriBildirim.js › titret` artık `hisAcikMi()` kapısından geçer ("Efektler" kapalıysa çalmaz). `GB_MS` ve maç akışına dokunulmadı. Ölçüldü: Efektler 1 → titreşim 1, Efektler 0 → artmadı.
+5. **Profil sekmeleri** — ≤700 px'te tek satır: aktif sekme ikon + (kısa) etiket, diğerleri 44×44 ikon düğmesi (etiket ekran okuyucuya açık). Yeni çeviri anahtarı `"İstatistik": "Stats"` (dil.js). 360/390/560/700 × TR/EN × 5 sekme: kayma 0, <44 px 0, metin kesilmesi 0.
+6. **Dükkân önizleme döngüleri** — ölçüm: hareketi azalt açıkken Çerçeve (pc-), Arka Plan (abp-), İsim Efekti (qt-ia-), Elmas (ep-) sonsuz döngüleri çalışıyordu. `dukkan-cerceve.css` sonuna `.qt-dk` kapsamlı kural: bu ailelerde `animation: none`. Ölçüm sonrası 8 sekmede 0 döngü; statik kare görsel doğrulandı. Profil/maç çerçevesinin "yumuşak mod"una (yumusakHareket.js) dokunulmadı.
+7. **Ölçüm (kodsuz):** 19 görünüm (Ana, Lig, Arkadaşlar, Modlar, Görevler, Meydan Okumalar, Dükkân 8 sekme, Profil 5 sekme) × 360/390 × TR/EN × (normal + hareketi azalt): yatay taşma 0, <44 px hedef 0 (Profil Davet sekmesinde bir kez 43×43 görüldü = giriş animasyonu ortası, yeniden ölçümde yok), konsol hatası 0, düz zeminli metinlerde kontrast ihlali 0 (gradyan/görüntü zeminli metinler ölçülemedi, atlandı), azaltılmış harekette içerikte dönen animasyon 0. Arkadaşlar dolu hâl (taklit sunucu cevabı + sahte Presence): çevrimiçi şerit "2 çevrimiçi", tek "Oyna" zıplaması, gelen istek nabzı (1), kabulde `ar-kap--yeni` vurgusu, azaltılmışta hepsi durur; taşma/küçük hedef 0. (Taklit kimlikler uuid olmadığı için `oyuncu_kartlari` 400 verdi — yalnız test artığı.) Küçük gözlem: 360 px'te gelen istek kartında "arkadaşlık isteği gönderdi" 3 satıra sarıyor; kozmetik, açık bırakıldı.
+8. **Commit edilmemiş `oyun/lib/ceviri/mac.js` ve `src/BildimApp.jsx`:** ikisi de bağımsız Düello kategori tahtası prototipine (izlenmeyen `oyun/tasarim/duello-tahta/`) ait: mac.js +40 satır İngilizce çeviri, BildimApp.jsx +3 satır (lazy import + yalnız DEV'de giriş kapısını aşan ve üretimde SahipKapisi'ne bağlı `/duello-tahta-onizleme` rotası). Dokunulmadı; karar Ida'da.
+
+**Gözlem:** bu turda aynı klasörde başka bir pencere/araç da çalıştı (ChallengesPage.jsx, a-meydan.css, antrenman.js değişiklikleri ve "Meydan Okumalar: sadeleştirme" commit'i e07345ee bu pencerenin dışından geldi); bu pencere onlara dokunmadı.
+**Bilinen eski not:** `oyun/tasarim/OKU.md` sonundaki "titret henüz kapıya bağlı değil" satırı artık eskidir (madde 4); dosya bu işin kapsamı dışında olduğu için düzeltilmedi.
+**Test edilmesi gereken (Ida, telefonda):** Profil sekme çubuğu (iPhone), Modlar'da Düello rozeti (EN), Dükkân önizlemeleri hareketi azalt açıkken, Ayarlar'da Efektler kapalıyken maç içi titreşim.
