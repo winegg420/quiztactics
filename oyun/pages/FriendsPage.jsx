@@ -433,7 +433,7 @@ export default function FriendsPage() {
                 key={f.id}
                 bas={<AvatarCerceve profile={f.req} boyut={44} />}
                 baslik={<OyuncuAdiDugmesi userId={f.req?.id} profil={f.req} className="ls-ad">{f.req?.gorunen_ad}</OyuncuAdiDugmesi>}
-                alt={tt("arkadaşlık isteği gönderdi")}
+                alt={tt("arkadaşlık isteği")}
                 sag={
                   <>
                     <QtDugme tur="mor" boyut="k" ikon="onay" onClick={() => { dokunus(); cevapla(f.id, true); }}>

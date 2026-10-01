@@ -11,4 +11,6 @@ export default {
   // Meydan Oku › "Kime?" bölümü (1 Eki 2026): arkadaş + bot tek şerit, yanında seçim özeti çipi
   "Kime?": "Challenge who?",
   "Seçimin:": "Your pick:",
+  // Arkadaşlar › gelen istek satırı alt metni (1 Eki 2026): 360 px'te 2 satıra sığsın diye kısaltıldı
+  "arkadaşlık isteği": "friend request",
 };
