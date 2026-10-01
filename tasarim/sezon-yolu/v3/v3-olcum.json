@@ -1,0 +1,1750 @@
+{
+  "olcumler": [
+    {
+      "ad": "s5 390×700 tr: hero final kartında Ejderha çerçevesi çizildi (iskelet/yedek yok)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×700 tr: hero kartında \"?\" yok, \"Sezon sonu ödülü\" / \"Season-end reward\" etiketi var, kart ekrana sığıyor",
+      "gecti": true,
+      "ek": "{\"soru\":0,\"yazi\":\"? | Sezon sonu ödülü | Sezon finali | Seviye 28\",\"kartW\":178,\"kartH\":72,\"gorselW\":56,\"sag\":363,\"vw\":390,\"etiket\":true}"
+    },
+    {
+      "ad": "s5 390×700 tr: 28. seviye ücretli yuvada Ejderha çerçevesi (? ve \"Yakında\" yok)",
+      "gecti": true,
+      "ek": "{\"var\":true,\"cerceve\":1,\"soru\":0,\"yazi\":\"?|Çerçeve\"}"
+    },
+    {
+      "ad": "s5 390×700 tr: yuva çerçevesi yüklendi",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×700 tr: kalan \"?\" yuvaları yalnız beklenen 9",
+      "gecti": true,
+      "ek": "5:ucretli,8:ucretli,14:ucretli,17:ucretli,19:ucretli,21:ucretli,22:ucretli,23:ucretli,27:ucretli"
+    },
+    {
+      "ad": "s5 390×700 tr: iki kol + araç satırı alt menünün üstünde (608 ≤ 630)",
+      "gecti": true,
+      "ek": "{\"navUst\":630,\"yolAlt\":556,\"aracAlt\":608,\"hepsiniAlt\":608,\"heroAlt\":183,\"yolUst\":326,\"vh\":700}"
+    },
+    {
+      "ad": "s5 390×700 tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s5 390×700 tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×700 tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×700 tr yol sonu: yazı kontrastı (gerçek piksel, 22 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×700 tr hero: yazı kontrastı (gerçek piksel, 23 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×700 en: hero final kartında Ejderha çerçevesi çizildi (iskelet/yedek yok)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×700 en: hero kartında \"?\" yok, \"Sezon sonu ödülü\" / \"Season-end reward\" etiketi var, kart ekrana sığıyor",
+      "gecti": true,
+      "ek": "{\"soru\":0,\"yazi\":\"? | Season-end reward | Season finale | Level 28\",\"kartW\":188,\"kartH\":72,\"gorselW\":56,\"sag\":363,\"vw\":390,\"etiket\":true}"
+    },
+    {
+      "ad": "s5 390×700 en: 28. seviye ücretli yuvada Ejderha çerçevesi (? ve \"Yakında\" yok)",
+      "gecti": true,
+      "ek": "{\"var\":true,\"cerceve\":1,\"soru\":0,\"yazi\":\"?|Frames\"}"
+    },
+    {
+      "ad": "s5 390×700 en: yuva çerçevesi yüklendi",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×700 en: kalan \"?\" yuvaları yalnız beklenen 9",
+      "gecti": true,
+      "ek": "5:ucretli,8:ucretli,14:ucretli,17:ucretli,19:ucretli,21:ucretli,22:ucretli,23:ucretli,27:ucretli"
+    },
+    {
+      "ad": "s5 390×700 en: iki kol + araç satırı alt menünün üstünde (608 ≤ 630)",
+      "gecti": true,
+      "ek": "{\"navUst\":630,\"yolAlt\":556,\"aracAlt\":608,\"hepsiniAlt\":608,\"heroAlt\":183,\"yolUst\":326,\"vh\":700}"
+    },
+    {
+      "ad": "s5 390×700 en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s5 390×700 en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×700 en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×700 en yol sonu: yazı kontrastı (gerçek piksel, 22 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×700 en hero: yazı kontrastı (gerçek piksel, 23 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 360×640 tr: hero final kartında Ejderha çerçevesi çizildi (iskelet/yedek yok)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 360×640 tr: hero kartında \"?\" yok, \"Sezon sonu ödülü\" / \"Season-end reward\" etiketi var, kart ekrana sığıyor",
+      "gecti": true,
+      "ek": "{\"soru\":0,\"yazi\":\"? | Sezon sonu ödülü | Sezon finali | Seviye 28\",\"kartW\":178,\"kartH\":72,\"gorselW\":56,\"sag\":336,\"vw\":360,\"etiket\":true}"
+    },
+    {
+      "ad": "s5 360×640 tr: 28. seviye ücretli yuvada Ejderha çerçevesi (? ve \"Yakında\" yok)",
+      "gecti": true,
+      "ek": "{\"var\":true,\"cerceve\":1,\"soru\":0,\"yazi\":\"?|Çerçeve\"}"
+    },
+    {
+      "ad": "s5 360×640 tr: yuva çerçevesi yüklendi",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 360×640 tr: kalan \"?\" yuvaları yalnız beklenen 9",
+      "gecti": true,
+      "ek": "5:ucretli,8:ucretli,14:ucretli,17:ucretli,19:ucretli,21:ucretli,22:ucretli,23:ucretli,27:ucretli"
+    },
+    {
+      "ad": "s5 360×640 tr: iki kol + araç satırı alt menünün üstünde (544 ≤ 570)",
+      "gecti": true,
+      "ek": "{\"navUst\":570,\"yolAlt\":494,\"aracAlt\":544,\"hepsiniAlt\":544,\"heroAlt\":179,\"yolUst\":294,\"vh\":640}"
+    },
+    {
+      "ad": "s5 360×640 tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s5 360×640 tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 360×640 tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 360×640 tr yol sonu: yazı kontrastı (gerçek piksel, 21 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 360×640 tr hero: yazı kontrastı (gerçek piksel, 22 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 360×640 en: hero final kartında Ejderha çerçevesi çizildi (iskelet/yedek yok)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 360×640 en: hero kartında \"?\" yok, \"Sezon sonu ödülü\" / \"Season-end reward\" etiketi var, kart ekrana sığıyor",
+      "gecti": true,
+      "ek": "{\"soru\":0,\"yazi\":\"? | Season-end reward | Season finale | Level 28\",\"kartW\":188,\"kartH\":72,\"gorselW\":56,\"sag\":336,\"vw\":360,\"etiket\":true}"
+    },
+    {
+      "ad": "s5 360×640 en: 28. seviye ücretli yuvada Ejderha çerçevesi (? ve \"Yakında\" yok)",
+      "gecti": true,
+      "ek": "{\"var\":true,\"cerceve\":1,\"soru\":0,\"yazi\":\"?|Frames\"}"
+    },
+    {
+      "ad": "s5 360×640 en: yuva çerçevesi yüklendi",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 360×640 en: kalan \"?\" yuvaları yalnız beklenen 9",
+      "gecti": true,
+      "ek": "5:ucretli,8:ucretli,14:ucretli,17:ucretli,19:ucretli,21:ucretli,22:ucretli,23:ucretli,27:ucretli"
+    },
+    {
+      "ad": "s5 360×640 en: iki kol + araç satırı alt menünün üstünde (544 ≤ 570)",
+      "gecti": true,
+      "ek": "{\"navUst\":570,\"yolAlt\":494,\"aracAlt\":544,\"hepsiniAlt\":544,\"heroAlt\":179,\"yolUst\":294,\"vh\":640}"
+    },
+    {
+      "ad": "s5 360×640 en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s5 360×640 en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 360×640 en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 360×640 en yol sonu: yazı kontrastı (gerçek piksel, 21 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 360×640 en hero: yazı kontrastı (gerçek piksel, 22 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×844 tr: hero final kartında Ejderha çerçevesi çizildi (iskelet/yedek yok)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×844 tr: hero kartında \"?\" yok, \"Sezon sonu ödülü\" / \"Season-end reward\" etiketi var, kart ekrana sığıyor",
+      "gecti": true,
+      "ek": "{\"soru\":0,\"yazi\":\"? | Sezon sonu ödülü | Sezon finali | Seviye 28\",\"kartW\":178,\"kartH\":72,\"gorselW\":56,\"sag\":363,\"vw\":390,\"etiket\":true}"
+    },
+    {
+      "ad": "s5 390×844 tr: 28. seviye ücretli yuvada Ejderha çerçevesi (? ve \"Yakında\" yok)",
+      "gecti": true,
+      "ek": "{\"var\":true,\"cerceve\":1,\"soru\":0,\"yazi\":\"?|Çerçeve\"}"
+    },
+    {
+      "ad": "s5 390×844 tr: yuva çerçevesi yüklendi",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×844 tr: kalan \"?\" yuvaları yalnız beklenen 9",
+      "gecti": true,
+      "ek": "5:ucretli,8:ucretli,14:ucretli,17:ucretli,19:ucretli,21:ucretli,22:ucretli,23:ucretli,27:ucretli"
+    },
+    {
+      "ad": "s5 390×844 tr: iki kol + araç satırı alt menünün üstünde (608 ≤ 774)",
+      "gecti": true,
+      "ek": "{\"navUst\":774,\"yolAlt\":556,\"aracAlt\":608,\"hepsiniAlt\":608,\"heroAlt\":183,\"yolUst\":326,\"vh\":844}"
+    },
+    {
+      "ad": "s5 390×844 tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s5 390×844 tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×844 tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×844 tr yol sonu: yazı kontrastı (gerçek piksel, 31 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s5 390×844 tr hero: yazı kontrastı (gerçek piksel, 32 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 390×700 tr: hero final kartında Ejderha çerçevesi çizildi (iskelet/yedek yok)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 390×700 tr: hero kartında \"?\" yok, \"Sezon sonu ödülü\" / \"Season-end reward\" etiketi var, kart ekrana sığıyor",
+      "gecti": true,
+      "ek": "{\"soru\":0,\"yazi\":\"? | Sezon sonu ödülü | Sezon finali | Seviye 28\",\"kartW\":178,\"kartH\":72,\"gorselW\":56,\"sag\":363,\"vw\":390,\"etiket\":true}"
+    },
+    {
+      "ad": "s12bp 390×700 tr: 28. seviye ücretli yuvada Ejderha çerçevesi (? ve \"Yakında\" yok)",
+      "gecti": true,
+      "ek": "{\"var\":true,\"cerceve\":1,\"soru\":0,\"yazi\":\"?|Çerçeve\"}"
+    },
+    {
+      "ad": "s12bp 390×700 tr: yuva çerçevesi yüklendi",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 390×700 tr: kalan \"?\" yuvaları yalnız beklenen 9",
+      "gecti": true,
+      "ek": "5:ucretli,8:ucretli,14:ucretli,17:ucretli,19:ucretli,21:ucretli,22:ucretli,23:ucretli,27:ucretli"
+    },
+    {
+      "ad": "s12bp 390×700 tr: iki kol + araç satırı alt menünün üstünde (608 ≤ 630)",
+      "gecti": true,
+      "ek": "{\"navUst\":630,\"yolAlt\":556,\"aracAlt\":608,\"hepsiniAlt\":608,\"heroAlt\":183,\"yolUst\":326,\"vh\":700}"
+    },
+    {
+      "ad": "s12bp 390×700 tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s12bp 390×700 tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 390×700 tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 390×700 tr yol sonu: yazı kontrastı (gerçek piksel, 23 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 390×700 tr hero: yazı kontrastı (gerçek piksel, 24 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 390×700 en: hero final kartında Ejderha çerçevesi çizildi (iskelet/yedek yok)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 390×700 en: hero kartında \"?\" yok, \"Sezon sonu ödülü\" / \"Season-end reward\" etiketi var, kart ekrana sığıyor",
+      "gecti": true,
+      "ek": "{\"soru\":0,\"yazi\":\"? | Season-end reward | Season finale | Level 28\",\"kartW\":188,\"kartH\":72,\"gorselW\":56,\"sag\":363,\"vw\":390,\"etiket\":true}"
+    },
+    {
+      "ad": "s12bp 390×700 en: 28. seviye ücretli yuvada Ejderha çerçevesi (? ve \"Yakında\" yok)",
+      "gecti": true,
+      "ek": "{\"var\":true,\"cerceve\":1,\"soru\":0,\"yazi\":\"?|Frames\"}"
+    },
+    {
+      "ad": "s12bp 390×700 en: yuva çerçevesi yüklendi",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 390×700 en: kalan \"?\" yuvaları yalnız beklenen 9",
+      "gecti": true,
+      "ek": "5:ucretli,8:ucretli,14:ucretli,17:ucretli,19:ucretli,21:ucretli,22:ucretli,23:ucretli,27:ucretli"
+    },
+    {
+      "ad": "s12bp 390×700 en: iki kol + araç satırı alt menünün üstünde (608 ≤ 630)",
+      "gecti": true,
+      "ek": "{\"navUst\":630,\"yolAlt\":556,\"aracAlt\":608,\"hepsiniAlt\":608,\"heroAlt\":183,\"yolUst\":326,\"vh\":700}"
+    },
+    {
+      "ad": "s12bp 390×700 en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s12bp 390×700 en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 390×700 en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 390×700 en yol sonu: yazı kontrastı (gerçek piksel, 23 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 390×700 en hero: yazı kontrastı (gerçek piksel, 24 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 360×640 tr: hero final kartında Ejderha çerçevesi çizildi (iskelet/yedek yok)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 360×640 tr: hero kartında \"?\" yok, \"Sezon sonu ödülü\" / \"Season-end reward\" etiketi var, kart ekrana sığıyor",
+      "gecti": true,
+      "ek": "{\"soru\":0,\"yazi\":\"? | Sezon sonu ödülü | Sezon finali | Seviye 28\",\"kartW\":178,\"kartH\":72,\"gorselW\":56,\"sag\":336,\"vw\":360,\"etiket\":true}"
+    },
+    {
+      "ad": "s12bp 360×640 tr: 28. seviye ücretli yuvada Ejderha çerçevesi (? ve \"Yakında\" yok)",
+      "gecti": true,
+      "ek": "{\"var\":true,\"cerceve\":1,\"soru\":0,\"yazi\":\"?|Çerçeve\"}"
+    },
+    {
+      "ad": "s12bp 360×640 tr: yuva çerçevesi yüklendi",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 360×640 tr: kalan \"?\" yuvaları yalnız beklenen 9",
+      "gecti": true,
+      "ek": "5:ucretli,8:ucretli,14:ucretli,17:ucretli,19:ucretli,21:ucretli,22:ucretli,23:ucretli,27:ucretli"
+    },
+    {
+      "ad": "s12bp 360×640 tr: iki kol + araç satırı alt menünün üstünde (540 ≤ 570)",
+      "gecti": true,
+      "ek": "{\"navUst\":570,\"yolAlt\":490,\"aracAlt\":540,\"hepsiniAlt\":540,\"heroAlt\":179,\"yolUst\":290,\"vh\":640}"
+    },
+    {
+      "ad": "s12bp 360×640 tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s12bp 360×640 tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 360×640 tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 360×640 tr yol sonu: yazı kontrastı (gerçek piksel, 21 metin) en düşük 5.37",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 360×640 tr hero: yazı kontrastı (gerçek piksel, 22 metin) en düşük 5.37",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 360×640 en: hero final kartında Ejderha çerçevesi çizildi (iskelet/yedek yok)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 360×640 en: hero kartında \"?\" yok, \"Sezon sonu ödülü\" / \"Season-end reward\" etiketi var, kart ekrana sığıyor",
+      "gecti": true,
+      "ek": "{\"soru\":0,\"yazi\":\"? | Season-end reward | Season finale | Level 28\",\"kartW\":188,\"kartH\":72,\"gorselW\":56,\"sag\":336,\"vw\":360,\"etiket\":true}"
+    },
+    {
+      "ad": "s12bp 360×640 en: 28. seviye ücretli yuvada Ejderha çerçevesi (? ve \"Yakında\" yok)",
+      "gecti": true,
+      "ek": "{\"var\":true,\"cerceve\":1,\"soru\":0,\"yazi\":\"?|Frames\"}"
+    },
+    {
+      "ad": "s12bp 360×640 en: yuva çerçevesi yüklendi",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 360×640 en: kalan \"?\" yuvaları yalnız beklenen 9",
+      "gecti": true,
+      "ek": "5:ucretli,8:ucretli,14:ucretli,17:ucretli,19:ucretli,21:ucretli,22:ucretli,23:ucretli,27:ucretli"
+    },
+    {
+      "ad": "s12bp 360×640 en: iki kol + araç satırı alt menünün üstünde (540 ≤ 570)",
+      "gecti": true,
+      "ek": "{\"navUst\":570,\"yolAlt\":490,\"aracAlt\":540,\"hepsiniAlt\":540,\"heroAlt\":179,\"yolUst\":290,\"vh\":640}"
+    },
+    {
+      "ad": "s12bp 360×640 en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s12bp 360×640 en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 360×640 en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 360×640 en yol sonu: yazı kontrastı (gerçek piksel, 21 metin) en düşük 5.37",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 360×640 en hero: yazı kontrastı (gerçek piksel, 22 metin) en düşük 5.37",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 390×844 tr: hero final kartında Ejderha çerçevesi çizildi (iskelet/yedek yok)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 390×844 tr: hero kartında \"?\" yok, \"Sezon sonu ödülü\" / \"Season-end reward\" etiketi var, kart ekrana sığıyor",
+      "gecti": true,
+      "ek": "{\"soru\":0,\"yazi\":\"? | Sezon sonu ödülü | Sezon finali | Seviye 28\",\"kartW\":178,\"kartH\":72,\"gorselW\":56,\"sag\":363,\"vw\":390,\"etiket\":true}"
+    },
+    {
+      "ad": "s12bp 390×844 tr: 28. seviye ücretli yuvada Ejderha çerçevesi (? ve \"Yakında\" yok)",
+      "gecti": true,
+      "ek": "{\"var\":true,\"cerceve\":1,\"soru\":0,\"yazi\":\"?|Çerçeve\"}"
+    },
+    {
+      "ad": "s12bp 390×844 tr: yuva çerçevesi yüklendi",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 390×844 tr: kalan \"?\" yuvaları yalnız beklenen 9",
+      "gecti": true,
+      "ek": "5:ucretli,8:ucretli,14:ucretli,17:ucretli,19:ucretli,21:ucretli,22:ucretli,23:ucretli,27:ucretli"
+    },
+    {
+      "ad": "s12bp 390×844 tr: iki kol + araç satırı alt menünün üstünde (608 ≤ 774)",
+      "gecti": true,
+      "ek": "{\"navUst\":774,\"yolAlt\":556,\"aracAlt\":608,\"hepsiniAlt\":608,\"heroAlt\":183,\"yolUst\":326,\"vh\":844}"
+    },
+    {
+      "ad": "s12bp 390×844 tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s12bp 390×844 tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 390×844 tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 390×844 tr yol sonu: yazı kontrastı (gerçek piksel, 35 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s12bp 390×844 tr hero: yazı kontrastı (gerçek piksel, 36 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 390×700 tr: hero final kartında Ejderha çerçevesi çizildi (iskelet/yedek yok)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 390×700 tr: hero kartında \"?\" yok, \"Sezon sonu ödülü\" / \"Season-end reward\" etiketi var, kart ekrana sığıyor",
+      "gecti": true,
+      "ek": "{\"soru\":0,\"yazi\":\"? | Sezon sonu ödülü | Sezon finali | Seviye 28\",\"kartW\":178,\"kartH\":72,\"gorselW\":56,\"sag\":363,\"vw\":390,\"etiket\":true}"
+    },
+    {
+      "ad": "s28 390×700 tr: 28. seviye ücretli yuvada Ejderha çerçevesi (? ve \"Yakında\" yok)",
+      "gecti": true,
+      "ek": "{\"var\":true,\"cerceve\":1,\"soru\":0,\"yazi\":\"?|Çerçeve\"}"
+    },
+    {
+      "ad": "s28 390×700 tr: yuva çerçevesi yüklendi",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 390×700 tr: kalan \"?\" yuvaları yalnız beklenen 9",
+      "gecti": true,
+      "ek": "5:ucretli,8:ucretli,14:ucretli,17:ucretli,19:ucretli,21:ucretli,22:ucretli,23:ucretli,27:ucretli"
+    },
+    {
+      "ad": "s28 390×700 tr: iki kol + araç satırı alt menünün üstünde (608 ≤ 630)",
+      "gecti": true,
+      "ek": "{\"navUst\":630,\"yolAlt\":556,\"aracAlt\":608,\"hepsiniAlt\":null,\"heroAlt\":183,\"yolUst\":326,\"vh\":700}"
+    },
+    {
+      "ad": "s28 390×700 tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s28 390×700 tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 390×700 tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 390×700 tr yol sonu: yazı kontrastı (gerçek piksel, 18 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 390×700 tr hero: yazı kontrastı (gerçek piksel, 19 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 390×700 en: hero final kartında Ejderha çerçevesi çizildi (iskelet/yedek yok)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 390×700 en: hero kartında \"?\" yok, \"Sezon sonu ödülü\" / \"Season-end reward\" etiketi var, kart ekrana sığıyor",
+      "gecti": true,
+      "ek": "{\"soru\":0,\"yazi\":\"? | Season-end reward | Season finale | Level 28\",\"kartW\":188,\"kartH\":72,\"gorselW\":56,\"sag\":363,\"vw\":390,\"etiket\":true}"
+    },
+    {
+      "ad": "s28 390×700 en: 28. seviye ücretli yuvada Ejderha çerçevesi (? ve \"Yakında\" yok)",
+      "gecti": true,
+      "ek": "{\"var\":true,\"cerceve\":1,\"soru\":0,\"yazi\":\"?|Frames\"}"
+    },
+    {
+      "ad": "s28 390×700 en: yuva çerçevesi yüklendi",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 390×700 en: kalan \"?\" yuvaları yalnız beklenen 9",
+      "gecti": true,
+      "ek": "5:ucretli,8:ucretli,14:ucretli,17:ucretli,19:ucretli,21:ucretli,22:ucretli,23:ucretli,27:ucretli"
+    },
+    {
+      "ad": "s28 390×700 en: iki kol + araç satırı alt menünün üstünde (608 ≤ 630)",
+      "gecti": true,
+      "ek": "{\"navUst\":630,\"yolAlt\":556,\"aracAlt\":608,\"hepsiniAlt\":null,\"heroAlt\":183,\"yolUst\":326,\"vh\":700}"
+    },
+    {
+      "ad": "s28 390×700 en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s28 390×700 en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 390×700 en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 390×700 en yol sonu: yazı kontrastı (gerçek piksel, 18 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 390×700 en hero: yazı kontrastı (gerçek piksel, 19 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 360×640 tr: hero final kartında Ejderha çerçevesi çizildi (iskelet/yedek yok)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 360×640 tr: hero kartında \"?\" yok, \"Sezon sonu ödülü\" / \"Season-end reward\" etiketi var, kart ekrana sığıyor",
+      "gecti": true,
+      "ek": "{\"soru\":0,\"yazi\":\"? | Sezon sonu ödülü | Sezon finali | Seviye 28\",\"kartW\":178,\"kartH\":72,\"gorselW\":56,\"sag\":336,\"vw\":360,\"etiket\":true}"
+    },
+    {
+      "ad": "s28 360×640 tr: 28. seviye ücretli yuvada Ejderha çerçevesi (? ve \"Yakında\" yok)",
+      "gecti": true,
+      "ek": "{\"var\":true,\"cerceve\":1,\"soru\":0,\"yazi\":\"?|Çerçeve\"}"
+    },
+    {
+      "ad": "s28 360×640 tr: yuva çerçevesi yüklendi",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 360×640 tr: kalan \"?\" yuvaları yalnız beklenen 9",
+      "gecti": true,
+      "ek": "5:ucretli,8:ucretli,14:ucretli,17:ucretli,19:ucretli,21:ucretli,22:ucretli,23:ucretli,27:ucretli"
+    },
+    {
+      "ad": "s28 360×640 tr: iki kol + araç satırı alt menünün üstünde (564 ≤ 570)",
+      "gecti": true,
+      "ek": "{\"navUst\":570,\"yolAlt\":514,\"aracAlt\":564,\"hepsiniAlt\":null,\"heroAlt\":179,\"yolUst\":314,\"vh\":640}"
+    },
+    {
+      "ad": "s28 360×640 tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s28 360×640 tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 360×640 tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 360×640 tr yol sonu: yazı kontrastı (gerçek piksel, 18 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 360×640 tr hero: yazı kontrastı (gerçek piksel, 19 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 360×640 en: hero final kartında Ejderha çerçevesi çizildi (iskelet/yedek yok)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 360×640 en: hero kartında \"?\" yok, \"Sezon sonu ödülü\" / \"Season-end reward\" etiketi var, kart ekrana sığıyor",
+      "gecti": true,
+      "ek": "{\"soru\":0,\"yazi\":\"? | Season-end reward | Season finale | Level 28\",\"kartW\":188,\"kartH\":72,\"gorselW\":56,\"sag\":336,\"vw\":360,\"etiket\":true}"
+    },
+    {
+      "ad": "s28 360×640 en: 28. seviye ücretli yuvada Ejderha çerçevesi (? ve \"Yakında\" yok)",
+      "gecti": true,
+      "ek": "{\"var\":true,\"cerceve\":1,\"soru\":0,\"yazi\":\"?|Frames\"}"
+    },
+    {
+      "ad": "s28 360×640 en: yuva çerçevesi yüklendi",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 360×640 en: kalan \"?\" yuvaları yalnız beklenen 9",
+      "gecti": true,
+      "ek": "5:ucretli,8:ucretli,14:ucretli,17:ucretli,19:ucretli,21:ucretli,22:ucretli,23:ucretli,27:ucretli"
+    },
+    {
+      "ad": "s28 360×640 en: iki kol + araç satırı alt menünün üstünde (564 ≤ 570)",
+      "gecti": true,
+      "ek": "{\"navUst\":570,\"yolAlt\":514,\"aracAlt\":564,\"hepsiniAlt\":null,\"heroAlt\":179,\"yolUst\":314,\"vh\":640}"
+    },
+    {
+      "ad": "s28 360×640 en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s28 360×640 en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 360×640 en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 360×640 en yol sonu: yazı kontrastı (gerçek piksel, 18 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 360×640 en hero: yazı kontrastı (gerçek piksel, 19 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 390×844 tr: hero final kartında Ejderha çerçevesi çizildi (iskelet/yedek yok)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 390×844 tr: hero kartında \"?\" yok, \"Sezon sonu ödülü\" / \"Season-end reward\" etiketi var, kart ekrana sığıyor",
+      "gecti": true,
+      "ek": "{\"soru\":0,\"yazi\":\"? | Sezon sonu ödülü | Sezon finali | Seviye 28\",\"kartW\":178,\"kartH\":72,\"gorselW\":56,\"sag\":363,\"vw\":390,\"etiket\":true}"
+    },
+    {
+      "ad": "s28 390×844 tr: 28. seviye ücretli yuvada Ejderha çerçevesi (? ve \"Yakında\" yok)",
+      "gecti": true,
+      "ek": "{\"var\":true,\"cerceve\":1,\"soru\":0,\"yazi\":\"?|Çerçeve\"}"
+    },
+    {
+      "ad": "s28 390×844 tr: yuva çerçevesi yüklendi",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 390×844 tr: kalan \"?\" yuvaları yalnız beklenen 9",
+      "gecti": true,
+      "ek": "5:ucretli,8:ucretli,14:ucretli,17:ucretli,19:ucretli,21:ucretli,22:ucretli,23:ucretli,27:ucretli"
+    },
+    {
+      "ad": "s28 390×844 tr: iki kol + araç satırı alt menünün üstünde (608 ≤ 774)",
+      "gecti": true,
+      "ek": "{\"navUst\":774,\"yolAlt\":556,\"aracAlt\":608,\"hepsiniAlt\":null,\"heroAlt\":183,\"yolUst\":326,\"vh\":844}"
+    },
+    {
+      "ad": "s28 390×844 tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "s28 390×844 tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 390×844 tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 390×844 tr yol sonu: yazı kontrastı (gerçek piksel, 29 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "s28 390×844 tr hero: yazı kontrastı (gerçek piksel, 30 metin) en düşük 5.72",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme bp-yok 390×700 tr: Ejderha önizlemesi kendi avatarında (önce → sonra), \"?\" yok",
+      "gecti": true,
+      "ek": "Ejderha çerçevesi | ? | ? |  | Avatarında böyle görünür |  | Efsanevi | Sezon sonu ödülü | 28. seviye · Battle Pass kolu | 28. seviyeye ulaşınca açılır. Kalan: 2.270 SP | Bu ödül için Battle Pass gere"
+    },
+    {
+      "ad": "önizleme bp-yok 390×700 tr: \"Sezon sonu ödülü\" rozeti + efsanevi etiketi",
+      "gecti": true,
+      "ek": "Ejderha çerçevesi | ? | ? |  | Avatarında böyle görünür |  | Efsanevi | Sezon sonu ödülü | 28. seviye · Battle Pass kolu | 28. seviyeye ulaşınca açılır. Kalan: 2.270 SP | Bu ödül için Battle Pass gerekir. | Battle Pass A"
+    },
+    {
+      "ad": "önizleme bp-yok 390×700 tr: kilitliyse \"Battle Pass al\" düğmesi",
+      "gecti": true,
+      "ek": "ss kolu | 28. seviyeye ulaşınca açılır. Kalan: 2.270 SP | Bu ödül için Battle Pass gerekir. | Battle Pass Al · 500 elmas"
+    },
+    {
+      "ad": "önizleme bp-yok 390×700 tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "önizleme bp-yok 390×700 tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme bp-yok 390×700 tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme bp-yok 390×700 tr: yazı kontrastı (gerçek piksel, 10 metin) en düşük 5.8",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme bp-yok 390×700 en: Ejderha önizlemesi kendi avatarında (önce → sonra), \"?\" yok",
+      "gecti": true,
+      "ek": "Dragon frame | ? | ? |  | This is how it looks on your avatar |  | Legendary | Season-end reward | Level 28 · Battle Pass lane | Unlocks at level 28. Remaining: 2,270 SP | This reward needs the Battle"
+    },
+    {
+      "ad": "önizleme bp-yok 390×700 en: \"Sezon sonu ödülü\" rozeti + efsanevi etiketi",
+      "gecti": true,
+      "ek": "Dragon frame | ? | ? |  | This is how it looks on your avatar |  | Legendary | Season-end reward | Level 28 · Battle Pass lane | Unlocks at level 28. Remaining: 2,270 SP | This reward needs the Battle Pass. | Get Battle "
+    },
+    {
+      "ad": "önizleme bp-yok 390×700 en: kilitliyse \"Battle Pass al\" düğmesi",
+      "gecti": true,
+      "ek": "e Pass lane | Unlocks at level 28. Remaining: 2,270 SP | This reward needs the Battle Pass. | Get Battle Pass · 500 gems"
+    },
+    {
+      "ad": "önizleme bp-yok 390×700 en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "önizleme bp-yok 390×700 en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme bp-yok 390×700 en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme bp-yok 360×640 tr: Ejderha önizlemesi kendi avatarında (önce → sonra), \"?\" yok",
+      "gecti": true,
+      "ek": "Ejderha çerçevesi | ? | ? |  | Avatarında böyle görünür |  | Efsanevi | Sezon sonu ödülü | 28. seviye · Battle Pass kolu | 28. seviyeye ulaşınca açılır. Kalan: 2.270 SP | Bu ödül için Battle Pass gere"
+    },
+    {
+      "ad": "önizleme bp-yok 360×640 tr: \"Sezon sonu ödülü\" rozeti + efsanevi etiketi",
+      "gecti": true,
+      "ek": "Ejderha çerçevesi | ? | ? |  | Avatarında böyle görünür |  | Efsanevi | Sezon sonu ödülü | 28. seviye · Battle Pass kolu | 28. seviyeye ulaşınca açılır. Kalan: 2.270 SP | Bu ödül için Battle Pass gerekir. | Battle Pass A"
+    },
+    {
+      "ad": "önizleme bp-yok 360×640 tr: kilitliyse \"Battle Pass al\" düğmesi",
+      "gecti": true,
+      "ek": "ss kolu | 28. seviyeye ulaşınca açılır. Kalan: 2.270 SP | Bu ödül için Battle Pass gerekir. | Battle Pass Al · 500 elmas"
+    },
+    {
+      "ad": "önizleme bp-yok 360×640 tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "önizleme bp-yok 360×640 tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme bp-yok 360×640 tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme bp-yok 360×640 tr: yazı kontrastı (gerçek piksel, 10 metin) en düşük 5.8",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme bp-yok 360×640 en: Ejderha önizlemesi kendi avatarında (önce → sonra), \"?\" yok",
+      "gecti": true,
+      "ek": "Dragon frame | ? | ? |  | This is how it looks on your avatar |  | Legendary | Season-end reward | Level 28 · Battle Pass lane | Unlocks at level 28. Remaining: 2,270 SP | This reward needs the Battle"
+    },
+    {
+      "ad": "önizleme bp-yok 360×640 en: \"Sezon sonu ödülü\" rozeti + efsanevi etiketi",
+      "gecti": true,
+      "ek": "Dragon frame | ? | ? |  | This is how it looks on your avatar |  | Legendary | Season-end reward | Level 28 · Battle Pass lane | Unlocks at level 28. Remaining: 2,270 SP | This reward needs the Battle Pass. | Get Battle "
+    },
+    {
+      "ad": "önizleme bp-yok 360×640 en: kilitliyse \"Battle Pass al\" düğmesi",
+      "gecti": true,
+      "ek": "e Pass lane | Unlocks at level 28. Remaining: 2,270 SP | This reward needs the Battle Pass. | Get Battle Pass · 500 gems"
+    },
+    {
+      "ad": "önizleme bp-yok 360×640 en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "önizleme bp-yok 360×640 en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme bp-yok 360×640 en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme bp-var-kilitli 390×700 tr: Ejderha önizlemesi kendi avatarında (önce → sonra), \"?\" yok",
+      "gecti": true,
+      "ek": "Ejderha çerçevesi | ? | ? |  | Avatarında böyle görünür |  | Efsanevi | Sezon sonu ödülü | 28. seviye · Battle Pass kolu | 28. seviyeye ulaşınca açılır. Kalan: 1.510 SP | Kapat"
+    },
+    {
+      "ad": "önizleme bp-var-kilitli 390×700 tr: \"Sezon sonu ödülü\" rozeti + efsanevi etiketi",
+      "gecti": true,
+      "ek": "Ejderha çerçevesi | ? | ? |  | Avatarında böyle görünür |  | Efsanevi | Sezon sonu ödülü | 28. seviye · Battle Pass kolu | 28. seviyeye ulaşınca açılır. Kalan: 1.510 SP | Kapat"
+    },
+    {
+      "ad": "önizleme bp-var-kilitli 390×700 tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "önizleme bp-var-kilitli 390×700 tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme bp-var-kilitli 390×700 tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme bp-var-kilitli 390×700 tr: yazı kontrastı (gerçek piksel, 9 metin) en düşük 5.8",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme bp-var-kilitli 390×700 en: Ejderha önizlemesi kendi avatarında (önce → sonra), \"?\" yok",
+      "gecti": true,
+      "ek": "Dragon frame | ? | ? |  | This is how it looks on your avatar |  | Legendary | Season-end reward | Level 28 · Battle Pass lane | Unlocks at level 28. Remaining: 1,510 SP | Close"
+    },
+    {
+      "ad": "önizleme bp-var-kilitli 390×700 en: \"Sezon sonu ödülü\" rozeti + efsanevi etiketi",
+      "gecti": true,
+      "ek": "Dragon frame | ? | ? |  | This is how it looks on your avatar |  | Legendary | Season-end reward | Level 28 · Battle Pass lane | Unlocks at level 28. Remaining: 1,510 SP | Close"
+    },
+    {
+      "ad": "önizleme bp-var-kilitli 390×700 en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "önizleme bp-var-kilitli 390×700 en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme bp-var-kilitli 390×700 en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme bp-var-kilitli 360×640 tr: Ejderha önizlemesi kendi avatarında (önce → sonra), \"?\" yok",
+      "gecti": true,
+      "ek": "Ejderha çerçevesi | ? | ? |  | Avatarında böyle görünür |  | Efsanevi | Sezon sonu ödülü | 28. seviye · Battle Pass kolu | 28. seviyeye ulaşınca açılır. Kalan: 1.510 SP | Kapat"
+    },
+    {
+      "ad": "önizleme bp-var-kilitli 360×640 tr: \"Sezon sonu ödülü\" rozeti + efsanevi etiketi",
+      "gecti": true,
+      "ek": "Ejderha çerçevesi | ? | ? |  | Avatarında böyle görünür |  | Efsanevi | Sezon sonu ödülü | 28. seviye · Battle Pass kolu | 28. seviyeye ulaşınca açılır. Kalan: 1.510 SP | Kapat"
+    },
+    {
+      "ad": "önizleme bp-var-kilitli 360×640 tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "önizleme bp-var-kilitli 360×640 tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme bp-var-kilitli 360×640 tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme bp-var-kilitli 360×640 tr: yazı kontrastı (gerçek piksel, 9 metin) en düşük 5.8",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme bp-var-kilitli 360×640 en: Ejderha önizlemesi kendi avatarında (önce → sonra), \"?\" yok",
+      "gecti": true,
+      "ek": "Dragon frame | ? | ? |  | This is how it looks on your avatar |  | Legendary | Season-end reward | Level 28 · Battle Pass lane | Unlocks at level 28. Remaining: 1,510 SP | Close"
+    },
+    {
+      "ad": "önizleme bp-var-kilitli 360×640 en: \"Sezon sonu ödülü\" rozeti + efsanevi etiketi",
+      "gecti": true,
+      "ek": "Dragon frame | ? | ? |  | This is how it looks on your avatar |  | Legendary | Season-end reward | Level 28 · Battle Pass lane | Unlocks at level 28. Remaining: 1,510 SP | Close"
+    },
+    {
+      "ad": "önizleme bp-var-kilitli 360×640 en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "önizleme bp-var-kilitli 360×640 en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme bp-var-kilitli 360×640 en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme alinabilir 390×700 tr: Ejderha önizlemesi kendi avatarında (önce → sonra), \"?\" yok",
+      "gecti": true,
+      "ek": "Ejderha çerçevesi | ? | ? |  | Avatarında böyle görünür |  | Efsanevi | Sezon sonu ödülü | 28. seviye · Battle Pass kolu | Ödülü al"
+    },
+    {
+      "ad": "önizleme alinabilir 390×700 tr: \"Sezon sonu ödülü\" rozeti + efsanevi etiketi",
+      "gecti": true,
+      "ek": "Ejderha çerçevesi | ? | ? |  | Avatarında böyle görünür |  | Efsanevi | Sezon sonu ödülü | 28. seviye · Battle Pass kolu | Ödülü al"
+    },
+    {
+      "ad": "önizleme alinabilir 390×700 tr: alınabilirse \"Ödülü al\"",
+      "gecti": true,
+      "ek": "çevesi | ? | ? |  | Avatarında böyle görünür |  | Efsanevi | Sezon sonu ödülü | 28. seviye · Battle Pass kolu | Ödülü al"
+    },
+    {
+      "ad": "önizleme alinabilir 390×700 tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "önizleme alinabilir 390×700 tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme alinabilir 390×700 tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme alinabilir 390×700 tr: yazı kontrastı (gerçek piksel, 8 metin) en düşük 5.8",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme alinabilir 390×700 en: Ejderha önizlemesi kendi avatarında (önce → sonra), \"?\" yok",
+      "gecti": true,
+      "ek": "Dragon frame | ? | ? |  | This is how it looks on your avatar |  | Legendary | Season-end reward | Level 28 · Battle Pass lane | Claim reward"
+    },
+    {
+      "ad": "önizleme alinabilir 390×700 en: \"Sezon sonu ödülü\" rozeti + efsanevi etiketi",
+      "gecti": true,
+      "ek": "Dragon frame | ? | ? |  | This is how it looks on your avatar |  | Legendary | Season-end reward | Level 28 · Battle Pass lane | Claim reward"
+    },
+    {
+      "ad": "önizleme alinabilir 390×700 en: alınabilirse \"Ödülü al\"",
+      "gecti": true,
+      "ek": "|  | This is how it looks on your avatar |  | Legendary | Season-end reward | Level 28 · Battle Pass lane | Claim reward"
+    },
+    {
+      "ad": "önizleme alinabilir 390×700 en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "önizleme alinabilir 390×700 en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme alinabilir 390×700 en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme alinabilir 360×640 tr: Ejderha önizlemesi kendi avatarında (önce → sonra), \"?\" yok",
+      "gecti": true,
+      "ek": "Ejderha çerçevesi | ? | ? |  | Avatarında böyle görünür |  | Efsanevi | Sezon sonu ödülü | 28. seviye · Battle Pass kolu | Ödülü al"
+    },
+    {
+      "ad": "önizleme alinabilir 360×640 tr: \"Sezon sonu ödülü\" rozeti + efsanevi etiketi",
+      "gecti": true,
+      "ek": "Ejderha çerçevesi | ? | ? |  | Avatarında böyle görünür |  | Efsanevi | Sezon sonu ödülü | 28. seviye · Battle Pass kolu | Ödülü al"
+    },
+    {
+      "ad": "önizleme alinabilir 360×640 tr: alınabilirse \"Ödülü al\"",
+      "gecti": true,
+      "ek": "çevesi | ? | ? |  | Avatarında böyle görünür |  | Efsanevi | Sezon sonu ödülü | 28. seviye · Battle Pass kolu | Ödülü al"
+    },
+    {
+      "ad": "önizleme alinabilir 360×640 tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "önizleme alinabilir 360×640 tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme alinabilir 360×640 tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme alinabilir 360×640 tr: yazı kontrastı (gerçek piksel, 8 metin) en düşük 5.8",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme alinabilir 360×640 en: Ejderha önizlemesi kendi avatarında (önce → sonra), \"?\" yok",
+      "gecti": true,
+      "ek": "Dragon frame | ? | ? |  | This is how it looks on your avatar |  | Legendary | Season-end reward | Level 28 · Battle Pass lane | Claim reward"
+    },
+    {
+      "ad": "önizleme alinabilir 360×640 en: \"Sezon sonu ödülü\" rozeti + efsanevi etiketi",
+      "gecti": true,
+      "ek": "Dragon frame | ? | ? |  | This is how it looks on your avatar |  | Legendary | Season-end reward | Level 28 · Battle Pass lane | Claim reward"
+    },
+    {
+      "ad": "önizleme alinabilir 360×640 en: alınabilirse \"Ödülü al\"",
+      "gecti": true,
+      "ek": "|  | This is how it looks on your avatar |  | Legendary | Season-end reward | Level 28 · Battle Pass lane | Claim reward"
+    },
+    {
+      "ad": "önizleme alinabilir 360×640 en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "önizleme alinabilir 360×640 en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "önizleme alinabilir 360×640 en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "satın alma 390×700 tr: vitrinde Ejderha çerçevesi çizildi",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "satın alma 390×700 tr: vitrin metni (etiket + ad + açıklama), \"?\" yok, ekrana sığıyor",
+      "gecti": true,
+      "ek": "{\"yazi\":\"? | Sezon sonu ödülü | Ejderha çerçevesi | 28. seviyeye Battle Pass ile ulaşınca senin olur\",\"soru\":0,\"kW\":350,\"vw\":390,\"sag\":370}"
+    },
+    {
+      "ad": "satın alma 390×700 tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "satın alma 390×700 tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "satın alma 390×700 tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "satın alma 390×700 tr: yazı kontrastı (gerçek piksel, 17 metin) en düşük 6.8",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "satın alma 390×700 en: vitrinde Ejderha çerçevesi çizildi",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "satın alma 390×700 en: vitrin metni (etiket + ad + açıklama), \"?\" yok, ekrana sığıyor",
+      "gecti": true,
+      "ek": "{\"yazi\":\"? | Season-end reward | Dragon frame | Yours when you reach level 28 with the Battle Pass\",\"soru\":0,\"kW\":350,\"vw\":390,\"sag\":370}"
+    },
+    {
+      "ad": "satın alma 390×700 en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "satın alma 390×700 en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "satın alma 390×700 en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "satın alma 360×640 tr: vitrinde Ejderha çerçevesi çizildi",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "satın alma 360×640 tr: vitrin metni (etiket + ad + açıklama), \"?\" yok, ekrana sığıyor",
+      "gecti": true,
+      "ek": "{\"yazi\":\"? | Sezon sonu ödülü | Ejderha çerçevesi | 28. seviyeye Battle Pass ile ulaşınca senin olur\",\"soru\":0,\"kW\":320,\"vw\":360,\"sag\":340}"
+    },
+    {
+      "ad": "satın alma 360×640 tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "satın alma 360×640 tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "satın alma 360×640 tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "satın alma 360×640 tr: yazı kontrastı (gerçek piksel, 15 metin) en düşük 1.01",
+      "gecti": false,
+      "ek": "Sezon sonu ödülü=2.03/6.59 ; Ejderha çerçevesi=1.02/14.86 ; 28. seviyeye Battle Pass=1.01/14.91"
+    },
+    {
+      "ad": "satın alma 360×640 en: vitrinde Ejderha çerçevesi çizildi",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "satın alma 360×640 en: vitrin metni (etiket + ad + açıklama), \"?\" yok, ekrana sığıyor",
+      "gecti": true,
+      "ek": "{\"yazi\":\"? | Season-end reward | Dragon frame | Yours when you reach level 28 with the Battle Pass\",\"soru\":0,\"kW\":320,\"vw\":360,\"sag\":340}"
+    },
+    {
+      "ad": "satın alma 360×640 en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "satın alma 360×640 en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "satın alma 360×640 en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "satın alma 390×844 tr: vitrinde Ejderha çerçevesi çizildi",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "satın alma 390×844 tr: vitrin metni (etiket + ad + açıklama), \"?\" yok, ekrana sığıyor",
+      "gecti": true,
+      "ek": "{\"yazi\":\"? | Sezon sonu ödülü | Ejderha çerçevesi | 28. seviyeye Battle Pass ile ulaşınca senin olur\",\"soru\":0,\"kW\":350,\"vw\":390,\"sag\":370}"
+    },
+    {
+      "ad": "satın alma 390×844 tr: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "satın alma 390×844 tr: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "satın alma 390×844 tr: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "satın alma 390×844 tr: yazı kontrastı (gerçek piksel, 19 metin) en düşük 5.8",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "satın alma 390×844 en: vitrinde Ejderha çerçevesi çizildi",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "satın alma 390×844 en: vitrin metni (etiket + ad + açıklama), \"?\" yok, ekrana sığıyor",
+      "gecti": true,
+      "ek": "{\"yazi\":\"? | Season-end reward | Dragon frame | Yours when you reach level 28 with the Battle Pass\",\"soru\":0,\"kW\":350,\"vw\":390,\"sag\":370}"
+    },
+    {
+      "ad": "satın alma 390×844 en: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "satın alma 390×844 en: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "satın alma 390×844 en: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "yük sırasında hero'da iskelet var, '?' yok",
+      "gecti": false,
+      "ek": "{\"iskelet\":0,\"soru\":0}"
+    },
+    {
+      "ad": "çizim yüklenemezse hero'da çerçeve ikonu (yedek), sayfa çalışır",
+      "gecti": true,
+      "ek": "{\"yedek\":1,\"soru\":0,\"sayfa\":true}"
+    },
+    {
+      "ad": "hareketi azalt 390×700: sayfa yatay taşma yok",
+      "gecti": true,
+      "ek": "taşma=0"
+    },
+    {
+      "ad": "hareketi azalt 390×700: dokunma hedefleri ≥ 44 px (yuva ≥ 52)",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "hareketi azalt 390×700: konsol hatası yok",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "hareketi azalt açık: hero/yuvalarda hızlı sonsuz animasyon yok (0)",
+      "gecti": true,
+      "ek": ""
+    }
+  ],
+  "sayilar": {
+    "hero:s5 390×700 tr": {
+      "soru": 0,
+      "yazi": "? | Sezon sonu ödülü | Sezon finali | Seviye 28",
+      "kartW": 178,
+      "kartH": 72,
+      "gorselW": 56,
+      "sag": 363,
+      "vw": 390,
+      "etiket": true
+    },
+    "kalan-soru:s5 390×700 tr": [
+      "5:ucretli",
+      "8:ucretli",
+      "14:ucretli",
+      "17:ucretli",
+      "19:ucretli",
+      "21:ucretli",
+      "22:ucretli",
+      "23:ucretli",
+      "27:ucretli"
+    ],
+    "kontrast:s5 390×700 tr yol sonu": 5.72,
+    "kontrast:s5 390×700 tr hero": 5.72,
+    "hero:s5 390×700 en": {
+      "soru": 0,
+      "yazi": "? | Season-end reward | Season finale | Level 28",
+      "kartW": 188,
+      "kartH": 72,
+      "gorselW": 56,
+      "sag": 363,
+      "vw": 390,
+      "etiket": true
+    },
+    "kalan-soru:s5 390×700 en": [
+      "5:ucretli",
+      "8:ucretli",
+      "14:ucretli",
+      "17:ucretli",
+      "19:ucretli",
+      "21:ucretli",
+      "22:ucretli",
+      "23:ucretli",
+      "27:ucretli"
+    ],
+    "kontrast:s5 390×700 en yol sonu": 5.72,
+    "kontrast:s5 390×700 en hero": 5.72,
+    "hero:s5 360×640 tr": {
+      "soru": 0,
+      "yazi": "? | Sezon sonu ödülü | Sezon finali | Seviye 28",
+      "kartW": 178,
+      "kartH": 72,
+      "gorselW": 56,
+      "sag": 336,
+      "vw": 360,
+      "etiket": true
+    },
+    "kalan-soru:s5 360×640 tr": [
+      "5:ucretli",
+      "8:ucretli",
+      "14:ucretli",
+      "17:ucretli",
+      "19:ucretli",
+      "21:ucretli",
+      "22:ucretli",
+      "23:ucretli",
+      "27:ucretli"
+    ],
+    "kontrast:s5 360×640 tr yol sonu": 5.72,
+    "kontrast:s5 360×640 tr hero": 5.72,
+    "hero:s5 360×640 en": {
+      "soru": 0,
+      "yazi": "? | Season-end reward | Season finale | Level 28",
+      "kartW": 188,
+      "kartH": 72,
+      "gorselW": 56,
+      "sag": 336,
+      "vw": 360,
+      "etiket": true
+    },
+    "kalan-soru:s5 360×640 en": [
+      "5:ucretli",
+      "8:ucretli",
+      "14:ucretli",
+      "17:ucretli",
+      "19:ucretli",
+      "21:ucretli",
+      "22:ucretli",
+      "23:ucretli",
+      "27:ucretli"
+    ],
+    "kontrast:s5 360×640 en yol sonu": 5.72,
+    "kontrast:s5 360×640 en hero": 5.72,
+    "hero:s5 390×844 tr": {
+      "soru": 0,
+      "yazi": "? | Sezon sonu ödülü | Sezon finali | Seviye 28",
+      "kartW": 178,
+      "kartH": 72,
+      "gorselW": 56,
+      "sag": 363,
+      "vw": 390,
+      "etiket": true
+    },
+    "kalan-soru:s5 390×844 tr": [
+      "5:ucretli",
+      "8:ucretli",
+      "14:ucretli",
+      "17:ucretli",
+      "19:ucretli",
+      "21:ucretli",
+      "22:ucretli",
+      "23:ucretli",
+      "27:ucretli"
+    ],
+    "kontrast:s5 390×844 tr yol sonu": 5.72,
+    "kontrast:s5 390×844 tr hero": 5.72,
+    "hero:s12bp 390×700 tr": {
+      "soru": 0,
+      "yazi": "? | Sezon sonu ödülü | Sezon finali | Seviye 28",
+      "kartW": 178,
+      "kartH": 72,
+      "gorselW": 56,
+      "sag": 363,
+      "vw": 390,
+      "etiket": true
+    },
+    "kalan-soru:s12bp 390×700 tr": [
+      "5:ucretli",
+      "8:ucretli",
+      "14:ucretli",
+      "17:ucretli",
+      "19:ucretli",
+      "21:ucretli",
+      "22:ucretli",
+      "23:ucretli",
+      "27:ucretli"
+    ],
+    "kontrast:s12bp 390×700 tr yol sonu": 5.72,
+    "kontrast:s12bp 390×700 tr hero": 5.72,
+    "hero:s12bp 390×700 en": {
+      "soru": 0,
+      "yazi": "? | Season-end reward | Season finale | Level 28",
+      "kartW": 188,
+      "kartH": 72,
+      "gorselW": 56,
+      "sag": 363,
+      "vw": 390,
+      "etiket": true
+    },
+    "kalan-soru:s12bp 390×700 en": [
+      "5:ucretli",
+      "8:ucretli",
+      "14:ucretli",
+      "17:ucretli",
+      "19:ucretli",
+      "21:ucretli",
+      "22:ucretli",
+      "23:ucretli",
+      "27:ucretli"
+    ],
+    "kontrast:s12bp 390×700 en yol sonu": 5.72,
+    "kontrast:s12bp 390×700 en hero": 5.72,
+    "hero:s12bp 360×640 tr": {
+      "soru": 0,
+      "yazi": "? | Sezon sonu ödülü | Sezon finali | Seviye 28",
+      "kartW": 178,
+      "kartH": 72,
+      "gorselW": 56,
+      "sag": 336,
+      "vw": 360,
+      "etiket": true
+    },
+    "kalan-soru:s12bp 360×640 tr": [
+      "5:ucretli",
+      "8:ucretli",
+      "14:ucretli",
+      "17:ucretli",
+      "19:ucretli",
+      "21:ucretli",
+      "22:ucretli",
+      "23:ucretli",
+      "27:ucretli"
+    ],
+    "kontrast:s12bp 360×640 tr yol sonu": 5.37,
+    "kontrast:s12bp 360×640 tr hero": 5.37,
+    "hero:s12bp 360×640 en": {
+      "soru": 0,
+      "yazi": "? | Season-end reward | Season finale | Level 28",
+      "kartW": 188,
+      "kartH": 72,
+      "gorselW": 56,
+      "sag": 336,
+      "vw": 360,
+      "etiket": true
+    },
+    "kalan-soru:s12bp 360×640 en": [
+      "5:ucretli",
+      "8:ucretli",
+      "14:ucretli",
+      "17:ucretli",
+      "19:ucretli",
+      "21:ucretli",
+      "22:ucretli",
+      "23:ucretli",
+      "27:ucretli"
+    ],
+    "kontrast:s12bp 360×640 en yol sonu": 5.37,
+    "kontrast:s12bp 360×640 en hero": 5.37,
+    "hero:s12bp 390×844 tr": {
+      "soru": 0,
+      "yazi": "? | Sezon sonu ödülü | Sezon finali | Seviye 28",
+      "kartW": 178,
+      "kartH": 72,
+      "gorselW": 56,
+      "sag": 363,
+      "vw": 390,
+      "etiket": true
+    },
+    "kalan-soru:s12bp 390×844 tr": [
+      "5:ucretli",
+      "8:ucretli",
+      "14:ucretli",
+      "17:ucretli",
+      "19:ucretli",
+      "21:ucretli",
+      "22:ucretli",
+      "23:ucretli",
+      "27:ucretli"
+    ],
+    "kontrast:s12bp 390×844 tr yol sonu": 5.72,
+    "kontrast:s12bp 390×844 tr hero": 5.72,
+    "hero:s28 390×700 tr": {
+      "soru": 0,
+      "yazi": "? | Sezon sonu ödülü | Sezon finali | Seviye 28",
+      "kartW": 178,
+      "kartH": 72,
+      "gorselW": 56,
+      "sag": 363,
+      "vw": 390,
+      "etiket": true
+    },
+    "kalan-soru:s28 390×700 tr": [
+      "5:ucretli",
+      "8:ucretli",
+      "14:ucretli",
+      "17:ucretli",
+      "19:ucretli",
+      "21:ucretli",
+      "22:ucretli",
+      "23:ucretli",
+      "27:ucretli"
+    ],
+    "kontrast:s28 390×700 tr yol sonu": 5.72,
+    "kontrast:s28 390×700 tr hero": 5.72,
+    "hero:s28 390×700 en": {
+      "soru": 0,
+      "yazi": "? | Season-end reward | Season finale | Level 28",
+      "kartW": 188,
+      "kartH": 72,
+      "gorselW": 56,
+      "sag": 363,
+      "vw": 390,
+      "etiket": true
+    },
+    "kalan-soru:s28 390×700 en": [
+      "5:ucretli",
+      "8:ucretli",
+      "14:ucretli",
+      "17:ucretli",
+      "19:ucretli",
+      "21:ucretli",
+      "22:ucretli",
+      "23:ucretli",
+      "27:ucretli"
+    ],
+    "kontrast:s28 390×700 en yol sonu": 5.72,
+    "kontrast:s28 390×700 en hero": 5.72,
+    "hero:s28 360×640 tr": {
+      "soru": 0,
+      "yazi": "? | Sezon sonu ödülü | Sezon finali | Seviye 28",
+      "kartW": 178,
+      "kartH": 72,
+      "gorselW": 56,
+      "sag": 336,
+      "vw": 360,
+      "etiket": true
+    },
+    "kalan-soru:s28 360×640 tr": [
+      "5:ucretli",
+      "8:ucretli",
+      "14:ucretli",
+      "17:ucretli",
+      "19:ucretli",
+      "21:ucretli",
+      "22:ucretli",
+      "23:ucretli",
+      "27:ucretli"
+    ],
+    "kontrast:s28 360×640 tr yol sonu": 5.72,
+    "kontrast:s28 360×640 tr hero": 5.72,
+    "hero:s28 360×640 en": {
+      "soru": 0,
+      "yazi": "? | Season-end reward | Season finale | Level 28",
+      "kartW": 188,
+      "kartH": 72,
+      "gorselW": 56,
+      "sag": 336,
+      "vw": 360,
+      "etiket": true
+    },
+    "kalan-soru:s28 360×640 en": [
+      "5:ucretli",
+      "8:ucretli",
+      "14:ucretli",
+      "17:ucretli",
+      "19:ucretli",
+      "21:ucretli",
+      "22:ucretli",
+      "23:ucretli",
+      "27:ucretli"
+    ],
+    "kontrast:s28 360×640 en yol sonu": 5.72,
+    "kontrast:s28 360×640 en hero": 5.72,
+    "hero:s28 390×844 tr": {
+      "soru": 0,
+      "yazi": "? | Sezon sonu ödülü | Sezon finali | Seviye 28",
+      "kartW": 178,
+      "kartH": 72,
+      "gorselW": 56,
+      "sag": 363,
+      "vw": 390,
+      "etiket": true
+    },
+    "kalan-soru:s28 390×844 tr": [
+      "5:ucretli",
+      "8:ucretli",
+      "14:ucretli",
+      "17:ucretli",
+      "19:ucretli",
+      "21:ucretli",
+      "22:ucretli",
+      "23:ucretli",
+      "27:ucretli"
+    ],
+    "kontrast:s28 390×844 tr yol sonu": 5.72,
+    "kontrast:s28 390×844 tr hero": 5.72,
+    "kontrast:önizleme bp-yok 390×700 tr": 5.8,
+    "kontrast:önizleme bp-yok 360×640 tr": 5.8,
+    "kontrast:önizleme bp-var-kilitli 390×700 tr": 5.8,
+    "kontrast:önizleme bp-var-kilitli 360×640 tr": 5.8,
+    "kontrast:önizleme alinabilir 390×700 tr": 5.8,
+    "kontrast:önizleme alinabilir 360×640 tr": 5.8,
+    "kontrast:satın alma 390×700 tr": 6.8,
+    "kontrast:satın alma 360×640 tr": 1.01,
+    "kontrast:satın alma 390×844 tr": 5.8
+  }
+}

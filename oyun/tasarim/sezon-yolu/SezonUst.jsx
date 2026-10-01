@@ -6,12 +6,14 @@ import { ElmasIkon } from "../../components/ParaIkonlari.jsx";
 import SayanSayi from "../../components/SayanSayi.jsx";
 import { SezonBandi } from "./sezonTemalari.jsx";
 import { OdulGorsel } from "./OdulGorsel.jsx";
+import { odulCerceveSanati } from "./CerceveOdulGorsel.jsx";
 import { TacIkon } from "./simgeler.jsx";
 import { tasmaAdimi } from "./tasma.js";
 
 /** Tema bandı + final kartı. `finalOdul` = 28. seviye ücretli ödül (placeholder olabilir). */
 export function SezonHero({ durum, tema, finalOdul, toplam, onFinal, testNotu }) {
   const kalanGun = Number(durum.sezon?.kalan_gun ?? 0);
+  const cerceveMi = Boolean(odulCerceveSanati(finalOdul));
   return (
     <SezonBandi tema={tema} alt={testNotu ? <p className="sy-test-not" role="note">{tt("Test sezonu · yalnız sen görüyorsun")}</p> : null}>
       <div className="sy-hero-sol">
@@ -25,11 +27,12 @@ export function SezonHero({ durum, tema, finalOdul, toplam, onFinal, testNotu })
       {finalOdul && (
         <button type="button" className="sy-final-kart" onClick={() => onFinal(finalOdul)}
                 aria-label={`${tt("Sezon finali")}, ${tt("{n}. seviye", { n: toplam })}: ${finalOdul.placeholder ? tt("Yakında") : (finalOdul.ad_tr || "")}`}>
-          <span className="sy-final-gorsel" data-nadirlik={finalOdul.nadirlik ?? undefined}>
-            <OdulGorsel odul={finalOdul} boyut={34} />
+          <span className={`sy-final-gorsel${cerceveMi ? " sy-final-gorsel--cerceve" : ""}`} data-nadirlik={finalOdul.nadirlik ?? undefined}>
+            <OdulGorsel odul={finalOdul} boyut={cerceveMi ? 56 : 34} hareketli={cerceveMi} />
             <span className="sy-final-tac"><TacIkon boyut={13} /></span>
           </span>
           <span className="sy-final-metin">
+            {!finalOdul.placeholder && <span className="sy-final-etiket">{tt("Sezon sonu ödülü")}</span>}
             <b>{tt("Sezon finali")}</b>
             <span>{tt("Seviye {n}", { n: toplam })}</span>
             {finalOdul.placeholder && <span className="sy-final-yakinda">{tt("Yakında")}</span>}

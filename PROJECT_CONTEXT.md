@@ -453,6 +453,7 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
 - **Taşma ödülü (730):** 28. eşik (2.800 SP) geçilince her `sezon_tasma_sp` 100 SP = 1 taşma ödülü, sezonda en çok `sezon_tasma_azami` 10;
   ücretsiz kol `sezon_tasma_ucretsiz_coin` 25, ücretli (yalnız BP, geriye dönük) `sezon_tasma_ucretli_coin` 40 coin (TEST DEĞERLERİ). `bp_tasma_al(p_kol)`,
   alım `oyuncu_bp_tasma_alimi`; `sezon_yolu_durumum().tasma`, `bp_toplu_al` ve `sezon_kapat` taşmayı da kapsar. Seviye 28'de kalır.
+- **Sezon finali (780, 1 Eki 2026):** seviye 28 ücretli ödülü = **Ejderha çerçevesi** (`pc_ejderha2`, premium çerçeve, efsanevi, "Sezon sonu ödülü"). `bp_odul_uygula` 'cerceve' türü premium çerçeve kozmetiğini `kozmetik_ver` ile sahipliğe işler (bp_odul_al / bp_toplu_al / bp_satin_al geriye dönük / sezon_kapat aynı yoldan). Ejderha ARTIK dükkânda satılmaz (`kozmetikler.satis_pasif`, `kozmetik_satista` okur); kayıt, çizim, sahipler ve takılılar durur. Ekranda 28 yuvası, hero final kartı ve BP satın alma vitrini oyuncunun kendi avatarıyla çizer (`CerceveOdulGorsel`). Kalan "?" yuvalar (ücretli kol 5, 8, 14, 17, 19, 21, 22, 23, 27) Ida'nın kararını bekliyor. Test: `sezon-finali-sql-testi` (ROLLBACK).
 - **Battle Pass:** yalnız elmas, `bp_fiyat_elmas` 500; `bp_satin_al` tek atomik işlem (profil FOR UPDATE, `elmas_harca`, sahiplik,
   hak edilen ücretli ödüller geriye dönük, çift alım reddedilir). BP sahibi: ismi altın (`oyuncu_kartlari.isim_efekti = 'isim_altin'`,
   takılı efektin önüne geçer), çerçevesine altın halka (`oyuncu_kartlari.sezon_bp` → `CerceveliAvatar` `AltinHalka`), SP ×`bp_sp_carpan` 1,25
@@ -643,9 +644,11 @@ seçimde yalnız `/avatars/pro/**` ve `/avatars/pro2/**` kullanılır.
 grup (hayvan·insan·meslek·kahraman·fantastik·robot·uzayli·uzay; göz atma, rengi etkilemez), nadirlik (`yaygin|nadir|epik|efsanevi`; katalogdaki
 `avatar_katalogu.nadirlik` Koleksiyon Puanı'nındır, ayrı), seri (nullable), edinme (hepsi `ucretsiz`), `acilis_zamani` (null = açık).
 `acilis_zamani` gelmemiş avatar katalogda/seçimde/kurulumda görünmez, `avatar_onayla` reddeder (takılı avatar hariç); Ida takvimi SQL ile verir.
-Sahne (zemin) rengi nadirlikten türetme hazır ama `oyun_ayarlari.avatar_nadirlik_renk = false` (Ida işaretlemeyi onaylayınca açılır);
-renkler Yaygın gri-mavi · Nadir yeşil · Epik turuncu · Efsanevi altın (mor/kırmızı yok). İşaretleme sayfası `/avatar-nadirlik` (yalnız sahip,
-seçim DB'ye yazılmaz, "Kopyala"). Tek çizim noktası `src/components/Avatar.jsx`; Dükkân avatar ızgarası ham `<img>` (renk bağlanınca ayrıca ele alınır).
+Sahne (zemin) rengi nadirlikten türer; **bayrak `avatar_nadirlik_renk = true` (770, 1 Eki 2026)**. Nadirlik verisi Ida'nın işaretlemesiyle yazıldı: aktif 62 avatar =
+Yaygın 21 · Nadir 15 · Epik 18 · Efsanevi 8 (8 pasif avatar değişmedi). Renkler: Yaygın gri-mavi · Nadir yeşil · **Epik = oyunun Epik moru (`--qt-nadir-epik`, #8b2fd6)** ·
+Efsanevi altın; **mor yalnız Epik için ayrılmıştır**, kırmızı kullanılmaz. Avatar seçim ekranları (Profil › Ayarlar, Kurulum, Dükkân › Avatar, Koleksiyon) nadirliğe göre
+bölümlenir: **Yaygın → Nadir → Epik → Efsanevi** (yaygınlar üstte), başlık "● Efsanevi · 8". Ham `<img>` yerleri `NadirlikImg` (oyun/components/AvatarNadirlikGoruntu.jsx) ile renge bağlı;
+harita/bölümleme `src/lib/avatarNadirlik.js`. İşaretleme sayfası `/avatar-nadirlik` (yalnız sahip, seçim DB'ye yazılmaz, "Kopyala"). Tek çizim noktası `src/components/Avatar.jsx`.
 
 ### Mod paritesi — KALICI KURAL
 

@@ -4,6 +4,8 @@ import { QtDugme, QtModal, QtIkon, sayiBicim } from "../index.js";
 import { tt } from "../../lib/dil.js";
 import { hataMesaji } from "../../lib/hata.js";
 import { ElmasIkon } from "../../components/ParaIkonlari.jsx";
+import { odulAdi } from "../../lib/sezonYolu.js";
+import { OdulGorsel } from "./OdulGorsel.jsx";
 
 const AVANTAJLAR = [
   ["hediye", "Geriye dönük ücretli ödüller: ulaştığın bütün seviyelerin ödülü hemen düşer"],
@@ -15,7 +17,7 @@ const AVANTAJLAR = [
   ["ates", "Özel zafer efekti"],
 ];
 
-export default function SatinAlSayfasi({ durum, dil, onOnay, onKapat }) {
+export default function SatinAlSayfasi({ durum, dil, finalOdul, toplam, onOnay, onKapat }) {
   const [calisiyor, setCalisiyor] = useState(false);
   const [hata, setHata] = useState(null);
   const canli = useRef(true);
@@ -48,6 +50,16 @@ export default function SatinAlSayfasi({ durum, dil, onOnay, onKapat }) {
         </div>
       }>
       <div className="sy-sayfa-ic">
+        {finalOdul && !finalOdul.placeholder && (
+          <div className="sy-final-vitrin" data-nadirlik={finalOdul.nadirlik ?? undefined}>
+            <span className="sy-final-vitrin-gorsel"><OdulGorsel odul={finalOdul} boyut={96} hareketli /></span>
+            <span className="sy-final-vitrin-metin">
+              <span className="sy-final-etiket">{tt("Sezon sonu ödülü")}</span>
+              <b>{odulAdi(finalOdul, dil)}</b>
+              <span>{tt("{n}. seviyeye Battle Pass ile ulaşınca senin olur", { n: toplam })}</span>
+            </span>
+          </div>
+        )}
         <ul className="sy-avantaj">
           {AVANTAJLAR.map(([ikon, metin]) => (
             <li key={ikon}><span className="sy-avantaj-ikon"><QtIkon ad={ikon} boyut={18} /></span><span>{tt(metin, { c: carpan })}</span></li>

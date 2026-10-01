@@ -1,15 +1,17 @@
 // Ödül görseli (yuva + önizleme + şerit + final kartı ortak): coin/elmas/joker/tepki/unvan için mevcut bileşenler.
 // placeholder'da gerçek görsel YOK, "?". Tür'e göre büyük önizleme OdulSayfasi.jsx'te.
+// Premium çerçeve ödülü (cerceve + pc_*) oyuncunun kendi avatarıyla çizilir (CerceveOdulGorsel; kimlik OdulKimlik bağlamından).
 import { QtIkon, sayiBicim } from "../index.js";
 import { UnvanSimge } from "../gorsel-revizyon/b/cizim/unvan.jsx";
 import { tt } from "../../lib/dil.js";
 import { KOZMETIK_TANIMLARI, TEPKI_TANIMLARI, tepkiGorseli } from "../../lib/kozmetik.js";
 import { CoinIkon, ElmasIkon } from "../../components/ParaIkonlari.jsx";
 import SkillRozeti from "../../components/SkillRozeti.jsx";
+import CerceveOdulGorsel, { odulCerceveSanati } from "./CerceveOdulGorsel.jsx";
 
 export const anahtar = (o) => `${o.seviye}:${o.kol}`;
 
-export function OdulGorsel({ odul, boyut = 36 }) {
+export function OdulGorsel({ odul, boyut = 36, hareketli = false }) {
   if (!odul) return null;
   const v = odul.veri ?? {};
   if (odul.placeholder) return <span className="sy-soru" style={{ "--sy-b": `${boyut}px` }} aria-hidden="true">?</span>;
@@ -29,7 +31,10 @@ export function OdulGorsel({ odul, boyut = 36 }) {
     }
     case "unvan": return <UnvanSimge tur="basari" boyut={Math.round(boyut * 0.9)} />;
     case "avatar": return <QtIkon ad="kisi" boyut={Math.round(boyut * 0.8)} />;
-    case "cerceve": return <QtIkon ad="madalya" boyut={Math.round(boyut * 0.8)} />;
+    case "cerceve":
+      // Premium çerçeve (ör. Ejderha): oyuncunun kendi avatarıyla; diğer çerçeveler eski ikon
+      if (odulCerceveSanati(odul)) return <CerceveOdulGorsel odul={odul} boyut={boyut} hareketli={hareketli} />;
+      return <QtIkon ad="madalya" boyut={Math.round(boyut * 0.8)} />;
     default: return <QtIkon ad="hediye" boyut={Math.round(boyut * 0.8)} />;
   }
 }

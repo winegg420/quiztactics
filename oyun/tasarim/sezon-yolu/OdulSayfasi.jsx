@@ -38,7 +38,7 @@ function Onizleme({ odul, ad, profile, userId }) {
   if (odul.tur === "cerceve" && v.anahtar) {
     const pc = premiumSanat(v.anahtar) ? v.anahtar : null;
     return (
-      <div className="sy-onizleme" data-onizleme="cerceve">
+      <div className="sy-onizleme" data-onizleme="cerceve" data-premium={pc ? "" : undefined}>
         <div className="sy-once-sonra">
           <span className="sy-once" aria-label={tt("Şimdiki avatarın")}><CerceveliAvatar profile={profile} userId={userId} boyut={48} /></span>
           <QtIkon ad="ileri" boyut={22} />
@@ -139,6 +139,7 @@ export default function OdulSayfasi({ odul, durum, dil, userId, profile, onKapat
         <div className="sy-etiketler">
           {odul.placeholder && <QtRozet ton="uyari" ikon="saat">{tt("Yakında")}</QtRozet>}
           {!odul.placeholder && <NadirlikEtiketi nadirlik={odul.nadirlik ?? "siradan"} />}
+          {!odul.placeholder && ucretli && odul.seviye === Number(durum.seviye_sayisi ?? 28) && <QtRozet ton="uyari" ikon="kupa">{tt("Sezon sonu ödülü")}</QtRozet>}
           <span className={`sy-kol-etiket${ucretli ? " sy-kol-etiket--ucretli" : ""}`}>
             {tt("{n}. seviye · {kol}", { n: odul.seviye, kol: kolAdi })}
           </span>

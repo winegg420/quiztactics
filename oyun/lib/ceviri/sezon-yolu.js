@@ -120,4 +120,6 @@ export default {
   "Hepsi kazanıldı": "All earned",
   "{n}. seviyeden sonra her {sp} SP = 1 ödül": "After level {n}, every {sp} SP = 1 reward",
   "{n}. seviyeden sonra her ödül SP ile kazanılır": "After level {n}, rewards are earned with SP",
+  "Sezon sonu ödülü": "Season-end reward",
+  "{n}. seviyeye Battle Pass ile ulaşınca senin olur": "Yours when you reach level {n} with the Battle Pass",
 };

@@ -18,6 +18,9 @@ const js = async (s) => JSON.parse(await tek(s));
 const ayar = (k, v) => db.sorgu(`update oyun_ayarlari set deger = '${v}'::jsonb where anahtar = '${k}'`);
 try {
   await db.sorgu('begin');
+  // Canlıda bayrak açık ve Sezon 1 sürüyor (1 Eki 2026): test, bayrak öncesi duruma (kapalı, gerçek sezon yok) transaction içinde döner; sonunda ROLLBACK
+  await db.sorgu(`update oyun_ayarlari set deger = 'false'::jsonb where anahtar = 'sezon_yolu_acik'`);
+  await db.sorgu(`delete from sezonlar where not test`);
   for (const m of MIGLER) await db.sorgu(fs.readFileSync(m, 'utf8'));
   await db.sorgu(`update sezonlar set kapandi_at = now() where kapandi_at is null`);
   const [B, C] = (await tek(`select string_agg(id::text, ',') from (select id from profiles where id <> '${A}' and not coalesce(is_bot, false) order by created_at limit 2) x`)).split(',');

@@ -67,6 +67,27 @@
 .sy-final-metin { display: grid; font-size: var(--qt-y-xs); line-height: 1.2; font-weight: var(--qt-a-kalin); }
 .sy-final-metin b { font-size: var(--qt-y-s); font-weight: var(--qt-a-siyah); }
 .sy-final-yakinda { font-weight: var(--qt-a-siyah); color: var(--qt-uyari-koyu); }
+.sy-final-etiket { font-size: 10.5px; font-weight: var(--qt-a-siyah); line-height: 1.2; letter-spacing: 0.02em; color: var(--qt-uyari-koyu); }
+/* Premium çerçeve ödülü (Ejderha): çerçevenin kendi çizimi yeter; kutu ve zemin yok, taç köşede */
+.sy-final-gorsel--cerceve { width: 64px; height: 64px; border: 0; border-radius: 0; background: none; overflow: visible; }
+.sy-final-gorsel--cerceve .sy-final-tac { top: -4px; left: -6px; }
+/* Ejderhanın alev/kanadı kutunun dışına taşar: yazı paneli düz zeminle çerçevenin ÜSTÜNDE durur (kontrast sabit) */
+.sy-final-kart:has(.sy-final-gorsel--cerceve) .sy-final-metin { position: relative; z-index: 1; margin-inline-start: -6px; padding: 3px 4px 3px 8px; border-radius: 8px; background: var(--sy-ucretli-a); }
+.sy-cerceve-odul, .sy-cerceve-iskelet, .sy-cerceve-yedek { display: inline-grid; place-items: center; width: var(--sy-b, 40px); height: var(--sy-b, 40px); flex: none; }
+.sy-cerceve-iskelet { border-radius: 50%; border: 3px solid var(--qt-cizgi); background: var(--qt-yuzey-2); animation: sy-iskelet 1.4s ease-in-out infinite; }
+.sy-cerceve-yedek { border-radius: 50%; border: 3px solid var(--qt-nadir-efsanevi, var(--qt-coin-dudak)); background: var(--qt-yuzey-2); color: var(--qt-metin); }
+@keyframes sy-iskelet { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }
+
+/* Battle Pass satın alma: sezon sonu ödülü vitrini */
+.sy-final-vitrin {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: var(--qt-b-3); width: 100%; box-sizing: border-box;
+  padding: var(--qt-b-3); border: 3px solid var(--qt-coin-dudak); border-radius: var(--qt-r-m); background: var(--sy-ucretli-a); text-align: start;
+}
+/* Ejderhanın alev/kanadı çizim kutusunun dışına taşar: kutu geniş tutulur, yazı düz zeminle üstte durur */
+.sy-final-vitrin-gorsel { display: grid; place-items: center; width: 128px; height: 124px; margin-inline-start: -4px; }
+.sy-final-vitrin-metin { position: relative; z-index: 1; display: grid; gap: 2px; min-width: 0; background: var(--sy-ucretli-a); font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); color: var(--qt-metin); }
+.sy-final-vitrin-metin b { font-family: var(--qt-f-baslik); font-size: var(--qt-y-l); font-weight: var(--qt-a-siyah); line-height: 1.15; }
+.sy-final-vitrin-metin .sy-final-etiket { font-size: var(--qt-y-xs); }
 
 /* Hero sanatı: Yıldızlı Gece (Sezon 1) */
 .sy-sanat { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
@@ -266,6 +287,9 @@
 }
 .sy-kol-etiket--ucretli { background: var(--sy-ucretli-a, var(--qt-coin-acik)); border-color: var(--qt-coin-dudak); color: var(--qt-coin-yazi); }
 .sy-not { font-size: var(--qt-y-s); color: var(--qt-metin-soluk); }
+/* Premium çerçevenin alev/kanadı 120 px kutunun dışına taşar (üst ~42, yan ~50, alt ~10 px): başlık, ok ve altyazıyla çakışmasın */
+.sy-onizleme[data-premium] .sy-once-sonra { padding: 46px 52px 12px; gap: 30px; }
+.sy-onizleme[data-premium] .sy-not { position: relative; z-index: 1; }
 .sy-neden { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--qt-b-2); width: 100%; text-align: left; }
 .sy-neden li {
   display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: start; gap: var(--qt-b-2);
@@ -343,6 +367,7 @@
   .sy-dalga { display: none; }
   .sy-dus { animation: sy-yumusak-gir 480ms linear both; }
   .sy-dusen .sy-dus:nth-child(n + 7) { display: none; }
+  .sy-cerceve-iskelet { animation: none; }
   .sy-yuva { transition: none; }
   .sy-yuva:active { translate: none; }
   .sy-ucus-x:nth-child(n + 2) { display: none; }
@@ -362,6 +387,7 @@
   .sy-sayfa .sy-hero-baslik { font-size: var(--qt-y-xl); }
   .sy-final-kart { gap: 6px; padding-inline: 5px 8px; }
   .sy-final-gorsel { width: 40px; height: 40px; }
+  .sy-final-gorsel--cerceve { width: 56px; height: 56px; }
   .sy-final-metin { font-size: 11px; }
   .sy-final-metin b { font-size: 12px; }
 }
@@ -377,4 +403,5 @@
   .sy-yuva-rozet--al { width: 22px; height: 22px; top: -6px; right: -6px; }
   .sy-yuva--tas { width: 56px; height: 56px; }
   .sy-hero-ic { padding-block: 4px; }
+  .sy-final-vitrin-gorsel { width: 112px; height: 104px; }
 }

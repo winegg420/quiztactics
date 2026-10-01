@@ -20,6 +20,9 @@ const js = async (s) => JSON.parse(await tek(s));
 const ayar = (k, v) => db.sorgu(`update oyun_ayarlari set deger = '${v}'::jsonb where anahtar = '${k}'`);
 try {
   await db.sorgu('begin');
+  // Canlıda bayrak açık ve Sezon 1 sürüyor (1 Eki 2026): test, bayrak öncesi duruma (kapalı, gerçek sezon yok) transaction içinde döner; sonunda ROLLBACK
+  await db.sorgu(`update oyun_ayarlari set deger = 'false'::jsonb where anahtar = 'sezon_yolu_acik'`);
+  await db.sorgu(`delete from sezonlar where not test`);
   for (const m of MIGLER) await db.sorgu(fs.readFileSync(m, 'utf8'));
   // canlıda başka açık sezon varsa (uygulanmışsa) testi temiz başlat
   await db.sorgu(`update sezonlar set kapandi_at = now() where kapandi_at is null`);
@@ -27,7 +30,7 @@ try {
 
   console.log('— bayrak kapalı');
   ok('ödül tablosu 56 yuva', await tek('select count(*) from bp_seviye_odulleri') === '56');
-  ok('placeholder yuvalar: 4 avatar + 5 çerçeve + 1 tepki', await tek(`select string_agg(tur||':'||n, ',' order by tur) from (select tur, count(*) n from bp_seviye_odulleri where placeholder group by tur) x`) === 'avatar:4,cerceve:5,tepki_paketi:1');
+  ok('placeholder yuvalar: 4 avatar + 4 çerçeve + 1 tepki (28. seviye çerçevesi 780 ile Ejderha oldu)', await tek(`select string_agg(tur||':'||n, ',' order by tur) from (select tur, count(*) n from bp_seviye_odulleri where placeholder group by tur) x`) === 'avatar:4,cerceve:4,tepki_paketi:1');
   ok('ücretli kol elmas toplamı < BP fiyatı', Number(await tek(`select sum((veri->>'miktar')::int) from bp_seviye_odulleri where kol='ucretli' and tur='elmas'`)) < 500);
   ok('kapalıyken oyuncuya görünmez', (await js('select sezon_yolu_durumum()::text')).gorunur === false);
   ok('kapalıyken özet görünmez', (await js('select sezon_ozetim()::text')).gorunur === false);

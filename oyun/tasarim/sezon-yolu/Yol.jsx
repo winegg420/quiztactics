@@ -8,6 +8,7 @@ import { odulAdi } from "../../lib/sezonYolu.js";
 import { CoinIkon } from "../../components/ParaIkonlari.jsx";
 import CerceveliAvatar from "../../components/CerceveliAvatar.jsx";
 import { OdulGorsel, kisaYazi, anahtar, tasMi } from "./OdulGorsel.jsx";
+import { odulCerceveSanati } from "./CerceveOdulGorsel.jsx";
 import { SonsuzIkon } from "./simgeler.jsx";
 import { tasmaAdimi } from "./tasma.js";
 
@@ -28,7 +29,7 @@ function Yuva({ odul, durum, yeniAlindi, yeniAcildi, bpVar, onSec, toplam }) {
       <button type="button" className={d} data-nadirlik={odul.nadirlik ?? "siradan"} data-yuva={anahtar(odul)}
         aria-label={`${tt("{n}. seviye", { n: odul.seviye })}, ${kolAdi}: ${odul.placeholder ? tt("Yakında") : odulAdi(odul, durum.dil)}, ${durumYazi}`}
         onClick={() => onSec(odul)}>
-        <OdulGorsel odul={odul} boyut={tas ? 40 : 34} />
+        <OdulGorsel odul={odul} boyut={odulCerceveSanati(odul) ? 48 : tas ? 40 : 34} />
         {odul.alindi && <span className="sy-yuva-rozet sy-yuva-rozet--alindi" aria-hidden="true"><QtIkon ad="onay" boyut={12} /></span>}
         {!odul.alindi && odul.alinabilir && <span className="sy-yuva-rozet sy-yuva-rozet--al" aria-hidden="true"><QtIkon ad="hediye" boyut={13} /></span>}
         {!odul.alindi && !odul.alinabilir && bpKilit && <span className="sy-yuva-rozet sy-yuva-rozet--kilit" aria-hidden="true"><QtIkon ad="kilit" boyut={11} /></span>}

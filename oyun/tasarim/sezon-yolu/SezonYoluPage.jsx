@@ -28,6 +28,7 @@ import SatinAlSayfasi from "./SatinAlSayfasi.jsx";
 import Kutlama from "./Kutlama.jsx";
 import SezonUcus from "./SezonUcus.jsx";
 import { anahtar, paraMiktari } from "./OdulGorsel.jsx";
+import { OdulKimlik } from "./CerceveOdulGorsel.jsx";
 import "./sezon-yolu.css";
 
 const OLAY = "bildim-sezon-degisti";   // sezonYolu.js her işlemden sonra yayar (maç sonu da)
@@ -194,6 +195,7 @@ export default function SezonYoluPage() {
   }, tt("Ödüller alınamadı. Tekrar dener misin?"));
 
   return (
+    <OdulKimlik.Provider value={{ profile }}>
     <div className="sy-sayfa">
       <SezonHero durum={durum} tema={tema} finalOdul={finalOdul} toplam={toplam} testNotu={Boolean(durum.test)}
         onFinal={(o) => setSecili(anahtar(o))} />
@@ -285,9 +287,10 @@ export default function SezonYoluPage() {
           onKapat={() => setSecili(null)} onBpAl={bpAcilsin} onAlindi={odulAlindi} />
       )}
       {tasmaKol && <TasmaSayfasi key={tasmaKol} kol={tasmaKol} durum={d} userId={userId} onKapat={() => setTasmaKol(null)} onBpAl={bpAcilsin} onAlindi={odulAlindi} />}
-      {satinAlAcik && <SatinAlSayfasi durum={d} dil={dil} onOnay={bpSatinAlOnay} onKapat={() => setSatinAlAcik(false)} />}
+      {satinAlAcik && <SatinAlSayfasi durum={d} dil={dil} finalOdul={finalOdul} toplam={toplam} onOnay={bpSatinAlOnay} onKapat={() => setSatinAlAcik(false)} />}
       {kutlama && <Kutlama verilen={kutlama.verilen} profile={profile} userId={userId} onKapat={() => setKutlama(null)} />}
       {ucus && <SezonUcus kaynak={ucus.kaynak} onBitti={() => setUcus(null)} />}
     </div>
+    </OdulKimlik.Provider>
   );
 }
