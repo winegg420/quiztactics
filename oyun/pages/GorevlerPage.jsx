@@ -5,22 +5,26 @@
 // (günlük coin tavanı yüzünden coin, ödül çipinden az olabilir; sezon kapalıyken SP null).
 // SP çipleri ve alt not yalnız sezon sistemi görünürken (sezon_ozetim.gorunur) çizilir: kapalıyken SP verilmez.
 // Hareketi azalt: uçan ödül çipi yerinde kalıp solar (gorevler.css; yumuşak mod: data-yumusak).
+// Oyun hissi (1 Eki 2026): sıralı kart girişi, alınabilir nabzı, alma anında titreşim + parıltı, sandıkta konfeti, zorluk şeridi,
+// özet şerit. Hepsi yalnız GÖRSEL: gösterilen her sayı yine sunucudan gelen alanlardan okunur.
 // ============================================================
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { QtIkon, QtDugme, QtIkonDugme, QtIskelet } from "../tasarim/index.js";
 import { CoinIkon } from "../components/ParaIkonlari.jsx";
 import DurumKutusu from "../components/DurumKutusu.jsx";
+import Konfeti from "../components/Konfeti.jsx";
+import { titresim } from "../tasarim/hareket.js";
 import { tt, aktifDil } from "../lib/dil.js";
 import { useDil } from "../lib/dilKanca.js";
 import { hataMesaji } from "../lib/hata.js";
 import { y } from "../lib/yol.js";
 import { kategoriAdi } from "../lib/kategoriler.js";
 import { SKILL_TANIMLARI } from "../lib/jokerler.js";
-import { sesCoin, sesRozet } from "../lib/ses.js";
+import { sesCoin, sesRozet, sesAcikMi } from "../lib/ses.js";
 import { coinTazele } from "../lib/coin.js";
 import { sezonTazele, useSezonOzeti } from "../lib/sezonYolu.js";
-import { useGorevler, gorevAl, sandikAl, kalanMetni, useKalanSn } from "../lib/gorevler.js";
+import { useGorevler, gorevAl, sandikAl, gorevOzeti, kalanMetni, useKalanSn } from "../lib/gorevler.js";
 import "./gorevler.css";
 
 // Görev sayacı → ikon (QtIkon adı).
@@ -35,6 +39,12 @@ const IKON = {
 };
 const ZORLUK = { kolay: "Kolay|görev", orta: "Orta|görev", zor: "Zor|görev" };
 const UCUS_MS = 2200;   // uçan ödül çipinin ekranda kalma süresi
+const ACIL_SN = 3600;   // yenilenmeye bundan az kaldıysa süre çipi aciliyet rengine geçer
+
+// Ödül anı titreşimi (Android/TWA; iOS sessizce geçer). Oyuncu efektleri kapattıysa titreşim de çalmaz.
+const odulTitresimi = (tur) => {
+  try { if (sesAcikMi()) titresim(tur); } catch { /* titreşim kritik değil */ }
+};
 
 const sayiMetni = (n) => Number(n ?? 0).toLocaleString(aktifDil() === "en" ? "en-US" : "tr-TR");
 
@@ -53,10 +63,10 @@ function Tik({ etiket }) {
   return <span className="gv-tik" role="img" aria-label={etiket}><QtIkon ad="onay" boyut={20} /></span>;
 }
 
-function Ucan({ coin, sp, ek }) {
+function Ucan({ coin, sp, ek, buyuk }) {
   // Görsel ipucu; ekran okuyucuya üstteki canlı bölge (role=status) söyler.
   return (
-    <span className="gv-ucan" aria-hidden="true" data-yumusak>
+    <span className={`gv-ucan${buyuk ? " gv-ucan--buyuk" : ""}`} aria-hidden="true" data-yumusak>
       {coin > 0 && <span className="gv-ucan-oge"><CoinIkon boyut={16} />+{sayiMetni(coin)}</span>}
       {sp != null && sp > 0 && <span className="gv-ucan-oge"><QtIkon ad="hizli" boyut={14} />+{sayiMetni(sp)} SP</span>}
       {ek && <span className="gv-ucan-oge">{ek}</span>}
@@ -65,15 +75,17 @@ function Ucan({ coin, sp, ek }) {
   );
 }
 
-function GorevKarti({ g, gunluk, dil, sezonAcik, islemde, mesgul, onAl, ucan }) {
+function GorevKarti({ g, gunluk, dil, sezonAcik, islemde, mesgul, onAl, ucan, sira }) {
   const durum = g.alindi ? "alindi" : g.alinabilir ? "alinabilir" : "devam";
   const ad = dil === "en" ? (g.ad_en || g.ad_tr) : g.ad_tr;
   const hedef = Math.max(1, Number(g.hedef) || 1);
   const ilerleme = Math.min(Math.max(0, Number(g.ilerleme) || 0), hedef);
   const yuzde = Math.round((ilerleme / hedef) * 100);
   const kategori = g.sayac === "kategori_dogru" && g.parametre?.kategori ? kategoriAdi(g.parametre.kategori) : null;
+  // Kart ağırlığı: günlükte zorluğa göre şerit/ikon rengi, haftalıkta altın.
+  const agirlik = gunluk ? (ZORLUK[g.zorluk] ? `gv-kart--${g.zorluk}` : "gv-kart--gun") : "gv-kart--hft";
   return (
-    <li className={`gv-kart gv-kart--${durum}`}>
+    <li className={`gv-kart gv-kart--${durum} ${agirlik}${ucan ? " gv-kutla" : ""}`} style={{ "--gv-sira": sira }}>
       <span className={`gv-ik ${gunluk ? "gv-ik--gun" : "gv-ik--hft"}`} aria-hidden="true">
         <QtIkon ad={IKON[g.sayac] ?? "hedef"} boyut={22} />
       </span>
@@ -97,12 +109,13 @@ function GorevKarti({ g, gunluk, dil, sezonAcik, islemde, mesgul, onAl, ucan }) 
         )}
         {durum === "devam" && <b className="gv-sayi" aria-hidden="true">{tt("{a} / {b}", { a: ilerleme, b: hedef })}</b>}
       </div>
+      {ucan && <span className="gv-isilti" aria-hidden="true" />}
       {ucan && <Ucan coin={ucan.coin} sp={ucan.sp} />}
     </li>
   );
 }
 
-function SandikKarti({ s, sezonAcik, islemde, mesgul, onAc, ucan }) {
+function SandikKarti({ s, sezonAcik, islemde, mesgul, onAc, ucan, sira }) {
   const durum = s.alindi ? "alindi" : s.alinabilir ? "alinabilir" : "kilitli";
   const hedef = Number(s.hedef) || 3;
   const tamam = Math.min(Number(s.tamam) || 0, hedef);
@@ -110,11 +123,15 @@ function SandikKarti({ s, sezonAcik, islemde, mesgul, onAc, ucan }) {
   const jokerAdet = Number(s.joker?.adet) || 0;
   const sp = Number(s.sp) || 0;
   return (
-    <li className={`gv-kart gv-sandik gv-sandik--${durum}`}>
+    <li className={`gv-kart gv-sandik gv-sandik--${durum}${ucan ? " gv-kutla" : ""}`} style={{ "--gv-sira": sira }}>
       <span className="gv-ik gv-ik--sandik" aria-hidden="true"><QtIkon ad="hediye" boyut={28} /></span>
       <div className="gv-govde">
         <b className="gv-ad">{tt("Haftalık sandık")}</b>
         <span className="gv-alt">{tt("{n} haftalık görevi bitir", { n: hedef })}</span>
+        {/* x/hedef nokta ilerlemesi — sayılar sunucunun `tamam`/`hedef` alanı; ekran okuyucu sağdaki kilit çipini okur. */}
+        <span className="gv-noktalar" aria-hidden="true">
+          {Array.from({ length: hedef }, (_, i) => <i key={i} className={`gv-nokta${i < tamam ? " gv-nokta--dolu" : ""}`} />)}
+        </span>
         <span className="gv-oduller">
           {sezonAcik && sp > 0 && <span className="gv-cip"><QtIkon ad="hizli" boyut={14} /><b>{sayiMetni(sp)} SP</b></span>}
           {jokerAdet > 0 && <span className="gv-cip"><QtIkon ad="degistir" boyut={14} /><b>{jokerAd} ×{jokerAdet}</b></span>}
@@ -131,19 +148,25 @@ function SandikKarti({ s, sezonAcik, islemde, mesgul, onAc, ucan }) {
           </span>
         )}
       </div>
-      {ucan && <Ucan coin={0} sp={ucan.sp} ek={ucan.ek} />}
+      {durum === "alinabilir" && !ucan && <span className="gv-isilti gv-isilti--dongu" aria-hidden="true" />}
+      {ucan && <span className="gv-isilti" aria-hidden="true" />}
+      <Konfeti aktif={Boolean(ucan)} adet={28} />
+      {ucan && <Ucan coin={0} sp={ucan.sp} ek={ucan.ek} buyuk />}
     </li>
   );
 }
 
-function Bolum({ id, baslik, ikon, yenilenmeSn, okunma, bitti, children }) {
+function Bolum({ id, baslik, ikon, tur, baslikIkon, yenilenmeSn, okunma, bitti, children }) {
   const kalan = useKalanSn(yenilenmeSn, okunma, bitti);
   const sure = kalanMetni(kalan);
   return (
-    <section className="gv-bolum" aria-labelledby={id}>
+    <section className={`gv-bolum gv-bolum--${tur}`} aria-labelledby={id}>
       <div className="gv-bolum-ust">
-        <h2 id={id} className="gv-h2">{baslik}</h2>
-        <span className="gv-cip gv-cip--sure">
+        <h2 id={id} className="gv-h2">
+          <span className="gv-h2-ik" aria-hidden="true"><QtIkon ad={baslikIkon} boyut={14} /></span>
+          {baslik}
+        </h2>
+        <span className={`gv-cip gv-cip--sure${kalan < ACIL_SN ? " gv-cip--acil" : ""}`}>
           <QtIkon ad={ikon} boyut={14} />
           <span aria-hidden="true">{sure}</span>
           <span className="qt-gizli">{tt("Kalan süre: {s}", { s: sure })}</span>
@@ -158,8 +181,8 @@ export default function GorevlerPage() {
   const navigate = useNavigate();
   const { dil } = useDil();
   const { veri, hata, yukle } = useGorevler();
-  const { ozet } = useSezonOzeti();
-  const sezonAcik = ozet?.gorunur === true;
+  const { ozet: sezonOzeti } = useSezonOzeti();
+  const sezonAcik = sezonOzeti?.gorunur === true;
   const [islem, setIslem] = useState(null);      // "gunluk:<id>" | "haftalik:<id>" | "sandik"
   const [mesaj, setMesaj] = useState(null);
   const [ucan, setUcan] = useState(null);        // { anahtar, coin, sp, ek }
@@ -192,6 +215,7 @@ export default function GorevlerPage() {
         const coin = Number(r.coin) || 0;
         const sp = r.sp == null ? null : Number(r.sp) || 0;
         try { sesCoin(); } catch { /* ses kritik değil */ }
+        odulTitresimi("dogru");
         coinTazele();
         if (sezonAcik) sezonTazele();
         const parcalar = [];
@@ -219,6 +243,7 @@ export default function GorevlerPage() {
         const ad = SKILL_TANIMLARI[r.joker?.tur]?.ad ?? tt("Joker");
         const ek = adet > 0 ? `${ad} ×${adet}` : null;
         try { sesRozet(); } catch { /* ses kritik değil */ }
+        odulTitresimi("kirilma");
         if (sezonAcik) sezonTazele();
         const parcalar = [];
         if (sp != null && sp > 0) parcalar.push(tt("{n} SP", { n: sayiMetni(sp) }));
@@ -236,6 +261,8 @@ export default function GorevlerPage() {
   const gun = veri?.gunluk;
   const hft = veri?.haftalik;
   const okunma = veri?.okunma;
+  const ozet = veri ? gorevOzeti(veri) : null;   // sayılar sunucu alanlarından (alinabilir = alinabilir_sayi)
+  const gunAdet = gun?.gorevler?.length ?? 0;
 
   return (
     <div className="gv-sayfa">
@@ -261,22 +288,35 @@ export default function GorevlerPage() {
 
       {veri && (
         <>
-          <Bolum id="gv-gunluk" baslik={tt("Günlük görevler")} ikon="saat" yenilenmeSn={gun.yenilenme_sn} okunma={okunma} bitti={yukle}>
-            {gun.gorevler.map((g) => (
-              <GorevKarti key={g.quest_id} g={g} gunluk dil={dil} sezonAcik={sezonAcik}
+          <p className="gv-ozet">
+            <span className="gv-ozet-metin">
+              <QtIkon ad="gorevListesi" boyut={16} />
+              {tt("Günlük {a}/{b} · Haftalık {c}/{d}", { a: ozet.gunTamam, b: ozet.gunToplam, c: ozet.hftTamam, d: ozet.hftToplam })}
+            </span>
+            {ozet.alinabilir > 0 && (
+              <span className="gv-ozet-hazir">
+                <QtIkon ad="hediye" boyut={14} /><b>{sayiMetni(ozet.alinabilir)}</b>
+                <span className="qt-gizli"> {tt("Alınabilir ödül var.")}</span>
+              </span>
+            )}
+          </p>
+
+          <Bolum id="gv-gunluk" tur="gun" baslikIkon="hedef" baslik={tt("Günlük görevler")} ikon="saat" yenilenmeSn={gun.yenilenme_sn} okunma={okunma} bitti={yukle}>
+            {gun.gorevler.map((g, i) => (
+              <GorevKarti key={g.quest_id} g={g} gunluk dil={dil} sezonAcik={sezonAcik} sira={i}
                           islemde={islem === `gunluk:${g.quest_id}`} mesgul={Boolean(islem)}
                           onAl={() => gorevAlIslem("gunluk", g)} ucan={ucan?.anahtar === `gunluk:${g.quest_id}` ? ucan : null} />
             ))}
           </Bolum>
 
-          <Bolum id="gv-haftalik" baslik={tt("Haftalık görevler")} ikon="takvim" yenilenmeSn={hft.yenilenme_sn} okunma={okunma} bitti={yukle}>
-            {hft.gorevler.map((g) => (
-              <GorevKarti key={g.quest_id} g={g} gunluk={false} dil={dil} sezonAcik={sezonAcik}
+          <Bolum id="gv-haftalik" tur="hft" baslikIkon="yildiz" baslik={tt("Haftalık görevler")} ikon="takvim" yenilenmeSn={hft.yenilenme_sn} okunma={okunma} bitti={yukle}>
+            {hft.gorevler.map((g, i) => (
+              <GorevKarti key={g.quest_id} g={g} gunluk={false} dil={dil} sezonAcik={sezonAcik} sira={gunAdet + i}
                           islemde={islem === `haftalik:${g.quest_id}`} mesgul={Boolean(islem)}
                           onAl={() => gorevAlIslem("haftalik", g)} ucan={ucan?.anahtar === `haftalik:${g.quest_id}` ? ucan : null} />
             ))}
             {hft.sandik && (
-              <SandikKarti s={hft.sandik} sezonAcik={sezonAcik} islemde={islem === "sandik"} mesgul={Boolean(islem)}
+              <SandikKarti s={hft.sandik} sezonAcik={sezonAcik} sira={gunAdet + hft.gorevler.length} islemde={islem === "sandik"} mesgul={Boolean(islem)}
                            onAc={sandikAc} ucan={ucan?.anahtar === "sandik" ? ucan : null} />
             )}
           </Bolum>
