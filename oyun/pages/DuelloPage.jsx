@@ -31,6 +31,7 @@ import JokerSatinAlModal from "../components/JokerSatinAlModal.jsx";
 import { useDereceliTercih } from "../lib/dereceli.js";
 import { useDil } from "../lib/dilKanca.js";
 import { hataMesaji, islemHatasi } from "../lib/hata.js";
+import { zamanAsimindaYenidenDene } from "../lib/yenidene.js";
 import { y } from "../lib/yol.js";
 import { coinTazele } from "../lib/coin.js";
 import { ayar, useAyar } from "../lib/ayarlar.js";
@@ -342,6 +343,8 @@ function DuelloMac({ id }) {
   const { ceviri } = useDil();
   const c2 = ceviri;   // Düello 1.0 metinleri: İngilizcesi ceviri/mac.js › Düello (M2)
   const [d, setD] = useState(null);
+  const dGuncelRef = useRef(null);   // eylem() yeniden denemesi: en son bilinen düello durumu
+  dGuncelRef.current = d;
   const seviyeler = useOyuncuSeviyeleri((d?.oyuncular ?? []).map((o) => o.id));
   const [hata, setHata] = useState(null);
   const [yuklemeHatasi, setYuklemeHatasi] = useState(null);
@@ -980,7 +983,16 @@ function DuelloMac({ id }) {
     setHata(null);
     setCalisan(ad);
     try {
-      const { error } = await supabase.rpc(fn, { p_id: id, ...params });
+      // Zaman aşımında (57014 / AbortError / timed out / gateway timeout) en çok 2 kez yeniden dene (1 sn, 2 sn).
+      // Bu dört RPC sunucuda idempotenttir (rövanş iste/iptal/yanıtla, terk: ikinci çağrı ikinci etki doğurmaz);
+      // hamle/cevap/joker/kategori bu yoldan GEÇMEZ ve yeniden denenmez. Tur/faz ilerlediyse ya da maç bittiyse bırakılır.
+      const bas = dGuncelRef.current;
+      const { error } = await zamanAsimindaYenidenDene(() => supabase.rpc(fn, { p_id: id, ...params }), {
+        vazgec: () => {
+          const su = dGuncelRef.current;
+          return Boolean(bas && su && (su.durum !== bas.durum || su.tur !== bas.tur || su.faz !== bas.faz));
+        },
+      });
       if (error) throw error;
       await yukle();
       return true;
