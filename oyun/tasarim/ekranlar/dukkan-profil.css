@@ -70,10 +70,19 @@
 
 /* ——— Sekmeler ——— */
 .qt-pf-sekmeler { min-width: 0; scroll-margin-top: var(--qt-b-16); }
-/* Dört sekme 360–430 px'te kaymadan sığsın: dar ekranda ikon gizlenir. */
-@media (max-width: 480px) {
-  .qt-pf-sekmeler .qt-sekme { padding-inline: var(--qt-b-2); flex: 1 1 auto; }
-  .qt-pf-sekmeler .qt-sekme > svg { display: none; }
+/* Beş sekme 360–430 px'te kaymadan TEK satıra sığsın: dar ekranda yalnız aktif sekme ikon + (kısa) etiket taşır,
+   diğerleri 44×44 ikon düğmesidir (etiket ekran okuyucuya açık kalır). Geniş ekranda hepsi ikon + tam etiket. */
+.qt-pf-sek-kisa { display: none; }
+@media (max-width: 700px) {
+  .qt-pf-sekmeler .qt-sekmeler { gap: 2px; overflow-x: hidden; }
+  .qt-pf-sekmeler .qt-sekme { flex: 0 0 var(--qt-dokunma); min-width: var(--qt-dokunma); padding-inline: 0; gap: 4px; font-size: 14px; }
+  .qt-pf-sekmeler .qt-sekme--secili { flex: 1 1 auto; min-width: 0; padding-inline: var(--qt-b-2); }
+  .qt-pf-sekmeler .qt-sekme:not(.qt-sekme--secili) > span,
+  .qt-pf-sekmeler .qt-sekme--secili .qt-pf-sek-uzun {
+    position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0;
+  }
+  .qt-pf-sekmeler .qt-sekme--secili .qt-pf-sek-kisa { display: inline; }
+  .qt-pf-sekmeler .qt-sekme--secili > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
 }
 
 /* ——— Ayar satırları (QtAnahtar ile aynı hizada) ——— */

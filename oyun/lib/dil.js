@@ -1794,6 +1794,7 @@ const SOZLUK = {
     "maç oyna, serin başlasın": "match starts your streak",
     "Profil bölümleri": "Profile sections",
     "İstatistiklerim": "My stats",
+    "İstatistik": "Stats",
     "Ayarlar": "Settings",
     "Rozetler": "Badges",
     "Davet": "Invite",

@@ -192,7 +192,8 @@ export default function ProfilePage() {
   };
 
   const sekmeler = [
-    { kod: "istatistik", ad: tt("İstatistiklerim"), ikon: "grafik" },
+    // Dar ekranda aktif sekmeye sığsın diye kısa etiket (CSS: dukkan-profil.css › .qt-pf-sek-kisa); ekran okuyucu tam adı okur
+    { kod: "istatistik", ad: <><span className="qt-pf-sek-uzun">{tt("İstatistiklerim")}</span><span className="qt-pf-sek-kisa" aria-hidden="true">{tt("İstatistik")}</span></>, ikon: "grafik" },
     { kod: "ayarlar", ad: tt("Ayarlar"), ikon: "ayar" },
     { kod: "rozet", ad: tt("Rozetler"), ikon: "madalya" },
     { kod: "koleksiyon", ad: tt("Koleksiyon"), ikon: "palet" },
