@@ -40,7 +40,14 @@ import {
   QT_KIRILMA_MS,
   QT_KART_CIKIS_MS,
   titresim,
+  QtAfis,
+  sinif,
+  siraStili,
+  useSiraliGiris,
+  dokunus,
+  odulHissi,
 } from "./index.js";
+import OdulAni, { UcanOge, useOdulAni } from "../components/OdulAni.jsx";
 import { KONTRAST_CIFTLERI, kontrastOrani } from "./kontrast.js";
 import { tt } from "../lib/dil.js";
 import "./ornek.css";
@@ -86,6 +93,7 @@ const BOLUMLER = [
   ["kartlar", "Kartlar"],
   ["parcalar", "Küçük parçalar"],
   ["liste", "Liste ve durumlar"],
+  ["hissi", "Oyun hissi"],
   ["katmanlar", "Modal ve bildirim"],
   ["mac", "Maç"],
   ["kabuk", "Üst çubuk ve menü"],
@@ -422,6 +430,112 @@ function MacDemosu({ toastEkle }) {
 }
 
 // ——————————————— Sayfa ———————————————
+// ——————————————— Oyun hissi (ortak parçalar: oyun-hissi.css, hareket.css, OdulAni) ———————————————
+function OyunHissiDemosu() {
+  const { kutla, ucan } = useOdulAni();
+  const [tur, setTur] = useState(0);            // "Yeniden oynat": sıralı girişi ve canlı çubukları baştan oynatır
+  const sirali = useSiraliGiris();
+  const kartlar = [
+    { kod: "kolay", sinifi: "qt-oyk--ton-dogru qt-oyk--hafif", ikon: "klasik", ad: "3 maç oyna", etiket: ["dogru", "Kolay"], deger: 3, en: 3, alinabilir: true },
+    { kod: "orta", sinifi: "qt-oyk--ton-uyari", ikon: "kupa", ad: "2 maç kazan", etiket: ["uyari", "Orta"], deger: 1, en: 2 },
+    { kod: "zor", sinifi: "qt-oyk--ton-mor qt-oyk--agir qt-oyk--tamam", ikon: "soru", ad: "50 soruyu doğru cevapla", etiket: ["mor", "Zor"], deger: 50, en: 50, tamam: true },
+    { kod: "kilitli", sinifi: "qt-oyk--kilitli", ikon: "kilit", ad: "Kilitli kart", deger: 0, en: 5, kilitli: true },
+  ];
+  const uSandik = ucan("sandik");
+  return (
+    <div className="qt-ornek-parcalar">
+      <div style={{ display: "grid", gap: "var(--qt-b-3)" }}>
+        <QtAfis ikon="gorevListesi" baslik={tt("Sayfa afişi")} baslikOgesi="h3"
+                sag={<QtDugme boyut="k" tur="ikincil" ikon="yenile" onClick={() => setTur((t) => t + 1)}>{tt("Yeniden oynat")}</QtDugme>}>
+          <span className="qt-oyk-ozet-metin">{tt("Bugün 1/3 tamam · 1 ödül hazır")}</span>
+          <span className="qt-oyk-ozet-hazir qt-h-hop" aria-hidden="true"><QtIkon ad="hediye" boyut={14} /></span>
+        </QtAfis>
+        <ul className="qt-oyk-liste" key={tur}>
+          {kartlar.map((k, i) => {
+            const u = ucan(k.kod);
+            return (
+              <li key={k.kod} style={siraStili(i)}
+                  className={sinif("qt-oyk", k.sinifi, k.alinabilir && "qt-oyk--alinabilir qt-h-nabiz", u && "qt-oyk--kutla", tur > 0 ? "qt-h-sirali" : sirali)}>
+                <span className="qt-oyk-ik" aria-hidden="true"><QtIkon ad={k.ikon} boyut={22} /></span>
+                <div className="qt-oyk-govde">
+                  <div className="qt-oyk-baslik">
+                    <b className="qt-oyk-ad">{tt(k.ad)}</b>
+                    {k.etiket && <span className={`qt-oyk-etiket qt-oyk-etiket--${k.etiket[0]}`}>{tt(k.etiket[1])}</span>}
+                  </div>
+                  <QtIlerleme konturlu canli parilti={Boolean(k.alinabilir)} ton={k.tamam ? "dogru" : "vurgu"} deger={k.deger} en={k.en} etiket={tt(k.ad)} />
+                  <span className="qt-oyk-oduller">
+                    <span className="qt-oyk-cip"><QtIkon ad="hizli" boyut={14} /><b>10 SP</b></span>
+                    {k.kilitli && <span className="qt-oyk-cip qt-oyk-cip--kilit"><QtIkon ad="kilit" boyut={14} /><b>Lv 10</b></span>}
+                  </span>
+                </div>
+                <div className={sinif("qt-oyk-sag", k.alinabilir && "qt-h-hop")}>
+                  {k.tamam && <span className="qt-oyk-tik"><QtIkon ad="onay" boyut={20} /></span>}
+                  {k.alinabilir && <QtDugme boyut="k" className="qt-oyk-al" onClick={() => kutla(k.kod, { coin: 15 }, { his: "odul" })}>{tt("Al")}</QtDugme>}
+                  {!k.tamam && !k.alinabilir && <b className="qt-oyk-sayi">{k.deger} / {k.en}</b>}
+                </div>
+                <OdulAni aktif={Boolean(u)}>{u && <UcanOge>+{u.coin} coin</UcanOge>}</OdulAni>
+              </li>
+            );
+          })}
+          <li className={sinif("qt-oyk qt-oyk--altin", uSandik && "qt-oyk--kutla", tur > 0 ? "qt-h-sirali" : sirali)} style={siraStili(kartlar.length)}>
+            <span className={sinif("qt-oyk-ik qt-oyk-ik--b", !uSandik && "qt-h-salla-ara")} aria-hidden="true"><QtIkon ad="hediye" boyut={28} /></span>
+            <div className="qt-oyk-govde">
+              <b className="qt-oyk-ad">{tt("Altın kart (ödül / sandık)")}</b>
+              <span className="qt-oyk-alt">{tt("Büyük an: konfeti yalnız nadir anlarda")}</span>
+              <span className="qt-oyk-noktalar" aria-hidden="true">
+                <i className="qt-oyk-nokta qt-oyk-nokta--dolu" /><i className="qt-oyk-nokta qt-oyk-nokta--dolu" /><i className="qt-oyk-nokta" />
+              </span>
+            </div>
+            <div className="qt-oyk-sag">
+              <QtDugme boyut="k" className="qt-oyk-al" onClick={() => kutla("sandik", { ek: "Soru Değiştir ×1" }, { his: "buyuk" })}>{tt("Aç")}</QtDugme>
+            </div>
+            {!uSandik && <span className="qt-h-isilti qt-h-isilti--dongu" aria-hidden="true" />}
+            <OdulAni aktif={Boolean(uSandik)} buyuk konfeti>{uSandik && <UcanOge>{uSandik.ek}</UcanOge>}</OdulAni>
+          </li>
+        </ul>
+      </div>
+
+      <div style={{ display: "grid", gap: "var(--qt-b-3)" }}>
+        <QtKart>
+          <h3 className="qt-baslik-3">{tt("Çipler ve etiketler")}</h3>
+          <div className="qt-ornek-sira qt-ornek-sira--sik">
+            <span className="qt-oyk-cip"><QtIkon ad="hizli" boyut={14} /><b>25 SP</b></span>
+            <span className="qt-oyk-cip qt-oyk-cip--sure"><QtIkon ad="saat" boyut={14} />6 sa 12 dk</span>
+            <span className="qt-oyk-cip qt-oyk-cip--sure qt-oyk-cip--acil"><QtIkon ad="saat" boyut={14} />55 dk</span>
+            <span className="qt-oyk-cip qt-oyk-cip--kilit"><QtIkon ad="kilit" boyut={14} /><b>1 / 3</b></span>
+            <span className="qt-oyk-cip qt-oyk-cip--vurgu"><b>{tt("Lobi açık")}</b></span>
+          </div>
+          <div className="qt-ornek-sira qt-ornek-sira--sik">
+            <span className="qt-oyk-etiket qt-oyk-etiket--dogru">{tt("Kolay")}</span>
+            <span className="qt-oyk-etiket qt-oyk-etiket--uyari">{tt("Orta")}</span>
+            <span className="qt-oyk-etiket qt-oyk-etiket--mor">{tt("Zor")}</span>
+            <span className="qt-oyk-etiket qt-oyk-etiket--bilgi">{tt("Spor")}</span>
+            <span className="qt-oyk-etiket qt-oyk-etiket--coin">{tt("Efsanevi")}</span>
+          </div>
+        </QtKart>
+        <QtKart>
+          <h3 className="qt-baslik-3">{tt("Canlı çubuk")}</h3>
+          <div style={{ display: "grid", gap: "var(--qt-b-3)" }} key={tur}>
+            <QtIlerleme canli deger={680} en={1000} etiket={tt("Seviye ilerlemesi")} />
+            <QtIlerleme canli parilti ton="coin" boyut="b" deger={90} en={100} etiket={tt("Level'e az kaldı")} />
+            <QtIlerleme konturlu canli ton="vurgu" deger={2} en={5} etiket={tt("Görev ilerlemesi")} />
+          </div>
+        </QtKart>
+        <QtKart>
+          <h3 className="qt-baslik-3">{tt("Dokunuş ve ödül hissi")}</h3>
+          <p className="qt-kucuk qt-soluk">{tt("Ses + titreşim tek kapıdan geçer: Efektler kapalıysa ya da hareket azaltılmışsa titreşim çalmaz. Yalnız seçim ve eylem düğmelerinde.")}</p>
+          <div className="qt-ornek-sira qt-ornek-sira--sik">
+            <QtDugme boyut="k" tur="ikincil" onClick={() => dokunus()}>dokunus()</QtDugme>
+            <QtDugme boyut="k" tur="ikincil" onClick={() => odulHissi("odul")}>odulHissi("odul")</QtDugme>
+            <QtDugme boyut="k" tur="ikincil" onClick={() => odulHissi("buyuk")}>odulHissi("buyuk")</QtDugme>
+          </div>
+        </QtKart>
+        <QtBosDurum boyut="k" ikon="kisiler" baslik={tt("Henüz arkadaşın yok")} eylem={<QtDugme boyut="k" ikon="paylas">{tt("Davet et")}</QtDugme>} />
+      </div>
+    </div>
+  );
+}
+
 export default function TasarimSistemiPage() {
   const [toastlar, setToastlar] = useState([]);
   const [modal, setModal] = useState(null);
@@ -707,6 +821,10 @@ export default function TasarimSistemiPage() {
               <QtIskelet tur="metin" adet={2} />
             </QtKart>
           </div>
+        </Bolum>
+
+        <Bolum id="hissi" baslik="Oyun hissi" aciklama="Görevler'in kart dili bütün sayfalar için ortak: 3 px kontur, renk şeridi, kabartma. Ödül anı, sıralı giriş ve dikkat çekiciler tek yerden gelir. Bir ekranda en çok 1 nabız.">
+          <OyunHissiDemosu />
         </Bolum>
 
         <Bolum id="katmanlar" baslik="Modal ve bildirim" aciklama="Modal ve alt sayfa body'ye çizilir; Esc ve örtü kapatır. Bildirim üstte belirir, 3 sn sonra kendiliğinden kalkar.">

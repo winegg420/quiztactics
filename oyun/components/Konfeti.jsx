@@ -6,8 +6,10 @@ const RENKLER = ["var(--qt-coin)", "var(--qt-dogru)", "var(--qt-vurgu)", "var(--
 /**
  * Doğru cevapta kısa parçacık patlaması. Salt CSS animasyonu — kütüphane yok.
  * `prefers-reduced-motion` açıksa hiç çizilmez.
+ * Stili kendi taşır: oyun/tasarim/hareket.css › .qt-konfeti (global yüklü). Kapsayıcı position:relative olmalı.
+ * tur: "dusus" (varsayılan; maçta doğru cevap) · "patlama" (ödül anı: hızlı çıkar, süzülerek söner)
  */
-export default function Konfeti({ aktif, adet = 14 }) {
+export default function Konfeti({ aktif, adet = 14, tur = "dusus" }) {
   const [parcaciklar, setParcaciklar] = useState([]);
 
   useEffect(() => {
@@ -38,7 +40,7 @@ export default function Konfeti({ aktif, adet = 14 }) {
   if (parcaciklar.length === 0) return null;
 
   return (
-    <div className="m1-konfeti" aria-hidden="true">
+    <div className={`qt-konfeti${tur === "patlama" ? " qt-konfeti--patlama" : ""}`} aria-hidden="true">
       {parcaciklar.map((p) => (
         <span
           key={p.id}

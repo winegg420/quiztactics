@@ -12,6 +12,7 @@ Hedef bir web sitesi değil, **mobil oyun** (Play Store'a TWA). TR + EN.
 | `tokenlar.css` | Bütün `--qt-*` değişkenleri (`:root`) + `.qt-sahne-mac` bağlamı |
 | `bilesenler.css` | Bileşen stilleri (yalnız `qt-` sınıfları) |
 | `hareket.css` | Keyframe'ler (`qt-h-*`), hareket sınıfları, azaltılmış hareket |
+| `oyun-hissi.css` | Oyun kartı, çipler, afiş, ödül anı (`qt-oyk-*`) — bkz. §11 |
 | `index.js` | Tek JS girişi: `import { QtDugme, QtIkon, … } from "../tasarim/index.js";` |
 | `temel.jsx` · `kabuk.jsx` · `oyun.jsx` | Bileşenler |
 | `Ikon.jsx` | İkon seti (`QtIkon`) + Q işareti (`QtQIsareti`) |
@@ -134,7 +135,7 @@ Alt menü için önerilen: ev · kisiler · lig · dukkan · kisi (eski Layout't
 - Arayüz geçişi ≤ 300 ms, girişler ease-out, yalnız `transform`/`opacity` (+`clip-path`). `scale(0)`'dan doğma yok. Sayaç halkası `stroke-dashoffset` tek istisna.
 - Oyun anları (nadir, 420–760 ms) bileşenlerde hazır: `QtSik durum="dogru"` (zıplama + parıltı) · `"yanlis"` (sallanma) · `"dogrusu"` (halka) · `kiriliyor` (50:50, iki parça düşer; `QT_KIRILMA_MS` sonra `durum="elendi"`) · `QtSkill durum="kullanildi"` (patlama + altın halka) · `QtSayac` son 5 sn (kırmızı + nabız + tik) · `QtCan kayip` · `QtSoruKarti cikiyor` (`QT_KART_CIKIS_MS` sonra yeni soru) / `sevinc` · `QtMacUst skorAnahtar`/`rakipBaski`.
 - Sınıflar: `.qt-h-gir` · `.qt-h-pop-gir` · `.qt-h-salla` · `.qt-h-zipla` · `.qt-h-tik` · `.qt-h-baski` · `.qt-h-sevin` · `.qt-h-skill-an` (::after) · `.qt-h-gerilim` (son 5 sn kenar nabzı, kapsayıcıya; ::after). Yeniden oynatmak için `key` değiştir (ya da `animasyonuYenidenOynat(el, sinif)`).
-- Haptik: `titresim("dogru"|"yanlis"|"sayac"|"skill"|"kirilma"|"dokunus")` — ses/titreşim ayarı kapalıysa çağırma.
+- Haptik: `titresim("dogru"|"yanlis"|"sayac"|"skill"|"kirilma"|"dokunus")` — "Efektler" ayarını ve hareket azaltmayı kendi denetler (bkz. §11 P3).
 - `prefers-reduced-motion`: konum/ölçek kalkar, renk + opaklık kalır — `hareket.css` §4'te hazır. Yeni animasyon eklersen oraya sade sürümünü de ekle. (`.app .shell > *` doğrudan çocuğunda `yeni.css` animasyonu tamamen kapatır; sorun değil.)
 - **iOS:** `position:fixed` öğede ve atalarında `transform`/`filter`/`perspective` yok. Sabit katman (`QtAltMenu sabit`, `QtModal`, `QtToastYuvasi`) transform'lu kabuğun içine konmaz (modal/toast zaten body'ye portal). Yükseklikte `100dvh`.
 
@@ -203,3 +204,61 @@ Alt menü için önerilen: ev · kisiler · lig · dukkan · kisi (eski Layout't
 | **Profil / Ayarlar** | `QtAvatar boyut="xl" seviye`, `QtIlerleme`, `QtSekmeler`, `QtAnahtar`, `QtListeSatiri ok` |
 | **Giriş / 404 / kapalı mod** | `.qt-sayfa`, `QtMarka boyut="b"`, `QtDugme tamGenislik boyut="b"`, `QtBosDurum` |
 | **Maç sonu** | `QtKart`, `QtRozet ton="dogru/yanlis"`, `QtIlerleme` (XP), `QtDugme` (Rövanş birincil), `.qt-h-pop-gir` |
+
+## 11. Oyun hissi — ortak parçalar (1 Eki 2026, Aşama 0)
+
+Kaynak: `docs/OYUN_HISSI_DENETIMI.md` §5 (P1–P10). Canlı örnek: `/tasarim-sistemi#hissi`. Referans uygulama: `oyun/pages/GorevlerPage.jsx`
+(sayfada yalnız yerleşim kaldı; `gv-` sınıfları stil taşımaz, ölçüm betiğinin kancalarıdır).
+Dosyalar: `oyun-hissi.css` (kart, çip, afiş, ödül anı — `hareket.css` üzerinden global yüklü, ayrıca import etme) ·
+`hareket.css` §2b (hareket sınıfları) · `hareket.js` (his kapısı, sıralı giriş) · `oyun/components/OdulAni.jsx`.
+
+**Ad notu:** rapor `qt-ok-*` diyordu; o önek Profil'deki oyuncu vitrin kartına ait (`oyuncu-vitrin-karti.css`). Oyun kartının öneki
+**`qt-oyk-`**, değişkenleri **`--oyk-*`**.
+
+**Kurallar (hepsi için)**
+- Renk ekseni sayfa başına TEK: Görevler = zorluk, Dükkân = nadirlik, Lig = lig rengi. Kırmızı yalnız Düello/rakip; aciliyet kehribar; zorluk mor; altın = ödül.
+- Kontur KARTA verilir, liste satırına değil (uzun liste = tek konturlu kutu içinde satırlar).
+- Bir ekranda en çok **1 nabız** (en önemli eylem). Sürekli dönen hareket ekran başına ≤ 3.
+- Sıralı giriş en çok 8 öğe (8 × 60 = 480 ms); sekme değişiminde / veri yenilenince yeniden oynamaz.
+- Dokunuş sesi + titreşim yalnız **seçim ve eylem** düğmelerinde (mod kartı, satın al, kabul, al). Gezinme, sekme, geri düğmesinde yok.
+- Konfeti yalnız nadir anlarda (sandık, kozmetik satın alma, lig yükselişi).
+- Azaltılmış harekette giriş / nabız / zıplama / parıltı / konfeti kapanır; renk ve durum kalır — hazır, ek kural yazma.
+- `position: fixed` + `transform` aynı öğede olmaz; uçan çip kartın içinde `absolute`.
+
+| # | Parça | Nasıl kullanılır |
+|---|---|---|
+| P1 | **Oyun kartı** `qt-oyk` | Kart = `ikon diski \| gövde \| sağ sütun`. Ton: `qt-oyk--ton-dogru·uyari·mor·vurgu·coin` (şerit + ikon rengi). Ağırlık: `--hafif` 3 · (varsayılan) 4 · `--agir` 5 px. Hâl: `--alinabilir` (turuncu) · `--tamam` (yeşil, yassı) · `--kilitli` (soluk) · `--altin` (ödül/sandık, şeritsiz). Parçalar: `qt-oyk-ik` (`--b` 48 px) · `-govde` · `-baslik` · `-ad` · `-alt` · `-sag` · `-sayi` · `-oduller` · `-al` (düğme) · `-tik` · `-noktalar`/`-nokta--dolu`. Özel renk: `style={{ "--oyk-serit": …, "--oyk-dudak": …, "--oyk-kalinlik": "5px" }}`. Liste: `<ul className="qt-oyk-liste">`. Bölüm başlığı: `qt-oyk-bolum` › `-bolum-ust` › `-bolum-baslik` + `-bolum-ik` (`--altin`). |
+| P1 | **Sayfa afişi** `QtAfis` | `ikon` `baslik` `bas` (geri düğmesi yuvası) `sag` `ton` · children = alt özet şerit (`qt-oyk-ozet-metin` + `qt-oyk-ozet-hazir`) · `seritSinif="qt-oyk-ozet--tamam"` = "hepsi tamam" hâli. Başlık `h1` (başka h1 varsa `baslikOgesi="h2"`). Afiş eklerken başlık altı açıklama cümlesini kaldır — net satır sayısı artmasın. Şerit tek başına da kullanılır: `<p className="qt-oyk-ozet">`. |
+| P2 | **Ödül anı** `OdulAni` + `useOdulAni` | `kutla(anahtar, veri, { his, coinZipla })` sunucu "verildi" deyince çağrılır; `ucan(anahtar)` an sürerken `veri` döner. Karta `qt-oyk--kutla` ver (ikon zıplar + altın halka); kartın sonuna `<OdulAni aktif>` koy (parıltı + uçan çip; `konfeti` `buyuk` isteğe bağlı). `his`: `"odul"` · `"buyuk"` · `"satinAlma"` · `false`. |
+| P3 | **Dokunuş tek kapısı** `dokunus()` · `odulHissi(tur)` | Ses + titreşim tek çağrı. Titreşim ayrı ayar değildir: "Efektler" kapalıysa, hareket azaltılmışsa ya da sayfaya henüz dokunulmadıysa çalmaz (`hisAcikMi()`); `titresim()` de aynı kapıdan geçer — çağıran ayrıca kontrol etmez. |
+| P4 | **Konfeti** `Konfeti` | Stilini kendi taşır (`.qt-konfeti`, global). `tur="patlama"` ödül anı için; varsayılan maçtaki doğru cevap düşüşü. Kapsayıcı `position: relative`. |
+| P5 | **Sıralı giriş** `qt-h-sirali` | `const sirali = useSiraliGiris(Boolean(veri))` → öğeye `className={sirali} style={siraStili(i)}`. Yalnız ilk açılışta oynar; 8. öğeden sonrası gecikmesiz. |
+| P6 | **Dikkat çekiciler** | `qt-h-nabiz` (halka; öğe `position: relative`, `--nabiz-renk`, `--nabiz-tasma`) · `qt-h-hop` (ara ara zıplama — düğmenin KABINA, `--hop-gecikme`) · `qt-h-salla-ara` (ikon) · `<span className="qt-h-isilti" aria-hidden="true" />` (parıltı bandı, bir kez; `--dongu` ara ara; `--isilti-kose`) · `ziplat(QT_COIN_HAPI)` (üst çubuktaki coin hapı bir kez zıplar). |
+| P7 | **Canlı çubuk** `QtIlerleme` | `canli` (dolarak gelir) · `parilti` (kayan ışık; yalnız eylem bekleyen çubukta) · `konturlu` (oyun kartı içi). %0 çubuğu hiç çizme. |
+| P8 | **Satır basışı** | `QtListeSatiri onClick` / `.qt-satir--tiklanir` artık basınca hafif çöker; sayfada bir şey yapma. |
+| P9 | **Küçük boş durum** `QtBosDurum boyut="k"` | Tek satır: ikon + cümle + düğme. Büyük kutu yalnız sayfanın tamamı boşken. |
+| P10 | **Çipler** `qt-oyk-cip` | Ödül / süre / kilit çipi: `--sure` · `--kilit` · `--vurgu` · `--acil` (kehribar + sallanan saat). Küçük etiket: `qt-oyk-etiket--dogru·uyari·mor·bilgi·coin`. |
+
+```jsx
+import { QtAfis, QtIlerleme, QtDugme, QtIkon, sinif, siraStili, useSiraliGiris, dokunus } from "../tasarim/index.js";
+import OdulAni, { UcanOge, useOdulAni } from "../components/OdulAni.jsx";
+
+const { kutla, ucan } = useOdulAni();
+const sirali = useSiraliGiris(Boolean(veri));
+const u = ucan(`urun:${id}`);
+
+<li className={sinif("qt-oyk qt-oyk--ton-mor", alinabilir && "qt-oyk--alinabilir", ilk && "qt-h-nabiz", u && "qt-oyk--kutla", sirali)} style={siraStili(i)}>
+  <span className="qt-oyk-ik" aria-hidden="true"><QtIkon ad="kupa" boyut={22} /></span>
+  <div className="qt-oyk-govde">
+    <b className="qt-oyk-ad">{ad}</b>
+    <QtIlerleme konturlu canli parilti={alinabilir} ton="vurgu" deger={ilerleme} en={hedef} etiket={ad} />
+  </div>
+  <div className={sinif("qt-oyk-sag", ilk && "qt-h-hop")}>
+    <QtDugme boyut="k" className="qt-oyk-al" onClick={async () => { dokunus(); const r = await al(id); if (r?.alindi) kutla(`urun:${id}`, { coin: r.coin }, { coinZipla: r.coin > 0 }); }}>{tt("Al")}</QtDugme>
+  </div>
+  <OdulAni aktif={Boolean(u)}>{u && <UcanOge>+{u.coin}</UcanOge>}</OdulAni>
+</li>
+```
+
+Eksik bir parça görürsen ortak dosyayı sayfa penceresinde DÜZELTME — not düş; Aşama 1 sonunda tek pencere toplar.
+Bilinen açık: maç içindeki `geriBildirim.js › titret` henüz bu kapıya bağlı değil ("Efektler" ayarına bakmıyor).

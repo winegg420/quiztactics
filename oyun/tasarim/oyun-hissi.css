@@ -1,0 +1,181 @@
+/* =====================================================================
+   QUIZ TACTICS TASARIM SİSTEMİ — OYUN HİSSİ (ortak parçalar, 1 Eki 2026)
+   Görevler sayfasının kart dili bütün sayfalar için tek yerde: 3 px lacivert kontur, sol renk şeridi,
+   kabartma (alt dudak). Kaynak: docs/OYUN_HISSI_DENETIMI.md §5 (P1, P2, P10). Kılavuz: OKU.md §11.
+   Yükleme: hareket.css'in başındaki @import (tasarim.css → hareket.css → bu dosya); ekranda ayrıca import etme.
+   Kurallar:
+   - Renk ekseni sayfa başına TEK: kırmızı yalnız Düello/rakip · aciliyet kehribar · zorluk mor · altın = ödül.
+   - Kontur KARTA verilir, liste satırına değil (25 satır = çizgi yığını).
+   - Hareket yalnız transform/opacity; `position: fixed` yok (uçan çip kartın içinde absolute).
+   - Azaltılmış harekette giriş/nabız/zıplama/parıltı kapanır; renk ve durum kalır (dosya sonu + hareket.css §4).
+   ===================================================================== */
+
+:root {
+  --oyk-kontur: var(--qt-metin);
+  --oyk-mavi: var(--qt-bilgi-acik);
+  --oyk-altin: #ffe7a3;
+  --oyk-altin-acik: #fff1c9;
+  --oyk-iz: #dcebff;
+}
+
+/* ---------- 1. Oyun kartı (P1) ----------
+   --oyk-serit: sol vurgu şeridi + zemin tonu · --oyk-dudak: alt kabartma rengi · --oyk-kalinlik: kabartma (ağırlık)
+   --oyk-ik-zemin / --oyk-ik-yazi: ikon diskinin rengi (ton sınıfı ayarlar) */
+.qt-oyk {
+  --oyk-serit: var(--qt-bilgi); --oyk-dudak: var(--oyk-kontur); --oyk-kalinlik: 4px;
+  --oyk-ik-zemin: var(--oyk-mavi); --oyk-ik-yazi: var(--qt-metin);
+  position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 10px;
+  padding: 10px 10px 10px 16px; border: 3px solid var(--oyk-kontur); border-radius: 16px; background: var(--qt-yuzey); color: var(--qt-metin);
+  box-shadow: inset 6px 0 0 var(--oyk-serit), 0 var(--oyk-kalinlik) 0 var(--oyk-dudak);
+}
+.qt-oyk:not(.qt-oyk--altin):not(.qt-oyk--kilitli) { background: linear-gradient(90deg, color-mix(in srgb, var(--oyk-serit) 16%, var(--qt-yuzey)), var(--qt-yuzey) 62%); }
+/* Ton: şerit + ikon diski aynı renk ekseninde */
+.qt-oyk--ton-dogru { --oyk-serit: var(--qt-dogru); --oyk-ik-zemin: var(--qt-dogru); --oyk-ik-yazi: var(--qt-dogru-yazi); }
+.qt-oyk--ton-uyari { --oyk-serit: var(--qt-uyari); --oyk-ik-zemin: var(--qt-uyari); --oyk-ik-yazi: var(--qt-uyari-yazi); }
+.qt-oyk--ton-mor { --oyk-serit: var(--qt-ikinci); --oyk-ik-zemin: var(--qt-ikinci); --oyk-ik-yazi: var(--qt-ikinci-yazi); }
+.qt-oyk--ton-vurgu { --oyk-serit: var(--qt-vurgu); --oyk-ik-zemin: var(--qt-vurgu); --oyk-ik-yazi: var(--qt-vurgu-yazi); }
+.qt-oyk--ton-coin { --oyk-serit: var(--qt-coin); --oyk-dudak: var(--qt-coin-dudak); --oyk-ik-zemin: var(--qt-coin); --oyk-ik-yazi: var(--qt-coin-yazi); }
+/* Ağırlık: hafif 3 · (varsayılan) orta 4 · ağır 5 · altın 6 · tamamlanmış 2 */
+.qt-oyk--hafif { --oyk-kalinlik: 3px; }
+.qt-oyk--orta { --oyk-kalinlik: 4px; }
+.qt-oyk--agir { --oyk-kalinlik: 5px; }
+/* Altın: ödül/sandık kartı — şeritsiz, altın zemin */
+.qt-oyk--altin {
+  --oyk-dudak: var(--qt-coin-dudak); --oyk-kalinlik: 6px; --oyk-ik-zemin: var(--qt-uyari); padding-left: 10px;
+  background: var(--oyk-altin); background: linear-gradient(180deg, var(--oyk-altin-acik), var(--oyk-altin) 70%);
+  box-shadow: 0 var(--oyk-kalinlik) 0 var(--oyk-dudak);
+}
+/* Hâller (ton ve ağırlıktan SONRA gelir): alınabilir turuncu · tamam yeşil ve yassı · kilitli soluk */
+.qt-oyk--alinabilir { border-color: var(--qt-vurgu); --oyk-dudak: var(--qt-vurgu-dudak); }
+.qt-oyk--tamam { border-color: var(--qt-dogru); --oyk-dudak: var(--qt-dogru-dudak); --oyk-kalinlik: 2px; }
+.qt-oyk--kilitli {
+  --oyk-serit: var(--qt-cizgi-guclu); --oyk-dudak: var(--qt-cizgi-guclu); --oyk-ik-zemin: var(--qt-yuzey-3); --oyk-ik-yazi: var(--qt-metin-soluk);
+  border-color: var(--qt-cizgi-guclu); background: var(--qt-yuzey-2); color: var(--qt-metin-soluk);
+}
+.qt-oyk--kilitli .qt-oyk-ik { border-color: var(--qt-cizgi-guclu); }
+
+/* Kart içi parçalar: ikon diski | gövde | sağ sütun */
+.qt-oyk-ik {
+  position: relative; display: grid; place-items: center; flex: none; width: 40px; height: 40px; border: 3px solid var(--oyk-kontur); border-radius: 12px;
+  background: var(--oyk-ik-zemin, var(--oyk-mavi)); color: var(--oyk-ik-yazi, var(--qt-metin));
+}
+.qt-oyk-ik--b { width: 48px; height: 48px; }
+.qt-oyk-govde { display: grid; gap: 5px; min-width: 0; }
+.qt-oyk-baslik { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 8px; min-width: 0; }
+.qt-oyk-ad { font: var(--qt-a-siyah) var(--qt-y-s)/1.25 var(--qt-f-govde); overflow-wrap: anywhere; }
+.qt-oyk-alt { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); }
+.qt-oyk-sag { display: grid; place-items: center; align-self: center; min-width: 0; }
+.qt-oyk-sayi { font: var(--qt-a-siyah) var(--qt-y-s)/1 var(--qt-f-govde); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.qt-oyk-oduller { display: flex; flex-wrap: wrap; gap: 6px; }
+.qt-oyk-oduller:empty { display: none; }
+/* Kart içi eylem düğmesi (QtDugme boyut="k" + bu sınıf): dokunma hedefi 44 px, metin kırılmaz */
+.qt-oyk-al { min-height: var(--qt-dokunma); min-width: 52px; white-space: nowrap; }
+/* Tamam tiki (sağ sütun): yayla gelir */
+.qt-oyk-tik {
+  display: grid; place-items: center; width: 32px; height: 32px; border: 2px solid var(--oyk-kontur); border-radius: 50%;
+  background: var(--qt-dogru); color: var(--qt-dogru-yazi); animation: qt-h-tik-gel var(--qt-s-orta) var(--qt-egri-yay) both;
+}
+/* Adım noktaları (x / n) */
+.qt-oyk-noktalar { display: inline-flex; align-items: center; gap: 5px; }
+.qt-oyk-nokta { display: block; width: 14px; height: 14px; border: 2px solid var(--oyk-kontur); border-radius: 50%; background: var(--qt-yuzey); }
+.qt-oyk-nokta--dolu { background: var(--qt-dogru); }
+
+/* ---------- 2. Kart listesi ve bölüm başlığı ---------- */
+.qt-oyk-liste { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.qt-oyk-bolum { display: grid; gap: var(--qt-b-2); }
+.qt-oyk-bolum-ust { display: flex; align-items: center; justify-content: space-between; gap: var(--qt-b-2); padding-top: var(--qt-b-1); }
+.qt-oyk-bolum-baslik { display: flex; align-items: center; gap: 6px; margin: 0; font: var(--qt-a-siyah) var(--qt-y-m)/1.2 var(--qt-f-baslik); min-width: 0; }
+.qt-oyk-bolum-ik {
+  display: grid; place-items: center; flex: none; width: 24px; height: 24px; border: 2px solid var(--oyk-kontur); border-radius: 50%;
+  background: var(--oyk-mavi); color: var(--qt-metin);
+}
+.qt-oyk-bolum-ik--altin { background: var(--qt-coin); color: var(--qt-coin-yazi); }
+
+/* ---------- 3. Çipler ve etiketler (P10) ---------- */
+.qt-oyk-cip {
+  display: inline-flex; align-items: center; gap: 4px; flex: none; min-height: 24px; padding: 1px 8px;
+  border: 2px solid var(--oyk-kontur); border-radius: var(--qt-r-hap); background: var(--qt-yuzey);
+  color: var(--qt-metin); font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); line-height: 1.2; white-space: nowrap;
+}
+.qt-oyk-cip b { font-weight: var(--qt-a-siyah); }
+.qt-oyk-cip--sure { font-weight: var(--qt-a-kalin); }
+.qt-oyk-cip--kilit { background: var(--oyk-altin-acik); }
+.qt-oyk-cip--vurgu { background: var(--qt-vurgu); color: var(--qt-vurgu-yazi); }
+/* Aciliyet: kehribar (kırmızı değil — kırmızı rakip/Düello); saat ikonu sallanır */
+.qt-oyk-cip--acil { background: var(--qt-uyari); color: var(--qt-uyari-yazi); }
+.qt-oyk-cip--acil svg { animation: qt-h-tik-tak 1s ease-in-out infinite; }
+/* Küçük etiket (zorluk, kategori, nadirlik): çipten ince */
+.qt-oyk-etiket {
+  display: inline-flex; align-items: center; padding: 0 8px; border: 2px solid var(--oyk-kontur); border-radius: var(--qt-r-hap);
+  font-size: 11px; font-weight: var(--qt-a-siyah); line-height: 1.5; white-space: nowrap;
+}
+.qt-oyk-etiket--dogru { background: #eaf3de; color: #27500a; }
+.qt-oyk-etiket--uyari { background: #faeeda; color: #633806; }
+.qt-oyk-etiket--mor { background: var(--qt-ikinci-acik); color: var(--qt-ikinci-koyu); }
+.qt-oyk-etiket--bilgi { background: var(--qt-bilgi-acik); color: var(--qt-bilgi-koyu); }
+.qt-oyk-etiket--coin { background: var(--qt-coin-acik); color: var(--qt-coin-yazi); }
+
+/* ---------- 4. Özet şerit ve sayfa afişi (P1) ---------- */
+.qt-oyk-ozet {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--qt-b-2); min-height: 32px; margin: 0; padding: 2px 5px 2px 10px;
+  border: 2px solid var(--oyk-kontur); border-radius: var(--qt-r-hap); background: var(--qt-yuzey); color: var(--qt-metin);
+  box-shadow: 0 3px 0 var(--oyk-kontur);
+  font-size: var(--qt-y-s); font-weight: var(--qt-a-siyah); line-height: 1.2;
+}
+.qt-oyk-ozet-metin { display: inline-flex; align-items: center; gap: 6px; min-width: 0; font-variant-numeric: tabular-nums; }
+.qt-oyk-ozet-metin svg { flex: none; }
+.qt-oyk-ozet-hazir {
+  display: inline-flex; align-items: center; gap: 4px; flex: none; min-height: 24px; padding: 0 9px; border: 2px solid var(--oyk-kontur);
+  border-radius: var(--qt-r-hap); background: var(--qt-vurgu); color: var(--qt-vurgu-yazi);
+}
+/* "Hepsi tamam" hâli: yeşil şerit (parıltı için içine bir kez `qt-h-isilti` konur) */
+.qt-oyk-ozet--tamam { position: relative; overflow: hidden; background: var(--qt-dogru); color: var(--qt-dogru-yazi); }
+
+/* Sayfa afişi: [baş yuvası] ikon diski + başlık + sağ yuva; altında özet şerit. QtAfis (temel.jsx) bunu çizer. */
+.qt-oyk-afis {
+  --oyk-serit: var(--qt-bilgi); --oyk-ik-zemin: var(--qt-yuzey); --oyk-ik-yazi: var(--qt-metin);
+  position: relative; display: grid; gap: 0; min-width: 0; border: 3px solid var(--oyk-kontur); border-radius: 16px; overflow: hidden;
+  background: var(--qt-yuzey); background: color-mix(in srgb, var(--oyk-serit) 30%, var(--qt-yuzey)); color: var(--qt-metin);
+  box-shadow: 0 4px 0 var(--oyk-kontur);
+}
+.qt-oyk-afis-ust { display: flex; align-items: center; gap: var(--qt-b-2); min-height: var(--qt-dokunma); min-width: 0; padding: 4px 8px 4px 4px; }
+.qt-oyk-afis-ust > .qt-oyk-ik { width: 34px; height: 34px; border-width: 2px; border-radius: 10px; }
+.qt-oyk-afis-baslik { flex: 1; min-width: 0; margin: 0; font: var(--qt-a-siyah) var(--qt-y-xl)/var(--qt-sa-baslik, 1.15) var(--qt-f-baslik); letter-spacing: -0.01em; overflow-wrap: anywhere; }
+.qt-oyk-afis-sag { display: inline-flex; align-items: center; gap: var(--qt-b-2); flex: none; }
+/* Afişin içindeki özet şerit: kutusuz, afişin alt bandı */
+.qt-oyk-afis > .qt-oyk-ozet { border: 0; border-top: 2px solid var(--oyk-kontur); border-radius: 0; box-shadow: none; min-height: 30px; padding: 2px 8px 2px 12px; }
+
+/* ---------- 5. Ödül anı (P2) — OdulAni.jsx bu sınıfları kullanır ----------
+   Karta `qt-oyk--kutla` gelince: ikon zıplar + altın halka; altın kartta daha büyük (kapak açılır gibi). */
+.qt-oyk--kutla .qt-oyk-ik { animation: qt-h-zipla 360ms var(--qt-egri-cikis); }
+.qt-oyk--kutla .qt-oyk-ik::after {
+  content: ""; position: absolute; inset: -5px; border: 3px solid var(--qt-coin); border-radius: inherit; pointer-events: none; opacity: 0;
+  animation: qt-h-halka 520ms ease-out;
+}
+.qt-oyk--altin.qt-oyk--kutla .qt-oyk-ik { animation: qt-h-kapak-ac 800ms var(--qt-egri-cikis); }
+.qt-oyk--altin.qt-oyk--kutla .qt-oyk-ik::after { inset: -8px; border-width: 4px; animation-duration: 800ms; }
+/* Uçan ödül çipi (kartın içinde; fixed yok). Kart position:relative olmalı (.qt-oyk öyledir). */
+.qt-oyk-ucan {
+  position: absolute; right: 10px; top: -14px; z-index: 2; display: inline-flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px;
+  max-width: calc(100% - 20px); pointer-events: none; animation: qt-h-uc 2200ms var(--qt-egri-cikis) both;
+}
+.qt-oyk-ucan-oge {
+  display: inline-flex; align-items: center; gap: 3px; min-height: 24px; padding: 1px 9px; border: 2px solid var(--oyk-kontur);
+  border-radius: var(--qt-r-hap); background: var(--qt-coin); color: var(--qt-coin-yazi); font-size: var(--qt-y-s); font-weight: var(--qt-a-siyah);
+}
+/* Büyük an (sandık, kozmetik): çip daha büyük ve kartın ortasında */
+.qt-oyk-ucan--buyuk { left: 10px; top: -24px; justify-content: center; }
+.qt-oyk-ucan--buyuk .qt-oyk-ucan-oge { min-height: 30px; padding: 2px 12px; font-size: var(--qt-y-m); }
+
+/* ---------- 6. Azaltılmış hareket: çip yerinde kalıp solar, tik zıplamadan görünür, ikon/halka durur ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .qt-oyk-ucan { animation-name: qt-h-uc-y; }
+  .qt-oyk-tik, .qt-oyk-ik, .qt-oyk-ik::after, .qt-oyk-cip--acil svg { animation: none !important; }
+}
+
+/* ---------- 7. Geniş ekran: kartlar biraz nefes alır ---------- */
+@media (min-width: 1024px) {
+  .qt-oyk { padding: 12px 14px 12px 20px; gap: 14px; }
+  .qt-oyk--altin { padding-left: 14px; }
+  .qt-oyk-ad { font-size: var(--qt-y-m); }
+}

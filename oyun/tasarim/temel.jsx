@@ -271,17 +271,22 @@ export function QtAnahtar({ acik = false, onDegis, etiket, aciklama, devreDisi =
 /**
  * <QtIlerleme deger={680} en={1000} etiket={tt("Seviye ilerlemesi")} ton="mor" isaret={84} />
  * ton: mor · coin · dogru · vurgu · lig-… ; isaret: yüzde (ör. yükselme hattı)
+ * Oyun hissi: `canli` (ilk çizimde dolarak gelir; sıralı girişteki --sira'ya uyar) · `parilti` (dolu kısımda kayan parıltı —
+ * sürekli hareket, yalnız "eylem bekleyen" çubukta aç) · `konturlu` (oyun kartı içi: 2 px kontur, açık mavi iz).
+ * Kalan prop'lar kök öğeye geçer (ör. aria-valuetext).
  */
-export function QtIlerleme({ deger = 0, en = 100, ton = "mor", etiket, isaret, boyut = "o", className }) {
+export function QtIlerleme({ deger = 0, en = 100, ton = "mor", etiket, isaret, boyut = "o", canli = false, parilti = false, konturlu = false, className, ...rest }) {
   const oran = en > 0 ? Math.max(0, Math.min(1, deger / en)) : 0;
   return (
     <div
-      className={sinif("qt-ilerleme", `qt-ilerleme--${ton}`, boyut === "b" && "qt-ilerleme--b", className)}
+      className={sinif("qt-ilerleme", `qt-ilerleme--${ton}`, boyut === "b" && "qt-ilerleme--b", konturlu && "qt-ilerleme--konturlu",
+        canli && "qt-ilerleme--canli", parilti && "qt-ilerleme--parilti", className)}
       role="progressbar"
       aria-label={etiket}
       aria-valuemin={0}
       aria-valuemax={en}
       aria-valuenow={deger}
+      {...rest}
       style={{ "--_p": `${(oran * 100).toFixed(2)}%` }}
     >
       <span className="qt-ilerleme-dolgu" />
@@ -386,8 +391,20 @@ export function QtListeSatiri({ bas, ikon, ikonTon = "mor", baslik, alt, sag, ok
 /**
  * <QtBosDurum ikon="kisiler" baslik={tt("Henüz arkadaşın yok")} metin={…} eylem={<QtDugme…/>} />
  * ton: mor · vurgu · dogru · yanlis (hata durumu için "yanlis" + ikon="uyari")
+ * boyut="k": tek satır (ikon + cümle + düğme) — sayfanın yalnız BİR bölümü boşken. Büyük kutu yalnız sayfanın tamamı boşken.
  */
-export function QtBosDurum({ ikon = "soru", ton = "mor", baslik, metin, eylem, className }) {
+export function QtBosDurum({ ikon = "soru", ton = "mor", baslik, metin, eylem, boyut = "o", className }) {
+  if (boyut === "k") {
+    return (
+      <div className={sinif("qt-bos", "qt-bos--k", className)}>
+        <span className={sinif("qt-bos-ikon", `qt-bos-ikon--${ton}`)}>
+          <QtIkon ad={ikon} boyut={20} />
+        </span>
+        <p className="qt-bos-baslik">{baslik ?? metin}</p>
+        {eylem && <div className="qt-bos-eylem">{eylem}</div>}
+      </div>
+    );
+  }
   return (
     <div className={sinif("qt-bos", className)}>
       <span className={sinif("qt-bos-ikon", `qt-bos-ikon--${ton}`)}>
@@ -397,6 +414,27 @@ export function QtBosDurum({ ikon = "soru", ton = "mor", baslik, metin, eylem, c
       {metin && <p className="qt-bos-metin">{metin}</p>}
       {eylem && <div className="qt-bos-eylem">{eylem}</div>}
     </div>
+  );
+}
+
+// ——————————————————————— OYUN HİSSİ: SAYFA AFİŞİ ———————————————————————
+/**
+ * Sayfa afişi (oyun-hissi.css › .qt-oyk-afis): [bas] ikon diski + başlık + sağ yuva; children = alttaki özet şerit içeriği.
+ * <QtAfis ikon="gorevListesi" baslik={tt("Görevler")} bas={<QtIkonDugme ikon="geri" …/>} sag={…}>{tt("Bugün 1/3 tamam")}</QtAfis>
+ * ton: bilgi (varsayılan) · dogru · uyari · mor · vurgu · coin — sayfanın TEK renk ekseni. seritSinif: şeride ek sınıf
+ * (ör. "qt-oyk-ozet--tamam"). Başlık h1'dir (sayfada başka h1 varsa baslikOgesi="h2").
+ */
+export function QtAfis({ ikon, baslik, baslikOgesi: Baslik = "h1", bas, sag, ton, seritSinif, className, children, ...rest }) {
+  return (
+    <header className={sinif("qt-oyk-afis", ton && ton !== "bilgi" && `qt-oyk--ton-${ton}`, className)} {...rest}>
+      <div className="qt-oyk-afis-ust">
+        {bas}
+        {ikon && <span className="qt-oyk-ik" aria-hidden="true"><QtIkon ad={ikon} boyut={20} /></span>}
+        <Baslik className="qt-oyk-afis-baslik">{baslik}</Baslik>
+        {sag && <div className="qt-oyk-afis-sag">{sag}</div>}
+      </div>
+      {children != null && children !== false && <p className={sinif("qt-oyk-ozet", seritSinif)}>{children}</p>}
+    </header>
   );
 }
 

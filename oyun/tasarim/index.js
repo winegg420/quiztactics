@@ -22,6 +22,7 @@ export {
   QtListeSatiri,
   QtBosDurum,
   QtIskelet,
+  QtAfis,
 } from "./temel.jsx";
 export { QtMarka, QtUstCubuk, QtUstMenu, QtAltMenu, QtModal, QtToast, QtToastYuvasi } from "./kabuk.jsx";
 export {
@@ -44,4 +45,11 @@ export {
   hareketAzaltildiMi,
   animasyonuYenidenOynat,
   titresim,
+  hisAcikMi,
+  dokunus,
+  odulHissi,
+  ziplat,
+  QT_COIN_HAPI,
+  siraStili,
+  useSiraliGiris,
 } from "./hareket.js";

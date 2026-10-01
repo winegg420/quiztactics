@@ -125,21 +125,7 @@
   100% { opacity: 0; transform: translateY(-30px) scale(1); }
 }
 
-/* Konfeti — doğru cevapta kısa patlama */
-.m1-konfeti { position: absolute; left: 50%; top: 30%; z-index: 2; width: 0; height: 0; pointer-events: none; }
-.m1-konfeti > span {
-  position: absolute;
-  left: 0;
-  top: 0;
-  border-radius: 2px;
-  opacity: 0;
-  animation: m1-konfeti calc(var(--qt-s-kirilma) * 1.4) var(--qt-egri-dusus) var(--gecikme, 0ms) forwards;
-}
-@keyframes m1-konfeti {
-  0% { opacity: 1; transform: translate(0, 0) rotate(0); }
-  60% { opacity: 1; }
-  100% { opacity: 0; transform: translate(var(--x), calc(var(--y) + 140px)) rotate(var(--donme)); }
-}
+/* Konfeti stili ortak dosyaya taşındı: oyun/tasarim/hareket.css › .qt-konfeti (Konfeti.jsx kendi stilini taşır) */
 
 /* Adil mi oylaması */
 .m1-oylama {
@@ -289,7 +275,6 @@
 @media (prefers-reduced-motion: reduce) {
   .m1-puan-ucus { animation: qt-h-solgun-gir var(--qt-s-orta) ease forwards; }
   .m1-seri, .m1-balon, .m1-sayim-sayi { animation: qt-h-solgun-gir var(--qt-s-kisa) ease; }
-  .m1-konfeti { display: none; }
   .m1-skill .qt-skill.m1-skill--parla { animation: none; }
   .m1-kopuk-halka, .m1-hazir-nokta { animation: none; }
 }

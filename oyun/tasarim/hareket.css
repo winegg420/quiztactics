@@ -1,3 +1,4 @@
+@import "./oyun-hissi.css";   /* oyun kartı, çipler, afiş, ödül anı (qt-oyk-*) — tasarim.css bu dosya üzerinden yükler */
 /* =====================================================================
    QUIZ TACTICS TASARIM SİSTEMİ — HAREKET (Yön A "Şeker Kutusu")
    Kurallar (emil-design-eng + ARASTIRMA.md §5):
@@ -81,6 +82,41 @@
 @keyframes qt-h-kart-gir { from { opacity: 0; transform: translateX(24px) scale(0.97); } }
 @keyframes qt-h-kart-cik { to { opacity: 0; transform: translateX(-28px) scale(0.97); } }
 @keyframes qt-h-kart-sevin { 30% { transform: translateY(-4px) rotate(-0.6deg); } 60% { transform: translateY(0) rotate(0.4deg); } }
+/* Oyun hissi (1 Eki 2026; Görevler'den ortaklaştı): dikkat çekiciler, ödül anı, canlı çubuk, konfeti */
+@keyframes qt-h-nabiz { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
+@keyframes qt-h-hop {
+  0%, 60%, 100% { transform: translateY(0); }
+  70% { transform: translateY(-4px); }
+  80% { transform: translateY(0); }
+  88% { transform: translateY(-2px); }
+  95% { transform: translateY(0); }
+}
+@keyframes qt-h-salla-ara { 0%, 70%, 100% { transform: rotate(0); } 76% { transform: rotate(-9deg); } 84% { transform: rotate(8deg); } 92% { transform: rotate(-4deg); } }
+@keyframes qt-h-tik-tak { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-12deg); } 75% { transform: rotate(12deg); } }
+@keyframes qt-h-isilti { to { transform: translateX(260%) skewX(-18deg); } }
+@keyframes qt-h-isilti-dongu { 0%, 60% { transform: translateX(-110%) skewX(-18deg); } 100% { transform: translateX(260%) skewX(-18deg); } }
+@keyframes qt-h-tik-gel { from { transform: scale(0.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes qt-h-kapak-ac {
+  0% { transform: scale(1) rotate(0); }
+  28% { transform: scale(1.4) rotate(-10deg); }
+  55% { transform: scale(1.22) rotate(8deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+@keyframes qt-h-uc {
+  0% { opacity: 0; transform: translateY(10px) scale(0.9); }
+  14% { opacity: 1; transform: translateY(0) scale(1); }
+  72% { opacity: 1; transform: translateY(-14px) scale(1); }
+  100% { opacity: 0; transform: translateY(-22px) scale(1); }
+}
+@keyframes qt-h-uc-y { 0% { opacity: 0; } 18% { opacity: 1; } 75% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes qt-h-bar-dol { from { width: 0; } }
+@keyframes qt-h-bar-kirp { from { clip-path: inset(0 100% 0 0 round 999px); } }
+@keyframes qt-h-kayma { 0%, 45% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+@keyframes qt-h-konfeti {
+  0% { opacity: 1; transform: translate(0, 0) rotate(0); }
+  60% { opacity: 1; }
+  100% { opacity: 0; transform: translate(var(--x), calc(var(--y) + 140px)) rotate(var(--donme)); }
+}
 
 /* ---------- 2. Yeniden kullanılabilir sınıflar (Faz 2 ekranları için) ---------- */
 .qt-h-gir { animation: qt-h-gir var(--qt-s-orta) var(--qt-egri-cikis) both; }
@@ -116,6 +152,48 @@
   box-shadow: inset 0 0 0 4px var(--qt-yanlis), inset 0 0 60px color-mix(in srgb, var(--qt-yanlis) 55%, transparent);
   animation: qt-h-kenar-nabiz 1s ease-in-out infinite;
 }
+
+/* ---------- 2b. Oyun hissi sınıfları (docs/OYUN_HISSI_DENETIMI.md §5: P4, P5, P6) ----------
+   Hepsi yalnız transform/opacity. Bir ekranda EN ÇOK 1 nabız; sürekli hareket ekran başına ≤ 3. */
+/* Tek zıplama, yerleşimi değiştirmeden (hareket.js › ziplat: üst çubuktaki coin hapı vb.) */
+.qt-h-zipla-an { animation: qt-h-zipla 360ms var(--qt-egri-cikis); }
+/* P5 — Sıralı giriş: öğeye style={siraStili(i)} ver. En çok ilk 8 öğe sıralanır (8 × 60 = 480 ms); sonrası gecikmesiz.
+   Yalnız ilk açılışta oynasın diye sınıfı `useSiraliGiris()` ile ver (sekme değişimi / veri yenilemede yeniden oynamaz). */
+.qt-h-sirali {
+  animation: qt-h-kart-gir var(--qt-s-uzun) var(--qt-egri-cikis) backwards;
+  animation-delay: calc(min(var(--sira, 0), 7) * 60ms);
+}
+/* P6 — Nabız halkası: "göz buraya" (yalnız opaklık). Öğe position:relative olmalı; ::after kullanır.
+   --nabiz-renk (varsayılan turuncu) · --nabiz-tasma (kontur kalınlığı kadar dışarı, varsayılan 3px) */
+.qt-h-nabiz { position: relative; }
+.qt-h-nabiz::after {
+  content: ""; position: absolute; inset: calc(var(--nabiz-tasma, 3px) * -1); border-radius: inherit; pointer-events: none;
+  box-shadow: 0 0 0 3px rgba(255, 122, 46, 0.45), 0 0 16px 2px rgba(255, 122, 46, 0.6);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--nabiz-renk, var(--qt-vurgu)) 45%, transparent), 0 0 16px 2px color-mix(in srgb, var(--nabiz-renk, var(--qt-vurgu)) 60%, transparent);
+  animation: qt-h-nabiz 1800ms ease-in-out infinite;
+}
+/* P6 — Ara ara zıplama (eylem düğmesinin kabına; düğmenin kendi basma hareketi bozulmaz) ve ara ara sallanma (ikon) */
+.qt-h-hop { animation: qt-h-hop 2200ms var(--qt-egri-cikis) var(--hop-gecikme, 700ms) infinite; }
+.qt-h-salla-ara { animation: qt-h-salla-ara 2600ms ease-in-out 900ms infinite; }
+/* P6 — Parıltı bandı: position:relative bir kartın içine <span class="qt-h-isilti" aria-hidden="true" /> koy.
+   Bir kez geçer (ödül anı); `--dongu` ile ara ara. Kırpma bu katmanda — kart, taşan uçan çipi kesmez.
+   --isilti-kose: kartın iç köşesi (köşe − kontur; varsayılan 16 − 3 = 13px) */
+.qt-h-isilti { position: absolute; inset: 0; z-index: 1; overflow: hidden; border-radius: var(--isilti-kose, 13px); pointer-events: none; }
+.qt-h-isilti::after {
+  content: ""; position: absolute; inset: 0 auto 0 0; width: 45%; transform: translateX(-110%) skewX(-18deg);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.85), transparent);
+  animation: qt-h-isilti 700ms ease-out 60ms both;
+}
+.qt-h-isilti--dongu::after { opacity: 0.6; animation: qt-h-isilti-dongu 2800ms ease-in-out infinite; }
+/* P4 — Konfeti (oyun/components/Konfeti.jsx): kapsayıcı position:relative olmalı.
+   Varsayılan: doğru cevapta kısa düşüş · --patlama: ödül anı (hızlı çıkar, süzülerek söner) */
+.qt-konfeti { position: absolute; left: 50%; top: 30%; z-index: 2; width: 0; height: 0; pointer-events: none; }
+.qt-konfeti > span {
+  position: absolute; left: 0; top: 0; border-radius: 2px; opacity: 0;
+  animation: qt-h-konfeti calc(var(--qt-s-kirilma) * 1.4) var(--qt-egri-dusus) var(--gecikme, 0ms) forwards;
+}
+.qt-konfeti--patlama { top: 45%; z-index: 3; }
+.qt-konfeti--patlama > span { animation-duration: 1000ms; animation-timing-function: var(--qt-egri-cikis); }
 
 /* ---------- 3. Bileşen anları ---------- */
 /* Şık: doğru */
@@ -190,12 +268,16 @@
   .qt-soru-kart--cikiyor { animation: qt-h-solgun-cik 150ms ease forwards !important; }
   .qt-sayac-balon { animation: qt-h-solgun-gir 200ms ease both !important; }
   .qt-h-gerilim::after { animation: none !important; opacity: 0.8; }
+  /* Oyun hissi: giriş, nabız (halka sabit kalır), zıplama, sallanma, parıltı, konfeti, çubuk dolması kapanır; renk ve durum kalır */
+  .qt-h-sirali, .qt-h-zipla-an, .qt-h-hop, .qt-h-salla-ara, .qt-h-nabiz::after,
+  .qt-ilerleme--canli .qt-ilerleme-dolgu, .qt-ilerleme--parilti .qt-ilerleme-dolgu::after { animation: none !important; }
+  .qt-h-isilti, .qt-konfeti { display: none; }
   .qt-iskelet { animation: none !important; opacity: 0.8; }
   .qt-donen { animation: qt-h-iskelet 800ms ease-in-out infinite alternate !important; border-top-color: currentColor; opacity: 0.6; }
 
   .qt-dugme:active:not(:disabled), .qt-ikon-dugme:active, .qt-kart--tiklanir:active, .qt-cip:active, .qt-sekme:active,
   .qt-coin--tiklanir:active, .qt-avatar-dugme:active, .qt-ustmenu-oge:active, .qt-altmenu-oge:active .qt-altmenu-ikon,
-  .qt-mod:active, .qt-sik:active:not(:disabled), .qt-skill:active, .qt-skill--kullanildi, .qt-sik--kilitli {
+  .qt-mod:active, .qt-sik:active:not(:disabled), .qt-skill:active, .qt-skill--kullanildi, .qt-sik--kilitli, .qt-satir--tiklanir:active {
     transform: none !important;
   }
   .qt-dugme:active:not(:disabled), .qt-mod:active, .qt-sik:active:not(:disabled), .qt-skill:active, .qt-cip:active,
