@@ -66,6 +66,10 @@ export default {
   "Turnuva şu an canlı": "Tournament is live now",
   "Turnuvaya git": "Go to the tournament",
   "{saat} turnuvası · lobi açık": "{saat} tournament · lobby open",
+  // Bağlamlı anahtarlar ("|ana": TR metin aynı; EN dar ana-sayfa şeridine sığsın diye kısa — 360 px'te "…" ile kesiliyordu)
+  "{saat} turnuvası · lobi açık|ana": "{saat} tournament lobby",
+  "Hafta bitimine {k}|ana": "Ends in {k}",
+  "Klasik Mod|meydan": "Classic",   // Meydan Oku mod kartı: 360 px'te "Classic Mode" iki satıra sarıp ikonun üstüne biniyordu
   "Lobide {n} oyuncu": "{n} players in the lobby",
   "Sonraki turnuva {saat}": "Next tournament {saat}",
   "Katılıyor…": "Joining…",

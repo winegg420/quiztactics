@@ -1047,7 +1047,7 @@ export default function ChallengesPage() {
                       aria-haspopup="dialog"
                       onClick={() => { setAntrenmanHata(null); setAntrenmanBot(b); }}
                     >
-                      <AvatarCerceve profile={b} boyut={48} />
+                      <AvatarCerceve profile={{ ...b, gorunen_ad: botAdi(b.gorunen_ad) }} boyut={48} />
                       <span className="a-meydan-antrenman-ad">
                         <span className="a-meydan-bot-ad">{botAdi(b.gorunen_ad)} <QtIkon ad="robot" boyut={16} /></span>
                         <QtRozet ton={zorlukTonu(isabet)} boyut="k">{z.etiket}</QtRozet>
@@ -1094,7 +1094,7 @@ export default function ChallengesPage() {
       <section className="a-meydan-bolum" aria-labelledby="a-meydan-mod-b">
         <h2 id="a-meydan-mod-b" className="qt-baslik-2">{tt("Meydan okuma modu")}</h2>
         <div className="a-meydan-modlar" role="group" aria-labelledby="a-meydan-mod-b">
-          <QtModKart mod="klasik" ad={tt("Klasik Mod")} alt={tt("{n} joker türü · aynı anda", { n: KLASIK_JOKERLER.length })}
+          <QtModKart mod="klasik" ad={tt("Klasik Mod|meydan")} alt={tt("{n} joker türü · aynı anda", { n: KLASIK_JOKERLER.length })}
                      secili={meydanModu === "normal"} rozet={secimOnayi(meydanModu === "normal")}
                      onClick={() => { secimHissi(); setMeydanModu("normal"); }} />
           <QtModKart mod="duello" ad={tt("Düello")} alt={tt("{n} joker türü · sıra sende", { n: DUELLO_JOKERLER.length })}

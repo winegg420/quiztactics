@@ -29,6 +29,8 @@
 .m1-cal-sayilar span { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); }
 .m1-cal-cubuklar { display: flex; flex-direction: column; gap: var(--qt-b-2); }
 .m1-cal-cubuk { display: grid; grid-template-columns: minmax(0, 7rem) minmax(0, 1fr) 2.5rem; align-items: center; gap: var(--qt-b-2); font-size: var(--qt-y-s); }
+/* EN: "General Knowledge" 7rem'e sığmıyordu (360 px'te "General Knowl…"); yalnız İngilizcede etiket sütunu genişler, TR değişmez. */
+.m1-cal-cubuk:lang(en) { grid-template-columns: minmax(0, 8.5rem) minmax(0, 1fr) 2.5rem; }
 .m1-cal-cubuk-ad { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: var(--qt-a-kalin); }
 .m1-cal-cubuk b { text-align: right; }
 
