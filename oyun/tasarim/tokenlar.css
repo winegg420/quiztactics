@@ -78,7 +78,7 @@
   /* ---------- 6. Mod renkleri (yazı hepsinde --qt-mod-yazi) ---------- */
   --qt-mod-yazi: #1d2152;
   --qt-mod-klasik: #ff8a3d;   --qt-mod-klasik-dudak: #c7560f;  --qt-mod-klasik-acik: #ffe6d4;
-  --qt-mod-duello: #ff6f91;   --qt-mod-duello-dudak: #c93a5d;  --qt-mod-duello-acik: #ffe0e8;
+  --qt-mod-duello: #c93030;   --qt-mod-duello-dudak: #8f1f27;  --qt-mod-duello-acik: #fde3e3;
   --qt-mod-turnuva: #ffc933;  --qt-mod-turnuva-dudak: #c28b00; --qt-mod-turnuva-acik: #fff4cf;
   --qt-mod-grup: #3fd58f;     --qt-mod-grup-dudak: #1f9a61;    --qt-mod-grup-acik: #d9f7e8;
   --qt-mod-saf: #5ab8ff;      --qt-mod-saf-dudak: #2a7fc4;     --qt-mod-saf-acik: #ddf0ff;

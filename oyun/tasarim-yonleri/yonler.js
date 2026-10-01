@@ -30,7 +30,7 @@ export const YONLER = [
       ikinci: "#6a48f5", ikinciYazi: "#ffffff", ikinciDudak: "#4526c4",
       dogru: "#2fd27a", dogruYazi: "#0d2a1b", yanlis: "#ff5a6a", yanlisYazi: "#2a0710",
       altin: "#ffc933", altinYazi: "#3a2600",
-      mod1: "#ff8a3d", mod1Dudak: "#c7560f", mod2: "#ff6f91", mod2Dudak: "#c93a5d",
+      mod1: "#ff8a3d", mod1Dudak: "#c7560f", mod2: "#c93030", mod2Dudak: "#8f1f27",
       mod3: "#ffc933", mod3Dudak: "#c28b00", mod4: "#3fd58f", mod4Dudak: "#1f9a61", modYazi: "#1d2152",
       macZemin: "#3b2a93", macZemin2: "#2a1d74", macYazi: "#ffffff", macSoluk: "#d6ccff",
       sik: "#ffffff", sikYazi: "#1d2152", sikDudak: "#b3bde6", menu: "#ffffff",
@@ -123,7 +123,7 @@ export const KONTRAST_CIFTLERI = [
   ["Maç soluk yazı / maç zemini", "macSoluk", "macZemin", false],
   ["Maç soluk yazı / maç zemini 2", "macSoluk", "macZemin2", false],
   ["Mod kartı yazısı / Klasik", "modYazi", "mod1", false],
-  ["Mod kartı yazısı / Düello", "modYazi", "mod2", false],
+  ["Mod kartı yazısı / Düello", "macYazi", "mod2", false],
   ["Mod kartı yazısı / Turnuva", "modYazi", "mod3", false],
   ["Mod kartı yazısı / Grup", "modYazi", "mod4", false],
 ];

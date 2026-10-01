@@ -12,7 +12,7 @@
   padding: var(--qt-b-5) var(--qt-b-5);
   border-radius: var(--qt-r-xl);
   background: var(--qt-mod-duello);
-  color: var(--qt-mod-yazi);
+  color: #fff;
   box-shadow: 0 var(--qt-dudak-b) 0 color-mix(in srgb, var(--qt-mod-duello) 62%, var(--qt-metin));
 }
 .m2-giris-ikon {
@@ -291,7 +291,7 @@
 .m2-yukleniyor { display: grid; place-items: center; min-height: 60dvh; }
 .m2-yukleniyor-ikon {
   display: grid; place-items: center; width: 80px; height: 80px; border-radius: var(--qt-r-l);
-  background: var(--qt-mod-duello); color: var(--qt-mod-yazi);
+  background: var(--qt-mod-duello); color: #fff;
   animation: m2-bekle calc(var(--qt-s-kirilma) * 1.4) var(--qt-egri-gecis) infinite;
 }
 .m2-surum { max-width: 480px; margin: var(--qt-b-8) auto; }
@@ -323,7 +323,7 @@
 .m2-tanitim-adim p { margin: 0; color: var(--qt-metin-soluk); font-weight: var(--qt-a-kalin); line-height: var(--qt-sa-govde); text-wrap: pretty; }
 .m2-tanitim-ikon {
   display: grid; place-items: center; width: 72px; height: 72px; border-radius: var(--qt-r-l);
-  background: var(--qt-mod-duello); color: var(--qt-mod-yazi);
+  background: var(--qt-mod-duello); color: #fff;
   box-shadow: 0 var(--qt-dudak) 0 color-mix(in srgb, var(--qt-mod-duello) 62%, var(--qt-metin));
 }
 .m2-tanitim-noktalar { display: flex; justify-content: center; gap: 6px; margin-top: var(--qt-b-4); }

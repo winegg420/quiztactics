@@ -918,7 +918,7 @@ html:not(.msk-acik) body:not(.bd-oyun-modu):has(.a-ust-blok):not(:has(.qt-ortu))
   transition: transform var(--qt-s-basma) var(--qt-egri-cikis), box-shadow var(--qt-s-basma) var(--qt-egri-cikis);
 }
 .qt-mod:active:not([aria-disabled="true"]) { transform: translateY(var(--qt-dudak)); box-shadow: 0 0 0 var(--_md); }
-.qt-mod--duello { --_m: var(--qt-mod-duello); --_md: var(--qt-mod-duello-dudak); }
+.qt-mod--duello { --_m: var(--qt-mod-duello); --_md: var(--qt-mod-duello-dudak); --_y: #fff; } /* kırmızı zemin: beyaz yazı ≈ 5,3:1 */
 .qt-mod--turnuva { --_m: var(--qt-mod-turnuva); --_md: var(--qt-mod-turnuva-dudak); }
 .qt-mod--grup { --_m: var(--qt-mod-grup); --_md: var(--qt-mod-grup-dudak); }
 .qt-mod--saf { --_m: var(--qt-mod-saf); --_md: var(--qt-mod-saf-dudak); }

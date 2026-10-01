@@ -38,6 +38,7 @@
   background: var(--_z);
 }
 .g-tanitim-gorsel--duello { --_z: var(--qt-mod-duello-acik); --_i: var(--qt-mod-duello); --_d: var(--qt-mod-duello-dudak); }
+.g-tanitim-gorsel--duello .g-tanitim-ikon { color: #fff; }
 .g-tanitim-gorsel--turnuva { --_z: var(--qt-mod-turnuva-acik); --_i: var(--qt-mod-turnuva); --_d: var(--qt-mod-turnuva-dudak); }
 .g-tanitim-gorsel--saf { --_z: var(--qt-mod-saf-acik); --_i: var(--qt-mod-saf); --_d: var(--qt-mod-saf-dudak); }
 .g-tanitim-ikon {

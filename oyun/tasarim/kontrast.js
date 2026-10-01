@@ -29,7 +29,7 @@ export const KONTRAST_CIFTLERI = [
   ["Coin yazısı / coin açık", "--qt-coin-yazi", "--qt-coin-acik", false],
   ["Gövde / vurgu açık", "--qt-metin", "--qt-vurgu-acik", false],
   ["Mod: Klasik", "--qt-mod-yazi", "--qt-mod-klasik", false],
-  ["Mod: Düello", "--qt-mod-yazi", "--qt-mod-duello", false],
+  ["Mod: Düello (beyaz yazı)", "--qt-ikinci-yazi", "--qt-mod-duello", false],
   ["Mod: Turnuva", "--qt-mod-yazi", "--qt-mod-turnuva", false],
   ["Mod: Grup", "--qt-mod-yazi", "--qt-mod-grup", false],
   ["Mod: Saf Bilgi", "--qt-mod-yazi", "--qt-mod-saf", false],

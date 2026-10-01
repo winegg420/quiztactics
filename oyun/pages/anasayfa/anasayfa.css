@@ -711,9 +711,9 @@ a.as-cip:active { transform: translateY(2px); }
 }
 .as-ko-seri { margin-left: 0; }
 
-/* DÜELLO: pembe yerine koyu kırmızı, beyaz yazı (beyaz / #C93030 ≈ 5,3:1) */
-.as-buyuk-dugme--duello { --as-bg: #c93030; --as-bg-d: #8f1f27; color: #fff; }
-.as-buyuk-dugme--duello .as-buyuk-dugme-ikon { color: #c93030; }
+/* DÜELLO: kan kırmızısı, beyaz yazı (beyaz / #C93030 ≈ 5,3:1); renk tek kaynak: tokenlar.css */
+.as-buyuk-dugme--duello { --as-bg: var(--qt-mod-duello); --as-bg-d: var(--qt-mod-duello-dudak); color: #fff; }
+.as-buyuk-dugme--duello .as-buyuk-dugme-ikon { color: var(--qt-mod-duello); }
 
 /* Turnuva bandı: 1. 2. 3. ödül madalyalı */
 .as-serit-odul { gap: 6px; }
@@ -773,30 +773,7 @@ a.as-cip:active { transform: translateY(2px); }
 @media (max-width: 1023px) and (min-height: 700px) and (max-height: 760px) { .as-a2-turnuva { margin-block: 6px; } }
 @media (min-width: 1024px) { .as-a2-turnuva { margin-block: 0; } }
 
-/* Turnuva bandı: koyu lacivert zemin + altın kupa/vurgu (eskiden sarı-turuncu bant + turuncu OYNA tek turuncu blok oluyordu).
-   KATIL turuncu kalır. Beyaz / #1B2260 ≈ 14:1 · altın #FFE08A / lacivert ≈ 10:1. Mor ve kırmızı ayrılmış (mavi = sen, kırmızı = rakip). */
-.as-serit {
-  --as-tn: #1b2260; --as-tn-2: #2b3596; --as-tn-dudak: #0d1240;
-  color: #fff;
-  background:
-    radial-gradient(110% 150% at 100% 0%, rgba(255, 201, 51, .22), transparent 55%),
-    linear-gradient(135deg, var(--as-tn-2), var(--as-tn) 70%),
-    var(--as-tn);
-  box-shadow: inset 0 2px 0 rgba(255, 255, 255, .14), 0 5px 0 var(--as-tn-dudak), var(--as-golge-kucuk);
-}
-.as-serit:active { box-shadow: inset 0 2px 0 rgba(255, 255, 255, .14), 0 1px 0 var(--as-tn-dudak); }
-.as-serit--canli { background: radial-gradient(110% 150% at 100% 0%, rgba(255, 201, 51, .3), transparent 55%), linear-gradient(135deg, var(--as-tn-2), var(--as-tn) 70%), var(--as-tn); }
-.as-serit-kupa { background: rgba(255, 255, 255, .1); color: var(--qt-coin); box-shadow: inset 0 0 0 2px var(--qt-coin); }
-.as-serit-metin small { color: #ffe08a; }
-.as-serit-odul { background: var(--qt-coin-acik); }
-/* Lobi açık: ince altın halka + nabız; ikisi de bandın en çok 5–6 px dışında (komşu karta ve ekran kenarına taşmaz) */
-.as-serit--lobi { box-shadow: inset 0 2px 0 rgba(255, 255, 255, .14), 0 5px 0 var(--as-tn-dudak), 0 0 0 3px var(--qt-coin); }
-.as-serit--lobi::after {
-  inset: -3px; border-radius: calc(var(--qt-r-l) + 3px); box-shadow: 0 0 0 2px var(--qt-coin);
-  animation: as-serit-nabiz-ic 1.6s ease-out infinite;
-}
-@keyframes as-serit-nabiz-ic { 0% { opacity: .8; transform: scale(1); } 100% { opacity: 0; transform: scale(1.02); } }
-@media (prefers-reduced-motion: reduce) { .as-serit--lobi::after { animation: none; } }
+/* Turnuva bandı sarı kalır (--qt-mod-turnuva); laciverte çevrilmişti, geri alındı. */
 
 /* OYNA / DÜELLO: uzun ekranda 128 px'e uzayıp (412×915'te ölçülen 109,5 px) içeriği üst yarıda bırakıyordu → en çok 92 px, içerik dikey ortalı.
    Kısa ekranda (≤800 px) OYNA/DÜELLO 54 px, turnuva 50, kısayol 62, şerit 50 (eskiden 60–68 / 62 / 84–90); kazanılan yer Sezon Yolu şeridine gider. */
