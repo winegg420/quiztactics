@@ -124,3 +124,7 @@
 .qt-kz-pencere-aciklama { margin: 0; text-wrap: pretty; }
 .qt-kz-pencere-fiyat { display: inline-flex; align-items: center; gap: var(--qt-b-2); margin: 0; font-weight: var(--qt-a-siyah); }
 .qt-kz-premium-onizleme { display: grid; place-items: center; padding: 48px 0 28px; overflow: visible; }
+
+/* 820/821: sahnede (seçili kalemin başlığı altında) nadirlik etiketi — köşe etiketi burada normal akışta durur */
+.qt-kz-nadirlik-satir { display: inline-flex; }
+.qt-kz-nadirlik-satir > .qt-dc-nadirlik { position: static; }

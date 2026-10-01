@@ -400,6 +400,16 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
   gizli bot takmaz, `kozmetik_ver` (etkinlik ödülü). Çizim `oyun/tasarim/premium/` (tembel), `CerceveliAvatar` karttaki
   `premium_cerceve/premium_aura`'yı çizer (2. tur: pc_alev2/simsek2/kraliyet2 570, pc_ejderha2 580); hareket yalnız profil/lobi/VS/maç sonu, ≤48 px durağan. Lig amblemi
   (`ligAmblemi.jsx`) oyuncu adının yanında her yerde. Eski dükkân auraları pasif.
+- **Avatar ve arka plan satışı (820–822, Ida 1 Eki 2026 — dal `avatar-arkaplan-satis`; migration'lar canlıya uygulanınca geçerli):**
+  Yaygın + Nadir avatar ücretsiz; **Epik 150 / Efsanevi 300 elmas** (`elmas_avatar_<nadirlik>`, TEST). Tek kaynak `avatar_nitelikleri.edinme`
+  (`ucretsiz` | `elmas`); ücretli avatarı seçmek SAHİPLİK ister (`avatar_onayla`; **sahip hesaba ayrıcalık yok**). Sahiplik `oyuncu_avatarlari`
+  (anahtar → `avatar_nitelikleri`), satın alma `avatar_satin_al` (kozmetik deseni: FOR UPDATE, `elmas_harca`, çift alım reddi, kapı `kozmetik_satis_acik`),
+  istemci durumu `avatar_sahiplik_durumu()`. Takılı ücretli avatarı olan insan hesaplara geriye uyumluluk sahipliği (`hediye`); botlara dokunulmaz.
+  Arka plan: `kozmetikler.dukkan_nadirlik` (Yıldızlı Gece nadir · Sonbahar, Su Altı, Yağan Kar epik; Yaygın yok) → fiyat
+  `elmas_arka_plan_<nadirlik>` **Nadir 100 · Epik 200 · Efsanevi 300**; `kozmetikler.nadirlik` (Koleksiyon Puanı, hepsi efsanevi) AYRI ve değişmedi.
+  Arka plan takılı değilse **lig arka planı**: `arka-plan/kayit.jsx` › `lig_<lig>` satırı — **çizimleri henüz yok**, o yüzden kart düz kalır.
+  Kilitli avatar bütün ızgaralarda kilit rozetiyle görünür, seçilemez. Test: `node araclar/avatar-arkaplan-satis-sql-testi.mjs` (ROLLBACK) ·
+  ekran `node araclar/avatar-satis-ekran.mjs` (RPC taklitli).
 - **Kart arka planı (30 Eyl 2026, Ida onayı):** `premium_aura` (Arka Plan) artık avatarın ARKASINDA değil oyuncu KARTININ arkasında çizilir
   (`CerceveliAvatar` `premiumAura`'yı yok sayar; eski çizim `premium/sanatAuralar.jsx` durur). Yer: ana sayfa kompakt kart (hareketli), profil vitrin kartı
   (hareketli), maç başı VS kartları (`VsKarti`, herkes kendi arka planıyla; Düello dahil), lig sayfasında yalnız kendi satırım (sabit), dükkân/koleksiyon
@@ -454,7 +464,7 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
 - **Taşma ödülü (730):** 28. eşik (2.800 SP) geçilince her `sezon_tasma_sp` 100 SP = 1 taşma ödülü, sezonda en çok `sezon_tasma_azami` 10;
   ücretsiz kol `sezon_tasma_ucretsiz_coin` 25, ücretli (yalnız BP, geriye dönük) `sezon_tasma_ucretli_coin` 40 coin (TEST DEĞERLERİ). `bp_tasma_al(p_kol)`,
   alım `oyuncu_bp_tasma_alimi`; `sezon_yolu_durumum().tasma`, `bp_toplu_al` ve `sezon_kapat` taşmayı da kapsar. Seviye 28'de kalır.
-- **Sezon finali (780, 1 Eki 2026):** seviye 28 ücretli ödülü = **Ejderha çerçevesi** (`pc_ejderha2`, premium çerçeve, efsanevi, "Sezon sonu ödülü"). `bp_odul_uygula` 'cerceve' türü premium çerçeve kozmetiğini `kozmetik_ver` ile sahipliğe işler (bp_odul_al / bp_toplu_al / bp_satin_al geriye dönük / sezon_kapat aynı yoldan). Ejderha ARTIK dükkânda satılmaz (`kozmetikler.satis_pasif`, `kozmetik_satista` okur); kayıt, çizim, sahipler ve takılılar durur. Ekranda 28 yuvası, hero final kartı ve BP satın alma vitrini oyuncunun kendi avatarıyla çizer (`CerceveOdulGorsel`). Kalan "?" yuvalar (ücretli kol 5, 8, 14, 17, 19, 21, 22, 23, 27) Ida'nın kararını bekliyor. Test: `sezon-finali-sql-testi` (ROLLBACK).
+- **Sezon finali (780, 1 Eki 2026):** seviye 28 ücretli ödülü = **Ejderha çerçevesi** (`pc_ejderha2`, premium çerçeve, efsanevi, "Sezon sonu ödülü"). `bp_odul_uygula` 'cerceve' türü premium çerçeve kozmetiğini `kozmetik_ver` ile sahipliğe işler (bp_odul_al / bp_toplu_al / bp_satin_al geriye dönük / sezon_kapat aynı yoldan). Ejderha ARTIK dükkânda satılmaz (`kozmetikler.satis_pasif`, `kozmetik_satista` okur); kayıt, çizim, sahipler ve takılılar durur. Ekranda 28 yuvası, hero final kartı ve BP satın alma vitrini oyuncunun kendi avatarıyla çizer (`CerceveOdulGorsel`). **822 (uygulanınca):** ödül türü `avatar` + `arka_plan`; Sezon 1: 5 Korsan · 14 Samuray (Epik avatar) · 21 Kristal Uzaylı · 27 Savaş Robotu (Efsanevi avatar) · 8 Yıldızlı Gece · 17 Su Altı (arka plan). BP ödülü dükkânda satılmaya devam eder; zaten sahipse ödül alınmış sayılır (`zaten_sahip`, çift kayıt yok, **iade/dönüşüm kararı açık**). Yuva → ödül eşlemesi TEK SATIR: `update bp_seviye_odulleri set tur, veri='{"anahtar":…}', placeholder=false` (ad/nadirlik/görsel `trg_bp_odul_doldur` ile katalogdan). Kalan "?" yuvalar (ücretli kol 19, 22, 23) Ida'nın kararını bekliyor. Test: `sezon-finali-sql-testi` (ROLLBACK).
 - **Battle Pass:** yalnız elmas, `bp_fiyat_elmas` 500; `bp_satin_al` tek atomik işlem (profil FOR UPDATE, `elmas_harca`, sahiplik,
   hak edilen ücretli ödüller geriye dönük, çift alım reddedilir). BP sahibi: ismi altın (`oyuncu_kartlari.isim_efekti = 'isim_altin'`,
   takılı efektin önüne geçer), çerçevesine altın halka (`oyuncu_kartlari.sezon_bp` → `CerceveliAvatar` `AltinHalka`), SP ×`bp_sp_carpan` 1,25

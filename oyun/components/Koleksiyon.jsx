@@ -27,9 +27,9 @@ import { NadirlikEtiketi, ElmasFiyat } from "./DukkanAuralar.jsx";
 import { KOZMETIK_SEKMELERI, KozmetikOnizlemePenceresi, KozmetikSimge, kozmetikAdi, premiumMi, useKozmetikDukkan } from "./DukkanKozmetik.jsx";
 import { kozmetikHatasi, kozmetikTak } from "../lib/kozmetik.js";
 import { aktifDil } from "../lib/dil.js";
-import { useHazirAvatarlar } from "../lib/avatarKatalogu.js";
+import { avatarKilitliMi, useAvatarSahiplik, useHazirAvatarlar } from "../lib/avatarKatalogu.js";
 import { nadirligeGoreBolumle, useNadirlikHaritasi } from "../../src/lib/avatarNadirlik.js";
-import { AvatarBolumBasligi, NadirlikImg } from "./AvatarNadirlikGoruntu.jsx";
+import { AvatarBolumBasligi, AvatarKilitRozeti, NadirlikImg } from "./AvatarNadirlikGoruntu.jsx";
 import { cerceveKatalogu, cerceveTak, auraKatalogu, auraTak, oyuncuKartiUnut } from "../lib/cerceve.js";
 import { LIG_ADLARI } from "../lib/lig.js";
 import { hataMesaji } from "../lib/hata.js";
@@ -55,6 +55,7 @@ const KAYNAK_ADI = { lig: "Lig", turnuva: "Turnuva", level: "Level", etkinlik: "
 export default function Koleksiyon() {
   const hazirAvatarlar = useHazirAvatarlar();   // 701: açılmamış hazır avatarlar süzülür
   const nadirlikHaritasi = useNadirlikHaritasi();   // 770: bayrak açıkken nadirliğe göre bölümler
+  const avatarSahiplik = useAvatarSahiplik();   // 820: Epik / Efsanevi avatar kilitli görünür, seçilemez
   const { user, profile, refreshProfile } = useAuth();
   const [cerceveler, setCerceveler] = useState(null);
   const [auralar, setAuralar] = useState(null);
@@ -343,6 +344,13 @@ export default function Koleksiyon() {
       {/* ---------- Avatarlar ---------- */}
       <QtKart as="section" className="qt-cs" aria-labelledby="qt-ks-avatar">
         <h2 id="qt-ks-avatar" className="qt-baslik-3">{tt("Avatarlar")}</h2>
+        {/* 820: kilitli avatar (sahip olunmayan Epik / Efsanevi) seçilemez — nereden alınacağı burada yazar */}
+        {[...avatarSahiplik.values()].some((s) => !s.sahibim) && (
+          <p className="qt-kucuk qt-soluk">
+            {tt("Kilitli avatarlar Dükkân'da elmasla alınır ya da Sezon Yolu'nda kazanılır.")}{" "}
+            <Link to={y("/joker?sekme=avatar")}>{tt("Dükkân'a git")}</Link>
+          </p>
+        )}
         <ul className="qt-cs-izgara qt-ks-avatarlar">
           {/* 520/550: hazır 31 avatar, ardından katalog avatarları (aynı sıra: profil ve kurulumla); 770: bayrak açıkken
               nadirliğe göre bölümlenir (Yaygın → Efsanevi), aynı nadirlikte bu sıra korunur */}
@@ -354,11 +362,17 @@ export default function Koleksiyon() {
               {b.nadirlik && <AvatarBolumBasligi as="li" nadirlik={b.nadirlik} sayi={b.ogeler.length} />}
               {b.ogeler.map((a) => {
                 const secili = profile?.avatar_url === a.url;
+                const kilitli = !secili && avatarKilitliMi(avatarSahiplik, a.url);
                 return (
                   <li key={a.url}>
-                    <button type="button" className="qt-cs-oge qt-ks-avatar" aria-pressed={secili} disabled={Boolean(mesgul)}
-                            aria-label={tt("{0} avatarını seç", { 0: a.ad })} onClick={() => avatarSec(a.url)}>
-                      <NadirlikImg src={a.url} alt="" loading="lazy" decoding="async" width="56" height="56" />
+                    <button type="button" className={"qt-cs-oge qt-ks-avatar" + (kilitli ? " qt-av-kilitli" : "")} aria-pressed={secili} disabled={Boolean(mesgul)}
+                            aria-disabled={kilitli || undefined}
+                            aria-label={kilitli ? tt("{ad} — kilitli", { ad: a.ad }) : tt("{0} avatarını seç", { 0: a.ad })}
+                            onClick={() => { if (!kilitli) avatarSec(a.url); }}>
+                      <span className="qt-av-kilit-kutu">
+                        <NadirlikImg src={a.url} alt="" loading="lazy" decoding="async" width="56" height="56" />
+                        {kilitli && <AvatarKilitRozeti />}
+                      </span>
                       <span className="qt-cs-ad">{a.ad}</span>
                     </button>
                   </li>

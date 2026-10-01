@@ -20,3 +20,25 @@
   border-radius: 50%;
   box-shadow: 0 0 0 2px var(--qt-yuzey, #fff), 0 0 0 3px rgba(29, 33, 82, 0.25);
 }
+
+/* 820: kilitli (sahip olunmayan Epik / Efsanevi) avatar — resim soluk, sağ altta kilit rozeti. Düğme seçilemez. */
+.qt-av-kilitli { position: relative; }
+.qt-av-kilitli img { opacity: 0.45; }
+.qt-av-kilit {
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--qt-yuzey, #fff);
+  background: var(--qt-metin, #1d2152);
+  color: #fff;
+  pointer-events: none;
+}
+/* Kart içinde (dükkân, koleksiyon): rozet kartın değil RESMİN köşesine otursun diye resim bu kutuya sarılır. */
+.qt-av-kilit-kutu { position: relative; display: inline-block; line-height: 0; }
+.qt-av-kilit-kutu > .qt-av-kilit { right: -2px; bottom: -2px; }

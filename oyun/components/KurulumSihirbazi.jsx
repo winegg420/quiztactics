@@ -11,9 +11,9 @@ import { useDil } from "../lib/dilKanca.js";
 import { tt } from "../lib/dil.js";
 import { QtDugme, QtToast } from "../tasarim/index.js";
 import { DavetKoduGir } from "./DavetKarti.jsx";
-import { useHazirAvatarlar, useKatalogAvatarlari } from "../lib/avatarKatalogu.js";
+import { avatarKilitliMi, useAvatarSahiplik, useHazirAvatarlar, useKatalogAvatarlari } from "../lib/avatarKatalogu.js";
 import { nadirligeGoreBolumle, useNadirlikHaritasi } from "../../src/lib/avatarNadirlik.js";
-import { AvatarBolumBasligi, NadirlikImg } from "./AvatarNadirlikGoruntu.jsx";
+import { AvatarBolumBasligi, AvatarKilitRozeti, NadirlikImg } from "./AvatarNadirlikGoruntu.jsx";
 import "../tasarim/ekranlar/g-ortak.css";
 import "../tasarim/ekranlar/g-kurulum.css";
 
@@ -36,6 +36,7 @@ export default function KurulumSihirbazi({ onTamam }) {
   const katalogAvatarlari = useKatalogAvatarlari(adim === 2);
   const hazirAvatarlar = useHazirAvatarlar();   // 701: açılmamış hazır avatarlar süzülür
   const nadirlikHaritasi = useNadirlikHaritasi();   // 770: bayrak açıkken nadirliğe göre bölümler
+  const avatarSahiplik = useAvatarSahiplik();   // 820: Epik / Efsanevi avatar kilitli görünür, seçilemez
   const [googleFoto, setGoogleFoto] = useState(null);
   const [ulkeler, setUlkeler] = useState([]);
   const [sehirler, setSehirler] = useState([]);
@@ -229,19 +230,28 @@ export default function KurulumSihirbazi({ onTamam }) {
               {nadirligeGoreBolumle([...hazirAvatarlar, ...katalogAvatarlari], (a) => a.url, nadirlikHaritasi).map((b) => (
                 <Fragment key={b.nadirlik ?? "tumu"}>
                   {b.nadirlik && <AvatarBolumBasligi nadirlik={b.nadirlik} sayi={b.ogeler.length} />}
-                  {b.ogeler.map((a) => (
-                    <button
-                      key={a.url}
-                      type="button"
-                      className={"g-avatar-sec" + (secilenAvatar === a.url ? " g-avatar-sec--secili" : "")}
-                      aria-pressed={secilenAvatar === a.url}
-                      aria-label={ceviri("{ad} avatarını seç", { ad: ceviri(a.ad) })}
-                      title={ceviri(a.ad)}
-                      onClick={() => setSecilenAvatar(a.url)}
-                    >
-                      <NadirlikImg src={a.url} alt="" loading="lazy" />
-                    </button>
-                  ))}
+                  {b.ogeler.map((a) => {
+                    const kilitli = avatarKilitliMi(avatarSahiplik, a.url);
+                    return (
+                      <button
+                        key={a.url}
+                        type="button"
+                        className={"g-avatar-sec" + (secilenAvatar === a.url ? " g-avatar-sec--secili" : "") + (kilitli ? " qt-av-kilitli" : "")}
+                        aria-pressed={secilenAvatar === a.url}
+                        aria-disabled={kilitli || undefined}
+                        aria-label={kilitli ? ceviri("{ad} — kilitli", { ad: ceviri(a.ad) }) : ceviri("{ad} avatarını seç", { ad: ceviri(a.ad) })}
+                        title={ceviri(a.ad)}
+                        onClick={() => {
+                          if (kilitli) { setHata(ceviri("Bu avatar kilitli. Kurulumdan sonra Dükkân'dan elmasla alabilirsin.")); return; }
+                          setHata(null);
+                          setSecilenAvatar(a.url);
+                        }}
+                      >
+                        <NadirlikImg src={a.url} alt="" loading="lazy" />
+                        {kilitli && <AvatarKilitRozeti />}
+                      </button>
+                    );
+                  })}
                 </Fragment>
               ))}
             </div>
