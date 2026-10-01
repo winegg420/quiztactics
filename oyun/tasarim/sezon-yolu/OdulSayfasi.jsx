@@ -14,16 +14,11 @@ import CerceveliAvatar from "../../components/CerceveliAvatar.jsx";
 import NadirlikEtiketi from "../../components/NadirlikEtiketi.jsx";
 import UnvanYazisi from "../../components/UnvanYazisi.jsx";
 import "../ekranlar/dukkan-cerceve.css";   // .qt-dc-nadirlik (NadirlikEtiketi'nin stili)
-import { OdulGorsel } from "./OdulGorsel.jsx";
+import { ArkaPlanOdulGorsel, OdulGorsel, odulArkaPlani, odulAvatarAdresi } from "./OdulGorsel.jsx";
 import { TacIkon } from "./simgeler.jsx";
 
-/** Ödül avatarının adresi: veri.gorsel | veri.avatar_url | veri.anahtar → /avatars/pro/<anahtar>.svg (yoksa null). */
-function avatarAdresi(v) {
-  if (v?.gorsel) return v.gorsel;
-  if (v?.avatar_url) return v.avatar_url;
-  if (v?.anahtar) return `/avatars/pro/${v.anahtar}.svg`;
-  return null;
-}
+/** Ödül avatarının adresi (822: veri.url; eski alanlar da okunur) — tek kaynak OdulGorsel.jsx. */
+const avatarAdresi = odulAvatarAdresi;
 
 function Onizleme({ odul, ad, profile, userId }) {
   const v = odul.veri ?? {};
@@ -55,6 +50,14 @@ function Onizleme({ odul, ad, profile, userId }) {
       <div className="sy-onizleme" data-onizleme="avatar">
         {src ? <span className="sy-buyuk-avatar"><Avatar profile={{ gorunen_ad: ad, gorunen_avatar: src }} boyut={112} /></span>
           : <span className="sy-buyuk sy-buyuk--dz"><OdulGorsel odul={odul} boyut={64} /></span>}
+      </div>
+    );
+  }
+  if (odul.tur === "arka_plan" && odulArkaPlani(v)) {
+    return (
+      <div className="sy-onizleme" data-onizleme="arka_plan">
+        <span className="sy-odul-abp-buyuk"><ArkaPlanOdulGorsel odul={odul} boyut={100} hareketli /></span>
+        <p className="sy-not">{tt("Oyuncu kartının arkasında böyle görünür")}</p>
       </div>
     );
   }
@@ -144,7 +147,10 @@ export default function OdulSayfasi({ odul, durum, dil, userId, profile, onKapat
             {tt("{n}. seviye · {kol}", { n: odul.seviye, kol: kolAdi })}
           </span>
           {odul.alindi && <QtRozet ton="dogru" ikon="onay">{tt("Alındı")}</QtRozet>}
+          {/* 822: avatar / arka plan ödülüne dükkândan ya da önceki ödülden zaten sahip */}
+          {odul.sahip && <QtRozet ton="bilgi" ikon="onay">{tt("Zaten sahipsin")}</QtRozet>}
         </div>
+        {odul.sahip && !odul.alindi && <p className="sy-not">{tt("Bu ödül sende var. Alınca alınmış sayılır; yeniden verilmez.")}</p>}
         {nedenler.length > 0 && (
           <ul className="sy-neden" role="status">
             {nedenler.map((n) => <li key={n}><QtIkon ad="kilit" boyut={16} /><span>{n}</span></li>)}
