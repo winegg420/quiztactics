@@ -1,15 +1,15 @@
 {
   "parti": 6,
   "tarih": "2026-10-01",
-  "taslak": 206,
-  "net": 137,
+  "taslak": 223,
+  "net": 149,
   "kota": {
-    "sanat": 30,
+    "sanat": 38,
     "muzik": 34,
-    "teknoloji": 23,
+    "teknoloji": 24,
     "genel_kultur": 9,
     "sinema": 4,
-    "edebiyat": 15,
+    "edebiyat": 18,
     "spor": 8,
     "tarih": 4,
     "yerel": 10
@@ -21,35 +21,35 @@
   "elenen_sebep": {
     "belirsiz": 2,
     "kota_puan": 54,
-    "sik_ipucu": 4,
-    "jev_zor": 5,
+    "sik_ipucu": 7,
+    "jev_zor": 7,
     "zayif_soru": 3,
     "eskiyebilir": 1
   },
   "kova": {
-    "sanat": 30,
+    "sanat": 38,
     "muzik": 34,
-    "teknoloji": 23,
+    "teknoloji": 24,
     "genel_kultur": 9,
     "sinema": 4,
-    "edebiyat": 15,
+    "edebiyat": 18,
     "spor": 8,
     "tarih": 4,
     "yerel_tr": 10
   },
   "kategori": {
-    "sanat": 31,
+    "sanat": 39,
     "muzik": 36,
-    "teknoloji": 25,
+    "teknoloji": 26,
     "genel_kultur": 12,
     "sinema": 4,
-    "edebiyat": 15,
+    "edebiyat": 18,
     "spor": 10,
     "tarih": 4
   },
   "zorluk": [
     0,
-    137,
+    149,
     0,
     0,
     0
@@ -58,13 +58,13 @@
     "3": 0,
     "4": 0,
     "5": 0,
-    "1-2": 137
+    "1-2": 149
   },
-  "cevrilmeyen": 137,
+  "cevrilmeyen": 149,
   "jev": {
-    "cagri": 1366,
-    "girdi_jetonu": 1042295,
-    "usd": 0.0438,
+    "cagri": 1400,
+    "girdi_jetonu": 1068062,
+    "usd": 0.0449,
     "not": "jev.jsonl içindeki tüm denemeler dahil (düzeltilip yeniden sorulanlar da)"
   },
   "zorluk_etiket_duzeltme": [],
@@ -510,6 +510,57 @@
       "kova": "yerel",
       "s": "Topkapı Sarayı'ndaki ünlü elmasın adı nedir?",
       "d": "Kaşıkçı Elması"
+    },
+    {
+      "sebep": "sik_ipucu",
+      "duzelt_yeniden_dene": true,
+      "kova": "sanat",
+      "s": "Kız Kulesi hangi şehirdedir?",
+      "d": "İstanbul",
+      "y": [
+        "İzmir",
+        "Antalya",
+        "Trabzon"
+      ],
+      "ipucuP": 0.86
+    },
+    {
+      "sebep": "sik_ipucu",
+      "duzelt_yeniden_dene": true,
+      "kova": "sanat",
+      "s": "Hacı Bayram Camii hangi şehirdedir?",
+      "d": "Ankara",
+      "y": [
+        "Bursa",
+        "Konya",
+        "Kayseri"
+      ],
+      "ipucuP": 0.84
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "teknoloji",
+      "s": "Yandex hangi ülkenin internet şirketidir?",
+      "d": "Rusya"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "teknoloji",
+      "s": "Baidu hangi ülkenin arama motorudur?",
+      "d": "Çin"
+    },
+    {
+      "sebep": "sik_ipucu",
+      "duzelt_yeniden_dene": true,
+      "kova": "teknoloji",
+      "s": "Intel ve AMD hangi bilgisayar parçasını üretir?",
+      "d": "İşlemci",
+      "y": [
+        "Klavye",
+        "Fare",
+        "Ekran"
+      ],
+      "ipucuP": 0.88
     }
   ]
 }

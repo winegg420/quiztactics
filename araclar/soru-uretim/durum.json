@@ -1056,33 +1056,33 @@
         "e": {
           "klasor": "kolay-02e",
           "durum": "bitti",
-          "soru": 137,
+          "soru": 149,
           "migration": "20260612000846_soru_parti_kolay_02e",
           "migration_not": "hazır, uygulanmadı, commit edilmedi",
           "tarih": "2026-10-01",
           "kategori": {
-            "sanat": 31,
+            "sanat": 39,
             "muzik": 36,
-            "teknoloji": 25,
+            "teknoloji": 26,
             "genel_kultur": 12,
             "sinema": 4,
-            "edebiyat": 15,
+            "edebiyat": 18,
             "spor": 10,
             "tarih": 4
           },
           "elenen": {
             "belirsiz": 2,
             "kota_puan": 54,
-            "sik_ipucu": 4,
-            "jev_zor": 5,
+            "sik_ipucu": 7,
+            "jev_zor": 7,
             "zayif_soru": 3,
             "eskiyebilir": 1
           },
-          "taslak": 206,
-          "jev_usd": 0.0438
+          "taslak": 223,
+          "jev_usd": 0.0449
         }
       },
-      "toplam_soru": 479
+      "toplam_soru": 491
     }
   }
 }

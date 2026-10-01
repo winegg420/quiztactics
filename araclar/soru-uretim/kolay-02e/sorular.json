@@ -114,6 +114,20 @@
  {
   "k": "sanat",
   "yerel": false,
+  "s": "Tate Modern müzesi hangi şehirdedir?",
+  "d": "Londra",
+  "y": [
+   "Paris",
+   "New York",
+   "Amsterdam"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
   "s": "Tiyatroda oyuncuların sözlerini unutunca onları kurtaran kişiye ne ad verilir?",
   "d": "Suflör",
   "y": [
@@ -212,6 +226,20 @@
  {
   "k": "sanat",
   "yerel": false,
+  "s": "Güzel yazı yazan sanatçıya ne ad verilir?",
+  "d": "Hattat",
+  "y": [
+   "Ressam",
+   "Nakkaş",
+   "Müzehhip"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
   "s": "Hollandalı ressam Rembrandt hangi tür tablolarıyla ünlüdür?",
   "d": "Portre",
   "y": [
@@ -268,12 +296,68 @@
  {
   "k": "sanat",
   "yerel": false,
+  "s": "Dolmabahçe Sarayı hangi şehirdedir?",
+  "d": "İstanbul",
+  "y": [
+   "Ankara",
+   "Edirne",
+   "Bursa"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Mavi kubbeli beyaz evleriyle ünlü Santorini adası hangi ülkededir?",
+  "d": "Yunanistan",
+  "y": [
+   "İtalya",
+   "İspanya",
+   "Hırvatistan"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
   "s": "Chanel markasının kurucusu kimdir?",
   "d": "Coco Chanel",
   "y": [
    "Christian Dior",
    "Yves Saint Laurent",
    "Donatella Versace"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Galata Kulesi hangi şehirdedir?",
+  "d": "İstanbul",
+  "y": [
+   "İzmir",
+   "Ankara",
+   "Bursa"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Tiyatro bölgesi West End hangi şehirdedir?",
+  "d": "Londra",
+  "y": [
+   "New York",
+   "Paris",
+   "Roma"
   ],
   "zorluk": 2,
   "en": null,
@@ -316,6 +400,20 @@
    "Word",
    "Excel",
    "Outlook"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Rijksmuseum hangi şehirdedir?",
+  "d": "Amsterdam",
+  "y": [
+   "Brüksel",
+   "Berlin",
+   "Viyana"
   ],
   "zorluk": 2,
   "en": null,
@@ -414,6 +512,20 @@
    "Beşinci",
    "Altıncı",
    "Sekizinci"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Paris'te Şanzelize Caddesi'nin ucunda yer alan ünlü yapı hangisidir?",
+  "d": "Zafer Takı",
+  "y": [
+   "Eyfel Kulesi",
+   "Louvre Müzesi",
+   "Notre Dame"
   ],
   "zorluk": 2,
   "en": null,
@@ -954,6 +1066,20 @@
  {
   "k": "teknoloji",
   "yerel": false,
+  "s": "iPad hangi şirketin ürünüdür?",
+  "d": "Apple",
+  "y": [
+   "Microsoft",
+   "Samsung",
+   "Huawei"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
   "s": "MacBook hangi şirketin ürünüdür?",
   "d": "Apple",
   "y": [
@@ -1416,12 +1542,40 @@
  {
   "k": "edebiyat",
   "yerel": false,
+  "s": "Harry Potter'ın okulu hangi adla bilinir?",
+  "d": "Hogwarts",
+  "y": [
+   "Narnia",
+   "Oz",
+   "Atlantis"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
   "s": "'Hobbit' kitabında Bilbo'nun karşılaştığı ejderhanın adı nedir?",
   "d": "Smaug",
   "y": [
    "Drogon",
    "Toothless",
    "Norbert"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Kral Arthur'un büyücü danışmanı kimdir?",
+  "d": "Merlin",
+  "y": [
+   "Gandalf",
+   "Dumbledore",
+   "Saruman"
   ],
   "zorluk": 2,
   "en": null,
@@ -1534,6 +1688,20 @@
    "Atlar",
    "İnekler",
    "Koyunlar"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Alice, Harikalar Diyarı'nda gülümseyen hangi hayvanla karşılaşır?",
+  "d": "Kedi",
+  "y": [
+   "Tavşan",
+   "Kurbağa",
+   "Kuş"
   ],
   "zorluk": 2,
   "en": null,
