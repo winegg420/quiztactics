@@ -24,7 +24,7 @@ export const ara = (r, a, b) => a + r() * (b - a);
 /** ease-in-out'a yakın yumuşak eğri: sabit hâlin, animasyonun ilk karesiyle aynı değeri vermesi için. */
 export const yumusakEgri = (f) => f * f * (3 - 2 * f);
 
-export default function YeniSahne({ tur, taban, hareketli, yukseklik, className = "", zemin, parcalar, children, katman = false, duzen = "yatay", tamGorunur = false }) {
+export default function YeniSahne({ tur, taban, hareketli, yukseklik, className = "", zemin, parcalar, children, katman = false, duzen = "yatay", tamGorunur = false, grup = null, oncelik = 0 }) {
   const kok = useRef(null);
   // katman (oyun içi kart): yükseklik kartınkidir, ölçülür (KartArkaPlan ile aynı; yukseklik = ilk tahmin) → lig satırı (~56 px) küçük düzene geçer
   const [olcu, setOlcu] = useState(yukseklik);
@@ -36,7 +36,7 @@ export default function YeniSahne({ tur, taban, hareketli, yukseklik, className 
   }, [katman]);
   const yuk = katman ? olcu : yukseklik;
   const k = yuk < 60;
-  const { mod, statik } = useHareketAyrinti(hareketli, kok);
+  const { mod, statik } = useHareketAyrinti(hareketli, kok, { grup, oncelik });
   // yeni mod + kalıcı durgunluk (hareketi azalt · pil · 3 kart sınırı · hareketsiz kart) → ayrı çizilmiş özel sabit kompozisyon (sabit-tasarim.jsx)
   const sabitTam = tamGorunur && mod === "sabit" && statik && SABIT_TURLER.includes(tur);   // zemin/parcalar işlev olabilir: (sabitTam, tamHareketli, k, yuk) => düğüm
   const al = (d) => (typeof d === "function" ? d(sabitTam, tamGorunur && !sabitTam, k, yuk) : d);

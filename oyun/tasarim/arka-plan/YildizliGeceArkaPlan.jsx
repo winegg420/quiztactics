@@ -45,7 +45,7 @@ function yildizlar(k, yeni) {
 
 const PARILTI_YOL = "M0 -5L1.1 -1.1L5 0L1.1 1.1L0 5L-1.1 1.1L-5 0L-1.1 -1.1Z";
 
-export default function YildizliGeceArkaPlan({ hareketli = false, yukseklik = 100, className = "", children, katman = false, duzen = "yatay", tamGorunur = true }) {
+export default function YildizliGeceArkaPlan({ hareketli = false, yukseklik = 100, className = "", children, katman = false, duzen = "yatay", tamGorunur = true, grup = null, oncelik = 0 }) {
   const zemin = (
     <>
       <i className="abp-gece-bant" />
@@ -60,7 +60,7 @@ export default function YildizliGeceArkaPlan({ hareketli = false, yukseklik = 10
     </>
   );
   return (
-    <YeniSahne tur="gece" tamGorunur={tamGorunur} katman={katman} duzen={duzen} taban={TABAN} hareketli={hareketli} yukseklik={yukseklik} className={className} zemin={zemin}
+    <YeniSahne tur="gece" tamGorunur={tamGorunur} katman={katman} duzen={duzen} taban={TABAN} hareketli={hareketli} grup={grup} oncelik={oncelik} yukseklik={yukseklik} className={className} zemin={zemin}
       parcalar={(_s, _h, k) => (
         <Yildizlar k={k} tamGorunur={tamGorunur} />
       )}>

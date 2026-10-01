@@ -120,6 +120,7 @@ function parcaciklarYeni(tur, k, h) {
       p.amp = ara(r, 4, 11); p.tip = "kabarcik"; p.yon = "yuk";
       p.kat = p.s < 5 * olcek ? 0 : p.s < 10 * olcek ? 1 : 2;
       p.op = [0.45, 0.72, 0.95][p.kat];
+      p.salsiz = p.kat === 0;   // en küçük (uzak) baloncukta yatay sallanma gözle seçilmez → animasyon sayısı düşer (Ö5)
       const t3 = r();
       p.ml = t3 < 0.4 ? "gir" : t3 < 0.72 ? "belir" : "ara";
       p.y0 = p.ml === "gir" ? h + p.s : h * ara(r, 0.12, 0.9);
@@ -135,6 +136,7 @@ function parcaciklarYeni(tur, k, h) {
       p.tip = buyuk ? "tane" : "nokta"; p.yon = "dus"; p.rot = r() * 360; p.don = ara(r, 9, 18);
       p.kat = buyuk ? (p.s < 15 * olcek ? 0 : p.s < 19 * olcek ? 1 : 2) : (p.s < 4 * olcek ? 0 : 1);
       p.op = buyuk ? [0.6, 0.82, 1][p.kat] : [0.5, 0.75][p.kat];
+      p.salsiz = !buyuk;   // 2,5–5,5 px'lik noktada 2–6 px sallanma gözle seçilmez → animasyon sayısı düşer (Ö5)
     } else {
       p.s = ara(r, 13, 23) * olcek;
       p.dur = ara(r, 7, 13); p.amp = ara(r, 2, 4); p.tip = "yaprak"; p.yon = "dus";
@@ -226,16 +228,79 @@ function ParcacikYeni({ p, sabit }) {
   else if (p.tip === "tane") ic = <span className="abp-y-ic"><span className="abp-hale" /><Tane v={p.varyant} /></span>;
   else ic = <span className="abp-y-ic"><Yaprak renk={p.renk} /></span>;
   return (
-    <span className={`abp-y abp-y--${p.tip}${p.ml ? ` abp-y--${p.ml}` : ""}`} style={{ ...stil, width: p.s, height: p.s }} data-sabit={sabit ? "" : undefined}>{ic}</span>
+    <span className={`abp-y abp-y--${p.tip}${p.ml ? ` abp-y--${p.ml}` : ""}${p.salsiz ? " abp-y--salsiz" : ""}`} style={{ ...stil, width: p.s, height: p.s }} data-sabit={sabit ? "" : undefined}>{ic}</span>
   );
 }
 
 // ------------------------- hareket koşulları -------------------------
 const aktifler = new Set();
 
+/**
+ * GRUP KOTASI (Dükkân › Arka Plan, Koleksiyon): birden çok örnek kart aynı ekranda. Genel 3 kart sınırı orada kartları DONDURUYORDU
+ * (hareketi azalt açıkken de hiç oynamıyordu) → grup içinde en çok GRUP_TAM kart TAM oynar (büyük önizleme önce, sonra görünür sıra),
+ * kalan görünür kartlar HAFİF oynar (.abp--yumusak: parçacıkların yarısı; hareketi azalt açıksa 2,5× yavaş). Ekran dışı kart durur.
+ */
+export const GRUP_TAM = 2;
+const gruplar = new Map();
+let grupSira = 0;
+function grupDagit(ad) {
+  const g = gruplar.get(ad); if (!g) return;
+  const sirali = [...g.values()].sort((a, b) => b.oncelik - a.oncelik || a.sira - b.sira);
+  sirali.forEach((u, i) => u.bildir(i < GRUP_TAM));
+}
+function grupKatil(ad, id, oncelik, bildir) {
+  if (!gruplar.has(ad)) gruplar.set(ad, new Map());
+  gruplar.get(ad).set(id, { oncelik, sira: grupSira++, bildir });
+  grupDagit(ad);
+  return () => { const g = gruplar.get(ad); if (!g) return; g.delete(id); if (g.size) grupDagit(ad); else gruplar.delete(ad); };
+}
+
+/**
+ * ADAPTİF KALİTE (Ö5): düşük donanımda (CPU 6× yavaş: Yağan Kar 23 fps, Su Altı 33 fps) parçacıkların bir kısmı gizlenir.
+ * Hareketli bir kart ekrandayken ilk `OLC_BUTCE` ms boyunca kare süresi ölçülür; art arda iki pencere `OLC_YAVAS` ms'yi (≈44 fps) aşarsa
+ * kalite bir kademe düşer (pencere ortalaması ≥ 30 ms ise iki kademe birden): 1 = parçacıkların %67'si, 2 = %33'ü (CSS: .abp[data-kalite]). Hızlı cihazda hiçbir şey değişmez; kademe
+ * oturum boyunca korunur (sessionStorage). Ölçüm yalnız hareketli kart varken ve sekme görünürken akar; süre aşımı/askı (>250 ms) sayılmaz.
+ */
+const KALITE_ANAHTAR = "qt_abp_kalite";
+const OLC = { pencere: 500, art: 2, yavas: 22.5, cokYavas: 30, butce: 16000, yerlesme: 1200, sonra: 900 };   // yerlesme: açılış/ilk çizim sarsıntısı sayılmasın; cokYavas: iki kademe birden
+let kalite = 0;
+try { kalite = Math.min(2, Math.max(0, Number(sessionStorage.getItem(KALITE_ANAHTAR)) || 0)); } catch { /* depolama yok */ }
+const kaliteKokleri = new Set();
+let olcAktif = 0;
+let olcKullanilan = 0;
+let olcRaf = 0;
+function kaliteDuser(kademe = 1) {
+  kalite = Math.min(2, kalite + kademe);
+  try { sessionStorage.setItem(KALITE_ANAHTAR, String(kalite)); } catch { /* depolama yok */ }
+  kaliteKokleri.forEach((el) => { el.dataset.kalite = String(kalite); });
+}
+function kaliteOlc() {
+  if (olcRaf || kalite >= 2 || olcKullanilan >= OLC.butce || typeof requestAnimationFrame === "undefined") return;
+  let son = 0; let top = 0; let n = 0; let yavasArd = 0; let agir = false; let bekle = OLC.yerlesme; let oncekiZ = 0;
+  const adim = (z) => {
+    olcRaf = 0;
+    if (!olcAktif || kalite >= 2) return;
+    const gecen = oncekiZ ? z - oncekiZ : 0; oncekiZ = z;
+    if (gecen > 250) { son = 0; top = 0; n = 0; yavasArd = 0; agir = false; olcRaf = requestAnimationFrame(adim); return; }   // sekme/askı: ölçüm sayılmaz
+    olcKullanilan += gecen; bekle -= gecen;
+    if (olcKullanilan >= OLC.butce) return;
+    if (son) { top += z - son; n++; }
+    son = z;
+    if (bekle <= 0 && top >= OLC.pencere) {
+      const ort = top / n;
+      yavasArd = ort > OLC.yavas ? yavasArd + 1 : 0;
+      agir = yavasArd > 0 && ort > OLC.cokYavas;
+      top = 0; n = 0;
+      if (yavasArd >= OLC.art) { kaliteDuser(agir ? 2 : 1); yavasArd = 0; agir = false; bekle = OLC.sonra; }
+    }
+    olcRaf = requestAnimationFrame(adim);
+  };
+  olcRaf = requestAnimationFrame(adim);
+}
+
 /** Hareket kararı + nedeni. statik = sabit kalma nedeni KALICI (hareketsiz kart · hareketi azalt · pil düşük · 3 kart sınırı) → yeni modda özel sabit
  *  kompozisyon gösterilir; geçici nedenlerde (sekme gizli · ekranda değil · ilk kare) parçacıklar donmuş durur, kompozisyon değişmez. */
-export function useHareketAyrinti(hareketli, kok) {
+export function useHareketAyrinti(hareketli, kok, { grup = null, oncelik = 0 } = {}) {
   const id = useId();
   const [azalt, setAzalt] = useState(false);
   const [gorunur, setGorunur] = useState(true);
@@ -243,6 +308,7 @@ export function useHareketAyrinti(hareketli, kok) {
   const [pilDusuk, setPilDusuk] = useState(false);
   const [yer, setYer] = useState(false);
   const [sinirda, setSinirda] = useState(false);
+  const [grupTam, setGrupTam] = useState(false);
 
   useEffect(() => {
     let mq = null; let fn = null;
@@ -270,24 +336,41 @@ export function useHareketAyrinti(hareketli, kok) {
     return () => io.disconnect();
   }, [kok]);
 
-  const iste = hareketli && gorunur && ekranda && !pilDusuk && !(azalt && AZALT_DAVRANISI === "sabit");
+  // grup (Dükkân/Koleksiyon): hareketi azalt açıkken de yumuşak oynar, pil düşükken de hafif oynar (satın aldıran şey hareketi görmek)
+  const azaltSabit = !grup && azalt && AZALT_DAVRANISI === "sabit";
+  const pilSabit = !grup && pilDusuk;
+  const iste = hareketli && gorunur && ekranda && !pilSabit && !azaltSabit;
   useEffect(() => {
     if (!iste) { setYer(false); setSinirda(false); return undefined; }
+    if (grup) { setYer(true); return grupKatil(grup, id, oncelik, setGrupTam); }
     if (aktifler.size >= MAX_HAREKETLI) { setYer(false); setSinirda(true); return undefined; }
     setSinirda(false);
     aktifler.add(id); setYer(true);
     return () => { aktifler.delete(id); };
-  }, [iste, id]);
+  }, [iste, id, grup, oncelik]);
 
-  if (!yer) return { mod: "sabit", statik: !hareketli || pilDusuk || (azalt && AZALT_DAVRANISI === "sabit") || sinirda };
-  return { mod: azalt ? "yumusak" : "oynar", statik: false };
+  // adaptif kalite: kök kayıt defterine girer (data-kalite), hareketli kart varken kare süresi ölçülür
+  useEffect(() => {
+    const el = kok.current; if (!el) return undefined;
+    kaliteKokleri.add(el); el.dataset.kalite = String(kalite);
+    return () => { kaliteKokleri.delete(el); };
+  }, [kok]);
+  useEffect(() => {
+    if (!yer) return undefined;
+    olcAktif++; kaliteOlc();
+    return () => { olcAktif--; };
+  }, [yer]);
+
+  if (!yer) return { mod: "sabit", statik: !hareketli || pilSabit || azaltSabit || sinirda };
+  // grup: kota dışı (ya da pil düşük) görünür kart HAFİF (yumuşak) oynar; kotadakiler tam (hareketi azalt açıksa yumuşak)
+  return { mod: azalt || (grup && (!grupTam || pilDusuk)) ? "yumusak" : "oynar", statik: false };
 }
 
-export function useHareket(hareketli, kok) {
-  return useHareketAyrinti(hareketli, kok).mod;
+export function useHareket(hareketli, kok, secenek) {
+  return useHareketAyrinti(hareketli, kok, secenek).mod;
 }
 
-export default function KartArkaPlan({ tur = "su", hareketli = false, yukseklik = 100, className = "", children, katman = false, duzen = "yatay", tamGorunur = true }) {
+export default function KartArkaPlan({ tur = "su", hareketli = false, yukseklik = 100, className = "", children, katman = false, duzen = "yatay", tamGorunur = true, grup = null, oncelik = 0 }) {
   const kok = useRef(null);
   // katman: kart öğesinin İÇİNDE arka katman (oyundaki kartlar) — yükseklik kartınkidir, ölçülür (yukseklik = ilk tahmin)
   const [olcu, setOlcu] = useState(yukseklik);
@@ -300,7 +383,7 @@ export default function KartArkaPlan({ tur = "su", hareketli = false, yukseklik 
   const yuk = katman ? olcu : yukseklik;
   const k = yuk < 60;
   const liste = useMemo(() => (tamGorunur ? parcaciklarYeni(tur, k, yuk) : parcaciklar(tur, k)), [tur, k, tamGorunur, yuk]);
-  const { mod, statik } = useHareketAyrinti(hareketli, kok);
+  const { mod, statik } = useHareketAyrinti(hareketli, kok, { grup, oncelik });
   const sabitTasarim = tamGorunur && mod === "sabit" && statik;   // yeni mod + kalıcı durgunluk → özel sabit kompozisyon
   const cfg = ARKA_PLANLAR[tur];
   return (

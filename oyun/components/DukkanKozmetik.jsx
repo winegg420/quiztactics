@@ -94,6 +94,8 @@ export const premiumMi = (x) => x?.tur === "premium_cerceve" || x?.tur === "prem
 function ArkaPlanOrnegi({ kalem, profile, yukseklik = 100, hareketli = false, kucuk = false }) {
   const K = ARKA_PLAN_KAYIT[KOZMETIK_TANIMLARI[kalem.anahtar]?.sanat ?? String(kalem.anahtar).slice(3)];
   const ad = profile?.gorunen_ad || tt("Oyuncu");
+  // grup "dukkan": aynı ekranda en çok 2 kart TAM oynar (büyük önizleme önce), kalan görünür kartlar hafif oynar; hareketi azalt açıkken yumuşak oynar
+  // (genel 3 kart sınırı burada kartları donduruyordu; bkz. KartArkaPlan › GRUP_TAM)
   const icerik = (
     <>
       <CerceveliAvatar profile={profile ?? {}} boyut={kucuk ? 30 : 56} cerceve={null} aura={null} premiumCerceve={null} premiumAura={null} />
@@ -102,7 +104,7 @@ function ArkaPlanOrnegi({ kalem, profile, yukseklik = 100, hareketli = false, ku
   );
   return (
     <span className={`qt-kz-abp${kucuk ? " qt-kz-abp--kucuk" : ""}`} style={{ height: yukseklik }} aria-hidden="true">
-      {K ? <K.Bilesen hareketli={hareketli} yukseklik={yukseklik}>{icerik}</K.Bilesen> : <span className="qt-kz-abp-duz">{icerik}</span>}
+      {K ? <K.Bilesen hareketli={hareketli} yukseklik={yukseklik} grup="dukkan" oncelik={kucuk ? 0 : 10}>{icerik}</K.Bilesen> : <span className="qt-kz-abp-duz">{icerik}</span>}
     </span>
   );
 }

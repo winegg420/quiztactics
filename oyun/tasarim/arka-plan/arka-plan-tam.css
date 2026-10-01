@@ -49,6 +49,21 @@
   100% { transform: translate3d(0, var(--y1), 0); opacity: 0; }
 }
 
+/* Sallanmasız parçacık (en küçük/uzak baloncuk, kar noktası): yalnız düşme/yükselme animasyonu → kart başına animasyon sayısı düşer.
+   Sabit hâl ile aynı kare (sallanma zaten merkezde başlıyordu). */
+.abp--oynar .abp-y.abp-y--salsiz, .abp--yumusak .abp-y.abp-y--salsiz {
+  animation-name: abp-yol; animation-duration: var(--dur); animation-timing-function: linear; animation-delay: var(--gec);
+  animation-iteration-count: infinite; animation-direction: normal;
+}
+.abp--oynar .abp-y.abp-y--belir.abp-y--salsiz, .abp--yumusak .abp-y.abp-y--belir.abp-y--salsiz { animation-name: abp-ysu-belir; }
+.abp--oynar .abp-y.abp-y--ara.abp-y--salsiz, .abp--yumusak .abp-y.abp-y--ara.abp-y--salsiz { animation-name: abp-ysu-ara; }
+
+/* Adaptif kalite (KartArkaPlan › kaliteOlc): kare hızı düşükse parçacıkların bir kısmı gizlenir (display:none animasyonu da iptal eder).
+   1 = %67 kalır, 2 = %33 kalır. Hızlı cihazda data-kalite="0": hiçbir kural çalışmaz. */
+.abp[data-kalite="1"] .abp-y:nth-child(3n), .abp[data-kalite="1"] .abp-gece-yildiz:nth-child(3n),
+.abp[data-kalite="2"] .abp-y:nth-child(3n), .abp[data-kalite="2"] .abp-y:nth-child(3n + 1),
+.abp[data-kalite="2"] .abp-gece-yildiz:nth-child(3n), .abp[data-kalite="2"] .abp-gece-yildiz:nth-child(3n + 1) { display: none; }
+
 /* ---------- özel sabit kompozisyon (hareketli hâlin donmuş karesi DEĞİL; ayrı çizilmiş) ---------- */
 .abp-st { position: absolute; display: block; }
 .abp-st > svg { display: block; width: 100%; height: 100%; overflow: visible; }
