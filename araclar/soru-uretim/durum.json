@@ -909,7 +909,7 @@
         "klasor": "kolay-01",
         "soru": 50,
         "migration": "20260612000840_soru_parti_kolay_01",
-        "durum": "hazir_uygulanmadi (Ida örnekleri görecek; migration dosyası commit edilmedi)",
+        "durum": "bitti_canlida (2026-10-01, Ida onayıyla uygulandı; +50 aktif)",
         "tarih": "2026-10-01",
         "kategori": {
           "sanat": 10,
@@ -930,7 +930,7 @@
       }
     ],
     "kolay_02": {
-      "aciklama": "kolay_02 üretimi: hedef 500 soru, 5 parça (a-e), yalnız zorluk 2. Yeni oturum buradan devam eder: durumu \"bitti\" olmayan ilk parçayı üret. Migration dosyaları HAZIR ama UYGULANMADI/COMMIT EDİLMEDİ (Ida soruları görecek).",
+      "aciklama": "kolay_02 üretimi: hedef 500 soru, 5 parça (a-e), yalnız zorluk 2. Yeni oturum buradan devam eder: durumu \"bitti\" olmayan ilk parçayı üret. Migration dosyaları (000842-000846) 2026-10-01 Ida onayıyla CANLIYA UYGULANDI (+491 aktif, hepsi zorluk 2).",
       "hedef": {
         "toplam": 500,
         "kategori": {

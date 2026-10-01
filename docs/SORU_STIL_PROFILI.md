@@ -51,3 +51,5 @@ ortası ve zoru tarz değil. İlk şık doğru cevaptır.
 Her partinin sonunda Ida'nın "şu numaralılar iyi / şunlar az olsun" notu buraya eklenir.
 
 - _(henüz kayıt yok — ilk pilot parti: `kolay_01`, 50 soru)_
+
+- **2026-10-01 — kolay_01 + kolay_02: 541 soru Ida onayıyla canlıya alındı** (kolay_01 50 + kolay_02 491; migration 000840, 000842–000846; hepsi zorluk 2). Canlı doğrulama: +541 aktif, yinelenen yok, doğru cevap indeksi kaynakla birebir, şık denge kapısı temiz. Aktif zorluk 2: 2.961 / 12.669 (%23,4).
