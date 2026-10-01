@@ -19,3 +19,6 @@
 /* Oyuncu kartında tek sayı */
 .qt-ok-kp { display: inline-flex; align-items: center; gap: 4px; font-weight: 800; font-size: 12.5px; color: #ffd23a; white-space: nowrap; }
 .qt-ok-kp svg { flex: none; }
+/* Zemine göre: koyu kartta (profil vitrini; Yağan Kar arka planında 4,0:1 idi) açık sarı; arama ekranı VS karesi açık gök zemin → koyu amber (1,02:1 idi) */
+.qt-ok .qt-ok-kp { color: #ffe27a; }
+.gh-vs-kart .qt-ok-kp { color: #6b4200; }

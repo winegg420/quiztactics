@@ -123,7 +123,12 @@
 .abp--dikey .abp-okuma { background: linear-gradient(180deg, rgba(10, 20, 40, .1) 0, rgba(10, 20, 40, .1) 44%, rgba(10, 20, 40, .42) 60%, rgba(10, 20, 40, .42) 100%); }
 /* Açık zeminli kartlarda (ana sayfa, lig satırı) metin renkleri açık tonlara döner (kart değişkenleri üzerinden; çocuklar devralır).
    Profil ve maç başı kartları zaten koyu zeminli: yalnız ad gölgesi. */
-.as-ko.abp-sahip.abp-sahip, .lg-ben.abp-sahip.abp-sahip { color: #fff; text-shadow: 0 1px 2px rgba(10, 20, 40, .55); --qt-metin: #fff; --qt-metin-soluk: rgba(255, 255, 255, .92); --qt-ikinci-koyu: #FFD23F; }
+.as-ko.abp-sahip.abp-sahip, .lg-ben.abp-sahip.abp-sahip { color: #fff; text-shadow: 0 1px 2px rgba(10, 20, 40, .55); --qt-metin: #fff; --qt-metin-soluk: #fff; --qt-ikinci-koyu: #FFE27A; }
+/* Sarı yazı ZEMİNE göre: kartın koyu zemininde açık sarı (Lv), ama karttaki AÇIK LAVANTA çiplerde (rütbe çipi, lig "sen" rozeti)
+   koyu mor kalır (çip zemini --qt-ikinci-acik; sarı üstünde 1,19:1 idi). Değişken çipin kendisinde yeniden tanımlanır → çocukları da devralır. */
+.abp-sahip .as-ko-rutbe, .abp-sahip .qt-rozet--mor { --qt-ikinci-koyu: #4f2fd6; text-shadow: none; }
+/* Sezon Yolu mini rozeti: BEYAZ daire içinde sayı; kartın beyaz --qt-metin'i sayıyı beyaz üstüne beyaz (1,0:1) yapıyordu → normal koyu metin */
+.abp-sahip .sz-mini-gorsel { --qt-metin: #1d2152; text-shadow: none; }
 .abp-sahip .qt-ok-ad, .abp-sahip .ara-kart-ad { text-shadow: 0 1px 2px rgba(10, 20, 40, .55); }
 
 /* ---------- Dükkân: Arka Plan kalemi örnek kartı (KozmetikSimge / KozmetikBuyukOnizleme) ---------- */
@@ -131,7 +136,8 @@
 .qt-kz-abp--kucuk { max-width: 140px; margin-inline: auto; }
 .qt-kz-abp > .abp { height: 100%; }
 .qt-kz-abp-ad { min-width: 0; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 18px; line-height: 1.1; }
-.qt-kz-abp--kucuk .qt-kz-abp-ad { font-size: 12px; }
+/* küçük örnekte "Lv 17" parçacıkların (kar taneleri) önünde koyu bir hap üstünde: beyaz yazı beyaz tanenin üstünde kaybolmasın */
+.qt-kz-abp--kucuk .qt-kz-abp-ad { flex: 0 1 auto; padding: 2px 8px; border-radius: 999px; background: rgba(10, 20, 40, .5); font-size: 12px; text-shadow: none; }
 .qt-kz-abp-duz { display: flex; align-items: center; gap: 10px; height: 100%; padding: 0 12px; border-radius: 14px; background: #1d2152; color: #fff; }
 /* küçük ızgara örneği: hücreye sığar (içerik kısa; ad yok) */
 .qt-kz-abp--kucuk .abp-icerik { gap: 8px; padding: 0 8px; }
