@@ -135,7 +135,7 @@ export function dilCoz(profil) {
 // ------------------------------------------------------------------ sözlük
 // Anahtar = TÜRKÇE metnin kendisi. Böylece çevirisi yazılmamış bir metin
 // Türkçe görünür, "kayıp anahtar" gibi teknik bir şey değil.
-const SOZLUK = {
+export const SOZLUK = {
   en: {
     // ---- Giriş ekranı (Login.jsx) ----
     "Her gün {saat}'de (Türkiye saati) turnuva.": "A tournament every day at {saat} (Türkiye time).",
@@ -2527,12 +2527,34 @@ export function t(dil, anahtar, degerler) {
   // "Açık|durum" gibi bağlamlı anahtar: aynı Türkçe kelimenin farklı karşılığı için.
   const metin = jokerAdi((dil !== "tr" && SOZLUK[dil]?.[anahtar]) || anahtar.split("|")[0]);
   if (!degerler) return metin;
-  return metin.replace(/\{(\w+)\}/g, (tam, ad) =>
+  let birVar = false;
+  const sonuc = metin.replace(/\{(\w+)\}/g, (tam, ad) => {
     // Paket 40 I: sunucudan eksik gelen alan ekrana "undefined"/"null" diye basılmasın
-    Object.prototype.hasOwnProperty.call(degerler, ad)
-      ? (degerler[ad] === undefined || degerler[ad] === null ? "" : String(degerler[ad]))
-      : tam
-  );
+    if (!Object.prototype.hasOwnProperty.call(degerler, ad)) return tam;
+    const d = degerler[ad];
+    if (d === undefined || d === null) return "";
+    // Sözlük çoğul bilmiyor: EN'de yer tutucuya 1 gelirse sayının arkasına işaret konur, aşağıda tekile çevrilir.
+    if (dil !== "tr" && (d === 1 || d === "1")) { birVar = true; return "1" + TEKIL_ISARET; }
+    return String(d);
+  });
+  return birVar ? ingilizceTekil(sonuc) : sonuc;
+}
+
+// "1 questions" → "1 question": yalnız yer tutucuyla gelen 1'in HEMEN ardındaki düzenli çoğul isim.
+const TEKIL_ISARET = "\u0001";
+const TEKIL_ISTISNA = /^(news|series|species|has|was|does|this|its|plus|always|status|bonus|focus|pass|miss|class|chaos|lens|gas|bias|us|is|as)$/i;
+function tekilYap(k) {
+  if (k.length < 4 || k === k.toUpperCase()) return k;                               // XP, SP, pts gibi kısaltmalar
+  if (TEKIL_ISTISNA.test(k) || !/s$/i.test(k) || /(ss|us|is)$/i.test(k)) return k;
+  if (/ives$/i.test(k)) return k.slice(0, -3) + "ife";                              // lives → life
+  if (/[^aeiou]ies$/i.test(k) && k.length > 4) return k.slice(0, -3) + "y";          // entries → entry
+  if (/(ch|sh|x|z)es$/i.test(k)) return k.slice(0, -2);                              // matches → match
+  return k.slice(0, -1);
+}
+function ingilizceTekil(metin) {
+  return metin
+    .replace(/\u0001(\s+)([A-Za-z]+)(?![A-Za-z(])/g, (_, bosluk, k) => bosluk + tekilYap(k))
+    .replace(/\u0001/g, "");
 }
 
 /** Kancasız çeviri: sayfanın dilinde (`aktifDil`). Bileşen dışında da çalışır. */
