@@ -85,7 +85,7 @@
   gap: var(--qt-b-2);
 }
 .qt-dk-fiyat { display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
-.qt-dk-fiyat-adet { margin-right: 2px; opacity: 0.8; }
+.qt-dk-fiyat-adet { margin-right: 2px; opacity: 0.9; }
 @media (min-width: 560px) {
   .qt-dk-skill.qt-dk-skill { grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; }
   .qt-dk-skill-al { grid-column: auto; grid-template-columns: none; grid-auto-flow: row; min-width: 148px; }
