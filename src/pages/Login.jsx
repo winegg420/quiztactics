@@ -9,7 +9,7 @@ import { useDil } from "../../oyun/lib/dilKanca.js";
 import { DILLER, girisDiliniKaydet } from "../../oyun/lib/dil.js";
 import { turnuvaSaatleri, turnuvaSaatiGoster, yerelSaatGoster } from "../../oyun/lib/zaman.js";
 
-import { ACIK_SAGLAYICILAR, acikSaglayicilariOku } from "../lib/saglayicilar.js";
+import { ACIK_SAGLAYICILAR, acikSaglayicilariOku, epostaGirisGorunur } from "../lib/saglayicilar.js";
 
 // Supabase'in İngilizce hata metinlerini oyuncuya anlaşılır Türkçeye çevirir.
 // Sağlayıcı panelde kapalıysa dönen mesaj ("provider is not enabled") teknik
@@ -17,11 +17,16 @@ import { ACIK_SAGLAYICILAR, acikSaglayicilariOku } from "../lib/saglayicilar.js"
 // `ceviri` = useDil()'den gelen t(); metinler oyuncunun dilinde döner.
 function girisHatasi(e, saglayiciAd, ceviri) {
   const m = String(e?.message ?? e ?? "");
+  const eposta = epostaGirisGorunur();
   if (/provider is not enabled|Unsupported provider/i.test(m)) {
-    return ceviri("{ad} girişi şu an kapalı. Google veya e-posta ile devam edebilirsin.", { ad: saglayiciAd });
+    return eposta
+      ? ceviri("{ad} girişi şu an kapalı. Google veya e-posta ile devam edebilirsin.", { ad: saglayiciAd })
+      : ceviri("{ad} girişi şu an kapalı. Google veya misafir olarak devam edebilirsin.", { ad: saglayiciAd });
   }
   if (/Anonymous sign-ins are disabled/i.test(m)) {
-    return ceviri("Misafir girişi şu an kapalı. Google veya e-posta ile devam edebilirsin.");
+    return eposta
+      ? ceviri("Misafir girişi şu an kapalı. Google veya e-posta ile devam edebilirsin.")
+      : ceviri("Misafir girişi şu an kapalı. Google ile devam edebilirsin.");
   }
   if (/rate limit|too many/i.test(m)) {
     return ceviri("Çok fazla deneme yapıldı. Birkaç dakika sonra tekrar dene.");
@@ -44,6 +49,7 @@ const SAGLAYICI_AD = {
 export default function Login() {
   // DİL: profil tercihi > bu tarayıcıdaki seçim > tarayıcı dili (IP'ye bakılmaz)
   const { dil, ceviri, dilDegistir } = useDil();
+  const epostaGorunur = epostaGirisGorunur();   // bayrak kapalıyken yalnız ?eposta=1 ile
   const [email, setEmail] = useState("");
   const [gonderildi, setGonderildi] = useState(false);
   const [hata, setHata] = useState(null);
@@ -274,66 +280,72 @@ export default function Login() {
               {fbBilgi && !hata && (
                 <QtToast
                   ton="bilgi"
-                  metin={ceviri("Facebook ile giriş yakında. Şimdilik Google, e-posta ya da misafir girişiyle devam edebilirsin.")}
+                  metin={epostaGorunur
+                    ? ceviri("Facebook ile giriş yakında. Şimdilik Google, e-posta ya da misafir girişiyle devam edebilirsin.")
+                    : ceviri("Facebook ile giriş yakında. Şimdilik Google ya da misafir girişiyle devam edebilirsin.")}
                   className="g-giris-not"
                 />
               )}
               {hataNotu("sosyal")}
 
-              <div className="g-giris-ayrac"><span>{ceviri("veya")}</span></div>
+              {epostaGorunur && (
+                <>
+                  <div className="g-giris-ayrac"><span>{ceviri("veya")}</span></div>
 
-              {gonderildi ? (
-                <QtBosDurum
-                  ikon="mesaj"
-                  ton="dogru"
-                  className="g-giris-gonderildi"
-                  metin={ceviri("Giriş bağlantısı {eposta} adresine gönderildi. E-postanı kontrol et.", { eposta: email })}
-                  eylem={
-                    <div className="g-giris-gonderildi-eylem">
-                      <QtDugme tur="ikincil" boyut="k" yukleniyor={bekleyen === "eposta"} devreDisi={bekleyen !== null} onClick={epostaGiris}>
-                        {bekleyen === "eposta" ? ceviri("Gönderiliyor…") : ceviri("Yeniden gönder")}
+                  {gonderildi ? (
+                    <QtBosDurum
+                      ikon="mesaj"
+                      ton="dogru"
+                      className="g-giris-gonderildi"
+                      metin={ceviri("Giriş bağlantısı {eposta} adresine gönderildi. E-postanı kontrol et.", { eposta: email })}
+                      eylem={
+                        <div className="g-giris-gonderildi-eylem">
+                          <QtDugme tur="ikincil" boyut="k" yukleniyor={bekleyen === "eposta"} devreDisi={bekleyen !== null} onClick={epostaGiris}>
+                            {bekleyen === "eposta" ? ceviri("Gönderiliyor…") : ceviri("Yeniden gönder")}
+                          </QtDugme>
+                          <QtDugme tur="hayalet" boyut="k" onClick={() => { setGonderildi(false); setHata(null); }}>
+                            {ceviri("Adresi değiştir")}
+                          </QtDugme>
+                        </div>
+                      }
+                    />
+                  ) : (
+                    <form className="g-giris-form" onSubmit={epostaGiris} noValidate>
+                      <label className="qt-gizli" htmlFor="g-giris-eposta">{ceviri("E-posta adresin")}</label>
+                      <input
+                        id="g-giris-eposta"
+                        className="g-girdi"
+                        type="email"
+                        inputMode="email"
+                        autoComplete="email"
+                        placeholder={ceviri("E-posta adresin")}
+                        value={email}
+                        onChange={(e) => { setEmail(e.target.value); if (epostaHata) setEpostaHata(null); }}
+                        aria-invalid={Boolean(epostaHata)}
+                        aria-describedby={epostaHata ? "giris-eposta-hata" : undefined}
+                      />
+                      {epostaHata && (
+                        <p className="g-alan-hata" id="giris-eposta-hata" role="alert">
+                          <QtIkon ad="uyari" boyut={18} />
+                          {epostaHata}
+                        </p>
+                      )}
+                      <QtDugme
+                        type="submit"
+                        tur="ikincil"
+                        tamGenislik
+                        className="g-giris-kaydir"
+                        ikon="mesaj"
+                        yukleniyor={bekleyen === "eposta"}
+                        devreDisi={bekleyen !== null}
+                      >
+                        {bekleyen === "eposta" ? ceviri("Gönderiliyor…") : ceviri("E-posta ile giriş bağlantısı al")}
                       </QtDugme>
-                      <QtDugme tur="hayalet" boyut="k" onClick={() => { setGonderildi(false); setHata(null); }}>
-                        {ceviri("Adresi değiştir")}
-                      </QtDugme>
-                    </div>
-                  }
-                />
-              ) : (
-                <form className="g-giris-form" onSubmit={epostaGiris} noValidate>
-                  <label className="qt-gizli" htmlFor="g-giris-eposta">{ceviri("E-posta adresin")}</label>
-                  <input
-                    id="g-giris-eposta"
-                    className="g-girdi"
-                    type="email"
-                    inputMode="email"
-                    autoComplete="email"
-                    placeholder={ceviri("E-posta adresin")}
-                    value={email}
-                    onChange={(e) => { setEmail(e.target.value); if (epostaHata) setEpostaHata(null); }}
-                    aria-invalid={Boolean(epostaHata)}
-                    aria-describedby={epostaHata ? "giris-eposta-hata" : undefined}
-                  />
-                  {epostaHata && (
-                    <p className="g-alan-hata" id="giris-eposta-hata" role="alert">
-                      <QtIkon ad="uyari" boyut={18} />
-                      {epostaHata}
-                    </p>
+                    </form>
                   )}
-                  <QtDugme
-                    type="submit"
-                    tur="ikincil"
-                    tamGenislik
-                    className="g-giris-kaydir"
-                    ikon="mesaj"
-                    yukleniyor={bekleyen === "eposta"}
-                    devreDisi={bekleyen !== null}
-                  >
-                    {bekleyen === "eposta" ? ceviri("Gönderiliyor…") : ceviri("E-posta ile giriş bağlantısı al")}
-                  </QtDugme>
-                </form>
+                  {hataNotu("eposta")}
+                </>
               )}
-              {hataNotu("eposta")}
 
               <div className="g-giris-ayrac"><span>{ceviri("hesap açmadan")}</span></div>
 
@@ -352,7 +364,9 @@ export default function Login() {
                   sağlayıcılardan üretilir (panelden okunur). */}
               <p className="qt-kucuk qt-soluk g-giris-misafir-not">
                 {ceviri(
-                  "Misafir hesabı bu cihaza bağlıdır. Puanların kaybolmasın diye daha sonra {liste} veya e-posta hesabını bağlayabilirsin.",
+                  epostaGorunur
+                    ? "Misafir hesabı bu cihaza bağlıdır. Puanların kaybolmasın diye daha sonra {liste} veya e-posta hesabını bağlayabilirsin."
+                    : "Misafir hesabı bu cihaza bağlıdır. Puanların kaybolmasın diye daha sonra {liste} hesabını bağlayabilirsin.",
                   {
                     liste: ["google", "facebook", "twitter"]
                       .filter(saglayiciAcik)

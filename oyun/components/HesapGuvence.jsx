@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
-import { acikSaglayicilariOku, ACIK_SAGLAYICILAR } from "../../src/lib/saglayicilar.js";
+import { acikSaglayicilariOku, ACIK_SAGLAYICILAR, epostaGirisGorunur } from "../../src/lib/saglayicilar.js";
 import { tt } from "../lib/dil.js";
 import { QtDugme, QtIkon, QtKart } from "../tasarim/index.js";
 import "../tasarim/ekranlar/dukkan-profil.css";
@@ -22,8 +22,8 @@ const yaz = () => { try { localStorage.setItem(DEPO, "1"); } catch (e) { console
 
 function bagHatasi(e) {
   const m = String(e?.message ?? e ?? "");
-  if (/manual linking is disabled|linking.*disabled/i.test(m)) return tt("Google ile bağlama şu an kapalı. E-posta ile güvenceye alabilirsin.");
-  if (/already.*(registered|exists|linked)|identity_already_exists|email_exists/i.test(m)) return tt("Bu hesap başka bir oyuncuya bağlı. Başka bir e-posta ya da Google hesabı dene.");
+  if (/manual linking is disabled|linking.*disabled/i.test(m)) return epostaGirisGorunur() ? tt("Google ile bağlama şu an kapalı. E-posta ile güvenceye alabilirsin.") : tt("Google ile bağlama şu an kapalı. Daha sonra tekrar dene.");
+  if (/already.*(registered|exists|linked)|identity_already_exists|email_exists/i.test(m)) return epostaGirisGorunur() ? tt("Bu hesap başka bir oyuncuya bağlı. Başka bir e-posta ya da Google hesabı dene.") : tt("Bu hesap başka bir oyuncuya bağlı. Başka bir Google hesabı dene.");
   if (/rate limit|too many/i.test(m)) return tt("Çok fazla deneme yapıldı. Birkaç dakika sonra tekrar dene.");
   if (/invalid.*email|email.*invalid/i.test(m)) return tt("E-posta adresi geçersiz görünüyor.");
   if (/network|fetch/i.test(m)) return tt("Bağlantı kurulamadı. İnternetini kontrol edip tekrar dene.");
@@ -48,7 +48,8 @@ function BaglamaFormu() {
     return () => { aktif = false; };
   }, []);
   const saglayiciAcik = (ad) => (acik ? Boolean(acik[ad]) : ACIK_SAGLAYICILAR.has(ad));
-  const epostaAcik = acik ? acik.email !== false : true;
+  // E-posta bağlama da mail yollar → bayrak kapalıyken gizli (?eposta=1 ile açılır)
+  const epostaAcik = epostaGirisGorunur() && (acik ? acik.email !== false : true);
 
   const googleBagla = async () => {
     setHata(null);
@@ -153,7 +154,7 @@ export default function HesapGuvenceOnerisi({ kazandim }) {
         <span className="qt-pf-guvence-ikon" aria-hidden="true"><QtIkon ad="kalkan" boyut={26} /></span>
         <div className="qt-pf-guvence-metin">
           <p className="qt-baslik-3">{tt("İlerlemeni kaybetme — hesabını güvenceye al")}</p>
-          <p className="qt-kucuk qt-soluk">{tt("Misafir olarak oynuyorsun. Bir e-posta ya da Google hesabı bağla, kazandıkların hiç kaybolmasın.")}</p>
+          <p className="qt-kucuk qt-soluk">{epostaGirisGorunur() ? tt("Misafir olarak oynuyorsun. Bir e-posta ya da Google hesabı bağla, kazandıkların hiç kaybolmasın.") : tt("Misafir olarak oynuyorsun. Google hesabı bağla, kazandıkların hiç kaybolmasın.")}</p>
         </div>
       </div>
       <BaglamaFormu />

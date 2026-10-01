@@ -176,6 +176,20 @@ export const SOZLUK = {
       "Facebook sign-in is not open yet. You can continue with Google or email.",
     "Facebook ile giriş yakında. Şimdilik Google, e-posta ya da misafir girişiyle devam edebilirsin.":
       "Facebook sign-in is coming soon. For now, you can continue with Google, email or as a guest.",
+    "{ad} girişi şu an kapalı. Google veya misafir olarak devam edebilirsin.":
+      "{ad} sign-in is currently closed. You can continue with Google or as a guest.",
+    "Misafir girişi şu an kapalı. Google ile devam edebilirsin.":
+      "Guest sign-in is currently closed. You can continue with Google.",
+    "Facebook ile giriş yakında. Şimdilik Google ya da misafir girişiyle devam edebilirsin.":
+      "Facebook sign-in is coming soon. For now, you can continue with Google or as a guest.",
+    "Misafir hesabı bu cihaza bağlıdır. Puanların kaybolmasın diye daha sonra {liste} hesabını bağlayabilirsin.":
+      "A guest account is tied to this device. To keep your points, you can link {liste} later.",
+    "Google ile bağlama şu an kapalı. Daha sonra tekrar dene.":
+      "Linking with Google is off right now. Please try again later.",
+    "Bu hesap başka bir oyuncuya bağlı. Başka bir Google hesabı dene.":
+      "This account is linked to another player. Try a different Google account.",
+    "Misafir olarak oynuyorsun. Google hesabı bağla, kazandıkların hiç kaybolmasın.":
+      "You're playing as a guest. Link a Google account so your winnings are never lost.",
     "Giriş bağlantısı {eposta} adresine gönderildi. E-postanı kontrol et.":
       "A sign-in link was sent to {eposta}. Please check your email.",
     "Misafir hesabı bu cihaza bağlıdır. Puanların kaybolmasın diye daha sonra {liste} veya e-posta hesabını bağlayabilirsin.":

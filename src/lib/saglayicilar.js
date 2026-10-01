@@ -34,3 +34,20 @@ export async function acikSaglayicilariOku() {
     return null;   // bilinmiyor: düğmeler eskisi gibi çizilir
   }
 }
+
+// E-POSTA İLE GİRİŞ/BAĞLAMA GEÇİCİ KAPALI (2 Eki 2026).
+// Supabase varsayılan e-posta servisi yalnız proje ekibinin adreslerine mail yollar; diğer herkese
+// "Email address not authorized" döner (bounce oranı uyarısı geldi). Kalıcı çözüm: özel SMTP + alan adı.
+// Geri açmak için `true` yap. Sahip/test için gizli kapı: adreste `?eposta=1`.
+export const EPOSTA_GIRIS_ACIK = false;
+
+/** E-posta yolu bu oturumda görünsün mü? (bayrak ya da ?eposta=1 gizli kapısı) */
+export function epostaGirisGorunur() {
+  if (EPOSTA_GIRIS_ACIK) return true;
+  try {
+    return new URLSearchParams(window.location.search).get("eposta") === "1";
+  } catch (e) {
+    console.warn("[Bildim] eposta kapısı okunamadı:", e?.message ?? e);
+    return false;
+  }
+}
