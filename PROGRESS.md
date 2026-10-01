@@ -9682,3 +9682,7 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 - Test amaçlı 4 misafir hesap (aracın 3 başarısız denemesi + 1) silindi. Eski denetim misafirine (eeb11c7e) dokunulmadı.
 - Ana paket gzip (giriş): 469,4 → 470,3 KB. `sw.js` v18. Ekran görüntüleri repoya alınmadı (boyut).
 - Başka pencerelerin bitmemiş işleri (Düello tahta: `mac.js`, `BildimApp.jsx`, `duello-tahta/`, `tasarim/duello/`) ve `DukkanKozmetik.jsx › ArkaPlanOrnegi` yorum yeri değişikliği commit dışı bırakıldı.
+
+## 2026-10-01 — Migration defteri tutarlılık denetimi (salt okunur)
+- Defter 430 / dosya 431; tek fark 710 (yildizli_gece_ac): etkisi canlıda VAR, deftere işlenmemiş (pa_gece aktif). Düzeltme önerisi raporda, UYGULANMADI.
+- Cron 28/28 dosyalarda; Auth sağlayıcı ayarları, Edge Function deploy listesi ve secret adları CLI 403 nedeniyle panelden doğrulanmalı. Rapor: tasarim/denetim/migration-defteri.md
