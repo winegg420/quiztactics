@@ -1,0 +1,246 @@
+{
+  "parti": 4,
+  "tarih": "2026-10-01",
+  "taslak": 120,
+  "net": 85,
+  "kota": {
+    "sanat": 5,
+    "muzik": 16,
+    "teknoloji": 11,
+    "genel_kultur": 12,
+    "sinema": 14,
+    "edebiyat": 11,
+    "spor": 8,
+    "tarih": 6,
+    "yerel": 2
+  },
+  "zorluk_hedef": {
+    "1-2": 100
+  },
+  "eksik": {},
+  "elenen_sebep": {
+    "jev_zor": 22,
+    "belirsiz": 4,
+    "eskiyebilir": 1,
+    "zayif_soru": 2,
+    "kota_fazlasi": 6
+  },
+  "kova": {
+    "sanat": 5,
+    "muzik": 16,
+    "teknoloji": 11,
+    "genel_kultur": 12,
+    "sinema": 14,
+    "edebiyat": 11,
+    "spor": 8,
+    "tarih": 6,
+    "yerel_tr": 2
+  },
+  "kategori": {
+    "sanat": 7,
+    "muzik": 16,
+    "teknoloji": 11,
+    "genel_kultur": 12,
+    "sinema": 14,
+    "edebiyat": 11,
+    "spor": 8,
+    "tarih": 6
+  },
+  "zorluk": [
+    0,
+    85,
+    0,
+    0,
+    0
+  ],
+  "zorluk_kova": {
+    "3": 0,
+    "4": 0,
+    "5": 0,
+    "1-2": 85
+  },
+  "cevrilmeyen": 85,
+  "jev": {
+    "cagri": 240,
+    "girdi_jetonu": 182818,
+    "usd": 0.0077,
+    "not": "jev.jsonl içindeki tüm denemeler dahil (düzeltilip yeniden sorulanlar da)"
+  },
+  "zorluk_etiket_duzeltme": [],
+  "elenenler": [
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'How Far I'll Go' şarkısı hangi Disney filminde yer alır?",
+      "d": "Moana"
+    },
+    {
+      "sebep": "belirsiz",
+      "kova": "sinema",
+      "s": "Homer Simpson'ın en sevdiği yiyecek hangisidir?",
+      "d": "Donut"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sanat",
+      "s": "Küçük Deniz Kızı heykeli hangi şehirdedir?",
+      "d": "Kopenhag"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sanat",
+      "s": "Ermitaj Müzesi hangi ülkededir?",
+      "d": "Rusya"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "yerel",
+      "s": "Sultanahmet Camii'nin kaç minaresi vardır?",
+      "d": "6"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sanat",
+      "s": "'Düşünen Adam' heykeli hangi sanatçıya aittir?",
+      "d": "Rodin"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sanat",
+      "s": "Chanel markasının kurucusu kimdir?",
+      "d": "Coco Chanel"
+    },
+    {
+      "sebep": "belirsiz",
+      "kova": "sanat",
+      "s": "Sihirbazlar şapkadan genellikle hangi hayvanı çıkarır?",
+      "d": "Tavşan"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'Reflection' şarkısı hangi Disney filminde yer alır?",
+      "d": "Mulan"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "Eminem'in sahne adını oluşturan lakap hangisidir?",
+      "d": "Slim Shady"
+    },
+    {
+      "sebep": "eskiyebilir",
+      "kova": "teknoloji",
+      "s": "Türkiye'de yemek siparişi için en çok kullanılan uygulamalardan biri hangisidir?",
+      "d": "Yemeksepeti"
+    },
+    {
+      "sebep": "belirsiz",
+      "kova": "teknoloji",
+      "s": "Tetris oyununda yukarıdan düşen parçalar neyi oluşturur?",
+      "d": "Blokları"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "genel_kultur",
+      "s": "Japonya'nın ünlü hızlı trenine ne ad verilir?",
+      "d": "Şinkansen"
+    },
+    {
+      "sebep": "belirsiz",
+      "kova": "sinema",
+      "s": "Şirinler hangi renktedir?",
+      "d": "Mavi"
+    },
+    {
+      "sebep": "zayif_soru",
+      "kova": "sinema",
+      "s": "'Shrek' filmindeki konuşan eşeğin adı nedir?",
+      "d": "Eşek"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "edebiyat",
+      "s": "Bakanları taşa çeviren Yunan mitolojisi yaratığı kimdir?",
+      "d": "Medusa"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "edebiyat",
+      "s": "'Dünyanın Merkezine Yolculuk' romanının yazarı kimdir?",
+      "d": "Jules Verne"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "yerel",
+      "s": "Dede Korkut Hikâyeleri hangi Türk boyuna aittir?",
+      "d": "Oğuz"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "spor",
+      "s": "Arjantin milli takımının çizgili forması hangi renklerdir?",
+      "d": "Mavi-beyaz"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "tarih",
+      "s": "Kolomb'un yola çıktığı gemi filosunda kaç gemi vardı?",
+      "d": "3"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sanat",
+      "s": "Ressam Degas en çok hangi sanat dalının dansçılarını resmetmiştir?",
+      "d": "Bale"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sanat",
+      "s": "Monet'nin ünlü serilerinde göletlerde resmettiği çiçek hangisidir?",
+      "d": "Nilüfer"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sanat",
+      "s": "Salvador Dalí'nin yukarı kıvrık hâliyle ünlü olduğu yüz detayı hangisidir?",
+      "d": "Bıyık"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "yerel",
+      "s": "İstanbul fotoğraflarıyla ünlü Ara Güler hangi sanat dalının ustasıdır?",
+      "d": "Fotoğraf"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sanat",
+      "s": "Fabergé yumurtaları hangi ülkenin çarlık sarayı için yapılmıştır?",
+      "d": "Rusya"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sanat",
+      "s": "Rembrandt'ın ünlü 'Gece Devriyesi' tablosu hangi ülkenin müzesindedir?",
+      "d": "Hollanda"
+    },
+    {
+      "sebep": "zayif_soru",
+      "kova": "sanat",
+      "s": "Heykel yapmak için kullanılan çekiç ve keski neyin aletleridir?",
+      "d": "Yontmanın"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'Blowin' in the Wind' şarkısının sahibi Nobel ödüllü şarkıcı kimdir?",
+      "d": "Bob Dylan"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'What Makes You Beautiful' şarkısı hangi gruba aittir?",
+      "d": "One Direction"
+    }
+  ]
+}
