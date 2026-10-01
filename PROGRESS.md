@@ -9794,3 +9794,11 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 - **Araç değişikliği (geriye uyumlu):** `birlestir-parti.mjs --klasor`; `uret-migration-parti.mjs --klasor --ad --cevirisiz` (çevirisizde `question_translations` / `ceviri_atlanan` yazılmaz). Eski parti yolu `--kontrol` ile doğrulandı. `OKU.md › Kolay seri`, `durum.json › kolay_seri`.
 - **Migration:** `supabase/migrations/20260612000840_soru_parti_kolay_01.sql` HAZIR; kapı 1+2 geçti, prova (begin → rollback) başarılı. **UYGULANMADI, dosya COMMIT EDİLMEDİ** (çalışma klasöründe izlenmeyen dosya) — Ida önce 50 soruyu görecek. Onaydan sonra: gerekiyorsa çıkar/düzelt → yeniden üret → `migration-uygula.mjs` → commit.
 - **Not:** `OKU.md` 7. adımdaki "gelistirme; main'e ASLA" satırı eskidir (dal düzeni 23 Eyl'de tek dal main oldu); dokunulmadı, kolay seri bölümünde "Dal: main" yazıyor.
+
+## 2026-10-01 — Turnuva zorluk bandı daraltıldı (4-5 kalktı)
+**Araç:** Claude Code
+**Neden:** Ida'ya göre zorluk 3 zaten zor, 4-5'in anlamı yok.
+- **Mantık (canlıdan doğrulandı):** `turnuva_soru_sec` dilim sınırını SIRA numarasıyla (dilim1_son=5, dilim2_son=10; sonrası dilim 3), dilim içi zorluğu min/max ile seçer; dilimde soru yetmezse sırayla alt dilimlerin bandına, o da yetmezse "dilime en yakın zorluk"a düşer. `turnuva_zorluk_dilim3_son` anahtarı yok.
+- **Yeni bant:** 1-5 → 1-2 (aynı) · 6-10 → 2-3 (dilim2_min 3→2) · 11+ → 3 (dilim3_min 4→3, dilim3_max 5→3).
+- **Migration:** `20260612000841_turnuva_zorluk_bandi_daralt.sql` (4 idempotent update; altın soru ve diğer ayarlara dokunulmadı). Prova + canlıya uygulama tamam, değerler canlıdan tekrar okundu.
+- **Doğrulama:** aktif zorluk 3 havuzu 4929 soru; `turnuva_soru_sec(15)` → 11-15. sıra hepsi zorluk 3. Build temiz.
