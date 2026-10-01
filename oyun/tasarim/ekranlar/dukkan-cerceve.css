@@ -110,3 +110,16 @@
 /* Uçan çip (satın alma anı) sahne kartının ve önizleme penceresinin içinde kalır (pencere sahnesi taşanı kırpar) */
 .qt-kz-pencere-sahne { position: relative; }
 .qt-kz-pencere-sahne > .qt-dc-ucan { top: var(--qt-b-3); }
+
+/* Hareketi azalt (Ida, 1 Eki 2026): Dükkân önizlemelerinin SÜREKLİ döngüleri durur, statik kare kalır (renk/durum aynı).
+   Çerçeve (pc-), Arka Plan (abp-), İsim Efekti (qt-ia-) ve Elmas (ep-) önizlemeleri kendi sonsuz döngülerini taşır;
+   yalnız bu aileler ve yalnız Dükkân (.qt-dk) içinde — uçan çip/giriş gibi bir kerelik anların azaltılmış hâli kendi kuralında.
+   Profil/maç yüzeylerindeki çerçeve "yumuşak mod"u (yumusakHareket.js) bundan etkilenmez. */
+@media (prefers-reduced-motion: reduce) {
+  .qt-dk :is([class^="pc-"], [class*=" pc-"], [class^="abp-"], [class*=" abp-"], [class^="qt-ia-"], [class*=" qt-ia-"], [class^="ep-"], [class*=" ep-"]),
+  .qt-dk :is([class^="pc-"], [class*=" pc-"], [class^="abp-"], [class*=" abp-"], [class^="qt-ia-"], [class*=" qt-ia-"], [class^="ep-"], [class*=" ep-"])::before,
+  .qt-dk :is([class^="pc-"], [class*=" pc-"], [class^="abp-"], [class*=" abp-"], [class^="qt-ia-"], [class*=" qt-ia-"], [class^="ep-"], [class*=" ep-"])::after {
+    animation: none !important;
+  }
+  .qt-dk .ep-p > svg { animation: none !important; } /* Elmas ışıltıları: svg'nin kendi sınıfı yok */
+}
