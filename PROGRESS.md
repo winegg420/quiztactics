@@ -9775,3 +9775,10 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 - **Durum tespiti:** Aşama 2 başladığında `origin/main` zaten birleşik dalı içeriyordu (97ab9dd2; başka bir oturum push etmişti) ve 820–822 canlıda zaten uygulanmıştı. Bu oturum: 820/821/822 "Zaten uygulanmış" (atlandı), **830 ve 831 uygulandı** (`migration-uygula.mjs`, aralarında 5 sn; hatasız). Yük testi koşulmadı. Yeni push yalnız bu kayıt.
 - **Canlı sonuç:** `duello_tik` ve `bildim-bot-oyna` = `15 seconds` (önce 2 seconds) · `oyuncu_avatarlari` 12 satır (hedef 12 insan; bot sahipliği 0) · defter 820–831 · bot profili 160 (820–822 yalnız `auth.uid()` RPC'lerinde profil günceller, toplu bot güncellemesi yok; eski md5 yöntemi bilinmediğinden birebir karşılaştırma yapılamadı) · BP: avatar 4 + arka_plan 2 gerçek, çerçeve 1 gerçek + 2 yer tutucu, tepki_paketi 1 yer tutucu (önceki: 9 yer tutucu) · site, /duello, /sezon-yolu 200.
 - **Not:** 831'de `lock_timeout` yok (yalnız 830'da var); sorun çıkmadı.
+
+## 2026-10-01 — Birleştirme 1: AŞAMA 2 (canlıya alındı)
+**Araç:** Claude Code (Sonnet 5.5). Ida "push et" dedi.
+- **Migration (migration-uygula.mjs, sırayla, 5 sn arayla):** 820, 821, 822 hatasız uygulandı; defter 822'de. **830/831 (duello cron) UYGULANMADI** — brifte yalnız 820–822 vardı, "Ida uygular" notu duruyor; dosyalar main'de, canlı DB'de henüz yok.
+- **Push:** `97ab9dd2` → main (375e7b9a'dan hızlı ileri). Vercel durumu success; canlı 200.
+- **Sonrası (salt okuma):** `oyuncu_avatarlari` 0 → 12 satır (12 hesap, hepsi 'hediye', bot 0, eksik sahiplik 0) · bot imzası aynı (160, md5 dc9b710f…) · `avatar_nitelikleri` 26 elmas / 44 ücretsiz · `oyun_ayarlari` elmas_avatar_epik 150 / efsanevi 300 · BP yuvaları 5/8/14/17/21/27 dolu (avatar 4 + arka_plan 2, placeholder=false); kalan placeholder: çerçeve 2, tepki 1 · `oyuncu_kozmetikleri` 7 (değişmedi) · `oyuncu_bp_odul_alimi` yazılmadı.
+- **Canlı doğrulama (mevcut oturum, yeni hesap yok):** `/`, `/joker`, `/sezon-yolu`, `/profil?sekme=ayarlar` × 390/1440: taşma 0, konsol 0, 4xx 0; ana sayfada Sezon şeridi var; canlı paket `avatar_sahiplik_durumu` ve `sezon_ozetim` içeriyor.
