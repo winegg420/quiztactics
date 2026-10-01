@@ -6,7 +6,8 @@ import { useAuth } from "../../src/context/AuthContext.jsx";
 import { QtIkon, QtIkonDugme, QtDugme, QtListeSatiri } from "../tasarim/index.js";
 import "../tasarim/ekranlar/l-kart.css";
 import { y } from "../lib/yol.js";
-import { tt, ttSunucu } from "../lib/dil.js";
+import { tt } from "../lib/dil.js";
+import { bildirimMetni } from "../lib/konum.js";
 import { useDmOkunmamis, dmTazele } from "../lib/mesajlar.js";
 
 const TIP_IKON = {
@@ -381,7 +382,7 @@ export default function BildirimZili() {
                 ikon={TIP_IKON[b.tip] ?? "zil"}
                 ikonTon={TIP_TON[b.tip] ?? "mor"}
                 vurgulu={!b.okundu}
-                baslik={<span className="bz-metin">{ttSunucu(b.metin)}</span>}
+                baslik={<span className="bz-metin">{bildirimMetni(b.metin)}</span>}
                 alt={zamanMetni(b.created_at)}
                 onClick={() => {
                   setAcik(false);

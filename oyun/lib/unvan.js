@@ -5,6 +5,7 @@
 // ============================================================
 import { supabase } from "../../src/lib/supabase.js";
 import { aktifDil } from "./dil.js";
+import { ulkeAdi, ulkeAdiCevir } from "./konum.js";
 import { oyuncuKartiUnut } from "./cerceve.js";
 
 async function rpc(ad, parametre) {
@@ -34,13 +35,13 @@ export async function unvanTak(anahtar, userId) {
 /**
  * Oyuncu kartındaki unvan → görünen metin (oyuncunun dilinde).
  * Şehir: TR "Balıkesir Şampiyonu" · EN "Champion of Balıkesir". Ülke (647): TR "Türkiye Şampiyonu" · EN "Champion of Türkiye"
- * (ad = ulkeler.ad, tek dil). Dünya (647): sabit "Dünya Şampiyonu" / "World Champion". Diğerleri sunucudan iki dilde gelir.
+ * (ad = ulkeler.ad Türkçe kalır; EN'de ülke adı istemcide çevrilir: kod varsa Intl, yoksa Türkçe adın karşılığı). Dünya (647): sabit "Dünya Şampiyonu" / "World Champion". Diğerleri sunucudan iki dilde gelir.
  */
 export function unvanMetni(unvan) {
   if (!unvan) return null;
   const en = aktifDil() === "en";
   if (unvan.tur === "sehir") return en ? `Champion of ${unvan.sehir}` : `${unvan.sehir} Şampiyonu`;
-  if (unvan.tur === "ulke") return en ? `Champion of ${unvan.ad}` : `${unvan.ad} Şampiyonu`;
+  if (unvan.tur === "ulke") return en ? `Champion of ${unvan.ulke ? ulkeAdi(unvan.ulke, unvan.ad) : ulkeAdiCevir(unvan.ad)}` : `${unvan.ad} Şampiyonu`;
   if (unvan.tur === "dunya") return en ? "World Champion" : "Dünya Şampiyonu";
   return (en ? unvan.en : unvan.tr) ?? unvan.tr ?? null;
 }

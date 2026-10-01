@@ -4,7 +4,8 @@ import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import { QtToast, QtToastYuvasi, QtDugme } from "../tasarim/index.js";
 import "../tasarim/ekranlar/l-kart.css";
-import { tt, ttSunucu } from "../lib/dil.js";
+import { tt } from "../lib/dil.js";
+import { bildirimMetni } from "../lib/konum.js";
 import { coinTazele } from "../lib/coin.js";
 import { sesBildirim, sesCoin } from "../lib/ses.js";
 
@@ -139,7 +140,7 @@ export default function BildirimToast() {
         ton={TON[stil.sinif] ?? "bilgi"}
         ikon={stil.ikon}
         baslik={stil.baslik}
-        metin={ttSunucu(aktif.metin)}
+        metin={bildirimMetni(aktif.metin)}
         eylem={aktif.yol ? (
           <QtDugme tur={kabulMu ? "birincil" : "ikincil"} boyut="k" onClick={git}>
             {kabulMu ? tt("Oyuna git") : tt("Göster")}

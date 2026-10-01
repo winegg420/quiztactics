@@ -60,7 +60,7 @@ export default function UnvanSecici() {
       )}
       {veri.ulke_sampiyonu && (
         <p className="qt-kucuk">
-          <UnvanYazisi unvan={{ tur: "ulke", ad: veri.ulke_sampiyonu.ad }} />{" "}
+          <UnvanYazisi unvan={{ tur: "ulke", ulke: veri.ulke_sampiyonu.ulke, ad: veri.ulke_sampiyonu.ad }} />{" "}
           {tt("Bu hafta ülke şampiyonusun: bu unvan kendiliğinden görünüyor.")}
         </p>
       )}

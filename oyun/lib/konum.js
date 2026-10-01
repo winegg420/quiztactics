@@ -1,4 +1,4 @@
-import { tt, aktifDil } from "./dil.js";
+import { tt, ttSunucu, aktifDil } from "./dil.js";
 // Konum (ülke/şehir) ve haftalık lig yardımcıları.
 // Ülke/şehir listeleri DB'deki `ulkeler` / `sehirler` tablolarından gelir
 // (sunucu doğrulaması için); burada yalnızca gösterim yardımcıları var.
@@ -35,6 +35,49 @@ export function ulkeAdi(kod, yedek) {
   } catch {
     return yedek ?? kod;
   }
+}
+
+// Sunucunun ürettiği Türkçe ülke adı ("Filipinler") → arayüz dilindeki ad ("Philippines"). Veri değişmez (ulkeler.ad Türkçe kalır);
+// çeviri istemcide: Türkçe ad → kod (tarayıcının Türkçe bölge adları) → Intl.DisplayNames. Türkçe arayüzde ad olduğu gibi döner.
+const ESKI_KODLAR = new Set(["DD", "CS", "VD", "YU", "ZR", "TP", "NT", "SU", "BU", "FX", "AN", "QO", "EU", "UN", "EZ", "ZZ", "XA", "XB"]);
+let adKodlari = null;
+function adKodlariKur() {
+  const harita = new Map();
+  try {
+    const tr = new Intl.DisplayNames(["tr"], { type: "region" });
+    for (let a = 65; a <= 90; a++) {
+      for (let b = 65; b <= 90; b++) {
+        const kod = String.fromCharCode(a, b);
+        if (ESKI_KODLAR.has(kod)) continue;
+        let ad;
+        try { ad = tr.of(kod); } catch { continue; }
+        if (ad && ad !== kod && !harita.has(ad)) harita.set(ad, kod);
+      }
+    }
+  } catch { /* Intl.DisplayNames yok: ad olduğu gibi kalır */ }
+  return harita;
+}
+export function ulkeAdiCevir(trAd) {
+  if (!trAd || aktifDil() === "tr") return trAd;
+  adKodlari ??= adKodlariKur();
+  const kod = adKodlari.get(trAd);
+  return kod ? ulkeAdi(kod, trAd) : trAd;
+}
+let adDeseni = null;
+/** Cümle içindeki Türkçe ülke adlarını arayüz diline çevirir (sunucu bildirimleri: "🏆 Filipinler Şampiyonu oldun!"). */
+function ulkeAdlariniCevir(metin) {
+  if (typeof metin !== "string" || aktifDil() === "tr") return metin;
+  adKodlari ??= adKodlariKur();
+  if (!adKodlari.size) return metin;
+  adDeseni ??= new RegExp(
+    "(?<![\\p{L}])(" + [...adKodlari.keys()].sort((x, y) => y.length - x.length).map((x) => x.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|") + ")(?![\\p{L}])",
+    "gu",
+  );
+  return metin.replace(adDeseni, (ad) => ulkeAdiCevir(ad));
+}
+/** Uygulama içi bildirim metni: sunucu çevirisi + ülke adı çevirisi. */
+export function bildirimMetni(metin) {
+  return ulkeAdlariniCevir(ttSunucu(metin));
 }
 
 // Konum günde bir kez değişebilir (RPC de aynı kuralı uygular).
