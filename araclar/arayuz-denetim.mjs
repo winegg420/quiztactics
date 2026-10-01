@@ -66,6 +66,8 @@ const SAYFALAR = [
   { ad: "turnuva", yol: "/turnuva" },
   { ad: "duello", yol: "/duello" },
   { ad: "calisma", yol: "/calisma" },
+  { ad: "gorevler", yol: "/gorevler" },       // tam ekran sahne (QtSahne)
+  { ad: "sezon-yolu", yol: "/sezon-yolu" },   // tam ekran sahne (QtSahne)
   { ad: "gizlilik", yol: "/gizlilik" },
   { ad: "kosullar", yol: "/kosullar" },
   { ad: "bulunamadi", yol: "/boyle-bir-sayfa-yok" },

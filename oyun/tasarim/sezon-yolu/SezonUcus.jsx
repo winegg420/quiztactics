@@ -4,6 +4,7 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { CoinIkon } from "../../components/ParaIkonlari.jsx";
+import { QT_SAHNE_COIN_HAPI } from "../sahne/QtSahne.jsx";
 
 const ARA_MS = 110;
 
@@ -19,7 +20,8 @@ export default function SezonUcus({ kaynak, onBitti }) {
 
   useLayoutEffect(() => {
     let b = null;
-    try { b = document.querySelector(".bd-coin-hap")?.getBoundingClientRect(); } catch { /* yok */ }
+    // Sahnede uygulama üst çubuğu gizli: hedef sahnenin coin hapı (yoksa üst çubuktaki)
+    try { b = (document.querySelector(QT_SAHNE_COIN_HAPI) ?? document.querySelector(".bd-coin-hap"))?.getBoundingClientRect(); } catch { /* yok */ }
     const a = kaynak?.getBoundingClientRect?.();
     if (!b || !b.width) { bitti.current?.(); return; }
     const x0 = a ? a.left + a.width / 2 - 8 : window.innerWidth / 2 - 8;

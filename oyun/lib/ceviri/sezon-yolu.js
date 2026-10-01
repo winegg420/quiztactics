@@ -123,4 +123,8 @@ export default {
   "Sezon sonu ödülü": "Season-end reward",
   "Geçmek için dokun": "Tap to skip",
   "{n}. seviyeye Battle Pass ile ulaşınca senin olur": "Yours when you reach level {n} with the Battle Pass",
+  // Sahne (1 Eki 2026): tam ekran Battle Pass sahnesi
+  "Ödülleri al ({n})": "Claim rewards ({n})",
+  "{n} seviye": "{n} levels",
+  "1 seviye": "1 level",
 };

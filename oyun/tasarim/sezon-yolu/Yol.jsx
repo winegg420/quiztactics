@@ -1,4 +1,8 @@
-// Sezon Yolu yatay yolu: üstte ücretsiz kol, ortada numaralı duraklar, altta ücretli (Battle Pass) kol; sonda "28+" taşma sütunu.
+// Sezon Yolu yolu. SAHNE (1 Eki 2026): varsayılan dışa aktarım DİKEY iki şeritli yoldur (DikeyYol, dosyanın sonunda) —
+// her satır bir seviye: solda ücretsiz ödül kutusu · ortada seviye düğümü · sağda Battle Pass ödül kutusu.
+// Eski YATAY yol (YolSeridi) görünümden kalktı; bileşen aşağıda durur.
+// --- eski yatay yol ---
+// Üstte ücretsiz kol, ortada numaralı duraklar, altta ücretli (Battle Pass) kol; sonda "28+" taşma sütunu.
 // Yuva kenarı NADİRLİK rengiyle (null = sıradan); kilometre taşı (her 5. seviye ve son) büyük yuva + yıldızlı daire;
 // ücretli kol altın zemin ve RENKLİ (kilit yalnız küçük rozet); alınabilir: turuncu çerçeve + hediye rozeti + nabız; alınan: yeşil tik.
 // Mevcut seviye işaretçisi oyuncunun KENDİ çerçeveli avatarı (hareketsiz).
@@ -62,7 +66,7 @@ function TasmaYuva({ kol, durum, bpVar, onTasma }) {
   );
 }
 
-export default function YolSeridi({ durum, toplam, bpVar, harita, yeniAlinan, yeniAcilan, onSec, onTasma, profile, userId, yolRef, parla = null }) {
+export function YolSeridi({ durum, toplam, bpVar, harita, yeniAlinan, yeniAcilan, onSec, onTasma, profile, userId, yolRef, parla = null }) {
   const duraklar = Array.from({ length: toplam }, (_, i) => i + 1);
   const sablon = `${duraklar.map((n) => (tasMi(n, toplam) ? "var(--sy-tas)" : "var(--sy-kol)")).join(" ")} var(--sy-tasma)`;
   const tasmaCol = toplam + 1;
@@ -110,5 +114,118 @@ export default function YolSeridi({ durum, toplam, bpVar, harita, yeniAlinan, ye
         ))}
       </div>
     </div>
+  );
+}
+
+// ============================================================
+// DİKEY YOL (sahne) — ekranın tek odağı. Bütün "alınabilir / alındı" kararı sunucudan (odul.alinabilir / odul.alindi).
+// Kutu: 64 px; NADİRLİK yalnız çerçeve rengiyle (data-nadirlik → --sy-kenar; yazı/lejant yok).
+// Alınabilir: tek vurgu rengi çerçeve + "Al" (tek dokunuş → onAl); alınmış: soluk + "alındı"; kilitli: nötr (dokununca önizleme).
+// ============================================================
+
+/** Kutunun köşesindeki miktar (coin/elmas sayısı, joker adedi); diğer türlerde görsel yeter. */
+function miktarYazi(o) {
+  const v = o.veri ?? {};
+  if (o.placeholder) return "";
+  if (o.tur === "coin" || o.tur === "elmas") return sayiBicim(Number(v.miktar ?? 0));
+  if (o.tur === "joker") return `×${Number(v.adet ?? 1)}`;
+  return "";
+}
+
+function Kutu({ odul, durum, bpVar, yeniAlindi, mesgul, onSec, onAl }) {
+  const bpKilit = odul.kol === "ucretli" && !bpVar;
+  const al = Boolean(odul.alinabilir) && !odul.alindi;
+  const s = odul.alindi ? "alindi" : al ? "alinabilir" : "kilitli";
+  const kolAdi = odul.kol === "ucretli" ? tt("Battle Pass kolu") : tt("Ücretsiz kol");
+  const durumYazi = odul.alindi ? tt("alındı") : al ? tt("alınabilir") : tt("kilitli");
+  const miktar = miktarYazi(odul);
+  return (
+    <button type="button" className={`sy-kutu sy-kutu--${s}${yeniAlindi ? " sy-kutu--doldu" : ""}`}
+      data-nadirlik={odul.nadirlik ?? "siradan"} data-yuva={anahtar(odul)} disabled={al && mesgul}
+      aria-label={`${tt("{n}. seviye", { n: odul.seviye })}, ${kolAdi}: ${odul.placeholder ? tt("Yakında") : odulAdi(odul, durum.dil)}, ${durumYazi}`}
+      onClick={() => (al ? onAl(odul) : onSec(odul))}>
+      <span className="sy-kutu-cerceve">
+        <OdulGorsel odul={odul} boyut={odulCerceveSanati(odul) ? 52 : 38} />
+        {miktar && <span className="sy-kutu-miktar" aria-hidden="true">{miktar}</span>}
+        {s === "kilitli" && bpKilit && <span className="sy-kutu-kilit" aria-hidden="true"><QtIkon ad="kilit" boyut={11} /></span>}
+      </span>
+      <span className="sy-kutu-alt" aria-hidden="true">
+        {al && <span className="sy-kutu-al">{tt("Al|görev")}</span>}
+        {odul.alindi && <span className="sy-kutu-alindi"><QtIkon ad="onay" boyut={11} />{tt("alındı")}</span>}
+      </span>
+    </button>
+  );
+}
+
+/** 28+ taşma satırının bir kolu: dokununca taşma alt sayfası (alma oradan, aynı mantık). */
+function TasmaKutu({ kol, durum, bpVar, onTasma }) {
+  const t = durum.tasma;
+  const adim = tasmaAdimi(durum);
+  const alinabilir = Number(kol === "ucretli" ? t?.alinabilir_ucretli : t?.alinabilir_ucretsiz) || 0;
+  const bpKilit = kol === "ucretli" && !bpVar;
+  const yazi = adim ? tt("Her {n} SP", { n: sayiBicim(adim) }) : tt("Taşma ödülü");
+  const kolAdi = kol === "ucretli" ? tt("Battle Pass kolu") : tt("Ücretsiz kol");
+  return (
+    <button type="button" className={`sy-kutu sy-kutu--tasma sy-kutu--${alinabilir > 0 ? "alinabilir" : "kilitli"}`} data-nadirlik="siradan" data-yuva={`tasma:${kol}`}
+      aria-label={`${tt("Taşma ödülü")}, ${kolAdi}: ${yazi}${alinabilir ? `, ${tt("{n} ödül alınabilir", { n: alinabilir })}` : ""}`}
+      onClick={() => onTasma(kol)}>
+      <span className="sy-kutu-cerceve">
+        <CoinIkon boyut={38} />
+        {alinabilir > 0 && <span className="sy-kutu-miktar" aria-hidden="true">×{alinabilir}</span>}
+        {alinabilir === 0 && bpKilit && <span className="sy-kutu-kilit" aria-hidden="true"><QtIkon ad="kilit" boyut={11} /></span>}
+      </span>
+      <span className="sy-kutu-alt" aria-hidden="true">
+        {alinabilir > 0 ? <span className="sy-kutu-al">{tt("Al|görev")}</span> : <span className="sy-kutu-not">{yazi}</span>}
+      </span>
+    </button>
+  );
+}
+
+export default function DikeyYol({ durum, toplam, bpVar, harita, yeniAlinan, yeniAcilan, mesgul, onSec, onAl, onTasma, parla = null, finalUnvan = null }) {
+  const duraklar = Array.from({ length: toplam }, (_, i) => i + 1);
+  const seviye = Number(durum.seviye ?? 0);
+  const kutu = (n, kol) => {
+    const o = harita.get(`${n}:${kol}`);
+    if (!o) return <span className="sy-kutu-bos" />;
+    return <Kutu odul={o} durum={durum} bpVar={bpVar} yeniAlindi={yeniAlinan.has(`${n}:${kol}`)} mesgul={mesgul} onSec={onSec} onAl={onAl} />;
+  };
+  return (
+    <ol className="sy-dikey" aria-label={tt("Sezon Yolu ödülleri")}>
+      {duraklar.map((n) => {
+        const simdi = n === seviye;
+        const son = n === toplam;
+        const c = [
+          "sy-satir", n <= seviye && "sy-satir--acik", n < seviye && "sy-satir--gecildi", simdi && "sy-satir--simdi",
+          n === 1 && "sy-satir--ilk", son && "sy-satir--final", son && !durum.tasma && "sy-satir--son",
+          yeniAcilan.has(n) && "sy-satir--acildi", parla === n && simdi && "sy-satir--parla",
+        ].filter(Boolean).join(" ");
+        return (
+          <li key={n} className={c} data-durak={n}>
+            <div className="sy-satir-ic">
+              <div className="sy-serit sy-serit--ucretsiz">{kutu(n, "ucretsiz")}</div>
+              <div className="sy-dugum-hucre">
+                <span className="sy-dugum" aria-label={simdi ? tt("{n}. seviye, şu anki seviyen", { n }) : tt("{n}. seviye", { n })}
+                      aria-current={simdi ? "step" : undefined}>
+                  <b>{n}</b>
+                </span>
+              </div>
+              <div className="sy-serit sy-serit--ucretli">{kutu(n, "ucretli")}</div>
+            </div>
+            {son && finalUnvan}
+          </li>
+        );
+      })}
+      {durum.tasma && (
+        <li className={`sy-satir sy-satir--tasma sy-satir--son${seviye >= toplam ? " sy-satir--acik" : ""}`} data-durak="tasma">
+          <div className="sy-satir-ic">
+            <div className="sy-serit sy-serit--ucretsiz"><TasmaKutu kol="ucretsiz" durum={durum} bpVar={bpVar} onTasma={onTasma} /></div>
+            <div className="sy-dugum-hucre">
+              <span className="sy-dugum sy-dugum--tasma" aria-label={tt("28 sonrası taşma ödülleri")}><SonsuzIkon boyut={20} /></span>
+            </div>
+            <div className="sy-serit sy-serit--ucretli"><TasmaKutu kol="ucretli" durum={durum} bpVar={bpVar} onTasma={onTasma} /></div>
+          </div>
+        </li>
+      )}
+    </ol>
   );
 }

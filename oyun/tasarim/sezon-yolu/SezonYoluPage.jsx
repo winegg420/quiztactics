@@ -4,23 +4,26 @@
 // ödül vermez — yalnız RPC çağırır ve cevabı çizer. Sistem kapalıysa (gorunur=false) "Bu bölüm şu an kapalı" +
 // ana sayfaya replace. Sahip için kapalı sistemde test sezonu görünür (durum.test) ve test araçları açılır.
 // Bu dosya yalnız DURUM + akış (yükle/al/satın al); görünüm parçaları yan dosyalarda:
-//   sezonTemalari.jsx (sezon teması) · SezonUst.jsx (hero, seviye, BP düğmesi) · Yol.jsx (yatay yol) · SiradakiOdul.jsx
+//   SezonUst.jsx (seviye çubuğu, bonus satırı, BP düğmesi) · Yol.jsx (dikey iki şeritli yol) · SiradakiOdul.jsx
 //   OdulSayfasi.jsx (önizleme) · TasmaSayfasi.jsx (28+) · SatinAlSayfasi.jsx · Kutlama.jsx · SezonUcus.jsx (coin uçuşu)
-// Hareketi azalt: patlama/parlama/uçuş sadeleşir (oyun/tasarim/yumusakHareket.js; CSS @media).
+// SAHNE (1 Eki 2026): sayfa bir "web sayfası" değil TAM EKRAN OYUN SAHNESİ (QtSahne): uygulama üst çubuğu + alt menü gizli, ekran kilitli;
+//   üst şerit "Sezon N · X gün kaldı" · sabit üst: seviye + SP çubuğu + iki sütun başlığı · tek kaydırılan odak: DİKEY yol ·
+//   sabit alt: sıradaki büyük ödül + (BP) günlük bonus + tek büyük düğme. Sezon teması arka plan çizmez (zemin düz); tema yalnız ilk açılış perdesinde.
+// Hareketi azalt: patlama/parlama/uçuş sadeleşir (oyun/tasarim/yumusakHareket.js; CSS @media); yol mevcut seviyeye anında gelir.
 // ============================================================
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { QtKart, QtDugme, QtRozet, QtIkon, QtBosDurum, QtIskelet, QtIlerleme, sayiBicim } from "../index.js";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { QtKart, QtDugme, QtIkon, QtBosDurum, QtIskelet, QtSahne, dokunus } from "../index.js";
 import { useAuth } from "../../../src/context/AuthContext.jsx";
 import { tt } from "../../lib/dil.js";
 import { useDil } from "../../lib/dilKanca.js";
 import { hataMesaji } from "../../lib/hata.js";
 import { sesCoin, sesRozet, sesSatinAlma } from "../../lib/ses.js";
-import { sezonDurumu, bpSatinAl, bpTopluAl, bpBonusGorevAl, sahipSpEkle, sahipTestSifirla } from "../../lib/sezonYolu.js";
+import { sezonDurumu, bpSatinAl, bpOdulAl, bpTopluAl, bpBonusGorevAl, sahipSpEkle, sahipTestSifirla } from "../../lib/sezonYolu.js";
 import UnvanYazisi from "../../components/UnvanYazisi.jsx";
 import BulunamadiPage from "../../pages/BulunamadiPage.jsx";
 import { sezonTemasi } from "./sezonTemalari.jsx";
-import { SezonHero, SeviyeSatiri, BpDugmesi, FaydaCipleri, Lejant } from "./SezonUst.jsx";
-import YolSeridi from "./Yol.jsx";
+import { SeviyeUst, BonusSatiri, BpAlDugmesi } from "./SezonUst.jsx";
+import DikeyYol from "./Yol.jsx";
 import SiradakiOdul from "./SiradakiOdul.jsx";
 import OdulSayfasi from "./OdulSayfasi.jsx";
 import TasmaSayfasi from "./TasmaSayfasi.jsx";
@@ -28,7 +31,7 @@ import SatinAlSayfasi from "./SatinAlSayfasi.jsx";
 import Kutlama from "./Kutlama.jsx";
 import SezonUcus from "./SezonUcus.jsx";
 import SezonAcilisPerdesi from "./SezonAcilisPerdesi.jsx";
-import { ACILIS_MS, PARLA_MS, azaltMi, hayaletBirak, perdeGerekliMi } from "./acilis.js";
+import { ACILIS_MS, PARLA_MS, azaltMi, perdeGerekliMi } from "./acilis.js";
 import { anahtar, paraMiktari } from "./OdulGorsel.jsx";
 import { OdulKimlik } from "./CerceveOdulGorsel.jsx";
 import "./sezon-yolu.css";
@@ -49,7 +52,7 @@ export default function SezonYoluPage() {
   const [ucus, setUcus] = useState(null);              // { kaynak } — coin uçuşu
   const [yeniAcilan, setYeniAcilan] = useState(() => new Set());
   const [yeniAlinan, setYeniAlinan] = useState(() => new Set());
-  const [islem, setIslem] = useState(null);            // "toplu" | "bonus" | "test"
+  const [islem, setIslem] = useState(null);            // "toplu" | "bonus" | "test" | "tek:<seviye>:<kol>"
   const [islemHata, setIslemHata] = useState(null);
   const yolRef = useRef(null);
   const topluRef = useRef(null);
@@ -58,24 +61,27 @@ export default function SezonYoluPage() {
   const onceki = useRef(null);
   const kaydirildi = useRef(false);
   const vurguZaman = useRef(null);
-  const kabukEl = useRef(null);            // son bilinen sayfa kabuğu (kapanış geçişi için; sökülürken ref null olur)
   const acilisBasladi = useRef(false);
   const kaydirAnimId = useRef(0);
   const parlaZaman = useRef(null);
-  const [acilis, setAcilis] = useState("bekle");   // "bekle": veri/perde bekleniyor (görünmez) · "oyna": sayfa kayarak açılır
+  const [acilis, setAcilis] = useState("bekle");   // "bekle": veri/perde bekleniyor · "oyna": yol mevcut seviyeye kayar (sahnenin girişi QtSahne'de)
   const [perde, setPerde] = useState(false);       // sezonun ilk açılışı: tam perde
   const [parla, setParla] = useState(null);        // açılışta parlayan durak (mevcut seviye)
-  const kabukRef = useCallback((el) => { if (el) kabukEl.current = el; }, []);
 
-  // Kapanış: sayfa sökülmeden hemen önce kabuğun donmuş kopyası alta kayıp solar (250 ms; hareketi azaltta yok)
-  useLayoutEffect(() => () => hayaletBirak(kabukEl.current), []);
+  /** Satırı (seviye) kaydırılan bölgenin ORTASINA getiren scrollTop (yol = QtSahne'nin kaydırılan bölgesi). */
+  const ortaHedef = (yol, el) => {
+    const yr = yol.getBoundingClientRect();
+    const er = el.getBoundingClientRect();
+    const azami = Math.max(0, yol.scrollHeight - yol.clientHeight);
+    return Math.min(azami, Math.max(0, yol.scrollTop + (er.top - yr.top) - (yol.clientHeight - er.height) / 2));
+  };
 
   const kaydir = useCallback((seviye, yumusak) => {
     const yol = yolRef.current;
     const el = yol?.querySelector(`[data-durak="${seviye === "tasma" ? "tasma" : Math.max(1, seviye)}"]`);
     if (!yol || !el) return;
-    const sol = Math.max(0, el.offsetLeft - (yol.clientWidth - el.offsetWidth) / 2);
-    try { yol.scrollTo({ left: sol, behavior: yumusak && !azaltMi() ? "smooth" : "auto" }); } catch { yol.scrollLeft = sol; }
+    const ust = ortaHedef(yol, el);
+    try { yol.scrollTo({ top: ust, behavior: yumusak && !azaltMi() ? "smooth" : "auto" }); } catch { yol.scrollTop = ust; }
   }, []);
 
   const yukle = useCallback(async () => {
@@ -128,14 +134,14 @@ export default function SezonYoluPage() {
     const yol = yolRef.current;
     const el = yol?.querySelector(`[data-durak="${Math.max(1, seviye)}"]`);
     if (!yol || !el) { bitti?.(); return; }
-    const hedef = Math.max(0, el.offsetLeft - (yol.clientWidth - el.offsetWidth) / 2);
-    const bas = yol.scrollLeft;
+    const hedef = ortaHedef(yol, el);
+    const bas = yol.scrollTop;
     const fark = hedef - bas;
-    if (azaltMi() || sure <= 0 || Math.abs(fark) < 2) { yol.scrollLeft = hedef; bitti?.(); return; }
+    if (azaltMi() || sure <= 0 || Math.abs(fark) < 2) { yol.scrollTop = hedef; bitti?.(); return; }
     const t0 = performance.now();
     const adim = (t) => {
       const o = Math.min(1, (t - t0) / sure);
-      yol.scrollLeft = bas + fark * (1 - (1 - o) ** 3);
+      yol.scrollTop = bas + fark * (1 - (1 - o) ** 3);
       if (o < 1) kaydirAnimId.current = requestAnimationFrame(adim); else bitti?.();
     };
     kaydirAnimId.current = requestAnimationFrame(adim);
@@ -149,7 +155,7 @@ export default function SezonYoluPage() {
     else setAcilis("oyna");
   }, [durum, userId]);
 
-  // Sayfa açılırken (400 ms) yol mevcut seviyeye kayar; bitince o durak kısa parlar
+  // Sahne açılırken (400 ms) yol mevcut seviyeyi ekranın ORTASINA getirir (hareketi azaltta anında); bitince o düğüm kısa parlar
   useEffect(() => {
     if (!durum || acilis !== "oyna" || kaydirildi.current || !yolRef.current) return;
     kaydirildi.current = true;
@@ -187,8 +193,10 @@ export default function SezonYoluPage() {
   if (durum && durum.gorunur === false) return <BulunamadiPage kapaliMod kapaliOzellik />;
 
   if (!durum) {
+    // Ağaç biçimi yüklü hâlle AYNI (Provider › QtSahne): veri gelince sahne yeniden kurulmaz, giriş geçişi ikinci kez oynamaz
     return (
-      <div className="sy-sayfa" aria-busy={!hata}>
+      <OdulKimlik.Provider value={{ profile }}>
+      <QtSahne baslik={tt("Sezon Yolu")} className="sy-sahne" aria-busy={!hata}>
         {hata ? (
           <QtKart dolgu="b">
             <QtBosDurum ikon="uyari" ton="yanlis" baslik={tt("Sezon Yolu açılamadı")}
@@ -202,7 +210,8 @@ export default function SezonYoluPage() {
             <QtIskelet tur="kart" yukseklik="280px" />
           </>
         )}
-      </div>
+      </QtSahne>
+      </OdulKimlik.Provider>
     );
   }
 
@@ -217,7 +226,6 @@ export default function SezonYoluPage() {
   const seciliOdul = secili ? harita.get(secili) : null;
   const bonus = durum.bonus_gorev;
   const final = durum.final_unvan;
-  const carpan = Number(durum.bp?.sp_carpan ?? 1).toLocaleString(dil === "en" ? "en-US" : "tr-TR");
   const tema = sezonTemasi(durum.sezon?.no);
   const finalOdul = harita.get(`${toplam}:ucretli`);
 
@@ -232,100 +240,76 @@ export default function SezonYoluPage() {
   const bpAcilsin = () => { setSecili(null); setTasmaKol(null); setSatinAlAcik(true); };
 
   const topluAl = () => calistir("toplu", async () => {
+    dokunus();
     const r = await bpTopluAl(userId);
     const liste = [...(Array.isArray(r?.verilen) ? r.verilen : []), ...(Array.isArray(r?.tasma_verilen) ? r.tasma_verilen : [])];
     const coin = liste.filter((o) => o.tur === "coin").reduce((t, o) => t + paraMiktari(o), 0);
     odulAlindi({ tur: coin > 0 ? "coin" : "diger", miktar: coin }, "toplu");
   }, tt("Ödüller alınamadı. Tekrar dener misin?"));
 
+  /** Yoldaki alınabilir kutuya tek dokunuş: mevcut bp_odul_al. Ses/uçuş yalnız sunucu başarı cevabından sonra (hata → kutlama yok). */
+  const tekAl = (odul) => calistir(`tek:${anahtar(odul)}`, async () => {
+    dokunus();
+    const r = await bpOdulAl(odul.seviye, odul.kol, userId);
+    odulAlindi(r?.odul ?? odul, anahtar(odul));
+  }, tt("Ödül alınamadı. Tekrar dener misin?"));
+
+  const bonusAl = () => calistir("bonus", async () => {
+    dokunus();
+    await bpBonusGorevAl();
+    try { sesRozet(); } catch { /* ses yok */ }
+  }, tt("Görev ödülü alınamadı. Tekrar dener misin?"));
+
+  const kalanGun = Number(durum.sezon?.kalan_gun ?? 0);
+
+  // 28. seviye satırının (özel geniş kutu) içindeki sezon unvanı — ayrı satır/şerit değil
+  const finalUnvan = final?.anahtar ? (
+    <div className="sy-final-unvan">
+      <span className="sy-final-unvan-etiket">{tt("Sezon unvanı")}</span>
+      <UnvanYazisi metin={dil === "en" ? (final.ad_en || final.ad_tr) : final.ad_tr} tur="lig" boy="k" />
+      {final.kazanildi
+        ? <span className="sy-final-unvan-durum"><QtIkon ad="onay" boyut={12} />{tt("Kazanıldı")}</span>
+        : !bpVar && <span className="sy-final-unvan-durum" role="img" aria-label={tt("Bu ödül için Battle Pass gerekir.")}><QtIkon ad="kilit" boyut={12} /></span>}
+    </div>
+  ) : null;
+
   return (
     <OdulKimlik.Provider value={{ profile }}>
-    <div className={`sy-sayfa${acilis === "oyna" ? " sy-sayfa--ac" : " sy-sayfa--bekle"}`} ref={kabukRef}>
-      <SezonHero durum={durum} tema={tema} finalOdul={finalOdul} toplam={toplam} testNotu={Boolean(durum.test)}
-        onFinal={(o) => setSecili(anahtar(o))} />
-
-      <QtKart dolgu="o" className="sy-kart-seviye">
-        <SeviyeSatiri durum={durum} toplam={toplam} bpVar={bpVar} carpan={carpan} />
-      </QtKart>
-
-      <BpDugmesi durum={durum} bpVar={bpVar} onAl={() => setSatinAlAcik(true)} />
-
-      {islemHata && <p className="sy-hata sy-hata--sayfa" role="alert">{islemHata}</p>}
-
-      <section className="sy-yol-kutu" aria-label={tt("Sezon Yolu ödülleri")}>
-        <YolSeridi durum={d} toplam={toplam} bpVar={bpVar} harita={harita} yeniAlinan={yeniAlinan} yeniAcilan={yeniAcilan}
-          onSec={(o) => setSecili(anahtar(o))} onTasma={setTasmaKol} profile={profile} userId={userId} yolRef={yolRef} parla={parla} />
-      </section>
-
-      <div className="sy-yol-arac">
-        <QtDugme tur="ikincil" boyut="k" ikon="ileri" onClick={() => kaydir(Math.max(1, durum.seviye), true)}>
-          {tt("Seviyem")}
-        </QtDugme>
-        {alinabilirSayi > 0 && (
-          <QtDugme boyut="k" ikon="hediye" className="sy-hepsini" yukleniyor={islem === "toplu"} devreDisi={Boolean(islem)}
-            ref={topluRef} onClick={topluAl}>
-            {tt("Hepsini al ({n})", { n: alinabilirSayi })}
-          </QtDugme>
-        )}
-      </div>
-
-      <SiradakiOdul durum={durum} toplam={toplam} harita={harita} dil={dil} onGit={(n) => kaydir(n, true)} />
-      {!bpVar && <FaydaCipleri carpan={carpan} />}
-      <Lejant />
-
-      <div className="sy-notlar">
-        <p className="sy-mac-sp qt-soluk">
-          {tt("Bugün maçlardan: {n} / {m} SP", { n: sayiBicim(Number(durum.bugun_mac_sp ?? 0)), m: sayiBicim(Number(durum.gunluk_mac_tavan ?? 0)) })}
-        </p>
-        {bpVar && final?.anahtar && (
-          <div className="sy-final">
-            <span>{tt("Sezon unvanı")}</span>
-            <UnvanYazisi metin={dil === "en" ? (final.ad_en || final.ad_tr) : final.ad_tr} tur="lig" boy="k" />
-            <QtRozet boyut="k" ton={final.kazanildi ? "dogru" : "notr"} ikon={final.kazanildi ? "onay" : "kilit"}>
-              {final.kazanildi ? tt("Kazanıldı") : tt("{n}. seviyede", { n: toplam })}
-            </QtRozet>
-          </div>
-        )}
-      </div>
-
-      {bpVar && bonus && (
-        <QtKart dolgu="o" className="sy-bonus">
-          <div className="sy-bonus-ust">
-            <span className="sy-bonus-ikon" aria-hidden="true"><QtIkon ad="bayrak" boyut={22} /></span>
-            <div className="sy-bonus-ic">
-              <b>{tt("Günlük bonus görev")}</b>
-              <span className="qt-soluk">{tt("Bugün {n} maç oyna", { n: bonus.hedef })} · +{sayiBicim(Number(bonus.sp ?? 0))} SP</span>
-            </div>
-          </div>
-          <QtIlerleme ton="dogru" deger={Math.min(Number(bonus.ilerleme ?? 0), Number(bonus.hedef ?? 1))} en={Math.max(1, Number(bonus.hedef ?? 1))}
-            etiket={tt("Günlük görev ilerlemesi")} />
-          <div className="sy-bonus-alt">
-            <span className="qt-sayi">{Math.min(Number(bonus.ilerleme ?? 0), Number(bonus.hedef ?? 0))} / {bonus.hedef}</span>
-            {bonus.alindi ? (
-              <QtRozet ton="dogru" ikon="onay">{tt("Alındı")}</QtRozet>
-            ) : (
-              <QtDugme boyut="k" ikon="hediye" devreDisi={Number(bonus.ilerleme ?? 0) < Number(bonus.hedef ?? 0) || Boolean(islem)}
-                yukleniyor={islem === "bonus"}
-                onClick={() => calistir("bonus", () => bpBonusGorevAl(), tt("Görev ödülü alınamadı. Tekrar dener misin?"))}>
-                {tt("Görevi al")}
+      <QtSahne className="sy-sahne" govdeRef={yolRef}
+        baslik={tt("Sezon {n}", { n: durum.sezon?.no ?? "" })}
+        altBaslik={kalanGun <= 0 ? tt("Bugün bitiyor") : tt("{n} gün kaldı", { n: kalanGun })}
+        ust={<SeviyeUst durum={durum} />}
+        alt={(
+          <>
+            {islemHata && <p className="sy-hata sy-hata--sayfa" role="alert">{islemHata}</p>}
+            <SiradakiOdul durum={durum} toplam={toplam} harita={harita} dil={dil} onGit={(n) => kaydir(n, true)} />
+            {bpVar && bonus && <BonusSatiri bonus={bonus} islemde={islem === "bonus"} mesgul={Boolean(islem)} onAl={bonusAl} />}
+            {bpVar ? alinabilirSayi > 0 && (
+              <QtDugme tamGenislik ikon="hediye" className="sy-hepsini" yukleniyor={islem === "toplu"} devreDisi={Boolean(islem)}
+                ref={topluRef} onClick={topluAl}>
+                {tt("Ödülleri al ({n})", { n: alinabilirSayi })}
               </QtDugme>
-            )}
-          </div>
-        </QtKart>
-      )}
+            ) : <BpAlDugmesi durum={durum} onAl={() => setSatinAlAcik(true)} />}
+          </>
+        )}>
+        <DikeyYol durum={d} toplam={toplam} bpVar={bpVar} harita={harita} yeniAlinan={yeniAlinan} yeniAcilan={yeniAcilan}
+          mesgul={Boolean(islem)} onSec={(o) => setSecili(anahtar(o))} onAl={tekAl} onTasma={setTasmaKol} parla={parla} finalUnvan={finalUnvan} />
 
-      {durum.test && durum.sahip && (
-        <QtKart dolgu="o" ton="duz" className="sy-testkutu">
-          <b>{tt("Test modu")}</b>
-          <p className="qt-soluk">{tt("Yalnız sahip görür; sistem kapalıyken test sezonunu dener.")}</p>
-          <div className="sy-test-dugmeler">
-            <QtDugme tur="ikincil" boyut="k" devreDisi={Boolean(islem)} onClick={() => calistir("test", () => sahipSpEkle(100), tt("SP eklenemedi."))}>+100 SP</QtDugme>
-            <QtDugme tur="ikincil" boyut="k" devreDisi={Boolean(islem)} onClick={() => calistir("test", () => sahipSpEkle(500), tt("SP eklenemedi."))}>+500 SP</QtDugme>
-            <QtDugme tur="tehlike" boyut="k" devreDisi={Boolean(islem)} onClick={() => calistir("test", () => sahipTestSifirla(userId), tt("Sıfırlanamadı."))}>{tt("Sıfırla")}</QtDugme>
-          </div>
-        </QtKart>
-      )}
+        {/* Sahibin test araçları: yalnız sahipte (test sezonu), yolun sonunda küçük katlanır alan — sahnenin sabit yuvalarına girmez */}
+        {durum.test && durum.sahip && (
+          <details className="sy-test">
+            <summary>{tt("Test modu")}</summary>
+            <p className="qt-soluk-zemin">{tt("Test sezonu · yalnız sen görüyorsun")}</p>
+            <div className="sy-test-dugmeler">
+              <QtDugme tur="ikincil" boyut="k" devreDisi={Boolean(islem)} onClick={() => calistir("test", () => sahipSpEkle(100), tt("SP eklenemedi."))}>+100 SP</QtDugme>
+              <QtDugme tur="ikincil" boyut="k" devreDisi={Boolean(islem)} onClick={() => calistir("test", () => sahipSpEkle(500), tt("SP eklenemedi."))}>+500 SP</QtDugme>
+              <QtDugme tur="tehlike" boyut="k" devreDisi={Boolean(islem)} onClick={() => calistir("test", () => sahipTestSifirla(userId), tt("Sıfırlanamadı."))}>{tt("Sıfırla")}</QtDugme>
+            </div>
+          </details>
+        )}
+      </QtSahne>
 
+      {/* Alt sayfalar, kutlama, coin uçuşu ve ilk açılış perdesi sahnenin DIŞINDA: sabit katmanlar hareketli atanın içine girmez (iOS) */}
       {seciliOdul && (
         <OdulSayfasi key={secili} odul={seciliOdul} durum={d} dil={dil} userId={userId} profile={profile}
           onKapat={() => setSecili(null)} onBpAl={bpAcilsin} onAlindi={odulAlindi} />
@@ -338,7 +322,6 @@ export default function SezonYoluPage() {
         <SezonAcilisPerdesi sezonNo={durum.sezon?.no} finalOdul={finalOdul} tema={tema} dil={dil} userId={userId}
           onKapat={() => { setPerde(false); setAcilis("oyna"); }} />
       )}
-    </div>
     </OdulKimlik.Provider>
   );
 }

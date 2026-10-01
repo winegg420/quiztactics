@@ -131,3 +131,71 @@ export function Lejant() {
     </div>
   );
 }
+
+// ============================================================
+// SAHNE (1 Eki 2026) — QtSahne yuvalarının parçaları. Yukarıdaki SezonHero / SeviyeSatiri / BpDugmesi / FaydaCipleri / Lejant
+// görünümden kalktı (bileşenler durur). Hesap yok: bütün sayılar sunucudan gelen alanlardan.
+// ============================================================
+
+/** "ust" yuvası: "Seviye N" · "x / y SP" + ince canlı çubuk + iki sütun başlığı (Ücretsiz | Battle Pass). Son seviyede taşma ilerlemesi. */
+export function SeviyeUst({ durum }) {
+  const son = durum.sonraki_esik == null;
+  const tasma = durum.tasma;
+  const onceki = Number(durum.onceki_esik ?? 0);
+  const ilerDeger = Math.max(0, Number(durum.sp ?? 0) - onceki);
+  const ilerEn = son ? 1 : Math.max(1, Number(durum.sonraki_esik) - onceki);
+  const adim = son ? tasmaAdimi(durum) : null;
+  const tasmaKalan = tasma?.sonraki_icin_sp;
+  return (
+    <div className="sy-ust">
+      <div className="sy-ust-satir">
+        <b>{son ? tt("Sezon yolu tamam") : tt("Seviye {n}", { n: durum.seviye })}</b>
+        <span className="qt-sayi">
+          {son ? (tasma ? tt("Taşma {n} / {m}", { n: tasma.kazanilan ?? 0, m: tasma.azami ?? 0 }) : "")
+            : <><SayanSayi deger={ilerDeger} bicim={sayiBicim} /> / {sayiBicim(ilerEn)} SP</>}
+        </span>
+      </div>
+      <QtIlerleme ton="vurgu" canli className="sy-ust-cubuk"
+        deger={son ? (tasmaKalan == null || !adim ? 1 : Math.max(0, adim - tasmaKalan)) : ilerDeger}
+        en={son ? (tasmaKalan == null || !adim ? 1 : adim) : ilerEn}
+        etiket={son ? tt("Taşma ödülüne ilerleme") : tt("Sonraki seviyeye ilerleme")} />
+      <div className="sy-ust-kollar" aria-hidden="true">
+        <span>{tt("Ücretsiz")}</span>
+        <span />
+        <span><TacIkon boyut={14} />{tt("Battle Pass")}</span>
+      </div>
+    </div>
+  );
+}
+
+/** "alt" yuvası: Battle Pass günlük bonus görevi, tek ince satır ("Bugün N maç oyna · +X SP"; alınabilirse "Al"). */
+export function BonusSatiri({ bonus, islemde, mesgul, onAl }) {
+  const hedef = Math.max(1, Number(bonus.hedef ?? 1));
+  const ilerleme = Math.min(Number(bonus.ilerleme ?? 0), hedef);
+  const hazir = !bonus.alindi && Number(bonus.ilerleme ?? 0) >= Number(bonus.hedef ?? 0);
+  return (
+    <div className={`sy-bonus-satir${bonus.alindi ? " sy-bonus-satir--alindi" : ""}${hazir ? " sy-bonus-satir--hazir" : ""}`}>
+      <span className="sy-bonus-metin">{tt("Bugün {n} maç oyna", { n: bonus.hedef })} · +{sayiBicim(Number(bonus.sp ?? 0))} SP</span>
+      {bonus.alindi ? (
+        <span className="sy-bonus-durum"><QtIkon ad="onay" boyut={14} />{tt("alındı")}</span>
+      ) : hazir ? (
+        <QtDugme boyut="k" className="sy-bonus-al" yukleniyor={islemde} devreDisi={mesgul} onClick={onAl}
+                 aria-label={tt("Görevi al")}>{tt("Al|görev")}</QtDugme>
+      ) : (
+        <span className="sy-bonus-durum qt-sayi">{ilerleme} / {hedef}</span>
+      )}
+    </div>
+  );
+}
+
+/** "alt" yuvası: Battle Pass yokken tek büyük düğme (taç + fiyat). Tek vurgu rengi: standart birincil düğme. */
+export function BpAlDugmesi({ durum, onAl }) {
+  const fiyat = sayiBicim(Number(durum.bp?.fiyat ?? 0));
+  return (
+    <QtDugme tamGenislik className="sy-bp-dugme" onClick={onAl} aria-label={tt("Battle Pass al, {n} elmas", { n: fiyat })}>
+      <TacIkon boyut={20} />
+      <span>{tt("Battle Pass al")}</span>
+      <span className="sy-fiyat-cip"><ElmasIkon boyut={16} />{fiyat}</span>
+    </QtDugme>
+  );
+}

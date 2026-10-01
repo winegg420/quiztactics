@@ -4,6 +4,9 @@
    Nadirlik kenarı: sıradan gri · nadir yeşil · epik mor · efsanevi altın (tokenlar.css › --qt-nadir-*).
    iOS: position:fixed ile transform aynı öğede/atada YOK (fixed yalnız .sy-ucus: hareket içteki öğelerde); yükseklik dvh.
    Yatay kaydırma yalnız .sy-yol-kaydirma içinde; sayfa yatay taşmaz.
+   SAHNE (1 Eki 2026): sayfa artık QtSahne içinde (kök .sy-sahne) — güncel görünüm dosyanın SONUNDAKİ "SAHNE" bölümündedir
+   (üst yuva, dikey iki şeritli yol, alt yuva). Aşağıdaki hero / seviye kartı / yatay yol / lejant kuralları görünümden kalkan
+   eski parçalara aittir (bileşenleriyle birlikte durur); alt sayfa, kutlama, uçuş ve perde kuralları aynen kullanılır.
    ===================================================================== */
 
 .sy-sayfa {
@@ -228,15 +231,17 @@
 
 /* ---------- Sıradaki büyük ödül ---------- */
 .sy-sirada {
-  display: flex; align-items: center; gap: var(--qt-b-3); width: 100%; min-height: 56px; padding: var(--qt-b-2) var(--qt-b-3);
-  border: 3px solid var(--sy-kontur); border-radius: var(--qt-r-m); background: var(--qt-yuzey); color: var(--qt-metin);
+  display: flex; align-items: center; gap: var(--qt-b-2); width: 100%; min-height: var(--qt-dokunma); padding: var(--qt-b-1) var(--qt-b-3) var(--qt-b-1) var(--qt-b-2);
+  border: 2px solid var(--qt-cizgi-guclu); border-radius: var(--qt-r-m); background: var(--qt-yuzey); color: var(--qt-metin);
   font: inherit; text-align: start; cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation;
 }
 .sy-sirada:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 2px; }
-.sy-sirada-yuva { display: grid; place-items: center; flex: none; width: 44px; height: 44px; border: 3px solid var(--sy-kenar, var(--qt-nadir-siradan)); border-radius: 10px; background: var(--sy-ucretli-z); }
-.sy-sirada-metin { display: grid; flex: 1 1 auto; min-width: 0; }
-.sy-sirada-metin small { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); }
-.sy-sirada-metin b { font-size: var(--qt-y-m); font-weight: var(--qt-a-siyah); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sy-sirada-yuva { display: grid; place-items: center; flex: none; width: 34px; height: 34px; border: 3px solid var(--sy-kenar, var(--qt-nadir-siradan)); border-radius: var(--qt-r-s); background: var(--qt-yuzey); }
+.sy-sirada-metin { display: block; flex: 1 1 auto; min-width: 0; font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); line-height: 1.2; }
+.sy-sirada-etiket, .sy-sirada-kalan { color: var(--qt-metin-soluk); }
+.sy-sirada-etiket { display: block; font-size: var(--qt-y-xs); }
+.sy-sirada-kalan { white-space: nowrap; }
+.sy-sirada-metin b { font-weight: var(--qt-a-siyah); }
 
 /* ---------- Açıklama satırı ---------- */
 .sy-lejant { display: grid; gap: var(--qt-b-1); font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-metin); }
@@ -464,3 +469,139 @@
   .sy-perde, .sy-perde--kapan, .sy-perde-ic { animation: none; }
   .sy-hayalet { display: none; }
 }
+
+/* =====================================================================
+   SAHNE (1 Eki 2026) — QtSahne içindeki Battle Pass ekranı. Tek odak: dikey iki şeritli yol.
+   Renk: TEK vurgu (--sy-vurgu = turuncu: dolu çizgi, geçilen düğüm, alınabilir çerçeve, "Al", birincil düğme) + nadirlik ÇERÇEVE renkleri.
+   Zemin düz (sahne.css); sezon teması arka plan çizmez. Nabız yok (ekranda en çok 1 kuralı: 0). Kutu 64 px, dokunma hedefi kutu + alt yazı.
+   ===================================================================== */
+.sy-sahne {
+  --sy-kontur: var(--qt-metin);
+  --sy-vurgu: var(--qt-vurgu);
+  --sy-kutu: 64px;
+  --sy-orta: 56px;
+}
+.sy-sahne p { margin: 0; }
+.sy-sahne .qt-sahne-govde > .qt-iskelet + .qt-iskelet { margin-top: var(--qt-b-2); }
+
+/* ---------- Üst yuva: seviye + SP, ince çubuk, iki sütun başlığı ---------- */
+.sy-ust { display: grid; gap: 6px; padding-top: 2px; }
+.sy-ust-satir { display: flex; align-items: baseline; justify-content: space-between; gap: var(--qt-b-2); }
+.sy-ust-satir b { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--qt-f-baslik); font-size: var(--qt-y-l); font-weight: var(--qt-a-siyah); line-height: 1.15; color: var(--qt-zemin-metin); }
+.sy-ust-satir .qt-sayi { font-size: var(--qt-y-s); font-weight: var(--qt-a-siyah); color: var(--qt-zemin-soluk); white-space: nowrap; }
+.sy-ust .sy-ust-cubuk { height: 8px; background: var(--qt-yuzey); }
+.sy-ust-kollar {
+  display: grid; grid-template-columns: minmax(0, 1fr) var(--sy-orta) minmax(0, 1fr); padding-top: 2px;
+  font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); line-height: 1.2; color: var(--qt-zemin-soluk);
+}
+.sy-ust-kollar span { display: inline-flex; align-items: center; justify-content: center; gap: var(--qt-b-1); min-width: 0; }
+
+/* ---------- Dikey yol ---------- */
+.sy-dikey { list-style: none; margin: 0; padding: 0; display: grid; }
+.sy-satir { position: relative; min-width: 0; }
+.sy-satir-ic { display: grid; grid-template-columns: minmax(0, 1fr) var(--sy-orta) minmax(0, 1fr); align-items: stretch; }
+.sy-serit { display: grid; place-items: center; padding-block: 6px; min-width: 0; }
+.sy-kutu-bos { width: var(--sy-kutu); height: var(--sy-kutu); }
+
+/* Düğümler ve onları bağlayan dikey çizgi (mevcut seviyeye kadar vurgu renginde dolu) */
+.sy-dugum-hucre { position: relative; display: grid; place-items: center; }
+.sy-dugum-hucre::before { content: ""; position: absolute; top: 0; bottom: 0; left: calc(50% - 3px); width: 6px; background: var(--qt-cizgi-guclu); }
+.sy-satir--ilk .sy-dugum-hucre::before { top: 50%; }
+.sy-satir--son .sy-dugum-hucre::before { bottom: 50%; }
+.sy-satir--gecildi .sy-dugum-hucre::before { background: var(--sy-vurgu); }
+.sy-satir--simdi .sy-dugum-hucre::before { background: linear-gradient(to bottom, var(--sy-vurgu) 50%, var(--qt-cizgi-guclu) 50%); }
+.sy-satir--ilk.sy-satir--simdi .sy-dugum-hucre::before { background: var(--qt-cizgi-guclu); }
+.sy-satir--final.sy-satir--simdi .sy-dugum-hucre::before,
+.sy-satir--tasma.sy-satir--acik .sy-dugum-hucre::before { background: var(--sy-vurgu); }   /* son seviyeye varıldı: çizgi taşma düğümüne kadar dolu */
+.sy-dugum {
+  position: relative; z-index: 1; display: grid; place-items: center; width: 30px; height: 30px; box-sizing: border-box; border-radius: 50%;
+  border: 3px solid var(--qt-cizgi-guclu); background: var(--qt-yuzey); color: var(--qt-metin-soluk);
+  font-family: var(--qt-f-baslik); font-weight: var(--qt-a-siyah); font-size: var(--qt-y-s); line-height: 1; font-variant-numeric: tabular-nums;
+}
+.sy-dugum b { font-weight: inherit; }
+.sy-satir--acik .sy-dugum { border-color: var(--sy-vurgu); background: var(--sy-vurgu); color: var(--qt-vurgu-yazi); }
+.sy-satir--simdi .sy-dugum { width: 44px; height: 44px; border-color: var(--qt-yuzey); box-shadow: 0 0 0 3px var(--sy-vurgu); font-size: var(--qt-y-xl); }
+
+/* Ödül kutusu: 64 px çerçeve (nadirlik = çerçeve rengi) + altında durum satırı ("Al" / "alındı") */
+.sy-kutu {
+  display: grid; justify-items: center; gap: 3px; min-width: var(--sy-kutu); padding: 0; border: 0; background: none; color: inherit; font: inherit;
+  cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+}
+.sy-kutu:focus-visible { outline: none; }
+.sy-kutu:focus-visible .sy-kutu-cerceve { outline: 3px solid var(--qt-odak); outline-offset: 2px; }
+.sy-kutu-cerceve {
+  position: relative; display: grid; place-items: center; width: var(--sy-kutu); height: var(--sy-kutu); box-sizing: border-box;
+  border: 3px solid var(--sy-kenar, var(--qt-nadir-siradan)); border-radius: var(--qt-r-m); background: var(--qt-yuzey); color: var(--qt-metin);
+  transition: translate var(--qt-s-basma) var(--qt-egri-cikis);
+}
+.sy-kutu:active .sy-kutu-cerceve { translate: 0 2px; }
+.sy-kutu-miktar {
+  position: absolute; right: -6px; bottom: -6px; display: grid; place-items: center; min-width: 20px; height: 18px; padding: 0 5px; box-sizing: border-box;
+  border-radius: var(--qt-r-hap); background: var(--qt-metin); color: var(--qt-yuzey);
+  font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); line-height: 1; font-variant-numeric: tabular-nums;
+}
+.sy-kutu-kilit {
+  position: absolute; top: -7px; right: -7px; display: grid; place-items: center; width: 20px; height: 20px; box-sizing: border-box; border-radius: 50%;
+  border: 2px solid var(--qt-cizgi-guclu); background: var(--qt-yuzey-3); color: var(--qt-metin-soluk);
+}
+.sy-kutu-alt { display: grid; place-items: center; height: 18px; font-size: var(--qt-y-xs); line-height: 1; white-space: nowrap; }
+.sy-kutu-alindi { display: inline-flex; align-items: center; gap: 3px; font-weight: var(--qt-a-kalin); color: var(--qt-zemin-soluk); }
+.sy-kutu-not { font-weight: var(--qt-a-kalin); color: var(--qt-zemin-soluk); }
+.sy-kutu-al {
+  display: grid; place-items: center; min-width: 44px; height: 18px; padding: 0 var(--qt-b-2); box-sizing: border-box; border-radius: var(--qt-r-hap);
+  background: var(--sy-vurgu); color: var(--qt-vurgu-yazi); font-weight: var(--qt-a-siyah);
+}
+/* Alınmış: soluk · alınabilir: tek vurgu rengi çerçeve · kilitli: nötr (kural yok) */
+.sy-kutu--alindi .sy-kutu-cerceve { opacity: 0.45; }
+.sy-kutu--alinabilir .sy-kutu-cerceve { border-color: var(--sy-vurgu); background: var(--qt-vurgu-acik); }
+.sy-kutu:disabled { cursor: default; }
+
+/* 28. seviye: yolun son satırı özel geniş kutu (iki ödül + sezon unvanı aynı kutuda) */
+.sy-satir--final { margin-block: 6px; padding-bottom: var(--qt-b-2); border: 3px solid var(--qt-cizgi-guclu); border-radius: var(--qt-r-l); background: var(--qt-yuzey-2); }
+.sy-final-unvan {
+  display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: var(--qt-b-1) var(--qt-b-2); padding: 0 var(--qt-b-2);
+  font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk);
+}
+.sy-final-unvan-durum { display: inline-flex; align-items: center; gap: 3px; }
+
+/* Yeni açılan seviye / alınan ödül (bir kez; hareketi azaltta yok) */
+.sy-satir--acildi .sy-dugum, .sy-satir--parla .sy-dugum { animation: sy-durak-parla 500ms var(--qt-egri-yay) both; }
+.sy-satir--acildi .sy-dugum::after, .sy-satir--parla .sy-dugum::after {
+  content: ""; position: absolute; inset: -3px; border-radius: 50%; border: 4px solid var(--sy-vurgu); pointer-events: none;
+  animation: sy-halka 700ms var(--qt-egri-cikis) both;
+}
+.sy-kutu--doldu .sy-kutu-cerceve { animation: sy-doldu 520ms var(--qt-egri-yay) both; }
+
+/* ---------- Alt yuva: günlük bonus görev (tek ince satır) + Battle Pass düğmesi ---------- */
+.sy-bonus-satir {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--qt-b-2); min-height: var(--qt-dokunma); padding: 0 var(--qt-b-1) 0 var(--qt-b-3);
+  border: 2px solid var(--qt-cizgi-guclu); border-radius: var(--qt-r-m); background: var(--qt-yuzey); color: var(--qt-metin);
+  font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); line-height: 1.2;
+}
+.sy-bonus-satir--hazir { padding-block: 3px 6px; border-color: var(--sy-vurgu); }
+.sy-bonus-satir--alindi { color: var(--qt-metin-soluk); }
+.sy-bonus-metin { min-width: 0; }
+.sy-bonus-durum { display: inline-flex; align-items: center; gap: 3px; flex: none; padding-right: var(--qt-b-2); color: var(--qt-metin-soluk); font-weight: var(--qt-a-siyah); white-space: nowrap; }
+.sy-bonus-al { flex: none; }
+
+/* ---------- Sahibin test araçları: yolun sonunda küçük katlanır alan ---------- */
+.sy-test { margin-top: var(--qt-b-3); padding: 0 var(--qt-b-3); border: 2px dashed var(--qt-cizgi-guclu); border-radius: var(--qt-r-m); font-size: var(--qt-y-s); color: var(--qt-zemin-soluk); }
+.sy-test summary { display: flex; align-items: center; min-height: var(--qt-dokunma); font-weight: var(--qt-a-siyah); cursor: pointer; }
+.sy-test[open] { padding-bottom: var(--qt-b-3); }
+.sy-test .sy-test-dugmeler { margin-top: var(--qt-b-2); }
+
+/* Kısa ekran (≈ 390×664 ve altı): yol görünür kalsın diye yuvalar sıkışır */
+@media (max-height: 699px) {
+  .sy-ust { gap: var(--qt-b-1); }
+  .sy-serit { padding-block: var(--qt-b-1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sy-satir--acildi .sy-dugum, .sy-satir--parla .sy-dugum, .sy-kutu--doldu .sy-kutu-cerceve { animation: none; }
+  .sy-satir--acildi .sy-dugum::after, .sy-satir--parla .sy-dugum::after { display: none; }
+  .sy-kutu-cerceve { transition: none; }
+  .sy-kutu:active .sy-kutu-cerceve { translate: none; }
+}
+
+/* Sahnede hata şeridi kehribar (kırmızı yalnız Düello/rakip rengidir); alt sayfalardaki .sy-hata değişmez */
+.sy-sahne .sy-hata--sayfa { border-color: var(--qt-uyari-dudak); background: var(--qt-uyari-acik); color: var(--qt-uyari-koyu); }

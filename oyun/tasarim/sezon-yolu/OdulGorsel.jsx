@@ -23,13 +23,17 @@ export function odulAvatarAdresi(v) {
   return null;
 }
 
-/** Arka plan ödülünün kayıt satırı (veri.sanat | anahtarın öneksiz hâli); çizimi yoksa null. */
-export const odulArkaPlani = (v) => ARKA_PLAN_KAYIT[v?.sanat ?? premiumSanat(v?.anahtar)] ?? null;
+// ARKA PLANLAR oyundan DONDURULDU (Ida, 1 Eki 2026): Sezon Yolu'nda arka plan görseli ÇİZİLMEZ. Arka plan türündeki ödül yuvası
+// jenerik yedek görselle (ikon) çizilir; sezon verisi değişmez. Geri açmak: bayrağı false yap.
+const ARKA_PLAN_DONDURULDU = true;
+
+/** Arka plan ödülünün kayıt satırı (veri.sanat | anahtarın öneksiz hâli); çizimi yoksa (ya da arka planlar donmuşsa) null. */
+export const odulArkaPlani = (v) => (ARKA_PLAN_DONDURULDU ? null : ARKA_PLAN_KAYIT[v?.sanat ?? premiumSanat(v?.anahtar)] ?? null);
 
 /** Arka plan ödülü: arka planın kendisi küçük bir kart olarak (yuvada durağan, önizlemede hareketli). */
 export function ArkaPlanOdulGorsel({ odul, boyut = 36, hareketli = false }) {
   const K = odulArkaPlani(odul?.veri);
-  if (!K) return <QtIkon ad="gunes" boyut={Math.round(boyut * 0.8)} />;
+  if (!K) return <QtIkon ad={ARKA_PLAN_DONDURULDU ? "hediye" : "gunes"} boyut={Math.round(boyut * 0.8)} />;
   return (
     <span className="sy-odul-abp" style={{ "--sy-b": `${boyut}px` }} aria-hidden="true">
       <K.Bilesen hareketli={hareketli} yukseklik={boyut} grup="dukkan" />
