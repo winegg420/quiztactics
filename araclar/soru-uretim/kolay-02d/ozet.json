@@ -1,0 +1,553 @@
+{
+  "parti": 5,
+  "tarih": "2026-10-01",
+  "taslak": 162,
+  "net": 71,
+  "kota": {
+    "sanat": 5,
+    "muzik": 6,
+    "teknoloji": 7,
+    "genel_kultur": 7,
+    "sinema": 18,
+    "edebiyat": 5,
+    "spor": 7,
+    "tarih": 4,
+    "yerel": 18
+  },
+  "zorluk_hedef": {
+    "1-2": 100
+  },
+  "eksik": {
+    "edebiyat": 5,
+    "yerel": 1
+  },
+  "elenen_sebep": {
+    "jev_zor": 55,
+    "belirsiz": 12,
+    "sik_ipucu": 5,
+    "eskiyebilir": 1,
+    "zayif_soru": 1,
+    "kota_fazlasi": 17
+  },
+  "kova": {
+    "sanat": 5,
+    "muzik": 6,
+    "teknoloji": 7,
+    "genel_kultur": 7,
+    "sinema": 18,
+    "spor": 7,
+    "tarih": 4,
+    "yerel_tr": 17
+  },
+  "kategori": {
+    "sanat": 5,
+    "muzik": 6,
+    "teknoloji": 7,
+    "genel_kultur": 24,
+    "sinema": 18,
+    "spor": 7,
+    "tarih": 4
+  },
+  "zorluk": [
+    0,
+    71,
+    0,
+    0,
+    0
+  ],
+  "zorluk_kova": {
+    "3": 0,
+    "4": 0,
+    "5": 0,
+    "1-2": 71
+  },
+  "cevrilmeyen": 71,
+  "jev": {
+    "cagri": 324,
+    "girdi_jetonu": 247513,
+    "usd": 0.0104,
+    "not": "jev.jsonl içindeki tüm denemeler dahil (düzeltilip yeniden sorulanlar da)"
+  },
+  "zorluk_etiket_duzeltme": [],
+  "elenenler": [
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'How Far I'll Go' şarkısı hangi Disney filminde yer alır?",
+      "d": "Moana"
+    },
+    {
+      "sebep": "belirsiz",
+      "kova": "sinema",
+      "s": "Homer Simpson'ın en sevdiği yiyecek hangisidir?",
+      "d": "Donut"
+    },
+    {
+      "sebep": "belirsiz",
+      "kova": "sanat",
+      "s": "Efsaneye göre denizin altında kaldığı söylenen kayıp kıta hangisidir?",
+      "d": "Atlantis"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sanat",
+      "s": "Türk sinemasının eski adıyla anılan film endüstrisi hangisidir?",
+      "d": "Yeşilçam"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'You'll Be in My Heart' şarkısı hangi Disney filminde yer alır?",
+      "d": "Tarzan"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'When You Wish Upon a Star' şarkısı hangi Disney filminde yer alır?",
+      "d": "Pinokyo"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'Someone You Loved' şarkısı hangi sanatçıya aittir?",
+      "d": "Lewis Capaldi"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'Believer' şarkısı hangi gruba aittir?",
+      "d": "Imagine Dragons"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'Counting Stars' şarkısı hangi gruba aittir?",
+      "d": "OneRepublic"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'Sugar' şarkısı hangi gruba aittir?",
+      "d": "Maroon 5"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'Stay With Me' şarkısı hangi sanatçıya aittir?",
+      "d": "Sam Smith"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'Dark Horse' şarkısı hangi sanatçıya aittir?",
+      "d": "Katy Perry"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'Angels' şarkısıyla tanınan şarkıcı Robbie Williams hangi ülkelidir?",
+      "d": "İngiltere"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'Sweet Caroline' stadyum şarkısının sahibi sanatçı kimdir?",
+      "d": "Neil Diamond"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "Piyanosuyla 'Piano Man' şarkısını söyleyen sanatçı kimdir?",
+      "d": "Billy Joel"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'Purple Rain' şarkısının sahibi sanatçı kimdir?",
+      "d": "Prince"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'Space Oddity' ve 'Heroes' şarkılarıyla tanınan sanatçı kimdir?",
+      "d": "David Bowie"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'No Woman, No Cry' şarkısı hangi sanatçıya aittir?",
+      "d": "Bob Marley"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'Hallelujah' şarkısını yazan Kanadalı sanatçı kimdir?",
+      "d": "Leonard Cohen"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'Johnny B. Goode' şarkısıyla tanınan rock and roll efsanesi kimdir?",
+      "d": "Chuck Berry"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'Ring of Fire' şarkısıyla tanınan country efsanesi kimdir?",
+      "d": "Johnny Cash"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "'Jolene' ve '9 to 5' şarkılarıyla tanınan country şarkıcısı kimdir?",
+      "d": "Dolly Parton"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "muzik",
+      "s": "Chopin'in yaşadığı döneme damga vurduğu çalgı hangisidir?",
+      "d": "Piyano"
+    },
+    {
+      "sebep": "sik_ipucu",
+      "duzelt_yeniden_dene": true,
+      "kova": "teknoloji",
+      "s": "'I'm Lovin' It' sloganı hangi markaya aittir?",
+      "d": "McDonald's",
+      "y": [
+        "Burger King",
+        "Pizza Hut",
+        "Taco Bell"
+      ],
+      "ipucuP": 0.85
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "teknoloji",
+      "s": "Apple'ın CEO'su olan ve 2011'de Steve Jobs'tan görevi devralan kişi kimdir?",
+      "d": "Tim Cook"
+    },
+    {
+      "sebep": "eskiyebilir",
+      "kova": "teknoloji",
+      "s": "Instagram hangi şirkete aittir?",
+      "d": "Meta"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "teknoloji",
+      "s": "Among Us oyununda oyuncular arasındaki hainlere ne denir?",
+      "d": "Sahtekâr"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "teknoloji",
+      "s": "Minecraft oyununu hangi ülkenin bir stüdyosu geliştirmiştir?",
+      "d": "İsveç"
+    },
+    {
+      "sebep": "sik_ipucu",
+      "duzelt_yeniden_dene": true,
+      "kova": "teknoloji",
+      "s": "Pokémon oyunlarında Pokémon yakalamak için kullanılan top nedir?",
+      "d": "Poké Ball",
+      "y": [
+        "Süper Top",
+        "Yakala Topu",
+        "Sihir Topu"
+      ],
+      "ipucuP": 0.95
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "genel_kultur",
+      "s": "Volvo hangi ülkenin otomobil markasıdır?",
+      "d": "İsveç"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "genel_kultur",
+      "s": "Zara hangi ülkenin moda markasıdır?",
+      "d": "İspanya"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "genel_kultur",
+      "s": "Nestlé hangi ülkenin gıda şirketidir?",
+      "d": "İsviçre"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "genel_kultur",
+      "s": "Eskiden Osmanlı'da kullanılan, başı ve boynu saran baş giysisine ne ad verilir?",
+      "d": "Fes"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sinema",
+      "s": "Mark Ruffalo hangi Marvel karakterini canlandırmıştır?",
+      "d": "Hulk"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sinema",
+      "s": "Scarlett Johansson hangi Marvel karakterini canlandırmıştır?",
+      "d": "Kara Dul"
+    },
+    {
+      "sebep": "sik_ipucu",
+      "duzelt_yeniden_dene": true,
+      "kova": "sinema",
+      "s": "Keanu Reeves 'Matrix' filminde hangi karakteri canlandırmıştır?",
+      "d": "Neo",
+      "y": [
+        "Morpheus",
+        "Trinity",
+        "Smith"
+      ],
+      "ipucuP": 0.88
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sinema",
+      "s": "'Zootropolis' filminin tavşan polis kahramanının adı nedir?",
+      "d": "Judy"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sinema",
+      "s": "'Rapunzel' filminde Rapunzel'in kameleonunun adı nedir?",
+      "d": "Pascal"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sinema",
+      "s": "'Rapunzel' filmindeki hırsız kahramanın adı nedir?",
+      "d": "Flynn"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sinema",
+      "s": "'Güzel ve Çirkin'de Belle'in babasının mesleği nedir?",
+      "d": "Mucit"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "sinema",
+      "s": "'Dumbo'ya uçmayı öğreten ve konuşan fare kimdir?",
+      "d": "Timothy"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "edebiyat",
+      "s": "'Hayvan Çiftliği' romanında çiftliği yöneten hayvanlar hangileridir?",
+      "d": "Domuzlar"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "edebiyat",
+      "s": "'Yüzyıllık Yalnızlık' romanının yazarı hangi ülkelidir?",
+      "d": "Kolombiya"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "edebiyat",
+      "s": "'Yaşlı Adam ve Deniz' romanının yazarı kimdir?",
+      "d": "Ernest Hemingway"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "edebiyat",
+      "s": "'Kafka'nın 'Dönüşüm' öyküsünde Gregor Samsa neye dönüşür?",
+      "d": "Böceğe"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "edebiyat",
+      "s": "'Dönüşüm' öyküsünün yazarı kimdir?",
+      "d": "Franz Kafka"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "edebiyat",
+      "s": "'Şeker Portakalı' romanının yazarı hangi ülkelidir?",
+      "d": "Brezilya"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "yerel",
+      "s": "'Çalıkuşu' romanının başkahramanı kimdir?",
+      "d": "Feride"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "yerel",
+      "s": "'Safahat' adlı şiir kitabının sahibi şair kimdir?",
+      "d": "Mehmet Akif Ersoy"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "yerel",
+      "s": "'Kuvayi Milliye Destanı' şairi kimdir?",
+      "d": "Nâzım Hikmet"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "spor",
+      "s": "Formula 1'de yedi kez dünya şampiyonu olan pilot kimdir?",
+      "d": "Lewis Hamilton"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "spor",
+      "s": "NBA'de 'Kral' lakabıyla anılan oyuncu kimdir?",
+      "d": "LeBron James"
+    },
+    {
+      "sebep": "sik_ipucu",
+      "duzelt_yeniden_dene": true,
+      "kova": "spor",
+      "s": "Manchester United hangi ülkenin futbol kulübüdür?",
+      "d": "İngiltere",
+      "y": [
+        "İskoçya",
+        "İrlanda",
+        "Galler"
+      ],
+      "ipucuP": 0.81
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "yerel",
+      "s": "Milli güreşçi Hamza Yerlikaya hangi sporla anılır?",
+      "d": "Güreş"
+    },
+    {
+      "sebep": "sik_ipucu",
+      "duzelt_yeniden_dene": true,
+      "kova": "tarih",
+      "s": "Osmanlı'nın başkenti Fetih'ten sonra hangi şehir olmuştur?",
+      "d": "İstanbul",
+      "y": [
+        "Edirne",
+        "Bursa",
+        "Konya"
+      ],
+      "ipucuP": 0.84
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "tarih",
+      "s": "Hititler hangi bölgede yaşamıştır?",
+      "d": "Anadolu"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "tarih",
+      "s": "Fenikeliler hangi icatla bilinir?",
+      "d": "Alfabe"
+    },
+    {
+      "sebep": "belirsiz",
+      "kova": "yerel",
+      "s": "'Damlaya damlaya ...' atasözünün devamı nedir?",
+      "d": "göl olur"
+    },
+    {
+      "sebep": "belirsiz",
+      "kova": "yerel",
+      "s": "'Ayağını yorganına göre ...' atasözünün devamı nedir?",
+      "d": "uzat"
+    },
+    {
+      "sebep": "belirsiz",
+      "kova": "yerel",
+      "s": "'Üzüm üzüme baka baka ...' atasözünün devamı nedir?",
+      "d": "kararır"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "yerel",
+      "s": "'Sabreden derviş ...' atasözünün devamı nedir?",
+      "d": "muradına ermiş"
+    },
+    {
+      "sebep": "belirsiz",
+      "kova": "yerel",
+      "s": "'Dost acı ...' atasözünün devamı nedir?",
+      "d": "söyler"
+    },
+    {
+      "sebep": "belirsiz",
+      "kova": "yerel",
+      "s": "'Komşu komşunun ...' atasözünün devamı nedir?",
+      "d": "külüne muhtaçtır"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "yerel",
+      "s": "'Bir fincan kahvenin ...' atasözünün devamı nedir?",
+      "d": "kırk yıl hatırı vardır"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "yerel",
+      "s": "'Eşek hoşaftan ...' atasözünün devamı nedir?",
+      "d": "ne anlar"
+    },
+    {
+      "sebep": "belirsiz",
+      "kova": "yerel",
+      "s": "'Bugünün işini ...' atasözünün devamı nedir?",
+      "d": "yarına bırakma"
+    },
+    {
+      "sebep": "belirsiz",
+      "kova": "yerel",
+      "s": "'Her yokuşun bir ...' atasözünün devamı nedir?",
+      "d": "inişi vardır"
+    },
+    {
+      "sebep": "belirsiz",
+      "kova": "yerel",
+      "s": "'Gülme komşuna ...' atasözünün devamı nedir?",
+      "d": "gelir başına"
+    },
+    {
+      "sebep": "belirsiz",
+      "kova": "yerel",
+      "s": "'Bir elin nesi var, ...' atasözünün devamı nedir?",
+      "d": "iki elin sesi var"
+    },
+    {
+      "sebep": "belirsiz",
+      "kova": "yerel",
+      "s": "'Yalancının mumu ...' atasözünün devamı nedir?",
+      "d": "yatsıya kadar yanar"
+    },
+    {
+      "sebep": "zayif_soru",
+      "kova": "yerel",
+      "s": "'Kızını dövmeyen ...' atasözünün devamı nedir?",
+      "d": "dizini döver"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "yerel",
+      "s": "Mantısıyla ünlü ilimiz hangisidir?",
+      "d": "Kayseri"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "yerel",
+      "s": "Çiğ köftesiyle ünlü ilimiz hangisidir?",
+      "d": "Şanlıurfa"
+    },
+    {
+      "sebep": "jev_zor",
+      "kova": "yerel",
+      "s": "Karadeniz'in en sevilen balığı hangisidir?",
+      "d": "Hamsi"
+    }
+  ]
+}

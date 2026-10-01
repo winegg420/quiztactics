@@ -1,0 +1,996 @@
+[
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Lacoste'un logosunda hangi hayvan yer alır?",
+  "d": "Timsah",
+  "y": [
+   "Aslan",
+   "Kartal",
+   "Kaplan"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Fotoğrafçıların kullandığı, üç ayaklı sabitleyiciye ne ad verilir?",
+  "d": "Tripod",
+  "y": [
+   "Zoom",
+   "Flaş",
+   "Obje"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Barbie'nin yaratıcısı Mattel hangi ülkenin oyuncak şirketidir?",
+  "d": "ABD",
+  "y": [
+   "Japonya",
+   "Almanya",
+   "Danimarka"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Audi'nin logosunda kaç halka vardır?",
+  "d": "4",
+  "y": [
+   "3",
+   "5",
+   "6"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sanat",
+  "yerel": false,
+  "s": "Mısır'da firavunların gömüldüğü ünlü vadi hangisidir?",
+  "d": "Krallar Vadisi",
+  "y": [
+   "Ölüm Vadisi",
+   "Nil Vadisi",
+   "Gece Vadisi"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "'Toxic' şarkısı hangi sanatçıya aittir?",
+  "d": "Britney Spears",
+  "y": [
+   "Christina Aguilera",
+   "Beyoncé",
+   "Rihanna"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "'Jailhouse Rock' ve 'Hound Dog' şarkıları hangi sanatçıya aittir?",
+  "d": "Elvis Presley",
+  "y": [
+   "Chuck Berry",
+   "Buddy Holly",
+   "Johnny Cash"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "Mozart'ın doğduğu ülke neresidir?",
+  "d": "Avusturya",
+  "y": [
+   "Almanya",
+   "İtalya",
+   "Macaristan"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "'My Heart Will Go On' şarkısı hangi filmin ana temasıdır?",
+  "d": "Titanic",
+  "y": [
+   "Avatar",
+   "Gladyatör",
+   "Matrix"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "'I'll Make a Man Out of You' şarkısı hangi Disney filminde yer alır?",
+  "d": "Mulan",
+  "y": [
+   "Tarzan",
+   "Aladdin",
+   "Pinokyo"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "muzik",
+  "yerel": false,
+  "s": "'Hakuna Matata' şarkısı hangi hayvanlar tarafından söylenir?",
+  "d": "Timon ve Pumbaa",
+  "y": [
+   "Simba ve Nala",
+   "Zazu ve Rafiki",
+   "Scar ve Mufasa"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Samsung hangi ülkenin teknoloji şirketidir?",
+  "d": "Güney Kore",
+  "y": [
+   "Kuzey Kore",
+   "Hong Kong",
+   "Yeni Zelanda"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "WhatsApp hangi şirkete aittir?",
+  "d": "Meta",
+  "y": [
+   "Google",
+   "Apple",
+   "Microsoft"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Sony hangi ülkenin teknoloji şirketidir?",
+  "d": "Japonya",
+  "y": [
+   "Güney Kore",
+   "ABD",
+   "Çin"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Huawei hangi ülkenin teknoloji şirketidir?",
+  "d": "Çin",
+  "y": [
+   "Japonya",
+   "Hindistan",
+   "Tayvan"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Bilgisayarda dosyaların bulunduğu kutu simgesine ne denir?",
+  "d": "Klasör",
+  "y": [
+   "Pencere",
+   "Kısayol",
+   "Menü"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "'Just Do It' sloganı hangi markaya aittir?",
+  "d": "Nike",
+  "y": [
+   "Adidas",
+   "Puma",
+   "Reebok"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Pokémon'lar hangi ülkeden çıkmıştır?",
+  "d": "Japonya",
+  "y": [
+   "ABD",
+   "Çin",
+   "Güney Kore"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "BMW hangi ülkenin otomobil markasıdır?",
+  "d": "Almanya",
+  "y": [
+   "İtalya",
+   "Fransa",
+   "Japonya"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Toyota hangi ülkenin otomobil markasıdır?",
+  "d": "Japonya",
+  "y": [
+   "Güney Kore",
+   "Çin",
+   "Almanya"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Ferrari hangi ülkenin otomobil markasıdır?",
+  "d": "İtalya",
+  "y": [
+   "Fransa",
+   "Almanya",
+   "İngiltere"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Gucci hangi ülkenin lüks moda markasıdır?",
+  "d": "İtalya",
+  "y": [
+   "Fransa",
+   "İspanya",
+   "İngiltere"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Coca-Cola hangi ülkede doğmuş bir içecek markasıdır?",
+  "d": "ABD",
+  "y": [
+   "İngiltere",
+   "Fransa",
+   "Meksika"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Halloween'da çocuklar kapıları çalarak ne ister?",
+  "d": "Şeker",
+  "y": [
+   "Para",
+   "Oyuncak",
+   "Yemek"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "'Think Different' sloganı hangi şirkete aittir?",
+  "d": "Apple",
+  "y": [
+   "Microsoft",
+   "Google",
+   "IBM"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "Emma Watson hangi Harry Potter karakterini canlandırmıştır?",
+  "d": "Hermione",
+  "y": [
+   "Luna",
+   "Ginny",
+   "Bellatrix"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "Tom Cruise'un 'Görevimiz Tehlike' serisindeki karakterinin adı nedir?",
+  "d": "Ethan Hunt",
+  "y": [
+   "Jason Bourne",
+   "James Bond",
+   "John Wick"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "Chris Hemsworth hangi Marvel karakterini canlandırmıştır?",
+  "d": "Thor",
+  "y": [
+   "Hulk",
+   "Iron Man",
+   "Kaptan Amerika"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Aladdin'in kötü vezirinin adı nedir?",
+  "d": "Jafar",
+  "y": [
+   "Scar",
+   "Hades",
+   "Gaston"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "Robert Downey Jr. hangi Marvel karakterini canlandırmıştır?",
+  "d": "Iron Man",
+  "y": [
+   "Thor",
+   "Hulk",
+   "Kaptan Amerika"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "Chris Evans hangi Marvel karakterini canlandırmıştır?",
+  "d": "Kaptan Amerika",
+  "y": [
+   "Kara Panter",
+   "Örümcek Adam",
+   "Doktor Strange"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "Gal Gadot hangi süper kahramanı canlandırmıştır?",
+  "d": "Wonder Woman",
+  "y": [
+   "Süper Kız",
+   "Kedi Kadın",
+   "Batgirl"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "Daniel Radcliffe hangi karakteri canlandırmıştır?",
+  "d": "Harry Potter",
+  "y": [
+   "Ron Weasley",
+   "Frodo",
+   "Percy Jackson"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "Harrison Ford hangi karakteri canlandırmıştır?",
+  "d": "Indiana Jones",
+  "y": [
+   "James Bond",
+   "Jack Sparrow",
+   "Batman"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Hercules' filminde ölüler diyarının tanrısı kimdir?",
+  "d": "Hades",
+  "y": [
+   "Zeus",
+   "Ares",
+   "Poseidon"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "Sylvester Stallone hangi boks karakteriyle ünlenmiştir?",
+  "d": "Rocky",
+  "y": [
+   "Rambo",
+   "Terminatör",
+   "Predator"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Moana' filminde Moana'nın yanındaki komik horozun adı nedir?",
+  "d": "Heihei",
+  "y": [
+   "Pua",
+   "Maui",
+   "Tamatoa"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Karlar Ülkesi'ndeki geyiğin adı nedir?",
+  "d": "Sven",
+  "y": [
+   "Olaf",
+   "Kristoff",
+   "Marshmallow"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "Şimşek McQueen hangi renktedir?",
+  "d": "Kırmızı",
+  "y": [
+   "Mavi",
+   "Sarı",
+   "Yeşil"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "Daniel Craig hangi karakteri canlandırmıştır?",
+  "d": "James Bond",
+  "y": [
+   "Sherlock Holmes",
+   "Indiana Jones",
+   "Jason Bourne"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Madagaskar' filminde aslanın adı nedir?",
+  "d": "Alex",
+  "y": [
+   "Marty",
+   "Gloria",
+   "Melman"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Karlar Ülkesi'nde Anna'nın aşık olduğu ilk prensin adı nedir?",
+  "d": "Hans",
+  "y": [
+   "Kristoff",
+   "Olaf",
+   "Sven"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Güzel ve Çirkin' filmindeki prensin lanetli hâline ne denir?",
+  "d": "Canavar",
+  "y": [
+   "Dev",
+   "Ejderha",
+   "Kurt"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Los Angeles Lakers hangi spor dalının takımıdır?",
+  "d": "Basketbol",
+  "y": [
+   "Beyzbol",
+   "Hokey",
+   "Amerikan futbolu"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Serena Williams hangi sporla anılır?",
+  "d": "Tenis",
+  "y": [
+   "Golf",
+   "Basketbol",
+   "Voleybol"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Juventus hangi ülkenin futbol kulübüdür?",
+  "d": "İtalya",
+  "y": [
+   "İspanya",
+   "Fransa",
+   "Portekiz"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Michael Phelps hangi sporda olimpiyat şampiyonudur?",
+  "d": "Yüzme",
+  "y": [
+   "Atletizm",
+   "Jimnastik",
+   "Dalış"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Neymar hangi ülkelidir?",
+  "d": "Brezilya",
+  "y": [
+   "Arjantin",
+   "Portekiz",
+   "Uruguay"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Roland Garros turnuvası hangi sporda düzenlenir?",
+  "d": "Tenis",
+  "y": [
+   "Golf",
+   "Atletizm",
+   "Bisiklet"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "spor",
+  "yerel": false,
+  "s": "Zinedine Zidane hangi ülkenin futbolcusudur?",
+  "d": "Fransa",
+  "y": [
+   "İtalya",
+   "İspanya",
+   "Cezayir"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Fransız Devrimi hangi ülkede olmuştur?",
+  "d": "Fransa",
+  "y": [
+   "İngiltere",
+   "Almanya",
+   "İtalya"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Matbaayı icat eden Gutenberg hangi ülkelidir?",
+  "d": "Almanya",
+  "y": [
+   "Fransa",
+   "İtalya",
+   "İngiltere"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Eski Yunan'da ilk olimpiyat oyunlarının yapıldığı yer neresidir?",
+  "d": "Olimpiya",
+  "y": [
+   "Atina",
+   "Sparta",
+   "Delfi"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "tarih",
+  "yerel": false,
+  "s": "Julius Caesar hangi imparatorluğun lideriydi?",
+  "d": "Roma",
+  "y": [
+   "Yunan",
+   "Bizans",
+   "Pers"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": true,
+  "s": "Yoğurt, su ve tuzla yapılan geleneksel Türk içeceği hangisidir?",
+  "d": "Ayran",
+  "y": [
+   "Şalgam",
+   "Boza",
+   "Salep"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": true,
+  "s": "Gençlik ve Spor Bayramı hangi tarihte kutlanır?",
+  "d": "19 Mayıs",
+  "y": [
+   "23 Nisan",
+   "30 Ağustos",
+   "29 Ekim"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": true,
+  "s": "Türkiye'de trafik ışığında 'geç' anlamına gelen renk hangisidir?",
+  "d": "Yeşil",
+  "y": [
+   "Kırmızı",
+   "Mavi",
+   "Sarı"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": true,
+  "s": "'Rüzgâr eken ...' atasözünün devamı nedir?",
+  "d": "fırtına biçer",
+  "y": [
+   "yağmur biçer",
+   "buğday biçer",
+   "meyve biçer"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": true,
+  "s": "'Acele işe ...' atasözünün devamı nedir?",
+  "d": "şeytan karışır",
+  "y": [
+   "bereket gelir",
+   "uğur gelir",
+   "sabır karışır"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": true,
+  "s": "'Gülü seven ...' atasözünün devamı nedir?",
+  "d": "dikenine katlanır",
+  "y": [
+   "rengine bakar",
+   "kokusunu sever",
+   "bahçesini sular"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": true,
+  "s": "'Tatlı dil ...' atasözünün devamı nedir?",
+  "d": "yılanı deliğinden çıkarır",
+  "y": [
+   "arıyı kovandan çıkarır",
+   "kuşu kafesten çıkarır",
+   "balığı sudan çıkarır"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": true,
+  "s": "'Ağaç yaşken ...' atasözünün devamı nedir?",
+  "d": "eğilir",
+  "y": [
+   "uzar",
+   "kurur",
+   "büyür"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": true,
+  "s": "'Sakla samanı ...' atasözünün devamı nedir?",
+  "d": "gelir zamanı",
+  "y": [
+   "biter zamanı",
+   "kalır zamanı",
+   "geçer zamanı"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": true,
+  "s": "'Su akar ...' atasözünün devamı nedir?",
+  "d": "yolunu bulur",
+  "y": [
+   "geri döner",
+   "sonsuza dek durur",
+   "dağa çıkar"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": true,
+  "s": "'Ateş düştüğü yeri ...' atasözünün devamı nedir?",
+  "d": "yakar",
+  "y": [
+   "söndürür",
+   "ısıtır",
+   "kurutur"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": true,
+  "s": "'Sütten ağzı yanan ...' atasözünün devamı nedir?",
+  "d": "yoğurdu üfleyerek yer",
+  "y": [
+   "çorbayı soğutarak yer",
+   "çayı ılıtarak içer",
+   "suyu bekleyerek içer"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": true,
+  "s": "Yufka, ceviz ve şerbetle yapılan tatlı hangisidir?",
+  "d": "Baklava",
+  "y": [
+   "Kadayıf",
+   "Sütlaç",
+   "Revani"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": true,
+  "s": "Üzerinde kıyma ve baharat bulunan ince hamur yemeği hangisidir?",
+  "d": "Lahmacun",
+  "y": [
+   "Pide",
+   "Börek",
+   "Gözleme"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": true,
+  "s": "Zafer Bayramı hangi tarihte kutlanır?",
+  "d": "30 Ağustos",
+  "y": [
+   "29 Ekim",
+   "19 Mayıs",
+   "23 Nisan"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": true,
+  "s": "Atatürk'ü Anma Günü hangi tarihte anılır?",
+  "d": "10 Kasım",
+  "y": [
+   "29 Ekim",
+   "19 Mayıs",
+   "23 Nisan"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ },
+ {
+  "k": "genel_kultur",
+  "yerel": true,
+  "s": "Çayıyla ünlü ilimiz hangisidir?",
+  "d": "Rize",
+  "y": [
+   "Trabzon",
+   "Artvin",
+   "Samsun"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Soru çevirisi şimdilik yapılmıyor (arayüz kararı, 1 Eki 2026)"
+ }
+]
