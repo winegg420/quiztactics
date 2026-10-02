@@ -318,7 +318,10 @@
   opacity: 0.6;
 }
 .lg-sinir-yukselme svg { transform: rotate(-90deg); }
-.lg-sinir-dusme { color: var(--qt-uyari-koyu); }
+/* Renk rolleri (a55ce78f, 2 Eki 2026 güncellemesi): düşme hattı BAŞLIĞI kırmızı
+   (rakip/olumsuz rol) — satırın bölge şeridi (.lg-bolge-dusen) kehribar olarak
+   KALIR, bu yalnız çizgi başlığının rengini değiştirir. */
+.lg-sinir-dusme { color: var(--qt-yanlis-koyu); }
 
 /* ---------- Podyum (şehir / ülke / dünya / arkadaş) ---------- */
 .lg-podyum {
@@ -464,3 +467,12 @@
   white-space: nowrap;
 }
 .lg-bp-rozet svg { flex: none; }
+
+/* ---------- Sekme çubuğu (2 Eki 2026) ----------
+   360 px'te "Dünya" sekmesi kesik görünüyordu: paylaşılan QtSekmeler bileşeni DEĞİŞMEDİ
+   (zaten kaydırma + kenar solması var, bilesenler.css), yalnız bu sayfada daha dar iç
+   boşlukla daha çok sekme sığsın ve kaydırma ipucu daha belirgin olsun. */
+.lg-sekmeler.qt-sekmeler { gap: 2px; padding: 3px; }
+.lg-sekmeler .qt-sekme { padding-inline: var(--qt-b-3); font-size: 14px; }
+.lg-sekmeler.qt-sekmeler[data-kaydir-sol] { --_sol: 36px; }
+.lg-sekmeler.qt-sekmeler[data-kaydir-sag] { --_sag: 36px; }
