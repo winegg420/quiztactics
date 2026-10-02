@@ -26,6 +26,7 @@ import { chromium, devices } from "playwright-core";
 import fs from "node:fs";
 import path from "node:path";
 import { PgIstemci, baglantiDizgisi, alintila } from "./pg-mini.mjs";
+import { duelloTanitimAnahtari } from "./duello-tanitim-anahtar.mjs";
 
 const ARG = Object.fromEntries(process.argv.slice(2).map((a) => {
   const [k, v] = a.replace(/^--/, "").split("=");
@@ -45,10 +46,10 @@ const sorgu = async (sql) => { const r = await db.sorgu(sql); return Array.isArr
 
 // Sayfada her karede: faz, tur, sayaç, bant. Görünürlük gerçek tarayıcıda değişmediği için test,
 // iOS arka planını window.__gorunurluk ile taklit eder (document.visibilityState bunu okur).
-const KAYIT_KODU = () => {
+const KAYIT_KODU = (__TANITIM_ANAHTARI) => {
   window.__kayit = [];
   window.__gorunurluk = "visible";
-  try { localStorage.setItem("bildim_duello_tanitim_v9", "1"); } catch { /* yok */ }   // tanıtım aramayı geciktirmesin
+  try { localStorage.setItem(__TANITIM_ANAHTARI, "1"); } catch { /* yok */ }   // tanıtım aramayı geciktirmesin
   try {
     Object.defineProperty(Document.prototype, "visibilityState", { configurable: true, get: () => window.__gorunurluk });
     Object.defineProperty(Document.prototype, "hidden", { configurable: true, get: () => window.__gorunurluk !== "visible" });
@@ -113,7 +114,7 @@ async function misafirGiris(sayfa, ad) {
 async function baglam(tarayici, cihaz) {
   const { defaultBrowserType: _yok, ...ayar } = devices[cihaz];
   const b = await tarayici.newContext({ ...ayar });
-  await b.addInitScript(KAYIT_KODU);
+  await b.addInitScript(KAYIT_KODU, duelloTanitimAnahtari());
   return b;
 }
 

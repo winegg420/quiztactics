@@ -1,6 +1,7 @@
 import { chromium } from "playwright-core";
 import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+import { duelloTanitimAnahtari } from "../../araclar/duello-tanitim-anahtar.mjs";
 
 const adres = process.env.UI_ADRES ?? "http://127.0.0.1:5173";
 const oturum = fileURLToPath(new URL("../../.arayuz-denetim-oturum.json", import.meta.url));
@@ -9,7 +10,7 @@ if (!existsSync(oturum)) throw new Error("Önce arayüz denetimiyle test oturumu
 const browser = await chromium.launch({ channel: "chrome", headless: true });
 try {
   const context = await browser.newContext({ storageState: oturum, viewport: { width: 390, height: 844 } });
-  await context.addInitScript(() => localStorage.setItem("bildim_duello_tanitim_v1", "1"));
+  await context.addInitScript((k) => localStorage.setItem(k, "1"), duelloTanitimAnahtari());
   const page = await context.newPage();
   const konsol = [];
   page.on("console", (m) => { if (m.type() === "error") konsol.push(m.text()); });

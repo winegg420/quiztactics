@@ -98,7 +98,8 @@ test('fiyatlar oyun_ayarlari\'nda: tek 20/20/30/30/30, 10\'lu 170/170/255/255/25
     const paket = Object.fromEntries((await c.sorgu(
       `select urun_id, public.joker_paket_fiyati(urun_id) f from public.joker_paketleri where fiyat_anahtari is not null`)).map((r) => [r.urun_id, Number(r.f)]));
     assert.deepEqual(paket, { skill_elli_10: 170, skill_sure_10: 170, skill_soru_degistir_10: 255, skill_zaman_baskisi_10: 255, skill_ikinci_sans_10: 255,
-      skill_sigorta_10: 255, skill_cifte_puan_10: 340 });
+      skill_sigorta_10: 255, skill_cifte_puan_10: 340,
+      skill_baskin_10: 595, skill_kalkan_10: 425 });   // 930: Düello jokerleri (Baskın 70, Kalkan 50 × 10 × 0,85)
     const aciklamasiz = await c.tek(`select count(*) from public.oyun_ayarlari where anahtar like 'coin_joker_%' and anahtar not in
       ('coin_joker_sis','coin_joker_savunma_kilidi','coin_joker_saldiri_degistir') and coalesce(aciklama,'') = ''`);
     assert.equal(aciklamasiz, '0', 'her fiyat ayarının açıklaması olmalı');
@@ -137,13 +138,13 @@ test('10\'lu paket: coin paket fiyatı kadar düşer, envanter 10 artar; fiyat a
   });
 });
 
-test('dükkân: skill_dukkani 7 aktif skill, fiyat + 10\'lu paket + kilit; envanterim bütün aktif skill\'leri döndürür', sec, async () => {
+test('dükkân: skill_dukkani 9 aktif skill (7 + Baskın + Kalkan), fiyat + 10\'lu paket + kilit; envanterim bütün aktif skill\'leri döndürür', sec, async () => {
   await islem(async (c) => {
     const x = await oyuncuKur(c, 'dukkan');
     await envanterYaz(c, x, 'ikinci_sans', 4);
     await olarak(c, x);
     const d = JSON.parse(await c.tek(`select public.skill_dukkani()::text`));
-    assert.equal(d.skiller.length, 7);
+    assert.equal(d.skiller.length, 9);
     assert.equal(d.loadout_acik, false);
     const is = d.skiller.find((s) => s.tur === 'ikinci_sans');
     assert.deepEqual({ fiyat: is.fiyat, adet: is.adet, acik: is.acik, paket: is.paket },

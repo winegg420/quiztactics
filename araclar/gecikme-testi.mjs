@@ -52,12 +52,13 @@ const KAYIT_KODU = () => {
   requestAnimationFrame(tik);
 };
 
+// Kapatma düğmeleri koddan: Tanitim.jsx (Atla / Hadi başlayalım!), DuelloTanitim.jsx (Geç / Anladım, başla),
+// AnaEkranaEkle.jsx (Anladım), BildirimIzniSor.jsx (Şimdi değil).
+const KAPAT_ADI = /^(Atla|Geç|Anladım(, başla)?|Şimdi değil)$|Hadi başlayalım/i;
 async function tanitimiKapat(sayfa) {
   for (let i = 0; i < 8; i++) {
-    const atla = sayfa.getByRole("button", { name: /^Atla$/ });
-    if (await atla.count()) { await atla.first().click(); await sayfa.waitForTimeout(500); return; }
-    const basla = sayfa.getByRole("button", { name: /Hadi başlayalım/i });
-    if (await basla.count()) { await basla.first().click(); await sayfa.waitForTimeout(500); return; }
+    const dugme = sayfa.getByRole("button", { name: KAPAT_ADI });
+    if (await dugme.count()) { await dugme.first().click({ timeout: 3000 }).catch(() => {}); await sayfa.waitForTimeout(500); return; }
     await sayfa.waitForTimeout(300);
   }
 }
@@ -68,8 +69,7 @@ async function modalTemizle(sayfa, ad = "Gecikme" + Math.floor(Math.random() * 9
     await sayfa.waitForTimeout(700);
     if (!(await sayfa.locator(".bd-modal-katman, .bd-tanitim-katman").count())) return;
     const tikla = async (l) => { if (await l.count()) { await l.first().click({ timeout: 3000 }).catch(() => {}); return true; } return false; };
-    if (await tikla(sayfa.getByRole("button", { name: /^Atla$/ }))) continue;
-    if (await tikla(sayfa.getByRole("button", { name: /Hadi başlayalım/i }))) continue;
+    if (await tikla(sayfa.getByRole("button", { name: KAPAT_ADI }))) continue;
     const alan = sayfa.locator(".bd-modal-katman input.g-girdi").first();
     if ((await alan.count()) && !(await sayfa.locator(".bd-modal-katman [role=combobox]").count())) {
       await alan.fill(ad).catch(() => {});

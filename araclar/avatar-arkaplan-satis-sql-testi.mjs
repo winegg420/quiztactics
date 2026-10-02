@@ -4,6 +4,9 @@
 // ücretsiz seçilir, ücretli sahiplik ister · satın alma (yetersiz bakiye, defter satırı, çift alım reddi) · arka plan
 // nadirlik fiyatı + giyme doğrulaması · BP avatar/arka plan ödülü, "zaten sahip", tek satırlık yuva güncellemesi,
 // geriye dönük verme · yetkiler. En sonda (ayrı, yine ROLLBACK) eşzamanlılık: satın alma profil satırını kilitler.
+// GÜNCEL ÜRÜN (canlıda 847–849 uygulanmış): arka planlar dondurulmuş (848: pa_* pasif) ve Battle Pass 8. / 17. ücretli yuvalar
+// ELMAS (849: 25 / 30). 820–822 yalnız `placeholder` yuvaları doldurduğundan 8/17 elmas kalır. Arka plan SATIN ALMA / GİYME
+// mekanizması (821) yine sınanır: pa_* kayıtları yalnız bu transaction içinde geri aktif edilir (ROLLBACK ile gider).
 // Kullanım: node araclar/avatar-arkaplan-satis-sql-testi.mjs
 import { PgIstemci, baglantiDizgisi } from './pg-mini.mjs';
 import fs from 'node:fs';
@@ -77,7 +80,7 @@ try {
   ok('fiyatlar ayardan: Epik 150 · Efsanevi 300 · arka plan Nadir 100 / Epik 200 / Efsanevi 300',
     await tek(`select string_agg(deger #>> '{}', ',' order by anahtar) from oyun_ayarlari where anahtar in ('elmas_avatar_epik','elmas_avatar_efsanevi','elmas_arka_plan_nadir','elmas_arka_plan_epik','elmas_arka_plan_efsanevi')`) === '300,200,100,300,150');
   ok('arka plan: Yıldızlı Gece nadir 100 · Sonbahar / Su Altı / Yağan Kar epik 200',
-    await tek(`select string_agg(anahtar||':'||dukkan_nadirlik||':'||public.kozmetik_fiyati(tur, fiyat_elmas, dukkan_nadirlik), ',' order by anahtar) from kozmetikler where tur='premium_aura' and aktif`) === 'pa_gece:nadir:100,pa_kar:epik:200,pa_sualti:epik:200,pa_yaprak:epik:200');
+    await tek(`select string_agg(anahtar||':'||dukkan_nadirlik||':'||public.kozmetik_fiyati(tur, fiyat_elmas, dukkan_nadirlik), ',' order by anahtar) from kozmetikler where tur='premium_aura' and anahtar in ('pa_gece','pa_kar','pa_sualti','pa_yaprak')`) === 'pa_gece:nadir:100,pa_kar:epik:200,pa_sualti:epik:200,pa_yaprak:epik:200');
   ok('pasif arka planlar (Köz, Kuzey) dokunulmadı: nadirlik boş, pasif', await tek(`select string_agg(anahtar||':'||coalesce(dukkan_nadirlik,'-')||':'||aktif::text, ',' order by anahtar) from kozmetikler where anahtar in ('pa_kor','pa_kuzey')`) === 'pa_kor:-:false,pa_kuzey:-:false');
   const ara = await gor();
   for (const m of MIG) await db.sorgu(fs.readFileSync(m, 'utf8'));
@@ -160,6 +163,8 @@ try {
 
   // ---------------------------------------------------------------- arka plan (sahip olmayan hesapla: sahip test modu kozmetik_tak'ta duruyor)
   console.log('— arka plan: satın alma ve giyme (sahip OLMAYAN hesap)');
+  // 848 pa_* kayıtlarını pasifledi (arka planlar dondurulmuş); 821'in satın alma / giyme mekanizmasını sınamak için yalnız bu transaction'da geri aç
+  await db.sorgu(`update kozmetikler set aktif = true where tur = 'premium_aura' and anahtar in ('pa_gece','pa_sualti','pa_yaprak','pa_kar')`);
   await db.sorgu(`delete from oyuncu_kozmetikleri where user_id='${B}'`);
   await db.sorgu(`delete from oyuncu_avatarlari where user_id='${B}'`);
   await db.sorgu(`update profiles set takili_premium_aura = null, avatar_url = '${u('kedi-k01')}', avatar_onayli = true, elmas = 50 where id='${B}'`);
@@ -194,10 +199,10 @@ try {
   ok('5 Korsan (epik) · 14 Samuray (epik) · 21 Kristal Uzaylı (efsanevi) · 27 Savaş Robotu (efsanevi)',
     await tek(`select string_agg(seviye||':'||tur||':'||(veri->>'anahtar')||':'||nadirlik||':'||(veri->>'url'), ',' order by seviye) from bp_seviye_odulleri where kol='ucretli' and seviye in (5,14,21,27) and not placeholder`)
       === `5:avatar:korsan-k19:epik:${u('korsan-k19')},14:avatar:samuray-y15:epik:${u('samuray-y15')},21:avatar:kristal-uzayli-y28:efsanevi:${u('kristal-uzayli-y28')},27:avatar:savas-robotu-y30:efsanevi:${u('savas-robotu-y30')}`);
-  ok('8 Yıldızlı Gece (nadir) · 17 Su Altı (epik) arka plan ödülü',
-    await tek(`select string_agg(seviye||':'||tur||':'||(veri->>'anahtar')||':'||nadirlik||':'||(veri->>'sanat'), ',' order by seviye) from bp_seviye_odulleri where kol='ucretli' and seviye in (8,17) and not placeholder`)
-      === '8:arka_plan:pa_gece:nadir:gece,17:arka_plan:pa_sualti:epik:sualti');
-  ok('adlar katalogdan (TR/EN)', await tek(`select string_agg(ad_tr||'|'||ad_en, ';' order by seviye) from bp_seviye_odulleri where kol='ucretli' and seviye in (5,8)`) === 'Korsan avatarı|Pirate avatar;Yıldızlı Gece arka planı|Starry Night background');
+  ok('8 = 25 elmas · 17 = 30 elmas (849: arka plan yuvaları elmasa çevrildi; arka plan ödülü YOK)',
+    await tek(`select string_agg(seviye||':'||tur||':'||(veri->>'miktar'), ',' order by seviye) from bp_seviye_odulleri where kol='ucretli' and seviye in (8,17) and not placeholder`) === '8:elmas:25,17:elmas:30'
+    && await tek(`select count(*) from bp_seviye_odulleri where tur='arka_plan'`) === '0');
+  ok('adlar katalogdan (TR/EN)', await tek(`select string_agg(ad_tr||'|'||ad_en, ';' order by seviye) from bp_seviye_odulleri where kol='ucretli' and seviye in (5,8)`) === 'Korsan avatarı|Pirate avatar;25 elmas|25 gems');
   ok('19, 22, 23 hâlâ "?" · 28 Ejderha çerçevesi', await tek(`select string_agg(seviye||':'||tur||':'||placeholder::text, ',' order by seviye) from bp_seviye_odulleri where kol='ucretli' and seviye in (19,22,23,28)`) === '19:cerceve:true,22:tepki_paketi:true,23:cerceve:true,28:cerceve:false');
 
   const sezon = await tek(`select id from sezonlar where kapandi_at is null and not test`);
@@ -222,18 +227,18 @@ try {
   ok("BP'siz ücretli avatar ödülü alınamaz", Boolean(d.hata) && await avatarSahip(B, 'korsan-k19') === '0', JSON.stringify(d));
   await tek(`select public.bp_satin_al()`);
   ok('bp_satin_al (geriye dönük): dört avatar sahipliği (kaynak etkinlik)', await tek(`select string_agg(avatar, ',' order by avatar) from oyuncu_avatarlari where user_id='${B}' and kaynak='etkinlik'`) === 'korsan-k19,kristal-uzayli-y28,samuray-y15,savas-robotu-y30');
-  ok('iki arka plan sahipliği (kaynak etkinlik)', await tek(`select string_agg(kozmetik, ',' order by kozmetik) from oyuncu_kozmetikleri where user_id='${B}' and kaynak='etkinlik' and kozmetik like 'pa_%'`) === 'pa_gece,pa_sualti');
+  ok('8 / 17 elmas yuvası: arka plan sahipliği YAZILMAZ (849)', await tek(`select count(*) from oyuncu_kozmetikleri where user_id='${B}' and kaynak='etkinlik' and kozmetik like 'pa_%'`) === '0');
   ok('alım kayıtları verildi=true, zaten_sahip işareti yok', await tek(`select count(*) filter (where verildi)||'/'||count(*) filter (where odul ? 'zaten_sahip') from oyuncu_bp_odul_alimi where user_id='${B}' and sezon=${sezon} and kol='ucretli' and seviye in (5,8,14,17,21,27)`) === '6/0');
   d = await dene(`select public.avatar_onayla('${u('samuray-y15')}')`);
   ok('ödül avatarı seçilir', !d.hata && await tek(`select avatar_url from profiles where id='${B}'`) === u('samuray-y15'), JSON.stringify(d));
   d = await dene(`select public.kozmetik_tak('premium_aura', 'pa_sualti')`);
-  ok('ödül arka planı giyilir', !d.hata && await tek(`select takili_premium_aura from profiles where id='${B}'`) === 'pa_sualti', JSON.stringify(d));
+  ok('8 / 17 artık elmas: Su Altı arka planı ödülle gelmedi, giyilemez', /sende yok/.test(d.hata ?? '') && await tek(`select takili_premium_aura is null from profiles where id='${B}'`) === 't', JSON.stringify(d));
   d = await dene(`select public.avatar_satin_al('korsan-k19')`);
   ok("BP'den alınan avatar dükkândan ikinci kez alınamaz", /zaten sende/.test(d.hata ?? ''), JSON.stringify(d));
   d = await dene(`select public.bp_odul_al(5, 'ucretli')`);
   ok('aynı ödül ikinci kez alınamaz', Boolean(d.hata) && await avatarSahip(B, 'korsan-k19') === '1', JSON.stringify(d));
   await tek(`select public.bp_toplu_al()`);
-  ok('bp_toplu_al tekrarı çift sahiplik yazmaz', await tek(`select count(*) from oyuncu_avatarlari where user_id='${B}'`) === '4' && await tek(`select count(*) from oyuncu_kozmetikleri where user_id='${B}' and kozmetik like 'pa_%'`) === '2');
+  ok('bp_toplu_al tekrarı çift sahiplik yazmaz', await tek(`select count(*) from oyuncu_avatarlari where user_id='${B}'`) === '4' && await tek(`select count(*) from oyuncu_kozmetikleri where user_id='${B}' and kozmetik like 'pa_%'`) === '0');
   await ben(SAHIP);
   ok("BP'deki avatar ve arka plan dükkânda satılmaya devam eder (başka oyuncu için satılık)",
     await tek(`select bool_and(satilik)::text from public.avatar_sahiplik_durumu() where anahtar in ('samuray-y15','kristal-uzayli-y28')`) === 'true'
@@ -244,13 +249,13 @@ try {
   await tek(`select public.avatar_satin_al('korsan-k19')`);      // 2000 → 1850
   await tek(`select public.kozmetik_satin_al('pa_gece')`);       // 1850 → 1750
   ok('dükkândan Korsan + Yıldızlı Gece alındı (1750 elmas)', await elmas(B) === '1750');
-  ok('durum: 5 ve 8 "sahip" işaretli, 14 değil', await tek(`select string_agg((o->>'seviye')||':'||(o->>'sahip'), ',' order by (o->>'seviye')::int) from jsonb_array_elements(public.sezon_yolu_durumum()->'oduller') o where o->>'kol'='ucretli' and (o->>'seviye')::int in (5,8,14)`) === '5:true,8:true,14:false');
-  await tek(`select public.bp_satin_al()`);                      // 1750 → 1250; seviye 9'a kadar geriye dönük
-  ok('BP alındı (500), ödül iadesi/dönüşümü yok: 1250 + 7. seviyenin 20 elması + 1. seviyenin 20 elması',
+  ok('durum: 5 "sahip" işaretli; 8 (elmas yuvası) ve 14 değil', await tek(`select string_agg((o->>'seviye')||':'||(o->>'sahip'), ',' order by (o->>'seviye')::int) from jsonb_array_elements(public.sezon_yolu_durumum()->'oduller') o where o->>'kol'='ucretli' and (o->>'seviye')::int in (5,8,14)`) === '5:true,8:false,14:false');
+  await tek(`select public.bp_satin_al()`);                      // 1750 → 1250; seviye 9'a kadar geriye dönük (1. / 7. / 8. seviyenin elmasları dahil)
+  ok('BP alındı (500), ödül iadesi/dönüşümü yok: 1250 + seviye ≤ 9 elmas yuvaları (1: 20, 7: 20, 8: 25)',
     Number(await elmas(B)) === 1750 - 500 + Number(await tek(`select coalesce(sum((veri->>'miktar')::int),0) from bp_seviye_odulleri where kol='ucretli' and tur='elmas' and seviye <= 9`)));
   ok('Korsan sahipliği tek satır ve kaynağı hâlâ dükkân', await avatarSahip(B, 'korsan-k19') === '1' && await tek(`select kaynak from oyuncu_avatarlari where user_id='${B}' and avatar='korsan-k19'`) === 'dukkan');
   ok('Yıldızlı Gece sahipliği tek satır ve kaynağı hâlâ dükkân', await kozSahip(B, 'pa_gece') === '1' && await tek(`select kaynak from oyuncu_kozmetikleri where user_id='${B}' and kozmetik='pa_gece'`) === 'dukkan');
-  ok('ödüller "alınmış" sayıldı: 5 ve 8 alım kaydı verildi=true + zaten_sahip=true', await tek(`select string_agg(seviye||':'||verildi::text||':'||coalesce(odul->>'zaten_sahip','-'), ',' order by seviye) from oyuncu_bp_odul_alimi where user_id='${B}' and sezon=${sezon} and kol='ucretli' and seviye in (5,8)`) === '5:true:true,8:true:true');
+  ok('ödüller: 5 alım kaydı verildi=true + zaten_sahip=true; 8 (elmas) verildi=true, zaten_sahip yok', await tek(`select string_agg(seviye||':'||verildi::text||':'||coalesce(odul->>'zaten_sahip','-'), ',' order by seviye) from oyuncu_bp_odul_alimi where user_id='${B}' and sezon=${sezon} and kol='ucretli' and seviye in (5,8)`) === '5:true:true,8:true:-');
   await spYap(1400);
   d = await dene(`select public.bp_odul_al(14, 'ucretli')`);
   ok('sahip olmadığı Samuray: bp_odul_al verir, zaten_sahip yok', !d.hata && !/zaten_sahip/.test(d.r ?? '') && await avatarSahip(B, 'samuray-y15') === '1', JSON.stringify(d));
