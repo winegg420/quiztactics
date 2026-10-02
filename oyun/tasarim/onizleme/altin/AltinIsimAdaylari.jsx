@@ -139,7 +139,6 @@ function LigTablosu({ isim }) {
                 <span className="lg-puan-birim">{tt("puan")}</span>
               </span>
             </div>
-            <span className="lg-meydan-bos" aria-hidden="true" />
           </div>
         </div>
       ))}

@@ -57,4 +57,6 @@ export default {
   "Yükselme çizgisi": "Promotion line",
   "Yükselmeye {n} puan kaldı": "{n} points to promotion",
   "Haftalık ödül": "Weekly reward",
+  // ---------- Lig satırı sadeleştirme (2 Eki 2026) ----------
+  "P": "pts",
 };

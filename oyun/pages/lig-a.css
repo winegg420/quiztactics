@@ -289,9 +289,6 @@
 }
 .lg-puan-birim { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); }
 
-.lg-meydan { flex: none; color: var(--qt-ikinci-koyu); }
-.lg-meydan-bos { flex: none; width: var(--qt-dokunma); }
-
 /* Çok dar ekran (≤ 380 px): konum ve "puan" birimi düşer, ad ve puan kalır. */
 @media (max-width: 380px) {
   .lg-satir-ac { gap: var(--qt-b-2); padding-left: var(--qt-b-3); }
@@ -411,11 +408,11 @@
 /* 25 Eyl: satırda unvan (Kurdele, küçük) — sığmazsa kısalır; rütbe ve konum yanında küçülmez */
 .lg-detay .qt-unvan { flex: 0 1 auto; min-width: 0; }
 .lg-detay .qt-unvan ~ .lg-konum { display: none; }
-/* D-506: unvan artık ad satırıyla detay satırı ARASINDA kendi satırında (72/52 px'e sıkışıp kesiliyordu); tam genişlikte,
-   sığmazsa "…" ve tam metin title'da (UnvanYazisi). Unvanı olmayan satır aynı yükseklikte (boş yuva gizli). */
-.lg-unvan { display: flex; min-width: 0; overflow: hidden; }
+/* 2 Eki (satır sadeleştirme): unvan artık rütbe/konumla AYNI satırda (lg-detay) — kendi
+   satırında olduğunda unvanlı/unvansız satırlar farklı yükseklikte oluyordu (satır yüksekliği
+   SABİT ≈64 px olmalı). Unvanı olmayan satır aynı yükseklikte (boş yuva gizli). */
+.lg-unvan { display: inline-flex; min-width: 0; overflow: hidden; }
 .lg-unvan:empty { display: none; }
-.lg-bilgi:has(.lg-unvan .qt-unvan) .lg-konum { display: none; }
 
 /* ---------- BATTLE PASS satırı (2 Eki 2026) ----------
    sezon_bp sahibi her satır (kendin dahil): çift katmanlı altın kaplama — dışta koyu

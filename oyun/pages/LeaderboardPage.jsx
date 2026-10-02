@@ -61,7 +61,7 @@ const DONEMLER = [
  * önbelleği boşa abone olur). sezon_bp kartta zaten var (oyuncu_kartlari, avatarla/isimle aynı
  * toplu+önbellekli çağrı — ek sorgu yok).
  */
-function LigSatiri({ s, vurgu = false, sirIdx = -1, kapsam, benimId, bolge, siraliOge, kartiAc, meydanOku }) {
+function LigSatiri({ s, vurgu = false, sirIdx = -1, kapsam, benimId, bolge, siraliOge, kartiAc }) {
   const benMi = s.user_id === benimId;
   const b = kapsam === "lig" ? bolge(s.sira) : null;
   const g = sirIdx >= 0 ? siraliOge(sirIdx) : { className: "", style: undefined };
@@ -107,10 +107,11 @@ function LigSatiri({ s, vurgu = false, sirIdx = -1, kapsam, benimId, bolge, sira
               {benMi && <SenRozeti />}
             </span>
             {/* 25 Eyl: unvan (tek oyuncu kartının küçük hâli; oyuncu_kartlari, avatarla aynı toplu çağrı).
-                D-506: kendi satırında — rütbe/konumla aynı satırda 52 px'e sıkışıp kesiliyordu. */}
-            <span className="lg-unvan"><KartUnvani userId={s.user_id} /></span>
+                2 Eki (satır sadeleştirme): rütbe/konumla AYNI satırda (lg-detay) — unvanı olan/olmayan
+                satır aynı yükseklikte kalsın; sığmazsa ellipsis (UnvanYazisi title ile tam metni verir). */}
             <span className="lg-detay">
               <RankBadge level={s.level} userId={s.user_id} boyut={15} />
+              <span className="lg-unvan"><KartUnvani userId={s.user_id} /></span>
               {s.ulke && (
                 <span className="lg-konum">
                   <Bayrak kod={s.ulke} /> <span className="lg-konum-sehir">{s.sehir ?? ""}</span>
@@ -120,19 +121,9 @@ function LigSatiri({ s, vurgu = false, sirIdx = -1, kapsam, benimId, bolge, sira
           </span>
           <span className="lg-puan">
             <SayanSayi deger={s.puan} className="qt-sayi" />
-            <span className="lg-puan-birim">{kapsam === "koleksiyon" ? tt("Koleksiyon") : tt("puan")}</span>
+            <span className="lg-puan-birim">{kapsam === "koleksiyon" ? tt("Koleksiyon") : tt("P")}</span>
           </span>
         </button>
-        {/* Kendi satırında kılıç yok; puan sütunu hizada kalsın diye boş yuva */}
-        {benMi ? <span className="lg-meydan-bos" aria-hidden="true" /> : (
-          <QtIkonDugme
-            ikon="kilic"
-            tur="saydam"
-            className="lg-meydan"
-            etiket={tt("{0} oyuncusuna meydan oku", { 0: s.gorunen_ad })}
-            onClick={() => { dokunus(); meydanOku(s.user_id); }}
-          />
-        )}
       </div>
     </KartArkaPlanSahibi>
   );
@@ -386,7 +377,6 @@ export default function LeaderboardPage() {
       bolge={bolge}
       siraliOge={siraliOge}
       kartiAc={kartiAc}
-      meydanOku={meydanOku}
     />
   );
 
