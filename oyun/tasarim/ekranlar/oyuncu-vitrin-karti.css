@@ -45,7 +45,8 @@
   content: ""; position: absolute; inset: 0; z-index: -2; border-radius: inherit; pointer-events: none;
   background: repeating-conic-gradient(from 0deg at 50% 36%, var(--sahne-zemin) 0deg 20deg, var(--sahne-isik) 20deg 40deg);
 }
-.qt-ok-filigran { position: absolute; inset: 0; z-index: -1; display: grid; place-items: center; opacity: .12; pointer-events: none; }
+/* 2 Eki: filigran kapalı — 140 px yıldız kolları avatarın altından gri üçgen izi gibi taşıyordu (hata gibi duruyordu) */
+.qt-ok-filigran { position: absolute; inset: 0; z-index: -1; display: none; place-items: center; opacity: .12; pointer-events: none; }
 /* İSİM PLAKASI: açık zeminde efektli/altın isimler kaybolmasın diye koyu lacivert plaka + ligin dudak çerçevesi
    (IsimEfekti zaten `koyu` prop'uyla koyu zemine göre tasarlı — plaka bu zemini sağlar). */
 .qt-ok--lig-sahnesi .qt-ok-ad {
