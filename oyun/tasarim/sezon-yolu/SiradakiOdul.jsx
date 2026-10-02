@@ -1,9 +1,10 @@
-// "Sıradaki büyük ödül" şeridi (sahnenin alt yuvasında, ince): bir sonraki kilometre taşının (her 5. seviye + son seviye) ÜCRETLİ ödülü
-// ve kaç seviye kaldığı — "Sıradaki büyük ödül: Seviye N, <ad> · K seviye". Dokununca yol o satıra kayar.
+// "Sıradaki büyük ödül" KARTI (sahnenin alt yuvasında; 2 Eki 2026: ince şerit → kart): bir sonraki kilometre taşının (her 5. seviye + son seviye)
+// ÜCRETLİ ödülü — nadirlik çerçeveli büyük görsel (48 px) + "Sv N: <ad>" + "K seviye kaldı"; altın-krem iç. Dokununca yol o satıra kayar.
 // Yukarıdaki seviyelerin hepsi geçildiyse (sonraki taş yoksa) hiç çizilmez.
 import { tt } from "../../lib/dil.js";
 import { odulAdi } from "../../lib/sezonYolu.js";
 import { OdulGorsel, tasMi } from "./OdulGorsel.jsx";
+import { odulCerceveSanati } from "./CerceveOdulGorsel.jsx";
 
 /** Sonraki kilometre taşı seviyesi (yoksa null). */
 export function sonrakiTas(seviye, toplam) {
@@ -19,13 +20,13 @@ export default function SiradakiOdul({ durum, toplam, harita, dil, onGit }) {
   const kalan = n - Number(durum.seviye);
   const ad = odul.placeholder ? tt("Yakında") : odulAdi(odul, dil);
   return (
-    <button type="button" className="sy-sirada" onClick={() => onGit(n)}
+    <button type="button" className="sy-sirada sy-sirada--kart" onClick={() => onGit(n)}
       aria-label={`${tt("Sıradaki büyük ödül")}: ${tt("{n}. seviye", { n })}, ${ad}. ${tt("{n} seviye kaldı", { n: kalan })}`}>
-      <span className="sy-sirada-yuva" data-nadirlik={odul.nadirlik ?? "siradan"}><OdulGorsel odul={odul} boyut={22} /></span>
+      <span className="sy-sirada-yuva" data-nadirlik={odul.nadirlik ?? "siradan"}><OdulGorsel odul={odul} boyut={odulCerceveSanati(odul) ? 40 : 32} /></span>
       <span className="sy-sirada-metin">
-        <span className="sy-sirada-etiket">{tt("Sıradaki büyük ödül")}:</span>{" "}
-        <b>{tt("Seviye {n}", { n })}, {ad}</b>{" "}
-        <span className="sy-sirada-kalan">· {tt(kalan === 1 ? "1 seviye" : "{n} seviye", { n: kalan })}</span>
+        <span className="sy-sirada-etiket">{tt("Sıradaki büyük ödül")}</span>
+        <b>{tt("Sv {n}: {ad}", { n, ad })}</b>
+        <span className="sy-sirada-kalan">{tt("{n} seviye kaldı", { n: kalan })}</span>
       </span>
     </button>
   );

@@ -209,11 +209,11 @@ export function BonusSatiri({ bonus, islemde, mesgul, onAl }) {
   );
 }
 
-/** "alt" yuvası: Battle Pass yokken tek büyük düğme (taç + fiyat). Tek vurgu rengi: standart birincil düğme. */
+/** "alt" yuvası: Battle Pass yokken (alınacak ödül de yoksa) tek büyük ALTIN düğme: taç + "Battle Pass al" + elmas fiyat çipi. */
 export function BpAlDugmesi({ durum, onAl }) {
   const fiyat = sayiBicim(Number(durum.bp?.fiyat ?? 0));
   return (
-    <QtDugme tamGenislik className="sy-bp-dugme" onClick={onAl} aria-label={tt("Battle Pass al, {n} elmas", { n: fiyat })}>
+    <QtDugme tamGenislik className="sy-dugme-altin sy-bp-dugme" onClick={onAl} aria-label={tt("Battle Pass al, {n} elmas", { n: fiyat })}>
       <TacIkon boyut={20} />
       <span>{tt("Battle Pass al")}</span>
       <span className="sy-fiyat-cip"><ElmasIkon boyut={16} />{fiyat}</span>

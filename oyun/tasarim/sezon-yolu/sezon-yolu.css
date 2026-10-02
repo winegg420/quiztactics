@@ -662,6 +662,16 @@ button.sy-afis { cursor: pointer; -webkit-tap-highlight-color: transparent; touc
 }
 .sy-kutu--doldu .sy-kutu-cerceve { animation: sy-doldu 520ms var(--qt-egri-yay) both; }
 
+/* ---------- Alt yuva: sıradaki büyük ödül KARTI (altın-krem iç, nadirlik çerçeveli 48 px görsel, üç satır yazı) ---------- */
+.sy-sirada--kart { gap: var(--qt-b-3); min-height: 60px; padding: 4px var(--qt-b-3) 4px 4px; border-color: var(--qt-coin-dudak); background: var(--qt-coin-acik); }
+.sy-sirada--kart .sy-sirada-yuva { width: 48px; height: 48px; }
+.sy-sirada-yuva[data-nadirlik="efsanevi"] { --sy-kenar: var(--qt-nadir-efsanevi-koyu); }
+.sy-sirada--kart .sy-sirada-metin { display: grid; gap: 1px; }
+.sy-sirada--kart .sy-sirada-metin > * { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sy-sirada--kart .sy-sirada-etiket { font-weight: var(--qt-a-siyah); color: var(--qt-uyari-koyu); }
+.sy-sirada--kart .sy-sirada-metin b { font-size: var(--qt-y-m); }
+.sy-sirada--kart .sy-sirada-kalan { font-size: var(--qt-y-xs); }
+
 /* ---------- Alt yuva: günlük bonus görev (tek ince satır) + Battle Pass düğmesi ---------- */
 .sy-bonus-satir {
   display: flex; align-items: center; justify-content: space-between; gap: var(--qt-b-2); min-height: var(--qt-dokunma); padding: 0 var(--qt-b-1) 0 var(--qt-b-3);
