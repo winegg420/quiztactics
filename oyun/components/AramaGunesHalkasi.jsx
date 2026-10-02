@@ -103,10 +103,26 @@ function sureYaz(sn) {
   return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
 }
 
-/** Yuvarlak avatar resmi (makara/yörünge/kilit); resim yoksa baş harf. */
+/**
+ * Yuvarlak avatar resmi (rakip kilidi); resim yoksa ya da henüz inmediyse baş harf (yedek altta durur),
+ * resim yüklenince üstüne yumuşakça biner. Önceden yüklenmeyen avatar (gerçek oyuncunun özel/Google fotoğrafı)
+ * inene kadar daire boş beyaz kalıyordu.
+ */
 function AvatarResim({ src, ad }) {
-  if (src) return <NadirlikImg src={src} alt="" width="120" height="120" decoding="async" draggable="false" referrerPolicy="no-referrer" />;
-  return <span className="gh-harf">{(ad ?? "?").charAt(0).toUpperCase()}</span>;
+  const [yuklu, setYuklu] = useState(false);
+  const imgRef = useRef(null);
+  useEffect(() => {
+    setYuklu(Boolean(imgRef.current?.complete && imgRef.current.naturalWidth > 0));   // önbellekten geldiyse onLoad kaçmış olabilir
+  }, [src]);
+  const harf = <span className="gh-harf">{(ad ?? "?").charAt(0).toUpperCase()}</span>;
+  if (!src) return harf;
+  return (
+    <>
+      {harf}
+      <NadirlikImg ref={imgRef} className={yuklu ? "gh-av-yuklu" : "gh-av-bekle"} src={src} alt="" width="120" height="120" decoding="async" draggable="false" referrerPolicy="no-referrer"
+        onLoad={() => setYuklu(true)} onError={() => setYuklu(false)} />
+    </>
+  );
 }
 
 /** Sahne zemini: açık gök, turuncu güneş ışınları, kontürlü bulutlar. */
