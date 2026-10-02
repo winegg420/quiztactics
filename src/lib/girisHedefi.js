@@ -27,6 +27,7 @@ export function bilinenYol(yol) {
 function hedefeUygunMu(yol) {
   if (typeof yol !== "string" || !yol.startsWith("/")) return false;
   if (yol.startsWith("//")) return false; // protokolsüz dış adres
+  if (yol.includes("\\")) return false; // ters eğik çizgi: tarayıcı "/\evil.com" yolunu "//evil.com" sayar
   if (!bilinenYol(yol)) return false;
   return yol !== "/";
 }
