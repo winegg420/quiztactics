@@ -323,7 +323,8 @@ function kartVerisi(k, hk, ben, rakip, c) {
   const bo = kategoriOrani(ben?.profil, k);
   const ro = kategoriOrani(rakip?.profil, k);
   const fark = bo === null || ro === null ? 0 : bo - ro;
-  const ok = fark >= hk.avantajEsik ? "yukari" : fark <= -hk.avantajEsik ? "asagi" : "esit";
+  const ok = bo === null || ro === null ? null   // veri yok: ok çizilmez ("=" yanıltıcı olur)
+    : fark >= hk.avantajEsik ? "yukari" : fark <= -hk.avantajEsik ? "asagi" : "esit";
   return { k, bo, ro, fark, ok, ad: c(kategoriAdi(k)) };
 }
 const OK_SIMGE = { yukari: "↑", esit: "=", asagi: "↓" };
@@ -397,7 +398,7 @@ export function V2Kategori({ d, hk, benSaldiran, ben, rakip, calisan, c, secim, 
                           banliMi ? (banFazi ? c("Banlı") : benSaldiran ? c("Rakip banladı") : c("Sen banladın"))
                             : oncekiBan ? c("Geçen tur banladın") : null,
                           c("Sen {b} · Rakip {r}", { b: oranMetni(x.bo, c), r: oranMetni(x.ro, c) }),
-                          c(OK_ETIKET[x.ok]),
+                          x.ok && c(OK_ETIKET[x.ok]),
                         ].filter(Boolean).join(" · ")}
                         onClick={(e) => {
                           if (!banliDokunulur) { onKart(x.k); return; }
@@ -409,7 +410,7 @@ export function V2Kategori({ d, hk, benSaldiran, ben, rakip, calisan, c, secim, 
                     <span className="hk-kart-ad">{x.ad}</span>
                     {banliMi && !banFazi
                       ? <span className="hk-kart-banikon" aria-hidden="true"><QtIkon ad="ban" boyut={15} /></span>
-                      : <b className={`hk-ok hk-ok--${x.ok}`} aria-hidden="true">{OK_SIMGE[x.ok]}</b>}
+                      : <b className={`hk-ok hk-ok--${x.ok || "yok"}`} aria-hidden="true">{x.ok ? OK_SIMGE[x.ok] : " "}</b>}
                   </span>
                   <span className="hk-kart-alt">
                     {kilit > 0
