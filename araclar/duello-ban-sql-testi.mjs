@@ -62,7 +62,7 @@ try {
   d = await satir(id);
   ok('ban sonrası faz kategori, ban_kategori yazıldı, B\'nin son banı yazıldı', d.faz === 'kategori' && d.ban_kategori === k1 && d.son_ban2 === k1 && d.son_ban1 === null, JSON.stringify([d.faz, d.ban_kategori, d.son_ban1, d.son_ban2]));
   sn = await kalanSn(id);
-  ok('kategori süresi baştan (15 + pay)', sn >= 16 && sn <= 17, String(sn));
+  ok('kategori süresi baştan (15 + pay + 880 ban açıklama payı 1,2 sn)', sn >= 17 && sn <= 19, String(sn));
 
   console.log('3) Banlı kategori seçilemez');
   ok('duello2_kategori_uygun_mu(banlı) = false', (await tek(`select duello2_kategori_uygun_mu('${id}','${k1}')::text`)) === 'false');
