@@ -177,6 +177,14 @@
 .hk-kart-alt { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: clamp(9.5px, 2.7vw, 11px); font-weight: 700; line-height: 1.2; opacity: .88; }
 .hk-kart-kilit { display: inline-flex; align-items: center; gap: 3px; font-weight: 800; }
 .hk-kart--kilitli { opacity: .5; }
+/* 853 · savunma banı: banlı kart gri + damga (Düello kırmızı rolü); ban fazı çubuğunda kırmızı kenar */
+.hk-kart--banli { --c: var(--hk-gri-kenar); --z: var(--hk-gri-zemin); --m: var(--hk-gri-metin); opacity: .6; }
+.hk-kart-ban {
+  position: absolute; top: -6px; right: 6px; padding: 0 6px; border-radius: 8px;
+  background: var(--qt-mod-duello, #c93030); color: #fff; font-size: 9.5px; font-weight: 900; line-height: 14px;
+  text-transform: uppercase; letter-spacing: .03em;
+}
+.hk-cubuk--ban { border-color: var(--qt-mod-duello, #c93030); }
 .hk-kart--secili { outline: 3px solid var(--hk-vurgu); outline-offset: 1px; transform: translateY(-1px); }
 .hk-kart--hazir { border-style: solid; box-shadow: 0 0 0 2px var(--hk-vurgu); }
 .hk-kart-hazir {

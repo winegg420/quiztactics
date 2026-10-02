@@ -88,4 +88,19 @@ export default {
   "Rakip pekiştirdi": "Opponent reinforced it",
   "Kontra: aldın": "Counter: you took it",
   "Kontra: rakip aldı": "Counter: opponent took it",
+
+  // 853 · Savunma banı
+  "Bir kategori banla": "Ban a category",
+  "Rakip bu turda o kategoriyi seçemez": "Your opponent can't pick it this round",
+  "Rakip ban seçiyor…": "Opponent is choosing a ban…",
+  "Banladığı kategoriyi bu turda seçemezsin": "You can't pick the banned category this round",
+  "Banlı": "Banned",
+  "Önceki banın": "Your last ban",
+  "Ban seçimi": "Ban selection",
+  "Banlamak için bir karta dokun": "Tap a card to ban it",
+  "Süre dolarsa ban yapılmaz.": "No ban if time runs out.",
+  "Ardından kategorini seçeceksin.": "Then you'll pick your category.",
+  "Şu an ban sırası sende değil": "It's not your turn to ban right now",
+  "Aynı kategoriyi arka arkaya banlayamazsın": "You can't ban the same category twice in a row",
+  "Bu kategori şu an banlanamaz": "This category can't be banned right now",
 };

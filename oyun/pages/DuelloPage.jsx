@@ -45,7 +45,7 @@ import SkillSeti from "../components/SkillSeti.jsx";
 // Maç ekranı parçaları (Tasarım A).
 import { V2Ust, V2Kategori, V2SecimCubugu, V2Cevap, V2Sonuc, V2Skill, V2Gecmis } from "../components/DuelloV2.jsx";
 // 680 · Hâkimiyet tahtası: yuvalar, mesaj satırı, maç sonu tahtası (kartlar/alt çubuk DuelloV2 üzerinden).
-import { hkModel, HkYuvalar, HkMesaj, hkMesaj, HkSonTahta } from "../components/DuelloTahta.jsx";
+import { hkModel, HkYuvalar, HkMesaj, hkMesaj, HkSonTahta, V2BanCubugu } from "../components/DuelloTahta.jsx";
 // Tasarım A görünümü (m2- önekli). Eski duello-v2.css artık yüklenmez (dosya Faz 4'e kadar durur).
 import "./DuelloPage.a.css";
 import "../styles/duello-tahta.css";
@@ -836,7 +836,7 @@ function DuelloMac({ id }) {
   const hedefBitis = d?.surum === 2 && d?.faz === "cevap" && d?.cevap?.benim_bitis ? d.cevap.benim_bitis : d?.faz_bitis;
   // 325: sunucu faz bitişine gösterim payı ekler; sayaç `gosterim_bas`a kadar TAM süreyi
   // gösterir, sonra gerçek zamanla akar. Ekran fazı geç görse de sayaç yetişmek için hızlanmaz.
-  const gosterimBas = d?.sureler?.gosterim_bas && ["kategori", "cevap"].includes(d?.faz)
+  const gosterimBas = d?.sureler?.gosterim_bas && ["kategori", "cevap", "ban"].includes(d?.faz)
     ? new Date(d.sureler.gosterim_bas).getTime() : null;
   const kalanSn = useMemo(() => {
     if (!hedefBitis) return 0;
@@ -939,7 +939,9 @@ function DuelloMac({ id }) {
     const simdiki = { faz: gecisFaz, tur: gecisTur, soru: soruMetni };
     gecisRef.current = simdiki;
     if (onceki && onceki.faz === simdiki.faz && onceki.tur === simdiki.tur && onceki.soru === simdiki.soru) return;
-    if (gecisFaz === "kategori" && onceki && (onceki.faz !== "kategori" || onceki.tur !== gecisTur)) {
+    // 853: tur "ban" fazıyla açılır (bayrak kapalıysa doğrudan "kategori"); ban → kategori aynı turdur, geçiş yinelenmez.
+    const turBasi = (f) => f === "kategori" || f === "ban";
+    if (turBasi(gecisFaz) && onceki && (!turBasi(onceki.faz) || onceki.tur !== gecisTur)) {
       sesTurGecis();
       setTurGecis(Date.now());
     } else if (gecisFaz === "cevap" && soruMetni && (!onceki || onceki.soru !== soruMetni || onceki.faz !== "cevap")) {
@@ -1074,6 +1076,24 @@ function DuelloMac({ id }) {
       await yukle();
     } catch (e) {
       if (/şu an seçilemez/i.test(e?.message ?? "")) yukle().catch(() => {});
+      else setHata(ceviri(hataMesaji(e)));
+    } finally {
+      setCalisan(null);
+    }
+  };
+
+  // 853 · savunma banı: savunan ban fazında karta dokununca banlar (tek dokunuş; kural sunucuda). Süre tam o an
+  // dolduysa sunucu "ban sırası sende değil" der — ham hata yerine ekran tazelenir. Yeniden denenmez.
+  const banSec = async (k) => {
+    sesDokunus(); titret(8);
+    setHata(null);
+    setCalisan("ban");
+    try {
+      const { error } = await supabase.rpc("duello_ban_sec", { p_id: id, p_kategori: k });
+      if (error) throw error;
+      await yukle();
+    } catch (e) {
+      if (/ban sırası sende değil/i.test(e?.message ?? "")) yukle().catch(() => {});
       else setHata(ceviri(hataMesaji(e)));
     } finally {
       setCalisan(null);
@@ -1270,6 +1290,7 @@ function DuelloMac({ id }) {
   const kilitli = Boolean(d.cevap?.ben_cevapladim);
   const toplamSn = d.faz === "kategori"
     ? Number(d.sureler?.kategori ?? 8)
+    : d.faz === "ban" ? Number(d.sureler?.ban ?? d.ban?.sure ?? 5)
     : Math.max(Number(d.sureler?.cevap ?? 15), Math.ceil(kalanSn));
   const sonUc = d.faz === "kategori" && gosterSn > 0 && gosterSn <= 3;   // kategori: son 3 sn vurgusu (renk + ses)
   const gerilim = (d.faz === "cevap" && !kilitli && gosterSn > 0 && gosterSn <= 5) || sonUc;
@@ -1281,9 +1302,9 @@ function DuelloMac({ id }) {
   const hk = hkModel(d, ben, rakip);
   const mesaj = hkMesaj({ d, hk, ben, rakip, benSaldiran, c: c2, ezeli: ezeliMetin });
   // Büyük süre: kategori ve cevap fazında geri sayım halkası/rakamı; sonuç fazında sayaç yerine sade işaret.
-  const sayacGosterilir = d.faz === "kategori" || d.faz === "cevap";
+  const sayacGosterilir = d.faz === "kategori" || d.faz === "cevap" || d.faz === "ban";
   const sayacNode = sayacGosterilir
-    ? <QtSayac kalan={gosterSn} toplam={toplamSn} esik={5} boyut="k" durdu={kilitli || kopukDonukSn != null} ekBalon={ekBalon} className="hk-sayac" />
+    ? <QtSayac kalan={gosterSn} toplam={toplamSn} esik={d.faz === "ban" ? 2 : 5} boyut="k" durdu={kilitli || kopukDonukSn != null} ekBalon={ekBalon} className="hk-sayac" />
     : <span className="hk-sayac hk-sayac--sonuc" aria-hidden="true">·</span>;
   const sureOrani = sayacGosterilir ? (kopukDonukSn ?? kalanGoster) / Math.max(1, toplamSn) : 0;
   // 760: kopukluk bandı önce durum okumasındaki `kopuk`tan (her okumada, sunucunun dondurduğu an ve bekleme bitişi),
@@ -1301,6 +1322,12 @@ function DuelloMac({ id }) {
     sahne2 = (
       <V2Kategori d={d} hk={hk} benSaldiran={benSaldiran} ben={ben} rakip={rakip} calisan={calisan} c={c2}
                   secim={katSecim} hazir={hazirKat} dokunus={dokunus} zipla={zipla} onKart={kartaDokun} />
+    );
+  } else if (d.faz === "ban") {
+    // 853: aynı kart ızgarası; savunan dokununca banlar, saldıran bekler.
+    sahne2 = (
+      <V2Kategori d={d} hk={hk} benSaldiran={benSaldiran} ben={ben} rakip={rakip} calisan={calisan} c={c2}
+                  secim={null} hazir={null} dokunus={null} onKart={banSec} />
     );
   } else if (d.faz === "cevap") {
     sahne2 = (
@@ -1357,6 +1384,7 @@ function DuelloMac({ id }) {
         <V2SecimCubugu d={d} hk={hk} benSaldiran={benSaldiran} secim={katSecim} hazir={hazirKat} calisan={calisan} c={c2}
                        onOnayla={kategoriSec} onHazirKaldir={() => setHazirKat(null)} />
       )}
+      {d.faz === "ban" && <V2BanCubugu benSaldiran={benSaldiran} c={c2} />}
       {satinAlPenceresi}
       <QtModal acik={terkOnay} onKapat={() => setTerkOnay(false)} baslik={ceviri("Düellodan çık")}
                aciklama={ceviri("Düellodan çıkarsan hükmen kaybedersin. Emin misin?")}

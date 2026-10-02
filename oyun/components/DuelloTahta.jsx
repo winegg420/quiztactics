@@ -7,6 +7,8 @@
 //   · hkMesaj       — 2 satırlık sabit mesaj (kural / 3-4 uyarısı / tur sonucu ve nedeni).
 //   · V2Kategori    — kartlar, aidiyete göre 3 grup (rakibin · boş · senin).
 //   · V2SecimCubugu — kategori fazında alt sabit çubuk: seçim özeti + eylem (Elinden al / Al / Pekiştir).
+//   · 853 savunma banı — ban fazında aynı kartlar: savunan tek dokunuşla banlar (kendi önceki banı kilitli),
+//     saldıran bekler; kategori fazında banlı kart gri + "Banlı" damgası. V2BanCubugu: ban fazı alt çubuğu.
 //   · HkSonTahta    — maç sonu özeti: iki tarafın yuvaları.
 // Renkler --hk-* (duello-tahta.css). Metinlerin İngilizcesi ceviri/hakimiyet-ekran.js.
 // iOS: bu dosyada position:fixed yok (alt çubuk akışta, sayfanın en altında).
@@ -202,6 +204,11 @@ export function hkMesaj({ d, hk, ben, rakip, benSaldiran, c, ezeli }) {
     if (a === "bos") return { l1, l2: c("Rakip yanlış, sen doğru bilirsen alırsın"), ton };
     return { l1, l2: c("Rakip doğru, sen yanlış bilirse 2 tur kilitlenir"), ton };
   }
+  if (d.faz === "ban") {
+    return benSaldiran
+      ? { l1: c("Rakip ban seçiyor…"), l2: c("Banladığı kategoriyi bu turda seçemezsin"), ton }
+      : { l1: c("Bir kategori banla"), l2: c("Rakip bu turda o kategoriyi seçemez"), ton };
+  }
   if (d.faz === "kategori" && !benSaldiran) {
     return { l1: c("Rakip seçiyor…"), l2: c("Sıradaki hamleni şimdiden hazırla"), ton };
   }
@@ -250,10 +257,18 @@ const AIDIYET_ETIKET = { ben: "senin kategorin", rakip: "rakibin kategorisi", bo
 /**
  * Kategori kartları (kategori fazı). Saldıran: dokununca seçer (onaylamak alt çubukta).
  * Savunan: dokununca sıradaki saldırısı için "Hazır" işaretler; saldıranın dokunduğu kart canlı parlar.
+ * 853 · ban fazı (d.faz === "ban"): savunan dokununca BANLAR (onKart → duello_ban_sec); banlanabilirler sunucudan
+ * (d.ban.uygun), kendi önceki banı (d.ban.onceki) kilitli; saldıranın kartları pasif. Kategori fazında d.ban.kategori
+ * gri + "Banlı" damgalı ve seçilemez (sunucu uygun_kategoriler'den zaten çıkarır).
  */
 export function V2Kategori({ d, hk, benSaldiran, ben, rakip, calisan, c, secim, hazir, dokunus, zipla = [], onKart }) {
   const kategoriler = d.kategoriler ?? [];
-  const uygunListe = Array.isArray(d.uygun_kategoriler) ? d.uygun_kategoriler : null;
+  const banFazi = d.faz === "ban";
+  const banli = banFazi ? null : d.ban?.kategori ?? null;
+  const banOnceki = banFazi && !benSaldiran ? d.ban?.onceki ?? null : null;
+  const uygunListe = banFazi
+    ? (Array.isArray(d.ban?.uygun) ? d.ban.uygun : null)
+    : Array.isArray(d.uygun_kategoriler) ? d.uygun_kategoriler : null;
   const uygun = new Set(uygunListe ?? kategoriler.filter((k) => !(Number(hk.kilitler[k]) > 0)));
   const canli = dokunus && dokunus.tur === d.tur ? dokunus.kategori : null;
   const gruplar = GRUPLAR.map((g) => ({
@@ -272,20 +287,24 @@ export function V2Kategori({ d, hk, benSaldiran, ben, rakip, calisan, c, secim, 
           <div className="hk-izgara">
             {g.liste.map((x) => {
               const kilit = Number(hk.kilitler[x.k] ?? 0);
-              const secilebilir = uygun.has(x.k) && kilit <= 0;
+              const banliMi = banli === x.k;
+              const oncekiBan = banOnceki === x.k;
+              const secilebilir = uygun.has(x.k) && kilit <= 0 && !banliMi && !(banFazi && (benSaldiran || oncekiBan));
               const secili = benSaldiran && secim === x.k;
               const hazirMi = !benSaldiran && hazir === x.k;
               const dokunuluyor = !benSaldiran && canli === x.k;
               return (
                 <button key={x.k} type="button" data-kategori={x.k}
                         className={sinif("hk-kart", `hk-kart--${g.anahtar}`, kilit > 0 && "hk-kart--kilitli", secili && "hk-kart--secili",
+                                         (banliMi || oncekiBan) && "hk-kart--banli",
                                          hazirMi && "hk-kart--hazir", dokunuluyor && "hk-kart--dokunus", zipla.includes(x.k) && "hk-kart--zipla")}
                         disabled={!secilebilir || !!calisan}
-                        aria-pressed={benSaldiran ? secili : hazirMi}
-                        aria-busy={calisan === "kategori" || undefined}
+                        aria-pressed={banFazi ? undefined : benSaldiran ? secili : hazirMi}
+                        aria-busy={calisan === "kategori" || calisan === "ban" || undefined}
                         aria-label={[
                           x.ad, c(AIDIYET_ETIKET[g.anahtar]),
                           kilit > 0 ? c("{n} tur kilitli", { n: kilit }) : null,
+                          banliMi ? c("Banlı") : oncekiBan ? c("Önceki banın") : null,
                           c("Sen {b} · Rakip {r}", { b: oranMetni(x.bo, c), r: oranMetni(x.ro, c) }),
                           c(OK_ETIKET[x.ok]),
                           hazirMi ? c("Hazır") : null,
@@ -299,8 +318,11 @@ export function V2Kategori({ d, hk, benSaldiran, ben, rakip, calisan, c, secim, 
                   <span className="hk-kart-alt">
                     {kilit > 0
                       ? <span className="hk-kart-kilit"><QtIkon ad="kilit" boyut={11} /> {c("{n} tur kilitli", { n: kilit })}</span>
-                      : c("Sen {b} · Rakip {r}", { b: oranMetni(x.bo, c), r: oranMetni(x.ro, c) })}
+                      : oncekiBan
+                        ? <span className="hk-kart-kilit"><QtIkon ad="kilit" boyut={11} /> {c("Önceki banın")}</span>
+                        : c("Sen {b} · Rakip {r}", { b: oranMetni(x.bo, c), r: oranMetni(x.ro, c) })}
                   </span>
+                  {banliMi && <span className="hk-kart-ban">{c("Banlı")}</span>}
                   {hazirMi && <span className="hk-kart-hazir">{c("Hazır")}</span>}
                 </button>
               );
@@ -356,6 +378,27 @@ export function V2SecimCubugu({ d, hk, benSaldiran, secim, hazir, calisan, c, on
                yukleniyor={calisan === "kategori"} onClick={() => secim && onOnayla(secim)}>
         {secim ? eylemEtiketi(eylem, c) : c("Seç")}
       </QtDugme>
+    </div>
+  );
+}
+
+/** 853 · Ban fazı alt çubuğu (kategori fazı çubuğuyla aynı yerde; akışta, position:fixed YOK). */
+export function V2BanCubugu({ benSaldiran, c }) {
+  return (
+    <div className="hk-cubuk hk-cubuk--savunan hk-cubuk--ban" role="group" aria-label={c("Ban seçimi")}>
+      <div className="hk-cubuk-yazi" aria-live="polite">
+        {benSaldiran ? (
+          <>
+            <b>{c("Rakip ban seçiyor…")}</b>
+            <span>{c("Ardından kategorini seçeceksin.")}</span>
+          </>
+        ) : (
+          <>
+            <b>{c("Banlamak için bir karta dokun")}</b>
+            <span>{c("Süre dolarsa ban yapılmaz.")}</span>
+          </>
+        )}
+      </div>
     </div>
   );
 }
