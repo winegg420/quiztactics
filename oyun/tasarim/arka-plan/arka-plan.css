@@ -125,8 +125,8 @@
    Profil ve maç başı kartları zaten koyu zeminli: yalnız ad gölgesi. */
 .as-ko.abp-sahip.abp-sahip, .lg-ben.abp-sahip.abp-sahip { color: #fff; text-shadow: 0 1px 2px rgba(10, 20, 40, .55); --qt-metin: #fff; --qt-metin-soluk: #fff; --qt-ikinci-koyu: #FFE27A; }
 /* Sarı yazı ZEMİNE göre: kartın koyu zemininde açık sarı (Lv), ama karttaki AÇIK LAVANTA çiplerde (rütbe çipi, lig "sen" rozeti)
-   koyu mor kalır (çip zemini --qt-ikinci-acik; sarı üstünde 1,19:1 idi). Değişken çipin kendisinde yeniden tanımlanır → çocukları da devralır. */
-.abp-sahip .as-ko-rutbe, .abp-sahip .qt-rozet--mor { --qt-ikinci-koyu: #4f2fd6; text-shadow: none; }
+   koyu mavi kalır (çip zemini --qt-ikinci-acik; sarı üstünde 1,19:1 idi). Değişken çipin kendisinde yeniden tanımlanır → çocukları da devralır. */
+.abp-sahip .as-ko-rutbe, .abp-sahip .qt-rozet--mor { --qt-ikinci-koyu: #175aa8; text-shadow: none; }
 /* Sezon Yolu mini rozeti: BEYAZ daire içinde sayı; kartın beyaz --qt-metin'i sayıyı beyaz üstüne beyaz (1,0:1) yapıyordu → normal koyu metin */
 .abp-sahip .sz-mini-gorsel { --qt-metin: #1d2152; text-shadow: none; }
 .abp-sahip .qt-ok-ad, .abp-sahip .ara-kart-ad { text-shadow: 0 1px 2px rgba(10, 20, 40, .55); }
