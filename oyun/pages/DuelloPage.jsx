@@ -45,7 +45,7 @@ import SkillSeti from "../components/SkillSeti.jsx";
 // Maç ekranı parçaları (Tasarım A).
 import { V2Ust, V2Kategori, V2SecimCubugu, V2Cevap, V2Sonuc, V2Skill, V2Gecmis } from "../components/DuelloV2.jsx";
 // 680 · Hâkimiyet tahtası: yuvalar, mesaj satırı, maç sonu tahtası (kartlar/alt çubuk DuelloV2 üzerinden).
-import { hkModel, HkYuvalar, HkMesaj, hkMesaj, HkSonTahta, V2BanCubugu } from "../components/DuelloTahta.jsx";
+import { hkModel, hkKategoriDurumu, HkYuvalar, HkMesaj, hkMesaj, HkSonTahta, V2BanCubugu } from "../components/DuelloTahta.jsx";
 // Savunma banının "an"ları (yalnız sunum): durum satırı, giriş damgası, ban açıklaması, kırmızı → mavi geçiş.
 import { BanKonsol, BanGirisAni, BanAciklama, banIpucuGoster } from "../components/DuelloBanAni.jsx";
 // Tasarım A görünümü (m2- önekli). Eski duello-v2.css artık yüklenmez (dosya Faz 4'e kadar durur).
@@ -358,7 +358,6 @@ function RovansBekleme({ rakip, baslangic, sureSn, simdi, ceviri, onVazgec }) {
 
 // ------------------------------------------------------------ maç
 function DuelloMac({ id }) {
-  const bosSaldiranKural = useAyar("duello_bos_ikisi_dogru_saldiran", 1) >= 1;   // 870: maç içi kural satırı ayara göre
   const navigate = useNavigate();
   const { user, refreshProfile } = useAuth();
   const { ceviri } = useDil();
@@ -1335,7 +1334,9 @@ function DuelloMac({ id }) {
       ? { anahtar: `z${skillEfekt.deger}${fazAnahtari}`, metin: `−${skillEfekt.deger}` }
       : null;
   const hk = hkModel(d, ben, rakip);
-  const mesaj = hkMesaj({ d, hk, ben, rakip, benSaldiran, c: c2, ezeli: ezeliMetin, bosSaldiran: bosSaldiranKural });
+  const mesaj = hkMesaj({ d, hk, ben, rakip, benSaldiran, c: c2, ezeli: ezeliMetin });
+  // Soru ekranı: sorulan kategorinin benim için durumu (kırmızı tehlike · mavi fırsat · gri nötr) — yuva + soru rozeti aynı çerçeve.
+  const katDurum = hkKategoriDurumu(d, hk, benSaldiran);
   // Büyük süre: kategori ve cevap fazında geri sayım halkası/rakamı; sonuç fazında sayaç yerine sade işaret.
   const sayacGosterilir = d.faz === "kategori" || d.faz === "cevap" || d.faz === "ban";
   const sayacNode = sayacGosterilir
@@ -1382,7 +1383,7 @@ function DuelloMac({ id }) {
     sahne2 = (
       <V2Cevap d={d} rakip={rakip} secenekler={secenekler} secim={secim}
                ikinciSansElendi={ikinciSansElendi} calisan={calisan} kalanSn={kalanSn}
-               kiriliyor={kiriliyor} c={c2} onCevap={cevapVer} />
+               kiriliyor={kiriliyor} c={c2} onCevap={cevapVer} katDurum={katDurum} />
     );
   } else if (d.faz === "sonuc") {
     sahne2 = <V2Sonuc d={d} secenekler={secenekler} c={c2} />;
@@ -1411,7 +1412,7 @@ function DuelloMac({ id }) {
         </p>
       )}
       {/* Cevap fazında tahta küçülür (yalnız yuva şeridi): soru + 4 şık + joker şeridi kaydırmasız sığsın */}
-      <HkYuvalar d={d} hk={hk} c={c2} kucuk={d.faz === "cevap"} />
+      <HkYuvalar d={d} hk={hk} c={c2} kucuk={d.faz === "cevap"} durum={katDurum} />
       {/* 542: maç içi tepki (yalnız tepki_acik_modlar'daki modda; ilk açılış Antrenman) — mesaj satırının sağında */}
       {/* Ban fazında mesaj satırının yerini ban durum satırı alır (aynı yuva, aynı yükseklik). */}
       {banFazi ? (

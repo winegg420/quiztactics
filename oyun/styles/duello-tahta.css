@@ -257,6 +257,34 @@
 }
 .qt-oyuncu--rakip .hk-onay { background: var(--hk-kirmizi); }
 
+/* ---------------------------------------------------------------- soru ekranı: sorulan kategorinin durumu
+   Renk rolü (DuelloTahta › hkKategoriDurumu): kırmızı = tehlike · mavi = fırsat / saldırı · gri = sonucu değiştirmez.
+   AYNI çerçeve iki yerde: soru kartındaki kategori rozeti + (kategori bir yuvadaysa) o yuva (hafif nabız; boş
+   kategoride yuva yoktur, yalnız rozet). Etiket çerçeveyle aynı renk. Hiçbiri yükseklik eklemez: rozet satırı zaten
+   vardı ("Aynı soru · aynı anda" yerine etiket), yuvada çerçeve kenarlığın kendisi + dışa taşan halka (akış dışı). */
+.hk-durum--tehlike { --hk-d: var(--qt-mod-duello, #c93030); --hk-d-zemin: var(--hk-kirmizi-zemin); --hk-d-isik: rgba(201, 48, 48, .34); }
+.hk-durum--firsat { --hk-d: var(--hk-mavi-kenar); --hk-d-zemin: var(--hk-mavi-zemin); --hk-d-isik: rgba(24, 95, 165, .32); }
+.hk-durum--notr { --hk-d: #5f5e5a; --hk-d-zemin: var(--hk-gri-zemin); --hk-d-isik: rgba(95, 94, 90, .26); }
+/* (a) soru kartı: kategori rozeti çerçeveli + yanında tek kısa etiket */
+.hk-mac .hk-soru--durum .qt-soru-kategori {
+  flex: none; margin-left: 2px; background: var(--hk-d-zemin); color: var(--hk-d);
+  box-shadow: 0 0 0 2px var(--hk-d);
+  animation: hk-durum-gir .3s var(--qt-egri-yay, cubic-bezier(.34,1.56,.64,1)) both;
+}
+.hk-mac .hk-soru--durum .qt-soru-sira { min-width: 0; color: var(--hk-d); font-size: 12px; font-weight: 900; }
+.hk-durum-etiket { display: block; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hk-durum-etiket svg { vertical-align: -2px; margin-right: 2px; }
+@keyframes hk-durum-gir { from { transform: scale(.86); opacity: 0; } to { transform: none; opacity: 1; } }
+/* (b) yuva paneli: sorulan kategorinin yuvası aynı renkle çerçevelenir; halka hafifçe nabız atar */
+.hk-yuva--durum { z-index: 1; border-style: solid; border-color: var(--hk-d); box-shadow: none; }
+.hk-yuva--durum::after {
+  content: ""; position: absolute; inset: -4px; border-radius: inherit; pointer-events: none;
+  border: 2px solid var(--hk-d); opacity: .5;
+  animation: hk-durum-nabiz 1.5s ease-in-out infinite;
+}
+.hk-tahta--kucuk .hk-yuva--durum::after { inset: -3.5px; border-width: 1.5px; }
+@keyframes hk-durum-nabiz { 50% { opacity: 1; box-shadow: 0 0 0 3px var(--hk-d-isik); } }
+
 /* ---------------------------------------------------------------- maç sonu: son tahta */
 .hk-son { display: grid; gap: 6px; text-align: left; }
 .hk-son .qt-baslik-3 { color: var(--qt-metin); }
@@ -296,4 +324,7 @@
   .hk-mac .hk-sayac.qt-sayac--gerilim { animation: none !important; }
   .hk-kart, .hk-cubuk-sure i { transition: none; }
   .hk-yuva--son { background: var(--hk-vurgu-zemin); }
+  /* yumuşak mod: nabız kapalı, çerçeve sabit ve tam görünür */
+  .hk-yuva--durum::after { animation: none !important; opacity: 1; }
+  .hk-mac .hk-soru--durum .qt-soru-kategori { animation: none !important; }
 }

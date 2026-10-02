@@ -36,6 +36,13 @@ export default {
   "Boş kategoride ikiniz de bilirseniz saldıran alır.": "Empty category: if you both know it, the attacker takes it.",
   "Pekiştirmek için: sen doğru, rakip yanlış": "To reinforce: you right, opponent wrong",
   "Rakip {kat} için saldırıyor": "Opponent attacks {kat}",
+  // Soru ekranı: kategori durumu — renkli çerçeve + en çok 4 kelimelik etiket (DuelloTahta › hkKategoriDurumu)
+  "Sen saldırıyorsun": "You're attacking",
+  "Rakip saldırıyor": "Opponent is attacking",
+  "Kategorin tehlikede": "Your category at risk",
+  "Boş kategori · fırsat": "Empty category · chance",
+  "Rakibin kategorisi": "Opponent's category",
+  "Rakip pekiştiriyor": "Opponent reinforcing",
   "Sen doğru bilirsen kategori sende kalır": "If you're right, it stays yours",
   "Rakip yanlış, sen doğru bilirsen alırsın": "Opponent wrong + you right: you take it",
   "Rakip doğru, sen yanlış bilirse 2 tur kilitlenir": "Opponent right + you wrong: locked 2 rounds",

@@ -103,7 +103,7 @@ export { V2Kategori, V2SecimCubugu } from "./DuelloTahta.jsx";
 
 // ---------------------------------------------------------------- cevap fazı
 export function V2Cevap({ d, rakip, secenekler, secim, ikinciSansElendi, calisan, kalanSn,
-  kiriliyor = [], onCevap, c }) {
+  kiriliyor = [], onCevap, c, katDurum = null }) {
   const cv = d.cevap ?? {};
   const kilitli = Boolean(cv.ben_cevapladim);
   const benimCevap = kilitli && cv.benim_cevabim !== null && cv.benim_cevabim !== undefined
@@ -133,9 +133,12 @@ export function V2Cevap({ d, rakip, secenekler, secim, ikinciSansElendi, calisan
       </p>
       <QtSoruKarti
         key={d.soru?.soru ?? "soru"}
-        className={sinif("m2-soru", soruUzunlukSinifi({ soru: d.soru?.soru, secenekler }))}
+        className={sinif("m2-soru", soruUzunlukSinifi({ soru: d.soru?.soru, secenekler }), katDurum && "hk-soru--durum", katDurum && `hk-durum--${katDurum.ton}`)}
         kategori={d.kategori ? <><KategoriIkon anahtar={d.kategori} boyut={16} /> {katAdi}</> : null}
-        sira={d.uzatma ? c("Altın Soru · joker yok") : c("Aynı soru · aynı anda")}
+        // Hâkimiyet: kategori rozeti durum rengiyle çerçevelenir, yanında tek kısa etiket (DuelloTahta › hkKategoriDurumu).
+        sira={katDurum
+          ? <span className="hk-durum-etiket"><QtIkon ad={katDurum.ikon} boyut={13} /> {c(katDurum.etiket)}</span>
+          : d.uzatma ? c("Altın Soru · joker yok") : c("Aynı soru · aynı anda")}
         metin={d.soru?.soru}
       />
       <QtSikler etiket={c("Şıklar")}>

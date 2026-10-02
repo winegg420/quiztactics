@@ -62,6 +62,31 @@ const EYLEM_ETIKET = { elinden_al: "Elinden al", pekistir: "Pekiştir" };
 export const eylemEtiketi = (e, c) => (e === "al" || !EYLEM_ETIKET[e] ? (aktifDil() === "en" ? "Claim" : "Al") : c(EYLEM_ETIKET[e]));
 
 /**
+ * Soru ekranı (cevap fazı): sorulan kategorinin BENİM için durumu — renkli çerçeve + en çok 4 kelimelik etiket.
+ * Yalnız sunum; kural sunucuda (duello2_cozumle, 680/870). Renk rolü:
+ *   tehlike (kırmızı) — savunan: rakip SENİN kategorine saldırıyor (sen yanlış + rakip doğru → kaybedersin)
+ *   firsat  (mavi)    — saldıran: rakibin / boş / kendi kategorin (pekiştir); savunan: boş kategori
+ *                       (rakip yanlış + sen doğru → senin olur)
+ *   notr    (gri)     — savunan: rakip kendi kategorisini pekiştiriyor (kategori el değiştirmez; yuva sayısı aynı)
+ * Aynı çerçeve iki yerde çizilir: soru kartındaki kategori rozeti ve (kategori bir yuvadaysa) o yuva.
+ * Altın Soru'da ve eski puan maçında durum yoktur (null). Uzun sonuç cümleleri burada DEĞİL: tanıtım + ipucu.
+ */
+export function hkKategoriDurumu(d, hk, benSaldiran) {
+  if (!hk?.acik || d?.faz !== "cevap" || !d.kategori || d.uzatma) return null;
+  const a = aidiyet(hk, d.kategori);
+  if (benSaldiran) {
+    if (a === "rakip") return { ton: "firsat", etiket: "Rakibin kategorisi", ikon: "kilic" };
+    if (a === "bos") return { ton: "firsat", etiket: "Boş kategori · fırsat", ikon: "kilic" };
+    return { ton: "firsat", etiket: "Pekiştir", ikon: "kilit" };
+  }
+  if (a === "ben") return { ton: "tehlike", etiket: "Kategorin tehlikede", ikon: "uyari" };
+  if (a === "bos") return { ton: "firsat", etiket: "Boş kategori · fırsat", ikon: "hedef" };
+  return { ton: "notr", etiket: "Rakip pekiştiriyor", ikon: "kilit" };
+}
+// Durum tonu → mesaj satırı tonu (aynı renk rolü: kırmızı = rakip/tehlike, mavi = ben/fırsat, gri = nötr).
+const DURUM_MESAJ_TONU = { tehlike: "rakip", firsat: "ben", notr: "notr" };
+
+/**
  * Yuva sırası: her taraf kendi yuvalarını KAZANMA SIRASIYLA dizer (yeni gelen sona oturur, giden çıkar).
  * Sunucu sıra vermez; ilk görülme sırası tutulur (ilk çizimde kategori listesi sırası).
  */
@@ -80,7 +105,7 @@ export function useYuvaSirasi(hk, kategoriler) {
 }
 
 // ---------------------------------------------------------------- yuvalar
-function YuvaTarafi({ taraf, hk, liste, ad, sayi, c }) {
+function YuvaTarafi({ taraf, hk, liste, ad, sayi, c, durum = null, durumKategori = null }) {
   const kritik = sayi === hk.esik - 1;
   return (
     <div className={sinif("hk-taraf", `hk-taraf--${taraf}`, kritik && "hk-taraf--kritik")}>
@@ -92,9 +117,13 @@ function YuvaTarafi({ taraf, hk, liste, ad, sayi, c }) {
             return <span key={`b${i}`} className={sinif("hk-yuva", son && "hk-yuva--son")} aria-hidden="true" />;
           }
           const kilit = Number(hk.kilitler[k] ?? 0);
+          // Sorulan kategori bu yuvadaysa: soru kartındaki rozetle AYNI renkli çerçeve + hafif nabız.
+          const soruluyor = durum && durumKategori === k;
           return (
-            <span key={k} className={sinif("hk-yuva hk-yuva--dolu", kilit > 0 && "hk-yuva--kilit")} data-kategori={k}
-                  role="img" aria-label={kilit > 0 ? `${c(kategoriAdi(k))}, ${c("{n} tur kilitli", { n: kilit })}` : c(kategoriAdi(k))}>
+            <span key={k} className={sinif("hk-yuva hk-yuva--dolu", kilit > 0 && "hk-yuva--kilit",
+                                           soruluyor && "hk-yuva--durum", soruluyor && `hk-durum--${durum.ton}`)} data-kategori={k}
+                  role="img" aria-label={[c(kategoriAdi(k)), kilit > 0 ? c("{n} tur kilitli", { n: kilit }) : null,
+                                           soruluyor ? c(durum.etiket) : null].filter(Boolean).join(", ")}>
               <KategoriIkon anahtar={k} boyut={26} plaka className="hk-yuva-ikon" />
               {kilit > 0 && <span className="hk-yuva-kilit" aria-hidden="true"><QtIkon ad="kilit" boyut={10} /></span>}
             </span>
@@ -109,13 +138,14 @@ function YuvaTarafi({ taraf, hk, liste, ad, sayi, c }) {
 }
 
 /** Rozet yuvaları: solda sen, ortada VS, sağda rakip. Ekranın en belirgin öğesi. */
-export function HkYuvalar({ d, hk, c, kucuk = false }) {
+export function HkYuvalar({ d, hk, c, kucuk = false, durum = null }) {
   const sira = useYuvaSirasi(hk, d?.kategoriler);
+  const durumKategori = durum ? d?.kategori ?? null : null;
   return (
     <section className={sinif("hk-tahta", kucuk && "hk-tahta--kucuk", d?.uzatma && "hk-tahta--altin")} aria-label={c("Yuva durumu")}>
-      <YuvaTarafi taraf="ben" hk={hk} liste={sira.ben} ad={c("Sen")} sayi={hk.benY} c={c} />
+      <YuvaTarafi taraf="ben" hk={hk} liste={sira.ben} ad={c("Sen")} sayi={hk.benY} c={c} durum={durum} durumKategori={durumKategori} />
       <span className="hk-vs" aria-hidden="true">VS</span>
-      <YuvaTarafi taraf="rakip" hk={hk} liste={sira.rakip} ad={c("Rakip")} sayi={hk.rakipY} c={c} />
+      <YuvaTarafi taraf="rakip" hk={hk} liste={sira.rakip} ad={c("Rakip")} sayi={hk.rakipY} c={c} durum={durum} durumKategori={durumKategori} />
     </section>
   );
 }
@@ -184,9 +214,9 @@ export function hkSonucMesaji(d, hk, benId, c) {
 
 /**
  * Mesaj satırının iki satırı. Varsayılan: kural hatırlatması; eşik−1 uyarısı; savunanda "hazırla";
- * cevap fazında hamlenin ne anlama geldiği; sonuç fazında tur sonucu bandı.
+ * cevap fazında kim saldırıyor + kategorinin kimin olduğu (anlamı: hkKategoriDurumu çerçevesi); sonuç fazında tur sonucu bandı.
  */
-export function hkMesaj({ d, hk, ben, rakip, benSaldiran, c, ezeli, bosSaldiran = true }) {
+export function hkMesaj({ d, hk, ben, rakip, benSaldiran, c, ezeli }) {
   const kuralL1 = c("{n} yuvaya ilk ulaşan kazanır", { n: hk.esik });
   const kuralL2 = c("Hamle tutması için: sen doğru, rakip yanlış");
   const rakipKritik = hk.rakipY === hk.esik - 1;
@@ -201,18 +231,15 @@ export function hkMesaj({ d, hk, ben, rakip, benSaldiran, c, ezeli, bosSaldiran 
   }
   if (d.faz === "cevap" && d.kategori) {
     if (d.uzatma) return { l1: c("Altın Soru"), l2: c("Yalnız biriniz bilirse o kazanır"), ton: "notr" };
+    // Soru ekranında uzun sonuç cümlesi YOK (Ida, 2 Eki 2026): kim saldırıyor + kategorinin kimin olduğu; anlamı
+    // renkli çerçeve ve kısa etiket söyler (hkKategoriDurumu). Satırın rengi çerçeveyle aynı role uyar.
     const kat = c(kategoriAdi(d.kategori));
-    const a = aidiyet(hk, d.kategori);
-    if (benSaldiran) {
-      if (a === "rakip") return { l1: `${kat} · ${c("rakibin kategorisi")}`, l2: c("Elinden almak için: sen doğru, rakip yanlış"), ton };
-      // 870: boşta ikisi de doğru → saldıran alır (ayar duello_bos_ikisi_dogru_saldiran; 0 iken eski satır).
-      if (a === "bos") return { l1: `${kat} · ${c("boş kategori")}`, l2: bosSaldiran ? c("Boş kategoride ikiniz de bilirseniz saldıran alır.") : c("Boşta bilen alır · sen doğru, rakip yanlış"), ton };
-      return { l1: `${kat} · ${c("senin kategorin")}`, l2: c("Pekiştirmek için: sen doğru, rakip yanlış"), ton };
-    }
-    const l1 = c("Rakip {kat} için saldırıyor", { kat });
-    if (a === "ben") return { l1, l2: c("Sen doğru bilirsen kategori sende kalır"), ton };
-    if (a === "bos") return { l1, l2: bosSaldiran ? c("Boş kategoride ikiniz de bilirseniz saldıran alır.") : c("Rakip yanlış, sen doğru bilirsen alırsın"), ton };
-    return { l1, l2: c("Rakip doğru, sen yanlış bilirse 2 tur kilitlenir"), ton };
+    const durum = hkKategoriDurumu(d, hk, benSaldiran);
+    return {
+      l1: benSaldiran ? c("Sen saldırıyorsun") : c("Rakip saldırıyor"),
+      l2: `${kat} · ${c(AIDIYET_ETIKET[aidiyet(hk, d.kategori)])}`,
+      ton: durum ? DURUM_MESAJ_TONU[durum.ton] : ton,
+    };
   }
   if (d.faz === "ban") {
     return benSaldiran
