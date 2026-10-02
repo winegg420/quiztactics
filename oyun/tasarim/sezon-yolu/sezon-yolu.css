@@ -547,6 +547,9 @@ button.sy-afis { cursor: pointer; -webkit-tap-highlight-color: transparent; touc
 .sy-afis-vitrin--cerceve { width: 64px; height: 64px; border: 0; border-radius: 0; background: none; overflow: visible; }
 .sy-afis-vitrin--cerceve .sy-afis-tac { top: -4px; left: -6px; z-index: 2; }
 .sy-afis:has(.sy-afis-vitrin--cerceve) { overflow: visible; }
+/* Ekran turu (05/21): ejderha başı/kanatları yukarı taşıp geri düğmesinin alt kenarına biniyordu → üst taşma 4 px'e sınırlı (yan/alt serbest);
+   afiş yüksekliği ve ilk ekran bütçesi aynı. */
+.sy-afis-vitrin--cerceve { clip-path: inset(-4px -10px -10px -10px); }
 .sy-tac-gorsel { display: block; flex: none; object-fit: contain; }
 .sy-afis-metin { display: grid; gap: 3px; flex: 1 1 auto; min-width: 0; line-height: 1.2; }
 .sy-afis-sezon, .sy-afis-odul { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
