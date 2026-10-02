@@ -15,13 +15,17 @@ import "../tasarim/ekranlar/unvan.css";
 export default function UnvanYazisi({ unvan, metin, tur, boy = "o", className = "" }) {
   const yazi = metin ?? unvanMetni(unvan);
   if (!yazi) return null;
+  // Dar ekranda (CSS ≤ 559 px) "Samsun Şampiyonu" → "Samsun Şamp." (kesik "…" kalmaz; tam metin title'da). Yalnız liste boyunda ("k").
+  const kisa = boy === "k" ? yazi.replace(/ Şampiyonu$/, " Şamp.").replace(/ Champion$/, " Champ.") : yazi;
   const t = tur ?? unvan?.tur ?? "basari";
   const r = UNVAN_TURLERI[t]?.r ?? METAL.gumus;
   return (
     <span className={`qt-unvan qt-unvan--${boy} ${className}`.trim()} title={yazi}
           style={{ "--u-a": r.acik, "--u-o": r.orta, "--u-k": r.koyu }}>
       <UnvanSimge tur={t} boyut={boy === "k" ? 12 : boy === "b" ? 16 : 14} />
-      <span className="qt-unvan-metin">{yazi}</span>
+      {kisa !== yazi
+        ? <><span className="qt-unvan-metin qt-unvan-metin--uzun">{yazi}</span><span className="qt-unvan-metin qt-unvan-metin--kisa" aria-hidden="true">{kisa}</span></>
+        : <span className="qt-unvan-metin">{yazi}</span>}
     </span>
   );
 }
