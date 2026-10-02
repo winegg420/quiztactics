@@ -676,13 +676,8 @@ function MacSonuKutlama({
         )}
       </section>}
 
-      {asama >= 2 && benTerk && (
-        <section className="msk-kart msk-terk-oneri" aria-label={tt("Sonraki adım")} onClick={durdur}>
-          <p className="msk-terk-metin">{tt("Hazır olduğunda yeni bir maçla devam et.")}</p>
-          <QtDugme tamGenislik ikon="yenile" onClick={() => eylemler.onYeniMac?.()}>{eylemler.yeniMacEtiketi ?? tt("Yeni maç bul")}</QtDugme>
-          <QtDugme tur="ikincil" tamGenislik ikon="ev" onClick={() => eylemler.onAnaSayfa?.()}>{tt("Ana sayfaya dön")}</QtDugme>
-        </section>
-      )}
+      {/* Terk (ben): eylemler yalnız alttaki eylem çubuğunda (Yeni maç / ana sayfa) — kartta ikinci set yok. */}
+
 
       {asama >= 2 && rozet && (
         <section ref={rozetRef} className="msk-rozet msk-a" aria-label={tt("Yeni rozet")}>
