@@ -480,6 +480,16 @@
   --sy-vurgu: var(--qt-vurgu);
   --sy-kutu: 64px;
   --sy-orta: 56px;
+  /* Renk rolleri (2 Eki 2026): mavi = ben ve ilerleme (SP çubuğu, düğümler) · altın = ödül/prestij (afiş, Battle Pass şeridi) · turuncu = eylem ("Al") */
+  --sy-ilerleme: var(--qt-ikinci);
+  --sy-afis-zemin: var(--qt-coin-yazi);
+  --sy-afis-zemin-2: var(--qt-coin-yazi);
+  --sy-afis-yazi: var(--qt-coin);
+  --sy-afis-soluk: var(--qt-coin-acik);
+}
+/* Ara tonlar token karışımıdır; color-mix bilmeyen eski iOS (< 16.2) yukarıdaki düz token yedeğinde kalır */
+@supports (color: color-mix(in srgb, red 50%, blue)) {
+  .sy-sahne { --sy-afis-zemin-2: color-mix(in srgb, var(--qt-coin-dudak) 28%, var(--qt-coin-yazi)); }
 }
 .sy-sahne p { margin: 0; }
 .sy-sahne .qt-sahne-govde > .qt-iskelet + .qt-iskelet { margin-top: var(--qt-b-2); }
@@ -490,6 +500,33 @@
 .sy-ust-satir b { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--qt-f-baslik); font-size: var(--qt-y-l); font-weight: var(--qt-a-siyah); line-height: 1.15; color: var(--qt-zemin-metin); }
 .sy-ust-satir .qt-sayi { font-size: var(--qt-y-s); font-weight: var(--qt-a-siyah); color: var(--qt-zemin-soluk); white-space: nowrap; }
 .sy-ust .sy-ust-cubuk { height: 8px; background: var(--qt-yuzey); }
+/* Seviye + SP tek satır (2 Eki 2026): "Seviye N" · mavi çubuk (mavi = ben ve ilerleme) · "x / y SP" */
+.sy-ust-satir--cubuklu { align-items: center; }
+.sy-ust-satir--cubuklu b { flex: 0 1 auto; max-width: 46%; font-size: var(--qt-y-m); }
+.sy-ust-satir--cubuklu .sy-ust-cubuk { --_r: var(--sy-ilerleme); flex: 1 1 0; min-width: 40px; height: 10px; }
+.sy-ust-satir--cubuklu .qt-sayi { flex: none; }
+
+/* Sezon afişi (2 Eki 2026, onaylı eskiz): koyu altın/kahve zemin + altın yazı; solda sezon sonu ödülünün vitrini (nadirlik çerçeveli) + taç.
+   Yükseklik sabit: 68 px (kısa ekranda 64) → afiş + seviye satırı ≈ 94 / 88 px. Hareket yok. */
+.sy-afis {
+  display: flex; align-items: center; gap: var(--qt-b-3); width: 100%; min-width: 0; height: 68px; margin: 0; padding: 4px var(--qt-b-3) 4px 6px; box-sizing: border-box;
+  border: 2px solid var(--qt-coin-dudak); border-radius: var(--qt-r-m);
+  background: linear-gradient(100deg, var(--sy-afis-zemin), var(--sy-afis-zemin-2)); color: var(--sy-afis-yazi);
+  font: inherit; text-align: start;
+}
+button.sy-afis { cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+.sy-afis:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 2px; }
+.sy-afis-vitrin {
+  position: relative; display: grid; place-items: center; flex: none; width: 56px; height: 56px; box-sizing: border-box;
+  border: 3px solid var(--sy-kenar, var(--qt-coin-dudak)); border-radius: var(--qt-r-s); background: var(--qt-coin-acik); color: var(--qt-metin);
+}
+.sy-afis-tac { position: absolute; top: -8px; left: -8px; }
+.sy-tac-gorsel { display: block; flex: none; object-fit: contain; }
+.sy-afis-metin { display: grid; gap: 3px; flex: 1 1 auto; min-width: 0; line-height: 1.2; }
+.sy-afis-sezon, .sy-afis-odul { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sy-afis-sezon { font-family: var(--qt-f-baslik); font-size: var(--qt-y-l); font-weight: var(--qt-a-siyah); line-height: 1.15; }
+.sy-afis-odul { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--sy-afis-soluk); }
+.sy-afis-odul b { font-weight: var(--qt-a-siyah); color: var(--sy-afis-yazi); }
 .sy-ust-kollar {
   display: grid; grid-template-columns: minmax(0, 1fr) var(--sy-orta) minmax(0, 1fr); padding-top: 2px;
   font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); line-height: 1.2; color: var(--qt-zemin-soluk);
@@ -593,6 +630,7 @@
 /* Kısa ekran (≈ 390×664 ve altı): yol görünür kalsın diye yuvalar sıkışır */
 @media (max-height: 699px) {
   .sy-ust { gap: var(--qt-b-1); }
+  .sy-afis { height: 64px; padding-block: 2px; }
   .sy-serit { padding-block: var(--qt-b-1); }
 }
 

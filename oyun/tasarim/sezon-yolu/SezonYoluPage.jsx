@@ -7,7 +7,7 @@
 //   SezonUst.jsx (seviye çubuğu, bonus satırı, BP düğmesi) · Yol.jsx (dikey iki şeritli yol) · SiradakiOdul.jsx
 //   OdulSayfasi.jsx (önizleme) · TasmaSayfasi.jsx (28+) · SatinAlSayfasi.jsx · Kutlama.jsx · SezonUcus.jsx (coin uçuşu)
 // SAHNE (1 Eki 2026): sayfa bir "web sayfası" değil TAM EKRAN OYUN SAHNESİ (QtSahne): uygulama üst çubuğu + alt menü gizli, ekran kilitli;
-//   üst şerit "Sezon N · X gün kaldı" · sabit üst: seviye + SP çubuğu + iki sütun başlığı · tek kaydırılan odak: DİKEY yol ·
+//   üst şerit "Sezon Yolu" · sabit üst: sezon afişi ("Sezon N · X gün kaldı" + sezon sonu ödülü) + seviye + SP çubuğu + iki sütun başlığı · tek kaydırılan odak: DİKEY yol ·
 //   sabit alt: sıradaki büyük ödül + (BP) günlük bonus + tek büyük düğme. Sezon teması arka plan çizmez (zemin düz); tema yalnız ilk açılış perdesinde.
 // Hareketi azalt: patlama/parlama/uçuş sadeleşir (oyun/tasarim/yumusakHareket.js; CSS @media); yol mevcut seviyeye anında gelir.
 // ============================================================
@@ -260,8 +260,6 @@ export default function SezonYoluPage() {
     try { sesRozet(); } catch { /* ses yok */ }
   }, tt("Görev ödülü alınamadı. Tekrar dener misin?"));
 
-  const kalanGun = Number(durum.sezon?.kalan_gun ?? 0);
-
   // 28. seviye satırının (özel geniş kutu) içindeki sezon unvanı — ayrı satır/şerit değil
   const finalUnvan = final?.anahtar ? (
     <div className="sy-final-unvan">
@@ -276,9 +274,8 @@ export default function SezonYoluPage() {
   return (
     <OdulKimlik.Provider value={{ profile }}>
       <QtSahne className="sy-sahne" govdeRef={yolRef}
-        baslik={tt("Sezon {n}", { n: durum.sezon?.no ?? "" })}
-        altBaslik={kalanGun <= 0 ? tt("Bugün bitiyor") : tt("{n} gün kaldı", { n: kalanGun })}
-        ust={<SeviyeUst durum={durum} />}
+        baslik={tt("Sezon Yolu")}
+        ust={<SeviyeUst durum={durum} finalOdul={finalOdul} dil={dil} onFinal={(o) => setSecili(anahtar(o))} />}
         alt={(
           <>
             {islemHata && <p className="sy-hata sy-hata--sayfa" role="alert">{islemHata}</p>}

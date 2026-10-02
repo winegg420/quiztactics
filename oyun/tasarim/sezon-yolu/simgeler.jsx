@@ -1,4 +1,6 @@
 // Sezon Yolu'na özel iki küçük simge (QtIkon setinde taç ve sonsuz yok). QtIkon ile aynı çizgi dili: currentColor, yuvarlak uç.
+import { useState } from "react";
+
 export function TacIkon({ boyut = 20, className = "" }) {
   return (
     <svg className={`qt-ikon ${className}`} width={boyut} height={boyut} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -6,6 +8,16 @@ export function TacIkon({ boyut = 20, className = "" }) {
       <path d="M3.5 8l4.5 4 4-6.5 4 6.5 4.5-4-1.5 10h-14z" />
       <path d="M6 21h12" />
     </svg>
+  );
+}
+
+/** Taç GÖRSELİ (public/dukkan/tac.webp; afiş vitrini ve Battle Pass sütun başlığı). Görsel inmezse çizgi taç ikonuna düşer. */
+export function TacGorsel({ boyut = 18, className = "" }) {
+  const [yok, setYok] = useState(false);
+  if (yok) return <TacIkon boyut={boyut} className={className} />;
+  return (
+    <img className={`sy-tac-gorsel ${className}`} src="/dukkan/tac.webp" alt="" aria-hidden="true" width={boyut} height={boyut}
+         decoding="async" draggable="false" onError={() => setYok(true)} />
   );
 }
 

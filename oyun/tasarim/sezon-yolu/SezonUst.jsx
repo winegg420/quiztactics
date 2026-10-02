@@ -2,12 +2,13 @@
 // Battle Pass düğmesi (taç, altın, fiyat çipi; sahibiyse "aktif"). Bütün sayılar sunucudan; burada hesap yok, yalnız çizim.
 import { QtDugme, QtIlerleme, QtIkon, sayiBicim } from "../index.js";
 import { tt } from "../../lib/dil.js";
+import { odulAdi } from "../../lib/sezonYolu.js";
 import { ElmasIkon } from "../../components/ParaIkonlari.jsx";
 import SayanSayi from "../../components/SayanSayi.jsx";
 import { SezonBandi } from "./sezonTemalari.jsx";
 import { OdulGorsel } from "./OdulGorsel.jsx";
 import { odulCerceveSanati } from "./CerceveOdulGorsel.jsx";
-import { TacIkon } from "./simgeler.jsx";
+import { TacIkon, TacGorsel } from "./simgeler.jsx";
 import { tasmaAdimi } from "./tasma.js";
 
 /** Tema bandı + final kartı. `finalOdul` = 28. seviye ücretli ödül (placeholder olabilir). */
@@ -137,8 +138,12 @@ export function Lejant() {
 // görünümden kalktı (bileşenler durur). Hesap yok: bütün sayılar sunucudan gelen alanlardan.
 // ============================================================
 
-/** "ust" yuvası: "Seviye N" · "x / y SP" + ince canlı çubuk + iki sütun başlığı (Ücretsiz | Battle Pass). Son seviyede taşma ilerlemesi. */
-export function SeviyeUst({ durum }) {
+/**
+ * "ust" yuvası (2 Eki 2026, onaylı eskiz): SEZON AFİŞİ (koyu altın zemin: solda sezon sonu ödülünün küçük vitrini + taç, sağda
+ * "Sezon N · K gün kaldı" ve "Sezon sonu ödülü: <ad>") + tek satır "Seviye N · mavi SP çubuğu · x / y SP" + iki sütun başlığı
+ * (Ücretsiz | Battle Pass). Afişe dokununca sezon sonu ödülünün önizlemesi açılır (onFinal). Son seviyede çubuk taşma ilerlemesidir.
+ */
+export function SeviyeUst({ durum, finalOdul = null, dil = "tr", onFinal }) {
   const son = durum.sonraki_esik == null;
   const tasma = durum.tasma;
   const onceki = Number(durum.onceki_esik ?? 0);
@@ -146,19 +151,35 @@ export function SeviyeUst({ durum }) {
   const ilerEn = son ? 1 : Math.max(1, Number(durum.sonraki_esik) - onceki);
   const adim = son ? tasmaAdimi(durum) : null;
   const tasmaKalan = tasma?.sonraki_icin_sp;
+  const kalanGun = Number(durum.sezon?.kalan_gun ?? 0);
+  const sezonYazi = `${tt("Sezon {n}", { n: durum.sezon?.no ?? "" })} · ${kalanGun <= 0 ? tt("Bugün bitiyor") : tt("{n} gün kaldı", { n: kalanGun })}`;
+  const cerceveMi = Boolean(odulCerceveSanati(finalOdul));
+  const finalAd = finalOdul ? (finalOdul.placeholder ? tt("Yakında") : odulAdi(finalOdul, dil)) : "";
+  const tiklanir = Boolean(finalOdul && onFinal);
+  const Afis = tiklanir ? "button" : "div";
   return (
     <div className="sy-ust">
-      <div className="sy-ust-satir">
+      <Afis className="sy-afis" {...(tiklanir ? { type: "button", onClick: () => onFinal(finalOdul), "aria-label": `${sezonYazi}. ${tt("Sezon sonu ödülü")}: ${finalAd}` } : {})}>
+        <span className="sy-afis-vitrin" data-nadirlik={finalOdul?.nadirlik ?? "efsanevi"}>
+          {finalOdul && <OdulGorsel odul={finalOdul} boyut={cerceveMi ? 46 : 34} />}
+          <TacGorsel boyut={finalOdul ? 22 : 30} className={finalOdul ? "sy-afis-tac" : ""} />
+        </span>
+        <span className="sy-afis-metin">
+          <b className="sy-afis-sezon">{sezonYazi}</b>
+          {finalOdul && <span className="sy-afis-odul">{tt("Sezon sonu ödülü")}: <b>{finalAd}</b></span>}
+        </span>
+      </Afis>
+      <div className="sy-ust-satir sy-ust-satir--cubuklu">
         <b>{son ? tt("Sezon yolu tamam") : tt("Seviye {n}", { n: durum.seviye })}</b>
+        <QtIlerleme ton="ikinci" canli className="sy-ust-cubuk"
+          deger={son ? (tasmaKalan == null || !adim ? 1 : Math.max(0, adim - tasmaKalan)) : ilerDeger}
+          en={son ? (tasmaKalan == null || !adim ? 1 : adim) : ilerEn}
+          etiket={son ? tt("Taşma ödülüne ilerleme") : tt("Sonraki seviyeye ilerleme")} />
         <span className="qt-sayi">
           {son ? (tasma ? tt("Taşma {n} / {m}", { n: tasma.kazanilan ?? 0, m: tasma.azami ?? 0 }) : "")
             : <><SayanSayi deger={ilerDeger} bicim={sayiBicim} /> / {sayiBicim(ilerEn)} SP</>}
         </span>
       </div>
-      <QtIlerleme ton="vurgu" canli className="sy-ust-cubuk"
-        deger={son ? (tasmaKalan == null || !adim ? 1 : Math.max(0, adim - tasmaKalan)) : ilerDeger}
-        en={son ? (tasmaKalan == null || !adim ? 1 : adim) : ilerEn}
-        etiket={son ? tt("Taşma ödülüne ilerleme") : tt("Sonraki seviyeye ilerleme")} />
       <div className="sy-ust-kollar" aria-hidden="true">
         <span>{tt("Ücretsiz")}</span>
         <span />
