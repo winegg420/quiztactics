@@ -155,7 +155,7 @@
 }
 .gh-rozet--klasik { background: var(--qt-mod-klasik); }
 .gh-rozet--saf { background: #7fd8ff; }
-.gh-rozet--duello { background: #ff7fa0; }
+.gh-rozet--duello { background: var(--qt-mod-duello); border-color: var(--qt-mod-duello-dudak); box-shadow: 0 3px 0 var(--qt-mod-duello-dudak); color: var(--qt-mod-duello-yazi); }
 .gh-rozet--dereceli { background: var(--gh-sari); }
 .gh-rozet--serbest { background: #fff; }
 .gh-rozet--grup { background: #b8f0c8; }

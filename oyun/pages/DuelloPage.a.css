@@ -21,7 +21,7 @@
   box-shadow: 0 var(--qt-dudak-s) 0 color-mix(in srgb, var(--qt-mod-duello) 62%, var(--qt-metin));
 }
 .m2-giris-yazi { min-width: 0; display: grid; gap: var(--qt-b-1); }
-.m2-giris-yazi .qt-baslik-1 { font-size: var(--qt-y-3xl); color: var(--qt-mod-yazi); }
+.m2-giris-yazi .qt-baslik-1 { font-size: var(--qt-y-3xl); color: var(--qt-mod-duello-yazi); }
 .m2-giris-yazi p { margin: 0; font-size: var(--qt-y-m); font-weight: var(--qt-a-kalin); line-height: var(--qt-sa-govde); text-wrap: pretty; }
 .m2-giris-eylem { display: grid; gap: var(--qt-b-2); justify-items: center; }
 .m2-giris-not { margin: 0; text-align: center; font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); color: var(--qt-zemin-soluk); }

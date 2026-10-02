@@ -9918,3 +9918,4 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 
 - 2 Eki 2026: Ekran turu 5 düzen düzeltmesi (2. tur) — Antrenman penceresinde kilitli Düello gri+kilit+not (mevcut `duello_acilis_benim` RPC pencere açılınca bir kez okunur; ChallengesPage dışında hazır kilit bilgisi yoktu); "Maçtan ayrıldın" kartındaki ikinci eylem seti kalktı (alt çubuk tek set); davet kartı boşlukları (`.qt-kart{display:block}` grid gap_ı eziyordu); Saf Bilgi/Klasik metinlerinden "hız" kalktı (TR+EN, ana.js); "Koleksiyonuna bak" ≥44 px.
 - 2 Eki 2026: Migration 930 — Dükkân Düello'da Baskın/Kalkan 10×: joker_paketleri'ne skill_baskin_10 (595) / skill_kalkan_10 (425) eklendi, canlıya uygulandı; fiyatlar 910 ×0,85 ile tutarlı, diğer tüm aktif jokerlerde 10'lu paket var, RPC'de beyaz liste yok.
+- 2026-10-02 Düello: giriş kartı başlığı beyaz (5,32:1), arama rozeti ve ana sayfa Düello kartı eski pembe/mor yerine --qt-mod-duello kırmızısı [progress-yok]

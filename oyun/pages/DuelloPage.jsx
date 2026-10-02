@@ -91,7 +91,7 @@ const GECIKMIS_PENCERE_MS = 30000;
 const GECIKME_BANT_MS = 4000;
 
 // ------------------------------------------------------------ giriş + arama
-// Tasarım A: tek sütun, mod rengi pembe başlık kartı + tek birincil eylem.
+// Tasarım A: tek sütun, mod rengi kırmızı başlık kartı + tek birincil eylem.
 // Kurallar giriş ekranında zorla gösterilmez: "Kurallar nasıl işliyor?" → DuelloTanitim (tam kural metni orada).
 // 666 · Yeni oyuncu kilidi: Düello en az duello_acilis_mac_esigi (5) bitmiş Klasik/Saf Bilgi maçıyla açılır.
 // Kural sunucuda (duello_ara / davet); lobi yalnız durumu gösterir (duello_acilis_benim). Okunamazsa kilit

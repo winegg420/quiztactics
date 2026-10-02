@@ -95,7 +95,7 @@
   .mobile-core-mode:before { width: 150px; height: 150px; right: -55px; top: -78px; border: 1px solid rgba(255,255,255,.16); }
   .mobile-core-mode:after { width: 72px; height: 72px; right: 18px; bottom: -48px; background: rgba(255,255,255,.08); }
   .mobile-core-mode.klasik { background: linear-gradient(135deg,#172c59,#275196); }
-  .mobile-core-mode.duello { background: linear-gradient(135deg,#5f35bf,#8b51e1); }
+  .mobile-core-mode.duello { background: linear-gradient(135deg, var(--qt-mod-duello-dudak), var(--qt-mod-duello)); }
   .mobile-core-mode:active { transform: translateY(4px); box-shadow: 0 4px 0 rgba(29,44,78,.16); }
   .mobile-core-mode > span:nth-child(2) { display: flex; min-width: 0; flex-direction: column; }
   .mobile-core-mode small { color: #ffd46a; font-size: 9px; font-weight: 1000; letter-spacing: 1.3px; }
