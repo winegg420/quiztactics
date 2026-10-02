@@ -442,7 +442,7 @@
 @media (max-width: 559px) {
   .qt-dk { gap: var(--qt-b-3); padding-block: var(--qt-b-2) var(--qt-b-6); }
   .qt-dk-sekme-satiri > .qt-dk-bakiye { min-height: 32px; padding: 0 var(--qt-b-2); font-size: var(--qt-y-s); border: 2px solid var(--oyk-kontur); box-shadow: none; }
-  .qt-dk-sekmeler .qt-sekme { padding-inline: 2px; }
+  .qt-dk-sekmeler .qt-sekme { padding-inline: 2px; min-width: 44px; }
   .qt-dk-sekmeler .qt-sekme > span { max-width: 100%; overflow: visible; text-overflow: clip; white-space: normal; text-align: center; overflow-wrap: anywhere; }
   .qt-dk-kural-oge { padding: 4px var(--qt-b-2); gap: var(--qt-b-1); }
   .qt-dk-kural-oge > svg { width: 18px; height: 18px; }

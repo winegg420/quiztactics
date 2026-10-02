@@ -15,8 +15,8 @@ import "../tasarim/ekranlar/unvan.css";
 export default function UnvanYazisi({ unvan, metin, tur, boy = "o", className = "" }) {
   const yazi = metin ?? unvanMetni(unvan);
   if (!yazi) return null;
-  // Dar ekranda (CSS ≤ 559 px) "Samsun Şampiyonu" → "Samsun Şamp." (kesik "…" kalmaz; tam metin title'da). Yalnız liste boyunda ("k").
-  const kisa = boy === "k" ? yazi.replace(/ Şampiyonu$/, " Şamp.").replace(/ Champion$/, " Champ.") : yazi;
+  // Dar ekranda (CSS ≤ 559 px) "Samsun Şampiyonu" → "Samsun" (şehir/ülke simgesinde taç var) (kesik "…" kalmaz; tam metin title'da). Yalnız liste boyunda ("k").
+  const kisa = boy === "k" ? (yazi.replace(/ (Şampiyonu|Champion)$/, "") || yazi) : yazi;
   const t = tur ?? unvan?.tur ?? "basari";
   const r = UNVAN_TURLERI[t]?.r ?? METAL.gumus;
   return (
