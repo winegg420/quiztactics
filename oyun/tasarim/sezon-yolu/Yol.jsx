@@ -121,6 +121,8 @@ export function YolSeridi({ durum, toplam, bpVar, harita, yeniAlinan, yeniAcilan
 // DİKEY YOL (sahne) — ekranın tek odağı. Bütün "alınabilir / alındı" kararı sunucudan (odul.alinabilir / odul.alindi).
 // Kutu: 64 px; NADİRLİK yalnız çerçeve rengiyle (data-nadirlik → --sy-kenar; yazı/lejant yok).
 // Alınabilir: tek vurgu rengi çerçeve + "Al" (tek dokunuş → onAl); alınmış: soluk + "alındı"; kilitli: nötr (dokununca önizleme).
+// Battle Pass kolu (sağ sütun) boydan boya ALTIN ŞERİT üstünde durur (.sy-dikey::before): BP sahibinde parlak (.sy-dikey--bp-var),
+// değilse soluk (.sy-dikey--bp-yok) ve ücretli kutuların sağ üst köşesinde koyu kilit rozeti (.sy-kutu-kilit; bpKilit).
 // ============================================================
 
 /** Kutunun köşesindeki miktar (coin/elmas sayısı, joker adedi); diğer türlerde görsel yeter. */
@@ -147,7 +149,7 @@ function Kutu({ odul, durum, bpVar, yeniAlindi, mesgul, onSec, onAl }) {
       <span className="sy-kutu-cerceve">
         <OdulGorsel odul={odul} boyut={odulCerceveSanati(odul) ? 52 : 38} />
         {miktar && <span className="sy-kutu-miktar" aria-hidden="true">{miktar}</span>}
-        {s === "kilitli" && bpKilit && <span className="sy-kutu-kilit" aria-hidden="true"><QtIkon ad="kilit" boyut={11} /></span>}
+        {s === "kilitli" && bpKilit && <span className="sy-kutu-kilit" aria-hidden="true"><QtIkon ad="kilit" boyut={12} /></span>}
       </span>
       <span className="sy-kutu-alt" aria-hidden="true">
         {al && <span className="sy-kutu-al">{tt("Al|görev")}</span>}
@@ -172,7 +174,7 @@ function TasmaKutu({ kol, durum, bpVar, onTasma }) {
       <span className="sy-kutu-cerceve">
         <CoinIkon boyut={38} />
         {alinabilir > 0 && <span className="sy-kutu-miktar" aria-hidden="true">×{alinabilir}</span>}
-        {alinabilir === 0 && bpKilit && <span className="sy-kutu-kilit" aria-hidden="true"><QtIkon ad="kilit" boyut={11} /></span>}
+        {alinabilir === 0 && bpKilit && <span className="sy-kutu-kilit" aria-hidden="true"><QtIkon ad="kilit" boyut={12} /></span>}
       </span>
       <span className="sy-kutu-alt" aria-hidden="true">
         {alinabilir > 0 ? <span className="sy-kutu-al">{tt("Al|görev")}</span> : <span className="sy-kutu-not">{yazi}</span>}
@@ -190,7 +192,7 @@ export default function DikeyYol({ durum, toplam, bpVar, harita, yeniAlinan, yen
     return <Kutu odul={o} durum={durum} bpVar={bpVar} yeniAlindi={yeniAlinan.has(`${n}:${kol}`)} mesgul={mesgul} onSec={onSec} onAl={onAl} />;
   };
   return (
-    <ol className="sy-dikey" aria-label={tt("Sezon Yolu ödülleri")}>
+    <ol className={`sy-dikey sy-dikey--bp-${bpVar ? "var" : "yok"}`} aria-label={tt("Sezon Yolu ödülleri")}>
       {duraklar.map((n) => {
         const simdi = n === seviye;
         const son = n === toplam;

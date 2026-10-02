@@ -183,7 +183,7 @@ export function SeviyeUst({ durum, finalOdul = null, dil = "tr", onFinal }) {
       <div className="sy-ust-kollar" aria-hidden="true">
         <span>{tt("Ücretsiz")}</span>
         <span />
-        <span><TacIkon boyut={14} />{tt("Battle Pass")}</span>
+        <span className="sy-ust-kol-bp"><TacGorsel boyut={16} />{tt("Battle Pass")}</span>
       </div>
     </div>
   );

@@ -486,10 +486,24 @@
   --sy-afis-zemin-2: var(--qt-coin-yazi);
   --sy-afis-yazi: var(--qt-coin);
   --sy-afis-soluk: var(--qt-coin-acik);
+  /* Battle Pass altın şeridi: genişlik = sağ sütun − 8 px (en çok 148 px), sütunun ortasında */
+  --sy-serit-en: min(calc(50% - var(--sy-orta) / 2 - 8px), 148px);
+  --sy-serit-zemin: var(--qt-coin-acik);
+  --sy-serit-dis: var(--qt-coin-dudak);
+  --sy-serit-ic: var(--qt-coin);
+  --sy-serit-zemin-soluk: var(--qt-coin-acik);
+  --sy-serit-dis-soluk: var(--qt-coin);
+  --sy-serit-ic-soluk: var(--qt-coin-acik);
 }
 /* Ara tonlar token karışımıdır; color-mix bilmeyen eski iOS (< 16.2) yukarıdaki düz token yedeğinde kalır */
 @supports (color: color-mix(in srgb, red 50%, blue)) {
-  .sy-sahne { --sy-afis-zemin-2: color-mix(in srgb, var(--qt-coin-dudak) 28%, var(--qt-coin-yazi)); }
+  .sy-sahne {
+    --sy-afis-zemin-2: color-mix(in srgb, var(--qt-coin-dudak) 28%, var(--qt-coin-yazi));
+    --sy-serit-zemin: color-mix(in srgb, var(--qt-coin) 34%, var(--qt-yuzey));
+    --sy-serit-zemin-soluk: color-mix(in srgb, var(--qt-coin) 14%, var(--qt-yuzey));
+    --sy-serit-dis-soluk: color-mix(in srgb, var(--qt-coin-dudak) 55%, var(--qt-yuzey));
+    --sy-serit-ic-soluk: color-mix(in srgb, var(--qt-coin) 45%, var(--qt-yuzey));
+  }
 }
 .sy-sahne p { margin: 0; }
 .sy-sahne .qt-sahne-govde > .qt-iskelet + .qt-iskelet { margin-top: var(--qt-b-2); }
@@ -532,9 +546,22 @@ button.sy-afis { cursor: pointer; -webkit-tap-highlight-color: transparent; touc
   font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); line-height: 1.2; color: var(--qt-zemin-soluk);
 }
 .sy-ust-kollar span { display: inline-flex; align-items: center; justify-content: center; gap: var(--qt-b-1); min-width: 0; }
+/* Battle Pass sütun başlığı: altın şeridin başlığı (taç + ad), altın hap */
+.sy-ust-kollar .sy-ust-kol-bp {
+  justify-self: center; max-width: 100%; min-height: 22px; padding: 0 var(--qt-b-2); box-sizing: border-box; overflow: hidden; white-space: nowrap;
+  border: 2px solid var(--qt-coin-dudak); border-radius: var(--qt-r-hap); background: var(--sy-serit-zemin); color: var(--qt-coin-yazi);
+}
 
 /* ---------- Dikey yol ---------- */
-.sy-dikey { list-style: none; margin: 0; padding: 0; display: grid; }
+.sy-dikey { position: relative; list-style: none; margin: 0; padding: 6px 0; display: grid; }
+/* Battle Pass kolu: sağ sütun boyunca altın şerit — açık altın zemin, geniş yuvarlak uçlar, iki katman çerçeve (dışta koyu altın, içte açık altın).
+   Satırlar (.sy-satir, konumlu) şeridin ÜSTÜNDE çizilir; şerit yalnız süs (dokunmayı almaz). BP sahibinde tam parlak, değilse soluk. */
+.sy-dikey::before {
+  content: ""; position: absolute; top: 0; bottom: 0; left: calc(75% + var(--sy-orta) / 4); width: var(--sy-serit-en); margin-left: calc(var(--sy-serit-en) / -2);
+  box-sizing: border-box; border: 3px solid var(--sy-serit-dis); border-radius: var(--qt-r-xl); background: var(--sy-serit-zemin);
+  box-shadow: inset 0 0 0 2px var(--sy-serit-ic); pointer-events: none;
+}
+.sy-dikey--bp-yok { --sy-serit-zemin: var(--sy-serit-zemin-soluk); --sy-serit-dis: var(--sy-serit-dis-soluk); --sy-serit-ic: var(--sy-serit-ic-soluk); }
 .sy-satir { position: relative; min-width: 0; }
 .sy-satir-ic { display: grid; grid-template-columns: minmax(0, 1fr) var(--sy-orta) minmax(0, 1fr); align-items: stretch; }
 .sy-serit { display: grid; place-items: center; padding-block: 6px; min-width: 0; }
@@ -577,9 +604,10 @@ button.sy-afis { cursor: pointer; -webkit-tap-highlight-color: transparent; touc
   border-radius: var(--qt-r-hap); background: var(--qt-metin); color: var(--qt-yuzey);
   font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); line-height: 1; font-variant-numeric: tabular-nums;
 }
+/* Kilit rozeti (Battle Pass yokken ücretli kutunun sağ üst köşesi): koyu daire + beyaz kilit, beyaz ince halka */
 .sy-kutu-kilit {
-  position: absolute; top: -7px; right: -7px; display: grid; place-items: center; width: 20px; height: 20px; box-sizing: border-box; border-radius: 50%;
-  border: 2px solid var(--qt-cizgi-guclu); background: var(--qt-yuzey-3); color: var(--qt-metin-soluk);
+  position: absolute; top: -9px; right: -9px; display: grid; place-items: center; width: 24px; height: 24px; box-sizing: border-box; border-radius: 50%;
+  border: 2px solid var(--qt-yuzey); background: var(--qt-metin); color: var(--qt-yuzey);
 }
 .sy-kutu-alt { display: grid; place-items: center; height: 18px; font-size: var(--qt-y-xs); line-height: 1; white-space: nowrap; }
 .sy-kutu-alindi { display: inline-flex; align-items: center; gap: 3px; font-weight: var(--qt-a-kalin); color: var(--qt-zemin-soluk); }
@@ -594,7 +622,11 @@ button.sy-afis { cursor: pointer; -webkit-tap-highlight-color: transparent; touc
 .sy-kutu:disabled { cursor: default; }
 
 /* 28. seviye: yolun son satırı özel geniş kutu (iki ödül + sezon unvanı aynı kutuda) */
-.sy-satir--final { margin-block: 6px; padding-bottom: var(--qt-b-2); border: 3px solid var(--qt-cizgi-guclu); border-radius: var(--qt-r-l); background: var(--qt-yuzey-2); }
+.sy-satir--final {
+  margin-block: 6px; padding-bottom: var(--qt-b-2); border: 3px solid var(--sy-serit-dis); border-radius: var(--qt-r-l); background: var(--qt-yuzey-2);
+  /* sol yarı (ücretsiz + düğüm) sade, sağ yarı (Battle Pass) altın şeridin devamı */
+  background: linear-gradient(to right, var(--qt-yuzey-2) calc(50% + var(--sy-orta) / 2), var(--sy-serit-zemin) calc(50% + var(--sy-orta) / 2));
+}
 .sy-final-unvan {
   display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: var(--qt-b-1) var(--qt-b-2); padding: 0 var(--qt-b-2);
   font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk);
