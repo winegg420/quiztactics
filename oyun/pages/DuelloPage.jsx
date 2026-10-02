@@ -1423,7 +1423,8 @@ function DuelloMac({ id }) {
       )}
       <div className={sinif("m2-sahne hk-sahne",
                             banFazi && "hk-sahne--ban", banFazi && (benSaldiran ? "hk-sahne--ban-bekle" : "hk-sahne--ban-sec"),
-                            banSon && "hk-sahne--ban-son")}
+                            banSon && "hk-sahne--ban-son",
+                            banTaze && "hk-sahne--bangecis", banTaze && (benSaldiran ? "hk-sahne--bangecis-ben" : "hk-sahne--bangecis-rakip"))}
            key={`${d.faz}-${d.tur}-${d.saldiri_sirasi}-${d.uzatma}`}>
         {/* Savunanın ban girişinde tur bandı çıkmaz: giriş damgası tur numarasını da taşır (iki katman üst üste binmesin). */}
         {banFazi && !benSaldiran && kopukDonukSn == null && (

@@ -64,6 +64,17 @@
 /* son 2 sn: çerçeve nabzı (kökteki qt-h-gerilim kenar nabzıyla birlikte) */
 .hk-sahne--ban-son::before { animation: hk-ban-cerceve .5s ease-in-out infinite; }
 @keyframes hk-ban-cerceve { 50% { box-shadow: 0 0 0 3px var(--hk-ban-iz); } }
+/* ban → saldırı: çerçeve kırmızıdan maviye döner, sonra çekilir (savunanda kırmızı çekilir) */
+.hk-sahne--bangecis::before { opacity: 0; }
+.hk-sahne--bangecis-ben::before { animation: hk-ban-gecis-ben 2200ms ease-out both; }
+.hk-sahne--bangecis-rakip::before { animation: hk-ban-gecis-rakip 1200ms ease-out both; }
+@keyframes hk-ban-gecis-ben {
+  0%, 52% { opacity: 1; border-color: var(--hk-ban); background: transparent; }
+  64% { opacity: 1; border-color: var(--hk-mavi); background: var(--hk-mavi-zemin); }
+  86% { opacity: 1; border-color: var(--hk-mavi); background: transparent; }
+  100% { opacity: 0; border-color: var(--hk-mavi); }
+}
+@keyframes hk-ban-gecis-rakip { 0%, 65% { opacity: 1; } 100% { opacity: 0; } }
 
 /* ---------------------------------------------------------------- kartlar */
 /* savunan: banlanabilir kartın köşesinde kırmızı ban işareti ("dokun = banla") */
@@ -195,4 +206,16 @@
 @media (max-width: 380px) {
   .hk-bankonsol-sayi { width: 30px; height: 30px; font-size: 20px; }
   .hk-banan-panel { min-width: 172px; padding-inline: 14px; }
+}
+
+/* ---------------------------------------------------------------- yumuşak mod (hareketi azalt) */
+@media (prefers-reduced-motion: reduce) {
+  /* data-yumusak → oynatma ×0,4: süre ×0,4 verilir, gerçek süre (JS zamanlayıcısı) aynı kalır */
+  .hk-banan-panel { animation: hk-banan-sol calc(var(--ban-ms, 1200ms) * .4) ease both !important; }
+  .hk-bansira > span { animation: hk-banan-sol calc(var(--ban-ms, 900ms) * .4) ease both !important; }
+  .hk-banan-perde, .hk-banan-halka { display: none; }
+  .hk-banan-damga { animation: none !important; }
+  .hk-bankonsol--sec, .hk-bankonsol--son .hk-bankonsol-sayi, .hk-kart-banisaret, .hk-kart--damga, .hk-kart--damga .hk-kart-ban,
+  .hk-kart--tarama::after, .hk-sahne--ban-son::before, .hk-sahne--bangecis::before { animation: none !important; }
+  .hk-bankonsol-sure i { transition: none; }
 }
