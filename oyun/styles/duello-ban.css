@@ -32,13 +32,19 @@
 }
 .hk-bankonsol-sure { position: absolute; left: 12px; right: 12px; bottom: 0; height: 3px; border-radius: 2px 2px 0 0; overflow: hidden; background: var(--hk-ban-ray); }
 .hk-bankonsol-sure i { display: block; height: 100%; background: var(--hk-ban-beyaz); transition: width .25s linear; }
-/* savunan: dolu kırmızı — "şimdi banla" */
-.hk-bankonsol--sec {
+/* savunan: dolu kırmızı — "şimdi banla". .hk-mesaj (duello-tahta.css, sonra yüklenir) beyaz zemini aynı özgüllükle ezdiği için
+   seçici .hk-mesaj ile çiftlenir. Beyaz / --hk-ban ≈ 5,3:1 (AA, ölçüldü 5,32). */
+.hk-mesaj.hk-bankonsol--sec {
   background: var(--hk-ban); border-color: var(--hk-ban-koyu); color: var(--hk-ban-beyaz);
   animation: hk-bankonsol-gir .42s var(--qt-egri-yay, cubic-bezier(.34, 1.56, .64, 1)) both;
 }
-.hk-bankonsol--sec .hk-mesaj-yazi b { font-weight: 900; letter-spacing: .03em; }
+.hk-bankonsol--sec .hk-mesaj-yazi b { display: flex; align-items: center; gap: 6px; font-weight: 900; letter-spacing: .03em; color: var(--hk-ban-beyaz); }
+.hk-bankonsol--sec .hk-mesaj-yazi b svg { flex: none; vertical-align: baseline; }
 .hk-bankonsol--sec .hk-mesaj-yazi span { color: var(--hk-ban-beyaz); }
+/* geri sayım rakamı sağda, beyaz (zemin şeffaf) */
+.hk-bankonsol--sec .hk-mesaj-yazi { order: 1; }
+.hk-bankonsol--sec .hk-tepki { order: 2; }
+.hk-bankonsol--sec .hk-bankonsol-sayi { order: 3; background: transparent; color: var(--hk-ban-beyaz); width: 36px; }
 .hk-bankonsol--son .hk-bankonsol-sayi { animation: hk-nabiz .5s ease-in-out infinite; }
 /* saldıran: beyaz zemin, kırmızı kenar — "rakip seçiyor" */
 .hk-bankonsol--bekle { background: var(--hk-ban-beyaz); border-color: var(--hk-ban); color: var(--hk-kirmizi-metin); }
