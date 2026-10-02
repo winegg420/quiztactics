@@ -6,16 +6,14 @@
  * <SkillRozeti tur="elli" boyut={40} />
  */
 import { SKILL_SEMBOLLERI } from "./skillSembolleri.jsx";
-import { JokerCizim, YENI_CIZIM } from "./jokerCizim.jsx";
+import { JokerCizim, YENI_CIZIM, ROL_RENK } from "./jokerCizim.jsx";
 import { QtIkon } from "../tasarim/index.js";
 import { SKILL_TANIMLARI } from "../lib/jokerler.js";
 import "../tasarim/ekranlar/skill-rozet.css";
 
-// Düello rol jokerleri (baskin, kalkan): renk token'ları skill-rozet.css yerine burada eşlenir.
-const ROL_RENGI = new Set(["baskin", "kalkan"]);
-const rolRengi = (tur) => ({
-  "--_r": `var(--qt-skill-${tur})`, "--_r-acik": `var(--qt-skill-${tur}-acik)`, "--_r-koyu": `var(--qt-skill-${tur}-koyu)`,
-});
+// Düello rol jokerleri (baskin, kalkan): renk tek kaynaktan (jokerCizim.jsx › ROL_RENK).
+const ROL_RENGI = new Set(Object.keys(ROL_RENK));
+const rolRengi = (tur) => ({ "--_r": ROL_RENK[tur].orta, "--_r-acik": ROL_RENK[tur].acik, "--_r-koyu": ROL_RENK[tur].koyu });
 
 export default function SkillRozeti({ tur, boyut = 40, className = "", soluk = false }) {
   const Sembol = SKILL_SEMBOLLERI[tur];

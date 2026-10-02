@@ -3,17 +3,17 @@
 // yerine düz renk + hücre gölgesi, kalın lacivert kontur (disk VE sembol), tek beyaz parlama vuruşu, sağ alt dudak.
 import { LEVEL, METAL, PEMBE_TON, ZUMRUT_TON } from "../../palet.js";
 import { SKILL_SEMBOLLERI } from "../../../../components/skillSembolleri.jsx";
-import { JokerCizim, YENI_CIZIM } from "../../../../components/jokerCizim.jsx";
+import { JokerCizim, YENI_CIZIM, ROL_RENK } from "../../../../components/jokerCizim.jsx";
 import { HucreGolge, Parlama, cz, useKimlik, yay } from "./ortak.jsx";
 import "./joker.css";
 
 export const JOKER_RENK = {
   elli: LEVEL.ametist, sure: ZUMRUT_TON, soru_degistir: LEVEL.turkuaz, zaman_baskisi: LEVEL.yakut,
-  ikinci_sans: PEMBE_TON, sigorta: LEVEL.safir, cifte_puan: METAL.altin, baskin: LEVEL.yakut,
+  ikinci_sans: PEMBE_TON, sigorta: LEVEL.safir, cifte_puan: METAL.altin, baskin: ROL_RENK.baskin, kalkan: ROL_RENK.kalkan,
 };
 export const JOKER_AD = {
   elli: "50:50", sure: "Ek Süre", soru_degistir: "Soru Değiştir", zaman_baskisi: "Zaman Baskısı",
-  ikinci_sans: "İkinci Şans", sigorta: "Sigorta", cifte_puan: "2X", baskin: "Baskın",
+  ikinci_sans: "İkinci Şans", sigorta: "Sigorta", cifte_puan: "2X", baskin: "Baskın", kalkan: "Kalkan",
 };
 const daire = (cx, cy, r) => `M${cx - r} ${cy}a${r} ${r} 0 1 0 ${2 * r} 0a${r} ${r} 0 1 0 ${-2 * r} 0Z`;
 

@@ -5,6 +5,13 @@
  * skillSembolleri.jsx'teki Phosphor sembolüyle kalır.
  * Renk jetonları: E kontur/koyu · A açık · O orta · G altın · W beyaz (çağıran verir).
  */
+/** Düello rol jokerlerinin RENGİ — TEK KAYNAK (oyundaki SkillRozeti ve stil rehberi JokerIkon aynı değeri okur).
+ *  Baskın turuncu, Kalkan açık yeşil (Ida kararı, 2 Eki 2026). Değerler tokenlar.css › --qt-skill-baskin/kalkan ile aynı. */
+export const ROL_RENK = {
+  baskin: { acik: "#ffb47a", orta: "#ff7a2e", koyu: "#b34a00", kenar: "#4e2813" },
+  kalkan: { acik: "#c6ee7c", orta: "#8fd11f", koyu: "#4c7a0a", kenar: "#253c17" },
+};
+
 export const YENI_CIZIM = new Set(["elli", "sure", "zaman_baskisi", "ikinci_sans", "sigorta", "cifte_puan", "baskin"]);
 
 const YILDIZ = (() => {
