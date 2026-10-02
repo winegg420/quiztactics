@@ -71,6 +71,8 @@ export default {
   "Hafta bitimine {k}|ana": "Ends in {k}",
   "Klasik Mod|meydan": "Classic",   // Meydan Oku mod kartı: 360 px'te "Classic Mode" iki satıra sarıp ikonun üstüne biniyordu
   "Lobide {n} oyuncu": "{n} players in the lobby",
+  "{saat} turnuvası": "{saat} tournament",
+  "Lobi açık": "Lobby open",
   "Sonraki turnuva {saat}": "Next tournament {saat}",
   "Katılıyor…": "Joining…",
   "Günde {n} turnuva": "{n} tournaments a day",

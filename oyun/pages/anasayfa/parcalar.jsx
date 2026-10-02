@@ -282,10 +282,11 @@ export function TurnuvaSeridi({ v, git }) {
         )}
         {hal === "lobi" && (
           <>
-            <b>{tt("{saat} turnuvası · lobi açık|ana", { saat: lobiSaat })}</b>
+            <b>{tt("{saat} turnuvası", { saat: lobiSaat })}</b>
             <small>
               <span className="qt-sayi" role="timer">{sure}</span>
-              {t.lobiSayisi > 0 && <><span aria-hidden="true">·</span><span>{tt("Lobide {n} oyuncu", { n: t.lobiSayisi })}</span></>}
+              <span aria-hidden="true">·</span>
+              <span className="as-serit-lobi-bilgi">{t.lobiSayisi > 0 ? tt("Lobide {n} oyuncu", { n: t.lobiSayisi }) : tt("Lobi açık")}</span>
             </small>
           </>
         )}
