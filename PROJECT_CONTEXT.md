@@ -124,7 +124,7 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
   (`hakimiyet=false`) eski dallarla çözülür; puan/yıldız/×2 ayarları "KULLANILMIYOR (680)".
   Test: `node araclar/duello-hakimiyet-sql-testi.mjs` · `node araclar/duello-hakimiyet-bot-testi.mjs`.
 - **Savunma banı (853, Ida 2 Eki 2026):** her normal turda saldıran seçmeden önce savunan 1 kategoriyi banlar — faz `ban` (sonuc → ban → kategori),
-  süre `duello_ban_sn` (5; 1. turda +`duello_ban_ilk_tur_ek_sn` 3). Savunan kendi bir önceki savunmasındaki banı arka arkaya yineleyemez
+  süre `duello_ban_sn` (7 — 900; 1. turda +`duello_ban_ilk_tur_ek_sn` 3). Savunan (ya da bot) banlayınca faz HEMEN kategoriye geçer, süre beklenmez. Savunan kendi bir önceki savunmasındaki banı arka arkaya yineleyemez
   (`duellolar.son_ban1/2`; arada bir savunma geçince serbest), kilitli kategori banlanamaz, saldırana en az 1 kategori kalır. Banlı kategori
   (`duellolar.ban_kategori`) o tur seçilemez (`duello2_kategori_uygun_mu`); süre dolarsa ban yok; Altın Soru'da ban yok. RPC `duello_ban_sec`;
   `duello_durum › ban {acik, sure, kategori, onceki, uygun}`. Bot savunurken saldıranın en değerli hamlesini banlar (`duello2_bot_ban_kategori`).
@@ -133,6 +133,11 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
   damga + ses + titreşim, mesaj satırının yerinde kırmızı "BAN SIRASI SENDE" satırı, son 2 sn gerilim, "BANLADIN" / "BAN KULLANILMADI"; saldırana
   ~1,2 sn "RAKİP BANLADI" açıklaması → mavi "SIRA SENDE"; ilk 3 Düello'da ipucu (cihazda). Açıklama saldıranın süresinden yemez: ban fazından çıkan
   kategori fazına `duello_ban_gosterim_ms` (1200) eklenir (880, `duello2_ban_bitir`). Test: `node araclar/duello-ban-sql-testi.mjs`.
+- **Soru ekranı kategori durumu (Ida, 2 Eki 2026; `DuelloTahta › hkKategoriDurumu`, yalnız sunum):** sorulan kategori iki yerde AYNI renkle
+  çerçevelenir — soru kartındaki kategori rozeti + yuva panelindeki yuvası (hafif nabız; boş kategoride yalnız rozet). Kırmızı = kategorin
+  tehlikede (savunan), mavi = fırsat/saldırı (saldıran her durumda; savunan boş kategoride), gri = rakip pekiştiriyor. Rozetin yanında en çok
+  4 kelimelik aynı renkli etiket. Uzun sonuç cümleleri soru ekranında YAZILMAZ: ilk 3 Düello'da savunan beklerken alt çubukta ipucu
+  (cihazda), tanıtım (v11) ve arama ipuçları. Hareketi azalt: nabız kapalı, sabit çerçeve.
 - **Altın Soru (eşitlik):** son tur sonunda yuvalar eşitse Turnuva'nın seçicisiyle (`turnuva_soru_aday`: kullanılmamış,
   önce zorluk 4–5, boşsa alt dilim; `duello_altin_soru_bul`) Altın Soru; **jokersiz** (`duello2_skill_hak_kontrol` reddeder),
   sahiplik değişmez. Yalnız biri bilirse o kazanır (`altin_kazanan`), yoksa yeni Altın Soru — sınırsız. Veride
