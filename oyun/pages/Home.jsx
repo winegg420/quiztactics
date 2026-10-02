@@ -671,7 +671,7 @@ export default function Home() {
                 ikon="safBilgi"
                 ikonTon="bilgi"
                 baslik={ceviri("Saf Bilgi")}
-                alt={ceviri("Skill yok. Sadece bilgi ve hız.")}
+                alt={ceviri("Kategori seç, yalnız bilgiyle yarış.")}
                 onClick={() => hemenOyna(dereceliTercih, true)}
                 ok
               />

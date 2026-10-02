@@ -26,6 +26,8 @@ export default {
   // Modlar, mod seçimi, rakip arama
   "Oyun modları": "Game modes",
   "Hızlı cevap ver, skillerini kullan ve rakibini geç.": "Answer fast, use your jokers and pull ahead.",
+  "Skillerini kullan ve rakibini geç.": "Use your jokers and pull ahead.",
+  "Kategori seç, yalnız bilgiyle yarış.": "Pick a category and compete on knowledge alone.",
   "{n} joker türü": "{n} joker types",
   "Skillerini doğru anda kullan. Rakibinin planını boz ve taktik üstünlük kur.": "Time your jokers, wreck their plan and take the tactical edge.",
   "{n} joker türü · 3 can": "{n} joker types · 3 lives",

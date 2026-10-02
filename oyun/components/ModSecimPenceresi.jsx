@@ -130,7 +130,7 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
       mod: "saf",
       ikon: "safBilgi",
       ad: tt("Saf Bilgi"),
-      aciklama: tt("Skill yok. Sadece bilgi ve hız."),
+      aciklama: tt("Kategori seç, yalnız bilgiyle yarış."),
       joker: tt("skill yok"),
       odul: odulMetni(odul?.klasik, true),
     },

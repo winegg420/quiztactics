@@ -71,7 +71,7 @@ export default function ModlarPage() {
           className={sirali}
           style={siraStili(0)}
           ad={tt("Klasik Maç")}
-          alt={tt("Hızlı cevap ver, skillerini kullan ve rakibini geç.")}
+          alt={tt("Skillerini kullan ve rakibini geç.")}
           rozet={tt("{n} joker türü", { n: KLASIK_JOKER })}
           onClick={sec(() => macAra(false))}
         />
@@ -89,7 +89,7 @@ export default function ModlarPage() {
           className={sirali}
           style={siraStili(2)}
           ad={ceviri("Saf Bilgi")}
-          alt={tt("Yardım yok. Sadece bilgi, dikkat ve hız.")}
+          alt={tt("Kategori seç, yalnız bilgiyle yarış.")}
           rozet={tt("Skillsiz")}
           onClick={sec(() => macAra(true))}
         />
