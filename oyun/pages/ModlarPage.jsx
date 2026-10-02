@@ -13,7 +13,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import RakipAra from "../components/RakipAra.jsx";
 import DereceliAnahtari from "../components/DereceliAnahtari.jsx";
+import KategoriSecici from "../components/KategoriSecici.jsx";
 import { useDereceliTercih } from "../lib/dereceli.js";
+import { useKategoriTercih } from "../lib/kategoriTercih.js";
 import { KLASIK_JOKERLER, DUELLO_JOKERLER } from "../lib/jokerler.js";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
@@ -29,6 +31,8 @@ export default function ModlarPage() {
   const turSayisi = useAyar("duello_max_tur", 16);   // Düello tur sayısı metne gömülmez (1 Eki 2026: 16 tur)
   const navigate = useNavigate();
   const [dereceliTercih, setDereceliTercih] = useDereceliTercih();
+  // 860: Klasik / Saf Bilgi maç kategorisi (null = Karışık) — ana sayfa OYNA penceresiyle AYNI tercih.
+  const [kategoriTercih, setKategoriTercih] = useKategoriTercih();
   // Arama açıkken hangi tür: jokersiz = Saf Bilgi
   const [arama, setArama] = useState(null);   // null | { jokersiz: boolean }
 
@@ -43,7 +47,7 @@ export default function ModlarPage() {
     <div className="a-modlar">
       {arama && (
         <RakipAra
-          kategori={null}
+          kategori={kategoriTercih}
           dereceli={dereceliTercih}
           jokersiz={arama.jokersiz}
           onBulundu={(macId) => { setArama(null); navigate(y(`/mac/${macId}`)); }}
@@ -56,6 +60,9 @@ export default function ModlarPage() {
       {/* Dereceli/serbest ayrımı tek anahtarla — ana sayfadakiyle AYNI tercih
           (localStorage + profiles.dereceli_tercih). */}
       <DereceliAnahtari className="a-dereceli--serit" dereceli={dereceliTercih} onDegistir={setDereceliTercih} />
+
+      {/* 860: kategori seçilirse Klasik Maç / Saf Bilgi'nin bütün soruları o kategoriden gelir (Düello hariç). */}
+      <KategoriSecici deger={kategoriTercih} onDegistir={setKategoriTercih} aciklama={tt("Klasik Maç ve Saf Bilgi için")} />
 
       {/* Canlı maç modları: sayılar oyun/lib/jokerler.js'ten hesaplanır */}
       <section className="a-modlar-izgara" aria-label={tt("Oyun modları")}>

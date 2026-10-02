@@ -3,6 +3,7 @@ import { QtModal, QtModKart, QtDugme } from "../tasarim/index.js";
 import "../tasarim/ekranlar/a-modlar.css";
 import AvatarCerceve from "./AvatarCerceve.jsx";
 import DereceliAnahtari from "./DereceliAnahtari.jsx";
+import KategoriSecici from "./KategoriSecici.jsx";
 import SkillSeti from "./SkillSeti.jsx";
 import { ayarlar, useAyar } from "../lib/ayarlar.js";
 import { tt } from "../lib/dil.js";
@@ -30,6 +31,9 @@ import { CoinIkon } from "./ParaIkonlari.jsx";
  * @param {boolean} [props.dereceli]   23 Eyl 2026: verilirse pencerenin EN ÜSTÜNDE "Serbest | Dereceli"
  *        anahtarı çizilir (ana sayfa OYNA / Saf Bilgi) — oyun sessizce kayıtlı tercihle başlamaz.
  * @param {(d: boolean) => void} [props.onDereceli]
+ * @param {string|null} [props.kategori]  860: Klasik / Saf Bilgi maç kategorisi (null = Karışık). `onKategori` verilirse
+ *        dereceli anahtarının altında kategori seçici çizilir; Düello bu seçimi kullanmaz.
+ * @param {(k: string|null) => void} [props.onKategori]
  * @param {string[]} [props.modlar]    yalnız bu modlar gösterilir (ör. Saf Bilgi kısayolu: ["saf"])
  * @param {boolean} [props.loadout]    327: Klasik seçilince önce loadout adımı (3 yuva) açılır;
  *        son set hazırdır — "Bu setle oyna" tek dokunuş. Varsayılan KAPALI: Klasik loadout maç
@@ -38,7 +42,7 @@ import { CoinIkon } from "./ParaIkonlari.jsx";
  * `profil` null ise (ana sayfa "Hemen oyna") avatar çizilmez, başlık tek satır.
  */
 export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekleMetni, alttan = false,
-                                            dereceli, onDereceli, modlar, loadout = false }) {
+                                            dereceli, onDereceli, kategori = null, onKategori, modlar, loadout = false }) {
   const turSayisi = useAyar("duello_max_tur", 16);   // Düello tur sayısı metne gömülmez (1 Eki 2026: 16 tur)
   const [calisan, setCalisan] = useState(null);   // "klasik" | "duello" | null
   const [adim, setAdim] = useState(null);         // null | "klasik" (loadout adımı)
@@ -165,6 +169,10 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
       )}
     >
       {onDereceli && <DereceliAnahtari dereceli={dereceli} onDegistir={onDereceli} className="a-modsecim-dereceli" />}
+      {onKategori && adim !== "klasik" && (
+        <KategoriSecici deger={kategori} onDegistir={onKategori} devreDisi={Boolean(calisan)}
+                        aciklama={!modlar || modlar.includes("duello") ? tt("Klasik Maç ve Saf Bilgi için") : undefined} />
+      )}
       {adim === "klasik" && <SkillSeti macTur="1v1" acikBaslar={false} />}
       {adim !== "klasik" && <div className="a-modsecim-liste" role="group" aria-label={baslik ?? tt("{ad} ile oyun modu seç", { ad })}>
         {SECENEKLER.map((s, i) => (

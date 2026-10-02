@@ -21,6 +21,7 @@ import { rpcDene } from "../../lib/rpcDene.js";
 import { ligGrubumOzet } from "../../lib/lig.js";
 import { ayar, ayarlar } from "../../lib/ayarlar.js";
 import { useCoin } from "../../lib/coin.js";
+import { useKategoriTercih } from "../../lib/kategoriTercih.js";
 import { useDereceliTercih } from "../../lib/dereceli.js";
 import { hataMesaji } from "../../lib/hata.js";
 import { y } from "../../lib/yol.js";
@@ -236,8 +237,10 @@ export function useOyunBaslat() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [dereceliTercih, setDereceliTercih] = useDereceliTercih();
+  // 860: Klasik / Saf Bilgi maç kategorisi (null = Karışık); son seçim hatırlanır.
+  const [kategoriTercih, setKategoriTercih] = useKategoriTercih();
   const [modAcik, setModAcik] = useState(false);   // false | "hepsi" | "saf"
-  const [arama, setArama] = useState(null);      // { dereceli, jokersiz, bilgi? }
+  const [arama, setArama] = useState(null);      // { dereceli, jokersiz, kategori, bilgi? }
   const [yarim, setYarim] = useState(null);
 
   // 410 (Ajan I): eşleştirme maçında rakip kapıya bağlanamadı → sunucu maçı cezasız iptal etti,
@@ -247,6 +250,7 @@ export function useOyunBaslat() {
   useEffect(() => {
     if (!yenidenAra) return;
     setArama({ dereceli: yenidenAra.dereceli !== false, jokersiz: Boolean(yenidenAra.jokersiz),
+               kategori: yenidenAra.kategori ?? null,   // iptal edilen maçın kategorisiyle yeniden ara
                bilgi: tt("Rakip bağlanamadı, yeni rakip aranıyor") });
     // Durum bir kez tüketilir: geri/yenile aramayı yeniden başlatmasın.
     navigate(location.pathname, { replace: true, state: null });
@@ -269,7 +273,7 @@ export function useOyunBaslat() {
     } catch (e) {
       console.warn("[Ana sayfa seçenek] yarım maç kontrolü:", e?.message ?? e);
     }
-    setArama({ dereceli, jokersiz });
+    setArama({ dereceli, jokersiz, kategori: kategoriTercih });
   };
 
   const katmanlar = (
@@ -277,12 +281,13 @@ export function useOyunBaslat() {
       {yarim && (
         <YarimMacPenceresi mac={yarim}
           onDevam={() => { const id = yarim.id; setYarim(null); navigate(y(`/mac/${id}`)); }}
-          onYeni={() => { const { dereceli, jokersiz } = yarim; setYarim(null); setArama({ dereceli, jokersiz }); }}
+          onYeni={() => { const { dereceli, jokersiz } = yarim; setYarim(null); setArama({ dereceli, jokersiz, kategori: kategoriTercih }); }}
           onKapat={() => setYarim(null)} />
       )}
       {modAcik && (
         <ModSecimPenceresi profil={null} alttan baslik={tt("Nasıl oynamak istersin?")} bekleMetni={tt("Rakip aranıyor…")}
           dereceli={dereceliTercih} onDereceli={setDereceliTercih}
+          kategori={kategoriTercih} onKategori={setKategoriTercih}
           modlar={modAcik === "saf" ? ["saf"] : undefined}
           onSec={async (mod) => {
             setModAcik(false);
@@ -293,7 +298,7 @@ export function useOyunBaslat() {
           onKapat={() => setModAcik(false)} />
       )}
       {arama && (
-        <RakipAra kategori={null} dereceli={arama.dereceli} jokersiz={arama.jokersiz}
+        <RakipAra kategori={arama.kategori ?? null} dereceli={arama.dereceli} jokersiz={arama.jokersiz}
           bilgi={arama.bilgi ?? null}
           onBulundu={(macId) => { setArama(null); navigate(y(`/mac/${macId}`)); }}
           onIptal={() => setArama(null)} />

@@ -20,6 +20,9 @@ const HAZIRLIK_SINIR_MS = 30000;
 const YOKLAMA_VARSAYILAN_MS = 3000;
 // Yoklama aralığı ±%25 oynar: bot hep 3 sn'nin katında gelmesin (sunucu hedefi yoklamaya yuvarlar).
 const YOKLAMA_OYNAMA = 0.25;
+// 860: sunucu seçilen kategoriyi reddettiyse (yeterli soru yok) genel "tekrar dene" yerine sebebi söyle.
+const kategoriHatasi = (e) =>
+  /yeterli soru yok/i.test(e?.message ?? "") ? tt("Bu kategoride yeterli soru yok. Başka bir kategori seç.") : null;
 
 /**
  * "Hemen Oyna" eşleştirme ekranı.
@@ -125,7 +128,7 @@ export default function RakipAra({ kategori, dereceli = true, jokersiz = false, 
         if (data) { bitir(data); return true; }
         return false;                       // sunucu hâlâ arıyor
       } catch (e) {
-        setHata(islemHatasi(e, "Maç başlatılamadı."));
+        setHata(kategoriHatasi(e) ?? islemHatasi(e, "Maç başlatılamadı."));
         console.error("[Bildim] quick_match:", e);
         return true;                        // hata: yoklamayı durdur
       }
@@ -200,7 +203,7 @@ export default function RakipAra({ kategori, dereceli = true, jokersiz = false, 
           console.warn("[Bildim] kuyruga_gir hız sınırı — yoklama atlandı:", e?.message);
           return;
         }
-        setHata(islemHatasi(e, "Rakip aranamadı."));
+        setHata(kategoriHatasi(e) ?? islemHatasi(e, "Rakip aranamadı."));
         console.error("[Bildim] kuyruga_gir:", e);
         iptal = true;   // hata: yoklama ve sayaç durur
         clearInterval(zamanlayiciRef.current);

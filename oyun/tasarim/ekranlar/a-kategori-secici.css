@@ -1,0 +1,71 @@
+/* =====================================================================
+   KATEGORİ SEÇİCİ (860) — Klasik / Saf Bilgi başlatma ekranları
+   OYNA penceresi ve Modlar AYNI bileşeni kullandığı için bileşenin kendi dosyasından yüklenir.
+   Renk rolü: seçili = mavi (--qt-ikinci). Yeni animasyon yok.
+   ===================================================================== */
+.a-katsec {
+  display: grid;
+  gap: var(--qt-b-2);
+  min-width: 0;            /* ızgara/flex içinde şerit taşmasın: yatay kayma yalnız şeritte */
+  padding: var(--qt-b-2);
+  border-radius: var(--qt-r-l);
+  background: var(--qt-yuzey);
+  color: var(--qt-metin);
+  box-shadow: inset 0 0 0 2px var(--qt-cizgi);
+}
+.a-katsec-baslik {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px var(--qt-b-2);
+  margin: 0;
+  padding-inline: var(--qt-b-1);
+  font-size: var(--qt-y-s);
+}
+.a-katsec-baslik b { font-weight: var(--qt-a-siyah); }
+.a-katsec-baslik span { color: var(--qt-metin-soluk); font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); }
+
+.a-katsec-serit {
+  display: flex;
+  gap: var(--qt-b-2);
+  min-width: 0;
+  padding: 2px;            /* seçili çerçeve ve odak halkası kesilmesin */
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+.a-katsec-serit::-webkit-scrollbar { display: none; }
+
+.a-katsec-secenek {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--qt-b-2);
+  min-height: var(--qt-dokunma, 44px);
+  margin: 0;
+  padding: 4px var(--qt-b-3) 4px 6px;
+  border: 0;
+  border-radius: var(--qt-r-hap, 999px);
+  background: transparent;   /* seçilmemiş: yalnız çerçeve — mavi dolgu SEÇİLİ demek */
+  color: var(--qt-metin);
+  box-shadow: inset 0 0 0 2px var(--qt-cizgi);
+  font: inherit;
+  font-size: var(--qt-y-s);
+  font-weight: var(--qt-a-siyah);
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.a-katsec-secenek:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 2px; }
+.a-katsec-secenek--secili {
+  background: var(--qt-ikinci-acik);
+  box-shadow: inset 0 0 0 2px var(--qt-ikinci);
+}
+.a-katsec-secenek--secili .a-katsec-ad { color: var(--qt-ikinci-koyu); }
+.a-katsec-secenek--kapali,
+.a-katsec-secenek:disabled { cursor: not-allowed; }
+.a-katsec-secenek--kapali { opacity: 0.45; }
+
+/* OYNA penceresi: Serbest | Dereceli anahtarının hemen altında */
+.a-modsecim .a-katsec { margin-bottom: var(--qt-b-3); }

@@ -605,7 +605,7 @@ export default function MatchPage() {
   // 410 (Ajan I): eşleştirme maçında rakip kapıya bağlanamadı → sunucu maçı cezasız iptal etti
   // (mac_nabiz, loadout_secim_sn). Bekleyen oyuncu aynı türle yeniden aramaya döner.
   const rakipBaglanmadi = mac?.durum === "iptal" && Boolean(mac?.baglanmayan);
-  const yenidenAraDurumu = mac ? { yenidenAra: { dereceli: mac.dereceli !== false, jokersiz: Boolean(mac.jokersiz) } } : null;
+  const yenidenAraDurumu = mac ? { yenidenAra: { dereceli: mac.dereceli !== false, jokersiz: Boolean(mac.jokersiz), kategori: mac.kategori ?? null } } : null;
   // A.3: yeni maç sonu sahnesinin verisi (tek çağrı: mac_sonu_ozet) — maç bitince bir kez okunur.
   const { ozet: macSonuOzet, hata: macSonuHata } = useMacSonuOzet(mac?.durum === "bitti" ? `mac:${id}` : null);
   useEffect(() => {
