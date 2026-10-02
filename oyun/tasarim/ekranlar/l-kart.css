@@ -6,7 +6,7 @@
    ============================================================ */
 
 /* ---------- Küçük rozetler ---------- */
-.ls-sen { vertical-align: middle; text-transform: lowercase; }
+.ls-sen { vertical-align: middle; text-transform: lowercase; border-radius: 4px; background: var(--qt-ikinci-acik); color: var(--qt-ikinci-koyu); }
 .ls-rutbe { vertical-align: middle; white-space: nowrap; }
 .ls-rutbe .bd-rutbe-rozet { flex: none; }
 

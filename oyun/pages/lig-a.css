@@ -483,7 +483,7 @@
 }
 .lg-bp-rozet svg { flex: none; }
 /* "Sen" rozeti plakada: kare köşeli mavi. */
-.lg-bp .ls-sen { border-radius: 4px; background: var(--qt-altin-plaka-sen); border-color: var(--qt-altin-plaka-sen); color: #fff; box-shadow: none; }
+.lg-bp .ls-sen { border-radius: 4px; background: var(--qt-ikinci-acik); border-color: var(--qt-ikinci-acik); color: var(--qt-ikinci-koyu); box-shadow: none; }
 
 /* ---------- Sekme çubuğu (2 Eki 2026) ----------
    360 px'te "Dünya" sekmesi kesik görünüyordu: paylaşılan QtSekmeler bileşeni DEĞİŞMEDİ

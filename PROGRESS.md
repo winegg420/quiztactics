@@ -9901,3 +9901,4 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 - 2 Eki 2026: Düello — savunmadaki "hazırla" hamle işareti kaldırıldı (kartlar yalnız bilgi; sunucu/RPC aynı); savunanın ban fazına kırmızı uyarı bandı (geri sayım, RAKİP SALDIRACAK, Bir kategoriyi BANLA, azalan çubuk, kesikli çerçeveli kartlar, seçince nötr "Banladın"). Sol oyuncunun avatarındaki turuncu daire = "Kategoriyi seçen" (kılıç) rozeti (saldıran). Ölçüm yapılmadı (kota); build temiz.
 
 - 2 Eki 2026 — Ana sayfa 3 düzeltme: turnuva bandı lobi başlığı "14:00 turnuvası" (lobi bilgisi alt satırda); Lig kartı "↑ Yükselme: 60 P · 2g 10s" (dar: "↑ 60 P"); BP afişi Ejderha çerçeve vitrini 64 px + taşma. Ölçüm yapılmadı (kota); gerçek ekranda 360 px kontrol edilmeli.
+- 2026-10-02: 'sen' rozeti (.ls-sen) tüm yerlerde açık mavi zemin (--qt-ikinci-acik) + koyu mavi yazı (--qt-ikinci-koyu), 4 px köşe; plakalı satır aynı. Dosyalar: l-kart.css, lig-a.css.
