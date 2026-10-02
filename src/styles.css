@@ -50,6 +50,18 @@ button, a, .secenek {
   user-select: none;
 }
 
+/* Uzun basınca başlık/buton/kart metni seçilip mavi vurgulanmasın; yazı alanları ve sohbet mesajı seçilebilir kalır */
+body {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+input, textarea, [contenteditable="true"], .ms-balon-metin {
+  -webkit-user-select: text;
+  user-select: text;
+  -webkit-touch-callout: default;
+}
+
 .app {
   max-width: 540px;
   margin: 0 auto;
