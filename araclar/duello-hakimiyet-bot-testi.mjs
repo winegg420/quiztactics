@@ -19,6 +19,7 @@ try {
   await db.sorgu(`update duellolar set durum='iptal' where durum='aktif' and (oyuncu1 in ('${A}','${B}') or oyuncu2 in ('${A}','${B}'))`);
   await db.sorgu(`update profiles set last_seen=now() where id='${A}'`);
   await db.sorgu(`update oyun_ayarlari set deger='0' where anahtar='jokerler_serbest'`);
+  await db.sorgu(`update oyun_ayarlari set deger='0' where anahtar='duello_ban_acik'`);   // 853: ban ayrı sınanır (duello-ban-sql-testi); burada eski akış
   const K = await json(`select to_json(duello_kategorileri())::text`);
   ok('10 kategori', K.length === 10);
   ok('ayarlar eklendi (70 / 0.5)', (await tek(`select ayar_sayi('duello_bot_hamle_en_iyi_yuzde',0)||'/'||ayar_ondalik('duello_bot_pekistir_agirlik',0)`)) === '70/0.5');
