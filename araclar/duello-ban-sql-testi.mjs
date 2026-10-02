@@ -25,7 +25,7 @@ try {
   await db.sorgu(`update profiles set last_seen=now() where id='${A}'`);
   await db.sorgu(`update oyun_ayarlari set deger='1' where anahtar='duello_ban_acik'`);
   const K = await json(`select to_json(duello_kategorileri())::text`);
-  const [k1, k2, k3, k4] = K;
+  const [k1, k2, k3, k4, k5] = K;
   const satir = (id) => json(`select row_to_json(x)::text from duellolar x where id='${id}'`);
   const kalanSn = (id) => tek(`select round(extract(epoch from (faz_bitis - now())))::int::text from duellolar where id='${id}'`).then(Number);
   const yeniMac = async () => {
@@ -141,12 +141,12 @@ try {
   await db.sorgu(`update duellolar set faz='ban', ban_kategori=null, son_ban2='${k1}' where id='${id}'`);
   for (let i = 0; i < 60; i++) botBan.add(await tek(`select duello2_bot_ban_kategori('${id}','${B}')`));
   ok('bot kendi önceki banını yinelemez', !botBan.has(k1) && botBan.size >= 1, [...botBan].join(','));
-  // Kritik: saldıran A eşik−1'de (3 yuva) → bot yuva getirecek (A'nın olmayan) bir kategoriyi kapatır.
-  await db.sorgu(`update duellolar set son_ban2=null, yuva1=3, yuva2=0,
-    sahiplik=jsonb_build_object('${k1}','${A}','${k2}','${A}','${k3}','${A}') where id='${id}'`);
+  // Kritik: saldıran A eşik−1'de (4 yuva; 870: eşik 5) → bot yuva getirecek (A'nın olmayan) bir kategoriyi kapatır.
+  await db.sorgu(`update duellolar set son_ban2=null, yuva1=4, yuva2=0,
+    sahiplik=jsonb_build_object('${k1}','${A}','${k2}','${A}','${k3}','${A}','${k4}','${A}') where id='${id}'`);
   botBan = new Set();
   for (let i = 0; i < 30; i++) botBan.add(await tek(`select duello2_bot_ban_kategori('${id}','${B}')`));
-  ok('kritikte bot A\'nın kendi kategorisini banlamaz (tek ve kararlı seçim)', botBan.size === 1 && ![k1, k2, k3].some((k) => botBan.has(k)), [...botBan].join(','));
+  ok('kritikte bot A\'nın kendi kategorisini banlamaz (tek ve kararlı seçim)', botBan.size === 1 && ![k1, k2, k3, k4].some((k) => botBan.has(k)), [...botBan].join(','));
 
   console.log('8) Kopukluk: ban fazı donar, dönünce sürer');
   id = await yeniMac();
@@ -161,7 +161,7 @@ try {
   ok('dönünce ban fazı kalan süreyle sürer', d.faz === 'ban' && d.kopuk_at === null && (await kalanSn(id)) >= 3, JSON.stringify([d.faz, d.kopuk_at]));
 
   console.log('9) Nakavt ve Altın Soru: ban yok');
-  await db.sorgu(`update duellolar set faz='kategori', yuva1=4, sahiplik=jsonb_build_object('${k1}','${A}','${k2}','${A}','${k3}','${A}','${k4}','${A}') where id='${id}'`);
+  await db.sorgu(`update duellolar set faz='kategori', yuva1=5, sahiplik=jsonb_build_object('${k1}','${A}','${k2}','${A}','${k3}','${A}','${k4}','${A}','${k5}','${A}') where id='${id}'`);
   d = await turGec(id);
   ok('eşiğe ulaşan kazanır (ban fazı açılmaz)', d.durum === 'bitti' && d.kazanan === A, JSON.stringify([d.durum, d.faz]));
   id = await yeniMac();

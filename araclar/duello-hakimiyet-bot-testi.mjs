@@ -60,28 +60,28 @@ try {
   ok('kilitli 3 kategori 0 kez', !c[k1] && !c[k2] && !c[k3], JSON.stringify(c));
   ok('uygun kategoriler seçildi', Object.values(c).reduce((a, b) => a + b, 0) === 200);
 
-  console.log('b) Bot 3/4: yalnız boş/rakip kategorisi, en iyisi (pekiştir hariç)');
-  await kur(id, { sahip: { [k1]: 'B', [k2]: 'B', [k3]: 'B', [k4]: 'A', [k5]: 'A' }, tur: 5 });
+  console.log('b) Bot 4/5 (870: eşik 5): yalnız boş/rakip kategorisi, en iyisi (pekiştir hariç)');
+  await kur(id, { sahip: { [k1]: 'B', [k2]: 'B', [k3]: 'B', [K[6]]: 'B', [k4]: 'A', [k5]: 'A' }, tur: 5 });
   c = await cek(id, 200);
-  const adayB = K.filter((k) => k !== k1 && k !== k2 && k !== k3);
+  const adayB = K.filter((k) => k !== k1 && k !== k2 && k !== k3 && k !== K[6]);
   const beklB = en(adayB, (k) => deger(k));
   ok('yalnız beklenen en iyi, rastgelelik yok', Object.keys(c).length === 1 && c[beklB] === 200, `${JSON.stringify(c)} bekl=${beklB}`);
-  ok('pekiştir (kendi) seçilmedi', !c[k1] && !c[k2] && !c[k3]);
+  ok('pekiştir (kendi) seçilmedi', !c[k1] && !c[k2] && !c[k3] && !c[K[6]]);
 
-  console.log('c) Rakip 3/4: rakibin kategorisi seçilir');
-  await kur(id, { sahip: { [k1]: 'A', [k2]: 'A', [k3]: 'A', [k4]: 'B' }, tur: 5 });
+  console.log('c) Rakip 4/5: rakibin kategorisi seçilir');
+  await kur(id, { sahip: { [k1]: 'A', [k2]: 'A', [k3]: 'A', [K[6]]: 'A', [k4]: 'B' }, tur: 5 });
   c = await cek(id, 200);
-  const beklC = en([k1, k2, k3], (k) => deger(k));
+  const beklC = en([k1, k2, k3, K[6]], (k) => deger(k));
   ok('rakibin en iyi kategorisi 200/200', c[beklC] === 200 && Object.keys(c).length === 1, `${JSON.stringify(c)} bekl=${beklC}`);
-  // Bot 3/4 ve rakip 3/4 birlikte: nakavt öncelikli (boş/rakip)
-  await kur(id, { sahip: { [k1]: 'A', [k2]: 'A', [k3]: 'A', [k4]: 'B', [k5]: 'B', [k6]: 'B' }, tur: 6 });
+  // Bot 4/5 ve rakip 4/5 birlikte: nakavt öncelikli (boş/rakip)
+  await kur(id, { sahip: { [k1]: 'A', [k2]: 'A', [k3]: 'A', [K[6]]: 'A', [k4]: 'B', [k5]: 'B', [k6]: 'B', [K[7]]: 'B' }, tur: 6 });
   c = await cek(id, 100);
-  const beklN = en(K.filter((k) => ![k4, k5, k6].includes(k)), (k) => deger(k));
-  ok('ikisi de 3/4: nakavt öncelikli', c[beklN] === 100, `${JSON.stringify(c)} bekl=${beklN}`);
-  // Rakip 3/4 ama rakip kategorileri kilitli → normal seçime düşer, hata yok
-  await kur(id, { sahip: { [k1]: 'A', [k2]: 'A', [k3]: 'A' }, kilit: { [k1]: 9, [k2]: 9, [k3]: 9 }, tur: 5 });
+  const beklN = en(K.filter((k) => ![k4, k5, k6, K[7]].includes(k)), (k) => deger(k));
+  ok('ikisi de 4/5: nakavt öncelikli', c[beklN] === 100, `${JSON.stringify(c)} bekl=${beklN}`);
+  // Rakip 4/5 ama rakip kategorileri kilitli → normal seçime düşer, hata yok
+  await kur(id, { sahip: { [k1]: 'A', [k2]: 'A', [k3]: 'A', [K[6]]: 'A' }, kilit: { [k1]: 9, [k2]: 9, [k3]: 9, [K[6]]: 9 }, tur: 5 });
   c = await cek(id, 50);
-  ok('uygun rakip kategorisi yoksa normal seçim', !c[k1] && !c[k2] && !c[k3] && Object.values(c).reduce((a, b) => a + b, 0) === 50, JSON.stringify(c));
+  ok('uygun rakip kategorisi yoksa normal seçim', !c[k1] && !c[k2] && !c[k3] && !c[K[6]] && Object.values(c).reduce((a, b) => a + b, 0) === 50, JSON.stringify(c));
 
   console.log('d) Normal durum: en iyi oranı %60–%80 (300 çekiliş)');
   await kur(id, { sahip: { [k1]: 'A', [k2]: 'B' }, tur: 3 });

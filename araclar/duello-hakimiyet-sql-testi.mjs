@@ -1,4 +1,4 @@
-// Düello Hâkimiyet (680) SQL provası — tek transaction, sonunda ROLLBACK (canlıya iz bırakmaz).
+// Düello Hâkimiyet (680; 870: eşik 5 + boşta ikisi doğru → saldıran) SQL provası — tek transaction, sonunda ROLLBACK (canlıya iz bırakmaz).
 // Sınar: yeni maç şekli · hamle kuralı (3 kategori türü × 4 cevap) · kilit · nakavt · son tur (duello_max_tur, 16) sayımı ·
 // eşitlik → Altın Soru (sahiplik değişmez) · rol değişimi · Baskın / Kalkan / çakışma / gizlilik / hak ·
 // çift çözümleme (yarış) · eski Kategori Kalkanı kapalı · yeni oyuncu kilidi · durum() şekli.
@@ -67,7 +67,7 @@ try {
   console.log('1) Yeni maç şekli');
   let id = await yeniMac();
   let d = await json(`select row_to_json(x)::text from duellolar x where id='${id}'`);
-  ok('hakimiyet açık, eşik 4, kilit 2', d.hakimiyet === true && d.hakimiyet_esik === 4 && d.kilit_tur === 2, JSON.stringify([d.hakimiyet, d.hakimiyet_esik, d.kilit_tur]));
+  ok('hakimiyet açık, eşik 5, kilit 2', d.hakimiyet === true && d.hakimiyet_esik === 5 && d.kilit_tur === 2, JSON.stringify([d.hakimiyet, d.hakimiyet_esik, d.kilit_tur]));
   ok('0-0, bütün kategoriler boş', d.yuva1 === 0 && d.yuva2 === 0 && JSON.stringify(d.sahiplik) === '{}');
   ok('yıldız/çarpan yok', d.yildiz1 === null && d.carpanli_turlar === null && d.puan_degerleri === null);
 
@@ -79,7 +79,7 @@ try {
     ['rakibin', 'B', false, false, 'B', false, 'ikisi_yanlis'],
     ['rakibin', 'B', false, true, 'B', false, 'saldiran_yanlis'],
     ['boş', null, true, false, 'A', true, 'tuttu'],
-    ['boş', null, true, true, null, false, 'ikisi_dogru'],
+    ['boş', null, true, true, 'A', true, 'bos_ikisi_dogru'],   // 870: boşta ikisi doğru → saldıran alır
     ['boş', null, false, false, null, false, 'ikisi_yanlis'],
     ['boş', null, false, true, 'B', true, 'kontra'],
     ['kendi', 'A', true, false, 'A', true, 'tuttu'],
@@ -93,7 +93,7 @@ try {
     const eylem = { rakibin: 'elinden_al', 'boş': 'al', kendi: 'pekistir' }[tur];
     ok(`${tur} · sal ${sD ? 'D' : 'Y'} / sav ${vD ? 'D' : 'Y'} → ${beklenen ?? 'boş'}${kilit ? ' + kilit' : ''}`,
       kim(r.sahiplik[k1]) === beklenen && (r.kilitler[k1] !== undefined) === kilit && r.hk.neden === neden
-        && r.hk.eylem === eylem && r.hk.tuttu === (neden === 'tuttu'),
+        && r.hk.eylem === eylem && r.hk.tuttu === (neden === 'tuttu' || neden === 'bos_ikisi_dogru'),
       JSON.stringify(r));
   }
   await kur(id, { sahip: { [k1]: 'B', [k2]: 'B', [k3]: 'A' }, tur: 3 });
@@ -115,7 +115,7 @@ try {
   let dur = await json(`select duello2_durum('${id}')::text`);
   ok('durum: kilitli kart kalan tur 2 + uygun listesinde yok', dur.hakimiyet.kilitler[k2] === 2 && !dur.uygun_kategoriler.includes(k2), JSON.stringify(dur.hakimiyet.kilitler));
   await kur(id, { tur: 3 });
-  r = await hamle(id, k3, true, true);
+  r = await hamle(id, k3, false, false);
   ok('başarısız hamle: kilit yok, aynı kategori tekrar denenebilir', r.kilitler[k3] === undefined
     && (await uygun(4, k3)) === 'true');
 
@@ -131,13 +131,19 @@ try {
   d = await json(`select json_build_object('tur',tur,'sal',saldiran,'sira',saldiri_sirasi)::text from duellolar where id='${id}'`);
   ok('tur 2 → 3: saldıran A', d.tur === 3 && d.sal === A && d.sira === 0, JSON.stringify(d));
 
-  console.log('5) Nakavt: 4. yuvaya ulaşan anında kazanır');
+  console.log('5) Nakavt: 5. yuvaya ulaşan anında kazanır (4 yuvada maç sürer)');
   await kur(id, { sahip: { [k1]: 'A', [k2]: 'A', [k3]: 'A', [k4]: 'B' }, tur: 5 });
   r = await hamle(id, k5, true, false);
   ok('A 4 yuva', r.y1 === 4, JSON.stringify([r.y1, r.y2]));
   await db.sorgu(`select duello2_sonraki('${id}')`);
+  d = await json(`select json_build_object('durum',durum,'tur',tur)::text from duellolar where id='${id}'`);
+  ok('4 yuvada maç sürer (tur 6)', d.durum === 'aktif' && d.tur === 6, JSON.stringify(d));
+  await kur(id, { sahip: { [k1]: 'A', [k2]: 'A', [k3]: 'A', [k5]: 'A', [k4]: 'B' }, tur: 7 });
+  r = await hamle(id, k6, true, true);   // boşta ikisi doğru → A alır, 5. yuva
+  ok('A 5 yuva (boşta ikisi doğru ile)', r.y1 === 5 && r.hk.neden === 'bos_ikisi_dogru', JSON.stringify([r.y1, r.y2, r.hk.neden]));
+  await db.sorgu(`select duello2_sonraki('${id}')`);
   d = await json(`select json_build_object('durum',durum,'kazanan',kazanan)::text from duellolar where id='${id}'`);
-  ok('maç bitti, kazanan A (tur 5)', d.durum === 'bitti' && d.kazanan === A, JSON.stringify(d));
+  ok('maç bitti, kazanan A (tur 7)', d.durum === 'bitti' && d.kazanan === A, JSON.stringify(d));
   ok('Son Nefes değil (rakip 1 yuva)', true);
 
   // 1 Eki 2026: tur sayısı ayardan (duello_max_tur = 16; eskiden sabit 10). Roller tek/çift tura göre: son tur çift → B saldırır.
@@ -145,13 +151,13 @@ try {
   console.log(`6) ${SON_TUR}. tur sonu sayımı + eşitlik → Altın Soru (ara tur bitirmez)`);
   id = await yeniMac();
   await kur(id, { sahip: { [k1]: 'A', [k2]: 'A', [k3]: 'A', [k4]: 'B', [k5]: 'B' }, tur: SON_TUR - 1, saldiran: SON_TUR % 2 ? 'B' : 'A' });
-  r = await hamle(id, k6, true, true);   // tutmadı
+  r = await hamle(id, k6, false, false);   // tutmadı
   await db.sorgu(`select duello2_sonraki('${id}')`);
   d = await json(`select json_build_object('durum',durum,'tur',tur)::text from duellolar where id='${id}'`);
   ok(`tur ${SON_TUR - 1} sonunda maç sürer (tur ${SON_TUR})`, d.durum === 'aktif' && Number(d.tur) === SON_TUR, JSON.stringify(d));
   id = await yeniMac();
   await kur(id, { sahip: { [k1]: 'A', [k2]: 'A', [k3]: 'A', [k4]: 'B', [k5]: 'B' }, tur: SON_TUR, saldiran: SON_TUR % 2 ? 'A' : 'B' });
-  r = await hamle(id, k6, true, true);   // tutmadı
+  r = await hamle(id, k6, false, false);   // tutmadı
   await db.sorgu(`select duello2_sonraki('${id}')`);
   d = await json(`select json_build_object('durum',durum,'kazanan',kazanan)::text from duellolar where id='${id}'`);
   ok(`${SON_TUR} tur bitti 3-2: A kazanır`, d.durum === 'bitti' && d.kazanan === A, JSON.stringify(d));
@@ -261,7 +267,7 @@ try {
   ok('duello2_kalkan reddeder', h && /kaldırıldı/.test(h), h);
   dur = await json(`select duello2_durum('${id}')::text`);
   ok('durum: kalkan.acik=false, hakimiyet alanları var', dur.kalkan.acik === false && dur.hakimiyet.acik === true
-    && dur.hakimiyet.esik === 4 && dur.hakimiyet.yuvalar[A] === 0 && dur.tur_carpani === 1, JSON.stringify(dur.hakimiyet));
+    && dur.hakimiyet.esik === 5 && dur.hakimiyet.yuvalar[A] === 0 && dur.tur_carpani === 1, JSON.stringify(dur.hakimiyet));
 
   console.log('10) durum(): rol jokeri doğru role gösterilir');
   await kur(id, { sahip: { [k1]: 'A' }, tur: 2, saldiran: 'B' });
@@ -283,7 +289,21 @@ try {
   h = await hata(`select duello_ara(false)`);
   ok('eşik altı: arama red', h && /3 maç daha oyna/.test(h), h);
 
-  console.log('12) Rozet ölçütleri çalışır');
+  console.log('12) 870 · bayrak 0: boşta ikisi doğru → kimse almaz (eski kural); diğer kurallar aynı');
+  await db.sorgu(`update oyun_ayarlari set deger='0' where anahtar='duello_bos_ikisi_dogru_saldiran'`);
+  id = await yeniMac();
+  await kur(id, { tur: 3 });
+  r = await hamle(id, k1, true, true);
+  ok('bayrak 0 · boş · ikisi doğru → boş kalır, kilit yok', r.sahiplik[k1] === undefined && r.kilitler[k1] === undefined && r.hk.neden === 'ikisi_dogru' && r.hk.tuttu === false, JSON.stringify(r.hk));
+  await kur(id, { tur: 3 });
+  r = await hamle(id, k1, false, true);
+  ok('bayrak 0 · boş · sal Y / sav D → savunan alır (kontra)', kim(r.sahiplik[k1]) === 'B' && r.hk.neden === 'kontra', JSON.stringify(r.hk));
+  await db.sorgu(`update oyun_ayarlari set deger='1' where anahtar='duello_bos_ikisi_dogru_saldiran'`);
+  await kur(id, { tur: 3 });
+  r = await hamle(id, k1, true, true);
+  ok('bayrak 1 · boş · ikisi doğru → saldıran alır + kilit (tur + 2)', kim(r.sahiplik[k1]) === 'A' && r.kilitler[k1] === 5 && r.hk.tuttu === true, JSON.stringify(r));
+
+  console.log('13) Rozet ölçütleri çalışır');
   h = await hata(`select rozet_olcut('${A}','duello_son_can'), rozet_olcut('${A}','duello_geri_donus')`);
   ok('Son Nefes / Büyük Geri Dönüş ölçütü hatasız', h === null, h ?? '');
 } catch (e) { kaldi++; console.log('BEKLENMEYEN HATA:', e.message); }
