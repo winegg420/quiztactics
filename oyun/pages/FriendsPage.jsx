@@ -436,7 +436,7 @@ export default function FriendsPage() {
                 alt={tt("arkadaşlık isteği")}
                 sag={
                   <>
-                    <QtDugme tur="mor" boyut="k" ikon="onay" onClick={() => { dokunus(); cevapla(f.id, true); }}>
+                    <QtDugme tur="birincil" boyut="k" ikon="onay" onClick={() => { dokunus(); cevapla(f.id, true); }}>
                       {tt("Kabul")}
                     </QtDugme>
                     {/* Paket 42 A: arkadaşlık isteği/davet reddi her yerde "Reddet" (kayıt silme "Sil") */}
@@ -535,7 +535,7 @@ export default function FriendsPage() {
                         Paket 35 D: bekleyen meydan okuma varken ikinci kez meydan okunamaz. */}
                     <span className={sinif("ar-oyna-kap", f.id === ilkCevrimiciId && "qt-h-hop")}>
                     <QtDugme
-                      tur="mor"
+                      tur="birincil"
                       boyut="k"
                       ikon="oyna"
                       className={durum === "cevrimici" && !bekleyen ? "ar-oyna ar-oyna--cevrimici" : "ar-oyna"}
@@ -641,7 +641,7 @@ export default function FriendsPage() {
                 baslik={<OyuncuAdiDugmesi userId={o.user_id ?? o.id} profil={o} className="ls-ad">{o.gorunen_ad}</OyuncuAdiDugmesi>}
                 alt={tt("Facebook arkadaşın")}
                 sag={
-                  <QtDugme tur="mor" boyut="k" ikon="kisiEkle" devreDisi={calisiyor} onClick={() => fbArkadasEkle(o.user_id)}>
+                  <QtDugme tur="birincil" boyut="k" ikon="kisiEkle" devreDisi={calisiyor} onClick={() => fbArkadasEkle(o.user_id)}>
                     {tt("Ekle")}
                   </QtDugme>
                 }
@@ -677,7 +677,7 @@ export default function FriendsPage() {
             />
             <QtDugme
               type="submit"
-              tur="mor"
+              tur="birincil"
               ikon="kisiEkle"
               yukleniyor={calisiyor}
               devreDisi={kod.trim().length !== 8}

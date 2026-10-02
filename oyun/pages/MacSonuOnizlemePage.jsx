@@ -283,7 +283,7 @@ export default function MacSonuOnizlemePage() {
             {HALLER.map((h, i) => <option key={h.kod} value={h.kod}>{`${i + 1}. ${tt(h.ad)}`}</option>)}
           </select>
         </label>
-        <QtDugme tur="mor" boyut="k" ikon="yenile" onClick={yeniden}>{tt("Tekrar oynat")}</QtDugme>
+        <QtDugme tur="ikincil" boyut="k" ikon="yenile" onClick={yeniden}>{tt("Tekrar oynat")}</QtDugme>
         <div className="mso-dil" role="group" aria-label={tt("Dil")}>
           {["tr", "en"].map((d) => (
             <button key={d} type="button" className="mso-dil-dugme" aria-pressed={aktifDil() === d}

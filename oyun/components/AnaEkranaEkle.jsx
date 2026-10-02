@@ -209,7 +209,7 @@ export default function AnaEkranaEkle({ satirIci = false }) {
           </li>
         </ol>
 
-        <QtDugme tur="mor" tamGenislik onClick={kapat}>
+        <QtDugme tur="birincil" tamGenislik onClick={kapat}>
           {tt("Anladım")}
         </QtDugme>
       </div>

@@ -913,7 +913,7 @@ export default function ChallengesPage() {
                     alt={`${benP1 ? m.oyuncu1_skor : m.oyuncu2_skor} - ${benP1 ? m.oyuncu2_skor : m.oyuncu1_skor} · ${benimSoru}/${toplam} ${tt("soru")}${!siraSende ? tt(" · rakip oynuyor") : ""}`}
                     sag={
                       <>
-                        <QtDugme boyut="k" tur={siraSende ? "mor" : "ikincil"} onClick={() => navigate(y(`/mac/${m.id}`))}>
+                        <QtDugme boyut="k" tur={siraSende ? "birincil" : "ikincil"} onClick={() => navigate(y(`/mac/${m.id}`))}>
                           {siraSende ? tt("Devam et") : tt("Gör")}
                         </QtDugme>
                         {/* İptal: sade ve ayrı; onay penceresi zorunlu */}
@@ -947,7 +947,7 @@ export default function ChallengesPage() {
                   alt={`${gm.oyuncu_sayisi} ${tt("kişilik grup maçı")}`}
                   sag={
                     <>
-                      <QtDugme boyut="k" tur="mor" onClick={() => navigate(y(`/grup-mac/${gm.id}`))}>{tt("Oyna")}</QtDugme>
+                      <QtDugme boyut="k" tur="birincil" onClick={() => navigate(y(`/grup-mac/${gm.id}`))}>{tt("Oyna")}</QtDugme>
                       {/* Yarım kalmış maçları temizlemek için */}
                       <QtIkonDugme ikon="carpi" tur="saydam" etiket={tt("İptal")}
                                    disabled={iptalEdilen === gm.id} onClick={() => davetIptal("grup", gm.id)}
@@ -973,7 +973,7 @@ export default function ChallengesPage() {
                   alt={tt("Hızlı Olan Kazanır")}
                   sag={
                     <>
-                      <QtDugme boyut="k" tur="mor" onClick={() => navigate(y(`/hizli-mac/${hm.id}`))}>{tt("Oyna")}</QtDugme>
+                      <QtDugme boyut="k" tur="birincil" onClick={() => navigate(y(`/hizli-mac/${hm.id}`))}>{tt("Oyna")}</QtDugme>
                       <QtIkonDugme ikon="carpi" tur="saydam" etiket={tt("İptal")}
                                    disabled={iptalEdilen === hm.id} onClick={() => davetIptal("hizli", hm.id)}
                                    className="a-meydan-iptal" />
@@ -1080,7 +1080,7 @@ export default function ChallengesPage() {
           className="a-meydan-onay"
         >
           <div className="a-meydan-antrenman-modlar" role="group" aria-label={tt("Mod seç")}>
-            <QtDugme tamGenislik tur="mor" data-qt-ilk-odak=""
+            <QtDugme tamGenislik tur="birincil" data-qt-ilk-odak=""
                      yukleniyor={antrenmanBasliyor === "klasik"}
                      devreDisi={antrenmanBasliyor !== null}
                      onClick={() => antrenmanBaslat("klasik")}>
@@ -1182,7 +1182,7 @@ export default function ChallengesPage() {
                 oyuncu toplanınca grup kurulur; toplanmazsa kalan yerler doldurulur.
                 Ödül kuralı değişmez — grup maçı ödülsüzdür. */}
             <QtDugme
-              tur={grupKuyrukAcMi ? "ikincil" : "mor"}
+              tur={grupKuyrukAcMi ? "ikincil" : "birincil"}
               tamGenislik
               ikon={grupKuyrukAcMi ? "carpi" : "oyna"}
               onClick={grupKuyrukAcMi ? grupAramadanCik : grupAramaBaslat}
@@ -1393,7 +1393,7 @@ export default function ChallengesPage() {
                   {tt("Vazgeç")}
                 </QtDugme>
                 <QtDugme
-                  tur={bilgi.tehlike ? "tehlike" : "mor"}
+                  tur={bilgi.tehlike ? "tehlike" : "birincil"}
                   yukleniyor={iptalEdilen === iptalSorulan.id}
                   onClick={macIptalOnayla}
                 >

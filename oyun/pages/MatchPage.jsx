@@ -1066,7 +1066,7 @@ export default function MatchPage() {
               ikon="sohbet"
               etiket={tt("Hazır cümleler")}
               aria-expanded={kaliplarAcik}
-              tur={kaliplarAcik ? "mor" : "yuzey"}
+              tur={kaliplarAcik ? "mavi" : "yuzey"}
               onClick={() => setKaliplarAcik((a) => !a)}
             />
           </div>
@@ -1295,7 +1295,7 @@ export default function MatchPage() {
               ikon="sohbet"
               etiket={tepki.acik ? tt("Hazır cümleler") : tt("Tepki gönder")}
               aria-expanded={tepkiAcik}
-              tur={tepkiAcik ? "mor" : "yuzey"}
+              tur={tepkiAcik ? "mavi" : "yuzey"}
               onClick={() => setTepkiAcik((a) => !a)}
             />
           </div>
@@ -1313,7 +1313,7 @@ export default function MatchPage() {
                 ikon="sohbet"
                 etiket={tt("Hazır cümleler")}
                 aria-expanded={kaliplarAcik}
-                tur={kaliplarAcik ? "mor" : "yuzey"}
+                tur={kaliplarAcik ? "mavi" : "yuzey"}
                 onClick={() => setKaliplarAcik((a) => !a)}
               />
             </div>

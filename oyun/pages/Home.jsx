@@ -748,7 +748,7 @@ export default function Home() {
                       sag={g.alindi ? (
                         <QtRozet ton="dogru" ikon="onay" boyut="k">+{g.odul}</QtRozet>
                       ) : tamam ? (
-                        <QtDugme boyut="k" tur="mor" ikon="coin" onClick={() => odulAl(g.quest_id)}>
+                        <QtDugme boyut="k" tur="birincil" ikon="coin" onClick={() => odulAl(g.quest_id)}>
                           {tt("+{n} al", { n: g.odul })}
                         </QtDugme>
                       ) : (

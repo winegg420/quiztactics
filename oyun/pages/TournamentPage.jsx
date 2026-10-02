@@ -781,7 +781,7 @@ export default function TournamentPage() {
                   sag={o.user_id !== user.id ? (
                     <QtIkonDugme
                       ikon="kilic"
-                      tur="mor"
+                      tur="yuzey"
                       etiket={tt("{0} oyuncusuna meydan oku", { 0: o.profil?.gorunen_ad ?? tt("Oyuncu") })}
                       onClick={(e) => { e.stopPropagation(); meydanOku(o.user_id); }}
                     />

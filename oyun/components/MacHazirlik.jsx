@@ -121,7 +121,7 @@ export function HazirKapisi({
             <b>{tt("Rakibin {0} dakikadır gelmedi.", { 0: Math.floor(bekleyenSn / 60) })}</b>{" "}
             {tt("İstersen maçı sıra tabanlı bırak: sen kendi bölümünü şimdi oynarsın, rakibin kendi zamanında oynar.")}
           </p>
-          <QtDugme tur="mor" boyut="k" onClick={onAsenkron}>{tt("Asenkron bırak")}</QtDugme>
+          <QtDugme tur="ikincil" boyut="k" onClick={onAsenkron}>{tt("Asenkron bırak")}</QtDugme>
         </QtKart>
       )}
 

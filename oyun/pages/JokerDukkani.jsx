@@ -556,7 +556,7 @@ export default function JokerDukkani() {
                         <div className="qt-dk-skill-al">
                           {kilitli ? (
                             <QtDugme
-                              tur="mor"
+                              tur="birincil"
                               boyut="k"
                               devreDisi={levelYetmez}
                               yukleniyor={alinan === `kilit:${tur}`}

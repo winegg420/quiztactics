@@ -127,7 +127,7 @@ function SesKarti({ an, secili, kaydediliyor, calanId, onCal, onSec }) {
                 <div className="ss-sessiz" aria-hidden="true">{ts("Şu an sessiz")}</div>
               ) : (
                 <QtDugme
-                  tur={calan ? "mor" : "ikincil"}
+                  tur={calan ? "mavi" : "ikincil"}
                   boyut="b"
                   ikon={calan ? "kapat" : "oyna"}
                   tamGenislik
@@ -140,7 +140,7 @@ function SesKarti({ an, secili, kaydediliyor, calanId, onCal, onSec }) {
               )}
               <p className="ss-aday-alt">{s.alt}</p>
               <QtDugme
-                tur={benim ? "mor" : "hayalet"}
+                tur={benim ? "mavi" : "hayalet"}
                 boyut="k"
                 ikon={benim ? "onay" : undefined}
                 tamGenislik
@@ -211,7 +211,7 @@ function MuzikKarti({ an, liste, kaydediliyor, calanId, onCal, onListe }) {
           return (
             <li key={s.id} className={`ss-aday${listede ? " ss-aday--secili" : ""}`}>
               <QtDugme
-                tur={calan ? "mor" : "ikincil"}
+                tur={calan ? "mavi" : "ikincil"}
                 boyut="b"
                 ikon={calan ? "kapat" : "oyna"}
                 tamGenislik
@@ -223,7 +223,7 @@ function MuzikKarti({ an, liste, kaydediliyor, calanId, onCal, onListe }) {
               </QtDugme>
               <p className="ss-aday-alt">{s.alt}</p>
               <QtDugme
-                tur={listede ? "mor" : "hayalet"}
+                tur={listede ? "mavi" : "hayalet"}
                 boyut="k"
                 ikon={listede ? "onay" : "arti"}
                 tamGenislik

@@ -405,7 +405,7 @@ export default function GroupMatchPage() {
           ikon="sohbet"
           etiket={tt("Hazır cümleler")}
           aria-expanded={kaliplarAcik}
-          tur={kaliplarAcik ? "mor" : "yuzey"}
+          tur={kaliplarAcik ? "mavi" : "yuzey"}
           onClick={() => setKaliplarAcik((a) => !a)}
         />
       </div>

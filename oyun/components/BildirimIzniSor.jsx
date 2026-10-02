@@ -68,7 +68,7 @@ export default function BildirimIzniSor() {
       hata={hata}
     >
       <QtDugme
-        tur="mor"
+        tur="birincil"
         boyut="k"
         ikon="zil"
         yukleniyor={calisiyor}
