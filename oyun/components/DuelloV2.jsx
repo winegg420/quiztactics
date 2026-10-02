@@ -4,7 +4,7 @@
 // Kurallar SUNUCUDA (migration 680/681 · duello_*). Bu dosya yalnız duello_durum()'u çizer;
 // hiçbir kural burada hesaplanmaz.
 //   · Hâkimiyet: PUAN YOK. 10 kategori boş başlar; hamle "saldıran doğru + savunan yanlış" ise tutar;
-//     4 yuvaya ilk ulaşan kazanır (tahta, kartlar, mesaj ve alt çubuk: DuelloTahta.jsx).
+//     eşik (duello_hakimiyet_esik, 5) yuvaya ilk ulaşan kazanır; boşta ikisi de doğruysa saldıran alır (870) (tahta, kartlar, mesaj ve alt çubuk: DuelloTahta.jsx).
 //   · Cevap: iki oyuncu AYNI soruyu AYNI ANDA görür; rakibin yalnız CEVAPLADIĞI görünür.
 //   · Son tur (duello_max_tur, 16) sonunda yuvalar eşitse Altın Soru (uzatma bayrağı): zor soru, jokersiz.
 //   · Joker: toplam 4 · aynı joker 2 · soru başına 1 (sayılar sunucudan); Baskın/Kalkan joker şeridinde.

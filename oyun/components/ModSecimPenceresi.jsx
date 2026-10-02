@@ -44,6 +44,7 @@ import { CoinIkon } from "./ParaIkonlari.jsx";
 export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekleMetni, alttan = false,
                                             dereceli, onDereceli, kategori = null, onKategori, modlar, loadout = false }) {
   const turSayisi = useAyar("duello_max_tur", 16);   // Düello tur sayısı metne gömülmez (1 Eki 2026: 16 tur)
+  const duelloEsik = useAyar("duello_hakimiyet_esik", 5);   // 870: kazanma eşiği de ayardan
   const [calisan, setCalisan] = useState(null);   // "klasik" | "duello" | null
   const [adim, setAdim] = useState(null);         // null | "klasik" (loadout adımı)
   const [hata, setHata] = useState(null);
@@ -119,7 +120,7 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
       mod: "duello",
       ikon: "duello",
       ad: tt("Düello (Taktik Maçı)"),
-      aciklama: tt("4 yuvayı ilk dolduran kazanır. Hamle için sen doğru, rakip yanlış bilmelisin. {t} tur, eşitlikte Altın Soru.", { t: turSayisi }),
+      aciklama: tt("{n} yuvayı ilk dolduran kazanır. Hamle için sen doğru, rakip yanlış bilmelisin. {t} tur, eşitlikte Altın Soru.", { t: turSayisi, n: duelloEsik }),
       joker: tt("Maça 3 joker seçersin"),
       odul: odulMetni(odul?.duello),
       rozet: tt("En çok ödül"),

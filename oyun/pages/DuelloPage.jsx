@@ -97,6 +97,9 @@ const GECIKME_BANT_MS = 4000;
 function DuelloGiris() {
   const navigate = useNavigate();
   const { ceviri } = useDil();
+  // 870: kazanma eşiği ve "boşta ikisi doğru → saldıran alır" kuralı metne gömülmez, ayardan okunur.
+  const esik = useAyar("duello_hakimiyet_esik", 5);
+  const bosSaldiran = useAyar("duello_bos_ikisi_dogru_saldiran", 1) >= 1;
   const [dereceli, setDereceli] = useDereceliTercih();
   // 410 (Ajan I): rakip düelloya bağlanamadı → sunucu cezasız iptal etti, DuelloMac buraya
   // { yenidenAra } ile döndü: arama kısa bilgiyle kendiliğinden başlar (durum bir kez tüketilir).
@@ -135,7 +138,12 @@ function DuelloGiris() {
         <span className="m2-giris-ikon" aria-hidden="true"><QtIkon ad="duello" boyut={40} /></span>
         <div className="m2-giris-yazi">
           <h1 className="qt-baslik-1">{ceviri("Düello")}</h1>
-          <p>{ceviri("4 yuvayı ilk dolduran kazanır. Hamlen tutması için sen doğru, rakip yanlış bilmelisin. Boşta bilen alır. Tutan hamle kategoriyi 2 tur kilitler.")}</p>
+          <p>{[
+            ceviri("{n} yuvayı ilk dolduran kazanır.", { n: esik }),
+            ceviri("Hamlen tutması için sen doğru, rakip yanlış bilmelisin."),
+            ceviri(bosSaldiran ? BOS_SALDIRAN_KURALI : "Boş kategoride bilen alır."),
+            ceviri("Tutan hamle kategoriyi 2 tur kilitler."),
+          ].join(" ")}</p>
         </div>
       </header>
       {kilitli ? (
@@ -187,12 +195,15 @@ function DuelloGiris() {
 // Arama ekranında dönen ipuçları (Paket 29 B) — yalnız sunum, eşleştirmeye dokunmaz.
 // "15 sn'yi geçerse botla eşleştireceğiz" satırı BİLEREK yok: rakip gizli bot olur
 // ve bu sayfa botu asla ele vermez (bkz. dosya başı gizlilik notu).
-// İngilizcesi ceviri/hakimiyet.js (680 · Hâkimiyet).
+// İngilizcesi ceviri/hakimiyet.js (680 · Hâkimiyet). {n} = kazanma eşiği (duello_hakimiyet_esik, 870: 5).
+// 870: boşta ikisi de doğruysa saldıran alır — ayar duello_bos_ikisi_dogru_saldiran 0 ise bu satır gösterilmez.
+const BOS_SALDIRAN_KURALI = "Boş kategoride ikiniz de bilirseniz saldıran alır.";
 const ARAMA_IPUCLARI = [
   "Aynı soruyu aynı anda cevaplarsınız.",
-  "4 yuvayı ilk dolduran kazanır.",
+  "{n} yuvayı ilk dolduran kazanır.",
   "Hamlen tutması için sen doğru, rakip yanlış bilmelisin.",
   "Boş kategoride bilen alır.",
+  BOS_SALDIRAN_KURALI,
   "Tutan hamle kategoriyi 2 tur kilitler.",
   "{t} tur sonunda yuvalar eşitse Altın Soru.",
 ];
@@ -200,8 +211,11 @@ const IPUCU_SN = 3;
 // Paket 41 F: düello aramasının üst sınırı (Klasik'teki gibi sonsuz bekleme yok)
 const DUELLO_ARAMA_SINIR_SN = 60;
 
-function DuelloArama({ dereceli, onBulundu, onIptal, ipuclari = ARAMA_IPUCLARI, bilgi = null }) {
+function DuelloArama({ dereceli, onBulundu, onIptal, ipuclari: tumIpuclari = ARAMA_IPUCLARI, bilgi = null }) {
   const { ceviri } = useDil();
+  const esik = useAyar("duello_hakimiyet_esik", 5);
+  const bosSaldiran = useAyar("duello_bos_ikisi_dogru_saldiran", 1) >= 1;
+  const ipuclari = bosSaldiran ? tumIpuclari : tumIpuclari.filter((m) => m !== BOS_SALDIRAN_KURALI);
   const turSayisi = useAyar("duello_max_tur", 16);   // Düello tur sayısı metne gömülmez (1 Eki 2026: 16 tur)
   const [gecen, setGecen] = useState(0);
   const ipucu = Math.floor(gecen / IPUCU_SN) % ipuclari.length;
@@ -299,7 +313,7 @@ function DuelloArama({ dereceli, onBulundu, onIptal, ipuclari = ARAMA_IPUCLARI, 
       bilgi={bilgi}
       hata={hata}
       // key değişince satır yeniden takılır → giriş animasyonu her ipucunda oynar
-      alt={<p key={ipucu} className="qt-h-gir" aria-live="polite">{ceviri(ipuclari[ipucu], { t: turSayisi })}</p>}
+      alt={<p key={ipucu} className="qt-h-gir" aria-live="polite">{ceviri(ipuclari[ipucu], { t: turSayisi, n: esik })}</p>}
       onIptal={onIptal}
       onTekrar={yenidenDene}
     />
@@ -342,6 +356,7 @@ function RovansBekleme({ rakip, baslangic, sureSn, simdi, ceviri, onVazgec }) {
 
 // ------------------------------------------------------------ maç
 function DuelloMac({ id }) {
+  const bosSaldiranKural = useAyar("duello_bos_ikisi_dogru_saldiran", 1) >= 1;   // 870: maç içi kural satırı ayara göre
   const navigate = useNavigate();
   const { user, refreshProfile } = useAuth();
   const { ceviri } = useDil();
@@ -1152,7 +1167,7 @@ function DuelloMac({ id }) {
     const kazandim = d.kazanan === d.ben;
     const rov = d.rovans ?? {};
     const durum = d.durum === "iptal" ? "berabere" : kazandim ? "kazandi" : "kaybetti";
-    // 680 · Hâkimiyet: skor yerine yuva sayısı. Nakavt: 4 yuvaya ulaşan kazanır; son tur (duello_max_tur) sonunda yuvası çok olan;
+    // 680 · Hâkimiyet: skor yerine yuva sayısı. Nakavt: eşik (hkS.esik; 870: 5) yuvaya ulaşan kazanır; son tur (duello_max_tur) sonunda yuvası çok olan;
     // eşitse Altın Soru (kim bildiyse o kazanır).
     const hkS = hkModel(d, ben, rakip);
     const nakavt = d.durum === "bitti" && hkS.acik && Math.max(hkS.benY, hkS.rakipY) >= hkS.esik;
@@ -1293,7 +1308,7 @@ function DuelloMac({ id }) {
       ? { anahtar: `z${skillEfekt.deger}${fazAnahtari}`, metin: `−${skillEfekt.deger}` }
       : null;
   const hk = hkModel(d, ben, rakip);
-  const mesaj = hkMesaj({ d, hk, ben, rakip, benSaldiran, c: c2, ezeli: ezeliMetin });
+  const mesaj = hkMesaj({ d, hk, ben, rakip, benSaldiran, c: c2, ezeli: ezeliMetin, bosSaldiran: bosSaldiranKural });
   // Büyük süre: kategori ve cevap fazında geri sayım halkası/rakamı; sonuç fazında sayaç yerine sade işaret.
   const sayacGosterilir = d.faz === "kategori" || d.faz === "cevap" || d.faz === "ban";
   const sayacNode = sayacGosterilir

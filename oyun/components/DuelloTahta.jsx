@@ -4,7 +4,7 @@
 // Kurallar SUNUCUDA (duello_durum → hakimiyet). Bu dosya yalnız çizer; hiçbir kural hesaplanmaz,
 // yalnız "tutarsa şu olur" önizlemesi (sunucunun verdiği sayılardan bir artı/eksi) gösterilir.
 //   · HkYuvalar     — solda senin, sağda rakibin yuvaları; alınan kategorinin ikonu yuvaya oturur.
-//   · hkMesaj       — 2 satırlık sabit mesaj (kural / 3-4 uyarısı / tur sonucu ve nedeni).
+//   · hkMesaj       — 2 satırlık sabit mesaj (kural / eşik−1 uyarısı / tur sonucu ve nedeni).
 //   · V2Kategori    — kartlar, aidiyete göre 3 grup (rakibin · boş · senin).
 //   · V2SecimCubugu — kategori fazında alt sabit çubuk: seçim özeti + eylem (Elinden al / Al / Pekiştir).
 //   · 853 savunma banı — ban fazında aynı kartlar: savunan tek dokunuşla banlar (kendi önceki banı kilitli),
@@ -37,7 +37,7 @@ function cevapDurumu(x) {
 /** duello_durum().hakimiyet → ekranın kullandığı sade görünüm (eski puan maçında acik=false). */
 export function hkModel(d, ben, rakip) {
   const h = d?.hakimiyet ?? {};
-  const esik = Number(h.esik) > 0 ? Number(h.esik) : 4;
+  const esik = Number(h.esik) > 0 ? Number(h.esik) : 5;   // 870: eşik 5 (maç kendi eşiğini taşır; bu yalnız yedek)
   const sahiplik = h.sahiplik && typeof h.sahiplik === "object" ? h.sahiplik : {};
   const kilitler = h.kilitler && typeof h.kilitler === "object" ? h.kilitler : {};
   const sayi = (id) => Object.values(sahiplik).filter((v) => v === id).length;
@@ -82,7 +82,7 @@ function YuvaTarafi({ taraf, hk, liste, ad, sayi, c }) {
   const kritik = sayi === hk.esik - 1;
   return (
     <div className={sinif("hk-taraf", `hk-taraf--${taraf}`, kritik && "hk-taraf--kritik")}>
-      <div className="hk-yuvalar" style={{ "--hk-n": hk.esik }}>
+      <div className={sinif("hk-yuvalar", hk.esik >= 5 && "hk-yuvalar--cok")} style={{ "--hk-n": hk.esik }}>
         {Array.from({ length: hk.esik }, (_, i) => {
           const k = liste[i];
           if (!k) {
@@ -152,6 +152,13 @@ export function hkSonucMesaji(d, hk, benId, c) {
         ? { l1: c("{kat} artık senin!", { kat: ad }), l2: `${c("Kontra: boşta bilen aldı")} · ${cevaplar}`, ton: "ben" }
         : { l1: c("Rakip {kat} aldı", { kat: bel }), l2: `${c("Kontra: boşta bilen aldı")} · ${cevaplar}`, ton: "rakip" };
     }
+    // 870: boş kategoride ikisi de doğru → saldıran alır (neden her zaman yazılır).
+    if (x.neden === "bos_ikisi_dogru") {
+      const l2 = c("İkiniz de bildiniz: boşta saldıran alır");
+      return benSaldiran
+        ? { l1: c("{kat} artık senin!", { kat: ad }), l2, ton: "ben" }
+        : { l1: c("Rakip {kat} aldı", { kat: bel }), l2, ton: "rakip" };
+    }
     if (x.eylem === "pekistir") {
       return benSaldiran
         ? { l1: c("{kat} {n} tur kilitlendi", { kat: ad, n: x.kilit }), l2: cevaplar + jok, ton: "ben" }
@@ -174,10 +181,10 @@ export function hkSonucMesaji(d, hk, benId, c) {
 }
 
 /**
- * Mesaj satırının iki satırı. Varsayılan: kural hatırlatması; 3/4 uyarısı; savunanda "hazırla";
+ * Mesaj satırının iki satırı. Varsayılan: kural hatırlatması; eşik−1 uyarısı; savunanda "hazırla";
  * cevap fazında hamlenin ne anlama geldiği; sonuç fazında tur sonucu bandı.
  */
-export function hkMesaj({ d, hk, ben, rakip, benSaldiran, c, ezeli }) {
+export function hkMesaj({ d, hk, ben, rakip, benSaldiran, c, ezeli, bosSaldiran = true }) {
   const kuralL1 = c("{n} yuvaya ilk ulaşan kazanır", { n: hk.esik });
   const kuralL2 = c("Hamle tutması için: sen doğru, rakip yanlış");
   const rakipKritik = hk.rakipY === hk.esik - 1;
@@ -196,12 +203,13 @@ export function hkMesaj({ d, hk, ben, rakip, benSaldiran, c, ezeli }) {
     const a = aidiyet(hk, d.kategori);
     if (benSaldiran) {
       if (a === "rakip") return { l1: `${kat} · ${c("rakibin kategorisi")}`, l2: c("Elinden almak için: sen doğru, rakip yanlış"), ton };
-      if (a === "bos") return { l1: `${kat} · ${c("boş kategori")}`, l2: c("Boşta bilen alır · sen doğru, rakip yanlış"), ton };
+      // 870: boşta ikisi de doğru → saldıran alır (ayar duello_bos_ikisi_dogru_saldiran; 0 iken eski satır).
+      if (a === "bos") return { l1: `${kat} · ${c("boş kategori")}`, l2: bosSaldiran ? c("Boş kategoride ikiniz de bilirseniz saldıran alır.") : c("Boşta bilen alır · sen doğru, rakip yanlış"), ton };
       return { l1: `${kat} · ${c("senin kategorin")}`, l2: c("Pekiştirmek için: sen doğru, rakip yanlış"), ton };
     }
     const l1 = c("Rakip {kat} için saldırıyor", { kat });
     if (a === "ben") return { l1, l2: c("Sen doğru bilirsen kategori sende kalır"), ton };
-    if (a === "bos") return { l1, l2: c("Rakip yanlış, sen doğru bilirsen alırsın"), ton };
+    if (a === "bos") return { l1, l2: bosSaldiran ? c("Boş kategoride ikiniz de bilirseniz saldıran alır.") : c("Rakip yanlış, sen doğru bilirsen alırsın"), ton };
     return { l1, l2: c("Rakip doğru, sen yanlış bilirse 2 tur kilitlenir"), ton };
   }
   if (d.faz === "ban") {

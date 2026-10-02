@@ -86,6 +86,10 @@
 }
 .hk-taraf--rakip { --c: var(--hk-kirmizi); --z: var(--hk-kirmizi-zemin); --m: var(--hk-kirmizi-metin); }
 .hk-yuvalar { display: grid; grid-template-columns: repeat(var(--hk-n, 4), minmax(0, 1fr)); gap: 4px; justify-self: center; width: 100%; max-width: 208px; }
+/* 870: eşik 5 → 5 yuva; 360–390 px'te sığsın diye aralık dar, köşe ve kilit rozeti küçük (sütunlar minmax(0,1fr): taşma olmaz) */
+.hk-yuvalar--cok { gap: 3px; max-width: 258px; }
+.hk-yuvalar--cok .hk-yuva { border-radius: 9px; }
+.hk-yuvalar--cok .hk-yuva-kilit { width: 13px; height: 13px; right: -4px; bottom: -4px; }
 .hk-yuva {
   position: relative; display: grid; place-items: center; aspect-ratio: 1; max-height: 40px; justify-self: center; width: 100%;
   border: 2px dashed var(--hk-gri-kenar); border-radius: 11px; background: var(--hk-gri-zemin); box-sizing: border-box;
@@ -113,6 +117,9 @@
 .hk-tahta--kucuk .hk-yuvalar { gap: 3px; max-width: none; }
 .hk-tahta--kucuk .hk-yuva { max-height: 27px; border-radius: 8px; }
 .hk-tahta--kucuk .hk-yuva-kilit { width: 12px; height: 12px; right: -4px; bottom: -4px; }
+.hk-tahta--kucuk .hk-yuvalar--cok { gap: 2px; }
+.hk-tahta--kucuk .hk-yuvalar--cok .hk-yuva { border-width: 1.5px; border-radius: 6px; }
+.hk-tahta--kucuk .hk-yuvalar--cok .hk-yuva-kilit { width: 10px; height: 10px; right: -3px; bottom: -3px; }
 .hk-tahta--kucuk .hk-say span { display: none; }
 .hk-tahta--kucuk .hk-say b { font-size: 17px; }
 .hk-tahta--kucuk .hk-vs { width: 22px; height: 22px; font-size: 9px; }
