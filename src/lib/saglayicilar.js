@@ -41,6 +41,10 @@ export async function acikSaglayicilariOku() {
 // Geri açmak için `true` yap. Sahip/test için gizli kapı: adreste `?eposta=1`.
 export const EPOSTA_GIRIS_ACIK = false;
 
+// FACEBOOK DÜĞMESİ GİZLİ (2 Eki 2026): canlıda sağlayıcı kapalı (auth/v1/settings › external.facebook=false).
+// Geri açmak için `true` yap; düğmeye bağlı kod ve metinler yerinde durur.
+export const FACEBOOK_GIRIS_ACIK = false;
+
 /** E-posta yolu bu oturumda görünsün mü? (bayrak ya da ?eposta=1 gizli kapısı) */
 export function epostaGirisGorunur() {
   if (EPOSTA_GIRIS_ACIK) return true;
