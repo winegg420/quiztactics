@@ -15,7 +15,7 @@ export default {
   "Sezon Yolu": "Season Path",
   "Sezon {n}": "Season {n}",
   "{n} gün kaldı": "{n} days left",
-  "BP": "Battle Pass",   // ana sayfa sezon şeridi çipi: kısaltma yerine tam ad
+  "BP": "BP",   // sezon şeridi çipi: EN dar kartta "Battle Pass" başlığı örtüyordu (ekran turu) → kısa
   "Bugün bitiyor": "Ends today",
   "Test sezonu: yalnız sen görüyorsun, gerçek sezon değil.": "Test season: only you can see it; it isn't the real season.",
   "Seviye {n} / {m}": "Level {n} / {m}",

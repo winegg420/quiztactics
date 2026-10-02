@@ -58,13 +58,15 @@ export default function AnaSayfaA() {
   }
   const modlar = modListesi(v, b);
   const olaylar = etkinlikler(v);
-  const acil = olaylar.find((e) => e.ton === "acil") ?? olaylar[0];
+  // Süren maç zaten "Devam et" kartında: aynı maçı gösteren "maçın sürüyor" şeridi çizilmez (tek bant).
+  const acilAday = olaylar.find((e) => e.ton === "acil") ?? olaylar[0];
+  const acil = acilAday?.ton === "sira" && devamEden?.length > 0 ? olaylar.find((e) => e.ton === "acil") ?? null : acilAday;
 
   // Rozet + çerçeve paketi (23 Eyl 2026): mor ışınlı dev avatar sahnesi kalktı. Telefonda tek sütun
   // (sıra CSS `order` ile): oyuncu kartı → lig kartı → turnuva → OYNA/DÜELLO → kısayollar → görev şeridi.
   // Masaüstünde (≥1024) üç sütun: solda oyuncu + lig, ortada oyna alanı, sağda turnuva + görevler.
   return (
-    <div className="as-sayfa as-a as-a2">
+    <div className={`as-sayfa as-a as-a2${devamEden?.length > 0 ? " as-a2--devam" : ""}`}>
       <h1 className="qt-gizli">{tt("Ana sayfa")}</h1>
       {b.katmanlar}
 

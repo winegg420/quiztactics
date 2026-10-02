@@ -801,6 +801,11 @@ a.as-cip:active { transform: translateY(2px); }
 /* Öncelik (telefon): OYNA/DÜELLO > turnuva > Sezon Yolu + Görevler (iki yarım kart, hiçbir yükseklikte gizlenmez) > lig kartı > kısayol.
    Lig kartı ≤940 px'te en yakın 3 satıra iner (kartlar yer açsın; kesik satır kalmasın). */
 @media (max-width: 1023px) and (max-height: 940px) { .as-lk-satir--uzak { display: none; } }
+/* 2 Eki 2026 (ekran turu): ≤940 px'te lig kartı 2 satıra iner (ben + yanındaki); "maç sürüyor" kartı açıkken ≤760 px'te yalnız ben satırı,
+   ≤699 px'te satır listesi hiç çizilmez (sıra başlıktaki pill'de) → yarım satır hiçbir durumda görünmez. */
+@media (max-width: 1023px) and (max-height: 940px) { .as-lk-satir:not(.as-lk-satir--ben):not(.as-lk-satir--komsu) { display: none; } }
+@media (max-width: 1023px) and (max-height: 760px) { .as-a2--devam .as-lk-satir:not(.as-lk-satir--ben) { display: none; } }
+@media (max-width: 1023px) and (max-height: 699px) { .as-a2--devam .as-lk-liste { display: none; } }
 /* <700 px (664): iki yarım kart yer kazandırmaz → lig kartı yalnız başlık + kendi satırın (kesik satır kalmasın; sıra başlıktaki pill'de) */
 @media (max-width: 1023px) and (max-height: 699px) { .as-lk-satir:not(.as-lk-satir--ben) { display: none; } }
 

@@ -495,6 +495,9 @@ export function LigKarti({ v }) {
         <span className="as-lk-yuk-dar">{tt("{n} P", { n: sayi(o.yukselme_cizgisine_fark) })}</span>
       </>
     : alt;
+  // Kısa ekranda yalnız 2 satır: ben + yanındaki (üstündeki; ben 1. ise altındaki) — yarım satır kalmaz.
+  const benI = satirlar.findIndex((x) => x.ben);
+  const komsuI = benI > 0 ? benI - 1 : benI === 0 && satirlar.length > 1 ? 1 : -1;
   return (
     <Link to={y("/siralama")} className={`as-lk as-lk--${o.lig}`}
           aria-label={tt("{lig} Lig, {s}. sıra. Lig sayfasına git", { lig: LIG_ADLARI[o.lig] ?? o.lig, s: o.sira })}>
@@ -522,7 +525,7 @@ export function LigKarti({ v }) {
           const uzak = Math.abs(i - satirlar.findIndex((x) => x.ben)) >= 2;
           return (
             <li key={r.user_id ?? r.sira}
-                className={`as-lk-satir${r.ben ? " as-lk-satir--ben" : ""}${uzak ? " as-lk-satir--uzak" : ""}${yukSiniri ? " as-lk-satir--yukselme-siniri" : ""}${dusSiniri ? " as-lk-satir--dusme-siniri" : ""}`}>
+                className={`as-lk-satir${r.ben ? " as-lk-satir--ben" : ""}${i === komsuI ? " as-lk-satir--komsu" : ""}${uzak ? " as-lk-satir--uzak" : ""}${yukSiniri ? " as-lk-satir--yukselme-siniri" : ""}${dusSiniri ? " as-lk-satir--dusme-siniri" : ""}`}>
               <span className="as-lk-no qt-sayi">{r.sira}</span>
               <CerceveliAvatar profile={{ gorunen_ad: r.ad, gorunen_avatar: r.avatar }} userId={r.user_id}
                                cerceve={r.cerceve ?? null} kart={{ cerceve: r.cerceve ?? null, cerceve_nadirlik: r.cerceve_nadirlik,
