@@ -29,9 +29,9 @@ import { elmasTazele } from "../lib/elmas.js";
 import { sesHataUyari } from "../lib/ses.js";
 import { aktifDil, tt } from "../lib/dil.js";
 import { y } from "../lib/yol.js";
-import { QtBosDurum, QtDugme, QtIkon, QtKart, QtModal, dokunus, siraStili } from "../tasarim/index.js";
+import { QtBosDurum, QtDugme, QtIkon, QtIskelet, QtKart, QtModal, dokunus, siraStili } from "../tasarim/index.js";
 import OdulAni, { UcanOge, useOdulAni } from "./OdulAni.jsx";
-import { avatarSatinAl, useAvatarSahiplik, useHazirAvatarlar } from "../lib/avatarKatalogu.js";
+import { avatarSahiplikYukle, avatarSatinAl, useAvatarSahiplik, useHazirAvatarlar } from "../lib/avatarKatalogu.js";
 import { NADIRLIKLAR, NADIRLIK_AD, nadirligeGoreBolumle, useNadirlikHaritasi } from "../../src/lib/avatarNadirlik.js";
 import { AvatarBolumBasligi, AvatarKilitRozeti, NadirlikImg, etiketNadirligi } from "./AvatarNadirlikGoruntu.jsx";
 import NadirlikEtiketi from "./NadirlikEtiketi.jsx";
@@ -481,7 +481,15 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
   const [secili, setSecili] = useState(() => liste.find((a) => profile?.avatar_url === a.url)?.anahtar ?? liste[0]?.anahtar ?? null);
   const [islem, setIslem] = useState(null);
   const [onayAcik, setOnayAcik] = useState(false);   // D-301
+  // Yalnız ücretli liste sahiplik durumundan süzülür: durum okunana dek "satışta bir şey yok" yerine iskelet (okunamazsa boş durum).
+  const [sahiplikOkundu, setSahiplikOkundu] = useState(() => sahiplik.size > 0);
+  useEffect(() => {
+    let aktif = true;
+    avatarSahiplikYukle().finally(() => { if (aktif) setSahiplikOkundu(true); });
+    return () => { aktif = false; };
+  }, []);
   const c = liste.find((a) => a.anahtar === secili) ?? liste[0] ?? null;
+  if (yalnizUcretli && !sahiplikOkundu) return <QtIskelet tur="kart" adet={2} />;
   if (!c) return <QtBosDurum boyut="k" ikon="dukkan" ton="mor" baslik={tt("Bu bölümde şu an satışta bir şey yok.")} />;
   const ad = (a) => (aktifDil() === "en" ? a.ad_en : a.ad_tr) ?? a.ad_tr;
   const takili = profile?.avatar_url === c.url;

@@ -464,7 +464,13 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
   yeniden çizilecek. Maç sonu: çerçevede taç varsa sahnenin taç emojisi gizli.
 - **Etkinlik eşyaları satılmaz** (Taç, Pelerin, Uzay Kıyafeti) — yalnız
   turnuva ödülüdür. Dükkânda kilitli görünür.
-- Dükkândaki her şey yalnız coin ile alınır.
+- **Dükkân sade (2 Eki 2026, Ida; migration 920 canlıda):** dört sabit sekme — **Elmas · Joker · Çerçeve · Avatar ve İsim**; açılış sekmesi Joker.
+  Tek kural ekranda yazar (kural şeridi): **jokerler coin'le, kozmetikler elmasla**. Çerçeve = premium hareketli çerçeveler; Avatar ve İsim =
+  Epik/Efsanevi avatarlar (820) + Altın isim. Satılan kozmetik türleri tek kaynak `kozmetik.js › DUKKAN_TURLERI`. **Satılmayanlar:** VS kartı,
+  zafer efekti, tepki paketi (`kozmetikler.satis_pasif = true`; satır/sahiplik/takılı kayıt durur, sahibi Koleksiyon'da görür; geri açmak
+  `satis_pasif = false`), Kıyafet (gardırop dondurulmuş) ve Arka Plan (dondurulmuş) sekmeleri. **Tepki paketleri Battle Pass ödülüdür** (Sezon 1:
+  Eğlence seviye 3, Rekabet seviye 12 — ikisi de ücretli kolda; ücretsiz kola taşıma kararı açık). **Coin sekmesi yok** (ürün satmıyordu);
+  "Coin nasıl kazanılır?" notu ve ödüllü video Joker sekmesinin altında.
 - **Rakamları koda gömme.** Yayından sonra SQL ile değiştirilebilmeli.
 
 - **Satın alma güvenliği (304–306):** coin satın alımları `coin_satin_alma_defteri`'ne yazılır;
