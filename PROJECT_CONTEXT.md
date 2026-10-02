@@ -128,8 +128,11 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
   (`duellolar.son_ban1/2`; arada bir savunma geçince serbest), kilitli kategori banlanamaz, saldırana en az 1 kategori kalır. Banlı kategori
   (`duellolar.ban_kategori`) o tur seçilemez (`duello2_kategori_uygun_mu`); süre dolarsa ban yok; Altın Soru'da ban yok. RPC `duello_ban_sec`;
   `duello_durum › ban {acik, sure, kategori, onceki, uygun}`. Bot savunurken saldıranın en değerli hamlesini banlar (`duello2_bot_ban_kategori`).
-  Kapatma: `duello_ban_acik` = 0 → eski akış aynen. Ekran: kategori kartlarının aynısı — savunan tek dokunuşla banlar, banlı kart gri + "Banlı"
-  damgası (`--qt-mod-duello`). Test: `node araclar/duello-ban-sql-testi.mjs`.
+  Kapatma: `duello_ban_acik` = 0 → eski akış aynen. Ekran: kategori kartlarının aynısı — savunan tek dokunuşla banlar, banlı kart gri + kilit +
+  "Banlı" damgası (`--qt-mod-duello`). **Ban anları (2 Eki 2026, `DuelloBanAni.jsx` + `duello-ban.css`, yalnız sunum):** savunana faz girişinde
+  damga + ses + titreşim, mesaj satırının yerinde kırmızı "BAN SIRASI SENDE" satırı, son 2 sn gerilim, "BANLADIN" / "BAN KULLANILMADI"; saldırana
+  ~1,2 sn "RAKİP BANLADI" açıklaması → mavi "SIRA SENDE"; ilk 3 Düello'da ipucu (cihazda). Açıklama saldıranın süresinden yemez: ban fazından çıkan
+  kategori fazına `duello_ban_gosterim_ms` (1200) eklenir (880, `duello2_ban_bitir`). Test: `node araclar/duello-ban-sql-testi.mjs`.
 - **Altın Soru (eşitlik):** son tur sonunda yuvalar eşitse Turnuva'nın seçicisiyle (`turnuva_soru_aday`: kullanılmamış,
   önce zorluk 4–5, boşsa alt dilim; `duello_altin_soru_bul`) Altın Soru; **jokersiz** (`duello2_skill_hak_kontrol` reddeder),
   sahiplik değişmez. Yalnız biri bilirse o kazanır (`altin_kazanan`), yoksa yeni Altın Soru — sınırsız. Veride
