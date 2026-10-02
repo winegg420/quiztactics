@@ -204,7 +204,7 @@ a.as-cip:active { transform: translateY(2px); }
   background:
     radial-gradient(60% 50% at 50% 42%, rgba(255, 255, 255, .75), transparent 70%),
     radial-gradient(circle at 12px 12px, rgba(255, 255, 255, .45) 2.5px, transparent 3px) 0 0 / 24px 24px,
-    linear-gradient(160deg, #8f7bff 0%, #6a48f5 45%, #ff6f91 110%);
+    linear-gradient(160deg, #7fb2ee 0%, #2a73cc 45%, #1a5fae 110%);
   box-shadow: 0 6px 0 var(--qt-ikinci-dudak), var(--as-golge);
 }
 .as-a-isik { position: absolute; width: 150%; aspect-ratio: 1; left: -25%; top: -30%; background: repeating-conic-gradient(from 0deg at 50% 50%, rgba(255, 255, 255, .14) 0 10deg, transparent 10deg 30deg); animation: as-don 60s linear infinite; }

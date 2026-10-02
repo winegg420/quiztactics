@@ -92,7 +92,7 @@
   --qt-skill-sigorta: #3d8bff;        --qt-skill-sigorta-acik: #9cc5ff;        --qt-skill-sigorta-koyu: #1a4fb8;
   --qt-skill-cifte_puan: #ffb81f;     --qt-skill-cifte_puan-acik: #ffe27a;     --qt-skill-cifte_puan-koyu: #b86e00;
   /* Düello rol jokerleri (680, Alt Ajan D): turuncu ve limon yeşili — kırmızı/mavi aidiyet renkleriyle ve 7 jokerle karışmaz. */
-  --qt-skill-baskin: #ff7a1a;         --qt-skill-baskin-acik: #ffb47a;         --qt-skill-baskin-koyu: #b34a00;
+  --qt-skill-baskin: var(--qt-vurgu);         --qt-skill-baskin-acik: #ffb47a;         --qt-skill-baskin-koyu: #b34a00;
   --qt-skill-kalkan: #8fd11f;         --qt-skill-kalkan-acik: #c6ee7c;         --qt-skill-kalkan-koyu: #4c7a0a;
   --qt-skill-sembol: #ffffff;
 
@@ -122,7 +122,7 @@
   --qt-madalyon-sembol: #ffffff;
   /* Çerçeve süs taşları (epik mücevherler) ve aura renkleri */
   --qt-tas-pembe: #ff4fa3;   --qt-tas-turkuaz: #22d3e6;   --qt-tas-yakut: #ff4757;
-  --qt-aura-efsanevi: #ffd24a;   --qt-aura-efsanevi-2: #ff7a1a;
+  --qt-aura-efsanevi: #ffd24a;   --qt-aura-efsanevi-2: var(--qt-vurgu);
   --qt-aura-efsane: #d98bff;     --qt-aura-efsane-2: #7a2cff;
   --qt-aura-elmas: #bff4ff;      --qt-aura-elmas-2: #3fb6ff;
   --qt-cerceve-parilti: rgba(255, 255, 255, 0.85);

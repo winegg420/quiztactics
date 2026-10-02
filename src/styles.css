@@ -13,8 +13,8 @@
   --card-alt: #D8E6F0;     /* kart altı düz kalınlık */
   --text: #20324A;
   --text-dim: #5A7089;
-  --primary: #F4701F;      /* turuncu — ana vurgu */
-  --primary-2: #C4530F;
+  --primary: var(--qt-vurgu, #ff7a2e);      /* turuncu — ana vurgu */
+  --primary-2: var(--qt-vurgu-dudak, #c24a0c);
   --accent: #FFC53D;       /* altın — ödül/puan */
   --success: #2FBF71;
   --success-2: #1D8A50;

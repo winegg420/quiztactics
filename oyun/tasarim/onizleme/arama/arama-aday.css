@@ -147,7 +147,7 @@ html.ra-tam-acik body > :not(.ra-tam) { display: none !important; }
   line-height: 1;
   white-space: nowrap;
 }
-.ra-rozet--klasik { background: #ff8a3d; }
+.ra-rozet--klasik { background: var(--qt-mod-klasik); }
 .ra-rozet--duello { background: var(--qt-mod-duello); color: #fff; }
 .ra-rozet--dereceli { background: var(--ra-sari); }
 .ra-rozet--serbest { background: #fff; }

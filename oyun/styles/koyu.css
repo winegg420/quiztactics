@@ -33,8 +33,8 @@
 
   /* Anlam renkleri aynı aile; koyu zeminde zaten canlı duruyor.
      Yalnız "-2" alt tonları koyulaştırıldı — kalınlık kartla karışmasın. */
-  --bd-vurgu: #F4701F;
-  --bd-vurgu-2: #A8450C;
+  --bd-vurgu: var(--qt-vurgu, #ff7a2e);
+  --bd-vurgu-2: var(--qt-vurgu-dudak, #c24a0c);
   --bd-vurgu-acik: #FF9A4D;
   --bd-odul: #FFC53D;
   --bd-odul-2: #A87F00;
@@ -43,7 +43,7 @@
   --bd-hata: #EF4B4B;
   --bd-hata-2: #8E2020;
   --bd-bilgi: #5AA9E6;
-  --bd-mor: #9A74FF;
+  --bd-mor: var(--qt-ikinci, #2a73cc);
 
   /* Metin */
   --bd-metin: #EAF0FA;
@@ -65,8 +65,8 @@
   --card-alt: #0E1728;
   --text: #EAF0FA;
   --text-dim: #A8B8D0;
-  --primary: #F4701F;
-  --primary-2: #A8450C;
+  --primary: var(--qt-vurgu, #ff7a2e);
+  --primary-2: var(--qt-vurgu-dudak, #c24a0c);
   --accent: #FFC53D;
   --success: #2FBF71;
   --success-2: #14663B;

@@ -153,7 +153,7 @@
   line-height: 1;
   white-space: nowrap;
 }
-.gh-rozet--klasik { background: #ff8a3d; }
+.gh-rozet--klasik { background: var(--qt-mod-klasik); }
 .gh-rozet--saf { background: #7fd8ff; }
 .gh-rozet--duello { background: #ff7fa0; }
 .gh-rozet--dereceli { background: var(--gh-sari); }

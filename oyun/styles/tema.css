@@ -25,8 +25,8 @@
 
   /* ---------- Anlam renkleri — ana vurgu TURUNCU ----------
      Her rengin bir "-2" alt tonu var: kabartmanın alt kalınlığı o renkten. */
-  --bd-vurgu: #F4701F;
-  --bd-vurgu-2: #C4530F;
+  --bd-vurgu: var(--qt-vurgu, #ff7a2e);
+  --bd-vurgu-2: var(--qt-vurgu-dudak, #c24a0c);
   --bd-vurgu-acik: #FF9A4D;
   --bd-odul: #FFC53D;       /* ödül / puan */
   --bd-odul-2: #C99A00;
@@ -35,7 +35,7 @@
   --bd-hata: #EF4B4B;
   --bd-hata-2: #B62F2F;
   --bd-bilgi: #3E8FD0;
-  --bd-mor: #7A4BFF;        /* rütbe etiketi, turnuva kimliği */
+  --bd-mor: var(--qt-ikinci, #2a73cc);        /* rütbe etiketi, turnuva kimliği */
 
   /* ---------- Metin — açık zemine göre ---------- */
   --bd-metin: #20324A;
@@ -667,8 +667,8 @@ body { overflow-x: clip; }
      DİKKAT: bu blok dosyanın başındaki :root'u eziyor (kaskadda sonra
      geliyor). Revizyonda ikisi de aynı palete çevrildi; biri unutulursa
      butonlar eski altın rengine geri döner. */
-  --bd-vurgu: #F4701F;
-  --bd-vurgu-2: #C4530F;
+  --bd-vurgu: var(--qt-vurgu, #ff7a2e);
+  --bd-vurgu-2: var(--qt-vurgu-dudak, #c24a0c);
   --bd-vurgu-acik: #FF9A4D;
   --bd-odul: #FFC53D;           /* ödül / puan */
   --bd-odul-2: #C99A00;
@@ -677,7 +677,7 @@ body { overflow-x: clip; }
   --bd-hata: #EF4B4B;
   --bd-hata-2: #B62F2F;
   --bd-bilgi: #3E8FD0;
-  --bd-mor: #7A4BFF;
+  --bd-mor: var(--qt-ikinci, #2a73cc);
 
   /* Chunky buton derinliği */
   --bd-kalinlik: 4px;
