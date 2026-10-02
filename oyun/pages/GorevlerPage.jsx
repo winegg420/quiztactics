@@ -4,6 +4,7 @@
 // ödül vermez — yalnız RPC çağırır ve cevabı çizer. Animasyonda sunucunun döndüğü GERÇEK coin/SP kullanılır
 // (günlük coin tavanı yüzünden coin, ödül çipinden az olabilir; sezon kapalıyken SP null).
 // SP yalnız sezon sistemi görünürken (sezon_ozetim.gorunur) çizilir: kapalıyken SP verilmez.
+// 2 Eki 2026 (2. tur): en üstte haftalık sandık KAHRAMAN kartı, görev kartları tür renginde (tek renk/kart), "Günlük" başlığında mini halka + yenilenme.
 // Sahne düzeni (2 Eki 2026, Ida onaylı gri kutu taslağı): üst şerit [<] Görevler [coin] · SABİT özet (halka 1/3 + yenilenme) ·
 // kaydırılan liste (nötr satırlar; yalnız ALINABİLİR satır turuncu) · SABİT alt "Ödülü al (n)" (alınabilir yoksa alan çöker).
 // "Ödülü al (n)": yeni toplu RPC YOK — alınabilirleri mevcut gorev_al / haftalik_sandik_al ile TEK TEK, sırayla alır;
@@ -37,6 +38,14 @@ const IKON = {
   kategori_dogru: "yildiz",
   farkli_kategori_dogru: "hedef",
 };
+// Görev sayacı → tür rengi (her kart TEK renk: ikon kutusu + çubuk). Düello → kırmızı · doğru cevap → yeşil · kazanma/seri → altın · kalan → mavi.
+function turRengi(sayac) {
+  const k = String(sayac ?? "");
+  if (k.includes("duello")) return "kirmizi";
+  if (k.includes("dogru") || k.includes("soru")) return "yesil";
+  if (k.includes("kazan") || k.includes("galibiyet") || k.includes("seri")) return "altin";
+  return "mavi";
+}
 const ZORLUK = { kolay: "Kolay|görev", orta: "Orta|görev", zor: "Zor|görev" };
 const ZORLUK_NOKTA = { kolay: 1, orta: 2, zor: 3 };   // zorluk = 3 nokta (kolay 1 dolu · orta 2 · zor 3); renk yok
 const ACIL_SN = 3600;          // yenilenmeye bundan az kaldıysa süre metni kehribara geçer
@@ -96,7 +105,7 @@ function GorevSatiri({ g, gunluk, dil, sezonAcik, islemde, mesgul, onAl, ucan, s
   const kategori = g.sayac === "kategori_dogru" && g.parametre?.kategori ? kategoriAdi(g.parametre.kategori) : null;
   const zorluk = gunluk && g.zorluk ? g.zorluk : null;
   return (
-    <li className={sinif("gv-kart", `gv-kart--${durum}`, nabiz && "qt-h-nabiz", ucan && "gv-kart--kutla", sirali)} style={siraStili(sira)}>
+    <li className={sinif("gv-kart", `gv-kart--${durum}`, `gv-tur--${turRengi(g.sayac)}`, nabiz && "qt-h-nabiz", ucan && "gv-kart--kutla", sirali)} style={siraStili(sira)}>
       <span className="gv-ik" aria-hidden="true"><QtIkon ad={IKON[g.sayac] ?? "hedef"} boyut={20} /></span>
       <div className="gv-govde">
         <div className="gv-ust-satir">
@@ -126,88 +135,87 @@ function GorevSatiri({ g, gunluk, dil, sezonAcik, islemde, mesgul, onAl, ucan, s
   );
 }
 
-// Haftalık sandık: sakin, kesikli çerçeveli kart (3 nokta = tamam/hedef). Sandık mantığı ve açılış kutlaması (konfeti) aynen.
-function SandikSatiri({ s, sezonAcik, islemde, mesgul, onAc, ucan, sira, sirali, nabiz }) {
+// Haftalık sandık KAHRAMAN kartı (ekranın en üstü): altın-krem kart, büyük sandık görseli, "N görev daha" + 3 parçalı altın çubuk + ödül çipleri.
+// Veri ve açılış akışı (sandikAc → sandikAl, konfeti) aynen; yeni mekanik/veri yok. Durum: kilitli · alinabilir · alindi.
+function SandikKahraman({ s, sezonAcik, islemde, mesgul, onAc, ucan, sira, sirali, nabiz }) {
+  const [resimYok, setResimYok] = useState(false);
   const durum = s.alindi ? "alindi" : s.alinabilir ? "alinabilir" : "kilitli";
-  const hedef = Number(s.hedef) || 3;
+  const hedef = Math.max(1, Number(s.hedef) || 3);
   const tamam = Math.min(Number(s.tamam) || 0, hedef);
+  const kalan = Math.max(0, hedef - tamam);
   const jokerAd = SKILL_TANIMLARI[s.joker?.tur]?.ad ?? tt("Joker");
   const jokerAdet = Number(s.joker?.adet) || 0;
   const sp = Number(s.sp) || 0;
   const spVar = sezonAcik && sp > 0;
+  const altYazi = durum === "alindi" ? tt("Sandık alındı") : durum === "alinabilir" ? tt("Sandık hazır!") : tt("{n} görev daha, sandık açılır", { n: kalan });
   return (
-    <li className={sinif("gv-kart gv-sandik", `gv-sandik--${durum}`, nabiz && "qt-h-nabiz", ucan && "gv-kart--kutla", sirali)} style={siraStili(sira)}>
-      <span className="gv-ik" aria-hidden="true"><QtIkon ad="hediye" boyut={20} /></span>
-      <div className="gv-govde">
-        <div className="gv-ust-satir">
-          <b className="gv-ad">{tt("Haftalık sandık")}</b>
+    <div className={sinif("gv-kahraman", `gv-kahraman--${durum}`, nabiz && "qt-h-nabiz", ucan && "gv-kart--kutla", sirali)} style={siraStili(sira)}>
+      <span className="gv-kah-resim" aria-hidden="true">
+        {resimYok ? <QtIkon ad="hediye" boyut={36} /> : <img src="/dukkan/sandik.webp" alt="" width="64" height="64" decoding="async" onError={() => setResimYok(true)} />}
+      </span>
+      <div className="gv-kah-govde">
+        <div className="gv-kah-ust">
+          <b className="gv-kah-ad">{tt("Haftalık sandık")}</b>
+          {durum === "kilitli" && (
+            <span className="gv-kilit" role="img" aria-label={tt("Kilitli: {a} / {b} görev alındı", { a: tamam, b: hedef })}><QtIkon ad="kilit" boyut={16} /></span>
+          )}
+          {durum === "alindi" && <Tik etiket={tt("Alındı")} />}
         </div>
-        <span className="gv-alt gv-alt-yazi">{tt("{n} haftalık görevi bitir", { n: hedef })}</span>
+        <span className="gv-kah-alt">{altYazi}</span>
+        {/* Parçalı çubuk: hedef kadar parça, `tamam` kadarı dolu (sunucu alanları). */}
+        <span className="gv-kah-cubuk" role="img" aria-label={tt("{a} / {b}", { a: tamam, b: hedef })}>
+          {Array.from({ length: hedef }, (_, i) => <i key={i} className={sinif("gv-kah-parca", i < tamam && "gv-kah-parca--dolu")} />)}
+        </span>
         {(spVar || jokerAdet > 0) && (
-          <span className="gv-odul gv-odul--sol">
-            {spVar && <b>{sayiMetni(sp)} SP</b>}
-            {spVar && jokerAdet > 0 && <span aria-hidden="true">·</span>}
-            {jokerAdet > 0 && <b>{jokerAd} ×{jokerAdet}</b>}
+          <span className="gv-kah-oduller">
+            {spVar && <b className="gv-kah-cip">{sayiMetni(sp)} SP</b>}
+            {jokerAdet > 0 && <b className="gv-kah-cip">{jokerAd} ×{jokerAdet}</b>}
           </span>
         )}
-        <div className="gv-alt-satir">
-          {/* x/hedef nokta ilerlemesi — sayılar sunucunun `tamam`/`hedef` alanı. */}
-          <span className="gv-noktalar gv-noktalar--b" aria-hidden="true">
-            {Array.from({ length: hedef }, (_, i) => <i key={i} className={sinif("gv-nokta", i < tamam && "gv-nokta--dolu")} />)}
-          </span>
-          <span className="gv-bosluk" />
-          {durum === "alindi" && <Tik etiket={tt("Alındı")} />}
-          {durum === "alinabilir" && (
-            <QtDugme boyut="k" className="qt-oyk-al gv-al" yukleniyor={islemde} devreDisi={mesgul && !islemde} onClick={onAc}>{tt("Sandığı aç")}</QtDugme>
-          )}
-          {durum === "kilitli" && (
-            <span className="gv-kilit" role="img" aria-label={tt("Kilitli: {a} / {b} görev alındı", { a: tamam, b: hedef })}>
-              <QtIkon ad="kilit" boyut={16} />
-            </span>
-          )}
-        </div>
+        {durum === "alinabilir" && (
+          <QtDugme boyut="k" className="qt-oyk-al gv-al gv-kah-dugme" yukleniyor={islemde} devreDisi={mesgul && !islemde} onClick={onAc}>{tt("Sandığı aç")}</QtDugme>
+        )}
       </div>
+      {durum === "alinabilir" && <span className="qt-h-isilti qt-h-isilti--dongu" style={{ "--isilti-kose": "14px" }} aria-hidden="true" />}
       <OdulAni aktif={Boolean(ucan)} buyuk konfeti ucanSinif="gv-ucan">{ucan && <UcanIcerik coin={0} sp={ucan.sp} ek={ucan.ek} />}</OdulAni>
-    </li>
-  );
-}
-
-// Sabit özet (ekranın TEK odağı): halka ilerleme + "Bugün N görev tamam" + yenilenme süresi (1 saatten azsa kehribar).
-function GunOzeti({ ozet, gun, okunma, bitti, gunBitti, tamamAni }) {
-  const kalan = useKalanSn(gun.yenilenme_sn, okunma, bitti);
-  const sure = kalanMetni(kalan);
-  const R = 24;
-  const C = 2 * Math.PI * R;
-  const oran = ozet.gunToplam > 0 ? Math.min(1, ozet.gunTamam / ozet.gunToplam) : 0;
-  return (
-    <div className={sinif("gv-ozet", gunBitti && "gv-ozet--tamam")}>
-      <span className="gv-halka" aria-hidden="true">
-        <svg viewBox="0 0 56 56" width="56" height="56" focusable="false">
-          <circle className="gv-halka-iz" cx="28" cy="28" r={R} />
-          {oran > 0 && <circle className="gv-halka-dolgu" cx="28" cy="28" r={R} strokeDasharray={`${(oran * C).toFixed(2)} ${C.toFixed(2)}`} transform="rotate(-90 28 28)" />}
-        </svg>
-        <b className="gv-halka-sayi">{ozet.gunTamam}/{ozet.gunToplam}</b>
-      </span>
-      <div className="gv-ozet-metin">
-        <b className="gv-ozet-ana">
-          {gunBitti && <QtIkon ad="onay" boyut={16} />}
-          {gunBitti ? tt("Bugünlük tamam") : tt("Bugün {n} görev tamam", { n: ozet.gunTamam })}
-        </b>
-        <span className={sinif("gv-yenilenme", kalan < ACIL_SN && "gv-yenilenme--acil")}>
-          <QtIkon ad="saat" boyut={14} />
-          <span aria-hidden="true">{tt("{s} sonra yenilenir", { s: sure })}</span>
-          <span className="qt-gizli">{tt("Kalan süre: {s}", { s: sure })}</span>
-        </span>
-      </div>
-      {tamamAni && <span className="qt-h-isilti" style={{ "--isilti-kose": "0px" }} aria-hidden="true" />}
     </div>
   );
 }
 
-function Bolum({ id, etiket, children }) {
+// "Günlük" başlığının yanındaki küçük halka "0/3" + yenilenme süresi (1 saatten azsa kehribar). Büyük özet bölümü kalktı.
+function GunBaslik({ id, etiket, ozet, gun, okunma, bitti, gunBitti, tamamAni }) {
+  const kalan = useKalanSn(gun.yenilenme_sn, okunma, bitti);
+  const sure = kalanMetni(kalan);
+  const R = 11;
+  const C = 2 * Math.PI * R;
+  const oran = ozet.gunToplam > 0 ? Math.min(1, ozet.gunTamam / ozet.gunToplam) : 0;
+  return (
+    <div className="gv-bolum-ust">
+      <h2 id={id} className="gv-h2">{etiket}</h2>
+      <span className={sinif("gv-mini", gunBitti && "gv-mini--tamam")}>
+        <span className="gv-mini-halka" aria-hidden="true">
+          <svg viewBox="0 0 28 28" width="28" height="28" focusable="false">
+            <circle className="gv-halka-iz" cx="14" cy="14" r={R} />
+            {oran > 0 && <circle className="gv-mini-dolgu" cx="14" cy="14" r={R} strokeDasharray={`${(oran * C).toFixed(2)} ${C.toFixed(2)}`} transform="rotate(-90 14 14)" />}
+          </svg>
+        </span>
+        <b className="gv-mini-sayi" aria-hidden="true">{ozet.gunTamam}/{ozet.gunToplam}</b>
+        <span className="qt-gizli">{gunBitti ? tt("Bugünlük tamam") : tt("Bugün {n} görev tamam", { n: ozet.gunTamam })}</span>
+        {tamamAni && <span className="qt-h-isilti" style={{ "--isilti-kose": "14px" }} aria-hidden="true" />}
+      </span>
+      <span className={sinif("gv-yenilenme", kalan < ACIL_SN && "gv-yenilenme--acil")}>
+        <QtIkon ad="saat" boyut={14} />
+        <span className="gv-yenilenme-metin" aria-hidden="true">{tt("{s} sonra yenilenir", { s: sure })}</span>
+        <span className="qt-gizli">{tt("Kalan süre: {s}", { s: sure })}</span>
+      </span>
+    </div>
+  );
+}
+
+function Bolum({ id, etiket, baslik, children }) {
   return (
     <section className="gv-bolum" aria-labelledby={id}>
-      <h2 id={id} className="gv-h2">{etiket}</h2>
+      {baslik ?? <h2 id={id} className="gv-h2">{etiket}</h2>}
       <ul className="gv-liste">{children}</ul>
     </section>
   );
@@ -364,9 +372,7 @@ export default function GorevlerPage() {
   ) : null;
 
   return (
-    <QtSahne baslik={tt("Görevler")}
-             ust={veri ? <GunOzeti ozet={ozet} gun={gun} okunma={okunma} bitti={yukle} gunBitti={gunBitti} tamamAni={tamamAni} /> : null}
-             alt={alt}>
+    <QtSahne baslik={tt("Görevler")} alt={alt}>
       <div className="gv-sayfa">
         <p className="qt-gizli" role="status" aria-live="polite">{duyuru}</p>
 
@@ -386,9 +392,15 @@ export default function GorevlerPage() {
 
         {veri && (
           <>
-            <Bolum id="gv-gunluk" etiket={tt("Günlük|bölüm")}>
+            {hft.sandik && (
+              <SandikKahraman s={hft.sandik} sezonAcik={sezonAcik} sira={0} sirali={sirali} islemde={islem === "sandik"} mesgul={Boolean(islem)}
+                              onAc={() => { dokunus(); sandikAc(); }} ucan={ucan("sandik")} nabiz={ilkAlinabilir === "sandik"} />
+            )}
+
+            <Bolum id="gv-gunluk" etiket={tt("Günlük|bölüm")}
+                   baslik={<GunBaslik id="gv-gunluk" etiket={tt("Günlük|bölüm")} ozet={ozet} gun={gun} okunma={okunma} bitti={yukle} gunBitti={gunBitti} tamamAni={tamamAni} />}>
               {gun.gorevler.map((g, i) => (
-                <GorevSatiri key={g.quest_id} g={g} gunluk dil={dil} sezonAcik={sezonAcik} sira={i} sirali={sirali}
+                <GorevSatiri key={g.quest_id} g={g} gunluk dil={dil} sezonAcik={sezonAcik} sira={i + 1} sirali={sirali}
                              islemde={islem === `gunluk:${g.quest_id}`} mesgul={Boolean(islem)}
                              onAl={() => { dokunus(); gorevAlIslem("gunluk", g); }} ucan={ucan(`gunluk:${g.quest_id}`)} nabiz={ilkAlinabilir === `gunluk:${g.quest_id}`} />
               ))}
@@ -396,14 +408,10 @@ export default function GorevlerPage() {
 
             <HaftalikBolum yenilenmeSn={hft.yenilenme_sn} okunma={okunma} bitti={yukle}>
               {hft.gorevler.map((g, i) => (
-                <GorevSatiri key={g.quest_id} g={g} gunluk={false} dil={dil} sezonAcik={sezonAcik} sira={gunAdet + i} sirali={sirali}
+                <GorevSatiri key={g.quest_id} g={g} gunluk={false} dil={dil} sezonAcik={sezonAcik} sira={gunAdet + i + 1} sirali={sirali}
                              islemde={islem === `haftalik:${g.quest_id}`} mesgul={Boolean(islem)}
                              onAl={() => { dokunus(); gorevAlIslem("haftalik", g); }} ucan={ucan(`haftalik:${g.quest_id}`)} nabiz={ilkAlinabilir === `haftalik:${g.quest_id}`} />
               ))}
-              {hft.sandik && (
-                <SandikSatiri s={hft.sandik} sezonAcik={sezonAcik} sira={gunAdet + hft.gorevler.length} sirali={sirali} islemde={islem === "sandik"} mesgul={Boolean(islem)}
-                              onAc={() => { dokunus(); sandikAc(); }} ucan={ucan("sandik")} nabiz={ilkAlinabilir === "sandik"} />
-              )}
             </HaftalikBolum>
           </>
         )}

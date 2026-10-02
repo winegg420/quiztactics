@@ -132,3 +132,71 @@
   .gv-kart--kutla .gv-ik { animation: none; }
 }
 @keyframes gv-uc-y { 0% { opacity: 0; } 18% { opacity: 1; } 75% { opacity: 1; } 100% { opacity: 0; } }
+
+/* =====================================================================
+   2. TUR (2 Eki 2026): renkli görev kartları + sandık KAHRAMAN kartı + "Günlük" başlığında mini halka.
+   Her görev kartı TEK renk taşır (ikon kutusu + çubuk): kırmızı Düello · yeşil doğru cevap · altın kazanma/seri · mavi diğer.
+   Alınabilir kartın turuncu çerçevesi/"Al" düğmesi (eylem rengi) aynen kalır. Beyaz glif kontrastı: kırmızı 5,3 · yeşil 3,6 · altın 4,4 · mavi 4,8.
+   ===================================================================== */
+.gv-tur--kirmizi { --gv-renk: var(--qt-mod-duello); }
+.gv-tur--yesil   { --gv-renk: var(--qt-dogru-dudak); }
+.gv-tur--altin   { --gv-renk: var(--qt-madalyon-altin-koyu); }
+.gv-tur--mavi    { --gv-renk: var(--qt-ikinci); }
+.gv-kart[class*="gv-tur--"] .gv-ik { width: 48px; height: 48px; background: var(--gv-renk); color: var(--qt-ikinci-yazi); }
+.gv-kart[class*="gv-tur--"] .gv-ik svg { width: 24px; height: 24px; }
+.gv-kart[class*="gv-tur--"] .gv-alt-satir .gv-bar { --_r: var(--gv-renk); }
+.gv-kart--alindi[class*="gv-tur--"] .gv-ik { background: var(--gv-renk); opacity: 0.55; }
+.gv-kart--alindi[class*="gv-tur--"] .gv-bar { opacity: 0.55; }
+.gv-kart--alinabilir[class*="gv-tur--"] .gv-ik { color: var(--qt-ikinci-yazi); }
+.gv-kart[class*="gv-tur--"] .gv-odul { font-size: var(--qt-y-s); }
+
+/* Günlük başlığı: [Günlük] [halka 0/3] [yenilenme…] */
+.gv-bolum-ust { display: flex; align-items: center; gap: var(--qt-b-2); min-width: 0; }
+.gv-bolum-ust .gv-h2 { flex: none; }
+.gv-mini { position: relative; display: inline-flex; align-items: center; gap: 5px; flex: none; }
+.gv-mini-halka { display: grid; width: 28px; height: 28px; }
+.gv-mini-halka svg { width: 28px; height: 28px; }
+.gv-mini-halka circle { fill: none; stroke-width: 4; }
+.gv-mini-dolgu { stroke: var(--qt-ikinci); stroke-linecap: round; transition: stroke-dasharray 600ms var(--qt-egri-cikis); }
+.gv-mini-sayi { font: var(--qt-a-siyah) var(--qt-y-xs)/1 var(--qt-f-baslik); font-variant-numeric: tabular-nums; color: var(--qt-zemin-metin); }
+.gv-bolum-ust .gv-yenilenme { flex: 1; justify-content: flex-end; font-size: var(--qt-y-xs); }
+.gv-yenilenme-metin { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* Sandık kahraman kartı: altın-krem iç + altın çerçeve */
+.gv-kahraman {
+  position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: var(--qt-b-3);
+  padding: var(--qt-b-3); border: 3px solid var(--qt-coin-dudak); border-radius: var(--qt-r-l);
+  background: var(--qt-coin-acik); color: var(--qt-coin-yazi);
+}
+.gv-kah-resim { display: grid; place-items: center; width: 72px; height: 72px; color: var(--qt-coin-yazi); }
+.gv-kah-resim img { display: block; width: 72px; height: 72px; object-fit: contain; }
+.gv-kah-govde { display: grid; gap: 6px; min-width: 0; justify-items: start; }
+.gv-kah-ust { display: flex; align-items: center; gap: var(--qt-b-2); width: 100%; min-width: 0; }
+.gv-kah-ad { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: var(--qt-a-siyah) var(--qt-y-l)/1.2 var(--qt-f-baslik); }
+.gv-kah-alt { font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); color: var(--qt-coin-yazi); overflow-wrap: anywhere; }
+.gv-kah-cubuk { display: flex; gap: 4px; width: 100%; }
+.gv-kah-parca { flex: 1; height: 10px; border: 2px solid var(--qt-coin-dudak); border-radius: var(--qt-r-hap); background: var(--qt-yuzey); }
+.gv-kah-parca--dolu { background: var(--qt-coin); }
+.gv-kah-oduller { display: flex; flex-wrap: wrap; gap: 6px; min-width: 0; }
+.gv-kah-cip {
+  display: inline-flex; align-items: center; max-width: 100%; padding: 2px 10px; border: 2px solid var(--qt-coin-dudak); border-radius: var(--qt-r-hap);
+  background: var(--qt-yuzey); color: var(--qt-coin-yazi); font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); line-height: 1.5;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.gv-kahraman .gv-kilit { flex: none; width: 24px; height: 24px; color: var(--qt-coin-yazi); }
+.gv-kahraman .gv-tik { flex: none; width: 28px; height: 28px; }
+.gv-kah-dugme { justify-self: stretch; }
+.gv-kahraman--kilitli { opacity: 0.8; }
+.gv-kahraman--kilitli .gv-kah-resim img { filter: grayscale(0.5); }
+.gv-kahraman--alindi { opacity: 0.7; }
+.gv-kahraman.qt-h-nabiz { --nabiz-renk: var(--qt-coin); --nabiz-tasma: 5px; }
+
+@media (max-width: 379px) {
+  .gv-kahraman { gap: 10px; padding: 10px; }
+  .gv-kah-resim, .gv-kah-resim img { width: 56px; height: 56px; }
+  .gv-kah-ad { font-size: var(--qt-y-m); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gv-mini-dolgu { transition: none; }
+  .qt-h-isilti--dongu::after { animation: none; }
+}

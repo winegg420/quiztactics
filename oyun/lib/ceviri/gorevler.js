@@ -39,6 +39,11 @@ export default {
   "Bugün {n} görev tamam": "{n} done today",
   "Ödülü al ({n})": "Claim reward ({n})",
 
+  // Sandık kahraman kartı (2 Eki 2026)
+  "{n} görev daha, sandık açılır": "{n} more quests to open the chest",
+  "Sandık alındı": "Chest claimed",
+  "Sandık hazır!": "Chest ready!",
+
   // Ana sayfa şeridi
   "Günlük {a}/{b} · Haftalık {c}/{d}": "Daily {a}/{b} · Weekly {c}/{d}",
   "Görevler. Günlük {a}/{b}, haftalık {c}/{d}.": "Quests. Daily {a}/{b}, weekly {c}/{d}.",
