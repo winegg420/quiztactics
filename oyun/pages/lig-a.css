@@ -416,3 +416,54 @@
 .lg-unvan { display: flex; min-width: 0; overflow: hidden; }
 .lg-unvan:empty { display: none; }
 .lg-bilgi:has(.lg-unvan .qt-unvan) .lg-konum { display: none; }
+
+/* ---------- BATTLE PASS satırı (2 Eki 2026) ----------
+   sezon_bp sahibi her satır (kendin dahil): çift katmanlı altın kaplama — dışta koyu
+   altın çerçeve, içte açık altın halka + açık altın zemin. Aynı tokenlar profil kartının
+   .qt-ok--bp / .qt-ok-bp ile (oyuncu-vitrin-karti.css) — ayrı sınıf, aynı kaynak renkler.
+   Bölge şeridi (yükselen/düşen ::before) ve "sen" vurgusu (lg-ben) üstte KALIR; bilgi kaybolmaz. */
+.lg-satir-kap.lg-bp {
+  border: 3px solid var(--qt-madalyon-altin-koyu);
+  border-radius: 20px;
+  background: var(--qt-madalyon-altin-acik);
+  box-shadow: inset 0 0 0 3px var(--qt-madalyon-altin);
+}
+.lg-satir-kap.lg-ben.lg-bp {
+  /* "Sen" + BP birlikte: altın plaka kazanır, mavi vurgu kalkar — kimlik "sen" rozetiyle okunur. */
+  background: var(--qt-madalyon-altin-acik);
+  border-color: var(--qt-madalyon-altin-koyu);
+  box-shadow: inset 0 0 0 3px var(--qt-madalyon-altin);
+}
+.lg-satir-kap.lg-bp.lg-bolge-yukselen,
+.lg-satir-kap.lg-bp.lg-bolge-dusen {
+  background: var(--qt-madalyon-altin-acik);
+}
+/* Sıra dairesi altın (madalya sırası — 1/2/3 — zaten kendi lig rengini taşır, dokunulmaz). */
+.lg-bp .lg-sira:not(.lg-sira-1):not(.lg-sira-2):not(.lg-sira-3) {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  border-radius: var(--qt-r-hap);
+  background: var(--qt-madalyon-altin);
+  color: var(--qt-coin-yazi);
+  font-size: var(--qt-y-m);
+}
+/* Taç ikonlu küçük "BP" rozeti (koyu altın zemin, açık yazı — açık altın satır zemininde ayırt edilsin). */
+.lg-bp-rozet {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  flex: none;
+  min-height: 18px;
+  padding: 0 7px;
+  border-radius: 999px;
+  background: var(--qt-madalyon-altin-koyu);
+  background: color-mix(in srgb, var(--qt-madalyon-altin-koyu) 80%, #000);
+  color: #fff;
+  font-weight: 900;
+  font-size: 10.5px;
+  white-space: nowrap;
+}
+.lg-bp-rozet svg { flex: none; }

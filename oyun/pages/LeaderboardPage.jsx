@@ -15,7 +15,8 @@ import AvatarCerceve from "../components/AvatarCerceve.jsx";
 import OyuncuLigAmblemi from "../components/OyuncuLigAmblemi.jsx";
 import { LigAmblemi } from "../tasarim/premium/ligAmblemi.jsx";
 import { KartUnvani } from "../components/OyuncuVitrinKarti.jsx";
-import IsimEfekti from "../components/IsimEfekti.jsx";
+import IsimEfekti, { useKartAlani } from "../components/IsimEfekti.jsx";
+import { TacIkon } from "../tasarim/sezon-yolu/simgeler.jsx";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
 import { ayarlar } from "../lib/ayarlar.js";
@@ -53,6 +54,89 @@ const DONEMLER = [
   { id: "hafta", ad: tt("Bu hafta") },
   { id: "tum_zamanlar", ad: tt("Tüm zamanlar") },
 ];
+
+/**
+ * LİG SATIRI (2 Eki 2026, Battle Pass altın satır) — modül düzeyinde bileşen (LeaderboardPage
+ * içinde tanımlanırsa her render'da yeniden yaratılıp satırlar yeniden takılır, useKartAlani
+ * önbelleği boşa abone olur). sezon_bp kartta zaten var (oyuncu_kartlari, avatarla/isimle aynı
+ * toplu+önbellekli çağrı — ek sorgu yok).
+ */
+function LigSatiri({ s, vurgu = false, sirIdx = -1, kapsam, benimId, bolge, siraliOge, kartiAc, meydanOku }) {
+  const benMi = s.user_id === benimId;
+  const b = kapsam === "lig" ? bolge(s.sira) : null;
+  const g = sirIdx >= 0 ? siraliOge(sirIdx) : { className: "", style: undefined };
+  const bpAktif = useKartAlani(s.user_id, "sezon_bp") === true;
+  return (
+    // 30 Eyl: yalnız KENDİ satırımda takılı kart arka planı (sabit, hareketsiz)
+    <KartArkaPlanSahibi
+      userId={benMi ? s.user_id : null}
+      key={`${s.user_id}-${vurgu ? "ben" : "liste"}`}
+      role="listitem"
+      className={`qt-satir-kap lg-satir-kap${benMi ? " qt-satir-kap--vurgulu lg-ben" : ""}${b ? ` lg-bolge-${b}` : ""}${bpAktif ? " lg-bp" : ""}${g.className ? ` ${g.className}` : ""}`}
+      style={g.style}
+      yukseklik={64}
+    >
+      <div className="lg-satir">
+        <button
+          type="button"
+          className="lg-satir-ac"
+          aria-label={tt("{0} — kartını aç", { 0: s.gorunen_ad })}
+          onClick={() => kartiAc(s)}
+        >
+          <span className={`lg-sira qt-sayi${s.sira <= 3 ? ` lg-sira-${s.sira}` : ""}`}>{s.sira}</span>
+          <AvatarCerceve
+            profile={{ gorunen_ad: s.gorunen_ad, gorunen_avatar: s.gorunen_avatar, gorunum: s.gorunum }}
+            boyut={40}
+            userId={s.user_id}
+          />
+          <span className="lg-bilgi">
+            <span className="lg-ad">
+              <span className="lg-ad-metin"><IsimEfekti userId={s.user_id}>{s.gorunen_ad}</IsimEfekti></span>
+              {/* 560: lig amblemi (satırda lig yoksa oyuncu kartından — avatarla aynı toplu çağrı) */}
+              <OyuncuLigAmblemi lig={s.lig} userId={s.user_id} boyut={20} />
+              {s.bot && (
+                <span className="lg-yapay" title={tt("Yapay rakip")}>
+                  <QtIkon ad="robot" boyut={14} etiket={tt("Yapay rakip")} />
+                </span>
+              )}
+              {bpAktif && (
+                <span className="lg-bp-rozet" title={tt("Battle Pass")}>
+                  <TacIkon boyut={11} /> {tt("BP")}
+                </span>
+              )}
+              {benMi && <SenRozeti />}
+            </span>
+            {/* 25 Eyl: unvan (tek oyuncu kartının küçük hâli; oyuncu_kartlari, avatarla aynı toplu çağrı).
+                D-506: kendi satırında — rütbe/konumla aynı satırda 52 px'e sıkışıp kesiliyordu. */}
+            <span className="lg-unvan"><KartUnvani userId={s.user_id} /></span>
+            <span className="lg-detay">
+              <RankBadge level={s.level} userId={s.user_id} boyut={15} />
+              {s.ulke && (
+                <span className="lg-konum">
+                  <Bayrak kod={s.ulke} /> <span className="lg-konum-sehir">{s.sehir ?? ""}</span>
+                </span>
+              )}
+            </span>
+          </span>
+          <span className="lg-puan">
+            <SayanSayi deger={s.puan} className="qt-sayi" />
+            <span className="lg-puan-birim">{kapsam === "koleksiyon" ? tt("Koleksiyon") : tt("puan")}</span>
+          </span>
+        </button>
+        {/* Kendi satırında kılıç yok; puan sütunu hizada kalsın diye boş yuva */}
+        {benMi ? <span className="lg-meydan-bos" aria-hidden="true" /> : (
+          <QtIkonDugme
+            ikon="kilic"
+            tur="saydam"
+            className="lg-meydan"
+            etiket={tt("{0} oyuncusuna meydan oku", { 0: s.gorunen_ad })}
+            onClick={() => { dokunus(); meydanOku(s.user_id); }}
+          />
+        )}
+      </div>
+    </KartArkaPlanSahibi>
+  );
+}
 
 export default function LeaderboardPage() {
   const { user, profile } = useAuth();
@@ -292,76 +376,19 @@ export default function LeaderboardPage() {
     ulke: s.ulke,
   }); };
 
-  const satir = (s, vurgu = false, sirIdx = -1) => {
-    const benMi = s.user_id === user.id;
-    const b = kapsam === "lig" ? bolge(s.sira) : null;
-    const g = sirIdx >= 0 ? siraliOge(sirIdx) : { className: "", style: undefined };
-    return (
-      // 30 Eyl: yalnız KENDİ satırımda takılı kart arka planı (sabit, hareketsiz)
-      <KartArkaPlanSahibi
-        userId={benMi ? s.user_id : null}
-        key={`${s.user_id}-${vurgu ? "ben" : "liste"}`}
-        role="listitem"
-        className={`qt-satir-kap lg-satir-kap${benMi ? " qt-satir-kap--vurgulu lg-ben" : ""}${b ? ` lg-bolge-${b}` : ""}${g.className ? ` ${g.className}` : ""}`}
-        style={g.style}
-        yukseklik={64}
-      >
-        <div className="lg-satir">
-          <button
-            type="button"
-            className="lg-satir-ac"
-            aria-label={tt("{0} — kartını aç", { 0: s.gorunen_ad })}
-            onClick={() => kartiAc(s)}
-          >
-            <span className={`lg-sira qt-sayi${s.sira <= 3 ? ` lg-sira-${s.sira}` : ""}`}>{s.sira}</span>
-            <AvatarCerceve
-              profile={{ gorunen_ad: s.gorunen_ad, gorunen_avatar: s.gorunen_avatar, gorunum: s.gorunum }}
-              boyut={40}
-              userId={s.user_id}
-            />
-            <span className="lg-bilgi">
-              <span className="lg-ad">
-                <span className="lg-ad-metin"><IsimEfekti userId={s.user_id}>{s.gorunen_ad}</IsimEfekti></span>
-                {/* 560: lig amblemi (satırda lig yoksa oyuncu kartından — avatarla aynı toplu çağrı) */}
-                <OyuncuLigAmblemi lig={s.lig} userId={s.user_id} boyut={20} />
-                {s.bot && (
-                  <span className="lg-yapay" title={tt("Yapay rakip")}>
-                    <QtIkon ad="robot" boyut={14} etiket={tt("Yapay rakip")} />
-                  </span>
-                )}
-                {benMi && <SenRozeti />}
-              </span>
-              {/* 25 Eyl: unvan (tek oyuncu kartının küçük hâli; oyuncu_kartlari, avatarla aynı toplu çağrı).
-                  D-506: kendi satırında — rütbe/konumla aynı satırda 52 px'e sıkışıp kesiliyordu. */}
-              <span className="lg-unvan"><KartUnvani userId={s.user_id} /></span>
-              <span className="lg-detay">
-                <RankBadge level={s.level} userId={s.user_id} boyut={15} />
-                {s.ulke && (
-                  <span className="lg-konum">
-                    <Bayrak kod={s.ulke} /> <span className="lg-konum-sehir">{s.sehir ?? ""}</span>
-                  </span>
-                )}
-              </span>
-            </span>
-            <span className="lg-puan">
-              <SayanSayi deger={s.puan} className="qt-sayi" />
-              <span className="lg-puan-birim">{kapsam === "koleksiyon" ? tt("Koleksiyon") : tt("puan")}</span>
-            </span>
-          </button>
-          {/* Kendi satırında kılıç yok; puan sütunu hizada kalsın diye boş yuva */}
-          {benMi ? <span className="lg-meydan-bos" aria-hidden="true" /> : (
-            <QtIkonDugme
-              ikon="kilic"
-              tur="saydam"
-              className="lg-meydan"
-              etiket={tt("{0} oyuncusuna meydan oku", { 0: s.gorunen_ad })}
-              onClick={() => { dokunus(); meydanOku(s.user_id); }}
-            />
-          )}
-        </div>
-      </KartArkaPlanSahibi>
-    );
-  };
+  const satir = (s, vurgu = false, sirIdx = -1) => (
+    <LigSatiri
+      s={s}
+      vurgu={vurgu}
+      sirIdx={sirIdx}
+      kapsam={kapsam}
+      benimId={user.id}
+      bolge={bolge}
+      siraliOge={siraliOge}
+      kartiAc={kartiAc}
+      meydanOku={meydanOku}
+    />
+  );
 
   const sinirCizgisi = (tur) => (
     <div className={`lg-sinir lg-sinir-${tur}`} role="presentation">
