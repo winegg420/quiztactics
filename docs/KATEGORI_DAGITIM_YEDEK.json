@@ -1686,6 +1686,150 @@
    "yeni_kategori": "genel_kultur",
    "yeni_aktif": false,
    "neden": "basit"
+  },
+  {
+   "id": "05ce2d35-95f2-46de-97fc-9bb78c2522a3",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "tekrar",
+   "migration": "20260612000852_genel_kultur_tekrar.sql"
+  },
+  {
+   "id": "a42ca8cd-0d9c-4b21-af90-b7d3a6c2cdba",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "tekrar",
+   "migration": "20260612000852_genel_kultur_tekrar.sql"
+  },
+  {
+   "id": "125a0a66-dbab-48ec-884c-9323fee9c780",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "tekrar",
+   "migration": "20260612000852_genel_kultur_tekrar.sql"
+  },
+  {
+   "id": "a10f7bbe-7584-4dcb-b33d-486198851f2b",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "tekrar",
+   "migration": "20260612000852_genel_kultur_tekrar.sql"
+  },
+  {
+   "id": "179d8bb2-0d44-47c5-8cce-7083a3644af4",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "tekrar",
+   "migration": "20260612000852_genel_kultur_tekrar.sql"
+  },
+  {
+   "id": "2df1a1d9-efa3-455d-a8d1-20ac2bf234a9",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "tekrar",
+   "migration": "20260612000852_genel_kultur_tekrar.sql"
+  },
+  {
+   "id": "36013dc0-2433-41c4-83a5-2bad6ee60fd7",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "tekrar",
+   "migration": "20260612000852_genel_kultur_tekrar.sql"
+  },
+  {
+   "id": "d05e9c19-77a8-4a00-bf4a-22e88c8f8c39",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "tekrar",
+   "migration": "20260612000852_genel_kultur_tekrar.sql"
+  },
+  {
+   "id": "5353e619-e76f-4da2-8c6b-216248bbfb0c",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "tekrar",
+   "migration": "20260612000852_genel_kultur_tekrar.sql"
+  },
+  {
+   "id": "b35a1b34-dd62-4216-bfaf-63b4e2bdd250",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "tekrar",
+   "migration": "20260612000852_genel_kultur_tekrar.sql"
+  },
+  {
+   "id": "fe1c9766-317a-47b5-99a0-4cec99657ff1",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "tekrar",
+   "migration": "20260612000852_genel_kultur_tekrar.sql"
+  },
+  {
+   "id": "e471a907-b360-4450-8995-d535a07bd7fb",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "tekrar",
+   "migration": "20260612000852_genel_kultur_tekrar.sql"
+  },
+  {
+   "id": "ede85aed-0934-4e37-af96-20b2dcf05ebb",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "tekrar",
+   "migration": "20260612000852_genel_kultur_tekrar.sql"
+  },
+  {
+   "id": "ca88e87f-5528-4ac4-b9c1-5a353ab8b374",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "tekrar",
+   "migration": "20260612000852_genel_kultur_tekrar.sql"
+  },
+  {
+   "id": "45eada97-77a9-4790-a13f-512984ff3bd3",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "tekrar",
+   "migration": "20260612000852_genel_kultur_tekrar.sql"
+  },
+  {
+   "id": "df37de05-3b8d-4806-86b8-c132e242c120",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "tekrar",
+   "migration": "20260612000852_genel_kultur_tekrar.sql"
   }
  ]
 }

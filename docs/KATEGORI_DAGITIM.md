@@ -784,3 +784,44 @@ Migration: `supabase/migrations/20260612000851_genel_kultur_tarama.sql` · Geri 
 | teknoloji | 1304 | 260 |
 
 genel_kultur: 730 − 206 − 5 = 519 aktif, 777 + 206 = 983 pasif (beklenenle birebir). `genel` / `karisik` satırı yok.
+
+## Tekrar çiftleri (migration 852, 2 Eki 2026)
+
+Aynı bilgiyi soran 16 aktif çiftin her birinde bir soru pasife alındı (neden: `tekrar`), diğeri aktif kaldı.
+Seçim: şıkları/çeldiricileri zayıf, metni daha kötü ya da cevabı daha belirsiz olan; eşitse id'si büyük olan.
+No = yukarıdaki tam tablodaki sıra. Beklenen: genel_kultur aktif 519 → 503, pasif 983 → 999.
+
+| No | id | Soru → doğru cevap | Karar | Neden |
+|---:|---|---|---|---|
+| 6 | `018186d8-9912-4eed-b9c2-cc456c8b8fad` | Samba hangi ülkeyle özdeşleşmiştir? → Brezilya | **kaldı** | |
+| 19 | `05ce2d35-95f2-46de-97fc-9bb78c2522a3` | Samba hangi ülkenin dansıdır? → Brezilya | PASİF · tekrar | eşit (samba → Brezilya); id'si büyük olan |
+| 14 | `0474dad6-4bd5-4ba3-9465-e4db5923c3ad` | Camide "minber" ne için kullanılır? → Hutbe okumak | **kaldı** | |
+| 490 | `a42ca8cd-0d9c-4b21-af90-b7d3a6c2cdba` | 'Minber' ne için kullanılır? → Hutbe için | PASİF · tekrar | çeldiricisi zayıf ("Depolama için"), soru bağlamsız |
+| 128 | `2a6b1d1e-12b2-4c19-a0bf-c39ebedb4fda` | Camide kıble yönünü gösteren öğe hangisidir? → Mihrap | **kaldı** | |
+| 54 | `125a0a66-dbab-48ec-884c-9323fee9c780` | 'Mihrap' camide neyi gösterir? → Kıble yönünü | PASİF · tekrar | çeldiricileri karışık türde (minber, kadınlar bölümü, şadırvan) |
+| 16 | `05719bd9-4fea-4aaa-b16f-bf255bf1a2f9` | Bir ülkenin en temel yasasına ne denir? → Anayasa | **kaldı** | |
+| 481 | `a10f7bbe-7584-4dcb-b33d-486198851f2b` | Bir ülkenin temel yasalarını içeren belge hangisidir? → Anayasa | PASİF · tekrar | eşit (aynı şıklar); id'si büyük olan |
+| 526 | `b2be3aa9-61f1-4b5a-b6b4-c1eb639cc4ef` | Eski bir sayı ölçüsü olan bir 'grosa' kaç adettir? → 144 | **kaldı** | |
+| 64 | `179d8bb2-0d44-47c5-8cce-7083a3644af4` | Bir gros kaç adettir? → 144 | PASİF · tekrar | çeldiricisi zayıf ("12"), soru bağlamsız |
+| 599 | `cdcac219-6977-4f00-acd1-2bcfd9275f07` | İskambil destesinde kaç kart vardır (jokersiz)? → 52 | **kaldı** | |
+| 138 | `2df1a1d9-efa3-455d-a8d1-20ac2bf234a9` | Bir destede kaç oyun kâğıdı bulunur? → 52 | PASİF · tekrar | cevabı daha belirsiz (jokerli deste 54; diğeri "jokersiz" diyor) |
+| 448 | `9657afff-9c71-4c91-a060-896c6d17c267` | Denizcilikte hız birimi hangisidir? → Knot | **kaldı** | |
+| 163 | `36013dc0-2433-41c4-83a5-2bad6ee60fd7` | Denizcilikte geminin hızı hangi birimle ölçülür? → Knot | PASİF · tekrar | çeldiricileri zayıf (beygir, ton, fersah hız birimi değil) |
+| 221 | `47e3dd64-fb8f-4a88-8e7e-cdb363a74cbd` | Oyuncak yapı parçalarıyla ünlü LEGO şirketi hangi ülkede kurulmuştur? → Danimarka | **kaldı** | |
+| 608 | `d05e9c19-77a8-4a00-bf4a-22e88c8f8c39` | Plastik yapı bloklarıyla ünlü LEGO hangi ülkenin markasıdır? → Danimarka | PASİF · tekrar | eşit (LEGO → Danimarka); id'si büyük olan |
+| 244 | `5053e591-0b3a-48a0-9738-a6c694869f00` | Sevgililer Günü hangi ayda kutlanır? → Şubat | **kaldı** | |
+| 255 | `5353e619-e76f-4da2-8c6b-216248bbfb0c` | Sevgililer Günü her yıl hangi tarihte kutlanır? → 14 Şubat | PASİF · tekrar | çeldiricisi biçimce ayrık ("1 Kasım") |
+| 285 | `5eb32d6a-c13c-436f-986e-aa663ab7123d` | Değerli taşlarda kullanılan 1 karat kaç gramdır? → 0,2 | **kaldı** | |
+| 528 | `b35a1b34-dd62-4216-bfaf-63b4e2bdd250` | Değerli taşlarda kullanılan bir metrik karat kaç miligramdır? → 200 | PASİF · tekrar | eşit (karat = 0,2 g / 200 mg); id'si büyük olan |
+| 289 | `601e0277-f2de-4c9a-8ab3-2bcb474021c4` | Dinamiti bulan kişi kimdir? → Alfred Nobel | **kaldı** | |
+| 726 | `fe1c9766-317a-47b5-99a0-4cec99657ff1` | Nobel ödüllerine adını veren Alfred Nobel neyi icat etmiştir? → Dinamit | PASİF · tekrar | eşit (Nobel ↔ dinamit); id'si büyük olan |
+| 493 | `a6423959-1d66-4a42-a9d3-2c75d408bed4` | Madeni para koleksiyonculuğuna ne denir? → Nümismatik | **kaldı** | |
+| 661 | `e471a907-b360-4450-8995-d535a07bd7fb` | Madeni para biriktirmeye ne ad verilir? → Numismatik | PASİF · tekrar | yazım hatalı şık ("Numismatik") |
+| 639 | `dd2147c3-d454-4601-881b-75fa85778931` | Pul koleksiyonculuğuna ne denir? → Filateli | **kaldı** | |
+| 687 | `ede85aed-0934-4e37-af96-20b2dcf05ebb` | Pul biriktirme merakına ne ad verilir? → Filateli | PASİF · tekrar | yazım hatalı şık ("Numismatik"); Jev bu soruda yanıldı |
+| 617 | `d3dc8ec1-f399-4b9a-80cc-6ca890debc7b` | Bir tavla oyununda kaç pul kullanılır? → 30 | **kaldı** | |
+| 593 | `ca88e87f-5528-4ac4-b9c1-5a353ab8b374` | Tavla kaç pul ile oynanır (her oyuncu)? → 15 | PASİF · tekrar | metni kötü (parantezli "her oyuncu" eklemesi) |
+| 626 | `d8811f98-9af1-4986-b161-659752839581` | Vatikan neyin merkezidir? → Katolik Kilisesi | **kaldı** | |
+| 213 | `45eada97-77a9-4790-a13f-512984ff3bd3` | Vatikan hangi dinin merkezidir? → Katoliklik | PASİF · tekrar | metni kusurlu (Katolikliği "din" diye soruyor) |
+| 404 | `81e91719-7ab8-419e-8cae-83fc0cc9eda9` | Topuğundan vurulan ölümsüz Yunan kahramanı kimdir? → Aşil | **kaldı** | |
+| 646 | `df37de05-3b8d-4806-86b8-c132e242c120` | Mitolojiye göre Aşil'in zayıf noktası neresidir? → Topuğu | PASİF · tekrar | eşit (Aşil ↔ topuk); id'si büyük olan |
