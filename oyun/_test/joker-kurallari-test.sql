@@ -127,37 +127,30 @@ begin
   end;
 
   -- === TEST 4: aynı Play token iki kez kabul edilmez ===
-  perform public.satin_alma_isle(v_u1, 'joker_10', 'TOKEN-TEST-1');
+  perform public.satin_alma_isle(v_u1, 'skill_elli_10', 'TOKEN-TEST-1');
   begin
-    perform public.satin_alma_isle(v_u1, 'joker_10', 'TOKEN-TEST-1');
+    perform public.satin_alma_isle(v_u1, 'skill_elli_10', 'TOKEN-TEST-1');
     perform pg_temp.kontrol('Aynı Play token iki kez kabul edilmez', 'HATA', 'kabul edildi');
   exception when others then
     v_hata := sqlerrm;
     perform pg_temp.kontrol('Aynı Play token iki kez kabul edilmez', 'zaten işlendi', v_hata);
   end;
 
-  -- === TEST 5: seri koruma YALNIZ 1 günü kapatır ===
-  -- 5a) Tam 1 gün kaçırılmış + koruma var → seri korunur
+  -- === TEST 5: seri kaçırılan günde sıfırlanır (910: seri koruma kaldırıldı) ===
+  -- Envanterde eski bir koruma satırı dursa bile seri kurtulmaz ve satır harcanmaz.
   perform public.joker_hareket(v_u1, 'seri_koruma', 1, 'hediye', 'test');
   update public.profiles
      set seri_gun = 7, seri_son_gun = v_bugun - 2, seri = 7, son_seri_tarihi = v_bugun - 2
    where id = v_u1;
   perform public.seri_kontrol();
   perform pg_temp.kontrol(
-    'Seri koruma 1 günü kapatır (seri sürüyor)',
-    '7',
-    (select seri_gun::text from public.profiles where id = v_u1));
-
-  -- 5b) 2 gün kaçırılmış + koruma var → seri YİNE DE sıfırlanır
-  perform public.joker_hareket(v_u1, 'seri_koruma', 5, 'hediye', 'test');
-  update public.profiles
-     set seri_gun = 9, seri_son_gun = v_bugun - 3, seri = 9, son_seri_tarihi = v_bugun - 3
-   where id = v_u1;
-  perform public.seri_kontrol();
-  perform pg_temp.kontrol(
-    'Koruma 2 günü kapatmaz (seri sıfırlanır)',
+    '1 gün kaçırılınca seri sıfırlanır (koruma yok)',
     '0',
     (select seri_gun::text from public.profiles where id = v_u1));
+  perform pg_temp.kontrol(
+    'Eski koruma satırı harcanmaz',
+    'true',
+    (select (adet >= 1)::text from public.joker_envanter where user_id = v_u1 and tur = 'seri_koruma'));
 
   -- === TEST 6: turnuva finalinde joker reddedilir ===
   insert into public.tournaments (tarih, seans, durum, soru_ids, aktif_soru, soru_baslangic, baslangic)

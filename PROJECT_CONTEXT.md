@@ -302,7 +302,14 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
   4 / 2 / 1. Level ödülünden gelen haklar sınırları artırmaz.
 - `sis`, `savunma_kilidi`, `saldiri_degistir` **pasiftir** — geçmiş veri için
   kayıtlı, dükkânda gizli, yeniden açılmayacak. Kayıtları silinmez.
-- `seri_koruma` maç skill'i değildir; günlük seri mekanizması için ayrı durur.
+- **Seri Koruma kaldırıldı** (910, Ida kararı 2 Eki 2026): seri kaçırılan günde koşulsuz sıfırlanır; koruma verilmez,
+  satılmaz, harcanmaz. `joker_envanter`'deki eski `seri_koruma` satırları ve `seri_koruma_3` paketi (pasif) durur, kullanılmaz.
+- **Dükkân › Joker sekmesi moda göre** (2 Eki 2026): üstte "Klasik | Düello" seçici (`?mod=klasik|duello`); seçili modda
+  çalışan jokerler Ortak + Yalnız o mod bölümlerinde. Mod verisi tek kaynaktan: `jokerler.js › SKILL_TANIMLARI.allowedModes`.
+- **Joker paketleri moda göre** (910): `klasik_30` / `klasik_100` / `duello_30` / `duello_100`; eski karışık `joker_10/30/100`
+  pasif (silinmedi). Paketin modu içeriğinden okunur (`paketDukkanModlari`), ayrı sütun yok. Fiyat = tek fiyatlar toplamı ×
+  10'lu paket oranı (0,85), 5'e aşağı yuvarlanır ve `coin_fiyat`'a SABİT yazılır — **tek fiyat değişirse paket fiyatı yeni bir
+  migration'la yeniden hesaplanır.** Prova: `node araclar/joker-moda-gore-sql-testi.mjs`.
 - **Düello'da saldırı skill'inin teke (Zaman Baskısı) inmesi sahibinin
   kararıdır, hata değildir.** Zamanla yeni skill'ler eklenecektir.
 

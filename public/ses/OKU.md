@@ -91,7 +91,6 @@ Tercihler: efekt = `sesAcikMi()/sesAyarla()` (eski `bildim_ses` anahtarı), müz
 | Soru Değiştir | `soru_degistir` | skill_soru_degistir.wav — karıştırma |
 | Zaman Baskısı | `zaman_baskisi` | skill_zaman_baskisi.wav — yumruk (rakibe) |
 | Sigorta | `sigorta` | skill_sigorta.wav — metal kalkan |
-| Seri Koruma | `seri_koruma` | skill_sigorta.wav (1.15× tiz) |
 | 2X | `cifte_puan` (`2x`) | skill_2x.wav — 8-bit güç artışı |
 | İkinci Şans | `ikinci_sans` | skill_ikinci_sans.wav — iniş-çıkış |
 

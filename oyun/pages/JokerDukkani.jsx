@@ -793,22 +793,10 @@ export default function JokerDukkani() {
               </section>
             )}
 
-            {/* ---------- Seri Koruma (maç jokeri değil) + kurallar ---------- */}
+            {/* ---------- Kurallar ---------- */}
+            {/* Kural metni TEK KAYNAKTAN: oyun/lib/jokerKurallari.js */}
+            {jokerHak != null && (
             <section className="qt-dk-bolum" aria-labelledby="qt-dk-kurallar-baslik">
-              <div className="qt-oyk qt-oyk--ton-coin qt-oyk--hafif qt-dk-seri">
-                <span className="qt-dk-skill-ikon qt-dk-skill-ikon--coin" aria-hidden="true">
-                  <QtIkon ad={JOKER_BILGI.seri_koruma.ikon} boyut={24} />
-                </span>
-                <div className="qt-dk-skill-metin">
-                  <h3 className="qt-baslik-3">{JOKER_BILGI.seri_koruma.ad}</h3>
-                  <p className="qt-kucuk qt-soluk">{JOKER_BILGI.seri_koruma.aciklama}</p>
-                </div>
-                <QtRozet ton={(envanter.seri_koruma ?? 0) > 0 ? "coin" : "notr"}>
-                  {tt("Sende: {n}", { n: envanter.seri_koruma ?? 0 })}
-                </QtRozet>
-              </div>
-              {/* Kural metni TEK KAYNAKTAN: oyun/lib/jokerKurallari.js */}
-              {jokerHak != null && (
                 <details className="qt-dk-kurallar">
                   <summary id="qt-dk-kurallar-baslik">
                     <QtIkon ad="bilgi" boyut={20} />
@@ -821,8 +809,8 @@ export default function JokerDukkani() {
                     ))}
                   </ul>
                 </details>
-              )}
             </section>
+            )}
           </>
         )}
 

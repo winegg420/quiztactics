@@ -12,7 +12,6 @@ const IKON = {
   ikinci_sans: "ikinciSans",
   baskin: "baski",
   kalkan: "kalkan",
-  seri_koruma: "kalkan",
 };
 
 /**

@@ -30,7 +30,7 @@ test("kaldırılan combat skillleri geçmiş uyumluluğu için kayıtlı ama pas
     assert.equal(SKILL_TANIMLARI[id].aktif, false);
     assert.equal(SKILL_TANIMLARI[id].shopVisible, false);
   }
-  assert.equal(SKILL_TANIMLARI.seri_koruma.macIci, false);
+  assert.equal(SKILL_TANIMLARI.seri_koruma, undefined, 'seri koruma kaldırıldı (910)');
 });
 
 test("slot sayısı tek config kaynağından okunur ve güvenli varsayılana döner", () => {

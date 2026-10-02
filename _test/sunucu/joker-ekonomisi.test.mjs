@@ -17,7 +17,7 @@ import { islem, oyuncuKur, olarak, skillSetiKur, ayarla, baglantiVarMi, hataVeri
 const atla = !(await baglantiVarMi());
 const sec = { skip: atla ? 'veritabanı bağlantısı yok (SUPABASE_DB_URL / .env.local)' : false };
 
-const KULLANIMDA = ['elli', 'sure', 'soru_degistir', 'zaman_baskisi', 'saldiri_degistir', 'savunma_kilidi', 'seri_koruma'];
+const KULLANIMDA = ['elli', 'sure', 'soru_degistir', 'zaman_baskisi', 'saldiri_degistir', 'savunma_kilidi'];
 
 async function envanter(c, id) {
   const r = await c.sorgu(`select tur, adet from public.joker_envanter where user_id = ${a(id)}`);
@@ -46,6 +46,7 @@ test('yeni hesap kullanımda olan her joker türünden başlangıç stoğu alır
       assert.equal(env[tur], adet, `${tur} türünden ${adet} adet verilmeli`);
     }
     assert.equal(env.pas, undefined, "'pas' ölü tür — hiçbir yerde harcanamaz, verilmemeli");
+    assert.equal(env.seri_koruma, undefined, 'seri koruma kalktı (910) — verilmemeli');
   });
 });
 
@@ -338,7 +339,7 @@ test('fiyatlar sunucudan gelir; satın alınamayan tür null döner', sec, async
     }
     assert.equal(await c.tek(`select public.joker_fiyati('saldiri_degistir')`), null, 'kaldırılan tür satılmaz');
     assert.equal(await c.tek(`select public.joker_fiyati('savunma_kilidi')`), null, 'kaldırılan tür satılmaz');
-    assert.equal(await c.tek(`select public.joker_fiyati('seri_koruma')`), null, 'maç içi satılmaz');
+    assert.equal(await c.tek(`select public.joker_fiyati('seri_koruma')`), null, 'kaldırıldı (910) — satılmaz');
     assert.equal(await c.tek(`select public.joker_fiyati('pas')`), null, 'ölü tür satılmaz');
   });
 });

@@ -67,8 +67,6 @@ export const SKILL_TANIMLARI = {
   sis: { id: "sis", ad: tt("Sis"), ikon: "sis", kategori: "saldırı", aktif: false, shopVisible: false },
   savunma_kilidi: { id: "savunma_kilidi", ad: tt("Savunma Kilidi"), ikon: "kilit", kategori: "saldırı", aktif: false, shopVisible: false },
   saldiri_degistir: { id: "saldiri_degistir", ad: tt("Soru Değiştir (eski)"), ikon: "yenile", kategori: "taktik", aktif: false, shopVisible: false },
-  // Maç skill'i değildir; günlük seri mekanizması için ayrı kalır.
-  seri_koruma: { id: "seri_koruma", ad: tt("Seri Koruma"), aciklama: tt("Kaçırdığın bir günü telafi eder"), ikon: "kalkan", kategori: "yardimci", aktif: true, shopVisible: false, macIci: false },
 };
 
 export const AKTIF_MAC_SKILLERI = Object.values(SKILL_TANIMLARI)

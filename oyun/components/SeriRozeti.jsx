@@ -4,7 +4,7 @@ import { supabase } from "../../src/lib/supabase.js";
 import { tt } from "../lib/dil.js";
 
 /**
- * Günlük seri sayacı + koruma durumu.
+ * Günlük seri sayacı. Seri kaçırılan günde sıfırlanır (910: seri koruma kaldırıldı).
  * `bicim="serit"` (Arayüz Yenileme, 20 Eyl 2026): oyuncu şeridindeki
  * istatistik hücresi. Veri kaynağı aynı RPC — ikinci bir sorgu açılmadı.
  */
@@ -29,7 +29,6 @@ export default function SeriRozeti({ bicim = "rozet" }) {
 
   const gun = durum.seri_gun ?? 0;
   const bugunOynadi = Boolean(durum.bugun_oynadi);
-  const koruma = durum.koruma ?? 0;
 
   // Alev, serinin uzunluğuna göre ısınır. Seri oyuncunun kaybetmek
   // istemeyeceği tek şey — görsel olarak da öyle dursun.
@@ -67,11 +66,6 @@ export default function SeriRozeti({ bicim = "rozet" }) {
               : tt("gün — bugün oynamadın!")}
         </span>
       </span>
-      {koruma > 0 && (
-        <span className="bd-seri-kalkan" title={tt("{0} adet seri koruma", { 0: koruma })}>
-          <Ikon ad="kalkan" boyut={14} /> {koruma}
-        </span>
-      )}
       {durum.seri_en_uzun > gun && (
         <span className="bd-seri-rekor" title={tt("En uzun serin")}>
           {tt("rekor")} {durum.seri_en_uzun}

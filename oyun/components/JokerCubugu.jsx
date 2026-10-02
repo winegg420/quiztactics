@@ -41,7 +41,7 @@ async function fiyatlariOku() {
 export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi, kilit, surum = 0, kalanSn = 15 }) {
   const [envanter, setEnvanter] = useState({
     elli: 0, sure: 0, soru_degistir: 0, zaman_baskisi: 0,
-    sigorta: 0, cifte_puan: 0, ikinci_sans: 0, seri_koruma: 0,
+    sigorta: 0, cifte_puan: 0, ikinci_sans: 0,
   });
   const [durum, setDurum] = useState(null); // { sinir, kullanilan, ucretsiz_elli_kaldi }
   const [hata, setHata] = useState(null);

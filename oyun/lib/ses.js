@@ -50,7 +50,6 @@ const HACIM = {
   skill_soru_degistir: 0.65,
   skill_zaman_baskisi: 0.8,
   skill_sigorta: 0.75,
-  skill_seri_koruma: 0.7,
   skill_2x: 0.6,
   skill_ikinci_sans: 0.6,
   coin: 0.55,
@@ -73,7 +72,6 @@ const DOSYA = {
   skill_soru_degistir: "skill_soru_degistir.wav",
   skill_zaman_baskisi: "skill_zaman_baskisi.wav",
   skill_sigorta: "skill_sigorta.wav",
-  skill_seri_koruma: "skill_sigorta.wav", // aynı kalkan sesi, daha tiz çalınır
   skill_2x: "skill_2x.wav",
   skill_ikinci_sans: "skill_ikinci_sans.wav",
   coin: "coin.wav",
@@ -99,7 +97,7 @@ const AN = {
   // Ajan K (24 Eyl 2026): her skill'in kendi anı (an adı = rol). Seçim yoksa skill'e özel eski dosya çalar.
   skill_elli: "skill_elli", skill_ek_sure: "skill_ek_sure", skill_soru_degistir: "skill_soru_degistir",
   skill_zaman_baskisi: "skill_zaman_baskisi", skill_ikinci_sans: "skill_ikinci_sans", skill_sigorta: "skill_sigorta",
-  skill_seri_koruma: "skill_sigorta", skill_2x: "skill_2x",
+  skill_2x: "skill_2x",
 };
 // Bugün dosyası OLMAYAN anlar: seçim yoksa sessiz.
 for (const r of ["sayfa_gecis", "vs_ani", "kategori_secildi", "rakip_cevapladi", "beraberlik", "satin_alma", "xp_dolma", "rozet", "bildirim", "hata_uyari"]) DOSYA[r] = null;
@@ -603,7 +601,6 @@ const SKILL_ROL = {
   soru_degistir: "skill_soru_degistir",
   zaman_baskisi: "skill_zaman_baskisi",
   sigorta: "skill_sigorta",
-  seri_koruma: "skill_seri_koruma",
   cifte_puan: "skill_2x", "2x": "skill_2x", x2: "skill_2x",
   ikinci_sans: "skill_ikinci_sans",
   // 680 rol jokerleri: yeni ses eklenmedi; en yakın mevcut sese eşlenir.
@@ -614,14 +611,14 @@ const SKILL_ROL = {
 /**
  * Skill kullanımı — türüne göre ayrı ses. Bilinmeyen tür → genel joker sesi.
  * @param {string} tur jokerler.js id'si: elli · sure · soru_degistir · zaman_baskisi ·
- *   sigorta · cifte_puan · ikinci_sans · seri_koruma
+ *   sigorta · cifte_puan · ikinci_sans
  */
 export function sesSkill(tur) {
   const rol = SKILL_ROL[String(tur ?? "").toLowerCase()];
   // Her skill kendi /ses-secim anını çalar (AN eşlemesi; seçim yoksa türe özel eski dosya).
   // Genel "skill" anı yalnız sesJoker'de (Düello saldırı/savunma jokeri, bilinmeyen tür) — Ajan K.
   if (!rol) { sesJoker(); return; }
-  cal(rol, tonJoker, rol === "skill_seri_koruma" ? { hiz: 1.15 } : undefined);
+  cal(rol, tonJoker);
 }
 
 /** Level atlama (XP seviyesi). Rütbe atlama için sesRutbeAtladi. */

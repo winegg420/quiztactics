@@ -881,7 +881,6 @@ body.bd-oyun-modu .bd-duello-jokerler {
 .bd-skill-gorsel.tek[data-tur="sure"] { background: linear-gradient(145deg,#e6f8ff,#bfe9ff); color:#167aaa; box-shadow:0 4px 0 #9ccfe8; }
 .bd-skill-gorsel.tek[data-tur="soru_degistir"] { background: linear-gradient(145deg,#eee8ff,#d7c8ff); color:#6744c9; box-shadow:0 4px 0 #b9a5ec; }
 .bd-skill-gorsel.tek[data-tur="zaman_baskisi"] { background: linear-gradient(145deg,#ffe9e3,#ffc6b5); color:#b83b1e; box-shadow:0 4px 0 #e7a18d; }
-.bd-skill-gorsel.tek[data-tur="seri_koruma"] { background: linear-gradient(145deg,#e2f8ec,#bcebcf); color:#168357; box-shadow:0 4px 0 #90cdaa; }
 .bd-skill-parilti { position:absolute; width:38px; height:38px; border:1px solid currentColor; border-radius:50%; opacity:.18; box-shadow:0 0 0 9px currentColor; }
 .bd-skill-gorsel > svg { position:relative; z-index:1; filter:drop-shadow(0 2px 0 rgba(255,255,255,.8)); }
 .bd-skill-sandik { position:absolute; left:15px; right:15px; bottom:10px; height:29px; border-radius:7px 7px 10px 10px; background:linear-gradient(#f39836,#c96318); border:2px solid #9f4712; box-shadow:0 4px 0 rgba(117,52,12,.24); }

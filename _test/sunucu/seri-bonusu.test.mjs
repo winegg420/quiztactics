@@ -6,7 +6,7 @@
 //
 // Ayrıca Paket 24'te ölçülen kural burada kilitleniyor: bonus YALNIZ
 // `mac_sonuclandir` ve `duello_bitir` yollarından geçer; grup maçı ve Hızlı Mod
-// bitişi bonus vermez. Bu, "bedava seri koruma kapısı" açılmasın diyedir.
+// bitişi bonus vermez. Bu, seriyi bedavaya sürdürme kapısı açılmasın diyedir.
 
 import test from 'node:test';
 import assert from 'node:assert/strict';

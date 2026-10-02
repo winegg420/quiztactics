@@ -151,7 +151,8 @@ test('dükkân: skill_dukkani 7 aktif skill, fiyat + 10\'lu paket + kilit; envan
     // 307'den beri Sigorta'nın da 10'lu paketi var (255).
     assert.equal(d.skiller.find((s) => s.tur === 'sigorta').paket?.fiyat, 255, 'Sigorta 10\'lu paketi 255');
     const env = await c.sorgu(`select tur, adet from public.envanterim()`);
-    assert.equal(env.length, 8, '7 aktif skill + seri_koruma');
+    assert.equal(env.length, d.skiller.length, 'yalnız aktif jokerler (910: seri koruma dönmez)');
+    assert.equal(env.some((r) => r.tur === 'seri_koruma'), false);
     assert.equal(env.find((r) => r.tur === 'ikinci_sans').adet, '4');
   });
 });

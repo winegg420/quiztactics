@@ -41,14 +41,12 @@
 
 /* ——— Skill satırı ——— */
 .qt-dk-skill-liste { display: grid; gap: var(--qt-b-3); }
-.qt-dk-skill.qt-dk-skill,
-.qt-dk-seri.qt-dk-seri {
+.qt-dk-skill.qt-dk-skill {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: start;
   gap: var(--qt-b-3);
 }
-.qt-dk-seri.qt-dk-seri { grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; }
 .qt-dk-skill-ikon {
   position: relative;
   display: grid;
@@ -378,8 +376,8 @@
    dükkâna özel hâller var. Renk ekseni: Joker sekmesinde joker rengi (--qt-skill-<tur>, şerit), paketlerde altın. */
 .qt-dk-afis .qt-dk-bakiye { min-height: 32px; border: 2px solid var(--oyk-kontur); box-shadow: none; }
 /* Joker kartı: qt-oyk'un üç sütunu yerine dükkânın kendi yerleşimi (yukarıdaki .qt-dk-skill kuralları) */
-.qt-oyk.qt-dk-skill, .qt-oyk.qt-dk-seri { padding: var(--qt-b-3) var(--qt-b-3) var(--qt-b-3) calc(var(--qt-b-3) + 6px); }
-.qt-oyk.qt-dk-skill h3, .qt-oyk.qt-dk-skill p, .qt-oyk.qt-dk-seri h3, .qt-oyk.qt-dk-seri p, .qt-oyk.qt-dk-paket h3, .qt-oyk.qt-dk-paket p { margin: 0; }
+.qt-oyk.qt-dk-skill { padding: var(--qt-b-3) var(--qt-b-3) var(--qt-b-3) calc(var(--qt-b-3) + 6px); }
+.qt-oyk.qt-dk-skill h3, .qt-oyk.qt-dk-skill p, .qt-oyk.qt-dk-paket h3, .qt-oyk.qt-dk-paket p { margin: 0; }
 /* Coin yetmiyor: kart soluk (şerit gri, rozet soluk); alınabilen kart canlı kalır. Düğme zaten pasif. */
 .qt-dk-skill.qt-dk-skill--yetmez { --oyk-serit: var(--qt-cizgi-guclu); }
 .qt-dk-skill--yetmez .qt-dk-skill-ikon--rozet .qt-srozet { opacity: 0.6; }

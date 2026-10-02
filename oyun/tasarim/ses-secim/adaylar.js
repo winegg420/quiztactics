@@ -58,7 +58,7 @@ const EFEKT_TANIM = [
     [k("IS", "error_005"), k("DA", "zapTwoTone2"), k("IS", "bong_001"), p(376897, "DRAGON-STUDIO", "Clock Ticking Down", "sound-effects/film-special-effects-clock-ticking-down-376897")]],
   ["skill_ikinci_sans", "Skill: İkinci Şans", "Skill: Second Chance", "İkinci Şans kullanılınca — kalp, yeniden deneme.", "When Second Chance is used — heart, try again.", "skill_ikinci_sans.wav",
     [k("DA", "phaseJump1"), k("MJ", "jingles_NES10"), k("IMP", "impactSoft_medium_000"), p(153317, "Universfield", "Game Respawn", "sound-effects/film-special-effects-game-respawn-153317")]],
-  ["skill_sigorta", "Skill: Sigorta", "Skill: Insurance", "Sigorta (ve Seri Koruma, biraz tiz) — kalkan, metalik koruma.", "Insurance (and Streak Shield, a bit higher) — shield, metallic guard.", "skill_sigorta.wav",
+  ["skill_sigorta", "Skill: Sigorta", "Skill: Insurance", "Sigorta — kalkan, metalik koruma.", "Insurance — shield, metallic guard.", "skill_sigorta.wav",
     [k("SF", "forceField_000"), k("IMP", "impactMetal_heavy_001"), k("RPG", "metalLatch"), p(333827, "Epic_Stock_Media", "Impact Magic Earth Shield Up Game Sound", "sound-effects/film-special-effects-impact-magic-earth-shield-up-game-sound-333827")]],
   ["skill_2x", "Skill: 2X", "Skill: 2X", "2X (çifte puan) kullanılınca — güçlenme, parıltı.", "When 2X (double points) is used — power-up, sparkle.", "skill_2x.wav",
     [k("DA", "powerUp12"), k("DA", "zapThreeToneUp"), k("IS", "glass_002"), p(484722, "EdR", "Power Up 01A", "sound-effects/film-special-effects-power-up-01a-484722")]],
