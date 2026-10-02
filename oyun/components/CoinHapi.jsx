@@ -41,7 +41,7 @@ export default function CoinHapi() {
   return (
     <QtCoinHapi
       as={Link}
-      to={y("/joker?sekme=coin")}
+      to={y("/joker")}
       miktar={gosterilen ?? bakiye}
       etiket={tt("{n} coin — dükkâna git", { n: sayiBicim(bakiye) })}
       className="bd-coin-hap a-coin-hap"

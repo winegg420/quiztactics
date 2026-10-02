@@ -58,9 +58,10 @@ const SEKMELER = [
   { kod: "joker",   ad: tt("Joker"),          ikon: "yildiz",  para: "coin" },
   { kod: "cerceve", ad: tt("Çerçeve"),        ikon: "madalya", para: "elmas" },
   { kod: "avatar",  ad: tt("Avatar ve İsim"), ikon: "kisi",    para: "elmas" },
-  { kod: "coin",    ad: tt("Coin"),           ikon: "coin",    para: "coin" },
 ];
-// Eski bağlantılar (güncellenmemiş PWA, bildirim): kalkan sekmeler varsayılana (Joker) düşer.
+// COIN SEKMESİ YOK (2 Eki 2026): ürün satmıyordu — coin parayla satılmaz, elmasla coin dönüşümü de yok. İçindeki
+// "Coin nasıl kazanılır?" notu ve (reklam yapılandırılmışsa) ödüllü video Joker sekmesinin altına taşındı.
+// Eski bağlantılar (güncellenmemiş PWA, bildirim): kalkan sekmeler varsayılana (Joker) düşer; ?sekme=coin oradaki coin bölümüne iner.
 const ESKI_SEKME = { pcerceve: "cerceve", isim: "avatar" };
 const VARSAYILAN_SEKME = "joker";
 
@@ -164,8 +165,7 @@ export default function JokerDukkani() {
     return () => { aktif = false; };
   }, []);
 
-  // Sekme adres çubuğunda tutulur: "coin yetmiyor" uyarısı doğrudan Coin
-  // sekmesine götürebilsin, geri tuşu da beklendiği gibi çalışsın.
+  // Sekme adres çubuğunda tutulur: bağlantıyla açılabilsin, geri tuşu da beklendiği gibi çalışsın.
   const [arama, setArama] = useSearchParams();
   // Kozmetik + avatar kataloğu tek yerde, bir kez (Çerçeve ve Avatar ve İsim sekmeleri aynı veriyi kullanır).
   const kozmetik = useKozmetikDukkan();
@@ -211,11 +211,16 @@ export default function JokerDukkani() {
   const onayAc = (o) => { dokunus(); setOnay(o); };
   // Satın alma anı: kutla() yalnız RPC hatasız dönünce çağrılır; ucan(anahtar) an sürerken veriyi döner.
   const { kutla, ucan } = useOdulAni();
-  // D-304: "Nasıl kazanılır?" → Elmas sekmesi + "Oynayarak elmas kazan" listesine kaydır
-  const [elmasKaydir, setElmasKaydir] = useState(false);
+  // "Nasıl kazanılır?" kaydırması: elmas → Elmas sekmesi › "Oynayarak elmas kazan" (D-304); coin → Joker sekmesi ›
+  // "Coin nasıl kazanılır?" (coin yetmeyince; Joker sekmesindeyken adres değişmez, seçili mod korunur).
+  const [kaydir, setKaydir] = useState(null);   // "elmas" | "coin" | null
   const elmasKazanGoster = () => {
     setArama({ sekme: "elmas" }, { replace: true });
-    setElmasKaydir(true);
+    setKaydir("elmas");
+  };
+  const coinKazanGoster = () => {
+    if (sekme !== "joker") setArama({ sekme: "joker" }, { replace: true });
+    setKaydir("coin");
   };
   const playVar = desteklenirMi();
 
@@ -378,7 +383,7 @@ export default function JokerDukkani() {
     }
   };
 
-  /** Joker paketini COİN ile alır. Coin yetmezse Coin sekmesine götürür. */
+  /** Joker paketini COİN ile alır. Coin yetmezse "Coin nasıl kazanılır?" bölümüne götürür. */
   const jokerCoinIleAl = async (urunId, an) => {
     setHata(null);
     setBilgi(null);
@@ -396,8 +401,8 @@ export default function JokerDukkani() {
       const m = coinHatasi(e);
       sesHataUyari();
       setHata(m);
-      // Buton pasif DEĞİL: basınca ne olduğu söylenir ve coin almaya götürülür.
-      if (m === tt("Coin yetmiyor")) sekmeSec("coin");
+      // Buton pasif DEĞİL: basınca ne olduğu söylenir ve coin'in nasıl kazanıldığı gösterilir.
+      if (m === tt("Coin yetmiyor")) coinKazanGoster();
     } finally {
       setAlinan(null);
     }
@@ -420,7 +425,7 @@ export default function JokerDukkani() {
       const m = coinHatasi(e);
       sesHataUyari();
       setHata(m);
-      if (m === tt("Coin yetmiyor")) sekmeSec("coin");
+      if (m === tt("Coin yetmiyor")) coinKazanGoster();
     } finally {
       setAlinan(null);
     }
@@ -443,7 +448,7 @@ export default function JokerDukkani() {
       const m = coinHatasi(e);
       sesHataUyari();
       setHata(ttSunucu(m));
-      if (m === tt("Coin yetmiyor")) sekmeSec("coin");
+      if (m === tt("Coin yetmiyor")) coinKazanGoster();
     } finally {
       setAlinan(null);
     }
@@ -453,26 +458,27 @@ export default function JokerDukkani() {
   const hazir = dukkanDurum === "hazir";
   // Sıralı kart girişi yalnız İLK açılışta (sekme değişince / veri yenilenince yeniden oynamaz); kozmetik sekmelerine prop ile iner.
   const sirali = useSiraliGiris(kozmetikSekmesi ? kozmetik.hazir : hazir);
-  // D-304: Elmas sekmesi açılınca "Oynayarak elmas kazan" başlığına kaydır (üst çubuk yapışkan — payı düşülür).
-  // Koleksiyon'dan gelen bağlantı ?sekme=elmas&bolum=kazan ile aynısını ister.
-  const bolumKazan = arama.get("bolum") === "kazan";
+  // Bölüme kaydır (üst çubuk yapışkan — payı düşülür). Bağlantıyla da istenir: ?sekme=elmas&bolum=kazan (Koleksiyon),
+  // eski ?sekme=coin (Joker sekmesine düşer, coin bölümüne iner).
+  const adresBolum = arama.get("bolum") === "kazan" && sekme === "elmas" ? "elmas" : arama.get("sekme") === "coin" ? "coin" : null;
+  const kaydirHedef = kaydir ?? adresBolum;
   useEffect(() => {
-    if (!elmasKaydir && !bolumKazan) return undefined;
-    if (sekme !== "elmas" || !hazir) return undefined;
+    if (!kaydirHedef || !hazir) return undefined;
+    if (sekme !== (kaydirHedef === "coin" ? "joker" : "elmas")) return undefined;
     const t = setTimeout(() => {
       try {
-        const el = document.getElementById("qt-dk-elmas-kazan");
+        const el = document.getElementById(`qt-dk-${kaydirHedef}-kazan`);
         if (el) {
           const ust = document.querySelector(".a-ust-blok, .qt-ustcubuk")?.getBoundingClientRect().height ?? 0;
           window.scrollTo({ top: Math.max(0, el.getBoundingClientRect().top + window.scrollY - ust - 12), behavior: "auto" });
         }
       } catch { /* kaydırma kritik değil */ }
-      setElmasKaydir(false);
-      if (bolumKazan) setArama({ sekme: "elmas" }, { replace: true });
+      setKaydir(null);
+      if (adresBolum) setArama({ sekme }, { replace: true });
     }, 60);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [elmasKaydir, bolumKazan, sekme, hazir]);
+  }, [kaydirHedef, sekme, hazir]);
   // PAKETLER MODA GÖRE (910): paketin modu İÇERİĞİNDEN okunur — paketDukkanModlari her anahtarın jokerler.js'te
   // AKTİF bir joker id'si olmasını ister (joker_paketleri.icerik anahtarı = jokerler.js id'si; eşleşmeyen anahtar
   // paketi dükkândan düşürür) ve paketi yalnız içindeki HER jokerin çalıştığı modda gösterir. Sigorta/2X içeren
@@ -552,7 +558,7 @@ export default function JokerDukkani() {
           </>
         )}
 
-        {(sekme === "joker" || sekme === "coin" || sekme === "elmas") && !hazir && (
+        {(sekme === "joker" || sekme === "elmas") && !hazir && (
           <QtKart>
             <DurumKutusu durum={dukkanDurum} satir={4} onTekrar={() => { setDukkanDurum("yukleniyor"); yukle(); }} />
           </QtKart>
@@ -591,7 +597,7 @@ export default function JokerDukkani() {
               <div className="qt-dk-not qt-dk-not--uyari" role="status">
                 <CoinIkon boyut={20} />
                 <span>{tt("Coin'in şu an hiçbir jokere yetmiyor.")}</span>
-                <QtDugme tur="ikincil" boyut="k" onClick={() => sekmeSec("coin")}>{tt("Coin kazan")}</QtDugme>
+                <QtDugme tur="ikincil" boyut="k" onClick={() => coinKazanGoster()}>{tt("Coin kazan")}</QtDugme>
               </div>
             )}
 
@@ -755,7 +761,7 @@ export default function JokerDukkani() {
                             </li>
                           ))}
                         </ul>
-                        {/* Düğme PASİF DEĞİL: coin yetmezse basınca söyler ve Coin sekmesine götürür. */}
+                        {/* Düğme PASİF DEĞİL: coin yetmezse basınca söyler ve "Coin nasıl kazanılır?" bölümüne götürür. */}
                         <QtDugme
                           boyut="k"
                           tamGenislik
@@ -793,32 +799,17 @@ export default function JokerDukkani() {
               </section>
             )}
 
-            {/* ---------- Kurallar ---------- */}
-            {/* Kural metni TEK KAYNAKTAN: oyun/lib/jokerKurallari.js */}
-            {jokerHak != null && (
-            <section className="qt-dk-bolum" aria-labelledby="qt-dk-kurallar-baslik">
-                <details className="qt-dk-kurallar">
-                  <summary id="qt-dk-kurallar-baslik">
-                    <QtIkon ad="bilgi" boyut={20} />
-                    <span>{tt("Joker kuralları")}</span>
-                    <QtIkon ad="asagi" boyut={20} className="qt-dk-kurallar-ok" />
-                  </summary>
-                  <ul>
-                    {jokerKurallari(jokerHak).map((k) => (
-                      <li key={k}>{k}</li>
-                    ))}
-                  </ul>
-                </details>
+            {/* ---------- Coin nasıl kazanılır? (eski Coin sekmesinin içeriği; coin yetmeyince buraya inilir) ---------- */}
+            {/* Coin parayla satılmaz (480): yalnız oynayarak kazanılır */}
+            <section className="qt-dk-bolum" aria-labelledby="qt-dk-coin-kazan">
+              <h2 id="qt-dk-coin-kazan" className="qt-baslik-2">{tt("Coin nasıl kazanılır?")}</h2>
+              <p className="qt-dk-not qt-dk-not--bilgi">
+                <QtIkon ad="bilgi" boyut={20} />
+                <span>{tt("Coin yalnızca oynayarak kazanılır, parayla satılmaz. Maç kazan, turnuvaya katıl, seriyi sürdür, rozet topla — jokerleri coin'le al.")}</span>
+              </p>
             </section>
-            )}
-          </>
-        )}
-
-        {/* ================= COIN ================= */}
-        {sekme === "coin" && hazir && (
-          <>
             {/* Ödüllü video: jeton → reklam → sunucu ödülü (akış değişmez).
-                D-305: reklam yapılandırılmamışsa (ölü kart) hiç çizilmez; alttaki "Coin nasıl kazanılır?" kalır. */}
+                D-305: reklam yapılandırılmamışsa (ölü kart) hiç çizilmez; üstteki "Coin nasıl kazanılır?" kalır. */}
             {h5AdsYapilandirildi() && (
             <QtKart ton="mor" className="qt-dk-video">
               <span className="qt-dk-video-ikon" aria-hidden="true"><QtIkon ad="oyna" boyut={28} /></span>
@@ -851,14 +842,24 @@ export default function JokerDukkani() {
             </QtKart>
             )}
 
-            {/* Coin parayla satılmaz (480): yalnız oynayarak kazanılır */}
-            <section className="qt-dk-bolum" aria-labelledby="qt-dk-coin-kazan">
-              <h2 id="qt-dk-coin-kazan" className="qt-baslik-2">{tt("Coin nasıl kazanılır?")}</h2>
-              <p className="qt-dk-not qt-dk-not--bilgi">
-                <QtIkon ad="bilgi" boyut={20} />
-                <span>{tt("Coin yalnızca oynayarak kazanılır, parayla satılmaz. Maç kazan, turnuvaya katıl, seriyi sürdür, rozet topla — jokerleri coin'le al.")}</span>
-              </p>
+            {/* ---------- Kurallar ---------- */}
+            {/* Kural metni TEK KAYNAKTAN: oyun/lib/jokerKurallari.js */}
+            {jokerHak != null && (
+            <section className="qt-dk-bolum" aria-labelledby="qt-dk-kurallar-baslik">
+                <details className="qt-dk-kurallar">
+                  <summary id="qt-dk-kurallar-baslik">
+                    <QtIkon ad="bilgi" boyut={20} />
+                    <span>{tt("Joker kuralları")}</span>
+                    <QtIkon ad="asagi" boyut={20} className="qt-dk-kurallar-ok" />
+                  </summary>
+                  <ul>
+                    {jokerKurallari(jokerHak).map((k) => (
+                      <li key={k}>{k}</li>
+                    ))}
+                  </ul>
+                </details>
             </section>
+            )}
           </>
         )}
 
@@ -997,7 +998,7 @@ export default function JokerDukkani() {
           yalnizAl
           kalanGoster
           onayMetni={onay.onayMetni ?? tt("Al")}
-          yetersizEylem={() => sekmeSec("coin")}
+          yetersizEylem={() => coinKazanGoster()}
           onOnay={onay.calistir}
           onKapat={() => setOnay(null)}
         />

@@ -89,7 +89,7 @@ export function LigCipi({ v, as = "link" }) {
 
 export function CoinCipi({ v }) {
   return (
-    <Link to={y("/joker?sekme=coin")} className="as-cip as-cip--coin">
+    <Link to={y("/joker")} className="as-cip as-cip--coin">
       <span className="as-coin-para" aria-hidden="true"><CoinIkon boyut={18} /></span>
       <span className="as-cip-metin"><b className="qt-sayi">{sayi(v.oyuncu.coin)}</b><small>{tt("Coin")}</small></span>
     </Link>
