@@ -133,8 +133,8 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
   damga + ses + titreşim, mesaj satırının yerinde kırmızı "BAN SIRASI SENDE" satırı, son 2 sn gerilim, "BANLADIN" / "BAN KULLANILMADI"; saldırana
   ~1,2 sn "RAKİP BANLADI" açıklaması → mavi "SIRA SENDE"; ilk 3 Düello'da ipucu (cihazda). Açıklama saldıranın süresinden yemez: ban fazından çıkan
   kategori fazına `duello_ban_gosterim_ms` (1200) eklenir (880, `duello2_ban_bitir`). Test: `node araclar/duello-ban-sql-testi.mjs`.
-- **Soru ekranı kategori durumu (Ida, 2 Eki 2026; `DuelloTahta › hkKategoriDurumu`, yalnız sunum):** sorulan kategori iki yerde AYNI renkle
-  çerçevelenir — soru kartındaki kategori rozeti + yuva panelindeki yuvası (hafif nabız; boş kategoride yalnız rozet). Kırmızı = kategorin
+- **Soru ekranı kategori durumu (Ida, 2 Eki 2026; `DuelloTahta › hkKategoriDurumu`, yalnız sunum):** sorulan kategori AYNI renkle
+  çerçevelenir — soru kartının kendisi (4 px) + kategori rozeti + yuva panelinin tamamı (3 px) + kategorinin yuvası (hafif nabız; boş kategoride yuva yok). Kırmızı = kategorin
   tehlikede (savunan), mavi = fırsat/saldırı (saldıran her durumda; savunan boş kategoride), gri = rakip pekiştiriyor. Rozetin yanında en çok
   4 kelimelik aynı renkli etiket. Uzun sonuç cümleleri soru ekranında YAZILMAZ: ilk 3 Düello'da savunan beklerken alt çubukta ipucu
   (cihazda), tanıtım (v11) ve arama ipuçları. Hareketi azalt: nabız kapalı, sabit çerçeve.

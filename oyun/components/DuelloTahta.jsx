@@ -177,7 +177,8 @@ export function HkYuvalar({ d, hk, c, kucuk = false, durum = null }) {
   const sira = useYuvaSirasi(hk, d?.kategoriler);
   const durumKategori = durum ? d?.kategori ?? null : null;
   return (
-    <section className={sinif("hk-tahta", kucuk && "hk-tahta--kucuk", d?.uzatma && "hk-tahta--altin")} aria-label={c("Yuva durumu")}>
+    <section className={sinif("hk-tahta", kucuk && "hk-tahta--kucuk", d?.uzatma && "hk-tahta--altin",
+                              durum && "hk-tahta--durum", durum && `hk-durum--${durum.ton}`)} aria-label={c("Yuva durumu")}>
       <YuvaTarafi taraf="ben" hk={hk} liste={sira.ben} ad={c("Sen")} sayi={hk.benY} c={c} durum={durum} durumKategori={durumKategori} />
       <span className="hk-vs" aria-hidden="true">VS</span>
       <YuvaTarafi taraf="rakip" hk={hk} liste={sira.rakip} ad={c("Rakip")} sayi={hk.rakipY} c={c} durum={durum} durumKategori={durumKategori} />

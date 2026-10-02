@@ -272,10 +272,18 @@
   animation: hk-durum-gir .3s var(--qt-egri-yay, cubic-bezier(.34,1.56,.64,1)) both;
 }
 .hk-mac .hk-soru--durum .qt-soru-sira { min-width: 0; color: var(--hk-d); font-size: 12px; font-weight: 900; }
+/* Soru KARTININ çerçevesi de aynı renk: 4 px, içe dönük (yükseklik eklemez). Eskiden kart ton sınıfına hiç bağlı değildi;
+   ekranda görülen soluk sarı, "yeni soru" halkasının (DuelloPage.a.css › .m2-soru .qt-soru-kart::after, --qt-coin) geçici
+   animasyonuydu. Özgüllük o dosyadaki .m2-cevap-faz .m2-soru .qt-soru-kart kuralını geçer; halka da durum rengine çekilir. */
+.hk-mac .m2-cevap-faz .hk-soru--durum .qt-soru-kart { box-shadow: inset 0 0 0 4px var(--hk-d), var(--qt-kabartma-kart); }
+.hk-mac .m2-cevap-faz .hk-soru--durum .qt-soru-kart::after { box-shadow: 0 0 0 6px var(--hk-d-isik); }
 .hk-durum-etiket { display: block; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .hk-durum-etiket svg { vertical-align: -2px; margin-right: 2px; }
 @keyframes hk-durum-gir { from { transform: scale(.86); opacity: 0; } to { transform: none; opacity: 1; } }
-/* (b) yuva paneli: sorulan kategorinin yuvası aynı renkle çerçevelenir; halka hafifçe nabız atar */
+/* (b) yuva paneli: panelin TAMAMI soru kartıyla aynı renkte 3 px çerçeve alır (dışa taşan halka — akış dışı, yükseklik
+   eklemez; boş kategoride de görünür). Tarafların kendi kenarlığı (sen mavi / rakip kırmızı) içeride aynen kalır.
+   Kategori bir yuvadaysa o yuva ayrıca aynı renkle çerçevelenir; halka hafifçe nabız atar. */
+.hk-tahta--durum { border-radius: 16px; box-shadow: 0 0 0 3px var(--hk-d); }
 .hk-yuva--durum { z-index: 1; border-style: solid; border-color: var(--hk-d); box-shadow: none; }
 .hk-yuva--durum::after {
   content: ""; position: absolute; inset: -4px; border-radius: inherit; pointer-events: none;
