@@ -45,7 +45,7 @@ import SkillSeti from "../components/SkillSeti.jsx";
 // Maç ekranı parçaları (Tasarım A).
 import { V2Ust, V2Kategori, V2SecimCubugu, V2Cevap, V2Sonuc, V2Skill, V2Gecmis } from "../components/DuelloV2.jsx";
 // 680 · Hâkimiyet tahtası: yuvalar, mesaj satırı, maç sonu tahtası (kartlar/alt çubuk DuelloV2 üzerinden).
-import { hkModel, hkKategoriDurumu, HkYuvalar, HkMesaj, hkMesaj, HkSonTahta, V2BanCubugu } from "../components/DuelloTahta.jsx";
+import { hkModel, hkKategoriDurumu, durumIpucuSirasi, HkYuvalar, HkMesaj, hkMesaj, HkSonTahta, V2BanCubugu } from "../components/DuelloTahta.jsx";
 // Savunma banının "an"ları (yalnız sunum): durum satırı, giriş damgası, ban açıklaması, kırmızı → mavi geçiş.
 import { BanKonsol, BanGirisAni, BanAciklama, banIpucuGoster } from "../components/DuelloBanAni.jsx";
 // Tasarım A görünümü (m2- önekli). Eski duello-v2.css artık yüklenmez (dosya Faz 4'e kadar durur).
@@ -206,6 +206,9 @@ const ARAMA_IPUCLARI = [
   "Hamlen tutması için sen doğru, rakip yanlış bilmelisin.",
   "Boş kategoride bilen alır.",
   BOS_SALDIRAN_KURALI,
+  // Soru ekranındaki çerçeve renklerinin anlamı (uzun cümle soru ekranında yazılmaz; DuelloTahta › hkKategoriDurumu)
+  "Kırmızı çerçeve: kategorin tehlikede. Yanlış bilirsen ve rakip bilirse kaybedersin.",
+  "Mavi çerçeve: fırsat. Boş kategoride rakip yanlış yapar ve sen bilirsen senin olur.",
   "Tutan hamle kategoriyi 2 tur kilitler.",
   "{t} tur sonunda yuvalar eşitse Altın Soru.",
 ];
@@ -463,6 +466,7 @@ function DuelloMac({ id }) {
   const banSayimRef = useRef(null);                     // ban geri sayımı: son çalınan saniye
   const banTazeRef = useRef({ anahtar: null, taze: false });   // bu kategori fazı ban fazından AZ ÖNCE mi çıktı (açıklama oynar)
   const banIpucuRef = useRef({ anahtar: null, goster: false });
+  const durumIpucuRef = useRef({ anahtar: null, sira: null });   // çerçeve rengi ipucu (ilk 3 Düello, savunan beklerken)
   const [dokunus, setDokunus] = useState(null);      // { kategori, tur } — rakibin (saldıranın) dokunduğu kart
   const dokunusAlRef = useRef(null);
   const dokunusGonderRef = useRef({ zaman: 0, bekleyen: null, kategori: null });
@@ -1354,6 +1358,12 @@ function DuelloMac({ id }) {
     banIpucuRef.current = { anahtar: fazAnahtari, goster: banIpucuGoster(d.id, d.tur) };
   }
   const banIpucu = banFazi && !benSaldiran && banIpucuRef.current.anahtar === fazAnahtari && banIpucuRef.current.goster;
+  // İlk 3 Düello'da savunan rakibin seçimini beklerken: soru ekranındaki çerçeve renginin anlamı (alt çubukta, sıradaki ipucu).
+  const durumIpucuAni = d.faz === "kategori" && !benSaldiran && hk.acik && !d.uzatma;
+  if (durumIpucuAni && durumIpucuRef.current.anahtar !== fazAnahtari) {
+    durumIpucuRef.current = { anahtar: fazAnahtari, sira: durumIpucuSirasi(d.id, d.tur) };
+  }
+  const durumIpucu = durumIpucuAni && durumIpucuRef.current.anahtar === fazAnahtari ? durumIpucuRef.current.sira : null;
   const banUyariAcik = Boolean(banUyari && simdi - banUyari < 1800);
   const banliyaDokun = () => { sesHataUyari(); titret(45); setBanUyari(Date.now()); };
   // 760: kopukluk bandı önce durum okumasındaki `kopuk`tan (her okumada, sunucunun dondurduğu an ve bekleme bitişi),
@@ -1450,7 +1460,7 @@ function DuelloMac({ id }) {
       )}
       {d.faz === "kategori" && (
         <V2SecimCubugu d={d} hk={hk} benSaldiran={benSaldiran} secim={katSecim} calisan={calisan} c={c2}
-                       onOnayla={kategoriSec} banUyari={banUyariAcik} />
+                       onOnayla={kategoriSec} banUyari={banUyariAcik} ipucu={durumIpucu} />
       )}
       {banFazi && <V2BanCubugu benSaldiran={benSaldiran} c={c2} ipucu={banIpucu} />}
       {satinAlPenceresi}

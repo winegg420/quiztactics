@@ -284,6 +284,11 @@
 }
 .hk-tahta--kucuk .hk-yuva--durum::after { inset: -3.5px; border-width: 1.5px; }
 @keyframes hk-durum-nabiz { 50% { opacity: 1; box-shadow: 0 0 0 3px var(--hk-d-isik); } }
+/* ilk Düello'lar: savunan beklerken alt çubukta çerçeve renginin anlamı — aynı renkte küçük çerçeve örneği (V2SecimCubugu) */
+.hk-ipucu-cerceve {
+  flex: none; display: grid; place-items: center; width: 30px; height: 30px; box-sizing: border-box;
+  border: 3px solid var(--hk-d); border-radius: 9px; background: #fff; color: var(--hk-d);
+}
 
 /* ---------------------------------------------------------------- maç sonu: son tahta */
 .hk-son { display: grid; gap: 6px; text-align: left; }

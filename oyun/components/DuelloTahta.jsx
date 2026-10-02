@@ -83,6 +83,42 @@ export function hkKategoriDurumu(d, hk, benSaldiran) {
   if (a === "bos") return { ton: "firsat", etiket: "Boş kategori · fırsat", ikon: "hedef" };
   return { ton: "notr", etiket: "Rakip pekiştiriyor", ikon: "kilit" };
 }
+/**
+ * Çerçeve renklerinin ANLAMI (uzun sonuç cümleleri) soru ekranında yazılmaz: ilk 3 Düello'da, savunan rakibin seçimini
+ * beklerken alt çubukta tek seferlik ipucu olarak gösterilir — maç başına en çok 3 ipucu (her savunma beklemesinde
+ * sıradaki), cihazda saklanır. Metinler sunucu kuralının aynası (duello2_cozumle): boşta saldıran yanlış + savunan
+ * doğru → savunan alır; rakibin kategorisinde saldıran doğru + savunan yanlış → el değiştirir (Kalkan durdurur);
+ * pekiştirmede savunan doğruysa kilit olmaz, sahiplik hiç değişmez.
+ */
+export const DURUM_IPUCLARI = [
+  { ton: "firsat", ikon: "hedef", metin: "Mavi çerçeve = fırsat. Boş kategoride rakip yanlış yapar ve sen bilirsen kategori senin olur." },
+  { ton: "tehlike", ikon: "uyari", metin: "Kırmızı çerçeve = kategorin tehlikede. Yanlış bilirsen ve rakip bilirse kaybedersin; Kalkan durdurur." },
+  { ton: "notr", ikon: "kilit", metin: "Gri çerçeve = rakip pekiştiriyor. Kategori el değiştirmez; doğru bilirsen kilitlenmesini önlersin." },
+];
+const DURUM_IPUCU_ANAHTARI = "qt_duello_durum_ipucu";
+const DURUM_IPUCU_MAC_SAYISI = 3;
+/** Bu savunma beklemesinde gösterilecek ipucunun sırası (0–2) ya da null. Kayıt okunamazsa ipucu gösterilmez. */
+export function durumIpucuSirasi(macId, tur) {
+  try {
+    const ham = JSON.parse(window.localStorage.getItem(DURUM_IPUCU_ANAHTARI) || "[]");
+    const liste = Array.isArray(ham) ? ham.filter((x) => x && Array.isArray(x.t)) : [];
+    let bu = liste.find((x) => x.m === macId);
+    if (bu) {
+      const i = bu.t.indexOf(tur);
+      if (i >= 0) return i;
+      if (bu.t.length >= DURUM_IPUCLARI.length) return null;
+    } else {
+      if (liste.length >= DURUM_IPUCU_MAC_SAYISI) return null;
+      bu = { m: macId, t: [] };
+      liste.push(bu);
+    }
+    bu.t.push(tur);
+    window.localStorage.setItem(DURUM_IPUCU_ANAHTARI, JSON.stringify(liste));
+    return bu.t.length - 1;
+  } catch {
+    return null;
+  }
+}
 // Durum tonu → mesaj satırı tonu (aynı renk rolü: kırmızı = rakip/tehlike, mavi = ben/fırsat, gri = nötr).
 const DURUM_MESAJ_TONU = { tehlike: "rakip", firsat: "ben", notr: "notr" };
 
@@ -399,9 +435,19 @@ export function V2Kategori({ d, hk, benSaldiran, ben, rakip, calisan, c, secim, 
 // ---------------------------------------------------------------- alt çubuk
 /**
  * Kategori fazı alt çubuğu (akışta, ekranın en altında — position:fixed YOK).
- * Saldıran: seçim özeti + eylem düğmesi. Savunan: hazırlık ipucu.
+ * Saldıran: seçim özeti + eylem düğmesi. Savunan: hazırlık ipucu; ilk Düello'larda (ipucu = DURUM_IPUCLARI sırası)
+ * soru ekranındaki çerçeve renginin anlamı — aynı renkte küçük çerçeve örneğiyle.
  */
-export function V2SecimCubugu({ d, hk, benSaldiran, secim, calisan, c, onOnayla, banUyari = false }) {
+export function V2SecimCubugu({ d, hk, benSaldiran, secim, calisan, c, onOnayla, banUyari = false, ipucu = null }) {
+  const durumIpucu = !benSaldiran && ipucu !== null ? DURUM_IPUCLARI[ipucu] : null;
+  if (durumIpucu) {
+    return (
+      <div className={sinif("hk-cubuk hk-cubuk--savunan hk-cubuk--ipucu", `hk-durum--${durumIpucu.ton}`)} role="status">
+        <span className="hk-ipucu-cerceve" aria-hidden="true"><QtIkon ad={durumIpucu.ikon} boyut={15} /></span>
+        <div className="hk-cubuk-yazi"><span>{c(durumIpucu.metin)}</span></div>
+      </div>
+    );
+  }
   if (!benSaldiran) {
     return (
       <div className="hk-cubuk hk-cubuk--savunan" role="status" aria-label={c("Rakip seçiyor…")}>

@@ -12,7 +12,8 @@ import { useAyar } from "../lib/ayarlar.js";
  */
 // 680: Hâkimiyet kuralları (puansız, yuva, Baskın/Kalkan) → yeni anahtar; herkes bir kez görür.
 // 870: eşik 5 yuva + "boşta ikiniz de bilirseniz saldıran alır" → v10 (herkes yeniden görür).
-const DEPO = "bildim_duello_tanitim_v10";
+// 900: savunma banı adımı (7 sn, banlayınca tur ilerler) + soru ekranı çerçeve renkleri adımı → v11 (herkes yeniden görür).
+const DEPO = "bildim_duello_tanitim_v11";
 
 export function duelloTanitimGoruldu() {
   try { return localStorage.getItem(DEPO) === "1"; } catch (e) { console.warn("[Bildim] localStorage okunamadı:", e?.message ?? e); return false; }
@@ -22,11 +23,15 @@ function isaretle() {
 }
 
 // Kurallar sunucuda (Hâkimiyet, migration 680/870); puan yok — yuva sayılır. {n} = kazanma eşiği (duello_hakimiyet_esik),
-// {t} = tur sayısı; `ek` satırı yalnız duello_bos_ikisi_dogru_saldiran = 1 iken gösterilir.
+// {t} = tur sayısı, {b} = ban süresi (duello_ban_sn); `ek` satırı yalnız duello_bos_ikisi_dogru_saldiran = 1 iken
+// gösterilir, `not` her zaman. Çerçeve renkleri adımı soru ekranındaki durumun (DuelloTahta › hkKategoriDurumu) uzun
+// açıklamasıdır — o cümleler soru ekranında yazılmaz. Metinler duello2_cozumle (680/870) ile doğrulandı.
 const ADIMLAR = [
   { ikon: "duello", baslik: "Aynı soru, aynı anda", metin: "Her turda soru ikinize aynı anda açılır, ikiniz de cevaplarsınız (süre dolarsa yanlış sayılır). Saldıran kategoriyi seçer (15 sn; dolarsa rastgele). Savunan beklemez: saldıranın dokunduğu kartı canlı görür ve sıradaki saldırısına şimdiden hazırlanır." },
   { ikon: "bayrak", baslik: "{n} yuva: ilk dolduran kazanır", metin: "Herkes 0-0 başlar, 10 kategorinin hepsi boştur. Kazandığın kategoriler senin yuvandır. {n} yuvaya ilk ulaşan maçı anında kazanır." },
   { ikon: "onay", baslik: "Hamle kuralı", metin: "Hamlenin tutması için saldıran doğru, savunan yanlış bilmelidir. Boş kategoride kural biraz farklı: sen yanlış, rakip doğru bilirse kategoriyi rakip alır. Yani boşta bilen alır.", ek: "Boş kategoride ikiniz de bilirseniz saldıran alır." },
+  { ikon: "hedef", baslik: "Soru ekranında çerçeve rengi", metin: "Sorulan kategori renkli çerçeveyle gösterilir. Kırmızı: rakip senin kategorine saldırıyor; yanlış bilirsen ve rakip bilirse kaybedersin. Mavi: fırsat; saldırıyorsan hamlen tutabilir, savunurken boş kategoride rakip yanlış yapar ve sen bilirsen kategori senin olur. Gri: rakip kendi kategorisini pekiştiriyor; kategori el değiştirmez, doğru bilirsen kilitlenmesini önlersin.", not: "Kalkan kırmızı çerçevedeki hamleyi durdurur. Rakip Baskın kullandıysa cevabın sayılmaz." },
+  { ikon: "ban", baslik: "Savunma banı", metin: "Her turda saldıran seçmeden önce savunan 1 kategoriyi banlar ({b} sn). Banladığın an tur ilerler; süre dolarsa ban kullanılmaz. Rakip o tur banlı kategoriyi seçemez. Aynı kategoriyi arka arkaya banlayamazsın." },
   { ikon: "kilit", baslik: "Elinden al · Al · Pekiştir", metin: "Rakibin kategorisi: hamle tutarsa \"Elinden al\" ile sana geçer. Boş kategori: tutarsa \"Al\" ile yuvan olur. Kendi kategorin: tutarsa \"Pekiştir\" ile kilitlenir. Sahibi değişen ya da pekiştirilen kategori 2 tur kimse tarafından seçilemez; tutmayan hamlede kilit yok." },
   { ikon: "terazi", baslik: "{t} tur ve Altın Soru", metin: "Maç en çok {t} tur sürer; her tur bir hamledir ve saldıran/savunan her tur el değiştirir. {t}. tur sonunda kimse {n} yuvaya ulaşamadıysa yuvası çok olan kazanır. Yuvalar eşitse Altın Soru gelir: zor soru, joker yok, yalnız biriniz bilene kadar sürer. Sahiplik değişmez." },
   { ikon: "kalkan", baslik: "Baskın ve Kalkan", metin: "Baskın (saldırırken, soru ekranında): bu hamlede rakibin cevabı sayılmaz; sen doğruysan hamle tutar. Kalkan (savunurken, kendi kategorine saldırılırken): rakibin hamlesi tutmaz, kategori sende kalır. Her biri maçta 1 kez. Basılan joker tur sonuna kadar rakipten gizlidir; ikisi aynı hamlede basılırsa birbirini götürür ve ikisi de harcanır." },
@@ -38,6 +43,7 @@ export default function DuelloTanitim({ onKapat }) {
   const turSayisi = useAyar("duello_max_tur", 16);   // tur sayısı metne gömülmez (1 Eki 2026: 16 tur)
   const esik = useAyar("duello_hakimiyet_esik", 5);
   const bosSaldiran = useAyar("duello_bos_ikisi_dogru_saldiran", 1) >= 1;
+  const banSn = useAyar("duello_ban_sn", 7);
   const kapat = () => { isaretle(); onKapat?.(); };
   const a = ADIMLAR[adim];
   const son = adim === ADIMLAR.length - 1;
@@ -56,8 +62,9 @@ export default function DuelloTanitim({ onKapat }) {
       <div key={adim} className="m2-tanitim-adim qt-h-gir">
         <span className="m2-tanitim-ikon" aria-hidden="true"><QtIkon ad={a.ikon} boyut={36} /></span>
         <h3 className="qt-baslik-2">{tt(a.baslik, { t: turSayisi, n: esik })}</h3>
-        <p>{tt(a.metin, { t: turSayisi, n: esik })}</p>
+        <p>{tt(a.metin, { t: turSayisi, n: esik, b: banSn })}</p>
         {a.ek && bosSaldiran && <p><b>{tt(a.ek)}</b></p>}
+        {a.not && <p><b>{tt(a.not)}</b></p>}
       </div>
       <div className="m2-tanitim-noktalar" role="img" aria-label={tt("Adım {n}/{t}", { n: adim + 1, t: ADIMLAR.length })}>
         {ADIMLAR.map((_, i) => <span key={i} className={i === adim ? "aktif" : ""} />)}

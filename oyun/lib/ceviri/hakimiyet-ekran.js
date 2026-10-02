@@ -43,6 +43,10 @@ export default {
   "Boş kategori · fırsat": "Empty category · chance",
   "Rakibin kategorisi": "Opponent's category",
   "Rakip pekiştiriyor": "Opponent reinforcing",
+  // İlk 3 Düello: savunan beklerken çerçeve renginin anlamı (DuelloTahta › DURUM_IPUCLARI)
+  "Mavi çerçeve = fırsat. Boş kategoride rakip yanlış yapar ve sen bilirsen kategori senin olur.": "Blue frame = chance. In an empty category, if your opponent is wrong and you are right, it's yours.",
+  "Kırmızı çerçeve = kategorin tehlikede. Yanlış bilirsen ve rakip bilirse kaybedersin; Kalkan durdurur.": "Red frame = your category is at risk. Get it wrong while they get it right and you lose it; Shield stops it.",
+  "Gri çerçeve = rakip pekiştiriyor. Kategori el değiştirmez; doğru bilirsen kilitlenmesini önlersin.": "Grey frame = opponent reinforcing. It doesn't change hands; a right answer from you stops the lock.",
   "Sen doğru bilirsen kategori sende kalır": "If you're right, it stays yours",
   "Rakip yanlış, sen doğru bilirsen alırsın": "Opponent wrong + you right: you take it",
   "Rakip doğru, sen yanlış bilirse 2 tur kilitlenir": "Opponent right + you wrong: locked 2 rounds",
