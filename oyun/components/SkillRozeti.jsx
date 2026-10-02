@@ -6,6 +6,7 @@
  * <SkillRozeti tur="elli" boyut={40} />
  */
 import { SKILL_SEMBOLLERI } from "./skillSembolleri.jsx";
+import { JokerCizim, YENI_CIZIM } from "./jokerCizim.jsx";
 import { QtIkon } from "../tasarim/index.js";
 import { SKILL_TANIMLARI } from "../lib/jokerler.js";
 import "../tasarim/ekranlar/skill-rozet.css";
@@ -21,9 +22,17 @@ export default function SkillRozeti({ tur, boyut = 40, className = "", soluk = f
   return (
     <span className={`qt-srozet${soluk ? " qt-srozet--soluk" : ""} ${className}`.trim()}
           data-tur={tur} style={{ ...(ROL_RENGI.has(tur) ? rolRengi(tur) : null), "--_boyut": `${boyut}px` }} aria-hidden="true">
-      <span className="qt-srozet-sembol">
-        {Sembol ? <Sembol /> : <QtIkon ad={SKILL_TANIMLARI[tur]?.ikon ?? "soru"} boyut={Math.round(boyut * 0.5)} />}
-      </span>
+      {YENI_CIZIM.has(tur) ? (
+        <span className="qt-srozet-cizim">
+          <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+            <JokerCizim tur={tur} E="var(--_e)" A="var(--_r-acik)" O="var(--_r)" k={boyut <= 32} />
+          </svg>
+        </span>
+      ) : (
+        <span className="qt-srozet-sembol">
+          {Sembol ? <Sembol /> : <QtIkon ad={SKILL_TANIMLARI[tur]?.ikon ?? "soru"} boyut={Math.round(boyut * 0.5)} />}
+        </span>
+      )}
     </span>
   );
 }

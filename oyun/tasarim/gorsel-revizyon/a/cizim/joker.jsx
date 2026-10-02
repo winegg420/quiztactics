@@ -3,16 +3,17 @@
 // yerine düz renk + hücre gölgesi, kalın lacivert kontur (disk VE sembol), tek beyaz parlama vuruşu, sağ alt dudak.
 import { LEVEL, METAL, PEMBE_TON, ZUMRUT_TON } from "../../palet.js";
 import { SKILL_SEMBOLLERI } from "../../../../components/skillSembolleri.jsx";
+import { JokerCizim, YENI_CIZIM } from "../../../../components/jokerCizim.jsx";
 import { HucreGolge, Parlama, cz, useKimlik, yay } from "./ortak.jsx";
 import "./joker.css";
 
 export const JOKER_RENK = {
   elli: LEVEL.ametist, sure: ZUMRUT_TON, soru_degistir: LEVEL.turkuaz, zaman_baskisi: LEVEL.yakut,
-  ikinci_sans: PEMBE_TON, sigorta: LEVEL.safir, cifte_puan: METAL.altin,
+  ikinci_sans: PEMBE_TON, sigorta: LEVEL.safir, cifte_puan: METAL.altin, baskin: LEVEL.yakut,
 };
 export const JOKER_AD = {
   elli: "50:50", sure: "Ek Süre", soru_degistir: "Soru Değiştir", zaman_baskisi: "Zaman Baskısı",
-  ikinci_sans: "İkinci Şans", sigorta: "Sigorta", cifte_puan: "2X",
+  ikinci_sans: "İkinci Şans", sigorta: "Sigorta", cifte_puan: "2X", baskin: "Baskın",
 };
 const daire = (cx, cy, r) => `M${cx - r} ${cy}a${r} ${r} 0 1 0 ${2 * r} 0a${r} ${r} 0 1 0 ${-2 * r} 0Z`;
 
@@ -20,6 +21,7 @@ export function JokerIkon({ tur, boyut = 48 }) {
   const id = useKimlik("jk");
   const m = JOKER_RENK[tur] ?? LEVEL.ametist;
   const Sembol = SKILL_SEMBOLLERI[tur];
+  const yeni = YENI_CIZIM.has(tur);
   const k = boyut <= 32;
   const w = k ? 4.2 : 3;
   return (
@@ -31,8 +33,9 @@ export function JokerIkon({ tur, boyut = 48 }) {
         <path d={`M${32 - 27} 31.5a27 27 0 0 1 12 -22.4`} fill="none" stroke={m.acik} strokeWidth="5" strokeLinecap="round" />
         <Parlama d={yay(22.4, 300, 330, 32, 31.5)} w={k ? 3.6 : 3} />
         <circle cx="32" cy="31.5" r="27" fill="none" {...cz(w)} />
+        {yeni && <JokerCizim tur={tur} E={m.kenar} A={m.acik} O={m.orta} G={METAL.altin.orta} W="#fff" k={k} />}
       </svg>
-      {Sembol && <span className="gra-joker-sembol"><Sembol /></span>}
+      {Sembol && !yeni && <span className="gra-joker-sembol"><Sembol /></span>}
     </span>
   );
 }

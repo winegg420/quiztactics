@@ -4,7 +4,7 @@ import { GrAday, GrBolum } from "../secim.jsx";
 import SkillRozeti from "../../../components/SkillRozeti.jsx";
 import { JOKER_AD, JokerIkon } from "./cizim/joker.jsx";
 
-const TURLER = ["elli", "sure", "soru_degistir", "zaman_baskisi", "ikinci_sans", "sigorta", "cifte_puan"];
+const TURLER = ["elli", "sure", "soru_degistir", "zaman_baskisi", "ikinci_sans", "sigorta", "cifte_puan", "baskin"];
 
 function OnceSonra({ tur }) {
   return (

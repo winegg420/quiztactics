@@ -59,6 +59,10 @@
   /* Sembol okunaklı kalsın: düz (bulanıksız) koyu kontur gölgesi */
   filter: drop-shadow(0 calc(var(--_boyut, 40px) * 0.035) 0 var(--_kontur));
 }
+/* Yeni 64×64 çizim (jokerCizim.jsx): disk yüzü r=27/64, rozet yarıçapı 0,5 → svg 1,185× büyür, ortalanır. */
+.qt-srozet { --_e: color-mix(in srgb, var(--_r-koyu) 40%, #0b1220); }
+.qt-srozet-cizim { position: absolute; z-index: 1; left: -9.26%; top: -9.26%; width: 118.5%; height: 118.5%; pointer-events: none; }
+.qt-srozet-cizim > svg { width: 100%; height: 100%; display: block; overflow: visible; }
 .qt-srozet-sembol > svg { width: 100%; height: 100%; display: block; }
 .qt-srozet--soluk { opacity: 0.45; }
 

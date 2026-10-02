@@ -651,7 +651,7 @@ export default function TasarimSistemiPage() {
             <div key={String(koyu)} className={koyu ? "qt-ornek-rozetler qt-sahne-mac" : "qt-ornek-rozetler"}>
               {[64, 40, 32].map((b) => (
                 <div key={b} className="qt-ornek-rozet-satir">
-                  {["elli", "sure", "soru_degistir", "zaman_baskisi", "ikinci_sans", "sigorta", "cifte_puan"].map((t) => (
+                  {["elli", "sure", "soru_degistir", "zaman_baskisi", "ikinci_sans", "sigorta", "cifte_puan", "baskin", "kalkan"].map((t) => (
                     <SkillRozeti key={t} tur={t} boyut={b} />
                   ))}
                   <code>{b} px</code>
