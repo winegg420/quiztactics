@@ -433,3 +433,30 @@
 @media (prefers-reduced-motion: reduce) {
   .qt-oyk--kutla .qt-dk-skill-ikon, .qt-oyk--kutla .qt-dk-skill-ikon::after { animation: none !important; }
 }
+
+/* ---------- Ekran turu (2 Eki 2026): telefonda ilk ekranda ürün düğmesi görünsün ----------
+   Afiş yok; elmas bakiyesi sekme satırının sağında. Kural şeridi tek ince satır, mod seçici ve joker kartı kompakt. */
+.qt-dk-sekme-satiri { display: flex; align-items: center; gap: var(--qt-b-2); min-width: 0; }
+.qt-dk-sekme-satiri > .qt-dk-sekmeler { flex: 1 1 0; min-width: 0; }
+.qt-dk-sekme-satiri > .qt-dk-bakiye { flex: none; }
+@media (max-width: 559px) {
+  .qt-dk { gap: var(--qt-b-3); padding-block: var(--qt-b-2) var(--qt-b-6); }
+  .qt-dk-sekme-satiri > .qt-dk-bakiye { min-height: 32px; padding: 0 var(--qt-b-2); font-size: var(--qt-y-s); border: 2px solid var(--oyk-kontur); box-shadow: none; }
+  .qt-dk-sekmeler .qt-sekme { padding-inline: 2px; }
+  .qt-dk-sekmeler .qt-sekme > span { max-width: 100%; overflow: visible; text-overflow: clip; white-space: normal; text-align: center; overflow-wrap: anywhere; }
+  .qt-dk-kural-oge { padding: 4px var(--qt-b-2); gap: var(--qt-b-1); }
+  .qt-dk-kural-oge > svg { width: 18px; height: 18px; }
+  .qt-dk-kural-oge > span { display: flex; align-items: baseline; gap: 4px; overflow: hidden; white-space: nowrap; }
+  .qt-dk-kural-oge small { overflow: hidden; text-overflow: ellipsis; }
+  .qt-dk-modsec { border-width: 2px; border-radius: 14px; box-shadow: 0 3px 0 var(--oyk-kontur); }
+  .qt-dk-modsec-dugme { min-height: 38px; font-size: var(--qt-y-s); }
+  .qt-dk-panel { gap: var(--qt-b-3); }
+  .qt-dk-bolum { gap: var(--qt-b-2); }
+  .qt-dk-bolum-ust { gap: 0; }
+  .qt-dk-bolum-ust p { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .qt-oyk.qt-dk-skill { padding: var(--qt-b-2) var(--qt-b-2) var(--qt-b-2) calc(var(--qt-b-2) + 6px); gap: var(--qt-b-2); }
+  .qt-dk-skill-metin { gap: 2px; }
+  .qt-dk-skill-metin p { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1; line-clamp: 1; overflow: hidden; }
+  .qt-dk-skill-rozetler { margin-top: 0; }
+  .qt-dk-skill-al > .qt-dugme { min-height: var(--qt-dokunma); }
+}

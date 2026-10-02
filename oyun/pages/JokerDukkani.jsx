@@ -26,7 +26,6 @@ import {
   QtToast,
   QtToastYuvasi,
   QtBosDurum,
-  QtAfis,
   sayiBicim,
   sinif,
   siraStili,
@@ -489,21 +488,22 @@ export default function JokerDukkani() {
 
   return (
     <div className="qt-dk">
-      {/* Afiş: ikon diski + başlık + elmas bakiyesi. Coin bakiyesi üst çubukta zaten var → burada tekrarlanmaz (denetim §7 S7). */}
-      <QtAfis className="qt-dk-afis" ikon="dukkan" baslik={tt("Dükkân")}
-        sag={elmas.bakiye !== null && (
+      {/* Afiş kalktı (alt menü zaten "Dükkân"ı gösteriyor); elmas bakiyesi sekme satırının sağında. Coin bakiyesi üst çubukta (denetim §7 S7). */}
+      <h1 className="qt-gizli">{tt("Dükkân")}</h1>
+      <div className="qt-dk-sekme-satiri">
+        <QtSekmeler
+          className="qt-dk-sekmeler"
+          etiket={tt("Dükkân bölümleri")}
+          sekmeler={SEKMELER}
+          aktif={sekme}
+          onSec={sekmeSec}
+        />
+        {elmas.bakiye !== null && (
           <span className="qt-dk-bakiye qt-dk-bakiye--elmas" role="img" aria-label={tt("{n} elmas", { n: sayiBicim(elmas.bakiye) })}>
             <ElmasIkon boyut={18} /><b className="qt-sayi">{sayiBicim(elmas.bakiye)}</b>
           </span>
-        )} />
-
-      <QtSekmeler
-        className="qt-dk-sekmeler"
-        etiket={tt("Dükkân bölümleri")}
-        sekmeler={SEKMELER}
-        aktif={sekme}
-        onSec={sekmeSec}
-      />
+        )}
+      </div>
 
       {/* TEK KURAL: jokerler coin'le, kozmetikler elmasla. Açık sekmenin para birimi vurgulu. */}
       <ul className="qt-dk-kural" aria-label={tt("Dükkân kuralı")}>
@@ -634,7 +634,7 @@ export default function JokerDukkani() {
                         </span>
                         <div className="qt-dk-skill-metin">
                           <h3 className="qt-baslik-3">{JOKER_BILGI[tur].ad}</h3>
-                          <p className="qt-kucuk qt-soluk">{b.aciklama}</p>
+                          <p className="qt-kucuk qt-soluk" title={b.aciklama}>{b.aciklama}</p>
                           <div className="qt-dk-skill-rozetler">
                             <ModRozeti tur={tur} />
                             {!kilitli && (
