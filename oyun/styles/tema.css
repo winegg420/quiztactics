@@ -3462,9 +3462,11 @@ body.bd-ekle-acik .app { padding-bottom: calc(300px + env(safe-area-inset-bottom
 .app .rozet.kilitli { opacity: 0.8; }
 /* Maç tabelası: geride olan taraf bütünüyle 0.62 soluyordu — "3/10" 2,55, ad 3,87.
    Sönüklük ipucu avatar ve skorda kalır, yazılar tam opak. */
-/* Alt sekme etiketleri 9,5 px → 11 px; aktif etiket turuncusu koyulaştı (2,92 → ≥4,5) */
+/* Alt sekme etiketleri 9,5 px → 11 px; aktif sekme MAVİ ("ben ve ilerleme" rengi, 2 Eki 2026; eskiden koyu turuncu #C4530F).
+   --qt-ikinci-dudak (#1a5fae) beyaz/açık çubukta ≈ 6:1 (≥ 4,5). Koyu temada açık mavi (--qt-bilgi). */
 .app .tabbar a { font-size: 11px; }
-.app .tabbar a.aktif { color: #C4530F; }
+.app .tabbar a.aktif { color: var(--qt-ikinci-dudak); }
+:root[data-tema="koyu"] .app .tabbar a.aktif { color: var(--qt-bilgi); }
 /* 360 px'te 11 px "Arkadaşlar" sekmeye sığmıyordu: dar ekranda iç boşluk ve harf aralığı daralır */
 @media (max-width: 374px) {
   .app .tabbar { padding-left: 0; padding-right: 0; }
