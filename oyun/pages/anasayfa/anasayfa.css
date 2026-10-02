@@ -299,6 +299,13 @@ a.as-cip:active { transform: translateY(2px); }
 }
 .as-kisayol:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--qt-cizgi); }
 .as-kisayol-ikon { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 14px; background: var(--as-r); color: var(--qt-mod-yazi); box-shadow: inset 0 -3px 0 var(--as-r-d); }
+/* Mod kutusu ikonları (eskiz): kendi renginde DOLU daire + beyaz glif. Meydan = kırmızı (rakip), Grup = yeşil, Saf Bilgi = mavi;
+   Hatalarım mod değil → nötr: açık mavi daire + lacivert ikon. Dolgu, beyaz glifle ≥ 3:1 olacak tonlardan (dudak) seçilir. */
+.as-kisayol .as-kisayol-ikon { --as-ik: var(--as-r-d); --as-ik-y: var(--qt-ikinci-yazi); border-radius: 50%; background: var(--as-ik); color: var(--as-ik-y); box-shadow: none; }
+.as-kisayol.as-renk--meydan .as-kisayol-ikon { --as-ik: var(--qt-mod-duello); }
+.as-kisayol.as-renk--grup .as-kisayol-ikon { --as-ik: var(--qt-mod-grup-dudak); }
+.as-kisayol.as-renk--saf .as-kisayol-ikon { --as-ik: var(--qt-mod-saf-dudak); }
+.as-kisayol.as-renk--calisma .as-kisayol-ikon { --as-ik: var(--qt-ikinci-acik); --as-ik-y: var(--qt-mod-yazi); }
 .as-kisayol-ad { font-size: 12px; font-weight: 800; line-height: 1.1; text-align: center; }
 
 @media (max-height: 760px) and (max-width: 767px) {
