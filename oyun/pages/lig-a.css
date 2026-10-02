@@ -418,55 +418,72 @@
 .lg-unvan:empty { display: none; }
 
 /* ---------- BATTLE PASS satırı (2 Eki 2026) ----------
-   sezon_bp sahibi her satır (kendin dahil): çift katmanlı altın kaplama — dışta koyu
-   altın çerçeve, içte açık altın halka + açık altın zemin. Aynı tokenlar profil kartının
-   .qt-ok--bp / .qt-ok-bp ile (oyuncu-vitrin-karti.css) — ayrı sınıf, aynı kaynak renkler.
-   Bölge şeridi (yükselen/düşen ::before) ve "sen" vurgusu (lg-ben) üstte KALIR; bilgi kaybolmaz. */
+   sezon_bp sahibi her satır (kendin dahil): KÖŞELİ kabartmalı altın plaka. Katmanlar:
+   kap = dışta koyu kahve çizgi (clip-path, 10 px pah) · ::before = altın bant (üst/sol açık,
+   alt/sağ koyu = kabartma) · ::after = içte ince koyu çizgi · .lg-satir::before = krem zemin
+   + sabit çapraz parıltı (animasyon yok). Satır yüksekliği değişmez (bant 4,5 px).
+   "Sen" vurgusu (lg-ben) plakada rozetle okunur; mavi nabız halkası kalkar. */
 .lg-satir-kap.lg-bp {
-  border: 3px solid var(--qt-madalyon-altin-koyu);
-  border-radius: 20px;
-  background: var(--qt-madalyon-altin-acik);
-  box-shadow: inset 0 0 0 3px var(--qt-madalyon-altin);
+  background: var(--qt-altin-plaka-cizgi);
+  border: 0;
+  box-shadow: none;
+  clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px), 0 10px);
 }
-.lg-satir-kap.lg-ben.lg-bp {
-  /* "Sen" + BP birlikte: altın plaka kazanır, mavi vurgu kalkar — kimlik "sen" rozetiyle okunur. */
-  background: var(--qt-madalyon-altin-acik);
-  border-color: var(--qt-madalyon-altin-koyu);
-  box-shadow: inset 0 0 0 3px var(--qt-madalyon-altin);
+.lg-satir-kap.lg-bp::before {
+  content: ""; position: absolute; inset: 1.5px; width: auto; border-radius: 0; pointer-events: none;
+  background: linear-gradient(135deg, var(--qt-altin-plaka-acik) 0%, var(--qt-altin-plaka-bant) 50%, var(--qt-altin-plaka-koyu) 100%);
+  clip-path: polygon(8px 0, calc(100% - 8px) 0, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0 calc(100% - 8px), 0 8px);
 }
-.lg-satir-kap.lg-bp.lg-bolge-yukselen,
-.lg-satir-kap.lg-bp.lg-bolge-dusen {
-  background: var(--qt-madalyon-altin-acik);
+.lg-satir-kap.lg-bp::after {
+  content: ""; position: absolute; inset: 4.5px; pointer-events: none; border-radius: 0; opacity: 1;
+  background: var(--qt-altin-plaka-cizgi); box-shadow: none; animation: none;
+  clip-path: polygon(5px 0, calc(100% - 5px) 0, 100% 5px, 100% calc(100% - 5px), calc(100% - 5px) 100%, 5px 100%, 0 calc(100% - 5px), 0 5px);
 }
-/* Sıra dairesi altın (madalya sırası — 1/2/3 — zaten kendi lig rengini taşır, dokunulmaz). */
+.lg-bp .lg-satir { position: relative; z-index: 1; }
+.lg-bp .lg-satir::before {
+  content: ""; position: absolute; inset: 5.5px; z-index: -1; pointer-events: none;
+  background:
+    linear-gradient(115deg, transparent 0 58%, var(--qt-altin-plaka-parilti) 58% 72%, transparent 72%),
+    var(--qt-altin-plaka-zemin);
+  clip-path: polygon(4px 0, calc(100% - 4px) 0, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 0 calc(100% - 4px), 0 4px);
+}
+/* Bölge şeridi plakanın İÇİNDE (krem zeminin sol kenarı). */
+.lg-bp.lg-bolge-yukselen .lg-satir::after,
+.lg-bp.lg-bolge-dusen .lg-satir::after {
+  content: ""; position: absolute; left: 6px; top: 12px; bottom: 12px; width: 5px; pointer-events: none;
+  background: var(--qt-dogru);
+}
+.lg-bp.lg-bolge-dusen .lg-satir::after { background: var(--qt-uyari); }
+.lg-satir-kap.lg-bp.lg-bolge-yukselen, .lg-satir-kap.lg-bp.lg-bolge-dusen, .lg-satir-kap.lg-ben.lg-bp { background: var(--qt-altin-plaka-cizgi); }
+/* Dört köşede küçük elmas perçin */
+.lg-bp-perc {
+  position: absolute; z-index: 2; width: 7px; height: 7px; pointer-events: none;
+  background: var(--qt-altin-plaka-acik);
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+}
+.lg-bp-perc:nth-of-type(1) { left: 2px; top: 2px; }
+.lg-bp-perc:nth-of-type(2) { right: 2px; top: 2px; }
+.lg-bp-perc:nth-of-type(3) { left: 2px; bottom: 2px; }
+.lg-bp-perc:nth-of-type(4) { right: 2px; bottom: 2px; }
+/* Sıra numarası: kesik köşeli (sekizgen) altın rozet (1/2/3 kendi lig rengini taşır). */
 .lg-bp .lg-sira:not(.lg-sira-1):not(.lg-sira-2):not(.lg-sira-3) {
-  display: grid;
-  place-items: center;
-  width: 30px;
-  height: 30px;
-  min-width: 30px;
-  border-radius: var(--qt-r-hap);
-  background: var(--qt-madalyon-altin);
+  display: grid; place-items: center; width: 30px; height: 30px; min-width: 30px;
+  background: linear-gradient(135deg, var(--qt-altin-plaka-acik), var(--qt-altin-plaka-bant) 55%, var(--qt-altin-plaka-koyu));
   color: var(--qt-coin-yazi);
   font-size: var(--qt-y-m);
+  clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
 }
-/* Taç ikonlu küçük "BP" rozeti (koyu altın zemin, açık yazı — açık altın satır zemininde ayırt edilsin). */
+/* BP rozeti: kare köşe (4 px), koyu altın zemin + açık yazı + taç. */
 .lg-bp-rozet {
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-  flex: none;
-  min-height: 18px;
-  padding: 0 7px;
-  border-radius: 999px;
-  background: var(--qt-madalyon-altin-koyu);
-  background: color-mix(in srgb, var(--qt-madalyon-altin-koyu) 80%, #000);
-  color: #fff;
-  font-weight: 900;
-  font-size: 10.5px;
-  white-space: nowrap;
+  display: inline-flex; align-items: center; gap: 3px; flex: none; min-height: 18px; padding: 0 7px;
+  border-radius: 4px;
+  background: var(--qt-altin-plaka-rozet);
+  color: var(--qt-altin-plaka-rozet-yazi);
+  font-weight: 900; font-size: 10.5px; white-space: nowrap;
 }
 .lg-bp-rozet svg { flex: none; }
+/* "Sen" rozeti plakada: kare köşeli mavi. */
+.lg-bp .ls-sen { border-radius: 4px; background: var(--qt-altin-plaka-sen); border-color: var(--qt-altin-plaka-sen); color: #fff; box-shadow: none; }
 
 /* ---------- Sekme çubuğu (2 Eki 2026) ----------
    360 px'te "Dünya" sekmesi kesik görünüyordu: paylaşılan QtSekmeler bileşeni DEĞİŞMEDİ

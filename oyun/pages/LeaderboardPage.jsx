@@ -77,6 +77,7 @@ function LigSatiri({ s, vurgu = false, sirIdx = -1, kapsam, benimId, bolge, sira
       yukseklik={64}
     >
       <div className="lg-satir">
+        {bpAktif && [0, 1, 2, 3].map((n) => <i key={n} className="lg-bp-perc" aria-hidden="true" />)}
         <button
           type="button"
           className="lg-satir-ac"

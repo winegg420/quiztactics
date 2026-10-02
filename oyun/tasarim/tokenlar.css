@@ -127,6 +127,10 @@
   --qt-madalyon-bronz: #d4874b;  --qt-madalyon-bronz-acik: #f7cfa4;  --qt-madalyon-bronz-koyu: #7f421a;
   --qt-madalyon-gumus: #bfcadb;  --qt-madalyon-gumus-acik: #f7f9fc;  --qt-madalyon-gumus-koyu: #66748c;
   --qt-madalyon-altin: #ffc62e;  --qt-madalyon-altin-acik: #fff3b0;  --qt-madalyon-altin-koyu: #a86a00;
+  /* Lig: Battle Pass altın plaka (kabartma) */
+  --qt-altin-plaka-cizgi: #4a2a05;  --qt-altin-plaka-acik: #ffe27a;  --qt-altin-plaka-bant: #e8a812;  --qt-altin-plaka-koyu: #8f5a00;
+  --qt-altin-plaka-zemin: #fdeaa8;  --qt-altin-plaka-parilti: rgb(255 255 255 / 0.28);
+  --qt-altin-plaka-rozet: #7a4b00;  --qt-altin-plaka-rozet-yazi: #fff8e1;  --qt-altin-plaka-sen: #1f4fb8;
   --qt-madalyon-elmas: #62dcff;  --qt-madalyon-elmas-acik: #eafcff;  --qt-madalyon-elmas-koyu: #1a6fa8;
   --qt-madalyon-gizli: #5a6186;  --qt-madalyon-gizli-acik: #8f96b8;  --qt-madalyon-gizli-koyu: #2a2f4d;
   --qt-madalyon-sembol: #ffffff;
