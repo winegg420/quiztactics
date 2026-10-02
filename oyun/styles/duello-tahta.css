@@ -186,11 +186,6 @@
 }
 .hk-cubuk--ban { border-color: var(--qt-mod-duello, #c93030); }
 .hk-kart--secili { outline: 3px solid var(--hk-vurgu); outline-offset: 1px; transform: translateY(-1px); }
-.hk-kart--hazir { border-style: solid; box-shadow: 0 0 0 2px var(--hk-vurgu); }
-.hk-kart-hazir {
-  position: absolute; top: -6px; right: 6px; padding: 0 6px; border-radius: 8px;
-  background: var(--hk-vurgu); color: #412402; font-size: 9.5px; font-weight: 900; line-height: 14px;
-}
 /* saldıranın CANLI dokunuşu: kesikli turuncu çerçeve, yumuşak parlama */
 .hk-kart--dokunus { outline: 2.5px dashed var(--hk-vurgu); outline-offset: 1px; animation: hk-canli .8s ease-in-out infinite; }
 @keyframes hk-canli { 50% { box-shadow: 0 0 0 5px rgba(239, 159, 39, .35); } }

@@ -438,10 +438,9 @@ function DuelloMac({ id }) {
   const gecisRef = useRef(null);            // son görülen faz/tur/soru (geçiş ve soru sesi)
   const soruSesTimerRef = useRef(null);
   const kirilmaTimerRef = useRef(null);
-  // 680 · Hâkimiyet: kategori seçimi (saldıran, onay bekleyen), savunanın hazırladığı sıradaki kart,
+  // 680 · Hâkimiyet: kategori seçimi (saldıran, onay bekleyen),
   // saldıranın canlı dokunuşu (yalnız istemcide; DB'ye yazılmaz) ve el değiştirince sıçrayacak kartlar.
   const [katSecim, setKatSecim] = useState(null);
-  const [hazirKat, setHazirKat] = useState(null);
   const [dokunus, setDokunus] = useState(null);      // { kategori, tur } — rakibin (saldıranın) dokunduğu kart
   const dokunusAlRef = useRef(null);
   const dokunusGonderRef = useRef({ zaman: 0, bekleyen: null, kategori: null });
@@ -710,20 +709,13 @@ function DuelloMac({ id }) {
   const fazAnahtari = d ? `${d.tur}-${d.saldiri_sirasi}-${d.faz}-${d.soru?.soru ?? ""}` : "";
   useEffect(() => { setSecim(null); setIkinciSansElendi([]); setHata(null); }, [fazAnahtari]);
 
-  // ---------------- 680 · Hâkimiyet: hazırlık, canlı dokunuş, kart sıçraması ----------------
+  // ---------------- 680 · Hâkimiyet: canlı dokunuş, kart sıçraması ----------------
   const benSaldiranH = d ? d.saldiran === d.ben : false;
   const kategoriFazi = d?.faz === "kategori" && d?.durum === "aktif";
-  // Yeni tur kategori fazı: saldıran olduysam savunmada hazırladığım kart (hâlâ uygunsa) önceden seçili gelir.
   const uygunAnahtar = Array.isArray(d?.uygun_kategoriler) ? d.uygun_kategoriler.join(",") : "";
   useEffect(() => {
     if (!kategoriFazi) return;
-    if (benSaldiranH) {
-      const uygun = Array.isArray(d.uygun_kategoriler) ? d.uygun_kategoriler : [];
-      setKatSecim(hazirKat && uygun.includes(hazirKat) ? hazirKat : null);
-      setHazirKat(null);
-    } else {
-      setKatSecim(null);
-    }
+    setKatSecim(null);
     setDokunus(null);
     // Yalnız yeni kategori fazı (tur/faz anahtarı) değişince
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -1100,12 +1092,11 @@ function DuelloMac({ id }) {
     }
   };
 
-  // 680: karta dokunuş. Saldıran: seçer (onay alt çubukta). Savunan: sıradaki saldırısı için "Hazır" işaretler
-  // (yalnız istemcide; ikinci dokunuş kaldırır).
+  // 680: karta dokunuş. Saldıran: seçer (onay alt çubukta). Savunanda kartlar yalnız bilgidir.
   const kartaDokun = (k) => {
+    if (d?.saldiran !== d?.ben) return;
     sesDokunus(); titret(8);
-    if (d?.saldiran === d?.ben) setKatSecim(k);
-    else setHazirKat((h) => (h === k ? null : k));
+    setKatSecim(k);
   };
 
   const rovansVazgec = async () => {
@@ -1321,13 +1312,13 @@ function DuelloMac({ id }) {
   if (d.faz === "kategori") {
     sahne2 = (
       <V2Kategori d={d} hk={hk} benSaldiran={benSaldiran} ben={ben} rakip={rakip} calisan={calisan} c={c2}
-                  secim={katSecim} hazir={hazirKat} dokunus={dokunus} zipla={zipla} onKart={kartaDokun} />
+                  secim={katSecim} dokunus={dokunus} zipla={zipla} onKart={kartaDokun} />
     );
   } else if (d.faz === "ban") {
     // 853: aynı kart ızgarası; savunan dokununca banlar, saldıran bekler.
     sahne2 = (
       <V2Kategori d={d} hk={hk} benSaldiran={benSaldiran} ben={ben} rakip={rakip} calisan={calisan} c={c2}
-                  secim={null} hazir={null} dokunus={null} onKart={banSec} />
+                  secim={null} dokunus={null} onKart={banSec} />
     );
   } else if (d.faz === "cevap") {
     sahne2 = (
@@ -1381,8 +1372,8 @@ function DuelloMac({ id }) {
                  sonKullanilan={sonKullanilan} onKullan={v2SkillKullan} c={c2} />
       )}
       {d.faz === "kategori" && (
-        <V2SecimCubugu d={d} hk={hk} benSaldiran={benSaldiran} secim={katSecim} hazir={hazirKat} calisan={calisan} c={c2}
-                       onOnayla={kategoriSec} onHazirKaldir={() => setHazirKat(null)} />
+        <V2SecimCubugu d={d} hk={hk} benSaldiran={benSaldiran} secim={katSecim} calisan={calisan} c={c2}
+                       onOnayla={kategoriSec} />
       )}
       {d.faz === "ban" && <V2BanCubugu benSaldiran={benSaldiran} c={c2} />}
       {satinAlPenceresi}

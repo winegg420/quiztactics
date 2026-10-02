@@ -26,7 +26,7 @@ export default {
   "Rakip {n}'te! Bir tane daha alırsa kazanır.": "Opponent is at {n}! One more and they win.",
   "{n}'tesin! Bir tane daha al, maçı kazan.": "You're at {n}! Take one more and win.",
   "Rakip seçiyor…": "Opponent is choosing…",
-  "Sıradaki hamleni şimdiden hazırla": "Prepare your next move now",
+  "Kategorini bekle": "Wait for the category",
   "Yalnız biriniz bilirse o kazanır": "Whoever alone knows it wins",
   "rakibin kategorisi": "opponent's category",
   "boş kategori": "empty category",
@@ -60,15 +60,10 @@ export default {
   // Alt çubuk
   "Bir kategori seç": "Pick a category",
   "Seçim": "Selection",
-  "Hazırlık": "Preparation",
   "tutarsa Sen {a}→{b}, Rakip {r}→{s}": "if it lands: You {a}→{b}, Opponent {r}→{s}",
   "tutarsa Sen {a}→{b}": "if it lands: You {a}→{b}",
   "tutarsa {n} tur kilitli": "if it lands: locked {n} rounds",
   "Kazanırsın!": "You win!",
-  "Hazır: {kat}": "Ready: {kat}",
-  "Sıradaki hamlen için bir kart işaretle": "Mark a card for your next move",
-  "Sıra sana gelince bu kart seçili gelir.": "It will be pre-selected on your turn.",
-  "Sıra sana gelince seçili gelir; değiştirebilirsin.": "Pre-selected on your turn; you can change it.",
 
   // Maç sonu
   "Son tahta": "Final board",

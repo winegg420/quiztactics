@@ -210,7 +210,7 @@ export function hkMesaj({ d, hk, ben, rakip, benSaldiran, c, ezeli }) {
       : { l1: c("Bir kategori banla"), l2: c("Rakip bu turda o kategoriyi seçemez"), ton };
   }
   if (d.faz === "kategori" && !benSaldiran) {
-    return { l1: c("Rakip seçiyor…"), l2: c("Sıradaki hamleni şimdiden hazırla"), ton };
+    return { l1: c("Rakip seçiyor…"), l2: c("Kategorini bekle"), ton };
   }
   if (rakipKritik && benKritik) return { l1: uyariR, l2: uyariB, ton: "rakip" };
   if (rakipKritik || benKritik) return { l1: rakipKritik ? uyariR : uyariB, l2: kuralL2, ton };
@@ -256,12 +256,12 @@ const AIDIYET_ETIKET = { ben: "senin kategorin", rakip: "rakibin kategorisi", bo
 
 /**
  * Kategori kartları (kategori fazı). Saldıran: dokununca seçer (onaylamak alt çubukta).
- * Savunan: dokununca sıradaki saldırısı için "Hazır" işaretler; saldıranın dokunduğu kart canlı parlar.
+ * Savunan: kartlar yalnız bilgi (dokunulmaz); saldıranın dokunduğu kart canlı parlar.
  * 853 · ban fazı (d.faz === "ban"): savunan dokununca BANLAR (onKart → duello_ban_sec); banlanabilirler sunucudan
  * (d.ban.uygun), kendi önceki banı (d.ban.onceki) kilitli; saldıranın kartları pasif. Kategori fazında d.ban.kategori
  * gri + "Banlı" damgalı ve seçilemez (sunucu uygun_kategoriler'den zaten çıkarır).
  */
-export function V2Kategori({ d, hk, benSaldiran, ben, rakip, calisan, c, secim, hazir, dokunus, zipla = [], onKart }) {
+export function V2Kategori({ d, hk, benSaldiran, ben, rakip, calisan, c, secim, dokunus, zipla = [], onKart }) {
   const kategoriler = d.kategoriler ?? [];
   const banFazi = d.faz === "ban";
   const banli = banFazi ? null : d.ban?.kategori ?? null;
@@ -289,17 +289,16 @@ export function V2Kategori({ d, hk, benSaldiran, ben, rakip, calisan, c, secim, 
               const kilit = Number(hk.kilitler[x.k] ?? 0);
               const banliMi = banli === x.k;
               const oncekiBan = banOnceki === x.k;
-              const secilebilir = uygun.has(x.k) && kilit <= 0 && !banliMi && !(banFazi && (benSaldiran || oncekiBan));
+              const secilebilir = uygun.has(x.k) && kilit <= 0 && !banliMi && (banFazi ? !benSaldiran && !oncekiBan : benSaldiran);
               const secili = benSaldiran && secim === x.k;
-              const hazirMi = !benSaldiran && hazir === x.k;
               const dokunuluyor = !benSaldiran && canli === x.k;
               return (
                 <button key={x.k} type="button" data-kategori={x.k}
                         className={sinif("hk-kart", `hk-kart--${g.anahtar}`, kilit > 0 && "hk-kart--kilitli", secili && "hk-kart--secili",
                                          (banliMi || oncekiBan) && "hk-kart--banli",
-                                         hazirMi && "hk-kart--hazir", dokunuluyor && "hk-kart--dokunus", zipla.includes(x.k) && "hk-kart--zipla")}
+                                         dokunuluyor && "hk-kart--dokunus", zipla.includes(x.k) && "hk-kart--zipla")}
                         disabled={!secilebilir || !!calisan}
-                        aria-pressed={banFazi ? undefined : benSaldiran ? secili : hazirMi}
+                        aria-pressed={banFazi || !benSaldiran ? undefined : secili}
                         aria-busy={calisan === "kategori" || calisan === "ban" || undefined}
                         aria-label={[
                           x.ad, c(AIDIYET_ETIKET[g.anahtar]),
@@ -307,7 +306,6 @@ export function V2Kategori({ d, hk, benSaldiran, ben, rakip, calisan, c, secim, 
                           banliMi ? c("Banlı") : oncekiBan ? c("Önceki banın") : null,
                           c("Sen {b} · Rakip {r}", { b: oranMetni(x.bo, c), r: oranMetni(x.ro, c) }),
                           c(OK_ETIKET[x.ok]),
-                          hazirMi ? c("Hazır") : null,
                         ].filter(Boolean).join(" · ")}
                         onClick={() => onKart(x.k)}>
                   <KategoriIkon anahtar={x.k} boyut={24} plaka className="hk-kart-ikon" />
@@ -323,7 +321,6 @@ export function V2Kategori({ d, hk, benSaldiran, ben, rakip, calisan, c, secim, 
                         : c("Sen {b} · Rakip {r}", { b: oranMetni(x.bo, c), r: oranMetni(x.ro, c) })}
                   </span>
                   {banliMi && <span className="hk-kart-ban">{c("Banlı")}</span>}
-                  {hazirMi && <span className="hk-kart-hazir">{c("Hazır")}</span>}
                 </button>
               );
             })}
@@ -339,15 +336,14 @@ export function V2Kategori({ d, hk, benSaldiran, ben, rakip, calisan, c, secim, 
  * Kategori fazı alt çubuğu (akışta, ekranın en altında — position:fixed YOK).
  * Saldıran: seçim özeti + eylem düğmesi. Savunan: hazırlık ipucu.
  */
-export function V2SecimCubugu({ d, hk, benSaldiran, secim, hazir, calisan, c, onOnayla, onHazirKaldir }) {
+export function V2SecimCubugu({ d, hk, benSaldiran, secim, calisan, c, onOnayla }) {
   if (!benSaldiran) {
     return (
-      <div className="hk-cubuk hk-cubuk--savunan" role="group" aria-label={c("Hazırlık")}>
+      <div className="hk-cubuk hk-cubuk--savunan" role="status" aria-label={c("Rakip seçiyor…")}>
         <div className="hk-cubuk-yazi">
-          {hazir ? <b>{c("Hazır: {kat}", { kat: c(kategoriAdi(hazir)) })}</b> : <b>{c("Sıradaki hamlen için bir kart işaretle")}</b>}
-          <span>{hazir ? c("Sıra sana gelince bu kart seçili gelir.") : c("Sıra sana gelince seçili gelir; değiştirebilirsin.")}</span>
+          <b>{c("Rakip seçiyor…")}</b>
+          <span>{c("Kategorini bekle")}</span>
         </div>
-        {hazir && <QtDugme tur="ikincil" boyut="k" onClick={onHazirKaldir}>{c("Kaldır")}</QtDugme>}
       </div>
     );
   }
