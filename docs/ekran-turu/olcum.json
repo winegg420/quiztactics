@@ -1,0 +1,1721 @@
+{
+ "ozet": {
+  "adres": "https://quiztactics.vercel.app",
+  "tarih": "2026-10-02 15:59 UTC",
+  "sureSn": 39,
+  "istek": {
+   "toplam": 193,
+   "supabase": 46,
+   "sesEngel": 1,
+   "hataDurum": {
+    "400": 1
+   },
+   "yollar": {
+    "/rest/v1/matches": 5,
+    "/rest/v1/rpc/oyuncu_kartlari": 4,
+    "/rest/v1/group_matches": 3,
+    "/rest/v1/rpc/coin_bakiyem": 2,
+    "/rest/v1/tournaments": 2,
+    "/rest/v1/rpc/rozet_bildirimlerim": 2,
+    "/rest/v1/duello_davetleri": 2,
+    "/rest/v1/rpc/profilim": 1,
+    "/rest/v1/oyun_ayarlari": 1,
+    "/rest/v1/rpc/lig_grubum_ozet": 1,
+    "/rest/v1/rpc/cihaz_bildir": 1,
+    "/rest/v1/rpc/bekleyen_sayim": 1,
+    "/rest/v1/rpc/kalp_at": 1,
+    "/rest/v1/rpc/ses_secimleri_oyun": 1,
+    "/rest/v1/rpc/dm_okunmamis_sayim": 1,
+    "/rest/v1/bildirimler": 1,
+    "/rest/v1/rpc/sezon_ozetim": 1,
+    "/rest/v1/rpc/bekleyen_davetlerim": 1,
+    "/rest/v1/rpc/avatar_nadirlik_renkleri": 1,
+    "/rest/v1/rpc/seri_durumum": 1,
+    "/rest/v1/rpc/gorevlerim": 1,
+    "/rest/v1/rpc/gonderdigim_davetler": 1,
+    "/rest/v1/rpc/duello_aktif_benim": 1,
+    "/rest/v1/tournament_players": 1,
+    "/rest/v1/rpc/yanlis_bankam": 1
+   }
+  },
+  "bolumIstek": {
+   "statik": 74,
+   "dar": 16,
+   "duello": 27,
+   "klasik": 47,
+   "en": 44
+  },
+  "yakalanamayan": [
+   "[klasik] Klasik — galibiyet/mağlubiyet maç sonu sahnesi (Lottie, ödül satırları): 20 soruluk maç sonuna kadar oynanmadı; yalnız \"Maçtan ayrıldın\" sahnesi alındı",
+   "[duello] Düello: Antrenman maçı başlamadı — ekrandaki ileti: \"Düello'yu açmak için 5 maç daha oyna\"",
+   "[duello] Düello oyun içi (ban fazı, RAKİP BANLADI anı, soru ekranı durum çerçevesi, tur sonucu, 5 yuva paneli): hesapta Düello KİLİTLİ — yeni oyuncu kilidi 5 bitmiş Klasik/Saf Bilgi maçı ister; tek kısa Klasik maç sınırıyla açılamaz"
+  ],
+  "notlar": [
+   "[klasik] Klasik: 2 soru cevaplandı, 15 sn"
+  ],
+  "kosular": [
+   {
+    "bolumler": "statik",
+    "sureSn": 31,
+    "toplam": 426,
+    "supabase": 105,
+    "hataDurum": {}
+   },
+   {
+    "bolumler": "dar+duello+klasik+en",
+    "sureSn": 62,
+    "toplam": 546,
+    "supabase": 150,
+    "hataDurum": {
+     "400": 1
+    }
+   },
+   {
+    "bolumler": "duello",
+    "sureSn": 39,
+    "toplam": 193,
+    "supabase": 46,
+    "hataDurum": {
+     "400": 1
+    }
+   }
+  ]
+ },
+ "kayitlar": [
+  {
+   "no": 1,
+   "ad": "01-tr390-ana-sayfa",
+   "baslik": "Ana sayfa",
+   "bolum": "statik",
+   "dil": "tr",
+   "genislik": 390,
+   "yukseklik": 844,
+   "dosya": "01-tr390-ana-sayfa.jpg",
+   "bayt": 95224,
+   "yol": "/",
+   "not": "",
+   "tekEkran": null,
+   "konsol": [],
+   "olcum": {
+    "genislik": 390,
+    "gorusGenisligi": 390,
+    "yukseklik": 844,
+    "sayfaYuksekligi": 844,
+    "tasma": 0,
+    "tasiran": [],
+    "kesik": [],
+    "kucuk": [],
+    "birincil": [
+     {
+      "oge": "button.as-buyuk-dugme.as-buyuk-dugme--oyna",
+      "metin": "OYNA Klasik · 20 soru",
+      "ust": 515,
+      "alt": 579,
+      "ilkEkran": true,
+      "ortulu": false
+     },
+     {
+      "oge": "button.as-buyuk-dugme.as-buyuk-dugme--duello",
+      "metin": "DÜELLO 16 tur",
+      "ust": 515,
+      "alt": 579,
+      "ilkEkran": true,
+      "ortulu": false
+     }
+    ],
+    "zorunlu": [],
+    "pencere": null,
+    "baslik": "Ana sayfa",
+    "kontrastDusuk": [],
+    "kontrastOlculen": 46
+   }
+  },
+  {
+   "no": 2,
+   "ad": "02-tr390-profil",
+   "baslik": "Profil",
+   "bolum": "statik",
+   "dil": "tr",
+   "genislik": 390,
+   "yukseklik": 844,
+   "dosya": "02-tr390-profil.jpg",
+   "bayt": 90265,
+   "yol": "/profil",
+   "not": "",
+   "tekEkran": null,
+   "konsol": [],
+   "olcum": {
+    "genislik": 390,
+    "gorusGenisligi": 390,
+    "yukseklik": 844,
+    "sayfaYuksekligi": 2416,
+    "tasma": 0,
+    "tasiran": [],
+    "kesik": [],
+    "kucuk": [],
+    "birincil": [],
+    "zorunlu": [],
+    "pencere": null,
+    "baslik": "Profil",
+    "kontrastDusuk": [],
+    "kontrastOlculen": 24
+   }
+  },
+  {
+   "no": 3,
+   "ad": "03-tr390-lig",
+   "baslik": "Lig",
+   "bolum": "statik",
+   "dil": "tr",
+   "genislik": 390,
+   "yukseklik": 844,
+   "dosya": "03-tr390-lig.jpg",
+   "bayt": 98905,
+   "yol": "/siralama",
+   "not": "",
+   "tekEkran": null,
+   "konsol": [],
+   "olcum": {
+    "genislik": 390,
+    "gorusGenisligi": 390,
+    "yukseklik": 844,
+    "sayfaYuksekligi": 890,
+    "tasma": 0,
+    "tasiran": [],
+    "kesik": [
+     {
+      "oge": "span.qt-unvan-metin",
+      "metin": "Samsun Şampiyonu",
+      "tur": "tek satır",
+      "gorunenPx": 86,
+      "gerekenPx": 107,
+      "ilkEkran": true
+     },
+     {
+      "oge": "span.qt-unvan-metin",
+      "metin": "Ankara Şampiyonu",
+      "tur": "tek satır",
+      "gorunenPx": 95,
+      "gerekenPx": 103,
+      "ilkEkran": true
+     }
+    ],
+    "kucuk": [],
+    "birincil": [],
+    "zorunlu": [],
+    "pencere": null,
+    "baslik": "Bronz Ligi",
+    "kontrastDusuk": [],
+    "kontrastOlculen": 54
+   }
+  },
+  {
+   "no": 4,
+   "ad": "04-tr390-gorevler",
+   "baslik": "Görevler",
+   "bolum": "statik",
+   "dil": "tr",
+   "genislik": 390,
+   "yukseklik": 844,
+   "dosya": "04-tr390-gorevler.jpg",
+   "bayt": 92111,
+   "yol": "/gorevler",
+   "not": "",
+   "tekEkran": null,
+   "konsol": [],
+   "olcum": {
+    "genislik": 390,
+    "gorusGenisligi": 390,
+    "yukseklik": 844,
+    "sayfaYuksekligi": 844,
+    "tasma": 0,
+    "tasiran": [],
+    "kesik": [],
+    "kucuk": [],
+    "birincil": [],
+    "zorunlu": [],
+    "pencere": null,
+    "baslik": "Görevler",
+    "kontrastDusuk": [],
+    "kontrastOlculen": 49
+   }
+  },
+  {
+   "no": 5,
+   "ad": "05-tr390-battle-pass",
+   "baslik": "Battle Pass (Sezon Yolu)",
+   "bolum": "statik",
+   "dil": "tr",
+   "genislik": 390,
+   "yukseklik": 844,
+   "dosya": "05-tr390-battle-pass.jpg",
+   "bayt": 98703,
+   "yol": "/sezon-yolu",
+   "not": "",
+   "tekEkran": null,
+   "konsol": [],
+   "olcum": {
+    "genislik": 390,
+    "gorusGenisligi": 390,
+    "yukseklik": 844,
+    "sayfaYuksekligi": 844,
+    "tasma": 0,
+    "tasiran": [],
+    "kesik": [],
+    "kucuk": [],
+    "birincil": [
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Battle Pass al, 500 elmas",
+      "ust": 788,
+      "alt": 832,
+      "ilkEkran": true,
+      "ortulu": false
+     }
+    ],
+    "zorunlu": [],
+    "pencere": null,
+    "baslik": "Sezon Yolu",
+    "kontrastDusuk": [],
+    "kontrastOlculen": 29
+   }
+  },
+  {
+   "no": 6,
+   "ad": "06-tr390-dukkan-joker-klasik",
+   "baslik": "Dükkân › Joker › Klasik",
+   "bolum": "statik",
+   "dil": "tr",
+   "genislik": 390,
+   "yukseklik": 844,
+   "dosya": "06-tr390-dukkan-joker-klasik.jpg",
+   "bayt": 93649,
+   "yol": "/joker?mod=klasik",
+   "not": "",
+   "tekEkran": null,
+   "konsol": [],
+   "olcum": {
+    "genislik": 390,
+    "gorusGenisligi": 390,
+    "yukseklik": 844,
+    "sayfaYuksekligi": 2667,
+    "tasma": 0,
+    "tasiran": [],
+    "kesik": [],
+    "kucuk": [],
+    "birincil": [
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "50:50 — 60 coin",
+      "ust": 555,
+      "alt": 599,
+      "ilkEkran": true,
+      "ortulu": false
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Ek Süre — 20 coin",
+      "ust": 730,
+      "alt": 774,
+      "ilkEkran": true,
+      "ortulu": false
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Soru Değiştir — 30 coin",
+      "ust": 924,
+      "alt": 968,
+      "ilkEkran": false,
+      "ortulu": false
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Zaman Baskısı — 30 coin",
+      "ust": 1098,
+      "alt": 1142,
+      "ilkEkran": false,
+      "ortulu": false
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "İkinci Şans — 60 coin",
+      "ust": 1292,
+      "alt": 1336,
+      "ilkEkran": false,
+      "ortulu": false
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Sigorta — 40 coin",
+      "ust": 1557,
+      "alt": 1601,
+      "ilkEkran": false,
+      "ortulu": false
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "2X — 50 coin",
+      "ust": 1731,
+      "alt": 1775,
+      "ilkEkran": false,
+      "ortulu": false
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Klasik Oyuncu Paketi — 960 coi",
+      "ust": 2038,
+      "alt": 2082,
+      "ilkEkran": false,
+      "ortulu": false
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Klasik Usta Paketi — 3220 coin",
+      "ust": 2272,
+      "alt": 2316,
+      "ilkEkran": false,
+      "ortulu": false
+     }
+    ],
+    "zorunlu": [],
+    "pencere": null,
+    "baslik": "Dükkân",
+    "kontrastDusuk": [],
+    "kontrastOlculen": 36
+   }
+  },
+  {
+   "no": 7,
+   "ad": "07-tr390-dukkan-joker-duello",
+   "baslik": "Dükkân › Joker › Düello",
+   "bolum": "statik",
+   "dil": "tr",
+   "genislik": 390,
+   "yukseklik": 844,
+   "dosya": "07-tr390-dukkan-joker-duello.jpg",
+   "bayt": 93444,
+   "yol": "/joker?mod=duello",
+   "not": "",
+   "tekEkran": null,
+   "konsol": [],
+   "olcum": {
+    "genislik": 390,
+    "gorusGenisligi": 390,
+    "yukseklik": 844,
+    "sayfaYuksekligi": 2686,
+    "tasma": 0,
+    "tasiran": [],
+    "kesik": [],
+    "kucuk": [],
+    "birincil": [
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "50:50 — 60 coin",
+      "ust": 555,
+      "alt": 599,
+      "ilkEkran": true,
+      "ortulu": false
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Ek Süre — 20 coin",
+      "ust": 730,
+      "alt": 774,
+      "ilkEkran": true,
+      "ortulu": false
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Soru Değiştir — 30 coin",
+      "ust": 924,
+      "alt": 968,
+      "ilkEkran": false,
+      "ortulu": false
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Zaman Baskısı — 30 coin",
+      "ust": 1098,
+      "alt": 1142,
+      "ilkEkran": false,
+      "ortulu": false
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "İkinci Şans — 60 coin",
+      "ust": 1292,
+      "alt": 1336,
+      "ilkEkran": false,
+      "ortulu": false
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Baskın — 70 coin",
+      "ust": 1557,
+      "alt": 1601,
+      "ilkEkran": false,
+      "ortulu": false
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Kalkan — 50 coin",
+      "ust": 1751,
+      "alt": 1795,
+      "ilkEkran": false,
+      "ortulu": false
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Düello Oyuncu Paketi — 1000 co",
+      "ust": 2057,
+      "alt": 2101,
+      "ilkEkran": false,
+      "ortulu": false
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Düello Usta Paketi — 3370 coin",
+      "ust": 2291,
+      "alt": 2335,
+      "ilkEkran": false,
+      "ortulu": false
+     }
+    ],
+    "zorunlu": [],
+    "pencere": null,
+    "baslik": "Dükkân",
+    "kontrastDusuk": [],
+    "kontrastOlculen": 36
+   }
+  },
+  {
+   "no": 8,
+   "ad": "08-tr390-dukkan-elmas",
+   "baslik": "Dükkân › Elmas",
+   "bolum": "statik",
+   "dil": "tr",
+   "genislik": 390,
+   "yukseklik": 844,
+   "dosya": "08-tr390-dukkan-elmas.jpg",
+   "bayt": 97783,
+   "yol": "/joker?sekme=elmas",
+   "not": "",
+   "tekEkran": null,
+   "konsol": [],
+   "olcum": {
+    "genislik": 390,
+    "gorusGenisligi": 390,
+    "yukseklik": 844,
+    "sayfaYuksekligi": 1819,
+    "tasma": 0,
+    "tasiran": [],
+    "kesik": [],
+    "kucuk": [],
+    "birincil": [
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Yakında",
+      "ust": 994,
+      "alt": 1038,
+      "ilkEkran": false,
+      "ortulu": false,
+      "devreDisi": true
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Yakında",
+      "ust": 994,
+      "alt": 1038,
+      "ilkEkran": false,
+      "ortulu": false,
+      "devreDisi": true
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Yakında",
+      "ust": 1302,
+      "alt": 1346,
+      "ilkEkran": false,
+      "ortulu": false,
+      "devreDisi": true
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Yakında",
+      "ust": 1302,
+      "alt": 1346,
+      "ilkEkran": false,
+      "ortulu": false,
+      "devreDisi": true
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Yakında",
+      "ust": 1634,
+      "alt": 1678,
+      "ilkEkran": false,
+      "ortulu": false,
+      "devreDisi": true
+     }
+    ],
+    "zorunlu": [],
+    "pencere": null,
+    "baslik": "Dükkân",
+    "kontrastDusuk": [],
+    "kontrastOlculen": 29
+   }
+  },
+  {
+   "no": 9,
+   "ad": "09-tr390-dukkan-cerceve",
+   "baslik": "Dükkân › Çerçeve",
+   "bolum": "statik",
+   "dil": "tr",
+   "genislik": 390,
+   "yukseklik": 844,
+   "dosya": "09-tr390-dukkan-cerceve.jpg",
+   "bayt": 97235,
+   "yol": "/joker?sekme=cerceve",
+   "not": "",
+   "tekEkran": null,
+   "konsol": [],
+   "olcum": {
+    "genislik": 390,
+    "gorusGenisligi": 390,
+    "yukseklik": 844,
+    "sayfaYuksekligi": 1301,
+    "tasma": 0,
+    "tasiran": [],
+    "kesik": [],
+    "kucuk": [
+     {
+      "oge": "a",
+      "metin": "Koleksiyonuna bak",
+      "w": 125,
+      "h": 19,
+      "satirIci": true,
+      "ilkEkran": false
+     }
+    ],
+    "birincil": [
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Sonbahar satın al — 500 elmas",
+      "ust": 682,
+      "alt": 726,
+      "ilkEkran": true,
+      "ortulu": false
+     }
+    ],
+    "zorunlu": [],
+    "pencere": null,
+    "baslik": "Dükkân",
+    "kontrastDusuk": [],
+    "kontrastOlculen": 20
+   }
+  },
+  {
+   "no": 10,
+   "ad": "10-tr390-dukkan-avatar-isim",
+   "baslik": "Dükkân › Avatar ve İsim",
+   "bolum": "statik",
+   "dil": "tr",
+   "genislik": 390,
+   "yukseklik": 844,
+   "dosya": "10-tr390-dukkan-avatar-isim.jpg",
+   "bayt": 101291,
+   "yol": "/joker?sekme=avatar",
+   "not": "",
+   "tekEkran": null,
+   "konsol": [],
+   "olcum": {
+    "genislik": 390,
+    "gorusGenisligi": 390,
+    "yukseklik": 844,
+    "sayfaYuksekligi": 2795,
+    "tasma": 0,
+    "tasiran": [],
+    "kesik": [],
+    "kucuk": [
+     {
+      "oge": "a",
+      "metin": "Koleksiyonuna bak",
+      "w": 125,
+      "h": 19,
+      "satirIci": true,
+      "ilkEkran": false
+     }
+    ],
+    "birincil": [
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Satın al 150",
+      "ust": 536,
+      "alt": 580,
+      "ilkEkran": true,
+      "ortulu": false
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Altın satın al — 100 elmas",
+      "ust": 2551,
+      "alt": 2595,
+      "ilkEkran": false,
+      "ortulu": false
+     }
+    ],
+    "zorunlu": [],
+    "pencere": null,
+    "baslik": "Dükkân",
+    "kontrastDusuk": [],
+    "kontrastOlculen": 31
+   }
+  },
+  {
+   "no": 11,
+   "ad": "11-tr390-arkadaslar",
+   "baslik": "Arkadaşlar",
+   "bolum": "statik",
+   "dil": "tr",
+   "genislik": 390,
+   "yukseklik": 844,
+   "dosya": "11-tr390-arkadaslar.jpg",
+   "bayt": 101184,
+   "yol": "/arkadaslar",
+   "not": "",
+   "tekEkran": null,
+   "konsol": [],
+   "olcum": {
+    "genislik": 390,
+    "gorusGenisligi": 390,
+    "yukseklik": 844,
+    "sayfaYuksekligi": 873,
+    "tasma": 0,
+    "tasiran": [],
+    "kesik": [],
+    "kucuk": [],
+    "birincil": [
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Bağlantıyı paylaş",
+      "ust": 407,
+      "alt": 451,
+      "ilkEkran": true,
+      "ortulu": false
+     }
+    ],
+    "zorunlu": [],
+    "pencere": null,
+    "baslik": "Arkadaşlar",
+    "kontrastDusuk": [],
+    "kontrastOlculen": 23
+   }
+  },
+  {
+   "no": 12,
+   "ad": "12-tr390-meydan-okumalar",
+   "baslik": "Meydan Okumalar",
+   "bolum": "statik",
+   "dil": "tr",
+   "genislik": 390,
+   "yukseklik": 844,
+   "dosya": "12-tr390-meydan-okumalar.jpg",
+   "bayt": 92792,
+   "yol": "/meydan",
+   "not": "",
+   "tekEkran": null,
+   "konsol": [],
+   "olcum": {
+    "genislik": 390,
+    "gorusGenisligi": 390,
+    "yukseklik": 844,
+    "sayfaYuksekligi": 1194,
+    "tasma": 0,
+    "tasiran": [],
+    "kesik": [],
+    "kucuk": [],
+    "birincil": [
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Devam et",
+      "ust": 216,
+      "alt": 260,
+      "ilkEkran": true,
+      "ortulu": false
+     }
+    ],
+    "zorunlu": [],
+    "pencere": null,
+    "baslik": "Meydan Oku",
+    "kontrastDusuk": [],
+    "kontrastOlculen": 26
+   }
+  },
+  {
+   "no": 13,
+   "ad": "13-tr390-modlar",
+   "baslik": "Modlar (kategori şeridi)",
+   "bolum": "statik",
+   "dil": "tr",
+   "genislik": 390,
+   "yukseklik": 844,
+   "dosya": "13-tr390-modlar.jpg",
+   "bayt": 97595,
+   "yol": "/modlar",
+   "not": "",
+   "tekEkran": null,
+   "konsol": [],
+   "olcum": {
+    "genislik": 390,
+    "gorusGenisligi": 390,
+    "yukseklik": 844,
+    "sayfaYuksekligi": 1154,
+    "tasma": 0,
+    "tasiran": [],
+    "kesik": [],
+    "kucuk": [],
+    "birincil": [],
+    "zorunlu": [],
+    "pencere": null,
+    "baslik": "Tarzını seç, bilgini göster",
+    "kontrastDusuk": [],
+    "kontrastOlculen": 27
+   }
+  },
+  {
+   "no": 14,
+   "ad": "14-tr390-ayarlar",
+   "baslik": "Ayarlar",
+   "bolum": "statik",
+   "dil": "tr",
+   "genislik": 390,
+   "yukseklik": 844,
+   "dosya": "14-tr390-ayarlar.jpg",
+   "bayt": 99956,
+   "yol": "/profil?sekme=ayarlar",
+   "not": "",
+   "tekEkran": null,
+   "konsol": [],
+   "olcum": {
+    "genislik": 390,
+    "gorusGenisligi": 390,
+    "yukseklik": 844,
+    "sayfaYuksekligi": 2850,
+    "tasma": 0,
+    "tasiran": [],
+    "kesik": [],
+    "kucuk": [],
+    "birincil": [],
+    "zorunlu": [],
+    "pencere": null,
+    "baslik": "Profil",
+    "kontrastDusuk": [],
+    "kontrastOlculen": 22
+   }
+  },
+  {
+   "no": 15,
+   "ad": "15-tr390-oyna-penceresi",
+   "baslik": "OYNA penceresi (mod + kategori şeridi)",
+   "bolum": "statik",
+   "dil": "tr",
+   "genislik": 390,
+   "yukseklik": 844,
+   "dosya": "15-tr390-oyna-penceresi.jpg",
+   "bayt": 91812,
+   "yol": "/",
+   "not": "",
+   "tekEkran": null,
+   "konsol": [],
+   "olcum": {
+    "genislik": 390,
+    "gorusGenisligi": 390,
+    "yukseklik": 844,
+    "sayfaYuksekligi": 844,
+    "tasma": 0,
+    "tasiran": [],
+    "kesik": [],
+    "kucuk": [],
+    "birincil": [],
+    "zorunlu": [],
+    "pencere": "Nasıl oynamak istersin?",
+    "baslik": "Ana sayfa",
+    "kontrastDusuk": [],
+    "kontrastOlculen": 22
+   }
+  },
+  {
+   "no": 20,
+   "ad": "20-tr360-ana-sayfa",
+   "baslik": "Ana sayfa",
+   "bolum": "dar",
+   "dil": "tr",
+   "genislik": 360,
+   "yukseklik": 640,
+   "dosya": "20-tr360-ana-sayfa.jpg",
+   "bayt": 101030,
+   "yol": "/",
+   "not": "",
+   "tekEkran": null,
+   "konsol": [],
+   "olcum": {
+    "genislik": 360,
+    "gorusGenisligi": 360,
+    "yukseklik": 640,
+    "sayfaYuksekligi": 640,
+    "tasma": 0,
+    "tasiran": [],
+    "kesik": [],
+    "kucuk": [],
+    "birincil": [
+     {
+      "oge": "button.as-buyuk-dugme.as-buyuk-dugme--oyna",
+      "metin": "OYNA Klasik · 20 soru",
+      "ust": 337,
+      "alt": 391,
+      "ilkEkran": true,
+      "ortulu": false
+     },
+     {
+      "oge": "button.as-buyuk-dugme.as-buyuk-dugme--duello",
+      "metin": "DÜELLO 16 tur",
+      "ust": 337,
+      "alt": 391,
+      "ilkEkran": true,
+      "ortulu": false
+     }
+    ],
+    "zorunlu": [],
+    "pencere": null,
+    "baslik": "Ana sayfa",
+    "kontrastDusuk": [],
+    "kontrastOlculen": 41
+   }
+  },
+  {
+   "no": 21,
+   "ad": "21-tr360-battle-pass",
+   "baslik": "Battle Pass (Sezon Yolu)",
+   "bolum": "dar",
+   "dil": "tr",
+   "genislik": 360,
+   "yukseklik": 640,
+   "dosya": "21-tr360-battle-pass.jpg",
+   "bayt": 92887,
+   "yol": "/sezon-yolu",
+   "not": "",
+   "tekEkran": null,
+   "konsol": [],
+   "olcum": {
+    "genislik": 360,
+    "gorusGenisligi": 360,
+    "yukseklik": 640,
+    "sayfaYuksekligi": 640,
+    "tasma": 0,
+    "tasiran": [],
+    "kesik": [],
+    "kucuk": [],
+    "birincil": [
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Battle Pass al, 500 elmas",
+      "ust": 588,
+      "alt": 632,
+      "ilkEkran": true,
+      "ortulu": false
+     }
+    ],
+    "zorunlu": [],
+    "pencere": null,
+    "baslik": "Sezon Yolu",
+    "kontrastDusuk": [],
+    "kontrastOlculen": 24
+   }
+  },
+  {
+   "no": 22,
+   "ad": "22-tr360-dukkan-joker",
+   "baslik": "Dükkân › Joker",
+   "bolum": "dar",
+   "dil": "tr",
+   "genislik": 360,
+   "yukseklik": 640,
+   "dosya": "22-tr360-dukkan-joker.jpg",
+   "bayt": 85053,
+   "yol": "/joker?mod=klasik",
+   "not": "",
+   "tekEkran": null,
+   "konsol": [],
+   "olcum": {
+    "genislik": 360,
+    "gorusGenisligi": 360,
+    "yukseklik": 640,
+    "sayfaYuksekligi": 2686,
+    "tasma": 0,
+    "tasiran": [],
+    "kesik": [],
+    "kucuk": [],
+    "birincil": [
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "50:50 — 60 coin",
+      "ust": 555,
+      "alt": 599,
+      "ilkEkran": false,
+      "ortulu": true
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Ek Süre — 20 coin",
+      "ust": 730,
+      "alt": 774,
+      "ilkEkran": false,
+      "ortulu": false
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Soru Değiştir — 30 coin",
+      "ust": 943,
+      "alt": 987,
+      "ilkEkran": false,
+      "ortulu": false
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Zaman Baskısı — 30 coin",
+      "ust": 1118,
+      "alt": 1162,
+      "ilkEkran": false,
+      "ortulu": false
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "İkinci Şans — 60 coin",
+      "ust": 1312,
+      "alt": 1356,
+      "ilkEkran": false,
+      "ortulu": false
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Sigorta — 40 coin",
+      "ust": 1576,
+      "alt": 1620,
+      "ilkEkran": false,
+      "ortulu": false
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "2X — 50 coin",
+      "ust": 1751,
+      "alt": 1795,
+      "ilkEkran": false,
+      "ortulu": false
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Klasik Oyuncu Paketi — 960 coi",
+      "ust": 2057,
+      "alt": 2101,
+      "ilkEkran": false,
+      "ortulu": false
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Klasik Usta Paketi — 3220 coin",
+      "ust": 2291,
+      "alt": 2335,
+      "ilkEkran": false,
+      "ortulu": false
+     }
+    ],
+    "zorunlu": [],
+    "pencere": null,
+    "baslik": "Dükkân",
+    "kontrastDusuk": [],
+    "kontrastOlculen": 25
+   }
+  },
+  {
+   "no": 23,
+   "ad": "23-tr360-lig",
+   "baslik": "Lig",
+   "bolum": "dar",
+   "dil": "tr",
+   "genislik": 360,
+   "yukseklik": 640,
+   "dosya": "23-tr360-lig.jpg",
+   "bayt": 94735,
+   "yol": "/siralama",
+   "not": "",
+   "tekEkran": null,
+   "konsol": [],
+   "olcum": {
+    "genislik": 360,
+    "gorusGenisligi": 360,
+    "yukseklik": 640,
+    "sayfaYuksekligi": 890,
+    "tasma": 0,
+    "tasiran": [],
+    "kesik": [
+     {
+      "oge": "span.qt-unvan-metin",
+      "metin": "Samsun Şampiyonu",
+      "tur": "tek satır",
+      "gorunenPx": 78,
+      "gerekenPx": 107,
+      "ilkEkran": true
+     },
+     {
+      "oge": "span.qt-unvan-metin",
+      "metin": "Ankara Şampiyonu",
+      "tur": "tek satır",
+      "gorunenPx": 87,
+      "gerekenPx": 103,
+      "ilkEkran": true
+     }
+    ],
+    "kucuk": [],
+    "birincil": [],
+    "zorunlu": [],
+    "pencere": null,
+    "baslik": "Bronz Ligi",
+    "kontrastDusuk": [],
+    "kontrastOlculen": 35
+   }
+  },
+  {
+   "no": 30,
+   "ad": "30-antrenman-duello-reddi",
+   "baslik": "Antrenman › Düello: sunucu reddi (\"Düello'yu açmak için 5 maç daha oyna\")",
+   "bolum": "duello",
+   "dil": "tr",
+   "genislik": 390,
+   "yukseklik": 844,
+   "dosya": "30-antrenman-duello-reddi.jpg",
+   "bayt": 92372,
+   "yol": "/meydan",
+   "not": "",
+   "tekEkran": null,
+   "konsol": [
+    "Failed to load resource: the server responded with a status of 400 () (https://zfpnxzybcpkxsotwdsey.supabase.co/rest/v1/rpc/duello_davet_et)",
+    "[Bildim] antrenman maçı: {code: P0001, details: null, hint: null, message: Düello'yu açmak için 5 maç daha oyna} (/assets/sentry-CRMtfotw.js)"
+   ],
+   "olcum": {
+    "genislik": 390,
+    "gorusGenisligi": 390,
+    "yukseklik": 844,
+    "sayfaYuksekligi": 1122,
+    "tasma": 0,
+    "tasiran": [],
+    "kesik": [],
+    "kucuk": [],
+    "birincil": [
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Klasik Mod",
+      "ust": 399,
+      "alt": 451,
+      "ilkEkran": true,
+      "ortulu": false
+     }
+    ],
+    "zorunlu": [],
+    "pencere": "ToyBot ile antrenman",
+    "baslik": "Meydan Oku",
+    "kontrastDusuk": [],
+    "kontrastOlculen": 5
+   }
+  },
+  {
+   "no": 31,
+   "ad": "31-duello-giris",
+   "baslik": "Düello — giriş ekranı",
+   "bolum": "duello",
+   "dil": "tr",
+   "genislik": 390,
+   "yukseklik": 844,
+   "dosya": "31-duello-giris.jpg",
+   "bayt": 97814,
+   "yol": "/duello",
+   "not": "",
+   "tekEkran": null,
+   "konsol": [],
+   "olcum": {
+    "genislik": 390,
+    "gorusGenisligi": 390,
+    "yukseklik": 844,
+    "sayfaYuksekligi": 844,
+    "tasma": 0,
+    "tasiran": [],
+    "kesik": [],
+    "kucuk": [],
+    "birincil": [
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Klasik maç oyna",
+      "ust": 422,
+      "alt": 466,
+      "ilkEkran": true,
+      "ortulu": false
+     }
+    ],
+    "zorunlu": [],
+    "pencere": null,
+    "baslik": "Düello",
+    "kontrastDusuk": [
+     {
+      "oge": "h1.qt-baslik-1",
+      "metin": "Düello",
+      "px": 34,
+      "buyuk": true,
+      "devreDisi": false,
+      "oran": 2.84,
+      "metinRengi": "#1d2152",
+      "zeminRengi": "#c93030",
+      "zeminPayi": 0.74
+     }
+    ],
+    "kontrastOlculen": 13
+   }
+  },
+  {
+   "no": 32,
+   "ad": "32-duello-kurallar-adim-1",
+   "baslik": "Düello — kurallar penceresi, adım 1: aynı soru, aynı anda",
+   "bolum": "duello",
+   "dil": "tr",
+   "genislik": 390,
+   "yukseklik": 844,
+   "dosya": "32-duello-kurallar-adim-1.jpg",
+   "bayt": 92310,
+   "yol": "/duello",
+   "not": "",
+   "tekEkran": null,
+   "konsol": [],
+   "olcum": {
+    "genislik": 390,
+    "gorusGenisligi": 390,
+    "yukseklik": 844,
+    "sayfaYuksekligi": 844,
+    "tasma": 0,
+    "tasiran": [],
+    "kesik": [],
+    "kucuk": [],
+    "birincil": [
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "İleri",
+      "ust": 547,
+      "alt": 599,
+      "ilkEkran": true,
+      "ortulu": false
+     }
+    ],
+    "zorunlu": [],
+    "pencere": "Düello nasıl oynanır",
+    "baslik": "Düello",
+    "kontrastDusuk": [],
+    "kontrastOlculen": 5
+   }
+  },
+  {
+   "no": 33,
+   "ad": "33-duello-kurallar-adim-4",
+   "baslik": "Düello — kurallar penceresi, adım 4: soru ekranında çerçeve rengi",
+   "bolum": "duello",
+   "dil": "tr",
+   "genislik": 390,
+   "yukseklik": 844,
+   "dosya": "33-duello-kurallar-adim-4.jpg",
+   "bayt": 92450,
+   "yol": "/duello",
+   "not": "",
+   "tekEkran": null,
+   "konsol": [],
+   "olcum": {
+    "genislik": 390,
+    "gorusGenisligi": 390,
+    "yukseklik": 844,
+    "sayfaYuksekligi": 844,
+    "tasma": 0,
+    "tasiran": [],
+    "kesik": [],
+    "kucuk": [],
+    "birincil": [
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "İleri",
+      "ust": 633,
+      "alt": 685,
+      "ilkEkran": true,
+      "ortulu": false
+     }
+    ],
+    "zorunlu": [],
+    "pencere": "Düello nasıl oynanır",
+    "baslik": "Düello",
+    "kontrastDusuk": [],
+    "kontrastOlculen": 6
+   }
+  },
+  {
+   "no": 34,
+   "ad": "34-duello-kurallar-adim-5",
+   "baslik": "Düello — kurallar penceresi, adım 5: savunma banı",
+   "bolum": "duello",
+   "dil": "tr",
+   "genislik": 390,
+   "yukseklik": 844,
+   "dosya": "34-duello-kurallar-adim-5.jpg",
+   "bayt": 84879,
+   "yol": "/duello",
+   "not": "",
+   "tekEkran": null,
+   "konsol": [],
+   "olcum": {
+    "genislik": 390,
+    "gorusGenisligi": 390,
+    "yukseklik": 844,
+    "sayfaYuksekligi": 844,
+    "tasma": 0,
+    "tasiran": [],
+    "kesik": [],
+    "kucuk": [],
+    "birincil": [
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "İleri",
+      "ust": 547,
+      "alt": 599,
+      "ilkEkran": true,
+      "ortulu": false
+     }
+    ],
+    "zorunlu": [],
+    "pencere": "Düello nasıl oynanır",
+    "baslik": "Düello",
+    "kontrastDusuk": [],
+    "kontrastOlculen": 5
+   }
+  },
+  {
+   "no": 60,
+   "ad": "60-klasik-hazir-kapisi",
+   "baslik": "Klasik — \"Hazır mısın?\" kapısı (joker seti)",
+   "bolum": "klasik",
+   "dil": "tr",
+   "genislik": 390,
+   "yukseklik": 844,
+   "dosya": "60-klasik-hazir-kapisi.jpg",
+   "bayt": 89061,
+   "yol": "/mac/fe2de277-9336-45c1-b8fe-3430c86aa390",
+   "not": "",
+   "tekEkran": "klasik",
+   "konsol": [],
+   "olcum": {
+    "genislik": 390,
+    "gorusGenisligi": 390,
+    "yukseklik": 844,
+    "sayfaYuksekligi": 844,
+    "tasma": 0,
+    "tasiran": [],
+    "kesik": [],
+    "kucuk": [],
+    "birincil": [
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Hazırım",
+      "ust": 736,
+      "alt": 780,
+      "ilkEkran": true,
+      "ortulu": false
+     }
+    ],
+    "zorunlu": [],
+    "pencere": null,
+    "baslik": "Hazır mısın?",
+    "kontrastDusuk": [],
+    "kontrastOlculen": 24
+   }
+  },
+  {
+   "no": 61,
+   "ad": "61-klasik-geri-sayim",
+   "baslik": "Klasik — maç başı 3-2-1",
+   "bolum": "klasik",
+   "dil": "tr",
+   "genislik": 390,
+   "yukseklik": 844,
+   "dosya": "61-klasik-geri-sayim.png",
+   "bayt": 80133,
+   "yol": "/mac/fe2de277-9336-45c1-b8fe-3430c86aa390",
+   "not": "",
+   "tekEkran": null,
+   "konsol": [],
+   "olcum": null
+  },
+  {
+   "no": 62,
+   "ad": "62-klasik-soru",
+   "baslik": "Klasik — soru ekranı",
+   "bolum": "klasik",
+   "dil": "tr",
+   "genislik": 390,
+   "yukseklik": 844,
+   "dosya": "62-klasik-soru.jpg",
+   "bayt": 95775,
+   "yol": "/mac/fe2de277-9336-45c1-b8fe-3430c86aa390",
+   "not": "",
+   "tekEkran": "klasik",
+   "konsol": [],
+   "olcum": {
+    "genislik": 390,
+    "gorusGenisligi": 390,
+    "yukseklik": 844,
+    "sayfaYuksekligi": 844,
+    "tasma": 0,
+    "tasiran": [],
+    "kesik": [],
+    "kucuk": [],
+    "birincil": [],
+    "zorunlu": [
+     {
+      "secici": ":is(.qt-sik, .bd-secenek)",
+      "sayi": 4,
+      "disarida": 0,
+      "enAlt": 651
+     }
+    ],
+    "pencere": null,
+    "baslik": "",
+    "kontrastDusuk": [],
+    "kontrastOlculen": 22
+   }
+  },
+  {
+   "no": 63,
+   "ad": "63-klasik-cevap-sonrasi",
+   "baslik": "Klasik — cevap verildikten sonra (geri bildirim / rakip bekleniyor)",
+   "bolum": "klasik",
+   "dil": "tr",
+   "genislik": 390,
+   "yukseklik": 844,
+   "dosya": "63-klasik-cevap-sonrasi.jpg",
+   "bayt": 78342,
+   "yol": "/mac/fe2de277-9336-45c1-b8fe-3430c86aa390",
+   "not": "",
+   "tekEkran": null,
+   "konsol": [],
+   "olcum": null
+  },
+  {
+   "no": 64,
+   "ad": "64-klasik-cikis-onayi",
+   "baslik": "Klasik — \"Maçtan çık\" onay penceresi",
+   "bolum": "klasik",
+   "dil": "tr",
+   "genislik": 390,
+   "yukseklik": 844,
+   "dosya": "64-klasik-cikis-onayi.jpg",
+   "bayt": 76349,
+   "yol": "/mac/fe2de277-9336-45c1-b8fe-3430c86aa390",
+   "not": "",
+   "tekEkran": null,
+   "konsol": [],
+   "olcum": {
+    "genislik": 390,
+    "gorusGenisligi": 390,
+    "yukseklik": 844,
+    "sayfaYuksekligi": 844,
+    "tasma": 0,
+    "tasiran": [],
+    "kesik": [],
+    "kucuk": [],
+    "birincil": [],
+    "zorunlu": [],
+    "pencere": "Maçtan çıkarsan hükmen mağlup sayılırsın.",
+    "baslik": "",
+    "kontrastDusuk": [],
+    "kontrastOlculen": 4
+   }
+  },
+  {
+   "no": 65,
+   "ad": "65-klasik-mac-sonu-terk",
+   "baslik": "Klasik — maç sonu: \"Maçtan ayrıldın\" sahnesi (2 sorudan sonra çıkış)",
+   "bolum": "klasik",
+   "dil": "tr",
+   "genislik": 390,
+   "yukseklik": 844,
+   "dosya": "65-klasik-mac-sonu-terk.jpg",
+   "bayt": 88382,
+   "yol": "/mac/fe2de277-9336-45c1-b8fe-3430c86aa390",
+   "not": "",
+   "tekEkran": "klasik",
+   "konsol": [],
+   "olcum": {
+    "genislik": 390,
+    "gorusGenisligi": 390,
+    "yukseklik": 844,
+    "sayfaYuksekligi": 940,
+    "tasma": 0,
+    "tasiran": [],
+    "kesik": [
+     {
+      "oge": "span.msk-isim-metin",
+      "metin": "ArayuzDene…",
+      "tur": "tek satır",
+      "gorunenPx": 56,
+      "gerekenPx": 92,
+      "ilkEkran": true
+     }
+    ],
+    "kucuk": [],
+    "birincil": [
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Yeni maç bul",
+      "ust": 381,
+      "alt": 425,
+      "ilkEkran": true,
+      "ortulu": false
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Rövanş",
+      "ust": 784,
+      "alt": 828,
+      "ilkEkran": true,
+      "ortulu": false
+     }
+    ],
+    "zorunlu": [],
+    "pencere": null,
+    "baslik": "Maçtan ayrıldın",
+    "kontrastDusuk": [
+     {
+      "oge": "span.msk-skor-etiket",
+      "metin": "puan",
+      "px": 12,
+      "buyuk": false,
+      "devreDisi": false,
+      "oran": 1.95,
+      "metinRengi": "#46507f",
+      "zeminRengi": "#1d2152",
+      "zeminPayi": 0.71
+     }
+    ],
+    "kontrastOlculen": 15
+   }
+  },
+  {
+   "no": 70,
+   "ad": "70-en390-ana-sayfa",
+   "baslik": "Home (EN)",
+   "bolum": "en",
+   "dil": "en",
+   "genislik": 390,
+   "yukseklik": 844,
+   "dosya": "70-en390-ana-sayfa.jpg",
+   "bayt": 92564,
+   "yol": "/",
+   "not": "",
+   "tekEkran": null,
+   "konsol": [],
+   "olcum": {
+    "genislik": 390,
+    "gorusGenisligi": 390,
+    "yukseklik": 844,
+    "sayfaYuksekligi": 844,
+    "tasma": 0,
+    "tasiran": [],
+    "kesik": [],
+    "kucuk": [],
+    "birincil": [
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Turn on notifications",
+      "ust": 220,
+      "alt": 264,
+      "ilkEkran": true,
+      "ortulu": false
+     },
+     {
+      "oge": "button.as-buyuk-dugme.as-buyuk-dugme--oyna",
+      "metin": "PLAY Classic · 20 questions",
+      "ust": 515,
+      "alt": 579,
+      "ilkEkran": true,
+      "ortulu": false
+     },
+     {
+      "oge": "button.as-buyuk-dugme.as-buyuk-dugme--duello",
+      "metin": "DUEL 16 rounds",
+      "ust": 515,
+      "alt": 579,
+      "ilkEkran": true,
+      "ortulu": false
+     }
+    ],
+    "zorunlu": [],
+    "pencere": null,
+    "baslik": "Home",
+    "kontrastDusuk": [],
+    "kontrastOlculen": 41
+   }
+  },
+  {
+   "no": 71,
+   "ad": "71-en390-dukkan-joker",
+   "baslik": "Shop › Jokers (EN)",
+   "bolum": "en",
+   "dil": "en",
+   "genislik": 390,
+   "yukseklik": 844,
+   "dosya": "71-en390-dukkan-joker.jpg",
+   "bayt": 94580,
+   "yol": "/joker?mod=klasik",
+   "not": "",
+   "tekEkran": null,
+   "konsol": [],
+   "olcum": {
+    "genislik": 390,
+    "gorusGenisligi": 390,
+    "yukseklik": 844,
+    "sayfaYuksekligi": 2706,
+    "tasma": 0,
+    "tasiran": [],
+    "kesik": [],
+    "kucuk": [],
+    "birincil": [
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "50:50 — 60 coins",
+      "ust": 555,
+      "alt": 599,
+      "ilkEkran": true,
+      "ortulu": false
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Extra Time — 20 coins",
+      "ust": 730,
+      "alt": 774,
+      "ilkEkran": true,
+      "ortulu": false
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Swap Question — 30 coins",
+      "ust": 943,
+      "alt": 987,
+      "ilkEkran": false,
+      "ortulu": false
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Time Pressure — 30 coins",
+      "ust": 1118,
+      "alt": 1162,
+      "ilkEkran": false,
+      "ortulu": false
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Second Chance — 60 coins",
+      "ust": 1312,
+      "alt": 1356,
+      "ilkEkran": false,
+      "ortulu": false
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Insurance — 40 coins",
+      "ust": 1576,
+      "alt": 1620,
+      "ilkEkran": false,
+      "ortulu": false
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "2X — 50 coins",
+      "ust": 1751,
+      "alt": 1795,
+      "ilkEkran": false,
+      "ortulu": false
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Classic Player Pack — 960 coin",
+      "ust": 2057,
+      "alt": 2101,
+      "ilkEkran": false,
+      "ortulu": false
+     },
+     {
+      "oge": "button.qt-dugme.qt-dugme--birincil",
+      "metin": "Classic Master Pack — 3220 coi",
+      "ust": 2291,
+      "alt": 2335,
+      "ilkEkran": false,
+      "ortulu": false
+     }
+    ],
+    "zorunlu": [],
+    "pencere": null,
+    "baslik": "Shop",
+    "kontrastDusuk": [],
+    "kontrastOlculen": 37
+   }
+  },
+  {
+   "no": 72,
+   "ad": "72-en390-lig",
+   "baslik": "League (EN)",
+   "bolum": "en",
+   "dil": "en",
+   "genislik": 390,
+   "yukseklik": 844,
+   "dosya": "72-en390-lig.jpg",
+   "bayt": 100146,
+   "yol": "/siralama",
+   "not": "",
+   "tekEkran": null,
+   "konsol": [],
+   "olcum": {
+    "genislik": 390,
+    "gorusGenisligi": 390,
+    "yukseklik": 844,
+    "sayfaYuksekligi": 884,
+    "tasma": 0,
+    "tasiran": [],
+    "kesik": [
+     {
+      "oge": "span.qt-unvan-metin",
+      "metin": "Samsun Champion",
+      "tur": "tek satır",
+      "gorunenPx": 85,
+      "gerekenPx": 102,
+      "ilkEkran": true
+     },
+     {
+      "oge": "span.qt-unvan-metin",
+      "metin": "Ankara Champion",
+      "tur": "tek satır",
+      "gorunenPx": 96,
+      "gerekenPx": 98,
+      "ilkEkran": true
+     }
+    ],
+    "kucuk": [],
+    "birincil": [],
+    "zorunlu": [],
+    "pencere": null,
+    "baslik": "Bronze League",
+    "kontrastDusuk": [],
+    "kontrastOlculen": 54
+   }
+  }
+ ]
+}
