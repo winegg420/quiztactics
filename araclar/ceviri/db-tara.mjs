@@ -13,13 +13,12 @@ const kok = path.resolve(import.meta.dirname, "..", "..");
 process.chdir(kok);
 const gecici = path.join(os.tmpdir(), "ceviri-sozluk-db.mjs");
 await build({
-  entryPoints: [path.join(kok, "oyun/lib/dil.js")], bundle: true, platform: "node", format: "esm", outfile: gecici, logLevel: "error",
+  entryPoints: [path.join(kok, "oyun/lib/dil-en.js")], bundle: true, platform: "node", format: "esm", outfile: gecici, logLevel: "error",
   plugins: [{ name: "sozluk-aktar", setup(b) {
     b.onLoad({ filter: /oyun[\\/]lib[\\/]dil\.js$/ }, (a) => ({ contents: fs.readFileSync(a.path, "utf8").replace("const SOZLUK = {", "export const SOZLUK = {"), loader: "js" }));
   } }],
 });
-const { SOZLUK } = await import(pathToFileURL(gecici).href);
-const EN = SOZLUK.en;
+const EN = (await import(pathToFileURL(gecici).href)).default;   // dil-en.js: İngilizce sözlük ayrı tembel parça (dil.js › sozlukYukle)
 const kacis = (p) => p.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 const kaliplar = Object.keys(EN).filter((k) => k.includes("%")).map((k) => new RegExp("^" + k.split("%").map(kacis).join("(.+?)") + "$"));
 const enVar = (m) => Object.prototype.hasOwnProperty.call(EN, m) || Object.prototype.hasOwnProperty.call(EN, m.split("|")[0]) || kaliplar.some((r) => r.test(m));

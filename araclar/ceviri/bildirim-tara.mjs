@@ -12,6 +12,7 @@ const gecici = path.join(os.tmpdir(), "ceviri-sozluk-bildirim.mjs");
 await build({ entryPoints: [path.join(kok, "oyun/lib/dil.js")], bundle: true, platform: "node", format: "esm", outfile: gecici, logLevel: "error",
   plugins: [{ name: "a", setup(b) { b.onLoad({ filter: /oyun[\/]lib[\/]dil\.js$/ }, (a) => ({ contents: fs.readFileSync(a.path, "utf8"), loader: "js" })); } }] });
 const dil = await import(pathToFileURL(gecici).href);
+await dil.sozlukYukle("en");   // İngilizce sözlük tembel yüklenir
 const db = await new PgIstemci(await baglantiDizgisi()).baglan();
 try {
   localStorage_kur();

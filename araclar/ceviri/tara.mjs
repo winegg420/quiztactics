@@ -21,13 +21,12 @@ const dosyaSuz = args.includes("--dosya") ? args[args.indexOf("--dosya") + 1] : 
 // ---- EN sözlüğünü yükle (SOZLUK dışa verilmez: esbuild yükleyicisiyle export edilir)
 const gecici = path.join(os.tmpdir(), "ceviri-sozluk.mjs");
 await build({
-  entryPoints: [path.join(kok, "oyun/lib/dil.js")], bundle: true, platform: "node", format: "esm", outfile: gecici, logLevel: "error",
+  entryPoints: [path.join(kok, "oyun/lib/dil-en.js")], bundle: true, platform: "node", format: "esm", outfile: gecici, logLevel: "error",
   plugins: [{ name: "sozluk-aktar", setup(b) {
     b.onLoad({ filter: /oyun[\\/]lib[\\/]dil\.js$/ }, (a) => ({ contents: fs.readFileSync(a.path, "utf8").replace("const SOZLUK = {", "export const SOZLUK = {"), loader: "js" }));
   } }],
 });
-const { SOZLUK } = await import(pathToFileURL(gecici).href);
-const EN = SOZLUK.en;
+const EN = (await import(pathToFileURL(gecici).href)).default;   // dil-en.js: İngilizce sözlük ayrı tembel parça (dil.js › sozlukYukle)
 const kaliplar = Object.keys(EN).filter((k) => k.includes("%")).map((k) => new RegExp("^" + k.split("%").map((p) => p.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("(.+?)") + "$"));
 const enVar = (anahtar) => Object.prototype.hasOwnProperty.call(EN, anahtar) || Object.prototype.hasOwnProperty.call(EN, anahtar.split("|")[0]);
 

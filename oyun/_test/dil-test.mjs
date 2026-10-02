@@ -6,7 +6,9 @@ globalThis.localStorage = {
   setItem: (k, v) => depo.set(k, String(v)),
 };
 Object.defineProperty(globalThis, "navigator", { configurable: true, value: { languages: ["en-US", "en"], language: "en-US" } });
-const { dilCoz, dilKaydet, tarayiciDili, t } = await import("../lib/dil.js");
+const { dilCoz, dilKaydet, tarayiciDili, t, sozlukYukle } = await import("../lib/dil.js");
+assert.strictEqual(t("en", "Google ile devam et"), "Google ile devam et", "sözlük inmeden EN → Türkçe metne düşer");
+await sozlukYukle("en");   // İngilizce sözlük tembel yüklenir
 
 const kontrol = (ad, a, b) => { assert.strictEqual(a, b, ad + " (beklenen " + b + ", gelen " + a + ")"); console.log("  ok  " + ad + " -> " + a); };
 

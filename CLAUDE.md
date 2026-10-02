@@ -48,7 +48,7 @@ npx supabase functions deploy generate-questions
 React 19 + Vite 7 + React Router 7 · Supabase (Auth, Postgres, Realtime,
 RLS, Edge Functions, pg_cron) · three.js (`oyun/harita/`) · Vercel.
 
-Paylaşılan kabuk `src/`: `main.jsx` (giriş; BrowserRouter + AuthProvider),
+Paylaşılan kabuk `src/`: `baslat.js` (giriş; dili çözer, İngilizceyse sözlüğü indirir, sonra `main.jsx`’i yükler), `main.jsx` (BrowserRouter + AuthProvider),
 `App.jsx` (route tanımları), `context/AuthContext.jsx`, `lib/supabase.js`,
 `components/Avatar.jsx`, `styles.css`.
 

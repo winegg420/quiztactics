@@ -1,7 +1,8 @@
 // İngilizce tekil/çoğul denetimi: t() sözlüğü çoğul bilmediği için "1 questions" çıkmasın.
 //   node araclar/dil-cogul-testi.mjs [--tum]    (--tum: n=1'de değişen bütün satırları da yazar)
 // (a) n=1'de çoğul kalmış metin  (b) n=0/2/5 çıktısı eskiyle aynı  (c) TR çıktısı eskiyle birebir aynı.
-import { SOZLUK, t, jokerAdi } from "../oyun/lib/dil.js";
+import { SOZLUK, t, jokerAdi, sozlukYukle } from "../oyun/lib/dil.js";
+await sozlukYukle("en");   // İngilizce sözlük tembel yüklenir
 
 // Düzeltmeden ÖNCEKİ t() — karşılaştırma tabanı.
 function eskiT(dil, anahtar, degerler) {

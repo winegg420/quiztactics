@@ -110,6 +110,7 @@ async function trAnahtarlar() {
   const { pathToFileURL } = await import("node:url");
   globalThis.window = undefined;
   const dil = await import(pathToFileURL(path.resolve("oyun/lib/dil.js")).href);
+  await dil.sozlukYukle("en");   // İngilizce sözlük tembel yüklenir
   const kaynak = [];
   const gez = (d) => {
     for (const e of fs.readdirSync(d, { withFileTypes: true })) {

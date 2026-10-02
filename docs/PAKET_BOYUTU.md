@@ -25,3 +25,5 @@ Kaynak: `npm run build` çıktısı + `dist/index.html` içindeki statik import 
 3. **`MatchPage` ve `ChallengesPage` statik içe aktarılıyor** (`src/BildimApp.jsx` 36–37; Login/AnaSayfa ile birlikte `oyun` parçasında). Diğer 9 sayfa zaten `tembelYukle`. İkisini de tembel yapmak `oyun` parçasını (171 kB gzip) küçültür; ses/maç kütüphaneleri maça girince iner. Kazanç ölçülmedi. (Not: `BildimApp.jsx` şu an başka bir işte değişmiş durumda; çakışmasın diye dokunulmadı.)
 
 Harita dondurulmuş sayılsa da kodu **oyuncu açısından bedelsiz**: tembel olduğu için ilk açılışa maliyeti yok; kaldırmak yalnız `dist` boyutunu (~1,1 MB) ve derleme süresini düşürür, oyuncuya kazandırmaz.
+
+**Sonra (2 Eki 2026, fırsat 1 uygulandı):** `dil` parçası 266,8 kB / 93,4 kB gzip → **5,4 kB / 2,5 kB gzip**; İngilizce sözlük ayrı tembel parça `dil-en` (262,9 kB / 90,9 kB gzip), yalnız dil İngilizceyken iner. İlk açılış JS ≈ 396 → **≈ 306 kB gzip**. Giriş artık `src/baslat.js` (dil → sözlük → `main.jsx`); uygulama parçaları `vite.config.js › uygulamaOnYukleme` ile `index.html`’e ön yükleme olarak yazılır.

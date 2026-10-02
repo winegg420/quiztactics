@@ -12,7 +12,8 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
-import { DILLER, aktifDil, dilCoz, dilKaydet, girisDiliniAl, tYap } from "./dil.js";
+import { DILLER, aktifDil, dilCoz, dilKaydet, girisDiliniAl, sozlukYukle, tYap } from "./dil.js";
+import { dilUyarisiGoster } from "./dilUyari.js";
 
 // Profil bu kadar yeniyse "yeni hesap" sayılır: giriş ekranındaki dil profile yazılır. Eski hesabın
 // kayıtlı tercihi hiçbir zaman ezilmez (D-203).
@@ -69,23 +70,39 @@ export function useDil() {
     // tarayıcıya yazıp BİR KEZ yenile. Depolama kapalıysa döngüye girme.
     const p = profile?.dil;
     if (!DILLER.includes(p) || p === aktifDil()) return;
-    dilKaydet(p);
-    sayfayiYenile(p);
+    // Sözlük (İngilizce tembel parça) inmeden dile geçilmez: inemezse sayfa Türkçe kalır, yenileme döngüsü olmaz.
+    let iptal = false;
+    sozlukYukle(p)
+      .then(() => {
+        if (iptal) return;
+        dilKaydet(p);
+        sayfayiYenile(p);
+      })
+      .catch((e) => console.error("[Dil] sözlük yüklenemedi:", e?.message ?? e));
+    return () => { iptal = true; };
   }, [profile]);
 
   const dilDegistir = useCallback(
     (yeni) => {
       if (!DILLER.includes(yeni)) return;
       const eski = aktifDil();
-      setDil(yeni);
-      dilKaydet(yeni);
-      if (!user?.id) {
-        if (eski !== yeni) sayfayiYenile(yeni);
-        return;
-      }
-      // Profile de yaz: oyuncu başka cihazdan girince aynı dili görsün.
-      // Başarısız olursa arayüz dili yine değişmiş olur — sessizce geç.
       (async () => {
+        // Önce sözlük, sonra dil: İngilizce parça inemezse (ağ hatası) Türkçede kalınır, kısa uyarı gösterilir.
+        try {
+          await sozlukYukle(yeni);
+        } catch (e) {
+          console.error("[Dil] sözlük yüklenemedi:", e?.message ?? e);
+          dilUyarisiGoster();
+          return;
+        }
+        setDil(yeni);
+        dilKaydet(yeni);
+        if (!user?.id) {
+          if (eski !== yeni) sayfayiYenile(yeni);
+          return;
+        }
+        // Profile de yaz: oyuncu başka cihazdan girince aynı dili görsün.
+        // Başarısız olursa arayüz dili yine değişmiş olur — sessizce geç.
         try {
           const { error } = await supabase
             .from("profiles")

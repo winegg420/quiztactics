@@ -65,6 +65,50 @@ function yayinDosyalari(siteUrl) {
   };
 }
 
+// ============================================================
+// UYGULAMA ÖN YÜKLEMESİ — yalnız kök `index.html`
+//
+// `src/baslat.js` önce dili çözer, sonra uygulamayı (`src/main.jsx`) DİNAMİK
+// yükler (İngilizce sözlük tembel parça olsun diye). Dinamik parçayı Vite
+// `index.html`'e yazmaz; tarayıcı uygulama JS/CSS'ini ancak başlatıcı çalışınca
+// keşfeder (bir tur gecikme). Bu eklenti o parçaları eskisi gibi `<head>`'e
+// yazar: JS `modulepreload`, CSS `stylesheet` — hepsi başlatıcıyla paralel iner.
+// Giriş listesine ve parça bölmesine dokunmaz.
+// ============================================================
+function uygulamaOnYukleme() {
+  return {
+    name: "uygulama-on-yukleme",
+    apply: "build",
+    transformIndexHtml: {
+      order: "post",
+      handler(html, ctx) {
+        if (ctx.path !== "/index.html" || !ctx.bundle) return html;
+        const parcalar = Object.values(ctx.bundle).filter((p) => p.type === "chunk");
+        // facadeModuleId boş gelebilir (parça başka modülleri de dışa verir): modül listesinden bulunur.
+        const ana = parcalar.find((p) => p.isDynamicEntry && (p.moduleIds ?? []).some((id) => /\/src\/main\.jsx$/.test(id)));
+        if (!ana) {
+          this.warn("src/main.jsx parçası bulunamadı: uygulama ön yüklemesi yazılmadı.");
+          return html;
+        }
+        const js = new Set();
+        const css = new Set();
+        const gez = (p) => {
+          if (!p || js.has(p.fileName)) return;
+          js.add(p.fileName);
+          for (const c of p.viteMetadata?.importedCss ?? []) css.add(c);
+          for (const ad of p.imports) gez(ctx.bundle[ad]);
+        };
+        gez(ana);
+        const yeni = (dosya) => !html.includes(`/${dosya}"`);   // başlatıcının zaten yazılmış bağımlılıkları yinelenmesin
+        return [
+          ...[...css].filter(yeni).map((dosya) => ({ tag: "link", attrs: { rel: "stylesheet", crossorigin: true, href: `/${dosya}` }, injectTo: "head" })),
+          ...[...js].filter(yeni).map((dosya) => ({ tag: "link", attrs: { rel: "modulepreload", crossorigin: true, href: `/${dosya}` }, injectTo: "head" })),
+        ];
+      },
+    },
+  };
+}
+
 export default defineConfig(({ mode }) => {
   const env = { ...loadEnv(mode, process.cwd(), ""), ...process.env };
   // Yayın adresi. VITE_SITE_URL verilmezse bu kullanılır; robots/sitemap
@@ -78,7 +122,7 @@ export default defineConfig(({ mode }) => {
   const siteUrl = (env.VITE_SITE_URL || VARSAYILAN_SITE).replace(/\/+$/, "");
 
   return {
-    plugins: [react(), yayinDosyalari(siteUrl)],
+    plugins: [react(), yayinDosyalari(siteUrl), uygulamaOnYukleme()],
 
     build: {
       // ============================================================
