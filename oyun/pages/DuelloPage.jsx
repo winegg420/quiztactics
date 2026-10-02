@@ -15,6 +15,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
+import { useDuelloAcilis } from "../lib/useDuelloAcilis.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import MacUstSerit from "../components/MacUstSerit.jsx";
 import CerceveliAvatar from "../components/CerceveliAvatar.jsx";
@@ -112,22 +113,7 @@ function DuelloGiris() {
     if (location.state?.yenidenAra) navigate(location.pathname, { replace: true, state: null });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
   const [tanitim, setTanitim] = useState(null);   // null | "arama" (bitince aramaya geç) | "kurallar"
-  const [acilis, setAcilis] = useState(null);     // { acik, gereken, oynanan, kalan } | null (okunmadı)
-  useEffect(() => {
-    let aktif = true;
-    (async () => {
-      try {
-        const { data, error } = await supabase.rpc("duello_acilis_benim");
-        if (error) throw error;
-        if (aktif) setAcilis(data ?? { acik: true });
-      } catch (e) {
-        // Okunamazsa kilit gösterilmez; sunucu yine reddeder ve hata metni aramada görünür.
-        console.warn("[Bildim] düello açılış durumu okunamadı:", e?.message ?? e);
-        if (aktif) setAcilis({ acik: true });
-      }
-    })();
-    return () => { aktif = false; };
-  }, []);
+  const acilis = useDuelloAcilis();   // { acik, gereken, oynanan, kalan } | null (okunmadı)
   const hazir = acilis !== null;   // durum gelmeden eylem çizilmez (kilitli oyuncu bir an "Rakip ara" görmesin)
   const kilitli = hazir && acilis.acik === false;
   const kalan = Number(acilis?.kalan ?? 0);
