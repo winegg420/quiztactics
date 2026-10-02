@@ -83,8 +83,15 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
   belirsizler yerel). Maçta bot OLMAYAN bir oyuncunun ülkesi ≠ TR ya da dili ≠ tr ise o maçta HERKESE yalnız global —
   bütün modlar (`soru_sec` içinde, gevşetilmez; Turnuva katılımcılara göre `app.soru_kapsam`). Türkiye-Türkiye ve yabancı
   gizli bota karşı maç değişmez. Kategoride global < `soru_kapsam_min_havuz` (60) ise yabancılı maçta seçilemez (Düello),
-  karışığa düşer (Klasik) ve `get_categories`'ten düşer. Anahtar `soru_kapsam_filtresi_acik`. Yeni üretim `kapsam` alanıyla
+  karışığa düşer (Klasik — arkadaş daveti/Antrenman; kategorili eşleşme araması ise reddedilir, 860) ve `get_categories`'ten düşer. Anahtar `soru_kapsam_filtresi_acik`. Yeni üretim `kapsam` alanıyla
   (generate-questions). Test: `node araclar/kapsam-sql-testi.mjs`, `oyuncu-testi --ulke=DE`.
+- **Kategoriye göre maç (860, Ida 2 Eki 2026) — Klasik + Saf Bilgi, Düello HARİÇ:** OYNA'dan önce kategori seçilir (10 kategori +
+  "Karışık" = seçilmedi). Kategori seçilirse 20 sorunun HEPSİ o kategoriden (`kategori_mac_soru_sec`; `soru_sec` karışığa düşerse maç
+  kurulmaz). Eşleşme havuzu kategoriye göre ayrı: yalnız aynı kategoriyi seçenler eşleşir, Karışık ↔ Karışık eski kurallarla; süre dolunca
+  370 bot yedeği aynı kategoride. Seçilebilirlik sunucuda: rekabetçi havuz (dil + kapsam) < `kategori_mac_min_soru` (60) ise kayıt ve arama
+  reddedilir (`kategori_mac_uygun_mu`; istemci listesi `get_categories` + `kategori_mac_uygunlar()`). Boş `p_kategori` = Karışık;
+  `profiles.tercih_kategori` yalnız son seçimi hatırlar (`useKategoriTercih`), aramaya sızmaz. Arayüz `KategoriSecici` (OYNA/Saf Bilgi
+  penceresi + Modlar). Lig puanı/ödül aynı.
 - **Gösterim payı (325/326):** sunucu yeni fazın/sorunun bitişine pay ekler — Düello
   `duello_gosterim_payi_ms` 1500 (kategori + cevap), Klasik/Grup/Turnuva sonraki soru
   `soru_gosterim_payi_ms` 2000. İstemci sayacı pay bitene dek TAM süreyi gösterir, sonra gerçek
