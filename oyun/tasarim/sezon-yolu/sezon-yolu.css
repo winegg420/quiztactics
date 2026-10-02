@@ -524,7 +524,7 @@
 .sy-ust .sy-ust-cubuk { height: 8px; background: var(--qt-yuzey); }
 /* Seviye + SP tek satır (2 Eki 2026): "Seviye N" · mavi çubuk (mavi = ben ve ilerleme) · "x / y SP" */
 .sy-ust-satir--cubuklu { align-items: center; }
-.sy-ust-satir--cubuklu b { flex: 0 1 auto; max-width: 46%; font-size: var(--qt-y-m); }
+.sy-ust-satir--cubuklu b { flex: 0 1 auto; max-width: 55%; font-size: var(--qt-y-m); }
 .sy-ust-satir--cubuklu .sy-ust-cubuk { --_r: var(--sy-ilerleme); flex: 1 1 0; min-width: 40px; height: 10px; }
 .sy-ust-satir--cubuklu .qt-sayi { flex: none; }
 
