@@ -946,14 +946,16 @@ function DuelloMac({ id }) {
   // Ban fazı geri sayımı: son 3 sn "bong" (iki tarafa); savunan henüz banlamadıysa son 2 sn'de titreşim de.
   const banSn = v2Aktif && d.faz === "ban" ? Math.ceil(gosterSn) : 0;
   const banBekliyorum = v2Aktif && d.faz === "ban" && d.saldiran !== d.ben && !banSecilen && !banBasilan;
+  // 900 · erken ilerleme: savunan dokunduysa faz sunucuda hemen kapanır — yanıt gelene dek sayaç durur, bong çalmaz.
+  const banDokundum = v2Aktif && d.faz === "ban" && d.saldiran !== d.ben && Boolean(banSecilen || banBasilan);
   useEffect(() => {
-    if (banSn <= 0 || banSn > 3) return;
+    if (banSn <= 0 || banSn > 3 || banDokundum) return;
     const anahtar = `${fazAnahtari}:${banSn}`;
     if (banSayimRef.current === anahtar) return;
     banSayimRef.current = anahtar;
     sesKategoriGeriSayim(banSn);
     if (banBekliyorum && banSn <= 2) titret(banSn === 1 ? [20, 40, 20] : 20);
-  }, [banSn, fazAnahtari, banBekliyorum]);
+  }, [banSn, fazAnahtari, banBekliyorum, banDokundum]);
 
   // Tur geçişi ve yeni soru: geçiş sesi animasyonun başladığı karede; soru sesi
   // kart göründüğü karede. Sonuç → doğrudan yeni soru (uzatma) ise ikisi arası 300 ms.
@@ -1319,7 +1321,7 @@ function DuelloMac({ id }) {
   const kilitli = Boolean(d.cevap?.ben_cevapladim);
   const toplamSn = d.faz === "kategori"
     ? Number(d.sureler?.kategori ?? 8)
-    : d.faz === "ban" ? Number(d.sureler?.ban ?? d.ban?.sure ?? 5)
+    : d.faz === "ban" ? Number(d.sureler?.ban ?? d.ban?.sure ?? 7)
     : Math.max(Number(d.sureler?.cevap ?? 15), Math.ceil(kalanSn));
   const sonUc = d.faz === "kategori" && gosterSn > 0 && gosterSn <= 3;   // kategori: son 3 sn vurgusu (renk + ses)
   // Savunma banı: savunan henüz banlamadıysa son 2 sn gerilim (kırmızı kenar nabzı + çerçeve nabzı).
@@ -1337,7 +1339,7 @@ function DuelloMac({ id }) {
   // Büyük süre: kategori ve cevap fazında geri sayım halkası/rakamı; sonuç fazında sayaç yerine sade işaret.
   const sayacGosterilir = d.faz === "kategori" || d.faz === "cevap" || d.faz === "ban";
   const sayacNode = sayacGosterilir
-    ? <QtSayac kalan={gosterSn} toplam={toplamSn} esik={d.faz === "ban" ? 2 : 5} boyut="k" durdu={kilitli || kopukDonukSn != null} ekBalon={ekBalon} className="hk-sayac" />
+    ? <QtSayac kalan={gosterSn} toplam={toplamSn} esik={d.faz === "ban" ? 2 : 5} boyut="k" durdu={kilitli || kopukDonukSn != null || (banFazi && !!banBekleyen)} ekBalon={ekBalon} className="hk-sayac" />
     : <span className="hk-sayac hk-sayac--sonuc" aria-hidden="true">·</span>;
   const sureOrani = sayacGosterilir ? (kopukDonukSn ?? kalanGoster) / Math.max(1, toplamSn) : 0;
   // Ban → kategori: açıklama yalnız faz TAZE iken oynar (sayaç hâlâ tam sürede = sunucunun gösterim payı içinde;

@@ -1,7 +1,8 @@
 // Düello savunma banı (853) SQL provası — tek transaction, sonunda ROLLBACK (canlıya iz bırakmaz).
 // Sınar: maç başı ban fazı · ban sırası (yalnız savunan) · banlı kategori seçilemez · arka arkaya aynı ban yasağı ·
 // süre dolunca atlama · kilitli kategori banlanamaz · bot (ban seçer, banlıyı seçmez, kritikte yuva kapatır) ·
-// Altın Soru'da ban yok · nakavt · kopukluk dondurması · bayrak 0 (eski akış) · durum() şekli · yetkiler.
+// Altın Soru'da ban yok · nakavt · kopukluk dondurması · bayrak 0 (eski akış) · durum() şekli · yetkiler ·
+// 900: süre 7 sn + erken ilerleme (savunan / bot banlayınca faz hemen kategoriye geçer).
 // Kullanım: node araclar/duello-ban-sql-testi.mjs [migration.sql ...]  (verilenler önce uygulanır)
 import { PgIstemci, baglantiDizgisi } from './pg-mini.mjs';
 import fs from 'node:fs';
@@ -51,7 +52,7 @@ try {
   let d = await satir(id);
   ok('faz ban, ban boş, tur 1, saldıran oyuncu1 (A)', d.faz === 'ban' && d.ban_kategori === null && d.tur === 1 && d.saldiran === A, JSON.stringify([d.faz, d.tur]));
   let sn = await kalanSn(id);
-  ok('1. tur süresi = 5 + 3 (açılış payı) + gösterim payı', sn >= 9 && sn <= 10, String(sn));
+  ok('1. tur süresi = 7 + 3 (açılış payı) + gösterim payı', sn >= 11 && sn <= 12, String(sn));
 
   console.log('2) Ban sırası: yalnız savunan');
   let h = await hata(`select duello_ban_sec('${id}','${k1}')`);
@@ -81,11 +82,11 @@ try {
   d = await turGec(id);
   ok('tur 2, saldıran B, faz ban, ban boş', d.tur === 2 && d.saldiran === B && d.faz === 'ban' && d.ban_kategori === null, JSON.stringify([d.tur, d.faz, d.ban_kategori]));
   sn = await kalanSn(id);
-  ok('normal tur süresi = 5 + gösterim payı', sn >= 6 && sn <= 7, String(sn));
+  ok('normal tur süresi = 7 + gösterim payı', sn >= 8 && sn <= 9, String(sn));
   dur = await json(`select duello_durum('${id}')::text`);
-  ok('durum (savunan): ban.uygun 10 kategori, onceki boş, sureler.ban 5, sayaç başlangıcı var',
+  ok('durum (savunan): ban.uygun 10 kategori, onceki boş, sureler.ban 7, sayaç başlangıcı var',
     dur.faz === 'ban' && dur.ban.uygun.length === K.length && dur.ban.onceki === null && dur.ban.kategori === null
-    && Number(dur.sureler.ban) === 5 && Boolean(dur.sureler.gosterim_bas), JSON.stringify([dur.ban, dur.sureler.ban, dur.sureler.gosterim_bas]));
+    && Number(dur.sureler.ban) === 7 && Number(dur.ban.sure) === 7 && Boolean(dur.sureler.gosterim_bas), JSON.stringify([dur.ban, dur.sureler.ban, dur.sureler.gosterim_bas]));
   h = await hata(`select duello_ban_sec('${id}','yok_boyle')`);
   ok('geçersiz kategori banlanamaz', h && /banlanamaz/.test(h), h);
   h = await hata(`select duello_ban_sec('${id}','${k3}')`);
@@ -203,6 +204,37 @@ try {
     && (await yetki('anon', 'duello2_ban_uygun_mu(uuid,uuid,text)')) === 'false');
   ok('mevcut yetkiler aynı (kategori_sec authenticated, ilerlet kapalı)', (await yetki('authenticated', 'duello_kategori_sec(uuid,text)')) === 'true'
     && (await yetki('authenticated', 'duello2_ilerlet(uuid)')) === 'false' && (await yetki('authenticated', 'duello2_kategori_uygun_mu(uuid,text)')) === 'false');
+
+  console.log('12) 900: süre 7 sn + erken ilerleme (ban seçilince faz hemen kapanır)');
+  await db.sorgu(`update oyun_ayarlari set deger='1' where anahtar='duello_ban_acik'`);
+  ok('ayar: duello_ban_sn 7, ilk tur ek payı 3', (await tek(`select ayar_sayi('duello_ban_sn', 0)::text`)) === '7'
+    && (await tek(`select ayar_sayi('duello_ban_ilk_tur_ek_sn', 0)::text`)) === '3');
+  id = await yeniMac();
+  d = await turGec(id);   // tur 2: B saldırır, A savunur; ban fazı az önce açıldı
+  sn = await kalanSn(id);
+  ok('ban fazı taze: süre dolmasına ≥ 8 sn var', d.faz === 'ban' && d.tur === 2 && sn >= 8, String(sn));
+  h = await hata(`select duello_ban_sec('${id}','${k2}')`);
+  d = await satir(id);
+  ok('savunan erken banladı → faz HEMEN kategori (süre beklenmez)', h === null && d.faz === 'kategori' && d.ban_kategori === k2, h ?? d.faz);
+  sn = await kalanSn(id);
+  ok('kategori sayacı baştan: 15 + gösterim payı + ban açıklama payı (1,2 sn)', sn >= 17 && sn <= 19, String(sn));
+  dur = await json(`select duello_durum('${id}')::text`);
+  // Sayaç başlangıcı = faz_bitis − 15 sn: paylar (gösterim + ban açıklaması) boyunca sayaç tam sürede bekler.
+  ok('durum: faz kategori, ban.kategori görünür, sayaç başlangıcı = bitiş − kategori süresi', dur.faz === 'kategori' && dur.ban.kategori === k2
+    && Math.abs(new Date(dur.faz_bitis).getTime() - new Date(dur.sureler.gosterim_bas).getTime() - 15000) < 5, JSON.stringify([dur.faz, dur.sureler.gosterim_bas, dur.faz_bitis]));
+  d = await turGec(id);   // tur 3: A saldırır, bot B savunur
+  ok('tur 3: faz ban, savunan bot', d.tur === 3 && d.faz === 'ban' && d.saldiran === A);
+  await db.sorgu(`select duello2_bot_tik('${id}')`);
+  ok('bot fazın ilk saniyesinde banlamaz (insansı gecikme)', (await satir(id)).faz === 'ban');
+  // Fazın 3. saniyesi: süre dolmasına 4 sn + pay var → bot yine de banlar ve faz hemen kapanır.
+  await db.sorgu(`update duellolar set faz_bitis = faz_bitis - interval '3 seconds' where id='${id}'`);
+  sn = await kalanSn(id);
+  await db.sorgu(`select duello2_bot_tik('${id}')`);
+  d = await satir(id);
+  ok('bot süre dolmadan banlar (kalan ≥ 5 sn iken) → faz hemen kategori', sn >= 5 && d.faz === 'kategori' && K.includes(d.ban_kategori) && d.son_ban2 === d.ban_kategori, JSON.stringify([sn, d.faz, d.ban_kategori]));
+  d = await turGec(id);   // tur 4: A savunur — süre dolunca "ban kullanılmadı" akışı aynen
+  d = await sureDoldur(id);
+  ok('süre dolunca ban yok: faz kategori, ban boş, A\'nın son banı boşalır', d.tur === 4 && d.faz === 'kategori' && d.ban_kategori === null && d.son_ban1 === null, JSON.stringify([d.faz, d.ban_kategori, d.son_ban1]));
 
   console.log(`\nSonuç: ${gecti} geçti, ${kaldi} kaldı`);
 } catch (e) {
