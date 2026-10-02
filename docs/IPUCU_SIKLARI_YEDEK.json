@@ -1,0 +1,3172 @@
+{
+ "aciklama": "851'de 'ipucu' nedeniyle pasife alınan 110 genel_kultur sorusu: 940 ile şıkları yeniden yazılıp geri açılanların ESKİ ve YENİ şıkları (TR + EN) ve açılmayanlar.",
+ "migration": "20260612000940_ipucu_siklari_duzelt_geri_ac",
+ "tarih": "2026-10-02",
+ "geri_alma": "Her kayıt için: questions.secenekler = eski_tr, aktif = false; eski_isaretler 'sik_ipucu_jev' içeriyorsa işaret geri konur (set_config('app.soru_elle_isaret_yaz','on',true) ile); question_translations (dil='en').secenekler = eski_en. Yeni numaralı migration ile, yalnız secenekler = yeni_tr olan satırlara.",
+ "acilan": 93,
+ "acilmayan_sayi": 17,
+ "kayitlar": [
+  {
+   "id": "07ef6ff0-d7b3-4405-a3f2-f2cafa160133",
+   "soru": "Kamu spotunun amacı nedir?",
+   "dogru_cevap": 2,
+   "zorluk": 1,
+   "eski_isaretler": "",
+   "eski_tr": [
+    "Seçmeni bir partiye yöneltmek",
+    "Markaya bağlılık oluşturmak",
+    "Toplum yararına bilgilendirmek",
+    "Dizinin reytingini artırmak"
+   ],
+   "yeni_tr": [
+    "Yeni bir ürünü tanıtmak",
+    "Güncel haberleri özetleyip sunmak",
+    "Toplum yararına bilgilendirmek",
+    "Bir sanat etkinliğini duyurmak"
+   ],
+   "eski_en": [
+    "Steering voters towards a party",
+    "Building brand loyalty",
+    "Informing for the public good",
+    "Boosting a series' ratings"
+   ],
+   "yeni_en": [
+    "Promoting a new product",
+    "Summarising and presenting the news",
+    "Informing for the public good",
+    "Announcing an arts event"
+   ],
+   "jev_p_sonra": 0.54
+  },
+  {
+   "id": "0a46d4aa-37a1-4752-af2f-1c95796ad80e",
+   "soru": "Sıfır atık yaklaşımının amacı nedir?",
+   "dogru_cevap": 3,
+   "zorluk": 2,
+   "eski_isaretler": "dogru_coklu_kelime,sik_ipucu_jev",
+   "eski_tr": [
+    "Atığı toprağa gömmek",
+    "Atığı depoda biriktirmek",
+    "Atığı fırında yakmak",
+    "Atığı en aza indirmek"
+   ],
+   "yeni_tr": [
+    "Enerjiyi daha verimli kullanmak",
+    "Su kaynaklarını korumak",
+    "Hava kirliliğini azaltmak",
+    "Atığı en aza indirmek"
+   ],
+   "eski_en": [
+    "Burying waste",
+    "Accumulating waste",
+    "Burning waste",
+    "Minimising waste"
+   ],
+   "yeni_en": [
+    "Using energy more efficiently",
+    "Protecting water resources",
+    "Reducing air pollution",
+    "Minimising waste"
+   ],
+   "jev_p_sonra": 0.36
+  },
+  {
+   "id": "0f95abdc-acf2-428c-9f23-bdd1c211e6da",
+   "soru": "Gayrisafi yurt içi hasıla neyi ölçer?",
+   "dogru_cevap": 0,
+   "zorluk": 3,
+   "eski_isaretler": "dogru_coklu_kelime,sik_ipucu_jev",
+   "eski_tr": [
+    "Üretilen mal ve hizmetin değerini",
+    "Ülkedeki toplam nüfus sayısını",
+    "Ülkenin toplam yüzölçümünü",
+    "Yıllık ihracat miktarını"
+   ],
+   "yeni_tr": [
+    "Üretilen mal ve hizmetin değerini",
+    "Fiyatların genel düzeyindeki artışı",
+    "İhracat ile ithalat arasındaki farkı",
+    "İş arayıp bulamayanların oranını"
+   ],
+   "eski_en": [
+    "The value of goods and services produced",
+    "The population",
+    "The land area",
+    "The volume of exports"
+   ],
+   "yeni_en": [
+    "The value of goods and services produced",
+    "The rise in the general level of all prices",
+    "The gap between exports and imports",
+    "The share of job seekers without work"
+   ],
+   "jev_p_sonra": 0.36
+  },
+  {
+   "id": "151ee83f-d710-4c41-a1f6-3117fb65bfe8",
+   "soru": "'Kültür varlığı kaçakçılığı' nasıl önlenir?",
+   "dogru_cevap": 3,
+   "zorluk": 3,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime,sik_ipucu_jev",
+   "eski_tr": [
+    "Sergilemeyle",
+    "Reklamla",
+    "Restorasyonla",
+    "Denetim ve uluslararası iş birliğiyle"
+   ],
+   "yeni_tr": [
+    "Sergileme ve tanıtım kampanyalarıyla",
+    "Restorasyon ve düzenli bakım çalışmalarıyla",
+    "Müze giriş ücretlerini artırmakla",
+    "Denetim ve uluslararası iş birliğiyle"
+   ],
+   "eski_en": [
+    "By exhibiting",
+    "By advertising",
+    "By restoration",
+    "By oversight and international cooperation"
+   ],
+   "yeni_en": [
+    "By exhibitions and publicity campaigns",
+    "By restoration and regular maintenance work",
+    "By raising museum admission fees",
+    "By oversight and international cooperation"
+   ],
+   "jev_p_sonra": 0.21
+  },
+  {
+   "id": "1632f5aa-8b36-4f26-8d1f-d2d24bffce82",
+   "soru": "Kars hangi ürünüyle ünlüdür?",
+   "dogru_cevap": 3,
+   "zorluk": 3,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Çay",
+    "Fındık",
+    "İncir",
+    "Kaşar ve bal"
+   ],
+   "yeni_tr": [
+    "Çay ve mısır",
+    "Fındık ve hamsi",
+    "İncir ve üzüm",
+    "Kaşar ve bal"
+   ],
+   "eski_en": [
+    "Tea",
+    "Hazelnuts",
+    "Figs",
+    "Kaşar cheese and honey"
+   ],
+   "yeni_en": [
+    "Tea and maize",
+    "Hazelnuts and fresh anchovies",
+    "Figs and grapes",
+    "Kaşar cheese and honey"
+   ],
+   "jev_p_sonra": 0.14
+  },
+  {
+   "id": "18b43af8-f022-4c71-99f9-79fd028cc409",
+   "soru": "Serbest liman uygulaması ne sağlar?",
+   "dogru_cevap": 3,
+   "zorluk": 4,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime,sik_ipucu_jev",
+   "eski_tr": [
+    "Yasak koymayı",
+    "Vergi artırmayı",
+    "Nüfus azaltmayı",
+    "Gümrük kolaylıklarıyla ticaret çekmeyi"
+   ],
+   "yeni_tr": [
+    "Yabancı bayraklı gemilere limanı kapatmayı",
+    "İthal mallara ek vergi koymayı",
+    "Kıyı kentlerinde nüfusu sınırlamayı",
+    "Gümrük kolaylıklarıyla ticaret çekmeyi"
+   ],
+   "eski_en": [
+    "Imposing bans",
+    "Raising taxes",
+    "Reducing population",
+    "Attracting trade with customs facilities"
+   ],
+   "yeni_en": [
+    "Closing the port to foreign-flagged ships",
+    "Putting extra duties on imports",
+    "Limiting population in coastal towns",
+    "Attracting trade with customs facilities"
+   ],
+   "jev_p_sonra": 0.27
+  },
+  {
+   "id": "19519f26-184a-496b-a9f2-774eb366b638",
+   "soru": "Alkollü araç kullanmanın en temel riski nedir?",
+   "dogru_cevap": 0,
+   "zorluk": 1,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Tepki süresinin uzaması",
+    "Lastik aşınması",
+    "Motor ısınması",
+    "Yakıt tüketimi"
+   ],
+   "yeni_tr": [
+    "Tepki süresinin uzaması",
+    "Yakıt tüketiminin artması",
+    "Motorun aşırı ısınması",
+    "Lastiklerin hızlı aşınması"
+   ],
+   "eski_en": [
+    "Slower reaction time",
+    "Tyre wear",
+    "Engine overheating",
+    "Fuel consumption"
+   ],
+   "yeni_en": [
+    "Slower reaction time",
+    "Higher fuel consumption",
+    "Engine overheating",
+    "Faster tyre wear"
+   ],
+   "jev_p_sonra": 0.25
+  },
+  {
+   "id": "1cf67ef7-8fd4-4449-b5fe-d200408e9de9",
+   "soru": "'Kültürel miras listesi' neyi amaçlar?",
+   "dogru_cevap": 2,
+   "zorluk": 3,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime,sik_ipucu_jev",
+   "eski_tr": [
+    "Turizmi yalnızca",
+    "Vergiyi",
+    "Evrensel değerli varlıkları korumayı",
+    "Ticareti"
+   ],
+   "yeni_tr": [
+    "Nesli tehlikedeki türleri korumayı",
+    "Temiz su kaynaklarını korumayı",
+    "Evrensel değerli varlıkları korumayı",
+    "Deniz ticaret yollarını güvenceye almayı"
+   ],
+   "eski_en": [
+    "Only tourism",
+    "Taxation",
+    "Protecting assets of universal value",
+    "Trade"
+   ],
+   "yeni_en": [
+    "Protecting endangered species",
+    "Protecting sources of clean water",
+    "Protecting assets of universal value",
+    "Securing the sea routes used for trade"
+   ],
+   "jev_p_sonra": 0.51
+  },
+  {
+   "id": "1d63f5b0-ac12-4a17-bc33-2248217d9955",
+   "soru": "'KVKK' hangi konuyu düzenler?",
+   "dogru_cevap": 0,
+   "zorluk": 3,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Kişisel verilerin korunmasını",
+    "Vergiyi",
+    "Ticareti",
+    "Telifi"
+   ],
+   "yeni_tr": [
+    "Kişisel verilerin korunmasını",
+    "Kamu ihalelerinin denetlenmesini",
+    "Kira sözleşmelerinin koşullarını",
+    "Katma değer vergisinin oranını"
+   ],
+   "eski_en": [
+    "Protection of personal data",
+    "Tax",
+    "Trade",
+    "Copyright"
+   ],
+   "yeni_en": [
+    "Protection of personal data",
+    "Oversight of public procurement",
+    "Terms of tenancy agreements",
+    "The rate of value added tax"
+   ],
+   "jev_p_sonra": 0.55
+  },
+  {
+   "id": "1dd3d3ad-4715-4259-8f5e-e2c4ac1d6fd1",
+   "soru": "Bir gölün suyunun tuzlu olmasının başlıca sebebi nedir?",
+   "dogru_cevap": 0,
+   "zorluk": 2,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Dışarıya gideğeninin olmaması",
+    "Derin olması",
+    "Küçük olması",
+    "Soğuk olması"
+   ],
+   "yeni_tr": [
+    "Dışarıya gideğeninin olmaması",
+    "Deniz seviyesinin altında olması",
+    "Yer altı sularıyla beslenmesi",
+    "Yüksek rakımda bulunması"
+   ],
+   "eski_en": [
+    "It has no outlet to the sea",
+    "It is deep",
+    "It is small",
+    "It is cold"
+   ],
+   "yeni_en": [
+    "It has no outlet to the sea",
+    "It lies below sea level",
+    "It is fed mainly by underground springs",
+    "It sits at a high altitude"
+   ],
+   "jev_p_sonra": 0.63
+  },
+  {
+   "id": "2396a312-60b5-4d00-b6c7-c0827ca00990",
+   "soru": "Kooperatifleşmenin çiftçiye yararı nedir?",
+   "dogru_cevap": 2,
+   "zorluk": 3,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Vergi muafiyeti",
+    "Toprak bağışı",
+    "Girdi ve pazarlamada güç birliği",
+    "Su hakkı"
+   ],
+   "yeni_tr": [
+    "Vergi ve harçlardan tam muafiyet",
+    "Hazine arazisinin bedelsiz devri",
+    "Girdi ve pazarlamada güç birliği",
+    "Sulama suyunun ücretsiz sağlanması"
+   ],
+   "eski_en": [
+    "Tax exemption",
+    "A grant of land",
+    "Joint strength in inputs and marketing",
+    "Water rights"
+   ],
+   "yeni_en": [
+    "Full exemption from taxes and fees",
+    "Free transfer of treasury land",
+    "Joint strength in inputs and marketing",
+    "Irrigation water supplied free of charge"
+   ],
+   "jev_p_sonra": 0.45
+  },
+  {
+   "id": "2452e982-4681-48a0-9c4d-72c78ae9787d",
+   "soru": "'Terim sözlüğü' kime yöneliktir?",
+   "dogru_cevap": 2,
+   "zorluk": 2,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Genel okura",
+    "Çocuklara",
+    "Belirli alan uzmanlarına",
+    "Şairlere"
+   ],
+   "yeni_tr": [
+    "Genel okur kitlesine",
+    "Yeni okuma yazma öğrenenlere",
+    "Belirli alan uzmanlarına",
+    "Yabancı dil öğrenenlere"
+   ],
+   "eski_en": [
+    "The general reader",
+    "Children",
+    "Specialists in a particular field",
+    "Poets"
+   ],
+   "yeni_en": [
+    "The general reading public",
+    "People just learning to read and write",
+    "Specialists in a particular field",
+    "Learners of a foreign language"
+   ],
+   "jev_p_sonra": 0.05
+  },
+  {
+   "id": "2543be5f-c8ff-48ba-9f44-63e07fa52f11",
+   "soru": "Zeytinin acılığını gidermek için ne yapılır?",
+   "dogru_cevap": 0,
+   "zorluk": 2,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Salamurada bekletilir",
+    "Kızartılır",
+    "Dondurulur",
+    "Kurutulur"
+   ],
+   "yeni_tr": [
+    "Salamurada bekletilir",
+    "Fırında kurutulur",
+    "Buzlukta dondurulur",
+    "Kızgın yağda kızartılır"
+   ],
+   "eski_en": [
+    "They are kept in brine",
+    "They are fried",
+    "They are frozen",
+    "They are dried"
+   ],
+   "yeni_en": [
+    "They are kept in brine",
+    "They are dried in the oven",
+    "They are frozen solid",
+    "They are fried in hot oil"
+   ],
+   "jev_p_sonra": 0.43
+  },
+  {
+   "id": "27255261-dd1f-4d0d-b63b-bf3cdc50aa48",
+   "soru": "Kumaşın çekmesini önlemek için ne yapılır?",
+   "dogru_cevap": 2,
+   "zorluk": 2,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Islak katlamak",
+    "Ütüsüz bırakmak",
+    "Uygun sıcaklıkta yıkamak",
+    "Kaynatmak"
+   ],
+   "yeni_tr": [
+    "Renklileri ayrı yıkamak",
+    "Ters çevirip ütülemek",
+    "Uygun sıcaklıkta yıkamak",
+    "Yumuşatıcı ekleyip durulamak"
+   ],
+   "eski_en": [
+    "Folding it wet",
+    "Leaving it unironed",
+    "Washing it at a suitable temperature",
+    "Boiling it"
+   ],
+   "yeni_en": [
+    "Washing coloureds separately",
+    "Ironing it inside out",
+    "Washing it at a suitable temperature",
+    "Rinsing it with fabric softener added"
+   ],
+   "jev_p_sonra": 0.53
+  },
+  {
+   "id": "28703b1f-9a60-4b0f-bb7c-e6e8ade5372c",
+   "soru": "Döviz kuru neyi ifade eder?",
+   "dogru_cevap": 1,
+   "zorluk": 2,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Kâr oranı",
+    "İki para biriminin değişim oranı",
+    "Vergi oranı",
+    "Faiz oranı"
+   ],
+   "yeni_tr": [
+    "Bir bankanın yıllık kâr oranı",
+    "İki para biriminin değişim oranı",
+    "Devletin gelirden aldığı vergi oranı",
+    "Mevduata uygulanan faiz oranı"
+   ],
+   "eski_en": [
+    "A profit rate",
+    "The rate of exchange between two currencies",
+    "A tax rate",
+    "An interest rate"
+   ],
+   "yeni_en": [
+    "A bank's annual rate of profit",
+    "The rate of exchange between two currencies",
+    "The rate of tax the state charges on income",
+    "The interest rate applied to deposits"
+   ],
+   "jev_p_sonra": 0.6
+  },
+  {
+   "id": "297afb2d-a25e-4864-bc70-f00c64390298",
+   "soru": "Bölgesel kalkınma ajanslarının amacı nedir?",
+   "dogru_cevap": 1,
+   "zorluk": 3,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Vergi toplamak",
+    "Bölgeler arası farkı azaltmak",
+    "Nüfus saymak",
+    "Yol yapmak"
+   ],
+   "yeni_tr": [
+    "Yerel vergileri toplamak",
+    "Bölgeler arası farkı azaltmak",
+    "İllerin nüfus sayımını yapmak",
+    "Şehirler arası kara yollarını yapmak"
+   ],
+   "eski_en": [
+    "Collecting taxes",
+    "Reducing regional disparities",
+    "Counting the population",
+    "Building roads"
+   ],
+   "yeni_en": [
+    "Collecting local taxes",
+    "Reducing regional disparities",
+    "Carrying out the provincial census",
+    "Building intercity highways"
+   ],
+   "jev_p_sonra": 0.78
+  },
+  {
+   "id": "2c6571cd-3a9b-40e2-b28a-5694df5b66d6",
+   "soru": "Bir ülkenin bayrağındaki renk ve simgeler neyi temsil eder?",
+   "dogru_cevap": 0,
+   "zorluk": 1,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Ulusal değer ve tarihi",
+    "Nüfusu",
+    "Yüzölçümünü",
+    "İklimini"
+   ],
+   "yeni_tr": [
+    "Ulusal değer ve tarihi",
+    "Nüfus ve yüzölçümünü",
+    "İklim ve bitki örtüsünü",
+    "Para birimi ve ekonomisini"
+   ],
+   "eski_en": [
+    "National values and history",
+    "The population",
+    "The land area",
+    "The climate"
+   ],
+   "yeni_en": [
+    "National values and history",
+    "Population and land area",
+    "Climate and vegetation",
+    "The currency and the economy"
+   ],
+   "jev_p_sonra": 0.22
+  },
+  {
+   "id": "2f2cd350-f9fe-4e35-9857-7b775b2178c1",
+   "soru": "Künefe hangi peynirle yapılır?",
+   "dogru_cevap": 3,
+   "zorluk": 3,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Rokfor",
+    "Kaşar",
+    "Tulum",
+    "Tuzsuz taze peynir"
+   ],
+   "yeni_tr": [
+    "Olgun kaşar peyniri",
+    "Erzincan tulum peyniri",
+    "Küflü rokfor peyniri",
+    "Tuzsuz taze peynir"
+   ],
+   "eski_en": [
+    "Roquefort",
+    "Kaşar",
+    "Tulum",
+    "Unsalted fresh cheese"
+   ],
+   "yeni_en": [
+    "Mature kaşar cheese",
+    "Erzincan tulum cheese",
+    "Blue Roquefort cheese",
+    "Unsalted fresh cheese"
+   ],
+   "jev_p_sonra": 0.11
+  },
+  {
+   "id": "3252490e-bc7d-4f1c-a243-36915b029d55",
+   "soru": "'Redaksiyon' yayında ne yapar?",
+   "dogru_cevap": 0,
+   "zorluk": 2,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Metni düzeltip düzenler",
+    "Basar",
+    "Dağıtır",
+    "Satar"
+   ],
+   "yeni_tr": [
+    "Metni düzeltip düzenler",
+    "Kitabı basıp ciltler",
+    "Kapağı çizip tasarlar",
+    "Baskıyı kitapçılara dağıtır"
+   ],
+   "eski_en": [
+    "Corrects and arranges the text",
+    "Prints it",
+    "Distributes it",
+    "Sells it"
+   ],
+   "yeni_en": [
+    "Corrects and arranges the text",
+    "Prints and binds the book",
+    "Draws and designs the cover",
+    "Distributes the print run to bookshops"
+   ],
+   "jev_p_sonra": 0.7
+  },
+  {
+   "id": "37cc75ff-1ddc-4775-b7b0-8de0737a98f3",
+   "soru": "Organik tarımda neyin kullanımı sınırlıdır?",
+   "dogru_cevap": 3,
+   "zorluk": 2,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Su",
+    "Güneş",
+    "Toprak",
+    "Sentetik kimyasallar"
+   ],
+   "yeni_tr": [
+    "Nöbetleşe ekim yöntemi",
+    "Yerel tohumlar",
+    "Damla sulama",
+    "Sentetik kimyasallar"
+   ],
+   "eski_en": [
+    "Water",
+    "Sunlight",
+    "Soil",
+    "Synthetic chemicals"
+   ],
+   "yeni_en": [
+    "The crop rotation method",
+    "Local seeds",
+    "Drip irrigation",
+    "Synthetic chemicals"
+   ],
+   "jev_p_sonra": 0.1
+  },
+  {
+   "id": "394f6808-9249-4d8b-9654-ec4a9a8639a2",
+   "soru": "Bir ülkenin dış ticaret açığı ne demektir?",
+   "dogru_cevap": 0,
+   "zorluk": 2,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "İthalatın ihracattan fazla olması",
+    "Nüfus artışı",
+    "Vergi artışı",
+    "İhracatın fazla olması"
+   ],
+   "yeni_tr": [
+    "İthalatın ihracattan fazla olması",
+    "İhracatın ithalattan fazla olması",
+    "Kamu giderlerinin gelirleri aşması",
+    "Dış borcun millî geliri aşması"
+   ],
+   "eski_en": [
+    "Imports exceeding exports",
+    "Population growth",
+    "A tax increase",
+    "Exports being higher"
+   ],
+   "yeni_en": [
+    "Imports exceeding exports",
+    "Exports exceeding imports",
+    "Public spending exceeding revenue",
+    "Foreign debt exceeding national income"
+   ],
+   "jev_p_sonra": 0.51
+  },
+  {
+   "id": "3e3b1759-0a5d-4dd5-bd4c-5d18704ffb15",
+   "soru": "'Milliyetçilik ilkesi' neye dayanır?",
+   "dogru_cevap": 1,
+   "zorluk": 2,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime,sik_ipucu_jev",
+   "eski_tr": [
+    "Irka",
+    "Ortak yurt ve kültür birliğine",
+    "Dine",
+    "Sınıfa"
+   ],
+   "yeni_tr": [
+    "Egemenliğin millete ait olmasına",
+    "Ortak yurt ve kültür birliğine",
+    "Din ve devlet işlerinin ayrılığına",
+    "Yasalar önünde herkesin eşitliğine"
+   ],
+   "eski_en": [
+    "Race",
+    "A shared homeland and culture",
+    "Religion",
+    "Class"
+   ],
+   "yeni_en": [
+    "Sovereignty belonging to the nation",
+    "A shared homeland and culture",
+    "The separation of religion and state",
+    "The equality of everyone before the law"
+   ],
+   "jev_p_sonra": 0.14
+  },
+  {
+   "id": "3f1a176a-7ff6-4db9-ac85-029230a12716",
+   "soru": "Deprem sonrası binaya girmeden önce ne yapılmalı?",
+   "dogru_cevap": 1,
+   "zorluk": 1,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime,sik_ipucu_jev",
+   "eski_tr": [
+    "Işık yakılmalı",
+    "Yetkili kontrolü beklenmeli",
+    "Hemen girilmeli",
+    "Asansör kullanılmalı"
+   ],
+   "yeni_tr": [
+    "Elektrik sayacı okunmalı",
+    "Yetkili kontrolü beklenmeli",
+    "Bina yöneticisine haber verilmeli",
+    "Apartman görevlisi aranmalı"
+   ],
+   "eski_en": [
+    "Turn on the lights",
+    "Wait for an official inspection",
+    "Go straight in",
+    "Use the lift"
+   ],
+   "yeni_en": [
+    "Read the electricity meter",
+    "Wait for an official inspection",
+    "Let the building manager know first",
+    "Call the building caretaker"
+   ],
+   "jev_p_sonra": 0.36
+  },
+  {
+   "id": "42658a39-901c-47bc-bc90-5bf63dadd457",
+   "soru": "Somut olmayan kültürel mirasa örnek nedir?",
+   "dogru_cevap": 2,
+   "zorluk": 3,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Cami binası",
+    "Antik kent",
+    "Gelenek, el sanatı ve müzik",
+    "Kale"
+   ],
+   "yeni_tr": [
+    "Cami, kilise ve sinagog",
+    "Antik kent, höyük ve kale",
+    "Gelenek, el sanatı ve müzik",
+    "Saray, kasır ve tarihî konak"
+   ],
+   "eski_en": [
+    "A mosque building",
+    "An ancient city",
+    "Traditions, crafts and music",
+    "A castle"
+   ],
+   "yeni_en": [
+    "Mosques, churches and synagogues",
+    "Ancient cities, mounds and castles",
+    "Traditions, crafts and music",
+    "Palaces, pavilions and old mansions"
+   ],
+   "jev_p_sonra": 0.18
+  },
+  {
+   "id": "433d8d6f-5d48-4a2c-beca-6da7a353ddde",
+   "soru": "Teşvik bölgesi uygulaması neyi hedefler?",
+   "dogru_cevap": 2,
+   "zorluk": 3,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime,sik_ipucu_jev",
+   "eski_tr": [
+    "Gelişmiş bölgeyi büyütmek",
+    "Vergi artırmak",
+    "Geri kalmış bölgelere yatırım çekmek",
+    "Göçü artırmak"
+   ],
+   "yeni_tr": [
+    "Kıyı bölgelerinde doğal alanları korumak",
+    "Büyük kentlerde trafik yoğunluğunu azaltmak",
+    "Geri kalmış bölgelere yatırım çekmek",
+    "Sınır bölgelerinde güvenliği artırmak"
+   ],
+   "eski_en": [
+    "Grow an already developed region",
+    "Raise taxes",
+    "Attract investment to lagging regions",
+    "Increase migration"
+   ],
+   "yeni_en": [
+    "Protect natural areas in coastal regions",
+    "Reduce traffic congestion in big cities",
+    "Attract investment to lagging regions",
+    "Increase security in border regions"
+   ],
+   "jev_p_sonra": 0.76
+  },
+  {
+   "id": "45828b01-4479-4773-b87e-1e7575070940",
+   "soru": "Emeklilik primi hangi kuruma ödenir?",
+   "dogru_cevap": 2,
+   "zorluk": 2,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Valiliğe",
+    "Belediyeye",
+    "Sosyal güvenlik kurumuna",
+    "Bankaya"
+   ],
+   "yeni_tr": [
+    "Vergi dairesi müdürlüğüne",
+    "İl özel idaresine",
+    "Sosyal güvenlik kurumuna",
+    "Nüfus müdürlüğüne"
+   ],
+   "eski_en": [
+    "The governor's office",
+    "The municipality",
+    "The social security institution",
+    "A bank"
+   ],
+   "yeni_en": [
+    "The tax office directorate",
+    "The special provincial administration",
+    "The social security institution",
+    "The civil registry office"
+   ],
+   "jev_p_sonra": 0.12
+  },
+  {
+   "id": "481337a8-482a-4afa-9933-09d0befa2526",
+   "soru": "\"Sakla samanı gelir zamanı\" ne demektir?",
+   "dogru_cevap": 0,
+   "zorluk": 1,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Gereksiz görüneni saklamak",
+    "Hızlı olmak",
+    "Saman satmak",
+    "Tarla sürmek"
+   ],
+   "yeni_tr": [
+    "Gereksiz görüneni saklamak",
+    "Borcu vaktinde ödemek",
+    "Fırsatı hemen değerlendirmek",
+    "Sırrı kimseye söylememek"
+   ],
+   "eski_en": null,
+   "yeni_en": null,
+   "jev_p_sonra": 0.04
+  },
+  {
+   "id": "49292a24-8bd2-4393-a714-f861e785ec70",
+   "soru": "Pasaportun işlevi nedir?",
+   "dogru_cevap": 3,
+   "zorluk": 1,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime,sik_ipucu_jev",
+   "eski_tr": [
+    "Sürücü belgesi",
+    "Sağlık kartı",
+    "Vergi kaydı",
+    "Uluslararası kimlik ve seyahat belgesi"
+   ],
+   "yeni_tr": [
+    "Ulusal sürücü ve araç tescil belgesi",
+    "Uluslararası sağlık ve aşı belgesi",
+    "Yurt içi ikametgâh ve adres kayıt belgesi",
+    "Uluslararası kimlik ve seyahat belgesi"
+   ],
+   "eski_en": [
+    "A driving licence",
+    "A health card",
+    "A tax record",
+    "An international identity and travel document"
+   ],
+   "yeni_en": [
+    "A national driving and vehicle registration document",
+    "An international health and vaccination document",
+    "A domestic residence and address record",
+    "An international identity and travel document"
+   ],
+   "jev_p_sonra": 0.59
+  },
+  {
+   "id": "4ec64789-8fd9-43bb-be51-7ba5d8a17842",
+   "soru": "Beyaz eşyada enerji sınıfı neyi gösterir?",
+   "dogru_cevap": 0,
+   "zorluk": 2,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Enerji verimliliğini",
+    "Sesini",
+    "Ağırlığı",
+    "Rengi"
+   ],
+   "yeni_tr": [
+    "Enerji verimliliğini",
+    "Gürültü düzeyini",
+    "Garanti süresini",
+    "Azami yük kapasitesini"
+   ],
+   "eski_en": [
+    "Its energy efficiency",
+    "Its noise",
+    "Its weight",
+    "Its colour"
+   ],
+   "yeni_en": [
+    "Its energy efficiency",
+    "Its noise level",
+    "Its warranty period",
+    "Its maximum load capacity"
+   ],
+   "jev_p_sonra": 0.57
+  },
+  {
+   "id": "4f1bdb40-f3ba-454d-a9be-6d5e05dfec44",
+   "soru": "Sivil itaatsizlik kavramı neyi anlatır?",
+   "dogru_cevap": 3,
+   "zorluk": 3,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime,sik_ipucu_jev",
+   "eski_tr": [
+    "Silahlı direniş",
+    "Oy kullanmama",
+    "Vergi kaçırma",
+    "Haksız yasaya şiddetsiz karşı çıkma"
+   ],
+   "yeni_tr": [
+    "Haksız işleme mahkemede itiraz etme",
+    "Yöneticileri seçimle görevden uzaklaştırma",
+    "İşverene karşı topluca iş bırakma",
+    "Haksız yasaya şiddetsiz karşı çıkma"
+   ],
+   "eski_en": [
+    "Armed resistance",
+    "Not voting",
+    "Tax evasion",
+    "Opposing an unjust law without violence"
+   ],
+   "yeni_en": [
+    "Challenging an unjust act in court",
+    "Removing those in office through an election",
+    "Collectively stopping work against an employer",
+    "Opposing an unjust law without violence"
+   ],
+   "jev_p_sonra": 0.35
+  },
+  {
+   "id": "4fdd0b03-dea7-4b28-ae07-d1e1bc20e6d7",
+   "soru": "Denizcilikte 'rota' ne anlama gelir?",
+   "dogru_cevap": 0,
+   "zorluk": 2,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "İzlenecek yol doğrultusu",
+    "Gemi hızı",
+    "Yük miktarı",
+    "Liman adı"
+   ],
+   "yeni_tr": [
+    "İzlenecek yol doğrultusu",
+    "Geminin ulaşabildiği azami hız",
+    "Taşınan yükün miktarı",
+    "Varılacak limanın adı"
+   ],
+   "eski_en": [
+    "The direction to be followed",
+    "The ship's speed",
+    "The amount of cargo",
+    "The name of the port"
+   ],
+   "yeni_en": [
+    "The direction to be followed",
+    "The top speed the ship can reach",
+    "The amount of cargo carried",
+    "The name of the port of arrival"
+   ],
+   "jev_p_sonra": 0.34
+  },
+  {
+   "id": "58bd94bc-e4a8-4c86-9c44-0890a23ea94f",
+   "soru": "Çocuk oto koltuğunun gerekliliği neye dayanır?",
+   "dogru_cevap": 2,
+   "zorluk": 1,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime,sik_ipucu_jev",
+   "eski_tr": [
+    "Rahatlık",
+    "Görüş açısı",
+    "Çocuğun bedenine uygun koruma",
+    "Estetik"
+   ],
+   "yeni_tr": [
+    "Çocuğun yaşına uygun eğlence",
+    "Çocuğun boyuna uygun görüş açısı",
+    "Çocuğun bedenine uygun koruma",
+    "Çocuğun kilosuna uygun konfor"
+   ],
+   "eski_en": [
+    "Comfort",
+    "The field of view",
+    "Protection suited to a child's body",
+    "Appearance"
+   ],
+   "yeni_en": [
+    "Entertainment suited to a child's age",
+    "A field of view suited to a child's height",
+    "Protection suited to a child's body",
+    "Comfort suited to a child's weight"
+   ],
+   "jev_p_sonra": 0.43
+  },
+  {
+   "id": "5cde6d88-3324-4b7f-b0b9-8dfb6a182287",
+   "soru": "Fırında pişen keklerin ortası neden çöker?",
+   "dogru_cevap": 2,
+   "zorluk": 3,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime,sik_ipucu_jev",
+   "eski_tr": [
+    "Fazla un",
+    "Soğuk yumurta",
+    "Erken kapak açma ve ısı düşüşü",
+    "Az şeker"
+   ],
+   "yeni_tr": [
+    "Kalıbı hiç yağlamama ve kekin yapışması",
+    "Fazla pişirme ve kekin kuruması",
+    "Erken kapak açma ve ısı düşüşü",
+    "Unu elememe ve hamurun topaklanması"
+   ],
+   "eski_en": [
+    "Too much flour",
+    "Cold eggs",
+    "Opening the oven early and the drop in heat",
+    "Too little sugar"
+   ],
+   "yeni_en": [
+    "Not greasing the tin at all and the cake sticking",
+    "Overbaking and the cake drying out",
+    "Opening the oven early and the drop in heat",
+    "Not sifting the flour and the batter going lumpy"
+   ],
+   "jev_p_sonra": 0.52
+  },
+  {
+   "id": "5dfa93f7-b6a1-4c50-9cd5-a9169b1ec35a",
+   "soru": "Bankada vadeli hesabın vadesiz hesaptan farkı nedir?",
+   "dogru_cevap": 1,
+   "zorluk": 2,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Kart verilir",
+    "Belirli süre bekletilir",
+    "Şubesizdir",
+    "Ücretsizdir"
+   ],
+   "yeni_tr": [
+    "Faiz geliri sağlamaz",
+    "Belirli süre bekletilir",
+    "Yalnızca dövizle açılır",
+    "Devlet güvencesi taşımaz"
+   ],
+   "eski_en": [
+    "A card is issued",
+    "The money is held for a set period",
+    "It has no branch",
+    "It is free"
+   ],
+   "yeni_en": [
+    "It earns no interest at all",
+    "The money is held for a set period",
+    "It can only be opened in foreign currency",
+    "It carries no state guarantee"
+   ],
+   "jev_p_sonra": 0.33
+  },
+  {
+   "id": "5f77ae49-1ddc-4f8f-ac2c-c14cda4a9acd",
+   "soru": "Kabotaj Kanunu neyi düzenler?",
+   "dogru_cevap": 3,
+   "zorluk": 4,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Hava yollarını",
+    "Demir yollarını",
+    "Kara yollarını",
+    "Türk karasularında taşımacılığı"
+   ],
+   "yeni_tr": [
+    "Türk hava sahasında uçuşları",
+    "Türk limanlarında gümrük vergisini",
+    "Boğazlardan geçiş ücretlerini",
+    "Türk karasularında taşımacılığı"
+   ],
+   "eski_en": [
+    "Air routes",
+    "Railways",
+    "Roads",
+    "Shipping in Turkish territorial waters"
+   ],
+   "yeni_en": [
+    "Flights in Turkish airspace",
+    "Customs duties charged at Turkish ports",
+    "Transit fees through the Straits",
+    "Shipping in Turkish territorial waters"
+   ],
+   "jev_p_sonra": 0.16
+  },
+  {
+   "id": "627c2014-2977-442e-a643-7e6509f588b2",
+   "soru": "Boza hangi tahıldan yapılır?",
+   "dogru_cevap": 3,
+   "zorluk": 3,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Pirinç",
+    "Nohut",
+    "Mercimek",
+    "Darı veya bulgur"
+   ],
+   "yeni_tr": [
+    "Nohut veya mercimek",
+    "Susam veya haşhaş",
+    "Fasulye veya bakla",
+    "Darı veya bulgur"
+   ],
+   "eski_en": [
+    "Rice",
+    "Chickpeas",
+    "Lentils",
+    "Millet or bulgur"
+   ],
+   "yeni_en": [
+    "Chickpeas or lentils",
+    "Sesame or poppy seed",
+    "Beans or broad beans",
+    "Millet or bulgur"
+   ],
+   "jev_p_sonra": 0.2
+  },
+  {
+   "id": "63843f4c-11df-4a3f-bec0-015e29aa8418",
+   "soru": "Bilgi edinme hakkı neyi sağlar?",
+   "dogru_cevap": 2,
+   "zorluk": 2,
+   "eski_isaretler": "sik_ipucu_jev",
+   "eski_tr": [
+    "Özel yazışmaları okumayı",
+    "Sınav sorusu almayı",
+    "Kamu bilgilerine erişebilmeyi",
+    "Ticari sır öğrenmeyi"
+   ],
+   "yeni_tr": [
+    "Özel yazışmalara erişebilmeyi",
+    "Ticari sırlara erişebilmeyi",
+    "Kamu bilgilerine erişebilmeyi",
+    "Sınav sorularına önceden erişebilmeyi"
+   ],
+   "eski_en": [
+    "Reading private correspondence",
+    "Obtaining exam questions",
+    "Access to public information",
+    "Learning trade secrets"
+   ],
+   "yeni_en": [
+    "Access to private correspondence",
+    "Access to trade secrets",
+    "Access to public information",
+    "Access to exam questions in advance"
+   ],
+   "jev_p_sonra": 0.67
+  },
+  {
+   "id": "656446f6-4fc4-4deb-82e3-ae10b5fc1dc8",
+   "soru": "Zeytinyağının dumanlanma noktası neyi belirler?",
+   "dogru_cevap": 2,
+   "zorluk": 3,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Rengini",
+    "Şişesini",
+    "Pişirmeye uygunluğunu",
+    "Fiyatını"
+   ],
+   "yeni_tr": [
+    "Şişedeki raf ömrünü",
+    "Asitlik derecesini",
+    "Pişirmeye uygunluğunu",
+    "Hasat ve sıkım tarihini"
+   ],
+   "eski_en": [
+    "Its colour",
+    "Its bottle",
+    "Its suitability for cooking",
+    "Its price"
+   ],
+   "yeni_en": [
+    "Its shelf life in the bottle",
+    "Its degree of acidity",
+    "Its suitability for cooking",
+    "Its harvest and pressing date"
+   ],
+   "jev_p_sonra": 0.1
+  },
+  {
+   "id": "6622b126-6ab5-405b-8bc2-4a1e02f42c26",
+   "soru": "Gönüllülük çalışmasının topluma katkısı nedir?",
+   "dogru_cevap": 3,
+   "zorluk": 1,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Vergi geliri",
+    "İhracat artışı",
+    "Nüfus artışı",
+    "Dayanışma ve hizmet üretimi"
+   ],
+   "yeni_tr": [
+    "Vergi geliri ve bütçe fazlası",
+    "İhracat artışı ve döviz girdisi",
+    "Nüfus artışı ve iş gücü",
+    "Dayanışma ve hizmet üretimi"
+   ],
+   "eski_en": [
+    "Tax revenue",
+    "Higher exports",
+    "Population growth",
+    "Solidarity and the provision of services"
+   ],
+   "yeni_en": [
+    "Tax revenue and a budget surplus",
+    "Higher exports and foreign currency income",
+    "Population growth and labour",
+    "Solidarity and the provision of services"
+   ],
+   "jev_p_sonra": 0.34
+  },
+  {
+   "id": "68cee3dd-381a-416f-9414-6068fb2bb2dc",
+   "soru": "Federal devlet yapısının özelliği nedir?",
+   "dogru_cevap": 1,
+   "zorluk": 3,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime,sik_ipucu_jev",
+   "eski_tr": [
+    "Tek merkezli olması",
+    "Eyaletlerin kendi yetkilerinin olması",
+    "Yönetimsiz olması",
+    "Sınırsız olması"
+   ],
+   "yeni_tr": [
+    "Tüm yetkinin merkezde toplanması",
+    "Eyaletlerin kendi yetkilerinin olması",
+    "Eyaletlerin tam bağımsız devlet olması",
+    "Yasama organının hiç bulunmaması"
+   ],
+   "eski_en": [
+    "Having a single centre",
+    "States having their own powers",
+    "Having no government",
+    "Being unlimited"
+   ],
+   "yeni_en": [
+    "All power being held at the centre",
+    "States having their own powers",
+    "States being fully independent countries",
+    "Having no legislature at all"
+   ],
+   "jev_p_sonra": 0.76
+  },
+  {
+   "id": "6afae723-c5a5-45b3-a1d5-559f239f45a2",
+   "soru": "Turşu hangi işlemle yapılır?",
+   "dogru_cevap": 2,
+   "zorluk": 1,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime,sik_ipucu_jev",
+   "eski_tr": [
+    "Kavurma",
+    "Haşlama",
+    "Salamura ve fermantasyon",
+    "Kurutma"
+   ],
+   "yeni_tr": [
+    "Kavurma ve tütsüleme",
+    "Kaynatma ve yoğunlaştırma",
+    "Salamura ve fermantasyon",
+    "Kurutma ve öğütme"
+   ],
+   "eski_en": [
+    "Roasting",
+    "Boiling",
+    "Brining and fermentation",
+    "Drying"
+   ],
+   "yeni_en": [
+    "Roasting and smoking",
+    "Boiling and concentrating",
+    "Brining and fermentation",
+    "Drying and grinding"
+   ],
+   "jev_p_sonra": 0.77
+  },
+  {
+   "id": "6ba6f991-8947-4107-89ae-bee35f55aef8",
+   "soru": "İsviçre hangi ürünüyle dünyaca ünlüdür?",
+   "dogru_cevap": 3,
+   "zorluk": 1,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Kahve",
+    "Çay",
+    "Zeytin",
+    "Çikolata ve saat"
+   ],
+   "yeni_tr": [
+    "Kahve ve puro",
+    "Çay ve ince porselen",
+    "Zeytinyağı ve şarap",
+    "Çikolata ve saat"
+   ],
+   "eski_en": [
+    "Coffee",
+    "Tea",
+    "Olives",
+    "Chocolate and watches"
+   ],
+   "yeni_en": [
+    "Coffee and cigars",
+    "Tea and fine porcelain",
+    "Olive oil and wine",
+    "Chocolate and watches"
+   ],
+   "jev_p_sonra": 0.05
+  },
+  {
+   "id": "7353ebcb-2a41-4b61-9b1a-c65e14d0b45e",
+   "soru": "Küresel tedarik zinciri kavramı neyi anlatır?",
+   "dogru_cevap": 2,
+   "zorluk": 2,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime,sik_ipucu_jev",
+   "eski_tr": [
+    "Tek ülkede üretimi",
+    "Yerel ticareti",
+    "Üretimin ülkelere yayılmış olmasını",
+    "El üretimini"
+   ],
+   "yeni_tr": [
+    "Şirketlerin sınır ötesi birleşmesini",
+    "Ülkelerin ortak para kullanmasını",
+    "Üretimin ülkelere yayılmış olmasını",
+    "Gümrük vergilerinin kaldırılmasını"
+   ],
+   "eski_en": [
+    "Production in a single country",
+    "Local trade",
+    "Production spread across countries",
+    "Handmade production"
+   ],
+   "yeni_en": [
+    "Companies merging across borders",
+    "Countries sharing a single common currency",
+    "Production spread across countries",
+    "The removal of customs duties"
+   ],
+   "jev_p_sonra": 0.3
+  },
+  {
+   "id": "75fb4ac6-a00f-4b42-8b4e-f4d88d74d7af",
+   "soru": "Sürdürülebilir kalkınma ne demektir?",
+   "dogru_cevap": 0,
+   "zorluk": 2,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime,sik_ipucu_jev",
+   "eski_tr": [
+    "Gelecek kuşakları gözeten kalkınma",
+    "Sınırsız üretim",
+    "Doğayı yok sayma",
+    "Hızlı tüketim"
+   ],
+   "yeni_tr": [
+    "Gelecek kuşakları gözeten kalkınma",
+    "Kırsal kesimi önceleyen kalkınma",
+    "Bölgeler arası dengeyi gözeten kalkınma",
+    "Sanayileşmeyi önceleyen kalkınma"
+   ],
+   "eski_en": [
+    "Development that considers future generations",
+    "Unlimited production",
+    "Ignoring nature",
+    "Rapid consumption"
+   ],
+   "yeni_en": [
+    "Development that considers future generations",
+    "Development that puts rural areas first",
+    "Development that seeks balance between regions",
+    "Development that puts industrialisation first"
+   ],
+   "jev_p_sonra": 0.8
+  },
+  {
+   "id": "7a64238c-4992-4d3d-960d-971894a894d8",
+   "soru": "Marka bilinirliği neyi ölçer?",
+   "dogru_cevap": 1,
+   "zorluk": 2,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime,sik_ipucu_jev",
+   "eski_tr": [
+    "Ürün fiyatını",
+    "Tüketicinin markayı tanıma düzeyini",
+    "Üretim miktarını",
+    "Mağaza sayısını"
+   ],
+   "yeni_tr": [
+    "Tüketicinin markaya bağlılık düzeyini",
+    "Tüketicinin markayı tanıma düzeyini",
+    "Markanın pazardaki satış payını",
+    "Müşterinin üründen memnuniyet düzeyini"
+   ],
+   "eski_en": [
+    "The price of the product",
+    "How well consumers know the brand",
+    "The volume produced",
+    "The number of shops"
+   ],
+   "yeni_en": [
+    "How loyal consumers are to the brand",
+    "How well consumers know the brand",
+    "The brand's share of sales in the market",
+    "How satisfied customers are with the product"
+   ],
+   "jev_p_sonra": 0.32
+  },
+  {
+   "id": "7a939b14-07eb-46db-b559-958d0817f910",
+   "soru": "Ölçü kaşığı ile çay kaşığı farkı nedir?",
+   "dogru_cevap": 0,
+   "zorluk": 2,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Standart hacim",
+    "Renk",
+    "Uzunluk",
+    "Malzeme"
+   ],
+   "yeni_tr": [
+    "Standart hacim",
+    "Daha uzun sap",
+    "Paslanmaz çelik",
+    "Daha sivri uç"
+   ],
+   "eski_en": [
+    "A standard volume",
+    "The colour",
+    "The length",
+    "The material"
+   ],
+   "yeni_en": [
+    "A standard volume",
+    "A longer handle",
+    "Stainless steel",
+    "A more pointed tip"
+   ],
+   "jev_p_sonra": 0.36
+  },
+  {
+   "id": "7bc21bcf-dcf3-4c3b-b957-056e90e6a268",
+   "soru": "Bisiklet yollarının kentsel yararı nedir?",
+   "dogru_cevap": 3,
+   "zorluk": 2,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime,sik_ipucu_jev",
+   "eski_tr": [
+    "Yol genişliğini artırması",
+    "Otopark artırması",
+    "Hız artırması",
+    "Emisyon ve trafiği azaltması"
+   ],
+   "yeni_tr": [
+    "Sel ve taşkını önlemesi",
+    "Gürültü ve tozu perdelemesi",
+    "Konut ve kira fiyatını düşürmesi",
+    "Emisyon ve trafiği azaltması"
+   ],
+   "eski_en": [
+    "Widening the road",
+    "More parking",
+    "Higher speeds",
+    "Less emission and traffic"
+   ],
+   "yeni_en": [
+    "Preventing floods and overflow",
+    "Screening out noise and dust",
+    "Lowering house prices and rents",
+    "Less emission and traffic"
+   ],
+   "jev_p_sonra": 0.17
+  },
+  {
+   "id": "7c1e7d4e-1b24-43e4-bfd9-d395f19add2b",
+   "soru": "Risk yönetiminde ilk adım nedir?",
+   "dogru_cevap": 1,
+   "zorluk": 3,
+   "eski_isaretler": "dogru_en_uzun,sik_ipucu_jev",
+   "eski_tr": [
+    "Bütçe artırmak",
+    "Riskleri belirlemek",
+    "Rapor yazmak",
+    "Ekip kurmak"
+   ],
+   "yeni_tr": [
+    "Önlemleri uygulamak",
+    "Riskleri belirlemek",
+    "Riskleri önceliklendirmek",
+    "Sonuçları izlemek"
+   ],
+   "eski_en": [
+    "Increasing the budget",
+    "Identifying the risks",
+    "Writing a report",
+    "Forming a team"
+   ],
+   "yeni_en": [
+    "Applying the measures",
+    "Identifying the risks",
+    "Prioritising the risks",
+    "Monitoring the results"
+   ],
+   "jev_p_sonra": 0.76
+  },
+  {
+   "id": "7d292eb4-5a62-44d1-a3eb-391ad2fa5f46",
+   "soru": "Halay hangi bölgemizin halk oyunudur?",
+   "dogru_cevap": 2,
+   "zorluk": 2,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Karadeniz",
+    "Trakya",
+    "Doğu ve Güneydoğu Anadolu",
+    "Ege"
+   ],
+   "yeni_tr": [
+    "Doğu Karadeniz kıyı şeridi",
+    "Trakya ve Güney Marmara",
+    "Doğu ve Güneydoğu Anadolu",
+    "Ege ve Batı Akdeniz"
+   ],
+   "eski_en": [
+    "Black Sea",
+    "Thrace",
+    "Eastern and Southeastern Anatolia",
+    "Aegean"
+   ],
+   "yeni_en": [
+    "The eastern Black Sea coastal strip",
+    "Thrace and southern Marmara",
+    "Eastern and Southeastern Anatolia",
+    "The Aegean and western Mediterranean"
+   ],
+   "jev_p_sonra": 0.2
+  },
+  {
+   "id": "7e3b0826-449b-42f3-bea9-fe8fa7256e70",
+   "soru": "Bir belgeselin amacı nedir?",
+   "dogru_cevap": 3,
+   "zorluk": 1,
+   "eski_isaretler": "",
+   "eski_tr": [
+    "Ürün tanıtmak",
+    "Kurgu anlatmak",
+    "Oy toplamak",
+    "Bilgilendirmek"
+   ],
+   "yeni_tr": [
+    "Eğlendirmek",
+    "İkna etmek",
+    "Heyecanlandırmak",
+    "Bilgilendirmek"
+   ],
+   "eski_en": [
+    "Promoting a product",
+    "Telling fiction",
+    "Winning votes",
+    "Informing"
+   ],
+   "yeni_en": [
+    "Entertaining",
+    "Persuading",
+    "Thrilling",
+    "Informing"
+   ],
+   "jev_p_sonra": 0.77
+  },
+  {
+   "id": "7efbf9ae-465e-4d6f-989f-01f2a3892603",
+   "soru": "'Etibank' hangi alanda faaliyet göstermiştir?",
+   "dogru_cevap": 0,
+   "zorluk": 4,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Maden ve enerji",
+    "Dokuma",
+    "Gıda",
+    "Ulaşım"
+   ],
+   "yeni_tr": [
+    "Maden ve enerji",
+    "Dokuma ve giyim",
+    "Tarım ve gıda",
+    "Denizcilik ve ulaşım"
+   ],
+   "eski_en": [
+    "Mining and energy",
+    "Textiles",
+    "Food",
+    "Transport"
+   ],
+   "yeni_en": [
+    "Mining and energy",
+    "Textiles and clothing",
+    "Farming and food",
+    "Shipping and transport"
+   ],
+   "jev_p_sonra": 0.36
+  },
+  {
+   "id": "82701b11-3591-4872-bfbc-91eb185529f8",
+   "soru": "Venüs adını hangi tanrıçadan alır?",
+   "dogru_cevap": 3,
+   "zorluk": 2,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Savaş",
+    "Bilgelik",
+    "Av",
+    "Aşk ve güzellik"
+   ],
+   "yeni_tr": [
+    "Bilgelik ve savaş",
+    "Av ve yaban hayatı",
+    "Tarım ve bereket",
+    "Aşk ve güzellik"
+   ],
+   "eski_en": [
+    "War",
+    "Wisdom",
+    "The hunt",
+    "Love and beauty"
+   ],
+   "yeni_en": [
+    "Wisdom and war",
+    "The hunt and wild animals",
+    "Farming and fertility",
+    "Love and beauty"
+   ],
+   "jev_p_sonra": 0.18
+  },
+  {
+   "id": "852e3611-ec1d-41e8-943b-bcad22ff99bd",
+   "soru": "Enflasyon neyi ifade eder?",
+   "dogru_cevap": 1,
+   "zorluk": 2,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Üretimin azalması",
+    "Genel fiyat düzeyinin artması",
+    "İşsizliğin artması",
+    "Faizin düşmesi"
+   ],
+   "yeni_tr": [
+    "Toplam üretim miktarının azalması",
+    "Genel fiyat düzeyinin artması",
+    "İşsizlik oranının artması",
+    "Faiz oranlarının düşmesi"
+   ],
+   "eski_en": [
+    "A fall in production",
+    "A rise in the general price level",
+    "Rising unemployment",
+    "Falling interest rates"
+   ],
+   "yeni_en": [
+    "A fall in the total volume of output",
+    "A rise in the general price level",
+    "A rise in the unemployment rate",
+    "A fall in interest rates"
+   ],
+   "jev_p_sonra": 0.65
+  },
+  {
+   "id": "8a4fe5b9-1acb-4f4e-b375-e28955ba4452",
+   "soru": "Yankı odası etkisi neyi anlatır?",
+   "dogru_cevap": 2,
+   "zorluk": 3,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Ses yankısını",
+    "Haber çeşitliliğini",
+    "Benzer görüşlerle çevrelenmeyi",
+    "Tarafsızlığı"
+   ],
+   "yeni_tr": [
+    "Sesin duvarlardan yansımasını",
+    "Farklı kaynaklardan haber almayı",
+    "Benzer görüşlerle çevrelenmeyi",
+    "Haberin tarafsız aktarılmasını"
+   ],
+   "eski_en": [
+    "An acoustic echo",
+    "A variety of news",
+    "Being surrounded by like-minded views",
+    "Impartiality"
+   ],
+   "yeni_en": [
+    "Sound bouncing back off the walls",
+    "Getting news from a variety of sources",
+    "Being surrounded by like-minded views",
+    "News being reported impartially"
+   ],
+   "jev_p_sonra": 0.11
+  },
+  {
+   "id": "8dd526b7-18b6-4872-88e7-f166407d7f35",
+   "soru": "Uygulama imar planı neyi ayrıntılandırır?",
+   "dogru_cevap": 1,
+   "zorluk": 4,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Ülke politikasını",
+    "Parsel ve yapılaşma koşullarını",
+    "Bölge iklimini",
+    "Nüfus sayımını"
+   ],
+   "yeni_tr": [
+    "Ülkenin kalkınma hedeflerini",
+    "Parsel ve yapılaşma koşullarını",
+    "Bölgenin iklim ve bitki özelliklerini",
+    "İlin nüfus ve göç tahminlerini"
+   ],
+   "eski_en": [
+    "National policy",
+    "Plot boundaries and building conditions",
+    "The regional climate",
+    "The census"
+   ],
+   "yeni_en": [
+    "The country's development goals",
+    "Plot boundaries and building conditions",
+    "The region's climate and vegetation features",
+    "The province's population and migration forecasts"
+   ],
+   "jev_p_sonra": 0.35
+  },
+  {
+   "id": "902ae1b1-4a6b-4e6c-a9af-6d029f8cade1",
+   "soru": "Safranbolu hangi özelliğiyle UNESCO listesindedir?",
+   "dogru_cevap": 0,
+   "zorluk": 3,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Geleneksel evleri",
+    "Yaylaları",
+    "Mağaraları",
+    "Plajları"
+   ],
+   "yeni_tr": [
+    "Geleneksel evleri",
+    "Kaya kiliseleri",
+    "Antik tiyatrosu",
+    "Damlataşı mağaraları"
+   ],
+   "eski_en": [
+    "Its traditional houses",
+    "Its highland pastures",
+    "Its caves",
+    "Its beaches"
+   ],
+   "yeni_en": [
+    "Its traditional houses",
+    "Its rock churches",
+    "Its ancient theatre",
+    "Its stalactite-filled caves"
+   ],
+   "jev_p_sonra": 0.04
+  },
+  {
+   "id": "9684d3a4-6ea3-4d8d-a4ba-c37972d91d80",
+   "soru": "Ağaç dikmenin en uygun mevsimi genellikle hangisidir?",
+   "dogru_cevap": 3,
+   "zorluk": 1,
+   "eski_isaretler": "dogru_en_uzun",
+   "eski_tr": [
+    "Fark etmez",
+    "Kışın en soğuğu",
+    "Yaz ortası",
+    "Sonbahar veya ilkbahar"
+   ],
+   "yeni_tr": [
+    "Yaz ortası veya sonu",
+    "Kışın en soğuk ayı",
+    "Yazın en sıcak haftaları",
+    "Sonbahar veya ilkbahar"
+   ],
+   "eski_en": [
+    "It makes no difference",
+    "The coldest part of winter",
+    "Midsummer",
+    "Autumn or spring"
+   ],
+   "yeni_en": [
+    "Midsummer or late summer",
+    "The coldest month of winter",
+    "The hottest weeks of summer",
+    "Autumn or spring"
+   ],
+   "jev_p_sonra": 0.55
+  },
+  {
+   "id": "98b25f3b-e0c1-458d-88cf-37f71518cc5f",
+   "soru": "'Toplum sözleşmesi' düşüncesi neyi tartışır?",
+   "dogru_cevap": 3,
+   "zorluk": 3,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Ticareti",
+    "Savaşı",
+    "Dini",
+    "Siyasal iktidarın kaynağını"
+   ],
+   "yeni_tr": [
+    "Uluslararası ticaretin kurallarını",
+    "Dinî inançların kökenini",
+    "Sanatın toplumsal işlevini",
+    "Siyasal iktidarın kaynağını"
+   ],
+   "eski_en": [
+    "Trade",
+    "War",
+    "Religion",
+    "The source of political authority"
+   ],
+   "yeni_en": [
+    "The rules governing international trade",
+    "The origin of religious beliefs",
+    "The social function of art",
+    "The source of political authority"
+   ],
+   "jev_p_sonra": 0.3
+  },
+  {
+   "id": "9bd2c45a-1378-49be-b4cc-8db5cf52204a",
+   "soru": "Bir ürünün \"son tüketim\" ile \"tavsiye edilen tüketim\" tarihi farkı nedir?",
+   "dogru_cevap": 0,
+   "zorluk": 2,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Biri güvenlik, diğeri kalite",
+    "İkisi aynı",
+    "Biri ağırlık",
+    "Biri fiyat"
+   ],
+   "yeni_tr": [
+    "Biri güvenlik, diğeri kalite",
+    "Biri üretim, diğeri paketleme",
+    "Biri ithal, diğeri yerli ürün",
+    "Biri açılmış, diğeri kapalı ürün"
+   ],
+   "eski_en": [
+    "One is about safety, the other about quality",
+    "They are the same",
+    "One is about weight",
+    "One is about price"
+   ],
+   "yeni_en": [
+    "One is about safety, the other about quality",
+    "One is about production, the other about packaging",
+    "One is for imported, the other for local goods",
+    "One is for opened, the other for sealed goods"
+   ],
+   "jev_p_sonra": 0.35
+  },
+  {
+   "id": "9c9fa247-ab20-44eb-adbd-9d195cd3b00c",
+   "soru": "İlk yardımın temel amacı nedir?",
+   "dogru_cevap": 1,
+   "zorluk": 1,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime,sik_ipucu_jev",
+   "eski_tr": [
+    "Kesin tedavi uygulamak",
+    "Yardım gelene dek durumu korumak",
+    "İlaç yazmak",
+    "Ameliyat yapmak"
+   ],
+   "yeni_tr": [
+    "Hastalığın nedenini kesin olarak belirlemek",
+    "Yardım gelene dek durumu korumak",
+    "Hastalığı ortaya çıkmadan önlemek",
+    "Hastayı normal yaşamına döndürmek"
+   ],
+   "eski_en": [
+    "Applying definitive treatment",
+    "Keeping the person stable until help arrives",
+    "Prescribing medicine",
+    "Operating"
+   ],
+   "yeni_en": [
+    "Establishing the exact underlying cause of the illness",
+    "Keeping the person stable until help arrives",
+    "Preventing the illness before it appears",
+    "Returning the patient to normal daily life"
+   ],
+   "jev_p_sonra": 0.57
+  },
+  {
+   "id": "9cfdb289-0159-40de-9d37-47dc3e33a0aa",
+   "soru": "Garanti belgesi neyi güvence altına alır?",
+   "dogru_cevap": 1,
+   "zorluk": 2,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime,sik_ipucu_jev",
+   "eski_tr": [
+    "Fiyat indirimini",
+    "Belirli süre onarım ve değişim hakkını",
+    "Kargo ücretini",
+    "Vergi iadesini"
+   ],
+   "yeni_tr": [
+    "Belirli süre içinde cayma ve iade hakkını",
+    "Belirli süre onarım ve değişim hakkını",
+    "Taksitle ödeme ve erteleme hakkını",
+    "Kaza ve hırsızlığa karşı tazminat hakkını"
+   ],
+   "eski_en": [
+    "A discount",
+    "The right to repair or replacement for a set period",
+    "The shipping cost",
+    "A tax refund"
+   ],
+   "yeni_en": [
+    "The right to withdraw and return it within a set period",
+    "The right to repair or replacement for a set period",
+    "The right to pay in instalments or defer",
+    "The right to compensation for accident or theft"
+   ],
+   "jev_p_sonra": 0.33
+  },
+  {
+   "id": "a11db30d-7401-4481-9e04-dcae1f6e162b",
+   "soru": "MTA kurumunun görev alanı nedir?",
+   "dogru_cevap": 2,
+   "zorluk": 4,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Hava tahmini",
+    "Su yapıları",
+    "Maden ve yer bilimleri araştırmaları",
+    "Orman yönetimi"
+   ],
+   "yeni_tr": [
+    "Hava tahmini ve iklim araştırmaları",
+    "Baraj ve sulama yapılarının yapımı",
+    "Maden ve yer bilimleri araştırmaları",
+    "Orman varlığının korunması ve yönetimi"
+   ],
+   "eski_en": [
+    "Weather forecasting",
+    "Hydraulic works",
+    "Mineral and earth science research",
+    "Forest management"
+   ],
+   "yeni_en": [
+    "Weather forecasting and climate research",
+    "Building dams and irrigation works",
+    "Mineral and earth science research",
+    "Protecting and managing forests"
+   ],
+   "jev_p_sonra": 0.17
+  },
+  {
+   "id": "a16e948d-e5b0-4f2f-86ba-a38d8ec25398",
+   "soru": "Transit ticaret ne anlama gelir?",
+   "dogru_cevap": 1,
+   "zorluk": 3,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Sadece ihracat",
+    "Bir ülke üzerinden geçen ticaret",
+    "Sadece ithalat",
+    "İç ticaret"
+   ],
+   "yeni_tr": [
+    "Yalnız komşu ülkelerle yapılan ticaret",
+    "Bir ülke üzerinden geçen ticaret",
+    "Serbest bölge içinde yapılan ticaret",
+    "Aynı ülke içinde yapılan ticaret"
+   ],
+   "eski_en": [
+    "Export only",
+    "Trade passing through a country",
+    "Import only",
+    "Domestic trade"
+   ],
+   "yeni_en": [
+    "Trade carried on only with neighbours",
+    "Trade passing through a country",
+    "Trade carried on inside a free zone",
+    "Trade within a single country"
+   ],
+   "jev_p_sonra": 0.51
+  },
+  {
+   "id": "a2595d97-930d-4c65-bee6-aba324ec12d3",
+   "soru": "Türk mutfağında \"mezelik\" ne anlama gelir?",
+   "dogru_cevap": 1,
+   "zorluk": 3,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Tatlı çeşidi",
+    "Ana yemek öncesi küçük tabaklar",
+    "Çorba türü",
+    "Ekmek çeşidi"
+   ],
+   "yeni_tr": [
+    "Ana yemek sonrası hafif tatlılar",
+    "Ana yemek öncesi küçük tabaklar",
+    "Çay yanında sunulan kuru pastalar",
+    "Yolculukta yenen hafif azıklar"
+   ],
+   "eski_en": [
+    "A kind of dessert",
+    "Small plates before the main course",
+    "A kind of soup",
+    "A kind of bread"
+   ],
+   "yeni_en": [
+    "Light sweets after the main course",
+    "Small plates before the main course",
+    "Dry pastries served alongside tea",
+    "Light provisions eaten on a journey"
+   ],
+   "jev_p_sonra": 0.6
+  },
+  {
+   "id": "abea9f65-6ade-428a-8350-d97133e254a6",
+   "soru": "Bir ülkenin sanayi ürünü ihracatının artması neyi gösterir?",
+   "dogru_cevap": 2,
+   "zorluk": 2,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime,sik_ipucu_jev",
+   "eski_tr": [
+    "Tarımın çöktüğünü",
+    "Nüfusun azaldığını",
+    "Katma değerin yükseldiğini",
+    "İthalatın bittiğini"
+   ],
+   "yeni_tr": [
+    "Nüfusun hızla yaşlandığını",
+    "Ham madde üretiminin arttığını",
+    "Katma değerin yükseldiğini",
+    "Turizm gelirinin azaldığını"
+   ],
+   "eski_en": [
+    "That farming has collapsed",
+    "That the population has fallen",
+    "That value added has risen",
+    "That imports have ceased"
+   ],
+   "yeni_en": [
+    "That the population is ageing fast",
+    "That raw material output has risen",
+    "That value added has risen",
+    "That tourism income has fallen"
+   ],
+   "jev_p_sonra": 0.37
+  },
+  {
+   "id": "ac608f83-1a25-435a-ad61-3f9483bff9c6",
+   "soru": "Dünya dillerinin kaybolmasının başlıca nedeni nedir?",
+   "dogru_cevap": 1,
+   "zorluk": 3,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "İklim değişikliği",
+    "Baskın dile geçiş ve kuşak kopukluğu",
+    "Deprem",
+    "Ulaşım"
+   ],
+   "yeni_tr": [
+    "Küresel iklim değişikliği ve uzun kuraklık",
+    "Baskın dile geçiş ve kuşak kopukluğu",
+    "Yazı sistemlerinin karmaşık olması",
+    "Deprem ve benzeri doğal afetler"
+   ],
+   "eski_en": [
+    "Climate change",
+    "A shift to a dominant language and a break between generations",
+    "Earthquakes",
+    "Transport"
+   ],
+   "yeni_en": [
+    "Global climate change and the prolonged periods of drought that follow",
+    "A shift to a dominant language and a break between generations",
+    "The great complexity of their writing systems",
+    "Earthquakes and other similar natural disasters"
+   ],
+   "jev_p_sonra": 0.58
+  },
+  {
+   "id": "ac76149b-f9ec-4ffa-a611-90d701bae49c",
+   "soru": "Afet lojistiğinde en kritik unsur nedir?",
+   "dogru_cevap": 1,
+   "zorluk": 3,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime,sik_ipucu_jev",
+   "eski_tr": [
+    "Depo büyüklüğü",
+    "Hızlı ve doğru dağıtım",
+    "Araç rengi",
+    "Personel sayısı"
+   ],
+   "yeni_tr": [
+    "Düşük ve sabit maliyet",
+    "Hızlı ve doğru dağıtım",
+    "Geniş ve çeşitli ürün yelpazesi",
+    "Yüksek ve düzenli kâr"
+   ],
+   "eski_en": [
+    "Warehouse size",
+    "Fast and accurate distribution",
+    "The colour of the vehicles",
+    "The number of staff"
+   ],
+   "yeni_en": [
+    "Low and stable cost",
+    "Fast and accurate distribution",
+    "A wide and varied product range",
+    "High and steady profit"
+   ],
+   "jev_p_sonra": 0.56
+  },
+  {
+   "id": "af6d6517-ebde-4c4c-a230-99d9d5153a79",
+   "soru": "Buharda pişirmenin avantajı nedir?",
+   "dogru_cevap": 3,
+   "zorluk": 2,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime,sik_ipucu_jev",
+   "eski_tr": [
+    "Yağ ekler",
+    "Şeker katar",
+    "Tuz artırır",
+    "Besin değerini korur"
+   ],
+   "yeni_tr": [
+    "Yemeği çıtır yapar",
+    "Kabuğu kızartır",
+    "Şekeri karamelize eder",
+    "Besin değerini korur"
+   ],
+   "eski_en": [
+    "It adds fat",
+    "It adds sugar",
+    "It raises the salt",
+    "It preserves nutritional value"
+   ],
+   "yeni_en": [
+    "It makes food crisp",
+    "It browns the crust",
+    "It caramelises the natural sugars",
+    "It preserves nutritional value"
+   ],
+   "jev_p_sonra": 0.26
+  },
+  {
+   "id": "b0f64dec-7364-4af9-970f-0fdbdac86fed",
+   "soru": "\"QWERTY\" adı nereden gelmektedir?",
+   "dogru_cevap": 1,
+   "zorluk": 3,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Mucidinin adından",
+    "Klavyenin ilk altı harfinden",
+    "Bir kısaltmadan",
+    "Üretici firmadan"
+   ],
+   "yeni_tr": [
+    "Mucidinin adının baş harflerinden",
+    "Klavyenin ilk altı harfinden",
+    "Üretici firmanın kısaltmasından",
+    "İlk daktilo modelinin adından"
+   ],
+   "eski_en": [
+    "From its inventor's name",
+    "From the first six letters of the keyboard",
+    "From an abbreviation",
+    "From the manufacturer"
+   ],
+   "yeni_en": [
+    "From the initials of its inventor's name",
+    "From the first six letters of the keyboard",
+    "From the manufacturer's abbreviation",
+    "From the name of the first typewriter model"
+   ],
+   "jev_p_sonra": 0.74
+  },
+  {
+   "id": "b28bf292-4303-4fe8-bb9f-3cedbc5f9ed5",
+   "soru": "Trafikte 'ölü nokta' ne demektir?",
+   "dogru_cevap": 0,
+   "zorluk": 2,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Aynalardan görülemeyen alan",
+    "Duraklama yeri",
+    "Kavşak ortası",
+    "Yaya geçidi"
+   ],
+   "yeni_tr": [
+    "Aynalardan görülemeyen alan",
+    "Duraklamanın yasak olduğu alan",
+    "Kavşağın tam orta noktası",
+    "Yaya geçidinin önündeki alan"
+   ],
+   "eski_en": [
+    "The area not visible in the mirrors",
+    "A place to stop",
+    "The middle of a junction",
+    "A pedestrian crossing"
+   ],
+   "yeni_en": [
+    "The area not visible in the mirrors",
+    "The area where stopping is forbidden",
+    "The exact centre of a junction",
+    "The area in front of a pedestrian crossing"
+   ],
+   "jev_p_sonra": 0.1
+  },
+  {
+   "id": "b39bab70-30b9-4f7d-aa64-352796cc8544",
+   "soru": "Antropoloji bilimi hangi konuyu araştırır?",
+   "dogru_cevap": 2,
+   "zorluk": 1,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Bitkileri",
+    "Denizleri",
+    "İnsanı ve kültürlerini",
+    "Metalleri"
+   ],
+   "yeni_tr": [
+    "Bitkileri ve ortamlarını",
+    "Denizleri ve canlılarını",
+    "İnsanı ve kültürlerini",
+    "Metalleri ve alaşımlarını"
+   ],
+   "eski_en": [
+    "Plants",
+    "The seas",
+    "Humans and their cultures",
+    "Metals"
+   ],
+   "yeni_en": [
+    "Plants and their habitats",
+    "The seas and their creatures",
+    "Humans and their cultures",
+    "Metals and their alloys"
+   ],
+   "jev_p_sonra": 0.37
+  },
+  {
+   "id": "b48cb8b2-4345-4611-bce3-c15113c3c888",
+   "soru": "Miras hukuku neyi düzenler?",
+   "dogru_cevap": 2,
+   "zorluk": 2,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime,sik_ipucu_jev",
+   "eski_tr": [
+    "Kira sözleşmesini",
+    "Trafik cezasını",
+    "Ölen kişinin mal paylaşımını",
+    "Vergi oranını"
+   ],
+   "yeni_tr": [
+    "Kiracı ile ev sahibi ilişkisini",
+    "Trafik cezalarının tahsilini",
+    "Ölen kişinin mal paylaşımını",
+    "Şirketlerin vergi oranını"
+   ],
+   "eski_en": [
+    "Tenancy agreements",
+    "Traffic fines",
+    "The division of a deceased person's property",
+    "Tax rates"
+   ],
+   "yeni_en": [
+    "The relationship between a tenant and a landlord",
+    "The collection of traffic fines",
+    "The division of a deceased person's property",
+    "The rate of tax paid by companies"
+   ],
+   "jev_p_sonra": 0.77
+  },
+  {
+   "id": "b4e54d05-26fa-432d-abd6-7e494a5431b4",
+   "soru": "Safran hangi bitki kısmından elde edilir?",
+   "dogru_cevap": 1,
+   "zorluk": 3,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Kabuk",
+    "Çiçek tepeciği",
+    "Tohum",
+    "Kök"
+   ],
+   "yeni_tr": [
+    "Ağaç kabuğu",
+    "Çiçek tepeciği",
+    "Kurutulmuş tohum",
+    "Kök gövdesi"
+   ],
+   "eski_en": [
+    "The bark",
+    "The flower's stigma",
+    "The seed",
+    "The root"
+   ],
+   "yeni_en": [
+    "The bark of the tree",
+    "The flower's stigma",
+    "The dried seed",
+    "The root stem"
+   ],
+   "jev_p_sonra": 0.16
+  },
+  {
+   "id": "b50d313f-027b-478c-a594-14b5f89e1883",
+   "soru": "Karbon ticareti sisteminin mantığı nedir?",
+   "dogru_cevap": 3,
+   "zorluk": 4,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Karbonun depolanması",
+    "Ormanın satılması",
+    "Enerji üretimi",
+    "Salım hakkının alınıp satılması"
+   ],
+   "yeni_tr": [
+    "Karbonun yer altında depolanması",
+    "Yakıta salım oranında vergi konması",
+    "Ağaç dikilerek salımın dengelenmesi",
+    "Salım hakkının alınıp satılması"
+   ],
+   "eski_en": [
+    "Storing carbon",
+    "Selling forests",
+    "Producing energy",
+    "Buying and selling the right to emit"
+   ],
+   "yeni_en": [
+    "Storing the captured carbon deep under the ground",
+    "Taxing fuel in proportion to its emissions",
+    "Offsetting emissions by planting trees",
+    "Buying and selling the right to emit"
+   ],
+   "jev_p_sonra": 0.59
+  },
+  {
+   "id": "b5505fb6-bfc0-468e-80e8-71992cccbe8b",
+   "soru": "Deprem sırasında araç kullanan kişi ne yapmalıdır?",
+   "dogru_cevap": 2,
+   "zorluk": 1,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime,sik_ipucu_jev",
+   "eski_tr": [
+    "Hızlanmak",
+    "Tünelde durmak",
+    "Güvenli yerde durmak",
+    "Köprüye girmek"
+   ],
+   "yeni_tr": [
+    "Alt geçide sığınmak",
+    "Köprü altında beklemek",
+    "Güvenli yerde durmak",
+    "Binaya yakın park etmek"
+   ],
+   "eski_en": [
+    "Accelerate",
+    "Stop in a tunnel",
+    "Stop in a safe place",
+    "Drive onto a bridge"
+   ],
+   "yeni_en": [
+    "Shelter in an underpass",
+    "Wait under a bridge",
+    "Stop in a safe place",
+    "Park close to a building"
+   ],
+   "jev_p_sonra": 0.8
+  },
+  {
+   "id": "b67fcfa3-1788-4304-8a71-1fd7ccf51fb1",
+   "soru": "Uzay hukuku hangi ilkeyi benimser?",
+   "dogru_cevap": 1,
+   "zorluk": 3,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime,sik_ipucu_jev",
+   "eski_tr": [
+    "Uzayın paylaşılması",
+    "Uzayın tüm insanlığın ortak alanı olması",
+    "Uzayın satılması",
+    "Uzayın kapatılması"
+   ],
+   "yeni_tr": [
+    "Açık denizlerin tüm devletlere açık olması",
+    "Uzayın tüm insanlığın ortak alanı olması",
+    "Savaşta sivillerin hedef alınmaması",
+    "Devletlerin hava sahasında egemen olması"
+   ],
+   "eski_en": [
+    "Dividing space up",
+    "Space as the common domain of all humanity",
+    "Selling space",
+    "Closing space off"
+   ],
+   "yeni_en": [
+    "The high seas being open to all states",
+    "Space as the common domain of all humanity",
+    "Civilians not being targeted in war",
+    "States being sovereign over their own airspace"
+   ],
+   "jev_p_sonra": 0.33
+  },
+  {
+   "id": "b988a92f-f784-443f-96b1-3d0f2983bce5",
+   "soru": "Kedilerin tırmalama ihtiyacı nedendir?",
+   "dogru_cevap": 2,
+   "zorluk": 1,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Uyku",
+    "Susuzluk",
+    "Tırnak bakımı ve işaretleme",
+    "Açlık"
+   ],
+   "yeni_tr": [
+    "Uyku ve dinlenme hazırlığı",
+    "Susuzluk ve açlık belirtisi",
+    "Tırnak bakımı ve işaretleme",
+    "Mevsimlik tüy dökümü ve kaşıntı"
+   ],
+   "eski_en": [
+    "Sleep",
+    "Thirst",
+    "Claw care and marking",
+    "Hunger"
+   ],
+   "yeni_en": [
+    "Getting ready to sleep",
+    "A sign of thirst and hunger",
+    "Claw care and marking",
+    "Seasonal moulting and itching"
+   ],
+   "jev_p_sonra": 0.17
+  },
+  {
+   "id": "bc7cc6a4-7457-40c3-a1ae-dda4ab97ae9b",
+   "soru": "Kültürel asimilasyon neyi anlatır?",
+   "dogru_cevap": 3,
+   "zorluk": 2,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime,sik_ipucu_jev",
+   "eski_tr": [
+    "Kültürlerin ayrışması",
+    "Göçün durması",
+    "Dilin korunması",
+    "Bir grubun baskın kültüre karışması"
+   ],
+   "yeni_tr": [
+    "İki kültürün birbirinden ayrışması",
+    "Bir dilin okullarda korunması",
+    "Bir topluluğun başka ülkeye göç etmesi",
+    "Bir grubun baskın kültüre karışması"
+   ],
+   "eski_en": [
+    "Cultures separating",
+    "Migration stopping",
+    "A language being preserved",
+    "A group merging into the dominant culture"
+   ],
+   "yeni_en": [
+    "Two cultures drifting apart from each other",
+    "A language being preserved in schools",
+    "A community migrating to another country",
+    "A group merging into the dominant culture"
+   ],
+   "jev_p_sonra": 0.64
+  },
+  {
+   "id": "c6e0574a-e3a6-4374-8368-e2b50975da16",
+   "soru": "Tedarik zinciri kesintilerinin ekonomik sonucu nedir?",
+   "dogru_cevap": 3,
+   "zorluk": 3,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Fiyat düşüşü",
+    "Üretim artışı",
+    "Talep artışı",
+    "Üretim gecikmesi ve fiyat artışı"
+   ],
+   "yeni_tr": [
+    "Üretim artışı ve fiyat düşüşü",
+    "Stok fazlası ve talepte hızlı düşüş",
+    "İstihdam artışı ve ücret artışı",
+    "Üretim gecikmesi ve fiyat artışı"
+   ],
+   "eski_en": [
+    "A fall in prices",
+    "A rise in output",
+    "A rise in demand",
+    "Delayed production and rising prices"
+   ],
+   "yeni_en": [
+    "Higher output and falling prices",
+    "Excess stock and a sharp fall in demand",
+    "More jobs and rising wages",
+    "Delayed production and rising prices"
+   ],
+   "jev_p_sonra": 0.32
+  },
+  {
+   "id": "d0e22222-8074-42fb-b927-0e6b81671f96",
+   "soru": "Mutlak monarşi ile meşruti monarşi arasındaki temel fark nedir?",
+   "dogru_cevap": 0,
+   "zorluk": 2,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime,sik_ipucu_jev",
+   "eski_tr": [
+    "Anayasa ve meclisin varlığı",
+    "Hükümdarın yaşı",
+    "Ülkenin büyüklüğü",
+    "Ordunun gücü"
+   ],
+   "yeni_tr": [
+    "Anayasa ve meclisin varlığı",
+    "Hükümdarın tahta soydan gelmesi",
+    "Ordunun hükümdara bağlılığı",
+    "Başkentin ve sarayın konumu"
+   ],
+   "eski_en": [
+    "The existence of a constitution and a parliament",
+    "The ruler's age",
+    "The size of the country",
+    "The strength of the army"
+   ],
+   "yeni_en": [
+    "The existence of a constitution and a parliament",
+    "The ruler coming to the throne by hereditary descent",
+    "The army's loyalty to the ruler",
+    "The location of the capital and the palace"
+   ],
+   "jev_p_sonra": 0.69
+  },
+  {
+   "id": "d7ebfed3-9a2d-4486-a5de-3b328adac33f",
+   "soru": "OPEC örgütü hangi alanda etkilidir?",
+   "dogru_cevap": 1,
+   "zorluk": 2,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Tarım ürünleri",
+    "Petrol üretim ve fiyat politikası",
+    "Tekstil",
+    "Turizm"
+   ],
+   "yeni_tr": [
+    "Nükleer enerji ve güvenlik denetimi",
+    "Petrol üretim ve fiyat politikası",
+    "Dünya ticareti ve gümrük kuralları",
+    "Küresel sağlık ve salgın yönetimi"
+   ],
+   "eski_en": [
+    "Farm produce",
+    "Oil production and pricing policy",
+    "Textiles",
+    "Tourism"
+   ],
+   "yeni_en": [
+    "Nuclear energy and safety oversight",
+    "Oil production and pricing policy",
+    "World trade and customs rules",
+    "Global health and epidemic management"
+   ],
+   "jev_p_sonra": 0.17
+  },
+  {
+   "id": "e10a2e69-fbef-412c-baf6-e59c81ff4c0e",
+   "soru": "Çamaşır etiketindeki çarpı işaretli simge ne anlatır?",
+   "dogru_cevap": 1,
+   "zorluk": 1,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Fiyatı",
+    "Yapılmaması gerekeni",
+    "Zorunluluğu",
+    "Öneriyi"
+   ],
+   "yeni_tr": [
+    "Yapılması zorunlu olanı",
+    "Yapılmaması gerekeni",
+    "Tavsiye edilen işlemi",
+    "Kumaşın türünü"
+   ],
+   "eski_en": [
+    "The price",
+    "What must not be done",
+    "A requirement",
+    "A recommendation"
+   ],
+   "yeni_en": [
+    "What must always be done",
+    "What must not be done",
+    "The recommended treatment",
+    "The type of fabric"
+   ],
+   "jev_p_sonra": 0.45
+  },
+  {
+   "id": "e15c25f2-abad-4dbc-892b-0c879ffec1a8",
+   "soru": "Hatay hangi özelliğiyle \"medeniyetler şehri\" olarak anılır?",
+   "dogru_cevap": 1,
+   "zorluk": 3,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Sanayisi",
+    "Farklı din ve kültürlerin birlikteliği",
+    "Üniversiteleri",
+    "Limanı"
+   ],
+   "yeni_tr": [
+    "Köklü ağır sanayi ve demir çelik üretimi",
+    "Farklı din ve kültürlerin birlikteliği",
+    "Eski ve büyük üniversiteleri",
+    "İşlek limanı ve serbest bölgesi"
+   ],
+   "eski_en": [
+    "Its industry",
+    "The coexistence of different faiths and cultures",
+    "Its universities",
+    "Its port"
+   ],
+   "yeni_en": [
+    "Its long-established heavy industry and steel making",
+    "The coexistence of different faiths and cultures",
+    "Its old and large universities",
+    "Its busy port and free zone"
+   ],
+   "jev_p_sonra": 0.31
+  },
+  {
+   "id": "e17e3c38-4e72-4ba2-b191-ca3b4bf0bc93",
+   "soru": "'Halay' nasıl oynanır?",
+   "dogru_cevap": 3,
+   "zorluk": 2,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Tek kişi",
+    "İkili",
+    "Sırayla",
+    "El ele halka veya sıra hâlinde"
+   ],
+   "yeni_tr": [
+    "Tek başına, kollar iki yana açık",
+    "Karşılıklı çiftler hâlinde",
+    "Oturarak, kaşık eşliğinde",
+    "El ele halka veya sıra hâlinde"
+   ],
+   "eski_en": [
+    "Solo",
+    "In pairs",
+    "In turns",
+    "Hand in hand in a circle or line"
+   ],
+   "yeni_en": [
+    "Alone, with both arms spread out to the sides",
+    "In couples facing each other",
+    "Seated, to the beat of spoons",
+    "Hand in hand in a circle or line"
+   ],
+   "jev_p_sonra": 0.58
+  },
+  {
+   "id": "e31a0d42-45e2-4cfc-bed1-29d6d0c0d7cd",
+   "soru": "Soğuk zincir kavramı neyi ifade eder?",
+   "dogru_cevap": 1,
+   "zorluk": 3,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime,sik_ipucu_jev",
+   "eski_tr": [
+    "Dondurulmuş üretimi",
+    "Ürünün üretimden tüketime soğuk kalması",
+    "Buzdolabı markasını",
+    "Sıcak taşımayı"
+   ],
+   "yeni_tr": [
+    "Ürünün üretimden tüketime kadar izlenebilmesi",
+    "Ürünün üretimden tüketime soğuk kalması",
+    "Ürünün depodan mağazaya hızlı taşınması",
+    "Ürünün tek kullanımlık ambalajla satılması"
+   ],
+   "eski_en": [
+    "Frozen production",
+    "Keeping a product cold from production to consumption",
+    "A brand of fridge",
+    "Transporting it hot"
+   ],
+   "yeni_en": [
+    "Being able to trace a product from production to consumption",
+    "Keeping a product cold from production to consumption",
+    "Moving a product quickly from warehouse to shop",
+    "Selling a product in single-use packaging"
+   ],
+   "jev_p_sonra": 0.43
+  },
+  {
+   "id": "e4e383dd-8f39-4a98-bc95-c26f353cada6",
+   "soru": "Kentsel dönüşümün temel amacı nedir?",
+   "dogru_cevap": 3,
+   "zorluk": 2,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime,sik_ipucu_jev",
+   "eski_tr": [
+    "Nüfusu artırmak",
+    "Yeşil alanı azaltmak",
+    "Trafiği artırmak",
+    "Sağlıksız yapı stokunu yenilemek"
+   ],
+   "yeni_tr": [
+    "Tarihî kent dokusunu onarmak",
+    "Kent çevresine yeşil kuşak kurmak",
+    "Toplu taşıma ağını genişletmek",
+    "Sağlıksız yapı stokunu yenilemek"
+   ],
+   "eski_en": [
+    "Increasing the population",
+    "Reducing green space",
+    "Increasing traffic",
+    "Renewing unsafe building stock"
+   ],
+   "yeni_en": [
+    "Restoring the historic urban fabric",
+    "Creating a green belt around the city",
+    "Expanding the public transport network",
+    "Renewing unsafe building stock"
+   ],
+   "jev_p_sonra": 0.48
+  },
+  {
+   "id": "e7970a93-9b10-4951-8eb8-f50123003209",
+   "soru": "Tüketici hakları kapsamında 'ayıplı mal' ne demektir?",
+   "dogru_cevap": 0,
+   "zorluk": 3,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime,sik_ipucu_jev",
+   "eski_tr": [
+    "Sözleşmeye uygun olmayan ürün",
+    "Pahalı ürün",
+    "İthal ürün",
+    "İkinci el ürün"
+   ],
+   "yeni_tr": [
+    "Sözleşmeye uygun olmayan ürün",
+    "Piyasa değerinden pahalı satılan ürün",
+    "Yurt dışından getirilen ürün",
+    "Daha önce kullanılmış ürün"
+   ],
+   "eski_en": [
+    "A product not as specified in the contract",
+    "An expensive product",
+    "An imported product",
+    "A second-hand product"
+   ],
+   "yeni_en": [
+    "A product not as specified in the contract",
+    "A product sold for more than its market value",
+    "A product brought in from abroad",
+    "A product that has been used before"
+   ],
+   "jev_p_sonra": 0.67
+  },
+  {
+   "id": "e888bb1b-db18-42e3-a799-60eb27a374ca",
+   "soru": "\"Eli ayağı dolaşmak\" ne demektir?",
+   "dogru_cevap": 1,
+   "zorluk": 1,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Uyumak",
+    "Şaşırıp beceremez olmak",
+    "Dans etmek",
+    "Çok yürümek"
+   ],
+   "yeni_tr": [
+    "Yorgunluktan uyuyakalmak",
+    "Şaşırıp beceremez olmak",
+    "Sevinçten havalara uçmak",
+    "Çok yürüyüp bitkin düşmek"
+   ],
+   "eski_en": null,
+   "yeni_en": null,
+   "jev_p_sonra": 0.47
+  },
+  {
+   "id": "f1181a9a-25f8-4bda-9c9c-9123012d0748",
+   "soru": "'Kalkınma planı' neyi düzenler?",
+   "dogru_cevap": 0,
+   "zorluk": 2,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Ekonomik hedef ve yatırımları",
+    "Nüfus sayımını",
+    "Seçimi",
+    "Askerliği"
+   ],
+   "yeni_tr": [
+    "Ekonomik hedef ve yatırımları",
+    "Nüfus sayımı ve kayıtlarını",
+    "Seçim takvimi ve kurallarını",
+    "Askerlik süresi ve koşullarını"
+   ],
+   "eski_en": [
+    "Economic targets and investments",
+    "The census",
+    "The election",
+    "Military service"
+   ],
+   "yeni_en": [
+    "Economic targets and investments",
+    "The census and its records",
+    "The election timetable and rules",
+    "The length and terms of military service"
+   ],
+   "jev_p_sonra": 0.27
+  },
+  {
+   "id": "f1d52acf-0376-4f5f-981a-33f9a25093f8",
+   "soru": "Tarımsal destekleme politikasının amacı nedir?",
+   "dogru_cevap": 3,
+   "zorluk": 3,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime,sik_ipucu_jev",
+   "eski_tr": [
+    "Üretimi azaltmak",
+    "İthalatı artırmak",
+    "Fiyatı yükseltmek",
+    "Üretimi sürdürülebilir kılmak"
+   ],
+   "yeni_tr": [
+    "Sanayi ürünleri ihracatını artırmak",
+    "Kent nüfusunu dengelemek",
+    "Orman alanlarını genişletmek",
+    "Üretimi sürdürülebilir kılmak"
+   ],
+   "eski_en": [
+    "Reducing production",
+    "Increasing imports",
+    "Raising prices",
+    "Making production sustainable"
+   ],
+   "yeni_en": [
+    "Increasing exports of industrial goods",
+    "Balancing the urban population",
+    "Expanding forest areas",
+    "Making production sustainable"
+   ],
+   "jev_p_sonra": 0.62
+  },
+  {
+   "id": "f3b88c09-78e6-4c05-a9d7-b1ba800a8ca5",
+   "soru": "İltica hakkı neyi ifade eder?",
+   "dogru_cevap": 2,
+   "zorluk": 2,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime,sik_ipucu_jev",
+   "eski_tr": [
+    "Turist vizesi",
+    "Öğrenci izni",
+    "Zulümden kaçana sığınma hakkı",
+    "Çalışma izni"
+   ],
+   "yeni_tr": [
+    "Suçlanana adil yargılanma hakkı",
+    "Çalışana sendika kurma hakkı",
+    "Zulümden kaçana sığınma hakkı",
+    "Yurttaşa dilekçe verme hakkı"
+   ],
+   "eski_en": [
+    "A tourist visa",
+    "A student permit",
+    "Refuge for someone fleeing persecution",
+    "A work permit"
+   ],
+   "yeni_en": [
+    "A fair trial for someone accused of a crime",
+    "The right of workers to form a union",
+    "Refuge for someone fleeing persecution",
+    "The right of citizens to petition"
+   ],
+   "jev_p_sonra": 0.37
+  },
+  {
+   "id": "f4c0d532-30c4-4a94-8ffb-ab9ccb5514e1",
+   "soru": "Bir karat hangi alanda kullanılır?",
+   "dogru_cevap": 2,
+   "zorluk": 2,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Uzunluk",
+    "Hız",
+    "Değerli taş ve altın",
+    "Basınç"
+   ],
+   "yeni_tr": [
+    "Uzunluk ve derinlik",
+    "Rüzgâr ve akıntı hızı",
+    "Değerli taş ve altın",
+    "Hava ve su basıncı"
+   ],
+   "eski_en": [
+    "Length",
+    "Speed",
+    "Precious stones and gold",
+    "Pressure"
+   ],
+   "yeni_en": [
+    "Length and depth",
+    "Wind speed and current speed",
+    "Precious stones and gold",
+    "Air and water pressure"
+   ],
+   "jev_p_sonra": 0.33
+  },
+  {
+   "id": "fd9ce03f-a23f-4858-b02f-54c782ca2da8",
+   "soru": "Kuru baklagiller pişirmeden önce neden ıslatılır?",
+   "dogru_cevap": 1,
+   "zorluk": 1,
+   "eski_isaretler": "dogru_en_uzun,dogru_coklu_kelime",
+   "eski_tr": [
+    "Renk vermek",
+    "Pişme süresini kısaltmak",
+    "Ağırlaştırmak",
+    "Tuzlamak"
+   ],
+   "yeni_tr": [
+    "Rengini koyulaştırmak",
+    "Pişme süresini kısaltmak",
+    "Protein miktarını artırmak",
+    "Tuzunu dengelemek"
+   ],
+   "eski_en": [
+    "To add colour",
+    "To shorten the cooking time",
+    "To make them heavier",
+    "To salt them"
+   ],
+   "yeni_en": [
+    "To darken their colour",
+    "To shorten the cooking time",
+    "To raise the protein content",
+    "To balance the salt"
+   ],
+   "jev_p_sonra": 0.23
+  }
+ ],
+ "acilmayan": [
+  {
+   "id": "24914155-9b27-4694-b098-6fdf0bff9103",
+   "soru": "'Yazar hakları' hangi süreyle sınırlıdır?",
+   "secenekler": [
+    "Sınırsız",
+    "Bir yıl",
+    "Beş yıl",
+    "Yasayla belirlenen süreyle"
+   ],
+   "dogru_cevap": 3,
+   "neden": "belirsiz: doğru şık 'Yasayla belirlenen süreyle' totolojik; makul çeldirici ('yazarın yaşamı + 70 yıl') ikinci doğru cevap olur"
+  },
+  {
+   "id": "81837857-51a0-41b8-a0d3-98ad7eb6d0b8",
+   "soru": "\"Halay\" hangi bölgede yaygındır?",
+   "secenekler": [
+    "Güneydoğu ve Doğu Anadolu",
+    "Karadeniz",
+    "Ege",
+    "Trakya"
+   ],
+   "dogru_cevap": 0,
+   "neden": "tekrar: Halay bölgesi (7d292eb4 açıldı)"
+  },
+  {
+   "id": "1c5cbb93-ea7c-4ef4-8c28-a5d98a63fc74",
+   "soru": "'Kabotaj Hakkı' neyi düzenler?",
+   "secenekler": [
+    "Hava yolunu",
+    "Kara yolunu",
+    "İç sularda taşıma hakkını",
+    "Demir yolunu"
+   ],
+   "dogru_cevap": 2,
+   "neden": "tekrar: Kabotaj (5f77ae49 açıldı)"
+  },
+  {
+   "id": "2814f923-e311-435d-80a0-03e87debbcde",
+   "soru": "'Kabotaj Kanunu' neyi düzenlemiştir?",
+   "secenekler": [
+    "Kıyılarda taşımacılık hakkını",
+    "Toprak mülkiyetini",
+    "Vergileri",
+    "Eğitimi"
+   ],
+   "dogru_cevap": 0,
+   "neden": "tekrar: Kabotaj (5f77ae49 açıldı)"
+  },
+  {
+   "id": "3c7ff9f9-cb14-4596-a879-801ca5122b96",
+   "soru": "'Halay' hangi bölgede yaygın bir halk oyunudur?",
+   "secenekler": [
+    "Karadeniz",
+    "Doğu ve Güneydoğu",
+    "Ege",
+    "Marmara"
+   ],
+   "dogru_cevap": 1,
+   "neden": "tekrar: Halay bölgesi (7d292eb4 açıldı)"
+  },
+  {
+   "id": "21be54fa-9a8f-4ad2-b915-7df2bce1aa67",
+   "soru": "Sürdürülebilir kalkınma neyi hedefler?",
+   "secenekler": [
+    "Kısa vadeli kârı",
+    "Hızlı sanayileşmeyi",
+    "Nüfus artışını",
+    "Gelecek kuşakların hakkını korumayı"
+   ],
+   "dogru_cevap": 3,
+   "neden": "tekrar: sürdürülebilir kalkınma (75fb4ac6 açıldı)"
+  },
+  {
+   "id": "9996f8c1-650c-47ad-87ab-63f7c8a9c242",
+   "soru": "'Kuvvetler ayrılığı' neyi önerir?",
+   "secenekler": [
+    "Yetkilerin ayrı organlara dağıtılmasını",
+    "Tek elde toplanmasını",
+    "Meclisin kaldırılmasını",
+    "Ordunun yönetimini"
+   ],
+   "dogru_cevap": 0,
+   "neden": "tekrar: kuvvetler ayrılığı (5f46774e ile aynı bilgi; o da Jev testini geçemedi, ikisi de kapalı)"
+  },
+  {
+   "id": "e41d4307-1edc-4f7b-8c17-71d26dea3d9d",
+   "soru": "'Somut olmayan kültürel miras' neyi kapsar?",
+   "secenekler": [
+    "Yapıları",
+    "Kalıntıları",
+    "Eserleri",
+    "Gelenek ve becerileri"
+   ],
+   "dogru_cevap": 3,
+   "neden": "tekrar: somut olmayan kültürel miras (42658a39 açıldı)"
+  },
+  {
+   "id": "a27fa4f9-d0d7-4b54-8014-21dbe8fd61ff",
+   "soru": "'Manga' ile 'anime' arasındaki fark nedir?",
+   "secenekler": [
+    "İkisi aynıdır",
+    "Manga animasyondur",
+    "Manga basılı çizgi romandır",
+    "Anime basılıdır"
+   ],
+   "dogru_cevap": 2,
+   "neden": "Jev şık ipucu testi geçilemiyor: doğru şık soru olmadan da doğru bir önerme ('Manga basılı çizgi romandır'); doğru başka bir önerme ikinci doğru cevap olur"
+  },
+  {
+   "id": "ed9cc6d2-1774-4ca8-8935-aab4e4e7cd07",
+   "soru": "Bağış ile sponsorluk arasındaki fark nedir?",
+   "secenekler": [
+    "Sponsorlukta tanıtım beklenmesi",
+    "Bağışta karşılık beklenmesi",
+    "İkisinin aynı olması",
+    "Sponsorlukta karşılık olmaması"
+   ],
+   "dogru_cevap": 0,
+   "neden": "Jev şık ipucu testi geçilemiyor: doğru şık soru olmadan da doğru bir önerme ('Sponsorlukta tanıtım beklenmesi')"
+  },
+  {
+   "id": "146a8139-ba9e-4af1-b78e-aeb370e5a240",
+   "soru": "Son kullanma tarihi neyi belirtir?",
+   "secenekler": [
+    "Ürünün teslim edildiği günü",
+    "Ürünün satışa çıktığı günü",
+    "Ürünün üretilme gününü",
+    "Güvenle tüketilebilecek son günü"
+   ],
+   "dogru_cevap": 3,
+   "neden": "Jev şık ipucu testi 3 denemede geçilemedi (p=0,89): 'Güvenle tüketilebilecek son günü' soru olmadan da seçiliyor"
+  },
+  {
+   "id": "5f46774e-8619-4521-a66f-c2c81606f412",
+   "soru": "Kuvvetler ayrılığı ilkesi neyi ifade eder?",
+   "secenekler": [
+    "Yasama, yürütme, yargı ayrılığı",
+    "Ordunun bağımsızlığını",
+    "Yerel yönetim yetkisini",
+    "Basın özgürlüğünü"
+   ],
+   "dogru_cevap": 0,
+   "neden": "Jev şık ipucu testi 3 denemede geçilemedi (p=0,94): 'Yasama, yürütme, yargı ayrılığı' soru olmadan da seçiliyor"
+  },
+  {
+   "id": "ea0ac05e-dbf7-4cf2-b4ac-ddaa1c1ec393",
+   "soru": "Diplomaside büyükelçi kimdir?",
+   "secenekler": [
+    "Ticaret danışmanı",
+    "Askerî ateşe",
+    "Konsolosluk memuru",
+    "Devletin en üst düzey temsilcisi"
+   ],
+   "dogru_cevap": 3,
+   "neden": "Jev şık ipucu testi sınırda (p=0,82; bir koşuda geçti, sonrakinde takıldı): güvenli tarafta kalındı"
+  },
+  {
+   "id": "39c0882f-b7c8-4056-8fee-9c2841e913a7",
+   "soru": "Kişisel verilerin korunması neyi amaçlar?",
+   "secenekler": [
+    "Veriyi çoğaltmak",
+    "Reklamı artırmak",
+    "Kaydı silmemek",
+    "Bireyin mahremiyetini güvenceye almak"
+   ],
+   "dogru_cevap": 3,
+   "neden": "tekrar: AKTİF havuzda aynı soru var ('Kişisel verilerin korunmasının amacı nedir?', teknoloji; prova benzerlik 0,60)"
+  },
+  {
+   "id": "8924440d-842b-4f67-8ef5-402c98acbc45",
+   "soru": "'Bar' halk oyunu hangi bölgede oynanır?",
+   "secenekler": [
+    "Doğu Anadolu",
+    "Ege",
+    "Akdeniz",
+    "Marmara"
+   ],
+   "dogru_cevap": 0,
+   "neden": "tekrar: AKTİF havuzda aynı bilgi var ('Bar' oyunu hangi bölgeyle anılır?, muzik)"
+  },
+  {
+   "id": "7f7a2974-4cae-4b9e-bcdb-e937617d0301",
+   "soru": "'Laiklik ilkesi' neyi ayırır?",
+   "secenekler": [
+    "Din işleri ile devlet işlerini",
+    "Orduyu ve siyaseti",
+    "Eğitimi ve sağlığı",
+    "Ticareti ve tarımı"
+   ],
+   "dogru_cevap": 0,
+   "neden": "tekrar: AKTİF havuzda aynı bilgi var (Laiklik ilkesi neyi ifade eder?, genel_kultur)"
+  },
+  {
+   "id": "717d8f1d-14f7-4e36-ac47-5339f66b49d1",
+   "soru": "Turizmde \"kültür turizmi\" neye dayanır?",
+   "secenekler": [
+    "Plajlar",
+    "Tarihî ve kültürel değerler",
+    "Kayak",
+    "Sağlık"
+   ],
+   "dogru_cevap": 1,
+   "neden": "tekrar: AKTİF havuzda aynı bilgi var (Kültür turizmi hangi kaynağa dayanır?, cografya)"
+  }
+ ]
+}

@@ -825,3 +825,56 @@ No = yukarıdaki tam tablodaki sıra. Beklenen: genel_kultur aktif 519 → 503, 
 | 213 | `45eada97-77a9-4790-a13f-512984ff3bd3` | Vatikan hangi dinin merkezidir? → Katoliklik | PASİF · tekrar | metni kusurlu (Katolikliği "din" diye soruyor) |
 | 404 | `81e91719-7ab8-419e-8cae-83fc0cc9eda9` | Topuğundan vurulan ölümsüz Yunan kahramanı kimdir? → Aşil | **kaldı** | |
 | 646 | `df37de05-3b8d-4806-86b8-c132e242c120` | Mitolojiye göre Aşil'in zayıf noktası neresidir? → Topuğu | PASİF · tekrar | eşit (Aşil ↔ topuk); id'si büyük olan |
+
+## İpucu soruları: şık düzeltmesi ve geri açma (migration 940, 2 Eki 2026)
+
+851’de **ipucu** nedeniyle pasife alınan 110 sorunun yanlış şıkları yeniden yazıldı (doğru şıkla benzer uzunluk, biçim ve ayrıntı; çoğunda çeldiriciler komşu kavramların doğru tanımları). Soru metni, doğru cevap ve doğru şıkkın indeksi değişmedi.
+
+- **Açılan: 93** · **açılmayan: 17** (belirsiz 1 · tekrar 11 · Jev testi 5); açılmayanlar pasif kaldı, dokunulmadı.
+- Kapılar: şık denge kuralı (`soru_kural_isaretleri`, ağır işaret 0), Jev “soru gizli” testi (`sikIpucuTesti`, doğru şıkka ≤ 0,8; üç deneme), tek doğru cevap okuması, aktif havuzla benzerlik taraması (`similarity`).
+- İngilizce çeviri: 91 satır aynı indekslerle güncellendi; 2 sorunun çeviri satırı yok (deyim/atasözü).
+- `sik_ipucu_jev` işareti 35 soruda kaldırıldı (yeni şıklar aynı testten geçti).
+- Doğrulama (canlı, uygulama sonrası): 93/93 aktif ve 4 şıklı, doğru şık hiçbirinde tek başına en uzun değil, doğru/çeldirici ortalaması en çok 1,25 (eşik 1,4), en uzun/en kısa şık en çok 1,83, doğru konum dağılımı 20/25/24/24.
+- Eski ve yeni şıklar + geri alma: `docs/IPUCU_SIKLARI_YEDEK.json`.
+
+### 15 rastgele örnek (kalın = doğru şık)
+
+| Soru | Önce | Sonra |
+|---|---|---|
+| 'Kültürel miras listesi' neyi amaçlar? | Turizmi yalnızca · Vergiyi · **Evrensel değerli varlıkları korumayı** · Ticareti | Nesli tehlikedeki türleri korumayı · Temiz su kaynaklarını korumayı · **Evrensel değerli varlıkları korumayı** · Deniz ticaret yollarını güvenceye almayı |
+| Kültürel asimilasyon neyi anlatır? | Kültürlerin ayrışması · Göçün durması · Dilin korunması · **Bir grubun baskın kültüre karışması** | İki kültürün birbirinden ayrışması · Bir dilin okullarda korunması · Bir topluluğun başka ülkeye göç etmesi · **Bir grubun baskın kültüre karışması** |
+| Safran hangi bitki kısmından elde edilir? | Kabuk · **Çiçek tepeciği** · Tohum · Kök | Ağaç kabuğu · **Çiçek tepeciği** · Kurutulmuş tohum · Kök gövdesi |
+| Tarımsal destekleme politikasının amacı nedir? | Üretimi azaltmak · İthalatı artırmak · Fiyatı yükseltmek · **Üretimi sürdürülebilir kılmak** | Sanayi ürünleri ihracatını artırmak · Kent nüfusunu dengelemek · Orman alanlarını genişletmek · **Üretimi sürdürülebilir kılmak** |
+| Döviz kuru neyi ifade eder? | Kâr oranı · **İki para biriminin değişim oranı** · Vergi oranı · Faiz oranı | Bir bankanın yıllık kâr oranı · **İki para biriminin değişim oranı** · Devletin gelirden aldığı vergi oranı · Mevduata uygulanan faiz oranı |
+| 'KVKK' hangi konuyu düzenler? | **Kişisel verilerin korunmasını** · Vergiyi · Ticareti · Telifi | **Kişisel verilerin korunmasını** · Kamu ihalelerinin denetlenmesini · Kira sözleşmelerinin koşullarını · Katma değer vergisinin oranını |
+| Halay hangi bölgemizin halk oyunudur? | Karadeniz · Trakya · **Doğu ve Güneydoğu Anadolu** · Ege | Doğu Karadeniz kıyı şeridi · Trakya ve Güney Marmara · **Doğu ve Güneydoğu Anadolu** · Ege ve Batı Akdeniz |
+| 'Toplum sözleşmesi' düşüncesi neyi tartışır? | Ticareti · Savaşı · Dini · **Siyasal iktidarın kaynağını** | Uluslararası ticaretin kurallarını · Dinî inançların kökenini · Sanatın toplumsal işlevini · **Siyasal iktidarın kaynağını** |
+| Çocuk oto koltuğunun gerekliliği neye dayanır? | Rahatlık · Görüş açısı · **Çocuğun bedenine uygun koruma** · Estetik | Çocuğun yaşına uygun eğlence · Çocuğun boyuna uygun görüş açısı · **Çocuğun bedenine uygun koruma** · Çocuğun kilosuna uygun konfor |
+| Kamu spotunun amacı nedir? | Seçmeni bir partiye yöneltmek · Markaya bağlılık oluşturmak · **Toplum yararına bilgilendirmek** · Dizinin reytingini artırmak | Yeni bir ürünü tanıtmak · Güncel haberleri özetleyip sunmak · **Toplum yararına bilgilendirmek** · Bir sanat etkinliğini duyurmak |
+| Tedarik zinciri kesintilerinin ekonomik sonucu nedir? | Fiyat düşüşü · Üretim artışı · Talep artışı · **Üretim gecikmesi ve fiyat artışı** | Üretim artışı ve fiyat düşüşü · Stok fazlası ve talepte hızlı düşüş · İstihdam artışı ve ücret artışı · **Üretim gecikmesi ve fiyat artışı** |
+| İlk yardımın temel amacı nedir? | Kesin tedavi uygulamak · **Yardım gelene dek durumu korumak** · İlaç yazmak · Ameliyat yapmak | Hastalığın nedenini kesin olarak belirlemek · **Yardım gelene dek durumu korumak** · Hastalığı ortaya çıkmadan önlemek · Hastayı normal yaşamına döndürmek |
+| Antropoloji bilimi hangi konuyu araştırır? | Bitkileri · Denizleri · **İnsanı ve kültürlerini** · Metalleri | Bitkileri ve ortamlarını · Denizleri ve canlılarını · **İnsanı ve kültürlerini** · Metalleri ve alaşımlarını |
+| Buharda pişirmenin avantajı nedir? | Yağ ekler · Şeker katar · Tuz artırır · **Besin değerini korur** | Yemeği çıtır yapar · Kabuğu kızartır · Şekeri karamelize eder · **Besin değerini korur** |
+| Uzay hukuku hangi ilkeyi benimser? | Uzayın paylaşılması · **Uzayın tüm insanlığın ortak alanı olması** · Uzayın satılması · Uzayın kapatılması | Açık denizlerin tüm devletlere açık olması · **Uzayın tüm insanlığın ortak alanı olması** · Savaşta sivillerin hedef alınmaması · Devletlerin hava sahasında egemen olması |
+
+### Açılmayanlar
+
+| Soru | Doğru şık | Neden |
+|---|---|---|
+| 'Yazar hakları' hangi süreyle sınırlıdır? | Yasayla belirlenen süreyle | belirsiz: doğru şık 'Yasayla belirlenen süreyle' totolojik; makul çeldirici ('yazarın yaşamı + 70 yıl') ikinci doğru cevap olur |
+| "Halay" hangi bölgede yaygındır? | Güneydoğu ve Doğu Anadolu | tekrar: Halay bölgesi (7d292eb4 açıldı) |
+| 'Kabotaj Hakkı' neyi düzenler? | İç sularda taşıma hakkını | tekrar: Kabotaj (5f77ae49 açıldı) |
+| 'Kabotaj Kanunu' neyi düzenlemiştir? | Kıyılarda taşımacılık hakkını | tekrar: Kabotaj (5f77ae49 açıldı) |
+| 'Halay' hangi bölgede yaygın bir halk oyunudur? | Doğu ve Güneydoğu | tekrar: Halay bölgesi (7d292eb4 açıldı) |
+| Sürdürülebilir kalkınma neyi hedefler? | Gelecek kuşakların hakkını korumayı | tekrar: sürdürülebilir kalkınma (75fb4ac6 açıldı) |
+| 'Kuvvetler ayrılığı' neyi önerir? | Yetkilerin ayrı organlara dağıtılmasını | tekrar: kuvvetler ayrılığı (5f46774e ile aynı bilgi; o da Jev testini geçemedi, ikisi de kapalı) |
+| 'Somut olmayan kültürel miras' neyi kapsar? | Gelenek ve becerileri | tekrar: somut olmayan kültürel miras (42658a39 açıldı) |
+| 'Manga' ile 'anime' arasındaki fark nedir? | Manga basılı çizgi romandır | Jev şık ipucu testi geçilemiyor: doğru şık soru olmadan da doğru bir önerme ('Manga basılı çizgi romandır'); doğru başka bir önerme ikinci doğru cevap olur |
+| Bağış ile sponsorluk arasındaki fark nedir? | Sponsorlukta tanıtım beklenmesi | Jev şık ipucu testi geçilemiyor: doğru şık soru olmadan da doğru bir önerme ('Sponsorlukta tanıtım beklenmesi') |
+| Son kullanma tarihi neyi belirtir? | Güvenle tüketilebilecek son günü | Jev şık ipucu testi 3 denemede geçilemedi (p=0,89): 'Güvenle tüketilebilecek son günü' soru olmadan da seçiliyor |
+| Kuvvetler ayrılığı ilkesi neyi ifade eder? | Yasama, yürütme, yargı ayrılığı | Jev şık ipucu testi 3 denemede geçilemedi (p=0,94): 'Yasama, yürütme, yargı ayrılığı' soru olmadan da seçiliyor |
+| Diplomaside büyükelçi kimdir? | Devletin en üst düzey temsilcisi | Jev şık ipucu testi sınırda (p=0,82; bir koşuda geçti, sonrakinde takıldı): güvenli tarafta kalındı |
+| Kişisel verilerin korunması neyi amaçlar? | Bireyin mahremiyetini güvenceye almak | tekrar: AKTİF havuzda aynı soru var ('Kişisel verilerin korunmasının amacı nedir?', teknoloji; prova benzerlik 0,60) |
+| 'Bar' halk oyunu hangi bölgede oynanır? | Doğu Anadolu | tekrar: AKTİF havuzda aynı bilgi var ('Bar' oyunu hangi bölgeyle anılır?, muzik) |
+| 'Laiklik ilkesi' neyi ayırır? | Din işleri ile devlet işlerini | tekrar: AKTİF havuzda aynı bilgi var (Laiklik ilkesi neyi ifade eder?, genel_kultur) |
+| Turizmde "kültür turizmi" neye dayanır? | Tarihî ve kültürel değerler | tekrar: AKTİF havuzda aynı bilgi var (Kültür turizmi hangi kaynağa dayanır?, cografya) |
