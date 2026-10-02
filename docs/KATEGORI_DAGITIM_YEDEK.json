@@ -1,0 +1,1691 @@
+{
+ "aciklama": "genel_kultur taraması (2 Eki 2026) — yalnız DEĞİŞEN soruların eski değerleri. Geri alma: her kayıt için update public.questions set kategori = eski_kategori, aktif = eski_aktif where id = id.",
+ "migration": "20260612000851_genel_kultur_tarama.sql",
+ "tarih": "2026-10-02",
+ "degisen": 211,
+ "kayitlar": [
+  {
+   "id": "008f2475-4a1a-4670-ac68-1cef37f5bf90",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "01e8c52b-a691-4e07-b9e4-ccc4528c9021",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "07ef6ff0-d7b3-4405-a3f2-f2cafa160133",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "089be8ad-ba14-4a9b-a765-bd8c87c5068c",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "08ad268b-9d38-4e1d-9406-ec19e5edd5c7",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "0a46d4aa-37a1-4752-af2f-1c95796ad80e",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "0ba4e94f-e91f-4a0c-b1ce-6dcafbd77ace",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "spor",
+   "yeni_aktif": true
+  },
+  {
+   "id": "0db76a59-df58-457c-8d5e-be2dd86e35ab",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "0e8e7e43-8cdd-4510-8234-0e7b96f189b8",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "0f95abdc-acf2-428c-9f23-bdd1c211e6da",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "137cbe78-9044-4efb-b163-7153ee1fcf5e",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "zor"
+  },
+  {
+   "id": "146a8139-ba9e-4af1-b78e-aeb370e5a240",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "151ee83f-d710-4c41-a1f6-3117fb65bfe8",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "1632f5aa-8b36-4f26-8d1f-d2d24bffce82",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "18b43af8-f022-4c71-99f9-79fd028cc409",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "19519f26-184a-496b-a9f2-774eb366b638",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "19a53c65-a791-4038-b423-7fc78a42496c",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "1bca8921-5c40-44d5-80ee-334bc16f1b58",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "zor"
+  },
+  {
+   "id": "1c5cbb93-ea7c-4ef4-8c28-a5d98a63fc74",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "1cce24c5-90b7-4524-b45f-92a0ce60fc91",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "1cf67ef7-8fd4-4449-b5fe-d200408e9de9",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "1d63f5b0-ac12-4a17-bc33-2248217d9955",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "1d704f34-4466-427d-bf2f-6cefb4076996",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "1dd3d3ad-4715-4259-8f5e-e2c4ac1d6fd1",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "20ab624c-285c-436d-95cc-50949e967478",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "zor"
+  },
+  {
+   "id": "21be54fa-9a8f-4ad2-b915-7df2bce1aa67",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "231fa569-6891-48bd-af4e-7236738323c8",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "yanlış-bilgi"
+  },
+  {
+   "id": "2396a312-60b5-4d00-b6c7-c0827ca00990",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "2400c36c-3ae1-4e95-9c53-07e84ad2e289",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "kalite"
+  },
+  {
+   "id": "2452e982-4681-48a0-9c4d-72c78ae9787d",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "24914155-9b27-4694-b098-6fdf0bff9103",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "2543be5f-c8ff-48ba-9f44-63e07fa52f11",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "2698b5c3-22e0-4c17-87eb-3f7fbbecbf81",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "27255261-dd1f-4d0d-b63b-bf3cdc50aa48",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "27366326-e84b-411a-a1d1-e61d77cb9dee",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "2814f923-e311-435d-80a0-03e87debbcde",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "28703b1f-9a60-4b0f-bb7c-e6e8ade5372c",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "296871b3-8cc2-4db4-a5f5-0a7d39fe955d",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "297afb2d-a25e-4864-bc70-f00c64390298",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "2c6571cd-3a9b-40e2-b28a-5694df5b66d6",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "2d36ee81-4720-43a3-a53f-d78cd833a03b",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "kalite"
+  },
+  {
+   "id": "2dcf203a-346c-4a11-b135-efb0dc5b7fc8",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "2eb25677-2b09-4571-a66d-5d85ac1eb471",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "2ec17b0a-e8ca-4ea0-8edc-82d72cf7df87",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "2efc5651-2045-4381-a408-4b80d6127b6c",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "belirsiz"
+  },
+  {
+   "id": "2f0d3841-6bf9-4cd6-a9b5-f8d682a23256",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "kalite"
+  },
+  {
+   "id": "2f2cd350-f9fe-4e35-9857-7b775b2178c1",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "2fb9f59f-6e5e-4382-8978-d9025dc70703",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "kalite"
+  },
+  {
+   "id": "2fe581b2-97b4-46cc-8040-84f83fe58de1",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "30a940c3-e92d-4ec0-b3a5-495de3230e94",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "3252490e-bc7d-4f1c-a243-36915b029d55",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "3467525d-cf3b-47a4-b60a-c20d323018a9",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "37cc75ff-1ddc-4775-b7b0-8de0737a98f3",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "394f6808-9249-4d8b-9654-ec4a9a8639a2",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "39c0882f-b7c8-4056-8fee-9c2841e913a7",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "3ae5a9de-806e-4163-861f-ec680a480717",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "spor",
+   "yeni_aktif": true
+  },
+  {
+   "id": "3c7ff9f9-cb14-4596-a879-801ca5122b96",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "3d8f00d7-043e-4deb-87e4-b669c5fb90c8",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "3df7c92f-ac90-4256-aa1a-ad31b8928e69",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "zor"
+  },
+  {
+   "id": "3e3b1759-0a5d-4dd5-bd4c-5d18704ffb15",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "3f1a176a-7ff6-4db9-ac85-029230a12716",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "407120f6-5fec-421a-975d-9291b2db45e3",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "42658a39-901c-47bc-bc90-5bf63dadd457",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "42f69e7e-8a6b-499b-a0a6-5551b8d219df",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "zor"
+  },
+  {
+   "id": "433d8d6f-5d48-4a2c-beca-6da7a353ddde",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "43cfd536-42e1-4072-8863-75bf136bd712",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "zor"
+  },
+  {
+   "id": "45828b01-4479-4773-b87e-1e7575070940",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "47213dfd-a440-4a95-ac38-b9ed72d77a46",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "kalite"
+  },
+  {
+   "id": "481337a8-482a-4afa-9933-09d0befa2526",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "49292a24-8bd2-4393-a714-f861e785ec70",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "4ec64789-8fd9-43bb-be51-7ba5d8a17842",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "4f1bdb40-f3ba-454d-a9be-6d5e05dfec44",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "4fdd0b03-dea7-4b28-ae07-d1e1bc20e6d7",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "50713ef3-ba83-4436-8c92-d70f9c7027a2",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "zor"
+  },
+  {
+   "id": "5731a039-d619-4db5-a29e-49e6c5259b4e",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "587680ed-bb10-4b98-829f-ac06aa23a9e8",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "58bd94bc-e4a8-4c86-9c44-0890a23ea94f",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "596a9abe-ae20-4404-8cf3-87cc77c53c4a",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "tarih",
+   "yeni_aktif": true
+  },
+  {
+   "id": "5cde6d88-3324-4b7f-b0b9-8dfb6a182287",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "5dfa93f7-b6a1-4c50-9cd5-a9169b1ec35a",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "5e7e4178-4a53-4711-979e-8b177165a273",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "kalite"
+  },
+  {
+   "id": "5f46774e-8619-4521-a66f-c2c81606f412",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "5f77ae49-1ddc-4f8f-ac2c-c14cda4a9acd",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "627c2014-2977-442e-a643-7e6509f588b2",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "63843f4c-11df-4a3f-bec0-015e29aa8418",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "656446f6-4fc4-4deb-82e3-ae10b5fc1dc8",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "65fed6f7-621e-4380-8dd8-46662f7c4432",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "zor"
+  },
+  {
+   "id": "6612a1c0-f921-4d86-94d4-06aaecc55e39",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "kalite"
+  },
+  {
+   "id": "6622b126-6ab5-405b-8bc2-4a1e02f42c26",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "6695c26f-21cb-4c55-a055-1437ddf671f5",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "6878af0f-fa24-4d99-b5b9-95def6e80dd2",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "zor"
+  },
+  {
+   "id": "68cee3dd-381a-416f-9414-6068fb2bb2dc",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "6afae723-c5a5-45b3-a1d5-559f239f45a2",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "6ba6f991-8947-4107-89ae-bee35f55aef8",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "6c584b10-8136-427a-b84f-ab174fba3f44",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "kalite"
+  },
+  {
+   "id": "6c7c31c5-93ad-4cbc-bdf5-980cb9090122",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "kalite"
+  },
+  {
+   "id": "6e06ea79-f664-4458-9316-c6305f2efb02",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "kalite"
+  },
+  {
+   "id": "6f2d9719-8fd4-4569-8e48-7003eb36e5c2",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "zor"
+  },
+  {
+   "id": "717d8f1d-14f7-4e36-ac47-5339f66b49d1",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "720a60fa-2e38-482e-8544-44c7875c5008",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "bilim",
+   "yeni_aktif": true
+  },
+  {
+   "id": "7353ebcb-2a41-4b61-9b1a-c65e14d0b45e",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "743c1cc5-7a0b-4231-873a-dda4b1244d5c",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "752b7aa9-254e-41cd-9385-ef31cb377083",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "kalite"
+  },
+  {
+   "id": "75fb4ac6-a00f-4b42-8b4e-f4d88d74d7af",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "76a20e93-d5b0-4d5f-b492-228e887dad4f",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "kalite"
+  },
+  {
+   "id": "7800065e-449a-48a2-9a0f-0eaa39784aca",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "kalite"
+  },
+  {
+   "id": "7a64238c-4992-4d3d-960d-971894a894d8",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "7a939b14-07eb-46db-b559-958d0817f910",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "7b18878e-9694-42d2-8783-db1767774db9",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "kalite"
+  },
+  {
+   "id": "7bc21bcf-dcf3-4c3b-b957-056e90e6a268",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "7c1e7d4e-1b24-43e4-bfd9-d395f19add2b",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "7d292eb4-5a62-44d1-a3eb-391ad2fa5f46",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "7dfa7c20-cc52-4a20-8bfd-75c8f5e1df1b",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "7e3b0826-449b-42f3-bea9-fe8fa7256e70",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "7efbf9ae-465e-4d6f-989f-01f2a3892603",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "7f7a2974-4cae-4b9e-bcdb-e937617d0301",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "811c6a78-70f2-4d3f-9650-0b94a486d931",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "81837857-51a0-41b8-a0d3-98ad7eb6d0b8",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "82701b11-3591-4872-bfbc-91eb185529f8",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "852e3611-ec1d-41e8-943b-bcad22ff99bd",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "85b67276-1fda-4a0c-82f8-dbfa559e2624",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "zor"
+  },
+  {
+   "id": "862ab786-f3de-45c2-ae42-9c7d6bfdba28",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "zor"
+  },
+  {
+   "id": "86f266dc-78a0-4175-bbfc-d838b0b200e5",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "kalite"
+  },
+  {
+   "id": "8924440d-842b-4f67-8ef5-402c98acbc45",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "8a4fe5b9-1acb-4f4e-b375-e28955ba4452",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "8dd526b7-18b6-4872-88e7-f166407d7f35",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "902ae1b1-4a6b-4e6c-a9af-6d029f8cade1",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "90dd1652-97bf-4597-a1cd-964a19a5a10e",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "belirsiz"
+  },
+  {
+   "id": "925b3add-c3ff-4e94-9ddb-1d0ee1cc9fb5",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "kalite"
+  },
+  {
+   "id": "939e45b6-b8bd-4a03-81d4-38ed3b17419e",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "9684d3a4-6ea3-4d8d-a4ba-c37972d91d80",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "98b25f3b-e0c1-458d-88cf-37f71518cc5f",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "9996f8c1-650c-47ad-87ab-63f7c8a9c242",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "9bbd9b60-63d6-4303-bd81-4c210b3b739f",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "zor"
+  },
+  {
+   "id": "9bd2c45a-1378-49be-b4cc-8db5cf52204a",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "9c9fa247-ab20-44eb-adbd-9d195cd3b00c",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "9cfdb289-0159-40de-9d37-47dc3e33a0aa",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "9d804b9d-9143-4145-85a9-4087af1cea25",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "zor"
+  },
+  {
+   "id": "9f0008eb-e3b5-471e-8207-2cf16ea284a7",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "a06eca55-b713-4fe8-9146-a5ee9ac921b1",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "belirsiz"
+  },
+  {
+   "id": "a11db30d-7401-4481-9e04-dcae1f6e162b",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "a16e948d-e5b0-4f2f-86ba-a38d8ec25398",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "a2595d97-930d-4c65-bee6-aba324ec12d3",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "a27fa4f9-d0d7-4b54-8014-21dbe8fd61ff",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "a6f7627a-e261-4899-b150-8a2eaf2ef7c4",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "kalite"
+  },
+  {
+   "id": "a938cac7-e3ef-44e2-8b59-005248284275",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "abea9f65-6ade-428a-8350-d97133e254a6",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "ac608f83-1a25-435a-ad61-3f9483bff9c6",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "ac76149b-f9ec-4ffa-a611-90d701bae49c",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "ad94d706-b836-42f9-b739-1c3e3aabde91",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "kalite"
+  },
+  {
+   "id": "ae59ee52-6c25-417a-8cb2-c168eeb6c7b8",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "af6d6517-ebde-4c4c-a230-99d9d5153a79",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "b0269193-8d99-4046-b878-42258ced110a",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "b0f64dec-7364-4af9-970f-0fdbdac86fed",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "b15134f7-c134-4844-a67f-0691057bc9f6",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "kalite"
+  },
+  {
+   "id": "b1907476-8ccd-41d6-9990-057077cc33f7",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "kalite"
+  },
+  {
+   "id": "b28bf292-4303-4fe8-bb9f-3cedbc5f9ed5",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "b2f5e4ef-5ac7-4bcf-bd84-7549566a6308",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "b39bab70-30b9-4f7d-aa64-352796cc8544",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "b3bbcc65-b0cf-438c-bb51-c968e2c0dc62",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "b48cb8b2-4345-4611-bce3-c15113c3c888",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "b4e54d05-26fa-432d-abd6-7e494a5431b4",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "b50d313f-027b-478c-a594-14b5f89e1883",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "b5505fb6-bfc0-468e-80e8-71992cccbe8b",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "b5d51a18-5294-4264-9e07-1646ed374ebf",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "güncellik"
+  },
+  {
+   "id": "b67fcfa3-1788-4304-8a71-1fd7ccf51fb1",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "b76e770b-7952-4d78-bfda-31d55d7e2532",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "zor"
+  },
+  {
+   "id": "b988a92f-f784-443f-96b1-3d0f2983bce5",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "bc7cc6a4-7457-40c3-a1ae-dda4ab97ae9b",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "bed0649d-4b43-4c30-9e4a-2c257a207b41",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "bf045f96-bcd4-4487-b28e-f7808ae36c7c",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "kalite"
+  },
+  {
+   "id": "bf2355ed-1b0a-4ece-b11f-15ba6587b356",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "bf23ca15-4638-4d25-ad3d-f4d24f5c8cd8",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "bf887f94-48b4-4452-8a2f-b4e471f0bfc2",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "bfd0bd36-9fa0-4fb0-81bf-8ea45303a329",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "bilim",
+   "yeni_aktif": true
+  },
+  {
+   "id": "c304b82e-1c06-46d6-a6ca-0e590a8d7df8",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "c6e0574a-e3a6-4374-8368-e2b50975da16",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "cf440097-4e45-4b3a-8f09-684d915c641a",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "kalite"
+  },
+  {
+   "id": "d0de97e0-cabe-4910-a006-97f74da644f8",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "d0e22222-8074-42fb-b927-0e6b81671f96",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "d288c372-fba4-4dba-8a81-0a79f5a83678",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "kalite"
+  },
+  {
+   "id": "d525e60f-376e-40b8-b961-e276ca783fc5",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "güncellik"
+  },
+  {
+   "id": "d7ebfed3-9a2d-4486-a5de-3b328adac33f",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "dba0a1eb-442e-4400-a97f-3d494cf3a148",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "güncellik"
+  },
+  {
+   "id": "de23551d-a02b-44ac-b019-ed10bc517a28",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "zor"
+  },
+  {
+   "id": "dfe5aa67-4598-4820-9f44-f75185c5e01c",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "e10a2e69-fbef-412c-baf6-e59c81ff4c0e",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "e15c25f2-abad-4dbc-892b-0c879ffec1a8",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "e17e3c38-4e72-4ba2-b191-ca3b4bf0bc93",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "e31a0d42-45e2-4cfc-bed1-29d6d0c0d7cd",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "e41d4307-1edc-4f7b-8c17-71d26dea3d9d",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "e41f5d0c-7c0d-40ca-8071-e34310ea3c3c",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "zor"
+  },
+  {
+   "id": "e46f17e7-7d13-43ad-88a3-1455445f05f5",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "zor"
+  },
+  {
+   "id": "e4a6417c-ae72-4289-911f-cba8cca22120",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "belirsiz"
+  },
+  {
+   "id": "e4e383dd-8f39-4a98-bc95-c26f353cada6",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "e69b0229-815d-4026-a6e3-8de62a84e223",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "kalite"
+  },
+  {
+   "id": "e7970a93-9b10-4951-8eb8-f50123003209",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "e888bb1b-db18-42e3-a799-60eb27a374ca",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "ea0ac05e-dbf7-4cf2-b4ac-ddaa1c1ec393",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "eb693962-31dd-48a0-8855-536c9c90fc5b",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "kalite"
+  },
+  {
+   "id": "ed9cc6d2-1774-4ca8-8935-aab4e4e7cd07",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "f1181a9a-25f8-4bda-9c9c-9123012d0748",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "f1d52acf-0376-4f5f-981a-33f9a25093f8",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "f1e39d4e-195b-4650-9711-f6891f7aa99d",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "f3b88c09-78e6-4c05-a9d7-b1ba800a8ca5",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "f4c0d532-30c4-4a94-8ffb-ab9ccb5514e1",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "f828d624-8afd-4760-9984-fc8cb5bb66e2",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "belirsiz"
+  },
+  {
+   "id": "fbd4bd33-0b0b-42f6-b6c4-043020749836",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "zor"
+  },
+  {
+   "id": "fd1c1de1-fd5c-4cb3-87f3-a7096c3ab438",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  },
+  {
+   "id": "fd9ce03f-a23f-4858-b02f-54c782ca2da8",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "ipucu"
+  },
+  {
+   "id": "fe26a5cd-e5c5-4407-a4d2-f0f4fbc9011a",
+   "eski_kategori": "genel_kultur",
+   "eski_aktif": true,
+   "yeni_kategori": "genel_kultur",
+   "yeni_aktif": false,
+   "neden": "basit"
+  }
+ ]
+}
