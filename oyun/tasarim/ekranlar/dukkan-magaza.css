@@ -208,6 +208,28 @@
   font-size: var(--qt-y-s);
 }
 
+/* Mod paketi kartı (910): şerit + adet madalyonu paketin modunun renginde; fiyat düğmesinde üstü çizili tek tek toplam */
+.qt-dk-bolum.qt-dk-modpanel { gap: var(--qt-b-3); }
+.qt-dk-paket--klasik { --oyk-serit: var(--qt-mod-klasik); --_pm: var(--qt-mod-klasik); --_py: var(--qt-mod-yazi); }
+.qt-dk-paket--duello { --oyk-serit: var(--qt-mod-duello); --_pm: var(--qt-mod-duello); --_py: var(--qt-mod-duello-yazi); }
+.qt-dk-paket-ust { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: var(--qt-b-3); }
+.qt-dk-paket-adet {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  width: 56px;
+  height: 56px;
+  border: 3px solid var(--oyk-kontur);
+  border-radius: var(--qt-r-m);
+  background: var(--_pm, var(--qt-coin));
+  color: var(--_py, var(--qt-coin-yazi));
+  line-height: 1;
+}
+.qt-dk-paket-adet b { font-family: var(--qt-f-baslik); font-size: var(--qt-y-l); font-weight: var(--qt-a-siyah); }
+.qt-dk-paket-adet small { font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); }
+.qt-dk-paket-metin h3 { overflow-wrap: anywhere; }
+.qt-dk-fiyat-eski { margin-right: 2px; font-weight: var(--qt-a-kalin); opacity: 0.7; text-decoration-thickness: 2px; }
+
 /* ——— Kurallar ——— */
 .qt-dk-kurallar {
   border-radius: var(--qt-r-l);

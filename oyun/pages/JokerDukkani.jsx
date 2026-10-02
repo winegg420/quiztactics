@@ -5,7 +5,7 @@ import { sesHataUyari } from "../lib/ses.js";
 import { Link, useSearchParams } from "react-router-dom";
 import GorunumVitrini from "../vitrin/GorunumVitrini.jsx";
 import { supabase } from "../../src/lib/supabase.js";
-import { JOKER_BILGI, AKTIF_MAC_SKILLERI, jokerBilgi, envanterNesne, jokerDukkanModlari, jokerYalnizModu } from "../lib/jokerler.js";
+import { JOKER_BILGI, AKTIF_MAC_SKILLERI, jokerBilgi, envanterNesne, jokerDukkanModlari, jokerYalnizModu, paketDukkanModlari } from "../lib/jokerler.js";
 import SkillRozeti from "../components/SkillRozeti.jsx";
 import JokerSatinAlModal from "../components/JokerSatinAlModal.jsx";
 import DukkanAuralar from "../components/DukkanAuralar.jsx";
@@ -88,8 +88,8 @@ function tekModUyarisi(tur) {
 }
 
 /** Kartlardaki mod rozeti: ortak jokerde iki renk noktası, tek moda özel jokerde o modun rengi + ikonu. */
-function ModRozeti({ tur }) {
-  const yalniz = modKodu(jokerYalnizModu(tur));
+function ModRozeti({ tur, kod }) {
+  const yalniz = kod ?? modKodu(jokerYalnizModu(tur));
   if (!yalniz) {
     return (
       <span className="qt-dk-modrozet qt-dk-modrozet--ortak">
@@ -114,11 +114,12 @@ function paketMetni(metin) {
 
 const sayiMi = (n) => n !== null && n !== undefined && n !== "" && Number.isFinite(Number(n));
 
-/** Fiyat düğmesinin içi: "10× ● 170" */
-function FiyatYazisi({ adet, fiyat }) {
+/** Fiyat düğmesinin içi: "10× ● 170"; eski verilirse üstü çizili tek tek alım toplamı önde ("1.130 ● 960"). */
+function FiyatYazisi({ adet, fiyat, eski }) {
   return (
     <span className="qt-dk-fiyat">
       {adet != null && <span className="qt-dk-fiyat-adet">{adet}×</span>}
+      {eski != null && <s className="qt-dk-fiyat-eski qt-sayi" aria-hidden="true">{sayiBicim(Number(eski))}</s>}
       <CoinIkon boyut={18} />
       <span className="qt-sayi">{sayiBicim(Number(fiyat))}</span>
     </span>
@@ -491,8 +492,13 @@ export default function JokerDukkani() {
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [elmasKaydir, bolumKazan, sekme, hazir]);
-  const karisikPaketler = paketler.filter((p) => p.coin_fiyat != null && !p.fiyat_anahtari
-    && Object.keys(p.icerik ?? {}).every((id) => AKTIF_MAC_SKILLERI.includes(id) || id === "seri_koruma"));
+  // PAKETLER MODA GÖRE (910): paketin modu İÇERİĞİNDEN okunur — paketDukkanModlari her anahtarın jokerler.js'te
+  // AKTİF bir joker id'si olmasını ister (joker_paketleri.icerik anahtarı = jokerler.js id'si; eşleşmeyen anahtar
+  // paketi dükkândan düşürür) ve paketi yalnız içindeki HER jokerin çalıştığı modda gösterir. Sigorta/2X içeren
+  // paket yalnız Klasik'te, Baskın/Kalkan içeren yalnız Düello'da görünür. Tek türlük 10'lu paketler
+  // (fiyat_anahtari dolu) joker kartının kendi düğmesidir, burada listelenmez.
+  const modPaketleri = paketler.filter((p) => p.coin_fiyat != null && !p.fiyat_anahtari
+    && paketDukkanModlari(p.icerik).includes(mod.macTur));
 
   return (
     <div className="qt-dk">
@@ -706,21 +712,43 @@ export default function JokerDukkani() {
             ))}
             </div>
 
-            {/* ---------- Karışık joker paketleri (coin ile) ---------- */}
-            {karisikPaketler.length > 0 && (
-              <section className="qt-dk-bolum" aria-labelledby="qt-dk-paketler">
-                <h2 id="qt-dk-paketler" className="qt-baslik-2">{tt("Paketler")}</h2>
+            {/* ---------- Mod paketleri (coin ile): yalnız seçili modun paketleri ---------- */}
+            {modPaketleri.length > 0 && (
+              <section key={`paket-${mod.kod}`} className="qt-dk-bolum qt-dk-modpanel" aria-labelledby="qt-dk-paketler">
+                <div className={`qt-dk-bolum-ust qt-dk-bolum-ust--${mod.kod}`}>
+                  <h2 id="qt-dk-paketler" className="qt-baslik-2">{mod.kod === "duello" ? tt("Düello paketleri") : tt("Klasik paketleri")}</h2>
+                  <p className="qt-kucuk">{tt("Tek tek almaktan ucuz")}</p>
+                </div>
                 <ul className="qt-dk-paket-izgara">
-                  {karisikPaketler.map((p) => (
+                  {modPaketleri.map((p) => {
+                    // İçerik joker sırasıyla (jsonb anahtar sırası rastgele gelir).
+                    const parcalar = AKTIF_MAC_SKILLERI.filter((id) => p.icerik?.[id] != null).map((id) => [id, Number(p.icerik[id])]);
+                    const toplam = parcalar.reduce((t, [, n]) => t + n, 0);
+                    // Tek tek alım toplamı sunucudaki tek fiyatlardan; biri okunamadıysa indirim gösterilmez (rakam uydurulmaz).
+                    const tekTek = parcalar.every(([id]) => sayiMi(tekFiyat[id]))
+                      ? parcalar.reduce((t, [id, n]) => t + Number(tekFiyat[id]) * n, 0) : null;
+                    const ucuz = tekTek != null && tekTek > Number(p.coin_fiyat);
+                    const indirim = ucuz ? Math.round((1 - Number(p.coin_fiyat) / tekTek) * 100) : 0;
+                    const u = ucan(`paket:${p.urun_id}`);
+                    return (
                     <li key={p.urun_id}>
-                      <div className={sinif("qt-oyk qt-oyk--ton-coin qt-dk-paket", ucan(`paket:${p.urun_id}`) && "qt-oyk--kutla")}>
-                        <div className="qt-dk-paket-metin">
-                          <h3 className="qt-baslik-3">{paketMetni(p.ad)}</h3>
-                          {p.aciklama && <p className="qt-kucuk qt-soluk">{paketMetni(p.aciklama)}</p>}
+                      <div className={sinif("qt-oyk qt-dk-paket", `qt-dk-paket--${mod.kod}`, u && "qt-oyk--kutla")}>
+                        <div className="qt-dk-paket-ust">
+                          <span className="qt-dk-paket-adet" aria-hidden="true">
+                            <b className="qt-sayi">{toplam}</b>
+                            <small>{tt("joker")}</small>
+                          </span>
+                          <div className="qt-dk-paket-metin">
+                            <h3 className="qt-baslik-3">{paketMetni(p.ad)}</h3>
+                            <div className="qt-dk-skill-rozetler">
+                              <ModRozeti kod={mod.kod} />
+                              {indirim > 0 && <QtRozet boyut="k" ton="dogru">{tt("%{n} ucuz", { n: indirim })}</QtRozet>}
+                            </div>
+                          </div>
                         </div>
                         <ul className="qt-dk-paket-icerik" aria-label={tt("Paket içeriği")}>
-                          {Object.entries(p.icerik ?? {}).map(([tur, adet]) => (
-                            <li key={tur} className="qt-dk-parca">
+                          {parcalar.map(([tur, adet]) => (
+                            <li key={tur} className="qt-dk-parca" title={JOKER_BILGI[tur]?.ad ?? tur}>
                               <SkillRozeti tur={tur} boyut={24} />
                               <span className="qt-sayi">{adet}</span>
                               <span className="qt-gizli">{JOKER_BILGI[tur]?.ad ?? tur}</span>
@@ -739,26 +767,28 @@ export default function JokerDukkani() {
                             aciklama: p.aciklama ? paketMetni(p.aciklama) : null,
                             gorsel: (
                               <span className="qt-sat-paket">
-                                {Object.entries(p.icerik ?? {}).map(([tur, adet]) => (
+                                {parcalar.map(([tur, adet]) => (
                                   <span key={tur} className="qt-sat-paket-parca"><SkillRozeti tur={tur} boyut={28} />{adet}</span>
                                 ))}
                               </span>
                             ),
+                            uyari: mod.kod === "duello" ? tt("Bu paket Düello maçları içindir.") : tt("Bu paket Klasik maçlar içindir."),
                             fiyat: p.coin_fiyat,
                             calistir: () => jokerCoinIleAl(p.urun_id),
                           })}
                         >
-                          <FiyatYazisi fiyat={p.coin_fiyat} />
+                          <FiyatYazisi fiyat={p.coin_fiyat} eski={ucuz ? tekTek : null} />
                         </QtDugme>
                         {/* Uçan çip: paketin sunucudan gelen içeriği (yalnız alım onaylanınca) */}
-                        <OdulAni aktif={Boolean(ucan(`paket:${p.urun_id}`))}>
-                          {ucan(`paket:${p.urun_id}`) && Object.entries(p.icerik ?? {}).map(([tur, adet]) => (
+                        <OdulAni aktif={Boolean(u)}>
+                          {u && parcalar.map(([tur, adet]) => (
                             <UcanOge key={tur}><SkillRozeti tur={tur} boyut={18} />+{adet}</UcanOge>
                           ))}
                         </OdulAni>
                       </div>
                     </li>
-                  ))}
+                    );
+                  })}
                 </ul>
               </section>
             )}
