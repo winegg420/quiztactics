@@ -150,6 +150,8 @@ export default function ChallengesPage() {
   const [antrenmanBot, setAntrenmanBot] = useState(null);
   const [antrenmanBasliyor, setAntrenmanBasliyor] = useState(null);   // "klasik" | "duello" | null
   const [antrenmanHata, setAntrenmanHata] = useState(null);
+  // Düello kilidi (duello_acilis_benim — mevcut RPC): pencere açılınca bir kez okunur; okunamazsa kilit gösterilmez, sunucu yine reddeder.
+  const [duelloKilit, setDuelloKilit] = useState(null);   // { kalan } | null (açık / okunmadı)
   // Oyun hissi (1 Eki 2026) — yalnız ses / titreşim / görsel; seçim state'i ve RPC'ler aynı.
   // secimYapildi: oyuncu bir mod/kategori seçene kadar onay işareti zıplamaz (sayfa açılışındaki varsayılan seçim sessizdir).
   const [secimYapildi, setSecimYapildi] = useState(false);
@@ -572,9 +574,26 @@ export default function ChallengesPage() {
   // Antrenman — açık botla maç HEMEN başlar. Bot maçı mantığı değişmedi, yalnız giriş noktası
   // buraya taşındı: Klasik = hemen_bot_mac_sec (eski "Beklemeden bot ile oyna" yolu),
   // Düello = duello_davet_et (açık bot daveti anında kabul eder). Yarım ödül sunucu kuralı.
+  useEffect(() => {
+    if (!antrenmanBot) return undefined;
+    let aktif = true;
+    (async () => {
+      try {
+        const { data, error } = await supabase.rpc("duello_acilis_benim");
+        if (error) throw error;
+        if (aktif) setDuelloKilit(data?.acik === false ? { kalan: Number(data.kalan ?? 0) } : null);
+      } catch (e) {
+        console.warn("[Bildim] düello açılış durumu okunamadı:", e?.message ?? e);
+        if (aktif) setDuelloKilit(null);
+      }
+    })();
+    return () => { aktif = false; };
+  }, [antrenmanBot]);
+
   const antrenmanBaslat = async (mod) => {
     const bot = antrenmanBot;
     if (!bot || antrenmanBasliyor) return;
+    if (mod === "duello" && duelloKilit) return;
     setAntrenmanHata(null);
     setAntrenmanBasliyor(mod);
     try {
@@ -1087,11 +1106,18 @@ export default function ChallengesPage() {
               {tt("Klasik Mod")}
             </QtDugme>
             <QtDugme tamGenislik tur="ikincil"
+                     ikon={duelloKilit ? "kilit" : undefined}
                      yukleniyor={antrenmanBasliyor === "duello"}
-                     devreDisi={antrenmanBasliyor !== null}
+                     devreDisi={antrenmanBasliyor !== null || Boolean(duelloKilit)}
+                     aria-describedby={duelloKilit ? "a-meydan-duello-kilit" : undefined}
                      onClick={() => antrenmanBaslat("duello")}>
               {tt("Düello")}
             </QtDugme>
+            {duelloKilit && (
+              <p id="a-meydan-duello-kilit" className="a-meydan-antrenman-kilit">
+                {tt("{n} Klasik maç bitirince açılır", { n: duelloKilit.kalan })}
+              </p>
+            )}
           </div>
           {antrenmanHata && <p className="a-meydan-hata" role="alert">{antrenmanHata}</p>}
         </QtModal>
