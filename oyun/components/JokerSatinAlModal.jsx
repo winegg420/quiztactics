@@ -37,13 +37,14 @@ import NadirlikEtiketi from "./NadirlikEtiketi.jsx";
  *   onayMetni — onay düğmesi ("Al", "Kilidi aç" …)
  *   yetersizEylem: () => void — bakiye yetmezse "{Para}ın yetmiyor: X gerekli, Y var" + "Nasıl kazanılır?"
  *   hataYedek / hataCevir — onOnay hata atarsa gösterilecek metin
+ *   uyari — fiyatın üstünde tek satırlık not (ör. "Bu joker yalnız Düello'da çalışır.")
  */
 // Satın alma çağrısı bu süre içinde dönmezse "Alınıyor…" sonsuza dek kilitli kalmasın (RPC asılı / ağ yarım kaldı).
 const ZAMAN_ASIMI_MS = 25000;
 
 export default function JokerSatinAlModal({
   tur, fiyat, coin, yalnizAl = false, onOnay, onKapat,
-  baslik, aciklama, gorsel, nadirlik, para = "coin", kalanGoster = false, onayMetni, yetersizEylem, hataYedek, hataCevir,
+  baslik, aciklama, gorsel, nadirlik, para = "coin", kalanGoster = false, onayMetni, yetersizEylem, hataYedek, hataCevir, uyari,
 }) {
   const [calisiyor, setCalisiyor] = useState(false);
   const [hata, setHata] = useState(null);
@@ -112,6 +113,12 @@ export default function JokerSatinAlModal({
         </span>
         {/* Nadirlik yalnız çağıran verirse gösterilir (D-301 genişlemesi; joker alımında yok) */}
         {nadirlik && <NadirlikEtiketi nadirlik={nadirlik} />}
+        {uyari && (
+          <p className="qt-sat-uyari" role="note">
+            <QtIkon ad="bilgi" boyut={18} />
+            <span>{uyari}</span>
+          </p>
+        )}
         <QtListe>
           <QtListeSatiri baslik={tt("Fiyat")} sag={<Hap miktar={Number(fiyat ?? 0)} />} />
           {!kalanGoster && (

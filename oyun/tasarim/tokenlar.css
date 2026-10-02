@@ -78,7 +78,7 @@
   /* ---------- 6. Mod renkleri (yazı hepsinde --qt-mod-yazi) ---------- */
   --qt-mod-yazi: #1d2152;
   --qt-mod-klasik: var(--qt-vurgu);   --qt-mod-klasik-dudak: var(--qt-vurgu-dudak);  --qt-mod-klasik-acik: var(--qt-vurgu-acik);
-  --qt-mod-duello: #c93030;   --qt-mod-duello-dudak: #8f1f27;  --qt-mod-duello-acik: #fde3e3;
+  --qt-mod-duello: #c93030;   --qt-mod-duello-dudak: #8f1f27;  --qt-mod-duello-acik: #fde3e3;  --qt-mod-duello-yazi: #fff; /* kırmızı zemin + beyaz ≈ 5,3:1 */
   --qt-mod-turnuva: #ffc933;  --qt-mod-turnuva-dudak: #c28b00; --qt-mod-turnuva-acik: #fff4cf;
   --qt-mod-grup: #3fd58f;     --qt-mod-grup-dudak: #1f9a61;    --qt-mod-grup-acik: #d9f7e8;
   --qt-mod-saf: #5ab8ff;      --qt-mod-saf-dudak: #2a7fc4;     --qt-mod-saf-acik: #ddf0ff;

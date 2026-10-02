@@ -41,6 +41,24 @@
 }
 .qt-sat-paket-parca { display: inline-flex; align-items: center; gap: 2px; font-weight: 800; color: var(--qt-metin); }
 
+/* Tek satırlık not (ör. "Bu joker yalnız Düello'da çalışır.") — dükkân onayı, fiyatın üstünde */
+.qt-sat-uyari {
+  display: flex;
+  align-items: center;
+  gap: var(--qt-b-2);
+  width: 100%;
+  margin: 0;
+  padding: var(--qt-b-2) var(--qt-b-3);
+  border-radius: var(--qt-r-m);
+  background: var(--qt-bilgi-acik);
+  color: var(--qt-bilgi-koyu);
+  font-size: var(--qt-y-s);
+  font-weight: var(--qt-a-kalin);
+  line-height: 1.35;
+  text-align: left;
+}
+.qt-sat-uyari > svg { flex: none; }
+
 /* Bakiye yetmiyor: eksik miktar + "Nasıl kazanılır?" (D-304 — çıkmaz yok) */
 .qt-sat-yetmez {
   display: flex;

@@ -76,6 +76,26 @@ export const AKTIF_MAC_SKILLERI = Object.values(SKILL_TANIMLARI)
   .map((s) => s.id);
 export const VARSAYILAN_SKILL_SETI = ["elli", "sure", "soru_degistir"];
 
+// Dükkân mod ayrımı (Joker sekmesi): tek kaynak yukarıdaki allowedModes. Grup/Turnuva dükkânda ayrı sekme
+// değildir; bir jokerin "modu" yalnız Klasik ("1v1") ve Düello üzerinden okunur.
+export const DUKKAN_MODLARI = ["1v1", "duello"];
+/** Jokerin dükkânda sayılan modları: ["1v1"], ["duello"] ya da ikisi (ortak). */
+export function jokerDukkanModlari(id) {
+  const modlar = SKILL_TANIMLARI[id]?.allowedModes ?? [];
+  return DUKKAN_MODLARI.filter((m) => modlar.includes(m));
+}
+/** Yalnız tek modda çalışan jokerde o mod ("1v1" | "duello"); ortak ya da bilinmeyen jokerde null. */
+export function jokerYalnizModu(id) {
+  const modlar = jokerDukkanModlari(id);
+  return modlar.length === 1 ? modlar[0] : null;
+}
+/** Paketin satıldığı modlar: içindeki HER jokerin çalıştığı modlar. Bilinmeyen/pasif anahtar varsa boş döner. */
+export function paketDukkanModlari(icerik) {
+  const turler = Object.keys(icerik ?? {});
+  if (!turler.length || !turler.every((id) => AKTIF_MAC_SKILLERI.includes(id))) return [];
+  return DUKKAN_MODLARI.filter((m) => turler.every((id) => jokerDukkanModlari(id).includes(m)));
+}
+
 export function skillSlotSayisi(ayar) {
   const n = Number(ayar?.skill_seti_slot);
   return Number.isInteger(n) && n > 0 ? n : SKILL_SLOT_VARSAYILAN;

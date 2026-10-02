@@ -133,7 +133,7 @@ export default function SkillSeti({ macTur = "1v1", acikBaslar = false }) {
       {secili.some((id) => adet(id) <= 0) && (
         <p className="qt-dk-seti-not qt-kucuk">
           {tt("Hakkın olmayan skill'i maçta coin'le alıp kullanabilirsin.")}{" "}
-          <Link to={y("/joker")}>{tt("Dükkân")}</Link>
+          <Link to={y(`/joker?mod=${macTur === "duello" ? "duello" : "klasik"}`)}>{tt("Dükkân")}</Link>
         </p>
       )}
       {hata && <p className="qt-dk-seti-hata qt-kucuk" role="alert">{hata}</p>}

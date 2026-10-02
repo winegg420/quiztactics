@@ -344,7 +344,7 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
             {/kalmadı/i.test(hata) && (
               <>
                 {" "}
-                <Link to={y("/joker")}>{tt("Joker al")}</Link>
+                <Link to={y(`/joker?mod=${macTur === "duello" ? "duello" : "klasik"}`)}>{tt("Joker al")}</Link>
               </>
             )}
           </span>

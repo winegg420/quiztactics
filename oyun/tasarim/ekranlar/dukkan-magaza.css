@@ -91,6 +91,105 @@
   .qt-dk-skill-al { grid-column: auto; grid-template-columns: none; grid-auto-flow: row; min-width: 148px; }
 }
 
+/* ——— Joker sekmesi: mod seçici (Klasik | Düello) ———
+   Seçili mod kendi rol renginde dolar (Klasik turuncu, Düello kırmızı); seçili olmayanın yalnız ikonu renklidir.
+   Kabartma İÇ gölgeyle verilir → seçim değişince yükseklik oynamaz. Dokunma hedefi 48 px. */
+.qt-dk-modsec {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--qt-b-1);
+  padding: var(--qt-b-1);
+  border: 3px solid var(--oyk-kontur);
+  border-radius: 18px;
+  background: var(--qt-yuzey);
+  box-shadow: 0 4px 0 var(--oyk-kontur);
+}
+.qt-dk-modsec-dugme {
+  --_m: var(--qt-mod-klasik);
+  --_md: var(--qt-mod-klasik-dudak);
+  --_y: var(--qt-mod-yazi);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--qt-b-2);
+  min-width: 0;
+  min-height: 48px;
+  margin: 0;
+  padding: 0 var(--qt-b-3);
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--qt-metin-soluk);
+  font-family: var(--qt-f-govde);
+  font-size: var(--qt-y-m);
+  font-weight: var(--qt-a-siyah);
+  line-height: 1;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color var(--qt-s-kisa) var(--qt-egri-cikis), color var(--qt-s-kisa) var(--qt-egri-cikis),
+    box-shadow var(--qt-s-kisa) var(--qt-egri-cikis), transform var(--qt-s-basma) var(--qt-egri-cikis);
+}
+.qt-dk-modsec-dugme--duello { --_m: var(--qt-mod-duello); --_md: var(--qt-mod-duello-dudak); --_y: var(--qt-mod-duello-yazi); }
+.qt-dk-modsec-dugme > svg { flex: none; color: var(--_md); transition: color var(--qt-s-kisa) var(--qt-egri-cikis); }
+.qt-dk-modsec-dugme > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.qt-dk-modsec-dugme--secili { background: var(--_m); color: var(--_y); box-shadow: inset 0 -4px 0 var(--_md); }
+.qt-dk-modsec-dugme--secili > svg { color: currentColor; }
+.qt-dk-modsec-dugme:active { transform: scale(0.97); }
+.qt-dk-modsec-dugme:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 2px; }
+@media (hover: hover) {
+  .qt-dk-modsec-dugme:not(.qt-dk-modsec-dugme--secili):hover { background: var(--qt-yuzey-2); color: var(--qt-metin); }
+}
+/* Mod değişince bölümler kısa bir geçişle girer; animasyon bitince transform kalmaz (içindeki katmanlar etkilenmez). */
+.qt-dk-modpanel { display: grid; gap: var(--qt-b-6); min-width: 0; animation: qt-dk-mod-gir 220ms var(--qt-egri-cikis); }
+.qt-dk-modpanel > * { min-width: 0; }
+@keyframes qt-dk-mod-gir { from { opacity: 0; transform: translateY(8px); } }
+
+/* Bölüm başlığı: solda mod rengi çubuğu (ortak bölümde iki renk) */
+.qt-dk-bolum-ust { position: relative; display: grid; gap: 2px; padding-left: calc(var(--qt-b-3) + 2px); }
+.qt-dk-bolum-ust::before {
+  content: "";
+  position: absolute;
+  inset: 2px auto 2px 0;
+  width: 6px;
+  border-radius: 3px;
+  background: var(--_bm, var(--qt-cizgi-guclu));
+}
+.qt-dk-bolum-ust--klasik { --_bm: var(--qt-mod-klasik); }
+.qt-dk-bolum-ust--duello { --_bm: var(--qt-mod-duello); }
+.qt-dk-bolum-ust--ortak { --_bm: linear-gradient(180deg, var(--qt-mod-klasik) 50%, var(--qt-mod-duello) 50%); }
+.qt-dk-bolum-ust h2, .qt-dk-bolum-ust p { margin: 0; }
+.qt-dk-bolum-ust p { opacity: 0.85; }
+
+/* Kart üstü mod rozeti: tek moda özel jokerde o modun rengi + ikonu, ortak jokerde iki renk noktası */
+.qt-dk-modrozet {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 22px;
+  padding: 0 8px;
+  border-radius: var(--qt-r-hap);
+  background: var(--qt-yuzey-2);
+  color: var(--qt-metin-soluk);
+  font-family: var(--qt-f-govde);
+  font-size: var(--qt-y-xs);
+  font-weight: var(--qt-a-siyah);
+  line-height: 1;
+  white-space: nowrap;
+}
+.qt-dk-modrozet > svg { flex: none; }
+.qt-dk-modrozet--klasik { background: var(--qt-mod-klasik-acik); color: var(--qt-metin); }
+.qt-dk-modrozet--klasik > svg { color: var(--qt-mod-klasik-dudak); }
+.qt-dk-modrozet--duello { background: var(--qt-mod-duello-acik); color: var(--qt-mod-duello-dudak); }
+.qt-dk-modnokta { flex: none; width: 8px; height: 8px; border-radius: 50%; }
+.qt-dk-modnokta--klasik { background: var(--qt-mod-klasik); }
+.qt-dk-modnokta--duello { margin-left: -6px; background: var(--qt-mod-duello); box-shadow: 0 0 0 1.5px var(--qt-yuzey-2); }
+@media (prefers-reduced-motion: reduce) {
+  .qt-dk-modpanel { animation: none; }
+  .qt-dk-modsec-dugme, .qt-dk-modsec-dugme > svg { transition: none; }
+  .qt-dk-modsec-dugme:active { transform: none; }
+}
+
 /* ——— Karışık paketler ——— */
 .qt-dk-paket-izgara { display: grid; gap: var(--qt-b-3); grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); }
 .qt-dk-paket-izgara > li { display: grid; min-width: 0; }
