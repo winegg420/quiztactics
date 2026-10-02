@@ -9,6 +9,7 @@ export default {
   "Alınabilir ödül: {n}": "Rewards ready: {n}",
   "Sıra {n}/{m}": "Rank {n}/{m}",
   // Ana sayfa ikiz kartlar (2 Eki 2026)
+  "Sezon": "Season",
   "Sv {n}/{m}": "Lv {n}/{m}",
   "Sv {n}: {ad}": "Lv {n}: {ad}",
 };

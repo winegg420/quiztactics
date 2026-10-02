@@ -427,7 +427,11 @@ export function KompaktOyuncu({ v }) {
           <span className="as-ko-rutbe">{oyuncu.rutbe.ad}</span>
           <SezonMiniRozet />
         </span>
-        <QtIlerleme deger={oyuncu.xp} en={oyuncu.xpGereken > 0 ? oyuncu.xpGereken : 1} etiket={tt("Seviye ilerlemesi")} />
+        {/* XP çubuğu + yanında "91/101" sayısı (profile.level_xp / level_gereken; yeni sorgu yok) */}
+        <span className="as-ko-xp">
+          <QtIlerleme deger={oyuncu.xp} en={oyuncu.xpGereken > 0 ? oyuncu.xpGereken : 1} etiket={tt("Seviye ilerlemesi")} />
+          {oyuncu.xpGereken > 0 && <span className="as-ko-xp-sayi qt-sayi">{oyuncu.xp}/{oyuncu.xpGereken}</span>}
+        </span>
       </span>
       {/* İki ETİKETLİ istatistik: Puan (haftalık lig puanı, lig kartıyla aynı veri) ve Seri */}
       <span className="as-ko-stat">
@@ -488,10 +492,17 @@ export function LigKarti({ v }) {
         <span className="as-lig-amblem" aria-hidden="true"><LigAmblemi lig={o.lig} boyut={26} /></span>
         <b>{tt("{lig} Lig", { lig: LIG_ADLARI[o.lig] ?? o.lig })}</b>
         <span className="as-lk-sira qt-sayi">{tt("Sıra {n}/{m}", { n: o.sira, m: o.grup_boyu })}</span>
-        {kalan && <small className="as-lk-kalan">{tt("Hafta bitimine {k}|ana", { k: kalan })}</small>}
-        {alt && <small className="as-lk-alt-kisa" aria-hidden="true">{alt}</small>}   {/* kısa ekranda alt satır başlığa girer (ellipsis; çakışmaz) */}
+        {kalan && !alt && <small className="as-lk-kalan">{tt("Hafta bitimine {k}|ana", { k: kalan })}</small>}
+        {alt && <small className="as-lk-alt-kisa" aria-hidden="true">{kalan ? `${alt} · ${kalan}` : alt}</small>}   {/* kısa ekranda alt satır başlığa girer (ellipsis; çakışmaz) */}
       </span>
-      {alt && <span className="as-lk-alt">{alt}<QtIkon ad="ileri" boyut={16} /></span>}
+      {alt && (
+        <span className="as-lk-alt">
+          <span className="as-lk-alt-metin">{alt}</span>
+          {/* hafta bitimine kalan süre (hafta_bitis, aynı özet verisi): "Yükselmeye N puan" ile aynı satırda */}
+          {kalan && <span className="as-lk-alt-sure qt-sayi" title={tt("Hafta bitimine {k}|ana", { k: kalan })}>{kalan}</span>}
+          <QtIkon ad="ileri" boyut={16} />
+        </span>
+      )}
       <ol className="as-lk-liste" aria-hidden="true">
         {satirlar.map((r, i) => {
           // 661: sıra gerçek (gizli üyeler boşluk bırakır) → sınır işareti tam sıraya değil, sınırı geçen ilk/son GÖRÜNEN satıra düşer.

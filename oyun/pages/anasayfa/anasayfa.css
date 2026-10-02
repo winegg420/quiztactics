@@ -863,3 +863,19 @@ a.as-cip:active { transform: translateY(2px); }
 .as-a2-seritlar .as-gs-nokta { position: absolute; top: -4px; right: 8px; }
 .as-a2-seritlar .as-gs-ok { display: none; }
 .as-a2-seritlar .as-gs { width: 100%; }
+
+/* ============================================================
+   2 Eki 2026 — oyuncu kartı: XP sayısı + çerçeve kesilmesi
+   ============================================================ */
+/* XP çubuğu + "91/101": sayı mavi (ben ve ilerleme), çubuk kalan genişliği alır */
+.as-ko-xp { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.as-ko-xp > :first-child { flex: 1 1 auto; min-width: 0; }
+.as-ko-xp-sayi { flex: none; font-size: 11px; font-weight: var(--qt-a-siyah); line-height: 1; color: var(--qt-ikinci-koyu); white-space: nowrap; }
+/* Premium (.pc) ve 2. tur (.p2) çerçeveler (ejderha…) kutunun %35'i kadar yana taşar (22 px); eskiden yalnız .p2'ye pay vardı,
+   .pc kartın sol kenarında kesiliyordu (üst kap overflow:hidden). Pay 10 (kart) + 14 = 24 px ≥ 22,4; sağda 16. */
+.as-ko > :is(.pc, .p2) { margin-inline: 14px 16px; }
+
+/* Lig kartı alt satırı: "Yükselmeye N puan kaldı ........ 2g 23s ›" (süre sağa yaslı, chevron süreden sonra) */
+.as-lk-alt-metin { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.as-lk-alt .as-lk-alt-sure { flex: none; margin-left: auto; font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); color: var(--qt-metin-soluk); white-space: nowrap; }
+.as-lk-alt .as-lk-alt-sure + .qt-ikon { margin-left: 0; }

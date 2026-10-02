@@ -136,6 +136,8 @@ export function SezonMiniRozet() {
         </svg>
         <span className="sz-mini-sayi">{seviye}</span>
       </span>
+      {/* Halkanın NE olduğu: Sezon Yolu seviyesi (içi seviye no, halka sonraki seviyeye ilerleme) → görünür etiket */}
+      <span className="sz-mini-etiket" aria-hidden="true">{tt("Sezon")}</span>
       {odulVar && <span className="sz-mini-nokta" aria-hidden="true" />}
     </button>
   );
