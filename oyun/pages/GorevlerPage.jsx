@@ -14,7 +14,8 @@
 // `gv-` sınıfları: bu sayfanın yerleşimi/görünümü (gorevler.css) ve ölçüm betiklerinin kancaları.
 // ============================================================
 import { useEffect, useRef, useState } from "react";
-import { QtIkon, QtDugme, QtIskelet, QtIlerleme, QtSahne, QT_SAHNE_COIN_HAPI, ziplat, dokunus, sinif, siraStili, useSiraliGiris } from "../tasarim/index.js";
+import { QtIkon, QtDugme, QtIskelet, QtIlerleme, QtSahne, ziplat, dokunus, sinif, siraStili, useSiraliGiris } from "../tasarim/index.js";
+import { QT_SAHNE_COIN_HAPI } from "../tasarim/sahne/QtSahne.jsx";
 import { CoinIkon } from "../components/ParaIkonlari.jsx";
 import DurumKutusu from "../components/DurumKutusu.jsx";
 import OdulAni, { UcanOge, useOdulAni } from "../components/OdulAni.jsx";

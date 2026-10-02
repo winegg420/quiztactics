@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import SenRozeti from "../components/SenRozeti.jsx";
 import { hataMesaji, hataTuru, hataTuruMesaji } from "../lib/hata.js";
 import { useNavigate } from "react-router-dom";
@@ -617,21 +617,21 @@ export default function LeaderboardPage() {
                      : kapsamAdi}>
                 {(podyum.length === 3 ? kalanlar : ilk100).map((s, i, dizi) => {
                   const sIdx = (podyum.length === 3 ? 3 : 1) + i;
-                  if (kapsam !== "lig" || !grupBilgi) return satir(s, false, sIdx);
+                  if (kapsam !== "lig" || !grupBilgi) return <Fragment key={`lig-${s.user_id}`}>{satir(s, false, sIdx)}</Fragment>;
                   // Kademeli ligde sınır çizgileri: kimin yükseleceği ve
                   // kimin düşeceği listeye bakınca görünsün. Sıra gerçek (gizli üyeler
                   // boşluk bırakır), bu yüzden çizgi tam sınır sırasındaki satıra değil,
                   // sınırın üstündeki SON görünen satıra çizilir.
                   const sonraki = dizi[i + 1];
-                  return [
-                    satir(s, false, sIdx),
-                    yukselmeVar && s.sira <= grupBilgi.yukselen && (!sonraki || sonraki.sira > grupBilgi.yukselen)
+                  return <Fragment key={`lig-${s.user_id}`}>
+                    {satir(s, false, sIdx)}
+                    {yukselmeVar && s.sira <= grupBilgi.yukselen && (!sonraki || sonraki.sira > grupBilgi.yukselen)
                       ? <div key={`cizgi-y-${s.user_id}`} role="listitem" className="lg-sinir-kap">{sinirCizgisi("yukselme")}</div>
-                      : null,
-                    dusmeVar && s.sira <= dusmeSiniri && sonraki && sonraki.sira > dusmeSiniri
+                      : null}
+                    {dusmeVar && s.sira <= dusmeSiniri && sonraki && sonraki.sira > dusmeSiniri
                       ? <div key={`cizgi-d-${s.user_id}`} role="listitem" className="lg-sinir-kap">{sinirCizgisi("dusme")}</div>
-                      : null,
-                  ];
+                      : null}
+                  </Fragment>;
                 })}
               </div>
             )}
