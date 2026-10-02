@@ -1367,7 +1367,8 @@ function DuelloMac({ id }) {
   if (d.faz === "kategori") {
     sahne2 = (
       <V2Kategori d={d} hk={hk} benSaldiran={benSaldiran} ben={ben} rakip={rakip} calisan={calisan} c={c2}
-                  secim={katSecim} dokunus={dokunus} zipla={zipla} onKart={kartaDokun} />
+                  secim={katSecim} dokunus={dokunus} zipla={zipla} onKart={kartaDokun}
+                  damga={banTaze} onBanli={banliyaDokun} />
     );
   } else if (d.faz === "ban") {
     // 853: aynı kart ızgarası; savunan dokununca banlar, saldıran bekler.
@@ -1428,6 +1429,9 @@ function DuelloMac({ id }) {
         {banFazi && !benSaldiran && kopukDonukSn == null && (
           <BanGirisAni anahtar={`${d.id}:${fazAnahtari}`} tur={d.tur} maxTur={d.max_tur} c={c2} />
         )}
+        {banTaze && (
+          <BanAciklama anahtar={`${d.id}:${fazAnahtari}`} benSaldiran={benSaldiran} kategori={d.ban?.kategori ?? null} c={c2} />
+        )}
         {turGecis && simdi - turGecis < 900 && !(banFazi && !benSaldiran) && (
           <span key={turGecis} className="m2-gecis" aria-hidden="true">
             <span>{d.uzatma ? c2("ALTIN SORU") : c2("Tur {n}/{t}", { n: d.tur, t: d.max_tur })}</span>
@@ -1442,7 +1446,7 @@ function DuelloMac({ id }) {
       )}
       {d.faz === "kategori" && (
         <V2SecimCubugu d={d} hk={hk} benSaldiran={benSaldiran} secim={katSecim} calisan={calisan} c={c2}
-                       onOnayla={kategoriSec} />
+                       onOnayla={kategoriSec} banUyari={banUyariAcik} />
       )}
       {banFazi && <V2BanCubugu benSaldiran={benSaldiran} c={c2} ipucu={banIpucu} />}
       {satinAlPenceresi}
