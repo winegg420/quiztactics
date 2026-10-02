@@ -485,6 +485,9 @@ export function LigKarti({ v }) {
       ? tt("Yükselmeye {n} puan kaldı", { n: sayi(o.yukselme_cizgisine_fark) })
       : o.ust_siraya_fark > 0 ? tt("Bir üst sıraya {n} puan", { n: sayi(o.ust_siraya_fark) })
         : o.sira === 1 ? tt("Grubun zirvesindesin") : null;
+  // Kısa ekran başlığı için kısaltılmış alt metin: "75 puan · 2g 1s" (TR/EN taşmasın)
+  const altKisa = o.bolge !== "yukselme" && o.ust_lig && o.yukselme_cizgisine_fark > 0
+    ? tt("{n} puan", { n: sayi(o.yukselme_cizgisine_fark) }) : alt;
   return (
     <Link to={y("/siralama")} className={`as-lk as-lk--${o.lig}`}
           aria-label={tt("{lig} Lig, {s}. sıra. Lig sayfasına git", { lig: LIG_ADLARI[o.lig] ?? o.lig, s: o.sira })}>
@@ -493,7 +496,7 @@ export function LigKarti({ v }) {
         <b>{tt("{lig} Lig", { lig: LIG_ADLARI[o.lig] ?? o.lig })}</b>
         <span className="as-lk-sira qt-sayi">{tt("Sıra {n}/{m}", { n: o.sira, m: o.grup_boyu })}</span>
         {kalan && !alt && <small className="as-lk-kalan">{tt("Hafta bitimine {k}|ana", { k: kalan })}</small>}
-        {alt && <small className="as-lk-alt-kisa" aria-hidden="true">{kalan ? `${alt} · ${kalan}` : alt}</small>}   {/* kısa ekranda alt satır başlığa girer (ellipsis; çakışmaz) */}
+        {alt && <small className="as-lk-alt-kisa" aria-hidden="true">{kalan ? `${altKisa} · ${kalan}` : altKisa}</small>}   {/* kısa ekranda alt satır başlığa girer (ellipsis; çakışmaz) */}
       </span>
       {alt && (
         <span className="as-lk-alt">
