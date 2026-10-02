@@ -543,6 +543,10 @@ button.sy-afis { cursor: pointer; -webkit-tap-highlight-color: transparent; touc
   border: 3px solid var(--sy-kenar, var(--qt-coin-dudak)); border-radius: var(--qt-r-s); background: var(--qt-coin-acik); color: var(--qt-metin);
 }
 .sy-afis-tac { position: absolute; top: -8px; left: -8px; }
+/* Premium çerçeve ödülü (Ejderha): çerçevenin kendi çizimi yeter (kutu/zemin yok), silüet (kafa/kanat) kutunun dışına taşar; taç köşede. Afiş yüksekliği değişmez. */
+.sy-afis-vitrin--cerceve { width: 64px; height: 64px; border: 0; border-radius: 0; background: none; overflow: visible; }
+.sy-afis-vitrin--cerceve .sy-afis-tac { top: -4px; left: -6px; z-index: 2; }
+.sy-afis:has(.sy-afis-vitrin--cerceve) { overflow: visible; }
 .sy-tac-gorsel { display: block; flex: none; object-fit: contain; }
 .sy-afis-metin { display: grid; gap: 3px; flex: 1 1 auto; min-width: 0; line-height: 1.2; }
 .sy-afis-sezon, .sy-afis-odul { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

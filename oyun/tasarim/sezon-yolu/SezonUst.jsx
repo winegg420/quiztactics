@@ -160,8 +160,8 @@ export function SeviyeUst({ durum, finalOdul = null, dil = "tr", onFinal }) {
   return (
     <div className="sy-ust">
       <Afis className="sy-afis" {...(tiklanir ? { type: "button", onClick: () => onFinal(finalOdul), "aria-label": `${sezonYazi}. ${tt("Sezon sonu ödülü")}: ${finalAd}` } : {})}>
-        <span className="sy-afis-vitrin" data-nadirlik={finalOdul?.nadirlik ?? "efsanevi"}>
-          {finalOdul && <OdulGorsel odul={finalOdul} boyut={cerceveMi ? 46 : 34} />}
+        <span className={`sy-afis-vitrin${cerceveMi ? " sy-afis-vitrin--cerceve" : ""}`} data-nadirlik={finalOdul?.nadirlik ?? "efsanevi"}>
+          {finalOdul && <OdulGorsel odul={finalOdul} boyut={cerceveMi ? 64 : 34} />}
           <TacGorsel boyut={finalOdul ? 22 : 30} className={finalOdul ? "sy-afis-tac" : ""} />
         </span>
         <span className="sy-afis-metin">
