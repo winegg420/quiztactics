@@ -205,17 +205,19 @@ export default function ProfilePage() {
       <h1 className="qt-gizli">{tt("Profil")}</h1>
 
       {/* ---------- Kimlik: avatar (lig çerçevesiyle), takma ad, rütbe, level ---------- */}
-      {/* Oyun hissi: kart içinde kart yok — koyu oyuncu kartı tek afiş, rütbe + level çubuğu ona bitişik şerit. */}
+      {/* Oyun hissi: kart içinde kart yok — oyuncu kartı tek afiş, rütbe + level çubuğu ona bitişik şerit.
+          Lig sahnesi (2 Eki 2026): koyu levha yerine ligin açık zemini — bkz. OyuncuVitrinKarti `ligSahnesi`. */}
       <section className={sinif("qt-pf-kimlik", sirali)} style={siraStili(0)} aria-label={tt("Oyuncu kimliği")}>
         {/* Görsel revizyon (25 Eyl): tek oyuncu kartı — başkalarının gördüğü kartın aynısı (avatar + çerçeve + arka plan,
             isim, unvan, lig + level, vitrin rozetleri). */}
-        <OyuncuVitrinKarti userId={user?.id} profile={profile} boyut={88} hareketli arkaPlan className="qt-pf-ok" />
+        <OyuncuVitrinKarti userId={user?.id} profile={profile} boyut={88} hareketli arkaPlan ligSahnesi koleksiyonCipi={false} className="qt-pf-ok" />
         <div className="qt-pf-serit">
-          <div className="qt-pf-rozetler">
-            <QtRozet ton="mor" ikon={r.ikon}>{r.ad}</QtRozet>
-            {/* Paket 20 III: misafir hesabı her yerde belli olsun */}
-            {misafirMi(user) && <QtRozet ton="uyari" ikon="kisi">{tt("Misafir")}</QtRozet>}
-          </div>
+          {/* Rütbe etiketi kaldırıldı (2 Eki 2026): LevelCubugu zaten "Level N · {rütbe}" gösteriyor, tekrardı. */}
+          {misafirMi(user) && (
+            <div className="qt-pf-rozetler">
+              <QtRozet ton="uyari" ikon="kisi">{tt("Misafir")}</QtRozet>
+            </div>
+          )}
           <LevelCubugu profile={profile} canli />
         </div>
       </section>

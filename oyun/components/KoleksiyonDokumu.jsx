@@ -54,15 +54,13 @@ export default function KoleksiyonDokumu({ tam = false, sirali = "", sira = null
               <span key={a} className={`qt-kp-dilim qt-kp-dilim--${a}`} style={{ flexGrow: Math.max(d.nadirlik?.[a]?.puan ?? 0, 0) / toplam * 100 || 0 }} />
             ))}
           </div>
+          {/* Çubuğun lejandı (2 Eki 2026): özet kartında da (Profil ilk ekranı dahil) nokta renkleri çubukla aynı. */}
+          <ul className="qt-kp-nadir">
+            {NADIR.map(([a, ad]) => (
+              <li key={a}><i className={`qt-kp-nokta qt-kp-nokta--${a}`} />{tt(ad)} <b>{d.nadirlik?.[a]?.adet ?? 0}</b></li>
+            ))}
+          </ul>
         </>
-      )}
-      {/* Nadirlik açıklaması yalnız döküm sekmesinde: profilin ilk ekranı sade kalır (renk anlamı Koleksiyon sekmesinde). */}
-      {tam && (
-        <ul className="qt-kp-nadir">
-          {NADIR.map(([a, ad]) => (
-            <li key={a}><i className={`qt-kp-nokta qt-kp-nokta--${a}`} />{tt(ad)} <b>{d.nadirlik?.[a]?.adet ?? 0}</b></li>
-          ))}
-        </ul>
       )}
       {tam && (
         <ul className="qt-kp-liste">
