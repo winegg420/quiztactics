@@ -104,6 +104,16 @@
   --qt-lig-elmas: #62d6f4;    --qt-lig-elmas-dudak: #1f93b5;
   --qt-lig-efsane: #b57bff;   --qt-lig-efsane-dudak: #7b3fd6;
 
+  /* ---------- 7c. Lig sahnesi (profil kartı açık lig zemini, 2 Eki 2026) ----------
+     OyuncuVitrinKarti `ligSahnesi` modifier: koyu kart yerine ligin AÇIK tonu + sabit iki-tonlu ışın deseni.
+     Her lig {sahne (zemin), sahne-isik (ışının ikinci tonu)}; çerçeve mevcut *-dudak token'ını kullanır. */
+  --qt-lig-bronz-sahne: #fbe9d9;    --qt-lig-bronz-sahne-isik: #f0c29c;
+  --qt-lig-gumus-sahne: #eef2f8;    --qt-lig-gumus-sahne-isik: #cfd8e6;
+  --qt-lig-altin-sahne: #faeeda;    --qt-lig-altin-sahne-isik: #fac775;
+  --qt-lig-elmas-sahne: #dff6fc;    --qt-lig-elmas-sahne-isik: #9fe3f4;
+  --qt-lig-efsane-sahne: #f1e6ff;   --qt-lig-efsane-sahne-isik: #d2b1ff;
+  --qt-lig-notr-sahne: var(--qt-ikinci-acik);  --qt-lig-notr-sahne-isik: #c7e0fa;
+
   /* ---------- 7b. Kozmetik: çerçeve nadirliği + rozet madalyonu malzemesi ----------
      Nadirlik renk kodu her yerde aynı (çerçeve, dükkân etiketi, önizleme):
      sıradan gri-mavi · nadir YEŞİL · epik KESKİN MOR · efsanevi ALTIN (Ida, 25 Eyl 2026 —

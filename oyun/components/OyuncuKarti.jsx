@@ -176,7 +176,7 @@ export default function OyuncuKarti({
     >
       <div className="ok-ust">
         {/* Görsel revizyon (25 Eyl): tek oyuncu kartı — profil başındakiyle aynı kart (oyuncu_kartlari) */}
-        <OyuncuVitrinKarti userId={userId} profile={p ?? undefined} boyut={96} hareketli className="ok-vitrin-karti"
+        <OyuncuVitrinKarti userId={userId} profile={p ?? undefined} boyut={96} hareketli ligSahnesi className="ok-vitrin-karti"
           avatarEk={online ? (
             <span className="ok-cevrimici" title={tt("Şu an oyunda")}>
               <span className="qt-gizli">{tt("Şu an oyunda")}</span>

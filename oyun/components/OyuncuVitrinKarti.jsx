@@ -15,6 +15,7 @@ import IsimEfekti from "./IsimEfekti.jsx";
 import VitrinRozetleri from "./VitrinRozetleri.jsx";
 import UnvanYazisi from "./UnvanYazisi.jsx";
 import { LigAmblemi } from "../tasarim/premium/ligAmblemi.jsx";
+import { TacIkon } from "../tasarim/sezon-yolu/simgeler.jsx";
 import { QtIkon } from "../tasarim/index.js";
 import { koleksiyonSayi } from "../lib/koleksiyon.js";
 import { oyuncuKarti, oyuncuKartiDinle } from "../lib/cerceve.js";
@@ -59,8 +60,8 @@ export function KartKoleksiyonu({ puan, className = "" }) {
   return <span className={`qt-ok-kp ${className}`.trim()}><QtIkon ad="yildiz" boyut={14} />{tt("Koleksiyon {n}", { n: koleksiyonSayi(puan) })}</span>;
 }
 
-/** Lig amblemi + lig adı + level hapı. */
-export function KartLigSatiri({ lig, level, yazi = true, amblem = 22 }) {
+/** Lig amblemi + lig adı + level hapı + (bp) taç ikonlu Battle Pass rozeti. */
+export function KartLigSatiri({ lig, level, yazi = true, amblem = 22, bp = false }) {
   return (
     <span className="qt-ok-satir">
       {lig && (
@@ -70,20 +71,33 @@ export function KartLigSatiri({ lig, level, yazi = true, amblem = 22 }) {
         </span>
       )}
       {level != null && <span className="qt-ok-lv qt-sayi">{tt("Lv {0}", { 0: level })}</span>}
+      {bp && (
+        <span className="qt-ok-bp" title={tt("Battle Pass")}>
+          <TacIkon boyut={13} /> {tt("BP")}
+        </span>
+      )}
     </span>
   );
 }
 
 export default function OyuncuVitrinKarti({ userId, profile, kart: verilenKart, boyut = 88, hareketli = false, kompakt = false,
-  className = "", avatarEk = null, adEk = null, arkaPlan = false, children }) {
+  className = "", avatarEk = null, adEk = null, arkaPlan = false, ligSahnesi = false, koleksiyonCipi = true, bp, children }) {
   const kart = useOyuncuKarti(userId, verilenKart);
   // 30 Eyl: arkaPlan → takılı kart arka planı kartın arkasında (yalnız profil sayfası ister; diğer kullananlar aynı)
   const arkaPlanSanat = useKartArkaPlani(arkaPlan ? userId : null, kart ?? undefined);
   const ad = kart?.ad ?? profile?.gorunen_ad ?? tt("Oyuncu");
   const profil = profile ?? (kart ? { id: kart.id, gorunen_ad: kart.ad, gorunen_avatar: kart.avatar } : {});
+  // Sezon Yolu (720): BP sahipliği kart'ta zaten var (oyuncu_kartlari.sezon_bp) — yeni sorgu yok.
+  const bpAktif = bp !== undefined ? bp : kart?.sezon_bp === true;
   return (
-    <div className={`qt-ok${kompakt ? " qt-ok--kompakt" : ""}${kartArkaPlanSinifi(arkaPlanSanat)} ${className}`.trim()}>
+    <div className={`qt-ok${kompakt ? " qt-ok--kompakt" : ""}${ligSahnesi ? " qt-ok--lig-sahnesi" : ""}${bpAktif ? " qt-ok--bp" : ""}${kartArkaPlanSinifi(arkaPlanSanat)} ${className}`.trim()}
+      {...(ligSahnesi ? { "data-lig": kart?.lig ?? "" } : {})}>
       <KartArkaPlanKatmani sanat={arkaPlanSanat} hareketli={hareketli} yukseklik={220} duzen="dikey" />
+      {ligSahnesi && kart?.lig && (
+        <span className="qt-ok-filigran" aria-hidden="true">
+          <LigAmblemi lig={kart.lig} boyut={140} />
+        </span>
+      )}
       <div className="qt-ok-avatar">
         <CerceveliAvatar profile={profil} userId={userId} boyut={boyut} hareketli={hareketli} {...(kart ? { kart } : {})} />
         {avatarEk}
@@ -93,8 +107,8 @@ export default function OyuncuVitrinKarti({ userId, profile, kart: verilenKart, 
         {adEk}
       </p>
       {kart?.unvan && <UnvanYazisi unvan={kart.unvan} boy={kompakt ? "k" : "o"} />}
-      <KartLigSatiri lig={kart?.lig} level={kart?.level} yazi={!kompakt} amblem={kompakt ? 20 : 24} />
-      <KartKoleksiyonu puan={kart?.koleksiyon_puani} />
+      <KartLigSatiri lig={kart?.lig} level={kart?.level} yazi={!kompakt} amblem={kompakt ? 20 : 24} bp={bpAktif} />
+      {koleksiyonCipi && <KartKoleksiyonu puan={kart?.koleksiyon_puani} />}
       {kart?.vitrin?.length > 0 && <VitrinRozetleri vitrin={kart.vitrin} boyut={kompakt ? 28 : 36} className="qt-ok-vitrin" />}
       {children}
     </div>

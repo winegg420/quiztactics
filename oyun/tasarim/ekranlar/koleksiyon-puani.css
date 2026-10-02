@@ -23,4 +23,4 @@
 .qt-ok-kp svg { flex: none; }
 /* Zemine göre: koyu kartta (profil vitrini; Yağan Kar arka planında 4,0:1 idi) açık sarı; arama ekranı VS karesi açık gök zemin → koyu amber (1,02:1 idi) */
 .qt-ok .qt-ok-kp { color: #ffe27a; }
-.gh-vs-kart .qt-ok-kp { color: #6b4200; }
+.gh-vs-kart .qt-ok-kp, .qt-ok--lig-sahnesi .qt-ok-kp { color: #6b4200; }
