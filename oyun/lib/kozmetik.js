@@ -17,6 +17,12 @@ import { tt } from "./dil.js";
 import { hataMesaji } from "./hata.js";
 
 export const KOZMETIK_TURLERI = ["vs_karti", "isim_efekti", "zafer_efekti", "tepki_paketi", "premium_cerceve", "premium_aura"];
+/**
+ * DÜKKÂNDA SATILAN türler (920, Ida 2 Eki 2026) — sırayla Çerçeve sekmesi, Avatar ve İsim sekmesi. VS kartı, zafer
+ * efekti ve tepki paketi satılmaz (sunucu: kozmetikler.satis_pasif); sahip olunan kalem Koleksiyon'da kalır, takılır.
+ * Tepki paketleri Battle Pass ödülüdür (bp_seviye_odulleri). Arka plan (premium_aura) dondurulmuş.
+ */
+export const DUKKAN_TURLERI = ["premium_cerceve", "isim_efekti"];
 export const TUR_ADI = {
   aura: "Arka Plan", avatar: "Avatar", vs_karti: "VS Kartı", isim_efekti: "İsim Efekti",
   zafer_efekti: "Zafer Efekti", tepki_paketi: "Tepki",

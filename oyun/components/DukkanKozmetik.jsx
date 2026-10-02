@@ -1,6 +1,9 @@
 /**
  * DÜKKÂN › ELMAS KOZMETİKLERİ (540) — VS Kartı · İsim Efekti · Zafer Efekti · Tepki  +  Avatar (520, Ajan A kataloğu)
  *
+ * 920 (2 Eki 2026, Ida): Dükkân yalnız premium çerçeve + isim efekti + Epik/Efsanevi avatar satar (kozmetik.js ›
+ * DUKKAN_TURLERI). VS kartı, zafer efekti ve tepki paketi satıştan çıktı; buradaki çizimleri Koleksiyon kullanır.
+ *
  * Satış kapısı SUNUCUDA: kozmetik_satis_acik = false iken normal oyuncuya katalog boş döner (sekme hiç
  * görünmez), satın alma reddedilir. Yalnız Ida'nın "Satışa girsin" dediği kalemler satılır.
  * SAHİP TEST MODU: sahip hesabı her kalemi görür (kapalı olanlar "Satışta değil" işaretli) ve satın almadan
@@ -37,7 +40,7 @@ import "../tasarim/ekranlar/dukkan-kozmetik.css";
 
 const ZaferEfekti = lazy(() => import("./ZaferEfekti.jsx"));
 
-/** Dükkân sekmelerinin kodu → kozmetik türü (sıra Ida'nın istediği: Aura · Avatar · VS · İsim · Zafer · Tepki). */
+/** Kozmetik türleri: kod · tür · ad · ikon (Koleksiyon bölümlerinin sırası). Dükkân sekmeleri JokerDukkani.jsx'te sabittir. */
 export const KOZMETIK_SEKMELERI = [
   // 560: premium — hareketli çerçeve + avatarın iç arka planı (aura). Kod "pcerceve"/"paura": eski dükkân
   // "aura" sekmesiyle (481, pasif auralar) karışmasın.
@@ -52,7 +55,7 @@ export const KOZMETIK_SEKMELERI = [
 
 /**
  * Kozmetik kataloğu + yeni avatar kataloğu + sahip mi — tek yerde, bir kez. Normal oyuncuya satış kapalıyken
- * iki katalog da boş döner (sunucu kapısı) → sekmeler hiç çizilmez.
+ * iki katalog da boş döner (sunucu kapısı) → bölüm "satışta bir şey yok" der.
  */
 export function useKozmetikDukkan() {
   const arkaPlanAcik = useArkaPlanAcik();   // 1 Eki: arka planlar dondurulmuş → premium_aura katalogdan düşer (sekme, Koleksiyon bölümü, sayaç)
@@ -76,9 +79,7 @@ export function useKozmetikDukkan() {
   }, []);
   useEffect(() => { yenile(); }, [yenile]);
   const katalog = arkaPlanAcik ? durum.katalog : durum.katalog.filter((x) => x.tur !== "premium_aura");
-  const turVar = (tur) => katalog.some((x) => x.tur === tur);
-  const sekmeler = KOZMETIK_SEKMELERI.filter((s) => (s.kod === "avatar" ? durum.avatarlar.length > 0 : turVar(s.tur)));
-  return { ...durum, katalog, arkaPlanAcik, yenile, sekmeler };
+  return { ...durum, katalog, arkaPlanAcik, yenile };
 }
 
 const ZAFER_SIMGE = {
@@ -408,6 +409,8 @@ export default function DukkanKozmetik({ tur, katalog, sahipHesap = false, yenil
       </QtKart>
       <KozmetikSatinAlOnayi c={c} eylem={eylem} elmasBakiye={elmasBakiye} elmasYetmedi={elmasYetmedi} />
 
+      {/* Tek kalem (ör. İsim › Altın): sahne kartı kalemin kendisidir, ızgara tekrar olurdu */}
+      {liste.length > 1 && (
       <ul className="qt-dc-izgara">
         {siraliBolumler(nadirlikBolumleri(liste)).map((b) => (
           <Fragment key={b.nadirlik ?? "diger"}>
@@ -430,6 +433,7 @@ export default function DukkanKozmetik({ tur, katalog, sahipHesap = false, yenil
           </Fragment>
         ))}
       </ul>
+      )}
       <p className="qt-kucuk qt-soluk-zemin qt-dc-not">
         {tt("Aldıkların Profil › Koleksiyon'da; oradan takıp çıkarabilirsin.")}{" "}
         <Link to={y("/profil?sekme=koleksiyon")}>{tt("Koleksiyonuna bak")}</Link>
@@ -452,8 +456,11 @@ const ACIKLAMA = {
   premium_aura: "Arka Plan — oyuncu kartının arkasındaki hareketli sahne. Ana sayfada, profilinde ve maç başında herkes görür.",
 };
 
-/** Dükkân › Avatar — Ajan A'nın kataloğu (avatar_katalogu_oyun / avatar_satin_al / avatar_onayla). */
-export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYetmedi, onBilgi, onHata, elmasBakiye, sirali }) {
+/**
+ * Dükkân › Avatar — Ajan A'nın kataloğu (avatar_katalogu_oyun / avatar_satin_al / avatar_onayla).
+ * `yalnizUcretli` (920): yalnız elmasla alınan (Epik / Efsanevi) avatarlar — bedava avatarlar profilde seçilir.
+ */
+export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYetmedi, onBilgi, onHata, elmasBakiye, sirali, yalnizUcretli = false }) {
   const { user, profile, refreshProfile } = useAuth();
   const { kutla, ucan } = useOdulAni();   // satın alma anı: yalnız sunucu alımı onaylayınca
   const hazirAvatarlar = useHazirAvatarlar();   // 701: açılmamış hazır avatarlar süzülür
@@ -470,7 +477,7 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
     ...hazirAvatarlar.map((a, i) => ({ anahtar: a.url, url: a.url, ad_tr: a.ad, ad_en: a.ad, tur: "hazir", fiyat_elmas: 0,
       sira: -100 + i, kullanabilir: true, kapali: false, sahibim: false })),
     ...[...(avatarlar ?? [])].sort((a, b) => (a.sira ?? 0) - (b.sira ?? 0)),
-  ].map(ucretli);
+  ].map(ucretli).filter((a) => !yalnizUcretli || a.ucretli);
   const [secili, setSecili] = useState(() => liste.find((a) => profile?.avatar_url === a.url)?.anahtar ?? liste[0]?.anahtar ?? null);
   const [islem, setIslem] = useState(null);
   const [onayAcik, setOnayAcik] = useState(false);   // D-301

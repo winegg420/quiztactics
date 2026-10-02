@@ -3,19 +3,17 @@ import DurumKutusu from "../components/DurumKutusu.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { sesHataUyari } from "../lib/ses.js";
 import { Link, useSearchParams } from "react-router-dom";
-import GorunumVitrini from "../vitrin/GorunumVitrini.jsx";
 import { supabase } from "../../src/lib/supabase.js";
 import { JOKER_BILGI, AKTIF_MAC_SKILLERI, jokerBilgi, envanterNesne, jokerDukkanModlari, jokerYalnizModu, paketDukkanModlari } from "../lib/jokerler.js";
 import SkillRozeti from "../components/SkillRozeti.jsx";
 import JokerSatinAlModal from "../components/JokerSatinAlModal.jsx";
-import DukkanAuralar from "../components/DukkanAuralar.jsx";
 import DukkanKozmetik, { DukkanAvatarlar, useKozmetikDukkan } from "../components/DukkanKozmetik.jsx";
+import { DUKKAN_TURLERI } from "../lib/kozmetik.js";
 import { jokerKurallari } from "../lib/jokerKurallari.js";
 import { h5AdsYapilandirildi, odulluVideoGoster } from "../lib/h5ads.js";
 import { desteklenirMi, fiyatlariAl, satinAl, tuket } from "../lib/playFatura.js";
 import { useCoin, coinTazele, coinHatasi } from "../lib/coin.js";
 import { useElmas, elmasTazele, elmasPaketleri } from "../lib/elmas.js";
-import { GARDIROP_ACIK } from "../lib/ozellikBayraklari.js";
 import { ayarlar } from "../lib/ayarlar.js";
 import { tt, ttSunucu } from "../lib/dil.js";
 import {
@@ -40,29 +38,30 @@ import ElmasPaketGorseli from "../tasarim/premium/elmas/ElmasPaketGorseli.jsx";
 import "../tasarim/ekranlar/dukkan-magaza.css";
 import { CoinIkon, ElmasIkon } from "../components/ParaIkonlari.jsx";
 
-// Dükkân sekmeleri: Joker · Aura · Elmas · Coin · Kıyafet (Tasarım A, Yön A "Şeker Kutusu").
-// İKİ PARA BİRİMİ (480, Ida kararı — pay to win olmasın): jokerler YALNIZ coin'le (coin yalnız
-// oynayarak kazanılır, parayla satılmaz); auralar YALNIZ elmasla (elmas parayla alınır + oyunla
-// kazanılır). Çerçeveler satılmaz (Profil › Koleksiyon).
-// Bütün rakamlar sunucudan gelir (skill_dukkani(), joker_paketleri, elmas_paketleri(),
+// DÜKKÂN — SADE HÂLİ (2 Eki 2026, Ida: "gereksiz hiçbir şey kalmasın, çekirdeğe odaklan"). Sabit sekmeler:
+// Elmas · Joker · Çerçeve · Avatar ve İsim. TEK KURAL ekranda yazar (kural şeridi): JOKERLER COİN'le (coin yalnız
+// oynayarak kazanılır, parayla satılmaz), KOZMETİKLER ELMAS'la (elmas parayla alınır + oyunla kazanılır) — pay to win yok.
+//   Çerçeve        → premium hareketli çerçeveler (kozmetikler › premium_cerceve)
+//   Avatar ve İsim → Epik / Efsanevi avatarlar (820, avatar_satin_al) + Altın isim (isim_efekti)
+// DÜKKÂNDAN ÇIKANLAR (veri ve sahiplik durur, alınmış eşya Profil › Koleksiyon'da): Kıyafet (gardırop dondurulmuş —
+// vitrin oyun/vitrin/, bayrak ozellikBayraklari.js › GARDIROP_ACIK), Arka Plan (dondurulmuş, oyun_ayarlari.arka_plan_acik),
+// VS Kartı · Zafer Efekti · Tepki paketi (920: kozmetikler.satis_pasif; tepki paketleri Battle Pass ödülü).
+// Bütün rakamlar sunucudan gelir (skill_dukkani(), joker_paketleri, elmas_paketleri(), kozmetik_katalogu(),
 // oyun_ayarlari); koda gömülü fiyat/ödül/tavan YOKTUR — okunamayan rakam gösterilmez.
 // Oyun hissi (1 Eki 2026, OKU.md §11): sayfa afişi, oyun kartı dili (qt-oyk), ilk açılışta sıralı kart girişi, eylem
 // düğmelerinde dokunus(). SATIN ALMA ANI (parıltı + uçan çip + ses + titreşim) YALNIZ sunucu başarı döndükten sonra
 // oynar (kutla); hata / yetersiz coin dalında kutlama yoktur. Ürünler vitrinde fiyatıyla, doğrudan satılır.
-
-// GARDIROP DONDURULDU (Arayüz Yenileme, 20 Eyl 2026): "Kıyafet" sekmesi
-// bayrak kapalıyken listeye hiç girmez ve varsayılan sekme "Joker" olur.
-// Geri açma: oyun/lib/ozellikBayraklari.js › GARDIROP_ACIK = true
-// Sekme kodu "joker" geriye uyum için korunur (?sekme=joker bağlantıları); eski "cerceve" → "aura".
-const TUM_SEKMELER = [
-  { kod: "joker",   ad: tt("Joker"),   ikon: "yildiz" },
-  { kod: "aura",    ad: tt("Arka Plan"),    ikon: "palet" },
-  { kod: "elmas",   ad: tt("Elmas|para"),   ikon: "elmas" },
-  { kod: "coin",    ad: tt("Coin"),    ikon: "coin" },
-  { kod: "kiyafet", ad: tt("Kıyafet"), ikon: "tisort" },
+const [TUR_CERCEVE, TUR_ISIM] = DUKKAN_TURLERI;
+// `para`: sekmedeki ürünlerin para birimi — kural şeridinde o yarı vurgulanır.
+const SEKMELER = [
+  { kod: "elmas",   ad: tt("Elmas|para"),     ikon: "elmas",   para: "elmas" },
+  { kod: "joker",   ad: tt("Joker"),          ikon: "yildiz",  para: "coin" },
+  { kod: "cerceve", ad: tt("Çerçeve"),        ikon: "madalya", para: "elmas" },
+  { kod: "avatar",  ad: tt("Avatar ve İsim"), ikon: "kisi",    para: "elmas" },
+  { kod: "coin",    ad: tt("Coin"),           ikon: "coin",    para: "coin" },
 ];
-const ESKI_SEKME = { cerceve: "aura" };
-const TEMEL_SEKMELER = TUM_SEKMELER.filter((x) => x.kod !== "kiyafet" || GARDIROP_ACIK);
+// Eski bağlantılar (güncellenmemiş PWA, bildirim): kalkan sekmeler varsayılana (Joker) düşer.
+const ESKI_SEKME = { pcerceve: "cerceve", isim: "avatar" };
 const VARSAYILAN_SEKME = "joker";
 
 // JOKER SEKMESİ MOD AYRIMI (2 Eki 2026, Ida onayı): üstte "Klasik | Düello" seçici (Klasik turuncu, Düello kırmızı rol).
@@ -168,30 +167,12 @@ export default function JokerDukkani() {
   // Sekme adres çubuğunda tutulur: "coin yetmiyor" uyarısı doğrudan Coin
   // sekmesine götürebilsin, geri tuşu da beklendiği gibi çalışsın.
   const [arama, setArama] = useSearchParams();
-  // 540: elmas kozmetikleri sekmeleri (Avatar · VS Kartı · İsim Efekti · Zafer Efekti · Tepki) Aura'nın arkasına.
-  // Satış kapalıyken normal oyuncuya katalog boş döner (sunucu) → sekmeler hiç görünmez; sahip test için görür.
+  // Kozmetik + avatar kataloğu tek yerde, bir kez (Çerçeve ve Avatar ve İsim sekmeleri aynı veriyi kullanır).
   const kozmetik = useKozmetikDukkan();
-  // 560: premium aura sekmesi ("Aura", avatarın iç arka planı) varken eski dükkân aura sekmesi (481; bütün
-  // kalemleri 552'den beri pasif, sekme boş) gizlenir — iki "Aura" sekmesi olmasın; ?sekme=aura → paura.
-  const premiumAuraVar = kozmetik.sekmeler.some((s) => s.kod === "paura");
-  const SEKMELER = [
-    // 1 Eki: arka planlar dondurulmuş (oyun_ayarlari.arka_plan_acik = false) → "Arka Plan" sekmesi (eski aura dahil) hiç çıkmaz
-    ...TEMEL_SEKMELER.slice(0, 2).filter((x) => !(premiumAuraVar && x.kod === "aura") && !(!kozmetik.arkaPlanAcik && x.kod === "aura")),
-    ...kozmetik.sekmeler.map((s) => ({ kod: s.kod, ad: tt(s.ad), ikon: s.ikon })),
-    ...TEMEL_SEKMELER.slice(2),
-  ];
-  const istenenSekme = (premiumAuraVar && arama.get("sekme") === "aura") ? "paura"
-    : ESKI_SEKME[arama.get("sekme")] ?? arama.get("sekme");
-  // D-507: kozmetik katalog gelmeden sekme sayısı belli değil (4 → 8 sıçrıyor, istenen sekme "Joker"e düşüp atlıyordu).
-  // Katalog yüklenene dek çubuk iskelet; istenen sekme kozmetik sekmesiyse (henüz listede yok) panel de iskelet bekler
-  // ve "Joker"e düşülmez.
-  const sekmelerBelirsiz = !kozmetik.hazir;
-  const istenenBekliyor = sekmelerBelirsiz && Boolean(istenenSekme) && !TEMEL_SEKMELER.some((x) => x.kod === istenenSekme);
-  const sekme = istenenBekliyor
-    ? istenenSekme
-    : SEKMELER.some((x) => x.kod === istenenSekme)
-      ? istenenSekme
-      : VARSAYILAN_SEKME;
+  const istenenSekme = ESKI_SEKME[arama.get("sekme")] ?? arama.get("sekme");
+  const sekme = SEKMELER.some((x) => x.kod === istenenSekme) ? istenenSekme : VARSAYILAN_SEKME;
+  const sekmeParasi = SEKMELER.find((x) => x.kod === sekme)?.para;
+  const kozmetikSekmesi = sekme === "cerceve" || sekme === "avatar";
   const sekmeSec = (kod) => setArama({ sekme: kod }, { replace: true });
   // Joker sekmesinin modu: adres (?mod=) > son seçim > Klasik. Adresle gelen mod (maç içinden) son seçim olur ki
   // başka sekmeye gidip dönünce kaybolmasın.
@@ -471,7 +452,7 @@ export default function JokerDukkani() {
   const reklamKaldi = reklam.tavan == null ? 1 : Math.max(0, reklam.tavan - (reklam.bugun ?? 0));
   const hazir = dukkanDurum === "hazir";
   // Sıralı kart girişi yalnız İLK açılışta (sekme değişince / veri yenilenince yeniden oynamaz); kozmetik sekmelerine prop ile iner.
-  const sirali = useSiraliGiris(!sekmelerBelirsiz && (["joker", "coin", "elmas"].includes(sekme) ? hazir : true));
+  const sirali = useSiraliGiris(kozmetikSekmesi ? kozmetik.hazir : hazir);
   // D-304: Elmas sekmesi açılınca "Oynayarak elmas kazan" başlığına kaydır (üst çubuk yapışkan — payı düşülür).
   // Koleksiyon'dan gelen bağlantı ?sekme=elmas&bolum=kazan ile aynısını ister.
   const bolumKazan = arama.get("bolum") === "kazan";
@@ -510,47 +491,66 @@ export default function JokerDukkani() {
           </span>
         )} />
 
-      {sekmelerBelirsiz ? (
-        <div className="qt-sekmeler qt-dk-sekmeler qt-dk-sekmeler--iskelet" aria-busy="true" aria-label={tt("Yükleniyor…")}>
-          {[84, 96, 78, 88, 72, 80].map((g, i) => <span key={i} className="qt-iskelet qt-iskelet--dugme" style={{ width: g, height: 40, flex: "none" }} />)}
-        </div>
-      ) : (
-        <QtSekmeler
-          className="qt-dk-sekmeler"
-          etiket={tt("Dükkân bölümleri")}
-          sekmeler={SEKMELER}
-          aktif={sekme}
-          onSec={sekmeSec}
-        />
-      )}
+      <QtSekmeler
+        className="qt-dk-sekmeler"
+        etiket={tt("Dükkân bölümleri")}
+        sekmeler={SEKMELER}
+        aktif={sekme}
+        onSec={sekmeSec}
+      />
+
+      {/* TEK KURAL: jokerler coin'le, kozmetikler elmasla. Açık sekmenin para birimi vurgulu. */}
+      <ul className="qt-dk-kural" aria-label={tt("Dükkân kuralı")}>
+        <li className={sinif("qt-dk-kural-oge qt-dk-kural-oge--coin", sekmeParasi === "coin" && "qt-dk-kural-oge--acik")}>
+          <CoinIkon boyut={22} />
+          <span><b>{tt("Jokerler")}</b><small>{tt("coin ile alınır")}</small></span>
+        </li>
+        <li className={sinif("qt-dk-kural-oge qt-dk-kural-oge--elmas", sekmeParasi === "elmas" && "qt-dk-kural-oge--acik")}>
+          <ElmasIkon boyut={22} />
+          <span><b>{tt("Kozmetikler")}</b><small>{tt("elmas ile alınır")}</small></span>
+        </li>
+      </ul>
 
       <QtToastYuvasi>
         {hata && <QtToast ton="yanlis" baslik={hata} onKapat={() => setHata(null)} />}
         {bilgi && <QtToast ton="coin" baslik={bilgi} onKapat={() => setBilgi(null)} />}
       </QtToastYuvasi>
 
-      <div id={`qt-panel-${sekme}`} role="tabpanel" className="qt-dk-panel" aria-busy={istenenBekliyor || undefined}>
-        {istenenBekliyor && <QtIskelet tur="kart" adet={2} />}
-        {/* ---------- KIYAFET (dondurulmuş vitrin, bayrakla) ---------- */}
-        {sekme === "kiyafet" && <GorunumVitrini />}
+      <div id={`qt-panel-${sekme}`} role="tabpanel" className="qt-dk-panel" aria-busy={(kozmetikSekmesi && !kozmetik.hazir) || undefined}>
+        {kozmetikSekmesi && !kozmetik.hazir && <QtIskelet tur="kart" adet={2} />}
 
-        {/* ---------- AURA (481: yalnız elmasla; çerçeveler satılmaz) ---------- */}
-        {sekme === "aura" && (
-          <DukkanAuralar elmasYetmedi={elmasKazanGoster} elmasBakiye={elmas.bakiye}
-            onBilgi={(m) => { setHata(null); setBilgi(m); }} onHata={(m) => { setBilgi(null); setHata(m); }} />
-        )}
-
-        {/* ---------- ELMAS KOZMETİKLERİ (540) + yeni avatarlar (520) ---------- */}
-        {sekme === "avatar" && !istenenBekliyor && (
-          <DukkanAvatarlar avatarlar={kozmetik.avatarlar} sahipHesap={kozmetik.sahipHesap} yenile={kozmetik.yenile} sirali={sirali}
+        {/* ---------- ÇERÇEVE: premium hareketli çerçeveler (elmasla) ---------- */}
+        {sekme === "cerceve" && kozmetik.hazir && (
+          <DukkanKozmetik tur={TUR_CERCEVE} katalog={kozmetik.katalog} sahipHesap={kozmetik.sahipHesap} yenile={kozmetik.yenile} sirali={sirali}
             elmasYetmedi={elmasKazanGoster} elmasBakiye={elmas.bakiye}
             onBilgi={(m) => { setHata(null); setBilgi(m); }} onHata={(m) => { setBilgi(null); setHata(m); }} />
         )}
-        {kozmetik.sekmeler.filter((s) => s.tur && s.kod === sekme).map((s) => (
-          <DukkanKozmetik key={s.kod} tur={s.tur} katalog={kozmetik.katalog} sahipHesap={kozmetik.sahipHesap} yenile={kozmetik.yenile} sirali={sirali}
-            elmasYetmedi={elmasKazanGoster} elmasBakiye={elmas.bakiye}
-            onBilgi={(m) => { setHata(null); setBilgi(m); }} onHata={(m) => { setBilgi(null); setHata(m); }} />
-        ))}
+
+        {/* ---------- AVATAR VE İSİM: Epik / Efsanevi avatarlar (820) + isim efekti (elmasla) ---------- */}
+        {sekme === "avatar" && kozmetik.hazir && (
+          <>
+            <section className="qt-dk-bolum" aria-labelledby="qt-dk-avatarlar">
+              <div className="qt-dk-bolum-ust qt-dk-bolum-ust--elmas">
+                <h2 id="qt-dk-avatarlar" className="qt-baslik-2">{tt("Avatarlar")}</h2>
+                <p className="qt-kucuk">{tt("Epik ve Efsanevi avatarlar. Diğer avatarlar profilinde, bedava.")}</p>
+              </div>
+              <DukkanAvatarlar yalnizUcretli avatarlar={kozmetik.avatarlar} sahipHesap={kozmetik.sahipHesap} yenile={kozmetik.yenile} sirali={sirali}
+                elmasYetmedi={elmasKazanGoster} elmasBakiye={elmas.bakiye}
+                onBilgi={(m) => { setHata(null); setBilgi(m); }} onHata={(m) => { setBilgi(null); setHata(m); }} />
+            </section>
+            {kozmetik.katalog.some((x) => x.tur === TUR_ISIM) && (
+              <section className="qt-dk-bolum" aria-labelledby="qt-dk-isim">
+                <div className="qt-dk-bolum-ust qt-dk-bolum-ust--elmas">
+                  <h2 id="qt-dk-isim" className="qt-baslik-2">{tt("İsim")}</h2>
+                  <p className="qt-kucuk">{tt("Adın her yerde bu görünümle yazılır.")}</p>
+                </div>
+                <DukkanKozmetik tur={TUR_ISIM} katalog={kozmetik.katalog} sahipHesap={kozmetik.sahipHesap} yenile={kozmetik.yenile}
+                  elmasYetmedi={elmasKazanGoster} elmasBakiye={elmas.bakiye}
+                  onBilgi={(m) => { setHata(null); setBilgi(m); }} onHata={(m) => { setBilgi(null); setHata(m); }} />
+              </section>
+            )}
+          </>
+        )}
 
         {(sekme === "joker" || sekme === "coin" || sekme === "elmas") && !hazir && (
           <QtKart>
@@ -924,8 +924,8 @@ export default function JokerDukkani() {
               <p className="qt-dk-not qt-dk-not--bilgi">
                 <QtIkon ad="bilgi" boyut={20} />
                 <span>{elmasPaketleriListe.some((p) => p.satista)
-                  ? tt("Satın alma yalnızca Android uygulamasında yapılabilir. Elmas yalnızca arka plan ve çerçeve gibi görünüm eşyaları alır; oyunda avantaj sağlamaz.")
-                  : tt("Elmas paketleri yakında satışta. Elmas yalnızca arka plan ve çerçeve gibi görünüm eşyaları alır; oyunda avantaj sağlamaz.")}</span>
+                  ? tt("Satın alma yalnızca Android uygulamasında yapılabilir. Elmas yalnızca çerçeve, avatar ve isim gibi görünüm eşyaları alır; oyunda avantaj sağlamaz.")
+                  : tt("Elmas paketleri yakında satışta. Elmas yalnızca çerçeve, avatar ve isim gibi görünüm eşyaları alır; oyunda avantaj sağlamaz.")}</span>
               </p>
               {elmasPaketleriListe.length === 0 ? (
                 <QtBosDurum boyut="k" ikon="elmas" ton="mor" baslik={tt("Şu an satışta elmas paketi yok")} />
