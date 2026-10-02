@@ -119,7 +119,8 @@ export function YolSeridi({ durum, toplam, bpVar, harita, yeniAlinan, yeniAcilan
 
 // ============================================================
 // DİKEY YOL (sahne) — ekranın tek odağı. Bütün "alınabilir / alındı" kararı sunucudan (odul.alinabilir / odul.alindi).
-// Kutu: 64 px; NADİRLİK yalnız çerçeve rengiyle (data-nadirlik → --sy-kenar; yazı/lejant yok).
+// Kutu: 64 px; NADİRLİK yalnız çerçeve rengiyle (data-nadirlik → --sy-kenar; yazı/lejant yok). Zemin ödül TÜRÜNDEN (data-tur):
+// coin altın · elmas mavi · joker yeşil · diğerleri (tepki, unvan, avatar, çerçeve, arka plan, "Yakında") nötr beyaz.
 // Alınabilir: tek vurgu rengi çerçeve + "Al" (tek dokunuş → onAl); alınmış: soluk + "alındı"; kilitli: nötr (dokununca önizleme).
 // Battle Pass kolu (sağ sütun) boydan boya ALTIN ŞERİT üstünde durur (.sy-dikey::before): BP sahibinde parlak (.sy-dikey--bp-var),
 // değilse soluk (.sy-dikey--bp-yok) ve ücretli kutuların sağ üst köşesinde koyu kilit rozeti (.sy-kutu-kilit; bpKilit).
@@ -143,13 +144,14 @@ function Kutu({ odul, durum, bpVar, yeniAlindi, mesgul, onSec, onAl }) {
   const miktar = miktarYazi(odul);
   return (
     <button type="button" className={`sy-kutu sy-kutu--${s}${yeniAlindi ? " sy-kutu--doldu" : ""}`}
-      data-nadirlik={odul.nadirlik ?? "siradan"} data-yuva={anahtar(odul)} disabled={al && mesgul}
+      data-nadirlik={odul.nadirlik ?? "siradan"} data-tur={odul.placeholder ? "yakinda" : odul.tur} data-yuva={anahtar(odul)} disabled={al && mesgul}
       aria-label={`${tt("{n}. seviye", { n: odul.seviye })}, ${kolAdi}: ${odul.placeholder ? tt("Yakında") : odulAdi(odul, durum.dil)}, ${durumYazi}`}
       onClick={() => (al ? onAl(odul) : onSec(odul))}>
       <span className="sy-kutu-cerceve">
         <OdulGorsel odul={odul} boyut={odulCerceveSanati(odul) ? 52 : 38} />
         {miktar && <span className="sy-kutu-miktar" aria-hidden="true">{miktar}</span>}
         {s === "kilitli" && bpKilit && <span className="sy-kutu-kilit" aria-hidden="true"><QtIkon ad="kilit" boyut={12} /></span>}
+        {odul.alindi && <span className="sy-kutu-tik" aria-hidden="true"><QtIkon ad="onay" boyut={12} /></span>}
       </span>
       <span className="sy-kutu-alt" aria-hidden="true">
         {al && <span className="sy-kutu-al">{tt("Al|görev")}</span>}
@@ -168,7 +170,7 @@ function TasmaKutu({ kol, durum, bpVar, onTasma }) {
   const yazi = adim ? tt("Her {n} SP", { n: sayiBicim(adim) }) : tt("Taşma ödülü");
   const kolAdi = kol === "ucretli" ? tt("Battle Pass kolu") : tt("Ücretsiz kol");
   return (
-    <button type="button" className={`sy-kutu sy-kutu--tasma sy-kutu--${alinabilir > 0 ? "alinabilir" : "kilitli"}`} data-nadirlik="siradan" data-yuva={`tasma:${kol}`}
+    <button type="button" className={`sy-kutu sy-kutu--tasma sy-kutu--${alinabilir > 0 ? "alinabilir" : "kilitli"}`} data-nadirlik="siradan" data-tur="coin" data-yuva={`tasma:${kol}`}
       aria-label={`${tt("Taşma ödülü")}, ${kolAdi}: ${yazi}${alinabilir ? `, ${tt("{n} ödül alınabilir", { n: alinabilir })}` : ""}`}
       onClick={() => onTasma(kol)}>
       <span className="sy-kutu-cerceve">

@@ -472,7 +472,8 @@
 
 /* =====================================================================
    SAHNE (1 Eki 2026) — QtSahne içindeki Battle Pass ekranı. Tek odak: dikey iki şeritli yol.
-   Renk: TEK vurgu (--sy-vurgu = turuncu: dolu çizgi, geçilen düğüm, alınabilir çerçeve, "Al", birincil düğme) + nadirlik ÇERÇEVE renkleri.
+   Renk rolleri (2 Eki 2026): turuncu (--sy-vurgu) = eylem (alınabilir çerçeve, "Al") · mavi (--sy-ilerleme) = ben ve ilerleme (SP çubuğu, dolu çizgi, düğümler) ·
+   altın = ödül/prestij (afiş, Battle Pass şeridi ve düğmesi) · yeşil = tamam (alındı tiki) · mor YALNIZ Epik nadirlik çerçevesi. Nadirlik = ÇERÇEVE rengi.
    Zemin düz (sahne.css); sezon teması arka plan çizmez. Nabız yok (ekranda en çok 1 kuralı: 0). Kutu 64 px, dokunma hedefi kutu + alt yazı.
    ===================================================================== */
 .sy-sahne {
@@ -494,6 +495,10 @@
   --sy-serit-zemin-soluk: var(--qt-coin-acik);
   --sy-serit-dis-soluk: var(--qt-coin);
   --sy-serit-ic-soluk: var(--qt-coin-acik);
+  /* Ödül kutusu zemini türe göre: coin altın · elmas mavi · joker yeşil */
+  --sy-tur-coin: var(--qt-coin-acik);
+  --sy-tur-elmas: var(--qt-ikinci-acik);
+  --sy-tur-joker: var(--qt-dogru-acik);
 }
 /* Ara tonlar token karışımıdır; color-mix bilmeyen eski iOS (< 16.2) yukarıdaki düz token yedeğinde kalır */
 @supports (color: color-mix(in srgb, red 50%, blue)) {
@@ -503,6 +508,9 @@
     --sy-serit-zemin-soluk: color-mix(in srgb, var(--qt-coin) 14%, var(--qt-yuzey));
     --sy-serit-dis-soluk: color-mix(in srgb, var(--qt-coin-dudak) 55%, var(--qt-yuzey));
     --sy-serit-ic-soluk: color-mix(in srgb, var(--qt-coin) 45%, var(--qt-yuzey));
+    --sy-tur-coin: color-mix(in srgb, var(--qt-coin) 55%, var(--qt-yuzey));
+    --sy-tur-elmas: color-mix(in srgb, var(--qt-ikinci) 22%, var(--qt-yuzey));
+    --sy-tur-joker: color-mix(in srgb, var(--qt-dogru) 28%, var(--qt-yuzey));
   }
 }
 .sy-sahne p { margin: 0; }
@@ -572,19 +580,20 @@ button.sy-afis { cursor: pointer; -webkit-tap-highlight-color: transparent; touc
 .sy-dugum-hucre::before { content: ""; position: absolute; top: 0; bottom: 0; left: calc(50% - 3px); width: 6px; background: var(--qt-cizgi-guclu); }
 .sy-satir--ilk .sy-dugum-hucre::before { top: 50%; }
 .sy-satir--son .sy-dugum-hucre::before { bottom: 50%; }
-.sy-satir--gecildi .sy-dugum-hucre::before { background: var(--sy-vurgu); }
-.sy-satir--simdi .sy-dugum-hucre::before { background: linear-gradient(to bottom, var(--sy-vurgu) 50%, var(--qt-cizgi-guclu) 50%); }
+.sy-satir--gecildi .sy-dugum-hucre::before { background: var(--sy-ilerleme); }
+.sy-satir--simdi .sy-dugum-hucre::before { background: linear-gradient(to bottom, var(--sy-ilerleme) 50%, var(--qt-cizgi-guclu) 50%); }
 .sy-satir--ilk.sy-satir--simdi .sy-dugum-hucre::before { background: var(--qt-cizgi-guclu); }
 .sy-satir--final.sy-satir--simdi .sy-dugum-hucre::before,
-.sy-satir--tasma.sy-satir--acik .sy-dugum-hucre::before { background: var(--sy-vurgu); }   /* son seviyeye varıldı: çizgi taşma düğümüne kadar dolu */
+.sy-satir--tasma.sy-satir--acik .sy-dugum-hucre::before { background: var(--sy-ilerleme); }   /* son seviyeye varıldı: çizgi taşma düğümüne kadar dolu */
 .sy-dugum {
   position: relative; z-index: 1; display: grid; place-items: center; width: 30px; height: 30px; box-sizing: border-box; border-radius: 50%;
   border: 3px solid var(--qt-cizgi-guclu); background: var(--qt-yuzey); color: var(--qt-metin-soluk);
   font-family: var(--qt-f-baslik); font-weight: var(--qt-a-siyah); font-size: var(--qt-y-s); line-height: 1; font-variant-numeric: tabular-nums;
 }
 .sy-dugum b { font-weight: inherit; }
-.sy-satir--acik .sy-dugum { border-color: var(--sy-vurgu); background: var(--sy-vurgu); color: var(--qt-vurgu-yazi); }
-.sy-satir--simdi .sy-dugum { width: 44px; height: 44px; border-color: var(--qt-yuzey); box-shadow: 0 0 0 3px var(--sy-vurgu); font-size: var(--qt-y-xl); }
+/* Düğümler (renk rolü: mavi = ben ve ilerleme): geçilen mavi dolu · şimdiki BÜYÜK mavi halka (beyaz iç) · gelecek nötr */
+.sy-satir--acik .sy-dugum { border-color: var(--sy-ilerleme); background: var(--sy-ilerleme); color: var(--qt-ikinci-yazi); }
+.sy-satir--simdi .sy-dugum { width: 44px; height: 44px; border: 5px solid var(--sy-ilerleme); background: var(--qt-yuzey); color: var(--qt-ikinci-koyu); box-shadow: 0 0 0 3px var(--qt-yuzey); font-size: var(--qt-y-xl); }
 
 /* Ödül kutusu: 64 px çerçeve (nadirlik = çerçeve rengi) + altında durum satırı ("Al" / "alındı") */
 .sy-kutu {
@@ -616,8 +625,20 @@ button.sy-afis { cursor: pointer; -webkit-tap-highlight-color: transparent; touc
   display: grid; place-items: center; min-width: 44px; height: 18px; padding: 0 var(--qt-b-2); box-sizing: border-box; border-radius: var(--qt-r-hap);
   background: var(--sy-vurgu); color: var(--qt-vurgu-yazi); font-weight: var(--qt-a-siyah);
 }
-/* Alınmış: soluk · alınabilir: tek vurgu rengi çerçeve · kilitli: nötr (kural yok) */
-.sy-kutu--alindi .sy-kutu-cerceve { opacity: 0.45; }
+/* Zemin = ödül türü: coin altın · elmas mavi · joker yeşil; diğerleri nötr beyaz (yukarıdaki varsayılan). Çerçeve rengi nadirlikte kalır. */
+.sy-kutu[data-tur="coin"] .sy-kutu-cerceve { background: var(--sy-tur-coin); }
+.sy-kutu[data-tur="elmas"] .sy-kutu-cerceve { background: var(--sy-tur-elmas); }
+.sy-kutu[data-tur="joker"] .sy-kutu-cerceve { background: var(--sy-tur-joker); }
+/* Efsanevi çerçeve altın şeridin üstünde kaybolmasın: koyu altın */
+.sy-kutu[data-nadirlik="efsanevi"] { --sy-kenar: var(--qt-nadir-efsanevi-koyu); }
+/* Alınmış: soluk (içerik + çerçeve) + köşede yeşil tik · alınabilir: tek vurgu rengi çerçeve · kilitli: nötr (kural yok) */
+.sy-kutu.sy-kutu--alindi .sy-kutu-cerceve { border-color: var(--qt-cizgi-guclu); background: var(--qt-yuzey-2); }
+.sy-kutu--alindi .sy-kutu-cerceve > :not(.sy-kutu-tik) { opacity: 0.45; }
+.sy-kutu-tik {
+  position: absolute; top: -9px; right: -9px; display: grid; place-items: center; width: 24px; height: 24px; box-sizing: border-box; border-radius: 50%;
+  border: 2px solid var(--qt-yuzey); background: var(--qt-dogru); color: var(--qt-dogru-yazi);
+}
+.sy-kutu--alindi .sy-kutu-alindi { color: var(--qt-dogru-koyu); }
 .sy-kutu--alinabilir .sy-kutu-cerceve { border-color: var(--sy-vurgu); background: var(--qt-vurgu-acik); }
 .sy-kutu:disabled { cursor: default; }
 
@@ -636,7 +657,7 @@ button.sy-afis { cursor: pointer; -webkit-tap-highlight-color: transparent; touc
 /* Yeni açılan seviye / alınan ödül (bir kez; hareketi azaltta yok) */
 .sy-satir--acildi .sy-dugum, .sy-satir--parla .sy-dugum { animation: sy-durak-parla 500ms var(--qt-egri-yay) both; }
 .sy-satir--acildi .sy-dugum::after, .sy-satir--parla .sy-dugum::after {
-  content: ""; position: absolute; inset: -3px; border-radius: 50%; border: 4px solid var(--sy-vurgu); pointer-events: none;
+  content: ""; position: absolute; inset: -3px; border-radius: 50%; border: 4px solid var(--sy-ilerleme); pointer-events: none;
   animation: sy-halka 700ms var(--qt-egri-cikis) both;
 }
 .sy-kutu--doldu .sy-kutu-cerceve { animation: sy-doldu 520ms var(--qt-egri-yay) both; }
