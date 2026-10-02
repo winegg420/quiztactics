@@ -1,0 +1,51 @@
+Düello canlı ekran testi — https://quiztactics.vercel.app · A=ArayuzDenetim648 · B=ArayuzDenetim327 · 4 tur · 390×844
+· duello_acilis_mac_esigi mevcut canlı değer: 5
+· A = ArayuzDenetim648 oturumu açık (+4.3 sn)
+· B = ArayuzDenetim327 oturumu açık (+5.9 sn)
+· duello_acilis_mac_esigi = 0 yazıldı ve doğrulandı (+7.1 sn)
+· arama başlığı "Rakip aranıyor…": yazı rgb(29, 33, 82) · zemin linear-gradient(rgb(116, 193, 255) 0%, rgb(223, 240, 255) 78%, rgb(238, 248, 255) 100%)
+  ✓ +9.7s duello-01-arama.jpg — Arama ekranı: "Rakip aranıyor…" (yazı rgb(29, 33, 82)) [A]
+  ✓ +10.4s duello-02-eslesme.jpg — Eşleşme: "Rakip bulundu!" (VS anı) [B]
+· düello f93ac9e5-d99b-4b05-a4ce-d49db44b1527 — gerçek eşleşme (+13.0 sn)
+  ✓ +13.1s duello-03-ban-sirasi-sende.jpg — Ban: savunana "BAN SIRASI SENDE" damgası (tur 1) [B]
+  ✓ +13.4s duello-04-ban-geri-sayim.jpg — Ban: savunanın durum satırı + geri sayım (7 sn, tur 1) [B]
+  ✓ +14.2s duello-05-rakip-banladi.jpg — Ban: saldırana "RAKİP BANLADI" açıklaması (tur 1) [A]
+  ✓ +16.3s duello-06-ban-sonrasi-saldiri.jpg — Ban sonrası saldırı: saldıran kategori seçiyor (banlı kart: 1, tur 1) [A]
+  ✓ +33.0s duello-07-soru-cerceve-mavi.jpg — Soru ekranı: mavi çerçeve, etiket "Boş kategori · fırsat" (tur 1) [B]
+  ✓ +34.7s duello-08-tur-sonucu.jpg — Tur sonucu (tur 1): "Rakip Müzik'i aldı Sen: yanlış · Rakip: doğru" [B]
+  · +66.3s tur 3: A saldırdı (bos)
+  · +76.4s tur 4: B saldırdı (rakip)
+  ✓ +78.0s duello-07-soru-cerceve-kirmizi.jpg — Soru ekranı: kirmizi çerçeve, etiket "Kategorin tehlikede" (tur 4) [A]
+  ✓ +85.8s duello-09-yuva-paneli.jpg — 5 yuva paneli, 4 tur sonra: Sen 1/5 · Rakip 2/5 [A]
+· A düellodan çıktı (+87.4 sn)
+· AYAR GERİ ALINDI ve doğrulandı: duello_acilis_mac_esigi = 5 (test bitti, +99.4 sn)
+  ✗ KIRILAN: yanlış yuva (B ekranı): ekranda 1-2, veritabanında 2-1
+
+=== SONUÇ ===
+ayar duello_acilis_mac_esigi: önceki 5 → test 0 → geri alınan 5
+maç: f93ac9e5-d99b-4b05-a4ce-d49db44b1527 · tur sonuçları 4/4 · ban görüldü 43 / yapıldı 4 / kullanılmadı 0 · saldırı 2 · cevap 8 · son durum bitti (terk)
+   tur 1 (+34.6s): "Rakip Müzik'i aldı Sen: yanlış · Rakip: doğru" — Sen 0/5 · Rakip 1/5
+   tur 2 (+59.3s): "Coğrafya artık senin! Sen: doğru · Rakip: yanlış" — Sen 1/5 · Rakip 1/5
+   tur 3 (+69.6s): "Rakip Bilim'i aldı Sen: yanlış · Rakip: doğru" — Sen 1/5 · Rakip 2/5
+   tur 4 (+85.6s): "Rakip Müzik'i elinden aldı Sen: yanlış · Rakip: doğru" — Sen 1/5 · Rakip 2/5
+çerçeve/etiket: mavi "Boş kategori · fırsat" (3 kelime) · mavi "Rakibin kategorisi" (2 kelime) · kirmizi "Kategorin tehlikede" (2 kelime)
+süreler (sunucu): {"ban":7,"cevap":15,"kopuk":25,"nabiz":10,"sonuc":3,"ek_sure":5,"kategori":15,"gosterim_bas":"2026-10-02T18:22:36.773636+00:00","gosterim_payi_ms":1500,"zaman_baskisi_eksi":5} · başlangıç sayaçları A {"tur1-ban":7,"tur1-kategori":15,"tur1-cevap":15,"tur2-ban":7,"tur2-kategori":15,"tur2-cevap":15,"tur3-ban":7,"tur3-kategori":15,"tur3-cevap":15,"tur4-ban":7,"tur4-kategori":15,"tur4-cevap":15,"tur5-ban":5} · B {"tur1-ban":7,"tur1-kategori":15,"tur1-cevap":15,"tur2-ban":7,"tur2-kategori":15,"tur2-cevap":15,"tur3-ban":7,"tur3-kategori":15,"tur3-cevap":14,"tur4-ban":7,"tur4-kategori":15,"tur4-cevap":15,"tur5-ban":3}
+yuva: {"db":{"A":1,"B":2},"ekranA":{"ben":1,"rakip":2},"ekranB":{"ben":1,"rakip":2},"yuvaSayisi":[5,5,5,5],"esik":5}
+istek: toplam 822 (Supabase 289, bunun 0 adedi Realtime bağlantısı) · engellenen ses 49 · test betiğinin DB sorgusu 15 · süre 99.4 sn
+hata yanıtı: yok · ağ hatası 0
+konsol A: hata 0 · uyarı 0
+konsol B: hata 0 · uyarı 0
+görüntü: duello-01-arama.jpg 17 KB · duello-02-eslesme.jpg 77 KB · duello-03-ban-sirasi-sende.jpg 94 KB · duello-04-ban-geri-sayim.jpg 95 KB · duello-05-rakip-banladi.jpg 83 KB · duello-06-ban-sonrasi-saldiri.jpg 83 KB · duello-07-soru-cerceve-mavi.jpg 78 KB · duello-08-tur-sonucu.jpg 61 KB · duello-07-soru-cerceve-kirmizi.jpg 81 KB · duello-09-yuva-paneli.jpg 13 KB
+yakalanamayan: soru çerçevesi gri
+kırılanlar: 
+   ✗ yanlış yuva (B ekranı): ekranda 1-2, veritabanında 2-1
+  ✓ gerçek eşleşme (iki hesap aynı düelloda)
+  ✓ ban fazı görüldü ve ban yapıldı
+  ✓ ban sonrası saldırı yapıldı
+  ✓ ilk 4 turun sonucu görüldü
+  ✓ 5 yuva paneli: iki tarafta 5'er yuva
+  ✗ kırılan bir şey yok (takılma / boş ekran / yanlış yuva / süre sapması)
+  ✓ sayfa hatası (pageerror) yok
+  ✓ dur kuralı tetiklenmedi
+  ✓ ayar eski değerine döndü
+KABUL: GEÇMEDİ

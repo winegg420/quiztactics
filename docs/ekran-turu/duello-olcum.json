@@ -1,0 +1,389 @@
+{
+ "adres": "https://quiztactics.vercel.app",
+ "tarih": "2026-10-02T18:22:23.718Z",
+ "hesaplar": {
+  "A": "ArayuzDenetim648",
+  "B": "ArayuzDenetim327"
+ },
+ "ayar": {
+  "anahtar": "duello_acilis_mac_esigi",
+  "onceki": "5",
+  "test": "0",
+  "geriAlinan": "5",
+  "geriAlindi": true
+ },
+ "goruntuler": [
+  {
+   "dosya": "duello-01-arama.jpg",
+   "baslik": "Arama ekranı: \"Rakip aranıyor…\" (yazı rgb(29, 33, 82))",
+   "oyuncu": "A",
+   "sn": "9.7",
+   "kb": 17
+  },
+  {
+   "dosya": "duello-02-eslesme.jpg",
+   "baslik": "Eşleşme: \"Rakip bulundu!\" (VS anı)",
+   "oyuncu": "B",
+   "sn": "10.4",
+   "kb": 77
+  },
+  {
+   "dosya": "duello-03-ban-sirasi-sende.jpg",
+   "baslik": "Ban: savunana \"BAN SIRASI SENDE\" damgası (tur 1)",
+   "oyuncu": "B",
+   "sn": "13.1",
+   "kb": 94
+  },
+  {
+   "dosya": "duello-04-ban-geri-sayim.jpg",
+   "baslik": "Ban: savunanın durum satırı + geri sayım (7 sn, tur 1)",
+   "oyuncu": "B",
+   "sn": "13.4",
+   "sayac": "7",
+   "kb": 95
+  },
+  {
+   "dosya": "duello-05-rakip-banladi.jpg",
+   "baslik": "Ban: saldırana \"RAKİP BANLADI\" açıklaması (tur 1)",
+   "oyuncu": "A",
+   "sn": "14.2",
+   "kb": 83
+  },
+  {
+   "dosya": "duello-06-ban-sonrasi-saldiri.jpg",
+   "baslik": "Ban sonrası saldırı: saldıran kategori seçiyor (banlı kart: 1, tur 1)",
+   "oyuncu": "A",
+   "sn": "16.3",
+   "banliKart": 1,
+   "kb": 83
+  },
+  {
+   "dosya": "duello-07-soru-cerceve-mavi.jpg",
+   "baslik": "Soru ekranı: mavi çerçeve, etiket \"Boş kategori · fırsat\" (tur 1)",
+   "oyuncu": "B",
+   "sn": "33.0",
+   "ton": "firsat",
+   "etiket": "Boş kategori · fırsat",
+   "kb": 78
+  },
+  {
+   "dosya": "duello-08-tur-sonucu.jpg",
+   "baslik": "Tur sonucu (tur 1): \"Rakip Müzik'i aldı Sen: yanlış · Rakip: doğru\"",
+   "oyuncu": "B",
+   "sn": "34.7",
+   "kb": 61
+  },
+  {
+   "dosya": "duello-07-soru-cerceve-kirmizi.jpg",
+   "baslik": "Soru ekranı: kirmizi çerçeve, etiket \"Kategorin tehlikede\" (tur 4)",
+   "oyuncu": "A",
+   "sn": "78.0",
+   "ton": "tehlike",
+   "etiket": "Kategorin tehlikede",
+   "kb": 81
+  },
+  {
+   "dosya": "duello-09-yuva-paneli.jpg",
+   "baslik": "5 yuva paneli, 4 tur sonra: Sen 1/5 · Rakip 2/5",
+   "oyuncu": "A",
+   "sn": "85.8",
+   "kb": 13
+  }
+ ],
+ "yakalanamayan": [
+  "soru çerçevesi gri"
+ ],
+ "kirilanlar": [
+  "yanlış yuva (B ekranı): ekranda 1-2, veritabanında 2-1"
+ ],
+ "notlar": [],
+ "arama": {
+  "baslik": "Rakip aranıyor…",
+  "renk": "rgb(29, 33, 82)",
+  "zemin": "linear-gradient(rgb(116, 193, 255) 0%, rgb(223, 240, 255) 78%, rgb(238, 248, 255) 100%)",
+  "kokSinif": "",
+  "kokZemin": "linear-gradient(rgb(116, 193, 255) 0%, rgb(223, 240, 255) 78%, rgb(238, 248, 255) 100%)",
+  "diger": [
+   {
+    "metin": "İptal",
+    "sinif": "",
+    "renk": "rgb(29, 33, 82)",
+    "zemin": "rgb(255, 255, 255)"
+   }
+  ]
+ },
+ "macId": "f93ac9e5-d99b-4b05-a4ce-d49db44b1527",
+ "yuvaEkran": {
+  "A": [
+   {
+    "taraf": "ben",
+    "yuva": 5,
+    "dolu": 1,
+    "say": "Sen 1/5"
+   },
+   {
+    "taraf": "rakip",
+    "yuva": 5,
+    "dolu": 2,
+    "say": "Rakip 2/5"
+   }
+  ],
+  "B": [
+   {
+    "taraf": "ben",
+    "yuva": 5,
+    "dolu": 1,
+    "say": "1/5"
+   },
+   {
+    "taraf": "rakip",
+    "yuva": 5,
+    "dolu": 2,
+    "say": "2/5"
+   }
+  ]
+ },
+ "macOncesiCikis": {
+  "durum": "aktif",
+  "tur": "4",
+  "faz": "sonuc",
+  "yuva1": "1",
+  "yuva2": "2",
+  "oyuncu1": "1c3dd12f-c96a-43f6-8713-85367cc76eb5",
+  "sahiplik": "{\"bilim\": \"1c3dd12f-c96a-43f6-8713-85367cc76eb5\", \"muzik\": \"dd752452-23d2-430d-ae27-224983daec14\", \"cografya\": \"dd752452-23d2-430d-ae27-224983daec14\"}",
+  "kilitler": "{\"bilim\": 5, \"muzik\": 6, \"cografya\": 4}"
+ },
+ "cikan": "A",
+ "macSon": {
+  "durum": "bitti",
+  "tur": "5",
+  "faz": "ban",
+  "yuva1": "1",
+  "yuva2": "2",
+  "terk_eden": "1c3dd12f-c96a-43f6-8713-85367cc76eb5",
+  "kazanan": "dd752452-23d2-430d-ae27-224983daec14"
+ },
+ "A": {
+  "yenidenBaslama": [],
+  "sifirdaKalma": [],
+  "enUzunSifirMs": 1886,
+  "ilkSayac": {
+   "tur1-ban": 7,
+   "tur1-kategori": 15,
+   "tur1-cevap": 15,
+   "tur2-ban": 7,
+   "tur2-kategori": 15,
+   "tur2-cevap": 15,
+   "tur3-ban": 7,
+   "tur3-kategori": 15,
+   "tur3-cevap": 15,
+   "tur4-ban": 7,
+   "tur4-kategori": 15,
+   "tur4-cevap": 15,
+   "tur5-ban": 5
+  }
+ },
+ "B": {
+  "yenidenBaslama": [],
+  "sifirdaKalma": [],
+  "enUzunSifirMs": 1572,
+  "ilkSayac": {
+   "tur1-ban": 7,
+   "tur1-kategori": 15,
+   "tur1-cevap": 15,
+   "tur2-ban": 7,
+   "tur2-kategori": 15,
+   "tur2-cevap": 15,
+   "tur3-ban": 7,
+   "tur3-kategori": 15,
+   "tur3-cevap": 14,
+   "tur4-ban": 7,
+   "tur4-kategori": 15,
+   "tur4-cevap": 15,
+   "tur5-ban": 3
+  }
+ },
+ "olay": {
+  "banGoruldu": 43,
+  "banYapildi": 4,
+  "banKullanilmadi": 0,
+  "saldiri": 2,
+  "cevap": 8,
+  "tonlar": {
+   "firsat": 7,
+   "tehlike": 1
+  },
+  "etiketler": {
+   "Boş kategori · fırsat": {
+    "ton": "mavi",
+    "kelime": 3
+   },
+   "Rakibin kategorisi": {
+    "ton": "mavi",
+    "kelime": 2
+   },
+   "Kategorin tehlikede": {
+    "ton": "kirmizi",
+    "kelime": 2
+   }
+  },
+  "sonuclar": [
+   {
+    "tur": 1,
+    "mesaj": "Rakip Müzik'i aldı Sen: yanlış · Rakip: doğru",
+    "yuvalar": "Sen 0/5 · Rakip 1/5",
+    "sn": "34.6"
+   },
+   {
+    "tur": 2,
+    "mesaj": "Coğrafya artık senin! Sen: doğru · Rakip: yanlış",
+    "yuvalar": "Sen 1/5 · Rakip 1/5",
+    "sn": "59.3"
+   },
+   {
+    "tur": 3,
+    "mesaj": "Rakip Bilim'i aldı Sen: yanlış · Rakip: doğru",
+    "yuvalar": "Sen 1/5 · Rakip 2/5",
+    "sn": "69.6"
+   },
+   {
+    "tur": 4,
+    "mesaj": "Rakip Müzik'i elinden aldı Sen: yanlış · Rakip: doğru",
+    "yuvalar": "Sen 1/5 · Rakip 2/5",
+    "sn": "85.6"
+   }
+  ],
+  "sureler": {
+   "ban": 7,
+   "cevap": 15,
+   "kopuk": 25,
+   "nabiz": 10,
+   "sonuc": 3,
+   "ek_sure": 5,
+   "kategori": 15,
+   "gosterim_bas": "2026-10-02T18:22:36.773636+00:00",
+   "gosterim_payi_ms": 1500,
+   "zaman_baskisi_eksi": 5
+  }
+ },
+ "istek": {
+  "toplam": 822,
+  "supabase": 289,
+  "sesEngel": 49,
+  "ws": 0,
+  "hataDurum": {},
+  "yollar": {
+   "/auth/v1/token": 2,
+   "/rest/v1/rpc/ses_secimleri_oyun": 4,
+   "/rest/v1/rpc/profilim": 7,
+   "/rest/v1/oyun_ayarlari": 4,
+   "/rest/v1/rpc/coin_bakiyem": 6,
+   "/rest/v1/rpc/lig_grubum_ozet": 2,
+   "/rest/v1/tournaments": 4,
+   "/rest/v1/matches": 6,
+   "/rest/v1/rpc/cihaz_bildir": 4,
+   "/rest/v1/rpc/bekleyen_sayim": 4,
+   "/rest/v1/rpc/kalp_at": 24,
+   "/rest/v1/rpc/dm_okunmamis_sayim": 4,
+   "/rest/v1/bildirimler": 5,
+   "/rest/v1/rpc/sezon_ozetim": 4,
+   "/rest/v1/rpc/bekleyen_davetlerim": 4,
+   "/rest/v1/rpc/rozet_bildirimlerim": 4,
+   "/rest/v1/rpc/avatar_nadirlik_renkleri": 4,
+   "/rest/v1/rpc/seri_durumum": 2,
+   "/rest/v1/rpc/gorevlerim": 2,
+   "/rest/v1/tournament_players": 2,
+   "/rest/v1/rpc/duello_aktif_benim": 2,
+   "/rest/v1/rpc/oyuncu_kartlari": 7,
+   "/rest/v1/rpc/gonderdigim_davetler": 2,
+   "/rest/v1/rpc/yanlis_bankam": 2,
+   "/rest/v1/rpc/sezon_yolu_durumum": 2,
+   "/rest/v1/group_matches": 2,
+   "/rest/v1/duello_davetleri": 2,
+   "/rest/v1/rpc/duello_acilis_benim": 2,
+   "/rest/v1/rpc/skill_dukkani": 2,
+   "/rest/v1/rpc/skill_setim": 2,
+   "/rest/v1/profiles": 4,
+   "/rest/v1/rpc/duello_ara": 3,
+   "/rest/v1/rpc/avatar_kilitli_urller": 2,
+   "/rest/v1/rpc/duello_durum": 108,
+   "/rest/v1/rpc/duello_giris": 2,
+   "/rest/v1/rpc/duello_baglanti": 29,
+   "/rest/v1/rpc/tepki_durumu": 2,
+   "/rest/v1/rpc/duello_ban_sec": 4,
+   "/rest/v1/rpc/duello_cevap": 8,
+   "/rest/v1/rpc/duello_kategori_sec": 2,
+   "/rest/v1/rpc/duello_terk": 1,
+   "/rest/v1/rpc/mac_sonu_ozet": 1
+  },
+  "hatalar": [],
+  "agHatasi": [],
+  "dbSorgu": 15
+ },
+ "konsol": {
+  "A": [],
+  "B": []
+ },
+ "durduran": null,
+ "sureSn": 99.4,
+ "yuvaKarsilastirma": {
+  "db": {
+   "A": 1,
+   "B": 2
+  },
+  "ekranA": {
+   "ben": 1,
+   "rakip": 2
+  },
+  "ekranB": {
+   "ben": 1,
+   "rakip": 2
+  },
+  "yuvaSayisi": [
+   5,
+   5,
+   5,
+   5
+  ],
+  "esik": 5
+ },
+ "kosullar": [
+  {
+   "ad": "gerçek eşleşme (iki hesap aynı düelloda)",
+   "gecti": true
+  },
+  {
+   "ad": "ban fazı görüldü ve ban yapıldı",
+   "gecti": true
+  },
+  {
+   "ad": "ban sonrası saldırı yapıldı",
+   "gecti": true
+  },
+  {
+   "ad": "ilk 4 turun sonucu görüldü",
+   "gecti": true
+  },
+  {
+   "ad": "5 yuva paneli: iki tarafta 5'er yuva",
+   "gecti": true
+  },
+  {
+   "ad": "kırılan bir şey yok (takılma / boş ekran / yanlış yuva / süre sapması)",
+   "gecti": false
+  },
+  {
+   "ad": "sayfa hatası (pageerror) yok",
+   "gecti": true
+  },
+  {
+   "ad": "dur kuralı tetiklenmedi",
+   "gecti": true
+  },
+  {
+   "ad": "ayar eski değerine döndü",
+   "gecti": true
+  }
+ ],
+ "gecti": false
+}
