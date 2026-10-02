@@ -448,12 +448,15 @@
   .qt-dk-kural-oge > svg { width: 18px; height: 18px; }
   .qt-dk-kural-oge > span { display: flex; align-items: baseline; gap: 4px; overflow: hidden; white-space: nowrap; }
   .qt-dk-kural-oge small { overflow: hidden; text-overflow: ellipsis; }
+  /* açık sekmenin para birimi geniş + tam yazı; diğeri ikon + ad (yazı kesilmez) */
+  .qt-dk-kural { grid-template-columns: 1.7fr 1fr; }
+  .qt-dk-kural:has(.qt-dk-kural-oge--elmas.qt-dk-kural-oge--acik) { grid-template-columns: 1fr 1.7fr; }
+  .qt-dk-kural-oge:not(.qt-dk-kural-oge--acik) small { display: none; }
   .qt-dk-modsec { border-width: 2px; border-radius: 14px; box-shadow: 0 3px 0 var(--oyk-kontur); }
   .qt-dk-modsec-dugme { min-height: 38px; font-size: var(--qt-y-s); }
   .qt-dk-panel { gap: var(--qt-b-3); }
   .qt-dk-bolum { gap: var(--qt-b-2); }
   .qt-dk-bolum-ust { gap: 0; }
-  .qt-dk-bolum-ust p { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .qt-oyk.qt-dk-skill { padding: var(--qt-b-2) var(--qt-b-2) var(--qt-b-2) calc(var(--qt-b-2) + 6px); gap: var(--qt-b-2); }
   .qt-dk-skill-metin { gap: 2px; }
   .qt-dk-skill-metin p { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1; line-clamp: 1; overflow: hidden; }
