@@ -38,14 +38,16 @@ import { ayar, useAyar } from "../lib/ayarlar.js";
 import AramaSahnesi, { ARAMA_GECIS_MS } from "../components/AramaSahnesi.jsx";
 import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesJoker, sesDokunus, sesRakipBulundu,
   sesOnYukle, sesKategoriGeriSayim, sesSoruGeldi, sesTurGecis, sesSkill,
-  sesKategoriSecildi, sesRakipCevapladi } from "../lib/ses.js";
+  sesKategoriSecildi, sesRakipCevapladi, sesHataUyari } from "../lib/ses.js";
 import { titret } from "../lib/geriBildirim.js";
 import { useOyunModu } from "../lib/oyunModu.js";
 import SkillSeti from "../components/SkillSeti.jsx";
 // Maç ekranı parçaları (Tasarım A).
 import { V2Ust, V2Kategori, V2SecimCubugu, V2Cevap, V2Sonuc, V2Skill, V2Gecmis } from "../components/DuelloV2.jsx";
 // 680 · Hâkimiyet tahtası: yuvalar, mesaj satırı, maç sonu tahtası (kartlar/alt çubuk DuelloV2 üzerinden).
-import { hkModel, HkYuvalar, HkMesaj, hkMesaj, HkSonTahta, V2BanCubugu, V2BanUyari } from "../components/DuelloTahta.jsx";
+import { hkModel, HkYuvalar, HkMesaj, hkMesaj, HkSonTahta, V2BanCubugu } from "../components/DuelloTahta.jsx";
+// Savunma banının "an"ları (yalnız sunum): durum satırı, giriş damgası, ban açıklaması, kırmızı → mavi geçiş.
+import { BanKonsol, BanGirisAni, BanAciklama, banIpucuGoster } from "../components/DuelloBanAni.jsx";
 // Tasarım A görünümü (m2- önekli). Eski duello-v2.css artık yüklenmez (dosya Faz 4'e kadar durur).
 import "./DuelloPage.a.css";
 import "../styles/duello-tahta.css";
@@ -457,6 +459,11 @@ function DuelloMac({ id }) {
   // saldıranın canlı dokunuşu (yalnız istemcide; DB'ye yazılmaz) ve el değiştirince sıçrayacak kartlar.
   const [katSecim, setKatSecim] = useState(null);
   const [banSecilen, setBanSecilen] = useState(null);   // ban fazında az önce banladığım kategori (bant nötrleşir)
+  const [banBasilan, setBanBasilan] = useState(null);   // ban fazında dokunduğum kart (sunucu yanıtı gelene dek dolu kırmızı)
+  const [banUyari, setBanUyari] = useState(null);       // saldıran banlı karta dokundu: alt çubukta "Rakip bunu banladı" (zaman damgası)
+  const banSayimRef = useRef(null);                     // ban geri sayımı: son çalınan saniye
+  const banTazeRef = useRef({ anahtar: null, taze: false });   // bu kategori fazı ban fazından AZ ÖNCE mi çıktı (açıklama oynar)
+  const banIpucuRef = useRef({ anahtar: null, goster: false });
   const [dokunus, setDokunus] = useState(null);      // { kategori, tur } — rakibin (saldıranın) dokunduğu kart
   const dokunusAlRef = useRef(null);
   const dokunusGonderRef = useRef({ zaman: 0, bekleyen: null, kategori: null });
@@ -723,7 +730,7 @@ function DuelloMac({ id }) {
 
   // Faz değişince yerel seçim sıfırlanır
   const fazAnahtari = d ? `${d.tur}-${d.saldiri_sirasi}-${d.faz}-${d.soru?.soru ?? ""}` : "";
-  useEffect(() => { setSecim(null); setIkinciSansElendi([]); setHata(null); setBanSecilen(null); }, [fazAnahtari]);
+  useEffect(() => { setSecim(null); setIkinciSansElendi([]); setHata(null); setBanSecilen(null); setBanBasilan(null); setBanUyari(null); }, [fazAnahtari]);
 
   // ---------------- 680 · Hâkimiyet: canlı dokunuş, kart sıçraması ----------------
   const benSaldiranH = d ? d.saldiran === d.ben : false;
@@ -936,6 +943,18 @@ function DuelloMac({ id }) {
     sesKategoriGeriSayim(kategoriSn);
   }, [kategoriSn, fazAnahtari]);
 
+  // Ban fazı geri sayımı: son 3 sn "bong" (iki tarafa); savunan henüz banlamadıysa son 2 sn'de titreşim de.
+  const banSn = v2Aktif && d.faz === "ban" ? Math.ceil(gosterSn) : 0;
+  const banBekliyorum = v2Aktif && d.faz === "ban" && d.saldiran !== d.ben && !banSecilen && !banBasilan;
+  useEffect(() => {
+    if (banSn <= 0 || banSn > 3) return;
+    const anahtar = `${fazAnahtari}:${banSn}`;
+    if (banSayimRef.current === anahtar) return;
+    banSayimRef.current = anahtar;
+    sesKategoriGeriSayim(banSn);
+    if (banBekliyorum && banSn <= 2) titret(banSn === 1 ? [20, 40, 20] : 20);
+  }, [banSn, fazAnahtari, banBekliyorum]);
+
   // Tur geçişi ve yeni soru: geçiş sesi animasyonun başladığı karede; soru sesi
   // kart göründüğü karede. Sonuç → doğrudan yeni soru (uzatma) ise ikisi arası 300 ms.
   const soruMetni = d?.soru?.soru ?? null;
@@ -1095,6 +1114,7 @@ function DuelloMac({ id }) {
   const banSec = async (k) => {
     sesDokunus(); titret(8);
     setHata(null);
+    setBanBasilan(k);   // anında geri bildirim: kart dolu kırmızı, durum satırı "Banladın: X"
     setCalisan("ban");
     try {
       const { error } = await supabase.rpc("duello_ban_sec", { p_id: id, p_kategori: k });
@@ -1102,6 +1122,7 @@ function DuelloMac({ id }) {
       setBanSecilen(k);
       await yukle();
     } catch (e) {
+      setBanBasilan(null);
       if (/ban sırası sende değil/i.test(e?.message ?? "")) yukle().catch(() => {});
       else setHata(ceviri(hataMesaji(e)));
     } finally {
@@ -1301,7 +1322,11 @@ function DuelloMac({ id }) {
     : d.faz === "ban" ? Number(d.sureler?.ban ?? d.ban?.sure ?? 5)
     : Math.max(Number(d.sureler?.cevap ?? 15), Math.ceil(kalanSn));
   const sonUc = d.faz === "kategori" && gosterSn > 0 && gosterSn <= 3;   // kategori: son 3 sn vurgusu (renk + ses)
-  const gerilim = (d.faz === "cevap" && !kilitli && gosterSn > 0 && gosterSn <= 5) || sonUc;
+  // Savunma banı: savunan henüz banlamadıysa son 2 sn gerilim (kırmızı kenar nabzı + çerçeve nabzı).
+  const banFazi = d.faz === "ban";
+  const banBekleyen = banSecilen ?? banBasilan;
+  const banSon = banFazi && !benSaldiran && !banBekleyen && gosterSn > 0 && gosterSn <= 2;
+  const gerilim = (d.faz === "cevap" && !kilitli && gosterSn > 0 && gosterSn <= 5) || sonUc || banSon;
   const ekBalon = skillEfekt?.tur === "sure"
     ? { anahtar: `s${skillEfekt.deger}${fazAnahtari}`, metin: `+${skillEfekt.deger}` }
     : skillEfekt?.tur === "zaman_baskisi"
@@ -1315,6 +1340,19 @@ function DuelloMac({ id }) {
     ? <QtSayac kalan={gosterSn} toplam={toplamSn} esik={d.faz === "ban" ? 2 : 5} boyut="k" durdu={kilitli || kopukDonukSn != null} ekBalon={ekBalon} className="hk-sayac" />
     : <span className="hk-sayac hk-sayac--sonuc" aria-hidden="true">·</span>;
   const sureOrani = sayacGosterilir ? (kopukDonukSn ?? kalanGoster) / Math.max(1, toplamSn) : 0;
+  // Ban → kategori: açıklama yalnız faz TAZE iken oynar (sayaç hâlâ tam sürede = sunucunun gösterim payı içinde;
+  // 880: duello_ban_gosterim_ms açıklama süresini kategori fazına ekler). Sayfa faz ortasında açılırsa oynamaz.
+  if (d.faz === "kategori" && banTazeRef.current.anahtar !== fazAnahtari) {
+    banTazeRef.current = { anahtar: fazAnahtari, taze: Boolean(d.ban?.acik && !d.uzatma && kalanSn >= toplamSn - 0.4) };
+  }
+  const banTaze = d.faz === "kategori" && banTazeRef.current.anahtar === fazAnahtari && banTazeRef.current.taze;
+  // İlk 3 Düello'da, maçın ilk savunma banında tek seferlik ipucu (alt çubukta).
+  if (banFazi && !benSaldiran && banIpucuRef.current.anahtar !== fazAnahtari) {
+    banIpucuRef.current = { anahtar: fazAnahtari, goster: banIpucuGoster(d.id, d.tur) };
+  }
+  const banIpucu = banFazi && !benSaldiran && banIpucuRef.current.anahtar === fazAnahtari && banIpucuRef.current.goster;
+  const banUyariAcik = Boolean(banUyari && simdi - banUyari < 1800);
+  const banliyaDokun = () => { sesHataUyari(); titret(45); setBanUyari(Date.now()); };
   // 760: kopukluk bandı önce durum okumasındaki `kopuk`tan (her okumada, sunucunun dondurduğu an ve bekleme bitişi),
   // yoksa 5 sn'lik duello_baglanti'dan. Kalan süre sunucu saatine göre.
   const kopukBant = d.kopuk
@@ -1335,7 +1373,7 @@ function DuelloMac({ id }) {
     // 853: aynı kart ızgarası; savunan dokununca banlar, saldıran bekler.
     sahne2 = (
       <V2Kategori d={d} hk={hk} benSaldiran={benSaldiran} ben={ben} rakip={rakip} calisan={calisan} c={c2}
-                  secim={banSecilen} dokunus={null} onKart={banSec} />
+                  secim={banSecilen} dokunus={null} onKart={banSec} banBasilan={banBasilan} />
     );
   } else if (d.faz === "cevap") {
     sahne2 = (
@@ -1350,9 +1388,6 @@ function DuelloMac({ id }) {
     <div className={sinif("m2-mac hk-mac", `hk-mac--${d.faz}`, gerilim && "qt-h-gerilim", d.uzatma && "m2-mac--altin")}>
       <MacUstSerit onCik={() => setTerkOnay(true)} cikisEtiketi={ceviri("Düellodan çık")}
                    rozet={ceviri("Düello · Taktik Maçı")} />
-      {d.faz === "ban" && !benSaldiran && (
-        <V2BanUyari sn={kopukDonukSn ?? gosterSn} oran={sureOrani} banli={banSecilen} c={c2} />
-      )}
       <V2Ust d={d} ben={ben} rakip={rakip} c={c2} seviyeler={seviyeler} tepkiBalonlar={tepki.balonlar}
              sayac={sayacNode} oran={sureOrani} son={gerilim}
              onay={d.faz === "cevap" ? { [ben.id]: kilitli, [rakip.id]: Boolean(d.cevap?.rakip_cevapladi) } : {}} />
@@ -1375,11 +1410,25 @@ function DuelloMac({ id }) {
       {/* Cevap fazında tahta küçülür (yalnız yuva şeridi): soru + 4 şık + joker şeridi kaydırmasız sığsın */}
       <HkYuvalar d={d} hk={hk} c={c2} kucuk={d.faz === "cevap"} />
       {/* 542: maç içi tepki (yalnız tepki_acik_modlar'daki modda; ilk açılış Antrenman) — mesaj satırının sağında */}
-      <HkMesaj mesaj={mesaj}>
-        <TepkiCubugu tepki={tepki} className="hk-tepki" />
-      </HkMesaj>
-      <div className="m2-sahne hk-sahne" key={`${d.faz}-${d.tur}-${d.saldiri_sirasi}-${d.uzatma}`}>
-        {turGecis && simdi - turGecis < 900 && (
+      {/* Ban fazında mesaj satırının yerini ban durum satırı alır (aynı yuva, aynı yükseklik). */}
+      {banFazi ? (
+        <BanKonsol benSaldiran={benSaldiran} sn={kopukDonukSn ?? gosterSn} oran={sureOrani} bekleyen={banBekleyen} c={c2}>
+          <TepkiCubugu tepki={tepki} className="hk-tepki" />
+        </BanKonsol>
+      ) : (
+        <HkMesaj mesaj={mesaj}>
+          <TepkiCubugu tepki={tepki} className="hk-tepki" />
+        </HkMesaj>
+      )}
+      <div className={sinif("m2-sahne hk-sahne",
+                            banFazi && "hk-sahne--ban", banFazi && (benSaldiran ? "hk-sahne--ban-bekle" : "hk-sahne--ban-sec"),
+                            banSon && "hk-sahne--ban-son")}
+           key={`${d.faz}-${d.tur}-${d.saldiri_sirasi}-${d.uzatma}`}>
+        {/* Savunanın ban girişinde tur bandı çıkmaz: giriş damgası tur numarasını da taşır (iki katman üst üste binmesin). */}
+        {banFazi && !benSaldiran && kopukDonukSn == null && (
+          <BanGirisAni anahtar={`${d.id}:${fazAnahtari}`} tur={d.tur} maxTur={d.max_tur} c={c2} />
+        )}
+        {turGecis && simdi - turGecis < 900 && !(banFazi && !benSaldiran) && (
           <span key={turGecis} className="m2-gecis" aria-hidden="true">
             <span>{d.uzatma ? c2("ALTIN SORU") : c2("Tur {n}/{t}", { n: d.tur, t: d.max_tur })}</span>
           </span>
@@ -1395,7 +1444,7 @@ function DuelloMac({ id }) {
         <V2SecimCubugu d={d} hk={hk} benSaldiran={benSaldiran} secim={katSecim} calisan={calisan} c={c2}
                        onOnayla={kategoriSec} />
       )}
-      {d.faz === "ban" && <V2BanCubugu benSaldiran={benSaldiran} c={c2} />}
+      {banFazi && <V2BanCubugu benSaldiran={benSaldiran} c={c2} ipucu={banIpucu} />}
       {satinAlPenceresi}
       <QtModal acik={terkOnay} onKapat={() => setTerkOnay(false)} baslik={ceviri("Düellodan çık")}
                aciklama={ceviri("Düellodan çıkarsan hükmen kaybedersin. Emin misin?")}

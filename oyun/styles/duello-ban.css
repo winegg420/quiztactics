@@ -1,0 +1,198 @@
+/* ============================================================
+   DÜELLO — SAVUNMA BANI "AN"LARI (DuelloBanAni.jsx + DuelloTahta.jsx kartları)
+   Renk rolü: kırmızı = Düello / rakip (--qt-mod-duello*), mavi = ben (--hk-mavi*). Renkler yalnız token.
+   Yerleşim maliyeti SIFIR: durum satırı HkMesaj'ın yuvasında (aynı yükseklik), çerçeve negatif kenar boşluğuyla
+   aralıklara taşar, anlar sahnenin içinde absolute. iOS: position:fixed YOK.
+   Kontrast (AA): beyaz / --qt-mod-duello ≈ 5,3:1 · --hk-kirmizi-metin / beyaz ≈ 10,9:1 · beyaz / --hk-mavi-kenar ≈ 6,6:1 ·
+   --hk-gri-metin / --hk-gri-zemin ≈ 8,6:1 · --hk-vurgu-metin / --hk-vurgu-zemin ≈ 9:1.
+   Yumuşak mod: anlar data-yumusak taşır (yumusakHareket.js ×0,4 hız) → aşağıdaki blok süreleri ×0,4 verir ki
+   gerçek süre aynı kalsın: sabit damga + yumuşak solma; sarsıntı, perde flaşı, halka, tarama kapalı.
+   ============================================================ */
+
+/* Ban rolü tokenları: tasarım tokenlarından türer (kırmızı = --qt-mod-duello ailesi; saydam izler color-mix ile). */
+.hk-mac {
+  --hk-ban: var(--qt-mod-duello, #c93030); --hk-ban-koyu: var(--qt-mod-duello-dudak, #8f1f27); --hk-ban-acik: var(--qt-mod-duello-acik, #fde3e3);
+  --hk-ban-beyaz: #fff;
+  --hk-ban-iz: rgba(201, 48, 48, .42); --hk-ban-perde: rgba(201, 48, 48, .2); --hk-ban-ray: rgba(255, 255, 255, .32);
+  --hk-ban-golge: rgba(20, 10, 70, .22);
+}
+@supports (color: color-mix(in srgb, red 50%, transparent)) {
+  .hk-mac {
+    --hk-ban-iz: color-mix(in srgb, var(--hk-ban) 42%, transparent); --hk-ban-perde: color-mix(in srgb, var(--hk-ban) 20%, transparent);
+    --hk-ban-ray: color-mix(in srgb, var(--hk-ban-beyaz) 32%, transparent); --hk-ban-golge: color-mix(in srgb, var(--hk-metin) 24%, transparent);
+  }
+}
+
+/* ---------------------------------------------------------------- durum satırı (mesaj satırının yuvası) */
+.hk-bankonsol { position: relative; gap: 8px; padding-left: 6px; }
+.hk-bankonsol .hk-mesaj-yazi b svg { vertical-align: -2px; }
+.hk-bankonsol-sayi {
+  flex: none; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 10px;
+  background: var(--hk-ban-beyaz); color: var(--hk-ban); font-size: 22px; font-weight: 900; line-height: 1;
+}
+.hk-bankonsol-sure { position: absolute; left: 12px; right: 12px; bottom: 0; height: 3px; border-radius: 2px 2px 0 0; overflow: hidden; background: var(--hk-ban-ray); }
+.hk-bankonsol-sure i { display: block; height: 100%; background: var(--hk-ban-beyaz); transition: width .25s linear; }
+/* savunan: dolu kırmızı — "şimdi banla" */
+.hk-bankonsol--sec {
+  background: var(--hk-ban); border-color: var(--hk-ban-koyu); color: var(--hk-ban-beyaz);
+  animation: hk-bankonsol-gir .42s var(--qt-egri-yay, cubic-bezier(.34, 1.56, .64, 1)) both;
+}
+.hk-bankonsol--sec .hk-mesaj-yazi b { font-weight: 900; letter-spacing: .03em; }
+.hk-bankonsol--sec .hk-mesaj-yazi span { color: var(--hk-ban-beyaz); }
+.hk-bankonsol--son .hk-bankonsol-sayi { animation: hk-nabiz .5s ease-in-out infinite; }
+/* saldıran: beyaz zemin, kırmızı kenar — "rakip seçiyor" */
+.hk-bankonsol--bekle { background: var(--hk-ban-beyaz); border-color: var(--hk-ban); color: var(--hk-kirmizi-metin); }
+.hk-bankonsol--bekle .hk-mesaj-yazi span { color: var(--hk-kirmizi-metin); }
+.hk-bankonsol--bekle .hk-bankonsol-sayi { background: var(--hk-ban-acik); color: var(--hk-ban-koyu); }
+.hk-bankonsol--bekle .hk-bankonsol-sure { background: var(--hk-ban-acik); }
+.hk-bankonsol--bekle .hk-bankonsol-sure i { background: var(--hk-ban); }
+/* savunan dokundu: nötr onay (sunucu yanıtı gelene dek) */
+.hk-bankonsol--tamam { background: var(--hk-gri-zemin); border-color: var(--hk-gri-kenar); color: var(--hk-gri-metin); animation: none; }
+.hk-bankonsol--tamam .hk-mesaj-yazi b { letter-spacing: 0; }
+.hk-bankonsol--tamam .hk-mesaj-yazi span { color: var(--hk-gri-metin); }
+.hk-bankonsol--tamam .hk-bankonsol-sayi { background: var(--hk-ban); color: var(--hk-ban-beyaz); }
+@keyframes hk-bankonsol-gir { 0% { opacity: 0; transform: scale(.94); } 100% { opacity: 1; transform: none; } }
+
+/* ---------------------------------------------------------------- sahne çerçevesi (kartların çevresi) */
+.hk-sahne--ban::before, .hk-sahne--bangecis::before {
+  content: ""; position: absolute; inset: -3px -4px; z-index: 0; box-sizing: border-box; pointer-events: none;
+  border: 2px solid var(--hk-ban); border-radius: 14px;
+}
+.hk-sahne--ban .hk-kartlar, .hk-sahne--bangecis .hk-kartlar { position: relative; z-index: 1; }
+.hk-sahne--ban-sec::before { background: var(--hk-ban-acik); }
+.hk-sahne--ban-bekle::before { border-style: dashed; }
+/* son 2 sn: çerçeve nabzı (kökteki qt-h-gerilim kenar nabzıyla birlikte) */
+.hk-sahne--ban-son::before { animation: hk-ban-cerceve .5s ease-in-out infinite; }
+@keyframes hk-ban-cerceve { 50% { box-shadow: 0 0 0 3px var(--hk-ban-iz); } }
+
+/* ---------------------------------------------------------------- kartlar */
+/* savunan: banlanabilir kartın köşesinde kırmızı ban işareti ("dokun = banla") */
+.hk-kart-banisaret {
+  position: absolute; top: -7px; right: 6px; display: grid; place-items: center; width: 18px; height: 18px;
+  border-radius: 50%; background: var(--hk-ban); color: var(--hk-ban-beyaz); box-shadow: 0 0 0 1.5px var(--hk-ban-beyaz);
+  animation: qt-h-pop-gir .3s var(--qt-egri-yay, cubic-bezier(.34, 1.56, .64, 1)) calc(220ms + var(--i, 0) * 35ms) backwards;
+}
+/* dokunulan kart: sunucu yanıtını beklerken dolu kırmızı (anında geri bildirim) */
+.hk-kart--ban-basildi { --c: var(--hk-ban-koyu); --z: var(--hk-ban); --m: var(--hk-ban-beyaz); }
+.hk-kart--ban-basildi .hk-ok { color: var(--hk-ban-beyaz); }
+/* saldıran beklerken: kırmızı hedef halkası kartları sırayla dolaşır (yalnız opaklık) */
+.hk-kart--tarama::after {
+  content: ""; position: absolute; inset: -2px; border-radius: inherit; pointer-events: none; opacity: 0;
+  border: 2px solid var(--hk-ban); box-shadow: 0 0 10px var(--hk-ban-iz);
+  animation: hk-ban-tarama 1800ms linear infinite; animation-delay: calc(var(--i, 0) * 180ms);
+}
+@keyframes hk-ban-tarama { 0% { opacity: 0; } 5% { opacity: .95; } 17% { opacity: 0; } 100% { opacity: 0; } }
+/* banlı kart kilitlenir: açıklama sürerken kırmızı halkayla işaretli durur, plaka üstüne inince oturur */
+.hk-kart--damga { z-index: 2; animation: hk-kart-damga 520ms var(--qt-egri-yay, cubic-bezier(.34, 1.56, .64, 1)) var(--damga-gecikme, 950ms) backwards; }
+.hk-kart--damga .hk-kart-ban { animation: qt-h-pop-gir .3s var(--qt-egri-yay, cubic-bezier(.34, 1.56, .64, 1)) calc(var(--damga-gecikme, 950ms) + 80ms) backwards; }
+@keyframes hk-kart-damga {
+  0% { transform: scale(1.06); box-shadow: 0 0 0 3px var(--hk-ban); }
+  55% { transform: scale(.96); box-shadow: 0 0 0 0 transparent; }
+  100% { transform: none; box-shadow: none; }
+}
+.hk-kart-banikon { flex: none; display: inline-grid; color: var(--hk-ban-koyu); }
+
+/* ---------------------------------------------------------------- alt çubuk */
+.hk-cubuk-ikon { flex: none; display: grid; place-items: center; }
+.hk-cubuk--ban-sec { background: var(--hk-ban-acik); color: var(--hk-kirmizi-metin); }
+.hk-cubuk--ban-sec .hk-cubuk-yazi span { color: var(--hk-kirmizi-metin); }
+.hk-cubuk--ipucu { background: var(--hk-vurgu-zemin); border-color: var(--hk-vurgu); color: var(--hk-vurgu-metin); }
+.hk-cubuk--ipucu .hk-cubuk-yazi span { white-space: normal; color: inherit; line-height: 1.22; }
+.hk-cubuk--banuyari { border-color: var(--hk-ban); background: var(--hk-ban-acik); color: var(--hk-kirmizi-metin); }
+.hk-cubuk--banuyari .hk-cubuk-yazi span { color: var(--hk-kirmizi-metin); }
+
+/* ---------------------------------------------------------------- anlar (sahnenin ortasında, dokunuşu engellemez) */
+.hk-banan { position: absolute; inset: 0; z-index: 5; display: grid; place-items: center; pointer-events: none; }
+.hk-banan-perde {
+  position: absolute; inset: -3px -4px; border-radius: 14px; background: var(--hk-ban-perde);
+  animation: hk-banan-perde var(--ban-ms, 1200ms) ease-out both;
+}
+.hk-banan-panel {
+  position: relative; display: grid; justify-items: center; gap: 3px; box-sizing: border-box;
+  min-width: 188px; max-width: min(280px, 88%); padding: 9px 18px 11px; text-align: center;
+  border: 3px solid var(--hk-ban); border-radius: 18px; background: var(--hk-ban-beyaz); color: var(--hk-metin);
+  box-shadow: 0 4px 0 var(--hk-ban-koyu), 0 14px 28px var(--hk-ban-golge);
+  animation: hk-banan-bilgi var(--ban-ms, 1200ms) var(--qt-egri-cikis, ease-out) both;
+}
+.hk-banan-panel--ucar { animation-name: hk-banan-ucar; animation-timing-function: ease-out; }
+.hk-banan-panel--kirmizi { border-color: var(--hk-ban-beyaz); background: var(--hk-ban); color: var(--hk-ban-beyaz); animation-name: hk-banan-giris; }
+.hk-banan-panel--gri { border-color: var(--hk-gri-kenar); box-shadow: 0 4px 0 var(--hk-gri-kenar), 0 14px 28px var(--hk-ban-golge); }
+.hk-banan-etiket { font-size: 11px; font-weight: 900; line-height: 1.2; letter-spacing: .08em; text-transform: uppercase; color: var(--hk-kirmizi-kenar); }
+.hk-banan-panel--kirmizi .hk-banan-etiket { color: var(--hk-ban-beyaz); }
+.hk-banan-kat { position: relative; display: grid; place-items: center; width: 74px; height: 74px; }
+.hk-banan-damga {
+  position: absolute; inset: -4px; display: grid; place-items: center; color: var(--hk-ban);
+  transform: rotate(-8deg);
+  animation: hk-banan-damga 400ms cubic-bezier(.2, 1.5, .4, 1) 260ms both;
+}
+.hk-banan-halka {
+  position: absolute; inset: 0; border-radius: 50%; border: 3px solid currentColor; color: var(--hk-ban);
+  opacity: 0; animation: qt-h-halka 480ms ease-out 420ms;
+}
+.hk-banan-rozet {
+  position: relative; display: grid; place-items: center; width: 60px; height: 60px; border-radius: 50%;
+  background: var(--hk-ban-beyaz); color: var(--hk-ban);
+}
+.hk-banan-rozet .hk-banan-halka { color: var(--hk-ban-beyaz); animation-delay: 160ms; }
+.hk-banan-rozet--gri { width: 46px; height: 46px; background: var(--hk-gri-zemin); color: var(--hk-gri-metin); }
+.hk-banan-baslik { font-family: var(--qt-f-baslik, inherit); font-size: clamp(20px, 6.2vw, 26px); font-weight: 900; line-height: 1.1; }
+.hk-banan-baslik--kucuk { font-size: clamp(17px, 5.2vw, 21px); }
+.hk-banan-alt { font-size: 12.5px; font-weight: 700; line-height: 1.25; color: var(--hk-soluk); text-wrap: balance; }
+.hk-banan-panel--kirmizi .hk-banan-alt { color: var(--hk-ban-beyaz); }
+
+@keyframes hk-banan-perde { 0% { opacity: 0; } 10% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; } }
+/* savunan girişi: büyükten iner, yukarı (durum satırına) çekilir */
+@keyframes hk-banan-giris {
+  0% { opacity: 0; transform: scale(1.5); }
+  16% { opacity: 1; transform: scale(.95); }
+  24% { transform: scale(1); }
+  74% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: translateY(-64px) scale(.5); }
+}
+/* açıklama / onay: belirir, damga inince kısa sarsılır, banlı karta doğru küçülerek uçar */
+@keyframes hk-banan-ucar {
+  0% { opacity: 0; transform: scale(.6); }
+  12% { opacity: 1; transform: scale(1.06); }
+  18% { transform: scale(1); }
+  36% { transform: scale(1); }
+  41% { transform: scale(.95) rotate(-1.5deg); }
+  48% { transform: scale(1); }
+  76% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: translate(var(--dx, 0px), var(--dy, 0px)) scale(.22); }
+}
+@keyframes hk-banan-bilgi {
+  0% { opacity: 0; transform: scale(.8); }
+  10% { opacity: 1; transform: scale(1.03); }
+  16% { transform: scale(1); }
+  82% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(.96); }
+}
+@keyframes hk-banan-damga {
+  0% { opacity: 0; transform: scale(2.4) rotate(-22deg); }
+  100% { opacity: 1; transform: scale(1) rotate(-8deg); }
+}
+@keyframes hk-banan-sol { 0% { opacity: 0; } 18% { opacity: 1; } 82% { opacity: 1; } 100% { opacity: 0; } }
+
+/* mavi "SIRA SENDE": ban bitti, saldırı başlıyor */
+.hk-bansira { position: absolute; inset: 0 0 auto; z-index: 5; display: flex; justify-content: center; pointer-events: none; }
+.hk-bansira > span {
+  display: inline-flex; align-items: center; gap: 8px; margin-top: 30px; padding: 7px 18px 8px 14px; border-radius: 999px;
+  background: var(--hk-mavi-kenar); color: var(--hk-ban-beyaz);
+  box-shadow: 0 4px 0 var(--hk-mavi-metin), 0 12px 24px var(--hk-ban-golge);
+  animation: hk-bansira var(--ban-ms, 900ms) var(--qt-egri-cikis, ease-out) both;
+}
+.hk-bansira-yazi { display: grid; gap: 1px; text-align: left; line-height: 1.1; }
+.hk-bansira-yazi b { font-family: var(--qt-f-baslik, inherit); font-size: 18px; font-weight: 900; letter-spacing: .02em; }
+.hk-bansira-yazi small { font-size: 11.5px; font-weight: 700; }
+@keyframes hk-bansira {
+  0% { opacity: 0; transform: translateX(-70px) scale(.9); }
+  22% { opacity: 1; transform: translateX(0) scale(1.05); }
+  34% { transform: scale(1); }
+  80% { opacity: 1; transform: none; }
+  100% { opacity: 0; transform: translateX(70px); }
+}
+
+@media (max-width: 380px) {
+  .hk-bankonsol-sayi { width: 30px; height: 30px; font-size: 20px; }
+  .hk-banan-panel { min-width: 172px; padding-inline: 14px; }
+}
