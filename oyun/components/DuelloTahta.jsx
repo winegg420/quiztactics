@@ -25,7 +25,6 @@ import { animasyonuYenidenOynat } from "../tasarim/hareket.js";
 const BELIRTME = {
   bilim: "Bilim'i", tarih: "Tarih'i", cografya: "Coğrafya'yı", edebiyat: "Edebiyat'ı", spor: "Spor'u",
   sanat: "Sanat'ı", sinema: "Sinema'yı", muzik: "Müzik'i", teknoloji: "Teknoloji'yi", genel_kultur: "Genel Kültür'ü",
-  genel: "Genel'i", karisik: "Karışık'ı",
 };
 export const belirtme = (k, c) => (BELIRTME[k] ? c(BELIRTME[k]) : c(kategoriAdi(k)));
 

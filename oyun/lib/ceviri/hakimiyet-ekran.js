@@ -6,7 +6,6 @@ export default {
   // Belirtme hâlleri (Rakip Sanat'ı aldı → Opponent took Art)
   "Bilim'i": "Science", "Tarih'i": "History", "Coğrafya'yı": "Geography", "Edebiyat'ı": "Literature", "Spor'u": "Sports",
   "Sanat'ı": "Art", "Sinema'yı": "Cinema", "Müzik'i": "Music", "Teknoloji'yi": "Technology", "Genel Kültür'ü": "General Knowledge",
-  "Genel'i": "General", "Karışık'ı": "Mixed",
 
   // Yuvalar + kartlar
   "Yuva durumu": "Slot status",
