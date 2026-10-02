@@ -83,18 +83,18 @@
   box-shadow: 0 0 0 2px var(--qt-zemin);
 }
 .sz-rozet:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: -2px; border-radius: 50%; }
-/* Profil kartı içi küçük rozet (ana sayfa, .as-ko-alt satırında). Düzen yüksekliği 16 px; dokunma kutusu negatif kenar boşluğuyla 44 px'e açılır,
+/* Profil kartı içi küçük rozet (ana sayfa, .as-ko-alt satırında). Düzen yüksekliği 16 px; dokunma kutusu negatif kenar boşluğuyla 44 px'e açılır (ada ait dokunma alanıyla çakışmasın diye 9 px aşağı kaydırılmış: üstten -5, alttan -23, içerik padding-bottom ile geri çekilir),
    böylece kart yüksekliği değişmez. Halka turuncu (--qt-vurgu), BP sahibinde altın. */
 .sz-mini {
   position: relative; flex: none; display: inline-grid; place-items: center;
-  min-width: 44px; height: 44px; margin: -14px -4px -14px 0; padding: 0 6px 0 11px; grid-auto-flow: column; gap: 3px; border: 0; background: transparent;
+  min-width: 44px; height: 44px; margin: -5px -4px -23px 0; padding: 0 6px 18px 11px; grid-auto-flow: column; gap: 3px; border: 0; background: transparent;
   color: var(--qt-metin); cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation;
 }
 .sz-mini-gorsel { position: relative; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--qt-yuzey); }
 .sz-mini .sz-rozet-halka { width: 22px; height: 22px; }
 .sz-mini-etiket { font: var(--qt-a-siyah) 10.5px/1 var(--qt-f-baslik); color: var(--qt-metin-soluk); white-space: nowrap; }
 .sz-mini-sayi { position: relative; font: var(--qt-a-siyah) 10px/1 var(--qt-f-baslik); font-variant-numeric: tabular-nums; color: var(--qt-metin); }
-.sz-mini-nokta { position: absolute; top: 9px; right: 9px; width: 8px; height: 8px; border-radius: 50%; background: var(--qt-vurgu); box-shadow: 0 0 0 2px var(--qt-yuzey); }
+.sz-mini-nokta { position: absolute; top: 0; right: 9px; width: 8px; height: 8px; border-radius: 50%; background: var(--qt-vurgu); box-shadow: 0 0 0 2px var(--qt-yuzey); }
 .sz-mini:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: -6px; border-radius: 50%; }
 
 /* ---------- Seviye atlama bildirimi (QtToast içinde) ---------- */
