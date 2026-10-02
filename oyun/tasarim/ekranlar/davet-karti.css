@@ -1,5 +1,5 @@
 /* Arkadaşını davet et (DavetKarti.jsx) — qt-dv- öneki. */
-.qt-dv { display: grid; gap: var(--qt-b-3); min-width: 0; }
+.qt-dv, .qt-kart.qt-dv { display: grid; gap: var(--qt-b-3); min-width: 0; }   /* .qt-kart { display:block } ile eşit özgüllükteydi: boşluk kayboluyordu */
 .qt-dv p, .qt-dv h2, .qt-dv h3 { margin: 0; }
 .qt-dv-ust { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: var(--qt-b-3); }
 .qt-dv-ikon {
@@ -14,7 +14,7 @@
 }
 .qt-dv-odul b { font-family: var(--qt-f-baslik); font-size: var(--qt-y-l); font-weight: var(--qt-a-siyah); }
 .qt-dv-odul small { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); }
-.qt-dv-dugmeler { display: grid; gap: var(--qt-b-2); }
+.qt-dv-dugmeler { display: grid; gap: var(--qt-b-3); }   /* düğme dudağı (5 px) komşuya binmesin */
 .qt-dv-liste { display: grid; gap: var(--qt-b-2); padding-top: var(--qt-b-2); border-top: 1px solid var(--qt-cizgi); }
 .qt-dv-ilerleme { display: grid; justify-items: end; gap: 2px; min-width: 88px; font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); color: var(--qt-metin-soluk); }
 .qt-dv-ilerleme .qt-ilerleme { width: 88px; }
