@@ -538,16 +538,21 @@ export default function QuestionCard({
       {/* Yeni joker ekonomisi (sunucu tabanlı).
           "Hızlı Olan Kazanır" modunda joker YOK: mod "ilk doğru cevap kazanır"
           üzerine kurulu; 50:50 ya da +10 sn adaleti doğrudan bozar. */}
-      {macTur && macTur !== "hizli" && !jokerYok && macId && !sonuc && secim === null && kalan > 0 && (
-        <JokerCubugu
-          macTur={macTur}
-          macId={macId}
-          soruIndex={soru.soru_index}
-          surum={jokerSurum}
-          kalanSn={kalan}
-          onEtki={jokerEtkisi}
-          onBilgi={setBilgi}
-        />
+      {/* Cevaptan sonra çubuk KALKMAZ, pasif (soluk, dokunulmaz) kalır: yoksa esnek soru kartı uzar ve şıklar ~75 px kayar (ekran turu 62→63). */}
+      {macTur && macTur !== "hizli" && !jokerYok && macId && (
+        <div className={`m1-joker-yuva${sonuc || secim !== null || kalan <= 0 ? " m1-joker-yuva--pasif" : ""}`}
+             inert={Boolean(sonuc || secim !== null || kalan <= 0) || undefined}
+             aria-hidden={Boolean(sonuc || secim !== null || kalan <= 0) || undefined}>
+          <JokerCubugu
+            macTur={macTur}
+            macId={macId}
+            soruIndex={soru.soru_index}
+            surum={jokerSurum}
+            kalanSn={kalan}
+            onEtki={jokerEtkisi}
+            onBilgi={setBilgi}
+          />
+        </div>
       )}
 
       {/* Eski joker çubuğu — yalnız macTur verilmeyen ekranlarda (geriye uyum) */}

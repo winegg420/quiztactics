@@ -631,3 +631,7 @@ body.bd-oyun-modu .m1-mac { min-height: 100dvh; }
   body.bd-oyun-modu .m1-mac > .m1-hazir { padding-top: 0; }
   body.bd-oyun-modu .m1-mac > .m1-hazir .m1-dugmeler { gap: var(--qt-b-1); }
 }
+
+/* Joker çubuğu yuvası: cevaptan sonra yer tutar, soluk ve dokunulmaz (kayma yok; ekran turu 62→63) */
+.m1-joker-yuva { transition: opacity var(--qt-s-hizli, .15s) ease; }
+.m1-joker-yuva--pasif { opacity: .45; pointer-events: none; }
