@@ -8,4 +8,7 @@ export default {
   "Seviye {n}/{m}": "Level {n}/{m}",
   "Alınabilir ödül: {n}": "Rewards ready: {n}",
   "Sıra {n}/{m}": "Rank {n}/{m}",
+  // Ana sayfa ikiz kartlar (2 Eki 2026)
+  "Sv {n}/{m}": "Lv {n}/{m}",
+  "Sv {n}: {ad}": "Lv {n}: {ad}",
 };

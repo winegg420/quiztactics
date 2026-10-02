@@ -770,9 +770,7 @@ a.as-cip:active { transform: translateY(2px); }
 .as-a2-sezon > a, .as-a2-gorev > a { flex: 1 1 auto; }
 .as-a2-sezon:empty { display: none; }
 /* Yarım kartta Görevler: simge ve ok gider (yer metne kalır); tam genişlikte (sezon yok) eski görünüm */
-.as-a2-sezon:not(:empty) + .as-a2-gorev .as-gs { grid-template-columns: minmax(0, 1fr) auto; gap: 6px; min-height: 48px; padding: 6px 10px; }
-.as-a2-sezon:not(:empty) + .as-a2-gorev .as-gs-ikon, .as-a2-sezon:not(:empty) + .as-a2-gorev .as-gs-ok { display: none; }
-.as-a2-sezon:not(:empty) + .as-a2-gorev .as-gs-metin small { font-size: 11.5px; }
+/* (2 Eki 2026: Sezon + Görevler ikiz altın kartlar — ortak görünüm dosya sonundaki "İkiz kartlar" bloğunda) */
 
 /* Turnuva bandı: komşu kartlarla 12–14 px (akış boşluğu + kendi payı); lobi halkası içeride kalır (eskiden 9–11 px dışarı taşıp komşunun üstüne biniyordu). */
 .as-a2-turnuva { margin-block: 4px; }
@@ -795,7 +793,6 @@ a.as-cip:active { transform: translateY(2px); }
   .as-a2 .as-kisayol-ikon { width: 34px; height: 34px; }
   .as-a2 .as-serit { min-height: 50px; padding-block: 6px; }
   .as-a2 .as-serit-kupa { width: 38px; height: 38px; }
-  .sz-ser, .as-a2-sezon:not(:empty) + .as-a2-gorev .as-gs { min-height: 46px; padding-block: 4px; }
 }
 
 /* Öncelik (telefon): OYNA/DÜELLO > turnuva > Sezon Yolu + Görevler (iki yarım kart, hiçbir yükseklikte gizlenmez) > lig kartı > kısayol.
@@ -823,3 +820,46 @@ a.as-cip:active { transform: translateY(2px); }
     font-size: 12px; font-weight: var(--qt-a-siyah); color: var(--qt-dogru-koyu);
   }
 }
+
+/* ============================================================
+   2 Eki 2026 — Sezon + Görevler İKİZ kartlar (onaylı eskiz)
+   Aynı yükseklik, kompakt 3 satır, altın-krem iç + altın çerçeve (ödül rengi), yan yana.
+   Sezon: ikon · "Sezon N · Sv x/28" · altın çubuk · "Sv 5: ödül". Görevler: ikon · başlık · parçalı altın çubuk · "Günlük a/b · Haftalık c/d".
+   BP çipi / alınabilir sayısı ve Görevler noktası köşe rozeti (düzene yer tutmaz → başlık 360 px'te kısalmaz). Hareket yok.
+   ============================================================ */
+.as-a2-seritlar .sz-ser, .as-a2-seritlar .as-gs {
+  position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: 6px; row-gap: 3px;
+  align-content: center; min-height: 0; padding: 6px 9px 7px; background: var(--qt-coin-acik); color: var(--qt-coin-yazi);
+  box-shadow: inset 0 0 0 2px var(--qt-coin), 0 3px 0 var(--qt-coin-dudak), var(--as-golge-kucuk, 0 6px 14px -8px rgba(29, 33, 82, .3));
+}
+.as-a2-seritlar .sz-ser-ikon, .as-a2-seritlar .as-gs-ikon {
+  grid-column: 1; grid-row: 1; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%;
+  background: var(--qt-coin); color: var(--qt-coin-yazi); box-shadow: 0 2px 0 var(--qt-coin-dudak);
+}
+.as-a2-seritlar .sz-ser-ikon .qt-ikon, .as-a2-seritlar .as-gs-ikon .qt-ikon { width: 14px; height: 14px; }
+/* Metin kabı kutu üretmez: başlık simgenin yanında, çubuk + alt satır kartın tam genişliğinde (360 px'te kısalma yok) */
+.as-a2-seritlar .sz-ser-metin, .as-a2-seritlar .as-gs-metin { display: contents; }
+.as-a2-seritlar .sz-ser-metin b, .as-a2-seritlar .as-gs-metin b { grid-column: 2; grid-row: 1; min-width: 0; }
+.as-a2-seritlar .sz-ser-cubuk, .as-gs-parcalar, .as-a2-seritlar .as-gs-metin small, .sz-ser-odul { grid-column: 1 / -1; }
+.as-a2-seritlar .sz-ser-metin b, .as-a2-seritlar .as-gs-metin b {
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: var(--qt-a-siyah) 13px/1.15 var(--qt-f-baslik); color: var(--qt-coin-yazi);
+}
+.as-a2-seritlar .sz-ser-seviye { font: inherit; color: inherit; }
+.as-a2-seritlar .sz-ser-cubuk, .as-a2-seritlar .as-gs-parca {
+  height: 6px; background: var(--qt-yuzey); box-shadow: inset 0 0 0 1px var(--qt-coin-dudak);
+}
+.as-a2-seritlar .sz-ser-cubuk { border-radius: var(--qt-r-hap); }
+.as-a2-seritlar .sz-ser-dolgu, .as-a2-seritlar .as-gs-parca--dolu { background: var(--qt-coin); }
+.as-a2-seritlar .as-gs-parca--dolu { box-shadow: inset 0 0 0 1px var(--qt-coin-dudak); }
+.as-gs-parcalar { display: flex; gap: 3px; }
+.as-gs-parca { display: block; flex: 1 1 0; min-width: 0; border-radius: var(--qt-r-hap); }
+.as-a2-seritlar .as-gs-metin small, .sz-ser-odul {
+  display: flex; align-items: center; gap: 4px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-size: 11px; font-weight: var(--qt-a-siyah); line-height: 1.2; color: var(--qt-coin-yazi);
+}
+.sz-ser-odul > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.sz-ser-nadir { flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--qt-nadir-epik); }   /* Epik/Efsanevi ödül: küçük mor nadirlik noktası */
+.as-a2-seritlar .sz-ser-yan { position: absolute; top: -6px; right: 6px; }
+.as-a2-seritlar .as-gs-nokta { position: absolute; top: -4px; right: 8px; }
+.as-a2-seritlar .as-gs-ok { display: none; }
+.as-a2-seritlar .as-gs { width: 100%; }

@@ -536,9 +536,17 @@ export function GorevSeridi() {
     : tt("Görevler");
   return (
     <Link to={y("/gorevler")} className="as-gs" aria-label={etiket}>
-      <span className="as-gs-ikon" aria-hidden="true"><QtIkon ad="gorevListesi" boyut={22} /></span>
+      <span className="as-gs-ikon" aria-hidden="true"><QtIkon ad="hediye" boyut={18} /></span>
       <span className="as-gs-metin" aria-hidden="true">
         <b>{tt("Görevler")}</b>
+        {/* Günlük görev parçaları: tamamlanan kadarı dolu (en çok 6 parça; veri yoksa çubuk çizilmez) */}
+        {sayilar && sayilar.b > 0 && (
+          <span className="as-gs-parcalar">
+            {Array.from({ length: Math.min(sayilar.b, 6) }, (_, i) => (
+              <i key={i} className={i < sayilar.a ? "as-gs-parca as-gs-parca--dolu" : "as-gs-parca"} />
+            ))}
+          </span>
+        )}
         {sayilar && <small>{tt("Günlük {a}/{b} · Haftalık {c}/{d}", sayilar)}</small>}
       </span>
       {bekleyen && <span className="as-gs-nokta" aria-hidden="true" />}

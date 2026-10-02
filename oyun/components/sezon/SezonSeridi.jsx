@@ -9,8 +9,9 @@
  */
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { sezonDurumu, useSezonOzeti } from "../../lib/sezonYolu.js";
-import { tt } from "../../lib/dil.js";
+import { odulAdi, sezonDurumu, useSezonOzeti } from "../../lib/sezonYolu.js";
+import { QtIkon } from "../../tasarim/index.js";
+import { aktifDil, tt } from "../../lib/dil.js";
 import { y } from "../../lib/yol.js";
 import "./sezon.css";
 
@@ -58,17 +59,30 @@ export default function SezonSeridi() {
     const sonraki = ozet.sonraki_esik == null ? null : Number(ozet.sonraki_esik);
     const oran = sonraki == null ? 1 : Math.max(0, Math.min(1, ((Number(ozet.sp) || 0) - onceki) / Math.max(1, sonraki - onceki)));
     const kalanYazi = kalanGun <= 0 ? tt("Bugün bitiyor") : tt("{n} gün kaldı", { n: kalanGun });
+    // Sıradaki ödül: durumdaki (zaten okunan) ödül listesinden, mevcut seviyenin üstündeki en yakın yuva (yeni sorgu yok).
+    const siradaki = (Array.isArray(durum.oduller) ? durum.oduller : [])
+      .filter((o) => Number(o?.seviye) > seviye && !o.placeholder)
+      .sort((a, b) => Number(a.seviye) - Number(b.seviye) || (a.kol === "ucretsiz" ? -1 : 1))[0] ?? null;
+    const siradakiAd = siradaki ? odulAdi(siradaki, aktifDil()) : "";
+    const siradakiYazi = siradaki && siradakiAd ? tt("Sv {n}: {ad}", { n: siradaki.seviye, ad: siradakiAd }) : null;
+    const nadir = siradaki?.nadirlik === "epik" || siradaki?.nadirlik === "efsanevi";
     const etiket = [
-      tt("Sezon {n}", { n: no }), tt("Seviye {n}/{m}", { n: seviye, m: toplam }), kalanYazi,
+      tt("Sezon {n}", { n: no }), tt("Seviye {n}/{m}", { n: seviye, m: toplam }), kalanYazi, siradakiYazi,
       alinabilir > 0 ? tt("Alınabilir ödül: {n}", { n: alinabilir }) : null,
       tt("Sezon Yolu"),
     ].filter(Boolean).join(". ");
     return (
       <Link to={y("/sezon-yolu")} className={`sz-ser${bp ? " sz-ser--bp" : ""}`} aria-label={etiket}>
+        <span className="sz-ser-ikon" aria-hidden="true"><QtIkon ad="yildiz" boyut={18} /></span>
         <span className="sz-ser-metin" aria-hidden="true">
-          <b>{tt("Sezon {n}", { n: no })}</b>
-          <span className="sz-ser-seviye qt-sayi">{tt("Seviye {n}/{m}", { n: seviye, m: toplam })}</span>
+          <b>{tt("Sezon {n}", { n: no })}<span className="sz-ser-seviye qt-sayi"> · {tt("Sv {n}/{m}", { n: seviye, m: toplam })}</span></b>
           <span className="sz-ser-cubuk"><span className="sz-ser-dolgu" style={{ "--sz-oran": oran.toFixed(3) }} /></span>
+          {siradakiYazi && (
+            <small className="sz-ser-odul">
+              {nadir && <i className="sz-ser-nadir" />}
+              <span>{siradakiYazi}</span>
+            </small>
+          )}
         </span>
         {(!bp || alinabilir > 0) && (
           <span className="sz-ser-yan" aria-hidden="true">
