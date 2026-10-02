@@ -43,6 +43,13 @@ function useSeridiDurumu(ozet) {
   return durum;
 }
 
+/** Sezon kartı simgesi: taç görseli (dekoratif); yüklenemezse eski yıldız ikonu yedeği. */
+function TacIkon() {
+  const [yok, setYok] = useState(false);
+  if (yok) return <QtIkon ad="yildiz" boyut={18} />;
+  return <img className="sz-ser-tac" src="/dukkan/tac.webp" alt="" aria-hidden="true" width="16" height="16" decoding="async" onError={() => setYok(true)} />;
+}
+
 export default function SezonSeridi() {
   const { ozet } = useSezonOzeti();
   const durum = useSeridiDurumu(ozet);
@@ -73,7 +80,7 @@ export default function SezonSeridi() {
     ].filter(Boolean).join(". ");
     return (
       <Link to={y("/sezon-yolu")} className={`sz-ser${bp ? " sz-ser--bp" : ""}`} aria-label={etiket}>
-        <span className="sz-ser-ikon" aria-hidden="true"><QtIkon ad="yildiz" boyut={18} /></span>
+        <span className="sz-ser-ikon" aria-hidden="true"><TacIkon /></span>
         <span className="sz-ser-metin" aria-hidden="true">
           <b>{tt("Sezon {n}", { n: no })}<span className="sz-ser-seviye qt-sayi"> · {tt("Sv {n}/{m}", { n: seviye, m: toplam })}</span></b>
           <span className="sz-ser-cubuk"><span className="sz-ser-dolgu" style={{ "--sz-oran": oran.toFixed(3) }} /></span>

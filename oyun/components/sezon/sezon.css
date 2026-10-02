@@ -167,6 +167,7 @@ body.bd-oyun-modu .sz-seviye-toast { display: none; }   /* maç sırasında oyun
 .sz-ser-seviye { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); color: var(--qt-bilgi-koyu); }
 .sz-ser-cubuk { position: relative; display: block; height: 4px; overflow: hidden; border-radius: var(--qt-r-hap); background: var(--qt-yuzey-3); }
 .sz-ser-dolgu { position: absolute; inset: 0; border-radius: inherit; background: var(--qt-bilgi); transform-origin: left center; transform: scaleX(var(--sz-oran, 0)); }
+.sz-ser-tac { display: block; width: 16px; height: 16px; object-fit: contain; }
 .sz-ser-yan { display: flex; align-items: center; gap: 4px; }
 /* BP çipi ve alınabilir ödül: altın zemin + koyu lacivert-kahve yazı (≈ 9:1) */
 .sz-ser-bp {
