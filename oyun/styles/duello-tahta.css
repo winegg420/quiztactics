@@ -185,6 +185,21 @@
   text-transform: uppercase; letter-spacing: .03em;
 }
 .hk-cubuk--ban { border-color: var(--qt-mod-duello, #c93030); }
+/* savunanın ban uyarı bandı: Düello kırmızısı (beyaz yazı ≈ 5,3:1), alt kenar koyu kırmızı; azalan süre çubuğu */
+.hk-banuyari { flex: none; box-sizing: border-box; border-radius: 12px; overflow: hidden; background: var(--qt-mod-duello, #c93030); color: #fff; border-bottom: 3px solid var(--qt-mod-duello-dudak, #8f1f27); }
+.hk-banuyari-satir { display: flex; align-items: center; gap: 10px; padding: 6px 10px; }
+.hk-banuyari-sayi { flex: none; display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: #fff; color: var(--qt-mod-duello, #c93030); font-size: 28px; font-weight: 900; line-height: 1; }
+.hk-banuyari-yazi { flex: 1; min-width: 0; display: grid; gap: 1px; line-height: 1.15; }
+.hk-banuyari-ust { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 800; letter-spacing: .04em; }
+.hk-banuyari-baslik { display: inline-flex; align-items: center; gap: 5px; font-size: clamp(16px, 5vw, 20px); font-weight: 900; line-height: 1.1; }
+.hk-banuyari-alt { font-size: clamp(11px, 3.1vw, 12.5px); font-weight: 700; }
+.hk-banuyari-sure { height: 4px; background: var(--qt-mod-duello-dudak, #8f1f27); }
+.hk-banuyari-sure i { display: block; height: 100%; background: #fff; transition: width .25s linear; }
+.hk-banuyari--notr { background: var(--hk-gri-zemin); color: var(--hk-gri-metin); border-bottom-color: var(--hk-gri-kenar); }
+.hk-banuyari--notr .hk-banuyari-satir { min-height: 46px; }
+.hk-banuyari-ikon { display: inline-flex; }
+/* banlanabilir kart: kırmızı KESİKLİ çerçeve */
+.hk-kart--ban-aday { border-style: dashed; border-color: var(--qt-mod-duello, #c93030); }
 .hk-kart--secili { outline: 3px solid var(--hk-vurgu); outline-offset: 1px; transform: translateY(-1px); }
 /* saldıranın CANLI dokunuşu: kesikli turuncu çerçeve, yumuşak parlama */
 .hk-kart--dokunus { outline: 2.5px dashed var(--hk-vurgu); outline-offset: 1px; animation: hk-canli .8s ease-in-out infinite; }
@@ -279,6 +294,6 @@
 @media (prefers-reduced-motion: reduce) {
   .hk-yuva--dolu, .hk-yuva--son, .hk-taraf--kritik, .hk-kart--dokunus, .hk-kart--zipla, .hk-mesaj-yazi,
   .hk-mac .hk-sayac.qt-sayac--gerilim { animation: none !important; }
-  .hk-kart, .hk-cubuk-sure i { transition: none; }
+  .hk-kart, .hk-cubuk-sure i, .hk-banuyari-sure i { transition: none; }
   .hk-yuva--son { background: var(--hk-vurgu-zemin); }
 }

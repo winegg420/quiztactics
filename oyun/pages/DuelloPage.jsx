@@ -45,7 +45,7 @@ import SkillSeti from "../components/SkillSeti.jsx";
 // Maç ekranı parçaları (Tasarım A).
 import { V2Ust, V2Kategori, V2SecimCubugu, V2Cevap, V2Sonuc, V2Skill, V2Gecmis } from "../components/DuelloV2.jsx";
 // 680 · Hâkimiyet tahtası: yuvalar, mesaj satırı, maç sonu tahtası (kartlar/alt çubuk DuelloV2 üzerinden).
-import { hkModel, HkYuvalar, HkMesaj, hkMesaj, HkSonTahta, V2BanCubugu } from "../components/DuelloTahta.jsx";
+import { hkModel, HkYuvalar, HkMesaj, hkMesaj, HkSonTahta, V2BanCubugu, V2BanUyari } from "../components/DuelloTahta.jsx";
 // Tasarım A görünümü (m2- önekli). Eski duello-v2.css artık yüklenmez (dosya Faz 4'e kadar durur).
 import "./DuelloPage.a.css";
 import "../styles/duello-tahta.css";
@@ -441,6 +441,7 @@ function DuelloMac({ id }) {
   // 680 · Hâkimiyet: kategori seçimi (saldıran, onay bekleyen),
   // saldıranın canlı dokunuşu (yalnız istemcide; DB'ye yazılmaz) ve el değiştirince sıçrayacak kartlar.
   const [katSecim, setKatSecim] = useState(null);
+  const [banSecilen, setBanSecilen] = useState(null);   // ban fazında az önce banladığım kategori (bant nötrleşir)
   const [dokunus, setDokunus] = useState(null);      // { kategori, tur } — rakibin (saldıranın) dokunduğu kart
   const dokunusAlRef = useRef(null);
   const dokunusGonderRef = useRef({ zaman: 0, bekleyen: null, kategori: null });
@@ -707,7 +708,7 @@ function DuelloMac({ id }) {
 
   // Faz değişince yerel seçim sıfırlanır
   const fazAnahtari = d ? `${d.tur}-${d.saldiri_sirasi}-${d.faz}-${d.soru?.soru ?? ""}` : "";
-  useEffect(() => { setSecim(null); setIkinciSansElendi([]); setHata(null); }, [fazAnahtari]);
+  useEffect(() => { setSecim(null); setIkinciSansElendi([]); setHata(null); setBanSecilen(null); }, [fazAnahtari]);
 
   // ---------------- 680 · Hâkimiyet: canlı dokunuş, kart sıçraması ----------------
   const benSaldiranH = d ? d.saldiran === d.ben : false;
@@ -1083,6 +1084,7 @@ function DuelloMac({ id }) {
     try {
       const { error } = await supabase.rpc("duello_ban_sec", { p_id: id, p_kategori: k });
       if (error) throw error;
+      setBanSecilen(k);
       await yukle();
     } catch (e) {
       if (/ban sırası sende değil/i.test(e?.message ?? "")) yukle().catch(() => {});
@@ -1318,7 +1320,7 @@ function DuelloMac({ id }) {
     // 853: aynı kart ızgarası; savunan dokununca banlar, saldıran bekler.
     sahne2 = (
       <V2Kategori d={d} hk={hk} benSaldiran={benSaldiran} ben={ben} rakip={rakip} calisan={calisan} c={c2}
-                  secim={null} dokunus={null} onKart={banSec} />
+                  secim={banSecilen} dokunus={null} onKart={banSec} />
     );
   } else if (d.faz === "cevap") {
     sahne2 = (
@@ -1333,6 +1335,9 @@ function DuelloMac({ id }) {
     <div className={sinif("m2-mac hk-mac", `hk-mac--${d.faz}`, gerilim && "qt-h-gerilim", d.uzatma && "m2-mac--altin")}>
       <MacUstSerit onCik={() => setTerkOnay(true)} cikisEtiketi={ceviri("Düellodan çık")}
                    rozet={ceviri("Düello · Taktik Maçı")} />
+      {d.faz === "ban" && !benSaldiran && (
+        <V2BanUyari sn={kopukDonukSn ?? gosterSn} oran={sureOrani} banli={banSecilen} c={c2} />
+      )}
       <V2Ust d={d} ben={ben} rakip={rakip} c={c2} seviyeler={seviyeler} tepkiBalonlar={tepki.balonlar}
              sayac={sayacNode} oran={sureOrani} son={gerilim}
              onay={d.faz === "cevap" ? { [ben.id]: kilitli, [rakip.id]: Boolean(d.cevap?.rakip_cevapladi) } : {}} />

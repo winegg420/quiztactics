@@ -117,6 +117,12 @@ const Y = {
       <path d="M12 9.5v4M12 17h.01" />
     </>
   ),
+  ban: (
+    <>
+      <circle className={D} cx="12" cy="12" r="9" />
+      <path d="M5.6 5.6l12.8 12.8" />
+    </>
+  ),
   bilgi: (
     <>
       <circle className={D} cx="12" cy="12" r="9" />

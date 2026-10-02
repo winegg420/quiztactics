@@ -264,7 +264,7 @@ const AIDIYET_ETIKET = { ben: "senin kategorin", rakip: "rakibin kategorisi", bo
 export function V2Kategori({ d, hk, benSaldiran, ben, rakip, calisan, c, secim, dokunus, zipla = [], onKart }) {
   const kategoriler = d.kategoriler ?? [];
   const banFazi = d.faz === "ban";
-  const banli = banFazi ? null : d.ban?.kategori ?? null;
+  const banli = banFazi ? secim ?? null : d.ban?.kategori ?? null;   // ban fazında secim = az önce banladığım kart
   const banOnceki = banFazi && !benSaldiran ? d.ban?.onceki ?? null : null;
   const uygunListe = banFazi
     ? (Array.isArray(d.ban?.uygun) ? d.ban.uygun : null)
@@ -289,13 +289,14 @@ export function V2Kategori({ d, hk, benSaldiran, ben, rakip, calisan, c, secim, 
               const kilit = Number(hk.kilitler[x.k] ?? 0);
               const banliMi = banli === x.k;
               const oncekiBan = banOnceki === x.k;
-              const secilebilir = uygun.has(x.k) && kilit <= 0 && !banliMi && (banFazi ? !benSaldiran && !oncekiBan : benSaldiran);
-              const secili = benSaldiran && secim === x.k;
+              const secilebilir = uygun.has(x.k) && kilit <= 0 && !banliMi && (banFazi ? !benSaldiran && !oncekiBan && !secim : benSaldiran);
+              const secili = !banFazi && benSaldiran && secim === x.k;
+              const banAday = banFazi && secilebilir;
               const dokunuluyor = !benSaldiran && canli === x.k;
               return (
                 <button key={x.k} type="button" data-kategori={x.k}
                         className={sinif("hk-kart", `hk-kart--${g.anahtar}`, kilit > 0 && "hk-kart--kilitli", secili && "hk-kart--secili",
-                                         (banliMi || oncekiBan) && "hk-kart--banli",
+                                         (banliMi || oncekiBan) && "hk-kart--banli", banAday && "hk-kart--ban-aday",
                                          dokunuluyor && "hk-kart--dokunus", zipla.includes(x.k) && "hk-kart--zipla")}
                         disabled={!secilebilir || !!calisan}
                         aria-pressed={banFazi || !benSaldiran ? undefined : secili}
@@ -303,7 +304,7 @@ export function V2Kategori({ d, hk, benSaldiran, ben, rakip, calisan, c, secim, 
                         aria-label={[
                           x.ad, c(AIDIYET_ETIKET[g.anahtar]),
                           kilit > 0 ? c("{n} tur kilitli", { n: kilit }) : null,
-                          banliMi ? c("Banlı") : oncekiBan ? c("Önceki banın") : null,
+                          banliMi ? c("Banlı") : oncekiBan ? c("Geçen tur banladın") : null,
                           c("Sen {b} · Rakip {r}", { b: oranMetni(x.bo, c), r: oranMetni(x.ro, c) }),
                           c(OK_ETIKET[x.ok]),
                         ].filter(Boolean).join(" · ")}
@@ -317,7 +318,7 @@ export function V2Kategori({ d, hk, benSaldiran, ben, rakip, calisan, c, secim, 
                     {kilit > 0
                       ? <span className="hk-kart-kilit"><QtIkon ad="kilit" boyut={11} /> {c("{n} tur kilitli", { n: kilit })}</span>
                       : oncekiBan
-                        ? <span className="hk-kart-kilit"><QtIkon ad="kilit" boyut={11} /> {c("Önceki banın")}</span>
+                        ? <span className="hk-kart-kilit"><QtIkon ad="kilit" boyut={11} /> {c("Geçen tur banladın")}</span>
                         : c("Sen {b} · Rakip {r}", { b: oranMetni(x.bo, c), r: oranMetni(x.ro, c) })}
                   </span>
                   {banliMi && <span className="hk-kart-ban">{c("Banlı")}</span>}
@@ -378,6 +379,37 @@ export function V2SecimCubugu({ d, hk, benSaldiran, secim, calisan, c, onOnayla 
   );
 }
 
+/**
+ * 853 · Savunanın ban uyarı bandı (maç ekranının en üstü; akışta, position:fixed YOK). Solda geri sayım, yanında
+ * ne olduğu; altında azalan süre çubuğu. Ban seçilince (banli) bant nötrleşir: "Banladın: <kategori>".
+ */
+export function V2BanUyari({ sn, oran, banli, c }) {
+  const rakam = Math.max(0, Math.ceil(Number(sn) || 0));
+  if (banli) {
+    return (
+      <div className="hk-banuyari hk-banuyari--notr" role="status">
+        <div className="hk-banuyari-satir">
+          <span className="hk-banuyari-ikon" aria-hidden="true"><QtIkon ad="ban" boyut={22} /></span>
+          <b className="hk-banuyari-baslik">{c("Banladın: {kat}", { kat: c(kategoriAdi(banli)) })}</b>
+        </div>
+      </div>
+    );
+  }
+  return (
+    <div className="hk-banuyari" role="alert">
+      <div className="hk-banuyari-satir">
+        <span className="hk-banuyari-sayi qt-sayi" aria-label={`${rakam} ${c("sn")}`}>{rakam}</span>
+        <div className="hk-banuyari-yazi">
+          <span className="hk-banuyari-ust"><QtIkon ad="uyari" boyut={13} /> {c("RAKİP SALDIRACAK")}</span>
+          <b className="hk-banuyari-baslik"><QtIkon ad="ban" boyut={18} /> {c("Bir kategoriyi BANLA")}</b>
+          <span className="hk-banuyari-alt">{c("Dokun: rakip o kategoriden saldıramaz")}</span>
+        </div>
+      </div>
+      <div className="hk-banuyari-sure" aria-hidden="true"><i style={{ width: `${Math.round(Math.max(0, Math.min(1, oran)) * 100)}%` }} /></div>
+    </div>
+  );
+}
+
 /** 853 · Ban fazı alt çubuğu (kategori fazı çubuğuyla aynı yerde; akışta, position:fixed YOK). */
 export function V2BanCubugu({ benSaldiran, c }) {
   return (
@@ -389,10 +421,7 @@ export function V2BanCubugu({ benSaldiran, c }) {
             <span>{c("Ardından kategorini seçeceksin.")}</span>
           </>
         ) : (
-          <>
-            <b>{c("Banlamak için bir karta dokun")}</b>
-            <span>{c("Süre dolarsa ban yapılmaz.")}</span>
-          </>
+          <b>{c("Süre dolarsa ban kullanılmaz")}</b>
         )}
       </div>
     </div>
