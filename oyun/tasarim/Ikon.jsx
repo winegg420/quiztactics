@@ -308,6 +308,7 @@ const Y = {
   geri: <path d="M19.5 12h-15M10.5 6l-6 6 6 6" />,
   ileri: <path d="M9 5.5 15.5 12 9 18.5" />,
   asagi: <path d="M5.5 9 12 15.5 18.5 9" />,
+  yukari: <path d="M5.5 15 12 8.5 18.5 15" />,
   arti: <path d="M12 5v14M5 12h14" />,
   oyna: <path className={D} d="M8 5.5v13l10.5-6.5Z" />,
   gonder: (

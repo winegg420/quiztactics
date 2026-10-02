@@ -823,6 +823,9 @@ a.as-cip:active { transform: translateY(2px); }
     font-size: 12px; font-weight: var(--qt-a-siyah); color: var(--qt-dogru-koyu);
   }
 }
+.as-lk-alt-kisa .as-lk-yuk-ok { display: inline-block; vertical-align: -2px; margin-right: 2px; }
+.as-lk-yuk-dar { display: none; }
+@media (max-width: 420px) { .as-lk-yuk-uzun { display: none; } .as-lk-yuk-dar { display: inline; } }
 
 /* ============================================================
    2 Eki 2026 — Sezon + Görevler İKİZ kartlar (onaylı eskiz)

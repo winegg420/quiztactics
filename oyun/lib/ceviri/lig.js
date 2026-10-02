@@ -35,6 +35,8 @@ export default {
   "{ad} isteğini reddet": "Decline {ad}'s request",
   "Aşağıdaki davet linkini paylaş, birlikte yarışın.": "Share your invite link below and start playing together.",
   "{n} puan": "{n} pts",
+  "Yükselme: {n} P": "Promotion: {n} P",
+  "{n} P": "{n} P",
   "{ad} arkadaşlıktan çıkar": "Remove {ad} from friends",
   "{ad} kişisine gönderilen isteği geri çek": "Cancel your request to {ad}",
   "Kodunu ya da linkini paylaş; arkadaşın seni tek dokunuşla ekler.": "Share your code or link — your friend adds you in one tap.",
