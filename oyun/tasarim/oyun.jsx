@@ -9,7 +9,7 @@ import { tt } from "../lib/dil.js";
 import { CoinIkon } from "../components/ParaIkonlari.jsx";
 
 // ——————————————————————— MOD KARTI ———————————————————————
-const MOD_IKON = { klasik: "klasik", duello: "duello", turnuva: "kupa", grup: "grup", saf: "safBilgi" };
+const MOD_IKON = { klasik: "klasik", duello: "duello", turnuva: "kupa", grup: "grup", saf: "safBilgi", kasa: "coin" };
 
 /**
  * <QtModKart mod="duello" ad={tt("Düello")} alt={tt("Can savaşı · skill'li")} onClick={…} />

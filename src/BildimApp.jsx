@@ -55,6 +55,7 @@ const ModlarPage = tembelYukle(() => import("../oyun/pages/ModlarPage.jsx"));
 // DONDURULDU (Paket 24 B): HizliModPage dosyasi duruyor, hicbir rota cagirmiyor.
 // Geri acmak: bu satir + rota geri konur, oyun_ayarlari.hizli_mod_acik = true.
 const DuelloPage = tembelYukle(() => import("../oyun/pages/DuelloPage.jsx"));
+const KasaPage = tembelYukle(() => import("../oyun/pages/KasaPage.jsx"));   // KASA (deneysel, 950)
 const CalismaPage = tembelYukle(() => import("../oyun/pages/CalismaPage.jsx"));
 // Meydan (3B): three.js yalniz bu rotaya girilince iner (ayri chunk)
 const HaritaSayfasi = tembelYukle(() => import("../oyun/harita/HaritaSayfasi.jsx"));
@@ -227,6 +228,8 @@ export default function BildimApp() {
           <Route path="hizli-mod" element={<BulunamadiPage kapaliMod />} />
           <Route path="duello" element={<DuelloPage />} />
           <Route path="duello/:id" element={<MacAnahtarli Sayfa={DuelloPage} />} />
+          <Route path="kasa" element={<KasaPage />} />
+          <Route path="kasa/:id" element={<MacAnahtarli Sayfa={KasaPage} />} />
           <Route path="calisma" element={<CalismaPage />} />
           <Route path="modlar" element={<ModlarPage />} />
           {/* DONDURULDU — dosyalar ve veri yerinde; yalnız giriş kapalı. */}

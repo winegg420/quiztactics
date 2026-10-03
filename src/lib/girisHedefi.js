@@ -15,7 +15,7 @@ const OMUR_MS = 15 * 60 * 1000;
 // Paket 41 I: uygulamanın tanıdığı ilk yol parçaları (BildimApp rotalarıyla aynı).
 // Bilinmeyen adres hedef olarak saklanmaz; giriş sonrası ana sayfaya inilir.
 const BILINEN = new Set(["", "giris", "turnuva", "meydan", "mac", "grup-mac", "hizli-mac", "siralama", "arkadaslar",
-  "mesajlar", "davet", "joker", "hizli-mod", "duello", "calisma", "harita", "harita-deneme", "gorunum",
+  "mesajlar", "davet", "joker", "hizli-mod", "duello", "kasa", "calisma", "harita", "harita-deneme", "gorunum",
   "gorunum-3b", "profil", "gizlilik", "kosullar", "insan-prototip", "oyun", "bildim", "ses-secim",
   "cerceve-onizleme", "avatar-onizleme", "avatar-nadirlik", "premium-onizleme", "ikon-onizleme", "tasarim-onizleme", "yonetim", "gorsel-revizyon"]);
 export function bilinenYol(yol) {

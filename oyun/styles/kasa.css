@@ -1,0 +1,178 @@
+/* ============================================================
+   KASA (deneysel, 950) — ks- önekli. Kabuk/bant/hata kalıpları DuelloPage.a.css (m2-) ile ortak.
+   Renk rolleri: sen mavi (--qt-ikinci) · rakip kırmızı (--qt-mod-duello) · sahipsiz gri · eylem turuncu.
+   Mod rengi --qt-mod-kasa (tokenlar.css; beyaz yazı 6,0:1). Yalnız transform/opacity animasyonu.
+   iOS: position:fixed yok; 100vh yok.
+   ============================================================ */
+
+/* ---------- giriş ---------- */
+.ks-giris-kafa { background: var(--qt-mod-kasa); box-shadow: 0 var(--qt-dudak-b) 0 var(--qt-mod-kasa-dudak); }
+.ks-giris-kafa .m2-giris-ikon { box-shadow: 0 var(--qt-dudak-s) 0 var(--qt-mod-kasa-dudak); }
+.ks-giris-kafa .m2-giris-yazi .qt-baslik-1 { color: var(--qt-mod-kasa-yazi); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.ks-deneysel {
+  display: inline-block; padding: 3px 9px; border-radius: var(--qt-r-hap);
+  background: var(--qt-yuzey); color: var(--qt-mod-kasa-dudak);
+  font: var(--qt-a-siyah) 12px/1.2 var(--qt-f-govde); letter-spacing: .02em; text-transform: uppercase;
+}
+.ks-kurallar {
+  margin: 0; padding: var(--qt-b-3) var(--qt-b-4) var(--qt-b-3) calc(var(--qt-b-4) + 18px);
+  border-radius: var(--qt-r-l); background: var(--qt-yuzey); color: var(--qt-metin);
+  box-shadow: 0 4px 0 var(--qt-cizgi);
+  display: grid; gap: 6px; font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); line-height: 1.35;
+}
+
+/* ---------- maç kabı ---------- */
+/* Kaydırmasız tek ekran (Düello hk-mac ile aynı yaklaşım): kök görünür alanı doldurur; kabuğun alt boşluğu bu ekranda
+   boştur — negatif alt kenar boşluğuyla geri alınır, kendi alt dolgum güvenli alanı içerir. */
+.ks-mac {
+  gap: 8px;
+  padding: 2px 10px calc(6px + env(safe-area-inset-bottom, 0px));
+  min-height: calc(100dvh - 16px);
+  margin-bottom: calc(-1 * (var(--bd-b-5, 24px) + 12px + env(safe-area-inset-bottom, 0px)));
+}
+.ks-mac > * { flex: none; }
+.ks-mac > .ks-sahne { flex: 1 1 auto; }
+/* "Aynı soru · aynı anda" satırı yalnız Altın Soru'da (yer kazanmak için) */
+.ks-mac:not(.ks-mac--altin) .ks-soru .qt-soru-ust { display: none; }
+/* Sonuçta soluk şıklar okunur kalsın (kontrast ≥ 4,5): ortak .qt-sik--solgun 0,45 opaklık yerine nötr kilitli görünüm */
+.ks-mac .qt-sik--solgun { opacity: 1; --_z: var(--qt-yuzey); --_y: var(--qt-metin-soluk); box-shadow: 0 0 0 var(--_d); transform: translateY(var(--qt-dudak)); }
+.ks-ust {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 6px;
+  padding: 6px 8px; border-radius: var(--qt-r-l); background: var(--qt-yuzey); color: var(--qt-metin);
+  box-shadow: 0 3px 0 var(--qt-cizgi);
+}
+.ks-ust--altin { box-shadow: 0 3px 0 var(--qt-coin-dudak), inset 0 0 0 2px var(--qt-coin); }
+.ks-ust .qt-oyuncu--rakip { flex-direction: row-reverse; text-align: right; }
+.ks-oyuncu { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.ks-avatar { position: relative; flex: none; }
+.ks-onay {
+  position: absolute; right: -3px; bottom: -3px; display: grid; place-items: center; width: 16px; height: 16px;
+  border-radius: 50%; background: var(--qt-dogru); color: var(--qt-metin); box-shadow: 0 0 0 2px var(--qt-yuzey);
+}
+.ks-ust-orta { display: grid; justify-items: center; gap: 2px; }
+.ks-tur { font: var(--qt-a-siyah) 12px/1 var(--qt-f-govde); color: var(--qt-metin-soluk); white-space: nowrap; }
+.ks-tur b { color: var(--qt-metin); }
+.ks-sayac--yok { display: grid; place-items: center; width: 44px; height: 44px; color: var(--qt-metin-soluk); font-weight: 900; }
+
+/* ---------- skor + küçük kadran şeridi ---------- */
+.ks-serit { display: flex; align-items: center; gap: 8px; }
+/* İki satır aynı sütunları paylaşır: ad sütunu en uzun etikete göre (EN "OPPONENT" kesilmesin) */
+.ks-skor { flex: 1 1 auto; min-width: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr) auto; align-items: center; gap: 4px 6px; }
+.ks-skor-satir { display: contents; }
+.ks-skor-ad { font: var(--qt-a-siyah) 12px/1 var(--qt-f-govde); letter-spacing: .03em; color: var(--qt-metin); }
+.ks-skor-cubuk {
+  position: relative; height: 12px; border-radius: var(--qt-r-hap); overflow: hidden;
+  background: var(--qt-yuzey); box-shadow: inset 0 0 0 2px var(--qt-cizgi);
+}
+.ks-skor-cubuk i { position: absolute; inset: 0 auto 0 0; border-radius: inherit; transition: width .35s var(--qt-egri-cikis, ease-out); }
+.ks-skor-satir--ben { --ks-renk: var(--qt-ikinci); }
+.ks-skor-satir--rakip { --ks-renk: var(--qt-mod-duello); }
+.ks-skor-dolu { background: var(--ks-renk); }
+.ks-skor-hayalet { background: var(--ks-renk); opacity: .28; }
+.ks-skor-sayi { font: var(--qt-a-siyah) 15px/1 var(--qt-f-baslik); color: var(--qt-metin); white-space: nowrap; }
+.ks-skor-sayi small { font-size: 11px; color: var(--qt-metin-soluk); margin-left: 1px; }
+
+/* ---------- kasa kadranı ---------- */
+.ks-kadran {
+  --ks-k: var(--qt-metin-soluk);
+  position: relative; display: grid; justify-items: center; gap: 6px; margin: 0 auto;
+  width: 148px;
+}
+.ks-kadran--ben { --ks-k: var(--qt-ikinci); }
+.ks-kadran--rakip { --ks-k: var(--qt-mod-duello); }
+.ks-kadran svg { width: 148px; height: 148px; transform: rotate(-90deg); }
+.ks-kadran-iz { fill: var(--qt-yuzey); stroke: var(--qt-cizgi); stroke-width: 9; }
+.ks-kadran-dolu { fill: none; stroke: var(--ks-k); stroke-width: 9; stroke-linecap: round; transition: stroke-dashoffset .45s var(--qt-egri-cikis, ease-out); }
+.ks-kadran-ic { position: absolute; top: 0; left: 0; width: 148px; height: 148px; display: grid; place-content: center; text-align: center; }
+.ks-kadran-ic small { font: var(--qt-a-siyah) 12px/1 var(--qt-f-govde); letter-spacing: .12em; color: var(--qt-metin-soluk); }
+.ks-kadran-ic b { font: var(--qt-a-siyah) 52px/1 var(--qt-f-baslik); color: var(--qt-metin); animation: ks-sayi-gir .32s var(--qt-egri-cikis, ease-out); }
+.ks-kadran-sahip {
+  padding: 5px 12px; border-radius: var(--qt-r-hap); background: var(--ks-k); color: #fff;
+  font: var(--qt-a-siyah) 13px/1.1 var(--qt-f-govde);
+}
+.ks-kadran--yok .ks-kadran-sahip { background: var(--qt-yuzey); color: var(--qt-metin); box-shadow: inset 0 0 0 2px var(--qt-cizgi); }
+.ks-kadran--kucuk { width: 64px; flex: none; margin: 0; }
+.ks-kadran--kucuk svg, .ks-kadran--kucuk .ks-kadran-ic { width: 64px; height: 64px; }
+.ks-kadran--kucuk .ks-kadran-iz, .ks-kadran--kucuk .ks-kadran-dolu { stroke-width: 11; }
+.ks-kadran--kucuk .ks-kadran-ic small { font-size: 9px; letter-spacing: .08em; }
+.ks-kadran--kucuk .ks-kadran-ic b { font-size: 24px; }
+@keyframes ks-sayi-gir { from { transform: scale(.7); opacity: 0; } to { transform: none; opacity: 1; } }
+
+/* ---------- sahne ---------- */
+.ks-sahne { display: flex; flex-direction: column; gap: 8px; min-height: 0; }
+.ks-mac--baslangic .ks-sahne, .ks-mac--karar .ks-sahne { flex: 1 1 auto; justify-content: center; }
+
+/* karar */
+.ks-karar { display: grid; justify-items: center; gap: 10px; text-align: center; }
+.ks-karar-baslik { margin: 0; display: flex; align-items: center; gap: 8px; font: var(--qt-a-siyah) 20px/1.2 var(--qt-f-baslik); color: var(--qt-metin); }
+.ks-karar-eylem { width: 100%; display: grid; gap: 10px; }
+.ks-karar-eylem .qt-dugme { min-height: 56px; }
+.ks-karar-not { margin: 0; font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); }
+.ks-nokta { width: 10px; height: 10px; border-radius: 50%; background: var(--qt-mod-duello); animation: ks-nabiz 1.2s ease-in-out infinite; }
+@keyframes ks-nabiz { 50% { transform: scale(.55); opacity: .5; } }
+
+/* cevap / sonuç */
+.ks-karar-satir {
+  margin: 0; padding: 6px 12px; border-radius: var(--qt-r-hap); align-self: center;
+  background: var(--qt-yuzey); color: var(--qt-metin); box-shadow: inset 0 0 0 2px var(--qt-cizgi);
+  font-size: 13px; font-weight: var(--qt-a-siyah); text-align: center;
+}
+.ks-bant {
+  display: grid; gap: 2px; justify-items: center; text-align: center;
+  padding: 8px 12px; border-radius: var(--qt-r-l); color: #fff;
+}
+.ks-bant b { font: var(--qt-a-siyah) 16px/1.2 var(--qt-f-baslik); }
+.ks-bant span { font-size: 13px; font-weight: var(--qt-a-siyah); }
+.ks-bant--iyi { background: var(--qt-ikinci); box-shadow: 0 3px 0 var(--qt-ikinci-dudak); }
+.ks-bant--kotu { background: var(--qt-mod-duello); box-shadow: 0 3px 0 var(--qt-mod-duello-dudak); }
+.ks-bant--notr { background: var(--qt-yuzey); color: var(--qt-metin); box-shadow: 0 3px 0 var(--qt-cizgi); }
+.ks-hata { margin: 0; }
+
+/* maç sonu geçmiş */
+.ks-gecmis { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.ks-gecmis-satir {
+  display: grid; grid-template-columns: 36px minmax(0, 1fr) 18px; gap: 8px; align-items: start;
+  padding: 8px; border-radius: var(--qt-r-m, 14px); background: var(--qt-yuzey); color: var(--qt-metin);
+}
+.ks-gecmis-tur { font-weight: 900; text-align: center; color: var(--qt-metin-soluk); }
+.ks-gecmis-metin { display: grid; gap: 2px; font-size: 13px; line-height: 1.3; }
+.ks-gecmis-metin small { color: var(--qt-metin-soluk); font-weight: 700; }
+.ks-gecmis--dogru > .qt-ikon:last-child { color: var(--qt-dogru-koyu, #138a4c); }
+.ks-gecmis--yanlis > .qt-ikon:last-child { color: var(--qt-mod-duello); }
+
+/* ---------- kısa ekran (≈ 360×640, iPhone Safari 375×553): tek ekranda sığsın ---------- */
+@media (max-height: 760px) {
+  .ks-mac { gap: 5px; }
+  .ks-ust { padding: 4px 8px; }
+  .ks-mac .ks-soru { gap: 4px; }
+  .ks-mac .ks-soru .qt-soru-kart { min-height: 0; padding: 12px 14px; }
+  .ks-mac .ks-soru .qt-soru-metin { font-size: clamp(16px, 2.9dvh, 20px); line-height: 1.2; }
+  .ks-mac .qt-sikler { gap: 6px; }
+  .ks-mac .qt-sik-yuva, .ks-mac .qt-sik { min-height: 48px; }
+  .ks-mac .qt-sik { padding-block: 4px; font-size: var(--qt-y-m); }
+  .ks-mac .qt-sik-harf { width: 32px; height: 32px; font-size: var(--qt-y-m); }
+  .ks-karar-satir { padding: 3px 10px; font-size: 12px; }
+  .ks-skor { gap: 3px; }
+  .ks-skor-cubuk { height: 10px; }
+}
+@media (max-height: 700px) {
+  .ks-mac { gap: 4px; }
+  .ks-mac .qt-sikler { gap: 5px; }
+  .ks-mac .qt-sik-yuva, .ks-mac .qt-sik { min-height: 44px; }
+  .ks-mac .ks-soru .qt-soru-kart { padding: 10px 12px; }
+  .ks-kadran, .ks-kadran svg, .ks-kadran-ic { width: 120px; }
+  .ks-kadran svg, .ks-kadran-ic { height: 120px; }
+  .ks-kadran-ic b { font-size: 42px; }
+  .ks-kadran--kucuk, .ks-kadran--kucuk svg, .ks-kadran--kucuk .ks-kadran-ic { width: 56px; height: 56px; }
+  .ks-kadran--kucuk .ks-kadran-ic b { font-size: 21px; }
+  .ks-karar { gap: 8px; }
+  .ks-karar-eylem .qt-dugme { min-height: 50px; }
+  .ks-mac .ks-soru { padding-block: 10px; }
+  .ks-bant { padding: 6px 10px; }
+  .ks-bant b { font-size: 15px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ks-kadran-ic b, .ks-nokta { animation: none; }
+  .ks-skor-cubuk i, .ks-kadran-dolu { transition: none; }
+}

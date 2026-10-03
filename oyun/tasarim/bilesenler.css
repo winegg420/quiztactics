@@ -967,6 +967,7 @@ html:not(.msk-acik) body:not(.bd-oyun-modu):has(.a-ust-blok):not(:has(.qt-ortu))
 .qt-mod--turnuva { --_m: var(--qt-mod-turnuva); --_md: var(--qt-mod-turnuva-dudak); }
 .qt-mod--grup { --_m: var(--qt-mod-grup); --_md: var(--qt-mod-grup-dudak); }
 .qt-mod--saf { --_m: var(--qt-mod-saf); --_md: var(--qt-mod-saf-dudak); }
+.qt-mod--kasa { --_m: var(--qt-mod-kasa); --_md: var(--qt-mod-kasa-dudak); --_y: #fff; } /* KASA (950): beyaz yazı ≈ 6,0:1 */
 .qt-mod-ikon {
   position: absolute;
   top: var(--qt-b-3);
