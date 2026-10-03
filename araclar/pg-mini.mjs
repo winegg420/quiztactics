@@ -115,6 +115,8 @@ export class PgIstemci {
           hata = new PgHata(this.#hataMetni(govde));
           return;
         }
+        // NoticeResponse (WARNING/NOTICE): testler yutulan tetikleyici uyarılarını görebilsin
+        if (tur === 'N') (this.uyarilar ??= []).push(this.#hataMetni(govde));
         kuyruk.push([tur, govde]);
         if (hata ? tur === 'Z' : kosul(tur, govde)) {
           this.bekleyen.shift();

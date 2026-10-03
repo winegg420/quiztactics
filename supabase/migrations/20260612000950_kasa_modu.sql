@@ -18,7 +18,7 @@
 --   mac_sayaci_arttir, istatistikli_mac_arttir, award_badge, sezon_mac_sp) — kopya hesap yok.
 --   Ek çarpan: kasa_odul_acik (1/0) × kasa_odul_carpani (1). Düello yeni oyuncu kilidi UYGULANMAZ.
 --   Ortak fonksiyonlara yalnız 'kasa' DALI eklenir (mevcut dallar aynen): cift_odul_carpani,
---   xp_mac_odulu, sezon_puani_ekle, gorev_olcum, gorev_dogru_satirlari, gorev_sayaci, mac_sonu_ozet,
+--   xp_mac_odulu, gorev_olcum, gorev_dogru_satirlari, gorev_sayaci, mac_sonu_ozet,
 --   odul_dokumu, level_kazancim, trg_iletisim_engel.
 --
 -- TEST: cron ve realtime adımları dosyanın SONUNDA "TEST DIŞI" işaretli bölümdedir; SQL testi o
@@ -504,13 +504,9 @@ begin
     perform public.istatistikli_mac_arttir(v_oyuncu);
   end loop;
 
-  -- Rozet: yalnız genel rozetler (Ida, 3 Eki 2026) — ilk galibiyet + 10 galibiyet
-  if p_kazanan is not null and v_carpan > 0 then
+  -- Rozet: yalnız genel rozetler (Ida, 3 Eki 2026). Klasik gibi: ilk galibiyet koşulsuz; mac_10 aşağıda yalnız Dereceli.
+  if p_kazanan is not null then
     perform public.award_badge(p_kazanan, 'ilk_galibiyet');
-    if (select count(*) from public.matches where kazanan = p_kazanan and durum = 'bitti')
-       + (select count(*) from public.kasa_maclari where kazanan = p_kazanan and durum = 'bitti') >= 10 then
-      perform public.award_badge(p_kazanan, 'mac_10');
-    end if;
   end if;
 
   -- Lig puanı: yalnız Dereceli, Klasik değerleri (lig_mac_galibiyet / lig_mac_beraberlik)
@@ -523,10 +519,18 @@ begin
         update public.profiles set puan = puan + v_lig, puan_hafta = puan_hafta + v_lig where id = p_kazanan;
       end if;
       perform public.odul_kalem_yaz(p_kazanan, 'galibiyet', greatest(v_lig, 0), 0, public.odul_lig_indirimi(v_carpan));
-    elsif v_terk is null then
+      -- 10 galibiyet (Klasik + Kasa), Klasik gibi yalnız Dereceli
+      if (select count(*) from public.matches where kazanan = p_kazanan and durum = 'bitti')
+         + (select count(*) from public.kasa_maclari where kazanan = p_kazanan and durum = 'bitti') >= 10 then
+        perform public.award_badge(p_kazanan, 'mac_10');
+      end if;
+    else
+      -- Beraberlik (Klasik gibi): her oyuncuya lig_mac_beraberlik × çarpan, bota bot yüzdesiyle
       foreach v_oyuncu in array array[k.oyuncu1, k.oyuncu2] loop
-        v_lig := floor(public.ayar_sayi('lig_mac_beraberlik', 10) * v_carpan)::int;
-        if v_lig > 0 and not exists (select 1 from public.profiles where id = v_oyuncu and coalesce(is_bot, false)) then
+        select coalesce(is_bot, false) into v_kazanan_bot from public.profiles where id = v_oyuncu;
+        v_lig := floor(public.ayar_sayi('lig_mac_beraberlik', 10) * v_carpan *
+                       (case when v_kazanan_bot then public.ayar_sayi('lig_bot_puan_yuzde', 40)::numeric / 100 else 1 end))::int;
+        if v_lig > 0 then
           update public.profiles set puan = puan + v_lig, puan_hafta = puan_hafta + v_lig where id = v_oyuncu;
         end if;
         perform public.odul_kalem_yaz(v_oyuncu, 'beraberlik', greatest(v_lig, 0), 0, public.odul_lig_indirimi(v_carpan));
@@ -544,17 +548,19 @@ begin
   perform public.kasa_sinyal_ver(p_id);
 end $$;
 
--- Sezon Puanı (720 deseni): bitişte iki oyuncuya, terk edene yok; çarpan 0 ise sezon_mac_sp vermez
+-- Sezon Puanı (720 deseni): bitişte iki oyuncuya, terk edene yok; çarpan 0 ise sezon_mac_sp vermez.
+-- Kaynak 'mac' (Ida, 3 Eki 2026 — seçenek A): Klasik/Düello ile aynı günlük maç SP tavanı + BP çarpanı,
+-- sezon_puan_hareketleri kısıtına dokunulmaz; Kasa referans önekiyle ayrılır ('kasa:<id>').
 create or replace function public.trg_sezon_kasa()
 returns trigger language plpgsql security definer set search_path = public as $$
 begin
   if new.durum = 'bitti' and old.durum is distinct from 'bitti' then
     begin
       if new.terk_eden is distinct from new.oyuncu1 then
-        perform public.sezon_mac_sp('kasa', 'kasa:' || new.id, new.oyuncu1, new.oyuncu2, new.kazanan, new.odul_carpan);
+        perform public.sezon_mac_sp('mac', 'kasa:' || new.id, new.oyuncu1, new.oyuncu2, new.kazanan, new.odul_carpan);
       end if;
       if new.terk_eden is distinct from new.oyuncu2 then
-        perform public.sezon_mac_sp('kasa', 'kasa:' || new.id, new.oyuncu2, new.oyuncu1, new.kazanan, new.odul_carpan);
+        perform public.sezon_mac_sp('mac', 'kasa:' || new.id, new.oyuncu2, new.oyuncu1, new.kazanan, new.odul_carpan);
       end if;
     exception when others then
       raise warning 'sezon_kasa_sp: %', sqlerrm;
@@ -1357,57 +1363,6 @@ begin
       jsonb_strip_nulls(jsonb_build_object('sonuc', v_sonuc, 'taban', v_taban, 'carpan', v_carpan,
                                            'indirim', v_indirim, 'oynamadi', case when not v_oynadi and v_sonuc <> 'galibiyet' then true end)));
   end loop;
-end $function$;
-
--- 7c) Sezon Puanı: 'kasa' maç kaynağı gibi (günlük maç SP tavanı + BP çarpanı)
-CREATE OR REPLACE FUNCTION public.sezon_puani_ekle(p_user uuid, p_kaynak text, p_referans text, p_miktar integer)
- RETURNS integer
- LANGUAGE plpgsql
- SECURITY DEFINER
- SET search_path TO 'public'
-AS $function$
-declare
-  v_sezon bigint;
-  v_taban int := coalesce(p_miktar, 0);
-  v_miktar int;
-  v_kullanilan int;
-  v_id bigint;
-  v_sp int;
-  v_seviye int;
-begin
-  if p_user is null or v_taban <= 0 or p_referans is null then return null; end if;
-  if exists (select 1 from public.profiles where id = p_user and coalesce(is_bot, false)) then return null; end if;
-  v_sezon := public.sezon_gecerli(p_user);
-  if v_sezon is null then return null; end if;
-
-  -- Oyuncu satırını kilitle: günlük tavan ve seviye hesabı yarışsız
-  insert into public.oyuncu_sezon_puani (sezon, user_id) values (v_sezon, p_user) on conflict do nothing;
-  perform 1 from public.oyuncu_sezon_puani where sezon = v_sezon and user_id = p_user for update;
-
-  if p_kaynak in ('mac', 'duello', 'kasa') then   -- 950: kasa
-    select coalesce(sum(h.taban), 0) into v_kullanilan from public.sezon_puan_hareketleri h
-     where h.user_id = p_user and h.sezon = v_sezon and h.kaynak in ('mac', 'duello', 'kasa')
-       and (h.created_at at time zone 'Europe/Istanbul')::date = (now() at time zone 'Europe/Istanbul')::date;
-    v_taban := least(v_taban, greatest(0, public.ayar_sayi('sp_gunluk_mac_tavan', 150)::int - v_kullanilan));
-    if v_taban <= 0 then return null; end if;
-  end if;
-
-  v_miktar := v_taban;
-  if p_kaynak in ('mac', 'duello', 'kasa', 'turnuva', 'gorev') and public.bp_aktif_mi(v_sezon, p_user) then
-    v_miktar := round(v_taban * public.ayar_ondalik('bp_sp_carpan', 1.25))::int;
-  end if;
-
-  insert into public.sezon_puan_hareketleri (sezon, user_id, kaynak, referans, taban, miktar)
-  values (v_sezon, p_user, p_kaynak, p_referans, v_taban, v_miktar)
-  on conflict do nothing returning id into v_id;
-  if v_id is null then return null; end if;   -- bu kaynak zaten puan verdi
-
-  update public.oyuncu_sezon_puani set sp = sp + v_miktar, guncellendi = now()
-   where sezon = v_sezon and user_id = p_user returning sp into v_sp;
-  v_seviye := public.sezon_seviye(v_sp);
-  update public.oyuncu_sezon_puani set seviye = v_seviye where sezon = v_sezon and user_id = p_user and seviye <> v_seviye;
-  perform public.sezon_final_kontrol(v_sezon, p_user);
-  return v_sp;
 end $function$;
 
 -- 7d) Görev ölçümü: Kasa maçı "maç oyna / kazan / doğru" sayımına girer (yeni görev türü YOK).
