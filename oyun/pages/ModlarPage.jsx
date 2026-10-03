@@ -29,6 +29,9 @@ const KLASIK_JOKER = KLASIK_JOKERLER.length;
 
 export default function ModlarPage() {
   const turSayisi = useAyar("duello_max_tur", 16);   // Düello tur sayısı metne gömülmez (1 Eki 2026: 16 tur)
+  // KASA (deneysel, 950): ayar satırı yoksa (migration uygulanmamış) ya da 0 ise kart kilitli + kapalı notu
+  const kasaAcik = useAyar("kasa_modu_acik", 0) >= 1;
+  const kasaHedef = useAyar("kasa_hedef_puan", 20);
   const navigate = useNavigate();
   const [dereceliTercih, setDereceliTercih] = useDereceliTercih();
   // 860: Klasik / Saf Bilgi maç kategorisi (null = Karışık) — ana sayfa OYNA penceresiyle AYNI tercih.
@@ -115,6 +118,20 @@ export default function ModlarPage() {
         alt={tt("3–5 arkadaş · ödülsüz. Aynı sorularda eğlencesine yarış.")}
         rozet={tt("Kur")}
         onClick={sec(() => navigate(y("/meydan")))}
+      />
+
+      {/* KASA (deneysel, 950): kapalıyken mevcut kilitli kart kalıbı (kilitMetni) */}
+      <QtModKart
+        mod="kasa"
+        genis
+        className={sirali}
+        style={siraStili(5)}
+        ad={tt("Kasa")}
+        alt={tt("Tek başına bil, kasayı al; doğru anda aç. {h} puana ilk ulaşan kazanır.", { h: kasaHedef })}
+        rozet={tt("Deneysel")}
+        kilitli={!kasaAcik}
+        kilitMetni={tt("Bu mod şu an kapalı.")}
+        onClick={kasaAcik ? sec(() => navigate(y("/kasa"))) : undefined}
       />
 
       <section className="a-modlar-bolum" aria-labelledby="a-modlar-diger-b">

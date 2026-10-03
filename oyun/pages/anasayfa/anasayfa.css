@@ -25,6 +25,7 @@
 .as-renk--duello  { --as-r: var(--qt-mod-duello);  --as-r-d: var(--qt-mod-duello-dudak);  --as-r-a: var(--qt-mod-duello-acik); }
 .as-renk--turnuva { --as-r: var(--qt-mod-turnuva); --as-r-d: var(--qt-mod-turnuva-dudak); --as-r-a: var(--qt-mod-turnuva-acik); }
 .as-renk--grup    { --as-r: var(--qt-mod-grup);    --as-r-d: var(--qt-mod-grup-dudak);    --as-r-a: var(--qt-mod-grup-acik); }
+.as-renk--kasa    { --as-r: var(--qt-mod-kasa);    --as-r-d: var(--qt-mod-kasa-dudak);    --as-r-a: var(--qt-mod-kasa-acik); }
 .as-renk--saf     { --as-r: var(--qt-mod-saf);     --as-r-d: var(--qt-mod-saf-dudak);     --as-r-a: var(--qt-mod-saf-acik); }
 .as-renk--calisma { --as-r: var(--qt-ikinci-acik); --as-r-d: var(--qt-ikinci);            --as-r-a: var(--qt-ikinci-acik); }
 .as-renk--meydan  { --as-r: var(--qt-uyari-acik);  --as-r-d: var(--qt-uyari);             --as-r-a: var(--qt-uyari-acik); }
@@ -306,6 +307,15 @@ a.as-cip:active { transform: translateY(2px); }
 .as-kisayol.as-renk--meydan .as-kisayol-ikon { --as-ik: var(--qt-mod-duello); }
 .as-kisayol.as-renk--grup .as-kisayol-ikon { --as-ik: var(--qt-mod-grup-dudak); }
 .as-kisayol.as-renk--saf .as-kisayol-ikon { --as-ik: var(--qt-mod-saf-dudak); }
+.as-kisayol.as-renk--kasa .as-kisayol-ikon { --as-ik: var(--qt-mod-kasa); }
+/* KASA (deneysel, 950): 5. kısayol aynı satırda (telefonda ana sayfa kaydırılmaz) + küçük "Deneysel" etiketi */
+.as-a-kisayol--5 { grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.as-a-kisayol--5 .as-kisayol { padding-inline: 2px; }
+.as-a-kisayol--5 .as-kisayol-ad { font-size: 11px; }
+.as-kisayol-etiket {
+  position: absolute; top: -7px; left: 50%; translate: -50% 0; padding: 1px 6px; border-radius: var(--qt-r-hap);
+  background: var(--qt-mod-kasa); color: var(--qt-mod-kasa-yazi); font: 800 9px/1.3 var(--qt-f-govde); letter-spacing: .02em; white-space: nowrap;
+}
 .as-kisayol.as-renk--calisma .as-kisayol-ikon { --as-ik: var(--qt-ikinci-acik); --as-ik-y: var(--qt-mod-yazi); }
 .as-kisayol-ad { font-size: 12px; font-weight: 800; line-height: 1.1; text-align: center; }
 

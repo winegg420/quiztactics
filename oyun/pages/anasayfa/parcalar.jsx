@@ -125,6 +125,8 @@ export function modListesi(v, b) {
       git: () => b.git("/meydan") },
     { anahtar: "grup", ad: tt("Grup Maçı"), ikon: "grup", alt: tt("3–5 kişi"), git: () => b.git("/meydan?bolum=grup") },
     { anahtar: "saf", ad: tt("Saf Bilgi"), ikon: "safBilgi", alt: tt("Skill yok"), git: () => b.safBilgi() },
+    // KASA (deneysel, 950): kapalıyken AnaSayfaA süzer (oyun_ayarlari.kasa_modu_acik)
+    { anahtar: "kasa", ad: tt("Kasa"), ikon: "coin", alt: tt("Deneysel"), etiket: tt("Deneysel"), git: () => b.git("/kasa") },
     { anahtar: "calisma", ad: tt("Hatalarım"), ikon: "kitap", alt: tt("Yanlışlarını çalış"),
       rozet: rozetSayi(v.banka), rozetEtiketi: tt("{n} soru bekliyor", { n: v.banka }), git: () => b.git("/calisma") },
   ];
@@ -169,6 +171,7 @@ const DEVAM_MOD_BILGI = {
   duello: { ikon: "duello", baslik: () => tt("Düello") },
   grup: { ikon: "grup", baslik: () => tt("Grup Maçı") },
   turnuva: { ikon: "kupa", baslik: () => tt("Turnuva") },
+  kasa: { ikon: "coin", baslik: () => tt("Kasa") },
 };
 
 /**

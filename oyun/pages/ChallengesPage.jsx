@@ -12,6 +12,7 @@ import { hataMesaji } from "../lib/hata.js";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import { useDuelloAcilis } from "../lib/useDuelloAcilis.js";
+import { useAyar } from "../lib/ayarlar.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import AvatarCerceve from "../components/AvatarCerceve.jsx";
 import { kategoriAdi, kategoriEtiket, kategorileriSirala } from "../lib/kategoriler.js";
@@ -149,11 +150,13 @@ export default function ChallengesPage() {
   const [seritSonda, setSeritSonda] = useState(false);
   // Antrenman (Ajan E, E.2): açık bot kartına dokununca mod seçim penceresi açılır
   const [antrenmanBot, setAntrenmanBot] = useState(null);
-  const [antrenmanBasliyor, setAntrenmanBasliyor] = useState(null);   // "klasik" | "duello" | null
+  const [antrenmanBasliyor, setAntrenmanBasliyor] = useState(null);   // "klasik" | "duello" | "kasa" | null
   const [antrenmanHata, setAntrenmanHata] = useState(null);
   // Düello kilidi: paylaşılan kanca (duello_acilis_benim); pencere açılınca okunur, okunamazsa kilit gösterilmez, sunucu yine reddeder.
   const duelloAcilis = useDuelloAcilis(Boolean(antrenmanBot));
   const duelloKilit = duelloAcilis?.acik === false ? { kalan: duelloAcilis.kalan } : null;   // { kalan } | null (açık / okunmadı)
+  // KASA (deneysel, 950): yeni oyuncu kilidi YOK; ayar satırı yoksa (migration uygulanmamış) ya da 0 ise düğme çizilmez.
+  const kasaAcik = useAyar("kasa_modu_acik", 0) >= 1;
   // Oyun hissi (1 Eki 2026) — yalnız ses / titreşim / görsel; seçim state'i ve RPC'ler aynı.
   // secimYapildi: oyuncu bir mod/kategori seçene kadar onay işareti zıplamaz (sayfa açılışındaki varsayılan seçim sessizdir).
   const [secimYapildi, setSecimYapildi] = useState(false);
@@ -590,6 +593,14 @@ export default function ChallengesPage() {
         if (error) throw error;
         if (!data?.duello_id) throw new Error(tt("Antrenman maçı başlatılamadı."));
         navigate(y(`/duello/${data.duello_id}`));
+        return;
+      }
+      if (mod === "kasa") {
+        // KASA: açık bota davet maçı hemen kurar; antrenman her zaman serbest (sunucu zorlar — 950).
+        const { data, error } = await supabase.rpc("kasa_davet_et", { p_rakip: bot.id, p_dereceli: false });
+        if (error) throw error;
+        if (!data?.kasa_id) throw new Error(tt("Antrenman maçı başlatılamadı."));
+        navigate(y(`/kasa/${data.kasa_id}`));
         return;
       }
       const { data, error } = await supabase.rpc("hemen_bot_mac_sec", {
@@ -1104,6 +1115,14 @@ export default function ChallengesPage() {
               <p id="a-meydan-duello-kilit" className="a-meydan-antrenman-kilit">
                 {tt("{n} Klasik maç bitirince açılır", { n: duelloKilit.kalan })}
               </p>
+            )}
+            {kasaAcik && (
+              <QtDugme tamGenislik tur="ikincil" ikon="coin"
+                       yukleniyor={antrenmanBasliyor === "kasa"}
+                       devreDisi={antrenmanBasliyor !== null}
+                       onClick={() => antrenmanBaslat("kasa")}>
+                {tt("Kasa · Deneysel")}
+              </QtDugme>
             )}
           </div>
           {antrenmanHata && <p className="a-meydan-hata" role="alert">{antrenmanHata}</p>}

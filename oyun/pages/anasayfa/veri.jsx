@@ -367,6 +367,28 @@ export function useDevamEdenMaclar() {
       console.warn("[Ana sayfa] devam eden Düello:", e?.message ?? e);
     }
 
+    // KASA (deneysel, 950): ayar satırı yoksa (migration uygulanmamış) ya da mod kapalıysa sorulmaz.
+    try {
+      if (Number(await ayar("kasa_modu_acik", 0)) >= 1) {
+        const { data: kasalar, error } = await supabase.rpc("kasa_aktif_benim");
+        if (error) throw error;
+        const rakipIdler = (kasalar ?? []).map((k) => (k.oyuncu1 === uid ? k.oyuncu2 : k.oyuncu1));
+        let adlar = new Map();
+        if (rakipIdler.length) {
+          const { data: profiller } = await supabase.from("profiles").select("id, gorunen_ad").in("id", rakipIdler);
+          adlar = new Map((profiller ?? []).map((p) => [p.id, p.gorunen_ad]));
+        }
+        const kasaTur = await ayar("kasa_max_tur", 24);
+        for (const k of kasalar ?? []) {
+          const rakipId = k.oyuncu1 === uid ? k.oyuncu2 : k.oyuncu1;
+          sonuc.push({ id: `kasa-${k.id}`, mod: "kasa", rakipAd: adlar.get(rakipId) ?? null,
+            alt: tt("{n}. tur/{t}", { n: Math.max(1, k.tur ?? 1), t: kasaTur }), yol: `/kasa/${k.id}` });
+        }
+      }
+    } catch (e) {
+      console.warn("[Ana sayfa] devam eden Kasa:", e?.message ?? e);
+    }
+
     try {
       const { data, error } = await supabase.from("group_matches")
         .select("id, aktif_soru, soru_ids, oyuncu_sayisi").eq("durum", "aktif").limit(20);

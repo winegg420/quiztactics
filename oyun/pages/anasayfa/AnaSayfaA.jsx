@@ -21,6 +21,8 @@ import "./anasayfa.css";
 
 export default function AnaSayfaA() {
   const turSayisi = useAyar("duello_max_tur", 16);   // Düello tur sayısı metne gömülmez (1 Eki 2026: 16 tur)
+  // KASA (deneysel, 950): kapalıyken ya da ayar satırı yokken (migration uygulanmamış) kısayol çizilmez
+  const kasaAcik = useAyar("kasa_modu_acik", 0) >= 1;
   const v = useAnaSayfaVerisi({ gorevYukle: false });   // görevleri GorevSeridi kendi okur (gorevlerim)
   const b = useOyunBaslat();
   const devamEden = useDevamEdenMaclar();
@@ -56,7 +58,7 @@ export default function AnaSayfaA() {
       </div>
     );
   }
-  const modlar = modListesi(v, b);
+  const modlar = modListesi(v, b).filter((m) => m.anahtar !== "kasa" || kasaAcik);
   const olaylar = etkinlikler(v);
   // Süren maç zaten "Devam et" kartında: aynı maçı gösteren "maçın sürüyor" şeridi çizilmez (tek bant).
   const acilAday = olaylar.find((e) => e.ton === "acil") ?? olaylar[0];
@@ -114,11 +116,12 @@ export default function AnaSayfaA() {
           </button>
         </div>
 
-        <nav className="as-a-kisayol" aria-label={tt("Diğer modlar")}>
+        <nav className={`as-a-kisayol${modlar.length === 5 ? " as-a-kisayol--5" : ""}`} aria-label={tt("Diğer modlar")}>
           {modlar.map((m) => (
             <button key={m.anahtar} type="button" className={`as-kisayol as-renk--${m.anahtar}`} onClick={m.git}>
               <span className="as-kisayol-ikon"><QtIkon ad={m.ikon} boyut={24} /></span>
               <span className="as-kisayol-ad">{m.ad}</span>
+              {m.etiket && <span className="as-kisayol-etiket">{m.etiket}</span>}
               {m.rozet && <span className="as-rozet-nokta"><span className="qt-gizli">{m.rozetEtiketi}</span></span>}
             </button>
           ))}
