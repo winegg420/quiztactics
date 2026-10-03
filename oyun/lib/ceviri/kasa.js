@@ -1,0 +1,84 @@
+// KASA (deneysel, 950) — arayüz metinlerinin İngilizcesi. Anahtar = Türkçe metin (dil.js kuralı).
+// Kaynak: oyun/pages/KasaPage.jsx, oyun/components/KasaParcalari.jsx, ana sayfa / Modlar / Antrenman kartları.
+// "Kasa" oyun içi terimdir: İngilizcede "Vault".
+export default {
+  // mod adı ve etiketler
+  "Kasa": "Vault",
+  "Deneysel": "Experimental",
+  "Kasa · Deneysel": "Vault · Experimental",
+  "Kasa senin!": "The Vault is yours!",
+  "Kasa'ya dön": "Back to Vault",
+  "Yeni Kasa maçı": "New Vault match",
+  "Maçtan çık": "Leave match",
+  "Maç iptal edildi": "Match cancelled",
+  "Maçtan çıkarsan hükmen kaybedersin. Emin misin?": "If you leave, you lose by forfeit. Are you sure?",
+  "Bu mod şu an kapalı.": "This mode is currently closed.",
+  "Turlar": "Rounds",
+  "Altın": "Golden",
+  "Altın Soru": "Golden Question",
+  "ALTIN SORU": "GOLDEN QUESTION",
+
+  // giriş
+  "Ortada bir kasa büyür. Tek başına bilen kasayı alır; kasa sendeyse soru gelmeden AÇ ya da DEVAM de. {h} puana ilk ulaşan kazanır.":
+    "A vault grows in the middle. Answer alone to take it; if the vault is yours, choose OPEN or KEEP before the question. First to {h} points wins.",
+  "Her soru kasaya +{n} ekler; ikiniz de bilirseniz +{m}.": "Every question adds +{n} to the vault; +{m} if you both get it right.",
+  "Soruyu tek başına bilen kasanın sahibi olur.": "Whoever alone answers correctly takes the vault.",
+  "AÇ: kasa puanına yazılır, kasa sıfırlanır. DEVAM: kasa büyür ama kaybedebilirsin.":
+    "OPEN: the vault goes to your score and resets. KEEP: the vault grows, but you may lose it.",
+  "{t} tur sonunda kasa sahibine yazılır; eşitlikte Altın Soru.": "After {t} rounds the vault goes to its owner; a tie goes to the Golden Question.",
+  "Tek başına bil, kasayı al; doğru anda aç. {h} puana ilk ulaşan kazanır.": "Answer alone, take the vault, open it at the right time. First to {h} points wins.",
+
+  // arama ipuçları
+  "Tek başına bilen kasanın sahibi olur.": "Answer alone and the vault is yours.",
+  "İkiniz de bilirseniz kasa daha çok büyür.": "If you both answer correctly, the vault grows more.",
+  "Kasa sendeyse soru gelmeden AÇ ya da DEVAM de.": "If the vault is yours, choose OPEN or KEEP before the question.",
+  "{h} puana ilk ulaşan kazanır.": "First to {h} points wins.",
+
+  // kadran + skor
+  "KASA": "VAULT",
+  "Sende": "Yours",
+  "Rakipte": "Opponent's",
+  "Sahipsiz": "Unclaimed",
+  "Kasa {k} · {s}": "Vault {k} · {s}",
+  "SEN": "YOU",
+  "RAKİP": "OPPONENT",
+  "Skor: sen {a}, rakip {b}, hedef {h}": "Score: you {a}, opponent {b}, target {h}",
+
+  // karar
+  "Rakip karar veriyor…": "Opponent is deciding…",
+  "Açarsa {k} puan alır, kasa sıfırlanır.": "If they open, they get {k} points and the vault resets.",
+  "Kasa sende: {k} puan": "The vault is yours: {k} points",
+  "AÇ · +{k} puan": "OPEN · +{k} points",
+  "DEVAM · kasa büyüsün": "KEEP · let it grow",
+  "Süre dolarsa DEVAM sayılır.": "If time runs out, it counts as KEEP.",
+  "Kasayı açtın: +{k} puan": "You opened the vault: +{k} points",
+  "Rakip kasayı açtı: +{k} puan": "Opponent opened the vault: +{k} points",
+  "Süre doldu: devam": "Time's up: keep",
+  "Rakibin süresi doldu: devam": "Opponent ran out of time: keep",
+  "Devam ettin: kasa büyüyor": "You kept it: the vault grows",
+  "Rakip devam etti: kasa büyüyor": "Opponent kept it: the vault grows",
+  "Son tur: kasa sana yazıldı +{k}": "Last round: the vault goes to you +{k}",
+  "Son tur: kasa rakibe yazıldı +{k}": "Last round: the vault goes to your opponent +{k}",
+
+  // sonuç bandı
+  "İkiniz de bildiniz +{n}": "You both got it +{n}",
+  "Tek başına bildin: kasa sende": "Only you got it: the vault is yours",
+  "Rakip tek başına bildi: kasa rakipte": "Only your opponent got it: the vault is theirs",
+  "İkiniz de bilemediniz +{n}": "Neither of you got it +{n}",
+  "Kasa {k}": "Vault {k}",
+  "+{n} · Kasa {k}": "+{n} · Vault {k}",
+  "Altın Soru'yu sen bildin!": "You got the Golden Question!",
+  "Altın Soru'yu rakip bildi": "Your opponent got the Golden Question",
+  "Kimse tek başına bilemedi": "Nobody got it alone",
+  "Yeni Altın Soru geliyor": "Another Golden Question is coming",
+
+  // maç sonu
+  "Kasayı açtın, {h} puana ulaştın!": "You opened the vault and reached {h} points!",
+  "Rakip {h} puana ulaştı": "Your opponent reached {h} points",
+  "Eşit — Altın Soru'yu sen bildin": "Tied — you got the Golden Question",
+  "Eşit — Altın Soru'yu rakip bildi": "Tied — your opponent got the Golden Question",
+
+  // bağlantı
+  "Bağlantın koptu — maç bekliyor.": "You're disconnected — the match is waiting.",
+  "Rakibin bağlantısı koptu — maç durduruldu.": "Your opponent disconnected — the match is paused.",
+};
