@@ -872,6 +872,8 @@ declare
   r record;
   v_n int := 0;
 begin
+  -- Aktif maç yoksa kilit/döngü maliyetine girmeden hemen çık.
+  if not exists (select 1 from public.kasa_maclari where durum = 'aktif') then return 0; end if;
   if not pg_try_advisory_xact_lock(hashtext('kasa_tik_hepsi')) then return 0; end if;
   for r in select x.id from public.kasa_maclari x where x.durum = 'aktif' loop
     begin
@@ -1921,5 +1923,5 @@ begin
   if exists (select 1 from cron.job where jobname = 'kasa_tik') then
     perform cron.unschedule('kasa_tik');
   end if;
-  perform cron.schedule('kasa_tik', '10 seconds', 'select public.kasa_tik_hepsi()');
+  perform cron.schedule('kasa_tik', '30 seconds', 'select public.kasa_tik_hepsi()');
 end $$;

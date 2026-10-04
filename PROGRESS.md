@@ -9941,3 +9941,9 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 - **Ekran ölçümü (TAKLİT veri, gerçek hesap testi DEĞİL):** `node araclar/kasa-ekran.mjs` 360×640 + 390×844, TR/EN **280/280** (yatay taşma, tek ekran, ≥ 44 px, kontrast, kesik metin, konsol). `npm run build` temiz.
 - **Kararlar (Ida, 3 Eki):** ana tablolar yalnız RPC; Serbest|Dereceli var; rozet yalnız genel; rövanş yok; Sezon Puanı seçeneği A; 4 küçük fark (bot hedef kuralı, mac_10 Klasik+Kasa sayımı, ödül kapalıyken seri durur, kendi gösterim payı) kalsın.
 - **Kalan:** 950 canlıya (Ida, yönergeyle) ve ardından iki gerçek hesapla canlı test; cron önerisi (30 sn + aktif maç yoksa erken çıkış) onay bekliyor; arkadaş daveti arayüzü (bildirim türü kasa_daveti, Meydan'dan davet) yok; main'e push yok.
+
+## 2026-10-04 — KASA canlıya alma
+**Araç:** Claude Code
+**Neden:** Ida onayıyla migration 950 canlıya, arayüz main'e.
+
+- 950: kasa_tik cron aralığı 10 → 30 sn; kasa_tik_hepsi aktif maç yoksa (kasa_maclari_aktif_idx) kilit almadan hemen 0 döner.
