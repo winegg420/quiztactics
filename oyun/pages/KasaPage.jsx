@@ -508,10 +508,12 @@ function KasaMac({ id }) {
     const sure = hareketAzaltildiMi() ? 1500 : kazandim ? FINAL_SAHNE_MS : FINAL_KAPANIS_MS;
     setFinalAn(f);
     // Zamanlayıcılar ref'te: d sonradan değişse de sahne yarıda kalmaz (yalnız sayfa kapanınca temizlenir)
-    const z = kazandim
-      ? [setTimeout(() => sesJoker(), 150), setTimeout(() => { sesRozet(); titret([30, 50, 40]); }, 1150),
-         setTimeout(() => { sesCoin(); titret([40, 30, 60]); }, 2300), setTimeout(sesXpDolma, 2450), setTimeout(sesCoin, 2900)]
-      : [setTimeout(sesTurGecis, 200), setTimeout(() => { sesYanlis(); titret(40); }, 1350)];
+    const sesler = kazandim
+      ? [[150, () => sesJoker()], [1150, () => { sesRozet(); titret([30, 50, 40]); }],
+         [2300, () => { sesCoin(); titret([40, 30, 60]); }], [2450, sesXpDolma], [2900, sesCoin]]
+      : [[200, sesTurGecis], [1350, () => { sesYanlis(); titret(40); }]];
+    // Sahne bitince sesi de biter: kısalmış sahnede (hareket azaltma 1,5 sn) sonraki sesler kutlamanın seslerine binmesin
+    const z = sesler.filter(([ms]) => ms < sure).map(([ms, f]) => setTimeout(f, ms));
     z.push(setTimeout(() => setFinalAn(null), sure));
     finalZamanRef.current.push(...z);
   }, [d]);   // eslint-disable-line react-hooks/exhaustive-deps
@@ -621,7 +623,8 @@ function KasaMac({ id }) {
   }, [d]);
   const tikRef = useRef(null);
   useEffect(() => {
-    if (!d || !["cevap", "karar"].includes(d.faz) || d.cevap?.ben_cevapladim) return;
+    // Maç bitince faz satırda kalır (ör. AÇ ile biten maçta "karar"): sonuç ekranında tik çalmasın
+    if (!d || d.durum !== "aktif" || !["cevap", "karar"].includes(d.faz) || d.cevap?.ben_cevapladim) return;
     const n = Math.ceil(gosterSn);
     if (n > 0 && n <= 3 && tikRef.current !== `${d.tur}-${d.faz}-${n}`) { tikRef.current = `${d.tur}-${d.faz}-${n}`; sesTik(n); }
   }, [gosterSn, d]);
@@ -831,7 +834,7 @@ function KasaMac({ id }) {
       jokerYuva = (
         <div className={sinif("m1-joker-yuva ks-joker-yuva", jokerPasif && "m1-joker-yuva--pasif")}
              inert={jokerPasif || undefined} aria-hidden={jokerPasif || undefined}>
-          <JokerCubugu macTur="kasa" macId={id} soruIndex={d.tur} kilit={kilitli}
+          <JokerCubugu macTur="kasa" macId={id} soruIndex={d.tur} kilit={kilitli || sonucMu}
                        surum={(d.rakip_joker ?? []).length} kalanSn={kalanSn}
                        onEtki={jokerEtkisi} onBilgi={jokerBilgiGoster} />
         </div>

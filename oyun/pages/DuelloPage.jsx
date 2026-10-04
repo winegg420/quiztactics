@@ -910,7 +910,7 @@ function DuelloMac({ id }) {
 
   // Son 3 saniyede tik
   useEffect(() => {
-    if (!d || !["cevap", "altin"].includes(d.faz)) return;
+    if (!d || d.durum !== "aktif" || !["cevap", "altin"].includes(d.faz)) return;   // maç sonu ekranında tik yok
     if (d.surum === 2 && d.cevap?.ben_cevapladim) return;   // cevabı kilitleyene tik çalınmaz
     const sn = Math.ceil(gosterSn);
     if (sn > 0 && sn <= 3 && sonTikRef.current !== sn) { sonTikRef.current = sn; sesTik(sn); }
