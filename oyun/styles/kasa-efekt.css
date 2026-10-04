@@ -497,6 +497,8 @@
   background: linear-gradient(105deg, transparent 30%, rgba(255, 255, 255, .75) 48%, transparent 66%);
   transform: translateX(-120%); animation: ks-devam-parilti 900ms ease-out 260ms both;
 }
+/* kart görünürken karar satırı yerinde kalır ama görünmez (altta kayma yok, kartın içinden okunmaz) */
+.ks-karar-satir--gizli { visibility: hidden; }
 .ks-devam-an-ikon { font-size: 26px; line-height: 1; animation: qt-h-zipla 420ms var(--qt-egri-cikis) 160ms; }
 .ks-devam-an-yazi { display: grid; text-align: left; gap: 1px; }
 .ks-devam-an-yazi b { font: var(--qt-a-siyah) 15px/1.15 var(--qt-f-baslik); }

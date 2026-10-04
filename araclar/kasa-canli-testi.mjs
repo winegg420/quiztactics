@@ -11,6 +11,10 @@
 //   · bitiş: final sahnesi, sonuç ekranı, ödül dökümü, "Yeni Kasa maçı", "Ana sayfa"
 //   · isteğe bağlı: maç içinde sayfa yenileme (--yenile=N), geri tuşu (--geri=N), ağ kopması (--kopma=N),
 //     yarıda ayrılma (--terk=N), jokerler (--joker), İngilizce (--dil=en), hareket azaltma (--azalt), boyut
+//   · 953 DEVAM ödülü (her koşuda ölçülür; --devam ile A daha çok DEVAM der, bot senaryosunda bota kasa bırakır):
+//     DEVAM düğmesinde "%50 joker şansı", DEVAM sonrası an (kazandı: altın kart + joker sesi · kazanamadı: sessiz not),
+//     çubukta ÜCRETSİZ joker → kullanım (envanter/joker_kullanimlari/coin değişmez, satın alma penceresi açılmaz),
+//     rakip ekranında sızıntı yok (yalnız kullanılınca adı), süre dolumunda ödül yok, art arda en çok 2 kaçırma, bot DEVAM'ı
 //
 // Senaryolar:
 //   --senaryo=gercek : A ve B gerçek eşleşir. Tur planı: 1) A doğru, B yanlış → A sahip · 2) B cevap VERMEZ
@@ -43,6 +47,7 @@ const [GEN, YUK] = String(ARG.boyut || "390x844").split("x").map(Number);
 const DIL = String(ARG.dil || "tr");
 const AZALT = Boolean(ARG.azalt);
 const JOKER = Boolean(ARG.joker);
+const DEVAM = Boolean(ARG.devam);
 const YENILE = ARG.yenile ? Number(ARG.yenile) : null;
 const GERI = ARG.geri ? Number(ARG.geri) : null;
 const KOPMA = ARG.kopma ? Number(ARG.kopma) : null;
@@ -95,7 +100,8 @@ const SAYFA_HAZIRLIK = ({ kayitlar, koken, dil }) => {
           fs: Date.parse(d.sureler?.faz_son ?? ""), kopuk: Boolean(d.kopuk), kasa: d.kasa, sahip: d.sahip, ben: d.ben,
           puan: (d.oyuncular ?? []).map((o) => [o.id, o.puan]), cevapladim: Boolean(d.cevap?.ben_cevapladim),
           rakipCevapladi: Boolean(d.cevap?.rakip_cevapladi), karar: d.karar, sonKarar: d.son_karar, sonuc: d.sonuc ? { ben: d.sonuc.ben_dogru, rakip: d.sonuc.rakip_dogru, artis: d.sonuc.artis } : null,
-          kazanan: d.kazanan, neden: d.sonuc_neden, joker: d.joker ?? null, rakipJoker: d.rakip_joker ?? null });
+          kazanan: d.kazanan, neden: d.sonuc_neden, joker: d.joker ?? null, rakipJoker: d.rakip_joker ?? null,
+          devamOdul: d.devam_odul ?? null, bedava: d.bedava_joker ?? null, devamSans: d.devam_sans ?? null });
       }).catch(() => {});
     }
     return yanit;
@@ -118,7 +124,7 @@ const SAYFA_HAZIRLIK = ({ kayitlar, koken, dil }) => {
       const tur = (q(".m2-gecis")?.textContent || "").trim();
       const ust = [q(".m1-sayim-sayi") && "321:" + q(".m1-sayim-sayi").textContent, q(".ks-giris-an") && "giris", q(".ks-ac-an") && "ac",
         q(".ks-cifte") && "cifte", q(".ks-final") && "final", q(".msk") && "kutlama", q(".msk-bekle") && "bekle",
-        q(".ks-rakip-joker-an") && "rjoker", q(".m2-yukleniyor") && "yukleniyor", q(".ks-karar") && "karar", q(".m2-gecis") && "bant"].filter(Boolean).join(",");
+        q(".ks-rakip-joker-an") && "rjoker", q(".ks-devam-an--kazandi") && "devamKazandi", q(".ks-devam-an--yok") && "devamYok", q(".m2-yukleniyor") && "yukleniyor", q(".ks-karar") && "karar", q(".m2-gecis") && "bant"].filter(Boolean).join(",");
       const bant = [...document.querySelectorAll(".m2-bant")].map((e) => e.textContent.replace(/\s+/g, " ").trim()).join(" / ").slice(0, 60);
       const soru = (q(".qt-soru-metin")?.textContent || "").trim().slice(0, 24);
       const cift = document.querySelectorAll(".ks-mac").length;
@@ -241,8 +247,57 @@ const DURUM = () => {
   };
 };
 
+// 953: DEVAM'a bastıktan sonra — sunucunun ödül kaydı, an, çubuk, ücretsiz joker kullanımı (envanter/sınır değişmez)
+const devamKayit = [];      // { ad, tur, kazandi, joker, an, bar, kullanildi, s }
+const botDevam = [];        // { tur, kazandi, joker }
+async function devamOlc(o, tur) {
+  const t0 = Date.now();
+  let kd = null;
+  for (let i = 0; i < 40 && !kd; i++) {
+    await bekle(150);
+    kd = await o.s.evaluate((t) => (window.__kd ?? []).filter((x) => x.faz === "cevap" && Number(x.tur) === t).at(-1) ?? null, tur).catch(() => null);
+  }
+  const kayit = { ad: o.ad, tur, kazandi: kd?.devamOdul?.kazandi ?? null, joker: kd?.devamOdul?.joker ?? null, an: false, bar: false, kullanildi: null, s: sn(), t: Date.now(), tKlik: t0 };
+  devamKayit.push(kayit);
+  if (!kd) { kirildi(o.ad + " tur " + tur + ": DEVAM sonrası 6 sn soru durumu gelmedi"); return; }
+  if (!kd.devamOdul) { kirildi(o.ad + " tur " + tur + ": bilerek DEVAM ama sunucu ödül kaydı (devam_odul) yok"); return; }
+  const q = kd.devamOdul.kazandi ? ".ks-devam-an--kazandi" : ".ks-devam-an--yok";
+  kayit.an = await o.s.locator(q).first().waitFor({ state: "attached", timeout: 3000 }).then(() => true).catch(() => false);
+  if (!kayit.an) kirildi(o.ad + " tur " + tur + ": DEVAM ödülü anı (" + q + ") görünmedi");
+  if (kayit.an && SS && !o.devamGoruntu?.[q]) { (o.devamGoruntu ??= {})[q] = 1; await goruntu(o, "devam-" + (kd.devamOdul.kazandi ? "kazandi" : "yok") + "-" + o.ad); }
+  adim(o.ad + " DEVAM ödülü (tur " + tur + "): " + (kd.devamOdul.kazandi ? "KAZANDI " + kd.devamOdul.joker : "yok") + " · an " + (kayit.an ? "göründü" : "YOK") + " · " + (Date.now() - t0) + " ms");
+  if (!kd.devamOdul.kazandi) {
+    await bekle(400);
+    if (await o.s.locator(".ks-joker-yuva .qt-skill[data-bedava]").count()) kirildi(o.ad + " tur " + tur + ": kazanmadığı halde ÜCRETSİZ joker görünüyor");
+    return;
+  }
+  // çubuk: ücretsiz joker basılabilir olunca (gösterim payı biter) kullan
+  const b = o.s.locator(".m1-joker-yuva:not(.m1-joker-yuva--pasif) .qt-skill[data-bedava]").first();
+  kayit.bar = await b.waitFor({ timeout: 6000 }).then(() => true).catch(() => false);
+  if (!kayit.bar) { kirildi(o.ad + " tur " + tur + ": çubukta ÜCRETSİZ joker görünmedi"); return; }
+  const etiket = await b.getAttribute("aria-label").catch(() => "");
+  if (SS && !o.devamGoruntu?.bar) { (o.devamGoruntu ??= {}).bar = 1; await goruntu(o, "devam-ucretsiz-cubuk-" + o.ad); }
+  const uid = o.hesap.uid;
+  const olc = async () => (await db("select (select count(*) from joker_kullanimlari where mac_id = " + alintila(macId) + " and user_id = " + alintila(uid) + ")::int n, " +
+    "(select coalesce(sum(adet), 0) from joker_envanter where user_id = " + alintila(uid) + " and tur in ('elli', 'sure'))::int env, " +
+    "(select coin from profiles where id = " + alintila(uid) + ")::bigint coin"))[0];
+  const once = await olc();
+  const basildi = await dokun(b, 2500);
+  const pencere = await o.s.getByRole("dialog").first().waitFor({ timeout: 900 }).then(() => true).catch(() => false);
+  if (pencere) kirildi(o.ad + " tur " + tur + ": ücretsiz jokerde satın alma penceresi açıldı");
+  await bekle(1200);
+  const sonra = await olc();
+  kayit.kullanildi = basildi && !pencere;
+  kayit.dbOnce = once; kayit.dbSonra = sonra;
+  if (!basildi) kirildi(o.ad + " tur " + tur + ": ücretsiz joker basılamadı — " + sonDokunHata);
+  else if (String(once.n) !== String(sonra.n) || String(once.env) !== String(sonra.env) || String(once.coin) !== String(sonra.coin))
+    kirildi(o.ad + " tur " + tur + ": ücretsiz joker envanter/coin/joker_kullanimlari değiştirdi " + JSON.stringify([once, sonra]));
+  else adim(o.ad + " tur " + tur + ": ÜCRETSİZ " + kd.devamOdul.joker + " kullandı (" + String(etiket || "").split(" — ")[0] + ") — envanter/coin/sınır aynı");
+  if (SS && !o.devamGoruntu?.kul) { (o.devamGoruntu ??= {}).kul = 1; await goruntu(o, "devam-ucretsiz-kullanildi-" + o.ad); }
+}
+
 let macId = null;
-const plan = { kararSuresiDoldu: false };
+const plan = { kararSuresiDoldu: false, sureDolumTur: null };
 async function sur(o, rol) {
   const cevaplanan = new Set(), kararlanan = new Set(), yapilan = new Set();
   let bosBas = null;
@@ -307,14 +362,28 @@ async function sur(o, rol) {
       kararlanan.add(anah);
       const kasa = Number(k.kasa);
       let ac;
-      if (SENARYO === "bot") ac = kasa >= 10;
-      else ac = rol === "A" && (kasa >= 20 || benimPuan + kasa >= hedef);
-      if (SENARYO === "gercek" && !plan.kararSuresiDoldu && !ac) { plan.kararSuresiDoldu = true; adim(`${o.ad} karar vermiyor (tur ${tur}, kasa ${kasa}) — süre dolumu`); continue; }
+      if (SENARYO === "bot") ac = kasa >= (DEVAM ? 24 : 10) || benimPuan + kasa >= hedef;
+      else ac = rol === "A" && (kasa >= (DEVAM ? 24 : 20) || benimPuan + kasa >= hedef);
+      if (SENARYO === "gercek" && !plan.kararSuresiDoldu && !ac) { plan.kararSuresiDoldu = true; plan.sureDolumTur = { ad: o.ad, tur }; adim(`${o.ad} karar vermiyor (tur ${tur}, kasa ${kasa}) — süre dolumu`); continue; }
       await bekle(700);
       const dugme = o.s.locator(".ks-karar button").nth(ac ? 0 : 1);
+      if (!ac) {
+        const yazi = await dugme.innerText().catch(() => "");
+        if (!/%50 joker şansı|50% joker chance/.test(yazi)) kirildi(o.ad + ": DEVAM düğmesinde joker şansı yazmıyor (" + yazi + ")");
+      }
       if (await dokun(dugme, 3000)) adim(`${o.ad} ${ac ? "AÇ" : "DEVAM"} (tur ${tur}, kasa ${kasa})`);
       else { const m = await o.s.locator(".ks-karar button").allInnerTexts().catch(() => []); kirildi(`${o.ad}: karar düğmesi bulunamadı (${m.join(" | ")})`); }
+      if (!ac) await devamOlc(o, tur);
       continue;
+    }
+
+    // ---- 953: bot DEVAM dedi → sunucudaki ödül kaydı (yalnız okuma)
+    if (SENARYO === "bot" && rol === "A" && k.faz === "cevap" && k.sonKarar && k.sonKarar.veren !== k.ben && !k.sonKarar.ac && !k.sonKarar.sure_doldu && !yapilan.has("bot-devam-" + anah)) {
+      yapilan.add("bot-devam-" + anah);
+      const [x] = await db("select (joker -> bot::text -> 'devam')::text dv from kasa_maclari where id = " + alintila(macId) + " and tur = " + tur).catch(() => []);
+      const dv = x?.dv ? JSON.parse(x.dv) : null;
+      botDevam.push({ tur, kazandi: dv?.kazandi ?? null, joker: dv?.joker ?? null });
+      adim("bot DEVAM (tur " + tur + ") → " + (dv == null ? "ödül kaydı YOK" : dv.kazandi ? "joker " + dv.joker + " (hemen kullandı)" : "kazanamadı"));
     }
 
     // ---- cevap
@@ -330,7 +399,7 @@ async function sur(o, rol) {
         else if (tur === 3) ne = "yok";
         else if (k.altin) ne = rol === "A" ? "dogru" : "yanlis";
         else ne = acSonrasi ? (rol === "A" ? "dogru" : "yanlis") : "dogru";
-      }
+      } else if (DEVAM && tur % 3 === 0 && !k.altin) ne = "yanlis";   // 953: bota da kasa kalsın (bot DEVAM ölçümü)
       cevaplanan.add(anah);
       if (ne === "yok") { adim(`${o.ad} tur ${tur}: cevap VERMİYOR (süre dolumu)`); continue; }
       // jokerler: tur 4 A 50:50 + B Zaman Baskısı · tur 5 A Ek Süre · tur 6 B İkinci Şans (önce yanlış)
@@ -599,6 +668,41 @@ try {
     rapor[o.ad].kayitOrnek = o.kayit.slice(0, 400);
     rapor[o.ad].sesler = o.sesler.map((x) => ({ rol: x.rol, s: ((x.t - BAS) / 1000).toFixed(2) }));
   }
+  // ---- 953 DEVAM ödülü: sızıntı, süre dolumu, bag, ses, rakibin gördüğü
+  rapor.devam = { kayit: devamKayit, bot: botDevam };
+  for (const o of [A, B].filter(Boolean)) {
+    for (const x of o.kd) {
+      if ((x.devamOdul || x.bedava) && !(x.sonKarar && x.sonKarar.veren === x.ben && !x.sonKarar.ac && !x.sonKarar.sure_doldu)) {
+        kirildi(o.ad + ": kendi DEVAM'ı olmadan ödül bilgisi geldi (sızıntı) tur " + x.tur + " " + JSON.stringify([x.devamOdul, x.bedava, x.sonKarar]));
+        break;
+      }
+    }
+    if (plan.sureDolumTur?.ad === o.ad && o.kd.some((x) => Number(x.tur) === plan.sureDolumTur.tur && x.faz === "cevap" && x.devamOdul))
+      kirildi(o.ad + ": süre dolumu (tur " + plan.sureDolumTur.tur + ") ödül verdi");
+    const dizi = devamKayit.filter((x) => x.ad === o.ad && x.kazandi != null).map((x) => x.kazandi);
+    let seri = 0, enUzun = 0;
+    for (const z of dizi) { seri = z ? 0 : seri + 1; enUzun = Math.max(enUzun, seri); }
+    if (enUzun > 2) kirildi(o.ad + ": art arda " + enUzun + " DEVAM kaçırma (3.'de garanti olmalı)");
+    const ss = o.sesler.slice().sort((a, b) => a.t - b.t);
+    for (const x of devamKayit.filter((y) => y.ad === o.ad && y.an)) {
+      const jokerSes = ss.some((z) => z.rol === "joker" && z.t >= x.tKlik - 300 && z.t <= x.t + 1500);
+      if (x.kazandi && !jokerSes) kirildi(o.ad + " tur " + x.tur + ": joker kazanınca joker sesi çalmadı");
+      if (!x.kazandi && jokerSes) kirildi(o.ad + " tur " + x.tur + ": kazanamayınca ses çaldı (sessiz olmalı)");
+    }
+    // rakip: kullanılan ücretsiz jokeri yalnız ADIYLA görür
+    const diger = [A, B].filter(Boolean).find((z) => z !== o);
+    for (const x of devamKayit.filter((y) => y.ad === o.ad && y.kullanildi)) {
+      if (diger && !diger.kd.some((z) => Number(z.tur) === x.tur && Array.isArray(z.rakipJoker) && z.rakipJoker.includes(x.joker)))
+        kirildi(diger.ad + ": rakibin kullandığı ücretsiz " + x.joker + " (tur " + x.tur + ") rakip_joker'de görünmedi");
+    }
+  }
+  for (const x of botDevam) {
+    if (x.kazandi == null) kirildi("bot DEVAM (tur " + x.tur + "): sunucuda ödül kaydı yok");
+    else if (x.kazandi && !A.kd.some((z) => Number(z.tur) === x.tur && Array.isArray(z.rakipJoker) && z.rakipJoker.includes(x.joker)))
+      kirildi("A: botun kazanıp kullandığı " + x.joker + " (tur " + x.tur + ") rakip_joker'de görünmedi");
+  }
+  const ozetD = (ad) => { const d = devamKayit.filter((x) => x.ad === ad); return ad + ": DEVAM " + d.length + " · kazandı " + d.filter((x) => x.kazandi).length + " · ücretsiz kullanıldı " + d.filter((x) => x.kullanildi).length; };
+  console.log("\n953 DEVAM ödülü — " + ["A", "B"].filter((a) => rapor[a]).map(ozetD).join(" | ") + (botDevam.length ? " | bot DEVAM " + botDevam.length + " · kazandı " + botDevam.filter((x) => x.kazandi).length : ""));
   fs.writeFileSync(path.join(CIKTI, `kasa-canli-${ETIKET}.json`), JSON.stringify(rapor, null, 1));
   console.log(`\n=== SONUÇ (${ETIKET}) === süre ${sn()} sn · maç ${macId ?? "yok"} · ${rapor.macSon ? `${rapor.macSon.durum}/${rapor.macSon.sonuc_neden} ${rapor.macSon.puan1}-${rapor.macSon.puan2} tur ${rapor.macSon.tur}` : ""}`);
   for (const ad of ["A", "B"]) if (rapor[ad]) console.log(`${ad}: saat farkı ${rapor[ad].fark} ms · rtt ${rapor[ad].rttMedyan} ms · 0→faz ${JSON.stringify(rapor[ad].fazlar.map((f) => f.faz[0] + f.sifirdanSonraMs))} · ses ${JSON.stringify(rapor[ad].sesSayim)}`);

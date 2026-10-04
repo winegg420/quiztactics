@@ -864,7 +864,7 @@ function KasaMac({ id }) {
       <>
         {sonucMu ? <KasaSonucBandi d={d} c={c} />
           : kararMetni ? (
-            <p className="ks-karar-satir qt-h-gir" role="status">
+            <p className={sinif("ks-karar-satir qt-h-gir", devamAn?.kazandi && "ks-karar-satir--gizli")} role="status">
               {kararMetni}
               {/* 953: DEVAM ödülü çıkmadı — satırın sonunda küçük, sessiz not (yalnız bende) */}
               {devamAn && !devamAn.kazandi && <span key={devamAn.anahtar} className="ks-devam-an ks-devam-an--yok"> · {c("Bu sefer yok")}</span>}
