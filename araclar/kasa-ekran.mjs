@@ -180,7 +180,7 @@ for (const dil of DILLER) {
       // 3) Giriş
       await ac("/kasa", 800); await bekle(".ks-giris");
       o = await olc("giris");
-      ok("Giriş: başlık + Deneysel + kurallar + Rakip ara", await s.locator(".ks-deneysel").count() === 1 && await s.locator(".ks-kurallar li").count() === 4);
+      ok("Giriş: başlık + Deneysel + kurallar + Rakip ara", await s.locator(".ks-deneysel").count() === 1 && await s.locator(".ks-kurallar li").count() === 6);   // 951: + AÇ alt sınırı + jokerler
       ortak("Giriş", o);
       await kaydet("03-giris");
 
