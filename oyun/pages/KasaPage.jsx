@@ -104,6 +104,10 @@ function KasaGiris() {
   const ikisi = useAyar("kasa_ikisi_dogru_artis", 6);
   const maxTur = useAyar("kasa_max_tur", 36);
   const acmaMin = useAyar("kasa_acma_min", 10);
+  // 953: DEVAM ödülü (ayar kapalıysa satır görünmez)
+  const devamAcik = useAyar("kasa_devam_joker_acik", 0) >= 1;
+  const devamSansAyar = useAyar("kasa_devam_joker_sans", 50);
+  const devamSans = devamAcik ? Number(devamSansAyar) : 0;
   const [dereceli, setDereceli] = useDereceliTercih();
   const location = useLocation();
   const [aramaBilgi] = useState(() => (location.state?.yenidenAra ? ceviri("Rakip bağlanamadı, yeni rakip aranıyor") : null));
@@ -128,6 +132,7 @@ function KasaGiris() {
         <li>{ceviri("AÇ: kasa puanına yazılır, kasa sıfırlanır. DEVAM: kasa büyür ama kaybedebilirsin.")}</li>
         {acmaMin > 0 && <li>{ceviri("Kasa en az {m} olunca açılabilir.", { m: acmaMin })}</li>}
         <li>{ceviri("Jokerler: 50:50, Ek Süre, Zaman Baskısı, İkinci Şans.")}</li>
+        {devamSans > 0 && <li>{ceviri("Bilerek DEVAM dersen %{p} ihtimalle sonraki soru için ücretsiz joker (50:50 ya da Ek Süre).", { p: devamSans })}</li>}
         <li>{ceviri("{t} tur sonunda kasa sahibine yazılır; eşitlikte Altın Soru.", { t: maxTur })}</li>
       </ul>
       <DereceliAnahtari dereceli={dereceli} onDegistir={setDereceli} />
@@ -525,6 +530,9 @@ function KasaMac({ id }) {
   const [jokerBilgiMetni, setJokerBilgiMetni] = useState(null);
   const [rakipJokerAn, setRakipJokerAn] = useState(null);
   const [cifteAn, setCifteAn] = useState(null);
+  // 953: DEVAM ödülü anı — yalnız kendi DEVAM'ımın açtığı soruda, sunucunun devam_odul kaydına göre (rakip görmez)
+  const [devamAn, setDevamAn] = useState(null);
+  const devamBekleRef = useRef(null);
   const jokerZamanRef = useRef([]);
   const jokerZaman = (f, ms) => { jokerZamanRef.current.push(setTimeout(f, ms)); };
   useEffect(() => () => jokerZamanRef.current.forEach(clearTimeout), []);
@@ -547,6 +555,17 @@ function KasaMac({ id }) {
     setJokerBilgiMetni(b);
     jokerZaman(() => setJokerBilgiMetni((x) => (x?.anahtar === b.anahtar ? null : x)), 1800);
   }, []);
+  useEffect(() => {
+    const bek = devamBekleRef.current;
+    if (!d || bek == null || d.faz !== "cevap") return;
+    devamBekleRef.current = null;
+    const o = d.devam_odul;
+    if (d.durum !== "aktif" || !o || Number(o.tur) !== bek) return;
+    const an = { kazandi: Boolean(o.kazandi), joker: o.joker ?? null, anahtar: Date.now() };
+    setDevamAn(an);
+    if (an.kazandi) { sesJoker(); titret([14, 40, 20]); }   // kaybedince sessiz
+    jokerZaman(() => setDevamAn((x) => (x?.anahtar === an.anahtar ? null : x)), an.kazandi ? 2000 : 1200);
+  }, [d]);   // eslint-disable-line react-hooks/exhaustive-deps
   // Rakip yeni joker kullandı → ikon + kısa efekt (rakip avatarının altında)
   const rakipJokerSayiRef = useRef({ tur: null, n: 0 });
   useEffect(() => {
@@ -661,8 +680,9 @@ function KasaMac({ id }) {
     setHata(null);
     setCalisan(ac ? "karar-ac" : "karar-devam");
     try {
+      if (!ac) devamBekleRef.current = Number(dGuncelRef.current?.tur);
       const { error } = await supabase.rpc("kasa_karar", { p_id: id, p_ac: ac });
-      if (error) throw error;
+      if (error) { devamBekleRef.current = null; throw error; }
       await yukle();
     } catch (e) {
       // Süre tam o an dolduysa sunucu fazı geçirmiştir: ham hata yerine ekran tazelenir.
@@ -843,7 +863,13 @@ function KasaMac({ id }) {
     sahne = (
       <>
         {sonucMu ? <KasaSonucBandi d={d} c={c} />
-          : kararMetni ? <p className="ks-karar-satir qt-h-gir" role="status">{kararMetni}</p>
+          : kararMetni ? (
+            <p className="ks-karar-satir qt-h-gir" role="status">
+              {kararMetni}
+              {/* 953: DEVAM ödülü çıkmadı — satırın sonunda küçük, sessiz not (yalnız bende) */}
+              {devamAn && !devamAn.kazandi && <span key={devamAn.anahtar} className="ks-devam-an ks-devam-an--yok"> · {c("Bu sefer yok")}</span>}
+            </p>
+          )
           : <KasaAcKilit d={d} c={c} />}
         {sonucMu && <Konfeti aktif={Boolean(d.sonuc?.ben_dogru)} adet={d.sonuc?.rakip_dogru ? 12 : 18} />}
         {sonucMu && cifteAn && <KasaCifteBandi key={cifteAn} artis={Number(d.sonuc?.artis ?? d.ikisi_artis ?? 6)} c={c} />}
@@ -906,6 +932,18 @@ function KasaMac({ id }) {
         {sahne}
         {jokerBilgiMetni && ["cevap", "sonuc"].includes(d.faz) && (
           <p key={jokerBilgiMetni.anahtar} className="ks-joker-bilgi" role="status" aria-live="polite">{jokerBilgiMetni.metin}</p>
+        )}
+        {devamAn?.kazandi && d.faz === "cevap" && (
+          // 953: DEVAM ödülü kazanıldı — altın parıltılı kart (yalnız bende; kazanamayınca karar satırında küçük not)
+          (
+            <p key={devamAn.anahtar} className="ks-devam-an ks-devam-an--kazandi" role="status" aria-live="polite">
+              <span className="ks-devam-an-ikon" aria-hidden="true">🃏</span>
+              <span className="ks-devam-an-yazi">
+                <b>{c("Joker kazandın!")}</b>
+                {devamAn.joker && <span>{c("{j} · bu soru için ücretsiz", { j: jokerBilgi(devamAn.joker, "kasa").ad })}</span>}
+              </span>
+            </p>
+          )
         )}
         {rakipJokerAn && d.faz === "cevap" && (
           // 951: rakip joker kullandı — ikon + kısa efekt (etkisi gizli; yalnız adı). Sahnenin üstünde, sayacı kapatmaz.

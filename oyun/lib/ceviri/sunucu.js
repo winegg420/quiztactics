@@ -134,4 +134,7 @@ export default {
   "Joker yalnız soru açıkken kullanılır": "Jokers can only be used while a question is open",
   "Maç durdu, biraz bekle": "The match is paused, wait a moment",
   "Bu joker Kasa modunda kullanılamaz": "This joker can't be used in Vault mode",
+  // 953 · Kasa: DEVAM ödülü (ücretsiz joker)
+  "Ücretsiz jokerin yok": "You have no free joker",
+  "Bu joker bu soruda zaten kullanıldı": "This joker was already used on this question",
 };

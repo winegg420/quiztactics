@@ -49,6 +49,8 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
   const [calisan, setCalisan] = useState(null);
   // İstek sürerken çift basmayı ve aynı soruda ikinci skill'i önlemek için yerel iz.
   const [kullandigim, setKullandigim] = useState([]);
+  // KASA (953): DEVAM ödülü ücretsiz jokeri bu soruda kullanıldı mı (soru başı hakka sayılmaz → kullandigim'a girmez)
+  const [bedavaKullandim, setBedavaKullandim] = useState(null);
   // Paket 27 C: maç içi satın alma — fiyatlar ve coin sunucudan.
   const [fiyatlar, setFiyatlar] = useState(null);
   const [coin, setCoin] = useState(null);
@@ -87,7 +89,7 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
     window.addEventListener("skill-seti-degisti", yenile);
     return () => window.removeEventListener("skill-seti-degisti", yenile);
   }, []);
-  useEffect(() => { setKullandigim([]); setSatinAlinacak(null); }, [soruIndex]);   // yeni soruda eski sorunun satın alma penceresi kapanır
+  useEffect(() => { setKullandigim([]); setBedavaKullandim(null); setSatinAlinacak(null); }, [soruIndex]);   // yeni soruda eski sorunun satın alma penceresi kapanır
   useEffect(() => { if (kilit) setSatinAlinacak(null); }, [kilit]);   // cevap verildi / soru kapandı: açık satın alma penceresi kalmasın
   // B.4: kullanım anı — düğme parlaması + ekran ortasında şerit (≈850 ms)
   const [parlayan, setParlayan] = useState(null);
@@ -176,19 +178,23 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
   const sorudaKullanildi = Boolean(durum.soruda_kullanildi) || kullandigim.length > 0;
   const turKullanimi = (tur) => Number(turSayilari?.[tur] ?? 0);
   const turDoldu = (tur) => turKullanimi(tur) >= turSiniri;
+  // KASA (953): DEVAM ödülü — yalnız bu soruda, envanter/coin/sınır dışı. Aynı soruda aynı tür ikinci kez kullanılamaz.
+  const soruTurleri = kasaMi && Array.isArray(durum.soru_turleri) ? durum.soru_turleri : [];
+  const bedavaTur = kasaMi && !bedavaKullandim && durum.bedava && !soruTurleri.includes(durum.bedava) ? durum.bedava : null;
+  const soruIcindeKullanildi = (tur) => kasaMi && (soruTurleri.includes(tur) || bedavaKullandim === tur || kullandigim.includes(tur));
 
   /**
    * Joker kullan. `satinAl` true ise satın alma + kullanım TEK RPC'de yapılır
    * (joker_al_ve_kullan): araya girip coin düşüp jokerin kullanılmaması diye
    * bir durum oluşmaz, kullanım reddedilirse coin de geri gelir.
    */
-  const kullan = async (tur, satinAl = false) => {
+  const kullan = async (tur, satinAl = false, bedava = false) => {
     setHata(null);
     setCalisan(tur);
     try {
       const yeniSkill = ["sigorta", "cifte_puan", "ikinci_sans"].includes(tur);
       const { data, error } = kasaMi
-        ? await supabase.rpc("kasa_joker", { p_id: macId, p_tur: tur, p_satin_al: satinAl })
+        ? await supabase.rpc("kasa_joker", { p_id: macId, p_tur: tur, p_satin_al: satinAl, p_bedava: bedava })
         : await supabase.rpc(
           yeniSkill
             ? (satinAl ? "skill_al_ve_hazirla" : "skill_hazirla")
@@ -198,7 +204,8 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
       if (error) throw error;
       sesSkill(tur);
       titret(10);
-      setKullandigim((k) => (k.includes(tur) ? k : [...k, tur]));
+      if (bedava) setBedavaKullandim(tur);
+      else setKullandigim((k) => (k.includes(tur) ? k : [...k, tur]));
       setParlayan(tur);
       onBilgi?.({ metin: `${jokerBilgi(tur, macTur, ayar).ad}: ${etkiMetni(tur)}`, anahtar: Date.now() });
       if (data && typeof data.coin === "number") setCoin(data.coin);
@@ -219,6 +226,10 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
 
   /** Envanterde 0 varken düğmeye basılınca: önce onay penceresi. */
   const bas = (tur) => {
+    if (tur === bedavaTur) {
+      kullan(tur, false, true).catch((e) => console.error("[Bildim] ücretsiz joker kullanılamadı:", e?.message ?? e));
+      return;
+    }
     if (satinAlinabilir(tur)) setSatinAlinacak(tur);
     else kullan(tur).catch((e) => console.error("[Bildim] skill kullanılamadı:", e?.message ?? e));
   };
@@ -227,7 +238,7 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
   const alinabilirMi = (tur) => {
     if (serbestMod || kilit || finalYasak || sinirDoldu || rakipKilitledi) return false;
     if (macTur === "turnuva" && tur === "soru_degistir") return false;
-    if (turDoldu(tur) || (soruSinirli && sorudaKullanildi)) return false;
+    if (turDoldu(tur) || (soruSinirli && sorudaKullanildi) || soruIcindeKullanildi(tur)) return false;
     if (tur === "elli" && durum?.ucretsiz_elli_kaldi) return false;
     if ((envanter[tur] ?? 0) > 0) return false;
     return Number(fiyatlar?.[tur] ?? 0) > 0;
@@ -255,6 +266,8 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
 
   const neden = (tur) => {
     if (kilit) return tt("Bu soruyu zaten cevapladın");
+    if (soruIcindeKullanildi(tur)) return tt("Bu joker bu soruda zaten kullanıldı");
+    if (tur === bedavaTur) return null;   // KASA (953): ücretsiz joker maç içi sınırlara sayılmaz
     if (rakipKilitledi) return tt("Bu soruda joker kullanılamaz.");
     if (finalYasak) return tt("Turnuva finalinde joker kullanılamaz");
     if (sinirDoldu) return tt("Bu maçta en fazla {0} joker", { 0: durum.sinir });
@@ -297,19 +310,21 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
         <QtSkillCubugu etiket={tt("Jokerler")}>
           {skiller.map((tur) => {
             const bilgi = jokerBilgi(tur, macTur, ayar);
-            const ucretsiz = tur === "elli" && durum.ucretsiz_elli_kaldi;
+            const bedavaMi = tur === bedavaTur;
+            const ucretsiz = (tur === "elli" && durum.ucretsiz_elli_kaldi) || bedavaMi;
             const engel = neden(tur);
             const adet = envanter[tur] ?? 0;
             const satilik = satinAlinabilir(tur);
             const fiyat = Number(fiyatlar?.[tur] ?? 0);
-            const kullanildi = turDoldu(tur);
+            const kullanildi = (turDoldu(tur) && !bedavaMi) || soruIcindeKullanildi(tur);
             const macHakKaldi = Math.max(0, turSiniri - turKullanimi(tur));
             // Paket 35 A.2: stok yoksa fiyat rozeti HER ZAMAN görünür
             const fiyatRozeti = !serbestMod && !ucretsiz && adet <= 0 && fiyat > 0;
             // Etkisi soru boyunca süren skill'ler (Sigorta, 2X, İkinci Şans) bu soruda "aktif".
             const surenEtki = ["sigorta", "cifte_puan", "ikinci_sans"].includes(tur) && kullandigim.includes(tur);
             const durumAdi = surenEtki ? "aktif" : kullanildi ? "kullanildi" : engel && !satilik ? "kilitli" : "hazir";
-            const aciklama = engel ?? (satilik ? tt("{0} coin — dokun, al ve kullan", { 0: fiyat }) : bilgi.aciklama);
+            const aciklama = engel ?? (bedavaMi ? tt("DEVAM ödülü: yalnız bu soru için ücretsiz")
+              : satilik ? tt("{0} coin — dokun, al ve kullan", { 0: fiyat }) : bilgi.aciklama);
             const etiket = [bilgi.ad, aciklama, ucretsiz ? tt("Ücretsiz") : null,
               soruSinirli ? tt("Maç hakkı: {0}", { 0: macHakKaldi }) : null].filter(Boolean).join(" — ");
             return (
@@ -321,7 +336,8 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
                 adet={serbestMod || ucretsiz || fiyatRozeti ? undefined : adet}
                 fiyat={fiyatRozeti ? fiyat : undefined}
                 durum={durumAdi}
-                className={`${parlayan === tur ? "m1-skill--parla" : ""} ${calisan === tur ? "qt-skill--calisiyor" : ""}`}
+                className={`${parlayan === tur ? "m1-skill--parla" : ""} ${calisan === tur ? "qt-skill--calisiyor" : ""}${bedavaMi ? " m1-skill--bedava" : ""}`}
+                data-bedava={bedavaMi ? tt("ÜCRETSİZ") : undefined}
                 // Pasif düğme BASILABİLİR kalır ama skill kullanmaz: sebebini yazar (B.2.4).
                 aria-disabled={Boolean(engel) || calisan !== null || durumAdi !== "hazir" || undefined}
                 aria-busy={calisan === tur || undefined}

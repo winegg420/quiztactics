@@ -97,6 +97,15 @@ export default {
   "Rakip süreni kısalttı!": "Opponent cut your time!",
   "İkinci Şans: bir kez daha dene!": "Second Chance: try once more!",
 
+  // 953: DEVAM ödülü
+  "DEVAM · %{p} joker şansı": "KEEP · {p}% joker chance",
+  "Bilerek DEVAM dersen %{p} ihtimalle sonraki soru için ücretsiz joker (50:50 ya da Ek Süre).": "Choose KEEP yourself for a {p}% chance at a free joker for the next question (50:50 or Extra Time).",
+  "Joker kazandın!": "You won a joker!",
+  "{j} · bu soru için ücretsiz": "{j} · free for this question",
+  "Bu sefer yok": "Not this time",
+  "ÜCRETSİZ": "FREE",
+  "DEVAM ödülü: yalnız bu soru için ücretsiz": "KEEP reward: free for this question only",
+
   // bağlantı
   "Bağlantın koptu — maç bekliyor.": "You're disconnected — the match is waiting.",
   "Rakibin bağlantısı koptu — maç durduruldu.": "Your opponent disconnected — the match is paused.",

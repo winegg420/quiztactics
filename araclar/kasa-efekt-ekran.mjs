@@ -17,7 +17,8 @@ if (!fs.existsSync(OTURUM)) { console.error("Oturum yok: önce node araclar/aray
 const KASA_ID = "0b6f6800-0000-4000-8000-00000000c0de";
 const RAKIP = "0b6f6800-0000-4000-8000-0000000000aa";
 const AYARLAR = { kasa_modu_acik: 1, kasa_odul_acik: 1, kasa_odul_carpani: 1, kasa_artis: 2, kasa_ikisi_dogru_artis: 6,
-  kasa_hedef_puan: 50, kasa_max_tur: 36, kasa_soru_sn: 15, kasa_karar_sn: 8, kasa_sonuc_sn: 3, kasa_acma_min: 10 };
+  kasa_hedef_puan: 50, kasa_max_tur: 36, kasa_soru_sn: 15, kasa_karar_sn: 8, kasa_sonuc_sn: 3, kasa_acma_min: 10,
+  kasa_devam_joker_acik: 1, kasa_devam_joker_sans: 50 };
 const SORU = { soru: "Türkiye'nin başkenti neresidir?", secenekler: ["İstanbul", "Ankara", "İzmir", "Bursa"], kategori: "cografya" };
 // 951: zamanı kritik anlar (giriş sahnesi, final) senaryo başına SABİT bir çapaya bağlanır — yoklamalar kaydırmasın
 let capa = Date.now();
@@ -33,7 +34,7 @@ function durum(ad, ben) {
     ben, tur: 7, max_tur: 36, hedef: 50, altin: false, artis: 2, ikisi_artis: 6, kasa: 8, sahip: RAKIP, acma_min: 10, jokerli: true,
     oyuncular: [oyuncu(ben, "Sen", 8, 1), oyuncu(RAKIP, "Deniz Yıldırımoğlu", 12, 2)],
     karar: null, son_karar: null, soru: SORU, cevap: { ben_cevapladim: true, benim_cevabim: 1, rakip_cevapladi: true }, sonuc: null,
-    joker: BOS_JOKER, rakip_joker: [],
+    joker: BOS_JOKER, rakip_joker: [], devam_sans: 50, bedava_joker: null, devam_odul: null,
     sureler: { soru: 15, karar: 8, sonuc: 3, nabiz: 10, kopuk: 25, gosterim_payi_ms: 1500, gosterim_bas: iso(-2000), benim_bitis: iso(12000), faz_son: iso(12000) },
     kopuk: null, kazanan: null, sonuc_neden: null, terk: null, baglanmayan: null, gecmis: null,
   };
@@ -89,6 +90,15 @@ function durum(ad, ben) {
     case "bitti": return { ...temel, durum: "bitti", faz: "sonuc", kazanan: ben, sonuc_neden: "hedef", kasa: 0, sahip: null,
       oyuncular: [oyuncu(ben, "Sen", 21, 3), oyuncu(RAKIP, "Deniz Yıldırımoğlu", 14, 2)], terk: { ben: false, rakip: false },
       gecmis: [1, 2].map((t) => ({ tur: t, altin: false, kategori: "cografya", soru: SORU.soru, secenekler: SORU.secenekler, dogru_cevap: 1, benim_cevabim: 1, ben_dogru: true, rakip_dogru: false, karar: "devam", karar_ben: true, acilan_deger: 0, kasa_sonra: t * 2 })) };
+    // ---------- 953: DEVAM ödülü ----------
+    case "karar-devam": return { ...durum("karar-ben", ben), tur: 8 };
+    case "cevap-devam-kazandi": return acikSoru({ sahip: ben, kasa: 12, son_karar: { veren: ben, ac: false, deger: 12, sure_doldu: false },
+      devam_odul: { tur: 8, kazandi: true, joker: "elli" }, bedava_joker: "elli" });
+    case "cevap-devam-yok": return acikSoru({ sahip: ben, kasa: 12, son_karar: { veren: ben, ac: false, deger: 12, sure_doldu: false },
+      devam_odul: { tur: 8, kazandi: false } });
+    case "cevap-bedava": return durum("cevap-devam-kazandi", ben);
+    case "cevap-bedava-kullanildi": return { ...durum("cevap-devam-kazandi", ben), bedava_joker: null,
+      joker: { ...BOS_JOKER, turler: ["elli"], kapali: [0, 3] } };
     default: return temel;
   }
 }
@@ -140,6 +150,8 @@ for (const [w, h] of EKRANLAR) {
   s.on("console", (m) => { if (m.type() === "error") konsol.push(m.text().slice(0, 200)); });
   s.on("pageerror", (e) => konsol.push("SAYFA: " + String(e).slice(0, 200)));
   let senaryo = "cevap";
+  let kararSonrasi = null;     // 953: taklit kasa_karar (DEVAM) sonrası senaryo
+  let sonJokerGovde = null;    // 953: kasa_joker isteğinin gövdesi (p_bedava)
   const jwtSub = (req) => { try { const t = (req.headers()["authorization"] || "").split(" ")[1]; return JSON.parse(Buffer.from(t.split(".")[1], "base64url").toString()).sub; } catch { return null; } };
   await s.route(/\/rest\/v1\/(oyun_ayarlari|rpc\/|profiles)/, async (r) => {
     const req = r.request(); const u = req.url();
@@ -149,10 +161,22 @@ for (const [w, h] of EKRANLAR) {
       // 951 joker taklitleri (çubuk Klasik bileşeni; envanter/durum burada sabit)
       if (u.includes("/rpc/kasa_joker_durumu")) {
         const elli = senaryo === "cevap-joker-elli";
+        // 953: ücretsiz joker (DEVAM ödülü) — sınır sayaçlarına girmez
+        if (["cevap-devam-kazandi", "cevap-bedava", "cevap-bedava-kullanildi"].includes(senaryo)) {
+          const kul = senaryo === "cevap-bedava-kullanildi";
+          return json({ sinir: 6, kullanilan: 0, ucretsiz_elli_kaldi: false, kilitli: false, kisaltildi: false, sis_bitis: null,
+            sunucu_zamani: new Date().toISOString(), kullanilan_turler: [], kullanim_sayilari: {}, tur_basi_sinir: 2, soru_basi_sinir: 1,
+            soruda_kullanildi: false, bedava: kul ? null : "elli", soru_turleri: kul ? ["elli"] : [] });
+        }
         return json({ sinir: 6, kullanilan: elli ? 1 : 0, ucretsiz_elli_kaldi: false, kilitli: false, kisaltildi: senaryo === "cevap-joker-rakip",
           sis_bitis: null, sunucu_zamani: new Date().toISOString(), kullanilan_turler: elli ? ["elli"] : [], kullanim_sayilari: elli ? { elli: 1 } : {},
           tur_basi_sinir: 2, soru_basi_sinir: 1, soruda_kullanildi: elli });
       }
+      if (u.includes("/rpc/kasa_joker") && senaryo === "cevap-bedava") {
+        sonJokerGovde = JSON.parse(req.postData() || "{}"); senaryo = "cevap-bedava-kullanildi";
+        return json({ tur: "elli", kapali: [0, 3], satin_alindi: false, odenen: 0, bedava: true, coin: 9999 });
+      }
+      if (u.includes("/rpc/kasa_karar") && kararSonrasi) { senaryo = kararSonrasi; kararSonrasi = null; return json(null); }
       if (u.includes("/rpc/kasa_joker")) { senaryo = "cevap-joker-elli"; return json({ tur: "elli", kapali: [0, 3], satin_alindi: false, odenen: 0, coin: 9999 }); }
       if (u.includes("/rpc/envanterim")) return json([{ tur: "elli", adet: 3 }, { tur: "sure", adet: 2 }, { tur: "zaman_baskisi", adet: 1 }, { tur: "ikinci_sans", adet: 1 }]);
       if (u.includes("/rpc/kasa_giris")) return json({ durum: "aktif", rakip_geldi: true, kalan_sn: 0, baglanmayan: null });
@@ -246,6 +270,46 @@ for (const [w, h] of EKRANLAR) {
       for (const ms of [120, 450, 1000]) { const b = t0 + ms - Date.now(); if (b > 0) await s.waitForTimeout(b); await kaydet(`q-joker-elli-${String(ms).padStart(4, "0")}`); }
       ok("q-joker-elli: iki şık elendi", await s.locator(".qt-sik--elendi").count() === 2);
       await tekEkran("q-joker-elli");
+    }
+    // 953 DEVAM ödülü: DEVAM'a bas → kazandı (altın kart) / kazanamadı (küçük not) → çubukta ÜCRETSİZ joker → kullan
+    for (const [ad, sonra, kazandi] of [["w-devam-kazandi", "cevap-devam-kazandi", true], ["x-devam-yok", "cevap-devam-yok", false]]) {
+      await ac("karar-devam", ".ks-karar-eylem");
+      const devamDugme = s.locator(".ks-karar-eylem button").nth(1);
+      ok(`${ad}: DEVAM düğmesinde "%50 joker şansı"`, /DEVAM · %50 joker şansı/.test(await devamDugme.innerText()));
+      await kaydet(`${ad}-0-karar`);
+      kararSonrasi = sonra;
+      await devamDugme.click();
+      const q = kazandi ? ".ks-devam-an--kazandi" : ".ks-devam-an--yok";
+      let t0;
+      try { await s.waitForSelector(q, { timeout: 8000, state: "attached" }); t0 = Date.now(); } catch { ok(`${ad}: ${q} çizildi`, false); continue; }
+      ok(`${ad}: ${q} çizildi`, true);
+      for (const ms of kazandi ? [80, 350, 700, 1300] : [150, 600]) { const b = t0 + ms - Date.now(); if (b > 0) await s.waitForTimeout(b); await kaydet(`${ad}-${String(ms).padStart(4, "0")}`); }
+      if (kazandi) ok(`${ad}: metin "Joker kazandın!" + 50:50`, /Joker kazandın!/.test(await s.locator(q).innerText()) && /50:50/.test(await s.locator(q).innerText()));
+      else ok(`${ad}: metin "Bu sefer yok"`, /Bu sefer yok/.test(await s.locator(q).innerText()));
+      await tekEkran(ad);
+      await s.waitForTimeout(kazandi ? 1000 : 900);
+      ok(`${ad}: an kısa sürede kalktı`, await s.locator(".ks-devam-an").count() === 0);
+      if (kazandi) {
+        await kaydet(`${ad}-cubuk-ucretsiz`);
+        const b = s.locator(".ks-joker-yuva .qt-skill[data-bedava]");
+        ok(`${ad}: çubukta 50:50 ÜCRETSİZ etiketli`, await b.count() === 1 && (await b.getAttribute("data-bedava")) === "ÜCRETSİZ" && /50:50/.test(await b.getAttribute("aria-label")));
+      } else {
+        ok(`${ad}: çubukta ücretsiz joker yok`, await s.locator(".ks-joker-yuva .qt-skill[data-bedava]").count() === 0);
+      }
+    }
+    {
+      await ac("cevap-bedava", ".ks-joker-yuva .qt-skill[data-bedava]");
+      const kucuk = await s.evaluate(() => [...document.querySelectorAll(".ks-joker-yuva .qt-skill")].filter((e) => { const r = e.getBoundingClientRect(); return r.width < 44 || r.height < 44; }).length);
+      ok("y-bedava: joker düğmeleri ≥ 44 px", kucuk === 0);
+      await kaydet("y-bedava-0-hazir");
+      await s.locator(".ks-joker-yuva .qt-skill[data-bedava]").click();
+      await s.waitForTimeout(450); await kaydet("y-bedava-450-kullanildi");
+      ok("y-bedava: istek p_bedava = true (envanter/coin yolu değil)", sonJokerGovde?.p_bedava === true && sonJokerGovde?.p_tur === "elli" && sonJokerGovde?.p_satin_al === false, JSON.stringify(sonJokerGovde));
+      await s.waitForTimeout(700);
+      ok("y-bedava: iki şık elendi", await s.locator(".qt-sik--elendi").count() === 2);
+      ok("y-bedava: kullanınca ÜCRETSİZ etiketi kalktı, 50:50 bu soruda kullanılmış", await s.locator(".ks-joker-yuva .qt-skill[data-bedava]").count() === 0 && await s.locator(".ks-joker-yuva .qt-skill--kullanildi", { hasText: "50:50" }).count() === 1);
+      await kaydet("y-bedava-1150-sonra");
+      await tekEkran("y-bedava");
     }
     for (const [ad, sen, q, anlar] of DURAGAN) {
       await ac(sen, q);

@@ -172,7 +172,8 @@ export function KasaKarar({ d, c, calisan, onKarar, kalan = null }) {
         </QtDugme>
         <QtDugme tur="ikincil" tamGenislik boyut="b" ikon="ileri" yukleniyor={calisan === "karar-devam"} devreDisi={!!calisan}
                  onClick={() => onKarar(false)}>
-          {c("DEVAM · kasa büyüsün")}
+          {/* 953: DEVAM ödülü açık maçta şans yazılır (sunucu: bilerek DEVAM → ücretsiz joker şansı) */}
+          {Number(d.devam_sans) > 0 ? c("DEVAM · %{p} joker şansı", { p: Number(d.devam_sans) }) : c("DEVAM · kasa büyüsün")}
         </QtDugme>
       </div>
       <p className="ks-karar-not">{c("Süre dolarsa DEVAM sayılır.")}</p>
