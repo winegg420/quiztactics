@@ -14,6 +14,8 @@ import { SeviyeEtiketi } from "./MacUstSerit.jsx";
 import { adKisalt } from "../lib/adKisalt.js";
 import SayanSayi from "./SayanSayi.jsx";
 import { KasaKasasi, kasaSeviye } from "./KasaEfekt.jsx";
+import SkillRozeti from "./SkillRozeti.jsx";
+import { jokerBilgi } from "../lib/jokerler.js";
 import { QtDugme, QtIkon, sinif } from "../tasarim/index.js";
 
 /** Kasanın sahibi bu ekrana göre: "ben" | "rakip" | "yok". */
@@ -28,18 +30,29 @@ export function kasaSahibi(d) {
  * goster / sahipGoster: efekt sürerken gösterilecek eski değer ve sahip (altın kasaya ulaşınca gerçeğe geçer).
  * hareket: ek sınıflar (nabiz · titre · gergin · vardi · patla · don · yeni-sahip) — yalnız sunum.
  */
+// 951: kasa büyüdükçe ışık (≥ 20) ve alev (≥ 40) — mutlak eşik, yalnız sunum
+export const KASA_ISIK_ESIK = 20;
+export const KASA_ALEV_ESIK = 40;
+function Alev() {
+  return <span className="ks-alev" aria-hidden="true"><i /><i /><i /></span>;
+}
+
 export function KasaKadran({ d, c, kucuk = false, goster, sahipGoster, hareket = [], artis = null }) {
   const sahip = kasaSahibi(sahipGoster === undefined ? d : { ...d, sahip: sahipGoster });
   const kasa = Math.max(0, Number(goster ?? d.kasa) || 0);
   const seviye = kasaSeviye(kasa, d.hedef);
   const etiket = sahip === "ben" ? c("Sende") : sahip === "rakip" ? c("Rakipte") : c("Sahipsiz");
+  const alevli = kasa >= KASA_ALEV_ESIK;
   return (
     <div className={sinif("ks-kadran", `ks-kadran--${sahip}`, `ks-kadran--${seviye}`, kucuk && "ks-kadran--kucuk",
+                          kasa >= KASA_ISIK_ESIK && "ks-kadran--isikli", alevli && "ks-kadran--alevli",
                           ...hareket.map((h) => `ks-kadran--${h}`))}
          role="img" aria-label={c("Kasa {k} · {s}", { k: kasa, s: etiket })}
          data-ks-hedef={kucuk ? "kasa" : "kasa-buyuk"}>
-      {kucuk ? <KasaKasasi seviye={seviye} kucuk /> : (
-        <span className="ks-kadran-govde"><KasaKasasi seviye={seviye} /></span>
+      {kucuk ? (
+        <span className="ks-kadran-mini">{alevli && <Alev />}<KasaKasasi seviye={seviye} kucuk /></span>
+      ) : (
+        <span className="ks-kadran-govde">{alevli && <Alev />}<KasaKasasi seviye={seviye} /></span>
       )}
       <span className={kucuk ? "ks-kadran-ic" : "ks-kadran-plaka"}>
         <small>{c("KASA")}</small>
@@ -72,6 +85,8 @@ export function KasaSkor({ d, ben, rakip, c, puanGoster = {}, parla = null }) {
         <span className="ks-skor-cubuk" aria-hidden="true" data-ks-hedef={`skor-${kim}`}>
           <i className="ks-skor-hayalet" style={{ width: `${(100 * hayalet) / hedef}%` }} />
           <i className="ks-skor-dolu" style={{ width: `${(100 * Math.min(hedef, puan)) / hedef}%` }} />
+          {/* 951: puan her değiştiğinde dolan çubukta bir kez ışık süzülür (key = puan) */}
+          {puan > 0 && <i key={puan} className="ks-skor-isilti" style={{ width: `${(100 * Math.min(hedef, puan)) / hedef}%` }} />}
         </span>
         <span className="ks-skor-sayi qt-sayi"><SayanSayi deger={puan} sure={600} /><small>/{hedef}</small></span>
       </div>
@@ -86,7 +101,7 @@ export function KasaSkor({ d, ben, rakip, c, puanGoster = {}, parla = null }) {
 }
 
 /** Üst başlık: sen · Tur N/T + sayaç · rakip (avatar, ad, seviye; cevapladı işareti). */
-export function KasaUst({ d, ben, rakip, c, seviyeler = {}, sayac, onay = {}, anahtar = null }) {
+export function KasaUst({ d, ben, rakip, c, seviyeler = {}, sayac, onay = {}, anahtar = null, rakipJoker = [] }) {
   const taraf = (o, rakipMi) => (
     <div className={sinif("qt-oyuncu ks-oyuncu", rakipMi && "qt-oyuncu--rakip")}>
       <span className={sinif("ks-avatar", anahtar === (rakipMi ? "rakip" : "ben") && "ks-avatar--anahtar")}
@@ -95,6 +110,13 @@ export function KasaUst({ d, ben, rakip, c, seviyeler = {}, sayac, onay = {}, an
         {onay[o.id] && (
           <span className="ks-onay qt-h-pop-gir" role="img" aria-label={rakipMi ? c("cevapladı") : c("Cevabın kilitlendi")}>
             <QtIkon ad="onay" boyut={11} />
+          </span>
+        )}
+        {/* 951: rakibin bu soruda kullandığı jokerler (yalnız ad/ikon — etkisi gizli) */}
+        {rakipMi && rakipJoker.length > 0 && (
+          <span className="ks-rakip-jokerler" role="img"
+                aria-label={c("Rakip joker kullandı: {j}", { j: rakipJoker.map((t) => jokerBilgi(t, "kasa").ad).join(", ") })}>
+            {rakipJoker.map((t, i) => <SkillRozeti key={`${t}-${i}`} tur={t} boyut={20} />)}
           </span>
         )}
       </span>
@@ -136,14 +158,17 @@ export function KasaKarar({ d, c, calisan, onKarar, kalan = null }) {
       </div>
     );
   }
+  // 951: kasa acma_min altındaysa AÇ kilitli (sunucu da reddeder; karar fazı normalde hiç açılmaz)
+  const acKilit = deger < Number(d.acma_min ?? 0);
   return (
     <div className="ks-karar">
       <KasaKadran d={d} c={c} hareket={hareket} />
       <p className="ks-karar-baslik">{c("Kasa sende: {k} puan", { k: deger })}</p>
       <div className="ks-karar-eylem">
-        <QtDugme tamGenislik boyut="b" ikon="coin" yukleniyor={calisan === "karar-ac"} devreDisi={!!calisan}
-                 onClick={() => onKarar(true)}>
-          {c("AÇ · +{k} puan", { k: deger })}
+        <QtDugme tamGenislik boyut="b" ikon={acKilit ? "kilit" : "coin"} yukleniyor={calisan === "karar-ac"}
+                 devreDisi={!!calisan || acKilit} className={acKilit ? "ks-ac-kilitli" : undefined}
+                 onClick={() => { if (!acKilit) onKarar(true); }}>
+          {acKilit ? c("AÇ · En az {m} kasa", { m: d.acma_min }) : c("AÇ · +{k} puan", { k: deger })}
         </QtDugme>
         <QtDugme tur="ikincil" tamGenislik boyut="b" ikon="ileri" yukleniyor={calisan === "karar-devam"} devreDisi={!!calisan}
                  onClick={() => onKarar(false)}>
@@ -152,6 +177,22 @@ export function KasaKarar({ d, c, calisan, onKarar, kalan = null }) {
       </div>
       <p className="ks-karar-not">{c("Süre dolarsa DEVAM sayılır.")}</p>
     </div>
+  );
+}
+
+/**
+ * 951: kasa sende ama acma_min altında — kilitli AÇ düğmesi görünümü (soru üstünde, karar satırının yerinde).
+ * Basılamaz; yalnız kuralı gösterir. Sunucu karar fazını bu durumda hiç açmaz.
+ */
+export function KasaAcKilit({ d, c }) {
+  const m = Number(d?.acma_min ?? 0);
+  if (!(m > 0) || d?.altin || d?.sahip !== d?.ben || !(Number(d?.kasa) < m)) return null;
+  return (
+    <p className="ks-ac-kilit qt-h-gir" role="note" aria-label={c("AÇ kilitli: en az {m} kasa", { m })}>
+      <span className="ks-ac-kilit-dugme" aria-hidden="true"><QtIkon ad="kilit" boyut={14} />{c("AÇ")}</span>
+      <span>{c("En az {m} kasa", { m })}</span>
+      <span className="ks-ac-kilit-ilerleme qt-sayi" aria-hidden="true">{Number(d.kasa)}/{m}</span>
+    </p>
   );
 }
 

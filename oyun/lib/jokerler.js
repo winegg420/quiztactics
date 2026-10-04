@@ -8,13 +8,13 @@ export const SKILL_SETI_ANAHTARI = "quiztactics:skill-seti:v1";
 export const SKILL_TANIMLARI = {
   elli: {
     id: "elli", ad: "50:50", aciklama: tt("İki yanlış şık elenir"), ikon: "terazi",
-    kategori: "bilgi", allowedModes: ["1v1", "grup", "turnuva", "duello"],
+    kategori: "bilgi", allowedModes: ["1v1", "grup", "turnuva", "duello", "kasa"],
     allowedPhases: ["cevap"], target: "self", animation: "fifty-fifty",
     aktif: true, shopVisible: true,
   },
   sure: {
     id: "sure", ad: tt("Ek Süre"), aciklama: tt("Cevap sürene zaman ekler"), ikon: "saat",
-    kategori: "destek", allowedModes: ["1v1", "grup", "turnuva", "duello"],
+    kategori: "destek", allowedModes: ["1v1", "grup", "turnuva", "duello", "kasa"],
     allowedPhases: ["cevap"], target: "self", animation: "extra-time",
     aktif: true, shopVisible: true,
   },
@@ -28,7 +28,7 @@ export const SKILL_TANIMLARI = {
   zaman_baskisi: {
     id: "zaman_baskisi", ad: tt("Zaman Baskısı"),
     aciklama: tt("Rakibin cevap süresini kısaltır"), ikon: "hizli",
-    kategori: "saldırı", allowedModes: ["1v1", "duello"],
+    kategori: "saldırı", allowedModes: ["1v1", "duello", "kasa"],
     allowedPhases: ["cevap", "hazirlik"], target: "opponent", animation: "time-pressure",
     aktif: true, shopVisible: true,
   },
@@ -47,7 +47,7 @@ export const SKILL_TANIMLARI = {
   ikinci_sans: {
     id: "ikinci_sans", ad: tt("İkinci Şans"),
     aciklama: tt("İlk yanlışta aynı soruda bir kez daha cevaplatır"), ikon: "ikinciSans",
-    kategori: "bilgi", allowedModes: ["1v1", "duello"], allowedPhases: ["cevap"],
+    kategori: "bilgi", allowedModes: ["1v1", "duello", "kasa"], allowedPhases: ["cevap"],
     target: "self", animation: "second-chance", aktif: true, shopVisible: true,
   },
   // 680 Düello Hâkimiyet rol jokerleri: YALNIZ Düello (Klasik/Grup/Turnuva listelerine girmez; sunucu da reddeder).

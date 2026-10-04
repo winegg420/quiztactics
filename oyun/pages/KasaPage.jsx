@@ -22,7 +22,10 @@ import DereceliAnahtari from "../components/DereceliAnahtari.jsx";
 import AramaSahnesi, { ARAMA_GECIS_MS } from "../components/AramaSahnesi.jsx";
 import { GeriSayim } from "../components/MacHazirlik.jsx";
 import BulunamadiPage from "./BulunamadiPage.jsx";
-import { KasaKadran, KasaSkor, KasaUst, KasaKarar, KasaSonucBandi, kasaKararMetni } from "../components/KasaParcalari.jsx";
+import { KasaKadran, KasaSkor, KasaUst, KasaKarar, KasaSonucBandi, KasaAcKilit, kasaKararMetni } from "../components/KasaParcalari.jsx";
+import JokerCubugu from "../components/JokerCubugu.jsx";
+import SkillRozeti from "../components/SkillRozeti.jsx";
+import { jokerBilgi } from "../lib/jokerler.js";
 import { useOyuncuSeviyeleri } from "../lib/oyuncuSeviye.js";
 import { useMacSonuOzet, ozettenSahne } from "../lib/macSonuOzet.js";
 import { useDereceliTercih } from "../lib/dereceli.js";
@@ -37,10 +40,11 @@ import { sayacKaymasi, sayacGoster, sayacSinirMs } from "../lib/zaman.js";
 import { soruUzunlukSinifi } from "../lib/soruUzunluk.js";
 import { titret } from "../lib/geriBildirim.js";
 import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesDokunus, sesRakipBulundu, sesSoruGeldi,
-  sesTurGecis, sesRakipCevapladi, sesCoin, sesRozet, sesJoker, sesXpDolma } from "../lib/ses.js";
-import { KasaAcAni, KasaAltinYagmuru, UcanParcalar, kasaSeviye } from "../components/KasaEfekt.jsx";
+  sesTurGecis, sesRakipCevapladi, sesCoin, sesRozet, sesJoker, sesXpDolma, sesSkill } from "../lib/ses.js";
+import { KasaAcAni, KasaAltinYagmuru, UcanParcalar, kasaSeviye, KasaGirisSahnesi, KasaFinalSahnesi,
+  KasaCifteBandi } from "../components/KasaEfekt.jsx";
 import Konfeti from "../components/Konfeti.jsx";
-import { hareketAzaltildiMi } from "../tasarim/hareket.js";
+import { hareketAzaltildiMi, QT_KIRILMA_MS } from "../tasarim/hareket.js";
 import { QtDugme, QtIkon, QtModal, QtSayac, QtSik, QtSikler, QtSoruKarti, sinif } from "../tasarim/index.js";
 import "../tasarim/ekranlar/m1-mac.css";   // GeriSayim (3-2-1) görünümü
 import "./DuelloPage.a.css";              // m2-bant / m2-hata / m2-onay-eylem / m2-giris ortak kalıpları
@@ -66,6 +70,11 @@ const GECIKMIS_PENCERE_MS = 30000;
 const GECIKME_BANT_MS = 4000;
 const KASA_ARAMA_SINIR_SN = 60;
 const IPUCU_SN = 3;
+// 951 anları (kasa-efekt.css süreleriyle eşleşir)
+const GIRIS_SAHNE_MS = 3000;   // maç başı giriş sahnesi: ilk sorunun gösterim başlangıcına kadar biter
+const FINAL_SAHNE_MS = 4300;   // maç sonu açılış sahnesi (kazanan) — sonra MacSonuKutlama
+const FINAL_KAPANIS_MS = 3200; // kaybeden: kasa kapanır/kararır
+const CIFTE_MS = 1400;
 const ARAMA_IPUCLARI = [
   "Aynı soruyu aynı anda cevaplarsınız.",
   "Tek başına bilen kasanın sahibi olur.",
@@ -74,16 +83,27 @@ const ARAMA_IPUCLARI = [
   "{h} puana ilk ulaşan kazanır.",
 ];
 
+/** 951: maç sonu açılış sahnesinin verisi — yalnız AÇ (ya da son tur aktarımı) maçı bitirdiyse ve açan kazandıysa. */
+function kasaFinalVerisi(d) {
+  const k = d?.son_karar;
+  if (!d?.kazanan || !k?.ac || k.veren !== d.kazanan || !["hedef", "tur_siniri"].includes(d.sonuc_neden)) return null;
+  const veren = (d.oyuncular ?? []).find((o) => o.id === k.veren);
+  const puanSonra = Number(veren?.puan ?? 0);
+  const deger = Number(k.deger ?? 0);
+  return { kazandim: d.kazanan === d.ben, deger, puanSonra, puanOnce: Math.max(0, puanSonra - deger), hedef: Number(d.hedef ?? 50) };
+}
+
 // ------------------------------------------------------------ giriş
 function KasaGiris() {
   const navigate = useNavigate();
   const { ceviri } = useDil();
   // Ayar satırı yoksa (migration 950 uygulanmamış) mod kurulmamış sayılır: kapalı-mod notu.
   const acik = useAyar("kasa_modu_acik", 0) >= 1;
-  const hedef = useAyar("kasa_hedef_puan", 20);
+  const hedef = useAyar("kasa_hedef_puan", 50);
   const artis = useAyar("kasa_artis", 2);
   const ikisi = useAyar("kasa_ikisi_dogru_artis", 6);
-  const maxTur = useAyar("kasa_max_tur", 24);
+  const maxTur = useAyar("kasa_max_tur", 36);
+  const acmaMin = useAyar("kasa_acma_min", 10);
   const [dereceli, setDereceli] = useDereceliTercih();
   const location = useLocation();
   const [aramaBilgi] = useState(() => (location.state?.yenidenAra ? ceviri("Rakip bağlanamadı, yeni rakip aranıyor") : null));
@@ -106,6 +126,8 @@ function KasaGiris() {
         <li>{ceviri("Her soru kasaya +{n} ekler; ikiniz de bilirseniz +{m}.", { n: artis, m: ikisi })}</li>
         <li>{ceviri("Soruyu tek başına bilen kasanın sahibi olur.")}</li>
         <li>{ceviri("AÇ: kasa puanına yazılır, kasa sıfırlanır. DEVAM: kasa büyür ama kaybedebilirsin.")}</li>
+        {acmaMin > 0 && <li>{ceviri("Kasa en az {m} olunca açılabilir.", { m: acmaMin })}</li>}
+        <li>{ceviri("Jokerler: 50:50, Ek Süre, Zaman Baskısı, İkinci Şans.")}</li>
         <li>{ceviri("{t} tur sonunda kasa sahibine yazılır; eşitlikte Altın Soru.", { t: maxTur })}</li>
       </ul>
       <DereceliAnahtari dereceli={dereceli} onDegistir={setDereceli} />
@@ -128,7 +150,7 @@ function KasaGiris() {
 // ------------------------------------------------------------ arama (Düello ile aynı kalıp)
 function KasaArama({ dereceli, onBulundu, onIptal, bilgi = null }) {
   const { ceviri } = useDil();
-  const hedef = useAyar("kasa_hedef_puan", 20);
+  const hedef = useAyar("kasa_hedef_puan", 50);
   const [gecen, setGecen] = useState(0);
   const ipucu = Math.floor(gecen / IPUCU_SN) % ARAMA_IPUCLARI.length;
   const [hata, setHata] = useState(null);
@@ -359,7 +381,9 @@ function KasaMac({ id }) {
   }, [id, yukle]);
 
   // Faz bitişinde tek okuma (sunucu fazı tembel ilerletir). Kopukken bitiş gerçek değildir: zamanlayıcı kurulmaz.
-  const bitisAnahtar = d?.durum === "aktif" && !d.kopuk ? `${d.faz}|${d.faz_bitis}` : "";
+  // 951: cevap fazında Ek Süre / Zaman Baskısı kişisel bitişi değiştirir; faz iki bitişin geç olanında çözülür (faz_son).
+  const bitisAnahtar = d?.durum === "aktif" && !d.kopuk
+    ? `${d.faz}|${d.faz === "cevap" && d.sureler?.faz_son ? d.sureler.faz_son : d.faz_bitis}` : "";
   useEffect(() => {
     if (!bitisAnahtar) { fazBitisRef.current = null; return undefined; }
     const [faz, zaman] = bitisAnahtar.split("|");
@@ -397,21 +421,23 @@ function KasaMac({ id }) {
 
   // ---------------- sayaç (Düello 325 deseni: gösterim payı + sayacGoster) ----------------
   const gosterimBas = d?.sureler?.gosterim_bas && ["karar", "cevap"].includes(d?.faz) ? new Date(d.sureler.gosterim_bas).getTime() : null;
+  // Sayaç benim KİŞİSEL bitişime göre işler (Ek Süre uzatır, rakibin Zaman Baskısı kısaltır)
+  const benimBitis = d?.faz === "cevap" && d?.sureler?.benim_bitis ? d.sureler.benim_bitis : d?.faz_bitis;
   const kalanSn = useMemo(() => {
-    if (!d?.faz_bitis) return 0;
+    if (!benimBitis) return 0;
     const sunucuSimdi = Math.max(simdi, Date.now()) + farkRef.current;
     const bas = gosterimBas ? Math.max(sunucuSimdi, gosterimBas) : sunucuSimdi;
-    return Math.max(0, (new Date(d.faz_bitis).getTime() - bas) / 1000);
-  }, [d?.faz_bitis, gosterimBas, simdi]);
+    return Math.max(0, (new Date(benimBitis).getTime() - bas) / 1000);
+  }, [benimBitis, gosterimBas, simdi]);
   const fazKaymaRef = useRef({ anahtar: null, k0: 0, kayma: 0 });
   const kopukDonukSn = d?.kopuk && Number.isFinite(Number(d.kopuk.faz_kalan_sn)) ? Math.max(0, Number(d.kopuk.faz_kalan_sn)) : null;
   const gosterSn = useMemo(() => {
     if (kopukDonukSn != null) return kopukDonukSn;
     if (!(kalanSn > 0) || !d) return 0;
-    const anahtar = `${d.tur}-${d.altin}-${d.faz}`;
+    const anahtar = `${d.tur}-${d.altin}-${d.faz}-${benimBitis}`;
     if (fazKaymaRef.current.anahtar !== anahtar) fazKaymaRef.current = { anahtar, ...sayacKaymasi(kalanSn) };
     return sayacGoster(kalanSn, fazKaymaRef.current);
-  }, [kalanSn, kopukDonukSn, d?.tur, d?.altin, d?.faz]);   // eslint-disable-line react-hooks/exhaustive-deps
+  }, [kalanSn, kopukDonukSn, d?.tur, d?.altin, d?.faz, benimBitis]);   // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (kalanSn <= 0 || kopukDonukSn != null) return undefined;
     const z = setTimeout(() => setSimdi(Date.now()), sayacSinirMs(kalanSn, fazKaymaRef.current) + 5);
@@ -444,6 +470,98 @@ function KasaMac({ id }) {
   }, []);
   useEffect(() => () => anZamanRef.current.forEach(clearTimeout), []);
 
+  // ---------------- 951: maç başı giriş sahnesi (sunucu saatine bağlı) ----------------
+  // İlk sorunun gösterim başlangıcı (soru açılışı + gösterim payı) sahnenin bitişidir: sahne son 3 sn'yi kaplar,
+  // 3-2-1 ondan önceki 3 sn'de sayar. Soru sahnenin altında açılır ama sayaç sahne bitince başlar (kayıp süre yok).
+  const payiMs = Number(d?.sureler?.gosterim_payi_ms ?? 1500);
+  const girisBitis = d && d.durum === "aktif" && !d.altin && Number(d.tur) <= 1
+    ? (d.faz === "baslangic" && d.faz_bitis ? new Date(d.faz_bitis).getTime() + payiMs
+      : d.faz === "cevap" && d.sureler?.gosterim_bas ? new Date(d.sureler.gosterim_bas).getTime() : null)
+    : null;
+  const sunucuSimdiMs = simdi + farkRef.current;
+  const girisGecen = girisBitis != null ? sunucuSimdiMs - (girisBitis - GIRIS_SAHNE_MS) : null;
+  const girisAktif = girisGecen != null && girisGecen >= 0 && girisGecen < GIRIS_SAHNE_MS && !d?.kopuk;
+  const girisAktifRef = useRef(false);
+  girisAktifRef.current = girisAktif;
+  const girisSesRef = useRef(false);
+  useEffect(() => {
+    if (!girisAktif || girisSesRef.current) return;
+    girisSesRef.current = true;
+    sesTurGecis(); titret([10, 30, 10]);
+    const z = [setTimeout(() => { sesRozet(); titret(20); }, 1150), setTimeout(sesCoin, 1700)];
+    return () => z.forEach(clearTimeout);
+  }, [girisAktif]);
+
+  // ---------------- 951: maç sonu açılış sahnesi (aktif → bitti geçişi görüldüyse) ----------------
+  const [finalAn, setFinalAn] = useState(null);
+  const oncekiDurumRef = useRef(null);
+  const finalZamanRef = useRef([]);
+  useEffect(() => () => finalZamanRef.current.forEach(clearTimeout), []);
+  useEffect(() => {
+    if (!d) return;
+    const once = oncekiDurumRef.current;
+    oncekiDurumRef.current = d.durum;
+    if (once !== "aktif" || d.durum !== "bitti") return;
+    const f = kasaFinalVerisi(d);
+    if (!f) return;
+    const kazandim = f.kazandim;
+    const sure = hareketAzaltildiMi() ? 1500 : kazandim ? FINAL_SAHNE_MS : FINAL_KAPANIS_MS;
+    setFinalAn(f);
+    // Zamanlayıcılar ref'te: d sonradan değişse de sahne yarıda kalmaz (yalnız sayfa kapanınca temizlenir)
+    const z = kazandim
+      ? [setTimeout(() => sesJoker(), 150), setTimeout(() => { sesRozet(); titret([30, 50, 40]); }, 1150),
+         setTimeout(() => { sesCoin(); titret([40, 30, 60]); }, 2300), setTimeout(sesXpDolma, 2450), setTimeout(sesCoin, 2900)]
+      : [setTimeout(sesTurGecis, 200), setTimeout(() => { sesYanlis(); titret(40); }, 1350)];
+    z.push(setTimeout(() => setFinalAn(null), sure));
+    finalZamanRef.current.push(...z);
+  }, [d]);   // eslint-disable-line react-hooks/exhaustive-deps
+
+  // ---------------- 951: jokerler (yalnız sunum; etkiler sunucuda) ----------------
+  const [kirilan, setKirilan] = useState([]);
+  const [ekBalon, setEkBalon] = useState(null);
+  const [elenenYerel, setElenenYerel] = useState(null);
+  const [jokerBilgiMetni, setJokerBilgiMetni] = useState(null);
+  const [rakipJokerAn, setRakipJokerAn] = useState(null);
+  const [cifteAn, setCifteAn] = useState(null);
+  const jokerZamanRef = useRef([]);
+  const jokerZaman = (f, ms) => { jokerZamanRef.current.push(setTimeout(f, ms)); };
+  useEffect(() => () => jokerZamanRef.current.forEach(clearTimeout), []);
+  useEffect(() => { setKirilan([]); setEkBalon(null); setElenenYerel(null); }, [d?.tur, d?.altin]);
+  const jokerEtkisi = useCallback((sonuc) => {
+    if (!sonuc) return;
+    if (sonuc.tur === "elli" && Array.isArray(sonuc.kapali)) {
+      setKirilan(sonuc.kapali);
+      jokerZaman(() => setKirilan([]), QT_KIRILMA_MS);
+    } else if (sonuc.tur === "sure") {
+      setEkBalon({ anahtar: Date.now(), metin: `+${Number(sonuc.eklenen_sn ?? 10)}` });
+    } else if (sonuc.tur === "zaman_baskisi" && sonuc.rakip) {
+      setEkBalon({ anahtar: Date.now(), metin: `−${Number(sonuc.azaltildi ?? 5)}` });
+      sesSkill("zaman_baskisi"); titret([20, 40, 20]);
+    }
+    yukleRef.current?.();
+  }, []);
+  const jokerBilgiGoster = useCallback((b) => {
+    if (!b?.metin) return;
+    setJokerBilgiMetni(b);
+    jokerZaman(() => setJokerBilgiMetni((x) => (x?.anahtar === b.anahtar ? null : x)), 1800);
+  }, []);
+  // Rakip yeni joker kullandı → ikon + kısa efekt (rakip avatarının altında)
+  const rakipJokerSayiRef = useRef({ tur: null, n: 0 });
+  useEffect(() => {
+    if (!d || d.durum !== "aktif") return;
+    const liste = Array.isArray(d.rakip_joker) ? d.rakip_joker : [];
+    const anahtar = `${d.tur}-${d.altin}`;
+    const r = rakipJokerSayiRef.current;
+    if (r.tur !== anahtar) { rakipJokerSayiRef.current = { tur: anahtar, n: liste.length }; if (!liste.length) return; }
+    else if (liste.length <= r.n) return;
+    rakipJokerSayiRef.current = { tur: anahtar, n: liste.length };
+    const tur = liste[liste.length - 1];
+    if (r.tur !== anahtar && d.faz !== "cevap") return;
+    setRakipJokerAn({ tur, anahtar: Date.now() });
+    sesJoker(); titret(12);
+    jokerZaman(() => setRakipJokerAn((x) => (x?.tur === tur ? null : x)), 2200);
+  }, [d]);   // eslint-disable-line react-hooks/exhaustive-deps
+
   const anRef = useRef({ faz: null, rakip: false, tur: null });
   useEffect(() => {
     if (!d || d.durum !== "aktif") return;
@@ -457,13 +575,20 @@ function KasaMac({ id }) {
       if (d.faz !== "sonuc") { anZamanRef.current.forEach(clearTimeout); setAn(null); }
       const yeniTur = oncekiTur !== `${d.tur}-${d.altin}`;
       const acildi = d.faz === "cevap" && d.son_karar?.ac && !d.son_karar.son;
-      if (yeniTur && (d.faz === "karar" || d.faz === "cevap")) setTurBant(Date.now());
-      if (d.faz === "cevap" && !acildi) sesSoruGeldi();
+      // Giriş sahnesi sürerken ilk sorunun bandı/sesi sahnenin altında kalmasın (sahne kendi sesini çalar)
+      if (yeniTur && (d.faz === "karar" || d.faz === "cevap") && !girisAktifRef.current) setTurBant(Date.now());
+      if (d.faz === "cevap" && !acildi) { if (!girisAktifRef.current) sesSoruGeldi(); }
       else if (d.faz === "karar") sesTurGecis();
       else if (d.faz === "sonuc" && d.sonuc) {
         const s = d.sonuc;
         if (s.ben_dogru) sesDogru(); else sesYanlis();
         titret(s.ben_dogru ? 12 : 30);
+        // 951: ikisi de bildi → "ÇİFTE" patlama bandı
+        if (!s.altin && s.ben_dogru && s.rakip_dogru && !hareketAzaltildiMi()) {
+          const an = Date.now();
+          setCifteAn(an);
+          jokerZaman(() => setCifteAn((x) => (x === an ? null : x)), CIFTE_MS);
+        }
         if (!s.altin && Number(s.artis) > 0) {
           // +2 / +6: bant → mini kasa altın uçuşu; sahip değiştiyse anahtar uçar.
           const buyuk = Number(s.artis) >= Number(d.ikisi_artis ?? 6);
@@ -508,8 +633,17 @@ function KasaMac({ id }) {
     setHata(null);
     setCalisan("cevap");
     try {
-      const { error } = await supabase.rpc("kasa_cevap", { p_id: id, p_cevap: i });
+      const { data, error } = await supabase.rpc("kasa_cevap", { p_id: id, p_cevap: i });
       if (error) throw error;
+      // 951 İkinci Şans: ilk yanlış sayılmadı — şık elenir, aynı sayaçla yeniden seçilir (yalnız ben görürüm)
+      if (data?.ikinci_sans) {
+        sesYanlis(); titret(18);
+        setElenenYerel(Number(data.elenen ?? i));
+        jokerBilgiGoster({ metin: c("İkinci Şans: bir kez daha dene!"), anahtar: Date.now() });
+        jokerZaman(() => setSecim(null), 260);
+        yukle().catch(() => {});
+        return;
+      }
       await yukle();
     } catch (e) {
       setHata(c(hataMesaji(e)));
@@ -581,6 +715,17 @@ function KasaMac({ id }) {
       : d.sonuc_neden === "tur_siniri" ? (kazandim ? c("{a}-{b} önde, kazandın", skor) : c("{a}-{b} geride, kaybettin", skor))
       : d.sonuc_neden === "altin" ? (kazandim ? c("Eşit — Altın Soru'yu sen bildin") : c("Eşit — Altın Soru'yu rakip bildi"))
       : null;
+    // 951: son AÇ'ın yavaş sahnesi (kazanan: kapı açılır, altın patlar, skor hedefe sayar · kaybeden: kasa kapanır/kararır).
+    // Geçişin ilk karesinde (effect durumu yazmadan önce) de sahne çizilir — kutlama bir kare bile görünmesin.
+    const fin = finalAn ?? (oncekiDurumRef.current === "aktif" && d.durum === "bitti" ? kasaFinalVerisi(d) : null);
+    if (fin) {
+      return (
+        <div className="ks-bitti ks-bitti--final">
+          <KasaFinalSahnesi key="kasa-final" kazandim={fin.kazandim} deger={fin.deger} hedef={fin.hedef}
+                            puanOnce={fin.puanOnce} puanSonra={fin.puanSonra} c={c} />
+        </div>
+      );
+    }
     if (d.durum === "bitti" && !macSonuOzet) return <div className="ks-bitti"><div className="msk-bekle" aria-busy="true" /></div>;
     const sahne = ozettenSahne(d.durum === "bitti" ? macSonuOzet : null);
     return (
@@ -619,9 +764,12 @@ function KasaMac({ id }) {
   const toplamSn = d.faz === "karar" ? Number(d.sureler?.karar ?? 8) : Number(d.sureler?.soru ?? 15);
   const sayacVar = d.faz === "cevap" || d.faz === "karar";
   const sayac = sayacVar
-    ? <QtSayac kalan={gosterSn} toplam={toplamSn} esik={d.faz === "karar" ? 3 : 5} boyut="k" durdu={kilitli || kopukDonukSn != null} className="ks-sayac" />
+    ? <QtSayac kalan={gosterSn} toplam={toplamSn} esik={d.faz === "karar" ? 3 : 5} boyut="k" durdu={kilitli || kopukDonukSn != null}
+               className={sinif("ks-sayac", d.joker?.kisaltildi && d.faz === "cevap" && "ks-sayac--kisaldi")}
+               ekBalon={d.faz === "cevap" ? ekBalon : null} />
     : <span className="ks-sayac ks-sayac--yok" aria-hidden="true">·</span>;
   const gerilim = d.faz === "cevap" && !kilitli && gosterSn > 0 && gosterSn <= 5;
+  const sonUcSn = d.faz === "cevap" && !kilitli && kopukDonukSn == null && gosterSn > 0 && gosterSn <= 3;
   const kararGerilim = d.faz === "karar" && d.karar?.veren === d.ben && kopukDonukSn == null && gosterSn > 0 && gosterSn <= 3;
   const kopukBant = d.kopuk
     ? { benMi: Boolean(d.kopuk.ben_mi), kalan: d.kopuk.bitis ? Math.max(0, Math.ceil((new Date(d.kopuk.bitis).getTime() - (simdi + farkRef.current)) / 1000)) : null }
@@ -632,9 +780,13 @@ function KasaMac({ id }) {
   // efekt sürerken gösterilen değerler (yalnız sunum)
   const anSonuc = an?.tip === "sonuc" ? an : null;
   const anAc = an?.tip === "ac" ? an : null;
-  const miniHareket = anSonuc?.varis && !anSonuc.bitti
+  const turBantGoster = turBant && simdi - turBant < 900 && !anAc;
+  const miniHareket = (anSonuc?.varis && !anSonuc.bitti
     ? (anSonuc.buyuk ? ["vardi", "patla"] : ["vardi"]).concat(anSonuc.anahtarVaris ? ["yeni-sahip"] : [])
-    : [];
+    : [])
+    // 951: her tur başında kısa sarsıntı · cevap süresinin son 3 sn'sinde titreme
+    .concat(turBant && simdi - turBant < 650 ? ["tur-sars"] : [])
+    .concat(sonUcSn ? ["gergin"] : []);
   const miniKadran = (
     <KasaKadran d={d} c={c} kucuk
                 goster={anSonuc && !anSonuc.varis ? anSonuc.kasaOnce : undefined}
@@ -642,11 +794,12 @@ function KasaMac({ id }) {
                 hareket={miniHareket}
                 artis={anSonuc?.varis && !anSonuc.bitti ? { anahtar: anSonuc.id, n: anSonuc.artis, buyuk: anSonuc.buyuk } : null} />
   );
-  const turBantGoster = turBant && simdi - turBant < 900 && !anAc;
 
   let sahne = null;
+  let jokerYuva = null;
   if (d.faz === "baslangic") {
-    const kalanBas = Math.max(0, (new Date(d.faz_bitis).getTime() - (simdi + farkRef.current)) / 1000);
+    // 3-2-1 giriş sahnesinden ÖNCEKİ 3 sn'de sayar (sahne sunucu saatine bağlı, bkz. girisBitis)
+    const kalanBas = girisBitis != null ? Math.max(0, (girisBitis - GIRIS_SAHNE_MS - sunucuSimdiMs) / 1000) : 0;
     sahne = (
       <>
         <KasaKadran d={d} c={c} />
@@ -661,16 +814,36 @@ function KasaMac({ id }) {
     const benimCevap = sonucMu
       ? (d.sonuc?.benim_cevabim == null ? null : Number(d.sonuc.benim_cevabim))
       : kilitli && d.cevap?.benim_cevabim != null ? Number(d.cevap.benim_cevabim) : secim;
-    const tiklanabilir = !sonucMu && !kilitli && kalanSn > 0 && secim === null && calisan !== "cevap";
+    const tiklanabilir = !sonucMu && !kilitli && kalanSn > 0 && secim === null && calisan !== "cevap" && !girisAktif;
+    // 951: 50:50 kapalıları ve İkinci Şans'ın elenen ilk cevabı yalnız bende (sunucu yalnız bana döndürür)
+    const kapali = Array.isArray(d.joker?.kapali) ? d.joker.kapali.map(Number) : [];
+    const elenen = d.joker?.elenen != null ? Number(d.joker.elenen) : elenenYerel;
     const durum = (i) => {
       if (sonucMu) return i === dogru ? (benimCevap === dogru ? "dogru" : "dogrusu") : i === benimCevap ? "yanlis" : "solgun";
       if (i === benimCevap) return "secili";
+      if (kirilan.includes(i)) return "normal";
+      if (kapali.includes(i) || i === elenen) return "elendi";
       return tiklanabilir ? "normal" : "kilitli";
     };
+    const jokerPasif = sonucMu || kilitli || kalanSn <= 0 || secim !== null || girisAktif;
+    if (d.jokerli && !d.altin) {
+      // Klasik ile aynı çubuk; sahne anahtarının DIŞINDA (faz değişince yeniden yüklenmez), sonuçta pasif kalır
+      jokerYuva = (
+        <div className={sinif("m1-joker-yuva ks-joker-yuva", jokerPasif && "m1-joker-yuva--pasif")}
+             inert={jokerPasif || undefined} aria-hidden={jokerPasif || undefined}>
+          <JokerCubugu macTur="kasa" macId={id} soruIndex={d.tur} kilit={kilitli}
+                       surum={(d.rakip_joker ?? []).length} kalanSn={kalanSn}
+                       onEtki={jokerEtkisi} onBilgi={jokerBilgiGoster} />
+        </div>
+      );
+    }
     sahne = (
       <>
-        {sonucMu ? <KasaSonucBandi d={d} c={c} /> : kararMetni && <p className="ks-karar-satir qt-h-gir" role="status">{kararMetni}</p>}
+        {sonucMu ? <KasaSonucBandi d={d} c={c} />
+          : kararMetni ? <p className="ks-karar-satir qt-h-gir" role="status">{kararMetni}</p>
+          : <KasaAcKilit d={d} c={c} />}
         {sonucMu && <Konfeti aktif={Boolean(d.sonuc?.ben_dogru)} adet={d.sonuc?.rakip_dogru ? 12 : 18} />}
+        {sonucMu && cifteAn && <KasaCifteBandi key={cifteAn} artis={Number(d.sonuc?.artis ?? d.ikisi_artis ?? 6)} c={c} />}
         {anAc && <KasaAcAni key={anAc.id} deger={anAc.deger} benim={anAc.benim} seviye={anAc.seviye} c={c} />}
         <QtSoruKarti key={d.soru?.soru ?? "soru"}
                      className={sinif("m2-soru ks-soru", soruUzunlukSinifi({ soru: d.soru?.soru, secenekler }), sonucMu && "m2-soru--sonuc")}
@@ -679,7 +852,8 @@ function KasaMac({ id }) {
         <QtSikler etiket={c("Şıklar")}>
           {secenekler.map((s, i) => (
             <QtSik key={`${d.soru?.soru ?? ""}-${i}`} harf={HARFLER[i]} metin={s} durum={durum(i)}
-                   onClick={tiklanabilir ? () => cevapVer(i) : undefined} />
+                   kiriliyor={kirilan.includes(i)}
+                   onClick={tiklanabilir && !kapali.includes(i) && i !== elenen ? () => cevapVer(i) : undefined} />
           ))}
         </QtSikler>
         <p className="qt-gizli" aria-live="polite">
@@ -697,6 +871,7 @@ function KasaMac({ id }) {
                    rozet={c("Kasa · Deneysel")} />
       <KasaUst d={d} ben={ben} rakip={rakip} c={c} seviyeler={seviyeler} sayac={sayac}
                anahtar={anSonuc?.anahtarVaris && !anSonuc.bitti ? anSonuc.anahtarA : null}
+               rakipJoker={["cevap", "sonuc"].includes(d.faz) && Array.isArray(d.rakip_joker) ? d.rakip_joker : []}
                onay={d.faz === "cevap" ? { [ben.id]: kilitli, [rakip.id]: Boolean(d.cevap?.rakip_cevapladi) } : {}} />
       <div className="ks-serit">
         <KasaSkor d={d} ben={ben} rakip={rakip} c={c}
@@ -726,7 +901,22 @@ function KasaMac({ id }) {
           </span>
         )}
         {sahne}
+        {jokerBilgiMetni && ["cevap", "sonuc"].includes(d.faz) && (
+          <p key={jokerBilgiMetni.anahtar} className="ks-joker-bilgi" role="status" aria-live="polite">{jokerBilgiMetni.metin}</p>
+        )}
+        {rakipJokerAn && d.faz === "cevap" && (
+          // 951: rakip joker kullandı — ikon + kısa efekt (etkisi gizli; yalnız adı). Sahnenin üstünde, sayacı kapatmaz.
+          <p key={rakipJokerAn.anahtar} className="ks-rakip-joker-an" role="status" aria-live="polite">
+            <SkillRozeti tur={rakipJokerAn.tur} boyut={28} />
+            <span>{rakipJokerAn.tur === "zaman_baskisi" ? c("Rakip süreni kısalttı!")
+              : c("Rakip {j} kullandı", { j: jokerBilgi(rakipJokerAn.tur, "kasa").ad })}</span>
+          </p>
+        )}
       </div>
+      {jokerYuva}
+      {girisAktif && (
+        <KasaGirisSahnesi hedef={Number(d.hedef ?? 50)} acmaMin={Number(d.acma_min ?? 0)} gecenMs={girisGecen} c={c} />
+      )}
       {an && (
         <div className="ks-efekt" aria-hidden="true" key={an.id}>
           {anSonuc && (

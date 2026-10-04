@@ -7,12 +7,15 @@
 //              kök içinde [data-ks-hedef="…"] ile bulunur, koordinatlar köke göre ölçülür; hareket yalnız transform.
 // KasaAcAni  : AÇ anı (kapı açılır, ışık patlar, altın skor çubuğuna uçar). Soru gösterim payının (1,5 sn) içinde biter.
 // KasaAltinYagmuru: maç sonu kazanana altın yağmuru (sabit katman transform'suz; hareket içteki span'larda — iOS).
+// 951: KasaGirisSahnesi (maç başı ~3 sn) · KasaFinalSahnesi (maç sonu yavaş açılış ~4 sn / kaybedende kapanış) ·
+//      KasaCifteBandi (ikisi de bildi). Hepsi kök .ks-mac / .ks-bitti içinde mutlak katman.
 // Kural yok: yalnız sunum. prefers-reduced-motion → parçacık/yağmur çizilmez, kapı/kadran durağan (kasa-efekt.css).
 // ============================================================
 import { useId, useLayoutEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { hareketAzaltildiMi } from "../tasarim/hareket.js";
-import { sinif } from "../tasarim/index.js";
+import { QtIkon, sinif } from "../tasarim/index.js";
+import SayanSayi from "./SayanSayi.jsx";
 import "../styles/kasa-efekt.css";
 
 /** Kasa doluluk seviyesi (hedefe oranla): bos · az · orta · dolu. */
@@ -176,6 +179,92 @@ export function KasaAcAni({ deger, benim, seviye, c }) {
         {benim ? c("KASA AÇILDI!") : c("Rakip kasayı açtı!")}
         <span className="qt-sayi">+{deger}</span>
       </b>
+    </div>
+  );
+}
+
+// Merkezden dışa saçılan altın (giriş/final patlaması): açı + mesafe + gecikme önceden (yalnız sunum)
+function patlamaParcalari(adet, menzil) {
+  return Array.from({ length: adet }, (_, i) => {
+    const a = (i / adet) * Math.PI * 2 + (Math.random() - 0.5) * 0.5;
+    const r = menzil * (0.55 + Math.random() * 0.45);
+    return { i, x: Math.round(Math.cos(a) * r), y: Math.round(Math.sin(a) * r * 0.8 - 20), gec: Math.round(Math.random() * 140),
+             boy: Math.round(12 + Math.random() * 10), don: Math.round((Math.random() * 2 - 1) * 420) };
+  });
+}
+function Patlama({ adet = 18, menzil = 150, className }) {
+  const p = useMemo(() => patlamaParcalari(adet, menzil), [adet, menzil]);
+  return (
+    <span className={sinif("ks-patlama", className)} aria-hidden="true">
+      {p.map((q) => (
+        <i key={q.i} style={{ "--x": `${q.x}px`, "--y": `${q.y}px`, "--don": `${q.don}deg`, width: q.boy, height: q.boy,
+                              animationDelay: `${q.gec}ms` }} />
+      ))}
+    </span>
+  );
+}
+
+/**
+ * MAÇ BAŞI giriş sahnesi (3-2-1'den sonra, ~3 sn): kasa ekranın ortasına iner, kilit çözülür gibi parlar (kadran
+ * döner, halka ışığı), "KASA" yazısı ve hedef puan. Kök .ks-mac içinde mutlak katman (fixed değil — iOS).
+ * gecenMs: sahnenin başından bu yana (sunucu saatiyle) — geç gelen istemci sahnenin ortasından katılır.
+ */
+export function KasaGirisSahnesi({ hedef, acmaMin, gecenMs = 0, c }) {
+  // Gecikme YALNIZ ilk çizimde alınır: animasyon zaten akıyor, her karede güncellenirse iki kat hızlı biter
+  const [gecikme] = useState(() => `-${Math.max(0, Math.round(gecenMs))}ms`);
+  return (
+    <div className="ks-giris-an" role="status" aria-live="polite" style={{ "--ks-gec": gecikme }}>
+      <span className="ks-giris-isik" aria-hidden="true" />
+      <div className="ks-giris-kasa" aria-hidden="true">
+        <span className="ks-giris-halka" />
+        <KasaKasasi seviye="orta" />
+      </div>
+      <b className="ks-giris-baslik">{c("KASA")}</b>
+      <span className="ks-giris-hedef">
+        <QtIkon ad="hedef" boyut={18} />
+        {c("Hedef")} <b className="qt-sayi">{hedef}</b> {c("puan")}
+      </span>
+      {acmaMin > 0 && <span className="ks-giris-not">{c("Kasa en az {m} olunca açılabilir", { m: acmaMin })}</span>}
+    </div>
+  );
+}
+
+/**
+ * MAÇ SONU açılış sahnesi (~4 sn, yavaşlatılmış). Kazanan: kadran yavaş döner, kapı yavaş açılır, içeriden ışık,
+ * altın patlaması, skor hedefe sayarak ulaşır, ekran titrer. Kaybeden: rakibin kasası kapanır ve kararır.
+ * Sonra sayfa MacSonuKutlama'ya geçer (süre sayfada). Kural yok: yalnız sunum.
+ */
+export function KasaFinalSahnesi({ kazandim, puanOnce, puanSonra, hedef, deger, c }) {
+  const [sayi, setSayi] = useState(puanOnce);
+  useLayoutEffect(() => {
+    const t = setTimeout(() => setSayi(puanSonra), hareketAzaltildiMi() ? 0 : kazandim ? 2350 : 1500);
+    return () => clearTimeout(t);
+  }, [puanSonra, kazandim]);
+  return (
+    <div className={sinif("ks-final", kazandim ? "ks-final--kazandi" : "ks-final--kaybetti")} role="status" aria-live="polite">
+      <span className="ks-final-isin" aria-hidden="true" />
+      <div className="ks-final-kasa" aria-hidden="true">
+        <KasaKasasi seviye="dolu" />
+        {kazandim && <Patlama adet={24} menzil={170} className="ks-final-patlama" />}
+      </div>
+      <b className="ks-final-baslik">
+        {kazandim ? c("KASA AÇILDI!") : c("Kasa rakibe açıldı")}
+        {deger > 0 && <span className="qt-sayi">+{deger}</span>}
+      </b>
+      <span className="ks-final-skor qt-sayi" aria-label={c("{a} / {h} puan", { a: puanSonra, h: hedef })}>
+        <SayanSayi deger={sayi} sure={900} /><small>/{hedef}</small>
+      </span>
+    </div>
+  );
+}
+
+/** İkisi de bilince "ÇİFTE" patlama bandı (sonuç fazının başında, ~1,3 sn). */
+export function KasaCifteBandi({ artis, c }) {
+  return (
+    <div className="ks-cifte" aria-hidden="true">
+      <span className="ks-cifte-isin" />
+      <b className="ks-cifte-yazi">{c("ÇİFTE!")} <span className="qt-sayi">+{artis}</span></b>
+      <Patlama adet={12} menzil={120} className="ks-cifte-patlama" />
     </div>
   );
 }

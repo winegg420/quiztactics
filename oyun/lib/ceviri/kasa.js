@@ -80,6 +80,23 @@ export default {
   "Eşit — Altın Soru'yu sen bildin": "Tied — you got the Golden Question",
   "Eşit — Altın Soru'yu rakip bildi": "Tied — your opponent got the Golden Question",
 
+  // 951: uzunluk, AÇ alt sınırı, jokerler, anlar
+  "Kasa en az {m} olunca açılabilir.": "The Vault can be opened once it holds at least {m}.",
+  "Kasa en az {m} olunca açılabilir": "The Vault can be opened once it holds at least {m}",
+  "Jokerler: 50:50, Ek Süre, Zaman Baskısı, İkinci Şans.": "Jokers: 50:50, Extra Time, Time Pressure, Second Chance.",
+  "Hedef": "Target",
+  "AÇ": "OPEN",
+  "En az {m} kasa": "Vault min. {m}",
+  "AÇ · En az {m} kasa": "OPEN · Vault min. {m}",
+  "AÇ kilitli: en az {m} kasa": "OPEN locked: Vault needs at least {m}",
+  "Kasa rakibe açıldı": "Your opponent opened the Vault",
+  "{a} / {h} puan": "{a} / {h} points",
+  "ÇİFTE!": "DOUBLE!",
+  "Rakip joker kullandı: {j}": "Opponent used a joker: {j}",
+  "Rakip {j} kullandı": "Opponent used {j}",
+  "Rakip süreni kısalttı!": "Opponent cut your time!",
+  "İkinci Şans: bir kez daha dene!": "Second Chance: try once more!",
+
   // bağlantı
   "Bağlantın koptu — maç bekliyor.": "You're disconnected — the match is waiting.",
   "Rakibin bağlantısı koptu — maç durduruldu.": "Your opponent disconnected — the match is paused.",

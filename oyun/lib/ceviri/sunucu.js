@@ -128,4 +128,10 @@ export default {
   "Çeviri: dogru_cevap indeksi şık sayısının dışında": "Translation: the correct-answer index is out of range",
   // 680 · Düello Hâkimiyet: eski Kategori Kalkanı RPC'si artık bu mesajı verir
   "Kategori Kalkanı kaldırıldı": "Category Shield has been removed",
+  // 951 · Kasa: AÇ alt sınırı + jokerler
+  "Kasa en az % olmalı": "The Vault must hold at least %",
+  "Bu maçta joker yok": "No jokers in this match",
+  "Joker yalnız soru açıkken kullanılır": "Jokers can only be used while a question is open",
+  "Maç durdu, biraz bekle": "The match is paused, wait a moment",
+  "Bu joker Kasa modunda kullanılamaz": "This joker can't be used in Vault mode",
 };

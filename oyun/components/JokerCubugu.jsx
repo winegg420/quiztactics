@@ -58,6 +58,9 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
   const [ayar, setAyar] = useState(null);
   // 327: loadout yalnız Klasik (1v1) ve Düello'da; Grup/Turnuva'da mod için açık bütün skill'ler.
   const loadoutModu = LOADOUT_MODLARI.includes(macTur);
+  // KASA (951): Klasik envanteri ve Klasik soru başı sınırı; kullanım kasa_joker RPC'siyle (al-ve-kullan dahil).
+  const kasaMi = macTur === "kasa";
+  const soruSinirli = macTur === "1v1" || kasaMi;
   const [skillSeti, setSkillSeti] = useState(() => (loadoutModu ? skillSetiOku(undefined, macTur) : AKTIF_MAC_SKILLERI));
   const sonRakipBaskisi = useRef(null);
   useEffect(() => {
@@ -112,7 +115,10 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
       setYuklemeHatasi(null);
       const [env, mac, fiy, bak] = await Promise.all([
         supabase.rpc("envanterim"),
-        supabase.rpc("joker_mac_durumu", { p_mac_tur: macTur, p_mac_id: macId }),
+        // KASA (951): kendi durum RPC'si — biçim joker_mac_durumu ile aynı (ortak fonksiyon değişmedi)
+        kasaMi
+          ? supabase.rpc("kasa_joker_durumu", { p_id: macId })
+          : supabase.rpc("joker_mac_durumu", { p_mac_tur: macTur, p_mac_id: macId }),
         fiyatlariOku(),
         supabase.rpc("coin_bakiyem"),
       ]);
@@ -180,12 +186,14 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
     setCalisan(tur);
     try {
       const yeniSkill = ["sigorta", "cifte_puan", "ikinci_sans"].includes(tur);
-      const { data, error } = await supabase.rpc(
-        yeniSkill
-          ? (satinAl ? "skill_al_ve_hazirla" : "skill_hazirla")
-          : (satinAl ? "joker_al_ve_kullan" : "joker_kullan"),
-        { p_mac_tur: macTur, p_mac_id: macId, p_soru_index: soruIndex, p_tur: tur }
-      );
+      const { data, error } = kasaMi
+        ? await supabase.rpc("kasa_joker", { p_id: macId, p_tur: tur, p_satin_al: satinAl })
+        : await supabase.rpc(
+          yeniSkill
+            ? (satinAl ? "skill_al_ve_hazirla" : "skill_hazirla")
+            : (satinAl ? "joker_al_ve_kullan" : "joker_kullan"),
+          { p_mac_tur: macTur, p_mac_id: macId, p_soru_index: soruIndex, p_tur: tur }
+        );
       if (error) throw error;
       sesSkill(tur);
       titret(10);
@@ -218,7 +226,7 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
   const alinabilirMi = (tur) => {
     if (serbestMod || kilit || finalYasak || sinirDoldu || rakipKilitledi) return false;
     if (macTur === "turnuva" && tur === "soru_degistir") return false;
-    if (turDoldu(tur) || (macTur === "1v1" && sorudaKullanildi)) return false;
+    if (turDoldu(tur) || (soruSinirli && sorudaKullanildi)) return false;
     if (tur === "elli" && durum?.ucretsiz_elli_kaldi) return false;
     if ((envanter[tur] ?? 0) > 0) return false;
     return Number(fiyatlar?.[tur] ?? 0) > 0;
@@ -249,7 +257,7 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
     if (rakipKilitledi) return tt("Bu soruda joker kullanılamaz.");
     if (finalYasak) return tt("Turnuva finalinde joker kullanılamaz");
     if (sinirDoldu) return tt("Bu maçta en fazla {0} joker", { 0: durum.sinir });
-    if (macTur === "1v1" && sorudaKullanildi) return tt("Bu sorudaki joker hakkını kullandın");
+    if (soruSinirli && sorudaKullanildi) return tt("Bu sorudaki joker hakkını kullandın");
     // Turnuva herkese AYNI soruyu sorar ve elemelidir: soru değiştirilemez.
     if (macTur === "turnuva" && tur === "soru_degistir") return tt("Turnuvada soru değiştirilemez");
     // Paket 27 B: aynı joker maç başına bir kez — her tür için. Sunucu da aynı kuralı uygular.
@@ -302,7 +310,7 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
             const durumAdi = surenEtki ? "aktif" : kullanildi ? "kullanildi" : engel && !satilik ? "kilitli" : "hazir";
             const aciklama = engel ?? (satilik ? tt("{0} coin — dokun, al ve kullan", { 0: fiyat }) : bilgi.aciklama);
             const etiket = [bilgi.ad, aciklama, ucretsiz ? tt("Ücretsiz") : null,
-              macTur === "1v1" ? tt("Maç hakkı: {0}", { 0: macHakKaldi }) : null].filter(Boolean).join(" — ");
+              soruSinirli ? tt("Maç hakkı: {0}", { 0: macHakKaldi }) : null].filter(Boolean).join(" — ");
             return (
               <QtSkill
                 key={tur}
