@@ -107,9 +107,9 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
 - Yanlış cevap sonrası bekleme **1 sn**.
 - Kategori yüzdesi için asgari örneklem 10 soru; altı "veri yok".
 
-### Kasa (deneysel — 950 canlıda, 4 Eki 2026)
+### Kasa (deneysel — 950 + 951 canlıda, 4 Eki 2026)
 
-- 2 kişi; kasa +2 / ikisi doğru +6; tek bilen sahip; sahip tur başında AÇ/DEVAM; 20 puan / 24 tur / eşitlikte Altın Soru (sayılar `oyun_ayarlari.kasa_*`). Ödül Klasik yoluyla aynı (× `kasa_odul_acik` × `kasa_odul_carpani`), Sezon Puanı kaynağı `mac` / referans `kasa:<id>`. `kasa_tik` cron 30 sn (aktif maç yoksa hemen çıkar). Kapatma `kasa_modu_acik` = 0 (istemci ayar satırı yoksa kapalı sayar). Uygulama `docs/kasa-canliya-uygulama.md`, geri alma `docs/kasa-geri-alma-950.sql`, test `araclar/kasa-sql-testi.mjs` (ROLLBACK) + `araclar/kasa-ekran.mjs` (taklit) + `araclar/kasa-efekt-ekran.mjs` (anlar, taklit). Görsel/anlar: `components/KasaEfekt.jsx` + `styles/kasa-efekt.css` (SVG kasa, +2/+6 altın uçuşu, 🔑 sahiplik, AÇ anı, karar gerilimi, maç sonu altın yağmuru; yalnız sunum).
+- 2 kişi; kasa +2 / ikisi doğru +6; tek bilen sahip; sahip tur başında AÇ/DEVAM; **50 puan / 36 tur** / eşitlikte Altın Soru (951; sayılar `oyun_ayarlari.kasa_*`, maç açılırken satıra sabitlenir). **AÇ alt sınırı `kasa_acma_min` 10:** altında AÇ sunucuda reddedilir, bot açmaz, karar fazı açılmaz; sahip ekranda kilitli AÇ rozeti görür. Bot eşikleri 8/14/20. **Joker (951):** 50:50, Ek Süre, Zaman Baskısı, İkinci Şans — Klasik envanteri ve Klasik sınırları (6 / 2 / 1), `kasa_joker` + `kasa_joker_durumu`, çubuk Klasik `JokerCubugu` (macTur "kasa"); Soru Değiştir/Sigorta/2X yok, Altın Soru jokersiz; kişisel bitiş `kasa_oyuncu_bitis` (faz bitişi + joker farkı); rakip yalnız joker adını görür. Geri alma `docs/kasa-geri-alma-951.sql`. Ödül Klasik yoluyla aynı (× `kasa_odul_acik` × `kasa_odul_carpani`), Sezon Puanı kaynağı `mac` / referans `kasa:<id>`. `kasa_tik` cron 30 sn (aktif maç yoksa hemen çıkar). Kapatma `kasa_modu_acik` = 0 (istemci ayar satırı yoksa kapalı sayar). Uygulama `docs/kasa-canliya-uygulama.md`, geri alma `docs/kasa-geri-alma-950.sql`, test `araclar/kasa-sql-testi.mjs` (ROLLBACK) + `araclar/kasa-ekran.mjs` (taklit) + `araclar/kasa-efekt-ekran.mjs` (anlar, taklit). Görsel/anlar: `components/KasaEfekt.jsx` + `styles/kasa-efekt.css` (SVG kasa, +2/+6 altın uçuşu, 🔑 sahiplik, AÇ anı, karar gerilimi, maç sonu altın yağmuru; 951: 3-2-1 sonrası 3 sn giriş sahnesi (sunucu saatine bağlı, sayaç sahne bitince başlar), AÇ ile biten maçta 4,3 sn yavaş açılış / kaybedende kapanış, ÇİFTE bandı, kasa ≥20 ışık ≥40 alev; yalnız sunum).
 
 ### Düello
 
@@ -276,13 +276,13 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
 
 | id | Ad | Mod | Davranış |
 |---|---|---|---|
-| `elli` | 50:50 | Klasik · Grup · Turnuva · Düello | iki yanlış şıkkı eler |
-| `sure` | Ek Süre | Klasik · Grup · Turnuva · Düello | kişisel cevap süresini uzatır |
+| `elli` | 50:50 | Klasik · Grup · Turnuva · Düello · Kasa | iki yanlış şıkkı eler |
+| `sure` | Ek Süre | Klasik · Grup · Turnuva · Düello · Kasa | kişisel cevap süresini uzatır |
 | `soru_degistir` | Soru Değiştir | Klasik · Grup · Düello | aynı kategoriden kendi sorusunu değiştirir |
-| `zaman_baskisi` | Zaman Baskısı | Klasik · Düello | rakibin süresini kısaltır |
+| `zaman_baskisi` | Zaman Baskısı | Klasik · Düello · Kasa | rakibin süresini kısaltır |
 | `sigorta` | Sigorta | yalnız Klasik | yanlışta 5; doğruda normal 10 |
 | `cifte_puan` | 2X | yalnız Klasik | doğruda 20; yanlışta 0 |
-| `ikinci_sans` | İkinci Şans | Klasik · Düello | ilk yanlışta aynı sayaçla bir ikinci cevap |
+| `ikinci_sans` | İkinci Şans | Klasik · Düello · Kasa | ilk yanlışta aynı sayaçla bir ikinci cevap |
 | `baskin` | Baskın | yalnız Düello | saldıran, soru ekranında: bu hamlede savunanın cevabı sayılmaz; saldıran doğruysa hamle tutar |
 | `kalkan` | Kalkan | yalnız Düello | savunan, yalnız kendi kategorisine saldırılırken: hamle tutmaz |
 
