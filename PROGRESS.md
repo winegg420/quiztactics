@@ -9947,3 +9947,4 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 **Neden:** Ida onayıyla migration 950 canlıya, arayüz main'e.
 
 - 950: kasa_tik cron aralığı 10 → 30 sn; kasa_tik_hepsi aktif maç yoksa (kasa_maclari_aktif_idx) kilit almadan hemen 0 döner.
+- 4 Eki ~10:35 TSİ: `kasa-sql-testi.mjs --zorla` (Ida beklemeyi atlattı; ön kontrol zaten temizdi) **86/86**; `migration-uygula.mjs` 950 canlıya uygulandı; `kasa-dogrula.mjs` "KASA kurulumu TAMAM" (ayar 25/25, cron 1/1, realtime 1/1); canlı cron.job schedule = 30 seconds. kasa-onizleme zaten main'in içindeydi (birleştirme no-op); build temiz; main push edildi.
