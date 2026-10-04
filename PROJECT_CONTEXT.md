@@ -109,7 +109,7 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
 
 ### Kasa (deneysel — 950 canlıda, 4 Eki 2026)
 
-- 2 kişi; kasa +2 / ikisi doğru +6; tek bilen sahip; sahip tur başında AÇ/DEVAM; 20 puan / 24 tur / eşitlikte Altın Soru (sayılar `oyun_ayarlari.kasa_*`). Ödül Klasik yoluyla aynı (× `kasa_odul_acik` × `kasa_odul_carpani`), Sezon Puanı kaynağı `mac` / referans `kasa:<id>`. `kasa_tik` cron 30 sn (aktif maç yoksa hemen çıkar). Kapatma `kasa_modu_acik` = 0 (istemci ayar satırı yoksa kapalı sayar). Uygulama `docs/kasa-canliya-uygulama.md`, geri alma `docs/kasa-geri-alma-950.sql`, test `araclar/kasa-sql-testi.mjs` (ROLLBACK) + `araclar/kasa-ekran.mjs` (taklit).
+- 2 kişi; kasa +2 / ikisi doğru +6; tek bilen sahip; sahip tur başında AÇ/DEVAM; 20 puan / 24 tur / eşitlikte Altın Soru (sayılar `oyun_ayarlari.kasa_*`). Ödül Klasik yoluyla aynı (× `kasa_odul_acik` × `kasa_odul_carpani`), Sezon Puanı kaynağı `mac` / referans `kasa:<id>`. `kasa_tik` cron 30 sn (aktif maç yoksa hemen çıkar). Kapatma `kasa_modu_acik` = 0 (istemci ayar satırı yoksa kapalı sayar). Uygulama `docs/kasa-canliya-uygulama.md`, geri alma `docs/kasa-geri-alma-950.sql`, test `araclar/kasa-sql-testi.mjs` (ROLLBACK) + `araclar/kasa-ekran.mjs` (taklit) + `araclar/kasa-efekt-ekran.mjs` (anlar, taklit). Görsel/anlar: `components/KasaEfekt.jsx` + `styles/kasa-efekt.css` (SVG kasa, +2/+6 altın uçuşu, 🔑 sahiplik, AÇ anı, karar gerilimi, maç sonu altın yağmuru; yalnız sunum).
 
 ### Düello
 
