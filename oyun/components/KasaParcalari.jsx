@@ -12,6 +12,8 @@ import OyuncuAdiDugmesi from "./OyuncuAdiDugmesi.jsx";
 import IsimEfekti from "./IsimEfekti.jsx";
 import { SeviyeEtiketi } from "./MacUstSerit.jsx";
 import { adKisalt } from "../lib/adKisalt.js";
+import SayanSayi from "./SayanSayi.jsx";
+import { KasaKasasi, kasaSeviye } from "./KasaEfekt.jsx";
 import { QtDugme, QtIkon, sinif } from "../tasarim/index.js";
 
 /** Kasanın sahibi bu ekrana göre: "ben" | "rakip" | "yok". */
@@ -20,32 +22,35 @@ export function kasaSahibi(d) {
   return d.sahip === d.ben ? "ben" : "rakip";
 }
 
-const KADRAN_R = 44;
-const KADRAN_CEVRE = 2 * Math.PI * KADRAN_R;
-
 /**
- * Kasa kadranı: halka (kasa / hedef oranı) + ortada büyük sayı + sahip etiketi.
- * kucuk: cevap/sonuç fazında üst şeritte dar hâli.
+ * Kasa: altın/pirinç kasa görseli (KasaEfekt › KasaKasasi) + değer plakası + sahip etiketi. Doluluk arttıkça büyür.
+ * kucuk: soru/sonuç fazında üst şeritte mini kasa (değer hep görünür).
+ * goster / sahipGoster: efekt sürerken gösterilecek eski değer ve sahip (altın kasaya ulaşınca gerçeğe geçer).
+ * hareket: ek sınıflar (nabiz · titre · gergin · vardi · patla · don · yeni-sahip) — yalnız sunum.
  */
-export function KasaKadran({ d, c, kucuk = false }) {
-  const sahip = kasaSahibi(d);
-  const hedef = Math.max(1, Number(d.hedef) || 20);
-  const kasa = Math.max(0, Number(d.kasa) || 0);
-  const oran = Math.min(1, kasa / hedef);
+export function KasaKadran({ d, c, kucuk = false, goster, sahipGoster, hareket = [], artis = null }) {
+  const sahip = kasaSahibi(sahipGoster === undefined ? d : { ...d, sahip: sahipGoster });
+  const kasa = Math.max(0, Number(goster ?? d.kasa) || 0);
+  const seviye = kasaSeviye(kasa, d.hedef);
   const etiket = sahip === "ben" ? c("Sende") : sahip === "rakip" ? c("Rakipte") : c("Sahipsiz");
   return (
-    <div className={sinif("ks-kadran", `ks-kadran--${sahip}`, kucuk && "ks-kadran--kucuk")}
-         role="img" aria-label={c("Kasa {k} · {s}", { k: kasa, s: etiket })}>
-      <svg viewBox="0 0 100 100" aria-hidden="true">
-        <circle className="ks-kadran-iz" cx="50" cy="50" r={KADRAN_R} />
-        <circle className="ks-kadran-dolu" cx="50" cy="50" r={KADRAN_R}
-                strokeDasharray={KADRAN_CEVRE} strokeDashoffset={KADRAN_CEVRE * (1 - oran)} />
-      </svg>
-      <span className="ks-kadran-ic">
+    <div className={sinif("ks-kadran", `ks-kadran--${sahip}`, `ks-kadran--${seviye}`, kucuk && "ks-kadran--kucuk",
+                          ...hareket.map((h) => `ks-kadran--${h}`))}
+         role="img" aria-label={c("Kasa {k} · {s}", { k: kasa, s: etiket })}
+         data-ks-hedef={kucuk ? "kasa" : "kasa-buyuk"}>
+      {kucuk ? <KasaKasasi seviye={seviye} kucuk /> : (
+        <span className="ks-kadran-govde"><KasaKasasi seviye={seviye} /></span>
+      )}
+      <span className={kucuk ? "ks-kadran-ic" : "ks-kadran-plaka"}>
         <small>{c("KASA")}</small>
-        <b className="qt-sayi" key={kasa}>{kasa}</b>
+        <b className="qt-sayi"><SayanSayi deger={kasa} sure={520} /></b>
       </span>
       {!kucuk && <span className="ks-kadran-sahip">{etiket}</span>}
+      {artis && (
+        <span key={artis.anahtar} className={sinif("ks-artis-etiket qt-sayi", artis.buyuk && "ks-artis-etiket--buyuk")} aria-hidden="true">
+          +{artis.n}
+        </span>
+      )}
     </div>
   );
 }
@@ -54,20 +59,21 @@ export function KasaKadran({ d, c, kucuk = false }) {
  * SEN / RAKİP skor çubukları (hedef çizgisiyle). Kasanın sahibi açarsa ulaşacağı yer soluk "hayalet" dolguyla
  * gösterilir (yalnız bilgi; kural sunucuda).
  */
-export function KasaSkor({ d, ben, rakip, c }) {
+export function KasaSkor({ d, ben, rakip, c, puanGoster = {}, parla = null }) {
   const hedef = Math.max(1, Number(d.hedef) || 20);
   const sahip = kasaSahibi(d);
   const satir = (o, kim) => {
-    const puan = Number(o?.puan ?? 0);
+    // AÇ anında altın çubuğa ulaşana kadar eski puan; sonra sayarak yükselir (yalnız sunum)
+    const puan = Number(puanGoster[kim] ?? o?.puan ?? 0);
     const hayalet = sahip === kim ? Math.min(hedef, puan + Number(d.kasa || 0)) : puan;
     return (
-      <div className={`ks-skor-satir ks-skor-satir--${kim}`}>
+      <div className={sinif("ks-skor-satir", `ks-skor-satir--${kim}`, parla === kim && "ks-skor-satir--parla")}>
         <span className="ks-skor-ad">{kim === "ben" ? c("SEN") : c("RAKİP")}</span>
-        <span className="ks-skor-cubuk" aria-hidden="true">
+        <span className="ks-skor-cubuk" aria-hidden="true" data-ks-hedef={`skor-${kim}`}>
           <i className="ks-skor-hayalet" style={{ width: `${(100 * hayalet) / hedef}%` }} />
           <i className="ks-skor-dolu" style={{ width: `${(100 * Math.min(hedef, puan)) / hedef}%` }} />
         </span>
-        <span className="ks-skor-sayi qt-sayi">{puan}<small>/{hedef}</small></span>
+        <span className="ks-skor-sayi qt-sayi"><SayanSayi deger={puan} sure={600} /><small>/{hedef}</small></span>
       </div>
     );
   };
@@ -80,10 +86,11 @@ export function KasaSkor({ d, ben, rakip, c }) {
 }
 
 /** Üst başlık: sen · Tur N/T + sayaç · rakip (avatar, ad, seviye; cevapladı işareti). */
-export function KasaUst({ d, ben, rakip, c, seviyeler = {}, sayac, onay = {} }) {
+export function KasaUst({ d, ben, rakip, c, seviyeler = {}, sayac, onay = {}, anahtar = null }) {
   const taraf = (o, rakipMi) => (
     <div className={sinif("qt-oyuncu ks-oyuncu", rakipMi && "qt-oyuncu--rakip")}>
-      <span className="ks-avatar">
+      <span className={sinif("ks-avatar", anahtar === (rakipMi ? "rakip" : "ben") && "ks-avatar--anahtar")}
+            data-ks-hedef={rakipMi ? "avatar-rakip" : "avatar-ben"}>
         <CerceveliAvatar profile={o} userId={o.id} boyut={32} hareketli kart={seviyeler[o.id]} />
         {onay[o.id] && (
           <span className="ks-onay qt-h-pop-gir" role="img" aria-label={rakipMi ? c("cevapladı") : c("Cevabın kilitlendi")}>
@@ -114,13 +121,16 @@ export function KasaUst({ d, ben, rakip, c, seviyeler = {}, sayac, onay = {} }) 
 }
 
 /** Karar fazı: sahip AÇ / DEVAM seçer; diğer oyuncu "Rakip karar veriyor…" görür. */
-export function KasaKarar({ d, c, calisan, onKarar }) {
+export function KasaKarar({ d, c, calisan, onKarar, kalan = null }) {
   const benim = d.karar?.veren === d.ben;
   const deger = Number(d.karar?.deger ?? d.kasa ?? 0);
+  // Gerilim: sahipte kalp atışı, beklerken titreme; son 3 sn kızarır ve hızlı titrer (tik sesi sayfada).
+  const gergin = kalan != null && kalan > 0 && kalan <= 3;
+  const hareket = gergin ? ["gergin"] : [benim ? "nabiz" : "titre"];
   if (!benim) {
     return (
       <div className="ks-karar ks-karar--bekle" role="status" aria-live="polite">
-        <KasaKadran d={d} c={c} />
+        <KasaKadran d={d} c={c} hareket={hareket} />
         <p className="ks-karar-baslik"><span className="ks-nokta" aria-hidden="true" />{c("Rakip karar veriyor…")}</p>
         <p className="ks-karar-not">{c("Açarsa {k} puan alır, kasa sıfırlanır.", { k: deger })}</p>
       </div>
@@ -128,7 +138,7 @@ export function KasaKarar({ d, c, calisan, onKarar }) {
   }
   return (
     <div className="ks-karar">
-      <KasaKadran d={d} c={c} />
+      <KasaKadran d={d} c={c} hareket={hareket} />
       <p className="ks-karar-baslik">{c("Kasa sende: {k} puan", { k: deger })}</p>
       <div className="ks-karar-eylem">
         <QtDugme tamGenislik boyut="b" ikon="coin" yukleniyor={calisan === "karar-ac"} devreDisi={!!calisan}
@@ -168,7 +178,7 @@ export function kasaSonucMetni(d, c) {
     return { ton: "notr", baslik: c("Kimse tek başına bilemedi"), alt: c("Yeni Altın Soru geliyor") };
   }
   const alt = c("Kasa {k}", { k: s.kasa_sonra });
-  if (ben && rakip) return { ton: "notr", baslik: c("İkiniz de bildiniz +{n}", { n: s.artis }), alt };
+  if (ben && rakip) return { ton: "altin", baslik: c("İkiniz de bildiniz +{n}", { n: s.artis }), alt };
   if (ben) return { ton: "iyi", baslik: c("Tek başına bildin: kasa sende"), alt: c("+{n} · Kasa {k}", { n: s.artis, k: s.kasa_sonra }) };
   if (rakip) return { ton: "kotu", baslik: c("Rakip tek başına bildi: kasa rakipte"), alt: c("+{n} · Kasa {k}", { n: s.artis, k: s.kasa_sonra }) };
   return { ton: "notr", baslik: c("İkiniz de bilemediniz +{n}", { n: s.artis }), alt };
@@ -178,7 +188,7 @@ export function KasaSonucBandi({ d, c }) {
   const m = kasaSonucMetni(d, c);
   if (!m) return null;
   return (
-    <div className={`ks-bant ks-bant--${m.ton} qt-h-pop-gir`} role="status" aria-live="polite">
+    <div className={`ks-bant ks-bant--${m.ton} qt-h-pop-gir`} role="status" aria-live="polite" data-ks-hedef="bant">
       <b>{m.baslik}</b>
       {m.alt && <span>{m.alt}</span>}
     </div>

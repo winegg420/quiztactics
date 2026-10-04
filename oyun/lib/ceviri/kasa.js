@@ -36,6 +36,8 @@ export default {
 
   // kadran + skor
   "KASA": "VAULT",
+  "KASA AÇILDI!": "VAULT OPENED!",
+  "Rakip kasayı açtı!": "Opponent opened the vault!",
   "Sende": "Yours",
   "Rakipte": "Opponent's",
   "Sahipsiz": "Unclaimed",

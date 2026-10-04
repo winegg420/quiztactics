@@ -73,30 +73,21 @@
 .ks-skor-sayi small { font-size: 11px; color: var(--qt-metin-soluk); margin-left: 1px; }
 
 /* ---------- kasa kadranı ---------- */
+/* Görsel ve hareketler: kasa-efekt.css (KasaEfekt › KasaKasasi). Burada yalnız yerleşim + sahip rengi. */
 .ks-kadran {
-  --ks-k: var(--qt-metin-soluk);
+  --ks-k: #8a7a5a;
   position: relative; display: grid; justify-items: center; gap: 6px; margin: 0 auto;
-  width: 148px;
 }
 .ks-kadran--ben { --ks-k: var(--qt-ikinci); }
 .ks-kadran--rakip { --ks-k: var(--qt-mod-duello); }
-.ks-kadran svg { width: 148px; height: 148px; transform: rotate(-90deg); }
-.ks-kadran-iz { fill: var(--qt-yuzey); stroke: var(--qt-cizgi); stroke-width: 9; }
-.ks-kadran-dolu { fill: none; stroke: var(--ks-k); stroke-width: 9; stroke-linecap: round; transition: stroke-dashoffset .45s var(--qt-egri-cikis, ease-out); }
-.ks-kadran-ic { position: absolute; top: 0; left: 0; width: 148px; height: 148px; display: grid; place-content: center; text-align: center; }
-.ks-kadran-ic small { font: var(--qt-a-siyah) 12px/1 var(--qt-f-govde); letter-spacing: .12em; color: var(--qt-metin-soluk); }
-.ks-kadran-ic b { font: var(--qt-a-siyah) 52px/1 var(--qt-f-baslik); color: var(--qt-metin); animation: ks-sayi-gir .32s var(--qt-egri-cikis, ease-out); }
 .ks-kadran-sahip {
   padding: 5px 12px; border-radius: var(--qt-r-hap); background: var(--ks-k); color: #fff;
-  font: var(--qt-a-siyah) 13px/1.1 var(--qt-f-govde);
+  font: var(--qt-a-siyah) 13px/1.1 var(--qt-f-govde); transition: background-color .45s;
 }
 .ks-kadran--yok .ks-kadran-sahip { background: var(--qt-yuzey); color: var(--qt-metin); box-shadow: inset 0 0 0 2px var(--qt-cizgi); }
-.ks-kadran--kucuk { width: 64px; flex: none; margin: 0; }
-.ks-kadran--kucuk svg, .ks-kadran--kucuk .ks-kadran-ic { width: 64px; height: 64px; }
-.ks-kadran--kucuk .ks-kadran-iz, .ks-kadran--kucuk .ks-kadran-dolu { stroke-width: 11; }
-.ks-kadran--kucuk .ks-kadran-ic small { font-size: 9px; letter-spacing: .08em; }
-.ks-kadran--kucuk .ks-kadran-ic b { font-size: 24px; }
-@keyframes ks-sayi-gir { from { transform: scale(.7); opacity: 0; } to { transform: none; opacity: 1; } }
+.ks-kadran--kucuk { flex: none; margin: 0; }
+.ks-mac { position: relative; }
+.ks-sahne { position: relative; }
 
 /* ---------- sahne ---------- */
 .ks-sahne { display: flex; flex-direction: column; gap: 8px; min-height: 0; }
@@ -160,11 +151,6 @@
   .ks-mac .qt-sikler { gap: 5px; }
   .ks-mac .qt-sik-yuva, .ks-mac .qt-sik { min-height: 44px; }
   .ks-mac .ks-soru .qt-soru-kart { padding: 10px 12px; }
-  .ks-kadran, .ks-kadran svg, .ks-kadran-ic { width: 120px; }
-  .ks-kadran svg, .ks-kadran-ic { height: 120px; }
-  .ks-kadran-ic b { font-size: 42px; }
-  .ks-kadran--kucuk, .ks-kadran--kucuk svg, .ks-kadran--kucuk .ks-kadran-ic { width: 56px; height: 56px; }
-  .ks-kadran--kucuk .ks-kadran-ic b { font-size: 21px; }
   .ks-karar { gap: 8px; }
   .ks-karar-eylem .qt-dugme { min-height: 50px; }
   .ks-mac .ks-soru { padding-block: 10px; }
@@ -173,6 +159,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ks-kadran-ic b, .ks-nokta { animation: none; }
-  .ks-skor-cubuk i, .ks-kadran-dolu { transition: none; }
+  .ks-nokta { animation: none; }
+  .ks-skor-cubuk i { transition: none; }
 }
+/* ikisi doğru (+6): altın bant (koyu kahve yazı ≈ 9:1) */
+.ks-bant--altin { background: var(--qt-coin); color: var(--qt-coin-yazi); box-shadow: 0 3px 0 var(--qt-coin-dudak); }
