@@ -20,6 +20,7 @@ import fs from 'node:fs';
 
 const MIG = new URL('../supabase/migrations/20260612000950_kasa_modu.sql', import.meta.url);
 const MIG951 = new URL('../supabase/migrations/20260612000951_kasa_uzunluk_joker.sql', import.meta.url);
+const MIG952 = new URL('../supabase/migrations/20260612000952_kasa_baslangic_giris_sahnesi.sql', import.meta.url);
 const ZORLA = process.argv.includes('--zorla');
 const ORTAK = ['cift_odul_carpani', 'xp_mac_odulu', 'sezon_puani_ekle', 'gorev_olcum', 'gorev_dogru_satirlari',
   'gorev_sayaci', 'odul_dokumu', 'level_kazancim', 'mac_sonu_ozet', 'trg_iletisim_engel',
@@ -142,6 +143,8 @@ try {
 
   // ---------------------------------------------------------------- 3) migration (test dışı bölüm hariç)
   const canli950 = (await tek(`select coalesce(to_regclass('public.kasa_maclari')::text, 'yok')`)) !== 'yok';
+  const canli951 = canli950 && (await tek(`select count(*)::text from information_schema.columns where table_name = 'kasa_maclari' and column_name = 'jokerli'`)) === '1';
+  const olusturOnce = await tek(`select coalesce(md5(pg_get_functiondef(to_regprocedure('public.kasa_olustur(uuid,uuid,boolean,boolean)'))), 'yok')`);
   const ayarOnce = await tek(`select coalesce(string_agg(anahtar || '=' || deger::text, ',' order by anahtar), '') from oyun_ayarlari where anahtar like 'kasa\\_%'`);
   if (!canli950) {
     console.log('3) Migration 950 (cron + realtime hariç)');
@@ -155,6 +158,8 @@ try {
   }
   await db.sorgu(fs.readFileSync(MIG951, 'utf8'));
   ok('migration 951 hatasız derlendi', true);
+  await db.sorgu(fs.readFileSync(MIG952, 'utf8'));
+  ok('migration 952 hatasız derlendi', true);
   const md5Mig = await ortakMd5();
   const degisen = md5Once.filter((x) => md5Mig.find((y) => y.imza === x.imza)?.h !== x.h).map((x) => x.imza);
   const jokerOrtak = md5Once.filter((x) => /^(joker|skill|coin_harca)/.test(x.imza)).length;
@@ -194,6 +199,8 @@ try {
   let id = await tek(`select kasa_olustur('${A}', '${B}', true, false)`);
   let k = await satir(id);
   ok('maç başlangıç fazında, kural değerleri sabitlendi (2/6/50/36/15/8, acma_min 10, jokerli)', k.faz === 'baslangic' && k.artis === 2 && k.ikisi_artis === 6 && k.hedef === 50 && k.max_tur === 36 && k.soru_sn === 15 && k.karar_sn === 8 && k.acma_min === 10 && k.jokerli === true, JSON.stringify([k.faz, k.artis, k.ikisi_artis, k.hedef, k.max_tur, k.soru_sn, k.karar_sn, k.acma_min, k.jokerli]));
+  const basSn = Number(await tek(`select extract(epoch from (faz_bitis - created_at))::text from kasa_maclari where id = '${id}'`));
+  ok('952: başlangıç fazı 3-2-1 + pay + giriş sahnesi = 8 sn', Math.abs(basSn - 8) < 0.5, String(basSn));
   ok('36+ soru önceden seçildi', (k.soru_ids || []).length >= 36, String((k.soru_ids || []).length));
   k = await sureDoldur(id);
   ok('3-2-1 bitince tur 1: sahip yok → doğrudan soru', k.tur === 1 && k.faz === 'cevap' && k.soru_id, JSON.stringify([k.tur, k.faz]));
@@ -706,6 +713,9 @@ try {
   ok(`ortak fonksiyonlar (${md5Once.length} imza) eski tanımda`, JSON.stringify(md5Once) === JSON.stringify(md5Sonra));
   if (!canli950) {
     ok('kasa_maclari tablosu yok', (await tek(`select coalesce(to_regclass('public.kasa_maclari')::text, 'yok')`)) === 'yok');
+  } else if (canli951) {
+    // 951 canlıda: geri alınan yalnız 952 (kasa_olustur tanımı + kasa_giris_sahne_ms ayarı — ayar karşılaştırması aşağıda)
+    ok('kasa_olustur migration öncesi tanımda (952 geri alındı)', (await tek(`select coalesce(md5(pg_get_functiondef(to_regprocedure('public.kasa_olustur(uuid,uuid,boolean,boolean)'))), 'yok')`)) === olusturOnce);
   } else {
     ok('951 kolonları (acma_min, jokerli, joker) yok', (await tek(`select count(*)::text from information_schema.columns where table_name = 'kasa_maclari' and column_name in ('acma_min', 'jokerli', 'joker')`)) === '0');
     ok('kasa_joker / kasa_joker_durumu / kasa_oyuncu_bitis yok', (await tek(`select count(*)::text from pg_proc where proname in ('kasa_joker', 'kasa_joker_durumu', 'kasa_oyuncu_bitis')`)) === '0');
