@@ -9948,3 +9948,15 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 
 - 950: kasa_tik cron aralığı 10 → 30 sn; kasa_tik_hepsi aktif maç yoksa (kasa_maclari_aktif_idx) kilit almadan hemen 0 döner.
 - 4 Eki ~10:35 TSİ: `kasa-sql-testi.mjs --zorla` (Ida beklemeyi atlattı; ön kontrol zaten temizdi) **86/86**; `migration-uygula.mjs` 950 canlıya uygulandı; `kasa-dogrula.mjs` "KASA kurulumu TAMAM" (ayar 25/25, cron 1/1, realtime 1/1); canlı cron.job schedule = 30 seconds. kasa-onizleme zaten main'in içindeydi (birleştirme no-op); build temiz; main push edildi.
+
+## 2026-10-04 — KASA oyun hissi (yalnız arayüz; DB/migration yok)
+**Araç:** Claude Code
+**Neden:** Ida: Kasa ekranı panel gibiydi (2 küçük animasyon); Klasik/Düello seviyesinde oyun hissi istendi.
+
+- **Görsel:** halka kadran yerine SVG altın/pirinç kasa (kapı + dönen kadran + cıvatalar + önünde altın yığını). Doluluk (hedefe oranla bos/az/orta/dolu: <%30, <%60, ≥%60) kasayı büyütür, yığını artırır, parıltıyı güçlendirir; çerçeve halkası sahibin rengi (sen mavi / rakip kırmızı / sahipsiz gri). Soru/sonuç fazında üst şeritte mini kasa (değer SayanSayi ile sayarak).
+- **Anlar (KasaPage › anBaslat, zamanlar kasa-efekt.css ile eşleşir):** sonuç +2 → bant'tan mini kasaya 6 altın (950 ms varış: sesCoin, zıplama, "+2", sayaç sayar); +6 → 14 altın, altın bant, halka patlaması + kadran dönüşü, ikinci ses (xp_dolma). Sahip değişince 🔑 eski sahibin avatarından (sahipsizse kasadan) yenisine uçar (1,9 sn: sesJoker, avatar halkası, mini kasa çerçeve rengi o an değişir). AÇ → sahnenin üstünde 1,55 sn katman: kadran döner, kapı açılır, ışın + ışık patlaması, ekran titremesi (yalnız iç bloklar; kökte transform yok), 16 altın açanın skor çubuğuna uçar, skor sayarak yükselir + çubuk parlar; soru gösterim payının (1,5 sn) içinde biter, soru sesi sonra çalar. Karar: sahipte kalp atışı, beklerken titreme; son 3 sn kızarma + hızlı titreme + kenar nabzı (sahipte), tik sesi zaten vardı. Yeni tur başında Düello'nun `m2-gecis` "Tur N/24" bandı; doğruda Konfeti; maç sonu kazanana body'ye portal altın yağmuru (sabit kap transform'suz).
+- **Ortak yardımcı:** `components/KasaEfekt.jsx` › `UcanParcalar` (kökteki `[data-ks-hedef]` öğeleri arasında kavisli uçuş; yalnız transform). Yeni ses dosyası yok — mevcut roller (coin, rozet, joker, xp_dolma, tur_gecis) kullanıldı (yeni rol 404 + yedek ton olurdu).
+- **Azaltılmış hareket:** uçuş/yağmur/AÇ katmanı çizilmez, değerler doğrudan; sesler sırayla çalar.
+- **Dosyalar:** KasaEfekt.jsx (yeni), styles/kasa-efekt.css (yeni), KasaParcalari.jsx, KasaPage.jsx, kasa.css, ceviri/kasa.js (2 metin), araclar/kasa-efekt-ekran.mjs (yeni).
+- **Ölçüm (taklit veri):** `kasa-efekt-ekran.mjs` 360×640 + 390×844 **58/58**, azaltılmış hareket 27/27 (her an zamanlı görüntü: tasarim/kasa-efekt/, git'e girmez); `kasa-ekran.mjs` TR/EN **280/280**; `arayuz-denetim.mjs` TEMİZ (Klasik/Düello/Modlar dahil); build temiz. Görüntüler Düello tur bandı / maç sonu sahnesiyle gözle karşılaştırıldı.
+- **Telefonda bakılacak:** AÇ anının titremesi ve 🔑 emoji görünümü (iOS emoji yazı tipi).
