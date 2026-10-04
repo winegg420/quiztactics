@@ -1,0 +1,206 @@
+/* ============================================================
+   KASA (deneysel, 950) — kasa görseli + oyun anları (ks- önekli). Bileşenler: oyun/components/KasaEfekt.jsx.
+   Yalnız transform/opacity animasyonu (renk geçişi: çerçeve halkası stroke, kısa). iOS: fixed + transform aynı
+   öğede yok — .ks-yagmur sabit kabı transform'suz, hareket içteki span'larda.
+   ============================================================ */
+
+/* ---------- kasa SVG ---------- */
+.ks-kasa { display: block; overflow: visible; }
+.ks-kasa-cerceve { stroke: var(--ks-k, var(--qt-metin-soluk)); transition: stroke .45s ease-out; }
+.ks-kasa-kapi, .ks-kasa-kadran { transform-box: fill-box; }
+.ks-kasa-kapi { transform-origin: 0% 50%; transition: transform .32s var(--qt-egri-cikis), opacity .32s; }
+.ks-kasa-kadran { transform-origin: 50% 50%; }
+.ks-kasa-kizil { opacity: 0; pointer-events: none; }
+.ks-kasa-yigin { transform-box: fill-box; transform-origin: 50% 100%; }
+
+/* ---------- büyük kasa (kadran kabı: KasaParcalari › KasaKadran) ---------- */
+.ks-kadran { --ks-olcek: .84; }
+.ks-kadran--az { --ks-olcek: .9; }
+.ks-kadran--orta { --ks-olcek: .96; }
+.ks-kadran--dolu { --ks-olcek: 1.03; }
+.ks-kadran-govde { position: relative; display: grid; place-items: center; width: var(--ks-kasa-w, 184px); }
+.ks-kadran-govde .ks-kasa {
+  width: 100%; height: auto; position: relative; z-index: 1;
+  transform: scale(var(--ks-olcek)); transition: transform .5s var(--qt-egri-cikis);
+}
+/* parıltı: doluluk arttıkça güçlenir */
+.ks-kadran-govde::before {
+  content: ""; position: absolute; inset: -14%; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(255, 207, 74, .55), rgba(255, 207, 74, 0) 72%);
+  opacity: .35; transition: opacity .5s;
+}
+.ks-kadran--orta .ks-kadran-govde::before { opacity: .6; }
+.ks-kadran--dolu .ks-kadran-govde::before { opacity: .9; animation: ks-parilti 2.4s ease-in-out infinite; }
+@keyframes ks-parilti { 50% { transform: scale(1.06); opacity: .6; } }
+.ks-kadran--ben .ks-kadran-govde::before { background: radial-gradient(closest-side, rgba(255, 207, 74, .6), rgba(42, 115, 204, .18) 60%, rgba(42, 115, 204, 0) 74%); }
+.ks-kadran--rakip .ks-kadran-govde::before { background: radial-gradient(closest-side, rgba(255, 207, 74, .6), rgba(201, 48, 48, .18) 60%, rgba(201, 48, 48, 0) 74%); }
+
+/* değer plakası */
+.ks-kadran-plaka {
+  position: relative; z-index: 2; margin-top: -10px;
+  display: inline-flex; align-items: baseline; gap: 8px; padding: 5px 16px 6px; border-radius: var(--qt-r-hap);
+  background: #3a2600; color: var(--qt-coin); box-shadow: 0 3px 0 #1f1400, inset 0 0 0 2px #c28b00;
+}
+.ks-kadran-plaka small { font: var(--qt-a-siyah) 12px/1 var(--qt-f-govde); letter-spacing: .14em; color: #fff4cf; }
+.ks-kadran-plaka b { font: var(--qt-a-siyah) 34px/1 var(--qt-f-baslik); }
+
+/* ---------- karar gerilimi ---------- */
+.ks-kadran--nabiz .ks-kadran-govde { animation: ks-kalp 1s ease-in-out infinite; }
+@keyframes ks-kalp { 0%, 100% { transform: scale(1); } 12% { transform: scale(1.06); } 24% { transform: scale(.99); } 36% { transform: scale(1.03); } }
+.ks-kadran--titre .ks-kadran-govde { animation: ks-titre 1.6s ease-in-out infinite; }
+@keyframes ks-titre {
+  0%, 62%, 100% { transform: none; }
+  66% { transform: translateX(-2px) rotate(-1.2deg); } 72% { transform: translateX(2px) rotate(1.2deg); }
+  78% { transform: translateX(-1.5px) rotate(-.8deg); } 84% { transform: translateX(1px); }
+}
+.ks-kadran--gergin .ks-kadran-govde { animation: ks-titre-hizli .32s linear infinite; }
+@keyframes ks-titre-hizli { 0%, 100% { transform: translate(0, 0) rotate(0); } 25% { transform: translate(-2.5px, 1px) rotate(-1.6deg); } 75% { transform: translate(2.5px, -1px) rotate(1.6deg); } }
+.ks-kadran--gergin .ks-kasa-kizil { animation: ks-kizar .5s ease-in-out infinite alternate; }
+@keyframes ks-kizar { from { opacity: .12; } to { opacity: .42; } }
+.ks-kadran--gergin .ks-kadran-plaka { box-shadow: 0 3px 0 #1f1400, inset 0 0 0 2px var(--qt-yanlis); }
+
+/* ---------- mini kasa (üst şerit) ---------- */
+.ks-kadran.ks-kadran--kucuk { display: flex; align-items: center; gap: 4px; padding: 3px 10px 3px 4px; border-radius: var(--qt-r-hap);
+  background: #3a2600; box-shadow: 0 3px 0 #1f1400, inset 0 0 0 2px var(--ks-k); transition: box-shadow .45s; position: relative; }
+.ks-kadran--kucuk .ks-kasa { width: 40px; height: 42px; flex: none; }
+.ks-kadran--kucuk .ks-kadran-ic { display: grid; justify-items: start; line-height: 1; }
+.ks-kadran--kucuk .ks-kadran-ic small { font: var(--qt-a-siyah) 9px/1 var(--qt-f-govde); letter-spacing: .12em; color: #fff4cf; }
+.ks-kadran--kucuk .ks-kadran-ic b { font: var(--qt-a-siyah) 24px/1 var(--qt-f-baslik); color: var(--qt-coin); min-width: 2ch; }
+/* varış: zıplama + halka; +6: büyük patlama + kadran dönüşü */
+.ks-kadran--vardi .ks-kasa { animation: qt-h-zipla 380ms var(--qt-egri-cikis); }
+.ks-kadran--vardi::after, .ks-kadran--patla::before {
+  content: ""; position: absolute; inset: -4px; border-radius: inherit; pointer-events: none;
+  border: 3px solid var(--qt-coin); opacity: 0; animation: qt-h-halka 520ms ease-out;
+}
+.ks-kadran--patla::before { inset: -10px; border-width: 4px; animation: ks-patla 760ms ease-out 60ms; }
+@keyframes ks-patla { from { opacity: 1; transform: scale(.85); } to { opacity: 0; transform: scale(1.7); } }
+.ks-kadran--patla .ks-kasa-kadran, .ks-kadran--don .ks-kasa-kadran { animation: ks-kadran-don 760ms var(--qt-egri-cikis); }
+@keyframes ks-kadran-don { from { transform: rotate(0); } 70% { transform: rotate(400deg); } to { transform: rotate(360deg); } }
+.ks-kadran--yeni-sahip { animation: qt-h-zipla 420ms var(--qt-egri-cikis); }
+.ks-artis-etiket {
+  position: absolute; left: 50%; top: -6px; z-index: 3; margin-left: -22px; width: 44px; text-align: center; pointer-events: none;
+  font: var(--qt-a-siyah) 18px/1 var(--qt-f-baslik); color: var(--qt-coin); text-shadow: 0 2px 0 #5c3a05, 0 0 6px rgba(58, 38, 0, .6);
+  animation: qt-h-uc 1100ms var(--qt-egri-cikis) both;
+}
+.ks-artis-etiket--buyuk { font-size: 24px; }
+
+/* ---------- uçan parçalar (UcanParcalar) ---------- */
+.ks-efekt { position: absolute; inset: 0; z-index: 6; pointer-events: none; overflow: visible; }
+.ks-ucan {
+  position: absolute; width: 16px; height: 16px; margin: -8px 0 0 -8px; border-radius: 50%; opacity: 0;
+  background: radial-gradient(circle at 35% 32%, #fff4cf 0 22%, #ffc933 24% 62%, #c28b00 64%);
+  box-shadow: 0 0 0 1.5px #8a5a10, 0 0 10px rgba(255, 201, 51, .8);
+  animation-name: ks-ucus; animation-timing-function: cubic-bezier(.45, 0, .2, 1); animation-fill-mode: both;
+}
+.ks-ucan--anahtar { width: 30px; height: 30px; margin: -15px 0 0 -15px; background: none; box-shadow: none;
+  display: grid; place-items: center; font-size: 26px; line-height: 1; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .35));
+  animation-name: ks-ucus-anahtar; }
+@keyframes ks-ucus {
+  0% { opacity: 0; transform: translate(0, 0) scale(.5); }
+  18% { opacity: 1; transform: translate(var(--sx), var(--sy)) scale(1.15); }
+  88% { opacity: 1; transform: translate(var(--dx), var(--dy)) scale(.8); }
+  100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(.4); }
+}
+@keyframes ks-ucus-anahtar {
+  0% { opacity: 0; transform: translate(0, 0) scale(.6) rotate(0); }
+  15% { opacity: 1; transform: translate(0, -18px) scale(1.5) rotate(-20deg); }
+  85% { opacity: 1; transform: translate(var(--dx), var(--dy)) scale(1.1) rotate(340deg); }
+  100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(.7) rotate(360deg); }
+}
+
+/* ---------- sahiplik: yeni sahibin avatarında halka ---------- */
+.ks-avatar--anahtar::after {
+  content: ""; position: absolute; inset: -5px; border-radius: 50%; pointer-events: none;
+  border: 3px solid var(--qt-coin); opacity: 0; animation: ks-patla 700ms ease-out 2;
+}
+
+/* ---------- AÇ anı ---------- */
+.ks-ac-an {
+  position: absolute; inset: -4px; z-index: 5; display: grid; place-items: center; align-content: center; gap: 10px;
+  border-radius: var(--qt-r-l); overflow: hidden; pointer-events: none;
+  background: radial-gradient(circle at 50% 42%, #5c3a05 0%, #2a1a00 70%);
+  animation: ks-ac-kat 1550ms ease-out both;
+}
+@keyframes ks-ac-kat { 0% { opacity: 0; } 8%, 78% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
+.ks-ac-kasa { position: relative; z-index: 2; width: min(200px, 30dvh); animation: ks-ac-kasa 1550ms var(--qt-egri-cikis) both; }
+.ks-ac-kasa .ks-kasa { width: 100%; height: auto; }
+@keyframes ks-ac-kasa { 0% { transform: scale(.82); } 18% { transform: scale(1); } 30% { transform: scale(1.08); } 40%, 100% { transform: scale(1); } }
+.ks-ac-an .ks-kasa-kadran { animation: ks-kadran-ac 380ms cubic-bezier(.5, 0, .3, 1) both; }
+@keyframes ks-kadran-ac { from { transform: rotate(0); } to { transform: rotate(-540deg); } }
+.ks-ac-an .ks-kasa-kapi { animation: ks-kapi-ac 340ms var(--qt-egri-cikis) 380ms both; }
+@keyframes ks-kapi-ac { from { transform: scaleX(1); } to { transform: scaleX(.1) skewY(-6deg); opacity: .85; } }
+.ks-ac-an .ks-kasa-cerceve { stroke: var(--qt-coin); }
+.ks-ac-isin {
+  position: absolute; left: 50%; top: 42%; width: 640px; height: 640px; margin: -320px 0 0 -320px; z-index: 1; border-radius: 50%;
+  background: repeating-conic-gradient(rgba(255, 214, 90, .55) 0 9deg, rgba(255, 214, 90, 0) 9deg 24deg);
+  -webkit-mask: radial-gradient(closest-side, #000 20%, transparent 100%); mask: radial-gradient(closest-side, #000 20%, transparent 100%);
+  opacity: 0; animation: ks-isin 1300ms ease-out 400ms both;
+}
+@keyframes ks-isin { 0% { opacity: 0; transform: scale(.4) rotate(0); } 25% { opacity: 1; } 100% { opacity: 0; transform: scale(1.1) rotate(40deg); } }
+.ks-ac-flas {
+  position: absolute; left: 50%; top: 42%; width: 220px; height: 220px; margin: -110px 0 0 -110px; z-index: 3; border-radius: 50%;
+  background: radial-gradient(closest-side, #fff 0%, rgba(255, 244, 207, .9) 35%, rgba(255, 201, 51, 0) 100%);
+  opacity: 0; animation: ks-flas 700ms ease-out 420ms both;
+}
+@keyframes ks-flas { 0% { opacity: 0; transform: scale(.5); } 20% { opacity: 1; } 100% { opacity: 0; transform: scale(2.6); } }
+.ks-ac-yazi {
+  position: relative; z-index: 4; display: grid; justify-items: center; gap: 2px; text-align: center;
+  font: var(--qt-a-siyah) 24px/1.1 var(--qt-f-baslik); color: #fff4cf; text-shadow: 0 3px 0 #1f1400;
+  animation: ks-ac-yazi 1100ms var(--qt-egri-cikis) 430ms both;
+}
+.ks-ac-yazi span { font-size: 46px; color: var(--qt-coin); text-shadow: 0 4px 0 #1f1400, 0 0 18px rgba(255, 201, 51, .7); }
+@keyframes ks-ac-yazi { 0% { opacity: 0; transform: translateY(14px) scale(.9); } 30% { opacity: 1; transform: none; } 100% { opacity: 1; } }
+
+/* ekran titremesi (yalnız iç bloklar; kökte transform yok — kökte fixed katmanlar var) */
+.ks-mac--sars > .ks-ust, .ks-mac--sars > .ks-serit, .ks-mac--sars > .ks-sahne { animation: ks-sars 420ms linear; }
+@keyframes ks-sars {
+  0%, 100% { transform: translate(0, 0); } 15% { transform: translate(-6px, 3px); } 30% { transform: translate(5px, -4px); }
+  45% { transform: translate(-4px, 2px); } 60% { transform: translate(3px, -2px); } 80% { transform: translate(-1px, 1px); }
+}
+/* skor çubuğu: altın ulaşınca parlar */
+.ks-skor-satir--parla .ks-skor-cubuk { animation: ks-cubuk-parla 700ms ease-out; }
+.ks-skor-satir--parla .ks-skor-sayi { animation: qt-h-zipla 420ms var(--qt-egri-cikis); display: inline-block; }
+@keyframes ks-cubuk-parla { 0% { box-shadow: inset 0 0 0 2px var(--qt-cizgi), 0 0 0 0 rgba(255, 201, 51, 0); }
+  30% { box-shadow: inset 0 0 0 2px var(--qt-coin), 0 0 14px 3px rgba(255, 201, 51, .9); }
+  100% { box-shadow: inset 0 0 0 2px var(--qt-cizgi), 0 0 0 0 rgba(255, 201, 51, 0); } }
+
+/* ---------- maç sonu altın yağmuru ---------- */
+.ks-yagmur { position: fixed; inset: 0; z-index: var(--qt-z-toast, 80); pointer-events: none; overflow: hidden; }
+.ks-yagmur > span {
+  position: absolute; top: -40px; border-radius: 50%; opacity: 0;
+  background: radial-gradient(circle at 35% 32%, #fff4cf 0 20%, #ffc933 22% 60%, #c28b00 62%);
+  box-shadow: 0 0 0 2px #8a5a10;
+  animation-name: ks-yagmur; animation-timing-function: cubic-bezier(.35, 0, .65, 1); animation-fill-mode: both;
+}
+@keyframes ks-yagmur {
+  0% { opacity: 0; transform: translateY(0) rotate(0) scaleX(1); }
+  8% { opacity: 1; }
+  50% { transform: translateY(55dvh) rotate(calc(var(--don) / 2)) scaleX(.35); }
+  90% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(112dvh) rotate(var(--don)) scaleX(1); }
+}
+
+/* ---------- kısa ekran ---------- */
+@media (max-height: 760px) {
+  .ks-kadran-govde { --ks-kasa-w: 160px; }
+  .ks-kadran-plaka b { font-size: 30px; }
+}
+@media (max-height: 700px) {
+  .ks-kadran-govde { --ks-kasa-w: 146px; }
+  .ks-kadran-plaka { padding: 4px 14px 5px; margin-top: -8px; }
+  .ks-kadran-plaka b { font-size: 26px; }
+  .ks-kadran--kucuk .ks-kasa { width: 34px; height: 36px; }
+  .ks-kadran--kucuk .ks-kadran-ic b { font-size: 21px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ks-kadran-govde, .ks-kadran-govde::before, .ks-kadran--kucuk, .ks-kadran--kucuk .ks-kasa, .ks-kasa-kadran,
+  .ks-kadran--vardi::after, .ks-kadran--patla::before, .ks-avatar--anahtar::after, .ks-artis-etiket,
+  .ks-mac--sars > *, .ks-skor-satir--parla .ks-skor-cubuk, .ks-skor-satir--parla .ks-skor-sayi,
+  .ks-ac-kasa, .ks-ac-isin, .ks-ac-flas, .ks-ac-yazi { animation: none !important; }
+  .ks-kadran-govde .ks-kasa { transition: none; }
+  .ks-ucan, .ks-yagmur { display: none; }
+  /* AÇ: kapı açık durur, katman yalnız solar */
+  .ks-ac-an .ks-kasa-kapi { animation: none; transform: scaleX(.1); }
+  .ks-kadran--gergin .ks-kasa-kizil { animation: none; opacity: .3; }
+}
