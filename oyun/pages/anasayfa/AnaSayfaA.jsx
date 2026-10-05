@@ -1,6 +1,6 @@
 // ANA SAYFA (kök rota, 23 Eyl 2026'dan beri; önceki ana sayfa pages/Home.jsx kullanılmıyor).
 // Seçenek A — TEK EKRAN (lobi), kaydırmasız. Rozet + çerçeve paketiyle yeniden düzenlendi:
-// kompakt oyuncu kartı, canlı lig kartı, turnuva şeridi, OYNA + DÜELLO, kısayollar, görev şeridi.
+// kompakt oyuncu kartı, turnuva şeridi, ÜÇ EŞİT MOD ŞERİDİ (Klasik · Düello · Ortak Hazine), canlı lig kartı, Sezon + Görevler, kısayollar.
 // Masaüstü: solda oyuncu + lig, ortada oyna alanı, sağda turnuva + seanslar + görev şeridi + etkinlik.
 // Görev şeridi (740–744): eski günlük görev kartı/penceresi kalktı; tek satır, dokununca /gorevler.
 import { useEffect, useState } from "react";
@@ -9,11 +9,10 @@ import BildirimIzniSor from "../../components/BildirimIzniSor.jsx";
 import { BILDIRIM_SONRA_ANAHTAR } from "../../components/MacSonuSahnesi.jsx";
 import { tt } from "../../lib/dil.js";
 import { useAyar } from "../../lib/ayarlar.js";
-import { useDuelloKurallari } from "../../lib/duelloKurallari.js";
 import { useAuth } from "../../../src/context/AuthContext.jsx";
 import DurumKutusu, { useZamanAsimi } from "../../components/DurumKutusu.jsx";
 import SezonSeridi from "../../components/sezon/SezonSeridi.jsx";
-import { useAnaSayfaVerisi, useOyunBaslat, useDevamEdenMaclar } from "./veri.jsx";
+import { useAnaSayfaVerisi, useOyunBaslat, useDevamEdenMaclar, sonModuYaz, sonModuOku } from "./veri.jsx";
 import {
   KompaktOyuncu, LigKarti, GorevSeridi, modListesi, etkinlikler, EtkinlikSatiri,
   TurnuvaSeridi, TurnuvaSeansListesi, DevamEdenMaclarKarti,
@@ -21,7 +20,6 @@ import {
 import "./anasayfa.css";
 
 export default function AnaSayfaA() {
-  const { tur: turSayisi } = useDuelloKurallari();   // Düello tur sayısı metne gömülmez (960: seçim modunda 20, kapalıysa eski 16)
   // KASA (deneysel, 950): kapalıyken ya da ayar satırı yokken (migration uygulanmamış) kısayol çizilmez
   const kasaAcik = useAyar("kasa_modu_acik", 0) >= 1;
   const v = useAnaSayfaVerisi({ gorevYukle: false });   // görevleri GorevSeridi kendi okur (gorevlerim)
@@ -59,14 +57,23 @@ export default function AnaSayfaA() {
       </div>
     );
   }
-  const modlar = modListesi(v, b).filter((m) => m.anahtar !== "kasa" || kasaAcik);
+  // Kasa artık "Ortak Hazine" şeridi (6 Eki 2026): kısayol satırında tekrar etmez
+  const modlar = modListesi(v, b).filter((m) => m.anahtar !== "kasa");
+  const seritler = [
+    { anahtar: "klasik", ikon: "hizli", ad: tt("Klasik"), vaat: tt("Hızlı sorular, en çok bilen kazanır"), git: b.oyna },
+    { anahtar: "duello", ikon: "duello", ad: tt("Düello"), vaat: tt("Kategorini savun, rakibinkini al"),
+      git: () => { sonModuYaz("duello"); b.git("/duello"); } },
+    ...(kasaAcik ? [{ anahtar: "kasa", ikon: "sandik", ad: tt("Ortak Hazine"), vaat: tt("Ortak puanı büyüt, doğru anda aç"),
+      git: () => { sonModuYaz("kasa"); b.git("/kasa"); } }] : []),
+  ];
+  const sonMod = seritler.find((m) => m.anahtar === sonModuOku());
   const olaylar = etkinlikler(v);
   // Süren maç zaten "Devam et" kartında: aynı maçı gösteren "maçın sürüyor" şeridi çizilmez (tek bant).
   const acilAday = olaylar.find((e) => e.ton === "acil") ?? olaylar[0];
   const acil = acilAday?.ton === "sira" && devamEden?.length > 0 ? olaylar.find((e) => e.ton === "acil") ?? null : acilAday;
 
   // Rozet + çerçeve paketi (23 Eyl 2026): mor ışınlı dev avatar sahnesi kalktı. Telefonda tek sütun
-  // (sıra CSS `order` ile): oyuncu kartı → lig kartı → turnuva → OYNA/DÜELLO → kısayollar → görev şeridi.
+  // (sıra CSS `order` ile): oyuncu kartı → turnuva → üç mod şeridi → lig kartı → Sezon/Görevler → kısayollar.
   // Masaüstünde (≥1024) üç sütun: solda oyuncu + lig, ortada oyna alanı, sağda turnuva + görevler.
   return (
     <div className={`as-sayfa as-a as-a2${devamEden?.length > 0 ? " as-a2--devam" : ""}`}>
@@ -105,19 +112,19 @@ export default function AnaSayfaA() {
           </a>
         )}
 
-        <div className="as-a-eylem">
-          <button type="button" className="as-buyuk-dugme as-buyuk-dugme--oyna"
-                  aria-haspopup="dialog" onClick={b.oyna}>
-            <span className="as-buyuk-dugme-ikon"><QtIkon ad="oyna" boyut={30} /></span>
-            <span className="as-buyuk-dugme-metin"><b>{tt("OYNA")}</b><small>{tt("Klasik · 20 soru")}</small></span>
-          </button>
-          <button type="button" className="as-buyuk-dugme as-buyuk-dugme--duello" onClick={() => b.git("/duello")}>
-            <span className="as-buyuk-dugme-ikon"><QtIkon ad="duello" boyut={28} /></span>
-            <span className="as-buyuk-dugme-metin"><b>{tt("DÜELLO")}</b><small>{tt("{t} tur", { t: turSayisi })}</small></span>
-          </button>
+        <div className="as-a-seritler" role="group" aria-label={tt("Oyun modları")}>
+          {seritler.map((m) => (
+            <button key={m.anahtar} type="button" className={`as-mod-serit as-mod-serit--${m.anahtar}`}
+                    aria-label={`${m.ad}. ${m.vaat}`} aria-haspopup={m.anahtar === "klasik" ? "dialog" : undefined} onClick={m.git}>
+              <span className="as-mod-serit-ikon" aria-hidden="true"><QtIkon ad={m.ikon} boyut={26} /></span>
+              <span className="as-mod-serit-metin"><b>{m.ad}</b><small>{m.vaat}</small></span>
+              <QtIkon ad="ileri" boyut={22} className="as-mod-serit-ok" />
+            </button>
+          ))}
+          {sonMod && <p className="as-mod-son">{tt("En son oynadığın: {mod}", { mod: sonMod.ad })}</p>}
         </div>
 
-        <nav className={`as-a-kisayol${modlar.length === 5 ? " as-a-kisayol--5" : ""}`} aria-label={tt("Diğer modlar")}>
+        <nav className="as-a-kisayol" aria-label={tt("Diğer modlar")}>
           {modlar.map((m) => (
             <button key={m.anahtar} type="button" className={`as-kisayol as-renk--${m.anahtar}`} onClick={m.git}>
               <span className="as-kisayol-ikon"><QtIkon ad={m.ikon} boyut={24} /></span>

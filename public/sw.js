@@ -13,8 +13,8 @@
 //     inmez. <audio> Range ister; tam dosya BİR kez (Range'siz) indirilir, sonraki her istek
 //     (Range dahil) önbellekten 206 dilimiyle cevaplanır. Yarıda bırakılan parça da önbelleğe girer.
 //     Herhangi bir hata → istek olduğu gibi ağa gider (eski davranış).
-const KABUK = "qt-kabuk-v18";
-const VARLIK = "qt-varlik-v18";
+const KABUK = "qt-kabuk-v19";
+const VARLIK = "qt-varlik-v19";
 const VARLIK_SINIR = 400;
 // Müzik önbelleğinin sürümü kabukla birlikte ARTIRILMAZ (artarsa bütün parçalar yeniden iner).
 const MUZIK = "qt-muzik-v1";

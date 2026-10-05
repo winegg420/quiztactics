@@ -66,6 +66,14 @@ const Y = {
       <path d="M16.5 9.5h4v7h-2v2.5l-3-2.5h-5v-1.5" />
     </>
   ),
+  // Ortak Hazine şeridi (6 Eki 2026): küçük hazine sandığı (kapak + gövde + kilit)
+  sandik: (
+    <>
+      <path className={D} d="M3.5 11V8.5A4.5 4.5 0 0 1 8 4h8a4.5 4.5 0 0 1 4.5 4.5V11Z" />
+      <path d="M3.5 11h17v7.5a1.5 1.5 0 0 1-1.5 1.5H5a1.5 1.5 0 0 1-1.5-1.5Z" />
+      <path d="M12 11v3.5M10.6 14.5h2.8" />
+    </>
+  ),
   duello: <path d="M4 4l9.5 9.5M20 4l-9.5 9.5M7.5 15.5 4.5 18.5M16.5 15.5l3 3M6 14l4 4M18 14l-4 4" />,
   kupa: (
     <>

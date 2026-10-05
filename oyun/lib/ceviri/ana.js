@@ -84,4 +84,13 @@ export default {
   // Arkadaşlar afişi (oyun hissi, 1 Eki 2026)
   "{n} arkadaş": "{n} friends",
   "{n} çevrimiçi": "{n} online",
+  // Üç mod şeridi (6 Eki 2026): Klasik · Düello · Ortak Hazine eşit boy
+  "Klasik": "Classic",
+  "Düello": "Duel",
+  "Hızlı sorular, en çok bilen kazanır": "Quick questions, most correct wins",
+  "Kategorini savun, rakibinkini al": "Defend your category, take theirs",
+  "Ortak Hazine": "Shared Treasure",
+  "Ortak puanı büyüt, doğru anda aç": "Grow the shared pot, open at the right moment",
+  "En son oynadığın: {mod}": "Last played: {mod}",
+  "Oyun modları": "Game modes",
 };

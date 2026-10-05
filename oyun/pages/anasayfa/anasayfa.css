@@ -900,3 +900,83 @@ a.as-cip:active { transform: translateY(2px); }
 .as-lk-alt-metin { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .as-lk-alt .as-lk-alt-sure { flex: none; margin-left: auto; font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); color: var(--qt-metin-soluk); white-space: nowrap; }
 .as-lk-alt .as-lk-alt-sure + .qt-ikon { margin-left: 0; }
+
+/* ============================================================
+   6 Eki 2026 — ÜÇ EŞİT MOD ŞERİDİ (Klasik · Düello · Ortak Hazine), Ida kararı
+   Sıra (telefon): oyuncu → turnuva → [acil] → ÜÇ ŞERİT → lig → Sezon + Görevler → kısayollar.
+   Üç şerit birebir aynı ölçü: 68 px, köşe 12, aralık 8, 44 px ikon kutusu; hiçbirine parlama/nabız/rozet yok.
+   ============================================================ */
+.as-a2-turnuva { order: 2; }
+.as-a2 .as-a-acil { order: 3; }
+.as-a2 .as-a-seritler { order: 4; }
+.as-a2-lig { order: 5; }
+.as-a2-seritlar { order: 6; }
+.as-a2 .as-a-kisayol { order: 7; }
+.as-a2 .as-hata { order: 8; }
+
+.as-a-seritler { display: grid; gap: 8px; }
+.as-mod-serit {
+  --as-ms-y: #fff;
+  display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; align-items: center; gap: 12px;
+  width: 100%; height: 68px; min-height: 68px; padding: 0 12px 0 12px; border: 0; border-radius: 12px; cursor: pointer;
+  background: var(--as-ms); color: var(--as-ms-y); text-align: left; font-family: var(--qt-f-govde);
+  box-shadow: 0 3px 0 var(--as-ms-d);
+  transition: transform 120ms var(--qt-egri-cikis);
+  -webkit-tap-highlight-color: transparent;
+}
+.as-mod-serit:active { transform: scale(.98); }
+.as-mod-serit:focus-visible { outline: 3px solid var(--qt-metin); outline-offset: 2px; }
+.as-mod-serit--klasik { --as-ms: var(--qt-mod-klasik); --as-ms-d: var(--qt-mod-klasik-dudak); --as-ms-y: var(--qt-mod-yazi); }
+.as-mod-serit--duello { --as-ms: var(--qt-mod-duello); --as-ms-d: var(--qt-mod-duello-dudak); }
+/* Altın = ödül/prestij rolü; beyaz yazıyla ≥ 4,5:1 olsun diye koyulaştırıldı */
+.as-mod-serit--kasa   { --as-ms: #9c610d; --as-ms-d: #6f4308; }
+.as-mod-serit-ikon { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: rgba(255, 255, 255, .22); }
+.as-mod-serit-metin { display: grid; gap: 3px; min-width: 0; line-height: 1.15; }
+.as-mod-serit-metin b { font: var(--qt-a-siyah) 17px/1.1 var(--qt-f-baslik); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* Vaat tek satıra sığarsa tek satır; dar telefonda uzun İngilizce vaat (Ortak Hazine) kırpılmak yerine en çok 2 satıra sarar (şerit 68 px sabit) */
+.as-mod-serit-metin small { font-size: 12px; font-weight: 700; line-height: 1.2; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; }
+.as-mod-serit-ok { flex: none; }
+.as-mod-son { margin: 2px 0 0; font-size: 12px; font-weight: 700; line-height: 1.2; text-align: center; color: var(--qt-metin-soluk); }
+@media (prefers-reduced-motion: reduce) { .as-mod-serit { transition: none; } .as-mod-serit:active { transform: none; } }
+
+@media (min-width: 1024px) {
+  .as-a2 .as-a-seritler { order: 0; }
+  .as-a2 .as-a-kisayol { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ---------- Üç şerit + kaydırmasız telefon sığdırma (6 Eki 2026) ----------
+   Şeritler (68 px) ve Sezon/Görevler sabit kalır. Yer açmak için sırayla: lig kartı → oyuncu kartı → turnuva bandı → kısayol satırı sıkışır
+   (içerik ve etiket kaybolmaz; lig kartında sıra başlıktaki pill'dedir). Kasa kapalıyken (2 şerit) yer bol: yalnız en kısa ekranlarda devreye girer. */
+@media (max-width: 1023px) and (max-height: 760px) {
+  .as-a-seritler { gap: 6px; }
+  html.as-kaydirmasiz .as-a2-lig { flex: 0 0 auto; overflow: visible; }   /* lig kartı 0 px'e ezilmesin (.as-kaydirmasiz kuralından güçlü) */
+  .as-lk { padding-block: 6px; gap: 0; }
+  .as-lk-liste, .as-lk-alt { display: none; }
+}
+@media (max-width: 1023px) and (max-height: 700px) {
+  .as-a.as-a2 { gap: 5px; }
+  .as-a2-turnuva { margin-block: 0; }
+  .as-a2 .as-serit { min-height: 44px; padding-block: 3px; }
+  .as-a2 .as-serit-kupa { width: 32px; height: 32px; }
+  .as-ko { padding-block: 2px; }
+  .as-ko-govde { gap: 1px; }
+  .as-ko > .qt-cerceve, .as-ko > :is(.pc, .p2) { scale: .82; margin-block: -6px; }
+  /* kısayollar: ikon solda, ad sağda (tek satır yüksekliği 44 px; "Meydan Okumalar" iki satıra sarar) */
+  .as-a2 .as-kisayol { display: flex; align-items: center; justify-content: center; gap: 5px; min-height: 44px; padding: 3px 4px; }
+  .as-a2 .as-kisayol-ikon { width: 26px; height: 26px; flex: none; }
+  .as-a2 .as-kisayol-ad { font-size: 11px; text-align: left; min-width: 0; overflow-wrap: anywhere; }
+  .as-a2 .as-rozet-nokta { top: 4px; right: 4px; }
+  .as-a2-seritlar .sz-ser, .as-a2-seritlar .as-gs { padding-block: 4px 5px; row-gap: 2px; min-height: 44px; }
+  .as-mod-son { margin-top: -3px; line-height: 1.1; }
+}
+/* 360×640 ve benzeri en kısa ekranlar: boşluklar ve kartlar bir kademe daha sıkışır; kısayollar yalnız ad (ikonsuz) 44 px çip */
+@media (max-width: 1023px) and (max-height: 660px) {
+  .as-a.as-a2 { gap: 3px; }
+  .as-a-seritler { gap: 5px; }
+  .as-lk { padding-block: 3px; }
+  .as-a2 .as-serit { min-height: 42px; padding-block: 2px; }
+  .as-a2-seritlar .sz-ser, .as-a2-seritlar .as-gs { padding-block: 3px 4px; row-gap: 1px; min-height: 44px; }
+  .as-a2 .as-kisayol-ikon { display: none; }
+  .as-a2 .as-kisayol-ad { font-size: 12px; text-align: center; }
+  .as-mod-son { margin-top: -2px; }
+}

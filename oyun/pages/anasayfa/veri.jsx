@@ -295,8 +295,9 @@ export function useOyunBaslat() {
           modlar={modAcik === "saf" ? ["saf"] : undefined}
           onSec={async (mod) => {
             setModAcik(false);
-            if (mod === "duello") { navigate(y("/duello")); return null; }
-            if (mod === "kasa") { navigate(y("/kasa")); return null; }   // 957: Kasa girişi (arama orada)
+            if (mod === "duello") { sonModuYaz("duello"); navigate(y("/duello")); return null; }
+            if (mod === "kasa") { sonModuYaz("kasa"); navigate(y("/kasa")); return null; }   // 957: Kasa girişi (arama orada)
+            if (mod !== "saf") sonModuYaz("klasik");
             await hemenOyna(dereceliTercih, mod === "saf");
             return null;
           }}
@@ -458,4 +459,17 @@ export function useDevamEdenMaclar() {
   }, [yukle, uid]);
 
   return liste;
+}
+
+/* ---------- Son oynanan mod (6 Eki 2026): ana sayfadaki üç mod şeridinin altındaki ipucu ---------- */
+const SON_MOD_ANAHTAR = "qt:v1:ana-son-mod";
+const SON_MOD_GECERLI = ["klasik", "duello", "kasa"];
+export function sonModuYaz(mod) {
+  try { if (SON_MOD_GECERLI.includes(mod)) localStorage.setItem(SON_MOD_ANAHTAR, mod); } catch { /* depolama kapalı: ipucu yalnız çizilmez */ }
+}
+export function sonModuOku() {
+  try {
+    const m = localStorage.getItem(SON_MOD_ANAHTAR);
+    return SON_MOD_GECERLI.includes(m) ? m : null;   // bozuk/eski değer: yok say
+  } catch { return null; }
 }

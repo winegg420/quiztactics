@@ -864,3 +864,5 @@ Her pakette: `node araclar/oyuncu-testi.mjs [--adres=https://quiztactics.vercel.
   kaldırmadan önce o düğmenin ne olacağına karar verilmelidir.
 
 - Oyunda arka plan YOK (dondurulmuş, 1 Eki 2026): `oyun_ayarlari.arka_plan_acik=false`, pa_* pasif; ayrıntı PROGRESS.md.
+
+- **Ana sayfa: üç eşit mod şeridi (Ida, 6 Eki 2026):** Klasik · Düello · Ortak Hazine tam genişlik, 68 px, birebir aynı ölçü; hiçbiri öne çıkarılmaz (parlama/nabız/rozet yok). "OYNA/DÜELLO" düğmeleri ve Kasa kısayolu kalktı. Telefonda sıra: oyuncu → turnuva → şeritler → lig → Sezon + Görevler → kısayollar (Meydan, Grup, Saf Bilgi, Hatalarım). Ortak Hazine şeridi yalnız `kasa_modu_acik ≥ 1` iken (kapalıysa iki şerit). Tıklama davranışı eskisiyle aynı (Klasik → mod seçim penceresi, Düello → `/duello`, Ortak Hazine → `/kasa`). Altta "En son oynadığın: {mod}" (`localStorage` `qt:v1:ana-son-mod`, `veri.jsx › sonModuYaz/sonModuOku`; sırayı değiştirmez). "Ortak Hazine" adı yalnız bu şeritte; Kasa'nın diğer yerlerindeki yazılar ayrı isim işine kaldı. Kodlar: `AnaSayfaA.jsx`, `anasayfa.css` (dosya sonu), ikon `sandik` (`tasarim/Ikon.jsx`), ölçüm `araclar/ana-sayfa-serit-olcum.mjs`.

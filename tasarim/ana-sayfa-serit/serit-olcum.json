@@ -1,0 +1,2801 @@
+{
+ "390x664-tr-kasa1-sezon1": {
+  "k": {
+   "oyuncu": {
+    "ust": 74,
+    "alt": 155,
+    "y": 80.8,
+    "g": 366
+   },
+   "turnuva": {
+    "ust": 160,
+    "alt": 207,
+    "y": 47.2,
+    "g": 366
+   },
+   "serit_klasik": {
+    "ust": 212,
+    "alt": 280,
+    "y": 68,
+    "g": 366
+   },
+   "serit_duello": {
+    "ust": 286,
+    "alt": 354,
+    "y": 68,
+    "g": 366
+   },
+   "serit_kasa": {
+    "ust": 360,
+    "alt": 428,
+    "y": 68,
+    "g": 366
+   },
+   "sonIpucu": null,
+   "lig": {
+    "ust": 433,
+    "alt": 467,
+    "y": 34.3,
+    "g": 366
+   },
+   "sezon": {
+    "ust": 472,
+    "alt": 527,
+    "y": 54.2,
+    "g": 179
+   },
+   "gorev": {
+    "ust": 472,
+    "alt": 527,
+    "y": 54.2,
+    "g": 179
+   },
+   "kisayol": {
+    "ust": 532,
+    "alt": 576,
+    "y": 44,
+    "g": 366
+   }
+  },
+  "serit": [
+   {
+    "mod": "klasik",
+    "y": 68,
+    "g": 366,
+    "ad": "Klasik. Hızlı sorular, en çok bilen kazanır"
+   },
+   {
+    "mod": "duello",
+    "y": 68,
+    "g": 366,
+    "ad": "Düello. Kategorini savun, rakibinkini al"
+   },
+   {
+    "mod": "kasa",
+    "y": 68,
+    "g": 366,
+    "ad": "Ortak Hazine. Ortak puanı büyüt, doğru anda aç"
+   }
+  ],
+  "kontrast": [
+   {
+    "mod": "klasik",
+    "oran": 5.8
+   },
+   {
+    "mod": "duello",
+    "oran": 5.32
+   },
+   {
+    "mod": "kasa",
+    "oran": 5.09
+   }
+  ],
+  "kirpilan": [],
+  "usteBinen": false,
+  "gorunmez": [],
+  "kucukHedef": [],
+  "yatayTasma": 0,
+  "altMenuUst": 594,
+  "pencere": [
+   390,
+   664
+  ],
+  "ipucu": null,
+  "kisayolSayisi": 4,
+  "konsol": [],
+  "akis": {
+   "ipucuIlk": null,
+   "klasik": {
+    "modal": true,
+    "yol": "/"
+   },
+   "duello": {
+    "yol": "/duello"
+   },
+   "ipucuDuello": "En son oynadığın: Düello",
+   "ipucuIleOlcum": {
+    "k": {
+     "turnuva": {
+      "ust": 160,
+      "alt": 207,
+      "y": 47.2,
+      "g": 366
+     },
+     "serit_klasik": {
+      "ust": 212,
+      "alt": 280,
+      "y": 68,
+      "g": 366
+     },
+     "serit_duello": {
+      "ust": 286,
+      "alt": 354,
+      "y": 68,
+      "g": 366
+     },
+     "serit_kasa": {
+      "ust": 360,
+      "alt": 428,
+      "y": 68,
+      "g": 366
+     },
+     "sonIpucu": {
+      "ust": 431,
+      "alt": 444,
+      "y": 13.2,
+      "g": 366
+     },
+     "lig": {
+      "ust": 449,
+      "alt": 484,
+      "y": 34.3,
+      "g": 366
+     },
+     "sezon": {
+      "ust": 489,
+      "alt": 543,
+      "y": 54.2,
+      "g": 179
+     },
+     "gorev": {
+      "ust": 489,
+      "alt": 543,
+      "y": 54.2,
+      "g": 179
+     },
+     "kisayol": {
+      "ust": 548,
+      "alt": 592,
+      "y": 44,
+      "g": 366
+     }
+    },
+    "serit": [
+     {
+      "mod": "klasik",
+      "y": 68,
+      "g": 366,
+      "ad": "Klasik. Hızlı sorular, en çok bilen kazanır"
+     },
+     {
+      "mod": "duello",
+      "y": 68,
+      "g": 366,
+      "ad": "Düello. Kategorini savun, rakibinkini al"
+     },
+     {
+      "mod": "kasa",
+      "y": 68,
+      "g": 366,
+      "ad": "Ortak Hazine. Ortak puanı büyüt, doğru anda aç"
+     }
+    ],
+    "kontrast": [
+     {
+      "mod": "klasik",
+      "oran": 5.8
+     },
+     {
+      "mod": "duello",
+      "oran": 5.32
+     },
+     {
+      "mod": "kasa",
+      "oran": 5.09
+     }
+    ],
+    "kirpilan": [],
+    "usteBinen": false,
+    "gorunmez": [],
+    "kucukHedef": [],
+    "yatayTasma": 0,
+    "altMenuUst": 594,
+    "pencere": [
+     390,
+     664
+    ],
+    "ipucu": "En son oynadığın: Düello",
+    "kisayolSayisi": 4
+   },
+   "ipucuIleSigdi": true,
+   "kasa": {
+    "yol": "/kasa"
+   },
+   "ipucuKasa": "En son oynadığın: Ortak Hazine",
+   "ipucuBozuk": null
+  }
+ },
+ "390x664-tr-kasa1-sezon1-azalt": {
+  "k": {
+   "oyuncu": {
+    "ust": 74,
+    "alt": 155,
+    "y": 80.8,
+    "g": 366
+   },
+   "turnuva": {
+    "ust": 160,
+    "alt": 207,
+    "y": 47.2,
+    "g": 366
+   },
+   "serit_klasik": {
+    "ust": 212,
+    "alt": 280,
+    "y": 68,
+    "g": 366
+   },
+   "serit_duello": {
+    "ust": 286,
+    "alt": 354,
+    "y": 68,
+    "g": 366
+   },
+   "serit_kasa": {
+    "ust": 360,
+    "alt": 428,
+    "y": 68,
+    "g": 366
+   },
+   "sonIpucu": null,
+   "lig": {
+    "ust": 433,
+    "alt": 467,
+    "y": 34.3,
+    "g": 366
+   },
+   "sezon": {
+    "ust": 472,
+    "alt": 527,
+    "y": 54.2,
+    "g": 179
+   },
+   "gorev": {
+    "ust": 472,
+    "alt": 527,
+    "y": 54.2,
+    "g": 179
+   },
+   "kisayol": {
+    "ust": 532,
+    "alt": 576,
+    "y": 44,
+    "g": 366
+   }
+  },
+  "serit": [
+   {
+    "mod": "klasik",
+    "y": 68,
+    "g": 366,
+    "ad": "Klasik. Hızlı sorular, en çok bilen kazanır"
+   },
+   {
+    "mod": "duello",
+    "y": 68,
+    "g": 366,
+    "ad": "Düello. Kategorini savun, rakibinkini al"
+   },
+   {
+    "mod": "kasa",
+    "y": 68,
+    "g": 366,
+    "ad": "Ortak Hazine. Ortak puanı büyüt, doğru anda aç"
+   }
+  ],
+  "kontrast": [
+   {
+    "mod": "klasik",
+    "oran": 5.8
+   },
+   {
+    "mod": "duello",
+    "oran": 5.32
+   },
+   {
+    "mod": "kasa",
+    "oran": 5.09
+   }
+  ],
+  "kirpilan": [],
+  "usteBinen": false,
+  "gorunmez": [],
+  "kucukHedef": [],
+  "yatayTasma": 0,
+  "altMenuUst": 594,
+  "pencere": [
+   390,
+   664
+  ],
+  "ipucu": null,
+  "kisayolSayisi": 4,
+  "konsol": []
+ },
+ "390x664-tr-kasa1-sezon0": {
+  "k": {
+   "oyuncu": {
+    "ust": 74,
+    "alt": 155,
+    "y": 80.8,
+    "g": 366
+   },
+   "turnuva": {
+    "ust": 160,
+    "alt": 207,
+    "y": 47.2,
+    "g": 366
+   },
+   "serit_klasik": {
+    "ust": 212,
+    "alt": 280,
+    "y": 68,
+    "g": 366
+   },
+   "serit_duello": {
+    "ust": 286,
+    "alt": 354,
+    "y": 68,
+    "g": 366
+   },
+   "serit_kasa": {
+    "ust": 360,
+    "alt": 428,
+    "y": 68,
+    "g": 366
+   },
+   "sonIpucu": null,
+   "lig": {
+    "ust": 433,
+    "alt": 467,
+    "y": 34.3,
+    "g": 366
+   },
+   "sezon": {
+    "ust": 0,
+    "alt": 0,
+    "y": 0,
+    "g": 0
+   },
+   "gorev": {
+    "ust": 472,
+    "alt": 527,
+    "y": 54.2,
+    "g": 366
+   },
+   "kisayol": {
+    "ust": 532,
+    "alt": 576,
+    "y": 44,
+    "g": 366
+   }
+  },
+  "serit": [
+   {
+    "mod": "klasik",
+    "y": 68,
+    "g": 366,
+    "ad": "Klasik. Hızlı sorular, en çok bilen kazanır"
+   },
+   {
+    "mod": "duello",
+    "y": 68,
+    "g": 366,
+    "ad": "Düello. Kategorini savun, rakibinkini al"
+   },
+   {
+    "mod": "kasa",
+    "y": 68,
+    "g": 366,
+    "ad": "Ortak Hazine. Ortak puanı büyüt, doğru anda aç"
+   }
+  ],
+  "kontrast": [
+   {
+    "mod": "klasik",
+    "oran": 5.8
+   },
+   {
+    "mod": "duello",
+    "oran": 5.32
+   },
+   {
+    "mod": "kasa",
+    "oran": 5.09
+   }
+  ],
+  "kirpilan": [],
+  "usteBinen": false,
+  "gorunmez": [],
+  "kucukHedef": [],
+  "yatayTasma": 0,
+  "altMenuUst": 594,
+  "pencere": [
+   390,
+   664
+  ],
+  "ipucu": null,
+  "kisayolSayisi": 4,
+  "konsol": []
+ },
+ "390x664-tr-kasa0-sezon1": {
+  "k": {
+   "oyuncu": {
+    "ust": 74,
+    "alt": 155,
+    "y": 80.8,
+    "g": 366
+   },
+   "turnuva": {
+    "ust": 160,
+    "alt": 207,
+    "y": 47.2,
+    "g": 366
+   },
+   "serit_klasik": {
+    "ust": 212,
+    "alt": 280,
+    "y": 68,
+    "g": 366
+   },
+   "serit_duello": {
+    "ust": 286,
+    "alt": 354,
+    "y": 68,
+    "g": 366
+   },
+   "serit_kasa": null,
+   "sonIpucu": null,
+   "lig": {
+    "ust": 359,
+    "alt": 393,
+    "y": 34.3,
+    "g": 366
+   },
+   "sezon": {
+    "ust": 398,
+    "alt": 453,
+    "y": 54.2,
+    "g": 179
+   },
+   "gorev": {
+    "ust": 398,
+    "alt": 453,
+    "y": 54.2,
+    "g": 179
+   },
+   "kisayol": {
+    "ust": 458,
+    "alt": 502,
+    "y": 44,
+    "g": 366
+   }
+  },
+  "serit": [
+   {
+    "mod": "klasik",
+    "y": 68,
+    "g": 366,
+    "ad": "Klasik. Hızlı sorular, en çok bilen kazanır"
+   },
+   {
+    "mod": "duello",
+    "y": 68,
+    "g": 366,
+    "ad": "Düello. Kategorini savun, rakibinkini al"
+   }
+  ],
+  "kontrast": [
+   {
+    "mod": "klasik",
+    "oran": 5.8
+   },
+   {
+    "mod": "duello",
+    "oran": 5.32
+   }
+  ],
+  "kirpilan": [],
+  "usteBinen": false,
+  "gorunmez": [],
+  "kucukHedef": [],
+  "yatayTasma": 0,
+  "altMenuUst": 594,
+  "pencere": [
+   390,
+   664
+  ],
+  "ipucu": null,
+  "kisayolSayisi": 4,
+  "konsol": [],
+  "akis": {
+   "ipucuIlk": null,
+   "klasik": {
+    "modal": true,
+    "yol": "/"
+   },
+   "duello": {
+    "yol": "/duello"
+   },
+   "ipucuDuello": "En son oynadığın: Düello",
+   "ipucuIleOlcum": {
+    "k": {
+     "turnuva": {
+      "ust": 160,
+      "alt": 207,
+      "y": 47.2,
+      "g": 366
+     },
+     "serit_klasik": {
+      "ust": 212,
+      "alt": 280,
+      "y": 68,
+      "g": 366
+     },
+     "serit_duello": {
+      "ust": 286,
+      "alt": 354,
+      "y": 68,
+      "g": 366
+     },
+     "serit_kasa": null,
+     "sonIpucu": {
+      "ust": 357,
+      "alt": 370,
+      "y": 13.2,
+      "g": 366
+     },
+     "lig": {
+      "ust": 375,
+      "alt": 410,
+      "y": 34.3,
+      "g": 366
+     },
+     "sezon": {
+      "ust": 415,
+      "alt": 469,
+      "y": 54.2,
+      "g": 179
+     },
+     "gorev": {
+      "ust": 415,
+      "alt": 469,
+      "y": 54.2,
+      "g": 179
+     },
+     "kisayol": {
+      "ust": 474,
+      "alt": 518,
+      "y": 44,
+      "g": 366
+     }
+    },
+    "serit": [
+     {
+      "mod": "klasik",
+      "y": 68,
+      "g": 366,
+      "ad": "Klasik. Hızlı sorular, en çok bilen kazanır"
+     },
+     {
+      "mod": "duello",
+      "y": 68,
+      "g": 366,
+      "ad": "Düello. Kategorini savun, rakibinkini al"
+     }
+    ],
+    "kontrast": [
+     {
+      "mod": "klasik",
+      "oran": 5.8
+     },
+     {
+      "mod": "duello",
+      "oran": 5.32
+     }
+    ],
+    "kirpilan": [],
+    "usteBinen": false,
+    "gorunmez": [],
+    "kucukHedef": [],
+    "yatayTasma": 0,
+    "altMenuUst": 594,
+    "pencere": [
+     390,
+     664
+    ],
+    "ipucu": "En son oynadığın: Düello",
+    "kisayolSayisi": 4
+   },
+   "ipucuIleSigdi": true,
+   "ipucuBozuk": null
+  }
+ },
+ "390x664-tr-kasa0-sezon0": {
+  "k": {
+   "oyuncu": {
+    "ust": 74,
+    "alt": 155,
+    "y": 80.8,
+    "g": 366
+   },
+   "turnuva": {
+    "ust": 160,
+    "alt": 207,
+    "y": 47.2,
+    "g": 366
+   },
+   "serit_klasik": {
+    "ust": 212,
+    "alt": 280,
+    "y": 68,
+    "g": 366
+   },
+   "serit_duello": {
+    "ust": 286,
+    "alt": 354,
+    "y": 68,
+    "g": 366
+   },
+   "serit_kasa": null,
+   "sonIpucu": null,
+   "lig": {
+    "ust": 359,
+    "alt": 393,
+    "y": 34.3,
+    "g": 366
+   },
+   "sezon": {
+    "ust": 0,
+    "alt": 0,
+    "y": 0,
+    "g": 0
+   },
+   "gorev": {
+    "ust": 398,
+    "alt": 453,
+    "y": 54.2,
+    "g": 366
+   },
+   "kisayol": {
+    "ust": 458,
+    "alt": 502,
+    "y": 44,
+    "g": 366
+   }
+  },
+  "serit": [
+   {
+    "mod": "klasik",
+    "y": 68,
+    "g": 366,
+    "ad": "Klasik. Hızlı sorular, en çok bilen kazanır"
+   },
+   {
+    "mod": "duello",
+    "y": 68,
+    "g": 366,
+    "ad": "Düello. Kategorini savun, rakibinkini al"
+   }
+  ],
+  "kontrast": [
+   {
+    "mod": "klasik",
+    "oran": 5.8
+   },
+   {
+    "mod": "duello",
+    "oran": 5.32
+   }
+  ],
+  "kirpilan": [],
+  "usteBinen": false,
+  "gorunmez": [],
+  "kucukHedef": [],
+  "yatayTasma": 0,
+  "altMenuUst": 594,
+  "pencere": [
+   390,
+   664
+  ],
+  "ipucu": null,
+  "kisayolSayisi": 4,
+  "konsol": []
+ },
+ "360x640-tr-kasa1-sezon1": {
+  "k": {
+   "oyuncu": {
+    "ust": 74,
+    "alt": 155,
+    "y": 80.8,
+    "g": 342
+   },
+   "turnuva": {
+    "ust": 158,
+    "alt": 203,
+    "y": 45.2,
+    "g": 342
+   },
+   "serit_klasik": {
+    "ust": 206,
+    "alt": 274,
+    "y": 68,
+    "g": 342
+   },
+   "serit_duello": {
+    "ust": 279,
+    "alt": 347,
+    "y": 68,
+    "g": 342
+   },
+   "serit_kasa": {
+    "ust": 352,
+    "alt": 420,
+    "y": 68,
+    "g": 342
+   },
+   "sonIpucu": null,
+   "lig": {
+    "ust": 423,
+    "alt": 451,
+    "y": 28.3,
+    "g": 342
+   },
+   "sezon": {
+    "ust": 454,
+    "alt": 505,
+    "y": 50.2,
+    "g": 167
+   },
+   "gorev": {
+    "ust": 454,
+    "alt": 505,
+    "y": 50.2,
+    "g": 167
+   },
+   "kisayol": {
+    "ust": 508,
+    "alt": 552,
+    "y": 44,
+    "g": 342
+   }
+  },
+  "serit": [
+   {
+    "mod": "klasik",
+    "y": 68,
+    "g": 342,
+    "ad": "Klasik. Hızlı sorular, en çok bilen kazanır"
+   },
+   {
+    "mod": "duello",
+    "y": 68,
+    "g": 342,
+    "ad": "Düello. Kategorini savun, rakibinkini al"
+   },
+   {
+    "mod": "kasa",
+    "y": 68,
+    "g": 342,
+    "ad": "Ortak Hazine. Ortak puanı büyüt, doğru anda aç"
+   }
+  ],
+  "kontrast": [
+   {
+    "mod": "klasik",
+    "oran": 5.8
+   },
+   {
+    "mod": "duello",
+    "oran": 5.32
+   },
+   {
+    "mod": "kasa",
+    "oran": 5.09
+   }
+  ],
+  "kirpilan": [],
+  "usteBinen": false,
+  "gorunmez": [],
+  "kucukHedef": [],
+  "yatayTasma": 0,
+  "altMenuUst": 570,
+  "pencere": [
+   360,
+   640
+  ],
+  "ipucu": null,
+  "kisayolSayisi": 4,
+  "konsol": []
+ },
+ "360x640-tr-kasa1-sezon0": {
+  "k": {
+   "oyuncu": {
+    "ust": 74,
+    "alt": 155,
+    "y": 80.8,
+    "g": 342
+   },
+   "turnuva": {
+    "ust": 158,
+    "alt": 203,
+    "y": 45.2,
+    "g": 342
+   },
+   "serit_klasik": {
+    "ust": 206,
+    "alt": 274,
+    "y": 68,
+    "g": 342
+   },
+   "serit_duello": {
+    "ust": 279,
+    "alt": 347,
+    "y": 68,
+    "g": 342
+   },
+   "serit_kasa": {
+    "ust": 352,
+    "alt": 420,
+    "y": 68,
+    "g": 342
+   },
+   "sonIpucu": null,
+   "lig": {
+    "ust": 423,
+    "alt": 451,
+    "y": 28.3,
+    "g": 342
+   },
+   "sezon": {
+    "ust": 0,
+    "alt": 0,
+    "y": 0,
+    "g": 0
+   },
+   "gorev": {
+    "ust": 454,
+    "alt": 505,
+    "y": 50.2,
+    "g": 342
+   },
+   "kisayol": {
+    "ust": 508,
+    "alt": 552,
+    "y": 44,
+    "g": 342
+   }
+  },
+  "serit": [
+   {
+    "mod": "klasik",
+    "y": 68,
+    "g": 342,
+    "ad": "Klasik. Hızlı sorular, en çok bilen kazanır"
+   },
+   {
+    "mod": "duello",
+    "y": 68,
+    "g": 342,
+    "ad": "Düello. Kategorini savun, rakibinkini al"
+   },
+   {
+    "mod": "kasa",
+    "y": 68,
+    "g": 342,
+    "ad": "Ortak Hazine. Ortak puanı büyüt, doğru anda aç"
+   }
+  ],
+  "kontrast": [
+   {
+    "mod": "klasik",
+    "oran": 5.8
+   },
+   {
+    "mod": "duello",
+    "oran": 5.32
+   },
+   {
+    "mod": "kasa",
+    "oran": 5.09
+   }
+  ],
+  "kirpilan": [],
+  "usteBinen": false,
+  "gorunmez": [],
+  "kucukHedef": [],
+  "yatayTasma": 0,
+  "altMenuUst": 570,
+  "pencere": [
+   360,
+   640
+  ],
+  "ipucu": null,
+  "kisayolSayisi": 4,
+  "konsol": []
+ },
+ "360x640-tr-kasa0-sezon1": {
+  "k": {
+   "oyuncu": {
+    "ust": 74,
+    "alt": 155,
+    "y": 80.8,
+    "g": 342
+   },
+   "turnuva": {
+    "ust": 158,
+    "alt": 203,
+    "y": 45.2,
+    "g": 342
+   },
+   "serit_klasik": {
+    "ust": 206,
+    "alt": 274,
+    "y": 68,
+    "g": 342
+   },
+   "serit_duello": {
+    "ust": 279,
+    "alt": 347,
+    "y": 68,
+    "g": 342
+   },
+   "serit_kasa": null,
+   "sonIpucu": null,
+   "lig": {
+    "ust": 350,
+    "alt": 378,
+    "y": 28.3,
+    "g": 342
+   },
+   "sezon": {
+    "ust": 381,
+    "alt": 432,
+    "y": 50.2,
+    "g": 167
+   },
+   "gorev": {
+    "ust": 381,
+    "alt": 432,
+    "y": 50.2,
+    "g": 167
+   },
+   "kisayol": {
+    "ust": 435,
+    "alt": 479,
+    "y": 44,
+    "g": 342
+   }
+  },
+  "serit": [
+   {
+    "mod": "klasik",
+    "y": 68,
+    "g": 342,
+    "ad": "Klasik. Hızlı sorular, en çok bilen kazanır"
+   },
+   {
+    "mod": "duello",
+    "y": 68,
+    "g": 342,
+    "ad": "Düello. Kategorini savun, rakibinkini al"
+   }
+  ],
+  "kontrast": [
+   {
+    "mod": "klasik",
+    "oran": 5.8
+   },
+   {
+    "mod": "duello",
+    "oran": 5.32
+   }
+  ],
+  "kirpilan": [],
+  "usteBinen": false,
+  "gorunmez": [],
+  "kucukHedef": [],
+  "yatayTasma": 0,
+  "altMenuUst": 570,
+  "pencere": [
+   360,
+   640
+  ],
+  "ipucu": null,
+  "kisayolSayisi": 4,
+  "konsol": []
+ },
+ "360x640-tr-kasa0-sezon0": {
+  "k": {
+   "oyuncu": {
+    "ust": 74,
+    "alt": 155,
+    "y": 80.8,
+    "g": 342
+   },
+   "turnuva": {
+    "ust": 158,
+    "alt": 203,
+    "y": 45.2,
+    "g": 342
+   },
+   "serit_klasik": {
+    "ust": 206,
+    "alt": 274,
+    "y": 68,
+    "g": 342
+   },
+   "serit_duello": {
+    "ust": 279,
+    "alt": 347,
+    "y": 68,
+    "g": 342
+   },
+   "serit_kasa": null,
+   "sonIpucu": null,
+   "lig": {
+    "ust": 350,
+    "alt": 378,
+    "y": 28.3,
+    "g": 342
+   },
+   "sezon": {
+    "ust": 0,
+    "alt": 0,
+    "y": 0,
+    "g": 0
+   },
+   "gorev": {
+    "ust": 381,
+    "alt": 432,
+    "y": 50.2,
+    "g": 342
+   },
+   "kisayol": {
+    "ust": 435,
+    "alt": 479,
+    "y": 44,
+    "g": 342
+   }
+  },
+  "serit": [
+   {
+    "mod": "klasik",
+    "y": 68,
+    "g": 342,
+    "ad": "Klasik. Hızlı sorular, en çok bilen kazanır"
+   },
+   {
+    "mod": "duello",
+    "y": 68,
+    "g": 342,
+    "ad": "Düello. Kategorini savun, rakibinkini al"
+   }
+  ],
+  "kontrast": [
+   {
+    "mod": "klasik",
+    "oran": 5.8
+   },
+   {
+    "mod": "duello",
+    "oran": 5.32
+   }
+  ],
+  "kirpilan": [],
+  "usteBinen": false,
+  "gorunmez": [],
+  "kucukHedef": [],
+  "yatayTasma": 0,
+  "altMenuUst": 570,
+  "pencere": [
+   360,
+   640
+  ],
+  "ipucu": null,
+  "kisayolSayisi": 4,
+  "konsol": []
+ },
+ "412x915-tr-kasa1-sezon1": {
+  "k": {
+   "oyuncu": {
+    "ust": 74,
+    "alt": 177,
+    "y": 102.8,
+    "g": 388
+   },
+   "turnuva": {
+    "ust": 191,
+    "alt": 253,
+    "y": 62,
+    "g": 388
+   },
+   "serit_klasik": {
+    "ust": 267,
+    "alt": 335,
+    "y": 68,
+    "g": 388
+   },
+   "serit_duello": {
+    "ust": 343,
+    "alt": 411,
+    "y": 68,
+    "g": 388
+   },
+   "serit_kasa": {
+    "ust": 419,
+    "alt": 487,
+    "y": 68,
+    "g": 388
+   },
+   "sonIpucu": null,
+   "lig": {
+    "ust": 497,
+    "alt": 650,
+    "y": 153.6,
+    "g": 388
+   },
+   "sezon": {
+    "ust": 660,
+    "alt": 721,
+    "y": 60.2,
+    "g": 190
+   },
+   "gorev": {
+    "ust": 660,
+    "alt": 721,
+    "y": 60.2,
+    "g": 190
+   },
+   "kisayol": {
+    "ust": 731,
+    "alt": 821,
+    "y": 90.4,
+    "g": 388
+   }
+  },
+  "serit": [
+   {
+    "mod": "klasik",
+    "y": 68,
+    "g": 388,
+    "ad": "Klasik. Hızlı sorular, en çok bilen kazanır"
+   },
+   {
+    "mod": "duello",
+    "y": 68,
+    "g": 388,
+    "ad": "Düello. Kategorini savun, rakibinkini al"
+   },
+   {
+    "mod": "kasa",
+    "y": 68,
+    "g": 388,
+    "ad": "Ortak Hazine. Ortak puanı büyüt, doğru anda aç"
+   }
+  ],
+  "kontrast": [
+   {
+    "mod": "klasik",
+    "oran": 5.8
+   },
+   {
+    "mod": "duello",
+    "oran": 5.32
+   },
+   {
+    "mod": "kasa",
+    "oran": 5.09
+   }
+  ],
+  "kirpilan": [],
+  "usteBinen": false,
+  "gorunmez": [],
+  "kucukHedef": [],
+  "yatayTasma": 0,
+  "altMenuUst": 845,
+  "pencere": [
+   412,
+   915
+  ],
+  "ipucu": null,
+  "kisayolSayisi": 4,
+  "konsol": []
+ },
+ "412x915-tr-kasa1-sezon0": {
+  "k": {
+   "oyuncu": {
+    "ust": 74,
+    "alt": 177,
+    "y": 102.8,
+    "g": 388
+   },
+   "turnuva": {
+    "ust": 191,
+    "alt": 253,
+    "y": 62,
+    "g": 388
+   },
+   "serit_klasik": {
+    "ust": 267,
+    "alt": 335,
+    "y": 68,
+    "g": 388
+   },
+   "serit_duello": {
+    "ust": 343,
+    "alt": 411,
+    "y": 68,
+    "g": 388
+   },
+   "serit_kasa": {
+    "ust": 419,
+    "alt": 487,
+    "y": 68,
+    "g": 388
+   },
+   "sonIpucu": null,
+   "lig": {
+    "ust": 497,
+    "alt": 650,
+    "y": 153.6,
+    "g": 388
+   },
+   "sezon": {
+    "ust": 0,
+    "alt": 0,
+    "y": 0,
+    "g": 0
+   },
+   "gorev": {
+    "ust": 660,
+    "alt": 721,
+    "y": 60.2,
+    "g": 388
+   },
+   "kisayol": {
+    "ust": 731,
+    "alt": 821,
+    "y": 90.4,
+    "g": 388
+   }
+  },
+  "serit": [
+   {
+    "mod": "klasik",
+    "y": 68,
+    "g": 388,
+    "ad": "Klasik. Hızlı sorular, en çok bilen kazanır"
+   },
+   {
+    "mod": "duello",
+    "y": 68,
+    "g": 388,
+    "ad": "Düello. Kategorini savun, rakibinkini al"
+   },
+   {
+    "mod": "kasa",
+    "y": 68,
+    "g": 388,
+    "ad": "Ortak Hazine. Ortak puanı büyüt, doğru anda aç"
+   }
+  ],
+  "kontrast": [
+   {
+    "mod": "klasik",
+    "oran": 5.8
+   },
+   {
+    "mod": "duello",
+    "oran": 5.32
+   },
+   {
+    "mod": "kasa",
+    "oran": 5.09
+   }
+  ],
+  "kirpilan": [],
+  "usteBinen": false,
+  "gorunmez": [],
+  "kucukHedef": [],
+  "yatayTasma": 0,
+  "altMenuUst": 845,
+  "pencere": [
+   412,
+   915
+  ],
+  "ipucu": null,
+  "kisayolSayisi": 4,
+  "konsol": []
+ },
+ "412x915-tr-kasa0-sezon1": {
+  "k": {
+   "oyuncu": {
+    "ust": 74,
+    "alt": 177,
+    "y": 102.8,
+    "g": 388
+   },
+   "turnuva": {
+    "ust": 191,
+    "alt": 253,
+    "y": 62,
+    "g": 388
+   },
+   "serit_klasik": {
+    "ust": 267,
+    "alt": 335,
+    "y": 68,
+    "g": 388
+   },
+   "serit_duello": {
+    "ust": 343,
+    "alt": 411,
+    "y": 68,
+    "g": 388
+   },
+   "serit_kasa": null,
+   "sonIpucu": null,
+   "lig": {
+    "ust": 421,
+    "alt": 601,
+    "y": 180.3,
+    "g": 388
+   },
+   "sezon": {
+    "ust": 611,
+    "alt": 671,
+    "y": 60.2,
+    "g": 190
+   },
+   "gorev": {
+    "ust": 611,
+    "alt": 671,
+    "y": 60.2,
+    "g": 190
+   },
+   "kisayol": {
+    "ust": 681,
+    "alt": 772,
+    "y": 90.4,
+    "g": 388
+   }
+  },
+  "serit": [
+   {
+    "mod": "klasik",
+    "y": 68,
+    "g": 388,
+    "ad": "Klasik. Hızlı sorular, en çok bilen kazanır"
+   },
+   {
+    "mod": "duello",
+    "y": 68,
+    "g": 388,
+    "ad": "Düello. Kategorini savun, rakibinkini al"
+   }
+  ],
+  "kontrast": [
+   {
+    "mod": "klasik",
+    "oran": 5.8
+   },
+   {
+    "mod": "duello",
+    "oran": 5.32
+   }
+  ],
+  "kirpilan": [],
+  "usteBinen": false,
+  "gorunmez": [],
+  "kucukHedef": [],
+  "yatayTasma": 0,
+  "altMenuUst": 845,
+  "pencere": [
+   412,
+   915
+  ],
+  "ipucu": null,
+  "kisayolSayisi": 4,
+  "konsol": []
+ },
+ "412x915-tr-kasa0-sezon0": {
+  "k": {
+   "oyuncu": {
+    "ust": 74,
+    "alt": 177,
+    "y": 102.8,
+    "g": 388
+   },
+   "turnuva": {
+    "ust": 191,
+    "alt": 253,
+    "y": 62,
+    "g": 388
+   },
+   "serit_klasik": {
+    "ust": 267,
+    "alt": 335,
+    "y": 68,
+    "g": 388
+   },
+   "serit_duello": {
+    "ust": 343,
+    "alt": 411,
+    "y": 68,
+    "g": 388
+   },
+   "serit_kasa": null,
+   "sonIpucu": null,
+   "lig": {
+    "ust": 421,
+    "alt": 601,
+    "y": 180.3,
+    "g": 388
+   },
+   "sezon": {
+    "ust": 0,
+    "alt": 0,
+    "y": 0,
+    "g": 0
+   },
+   "gorev": {
+    "ust": 611,
+    "alt": 671,
+    "y": 60.2,
+    "g": 388
+   },
+   "kisayol": {
+    "ust": 681,
+    "alt": 772,
+    "y": 90.4,
+    "g": 388
+   }
+  },
+  "serit": [
+   {
+    "mod": "klasik",
+    "y": 68,
+    "g": 388,
+    "ad": "Klasik. Hızlı sorular, en çok bilen kazanır"
+   },
+   {
+    "mod": "duello",
+    "y": 68,
+    "g": 388,
+    "ad": "Düello. Kategorini savun, rakibinkini al"
+   }
+  ],
+  "kontrast": [
+   {
+    "mod": "klasik",
+    "oran": 5.8
+   },
+   {
+    "mod": "duello",
+    "oran": 5.32
+   }
+  ],
+  "kirpilan": [],
+  "usteBinen": false,
+  "gorunmez": [],
+  "kucukHedef": [],
+  "yatayTasma": 0,
+  "altMenuUst": 845,
+  "pencere": [
+   412,
+   915
+  ],
+  "ipucu": null,
+  "kisayolSayisi": 4,
+  "konsol": []
+ },
+ "390x664-en-kasa1-sezon1": {
+  "k": {
+   "oyuncu": {
+    "ust": 74,
+    "alt": 155,
+    "y": 80.8,
+    "g": 366
+   },
+   "turnuva": {
+    "ust": 160,
+    "alt": 207,
+    "y": 47.2,
+    "g": 366
+   },
+   "serit_klasik": {
+    "ust": 212,
+    "alt": 280,
+    "y": 68,
+    "g": 366
+   },
+   "serit_duello": {
+    "ust": 286,
+    "alt": 354,
+    "y": 68,
+    "g": 366
+   },
+   "serit_kasa": {
+    "ust": 360,
+    "alt": 428,
+    "y": 68,
+    "g": 366
+   },
+   "sonIpucu": null,
+   "lig": {
+    "ust": 433,
+    "alt": 467,
+    "y": 34.3,
+    "g": 366
+   },
+   "sezon": {
+    "ust": 472,
+    "alt": 527,
+    "y": 54.2,
+    "g": 179
+   },
+   "gorev": {
+    "ust": 472,
+    "alt": 527,
+    "y": 54.2,
+    "g": 179
+   },
+   "kisayol": {
+    "ust": 532,
+    "alt": 576,
+    "y": 44,
+    "g": 366
+   }
+  },
+  "serit": [
+   {
+    "mod": "klasik",
+    "y": 68,
+    "g": 366,
+    "ad": "Classic. Quick questions, most correct wins"
+   },
+   {
+    "mod": "duello",
+    "y": 68,
+    "g": 366,
+    "ad": "Duel. Defend your category, take theirs"
+   },
+   {
+    "mod": "kasa",
+    "y": 68,
+    "g": 366,
+    "ad": "Shared Treasure. Grow the shared pot, open at the right moment"
+   }
+  ],
+  "kontrast": [
+   {
+    "mod": "klasik",
+    "oran": 5.8
+   },
+   {
+    "mod": "duello",
+    "oran": 5.32
+   },
+   {
+    "mod": "kasa",
+    "oran": 5.09
+   }
+  ],
+  "kirpilan": [],
+  "usteBinen": false,
+  "gorunmez": [],
+  "kucukHedef": [],
+  "yatayTasma": 0,
+  "altMenuUst": 594,
+  "pencere": [
+   390,
+   664
+  ],
+  "ipucu": null,
+  "kisayolSayisi": 4,
+  "konsol": []
+ },
+ "390x664-en-kasa1-sezon1-azalt": {
+  "k": {
+   "oyuncu": {
+    "ust": 74,
+    "alt": 155,
+    "y": 80.8,
+    "g": 366
+   },
+   "turnuva": {
+    "ust": 160,
+    "alt": 207,
+    "y": 47.2,
+    "g": 366
+   },
+   "serit_klasik": {
+    "ust": 212,
+    "alt": 280,
+    "y": 68,
+    "g": 366
+   },
+   "serit_duello": {
+    "ust": 286,
+    "alt": 354,
+    "y": 68,
+    "g": 366
+   },
+   "serit_kasa": {
+    "ust": 360,
+    "alt": 428,
+    "y": 68,
+    "g": 366
+   },
+   "sonIpucu": null,
+   "lig": {
+    "ust": 433,
+    "alt": 467,
+    "y": 34.3,
+    "g": 366
+   },
+   "sezon": {
+    "ust": 472,
+    "alt": 527,
+    "y": 54.2,
+    "g": 179
+   },
+   "gorev": {
+    "ust": 472,
+    "alt": 527,
+    "y": 54.2,
+    "g": 179
+   },
+   "kisayol": {
+    "ust": 532,
+    "alt": 576,
+    "y": 44,
+    "g": 366
+   }
+  },
+  "serit": [
+   {
+    "mod": "klasik",
+    "y": 68,
+    "g": 366,
+    "ad": "Classic. Quick questions, most correct wins"
+   },
+   {
+    "mod": "duello",
+    "y": 68,
+    "g": 366,
+    "ad": "Duel. Defend your category, take theirs"
+   },
+   {
+    "mod": "kasa",
+    "y": 68,
+    "g": 366,
+    "ad": "Shared Treasure. Grow the shared pot, open at the right moment"
+   }
+  ],
+  "kontrast": [
+   {
+    "mod": "klasik",
+    "oran": 5.8
+   },
+   {
+    "mod": "duello",
+    "oran": 5.32
+   },
+   {
+    "mod": "kasa",
+    "oran": 5.09
+   }
+  ],
+  "kirpilan": [],
+  "usteBinen": false,
+  "gorunmez": [],
+  "kucukHedef": [],
+  "yatayTasma": 0,
+  "altMenuUst": 594,
+  "pencere": [
+   390,
+   664
+  ],
+  "ipucu": null,
+  "kisayolSayisi": 4,
+  "konsol": []
+ },
+ "390x664-en-kasa1-sezon0": {
+  "k": {
+   "oyuncu": {
+    "ust": 74,
+    "alt": 155,
+    "y": 80.8,
+    "g": 366
+   },
+   "turnuva": {
+    "ust": 160,
+    "alt": 207,
+    "y": 47.2,
+    "g": 366
+   },
+   "serit_klasik": {
+    "ust": 212,
+    "alt": 280,
+    "y": 68,
+    "g": 366
+   },
+   "serit_duello": {
+    "ust": 286,
+    "alt": 354,
+    "y": 68,
+    "g": 366
+   },
+   "serit_kasa": {
+    "ust": 360,
+    "alt": 428,
+    "y": 68,
+    "g": 366
+   },
+   "sonIpucu": null,
+   "lig": {
+    "ust": 433,
+    "alt": 467,
+    "y": 34.3,
+    "g": 366
+   },
+   "sezon": {
+    "ust": 0,
+    "alt": 0,
+    "y": 0,
+    "g": 0
+   },
+   "gorev": {
+    "ust": 472,
+    "alt": 527,
+    "y": 54.2,
+    "g": 366
+   },
+   "kisayol": {
+    "ust": 532,
+    "alt": 576,
+    "y": 44,
+    "g": 366
+   }
+  },
+  "serit": [
+   {
+    "mod": "klasik",
+    "y": 68,
+    "g": 366,
+    "ad": "Classic. Quick questions, most correct wins"
+   },
+   {
+    "mod": "duello",
+    "y": 68,
+    "g": 366,
+    "ad": "Duel. Defend your category, take theirs"
+   },
+   {
+    "mod": "kasa",
+    "y": 68,
+    "g": 366,
+    "ad": "Shared Treasure. Grow the shared pot, open at the right moment"
+   }
+  ],
+  "kontrast": [
+   {
+    "mod": "klasik",
+    "oran": 5.8
+   },
+   {
+    "mod": "duello",
+    "oran": 5.32
+   },
+   {
+    "mod": "kasa",
+    "oran": 5.09
+   }
+  ],
+  "kirpilan": [],
+  "usteBinen": false,
+  "gorunmez": [],
+  "kucukHedef": [],
+  "yatayTasma": 0,
+  "altMenuUst": 594,
+  "pencere": [
+   390,
+   664
+  ],
+  "ipucu": null,
+  "kisayolSayisi": 4,
+  "konsol": []
+ },
+ "390x664-en-kasa0-sezon1": {
+  "k": {
+   "oyuncu": {
+    "ust": 74,
+    "alt": 155,
+    "y": 80.8,
+    "g": 366
+   },
+   "turnuva": {
+    "ust": 160,
+    "alt": 207,
+    "y": 47.2,
+    "g": 366
+   },
+   "serit_klasik": {
+    "ust": 212,
+    "alt": 280,
+    "y": 68,
+    "g": 366
+   },
+   "serit_duello": {
+    "ust": 286,
+    "alt": 354,
+    "y": 68,
+    "g": 366
+   },
+   "serit_kasa": null,
+   "sonIpucu": null,
+   "lig": {
+    "ust": 359,
+    "alt": 393,
+    "y": 34.3,
+    "g": 366
+   },
+   "sezon": {
+    "ust": 398,
+    "alt": 453,
+    "y": 54.2,
+    "g": 179
+   },
+   "gorev": {
+    "ust": 398,
+    "alt": 453,
+    "y": 54.2,
+    "g": 179
+   },
+   "kisayol": {
+    "ust": 458,
+    "alt": 502,
+    "y": 44,
+    "g": 366
+   }
+  },
+  "serit": [
+   {
+    "mod": "klasik",
+    "y": 68,
+    "g": 366,
+    "ad": "Classic. Quick questions, most correct wins"
+   },
+   {
+    "mod": "duello",
+    "y": 68,
+    "g": 366,
+    "ad": "Duel. Defend your category, take theirs"
+   }
+  ],
+  "kontrast": [
+   {
+    "mod": "klasik",
+    "oran": 5.8
+   },
+   {
+    "mod": "duello",
+    "oran": 5.32
+   }
+  ],
+  "kirpilan": [],
+  "usteBinen": false,
+  "gorunmez": [],
+  "kucukHedef": [],
+  "yatayTasma": 0,
+  "altMenuUst": 594,
+  "pencere": [
+   390,
+   664
+  ],
+  "ipucu": null,
+  "kisayolSayisi": 4,
+  "konsol": []
+ },
+ "390x664-en-kasa0-sezon0": {
+  "k": {
+   "oyuncu": {
+    "ust": 74,
+    "alt": 155,
+    "y": 80.8,
+    "g": 366
+   },
+   "turnuva": {
+    "ust": 160,
+    "alt": 207,
+    "y": 47.2,
+    "g": 366
+   },
+   "serit_klasik": {
+    "ust": 212,
+    "alt": 280,
+    "y": 68,
+    "g": 366
+   },
+   "serit_duello": {
+    "ust": 286,
+    "alt": 354,
+    "y": 68,
+    "g": 366
+   },
+   "serit_kasa": null,
+   "sonIpucu": null,
+   "lig": {
+    "ust": 359,
+    "alt": 393,
+    "y": 34.3,
+    "g": 366
+   },
+   "sezon": {
+    "ust": 0,
+    "alt": 0,
+    "y": 0,
+    "g": 0
+   },
+   "gorev": {
+    "ust": 398,
+    "alt": 453,
+    "y": 54.2,
+    "g": 366
+   },
+   "kisayol": {
+    "ust": 458,
+    "alt": 502,
+    "y": 44,
+    "g": 366
+   }
+  },
+  "serit": [
+   {
+    "mod": "klasik",
+    "y": 68,
+    "g": 366,
+    "ad": "Classic. Quick questions, most correct wins"
+   },
+   {
+    "mod": "duello",
+    "y": 68,
+    "g": 366,
+    "ad": "Duel. Defend your category, take theirs"
+   }
+  ],
+  "kontrast": [
+   {
+    "mod": "klasik",
+    "oran": 5.8
+   },
+   {
+    "mod": "duello",
+    "oran": 5.32
+   }
+  ],
+  "kirpilan": [],
+  "usteBinen": false,
+  "gorunmez": [],
+  "kucukHedef": [],
+  "yatayTasma": 0,
+  "altMenuUst": 594,
+  "pencere": [
+   390,
+   664
+  ],
+  "ipucu": null,
+  "kisayolSayisi": 4,
+  "konsol": []
+ },
+ "360x640-en-kasa1-sezon1": {
+  "k": {
+   "oyuncu": {
+    "ust": 74,
+    "alt": 155,
+    "y": 80.8,
+    "g": 342
+   },
+   "turnuva": {
+    "ust": 158,
+    "alt": 203,
+    "y": 45.2,
+    "g": 342
+   },
+   "serit_klasik": {
+    "ust": 206,
+    "alt": 274,
+    "y": 68,
+    "g": 342
+   },
+   "serit_duello": {
+    "ust": 279,
+    "alt": 347,
+    "y": 68,
+    "g": 342
+   },
+   "serit_kasa": {
+    "ust": 352,
+    "alt": 420,
+    "y": 68,
+    "g": 342
+   },
+   "sonIpucu": null,
+   "lig": {
+    "ust": 423,
+    "alt": 451,
+    "y": 28.3,
+    "g": 342
+   },
+   "sezon": {
+    "ust": 454,
+    "alt": 505,
+    "y": 50.2,
+    "g": 167
+   },
+   "gorev": {
+    "ust": 454,
+    "alt": 505,
+    "y": 50.2,
+    "g": 167
+   },
+   "kisayol": {
+    "ust": 508,
+    "alt": 552,
+    "y": 44,
+    "g": 342
+   }
+  },
+  "serit": [
+   {
+    "mod": "klasik",
+    "y": 68,
+    "g": 342,
+    "ad": "Classic. Quick questions, most correct wins"
+   },
+   {
+    "mod": "duello",
+    "y": 68,
+    "g": 342,
+    "ad": "Duel. Defend your category, take theirs"
+   },
+   {
+    "mod": "kasa",
+    "y": 68,
+    "g": 342,
+    "ad": "Shared Treasure. Grow the shared pot, open at the right moment"
+   }
+  ],
+  "kontrast": [
+   {
+    "mod": "klasik",
+    "oran": 5.8
+   },
+   {
+    "mod": "duello",
+    "oran": 5.32
+   },
+   {
+    "mod": "kasa",
+    "oran": 5.09
+   }
+  ],
+  "kirpilan": [],
+  "usteBinen": false,
+  "gorunmez": [],
+  "kucukHedef": [],
+  "yatayTasma": 0,
+  "altMenuUst": 570,
+  "pencere": [
+   360,
+   640
+  ],
+  "ipucu": null,
+  "kisayolSayisi": 4,
+  "konsol": []
+ },
+ "360x640-en-kasa1-sezon0": {
+  "k": {
+   "oyuncu": {
+    "ust": 74,
+    "alt": 155,
+    "y": 80.8,
+    "g": 342
+   },
+   "turnuva": {
+    "ust": 158,
+    "alt": 203,
+    "y": 45.2,
+    "g": 342
+   },
+   "serit_klasik": {
+    "ust": 206,
+    "alt": 274,
+    "y": 68,
+    "g": 342
+   },
+   "serit_duello": {
+    "ust": 279,
+    "alt": 347,
+    "y": 68,
+    "g": 342
+   },
+   "serit_kasa": {
+    "ust": 352,
+    "alt": 420,
+    "y": 68,
+    "g": 342
+   },
+   "sonIpucu": null,
+   "lig": {
+    "ust": 423,
+    "alt": 451,
+    "y": 28.3,
+    "g": 342
+   },
+   "sezon": {
+    "ust": 0,
+    "alt": 0,
+    "y": 0,
+    "g": 0
+   },
+   "gorev": {
+    "ust": 454,
+    "alt": 505,
+    "y": 50.2,
+    "g": 342
+   },
+   "kisayol": {
+    "ust": 508,
+    "alt": 552,
+    "y": 44,
+    "g": 342
+   }
+  },
+  "serit": [
+   {
+    "mod": "klasik",
+    "y": 68,
+    "g": 342,
+    "ad": "Classic. Quick questions, most correct wins"
+   },
+   {
+    "mod": "duello",
+    "y": 68,
+    "g": 342,
+    "ad": "Duel. Defend your category, take theirs"
+   },
+   {
+    "mod": "kasa",
+    "y": 68,
+    "g": 342,
+    "ad": "Shared Treasure. Grow the shared pot, open at the right moment"
+   }
+  ],
+  "kontrast": [
+   {
+    "mod": "klasik",
+    "oran": 5.8
+   },
+   {
+    "mod": "duello",
+    "oran": 5.32
+   },
+   {
+    "mod": "kasa",
+    "oran": 5.09
+   }
+  ],
+  "kirpilan": [],
+  "usteBinen": false,
+  "gorunmez": [],
+  "kucukHedef": [],
+  "yatayTasma": 0,
+  "altMenuUst": 570,
+  "pencere": [
+   360,
+   640
+  ],
+  "ipucu": null,
+  "kisayolSayisi": 4,
+  "konsol": []
+ },
+ "360x640-en-kasa0-sezon1": {
+  "k": {
+   "oyuncu": {
+    "ust": 74,
+    "alt": 155,
+    "y": 80.8,
+    "g": 342
+   },
+   "turnuva": {
+    "ust": 158,
+    "alt": 203,
+    "y": 45.2,
+    "g": 342
+   },
+   "serit_klasik": {
+    "ust": 206,
+    "alt": 274,
+    "y": 68,
+    "g": 342
+   },
+   "serit_duello": {
+    "ust": 279,
+    "alt": 347,
+    "y": 68,
+    "g": 342
+   },
+   "serit_kasa": null,
+   "sonIpucu": null,
+   "lig": {
+    "ust": 350,
+    "alt": 378,
+    "y": 28.3,
+    "g": 342
+   },
+   "sezon": {
+    "ust": 381,
+    "alt": 432,
+    "y": 50.2,
+    "g": 167
+   },
+   "gorev": {
+    "ust": 381,
+    "alt": 432,
+    "y": 50.2,
+    "g": 167
+   },
+   "kisayol": {
+    "ust": 435,
+    "alt": 479,
+    "y": 44,
+    "g": 342
+   }
+  },
+  "serit": [
+   {
+    "mod": "klasik",
+    "y": 68,
+    "g": 342,
+    "ad": "Classic. Quick questions, most correct wins"
+   },
+   {
+    "mod": "duello",
+    "y": 68,
+    "g": 342,
+    "ad": "Duel. Defend your category, take theirs"
+   }
+  ],
+  "kontrast": [
+   {
+    "mod": "klasik",
+    "oran": 5.8
+   },
+   {
+    "mod": "duello",
+    "oran": 5.32
+   }
+  ],
+  "kirpilan": [],
+  "usteBinen": false,
+  "gorunmez": [],
+  "kucukHedef": [],
+  "yatayTasma": 0,
+  "altMenuUst": 570,
+  "pencere": [
+   360,
+   640
+  ],
+  "ipucu": null,
+  "kisayolSayisi": 4,
+  "konsol": []
+ },
+ "360x640-en-kasa0-sezon0": {
+  "k": {
+   "oyuncu": {
+    "ust": 74,
+    "alt": 155,
+    "y": 80.8,
+    "g": 342
+   },
+   "turnuva": {
+    "ust": 158,
+    "alt": 203,
+    "y": 45.2,
+    "g": 342
+   },
+   "serit_klasik": {
+    "ust": 206,
+    "alt": 274,
+    "y": 68,
+    "g": 342
+   },
+   "serit_duello": {
+    "ust": 279,
+    "alt": 347,
+    "y": 68,
+    "g": 342
+   },
+   "serit_kasa": null,
+   "sonIpucu": null,
+   "lig": {
+    "ust": 350,
+    "alt": 378,
+    "y": 28.3,
+    "g": 342
+   },
+   "sezon": {
+    "ust": 0,
+    "alt": 0,
+    "y": 0,
+    "g": 0
+   },
+   "gorev": {
+    "ust": 381,
+    "alt": 432,
+    "y": 50.2,
+    "g": 342
+   },
+   "kisayol": {
+    "ust": 435,
+    "alt": 479,
+    "y": 44,
+    "g": 342
+   }
+  },
+  "serit": [
+   {
+    "mod": "klasik",
+    "y": 68,
+    "g": 342,
+    "ad": "Classic. Quick questions, most correct wins"
+   },
+   {
+    "mod": "duello",
+    "y": 68,
+    "g": 342,
+    "ad": "Duel. Defend your category, take theirs"
+   }
+  ],
+  "kontrast": [
+   {
+    "mod": "klasik",
+    "oran": 5.8
+   },
+   {
+    "mod": "duello",
+    "oran": 5.32
+   }
+  ],
+  "kirpilan": [],
+  "usteBinen": false,
+  "gorunmez": [],
+  "kucukHedef": [],
+  "yatayTasma": 0,
+  "altMenuUst": 570,
+  "pencere": [
+   360,
+   640
+  ],
+  "ipucu": null,
+  "kisayolSayisi": 4,
+  "konsol": []
+ },
+ "412x915-en-kasa1-sezon1": {
+  "k": {
+   "oyuncu": {
+    "ust": 74,
+    "alt": 177,
+    "y": 102.8,
+    "g": 388
+   },
+   "turnuva": {
+    "ust": 191,
+    "alt": 253,
+    "y": 62,
+    "g": 388
+   },
+   "serit_klasik": {
+    "ust": 267,
+    "alt": 335,
+    "y": 68,
+    "g": 388
+   },
+   "serit_duello": {
+    "ust": 343,
+    "alt": 411,
+    "y": 68,
+    "g": 388
+   },
+   "serit_kasa": {
+    "ust": 419,
+    "alt": 487,
+    "y": 68,
+    "g": 388
+   },
+   "sonIpucu": null,
+   "lig": {
+    "ust": 497,
+    "alt": 650,
+    "y": 153.6,
+    "g": 388
+   },
+   "sezon": {
+    "ust": 660,
+    "alt": 721,
+    "y": 60.2,
+    "g": 190
+   },
+   "gorev": {
+    "ust": 660,
+    "alt": 721,
+    "y": 60.2,
+    "g": 190
+   },
+   "kisayol": {
+    "ust": 731,
+    "alt": 821,
+    "y": 90.4,
+    "g": 388
+   }
+  },
+  "serit": [
+   {
+    "mod": "klasik",
+    "y": 68,
+    "g": 388,
+    "ad": "Classic. Quick questions, most correct wins"
+   },
+   {
+    "mod": "duello",
+    "y": 68,
+    "g": 388,
+    "ad": "Duel. Defend your category, take theirs"
+   },
+   {
+    "mod": "kasa",
+    "y": 68,
+    "g": 388,
+    "ad": "Shared Treasure. Grow the shared pot, open at the right moment"
+   }
+  ],
+  "kontrast": [
+   {
+    "mod": "klasik",
+    "oran": 5.8
+   },
+   {
+    "mod": "duello",
+    "oran": 5.32
+   },
+   {
+    "mod": "kasa",
+    "oran": 5.09
+   }
+  ],
+  "kirpilan": [],
+  "usteBinen": false,
+  "gorunmez": [],
+  "kucukHedef": [],
+  "yatayTasma": 0,
+  "altMenuUst": 845,
+  "pencere": [
+   412,
+   915
+  ],
+  "ipucu": null,
+  "kisayolSayisi": 4,
+  "konsol": []
+ },
+ "412x915-en-kasa1-sezon0": {
+  "k": {
+   "oyuncu": {
+    "ust": 74,
+    "alt": 177,
+    "y": 102.8,
+    "g": 388
+   },
+   "turnuva": {
+    "ust": 191,
+    "alt": 253,
+    "y": 62,
+    "g": 388
+   },
+   "serit_klasik": {
+    "ust": 267,
+    "alt": 335,
+    "y": 68,
+    "g": 388
+   },
+   "serit_duello": {
+    "ust": 343,
+    "alt": 411,
+    "y": 68,
+    "g": 388
+   },
+   "serit_kasa": {
+    "ust": 419,
+    "alt": 487,
+    "y": 68,
+    "g": 388
+   },
+   "sonIpucu": null,
+   "lig": {
+    "ust": 497,
+    "alt": 650,
+    "y": 153.6,
+    "g": 388
+   },
+   "sezon": {
+    "ust": 0,
+    "alt": 0,
+    "y": 0,
+    "g": 0
+   },
+   "gorev": {
+    "ust": 660,
+    "alt": 721,
+    "y": 60.2,
+    "g": 388
+   },
+   "kisayol": {
+    "ust": 731,
+    "alt": 821,
+    "y": 90.4,
+    "g": 388
+   }
+  },
+  "serit": [
+   {
+    "mod": "klasik",
+    "y": 68,
+    "g": 388,
+    "ad": "Classic. Quick questions, most correct wins"
+   },
+   {
+    "mod": "duello",
+    "y": 68,
+    "g": 388,
+    "ad": "Duel. Defend your category, take theirs"
+   },
+   {
+    "mod": "kasa",
+    "y": 68,
+    "g": 388,
+    "ad": "Shared Treasure. Grow the shared pot, open at the right moment"
+   }
+  ],
+  "kontrast": [
+   {
+    "mod": "klasik",
+    "oran": 5.8
+   },
+   {
+    "mod": "duello",
+    "oran": 5.32
+   },
+   {
+    "mod": "kasa",
+    "oran": 5.09
+   }
+  ],
+  "kirpilan": [],
+  "usteBinen": false,
+  "gorunmez": [],
+  "kucukHedef": [],
+  "yatayTasma": 0,
+  "altMenuUst": 845,
+  "pencere": [
+   412,
+   915
+  ],
+  "ipucu": null,
+  "kisayolSayisi": 4,
+  "konsol": []
+ },
+ "412x915-en-kasa0-sezon1": {
+  "k": {
+   "oyuncu": {
+    "ust": 74,
+    "alt": 177,
+    "y": 102.8,
+    "g": 388
+   },
+   "turnuva": {
+    "ust": 191,
+    "alt": 253,
+    "y": 62,
+    "g": 388
+   },
+   "serit_klasik": {
+    "ust": 267,
+    "alt": 335,
+    "y": 68,
+    "g": 388
+   },
+   "serit_duello": {
+    "ust": 343,
+    "alt": 411,
+    "y": 68,
+    "g": 388
+   },
+   "serit_kasa": null,
+   "sonIpucu": null,
+   "lig": {
+    "ust": 421,
+    "alt": 601,
+    "y": 180.3,
+    "g": 388
+   },
+   "sezon": {
+    "ust": 611,
+    "alt": 671,
+    "y": 60.2,
+    "g": 190
+   },
+   "gorev": {
+    "ust": 611,
+    "alt": 671,
+    "y": 60.2,
+    "g": 190
+   },
+   "kisayol": {
+    "ust": 681,
+    "alt": 772,
+    "y": 90.4,
+    "g": 388
+   }
+  },
+  "serit": [
+   {
+    "mod": "klasik",
+    "y": 68,
+    "g": 388,
+    "ad": "Classic. Quick questions, most correct wins"
+   },
+   {
+    "mod": "duello",
+    "y": 68,
+    "g": 388,
+    "ad": "Duel. Defend your category, take theirs"
+   }
+  ],
+  "kontrast": [
+   {
+    "mod": "klasik",
+    "oran": 5.8
+   },
+   {
+    "mod": "duello",
+    "oran": 5.32
+   }
+  ],
+  "kirpilan": [],
+  "usteBinen": false,
+  "gorunmez": [],
+  "kucukHedef": [],
+  "yatayTasma": 0,
+  "altMenuUst": 845,
+  "pencere": [
+   412,
+   915
+  ],
+  "ipucu": null,
+  "kisayolSayisi": 4,
+  "konsol": []
+ },
+ "412x915-en-kasa0-sezon0": {
+  "k": {
+   "oyuncu": {
+    "ust": 74,
+    "alt": 177,
+    "y": 102.8,
+    "g": 388
+   },
+   "turnuva": {
+    "ust": 191,
+    "alt": 253,
+    "y": 62,
+    "g": 388
+   },
+   "serit_klasik": {
+    "ust": 267,
+    "alt": 335,
+    "y": 68,
+    "g": 388
+   },
+   "serit_duello": {
+    "ust": 343,
+    "alt": 411,
+    "y": 68,
+    "g": 388
+   },
+   "serit_kasa": null,
+   "sonIpucu": null,
+   "lig": {
+    "ust": 421,
+    "alt": 601,
+    "y": 180.3,
+    "g": 388
+   },
+   "sezon": {
+    "ust": 0,
+    "alt": 0,
+    "y": 0,
+    "g": 0
+   },
+   "gorev": {
+    "ust": 611,
+    "alt": 671,
+    "y": 60.2,
+    "g": 388
+   },
+   "kisayol": {
+    "ust": 681,
+    "alt": 772,
+    "y": 90.4,
+    "g": 388
+   }
+  },
+  "serit": [
+   {
+    "mod": "klasik",
+    "y": 68,
+    "g": 388,
+    "ad": "Classic. Quick questions, most correct wins"
+   },
+   {
+    "mod": "duello",
+    "y": 68,
+    "g": 388,
+    "ad": "Duel. Defend your category, take theirs"
+   }
+  ],
+  "kontrast": [
+   {
+    "mod": "klasik",
+    "oran": 5.8
+   },
+   {
+    "mod": "duello",
+    "oran": 5.32
+   }
+  ],
+  "kirpilan": [],
+  "usteBinen": false,
+  "gorunmez": [],
+  "kucukHedef": [],
+  "yatayTasma": 0,
+  "altMenuUst": 845,
+  "pencere": [
+   412,
+   915
+  ],
+  "ipucu": null,
+  "kisayolSayisi": 4,
+  "konsol": []
+ }
+}
