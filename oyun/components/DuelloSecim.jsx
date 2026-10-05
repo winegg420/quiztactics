@@ -112,9 +112,14 @@ export function SecimKonsol({ d, sm, benSirada, sn, c, children }) {
     const son = yeni[yeni.length - 1];
     setOto({ k: son.k, ben: son.u === d.ben, an: Date.now() });
     if (son.u === d.ben) titret([30, 50, 30]);
+    return undefined;
+  }, [sm.secimler.length]);   // eslint-disable-line react-hooks/exhaustive-deps
+  // Satır kendi süresince kalır; arada yeni seçim gelse de kapanış zamanlayıcısı kaybolmaz.
+  useEffect(() => {
+    if (!oto) return undefined;
     const t = setTimeout(() => setOto(null), OTO_MS);
     return () => clearTimeout(t);
-  }, [sm.secimler.length]);   // eslint-disable-line react-hooks/exhaustive-deps
+  }, [oto?.an]);   // eslint-disable-line react-hooks/exhaustive-deps
 
   const rakam = Math.max(0, Math.ceil(Number(sn) || 0));
   const son = benSirada && rakam > 0 && rakam <= 2;
