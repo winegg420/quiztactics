@@ -778,7 +778,17 @@ try {
     const sayilar = [...new Set(girisKare.map((x) => ((x.ust || "").match(/321:(\d)/) || [])[1]).filter(Boolean))];
     if (girisKare.length && sayilar.join("") !== "321") kirildi(o.ad + ": giriş sahnesinde 3·2·1 sırası " + (sayilar.join("·") || "yok"));
     if (o.kayit.some((x) => (x.ust || "").includes("321:") && !(x.ust || "").includes("giris"))) kirildi(o.ad + ": 3-2-1 sahne dışında (eski üst üste katman) göründü");
-    rapor[o.ad].giris = { kare: girisKare.length, sayilar };
+    // sahne boyunca 3-2-1 tiki en çok üç kez; sahne kalkınca soru sesi
+    let girisTik = null, girisSoru = null;
+    if (girisKare.length) {
+      const g0 = girisKare[0].t, g1 = Math.max(...girisKare.map((x) => x.t));
+      const son = o.kayit.find((x) => x.t > g1 && !(x.ust || '').includes('giris'))?.t ?? g1 + 500;
+      girisTik = o.sesler.filter((x) => ['tik', 'sayim_son'].includes(x.rol) && x.t >= g0 && x.t <= son).length;
+      girisSoru = o.sesler.some((x) => x.rol === 'soru_geldi' && x.t >= son - 400 && x.t <= son + 1500);
+      if (girisTik > 3) kirildi(o.ad + ': giriş sahnesinde 3-2-1 tiki ' + girisTik + ' kez çaldı');
+      if (!girisSoru) kirildi(o.ad + ': giriş sahnesi kalkınca soru sesi çalmadı');
+    }
+    rapor[o.ad].giris = { kare: girisKare.length, sayilar, tik: girisTik, soruSesi: girisSoru };
   }
   if (rapor.macSon?.durum === "bitti" && rapor.macSon?.sonuc_neden === "hedef") {
     const kazAc = Number(rapor.macSon.kazanan === rapor.macSon.oyuncu1 ? rapor.macSon.acma_sayisi1 : rapor.macSon.acma_sayisi2);
