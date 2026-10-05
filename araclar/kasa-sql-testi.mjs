@@ -1,4 +1,4 @@
-// KASA modu (950 + 951 + 952 + 953 + 954 + 955 + 956) SQL provası — TEK transaction, sonunda ROLLBACK (canlıya iz bırakmaz).
+// KASA modu (950 + 951 + 952 + 953 + 954 + 955 + 956 + 957 + 958) SQL provası — TEK transaction, sonunda ROLLBACK (canlıya iz bırakmaz).
 //
 // Sıra:
 //   0) Ön kontrol (salt okunur): turnuva saatleri + aktif maç/düello/grup/turnuva. Önümüzdeki 30 dk'da
@@ -18,7 +18,10 @@
 //      955 tavan + DEVAM çarpanı (tavan artıştan/çarpandan sonra, ceil, süre dolumu çarpar, süren 954 maçı, ayarlar kapalı,
 //      tek AÇ ile bitmeme, bot, gizlilik + maç simülasyonu: ort. tur, hedefle biten %, tek AÇ %, çarpan kırpılma),
 //      956 DEVAM ×2 + tavan 60 (10→20, 22→44, 46→60, tavana kırpma, süre dolumu, süren 955 maçı ×1,25/30, tek AÇ bitirebilir,
-//      bot, gizlilik + simülasyon 10 vs 20 eşik: ort. tur, ort. AÇ, tek AÇ %, tavanda AÇ %), yetkiler.
+//      bot, gizlilik + simülasyon 10 vs 20 eşik: ort. tur, ort. AÇ, tek AÇ %, tavanda AÇ %),
+//      958 AÇ alt sınırı yok + hedef 80 (kasa 2'de karar + AÇ, sahipsizken karar yok, küçük kasada DEVAM ×2, süren 957 maçı
+//      acma_min 10 / hedef 60 ile biter, rövanş + ustalık + soru sayacı (957) 958 değerleriyle, bot küçük kasada eşiğe göre,
+//      Altın Soru, geri alma dosyasıyla eski davranış + simülasyon %70 / %90 isabet: ort. tur, tek AÇ %, DEVAM ve karar/maç), yetkiler.
 //   6) ROLLBACK + ortak fonksiyonların tanımı (md5) migration öncesiyle aynı mı, şema/ayarlar eski hâlinde mi.
 //
 // Kullanım: node araclar/kasa-sql-testi.mjs [--zorla]   (--zorla: ön kontrol uyarısını atlar)
@@ -32,6 +35,9 @@ const MIG953 = new URL('../supabase/migrations/20260612000953_kasa_devam_odulu.s
 const MIG954 = new URL('../supabase/migrations/20260612000954_kasa_devam_birakir.sql', import.meta.url);
 const MIG955 = new URL('../supabase/migrations/20260612000955_kasa_tavan_carpan.sql', import.meta.url);
 const MIG956 = new URL('../supabase/migrations/20260612000956_kasa_carpan2_tavan60.sql', import.meta.url);
+const MIG957 = new URL('../supabase/migrations/20260612000957_kasa_ortak_ozellikler.sql', import.meta.url);
+const MIG958 = new URL('../supabase/migrations/20260612000958_kasa_acma_serbest_hedef80.sql', import.meta.url);
+const GERI958 = new URL('../docs/kasa-geri-alma-958.sql', import.meta.url);
 const ZORLA = process.argv.includes('--zorla');
 const ORTAK = ['cift_odul_carpani', 'xp_mac_odulu', 'sezon_puani_ekle', 'gorev_olcum', 'gorev_dogru_satirlari',
   'gorev_sayaci', 'odul_dokumu', 'level_kazancim', 'mac_sonu_ozet', 'trg_iletisim_engel',
@@ -188,6 +194,25 @@ try {
   ok('956 hiçbir kasa_* fonksiyonunu değiştirmedi (yalnız ayar)', (await tek(kasaFnSorgu)) === kasaFn955);
   const ayar955 = await json(`select json_object_agg(anahtar, deger)::text from oyun_ayarlari where anahtar in ('kasa_tavan', 'kasa_devam_carpan', 'kasa_hedef_puan', 'kasa_karar_sn', 'kasa_soru_sn', 'kasa_sonuc_sn', 'kasa_max_tur')`);
   ok('956 ayarları: tavan 60, çarpan 2; hedef 60, karar 5, soru 15, sonuç 3, 36 tur değişmedi', Number(ayar955.kasa_tavan) === 60 && Number(ayar955.kasa_devam_carpan) === 2 && Number(ayar955.kasa_hedef_puan) === 60 && Number(ayar955.kasa_karar_sn) === 5 && Number(ayar955.kasa_soru_sn) === 15 && Number(ayar955.kasa_sonuc_sn) === 3 && Number(ayar955.kasa_max_tur) === 36, JSON.stringify(ayar955));
+  // 957 canlıda: 951–956 yeniden derlendiği için 957 de yeniden derlenir (idempotent) → kasa_* canlı tanımına döner
+  await db.sorgu(fs.readFileSync(MIG957, 'utf8'));
+  ok('migration 957 hatasız derlendi', true);
+  const tumFnSorgu = `select md5(string_agg(p.oid::regprocedure::text || '=' || md5(pg_get_functiondef(p.oid)), ',' order by p.oid::regprocedure::text))
+     from pg_proc p join pg_namespace n on n.oid = p.pronamespace where n.nspname = 'public' and p.prokind = 'f'`;
+  const tumFn957 = await tek(tumFnSorgu);
+  ok('951–957 yeniden derlenince kasa_* fonksiyonları canlı tanımla birebir', (await tek(kasaFnSorgu)) === kasaFnOnce);
+  await db.sorgu(fs.readFileSync(MIG958, 'utf8'));
+  ok('migration 958 hatasız derlendi', true);
+  ok('958 HİÇBİR fonksiyonu değiştirmedi (public şemasının tamamı, md5)', (await tek(tumFnSorgu)) === tumFn957);
+  const ayar958 = await json(`select json_object_agg(anahtar, deger)::text from oyun_ayarlari where anahtar like 'kasa\\_%'`);
+  ok('958 ayarları: acma_min 0, hedef 80; tavan 60, ×2, karar 5, soru 15, sonuç 3, 36 tur, +2/+6, bot eşikleri 8/14/20 değişmedi',
+    Number(ayar958.kasa_acma_min) === 0 && Number(ayar958.kasa_hedef_puan) === 80 && Number(ayar958.kasa_tavan) === 60 && Number(ayar958.kasa_devam_carpan) === 2
+    && Number(ayar958.kasa_karar_sn) === 5 && Number(ayar958.kasa_soru_sn) === 15 && Number(ayar958.kasa_sonuc_sn) === 3 && Number(ayar958.kasa_max_tur) === 36
+    && Number(ayar958.kasa_artis) === 2 && Number(ayar958.kasa_ikisi_dogru_artis) === 6
+    && Number(ayar958.kasa_bot_esik_temkinli) === 8 && Number(ayar958.kasa_bot_esik_dengeli) === 14 && Number(ayar958.kasa_bot_esik_acgozlu) === 20,
+    JSON.stringify(ayar958));
+  // 5a–5n eski kurallarla (acma_min 10) sınanır; 5o 958 dosyasını yeniden uygular
+  await db.sorgu(`update oyun_ayarlari set deger = '10'::jsonb where anahtar = 'kasa_acma_min'`);
   ok('953: kasa_joker tek imza (uuid,text,boolean,boolean)', (await tek(`select string_agg(oid::regprocedure::text, ',') from pg_proc where proname = 'kasa_joker'`)) === 'kasa_joker(uuid,text,boolean,boolean)');
   const md5Mig = await ortakMd5();
   const degisen = md5Once.filter((x) => md5Mig.find((y) => y.imza === x.imza)?.h !== x.h).map((x) => x.imza);
@@ -214,6 +239,7 @@ try {
   // 5a–5l 950–954 kurallarını sınar: 955 kapalı (tavan 0, çarpan 1) + eski hedef/karar süresi (5m açar)
   await db.sorgu(`update oyun_ayarlari set deger = case anahtar when 'kasa_tavan' then '0' when 'kasa_devam_carpan' then '1'
      when 'kasa_hedef_puan' then '50' else '8' end::jsonb where anahtar in ('kasa_tavan', 'kasa_devam_carpan', 'kasa_hedef_puan', 'kasa_karar_sn')`);
+  await db.sorgu(`update oyun_ayarlari set deger = '10'::jsonb where anahtar = 'kasa_acma_min'`);   // 958 öncesi alt sınır (5o 0'a çeker)
   const satir = (id) => json(`select row_to_json(x)::text from kasa_maclari x where id = '${id}'`);
   const dogruCevap = (id) => tek(`select q.dogru_cevap::text from kasa_maclari k join questions q on q.id = k.soru_id where k.id = '${id}'`).then(Number);
   const sureDoldur = async (id) => {
@@ -1173,7 +1199,7 @@ const sayiyaCevir = (o) => Object.fromEntries(Object.entries(o).map(([a, v]) => 
   // hedefe ulaştırıyorsa ya da tavandaysa AÇ). Ödül kapalı (yan etki yok; zaten ROLLBACK).
   await db.sorgu(`update oyun_ayarlari set deger = '0' where anahtar = 'kasa_odul_acik'`);
   // 956: simülasyon iki kural setinde çalışır — tarz1/tarz2 SQL ifadesi (eşik), sapma (± adım)
-  const simCalistir = async (n, tarz1, tarz2, sapma) => {
+  const simCalistir = async (n, tarz1, tarz2, sapma, isabet = 0.6) => {
     await db.sorgu("set local statement_timeout = '300s'");
     await db.sorgu(`drop table if exists _sim`);
     await db.sorgu(`create temp table _sim (tur int, neden text, kazanan_ac int, ac1 int, ac2 int, devam int, kirpilan int, maks int,
@@ -1206,8 +1232,8 @@ const sayiyaCevir = (o) => Object.fromEntries(Object.entries(o).map(([a, v]) => 
           elsif k.faz = 'cevap' then
             select q.dogru_cevap into v_dc from questions q where q.id = k.soru_id;
             update kasa_maclari set cevaplar = jsonb_build_object(
-                k.oyuncu1::text, jsonb_build_object('cevap', case when random() < 0.6 then v_dc else (v_dc + 1) % 4 end, 'at', now()),
-                k.oyuncu2::text, jsonb_build_object('cevap', case when random() < 0.6 then v_dc else (v_dc + 1) % 4 end, 'at', now()))
+                k.oyuncu1::text, jsonb_build_object('cevap', case when random() < ${isabet} then v_dc else (v_dc + 1) % 4 end, 'at', now()),
+                k.oyuncu2::text, jsonb_build_object('cevap', case when random() < ${isabet} then v_dc else (v_dc + 1) % 4 end, 'at', now()))
              where id = v_id;
             perform kasa_cozumle(v_id);
           elsif k.faz = 'sonuc' then
@@ -1226,11 +1252,13 @@ const sayiyaCevir = (o) => Object.fromEntries(Object.entries(o).map(([a, v]) => 
     return (await db.sorgu(`select count(*)::int n, round(avg(tur), 1)::float ort_tur,
         round(100.0 * count(*) filter (where neden = 'hedef') / count(*), 1)::float hedef_yuzde,
         round(100.0 * count(*) filter (where neden = 'hedef' and kazanan_ac = 1) / count(*), 1)::float tek_ac_yuzde,
+        round(100.0 * count(*) filter (where neden = 'hedef' and kazanan_ac = 2) / count(*), 1)::float iki_ac_yuzde,
         sum(devam)::int devam, sum(kirpilan)::int kirpilan,
         round(100.0 * sum(kirpilan) / greatest(sum(devam), 1), 1)::float kirpilan_yuzde, max(maks)::int maks_kasa,
         min(kazanan_ac) filter (where neden = 'hedef')::int min_ac,
         round(sum(ac_top)::numeric / greatest(sum(ac_n), 1), 1)::float ort_ac, sum(ac_n)::int ac_n,
         round(100.0 * sum(ac_tavan) / greatest(sum(ac_n), 1), 1)::float ac_tavan_yuzde,
+        round(avg(devam), 1)::float ort_devam, round(avg(devam + ac_n), 1)::float ort_karar,
         (select string_agg(neden || ':' || n, ' ') from (select neden, count(*) n from _sim group by 1 order by 1) x) nedenler
        from _sim`)).map(sayiyaCevir)[0];
   };
@@ -1333,6 +1361,204 @@ const sayiyaCevir = (o) => Object.fromEntries(Object.entries(o).map(([a, v]) => 
   const sapma6 = [[`ort AÇ ${sim6.ort_ac}`, '~24', Math.abs(sim6.ort_ac - 24) > 4], [`tek AÇ ile biten %${sim6.tek_ac_yuzde}`, '~44', Math.abs(sim6.tek_ac_yuzde - 44) > 12],
     [`tavanda AÇ %${sim6.ac_tavan_yuzde}`, '~3', Math.abs(sim6.ac_tavan_yuzde - 3) > 5]].filter((x) => x[2]);
   console.log(sapma6.length ? `     956 SAPMA: ${sapma6.map((x) => `${x[0]} (beklenen ${x[1]})`).join(' · ')}` : '     956 simülasyon beklenen bantta');
+
+  console.log('5o) 958 AÇ alt sınırı yok (acma_min 0) + hedef 80');
+  await db.sorgu(`delete from rpc_sayac where user_id in ('${A}', '${B}')`);   // hız sınırı sayaçları (yalnız bu işlemde)
+  const aktifleriKapat = () => db.sorgu(`update kasa_maclari set durum = 'iptal' where durum = 'aktif'
+     and (oyuncu1 in ('${A}', '${B}') or oyuncu2 in ('${A}', '${B}'))`);
+  await aktifleriKapat();
+  // Süren 957 maçı: 957 ayarlarıyla (acma_min 10, hedef 60, tavan 60, ×2) GERÇEKTEN açılır, sonra 958 dosyası uygulanır
+  await db.sorgu(`update oyun_ayarlari set deger = case anahtar when 'kasa_acma_min' then '10' when 'kasa_hedef_puan' then '60'
+     when 'kasa_tavan' then '60' when 'kasa_devam_carpan' then '2' else '5' end::jsonb
+     where anahtar in ('kasa_acma_min', 'kasa_hedef_puan', 'kasa_tavan', 'kasa_devam_carpan', 'kasa_karar_sn')`);
+  const id957 = await tek(`select kasa_olustur('${A}', '${B}', true, false)`);
+  const idRov = await tek(`select kasa_olustur('${A}', '${B}', true, false)`);   // rövanş kaynağı (957 değerleriyle)
+  await db.sorgu(fs.readFileSync(MIG958, 'utf8'));
+  k = await satir(id957);
+  ok('957 ayarıyla açılan maç satırda acma_min 10 / hedef 60 (958 sonrası da)', k.acma_min === 10 && k.hedef === 60, JSON.stringify([k.acma_min, k.hedef]));
+  await sureDoldur(id957);
+  await cevapla(id957, A, true); await cevapla(id957, B, false);
+  k = await sonrakiTur(id957);
+  ok('süren 957 maçı: kasa 2 sahip A → karar fazı YOK (alt sınır 10)', k.faz === 'cevap' && k.sahip === A && k.kasa === 2, JSON.stringify([k.faz, k.sahip === A, k.kasa]));
+  await db.sorgu(`update kasa_maclari set faz = 'karar', karar_baslangic = now(), faz_bitis = now() + interval '6 seconds' where id = '${id957}'`);
+  await ben(A);
+  ok('süren 957 maçı: karar fazı zorlansa da kasa 2\'de AÇ reddedilir ("Kasa en az 10")', /Kasa en az 10/.test(await hata(`select kasa_karar('${id957}', true)`) || ''));
+  k = await sonrakiTur(id957, 12, A);
+  await setPuan(id957, k, A, 50);
+  ok('süren 957 maçı: kasa 12 → karar fazı', k.faz === 'karar', k.faz);
+  await ben(A);
+  const h957 = await hata(`select kasa_karar('${id957}', true)`);
+  k = await satir(id957);
+  ok('süren 957 maçı: 50 + 12 = 62 ≥ 60 → hedef 60 ile biter (80 beklemez)', h957 === null && k.durum === 'bitti' && k.kazanan === A && k.sonuc_neden === 'hedef' && p(k, A) === 62,
+    JSON.stringify([h957, k.durum, k.sonuc_neden, p(k, A)]));
+  // Yeni maç: 958 değerleri
+  await aktifleriKapat();
+  id = await tek(`select kasa_olustur('${A}', '${B}', true, false)`);
+  k = await satir(id);
+  ok('yeni maça 958 sabitlendi: acma_min 0, hedef 80 (tavan 60, ×2, karar 5, soru 15, sonuç 3, 36 tur, +2/+6, 954 bayrakları aynı)',
+    k.acma_min === 0 && k.hedef === 80 && k.kasa_tavan === 60 && Number(k.devam_carpan) === 2 && k.karar_sn === 5 && k.soru_sn === 15 && k.sonuc_sn === 3
+    && k.max_tur === 36 && k.artis === 2 && k.ikisi_artis === 6 && k.devam_birakir && k.devam_elli,
+    JSON.stringify([k.acma_min, k.hedef, k.kasa_tavan, k.devam_carpan, k.karar_sn, k.soru_sn, k.max_tur]));
+  k = await sureDoldur(id);
+  await cevapla(id, A, true); await cevapla(id, B, true);
+  k = await satir(id);
+  ok('ikisi doğru → kasa 6, sahipsiz', k.kasa === 6 && k.sahip === null, JSON.stringify([k.kasa, k.sahip]));
+  k = await sonrakiTur(id);
+  ok('sahipsiz kasa 6 → karar fazı YOK, soru açıldı', k.faz === 'cevap' && k.sahip === null, JSON.stringify([k.faz, k.sahip]));
+  await cevapla(id, A, false); await cevapla(id, B, false);
+  k = await sonrakiTur(id);
+  ok('ikisi yanlış → kasa 8 sahipsiz, yine karar fazı yok', k.faz === 'cevap' && k.sahip === null && k.kasa === 8, JSON.stringify([k.faz, k.sahip, k.kasa]));
+  k = await sonrakiTur(id, 0, null);
+  await cevapla(id, A, true); await cevapla(id, B, false);
+  k = await satir(id);
+  ok('kasa 0, tek bilen A → kasa 2, sahip A', k.kasa === 2 && k.sahip === A, JSON.stringify([k.kasa, k.sahip === A]));
+  k = await sonrakiTur(id);
+  const kararSure = Number(await tek(`select extract(epoch from faz_bitis - karar_baslangic)::text from kasa_maclari where id = '${id}'`));
+  ok(`kasa 2 sahip A → KARAR fazı açıldı (alt sınır yok), süre ${kararSure} sn (5 + gösterim payı)`, k.faz === 'karar' && k.sahip === A && k.kasa === 2 && kararSure >= 5 && kararSure <= 7,
+    JSON.stringify([k.faz, k.kasa, kararSure]));
+  await ben(B);
+  du = await json(`select kasa_durum('${id}')::text`);
+  ok('B: durumda acma_min 0, hedef 80', du.acma_min === 0 && du.hedef === 80, JSON.stringify([du.acma_min, du.hedef]));
+  await setPuan(id, k, A, 10);
+  await ben(A);
+  const acKucuk = await hata(`select kasa_karar('${id}', true)`);
+  k = await satir(id);
+  ok('kasa 2\'de AÇ kabul (istemci RPC kasa_karar): puan 10 → 12, kasa 0, sahipsiz, sonraki soru açıldı, maç sürer',
+    acKucuk === null && p(k, A) === 12 && k.kasa === 0 && k.sahip === null && k.faz === 'cevap' && k.durum === 'aktif' && k.son_karar?.ac === true,
+    JSON.stringify([acKucuk, p(k, A), k.kasa, k.sahip, k.faz, k.durum, k.son_karar]));
+  // Küçük kasada DEVAM ×2 (bilerek) + ücretsiz 50:50 (954) + tek bilen yine sahip
+  const beklenen958 = { 2: 4, 3: 6, 4: 8, 5: 10, 6: 12 };
+  const devam958 = {};
+  for (const [once, bek] of Object.entries(beklenen958)) {
+    const r = await devamDene(Number(once));
+    devam958[once] = r.faz === 'karar' ? 'faz' : r.kasa;
+    if (r.kasa !== bek || r.sahip !== null || r.sk?.yeni !== bek || r.sk?.birakti !== true) ok(`DEVAM ${once} → ${bek}`, false, JSON.stringify(r));
+  }
+  ok(`küçük kasada karar fazı + bilerek DEVAM ×2: ${Object.entries(devam958).map(([a, b]) => `${a}→${b}`).join(' ')}; sahip null`,
+    Object.entries(beklenen958).every(([a, b]) => devam958[a] === b), JSON.stringify(devam958));
+  ok('küçük kasada bilerek DEVAM yine ücretsiz 50:50 hakkı verir', (await hakVar(id, A)) && (await bedavaU(id, A)) === 'elli');
+  const rs958 = await devamDene(2, true);
+  ok('kasa 2\'de süre dolumu → DEVAM sayılır: 2 → 4, sure_doldu, sahip null', rs958.kasa === 4 && rs958.sk?.sure_doldu === true && rs958.sahip === null, JSON.stringify(rs958));
+  // Hedef 80: 60'ta bitmez, 80'de biter
+  k = await sonrakiTur(id, 4, A);
+  await setPuan(id, k, A, 56);
+  await ben(A);
+  await db.sorgu(`delete from rpc_sayac where user_id in ('${A}', '${B}')`);
+  const ac60 = await hata(`select kasa_karar('${id}', true)`);
+  k = await satir(id);
+  ok('56 + 4 = 60 → maç SÜRER (hedef 80)', ac60 === null && k.durum === 'aktif' && p(k, A) === 60, JSON.stringify([ac60, k.durum, p(k, A)]));
+  await cevapla(id, A, true); await cevapla(id, B, false);
+  k = await sonrakiTur(id, 20, A);
+  await ben(A);
+  const ac80 = await hata(`select kasa_karar('${id}', true)`);
+  k = await satir(id);
+  ok('60 + 20 = 80 → A kazanır, neden hedef', ac80 === null && k.durum === 'bitti' && k.kazanan === A && k.sonuc_neden === 'hedef' && p(k, A) === 80,
+    JSON.stringify([ac80, k.durum, k.sonuc_neden, p(k, A)]));
+  // 957 ortak özellikleri 958 ile: rövanş yeni değerleri alır, ustalık + soru sayacı işler
+  await aktifleriKapat();
+  await db.sorgu(`update kasa_maclari set durum = 'bitti', kazanan = '${A}', sonuc_neden = 'hedef', bitis = now() where id = '${idRov}'`);
+  await ben(A);
+  const rovIste = await hata(`select kasa_rovans_iste('${idRov}')`);
+  await ben(B);
+  let yeniRov = null;
+  if (rovIste === null) {
+    await db.sorgu('savepoint rv');
+    try { yeniRov = await tek(`select kasa_rovans_yanitla('${idRov}', true)::text`); await db.sorgu('release savepoint rv'); }
+    catch (e) { await db.sorgu('rollback to savepoint rv'); yeniRov = 'HATA ' + e.message; }
+  }
+  k = yeniRov && !/^HATA/.test(yeniRov) ? await satir(yeniRov) : {};
+  ok('957 rövanş (957 maçından) → yeni maç 958 değerleriyle: acma_min 0, hedef 80, onceki_id', k.acma_min === 0 && k.hedef === 80 && k.onceki_id === idRov,
+    JSON.stringify([rovIste, yeniRov, k.acma_min, k.hedef]));
+  if (k.id) {
+    await sureDoldur(k.id);
+    const [sq] = await db.sorgu(`select q.id::text, q.kategori, q.dogru_cevap::int dc, q.cevap_sayisi::int cs, q.dogru_sayisi::int ds
+       from kasa_maclari x join questions q on q.id = x.soru_id where x.id = '${k.id}'`);
+    const katO = Number(await tek(`select coalesce((select dogru_sayisi from kategori_dogru where user_id = '${A}' and kategori = '${sq.kategori}'), 0)::text`));
+    await db.sorgu(`update kasa_maclari set cevaplar = jsonb_build_object('${A}', jsonb_build_object('cevap', ${sq.dc}, 'at', now()),
+       '${B}', jsonb_build_object('cevap', ${(Number(sq.dc) + 1) % 4}, 'at', now())) where id = '${k.id}'`);
+    await db.sorgu(`select kasa_cozumle('${k.id}')`);
+    const katS = Number(await tek(`select coalesce((select dogru_sayisi from kategori_dogru where user_id = '${A}' and kategori = '${sq.kategori}'), 0)::text`));
+    const [sq2] = await db.sorgu(`select cevap_sayisi::int cs, dogru_sayisi::int ds from questions where id = '${sq.id}'`);
+    ok('957 ustalık + soru sayacı 958 maçında: kategori +1, cevap +2 / doğru +1', katS === katO + 1 && Number(sq2.cs) === Number(sq.cs) + 2 && Number(sq2.ds) === Number(sq.ds) + 1,
+      JSON.stringify([katO, katS, sq.cs, sq2.cs, sq.ds, sq2.ds]));
+    k = await sonrakiTur(k.id);
+    ok('rövanş maçında kasa 2 sahip A → karar fazı', k.faz === 'karar' && k.kasa === 2, JSON.stringify([k.faz, k.kasa]));
+    await db.sorgu(`update kasa_maclari set durum = 'iptal' where id = '${k.id}'`);
+  }
+  // Bot küçük kasada: karar fazı açılır, eşiğin altında DEVAM, gecikme değişmedi
+  await aktifleriKapat();
+  const idB8 = await tek(`select kasa_olustur('${A}', '${BOT}', true, false)`);
+  await sureDoldur(idB8);
+  await db.sorgu(`update kasa_maclari set bot_tarz = 'temkinli', puan1 = 0, puan2 = 0 where id = '${idB8}'`);
+  k = await sonrakiTur(idB8, 2, BOT);
+  const botGec = Number(await tek(`select extract(epoch from bot_karar_at - karar_baslangic)::text from kasa_maclari where id = '${idB8}'`));
+  const [gs] = await db.sorgu(`select public.ayar_ondalik('kasa_bot_karar_min_sn', 1)::float mn, public.ayar_ondalik('kasa_bot_karar_max_sn', 3)::float mx,
+     extract(epoch from public.kasa_gosterim_payi())::float pay`);
+  ok(`bot sahip, kasa 2 → karar fazı açıldı, bot DEVAM seçti (Temkinli eşik 8±2), gecikme ${botGec.toFixed(2)} sn (pay ${gs.pay} + ${gs.mn}–${gs.mx})`,
+    k.faz === 'karar' && k.bot_karar === false && botGec >= Number(gs.pay) + Number(gs.mn) - 0.01 && botGec <= Number(gs.pay) + Number(gs.mx) + 0.01, JSON.stringify([k.faz, k.bot_karar, botGec]));
+  const botAc = async (kasa, tarz, puan = 0) => {
+    await db.sorgu(`update kasa_maclari set faz = 'karar', sahip = bot, kasa = ${kasa}, bot_tarz = '${tarz}',
+       puan1 = case when oyuncu1 = bot then ${puan} else 0 end, puan2 = case when oyuncu2 = bot then ${puan} else 0 end where id = '${idB8}'`);
+    return tek(`select (count(*) filter (where x))::text from (select kasa_bot_karar('${idB8}') x from generate_series(1, 60)) s`).then(Number);
+  };
+  const bk = { t2: await botAc(2, 'temkinli'), t5: await botAc(5, 'temkinli'), t10: await botAc(10, 'temkinli'), d11: await botAc(11, 'dengeli'),
+    d16: await botAc(16, 'dengeli'), a17: await botAc(17, 'acgozlu'), a22: await botAc(22, 'acgozlu'), h2: await botAc(2, 'acgozlu', 78), h60: await botAc(60, 'acgozlu', 0) };
+  ok(`bot küçük kasada eşiğe göre (60 deneme): Temkinli K2 ${bk.t2} K5 ${bk.t5} K10 ${bk.t10} · Dengeli K11 ${bk.d11} K16 ${bk.d16} · Açgözlü K17 ${bk.a17} K22 ${bk.a22}`,
+    bk.t2 === 0 && bk.t5 === 0 && bk.t10 === 60 && bk.d11 === 0 && bk.d16 === 60 && bk.a17 === 0 && bk.a22 === 60, JSON.stringify(bk));
+  ok(`bot hedefe ulaştırıyorsa küçük kasayı da açar (78 + 2 = 80): ${bk.h2}/60 · tavandaki kasa ${bk.h60}/60`, bk.h2 === 60 && bk.h60 === 60, JSON.stringify(bk));
+  await db.sorgu(`update kasa_maclari set faz = 'karar', sahip = bot, kasa = 2, bot_tarz = 'temkinli', puan1 = 0, puan2 = 0, karar_baslangic = now(),
+     faz_bitis = now() + interval '6 seconds', bot_karar = false, bot_karar_at = now() - interval '1 second', joker = '{}'::jsonb where id = '${idB8}'`);
+  await db.sorgu(`select kasa_ilerlet('${idB8}')`);
+  k = await satir(idB8);
+  ok('bot DEVAM kasa 2 → 4, sahip null, 50:50 o soruda kullanıldı', k.faz === 'cevap' && k.kasa === 4 && k.sahip === null && (k.joker?.[BOT]?.turler ?? []).includes('elli'),
+    JSON.stringify([k.faz, k.kasa, k.sahip, k.joker?.[BOT]]));
+  await db.sorgu(`update kasa_maclari set durum = 'iptal' where id = '${idB8}'`);
+  // Altın Soru (958 maçında): 36. tur sonunda eşitlik → Altın Soru, karar fazı yok; tek bilen kazanır
+  id = await tek(`select kasa_olustur('${A}', '${B}', false, true)`);
+  await db.sorgu(`update kasa_maclari set tur = 36, faz = 'sonuc', faz_bitis = now() - interval '1 second',
+     puan1 = 40, puan2 = 36, sahip = oyuncu2, kasa = 4 where id = '${id}'`);
+  await db.sorgu(`select kasa_ilerlet('${id}')`);
+  k = await satir(id);
+  ok('958: 36. tur sonu sahip kasayı alır 40–40 → Altın Soru (cevap fazı, karar yok)', k.durum === 'aktif' && k.altin && k.tur === 37 && k.faz === 'cevap',
+    JSON.stringify([k.durum, k.altin, k.tur, k.faz]));
+  await cevapla(id, A, true); await cevapla(id, B, false);
+  k = await sureDoldur(id);
+  ok('958 Altın Soru: yalnız A bildi → A kazanır, neden altin', k.durum === 'bitti' && k.kazanan === A && k.sonuc_neden === 'altin', JSON.stringify([k.durum, k.sonuc_neden]));
+  id = await tek(`select kasa_olustur('${A}', '${B}', false, true)`);
+  await db.sorgu(`update kasa_maclari set tur = 35, faz = 'sonuc', faz_bitis = now() - interval '1 second', puan1 = 30, puan2 = 22, sahip = oyuncu2, kasa = 4 where id = '${id}'`);
+  await db.sorgu(`select kasa_ilerlet('${id}')`);
+  k = await satir(id);
+  ok('958: 35. tur sonu sahipli kasa 4 → 36. turda karar fazı (son turda da AÇ/DEVAM)', k.durum === 'aktif' && k.tur === 36 && k.faz === 'karar', JSON.stringify([k.durum, k.tur, k.faz]));
+  await db.sorgu(`update kasa_maclari set durum = 'iptal' where id = '${id}'`);
+  // Simülasyon (Ida: hedef 80, tavan 60, ×2, şart yok; karar politikası bot kuralı 8/14/20 ± 2)
+  const tarzSql = '(array[8, 14, 20])[1 + floor(random() * 3)::int]';
+  const sim70 = await simCalistir(SIM_N, tarzSql, tarzSql, 2, 0.7);
+  console.log('     958 simülasyon %70:', JSON.stringify(sim70));
+  const sim90 = await simCalistir(SIM_N, tarzSql, tarzSql, 2, 0.9);
+  console.log('     958 simülasyon %90:', JSON.stringify(sim90));
+  ok(`958 simülasyon ${sim70.n}+${sim90.n} maç tamamlandı, kasa 60'ı geçmedi (en çok ${Math.max(sim70.maks_kasa, sim90.maks_kasa)})`,
+    sim70.n === SIM_N && sim90.n === SIM_N && sim70.maks_kasa <= 60 && sim90.maks_kasa <= 60, JSON.stringify([sim70, sim90]));
+  const sapma8 = [
+    [`%70 ort tur ${sim70.ort_tur}`, '~25', Math.abs(sim70.ort_tur - 25) > 5],
+    // Not: hedef 80 > tavan 60 → 0 puandan tek AÇ en çok 60 getirir; 'tek AÇ ile biten' bu kuralla 0 olmak zorunda (iki_ac_yuzde bilgi için)
+    [`%70 tek AÇ ile biten %${sim70.tek_ac_yuzde}`, '~27', Math.abs(sim70.tek_ac_yuzde - 27) > 10],
+    [`%90 tek AÇ ile biten %${sim90.tek_ac_yuzde}`, '~47', Math.abs(sim90.tek_ac_yuzde - 47) > 12],
+    [`%70 DEVAM/maç ${sim70.ort_devam}`, '~2-3', sim70.ort_devam < 1.5 || sim70.ort_devam > 3.5],
+    [`%70 karar ekranı/maç ${sim70.ort_karar}`, '~7', Math.abs(sim70.ort_karar - 7) > 2.5]].filter((x) => x[2]);
+  console.log(sapma8.length ? `     958 SAPMA: ${sapma8.map((x) => `${x[0]} (beklenen ${x[1]})`).join(' · ')}` : '     958 simülasyon beklenen bantta');
+  // Ayarlar eski değere dönünce eski davranış (geri alma dosyası; begin/commit bu işlemin içinde çalıştırılmaz)
+  await db.sorgu(fs.readFileSync(GERI958, 'utf8').replace(/^\s*(begin|commit);\s*$/gim, ''));
+  await aktifleriKapat();
+  id = await tek(`select kasa_olustur('${A}', '${B}', true, false)`);
+  k = await sureDoldur(id);
+  ok('geri alma sonrası yeni maç: acma_min 10, hedef 60', k.acma_min === 10 && k.hedef === 60, JSON.stringify([k.acma_min, k.hedef]));
+  await cevapla(id, A, true); await cevapla(id, B, false);
+  k = await sonrakiTur(id);
+  ok('geri alma sonrası: kasa 2 sahip A → karar fazı yok (eski davranış)', k.faz === 'cevap' && k.kasa === 2 && k.sahip === A, JSON.stringify([k.faz, k.kasa]));
+  k = await sonrakiTur(id, 10, A);
+  ok('geri alma sonrası: kasa 10 → karar fazı', k.faz === 'karar', k.faz);
+  await db.sorgu(`update kasa_maclari set durum = 'iptal' where id = '${id}'`);
+  await db.sorgu(fs.readFileSync(MIG958, 'utf8'));
 
   console.log('5i) Yetkiler');
   await ben(A);
