@@ -442,7 +442,9 @@ async function sur(o, rol) {
       }
       await bekle(SENARYO === "bot" ? 1200 : rol === "A" ? 900 : 1600);
       const siklar = o.s.locator(".qt-sik");
-      const yanlis = [0, 1, 2, 3].find((i) => i !== dogru);
+      // 954: ücretsiz 50:50 sonrası elenen şık basılamaz → elenmemiş ilk yanlış şık
+      const elenen = await o.s.evaluate(() => [...document.querySelectorAll(".qt-sik")].map((e) => /elendi/.test(e.className))).catch(() => []);
+      const yanlis = [0, 1, 2, 3].find((i) => i !== dogru && !elenen[i]) ?? [0, 1, 2, 3].find((i) => i !== dogru);
       if (ikinciSans) {
         // ilk yanlış (kapalı olmayan) → sonra doğru
         const n = await siklar.count();
