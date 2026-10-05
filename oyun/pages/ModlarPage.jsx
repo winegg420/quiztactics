@@ -31,7 +31,7 @@ export default function ModlarPage() {
   const turSayisi = useAyar("duello_max_tur", 16);   // Düello tur sayısı metne gömülmez (1 Eki 2026: 16 tur)
   // KASA (deneysel, 950): ayar satırı yoksa (migration uygulanmamış) ya da 0 ise kart kilitli + kapalı notu
   const kasaAcik = useAyar("kasa_modu_acik", 0) >= 1;
-  const kasaHedef = useAyar("kasa_hedef_puan", 20);
+  const kasaHedef = useAyar("kasa_hedef_puan", 80);
   const navigate = useNavigate();
   const [dereceliTercih, setDereceliTercih] = useDereceliTercih();
   // 860: Klasik / Saf Bilgi maç kategorisi (null = Karışık) — ana sayfa OYNA penceresiyle AYNI tercih.

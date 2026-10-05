@@ -47,7 +47,7 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
   const duelloEsik = useAyar("duello_hakimiyet_esik", 5);   // 870: kazanma eşiği de ayardan
   // 957: Kasa da ortak mod listesinde (kapalıyken gösterilmez); hedef ayardan
   const kasaAcik = useAyar("kasa_modu_acik", 0) >= 1;
-  const kasaHedef = useAyar("kasa_hedef_puan", 60);
+  const kasaHedef = useAyar("kasa_hedef_puan", 80);
   const [calisan, setCalisan] = useState(null);   // "klasik" | "duello" | null
   const [adim, setAdim] = useState(null);         // null | "klasik" (loadout adımı)
   const [hata, setHata] = useState(null);

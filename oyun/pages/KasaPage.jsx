@@ -103,11 +103,11 @@ function KasaGiris() {
   const { ceviri } = useDil();
   // Ayar satırı yoksa (migration 950 uygulanmamış) mod kurulmamış sayılır: kapalı-mod notu.
   const acik = useAyar("kasa_modu_acik", 0) >= 1;
-  const hedef = useAyar("kasa_hedef_puan", 50);
+  const hedef = useAyar("kasa_hedef_puan", 80);
   const artis = useAyar("kasa_artis", 2);
   const ikisi = useAyar("kasa_ikisi_dogru_artis", 6);
   const maxTur = useAyar("kasa_max_tur", 36);
-  const acmaMin = useAyar("kasa_acma_min", 10);
+  const acmaMin = useAyar("kasa_acma_min", 0);
   // 954: DEVAM sahipliği bırakır + ücretsiz 50:50 (ayar kapalıysa eski satır / satır yok)
   const devamElli = useAyar("kasa_devam_joker_acik", 0) >= 1;
   const devamBirakir = useAyar("kasa_devam_birakir", 0) >= 1;
@@ -195,7 +195,7 @@ function KasaGiris() {
 // ------------------------------------------------------------ arama (Düello ile aynı kalıp)
 function KasaArama({ dereceli, onBulundu, onIptal, bilgi = null }) {
   const { ceviri } = useDil();
-  const hedef = useAyar("kasa_hedef_puan", 50);
+  const hedef = useAyar("kasa_hedef_puan", 80);
   const [gecen, setGecen] = useState(0);
   const ipucu = Math.floor(gecen / IPUCU_SN) % ARAMA_IPUCLARI.length;
   const [hata, setHata] = useState(null);
@@ -549,6 +549,8 @@ function KasaMac({ id }) {
   // altın hedefe ulaşınca gerçek değere sayarak geçilir. Zamanlar kasa-efekt.css animasyonlarıyla eşleşir.
   const [an, setAn] = useState(null);
   const [turBant, setTurBant] = useState(null);
+  // 958: karar her turda gelebilir — band açıldığı fazda kalır; hızlı AÇ/DEVAM'da yeni soru sahnesinde ikinci kez belirmez
+  const turBantFazRef = useRef(null);
   const anZamanRef = useRef([]);
   const kokRef = useRef(null);
   const anBaslat = useCallback((yeni, adimlar) => {
@@ -704,7 +706,7 @@ function KasaMac({ id }) {
       const yeniTur = oncekiTur !== `${d.tur}-${d.altin}`;
       const acildi = d.faz === "cevap" && d.son_karar?.ac && !d.son_karar.son;
       // Giriş sahnesi sürerken ilk sorunun bandı/sesi sahnenin altında kalmasın (sahne kendi sesini çalar)
-      if (yeniTur && (d.faz === "karar" || d.faz === "cevap") && !girisAktifRef.current) setTurBant(Date.now());
+      if (yeniTur && (d.faz === "karar" || d.faz === "cevap") && !girisAktifRef.current) { turBantFazRef.current = d.faz; setTurBant(Date.now()); }
       if (d.faz === "cevap" && !acildi) { if (!girisAktifRef.current) sesSoruGeldi(); }
       else if (d.faz === "karar") sesTurGecis();
       else if (d.faz === "sonuc" && d.sonuc) {
@@ -970,13 +972,13 @@ function KasaMac({ id }) {
   const skD = d.son_karar;
   const devamBekliyor = !anDevam && d.faz === "cevap" && skD && !skD.ac && !skD.son && skD.yeni != null
     && Number(skD.yeni) !== Number(skD.deger) && anRef.current.faz === `${d.tur}-${d.altin}-karar` && !hareketAzaltildiMi();
-  const turBantGoster = turBant && simdi - turBant < 900 && !anAc;
+  const turBantGoster = turBant && simdi - turBant < 900 && !anAc && turBantFazRef.current === d.faz;
   const miniHareket = (anSonuc?.varis && !anSonuc.bitti
     ? (anSonuc.buyuk ? ["vardi", "patla"] : ["vardi"]).concat(anSonuc.anahtarVaris ? ["yeni-sahip"] : [])
     : [])
     // 951: her tur başında kısa sarsıntı · cevap süresinin son 3 sn'sinde titreme
     .concat(anDevam ? (anDevam.varis ? ["vardi"] : ["devam-sars"]) : [])
-    .concat(turBant && simdi - turBant < 650 ? ["tur-sars"] : [])
+    .concat(turBant && simdi - turBant < 650 && turBantFazRef.current === d.faz ? ["tur-sars"] : [])
     .concat(sonUcSn ? ["gergin"] : []);
   const miniKadran = (
     <KasaKadran d={d} c={c} kucuk
