@@ -11,10 +11,11 @@
 //   · bitiş: final sahnesi, sonuç ekranı, ödül dökümü, "Yeni Kasa maçı", "Ana sayfa"
 //   · isteğe bağlı: maç içinde sayfa yenileme (--yenile=N), geri tuşu (--geri=N), ağ kopması (--kopma=N),
 //     yarıda ayrılma (--terk=N), jokerler (--joker), İngilizce (--dil=en), hareket azaltma (--azalt), boyut
-//   · 953 DEVAM ödülü (her koşuda ölçülür; --devam ile A daha çok DEVAM der, bot senaryosunda bota kasa bırakır):
-//     DEVAM düğmesinde "%50 joker şansı", DEVAM sonrası an (kazandı: altın kart + joker sesi · kazanamadı: sessiz not),
-//     çubukta ÜCRETSİZ joker → kullanım (envanter/joker_kullanimlari/coin değişmez, satın alma penceresi açılmaz),
-//     rakip ekranında sızıntı yok (yalnız kullanılınca adı), süre dolumunda ödül yok, art arda en çok 2 kaçırma, bot DEVAM'ı
+//   · 954 DEVAM bırakır + garanti ücretsiz 50:50 (her koşuda ölçülür; --devam ile A daha çok DEVAM der, bot senaryosunda
+//     bota kasa bırakır): DEVAM düğmesinde "ÜCRETSİZ 50:50", DEVAM sonrası sahip null + mini kadranda SAHİPSİZ + karar
+//     satırı gizli, "ÜCRETSİZ 50:50" kartı + joker sesi, çubukta ÜCRETSİZ 50:50 → kullanım (envanter/joker_kullanimlari/
+//     coin değişmez, satın alma penceresi açılmaz), kasa açılana kadar sonraki sorularda yeniden hak, AÇ'tan sonra hak
+//     yok, rakip ekranında sızıntı yok (yalnız kullanılınca adı), süre dolumunda hak yok ama sahiplik bırakılır, bot DEVAM'ı
 //
 // Senaryolar:
 //   --senaryo=gercek : A ve B gerçek eşleşir. Tur planı: 1) A doğru, B yanlış → A sahip · 2) B cevap VERMEZ
@@ -101,7 +102,8 @@ const SAYFA_HAZIRLIK = ({ kayitlar, koken, dil }) => {
           puan: (d.oyuncular ?? []).map((o) => [o.id, o.puan]), cevapladim: Boolean(d.cevap?.ben_cevapladim),
           rakipCevapladi: Boolean(d.cevap?.rakip_cevapladi), karar: d.karar, sonKarar: d.son_karar, sonuc: d.sonuc ? { ben: d.sonuc.ben_dogru, rakip: d.sonuc.rakip_dogru, artis: d.sonuc.artis } : null,
           kazanan: d.kazanan, neden: d.sonuc_neden, joker: d.joker ?? null, rakipJoker: d.rakip_joker ?? null,
-          devamOdul: d.devam_odul ?? null, bedava: d.bedava_joker ?? null, devamSans: d.devam_sans ?? null });
+          devamOdul: d.devam_odul ?? null, bedava: d.bedava_joker ?? null, devamSans: d.devam_sans ?? null,
+          devamElli: Boolean(d.devam_elli), devamBirakir: Boolean(d.devam_birakir) });
       }).catch(() => {});
     }
     return yanit;
@@ -266,6 +268,14 @@ async function devamOlc(o, tur) {
   if (!kayit.an) kirildi(o.ad + " tur " + tur + ": DEVAM ödülü anı (" + q + ") görünmedi");
   if (kayit.an && SS && !o.devamGoruntu?.[q]) { (o.devamGoruntu ??= {})[q] = 1; await goruntu(o, "devam-" + (kd.devamOdul.kazandi ? "kazandi" : "yok") + "-" + o.ad); }
   adim(o.ad + " DEVAM ödülü (tur " + tur + "): " + (kd.devamOdul.kazandi ? "KAZANDI " + kd.devamOdul.joker : "yok") + " · an " + (kayit.an ? "göründü" : "YOK") + " · " + (Date.now() - t0) + " ms");
+  // 954: garanti 50:50 + sahiplik bırakma (ekranda SAHİPSİZ, karar satırı gizli)
+  if (kd.devamElli && (!kd.devamOdul.kazandi || kd.devamOdul.joker !== "elli")) kirildi(o.ad + " tur " + tur + ": 954 DEVAM garanti 50:50 vermedi " + JSON.stringify(kd.devamOdul));
+  if (kd.devamBirakir) {
+    if (kd.sahip != null) kirildi(o.ad + " tur " + tur + ": DEVAM sonrası sahip null olmalı (" + kd.sahip + ")");
+    const rozet = await o.s.locator(".ks-kadran-sahipsiz").first().waitFor({ state: "attached", timeout: 2500 }).then(() => true).catch(() => false);
+    if (!rozet) kirildi(o.ad + " tur " + tur + ": DEVAM sonrası mini kadranda SAHİPSİZ rozeti yok");
+    if (await o.s.locator(".ks-karar-satir").count()) kirildi(o.ad + " tur " + tur + ": sahipsizken karar satırı göründü");
+  }
   if (!kd.devamOdul.kazandi) {
     await bekle(400);
     if (await o.s.locator(".ks-joker-yuva .qt-skill[data-bedava]").count()) kirildi(o.ad + " tur " + tur + ": kazanmadığı halde ÜCRETSİZ joker görünüyor");
@@ -369,7 +379,7 @@ async function sur(o, rol) {
       const dugme = o.s.locator(".ks-karar button").nth(ac ? 0 : 1);
       if (!ac) {
         const yazi = await dugme.innerText().catch(() => "");
-        if (!/%50 joker şansı|50% joker chance/.test(yazi)) kirildi(o.ad + ": DEVAM düğmesinde joker şansı yazmıyor (" + yazi + ")");
+        if (!/ÜCRETSİZ 50:50|FREE 50:50/.test(yazi)) kirildi(o.ad + ": DEVAM düğmesinde ÜCRETSİZ 50:50 yazmıyor (" + yazi + ")");
       }
       if (await dokun(dugme, 3000)) adim(`${o.ad} ${ac ? "AÇ" : "DEVAM"} (tur ${tur}, kasa ${kasa})`);
       else { const m = await o.s.locator(".ks-karar button").allInnerTexts().catch(() => []); kirildi(`${o.ad}: karar düğmesi bulunamadı (${m.join(" | ")})`); }
@@ -398,7 +408,8 @@ async function sur(o, rol) {
         else if (tur === 2) ne = rol === "A" ? "dogru" : "yok";
         else if (tur === 3) ne = "yok";
         else if (k.altin) ne = rol === "A" ? "dogru" : "yanlis";
-        else ne = acSonrasi ? (rol === "A" ? "dogru" : "yanlis") : "dogru";
+        // 954: sahipsiz kasada (AÇ ya da DEVAM sonrası) A tek başına bilsin → yeniden sahip olsun
+        else ne = acSonrasi || k.sahip == null ? (rol === "A" ? "dogru" : "yanlis") : "dogru";
       } else if (DEVAM && tur % 3 === 0 && !k.altin) ne = "yanlis";   // 953: bota da kasa kalsın (bot DEVAM ölçümü)
       cevaplanan.add(anah);
       if (ne === "yok") { adim(`${o.ad} tur ${tur}: cevap VERMİYOR (süre dolumu)`); continue; }
@@ -668,21 +679,42 @@ try {
     rapor[o.ad].kayitOrnek = o.kayit.slice(0, 400);
     rapor[o.ad].sesler = o.sesler.map((x) => ({ rol: x.rol, s: ((x.t - BAS) / 1000).toFixed(2) }));
   }
-  // ---- 953 DEVAM ödülü: sızıntı, süre dolumu, bag, ses, rakibin gördüğü
+  // ---- 954 DEVAM: sızıntı, kalıcı hak (AÇ'a kadar), süre dolumu, ses, rakibin gördüğü
   rapor.devam = { kayit: devamKayit, bot: botDevam };
   for (const o of [A, B].filter(Boolean)) {
+    // Hak zaman çizelgesi: kendi bilerek DEVAM'ım → hak var; herhangi bir AÇ → hak biter
+    let hak = false, sizinti = false;
+    const hakSorular = new Map();   // tur → bu soruda ücretsiz 50:50 (bedava ya da kullanılmış elli) görüldü mü
     for (const x of o.kd) {
-      if ((x.devamOdul || x.bedava) && !(x.sonKarar && x.sonKarar.veren === x.ben && !x.sonKarar.ac && !x.sonKarar.sure_doldu)) {
-        kirildi(o.ad + ": kendi DEVAM'ı olmadan ödül bilgisi geldi (sızıntı) tur " + x.tur + " " + JSON.stringify([x.devamOdul, x.bedava, x.sonKarar]));
-        break;
+      const sk = x.sonKarar;
+      if (x.faz === "cevap" && sk && Number(x.tur) >= 1) {
+        if (sk.ac) hak = false;
+        else if (sk.veren === x.ben && !sk.sure_doldu && x.devamElli) hak = true;
       }
+      if (x.faz === "karar" && x.karar) { /* karar fazı hakkı değiştirmez */ }
+      const benimDevam = sk && sk.veren === x.ben && !sk.ac && !sk.sure_doldu;
+      if (!sizinti && ((x.devamOdul && !benimDevam) || (x.bedava && !hak && !benimDevam))) {
+        kirildi(o.ad + ": hakkı yokken ücretsiz joker bilgisi geldi (sızıntı) tur " + x.tur + " " + JSON.stringify([x.devamOdul, x.bedava, sk]));
+        sizinti = true;
+      }
+      if (hak && x.faz === "cevap" && !x.altin && x.durum === "aktif") {
+        const goruldu = x.bedava === "elli" || (x.joker?.turler ?? []).includes("elli");
+        hakSorular.set(Number(x.tur), Boolean(hakSorular.get(Number(x.tur))) || goruldu);
+      }
+    }
+    const eksik = [...hakSorular].filter(([, g]) => !g).map(([t]) => t);
+    if (eksik.length) kirildi(o.ad + ": kasa açılmadan önceki soruda ücretsiz 50:50 verilmedi, tur " + eksik.join(","));
+    rapor[o.ad].hakSorular = [...hakSorular.keys()];
+    if (plan.sureDolumTur?.ad === o.ad) {
+      const x = o.kd.find((z) => Number(z.tur) === plan.sureDolumTur.tur && z.faz === "cevap");
+      if (x?.devamBirakir && x.sahip != null) kirildi(o.ad + ": süre dolumu (tur " + plan.sureDolumTur.tur + ") sahipliği bırakmadı");
     }
     if (plan.sureDolumTur?.ad === o.ad && o.kd.some((x) => Number(x.tur) === plan.sureDolumTur.tur && x.faz === "cevap" && x.devamOdul))
       kirildi(o.ad + ": süre dolumu (tur " + plan.sureDolumTur.tur + ") ödül verdi");
     const dizi = devamKayit.filter((x) => x.ad === o.ad && x.kazandi != null).map((x) => x.kazandi);
     let seri = 0, enUzun = 0;
     for (const z of dizi) { seri = z ? 0 : seri + 1; enUzun = Math.max(enUzun, seri); }
-    if (enUzun > 2) kirildi(o.ad + ": art arda " + enUzun + " DEVAM kaçırma (3.'de garanti olmalı)");
+    if (enUzun > 0 && o.kd.some((x) => x.devamElli)) kirildi(o.ad + ": 954'te DEVAM ödülü garanti olmalı (kaçırma " + enUzun + ")");
     const ss = o.sesler.slice().sort((a, b) => a.t - b.t);
     for (const x of devamKayit.filter((y) => y.ad === o.ad && y.an)) {
       const jokerSes = ss.some((z) => z.rol === "joker" && z.t >= x.tKlik - 300 && z.t <= x.t + 1500);
@@ -702,7 +734,7 @@ try {
       kirildi("A: botun kazanıp kullandığı " + x.joker + " (tur " + x.tur + ") rakip_joker'de görünmedi");
   }
   const ozetD = (ad) => { const d = devamKayit.filter((x) => x.ad === ad); return ad + ": DEVAM " + d.length + " · kazandı " + d.filter((x) => x.kazandi).length + " · ücretsiz kullanıldı " + d.filter((x) => x.kullanildi).length; };
-  console.log("\n953 DEVAM ödülü — " + ["A", "B"].filter((a) => rapor[a]).map(ozetD).join(" | ") + (botDevam.length ? " | bot DEVAM " + botDevam.length + " · kazandı " + botDevam.filter((x) => x.kazandi).length : ""));
+  console.log("\n954 DEVAM — " + ["A", "B"].filter((a) => rapor[a]).map((a) => a + " hak soruları " + (rapor[a].hakSorular ?? []).length).join(" | ") + " · " + ["A", "B"].filter((a) => rapor[a]).map(ozetD).join(" | ") + (botDevam.length ? " | bot DEVAM " + botDevam.length + " · kazandı " + botDevam.filter((x) => x.kazandi).length : ""));
   fs.writeFileSync(path.join(CIKTI, `kasa-canli-${ETIKET}.json`), JSON.stringify(rapor, null, 1));
   console.log(`\n=== SONUÇ (${ETIKET}) === süre ${sn()} sn · maç ${macId ?? "yok"} · ${rapor.macSon ? `${rapor.macSon.durum}/${rapor.macSon.sonuc_neden} ${rapor.macSon.puan1}-${rapor.macSon.puan2} tur ${rapor.macSon.tur}` : ""}`);
   for (const ad of ["A", "B"]) if (rapor[ad]) console.log(`${ad}: saat farkı ${rapor[ad].fark} ms · rtt ${rapor[ad].rttMedyan} ms · 0→faz ${JSON.stringify(rapor[ad].fazlar.map((f) => f.faz[0] + f.sifirdanSonraMs))} · ses ${JSON.stringify(rapor[ad].sesSayim)}`);
