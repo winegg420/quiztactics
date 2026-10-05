@@ -59,6 +59,8 @@ export function KasaKadran({ d, c, kucuk = false, goster, sahipGoster, hareket =
         <b className="qt-sayi"><SayanSayi deger={kasa} sure={520} /></b>
       </span>
       {!kucuk && <span className="ks-kadran-sahip">{etiket}</span>}
+      {/* 954: soru/sonuç şeridinde sahipsiz kasa açıkça yazılır (DEVAM sahipliği bırakır) */}
+      {kucuk && sahip === "yok" && kasa > 0 && !d.altin && <span className="ks-kadran-sahipsiz">{c("SAHİPSİZ")}</span>}
       {artis && (
         <span key={artis.anahtar} className={sinif("ks-artis-etiket qt-sayi", artis.buyuk && "ks-artis-etiket--buyuk")} aria-hidden="true">
           +{artis.n}
@@ -172,11 +174,14 @@ export function KasaKarar({ d, c, calisan, onKarar, kalan = null }) {
         </QtDugme>
         <QtDugme tur="ikincil" tamGenislik boyut="b" ikon="ileri" yukleniyor={calisan === "karar-devam"} devreDisi={!!calisan}
                  onClick={() => onKarar(false)}>
-          {/* 953: DEVAM ödülü açık maçta şans yazılır (sunucu: bilerek DEVAM → ücretsiz joker şansı) */}
-          {Number(d.devam_sans) > 0 ? c("DEVAM · %{p} joker şansı", { p: Number(d.devam_sans) }) : c("DEVAM · kasa büyüsün")}
+          {/* 954: bilerek DEVAM → kasa açılana kadar her soruda ücretsiz 50:50 · 953 maçı: şans yazılır */}
+          {d.devam_elli ? c("DEVAM · ÜCRETSİZ 50:50")
+            : Number(d.devam_sans) > 0 ? c("DEVAM · %{p} joker şansı", { p: Number(d.devam_sans) }) : c("DEVAM · kasa büyüsün")}
         </QtDugme>
       </div>
-      <p className="ks-karar-not">{c("Süre dolarsa DEVAM sayılır.")}</p>
+      <p className="ks-karar-not">
+        {d.devam_birakir ? c("DEVAM: kasa sahipsiz kalır. Süre dolarsa DEVAM sayılır.") : c("Süre dolarsa DEVAM sayılır.")}
+      </p>
     </div>
   );
 }
@@ -202,6 +207,8 @@ export function kasaKararMetni(d, c) {
   const k = d?.son_karar;
   if (!k) return null;
   const benim = k.veren === d.ben;
+  // 954: DEVAM sahipliği bıraktıysa ve kasa hâlâ sahipsizse karar satırı gizli (kadran "SAHİPSİZ" yazar)
+  if (!k.ac && !k.son && k.birakti && !d.sahip) return null;
   if (k.son) return benim ? c("Son tur: kasa sana yazıldı +{k}", { k: k.deger }) : c("Son tur: kasa rakibe yazıldı +{k}", { k: k.deger });
   if (k.ac) return benim ? c("Kasayı açtın: +{k} puan", { k: k.deger }) : c("Rakip kasayı açtı: +{k} puan", { k: k.deger });
   if (k.sure_doldu) return benim ? c("Süre doldu: devam") : c("Rakibin süresi doldu: devam");

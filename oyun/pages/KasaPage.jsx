@@ -104,10 +104,9 @@ function KasaGiris() {
   const ikisi = useAyar("kasa_ikisi_dogru_artis", 6);
   const maxTur = useAyar("kasa_max_tur", 36);
   const acmaMin = useAyar("kasa_acma_min", 10);
-  // 953: DEVAM ödülü (ayar kapalıysa satır görünmez)
-  const devamAcik = useAyar("kasa_devam_joker_acik", 0) >= 1;
-  const devamSansAyar = useAyar("kasa_devam_joker_sans", 50);
-  const devamSans = devamAcik ? Number(devamSansAyar) : 0;
+  // 954: DEVAM sahipliği bırakır + ücretsiz 50:50 (ayar kapalıysa eski satır / satır yok)
+  const devamElli = useAyar("kasa_devam_joker_acik", 0) >= 1;
+  const devamBirakir = useAyar("kasa_devam_birakir", 0) >= 1;
   const [dereceli, setDereceli] = useDereceliTercih();
   const location = useLocation();
   const [aramaBilgi] = useState(() => (location.state?.yenidenAra ? ceviri("Rakip bağlanamadı, yeni rakip aranıyor") : null));
@@ -129,10 +128,12 @@ function KasaGiris() {
       <ul className="ks-kurallar">
         <li>{ceviri("Her soru kasaya +{n} ekler; ikiniz de bilirseniz +{m}.", { n: artis, m: ikisi })}</li>
         <li>{ceviri("Soruyu tek başına bilen kasanın sahibi olur.")}</li>
-        <li>{ceviri("AÇ: kasa puanına yazılır, kasa sıfırlanır. DEVAM: kasa büyür ama kaybedebilirsin.")}</li>
+        <li>{devamBirakir
+          ? ceviri("AÇ: kasa puanına yazılır, kasa sıfırlanır. DEVAM: kasa büyür ama sahipsiz kalır; tek başına bilen alır.")
+          : ceviri("AÇ: kasa puanına yazılır, kasa sıfırlanır. DEVAM: kasa büyür ama kaybedebilirsin.")}</li>
         {acmaMin > 0 && <li>{ceviri("Kasa en az {m} olunca açılabilir.", { m: acmaMin })}</li>}
         <li>{ceviri("Jokerler: 50:50, Ek Süre, Zaman Baskısı, İkinci Şans.")}</li>
-        {devamSans > 0 && <li>{ceviri("Bilerek DEVAM dersen %{p} ihtimalle sonraki soru için ücretsiz joker (50:50 ya da Ek Süre).", { p: devamSans })}</li>}
+        {devamElli && <li>{ceviri("Bilerek DEVAM dersen kasa açılana kadar her soruda ücretsiz 50:50.")}</li>}
         <li>{ceviri("{t} tur sonunda kasa sahibine yazılır; eşitlikte Altın Soru.", { t: maxTur })}</li>
       </ul>
       <DereceliAnahtari dereceli={dereceli} onDegistir={setDereceli} />
@@ -939,8 +940,15 @@ function KasaMac({ id }) {
             <p key={devamAn.anahtar} className="ks-devam-an ks-devam-an--kazandi" role="status" aria-live="polite">
               <span className="ks-devam-an-ikon" aria-hidden="true">🃏</span>
               <span className="ks-devam-an-yazi">
-                <b>{c("Joker kazandın!")}</b>
-                {devamAn.joker && <span>{c("{j} · bu soru için ücretsiz", { j: jokerBilgi(devamAn.joker, "kasa").ad })}</span>}
+                {d.devam_elli ? (
+                  // 954: garanti — kasa açılana kadar her soruda
+                  <><b>{c("ÜCRETSİZ 50:50")}</b><span>{c("Kasa açılana kadar her soruda")}</span></>
+                ) : (
+                  <>
+                    <b>{c("Joker kazandın!")}</b>
+                    {devamAn.joker && <span>{c("{j} · bu soru için ücretsiz", { j: jokerBilgi(devamAn.joker, "kasa").ad })}</span>}
+                  </>
+                )}
               </span>
             </p>
           )

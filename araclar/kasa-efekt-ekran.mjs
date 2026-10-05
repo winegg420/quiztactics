@@ -34,7 +34,7 @@ function durum(ad, ben) {
     ben, tur: 7, max_tur: 36, hedef: 50, altin: false, artis: 2, ikisi_artis: 6, kasa: 8, sahip: RAKIP, acma_min: 10, jokerli: true,
     oyuncular: [oyuncu(ben, "Sen", 8, 1), oyuncu(RAKIP, "Deniz Yıldırımoğlu", 12, 2)],
     karar: null, son_karar: null, soru: SORU, cevap: { ben_cevapladim: true, benim_cevabim: 1, rakip_cevapladi: true }, sonuc: null,
-    joker: BOS_JOKER, rakip_joker: [], devam_sans: 50, bedava_joker: null, devam_odul: null,
+    joker: BOS_JOKER, rakip_joker: [], devam_sans: 50, devam_elli: false, devam_birakir: false, bedava_joker: null, devam_odul: null,
     sureler: { soru: 15, karar: 8, sonuc: 3, nabiz: 10, kopuk: 25, gosterim_payi_ms: 1500, gosterim_bas: iso(-2000), benim_bitis: iso(12000), faz_son: iso(12000) },
     kopuk: null, kazanan: null, sonuc_neden: null, terk: null, baglanmayan: null, gecmis: null,
   };
@@ -92,7 +92,10 @@ function durum(ad, ben) {
       gecmis: [1, 2].map((t) => ({ tur: t, altin: false, kategori: "cografya", soru: SORU.soru, secenekler: SORU.secenekler, dogru_cevap: 1, benim_cevabim: 1, ben_dogru: true, rakip_dogru: false, karar: "devam", karar_ben: true, acilan_deger: 0, kasa_sonra: t * 2 })) };
     // ---------- 953: DEVAM ödülü ----------
     case "karar-devam": return { ...durum("karar-ben", ben), tur: 8 };
-    case "cevap-devam-kazandi": return acikSoru({ sahip: ben, kasa: 12, son_karar: { veren: ben, ac: false, deger: 12, sure_doldu: false },
+    // ---------- 954: DEVAM sahipliği bırakır + garanti ücretsiz 50:50 ----------
+    case "karar-devam-954": return { ...durum("karar-ben", ben), tur: 8, devam_sans: 0, devam_elli: true, devam_birakir: true };
+    case "cevap-devam-kazandi": return acikSoru({ sahip: null, kasa: 12, devam_sans: 0, devam_elli: true, devam_birakir: true,
+      son_karar: { veren: ben, ac: false, deger: 12, sure_doldu: false, birakti: true },
       devam_odul: { tur: 8, kazandi: true, joker: "elli" }, bedava_joker: "elli" });
     case "cevap-devam-yok": return acikSoru({ sahip: ben, kasa: 12, son_karar: { veren: ben, ac: false, deger: 12, sure_doldu: false },
       devam_odul: { tur: 8, kazandi: false } });
@@ -271,11 +274,14 @@ for (const [w, h] of EKRANLAR) {
       ok("q-joker-elli: iki şık elendi", await s.locator(".qt-sik--elendi").count() === 2);
       await tekEkran("q-joker-elli");
     }
-    // 953 DEVAM ödülü: DEVAM'a bas → kazandı (altın kart) / kazanamadı (küçük not) → çubukta ÜCRETSİZ joker → kullan
-    for (const [ad, sonra, kazandi] of [["w-devam-kazandi", "cevap-devam-kazandi", true], ["x-devam-yok", "cevap-devam-yok", false]]) {
-      await ac("karar-devam", ".ks-karar-eylem");
+    // 954: DEVAM'a bas → kasa SAHİPSİZ + "ÜCRETSİZ 50:50" kartı → çubukta ÜCRETSİZ 50:50 → kullan
+    // 953 (süren maç): DEVAM'a bas → kazanamadı (küçük not)
+    for (const [ad, once, sonra, kazandi, dugmeMetni] of [["w-devam-kazandi", "karar-devam-954", "cevap-devam-kazandi", true, /DEVAM · ÜCRETSİZ 50:50/],
+                                                       ["x-devam-yok", "karar-devam", "cevap-devam-yok", false, /DEVAM · %50 joker şansı/]]) {
+      await ac(once, ".ks-karar-eylem");
       const devamDugme = s.locator(".ks-karar-eylem button").nth(1);
-      ok(`${ad}: DEVAM düğmesinde "%50 joker şansı"`, /DEVAM · %50 joker şansı/.test(await devamDugme.innerText()));
+      ok(`${ad}: DEVAM düğmesinde ${dugmeMetni.source}`, dugmeMetni.test(await devamDugme.innerText()), await devamDugme.innerText());
+      if (kazandi) ok(`${ad}: karar notunda "sahipsiz kalır"`, /sahipsiz kalır/.test(await s.locator(".ks-karar-not").innerText()));
       await kaydet(`${ad}-0-karar`);
       kararSonrasi = sonra;
       await devamDugme.click();
@@ -284,7 +290,10 @@ for (const [w, h] of EKRANLAR) {
       try { await s.waitForSelector(q, { timeout: 8000, state: "attached" }); t0 = Date.now(); } catch { ok(`${ad}: ${q} çizildi`, false); continue; }
       ok(`${ad}: ${q} çizildi`, true);
       for (const ms of kazandi ? [80, 350, 700, 1300] : [150, 600]) { const b = t0 + ms - Date.now(); if (b > 0) await s.waitForTimeout(b); await kaydet(`${ad}-${String(ms).padStart(4, "0")}`); }
-      if (kazandi) ok(`${ad}: metin "Joker kazandın!" + 50:50`, /Joker kazandın!/.test(await s.locator(q).innerText()) && /50:50/.test(await s.locator(q).innerText()));
+      if (kazandi) {
+        ok(`${ad}: metin "ÜCRETSİZ 50:50" + "Kasa açılana kadar"`, /ÜCRETSİZ 50:50/.test(await s.locator(q).innerText()) && /Kasa açılana kadar/.test(await s.locator(q).innerText()));
+        ok(`${ad}: kasa SAHİPSİZ rozeti, karar satırı gizli`, /SAHİPSİZ/.test(await s.locator(".ks-kadran-sahipsiz").innerText().catch(() => "")) && await s.locator(".ks-karar-satir").count() === 0);
+      }
       else ok(`${ad}: metin "Bu sefer yok"`, /Bu sefer yok/.test(await s.locator(q).innerText()));
       await tekEkran(ad);
       await s.waitForTimeout(kazandi ? 1000 : 900);

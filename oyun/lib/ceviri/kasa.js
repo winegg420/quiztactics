@@ -106,6 +106,16 @@ export default {
   "ÜCRETSİZ": "FREE",
   "DEVAM ödülü: yalnız bu soru için ücretsiz": "KEEP reward: free for this question only",
 
+  // 954: DEVAM sahipliği bırakır + ücretsiz 50:50
+  "DEVAM · ÜCRETSİZ 50:50": "KEEP · FREE 50:50",
+  "DEVAM: kasa sahipsiz kalır. Süre dolarsa DEVAM sayılır.": "KEEP: the vault becomes unclaimed. If time runs out, it counts as KEEP.",
+  "AÇ: kasa puanına yazılır, kasa sıfırlanır. DEVAM: kasa büyür ama sahipsiz kalır; tek başına bilen alır.":
+    "OPEN: the vault goes to your score and resets. KEEP: the vault grows but becomes unclaimed; whoever alone answers correctly takes it.",
+  "Bilerek DEVAM dersen kasa açılana kadar her soruda ücretsiz 50:50.": "Choose KEEP yourself and get a free 50:50 on every question until the vault is opened.",
+  "SAHİPSİZ": "UNCLAIMED",
+  "ÜCRETSİZ 50:50": "FREE 50:50",
+  "Kasa açılana kadar her soruda": "Every question until the vault is opened",
+
   // bağlantı
   "Bağlantın koptu — maç bekliyor.": "You're disconnected — the match is waiting.",
   "Rakibin bağlantısı koptu — maç durduruldu.": "Your opponent disconnected — the match is paused.",
