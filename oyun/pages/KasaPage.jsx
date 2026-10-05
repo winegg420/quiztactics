@@ -142,7 +142,10 @@ function KasaGiris() {
           ? ceviri("AÇ: kasa puanına yazılır, kasa sıfırlanır. DEVAM: kasa büyür ama sahipsiz kalır; tek başına bilen alır.")
           : ceviri("AÇ: kasa puanına yazılır, kasa sıfırlanır. DEVAM: kasa büyür ama kaybedebilirsin.")}</li>
         {acmaMin > 0 && <li>{ceviri("Kasa en az {m} olunca açılabilir.", { m: acmaMin })}</li>}
-        {tavan > 0 && <li>{ceviri("Kasa en çok {t} olur: tek AÇ maçı bitirmez.", { t: tavan })}</li>}
+        {/* 956: tavan hedefe eşit/üstündeyse tek AÇ maçı bitirebilir — "bitirmez" yalnız tavan < hedef iken */}
+        {tavan > 0 && <li>{tavan < hedef
+          ? ceviri("Kasa en çok {t} olur: tek AÇ maçı bitirmez.", { t: tavan })
+          : ceviri("Kasa en çok {t} olur.", { t: tavan })}</li>}
         <li>{ceviri("Karar süresi {s} sn; dolarsa DEVAM sayılır.", { s: kararSn })}</li>
         <li>{ceviri("Jokerler: 50:50, Ek Süre, Zaman Baskısı, İkinci Şans.")}</li>
         {devamElli && <li>{ceviri("Bilerek DEVAM dersen kasa açılana kadar her soruda ücretsiz 50:50.")}</li>}

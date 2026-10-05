@@ -19,7 +19,7 @@ if (!fs.existsSync(OTURUM)) { console.error("Oturum yok: önce node araclar/aray
 const KASA_ID = "0b6f6800-0000-4000-8000-00000000c0de";
 const RAKIP = "0b6f6800-0000-4000-8000-0000000000aa";
 const AYARLAR = { kasa_modu_acik: 1, kasa_odul_acik: 1, kasa_odul_carpani: 1, kasa_artis: 2, kasa_ikisi_dogru_artis: 6,
-  kasa_hedef_puan: 60, kasa_max_tur: 36, kasa_soru_sn: 15, kasa_karar_sn: 5, kasa_sonuc_sn: 3, kasa_tavan: 30, kasa_devam_carpan: 1.25 };   // 955
+  kasa_hedef_puan: 60, kasa_max_tur: 36, kasa_soru_sn: 15, kasa_karar_sn: 5, kasa_sonuc_sn: 3, kasa_tavan: 60, kasa_devam_carpan: 2 };   // 956 (955: 30 / 1.25)
 const SORU = { soru: "Türkiye'nin başkenti neresidir?", secenekler: ["İstanbul", "Ankara", "İzmir", "Bursa"], kategori: "cografya" };
 const SORU_UZUN = { soru: "Osmanlı İmparatorluğu'nda Lale Devri olarak anılan dönem hangi padişahın saltanatı sırasında yaşanmış ve hangi antlaşmayla başlamıştır?",
   secenekler: ["III. Ahmed · Pasarofça Antlaşması", "II. Mahmud · Edirne Antlaşması", "IV. Murad · Kasr-ı Şirin Antlaşması", "I. Mahmud · Belgrad Antlaşması"], kategori: "tarih" };

@@ -130,6 +130,8 @@ export default {
   "AÇ: kasa puanına yazılır, kasa sıfırlanır. DEVAM: kasa {x} büyür ama sahipsiz kalır; tek başına bilen alır.":
     "OPEN: the vault goes to your score and resets. KEEP: the vault grows {x} but becomes unclaimed; whoever alone answers correctly takes it.",
   "Kasa en çok {t} olur: tek AÇ maçı bitirmez.": "The vault caps at {t}: a single OPEN can't win the match.",
+  // 956: tavan 60 = hedef 60 (tek AÇ maçı bitirebilir)
+  "Kasa en çok {t} olur.": "The vault caps at {t}.",
   "Karar süresi {s} sn; dolarsa DEVAM sayılır.": "Decision time is {s}s; if it runs out, it counts as KEEP.",
 
   // bağlantı

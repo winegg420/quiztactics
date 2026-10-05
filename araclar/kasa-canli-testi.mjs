@@ -16,8 +16,9 @@
 //     satırı gizli, "ÜCRETSİZ 50:50" kartı + joker sesi, çubukta ÜCRETSİZ 50:50 → kullanım (envanter/joker_kullanimlari/
 //     coin değişmez, satın alma penceresi açılmaz), kasa açılana kadar sonraki sorularda yeniden hak, AÇ'tan sonra hak
 //     yok, rakip ekranında sızıntı yok (yalnız kullanılınca adı), süre dolumunda hak yok ama sahiplik bırakılır, bot DEVAM'ı
-//   · 955 tavan 30 + DEVAM ×1,25 + hedef 60 + karar 5 sn: DEVAM düğmesinde "×1,25", DEVAM sonrası kasa = min(ceil(×1,25), 30)
-//     (bilerek / süre dolumu / bot), ekranda çarpan anı + mini sandıkta "/30", kasa hiçbir anda tavanı geçmez, hedefle biten
+//   · 955/956 tavan + DEVAM çarpanı (956: tavan 60, ×2; 955: 30, ×1,25) + hedef 60 + karar 5 sn: DEVAM düğmesinde "×<çarpan>",
+//     DEVAM sonrası kasa = min(ceil(×çarpan), tavan) (bilerek / süre dolumu / bot), ekranda çarpan anı + mini sandıkta "/<tavan>",
+//     kasa hiçbir anda tavanı geçmez, hedefle biten
 //     maçta kazanan en az 2 AÇ; giriş sahnesi TEK KATMAN (sahne sürerken soru/şık görünmez, 3·2·1 sandığın üstünde)
 //
 // Senaryolar:
@@ -274,14 +275,14 @@ async function devamOlc(o, tur) {
   if (!kayit.an) kirildi(o.ad + " tur " + tur + ": DEVAM ödülü anı (" + q + ") görünmedi");
   if (kayit.an && SS && !o.devamGoruntu?.[q]) { (o.devamGoruntu ??= {})[q] = 1; await goruntu(o, "devam-" + (kd.devamOdul.kazandi ? "kazandi" : "yok") + "-" + o.ad); }
   adim(o.ad + " DEVAM ödülü (tur " + tur + "): " + (kd.devamOdul.kazandi ? "KAZANDI " + kd.devamOdul.joker : "yok") + " · an " + (kayit.an ? "göründü" : "YOK") + " · " + (Date.now() - t0) + " ms");
-  // 955: DEVAM çarpanı — kasa = min(ceil(eski × 1,25), tavan); ekranda çarpan anı ve "/30"
+  // 955/956: DEVAM çarpanı — kasa = min(ceil(eski × çarpan), tavan); ekranda çarpan anı ve "/<tavan>"
   if (kd.carpan > 1 && kd.sonKarar) {
     const eski = Number(kd.sonKarar.deger), bek = Math.min(Math.ceil(eski * kd.carpan), kd.tavan > 0 ? kd.tavan : Infinity);
     carpanKayit.push({ ad: o.ad, tur, eski, yeni: Number(kd.sonKarar.yeni ?? kd.kasa), bek, sure: false });
     if (Number(kd.kasa) !== bek || Number(kd.sonKarar.yeni) !== bek) kirildi(o.ad + " tur " + tur + ": DEVAM ×" + kd.carpan + " " + eski + " → " + kd.kasa + " (beklenen " + bek + ")");
     if (!AZALT && bek !== eski) {
       const an = await o.s.locator(".ks-carpan-etiket").first().waitFor({ state: "attached", timeout: 2500 }).then(() => true).catch(() => false);
-      if (!an) kirildi(o.ad + " tur " + tur + ": DEVAM ×1,25 anı (.ks-carpan-etiket) görünmedi");
+      if (!an) kirildi(o.ad + " tur " + tur + ": DEVAM ×" + kd.carpan + " anı (.ks-carpan-etiket) görünmedi");
       else if (SS && !o.devamGoruntu?.carpan) { (o.devamGoruntu ??= {}).carpan = 1; await goruntu(o, "devam-carpan-" + o.ad); }
     }
     await bekle(AZALT ? 300 : 1700);
@@ -403,7 +404,7 @@ async function sur(o, rol) {
         const yazi = await dugme.innerText().catch(() => "");
         if (!/ÜCRETSİZ 50:50|FREE 50:50/.test(yazi)) kirildi(o.ad + ": DEVAM düğmesinde ÜCRETSİZ 50:50 yazmıyor (" + yazi + ")");
         // 955: tavanın altındaysa DEVAM düğmesinde çarpan yazılır
-        if (k.carpan > 1 && !(k.tavan > 0 && kasa >= k.tavan) && !/×1[,.]25/.test(yazi)) kirildi(o.ad + ": DEVAM düğmesinde ×1,25 yazmıyor (" + yazi + ")");
+        if (k.carpan > 1 && !(k.tavan > 0 && kasa >= k.tavan) && !yazi.includes("×" + String(k.carpan).replace(".", ",")) && !yazi.includes("×" + k.carpan)) kirildi(o.ad + ": DEVAM düğmesinde ×" + k.carpan + " yazmıyor (" + yazi + ")");
       }
       if (await dokun(dugme, 3000)) adim(`${o.ad} ${ac ? "AÇ" : "DEVAM"} (tur ${tur}, kasa ${kasa})`);
       else { const m = await o.s.locator(".ks-karar button").allInnerTexts().catch(() => []); kirildi(`${o.ad}: karar düğmesi bulunamadı (${m.join(" | ")})`); }
@@ -792,7 +793,9 @@ try {
   }
   if (rapor.macSon?.durum === "bitti" && rapor.macSon?.sonuc_neden === "hedef") {
     const kazAc = Number(rapor.macSon.kazanan === rapor.macSon.oyuncu1 ? rapor.macSon.acma_sayisi1 : rapor.macSon.acma_sayisi2);
-    if (Number(rapor.macSon.kasa_tavan) > 0 && kazAc < 2) kirildi("hedefle biten 955 maçı tek AÇ ile bitti (kazanan AÇ " + kazAc + ")");
+    // 956: tavan ≥ hedef iken tek AÇ maçı bitirebilir (Ida kararı); yalnız tavan < hedef (955) iken en az 2 AÇ
+    if (Number(rapor.macSon.kasa_tavan) > 0 && Number(rapor.macSon.kasa_tavan) < Number(rapor.macSon.hedef) && kazAc < 2) kirildi("hedefle biten 955 maçı tek AÇ ile bitti (kazanan AÇ " + kazAc + ")");
+    rapor.kazananAc = kazAc;
   }
   console.log("\n955 ÇARPAN — " + carpanKayit.map((x) => x.ad + " t" + x.tur + " " + x.eski + "→" + x.yeni + (x.sure ? " (süre)" : x.rakip ? " (rakip)" : "")).join(" · "));
   for (const x of botDevam) {
