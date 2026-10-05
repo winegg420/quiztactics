@@ -1,4 +1,4 @@
-// KASA modu (950 + 951 + 952 + 953) SQL provası — TEK transaction, sonunda ROLLBACK (canlıya iz bırakmaz).
+// KASA modu (950 + 951 + 952 + 953 + 954) SQL provası — TEK transaction, sonunda ROLLBACK (canlıya iz bırakmaz).
 //
 // Sıra:
 //   0) Ön kontrol (salt okunur): turnuva saatleri + aktif maç/düello/grup/turnuva. Önümüzdeki 30 dk'da
@@ -7,12 +7,14 @@
 //   2) REGRESYON (önce): Klasik + Düello gerçek maçlarıyla cift_odul_carpani, xp_mac_odulu,
 //      sezon_puani_ekle, mac_sonu_ozet çıktıları (yan etkiler savepoint ile geri alınır).
 //   3) Migration'lar: 950 canlıda değilse önce o (">>> TEST DIŞI" sonrası — cron + realtime — çalıştırılmaz),
-//      sonra 951 (uzunluk 50/36, kasa_acma_min, joker), 952 (giriş sahnesi), 953 (DEVAM ödülü). 950 canlıdaysa 951–953.
+//      sonra 951 (uzunluk 50/36, kasa_acma_min, joker), 952 (giriş sahnesi), 953 (DEVAM ödülü), 954 (DEVAM bırakır + ücretsiz 50:50). 950 canlıdaysa 951–954.
 //   4) REGRESYON (sonra): aynı girdiler, çıktılar birebir aynı olmalı. Fark varsa durur. Ortak joker
 //      fonksiyonları (joker_kullan, skill_kullanim_kapisi, joker_hareket …) migration'dan sonra da aynı md5.
 //   5) KASA kuralları (951: hedef 50 · 36 tur · AÇ alt sınırı 10), ödül, sızıntı, bot, kopukluk, kapalı mod,
 //      JOKER (50:50 · Ek Süre · Zaman Baskısı · İkinci Şans, sınırlar, envanter, al-ve-kullan, sızıntı),
-//      953 DEVAM ödülü (ihtimal + bag, süre dolumu, alt sınır, ücretsiz joker envanter/coin/sınır, gizlilik, bot), yetkiler.
+//      953 DEVAM ödülü (ihtimal + bag, süre dolumu, alt sınır, ücretsiz joker envanter/coin/sınır, gizlilik, bot — süren 953 maçı olarak),
+//      954 DEVAM bırakır (tek bilen / ikisi bilir / ikisi yanlış, süre dolumu, kasa < 10, AÇ hak bitişi, maç sonu sahipsiz,
+//      ücretsiz 50:50 her soruda, gizlilik, bot), yetkiler.
 //   6) ROLLBACK + ortak fonksiyonların tanımı (md5) migration öncesiyle aynı mı, şema/ayarlar eski hâlinde mi.
 //
 // Kullanım: node araclar/kasa-sql-testi.mjs [--zorla]   (--zorla: ön kontrol uyarısını atlar)
@@ -23,6 +25,7 @@ const MIG = new URL('../supabase/migrations/20260612000950_kasa_modu.sql', impor
 const MIG951 = new URL('../supabase/migrations/20260612000951_kasa_uzunluk_joker.sql', import.meta.url);
 const MIG952 = new URL('../supabase/migrations/20260612000952_kasa_baslangic_giris_sahnesi.sql', import.meta.url);
 const MIG953 = new URL('../supabase/migrations/20260612000953_kasa_devam_odulu.sql', import.meta.url);
+const MIG954 = new URL('../supabase/migrations/20260612000954_kasa_devam_birakir.sql', import.meta.url);
 const ZORLA = process.argv.includes('--zorla');
 const ORTAK = ['cift_odul_carpani', 'xp_mac_odulu', 'sezon_puani_ekle', 'gorev_olcum', 'gorev_dogru_satirlari',
   'gorev_sayaci', 'odul_dokumu', 'level_kazancim', 'mac_sonu_ozet', 'trg_iletisim_engel',
@@ -169,12 +172,14 @@ try {
   ok('migration 952 hatasız derlendi', true);
   await db.sorgu(fs.readFileSync(MIG953, 'utf8'));
   ok('migration 953 hatasız derlendi', true);
+  await db.sorgu(fs.readFileSync(MIG954, 'utf8'));
+  ok('migration 954 hatasız derlendi', true);
   ok('953: kasa_joker tek imza (uuid,text,boolean,boolean)', (await tek(`select string_agg(oid::regprocedure::text, ',') from pg_proc where proname = 'kasa_joker'`)) === 'kasa_joker(uuid,text,boolean,boolean)');
   const md5Mig = await ortakMd5();
   const degisen = md5Once.filter((x) => md5Mig.find((y) => y.imza === x.imza)?.h !== x.h).map((x) => x.imza);
   const jokerOrtak = md5Once.filter((x) => /^(joker|skill|coin_harca)/.test(x.imza)).length;
   ok(`ortak joker fonksiyonları migration sonrası birebir (${jokerOrtak} imza)`, !degisen.some((x) => /^(joker|skill|coin_harca)/.test(x)), degisen.join(', '));
-  if (canli950) ok('950 canlıyken 951–953 hiçbir ortak fonksiyonu değiştirmedi', degisen.length === 0, degisen.join(', '));
+  if (canli950) ok('950 canlıyken 951–954 hiçbir ortak fonksiyonu değiştirmedi', degisen.length === 0, degisen.join(', '));
 
   // ---------------------------------------------------------------- 4) regresyon sonrası
   console.log('4) Regresyon — migration SONRASI (aynı girdiler)');
@@ -190,6 +195,8 @@ try {
 
   // ---------------------------------------------------------------- 5) KASA
   await db.sorgu(`update profiles set last_seen = now() where id in ('${A}', '${B}')`);
+  // 5a–5k 950–953 kurallarını sınar: 954 bayrakları yeni maçlarda kapalı (5l açar)
+  await db.sorgu(`update oyun_ayarlari set deger = '0' where anahtar in ('kasa_devam_birakir', 'kasa_devam_joker_acik')`);
   const satir = (id) => json(`select row_to_json(x)::text from kasa_maclari x where id = '${id}'`);
   const dogruCevap = (id) => tek(`select q.dogru_cevap::text from kasa_maclari k join questions q on q.id = k.soru_id where k.id = '${id}'`).then(Number);
   const sureDoldur = async (id) => {
@@ -690,7 +697,9 @@ try {
   await db.sorgu(`update oyun_ayarlari set deger = '0' where anahtar = 'jokerler_ucretsiz'`);
   id = await tek(`select kasa_olustur('${A}', '${B}', true, false)`);
   k = await satir(id);
-  ok('yeni maça DEVAM ödülü kuralı sabitlendi (devam_sans 50, devam_garanti 2)', k.devam_sans === 50 && k.devam_garanti === 2, JSON.stringify([k.devam_sans, k.devam_garanti]));
+  ok('954: yeni maçta 953 şansı kapalı (devam_sans 0, devam_garanti 0 — sans/garanti ayarı okunmuyor)', k.devam_sans === 0 && k.devam_garanti === 0, JSON.stringify([k.devam_sans, k.devam_garanti]));
+  // Süren 953 maçı taklidi: kural satırda sabit (devam_sans 50, garanti 2, 954 bayrakları kapalı)
+  await db.sorgu(`update kasa_maclari set devam_sans = 50, devam_garanti = 2, devam_birakir = false, devam_elli = false where id = '${id}'`);
   k = await sureDoldur(id);   // tur 1 soru
   const devamA = async (mid) => json(`select coalesce((joker -> '${A}' -> 'devam')::text, 'null') from kasa_maclari where id = '${mid}'`);
   const kacA = async (mid) => Number(await tek(`select coalesce(joker -> '_devam' ->> '${A}', '0') from kasa_maclari where id = '${mid}'`));
@@ -828,12 +837,12 @@ const sayiyaCevir = (o) => Object.fromEntries(Object.entries(o).map(([a, v]) => 
   // Kapalı ayar → yeni maç kapalı
   await db.sorgu(`update oyun_ayarlari set deger = '0' where anahtar = 'kasa_devam_joker_acik'`);
   const idk = await tek(`select kasa_olustur('${A}', '${B}', true, false)`);
-  ok('kasa_devam_joker_acik = 0 → yeni maçta devam_sans 0', (await satir(idk)).devam_sans === 0);
+  ok('kasa_devam_joker_acik = 0 → yeni maçta devam_sans 0, devam_elli false', (await satir(idk)).devam_sans === 0 && (await satir(idk)).devam_elli === false);
   await db.sorgu(`update kasa_maclari set durum = 'iptal' where id = '${idk}'`);
-  await db.sorgu(`update oyun_ayarlari set deger = '1' where anahtar = 'kasa_devam_joker_acik'`);
 
   // Bot yolu: aynı kural sunucuda, kazanırsa hemen kullanır
   const idb2 = await tek(`select kasa_olustur('${A}', '${BOT}', true, false)`);
+  await db.sorgu(`update kasa_maclari set devam_sans = 50, devam_garanti = 2, devam_birakir = false, devam_elli = false where id = '${idb2}'`);
   await sureDoldur(idb2);
   await db.sorgu(`update kasa_maclari set faz = 'karar', sahip = bot, kasa = 12, karar_baslangic = now(), faz_bitis = now() + interval '9 seconds',
      bot_karar = false, bot_karar_at = now() - interval '1 second', joker = jsonb_build_object('_devam', jsonb_build_object(bot::text, 2)) where id = '${idb2}'`);
@@ -875,6 +884,169 @@ const sayiyaCevir = (o) => Object.fromEntries(Object.entries(o).map(([a, v]) => 
   ok(`bot Ek Süre: kişisel süre +${ekSure} sn`, bsu && bsu.fark_min === ekSure && bsu.fark_max === ekSure, JSON.stringify(bsu));
   await db.sorgu(`update kasa_maclari set durum = 'iptal' where id = '${idb2}'`);
 
+  console.log('5l) 954 DEVAM bırakır + garanti ücretsiz 50:50');
+  await db.sorgu(`update oyun_ayarlari set deger = '1' where anahtar in ('kasa_devam_birakir', 'kasa_devam_joker_acik')`);
+  await db.sorgu(`update oyun_ayarlari set deger = '0' where anahtar = 'jokerler_ucretsiz'`);
+  id = await tek(`select kasa_olustur('${A}', '${B}', true, false)`);
+  k = await satir(id);
+  ok('yeni maça 954 kuralı sabitlendi (devam_birakir, devam_elli; devam_sans/garanti 0)', k.devam_birakir === true && k.devam_elli === true && k.devam_sans === 0 && k.devam_garanti === 0, JSON.stringify([k.devam_birakir, k.devam_elli, k.devam_sans, k.devam_garanti]));
+  const hakVar = async (mid, u) => (await tek(`select (coalesce(joker -> '_hak', '[]'::jsonb) ? '${u}')::text from kasa_maclari where id = '${mid}'`)) === 'true';
+  const bedavaU = async (mid, u) => (await tek(`select coalesce(joker -> '${u}' ->> 'bedava', '') from kasa_maclari where id = '${mid}'`)) || null;
+  const sonrakiTur = async (mid, kasa = null, sahip = undefined) => {
+    await db.sorgu(`update kasa_maclari set faz = 'sonuc', faz_bitis = now() - interval '1 second'
+       ${kasa != null ? `, kasa = ${kasa}` : ''}${sahip !== undefined ? `, sahip = ${sahip ? `'${sahip}'` : 'null'}` : ''} where id = '${mid}'`);
+    await db.sorgu(`select kasa_ilerlet('${mid}')`);
+    return satir(mid);
+  };
+  k = await sureDoldur(id);   // tur 1 soru
+  await cevapla(id, A, true); await cevapla(id, B, false);
+  k = await satir(id);
+  ok('tur 1: tek bilen A → sahip A', k.sahip === A && k.kasa === 2, JSON.stringify([k.sahip, k.kasa]));
+  k = await sonrakiTur(id, 12);
+  ok('kasa 12, sahip A → karar fazı', k.faz === 'karar' && k.sahip === A, JSON.stringify([k.faz, k.sahip]));
+  await ben(A);
+  ok('A bilerek DEVAM', (await hata(`select kasa_karar('${id}', false)`)) === null);
+  k = await satir(id);
+  ok('DEVAM → sahip null, kasa 12 KORUNDU, soru açıldı, son_karar.birakti', k.sahip === null && k.kasa === 12 && k.faz === 'cevap' && k.son_karar?.birakti === true && k.son_karar?.ac === false, JSON.stringify([k.sahip, k.kasa, k.faz, k.son_karar]));
+  ok('DEVAM → A kalıcı hak (_hak) + bu soruda ücretsiz 50:50; B hak yok', (await hakVar(id, A)) && (await bedavaU(id, A)) === 'elli' && !(await hakVar(id, B)) && (await bedavaU(id, B)) === null, JSON.stringify(k.joker));
+  du = await json(`select kasa_durum('${id}')::text`);
+  ok('A: bedava_joker elli, devam_odul elli, devam_birakir/devam_elli true', du.bedava_joker === 'elli' && du.devam_odul?.joker === 'elli' && du.devam_odul?.kazandi === true && du.devam_birakir === true && du.devam_elli === true && du.sahip === null, JSON.stringify([du.bedava_joker, du.devam_odul, du.devam_birakir, du.devam_elli]));
+  jd = await json(`select kasa_joker_durumu('${id}')::text`);
+  ok('A: kasa_joker_durumu.bedava = elli', jd.bedava === 'elli', JSON.stringify(jd));
+  await ben(B);
+  const du954R = await json(`select kasa_durum('${id}')::text`);
+  ok('B (rakip): bedava_joker / devam_odul yok, _hak sızmıyor, rakip_joker boş', du954R.bedava_joker == null && du954R.devam_odul == null && !/_hak|"bedava"/.test(JSON.stringify(du954R)) && (du954R.rakip_joker ?? []).length === 0, JSON.stringify([du954R.bedava_joker, du954R.devam_odul, du954R.rakip_joker]));
+  ok('B: kasa_joker_durumu.bedava null', (await json(`select kasa_joker_durumu('${id}')::text`)).bedava == null);
+  // İkisi de bilir → sahipsiz kalır, +6
+  await cevapla(id, A, true); await cevapla(id, B, true);
+  k = await satir(id);
+  ok('sahipsiz + ikisi de bilir → kasa 18, sahip null', k.kasa === 18 && k.sahip === null, JSON.stringify([k.kasa, k.sahip]));
+  k = await sonrakiTur(id);
+  ok('sahipsiz → karar fazı YOK, doğrudan soru', k.faz === 'cevap' && k.sahip === null, JSON.stringify([k.faz, k.sahip]));
+  ok('sonraki soruda A ücretsiz 50:50 yeniden verildi (kasa açılmadı)', (await bedavaU(id, A)) === 'elli' && (await bedavaU(id, B)) === null);
+  // Ücretsiz 50:50: sınır 0 iken bile, envanter/coin dokunmaz
+  await envYaz(A, 'elli', 0);
+  const coin954 = Number(await tek(`select coin::text from profiles where id = '${A}'`));
+  const kul954 = Number(await tek(`select count(*)::text from joker_kullanimlari where user_id = '${A}' and mac_id = '${id}'`));
+  await db.sorgu(`update oyun_ayarlari set deger = '0' where anahtar = 'klasik_skill_toplam_hak'`);
+  await ben(A);
+  ok('ücretsiz Ek Süre YOK (yalnız 50:50)', /Ücretsiz jokerin yok/.test(await hata(`select kasa_joker('${id}', 'sure', false, true)`) || ''));
+  const r954 = await json(`select kasa_joker('${id}', 'elli', false, true)::text`);
+  ok('ücretsiz 50:50 kullanıldı (toplam sınır 0 iken — sınıra sayılmaz)', r954.tur === 'elli' && r954.bedava === true && r954.kapali?.length === 2 && r954.odenen === 0, JSON.stringify(r954));
+  await db.sorgu(`update oyun_ayarlari set deger = '6' where anahtar = 'klasik_skill_toplam_hak'`);
+  ok('envanter 0, coin aynı, joker_kullanimlari yazılmadı', (await env(A, 'elli')) === 0 && Number(await tek(`select coin::text from profiles where id = '${A}'`)) === coin954 && Number(await tek(`select count(*)::text from joker_kullanimlari where user_id = '${A}' and mac_id = '${id}'`)) === kul954);
+  ok('aynı soruda ikinci ücretsiz 50:50 yok', /Ücretsiz jokerin yok|zaten kullanıldı/.test(await hata(`select kasa_joker('${id}', 'elli', false, true)`) || ''));
+  await ben(B);
+  du = await json(`select kasa_durum('${id}')::text`);
+  ok('B: A kullanınca yalnız ADINI görür (rakip_joker elli), kapalı şıklar görünmez', du.rakip_joker?.includes('elli') && (du.joker?.kapali ?? []).length === 0, JSON.stringify([du.rakip_joker, du.joker]));
+  // İkisi de yanlış → sahipsiz kalır, +2
+  await cevapla(id, A, false); await cevapla(id, B, false);
+  k = await satir(id);
+  ok('sahipsiz + ikisi de yanlış → kasa 20, sahip null', k.kasa === 20 && k.sahip === null, JSON.stringify([k.kasa, k.sahip]));
+  k = await sonrakiTur(id);
+  ok('kullanılan hak sonraki soruda yeniden verildi', k.faz === 'cevap' && (await bedavaU(id, A)) === 'elli');
+  // Tek bilen B → yeni sahip B
+  await cevapla(id, A, false); await cevapla(id, B, true);
+  k = await satir(id);
+  ok('sahipsiz + tek bilen B → sahip B, kasa 22', k.sahip === B && k.kasa === 22, JSON.stringify([k.sahip, k.kasa]));
+  k = await sonrakiTur(id);
+  ok('sahip B, kasa 22 → karar fazı', k.faz === 'karar' && k.sahip === B);
+  // Süre dolumu: sahipliği bırakır, hak VERMEZ; A'nın hakkı sürer
+  k = await sureDoldur(id);
+  ok('B süre doldu → DEVAM: sahip null, kasa 22, sure_doldu + birakti', k.faz === 'cevap' && k.sahip === null && k.kasa === 22 && k.son_karar?.sure_doldu === true && k.son_karar?.birakti === true, JSON.stringify([k.sahip, k.kasa, k.son_karar]));
+  ok("süre dolumu B'ye hak vermedi; A'nın hakkı sürüyor", !(await hakVar(id, B)) && (await bedavaU(id, B)) === null && (await bedavaU(id, A)) === 'elli');
+  // B de bilerek DEVAM → iki oyuncu hak sahibi
+  await cevapla(id, A, false); await cevapla(id, B, true);
+  k = await sonrakiTur(id);
+  ok('B yine sahip → karar', k.faz === 'karar' && k.sahip === B, JSON.stringify([k.faz, k.sahip]));
+  await ben(B);
+  await hata(`select kasa_karar('${id}', false)`);
+  ok("B bilerek DEVAM → ikisinin de ücretsiz 50:50'si var", (await bedavaU(id, A)) === 'elli' && (await bedavaU(id, B)) === 'elli' && (await satir(id)).sahip === null);
+  // Kasa < 10: karar yok (sahip kalır, DEVAM yok)
+  await cevapla(id, A, true); await cevapla(id, B, false);
+  k = await sonrakiTur(id, 6, A);
+  ok('kasa 6 < 10, sahip A → karar YOK, sahip A kalır (DEVAM olmadığı için bırakmaz)', k.faz === 'cevap' && k.sahip === A && k.kasa === 6, JSON.stringify([k.faz, k.sahip, k.kasa]));
+  // AÇ: iki oyuncunun da hakkı biter
+  await cevapla(id, A, true); await cevapla(id, B, false);
+  k = await sonrakiTur(id, 14, A);
+  await ben(A);
+  ok('A AÇ (kasa 14)', k.faz === 'karar' && (await hata(`select kasa_karar('${id}', true)`)) === null);
+  k = await satir(id);
+  ok('AÇ → A puanı +14, kasa 0, sahip null', p(k, A) === 14 && k.kasa === 0 && k.sahip === null && k.faz === 'cevap', JSON.stringify([p(k, A), k.kasa, k.sahip]));
+  ok('AÇ → iki oyuncunun hakkı bitti (_hak boş, bu soruda ücretsiz 50:50 yok)', !(await hakVar(id, A)) && !(await hakVar(id, B)) && (await bedavaU(id, A)) === null && (await bedavaU(id, B)) === null, JSON.stringify(k.joker));
+  k = await sonrakiTur(id);
+  ok('AÇ sonrası sonraki soruda da hak yok', (await bedavaU(id, A)) === null && (await bedavaU(id, B)) === null);
+  // Maç sonu: sahipsiz kasa kimseye gitmez
+  await db.sorgu(`update kasa_maclari set faz = 'sonuc', faz_bitis = now() - interval '1 second', tur = max_tur, sahip = null, kasa = 30,
+     ${k.oyuncu1 === A ? 'puan1 = 20, puan2 = 10' : 'puan1 = 10, puan2 = 20'} where id = '${id}'`);
+  await db.sorgu(`select kasa_ilerlet('${id}')`);
+  k = await satir(id);
+  ok('tur sınırı, sahip yok, kasa 30 → kasa kimseye gitmez (A 20, B 10), A kazanır', k.durum === 'bitti' && p(k, A) === 20 && p(k, B) === 10 && k.kazanan === A && k.sonuc_neden === 'tur_siniri', JSON.stringify([k.durum, p(k, A), p(k, B), k.kazanan, k.sonuc_neden]));
+  // Süren 953 maçı: eski kural (sahip kalır, şanslı ödül)
+  const id953 = await tek(`select kasa_olustur('${A}', '${B}', true, false)`);
+  await sureDoldur(id953);
+  await db.sorgu(`update kasa_maclari set devam_sans = 50, devam_garanti = 2, devam_birakir = false, devam_elli = false,
+     joker = jsonb_build_object('_devam', jsonb_build_object('${A}', 2)), faz = 'karar', sahip = '${A}', kasa = 12,
+     karar_baslangic = now(), faz_bitis = now() + interval '9 seconds' where id = '${id953}'`);
+  await ben(A);
+  await hata(`select kasa_karar('${id953}', false)`);
+  k = await satir(id953);
+  ok('süren 953 maçı: DEVAM sahipliği bırakmaz, _hak yok, 953 garanti ödülü (50:50/Ek Süre) çalışır', k.sahip === A && !k.son_karar?.birakti && !(await hakVar(id953, A)) && k.joker?.[A]?.devam?.kazandi === true && ['elli', 'sure'].includes(k.joker?.[A]?.bedava), JSON.stringify([k.sahip, k.son_karar, k.joker]));
+  await db.sorgu(`update kasa_maclari set durum = 'iptal' where id = '${id953}'`);
+  // Ayarlar kapalı → yeni maçta 954 kapalı
+  await db.sorgu(`update oyun_ayarlari set deger = '0' where anahtar in ('kasa_devam_birakir', 'kasa_devam_joker_acik')`);
+  const id954k = await tek(`select kasa_olustur('${A}', '${B}', true, false)`);
+  const k954k = await satir(id954k);
+  ok('kasa_devam_birakir = 0 / kasa_devam_joker_acik = 0 → yeni maçta bayraklar false', k954k.devam_birakir === false && k954k.devam_elli === false && k954k.devam_sans === 0);
+  await sureDoldur(id954k);
+  await db.sorgu(`update kasa_maclari set faz = 'karar', sahip = '${A}', kasa = 12, karar_baslangic = now(), faz_bitis = now() + interval '9 seconds' where id = '${id954k}'`);
+  await ben(A);
+  await hata(`select kasa_karar('${id954k}', false)`);
+  k = await satir(id954k);
+  ok('kapalıyken DEVAM: sahip kalır, hak/ücretsiz joker yok', k.sahip === A && !(await hakVar(id954k, A)) && (await bedavaU(id954k, A)) === null, JSON.stringify([k.sahip, k.joker]));
+  await db.sorgu(`update kasa_maclari set durum = 'iptal' where id = '${id954k}'`);
+  await db.sorgu(`update oyun_ayarlari set deger = '1' where anahtar in ('kasa_devam_birakir', 'kasa_devam_joker_acik')`);
+  // Bot
+  const idb4 = await tek(`select kasa_olustur('${A}', '${BOT}', true, false)`);
+  await sureDoldur(idb4);
+  await db.sorgu(`update kasa_maclari set faz = 'karar', sahip = bot, kasa = 12, karar_baslangic = now(), faz_bitis = now() + interval '9 seconds',
+     bot_karar = false, bot_karar_at = now() - interval '1 second' where id = '${idb4}'`);
+  await db.sorgu(`select kasa_ilerlet('${idb4}')`);
+  let kb4 = await satir(idb4);
+  let bj4 = kb4.joker?.[BOT] ?? {};
+  const dc4 = await dogruCevap(idb4);
+  ok("bot DEVAM → sahip null, 50:50'yi bu soruda hemen kullandı (2 kapalı, doğru açık), bedava kalmadı", kb4.faz === 'cevap' && kb4.sahip === null && (bj4.turler ?? []).includes('elli') && bj4.kapali?.length === 2 && !bj4.kapali.includes(dc4) && bj4.bedava == null && !bj4.kapali.includes(kb4.bot_cevap), JSON.stringify([kb4.sahip, bj4, kb4.bot_cevap, dc4]));
+  await ben(A);
+  du = await json(`select kasa_durum('${idb4}')::text`);
+  ok("insan: botun 50:50'sini yalnız ADIYLA görür; _hak/devam yok", du.rakip_joker?.includes('elli') && du.bedava_joker == null && du.devam_odul == null && !/_hak|kazandi/.test(JSON.stringify(du)), JSON.stringify([du.rakip_joker, du.devam_odul]));
+  kb4 = await sonrakiTur(idb4);
+  bj4 = kb4.joker?.[BOT] ?? {};
+  ok('bot: sonraki soruda da 50:50 kullandı (kasa açılmadı)', kb4.faz === 'cevap' && (bj4.turler ?? []).includes('elli') && bj4.kapali?.length === 2, JSON.stringify(bj4));
+  // Bot isabeti (sunucu döngüsü): hiç elenen şıkkı seçmez
+  await db.sorgu(`create temp table _b4 (dogru int, cevap int, kapali int[]) on commit drop`);
+  await db.sorgu(`do $$ declare i int; k kasa_maclari; begin
+    for i in 1..300 loop
+      update kasa_maclari set faz = 'karar', sahip = bot, kasa = 12, tur = 1, kullanilan_sorular = '{}', karar_baslangic = now(),
+             faz_bitis = now() + interval '9 seconds', joker = '{}'::jsonb where id = '${idb4}';
+      perform kasa_karar_uygula('${idb4}', false, false);
+      select * into k from kasa_maclari where id = '${idb4}';
+      insert into _b4 select q.dogru_cevap, k.bot_cevap,
+             array(select jsonb_array_elements_text(coalesce(k.joker -> k.bot::text -> 'kapali', '[]'))::int)
+        from questions q where q.id = k.soru_id;
+    end loop; end $$`);
+  const b4 = (await db.sorgu(`select count(*)::int n, avg((cevap = dogru)::int)::float isabet,
+      count(*) filter (where cevap = any(kapali))::int kapaliya, count(*) filter (where dogru = any(kapali))::int dogru_kapali,
+      count(*) filter (where coalesce(array_length(kapali, 1), 0) <> 2)::int kapali_eksik from _b4`)).map(sayiyaCevir)[0];
+  console.log('     bot 954 50:50:', JSON.stringify(b4));
+  ok('bot 50:50 (300): elenen şıkkı hiç seçmez, doğru şık elenmez, hep 2 kapalı', b4.n === 300 && b4.kapaliya === 0 && b4.dogru_kapali === 0 && b4.kapali_eksik === 0, JSON.stringify(b4));
+  // Bot süre dolumu: bırakır ama hak yok
+  await db.sorgu(`update kasa_maclari set faz = 'karar', sahip = bot, kasa = 12, karar_baslangic = now(), faz_bitis = now() - interval '2 seconds',
+     bot_karar = false, bot_karar_at = now() + interval '30 seconds', joker = '{}'::jsonb where id = '${idb4}'`);
+  await db.sorgu(`select kasa_ilerlet('${idb4}')`);
+  kb4 = await satir(idb4);
+  ok('bot süre dolumu → sahip null, 50:50 yok', kb4.son_karar?.sure_doldu === true && kb4.sahip === null && !((kb4.joker?.[BOT]?.turler ?? []).includes('elli')), JSON.stringify(kb4.joker));
+  await db.sorgu(`update kasa_maclari set durum = 'iptal' where id = '${idb4}'`);
+
   console.log('5i) Yetkiler');
   await ben(A);
   await db.sorgu('savepoint r');
@@ -893,10 +1065,12 @@ const sayiyaCevir = (o) => Object.fromEntries(Object.entries(o).map(([a, v]) => 
   const y13 = await hata(`select kasa_joker('00000000-0000-0000-0000-000000000000', 'elli', false)`);
   const y15 = await hata(`select kasa_devam_odulu('${id}', '${A}')`);
   const y16 = await hata(`select kasa_joker('00000000-0000-0000-0000-000000000000', 'elli', false, true)`);
+  const y17 = await hata(`select kasa_devam_hak_ver('${id}')`);
   await db.sorgu('rollback to savepoint r');
   ok('authenticated: kasa_joker_durumu / kasa_joker çağrılır (izin hatası yok), kasa_oyuncu_bitis kapalı',
     y11 === null && !/permission denied/.test(y13 || '') && /permission denied/.test(y12 || ''), [y11, y12, y13].join(' | '));
   ok('authenticated: kasa_devam_odulu (iç) çağrılamaz, kasa_joker bedava bayrağıyla çağrılır', /permission denied/.test(y15 || '') && !/permission denied/.test(y16 || ''), [y15, y16].join(' | '));
+  ok('authenticated: kasa_devam_hak_ver (954 iç) çağrılamaz', /permission denied/.test(y17 || ''), y17);
   ok('authenticated: kasa_maclari / hamleler / cevaplari okunamaz', [y1, y2, y3].every((x) => /permission denied/.test(x || '')), [y1, y2, y3].join(' | '));
   ok('authenticated: iç fonksiyonlar (kasa_bitir, kasa_ilerlet) çağrılamaz', [y4, y5].every((x) => /permission denied/.test(x || '')), [y4, y5].join(' | '));
   ok('authenticated: deneme özeti görünümü kapalı, sinyale yazamaz', /permission denied/.test(y6 || '') && /permission denied/.test(y7 || ''), [y6, y7].join(' | '));
