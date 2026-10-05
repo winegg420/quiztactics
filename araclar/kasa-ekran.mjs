@@ -215,7 +215,8 @@ for (const dil of DILLER) {
       o = await olc("bitti");
       const sonMetin = await s.locator("body").innerText();
       ok("Maç sonu sahnesi çizildi (21-14, Kasa alt yazısı)", sonVar && /21/.test(sonMetin) && /14/.test(sonMetin) && /Kasayı açtın|opened the vault/.test(sonMetin), sonMetin.replace(/s+/g, " ").slice(0, 120));
-      ok("Maç sonu: rövanş düğmesi yok, Yeni Kasa maçı var", !/Rövanş|Rematch/.test(sonMetin) && /Yeni Kasa maçı|New Vault match/.test(sonMetin));
+      // 957: Kasa'da da rövanş var (Düello ile aynı akış)
+      ok("Maç sonu: Rövanş düğmesi ve Yeni Kasa maçı var", /Rövanş|Rematch/.test(sonMetin) && /Yeni Kasa maçı|New Vault match/.test(sonMetin));
       ok("Maç sonu: yatay taşma yok", o.yatayTasma <= 0, JSON.stringify(o.tasan));
       await kaydet("11-bitti");
 
