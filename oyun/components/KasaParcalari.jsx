@@ -37,17 +37,27 @@ function Alev() {
   return <span className="ks-alev" aria-hidden="true"><i /><i /><i /></span>;
 }
 
-export function KasaKadran({ d, c, kucuk = false, goster, sahipGoster, hareket = [], artis = null }) {
+/** 955: DEVAM çarpanı yazısı ("×1,25" / EN "×1.25"); çarpan yoksa null. */
+export function carpanYazisi(carpan, dil = "tr") {
+  const x = Number(carpan);
+  if (!(x > 1)) return null;
+  return `×${String(Math.round(x * 100) / 100).replace(".", dil === "en" ? "." : ",")}`;
+}
+
+export function KasaKadran({ d, c, kucuk = false, goster, sahipGoster, hareket = [], artis = null, carpan = null, sayiSure = 520 }) {
   const sahip = kasaSahibi(sahipGoster === undefined ? d : { ...d, sahip: sahipGoster });
   const kasa = Math.max(0, Number(goster ?? d.kasa) || 0);
-  const seviye = kasaSeviye(kasa, d.hedef);
+  // 955: tavan (> 0) göstergede belli: "12/30", tavana varınca DOLU; kademe ve ışık tavana oranla
+  const tavan = Math.max(0, Number(d.tavan) || 0);
+  const seviye = kasaSeviye(kasa, d.hedef, tavan);
   const etiket = sahip === "ben" ? c("Sende") : sahip === "rakip" ? c("Rakipte") : c("Sahipsiz");
-  const alevli = kasa >= KASA_ALEV_ESIK;
+  const alevli = tavan > 0 ? seviye === "tavan" : kasa >= KASA_ALEV_ESIK;
+  const isikli = tavan > 0 ? seviye === "dolu" || seviye === "tavan" : kasa >= KASA_ISIK_ESIK;
   return (
     <div className={sinif("ks-kadran", `ks-kadran--${sahip}`, `ks-kadran--${seviye}`, kucuk && "ks-kadran--kucuk",
-                          kasa >= KASA_ISIK_ESIK && "ks-kadran--isikli", alevli && "ks-kadran--alevli",
+                          isikli && "ks-kadran--isikli", alevli && "ks-kadran--alevli",
                           ...hareket.map((h) => `ks-kadran--${h}`))}
-         role="img" aria-label={c("Kasa {k} · {s}", { k: kasa, s: etiket })}
+         role="img" aria-label={tavan > 0 ? c("Kasa {k}/{t} · {s}", { k: kasa, t: tavan, s: etiket }) : c("Kasa {k} · {s}", { k: kasa, s: etiket })}
          data-ks-hedef={kucuk ? "kasa" : "kasa-buyuk"}>
       {kucuk ? (
         <span className="ks-kadran-mini">{alevli && <Alev />}<KasaKasasi seviye={seviye} kucuk /></span>
@@ -55,12 +65,17 @@ export function KasaKadran({ d, c, kucuk = false, goster, sahipGoster, hareket =
         <span className="ks-kadran-govde">{alevli && <Alev />}<KasaKasasi seviye={seviye} /></span>
       )}
       <span className={kucuk ? "ks-kadran-ic" : "ks-kadran-plaka"}>
-        <small>{c("KASA")}</small>
-        <b className="qt-sayi"><SayanSayi deger={kasa} sure={520} /></b>
+        <small>{seviye === "tavan" ? c("DOLU") : c("KASA")}</small>
+        <b className="qt-sayi">
+          <SayanSayi deger={kasa} sure={sayiSure} />
+          {tavan > 0 && <span className="ks-kadran-tavan">/{tavan}</span>}
+        </b>
       </span>
       {!kucuk && <span className="ks-kadran-sahip">{etiket}</span>}
       {/* 954: soru/sonuç şeridinde sahipsiz kasa açıkça yazılır (DEVAM sahipliği bırakır) */}
       {kucuk && sahip === "yok" && kasa > 0 && !d.altin && <span className="ks-kadran-sahipsiz">{c("SAHİPSİZ")}</span>}
+      {/* 955: DEVAM anı — "×1,25" patlar (yalnız sunum) */}
+      {carpan && <span key={carpan.anahtar} className="ks-carpan-etiket qt-sayi" aria-hidden="true">{carpan.metin}</span>}
       {artis && (
         <span key={artis.anahtar} className={sinif("ks-artis-etiket qt-sayi", artis.buyuk && "ks-artis-etiket--buyuk")} aria-hidden="true">
           +{artis.n}
@@ -145,7 +160,7 @@ export function KasaUst({ d, ben, rakip, c, seviyeler = {}, sayac, onay = {}, an
 }
 
 /** Karar fazı: sahip AÇ / DEVAM seçer; diğer oyuncu "Rakip karar veriyor…" görür. */
-export function KasaKarar({ d, c, calisan, onKarar, kalan = null }) {
+export function KasaKarar({ d, c, calisan, onKarar, kalan = null, carpanYazi = null }) {
   const benim = d.karar?.veren === d.ben;
   const deger = Number(d.karar?.deger ?? d.kasa ?? 0);
   // Gerilim: sahipte kalp atışı, beklerken titreme; son 3 sn kızarır ve hızlı titrer (tik sesi sayfada).
@@ -162,6 +177,9 @@ export function KasaKarar({ d, c, calisan, onKarar, kalan = null }) {
   }
   // 951: kasa acma_min altındaysa AÇ kilitli (sunucu da reddeder; karar fazı normalde hiç açılmaz)
   const acKilit = deger < Number(d.acma_min ?? 0);
+  // 955: DEVAM çarpanı (tavandaki kasa büyümez) ve tavan
+  const tavan = Math.max(0, Number(d.tavan) || 0);
+  const carpanVar = Boolean(carpanYazi) && !(tavan > 0 && deger >= tavan);
   return (
     <div className="ks-karar">
       <KasaKadran d={d} c={c} hareket={hareket} />
@@ -175,12 +193,18 @@ export function KasaKarar({ d, c, calisan, onKarar, kalan = null }) {
         <QtDugme tur="ikincil" tamGenislik boyut="b" ikon="ileri" yukleniyor={calisan === "karar-devam"} devreDisi={!!calisan}
                  onClick={() => onKarar(false)}>
           {/* 954: bilerek DEVAM → kasa açılana kadar her soruda ücretsiz 50:50 · 953 maçı: şans yazılır */}
-          {d.devam_elli ? c("DEVAM · ÜCRETSİZ 50:50")
+          {d.devam_elli && carpanVar ? c("DEVAM {x} · ÜCRETSİZ 50:50", { x: carpanYazi })
+            : carpanVar ? c("DEVAM {x}", { x: carpanYazi })
+            : d.devam_elli ? c("DEVAM · ÜCRETSİZ 50:50")
             : Number(d.devam_sans) > 0 ? c("DEVAM · %{p} joker şansı", { p: Number(d.devam_sans) }) : c("DEVAM · kasa büyüsün")}
         </QtDugme>
       </div>
       <p className="ks-karar-not">
-        {d.devam_birakir ? c("DEVAM: kasa sahipsiz kalır. Süre dolarsa DEVAM sayılır.") : c("Süre dolarsa DEVAM sayılır.")}
+        {carpanYazi && tavan > 0 && deger >= tavan ? c("Kasa dolu ({t}): DEVAM büyütmez, sahipsiz bırakır.", { t: tavan })
+          : carpanVar && d.devam_birakir ? (tavan > 0
+            ? c("DEVAM: kasa {x} büyür (en çok {t}) ve sahipsiz kalır. Süre dolarsa DEVAM sayılır.", { x: carpanYazi, t: tavan })
+            : c("DEVAM: kasa {x} büyür ve sahipsiz kalır. Süre dolarsa DEVAM sayılır.", { x: carpanYazi }))
+          : d.devam_birakir ? c("DEVAM: kasa sahipsiz kalır. Süre dolarsa DEVAM sayılır.") : c("Süre dolarsa DEVAM sayılır.")}
       </p>
     </div>
   );
@@ -226,11 +250,14 @@ export function kasaSonucMetni(d, c) {
     if (s.kazanan) return { ton: "kotu", baslik: c("Altın Soru'yu rakip bildi") };
     return { ton: "notr", baslik: c("Kimse tek başına bilemedi"), alt: c("Yeni Altın Soru geliyor") };
   }
-  const alt = c("Kasa {k}", { k: s.kasa_sonra });
-  if (ben && rakip) return { ton: "altin", baslik: c("İkiniz de bildiniz +{n}", { n: s.artis }), alt };
-  if (ben) return { ton: "iyi", baslik: c("Tek başına bildin: kasa sende"), alt: c("+{n} · Kasa {k}", { n: s.artis, k: s.kasa_sonra }) };
-  if (rakip) return { ton: "kotu", baslik: c("Rakip tek başına bildi: kasa rakipte"), alt: c("+{n} · Kasa {k}", { n: s.artis, k: s.kasa_sonra }) };
-  return { ton: "notr", baslik: c("İkiniz de bilemediniz +{n}", { n: s.artis }), alt };
+  // 955: tavana kırpıldıysa gerçek artış (kasa_sonra − kasa_once) yazılır; tavandaysa "Kasa dolu"
+  const artis = s.tavan_kirpti ? Math.max(0, Number(s.kasa_sonra) - Number(s.kasa_once)) : s.artis;
+  const alt = s.tavan_kirpti ? c("Kasa dolu: {k}", { k: s.kasa_sonra }) : c("Kasa {k}", { k: s.kasa_sonra });
+  const altArti = s.tavan_kirpti ? alt : c("+{n} · Kasa {k}", { n: artis, k: s.kasa_sonra });
+  if (ben && rakip) return { ton: "altin", baslik: c("İkiniz de bildiniz +{n}", { n: artis }), alt };
+  if (ben) return { ton: "iyi", baslik: c("Tek başına bildin: kasa sende"), alt: altArti };
+  if (rakip) return { ton: "kotu", baslik: c("Rakip tek başına bildi: kasa rakipte"), alt: altArti };
+  return { ton: "notr", baslik: c("İkiniz de bilemediniz +{n}", { n: artis }), alt };
 }
 
 export function KasaSonucBandi({ d, c }) {

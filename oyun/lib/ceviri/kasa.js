@@ -116,6 +116,22 @@ export default {
   "ÜCRETSİZ 50:50": "FREE 50:50",
   "Kasa açılana kadar her soruda": "Every question until the vault is opened",
 
+  // 955: tavan + DEVAM çarpanı + hedef 60 + karar 5 sn; hazine sandığı
+  "Kasa {k}/{t} · {s}": "Vault {k}/{t} · {s}",
+  "DOLU": "FULL",
+  "DEVAM {x} · ÜCRETSİZ 50:50": "KEEP {x} · FREE 50:50",
+  "DEVAM {x}": "KEEP {x}",
+  "Kasa dolu ({t}): DEVAM büyütmez, sahipsiz bırakır.": "The vault is full ({t}): KEEP won't grow it, it becomes unclaimed.",
+  "DEVAM: kasa {x} büyür (en çok {t}) ve sahipsiz kalır. Süre dolarsa DEVAM sayılır.": "KEEP: the vault grows {x} (up to {t}) and becomes unclaimed. If time runs out, it counts as KEEP.",
+  "DEVAM: kasa {x} büyür ve sahipsiz kalır. Süre dolarsa DEVAM sayılır.": "KEEP: the vault grows {x} and becomes unclaimed. If time runs out, it counts as KEEP.",
+  "Kasa dolu: {k}": "Vault full: {k}",
+  "Kasa en çok {t} · DEVAM {x}": "Vault max {t} · KEEP {x}",
+  "Kasa en çok {t}": "Vault max {t}",
+  "AÇ: kasa puanına yazılır, kasa sıfırlanır. DEVAM: kasa {x} büyür ama sahipsiz kalır; tek başına bilen alır.":
+    "OPEN: the vault goes to your score and resets. KEEP: the vault grows {x} but becomes unclaimed; whoever alone answers correctly takes it.",
+  "Kasa en çok {t} olur: tek AÇ maçı bitirmez.": "The vault caps at {t}: a single OPEN can't win the match.",
+  "Karar süresi {s} sn; dolarsa DEVAM sayılır.": "Decision time is {s}s; if it runs out, it counts as KEEP.",
+
   // bağlantı
   "Bağlantın koptu — maç bekliyor.": "You're disconnected — the match is waiting.",
   "Rakibin bağlantısı koptu — maç durduruldu.": "Your opponent disconnected — the match is paused.",

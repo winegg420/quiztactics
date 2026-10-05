@@ -19,7 +19,7 @@ if (!fs.existsSync(OTURUM)) { console.error("Oturum yok: önce node araclar/aray
 const KASA_ID = "0b6f6800-0000-4000-8000-00000000c0de";
 const RAKIP = "0b6f6800-0000-4000-8000-0000000000aa";
 const AYARLAR = { kasa_modu_acik: 1, kasa_odul_acik: 1, kasa_odul_carpani: 1, kasa_artis: 2, kasa_ikisi_dogru_artis: 6,
-  kasa_hedef_puan: 20, kasa_max_tur: 24, kasa_soru_sn: 15, kasa_karar_sn: 8, kasa_sonuc_sn: 3 };
+  kasa_hedef_puan: 60, kasa_max_tur: 36, kasa_soru_sn: 15, kasa_karar_sn: 5, kasa_sonuc_sn: 3, kasa_tavan: 30, kasa_devam_carpan: 1.25 };   // 955
 const SORU = { soru: "Türkiye'nin başkenti neresidir?", secenekler: ["İstanbul", "Ankara", "İzmir", "Bursa"], kategori: "cografya" };
 const SORU_UZUN = { soru: "Osmanlı İmparatorluğu'nda Lale Devri olarak anılan dönem hangi padişahın saltanatı sırasında yaşanmış ve hangi antlaşmayla başlamıştır?",
   secenekler: ["III. Ahmed · Pasarofça Antlaşması", "II. Mahmud · Edirne Antlaşması", "IV. Murad · Kasr-ı Şirin Antlaşması", "I. Mahmud · Belgrad Antlaşması"], kategori: "tarih" };
@@ -89,7 +89,8 @@ const OLC = () => {
   const kesik = [...document.querySelectorAll(".ks-skor-ad, .ks-skor-sayi, .ks-kadran-sahip, .ks-bant b, .ks-karar-baslik, .ks-mac .qt-dugme, .ks-deneysel, .as-kisayol-etiket, .ks-tur")]
     .filter((e) => gorunur(e) && (e.scrollWidth > e.clientWidth + 1)).map((e) => `${yol(e)}: ${e.textContent.trim().slice(0, 30)}`);
   const mac = document.querySelector(".ks-mac");
-  const altKenar = mac ? Math.max(...[...mac.querySelectorAll("*")].filter(gorunur).map((e) => e.getBoundingClientRect().bottom)) : 0;
+  // 955: giriş sahnesi overflow:hidden — içindeki ışık halkası / düşen sandık kırpılır, ölçüme girmez (sahnenin kendisi girer)
+  const altKenar = mac ? Math.max(...[...mac.querySelectorAll("*")].filter((e) => gorunur(e) && !e.parentElement?.closest(".ks-giris-an")).map((e) => e.getBoundingClientRect().bottom)) : 0;
   return {
     yatayTasma: document.documentElement.scrollWidth - window.innerWidth, tasan,
     dikeyTasma: Math.round(document.documentElement.scrollHeight - window.innerHeight),
@@ -180,13 +181,13 @@ for (const dil of DILLER) {
       // 3) Giriş
       await ac("/kasa", 800); await bekle(".ks-giris");
       o = await olc("giris");
-      ok("Giriş: başlık + Deneysel + kurallar + Rakip ara", await s.locator(".ks-deneysel").count() === 1 && await s.locator(".ks-kurallar li").count() === 6);   // 951: + AÇ alt sınırı + jokerler
+      ok("Giriş: başlık + Deneysel + kurallar + Rakip ara", await s.locator(".ks-deneysel").count() === 1 && await s.locator(".ks-kurallar li").count() === 8);   // 951: + AÇ alt sınırı + jokerler · 955: + tavan + karar süresi
       ortak("Giriş", o);
       await kaydet("03-giris");
 
       // 4–10) Maç fazları
       const fazlar = [
-        ["baslangic", ".m1-sayim", "04-baslangic", null],
+        ["baslangic", ".ks-giris-an", "04-baslangic", null],   // 955: tek katman giriş sahnesi
         ["karar-ben", ".ks-karar-eylem", "05-karar-ben", /AÇ|OPEN/],
         ["karar-rakip", ".ks-karar--bekle", "06-karar-rakip", /Rakip karar veriyor|Opponent is deciding/],
         ["cevap", ".qt-sik", "07-cevap", /Devam ettin|You kept it/],
