@@ -20,7 +20,11 @@ const AYARLAR = { kasa_modu_acik: 1, kasa_odul_acik: 1, kasa_odul_carpani: 1, ka
   kasa_hedef_puan: 50, kasa_max_tur: 36, kasa_soru_sn: 15, kasa_karar_sn: 8, kasa_sonuc_sn: 3, kasa_acma_min: 10,
   kasa_devam_joker_acik: 1, kasa_devam_joker_sans: 50, kasa_tavan: 60, kasa_devam_carpan: 2 };
 // 956: tavan 60 + DEVAM ×2 + hedef 60 + karar 5 sn (955: 30 / ×1,25; maç satırından gelir; eski senaryolar 954 maçı: tavan 0)
+// 958: alt sınır yok + hedef 80 (K958): kasa 2'de karar kartı + AÇ etkin, küçük DEVAM 2 → 4, küçük AÇ, giriş "Hedef 80";
+//      eski senaryolar (acma_min 10) süren 957 maçı olarak kilit rozetini sınamaya devam eder
 const K955 = { hedef: 60, tavan: 60, devam_carpan: 2, devam_sans: 0, devam_elli: true, devam_birakir: true };
+// 958: AÇ alt sınırı yok (acma_min 0) + hedef 80 — kasa 2'de de karar fazı
+const K958 = { ...K955, hedef: 80, acma_min: 0 };
 const SORU = { soru: "Türkiye'nin başkenti neresidir?", secenekler: ["İstanbul", "Ankara", "İzmir", "Bursa"], kategori: "cografya" };
 // 951: zamanı kritik anlar (giriş sahnesi, final) senaryo başına SABİT bir çapaya bağlanır — yoklamalar kaydırmasın
 let capa = Date.now();
@@ -121,6 +125,15 @@ function durum(ad, ben) {
     case "kademe-dolu": return { ...durum("karar-rakip", ben), ...K955, kasa: 44, karar: { veren: RAKIP, deger: 44 } };
     case "kademe-tavan": return { ...durum("karar-rakip", ben), ...K955, kasa: 60, karar: { veren: RAKIP, deger: 60 } };
     case "cevap-tavan": return acikSoru({ ...K955, sahip: RAKIP, kasa: 60 });
+    // ---------- 958: alt sınır yok + hedef 80 ----------
+    case "cevap-958": return acikSoru({ ...K958, tur: 4, sahip: ben, kasa: 2 });
+    case "karar-958": return { ...durum("karar-ben", ben), ...K958, tur: 5, kasa: 2, karar: { veren: ben, deger: 2 }, sureler: { ...temel.sureler, karar: 5, gosterim_bas: iso(-1000) } };
+    case "cevap-devam-958": return acikSoru({ ...K958, tur: 5, sahip: null, kasa: 4,
+      son_karar: { veren: ben, ac: false, deger: 2, sure_doldu: false, birakti: true, carpan: 2, yeni: 4, tavan: false },
+      devam_odul: { tur: 5, kazandi: true, joker: "elli" }, bedava_joker: "elli" });
+    case "cevap-ac-958": return acikSoru({ ...K958, tur: 5, kasa: 0, sahip: null, son_karar: { veren: ben, ac: true, deger: 2 },
+      oyuncular: [oyuncu(ben, "Sen", 10, 2), oyuncu(RAKIP, "Deniz Yıldırımoğlu", 12, 2)] });
+    case "giris-958": return { ...durum("giris", ben), ...K958 };
     default: return temel;
   }
 }
@@ -145,6 +158,8 @@ const ANLAR = [
   ["z5-devam-rakip-tavan", "karar-rakip-955", "cevap-devam-rakip-955", ".ks-kadran--kucuk", [120, 450, 900, 1500]],
   // 955: tavana kırpılan artış (+6 → +2, Kasa dolu)
   ["z6-sonuc-tavan", "cevap-955", "sonuc-tavan", ".ks-bant", [350, 1150]],
+  // 958: kasa 2'de AÇ (8 + 2 = 10, hedef 80)
+  ["z12-ac-kucuk", "karar-958", "cevap-ac-958", ".ks-ac-an", [150, 480, 1000, 1800]],
 ];
 const DURAGAN = [
   // 951
@@ -270,6 +285,11 @@ for (const [w, h] of EKRANLAR) {
         await s.waitForTimeout(1200);
         ok(`${ad}: rakibin DEVAM'ı tavana: 60/60 DOLU`, /60/.test(await s.locator(".ks-kadran--kucuk .ks-kadran-ic b").innerText()) && /DOLU/.test(await s.locator(".ks-kadran--kucuk").innerText()));
       }
+      if (ad.startsWith("z12-") && !ARG.azalt) {
+        await s.waitForTimeout(400);
+        ok(`${ad}: AÇ katmanı kalktı, skor 10/80, kilit rozeti yok`, await s.locator(".ks-ac-an").count() === 0
+          && /10\s*\/80/.test(await s.locator(".ks-skor-satir--ben .ks-skor-sayi").innerText()) && await s.locator(".ks-ac-kilit").count() === 0);
+      }
       if (ad.startsWith("z6-")) ok(`${ad}: bant "+2" ve "Kasa dolu: 60"`, /\+2/.test(await s.locator(".ks-bant").innerText()) && /Kasa dolu: 60/.test(await s.locator(".ks-bant").innerText()));
       if (ad.startsWith("a-")) {
         ok(`${ad}: mini kasa 10, sahip ben`, await s.locator(".ks-kadran--kucuk.ks-kadran--ben").count() === 1 && /10/.test(await s.locator(".ks-kadran--kucuk").innerText()));
@@ -338,6 +358,53 @@ for (const [w, h] of EKRANLAR) {
           && /\/60/.test(await s.locator(".ks-kadran--kucuk").innerText()) && await s.locator(".ks-carpan-etiket").count() === 0);
         await tekEkran("z9-devam-955");
       }
+    }
+    // 958: alt sınır yok — kasa 2 bende iken soru ekranında kilit rozeti YOK; karar kartı hızlı gelir, AÇ basılabilir
+    {
+      await ac("cevap-958", ".qt-sik");
+      ok("z10-kucuk: kasa 2 bende, kilitli AÇ rozeti yok (acma_min 0)", await s.locator(".ks-ac-kilit").count() === 0);
+      senaryo = "karar-958";
+      const t0 = Date.now();
+      await s.evaluate(() => window.dispatchEvent(new Event("online")));
+      await s.waitForSelector(".ks-karar-eylem button", { timeout: 8000 });
+      const tGel = Date.now() - t0;
+      await s.waitForFunction(() => { const e = document.querySelector(".ks-karar"); if (!e) return false;
+        let x = e; while (x) { if (Number(getComputedStyle(x).opacity) < 0.99) return false; x = x.parentElement; } return true; }, null, { timeout: 4000 }).catch(() => {});
+      const tTam = Date.now() - t0;
+      await kaydet("z10-karar-kucuk");
+      const acD = s.locator(".ks-karar-eylem button").nth(0);
+      const devD = s.locator(".ks-karar-eylem button").nth(1);
+      ok(`z10-karar-kucuk: karar kartı ${tGel} ms'de geldi, ${tTam} ms'de tam görünür (≤ 900)`, tTam <= 900);
+      ok("z10-karar-kucuk: AÇ etkin 'AÇ · +2 puan' (kilit yok)", (await acD.isEnabled()) && /AÇ · \+2 puan/.test(await acD.innerText())
+        && !(await acD.getAttribute("class") || "").includes("ks-ac-kilitli"), await acD.innerText());
+      ok("z10-karar-kucuk: DEVAM ×2 · ÜCRETSİZ 50:50 + plaka 2/60", /DEVAM ×2 · ÜCRETSİZ 50:50/.test(await devD.innerText()) && /2\s*\/60/.test(await s.locator(".ks-kadran-plaka").innerText()));
+      await tekEkran("z10-karar-kucuk");
+      const kucukH = await s.evaluate(() => [...document.querySelectorAll(".ks-karar-eylem button")].filter((e) => { const r = e.getBoundingClientRect(); return r.width < 44 || r.height < 44; }).length);
+      ok("z10-karar-kucuk: karar düğmeleri ≥ 44 px", kucukH === 0);
+      // DEVAM 2 → 4 (sayarak; ×2 etiketi)
+      kararSonrasi = "cevap-devam-958";
+      await devD.click();
+      let t1;
+      try { await s.waitForSelector(".ks-kadran--kucuk", { timeout: 8000 }); t1 = Date.now(); } catch { ok("z11-devam-kucuk: mini sandık", false); }
+      if (t1) {
+        if (!ARG.azalt) ok("z11-devam-kucuk: ×2 patladı, sayı 2'den başlar", await s.locator(".ks-carpan-etiket").count() === 1 && /^2/.test(await s.locator(".ks-kadran--kucuk .ks-kadran-ic b").innerText()));
+        for (const ms of [120, 450, 900]) { const b = t1 + ms - Date.now(); if (b > 0) await s.waitForTimeout(b); await kaydet(`z11-devam-kucuk-${String(ms).padStart(4, "0")}`); }
+        await s.waitForTimeout(1200);
+        ok("z11-devam-kucuk: kasa 4 (/60), an kalktı, kilit rozeti yok", /^4/.test(await s.locator(".ks-kadran--kucuk .ks-kadran-ic b").innerText())
+          && await s.locator(".ks-carpan-etiket").count() === 0 && await s.locator(".ks-ac-kilit").count() === 0);
+        await tekEkran("z11-devam-kucuk");
+      }
+    }
+    // 958 giriş sahnesi: Hedef 80, "en az" notu yok
+    {
+      capa = Date.now() + 1500;
+      senaryo = "giris-958";
+      await s.goto(`${ADRES}/kasa/${KASA_ID}`, { waitUntil: "domcontentloaded", timeout: 30000 });
+      await s.waitForSelector(".ks-giris-an", { timeout: 20000 });
+      await s.waitForTimeout(Math.max(0, capa + 1200 - Date.now()));
+      await kaydet("z13-giris-958");
+      ok("z13-giris-958: Hedef 80 puan, 'en az' notu yok", /80/.test(await s.locator(".ks-giris-hedef").innerText()) && !/en az/i.test(await s.locator(".ks-giris-an").innerText()));
+      await tekEkran("z13-giris-958");
     }
     // 951 joker: 50:50 dokunuşu (taklit kasa_joker) → kırılma → iki şık elendi
     {

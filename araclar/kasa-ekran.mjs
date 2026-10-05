@@ -19,7 +19,7 @@ if (!fs.existsSync(OTURUM)) { console.error("Oturum yok: önce node araclar/aray
 const KASA_ID = "0b6f6800-0000-4000-8000-00000000c0de";
 const RAKIP = "0b6f6800-0000-4000-8000-0000000000aa";
 const AYARLAR = { kasa_modu_acik: 1, kasa_odul_acik: 1, kasa_odul_carpani: 1, kasa_artis: 2, kasa_ikisi_dogru_artis: 6,
-  kasa_hedef_puan: 60, kasa_max_tur: 36, kasa_soru_sn: 15, kasa_karar_sn: 5, kasa_sonuc_sn: 3, kasa_tavan: 60, kasa_devam_carpan: 2 };   // 956 (955: 30 / 1.25)
+  kasa_hedef_puan: 80, kasa_max_tur: 36, kasa_soru_sn: 15, kasa_karar_sn: 5, kasa_sonuc_sn: 3, kasa_tavan: 60, kasa_devam_carpan: 2, kasa_acma_min: 0 };   // 958 (956: hedef 60, acma_min 10; 955: 30 / 1.25)
 const SORU = { soru: "Türkiye'nin başkenti neresidir?", secenekler: ["İstanbul", "Ankara", "İzmir", "Bursa"], kategori: "cografya" };
 const SORU_UZUN = { soru: "Osmanlı İmparatorluğu'nda Lale Devri olarak anılan dönem hangi padişahın saltanatı sırasında yaşanmış ve hangi antlaşmayla başlamıştır?",
   secenekler: ["III. Ahmed · Pasarofça Antlaşması", "II. Mahmud · Edirne Antlaşması", "IV. Murad · Kasr-ı Şirin Antlaşması", "I. Mahmud · Belgrad Antlaşması"], kategori: "tarih" };
@@ -181,7 +181,8 @@ for (const dil of DILLER) {
       // 3) Giriş
       await ac("/kasa", 800); await bekle(".ks-giris");
       o = await olc("giris");
-      ok("Giriş: başlık + Deneysel + kurallar + Rakip ara", await s.locator(".ks-deneysel").count() === 1 && await s.locator(".ks-kurallar li").count() === 8);   // 951: + AÇ alt sınırı + jokerler · 955: + tavan + karar süresi
+      ok("Giriş: başlık + Deneysel + kurallar + Rakip ara", await s.locator(".ks-deneysel").count() === 1 && await s.locator(".ks-kurallar li").count() === 7);   // 951: + jokerler · 955: + tavan + karar süresi · 958: AÇ alt sınırı satırı yok (acma_min 0)
+      ok("Giriş (958): hedef 80 puan, 'en az' satırı yok", /80 (puana|points)/.test(o.metin) && !/en az|at least/i.test(await s.locator(".ks-kurallar").innerText()), o.metin.slice(0, 200));
       ortak("Giriş", o);
       await kaydet("03-giris");
 

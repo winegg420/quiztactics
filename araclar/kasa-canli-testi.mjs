@@ -25,7 +25,8 @@
 //   --senaryo=gercek : A ve B gerçek eşleşir. Tur planı: 1) A doğru, B yanlış → A sahip · 2) B cevap VERMEZ
 //                      (süre dolumu) · 3) ikisi de vermez · sonra ikisi doğru (ÇİFTE); A kasa ≥ 20 ya da
 //                      puan+kasa ≥ hedef iken AÇ, ilk karar fazında hiçbir şey seçmez (karar süresi dolumu).
-//   --senaryo=bot    : yalnız A; rakip bot. A hep doğru, kasa ≥ 10 iken AÇ.
+//   --senaryo=bot    : yalnız A; rakip bot. A hep doğru, kasa ≥ 10 iken AÇ (958: alt sınır 0 ise ilk küçük kasa < 10 da AÇ).
+//   958: kasa < 10 iken açılan karar fazları (AÇ etkin mi), alt sınır 0 maçında kilitli AÇ görülmemeli, maç sonu hedef.
 //
 // Kullanım:
 //   node araclar/kasa-canli-testi.mjs [--senaryo=gercek] [--a=ArayuzDenetim648] [--b=ArayuzDenetim327]
@@ -108,7 +109,7 @@ const SAYFA_HAZIRLIK = ({ kayitlar, koken, dil }) => {
           kazanan: d.kazanan, neden: d.sonuc_neden, joker: d.joker ?? null, rakipJoker: d.rakip_joker ?? null,
           devamOdul: d.devam_odul ?? null, bedava: d.bedava_joker ?? null, devamSans: d.devam_sans ?? null,
           devamElli: Boolean(d.devam_elli), devamBirakir: Boolean(d.devam_birakir),
-          hedef: d.hedef, tavan: Number(d.tavan ?? 0), carpan: Number(d.devam_carpan ?? 1), acma: (d.oyuncular ?? []).map((o) => [o.id, o.acma]) });
+          hedef: d.hedef, tavan: Number(d.tavan ?? 0), carpan: Number(d.devam_carpan ?? 1), acma: (d.oyuncular ?? []).map((o) => [o.id, o.acma]), acmaMin: Number(d.acma_min ?? 0) });
       }).catch(() => {});
     }
     return yanit;
@@ -250,6 +251,7 @@ const DURUM = () => {
     sikAcik: document.querySelectorAll(".qt-sik:not([disabled]):not(.qt-sik--elendi):not(.qt-sik--kilitli)").length,
     sik: document.querySelectorAll(".qt-sik").length,
     karar: Boolean(q(".ks-karar")), acDugme: Boolean(q(".ks-karar button")),
+    kilit: document.querySelectorAll(".ks-ac-kilit, .ks-ac-kilitli").length,   // 958: alt sınır 0 iken hiç görünmemeli
     bitti: Boolean(q(".ks-bitti")), kutlama: Boolean(q(".msk")), final: Boolean(q(".ks-final")),
     joker: document.querySelectorAll(".m1-joker-yuva:not(.m1-joker-yuva--pasif) .qt-skill").length,
   };
@@ -257,6 +259,8 @@ const DURUM = () => {
 
 // 953: DEVAM'a bastıktan sonra — sunucunun ödül kaydı, an, çubuk, ücretsiz joker kullanımı (envanter/sınır değişmez)
 const devamKayit = [];      // { ad, tur, kazandi, joker, an, bar, kullanildi, s }
+const kucukKarar = [];      // 958: { ad, tur, kasa, ac, acEtkin } — kasa < 10 iken açılan karar fazları
+const kilitGoruldu = [];    // 958: acma_min 0 maçında kilitli AÇ rozeti/düğmesi görüldü mü
 const carpanKayit = [];     // 955: { ad, tur, eski, yeni, bek, sure } — DEVAM çarpanı
 const botDevam = [];        // { tur, kazandi, joker }
 async function devamOlc(o, tur) {
@@ -346,6 +350,10 @@ async function sur(o, rol) {
     const benSahip = k.sahip && k.sahip === k.ben;
     const benimPuan = Number((k.puan.find((p) => p[0] === k.ben) ?? [0, 0])[1]);
     const hedef = Number(k.hedef ?? 60);   // 955: 60 (maç satırından)
+    if (k.acmaMin === 0 && d.kilit > 0 && !kilitGoruldu.some((x) => x.ad === o.ad && x.tur === tur)) {
+      kilitGoruldu.push({ ad: o.ad, tur });
+      kirildi(o.ad + ": alt sınır 0 maçında kilitli AÇ görüldü (tur " + tur + ", kasa " + k.kasa + ")");
+    }
 
     // ---- isteğe bağlı bozulmalar (A)
     if (rol === "A" && k.faz === "cevap") {
@@ -395,11 +403,18 @@ async function sur(o, rol) {
       kararlanan.add(anah);
       const kasa = Number(k.kasa);
       let ac;
-      if (SENARYO === "bot") ac = kasa >= (DEVAM ? 24 : 10) || benimPuan + kasa >= hedef;
+      // 958: alt sınır yoksa bot senaryosunda ilk küçük kasa (< 10) AÇ'la sınanır, sonrakiler DEVAM
+      const kucukAc = SENARYO === "bot" && k.acmaMin === 0 && kasa < 10 && !kucukKarar.some((x) => x.ac);
+      if (SENARYO === "bot") ac = kucukAc || kasa >= (DEVAM ? 24 : 10) || benimPuan + kasa >= hedef;
       else ac = rol === "A" && (kasa >= (DEVAM ? 24 : 20) || benimPuan + kasa >= hedef);
       if (SENARYO === "gercek" && !plan.kararSuresiDoldu && !ac) { plan.kararSuresiDoldu = true; plan.sureDolumTur = { ad: o.ad, tur }; adim(`${o.ad} karar vermiyor (tur ${tur}, kasa ${kasa}) — süre dolumu`); continue; }
       await bekle(700);
       const dugme = o.s.locator(".ks-karar button").nth(ac ? 0 : 1);
+      if (kasa < 10) {
+        const acEtkin = await o.s.locator(".ks-karar button").nth(0).isEnabled().catch(() => false);
+        kucukKarar.push({ ad: o.ad, tur, kasa, ac, acEtkin });
+        if (k.acmaMin === 0 && !acEtkin) kirildi(o.ad + ": kasa " + kasa + " iken AÇ düğmesi devre dışı (alt sınır 0)");
+      }
       if (!ac) {
         const yazi = await dugme.innerText().catch(() => "");
         if (!/ÜCRETSİZ 50:50|FREE 50:50/.test(yazi)) kirildi(o.ad + ": DEVAM düğmesinde ÜCRETSİZ 50:50 yazmıyor (" + yazi + ")");
@@ -797,6 +812,11 @@ try {
     if (Number(rapor.macSon.kasa_tavan) > 0 && Number(rapor.macSon.kasa_tavan) < Number(rapor.macSon.hedef) && kazAc < 2) kirildi("hedefle biten 955 maçı tek AÇ ile bitti (kazanan AÇ " + kazAc + ")");
     rapor.kazananAc = kazAc;
   }
+  // 958: yeni maç alt sınırsız + hedef 80; küçük kasada karar fazı açılmalı
+  rapor.kucukKarar = kucukKarar;
+  console.log("\n958 KÜÇÜK KARAR — hedef " + rapor.macSon?.hedef + " · " + (kucukKarar.map((x) => x.ad + " t" + x.tur + " K" + x.kasa + (x.ac ? " AÇ" : " DEVAM")).join(" · ") || "yok"));
+  if (SENARYO === "bot" && rapor.macSon && kucukKarar.length === 0) kirildi("bot senaryosunda kasa < 10 iken hiç karar fazı gelmedi");
+  if (SENARYO === "bot" && kucukKarar.length && !kucukKarar.some((x) => x.ac)) kirildi("küçük kasada AÇ sınanamadı");
   console.log("\n955 ÇARPAN — " + carpanKayit.map((x) => x.ad + " t" + x.tur + " " + x.eski + "→" + x.yeni + (x.sure ? " (süre)" : x.rakip ? " (rakip)" : "")).join(" · "));
   for (const x of botDevam) {
     if (x.kazandi == null) kirildi("bot DEVAM (tur " + x.tur + "): sunucuda ödül kaydı yok");
