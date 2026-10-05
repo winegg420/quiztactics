@@ -56,6 +56,13 @@
 
 /* ---------- skor + küçük kadran şeridi ---------- */
 .ks-serit { display: flex; align-items: center; gap: 8px; }
+/* 957: maç içi tepki — şeridin sağında, panel aşağı açılır (Düello .hk-tepki ile aynı ölçü) */
+.ks-tepki.qt-tepki { position: relative; display: block; flex: none; }
+.ks-tepki .qt-ikon-dugme { width: 44px; height: 44px; min-width: 44px; min-height: 44px; }
+.ks-tepki .qt-tepki-panel { position: absolute; z-index: 30; right: 0; top: calc(100% + 4px); width: max-content; max-width: min(320px, 92vw); }
+/* 957: lobide süren maça dönüş bandı */
+.ks-suren-mac { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.ks-suren-mac > span { flex: 1 1 auto; min-width: 0; }
 /* İki satır aynı sütunları paylaşır: ad sütunu en uzun etikete göre (EN "OPPONENT" kesilmesin) */
 .ks-skor { flex: 1 1 auto; min-width: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr) auto; align-items: center; gap: 4px 6px; }
 .ks-skor-satir { display: contents; }

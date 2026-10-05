@@ -8,6 +8,7 @@
 // iOS: bu dosyada position:fixed yok.
 // ============================================================
 import CerceveliAvatar from "./CerceveliAvatar.jsx";
+import { TepkiAvatar } from "./Tepki.jsx";   // 957
 import OyuncuAdiDugmesi from "./OyuncuAdiDugmesi.jsx";
 import IsimEfekti from "./IsimEfekti.jsx";
 import { SeviyeEtiketi } from "./MacUstSerit.jsx";
@@ -118,12 +119,15 @@ export function KasaSkor({ d, ben, rakip, c, puanGoster = {}, parla = null }) {
 }
 
 /** Üst başlık: sen · Tur N/T + sayaç · rakip (avatar, ad, seviye; cevapladı işareti). */
-export function KasaUst({ d, ben, rakip, c, seviyeler = {}, sayac, onay = {}, anahtar = null, rakipJoker = [] }) {
+export function KasaUst({ d, ben, rakip, c, seviyeler = {}, sayac, onay = {}, anahtar = null, rakipJoker = [], tepkiBalonlar = {} }) {
   const taraf = (o, rakipMi) => (
     <div className={sinif("qt-oyuncu ks-oyuncu", rakipMi && "qt-oyuncu--rakip")}>
       <span className={sinif("ks-avatar", anahtar === (rakipMi ? "rakip" : "ben") && "ks-avatar--anahtar")}
             data-ks-hedef={rakipMi ? "avatar-rakip" : "avatar-ben"}>
-        <CerceveliAvatar profile={o} userId={o.id} boyut={32} hareketli kart={seviyeler[o.id]} />
+        {/* 957: maç içi tepki balonu avatarın yanında (Düello V2Ust ile aynı) */}
+        <TepkiAvatar balon={tepkiBalonlar[o.id]} yan={rakipMi ? "rakip" : "sen"}>
+          <CerceveliAvatar profile={o} userId={o.id} boyut={32} hareketli kart={seviyeler[o.id]} />
+        </TepkiAvatar>
         {onay[o.id] && (
           <span className="ks-onay qt-h-pop-gir" role="img" aria-label={rakipMi ? c("cevapladı") : c("Cevabın kilitlendi")}>
             <QtIkon ad="onay" boyut={11} />

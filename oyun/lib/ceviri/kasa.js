@@ -137,4 +137,22 @@ export default {
   // bağlantı
   "Bağlantın koptu — maç bekliyor.": "You're disconnected — the match is waiting.",
   "Rakibin bağlantısı koptu — maç durduruldu.": "Your opponent disconnected — the match is paused.",
+
+  // 957: Kasa ortak özellikler — arkadaş daveti, rövanş, lobi
+  "Klasik jokerlerin geçer": "Your Classic jokers apply",
+  "Kasa daveti gönderildi — rakip kabul edince maç başlayacak.": "Vault invite sent — the match starts when your opponent accepts.",
+  "Kasa daveti gönderilemedi.": "Couldn’t send the Vault invite.",
+  "Kasa daveti yanıtlanamadı.": "Couldn’t answer the Vault invite.",
+  "seni Kasa maçına çağırdı": "challenged you to a Vault match",
+  "Kasa · yanıt bekleniyor": "Vault · waiting for reply",
+  "Kasa daveti gönderildi · yanıt bekleniyor": "Vault invite sent · waiting for reply",
+  "Kasa daveti kabul edildi": "Vault invite accepted",
+  "{0} Kasa daveti": "{0} Vault invite(s)",
+  "Devam eden bir Kasa maçın var.": "You have a Vault match in progress.",
+  "Maça dön": "Back to match",
+  // 957: sunucu hataları (kasa_davet_et / kasa_davet_cevap / kasa_rovans_*)
+  "Devam eden bir Kasa maçı var": "There’s already a Vault match in progress",
+  "Bu oyuncuyla bekleyen bir Kasa davetin zaten var": "You already have a pending Vault invite with this player",
+  "Oyunculardan birinin devam eden Kasa maçı var": "One of the players already has a Vault match in progress",
+  "Bu oyuncuyla oynayamazsın": "You can’t play with this player",
 };

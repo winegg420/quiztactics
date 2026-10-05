@@ -24,6 +24,8 @@ import { GeriSayim } from "../components/MacHazirlik.jsx";
 import BulunamadiPage from "./BulunamadiPage.jsx";
 import { KasaKadran, KasaSkor, KasaUst, KasaKarar, KasaSonucBandi, KasaAcKilit, kasaKararMetni, carpanYazisi } from "../components/KasaParcalari.jsx";
 import JokerCubugu from "../components/JokerCubugu.jsx";
+import CerceveliAvatar from "../components/CerceveliAvatar.jsx";
+import { TepkiCubugu, useMacTepki } from "../components/Tepki.jsx";
 import SkillRozeti from "../components/SkillRozeti.jsx";
 import { jokerBilgi } from "../lib/jokerler.js";
 import { useOyuncuSeviyeleri } from "../lib/oyuncuSeviye.js";
@@ -122,6 +124,21 @@ function KasaGiris() {
   useEffect(() => {
     if (location.state?.yenidenAra) navigate(location.pathname, { replace: true, state: null });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  // 957: süren Kasa maçın varsa (davet kabulü, rövanş, başka sekme) lobide "Maça dön"
+  const [surenMac, setSurenMac] = useState(null);
+  useEffect(() => {
+    let aktif = true;
+    (async () => {
+      try {
+        const { data, error } = await supabase.rpc("kasa_aktif_benim");
+        if (error) throw error;
+        if (aktif) setSurenMac(data?.[0]?.id ?? null);
+      } catch (e) {
+        console.warn("[Bildim] kasa_aktif_benim:", e?.message ?? e);
+      }
+    })();
+    return () => { aktif = false; };
+  }, []);
 
   if (!acik) return <BulunamadiPage kapaliMod />;
   return (
@@ -152,6 +169,13 @@ function KasaGiris() {
         <li>{ceviri("{t} tur sonunda kasa sahibine yazılır; eşitlikte Altın Soru.", { t: maxTur })}</li>
       </ul>
       <DereceliAnahtari dereceli={dereceli} onDegistir={setDereceli} />
+      {surenMac && (
+        <p className="m2-bant ks-suren-mac" role="status">
+          <QtIkon ad="oyna" boyut={18} />
+          <span>{ceviri("Devam eden bir Kasa maçın var.")}</span>
+          <QtDugme boyut="k" onClick={() => navigate(y(`/kasa/${surenMac}`))}>{ceviri("Maça dön")}</QtDugme>
+        </p>
+      )}
       <div className="m2-giris-eylem">
         <QtDugme tamGenislik boyut="b" ikon="coin" onClick={() => { sesKilidiAc(); sesDokunus(); setArama(true); }}>
           {ceviri("Rakip ara")}
@@ -264,6 +288,15 @@ function KasaMac({ id }) {
   const [terkOnay, setTerkOnay] = useState(false);
   useOyunModu(d?.durum === "aktif");
   const { ozet: macSonuOzet } = useMacSonuOzet(d?.durum === "bitti" && d?.id ? `kasa:${d.id}` : null);
+  // 957: maç içi tepki (Klasik/Düello ile aynı; yalnız tepki_acik_modlar'daki modda — bugün Antrenman). Sunucu
+  // özel kanalı ('tepki-kasa-<id>', yalnız iki oyuncu) verir; sayfanın kasa kanalı tepki taşımaz.
+  const tepkiRakipId = (d?.oyuncular ?? []).find((o) => o.id !== d?.ben)?.id ?? null;
+  const tepki = useMacTepki({ macTur: "kasa", macId: id, benId: user?.id, rakipId: tepkiRakipId,
+                             kanal: () => null, etkin: d?.durum === "aktif" });
+  // 957: rövanş (Düello ile aynı akış): bekleme penceresi, red / yanıtsız ayrımı, kabulde iki taraf yeni maça geçer
+  const [rovBas, setRovBas] = useState(null);
+  const [rovVazgec, setRovVazgec] = useState(false);
+  const [rovSonuc, setRovSonuc] = useState(null);   // null | "cevapsiz" | "red"
 
   // Aramayla kurulan maçta rakip hiç gelmezse sunucu cezasız iptal eder (kasa_giris); bekleyen yeniden aramaya döner.
   useEffect(() => {
@@ -400,6 +433,52 @@ function KasaMac({ id }) {
       supabase.removeChannel(kanal);
     };
   }, [id, yukle]);
+
+  // 957: rövanş kabul edildiyse iki taraf da yeni maça geçer
+  useEffect(() => {
+    if (d?.rovans?.id && d.rovans.id !== id) navigate(y(`/kasa/${d.rovans.id}`), { replace: true });
+  }, [d?.rovans?.id, id, navigate]);
+  const rovIsteyen = d?.rovans?.isteyen ?? null;
+  const rovGecerli = Boolean(d?.rovans?.gecerli);
+  const rovId = d?.rovans?.id ?? null;
+  const benIstedim = Boolean(d && rovIsteyen === d.ben && rovGecerli && !rovId);
+  useEffect(() => {
+    if (benIstedim) {
+      if (rovBas == null && !rovVazgec) setRovBas(Date.now());   // sayfa yeniden açıldıysa ilk görüldüğü an
+      return;
+    }
+    if (rovBas == null || rovId) { if (rovId) setRovBas(null); return; }
+    setRovBas(null);
+    if (!rovVazgec) setRovSonuc(rovIsteyen == null ? "red" : "cevapsiz");
+  }, [benIstedim, rovBas, rovVazgec, rovId, rovIsteyen]);
+
+  // Rövanş RPC'leri sunucuda idempotent: zaman aşımında yeniden denenir (Düello eylem() ile aynı).
+  const rovansEylem = async (ad, fn, params = {}) => {
+    setHata(null);
+    setCalisan(ad);
+    try {
+      const { data, error } = await zamanAsimindaYenidenDene(() => supabase.rpc(fn, { p_id: id, ...params }));
+      if (error) throw error;
+      if (typeof data === "string" && data && data !== id) { navigate(y(`/kasa/${data}`), { replace: true }); return true; }
+      await yukle();
+      return true;
+    } catch (e) {
+      setHata(c(hataMesaji(e)));
+      return false;
+    } finally {
+      setCalisan(null);
+    }
+  };
+  const rovansIste = () => {
+    setRovVazgec(false);
+    setRovSonuc(null);
+    setRovBas(Date.now());
+    rovansEylem("rovans", "kasa_rovans_iste").then((tamam) => { if (!tamam) setRovBas(null); });
+  };
+  const rovansVazgec = async () => {
+    const tamam = await rovansEylem("rovans-iptal", "kasa_rovans_iptal");
+    if (tamam) { setRovVazgec(true); setRovBas(null); }
+  };
 
   // Faz bitişinde tek okuma (sunucu fazı tembel ilerletir). Kopukken bitiş gerçek değildir: zamanlayıcı kurulmaz.
   // 951: cevap fazında Ek Süre / Zaman Baskısı kişisel bitişi değiştirir; faz iki bitişin geç olanında çözülür (faz_son).
@@ -790,6 +869,47 @@ function KasaMac({ id }) {
       );
     }
     if (d.durum === "bitti" && !macSonuOzet) return <div className="ks-bitti"><div className="msk-bekle" aria-busy="true" /></div>;
+    const e = d.ezeli;
+    const ezeliMetin = e && Number(e.ben) + Number(e.rakip) > 0
+      ? (Number(e.ben) > Number(e.rakip) ? c("Bu oyuncuyla {ben}-{rakip} öndesin", e)
+        : Number(e.ben) < Number(e.rakip) ? c("Bu oyuncuyla {ben}-{rakip} geridesin", e)
+          : c("Bu oyuncuyla {ben}-{rakip} berabersiniz", e))
+      : null;
+    const rov = d.rovans ?? {};
+    const rovSn = Number(rov.sure_sn) > 0 ? Number(rov.sure_sn) : 60;
+    const rovansAlani = rov.id ? (
+      <QtDugme className="mss-tam" tamGenislik ikon="coin" onClick={() => navigate(y(`/kasa/${rov.id}`))}>{c("Rövanşa git")}</QtDugme>
+    ) : rov.isteyen && rov.gecerli && rov.isteyen === d.ben && !rovVazgec ? (
+      <>
+        <QtDugme className="mss-tam" tamGenislik yukleniyor>{c("Rövanş bekleniyor…")}</QtDugme>
+        <KasaRovansBekleme rakip={rakip} baslangic={rovBas ?? Date.now()} sureSn={rovSn} simdi={simdi} c={c} onVazgec={rovansVazgec} />
+      </>
+    ) : rov.isteyen && rov.gecerli && rov.isteyen !== d.ben ? (
+      <>
+        <p className="m2-rovans-soru mss-tam qt-h-pop-gir" role="status">{c("{ad} rövanş istiyor!", { ad: rakip.gorunen_ad })}</p>
+        <QtDugme ikon="onay" devreDisi={!!calisan} yukleniyor={calisan === "rovans"}
+                 onClick={() => rovansEylem("rovans", "kasa_rovans_yanitla", { p_kabul: true })}>
+          {c("Kabul et")}
+        </QtDugme>
+        <QtDugme tur="ikincil" devreDisi={!!calisan}
+                 onClick={() => rovansEylem("rovans", "kasa_rovans_yanitla", { p_kabul: false })}>
+          {c("Reddet")}
+        </QtDugme>
+      </>
+    ) : d.durum === "bitti" ? (
+      <>
+        {rovSonuc && (
+          <p className="m2-rovans-sonuc mss-tam" role="status">
+            {rovSonuc === "red"
+              ? c("{ad} rövanşı kabul etmedi.", { ad: rakip.gorunen_ad })
+              : c("{ad} yanıt vermedi.", { ad: rakip.gorunen_ad })}
+          </p>
+        )}
+        <QtDugme className="mss-tam" tamGenislik ikon="yenile" yukleniyor={!!calisan} onClick={rovansIste}>
+          {rovSonuc ? c("Tekrar rövanş iste") : c("Rövanş")}
+        </QtDugme>
+      </>
+    ) : null;
     const sahne = ozettenSahne(d.durum === "bitti" ? macSonuOzet : null);
     return (
       <div className="ks-bitti">
@@ -812,11 +932,13 @@ function KasaMac({ id }) {
             <>
               <OdulDokumu kaynak={`kasa:${d.id}`} veri={macSonuOzet?.dokum} gorevleriGoster={false} />
               <KasaGecmis gecmis={d.gecmis} c={c} />
+              {/* 957: arkadaşla Kasa geçmişi (Düello 'ezeli' ile aynı metin ve görünüm) */}
+              {ezeliMetin && <div className="bd-duello-ezeli">{ezeliMetin}</div>}
             </>
           ) : null}
           eylemNotu={hata ? <span className="m2-hata" role="alert"><QtIkon ad="uyari" boyut={18} /> {hata}</span> : null}
           eylemler={{ onYeniMac: () => navigate(y("/kasa")), onAnaSayfa: () => navigate(y()), yeniMacEtiketi: c("Yeni Kasa maçı") }}
-          rovans={null}   // rövanş ilk sürümde yok (Ida, 3 Eki 2026): "Yeni Kasa maçı" geniş düğme
+          rovans={rovansAlani}   // 957: Düello ile aynı rövanş akışı (Ida, 5 Eki 2026 — "Kasa'yı ayrı tutma")
         />
       </div>
     );
@@ -951,7 +1073,7 @@ function KasaMac({ id }) {
                           anAc?.sars && "ks-mac--sars", girisAktif && "ks-mac--giris")}>
       <MacUstSerit onCik={() => setTerkOnay(true)} cikisEtiketi={c("Maçtan çık")}
                    rozet={c("Kasa · Deneysel")} />
-      <KasaUst d={d} ben={ben} rakip={rakip} c={c} seviyeler={seviyeler} sayac={sayac}
+      <KasaUst d={d} ben={ben} rakip={rakip} c={c} seviyeler={seviyeler} sayac={sayac} tepkiBalonlar={tepki.balonlar}
                anahtar={anSonuc?.anahtarVaris && !anSonuc.bitti ? anSonuc.anahtarA : null}
                rakipJoker={["cevap", "sonuc"].includes(d.faz) && Array.isArray(d.rakip_joker) ? d.rakip_joker : []}
                onay={d.faz === "cevap" ? { [ben.id]: kilitli, [rakip.id]: Boolean(d.cevap?.rakip_cevapladi) } : {}} />
@@ -960,6 +1082,8 @@ function KasaMac({ id }) {
                   puanGoster={anAc && !anAc.varis ? { [anAc.kim]: anAc.eskiPuan } : {}}
                   parla={anAc?.varis ? anAc.kim : null} />
         {(d.faz === "cevap" || d.faz === "sonuc") && miniKadran}
+        {/* 957: maç içi tepki (kapalı modda hiçbir şey çizmez) */}
+        <TepkiCubugu tepki={tepki} className="ks-tepki" />
       </div>
       {kopukBant && (
         <p className="m2-bant m2-bant--uyari" role="status">
@@ -1050,6 +1174,37 @@ function KasaMac({ id }) {
 }
 
 /** Maç sonu: tur tur özet (doğru cevap ancak maç bitince gelir). */
+// 957: rövanş bekleme — rakibin avatarı, geri sayım halkası (süre kasa_rovans_sn), Vazgeç (kasa_rovans_iptal).
+const ROVANS_HALKA_R = 44;
+const ROVANS_HALKA_CEVRE = 2 * Math.PI * ROVANS_HALKA_R;
+function KasaRovansBekleme({ rakip, baslangic, sureSn, simdi, c, onVazgec }) {
+  const kalanMs = Math.max(0, baslangic + sureSn * 1000 - simdi);
+  const kalanSn = Math.ceil(kalanMs / 1000);
+  const oran = sureSn > 0 ? kalanMs / (sureSn * 1000) : 0;
+  return (
+    <QtModal acik onKapat={onVazgec} baslik={c("Rövanş isteği gönderildi")} className="m2-rovans"
+             altlik={<QtDugme tur="ikincil" tamGenislik onClick={onVazgec}>{c("Vazgeç")}</QtDugme>}>
+      <div className="m2-rovans-ic" aria-live="polite">
+        <div className="m2-rovans-halka">
+          <svg viewBox="0 0 100 100" aria-hidden="true">
+            <circle className="iz" cx="50" cy="50" r={ROVANS_HALKA_R} />
+            <circle className="dolu" cx="50" cy="50" r={ROVANS_HALKA_R}
+                    strokeDasharray={ROVANS_HALKA_CEVRE}
+                    strokeDashoffset={ROVANS_HALKA_CEVRE * (1 - oran)} />
+          </svg>
+          <CerceveliAvatar profile={rakip} userId={rakip?.id} boyut={64} hareketli />
+        </div>
+        <p className="m2-rovans-metin">
+          {c("Rövanş isteği gönderildi — {ad} yanıtlıyor…", { ad: rakip?.gorunen_ad ?? "" })}
+        </p>
+        <p className="m2-rovans-sayac qt-sayi" role="timer" aria-label={c("{0} saniye kaldı", { 0: kalanSn })}>
+          {c("{0} sn", { 0: kalanSn })}
+        </p>
+      </div>
+    </QtModal>
+  );
+}
+
 function KasaGecmis({ gecmis, c }) {
   if (!Array.isArray(gecmis) || !gecmis.length) return null;
   return (
