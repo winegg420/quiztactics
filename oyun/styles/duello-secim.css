@@ -28,16 +28,16 @@
 .dsc-pip:nth-child(2n) { margin-right: 2px; }
 
 /* ---------------------------------------------------------------- konsol (hk-mesaj yuvası) */
-.dsc-konsol { padding-left: 6px; }
+.hk-mesaj.dsc-konsol { padding-left: 6px; }
 .dsc-konsol-ikon { display: grid; place-items: center; flex: none; width: 32px; height: 32px; border-radius: 10px; background: var(--c); color: #fff; }
-.dsc-konsol--ben { --c: var(--hk-mavi); background: var(--hk-mavi-zemin); border-color: var(--hk-mavi); color: var(--hk-mavi-metin); }
+.hk-mesaj.dsc-konsol--ben { --c: var(--hk-mavi); background: var(--hk-mavi-zemin); border-color: var(--hk-mavi); color: var(--hk-mavi-metin); }
 .dsc-konsol--ben .hk-mesaj-yazi span { color: var(--hk-mavi-metin); }
 .dsc-konsol--ben .hk-mesaj-yazi b { font-size: clamp(13px, 3.8vw, 15px); letter-spacing: .02em; }
-.dsc-konsol--rakip { --c: var(--hk-kirmizi); background: #fff; border-color: var(--hk-kirmizi); color: var(--hk-kirmizi-metin); }
+.hk-mesaj.dsc-konsol--rakip { --c: var(--hk-kirmizi); background: #fff; border-color: var(--hk-kirmizi); color: var(--hk-kirmizi-metin); }
 .dsc-konsol--rakip .hk-mesaj-yazi span { color: var(--hk-soluk); }
-.dsc-konsol--son { animation: dsc-konsol-son .5s ease-in-out infinite alternate; }
+.hk-mesaj.dsc-konsol--son { animation: dsc-konsol-son .5s ease-in-out infinite alternate; }
 @keyframes dsc-konsol-son { to { box-shadow: 0 0 0 3px rgba(226, 75, 74, .45); } }
-.dsc-konsol--oto { --c: var(--hk-vurgu); background: var(--hk-vurgu-zemin); border-color: var(--hk-vurgu); color: var(--hk-vurgu-metin); animation: none; }
+.hk-mesaj.dsc-konsol--oto { --c: var(--hk-vurgu); background: var(--hk-vurgu-zemin); border-color: var(--hk-vurgu); color: var(--hk-vurgu-metin); animation: none; }
 .dsc-konsol--oto .hk-mesaj-yazi span { color: var(--hk-vurgu-metin); }
 .dsc-konsol--oto .dsc-konsol-ikon { color: #412402; }
 
