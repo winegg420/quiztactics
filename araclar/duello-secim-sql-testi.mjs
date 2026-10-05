@@ -465,43 +465,60 @@ try {
 
 // ================================================================ simülasyon
 // Gizli botlar birbirine karşı: seçim (bot seçimi) → her tur ban (bot) → kategori (890 bot) → iki cevap (bot isabeti)
-// → çözüm → sonraki. Zaman beklenmez (fazlar doğrudan ilerletilir); jokerler kullanılmaz. Her maç SAVEPOINT içinde,
-// sonunda ROLLBACK TO → kilitler maç başına bırakılır.
+// → çözüm → sonraki. Zaman beklenmez (fazlar doğrudan ilerletilir); jokerler kullanılmaz. Ana test işlemi önce kapanır;
+// her maç KENDİ kısa işleminde (begin → tek sunucu çağrısı → ROLLBACK): kilitler maç biter bitmez bırakılır, gidiş-dönüş yok.
+function simFn() {
+  return [
+    'create or replace function pg_temp.duello_sim_mac(p_a uuid, p_b uuid) returns jsonb language plpgsql as $f$',
+    'declare d public.duellolar%rowtype; v_id uuid; v_sav uuid; v_dc smallint; v_o uuid; i int := 0;',
+    'begin',
+    '  v_id := public.duello_olustur(p_a, p_b, false, null);',
+    '  loop',
+    '    i := i + 1; exit when i > 500;',
+    '    select * into d from public.duellolar where id = v_id;',
+    "    exit when d.durum <> 'aktif';",
+    '    v_sav := case when d.saldiran = d.oyuncu1 then d.oyuncu2 else d.oyuncu1 end;',
+    "    if d.faz = 'secim' then perform public.duello2_secim_uygula(v_id, public.duello2_bot_secim_kategori(v_id, d.saldiran), false);",
+    "    elsif d.faz = 'ban' then perform public.duello2_ban_bitir(v_id, public.duello2_bot_ban_kategori(v_id, v_sav));",
+    "    elsif d.faz = 'kategori' then perform public.duello2_soru_ac(v_id, public.duello2_bot_kategori(v_id, d.saldiran));",
+    "    elsif d.faz = 'cevap' then",
+    '      select q.dogru_cevap into v_dc from public.questions q where q.id = d.soru_id;',
+    '      foreach v_o in array array[d.oyuncu1, d.oyuncu2] loop',
+    '        perform public.duello2_bot_cevap(v_id, v_o, (case when random() < public.bot_soru_isabet(v_o, d.kategori, d.soru_id) then v_dc',
+    '                 else ((v_dc + 1 + floor(random() * 3))::int % 4) end)::smallint);',
+    '      end loop;',
+    '      perform public.duello2_cozumle(v_id);',
+    "    elsif d.faz = 'sonuc' then perform public.duello2_sonraki(v_id);",
+    '    else exit; end if;',
+    '  end loop;',
+    '  select * into d from public.duellolar where id = v_id;',
+    "  return jsonb_build_object('durum', d.durum, 'tur', d.tur, 'uzatma', d.uzatma, 'ilk', d.kazanan = d.ilk_secen,",
+    "    'ust', greatest(d.yuva1, d.yuva2), 'esik', d.hakimiyet_esik,",
+    "    'calma', (select count(*) from public.duello_hamleler h where h.duello_id = v_id and h.hakimiyet ->> 'eylem' = 'elinden_al' and (h.hakimiyet ->> 'tuttu')::boolean));",
+    'end $f$',
+  ].join('\n');
+}
 async function simulasyon() {
-  console.log(`13) Simülasyon: ${SIM} bot-bot maçı (960 kuralı)`);
+  console.log(`13) Simülasyon: ${SIM} bot-bot maçı (960 kuralı; maç başına ayrı işlem + ROLLBACK)`);
+  await db.sorgu('rollback');   // ana test işlemi kapanır (sonuçları yazıldı)
+  await db.sorgu(simFn());
   const botlar = (await db.sorgu(`select id from profiles where is_bot and bot_turu = 'gizli' and coalesce(bot_aktif, true) order by md5(id::text) limit 40`)).map((x) => x.id);
   const m = { tur: [], nakavt: 0, altin: 0, ilkKazandi: 0, calma: [], bitti: 0, hata: 0 };
   const bas = Date.now();
   for (let i = 0; i < SIM; i++) {
     const a = botlar[(i * 2) % botlar.length], b = botlar[(i * 2 + 1) % botlar.length];
-    await db.sorgu('savepoint m');
+    await db.sorgu('begin');
     try {
-      const id = await tek(`select duello_olustur('${a}','${b}',false,null)`);
-      for (let adim = 0; adim < 400; adim++) {
-        const d = (await db.sorgu(`select faz, durum, saldiran, oyuncu1, oyuncu2, kategori, soru_id from duellolar where id = '${id}'`))[0];
-        if (d.durum !== 'aktif') break;
-        const savunan = d.saldiran === d.oyuncu1 ? d.oyuncu2 : d.oyuncu1;
-        if (d.faz === 'secim') await db.sorgu(`select duello2_secim_uygula('${id}', duello2_bot_secim_kategori('${id}','${d.saldiran}'), false)`);
-        else if (d.faz === 'ban') await db.sorgu(`select duello2_ban_bitir('${id}', duello2_bot_ban_kategori('${id}','${savunan}'))`);
-        else if (d.faz === 'kategori') await db.sorgu(`select duello2_soru_ac('${id}', duello2_bot_kategori('${id}','${d.saldiran}'))`);
-        else if (d.faz === 'cevap') {
-          await db.sorgu(`select duello2_bot_cevap('${id}', o, (case when random() < bot_soru_isabet(o, x.kategori, x.soru_id) then q.dogru_cevap
-                            else ((q.dogru_cevap + 1 + floor(random() * 3))::int % 4) end)::smallint)
-                            from duellolar x join questions q on q.id = x.soru_id, unnest(array[x.oyuncu1, x.oyuncu2]) o where x.id = '${id}'`);
-          await db.sorgu(`select duello2_cozumle('${id}')`);
-        } else if (d.faz === 'sonuc') await db.sorgu(`select duello2_sonraki('${id}')`);
-        else break;
-      }
-      const s = (await db.sorgu(`select durum, tur, uzatma, kazanan, ilk_secen, greatest(yuva1, yuva2) ust, hakimiyet_esik esik,
-          (select count(*) from duello_hamleler h where h.duello_id = d.id and h.hakimiyet ->> 'eylem' = 'elinden_al' and (h.hakimiyet ->> 'tuttu')::boolean) calma
-          from duellolar d where id = '${id}'`))[0];
+      await db.sorgu("set local statement_timeout = '30s'");
+      await db.sorgu("set local lock_timeout = '2s'");
+      const s = JSON.parse(await tek(`select pg_temp.duello_sim_mac('${a}','${b}')::text`));
       if (s.durum === 'bitti') {
         m.bitti++; m.tur.push(Number(s.tur)); m.calma.push(Number(s.calma));
-        if (s.uzatma === 't') m.altin++; else if (Number(s.ust) >= Number(s.esik)) m.nakavt++;
-        if (s.kazanan === s.ilk_secen) m.ilkKazandi++;
+        if (s.uzatma) m.altin++; else if (Number(s.ust) >= Number(s.esik)) m.nakavt++;
+        if (s.ilk) m.ilkKazandi++;
       }
     } catch (e) { m.hata++; if (m.hata < 3) console.log('   sim hata:', e.message); }
-    await db.sorgu('rollback to savepoint m');
+    await db.sorgu('rollback');
   }
   const ort = (x) => (x.length ? x.reduce((p, c) => p + c, 0) / x.length : 0);
   const yuzde = (n) => `%${Math.round((100 * n) / Math.max(1, m.bitti))}`;
