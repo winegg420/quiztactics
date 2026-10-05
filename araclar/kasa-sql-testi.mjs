@@ -157,7 +157,7 @@ try {
   const canli951 = canli950 && (await tek(`select count(*)::text from information_schema.columns where table_name = 'kasa_maclari' and column_name = 'jokerli'`)) === '1';
   const olusturOnce = await tek(`select coalesce(md5(pg_get_functiondef(to_regprocedure('public.kasa_olustur(uuid,uuid,boolean,boolean)'))), 'yok')`);
   // Bütün kasa_* fonksiyonları (imza + md5): ROLLBACK sonrası birebir dönmeli
-  const kasaFnSorgu = `select coalesce(string_agg(p.oid::regprocedure::text || '=' || md5(pg_get_functiondef(p.oid)), ',' order by 1), '')
+  const kasaFnSorgu = `select coalesce(string_agg(p.oid::regprocedure::text || '=' || md5(pg_get_functiondef(p.oid)), ',' order by p.oid::regprocedure::text), '')
      from pg_proc p join pg_namespace n on n.oid = p.pronamespace where n.nspname = 'public' and p.proname like 'kasa\_%'`;
   const kasaFnOnce = await tek(kasaFnSorgu);
   const kasaKolonOnce = await tek(`select coalesce(string_agg(column_name, ',' order by column_name), '') from information_schema.columns where table_name = 'kasa_maclari'`);
