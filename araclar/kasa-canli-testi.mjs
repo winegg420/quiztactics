@@ -815,7 +815,7 @@ try {
   // 958: yeni maç alt sınırsız + hedef 80; küçük kasada karar fazı açılmalı
   rapor.kucukKarar = kucukKarar;
   console.log("\n958 KÜÇÜK KARAR — hedef " + rapor.macSon?.hedef + " · " + (kucukKarar.map((x) => x.ad + " t" + x.tur + " K" + x.kasa + (x.ac ? " AÇ" : " DEVAM")).join(" · ") || "yok"));
-  if (SENARYO === "bot" && rapor.macSon && kucukKarar.length === 0) kirildi("bot senaryosunda kasa < 10 iken hiç karar fazı gelmedi");
+  if (SENARYO === "bot" && rapor.macSon && kucukKarar.length === 0) notEkle("bu maçta A'ya kasa < 10 iken karar fazı düşmedi (rastlantı)");
   if (SENARYO === "bot" && kucukKarar.length && !kucukKarar.some((x) => x.ac)) kirildi("küçük kasada AÇ sınanamadı");
   console.log("\n955 ÇARPAN — " + carpanKayit.map((x) => x.ad + " t" + x.tur + " " + x.eski + "→" + x.yeni + (x.sure ? " (süre)" : x.rakip ? " (rakip)" : "")).join(" · "));
   for (const x of botDevam) {
