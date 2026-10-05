@@ -114,14 +114,25 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
 
 ### Düello
 
-- **Hâkimiyet (680/681, Ida 30 Eyl 2026) — PUAN YOK.** **16 tur** (`duello_max_tur`, 761 — 1 Eki 2026 Ida: 10 → 16; metinler tur ve eşik sayısını ayardan okur, `useAyar`), **1 tur = 1 hamle** (maç 16 soru, her oyuncu 8 kez saldırır; tek turda oyuncu1,
-  çift turda oyuncu2 saldırır), 10 kategori; herkes 0-0, bütün kategoriler boş başlar. Saldıran kategoriyi seçer
+- **Sırayla kategori seçimi — draft (960, Ida 5 Eki 2026):** maç `secim` fazıyla açılır: 10 kategori ortada, sıra yılan A-B-B-A-A-B-B-A-A-B, herkes 5;
+  seçilen kategori anında seçenin yuvası (sahiplik). İlk seçen rastgele (`duello_olustur` oyuncuları karıştırır; ilk seçen = oyuncu2), tur 1'de ilk
+  SALDIRAN = oyuncu1 = ilk seçmeyen. Süre `duello_secim_sn` 5 (+ gösterim payı; ilk seçimde + `duello_secim_ilk_ek_sn` 3); dolarsa sunucu oyuncunun
+  maç başında sabit kart yüzdesi (`profil.oranlar`, kartta "Sen %X") en yüksek kalanı seçer, yüzdesiz ("Yeni") kartlar sonra rastgele; bot
+  `duello_bot_secim_min/max_sn` 1–3 sn sonra `bot_kategori_isabet` en yüksek kalanı seçer (geç kalırsa süre dolumu aynı seçimi yapar). Seçim istemciden
+  MEVCUT `duello_kategori_sec` ile (faz secim dalı; yeni GRANT yok), satır FOR UPDATE ile serileşir; sıra dışı / alınmış / geçersiz seçim reddedilir.
+  Seçim bitince tur 1 ban fazı. Boş kategori YOK → 870 boş kuralı kodda durur, bu modda tetiklenmez. Mod (`secim_modu`), eşik ve tur (`max_tur`)
+  maç satırına sabit. Bayrak `duello_secim_modu` (jsonb true/false): false → eski akış (boş başlar, eşik `duello_bos_mod_esik` 5, tur
+  `duello_bos_mod_max_tur` 16). Durum: `duello_durum › secim {acik, sira, toplam, ilk_secen, sure, sirasi, secimler[{k,u,oto,sira}], kalan}`.
+  Geri alma `docs/duello-geri-alma-secim.sql`. Test `araclar/duello-secim-sql-testi.mjs` (ROLLBACK; `--sim N`, `--yaris`) ·
+  `duello-secim-ekran.mjs` (taklit) · `duello-secim-canli-testi.mjs --mod=bot|gercek`. Metinler maç dışında `lib/duelloKurallari.js › useDuelloKurallari`.
+- **Hâkimiyet (680/681, Ida 30 Eyl 2026) — PUAN YOK.** **20 tur** (`duello_max_tur`, 960 — 5 Eki 2026 Ida: 16 → 20; maç satırına sabit),
+  **1 tur = 1 hamle** (tek turda oyuncu1, çift turda oyuncu2 saldırır), 10 kategori; seçim modunda 5-5 başlar (eski akışta 0-0, hepsi boş). Saldıran kategoriyi seçer
   (15 sn; dolarsa rastgele uygun), soru ikisine aynı anda açılır (cevap 15 sn, süre dolarsa yanlış).
   **Hamle yalnız "saldıran doğru + savunan yanlış" ise tutar.** Rakibin kategorisi (Elinden al) → tutarsa saldırana
   geçer · boş (Al) → tutarsa saldıran alır, saldıran yanlış + savunan doğru → savunan alır ("boşta bilen alır"), **ikisi de doğru → saldıran alır** (870, Ida 2 Eki 2026; neden `bos_ikisi_dogru`, kilit aynen; ayar `duello_bos_ikisi_dogru_saldiran` 1, 0 → kimse almaz) ·
   kendi kategorisi (Pekiştir) → tutarsa kilitlenir. **Kilit:** sahipliği değişen / pekiştirilen kategori
   `duello_kilit_tur` (2) tur kimse tarafından seçilemez; tutmayan hamlede kilit yok. **Kazanma:** `duello_hakimiyet_esik`
-  (**5**, 870 — 2 Eki 2026 Ida: 4 → 5; maç açılırken `duellolar.hakimiyet_esik`'e sabitlenir) yuvaya ilk ulaşan kazanır (sonuç fazından sonra biter); son tur (16.) sonunda yuvası çok olan; eşitse Altın Soru.
+  (**7**, 960 — 5 Eki 2026 Ida: 5 → 7; maç açılırken `duellolar.hakimiyet_esik`'e sabitlenir) yuvaya ilk ulaşan kazanır (sonuç fazından sonra biter); son tur (20.) sonunda yuvası çok olan; eşitse Altın Soru.
   Hesap sunucuda: `duello2_cozumle` (kural + kilit), `duello2_sonraki` (nakavt / sayım / roller), kilit kapısı
   `duello2_kategori_uygun_mu`. Veri: `duellolar.hakimiyet/sahiplik/kilitler/hakimiyet_esik/kilit_tur/yuva1/yuva2`,
   `duello_hamleler.hakimiyet` (eylem, tuttu, neden, sahip_once/sonra, kilit, baskin, kalkan, cakisma, yuvalar);
@@ -182,14 +193,18 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
   İstemci tanımadığı bir sürüm görürse maçı çizmez, yenileme ister (`DUELLO_EN_YUKSEK_SURUM`). Joker 4 / aynı 2 / soruda 1,
   Sigorta/2X yok.
 - **Ekran (680, `DuelloTahta.jsx` + `duello-tahta.css`, açık tema, `--hk-*` renkler: sen mavi / rakip kırmızı / boş gri /
-  vurgu turuncu):** tek ekran, 390 ve 360 px × 640'ta kaydırmasız (`oyuncu-testi` ölçer). Üst başlık (Tur N/16 + büyük
-  süre, 16 tur noktası) · rozet yuvaları (kategori ikonu yuvaya oturur, eşik−1'de son yuva turuncu yanıp söner, kilitli
+  vurgu turuncu):** tek ekran, 390 ve 360 px × 640'ta kaydırmasız (`oyuncu-testi` ölçer). Üst başlık (Tur N/20 + büyük
+  süre, tur noktaları) · rozet yuvaları (eşik ≥ 6: iki satır — üstte sen, altta rakip, 7 yuva; soru ekranında ince iki satır) (kategori ikonu yuvaya oturur, eşik−1'de son yuva turuncu yanıp söner, kilitli
   yuvada altın çerçeve + kilit) · 2 satırlık sabit mesaj (kural / eşik−1 uyarısı / tur sonucu + tutmama nedeni HER ZAMAN) ·
   aidiyete göre 3 grup kart ("Rakibin kategorileri · elinden al" / "Boş kategoriler · al" / "Senin kategorilerin ·
   pekiştir"; sıra Sen% − Rakip%, ↑ = ↓ eşiği `duello_kat_esik_yuzde` 10; kilitli kart soluk + "N tur kilitli") · alt
   seçim çubuğu ("tutarsa Sen 2→3, Rakip 2→1" / "Kazanırsın!" + Elinden al / Al / Pekiştir). Savunan: saldıranın dokunduğu
   kart kesikli turuncu çerçeveyle canlı parlar (realtime broadcast `dokunus`, DB'ye yazılmaz) ve sıradaki saldırısı için
-  kart işaretler ("Hazır", istemcide; sıra gelince seçili gelir). Maç sonu: nakavtta "Hâkimiyet zaferi! 5 yuva doldu",
+  kart işaretler ("Hazır", istemcide; sıra gelince seçili gelir). Seçim ekranı (960, `DuelloSecim.jsx` + `duello-secim.css`): başlıkta SEÇİM + 5 sn halka (son 2 sn gerilim) + 10 seçim noktası (yılan, mavi/kırmızı),
+  konsol SENİN SIRAN / RAKİP SEÇİYOR + "Sen x/5 · Rakip y/5" (+ "sonra yine sen"), 10 kart 2×5 (Sen %X / Rakip %Y güç çubukları, güçlü tarafın
+  yüzdesi dolu rozet, verisiz "Yeni"), tek dokunuş seçer; seçilen kartın ikonu seçenin yuvasına uçar (WAAPI, 460 ms, iniş parıltısı), kart
+  yerinde soluk "Aldın / Rakip aldı"; "Otomatik seçildi"; seçim bitince HÂKİMİYET BAŞLIYOR (2,1 sn); ilk 3 Düello ipucu; hareket azaltmada uçuş yok.
+  Maç sonu: nakavtta "Hâkimiyet zaferi! 7 yuva doldu",
   son turda "3-2 önde, kazandın" / "geride, kaybettin" / eşit → Altın Soru; skor = yuva. Oyunda "fetih" kelimesi geçmez.
 - **Bot (681):** hedef değeri = bot isabeti × (1 − rakip oranı); pekiştir × `duello_bot_pekistir_agirlik` (0.5);
   `duello_bot_hamle_en_iyi_yuzde` (70) en iyi, kalanı rastgele başka uygun; bot eşik−1'deyse nakavt için boş/rakip
