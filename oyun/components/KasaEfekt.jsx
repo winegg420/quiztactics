@@ -233,22 +233,25 @@ export function KasaGirisSahnesi({ hedef, acmaMin, tavan = 0, carpanYazi = null,
   // Gecikme YALNIZ ilk çizimde alınır: animasyon zaten akıyor, her karede güncellenirse iki kat hızlı biter
   const [gecikme] = useState(() => `-${Math.max(0, Math.round(gecenMs))}ms`);
   const [n, setN] = useState(null);
-  const geriRef = useRef({ onSayi, onBitti });
-  geriRef.current = { onSayi, onBitti };
+  // bitisMs her yoklamada (saat farkı / faz değişimi) birkaç ms oynar: zamanlayıcı yeniden kurulmaz, ref'ten okunur;
+  // her sayı (3/2/1) bileşen ömründe YALNIZ bir kez bildirilir (ses iki kez çalmasın)
+  const geriRef = useRef({ onSayi, onBitti, bitisMs });
+  geriRef.current = { onSayi, onBitti, bitisMs };
+  const bildirilenRef = useRef(new Set());
   useEffect(() => {
-    let son = null;
     let bitti = false;
     const tik = () => {
       if (bitti) return;
-      const kalan = (Number(bitisMs) - Date.now()) / 1000;
+      const kalan = (Number(geriRef.current.bitisMs) - Date.now()) / 1000;
       if (!(kalan > 0)) { bitti = true; setN(null); geriRef.current.onBitti?.(); return; }
       const yeni = kalan <= 3 ? Math.ceil(kalan) : null;
-      if (yeni !== son) { son = yeni; setN(yeni); if (yeni) geriRef.current.onSayi?.(yeni); }
+      setN(yeni);
+      if (yeni && !bildirilenRef.current.has(yeni)) { bildirilenRef.current.add(yeni); geriRef.current.onSayi?.(yeni); }
     };
     tik();
     const z = setInterval(tik, 80);
     return () => clearInterval(z);
-  }, [bitisMs]);
+  }, []);
   return (
     <div className={sinif("ks-giris-an", n && "ks-giris-an--sayim")} role="status" aria-live="polite" style={{ "--ks-gec": gecikme }}>
       <span className="ks-giris-isik" aria-hidden="true" />

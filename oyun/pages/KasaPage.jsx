@@ -513,7 +513,14 @@ function KasaMac({ id }) {
     return () => z.forEach(clearTimeout);
   }, [girisAktif]);   // eslint-disable-line react-hooks/exhaustive-deps
   const girisSayi = useCallback((n) => { sesTik(n); titret(n === 1 ? 24 : 12); }, []);
-  const girisBitti = useCallback(() => { setSimdi(Date.now()); sesSoruGeldi(); }, []);
+  const girisBitti = useCallback(() => setSimdi(Date.now()), []);
+  // Sahne kalkınca (soru görünür) soru sesi — sahne kendi bitişini görmeden kalksa da bir kez çalar
+  const girisOncekiRef = useRef(false);
+  useEffect(() => {
+    const once = girisOncekiRef.current;
+    girisOncekiRef.current = girisAktif;
+    if (once && !girisAktif && d?.durum === "aktif" && d?.faz === "cevap") sesSoruGeldi();
+  }, [girisAktif]);   // eslint-disable-line react-hooks/exhaustive-deps
 
   // ---------------- 951: maç sonu açılış sahnesi (aktif → bitti geçişi görüldüyse) ----------------
   const [finalAn, setFinalAn] = useState(null);

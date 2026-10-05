@@ -16,6 +16,9 @@
 //     satırı gizli, "ÜCRETSİZ 50:50" kartı + joker sesi, çubukta ÜCRETSİZ 50:50 → kullanım (envanter/joker_kullanimlari/
 //     coin değişmez, satın alma penceresi açılmaz), kasa açılana kadar sonraki sorularda yeniden hak, AÇ'tan sonra hak
 //     yok, rakip ekranında sızıntı yok (yalnız kullanılınca adı), süre dolumunda hak yok ama sahiplik bırakılır, bot DEVAM'ı
+//   · 955 tavan 30 + DEVAM ×1,25 + hedef 60 + karar 5 sn: DEVAM düğmesinde "×1,25", DEVAM sonrası kasa = min(ceil(×1,25), 30)
+//     (bilerek / süre dolumu / bot), ekranda çarpan anı + mini sandıkta "/30", kasa hiçbir anda tavanı geçmez, hedefle biten
+//     maçta kazanan en az 2 AÇ; giriş sahnesi TEK KATMAN (sahne sürerken soru/şık görünmez, 3·2·1 sandığın üstünde)
 //
 // Senaryolar:
 //   --senaryo=gercek : A ve B gerçek eşleşir. Tur planı: 1) A doğru, B yanlış → A sahip · 2) B cevap VERMEZ
@@ -103,7 +106,8 @@ const SAYFA_HAZIRLIK = ({ kayitlar, koken, dil }) => {
           rakipCevapladi: Boolean(d.cevap?.rakip_cevapladi), karar: d.karar, sonKarar: d.son_karar, sonuc: d.sonuc ? { ben: d.sonuc.ben_dogru, rakip: d.sonuc.rakip_dogru, artis: d.sonuc.artis } : null,
           kazanan: d.kazanan, neden: d.sonuc_neden, joker: d.joker ?? null, rakipJoker: d.rakip_joker ?? null,
           devamOdul: d.devam_odul ?? null, bedava: d.bedava_joker ?? null, devamSans: d.devam_sans ?? null,
-          devamElli: Boolean(d.devam_elli), devamBirakir: Boolean(d.devam_birakir) });
+          devamElli: Boolean(d.devam_elli), devamBirakir: Boolean(d.devam_birakir),
+          hedef: d.hedef, tavan: Number(d.tavan ?? 0), carpan: Number(d.devam_carpan ?? 1), acma: (d.oyuncular ?? []).map((o) => [o.id, o.acma]) });
       }).catch(() => {});
     }
     return yanit;
@@ -124,7 +128,8 @@ const SAYFA_HAZIRLIK = ({ kayitlar, koken, dil }) => {
       const faz = mac ? (mac.className.match(/ks-mac--(\w+)/) || [])[1] || "?" : q(".ks-bitti--final") ? "final" : q(".ks-bitti") ? "bitti" : "";
       const sayac = (q(".ks-sayac .qt-sayac-sayi")?.textContent || "").trim();
       const tur = (q(".m2-gecis")?.textContent || "").trim();
-      const ust = [q(".m1-sayim-sayi") && "321:" + q(".m1-sayim-sayi").textContent, q(".ks-giris-an") && "giris", q(".ks-ac-an") && "ac",
+      const ust = [q(".m1-sayim-sayi") && "321:" + q(".m1-sayim-sayi").textContent, q(".ks-giris-sayi") && "321:" + q(".ks-giris-sayi").textContent,
+        q(".ks-giris-an") && "giris", q(".ks-carpan-etiket") && "carpan", q(".qt-sik") && "sik", q(".ks-ac-an") && "ac",
         q(".ks-cifte") && "cifte", q(".ks-final") && "final", q(".msk") && "kutlama", q(".msk-bekle") && "bekle",
         q(".ks-rakip-joker-an") && "rjoker", q(".ks-devam-an--kazandi") && "devamKazandi", q(".ks-devam-an--yok") && "devamYok", q(".m2-yukleniyor") && "yukleniyor", q(".ks-karar") && "karar", q(".m2-gecis") && "bant"].filter(Boolean).join(",");
       const bant = [...document.querySelectorAll(".m2-bant")].map((e) => e.textContent.replace(/\s+/g, " ").trim()).join(" / ").slice(0, 60);
@@ -251,6 +256,7 @@ const DURUM = () => {
 
 // 953: DEVAM'a bastıktan sonra — sunucunun ödül kaydı, an, çubuk, ücretsiz joker kullanımı (envanter/sınır değişmez)
 const devamKayit = [];      // { ad, tur, kazandi, joker, an, bar, kullanildi, s }
+const carpanKayit = [];     // 955: { ad, tur, eski, yeni, bek, sure } — DEVAM çarpanı
 const botDevam = [];        // { tur, kazandi, joker }
 async function devamOlc(o, tur) {
   const t0 = Date.now();
@@ -268,6 +274,22 @@ async function devamOlc(o, tur) {
   if (!kayit.an) kirildi(o.ad + " tur " + tur + ": DEVAM ödülü anı (" + q + ") görünmedi");
   if (kayit.an && SS && !o.devamGoruntu?.[q]) { (o.devamGoruntu ??= {})[q] = 1; await goruntu(o, "devam-" + (kd.devamOdul.kazandi ? "kazandi" : "yok") + "-" + o.ad); }
   adim(o.ad + " DEVAM ödülü (tur " + tur + "): " + (kd.devamOdul.kazandi ? "KAZANDI " + kd.devamOdul.joker : "yok") + " · an " + (kayit.an ? "göründü" : "YOK") + " · " + (Date.now() - t0) + " ms");
+  // 955: DEVAM çarpanı — kasa = min(ceil(eski × 1,25), tavan); ekranda çarpan anı ve "/30"
+  if (kd.carpan > 1 && kd.sonKarar) {
+    const eski = Number(kd.sonKarar.deger), bek = Math.min(Math.ceil(eski * kd.carpan), kd.tavan > 0 ? kd.tavan : Infinity);
+    carpanKayit.push({ ad: o.ad, tur, eski, yeni: Number(kd.sonKarar.yeni ?? kd.kasa), bek, sure: false });
+    if (Number(kd.kasa) !== bek || Number(kd.sonKarar.yeni) !== bek) kirildi(o.ad + " tur " + tur + ": DEVAM ×" + kd.carpan + " " + eski + " → " + kd.kasa + " (beklenen " + bek + ")");
+    if (!AZALT && bek !== eski) {
+      const an = await o.s.locator(".ks-carpan-etiket").first().waitFor({ state: "attached", timeout: 2500 }).then(() => true).catch(() => false);
+      if (!an) kirildi(o.ad + " tur " + tur + ": DEVAM ×1,25 anı (.ks-carpan-etiket) görünmedi");
+      else if (SS && !o.devamGoruntu?.carpan) { (o.devamGoruntu ??= {}).carpan = 1; await goruntu(o, "devam-carpan-" + o.ad); }
+    }
+    await bekle(AZALT ? 300 : 1700);
+    const mini = await o.s.locator(".ks-kadran--kucuk").first().innerText().catch(() => "");
+    if (kd.tavan > 0 && !mini.includes("/" + kd.tavan)) kirildi(o.ad + " tur " + tur + ": mini sandıkta tavan (/" + kd.tavan + ") yok (" + mini.replace(/\s+/g, " ") + ")");
+    if (!new RegExp("\\b" + bek + "\\b").test(mini)) kirildi(o.ad + " tur " + tur + ": mini sandık yeni değeri (" + bek + ") göstermiyor (" + mini.replace(/\s+/g, " ") + ")");
+    adim(o.ad + " DEVAM ×" + kd.carpan + " (tur " + tur + "): " + eski + " → " + kd.kasa);
+  }
   // 954: garanti 50:50 + sahiplik bırakma (ekranda SAHİPSİZ, karar satırı gizli)
   if (kd.devamElli && (!kd.devamOdul.kazandi || kd.devamOdul.joker !== "elli")) kirildi(o.ad + " tur " + tur + ": 954 DEVAM garanti 50:50 vermedi " + JSON.stringify(kd.devamOdul));
   if (kd.devamBirakir) {
@@ -322,7 +344,7 @@ async function sur(o, rol) {
     const anah = `${tur}-${k.altin}`;
     const benSahip = k.sahip && k.sahip === k.ben;
     const benimPuan = Number((k.puan.find((p) => p[0] === k.ben) ?? [0, 0])[1]);
-    const hedef = 50;
+    const hedef = Number(k.hedef ?? 60);   // 955: 60 (maç satırından)
 
     // ---- isteğe bağlı bozulmalar (A)
     if (rol === "A" && k.faz === "cevap") {
@@ -380,6 +402,8 @@ async function sur(o, rol) {
       if (!ac) {
         const yazi = await dugme.innerText().catch(() => "");
         if (!/ÜCRETSİZ 50:50|FREE 50:50/.test(yazi)) kirildi(o.ad + ": DEVAM düğmesinde ÜCRETSİZ 50:50 yazmıyor (" + yazi + ")");
+        // 955: tavanın altındaysa DEVAM düğmesinde çarpan yazılır
+        if (k.carpan > 1 && !(k.tavan > 0 && kasa >= k.tavan) && !/×1[,.]25/.test(yazi)) kirildi(o.ad + ": DEVAM düğmesinde ×1,25 yazmıyor (" + yazi + ")");
       }
       if (await dokun(dugme, 3000)) adim(`${o.ad} ${ac ? "AÇ" : "DEVAM"} (tur ${tur}, kasa ${kasa})`);
       else { const m = await o.s.locator(".ks-karar button").allInnerTexts().catch(() => []); kirildi(`${o.ad}: karar düğmesi bulunamadı (${m.join(" | ")})`); }
@@ -542,7 +566,9 @@ function analiz(o) {
   }
   const BEKLENEN_SES = { cevap: ["soru_geldi", "tur_gecis", "rozet", "coin"], sonuc: ["dogru", "yanlis"], karar: ["tur_gecis"], final: ["joker", "tur_gecis", "rozet", "yanlis"] };
   for (const f of fazBas) {
-    const var_ = sesler.some((x) => BEKLENEN_SES[f.faz].includes(x.rol) && x.t >= f.t - 1200 && x.t <= f.t + 1800);
+    // 955: ilk soru giriş sahnesi sürerken açılır, sesi sahne bitince (soru görününce) çalar — pencere sahne sonuna kadar
+    const ust = f.faz === "cevap" && (f.ust || "").includes("giris") ? 3200 : 1800;
+    const var_ = sesler.some((x) => BEKLENEN_SES[f.faz].includes(x.rol) && x.t >= f.t - 1200 && x.t <= f.t + ust);
     if (!var_) s.sessiz.push({ faz: f.faz, s: ((f.t - BAS) / 1000).toFixed(1), ust: f.ust });
   }
   // bir faz başlangıcına iki "soru_geldi" / "dogru|yanlis"
@@ -611,8 +637,8 @@ try {
 
   // giriş anları (3-2-1, giriş sahnesi): A'da görüntü
   if (SS) {
-    await A.s.locator(".m1-sayim-sayi").first().waitFor({ timeout: 8000 }).then(() => goruntu(A, "321")).catch(() => {});
     await A.s.locator(".ks-giris-an").first().waitFor({ timeout: 8000 }).then(() => goruntu(A, "giris-sahnesi")).catch(() => {});
+    await A.s.locator(".ks-giris-sayi").first().waitFor({ timeout: 8000 }).then(() => goruntu(A, "321")).catch(() => {});
   }
   // ara toplama (sayfa yenilemeye karşı) + sürücüler
   const toplayici = setInterval(() => { for (const o of oyuncular) topla(o); }, 4000);
@@ -637,7 +663,7 @@ try {
     if (!ozet.yeni) kirildi(`${o.ad}: "Yeni Kasa maçı" düğmesi yok`);
   }
   // DB: maç sonu ve ödül
-  const [son] = await db(`select durum, kazanan, sonuc_neden, puan1, puan2, tur, oyuncu1, terk_eden from kasa_maclari where id = ${alintila(macId)}`);
+  const [son] = await db(`select durum, kazanan, sonuc_neden, puan1, puan2, tur, oyuncu1, terk_eden, acma_sayisi1, acma_sayisi2, kasa_tavan, devam_carpan, hedef, karar_sn from kasa_maclari where id = ${alintila(macId)}`);
   rapor.macSon = son;
   adim(`maç sonu: ${son?.durum} · neden ${son?.sonuc_neden} · ${son?.puan1}-${son?.puan2} · tur ${son?.tur}`);
   for (const o of oyuncular) {
@@ -730,6 +756,35 @@ try {
         kirildi(diger.ad + ": rakibin kullandığı ücretsiz " + x.joker + " (tur " + x.tur + ") rakip_joker'de görünmedi");
     }
   }
+  // ---- 955: tavan hiç aşılmaz · süre dolumu / bot DEVAM'ı da çarpar · hedefle biten maçta kazanan ≥ 2 AÇ · giriş tek katman
+  rapor.carpan = carpanKayit;
+  for (const o of [A, B].filter(Boolean)) {
+    const asan = o.kd.find((x) => x.tavan > 0 && Number(x.kasa) > x.tavan);
+    if (asan) kirildi(o.ad + ": kasa tavanı aştı " + asan.kasa + "/" + asan.tavan + " (tur " + asan.tur + ")");
+    // rakibin / süre dolumunun / botun DEVAM'ı: sonKarar.yeni = min(ceil(deger × çarpan), tavan)
+    const gorulen = new Set();
+    for (const x of o.kd) {
+      const sk = x.sonKarar;
+      if (x.faz !== "cevap" || !sk || sk.ac || sk.son || !(x.carpan > 1) || gorulen.has(x.tur)) continue;
+      gorulen.add(x.tur);
+      const bek = Math.min(Math.ceil(Number(sk.deger) * x.carpan), x.tavan > 0 ? x.tavan : Infinity);
+      if (Number(sk.yeni) !== bek) kirildi(o.ad + ": DEVAM (tur " + x.tur + ", " + (sk.sure_doldu ? "süre dolumu" : sk.veren === x.ben ? "ben" : "rakip") + ") " + sk.deger + " → " + sk.yeni + " (beklenen " + bek + ")");
+      else if (sk.veren !== x.ben || sk.sure_doldu) carpanKayit.push({ ad: o.ad, tur: x.tur, eski: Number(sk.deger), yeni: Number(sk.yeni), bek, sure: Boolean(sk.sure_doldu), rakip: sk.veren !== x.ben });
+    }
+    // giriş tek katman: sahne varken şık yok; 3·2·1 sahnenin içinde sırayla
+    const girisKare = o.kayit.filter((x) => (x.ust || "").includes("giris"));
+    if (girisKare.some((x) => (x.ust || "").includes("sik"))) kirildi(o.ad + ": giriş sahnesi sürerken şıklar çizildi (tek katman değil)");
+    if (girisKare.some((x) => /321:/.test(x.ust || "") && !/321:[123]/.test(x.ust))) kirildi(o.ad + ": giriş sayacı 3/2/1 dışında değer gösterdi");
+    const sayilar = [...new Set(girisKare.map((x) => ((x.ust || "").match(/321:(\d)/) || [])[1]).filter(Boolean))];
+    if (girisKare.length && sayilar.join("") !== "321") kirildi(o.ad + ": giriş sahnesinde 3·2·1 sırası " + (sayilar.join("·") || "yok"));
+    if (o.kayit.some((x) => (x.ust || "").includes("321:") && !(x.ust || "").includes("giris"))) kirildi(o.ad + ": 3-2-1 sahne dışında (eski üst üste katman) göründü");
+    rapor[o.ad].giris = { kare: girisKare.length, sayilar };
+  }
+  if (rapor.macSon?.durum === "bitti" && rapor.macSon?.sonuc_neden === "hedef") {
+    const kazAc = Number(rapor.macSon.kazanan === rapor.macSon.oyuncu1 ? rapor.macSon.acma_sayisi1 : rapor.macSon.acma_sayisi2);
+    if (Number(rapor.macSon.kasa_tavan) > 0 && kazAc < 2) kirildi("hedefle biten 955 maçı tek AÇ ile bitti (kazanan AÇ " + kazAc + ")");
+  }
+  console.log("\n955 ÇARPAN — " + carpanKayit.map((x) => x.ad + " t" + x.tur + " " + x.eski + "→" + x.yeni + (x.sure ? " (süre)" : x.rakip ? " (rakip)" : "")).join(" · "));
   for (const x of botDevam) {
     if (x.kazandi == null) kirildi("bot DEVAM (tur " + x.tur + "): sunucuda ödül kaydı yok");
     else if (x.kazandi && !A.kd.some((z) => Number(z.tur) === x.tur && Array.isArray(z.rakipJoker) && z.rakipJoker.includes(x.joker)))
