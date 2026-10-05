@@ -127,8 +127,11 @@ try {
   console.log("1) Arkadaşlar sayfasından Kasa daveti");
   await git(A, "/arkadaslar"); await kapatPencereler(A);
   ok("A arkadaşlar: yatay taşma yok", !(await tasma(A)));
-  const satir = A.s.locator("li, [role=listitem], .qt-liste-satiri").filter({ hasText: hB.gorunen }).filter({ has: A.s.getByRole("button", { name: M("Oyna", "Play") }) }).first();
-  await satir.getByRole("button", { name: M("Oyna", "Play") }).first().click({ timeout: 8000 });
+  // Arkadaş listesi canlıda geç yüklenebilir; test hesabında tek arkadaş B (adı satırda kısaltılabilir)
+  // erişilebilir ad: "<ad> ile oyna" (EN "Play with <ad>")
+  const oyna = A.s.getByRole("button", { name: new RegExp(`(${hB.gorunen} ile oyna|Play with ${hB.gorunen})`, "i") }).first();
+  await oyna.waitFor({ timeout: 20000 });
+  await oyna.click({ timeout: 8000 });
   const kasaKart = A.s.locator(".a-modsecim .qt-mod--kasa");
   ok("mod penceresinde Kasa kartı var", await kasaKart.count() === 1);
   await goruntu(A, "1-mod-penceresi");
@@ -251,6 +254,7 @@ try {
   }
 } catch (e) {
   kaldi++; console.log("  ✗ HATA:", e.message.split("\n")[0]);
+  await goruntu(A, "hata-A"); await goruntu(B, "hata-B");
 } finally {
   for (const id of acilanMaclar) await db(`update kasa_maclari set durum = 'iptal', bitis = now() where id = ${alintila(id)} and durum = 'aktif'`).catch(() => {});
   await temizle().catch(() => {});
