@@ -39,11 +39,12 @@ export function secenekleriCoz(s) {
 // ---------------------------------------------------------------- üst başlık
 /**
  * Tek satır: solda sen (avatar, ad, seviye), ortada "Tur N/T" + büyük süre, sağda rakip.
- * Altında T tur noktası (T = d.max_tur), en altta ince süre çubuğu. PUAN YAZMAZ (Hâkimiyet'te puan yok).
+ * Altında T tur noktası (T = d.max_tur; 960: maç satırından, seçim modunda 20), en altta ince süre çubuğu. PUAN YAZMAZ (Hâkimiyet'te puan yok).
  * sayac: ekranın verdiği QtSayac (büyük süre; son 5 sn kırmızı + nabız). oran: 0–1 süre çubuğu.
  * 540/542: ad isim efektiyle (oyuncu kartı); tepkiBalonlar = { [oyuncuId]: balon } → avatarın yanında tepki.
  */
-export function V2Ust({ d, ben, rakip, c, seviyeler = {}, tepkiBalonlar = {}, sayac, oran = 0, son = false, onay = {} }) {
+// 960: noktalar = seçim fazında tur noktalarının yerine çizilen öğe (DuelloSecim › SecimPipler); başlıkta "SEÇİM".
+export function V2Ust({ d, ben, rakip, c, seviyeler = {}, tepkiBalonlar = {}, sayac, oran = 0, son = false, onay = {}, noktalar = null }) {
   const taraf = (o, rakipMi) => {
     const secen = d.saldiran === o.id;
     return (
@@ -82,17 +83,17 @@ export function V2Ust({ d, ben, rakip, c, seviyeler = {}, tepkiBalonlar = {}, sa
         {taraf(ben, false)}
         <div className="hk-orta" key={`${d.tur}-${d.uzatma}`}>
           <span className="hk-tur">
-            {d.uzatma ? c("ALTIN SORU") : <>{c("Tur")} <b className="qt-sayi">{d.tur}/{maxTur}</b></>}
+            {d.uzatma ? c("ALTIN SORU") : d.faz === "secim" ? c("SEÇİM") : <>{c("Tur")} <b className="qt-sayi">{d.tur}/{maxTur}</b></>}
           </span>
           {sayac}
         </div>
         {taraf(rakip, true)}
       </div>
-      <ol className="hk-noktalar" aria-label={c("Tur {n}/{t}", { n: d.tur, t: maxTur })}>
+      {noktalar ?? <ol className="hk-noktalar" aria-label={c("Tur {n}/{t}", { n: d.tur, t: maxTur })}>
         {Array.from({ length: maxTur }, (_, i) => (
           <li key={i} className={sinif("hk-nokta", i < biten && "hk-nokta--bitti", !d.uzatma && i + 1 === d.tur && "hk-nokta--simdi")} />
         ))}
-      </ol>
+      </ol>}
       <div className="hk-cubuk-sure" aria-hidden="true"><i style={{ width: `${Math.round(Math.max(0, Math.min(1, oran)) * 100)}%` }} /></div>
     </header>
   );

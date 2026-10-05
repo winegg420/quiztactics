@@ -128,6 +128,23 @@
 @keyframes hk-son { 50% { border-color: #ba7517; background: #fff; } }
 @keyframes hk-cerceve { 50% { box-shadow: 0 0 0 4px rgba(239, 159, 39, .45); } }
 
+/* 960 · 7 yuva (eşik ≥ 6): yan yana 7+7 yuva 360 px'te ~14 px'e iner → iki SATIR: üstte sen, altta rakip; sayı solda.
+   Cevap fazında (küçük) de iki ince satır. VS rozeti bu düzende yok (renk + ad tarafı söyler). */
+.hk-tahta--satir { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+.hk-tahta--satir .hk-vs { display: none; }
+.hk-tahta--satir .hk-taraf { grid-template-columns: 50px minmax(0, 1fr); align-items: center; column-gap: 6px; padding: 4px 6px; border-radius: 12px; }
+.hk-tahta--satir .hk-say { order: -1; flex-direction: column; align-items: center; gap: 1px; }
+.hk-tahta--satir .hk-say span { font-size: 11px; }
+.hk-tahta--satir .hk-say b { font-size: 19px; }
+.hk-tahta--satir .hk-yuvalar, .hk-tahta--satir .hk-yuvalar--cok { max-width: none; gap: 4px; }
+.hk-tahta--satir .hk-yuva { max-height: 34px; max-width: 34px; border-radius: 9px; }
+.hk-tahta--satir.hk-tahta--kucuk { gap: 3px; }
+.hk-tahta--satir.hk-tahta--kucuk .hk-taraf { grid-template-columns: 30px minmax(0, 1fr); padding: 2px 6px; border-radius: 10px; }
+.hk-tahta--satir.hk-tahta--kucuk .hk-say b { font-size: 15px; }
+.hk-tahta--satir.hk-tahta--kucuk .hk-yuvalar { gap: 3px; }
+.hk-tahta--satir.hk-tahta--kucuk .hk-yuva { max-height: 22px; max-width: 30px; border-radius: 6px; border-width: 1.5px; }
+.hk-tahta--satir.hk-tahta--kucuk .hk-yuva-kilit { width: 10px; height: 10px; right: -3px; bottom: -3px; }
+
 /* ---------------------------------------------------------------- mesaj satırı (2 satır, SABİT yükseklik) */
 .hk-mesaj {
   display: flex; align-items: center; gap: 6px; height: 46px; box-sizing: border-box; padding: 0 4px 0 10px;

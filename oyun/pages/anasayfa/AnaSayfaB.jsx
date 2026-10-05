@@ -4,6 +4,7 @@
 import { QtIkon } from "../../tasarim/index.js";
 import { tt } from "../../lib/dil.js";
 import { useAyar } from "../../lib/ayarlar.js";
+import { useDuelloKurallari } from "../../lib/duelloKurallari.js";
 import { LIG_ADLARI } from "../../lib/lig.js";
 import { useAnaSayfaVerisi, useOyunBaslat } from "./veri.jsx";
 import {
@@ -13,7 +14,7 @@ import {
 import "./anasayfa.css";
 
 export default function AnaSayfaB() {
-  const turSayisi = useAyar("duello_max_tur", 16);   // Düello tur sayısı metne gömülmez (1 Eki 2026: 16 tur)
+  const { tur: turSayisi } = useDuelloKurallari();   // Düello tur sayısı metne gömülmez (960: seçim modunda 20, kapalıysa eski 16)
   const v = useAnaSayfaVerisi();
   const b = useOyunBaslat();
   if (!v.profile) return <div className="as-yukleniyor" aria-busy="true" />;

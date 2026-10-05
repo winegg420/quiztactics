@@ -6,6 +6,7 @@ import DereceliAnahtari from "./DereceliAnahtari.jsx";
 import KategoriSecici from "./KategoriSecici.jsx";
 import SkillSeti from "./SkillSeti.jsx";
 import { ayarlar, useAyar } from "../lib/ayarlar.js";
+import { useDuelloKurallari } from "../lib/duelloKurallari.js";
 import { tt } from "../lib/dil.js";
 import { CoinIkon } from "./ParaIkonlari.jsx";
 
@@ -43,8 +44,8 @@ import { CoinIkon } from "./ParaIkonlari.jsx";
  */
 export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekleMetni, alttan = false,
                                             dereceli, onDereceli, kategori = null, onKategori, modlar, loadout = false }) {
-  const turSayisi = useAyar("duello_max_tur", 16);   // Düello tur sayısı metne gömülmez (1 Eki 2026: 16 tur)
-  const duelloEsik = useAyar("duello_hakimiyet_esik", 5);   // 870: kazanma eşiği de ayardan
+  // 960: tur, eşik ve akış (sırayla seçim) ayardan — useDuelloKurallari
+  const { secim: duelloSecim, esik: duelloEsik, tur: turSayisi } = useDuelloKurallari();
   // 957: Kasa da ortak mod listesinde (kapalıyken gösterilmez); hedef ayardan
   const kasaAcik = useAyar("kasa_modu_acik", 0) >= 1;
   const kasaHedef = useAyar("kasa_hedef_puan", 80);
@@ -123,7 +124,9 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
       mod: "duello",
       ikon: "duello",
       ad: tt("Düello (Taktik Maçı)"),
-      aciklama: tt("{n} yuvayı ilk dolduran kazanır. Hamle için sen doğru, rakip yanlış bilmelisin. {t} tur, eşitlikte Altın Soru.", { t: turSayisi, n: duelloEsik }),
+      aciklama: duelloSecim
+        ? tt("Kategorileri sırayla seçin, {n} yuvayı ilk dolduran kazanır. Rakibin kategorisini almak için sen doğru, rakip yanlış bilmelisin. {t} tur, eşitlikte Altın Soru.", { t: turSayisi, n: duelloEsik })
+        : tt("{n} yuvayı ilk dolduran kazanır. Hamle için sen doğru, rakip yanlış bilmelisin. {t} tur, eşitlikte Altın Soru.", { t: turSayisi, n: duelloEsik }),
       joker: tt("Maça 3 joker seçersin"),
       odul: odulMetni(odul?.duello),
       rozet: tt("En çok ödül"),

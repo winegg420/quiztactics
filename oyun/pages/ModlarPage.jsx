@@ -9,6 +9,7 @@
 // Dondurulmuş modlar (Hızlı Mod, "Hızlı Olan Kazanır") burada YOKTUR.
 // ============================================================
 import { useAyar } from "../lib/ayarlar.js";
+import { useDuelloKurallari } from "../lib/duelloKurallari.js";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import RakipAra from "../components/RakipAra.jsx";
@@ -28,7 +29,7 @@ const DUELLO_JOKER = DUELLO_JOKERLER.length;
 const KLASIK_JOKER = KLASIK_JOKERLER.length;
 
 export default function ModlarPage() {
-  const turSayisi = useAyar("duello_max_tur", 16);   // Düello tur sayısı metne gömülmez (1 Eki 2026: 16 tur)
+  const { tur: turSayisi } = useDuelloKurallari();   // Düello tur sayısı metne gömülmez (960: seçim modunda 20, kapalıysa eski 16)
   // KASA (deneysel, 950): ayar satırı yoksa (migration uygulanmamış) ya da 0 ise kart kilitli + kapalı notu
   const kasaAcik = useAyar("kasa_modu_acik", 0) >= 1;
   const kasaHedef = useAyar("kasa_hedef_puan", 80);

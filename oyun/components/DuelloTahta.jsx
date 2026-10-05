@@ -177,7 +177,7 @@ export function HkYuvalar({ d, hk, c, kucuk = false, durum = null }) {
   const sira = useYuvaSirasi(hk, d?.kategoriler);
   const durumKategori = durum ? d?.kategori ?? null : null;
   return (
-    <section className={sinif("hk-tahta", kucuk && "hk-tahta--kucuk", d?.uzatma && "hk-tahta--altin",
+    <section className={sinif("hk-tahta", kucuk && "hk-tahta--kucuk", d?.uzatma && "hk-tahta--altin", hk.esik >= 6 && "hk-tahta--satir",
                               durum && "hk-tahta--durum", durum && `hk-durum--${durum.ton}`)} aria-label={c("Yuva durumu")}>
       <YuvaTarafi taraf="ben" hk={hk} liste={sira.ben} ad={c("Sen")} sayi={hk.benY} c={c} durum={durum} durumKategori={durumKategori} />
       <span className="hk-vs" aria-hidden="true">VS</span>
@@ -440,7 +440,9 @@ export function V2Kategori({ d, hk, benSaldiran, ben, rakip, calisan, c, secim, 
  * soru ekranındaki çerçeve renginin anlamı — aynı renkte küçük çerçeve örneğiyle.
  */
 export function V2SecimCubugu({ d, hk, benSaldiran, secim, calisan, c, onOnayla, banUyari = false, ipucu = null }) {
-  const durumIpucu = !benSaldiran && ipucu !== null ? DURUM_IPUCLARI[ipucu] : null;
+  // 960: seçim modunda boş kategori yok → "mavi = boşta fırsat" ipucu atlanır.
+  const ipuclari = d?.secim?.acik ? DURUM_IPUCLARI.filter((x) => x.ton !== "firsat") : DURUM_IPUCLARI;
+  const durumIpucu = !benSaldiran && ipucu !== null ? ipuclari[ipucu] ?? null : null;
   if (durumIpucu) {
     return (
       <div className={sinif("hk-cubuk hk-cubuk--savunan hk-cubuk--ipucu", `hk-durum--${durumIpucu.ton}`)} role="status">

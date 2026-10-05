@@ -28,5 +28,6 @@ import enGorevler from "./ceviri/gorevler.js";
 import enAvatarSatis from "./ceviri/avatar-satis.js";
 import enKategoriMaci from "./ceviri/kategori-maci.js";
 import enKasa from "./ceviri/kasa.js";   // KASA (deneysel, 950)
+import enDuelloSecim from "./ceviri/duello-secim.js";   // Düello 960: sırayla kategori seçimi
 
-export default Object.assign({}, temel, enMac, enAna, enLig, enDukkan, enGiris, enTasarim, enKozmetik, enAntrenman, enMacSonuOnizleme, enArama, enPremium, enCikisOnay, enGuvenlik, enKoleksiyon, enSunucu, enTarama, enDenetim5, enDenetim6, enHakimiyet, enHakimiyetEkran, enHakimiyetJoker, enSezonYolu, enSezonYoluParca, enGorevler, enAvatarSatis, enKategoriMaci, enKasa);
+export default Object.assign({}, temel, enMac, enAna, enLig, enDukkan, enGiris, enTasarim, enKozmetik, enAntrenman, enMacSonuOnizleme, enArama, enPremium, enCikisOnay, enGuvenlik, enKoleksiyon, enSunucu, enTarama, enDenetim5, enDenetim6, enHakimiyet, enHakimiyetEkran, enHakimiyetJoker, enSezonYolu, enSezonYoluParca, enGorevler, enAvatarSatis, enKategoriMaci, enKasa, enDuelloSecim);

@@ -1,4 +1,5 @@
 import { useAyar } from "../lib/ayarlar.js";
+import { useDuelloKurallari } from "../lib/duelloKurallari.js";
 import { useCallback, useEffect, useState } from "react";
 import { hataMesaji } from "../lib/hata.js";
 import { Link, useNavigate } from "react-router-dom";
@@ -33,7 +34,7 @@ import {
 import "../tasarim/ekranlar/a-ana.css";
 
 export default function Home() {
-  const turSayisi = useAyar("duello_max_tur", 16);   // Düello tur sayısı metne gömülmez (1 Eki 2026: 16 tur)
+  const { tur: turSayisi } = useDuelloKurallari();   // Düello tur sayısı metne gömülmez (960: seçim modunda 20, kapalıysa eski 16)
   const { user, profile, refreshProfile, profilHata } = useAuth();
   // Paket 41 A: profil hiç gelmezse sonsuz bekleme yerine hata durumu
   const profilGecikti = useZamanAsimi(!profile);

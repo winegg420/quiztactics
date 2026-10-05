@@ -9,6 +9,7 @@ import BildirimIzniSor from "../../components/BildirimIzniSor.jsx";
 import { BILDIRIM_SONRA_ANAHTAR } from "../../components/MacSonuSahnesi.jsx";
 import { tt } from "../../lib/dil.js";
 import { useAyar } from "../../lib/ayarlar.js";
+import { useDuelloKurallari } from "../../lib/duelloKurallari.js";
 import { useAuth } from "../../../src/context/AuthContext.jsx";
 import DurumKutusu, { useZamanAsimi } from "../../components/DurumKutusu.jsx";
 import SezonSeridi from "../../components/sezon/SezonSeridi.jsx";
@@ -20,7 +21,7 @@ import {
 import "./anasayfa.css";
 
 export default function AnaSayfaA() {
-  const turSayisi = useAyar("duello_max_tur", 16);   // Düello tur sayısı metne gömülmez (1 Eki 2026: 16 tur)
+  const { tur: turSayisi } = useDuelloKurallari();   // Düello tur sayısı metne gömülmez (960: seçim modunda 20, kapalıysa eski 16)
   // KASA (deneysel, 950): kapalıyken ya da ayar satırı yokken (migration uygulanmamış) kısayol çizilmez
   const kasaAcik = useAyar("kasa_modu_acik", 0) >= 1;
   const v = useAnaSayfaVerisi({ gorevYukle: false });   // görevleri GorevSeridi kendi okur (gorevlerim)

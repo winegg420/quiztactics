@@ -20,6 +20,7 @@ import { siradakiLobi, turnuvaAniMs } from "../../lib/zaman.js";
 import { rpcDene } from "../../lib/rpcDene.js";
 import { ligGrubumOzet } from "../../lib/lig.js";
 import { ayar, ayarlar } from "../../lib/ayarlar.js";
+import { duelloKurallari } from "../../lib/duelloKurallari.js";
 import { useCoin } from "../../lib/coin.js";
 import { useKategoriTercih } from "../../lib/kategoriTercih.js";
 import { useDereceliTercih } from "../../lib/dereceli.js";
@@ -361,7 +362,7 @@ export function useDevamEdenMaclar() {
         const { data: profiller } = await supabase.from("profiles").select("id, gorunen_ad").in("id", rakipIdler);
         adlar = new Map((profiller ?? []).map((p) => [p.id, p.gorunen_ad]));
       }
-      const turSayisi = await ayar("duello_max_tur", 16);
+      const { tur: turSayisi } = await duelloKurallari();   // 960: seçim modunda 20, kapalıysa eski 16
       for (const d of duellolar ?? []) {
         const rakipId = d.oyuncu1 === uid ? d.oyuncu2 : d.oyuncu1;
         sonuc.push({ id: `duello-${d.id}`, mod: "duello", rakipAd: adlar.get(rakipId) ?? null,
