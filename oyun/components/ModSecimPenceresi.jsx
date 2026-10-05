@@ -21,7 +21,7 @@ import { CoinIkon } from "./ParaIkonlari.jsx";
  *
  * @param {object}   props
  * @param {object}   props.profil   arkadaşın profili (gorunen_ad, avatar…)
- * @param {(mod: "klasik"|"duello"|"saf") => Promise<string|null>} props.onSec
+ * @param {(mod: "klasik"|"duello"|"saf"|"kasa") => Promise<string|null>} props.onSec
  *        null dönerse iş bitti (pencere sayfa tarafından kapatılır); metin dönerse hata.
  * @param {() => void} props.onKapat
  * @param {string}  [props.baslik]     Paket 35 B: verilirse "{ad} ile nasıl oynamak istersin?" yerine
@@ -45,6 +45,9 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
                                             dereceli, onDereceli, kategori = null, onKategori, modlar, loadout = false }) {
   const turSayisi = useAyar("duello_max_tur", 16);   // Düello tur sayısı metne gömülmez (1 Eki 2026: 16 tur)
   const duelloEsik = useAyar("duello_hakimiyet_esik", 5);   // 870: kazanma eşiği de ayardan
+  // 957: Kasa da ortak mod listesinde (kapalıyken gösterilmez); hedef ayardan
+  const kasaAcik = useAyar("kasa_modu_acik", 0) >= 1;
+  const kasaHedef = useAyar("kasa_hedef_puan", 60);
   const [calisan, setCalisan] = useState(null);   // "klasik" | "duello" | null
   const [adim, setAdim] = useState(null);         // null | "klasik" (loadout adımı)
   const [hata, setHata] = useState(null);
@@ -134,6 +137,16 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
       joker: tt("skill yok"),
       odul: odulMetni(odul?.klasik, true),
     },
+    // 957: Kasa — ödül Klasik yoluyla aynı (kasa_bitir), jokerler Klasik envanterinden
+    ...(kasaAcik ? [{
+      mod: "kasa",
+      ikon: "coin",
+      ad: tt("Kasa"),
+      aciklama: tt("Tek başına bil, kasayı al; doğru anda aç. {h} puana ilk ulaşan kazanır.", { h: kasaHedef }),
+      joker: tt("Klasik jokerlerin geçer"),
+      odul: odulMetni(odul?.klasik),
+      rozet: tt("Deneysel"),
+    }] : []),
   ];
 
   const SECENEKLER = modlar ? TUM_SECENEKLER.filter((x) => modlar.includes(x.mod)) : TUM_SECENEKLER;

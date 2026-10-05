@@ -17,6 +17,7 @@ const TUR_BILGI = {
   grup: { etiket: tt("grup maçına çağırdı"), ikon: "kisiler", sinif: "tur-grup", yol: "grup-mac" },
   hizli: { etiket: tt("hızlı maça çağırdı"), ikon: "hizli", sinif: "tur-hizli", yol: "hizli-mac" },
   duello: { etiket: tt("seni düelloya çağırdı"), ikon: "kilic", sinif: "tur-duello", yol: "duello" },
+  kasa: { etiket: tt("seni Kasa maçına çağırdı"), ikon: "coin", sinif: "tur-kasa", yol: "kasa" },   // 957
 };
 
 const CEVAP_RPC = {
@@ -25,11 +26,13 @@ const CEVAP_RPC = {
   grup: ["respond_group_challenge", "p_group_match_id"],
   hizli: ["respond_hizli_davet", "p_hizli_mac_id"],
   duello: ["duello_davet_cevap", "p_id"],
+  kasa: ["kasa_davet_cevap", "p_id"],   // 957
 };
 
 // Düelloda kabul RPC'si DAVET id'sini alır ama DÜELLO id'sini döndürür; yönlendirme
 // dönen değerle yapılır (kayit_id ile gidilirse var olmayan düelloya gidilir).
-const DONEN_ID_ILE_GIT = new Set(["duello"]);
+// 957: Kasa da aynı (kasa_davet_cevap davet id'si alır, KASA maçı id'si döndürür).
+const DONEN_ID_ILE_GIT = new Set(["duello", "kasa"]);
 
 /**
  * Üst davet bandı — üst çubuğun hemen altında, sayfa kaydırılsa da görünür.
@@ -63,6 +66,7 @@ export default function DavetBandi() {
       .on("postgres_changes", { event: "*", schema: "public", table: "group_match_players", filter: `user_id=eq.${user.id}` }, yukle)
       .on("postgres_changes", { event: "*", schema: "public", table: "hizli_oyuncular", filter: `user_id=eq.${user.id}` }, yukle)
       .on("postgres_changes", { event: "*", schema: "public", table: "duello_davetleri", filter: `rakip=eq.${user.id}` }, yukle)
+      .on("postgres_changes", { event: "*", schema: "public", table: "kasa_davetleri", filter: `rakip=eq.${user.id}` }, yukle)   // 957
       .subscribe();
     return () => supabase.removeChannel(kanal);
   }, [user, yukle]);
@@ -120,7 +124,7 @@ export default function DavetBandi() {
   // Alt satır (D-454): Düello'da kategori maç içinde seçilir, "kişi" grup bilgisidir → yalnız "+N davet daha".
   // Meydan/rövanş: kategori · grup/hızlı: kategori · kişi sayısı (eskisi gibi).
   const ekDavet = davetler.length > 1 ? tt("+{0} davet daha", { 0: davetler.length - 1 }) : "";
-  const altSatir = d.tur === "duello"
+  const altSatir = d.tur === "duello" || d.tur === "kasa"   // 957: Kasa'da da kategori yok
     ? ekDavet
     : [
         d.kategori ? kategoriEtiket(d.kategori) : tt("Karışık"),

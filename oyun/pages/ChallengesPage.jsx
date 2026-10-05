@@ -141,6 +141,7 @@ export default function ChallengesPage() {
   // Paket 31 B: "saf" = Saf Bilgi (jokersiz Klasik Mod).
   const [meydanModu, setMeydanModu] = useState("normal");
   const [duelloDavetleri, setDuelloDavetleri] = useState([]);
+  const [kasaDavetleri, setKasaDavetleri] = useState([]);   // 957: Kasa davetleri (gelen + kurduğum, bekleyenler)
   const { ceviri } = useDil();
   const [iptalEdilen, setIptalEdilen] = useState(null);
   const [iptalHata, setIptalHata] = useState(null);
@@ -499,6 +500,78 @@ export default function ChallengesPage() {
     return () => supabase.removeChannel(kanal);
   }, [duelloDavetYukle]);
 
+  // 957: Kasa davetleri — Düello ile aynı akış (tablo RLS'te yalnız taraflara açık; 24 saatten eskisi geçersiz)
+  const kasaDavetYukle = useCallback(async () => {
+    if (!user) return;
+    try {
+      const { data, error } = await supabase
+        .from("kasa_davetleri")
+        .select("id, kuran, rakip, dereceli, durum, kasa_id, created_at")
+        .eq("durum", "bekliyor")
+        .gt("created_at", new Date(Date.now() - 24 * 3600 * 1000).toISOString())
+        .order("created_at", { ascending: false })
+        .limit(20);
+      if (error) throw error;
+      setKasaDavetleri(data ?? []);
+    } catch (e) {
+      console.warn("[Bildim] Kasa davetleri okunamadı:", e?.message ?? e);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    kasaDavetYukle();
+    const kanal = supabase
+      .channel("kasa_davetleri")
+      .on("postgres_changes", { event: "*", schema: "public", table: "kasa_davetleri" }, kasaDavetYukle)
+      .subscribe();
+    return () => supabase.removeChannel(kanal);
+  }, [kasaDavetYukle]);
+
+  /** 957: Kasa daveti gönder; açık bot anında maç kurar ve doğrudan maça girilir. */
+  const kasaDavetEt = async (hedefId) => {
+    setHata(null);
+    setToast(null);
+    try {
+      const { data, error } = await supabase.rpc("kasa_davet_et", { p_rakip: hedefId, p_dereceli: dereceli });
+      if (error) throw error;
+      if (data?.kasa_id) {
+        navigate(y(`/kasa/${data.kasa_id}`));
+        return;
+      }
+      setToast(tt("Kasa daveti gönderildi — rakip kabul edince maç başlayacak."));
+      await kasaDavetYukle();
+      setTimeout(() => bekleyenlerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 80);
+    } catch (e) {
+      setHata(hataMesaji(e, tt("Kasa daveti gönderilemedi.")));
+    }
+  };
+
+  const kasaDavetCevap = async (davetId, kabul) => {
+    setHata(null);
+    try {
+      const { data, error } = await supabase.rpc("kasa_davet_cevap", { p_id: davetId, p_kabul: kabul });
+      if (error) throw error;
+      await kasaDavetYukle();
+      if (kabul && data) navigate(y(`/kasa/${data}`));
+    } catch (e) {
+      setHata(hataMesaji(e, tt("Kasa daveti yanıtlanamadı.")));
+    }
+  };
+
+  const kasaDavetIptal = async (davetId) => {
+    setIptalHata(null);
+    setIptalEdilen(davetId);
+    try {
+      const { error } = await supabase.rpc("davet_geri_cek", { p_tur: "kasa", p_kayit_id: davetId });
+      if (error) throw error;
+      await kasaDavetYukle();
+    } catch (e) {
+      setIptalHata(hataMesaji(e, tt("Davet geri alınamadı.")));
+    } finally {
+      setIptalEdilen(null);
+    }
+  };
+
   /** Düello daveti gönder; açık bot anında kabul eder ve doğrudan düelloya girilir. */
   const duelloDavetEt = async (hedefId) => {
     setHata(null);
@@ -549,6 +622,7 @@ export default function ChallengesPage() {
 
   const meydanOku = async (hedefId) => {
     if (meydanModu === "duello") return duelloDavetEt(hedefId);
+    if (meydanModu === "kasa") return kasaDavetEt(hedefId);   // 957
     setHata(null);
     setToast(null);
     try {
@@ -634,6 +708,8 @@ export default function ChallengesPage() {
   // Düello davetleri: bana gelenler / benim kurduklarım + davet satırındaki kişinin profili
   const duelloGelen = duelloDavetleri.filter((d) => d.rakip === user?.id);
   const duelloBeklenen = duelloDavetleri.filter((d) => d.kuran === user?.id);
+  const kasaGelen = kasaDavetleri.filter((d) => d.rakip === user?.id);     // 957
+  const kasaBeklenen = kasaDavetleri.filter((d) => d.kuran === user?.id);
   const kisi = (id) => botlar.find((b) => b.id === id) ?? oyuncular.find((o) => o.id === id) ?? null;
 
   const grupAday = [
@@ -821,7 +897,7 @@ export default function ChallengesPage() {
     </>
   );
   // Gelen davet = alınabilir oyun kartı (turuncu kontur). Bir ekranda en çok 1 nabız: yalnız İLK davet nabız + zıplama alır.
-  const ilkDavet = duelloGelen[0]?.id ?? gelen[0]?.id ?? hizliGelen[0]?.id ?? grupGelen[0]?.id ?? null;
+  const ilkDavet = duelloGelen[0]?.id ?? kasaGelen[0]?.id ?? gelen[0]?.id ?? hizliGelen[0]?.id ?? grupGelen[0]?.id ?? null;
   const davetKarti = ({ id, serit, ton, bas, baslik, alt, kabul, ret }) => (
     <li key={id} className={sinif("qt-oyk qt-oyk--alinabilir a-meydan-davet", ton && `qt-oyk--ton-${ton}`, id === ilkDavet && "qt-h-nabiz")} style={serit ? { "--oyk-serit": serit } : undefined}>
       {bas}
@@ -853,11 +929,11 @@ export default function ChallengesPage() {
       )}
 
       {/* Sana gelen davetler EN ÜSTTE — aşağıda kalıp gözden kaçmasınlar */}
-      {(duelloGelen.length > 0 || gelen.length > 0 || hizliGelen.length > 0 || grupGelen.length > 0) && (
+      {(duelloGelen.length > 0 || kasaGelen.length > 0 || gelen.length > 0 || hizliGelen.length > 0 || grupGelen.length > 0) && (
         <section className="a-meydan-bolum" aria-labelledby="a-meydan-gelen-b">
           <h2 id="a-meydan-gelen-b" className="qt-baslik-2">
             {tt("Sana gelen davetler")}{" "}
-            <QtRozet ton="vurgu" boyut="k">{duelloGelen.length + gelen.length + hizliGelen.length + grupGelen.length}</QtRozet>
+            <QtRozet ton="vurgu" boyut="k">{duelloGelen.length + kasaGelen.length + gelen.length + hizliGelen.length + grupGelen.length}</QtRozet>
           </h2>
           <ul className="qt-oyk-liste" aria-label={tt("Sana gelen davetler")}>
             {duelloGelen.map((d) => davetKarti({
@@ -868,6 +944,15 @@ export default function ChallengesPage() {
               alt: `${tt("seni düelloya çağırdı")} · ${d.dereceli ? tt("Dereceli") : tt("Serbest")}`,
               kabul: () => duelloDavetCevap(d.id, true),
               ret: () => duelloDavetCevap(d.id, false),
+            }))}
+            {kasaGelen.map((d) => davetKarti({
+              id: d.id,
+              ton: "kasa",   // 957
+              bas: <AvatarCerceve profile={kisi(d.kuran)} boyut={56} />,
+              baslik: <OyuncuAdiDugmesi userId={d.kuran} profil={kisi(d.kuran)}>{kisi(d.kuran)?.gorunen_ad ?? tt("Rakip")}</OyuncuAdiDugmesi>,
+              alt: `${tt("seni Kasa maçına çağırdı")} · ${d.dereceli ? tt("Dereceli") : tt("Serbest")}`,
+              kabul: () => kasaDavetCevap(d.id, true),
+              ret: () => kasaDavetCevap(d.id, false),
             }))}
             {gelen.map((m) => davetKarti({
               id: m.id,
@@ -1013,8 +1098,8 @@ export default function ChallengesPage() {
           <span className="qt-oyk-cip a-meydan-ozet">
             <span className="qt-gizli">{tt("Seçimin:")} </span>
             {[
-              meydanModu === "duello" ? tt("Düello") : meydanModu === "saf" ? tt("Saf Bilgi") : tt("Klasik"),
-              meydanModu === "duello" ? null : kategori ? kategoriAdi(kategori) : tt("Karışık"),
+              meydanModu === "duello" ? tt("Düello") : meydanModu === "kasa" ? tt("Kasa") : meydanModu === "saf" ? tt("Saf Bilgi") : tt("Klasik"),
+              meydanModu === "duello" || meydanModu === "kasa" ? null : kategori ? kategoriAdi(kategori) : tt("Karışık"),
               dereceli ? tt("Dereceli") : tt("Serbest"),
             ].filter(Boolean).join(" · ")}
           </span>
@@ -1142,13 +1227,19 @@ export default function ChallengesPage() {
           <QtModKart mod="saf" ad={tt("Saf Bilgi")} alt={tt("skill yok")}
                      secili={meydanModu === "saf"} rozet={secimOnayi(meydanModu === "saf")}
                      onClick={() => { secimHissi(); setMeydanModu("saf"); }} />
+          {/* 957: Kasa da arkadaşa meydan okunabilen modlardan biri (mod kapalıysa gösterilmez) */}
+          {kasaAcik && (
+            <QtModKart mod="kasa" ad={tt("Kasa")} alt={tt("Klasik jokerlerin geçer")}
+                       secili={meydanModu === "kasa"} rozet={secimOnayi(meydanModu === "kasa")}
+                       onClick={() => { secimHissi(); setMeydanModu("kasa"); }} />
+          )}
         </div>
       </section>
 
       {/* Kategori seçimi 1v1, grup ve hızlı modun HEPSİ için geçerlidir. Düelloda kategoriyi saldıran tur başında seçer. */}
       <section className="a-meydan-bolum" aria-labelledby="a-meydan-kat-b">
         <h2 id="a-meydan-kat-b" className="qt-baslik-2">{tt("Kategori")}</h2>
-        <div className={sinif("a-meydan-kat-serit", seritSonda && "a-meydan-kat-serit--sonda", meydanModu === "duello" && "a-meydan-kat-serit--sonuk")}>
+        <div className={sinif("a-meydan-kat-serit", seritSonda && "a-meydan-kat-serit--sonda", (meydanModu === "duello" || meydanModu === "kasa") && "a-meydan-kat-serit--sonuk")}>
           <div className="a-meydan-kat-liste" ref={katSeritRef} onScroll={seritKaydi} role="group" aria-labelledby="a-meydan-kat-b">
             <button
               type="button"
@@ -1325,7 +1416,7 @@ export default function ChallengesPage() {
 
       {/* ---------- Gönderdiğin ve yanıt bekleyen davetler EN ALTTA; davet gönderince buraya kaydırılır ---------- */}
       <div ref={bekleyenlerRef} className="a-meydan-suren">
-        {(giden.length > 0 || duelloBeklenen.length > 0) && (
+        {(giden.length > 0 || duelloBeklenen.length > 0 || kasaBeklenen.length > 0) && (
           <section className="a-meydan-bolum" aria-labelledby="a-meydan-giden-b">
             <h2 id="a-meydan-giden-b" className="qt-baslik-2">{tt("Gönderdiğin")}</h2>
             <QtListe etiket={tt("Gönderdiğin")}>
@@ -1338,6 +1429,20 @@ export default function ChallengesPage() {
                   alt={`${tt("Düello · yanıt bekleniyor")} · ${d.dereceli ? tt("Dereceli") : tt("Serbest")}`}
                   sag={
                     <QtDugme boyut="k" tur="ikincil" yukleniyor={iptalEdilen === d.id} onClick={() => duelloDavetIptal(d.id)}>
+                      {iptalEdilen === d.id ? tt("Geri alınıyor…") : tt("Geri al")}
+                    </QtDugme>
+                  }
+                />
+              ))}
+              {/* 957: kurduğun Kasa davetleri */}
+              {kasaBeklenen.map((d) => (
+                <QtListeSatiri
+                  key={d.id}
+                  bas={<AvatarCerceve profile={kisi(d.rakip)} boyut={40} />}
+                  baslik={<OyuncuAdiDugmesi userId={d.rakip} profil={kisi(d.rakip)}>{kisi(d.rakip)?.gorunen_ad ?? tt("Rakip")}</OyuncuAdiDugmesi>}
+                  alt={`${tt("Kasa · yanıt bekleniyor")} · ${d.dereceli ? tt("Dereceli") : tt("Serbest")}`}
+                  sag={
+                    <QtDugme boyut="k" tur="ikincil" yukleniyor={iptalEdilen === d.id} onClick={() => kasaDavetIptal(d.id)}>
                       {iptalEdilen === d.id ? tt("Geri alınıyor…") : tt("Geri al")}
                     </QtDugme>
                   }

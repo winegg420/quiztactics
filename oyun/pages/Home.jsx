@@ -431,6 +431,7 @@ export default function Home() {
             // Pencere önce kapanır: arama ekranı ya da yarım maç sorusu onun yerine açılır
             setModSecimAcik(false);
             if (mod === "duello") { navigate(y("/duello")); return null; }
+            if (mod === "kasa") { navigate(y("/kasa")); return null; }   // 957: Kasa girişi (arama orada)
             await hemenOyna(dereceliTercih, mod === "saf");
             return null;
           }}

@@ -58,7 +58,8 @@ export default function FriendsPage() {
     try {
       // Klasik / Saf Bilgi: create_challenge → matches (durum 'bekliyor', kuran oyuncu1)
       // Düello: duello_davet_et → duello_davetleri (durum 'bekliyor', kuran)
-      const [mac, duello, aktifMac, aktifDuello] = await Promise.all([
+      // 957: Kasa: kasa_davet_et → kasa_davetleri (kendi satırın okunur); aktif Kasa maçı dar RPC ile
+      const [mac, duello, aktifMac, aktifDuello, kasa, aktifKasa] = await Promise.all([
         supabase.from("matches").select("id, oyuncu2")
           .eq("oyuncu1", user.id).eq("durum", "bekliyor").limit(50),
         supabase.from("duello_davetleri").select("id, rakip")
@@ -67,18 +68,24 @@ export default function FriendsPage() {
           .or(`oyuncu1.eq.${user.id},oyuncu2.eq.${user.id}`).eq("durum", "aktif").limit(50),
         // duellolar tablosu istemciye kapalı (403) → dar okuma RPC'si
         supabase.rpc("duello_aktif_benim"),
+        supabase.from("kasa_davetleri").select("id, rakip")
+          .eq("kuran", user.id).eq("durum", "bekliyor")
+          .gt("created_at", new Date(Date.now() - 24 * 3600 * 1000).toISOString()).limit(50),
+        supabase.rpc("kasa_aktif_benim"),
       ]);
       if (mac.error) throw mac.error;
       const m = new Map();
       for (const r of mac.data ?? []) m.set(r.oyuncu2, { tur: "klasik", id: r.id });
       // Düello tablosu okunamazsa klasik şeritler yine görünür
       if (!duello.error) for (const r of duello.data ?? []) m.set(r.rakip, { tur: "duello", id: r.id });
+      if (!kasa.error) for (const r of kasa.data ?? []) m.set(r.rakip, { tur: "kasa", id: r.id });
       setBekleyenMeydan(m);
       // Aktif maç okunamazsa şerit yalnız çıkmaz; bekleyen şeritler etkilenmez
       const a = new Map();
       const digeri = (r) => (r.oyuncu1 === user.id ? r.oyuncu2 : r.oyuncu1);
       if (!aktifMac.error) for (const r of aktifMac.data ?? []) a.set(digeri(r), { tur: "klasik", id: r.id });
       if (!aktifDuello.error) for (const r of aktifDuello.data ?? []) a.set(digeri(r), { tur: "duello", id: r.id });
+      if (!aktifKasa.error) for (const r of aktifKasa.data ?? []) a.set(digeri(r), { tur: "kasa", id: r.id });
       setAktifMaclar(a);
     } catch (e) {
       console.warn("[Bildim] bekleyen meydan okumalar okunamadı:", e?.message ?? e);
@@ -92,6 +99,7 @@ export default function FriendsPage() {
       .on("postgres_changes", { event: "*", schema: "public", table: "matches" }, bekleyenleriYukle)
       .on("postgres_changes", { event: "*", schema: "public", table: "duello_davetleri" }, bekleyenleriYukle)
       .on("postgres_changes", { event: "*", schema: "public", table: "duellolar" }, bekleyenleriYukle)
+      .on("postgres_changes", { event: "*", schema: "public", table: "kasa_davetleri" }, bekleyenleriYukle)   // 957
       // D-455: kabul bildirimi geldiği anda satır tazelenir (matches olayı geç/kaçarsa "yanıt bekleniyor" bayat kalmasın)
       .on("postgres_changes", { event: "INSERT", schema: "public", table: "bildirimler", filter: `user_id=eq.${user.id}` }, bekleyenleriYukle)
       .subscribe();
@@ -105,7 +113,9 @@ export default function FriendsPage() {
     try {
       const { error } = b.tur === "duello"
         ? await supabase.rpc("duello_davet_iptal", { p_id: b.id })
-        : await supabase.rpc("mac_iptal", { p_match_id: b.id });
+        : b.tur === "kasa"
+          ? await supabase.rpc("davet_geri_cek", { p_tur: "kasa", p_kayit_id: b.id })   // 957: bildirimi de siler
+          : await supabase.rpc("mac_iptal", { p_match_id: b.id });
       if (error) throw error;
       await bekleyenleriYukle();
     } catch (e) {
@@ -300,6 +310,26 @@ export default function FriendsPage() {
     }
   };
 
+  // 957: Kasa daveti — Düello ile aynı akış: açık bot anında maç kurar, gerçek oyuncuda davet bekler.
+  const kasayaCagir = async (hedefId) => {
+    setHata(null);
+    setBilgi(null);
+    try {
+      const { data, error } = await supabase.rpc("kasa_davet_et", { p_rakip: hedefId, p_dereceli: true });
+      if (error) throw error;
+      setModHedef(null);
+      if (data?.kasa_id) {
+        navigate(y(`/kasa/${data.kasa_id}`));
+        return null;
+      }
+      setBilgi(tt("Kasa daveti gönderildi — rakip kabul edince maç başlayacak."));
+      await bekleyenleriYukle();
+      return null;
+    } catch (e) {
+      return hataMesaji(e, tt("Kasa daveti gönderilemedi."));
+    }
+  };
+
   const digerProfil = (f) => (f.requester === user.id ? f.add : f.req);
   const gelenIstekler = dostluklar.filter(
     (f) => f.durum === "bekliyor" && f.addressee === user.id
@@ -415,7 +445,9 @@ export default function FriendsPage() {
       {modHedef && (
         <ModSecimPenceresi
           profil={modHedef}
-          onSec={(mod) => (mod === "duello" ? duelloyaCagir(modHedef.id) : meydanOku(modHedef.id, mod === "saf"))}
+          onSec={(mod) => (mod === "duello" ? duelloyaCagir(modHedef.id)
+            : mod === "kasa" ? kasayaCagir(modHedef.id)
+            : meydanOku(modHedef.id, mod === "saf"))}
           onKapat={() => setModHedef(null)}
         />
       )}
@@ -560,7 +592,7 @@ export default function FriendsPage() {
                     <div className="ar-bekleyen" role="status">
                       <span className="ar-bekleyen-metin">{tt("Maç başladı")}</span>
                       <span className="ar-bekleyen-dugmeler">
-                        <QtDugme tur="birincil" boyut="k" onClick={() => navigate(y(aktifMac.tur === "duello" ? "/duello/" : "/mac/") + aktifMac.id)}>
+                        <QtDugme tur="birincil" boyut="k" onClick={() => navigate(y(aktifMac.tur === "duello" ? "/duello/" : aktifMac.tur === "kasa" ? "/kasa/" : "/mac/") + aktifMac.id)}>
                           {tt("Maça gir")}
                         </QtDugme>
                       </span>
@@ -572,7 +604,9 @@ export default function FriendsPage() {
                       <span className="ar-bekleyen-metin">
                         {bekleyen.tur === "duello"
                           ? tt("Düello daveti gönderildi · yanıt bekleniyor")
-                          : tt("Meydan okuma gönderildi · yanıt bekleniyor")}
+                          : bekleyen.tur === "kasa"
+                            ? tt("Kasa daveti gönderildi · yanıt bekleniyor")
+                            : tt("Meydan okuma gönderildi · yanıt bekleniyor")}
                       </span>
                       <span className="ar-bekleyen-dugmeler">
                         <QtDugme tur="ikincil" boyut="k" onClick={() => navigate(y("/meydan"))}>

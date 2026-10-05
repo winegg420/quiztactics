@@ -170,13 +170,16 @@ export function useAnaSayfaVerisi({ gorevYukle = true } = {}) {   // gorevYukle=
     }
     // Gelen davetler: Meydan Okumalar sayfasındaki "Sana gelen davetler" ile aynı kaynak.
     try {
-      const [mac, duello] = await Promise.all([
+      const [mac, duello, kasa] = await Promise.all([
         supabase.from("matches").select("id").eq("oyuncu2", uid).eq("durum", "bekliyor").limit(50),
         supabase.from("duello_davetleri").select("id").eq("rakip", uid).eq("durum", "bekliyor").limit(50),
+        // 957: Kasa davetleri de Meydan sayfasında listelenir (24 saatten eskisi geçersiz)
+        supabase.from("kasa_davetleri").select("id").eq("rakip", uid).eq("durum", "bekliyor")
+          .gt("created_at", new Date(Date.now() - 24 * 3600 * 1000).toISOString()).limit(50),
       ]);
       if (mac.error) throw mac.error;
       if (duello.error) throw duello.error;
-      setDavetSayisi((mac.data?.length ?? 0) + (duello.data?.length ?? 0));
+      setDavetSayisi((mac.data?.length ?? 0) + (duello.data?.length ?? 0) + (kasa.error ? 0 : kasa.data?.length ?? 0));
     } catch (e) {
       console.warn("[Ana sayfa] gelen davetler:", e?.message ?? e);
     }
@@ -292,6 +295,7 @@ export function useOyunBaslat() {
           onSec={async (mod) => {
             setModAcik(false);
             if (mod === "duello") { navigate(y("/duello")); return null; }
+            if (mod === "kasa") { navigate(y("/kasa")); return null; }   // 957: Kasa girişi (arama orada)
             await hemenOyna(dereceliTercih, mod === "saf");
             return null;
           }}

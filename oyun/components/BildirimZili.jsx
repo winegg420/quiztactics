@@ -17,6 +17,8 @@ const TIP_IKON = {
   hizli_daveti: "hizli",
   duello_daveti: "kilic",
   duello_kabul: "ates",
+  kasa_daveti: "coin",   // 957
+  kasa_kabul: "ates",
   lige_girdin: "sehir",
   gecildin: "hizli",
   hafta_sonuc: "kupa",
@@ -33,6 +35,7 @@ const TIP_IKON = {
 // Tasarım A: ikon kutusunun rengi (QtListeSatiri ikonTon). Renk tek başına anlam taşımaz; metin var.
 const TIP_TON = {
   mac_daveti: "vurgu", rovans: "vurgu", duello_daveti: "vurgu", duello_kabul: "vurgu", hizli_daveti: "vurgu",
+  kasa_daveti: "vurgu", kasa_kabul: "vurgu",
   grup_daveti: "dogru", arkadas_istek: "mor", arkadas_kabul: "mor",
   seri: "coin", seri_hatirlatma: "coin", hafta_sonuc: "coin", ustalik: "coin",
   lige_girdin: "dogru", gecildin: "yanlis", sira_sende: "bilgi",
@@ -48,6 +51,7 @@ const ONCELIK = {
   grup_daveti: 0,
   hizli_daveti: 0,
   duello_daveti: 0,
+  kasa_daveti: 0,
   arkadas_istek: 0,
   ustalik: 1,
   lige_girdin: 1,
@@ -56,6 +60,7 @@ const ONCELIK = {
   davet_katildi: 1,
   davet_odul: 1,
   duello_kabul: 1,
+  kasa_kabul: 1,
   seri: 2,
   seri_hatirlatma: 2,
   sira_sende: 3,
@@ -84,6 +89,8 @@ const TOPLAMA = {
   hizli_daveti: { metin: (n) => tt("{0} hızlı maç daveti", { 0: n }), yol: y("/meydan") },
   // Sunucu '/bildim/duello' yazar (migration 228); diğer türler gibi y() kökü kullanılır.
   duello_daveti: { metin: (n) => tt("{0} düello daveti", { 0: n }), yol: y("/duello") },
+  // 957: Kasa davetleri Meydan sayfasında listelenir (yanıtla / reddet)
+  kasa_daveti: { metin: (n) => tt("{0} Kasa daveti", { 0: n }), yol: y("/meydan") },
   seri: { metin: (n) => tt("{0} seri bildirimi", { 0: n }), yol: y() },
   arkadas_istek: { metin: (n) => tt("{0} arkadaşlık isteği", { 0: n }), yol: y("/arkadaslar") },
 };

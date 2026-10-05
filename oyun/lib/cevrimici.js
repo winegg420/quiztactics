@@ -69,12 +69,12 @@ function gorunur() {
 
 /**
  * Bu rota bir maç mı? Rotalar src/BildimApp.jsx'ten:
- *   /mac/:id · /grup-mac/:id · /duello/:id (düello lobisi `/duello` DEĞİL)
+ *   /mac/:id · /grup-mac/:id · /duello/:id · /kasa/:id (lobiler `/duello`, `/kasa` DEĞİL; 957: Kasa)
  *   /turnuva — turnuva maçı aynı sayfada oynanır; soru ekranı açıkken sayfa gövdeye
  *   `bd-oyun-modu` koyar (useOyunModu), maç yalnız o sırada sayılır.
  */
 export function macRotasiMi(yol, oyunModu = false) {
-  if (/^\/(mac|grup-mac|duello)\/[^/]+/.test(yol)) return true;
+  if (/^\/(mac|grup-mac|duello|kasa)\/[^/]+/.test(yol)) return true;
   return /^\/turnuva\/?$/.test(yol) && oyunModu;
 }
 

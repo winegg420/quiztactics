@@ -22,6 +22,7 @@ const TIP_STIL = {
   // bant GELEN daveti gösterir — bu yüzden ikisi asla aynı anda görünmez.
   meydan_kabul: { ikon: "kilic", sinif: "kabul", baslik: tt("Meydan okuman kabul edildi") },
   duello_kabul: { ikon: "kilic", sinif: "kabul", baslik: tt("Düello kabul edildi") },
+  kasa_kabul: { ikon: "coin", sinif: "kabul", baslik: tt("Kasa daveti kabul edildi") },   // 957
   grup_kabul: { ikon: "kisiler", sinif: "kabul", baslik: tt("Grup maçın başlıyor") },
   // Davet (migration 354): kayıt → davet edene haber; Level 5 → ödül (coin sesi + animasyon).
   davet_katildi: { ikon: "hediye", sinif: "kabul", baslik: tt("Davetin işe yaradı") },
@@ -32,13 +33,13 @@ const TIP_STIL = {
 const TON = { bilgi: "bilgi", uyari: "uyari", odul: "coin", kabul: "dogru" };
 
 // Bant tarafından gösterilenler toast'a hiç girmez.
-const BANTTA_GOSTERILEN = new Set(["mac_daveti", "rovans", "grup_daveti", "hizli_daveti", "duello_daveti"]);
+const BANTTA_GOSTERILEN = new Set(["mac_daveti", "rovans", "grup_daveti", "hizli_daveti", "duello_daveti", "kasa_daveti"]);
 
 // Kabul bildirimi ekranda daha uzun kalsın: oyun başlamıştır, kaçırılmamalı.
-const KABUL_TIPLERI = new Set(["meydan_kabul", "duello_kabul", "grup_kabul"]);
+const KABUL_TIPLERI = new Set(["meydan_kabul", "duello_kabul", "kasa_kabul", "grup_kabul"]);
 
 // Kabulde davet edeni doğrudan maça alan tipler (grup maçı kalabalık davettir: şeritle kalır).
-const OTOMATIK_GIRIS = new Set(["meydan_kabul", "duello_kabul"]);
+const OTOMATIK_GIRIS = new Set(["meydan_kabul", "duello_kabul", "kasa_kabul"]);
 
 const SURE = 7000;
 const SURE_KABUL = 9000;
