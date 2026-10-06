@@ -411,9 +411,10 @@ async function hakimiyetOlc(etiket, faz) {
 
 // Maç sonu: yuvalar sahiplikle tutarlı mı, kazanan kurala uygun mu, her hamlenin "tuttu" bilgisi cevaplarla uyuşuyor mu?
 async function hakimiyetDenetimi(id, kapsam) {
-  const [d] = await sorgu(`select oyuncu1, oyuncu2, yuva1, yuva2, sahiplik, kazanan, uzatma, terk_eden, durum, hakimiyet_esik
+  const [d] = await sorgu(`select oyuncu1, oyuncu2, yuva1, yuva2, sahiplik, kazanan, uzatma, terk_eden, durum, hakimiyet_esik,
+      puan_modu, puan1, puan2, puan_hedef, kategori_yolu, secimler, tur, max_tur
       from duellolar where id = ${alintila(id)}`);
-  const hm = await sorgu(`select tur, saldiran, savunan, kategori, uzatma, dogru, dogru_saldiran, altin_kazanan, hakimiyet
+  const hm = await sorgu(`select tur, saldiran, savunan, kategori, uzatma, dogru, dogru_saldiran, altin_kazanan, hakimiyet, puan_saldiran, puan_savunan
       from duello_hamleler where duello_id = ${alintila(id)} order by id`);
   const j = (v) => (typeof v === "string" ? JSON.parse(v) : v);
   const b = (v) => v === true || v === "t";
@@ -430,7 +431,25 @@ async function hakimiyetDenetimi(id, kapsam) {
     if (!x.baskin && !x.kalkan && Boolean(x.tuttu) !== bekTuttu) hata.push({ tur: h.tur, tuttu: x.tuttu, bekTuttu });
     if (!x.tuttu && !x.neden) hata.push({ tur: h.tur, nedenYok: true });
   }
-  if (d.durum === "bitti" && !d.terk_eden) {
+  // 970 · puan modu: kendi kategorisine saldırı yok; puanlar hamle toplamıyla tutarlı; kazanan = hedef puan / kategori yolu /
+  // tur sonu puan farkı / Altın Soru (yuva eşiği bu modda yok).
+  const puanModu = b(d.puan_modu);
+  if (puanModu) {
+    const sec = j(d.secimler) ?? [];
+    const alinan = (o) => sec.filter((x) => x.u !== o && sahip[x.k] === o).length;
+    const topla = (o) => hm.filter((x) => !b(x.uzatma)).reduce((t, x) => t + Number(x.saldiran === o ? x.puan_saldiran : x.puan_savunan), 0);
+    for (const h of hm.filter((x) => !b(x.uzatma))) if (j(h.hakimiyet)?.sahip_once === h.saldiran) hata.push({ tur: h.tur, kendiKategorisine: h.kategori });
+    if (topla(d.oyuncu1) !== Number(d.puan1) || topla(d.oyuncu2) !== Number(d.puan2)) hata.push({ puanTutarsiz: [d.puan1, d.puan2, topla(d.oyuncu1), topla(d.oyuncu2)] });
+    if (d.durum === "bitti" && !d.terk_eden) {
+      const ok1 = Number(d.puan1) >= Number(d.puan_hedef) || alinan(d.oyuncu1) >= Number(d.kategori_yolu);
+      const ok2 = Number(d.puan2) >= Number(d.puan_hedef) || alinan(d.oyuncu2) >= Number(d.kategori_yolu);
+      const bek = ok1 && !ok2 ? d.oyuncu1 : ok2 && !ok1 ? d.oyuncu2
+        : !ok1 && !ok2 && Number(d.puan1) !== Number(d.puan2) ? (Number(d.puan1) > Number(d.puan2) ? d.oyuncu1 : d.oyuncu2)
+        : hm.filter((x) => b(x.uzatma)).at(-1)?.altin_kazanan;
+      if (d.kazanan !== bek) hata.push({ kazanan: d.kazanan, bek, puan: [d.puan1, d.puan2], alinan: [alinan(d.oyuncu1), alinan(d.oyuncu2)] });
+    }
+  }
+  if (d.durum === "bitti" && !d.terk_eden && !puanModu) {
     const y1 = Number(d.yuva1); const y2 = Number(d.yuva2);
     const bek = Math.max(y1, y2) >= esik || y1 !== y2
       ? (y1 > y2 ? d.oyuncu1 : d.oyuncu2)
@@ -438,11 +457,13 @@ async function hakimiyetDenetimi(id, kapsam) {
     if (d.kazanan !== bek) hata.push({ kazanan: d.kazanan, bek, yuvalar: [y1, y2] });
     if (hm.filter((x) => !b(x.uzatma)).length > 20) hata.push({ fazlaHamle: hm.length });
   }
-  const benim = d.oyuncu1 === BEN ? Number(d.yuva1) : Number(d.yuva2);
-  const rakip = d.oyuncu1 === BEN ? Number(d.yuva2) : Number(d.yuva1);
+  const benim = puanModu ? Number(d.oyuncu1 === BEN ? d.puan1 : d.puan2) : d.oyuncu1 === BEN ? Number(d.yuva1) : Number(d.yuva2);
+  const rakip = puanModu ? Number(d.oyuncu1 === BEN ? d.puan2 : d.puan1) : d.oyuncu1 === BEN ? Number(d.yuva2) : Number(d.yuva1);
   kapsam.maclar.push({ id: id.slice(0, 8), skor: `${benim}-${rakip}`, altin: hm.filter((x) => b(x.uzatma)).length, hata: hata.length });
   if (hata.length) basarisiz("Düello: Hâkimiyet denetimi tutmadı", hata.slice(0, 4));
+  else if (puanModu) console.log(`  ✓ puan denetimi (970): ${hm.length} hamle, puan ${benim}-${rakip} hamlelerle tutarlı, kendi kategorisine saldırı yok, tuttu kuralı ve kazanan doğru`);
   else console.log(`  ✓ hâkimiyet denetimi: ${hm.length} hamle, yuvalar ${benim}-${rakip} sahiplikle tutarlı, tuttu kuralı ve kazanan doğru`);
+  return puanModu;
 }
 
 async function duelloMaci(kapsam) {
@@ -529,12 +550,13 @@ async function duelloMaci(kapsam) {
       await ekranOlc("duello-mac-sonu");
       console.log(`  maç bitti (${d.durum})`);
       if (d.durum === "bitti") {
-        await hakimiyetDenetimi(id, kapsam);
-        // Maç sonu sahnesi skoru YUVA olarak yazar (puan değil): etiket ve son tahta görünmeli.
+        const puanMaci = await hakimiyetDenetimi(id, kapsam);
+        // Maç sonu sahnesi skoru YUVA olarak yazar (970 puan modunda PUAN): etiket ve son tahta görünmeli.
         const metin = await s.evaluate(() => document.body.innerText).catch(() => "");
-        if (!/yuva|slots/i.test(metin)) basarisiz("Düello: maç sonu ekranında yuva skoru/etiketi yok");
+        if (puanMaci) { if (!/puan|points?/i.test(metin)) basarisiz("Düello: maç sonu ekranında puan skoru yok"); else console.log("  ✓ maç sonu: skor puan olarak yazıldı (970)"); }
+        else if (!/yuva|slots/i.test(metin)) basarisiz("Düello: maç sonu ekranında yuva skoru/etiketi yok");
         else console.log("  ✓ maç sonu: skor yuva olarak yazıldı");
-        if (/\bpuan\b(?!ı)|\bpoints?\b/i.test(metin.replace(/lig puan[ıi]|league points/gi, ""))) console.log("  ! maç sonu ekranında 'puan' kelimesi geçiyor (lig puanı dışında) — gözle kontrol");
+        if (!puanMaci && /\bpuan\b(?!ı)|\bpoints?\b/i.test(metin.replace(/lig puan[ıi]|league points/gi, ""))) console.log("  ! maç sonu ekranında 'puan' kelimesi geçiyor (lig puanı dışında) — gözle kontrol");
       }
       const sayac = await sayacRaporu("Düello");
       kapsam.sayac.push(...sayac);
