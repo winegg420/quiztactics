@@ -79,7 +79,7 @@ const IPUCU_SN = 3;
 const GIRIS_SAHNE_MS = 6000;
 const DEVAM_AN_MS = 1400;      // 955: DEVAM ×1,25 anı (mini sandık sarsılır, çarpan patlar, kasa sayarak yükselir); 980: 1700 → 1400 (gösterim payında biter)
 const AC_AN_MS = 1280;         // 980: AÇ anı (1600 → 1280) — soru gösterim payının (1,5 sn) içinde biter
-const AN_EN_AZ_OLCEK = 0.4;    // 980: AÇ/DEVAM anı kalan gösterim payına sığmak için en çok bu kadar hızlanır; altında görsel atlanır
+const AN_EN_AZ_OLCEK = 0.4;    // 980: AÇ/DEVAM anı kalan gösterim payına sığmak için en çok bu kadar hızlanır; AÇ (soruyu örter) altında atlanır
 const FINAL_SAHNE_MS = 4300;   // maç sonu açılış sahnesi (kazanan) — sonra MacSonuKutlama
 const FINAL_KAPANIS_MS = 3200; // kaybeden: kasa kapanır/kararır
 const CIFTE_MS = 1400;
@@ -816,16 +816,15 @@ function KasaMac({ id }) {
       const sk = d.son_karar;
       if (d.faz === "cevap" && onceki === `${d.tur}-${d.altin}-karar` && sk && !sk.ac && !sk.son
           && sk.yeni != null && Number(sk.yeni) !== Number(sk.deger)) {
-        const olcek = olcekle(DEVAM_AN_MS);
+        // DEVAM anı soruyu örtmez (yalnız şeritteki mini sandık): pay kalmadıysa atlanmaz, en kısa hâliyle oynar
+        const olcek = Math.max(AN_EN_AZ_OLCEK, olcekle(DEVAM_AN_MS));
         const m = (ms) => Math.round(ms * olcek);
-        if (olcek >= AN_EN_AZ_OLCEK) {
-          anBaslat({ tip: "devam", eski: Number(sk.deger ?? 0), yeni: Number(sk.yeni), tavan: Boolean(sk.tavan), olcek,
-                     metin: carpanYazisi(sk.carpan, dil) ?? "" }, [
-            [m(60), null, () => { sesRozet(); titret([16, 30, 16]); }],
-            [m(560), { varis: true }, () => { sesCoin(); titret(12); }],
-            [m(DEVAM_AN_MS), "bitir"],
-          ]);
-        } else { sesCoin(); titret(12); }
+        anBaslat({ tip: "devam", eski: Number(sk.deger ?? 0), yeni: Number(sk.yeni), tavan: Boolean(sk.tavan), olcek,
+                   metin: carpanYazisi(sk.carpan, dil) ?? "" }, [
+          [m(60), null, () => { sesRozet(); titret([16, 30, 16]); }],
+          [m(560), { varis: true }, () => { sesCoin(); titret(12); }],
+          [m(DEVAM_AN_MS), "bitir"],
+        ]);
       }
     }
     if (d.faz === "cevap" && d.cevap?.rakip_cevapladi && !anRef.current.rakip) {
