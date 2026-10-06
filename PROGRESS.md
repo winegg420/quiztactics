@@ -10159,3 +10159,13 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 - Yalnız Gümüş Lig sahne tokenları `#e4eefb` / `#98b6e0` oldu. 390×844 profil ölçümü: kart 347×226,7 px, yatay taşma 0; hesaplanan sahne renkleri RGB(228,238,251) / RGB(152,182,224). Gümüş kart ekran görüntüsü tarayıcıda alındı.
 - Taç görseli simetrik/önden; hata çerçeve parçasının `scaleX(-1)` aynası değil, maç sonu genel kazanan tacına iki tarafta da −12° verilmesiydi. Yalnız `.msk-tac` taraf açısı düzeltildi: sol −12°, sağ +12°; iki taraf 390×844'te ekran görüntüsü ve hesaplanan transform ile doğrulandı. Çerçeve parçaları ve görsel dosyası değişmedi.
 - `npm run build` başarılı; postbuild sonucu **TEMİZ**. Migration/DB işlemi ve push yapılmadı. Başka işe ait kirli dosyalar commit kapsamına alınmadı.
+
+## 2026-10-06 — Joker dükkânı: gruplamasız düz liste
+**Araç:** Codex
+**Neden:** Ida kararı — Klasik/Düello seçicisi ve ortak/moda özel bölümler kalksın; bütün aktif jokerler tek listede görünsün.
+
+- `AKTIF_MAC_SKILLERI` içindeki 9 joker tek `qt-dk-skill-liste` içinde gösteriliyor; mod seçici ve bölüm başlıkları kaldırıldı. Her karta mevcut mod verisinden TR/EN etiket eklendi: Klasik·Düello ortakları, yalnız Klasik/Düello ve `allowedModes` içinde `kasa` olanlar için Ortak Hazine.
+- Ortak Hazine doğrulaması: mod `macTur="kasa"` ile `macJokerleri`/`allowedModes` filtresini kullanıyor. Bu nedenle yalnız gerçekten `kasa` destekleyen 50:50, Ek Süre, Zaman Baskısı ve İkinci Şans kartlarında Hazine etiketi gösteriliyor.
+- `?mod=klasik|duello` okunup `MOD_ANAHTARI`na kaydedilmeye devam ediyor fakat listeyi filtrelemiyor. Her iki adresle 9 joker ve 4 Oyuncu/Usta paketi göründü. Paket içeriği, fiyatı, satın alma/onay, bakiye, coin ve ödüllü video akışları değişmedi.
+- Tarayıcı ölçümü: 360×800 ve 390×844, TR+EN; 9 kart/9 etiket/4 paket, yatay taşma ve kart/etiket kesilmesi **0**. En uzun etiket TR 202 px, EN 213 px; 360 px görünümde de tam. Yeni hareket/animasyon eklenmedi; mevcut hareketi azalt davranışı değişmedi.
+- Tarayıcı konsolunda uygulama kaynaklı hata/uyarı yoktu; görülen uyarılar yalnız tarayıcı eklentisinin `chrome-extension://` kaynağındaydı. `npm run build` başarılı; postbuild sonucu **TEMİZ**. Migration/DB işlemi ve push yapılmadı; başka işe ait kirli dosyalar commit kapsamına alınmadı.

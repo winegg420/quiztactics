@@ -4,7 +4,7 @@ import { hataMesaji } from "../lib/hata.js";
 import { sesHataUyari } from "../lib/ses.js";
 import { Link, useSearchParams } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
-import { JOKER_BILGI, AKTIF_MAC_SKILLERI, jokerBilgi, envanterNesne, jokerDukkanModlari, jokerYalnizModu, paketDukkanModlari } from "../lib/jokerler.js";
+import { JOKER_BILGI, AKTIF_MAC_SKILLERI, envanterNesne, jokerDukkanModlari, jokerYalnizModu, paketDukkanModlari } from "../lib/jokerler.js";
 import SkillRozeti from "../components/SkillRozeti.jsx";
 import JokerSatinAlModal from "../components/JokerSatinAlModal.jsx";
 import DukkanKozmetik, { DukkanAvatarlar, useKozmetikDukkan } from "../components/DukkanKozmetik.jsx";
@@ -64,10 +64,9 @@ const SEKMELER = [
 const ESKI_SEKME = { pcerceve: "cerceve", isim: "avatar" };
 const VARSAYILAN_SEKME = "joker";
 
-// JOKER SEKMESİ MOD AYRIMI (2 Eki 2026, Ida onayı): üstte "Klasik | Düello" seçici (Klasik turuncu, Düello kırmızı rol).
-// Seçili modda ÇALIŞAN jokerler iki bölümde: ortak (iki modda da) + yalnız o mod. Hangi joker hangi modda —
-// jokerler.js › SKILL_TANIMLARI.allowedModes (tek kaynak; burada liste TUTULMAZ). Maçtan gelen bağlantı
-// ?mod=klasik|duello ile o modu açar; parametre yoksa son seçim (cihazda saklanır), o da yoksa Klasik.
+// JOKER SEKMESİ: bütün aktif jokerler tek düz listede. Hangi jokerin hangi modda çalıştığı
+// jokerler.js › SKILL_TANIMLARI.allowedModes kaynağından kart rozetine yazılır; burada ayrı liste tutulmaz.
+// Maçtan gelen ?mod=klasik|duello bağlantısı geriye uyum için okunup cihazda saklanır, listeyi filtrelemez.
 const DUKKAN_MODLARI = [
   { kod: "klasik", macTur: "1v1", ad: tt("Klasik"), ikon: "klasik" },
   { kod: "duello", macTur: "duello", ad: tt("Düello"), ikon: "duello" },
@@ -86,15 +85,17 @@ function tekModUyarisi(tur) {
   return null;
 }
 
-/** Kartlardaki mod rozeti: ortak jokerde iki renk noktası, tek moda özel jokerde o modun rengi + ikonu. */
-function ModRozeti({ tur, kod }) {
-  const yalniz = kod ?? modKodu(jokerYalnizModu(tur));
-  if (!yalniz) {
+/** Kartlardaki mod rozeti: Klasik/Düello ayrımı dükkân yardımcılarından, Ortak Hazine desteği allowedModes'tan gelir. */
+function ModRozeti({ tur, kod, modlar: verilenModlar }) {
+  const modlar = verilenModlar ?? (tur ? jokerDukkanModlari(tur) : []);
+  const yalniz = kod ?? modKodu(jokerYalnizModu(tur)) ?? (modlar.length === 1 ? modKodu(modlar[0]) : null);
+  const hazine = Boolean(tur && JOKER_BILGI[tur]?.allowedModes?.includes("kasa"));
+  if (!yalniz && modlar.length > 1) {
     return (
       <span className="qt-dk-modrozet qt-dk-modrozet--ortak">
         <i className="qt-dk-modnokta qt-dk-modnokta--klasik" aria-hidden="true" />
         <i className="qt-dk-modnokta qt-dk-modnokta--duello" aria-hidden="true" />
-        {tt("Klasik + Düello")}
+        {hazine ? tt("Klasik · Düello · Ortak Hazine") : tt("Klasik · Düello")}
       </span>
     );
   }
@@ -173,28 +174,13 @@ export default function JokerDukkani() {
   const sekmeParasi = SEKMELER.find((x) => x.kod === sekme)?.para;
   const kozmetikSekmesi = sekme === "cerceve" || sekme === "avatar";
   const sekmeSec = (kod) => setArama({ sekme: kod }, { replace: true });
-  // Joker sekmesinin modu: adres (?mod=) > son seçim > Klasik. Adresle gelen mod (maç içinden) son seçim olur ki
-  // başka sekmeye gidip dönünce kaybolmasın.
+  // Maç içinden gelen ?mod= yönlendirmesi geriye uyum için son mod kaydını günceller; düz listeyi filtrelemez.
   const adresMod = modKoduCoz(arama.get("mod"));
-  const [sonMod, setSonMod] = useState(() => adresMod ?? kayitliMod());
-  useEffect(() => { if (adresMod) setSonMod(adresMod); }, [adresMod]);
-  const mod = DUKKAN_MODLARI.find((m) => m.kod === (adresMod ?? sonMod)) ?? DUKKAN_MODLARI[0];
-  const modSec = (kod) => {
-    if (kod === mod.kod) return;
-    dokunus();
-    setSonMod(kod);
-    try { localStorage.setItem(MOD_ANAHTARI, kod); } catch { /* depolama kapalı: seçim bu oturumda geçerli */ }
-    setArama({ sekme: "joker", mod: kod }, { replace: true });
-  };
-  // Seçili modda çalışan jokerler: ortak (iki modda da) + yalnız bu mod.
-  const modJokerleri = AKTIF_MAC_SKILLERI.filter((id) => jokerDukkanModlari(id).includes(mod.macTur));
-  const ortakJokerler = modJokerleri.filter((id) => !jokerYalnizModu(id));
-  const jokerBolumleri = [
-    { kod: "ortak", baslik: tt("Ortak jokerler"), alt: tt("Klasik ve Düello'da çalışır"), turler: ortakJokerler, ofset: 0 },
-    { kod: mod.kod, baslik: mod.kod === "duello" ? tt("Yalnız Düello") : tt("Yalnız Klasik"),
-      alt: mod.kod === "duello" ? tt("Yalnız Düello maçlarında çalışır") : tt("Yalnız Klasik maçlarda çalışır"),
-      turler: modJokerleri.filter((id) => jokerYalnizModu(id)), ofset: ortakJokerler.length },
-  ].filter((b) => b.turler.length > 0);
+  useEffect(() => {
+    const gelen = adresMod ?? kayitliMod();
+    if (!gelen) return;
+    try { localStorage.setItem(MOD_ANAHTARI, gelen); } catch { /* depolama kapalı: yönlendirme yine çalışır */ }
+  }, [adresMod]);
   // Paket 42 M.2: en ucuz skill (tek tek ya da paket) — bakiye bunun altındaysa üstte uyarı
   const enUcuzJoker = Math.min(
     ...Object.values(tekFiyat ?? {}).map(Number).filter((n) => Number.isFinite(n) && n > 0),
@@ -478,13 +464,12 @@ export default function JokerDukkani() {
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [kaydirHedef, sekme, hazir]);
-  // PAKETLER MODA GÖRE (910): paketin modu İÇERİĞİNDEN okunur — paketDukkanModlari her anahtarın jokerler.js'te
+  // PAKETLER (910): paketin modu İÇERİĞİNDEN okunur — paketDukkanModlari her anahtarın jokerler.js'te
   // AKTİF bir joker id'si olmasını ister (joker_paketleri.icerik anahtarı = jokerler.js id'si; eşleşmeyen anahtar
-  // paketi dükkândan düşürür) ve paketi yalnız içindeki HER jokerin çalıştığı modda gösterir. Sigorta/2X içeren
-  // paket yalnız Klasik'te, Baskın/Kalkan içeren yalnız Düello'da görünür. Tek türlük 10'lu paketler
+  // paketi dükkândan düşürür). Mod seçici kalktığı için bütün geçerli paketler birlikte gösterilir. Tek türlük 10'lu paketler
   // (fiyat_anahtari dolu) joker kartının kendi düğmesidir, burada listelenmez.
-  const modPaketleri = paketler.filter((p) => p.coin_fiyat != null && !p.fiyat_anahtari
-    && paketDukkanModlari(p.icerik).includes(mod.macTur));
+  const dukkanPaketleri = paketler.filter((p) => p.coin_fiyat != null && !p.fiyat_anahtari
+    && paketDukkanModlari(p.icerik).length > 0);
 
   return (
     <div className="qt-dk">
@@ -567,24 +552,6 @@ export default function JokerDukkani() {
         {/* ================= JOKER ================= */}
         {sekme === "joker" && hazir && (
           <>
-            {/* Mod seçici: seçili mod kendi rol renginde (Klasik turuncu, Düello kırmızı) */}
-            <div className="qt-dk-modsec" role="radiogroup" aria-label={tt("Oyun modu")}
-              onKeyDown={(e) => {
-                if (!["ArrowLeft", "ArrowRight"].includes(e.key)) return;
-                e.preventDefault();
-                e.currentTarget.querySelector('[aria-checked="false"]')?.focus();
-                modSec(DUKKAN_MODLARI.find((m) => m.kod !== mod.kod).kod);
-              }}>
-              {DUKKAN_MODLARI.map((m) => (
-                <button key={m.kod} type="button" role="radio" aria-checked={m.kod === mod.kod} tabIndex={m.kod === mod.kod ? 0 : -1}
-                  className={sinif("qt-dk-modsec-dugme", `qt-dk-modsec-dugme--${m.kod}`, m.kod === mod.kod && "qt-dk-modsec-dugme--secili")}
-                  onClick={() => modSec(m.kod)}>
-                  <QtIkon ad={m.ikon} boyut={22} />
-                  <span>{m.ad}</span>
-                </button>
-              ))}
-            </div>
-
             {/* Paket 34: jokerler geçici olarak ücretsiz ve sınırsız */}
             {jokerSerbest && (
               <p className="qt-dk-not qt-dk-not--dogru" role="status">
@@ -601,17 +568,9 @@ export default function JokerDukkani() {
               </div>
             )}
 
-            {/* key = mod: mod değişince bölümler kısa bir geçişle yeniden girer (dukkan-magaza.css › qt-dk-modpanel) */}
-            <div key={mod.kod} className="qt-dk-modpanel">
-            {jokerBolumleri.map((bolum) => (
-            <section key={bolum.kod} className="qt-dk-bolum" aria-labelledby={`qt-dk-skiller-${bolum.kod}`}>
-              <div className={`qt-dk-bolum-ust qt-dk-bolum-ust--${bolum.kod}`}>
-                <h2 id={`qt-dk-skiller-${bolum.kod}`} className="qt-baslik-2">{bolum.baslik}</h2>
-                <p className="qt-kucuk">{bolum.alt}</p>
-              </div>
-              <ul className="qt-dk-skill-liste">
-                {bolum.turler.map((tur, j) => {
-                  const i = bolum.ofset + j;
+            {/* Bütün aktif jokerler tek düz liste; mod bilgisi her kartın kendi rozetinde. */}
+            <ul className="qt-dk-skill-liste">
+                {AKTIF_MAC_SKILLERI.map((tur, i) => {
                   // Paket 2 B1/B2: sunucudan gelen satır (fiyat, 10'lu paket, kilit).
                   const sd = skillDukkan?.skiller?.[tur] ?? null;
                   const kilitli = Boolean(sd && sd.acik === false);
@@ -621,7 +580,7 @@ export default function JokerDukkani() {
                   const tekVar = sayiMi(tekFiyat[tur]);
                   const tek = Number(tekFiyat[tur]);
                   const yetmez = !kilitli && tekVar && bakiye !== null && bakiye < tek;
-                  const b = jokerBilgi(tur, mod.macTur, ayar);
+                  const b = JOKER_BILGI[tur];
                   const u = ucan(`joker:${tur}`);   // satın alma anı (sunucu onayından sonra): { adet } | { kilit }
                   // Oyun kartı: 3 px kontur + sol şerit joker renginde; kilitli / coin yetmeyen kart soluk (şerit gri).
                   return (
@@ -713,22 +672,21 @@ export default function JokerDukkani() {
                     </li>
                   );
                 })}
-              </ul>
-            </section>
-            ))}
-            </div>
+            </ul>
 
-            {/* ---------- Mod paketleri (coin ile): yalnız seçili modun paketleri ---------- */}
-            {modPaketleri.length > 0 && (
-              <section key={`paket-${mod.kod}`} className="qt-dk-bolum qt-dk-modpanel" aria-labelledby="qt-dk-paketler">
-                <div className={`qt-dk-bolum-ust qt-dk-bolum-ust--${mod.kod}`}>
-                  <h2 id="qt-dk-paketler" className="qt-baslik-2">{mod.kod === "duello" ? tt("Düello paketleri") : tt("Klasik paketleri")}</h2>
+            {/* ---------- Paketler (coin ile): Oyuncu ve Usta paketleri aynı akışla kalır ---------- */}
+            {dukkanPaketleri.length > 0 && (
+              <section className="qt-dk-bolum" aria-labelledby="qt-dk-paketler">
+                <div className="qt-dk-bolum-ust qt-dk-bolum-ust--ortak">
+                  <h2 id="qt-dk-paketler" className="qt-baslik-2">{tt("Paketler")}</h2>
                   <p className="qt-kucuk">{tt("Tek tek almaktan ucuz")}</p>
                 </div>
                 <ul className="qt-dk-paket-izgara">
-                  {modPaketleri.map((p) => {
+                  {dukkanPaketleri.map((p) => {
                     // İçerik joker sırasıyla (jsonb anahtar sırası rastgele gelir).
                     const parcalar = AKTIF_MAC_SKILLERI.filter((id) => p.icerik?.[id] != null).map((id) => [id, Number(p.icerik[id])]);
+                    const paketModlari = paketDukkanModlari(p.icerik);
+                    const paketKod = paketModlari.length === 1 ? modKodu(paketModlari[0]) : null;
                     const toplam = parcalar.reduce((t, [, n]) => t + n, 0);
                     // Tek tek alım toplamı sunucudaki tek fiyatlardan; biri okunamadıysa indirim gösterilmez (rakam uydurulmaz).
                     const tekTek = parcalar.every(([id]) => sayiMi(tekFiyat[id]))
@@ -738,7 +696,7 @@ export default function JokerDukkani() {
                     const u = ucan(`paket:${p.urun_id}`);
                     return (
                     <li key={p.urun_id}>
-                      <div className={sinif("qt-oyk qt-dk-paket", `qt-dk-paket--${mod.kod}`, u && "qt-oyk--kutla")}>
+                      <div className={sinif("qt-oyk qt-dk-paket", paketKod && `qt-dk-paket--${paketKod}`, u && "qt-oyk--kutla")}>
                         <div className="qt-dk-paket-ust">
                           <span className="qt-dk-paket-adet" aria-hidden="true">
                             <b className="qt-sayi">{toplam}</b>
@@ -747,7 +705,7 @@ export default function JokerDukkani() {
                           <div className="qt-dk-paket-metin">
                             <h3 className="qt-baslik-3">{paketMetni(p.ad)}</h3>
                             <div className="qt-dk-skill-rozetler">
-                              <ModRozeti kod={mod.kod} />
+                              <ModRozeti kod={paketKod} modlar={paketModlari} />
                               {indirim > 0 && <QtRozet boyut="k" ton="dogru">{tt("%{n} ucuz", { n: indirim })}</QtRozet>}
                             </div>
                           </div>
@@ -778,7 +736,8 @@ export default function JokerDukkani() {
                                 ))}
                               </span>
                             ),
-                            uyari: mod.kod === "duello" ? tt("Bu paket Düello maçları içindir.") : tt("Bu paket Klasik maçlar içindir."),
+                            uyari: paketKod === "duello" ? tt("Bu paket Düello maçları içindir.")
+                              : paketKod === "klasik" ? tt("Bu paket Klasik maçlar içindir.") : null,
                             fiyat: p.coin_fiyat,
                             calistir: () => jokerCoinIleAl(p.urun_id),
                           })}

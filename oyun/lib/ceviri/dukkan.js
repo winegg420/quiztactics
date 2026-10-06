@@ -103,6 +103,8 @@ export default {
   "Yalnız Klasik maçlarda çalışır": "Work only in Classic matches",
   "Yalnız Düello maçlarında çalışır": "Work only in Duel matches",
   "Klasik + Düello": "Classic + Duel",
+  "Klasik · Düello": "Classic · Duel",
+  "Klasik · Düello · Ortak Hazine": "Classic · Duel · Shared Treasure",
   "Bu joker yalnız Düello'da çalışır.": "This joker only works in Duel.",
   "Bu joker yalnız Klasik'te çalışır.": "This joker only works in Classic.",
   "Klasik paketleri": "Classic bundles",
