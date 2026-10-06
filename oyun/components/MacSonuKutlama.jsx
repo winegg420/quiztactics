@@ -535,7 +535,7 @@ function MacSonuKutlama({
     : benTerk ? tt("Yarıda bırakılan maçta ödül yok")
     : terk === "rakip" ? tt("Rakibin maçı yarıda bıraktı")
     : kazandi
-      ? (mod === "duello" ? tt("Düello senin!") : mod === "kasa" ? tt("Kasa senin!") : tt("Harika maçtı!"))
+      ? (mod === "duello" ? tt("Düello senin!") : mod === "kasa" ? tt("Hazine senin!") : tt("Harika maçtı!"))
       : durum === "kaybetti" ? tt("Rövanşta görüşürüz") : tt("Kimse pes etmedi");
   const panelVar = Boolean(detay || children);
   const panelId = useId();

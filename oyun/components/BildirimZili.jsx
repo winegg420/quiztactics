@@ -90,7 +90,7 @@ const TOPLAMA = {
   // Sunucu '/bildim/duello' yazar (migration 228); diğer türler gibi y() kökü kullanılır.
   duello_daveti: { metin: (n) => tt("{0} düello daveti", { 0: n }), yol: y("/duello") },
   // 957: Kasa davetleri Meydan sayfasında listelenir (yanıtla / reddet)
-  kasa_daveti: { metin: (n) => tt("{0} Kasa daveti", { 0: n }), yol: y("/meydan") },
+  kasa_daveti: { metin: (n) => tt("{0} Ortak Hazine daveti", { 0: n }), yol: y("/meydan") },
   seri: { metin: (n) => tt("{0} seri bildirimi", { 0: n }), yol: y() },
   arkadas_istek: { metin: (n) => tt("{0} arkadaşlık isteği", { 0: n }), yol: y("/arkadaslar") },
 };

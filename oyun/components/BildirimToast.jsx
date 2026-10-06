@@ -22,7 +22,7 @@ const TIP_STIL = {
   // bant GELEN daveti gösterir — bu yüzden ikisi asla aynı anda görünmez.
   meydan_kabul: { ikon: "kilic", sinif: "kabul", baslik: tt("Meydan okuman kabul edildi") },
   duello_kabul: { ikon: "kilic", sinif: "kabul", baslik: tt("Düello kabul edildi") },
-  kasa_kabul: { ikon: "coin", sinif: "kabul", baslik: tt("Kasa daveti kabul edildi") },   // 957
+  kasa_kabul: { ikon: "coin", sinif: "kabul", baslik: tt("Ortak Hazine daveti kabul edildi") },   // 957
   grup_kabul: { ikon: "kisiler", sinif: "kabul", baslik: tt("Grup maçın başlıyor") },
   // Davet (migration 354): kayıt → davet edene haber; Level 5 → ödül (coin sesi + animasyon).
   davet_katildi: { ikon: "hediye", sinif: "kabul", baslik: tt("Davetin işe yaradı") },

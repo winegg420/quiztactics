@@ -146,8 +146,8 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
     ...(kasaAcik ? [{
       mod: "kasa",
       ikon: "coin",
-      ad: tt("Kasa"),
-      aciklama: tt("Tek başına bil, kasayı al; doğru anda aç. {h} puana ilk ulaşan kazanır.", { h: kasaHedef }),
+      ad: tt("Ortak Hazine"),
+      aciklama: tt("Tek başına bil, hazineyi al; doğru anda aç. {h} puana ilk ulaşan kazanır.", { h: kasaHedef }),
       joker: tt("Klasik jokerlerin geçer"),
       odul: odulMetni(odul?.klasik),
       rozet: tt("Deneysel"),

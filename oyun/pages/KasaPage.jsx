@@ -81,9 +81,9 @@ const FINAL_KAPANIS_MS = 3200; // kaybeden: kasa kapanır/kararır
 const CIFTE_MS = 1400;
 const ARAMA_IPUCLARI = [
   "Aynı soruyu aynı anda cevaplarsınız.",
-  "Tek başına bilen kasanın sahibi olur.",
-  "İkiniz de bilirseniz kasa daha çok büyür.",
-  "Kasa sendeyse soru gelmeden AÇ ya da DEVAM de.",
+  "Tek başına bilen hazinenin sahibi olur.",
+  "İkiniz de bilirseniz hazine daha çok büyür.",
+  "Hazine sendeyse soru gelmeden AÇ ya da DEVAM de.",
   "{h} puana ilk ulaşan kazanır.",
 ];
 
@@ -146,33 +146,33 @@ function KasaGiris() {
       <header className="m2-giris-kafa ks-giris-kafa qt-h-gir">
         <span className="m2-giris-ikon" aria-hidden="true"><QtIkon ad="coin" boyut={40} /></span>
         <div className="m2-giris-yazi">
-          <h1 className="qt-baslik-1">{ceviri("Kasa")} <span className="ks-deneysel">{ceviri("Deneysel")}</span></h1>
-          <p>{ceviri("Ortada bir kasa büyür. Tek başına bilen kasayı alır; kasa sendeyse soru gelmeden AÇ ya da DEVAM de. {h} puana ilk ulaşan kazanır.", { h: hedef })}</p>
+          <h1 className="qt-baslik-1">{ceviri("Ortak Hazine")} <span className="ks-deneysel">{ceviri("Deneysel")}</span></h1>
+          <p>{ceviri("Ortada bir hazine büyür. Tek başına bilen hazineyi alır; hazine sendeyse soru gelmeden AÇ ya da DEVAM de. {h} puana ilk ulaşan kazanır.", { h: hedef })}</p>
         </div>
       </header>
       <ul className="ks-kurallar">
-        <li>{ceviri("Her soru kasaya +{n} ekler; ikiniz de bilirseniz +{m}.", { n: artis, m: ikisi })}</li>
-        <li>{ceviri("Soruyu tek başına bilen kasanın sahibi olur.")}</li>
+        <li>{ceviri("Her soru hazineye +{n} ekler; ikiniz de bilirseniz +{m}.", { n: artis, m: ikisi })}</li>
+        <li>{ceviri("Soruyu tek başına bilen hazinenin sahibi olur.")}</li>
         <li>{devamBirakir && carpanX
-          ? ceviri("AÇ: kasa puanına yazılır, kasa sıfırlanır. DEVAM: kasa {x} büyür ama sahipsiz kalır; tek başına bilen alır.", { x: carpanX })
+          ? ceviri("AÇ: hazine puanına yazılır, hazine sıfırlanır. DEVAM: hazine {x} büyür ama sahipsiz kalır; tek başına bilen alır.", { x: carpanX })
           : devamBirakir
-          ? ceviri("AÇ: kasa puanına yazılır, kasa sıfırlanır. DEVAM: kasa büyür ama sahipsiz kalır; tek başına bilen alır.")
-          : ceviri("AÇ: kasa puanına yazılır, kasa sıfırlanır. DEVAM: kasa büyür ama kaybedebilirsin.")}</li>
-        {acmaMin > 0 && <li>{ceviri("Kasa en az {m} olunca açılabilir.", { m: acmaMin })}</li>}
+          ? ceviri("AÇ: hazine puanına yazılır, hazine sıfırlanır. DEVAM: hazine büyür ama sahipsiz kalır; tek başına bilen alır.")
+          : ceviri("AÇ: hazine puanına yazılır, hazine sıfırlanır. DEVAM: hazine büyür ama kaybedebilirsin.")}</li>
+        {acmaMin > 0 && <li>{ceviri("Hazine en az {m} olunca açılabilir.", { m: acmaMin })}</li>}
         {/* 956: tavan hedefe eşit/üstündeyse tek AÇ maçı bitirebilir — "bitirmez" yalnız tavan < hedef iken */}
         {tavan > 0 && <li>{tavan < hedef
-          ? ceviri("Kasa en çok {t} olur: tek AÇ maçı bitirmez.", { t: tavan })
-          : ceviri("Kasa en çok {t} olur.", { t: tavan })}</li>}
+          ? ceviri("Hazine en çok {t} olur: tek AÇ maçı bitirmez.", { t: tavan })
+          : ceviri("Hazine en çok {t} olur.", { t: tavan })}</li>}
         <li>{ceviri("Karar süresi {s} sn; dolarsa DEVAM sayılır.", { s: kararSn })}</li>
         <li>{ceviri("Jokerler: 50:50, Ek Süre, Zaman Baskısı, İkinci Şans.")}</li>
-        {devamElli && <li>{ceviri("Bilerek DEVAM dersen kasa açılana kadar her soruda ücretsiz 50:50.")}</li>}
-        <li>{ceviri("{t} tur sonunda kasa sahibine yazılır; eşitlikte Altın Soru.", { t: maxTur })}</li>
+        {devamElli && <li>{ceviri("Bilerek DEVAM dersen hazine açılana kadar her soruda ücretsiz 50:50.")}</li>}
+        <li>{ceviri("{t} tur sonunda hazine sahibine yazılır; eşitlikte Altın Soru.", { t: maxTur })}</li>
       </ul>
       <DereceliAnahtari dereceli={dereceli} onDegistir={setDereceli} />
       {surenMac && (
         <p className="m2-bant ks-suren-mac" role="status">
           <QtIkon ad="oyna" boyut={18} />
-          <span>{ceviri("Devam eden bir Kasa maçın var.")}</span>
+          <span>{ceviri("Devam eden bir Ortak Hazine maçın var.")}</span>
           <QtDugme boyut="k" onClick={() => navigate(y(`/kasa/${surenMac}`))}>{ceviri("Maça dön")}</QtDugme>
         </p>
       )}
@@ -835,7 +835,7 @@ function KasaMac({ id }) {
       <div className="m2-mac ks-mac qt-sahne-mac qt-sahne-gok">
         {yuklemeHatasi ? (
           <MacYukleniyor hata={yuklemeHatasi} onTekrarDene={() => { setYuklemeHatasi(null); yukle(); }}
-                         donusYolu={y("/kasa")} donusMetni={c("Kasa'ya dön")} />
+                         donusYolu={y("/kasa")} donusMetni={c("Ortak Hazine'ye dön")} />
         ) : (
           <div className="m2-yukleniyor" aria-busy="true" aria-label={c("Yükleniyor…")}>
             <span className="m2-yukleniyor-ikon" aria-hidden="true"><QtIkon ad="coin" boyut={36} /></span>
@@ -855,7 +855,7 @@ function KasaMac({ id }) {
     const durum = d.durum === "iptal" || !d.kazanan ? "berabere" : kazandim ? "kazandi" : "kaybetti";
     const skor = { a: Number(ben.puan ?? 0), b: Number(rakip.puan ?? 0) };
     const altYazi = d.durum !== "bitti" ? null
-      : d.sonuc_neden === "hedef" ? (kazandim ? c("Kasayı açtın, {h} puana ulaştın!", { h: d.hedef }) : c("Rakip {h} puana ulaştı", { h: d.hedef }))
+      : d.sonuc_neden === "hedef" ? (kazandim ? c("Hazineyi açtın, {h} puana ulaştın!", { h: d.hedef }) : c("Rakip {h} puana ulaştı", { h: d.hedef }))
       : d.sonuc_neden === "tur_siniri" ? (kazandim ? c("{a}-{b} önde, kazandın", skor) : c("{a}-{b} geride, kaybettin", skor))
       : d.sonuc_neden === "altin" ? (kazandim ? c("Eşit — Altın Soru'yu sen bildin") : c("Eşit — Altın Soru'yu rakip bildi"))
       : null;
@@ -939,7 +939,7 @@ function KasaMac({ id }) {
             </>
           ) : null}
           eylemNotu={hata ? <span className="m2-hata" role="alert"><QtIkon ad="uyari" boyut={18} /> {hata}</span> : null}
-          eylemler={{ onYeniMac: () => navigate(y("/kasa")), onAnaSayfa: () => navigate(y()), yeniMacEtiketi: c("Yeni Kasa maçı") }}
+          eylemler={{ onYeniMac: () => navigate(y("/kasa")), onAnaSayfa: () => navigate(y()), yeniMacEtiketi: c("Yeni Ortak Hazine maçı") }}
           rovans={rovansAlani}   // 957: Düello ile aynı rövanş akışı (Ida, 5 Eki 2026 — "Kasa'yı ayrı tutma")
         />
       </div>
@@ -1074,7 +1074,7 @@ function KasaMac({ id }) {
          className={sinif("m2-mac ks-mac", `ks-mac--${d.faz}`, (gerilim || kararGerilim) && "qt-h-gerilim", d.altin && "ks-mac--altin",
                           anAc?.sars && "ks-mac--sars", girisAktif && "ks-mac--giris")}>
       <MacUstSerit onCik={() => setTerkOnay(true)} cikisEtiketi={c("Maçtan çık")}
-                   rozet={c("Kasa · Deneysel")} />
+                   rozet={c("Ortak Hazine · Deneysel")} />
       <KasaUst d={d} ben={ben} rakip={rakip} c={c} seviyeler={seviyeler} sayac={sayac} tepkiBalonlar={tepki.balonlar}
                anahtar={anSonuc?.anahtarVaris && !anSonuc.bitti ? anSonuc.anahtarA : null}
                rakipJoker={["cevap", "sonuc"].includes(d.faz) && Array.isArray(d.rakip_joker) ? d.rakip_joker : []}
@@ -1120,7 +1120,7 @@ function KasaMac({ id }) {
               <span className="ks-devam-an-yazi">
                 {d.devam_elli ? (
                   // 954: garanti — kasa açılana kadar her soruda
-                  <><b>{c("ÜCRETSİZ 50:50")}</b><span>{c("Kasa açılana kadar her soruda")}</span></>
+                  <><b>{c("ÜCRETSİZ 50:50")}</b><span>{c("Hazine açılana kadar her soruda")}</span></>
                 ) : (
                   <>
                     <b>{c("Joker kazandın!")}</b>
@@ -1220,7 +1220,7 @@ function KasaGecmis({ gecmis, c }) {
             <span className="ks-gecmis-metin">
               <b>{t.soru}</b>
               {dogru != null && <small>{c("Doğru cevap")}: {dogru}</small>}
-              {t.karar === "ac" && <small>{t.karar_ben ? c("Kasayı açtın: +{k} puan", { k: t.acilan_deger }) : c("Rakip kasayı açtı: +{k} puan", { k: t.acilan_deger })}</small>}
+              {t.karar === "ac" && <small>{t.karar_ben ? c("Hazineyi açtın: +{k} puan", { k: t.acilan_deger }) : c("Rakip hazineyi açtı: +{k} puan", { k: t.acilan_deger })}</small>}
             </span>
             <QtIkon ad={t.ben_dogru ? "onay" : "carpi"} boyut={16} />
           </li>

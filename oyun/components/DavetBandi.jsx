@@ -17,7 +17,7 @@ const TUR_BILGI = {
   grup: { etiket: tt("grup maçına çağırdı"), ikon: "kisiler", sinif: "tur-grup", yol: "grup-mac" },
   hizli: { etiket: tt("hızlı maça çağırdı"), ikon: "hizli", sinif: "tur-hizli", yol: "hizli-mac" },
   duello: { etiket: tt("seni düelloya çağırdı"), ikon: "kilic", sinif: "tur-duello", yol: "duello" },
-  kasa: { etiket: tt("seni Kasa maçına çağırdı"), ikon: "coin", sinif: "tur-kasa", yol: "kasa" },   // 957
+  kasa: { etiket: tt("seni Ortak Hazine maçına çağırdı"), ikon: "coin", sinif: "tur-kasa", yol: "kasa" },   // 957
 };
 
 const CEVAP_RPC = {

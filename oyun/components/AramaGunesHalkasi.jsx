@@ -33,7 +33,7 @@ import { NadirlikImg } from "./AvatarNadirlikGoruntu.jsx";
 yumusakHareketKur();
 
 const LIGLER = ["bronz", "gumus", "altin", "elmas", "efsane"];
-const MOD_AD = { klasik: "Klasik", saf: "Saf Bilgi", duello: "Düello", grup: "Grup Maçı", kasa: "Kasa" };
+const MOD_AD = { klasik: "Klasik", saf: "Saf Bilgi", duello: "Düello", grup: "Grup Maçı", kasa: "Ortak Hazine" };
 
 // Yeni metinler (TR/EN) — ana paketteki sözlüğü büyütmemek için burada; dil aktifDil() ile seçilir.
 const METIN = {

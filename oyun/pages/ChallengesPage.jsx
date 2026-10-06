@@ -538,11 +538,11 @@ export default function ChallengesPage() {
         navigate(y(`/kasa/${data.kasa_id}`));
         return;
       }
-      setToast(tt("Kasa daveti gönderildi — rakip kabul edince maç başlayacak."));
+      setToast(tt("Ortak Hazine daveti gönderildi — rakip kabul edince maç başlayacak."));
       await kasaDavetYukle();
       setTimeout(() => bekleyenlerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 80);
     } catch (e) {
-      setHata(hataMesaji(e, tt("Kasa daveti gönderilemedi.")));
+      setHata(hataMesaji(e, tt("Ortak Hazine daveti gönderilemedi.")));
     }
   };
 
@@ -554,7 +554,7 @@ export default function ChallengesPage() {
       await kasaDavetYukle();
       if (kabul && data) navigate(y(`/kasa/${data}`));
     } catch (e) {
-      setHata(hataMesaji(e, tt("Kasa daveti yanıtlanamadı.")));
+      setHata(hataMesaji(e, tt("Ortak Hazine daveti yanıtlanamadı.")));
     }
   };
 
@@ -950,7 +950,7 @@ export default function ChallengesPage() {
               ton: "kasa",   // 957
               bas: <AvatarCerceve profile={kisi(d.kuran)} boyut={56} />,
               baslik: <OyuncuAdiDugmesi userId={d.kuran} profil={kisi(d.kuran)}>{kisi(d.kuran)?.gorunen_ad ?? tt("Rakip")}</OyuncuAdiDugmesi>,
-              alt: `${tt("seni Kasa maçına çağırdı")} · ${d.dereceli ? tt("Dereceli") : tt("Serbest")}`,
+              alt: `${tt("seni Ortak Hazine maçına çağırdı")} · ${d.dereceli ? tt("Dereceli") : tt("Serbest")}`,
               kabul: () => kasaDavetCevap(d.id, true),
               ret: () => kasaDavetCevap(d.id, false),
             }))}
@@ -1098,7 +1098,7 @@ export default function ChallengesPage() {
           <span className="qt-oyk-cip a-meydan-ozet">
             <span className="qt-gizli">{tt("Seçimin:")} </span>
             {[
-              meydanModu === "duello" ? tt("Düello") : meydanModu === "kasa" ? tt("Kasa") : meydanModu === "saf" ? tt("Saf Bilgi") : tt("Klasik"),
+              meydanModu === "duello" ? tt("Düello") : meydanModu === "kasa" ? tt("Ortak Hazine") : meydanModu === "saf" ? tt("Saf Bilgi") : tt("Klasik"),
               meydanModu === "duello" || meydanModu === "kasa" ? null : kategori ? kategoriAdi(kategori) : tt("Karışık"),
               dereceli ? tt("Dereceli") : tt("Serbest"),
             ].filter(Boolean).join(" · ")}
@@ -1206,7 +1206,7 @@ export default function ChallengesPage() {
                        yukleniyor={antrenmanBasliyor === "kasa"}
                        devreDisi={antrenmanBasliyor !== null}
                        onClick={() => antrenmanBaslat("kasa")}>
-                {tt("Kasa · Deneysel")}
+                {tt("Ortak Hazine · Deneysel")}
               </QtDugme>
             )}
           </div>
@@ -1229,7 +1229,7 @@ export default function ChallengesPage() {
                      onClick={() => { secimHissi(); setMeydanModu("saf"); }} />
           {/* 957: Kasa da arkadaşa meydan okunabilen modlardan biri (mod kapalıysa gösterilmez) */}
           {kasaAcik && (
-            <QtModKart mod="kasa" ad={tt("Kasa")} alt={tt("Klasik jokerlerin geçer")}
+            <QtModKart mod="kasa" ad={tt("Ortak Hazine")} alt={tt("Klasik jokerlerin geçer")}
                        secili={meydanModu === "kasa"} rozet={secimOnayi(meydanModu === "kasa")}
                        onClick={() => { secimHissi(); setMeydanModu("kasa"); }} />
           )}
@@ -1440,7 +1440,7 @@ export default function ChallengesPage() {
                   key={d.id}
                   bas={<AvatarCerceve profile={kisi(d.rakip)} boyut={40} />}
                   baslik={<OyuncuAdiDugmesi userId={d.rakip} profil={kisi(d.rakip)}>{kisi(d.rakip)?.gorunen_ad ?? tt("Rakip")}</OyuncuAdiDugmesi>}
-                  alt={`${tt("Kasa · yanıt bekleniyor")} · ${d.dereceli ? tt("Dereceli") : tt("Serbest")}`}
+                  alt={`${tt("Ortak Hazine · yanıt bekleniyor")} · ${d.dereceli ? tt("Dereceli") : tt("Serbest")}`}
                   sag={
                     <QtDugme boyut="k" tur="ikincil" yukleniyor={iptalEdilen === d.id} onClick={() => kasaDavetIptal(d.id)}>
                       {iptalEdilen === d.id ? tt("Geri alınıyor…") : tt("Geri al")}

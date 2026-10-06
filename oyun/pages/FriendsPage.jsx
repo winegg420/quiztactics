@@ -322,11 +322,11 @@ export default function FriendsPage() {
         navigate(y(`/kasa/${data.kasa_id}`));
         return null;
       }
-      setBilgi(tt("Kasa daveti gönderildi — rakip kabul edince maç başlayacak."));
+      setBilgi(tt("Ortak Hazine daveti gönderildi — rakip kabul edince maç başlayacak."));
       await bekleyenleriYukle();
       return null;
     } catch (e) {
-      return hataMesaji(e, tt("Kasa daveti gönderilemedi."));
+      return hataMesaji(e, tt("Ortak Hazine daveti gönderilemedi."));
     }
   };
 
@@ -605,7 +605,7 @@ export default function FriendsPage() {
                         {bekleyen.tur === "duello"
                           ? tt("Düello daveti gönderildi · yanıt bekleniyor")
                           : bekleyen.tur === "kasa"
-                            ? tt("Kasa daveti gönderildi · yanıt bekleniyor")
+                            ? tt("Ortak Hazine daveti gönderildi · yanıt bekleniyor")
                             : tt("Meydan okuma gönderildi · yanıt bekleniyor")}
                       </span>
                       <span className="ar-bekleyen-dugmeler">

@@ -58,7 +58,7 @@ export function KasaKadran({ d, c, kucuk = false, goster, sahipGoster, hareket =
     <div className={sinif("ks-kadran", `ks-kadran--${sahip}`, `ks-kadran--${seviye}`, kucuk && "ks-kadran--kucuk",
                           isikli && "ks-kadran--isikli", alevli && "ks-kadran--alevli",
                           ...hareket.map((h) => `ks-kadran--${h}`))}
-         role="img" aria-label={tavan > 0 ? c("Kasa {k}/{t} · {s}", { k: kasa, t: tavan, s: etiket }) : c("Kasa {k} · {s}", { k: kasa, s: etiket })}
+         role="img" aria-label={tavan > 0 ? c("Hazine {k}/{t} · {s}", { k: kasa, t: tavan, s: etiket }) : c("Hazine {k} · {s}", { k: kasa, s: etiket })}
          data-ks-hedef={kucuk ? "kasa" : "kasa-buyuk"}>
       {kucuk ? (
         <span className="ks-kadran-mini">{alevli && <Alev />}<KasaKasasi seviye={seviye} kucuk /></span>
@@ -66,7 +66,7 @@ export function KasaKadran({ d, c, kucuk = false, goster, sahipGoster, hareket =
         <span className="ks-kadran-govde">{alevli && <Alev />}<KasaKasasi seviye={seviye} /></span>
       )}
       <span className={kucuk ? "ks-kadran-ic" : "ks-kadran-plaka"}>
-        <small>{seviye === "tavan" ? c("DOLU") : c("KASA")}</small>
+        <small>{seviye === "tavan" ? c("DOLU") : c("HAZİNE")}</small>
         <b className="qt-sayi">
           <SayanSayi deger={kasa} sure={sayiSure} />
           {tavan > 0 && <span className="ks-kadran-tavan">/{tavan}</span>}
@@ -175,7 +175,7 @@ export function KasaKarar({ d, c, calisan, onKarar, kalan = null, carpanYazi = n
       <div className="ks-karar ks-karar--bekle" role="status" aria-live="polite">
         <KasaKadran d={d} c={c} hareket={hareket} />
         <p className="ks-karar-baslik"><span className="ks-nokta" aria-hidden="true" />{c("Rakip karar veriyor…")}</p>
-        <p className="ks-karar-not">{c("Açarsa {k} puan alır, kasa sıfırlanır.", { k: deger })}</p>
+        <p className="ks-karar-not">{c("Açarsa {k} puan alır, hazine sıfırlanır.", { k: deger })}</p>
       </div>
     );
   }
@@ -187,12 +187,12 @@ export function KasaKarar({ d, c, calisan, onKarar, kalan = null, carpanYazi = n
   return (
     <div className="ks-karar">
       <KasaKadran d={d} c={c} hareket={hareket} />
-      <p className="ks-karar-baslik">{c("Kasa sende: {k} puan", { k: deger })}</p>
+      <p className="ks-karar-baslik">{c("Hazine sende: {k} puan", { k: deger })}</p>
       <div className="ks-karar-eylem">
         <QtDugme tamGenislik boyut="b" ikon={acKilit ? "kilit" : "coin"} yukleniyor={calisan === "karar-ac"}
                  devreDisi={!!calisan || acKilit} className={acKilit ? "ks-ac-kilitli" : undefined}
                  onClick={() => { if (!acKilit) onKarar(true); }}>
-          {acKilit ? c("AÇ · En az {m} kasa", { m: d.acma_min }) : c("AÇ · +{k} puan", { k: deger })}
+          {acKilit ? c("AÇ · En az {m} hazine", { m: d.acma_min }) : c("AÇ · +{k} puan", { k: deger })}
         </QtDugme>
         <QtDugme tur="ikincil" tamGenislik boyut="b" ikon="ileri" yukleniyor={calisan === "karar-devam"} devreDisi={!!calisan}
                  onClick={() => onKarar(false)}>
@@ -200,15 +200,15 @@ export function KasaKarar({ d, c, calisan, onKarar, kalan = null, carpanYazi = n
           {d.devam_elli && carpanVar ? c("DEVAM {x} · ÜCRETSİZ 50:50", { x: carpanYazi })
             : carpanVar ? c("DEVAM {x}", { x: carpanYazi })
             : d.devam_elli ? c("DEVAM · ÜCRETSİZ 50:50")
-            : Number(d.devam_sans) > 0 ? c("DEVAM · %{p} joker şansı", { p: Number(d.devam_sans) }) : c("DEVAM · kasa büyüsün")}
+            : Number(d.devam_sans) > 0 ? c("DEVAM · %{p} joker şansı", { p: Number(d.devam_sans) }) : c("DEVAM · hazine büyüsün")}
         </QtDugme>
       </div>
       <p className="ks-karar-not">
-        {carpanYazi && tavan > 0 && deger >= tavan ? c("Kasa dolu ({t}): DEVAM büyütmez, sahipsiz bırakır.", { t: tavan })
+        {carpanYazi && tavan > 0 && deger >= tavan ? c("Hazine dolu ({t}): DEVAM büyütmez, sahipsiz bırakır.", { t: tavan })
           : carpanVar && d.devam_birakir ? (tavan > 0
-            ? c("DEVAM: kasa {x} büyür (en çok {t}) ve sahipsiz kalır. Süre dolarsa DEVAM sayılır.", { x: carpanYazi, t: tavan })
-            : c("DEVAM: kasa {x} büyür ve sahipsiz kalır. Süre dolarsa DEVAM sayılır.", { x: carpanYazi }))
-          : d.devam_birakir ? c("DEVAM: kasa sahipsiz kalır. Süre dolarsa DEVAM sayılır.") : c("Süre dolarsa DEVAM sayılır.")}
+            ? c("DEVAM: hazine {x} büyür (en çok {t}) ve sahipsiz kalır. Süre dolarsa DEVAM sayılır.", { x: carpanYazi, t: tavan })
+            : c("DEVAM: hazine {x} büyür ve sahipsiz kalır. Süre dolarsa DEVAM sayılır.", { x: carpanYazi }))
+          : d.devam_birakir ? c("DEVAM: hazine sahipsiz kalır. Süre dolarsa DEVAM sayılır.") : c("Süre dolarsa DEVAM sayılır.")}
       </p>
     </div>
   );
@@ -222,9 +222,9 @@ export function KasaAcKilit({ d, c }) {
   const m = Number(d?.acma_min ?? 0);
   if (!(m > 0) || d?.altin || d?.sahip !== d?.ben || !(Number(d?.kasa) < m)) return null;
   return (
-    <p className="ks-ac-kilit qt-h-gir" role="note" aria-label={c("AÇ kilitli: en az {m} kasa", { m })}>
+    <p className="ks-ac-kilit qt-h-gir" role="note" aria-label={c("AÇ kilitli: en az {m} hazine", { m })}>
       <span className="ks-ac-kilit-dugme" aria-hidden="true"><QtIkon ad="kilit" boyut={14} />{c("AÇ")}</span>
-      <span>{c("En az {m} kasa", { m })}</span>
+      <span>{c("En az {m} hazine", { m })}</span>
       <span className="ks-ac-kilit-ilerleme qt-sayi" aria-hidden="true">{Number(d.kasa)}/{m}</span>
     </p>
   );
@@ -237,10 +237,10 @@ export function kasaKararMetni(d, c) {
   const benim = k.veren === d.ben;
   // 954: DEVAM sahipliği bıraktıysa ve kasa hâlâ sahipsizse karar satırı gizli (kadran "SAHİPSİZ" yazar)
   if (!k.ac && !k.son && k.birakti && !d.sahip) return null;
-  if (k.son) return benim ? c("Son tur: kasa sana yazıldı +{k}", { k: k.deger }) : c("Son tur: kasa rakibe yazıldı +{k}", { k: k.deger });
-  if (k.ac) return benim ? c("Kasayı açtın: +{k} puan", { k: k.deger }) : c("Rakip kasayı açtı: +{k} puan", { k: k.deger });
+  if (k.son) return benim ? c("Son tur: hazine sana yazıldı +{k}", { k: k.deger }) : c("Son tur: hazine rakibe yazıldı +{k}", { k: k.deger });
+  if (k.ac) return benim ? c("Hazineyi açtın: +{k} puan", { k: k.deger }) : c("Rakip hazineyi açtı: +{k} puan", { k: k.deger });
   if (k.sure_doldu) return benim ? c("Süre doldu: devam") : c("Rakibin süresi doldu: devam");
-  return benim ? c("Devam ettin: kasa büyüyor") : c("Rakip devam etti: kasa büyüyor");
+  return benim ? c("Devam ettin: hazine büyüyor") : c("Rakip devam etti: hazine büyüyor");
 }
 
 /** Soru sonu sonuç bandı: { ton, baslik, alt }. */
@@ -256,11 +256,11 @@ export function kasaSonucMetni(d, c) {
   }
   // 955: tavana kırpıldıysa gerçek artış (kasa_sonra − kasa_once) yazılır; tavandaysa "Kasa dolu"
   const artis = s.tavan_kirpti ? Math.max(0, Number(s.kasa_sonra) - Number(s.kasa_once)) : s.artis;
-  const alt = s.tavan_kirpti ? c("Kasa dolu: {k}", { k: s.kasa_sonra }) : c("Kasa {k}", { k: s.kasa_sonra });
-  const altArti = s.tavan_kirpti ? alt : c("+{n} · Kasa {k}", { n: artis, k: s.kasa_sonra });
+  const alt = s.tavan_kirpti ? c("Hazine dolu: {k}", { k: s.kasa_sonra }) : c("Hazine {k}", { k: s.kasa_sonra });
+  const altArti = s.tavan_kirpti ? alt : c("+{n} · Hazine {k}", { n: artis, k: s.kasa_sonra });
   if (ben && rakip) return { ton: "altin", baslik: c("İkiniz de bildiniz +{n}", { n: artis }), alt };
-  if (ben) return { ton: "iyi", baslik: c("Tek başına bildin: kasa sende"), alt: altArti };
-  if (rakip) return { ton: "kotu", baslik: c("Rakip tek başına bildi: kasa rakipte"), alt: altArti };
+  if (ben) return { ton: "iyi", baslik: c("Tek başına bildin: hazine sende"), alt: altArti };
+  if (rakip) return { ton: "kotu", baslik: c("Rakip tek başına bildi: hazine rakipte"), alt: altArti };
   return { ton: "notr", baslik: c("İkiniz de bilemediniz +{n}", { n: artis }), alt };
 }
 

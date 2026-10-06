@@ -127,8 +127,8 @@ export default function ModlarPage() {
         genis
         className={sirali}
         style={siraStili(5)}
-        ad={tt("Kasa")}
-        alt={tt("Tek başına bil, kasayı al; doğru anda aç. {h} puana ilk ulaşan kazanır.", { h: kasaHedef })}
+        ad={tt("Ortak Hazine")}
+        alt={tt("Tek başına bil, hazineyi al; doğru anda aç. {h} puana ilk ulaşan kazanır.", { h: kasaHedef })}
         rozet={tt("Deneysel")}
         kilitli={!kasaAcik}
         kilitMetni={tt("Bu mod şu an kapalı.")}

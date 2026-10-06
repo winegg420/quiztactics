@@ -231,13 +231,28 @@ const TR_DUZELTME = {
   "Bu aura sende yok": "Bu arka plan sende yok",
   "Bu aura zaten sende": "Bu arka plan zaten sende",
   "Bu aura şu an kullanılamıyor": "Bu arka plan şu an kullanılamıyor",
+  // 980: mod adı "Kasa" → "Ortak Hazine" (ortadaki puan: hazine). Sunucunun eski metinleri + eski bildirim satırları.
+  "Devam eden bir Kasa maçı var": "Devam eden bir Ortak Hazine maçı var",
+  "Bu oyuncuyla bekleyen bir Kasa davetin zaten var": "Bu oyuncuyla bekleyen bir Ortak Hazine davetin zaten var",
+  "Oyunculardan birinin devam eden Kasa maçı var": "Oyunculardan birinin devam eden Ortak Hazine maçı var",
+  "Bu joker Kasa modunda kullanılamaz": "Bu joker Ortak Hazine modunda kullanılamaz",
+  "Karar kasanın sahibinde": "Karar hazinenin sahibinde",
 };
+// 980: değişken parçalı eski sunucu metinleri (oyuncu adı, sayı) — TR oyuncuda yeni adla yazılır
+const TR_KALIP = [
+  [/^Kasa en az (.+) olmalı$/, "Hazine en az $1 olmalı"],
+  [/^(.+) seni Kasa maçına çağırdı!$/, "$1 seni Ortak Hazine maçına çağırdı!"],
+  [/^(.+) Kasa davetini kabul etti - maç başlıyor!$/, "$1 Ortak Hazine davetini kabul etti - maç başlıyor!"],
+];
 
 /** Sunucu hata mesajı çevirisi: önce birebir, sonra "%" kalıbıyla. */
 export function ttSunucu(metin) {
   const dil = aktifDil();
   const sozluk = SOZLUK[dil];
   if (dil === "tr" && typeof metin === "string" && TR_DUZELTME[metin]) return TR_DUZELTME[metin];
+  if (dil === "tr" && typeof metin === "string") {
+    for (const [re, yeni] of TR_KALIP) if (re.test(metin)) return jokerAdi(metin.replace(re, yeni));
+  }
   if (dil === "tr" || !sozluk || typeof metin !== "string") return jokerAdi(metin);
   if (sozluk[metin]) return jokerAdi(sozluk[metin]);
   if (!kaliplar) kaliplariKur(sozluk);

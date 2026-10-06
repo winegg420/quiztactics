@@ -195,7 +195,7 @@ export function KasaAcAni({ deger, benim, seviye, c }) {
         <KasaKasasi seviye={seviye === "bos" ? "az" : seviye} />
       </div>
       <b className="ks-ac-yazi">
-        {benim ? c("KASA AÇILDI!") : c("Rakip kasayı açtı!")}
+        {benim ? c("HAZİNE AÇILDI!") : c("Rakip hazineyi açtı!")}
         <span className="qt-sayi">+{deger}</span>
       </b>
     </div>
@@ -255,7 +255,7 @@ export function KasaGirisSahnesi({ hedef, acmaMin, tavan = 0, carpanYazi = null,
   return (
     <div className={sinif("ks-giris-an", n && "ks-giris-an--sayim")} role="status" aria-live="polite" style={{ "--ks-gec": gecikme }}>
       <span className="ks-giris-isik" aria-hidden="true" />
-      <b className="ks-giris-baslik">{c("KASA")}</b>
+      <b className="ks-giris-baslik">{c("HAZİNE")}</b>
       <span className="ks-giris-sayac" aria-live="assertive">
         {n ? <b key={n} className="ks-giris-sayi qt-sayi">{n}</b> : <span className="ks-giris-hazir">{c("Hazır ol!")}</span>}
       </span>
@@ -270,10 +270,10 @@ export function KasaGirisSahnesi({ hedef, acmaMin, tavan = 0, carpanYazi = null,
       </span>
       {tavan > 0 && (
         <span className="ks-giris-not">
-          {carpanYazi ? c("Kasa en çok {t} · DEVAM {x}", { t: tavan, x: carpanYazi }) : c("Kasa en çok {t}", { t: tavan })}
+          {carpanYazi ? c("Hazine en çok {t} · DEVAM {x}", { t: tavan, x: carpanYazi }) : c("Hazine en çok {t}", { t: tavan })}
         </span>
       )}
-      {acmaMin > 0 && <span className="ks-giris-not">{c("Kasa en az {m} olunca açılabilir", { m: acmaMin })}</span>}
+      {acmaMin > 0 && <span className="ks-giris-not">{c("Hazine en az {m} olunca açılabilir", { m: acmaMin })}</span>}
     </div>
   );
 }
@@ -297,7 +297,7 @@ export function KasaFinalSahnesi({ kazandim, puanOnce, puanSonra, hedef, deger, 
         {kazandim && <Patlama adet={24} menzil={170} className="ks-final-patlama" />}
       </div>
       <b className="ks-final-baslik">
-        {kazandim ? c("KASA AÇILDI!") : c("Kasa rakibe açıldı")}
+        {kazandim ? c("HAZİNE AÇILDI!") : c("Hazine rakibe açıldı")}
         {deger > 0 && <span className="qt-sayi">+{deger}</span>}
       </b>
       <span className="ks-final-skor qt-sayi" aria-label={c("{a} / {h} puan", { a: puanSonra, h: hedef })}>
