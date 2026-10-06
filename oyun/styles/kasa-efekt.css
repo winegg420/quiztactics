@@ -195,6 +195,43 @@
 .ks-ac-yazi span { font-size: 46px; color: var(--qt-coin); text-shadow: 0 4px 0 #1f1400, 0 0 18px rgba(255, 201, 51, .7); }
 @keyframes ks-ac-yazi { 0% { opacity: 0; transform: translateY(14px) scale(.9); } 30% { opacity: 1; transform: none; } 100% { opacity: 1; } }
 
+/* ---------- 990: rakibin kararı — kapalı kart → AÇTI / DEVAM ETTİ vuruşu ---------- */
+/* Sahnenin üstünde (soru/şıklar örtülür; sayaç da bu sürede gizli — KasaPage). Kökte transform yok. */
+.ks-rk {
+  position: absolute; inset: -4px; z-index: 6; display: grid; place-items: center; pointer-events: none;
+  border-radius: var(--qt-r-l); background: rgba(22, 14, 0, .78);
+  animation: ks-rk-gir 140ms ease-out both;
+}
+@keyframes ks-rk-gir { from { opacity: 0; } to { opacity: 1; } }
+.ks-rk-kart { position: relative; width: min(250px, 72%); aspect-ratio: 5 / 3; perspective: 700px; }
+.ks-rk-yuz {
+  position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 4px; text-align: center;
+  border-radius: 18px; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  transition: transform 220ms var(--qt-egri-cikis, ease-out), opacity 160ms ease-out;
+}
+.ks-rk-yuz--arka {
+  background: repeating-linear-gradient(45deg, #3a2600 0 10px, #2c1d00 10px 20px); color: #fff4cf;
+  box-shadow: 0 5px 0 #1f1400, inset 0 0 0 3px var(--qt-coin);
+}
+.ks-rk-yuz--arka b { font: var(--qt-a-siyah) 17px/1.15 var(--qt-f-baslik); }
+.ks-rk-yuz--on { transform: rotateY(180deg); color: #fff; }
+.ks-rk--ac .ks-rk-yuz--on { background: var(--qt-coin); color: var(--qt-coin-yazi); box-shadow: 0 5px 0 var(--qt-coin-dudak); }
+.ks-rk--devam .ks-rk-yuz--on { background: var(--qt-mod-duello); box-shadow: 0 5px 0 var(--qt-mod-duello-dudak); }
+.ks-rk-yuz--on small { font: var(--qt-a-siyah) 12px/1 var(--qt-f-govde); letter-spacing: .08em; text-transform: uppercase; opacity: .9; }
+.ks-rk-yuz--on b { font: var(--qt-a-siyah) 34px/1 var(--qt-f-baslik); letter-spacing: .01em; }
+.ks-rk-yuz--on em { font: var(--qt-a-siyah) 18px/1 var(--qt-f-baslik); font-style: normal; }
+.ks-rk--kapali .ks-rk-kart { animation: ks-rk-titre 300ms linear both; }
+@keyframes ks-rk-titre { 0%, 100% { transform: none; } 30% { transform: rotate(-2deg); } 60% { transform: rotate(2deg); } }
+.ks-rk--acik .ks-rk-yuz--arka { transform: rotateY(-180deg); }
+.ks-rk--acik .ks-rk-yuz--on { transform: none; }
+.ks-rk--acik .ks-rk-kart { animation: ks-rk-vurus 360ms var(--qt-egri-cikis, ease-out) 120ms both; }
+@keyframes ks-rk-vurus { 0% { transform: scale(1); } 45% { transform: scale(1.12); } 100% { transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) {
+  .ks-rk, .ks-rk-kart { animation: none !important; }
+  .ks-rk-yuz { transition: opacity 120ms linear; transform: none !important; }
+  .ks-rk--kapali .ks-rk-yuz--on, .ks-rk--acik .ks-rk-yuz--arka { opacity: 0; }
+}
+
 /* ekran titremesi (yalnız iç bloklar; kökte transform yok — kökte fixed katmanlar var) */
 .ks-mac--sars > .ks-ust, .ks-mac--sars > .ks-serit, .ks-mac--sars > .ks-sahne { animation: ks-sars 420ms linear; }
 @keyframes ks-sars {

@@ -203,6 +203,31 @@ export function KasaAcAni({ deger, benim, seviye, olcek = 1, c }) {
   );
 }
 
+/**
+ * 990 · Rakibin AÇ / DEVAM kararının açıklanışı (yalnız sunum). asama "kapali": ters kart — "Rakip karar verdi"
+ * (karar ne, henüz görünmez); asama "acik": kart döner, AÇTI! (altın) / DEVAM ETTİ (+ ×2) vuruşu. AÇ'ta kapalı
+ * kartın ardından AÇ anı (KasaAcAni) gelir; bu katman yalnız hareket azaltmada AÇTI yazısını gösterir.
+ * Süreler KasaPage'de (KAPALI_KARAR_MS / DEVAM_VURUS_MS); hareket azaltmada dönüş/ölçek yok, yalnız saydamlık.
+ */
+export function KasaRakipKarar({ asama, ac, sureDoldu = false, deger = 0, carpan = null, c }) {
+  const acik = asama === "acik";
+  return (
+    <div className={sinif("ks-rk", acik ? "ks-rk--acik" : "ks-rk--kapali", ac ? "ks-rk--ac" : "ks-rk--devam")} aria-hidden="true">
+      <div className="ks-rk-kart">
+        <span className="ks-rk-yuz ks-rk-yuz--arka">
+          <QtIkon ad="kilit" boyut={30} />
+          <b>{c("Rakip karar verdi")}</b>
+        </span>
+        <span className="ks-rk-yuz ks-rk-yuz--on">
+          <small>{sureDoldu ? c("Rakibin süresi doldu") : c("Rakip")}</small>
+          <b>{ac ? c("AÇTI!") : c("DEVAM ETTİ")}</b>
+          {ac ? <em className="qt-sayi">+{deger}</em> : carpan ? <em className="qt-sayi">{c("Hazine {x}", { x: carpan })}</em> : null}
+        </span>
+      </div>
+    </div>
+  );
+}
+
 // Merkezden dışa saçılan altın (giriş/final patlaması): açı + mesafe + gecikme önceden (yalnız sunum)
 function patlamaParcalari(adet, menzil) {
   return Array.from({ length: adet }, (_, i) => {

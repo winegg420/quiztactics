@@ -90,8 +90,10 @@ export function KasaKadran({ d, c, kucuk = false, goster, sahipGoster, hareket =
 /**
  * SEN / RAKİP skor çubukları (hedef çizgisiyle). Kasanın sahibi açarsa ulaşacağı yer soluk "hayalet" dolguyla
  * gösterilir (yalnız bilgi; kural sunucuda).
+ * 990 · orta: hazine şeridin ORTASINDA ortak nesne — SEN solda, RAKİP sağda, çubuklar merkeze (hazineye) doğru dolar.
+ * Yükseklik eski iki satırlı şeritle aynı kalır (soru alanı sıkışmaz). orta yoksa eski iki satırlı görünüm.
  */
-export function KasaSkor({ d, ben, rakip, c, puanGoster = {}, parla = null }) {
+export function KasaSkor({ d, ben, rakip, c, puanGoster = {}, parla = null, orta = null }) {
   const hedef = Math.max(1, Number(d.hedef) || 20);
   const sahip = kasaSahibi(d);
   const satir = (o, kim) => {
@@ -111,8 +113,18 @@ export function KasaSkor({ d, ben, rakip, c, puanGoster = {}, parla = null }) {
       </div>
     );
   };
+  const etiket = c("Skor: sen {a}, rakip {b}, hedef {h}", { a: ben?.puan ?? 0, b: rakip?.puan ?? 0, h: hedef });
+  if (orta) {
+    return (
+      <div className="ks-skor ks-skor--orta" role="group" aria-label={etiket}>
+        <div className="ks-skor-yan ks-skor-yan--ben">{satir(ben, "ben")}</div>
+        <div className="ks-skor-merkez" data-sahip={sahip}>{orta}</div>
+        <div className="ks-skor-yan ks-skor-yan--rakip">{satir(rakip, "rakip")}</div>
+      </div>
+    );
+  }
   return (
-    <div className="ks-skor" role="group" aria-label={c("Skor: sen {a}, rakip {b}, hedef {h}", { a: ben?.puan ?? 0, b: rakip?.puan ?? 0, h: hedef })}>
+    <div className="ks-skor" role="group" aria-label={etiket}>
       {satir(ben, "ben")}
       {satir(rakip, "rakip")}
     </div>

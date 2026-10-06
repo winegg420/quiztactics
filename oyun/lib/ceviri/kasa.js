@@ -33,7 +33,6 @@ export default {
   "Tek başına bilen hazinenin sahibi olur.": "Answer alone and the treasure is yours.",
   "İkiniz de bilirseniz hazine daha çok büyür.": "If you both answer correctly, the treasure grows more.",
   "Hazine sendeyse soru gelmeden AÇ ya da DEVAM de.": "If the treasure is yours, choose OPEN or KEEP before the question.",
-  "{h} puana ilk ulaşan kazanır.": "First to {h} points wins.",
 
   // kadran + skor
   "HAZİNE": "TREASURE",
@@ -86,6 +85,7 @@ export default {
   "Hazine en az {m} olunca açılabilir": "The treasure can be opened once it holds at least {m}",
   "Jokerler: 50:50, Ek Süre, Zaman Baskısı, İkinci Şans.": "Jokers: 50:50, Extra Time, Time Pressure, Second Chance.",
   "Hedef": "Target",
+  "HEDEF": "TARGET",   // 990: şerit ortası (karar/başlangıç)
   "AÇ": "OPEN",
   "En az {m} hazine": "Treasure min. {m}",
   "AÇ · En az {m} hazine": "OPEN · Treasure min. {m}",
@@ -169,4 +169,16 @@ export default {
   "% Kasa davetini kabul etti - maç başlıyor!": "% accepted your Shared Treasure invite — the match is starting!",
   "% Ortak Hazine davetini kabul etti - maç başlıyor!": "% accepted your Shared Treasure invite — the match is starting!",
   "Bu oyuncuyla oynayamazsın": "You can’t play with this player",
+
+  // 990: lobi kısa özeti + açılır tam kurallar
+  "Ortada ikinizin ortak hazinesi büyür.": "A treasure you both share grows in the middle.",
+  "Soruyu tek başına bilen hazineyi alır.": "Answer alone to take the treasure.",
+  "Hazine sendeyse AÇ: puanına yaz · DEVAM: hazine büyür, sahipsiz kalır.": "Treasure is yours? OPEN: add it to your score · KEEP: it grows and is up for grabs.",
+  "{h} puana ilk ulaşan kazanır.": "First to {h} points wins.",
+  "Tüm kurallar": "All rules",
+  // 990 · rakibin kararı: kapalı kart → vuruş
+  "Rakip karar verdi": "Opponent has decided",
+  "AÇTI!": "OPENED!",
+  "DEVAM ETTİ": "KEPT IT",
+  "Hazine {x}": "Treasure {x}",
 };
