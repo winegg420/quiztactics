@@ -109,7 +109,7 @@
      OyuncuVitrinKarti `ligSahnesi` modifier: koyu kart yerine ligin AÇIK tonu + sabit iki-tonlu ışın deseni.
      Her lig {sahne (zemin), sahne-isik (ışının ikinci tonu)}; çerçeve mevcut *-dudak token'ını kullanır. */
   --qt-lig-bronz-sahne: #fbe9d9;    --qt-lig-bronz-sahne-isik: #f0c29c;
-  --qt-lig-gumus-sahne: #eef2f8;    --qt-lig-gumus-sahne-isik: #cfd8e6;
+  --qt-lig-gumus-sahne: #e4eefb;    --qt-lig-gumus-sahne-isik: #98b6e0;
   --qt-lig-altin-sahne: #faeeda;    --qt-lig-altin-sahne-isik: #fac775;
   --qt-lig-elmas-sahne: #dff6fc;    --qt-lig-elmas-sahne-isik: #9fe3f4;
   --qt-lig-efsane-sahne: #f1e6ff;   --qt-lig-efsane-sahne-isik: #d2b1ff;

@@ -221,6 +221,7 @@ html.msk-acik .mobile-nav, html.msk-acik .a-kabuk .a-altmenu { display: none !im
   box-shadow: 0 0 0 4px var(--qt-coin), 0 0 0 7px var(--qt-coin-dudak), 0 0 24px 6px color-mix(in srgb, var(--qt-coin) 65%, transparent);
 }
 .msk-tac {
+  --msk-tac-don: -12deg;
   position: absolute;
   z-index: 2;
   top: -30px;
@@ -228,9 +229,10 @@ html.msk-acik .mobile-nav, html.msk-acik .a-kabuk .a-altmenu { display: none !im
   width: 36px;
   height: 36px;
   margin-left: -18px;
-  transform: rotate(-12deg);
+  transform: rotate(var(--msk-tac-don));
   animation: msk-tac 420ms var(--qt-egri-yay) calc(var(--t-avatar) + 400ms) backwards;
 }
+.msk-taraf--sag .msk-tac { --msk-tac-don: 12deg; }
 /* 550 · B1: kazananın çerçevesinde (ya da aurasında) taç süsü varsa sahnenin taç emojisi gizlenir — iki taç
    üst üste binmesin. Çerçeve işareti: CerceveGorseli / DenemeCerceve › data-tac. Taçsız çerçevede aynen. */
 .msk-avatar:has([data-tac]) > .msk-tac { display: none; }
@@ -789,7 +791,7 @@ html.msk-acik .mobile-nav, html.msk-acik .a-kabuk .a-altmenu { display: none !im
 @keyframes msk-afis-in { from { opacity: 0; transform: translateY(-24px); } }
 @keyframes msk-parilti { from { transform: translateX(-110%); } }
 @keyframes msk-avatar-gir { from { opacity: 0; transform: translateX(var(--kay)) scale(calc(var(--olcek) * var(--msk-av, 1))); } }
-@keyframes msk-tac { from { opacity: 0; transform: translateY(10px) rotate(-12deg) scale(0.6); } }
+@keyframes msk-tac { from { opacity: 0; transform: translateY(10px) rotate(var(--msk-tac-don)) scale(0.6); } }
 @keyframes msk-pop { from { opacity: 0; transform: scale(0.7); } }
 @keyframes msk-xp { from { transform: translateX(calc((var(--xp-a) - 1) * 100%)); } }
 @keyframes msk-xp-atla {

@@ -150,7 +150,6 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
       aciklama: tt("Tek başına bil, hazineyi al; doğru anda aç. {h} puana ilk ulaşan kazanır.", { h: kasaHedef }),
       joker: tt("Klasik jokerlerin geçer"),
       odul: odulMetni(odul?.klasik),
-      rozet: tt("Deneysel"),
     }] : []),
   ];
 

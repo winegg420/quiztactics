@@ -1206,7 +1206,7 @@ export default function ChallengesPage() {
                        yukleniyor={antrenmanBasliyor === "kasa"}
                        devreDisi={antrenmanBasliyor !== null}
                        onClick={() => antrenmanBaslat("kasa")}>
-                {tt("Ortak Hazine · Deneysel")}
+                {tt("Ortak Hazine")}
               </QtDugme>
             )}
           </div>

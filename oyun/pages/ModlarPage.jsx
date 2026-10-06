@@ -129,7 +129,6 @@ export default function ModlarPage() {
         style={siraStili(5)}
         ad={tt("Ortak Hazine")}
         alt={tt("Tek başına bil, hazineyi al; doğru anda aç. {h} puana ilk ulaşan kazanır.", { h: kasaHedef })}
-        rozet={tt("Deneysel")}
         kilitli={!kasaAcik}
         kilitMetni={tt("Bu mod şu an kapalı.")}
         onClick={kasaAcik ? sec(() => navigate(y("/kasa"))) : undefined}

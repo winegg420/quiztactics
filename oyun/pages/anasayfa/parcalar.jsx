@@ -125,8 +125,8 @@ export function modListesi(v, b) {
       git: () => b.git("/meydan") },
     { anahtar: "grup", ad: tt("Grup Maçı"), ikon: "grup", alt: tt("3–5 kişi"), git: () => b.git("/meydan?bolum=grup") },
     { anahtar: "saf", ad: tt("Saf Bilgi"), ikon: "safBilgi", alt: tt("Skill yok"), git: () => b.safBilgi() },
-    // KASA (deneysel, 950): kapalıyken AnaSayfaA süzer (oyun_ayarlari.kasa_modu_acik)
-    { anahtar: "kasa", ad: tt("Ortak Hazine"), ikon: "coin", alt: tt("Deneysel"), etiket: tt("Deneysel"), git: () => b.git("/kasa") },
+    // KASA (950): kapalıyken AnaSayfaA süzer (oyun_ayarlari.kasa_modu_acik)
+    { anahtar: "kasa", ad: tt("Ortak Hazine"), ikon: "coin", alt: tt("Soruyu tek başına bilen hazineyi alır."), git: () => b.git("/kasa") },
     { anahtar: "calisma", ad: tt("Hatalarım"), ikon: "kitap", alt: tt("Yanlışlarını çalış"),
       rozet: rozetSayi(v.banka), rozetEtiketi: tt("{n} soru bekliyor", { n: v.banka }), git: () => b.git("/calisma") },
   ];

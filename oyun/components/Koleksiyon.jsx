@@ -292,7 +292,6 @@ export default function Koleksiyon() {
         return (
           <QtKart as="section" key={s.kod} className="qt-cs qt-ks-kozmetik" aria-labelledby={`qt-ks-${s.kod}`}>
             <h2 id={`qt-ks-${s.kod}`} className="qt-baslik-3">{tt(PREMIUM_BASLIK[s.tur] ?? s.ad)}</h2>
-            {kozmetik.sahipHesap && <p className="qt-kucuk qt-soluk">{tt("Sahip test modu: satın almadan takabilirsin; taktığın maçta rakibe de görünür.")}</p>}
             <ul className="qt-cs-izgara">
               {takilir && (
                 <li>

@@ -155,7 +155,7 @@ function KasaGiris() {
       <header className="m2-giris-kafa ks-giris-kafa qt-h-gir">
         <span className="m2-giris-ikon" aria-hidden="true"><QtIkon ad="coin" boyut={40} /></span>
         <div className="m2-giris-yazi">
-          <h1 className="qt-baslik-1">{ceviri("Ortak Hazine")} <span className="ks-deneysel">{ceviri("Deneysel")}</span></h1>
+          <h1 className="qt-baslik-1">{ceviri("Ortak Hazine")}</h1>
           <p>{ceviri("Ortada ikinizin ortak hazinesi büyür.")}</p>
         </div>
       </header>
@@ -1067,7 +1067,7 @@ function KasaMac({ id }) {
             </>
           ) : null}
           eylemNotu={hata ? <span className="m2-hata" role="alert"><QtIkon ad="uyari" boyut={18} /> {hata}</span> : null}
-          eylemler={{ onYeniMac: () => navigate(y("/kasa")), onAnaSayfa: () => navigate(y()), yeniMacEtiketi: c("Yeni Ortak Hazine maçı") }}
+          eylemler={{ onYeniMac: () => navigate(y("/kasa")), onAnaSayfa: () => navigate(y()), yeniMacEtiketi: c("Yeni maç") }}
           rovans={rovansAlani}   // 957: Düello ile aynı rövanş akışı (Ida, 5 Eki 2026 — "Kasa'yı ayrı tutma")
         />
       </div>
@@ -1220,7 +1220,7 @@ function KasaMac({ id }) {
          className={sinif("m2-mac ks-mac", `ks-mac--${d.faz}`, (gerilim || kararGerilim) && "qt-h-gerilim", d.altin && "ks-mac--altin",
                           anAc?.sars && "ks-mac--sars", girisAktif && "ks-mac--giris")}>
       <MacUstSerit onCik={() => setTerkOnay(true)} cikisEtiketi={c("Maçtan çık")}
-                   rozet={c("Ortak Hazine · Deneysel")} />
+                   rozet={c("Ortak Hazine")} />
       <KasaUst d={d} ben={ben} rakip={rakip} c={c} seviyeler={seviyeler} tepkiBalonlar={tepki.balonlar}
                sayac={anOrtu ? <span className="ks-sayac ks-sayac--yok ks-sayac--bekle" aria-hidden="true">·</span> : sayac}
                anahtar={anSonuc?.anahtarVaris && !anSonuc.bitti ? anSonuc.anahtarA : null}

@@ -10148,3 +10148,14 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 - **Gözlem:** pay maça sabitlenmiyor (`kasa_gosterim_payi()` her fazda ayarı canlı okur; 981'deki tavan gibi `kasa_maclari`'na yazılmıyor). "Süren maçlar eski değerle biter" bu yüzden ancak aktif maç yokken doğru — uygulama anında aktif Ortak Hazine maçı **0** ölçüldü, `supabase db push` ile uygulandı; sonrasında `kasa_gosterim_payi()` = 2,0 sn.
 - **Tam maç (canlı site + canlı DB, gerçek–gerçek, `kasa-canli-testi --senaryo=gercek --etiket=983`):** hedefle bitti 0-94, tur 14, 250 sn. **Karar düğmesi sunucu bitişinden 6,45–6,91 sn önce tıklanabilir** (1,5 sn payla 6,35–6,43; ≥ 5 sn şartı sağlanıyor). AÇ/DEVAM anı A'da sayaç başlamadan 150–480 ms önce bitti; B (rakip, kapalı kart + vuruş) en çok +266 ms taşma (sayaç o sırada gizli). Giriş sahnesi 1, 3-2-1 sırası doğru, hızlı sayım 0. Tek kırılan bilinen "maçtan çıktıktan sonra rozet sesi" (`RozetBildirimi`, Hazine'den değil — 980/990 kayıtlarında aynı).
 - İstemci kodu değişmedi → build/dağıtım gerekmedi.
+
+## 2026-10-06 — Küçük ön yüz düzeltmeleri: Ortak Hazine etiketleri, maç sonu, Gümüş sahne ve taç
+**Araç:** Codex
+**Neden:** Yayın öncesi beş küçük ön yüz kusurunu mevcut akışı bozmadan düzeltmek.
+
+- Ortak Hazine'nin oyuncuya görünen tüm “Deneysel” rozetleri kaldırıldı. Ana sayfa şeridinin alt vaadi, lobideki mevcut kısa kural özetinden **“Soruyu tek başına bilen hazineyi alır.”** olarak dolduruldu; boş rozet/satır bırakılmadı.
+- Ortak Hazine maç sonu eylemi TR/EN mevcut çeviri anahtarıyla **“Yeni maç” / “New match”** oldu. Gerçek CSS viewport ölçümü: 360×800'de düğmeler 130,1 + 130,1 + 52 px; 390×844'te iki metinli düğme 145,2 px. TR “Yeni maç” (64/64 px) ve EN “New match” (81/81 px) iki genişlikte de tam; üç eylem tek satır ve çakışma yok.
+- Koleksiyon'daki “Sahip test modu…” açıklaması kaldırıldı; `sahipHesap` davranışı değişmedi. Talimat gereği benzer mevcut ifadeler değiştirilmedi: `DukkanKozmetik.jsx` ve `Koleksiyon.jsx` içinde “Test modunda açık”.
+- Yalnız Gümüş Lig sahne tokenları `#e4eefb` / `#98b6e0` oldu. 390×844 profil ölçümü: kart 347×226,7 px, yatay taşma 0; hesaplanan sahne renkleri RGB(228,238,251) / RGB(152,182,224). Gümüş kart ekran görüntüsü tarayıcıda alındı.
+- Taç görseli simetrik/önden; hata çerçeve parçasının `scaleX(-1)` aynası değil, maç sonu genel kazanan tacına iki tarafta da −12° verilmesiydi. Yalnız `.msk-tac` taraf açısı düzeltildi: sol −12°, sağ +12°; iki taraf 390×844'te ekran görüntüsü ve hesaplanan transform ile doğrulandı. Çerçeve parçaları ve görsel dosyası değişmedi.
+- `npm run build` başarılı; postbuild sonucu **TEMİZ**. Migration/DB işlemi ve push yapılmadı. Başka işe ait kirli dosyalar commit kapsamına alınmadı.
