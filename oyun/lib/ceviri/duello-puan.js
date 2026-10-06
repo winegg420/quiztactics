@@ -66,4 +66,9 @@ export default {
   "El değiştiren kategori 2 tur kimse tarafından seçilemez; el değiştirmeyen hamlede kilit yok. Savunanın bütün kategorileri kilitliyse kilit o tur sayılmaz.": "A category that changes hands can't be picked by anyone for 2 rounds; no lock if it doesn't change hands. If all of the defender's categories are locked, the lock is ignored that round.",
   "Maç en çok {t} tur sürer; her tur bir hamledir ve saldıran/savunan her tur el değiştirir. {t}. tur sonunda puanı çok olan kazanır. Puanlar eşitse Altın Soru gelir: zor soru, joker yok, yalnız biriniz bilene kadar sürer.": "A match lasts at most {t} rounds; each round is one move and attacker/defender swap every round. After round {t}, whoever has more points wins. If points are tied, the Golden Question comes: a hard question, no jokers, until only one of you knows it.",
   "Baskın (saldırırken, soru ekranında): bu hamlede rakibin cevabı sayılmaz, puan da almaz; sen doğruysan +2 ve kategori senin. Kalkan (savunurken): kategori sende kalır; rakip doğru bilse de yalnız +1 alır. Her biri maçta 1 kez. Basılan joker tur sonuna kadar rakipten gizlidir; ikisi aynı hamlede basılırsa birbirini götürür ve ikisi de harcanır.": "Ambush (when attacking, on the question screen): your opponent's answer doesn't count and scores nothing; if you're right it's +2 and the category is yours. Shield (when defending): the category stays yours; even if your opponent is right they only get +1. Each once per match. A played joker stays hidden until the end of the round; if both are played on the same move they cancel out and both are spent.",
+  // 990 · kategori çalma anı (tek güçlü cümle + uçan kart)
+  "{kat} rakipten sana geçti!": "{kat} moved from your opponent to you!",
+  "{kat} senden rakibe geçti": "{kat} moved from you to your opponent",
+  "Rakipten sana": "From opponent to you",
+  "Senden rakibe": "From you to opponent",
 };

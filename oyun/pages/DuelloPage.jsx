@@ -47,7 +47,9 @@ import SkillSeti from "../components/SkillSeti.jsx";
 // Maç ekranı parçaları (Tasarım A).
 import { V2Ust, V2Kategori, V2SecimCubugu, V2Cevap, V2Sonuc, V2Skill, V2Gecmis } from "../components/DuelloV2.jsx";
 // 680 · Hâkimiyet tahtası: yuvalar, mesaj satırı, maç sonu tahtası (kartlar/alt çubuk DuelloV2 üzerinden).
-import { hkModel, hkKategoriDurumu, durumIpucuSirasi, HkYuvalar, HkMesaj, hkMesaj, HkSonTahta, V2BanCubugu } from "../components/DuelloTahta.jsx";
+import { hkModel, hkKategoriDurumu, durumIpucuSirasi, HkYuvalar, HkMesaj, hkMesaj, HkSonTahta, V2BanCubugu,
+  CalmaAni, CALMA_INIS_MS, CALMA_MS } from "../components/DuelloTahta.jsx";
+import { hareketAzaltildiMi } from "../tasarim/hareket.js";
 // Savunma banının "an"ları (yalnız sunum): durum satırı, giriş damgası, ban açıklaması, kırmızı → mavi geçiş.
 import { BanKonsol, BanGirisAni, BanAciklama, banIpucuGoster } from "../components/DuelloBanAni.jsx";
 // 960 · sırayla kategori seçimi (draft): halka, noktalar, konsol, kartlar + uçuş, HÂKİMİYET BAŞLIYOR geçişi
@@ -475,6 +477,8 @@ function DuelloMac({ id }) {
   tepkiAlRef.current = tepki.al;
   const sinyalZamanRef = useRef(null);
   const sonHamleRef = useRef(null);
+  const [calma, setCalma] = useState(null);   // 990: kategori çalma anı { id, kat, once, sonra, onceId, kazanilan, inis }
+  const calmaZamanRef = useRef([]);
   const bitisSesRef = useRef(false);
   // A.3: yeni maç sonu sahnesinin verisi (tek çağrı: mac_sonu_ozet) — düello bitince bir kez okunur.
   const { ozet: macSonuOzet } = useMacSonuOzet(d?.durum === "bitti" && d?.id ? `duello:${d.id}` : null);
@@ -834,7 +838,23 @@ function DuelloMac({ id }) {
     sonHamleRef.current = anahtar;
     // Ses kendi cevabına göre: doğru bildiysen doğru sesi, değilse yanlış sesi.
     if (h.cevaplar?.[d.ben]?.dogru) { sesDogru(); titret(10); } else { sesYanlis(); titret(40); }
+    // 990: kategori el değiştirdi → çalma anı (hamle anahtarına bağlı, TEK SEFER; gizli sekmede oynamaz). Kart eski
+    // sahipten yeniye kayar, inişte puan artışı görünür (+ kısa ses). Faz değişse de an sürer (tahtanın üstünde).
+    const x = h.hakimiyet;
+    if (!h.uzatma && x?.sahip_once && x?.sahip_sonra && x.sahip_once !== x.sahip_sonra && document.visibilityState !== "hidden") {
+      const azalt = hareketAzaltildiMi();
+      calmaZamanRef.current.forEach(clearTimeout);
+      setCalma({ id: anahtar, kat: h.kategori, once: x.sahip_once === d.ben ? "ben" : "rakip", sonra: x.sahip_sonra === d.ben ? "ben" : "rakip",
+                 onceId: x.sahip_once, kazanilan: x.kazanilan ?? null, inis: false });
+      const yama = (y) => setCalma((m) => (m?.id === anahtar ? (y ? { ...m, ...y } : null) : m));
+      calmaZamanRef.current = [
+        setTimeout(() => { yama({ inis: true }); sesKategoriSecildi(); titret(x.sahip_sonra === d.ben ? [14, 30, 18] : 24); }, azalt ? 300 : CALMA_INIS_MS),
+        setTimeout(() => yama(null), azalt ? 1600 : CALMA_MS),
+      ];
+    }
   }, [d]);
+  useEffect(() => () => calmaZamanRef.current.forEach(clearTimeout), []);
+  const calmaGec = () => { calmaZamanRef.current.forEach(clearTimeout); calmaZamanRef.current = []; setCalma(null); };
 
   // Maç sonu sesi + coin/profil tazeleme
   useEffect(() => {
@@ -1438,7 +1458,17 @@ function DuelloMac({ id }) {
       ? { anahtar: `z${skillEfekt.deger}${fazAnahtari}`, metin: `−${skillEfekt.deger}` }
       : null;
   const hk = hkModel(d, ben, rakip);
-  const mesaj = hkMesaj({ d, hk, ben, rakip, benSaldiran, c: c2, ezeli: ezeliMetin });
+  const mesajHam = hkMesaj({ d, hk, ben, rakip, benSaldiran, c: c2, ezeli: ezeliMetin });
+  // 990: çalma kartı inene kadar tahta ESKİ hâli gösterir (kategori eski sahibinde, puan artışsız); bantta önce tek
+  // güçlü cümle, puan satırı inişle birlikte.
+  const calmaUcuyor = Boolean(calma && !calma.inis);
+  const hkGoster = calmaUcuyor ? {
+    ...hk,
+    sahiplik: { ...hk.sahiplik, [calma.kat]: calma.onceId },
+    benP: Math.max(0, hk.benP - Number(calma.kazanilan?.[hk.benId] ?? 0)),
+    rakipP: Math.max(0, hk.rakipP - Number(calma.kazanilan?.[hk.rakipId] ?? 0)),
+  } : hk;
+  const mesaj = calmaUcuyor && mesajHam?.sonuc ? { ...mesajHam, l2: "\u00a0" } : mesajHam;
   // Soru ekranı: sorulan kategorinin benim için durumu (kırmızı tehlike · mavi fırsat · gri nötr) — yuva + soru rozeti aynı çerçeve.
   const katDurum = hkKategoriDurumu(d, hk, benSaldiran);
   // Büyük süre: kategori ve cevap fazında geri sayım halkası/rakamı; sonuç fazında sayaç yerine sade işaret.
@@ -1507,7 +1537,8 @@ function DuelloMac({ id }) {
     sahne2 = <V2Sonuc d={d} secenekler={secenekler} c={c2} />;
   }
   return (
-    <div className={sinif("m2-mac hk-mac", `hk-mac--${d.faz}`, gerilim && "qt-h-gerilim", d.uzatma && "m2-mac--altin")}>
+    <div className={sinif("m2-mac hk-mac", `hk-mac--${d.faz}`, gerilim && "qt-h-gerilim", d.uzatma && "m2-mac--altin")}
+         onPointerDown={calma ? calmaGec : undefined}>
       <MacUstSerit onCik={() => setTerkOnay(true)} cikisEtiketi={ceviri("Düellodan çık")}
                    rozet={ceviri("Düello · Taktik Maçı")} />
       <V2Ust d={d} ben={ben} rakip={rakip} c={c2} seviyeler={seviyeler} tepkiBalonlar={tepki.balonlar}
@@ -1531,7 +1562,10 @@ function DuelloMac({ id }) {
         </p>
       )}
       {/* Cevap fazında tahta küçülür (yalnız yuva şeridi): soru + 4 şık + joker şeridi kaydırmasız sığsın */}
-      <HkYuvalar d={d} hk={hk} c={c2} kucuk={d.faz === "cevap"} durum={katDurum} />
+      <div className="hk-tahta-kap">
+        <HkYuvalar d={d} hk={hkGoster} c={c2} kucuk={d.faz === "cevap"} durum={katDurum} artisGizle={calmaUcuyor} />
+        {calma && <CalmaAni key={calma.id} kat={calma.kat} once={calma.once} sonra={calma.sonra} inis={calma.inis} c={c2} />}
+      </div>
       {/* 542: maç içi tepki (yalnız tepki_acik_modlar'daki modda; ilk açılış Antrenman) — mesaj satırının sağında */}
       {/* Ban fazında mesaj satırının yerini ban durum satırı alır (aynı yuva, aynı yükseklik). */}
       {sm ? (

@@ -239,8 +239,8 @@ function PuanTarafi({ taraf, hk, ad, puan, liste, c, artis = null, durum = null,
   );
 }
 
-function PuanTahtasi({ d, hk, c, kucuk, durum }) {
-  const x = d?.faz === "sonuc" ? d?.son_hamle?.hakimiyet : null;
+function PuanTahtasi({ d, hk, c, kucuk, durum, artisGizle = false }) {
+  const x = d?.faz === "sonuc" && !artisGizle ? d?.son_hamle?.hakimiyet : null;   // 990: çalma kartı inmeden +N yok
   const anahtar = d?.son_hamle ? `${d.son_hamle.tur}-${d.son_hamle.saldiri_sirasi}-${d.son_hamle.soru_id}` : "";
   const artis = (id) => (x?.kazanilan ? { n: Number(x.kazanilan[id] ?? 0), anahtar } : null);
   const durumKategori = durum ? d?.kategori ?? null : null;
@@ -257,8 +257,8 @@ function PuanTahtasi({ d, hk, c, kucuk, durum }) {
 }
 
 /** Rozet yuvaları: solda sen, ortada VS, sağda rakip. Ekranın en belirgin öğesi. 970: puan modunda puan tahtası. */
-export function HkYuvalar({ d, hk, c, kucuk = false, durum = null }) {
-  if (hk.puan && d?.faz !== "secim") return <PuanTahtasi d={d} hk={hk} c={c} kucuk={kucuk} durum={durum} />;
+export function HkYuvalar({ d, hk, c, kucuk = false, durum = null, artisGizle = false }) {
+  if (hk.puan && d?.faz !== "secim") return <PuanTahtasi d={d} hk={hk} c={c} kucuk={kucuk} durum={durum} artisGizle={artisGizle} />;
   // 970: puan modunda seçim fazı (draft) yuva şeridinde kalır — seçilen kartın ikonu seçenin yuvasına uçar (DuelloSecim);
   // yuva sayısı = kişi başı seçim (yuva eşiği bu modda yok).
   const hkS = hk.puan ? { ...hk, esik: Math.max(1, Math.ceil(Number(d?.secim?.toplam ?? 10) / 2)) } : hk;
@@ -275,6 +275,29 @@ function YuvaTahtasi({ d, hk, c, kucuk = false, durum = null }) {
       <span className="hk-vs" aria-hidden="true">VS</span>
       <YuvaTarafi taraf="rakip" hk={hk} liste={sira.rakip} ad={c("Rakip")} sayi={hk.rakipY} c={c} durum={durum} durumKategori={durumKategori} />
     </section>
+  );
+}
+
+// ---------------------------------------------------------------- 990 · kategori çalma anı
+/**
+ * Kategori el değiştirdi: kart ESKİ sahibin tarafından (sen solda, rakip sağda) YENİ sahibe fiziksel olarak kayar,
+ * iner; puan artışı inişten HEMEN SONRA gelir (DuelloPage tahtaya eski puanı iniş anına kadar verir). Toplam
+ * CALMA_MS (≥ 1,5 sn okunur); dokunarak geçilir (DuelloPage). Hareket azaltma: kayma yok — kart yeni tarafta
+ * sabit, yalnız saydamlık. Yalnız sunum; tahtanın üstünde, dokunuşu engellemez.
+ */
+export const CALMA_INIS_MS = 820;
+export const CALMA_MS = 1800;
+export function CalmaAni({ kat, once, sonra, inis, c }) {
+  return (
+    <div className={sinif("hk-calma", `hk-calma--${once}-${sonra}`, inis && "hk-calma--inis")} aria-hidden="true">
+      <div className="hk-calma-yol">
+        <span className="hk-calma-kart">
+          <KategoriIkon anahtar={kat} boyut={30} plaka />
+          <b>{c(kategoriAdi(kat))}</b>
+          <small>{sonra === "ben" ? c("Rakipten sana") : c("Senden rakibe")}</small>
+        </span>
+      </div>
+    </div>
   );
 }
 
@@ -312,9 +335,10 @@ export function hkSonucMesaji(d, hk, benId, c) {
     const el = x.tuttu ? c("{kat} el değiştirdi", { kat: ad }) : c("kategori el değiştirmedi");
     const l2 = `${c("Sen +{b} · Rakip +{r}", { b: pb, r: pr })} · ${el}${jok}`;
     if (x.tuttu) {
-      return benSaldiran
-        ? { l1: c("{kat} artık senin! +{n}", { kat: ad, n: pb }), l2, ton: "ben" }
-        : { l1: c("Rakip {kat} aldı", { kat: bel }), l2, ton: "rakip" };
+      // 990: el değiştirme tek güçlü cümle — kategori · önceki sahibi → yeni sahibi (puan ikinci satırda)
+      return x.sahip_sonra === benId
+        ? { l1: c("{kat} rakipten sana geçti!", { kat: ad }), l2, ton: "ben" }
+        : { l1: c("{kat} senden rakibe geçti", { kat: ad }), l2, ton: "rakip" };
     }
     if (x.neden === "kalkan") return { l1: c("Kalkan kategoriyi korudu"), l2, ton: benSaldiran ? "rakip" : "ben" };
     if (x.neden === "ikisi_dogru") return { l1: c("İkiniz de bildiniz"), l2, ton: "notr" };
@@ -344,11 +368,14 @@ export function hkSonucMesaji(d, hk, benId, c) {
         ? { l1: c("{kat} {n} tur kilitlendi", { kat: ad, n: x.kilit }), l2: cevaplar + jok, ton: "ben" }
         : { l1: c("Rakip {kat} pekiştirdi", { kat: bel }), l2: cevaplar + jok, ton: "rakip" };
     }
+    // 990: rakipten alınan kategori (elinden al) — kategori · önceki sahibi → yeni sahibi
+    if (x.eylem === "elinden_al") {
+      return benimOldu
+        ? { l1: c("{kat} rakipten sana geçti!", { kat: ad }), l2: cevaplar + jok, ton: "ben" }
+        : { l1: c("{kat} senden rakibe geçti", { kat: ad }), l2: cevaplar + jok, ton: "rakip" };
+    }
     if (benSaldiran) return { l1: c("{kat} artık senin!", { kat: ad }), l2: cevaplar + jok, ton: "ben" };
-    return {
-      l1: x.eylem === "elinden_al" ? c("Rakip {kat} elinden aldı", { kat: bel }) : c("Rakip {kat} aldı", { kat: bel }),
-      l2: cevaplar + jok, ton: "rakip",
-    };
+    return { l1: c("Rakip {kat} aldı", { kat: bel }), l2: cevaplar + jok, ton: "rakip" };
   }
   // Hamle tutmadı — neden her zaman yazılır (Kalkan nedeni jokerler satırında zaten yazılıyor).
   let neden = null;
