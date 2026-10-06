@@ -806,7 +806,8 @@ function KasaMac({ id }) {
                      kim: benim ? "ben" : "rakip", eskiPuan: Math.max(0, Number(veren?.puan ?? 0) - Number(k.deger ?? 0)) }, [
             [m(340), { sars: true }, () => { if (benim) sesRozet(); else sesTurGecis(); titret(benim ? [20, 40, 30] : 20); }],
             [m(690), { sars: false }],
-            [m(980), { varis: true }, sesCoin],
+            // kısalmış anda coin sesi düşer (sesler üst üste binmesin; açılış + soru sesi kalır)
+            [m(980), { varis: true }, olcek >= 0.75 ? sesCoin : null],
             [m(AC_AN_MS), "bitir", sesSoruGeldi],
           ]);
         } else { sesCoin(); titret(benim ? [20, 40, 30] : 20); }
@@ -821,7 +822,8 @@ function KasaMac({ id }) {
         const m = (ms) => Math.round(ms * olcek);
         anBaslat({ tip: "devam", eski: Number(sk.deger ?? 0), yeni: Number(sk.yeni), tavan: Boolean(sk.tavan), olcek,
                    metin: carpanYazisi(sk.carpan, dil) ?? "" }, [
-          [m(60), null, () => { sesRozet(); titret([16, 30, 16]); }],
+          // kısalmış anda tek ses (coin): soru sesiyle birlikte üç ses 400 ms'ye sıkışıyordu (sekme dönüşü ölçümü)
+          ...(olcek >= 0.75 ? [[m(60), null, () => { sesRozet(); titret([16, 30, 16]); }]] : []),
           [m(560), { varis: true }, () => { sesCoin(); titret(12); }],
           [m(DEVAM_AN_MS), "bitir"],
         ]);
