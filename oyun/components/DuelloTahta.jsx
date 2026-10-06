@@ -44,13 +44,34 @@ export function hkModel(d, ben, rakip) {
   const sayi = (id) => Object.values(sahiplik).filter((v) => v === id).length;
   const benY = Number(h.yuvalar?.[ben?.id] ?? sayi(ben?.id));
   const rakipY = Number(h.yuvalar?.[rakip?.id] ?? sayi(rakip?.id));
+  // 970 · puan modu (duello_durum › puan): saldırı yalnız rakibin kategorisine; hedef puan ya da rakibin başlangıçtaki
+  // kategorilerinden kategori_yolu kadarı kazanır. Sayılar sunucudan; burada hesaplanmaz.
+  const p = d?.puan ?? {};
+  const puan = Boolean(p.acik);
+  const baslangic = p.baslangic && typeof p.baslangic === "object" ? p.baslangic : {};
   return {
     acik: Boolean(h.acik), esik, sahiplik, kilitler, benY, rakipY,
     kiltTur: Number(h.kilit_tur ?? 2),
     avantajEsik: Number(h.avantaj_esik ?? 10),
     benId: ben?.id, rakipId: rakip?.id,
+    puan,
+    hedef: Number(p.hedef) > 0 ? Number(p.hedef) : 12,
+    yol: Number(p.kategori_yolu) > 0 ? Number(p.kategori_yolu) : 4,
+    benP: Number(p.puanlar?.[ben?.id] ?? 0),
+    rakipP: Number(p.puanlar?.[rakip?.id] ?? 0),
+    benAlinan: Number(p.alinan?.[ben?.id] ?? 0),
+    rakipAlinan: Number(p.alinan?.[rakip?.id] ?? 0),
+    baslangic,
   };
 }
+
+/** 970: oyuncu bitişe yakın mı — hedefe ≤ 2 puan (bir alma yeter) ya da kategori yolunda 1 eksik. */
+export const puanKritik = (hk, taraf) => (taraf === "ben"
+  ? hk.benP >= hk.hedef - 2 || hk.benAlinan >= hk.yol - 1
+  : hk.rakipP >= hk.hedef - 2 || hk.rakipAlinan >= hk.yol - 1);
+/** 970: oyuncunun rakipten aldığı (rakibin başlangıç kategorisi olup şimdi onun elinde olan) kategoriler. */
+export const alinanlar = (hk, sahipId, kategoriler) => (kategoriler ?? Object.keys(hk.baslangic))
+  .filter((k) => hk.baslangic[k] && hk.baslangic[k] !== sahipId && hk.sahiplik[k] === sahipId);
 
 /** Kategorinin benim gözümden aidiyeti: "ben" | "rakip" | "bos". */
 export const aidiyet = (hk, k) => (hk.sahiplik[k] === hk.benId ? "ben" : hk.sahiplik[k] ? "rakip" : "bos");
@@ -93,6 +114,12 @@ export const DURUM_IPUCLARI = [
   { ton: "firsat", ikon: "hedef", metin: "Mavi çerçeve = fırsat. Boş kategoride rakip yanlış yapar ve sen bilirsen kategori senin olur." },
   { ton: "tehlike", ikon: "uyari", metin: "Kırmızı çerçeve = kategorin tehlikede. Yanlış bilirsen ve rakip bilirse kaybedersin; Kalkan durdurur." },
   { ton: "notr", ikon: "kilit", metin: "Gri çerçeve = rakip pekiştiriyor. Kategori el değiştirmez; doğru bilirsen kilitlenmesini önlersin." },
+];
+// 970 · puan modu: savunan hep kendi kategorisini savunur (kırmızı); pekiştirme ve boş kategori yok.
+export const DURUM_IPUCLARI_PUAN = [
+  { ton: "tehlike", ikon: "uyari", metin: "Kırmızı çerçeve = kategorine saldırı. Sen bilirsen +1; sen yanlış, rakip doğruysa kategoriyi alır ve +2 kazanır." },
+  { ton: "firsat", ikon: "hedef", metin: "Bildiğin her soru +1 puan. Saldırırken rakip yanlış yaparsa kategori senin olur: +2." },
+  { ton: "tehlike", ikon: "kalkan", metin: "Kalkan kategorini korur: rakip bilse de kategori sende kalır, rakip yalnız +1 alır." },
 ];
 const DURUM_IPUCU_ANAHTARI = "qt_duello_durum_ipucu";
 const DURUM_IPUCU_MAC_SAYISI = 3;
@@ -141,7 +168,7 @@ export function useYuvaSirasi(hk, kategoriler) {
 
 // ---------------------------------------------------------------- yuvalar
 function YuvaTarafi({ taraf, hk, liste, ad, sayi, c, durum = null, durumKategori = null }) {
-  const kritik = sayi === hk.esik - 1;
+  const kritik = !hk.puan && sayi === hk.esik - 1;   // 970: puan modunda yuva eşiği yok
   return (
     <div className={sinif("hk-taraf", `hk-taraf--${taraf}`, kritik && "hk-taraf--kritik")}>
       <div className={sinif("hk-yuvalar", hk.esik >= 5 && "hk-yuvalar--cok")} style={{ "--hk-n": hk.esik }}>
@@ -172,8 +199,73 @@ function YuvaTarafi({ taraf, hk, liste, ad, sayi, c, durum = null, durumKategori
   );
 }
 
-/** Rozet yuvaları: solda sen, ortada VS, sağda rakip. Ekranın en belirgin öğesi. */
+// ---------------------------------------------------------------- 970 · puan tahtası
+/**
+ * Puan modu tarafı: büyük puan (hedefe karşı) + ilerleme çubuğu + "Alınan x/yol" (rakibin başlangıç kategorilerinden
+ * şu an elinde tuttukların; ikonları küçük yuvalara oturur). artis: bu turda kazanılan puan — yalnız sonuç fazında,
+ * hamle anahtarıyla bir kez oynar (bileşen yeniden çizilse de anahtar aynı kaldıkça animasyon baştan başlamaz).
+ */
+function PuanTarafi({ taraf, hk, ad, puan, liste, c, artis = null, durum = null, durumKategori = null }) {
+  const kritik = puanKritik(hk, taraf);
+  const oran = Math.max(0, Math.min(1, puan / hk.hedef));
+  return (
+    <div className={sinif("hk-taraf", `hk-taraf--${taraf}`, "hk-ptaraf", kritik && "hk-taraf--kritik")}>
+      <div className="hk-puan" aria-label={c("{ad}: {p}/{h} puan", { ad, p: puan, h: hk.hedef })}>
+        <span className="hk-puan-ad">{ad}</span>
+        <b className="qt-sayi hk-puan-sayi" key={puan}>{puan}</b>
+        <span className="hk-puan-hedef">/{hk.hedef}</span>
+        {artis && artis.n > 0 && <span key={artis.anahtar} className="hk-puan-arti" aria-hidden="true">+{artis.n}</span>}
+      </div>
+      <span className="hk-puan-cubuk" aria-hidden="true"><i style={{ width: `${Math.round(oran * 100)}%` }} /></span>
+      <div className="hk-alinan" aria-label={c("Çalınan kategori {n}/{y}", { n: liste.length, y: hk.yol })}>
+        <span className="hk-alinan-etiket">{c("Çalınan")}</span>
+        <span className="hk-alinan-yuvalar" style={{ "--hk-n": hk.yol }}>
+          {Array.from({ length: hk.yol }, (_, i) => {
+            const k = liste[i];
+            if (!k) return <span key={`b${i}`} className={sinif("hk-alinan-yuva", kritik && i === liste.length && liste.length === hk.yol - 1 && "hk-yuva--son")} aria-hidden="true" />;
+            const soruluyor = durum && durumKategori === k;
+            return (
+              <span key={k} className={sinif("hk-alinan-yuva hk-alinan-yuva--dolu", Number(hk.kilitler[k] ?? 0) > 0 && "hk-yuva--kilit",
+                                             soruluyor && "hk-yuva--durum", soruluyor && `hk-durum--${durum.ton}`)}
+                    role="img" aria-label={c(kategoriAdi(k))}>
+                <KategoriIkon anahtar={k} boyut={16} plaka className="hk-yuva-ikon" />
+              </span>
+            );
+          })}
+        </span>
+        <b className="qt-sayi hk-alinan-sayi">{liste.length}/{hk.yol}</b>
+      </div>
+    </div>
+  );
+}
+
+function PuanTahtasi({ d, hk, c, kucuk, durum }) {
+  const x = d?.faz === "sonuc" ? d?.son_hamle?.hakimiyet : null;
+  const anahtar = d?.son_hamle ? `${d.son_hamle.tur}-${d.son_hamle.saldiri_sirasi}-${d.son_hamle.soru_id}` : "";
+  const artis = (id) => (x?.kazanilan ? { n: Number(x.kazanilan[id] ?? 0), anahtar } : null);
+  const durumKategori = durum ? d?.kategori ?? null : null;
+  return (
+    <section className={sinif("hk-tahta hk-tahta--puan", kucuk && "hk-tahta--kucuk", d?.uzatma && "hk-tahta--altin",
+                              durum && "hk-tahta--durum", durum && `hk-durum--${durum.ton}`)} aria-label={c("Puan durumu")}>
+      <PuanTarafi taraf="ben" hk={hk} ad={c("Sen")} puan={hk.benP} liste={alinanlar(hk, hk.benId, d?.kategoriler)} c={c}
+                  artis={artis(hk.benId)} durum={durum} durumKategori={durumKategori} />
+      <span className="hk-vs" aria-hidden="true">VS</span>
+      <PuanTarafi taraf="rakip" hk={hk} ad={c("Rakip")} puan={hk.rakipP} liste={alinanlar(hk, hk.rakipId, d?.kategoriler)} c={c}
+                  artis={artis(hk.rakipId)} durum={durum} durumKategori={durumKategori} />
+    </section>
+  );
+}
+
+/** Rozet yuvaları: solda sen, ortada VS, sağda rakip. Ekranın en belirgin öğesi. 970: puan modunda puan tahtası. */
 export function HkYuvalar({ d, hk, c, kucuk = false, durum = null }) {
+  if (hk.puan && d?.faz !== "secim") return <PuanTahtasi d={d} hk={hk} c={c} kucuk={kucuk} durum={durum} />;
+  // 970: puan modunda seçim fazı (draft) yuva şeridinde kalır — seçilen kartın ikonu seçenin yuvasına uçar (DuelloSecim);
+  // yuva sayısı = kişi başı seçim (yuva eşiği bu modda yok).
+  const hkS = hk.puan ? { ...hk, esik: Math.max(1, Math.ceil(Number(d?.secim?.toplam ?? 10) / 2)) } : hk;
+  return <YuvaTahtasi d={d} hk={hkS} c={c} kucuk={kucuk} durum={durum} />;
+}
+
+function YuvaTahtasi({ d, hk, c, kucuk = false, durum = null }) {
   const sira = useYuvaSirasi(hk, d?.kategoriler);
   const durumKategori = durum ? d?.kategori ?? null : null;
   return (
@@ -213,6 +305,26 @@ export function hkSonucMesaji(d, hk, benId, c) {
     if (x.kalkan) jokerler.push(c("Kalkan hamleyi durdurdu"));
   }
   const jok = jokerler.length ? ` · ${jokerler.join(" · ")}` : "";
+  // 970 · puan modu: l1 = ne oldu, l2 = kim kaç puan aldı + kategori el değiştirdi mi (HER ZAMAN açık yazılır).
+  if (x.puan_modu) {
+    const pb = Number(x.kazanilan?.[benId] ?? 0);
+    const pr = Number(rakipId ? x.kazanilan?.[rakipId] ?? 0 : 0);
+    const el = x.tuttu ? c("{kat} el değiştirdi", { kat: ad }) : c("kategori el değiştirmedi");
+    const l2 = `${c("Sen +{b} · Rakip +{r}", { b: pb, r: pr })} · ${el}${jok}`;
+    if (x.tuttu) {
+      return benSaldiran
+        ? { l1: c("{kat} artık senin! +{n}", { kat: ad, n: pb }), l2, ton: "ben" }
+        : { l1: c("Rakip {kat} aldı", { kat: bel }), l2, ton: "rakip" };
+    }
+    if (x.neden === "kalkan") return { l1: c("Kalkan kategoriyi korudu"), l2, ton: benSaldiran ? "rakip" : "ben" };
+    if (x.neden === "ikisi_dogru") return { l1: c("İkiniz de bildiniz"), l2, ton: "notr" };
+    if (x.neden === "ikisi_yanlis") return { l1: c("İkiniz de bilemediniz"), l2, ton: "notr" };
+    // saldıran yanlış, savunan doğru (Baskın'da savunanın cevabı sayılmaz → kimse puan almaz)
+    if (x.baskin && !x.cakisma) return { l1: benSaldiran ? c("Baskın tutmadı") : c("Baskın: cevabın sayılmadı"), l2, ton: "notr" };
+    return benSaldiran
+      ? { l1: c("Rakip savundu"), l2, ton: "rakip" }
+      : { l1: c("Savundun! +{n}", { n: pb }), l2, ton: "ben" };
+  }
   const benimOldu = x.sahip_sonra === benId && x.sahip_once !== benId;
   if (x.tuttu || x.neden === "kontra") {
     if (x.neden === "kontra") {
@@ -253,12 +365,17 @@ export function hkSonucMesaji(d, hk, benId, c) {
  * cevap fazında kim saldırıyor + kategorinin kimin olduğu (anlamı: hkKategoriDurumu çerçevesi); sonuç fazında tur sonucu bandı.
  */
 export function hkMesaj({ d, hk, ben, rakip, benSaldiran, c, ezeli }) {
-  const kuralL1 = c("{n} yuvaya ilk ulaşan kazanır", { n: hk.esik });
-  const kuralL2 = c("Hamle tutması için: sen doğru, rakip yanlış");
-  const rakipKritik = hk.rakipY === hk.esik - 1;
-  const benKritik = hk.benY === hk.esik - 1;
-  const uyariR = c("Rakip {n}'te! Bir tane daha alırsa kazanır.", { n: hk.rakipY });
-  const uyariB = c("{n}'tesin! Bir tane daha al, maçı kazan.", { n: hk.benY });
+  // 970 · puan modu: kural = hedef puan ya da kategori yolu; uyarı = bitişe yakınlık (puanKritik).
+  const kuralL1 = hk.puan ? c("{h} puan ya da {y} kategori alan kazanır", { h: hk.hedef, y: hk.yol }) : c("{n} yuvaya ilk ulaşan kazanır", { n: hk.esik });
+  const kuralL2 = hk.puan ? c("Doğru +1 · kategoriyi alırsan +2") : c("Hamle tutması için: sen doğru, rakip yanlış");
+  const rakipKritik = hk.puan ? puanKritik(hk, "rakip") : hk.rakipY === hk.esik - 1;
+  const benKritik = hk.puan ? puanKritik(hk, "ben") : hk.benY === hk.esik - 1;
+  const uyariR = hk.puan
+    ? c("Rakip bitişe yakın: {p}/{h} puan · {a}/{y} kategori", { p: hk.rakipP, h: hk.hedef, a: hk.rakipAlinan, y: hk.yol })
+    : c("Rakip {n}'te! Bir tane daha alırsa kazanır.", { n: hk.rakipY });
+  const uyariB = hk.puan
+    ? c("Bitişe yakınsın: {p}/{h} puan · {a}/{y} kategori", { p: hk.benP, h: hk.hedef, a: hk.benAlinan, y: hk.yol })
+    : c("{n}'tesin! Bir tane daha al, maçı kazan.", { n: hk.benY });
   const ton = rakipKritik ? "rakip" : benKritik ? "ben" : "notr";
 
   if (d.faz === "sonuc") {
@@ -318,6 +435,11 @@ const GRUPLAR = [
   { anahtar: "bos", baslik: "Boş kategoriler · al" },
   { anahtar: "ben", baslik: "Senin kategorilerin · pekiştir" },
 ];
+// 970 · puan modu: saldırı yalnız rakibin kategorisine; kendi kategorilerin savunmadır (saldırıda pasif).
+const GRUPLAR_PUAN = [
+  { anahtar: "rakip", baslik: "Rakibin kategorileri · saldır" },
+  { anahtar: "ben", baslik: "Senin kategorilerin · savun" },
+];
 
 function kartVerisi(k, hk, ben, rakip, c) {
   const bo = kategoriOrani(ben?.profil, k);
@@ -352,7 +474,7 @@ export function V2Kategori({ d, hk, benSaldiran, ben, rakip, calisan, c, secim, 
     : Array.isArray(d.uygun_kategoriler) ? d.uygun_kategoriler : null;
   const uygun = new Set(uygunListe ?? kategoriler.filter((k) => !(Number(hk.kilitler[k]) > 0)));
   const canli = dokunus && dokunus.tur === d.tur ? dokunus.kategori : null;
-  const gruplar = GRUPLAR.map((g) => ({
+  const gruplar = (hk.puan ? GRUPLAR_PUAN : GRUPLAR).map((g) => ({
     ...g,
     liste: kategoriler
       .filter((k) => aidiyet(hk, k) === g.anahtar)
@@ -380,9 +502,11 @@ export function V2Kategori({ d, hk, benSaldiran, ben, rakip, calisan, c, secim, 
               const tarama = banFazi && benSaldiran && uygun.has(x.k) && kilit <= 0;
               // Saldıranın banlı kartı kapalı düğme DEĞİL: dokununca "Rakip bunu banladı" geri bildirimi verir (seçilemez).
               const banliDokunulur = !banFazi && benSaldiran && banliMi;
+              // 970 · puan modu: saldırırken kendi kartların, banlarken rakibin kartları pasif (sunucu da reddeder).
+              const pasif = hk.puan && ((!banFazi && benSaldiran && g.anahtar === "ben") || (banFazi && !benSaldiran && g.anahtar === "rakip"));
               return (
                 <button key={x.k} type="button" data-kategori={x.k}
-                        className={sinif("hk-kart", `hk-kart--${g.anahtar}`, kilit > 0 && "hk-kart--kilitli", secili && "hk-kart--secili",
+                        className={sinif("hk-kart", `hk-kart--${g.anahtar}`, pasif && "hk-kart--pasif", kilit > 0 && "hk-kart--kilitli", secili && "hk-kart--secili",
                                          (banliMi || oncekiBan) && "hk-kart--banli", banAday && "hk-kart--ban-aday",
                                          basildi && "hk-kart--ban-basildi", tarama && "hk-kart--tarama",
                                          damga && banliMi && !banFazi && "hk-kart--damga",
@@ -394,6 +518,7 @@ export function V2Kategori({ d, hk, benSaldiran, ben, rakip, calisan, c, secim, 
                         aria-busy={calisan === "kategori" || calisan === "ban" || undefined}
                         aria-label={[
                           x.ad, c(AIDIYET_ETIKET[g.anahtar]),
+                          pasif ? (banFazi ? c("banlanamaz") : c("saldırılamaz")) : null,
                           kilit > 0 ? c("{n} tur kilitli", { n: kilit }) : null,
                           banliMi ? (banFazi ? c("Banlı") : benSaldiran ? c("Rakip banladı") : c("Sen banladın"))
                             : oncekiBan ? c("Geçen tur banladın") : null,
@@ -441,7 +566,8 @@ export function V2Kategori({ d, hk, benSaldiran, ben, rakip, calisan, c, secim, 
  */
 export function V2SecimCubugu({ d, hk, benSaldiran, secim, calisan, c, onOnayla, banUyari = false, ipucu = null }) {
   // 960: seçim modunda boş kategori yok → "mavi = boşta fırsat" ipucu atlanır.
-  const ipuclari = d?.secim?.acik ? DURUM_IPUCLARI.filter((x) => x.ton !== "firsat") : DURUM_IPUCLARI;
+  // 970: puan modunda kendi listesi (savunma hep kırmızı; puan kuralı).
+  const ipuclari = hk.puan ? DURUM_IPUCLARI_PUAN : d?.secim?.acik ? DURUM_IPUCLARI.filter((x) => x.ton !== "firsat") : DURUM_IPUCLARI;
   const durumIpucu = !benSaldiran && ipucu !== null ? ipuclari[ipucu] ?? null : null;
   if (durumIpucu) {
     return (
@@ -468,7 +594,12 @@ export function V2SecimCubugu({ d, hk, benSaldiran, secim, calisan, c, onOnayla,
     eylem = eylemOf(hk, secim);
     const a = hk.benY;
     const r = hk.rakipY;
-    if (eylem === "elinden_al") { ozet = c("tutarsa Sen {a}→{b}, Rakip {r}→{s}", { a, b: a + 1, r, s: Math.max(0, r - 1) }); kazanir = a + 1 >= hk.esik; }
+    if (hk.puan) {
+      // 970: tutarsa +2 ve kategori senin; hedefe ya da kategori yoluna ulaştırıyorsa "Kazanırsın!".
+      const bas = hk.baslangic[secim] === hk.rakipId;
+      ozet = c("tutarsa kategori senin · {a}→{b}", { a: hk.benP, b: hk.benP + 2 });
+      kazanir = hk.benP + 2 >= hk.hedef || (bas && hk.benAlinan + 1 >= hk.yol);
+    } else if (eylem === "elinden_al") { ozet = c("tutarsa Sen {a}→{b}, Rakip {r}→{s}", { a, b: a + 1, r, s: Math.max(0, r - 1) }); kazanir = a + 1 >= hk.esik; }
     else if (eylem === "al") { ozet = c("tutarsa Sen {a}→{b}", { a, b: a + 1 }); kazanir = a + 1 >= hk.esik; }
     else ozet = c("tutarsa {n} tur kilitli", { n: hk.kiltTur });
   }
@@ -487,7 +618,7 @@ export function V2SecimCubugu({ d, hk, benSaldiran, secim, calisan, c, onOnayla,
           </>
         ) : (
           <>
-            <b>{c("Bir kategori seç")}</b>
+            <b>{hk.puan ? c("Rakibin bir kategorisini seç") : c("Bir kategori seç")}</b>
             {/* Ban sonucu tur boyunca yazılı kalır (rakip banlamadıysa da bilgi verilir). */}
             {d.ban?.kategori ? <span>{c("Rakip {kat} banladı", { kat: belirtme(d.ban.kategori, c) })}</span>
               : d.ban?.acik && !d.uzatma ? <span>{c("Rakip ban kullanmadı")}</span> : null}
@@ -496,7 +627,7 @@ export function V2SecimCubugu({ d, hk, benSaldiran, secim, calisan, c, onOnayla,
       </div>
       <QtDugme boyut="k" className="hk-cubuk-dugme" devreDisi={!secim || (!!calisan && calisan !== "kategori")}
                yukleniyor={calisan === "kategori"} onClick={() => secim && onOnayla(secim)}>
-        {secim ? eylemEtiketi(eylem, c) : c("Seç")}
+        {secim ? (hk.puan ? c("Saldır") : eylemEtiketi(eylem, c)) : c("Seç")}
       </QtDugme>
     </div>
   );
@@ -532,14 +663,14 @@ export function V2BanCubugu({ benSaldiran, c, ipucu = false }) {
 }
 
 // ---------------------------------------------------------------- maç sonu
-/** Son tahta: iki tarafın yuvaları (ikonlarla), maç sonu özetinde. */
+/** Son tahta: iki tarafın yuvaları (ikonlarla), maç sonu özetinde. 970: puan modunda puan + alınan kategoriler. */
 export function HkSonTahta({ d, ben, rakip, c }) {
   const hk = hkModel(d, ben, rakip);
   if (!hk.acik) return null;
   return (
     <section className="hk-son" aria-label={c("Son tahta")}>
       <h3 className="qt-baslik-3">{c("Son tahta")}</h3>
-      <HkYuvalar d={{ ...d, uzatma: false }} hk={hk} c={c} />
+      <HkYuvalar d={{ ...d, uzatma: false, faz: "bitti" }} hk={hk} c={c} />
     </section>
   );
 }
@@ -554,6 +685,16 @@ export function hkGecmisSonucu(g, benId, c) {
   const x = g.hakimiyet;
   if (!x) return { metin: c("Tutmadı"), iyi: false, kotu: false };
   const benSaldiran = g.saldiran === benId;
+  if (x.puan_modu) {
+    // 970: her hamlede kim kaç puan aldı + kategori el değiştirdi mi
+    const pb = Number(g.benim_puanim ?? 0);
+    const pr = Number(g.rakip_puani ?? 0);
+    const puanlar = c("Sen +{b} · Rakip +{r}", { b: pb, r: pr });
+    if (x.tuttu) return benSaldiran
+      ? { metin: `${c("Kategoriyi aldın")} · ${puanlar}`, iyi: true, kotu: false }
+      : { metin: `${c("Rakip kategoriyi aldı")} · ${puanlar}`, iyi: false, kotu: true };
+    return { metin: puanlar, iyi: pb > pr, kotu: pr > pb };
+  }
   if (x.neden === "kontra") return benSaldiran
     ? { metin: c("Kontra: rakip aldı"), iyi: false, kotu: true }
     : { metin: c("Kontra: aldın"), iyi: true, kotu: false };

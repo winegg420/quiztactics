@@ -315,6 +315,47 @@
   border: 3px solid var(--hk-d); border-radius: 9px; background: #fff; color: var(--hk-d);
 }
 
+/* ---------------------------------------------------------------- 970 · puan tahtası (iki satır: sen / rakip)
+   Satır: [ad + puan/hedef + bu turun artışı] [ilerleme çubuğu] [Çalınan + yol kadar küçük yuva + x/yol].
+   Artış rozeti hamle anahtarıyla bir kez oynar (yeniden çizimde baştan başlamaz); sayı değişince kısa pop (qt-sayi). */
+.hk-tahta--puan { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+.hk-tahta--puan .hk-vs { display: none; }
+.hk-ptaraf { grid-template-columns: auto minmax(24px, 1fr) auto; align-items: center; column-gap: 8px; padding: 4px 8px; border-radius: 12px; }
+.hk-puan { display: flex; align-items: baseline; gap: 3px; min-width: 0; line-height: 1; font-weight: 800; white-space: nowrap; }
+.hk-puan-ad { font-size: 12px; margin-right: 2px; }
+.hk-puan-sayi { font-size: 22px; line-height: 1; min-width: 1.2ch; text-align: right; }
+.hk-puan-hedef { font-size: 12px; opacity: .8; }
+.hk-puan-arti {
+  margin-left: 3px; padding: 1px 5px; border-radius: 999px; background: var(--c); color: #fff;
+  font-size: 12px; font-weight: 900; line-height: 1.3; align-self: center;
+  animation: hk-arti 2.2s var(--qt-egri-yay, cubic-bezier(.34,1.56,.64,1)) both;
+}
+.hk-taraf--ben .hk-puan-arti { background: var(--hk-mavi-kenar); }
+.hk-taraf--rakip .hk-puan-arti { background: var(--hk-kirmizi-kenar); }
+@keyframes hk-arti { 0% { transform: translateY(6px) scale(.5); opacity: 0; } 14% { transform: scale(1.18); opacity: 1; } 26% { transform: none; } 82% { opacity: 1; } 100% { opacity: 0; } }
+.hk-puan-cubuk { display: block; height: 7px; border-radius: 999px; background: #fff; box-shadow: inset 0 0 0 1.5px var(--c); overflow: hidden; }
+.hk-puan-cubuk i { display: block; height: 100%; border-radius: inherit; background: var(--c); transition: width .5s ease-out; }
+.hk-alinan { display: flex; align-items: center; gap: 4px; white-space: nowrap; }
+.hk-alinan-etiket { font-size: 11px; font-weight: 800; }
+.hk-alinan-yuvalar { display: flex; gap: 3px; }
+.hk-alinan-yuva {
+  position: relative; display: grid; place-items: center; width: 22px; height: 22px; box-sizing: border-box;
+  border: 1.5px dashed var(--hk-gri-kenar); border-radius: 7px; background: var(--hk-gri-zemin);
+}
+.hk-alinan-yuva--dolu { border: 2px solid var(--c); background: #fff; animation: hk-yuva-pop .55s var(--qt-egri-yay, cubic-bezier(.34,1.56,.64,1)) both; }
+.hk-alinan-yuva .hk-yuva-ikon { width: 78% !important; height: 78% !important; }
+.hk-alinan-sayi { font-size: 13px; font-weight: 900; }
+/* cevap fazı: ince iki satır */
+.hk-tahta--puan.hk-tahta--kucuk { gap: 3px; }
+.hk-tahta--puan.hk-tahta--kucuk .hk-ptaraf { padding: 2px 8px; border-radius: 10px; }
+.hk-tahta--puan.hk-tahta--kucuk .hk-puan-sayi { font-size: 16px; }
+.hk-tahta--puan.hk-tahta--kucuk .hk-puan-ad, .hk-tahta--puan.hk-tahta--kucuk .hk-puan-hedef { font-size: 11px; }
+.hk-tahta--puan.hk-tahta--kucuk .hk-puan-cubuk { height: 5px; }
+.hk-tahta--puan.hk-tahta--kucuk .hk-alinan-yuva { width: 18px; height: 18px; border-radius: 5px; }
+.hk-tahta--puan.hk-tahta--kucuk .hk-alinan-etiket { display: none; }
+/* saldırıda kendi kartların (banlarken rakibin kartları) pasif: seçilemez, soluk */
+.hk-kart.hk-kart--pasif { opacity: .5; cursor: not-allowed; box-shadow: none; }
+
 /* ---------------------------------------------------------------- maç sonu: son tahta */
 .hk-son { display: grid; gap: 6px; text-align: left; }
 .hk-son .qt-baslik-3 { color: var(--qt-metin); }
@@ -352,7 +393,9 @@
 @media (prefers-reduced-motion: reduce) {
   .hk-yuva--dolu, .hk-yuva--son, .hk-taraf--kritik, .hk-kart--dokunus, .hk-kart--zipla, .hk-mesaj-yazi,
   .hk-mac .hk-sayac.qt-sayac--gerilim { animation: none !important; }
-  .hk-kart, .hk-cubuk-sure i { transition: none; }
+  .hk-kart, .hk-cubuk-sure i, .hk-puan-cubuk i { transition: none; }
+  /* 970: artış rozeti sonuç fazı boyunca sabit görünür; çalınan yuva pop'suz */
+  .hk-puan-arti, .hk-alinan-yuva--dolu { animation: none !important; }
   .hk-yuva--son { background: var(--hk-vurgu-zemin); }
   /* yumuşak mod: nabız kapalı, çerçeve sabit ve tam görünür */
   .hk-yuva--durum::after { animation: none !important; opacity: 1; }

@@ -45,7 +45,7 @@ import { CoinIkon } from "./ParaIkonlari.jsx";
 export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekleMetni, alttan = false,
                                             dereceli, onDereceli, kategori = null, onKategori, modlar, loadout = false }) {
   // 960: tur, eşik ve akış (sırayla seçim) ayardan — useDuelloKurallari
-  const { secim: duelloSecim, esik: duelloEsik, tur: turSayisi } = useDuelloKurallari();
+  const { secim: duelloSecim, puan: duelloPuan, esik: duelloEsik, tur: turSayisi, hedef: duelloHedef, yol: duelloYol } = useDuelloKurallari();   // 970: puan modu
   // 957: Kasa da ortak mod listesinde (kapalıyken gösterilmez); hedef ayardan
   const kasaAcik = useAyar("kasa_modu_acik", 0) >= 1;
   const kasaHedef = useAyar("kasa_hedef_puan", 80);
@@ -124,7 +124,9 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
       mod: "duello",
       ikon: "duello",
       ad: tt("Düello (Taktik Maçı)"),
-      aciklama: duelloSecim
+      aciklama: duelloPuan
+        ? tt("Kategorileri sırayla seçin; yalnız rakibin kategorisine saldırırsın. Doğru +1, kategoriyi alırsan +2. {h} puan ya da {y} kategori alan kazanır.", { h: duelloHedef, y: duelloYol })
+        : duelloSecim
         ? tt("Kategorileri sırayla seçin, {n} yuvayı ilk dolduran kazanır. Rakibin kategorisini almak için sen doğru, rakip yanlış bilmelisin. {t} tur, eşitlikte Altın Soru.", { t: turSayisi, n: duelloEsik })
         : tt("{n} yuvayı ilk dolduran kazanır. Hamle için sen doğru, rakip yanlış bilmelisin. {t} tur, eşitlikte Altın Soru.", { t: turSayisi, n: duelloEsik }),
       joker: tt("Maça 3 joker seçersin"),

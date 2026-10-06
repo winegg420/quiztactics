@@ -105,7 +105,8 @@ function DuelloGiris() {
   const { ceviri } = useDil();
   // 870: kazanma eşiği ve "boşta ikisi doğru → saldıran alır" kuralı metne gömülmez, ayardan okunur.
   // 960: seçim modu açıksa maç sırayla kategori seçimiyle başlar (boş kategori yok) — metin buna göre.
-  const { secim: secimModu, esik } = useDuelloKurallari();
+  // 970: puan modunda kural metni hedef puan + kategori yolu (ayardan).
+  const { secim: secimModu, puan: puanModu, esik, hedef, yol } = useDuelloKurallari();
   const bosSaldiran = useAyar("duello_bos_ikisi_dogru_saldiran", 1) >= 1;
   const [dereceli, setDereceli] = useDereceliTercih();
   // 410 (Ajan I): rakip düelloya bağlanamadı → sunucu cezasız iptal etti, DuelloMac buraya
@@ -130,7 +131,11 @@ function DuelloGiris() {
         <span className="m2-giris-ikon" aria-hidden="true"><QtIkon ad="duello" boyut={40} /></span>
         <div className="m2-giris-yazi">
           <h1 className="qt-baslik-1">{ceviri("Düello")}</h1>
-          <p>{(secimModu ? [
+          <p>{(puanModu ? [
+            ceviri("Maç başında 10 kategoriyi sırayla seçersiniz, 5'er tane."),
+            ceviri("Yalnız rakibin kategorisine saldırırsın. Bildiğin her soru +1; rakip bilemezse kategori senin, +2."),
+            ceviri("{h} puana ya da rakibin {y} kategorisine ilk ulaşan kazanır.", { h: hedef, y: yol }),
+          ] : secimModu ? [
             ceviri("Maç başında 10 kategoriyi sırayla seçersiniz, 5'er tane."),
             ceviri("{n} yuvayı ilk dolduran kazanır.", { n: esik }),
             ceviri("Rakibin kategorisini almak için sen doğru, rakip yanlış bilmelisin."),
@@ -204,9 +209,23 @@ const BOS_IPUCLARI = [
   BOS_SALDIRAN_KURALI,
   "Mavi çerçeve: fırsat. Boş kategoride rakip yanlış yapar ve sen bilirsen senin olur.",
 ];
+// 970: HAKIMIYET_IPUCLARI yalnız yuva (eski) kuralında, PUAN_IPUCLARI yalnız puan modunda. {h} hedef puan, {y} kategori yolu.
+const HAKIMIYET_IPUCLARI = [
+  "{n} yuvayı ilk dolduran kazanır.",
+  "Hamlen tutması için sen doğru, rakip yanlış bilmelisin.",
+  "{t} tur sonunda yuvalar eşitse Altın Soru.",
+];
+const PUAN_IPUCLARI = [
+  "Yalnız rakibin kategorisine saldırabilirsin.",
+  "Bildiğin her soru +1 puan.",
+  "Sen bilir, rakip bilemezse kategori senin: +2.",
+  "{h} puana ya da rakibin {y} kategorisine ilk ulaşan kazanır.",
+  "{t} tur sonunda puanlar eşitse Altın Soru.",
+];
 const ARAMA_IPUCLARI = [
   ...SECIM_IPUCLARI,
   "Aynı soruyu aynı anda cevaplarsınız.",
+  ...PUAN_IPUCLARI,
   "{n} yuvayı ilk dolduran kazanır.",
   "Hamlen tutması için sen doğru, rakip yanlış bilmelisin.",
   "Boş kategoride bilen alır.",
@@ -223,11 +242,13 @@ const DUELLO_ARAMA_SINIR_SN = 60;
 
 function DuelloArama({ dereceli, onBulundu, onIptal, ipuclari: tumIpuclari = ARAMA_IPUCLARI, bilgi = null }) {
   const { ceviri } = useDil();
-  const { secim: secimModu, esik, tur: turSayisi } = useDuelloKurallari();   // 960: sayılar ve akış ayardan
+  const { secim: secimModu, puan: puanModu, esik, tur: turSayisi, hedef, yol } = useDuelloKurallari();   // 960: sayılar ve akış ayardan
   const secimSn = useAyar("duello_secim_sn", 5);
   const bosSaldiran = useAyar("duello_bos_ikisi_dogru_saldiran", 1) >= 1;
   const ipuclari = tumIpuclari.filter((m) => (secimModu ? !BOS_IPUCLARI.includes(m) : !SECIM_IPUCLARI.includes(m))
-    && (bosSaldiran || m !== BOS_SALDIRAN_KURALI));
+    && (bosSaldiran || m !== BOS_SALDIRAN_KURALI)
+    // 970: puan modunda yuva satırları yok; eski modda puan satırları yok
+    && (puanModu ? !HAKIMIYET_IPUCLARI.includes(m) && !BOS_IPUCLARI.includes(m) : !PUAN_IPUCLARI.includes(m)));
   const [gecen, setGecen] = useState(0);
   const ipucu = Math.floor(gecen / IPUCU_SN) % ipuclari.length;
   const [hata, setHata] = useState(null);
@@ -324,7 +345,7 @@ function DuelloArama({ dereceli, onBulundu, onIptal, ipuclari: tumIpuclari = ARA
       bilgi={bilgi}
       hata={hata}
       // key değişince satır yeniden takılır → giriş animasyonu her ipucunda oynar
-      alt={<p key={ipucu} className="qt-h-gir" aria-live="polite">{ceviri(ipuclari[ipucu], { t: turSayisi, n: esik, s: secimSn })}</p>}
+      alt={<p key={ipucu} className="qt-h-gir" aria-live="polite">{ceviri(ipuclari[ipucu], { t: turSayisi, n: esik, s: secimSn, h: hedef, y: yol })}</p>}
       onIptal={onIptal}
       onTekrar={yenidenDene}
     />
@@ -1255,10 +1276,21 @@ function DuelloMac({ id }) {
     // 680 · Hâkimiyet: skor yerine yuva sayısı. Nakavt: eşik (hkS.esik; 870: 5) yuvaya ulaşan kazanır; son tur (duello_max_tur) sonunda yuvası çok olan;
     // eşitse Altın Soru (kim bildiyse o kazanır).
     const hkS = hkModel(d, ben, rakip);
-    const nakavt = d.durum === "bitti" && hkS.acik && Math.max(hkS.benY, hkS.rakipY) >= hkS.esik;
+    // 970 · puan modu: skor = puan; bitiş nedeni hedef puan / kategori yolu / tur sonu / Altın Soru.
+    const pKaz = kazandim ? { p: hkS.benP, a: hkS.benAlinan } : { p: hkS.rakipP, a: hkS.rakipAlinan };
+    const puanSkor = { a: hkS.benP, b: hkS.rakipP };
+    const nakavt = d.durum === "bitti" && hkS.acik && !hkS.puan && Math.max(hkS.benY, hkS.rakipY) >= hkS.esik;
     const yuvaSkor = { a: hkS.benY, b: hkS.rakipY };
     const altYazi = d.durum !== "bitti" || !hkS.acik
       ? null
+      : hkS.puan
+        ? d.uzatma
+          ? (kazandim ? ceviri("Altın Soru'yu sen bildin ({a}-{b})", puanSkor) : ceviri("Altın Soru'yu rakip bildi ({a}-{b})", puanSkor))
+          : pKaz.p >= hkS.hedef
+            ? (kazandim ? ceviri("{n} puana ulaştın!", { n: hkS.hedef }) : ceviri("Rakip {n} puana ulaştı", { n: hkS.hedef }))
+            : pKaz.a >= hkS.yol
+              ? (kazandim ? ceviri("Rakibin {n} kategorisini aldın!", { n: hkS.yol }) : ceviri("Rakip {n} kategorini aldı", { n: hkS.yol }))
+              : (kazandim ? ceviri("{a}-{b} önde, kazandın", puanSkor) : ceviri("{a}-{b} geride, kaybettin", puanSkor))
       : nakavt
         ? (kazandim ? ceviri("Hâkimiyet zaferi! {n} yuva doldu", { n: hkS.esik }) : ceviri("Rakip {n} yuvayı doldurdu", { n: hkS.esik }))
         : d.uzatma
@@ -1275,9 +1307,9 @@ function DuelloMac({ id }) {
           terk={sahne.terk}
           baslik={d.durum === "iptal" ? ceviri("Düello iptal edildi") : undefined}
           altYazi={sahne.terk ? undefined : altYazi ?? undefined}
-          ben={{ profil: ben, skor: hkS.acik ? hkS.benY : Number(ben.puan ?? 0) }}
-          rakip={{ profil: rakip, skor: hkS.acik ? hkS.rakipY : Number(rakip.puan ?? 0) }}
-          skorEtiket={hkS.acik ? ceviri("yuva") : ceviri("puan")}
+          ben={{ profil: ben, skor: hkS.acik && !hkS.puan ? hkS.benY : Number(ben.puan ?? 0) }}
+          rakip={{ profil: rakip, skor: hkS.acik && !hkS.puan ? hkS.rakipY : Number(rakip.puan ?? 0) }}
+          skorEtiket={hkS.acik && !hkS.puan ? ceviri("yuva") : ceviri("puan")}
           oduller={sahne.oduller}
           level={sahne.level}
           lig={sahne.lig}
