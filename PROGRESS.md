@@ -10112,3 +10112,12 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 - **Push / canlı:** Ida'nın isteğiyle `main`'e PUSH EDİLMEDİ, migration 980 UYGULANMADI — onay bekleniyor. Yerel commit'ler: isim · migration 980 · senkron/koreografi · testler · bu kayıt.
 - **iOS notu:** iOS'ta uygulama değiştirip dönme `--dondur` ile taklit edildi (görünürlük gizli + JS duraklatma); gerçek iPhone'da kontrol sahibinde.
 - **Dokunulmadı:** başka işe ait değişiklikler (`oyun/lib/ceviri/mac.js`, `src/BildimApp.jsx`, `oyun/tasarim/duello-tahta/`, `araclar/_gecici-*`, `araclar/_q.mjs`, `tasarim/*` görselleri) commit edilmedi.
+
+## 2026-10-06 — Ortak Hazine: onay sonrası son kontroller, migration 980 uygulandı, push
+**Araç:** Claude Code (Opus 5.5)
+**Neden:** Ida onay verdi — önce Düello'daki kalan kontrolü netleştir, bot–bot koş, sonra 980 + push.
+
+- **Düello kalan kontrol:** önceki koşuda düşen tek madde "konsol hatası yok (A)" — konsoldaki 500, sunucuda `duello_durum` statement timeout (57014). DB şimdi normal (basit sorgu 71–97 ms, açık işlem yok). Aynı test yerel kodla tekrar: `duello-secim-canli-testi --mod=bot --tam --adres=http://localhost:5173` **22/22** (tur 10, 12-5, konsol temiz). Sonuç: o zaman aşımı DB yavaşlığıydı, kod sorunu değil.
+- **Bot–bot:** `duello-puan-modu-sql-testi --sim 40` **57/57**; 40/40 maç hatasız bitti (ort. tur 12,6 · 12 puanla %88 · Altın Soru %13), kendi kategorisine hamle 0, puan toplamları tutarlı.
+- **Migration 980 uygulandı** (`supabase db push`); `bildirim_yaz`, `kasa_davet_et`, `kasa_davet_cevap` yeni metinde, security definer + ACL değişmedi.
+- Build temiz; `main`'e push.
