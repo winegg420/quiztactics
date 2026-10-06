@@ -76,7 +76,8 @@ export function KasaKadran({ d, c, kucuk = false, goster, sahipGoster, hareket =
       {/* 954: soru/sonuç şeridinde sahipsiz kasa açıkça yazılır (DEVAM sahipliği bırakır) */}
       {kucuk && sahip === "yok" && kasa > 0 && !d.altin && <span className="ks-kadran-sahipsiz">{c("SAHİPSİZ")}</span>}
       {/* 955: DEVAM anı — "×1,25" patlar (yalnız sunum) */}
-      {carpan && <span key={carpan.anahtar} className="ks-carpan-etiket qt-sayi" aria-hidden="true">{carpan.metin}</span>}
+      {carpan && <span key={carpan.anahtar} className="ks-carpan-etiket qt-sayi" aria-hidden="true"
+                        style={{ "--ks-ac-olcek": Math.max(0.1, Math.min(1, Number(carpan.olcek) || 1)) }}>{carpan.metin}</span>}
       {artis && (
         <span key={artis.anahtar} className={sinif("ks-artis-etiket qt-sayi", artis.buyuk && "ks-artis-etiket--buyuk")} aria-hidden="true">
           +{artis.n}

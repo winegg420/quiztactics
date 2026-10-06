@@ -65,9 +65,10 @@
 .ks-kadran-plaka b { font: var(--qt-a-siyah) 34px/1 var(--qt-f-baslik); }
 
 /* ---------- karar gerilimi ---------- */
-.ks-kadran--nabiz .ks-kadran-govde { animation: ks-kalp 1s ease-in-out infinite; }
+/* 980: karar başında bir kez (eskiden sonsuz: sandık karar boyunca durmadan oynuyordu); son 3 sn'de "gergin" devralır */
+.ks-kadran--nabiz .ks-kadran-govde { animation: ks-kalp 1s ease-in-out 2; }
 @keyframes ks-kalp { 0%, 100% { transform: scale(1); } 12% { transform: scale(1.06); } 24% { transform: scale(.99); } 36% { transform: scale(1.03); } }
-.ks-kadran--titre .ks-kadran-govde { animation: ks-titre 1.6s ease-in-out infinite; }
+.ks-kadran--titre .ks-kadran-govde { animation: ks-titre 1.6s ease-in-out 1; }
 @keyframes ks-titre {
   0%, 62%, 100% { transform: none; }
   66% { transform: translateX(-2px) rotate(-1.2deg); } 72% { transform: translateX(2px) rotate(1.2deg); }
@@ -117,7 +118,7 @@
   padding: 2px 8px; border-radius: var(--qt-r-hap); background: var(--qt-coin); color: var(--qt-coin-yazi, #3a2600);
   box-shadow: 0 2px 0 var(--qt-coin-dudak, #9a6a06), 0 0 14px rgba(255, 201, 51, .8);
   font: var(--qt-a-siyah) 17px/1.1 var(--qt-f-baslik);
-  animation: ks-carpan-pat 1500ms var(--qt-egri-cikis) both;
+  animation: ks-carpan-pat calc(1300ms * var(--ks-ac-olcek, 1)) var(--qt-egri-cikis) both;   /* 980: 1500 → 1300 (DEVAM_AN_MS 1400), geç veride hızlanır */
 }
 @keyframes ks-carpan-pat {
   0% { opacity: 0; transform: scale(.3) rotate(-10deg); } 14% { opacity: 1; transform: scale(1.45) rotate(4deg); }
@@ -159,36 +160,37 @@
   position: absolute; inset: -4px; z-index: 5; display: grid; place-items: center; align-content: center; gap: 10px;
   border-radius: var(--qt-r-l); overflow: hidden; pointer-events: none;
   background: radial-gradient(circle at 50% 42%, #5c3a05 0%, #2a1a00 70%);
-  animation: ks-ac-kat 1550ms ease-out both;
+  /* 980: 1550 → 1250 (soru gösterim payında biter; KasaPage AC_AN_MS). --ks-ac-olcek: veri geç geldiyse an hızlanır */
+  animation: ks-ac-kat calc(1250ms * var(--ks-ac-olcek, 1)) ease-out both;
 }
 @keyframes ks-ac-kat { 0% { opacity: 0; } 8%, 78% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
-.ks-ac-kasa { position: relative; z-index: 2; width: min(200px, 30dvh); animation: ks-ac-kasa 1550ms var(--qt-egri-cikis) both; }
+.ks-ac-kasa { position: relative; z-index: 2; width: min(200px, 30dvh); animation: ks-ac-kasa calc(1250ms * var(--ks-ac-olcek, 1)) var(--qt-egri-cikis) both; }
 .ks-ac-kasa .ks-kasa { width: 100%; height: auto; }
 @keyframes ks-ac-kasa { 0% { transform: scale(.82); } 18% { transform: scale(1); } 30% { transform: scale(1.08); } 40%, 100% { transform: scale(1); } }
-.ks-ac-an .ks-kasa-kadran { animation: ks-kadran-ac 380ms cubic-bezier(.5, 0, .3, 1) both; }
+.ks-ac-an .ks-kasa-kadran { animation: ks-kadran-ac calc(300ms * var(--ks-ac-olcek, 1)) cubic-bezier(.5, 0, .3, 1) both; }
 @keyframes ks-kadran-ac { 0% { transform: rotate(0); } 35% { transform: rotate(-22deg) scale(1.12); } 70% { transform: rotate(14deg); } 100% { transform: rotate(0) translateY(6%); } }
-.ks-ac-an .ks-kasa-kapi { animation: ks-kapi-ac 340ms var(--qt-egri-cikis) 380ms both; }
+.ks-ac-an .ks-kasa-kapi { animation: ks-kapi-ac calc(280ms * var(--ks-ac-olcek, 1)) var(--qt-egri-cikis) calc(300ms * var(--ks-ac-olcek, 1)) both; }
 @keyframes ks-kapi-ac { 0% { transform: rotate(0); } 70% { transform: rotate(-38deg) translateY(-6%); } 100% { transform: rotate(-32deg) translateY(-5%); } }
-.ks-ac-an .ks-kasa-isik { animation: ks-ac-isik 900ms ease-out 380ms both; }
+.ks-ac-an .ks-kasa-isik { animation: ks-ac-isik calc(720ms * var(--ks-ac-olcek, 1)) ease-out calc(300ms * var(--ks-ac-olcek, 1)) both; }
 @keyframes ks-ac-isik { from { opacity: .3; transform: scale(.7); } 40% { opacity: 1; transform: scale(1.25); } to { opacity: .9; transform: scale(1.1); } }
 .ks-ac-an .ks-kasa-cerceve { stroke: var(--qt-coin); }
 .ks-ac-isin {
   position: absolute; left: 50%; top: 42%; width: 640px; height: 640px; margin: -320px 0 0 -320px; z-index: 1; border-radius: 50%;
   background: repeating-conic-gradient(rgba(255, 214, 90, .55) 0 9deg, rgba(255, 214, 90, 0) 9deg 24deg);
   -webkit-mask: radial-gradient(closest-side, #000 20%, transparent 100%); mask: radial-gradient(closest-side, #000 20%, transparent 100%);
-  opacity: 0; animation: ks-isin 1300ms ease-out 400ms both;
+  opacity: 0; animation: ks-isin calc(1040ms * var(--ks-ac-olcek, 1)) ease-out calc(320ms * var(--ks-ac-olcek, 1)) both;
 }
 @keyframes ks-isin { 0% { opacity: 0; transform: scale(.4) rotate(0); } 25% { opacity: 1; } 100% { opacity: 0; transform: scale(1.1) rotate(40deg); } }
 .ks-ac-flas {
   position: absolute; left: 50%; top: 42%; width: 220px; height: 220px; margin: -110px 0 0 -110px; z-index: 3; border-radius: 50%;
   background: radial-gradient(closest-side, #fff 0%, rgba(255, 244, 207, .9) 35%, rgba(255, 201, 51, 0) 100%);
-  opacity: 0; animation: ks-flas 700ms ease-out 420ms both;
+  opacity: 0; animation: ks-flas calc(560ms * var(--ks-ac-olcek, 1)) ease-out calc(330ms * var(--ks-ac-olcek, 1)) both;
 }
 @keyframes ks-flas { 0% { opacity: 0; transform: scale(.5); } 20% { opacity: 1; } 100% { opacity: 0; transform: scale(2.6); } }
 .ks-ac-yazi {
   position: relative; z-index: 4; display: grid; justify-items: center; gap: 2px; text-align: center;
   font: var(--qt-a-siyah) 24px/1.1 var(--qt-f-baslik); color: #fff4cf; text-shadow: 0 3px 0 #1f1400;
-  animation: ks-ac-yazi 1100ms var(--qt-egri-cikis) 430ms both;
+  animation: ks-ac-yazi calc(880ms * var(--ks-ac-olcek, 1)) var(--qt-egri-cikis) calc(340ms * var(--ks-ac-olcek, 1)) both;
 }
 .ks-ac-yazi span { font-size: 46px; color: var(--qt-coin); text-shadow: 0 4px 0 #1f1400, 0 0 18px rgba(255, 201, 51, .7); }
 @keyframes ks-ac-yazi { 0% { opacity: 0; transform: translateY(14px) scale(.9); } 30% { opacity: 1; transform: none; } 100% { opacity: 1; } }
@@ -302,7 +304,8 @@
   100% { transform: none; }
 }
 /* kapak ara ara sarsılır (kilit tıkırdar) */
-.ks-giris-an .ks-kasa-kapi { animation: ks-kapak-tikir 1500ms ease-in-out calc(var(--ks-gec, 0ms) + 1000ms) infinite; }
+/* 980: bir kez (sonsuz döngü sandığı sahne boyunca tekrar tekrar oynatıyordu; 3-2-1'de her rakamda ayrıca zıplar) */
+.ks-giris-an .ks-kasa-kapi { animation: ks-kapak-tikir 1500ms ease-in-out calc(var(--ks-gec, 0ms) + 1000ms) 1 both; }
 @keyframes ks-kapak-tikir { 0%, 55%, 100% { transform: rotate(-3deg); } 62% { transform: rotate(-9deg) translateY(-3%); } 70% { transform: rotate(-2deg); } 78% { transform: rotate(-6deg); } 86% { transform: rotate(-3deg); } }
 .ks-giris-an .ks-kasa-kadran { animation: ks-kadran-don 900ms ease-in-out calc(var(--ks-gec, 0ms) + 700ms) both; }
 .ks-giris-an .ks-kasa-cerceve { stroke: var(--qt-coin); }

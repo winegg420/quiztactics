@@ -42,6 +42,7 @@ export function titret(desen) {
     // Oyun hissi (1 Eki 2026): dokunuş tek kapısıyla (tasarim/hareket.js › hisAcikMi) aynı kural — "Efektler" kapalıysa,
     // hareket azaltılmışsa ya da sayfaya henüz dokunulmadıysa (Paket 20 VI: Chrome engelleyip konsola yazıyordu) çalmaz.
     if (!hisAcikMi()) return;
+    if (document.visibilityState === "hidden") return;   // 980: gizli sekmede titreşim yok (ses ile aynı kural)
     navigator.vibrate?.(desen);
   } catch {
     /* tarayıcı izin vermedi — dokunsal geri bildirim yok, oyun etkilenmez */

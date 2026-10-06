@@ -427,6 +427,9 @@ function tamponCal(c, tampon, hacim, hiz, rol) {
  * @param {{carpan?:number, hiz?:number}} [secenek]
  */
 function cal(rol, yedek, { carpan = 1, hiz = 1 } = {}) {
+  // 980: gizli sekmede ses yok (bütün modlar) — arka planda faz/an sesleri çalıyor, kısılmış zamanlayıcılar dönüşte
+  // birikmiş sesleri arka arkaya patlatıyordu (ölçüm: kasa-canli-testi --dondur, 6 Eki 2026)
+  if (typeof document !== "undefined" && document.visibilityState === "hidden") return;
   const dosya = dosyaAdi(rol);
   taniKaydi(rol, sesAcikMi() ? dosya : "efekt-kapali");
   if (!dosya || !calabilir()) return;     // sessiz seçildi / ses kapalı → indirme de yok

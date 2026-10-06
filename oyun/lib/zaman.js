@@ -220,6 +220,21 @@ export function geriSayim(hedef) {
   };
 }
 
+/**
+ * 980: canlı maç sayfaları (Kasa, Düello) için saat farkı (sunucu − istemci, ms). Her yanıt bir örnek: istek/yanıt
+ * ORTA NOKTASI (yanıt anı değil — dönüş gecikmesinin tamamı farka biniyordu) ve penceredeki EN KISA gidiş-dönüşlü
+ * örnek kullanılır (lib/nabiz.js ile aynı yaklaşım; tek yavaş yanıt sayacı oynatmaz). Eskisi "yanıt anı + en büyük
+ * fark" idi: gecikme yüksekken sayaç/giriş geri sayımı sunucudan geride kalıyor, örnek pencereden düşünce sıçrıyordu.
+ * @returns {{ ornekler: Array, fark: number }}
+ */
+export function saatFarkiOrnekle(ornekler, gonderildiMs, alindiMs, sunucuZamaniIso, pencereMs = 60000) {
+  const sz = new Date(sunucuZamaniIso).getTime();
+  const liste = (ornekler ?? []).filter((o) => alindiMs - o.an < pencereMs);
+  if (Number.isFinite(sz)) liste.push({ an: alindiMs, rtt: Math.max(0, alindiMs - gonderildiMs), fark: sz - (gonderildiMs + alindiMs) / 2 });
+  const en = liste.length ? liste.reduce((a, b) => (b.rtt < a.rtt ? b : a)) : null;
+  return { ornekler: liste, fark: en ? en.fark : 0 };
+}
+
 // Sunucu-istemci saat farkı (ms). Soru verisi geldiği anda BİR KEZ hesaplanmalı;
 // her tikte sabit sunucu_zamani ile yeniden hesaplanırsa Date.now() sadeleşir
 // ve kalan süre donar.

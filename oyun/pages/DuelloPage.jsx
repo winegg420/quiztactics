@@ -57,7 +57,7 @@ import "./DuelloPage.a.css";
 import "../styles/duello-tahta.css";
 import { QtBosDurum, QtDugme, QtIkon, QtModal, QtSayac, QT_KIRILMA_MS, sinif } from "../tasarim/index.js";
 import { rpcDene } from "../lib/rpcDene.js";
-import { sayacKaymasi, sayacGoster, sayacSinirMs } from "../lib/zaman.js";
+import { sayacKaymasi, sayacGoster, sayacSinirMs, saatFarkiOrnekle } from "../lib/zaman.js";
 
 // Bu istemcinin çizebildiği en yüksek Düello sürümü. 23 Eyl 2026: canlıdaki eski paket
 // (yalnız v1 arayüzü) v2 maçını v1 gibi çizdi — saldıran tarafın şıkları kapalı kaldı.
@@ -532,8 +532,11 @@ function DuelloMac({ id }) {
       // duello_durum 150 satırlık bir fonksiyon; onu genişletmek yerine ayrı, ucuz çağrı.
       const baglantiSor = Date.now() - sonBaglantiRef.current >= BAGLANTI_MS;
       if (baglantiSor) sonBaglantiRef.current = Date.now();
+      // 980: saat farkı için duello_durum'un kendi gidiş/dönüş anları (bağlantı çağrısı beklenmeden)
+      const durumGonderildi = Date.now();
+      let durumAlindi = null;
       const [durumCevap, baglantiCevap] = await Promise.all([
-        supabase.rpc("duello_durum", { p_id: id }),
+        supabase.rpc("duello_durum", { p_id: id }).then((r) => { durumAlindi = Date.now(); return r; }),
         baglantiSor ? supabase.rpc("duello_baglanti", { p_id: id }) : Promise.resolve(null),
       ]);
       const { data, error } = durumCevap;
@@ -564,14 +567,11 @@ function DuelloMac({ id }) {
           clearTimeout(skillTimerRef.current);
           skillTimerRef.current = setTimeout(() => setSkillEfekt(null), 720);
         }
-        // Saat farkı: her örnek yanıtın yolda geçen süresi kadar eksik ölçer (sunucu saati
-        // yanıt çıkarken alınır, istemci onu geç görür). En az gecikmeli örnek = en büyük fark;
-        // son 60 sn'nin en büyüğü kullanılır — tek bir yavaş yanıt sayacı ileri atmasın.
-        const suan = Date.now();
-        const ornekler = farkOrnekRef.current.filter((o) => suan - o.an < 60000);
-        ornekler.push({ an: suan, fark: new Date(data.sunucu_zamani).getTime() - suan });
-        farkOrnekRef.current = ornekler;
-        farkRef.current = Math.max(...ornekler.map((o) => o.fark));
+        // Saat farkı (980): istek/yanıt orta noktası + son 60 sn'nin en kısa gidiş-dönüşlü örneği (lib/zaman.js ›
+        // saatFarkiOrnekle; Klasik nabiz.js ile aynı). Eskisi yanıt anı + en büyük farktı (dönüş gecikmesi kadar geride).
+        const saat = saatFarkiOrnekle(farkOrnekRef.current, durumGonderildi, durumAlindi ?? Date.now(), data.sunucu_zamani);
+        farkOrnekRef.current = saat.ornekler;
+        farkRef.current = saat.fark;
         // Durum değişmediyse state'e yeni nesne yazılmaz: bütün maç ağacı boşuna
         // yeniden çizilmesin (sunucu_zamani her yanıtta farklıdır, karşılaştırmaya girmez).
         const imza = JSON.stringify({ ...data, sunucu_zamani: null });
@@ -960,8 +960,12 @@ function DuelloMac({ id }) {
     if (!d || d.durum !== "aktif" || !["cevap", "altin"].includes(d.faz)) return;   // maç sonu ekranında tik yok
     if (d.surum === 2 && d.cevap?.ben_cevapladim) return;   // cevabı kilitleyene tik çalınmaz
     const sn = Math.ceil(gosterSn);
-    if (sn > 0 && sn <= 3 && sonTikRef.current !== sn) { sonTikRef.current = sn; sesTik(sn); }
-  }, [gosterSn, d]);
+    // 980: anahtar faz + rakam (yalnız rakam değil) — aynı fazda sayaç geri sıçrasa da aynı saniye ikinci kez çalmaz;
+    // gizli sekmede çalmaz (dönüşte birikmiş tik'ler arka arkaya patlamasın)
+    if (sonTikRef.current?.faz !== fazAnahtari) sonTikRef.current = { faz: fazAnahtari, calinan: new Set() };
+    const t = sonTikRef.current;
+    if (sn > 0 && sn <= 3 && !t.calinan.has(sn) && document.visibilityState === "visible") { t.calinan.add(sn); sesTik(sn); }
+  }, [gosterSn, d, fazAnahtari]);
 
   // ---------------- Düello 1.0: ses + görsel anlar (Tasarım A) ----------------
   // Yalnız sunum: durum akışına, RPC'lere, kilitlere dokunmaz. Her ses bir ref

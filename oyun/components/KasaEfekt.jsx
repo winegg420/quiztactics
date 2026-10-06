@@ -185,10 +185,11 @@ export function UcanParcalar({ kokRef, kaynak, hedef, adet = 6, tur = "coin", ge
   ));
 }
 
-/** AÇ anı katmanı (sahnenin üstünde, ~1,5 sn). */
-export function KasaAcAni({ deger, benim, seviye, c }) {
+/** AÇ anı katmanı (sahnenin üstünde, ~1,3 sn). 980: olcek (0,4–1) — kalan gösterim payına sığmak için hızlanır (CSS --ks-ac-olcek). */
+export function KasaAcAni({ deger, benim, seviye, olcek = 1, c }) {
   return (
-    <div className={sinif("ks-ac-an", benim ? "ks-ac-an--ben" : "ks-ac-an--rakip")} aria-hidden="true">
+    <div className={sinif("ks-ac-an", benim ? "ks-ac-an--ben" : "ks-ac-an--rakip")} aria-hidden="true"
+         style={{ "--ks-ac-olcek": Math.max(0.1, Math.min(1, Number(olcek) || 1)) }}>
       <span className="ks-ac-isin" />
       <span className="ks-ac-flas" />
       <div className="ks-ac-kasa" data-ks-hedef="ac-kasa">
