@@ -24,6 +24,8 @@ const MOD = ARG.mod === "gercek" ? "gercek" : "bot";
 const DIL = ARG.dil === "en" ? "en" : "tr";
 const EN = Number(ARG.en || 390);
 const AZALT = Boolean(ARG.azalt);
+// 970: --tam → maç sonuna kadar oynanır (A sorulara %60 doğru cevap verir), puan kuralı DB'den denetlenir, maç sonu ekranı ölçülür.
+const TAM = Boolean(ARG.tam);
 const AD_A = String(ARG.a || "ArayuzDenetim648");
 const AD_B = String(ARG.b || "ArayuzDenetim934");
 const OTURUM = path.resolve(".arayuz-denetim-oturum.json");
@@ -92,6 +94,8 @@ const DURUM = () => {
     banSec: Boolean(q(".hk-sahne--ban-sec")), kartAcik: document.querySelectorAll("button.hk-kart:not([disabled]):not(.hk-kart--banli)").length,
     cubuk: Boolean(q(".hk-cubuk-dugme:not([disabled])")), sik: document.querySelectorAll(".hk-mac .qt-sik:not([disabled])").length,
     kilitli: Boolean(window.__bdTani?.kilitli),
+    puanTahta: Boolean(q(".hk-tahta--puan")), kendiAcik: document.querySelectorAll("button.hk-kart--ben:not([disabled])").length,
+    saldiriyor: Boolean(q(".hk-cubuk:not(.hk-cubuk--savunan)")), mesaj: q(".hk-mesaj-yazi")?.innerText.replace(/\s+/g, " ") ?? "",
     konsol: q(".dsc-konsol")?.innerText.replace(/\s+/g, " ") ?? "",
     yatay: document.documentElement.scrollWidth - window.innerWidth,
     dikey: Math.round(document.documentElement.scrollHeight - window.innerHeight), alt: Math.round(alt), ekran: window.innerHeight,
@@ -113,9 +117,11 @@ try {
   const B = hesapB ? await ac("B", hesapB) : null;
   await db(`update profiles set last_seen = now() where id in (${alintila(hesapA.uid)}, ${alintila(RAKIP)})`);
   macId = await pg.tek(`select duello_olustur(${alintila(hesapA.uid)}, ${alintila(RAKIP)}, false, null)::text`);
-  const m0 = (await db(`select secim_modu, hakimiyet_esik, max_tur, ilk_secen, oyuncu1, oyuncu2, faz from duellolar where id = ${alintila(macId)}`))[0];
+  const m0 = (await db(`select secim_modu, hakimiyet_esik, max_tur, ilk_secen, oyuncu1, oyuncu2, faz, puan_modu, puan_hedef, kategori_yolu from duellolar where id = ${alintila(macId)}`))[0];
   console.log(`· maç ${macId} (+${sn()} sn) ilk seçen: ${m0.ilk_secen === hesapA.uid ? "A" : "rakip"}`);
-  ok("canlı maç seçim moduyla açıldı (faz secim, eşik 7, 20 tur)", m0.secim_modu === "t" && m0.faz === "secim" && m0.hakimiyet_esik === "7" && m0.max_tur === "20", JSON.stringify(m0));
+  ok("canlı maç seçim moduyla açıldı (faz secim, 20 tur; 970 puan modu: hedef 12, yol 4)", m0.secim_modu === "t" && m0.faz === "secim" && m0.max_tur === "20"
+    && (m0.puan_modu === "t" ? m0.puan_hedef === "12" && m0.kategori_yolu === "4" : m0.hakimiyet_esik === "7"), JSON.stringify(m0));
+  const PUAN = m0.puan_modu === "t";
   await Promise.all([A, B].filter(Boolean).map((o) => o.s.goto(`${ADRES}/duello/${macId}`, { waitUntil: "domcontentloaded", timeout: 45000 })));
   await Promise.all([A, B].filter(Boolean).map((o) => o.s.waitForSelector(".dsc-kart, .hk-mac--secim", { timeout: 45000 }).catch(() => {})));
 
@@ -174,24 +180,63 @@ try {
   if (DIL === "en") ok("arayüz İngilizce (YOUR PICK / OPPONENT PICKING / DRAFT görüldü)", enGoruldu);
   const turBas = Date.now();
   let tur1Olcum = false;
-  while (Date.now() - turBas < 150000) {
+  let kendiAcikGoruldu = 0, puanTahtaGoruldu = false, sonucMesajlari = new Set();
+  while (Date.now() - turBas < (TAM ? 1500000 : 150000)) {
     const r = (await db(`select tur, faz, durum from duellolar where id = ${alintila(macId)}`))[0];
-    if (r.durum !== "aktif" || Number(r.tur) > 2) break;
+    if (r.durum !== "aktif" || (!TAM && Number(r.tur) > 2)) break;
     for (const o of [A, B].filter(Boolean)) {
       const d = await o.s.evaluate(DURUM);
+      if (d.puanTahta) puanTahtaGoruldu = true;
+      if (PUAN && d.faz === "kategori" && d.saldiriyor && d.kendiAcik > 0) kendiAcikGoruldu++;
+      if (d.faz === "sonuc" && d.mesaj) sonucMesajlari.add(d.mesaj);
       if (!tur1Olcum && d.faz === "kategori" && d.kartAcik > 0) {
         tur1Olcum = true;
-        ok("tur 1 kategori ekranı (7 yuvalı tahta): tek ekran, taşma yok", d.yatay <= 0 && d.dikey <= 1 && d.alt <= d.ekran + 1, JSON.stringify({ yatay: d.yatay, dikey: d.dikey, alt: d.alt }));
+        ok(`tur 1 kategori ekranı (${PUAN ? "puan tahtası" : "7 yuvalı tahta"}): tek ekran, taşma yok`, d.yatay <= 0 && d.dikey <= 1 && d.alt <= d.ekran + 1, JSON.stringify({ yatay: d.yatay, dikey: d.dikey, alt: d.alt }));
         await o.s.screenshot({ path: path.join(CIKTI, `${MOD}-${DIL}-${EN}${AZALT ? "-azalt" : ""}-03-kategori.png`) });
       }
       try {
         if (d.faz === "ban" && d.banSec) await o.s.locator("button.hk-kart:not([disabled])").first().tap({ timeout: 1200 });
         else if (d.faz === "kategori" && d.kartAcik > 0 && !d.cubuk) await o.s.locator("button.hk-kart:not([disabled]):not(.hk-kart--banli)").first().tap({ timeout: 1200 });
         else if (d.faz === "kategori" && d.cubuk) await o.s.locator(".hk-cubuk-dugme:not([disabled])").first().tap({ timeout: 1200 });
-        else if (d.faz === "cevap" && d.sik > 0 && !d.kilitli) await o.s.locator(".hk-mac .qt-sik:not([disabled])").first().tap({ timeout: 1200 });
+        else if (d.faz === "cevap" && d.sik > 0 && !d.kilitli) {
+          // --tam: %60 doğru (DB'deki doğru şık), kalan ilk açık şık
+          const dc = TAM && Math.random() < 0.6 ? Number(await pg.tek(`select q.dogru_cevap::text from duellolar d join questions q on q.id = d.soru_id where d.id = ${alintila(macId)}`)) : null;
+          if (dc !== null && Number.isFinite(dc)) await o.s.locator(".hk-mac .qt-sik").nth(dc).tap({ timeout: 1200 });
+          else await o.s.locator(".hk-mac .qt-sik:not([disabled])").first().tap({ timeout: 1200 });
+        }
       } catch { /* faz geçti */ }
     }
     await new Promise((r2) => setTimeout(r2, 300));
+  }
+  if (PUAN) {
+    ok("puan modu: seçimden sonra puan tahtası görüldü", puanTahtaGoruldu);
+    ok("puan modu: saldırırken kendi kartların hiç seçilebilir olmadı", kendiAcikGoruldu === 0, String(kendiAcikGoruldu));
+    console.log(`  · tur sonu mesajları (örnek): ${[...sonucMesajlari].slice(0, 4).join(" | ")}`);
+    ok("puan modu: tur sonu mesajı kim kaç puan aldı + el değişimini yazıyor", [...sonucMesajlari].some((m) => /Sen \+\d · Rakip \+\d|You \+\d · Opponent \+\d/.test(m)), [...sonucMesajlari].slice(0, 3).join(" | "));
+  }
+  if (TAM) {
+    const son = (await db(`select durum, kazanan, uzatma, terk_eden, puan1, puan2, puan_hedef, kategori_yolu, secimler, sahiplik, oyuncu1, oyuncu2, tur from duellolar where id = ${alintila(macId)}`))[0];
+    const hm = await db(`select saldiran, uzatma, puan_saldiran, puan_savunan, altin_kazanan, hakimiyet from duello_hamleler where duello_id = ${alintila(macId)} order by id`);
+    const j = (v) => (typeof v === "string" ? JSON.parse(v) : v);
+    const bb = (v) => v === true || v === "t";
+    ok("tam maç bitti (terksiz)", son.durum === "bitti" && !son.terk_eden, JSON.stringify({ durum: son.durum, tur: son.tur }));
+    if (PUAN && son.durum === "bitti") {
+      const sec = j(son.secimler) ?? []; const sah = j(son.sahiplik) ?? {};
+      const alinan = (u) => sec.filter((x) => x.u !== u && sah[x.k] === u).length;
+      const topla = (u) => hm.filter((x) => !bb(x.uzatma)).reduce((t, x) => t + Number(x.saldiran === u ? x.puan_saldiran : x.puan_savunan), 0);
+      const ok1 = Number(son.puan1) >= Number(son.puan_hedef) || alinan(son.oyuncu1) >= Number(son.kategori_yolu);
+      const ok2 = Number(son.puan2) >= Number(son.puan_hedef) || alinan(son.oyuncu2) >= Number(son.kategori_yolu);
+      const bek = ok1 && !ok2 ? son.oyuncu1 : ok2 && !ok1 ? son.oyuncu2 : !ok1 && !ok2 && Number(son.puan1) !== Number(son.puan2)
+        ? (Number(son.puan1) > Number(son.puan2) ? son.oyuncu1 : son.oyuncu2) : hm.filter((x) => bb(x.uzatma)).at(-1)?.altin_kazanan;
+      console.log(`  · bitiş: tur ${son.tur} · puan ${son.puan1}-${son.puan2} · çalınan ${alinan(son.oyuncu1)}-${alinan(son.oyuncu2)} · Altın Soru ${hm.filter((x) => bb(x.uzatma)).length}`);
+      ok("DB: kendi kategorisine hamle yok", hm.every((x) => j(x.hakimiyet)?.sahip_once !== x.saldiran || bb(x.uzatma)));
+      ok("DB: puanlar hamle toplamıyla tutarlı", topla(son.oyuncu1) === Number(son.puan1) && topla(son.oyuncu2) === Number(son.puan2), JSON.stringify([son.puan1, son.puan2, topla(son.oyuncu1), topla(son.oyuncu2)]));
+      ok("DB: kazanan kurala uygun (12 puan / 4 kategori / tur sonu / Altın Soru)", son.kazanan === bek, JSON.stringify({ kazanan: son.kazanan, bek }));
+    }
+    await new Promise((r2) => setTimeout(r2, 4000));
+    await A.s.screenshot({ path: path.join(CIKTI, `${MOD}-${DIL}-${EN}${AZALT ? "-azalt" : ""}-09-mac-sonu.png`) });
+    const metin = await A.s.evaluate(() => document.body.innerText).catch(() => "");
+    if (PUAN) ok("maç sonu ekranı skoru puan olarak yazıyor", /puan|points?/i.test(metin), metin.slice(0, 200));
   }
   const h = await db(`select count(*)::text n from duello_hamleler where duello_id = ${alintila(macId)}`);
   ok("seçimden sonra turlar oynandı (≥ 2 hamle; tutma kuralı aynen)", Number(h[0].n) >= 2, h[0].n);

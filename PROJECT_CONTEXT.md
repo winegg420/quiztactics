@@ -114,6 +114,24 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
 
 ### Düello
 
+- **PUAN KURALI (970, Ida 6 Eki 2026) — bugünkü kural.** Bayrak `duello_puan_modu` (jsonb "yeni" | "eski", varsayılan "yeni";
+  yalnız seçim modunda açılan maçta geçerli). Mod, hedef, kategori yolu ve tur maç satırına sabit (`duellolar.puan_modu/puan_hedef/kategori_yolu/max_tur`).
+  Draft aynen (10 kategori, yılan 5-5). Saldıran **yalnız rakibin (savunanın) kategorisini** seçer; kendi kategorisine saldırı sunucuda
+  reddedilir (`duello2_kategori_uygun_mu` → `duello2_puan_hedefler`; otomatik seçim, bot ve ban da bu kapıdan geçer — savunan yalnız kendi
+  kategorisini banlar). Puan (`duello2_cozumle`, puan1/puan2 kolonları): **doğru cevap +1** (savunanınki Baskın'da sayılmaz), **kategori
+  alınırsa saldırana +1 ek (toplam +2)** → ikisi doğru +1/+1 el değişmez · saldıran doğru + savunan yanlış → saldıran +2 ve alır (kilit
+  `duello_kilit_tur` 2) · saldıran yanlış + savunan doğru → savunan +1 · ikisi yanlış → 0. Kalkan: alma ve ek puan yok (saldıran doğruysa
+  +1). **Kazanma** (`duello2_sonraki`, sonuç fazından sonra anında): `duello_puan_hedef` (**12**) puana ya da rakibin BAŞLANGIÇTAKİ (seçimdeki)
+  kategorilerinden `duello_puan_kategori_yolu` (**4**) tanesini elinde tutan (`duello2_puan_alinan`; geri alınan düşer); ikisi aynı turda iki
+  oyuncu için birden → Altın Soru; `duello_puan_max_tur` (20) tur sonunda puanı çok olan, eşitse Altın Soru. **7 yuva eşiği bu modda yok**
+  (yuva sayıları yalnız gösterim). Kilit: savunanın bütün kategorileri kilitliyse kilit o tur yok sayılır. Bot: net beklenen puan
+  p_s·(2−p_d) − (1−p_s)·p_d, bitişe yakınken (hedefe ≤ 2 puan ya da yolda 1 eksik) en değerli hamle; ban da aynı değerle.
+  Durum: `duello_durum › puan {acik, hedef, kategori_yolu, puanlar, alinan, baslangic}`, `son_hamle.hakimiyet.{puan_modu, kazanilan, puanlar, alinan}`.
+  Ekran: puan tahtası (iki satır: Sen x/12 + çubuk + "Çalınan" y/4; cevapta ince; seçim fazında 5'erli yuva şeridi), kart grupları
+  "Rakibin kategorileri · saldır" / "Senin kategorilerin · savun" (saldırıda kendi kartların, banda rakibinkiler pasif), "Saldır" +
+  "tutarsa kategori senin · a→b", tur sonu "Sen +a · Rakip +b · X el değiştirdi / kategori el değiştirmedi" + bir kez oynayan +N rozeti.
+  Geri alma `docs/duello-geri-alma-puan.sql` (bayrak "eski" → aşağıdaki 960 hâkimiyet aynen). Testler: `duello-puan-modu-sql-testi.mjs`
+  (ROLLBACK; `--sim N`, `--yaris`) · `duello-puan-ekran.mjs` (taklit) · `duello-secim-canli-testi.mjs --mod=bot|gercek --tam` (canlı tam maç).
 - **Sırayla kategori seçimi — draft (960, Ida 5 Eki 2026):** maç `secim` fazıyla açılır: 10 kategori ortada, sıra yılan A-B-B-A-A-B-B-A-A-B, herkes 5;
   seçilen kategori anında seçenin yuvası (sahiplik). İlk seçen rastgele (`duello_olustur` oyuncuları karıştırır; ilk seçen = oyuncu2), tur 1'de ilk
   SALDIRAN = oyuncu1 = ilk seçmeyen. Süre `duello_secim_sn` 5 (+ gösterim payı; ilk seçimde + `duello_secim_ilk_ek_sn` 3); dolarsa sunucu oyuncunun
@@ -125,7 +143,7 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
   `duello_bos_mod_max_tur` 16). Durum: `duello_durum › secim {acik, sira, toplam, ilk_secen, sure, sirasi, secimler[{k,u,oto,sira}], kalan}`.
   Geri alma `docs/duello-geri-alma-secim.sql`. Test `araclar/duello-secim-sql-testi.mjs` (ROLLBACK; `--sim N`, `--yaris`) ·
   `duello-secim-ekran.mjs` (taklit) · `duello-secim-canli-testi.mjs --mod=bot|gercek`. Metinler maç dışında `lib/duelloKurallari.js › useDuelloKurallari`.
-- **Hâkimiyet (680/681, Ida 30 Eyl 2026) — PUAN YOK.** **20 tur** (`duello_max_tur`, 960 — 5 Eki 2026 Ida: 16 → 20; maç satırına sabit),
+- **Hâkimiyet (680/681, Ida 30 Eyl 2026) — PUAN YOK. 970'ten beri yalnız `duello_puan_modu` = "eski" iken (ya da seçim modu kapalıyken).** **20 tur** (`duello_max_tur`, 960 — 5 Eki 2026 Ida: 16 → 20; maç satırına sabit),
   **1 tur = 1 hamle** (tek turda oyuncu1, çift turda oyuncu2 saldırır), 10 kategori; seçim modunda 5-5 başlar (eski akışta 0-0, hepsi boş). Saldıran kategoriyi seçer
   (15 sn; dolarsa rastgele uygun), soru ikisine aynı anda açılır (cevap 15 sn, süre dolarsa yanlış).
   **Hamle yalnız "saldıran doğru + savunan yanlış" ise tutar.** Rakibin kategorisi (Elinden al) → tutarsa saldırana
