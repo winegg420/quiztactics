@@ -10139,3 +10139,12 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 - **ÖNERİ (uygulanmadı — Ida kararı):** `kasa_gosterim_payi` 1,5 sn. Rakip kararında kapalı kart 0,3 + AÇ/DEVAM tabanı 1,0 = en az 1,3 sn; Realtime gecikmesi 150–400 ms olunca an ~0–0,2 sn soru süresinden yer (sayaç o sırada gizli, süre sunucuda işler). Veri ≥ 1,5 sn geç gelirse (sekme dönüşü) kayıp 1,3 sn'ye çıkar. Öneri: payı **2,0 sn**'ye çıkarmak (yalnız ayar) — tipik gecikmede anlar tam sürede (1,28 sn) ve soru süresine dokunmadan biter.
 - **Dokunulmadı:** başka işe ait değişiklikler (`oyun/lib/ceviri/mac.js`, `src/BildimApp.jsx`, `oyun/tasarim/duello-tahta/`, `araclar/_gecici-*`, `araclar/_q.mjs`, `tasarim/*` görselleri) commit edilmedi. `araclar/_dok.mjs` (geçici sorgu aracı) silindi.
 - **Push / canlı:** migration 981 + 982 `supabase db push` ile uygulandı (`schema_migrations`'ta, kolon + tetikleyici var); `main`'e push, Vercel dağıtımı tamam, canlı pakette yeni kod doğrulandı.
+
+## 2026-10-06 — Ortak Hazine gösterim payı 1,5 → 2,0 sn (983)
+**Araç:** Claude Code
+**Neden:** Ida, 990 önerisini onayladı — AÇ/DEVAM anı + rakip karar kartı soru süresinden yemesin.
+
+- **Migration 983** `20260612000983_kasa_gosterim_payi_2sn.sql`: yalnız `oyun_ayarlari.kasa_gosterim_payi_ms` 1500 → 2000 (+ açıklama). Fonksiyon/şema değişmedi. Uygulamadan önce canlıda değer **1500** ölçüldü; migration değer 1500 değilse ya da aktif maç varsa DURUR. Geri alma satırı dosyanın başında.
+- **Gözlem:** pay maça sabitlenmiyor (`kasa_gosterim_payi()` her fazda ayarı canlı okur; 981'deki tavan gibi `kasa_maclari`'na yazılmıyor). "Süren maçlar eski değerle biter" bu yüzden ancak aktif maç yokken doğru — uygulama anında aktif Ortak Hazine maçı **0** ölçüldü, `supabase db push` ile uygulandı; sonrasında `kasa_gosterim_payi()` = 2,0 sn.
+- **Tam maç (canlı site + canlı DB, gerçek–gerçek, `kasa-canli-testi --senaryo=gercek --etiket=983`):** hedefle bitti 0-94, tur 14, 250 sn. **Karar düğmesi sunucu bitişinden 6,45–6,91 sn önce tıklanabilir** (1,5 sn payla 6,35–6,43; ≥ 5 sn şartı sağlanıyor). AÇ/DEVAM anı A'da sayaç başlamadan 150–480 ms önce bitti; B (rakip, kapalı kart + vuruş) en çok +266 ms taşma (sayaç o sırada gizli). Giriş sahnesi 1, 3-2-1 sırası doğru, hızlı sayım 0. Tek kırılan bilinen "maçtan çıktıktan sonra rozet sesi" (`RozetBildirimi`, Hazine'den değil — 980/990 kayıtlarında aynı).
+- İstemci kodu değişmedi → build/dağıtım gerekmedi.
