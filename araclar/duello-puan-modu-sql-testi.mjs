@@ -25,6 +25,10 @@ const HEDEF_FN = ['duello_olustur', 'duello2_kategori_uygun_mu', 'duello2_otomat
   'duello2_bot_kategori', 'duello2_bot_ban_kategori', 'duello2_durum'];
 const YENI_FN = ['duello_puan_modu_acik', 'duello2_puan_alinan', 'duello2_puan_hedefler'];
 const UYGULAMA = 'duello-puan-modu-sql-testi';
+// --ek-mig <dosya>: 970'ten sonraki bir migration'ı (ör. 982 ban kaldırma) işlem içinde uygular; tur 2 kontrolleri
+// maç satırındaki ban_acik'a göre (ban açık / kapalı iki akış da sınanır).
+const ekI = process.argv.indexOf('--ek-mig');
+const EK_MIG = ekI > 0 ? process.argv[ekI + 1] : null;
 
 const dizgi = await baglantiDizgisi();
 const db = await new PgIstemci(dizgi).baglan();
@@ -86,6 +90,13 @@ try {
     await db.sorgu("set local statement_timeout = '30s'");
   }
 
+  if (EK_MIG) {
+    await db.sorgu(fs.readFileSync(EK_MIG, 'utf8'));
+    console.log(`  ek migration işlem içinde uygulandı: ${EK_MIG}`);
+    await db.sorgu("set local lock_timeout = '3s'");
+    await db.sorgu("set local statement_timeout = '30s'");
+  }
+
   console.log('1) Migration kapsamı + ayarlar');
   if (!canli) {
     const md5Sonra = await md5Hepsi();
@@ -112,6 +123,8 @@ try {
   const K = await json(`select to_json(duello_kategorileri())::text`);
   const satir = (id) => json(`select row_to_json(x)::text from duellolar x where id = '${id}'`);
   const sureDoldur = async (id) => { await db.sorgu(`update duellolar set faz_bitis = now() - interval '1 second' where id = '${id}'`); await db.sorgu(`select duello2_ilerlet('${id}')`); return satir(id); };
+  // Sonuç fazından sonraki tura: ban fazı açıldıysa (982 öncesi maç / bayrak açık) süresi dolsun → kategori.
+  const sonrakiTur = async (id) => { let d = await sureDoldur(id); if (d.faz === 'ban') d = await sureDoldur(id); return d; };
   // Maç: oyuncu1 = p1 (ilk saldıran), ilk seçen p2; seçim: p1 → K[0..4], p2 → K[5..9]; tur 1 banı boş geçer → faz kategori.
   const kur = async (p1, p2) => {
     const id = await tek(`select duello_olustur('${p1}','${p2}',false,null)`);
@@ -166,31 +179,41 @@ try {
   ok('S1 kilit: alınan kategori 2 tur kilitli', Number(d.kilitler[K[5]]) === d.tur + 2, JSON.stringify(d.kilitler));
   ok('sonuç fazında maç sürüyor (hedefe uzak)', d.durum === 'aktif');
   d = await sureDoldur(id);
-  ok('tur 2: B saldırır, ban fazı', d.tur === 2 && d.saldiran === B && d.faz === 'ban', JSON.stringify([d.tur, d.faz]));
+  const banAcik = d.ban_acik !== false;   // 982: maç satırına sabit (kolon yok / null = eski kural, açık)
+  console.log(`   (bu maçta ban ${banAcik ? 'AÇIK' : 'KAPALI'})`);
+  ok(`tur 2: B saldırır, ${banAcik ? 'ban' : 'kategori'} fazı`, d.tur === 2 && d.saldiran === B && d.faz === (banAcik ? 'ban' : 'kategori'), JSON.stringify([d.tur, d.faz]));
   await ben(A);
   dur = await json(`select duello_durum('${id}')::text`);
+  if (!banAcik) {
+    ok('ban kapalı: durum.ban.acik false, uygun liste yok', dur.ban?.acik === false && !dur.ban?.uygun, JSON.stringify(dur.ban));
+    h = await hata(`select duello_ban_sec('${id}', '${K[4]}')`);
+    ok('ban kapalı: duello_ban_sec reddeder', h && /ban yok/.test(h), h);
+  } else {
   ok('ban.uygun (savunan A) yalnız A\'nın kilitsiz kategorileri', JSON.stringify(dur.ban.uygun) === JSON.stringify(K.slice(0, 5)), JSON.stringify(dur.ban.uygun));
   h = await hata(`select duello_ban_sec('${id}', '${K[6]}')`);
   ok('savunan saldıranın kategorisini banlayamaz', h && /banlanamaz/.test(h), h);
   h = await hata(`select duello_ban_sec('${id}', '${K[4]}')`);
   ok('savunan kendi kategorisini banlar → faz kategori', !h && (await satir(id)).faz === 'kategori', h);
+  }
   h = await saldir(id, B, K[6]);
   ok('B kendi kategorisine saldıramaz', h && /seçilemez/.test(h), h);
   h = await saldir(id, B, K[5]);
   ok('B kilitli (yeni alınan) kategoriye saldıramaz', h && /seçilemez/.test(h), h);
-  h = await saldir(id, B, K[4]);
-  ok('B banlı kategoriye saldıramaz', h && /seçilemez/.test(h), h);
+  if (banAcik) {
+    h = await saldir(id, B, K[4]);
+    ok('B banlı kategoriye saldıramaz', h && /seçilemez/.test(h), h);
+  }
   h = await tur(id, B, A, K[0], true, true);
   d = await satir(id); x = d.son_hamle.hakimiyet;
   ok('S2 ikisi doğru → +1/+1, el değişmez (3-1)', !h && d.puan1 === 3 && d.puan2 === 1 && d.sahiplik[K[0]] === A && x.neden === 'ikisi_dogru'
     && x.kazanilan[A] === 1 && x.kazanilan[B] === 1, h || JSON.stringify([d.puan1, d.puan2, x.neden]));
-  await sureDoldur(id); await sureDoldur(id);   // tur 3 ban boş → kategori
+  await sonrakiTur(id);   // tur 3 ban boş → kategori
   h = await tur(id, A, B, K[6], false, true);
   d = await satir(id); x = d.son_hamle.hakimiyet;
   ok('S3 saldıran yanlış + savunan doğru → B +1, el değişmez (3-2)', !h && d.puan1 === 3 && d.puan2 === 2 && d.sahiplik[K[6]] === B && x.neden === 'saldiran_yanlis'
     && x.kazanilan[B] === 1 && x.kazanilan[A] === 0, h || JSON.stringify([d.puan1, d.puan2, x.neden]));
   ok('S3 el değişmeyen hamlede kilit yok', !(K[6] in (d.kilitler ?? {})) || Number(d.kilitler[K[6]]) < d.tur, JSON.stringify(d.kilitler));
-  await sureDoldur(id); await sureDoldur(id);
+  await sonrakiTur(id);
   await hizSifirla();
   h = await tur(id, B, A, K[1], false, false);
   d = await satir(id); x = d.son_hamle.hakimiyet;
@@ -201,7 +224,7 @@ try {
   await db.sorgu(`insert into oyuncu_skill_setleri (user_id, skiller, skiller_duello) values ('${A}', '{}', '{baskin,kalkan,elli}')
     on conflict (user_id) do update set skiller_duello = '{baskin,kalkan,elli}'`);
   await db.sorgu(`insert into oyuncu_skill_setleri (user_id, skiller, skiller_duello) values ('${A}', '{}', '{baskin,kalkan,elli}') on conflict (user_id) do update set skiller_duello = '{baskin,kalkan,elli}'`);   // işlem içinde (ROLLBACK)
-  await sureDoldur(id); await sureDoldur(id);   // tur 5, A saldırır
+  await sonrakiTur(id);   // tur 5, A saldırır
   h = await saldir(id, A, K[7]);
   d = await satir(id);
   await db.sorgu(`insert into joker_kullanimlari (user_id, mac_tur, mac_id, soru_index, tur, ucretsiz) values ('${A}', 'duello', '${id}', ${d.tur * 2 + d.saldiri_sirasi}, 'baskin', true)`);
@@ -209,7 +232,7 @@ try {
   d = await satir(id); x = d.son_hamle.hakimiyet;
   ok('Baskın: ikisi doğru ama savunanın cevabı sayılmaz → A +2 alır, B 0 (5-2)', !h && d.puan1 === 5 && d.puan2 === 2 && d.sahiplik[K[7]] === A && x.neden === 'baskin'
     && x.kazanilan[B] === 0, h || JSON.stringify([d.puan1, d.puan2, x.neden]));
-  await sureDoldur(id); await sureDoldur(id);   // tur 6, B saldırır
+  await sonrakiTur(id);   // tur 6, B saldırır
   h = await saldir(id, B, K[2]);
   d = await satir(id);
   await db.sorgu(`insert into joker_kullanimlari (user_id, mac_tur, mac_id, soru_index, tur, ucretsiz) values ('${A}', 'duello', '${id}', ${d.tur * 2 + d.saldiri_sirasi}, 'kalkan', true)`);
@@ -222,7 +245,7 @@ try {
   ok('hiçbir hamle saldıranın kendi kategorisine değil', (await tek(`select count(*)::text from duello_hamleler where duello_id = '${id}' and hakimiyet ->> 'sahip_once' = saldiran::text`)) === '0');
 
   console.log('6) Hepsi kilitliyse kilit yok sayılır');
-  await sureDoldur(id); await sureDoldur(id);   // tur 7, A saldırır
+  await sonrakiTur(id);   // tur 7, A saldırır
   d = await satir(id);
   await db.sorgu(`update duellolar set kilitler = kilitler || (select jsonb_object_agg(e.key, ${d.tur + 2}) from jsonb_each_text(sahiplik) e where e.value = '${B}') where id = '${id}'`);
   const hedef = await json(`select to_json(duello2_puan_hedefler('${id}'))::text`);
@@ -321,13 +344,14 @@ try {
   console.log('9) Bot vs insan tam maç (insan RPC ile, bot iç yolla)');
   await hizSifirla();
   id = await kur(A, BOT);
-  let adim = 0, kendine = 0, hataSay = 0;
+  let adim = 0, kendine = 0, hataSay = 0, banFaz = 0;
   while (adim++ < 400) {
     d = await satir(id);
     if (d.durum !== 'aktif') break;
     const sav = d.saldiran === A ? BOT : A;
     if (adim % 25 === 0) await hizSifirla();
     if (d.faz === 'ban') {
+      banFaz++;
       if (sav === BOT) await db.sorgu(`select duello2_ban_bitir('${id}', duello2_bot_ban_kategori('${id}', '${BOT}'))`);
       else { await sureDoldur(id); }
     } else if (d.faz === 'kategori') {
@@ -357,6 +381,7 @@ try {
   const neden = d.uzatma ? 'altın' : (d.puan1 >= 12 || d.puan2 >= 12) ? 'puan' : 'kategori/tur';
   console.log(`   bitiş: tur ${d.tur} · ${d.puan1}-${d.puan2} · ${neden}`);
   ok('bot vs insan maçı bitti, insan hep rakip kategorisine saldırdı, hata yok', d.durum === 'bitti' && kendine === 0 && hataSay === 0, JSON.stringify([d.durum, kendine, hataSay]));
+  ok(`bot vs insan: ban fazı ${banAcik ? 'açılabilir' : 'HİÇ açılmadı'} (maç satırı ban_acik)`, banAcik || banFaz === 0, String(banFaz));
   ok('hamle puanları toplamı = satır puanı, kendi kategorisine hamle 0', Number(top.a) === d.puan1 && Number(top.b) === d.puan2 && Number(top.kendi) === 0, JSON.stringify(top));
 
   // ---------------------------------------------------------------- 10) bayrak eski
@@ -372,7 +397,7 @@ try {
   h = await tur(id, A, B, K[0], true, false);
   d = await satir(id); x = d.son_hamle.hakimiyet;
   ok('eski: kendi kategorisi pekiştirilir, puan yok', !h && x.eylem === 'pekistir' && x.tuttu === true && d.puan1 === 0 && d.puan2 === 0 && x.puan_modu === undefined, h || JSON.stringify(x));
-  await sureDoldur(id); await sureDoldur(id);
+  await sonrakiTur(id);
   await db.sorgu(`update duellolar set yuva1 = 6, yuva2 = 4, sahiplik = sahiplik || '{"${K[5]}":"${A}"}'::jsonb where id = '${id}'`);
   await db.sorgu(`update duellolar set tur = 3, saldiran = oyuncu1, saldiri_sirasi = 0 where id = '${id}'`);
   h = await tur(id, A, B, K[6], true, false);
