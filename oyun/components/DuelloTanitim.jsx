@@ -16,7 +16,8 @@ import { useDuelloKurallari } from "../lib/duelloKurallari.js";
 // 900: savunma banı adımı (7 sn, banlayınca tur ilerler) + soru ekranı çerçeve renkleri adımı → v11 (herkes yeniden görür).
 // 960: maç başında sırayla kategori seçimi (draft), 7 yuva, 20 tur → v12 (herkes yeniden görür).
 // 970: yeni puan kuralı (yalnız rakibin kategorisine saldırı, +1/+2, 12 puan ya da 4 kategori) → v13 (herkes yeniden görür).
-const DEPO = "bildim_duello_tanitim_v13";
+// 982: savunma banı kaldırıldı — ban adımı yalnız duello_ban_acik açıkken → v14 (herkes yeniden görür).
+const DEPO = "bildim_duello_tanitim_v14";
 
 export function duelloTanitimGoruldu() {
   try { return localStorage.getItem(DEPO) === "1"; } catch (e) { console.warn("[Bildim] localStorage okunamadı:", e?.message ?? e); return false; }
@@ -43,7 +44,7 @@ const ADIMLAR = [
   { ikon: "hedef", baslik: "Soru ekranında çerçeve rengi", metin: "Sorulan kategori renkli çerçeveyle gösterilir. Kırmızı: rakip senin kategorine saldırıyor; yanlış bilirsen ve rakip bilirse kaybedersin. Mavi: fırsat; saldırıyorsan hamlen tutabilir, savunurken boş kategoride rakip yanlış yapar ve sen bilirsen kategori senin olur. Gri: rakip kendi kategorisini pekiştiriyor; kategori el değiştirmez, doğru bilirsen kilitlenmesini önlersin.",
     sMetin: "Sorulan kategori renkli çerçeveyle gösterilir. Kırmızı: rakip senin kategorine saldırıyor; yanlış bilirsen ve rakip bilirse kaybedersin. Mavi: saldırıyorsun; doğru bilirsen ve rakip yanlış yaparsa hamlen tutar. Gri: rakip kendi kategorisini pekiştiriyor; kategori el değiştirmez, doğru bilirsen kilitlenmesini önlersin.",
     pMetin: "Sorulan kategori renkli çerçeveyle gösterilir. Kırmızı: rakip senin kategorine saldırıyor; sen bilirsen +1, sen yanlış ve rakip doğruysa kategoriyi alır. Mavi: saldırıyorsun; doğru bilirsen +1, rakip de yanlış yaparsa +2 ve kategori senin.", not: "Kalkan kırmızı çerçevedeki hamleyi durdurur. Rakip Baskın kullandıysa cevabın sayılmaz." },
-  { ikon: "ban", baslik: "Savunma banı", metin: "Her turda saldıran seçmeden önce savunan 1 kategoriyi banlar ({b} sn). Banladığın an tur ilerler; süre dolarsa ban kullanılmaz. Rakip o tur banlı kategoriyi seçemez. Aynı kategoriyi arka arkaya banlayamazsın.",
+  { ikon: "ban", ban: true, baslik: "Savunma banı", metin: "Her turda saldıran seçmeden önce savunan 1 kategoriyi banlar ({b} sn). Banladığın an tur ilerler; süre dolarsa ban kullanılmaz. Rakip o tur banlı kategoriyi seçemez. Aynı kategoriyi arka arkaya banlayamazsın.",
     pMetin: "Her turda saldıran seçmeden önce savunan kendi kategorilerinden 1 tanesini banlar ({b} sn). Banladığın an tur ilerler; süre dolarsa ban kullanılmaz. Rakip o tur banlı kategoriye saldıramaz. Aynı kategoriyi arka arkaya banlayamazsın." },
   { ikon: "kilit", baslik: "Elinden al · Al · Pekiştir", metin: "Rakibin kategorisi: hamle tutarsa \"Elinden al\" ile sana geçer. Boş kategori: tutarsa \"Al\" ile yuvan olur. Kendi kategorin: tutarsa \"Pekiştir\" ile kilitlenir. Sahibi değişen ya da pekiştirilen kategori 2 tur kimse tarafından seçilemez; tutmayan hamlede kilit yok.",
     pBaslik: "Kilit", pMetin: "El değiştiren kategori 2 tur kimse tarafından seçilemez; el değiştirmeyen hamlede kilit yok. Savunanın bütün kategorileri kilitliyse kilit o tur sayılmaz.",
@@ -58,15 +59,17 @@ const ADIMLAR = [
 export default function DuelloTanitim({ onKapat }) {
   const [adim, setAdim] = useState(0);
   // 960: tur sayısı ve eşik metne gömülmez; seçim modu açıksa seçim adımı + boşsuz metinler (sMetin/sBaslik).
-  const { secim: secimModu, puan: puanModu, esik, tur: turSayisi, hedef, yol } = useDuelloKurallari();   // 970: puan modu
+  const { secim: secimModu, puan: puanModu, esik, tur: turSayisi, hedef, yol, ban: banAcik } = useDuelloKurallari();   // 970: puan modu · 982: ban
   const secimSn = useAyar("duello_secim_sn", 5);
   const bosSaldiran = useAyar("duello_bos_ikisi_dogru_saldiran", 1) >= 1;
   const banSn = useAyar("duello_ban_sn", 7);
   const kapat = () => { isaretle(); onKapat?.(); };
-  const adimlar = ADIMLAR.filter((x) => !x.secim || secimModu)
+  // 982: ban adımı yalnız ban açıkken (kapalı: tur akışı sonuç → saldırı seçimi → soru)
+  const uygun = (x) => (!x.secim || secimModu) && (!x.ban || banAcik);
+  const adimlar = ADIMLAR.filter(uygun)
     .map((x) => (secimModu ? { ...x, baslik: x.sBaslik ?? x.baslik, metin: x.sMetin ?? x.metin, ek: x.sMetin ? null : x.ek } : x))
     // 970: puan modu metinleri (pBaslik/pMetin) seçim metinlerinin üstüne; boş kategori satırı (ek) yok
-    .map((x, i) => { const o = ADIMLAR.filter((y) => !y.secim || secimModu)[i]; return puanModu ? { ...x, baslik: o.pBaslik ?? x.baslik, metin: o.pMetin ?? x.metin, ek: null } : x; });
+    .map((x, i) => { const o = ADIMLAR.filter(uygun)[i]; return puanModu ? { ...x, baslik: o.pBaslik ?? x.baslik, metin: o.pMetin ?? x.metin, ek: null } : x; });
   const a = adimlar[Math.min(adim, adimlar.length - 1)];
   const son = adim >= adimlar.length - 1;
   const p = { t: turSayisi, n: esik, b: banSn, s: secimSn, k: 5, h: hedef, y: yol };

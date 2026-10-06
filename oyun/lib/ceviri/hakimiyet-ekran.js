@@ -114,6 +114,7 @@ export default {
   "Süre dolarsa ban yapılmaz.": "No ban if time runs out.",
   "Ardından kategorini seçeceksin.": "Then you'll pick your category.",
   "Şu an ban sırası sende değil": "It's not your turn to ban right now",
+  "Bu Düello'da ban yok": "There are no bans in this Duel",   // 982: ban kapalı maçta duello_ban_sec
   "Aynı kategoriyi arka arkaya banlayamazsın": "You can't ban the same category twice in a row",
   "Bu kategori şu an banlanamaz": "This category can't be banned right now",
 

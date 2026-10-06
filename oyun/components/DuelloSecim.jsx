@@ -291,7 +291,8 @@ export function SecimKartlar({ d, hk, sm, ben, rakip, benSirada, basilan, calisa
 }
 
 // ---------------------------------------------------------------- geçiş: HÂKİMİYET BAŞLIYOR
-/** Seçim bitti → ban/saldırı turları. Sahnenin üstünde ~2 sn (tur 1 ban fazının açılış payı içinde); dokunuşu engellemez. */
+/** Seçim bitti → saldırı turları (ban açıksa ban/saldırı). Sahnenin üstünde ~2 sn; dokunuşu engellemez (982: ban yokken
+ *  tur 1 doğrudan kategori fazıdır — katman sayacın gösterim payıyla örtüşür, saldıran kartlara alttan dokunabilir). */
 export const HAKIMIYET_GECIS_MS = 2100;
 export function HakimiyetBasliyor({ hk, c }) {
   return (
