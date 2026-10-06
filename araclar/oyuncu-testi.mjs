@@ -887,7 +887,8 @@ async function klasikTesti() {
   // süresi dolmuş gelir (şıklar doğru olarak kapalı) — test yanlış alarm verirdi. Pencerede "Yeni maç".
   {
     // Ana sayfa A (23 Eyl 2026): OYNA düğmesi; eski ana sayfanın sınıfı da yedek seçici.
-    await s.locator(".as-buyuk-dugme--oyna, .mobile-core-mode.klasik").first().tap({ timeout: 4000 }).catch(() => {});
+    // 6 Eki 2026: OYNA düğmesi kalktı → Klasik mod şeridi (as-mod-serit--klasik); eski seçiciler yedek
+    await s.locator(".as-mod-serit--klasik, .as-buyuk-dugme--oyna, .mobile-core-mode.klasik").first().tap({ timeout: 4000 }).catch(() => {});
     await s.waitForTimeout(900);
     await ekranOlc("klasik-mod-secimi");
     const klasik = s.getByRole("button", { name: /^Klasik/ }).last();

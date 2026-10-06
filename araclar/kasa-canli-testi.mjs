@@ -58,6 +58,11 @@ const YENILE = ARG.yenile ? Number(ARG.yenile) : null;
 const GERI = ARG.geri ? Number(ARG.geri) : null;
 const KOPMA = ARG.kopma ? Number(ARG.kopma) : null;
 const TERK = ARG.terk ? Number(ARG.terk) : null;
+// 980: zor koşullar — ağ gecikmesi (ms, her iki yöne CDP), CPU yavaşlatma (kat), sekme dondurma (B: giriş, sonuç, karar anlarında
+// görünürlük gizli + sayfa donar, sonra geri gelir — iOS'ta uygulama değiştirip dönme)
+const AG_MS = ARG.ag ? Number(ARG.ag) : 0;
+const CPU = ARG.cpu ? Number(ARG.cpu) : 0;
+const DONDUR = Boolean(ARG.dondur);
 const SS = Boolean(ARG.ss);
 const ETIKET = String(ARG.etiket || `${SENARYO}-${DIL}-${GEN}`);
 const OTURUM_DOSYALARI = [".arayuz-denetim-oturum.json", ".arayuz-denetim-oturum-en.json"].map((d) => path.resolve(d));
@@ -116,6 +121,20 @@ const SAYFA_HAZIRLIK = ({ kayitlar, koken, dil }) => {
   };
   window.__kayit = [];
   window.__mut = [];
+  // 980: tek seferlik anların DOM'a kaç kez girdiği (giriş sahnesi, 3-2-1 rakamı, AÇ, DEVAM çarpanı, ÇİFTE, final)
+  window.__an = [];
+  try {
+    const AN_SINIF = ["ks-giris-an", "ks-giris-sayi", "ks-ac-an", "ks-carpan-etiket", "ks-cifte", "ks-final"];
+    new MutationObserver((l) => {
+      for (const m of l) for (const n of m.addedNodes) {
+        if (n.nodeType !== 1) continue;
+        for (const s of AN_SINIF) {
+          const el = n.classList?.contains(s) ? n : n.querySelector?.("." + s);
+          if (el) window.__an.push({ w: Date.now(), s, m: (el.textContent || "").trim().slice(0, 12) });
+        }
+      }
+    }).observe(document, { subtree: true, childList: true });
+  } catch { /* yok */ }
   // faz sınıfı değişimi (rAF'tan bağımsız): MutationObserver
   try {
     new MutationObserver((l) => {
@@ -138,8 +157,11 @@ const SAYFA_HAZIRLIK = ({ kayitlar, koken, dil }) => {
       const soru = (q(".qt-soru-metin")?.textContent || "").trim().slice(0, 24);
       const cift = document.querySelectorAll(".ks-mac").length;
       const bos = (document.querySelector("#root")?.innerText ?? "").trim().length < 3;
-      const imza = `${location.pathname}|${faz}|${sayac}|${ust}|${bant}|${soru}|${cift}|${bos}|${tur}`;
-      if (imza !== son) { son = imza; window.__kayit.push({ t: Date.now(), yol: location.pathname, faz, sayac, ust, bant, soru, cift, bos, tur }); }
+      // 980: karar düğmeleri tıklanabilir mi (görünür, etkin, üstünde geçiş bandı / efekt katmanı yok)
+      const kd0 = q(".ks-karar-eylem button:not([disabled])");
+      const kararAcik = Boolean(kd0 && !q(".m2-gecis") && !q(".ks-ac-an") && !q(".ks-giris-an") && kd0.getBoundingClientRect().height > 0) ? 1 : 0;
+      const imza = `${location.pathname}|${faz}|${sayac}|${ust}|${bant}|${soru}|${cift}|${bos}|${tur}|${kararAcik}`;
+      if (imza !== son) { son = imza; window.__kayit.push({ t: Date.now(), yol: location.pathname, faz, sayac, ust, bant, soru, cift, bos, tur, kararAcik }); }
     } catch { /* yok */ }
     requestAnimationFrame(tik);
   };
@@ -184,7 +206,15 @@ async function baglamAc(ad, hesap) {
     konsol[ad].push({ t: sn(), tur: m.type(), m: m.text().replace(/\s+/g, " ").slice(0, 220) });
   });
   s.on("pageerror", (e) => konsol[ad].push({ t: sn(), tur: "pageerror", m: String(e).split("\n")[0].slice(0, 220) }));
-  return { ad, b, s, hesap, sesler: [], kd: [], kayit: [] };
+  // 980: zor koşullar (CDP)
+  if (AG_MS > 0 || CPU > 1) {
+    try {
+      const cdp = await b.newCDPSession(s);
+      if (AG_MS > 0) { await cdp.send("Network.enable"); await cdp.send("Network.emulateNetworkConditions", { offline: false, latency: AG_MS, downloadThroughput: -1, uploadThroughput: -1 }); }
+      if (CPU > 1) await cdp.send("Emulation.setCPUThrottlingRate", { rate: CPU });
+    } catch (e) { notEkle(`${ad}: CDP koşulu kurulamadı: ${e.message}`); }
+  }
+  return { ad, b, s, hesap, sesler: [], kd: [], kayit: [], anlar: [] };
 }
 let sonDokunHata = "";
 const dokun = async (l, ms = 2000) => { try { await l.click({ timeout: ms }); return true; } catch (e) { sonDokunHata = String(e.message).split("\n").filter((x) => /intercept|disabled|not enabled|visible|stable|waiting/i.test(x)).slice(-2).join(" ¦ ").slice(0, 240); return false; } };
@@ -199,11 +229,11 @@ async function topla(o) {
   try {
     const r = await o.s.evaluate(() => {
       const s = (window.__sesKayit ?? []).map((x) => ({ rol: x.rol, t: x.w ?? Math.round(performance.timeOrigin + x.t) }));
-      const out = { kd: window.__kd ?? [], kayit: window.__kayit ?? [], ses: s };
-      window.__kd = []; window.__kayit = []; if (window.__sesKayit) window.__sesKayit.length = 0;
+      const out = { kd: window.__kd ?? [], kayit: window.__kayit ?? [], ses: s, an: window.__an ?? [] };
+      window.__kd = []; window.__kayit = []; window.__an = []; if (window.__sesKayit) window.__sesKayit.length = 0;
       return out;
     });
-    o.kd.push(...r.kd); o.kayit.push(...r.kayit); o.sesler.push(...r.ses);
+    o.kd.push(...r.kd); o.kayit.push(...r.kayit); o.sesler.push(...r.ses); o.anlar.push(...r.an);
   } catch { /* sayfa geçişte */ }
 }
 
@@ -335,6 +365,31 @@ async function devamOlc(o, tur) {
 
 let macId = null;
 const plan = { kararSuresiDoldu: false, sureDolumTur: null };
+// 980: sekme dondurma — görünürlük "hidden" + sayfa donar (zamanlayıcılar durur), ms sonra geri gelir
+async function dondur(o, ms, neden) {
+  try {
+    o.cdp ??= await o.b.newCDPSession(o.s);
+    await o.s.evaluate(() => {
+      Object.defineProperty(document, "visibilityState", { configurable: true, get: () => "hidden" });
+      Object.defineProperty(document, "hidden", { configurable: true, get: () => true });
+      document.dispatchEvent(new Event("visibilitychange"));
+    });
+    // JS duraklatılır: zamanlayıcılar ve Realtime olayları birikir, dönüşte arka arkaya çalışır (iOS uygulama değiştirme)
+    await o.cdp.send("Debugger.enable");
+    await o.cdp.send("Debugger.pause");
+    const t = Date.now();
+    await bekle(ms);
+    await o.cdp.send("Debugger.resume");
+    await o.cdp.send("Debugger.disable");
+    await o.s.evaluate(() => {
+      delete document.visibilityState; delete document.hidden;
+      document.dispatchEvent(new Event("visibilitychange"));
+    });
+    (o.donmalar ??= []).push({ bas: t, bit: Date.now(), neden });
+    adim(`${o.ad} sekme dondu → döndü (${neden}, ${ms} ms)`);
+  } catch (e) { notEkle(`${o.ad}: dondurma yapılamadı: ${String(e.message).split("\n")[0]}`); }
+}
+
 async function sur(o, rol) {
   const cevaplanan = new Set(), kararlanan = new Set(), yapilan = new Set();
   let bosBas = null;
@@ -355,6 +410,13 @@ async function sur(o, rol) {
       kirildi(o.ad + ": alt sınır 0 maçında kilitli AÇ görüldü (tur " + tur + ", kasa " + k.kasa + ")");
     }
 
+    // ---- 980: sekme dondurma (gerçek senaryoda B, bot senaryosunda A) — giriş, sonuç, rakibin karar anı
+    if (DONDUR && rol === (B ? "B" : "A")) {
+      const giris = await o.s.evaluate(() => Boolean(document.querySelector(".ks-giris-an"))).catch(() => false);
+      if (giris && !yapilan.has("dondur-giris")) { yapilan.add("dondur-giris"); await bekle(700); await dondur(o, 2200, "giriş sahnesi"); continue; }
+      if (k.faz === "sonuc" && tur % 3 === 0 && !yapilan.has("dondur-sonuc-" + anah)) { yapilan.add("dondur-sonuc-" + anah); await bekle(300); await dondur(o, 2500, "sonuç tur " + tur); continue; }
+      if (k.faz === "karar" && !benSahip && tur % 3 === 1 && !yapilan.has("dondur-karar-" + anah)) { yapilan.add("dondur-karar-" + anah); await dondur(o, 2000, "rakip karar tur " + tur); continue; }
+    }
     // ---- isteğe bağlı bozulmalar (A)
     if (rol === "A" && k.faz === "cevap") {
       if (YENILE && tur === YENILE && !yapilan.has("yenile")) {
@@ -604,6 +666,59 @@ function analiz(o) {
     if (cikis) s.sesSonra.push({ rol: x.rol, s: ((x.t - BAS) / 1000).toFixed(1), msSonra: x.t - cikis.t });
   }
   s.sesSayim = sesler.reduce((m, x) => ((m[x.rol] = (m[x.rol] ?? 0) + 1), m), {});
+  // ---- 980: geri sayım sesi "hızlı hızlı" — iki sayım sesi (tik / sayim_son) 700 ms'den yakın
+  s.hizliSayim = [];
+  const sayim = sesler.filter((x) => ["tik", "sayim_son"].includes(x.rol));
+  for (let i = 1; i < sayim.length; i++) {
+    const ara = sayim[i].t - sayim[i - 1].t;
+    if (ara < 700) s.hizliSayim.push({ s: ((sayim[i].t - BAS) / 1000).toFixed(2), araMs: ara });
+  }
+  // ---- 980: tek seferlik anlar — aynı an 2,5 sn içinde iki kez DOM'a girdi mi; giriş sahnesi maçta bir kez mi
+  const anlar = (o.anlar ?? []).slice().sort((a, b) => a.w - b.w);
+  s.anSayim = anlar.reduce((m, x) => ((m[x.s] = (m[x.s] ?? 0) + 1), m), {});
+  s.anCift = [];
+  for (let i = 1; i < anlar.length; i++) {
+    const a = anlar[i - 1], b = anlar[i];
+    const ayni = anlar.slice(0, i).reverse().find((x) => x.s === b.s);
+    if (ayni && b.s !== "ks-giris-sayi" && b.w - ayni.w < 2500) s.anCift.push({ an: b.s, s: ((b.w - BAS) / 1000).toFixed(2), araMs: b.w - ayni.w });
+    void a;
+  }
+  const girisSayilari = anlar.filter((x) => x.s === "ks-giris-sayi").map((x) => x.m);
+  s.girisSahne = { sahne: s.anSayim["ks-giris-an"] ?? 0, sayilar: girisSayilari };
+  // ---- 980: karar süresi — sahibin ekranında düğmeler tıklanabilir olduğu andan sunucu bitişine (faz_bitis) kalan
+  s.kararSure = [];
+  const goruldu = new Set();
+  for (const f of o.kayit) {
+    if (f.faz !== "karar" || !f.kararAcik) continue;
+    const x = kdBul(f.t, "karar");
+    if (!x || !(x.sahip && x.sahip === x.ben)) continue;
+    const anah = `${x.tur}-${x.altin}`;
+    if (goruldu.has(anah)) continue;
+    goruldu.add(anah);
+    s.kararSure.push({ anah, s: ((f.t - BAS) / 1000).toFixed(1), kullanilabilirMs: Math.round(x.fb - (f.t + fark)) });
+  }
+  // ---- 980: AÇ / DEVAM anı soru süresinden yiyor mu — anın ekrandan kalktığı an ile sorunun sayaç başlangıcı (gosterim_bas)
+  s.anTasma = [];
+  for (const [etiket, tip] of [["ac", "AÇ"], ["carpan", "DEVAM"]]) {
+    let bas = null;
+    for (const f of o.kayit) {
+      const var_ = (f.ust || "").split(",").includes(etiket);
+      if (var_ && !bas) bas = f;
+      if (!var_ && bas) {
+        const x = kdBul(f.t, "cevap");
+        if (x && Number.isFinite(x.gb)) s.anTasma.push({ tip, s: ((bas.t - BAS) / 1000).toFixed(1), sureMs: f.t - bas.t, tasmaMs: Math.round(f.t + fark - x.gb) });
+        bas = null;
+      }
+    }
+  }
+  // ---- 980: sekme dönüşünde ses patlaması — dönüşten sonraki 400 ms'de 3+ ses
+  s.donusPatlama = [];
+  for (const d of o.donmalar ?? []) {
+    const sonra = sesler.filter((x) => x.t >= d.bit - 50 && x.t <= d.bit + 400);
+    if (sonra.length >= 3) s.donusPatlama.push({ neden: d.neden, roller: sonra.map((x) => x.rol) });
+    const sirasinda = sesler.filter((x) => x.t > d.bas + 150 && x.t < d.bit - 50);
+    if (sirasinda.length) s.donusPatlama.push({ neden: d.neden + " (gizliyken ses)", roller: sirasinda.map((x) => x.rol) });
+  }
   return s;
 }
 
@@ -624,7 +739,7 @@ try {
     const kart = o.s.locator(".qt-mod--kasa").first();
     const kartVar = await kart.waitFor({ timeout: 15000 }).then(() => true).catch(() => false);
     if (!kartVar) {
-      const k2 = o.s.getByRole("button", { name: /Kasa/ }).first();
+      const k2 = o.s.getByRole("button", { name: /Kasa|Ortak Hazine|Shared Treasure/ }).first();
       if (!(await dokun(k2, 5000))) { kirildi(`${o.ad}: Modlar sayfasında Kasa kartı bulunamadı`); await goruntu(o, `modlar-${o.ad}`); await o.s.goto(ADRES + "/kasa"); }
     } else await dokun(kart, 5000);
     await o.s.waitForURL(/\/kasa$/, { timeout: 10000 }).catch(() => kirildi(`${o.ad}: Kasa kartı /kasa'ya götürmedi (${o.s.url()})`));
@@ -672,7 +787,7 @@ try {
     const ozet = await o.s.evaluate(() => ({
       metin: (document.querySelector(".msk")?.innerText ?? "").replace(/\s+/g, " ").slice(0, 500),
       tasma: document.documentElement.scrollWidth - window.innerWidth,
-      yeni: Boolean([...document.querySelectorAll("button")].find((b) => /Yeni Kasa maçı|New Kasa match|New Vault match/i.test(b.textContent))),
+      yeni: Boolean([...document.querySelectorAll("button")].find((b) => /Yeni Kasa maçı|Yeni Ortak Hazine maçı|New Kasa match|New Vault match|New Shared Treasure match/i.test(b.textContent))),
     }));
     o.ozet = ozet;
     if (ozet.tasma > 1) kirildi(`${o.ad}: sonuç ekranında yatay taşma ${ozet.tasma}px`);
@@ -688,7 +803,7 @@ try {
   }
   // ---- "Yeni Kasa maçı" (A) ve "Ana sayfa" (B)
   await topla(A); if (B) await topla(B);
-  if (await dokun(A.s.locator("button").filter({ hasText: /Yeni Kasa maçı|New Kasa match|New Vault match/i }).first(), 4000)) {
+  if (await dokun(A.s.locator("button").filter({ hasText: /Yeni Kasa maçı|Yeni Ortak Hazine maçı|New Kasa match|New Vault match|New Shared Treasure match/i }).first(), 4000)) {
     const ok = await A.s.locator(".ks-giris").first().waitFor({ timeout: 10000 }).then(() => true).catch(() => false);
     adim(`A "Yeni Kasa maçı" → ${ok ? "Kasa girişi" : "GİRİŞ GELMEDİ " + A.s.url()}`);
     if (!ok) kirildi("A: Yeni Kasa maçı Kasa girişine götürmedi");
@@ -719,6 +834,17 @@ try {
     for (const x of r.sesCift) kirildi(`${o.ad}: ses iki kez: ${x.rol} (+${x.s}s ${x.araMs ?? x.adet})`);
     for (const x of r.sessiz) kirildi(`${o.ad}: sessiz an: ${x.faz} başında ses yok (+${x.s}s, ${x.ust})`);
     for (const x of r.sesSonra) kirildi(`${o.ad}: maçtan çıktıktan ${x.msSonra} ms sonra ses: ${x.rol}`);
+    // 980: geri sayım sesi / tek seferlik anlar / karar süresi / sekme dönüşü
+    for (const x of r.hizliSayim.slice(0, 6)) kirildi(`${o.ad}: geri sayım sesi hızlı: ${x.araMs} ms arayla (+${x.s}s)`);
+    for (const x of r.anCift.slice(0, 6)) kirildi(`${o.ad}: an iki kez çizildi: ${x.an} ${x.araMs} ms arayla (+${x.s}s)`);
+    if (r.girisSahne.sahne !== 1) kirildi(`${o.ad}: giriş sahnesi ${r.girisSahne.sahne} kez açıldı (1 olmalı)`);
+    const girisDonduR = (o.donmalar ?? []).some((x) => x.neden === "giriş sahnesi");
+    const sira = r.girisSahne.sayilar.join("");
+    if (girisDonduR ? !sira || !"321".endsWith(sira) : sira !== "321") kirildi(`${o.ad}: giriş 3-2-1 sırası ${JSON.stringify(r.girisSahne.sayilar)}`);
+    const kararSn = Number(rapor.macSon?.karar_sn ?? 5);
+    for (const x of r.kararSure) if (x.kullanilabilirMs < kararSn * 1000 - 150) kirildi(`${o.ad}: karar süresi kısaldı ${x.anah}: tıklanabilir → bitiş ${x.kullanilabilirMs} ms (< ${kararSn} sn) (+${x.s}s)`);
+    for (const x of r.anTasma) if (x.tip === "AÇ" && x.tasmaMs > 250) kirildi(`${o.ad}: AÇ anı sorunun sayacı başladıktan ${x.tasmaMs} ms sonra kalktı (+${x.s}s)`);
+    for (const x of r.donusPatlama) kirildi(`${o.ad}: sekme dönüşü ses: ${x.neden} → ${x.roller.join(",")}`);
     for (const k of konsol[o.ad]) if (k.tur === "pageerror" || (k.tur === "error" && !/Failed to fetch|Failed to load resource|net::ERR_INTERNET|ERR_NAME|status of 4/i.test(k.m))) kirildi(`${o.ad}: konsol ${k.tur}: ${k.m.slice(0, 140)}`);
     rapor[o.ad].kayitOrnek = o.kayit.slice(0, 400);
     rapor[o.ad].sesler = o.sesler.map((x) => ({ rol: x.rol, s: ((x.t - BAS) / 1000).toFixed(2) }));
@@ -792,7 +918,9 @@ try {
     if (girisKare.some((x) => (x.ust || "").includes("sik"))) kirildi(o.ad + ": giriş sahnesi sürerken şıklar çizildi (tek katman değil)");
     if (girisKare.some((x) => /321:/.test(x.ust || "") && !/321:[123]/.test(x.ust))) kirildi(o.ad + ": giriş sayacı 3/2/1 dışında değer gösterdi");
     const sayilar = [...new Set(girisKare.map((x) => ((x.ust || "").match(/321:(\d)/) || [])[1]).filter(Boolean))];
-    if (girisKare.length && sayilar.join("") !== "321") kirildi(o.ad + ": giriş sahnesinde 3·2·1 sırası " + (sayilar.join("·") || "yok"));
+    // 980: giriş sırasında sekme dondurulduysa donukken geçen rakamlar görünmez — sıra "321"in sonu olmalı (tekrar yok)
+    const girisDondu = (o.donmalar ?? []).some((x) => x.neden === "giriş sahnesi");
+    if (girisKare.length && (girisDondu ? !"321".endsWith(sayilar.join("")) || !sayilar.length : sayilar.join("") !== "321")) kirildi(o.ad + ": giriş sahnesinde 3·2·1 sırası " + (sayilar.join("·") || "yok"));
     if (o.kayit.some((x) => (x.ust || "").includes("321:") && !(x.ust || "").includes("giris"))) kirildi(o.ad + ": 3-2-1 sahne dışında (eski üst üste katman) göründü");
     // sahne boyunca 3-2-1 tiki en çok üç kez; sahne kalkınca soru sesi
     let girisTik = null, girisSoru = null;
@@ -827,6 +955,7 @@ try {
   console.log("\n954 DEVAM — " + ["A", "B"].filter((a) => rapor[a]).map((a) => a + " hak soruları " + (rapor[a].hakSorular ?? []).length).join(" | ") + " · " + ["A", "B"].filter((a) => rapor[a]).map(ozetD).join(" | ") + (botDevam.length ? " | bot DEVAM " + botDevam.length + " · kazandı " + botDevam.filter((x) => x.kazandi).length : ""));
   fs.writeFileSync(path.join(CIKTI, `kasa-canli-${ETIKET}.json`), JSON.stringify(rapor, null, 1));
   console.log(`\n=== SONUÇ (${ETIKET}) === süre ${sn()} sn · maç ${macId ?? "yok"} · ${rapor.macSon ? `${rapor.macSon.durum}/${rapor.macSon.sonuc_neden} ${rapor.macSon.puan1}-${rapor.macSon.puan2} tur ${rapor.macSon.tur}` : ""}`);
+  for (const ad of ["A", "B"]) if (rapor[ad]) console.log(`${ad} 980: giriş sahnesi ${rapor[ad].girisSahne.sahne} · 3-2-1 ${rapor[ad].girisSahne.sayilar.join("")} · anlar ${JSON.stringify(rapor[ad].anSayim)} · karar kullanılabilir ms [${rapor[ad].kararSure.map((x) => x.kullanilabilirMs).join(",")}] · an taşma ms [${rapor[ad].anTasma.map((x) => x.tip + x.tasmaMs).join(",")}] · hızlı sayım ${rapor[ad].hizliSayim.length}`);
   for (const ad of ["A", "B"]) if (rapor[ad]) console.log(`${ad}: saat farkı ${rapor[ad].fark} ms · rtt ${rapor[ad].rttMedyan} ms · 0→faz ${JSON.stringify(rapor[ad].fazlar.map((f) => f.faz[0] + f.sifirdanSonraMs))} · ses ${JSON.stringify(rapor[ad].sesSayim)}`);
   console.log(`kırılan: ${rapor.kirilanlar.length}`);
   for (const k of rapor.kirilanlar) console.log("  ✗", k);

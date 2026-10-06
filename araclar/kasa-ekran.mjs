@@ -71,7 +71,7 @@ const OLC = () => {
   for (let n; (n = w.nextNode()); ) {
     const t = n.nodeValue.trim(); const el = n.parentElement;
     if (!t || !el || gor.has(el) || ["SCRIPT", "STYLE", "NOSCRIPT"].includes(el.tagName) || !gorunur(el)) continue;
-    if (!el.closest(".ks-mac, .ks-giris, .qt-mod--kasa, .as-renk--kasa, .ks-bitti")) continue;   // yalnız Kasa'nın kendi öğeleri
+    if (!el.closest(".ks-mac, .ks-giris, .qt-mod--kasa, .as-renk--kasa, .as-mod-serit--kasa, .ks-bitti")) continue;   // yalnız Kasa'nın kendi öğeleri
     gor.add(el);
     const s = getComputedStyle(el); const on = ayril(s.color); if (!on) continue;
     let op = 1; for (let e = el; e; e = e.parentElement) op *= +getComputedStyle(e).opacity;
@@ -82,7 +82,7 @@ const OLC = () => {
     if (oran < (buyuk ? 3 : 4.5)) kontrast.push({ el: yol(el), metin: t.slice(0, 40), oran: +oran.toFixed(2), px });
   }
   const tasan = [...document.querySelectorAll("body *")].filter((e) => { const r = e.getBoundingClientRect(); return r.width > 0 && r.right > window.innerWidth + 1; }).slice(0, 5).map(yol);
-  const hedefler = [...document.querySelectorAll(".ks-mac button, .ks-mac .qt-sik, .ks-giris button, .as-renk--kasa, .qt-mod--kasa")]
+  const hedefler = [...document.querySelectorAll(".ks-mac button, .ks-mac .qt-sik, .ks-giris button, .as-renk--kasa, .as-mod-serit--kasa, .qt-mod--kasa")]
     .filter((e) => gorunur(e) && !e.closest(".qt-oyuncu-ad, .qt-oyuncu"));
   const kucuk = hedefler.filter((e) => { const r = e.getBoundingClientRect(); return r.width < 44 || r.height < 44; }).map((e) => `${yol(e)} ${Math.round(e.getBoundingClientRect().width)}×${Math.round(e.getBoundingClientRect().height)}`);
   // kesik metin: Kasa öğelerinde yazı kutusuna sığmıyor (ad kısaltması … bilerek; yalnız skor/kadran/bant/düğme)
@@ -158,11 +158,12 @@ for (const dil of DILLER) {
       await bekle(".as-sayfa, .a-icerik", 40000);
       // 1) Ana sayfa: Kasa kısayolu (Deneysel), 5'li satır, sayfa kaydırılmıyor
       await ac("/", 800);
-      const varAna = await bekle(".as-renk--kasa", 15000);
+      // 6 Eki 2026: ana sayfada Kasa kısayolu yerine "Ortak Hazine" mod şeridi (Klasik · Düello · Ortak Hazine)
+      const varAna = await bekle(".as-mod-serit--kasa", 15000);
       let o = await olc("ana");
       if (w < 1024) {
-        ok("ana sayfa: Kasa kısayolu + Deneysel etiketi", varAna && /Deneysel|Experimental/.test(await s.locator(".as-renk--kasa").innerText()));
-        ok("ana sayfa: kısayollar tek satır (5 sütun)", await s.locator(".as-a-kisayol--5").count() === 1);
+        ok("ana sayfa: Ortak Hazine şeridi (Kasa adı yok)", varAna && /Ortak Hazine|Shared Treasure/.test(await s.locator(".as-mod-serit--kasa").innerText()) && !/Kasa|Vault/.test(await s.locator(".as-mod-serit--kasa").innerText()));
+        ok("ana sayfa: üç eşit mod şeridi", await s.locator(".as-mod-serit").count() === 3);
         ok("ana sayfa: yatay taşma yok", o.yatayTasma <= 0, JSON.stringify(o.tasan));
         ok("ana sayfa: Kasa kısayolu ≥ 44 px ve kontrast", o.kucukHedef.length === 0 && o.kontrast.length === 0, JSON.stringify([o.kucukHedef, o.kontrast]));
         const kisayolAlt = await s.evaluate(() => document.querySelector(".as-a-kisayol")?.getBoundingClientRect().bottom ?? 0);
@@ -192,7 +193,7 @@ for (const dil of DILLER) {
         ["karar-ben", ".ks-karar-eylem", "05-karar-ben", /AÇ|OPEN/],
         ["karar-rakip", ".ks-karar--bekle", "06-karar-rakip", /Rakip karar veriyor|Opponent is deciding/],
         ["cevap", ".qt-sik", "07-cevap", /Devam ettin|You kept it/],
-        ["cevap-uzun", ".qt-sik", "08-cevap-uzun", /Rakip kasayı açtı|Opponent opened/],
+        ["cevap-uzun", ".qt-sik", "08-cevap-uzun", /Rakip hazineyi açtı|Rakip kasayı açtı|Opponent opened/],
         ["sonuc", ".ks-bant", "09-sonuc", /Tek başına bildin|Only you got it/],
         ["altin", ".qt-sik", "10-altin", /ALTIN SORU|GOLDEN QUESTION/],
       ];
@@ -215,9 +216,9 @@ for (const dil of DILLER) {
       await s.waitForTimeout(1800);
       o = await olc("bitti");
       const sonMetin = await s.locator("body").innerText();
-      ok("Maç sonu sahnesi çizildi (21-14, Kasa alt yazısı)", sonVar && /21/.test(sonMetin) && /14/.test(sonMetin) && /Kasayı açtın|opened the vault/.test(sonMetin), sonMetin.replace(/s+/g, " ").slice(0, 120));
+      ok("Maç sonu sahnesi çizildi (21-14, Kasa alt yazısı)", sonVar && /21/.test(sonMetin) && /14/.test(sonMetin) && /Hazineyi açtın|Kasayı açtın|opened the vault|opened the treasure/.test(sonMetin), sonMetin.replace(/s+/g, " ").slice(0, 120));
       // 957: Kasa'da da rövanş var (Düello ile aynı akış)
-      ok("Maç sonu: Rövanş düğmesi ve Yeni Kasa maçı var", /Rövanş|Rematch/.test(sonMetin) && /Yeni Kasa maçı|New Vault match/.test(sonMetin));
+      ok("Maç sonu: Rövanş düğmesi ve Yeni Kasa maçı var", /Rövanş|Rematch/.test(sonMetin) && /Yeni Ortak Hazine maçı|New Shared Treasure match/.test(sonMetin));
       ok("Maç sonu: yatay taşma yok", o.yatayTasma <= 0, JSON.stringify(o.tasan));
       await kaydet("11-bitti");
 
@@ -230,7 +231,7 @@ for (const dil of DILLER) {
       await ac("/modlar", 800); await bekle(".qt-mod--kasa");
       ok("kapalı: Modlar'da Kasa kartı kilitli", await s.locator(".qt-mod--kasa.qt-mod--kilitli").count() === 1);
       await ac("/", 2000);
-      ok("kapalı: ana sayfada Kasa kısayolu yok", await s.locator(".as-renk--kasa").count() === 0);
+      ok("kapalı: ana sayfada Ortak Hazine şeridi yok", await s.locator(".as-renk--kasa, .as-mod-serit--kasa").count() === 0);
     } catch (e) {
       kaldi++; console.log("  ✗ HATA:", e.message);
     }

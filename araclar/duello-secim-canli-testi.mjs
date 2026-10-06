@@ -77,6 +77,8 @@ async function ac(ad, hesap) {
   const s = await b.newPage();
   const o = { ad, hesap, b, s, konsol: [], uid: hesap.uid };
   s.on("console", (m) => { if (m.type() === "error") o.konsol.push(m.text().slice(0, 200)); });
+  // 980: 5xx yanıtların adresi de yazılır ("Failed to load resource: 500" tek başına hangi isteğin düştüğünü söylemiyordu)
+  s.on("response", (r) => { if (r.status() >= 500) o.konsol.push(`HTTP ${r.status()} ${r.request().method()} ${r.url().replace(/^https?:\/\/[^/]+/, "").slice(0, 120)}`); });
   s.on("pageerror", (e) => o.konsol.push("SAYFA: " + String(e).slice(0, 200)));
   oyuncular.push(o);
   return o;
