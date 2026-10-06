@@ -151,7 +151,7 @@ const SAYFA_HAZIRLIK = ({ kayitlar, koken, dil }) => {
       const tur = (q(".m2-gecis")?.textContent || "").trim();
       const ust = [q(".m1-sayim-sayi") && "321:" + q(".m1-sayim-sayi").textContent, q(".ks-giris-sayi") && "321:" + q(".ks-giris-sayi").textContent,
         q(".ks-giris-an") && "giris", q(".ks-carpan-etiket") && "carpan", q(".qt-sik") && "sik", q(".ks-ac-an") && "ac",
-        q(".ks-cifte") && "cifte", q(".ks-final") && "final", q(".msk") && "kutlama", q(".msk-bekle") && "bekle",
+        q(".ks-cifte") && "cifte", q(".ks-final") && "final", q(".ks-rk") && "rk", q(".ks-sayac--bekle") && "sayacBekle", q(".msk") && "kutlama", q(".msk-bekle") && "bekle",
         q(".ks-rakip-joker-an") && "rjoker", q(".ks-devam-an--kazandi") && "devamKazandi", q(".ks-devam-an--yok") && "devamYok", q(".m2-yukleniyor") && "yukleniyor", q(".ks-karar") && "karar", q(".m2-gecis") && "bant"].filter(Boolean).join(",");
       const bant = [...document.querySelectorAll(".m2-bant")].map((e) => e.textContent.replace(/\s+/g, " ").trim()).join(" / ").slice(0, 60);
       const soru = (q(".qt-soru-metin")?.textContent || "").trim().slice(0, 24);
@@ -843,7 +843,10 @@ try {
     if (girisDonduR ? !sira || !"321".endsWith(sira) : sira !== "321") kirildi(`${o.ad}: giriş 3-2-1 sırası ${JSON.stringify(r.girisSahne.sayilar)}`);
     const kararSn = Number(rapor.macSon?.karar_sn ?? 5);
     for (const x of r.kararSure) if (x.kullanilabilirMs < kararSn * 1000 - 150) kirildi(`${o.ad}: karar süresi kısaldı ${x.anah}: tıklanabilir → bitiş ${x.kullanilabilirMs} ms (< ${kararSn} sn) (+${x.s}s)`);
-    for (const x of r.anTasma) if (x.tip === "AÇ" && x.tasmaMs > 250) kirildi(`${o.ad}: AÇ anı sorunun sayacı başladıktan ${x.tasmaMs} ms sonra kalktı (+${x.s}s)`);
+    // 990: AÇ anı ATLANMAZ (taban ~1 sn) ve an / rakip karar kartı sürerken sayaç GÖRÜNMEZ; taşma (sorudan yenen süre) yalnız raporlanır
+    for (const x of r.anTasma) if (x.tip === "AÇ" && x.sureMs < 850) kirildi(`${o.ad}: AÇ anı ${x.sureMs} ms göründü (< 0,85 sn taban) (+${x.s}s)`);
+    const sayacAnda = o.kayit.filter((f) => f.sayac && (f.ust || "").split(",").some((e) => e === "ac" || e === "rk"));
+    if (sayacAnda.length) kirildi(`${o.ad}: AÇ anı / karar kartı sürerken sayaç göründü (${sayacAnda.length} kare, ilk +${((sayacAnda[0].t - BAS) / 1000).toFixed(1)}s)`);
     for (const x of r.donusPatlama) kirildi(`${o.ad}: sekme dönüşü ses: ${x.neden} → ${x.roller.join(",")}`);
     for (const k of konsol[o.ad]) if (k.tur === "pageerror" || (k.tur === "error" && !/Failed to fetch|Failed to load resource|net::ERR_INTERNET|ERR_NAME|status of 4/i.test(k.m))) kirildi(`${o.ad}: konsol ${k.tur}: ${k.m.slice(0, 140)}`);
     rapor[o.ad].kayitOrnek = o.kayit.slice(0, 400);

@@ -80,6 +80,7 @@ async function ac(ad, hesap) {
   // 980: 5xx yanıtların adresi de yazılır ("Failed to load resource: 500" tek başına hangi isteğin düştüğünü söylemiyordu)
   s.on("response", (r) => { if (r.status() >= 500) o.konsol.push(`HTTP ${r.status()} ${r.request().method()} ${r.url().replace(/^https?:\/\/[^/]+/, "").slice(0, 120)}`); });
   s.on("pageerror", (e) => o.konsol.push("SAYFA: " + String(e).slice(0, 200)));
+  s.on("response", async (r) => { if (r.status() >= 400) { let g = ""; try { g = (await r.text()).slice(0, 160); } catch { /* yok */ } console.log(`     (${o.ad ?? "?"} HTTP ${r.status()} ${r.url().split("/rest/v1/").pop().slice(0, 60)} ${g})`); } });
   oyuncular.push(o);
   return o;
 }
@@ -93,6 +94,7 @@ const DURUM = () => {
     yol: location.pathname, faz, bitti: Boolean(q(".msk, .mss, [class*=msk]")) && !mac,
     benSirada: Boolean(q(".dsc-konsol--ben")), oto: Boolean(q(".dsc-konsol--oto")), basla: Boolean(q(".dsc-basla")), ucan: Boolean(q(".dsc-ucan")),
     kart: document.querySelectorAll(".dsc-kart").length, acikKart: document.querySelectorAll(".dsc-kart:not([disabled])").length,
+    calma: Boolean(q(".hk-calma")), banIz: document.querySelectorAll(".hk-sahne--ban, .hk-kart--banli, .hk-cubuk--ban").length,   // 982/990
     banSec: Boolean(q(".hk-sahne--ban-sec")), kartAcik: document.querySelectorAll("button.hk-kart:not([disabled]):not(.hk-kart--banli)").length,
     cubuk: Boolean(q(".hk-cubuk-dugme:not([disabled])")), sik: document.querySelectorAll(".hk-mac .qt-sik:not([disabled])").length,
     kilitli: Boolean(window.__bdTani?.kilitli),
@@ -183,12 +185,16 @@ try {
   const turBas = Date.now();
   let tur1Olcum = false;
   let kendiAcikGoruldu = 0, puanTahtaGoruldu = false, sonucMesajlari = new Set();
+  let banDb = 0, banEkran = 0, calmaGoruldu = 0;   // 982: ban kapalı maçta ban fazı hiç olmamalı · 990: çalma anı
   while (Date.now() - turBas < (TAM ? 1500000 : 150000)) {
     const r = (await db(`select tur, faz, durum from duellolar where id = ${alintila(macId)}`))[0];
     if (r.durum !== "aktif" || (!TAM && Number(r.tur) > 2)) break;
+    if (r.faz === "ban") banDb++;
     for (const o of [A, B].filter(Boolean)) {
       const d = await o.s.evaluate(DURUM);
       if (d.puanTahta) puanTahtaGoruldu = true;
+      if (d.banIz > 0 || d.faz === "ban") banEkran++;
+      if (d.calma) calmaGoruldu++;
       if (PUAN && d.faz === "kategori" && d.saldiriyor && d.kendiAcik > 0) kendiAcikGoruldu++;
       if (d.faz === "sonuc" && d.mesaj) sonucMesajlari.add(d.mesaj);
       if (!tur1Olcum && d.faz === "kategori" && d.kartAcik > 0) {
@@ -210,6 +216,9 @@ try {
     }
     await new Promise((r2) => setTimeout(r2, 300));
   }
+  const banAcikMac = (await db(`select ban_acik::text b from duellolar where id = ${alintila(macId)}`))[0]?.b;
+  if (banAcikMac === "false") ok(`982: ban kapalı maç — ban fazı DB'de ${banDb}, ekranda ${banEkran} kez (0 olmalı)`, banDb === 0 && banEkran === 0);
+  if (TAM) console.log(`  · 990: çalma anı ${calmaGoruldu} yoklamada görüldü`);
   if (PUAN) {
     ok("puan modu: seçimden sonra puan tahtası görüldü", puanTahtaGoruldu);
     ok("puan modu: saldırırken kendi kartların hiç seçilebilir olmadı", kendiAcikGoruldu === 0, String(kendiAcikGoruldu));
