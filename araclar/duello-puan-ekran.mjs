@@ -251,8 +251,10 @@ for (const { dil, w, azalt } of KOSULAR) {
     st.faz = "sonuc"; st.sahiplik.cografya = st.ben; st.kilitler = { cografya: 2 }; st.puan[st.ben] = 5;
     st.sonHamle = hamle(5, "cografya", st.ben, true, false, true, "tuttu", { [st.ben]: 2, [RAKIP]: 0 }); st.yeniAn = Date.now(); st.bitisMs = 3000;
     await yenile(500);
+    // 990: kategori çalma anı (~1,8 sn) — puan/ikon/+2 kart inince gelir; ölçüm an bittikten sonra
+    await s.waitForSelector(".hk-calma", { state: "detached", timeout: 4000 }).catch(() => {});
     o = await olc("06-sonuc-aldin");
-    ok("sonuç: 'artık senin! +2' + 'Sen +2 · Rakip +0 · … el değiştirdi'", (TR ? /artık senin! \+2/ : /is yours! \+2/).test(o.mesaj) && (TR ? /Sen \+2 · Rakip \+0 · Coğrafya el değiştirdi/ : /You \+2 · Opponent \+0 · Geography changed hands/).test(o.mesaj), o.mesaj);
+    ok("sonuç: 'rakipten sana geçti!' + 'Sen +2 · Rakip +0 · … el değiştirdi'", (TR ? /Coğrafya rakipten sana geçti!/ : /Geography moved from your opponent to you!/).test(o.mesaj) && (TR ? /Sen \+2 · Rakip \+0 · Coğrafya el değiştirdi/ : /You \+2 · Opponent \+0 · Geography changed hands/).test(o.mesaj), o.mesaj);
     ok("çalınan kategori ikonu Çalınan yuvasına oturdu (1/4)", await s.locator(".hk-taraf--ben .hk-alinan-yuva--dolu").count() === 1 && /1\/4/.test(o.tahtaMetin), o.tahtaMetin);
     ok("+2 rozeti bende, rakipte rozet yok", await s.locator(".hk-taraf--ben .hk-puan-arti").count() === 1 && await s.locator(".hk-taraf--rakip .hk-puan-arti").count() === 0);
     const animOnce = await s.evaluate(() => { const e = document.querySelector(".hk-puan-arti"); window.__arti = e; const a = e?.getAnimations?.()[0]; return { t: a ? a.startTime : null, ad: e ? getComputedStyle(e).animationName : null }; });
