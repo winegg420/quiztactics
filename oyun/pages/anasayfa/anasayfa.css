@@ -1006,3 +1006,55 @@ a.as-cip:active { transform: translateY(2px); }
 .as-lk--bronz .as-lk-kalan, .as-lk--gumus .as-lk-kalan, .as-lk--altin .as-lk-kalan, .as-lk--elmas .as-lk-kalan, .as-lk--efsane .as-lk-kalan { color: var(--qt-lig-yazi); opacity: .8; }
 .as-lk--bronz .as-lk-satir:not(.as-lk-satir--ben), .as-lk--gumus .as-lk-satir:not(.as-lk-satir--ben), .as-lk--altin .as-lk-satir:not(.as-lk-satir--ben),
 .as-lk--elmas .as-lk-satir:not(.as-lk-satir--ben), .as-lk--efsane .as-lk-satir:not(.as-lk-satir--ben) { background: rgb(255 255 255 / 0.55); }
+
+/* ============================================================
+   7 Eki 2026 (Sekme B) — MOD KARTLARI: Klasik büyük, Düello + Ortak Hazine yan yana (Ida onaylı taslak)
+   Klasik tam genişlik ~120 px (başlık 26 px, 64 px ikon dairesi, sağda ok). Düello ve Ortak Hazine yarım genişlik
+   64 px: ikon + başlık üst satırda, tek kısa satır altta (kart genişliğini kullanır → 360 px'te kesilme yok).
+   Ortak Hazine kapalıysa Düello tam genişlik. Tıklama/aria aynı (yalnız görünüm). Diğer ana sayfa parçaları değişmez.
+   ============================================================ */
+.as-a-seritler { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.as-a-seritler > .as-mod-serit--klasik,
+.as-a-seritler > .as-mod-serit--duello:last-of-type,
+.as-a-seritler > .as-mod-son { grid-column: 1 / -1; }
+.as-mod-serit--klasik {
+  grid-template-columns: 64px minmax(0, 1fr) auto; gap: 14px;
+  height: 120px; min-height: 120px; padding: 0 14px 0 16px; border-radius: 16px;
+  box-shadow: 0 4px 0 var(--as-ms-d);
+}
+.as-mod-serit--klasik .as-mod-serit-ikon { width: 64px; height: 64px; }
+.as-mod-serit--klasik .as-mod-serit-ikon .qt-ikon { width: 34px; height: 34px; }
+.as-mod-serit--klasik .as-mod-serit-metin { gap: 5px; }
+.as-mod-serit--klasik .as-mod-serit-metin b { font-size: 26px; line-height: 1.05; }
+.as-mod-serit--klasik .as-mod-serit-metin small { font-size: 14px; }
+.as-mod-serit--klasik .as-mod-serit-ok { width: 26px; height: 26px; }
+.as-mod-serit:is(.as-mod-serit--duello, .as-mod-serit--kasa) {
+  grid-template-columns: 30px minmax(0, 1fr); grid-template-rows: auto auto; align-content: center;
+  column-gap: 8px; row-gap: 3px; height: 64px; min-height: 64px; padding: 0 10px;
+}
+.as-mod-serit:is(.as-mod-serit--duello, .as-mod-serit--kasa) .as-mod-serit-ikon { width: 30px; height: 30px; }
+.as-mod-serit:is(.as-mod-serit--duello, .as-mod-serit--kasa) .as-mod-serit-ikon .qt-ikon { width: 19px; height: 19px; }
+/* metin kabı ızgaraya açılır: başlık ikonun yanında, alt satır kartın tam genişliğinde */
+.as-mod-serit:is(.as-mod-serit--duello, .as-mod-serit--kasa) .as-mod-serit-metin { display: contents; }
+.as-mod-serit:is(.as-mod-serit--duello, .as-mod-serit--kasa) .as-mod-serit-metin b { font-size: 16px; line-height: 30px; }
+.as-mod-serit:is(.as-mod-serit--duello, .as-mod-serit--kasa) .as-mod-serit-metin small {
+  grid-column: 1 / -1; display: block; font-size: 12px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.as-mod-serit:is(.as-mod-serit--duello, .as-mod-serit--kasa) .as-mod-serit-ok { display: none; }
+@media (max-width: 380px) {
+  .as-mod-serit:is(.as-mod-serit--duello, .as-mod-serit--kasa) .as-mod-serit-metin b { font-size: 15px; }
+  .as-mod-serit:is(.as-mod-serit--duello, .as-mod-serit--kasa) .as-mod-serit-metin small { font-size: 11.5px; }
+}
+/* kısa ekran: Klasik bir kademe kısalır (alttaki 4 kısayol + alt menü tam görünsün) */
+@media (max-width: 1023px) and (max-height: 700px) {
+  .as-mod-serit--klasik { height: 96px; min-height: 96px; }
+  .as-mod-serit--klasik .as-mod-serit-ikon { width: 54px; height: 54px; }
+  .as-mod-serit--klasik { grid-template-columns: 54px minmax(0, 1fr) auto; }
+  .as-mod-serit--klasik .as-mod-serit-metin b { font-size: 24px; }
+}
+@media (max-width: 380px) {
+  /* 360 px'te "Shared Treasure" tek satıra sığsın: ikon ve boşluk bir kademe küçülür */
+  .as-mod-serit:is(.as-mod-serit--duello, .as-mod-serit--kasa) { grid-template-columns: 26px minmax(0, 1fr); column-gap: 6px; padding: 0 8px; }
+  .as-mod-serit:is(.as-mod-serit--duello, .as-mod-serit--kasa) .as-mod-serit-ikon { width: 26px; height: 26px; }
+  .as-mod-serit:is(.as-mod-serit--duello, .as-mod-serit--kasa) .as-mod-serit-ikon .qt-ikon { width: 17px; height: 17px; }
+}

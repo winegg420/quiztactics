@@ -61,9 +61,9 @@ export default function AnaSayfaA() {
   const modlar = modListesi(v, b).filter((m) => m.anahtar !== "kasa");
   const seritler = [
     { anahtar: "klasik", ikon: "hizli", ad: tt("Klasik"), vaat: tt("Hızlı sorular, en çok bilen kazanır"), git: b.oyna },
-    { anahtar: "duello", ikon: "duello", ad: tt("Düello"), vaat: tt("Kategorini savun, rakibinkini al"),
+    { anahtar: "duello", ikon: "duello", ad: tt("Düello"), vaat: tt("Kategorini savun"),
       git: () => { sonModuYaz("duello"); b.git("/duello"); } },
-    ...(kasaAcik ? [{ anahtar: "kasa", ikon: "sandik", ad: tt("Ortak Hazine"), vaat: tt("Ortak puanı büyüt, doğru anda aç"),
+    ...(kasaAcik ? [{ anahtar: "kasa", ikon: "sandik", ad: tt("Ortak Hazine"), vaat: tt("Doğru anda aç"),
       git: () => { sonModuYaz("kasa"); b.git("/kasa"); } }] : []),
   ];
   const sonMod = seritler.find((m) => m.anahtar === sonModuOku());

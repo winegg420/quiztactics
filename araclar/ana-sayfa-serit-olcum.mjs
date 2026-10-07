@@ -1,4 +1,4 @@
-// Ana sayfa ÜÇ EŞİT MOD ŞERİDİ ölçümü (6 Eki 2026). SUNUCUYA YAZMAZ: oyun_ayarlari (kasa_modu_acik) ve sezon_ozetim taklit edilir.
+// Ana sayfa MOD KARTLARI ölçümü (6 Eki 2026; 7 Eki 2026 Sekme B: Klasik büyük + Düello/Ortak Hazine yan yana). SUNUCUYA YAZMAZ: oyun_ayarlari (kasa_modu_acik) ve sezon_ozetim taklit edilir.
 // Ölçer: her bölümün y konumu, ilk ekranda tam görünme, şerit yükseklik eşitliği, yatay taşma, metin kırpılması, kontrast, dokunma hedefi,
 // konsol hatası, tıklama akışı (Klasik → mod penceresi, Düello → /duello, Ortak Hazine → /kasa), "En son oynadığın" ipucu.
 // Kullanım: npm run dev -- --port 5230 · node araclar/ana-sayfa-serit-olcum.mjs [--adres=http://localhost:5230] [--akis]
@@ -11,7 +11,7 @@ const ADRES = ARG.adres || "http://localhost:5230";
 const KOK = new URL(ADRES).origin;
 const CIKTI = path.resolve("tasarim/ana-sayfa-serit");
 fs.mkdirSync(CIKTI, { recursive: true });
-const durum = JSON.parse(fs.readFileSync(path.resolve(".arayuz-denetim-oturum.json"), "utf8"));
+const durum = JSON.parse(fs.readFileSync(path.resolve(ARG.oturum || ".arayuz-denetim-oturum.json"), "utf8"));
 durum.origins = (durum.origins || []).map((o) => ({ ...o, origin: KOK }));
 
 const OLC = () => {
@@ -25,7 +25,7 @@ const OLC = () => {
   const seritler = [...document.querySelectorAll(".as-mod-serit")];
   const kontrast = seritler.map((e) => { const cs = getComputedStyle(e); return { mod: e.className.split("--")[1], oran: oran(cs.color, cs.backgroundColor) }; });
   const kirpilan = [...document.querySelectorAll(".as-mod-serit b, .as-mod-serit small, .as-mod-son")].filter((t) => t.scrollWidth > t.clientWidth + 0.5).map((t) => t.innerText);
-  const usteBinen = seritler.some((e, i) => i && e.getBoundingClientRect().top < seritler[i - 1].getBoundingClientRect().bottom);
+  const usteBinen = seritler.some((e, i) => seritler.some((f, j) => j < i && (() => { const a = e.getBoundingClientRect(), b = f.getBoundingClientRect(); return a.left < b.right - 1 && b.left < a.right - 1 && a.top < b.bottom - 1 && b.top < a.bottom - 1; })()));
   const nav = q(".mobile-nav")?.getBoundingClientRect();
   const alt = nav ? nav.top : innerHeight;
   const gorunmez = Object.entries(k).filter(([ad, v]) => v && v.y > 0 && ad !== "sonIpucu" && v.alt > alt + 0.5).map(([ad]) => ad);
@@ -38,7 +38,7 @@ const OLC = () => {
 const sezonOzet = (acik) => (acik ? { gorunur: true, sezon: 1, seviye: 9, seviye_sayisi: 28, sp: 940, onceki_esik: 900, sonraki_esik: 1000, bp: false, alinabilir: 0 } : { gorunur: false });
 const t = await chromium.launch({ channel: "chrome", headless: true });
 const sonuc = {}; const sorun = [];
-const boyutlar = ARG.boyut ? ARG.boyut.split(",").map((b) => b.split("x").map(Number)) : [[390, 664], [360, 640], [412, 915]];
+const boyutlar = ARG.boyut ? ARG.boyut.split(",").map((b) => b.split("x").map(Number)) : [[390, 844], [360, 740], [390, 664], [360, 640], [412, 915]];
 for (const dil of ["tr", "en"]) for (const [g, y] of boyutlar) for (const kasa of [1, 0]) for (const sezon of [true, false]) for (const azalt of [false, true]) {
   if (azalt && !(g === 390 && sezon && kasa)) continue;   // hareketi azalt: tek temsilci kombinasyon
   const d2 = JSON.parse(JSON.stringify(durum));
@@ -69,8 +69,11 @@ for (const dil of ["tr", "en"]) for (const [g, y] of boyutlar) for (const kasa o
   const ys = new Set(o.serit.map((e) => e.y)), gs = new Set(o.serit.map((e) => e.g));
   const hata = [];
   if (o.serit.length !== bekSerit) hata.push(`şerit sayısı ${o.serit.length}≠${bekSerit}`);
-  if (ys.size !== 1 || [...ys][0] !== 68) hata.push(`yükseklik ${[...ys]}`);
-  if (gs.size !== 1) hata.push(`genişlik ${[...gs]}`);
+  const sk = o.serit.find((e) => e.mod === "klasik"), ikili = o.serit.filter((e) => e.mod !== "klasik");
+  if (!sk || sk.y !== (y <= 700 ? 96 : 120)) hata.push(`Klasik yükseklik ${sk?.y}`);
+  if (ikili.some((e) => e.y !== 64)) hata.push(`ikili yükseklik ${ikili.map((e) => e.y)}`);
+  if (kasa && (new Set(ikili.map((e) => e.g)).size !== 1 || o.k.serit_duello?.ust !== o.k.serit_kasa?.ust)) hata.push("Düello/Ortak Hazine yan yana değil");
+  if (!kasa && gs.size !== 1) hata.push(`genişlik ${[...gs]}`);   // Ortak Hazine kapalı: Düello tam genişlik
   if (o.yatayTasma) hata.push(`yatay taşma ${o.yatayTasma}`);
   if (o.kirpilan.length) hata.push(`kırpılan ${o.kirpilan}`);
   if (o.usteBinen) hata.push("üst üste");
