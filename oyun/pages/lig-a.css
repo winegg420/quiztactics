@@ -476,6 +476,10 @@
    SABİT ≈64 px olmalı). Unvanı olmayan satır aynı yükseklikte (boş yuva gizli). */
 .lg-unvan { display: inline-flex; min-width: 0; overflow: hidden; }
 .lg-unvan:empty { display: none; }
+/* 7 Eki: satır yüksekliği SABİT — Dünya sekmesinde unvanlı satır 59, unvansız 57, BP 57 px çıkıyordu (detay satırı
+   unvanla 17, yalnız rütbeyle 15 px). Ad ve detay satırı sabit yükseklikte → her satır aynı boy. */
+.lg-satir-kap .lg-ad { height: 24px; }
+.lg-satir-kap .lg-detay { height: 17px; }
 
 /* ---------- BATTLE PASS satırı (2 Eki 2026) ----------
    sezon_bp sahibi her satır (kendin dahil): KÖŞELİ kabartmalı altın plaka. Katmanlar:

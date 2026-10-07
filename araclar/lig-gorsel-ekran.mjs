@@ -149,6 +149,22 @@ for (const dil of DILLER) {
         const o = await sayfa.evaluate(OLC_LIG);
         await sayfa.screenshot({ path: path.join(CIKTI, `lig-${ad}.png`) });
         await (await sayfa.$(".lg-pankart")).screenshot({ path: path.join(CIKTI, `pankart-${ad}.png`) });
+        // Dünya sekmesi (gerçek veri): satır yükseklikleri sabit, taşma yok — yalnız ilk lig turunda (veri ligden bağımsız)
+        if (lig === LIGLER[0]) {
+          await sayfa.locator(".lg-sekmeler [role=tab]").nth(3).click();
+          await sayfa.waitForSelector(".lg-liste .lg-satir-kap, .lg-podyum", { timeout: 15000 }).catch(() => {});
+          await sayfa.waitForTimeout(1200);
+          const od = await sayfa.evaluate(() => {
+            const iw = window.innerWidth, s = [];
+            const y = [...new Set([...document.querySelectorAll(".lg-liste .lg-satir-kap")].map((e) => Math.round(e.getBoundingClientRect().height)))];
+            if (y.length > 1) s.push(`dünya satır yükseklikleri farklı: ${y.join("/")}`);
+            for (const e of document.querySelectorAll(".lg-panel *")) { const r = e.getBoundingClientRect(); if (r.width && r.right > iw + 0.5) { s.push(`dünya taşan: ${e.className?.toString().slice(0, 30)}`); break; } }
+            if (document.scrollingElement.scrollWidth > iw + 0.5) s.push("dünya yatay taşma");
+            return s;
+          });
+          o.sorun.push(...od);
+          await sayfa.screenshot({ path: path.join(CIKTI, `dunya-${w}x${h}-${dil}.png`) });
+        }
         await sayfa.goto(ADRES + "/profil", { waitUntil: "domcontentloaded" });
         await sayfa.waitForSelector(".qt-pf-ok[data-lig]", { timeout: 25000 });
         await sayfa.waitForTimeout(1200);
