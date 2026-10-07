@@ -257,7 +257,9 @@ export function KasaKarar({ d, c, calisan, onKarar, kalan = null, carpanYazi = n
       <p className="ks-karar-not">
         {carpanYazi && tavan > 0 && deger >= tavan ? c("Hazine dolu ({t}): DEVAM büyütmez.", { t: tavan })
           : carpanVar && d.devam_birakir ? c("DEVAM: hazine {x} büyür, sahipsiz kalır.", { x: carpanYazi })   // 7 Eki 2026: kısa not
-          : d.devam_birakir ? c("DEVAM: hazine sahipsiz kalır.") : c("Süre dolarsa DEVAM sayılır.")}
+          : d.devam_birakir ? c("DEVAM: hazine sahipsiz kalır.") : null}
+        {/* 7 Eki 2026 (Ida): süre dolumu kuralı tek kısa cümle olarak her zaman */}
+        {" "}{c("Süre dolarsa DEVAM sayılır.")}
       </p>
     </div>
   );

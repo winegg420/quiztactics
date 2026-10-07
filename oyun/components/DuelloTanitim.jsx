@@ -56,6 +56,17 @@ const ADIMLAR = [
   { ikon: "yariyari", baslik: "Joker sınırları", metin: "Maçta 4 joker, aynısı en çok 2 kez. Soru başına 1 joker." },
 ];
 
+// 7 Eki 2026 (Ida): puan modunda (970) tanıtım EN FAZLA 5 kısa adım — kurallar aynı, yalnız anlatım kısaldı.
+// Ban adımı (982'den beri kapalı) yalnız duello_ban_acik açılırsa araya girer.
+const P_ADIMLAR = [
+  { ikon: "liste", secim: true, baslik: "Önce sırayla seçim", metin: "10 kategoriyi sırayla seçersiniz, herkes {k} alır. Süre dolarsa en iyi bildiğin seçilir." },
+  { ikon: "duello", baslik: "Saldır, puan topla", metin: "Saldıran rakibin bir kategorisini seçer, soru ikinize aynı anda gelir. Doğru +1. Sen bilip rakip bilemezse +2 ve kategori senin." },
+  { ...ADIMLAR.find((x) => x.ban), metin: ADIMLAR.find((x) => x.ban).pMetin },
+  { ikon: "bayrak", baslik: "{h} puan ya da {y} kategori", metin: "{h} puana ya da rakibin {y} kategorisine ilk ulaşan kazanır. {t} tur bitince puanı çok olan; eşitlikte Altın Soru." },
+  { ikon: "hedef", baslik: "Renkler ve kilit", metin: "Kırmızı: kategorin saldırı altında. Mavi: saldırı sende. El değiştiren kategori 2 tur seçilemez." },
+  { ikon: "kalkan", baslik: "Jokerler", metin: "Baskın: rakibin cevabı sayılmaz. Kalkan: kategorin sende kalır. İkisi de maçta 1 kez; toplam 4 joker, soru başına 1." },
+];
+
 export default function DuelloTanitim({ onKapat }) {
   const [adim, setAdim] = useState(0);
   // 960: tur sayısı ve eşik metne gömülmez; seçim modu açıksa seçim adımı + boşsuz metinler (sMetin/sBaslik).
@@ -66,7 +77,7 @@ export default function DuelloTanitim({ onKapat }) {
   const kapat = () => { isaretle(); onKapat?.(); };
   // 982: ban adımı yalnız ban açıkken (kapalı: tur akışı sonuç → saldırı seçimi → soru)
   const uygun = (x) => (!x.secim || secimModu) && (!x.ban || banAcik);
-  const adimlar = ADIMLAR.filter(uygun)
+  const adimlar = puanModu ? P_ADIMLAR.filter(uygun) : ADIMLAR.filter(uygun)
     .map((x) => (secimModu ? { ...x, baslik: x.sBaslik ?? x.baslik, metin: x.sMetin ?? x.metin, ek: x.sMetin ? null : x.ek } : x))
     // 970: puan modu metinleri (pBaslik/pMetin) seçim metinlerinin üstüne; boş kategori satırı (ek) yok
     .map((x, i) => { const o = ADIMLAR.filter(uygun)[i]; return puanModu ? { ...x, baslik: o.pBaslik ?? x.baslik, metin: o.pMetin ?? x.metin, ek: null } : x; });

@@ -26,6 +26,19 @@ export default {
   "Baskın: rakibin cevabı sayılmaz. Kalkan: kategori sende kalır. Her biri maçta 1 kez.":
     "Ambush: the opponent's answer doesn't count. Shield: your category stays yours. Each once per match.",
   "Maçta 4 joker, aynısı en çok 2 kez. Soru başına 1 joker.": "4 jokers per match, the same one at most twice. 1 per question.",
+  // Düello tanıtımı — 5 adımlık kısa sürüm (7 Eki 2026)
+  "10 kategoriyi sırayla seçersiniz, herkes {k} alır. Süre dolarsa en iyi bildiğin seçilir.":
+    "Take turns drafting the 10 categories, {k} each. If time runs out, your best one is picked for you.",
+  "Saldır, puan topla": "Attack to score",
+  "Saldıran rakibin bir kategorisini seçer, soru ikinize aynı anda gelir. Doğru +1. Sen bilip rakip bilemezse +2 ve kategori senin.":
+    "The attacker picks one of the opponent's categories and you both get the same question. Correct: +1. You're right and they're not: +2 and the category is yours.",
+  "{h} puana ya da rakibin {y} kategorisine ilk ulaşan kazanır. {t} tur bitince puanı çok olan; eşitlikte Altın Soru.":
+    "First to {h} points or {y} of the opponent's categories wins. After {t} turns, most points wins; a tie goes to a Golden Question.",
+  "Renkler ve kilit": "Colors and locks",
+  "Kırmızı: kategorin saldırı altında. Mavi: saldırı sende. El değiştiren kategori 2 tur seçilemez.":
+    "Red: your category is under attack. Blue: you're on the attack. A category that changes hands is locked for 2 turns.",
+  "Baskın: rakibin cevabı sayılmaz. Kalkan: kategorin sende kalır. İkisi de maçta 1 kez; toplam 4 joker, soru başına 1.":
+    "Ambush: the opponent's answer doesn't count. Shield: your category stays yours. Each once per match; 4 jokers total, 1 per question.",
   // Ortak Hazine lobisi
   "AÇ: puanına yaz. DEVAM: hazine büyür, sahipsiz kalır.": "OPEN: add it to your score. KEEP: it grows and is up for grabs.",
   "AÇ: hazine puanına yazılır. DEVAM: hazine {x} büyür, sahipsiz kalır.": "OPEN: the treasure goes to your score. KEEP: it grows {x} and is up for grabs.",
