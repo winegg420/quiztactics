@@ -94,10 +94,10 @@ try {
   const tTarihDisi = Number(await tek(`select count(*) from t_tukenme t join questions q on q.id=t.id where q.kategori<>'tarih'`));
   ok('Klasik tarih (yabancı) → boş değil, 20 soru, yerel 0', tSay === 20 && tYerel === 0, `${tSay} soru, yerel ${tYerel}`);
   ok('kategori yok sayıldı → karışık havuz', tTarihDisi > 0, `tarih dışı ${tTarihDisi}`);
-  ok('Düello: tarih bu maçta seçilemez', (await tek(`select duello2_kategori_uygun_mu('${did}','tarih')`)) === 'f');
-  ok('Düello: bilim seçilebilir', (await tek(`select duello2_kategori_uygun_mu('${did}','bilim')`)) === 't');
-  // duello2_durum'un 'uygun' listesiyle aynı ifade (durum'u çağırmak canlı cron'la kilitleşiyor)
-  const uygunlar = JSON.parse(await tek(`select coalesce(json_agg(k), '[]')::text from unnest(duello_kategorileri()) k where duello2_kategori_uygun_mu('${did}', k)`));
+  ok('Düello: tarih bu maçta seçilemez', (await tek(`select duello_kategori_kapsam_uygun('${did}','tarih')`)) === 'f');
+  ok('Düello: bilim seçilebilir', (await tek(`select duello_kategori_kapsam_uygun('${did}','bilim')`)) === 't');
+  // 970 sonrası duello2_kategori_uygun_mu puan modunda başka yola gider; kapsam katmanı (652) doğrudan sınanır
+  const uygunlar = JSON.parse(await tek(`select coalesce(json_agg(k), '[]')::text from unnest(duello_kategorileri()) k where duello_kategori_kapsam_uygun('${did}', k)`));
   ok('Düello uygun listesinde tarih yok, liste boş değil', !uygunlar.includes('tarih') && uygunlar.length > 0, JSON.stringify(uygunlar));
   // uzatma: tarih dışı kategori seçilmeli
   let uzTarih = 0;
@@ -117,7 +117,7 @@ try {
   ok('get_categories (dil en) boş değil', katEn.length > 0, `${katEn.length} kategori`);
   // Türkiye-Türkiye maçında tükenen kategori hâlâ seçilebilir
   await db.sorgu(`update profiles set ulke='TR', dil='tr' where id='${B}'`);
-  ok('TR-TR Düello: tarih seçilebilir', (await tek(`select duello2_kategori_uygun_mu('${did}','tarih')`)) === 't');
+  ok('TR-TR Düello: tarih seçilebilir', (await tek(`select duello_kategori_kapsam_uygun('${did}','tarih')`)) === 't');
   ok('TR-TR Klasik tarih: tarih sorusu', Number(await tek(`select count(*) from unnest(${tDizi}) x join questions q on q.id=x where q.kategori='tarih'`)) === 20);
 
   console.log('6) Turnuva');
