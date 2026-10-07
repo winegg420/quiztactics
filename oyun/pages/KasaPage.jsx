@@ -25,6 +25,7 @@ import BulunamadiPage from "./BulunamadiPage.jsx";
 import { KasaKadran, KasaSkor, KasaUst, KasaKarar, KasaSonucBandi, KasaAcKilit, kasaKararMetni, carpanYazisi } from "../components/KasaParcalari.jsx";
 import JokerCubugu from "../components/JokerCubugu.jsx";
 import CerceveliAvatar from "../components/CerceveliAvatar.jsx";
+import KategoriIkon from "../components/KategoriIkon.jsx";
 import { TepkiCubugu, useMacTepki } from "../components/Tepki.jsx";
 import SkillRozeti from "../components/SkillRozeti.jsx";
 import { jokerBilgi } from "../lib/jokerler.js";
@@ -40,6 +41,7 @@ import { rpcDene } from "../lib/rpcDene.js";
 import { useOyunModu } from "../lib/oyunModu.js";
 import { sayacKaymasi, sayacGoster, sayacSinirMs, saatFarkiOrnekle } from "../lib/zaman.js";
 import { soruUzunlukSinifi } from "../lib/soruUzunluk.js";
+import { kategoriAdi } from "../lib/kategoriler.js";
 import { titret } from "../lib/geriBildirim.js";
 import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesDokunus, sesRakipBulundu, sesSoruGeldi,
   sesTurGecis, sesRakipCevapladi, sesCoin, sesRozet, sesJoker, sesXpDolma, sesSkill } from "../lib/ses.js";
@@ -1197,6 +1199,7 @@ function KasaMac({ id }) {
         )}
         <QtSoruKarti key={d.soru?.soru ?? "soru"}
                      className={sinif("m2-soru ks-soru", soruUzunlukSinifi({ soru: d.soru?.soru, secenekler }), sonucMu && "m2-soru--sonuc")}
+                     kategori={d.soru?.kategori ? <><KategoriIkon anahtar={d.soru.kategori} boyut={16} /> {c(kategoriAdi(d.soru.kategori))}</> : null}
                      sira={d.altin ? c("Altın Soru") : c("Aynı soru · aynı anda")}
                      metin={d.soru?.soru} sevinc={sonucMu && Boolean(d.sonuc?.ben_dogru)} />
         <QtSikler etiket={c("Şıklar")}>
@@ -1215,9 +1218,10 @@ function KasaMac({ id }) {
 
   return (
     <div ref={kokRef}
+         data-kat={d.soru?.kategori || undefined}
          // 980: tekrarlayan anlar dokunarak geçilir (dokunuş alttaki düğmeye de gider: şık seçimi engellenmez)
          onPointerDown={an || cifteAn || rakipKarar ? anlariBitir : undefined}
-         className={sinif("m2-mac ks-mac", `ks-mac--${d.faz}`, (gerilim || kararGerilim) && "qt-h-gerilim", d.altin && "ks-mac--altin",
+         className={sinif("m2-mac ks-mac qt-sahne-mac", `ks-mac--${d.faz}`, (gerilim || kararGerilim) && "qt-h-gerilim", d.altin && "ks-mac--altin",
                           anAc?.sars && "ks-mac--sars", girisAktif && "ks-mac--giris")}>
       <MacUstSerit onCik={() => setTerkOnay(true)} cikisEtiketi={c("Maçtan çık")}
                    rozet={c("Ortak Hazine")} />

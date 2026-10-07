@@ -10210,3 +10210,12 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 - Canlı doğrulama (pg-mini): 6 `kasa_joker_*` anahtarı İkinci Şans 1 · 50:50 2 · Ek Süre 2 · Zaman Baskısı 3 · toplam 4 · soru başı 1; `duello_gosterim_payi_ms` 1500 → 2000; `klasik_skill_*` (soru başı 1, toplam 6, tur başı 2) değişmedi.
 - `kasa_joker_durumu` canlı tanımı `tur_sinirlari` / `kalan_haklar` / `sinir` döndürüyor (fonksiyon tanımından doğrulandı; kimlikli çağrı yapılmadı).
 - `supabase link` yetki hatası verdi, push için gerekmedi.
+
+## 2026-10-07 — Ortak Hazine soru ekranında kategori teması
+**Araç:** Codex
+**Neden:** Hazine maç kökü ortak kategori zemin sistemine bağlı değildi; soru kartında kategori adı ve ikonu görünmüyordu.
+
+- Klasik/Saf Bilgi ile aynı `data-kat` ve `kategori-zemin.css` renk haritası kullanıldı; yeni renk eklenmedi.
+- Soru kartına yerelleştirilmiş kategori adı ve mevcut kategori ikonu eklendi. Normal soruda yalnız kategori, Altın Soru'da kategori ile “Altın Soru” satırı birlikte görünür.
+- Sahte maç verisiyle 360×844 ve 390×844'te TR/EN; Bilim, Tarih, Spor ve Müzik kategorileri ölçüldü: yatay/dikey taşma yok, şıklar 60 px yüksekliğinde ve kategori etiketi kesilmedi. Konsol uyarı/hatası görülmedi.
+- Ortak hareket azaltma kuralı kategori geçişini kapatıyor; normal harekette yalnız `background-color` geçişi var, döngülü animasyon eklenmedi.

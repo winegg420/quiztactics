@@ -56,8 +56,9 @@
 }
 .ks-mac > * { flex: none; }
 .ks-mac > .ks-sahne { flex: 1 1 auto; }
-/* "Aynı soru · aynı anda" satırı yalnız Altın Soru'da (yer kazanmak için) */
-.ks-mac:not(.ks-mac--altin) .ks-soru .qt-soru-ust { display: none; }
+/* "Aynı soru · aynı anda" satırı yalnız Altın Soru'da; kategori etiketi her soruda görünür. */
+.ks-mac:not(.ks-mac--altin) .ks-soru .qt-soru-sira { display: none; }
+.ks-mac .ks-soru .qt-soru-kategori { display: inline-flex; align-items: center; gap: 5px; }
 /* Sonuçta soluk şıklar okunur kalsın (kontrast ≥ 4,5): ortak .qt-sik--solgun 0,45 opaklık yerine nötr kilitli görünüm */
 .ks-mac .qt-sik--solgun { opacity: 1; --_z: var(--qt-yuzey); --_y: var(--qt-metin-soluk); box-shadow: 0 0 0 var(--_d); transform: translateY(var(--qt-dudak)); }
 .ks-ust {
