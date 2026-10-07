@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import DurumKutusu from "../components/DurumKutusu.jsx";
 import { hataMesaji } from "../lib/hata.js";
 import { sesHataUyari } from "../lib/ses.js";
@@ -8,7 +8,7 @@ import { JOKER_BILGI, AKTIF_MAC_SKILLERI, envanterNesne, jokerDukkanModlari, jok
 import SkillRozeti from "../components/SkillRozeti.jsx";
 import JokerSatinAlModal from "../components/JokerSatinAlModal.jsx";
 import DukkanKozmetik, { DukkanAvatarlar, useKozmetikDukkan } from "../components/DukkanKozmetik.jsx";
-import { DUKKAN_TURLERI } from "../lib/kozmetik.js";
+import { DUKKAN_TURLERI, dukkandaGorunur } from "../lib/kozmetik.js";
 import { jokerKurallari } from "../lib/jokerKurallari.js";
 import { h5AdsYapilandirildi, odulluVideoGoster } from "../lib/h5ads.js";
 import { desteklenirMi, fiyatlariAl, satinAl, tuket } from "../lib/playFatura.js";
@@ -169,6 +169,7 @@ export default function JokerDukkani() {
   const [arama, setArama] = useSearchParams();
   // Kozmetik + avatar kataloğu tek yerde, bir kez (Çerçeve ve Avatar ve İsim sekmeleri aynı veriyi kullanır).
   const kozmetik = useKozmetikDukkan();
+  const dukkanKatalogu = useMemo(() => kozmetik.katalog.filter(dukkandaGorunur), [kozmetik.katalog]);   // Altın isim dükkândan kalktı (BP'ye ait)
   const istenenSekme = ESKI_SEKME[arama.get("sekme")] ?? arama.get("sekme");
   const sekme = SEKMELER.some((x) => x.kod === istenenSekme) ? istenenSekme : VARSAYILAN_SEKME;
   const sekmeParasi = SEKMELER.find((x) => x.kod === sekme)?.para;
@@ -529,13 +530,13 @@ export default function JokerDukkani() {
                 elmasYetmedi={elmasKazanGoster} elmasBakiye={elmas.bakiye}
                 onBilgi={(m) => { setHata(null); setBilgi(m); }} onHata={(m) => { setBilgi(null); setHata(m); }} />
             </section>
-            {kozmetik.katalog.some((x) => x.tur === TUR_ISIM) && (
+            {dukkanKatalogu.some((x) => x.tur === TUR_ISIM) && (
               <section className="qt-dk-bolum" aria-labelledby="qt-dk-isim">
                 <div className="qt-dk-bolum-ust qt-dk-bolum-ust--elmas">
                   <h2 id="qt-dk-isim" className="qt-baslik-2">{tt("İsim")}</h2>
                   <p className="qt-kucuk">{tt("Adın her yerde bu görünümle yazılır.")}</p>
                 </div>
-                <DukkanKozmetik tur={TUR_ISIM} katalog={kozmetik.katalog} sahipHesap={kozmetik.sahipHesap} yenile={kozmetik.yenile}
+                <DukkanKozmetik tur={TUR_ISIM} katalog={dukkanKatalogu} sahipHesap={kozmetik.sahipHesap} yenile={kozmetik.yenile}
                   elmasYetmedi={elmasKazanGoster} elmasBakiye={elmas.bakiye}
                   onBilgi={(m) => { setHata(null); setBilgi(m); }} onHata={(m) => { setBilgi(null); setHata(m); }} />
               </section>

@@ -10293,3 +10293,11 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 - Alt düğme: "Battle Pass al · 500 elmas" artık BP yokken alınacak ödül olsa da görünür (önceden "Ödülleri al" onu gizliyordu); BP sahibinde alınacak yoksa pasif "Ödülleri al".
 - TR/EN çeviri eklendi. Test: araclar/sahne-ekran-sezon.mjs 519/519 (eski "düğme yok" beklentisi güncellendi). Görüntüler: tasarim/battle-pass-oyun-hissi/.
 - Lig BP plakası: yapılmadı (limit).
+
+## 2026-10-07 — Üç küçük düzeltme: joker saniye yazısı · Görevler notları · Altın isim dükkândan kalktı
+**Araç:** Claude Code (Sonnet 5.5) — yalnız ön yüz, migration/RPC yok.
+
+- **İş 2 (joker saniyesi):** `QtSkill`a `alt` satırı eklendi (`oyun/tasarim/oyun.jsx`, `.qt-skill-alt` `bilesenler.css`). Ek Süre "+N sn", Zaman Baskısı "-N sn": Klasik/Kasa çubuğunda `jokerBilgi().etkiDegeri` (ayardan), Düello şeridinde `skillDeger` (DuelloPage → V2Skill). EN: "+N s". 360×640 ve 390×844 TR/EN: taşma yok, konsol hatası yok (görüntüler `tasarim/joker-saniye/`).
+- **İş 3a:** `dil.js` tekil kuralı artık sayıyla isim arasındaki tek sıfatı (more/new/weekly/daily/bonus/unread/extra/other) atlar: "1 more quests" → "1 more quest"; aynı kural başka sözlük girdilerini de düzeltir (more matches/badges/invites, new questions/challenges…).
+- **İş 3b:** `araclar/gorevler-ekran.mjs` yeni Görevler düzenine güncellendi (günlük altın kart, dolu ikon kutuları, yeşil AL + ödül altında, soluk alınmış + tik, sandık kartı haftalığın altında). Sonuç: tüm ölçümler geçti. Ana sayfa şeridi/avatar menüsü bölümü ikiz kart düzeninden önceki beklentileri taşıyordu → varsayılan atlanır (`--ana` ile çalışır), güncellenmedi.
+- **İş 1:** Altın isim dükkândan gizlendi: `kozmetik.js › dukkandaGorunur` + `JokerDukkani.jsx` (isim bölümü süzülmüş katalogla). Sahibi olan oyuncuda "Sende var" kalır; sunucu/IsimEfekti/BP altın ismi DEĞİŞMEDİ. Test `araclar/dukkan-isim-ekran.mjs` (taklit katalog) 44/44. Karar: yalnız dükkân listesi süzülür, Koleksiyon aynı kalır.

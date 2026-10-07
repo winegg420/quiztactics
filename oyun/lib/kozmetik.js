@@ -23,6 +23,11 @@ export const KOZMETIK_TURLERI = ["vs_karti", "isim_efekti", "zafer_efekti", "tep
  * Tepki paketleri Battle Pass ödülüdür (bp_seviye_odulleri). Arka plan (premium_aura) dondurulmuş.
  */
 export const DUKKAN_TURLERI = ["premium_cerceve", "isim_efekti"];
+/** Dükkândan KALKAN kalemler (7 Eki 2026, Ida): Altın isim Battle Pass'e ait. Sunucu BP sahibine zaten verir (721); sahibi olan oyuncuda
+ *  kalem dükkânda "Sende var" olarak görünmeye devam eder, sahibi olmayana satılık görünmez. Yalnız dükkân listesi süzülür —
+ *  isim gösterimi (IsimEfekti), takma ve sunucu değişmez. */
+export const DUKKANDAN_KALKAN = new Set(["isim_altin"]);
+export const dukkandaGorunur = (x) => !DUKKANDAN_KALKAN.has(x?.anahtar) || Boolean(x?.sahip || x?.takili);
 export const TUR_ADI = {
   aura: "Arka Plan", avatar: "Avatar", vs_karti: "VS Kartı", isim_efekti: "İsim Efekti",
   zafer_efekti: "Zafer Efekti", tepki_paketi: "Tepki",
