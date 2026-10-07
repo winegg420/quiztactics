@@ -183,4 +183,28 @@ export default {
   "AÇTI!": "OPENED!",
   "DEVAM ETTİ": "KEPT IT",
   "Hazine {x}": "Treasure {x}",
+
+  // 987: DEVAM ödülü = Savunma Hakkı (954 ücretsiz 50:50 yerine). Oyuncuya görünen ad TEK yerde: ilk satır.
+  "Savunma Hakkı": "Defense Right",
+  "Savunma Sorusu": "Defense Question",
+  "{h} sende (en fazla 1)": "You hold a {h} (max 1)",
+  "DEVAM de: {h} kazan": "Choose KEEP: earn a {h}",
+  "{h} devrede!": "{h} activated!",
+  "Rakip bildi · {s} geliyor": "Opponent got it · {s} coming",
+  "Rakip {h} kullanıyor": "Opponent is using a {h}",
+  "+{n} · önce {s}": "+{n} · {s} first",
+  "Bilirsen hazine sahipsiz kalır": "Get it right and the treasure stays unclaimed",
+  "Rakip savunuyor · bilemezse karar senin": "Opponent is defending · if they miss, you decide",
+  "Savundun! Hazine sahipsiz kaldı": "Defended! The treasure stays unclaimed",
+  "Rakip savundu: hazine sahipsiz": "Opponent defended: the treasure is unclaimed",
+  "Savunma düştü: karar rakipte": "Defense failed: your opponent decides",
+  "Savunma düştü: karar sende": "Defense failed: you decide",
+  "Savundun!": "Defended!",
+  "Rakip savundu": "Opponent defended",
+  "Savunma düştü": "Defense failed",
+  "Savunma Sorusunda kullanılamaz": "Not allowed on the Defense Question",
+  "Savunma Sorusunu yalnız hak sahibi cevaplar": "Only the Defense Right holder answers the Defense Question",
+  "Savunma Sorusunda Zaman Baskısı kullanılamaz": "Time Pressure can’t be used on the Defense Question",
+  "Bilerek DEVAM dersen {h} kazanırsın: sen yanlış, rakip tek başına doğru bilirse rakip karar vermeden sana bir {s} sorulur. Bilirsen hazine sahipsiz kalır.":
+    "Choose KEEP yourself to earn a {h}: if you miss and only your opponent gets it right, you get a {s} before they decide. Get it right and the treasure stays unclaimed.",
 };

@@ -25,6 +25,26 @@ export function kasaSahibi(d) {
   return d.sahip === d.ben ? "ben" : "rakip";
 }
 
+// 987: DEVAM ödülü — oyuncuya görünen ad TEK yerde (EN karşılığı ceviri/kasa.js; Düello "Kalkan" jokeriyle karışmasın)
+export const SAVUNMA_HAKKI = "Savunma Hakkı";
+export const SAVUNMA_SORUSU = "Savunma Sorusu";
+
+/** 987: süren Savunma Sorusu — { benSavunuyorum, izliyorum } ya da null. */
+export function kasaSavunma(d) {
+  const s = d?.savunma;
+  if (!s || s.durum !== "soru" || d?.faz !== "cevap") return null;
+  return { benSavunuyorum: s.sahip === d.ben, izliyorum: s.sahip !== d.ben };
+}
+
+/** 987: hak simgesi (kalkan rozeti). Kalkan çizimi ortak ikon setinden; ad ve renk Hazine'ye özel (altın). */
+export function SavunmaRozeti({ c, aktif = false, boyut = 12 }) {
+  return (
+    <span className={sinif("ks-hak", aktif && "ks-hak--aktif")} role="img" aria-label={c(SAVUNMA_HAKKI)} title={c(SAVUNMA_HAKKI)}>
+      <QtIkon ad="kalkan" boyut={boyut} />
+    </span>
+  );
+}
+
 /** Tavan nominal artışı kırptığında ekranda gerçekten kasaya eklenen değeri kullan. */
 export function kasaSonucArtisi(sonuc, varsayilan = 0) {
   if (!sonuc) return Number(varsayilan) || 0;
@@ -155,6 +175,10 @@ export function KasaUst({ d, ben, rakip, c, seviyeler = {}, sayac, onay = {}, an
           </span>
         )}
         {/* 951: rakibin bu soruda kullandığı jokerler (yalnız ad/ikon — etkisi gizli) */}
+        {/* 987: Savunma Hakkı simgesi — iki oyuncuya da görünür; Savunma Sorusu sürerken savunanda parlar */}
+        {Array.isArray(d.savunma_hak) && (d.savunma_hak.includes(o.id) || (d.savunma?.durum === "soru" && d.savunma.sahip === o.id)) && (
+          <SavunmaRozeti c={c} aktif={d.savunma?.durum === "soru" && d.savunma.sahip === o.id} />
+        )}
         {rakipMi && rakipJoker.length > 0 && (
           <span className="ks-rakip-jokerler" role="img"
                 aria-label={c("Rakip joker kullandı: {j}", { j: rakipJoker.map((t) => jokerBilgi(t, "kasa").ad).join(", ") })}>
@@ -217,13 +241,19 @@ export function KasaKarar({ d, c, calisan, onKarar, kalan = null, carpanYazi = n
         </QtDugme>
         <QtDugme tur="ikincil" tamGenislik boyut="b" ikon="ileri" yukleniyor={calisan === "karar-devam"} devreDisi={!!calisan}
                  onClick={() => onKarar(false)}>
-          {/* 954: bilerek DEVAM → kasa açılana kadar her soruda ücretsiz 50:50 · 953 maçı: şans yazılır */}
-          {d.devam_elli && carpanVar ? c("DEVAM {x} · ÜCRETSİZ 50:50", { x: carpanYazi })
-            : carpanVar ? c("DEVAM {x}", { x: carpanYazi })
-            : d.devam_elli ? c("DEVAM · ÜCRETSİZ 50:50")
+          {/* 987: bilerek DEVAM → Savunma Hakkı (954 ücretsiz 50:50 kalktı) · 953 maçı: şans yazılır */}
+          {carpanVar ? c("DEVAM {x}", { x: carpanYazi })
             : Number(d.devam_sans) > 0 ? c("DEVAM · %{p} joker şansı", { p: Number(d.devam_sans) }) : c("DEVAM · hazine büyüsün")}
         </QtDugme>
       </div>
+      {d.savunma_acik && (
+        <p className="ks-karar-hak">
+          <SavunmaRozeti c={c} boyut={13} />
+          <span>{Array.isArray(d.savunma_hak) && d.savunma_hak.includes(d.ben)
+            ? c("{h} sende (en fazla 1)", { h: c(SAVUNMA_HAKKI) })
+            : c("DEVAM de: {h} kazan", { h: c(SAVUNMA_HAKKI) })}</span>
+        </p>
+      )}
       <p className="ks-karar-not">
         {carpanYazi && tavan > 0 && deger >= tavan ? c("Hazine dolu ({t}): DEVAM büyütmez, sahipsiz bırakır.", { t: tavan })
           : carpanVar && d.devam_birakir ? (tavan > 0
@@ -275,11 +305,31 @@ export function kasaSonucMetni(d, c) {
     if (s.kazanan) return { ton: "kotu", baslik: c("Altın Soru'yu rakip bildi") };
     return { ton: "notr", baslik: c("Kimse tek başına bilemedi"), alt: c("Yeni Altın Soru geliyor") };
   }
+  // 987: Savunma Sorusunun sonucu (kasaya bir şey eklenmez)
+  const sv = s.savunma;
+  if (sv && (sv.durum === "basarili" || sv.durum === "basarisiz")) {
+    const benSavundum = sv.sahip === d.ben;
+    const neden = sv.neden === "sure" ? c("Süre doldu") : sv.neden === "kopuk" ? c("Bağlantı koptu") : null;
+    if (sv.durum === "basarili") {
+      return benSavundum
+        ? { ton: "iyi", baslik: c("Savundun! Hazine sahipsiz kaldı"), alt: c("Hazine {k}", { k: s.kasa_sonra }) }
+        : { ton: "kotu", baslik: c("Rakip savundu: hazine sahipsiz"), alt: c("Hazine {k}", { k: s.kasa_sonra }) };
+    }
+    return benSavundum
+      ? { ton: "kotu", baslik: c("Savunma düştü: karar rakipte"), alt: neden ?? c("Hazine {k}", { k: s.kasa_sonra }) }
+      : { ton: "iyi", baslik: c("Savunma düştü: karar sende"), alt: neden ?? c("Hazine {k}", { k: s.kasa_sonra }) };
+  }
   // 955: tavana kırpıldıysa gerçek artış (kasa_sonra − kasa_once) yazılır; tavandaysa "Kasa dolu"
   const artis = kasaSonucArtisi(s);
   const alt = s.tavan_kirpti ? c("Hazine dolu: {k}", { k: s.kasa_sonra }) : c("Hazine {k}", { k: s.kasa_sonra });
   const altArti = s.tavan_kirpti ? alt : c("+{n} · Hazine {k}", { n: artis, k: s.kasa_sonra });
   if (ben && rakip) return { ton: "altin", baslik: c("İkiniz de bildiniz +{n}", { n: artis }), alt };
+  // 987: tetik — hak sahibi yanlış, rakip tek doğru → önce Savunma Sorusu (hazine sahipsiz bekler)
+  if (sv?.durum === "bekliyor") {
+    return sv.sahip === d.ben
+      ? { ton: "savunma", baslik: c("{h} devrede!", { h: c(SAVUNMA_HAKKI) }), alt: c("Rakip bildi · {s} geliyor", { s: c(SAVUNMA_SORUSU) }) }
+      : { ton: "savunma", baslik: c("Rakip {h} kullanıyor", { h: c(SAVUNMA_HAKKI) }), alt: c("+{n} · önce {s}", { n: artis, s: c(SAVUNMA_SORUSU) }) };
+  }
   if (ben) return { ton: "iyi", baslik: c("Tek başına bildin: hazine sende"), alt: altArti };
   if (rakip) return { ton: "kotu", baslik: c("Rakip tek başına bildi: hazine rakipte"), alt: altArti };
   return { ton: "notr", baslik: c("İkiniz de bilemediniz +{n}", { n: artis }), alt };
@@ -290,7 +340,7 @@ export function KasaSonucBandi({ d, c }) {
   if (!m) return null;
   return (
     <div className={`ks-bant ks-bant--${m.ton} qt-h-pop-gir`} role="status" aria-live="polite" data-ks-hedef="bant">
-      <b>{m.baslik}</b>
+      <b>{m.ton === "savunma" && <SavunmaRozeti c={c} aktif boyut={15} />}{m.baslik}</b>
       {m.alt && <span>{m.alt}</span>}
     </div>
   );

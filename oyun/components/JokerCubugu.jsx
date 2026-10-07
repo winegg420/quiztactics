@@ -185,6 +185,8 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
   const soruTurleri = kasaMi && Array.isArray(durum.soru_turleri) ? durum.soru_turleri : [];
   const bedavaTur = kasaMi && !bedavaKullandim && durum.bedava && !soruTurleri.includes(durum.bedava) ? durum.bedava : null;
   const soruIcindeKullanildi = (tur) => kasaMi && (soruTurleri.includes(tur) || bedavaKullandim === tur || kullandigim.includes(tur));
+  // KASA (987): Savunma Sorusunda yasak türler (Zaman Baskısı) — sunucu da reddeder
+  const yasakTur = (tur) => kasaMi && Array.isArray(durum.yasak_turler) && durum.yasak_turler.includes(tur);
 
   /**
    * Joker kullan. `satinAl` true ise satın alma + kullanım TEK RPC'de yapılır
@@ -239,7 +241,7 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
 
   /** Envanterde yok, ücretsiz hakkı da yok ama maç içinde satın alınabilir mi? (coin'e bakmadan) */
   const alinabilirMi = (tur) => {
-    if (serbestMod || kilit || finalYasak || sinirDoldu || rakipKilitledi) return false;
+    if (serbestMod || kilit || finalYasak || sinirDoldu || rakipKilitledi || yasakTur(tur)) return false;
     if (macTur === "turnuva" && tur === "soru_degistir") return false;
     if (turDoldu(tur) || (soruSinirli && sorudaKullanildi) || soruIcindeKullanildi(tur)) return false;
     if (tur === "elli" && durum?.ucretsiz_elli_kaldi) return false;
@@ -270,6 +272,7 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
   const neden = (tur) => {
     if (kilit) return tt("Bu soruyu zaten cevapladın");
     if (soruIcindeKullanildi(tur)) return tt("Bu joker bu soruda zaten kullanıldı");
+    if (yasakTur(tur)) return tt("Savunma Sorusunda kullanılamaz");
     if (tur === bedavaTur) return null;   // KASA (953): ücretsiz joker maç içi sınırlara sayılmaz
     if (rakipKilitledi) return tt("Bu soruda joker kullanılamaz.");
     if (finalYasak) return tt("Turnuva finalinde joker kullanılamaz");

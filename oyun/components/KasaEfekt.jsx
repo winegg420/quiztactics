@@ -344,6 +344,24 @@ export function KasaCifteBandi({ artis, c }) {
   );
 }
 
+/**
+ * 987: Savunma Hakkı anı — tetik (rakip tek bildi, hak devrede) · savundu · düştü. Sonuç fazının içinde tek sefer
+ * (olay anahtarı KasaPage faz olayı), dokunarak geçilir; hareket azaltmada yalnız saydamlık.
+ */
+export function KasaSavunmaAni({ tip, benim, c }) {
+  const yazi = tip === "tetik" ? c("Savunma Hakkı")
+    : tip === "basarili" ? (benim ? c("Savundun!") : c("Rakip savundu"))
+    : c("Savunma düştü");
+  return (
+    <div className={`ks-savunma-an ks-savunma-an--${tip}`} aria-hidden="true">
+      <span className="ks-savunma-an-kalkan">
+        <svg viewBox="0 0 24 24" width="44" height="44"><path d="M12 3 19 6v5.5c0 4.4-3 7.8-7 9.5-4-1.7-7-5.1-7-9.5V6Z" /></svg>
+      </span>
+      <b className="ks-savunma-an-yazi">{yazi}</b>
+    </div>
+  );
+}
+
 /** Maç sonu altın yağmuru (kazanan). Sabit katman body'ye portal; transform yalnız içteki parçalarda. */
 export function KasaAltinYagmuru({ adet = 26 }) {
   const parcalar = useMemo(() => Array.from({ length: adet }, (_, i) => ({
