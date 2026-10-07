@@ -152,7 +152,7 @@ for (const { dil, boy, azalt } of KOSULAR) {
       if (u.includes("/rpc/duello_durum")) { if (!st) st = yeniDurum(jwtSub(req)); return json(durum(st)); }
       if (u.includes("/rpc/duello_giris")) return json({ durum: "aktif", rakip_geldi: true, kalan_sn: 0, baglanmayan: null });
       if (u.includes("/rpc/duello_baglanti")) return json({ kopuk: false });
-      if (u.includes("/rpc/mac_sonu_ozet")) return json(null);
+      if (u.includes("/rpc/mac_sonu_ozet")) return json({ hazir: true, dokum: { toplam: { coin: 0 }, kalemler: [] }, gorevler: [], rozetler: [], terk: {} });
       if (/\/rpc\/duello_(kategori_sec|ban_sec|cevap|terk|ara|savunma_jokeri|saldiri_jokeri)/.test(u)) return json({ message: "Ölçüm aracı: yazma kapalı" }, 400);
       const y = await r.fetch();
       let m = (await y.text()).replace(/"dil":\s*"(tr|en)"/g, `"dil":"${dil}"`);
@@ -291,7 +291,12 @@ for (const { dil, boy, azalt } of KOSULAR) {
     await kaydet("10-kaybettin");
 
     // 7) Maç sonu (ben kazandım, 12 puan)
-    st.durum = "bitti"; st.faz = "bitti"; st.kazanan = st.ben; st.puan[st.ben] = 12; await yenile(2200);
+    st.durum = "bitti"; st.faz = "bitti"; st.kazanan = st.ben; st.puan[st.ben] = 12; await yenile(5000);
+    await s.getByRole("button", { name: TR ? /Detay/ : /Detail/ }).first().click({ timeout: 3000 }).catch(() => {});
+    await s.waitForTimeout(500);
+    await s.locator(".hk-son").scrollIntoViewIfNeeded({ timeout: 4000 }).catch(() => {});
+    await s.waitForTimeout(600);
+    ok("maç sonu: son tahta puan şeridiyle (5+5 kategori)", await s.locator(".hk-son .hk-serit").count() === 2, String(await s.locator(".hk-son .hk-serit").count()));
     o = await olc("11-mac-sonu");
     ok("maç sonu: yatay taşma yok", o.yatayTasma <= 0, JSON.stringify(o.tasan));
     await kaydet("11-mac-sonu");

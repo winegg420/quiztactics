@@ -217,11 +217,11 @@ function baslangicKategorileri(hk, sahipId, kategoriler) {
  * sonuna sahibinin rengiyle eklenir (iniş pop'u yalnız öğe ilk kez çizildiğinde, bir kez). vurus: bu turun puan artışı —
  * DuelloPage hamle anahtarıyla TEK SEFER verir (yeniden okumada yeniden oynamaz).
  */
-function SeritTaraf({ taraf, hk, ad, puan, kategoriler, c, vurus = null, durum = null, durumKategori = null }) {
+function SeritTaraf({ taraf, hk, ad, puan, kategoriler, c, vurus = null, durum = null, durumKategori = null, bitti = false }) {
   const sahipId = taraf === "ben" ? hk.benId : hk.rakipId;
   const kendi = baslangicKategorileri(hk, sahipId, kategoriler);
   const calinan = alinanlar(hk, sahipId, kategoriler);
-  const kritik = puanKritik(hk, taraf);
+  const kritik = !bitti && puanKritik(hk, taraf);
   const ikon = (k, ek) => {
     const iz = ek === "iz";
     const soruluyor = !iz && durum && durumKategori === k;
@@ -264,8 +264,9 @@ function PuanTahtasi({ d, hk, c, kucuk, durum, vurus = null }) {
   const durumKategori = durum ? d?.kategori ?? null : null;
   const kat = d?.kategoriler;
   const n = Math.max(1, baslangicKategorileri(hk, hk.rakipId, kat).length || 5);
-  const rakipKritik = puanKritik(hk, "rakip");
-  const benKritik = puanKritik(hk, "ben");
+  const bitti = d?.faz === "bitti";   // maç sonu tahtası: bitişe yakınlık uyarısı/halkası yok
+  const rakipKritik = !bitti && puanKritik(hk, "rakip");
+  const benKritik = !bitti && puanKritik(hk, "ben");
   const hedef = rakipKritik
     ? { ton: "rakip", metin: c("Rakip bitişe yakın: {p}/{h} puan · {a}/{y} kategori", { p: hk.rakipP, h: hk.hedef, a: hk.rakipAlinan, y: hk.yol }) }
     : benKritik
@@ -276,13 +277,13 @@ function PuanTahtasi({ d, hk, c, kucuk, durum, vurus = null }) {
     <section className={sinif("hk-tahta hk-tahta--puan hk-tahta--serit", kucuk && "hk-tahta--kucuk", d?.uzatma && "hk-tahta--altin",
                               durum && "hk-tahta--durum", durum && `hk-durum--${durum.ton}`)} aria-label={c("Puan durumu")}>
       <SeritTaraf taraf="ben" hk={hk} ad={c("Sen")} puan={hk.benP} kategoriler={kat} c={c} vurus={v(hk.benId)}
-                  durum={durum} durumKategori={durumKategori} />
+                  durum={durum} durumKategori={durumKategori} bitti={bitti} />
       <p className={sinif("hk-serit-hedef", `hk-serit-hedef--${hedef.ton}`)}>
         <QtIkon ad={hedef.ton === "notr" ? "hedef" : "uyari"} boyut={13} />
         <span>{hedef.metin}</span>
       </p>
       <SeritTaraf taraf="rakip" hk={hk} ad={c("Rakip")} puan={hk.rakipP} kategoriler={kat} c={c} vurus={v(hk.rakipId)}
-                  durum={durum} durumKategori={durumKategori} />
+                  durum={durum} durumKategori={durumKategori} bitti={bitti} />
     </section>
   );
 }
