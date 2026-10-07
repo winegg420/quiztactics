@@ -562,3 +562,14 @@
 .m2-kilit-yazi > span { font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); }
 .m2-kilit-cubuk { display: block; height: 8px; border-radius: 4px; background: var(--qt-yuzey-3); overflow: hidden; }
 .m2-kilit-cubuk i { display: block; height: 100%; border-radius: inherit; background: var(--qt-mod-duello); }
+
+/* Renk rolleri (7 Eki 2026): Düello'nun ana eylem düğmeleri kan kırmızısı (turuncu Klasik'e ait).
+   Kapsam: Düello lobisi (Kasa'nın .ks-giris'i hariç), maç sonu (.bd-duello .msk) ve tanıtım düğmesi.
+   Soru ekranı (.m2-mac) DEĞİŞMEZ. Kırmızı zemin + beyaz yazı ≈ 5,3:1. */
+.m2-giris:not(.ks-giris) .qt-dugme.qt-dugme--birincil:not(:disabled),
+.bd-duello .msk .qt-dugme.qt-dugme--birincil:not(:disabled),
+.qt-dugme.qt-dugme--birincil.m2-duello-dugme:not(:disabled) {
+  --_z: var(--qt-mod-duello);
+  --_y: var(--qt-mod-duello-yazi);
+  --_d: var(--qt-mod-duello-dudak);
+}

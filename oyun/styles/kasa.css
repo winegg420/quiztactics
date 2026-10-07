@@ -290,3 +290,6 @@
   .ks-hak--aktif, .ks-savunma-an-kalkan { animation: none !important; }
   .ks-savunma-an { animation: ks-cifte-kat 1500ms linear both; }
 }
+
+/* Renk rolleri (7 Eki 2026): Ortak Hazine = altın. Ana eylem düğmeleri altın (koyu yazı ≥ 8:1); turuncu Klasik'e ait. */
+.ks-giris .qt-dugme.qt-dugme--birincil:not(:disabled) { --_z: var(--qt-coin); --_y: var(--qt-coin-yazi); --_d: var(--qt-coin-dudak); }

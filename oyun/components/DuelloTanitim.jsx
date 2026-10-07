@@ -79,7 +79,7 @@ export default function DuelloTanitim({ onKapat }) {
              altlik={
                <div className="m2-tanitim-eylem">
                  {/* Sıra bilerek: birincil üstte, "Geç" altta (oyuncu testi son düğmeyi "Geç" bekler) */}
-                 <QtDugme tamGenislik data-qt-ilk-odak ikonSag={son ? undefined : "ileri"} onClick={() => (son ? kapat() : setAdim(adim + 1))}>
+                 <QtDugme tamGenislik className="m2-duello-dugme" data-qt-ilk-odak ikonSag={son ? undefined : "ileri"} onClick={() => (son ? kapat() : setAdim(adim + 1))}>
                    {son ? tt("Anladım, başla") : tt("İleri")}
                  </QtDugme>
                  {!son && <QtDugme tur="hayalet" boyut="k" tamGenislik onClick={kapat}>{tt("Geç")}</QtDugme>}

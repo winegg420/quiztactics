@@ -217,9 +217,9 @@
   .gv-gun-kart { gap: 10px; padding: 10px; }
 }
 
-/* Görev satırları (7 Eki 2026): haftalık görev ikon kutusu MOR (arayüzde mor yalnız burada), hazır görevde YEŞİL "AL" + ödül düğmenin altında,
+/* Görev satırları (7 Eki 2026): haftalık görev ikon kutusu koyu MAVİ (mor arayüzde kullanılmaz), hazır görevde YEŞİL "AL" + ödül düğmenin altında,
    alınmış görev soluk + yeşil tik. Ödül her durumda koyu ve kalın okunur. */
-.gv-tur--mor { --gv-renk: var(--qt-nadir-epik); }
+.gv-tur--mor { --gv-renk: var(--qt-ikinci-koyu); }   /* renk rolleri (7 Eki 2026): haftalık = koyu mavi; mor yalnız Epik nadirlik/BP avatar */
 .gv-kart[class*="gv-tur--"] .gv-ik { border: 2px solid var(--qt-metin); box-shadow: 0 3px 0 rgba(0, 0, 0, 0.22); }
 .gv-al-kutu { display: grid; justify-items: center; gap: 2px; flex: none; }
 .gv-al-kutu .gv-odul { font-size: var(--qt-y-xs); }

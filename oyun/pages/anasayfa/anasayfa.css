@@ -307,7 +307,7 @@ a.as-cip:active { transform: translateY(2px); }
 .as-kisayol.as-renk--meydan .as-kisayol-ikon { --as-ik: var(--qt-mod-duello); }
 .as-kisayol.as-renk--grup .as-kisayol-ikon { --as-ik: var(--qt-mod-grup-dudak); }
 .as-kisayol.as-renk--saf .as-kisayol-ikon { --as-ik: var(--qt-mod-saf-dudak); }
-.as-kisayol.as-renk--kasa .as-kisayol-ikon { --as-ik: var(--qt-mod-kasa); }
+.as-kisayol.as-renk--kasa .as-kisayol-ikon { --as-ik: var(--qt-mod-kasa); --as-ik-y: var(--qt-mod-kasa-yazi); }
 /* KASA (deneysel, 950): 5. kısayol aynı satırda (telefonda ana sayfa kaydırılmaz) + küçük "Deneysel" etiketi */
 .as-a-kisayol--5 { grid-template-columns: repeat(5, 1fr); gap: 6px; }
 .as-a-kisayol--5 .as-kisayol { padding-inline: 2px; }
@@ -929,7 +929,7 @@ a.as-cip:active { transform: translateY(2px); }
 .as-mod-serit--klasik { --as-ms: var(--qt-mod-klasik); --as-ms-d: var(--qt-mod-klasik-dudak); --as-ms-y: var(--qt-mod-yazi); }
 .as-mod-serit--duello { --as-ms: var(--qt-mod-duello); --as-ms-d: var(--qt-mod-duello-dudak); }
 /* Altın = ödül/prestij rolü; beyaz yazıyla ≥ 4,5:1 olsun diye koyulaştırıldı */
-.as-mod-serit--kasa   { --as-ms: #9c610d; --as-ms-d: #6f4308; }
+.as-mod-serit--kasa   { --as-ms: var(--qt-mod-kasa); --as-ms-d: var(--qt-mod-kasa-dudak); --as-ms-y: var(--qt-mod-kasa-yazi); }
 .as-mod-serit-ikon { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: rgba(255, 255, 255, .22); }
 .as-mod-serit-metin { display: grid; gap: 3px; min-width: 0; line-height: 1.15; }
 .as-mod-serit-metin b { font: var(--qt-a-siyah) 17px/1.1 var(--qt-f-baslik); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

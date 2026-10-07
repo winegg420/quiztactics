@@ -35,7 +35,7 @@
 .qt-oyk--ton-mor { --oyk-serit: var(--qt-ikinci); --oyk-ik-zemin: var(--qt-ikinci); --oyk-ik-yazi: var(--qt-ikinci-yazi); }
 .qt-oyk--ton-vurgu { --oyk-serit: var(--qt-vurgu); --oyk-ik-zemin: var(--qt-vurgu); --oyk-ik-yazi: var(--qt-vurgu-yazi); }
 .qt-oyk--ton-duello { --oyk-serit: var(--qt-mod-duello); --oyk-ik-zemin: var(--qt-mod-duello); --oyk-ik-yazi: #fff; } /* kırmızı zemin + beyaz yazı ≈ 5,3:1 */
-.qt-oyk--ton-kasa { --oyk-serit: var(--qt-mod-kasa); --oyk-ik-zemin: var(--qt-mod-kasa); --oyk-ik-yazi: #fff; } /* 957: Kasa daveti (beyaz yazı ≈ 6,0:1) */
+.qt-oyk--ton-kasa { --oyk-serit: var(--qt-mod-kasa); --oyk-ik-zemin: var(--qt-mod-kasa); --oyk-ik-yazi: var(--qt-mod-kasa-yazi); } /* 957: Kasa daveti (altın + koyu yazı ≈ 7:1) */
 .qt-oyk--ton-coin { --oyk-serit: var(--qt-coin); --oyk-dudak: var(--qt-coin-dudak); --oyk-ik-zemin: var(--qt-coin); --oyk-ik-yazi: var(--qt-coin-yazi); }
 /* Ağırlık: hafif 3 · (varsayılan) orta 4 · ağır 5 · altın 6 · tamamlanmış 2 */
 .qt-oyk--hafif { --oyk-kalinlik: 3px; }
