@@ -47,7 +47,7 @@ export default function KoleksiyonDokumu({ tam = false, sirali = "", sira = null
         <>
           <p className="qt-kp-ozet">
             <span>{tt("{n} rozet", { n: rozet })}</span> · <span>{tt("{n} unvan", { n: unvan })}</span> ·{" "}
-            <b className="qt-kp-puan qt-sayi">{tt("Koleksiyon {n}", { n: koleksiyonSayi(d.puan) })}</b>
+            <b className="qt-kp-puan qt-sayi">{tt("{n} puan", { n: koleksiyonSayi(d.puan) })}</b>
           </p>
           <div className="qt-kp-cubuk" role="img" aria-label={tt("Nadirliğe göre dağılım")}>
             {NADIR.map(([a]) => (

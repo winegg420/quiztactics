@@ -92,6 +92,7 @@ export default function OyuncuVitrinKarti({ userId, profile, kart: verilenKart, 
   return (
     <div className={`qt-ok${kompakt ? " qt-ok--kompakt" : ""}${ligSahnesi ? " qt-ok--lig-sahnesi" : ""}${bpAktif ? " qt-ok--bp" : ""}${kartArkaPlanSinifi(arkaPlanSanat)} ${className}`.trim()}
       {...(ligSahnesi ? { "data-lig": kart?.lig ?? "" } : {})}>
+      {bpAktif && ligSahnesi && ["ust-sol", "ust-sag", "alt-sol", "alt-sag"].map((k) => <i key={k} className={`qt-ok-percin qt-ok-percin--${k}`} aria-hidden="true" />)}
       <KartArkaPlanKatmani sanat={arkaPlanSanat} hareketli={hareketli} yukseklik={220} duzen="dikey" />
       {ligSahnesi && kart?.lig && (
         <span className="qt-ok-filigran" aria-hidden="true">

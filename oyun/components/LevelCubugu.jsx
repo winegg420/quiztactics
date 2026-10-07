@@ -9,7 +9,7 @@ import "../tasarim/ekranlar/dukkan-bilesen.css";
  * Tasarım A: QtIlerleme (mor). Rütbe adı ranks.js'ten (Dâhi = eski Efsane).
  * `canli`: çubuk ilk çizimde dolarak gelir; level'e ≤ %10 kala dolu kısımda parıltı kayar (oyun hissi; yalnız görsel).
  */
-export default function LevelCubugu({ profile, kompakt = false, canli = false }) {
+export default function LevelCubugu({ profile, kompakt = false, canli = false, levelYok = false }) {
   const level = Number(profile?.level) || 1;
   const simdi = Math.max(0, Number(profile?.level_xp) || 0);
   const gereken = Math.max(1, Number(profile?.level_gereken) || 0);
@@ -23,7 +23,7 @@ export default function LevelCubugu({ profile, kompakt = false, canli = false })
         <div className="qt-dk-level-ust">
           <span className="qt-dk-level-ad">
             <QtIkon ad={rutbe.ikon} boyut={18} />
-            {tt("Level {n}", { n: level })} · {rutbe.ad}
+            {!levelYok && <>{tt("Level {n}", { n: level })} · </>}{rutbe.ad}
           </span>
           {gerekenVar && <span className="qt-dk-level-xp qt-sayi">{sayiBicim(simdi)}/{sayiBicim(gereken)} XP</span>}
         </div>

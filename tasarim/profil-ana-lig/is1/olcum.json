@@ -1,0 +1,24 @@
+[
+ {
+  "ad": "altin-390x844-tr",
+  "sorun": [],
+  "lig": {
+   "bpSayi": 12,
+   "sorun": [],
+   "pankartYuk": 262,
+   "satirYuk": [
+    59
+   ],
+   "sure": "5g 3sa",
+   "arka": "rgb(250, 238, 218)",
+   "cerceve": "rgb(194, 139, 0)"
+  },
+  "profil": {
+   "sorun": [],
+   "lig": "altin",
+   "zemin": "rgb(250, 238, 218)",
+   "cerceve": "rgb(74, 42, 5)",
+   "yuk": 243
+  }
+ }
+]

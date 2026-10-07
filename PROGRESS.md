@@ -10303,3 +10303,9 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 - **İş 1:** Altın isim dükkândan gizlendi: `kozmetik.js › dukkandaGorunur` + `JokerDukkani.jsx` (isim bölümü süzülmüş katalogla). Sahibi olan oyuncuda "Sende var" kalır; sunucu/IsimEfekti/BP altın ismi DEĞİŞMEDİ. Test `araclar/dukkan-isim-ekran.mjs` (taklit katalog) 44/44. Karar: yalnız dükkân listesi süzülür, Koleksiyon aynı kalır.
 
 - 7 Eki 2026: Lig BP altın plakası tamamlandı. Plaka (pahlı köşe, bant, perçin, sekizgen sıra rozeti, taç+BP) 2 Eki'den vardı; eklenen: yavaş çapraz parıltı (7 sn, `lg-bp-parilti`), `prefers-reduced-motion`'da durur. `lig-gorsel-ekran.mjs`: `--bp` (yarı satır BP), `--azalt`, `--sadece-lig`, dokunma ≥44 px ölçümü. Test: 5 lig × 360x640/390x664/390x844 × TR/EN, normal 30/30 + hareket azalt 30/30 temiz (taşma 0, satır yüksekliği sabit, konsol 0). Görüntüler: tasarim/lig-altin-plaka/. Dosyalar: oyun/pages/lig-a.css, araclar/lig-gorsel-ekran.mjs. Profil hero kartı: yapılmadı (limit).
+
+## 2026-10-07 — Profil hero BP çift altın plaka · Ana sayfa lig kartı · Lig bilgi satırı tek satır
+**Araç:** Claude Code (Sonnet 5.5) — yalnız ön yüz.
+**Neden:** Ida'nın üç görsel düzeltme paketi (yuvarlak çerçeve reddedildi → köşeli plaka dili).
+
+- **İş 1 (profil hero):** `.qt-ok--bp` yuvarlak halka kalktı; Lig plakası dili: pahlı köşe (clip-path), dışta koyu çizgi + altın bant + ince açık çizgi (`::after`, sahne katmanının üstünde), 4 elmas perçin (`qt-ok-percin`, yalnız `bp && ligSahnesi`). Profilde kart şeride bitişik → üst köşeler pahlı, alt düz. BP'siz kart değişmedi. Tekrarlar: LevelCubugu `levelYok` (başlıkta yalnız rütbe adı; "Lv" kartta), Koleksiyon özetinde "Koleksiyon N" → "N puan" (başlık zaten Koleksiyon). Test `lig-gorsel-ekran.mjs --bp`: 5 lig × 3 boyut × TR/EN 30/30, `--azalt` 5/5, BP'siz 5/5 temiz. Görüntüler: tasarim/profil-ana-lig/.

@@ -56,13 +56,38 @@
   background: var(--qt-metin); color: #fff; border: 2px solid var(--sahne-cerceve);
   border-radius: var(--qt-r-hap); padding: 6px 16px; box-shadow: 0 2px 0 rgba(10, 16, 40, .25);
 }
-/* BATTLE PASS KAPLAMASI (hazırlık, `bp` prop) — çift katmanlı altın: dışta koyu altın çerçeve, içte açık altın halka,
-   geniş yuvarlak köşe. `.qt-ok--lig-sahnesi` ile birlikte kullanılırsa altın kaplama öne geçer (sonraki kural kazanır). */
+/* BATTLE PASS KAPLAMASI — ÇİFT ALTIN ÇERÇEVE, Lig ekranının altın plaka dili (lig-a.css › lg-bp): KÖŞELİ, pahlı kesik
+   köşe (clip-path), dışta koyu kahve çizgi + kabartmalı altın bant + içte ince açık altın çizgi, 4 köşede elmas perçin.
+   YUVARLAK çerçeve yok (Ida reddetti). Profilde kart alttaki şeride bitişik → yalnız üst köşeler pahlı, alt düz.
+   Lig sahnesinin zemini/ışını ::before'da kalır; çerçeve yalnız kenarda (iç 11 px) durur. Hareket yok. */
 .qt-ok--bp {
-  border-radius: var(--qt-r-xl);
-  border-color: var(--qt-madalyon-altin-koyu);
-  box-shadow: inset 0 0 0 3px var(--qt-madalyon-altin-acik);
+  position: relative; border-radius: 0; border: 3px solid var(--qt-altin-plaka-cizgi);
+  box-shadow: none;
+  clip-path: polygon(14px 0, calc(100% - 14px) 0, 100% 14px, 100% calc(100% - 14px), calc(100% - 14px) 100%, 14px 100%, 0 calc(100% - 14px), 0 14px);
 }
+.qt-pf-kimlik > .qt-pf-ok.qt-ok--bp {
+  border-bottom-width: 3px; border-bottom-left-radius: 0; border-bottom-right-radius: 0;
+  box-shadow: none;
+  clip-path: polygon(14px 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%, 0 14px);
+}
+/* Çerçeve bandı sahne katmanının (::before, z -2) ÜSTÜNDE çizilir */
+.qt-ok--bp::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  box-shadow:
+    inset 0 0 0 5px var(--qt-altin-plaka-bant),
+    inset 0 0 0 7px var(--qt-altin-plaka-cizgi),
+    inset 0 0 0 9px var(--qt-altin-plaka-acik),
+    inset 0 0 0 10px var(--qt-altin-plaka-koyu);
+}
+.qt-ok--bp.qt-ok--lig-sahnesi { border-color: var(--qt-altin-plaka-cizgi); }
+.qt-ok-percin {
+  position: absolute; z-index: 1; width: 9px; height: 9px; pointer-events: none;
+  background: var(--qt-altin-plaka-acik); box-shadow: 0 0 0 1px var(--qt-altin-plaka-cizgi);
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+}
+/* Perçinler pahlı köşenin İÇİNDE (8 px: pah 14 px'lik kesimin altına düşmez) */
+.qt-ok-percin--ust-sol { top: 8px; left: 8px; }  .qt-ok-percin--ust-sag { top: 8px; right: 8px; }
+.qt-ok-percin--alt-sol { bottom: 8px; left: 8px; } .qt-ok-percin--alt-sag { bottom: 8px; right: 8px; }
 .qt-ok-bp {
   display: inline-flex; align-items: center; gap: 3px; min-height: 20px; padding: 0 8px; border-radius: 999px;
   background: var(--qt-madalyon-altin-acik); color: var(--qt-coin-yazi); border: 1.5px solid var(--qt-madalyon-altin-koyu);

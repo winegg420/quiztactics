@@ -218,7 +218,7 @@ export default function ProfilePage() {
               <QtRozet ton="uyari" ikon="kisi">{tt("Misafir")}</QtRozet>
             </div>
           )}
-          <LevelCubugu profile={profile} canli />
+          <LevelCubugu profile={profile} canli levelYok />
         </div>
       </section>
 
