@@ -106,12 +106,12 @@ function GorevSatiri({ g, gunluk, dil, sezonAcik, islemde, mesgul, onAl, ucan, s
   const kategori = g.sayac === "kategori_dogru" && g.parametre?.kategori ? kategoriAdi(g.parametre.kategori) : null;
   const zorluk = gunluk && g.zorluk ? g.zorluk : null;
   return (
-    <li className={sinif("gv-kart", `gv-kart--${durum}`, `gv-tur--${turRengi(g.sayac)}`, nabiz && "qt-h-nabiz", ucan && "gv-kart--kutla", sirali)} style={siraStili(sira)}>
+    <li className={sinif("gv-kart", `gv-kart--${durum}`, `gv-tur--${gunluk ? turRengi(g.sayac) : "mor"}`, nabiz && "qt-h-nabiz", ucan && "gv-kart--kutla", sirali)} style={siraStili(sira)}>
       <span className="gv-ik" aria-hidden="true"><QtIkon ad={IKON[g.sayac] ?? "hedef"} boyut={20} /></span>
       <div className="gv-govde">
         <div className="gv-ust-satir">
           <b className="gv-ad">{ad}</b>
-          <OdulSatiri odul={g.odul} sezonAcik={sezonAcik} />
+          {durum !== "alinabilir" && <OdulSatiri odul={g.odul} sezonAcik={sezonAcik} />}
         </div>
         {(zorluk || kategori) && (
           <div className="gv-meta">
@@ -126,8 +126,11 @@ function GorevSatiri({ g, gunluk, dil, sezonAcik, islemde, mesgul, onAl, ucan, s
           <b className="gv-sayi" aria-hidden="true">{tt("{a} / {b}", { a: ilerleme, b: hedef })}</b>
           {durum === "alindi" && <Tik etiket={tt("Alındı")} />}
           {durum === "alinabilir" && (
-            <QtDugme boyut="k" className="qt-oyk-al gv-al" yukleniyor={islemde} devreDisi={mesgul && !islemde}
-                     aria-label={tt("{ad} ödülünü al", { ad })} onClick={onAl}>{tt("Al|görev")}</QtDugme>
+            <span className="gv-al-kutu">
+              <QtDugme boyut="k" className="qt-oyk-al gv-al" yukleniyor={islemde} devreDisi={mesgul && !islemde}
+                       aria-label={tt("{ad} ödülünü al", { ad })} onClick={onAl}>{tt("Al|görev")}</QtDugme>
+              <OdulSatiri odul={g.odul} sezonAcik={sezonAcik} />
+            </span>
           )}
         </div>
       </div>

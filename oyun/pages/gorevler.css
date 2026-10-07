@@ -216,3 +216,17 @@
 @media (max-width: 379px) {
   .gv-gun-kart { gap: 10px; padding: 10px; }
 }
+
+/* Görev satırları (7 Eki 2026): haftalık görev ikon kutusu MOR (arayüzde mor yalnız burada), hazır görevde YEŞİL "AL" + ödül düğmenin altında,
+   alınmış görev soluk + yeşil tik. Ödül her durumda koyu ve kalın okunur. */
+.gv-tur--mor { --gv-renk: var(--qt-nadir-epik); }
+.gv-kart[class*="gv-tur--"] .gv-ik { border: 2px solid var(--qt-metin); box-shadow: 0 3px 0 rgba(0, 0, 0, 0.22); }
+.gv-al-kutu { display: grid; justify-items: center; gap: 2px; flex: none; }
+.gv-al-kutu .gv-odul { font-size: var(--qt-y-xs); }
+.gv-al-kutu .gv-odul b { color: var(--qt-metin); }
+.gv-kart .gv-al { --_z: var(--qt-dogru); --_y: var(--qt-dogru-yazi); --_d: var(--qt-dogru-dudak); font-weight: var(--qt-a-siyah); }
+.gv-kart--alinabilir[class*="gv-tur--"] { border-color: var(--qt-dogru-dudak); box-shadow: 0 0 0 1px var(--qt-dogru-dudak); }
+.gv-kart--alinabilir .gv-ik { box-shadow: 0 3px 0 rgba(0, 0, 0, 0.22), 0 0 0 3px var(--qt-dogru-acik); }
+.gv-alt-satir .gv-tik { border-color: var(--qt-dogru-dudak); background: var(--qt-dogru); color: var(--qt-dogru-yazi); }
+.gv-kart--alindi[class*="gv-tur--"] { opacity: 0.8; }
+.gv-kart--alindi[class*="gv-tur--"] .gv-ik { opacity: 0.6; }
