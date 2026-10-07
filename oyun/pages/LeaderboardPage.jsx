@@ -508,7 +508,7 @@ export default function LeaderboardPage() {
       {kapsam !== "lig" && kapsam !== "koleksiyon" && donem === "hafta" && (
         <p className="lg-bilgi-serit">
           <QtIkon ad="saat" boyut={20} />
-          <span>
+          <span title={tt("Hafta bitimine {sure} — ilk 3 rozet kazanır.", { sure: sureMetni(kalanHafta) })}>
             {tt("Hafta bitimine {sure} — ilk 3 rozet kazanır.", { sure: sureMetni(kalanHafta) })}
           </span>
         </p>

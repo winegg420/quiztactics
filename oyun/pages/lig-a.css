@@ -562,3 +562,12 @@
 .lg-sekmeler .qt-sekme { padding-inline: var(--qt-b-3); font-size: 14px; }
 .lg-sekmeler.qt-sekmeler[data-kaydir-sol] { --_sol: 36px; }
 .lg-sekmeler.qt-sekmeler[data-kaydir-sag] { --_sag: 36px; }
+
+/* 7 Eki 2026: bilgi satırları (Dünya/Şehir/Ülke: hafta bitimi, şehir sırası) TEK SATIR — metin üç nokta ile kesilir, taşma yok.
+   Dar telefonda (≤ 420 px) yazı ve boşluk küçülür; kesilince tam metin title'dan (dokununca/üzerine gelince) okunur. */
+.lg-bilgi-serit { min-width: 0; }
+.lg-bilgi-serit > span { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 420px) {
+  .lg-bilgi-serit { gap: 6px; padding-inline: 10px; font-size: 12px; }
+  .lg-bilgi-serit > .qt-ikon, .lg-bilgi-serit > svg { width: 16px; height: 16px; }
+}
