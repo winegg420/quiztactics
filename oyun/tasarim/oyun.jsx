@@ -183,9 +183,10 @@ const SKILL_DURUM_EK = { aktif: "etkin", kullanildi: "kullanıldı", kilitli: "k
  * kilitli + kilitMetni ("Lv 10") → kilit balonu ve adın yerine kilit metni
  * kullanildi anında patlama + halka animasyonu kendiliğinden oynar.
  */
-export function QtSkill({ ikon, rozet, ad, adet, fiyat, durum = "hazir", kilitMetni, sayac, onClick, className, type, ...rest }) {
+export function QtSkill({ ikon, rozet, ad, alt, adet, fiyat, durum = "hazir", kilitMetni, sayac, onClick, className, type, ...rest }) {
   const kapali = durum === "kullanildi" || durum === "kilitli";
   const parcalar = [ad];
+  if (alt) parcalar.push(alt);
   if (durum === "kilitli" && kilitMetni) parcalar.push(kilitMetni);
   else if (adet > 0) parcalar.push(tt("{n} adet", { n: adet }));
   else if (fiyat != null) parcalar.push(tt("{n} coin", { n: fiyat }));
@@ -206,6 +207,8 @@ export function QtSkill({ ikon, rozet, ad, adet, fiyat, durum = "hazir", kilitMe
       <span className="qt-skill-ad" aria-hidden="true">
         {durum === "kilitli" && kilitMetni ? kilitMetni : ad}
       </span>
+      {/* alt: etki değeri ("+10 sn" / "-5 sn") */}
+      {alt ? <span className="qt-skill-alt" aria-hidden="true">{alt}</span> : null}
       {durum === "kilitli" ? (
         <span className="qt-skill-rozet qt-skill-rozet--kilit" aria-hidden="true">
           <QtIkon ad="kilit" boyut={12} />

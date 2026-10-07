@@ -220,6 +220,8 @@ export default {
     "Rövanş isteği gönderildi": "Rematch request sent",
     "Rövanş isteği gönderildi — {ad} yanıtlıyor…": "Rematch request sent — {ad} is responding…",
     "{0} sn": "{0} s",
+    "+{0} sn": "+{0} s",
+    "-{0} sn": "-{0} s",
     "{ad} yanıt vermedi.": "{ad} didn't respond.",
     "{ad} rövanşı kabul etmedi.": "{ad} declined the rematch.",
     "Tekrar rövanş iste": "Ask for a rematch again",

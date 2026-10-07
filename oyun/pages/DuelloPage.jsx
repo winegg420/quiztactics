@@ -1630,7 +1630,7 @@ function DuelloMac({ id }) {
       {hata && <p className="m2-hata hk-hata" role="alert"><QtIkon ad="uyari" boyut={18} /> {hata}</p>}
       {d.faz === "cevap" && (
         <V2Skill d={d} calisan={calisan} kalanSn={kalanSn} serbest={jokerSerbest}
-                 sonKullanilan={sonKullanilan} onKullan={v2SkillKullan} c={c2} />
+                 sonKullanilan={sonKullanilan} onKullan={v2SkillKullan} c={c2} skillDeger={skillDeger} />
       )}
       {d.faz === "kategori" && (
         <V2SecimCubugu d={d} hk={hk} benSaldiran={benSaldiran} secim={katSecim} calisan={calisan} c={c2}

@@ -1200,6 +1200,8 @@ html:not(.msk-acik) body:not(.bd-oyun-modu):has(.a-ust-blok):not(:has(.qt-ortu))
 .qt-skill:active:not([aria-disabled="true"]) { transform: translateY(4px); box-shadow: 0 0 0 var(--_d); }
 .qt-skill-ikon { display: grid; }
 .qt-skill-ad { max-width: 100%; overflow: hidden; text-overflow: clip; font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); line-height: 1; color: var(--qt-metin); white-space: nowrap; letter-spacing: -0.01em; }
+/* Etki değeri satırı (Ek Süre "+10 sn", Zaman Baskısı "-5 sn"): addan küçük, kart genişliğini aşmaz */
+.qt-skill-alt { max-width: 100%; overflow: hidden; text-overflow: ellipsis; font-size: 11px; font-weight: 800; line-height: 1; color: var(--qt-metin-soluk); white-space: nowrap; font-variant-numeric: tabular-nums; }
 .qt-skill-rozet {
   position: absolute;
   top: -6px;

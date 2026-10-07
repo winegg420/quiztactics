@@ -1,6 +1,7 @@
 // Düello joker şeridi (soru ekranı). 680: DuelloV2.jsx'ten ayrıldı — ekran (DuelloV2) ile joker ön yüzü
 // ayrı dosyalarda gelişsin diye. Davranış taşınırken DEĞİŞMEDİ.
 import { JOKER_BILGI } from "../lib/jokerler.js";
+import { tt } from "../lib/dil.js";
 import SkillRozeti from "./SkillRozeti.jsx";
 import { QtIkon, QtSkill, QtSkillCubugu, sinif } from "../tasarim/index.js";
 
@@ -18,7 +19,7 @@ const ROL_JOKERLERI = new Set(["baskin", "kalkan"]);
  * sonKullanilan = { tur, anahtar } → o skill'de kullanma anı (patlama + halka) yeniden oynar.
  * Kapalı skill gerçekten `disabled` (test kancası) ve aria-disabled; nedeni üstteki satırda.
  */
-export function V2Skill({ d, calisan, kalanSn, serbest, sonKullanilan, onKullan, c }) {
+export function V2Skill({ d, calisan, kalanSn, serbest, sonKullanilan, onKullan, c, skillDeger }) {
   const s = d.skill ?? {};
   const izinli = Array.isArray(s.izinli) ? s.izinli : [];
   const set = Array.isArray(s.set) ? s.set : [];
@@ -86,6 +87,8 @@ export function V2Skill({ d, calisan, kalanSn, serbest, sonKullanilan, onKullan,
                        ikon={SKILL_IKON[tur] ?? bilgi.ikon ?? "soru"}
                        rozet={<SkillRozeti tur={tur} boyut={34} />}
                        ad={c(bilgi.ad ?? tur)}
+                       alt={tur === "sure" && skillDeger?.ek != null ? tt("+{0} sn", { 0: skillDeger.ek })
+                         : tur === "zaman_baskisi" && skillDeger?.baski != null ? tt("-{0} sn", { 0: skillDeger.baski }) : undefined}
                        adet={serbest ? undefined : adet}
                        fiyat={fiyatGoster ? fiyat : undefined}
                        durum={turBitti ? "kullanildi" : "hazir"}

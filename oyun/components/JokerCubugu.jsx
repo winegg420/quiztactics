@@ -341,6 +341,7 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
                 ikon={bilgi.ikon}
                 rozet={<SkillRozeti tur={tur} boyut={34} />}
                 ad={bilgi.ad}
+                alt={bilgi.etkiDegeri != null ? tt(tur === "sure" ? "+{0} sn" : "-{0} sn", { 0: bilgi.etkiDegeri }) : undefined}
                 adet={serbestMod || ucretsiz || fiyatRozeti ? undefined : adet}
                 fiyat={fiyatRozeti ? fiyat : undefined}
                 durum={durumAdi}
