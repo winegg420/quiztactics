@@ -23,12 +23,47 @@
     {
       "ad": "390×844: ilk ekranda günlük 3 görev görünür",
       "gecti": true,
-      "ek": "{\"adet\":3,\"altlar\":[255,355,456],\"limit\":774}"
+      "ek": "{\"adet\":3,\"altlar\":[376,484,592],\"limit\":844}"
     },
     {
-      "ad": "karma TR baslik: kontrast 12.97 ≥ 4.5",
+      "ad": "karma TR: üstte günlük ilerleme kartı (gv-gun-kart) görevlerden önce",
       "gecti": true,
-      "ek": "zemin 223,240,255 yazı 29,33,82"
+      "ek": "{\"g\":64,\"b\":208}"
+    },
+    {
+      "ad": "karma TR: günlük kart altın çerçeveli",
+      "gecti": true,
+      "ek": "rgb(194, 139, 0)"
+    },
+    {
+      "ad": "karma TR: renkli dolu ikon kutuları",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "karma TR: AL düğmesi yeşil",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "karma TR: ödül AL düğmesinin altında",
+      "gecti": true,
+      "ek": ""
+    },
+    {
+      "ad": "karma TR: alınan görev soluk (şeffaf zemin) + yeşil tik",
+      "gecti": true,
+      "ek": "{\"tik\":true,\"bg\":\"rgba(0, 0, 0, 0)\"}"
+    },
+    {
+      "ad": "karma TR: haftalık sandık kartı haftalık bölümün altında",
+      "gecti": true,
+      "ek": "{\"kah\":939,\"hftAlt\":923}"
+    },
+    {
+      "ad": "karma TR baslik: kontrast 6.58 ≥ 4.5",
+      "gecti": true,
+      "ek": "zemin 185,220,255 yazı 58,68,112"
     },
     {
       "ad": "karma TR ad: kontrast 15.09 ≥ 4.5",
@@ -36,44 +71,34 @@
       "ek": "zemin 255,255,255 yazı 29,33,82"
     },
     {
-      "ad": "karma TR sayi: kontrast 15.09 ≥ 4.5",
+      "ad": "karma TR sayi: kontrast 7.74 ≥ 4.5",
+      "gecti": true,
+      "ek": "zemin 255,255,255 yazı 70,80,127"
+    },
+    {
+      "ad": "karma TR cip: kontrast 5.69 ≥ 4.5",
+      "gecti": true,
+      "ek": "zemin 241,205,92 yazı 83,74,51"
+    },
+    {
+      "ad": "karma TR kolay: kontrast 15.09 ≥ 4.5",
       "gecti": true,
       "ek": "zemin 255,255,255 yazı 29,33,82"
     },
     {
-      "ad": "karma TR cip: kontrast 15.09 ≥ 4.5",
+      "ad": "karma TR orta: kontrast 15.09 ≥ 4.5",
       "gecti": true,
       "ek": "zemin 255,255,255 yazı 29,33,82"
     },
     {
-      "ad": "karma TR kolay: kontrast 8.21 ≥ 4.5",
+      "ad": "karma TR kahAlt: kontrast 7.55 ≥ 4.5",
       "gecti": true,
-      "ek": "zemin 234,243,222 yazı 39,80,10"
+      "ek": "zemin 241,239,216 yazı 83,74,51"
     },
     {
-      "ad": "karma TR orta: kontrast 13.16 ≥ 4.5",
+      "ad": "karma TR alDugme: kontrast 7.79 ≥ 4.5",
       "gecti": true,
-      "ek": "zemin 250,238,218 yazı 29,33,82"
-    },
-    {
-      "ad": "karma TR zor: kontrast 13.09 ≥ 4.5",
-      "gecti": true,
-      "ek": "zemin 252,235,235 yazı 29,33,82"
-    },
-    {
-      "ad": "karma TR alDugme: kontrast 5.80 ≥ 4.5",
-      "gecti": true,
-      "ek": "zemin 255,122,46 yazı 29,33,82"
-    },
-    {
-      "ad": "karma TR alt: kontrast 6.34 ≥ 4.5",
-      "gecti": true,
-      "ek": "zemin 255,231,163 yazı 70,80,127"
-    },
-    {
-      "ad": "karma TR not: kontrast 6.65 ≥ 4.5",
-      "gecti": true,
-      "ek": "zemin 223,240,255 yazı 70,80,127"
+      "ek": "zemin 47,210,122 yazı 13,42,27"
     },
     {
       "ad": "390×700 karma: sayfa yatay taşma yok",
@@ -98,7 +123,7 @@
     {
       "ad": "390×700: ilk ekranda günlük 3 görev görünür",
       "gecti": true,
-      "ek": "{\"adet\":3,\"altlar\":[255,355,456],\"limit\":630}"
+      "ek": "{\"adet\":3,\"altlar\":[362,470,578],\"limit\":700}"
     },
     {
       "ad": "360×640 karma: sayfa yatay taşma yok",
@@ -123,7 +148,7 @@
     {
       "ad": "360×640: ilk ekranda günlük 3 görev görünür",
       "gecti": true,
-      "ek": "{\"adet\":3,\"altlar\":[255,355,456],\"limit\":570}"
+      "ek": "{\"adet\":3,\"altlar\":[347,452,571],\"limit\":640}"
     },
     {
       "ad": "390 kategori: sayfa yatay taşma yok",
@@ -146,7 +171,7 @@
       "ek": ""
     },
     {
-      "ad": "kategori: alt not görünür",
+      "ad": "kategori: SP çipi görünür (sezon açık)",
       "gecti": true,
       "ek": ""
     },
@@ -156,9 +181,9 @@
       "ek": ""
     },
     {
-      "ad": "kategori baslik: kontrast 12.97 ≥ 4.5",
+      "ad": "kategori baslik: kontrast 6.58 ≥ 4.5",
       "gecti": true,
-      "ek": "zemin 223,240,255 yazı 29,33,82"
+      "ek": "zemin 185,220,255 yazı 58,68,112"
     },
     {
       "ad": "kategori ad: kontrast 15.09 ≥ 4.5",
@@ -166,44 +191,39 @@
       "ek": "zemin 255,255,255 yazı 29,33,82"
     },
     {
-      "ad": "kategori sayi: kontrast 15.09 ≥ 4.5",
+      "ad": "kategori sayi: kontrast 7.74 ≥ 4.5",
+      "gecti": true,
+      "ek": "zemin 255,255,255 yazı 70,80,127"
+    },
+    {
+      "ad": "kategori cip: kontrast 5.69 ≥ 4.5",
+      "gecti": true,
+      "ek": "zemin 241,205,92 yazı 83,74,51"
+    },
+    {
+      "ad": "kategori kolay: kontrast 15.09 ≥ 4.5",
       "gecti": true,
       "ek": "zemin 255,255,255 yazı 29,33,82"
     },
     {
-      "ad": "kategori cip: kontrast 15.09 ≥ 4.5",
+      "ad": "kategori orta: kontrast 15.09 ≥ 4.5",
       "gecti": true,
       "ek": "zemin 255,255,255 yazı 29,33,82"
     },
     {
-      "ad": "kategori kolay: kontrast 8.21 ≥ 4.5",
+      "ad": "kategori zor: kontrast 15.09 ≥ 4.5",
       "gecti": true,
-      "ek": "zemin 234,243,222 yazı 39,80,10"
+      "ek": "zemin 29,33,82 yazı 255,255,255"
     },
     {
-      "ad": "kategori orta: kontrast 13.16 ≥ 4.5",
+      "ad": "kategori kat: kontrast 7.13 ≥ 4.5",
       "gecti": true,
-      "ek": "zemin 250,238,218 yazı 29,33,82"
+      "ek": "zemin 241,246,255 yazı 70,80,127"
     },
     {
-      "ad": "kategori zor: kontrast 13.09 ≥ 4.5",
+      "ad": "kategori kahAlt: kontrast 7.55 ≥ 4.5",
       "gecti": true,
-      "ek": "zemin 252,235,235 yazı 29,33,82"
-    },
-    {
-      "ad": "kategori kat: kontrast 12.91 ≥ 4.5",
-      "gecti": true,
-      "ek": "zemin 224,239,255 yazı 29,33,82"
-    },
-    {
-      "ad": "kategori alt: kontrast 6.34 ≥ 4.5",
-      "gecti": true,
-      "ek": "zemin 255,231,163 yazı 70,80,127"
-    },
-    {
-      "ad": "kategori not: kontrast 6.65 ≥ 4.5",
-      "gecti": true,
-      "ek": "zemin 223,240,255 yazı 70,80,127"
+      "ek": "zemin 241,239,216 yazı 83,74,51"
     },
     {
       "ad": "390 sandik-acik: sayfa yatay taşma yok",
@@ -226,7 +246,7 @@
       "ek": ""
     },
     {
-      "ad": "sandik-acik: alt not görünür",
+      "ad": "sandik-acik: SP çipi görünür (sezon açık)",
       "gecti": true,
       "ek": ""
     },
@@ -236,9 +256,9 @@
       "ek": "zemin 255,122,46 yazı 29,33,82"
     },
     {
-      "ad": "sandık: çip: kontrast 15.09 ≥ 4.5",
+      "ad": "sandık: çip: kontrast 6.18 ≥ 4.5",
       "gecti": true,
-      "ek": "zemin 255,255,255 yazı 29,33,82"
+      "ek": "zemin 255,249,230 yazı 107,92,62"
     },
     {
       "ad": "390 hepsi-alindi: sayfa yatay taşma yok",
@@ -261,7 +281,7 @@
       "ek": ""
     },
     {
-      "ad": "hepsi-alindi: alt not görünür",
+      "ad": "hepsi-alindi: SP çipi görünür (sezon açık)",
       "gecti": true,
       "ek": ""
     },
@@ -287,11 +307,6 @@
     },
     {
       "ad": "390 sezon-kapali: konsol hatası yok",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "sezon kapalı: alt not gizli",
       "gecti": true,
       "ek": ""
     },
@@ -323,7 +338,7 @@
     {
       "ad": "EN: başlıklar ve düğme İngilizce",
       "gecti": true,
-      "ek": "10,000 | Quests |  | Daily quests | 6 h 12 min | Time left: 6 h 12 min | Play 3 matches | Easy | 15 | coin | 10 SP | Claim | Win 2 matches | Medium | 15 | coin | 10 SP | 1 / 2 | Answer 50 questions correctly | Hard | 15 | coin | 10 SP | Weekly qu"
+      "ek": "Quests | 10,095 |  | Daily quests | 1 more quest to finish today | 30 | coin | Daily | 2/3 | 2 done today | Resets in 6 h 12 min | Time left: 6 h 12 min | Play 3 matches | 3 / 3 | Claim | 15 | coin | · | 10 SP | Win 2 matches | 15 | coin | · | 10"
     },
     {
       "ad": "EN: Türkçe kalıntı yok",
@@ -331,9 +346,14 @@
       "ek": ""
     },
     {
-      "ad": "karma EN baslik: kontrast 12.97 ≥ 4.5",
+      "ad": "EN: çoğul doğru (1 more quest, 1 more quests değil)",
       "gecti": true,
-      "ek": "zemin 223,240,255 yazı 29,33,82"
+      "ek": "1 more quest to finish tod"
+    },
+    {
+      "ad": "karma EN baslik: kontrast 6.58 ≥ 4.5",
+      "gecti": true,
+      "ek": "zemin 185,220,255 yazı 58,68,112"
     },
     {
       "ad": "karma EN ad: kontrast 15.09 ≥ 4.5",
@@ -341,44 +361,34 @@
       "ek": "zemin 255,255,255 yazı 29,33,82"
     },
     {
-      "ad": "karma EN sayi: kontrast 15.09 ≥ 4.5",
+      "ad": "karma EN sayi: kontrast 7.74 ≥ 4.5",
+      "gecti": true,
+      "ek": "zemin 255,255,255 yazı 70,80,127"
+    },
+    {
+      "ad": "karma EN cip: kontrast 5.69 ≥ 4.5",
+      "gecti": true,
+      "ek": "zemin 241,205,92 yazı 83,74,51"
+    },
+    {
+      "ad": "karma EN kolay: kontrast 15.09 ≥ 4.5",
       "gecti": true,
       "ek": "zemin 255,255,255 yazı 29,33,82"
     },
     {
-      "ad": "karma EN cip: kontrast 15.09 ≥ 4.5",
+      "ad": "karma EN orta: kontrast 15.09 ≥ 4.5",
       "gecti": true,
       "ek": "zemin 255,255,255 yazı 29,33,82"
     },
     {
-      "ad": "karma EN kolay: kontrast 8.21 ≥ 4.5",
+      "ad": "karma EN kahAlt: kontrast 7.55 ≥ 4.5",
       "gecti": true,
-      "ek": "zemin 234,243,222 yazı 39,80,10"
+      "ek": "zemin 241,239,216 yazı 83,74,51"
     },
     {
-      "ad": "karma EN orta: kontrast 13.16 ≥ 4.5",
+      "ad": "karma EN alDugme: kontrast 7.79 ≥ 4.5",
       "gecti": true,
-      "ek": "zemin 250,238,218 yazı 29,33,82"
-    },
-    {
-      "ad": "karma EN zor: kontrast 13.09 ≥ 4.5",
-      "gecti": true,
-      "ek": "zemin 252,235,235 yazı 29,33,82"
-    },
-    {
-      "ad": "karma EN alDugme: kontrast 5.80 ≥ 4.5",
-      "gecti": true,
-      "ek": "zemin 255,122,46 yazı 29,33,82"
-    },
-    {
-      "ad": "karma EN alt: kontrast 6.34 ≥ 4.5",
-      "gecti": true,
-      "ek": "zemin 255,231,163 yazı 70,80,127"
-    },
-    {
-      "ad": "karma EN not: kontrast 6.65 ≥ 4.5",
-      "gecti": true,
-      "ek": "zemin 223,240,255 yazı 70,80,127"
+      "ek": "zemin 47,210,122 yazı 13,42,27"
     },
     {
       "ad": "hareketi azalt: uçan çip yerinde-soluk animasyonu (gv-uc-y)",
@@ -466,682 +476,27 @@
       "ek": ""
     },
     {
-      "ad": "hata mesajı: kontrast 5.33 ≥ 4.5",
+      "ad": "hata mesajı: kontrast 6.09 ≥ 4.5",
       "gecti": true,
-      "ek": "zemin 255,227,230 yazı 184,29,49"
+      "ek": "zemin 255,241,214 yazı 138,75,0"
     },
     {
       "ad": "yükleme hatası: 'Yüklenemedi' + Tekrar dene, sahte veri yok",
       "gecti": true,
-      "ek": "10.000 | Görevler |  | Yüklenemedi. |  | Görevler alınamadı. Bağlantını kontrol edip tekrar dene. |  | Tekrar dene | Ana Sayfa | Arkadaşlar | Lig | Dükkân | Profil"
+      "ek": "Görevler | 10.095 |  | Yüklenemedi. |  | Görevler alınamadı. Bağlantını kontrol edip tekrar dene. |  | Tekrar dene"
     },
     {
       "ad": "Tekrar dene → görevler geldi (6 görev + sandık)",
       "gecti": true,
       "ek": ""
-    },
-    {
-      "ad": "ana 390x664-alinabilir: OYNA ve DÜELLO ilk ekranda (alt menünün üstünde)",
-      "gecti": true,
-      "ek": "{\"oyna\":[406,474],\"duello\":[406,474],\"serit\":null,\"nav\":594,\"nokta\":true,\"metin\":\"GörevlerGünlük 2/3 · Haftalık 1/3\",\"aria\":\"Görevler. Günlük 2/3, haftalık 1/3. Alınabilir ödül var.\",\"docKay\":0}"
-    },
-    {
-      "ad": "ana 390x664-alinabilir: sayfa dikey kaymıyor (kaydırmasız lobi)",
-      "gecti": true,
-      "ek": "docKay=0"
-    },
-    {
-      "ad": "ana 390x664-alinabilir: <700 px şerit gizli (sığmaz), OYNA/DÜELLO yerinde",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 390x664-alinabilir: konsol hatası yok",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 390x664-sakin: OYNA ve DÜELLO ilk ekranda (alt menünün üstünde)",
-      "gecti": true,
-      "ek": "{\"oyna\":[406,474],\"duello\":[406,474],\"serit\":null,\"nav\":594,\"nokta\":false,\"metin\":\"GörevlerGünlük 0/3 · Haftalık 0/3\",\"aria\":\"Görevler. Günlük 0/3, haftalık 0/3.\",\"docKay\":0}"
-    },
-    {
-      "ad": "ana 390x664-sakin: sayfa dikey kaymıyor (kaydırmasız lobi)",
-      "gecti": true,
-      "ek": "docKay=0"
-    },
-    {
-      "ad": "ana 390x664-sakin: <700 px şerit gizli (sığmaz), OYNA/DÜELLO yerinde",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 390x664-sakin: konsol hatası yok",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 390x700-alinabilir: OYNA ve DÜELLO ilk ekranda (alt menünün üstünde)",
-      "gecti": true,
-      "ek": "{\"oyna\":[399,462],\"duello\":[399,462],\"serit\":[562,606],\"nav\":630,\"nokta\":true,\"metin\":\"Görevler Günlük 2/3 · Haftalık 1/3\",\"aria\":\"Görevler. Günlük 2/3, haftalık 1/3. Alınabilir ödül var.\",\"docKay\":0}"
-    },
-    {
-      "ad": "ana 390x700-alinabilir: sayfa dikey kaymıyor (kaydırmasız lobi)",
-      "gecti": true,
-      "ek": "docKay=0"
-    },
-    {
-      "ad": "ana 390x700-alinabilir: şerit görünür ve alt menüye binmiyor",
-      "gecti": true,
-      "ek": "[562,606]"
-    },
-    {
-      "ad": "ana 390x700-alinabilir: şerit nokta durumu doğru (alınabilir=true)",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 390x700-alinabilir: şerit metni (2/3 · 1/3)",
-      "gecti": true,
-      "ek": "Görevler Günlük 2/3 · Haftalık 1/3"
-    },
-    {
-      "ad": "ana 390x700-alinabilir: sayfa yatay taşma yok",
-      "gecti": true,
-      "ek": "taşma=0"
-    },
-    {
-      "ad": "ana 390x700-alinabilir: dokunma hedefleri ≥ 44 px",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 390x700-alinabilir: hiçbir öğe ekran dışına taşmıyor",
-      "gecti": true,
-      "ek": "taşan=0"
-    },
-    {
-      "ad": "ana 390x700-alinabilir: konsol hatası yok",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 390x700-alinabilir şerit başlık: kontrast 15.09 ≥ 4.5",
-      "gecti": true,
-      "ek": "zemin 255,255,255 yazı 29,33,82"
-    },
-    {
-      "ad": "ana 390x700-alinabilir şerit alt yazı: kontrast 7.74 ≥ 4.5",
-      "gecti": true,
-      "ek": "zemin 255,255,255 yazı 70,80,127"
-    },
-    {
-      "ad": "ana 390x700-sakin: OYNA ve DÜELLO ilk ekranda (alt menünün üstünde)",
-      "gecti": true,
-      "ek": "{\"oyna\":[399,462],\"duello\":[399,462],\"serit\":[562,606],\"nav\":630,\"nokta\":false,\"metin\":\"Görevler Günlük 0/3 · Haftalık 0/3\",\"aria\":\"Görevler. Günlük 0/3, haftalık 0/3.\",\"docKay\":0}"
-    },
-    {
-      "ad": "ana 390x700-sakin: sayfa dikey kaymıyor (kaydırmasız lobi)",
-      "gecti": true,
-      "ek": "docKay=0"
-    },
-    {
-      "ad": "ana 390x700-sakin: şerit görünür ve alt menüye binmiyor",
-      "gecti": true,
-      "ek": "[562,606]"
-    },
-    {
-      "ad": "ana 390x700-sakin: şerit nokta durumu doğru (alınabilir=false)",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 390x700-sakin: şerit metni (0/3 · 0/3)",
-      "gecti": true,
-      "ek": "Görevler Günlük 0/3 · Haftalık 0/3"
-    },
-    {
-      "ad": "ana 390x700-sakin: sayfa yatay taşma yok",
-      "gecti": true,
-      "ek": "taşma=0"
-    },
-    {
-      "ad": "ana 390x700-sakin: dokunma hedefleri ≥ 44 px",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 390x700-sakin: hiçbir öğe ekran dışına taşmıyor",
-      "gecti": true,
-      "ek": "taşan=0"
-    },
-    {
-      "ad": "ana 390x700-sakin: konsol hatası yok",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 390x760-alinabilir: OYNA ve DÜELLO ilk ekranda (alt menünün üstünde)",
-      "gecti": true,
-      "ek": "{\"oyna\":[399,522],\"duello\":[399,522],\"serit\":[622,666],\"nav\":690,\"nokta\":true,\"metin\":\"Görevler Günlük 2/3 · Haftalık 1/3\",\"aria\":\"Görevler. Günlük 2/3, haftalık 1/3. Alınabilir ödül var.\",\"docKay\":0}"
-    },
-    {
-      "ad": "ana 390x760-alinabilir: sayfa dikey kaymıyor (kaydırmasız lobi)",
-      "gecti": true,
-      "ek": "docKay=0"
-    },
-    {
-      "ad": "ana 390x760-alinabilir: şerit görünür ve alt menüye binmiyor",
-      "gecti": true,
-      "ek": "[622,666]"
-    },
-    {
-      "ad": "ana 390x760-alinabilir: şerit nokta durumu doğru (alınabilir=true)",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 390x760-alinabilir: şerit metni (2/3 · 1/3)",
-      "gecti": true,
-      "ek": "Görevler Günlük 2/3 · Haftalık 1/3"
-    },
-    {
-      "ad": "ana 390x760-alinabilir: sayfa yatay taşma yok",
-      "gecti": true,
-      "ek": "taşma=0"
-    },
-    {
-      "ad": "ana 390x760-alinabilir: dokunma hedefleri ≥ 44 px",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 390x760-alinabilir: hiçbir öğe ekran dışına taşmıyor",
-      "gecti": true,
-      "ek": "taşan=0"
-    },
-    {
-      "ad": "ana 390x760-alinabilir: konsol hatası yok",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 390x760-alinabilir şerit başlık: kontrast 15.09 ≥ 4.5",
-      "gecti": true,
-      "ek": "zemin 255,255,255 yazı 29,33,82"
-    },
-    {
-      "ad": "ana 390x760-alinabilir şerit alt yazı: kontrast 7.74 ≥ 4.5",
-      "gecti": true,
-      "ek": "zemin 255,255,255 yazı 70,80,127"
-    },
-    {
-      "ad": "ana 390x760-sakin: OYNA ve DÜELLO ilk ekranda (alt menünün üstünde)",
-      "gecti": true,
-      "ek": "{\"oyna\":[399,522],\"duello\":[399,522],\"serit\":[622,666],\"nav\":690,\"nokta\":false,\"metin\":\"Görevler Günlük 0/3 · Haftalık 0/3\",\"aria\":\"Görevler. Günlük 0/3, haftalık 0/3.\",\"docKay\":0}"
-    },
-    {
-      "ad": "ana 390x760-sakin: sayfa dikey kaymıyor (kaydırmasız lobi)",
-      "gecti": true,
-      "ek": "docKay=0"
-    },
-    {
-      "ad": "ana 390x760-sakin: şerit görünür ve alt menüye binmiyor",
-      "gecti": true,
-      "ek": "[622,666]"
-    },
-    {
-      "ad": "ana 390x760-sakin: şerit nokta durumu doğru (alınabilir=false)",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 390x760-sakin: şerit metni (0/3 · 0/3)",
-      "gecti": true,
-      "ek": "Görevler Günlük 0/3 · Haftalık 0/3"
-    },
-    {
-      "ad": "ana 390x760-sakin: sayfa yatay taşma yok",
-      "gecti": true,
-      "ek": "taşma=0"
-    },
-    {
-      "ad": "ana 390x760-sakin: dokunma hedefleri ≥ 44 px",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 390x760-sakin: hiçbir öğe ekran dışına taşmıyor",
-      "gecti": true,
-      "ek": "taşan=0"
-    },
-    {
-      "ad": "ana 390x760-sakin: konsol hatası yok",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 390x844-alinabilir: OYNA ve DÜELLO ilk ekranda (alt menünün üstünde)",
-      "gecti": true,
-      "ek": "{\"oyna\":[501,592],\"duello\":[501,592],\"serit\":[702,750],\"nav\":774,\"nokta\":true,\"metin\":\"Görevler Günlük 2/3 · Haftalık 1/3\",\"aria\":\"Görevler. Günlük 2/3, haftalık 1/3. Alınabilir ödül var.\",\"docKay\":0}"
-    },
-    {
-      "ad": "ana 390x844-alinabilir: sayfa dikey kaymıyor (kaydırmasız lobi)",
-      "gecti": true,
-      "ek": "docKay=0"
-    },
-    {
-      "ad": "ana 390x844-alinabilir: şerit görünür ve alt menüye binmiyor",
-      "gecti": true,
-      "ek": "[702,750]"
-    },
-    {
-      "ad": "ana 390x844-alinabilir: şerit nokta durumu doğru (alınabilir=true)",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 390x844-alinabilir: şerit metni (2/3 · 1/3)",
-      "gecti": true,
-      "ek": "Görevler Günlük 2/3 · Haftalık 1/3"
-    },
-    {
-      "ad": "ana 390x844-alinabilir: sayfa yatay taşma yok",
-      "gecti": true,
-      "ek": "taşma=0"
-    },
-    {
-      "ad": "ana 390x844-alinabilir: dokunma hedefleri ≥ 44 px",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 390x844-alinabilir: hiçbir öğe ekran dışına taşmıyor",
-      "gecti": true,
-      "ek": "taşan=0"
-    },
-    {
-      "ad": "ana 390x844-alinabilir: konsol hatası yok",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 390x844-alinabilir şerit başlık: kontrast 15.09 ≥ 4.5",
-      "gecti": true,
-      "ek": "zemin 255,255,255 yazı 29,33,82"
-    },
-    {
-      "ad": "ana 390x844-alinabilir şerit alt yazı: kontrast 7.74 ≥ 4.5",
-      "gecti": true,
-      "ek": "zemin 255,255,255 yazı 70,80,127"
-    },
-    {
-      "ad": "şeride dokununca /gorevler açılır",
-      "gecti": true,
-      "ek": "http://localhost:5193/gorevler"
-    },
-    {
-      "ad": "geri düğmesi ana sayfaya döner",
-      "gecti": true,
-      "ek": "http://localhost:5193/"
-    },
-    {
-      "ad": "ana 390x844-sakin: OYNA ve DÜELLO ilk ekranda (alt menünün üstünde)",
-      "gecti": true,
-      "ek": "{\"oyna\":[501,592],\"duello\":[501,592],\"serit\":[702,750],\"nav\":774,\"nokta\":false,\"metin\":\"Görevler Günlük 0/3 · Haftalık 0/3\",\"aria\":\"Görevler. Günlük 0/3, haftalık 0/3.\",\"docKay\":0}"
-    },
-    {
-      "ad": "ana 390x844-sakin: sayfa dikey kaymıyor (kaydırmasız lobi)",
-      "gecti": true,
-      "ek": "docKay=0"
-    },
-    {
-      "ad": "ana 390x844-sakin: şerit görünür ve alt menüye binmiyor",
-      "gecti": true,
-      "ek": "[702,750]"
-    },
-    {
-      "ad": "ana 390x844-sakin: şerit nokta durumu doğru (alınabilir=false)",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 390x844-sakin: şerit metni (0/3 · 0/3)",
-      "gecti": true,
-      "ek": "Görevler Günlük 0/3 · Haftalık 0/3"
-    },
-    {
-      "ad": "ana 390x844-sakin: sayfa yatay taşma yok",
-      "gecti": true,
-      "ek": "taşma=0"
-    },
-    {
-      "ad": "ana 390x844-sakin: dokunma hedefleri ≥ 44 px",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 390x844-sakin: hiçbir öğe ekran dışına taşmıyor",
-      "gecti": true,
-      "ek": "taşan=0"
-    },
-    {
-      "ad": "ana 390x844-sakin: konsol hatası yok",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 390x844-en-alinabilir: OYNA ve DÜELLO ilk ekranda (alt menünün üstünde)",
-      "gecti": true,
-      "ek": "{\"oyna\":[501,592],\"duello\":[501,592],\"serit\":[702,750],\"nav\":774,\"nokta\":true,\"metin\":\"Quests Daily 2/3 · Weekly 1/3\",\"aria\":\"Quests. Daily 2/3, weekly 1/3. A reward is ready to claim.\",\"docKay\":0}"
-    },
-    {
-      "ad": "ana 390x844-en-alinabilir: sayfa dikey kaymıyor (kaydırmasız lobi)",
-      "gecti": true,
-      "ek": "docKay=0"
-    },
-    {
-      "ad": "ana 390x844-en-alinabilir: şerit görünür ve alt menüye binmiyor",
-      "gecti": true,
-      "ek": "[702,750]"
-    },
-    {
-      "ad": "ana 390x844-en-alinabilir: şerit nokta durumu doğru (alınabilir=true)",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 390x844-en-alinabilir: şerit metni (2/3 · 1/3)",
-      "gecti": true,
-      "ek": "Quests Daily 2/3 · Weekly 1/3"
-    },
-    {
-      "ad": "ana 390x844-en-alinabilir: sayfa yatay taşma yok",
-      "gecti": true,
-      "ek": "taşma=0"
-    },
-    {
-      "ad": "ana 390x844-en-alinabilir: dokunma hedefleri ≥ 44 px",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 390x844-en-alinabilir: hiçbir öğe ekran dışına taşmıyor",
-      "gecti": true,
-      "ek": "taşan=0"
-    },
-    {
-      "ad": "ana 390x844-en-alinabilir: konsol hatası yok",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 390x844-en-alinabilir şerit başlık: kontrast 15.09 ≥ 4.5",
-      "gecti": true,
-      "ek": "zemin 255,255,255 yazı 29,33,82"
-    },
-    {
-      "ad": "ana 390x844-en-alinabilir şerit alt yazı: kontrast 7.74 ≥ 4.5",
-      "gecti": true,
-      "ek": "zemin 255,255,255 yazı 70,80,127"
-    },
-    {
-      "ad": "ana 360x640-alinabilir: OYNA ve DÜELLO ilk ekranda (alt menünün üstünde)",
-      "gecti": true,
-      "ek": "{\"oyna\":[391,454],\"duello\":[391,454],\"serit\":null,\"nav\":570,\"nokta\":true,\"metin\":\"GörevlerGünlük 2/3 · Haftalık 1/3\",\"aria\":\"Görevler. Günlük 2/3, haftalık 1/3. Alınabilir ödül var.\",\"docKay\":0}"
-    },
-    {
-      "ad": "ana 360x640-alinabilir: sayfa dikey kaymıyor (kaydırmasız lobi)",
-      "gecti": true,
-      "ek": "docKay=0"
-    },
-    {
-      "ad": "ana 360x640-alinabilir: <700 px şerit gizli (sığmaz), OYNA/DÜELLO yerinde",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 360x640-alinabilir: konsol hatası yok",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 360x640-sakin: OYNA ve DÜELLO ilk ekranda (alt menünün üstünde)",
-      "gecti": true,
-      "ek": "{\"oyna\":[391,454],\"duello\":[391,454],\"serit\":null,\"nav\":570,\"nokta\":false,\"metin\":\"GörevlerGünlük 0/3 · Haftalık 0/3\",\"aria\":\"Görevler. Günlük 0/3, haftalık 0/3.\",\"docKay\":0}"
-    },
-    {
-      "ad": "ana 360x640-sakin: sayfa dikey kaymıyor (kaydırmasız lobi)",
-      "gecti": true,
-      "ek": "docKay=0"
-    },
-    {
-      "ad": "ana 360x640-sakin: <700 px şerit gizli (sığmaz), OYNA/DÜELLO yerinde",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 360x640-sakin: konsol hatası yok",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 360x700-alinabilir: OYNA ve DÜELLO ilk ekranda (alt menünün üstünde)",
-      "gecti": true,
-      "ek": "{\"oyna\":[399,462],\"duello\":[399,462],\"serit\":[562,606],\"nav\":630,\"nokta\":true,\"metin\":\"Görevler Günlük 2/3 · Haftalık 1/3\",\"aria\":\"Görevler. Günlük 2/3, haftalık 1/3. Alınabilir ödül var.\",\"docKay\":0}"
-    },
-    {
-      "ad": "ana 360x700-alinabilir: sayfa dikey kaymıyor (kaydırmasız lobi)",
-      "gecti": true,
-      "ek": "docKay=0"
-    },
-    {
-      "ad": "ana 360x700-alinabilir: şerit görünür ve alt menüye binmiyor",
-      "gecti": true,
-      "ek": "[562,606]"
-    },
-    {
-      "ad": "ana 360x700-alinabilir: şerit nokta durumu doğru (alınabilir=true)",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 360x700-alinabilir: şerit metni (2/3 · 1/3)",
-      "gecti": true,
-      "ek": "Görevler Günlük 2/3 · Haftalık 1/3"
-    },
-    {
-      "ad": "ana 360x700-alinabilir: sayfa yatay taşma yok",
-      "gecti": true,
-      "ek": "taşma=0"
-    },
-    {
-      "ad": "ana 360x700-alinabilir: dokunma hedefleri ≥ 44 px",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 360x700-alinabilir: hiçbir öğe ekran dışına taşmıyor",
-      "gecti": true,
-      "ek": "taşan=0"
-    },
-    {
-      "ad": "ana 360x700-alinabilir: konsol hatası yok",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 360x700-alinabilir şerit başlık: kontrast 15.09 ≥ 4.5",
-      "gecti": true,
-      "ek": "zemin 255,255,255 yazı 29,33,82"
-    },
-    {
-      "ad": "ana 360x700-alinabilir şerit alt yazı: kontrast 7.74 ≥ 4.5",
-      "gecti": true,
-      "ek": "zemin 255,255,255 yazı 70,80,127"
-    },
-    {
-      "ad": "ana 360x700-sakin: OYNA ve DÜELLO ilk ekranda (alt menünün üstünde)",
-      "gecti": true,
-      "ek": "{\"oyna\":[399,462],\"duello\":[399,462],\"serit\":[562,606],\"nav\":630,\"nokta\":false,\"metin\":\"Görevler Günlük 0/3 · Haftalık 0/3\",\"aria\":\"Görevler. Günlük 0/3, haftalık 0/3.\",\"docKay\":0}"
-    },
-    {
-      "ad": "ana 360x700-sakin: sayfa dikey kaymıyor (kaydırmasız lobi)",
-      "gecti": true,
-      "ek": "docKay=0"
-    },
-    {
-      "ad": "ana 360x700-sakin: şerit görünür ve alt menüye binmiyor",
-      "gecti": true,
-      "ek": "[562,606]"
-    },
-    {
-      "ad": "ana 360x700-sakin: şerit nokta durumu doğru (alınabilir=false)",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 360x700-sakin: şerit metni (0/3 · 0/3)",
-      "gecti": true,
-      "ek": "Görevler Günlük 0/3 · Haftalık 0/3"
-    },
-    {
-      "ad": "ana 360x700-sakin: sayfa yatay taşma yok",
-      "gecti": true,
-      "ek": "taşma=0"
-    },
-    {
-      "ad": "ana 360x700-sakin: dokunma hedefleri ≥ 44 px",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 360x700-sakin: hiçbir öğe ekran dışına taşmıyor",
-      "gecti": true,
-      "ek": "taşan=0"
-    },
-    {
-      "ad": "ana 360x700-sakin: konsol hatası yok",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 360x800-alinabilir: OYNA ve DÜELLO ilk ekranda (alt menünün üstünde)",
-      "gecti": true,
-      "ek": "{\"oyna\":[449,548],\"duello\":[449,548],\"serit\":[658,706],\"nav\":730,\"nokta\":true,\"metin\":\"Görevler Günlük 2/3 · Haftalık 1/3\",\"aria\":\"Görevler. Günlük 2/3, haftalık 1/3. Alınabilir ödül var.\",\"docKay\":0}"
-    },
-    {
-      "ad": "ana 360x800-alinabilir: sayfa dikey kaymıyor (kaydırmasız lobi)",
-      "gecti": true,
-      "ek": "docKay=0"
-    },
-    {
-      "ad": "ana 360x800-alinabilir: şerit görünür ve alt menüye binmiyor",
-      "gecti": true,
-      "ek": "[658,706]"
-    },
-    {
-      "ad": "ana 360x800-alinabilir: şerit nokta durumu doğru (alınabilir=true)",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 360x800-alinabilir: şerit metni (2/3 · 1/3)",
-      "gecti": true,
-      "ek": "Görevler Günlük 2/3 · Haftalık 1/3"
-    },
-    {
-      "ad": "ana 360x800-alinabilir: sayfa yatay taşma yok",
-      "gecti": true,
-      "ek": "taşma=0"
-    },
-    {
-      "ad": "ana 360x800-alinabilir: dokunma hedefleri ≥ 44 px",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 360x800-alinabilir: hiçbir öğe ekran dışına taşmıyor",
-      "gecti": true,
-      "ek": "taşan=0"
-    },
-    {
-      "ad": "ana 360x800-alinabilir: konsol hatası yok",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 360x800-alinabilir şerit başlık: kontrast 15.09 ≥ 4.5",
-      "gecti": true,
-      "ek": "zemin 255,255,255 yazı 29,33,82"
-    },
-    {
-      "ad": "ana 360x800-alinabilir şerit alt yazı: kontrast 7.74 ≥ 4.5",
-      "gecti": true,
-      "ek": "zemin 255,255,255 yazı 70,80,127"
-    },
-    {
-      "ad": "ana 360x800-sakin: OYNA ve DÜELLO ilk ekranda (alt menünün üstünde)",
-      "gecti": true,
-      "ek": "{\"oyna\":[449,548],\"duello\":[449,548],\"serit\":[658,706],\"nav\":730,\"nokta\":false,\"metin\":\"Görevler Günlük 0/3 · Haftalık 0/3\",\"aria\":\"Görevler. Günlük 0/3, haftalık 0/3.\",\"docKay\":0}"
-    },
-    {
-      "ad": "ana 360x800-sakin: sayfa dikey kaymıyor (kaydırmasız lobi)",
-      "gecti": true,
-      "ek": "docKay=0"
-    },
-    {
-      "ad": "ana 360x800-sakin: şerit görünür ve alt menüye binmiyor",
-      "gecti": true,
-      "ek": "[658,706]"
-    },
-    {
-      "ad": "ana 360x800-sakin: şerit nokta durumu doğru (alınabilir=false)",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 360x800-sakin: şerit metni (0/3 · 0/3)",
-      "gecti": true,
-      "ek": "Görevler Günlük 0/3 · Haftalık 0/3"
-    },
-    {
-      "ad": "ana 360x800-sakin: sayfa yatay taşma yok",
-      "gecti": true,
-      "ek": "taşma=0"
-    },
-    {
-      "ad": "ana 360x800-sakin: dokunma hedefleri ≥ 44 px",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "ana 360x800-sakin: hiçbir öğe ekran dışına taşmıyor",
-      "gecti": true,
-      "ek": "taşan=0"
-    },
-    {
-      "ad": "ana 360x800-sakin: konsol hatası yok",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "avatar menüsünde Görevler satırı var",
-      "gecti": true,
-      "ek": ""
-    },
-    {
-      "ad": "Görevler satırı /gorevler'e götürür",
-      "gecti": true,
-      "ek": "http://localhost:5193/gorevler"
     }
   ],
   "kontrast": [
     {
       "etiket": "karma TR baslik",
-      "oran": 12.97,
+      "oran": 6.58,
       "esik": 4.5,
-      "ornek": "zemin 223,240,255 yazı 29,33,82"
+      "ornek": "zemin 185,220,255 yazı 58,68,112"
     },
     {
       "etiket": "karma TR ad",
@@ -1151,57 +506,45 @@
     },
     {
       "etiket": "karma TR sayi",
-      "oran": 15.09,
+      "oran": 7.74,
       "esik": 4.5,
-      "ornek": "zemin 255,255,255 yazı 29,33,82"
+      "ornek": "zemin 255,255,255 yazı 70,80,127"
     },
     {
       "etiket": "karma TR cip",
+      "oran": 5.69,
+      "esik": 4.5,
+      "ornek": "zemin 241,205,92 yazı 83,74,51"
+    },
+    {
+      "etiket": "karma TR kolay",
       "oran": 15.09,
       "esik": 4.5,
       "ornek": "zemin 255,255,255 yazı 29,33,82"
     },
     {
-      "etiket": "karma TR kolay",
-      "oran": 8.21,
-      "esik": 4.5,
-      "ornek": "zemin 234,243,222 yazı 39,80,10"
-    },
-    {
       "etiket": "karma TR orta",
-      "oran": 13.16,
+      "oran": 15.09,
       "esik": 4.5,
-      "ornek": "zemin 250,238,218 yazı 29,33,82"
+      "ornek": "zemin 255,255,255 yazı 29,33,82"
     },
     {
-      "etiket": "karma TR zor",
-      "oran": 13.09,
+      "etiket": "karma TR kahAlt",
+      "oran": 7.55,
       "esik": 4.5,
-      "ornek": "zemin 252,235,235 yazı 29,33,82"
+      "ornek": "zemin 241,239,216 yazı 83,74,51"
     },
     {
       "etiket": "karma TR alDugme",
-      "oran": 5.8,
+      "oran": 7.79,
       "esik": 4.5,
-      "ornek": "zemin 255,122,46 yazı 29,33,82"
-    },
-    {
-      "etiket": "karma TR alt",
-      "oran": 6.34,
-      "esik": 4.5,
-      "ornek": "zemin 255,231,163 yazı 70,80,127"
-    },
-    {
-      "etiket": "karma TR not",
-      "oran": 6.65,
-      "esik": 4.5,
-      "ornek": "zemin 223,240,255 yazı 70,80,127"
+      "ornek": "zemin 47,210,122 yazı 13,42,27"
     },
     {
       "etiket": "kategori baslik",
-      "oran": 12.97,
+      "oran": 6.58,
       "esik": 4.5,
-      "ornek": "zemin 223,240,255 yazı 29,33,82"
+      "ornek": "zemin 185,220,255 yazı 58,68,112"
     },
     {
       "etiket": "kategori ad",
@@ -1211,51 +554,45 @@
     },
     {
       "etiket": "kategori sayi",
-      "oran": 15.09,
+      "oran": 7.74,
       "esik": 4.5,
-      "ornek": "zemin 255,255,255 yazı 29,33,82"
+      "ornek": "zemin 255,255,255 yazı 70,80,127"
     },
     {
       "etiket": "kategori cip",
+      "oran": 5.69,
+      "esik": 4.5,
+      "ornek": "zemin 241,205,92 yazı 83,74,51"
+    },
+    {
+      "etiket": "kategori kolay",
       "oran": 15.09,
       "esik": 4.5,
       "ornek": "zemin 255,255,255 yazı 29,33,82"
     },
     {
-      "etiket": "kategori kolay",
-      "oran": 8.21,
-      "esik": 4.5,
-      "ornek": "zemin 234,243,222 yazı 39,80,10"
-    },
-    {
       "etiket": "kategori orta",
-      "oran": 13.16,
+      "oran": 15.09,
       "esik": 4.5,
-      "ornek": "zemin 250,238,218 yazı 29,33,82"
+      "ornek": "zemin 255,255,255 yazı 29,33,82"
     },
     {
       "etiket": "kategori zor",
-      "oran": 13.09,
+      "oran": 15.09,
       "esik": 4.5,
-      "ornek": "zemin 252,235,235 yazı 29,33,82"
+      "ornek": "zemin 29,33,82 yazı 255,255,255"
     },
     {
       "etiket": "kategori kat",
-      "oran": 12.91,
+      "oran": 7.13,
       "esik": 4.5,
-      "ornek": "zemin 224,239,255 yazı 29,33,82"
+      "ornek": "zemin 241,246,255 yazı 70,80,127"
     },
     {
-      "etiket": "kategori alt",
-      "oran": 6.34,
+      "etiket": "kategori kahAlt",
+      "oran": 7.55,
       "esik": 4.5,
-      "ornek": "zemin 255,231,163 yazı 70,80,127"
-    },
-    {
-      "etiket": "kategori not",
-      "oran": 6.65,
-      "esik": 4.5,
-      "ornek": "zemin 223,240,255 yazı 70,80,127"
+      "ornek": "zemin 241,239,216 yazı 83,74,51"
     },
     {
       "etiket": "sandık açık: Sandığı aç düğmesi",
@@ -1265,15 +602,15 @@
     },
     {
       "etiket": "sandık: çip",
-      "oran": 15.09,
+      "oran": 6.18,
       "esik": 4.5,
-      "ornek": "zemin 255,255,255 yazı 29,33,82"
+      "ornek": "zemin 255,249,230 yazı 107,92,62"
     },
     {
       "etiket": "karma EN baslik",
-      "oran": 12.97,
+      "oran": 6.58,
       "esik": 4.5,
-      "ornek": "zemin 223,240,255 yazı 29,33,82"
+      "ornek": "zemin 185,220,255 yazı 58,68,112"
     },
     {
       "etiket": "karma EN ad",
@@ -1283,464 +620,46 @@
     },
     {
       "etiket": "karma EN sayi",
-      "oran": 15.09,
+      "oran": 7.74,
       "esik": 4.5,
-      "ornek": "zemin 255,255,255 yazı 29,33,82"
+      "ornek": "zemin 255,255,255 yazı 70,80,127"
     },
     {
       "etiket": "karma EN cip",
-      "oran": 15.09,
+      "oran": 5.69,
       "esik": 4.5,
-      "ornek": "zemin 255,255,255 yazı 29,33,82"
+      "ornek": "zemin 241,205,92 yazı 83,74,51"
     },
     {
       "etiket": "karma EN kolay",
-      "oran": 8.21,
+      "oran": 15.09,
       "esik": 4.5,
-      "ornek": "zemin 234,243,222 yazı 39,80,10"
+      "ornek": "zemin 255,255,255 yazı 29,33,82"
     },
     {
       "etiket": "karma EN orta",
-      "oran": 13.16,
+      "oran": 15.09,
       "esik": 4.5,
-      "ornek": "zemin 250,238,218 yazı 29,33,82"
+      "ornek": "zemin 255,255,255 yazı 29,33,82"
     },
     {
-      "etiket": "karma EN zor",
-      "oran": 13.09,
+      "etiket": "karma EN kahAlt",
+      "oran": 7.55,
       "esik": 4.5,
-      "ornek": "zemin 252,235,235 yazı 29,33,82"
+      "ornek": "zemin 241,239,216 yazı 83,74,51"
     },
     {
       "etiket": "karma EN alDugme",
-      "oran": 5.8,
+      "oran": 7.79,
       "esik": 4.5,
-      "ornek": "zemin 255,122,46 yazı 29,33,82"
-    },
-    {
-      "etiket": "karma EN alt",
-      "oran": 6.34,
-      "esik": 4.5,
-      "ornek": "zemin 255,231,163 yazı 70,80,127"
-    },
-    {
-      "etiket": "karma EN not",
-      "oran": 6.65,
-      "esik": 4.5,
-      "ornek": "zemin 223,240,255 yazı 70,80,127"
+      "ornek": "zemin 47,210,122 yazı 13,42,27"
     },
     {
       "etiket": "hata mesajı",
-      "oran": 5.33,
+      "oran": 6.09,
       "esik": 4.5,
-      "ornek": "zemin 255,227,230 yazı 184,29,49"
-    },
-    {
-      "etiket": "ana 390x700-alinabilir şerit başlık",
-      "oran": 15.09,
-      "esik": 4.5,
-      "ornek": "zemin 255,255,255 yazı 29,33,82"
-    },
-    {
-      "etiket": "ana 390x700-alinabilir şerit alt yazı",
-      "oran": 7.74,
-      "esik": 4.5,
-      "ornek": "zemin 255,255,255 yazı 70,80,127"
-    },
-    {
-      "etiket": "ana 390x760-alinabilir şerit başlık",
-      "oran": 15.09,
-      "esik": 4.5,
-      "ornek": "zemin 255,255,255 yazı 29,33,82"
-    },
-    {
-      "etiket": "ana 390x760-alinabilir şerit alt yazı",
-      "oran": 7.74,
-      "esik": 4.5,
-      "ornek": "zemin 255,255,255 yazı 70,80,127"
-    },
-    {
-      "etiket": "ana 390x844-alinabilir şerit başlık",
-      "oran": 15.09,
-      "esik": 4.5,
-      "ornek": "zemin 255,255,255 yazı 29,33,82"
-    },
-    {
-      "etiket": "ana 390x844-alinabilir şerit alt yazı",
-      "oran": 7.74,
-      "esik": 4.5,
-      "ornek": "zemin 255,255,255 yazı 70,80,127"
-    },
-    {
-      "etiket": "ana 390x844-en-alinabilir şerit başlık",
-      "oran": 15.09,
-      "esik": 4.5,
-      "ornek": "zemin 255,255,255 yazı 29,33,82"
-    },
-    {
-      "etiket": "ana 390x844-en-alinabilir şerit alt yazı",
-      "oran": 7.74,
-      "esik": 4.5,
-      "ornek": "zemin 255,255,255 yazı 70,80,127"
-    },
-    {
-      "etiket": "ana 360x700-alinabilir şerit başlık",
-      "oran": 15.09,
-      "esik": 4.5,
-      "ornek": "zemin 255,255,255 yazı 29,33,82"
-    },
-    {
-      "etiket": "ana 360x700-alinabilir şerit alt yazı",
-      "oran": 7.74,
-      "esik": 4.5,
-      "ornek": "zemin 255,255,255 yazı 70,80,127"
-    },
-    {
-      "etiket": "ana 360x800-alinabilir şerit başlık",
-      "oran": 15.09,
-      "esik": 4.5,
-      "ornek": "zemin 255,255,255 yazı 29,33,82"
-    },
-    {
-      "etiket": "ana 360x800-alinabilir şerit alt yazı",
-      "oran": 7.74,
-      "esik": 4.5,
-      "ornek": "zemin 255,255,255 yazı 70,80,127"
+      "ornek": "zemin 255,241,214 yazı 138,75,0"
     }
   ],
-  "ana": [
-    {
-      "w": 390,
-      "h": 664,
-      "dil": "tr",
-      "ad": "alinabilir",
-      "oyna": [
-        406,
-        474
-      ],
-      "duello": [
-        406,
-        474
-      ],
-      "serit": null,
-      "nav": 594,
-      "nokta": true,
-      "metin": "GörevlerGünlük 2/3 · Haftalık 1/3",
-      "aria": "Görevler. Günlük 2/3, haftalık 1/3. Alınabilir ödül var.",
-      "docKay": 0
-    },
-    {
-      "w": 390,
-      "h": 664,
-      "dil": "tr",
-      "ad": "sakin",
-      "oyna": [
-        406,
-        474
-      ],
-      "duello": [
-        406,
-        474
-      ],
-      "serit": null,
-      "nav": 594,
-      "nokta": false,
-      "metin": "GörevlerGünlük 0/3 · Haftalık 0/3",
-      "aria": "Görevler. Günlük 0/3, haftalık 0/3.",
-      "docKay": 0
-    },
-    {
-      "w": 390,
-      "h": 700,
-      "dil": "tr",
-      "ad": "alinabilir",
-      "oyna": [
-        399,
-        462
-      ],
-      "duello": [
-        399,
-        462
-      ],
-      "serit": [
-        562,
-        606
-      ],
-      "nav": 630,
-      "nokta": true,
-      "metin": "Görevler Günlük 2/3 · Haftalık 1/3",
-      "aria": "Görevler. Günlük 2/3, haftalık 1/3. Alınabilir ödül var.",
-      "docKay": 0
-    },
-    {
-      "w": 390,
-      "h": 700,
-      "dil": "tr",
-      "ad": "sakin",
-      "oyna": [
-        399,
-        462
-      ],
-      "duello": [
-        399,
-        462
-      ],
-      "serit": [
-        562,
-        606
-      ],
-      "nav": 630,
-      "nokta": false,
-      "metin": "Görevler Günlük 0/3 · Haftalık 0/3",
-      "aria": "Görevler. Günlük 0/3, haftalık 0/3.",
-      "docKay": 0
-    },
-    {
-      "w": 390,
-      "h": 760,
-      "dil": "tr",
-      "ad": "alinabilir",
-      "oyna": [
-        399,
-        522
-      ],
-      "duello": [
-        399,
-        522
-      ],
-      "serit": [
-        622,
-        666
-      ],
-      "nav": 690,
-      "nokta": true,
-      "metin": "Görevler Günlük 2/3 · Haftalık 1/3",
-      "aria": "Görevler. Günlük 2/3, haftalık 1/3. Alınabilir ödül var.",
-      "docKay": 0
-    },
-    {
-      "w": 390,
-      "h": 760,
-      "dil": "tr",
-      "ad": "sakin",
-      "oyna": [
-        399,
-        522
-      ],
-      "duello": [
-        399,
-        522
-      ],
-      "serit": [
-        622,
-        666
-      ],
-      "nav": 690,
-      "nokta": false,
-      "metin": "Görevler Günlük 0/3 · Haftalık 0/3",
-      "aria": "Görevler. Günlük 0/3, haftalık 0/3.",
-      "docKay": 0
-    },
-    {
-      "w": 390,
-      "h": 844,
-      "dil": "tr",
-      "ad": "alinabilir",
-      "oyna": [
-        501,
-        592
-      ],
-      "duello": [
-        501,
-        592
-      ],
-      "serit": [
-        702,
-        750
-      ],
-      "nav": 774,
-      "nokta": true,
-      "metin": "Görevler Günlük 2/3 · Haftalık 1/3",
-      "aria": "Görevler. Günlük 2/3, haftalık 1/3. Alınabilir ödül var.",
-      "docKay": 0
-    },
-    {
-      "w": 390,
-      "h": 844,
-      "dil": "tr",
-      "ad": "sakin",
-      "oyna": [
-        501,
-        592
-      ],
-      "duello": [
-        501,
-        592
-      ],
-      "serit": [
-        702,
-        750
-      ],
-      "nav": 774,
-      "nokta": false,
-      "metin": "Görevler Günlük 0/3 · Haftalık 0/3",
-      "aria": "Görevler. Günlük 0/3, haftalık 0/3.",
-      "docKay": 0
-    },
-    {
-      "w": 390,
-      "h": 844,
-      "dil": "en",
-      "ad": "alinabilir",
-      "oyna": [
-        501,
-        592
-      ],
-      "duello": [
-        501,
-        592
-      ],
-      "serit": [
-        702,
-        750
-      ],
-      "nav": 774,
-      "nokta": true,
-      "metin": "Quests Daily 2/3 · Weekly 1/3",
-      "aria": "Quests. Daily 2/3, weekly 1/3. A reward is ready to claim.",
-      "docKay": 0
-    },
-    {
-      "w": 360,
-      "h": 640,
-      "dil": "tr",
-      "ad": "alinabilir",
-      "oyna": [
-        391,
-        454
-      ],
-      "duello": [
-        391,
-        454
-      ],
-      "serit": null,
-      "nav": 570,
-      "nokta": true,
-      "metin": "GörevlerGünlük 2/3 · Haftalık 1/3",
-      "aria": "Görevler. Günlük 2/3, haftalık 1/3. Alınabilir ödül var.",
-      "docKay": 0
-    },
-    {
-      "w": 360,
-      "h": 640,
-      "dil": "tr",
-      "ad": "sakin",
-      "oyna": [
-        391,
-        454
-      ],
-      "duello": [
-        391,
-        454
-      ],
-      "serit": null,
-      "nav": 570,
-      "nokta": false,
-      "metin": "GörevlerGünlük 0/3 · Haftalık 0/3",
-      "aria": "Görevler. Günlük 0/3, haftalık 0/3.",
-      "docKay": 0
-    },
-    {
-      "w": 360,
-      "h": 700,
-      "dil": "tr",
-      "ad": "alinabilir",
-      "oyna": [
-        399,
-        462
-      ],
-      "duello": [
-        399,
-        462
-      ],
-      "serit": [
-        562,
-        606
-      ],
-      "nav": 630,
-      "nokta": true,
-      "metin": "Görevler Günlük 2/3 · Haftalık 1/3",
-      "aria": "Görevler. Günlük 2/3, haftalık 1/3. Alınabilir ödül var.",
-      "docKay": 0
-    },
-    {
-      "w": 360,
-      "h": 700,
-      "dil": "tr",
-      "ad": "sakin",
-      "oyna": [
-        399,
-        462
-      ],
-      "duello": [
-        399,
-        462
-      ],
-      "serit": [
-        562,
-        606
-      ],
-      "nav": 630,
-      "nokta": false,
-      "metin": "Görevler Günlük 0/3 · Haftalık 0/3",
-      "aria": "Görevler. Günlük 0/3, haftalık 0/3.",
-      "docKay": 0
-    },
-    {
-      "w": 360,
-      "h": 800,
-      "dil": "tr",
-      "ad": "alinabilir",
-      "oyna": [
-        449,
-        548
-      ],
-      "duello": [
-        449,
-        548
-      ],
-      "serit": [
-        658,
-        706
-      ],
-      "nav": 730,
-      "nokta": true,
-      "metin": "Görevler Günlük 2/3 · Haftalık 1/3",
-      "aria": "Görevler. Günlük 2/3, haftalık 1/3. Alınabilir ödül var.",
-      "docKay": 0
-    },
-    {
-      "w": 360,
-      "h": 800,
-      "dil": "tr",
-      "ad": "sakin",
-      "oyna": [
-        449,
-        548
-      ],
-      "duello": [
-        449,
-        548
-      ],
-      "serit": [
-        658,
-        706
-      ],
-      "nav": 730,
-      "nokta": false,
-      "metin": "Görevler Günlük 0/3 · Haftalık 0/3",
-      "aria": "Görevler. Günlük 0/3, haftalık 0/3.",
-      "docKay": 0
-    }
-  ]
+  "ana": []
 }

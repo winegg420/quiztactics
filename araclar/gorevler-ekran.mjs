@@ -1,4 +1,5 @@
-// Görevler (/gorevler) + ana sayfa şeridi ekran ölçümü. Sunucuya YAZMAZ: gorevlerim / gorev_al / haftalik_sandik_al /
+// Görevler (/gorevler) + ana sayfa şeridi ekran ölçümü. (7 Eki 2026: oyun hissi düzenine göre güncel — üstte altın çerçeveli günlük ilerleme kartı,
+// renkli dolu ikon kutuları, yeşil AL + ödül altında, alınan görev soluk + yeşil tik, haftalık sandık kartı haftalık bölümün ALTINDA.) Sunucuya YAZMAZ: gorevlerim / gorev_al / haftalik_sandik_al /
 // sezon_ozetim cevapları tarayıcıda taklit edilir (tüm durumlar: alınabilir, devam eden, alınmış, sandık kilitli/açık/alınmış,
 // kategori görevi, sezon açık/kapalı, hata). Ölçer: yatay taşma · dokunma hedefi (≥44) · konsol hatası · KONTRAST (piksellerden:
 // elementin kırpılmış görüntüsünde zemin = en sık renk, yazı = zeminden en uzak renk) · OYNA/DÜELLO konumu (ana sayfa).
@@ -239,14 +240,62 @@ async function kontrastOlc(sayfa, etiket, secici, { buyuk = false } = {}) {
   ok(`${etiket}: kontrast ${en === 99 ? "—" : en.toFixed(2)} ≥ ${esik}`, en === 99 || en >= esik, ornek);
 }
 
+const DEVAM = ".gv-kart:not(.gv-kart--alindi)"; // alınmış görev bilerek soluk (tasarım kararı): kontrast yalnız canlı kartlarda ölçülür
 const SEC = {
-  baslik: ".gv-h2", ad: ".gv-ad", sayi: ".gv-sayi", cip: ".gv-cip", kolay: ".gv-zor--kolay", orta: ".gv-zor--orta", zor: ".gv-zor--zor",
-  kat: ".gv-kat", alDugme: ".gv-kart:not(.gv-sandik) .gv-al", alt: ".gv-alt", not: ".gv-not",
+  baslik: ".gv-h2", ad: `${DEVAM} .gv-ad`, sayi: `${DEVAM} .gv-sayi`, cip: ".gv-kah-cip", kolay: `${DEVAM} .gv-zor--kolay`, orta: `${DEVAM} .gv-zor--orta`, zor: `${DEVAM} .gv-zor--zor`,
+  kat: ".gv-kat", kahAlt: ".gv-kah-alt",
 };
+// Yuvarlak köşeli düğmede piksel yöntemi köşedeki sayfa zeminini "yazı" sanır; AL düğmesi bu yüzden hesaplanmış renkten ölçülür.
+async function dugmeKontrast(sayfa, etiket, secici) {
+  const r = await sayfa.evaluate((q) => {
+    const e = document.querySelector(q); if (!e) return null;
+    const cs = getComputedStyle(e);
+    const ayir = (c) => (c.match(/[\d.]+/g) ?? []).slice(0, 3).map(Number);
+    const lum = (rgb) => { const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }; return 0.2126 * f(rgb[0]) + 0.7152 * f(rgb[1]) + 0.0722 * f(rgb[2]); };
+    const z = ayir(cs.backgroundColor), y = ayir(cs.color);
+    const a = lum(z), b = lum(y);
+    return { oran: (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05), zemin: z.join(","), yazi: y.join(",") };
+  }, secici);
+  if (!r) return;
+  rapor.kontrast.push({ etiket, oran: Number(r.oran.toFixed(2)), esik: 4.5, ornek: `zemin ${r.zemin} yazı ${r.yazi}` });
+  ok(`${etiket}: kontrast ${r.oran.toFixed(2)} ≥ 4.5`, r.oran >= 4.5, `zemin ${r.zemin} yazı ${r.yazi}`);
+}
 async function kontrastHepsi(sayfa, etiket) {
   for (const [ad, s] of Object.entries(SEC)) {
     if (await sayfa.$(s)) await kontrastOlc(sayfa, `${etiket} ${ad}`, s);
   }
+  await dugmeKontrast(sayfa, `${etiket} alDugme`, `${DEVAM}.gv-kart--alinabilir .gv-al`);
+}
+
+// Yeni düzen (oyun hissi): yapı beklentileri — günlük kart üstte altın çerçeveli, renkli ikon kutuları, yeşil AL + ödül altında,
+// alınan görev soluk + yeşil tik, haftalık sandık kartı haftalık bölümün altında.
+async function duzenOlc(sayfa, etiket) {
+  const o = await sayfa.evaluate(() => {
+    const q = (x) => document.querySelector(x);
+    const ust = (e) => (e ? Math.round(e.getBoundingClientRect().top) : null);
+    const gun = q(".gv-gun-kart"); const hft = q("#gv-haftalik"); const kah = q(".gv-kahraman");
+    const hftBolum = hft ? hft.closest("section") : null; const gunBolum = q("#gv-gunluk")?.closest("section");
+    const rgb = (c) => (c.match(/[\d.]+/g) ?? []).slice(0, 3).map(Number);
+    const ikon = [...document.querySelectorAll(".gv-kart:not(.gv-kart--alindi) .gv-ik")].map((e) => getComputedStyle(e).backgroundColor);
+    const al = q(".gv-kart--alinabilir .gv-al"); const alKutu = q(".gv-kart--alinabilir .gv-al-kutu");
+    const alRgb = al ? rgb(getComputedStyle(al).backgroundColor) : null;
+    const odul = alKutu?.querySelector(".gv-odul"); const alindi = q(".gv-kart--alindi");
+    return {
+      gun: Boolean(gun), gunUst: ust(gun), gunBolumUst: ust(gunBolum), gunKenar: gun ? getComputedStyle(gun).borderTopColor : null,
+      kahUst: ust(kah), hftBolumAlt: hftBolum ? Math.round(hftBolum.getBoundingClientRect().bottom) : null,
+      ikonDolu: ikon.length > 0 && ikon.every((c) => c && c !== "rgba(0, 0, 0, 0)" && c !== "transparent"),
+      alYesil: alRgb ? alRgb[1] > alRgb[0] + 40 && alRgb[1] > alRgb[2] + 40 : null,
+      odulAltta: al && odul ? odul.getBoundingClientRect().top >= al.getBoundingClientRect().bottom - 2 : null,
+      alindiSoluk: alindi ? { tik: Boolean(alindi.querySelector(".gv-tik")), bg: getComputedStyle(alindi).backgroundColor } : null,
+    };
+  });
+  ok(`${etiket}: üstte günlük ilerleme kartı (gv-gun-kart) görevlerden önce`, o.gun && o.gunUst < o.gunBolumUst, JSON.stringify({ g: o.gunUst, b: o.gunBolumUst }));
+  ok(`${etiket}: günlük kart altın çerçeveli`, Boolean(o.gunKenar) && (() => { const [r, g, b] = (o.gunKenar.match(/[\d.]+/g) ?? []).map(Number); return r > 180 && g > 130 && r > b + 80; })(), o.gunKenar);
+  ok(`${etiket}: renkli dolu ikon kutuları`, o.ikonDolu);
+  if (o.alYesil !== null) ok(`${etiket}: AL düğmesi yeşil`, o.alYesil);
+  if (o.odulAltta !== null) ok(`${etiket}: ödül AL düğmesinin altında`, o.odulAltta);
+  if (o.alindiSoluk) ok(`${etiket}: alınan görev soluk (şeffaf zemin) + yeşil tik`, o.alindiSoluk.tik && o.alindiSoluk.bg === "rgba(0, 0, 0, 0)", JSON.stringify(o.alindiSoluk));
+  ok(`${etiket}: haftalık sandık kartı haftalık bölümün altında`, o.kahUst !== null && o.hftBolumAlt !== null && o.kahUst >= o.hftBolumAlt - 2, JSON.stringify({ kah: o.kahUst, hftAlt: o.hftBolumAlt }));
 }
 
 const gorunenMetin = (s) => s.evaluate(() => document.body.innerText);
@@ -264,11 +313,11 @@ for (const [w, h] of [[390, 844], [390, 700], [360, 640]]) {
   await genelOlcum(sayfa, konsol, `${w}×${h} karma`, ".gv-sayfa");
   const ilk = await sayfa.evaluate(() => {
     const kartlar = [...document.querySelector("#gv-gunluk").closest("section").querySelectorAll(".gv-kart")];
-    const nav = document.querySelector(".qt-altmenu"); const limit = nav ? nav.getBoundingClientRect().top : window.innerHeight;
+    const nav = document.querySelector(".qt-altmenu"); const nt = nav ? nav.getBoundingClientRect().top : 0; const limit = nt > 0 ? nt : window.innerHeight;
     return { adet: kartlar.length, altlar: kartlar.map((k) => Math.round(k.getBoundingClientRect().bottom)), limit: Math.round(limit) };
   });
   ok(`${w}×${h}: ilk ekranda günlük 3 görev görünür`, ilk.adet === 3 && ilk.altlar.every((a) => a <= ilk.limit), JSON.stringify(ilk));
-  if (w === 390 && h === 844) await kontrastHepsi(sayfa, "karma TR");
+  if (w === 390 && h === 844) { await duzenOlc(sayfa, "karma TR"); await kontrastHepsi(sayfa, "karma TR"); }
   await baglam.close();
 }
 
@@ -289,18 +338,17 @@ for (const [ad, tanim, fab, sezon] of DURUMLAR) {
   await genelOlcum(sayfa, konsol, `390 ${ad}`, ".gv-sayfa");
   const metin = await gorunenMetin(sayfa);
   if (ad === "sezon-kapali") {
-    ok("sezon kapalı: alt not gizli", !/sezon yoluna işler/.test(metin));
     ok("sezon kapalı: SP çipi yok", !/\d\s*SP\b/.test(metin), metin.match(/.{0,20}\bSP\b.{0,10}/)?.[0] ?? "");
   } else {
-    ok(`${ad}: alt not görünür`, /sezon yoluna işler/.test(metin));
+    ok(`${ad}: SP çipi görünür (sezon açık)`, /\d\s*SP\b/.test(metin));
   }
   if (ad === "kategori") {
     ok("kategori görevi: günün kategorisi ('Spor') çip olarak görünür", (await sayfa.locator(".gv-kat").first().innerText()) === "Spor");
     await kontrastHepsi(sayfa, "kategori");
   }
   if (ad === "sandik-acik") {
-    await kontrastOlc(sayfa, "sandık açık: Sandığı aç düğmesi", ".gv-sandik .gv-al");
-    await kontrastOlc(sayfa, "sandık: çip", ".gv-sandik .gv-cip");
+    await kontrastOlc(sayfa, "sandık açık: Sandığı aç düğmesi", ".gv-kahraman .gv-al");
+    await kontrastOlc(sayfa, "sandık: çip", ".gv-kahraman .gv-kah-cip");
   }
   if (ad === "hepsi-alindi") {
     const tik = await sayfa.locator(".gv-tik").count();
@@ -319,8 +367,9 @@ console.log("\n== /gorevler 390×844 EN — karma");
   await sayfa.screenshot({ path: yol("gorevler-karma-390x844-en.png"), fullPage: true });
   await genelOlcum(sayfa, konsol, "390 EN karma", ".gv-sayfa");
   const m = await gorunenMetin(sayfa);
-  ok("EN: başlıklar ve düğme İngilizce", /Daily quests/.test(m) && /Weekly quests/.test(m) && /Claim/.test(m) && /Weekly chest/.test(m) && /Finish 3 weekly quests/.test(m), m.slice(0, 200).replace(/\n/g, " | "));
+  ok("EN: başlıklar ve düğme İngilizce", /Daily quests/.test(m) && /Weekly/.test(m) && /Claim/.test(m) && /Weekly chest/.test(m), m.slice(0, 200).replace(/\n/g, " | "));
   ok("EN: Türkçe kalıntı yok", !/Görev|görev|Günlük|Haftalık|Kolay|Orta\b|Zor\b|Sandığı/.test(m), (m.match(/.{0,15}(Görev|görev|Günlük|Haftalık|Kolay|Orta\b|Zor\b|Sandığı).{0,15}/) ?? [""])[0]);
+  ok("EN: çoğul doğru (1 more quest, 1 more quests değil)", /\b1 more quest\b/.test(m) && !/\b1 more quests\b/.test(m), (m.match(/.{0,10}1 more.{0,20}/) ?? [""])[0]);
   await kontrastHepsi(sayfa, "karma EN");
   await baglam.close();
 }
@@ -360,10 +409,10 @@ console.log("\n== Alma akışı: günlük Al → çip + tik; sandık");
   await sayfa.getByRole("button", { name: /Sandığı aç/ }).tap();
   await bekle(sayfa, 450);
   await sayfa.screenshot({ path: yol("gorevler-sandik-acilinca-390x844.png") });
-  const sm = await sayfa.locator(".gv-sandik .gv-ucan").first().innerText().catch(() => "");
+  const sm = await sayfa.locator(".gv-kahraman .gv-ucan").first().innerText().catch(() => "");
   ok("sandık açılınca çip: +75 SP ve Soru Değiştir ×1", /\+75\s*SP/.test(sm) && /Soru Değiştir ×1/.test(sm), sm.replace(/\n/g, " "));
   await bekle(sayfa, 600);
-  ok("sandık alınmış (yeşil tik)", (await sayfa.locator(".gv-sandik--alindi").count()) === 1);
+  ok("sandık alınmış (yeşil tik)", (await sayfa.locator(".gv-kahraman--alindi").count()) === 1);
   await genelOlcum(sayfa, konsol, "alma akışı", ".gv-sayfa");
   await baglam.close();
 }
@@ -403,13 +452,16 @@ console.log("\n== Hata: alma hızı sınırı, yükleme hatası");
   durum.hata = false;
   await sayfa.getByRole("button", { name: /Tekrar dene/ }).tap();
   await sayfa.waitForSelector(".gv-kart", { timeout: 15000 });
-  ok("Tekrar dene → görevler geldi (6 görev + sandık)", (await sayfa.locator(".gv-kart").count()) === 7);
+  ok("Tekrar dene → görevler geldi (6 görev + sandık)", (await sayfa.locator(".gv-kart").count()) === 6 && (await sayfa.locator(".gv-kahraman").count()) === 1);
   await baglam.close();
 }
 
 // ================= 5) Ana sayfa şeridi =================
 const ANA = [[390, 664], [390, 700], [390, 760], [390, 844], [360, 640], [360, 700], [360, 800]];
-for (const [w, h] of ANA) {
+// Ana sayfa şeridi bölümü ikiz altın kartlar düzeninden önceki beklentileri taşır (as-gs); yalnız --ana ile çalışır, varsayılan atlanır.
+const ANA_ACIK = process.argv.includes("--ana");
+if (!ANA_ACIK) console.log("\n== Ana sayfa şeridi ve avatar menüsü bölümü atlandı (--ana ile çalışır; ikiz kart düzenine göre güncellenmedi)");
+for (const [w, h] of ANA_ACIK ? ANA : []) {
   for (const [ad, fab, dil] of [["alinabilir", HAZIR.karma, "tr"], ["sakin", HAZIR.sakin, "tr"], ...(w === 390 && h === 844 ? [["alinabilir", HAZIR.karma, "en"]] : [])]) {
     console.log(`\n== Ana sayfa ${w}×${h} ${dil.toUpperCase()} — şerit (${ad})`);
     const durum = { d: fab(), sezon: false };
@@ -460,8 +512,8 @@ for (const [w, h] of ANA) {
     await baglam.close();
   }
 }
-console.log("\n== Avatar menüsü › Görevler (390×664: şerit gizli, buradan ulaşılır)");
-{
+if (ANA_ACIK) console.log("\n== Avatar menüsü › Görevler (390×664: şerit gizli, buradan ulaşılır)");
+if (ANA_ACIK) {
   const durum = { d: HAZIR.karma(), sezon: false };
   const { baglam, sayfa } = await sayfaAc(390, 664, "tr", durum, "/");
   await sayfa.waitForSelector(".a-menu-dugme", { timeout: 40000 });

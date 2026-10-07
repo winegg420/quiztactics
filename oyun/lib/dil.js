@@ -189,7 +189,8 @@ export function t(dil, anahtar, degerler) {
   return birVar ? ingilizceTekil(sonuc) : sonuc;
 }
 
-// "1 questions" → "1 question": yalnız yer tutucuyla gelen 1'in HEMEN ardındaki düzenli çoğul isim.
+// "1 questions" → "1 question": yalnız yer tutucuyla gelen 1'in HEMEN ardındaki düzenli çoğul isim
+// (araya "more/new/weekly…" gibi tek bir sıfat girebilir: "1 more quests" → "1 more quest").
 const TEKIL_ISARET = "\u0001";
 const TEKIL_ISTISNA = /^(news|series|species|has|was|does|this|its|plus|always|status|bonus|focus|pass|miss|class|chaos|lens|gas|bias|us|is|as)$/i;
 function tekilYap(k) {
@@ -202,7 +203,7 @@ function tekilYap(k) {
 }
 function ingilizceTekil(metin) {
   return metin
-    .replace(/\u0001(\s+)([A-Za-z]+)(?![A-Za-z(])/g, (_, bosluk, k) => bosluk + tekilYap(k))
+    .replace(/\u0001(\s+(?:(?:more|new|weekly|daily|bonus|unread|extra|other)\s+)?)([A-Za-z]+)(?![A-Za-z(])/g, (_, bosluk, k) => bosluk + tekilYap(k))
     .replace(/\u0001/g, "");
 }
 
