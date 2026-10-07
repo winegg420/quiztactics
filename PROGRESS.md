@@ -10188,3 +10188,9 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 - Koleksiyon ve Dükkân'da sahip olunmayan fakat sahip hesabında kullanılabilen kalemlerin durumu **“Kullanılabilir” / “Available”** oldu; davranış değişmedi.
 - Takılabilir kapalı kalemlerin düğmesi test vurgusu olmadan mevcut **“Tak” / “Equip”** metnini kullanıyor.
 - `lib/ceviri/kozmetik.js` içindeki eski “Test modunda açık” satırı artık kullanılmıyor; talimat gereği silinmedi.
+
+## 2026-10-07 — 985 ve 986 canlıya uygulandı
+- `npx supabase db push` ile 20260612000985 (Hazine joker sınırları) ve 20260612000986 (Düello gösterim payı 2 sn; Ida onayıyla) uygulandı. `--include-all` kullanılmadı.
+- Canlı doğrulama (pg-mini): 6 `kasa_joker_*` anahtarı İkinci Şans 1 · 50:50 2 · Ek Süre 2 · Zaman Baskısı 3 · toplam 4 · soru başı 1; `duello_gosterim_payi_ms` 1500 → 2000; `klasik_skill_*` (soru başı 1, toplam 6, tur başı 2) değişmedi.
+- `kasa_joker_durumu` canlı tanımı `tur_sinirlari` / `kalan_haklar` / `sinir` döndürüyor (fonksiyon tanımından doğrulandı; kimlikli çağrı yapılmadı).
+- `supabase link` yetki hatası verdi, push için gerekmedi.
