@@ -1220,6 +1220,25 @@ html:not(.msk-acik) body:not(.bd-oyun-modu):has(.a-ust-blok):not(:has(.qt-ortu))
   justify-content: center;
   font-variant-numeric: tabular-nums;
 }
+/* Maç içi kalan hak sayacı (Ortak Hazine 985): sol üst köşe, fiyat/adet rozetiyle çakışmaz */
+.qt-skill-sayac {
+  position: absolute;
+  top: -6px;
+  left: -4px;
+  min-width: 26px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: var(--qt-yuzey-3);
+  color: var(--qt-metin);
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 18px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
+.qt-skill--kullanildi .qt-skill-sayac { color: var(--qt-metin-soluk); }
 .qt-skill-rozet--fiyat { background: var(--qt-coin); color: var(--qt-coin-yazi); padding: 0 5px 0 3px; }
 .qt-skill-rozet--kilit { background: var(--qt-yuzey-3); color: var(--qt-metin-soluk); padding: 0; }
 .qt-skill--aktif { --_d: var(--qt-coin-dudak); box-shadow: 0 4px 0 var(--_d), inset 0 0 0 3px var(--qt-coin); }

@@ -5,6 +5,8 @@
 export default {
   // mod adı ve etiketler
   "Ortak Hazine": "Shared Treasure",
+  // 985: joker çubuğunda tür başı kalan hak sayacı
+  "Kalan hak: {0}": "Uses left: {0}",
   "Deneysel": "Experimental",
   "Ortak Hazine · Deneysel": "Shared Treasure · Experimental",
   "Hazine senin!": "The treasure is yours!",

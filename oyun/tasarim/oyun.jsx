@@ -183,7 +183,7 @@ const SKILL_DURUM_EK = { aktif: "etkin", kullanildi: "kullanıldı", kilitli: "k
  * kilitli + kilitMetni ("Lv 10") → kilit balonu ve adın yerine kilit metni
  * kullanildi anında patlama + halka animasyonu kendiliğinden oynar.
  */
-export function QtSkill({ ikon, rozet, ad, adet, fiyat, durum = "hazir", kilitMetni, onClick, className, type, ...rest }) {
+export function QtSkill({ ikon, rozet, ad, adet, fiyat, durum = "hazir", kilitMetni, sayac, onClick, className, type, ...rest }) {
   const kapali = durum === "kullanildi" || durum === "kilitli";
   const parcalar = [ad];
   if (durum === "kilitli" && kilitMetni) parcalar.push(kilitMetni);
@@ -218,6 +218,8 @@ export function QtSkill({ ikon, rozet, ad, adet, fiyat, durum = "hazir", kilitMe
           {fiyat}
         </span>
       ) : null}
+      {/* Maç içi kalan hak sayacı (ör. "1/2") — etiket metni çağıran tarafta aria-label'da */}
+      {sayac ? <span className="qt-skill-sayac" aria-hidden="true">{sayac}</span> : null}
     </button>
   );
 }

@@ -175,9 +175,12 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
   const rakipKilitledi = Boolean(durum.kilitli);
   const turSayilari = durum.kullanim_sayilari ?? {};
   const turSiniri = Number(durum.tur_basi_sinir ?? 1);
+  // KASA (985): Ortak Hazine'ye özel tür sınırları (İkinci Şans 1 · 50:50 2 · Ek Süre 2 · Zaman Baskısı 3)
+  const turSinirlari = kasaMi && durum.tur_sinirlari && typeof durum.tur_sinirlari === "object" ? durum.tur_sinirlari : null;
+  const turSiniriOf = (tur) => Number(turSinirlari?.[tur] ?? turSiniri);
   const sorudaKullanildi = Boolean(durum.soruda_kullanildi) || kullandigim.length > 0;
   const turKullanimi = (tur) => Number(turSayilari?.[tur] ?? 0);
-  const turDoldu = (tur) => turKullanimi(tur) >= turSiniri;
+  const turDoldu = (tur) => turKullanimi(tur) >= turSiniriOf(tur);
   // KASA (953): DEVAM ödülü — yalnız bu soruda, envanter/coin/sınır dışı. Aynı soruda aynı tür ikinci kez kullanılamaz.
   const soruTurleri = kasaMi && Array.isArray(durum.soru_turleri) ? durum.soru_turleri : [];
   const bedavaTur = kasaMi && !bedavaKullandim && durum.bedava && !soruTurleri.includes(durum.bedava) ? durum.bedava : null;
@@ -317,7 +320,9 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
             const satilik = satinAlinabilir(tur);
             const fiyat = Number(fiyatlar?.[tur] ?? 0);
             const kullanildi = (turDoldu(tur) && !bedavaMi) || soruIcindeKullanildi(tur);
-            const macHakKaldi = Math.max(0, turSiniri - turKullanimi(tur));
+            const macHakKaldi = Math.max(0, turSiniriOf(tur) - turKullanimi(tur));
+            // KASA (985): her jokerde "kalan/sınır" sayacı (ör. 1/2); hak bitince düğme zaten "kullanildi" (pasif)
+            const sayac = turSinirlari ? `${macHakKaldi}/${turSiniriOf(tur)}` : undefined;
             // Paket 35 A.2: stok yoksa fiyat rozeti HER ZAMAN görünür
             const fiyatRozeti = !serbestMod && !ucretsiz && adet <= 0 && fiyat > 0;
             // Etkisi soru boyunca süren skill'ler (Sigorta, 2X, İkinci Şans) bu soruda "aktif".
@@ -326,7 +331,7 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
             const aciklama = engel ?? (bedavaMi ? tt("DEVAM ödülü: yalnız bu soru için ücretsiz")
               : satilik ? tt("{0} coin — dokun, al ve kullan", { 0: fiyat }) : bilgi.aciklama);
             const etiket = [bilgi.ad, aciklama, ucretsiz ? tt("Ücretsiz") : null,
-              soruSinirli ? tt("Maç hakkı: {0}", { 0: macHakKaldi }) : null].filter(Boolean).join(" — ");
+              sayac ? tt("Kalan hak: {0}", { 0: sayac }) : soruSinirli ? tt("Maç hakkı: {0}", { 0: macHakKaldi }) : null].filter(Boolean).join(" — ");
             return (
               <QtSkill
                 key={tur}
@@ -336,6 +341,7 @@ export default function JokerCubugu({ macTur, macId, soruIndex, onEtki, onBilgi,
                 adet={serbestMod || ucretsiz || fiyatRozeti ? undefined : adet}
                 fiyat={fiyatRozeti ? fiyat : undefined}
                 durum={durumAdi}
+                sayac={sayac}
                 className={`${parlayan === tur ? "m1-skill--parla" : ""} ${calisan === tur ? "qt-skill--calisiyor" : ""}${bedavaMi ? " m1-skill--bedava" : ""}`}
                 data-bedava={bedavaMi ? tt("ÜCRETSİZ") : undefined}
                 // Pasif düğme BASILABİLİR kalır ama skill kullanmaz: sebebini yazar (B.2.4).
