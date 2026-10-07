@@ -10,7 +10,7 @@ import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import Countdown from "../components/Countdown.jsx";
 import { BugunKalanTurnuvalar } from "../components/TurnuvaSaatleri.jsx";
-import { siradakiLobi, kalanSure, gosterimTavani } from "../lib/zaman.js";
+import { siradakiLobi, kalanSure, gosterimTavani, tikBasligiEkle, GEC_VARIS_EK_MS } from "../lib/zaman.js";
 import YanlisSatiri from "../components/YanlisSatiri.jsx";
 import OdulDokumu from "../components/OdulDokumu.jsx";
 import MacSorulari from "../components/MacSorulari.jsx";
@@ -425,13 +425,14 @@ export default function TournamentPage() {
   const benimKayit = oyuncular.find((o) => o.user_id === user.id);
   const hayatta = oyuncular.filter((o) => !o.elendi);
 
-  const cevapla = async (i) => {
-    const { data, error } = await supabase.rpc("submit_tournament_answer", {
+  const cevapla = async (i, tikMs) => {
+    // 991: dokunma anı x-qt-tik başlığıyla gider — süre içinde dokunulup geç varan cevap kabul edilir (elenmez)
+    const { data, error } = await tikBasligiEkle(supabase.rpc("submit_tournament_answer", {
       p_tournament_id: turnuva.id,
       p_cevap: i,
       // 329: hangi soruyu cevapladığımız — soru değiştiyse (eski kart) sunucu reddeder.
       p_soru_index: soru?.soru_index ?? null,
-    });
+    }), tikMs);
     if (error) throw error;
     cevapZamaniRef.current = Date.now();
     return data?.[0];
@@ -465,9 +466,13 @@ export default function TournamentPage() {
     if (advanceKilidi.current || !turnuva) return;
     advanceKilidi.current = true;
     bekleyenIlerletme.current = true;
+    const gecikme = Math.random() * 1200 + 1100;
     setTimeout(() => {
       if (bekleyenIlerletme.current) ilerletmeyiDene();
-    }, Math.random() * 1200 + 1100);
+    }, gecikme);
+    // 991: cevaplamayan varsa sunucu soruyu geç varış payı dolunca kapatır — o an bir kez daha dene
+    // (herkes cevapladıysa ilk deneme zaten ilerletir; ikincisi zararsız)
+    setTimeout(() => ilerletmeyiDene(), gecikme + GEC_VARIS_EK_MS);
   }, [turnuva, ilerletmeyiDene]);
 
   const lobiyeKatil = async () => {

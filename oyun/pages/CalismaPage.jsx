@@ -15,6 +15,7 @@ import { supabase } from "../../src/lib/supabase.js";
 import { kategoriEtiket, kategorileriSirala } from "../lib/kategoriler.js";
 import { y } from "../lib/yol.js";
 import { useGorunurlukTazele } from "../lib/gorunurluk.js";
+import { tikBasligiEkle } from "../lib/zaman.js";
 import { tt } from "../lib/dil.js";
 import MacSorulari from "../components/MacSorulari.jsx";
 import { useOyunModu } from "../lib/oyunModu.js";
@@ -175,14 +176,17 @@ export default function CalismaPage() {
   // ---------- Cevapla ----------
   const cevapla = async (i) => {
     if (secim !== null || !oturum || !soru) return;
+    // 991: dokunma anı (sunucu saatiyle) = sorunun sunucu başlangıcı + ekranda geçen süre — geç varsa da sayılır
+    const bas = Date.parse(soru.baslangic);
+    const tikMs = i >= 0 && Number.isFinite(bas) ? bas + (Date.now() - soruBaslangicRef.current) : NaN;
     setSecim(i);
     if (i >= 0) { sesDokunus(); titret(10); }
     try {
-      const { data, error } = await supabase.rpc("calisma_cevap", {
+      const { data, error } = await tikBasligiEkle(supabase.rpc("calisma_cevap", {
         p_oturum_id: oturum.oturum_id,
         p_soru_index: soru.soru_index,
         p_cevap: i,
-      });
+      }), tikMs);
       if (error) throw error;
       const s = Array.isArray(data) ? data[0] : data;
       setSonucSoru(s);

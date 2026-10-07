@@ -36,7 +36,7 @@ import { HazirKapisi, KopukPerde, GeriSayim } from "../components/MacHazirlik.js
 import { macBittiReklam } from "../lib/reklam.js";
 import { y } from "../lib/yol.js";
 import { GB_MS } from "../lib/geriBildirim.js";
-import { sunucuOffsetMs } from "../lib/zaman.js";
+import { sunucuOffsetMs, tikBasligiEkle } from "../lib/zaman.js";
 
 // Maç başı geri sayımda ekranda görünen en büyük rakam (sunucu mac_geri_sayim_sn = 3).
 const GERI_SAYIM_RAKAM = 3;
@@ -166,6 +166,7 @@ export default function MatchPage() {
   // Uygulanmış en ileri damga (bkz. ilerlemeDamgasi)
   const damgaRef = useRef(-1);
   const advanceKilidi = useRef(false);
+  const cevapIstegiRef = useRef(null);   // 991: yoldaki cevap isteği (süre dolumu atlaması onu bekler)
   const pollRef = useRef(null);
   const kanalRef = useRef(null);
   const tepkiAlRef = useRef(null);   // 542: kanal kurulumu tepki alıcısını ref'ten çağırır
@@ -666,13 +667,18 @@ export default function MatchPage() {
     rpcDene("advance_match", { p_match_id: id }).then(() => macYukle());
   }, [id, macYukle]);
 
-  const cevapla = async (i) => {
-    const { data, error } = await supabase.rpc("submit_match_answer", {
+  const cevapla = async (i, tikMs) => {
+    // 991: dokunma anı x-qt-tik başlığıyla gider — süre içinde dokunulup geç varan cevap kabul edilir
+    const istek = Promise.resolve(tikBasligiEkle(supabase.rpc("submit_match_answer", {
       p_match_id: id,
       p_cevap: i,
       // 329: hangi soruyu cevapladığımız — soru değiştiyse (eski kart) sunucu reddeder.
       p_soru_index: soru?.soru_index ?? null,
-    });
+    }), tikMs));
+    cevapIstegiRef.current = istek;
+    let yanit;
+    try { yanit = await istek; } finally { if (cevapIstegiRef.current === istek) cevapIstegiRef.current = null; }
+    const { data, error } = yanit;
     if (error) throw error;
     const satir = data?.[0];
     // İkinci Şans'ın ilk yanlışında soru ilerlemez; aynı sayaçla ikinci
@@ -712,6 +718,8 @@ export default function MatchPage() {
     if (advanceKilidi.current) return null;
     advanceKilidi.current = true;
     try {
+      // 991: cevap hâlâ yoldaysa önce onu bekle — süre dolumu satırı (−1) gecikmeli geçerli cevabın önüne geçmesin
+      if (cevapIstegiRef.current) await cevapIstegiRef.current.catch(() => {});
       // Zaman aşımı şart: sekme arka plandayken açılan RPC soket koptuğu için
       // ne çözülüyor ne reddediliyordu, kilit sonsuza kadar kapalı kalıyordu.
       const { data, error } = await zamanAsimiyla(

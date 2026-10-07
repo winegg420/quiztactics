@@ -28,6 +28,7 @@ import { kaydirIpucuBagla } from "../lib/kaydirIpucu.js";
 import QuestionCard from "../components/QuestionCard.jsx";
 import { y } from "../lib/yol.js";
 import { kanalBekleme, useGorunurlukTazele, zamanAsimiyla } from "../lib/gorunurluk.js";
+import { tikBasligiEkle, GEC_VARIS_EK_MS } from "../lib/zaman.js";
 import { useMacNabiz } from "../lib/nabiz.js";
 import { HazirKapisi, KopukPerde } from "../components/MacHazirlik.jsx";
 import { useDil } from "../lib/dilKanca.js";
@@ -342,13 +343,14 @@ export default function GroupMatchPage() {
     }
   }, [id, macYukle]);
 
-  const cevapla = async (i) => {
-    const { data, error } = await supabase.rpc("submit_group_match_answer", {
+  const cevapla = async (i, tikMs) => {
+    // 991: dokunma anı x-qt-tik başlığıyla gider — süre içinde dokunulup geç varan cevap kabul edilir
+    const { data, error } = await tikBasligiEkle(supabase.rpc("submit_group_match_answer", {
       p_group_match_id: id,
       p_cevap: i,
       // 329: hangi soruyu cevapladığımız — soru değiştiyse (eski kart) sunucu reddeder.
       p_soru_index: soru?.soru_index ?? null,
-    });
+    }), tikMs);
     if (error) throw error;
     cevapZamaniRef.current = Date.now();
     setCevapladim(true);
@@ -365,9 +367,13 @@ export default function GroupMatchPage() {
     if (advanceKilidi.current) return;
     advanceKilidi.current = true;
     bekleyenIlerletme.current = true;
+    const gecikme = Math.random() * 800 + 1000;
     setTimeout(() => {
       if (bekleyenIlerletme.current) ilerletmeyiDene();
-    }, Math.random() * 800 + 1000);
+    }, gecikme);
+    // 991: cevaplamayan varsa sunucu soruyu geç varış payı dolunca kapatır — o an bir kez daha dene
+    // (herkes cevapladıysa ilk deneme zaten ilerletir; ikincisi zararsız)
+    setTimeout(() => ilerletmeyiDene(), gecikme + GEC_VARIS_EK_MS);
   }, [ilerletmeyiDene]);
 
   const cevapVer = async (kabul) => {

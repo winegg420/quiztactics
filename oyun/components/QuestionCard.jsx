@@ -81,6 +81,7 @@ export default function QuestionCard({
   // Zaman aşımı: "Süre doldu" bilgisi geri bildirim penceresi boyunca durur
   const [zamanAsimi, setZamanAsimi] = useState(false);
   const kalanRef = useRef(SURE);
+  const offsetRef = useRef(0);   // 991: sayacın kullandığı saat farkı — tıklama anı sunucu saatiyle bildirilir
   const sureDolduMu = useRef(false);
   const basiliTutTimer = useRef(null);
   // Ses: son 5 saniyede saniyede bir tik. Efekt içinden okunabilmesi için ref.
@@ -188,6 +189,7 @@ export default function QuestionCard({
     // Saat farkını soru geldiği anda bir kez sabitle; tik başına yeniden
     // hesaplanırsa sayaç donar.
     const offset = sunucuOffsetMs(soru.sunucu_zamani, soru._saat_ornek_ms ?? Date.now());
+    offsetRef.current = offset;
     // 326: aynı sorunun ilk görülen başlangıcı (Ek Süre sonrası tazelenen soru yeni başlangıçla gelir).
     const soruAnahtar = `${soru.question_id}-${soru.soru_index}`;
     if (ilkBaslangicRef.current.anahtar !== soruAnahtar) ilkBaslangicRef.current = { anahtar: soruAnahtar, bas: soru.baslangic };
@@ -293,13 +295,14 @@ export default function QuestionCard({
     if (secim !== null || kalan <= 0) return;
     if (sisKilit) return;
     const kalanAn = kalanRef.current;
+    const tikMs = Date.now() + offsetRef.current;   // 991: dokunma anı (sunucu saati)
     setSecim(i);
     cevapVerildiRef.current = true;
     // 0 ms: dokunma anı — kısa klik + 10 ms titreşim (şık CSS ile küçülür)
     sesDokunus();
     titret(10);
     try {
-      const r = await onCevapla(i);
+      const r = await onCevapla(i, tikMs);
       if (r) {
         if (r.tekrar_hakki) {
           sesYanlis();
