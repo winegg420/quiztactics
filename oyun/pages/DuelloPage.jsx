@@ -134,9 +134,10 @@ function DuelloGiris() {
         <div className="m2-giris-yazi">
           <h1 className="qt-baslik-1">{ceviri("Düello")}</h1>
           <p>{(puanModu ? [
-            ceviri("Maç başında 10 kategoriyi sırayla seçersiniz, 5'er tane."),
-            ceviri("Yalnız rakibin kategorisine saldırırsın. Bildiğin her soru +1; rakip bilemezse kategori senin, +2."),
-            ceviri("{h} puana ya da rakibin {y} kategorisine ilk ulaşan kazanır.", { h: hedef, y: yol }),
+            // 7 Eki 2026: kısa anlatım (ayrıntı "Kurallar nasıl işliyor?" tanıtımında)
+            ceviri("Kategorileri sırayla seçersiniz."),
+            ceviri("Rakibin kategorisine saldır: bilirsen +1, alırsan +2."),
+            ceviri("{h} puan ya da {y} kategori kazandırır.", { h: hedef, y: yol }),
           ] : secimModu ? [
             ceviri("Maç başında 10 kategoriyi sırayla seçersiniz, 5'er tane."),
             ceviri("{n} yuvayı ilk dolduran kazanır.", { n: esik }),

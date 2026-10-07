@@ -46,9 +46,8 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
                                             dereceli, onDereceli, kategori = null, onKategori, modlar, loadout = false }) {
   // 960: tur, eşik ve akış (sırayla seçim) ayardan — useDuelloKurallari
   const { secim: duelloSecim, puan: duelloPuan, esik: duelloEsik, tur: turSayisi, hedef: duelloHedef, yol: duelloYol } = useDuelloKurallari();   // 970: puan modu
-  // 957: Kasa da ortak mod listesinde (kapalıyken gösterilmez); hedef ayardan
+  // 957: Kasa da ortak mod listesinde (kapalıyken gösterilmez)
   const kasaAcik = useAyar("kasa_modu_acik", 0) >= 1;
-  const kasaHedef = useAyar("kasa_hedef_puan", 80);
   const [calisan, setCalisan] = useState(null);   // "klasik" | "duello" | null
   const [adim, setAdim] = useState(null);         // null | "klasik" (loadout adımı)
   const [hata, setHata] = useState(null);
@@ -116,7 +115,7 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
       mod: "klasik",
       ikon: "klasik",
       ad: tt("Klasik Maç"),
-      aciklama: tt("İkiniz aynı soruları cevaplarsınız, en çok doğru bilen kazanır."),
+      aciklama: tt("Aynı sorular, en çok bilen kazanır."),
       joker: tt("Maça 3 joker seçersin"),
       odul: odulMetni(odul?.klasik),
     },
@@ -125,7 +124,7 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
       ikon: "duello",
       ad: tt("Düello (Taktik Maçı)"),
       aciklama: duelloPuan
-        ? tt("Kategorileri sırayla seçin; yalnız rakibin kategorisine saldırırsın. Doğru +1, kategoriyi alırsan +2. {h} puan ya da {y} kategori alan kazanır.", { h: duelloHedef, y: duelloYol })
+        ? tt("Kategorileri seç, rakibinkine saldır. {h} puan ya da {y} kategori kazanır.", { h: duelloHedef, y: duelloYol })
         : duelloSecim
         ? tt("Kategorileri sırayla seçin, {n} yuvayı ilk dolduran kazanır. Rakibin kategorisini almak için sen doğru, rakip yanlış bilmelisin. {t} tur, eşitlikte Altın Soru.", { t: turSayisi, n: duelloEsik })
         : tt("{n} yuvayı ilk dolduran kazanır. Hamle için sen doğru, rakip yanlış bilmelisin. {t} tur, eşitlikte Altın Soru.", { t: turSayisi, n: duelloEsik }),
@@ -147,7 +146,7 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
       mod: "kasa",
       ikon: "coin",
       ad: tt("Ortak Hazine"),
-      aciklama: tt("Tek başına bil, hazineyi al; doğru anda aç. {h} puana ilk ulaşan kazanır.", { h: kasaHedef }),
+      aciklama: tt("Tek bilen hazineyi alır, doğru anda aç."),
       joker: tt("Klasik jokerlerin geçer"),
       odul: odulMetni(odul?.klasik),
     }] : []),

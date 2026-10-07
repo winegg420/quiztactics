@@ -38,11 +38,13 @@ const OLC = () => {
     if (g < alan * 0.12) continue; const c = renk(e); if (!c || c.a < 0.6) continue;
     if (lum(c) < 0.12 && c.b >= c.g) koyu.push(`${yol(e)} rgb(${c.r},${c.g},${c.b})`);
   }
+  const pencere = [...document.querySelectorAll("[role=dialog], [aria-modal=true]")].filter(gorunur).pop() || null;
   const dusuk = []; const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT); const gor = new Set();
   for (let n; (n = w.nextNode()); ) {
     const t = n.nodeValue.trim(); const el = n.parentElement;
     if (!t || !el || gor.has(el) || ["SCRIPT", "STYLE", "NOSCRIPT"].includes(el.tagName) || el.closest("[aria-hidden='true'], .qt-gizli, [disabled], [aria-disabled='true']") || !gorunur(el)) continue;
-    gor.add(el); const s = getComputedStyle(el); const on = ayril(s.color); if (!on) continue;
+    gor.add(el); const s = getComputedStyle(el); const on = ayril(s.color); if (!on || on.a === 0) continue;   // saydam yazı = degrade dolgulu efekt (altın isim)
+    if (pencere && !pencere.contains(el)) continue;   // açık pencerenin arkasında kalan sayfa (örtü altında) ölçülmez
     let op = 1; for (let e = el; e; e = e.parentElement) op *= +getComputedStyle(e).opacity;
     const arka = zemin(el); const k = kar({ ...on, a: on.a * op }, arka);
     const oran = (Math.max(lum(k), lum(arka)) + 0.05) / (Math.min(lum(k), lum(arka)) + 0.05);

@@ -168,7 +168,7 @@ function KasaGiris() {
       {/* 990: mobilde ilk ekran — 3 maddelik özet + "Rakip ara" görünür; tam kural listesi aşağıda açılır alanda */}
       <ol className="ks-ozet">
         <li><b className="qt-sayi">1</b><span>{ceviri("Soruyu tek başına bilen hazineyi alır.")}</span></li>
-        <li><b className="qt-sayi">2</b><span>{ceviri("Hazine sendeyse AÇ: puanına yaz · DEVAM: hazine büyür, sahipsiz kalır.")}</span></li>
+        <li><b className="qt-sayi">2</b><span>{ceviri("AÇ: puanına yaz. DEVAM: hazine büyür, sahipsiz kalır.")}</span></li>
         <li><b className="qt-sayi">3</b><span>{ceviri("{h} puana ilk ulaşan kazanır.", { h: hedef })}</span></li>
       </ol>
       <DereceliAnahtari dereceli={dereceli} onDegistir={setDereceli} />
@@ -197,10 +197,10 @@ function KasaGiris() {
         <li>{ceviri("Her soru hazineye +{n} ekler; ikiniz de bilirseniz +{m}.", { n: artis, m: ikisi })}</li>
         <li>{ceviri("Soruyu tek başına bilen hazinenin sahibi olur.")}</li>
         <li>{devamBirakir && carpanX
-          ? ceviri("AÇ: hazine puanına yazılır, hazine sıfırlanır. DEVAM: hazine {x} büyür ama sahipsiz kalır; tek başına bilen alır.", { x: carpanX })
+          ? ceviri("AÇ: hazine puanına yazılır. DEVAM: hazine {x} büyür, sahipsiz kalır.", { x: carpanX })
           : devamBirakir
-          ? ceviri("AÇ: hazine puanına yazılır, hazine sıfırlanır. DEVAM: hazine büyür ama sahipsiz kalır; tek başına bilen alır.")
-          : ceviri("AÇ: hazine puanına yazılır, hazine sıfırlanır. DEVAM: hazine büyür ama kaybedebilirsin.")}</li>
+          ? ceviri("AÇ: hazine puanına yazılır. DEVAM: hazine büyür, sahipsiz kalır.")
+          : ceviri("AÇ: hazine puanına yazılır. DEVAM: hazine büyür ama kaybedebilirsin.")}</li>
         {acmaMin > 0 && <li>{ceviri("Hazine en az {m} olunca açılabilir.", { m: acmaMin })}</li>}
         {/* 956: tavan hedefe eşit/üstündeyse tek AÇ maçı bitirebilir — "bitirmez" yalnız tavan < hedef iken */}
         {tavan > 0 && <li>{tavan < hedef
@@ -208,7 +208,7 @@ function KasaGiris() {
           : ceviri("Hazine en çok {t} olur.", { t: tavan })}</li>}
         <li>{ceviri("Karar süresi {s} sn; dolarsa DEVAM sayılır.", { s: kararSn })}</li>
         <li>{ceviri("Jokerler: 50:50, Ek Süre, Zaman Baskısı, İkinci Şans.")}</li>
-        {savunmaAcik && <li>{ceviri("Bilerek DEVAM dersen {h} kazanırsın: sen yanlış, rakip tek başına doğru bilirse rakip karar vermeden sana bir {s} sorulur. Bilirsen hazine sahipsiz kalır.",
+        {savunmaAcik && <li>{ceviri("Bilerek DEVAM dersen {h} kazanırsın: hazine rakibe geçecekken sana {s} gelir.",
           { h: ceviri(SAVUNMA_HAKKI), s: ceviri(SAVUNMA_SORUSU) })}</li>}
         <li>{ceviri("{t} tur sonunda hazine sahibine yazılır; eşitlikte Altın Soru.", { t: maxTur })}</li>
       </ul>

@@ -255,11 +255,9 @@ export function KasaKarar({ d, c, calisan, onKarar, kalan = null, carpanYazi = n
         </p>
       )}
       <p className="ks-karar-not">
-        {carpanYazi && tavan > 0 && deger >= tavan ? c("Hazine dolu ({t}): DEVAM büyütmez, sahipsiz bırakır.", { t: tavan })
-          : carpanVar && d.devam_birakir ? (tavan > 0
-            ? c("DEVAM: hazine {x} büyür (en çok {t}) ve sahipsiz kalır. Süre dolarsa DEVAM sayılır.", { x: carpanYazi, t: tavan })
-            : c("DEVAM: hazine {x} büyür ve sahipsiz kalır. Süre dolarsa DEVAM sayılır.", { x: carpanYazi }))
-          : d.devam_birakir ? c("DEVAM: hazine sahipsiz kalır. Süre dolarsa DEVAM sayılır.") : c("Süre dolarsa DEVAM sayılır.")}
+        {carpanYazi && tavan > 0 && deger >= tavan ? c("Hazine dolu ({t}): DEVAM büyütmez.", { t: tavan })
+          : carpanVar && d.devam_birakir ? c("DEVAM: hazine {x} büyür, sahipsiz kalır.", { x: carpanYazi })   // 7 Eki 2026: kısa not
+          : d.devam_birakir ? c("DEVAM: hazine sahipsiz kalır.") : c("Süre dolarsa DEVAM sayılır.")}
       </p>
     </div>
   );

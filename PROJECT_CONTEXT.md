@@ -716,6 +716,8 @@ karakter, Hızlı Mod hariç — dondurulmuş) bu sistemle yeniden yazıldı.
   Alt menü yalnız < 850 px; masaüstünde üst çubuk menüsü var, sabit alt menü yok.
 - Baloo 2 başlık / Nunito gövde — **yerel paketli** (`public/fonts/`). Google Fonts YOK.
 - Oyun, bilgi yarışması gibi görünmeli; sakin/nötr "uygulama" estetiğine kaydırma.
+- **Mod anlatımı kısa (Ida, 7 Eki 2026):** mod giriş/tanıtım ekranları ve maç içi açıklama satırları = bir kısa başlık + en çok 2-3 kısa satır (~8 kelime). Ayrıntı yazılmaz; TR ve EN aynı kısalıkta (yeni EN anahtarları `ceviri/kisa-metin.js`).
+- **Maç zemini hiçbir fazda koyu değil:** `.qt-sahne-mac` kullanan her maç kökü `qt-sahne-gok` da taşır (kategori yokken gök mavisi, varken pastel); tek başına `.qt-sahne-mac` = eski koyu mor (yalnız koyu vitrin önizlemeleri). Denetim `araclar/koyu-zemin-tarama.mjs`.
 
 ### Ses
 

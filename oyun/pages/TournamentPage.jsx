@@ -800,7 +800,7 @@ export default function TournamentPage() {
             const odul = [1, 2, 3].map((n) => ({ n, coin: sayi(`coin_turnuva_${n}`), elmas: sayi(`elmas_turnuva_${n}`) }));
             return (
               <ul className="m1-tv-kurallar">
-                <li>{tt("Herkese aynı soru aynı anda gelir. Yanlış cevap ya da süre aşımı seni eler; son kalan kazanır.")}</li>
+                <li>{tt("Herkese aynı soru gelir. Yanlış ya da süre aşımı eler; son kalan kazanır.")}</li>
                 <li>
                   {tt("Ödüller:")}
                   {tvAyar === null ? (

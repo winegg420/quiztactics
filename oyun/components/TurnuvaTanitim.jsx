@@ -72,21 +72,21 @@ export default function TurnuvaTanitim() {
             <span>
               <b>{tt("Lobiye katıl.")}</b>{" "}
               {yerelSaatGoster()
-                ? tt("Turnuvalar her gün {saatler} saatlerinde başlar; başlamadan lobide olman gerekir.", { saatler: turnuvaSaatleriniGoster(turnuvaSaatleri()) })
-                : tt("Turnuvalar her gün {saatler} saatlerinde başlar (Türkiye saati); başlamadan lobide olman gerekir.", { saatler: turnuvaSaatleri().join(", ") })}
+                ? tt("Her gün {saatler} saatlerinde başlar.", { saatler: turnuvaSaatleriniGoster(turnuvaSaatleri()) })
+                : tt("Her gün {saatler} saatlerinde başlar (Türkiye saati).", { saatler: turnuvaSaatleri().join(", ") })}
             </span>
           </li>
           <li>
             <span className="m1-tv-no" aria-hidden="true">2</span>
             <span>
-              <b>{tt("Yanlış cevap elenmektir.")}</b> {tt("Herkese aynı soru aynı anda gelir, bir soruyu kaçıran turnuvadan çıkar.")}
+              <b>{tt("Yanlış cevap elenmektir.")}</b> {tt("Herkese aynı soru gelir.")}
             </span>
           </li>
           <li>
             <span className="m1-tv-no" aria-hidden="true">3</span>
             <span>
-              <b>{tt("Son kalan kazanır ve +150 lig puanı alır;")}</b>{" "}
-              {tt("ilk 10'a giren ve katılan herkes de puan kazanır. Finalde joker kullanılamaz — sadece bilgi.")}
+              <b>{tt("Son kalan kazanır, +150 lig puanı alır.")}</b>{" "}
+              {tt("İlk 10 ve katılan herkes de puan alır.")}
             </span>
           </li>
         </ol>
