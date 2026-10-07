@@ -35,15 +35,18 @@
   box-shadow: none;                 /* koyu iç gölge kalkar */
   color: var(--qt-metin);
 }
-.qt-ok--lig-sahnesi[data-lig="bronz"]  { --sahne-zemin: var(--qt-lig-bronz-sahne);  --sahne-isik: var(--qt-lig-bronz-sahne-isik);  --sahne-cerceve: var(--qt-lig-bronz-dudak); }
-.qt-ok--lig-sahnesi[data-lig="gumus"]  { --sahne-zemin: var(--qt-lig-gumus-sahne);  --sahne-isik: var(--qt-lig-gumus-sahne-isik);  --sahne-cerceve: var(--qt-lig-gumus-dudak); }
-.qt-ok--lig-sahnesi[data-lig="altin"]  { --sahne-zemin: var(--qt-lig-altin-sahne);  --sahne-isik: var(--qt-lig-altin-sahne-isik);  --sahne-cerceve: var(--qt-lig-altin-dudak); }
-.qt-ok--lig-sahnesi[data-lig="elmas"]  { --sahne-zemin: var(--qt-lig-elmas-sahne);  --sahne-isik: var(--qt-lig-elmas-sahne-isik);  --sahne-cerceve: var(--qt-lig-elmas-dudak); }
-.qt-ok--lig-sahnesi[data-lig="efsane"] { --sahne-zemin: var(--qt-lig-efsane-sahne); --sahne-isik: var(--qt-lig-efsane-sahne-isik); --sahne-cerceve: var(--qt-lig-efsane-dudak); }
+.qt-ok--lig-sahnesi[data-lig="bronz"]  { --sahne-zemin: var(--qt-lig-bronz-sahne);  --sahne-isik: var(--qt-lig-bronz-sahne-isik);  --sahne-cerceve: var(--qt-lig-bronz-sahne-cerceve); }
+.qt-ok--lig-sahnesi[data-lig="gumus"]  { --sahne-zemin: var(--qt-lig-gumus-sahne);  --sahne-isik: var(--qt-lig-gumus-sahne-isik);  --sahne-cerceve: var(--qt-lig-gumus-sahne-cerceve); }
+.qt-ok--lig-sahnesi[data-lig="altin"]  { --sahne-zemin: var(--qt-lig-altin-sahne);  --sahne-isik: var(--qt-lig-altin-sahne-isik);  --sahne-cerceve: var(--qt-lig-altin-sahne-cerceve); }
+.qt-ok--lig-sahnesi[data-lig="elmas"]  { --sahne-zemin: var(--qt-lig-elmas-sahne);  --sahne-isik: var(--qt-lig-elmas-sahne-isik);  --sahne-cerceve: var(--qt-lig-elmas-sahne-cerceve); }
+.qt-ok--lig-sahnesi[data-lig="efsane"] { --sahne-zemin: var(--qt-lig-efsane-sahne); --sahne-isik: var(--qt-lig-efsane-sahne-isik); --sahne-cerceve: var(--qt-lig-efsane-sahne-cerceve); }
 /* Katman z-index: -2 (ışın) < -1 (filigran) < auto (içerik) — overflow:hidden YOK, avatar/çerçeve kırpılmaz. */
 .qt-ok--lig-sahnesi::before {
   content: ""; position: absolute; inset: 0; z-index: -2; border-radius: inherit; pointer-events: none;
-  background: repeating-conic-gradient(from 0deg at 50% 36%, var(--sahne-zemin) 0deg 20deg, var(--sahne-isik) 20deg 40deg);
+  /* 7 Eki: avatarın arkasında sabit beyaz ışık halesi — beş ligde aynı derinlik (Lig pankartıyla aynı dil) */
+  background:
+    radial-gradient(circle at 50% 36%, rgb(255 255 255 / 0.8) 0, rgb(255 255 255 / 0) 110px),
+    repeating-conic-gradient(from 0deg at 50% 36%, var(--sahne-zemin) 0deg 20deg, var(--sahne-isik) 20deg 40deg);
 }
 /* 2 Eki: filigran kapalı — 140 px yıldız kolları avatarın altından gri üçgen izi gibi taşıyordu (hata gibi duruyordu) */
 .qt-ok-filigran { position: absolute; inset: 0; z-index: -1; display: none; place-items: center; opacity: .12; pointer-events: none; }
