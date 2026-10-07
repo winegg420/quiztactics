@@ -59,6 +59,63 @@
       @keyframes qt-ilk-nokta{0%,60%,100%{opacity:.28;transform:translateY(0)}30%{opacity:1;transform:translateY(-4px)}}
       @media (prefers-reduced-motion:reduce){.qt-ilk-noktalar i{animation:none;opacity:.62}}
     </style>
+    <!--
+      SOĞUK AÇILIŞ ÖN YÜKLEMESİ (7 Eki 2026). Eskiden belirteç yenilemesi ancak bütün JS inip
+      çalışınca (normal ağda ~0,45 sn, yavaş 4G'de ~2,8 sn) başlıyor, profilim de onun ardından
+      11 istekle yarışarak geliyordu; ana sayfa profil gelmeden çizilemiyor. Bu betik HTML
+      ayrıştırılırken: cihazdaki oturumun erişim belirteci eskiyse (supabase-js ile aynı 90 sn
+      payı) yeniler ve yeni oturumu supabase-js'in kendi anahtarına yazar; ardından profilim'i
+      çeker. supabase-js (src/lib/supabase.js) oturumu okumadan önce bu yenilemeyi BEKLER, yani
+      aynı belirteçle ikinci yenileme yapılmaz; AuthContext ilk profili buradan alır. Her hata
+      sessizce eski yola düşer (supabase-js kendi yenilemesini yapar; geçersiz belirteçte yine
+      SIGNED_OUT → giriş ekranı). OAuth dönüşünde (adreste kod/belirteç) hiçbir şey yapılmaz.
+      Safari 12 için düz ES5 + Promise.
+    -->
+    <script>
+      (function () {
+        try {
+          var url = "%VITE_SUPABASE_URL%", anahtar = "%VITE_SUPABASE_ANON_KEY%";
+          if (!/^https:\/\/[^/]+$/.test(url.replace(/\/$/, "")) || !window.fetch || !window.Promise) return;
+          url = url.replace(/\/$/, "");
+          if (/[?&#](code|access_token|refresh_token|error)=/.test(location.search + location.hash)) return;
+          var depoAdi = "sb-" + url.replace(/^https:\/\//, "").split(".")[0] + "-auth-token";
+          var o = JSON.parse(localStorage.getItem(depoAdi) || "null");
+          if (!o || !o.refresh_token || !o.user || !o.user.id) return;
+          // Yenileme isteği KESİLMEZ (supabase-js de kesmiyor): sunucu işledikten sonra kesilirse
+          // supabase-js aynı yenileme belirtecini yeniden gönderir ve "Already Used" ile oturum düşebilir.
+          // profilim 8 sn'de kesilir → AuthContext normal rpc yoluna düşer.
+          var istek = function (yol, govde, belirtec) {
+            var kes = belirtec && window.AbortController ? new AbortController() : null;
+            var sure = kes ? setTimeout(function () { kes.abort(); }, 8000) : 0;
+            var basliklar = { apikey: anahtar, "Content-Type": "application/json" };
+            if (belirtec) basliklar.Authorization = "Bearer " + belirtec;
+            return fetch(url + yol, { method: "POST", headers: basliklar, body: JSON.stringify(govde), signal: kes ? kes.signal : undefined })
+              .then(function (y) { clearTimeout(sure); if (!y.ok) throw new Error("HTTP " + y.status); return y.json(); },
+                function (h) { clearTimeout(sure); throw h; });
+          };
+          var eski = !o.expires_at || o.expires_at * 1000 - Date.now() < 90000;
+          var oturum = (eski
+            ? istek("/auth/v1/token?grant_type=refresh_token", { refresh_token: o.refresh_token }).then(function (d) {
+                if (!d || !d.access_token || !d.refresh_token || !d.user || d.user.id !== o.user.id) return null;
+                var yeni = {};
+                for (var a in d) if (Object.prototype.hasOwnProperty.call(d, a)) yeni[a] = d[a];
+                if (!yeni.expires_at) yeni.expires_at = Math.round(Date.now() / 1000) + Number(d.expires_in || 3600);
+                // Bu arada başka sekme yenileyip yazdıysa onun kaydı ezilmez (belirteç yine geçerli)
+                var simdi = JSON.parse(localStorage.getItem(depoAdi) || "null");
+                if (simdi && simdi.refresh_token === o.refresh_token) localStorage.setItem(depoAdi, JSON.stringify(yeni));
+                return yeni.access_token;
+              })
+            : Promise.resolve(o.access_token)
+          ).then(null, function () { return null; });
+          window.__qtOnYukleme = {
+            kimlik: o.user.id,
+            oturum: oturum,
+            profil: oturum.then(function (b) { return b ? istek("/rest/v1/rpc/profilim", {}, b) : null; })
+              .then(null, function () { return null; }),
+          };
+        } catch (e) { /* depolama kapalı / bozuk kayıt: uygulama normal yoldan açılır */ }
+      })();
+    </script>
     <title>Quiz Tactics — Bilgi Yarışması</title>
   </head>
   <body>

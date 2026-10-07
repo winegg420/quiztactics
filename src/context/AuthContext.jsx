@@ -19,6 +19,8 @@ const AuthContext = createContext(null);
 // Yenileme başarısız olursa supabase-js SIGNED_OUT yayınlar → oturum/profil temizlenir,
 // giriş ekranı gelir (eski davranış). OAuth dönüşünde (adreste kod/belirteç) kayıtlı oturum
 // KULLANILMAZ: yeni giriş beklenir.
+// İlk kez giren cihaz (profil kaydı yok) için index.html'deki ön yükleme betiği belirteci JS inerken
+// yeniler ve profilim'i çeker; ilk refreshProfile o yanıtı kullanır (onYuklenenProfil).
 // ============================================================
 const PROFIL_ANAHTAR = "qt_profil_onbellek";
 
@@ -48,6 +50,28 @@ function kayitliProfil(userId) {
   }
 }
 
+// index.html ön yüklemesinin çektiği profilim yanıtı: yalnız AYNI kullanıcı için ve yalnız bir kez
+// kullanılır (sonraki yenilemeler ağa gider). Çekilemediyse null → normal rpc yolu.
+async function onYuklenenProfil(userId) {
+  try {
+    const o = window.__qtOnYukleme;
+    const bekle = o?.profil;
+    if (!bekle || o.kimlik !== userId) return null;
+    o.profil = null;
+    const veri = await bekle;
+    return veri && !Array.isArray(veri) && veri.id === userId ? veri : null;
+  } catch {
+    return null;
+  }
+}
+
+// Kullanıcı nesnesinin belirteç yenilemesiyle değişmeyen özü (bkz. kullaniciRef)
+function kullaniciOzu(u) {
+  // eslint-disable-next-line no-unused-vars
+  const { updated_at, last_sign_in_at, ...oz } = u ?? {};
+  return JSON.stringify(oz);
+}
+
 function profilSakla(userId, profil) {
   try {
     if (!userId || !profil) localStorage.removeItem(PROFIL_ANAHTAR);
@@ -73,8 +97,12 @@ export function AuthProvider({ children }) {
   const refreshProfile = useCallback(async (userId) => {
     if (!supabase || !userId) return;
     try {
-      const { data, error } = await supabase.rpc("profilim");
-      if (error) throw error;
+      let data = await onYuklenenProfil(userId);
+      if (!data) {
+        const yanit = await supabase.rpc("profilim");
+        if (yanit.error) throw yanit.error;
+        data = yanit.data;
+      }
       // Takma ad seçilmeden önce sunucu görünen adı "Oyuncu" üretir → oyuncunun dilinde göster (EN: Player)
       if (data) {
         const profil = data.takma_ad_secildi === false && data.gorunen_ad === "Oyuncu" ? { ...data, gorunen_ad: tt("Oyuncu") } : data;
@@ -139,6 +167,9 @@ export function AuthProvider({ children }) {
       setSession(session);
       setLoading(false);
     });
+    // Açılışta geçerli belirteçle (ön yükleme yenilediyse her zaman) supabase-js hem SIGNED_IN hem
+    // INITIAL_SESSION yayınlıyor: aynı kullanıcı için profil/davet işleri bir kez yapılır.
+    let islenenKimlik = null;
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (olay, session) => {
         setSession(session);
@@ -148,6 +179,11 @@ export function AuthProvider({ children }) {
           setLoading(false);
           return;
         }
+        if (session && (olay === "SIGNED_IN" || olay === "INITIAL_SESSION") && islenenKimlik === session.user.id) {
+          setLoading(false);
+          return;
+        }
+        islenenKimlik = session?.user?.id ?? null;
         if (session) {
           refreshProfile(session.user.id);
           davetTalep(session.user.id);
@@ -200,11 +236,13 @@ export function AuthProvider({ children }) {
 
   // Belirteç yenilenince supabase-js yeni bir `user` nesnesi verir; içerik aynıysa eski nesne
   // korunur — `[user]`a bağlı etkiler (Realtime abonelikleri, sayımlar) boşuna yeniden kurulmasın.
+  // Yenileme `updated_at`'i (ve `last_sign_in_at` yazımını) değiştiriyor; bunlar karşılaştırılmaz
+  // (kullanan kod yok) — yoksa açılışta bekleyen_sayim ve kanallar iki kez kuruluyordu.
   const kullaniciRef = useRef(null);
   const yeniKullanici = session?.user ?? null;
   if (!yeniKullanici) kullaniciRef.current = null;
   else if (kullaniciRef.current !== yeniKullanici
-    && (kullaniciRef.current?.id !== yeniKullanici.id || JSON.stringify(kullaniciRef.current) !== JSON.stringify(yeniKullanici)))
+    && (kullaniciRef.current?.id !== yeniKullanici.id || kullaniciOzu(kullaniciRef.current) !== kullaniciOzu(yeniKullanici)))
     kullaniciRef.current = yeniKullanici;
 
   return (
