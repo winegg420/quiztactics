@@ -10433,3 +10433,8 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 - **Test aracı:** `asama2-ekran.mjs --dolu` artık turnuva lobisini 40 kişiyle taklit ediyor (uzun adlar, 7. sırada "Sen"). Bekleme koşuluna `.qt-sayfa-yukleniyor` eklendi (Bölüm 1'deki Q yükleyicisinde "Yükleniyor" yazısı yalnız aria-label'da; ilk turda bir görüntü yükleyicide alınmıştı). `renk-rolleri-ekran.mjs` de yükleyicinin kalkmasını bekliyor.
 - **Test (dev):** asama2 `--dolu` TR+EN 34/34 (`ayarlar en` ilk turda Supabase `auth/v1/settings` anlık CORS hatası verdi, iki tekrarda temiz, uç nokta 200) · 360 px hareketi azalt 17/17 · renk-rolleri 80/80. Görüntüler `tasarim/asama2/bolum2/`. `npm run build` temiz.
 - **Canlı:** 0613d4be Vercel başarılı; `/`, `/duello`, `/kasa`, `/profil`, `/joker`, `/turnuva`, `/sezon-yolu` HTTP 200; canlıda asama2 (Joker/Elmas/Sezon/Turnuva) TR+EN 8/8 temiz.
+
+### 2026-10-07 — quiztactics.com alan adı (YARIM: Cloudflare DNS bekliyor)
+- Vercel (quiztactics-app): `quiztactics.com` ve `www.quiztactics.com` projeye eklendi; www → quiztactics.com 308 yönlendirmesi ayarlandı.
+- Cloudflare DNS'e HENÜZ kayıt eklenmedi (CLI/token yok, Chrome eklentisi bağlı değil). Eklenecek (Proxy KAPALI, DNS only): `A @ 76.76.21.21`, `CNAME www cname.vercel-dns.com`. MX/TXT'ye dokunulmaz.
+- Bekleyenler: DNS sonrası Vercel doğrulama/HTTPS, Supabase Auth Redirect URL'ye https://quiztactics.com ve https://www.quiztactics.com ekleme, `vite.config.js` VARSAYILAN_SITE + `index.html` og:url değerlendirmesi, test.
