@@ -341,7 +341,7 @@
 .hk-yuva--durum::after {
   content: ""; position: absolute; inset: -4px; border-radius: inherit; pointer-events: none;
   border: 2px solid var(--hk-d); opacity: .5;
-  animation: hk-durum-nabiz 1.5s ease-in-out infinite;
+  animation: hk-durum-nabiz 1.5s ease-in-out 2;   /* Plan A: sonsuz döngü yok — iki nabız, sonra sabit */
 }
 .hk-tahta--kucuk .hk-yuva--durum::after { inset: -3.5px; border-width: 1.5px; }
 @keyframes hk-durum-nabiz { 50% { opacity: 1; box-shadow: 0 0 0 3px var(--hk-d-isik); } }
@@ -436,4 +436,158 @@
   /* yumuşak mod: nabız kapalı, çerçeve sabit ve tam görünür */
   .hk-yuva--durum::after { animation: none !important; opacity: 1; }
   .hk-mac .hk-soru--durum .qt-soru-kategori { animation: none !important; }
+}
+
+/* ============================================================
+   PLAN A (7 Eki 2026) — puan şeridi + büyük kartlar + puan vuruşu
+   Şerit: üstte sen (mavi), ortada hedef satırı, altta rakip (kırmızı). Her satırda oyuncunun draft'tan gelen 5 kategorisi
+   ikon olarak DOLU başlar; çalınan kategori karşı satıra geçer, geride kesikli soluk iz kalır. Puan adın altında küçük.
+   Işık sol üstten (beyaz → takım zemini), alt dudak takımın koyu tonu; kontur 2 px takım rengi.
+   Tek seferlik hareketler: iniş pop'u (öğe ilk çizildiğinde), puan vuruşu (DuelloPage hamle anahtarıyla bir kez verir).
+   Sonsuz döngü YOK (kritik satır sabit halka).
+   ============================================================ */
+.hk-tahta--serit { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+.hk-tahta--serit .hk-vs { display: none; }
+.hk-serit {
+  --dudak: var(--hk-mavi-kenar);
+  position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; column-gap: 8px;
+  padding: 5px 8px 5px 10px; border-radius: 14px;
+  background: linear-gradient(135deg, #fff 0%, var(--z) 62%);
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, .8), 0 3px 0 var(--dudak);
+  margin-bottom: 3px;
+}
+.hk-serit--rakip { --dudak: var(--hk-kirmizi-kenar); }
+.hk-serit-kim { position: relative; display: grid; gap: 1px; min-width: 52px; line-height: 1.1; }
+.hk-serit-ad { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--qt-f-baslik, inherit); font-size: 15px; font-weight: 900; color: var(--m); }
+.hk-serit-puan { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11.5px; font-weight: 800; color: var(--m); }
+.hk-serit-puan b { font-size: 14px; font-weight: 900; }
+.hk-serit-ikonlar { display: flex; align-items: center; gap: 4px; min-width: 0; }
+.hk-serit-k {
+  position: relative; flex: 0 1 32px; min-width: 18px; aspect-ratio: 1; display: grid; place-items: center; box-sizing: border-box;
+  border: 2px solid var(--c); border-radius: 10px; background: #fff; box-shadow: 0 2px 0 var(--dudak);
+}
+.hk-serit-k .hk-yuva-ikon { width: 74% !important; height: 74% !important; }
+/* kaybedilen kategori: yerinde soluk iz (kesikli gri, ikon gri ve saydam) */
+.hk-serit-k--iz { border: 2px dashed var(--hk-gri-kenar); background: var(--hk-gri-zemin); box-shadow: none; }
+.hk-serit-k--iz .hk-yuva-ikon { filter: grayscale(1); opacity: .35; }
+/* rakipten çalınan: sahibinin renginde çift halka + iniş pop'u (öğe ilk çizildiğinde bir kez) */
+.hk-serit-k--calinan { box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--c), 0 3px 0 2px var(--dudak);
+  animation: hk-yuva-pop .55s var(--qt-egri-yay, cubic-bezier(.34,1.56,.64,1)) both; }
+.hk-serit-ayrac { flex: none; display: grid; place-items: center; color: var(--m); opacity: .75; }
+.hk-serit-sayi {
+  flex: none; min-width: 38px; box-sizing: border-box; padding: 3px 7px; border-radius: 999px; text-align: center;
+  background: var(--dudak); color: #fff; font-size: 12px; font-weight: 800; line-height: 1.1; white-space: nowrap;
+}
+.hk-serit-sayi b { font-size: 14px; font-weight: 900; }
+.hk-serit--kritik { box-shadow: inset 0 2px 0 rgba(255, 255, 255, .8), 0 3px 0 var(--dudak), 0 0 0 3px var(--hk-vurgu); }
+/* hedef satırı (iki satırın arasında): kural ya da bitişe yakınlık uyarısı */
+.hk-serit-hedef {
+  display: flex; align-items: center; justify-content: center; gap: 5px; min-width: 0; margin: 0 0 2px; padding: 0 6px;
+  font-size: 11.5px; line-height: 1.25; font-weight: 800; color: var(--hk-soluk);
+}
+.hk-serit-hedef svg { flex: none; }
+.hk-serit-hedef span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hk-serit-hedef--rakip { color: var(--hk-kirmizi-metin); }
+.hk-serit-hedef--ben { color: var(--hk-mavi-metin); }
+/* cevap fazı (küçük): hedef satırı gizli, ad + puan tek satır, ikonlar küçük */
+.hk-tahta--serit.hk-tahta--kucuk .hk-serit-hedef { display: none; }
+.hk-tahta--serit.hk-tahta--kucuk .hk-serit { grid-template-columns: auto minmax(0, 1fr) auto; padding: 3px 8px; border-radius: 11px; }
+.hk-tahta--serit.hk-tahta--kucuk .hk-serit-kim { display: flex; align-items: baseline; gap: 5px; }
+.hk-tahta--serit.hk-tahta--kucuk .hk-serit-ad { font-size: 13px; }
+.hk-tahta--serit.hk-tahta--kucuk .hk-serit-k { flex-basis: 24px; border-radius: 7px; border-width: 1.5px; box-shadow: none; }
+.hk-tahta--serit.hk-tahta--kucuk .hk-serit-sayi { min-width: 32px; padding: 1px 6px; font-size: 11px; }
+.hk-tahta--serit.hk-tahta--kucuk .hk-serit-sayi b { font-size: 12px; }
+
+/* ---------------------------------------------------------------- puan vuruşu (+1 / +2) — tek sefer */
+.hk-vurus {
+  position: absolute; z-index: 6; left: calc(100% + 2px); top: -12px; pointer-events: none;
+  display: grid; place-items: center;
+  animation: hk-vurus 1.4s cubic-bezier(.2, .9, .3, 1.2) both;
+}
+.hk-vurus b {
+  display: block; padding: 2px 9px; border-radius: 999px; background: var(--dudak); color: #fff;
+  font-family: var(--qt-f-baslik, inherit); font-size: 22px; line-height: 1.1; font-weight: 900;
+  box-shadow: 0 0 0 3px #fff, 0 6px 14px rgba(29, 33, 82, .3);
+}
+.hk-vurus::before {
+  content: ""; position: absolute; inset: -6px; border-radius: 999px; border: 3px solid var(--c);
+  animation: hk-vurus-halka .7s ease-out both;
+}
+@keyframes hk-vurus {
+  0% { opacity: 0; transform: translateY(10px) scale(.3); }
+  16% { opacity: 1; transform: translateY(-4px) scale(1.35); }
+  30% { transform: translateY(0) scale(1); }
+  80% { opacity: 1; transform: translateY(-6px) scale(1); }
+  100% { opacity: 0; transform: translateY(-14px) scale(.9); }
+}
+@keyframes hk-vurus-halka { 0% { opacity: .9; transform: scale(.6); } 100% { opacity: 0; transform: scale(1.9); } }
+.hk-serit--vurus { animation: hk-serit-vurus .7s ease-out both; }
+.hk-serit--vurus .hk-serit-puan b { display: inline-block; animation: hk-puan-vur .6s var(--qt-egri-yay, cubic-bezier(.34,1.56,.64,1)) both; }
+@keyframes hk-serit-vurus {
+  0% { box-shadow: inset 0 2px 0 rgba(255, 255, 255, .8), 0 3px 0 var(--dudak), 0 0 0 0 var(--c); }
+  35% { box-shadow: inset 0 2px 0 rgba(255, 255, 255, .8), 0 3px 0 var(--dudak), 0 0 0 6px var(--c); }
+  100% { box-shadow: inset 0 2px 0 rgba(255, 255, 255, .8), 0 3px 0 var(--dudak), 0 0 0 0 transparent; }
+}
+@keyframes hk-puan-vur { 0% { transform: scale(.6); } 45% { transform: scale(1.55); } 100% { transform: none; } }
+
+/* ---------------------------------------------------------------- çalma anı: şeritte DİKEY (sen üstte, rakip altta) */
+.hk-tahta--serit ~ .hk-calma .hk-calma-yol { --cm-bas: -30px; --cm-son: 30px; animation-name: hk-calma-dik; }
+.hk-tahta--serit ~ .hk-calma.hk-calma--rakip-ben .hk-calma-yol { --cm-bas: 30px; --cm-son: -30px; }
+@keyframes hk-calma-dik {
+  0% { opacity: 0; transform: translateY(var(--cm-bas)) scale(.85); }
+  14% { opacity: 1; transform: translateY(var(--cm-bas)) scale(1.1); }
+  30% { transform: translateY(var(--cm-bas)) scale(1.05) rotate(-3deg); }
+  86% { transform: translateY(var(--cm-son)) scale(1.04); }
+  100% { opacity: 1; transform: translateY(var(--cm-son)) scale(1); }
+}
+
+/* ---------------------------------------------------------------- kategori fazı: kartlar kalan yüksekliği doldurur,
+   "Saldır" çubuğu hemen altta (ölü alan yok). Kart yüksekliği satır sayısına göre; 48–84 px. */
+.hk-mac--seritli > .hk-sahne { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; }
+.hk-mac--seritli .hk-kartlar { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; gap: 6px; }
+.hk-mac--seritli .hk-grup { flex: var(--hk-satir, 1) 1 0; min-height: 0; display: flex; flex-direction: column; gap: 3px; }
+.hk-mac--seritli .hk-grup-baslik { font-size: 11.5px; text-transform: uppercase; letter-spacing: .03em; }
+.hk-mac--seritli .hk-izgara { flex: 1 1 auto; min-height: 0; grid-auto-rows: minmax(0, 1fr); gap: 6px; }
+.hk-mac--seritli .hk-kart {
+  --dudak: var(--hk-gri-kenar);
+  height: auto; min-height: 48px; max-height: 84px; column-gap: 8px; padding: 0 10px 0 8px; border-radius: 13px;
+  background: linear-gradient(150deg, #fff 0%, var(--z) 68%);
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, .8), 0 3px 0 var(--dudak);
+}
+.hk-mac--seritli .hk-kart--rakip { --dudak: var(--hk-kirmizi-kenar); }
+.hk-mac--seritli .hk-kart--ben { --dudak: var(--hk-mavi-kenar); }
+.hk-mac--seritli .hk-kart-ikon { width: 34px !important; height: 34px !important; border-radius: 10px; }
+.hk-mac--seritli .hk-kart-ad { font-size: 15px; white-space: normal; line-height: 1.08; }
+.hk-mac--seritli .hk-ok { font-size: 18px; }
+.hk-mac--seritli .hk-kart-alt { font-size: 12px; opacity: 1; }
+.hk-kart-yuzde { display: inline-flex; flex-wrap: wrap; column-gap: 7px; row-gap: 0; }
+.hk-kart-yuzde b { font-weight: 900; }
+/* geniş kartta tek satır; dar kartta "Rakip %Y" alt satıra iner (kesilmez) */
+.hk-mac--seritli .hk-kart-alt { white-space: normal; overflow: visible; line-height: 1.15; }
+.hk-mac--seritli .hk-kart.hk-kart--pasif { opacity: .62; box-shadow: none; }
+.hk-mac--seritli .hk-kart--secili { outline: 3px solid var(--hk-vurgu); outline-offset: 2px; transform: translateY(-2px);
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, .8), 0 5px 0 var(--dudak); }
+/* Düello eylem düğmesi kan kırmızısı (seçim yokken "Seç" pasif gri kalır) */
+.hk-mac .hk-cubuk-dugme.qt-dugme:not(:disabled) { --_z: var(--qt-mod-duello, #c93030); --_y: var(--qt-mod-duello-yazi, #fff); --_d: var(--qt-mod-duello-dudak, #8f1f27); }
+.hk-mac--seritli .hk-cubuk { margin-top: 0; }
+/* tepki düğmesi alt çubukta: panel yukarı açılır */
+.hk-tepki--cubuk .qt-tepki-panel { top: auto; bottom: calc(100% + 6px); }
+@media (max-height: 700px) {
+  .hk-serit { padding-block: 4px; }
+  .hk-serit-k { flex-basis: 28px; }
+  .hk-mac--seritli .hk-izgara, .hk-mac--seritli .hk-kartlar { gap: 4px; }
+  .hk-mac--seritli .hk-kart-ikon { width: 30px !important; height: 30px !important; }
+  .hk-mac--seritli .hk-kart-ad { font-size: 14px; }
+}
+@media (max-width: 380px) {
+  .hk-serit { column-gap: 6px; padding-inline: 8px 6px; }
+  .hk-serit-ikonlar { gap: 3px; }
+  .hk-mac--seritli .hk-kart { padding: 0 7px 0 6px; column-gap: 6px; }
+  .hk-mac--seritli .hk-kart-alt { font-size: 11px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  /* hareket azaltma: vuruş rozeti sabit görünür (DuelloPage 1,5 sn sonra kaldırır), halka/parlama/pop yok */
+  .hk-vurus, .hk-vurus::before, .hk-serit--vurus, .hk-serit--vurus .hk-serit-puan b, .hk-serit-k--calinan { animation: none !important; }
+  .hk-vurus::before { display: none; }
+  .hk-tahta--serit ~ .hk-calma .hk-calma-yol { animation: none; transform: translateY(var(--cm-son)); }
 }
