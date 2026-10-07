@@ -10330,3 +10330,10 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 - Yeni maç tepkilerindeki 12 yerel Noto 3D WebP zaten vardı. Sistem emojisi kullanan eski altılı için üç eksik özgün 128 px PNG (`begeni`, `sasirmis`, `kizgin`) eklendi; `gulen`, `ates`, `havali` mevcut dosyaları yeniden kullanıyor. Dış CDN/font yok. Tepki varlıklarının toplamı **100.638 bayt**. Apache 2.0 lisans notu güncellendi.
 - Tepki görselleri sabit ölçülü, eager yüklemeli ve async çözümleniyor; düğme/balon erişilebilir adları korunuyor. Chromium: 360×640 ve 390×844, TR/EN **28/28**; yatay taşma 0, konsol/ağ hatası 0, 44 px hedefler temiz, 6 Unicode + 12 anahtar gönderim değeri aynı. Görüntüler ve ölçüm: `tasarim/noto-emoji/`.
 - `npm run build` temiz; postbuild iOS 12.2/Safari 12.1 ayrıştırma denetimi temiz. WebKit ölçülmedi; statik PNG/WebP yolu sayesinde COLRv1 renkli font kullanılmıyor.
+
+## 2026-10-07 — Açılıştaki boş ekran süresi (canlı ön ölçüm + düzeltme)
+**Araç:** Codex (GPT-5 Codex)
+
+- Canlı `quiztactics.vercel.app`, gerçek mevcut test oturumu, 390×844: Ana Sayfa/Lig/Arkadaşlar/Dükkân × normal/yavaş 4G × soğuk/sıcak = 16 ölçüm. Soğuk normal ilk sayfa içeriği sırasıyla **5295 / 4469 / 4001 / 4520 ms**; soğuk yavaş 4G **9336 / 5483 / 5050 / 6050 ms**. 14/16 koşu 1 sn eşiğini aştı. Ön ölçüm: `tasarim/yukleme-suresi/olcum-once.json`.
+- Kök neden: `index.html` içindeki `#root` boştu; React yükleyicisi ancak ana JS/CSS indikten sonra çiziliyordu (soğuk FCP 1936–3940 ms). Sayfa iskeletleri/veri sorguları değiştirilmedi. React devralana kadar yerel Q simgeli, sabit ölçülü ilk yükleme görünümü eklendi; hareketi azalt ayarında noktalar durur.
+- Build ve Safari 12.1 ayrıştırma denetimi temiz. Canlı sonrası ölçüm dağıtımın ardından eklenecek.

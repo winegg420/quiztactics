@@ -47,10 +47,22 @@
     <link rel="preload" as="font" type="font/woff2" href="/fonts/baloo-2-latin.woff2" crossorigin />
     <link rel="preload" as="font" type="font/woff2" href="/fonts/nunito-latin.woff2" crossorigin />
     <link rel="stylesheet" href="/fonts/yazitipleri.css" />
+    <!-- JavaScript ve uygulama stilleri inerken boş ekran gösterme. React ilk
+         çizimde bu küçük, metinsiz marka yükleyicisini kendiliğinden değiştirir. -->
+    <style>
+      #qt-ilk-yukleme{box-sizing:border-box;min-height:100vh;min-height:100svh;display:grid;place-items:center;background:#eef4ff;color:#3D8CE8}
+      #qt-ilk-yukleme>span{display:grid;place-items:center;gap:14px}
+      #qt-ilk-yukleme img{display:block;width:68px;height:68px}
+      .qt-ilk-noktalar{display:flex;gap:7px}
+      .qt-ilk-noktalar i{width:9px;height:9px;border-radius:50%;background:currentColor;animation:qt-ilk-nokta 1s ease-in-out infinite}
+      .qt-ilk-noktalar i:nth-child(2){animation-delay:.12s}.qt-ilk-noktalar i:nth-child(3){animation-delay:.24s}
+      @keyframes qt-ilk-nokta{0%,60%,100%{opacity:.28;transform:translateY(0)}30%{opacity:1;transform:translateY(-4px)}}
+      @media (prefers-reduced-motion:reduce){.qt-ilk-noktalar i{animation:none;opacity:.62}}
+    </style>
     <title>Quiz Tactics — Bilgi Yarışması</title>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><div id="qt-ilk-yukleme" role="status" aria-busy="true" aria-label="Quiz Tactics"><span><img src="/quiztactics-q-favicon.svg?v=20260930-q" width="68" height="68" alt="" /><span class="qt-ilk-noktalar" aria-hidden="true"><i></i><i></i><i></i></span></span></div></div>
     <script type="module" src="/src/baslat.js"></script>
   </body>
 </html>
