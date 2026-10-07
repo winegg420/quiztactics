@@ -11,7 +11,7 @@ import path from "node:path";
 
 const ARG = Object.fromEntries(process.argv.slice(2).map((a) => { const [k, v] = a.replace(/^--/, "").split("="); return [k, v ?? true]; }));
 const ADRES = ARG.adres || "http://localhost:5188";
-const OTURUM = path.resolve(".arayuz-denetim-oturum.json");
+const OTURUM = path.resolve(typeof ARG.oturum === "string" ? ARG.oturum : ".arayuz-denetim-oturum.json");   // --oturum=dosya: kendi test hesabın
 const CIKTI = path.resolve("tasarim/kasa");
 fs.mkdirSync(CIKTI, { recursive: true });
 if (!fs.existsSync(OTURUM)) { console.error("Oturum yok: önce node araclar/arayuz-denetim.mjs"); process.exit(1); }
@@ -130,7 +130,12 @@ for (const dil of DILLER) {
         if (u.includes("/rpc/kasa_aktif_benim")) return json([]);
         if (/\/rpc\/kasa_(cevap|karar|terk|ara|davet|aramadan)/.test(u)) return json({ message: "Ölçüm aracı: yazma kapalı" }, 400);
         if (u.includes("/rpc/mac_sonu_ozet") && req.postData()?.includes("kasa:")) return json(OZET(jwtSub(req)));
-        const y = await r.fetch();
+        // Yavaş/düşen Supabase'de ayar okuması boş kalırsa uygulama Ortak Hazine'yi KAPALI sayar → ölçüm yanlış alarm verir.
+        // Ayar isteği gerçek yanıt alamazsa yalnız taklit kasa ayarlarıyla yanıtlanır (öteki ayarlar varsayılana düşer).
+        const y = await r.fetch({ timeout: 20000 }).catch((e) => { if (u.includes("/rest/v1/oyun_ayarlari")) return null; throw e; });
+        if (!y || (u.includes("/rest/v1/oyun_ayarlari") && !y.ok())) {
+          return json(Object.entries({ ...AYARLAR, kasa_modu_acik: modAcik }).map(([anahtar, deger]) => ({ anahtar, deger })));
+        }
         let m = (await y.text()).replace(/"dil":\s*"(tr|en)"/g, `"dil":"${dil}"`);
         if (u.includes("/rest/v1/oyun_ayarlari")) {
           const liste = JSON.parse(m).filter((x) => !String(x.anahtar).startsWith("kasa_"));
@@ -159,7 +164,7 @@ for (const dil of DILLER) {
       // 1) Ana sayfa: Kasa kısayolu (Deneysel), 5'li satır, sayfa kaydırılmıyor
       await ac("/", 800);
       // 6 Eki 2026: ana sayfada Kasa kısayolu yerine "Ortak Hazine" mod şeridi (Klasik · Düello · Ortak Hazine)
-      const varAna = await bekle(".as-mod-serit--kasa", 15000);
+      const varAna = await bekle(".as-mod-serit--kasa", 30000);   // yavaş Supabase: ana sayfa verisi 15 sn+ sürebiliyor
       let o = await olc("ana");
       if (w < 1024) {
         ok("ana sayfa: Ortak Hazine şeridi (Kasa adı yok)", varAna && /Ortak Hazine|Shared Treasure/.test(await s.locator(".as-mod-serit--kasa").innerText()) && !/Kasa|Vault/.test(await s.locator(".as-mod-serit--kasa").innerText()));
@@ -171,18 +176,18 @@ for (const dil of DILLER) {
       }
       await kaydet("01-ana");
 
-      // 2) Modlar: Kasa kartı (Deneysel rozetli)
+      // 2) Modlar: Kasa kartı (7 Eki 2026: "Deneysel" rozeti kalktı — kart adı Ortak Hazine)
       await ac("/modlar", 800); await bekle(".qt-mod--kasa");
       await s.locator(".qt-mod--kasa").scrollIntoViewIfNeeded();
       o = await olc("modlar");
-      ok("Modlar: Kasa kartı + Deneysel rozeti", /Deneysel|Experimental/.test(await s.locator(".qt-mod--kasa").innerText()));
+      { const kart = await s.locator(".qt-mod--kasa").innerText(); ok("Modlar: Ortak Hazine kartı (Deneysel rozeti yok)", /Ortak Hazine|Shared Treasure/.test(kart) && !/Deneysel|Experimental/.test(kart), kart.slice(0, 80)); }
       ortak("Modlar", o);
       await kaydet("02-modlar");
 
       // 3) Giriş
       await ac("/kasa", 800); await bekle(".ks-giris");
       o = await olc("giris");
-      ok("Giriş: başlık + Deneysel + kurallar + Rakip ara", await s.locator(".ks-deneysel").count() === 1 && await s.locator(".ks-kurallar li").count() === 7);   // 951: + jokerler · 955: + tavan + karar süresi · 958: AÇ alt sınırı satırı yok (acma_min 0)
+      ok("Giriş: başlık + 3 maddelik özet + Tüm kurallar + Rakip ara", await s.locator(".ks-deneysel").count() === 0 && await s.locator(".ks-ozet li").count() === 3 && await s.locator(".ks-kurallar-tum .ks-kurallar li").count() >= 7 && await s.getByRole("button", { name: /Rakip ara|Find opponent/ }).count() === 1);   // 990: özet + açılır tam liste (987 Savunma Hakkı satırı ayara bağlı)   // 951: + jokerler · 955: + tavan + karar süresi · 958: AÇ alt sınırı satırı yok (acma_min 0)
       ok("Giriş (958): hedef 80 puan, 'en az' satırı yok", /80 (puana|points)/.test(o.metin) && !/en az|at least/i.test(await s.locator(".ks-kurallar").innerText()), o.metin.slice(0, 200));
       ortak("Giriş", o);
       await kaydet("03-giris");
@@ -218,8 +223,16 @@ for (const dil of DILLER) {
       const sonMetin = await s.locator("body").innerText();
       ok("Maç sonu sahnesi çizildi (21-14, Kasa alt yazısı)", sonVar && /21/.test(sonMetin) && /14/.test(sonMetin) && /Hazineyi açtın|Kasayı açtın|opened the vault|opened the treasure/.test(sonMetin), sonMetin.replace(/s+/g, " ").slice(0, 120));
       // 957: Kasa'da da rövanş var (Düello ile aynı akış)
-      ok("Maç sonu: Rövanş düğmesi ve Yeni Kasa maçı var", /Rövanş|Rematch/.test(sonMetin) && /Yeni Ortak Hazine maçı|New Shared Treasure match/.test(sonMetin));
+      ok("Maç sonu: Rövanş düğmesi ve Yeni maç var", /Rövanş|Rematch/.test(sonMetin) && /Yeni maç|New match/.test(sonMetin));
       ok("Maç sonu: yatay taşma yok", o.yatayTasma <= 0, JSON.stringify(o.tasan));
+      // 7 Eki 2026: Ortak Hazine'ye özel özet — açılan hazineler + en büyük hazine (taklit: 3. turda ben 12 açtım)
+      const acl = await s.evaluate(() => { const e = document.querySelector(".msk-mod-ozet .ks-acilan"); if (!e) return null; const r = e.getBoundingClientRect();
+        const kesik = [...e.querySelectorAll(".ks-acilan-taraf small, .ks-acilan-baslik, .ks-acilan-en")].filter((x) => x.scrollWidth > x.clientWidth + 1).length;
+        return { metin: e.innerText.replace(/\s+/g, " "), sag: r.right, w: window.innerWidth, kesik,
+          ben: e.querySelector(".ks-acilan-taraf--ben .ks-acilan-sayi")?.textContent, rakip: e.querySelector(".ks-acilan-taraf--rakip .ks-acilan-sayi")?.textContent }; });
+      ok("Maç sonu: açılan hazineler (Sen 1 · +12, Rakip 0) + en büyük hazine 12", acl && acl.ben === "1" && acl.rakip === "0" && /\+12/.test(acl.metin)
+        && (/En büyük hazine: 12 · sen açtın/.test(acl.metin) || /Biggest treasure: 12 · you opened it/.test(acl.metin)), JSON.stringify(acl));
+      ok("Maç sonu özeti: taşma / kesik metin yok", acl && acl.sag <= acl.w + 1 && acl.kesik === 0, JSON.stringify(acl));
       await kaydet("11-bitti");
 
       // 12) Mod kapalı: kasa_modu_acik = 0

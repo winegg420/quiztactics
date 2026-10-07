@@ -7,7 +7,7 @@ import path from "node:path";
 const ARG = Object.fromEntries(process.argv.slice(2).map((a) => { const [k, v] = a.replace(/^--/, "").split("="); return [k, v ?? true]; }));
 const ADRES = ARG.adres || "http://localhost:5173";
 const CIKTI = path.resolve(ARG.cikti || "tasarim/renk-rolleri/sonra");
-const OTURUM = ".arayuz-denetim-oturum.json";
+const OTURUM = typeof ARG.oturum === "string" ? ARG.oturum : ".arayuz-denetim-oturum.json";   // --oturum=dosya
 const SAYFALAR = [["ana", "/"], ["modlar", "/modlar"], ["meydan", "/meydan"], ["arkadaslar", "/arkadaslar"], ["dukkan", "/joker"], ["profil", "/profil"], ["gorevler", "/gorevler"], ["sezon", "/sezon-yolu"], ["kasa", "/kasa"], ["duello", "/duello"]];
 const BOYUTLAR = [[360, 640], [390, 844]];
 const MOR_IZINLI = /qt-srozet|sy-kutu-cerceve|sy-sirada-yuva|qt-kp-|qt-av-bolum|nadir|epik|lg-|lig/;   // joker rozeti, nadirlik, lig

@@ -16,7 +16,7 @@ import path from "node:path";
 
 const ARG = Object.fromEntries(process.argv.slice(2).map((a) => { const [k, v] = a.replace(/^--/, "").split("="); return [k, v ?? true]; }));
 const ADRES = ARG.adres || "http://localhost:5188";
-const OTURUM = path.resolve(".arayuz-denetim-oturum.json");
+const OTURUM = path.resolve(typeof ARG.oturum === "string" ? ARG.oturum : ".arayuz-denetim-oturum.json");   // --oturum=dosya: kendi test hesabın
 const CIKTI = path.resolve("tasarim/duello-puan");
 fs.mkdirSync(CIKTI, { recursive: true });
 if (!fs.existsSync(OTURUM)) { console.error("Oturum yok: önce node araclar/arayuz-denetim.mjs"); process.exit(1); }
@@ -166,9 +166,11 @@ for (const { dil, w, azalt } of KOSULAR) {
   const etiket = `${w}-${dil}${azalt ? "-azalt" : ""}`;
   const kaydet = async (ad) => s.screenshot({ path: path.join(CIKTI, `${ad}-${etiket}.png`), fullPage: false });
   const olc = async (ad) => { const o = await s.evaluate(OLC); sonuc[`${ad}-${etiket}`] = o; return o; };
-  const ortak = (ad, o) => {
+  const ortak = (ad, o, { tekEkranBilgi = false } = {}) => {
     ok(`${ad}: yatay taşma yok`, o.yatayTasma <= 0, JSON.stringify(o.tasan));
-    ok(`${ad}: tek ekran (kaydırma yok, alt ${o.altKenar}/${o.ekran})`, o.dikeyTasma <= 1 && o.altKenar <= o.ekran + 1, `kaydırma ${o.dikeyTasma}`);
+    // 982: ban fazı canlıda KAPALI — o fazın tek ekran ölçümü yalnız bilgi (Plan A düzeni ban fazına uyarlanmadı)
+    if (tekEkranBilgi) console.log(`  · ${ad}: tek ekran (bilgi, ban kapalı) alt ${o.altKenar}/${o.ekran}, kaydırma ${o.dikeyTasma}`);
+    else ok(`${ad}: tek ekran (kaydırma yok, alt ${o.altKenar}/${o.ekran})`, o.dikeyTasma <= 1 && o.altKenar <= o.ekran + 1, `kaydırma ${o.dikeyTasma}`);
     ok(`${ad}: dokunma hedefi ≥ 44 px`, o.kucuk.length === 0, o.kucuk.slice(0, 4).join(" | "));
     ok(`${ad}: kontrast`, o.kontrast.length === 0, JSON.stringify(o.kontrast.slice(0, 3)));
     ok(`${ad}: kesik metin yok`, o.kesik.length === 0, o.kesik.slice(0, 4).join(" | "));
@@ -195,15 +197,15 @@ for (const { dil, w, azalt } of KOSULAR) {
     await s.waitForSelector(".hk-kart", { timeout: 30000 });
     await s.waitForTimeout(900);
     let o = await olc("01-saldiri");
-    ok("puan tahtası: iki satır, Sen 3/12 · Rakip 2/12 · Çalınan 0/4", o.satir === 2 && /3\s*\/12/.test(o.tahtaMetin) && /2\s*\/12/.test(o.tahtaMetin) && /0\/4/.test(o.tahtaMetin)
-      && (TR ? /Çalınan/ : /Stolen/).test(o.tahtaMetin), o.tahtaMetin);
+    // Plan A (7 Eki 2026): "Çalınan" kutuları yerine puan şeridi — iki satır (.hk-serit), sağda çalınan sayacı x/4
+    ok("puan şeridi: iki satır, Sen 3/12 · Rakip 2/12 · çalınan 0/4", await s.locator(".hk-tahta .hk-serit").count() === 2 && /3\s*\/12/.test(o.tahtaMetin) && /2\s*\/12/.test(o.tahtaMetin) && /0\/4/.test(o.tahtaMetin), o.tahtaMetin);
     ok("eski yuva şeridi yok (7 yuva kalktı)", await s.locator(".hk-yuva").count() === 0);
     ok("gruplar: Rakibin kategorileri · saldır / Senin kategorilerin · savun",
-      (await s.locator(".hk-grup-baslik").allInnerTexts()).join("|").match(TR ? /saldır.*savun/i : /attack.*defend/i) !== null);
+      (await s.locator(".hk-grup-baslik").allInnerTexts()).join("|").match(TR ? /sald[ıi]r.*savun/i : /attack.*defend/i) !== null);   // başlık BÜYÜK harfle çizilir: "SALDIR" (ı/I /i ile eşleşmez)
     const kendiPasif = await s.locator(".hk-kart--ben.hk-kart--pasif:disabled").count();
     const rakipAcik = await s.locator(".hk-kart--rakip:not(:disabled):not(.hk-kart--banli)").count();
     ok("kendi 5 kartın pasif (disabled), rakibin banlı olmayan 4 kartı seçilebilir", kendiPasif === 5 && rakipAcik === 4, `${kendiPasif} / ${rakipAcik}`);
-    ok("kural satırı: 12 puan ya da 4 kategori", (TR ? /12 puan ya da 4 kategori/ : /12 points or 4 categories/).test(o.mesaj), o.mesaj);
+    ok("hedef satırı (şeritte): 12 puan ya da 5'ten 4'ünü al", (TR ? /12 puan ya da 5'ten 4'ünü al/ : /12 points or take 4 of 5/).test(o.tahtaMetin), o.tahtaMetin);   // Plan A: kategori fazında mesaj satırı yok
     ortak("01-saldiri", o);
     await kaydet("01-saldiri");
     await s.locator('.hk-kart--ben[data-kategori="bilim"]').click({ force: true, timeout: 2000 }).catch(() => {});
@@ -224,7 +226,7 @@ for (const { dil, w, azalt } of KOSULAR) {
     await s.waitForTimeout(300);
     o = await olc("03-kritik");
     ok("hedefe yakın: Kazanırsın!", (TR ? /Kazanırsın/ : /win/i).test(o.cubuk), o.cubuk);
-    ok("rakip bitişe yakın: tahta kritik", await s.locator(".hk-taraf--rakip.hk-taraf--kritik").count() === 1);
+    ok("rakip bitişe yakın: şerit kritik", await s.locator(".hk-serit--rakip.hk-serit--kritik").count() === 1);
     await kaydet("03-kritik");
     st.puan[st.ben] = 3; st.puan[RAKIP] = 2;
 
@@ -232,7 +234,7 @@ for (const { dil, w, azalt } of KOSULAR) {
     st.faz = "ban"; st.saldiran = RAKIP; st.tur = 4; st.ban = null; st.yeniAn = Date.now(); st.bitisMs = 7000; await yenile(1400);
     o = await olc("04-ban");
     ok("ban: kendi 5 kartın seçilebilir, rakibin kartları pasif", await s.locator(".hk-kart--ben:not(:disabled)").count() === 5 && await s.locator(".hk-kart--rakip.hk-kart--pasif").count() === 5);
-    ortak("04-ban", o);
+    ortak("04-ban", o, { tekEkranBilgi: true });
     await kaydet("04-ban");
 
     // 4) Soru (cevap) fazı — ben saldırıyorum, rakibin kategorisi
@@ -251,17 +253,25 @@ for (const { dil, w, azalt } of KOSULAR) {
     st.faz = "sonuc"; st.sahiplik.cografya = st.ben; st.kilitler = { cografya: 2 }; st.puan[st.ben] = 5;
     st.sonHamle = hamle(5, "cografya", st.ben, true, false, true, "tuttu", { [st.ben]: 2, [RAKIP]: 0 }); st.yeniAn = Date.now(); st.bitisMs = 3000;
     await yenile(500);
+    // Plan A: +N vuruşu kart indikten sonra 1,5 sn görünür, sonra kalkar — görünür olduğu anda yakala
+    const vurusVar = await s.waitForSelector(".hk-serit--ben .hk-vurus", { timeout: 4000 }).then(() => true).catch(() => false);
+    const vurusRakip = await s.locator(".hk-serit--rakip .hk-vurus").count();
+    const animOnce = await s.evaluate(() => { const e = document.querySelector(".hk-vurus"); window.__arti = e; const a = e?.getAnimations?.()[0]; return { t: a ? a.startTime : null, ad: e ? getComputedStyle(e).animationName : null }; });
+    await yenile(400);
+    const animSonra = await s.evaluate(() => { const e = document.querySelector(".hk-vurus"); const a = e?.getAnimations?.()[0]; return { var: !!e, ayni: e === window.__arti, t: a ? a.startTime : null }; });
     // 990: kategori çalma anı (~1,8 sn) — puan/ikon/+2 kart inince gelir; ölçüm an bittikten sonra
     await s.waitForSelector(".hk-calma", { state: "detached", timeout: 4000 }).catch(() => {});
     o = await olc("06-sonuc-aldin");
-    ok("sonuç: 'rakipten sana geçti!' + 'Sen +2 · Rakip +0 · … el değiştirdi'", (TR ? /Coğrafya rakipten sana geçti!/ : /Geography moved from your opponent to you!/).test(o.mesaj) && (TR ? /Sen \+2 · Rakip \+0 · Coğrafya el değiştirdi/ : /You \+2 · Opponent \+0 · Geography changed hands/).test(o.mesaj), o.mesaj);
-    ok("çalınan kategori ikonu Çalınan yuvasına oturdu (1/4)", await s.locator(".hk-taraf--ben .hk-alinan-yuva--dolu").count() === 1 && /1\/4/.test(o.tahtaMetin), o.tahtaMetin);
-    ok("+2 rozeti bende, rakipte rozet yok", await s.locator(".hk-taraf--ben .hk-puan-arti").count() === 1 && await s.locator(".hk-taraf--rakip .hk-puan-arti").count() === 0);
-    const animOnce = await s.evaluate(() => { const e = document.querySelector(".hk-puan-arti"); window.__arti = e; const a = e?.getAnimations?.()[0]; return { t: a ? a.startTime : null, ad: e ? getComputedStyle(e).animationName : null }; });
+    // Plan A: tur sonu tek cümle + ikinci satırda yalnız puanlar
+    ok("sonuç: 'Coğrafya'yı çaldın!' + 'Sen +2 · Rakip +0'", (TR ? /Coğrafya'yı çaldın!/ : /You stole Geography!/).test(o.mesaj) && (TR ? /Sen \+2 · Rakip \+0/ : /You \+2 · Opponent \+0/).test(o.mesaj), o.mesaj);
+    ok("çalınan ikon benim şeridime geçti (6 ikon, 1/4) + rakipte soluk iz", await s.locator(".hk-serit--ben .hk-serit-k:not(.hk-serit-k--iz)").count() === 6
+      && await s.locator(".hk-serit--rakip .hk-serit-k--iz").count() === 1 && /1\/4/.test(o.tahtaMetin), o.tahtaMetin);
+    ok("+2 vuruşu bende, rakipte yok", vurusVar && vurusRakip === 0);
+    // yeniden okuma vuruşu baştan başlatmaz: ya aynı öğe aynı animasyon başlangıcıyla sürer ya da süresi bitip kalkmıştır
+    ok("senkron: yeniden okumada +2 vuruşu yeniden oynamaz (aynı öğe, aynı animasyon başlangıcı)",
+      !animSonra.var || (animSonra.ayni && (azalt || (animOnce.t !== null && animSonra.t === animOnce.t))), JSON.stringify([animOnce, animSonra]));
     await yenile(700);
-    const animSonra = await s.evaluate(() => { const e = document.querySelector(".hk-puan-arti"); const a = e?.getAnimations?.()[0]; return { ayni: e === window.__arti, t: a ? a.startTime : null }; });
-    ok("senkron: yeniden okumada +2 rozeti yeniden oynamaz (aynı öğe, aynı animasyon başlangıcı)",
-      azalt ? animSonra.ayni : (animSonra.ayni && animOnce.t !== null && animSonra.t === animOnce.t), JSON.stringify([animOnce, animSonra]));
+    ok("senkron: yeniden okumada ikinci vuruş çizilmez", await s.locator(".hk-vurus").count() <= 1);
     ortak("06-sonuc-aldin", o);
     await kaydet("06-sonuc-aldin");
 
@@ -269,7 +279,7 @@ for (const { dil, w, azalt } of KOSULAR) {
     st.puan[st.ben] = 6; st.puan[RAKIP] = 3; st.saldiran = RAKIP;
     st.sonHamle = hamle(6, "muzik", RAKIP, true, true, false, "ikisi_dogru", { [st.ben]: 1, [RAKIP]: 1 }); await yenile(600);
     o = await olc("07-ikisi-dogru");
-    ok("sonuç: İkiniz de bildiniz · Sen +1 · Rakip +1 · kategori el değiştirmedi", (TR ? /İkiniz de bildiniz.*Sen \+1 · Rakip \+1 · kategori el değiştirmedi/ : /both got it.*You \+1 · Opponent \+1 · category stays/i).test(o.mesaj), o.mesaj);
+    ok("sonuç: İkiniz de bildiniz · Sen +1 · Rakip +1", (TR ? /İkiniz de bildiniz.*Sen \+1 · Rakip \+1/ : /both got it.*You \+1 · Opponent \+1/i).test(o.mesaj), o.mesaj);
     await kaydet("07-ikisi-dogru");
     st.puan[st.ben] = 7;
     st.sonHamle = hamle(7, "muzik", RAKIP, false, true, false, "saldiran_yanlis", { [st.ben]: 1, [RAKIP]: 0 }); await yenile(600);

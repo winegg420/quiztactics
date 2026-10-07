@@ -15,7 +15,7 @@ import path from "node:path";
 
 const ARG = Object.fromEntries(process.argv.slice(2).map((a) => { const [k, v] = a.replace(/^--/, "").split("="); return [k, v ?? true]; }));
 const ADRES = ARG.adres || "http://localhost:5188";
-const OTURUM = path.resolve(".arayuz-denetim-oturum.json");
+const OTURUM = path.resolve(typeof ARG.oturum === "string" ? ARG.oturum : ".arayuz-denetim-oturum.json");   // --oturum=dosya: kendi test hesabın
 const CIKTI = path.resolve(ARG.cikti || "tasarim/duello-plan-a");
 const YALNIZ_GORUNTU = Boolean(ARG["yalniz-goruntu"]);
 fs.mkdirSync(CIKTI, { recursive: true });
@@ -292,6 +292,20 @@ for (const { dil, boy, azalt } of KOSULAR) {
 
     // 7) Maç sonu (ben kazandım, 12 puan)
     st.durum = "bitti"; st.faz = "bitti"; st.kazanan = st.ben; st.puan[st.ben] = 12; await yenile(5000);
+    // 7 Eki 2026: Düello'ya özel maç sonu özeti — ele geçirilen kategoriler (sahnede, Detay açılmadan)
+    await s.locator(".hk-ele").first().waitFor({ timeout: 6000 }).catch(() => {});
+    const ele = {
+      var: await s.locator(".msk-mod-ozet .hk-ele").count(),
+      ben: await s.locator(".hk-ele-satir--ben").innerText().catch(() => ""),
+      rakip: await s.locator(".hk-ele-satir--rakip").innerText().catch(() => ""),
+    };
+    ok("maç sonu: ele geçirilen kategoriler (Sen: Coğrafya 1/4 · Rakip: Tarih 1/4)", ele.var === 1
+      && (TR ? /Coğrafya/ : /Geography/).test(ele.ben) && /1\/4/.test(ele.ben) && (TR ? /Tarih/ : /History/).test(ele.rakip) && /1\/4/.test(ele.rakip), JSON.stringify(ele));
+    const eleO = await s.evaluate(() => { const e = document.querySelector(".hk-ele"); if (!e) return null; const r = e.getBoundingClientRect();
+      const kesik = [...e.querySelectorAll(".hk-ele-k, .hk-ele-baslik")].filter((x) => x.scrollWidth > x.clientWidth + 1).length;
+      return { sag: r.right, w: window.innerWidth, kesik, zemin: getComputedStyle(e).backgroundColor }; });
+    ok("maç sonu özeti: taşma / kesik metin yok, açık zemin", eleO && eleO.sag <= eleO.w + 1 && eleO.kesik === 0 && !/rgb\((\d|[1-5]\d), /.test(eleO.zemin), JSON.stringify(eleO));
+    await kaydet("11-mac-sonu-ozet");
     await s.getByRole("button", { name: TR ? /Detay/ : /Detail/ }).first().click({ timeout: 3000 }).catch(() => {});
     await s.waitForTimeout(500);
     await s.locator(".hk-son").scrollIntoViewIfNeeded({ timeout: 4000 }).catch(() => {});
