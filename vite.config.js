@@ -72,7 +72,7 @@ function yayinDosyalari(siteUrl) {
 // yükler (İngilizce sözlük tembel parça olsun diye). Dinamik parçayı Vite
 // `index.html`'e yazmaz; tarayıcı uygulama JS/CSS'ini ancak başlatıcı çalışınca
 // keşfeder (bir tur gecikme). Bu eklenti o parçaları eskisi gibi `<head>`'e
-// yazar: JS `modulepreload`, CSS `stylesheet` — hepsi başlatıcıyla paralel iner.
+// yazar: JS `modulepreload`, CSS `preload as=style` (çizimi engellemez) — hepsi başlatıcıyla paralel iner.
 // Giriş listesine ve parça bölmesine dokunmaz.
 // ============================================================
 function uygulamaOnYukleme() {
@@ -100,8 +100,12 @@ function uygulamaOnYukleme() {
         };
         gez(ana);
         const yeni = (dosya) => !html.includes(`/${dosya}"`);   // başlatıcının zaten yazılmış bağımlılıkları yinelenmesin
+        // CSS `preload` (stylesheet DEĞİL, 7 Eki 2026): ~105 kB(gz) ana CSS `<head>`de çizimi
+        // engelliyordu — yavaş 4G'de satır içi Q yükleyicisi bile ~2,5 sn sonra görünüyordu.
+        // İndirme yine HTML ile paralel başlar; uygulama CSS inmeden ÇALIŞMAZ: başlatıcının
+        // dinamik import'u (Vite ön yükleyicisi) aynı adrese stylesheet ekler ve `load`unu bekler.
         return [
-          ...[...css].filter(yeni).map((dosya) => ({ tag: "link", attrs: { rel: "stylesheet", crossorigin: true, href: `/${dosya}` }, injectTo: "head" })),
+          ...[...css].filter(yeni).map((dosya) => ({ tag: "link", attrs: { rel: "preload", as: "style", crossorigin: true, href: `/${dosya}` }, injectTo: "head" })),
           ...[...js].filter(yeni).map((dosya) => ({ tag: "link", attrs: { rel: "modulepreload", crossorigin: true, href: `/${dosya}` }, injectTo: "head" })),
         ];
       },

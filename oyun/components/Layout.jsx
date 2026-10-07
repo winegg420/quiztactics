@@ -233,9 +233,10 @@ export default function Layout() {
         <HataSiniri sayfaIci anahtar={pathname}>
           <Suspense
             fallback={(
-              <div className="qt-sayfa-yukleniyor" role="status" aria-busy="true">
-                <span className="qt-donen" aria-hidden="true" />
-                {tt("Yükleniyor…")}
+              <div className="qt-sayfa-yukleniyor" role="status" aria-busy="true" aria-label={tt("Yükleniyor…")}>
+                {/* Açılıştaki Q yükleyicisiyle aynı dil (index.html › #qt-ilk-yukleme) */}
+                <img src="/quiztactics-q-favicon.svg?v=20260930-q" width="56" height="56" alt="" />
+                <span className="qt-sayfa-yukleniyor-noktalar" aria-hidden="true"><i /><i /><i /></span>
               </div>
             )}
           >

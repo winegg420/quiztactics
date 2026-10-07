@@ -39,9 +39,13 @@ import "../tasarim/ekranlar/a-arama-sahnesi.css";
 // Güneş Halkası görünümü tembel parçada; tarayıcı boşta kalınca önceden indirilir (arama açılınca beklemesin).
 const sahneYukle = () => import("./AramaGunesHalkasi.jsx");
 const AramaGunesHalkasi = lazy(sahneYukle);
+// 7 Eki 2026: açılıştan 5 sn sonra başlar — parça 31 avatarı da önden indiriyor; hemen başlayınca
+// yavaş ağda ilk ekranın veri istekleriyle bant yarışıyordu. Arama erken açılırsa lazy zaten indirir.
 if (typeof window !== "undefined") {
   const bosta = window.requestIdleCallback ?? ((f) => window.setTimeout(f, 4000));
-  bosta(() => { sahneYukle().catch(() => { /* açılınca yeniden denenir */ }); }, { timeout: 12000 });
+  window.setTimeout(() => {
+    bosta(() => { sahneYukle().catch(() => { /* açılınca yeniden denenir */ }); }, { timeout: 12000 });
+  }, 5000);
 }
 
 /** Parça inene kadar (ilk açılışta kısa an): aynı gök zemini + başlık + İptal. */

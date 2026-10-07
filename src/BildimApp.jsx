@@ -33,8 +33,18 @@ import TaniPaneli from "../oyun/components/TaniPaneli.jsx";
 // Ana sayfa = seçenek A (23 Eyl 2026, Ida kararı). Eski oyun/pages/Home.jsx ve B/C/seçim
 // dosyaları silinmedi; hiçbir rota çağırmıyor.
 import AnaSayfa from "../oyun/pages/anasayfa/AnaSayfaA.jsx";
-import ChallengesPage from "../oyun/pages/ChallengesPage.jsx";
-import MatchPage from "../oyun/pages/MatchPage.jsx";
+// Meydan + Klasik maç tembel (7 Eki 2026, soğuk açılış): ilk paketten ~49 kB(gz) JS çıktı.
+// Stilleri ANA pakette, eski sırasında kalır — tembel parçaya geçen CSS global stillerin
+// (styles/tema/yeni…) ARKASINA eklenir ve eşit özgüllükte onları ezerdi (görünüm değişirdi).
+// Bu altı satırın sırası eski içe aktarma sırasıdır; değiştirme.
+import "../oyun/tasarim/ekranlar/a-meydan.css";
+import "../oyun/tasarim/ekranlar/m1-mac.css";
+import "../oyun/tasarim/ekranlar/satin-al-onay.css";
+import "../oyun/tasarim/ekranlar/mac-sonu-kutlama.css";
+import "../oyun/tasarim/ekranlar/mac-oyuncu.css";
+import "../oyun/tasarim/ekranlar/mac-ses.css";
+const ChallengesPage = tembelYukle(() => import("../oyun/pages/ChallengesPage.jsx"));
+const MatchPage = tembelYukle(() => import("../oyun/pages/MatchPage.jsx"));
 // Ajan H: grup maçı tembel (nadir mod) — ses/müzik eklerinin ana paketi büyütmemesi için.
 const GroupMatchPage = tembelYukle(() => import("../oyun/pages/GroupMatchPage.jsx"));
 // DONDURULDU (Paket 24 B): HizliMacPage dosyasi duruyor, hicbir rota cagirmiyor.
