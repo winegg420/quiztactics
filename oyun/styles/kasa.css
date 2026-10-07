@@ -293,3 +293,25 @@
 
 /* Renk rolleri (7 Eki 2026): Ortak Hazine = altın. Ana eylem düğmeleri altın (koyu yazı ≥ 8:1); turuncu Klasik'e ait. */
 .ks-giris .qt-dugme.qt-dugme--birincil:not(:disabled) { --_z: var(--qt-coin); --_y: var(--qt-coin-yazi); --_d: var(--qt-coin-dudak); }
+
+/* ---------------------------------------------------------------- maç sonu: açılan hazineler (7 Eki 2026)
+   Ortak Hazine rolü ALTIN (--qt-mod-kasa); açık altın zemin + koyu yazı (≈ 7:1). */
+.ks-acilan {
+  display: grid; gap: 8px; padding: 10px 12px; text-align: left;
+  border-radius: var(--qt-r-l, 18px); background: var(--qt-mod-kasa-acik, #fff4cf); color: var(--qt-mod-kasa-yazi, #2e1f00);
+  border: 2px solid var(--qt-mod-kasa, #e0a100); box-shadow: 0 3px 0 var(--qt-mod-kasa-dudak, #9a6c00);
+}
+.ks-acilan-baslik {
+  display: flex; align-items: center; gap: 6px; margin: 0;
+  font-size: var(--qt-y-s, 13px); font-weight: 900; letter-spacing: .02em; text-transform: uppercase;
+}
+.ks-acilan-taraflar { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.ks-acilan-taraf {
+  display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto; column-gap: 8px; align-items: center;
+  padding: 6px 10px; border-radius: var(--qt-r-m, 14px); background: var(--qt-yuzey, #fff); min-width: 0;
+}
+.ks-acilan-ad { grid-column: 1 / -1; font-size: var(--qt-y-xs, 12px); font-weight: 900; text-transform: uppercase; }
+.ks-acilan-sayi { font-size: var(--qt-y-xl, 22px); font-weight: 900; line-height: 1.1; }
+.ks-acilan-taraf small { font-size: var(--qt-y-s, 13px); font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ks-acilan-en { margin: 0; font-size: var(--qt-y-s, 13px); font-weight: 800; }
+.ks-acilan-en b { font-size: var(--qt-y-m, 15px); }

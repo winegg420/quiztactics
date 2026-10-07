@@ -175,7 +175,9 @@ function Taraf({ kisi, rol, yan, canToplam, sen, zafer }) {
  * @param {ReactNode} [rovans]         Rövanş düğmesinin yerine (rövanş isteği/kabul akışları)
  * @param {ReactNode} [eylemNotu]      eylem çubuğunun üstünde tam satır (rövanş yanıtı, hata)
  * @param {ReactNode} [detay]          açılır "Detay" bölümü (döküm, sorular, paylaş)
- * @param {number} [detayRozet]        Detay düğmesindeki sayı (kaçırılan soru)
+ * @param {ReactNode} [modOzet]        moda özel kısa özet, skorun altında sahnede (Düello: ele geçirilen kategoriler,
+ *                                     Ortak Hazine: açılan hazineler) — 7 Eki 2026
+ * @param {number} [detayRozet]       Detay düğmesindeki sayı (kaçırılan soru)
  * @param {ReactNode} [children]       sahnenin altına serbest içerik (sohbet, tepkiler…)
  * @param {string} [skorEtiket]        skorun altındaki kelime (varsayılan "doğru"; Klasik "puan")
  * @param {{ben?:string|null, rakip?:string|null}} [zaferEfekti]  önizleme için elde efekt; verilmezse oyuncu
@@ -204,6 +206,7 @@ function MacSonuKutlama({
   rovans,
   eylemNotu,
   detay,
+  modOzet,
   detayRozet = 0,
   children,
   skorEtiket,
@@ -595,6 +598,8 @@ function MacSonuKutlama({
           </div>
         )}
       </div>
+
+      {asama >= 1 && modOzet && !benTerk && <div className="msk-mod-ozet">{modOzet}</div>}
 
       {asama >= 2 && !benTerk && <section ref={kartRef} className="msk-kart" aria-label={tt("Maç ödülleri")}>
         {coin > 0 && (

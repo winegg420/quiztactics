@@ -591,3 +591,31 @@
   .hk-vurus::before { display: none; }
   .hk-tahta--serit ~ .hk-calma .hk-calma-yol { animation: none; transform: translateY(var(--cm-son)); }
 }
+
+/* ---------------------------------------------------------------- maç sonu: ele geçirilen kategoriler (7 Eki 2026)
+   Düello rolü kan kırmızısı (--qt-mod-duello); açık zemin, koyu yazı. Sen mavi / Rakip kırmızı (tahta ile aynı). */
+.hk-ele {
+  display: grid; gap: 6px; padding: 10px 12px; text-align: left;
+  border-radius: var(--qt-r-l, 18px); background: var(--qt-yuzey, #fff); color: var(--qt-metin);
+  border: 2px solid var(--qt-mod-duello, #c93030); box-shadow: 0 3px 0 var(--qt-mod-duello-dudak, #8f1f27);
+}
+.hk-ele-baslik {
+  display: flex; align-items: center; gap: 6px; margin: 0;
+  font-size: var(--qt-y-s, 13px); font-weight: 900; letter-spacing: .02em; text-transform: uppercase;
+  color: var(--qt-mod-duello-dudak, #8f1f27);
+}
+.hk-ele-satir { display: grid; grid-template-columns: 52px minmax(0, 1fr) auto; gap: 8px; align-items: center; min-height: 28px; }
+.hk-ele-ad { font-size: var(--qt-y-s, 13px); font-weight: 900; }
+.hk-ele-satir--ben .hk-ele-ad { color: var(--hk-mavi-metin); }
+.hk-ele-satir--rakip .hk-ele-ad { color: var(--hk-kirmizi-metin); }
+.hk-ele-liste { display: flex; flex-wrap: wrap; gap: 4px; min-width: 0; }
+.hk-ele-k {
+  display: inline-flex; align-items: center; gap: 4px; max-width: 100%; padding: 2px 8px 2px 4px;
+  border-radius: 999px; font-size: var(--qt-y-xs, 12px); font-weight: 800; line-height: 1.5;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.hk-ele-satir--ben .hk-ele-k { background: var(--hk-mavi-zemin); color: var(--hk-mavi-metin); box-shadow: inset 0 0 0 1px var(--hk-mavi-kenar); }
+.hk-ele-satir--rakip .hk-ele-k { background: var(--hk-kirmizi-zemin); color: var(--hk-kirmizi-metin); box-shadow: inset 0 0 0 1px var(--hk-kirmizi-kenar); }
+.hk-ele-yok { color: var(--qt-metin-soluk); font-weight: 800; }
+.hk-ele-sayi { font-size: var(--qt-y-m, 15px); font-weight: 900; color: var(--qt-metin); }
+.hk-ele-not { margin: 0; font-size: var(--qt-y-xs, 12px); font-weight: 700; color: var(--qt-metin-soluk); }

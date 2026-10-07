@@ -79,4 +79,8 @@ export default {
   "{kat} senden rakibe geçti": "{kat} moved from you to your opponent",
   "Rakipten sana": "From opponent to you",
   "Senden rakibe": "From you to opponent",
+  // Maç sonu özeti (7 Eki 2026): ele geçirilen kategoriler
+  "Ele geçirilen kategoriler": "Captured categories",
+  "Ele geçirilen {n}/{y}": "Captured {n}/{y}",
+  "Hiçbir kategori el değiştirmedi.": "No category changed hands.",
 };

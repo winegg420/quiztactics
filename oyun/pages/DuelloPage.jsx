@@ -47,7 +47,7 @@ import SkillSeti from "../components/SkillSeti.jsx";
 // Maç ekranı parçaları (Tasarım A).
 import { V2Ust, V2Kategori, V2SecimCubugu, V2Cevap, V2Sonuc, V2Skill, V2Gecmis } from "../components/DuelloV2.jsx";
 // 680 · Hâkimiyet tahtası: yuvalar, mesaj satırı, maç sonu tahtası (kartlar/alt çubuk DuelloV2 üzerinden).
-import { hkModel, hkKategoriDurumu, durumIpucuSirasi, HkYuvalar, HkMesaj, hkMesaj, HkSonTahta, V2BanCubugu,
+import { hkModel, hkKategoriDurumu, durumIpucuSirasi, HkYuvalar, HkMesaj, hkMesaj, HkSonTahta, HkEleGecenler, V2BanCubugu,
   CalmaAni, CALMA_INIS_MS, CALMA_MS } from "../components/DuelloTahta.jsx";
 import { hareketAzaltildiMi } from "../tasarim/hareket.js";
 // Savunma banının "an"ları (yalnız sunum): durum satırı, giriş damgası, ban açıklaması, kırmızı → mavi geçiş.
@@ -1363,6 +1363,7 @@ function DuelloMac({ id }) {
           lig={sahne.lig}
           gorevler={sahne.gorevler}
           rozetler={sahne.rozetler}
+          modOzet={d.durum === "bitti" && hkS.puan ? <HkEleGecenler d={d} ben={ben} rakip={rakip} c={c2} /> : null}
           detay={d.durum === "bitti" || ezeliMetin || d.gecmis?.length ? (
             <>
               {d.durum === "bitti" && <OdulDokumu kaynak={`duello:${d.id}`} veri={macSonuOzet?.dokum} gorevleriGoster={false} />}

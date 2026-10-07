@@ -50,7 +50,7 @@ import { KasaAcAni, KasaAltinYagmuru, UcanParcalar, kasaSeviye, KasaGirisSahnesi
   KasaCifteBandi, KasaRakipKarar, KasaSavunmaAni } from "../components/KasaEfekt.jsx";
 import Konfeti from "../components/Konfeti.jsx";
 import { hareketAzaltildiMi, QT_KIRILMA_MS } from "../tasarim/hareket.js";
-import { QtDugme, QtIkon, QtModal, QtSayac, QtSik, QtSikler, QtSoruKarti, sinif } from "../tasarim/index.js";
+import { QtDugme, QtIkon, QtIskelet, QtModal, QtSayac, QtSik, QtSikler, QtSoruKarti, sinif } from "../tasarim/index.js";
 import "../tasarim/ekranlar/m1-mac.css";   // GeriSayim (3-2-1) görünümü
 import "./DuelloPage.a.css";              // m2-bant / m2-hata / m2-onay-eylem / m2-giris ortak kalıpları
 import "../styles/kasa.css";
@@ -117,7 +117,12 @@ function KasaGiris() {
   const navigate = useNavigate();
   const { ceviri } = useDil();
   // Ayar satırı yoksa (migration 950 uygulanmamış) mod kurulmamış sayılır: kapalı-mod notu.
-  const acik = useAyar("kasa_modu_acik", 0) >= 1;
+  // 7 Eki 2026: ayar henüz gelmediyse (-1) "kapalı" sayılmaz — yavaş Supabase'de /kasa doğrudan açılınca
+  // kapalı-mod notu 2,5 sn sonra ana sayfaya atıyordu. En çok 15 sn iskelet, sonra eski davranış.
+  const acikAyar = useAyar("kasa_modu_acik", -1);
+  const acik = acikAyar >= 1;
+  const [ayarBekle, setAyarBekle] = useState(true);
+  useEffect(() => { const t = setTimeout(() => setAyarBekle(false), 15000); return () => clearTimeout(t); }, []);
   const hedef = useAyar("kasa_hedef_puan", 80);
   const artis = useAyar("kasa_artis", 2);
   const ikisi = useAyar("kasa_ikisi_dogru_artis", 6);
@@ -155,6 +160,15 @@ function KasaGiris() {
     return () => { aktif = false; };
   }, []);
 
+  if (acikAyar < 0 && ayarBekle) {
+    return (
+      <div className="m1-yukleniyor" aria-busy="true" aria-label={ceviri("Yükleniyor…")}>
+        <QtIskelet tur="satir" />
+        <QtIskelet tur="kart" yukseklik={140} />
+        <QtIskelet tur="dugme" adet={2} />
+      </div>
+    );
+  }
   if (!acik) return <BulunamadiPage kapaliMod />;
   return (
     <div className="m2-giris ks-giris">
@@ -1080,6 +1094,7 @@ function KasaMac({ id }) {
           lig={sahne.lig}
           gorevler={sahne.gorevler}
           rozetler={sahne.rozetler}
+          modOzet={d.durum === "bitti" && Array.isArray(d.gecmis) && d.gecmis.length ? <KasaAcilanlar gecmis={d.gecmis} c={c} /> : null}
           detay={d.durum === "bitti" ? (
             <>
               <OdulDokumu kaynak={`kasa:${d.id}`} veri={macSonuOzet?.dokum} gorevleriGoster={false} />
@@ -1382,6 +1397,41 @@ function KasaRovansBekleme({ rakip, baslangic, sureSn, simdi, c, onVazgec }) {
         </p>
       </div>
     </QtModal>
+  );
+}
+
+/**
+ * Maç sonu (7 Eki 2026, Ida): Ortak Hazine'ye özel özet — kim kaç hazine açtı, kaç puan, en büyük hazine.
+ * Kaynak: kasa_durum › gecmis (bitmiş maçta her tur: karar 'ac', karar_ben, acilan_deger, kasa_sonra); ek istek yok.
+ */
+function KasaAcilanlar({ gecmis, c }) {
+  if (!Array.isArray(gecmis) || !gecmis.length) return null;
+  const acilan = gecmis.filter((t) => t.karar === "ac" && Number(t.acilan_deger) > 0);
+  const benA = acilan.filter((t) => t.karar_ben);
+  const rakipA = acilan.filter((t) => !t.karar_ben);
+  const toplam = (l) => l.reduce((a, t) => a + Number(t.acilan_deger), 0);
+  const enBuyuk = acilan.reduce((m, t) => (!m || Number(t.acilan_deger) > Number(m.acilan_deger) ? t : m), null);
+  const zirve = Math.max(0, ...gecmis.map((t) => Number(t.kasa_sonra) || 0));
+  const taraf = (yan, ad, l) => (
+    <div className={`ks-acilan-taraf ks-acilan-taraf--${yan}`}>
+      <span className="ks-acilan-ad">{ad}</span>
+      <b className="ks-acilan-sayi qt-sayi" aria-label={c("{n} hazine açıldı", { n: l.length })}>{l.length}</b>
+      <small className="qt-sayi">{c("+{p} puan", { p: toplam(l) })}</small>
+    </div>
+  );
+  return (
+    <section className="ks-acilan" aria-label={c("Açılan hazineler")}>
+      <h3 className="ks-acilan-baslik"><QtIkon ad="coin" boyut={16} />{c("Açılan hazineler")}</h3>
+      <div className="ks-acilan-taraflar">
+        {taraf("ben", c("Sen"), benA)}
+        {taraf("rakip", c("Rakip"), rakipA)}
+      </div>
+      <p className="ks-acilan-en">
+        {enBuyuk
+          ? <>{c("En büyük hazine")}: <b className="qt-sayi">{Number(enBuyuk.acilan_deger)}</b> · {enBuyuk.karar_ben ? c("sen açtın") : c("rakip açtı")}</>
+          : c("Hiç hazine açılmadı · en yüksek {k}", { k: zirve })}
+      </p>
+    </section>
   );
 }
 

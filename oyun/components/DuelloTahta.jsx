@@ -742,6 +742,39 @@ export function HkSonTahta({ d, ben, rakip, c }) {
   );
 }
 
+/**
+ * Maç sonu (7 Eki 2026, Ida): "Ele geçirilen kategoriler" özeti — Düello'ya özel, sahnenin içinde (Detay'a gerek yok).
+ * Kaynak: duello_durum › puan.baslangic (seçimdeki sahip) + son sahiplik → alinanlar (kazanma yolu "4 kategori" ile aynı
+ * tanım; geri alınan kategori düşer). Yalnız puan modu (970); veri sunucudan, ek istek yok.
+ */
+export function HkEleGecenler({ d, ben, rakip, c }) {
+  const hk = hkModel(d, ben, rakip);
+  if (!hk.acik || !hk.puan || !Object.keys(hk.baslangic).length) return null;
+  const benK = alinanlar(hk, hk.benId);
+  const rakipK = alinanlar(hk, hk.rakipId);
+  const satir = (taraf, ad, liste) => (
+    <div className={`hk-ele-satir hk-ele-satir--${taraf}`}>
+      <span className="hk-ele-ad">{ad}</span>
+      <span className="hk-ele-liste">
+        {liste.length
+          ? liste.map((k) => (
+            <span key={k} className="hk-ele-k"><KategoriIkon anahtar={k} boyut={16} />{c(kategoriAdi(k))}</span>
+          ))
+          : <span className="hk-ele-yok">—</span>}
+      </span>
+      <b className="hk-ele-sayi qt-sayi" aria-label={c("Ele geçirilen {n}/{y}", { n: liste.length, y: hk.yol })}>{liste.length}/{hk.yol}</b>
+    </div>
+  );
+  return (
+    <section className="hk-ele" aria-label={c("Ele geçirilen kategoriler")}>
+      <h3 className="hk-ele-baslik"><QtIkon ad="kilic" boyut={16} />{c("Ele geçirilen kategoriler")}</h3>
+      {satir("ben", c("Sen"), benK)}
+      {satir("rakip", c("Rakip"), rakipK)}
+      {!benK.length && !rakipK.length && <p className="hk-ele-not">{c("Hiçbir kategori el değiştirmedi.")}</p>}
+    </section>
+  );
+}
+
 /** Maç sonu satırının hamle sonucu (puan yerine). */
 export function hkGecmisSonucu(g, benId, c) {
   if (g.uzatma) {

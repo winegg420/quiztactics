@@ -839,3 +839,11 @@ html.msk-acik .mobile-nav, html.msk-acik .a-kabuk .a-altmenu { display: none !im
    sade (terk) sahnede başlık ekrana göre küçülür, gerekirse iki satıra dengeli iner. */
 .msk--sade .msk-afis { max-width: 100%; padding-inline: var(--qt-b-5); }
 .msk--sade.msk--kazandi .msk-baslik { font-size: clamp(24px, 7.6vw, 36px); white-space: normal; text-wrap: balance; }
+
+/* ---------- Moda özel özet (7 Eki 2026): skorun altında, ödül kartından önce — içerik modun kendi CSS'inde ---------- */
+.msk-mod-ozet {
+  width: 100%;
+  max-width: 480px;
+  animation: msk-yuksel var(--qt-s-uzun) var(--qt-egri-cikis) calc(var(--t-coin) - 300ms) backwards;
+}
+@media (prefers-reduced-motion: reduce) { .msk-mod-ozet { animation: none; } }

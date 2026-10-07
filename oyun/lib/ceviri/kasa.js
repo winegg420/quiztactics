@@ -207,4 +207,12 @@ export default {
   "Savunma Sorusunda Zaman Baskısı kullanılamaz": "Time Pressure can’t be used on the Defense Question",
   "Bilerek DEVAM dersen {h} kazanırsın: sen yanlış, rakip tek başına doğru bilirse rakip karar vermeden sana bir {s} sorulur. Bilirsen hazine sahipsiz kalır.":
     "Choose KEEP yourself to earn a {h}: if you miss and only your opponent gets it right, you get a {s} before they decide. Get it right and the treasure stays unclaimed.",
+  // Maç sonu özeti (7 Eki 2026): açılan hazineler
+  "Açılan hazineler": "Treasures opened",
+  "{n} hazine açıldı": "{n} treasures opened",
+  "+{p} puan": "+{p} pts",
+  "En büyük hazine": "Biggest treasure",
+  "sen açtın": "you opened it",
+  "rakip açtı": "your opponent opened it",
+  "Hiç hazine açılmadı · en yüksek {k}": "No treasure opened · peaked at {k}",
 };
