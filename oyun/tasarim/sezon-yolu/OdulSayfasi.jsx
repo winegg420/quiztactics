@@ -67,7 +67,7 @@ function Onizleme({ odul, ad, profile, userId }) {
       return (
         <div className="sy-onizleme" data-onizleme="tepki">
           <ul className="sy-tepki-izgara" aria-label={ad}>
-            {liste.map((t) => <li key={t}><img src={tepkiGorseli(t)} alt="" width={48} height={48} loading="lazy" decoding="async" draggable="false" /></li>)}
+            {liste.map((t) => <li key={t} role="img" aria-label={tt(TEPKI_TANIMLARI[t].ad)}><img src={tepkiGorseli(t)} alt="" width={48} height={48} loading="eager" decoding="async" draggable="false" /></li>)}
           </ul>
         </div>
       );

@@ -205,7 +205,7 @@ export function TepkiCubugu({ tepki, className = "" }) {
             <button key={k} type="button" className="qt-tepki-sec" disabled={tepki.bekle}
                     aria-label={tt(TEPKI_TANIMLARI[k].ad)}
                     onClick={() => { if (tepki.gonder(k)) setAcik(false); }}>
-              <img src={tepkiGorseli(k)} alt="" width="32" height="32" loading="lazy" decoding="async" />
+              <img src={tepkiGorseli(k)} alt="" width="32" height="32" loading="eager" decoding="async" />
             </button>
           ))}
           <span className="qt-tepki-kalan qt-sayi" aria-label={tt("{n} tepki hakkın kaldı", { n: tepki.kalan })}>{tepki.kalan}</span>

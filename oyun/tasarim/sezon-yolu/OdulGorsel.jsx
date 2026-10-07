@@ -60,7 +60,7 @@ export function OdulGorsel({ odul, boyut = 36, hareketli = false }) {
       const k = Math.round(boyut / 2) - 1;
       return (
         <span className="sy-tepkiler" style={{ "--sy-k": `${k}px` }} aria-hidden="true">
-          {liste.map((t) => <img key={t} src={tepkiGorseli(t)} alt="" width={k} height={k} loading="lazy" decoding="async" draggable="false" />)}
+          {liste.map((t) => <img key={t} src={tepkiGorseli(t)} alt="" width={k} height={k} loading="eager" decoding="async" draggable="false" />)}
         </span>
       );
     }

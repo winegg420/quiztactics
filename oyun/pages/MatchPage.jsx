@@ -23,7 +23,7 @@ import { adKisalt } from "../lib/adKisalt.js";
 import CerceveliAvatar from "../components/CerceveliAvatar.jsx";
 import { VsKarti } from "../components/AramaSahnesi.jsx";
 import { useOyuncuSeviyeleri } from "../lib/oyuncuSeviye.js";
-import { TEPKILER, tepkiIkonu } from "../lib/tepkiler.js";
+import { TEPKILER, tepkiTanimi } from "../lib/tepkiler.js";
 import { TepkiAvatar, TepkiCubugu, useMacTepki } from "../components/Tepki.jsx";
 import IsimEfekti from "../components/IsimEfekti.jsx";
 import MacYukleniyor from "../components/MacYukleniyor.jsx";
@@ -63,11 +63,11 @@ const MAC_SECIMI = `*,
   p1:profiles!matches_oyuncu1_fkey(id, gorunen_ad, gorunen_avatar, gorunum, acik_bot),
   p2:profiles!matches_oyuncu2_fkey(id, gorunen_ad, gorunen_avatar, gorunum, acik_bot)`;
 
-// Tepkiler artık SVG ikon (bkz. lib/tepkiler.js). Sunucuya giden metin aynı.
+// Tepkiler artık yerel Noto görselleri (bkz. lib/tepkiler.js). Sunucuya giden metin aynı.
 // Balonda gösterim: mesaj bir tepki emojisiyse ikonu, değilse metni çiz.
 function balonIcerik(mesaj) {
-  const ad = tepkiIkonu(mesaj);
-  return ad ? <QtIkon ad={ad} boyut={20} /> : mesaj;
+  const tepki = tepkiTanimi(mesaj);
+  return tepki ? <QtIkon ad={tepki.ad} boyut={20} etiket={tepki.etiket} /> : mesaj;
 }
 // Profil satırındaki görsel (gizlilik sonrası gorunen_avatar; eski modüllerde avatar_url).
 const avatarSrc = (p) => (p?.gorunen_avatar !== undefined ? p.gorunen_avatar : p?.avatar_url) || null;

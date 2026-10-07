@@ -3,7 +3,7 @@ import { QtBosDurum, QtCip, QtDugme, QtIkon, QtIkonDugme, QtListe, QtListeSatiri
 import "../tasarim/ekranlar/m1-mac.css";
 import "../tasarim/ekranlar/m1-sonuc.css";
 import MacUstSerit from "../components/MacUstSerit.jsx";
-import { TEPKILER, tepkiIkonu } from "../lib/tepkiler.js";
+import { TEPKILER, tepkiTanimi } from "../lib/tepkiler.js";
 import SenRozeti from "../components/SenRozeti.jsx";
 import YanlisSatiri from "../components/YanlisSatiri.jsx";
 import OdulDokumu from "../components/OdulDokumu.jsx";
@@ -38,11 +38,11 @@ const GRUP_SECIMI = `*,
   katilimcilar:group_match_players(group_match_id, user_id, davet_durumu, skor, joined_at, hazir, terk_at,
     profil:profiles(id, gorunen_ad, gorunen_avatar, gorunum))`;
 
-// Tepkiler artık SVG ikon (bkz. lib/tepkiler.js). Sunucuya giden metin aynı.
+// Tepkiler artık yerel Noto görselleri (bkz. lib/tepkiler.js). Sunucuya giden metin aynı.
 // Balonda gösterim: mesaj bir tepki emojisiyse ikonu, değilse metni çiz.
 function balonIcerik(mesaj) {
-  const ad = tepkiIkonu(mesaj);
-  return ad ? <QtIkon ad={ad} boyut={20} /> : mesaj;
+  const tepki = tepkiTanimi(mesaj);
+  return tepki ? <QtIkon ad={tepki.ad} boyut={20} etiket={tepki.etiket} /> : mesaj;
 }
 const KALIPLAR = [
   tt("İyi şanslar!"),

@@ -446,6 +446,23 @@ export const QT_IKON_ADLARI = Object.keys(Y);
  * - Tek başına anlam taşıyorsa `etiket="Bildirimler"` ver (role="img").
  */
 export default function QtIkon({ ad, boyut = 24, etiket, className = "" }) {
+  // Yerel Noto Emoji görseli: yalnız tepki tanımlarında kullanılır. Görsel
+  // sabit ölçülü ve eager; async çözümleme ilk çizimi bekletmez.
+  if (typeof ad === "string" && ad.startsWith("noto:")) {
+    return (
+      <img
+        className={`qt-noto-emoji ${className}`.trim()}
+        src={ad.slice(5)}
+        alt={etiket ?? ""}
+        width={boyut}
+        height={boyut}
+        loading="eager"
+        decoding="async"
+        draggable="false"
+        {...(!etiket ? { "aria-hidden": "true" } : {})}
+      />
+    );
+  }
   // Renkli sistem emojisi: ad = "emoji:👍" (maç içi tepkiler, lib/tepkiler.js).
   // Yazı tipi ve renk kuralları: tasarim/ekranlar/emoji.css (.qt-emoji).
   if (typeof ad === "string" && ad.startsWith("emoji:")) {

@@ -179,7 +179,7 @@ export function KozmetikSimge({ kalem, profile, boyut = 64, hareketli = false })
   }
   return (
     <span className="qt-kz-tepki-simge" style={{ width: boyut, height: boyut }} aria-hidden="true">
-      {tepkiListesi(kalem).slice(0, 4).map((k) => <img key={k} src={tepkiGorseli(k)} alt="" loading="lazy" decoding="async" />)}
+      {tepkiListesi(kalem).slice(0, 4).map((k) => <img key={k} src={tepkiGorseli(k)} alt="" width="28" height="28" loading="eager" decoding="async" />)}
     </span>
   );
 }

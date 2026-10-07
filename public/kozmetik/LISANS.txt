@@ -13,3 +13,6 @@ Elmas kozmetikleri (24 Eyl 2026): tepki/ klasörü 128 px WebP — alkis = U+1F4
 dusunen = U+1F914 · gulen = U+1F602 · ates = U+1F525 · hedef = U+1F3AF · tac = U+1F451 · kas = U+1F4AA · korku = U+1F631 ·
 selam = U+1FAE1 · rica = U+1F64F. 256 px: havai-fisek.webp = U+1F386 · agac.webp = U+1F332 · volkan.webp = U+1F30B ·
 gece-sehir.webp = U+1F303 · coin.webp = U+1FA99 · ejder-alev.webp = U+1F409 · kayan-yildiz.webp = U+1F320 · balik.webp = U+1F420
+Klasik/Grup sohbet tepkileri (7 Eki 2026): tepki/ klasöründe özgün 128 px PNG — begeni = U+1F44D ·
+sasirmis = U+1F62E · kizgin = U+1F621. Diğer üç simge mevcut gulen, ates ve havali WebP'lerini yeniden kullanır.
+Kaynak: https://github.com/googlefonts/noto-emoji/tree/main/3D/png/128 · Lisans: Apache License 2.0.
