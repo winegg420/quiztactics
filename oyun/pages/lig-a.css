@@ -509,10 +509,13 @@
 .lg-bp .lg-satir::before {
   content: ""; position: absolute; inset: 5.5px; z-index: -1; pointer-events: none;
   background:
-    linear-gradient(115deg, transparent 0 58%, var(--qt-altin-plaka-parilti) 58% 72%, transparent 72%),
+    linear-gradient(115deg, transparent 0 40%, var(--qt-altin-plaka-parilti) 40% 54%, transparent 54%) no-repeat -60% 0 / 200% 100%,
     var(--qt-altin-plaka-zemin);
+  animation: lg-bp-parilti 7s ease-in-out infinite;
   clip-path: polygon(4px 0, calc(100% - 4px) 0, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 0 calc(100% - 4px), 0 4px);
 }
+@keyframes lg-bp-parilti { 0%, 55% { background-position: -60% 0, 0 0; } 100% { background-position: 160% 0, 0 0; } }
+@media (prefers-reduced-motion: reduce) { .lg-bp .lg-satir::before { animation: none; background-position: 70% 0, 0 0; } }
 /* Bölge şeridi plakanın İÇİNDE (krem zeminin sol kenarı). */
 .lg-bp.lg-bolge-yukselen .lg-satir::after,
 .lg-bp.lg-bolge-dusen .lg-satir::after {

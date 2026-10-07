@@ -18,6 +18,8 @@ import crypto from "node:crypto";
 const arg = (ad, vars) => (process.argv.find((a) => a.startsWith(`--${ad}=`)) ?? `--${ad}=${vars}`).slice(ad.length + 3);
 const ADRES = arg("adres", "http://localhost:5199");
 const HIZLI = process.argv.includes("--hizli");
+// 7 Eki: --bp = oyuncu kartlarının yarısı sezon_bp (altın plaka) · --azalt = prefers-reduced-motion · --sadece-lig = profil adımı atlanır
+const BP = process.argv.includes("--bp"), AZALT = process.argv.includes("--azalt"), SADECE_LIG = process.argv.includes("--sadece-lig");
 const CIKTI = path.resolve(arg("cikti", "tasarim/lig-gorsel"));
 fs.mkdirSync(CIKTI, { recursive: true });
 const origin = new URL(ADRES).origin;
@@ -67,7 +69,11 @@ async function taklitKur(sayfa, lig, benId) {
     try {
       const yanit = await r.fetch();
       const veri = await yanit.json();
-      const yeni = Array.isArray(veri) ? veri.map((k) => ({ ...k, lig })) : veri;
+      let idler = []; try { idler = JSON.parse(r.request().postData() ?? "{}").p_idler ?? []; } catch { /* gövde yok */ }
+      const gercek = Array.isArray(veri) ? veri : [];
+      const var_ = new Set(gercek.map((k) => k.id));
+      const taklit = BP ? idler.filter((i) => !var_.has(i)).map((i) => ({ id: i })) : [];
+      const yeni = [...gercek, ...taklit].map((k) => ({ ...k, lig, ...(BP ? { sezon_bp: k.id === benId || parseInt(String(k.id).slice(-1), 16) % 2 === 0 } : {}) }));
       return r.fulfill({ response: yanit, body: JSON.stringify(yeni), headers: { ...yanit.headers(), "content-type": "application/json" } });
     } catch (e) {
       // bağlam kapandıktan sonra gelen geç istek: sessizce bırak
@@ -103,11 +109,14 @@ const OLC_LIG = () => {
     const r = e.getBoundingClientRect();
     if (r.width && r.right > iw + 0.5) { sorun.push(`satır taşıyor: ${e.className?.toString().slice(0, 30)}`); break; }
   }
+  const dar = [...document.querySelectorAll(".lg-liste .lg-satir-ac")].filter((e) => e.getBoundingClientRect().height < 44).length;
+  if (dar) sorun.push(`dokunma alanı <44px: ${dar}`);
+  const bpSayi = document.querySelectorAll(".lg-liste .lg-bp").length;
   const sek = document.querySelector(".lg-sekmeler");
   if (sek && sek.getBoundingClientRect().right > iw + 0.5) sorun.push("sekmeler taşıyor");
   if (document.scrollingElement.scrollWidth > iw + 0.5) sorun.push(`yatay taşma ${document.scrollingElement.scrollWidth}>${iw}`);
   return {
-    sorun, pankartYuk: Math.round(pr.height), satirYuk: yuk, sure: sure?.textContent ?? "",
+    bpSayi, sorun, pankartYuk: Math.round(pr.height), satirYuk: yuk, sure: sure?.textContent ?? "",
     arka: getComputedStyle(p).backgroundColor, cerceve: getComputedStyle(p).borderTopColor,
   };
 };
@@ -133,7 +142,7 @@ for (const dil of DILLER) {
   for (const lig of LIGLER) {
     for (const [w, h] of BOYUTLAR) {
       const baglam = await tarayici.newContext({
-        viewport: { width: w, height: h }, deviceScaleFactor: 2, hasTouch: true, isMobile: true,
+        viewport: { width: w, height: h }, deviceScaleFactor: 2, hasTouch: true, isMobile: true, reducedMotion: AZALT ? "reduce" : "no-preference",
         storageState: { cookies: [], origins: [{ origin, localStorage: yerel }] },
       });
       const sayfa = await baglam.newPage();
@@ -146,8 +155,9 @@ for (const dil of DILLER) {
         await sayfa.goto(ADRES + "/siralama", { waitUntil: "domcontentloaded" });
         await sayfa.waitForSelector(".lg-pankart", { timeout: 25000 });
         await sayfa.waitForSelector(".lg-liste .lg-satir-kap", { timeout: 15000 });
+        if (BP) await sayfa.waitForSelector(".lg-liste .lg-bp", { timeout: 8000 }).catch(() => {});
         await sayfa.waitForTimeout(1500);
-        const o = await sayfa.evaluate(OLC_LIG);
+        const o =await sayfa.evaluate(OLC_LIG);
         await sayfa.screenshot({ path: path.join(CIKTI, `lig-${ad}.png`) });
         await (await sayfa.$(".lg-pankart")).screenshot({ path: path.join(CIKTI, `pankart-${ad}.png`) });
         // Dünya sekmesi (gerçek veri): satır yükseklikleri sabit, taşma yok — yalnız ilk lig turunda (veri ligden bağımsız)
@@ -165,6 +175,12 @@ for (const dil of DILLER) {
           });
           o.sorun.push(...od);
           await sayfa.screenshot({ path: path.join(CIKTI, `dunya-${w}x${h}-${dil}.png`) });
+        }
+        if (SADECE_LIG) {
+          if (BP && !o.bpSayi) o.sorun.push("BP satırı yok");
+          const sr = [...o.sorun, ...konsol.map((k) => "konsol: " + k)];
+          if (sr.length) { hata++; console.log("✗", ad, sr.join(" | ")); } else console.log("✓", ad, `bp ${o.bpSayi} · satır ${o.satirYuk}`);
+          rapor.push({ ad, sorun: sr, lig: o }); await baglam.close(); continue;
         }
         await sayfa.goto(ADRES + "/profil", { waitUntil: "domcontentloaded" });
         await sayfa.waitForSelector(`.qt-pf-ok[data-lig="${lig}"]`, { timeout: 30000 });
