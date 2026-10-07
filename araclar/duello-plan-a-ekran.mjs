@@ -12,6 +12,7 @@
 import { chromium } from "playwright-core";
 import fs from "node:fs";
 import path from "node:path";
+import { ceviriToplayici } from "./ceviri-dom.mjs";
 
 const ARG = Object.fromEntries(process.argv.slice(2).map((a) => { const [k, v] = a.replace(/^--/, "").split("="); return [k, v ?? true]; }));
 const ADRES = ARG.adres || "http://localhost:5188";
@@ -108,6 +109,7 @@ const OLC = () => {
   };
 };
 
+const CEVIRI = await ceviriToplayici();   // 7 Eki 2026: İngilizce koşuda maç içi/maç sonu Türkçe metin taraması
 const tarayici = await chromium.launch({ channel: "chrome", headless: true });
 const kok = new URL(ADRES).origin;
 const sonuc = {};
@@ -123,7 +125,7 @@ for (const { dil, boy, azalt } of KOSULAR) {
   const [w, h] = boy.split("x").map(Number);
   const durumDosya = JSON.parse(fs.readFileSync(OTURUM, "utf8"));
   durumDosya.origins = (durumDosya.origins || []).map((o) => ({ ...o, origin: kok,
-    localStorage: [...(o.localStorage || []).filter((x) => !["bildim_dil", "bildim_tanitim", "qt_duello_durum_ipucu", "qt_duello_secim_ipucu"].includes(x.name)),
+    localStorage: [...(o.localStorage || []).filter((x) => !["bildim_dil", "bildim_tanitim", "qt_duello_durum_ipucu", "qt_duello_secim_ipucu", "qt_profil_onbellek"].includes(x.name)),
       { name: "bildim_dil", value: dil }, { name: "bildim_tanitim", value: "1" },
       { name: "qt_duello_durum_ipucu", value: "[{\"m\":\"a\",\"t\":[1,2,3]},{\"m\":\"b\",\"t\":[1,2,3]},{\"m\":\"c\",\"t\":[1,2,3]}]" },
       { name: "qt_duello_secim_ipucu", value: "[\"a\",\"b\",\"c\"]" }] }));
@@ -165,7 +167,7 @@ for (const { dil, boy, azalt } of KOSULAR) {
     } catch { try { await r.continue(); } catch { /* sayfa kapandı */ } }
   });
   const etiket = `${w}x${h}-${dil}${azalt ? "-azalt" : ""}`;
-  const kaydet = async (ad) => s.screenshot({ path: path.join(CIKTI, `${ad}-${etiket}.png`), fullPage: false });
+  const kaydet = async (ad) => { await s.screenshot({ path: path.join(CIKTI, `${ad}-${etiket}.png`), fullPage: false }); if (dil === "en") await CEVIRI.tara(s, `${ad}-${etiket}`); };   // EN koşu: ekranda kalan Türkçe (ceviri-dom.mjs)
   const olc = async (ad) => { const o = await s.evaluate(OLC); sonuc[`${ad}-${etiket}`] = o; return o; };
   const ortak = (ad, o) => {
     ok(`${ad}: yatay taşma yok`, o.yatayTasma <= 0, JSON.stringify(o.tasan));
@@ -185,8 +187,9 @@ for (const { dil, boy, azalt } of KOSULAR) {
     await s.waitForTimeout(1000);
     let o = await olc("01-draft-sira-bende");
     ortak("01-draft", o);
-    plan("draft: yüzdeler kartın üzerinde, etiketli (Sen %X · Rakip %Y)", await s.locator(".dsc-kart:not(.dsc-kart--alindi) .dsc-yuzde").count() === 10
-      && (TR ? /Sen %\d+/ : /You \d+%/).test(await s.locator(".dsc-kart:not(.dsc-kart--alindi)").first().innerText()));
+    // c481d3f3 (draft revizesi): kartta iki sayı ("Sen 81" · "Rakip 44"), % işareti yok
+    plan("draft: yüzdeler kartın üzerinde, etiketli (Sen X · Rakip Y)", await s.locator(".dsc-kart:not(.dsc-kart--alindi) .dsc-yuzde--ben").count() === 10
+      && (TR ? /Sen %?\d+/ : /You %?\d+%?/).test(await s.locator(".dsc-kart:not(.dsc-kart--alindi)").first().innerText()));
     plan("draft: konsol sıra bende ×2", /×2/.test(await s.locator(".dsc-konsol").innerText()) && await s.locator(".dsc-konsol--ben").count() === 1);
     await kaydet("01-draft-sira-bende");
     // draft — ben 2 seçim yaptım → rakip seçiyor (×2)
@@ -322,4 +325,5 @@ for (const { dil, boy, azalt } of KOSULAR) {
 await tarayici.close();
 fs.writeFileSync(path.join(CIKTI, "olcum.json"), JSON.stringify(sonuc, null, 1));
 console.log(`\nSONUÇ: ${gecti} geçti, ${kaldi} kaldı`);
+if (CEVIRI.ozet()) { kaldi++; console.log("  ✗ İngilizce koşuda ekranda Türkçe metin kaldı"); }
 process.exit(kaldi ? 1 : 0);

@@ -16,10 +16,11 @@
 import { chromium } from "playwright-core";
 import fs from "node:fs";
 import path from "node:path";
+import { ceviriToplayici } from "./ceviri-dom.mjs";
 
 const ARG = Object.fromEntries(process.argv.slice(2).map((a) => { const [k, v] = a.replace(/^--/, "").split("="); return [k, v ?? true]; }));
 const ADRES = ARG.adres || "http://localhost:5188";
-const OTURUM = path.resolve(".arayuz-denetim-oturum.json");
+const OTURUM = path.resolve(typeof ARG.oturum === "string" ? ARG.oturum : ".arayuz-denetim-oturum.json");   // --oturum=dosya: kendi test hesabın
 const CIKTI = path.resolve("tasarim/sunum-990");
 fs.mkdirSync(CIKTI, { recursive: true });
 if (!fs.existsSync(OTURUM)) { console.error("Oturum yok: önce node araclar/arayuz-denetim.mjs"); process.exit(1); }
@@ -113,6 +114,7 @@ function dDurum(ad, ben, t0) {
 }
 
 // ---------------------------------------------------------------- koşu
+const CEVIRI = await ceviriToplayici();   // 7 Eki 2026: İngilizce koşuda maç içi/maç sonu Türkçe metin taraması
 const tarayici = await chromium.launch({ channel: "chrome", headless: true });
 const kok = new URL(ADRES).origin;
 let gecti = 0, kaldi = 0;
@@ -129,7 +131,7 @@ for (const { dil, w, azalt } of KOSULAR) {
   const etiket = `${dil}-${w}${azalt ? "-azalt" : ""}`;
   const durumDosya = JSON.parse(fs.readFileSync(OTURUM, "utf8"));
   durumDosya.origins = (durumDosya.origins || []).map((o) => ({ ...o, origin: kok,
-    localStorage: [...(o.localStorage || []).filter((x) => !["bildim_dil", "bildim_tanitim", "qt_duello_durum_ipucu", "bildim_duello_tanitim_v14"].includes(x.name)),
+    localStorage: [...(o.localStorage || []).filter((x) => !["bildim_dil", "bildim_tanitim", "qt_duello_durum_ipucu", "bildim_duello_tanitim_v14", "qt_profil_onbellek"].includes(x.name)),
       { name: "bildim_dil", value: dil }, { name: "bildim_tanitim", value: "1" },
       { name: "qt_duello_durum_ipucu", value: "[{\"m\":\"a\",\"t\":[1]},{\"m\":\"b\",\"t\":[1]},{\"m\":\"c\",\"t\":[1]}]" }] }));
   const b = await tarayici.newContext({ storageState: durumDosya, viewport: { width: w, height: h }, hasTouch: true, serviceWorkers: "block",
@@ -166,7 +168,7 @@ for (const { dil, w, azalt } of KOSULAR) {
       await r.fulfill({ response: y, body: m });
     } catch { try { await r.continue(); } catch { /* sayfa kapandı */ } }
   });
-  const kaydet = (ad) => s.screenshot({ path: path.join(CIKTI, `${ad}-${etiket}.png`) });
+  const kaydet = async (ad) => { await s.screenshot({ path: path.join(CIKTI, `${ad}-${etiket}.png`) }); if (dil === "en") await CEVIRI.tara(s, `${ad}-${etiket}`); };   // EN koşu: ekranda kalan Türkçe (ceviri-dom.mjs)
   const tasma = async (ad) => { const x = await s.evaluate(() => document.documentElement.scrollWidth - innerWidth); ok(`${ad}: yatay taşma yok (${x})`, x <= 0); };
   // seçici var olduğu sürece ölç (ilk görülme → kayboluş), en çok sinirMs
   const sureOlc = async (q, sinirMs = 4000) => s.evaluate(async ([q, sinirMs]) => {
@@ -306,9 +308,9 @@ for (const { dil, w, azalt } of KOSULAR) {
       const t0 = performance.now(); const kayit = [];
       while (performance.now() - t0 < 3500) {
         const k = document.querySelector(".hk-calma-kart");
-        const benPuan = document.querySelector(".hk-taraf--ben .hk-puan-sayi")?.textContent ?? "";
-        const arti = document.querySelector(".hk-taraf--ben .hk-puan-arti") != null;
-        if (k) { const r = k.getBoundingClientRect(); kayit.push({ t: Math.round(performance.now() - t0), x: Math.round(r.left + r.width / 2), benPuan, arti }); }
+        const benPuan = document.querySelector(".hk-serit--ben .hk-serit-puan .qt-sayi")?.textContent ?? "";   // Plan A puan şeridi
+        const arti = document.querySelector(".hk-serit--ben .hk-vurus") != null;
+        if (k) { const r = k.getBoundingClientRect(); kayit.push({ t: Math.round(performance.now() - t0), x: Math.round(r.left + r.width / 2), y: Math.round(r.top + r.height / 2), benPuan, arti }); }
         else if (kayit.length) break;
         await new Promise((r) => requestAnimationFrame(r));
       }
@@ -325,12 +327,13 @@ for (const { dil, w, azalt } of KOSULAR) {
     const erken = kayit.filter((k) => k.t - (ilk?.t ?? 0) < (azalt ? 220 : 600));   // azaltmada iniş 300 ms
     const gec_ = kayit.filter((k) => k.t - (ilk?.t ?? 0) > 1100);
     ok(`çalma: an ≥ 1,5 sn görünür (${sure} ms)`, sure >= 1500, String(sure));
-    if (!azalt) ok(`çalma: kart rakip tarafından (sağ, x ${ilk?.x}) oyuncuya (sol, x ${son?.x}) kaydı`, ilk && son && ilk.x - son.x >= w * 0.3, JSON.stringify([ilk, son]));
-    else ok(`çalma (hareket azaltma): kart kaymıyor (x ${ilk?.x} → ${son?.x})`, ilk && son && Math.abs(ilk.x - son.x) <= 2);
+    // Plan A: şeritte rakip satırı altta, sen üstte → kart DİKEY kayar (aşağıdan yukarı)
+    if (!azalt) ok(`çalma: kart rakip satırından (y ${ilk?.y}) senin satırına (y ${son?.y}) kaydı`, ilk && son && ilk.y - son.y >= 20, JSON.stringify([ilk, son]));
+    else ok(`çalma (hareket azaltma): kart kaymıyor (y ${ilk?.y} → ${son?.y})`, ilk && son && Math.abs(ilk.y - son.y) <= 2);
     ok(`çalma: iniş öncesi (${azalt ? 220 : 600} ms) puan eski (3), +N yok`, erken.length > 0 && erken.every((k) => /^3$/.test(k.benPuan.trim()) && !k.arti), JSON.stringify(erken.slice(-2)));
     ok(`çalma: inişten sonra puan 5 ve +2 rozeti`, gec_.length > 0 && gec_.some((k) => /^5$/.test(k.benPuan.trim()) && k.arti), JSON.stringify(gec_.slice(0, 2)));
     const bant = (await s.locator(".hk-mesaj-yazi b").innerText().catch(() => "")).trim();
-    ok(`çalma: bantta tek güçlü cümle ("${bant}")`, dil === "en" ? /moved from your opponent to you/i.test(bant) : /rakipten sana geçti/.test(bant));
+    ok(`çalma: bantta tek güçlü cümle ("${bant}")`, dil === "en" ? /You stole Geography!/i.test(bant) : /Coğrafya'yı çaldın!/.test(bant));   // Plan A cümlesi
     await s.evaluate(() => window.dispatchEvent(new Event("online")));
     const tekrarC = await sureOlc(".hk-calma", 1000);
     ok("çalma: yeniden okumada TEKRAR OYNAMAZ", tekrarC.ilk == null, JSON.stringify(tekrarC));
@@ -342,7 +345,7 @@ for (const { dil, w, azalt } of KOSULAR) {
     await s.locator(".hk-mac").dispatchEvent("pointerdown");
     await s.waitForTimeout(80);
     ok("çalma: dokununca geçilir, puan hemen gerçek (5)", (await s.locator(".hk-calma").count()) === 0
-      && /^5$/.test((await s.locator(".hk-taraf--ben .hk-puan-sayi").innerText()).trim()));
+      && /^5$/.test((await s.locator(".hk-serit--ben .hk-serit-puan .qt-sayi").innerText()).trim()));
     await tasma("düello çalma");
     // sonuç → doğrudan kategori (ban fazı yok)
     ds = "kategori-sonra"; dsT0 = Date.now();
@@ -351,7 +354,7 @@ for (const { dil, w, azalt } of KOSULAR) {
     await s.waitForTimeout(500);
     await kaydet("d3-sonra-kategori");
     ok("sonuç → kategori: ban izi yok", (await s.locator(".hk-sahne--ban, .hk-kart--banli, .hk-cubuk--ban").count()) === 0
-      && !/ban/i.test(await s.locator(".hk-mesaj").innerText()));
+      && !/ban/i.test(await s.locator(".hk-mac").innerText()));   // Plan A: kategori fazında mesaj satırı yok
 
     // tanıtım: ban adımı yok (v14)
     if (!azalt && w === GENISLIK[0]) {
@@ -368,7 +371,7 @@ for (const { dil, w, azalt } of KOSULAR) {
           if (/Anladım|Got it|başla|start/i.test(await ileri.innerText())) break;
           await ileri.click(); await s.waitForTimeout(120);
         }
-        ok(`tanıtım: ${basliklar.length} adım, "ban" adımı yok`, basliklar.length >= 5 && !basliklar.some((x) => /ban/i.test(x)), basliklar.join(" | "));
+        ok(`tanıtım: ${basliklar.length} adım (en çok 5), "ban" adımı yok`, basliklar.length >= 4 && basliklar.length <= 5 && !basliklar.some((x) => /ban/i.test(x)), basliklar.join(" | "));
       } catch (e) { ok("tanıtım açıldı", false, e.message); }
     }
   } catch (e) {
@@ -380,5 +383,6 @@ for (const { dil, w, azalt } of KOSULAR) {
   await b.close();
 }
 await tarayici.close();
+if (CEVIRI.ozet()) { kaldi++; console.log("  ✗ İngilizce koşuda ekranda Türkçe metin kaldı"); }
 console.log(`\nSonuç: ${gecti} geçti, ${kaldi} kaldı — görüntüler: tasarim/sunum-990/`);
 if (kaldi) process.exitCode = 1;

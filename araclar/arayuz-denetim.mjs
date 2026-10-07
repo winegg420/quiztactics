@@ -146,7 +146,7 @@ const KAYDIR_OLC = () => {
 /** Tanıtım perdesi açıksa kapatır (ölçüm modal altında yapılmasın). */
 async function tanitimiKapat(sayfa) {
   for (let i = 0; i < 8; i++) {
-    const atla = sayfa.getByRole("button", { name: /^Atla$/ });
+    const atla = sayfa.getByRole("button", { name: /^(Atla|Skip)$/ });
     if (await atla.count()) { await atla.first().click(); await sayfa.waitForTimeout(500); return; }
     const basla = sayfa.getByRole("button", { name: /Hadi başlayalım/i });
     if (await basla.count()) { await basla.first().click(); await sayfa.waitForTimeout(500); return; }
@@ -161,15 +161,15 @@ async function kurulumuTamamla(sayfa) {
   const alan = sayfa.locator(".bd-modal-katman input").first();
   if (await alan.count()) {
     await alan.fill("ArayuzDenetim" + Math.floor(Math.random() * 900 + 100));
-    await sayfa.getByRole("button", { name: /^Devam$/ }).first().click();
+    await sayfa.getByRole("button", { name: /^(Devam|Continue)$/ }).first().click();
     await sayfa.waitForTimeout(1800);
   }
   // 2) Avatar — kilitli OLMAYAN ilk hazır avatar. Sihirbazda sınıf `g-avatar-sec`; kilitliler `qt-av-kilitli`
   //    taşır ve tıklanınca seçilmez. Eski seçici (.bd-avatar-secenek) artık yok → "Bu avatarı kullan" kapalı kalıyordu.
   const ikon = sayfa.locator(".bd-modal-katman .g-avatar-sec:not(.qt-av-kilitli)").first();
   if (await ikon.count()) { await ikon.click(); await sayfa.waitForTimeout(400); }
-  const kullan = sayfa.getByRole("button", { name: /Bu avatarı kullan/i });
-  const avatarsiz = sayfa.getByRole("button", { name: /Avatarsız devam et/i });
+  const kullan = sayfa.getByRole("button", { name: /Bu avatarı kullan|Use this avatar/i });
+  const avatarsiz = sayfa.getByRole("button", { name: /Avatarsız devam et|Continue without an avatar/i });
   if (await kullan.count() && await kullan.first().isEnabled()) { await kullan.first().click(); await sayfa.waitForTimeout(1800); }
   else if (await avatarsiz.count()) { await avatarsiz.first().click(); await sayfa.waitForTimeout(1800); }
   // 3) Şehir — 641'den beri aranabilir liste (ülke hâlâ select; varsayılan TR kalır)
@@ -179,7 +179,7 @@ async function kurulumuTamamla(sayfa) {
     await sayfa.locator(".bd-modal-katman [role=option]").first().waitFor({ timeout: 8000 }).catch(() => {});
     const secenek = sayfa.locator(".bd-modal-katman [role=option]").first();
     if (await secenek.count()) await secenek.click();
-    await sayfa.getByRole("button", { name: /Oyuna başla/i }).first().click();
+    await sayfa.getByRole("button", { name: /Oyuna başla|Start playing/i }).first().click();
     await sayfa.waitForTimeout(2500);
   }
   await tanitimiKapat(sayfa);

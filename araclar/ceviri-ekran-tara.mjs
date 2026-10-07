@@ -6,6 +6,7 @@
 import { chromium } from "playwright-core";
 import fs from "node:fs";
 import path from "node:path";
+import { TR_TARA, trAnahtarlar } from "./ceviri-dom.mjs";
 
 const ARG = Object.fromEntries(process.argv.slice(2).map((a) => { const [k, v] = a.replace(/^--/, "").split("="); return [k, v ?? true]; }));
 const ADRES = ARG.adres || "http://localhost:5177";
@@ -23,38 +24,8 @@ const SAYFALAR = typeof ARG.yol === "string" ? [["ozel", ARG.yol]] : [
   ["bulunamadi", "/boyle-bir-sayfa-yok"], ["davet", "/davet/ABCDEF"],
 ];
 
-const BROWSER = (TR_ANAHTAR) => {
-  const ANAHTAR_KUMESI = new Set(TR_ANAHTAR);
-  const TR_HARF = /[ğüşıöçĞÜŞİÖÇ]/;
-  const TR_KELIME = /(^|[^a-z])(ve|bir|için|ile|bu|şu|gibi|daha|çok|yok|oyun|maç|soru|rakip|kazan|kaybet|puan|seç|başla|devam|tekrar|dene|hata|giriş|çıkış|kapat|gönder|ekle|kaydet|iptal|tamam|evet|hayır|yükleniyor|arkadaş|ödül|görev|dükkân|oyuncu|şifre|hesap|ayar|ses|müzik|bildirim|mesaj|süre|saniye|dakika|gün|hafta|bugün|yarın|şimdi|henüz|lütfen|gerekir|kazandın|kaybettin|berabere|galibiyet|yenilgi|geri|sonraki|önceki|tümü|hepsi|kapalı|açık|aktif|şampiyon|sıra|sıradasın|şehir|ülke|düello|tur|yuva|hamle|saldır|savun|doğru|yanlış|şık|cevap|kategori|seviye|rozet|çerçeve|kıyafet|deneme|kullan|kullanıldı|kilitli|satın|fiyat|toplam|kalan)([^a-z]|$)/i;
-  const ISARET = /[ğüşıöçĞÜŞİÖÇ]|\b(ve|bir|için|ile|bu|daha|çok|yok|oyun|maç|soru|rakip|puan|başla|devam|tekrar|dene|hata|giriş|çıkış|kapat|gönder|ekle|kaydet|iptal|tamam|evet|hayır|arkadaş|ödül|görev|oyuncu|şifre|hesap|ayar|mesaj|bugün|şimdi|henüz|lütfen|düello|kazandın|kaybettin)\b/i;
-  const gor = (e) => { const s = getComputedStyle(e); if (s.display === "none" || s.visibility === "hidden" || +s.opacity === 0) return false; const r = e.getBoundingClientRect(); return r.width > 0 && r.height > 0; };
-  const bulunan = new Map();
-  const ekle = (m, yer) => { const t = m.replace(/\s+/g, " ").trim(); if (t.length < 2 || !/\p{L}/u.test(t)) return; if (TR_HARF.test(t) || TR_KELIME.test(t) || ANAHTAR_KUMESI.has(t)) bulunan.set(t + " ⟨" + yer + "⟩", 1); };
-  // Soru metni / oyuncu içeriği çevrilmemiş olabilir: soru kartı ve kullanıcı adları dışarıda
-  const ATLA = ".qt-soru-metin, .soru-metin, [data-kullanici], .qc-soru, .qc-secenek, .chat-msg, .mesaj-govde";
-  const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
-  let n;
-  while ((n = w.nextNode())) {
-    const e = n.parentElement;
-    if (!e || /^(SCRIPT|STYLE|NOSCRIPT)$/.test(e.tagName) || !gor(e) || e.closest(ATLA)) continue;
-    ekle(n.nodeValue, "metin");
-  }
-  for (const e of document.querySelectorAll("[aria-label],[title],[placeholder],[alt]")) {
-    if (!gor(e) || e.closest(ATLA)) continue;
-    for (const a of ["aria-label", "title", "placeholder", "alt"]) { const v = e.getAttribute(a); if (v) ekle(v, a); }
-  }
-  // Taşma: kesilen (ellipsis/overflow) ya da kutudan taşan metin
-  const tasan = [];
-  for (const e of document.querySelectorAll("body *")) {
-    if (e.children.length || !e.textContent.trim() || !gor(e)) continue;
-    const s = getComputedStyle(e);
-    if (e.scrollWidth > e.clientWidth + 2 && (s.overflow !== "visible" || s.textOverflow === "ellipsis") && e.clientWidth > 0) tasan.push((e.textContent.trim().slice(0, 40)) + " [" + e.scrollWidth + ">" + e.clientWidth + "]");
-    if (tasan.length > 12) break;
-  }
-  const de = document.documentElement;
-  return { tr: [...bulunan.keys()], tasan, yatay: de.scrollWidth - de.clientWidth };
-};
+// Tarama işlevi ve Türkçe anahtar listesi ortak modülde (taklit maç testleri de kullanır)
+const BROWSER = TR_TARA;
 
 // Tanıtım perdesi açıksa adım adım ilerler; her adımda metni tarar. Yalnız ileri/atla/anladım düğmelerine basar.
 const TANITIM_GEZ = async (sayfa, rapor) => {
@@ -103,35 +74,6 @@ const TIKLA = async (sayfa, rapor, ad) => {
     } catch { /* örtülü ya da kaybolmuş */ }
   }
 };
-
-// Bilinen Türkçe anahtarlar: kaynakta geçen her dizgiden EN karşılığı anahtardan FARKLI olanlar.
-// Ekranda aynen görünüyorsa çevrilmemiştir (Türkçe harfsiz kelimeleri de yakalar: "Efektler" gibi).
-async function trAnahtarlar() {
-  const { pathToFileURL } = await import("node:url");
-  globalThis.window = undefined;
-  const dil = await import(pathToFileURL(path.resolve("oyun/lib/dil.js")).href);
-  await dil.sozlukYukle("en");   // İngilizce sözlük tembel yüklenir
-  const kaynak = [];
-  const gez = (d) => {
-    for (const e of fs.readdirSync(d, { withFileTypes: true })) {
-      const p = path.join(d, e.name);
-      if (e.isDirectory()) { if (!/node_modules/.test(p)) gez(p); }
-      else if (/\.(jsx?|mjs)$/.test(e.name)) kaynak.push(p);
-    }
-  };
-  gez(path.resolve("oyun")); gez(path.resolve("src"));
-  const aday = new Set();
-  const DIZGI = /"((?:[^"\\\n]|\\.){2,140})"|'((?:[^'\\\n]|\\.){2,140})'/g;
-  for (const p of kaynak) for (const m of fs.readFileSync(p, "utf8").matchAll(DIZGI)) aday.add(m[1] ?? m[2]);
-  const cikti = [];
-  for (const k of aday) {
-    const ana = k.split("|")[0];
-    if (/[{%]/.test(ana) || !/\p{L}/u.test(ana)) continue;
-    const en = dil.t("en", k);
-    if (en !== ana && en.toLowerCase() !== ana.toLowerCase()) cikti.push(ana);
-  }
-  return cikti;
-}
 
 (async () => {
   const TR_ANAHTAR = await trAnahtarlar();

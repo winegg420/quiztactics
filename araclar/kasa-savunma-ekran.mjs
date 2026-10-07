@@ -11,10 +11,11 @@
 import { chromium } from "playwright-core";
 import fs from "node:fs";
 import path from "node:path";
+import { ceviriToplayici } from "./ceviri-dom.mjs";
 
 const ARG = Object.fromEntries(process.argv.slice(2).map((a) => { const [k, v] = a.replace(/^--/, "").split("="); return [k, v ?? true]; }));
 const ADRES = ARG.adres || "http://localhost:5188";
-const OTURUM = path.resolve(".arayuz-denetim-oturum.json");
+const OTURUM = path.resolve(typeof ARG.oturum === "string" ? ARG.oturum : ".arayuz-denetim-oturum.json");   // --oturum=dosya: kendi test hesabın
 const CIKTI = path.resolve("tasarim/kasa-savunma");
 fs.mkdirSync(CIKTI, { recursive: true });
 if (!fs.existsSync(OTURUM)) { console.error("Oturum yok: önce node araclar/arayuz-denetim.mjs"); process.exit(1); }
@@ -68,6 +69,7 @@ const jokerDurum = (ks) => ({ sinir: 4, kullanilan: 0, ucretsiz_elli_kaldi: fals
   tur_sinirlari: { elli: 2, sure: 2, zaman_baskisi: 3, ikinci_sans: 1 }, kalan_haklar: { elli: 2, sure: 2, zaman_baskisi: 3, ikinci_sans: 1 },
   bedava: null, soru_turleri: [] });
 
+const CEVIRI = await ceviriToplayici();   // 7 Eki 2026: İngilizce koşuda maç içi/maç sonu Türkçe metin taraması
 const tarayici = await chromium.launch({ channel: "chrome", headless: true });
 const kok = new URL(ADRES).origin;
 let gecti = 0, kaldi = 0;
@@ -82,7 +84,7 @@ for (const { dil, w, h, azalt } of KOSULAR) {
   const etiket = `${dil}-${w}${azalt ? "-azalt" : ""}`;
   const durumDosya = JSON.parse(fs.readFileSync(OTURUM, "utf8"));
   durumDosya.origins = (durumDosya.origins || []).map((o) => ({ ...o, origin: kok,
-    localStorage: [...(o.localStorage || []).filter((x) => !["bildim_dil", "bildim_tanitim"].includes(x.name)),
+    localStorage: [...(o.localStorage || []).filter((x) => !["bildim_dil", "bildim_tanitim", "qt_profil_onbellek"].includes(x.name)),
       { name: "bildim_dil", value: dil }, { name: "bildim_tanitim", value: "1" }] }));
   const b = await tarayici.newContext({ storageState: durumDosya, viewport: { width: w, height: h }, hasTouch: true, serviceWorkers: "block",
     reducedMotion: azalt ? "reduce" : "no-preference" });
@@ -115,7 +117,7 @@ for (const { dil, w, h, azalt } of KOSULAR) {
       await r.fulfill({ response: y, body: m });
     } catch { try { await r.continue(); } catch { /* sayfa kapandı */ } }
   });
-  const kaydet = (ad) => s.screenshot({ path: path.join(CIKTI, `${ad}-${etiket}.png`) });
+  const kaydet = async (ad) => { await s.screenshot({ path: path.join(CIKTI, `${ad}-${etiket}.png`) }); if (dil === "en") await CEVIRI.tara(s, `${ad}-${etiket}`); };   // EN koşu: ekranda kalan Türkçe (ceviri-dom.mjs)
   const tasma = async (ad) => { const x = await s.evaluate(() => document.documentElement.scrollWidth - innerWidth); ok(`${ad}: yatay taşma yok (${x})`, x <= 0); };
   const sureOlc = async (q, sinirMs = 4000) => s.evaluate(async ([q, sinirMs]) => {
     const t0 = performance.now(); let ilk = null, son = null;
@@ -258,4 +260,5 @@ for (const { dil, w, h, azalt } of KOSULAR) {
 }
 await tarayici.close();
 console.log(`\nSONUÇ: ${gecti} geçti, ${kaldi} kaldı`);
+if (CEVIRI.ozet()) { kaldi++; console.log("  ✗ İngilizce koşuda ekranda Türkçe metin kaldı"); }
 process.exit(kaldi ? 1 : 0);
