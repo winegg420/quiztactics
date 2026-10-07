@@ -1,6 +1,6 @@
 // Canlı site açılış ölçümü — salt okunur. Dört sayfa × normal/yavaş 4G × soğuk/sıcak ziyaret.
 // Mevcut .arayuz-denetim-oturum.json oturumunu hedef origin'e kopyalar; yeni hesap/veri oluşturmaz.
-// Kullanım: node araclar/yukleme-suresi-olcum.mjs [--adres=https://quiztactics.vercel.app] [--cikti=...json]
+// Kullanım: node araclar/yukleme-suresi-olcum.mjs [--adres=https://quiztactics.vercel.app] [--cikti=...json] [--profil-onbellek]
 import { chromium } from "playwright-core";
 import fs from "node:fs";
 import path from "node:path";
@@ -36,6 +36,19 @@ const AGLAR = [
 
 const tarayici = await chromium.launch({ channel: "chrome", headless: true });
 const sonuclar = [];
+
+// --profil-onbellek (7 Eki 2026): dönen oyuncu — cihazda son profil kaydı (`qt_profil_onbellek`) var,
+// oturum belirteci yine dosyadaki ESKİMİŞ hâliyle kalır (açılışta yenileme yapılır: en kötü olağan durum).
+// Kayıt bir hazırlık ziyaretiyle alınır; yeni hesap/veri oluşturulmaz.
+if (ARG["profil-onbellek"]) {
+  const baglam = await tarayici.newContext({ storageState: oturum, viewport: { width: 390, height: 844 }, serviceWorkers: "block" });
+  const sayfa = await baglam.newPage();
+  await sayfa.goto(ADRES + "/", { waitUntil: "domcontentloaded", timeout: 45000 });
+  const kayit = await sayfa.waitForFunction(() => localStorage.getItem("qt_profil_onbellek"), null, { timeout: 30000 }).then((h) => h.jsonValue());
+  await baglam.close();
+  oturum.origins[0] = { ...oturum.origins[0], localStorage: [...oturum.origins[0].localStorage.filter((x) => x.name !== "qt_profil_onbellek"), { name: "qt_profil_onbellek", value: kayit }] };
+  console.log("Profil önbelleği hazır (dönen oyuncu).");
+}
 
 async function olc(sayfa, tanim, ziyaret, agKod, agKosul) {
   const konsol = [];
@@ -131,7 +144,7 @@ for (const ag of AGLAR) {
 }
 await tarayici.close();
 fs.mkdirSync(path.dirname(CIKTI), { recursive: true });
-fs.writeFileSync(CIKTI, JSON.stringify({ adres: ADRES, tarih: new Date().toISOString(), viewport: "390x844", sonuclar }, null, 2) + "\n");
+fs.writeFileSync(CIKTI, JSON.stringify({ adres: ADRES, tarih: new Date().toISOString(), viewport: "390x844", profilOnbellek: Boolean(ARG["profil-onbellek"]), sonuclar }, null, 2) + "\n");
 
 const sorun = sonuclar.filter((x) => x.ilkIcerikMs > 1000);
 // Görev kabulü: HTTP, yatay taşma ve konsol. `agHatasi` ayrıca raporda tutulur;
