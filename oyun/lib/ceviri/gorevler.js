@@ -41,6 +41,8 @@ export default {
 
   // Sandık kahraman kartı (2 Eki 2026)
   "{n} görev daha, sandık açılır": "{n} more quests to open the chest",
+  "{n} görev daha, bugünlük tamam": "{n} more quests to finish today",
+  "Ödüllerin hazır!": "Your rewards are ready!",
   "Sandık alındı": "Chest claimed",
   "Sandık hazır!": "Chest ready!",
 

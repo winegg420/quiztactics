@@ -200,3 +200,19 @@
   .gv-mini-dolgu { transition: none; }
   .qt-h-isilti--dongu::after { animation: none; }
 }
+
+/* =====================================================================
+   3. TUR (7 Eki 2026, oyun hissi revizyonu): günlük ilerleme kartı (altın çerçeve, sandık görseli, parçalı çubuk).
+   Sandık kartıyla aynı iç parçalar (.gv-kah-*); fark: kalın altın çerçeve + iç ışık. Renkler token'dan.
+   ===================================================================== */
+.gv-gun-kart {
+  position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: var(--qt-b-3);
+  padding: var(--qt-b-3); border: 4px solid var(--qt-coin-dudak); border-radius: var(--qt-r-l);
+  background: linear-gradient(180deg, var(--qt-coin-acik), var(--qt-yuzey)); color: var(--qt-coin-yazi);
+  box-shadow: 0 0 0 2px var(--qt-coin), 0 4px 0 var(--qt-coin-dudak);
+}
+.gv-gun-kart .gv-kah-parca--dolu { background: var(--qt-dogru); border-color: var(--qt-dogru-dudak); }
+.gv-gun-kart--bitti .gv-kah-alt { font-weight: var(--qt-a-siyah); }
+@media (max-width: 379px) {
+  .gv-gun-kart { gap: 10px; padding: 10px; }
+}

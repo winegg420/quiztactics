@@ -136,6 +136,37 @@ function GorevSatiri({ g, gunluk, dil, sezonAcik, islemde, mesgul, onAl, ucan, s
   );
 }
 
+// Günlük ilerleme kartı (ekranın en üstü, 7 Eki 2026 oyun hissi revizyonu): altın çerçeve, sandık görseli, günlük görevlerin parçalı çubuğu
+// + "N görev daha". Günlük sandık YOK (sunucuda yalnız haftalık sandık var): kart ödül sözü vermez; yalnız sunucu verisinden
+// hesaplanan "kalan coin" önizlemesi gösterir. Yeni veri/RPC yok.
+function GunlukKart({ ozet, gorevler, gunBitti, sira, sirali }) {
+  const [resimYok, setResimYok] = useState(false);
+  const hedef = Math.max(1, ozet.gunToplam);
+  const tamam = Math.min(ozet.gunTamam, hedef);
+  const kalan = Math.max(0, hedef - tamam);
+  const kalanCoin = gorevler.filter((g) => !g.alindi).reduce((t, g) => t + (Number(g.odul?.coin) || 0), 0);
+  const yazi = gunBitti ? tt("Bugünlük tamam") : kalan === 0 ? tt("Ödüllerin hazır!") : tt("{n} görev daha, bugünlük tamam", { n: kalan });
+  return (
+    <div className={sinif("gv-gun-kart", gunBitti && "gv-gun-kart--bitti", sirali)} style={siraStili(sira)}>
+      <span className="gv-kah-resim" aria-hidden="true">
+        {resimYok ? <QtIkon ad="hediye" boyut={36} /> : <img src="/dukkan/sandik.webp" alt="" width="64" height="64" decoding="async" onError={() => setResimYok(true)} />}
+      </span>
+      <div className="gv-kah-govde">
+        <b className="gv-kah-ad">{tt("Günlük görevler")}</b>
+        <span className="gv-kah-alt">{yazi}</span>
+        <span className="gv-kah-cubuk" role="img" aria-label={tt("{a} / {b}", { a: tamam, b: hedef })}>
+          {Array.from({ length: hedef }, (_, i) => <i key={i} className={sinif("gv-kah-parca", i < tamam && "gv-kah-parca--dolu")} />)}
+        </span>
+        {kalanCoin > 0 && (
+          <span className="gv-kah-oduller">
+            <b className="gv-kah-cip"><CoinIkon boyut={14} />{sayiMetni(kalanCoin)}<span className="qt-gizli"> coin</span></b>
+          </span>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // Haftalık sandık KAHRAMAN kartı (ekranın en üstü): altın-krem kart, büyük sandık görseli, "N görev daha" + 3 parçalı altın çubuk + ödül çipleri.
 // Veri ve açılış akışı (sandikAc → sandikAl, konfeti) aynen; yeni mekanik/veri yok. Durum: kilitli · alinabilir · alindi.
 function SandikKahraman({ s, sezonAcik, islemde, mesgul, onAc, ucan, sira, sirali, nabiz }) {
@@ -393,8 +424,10 @@ export default function GorevlerPage() {
 
         {veri && (
           <>
+            {gunAdet > 0 && <GunlukKart ozet={ozet} gorevler={gun.gorevler} gunBitti={gunBitti} sira={0} sirali={sirali} />}
+
             {hft.sandik && (
-              <SandikKahraman s={hft.sandik} sezonAcik={sezonAcik} sira={0} sirali={sirali} islemde={islem === "sandik"} mesgul={Boolean(islem)}
+              <SandikKahraman s={hft.sandik} sezonAcik={sezonAcik} sira={1} sirali={sirali} islemde={islem === "sandik"} mesgul={Boolean(islem)}
                               onAc={() => { dokunus(); sandikAc(); }} ucan={ucan("sandik")} nabiz={ilkAlinabilir === "sandik"} />
             )}
 
