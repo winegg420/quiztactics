@@ -783,6 +783,7 @@ Ortak "oyun hissi" parçaları tek yerde: `oyun/tasarim/oyun-hissi.css` (`qt-oyk
 - **Kutlama yalnız sunucu onayından sonra:** ödül/satın alma anı (`kutla`, konfeti, uçan çip, coin hapı zıplaması) sunucu "verildi" demeden oynamaz; iyimser kutlama yok.
 - **Azaltılmış harekette sürekli animasyon yok:** giriş/nabız/zıplama/parıltı/konfeti kapanır; renk ve durum kalır. Sonsuz döngülü her yeni önizleme/süs bunu kendi kuralıyla sağlar (Dükkân önizlemeleri: `dukkan-cerceve.css` › `.qt-dk` kapsamı).
 - **Tek renk ekseni / tek nabız:** sayfa başına tek renk ekseni (Görevler zorluk, Dükkân nadirlik, Lig lig rengi; kırmızı yalnız Düello/rakip, aciliyet kehribar); ekranda en çok 1 nabız, sürekli dönen hareket ≤ 3; sıralı giriş ≤ 8 öğe ve yalnız ilk açılışta.
+- **Renk rolleri (Ida, 7 Eki 2026):** Klasik / OYNA / ana eylem = turuncu · Düello = kan kırmızısı (`--qt-mod-duello`) · Ortak Hazine, coin, ödül, BP, premium = altın (`--qt-mod-kasa`, `--qt-coin`) · level / XP / rütbe / aktif sekme / "Sıra" / "Sen" = mavi (`--qt-ikinci`; bileşenlerde `ton="mor"` adı tarihsel, maviye bağlı) · başarı / AL / satın al / kabul = yeşil (`QtDugme tur="dogru"`) · bekliyor = kehribar (`QtRozet ton="uyari"`) · mor YALNIZ Epik nadirlik (+ Joker Elli, Efsane lig, Sezon Yolu Epik/avatar). Yeni renk icat edilmez, `tokenlar.css` jetonları kullanılır.
 - **Ölçüm:** arayüz değişikliğinden sonra `node araclar/arayuz-denetim.mjs` (16 sayfa × 7 genişlik) temiz olmalı; ikinci/İngilizce hesap için `--oturum=dosya`.
 
 ---
