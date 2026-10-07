@@ -10197,6 +10197,14 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 - Güneş Halkası VS kartında çerçeve taşması için 16–22 px uyarlanan pay, Klasik/Saf Bilgi hazır kapısındaki ortak `VsKarti` avatarına 12 px pay ayrıldı; başka ekran/çerçeve değişmedi.
 - Gerçek üretim bileşeni sahte profillerle, DB yazmadan ölçüldü. Gümüş/Altın çerçeveli uzun adda avatar–isim yerleşim boşluğu 390×844'te yaklaşık 5 px'ten 26,4 px'e, 360×800'de 25,2 px'e çıktı. Kısa ve uzun ad, Klasik/Düello/Ortak Hazine/Saf Bilgi rozet varyantları ile Grup araması; ayrıca hazır kapısı 360 ve 390 px'te ekran görüntüsüyle doğrulandı. Yatay taşma ve ad/çerçeve çakışması kalmadı.
 
+## 2026-10-07 — Düello gösterim payı 2 saniye migrationı (986)
+**Araç:** Codex
+**Neden:** Ida kararı — Düello VS/gösterim payını 1500 ms'den 2000 ms'ye hazırlamak.
+
+- `20260612000986_duello_gosterim_payi_2sn.sql` yalnız `oyun_ayarlari.duello_gosterim_payi_ms` değerini 2000 yapar.
+- `docs/duello-geri-alma-986.sql` değeri 1500'e döndürür. Bu Codex görevi migration veya geri alma dosyasını çalıştırmadı ve canlı DB'ye dokunmadı. Ancak eşzamanlı Claude oturumu `db12362e` kaydında 985 ile 986'yı canlıya uyguladığını bildirdi.
+- Üç küçük düzeltmenin ardından `npm run build` başarılı; postbuild sonucu **TEMİZ**. Push yapılmadı.
+
 ## 2026-10-07 — 985 ve 986 canlıya uygulandı
 - `npx supabase db push` ile 20260612000985 (Hazine joker sınırları) ve 20260612000986 (Düello gösterim payı 2 sn; Ida onayıyla) uygulandı. `--include-all` kullanılmadı.
 - Canlı doğrulama (pg-mini): 6 `kasa_joker_*` anahtarı İkinci Şans 1 · 50:50 2 · Ek Süre 2 · Zaman Baskısı 3 · toplam 4 · soru başı 1; `duello_gosterim_payi_ms` 1500 → 2000; `klasik_skill_*` (soru başı 1, toplam 6, tur başı 2) değişmedi.
