@@ -190,6 +190,7 @@ async function misafirGiris(sayfa) {
   const dugme = sayfa.getByRole("button", { name: /Misafir olarak dene/i });
   if (!(await dugme.count())) return false;
   await dugme.click();
+  await sayfa.waitForFunction(() => !/Giriş yapılıyor/.test(document.body.innerText) && !document.body.innerText.includes("Misafir olarak dene"), null, { timeout: 60000 }).catch(() => {});   // yavaş Supabase
   await sayfa.waitForTimeout(2500);
   await kurulumuTamamla(sayfa);
   return true;
@@ -207,6 +208,7 @@ async function misafirGiris(sayfa) {
   sayfa.on("pageerror", (e) => konsolHatalari.push("pageerror: " + String(e).slice(0, 160)));
 
   await sayfa.goto(ADRES + "/", { waitUntil: "domcontentloaded" });
+  await sayfa.getByRole("button", { name: /Misafir olarak dene/i }).waitFor({ timeout: 8000 }).catch(() => {});
   const girisVar = await sayfa.getByRole("button", { name: /Misafir olarak dene/i }).count();
   if (girisVar) {
     console.log("· Oturum yok — misafir hesabı açılıyor…");

@@ -4,6 +4,7 @@ import { hataMesaji } from "../lib/hata.js";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import CerceveliAvatar from "./CerceveliAvatar.jsx";
+import IsimEfekti from "./IsimEfekti.jsx";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
 
@@ -68,7 +69,7 @@ export default function EzeliRakip() {
       <div className="bd-ezeli-govde">
         <CerceveliAvatar profile={rakip} userId={rakip.id ?? rakip.user_id} boyut={48} />
         <div className="bd-ezeli-bilgi">
-          <div className="bd-ezeli-ad">{rakip.gorunen_ad}</div>
+          <div className="bd-ezeli-ad"><IsimEfekti userId={rakip.id ?? rakip.user_id}>{rakip.gorunen_ad}</IsimEfekti></div>
           <div className="bd-ezeli-skor">
             <b className={onde ? "ust" : ""}>{rakip.galibiyet}</b>
             <span>—</span>

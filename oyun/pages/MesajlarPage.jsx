@@ -4,6 +4,7 @@ import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import AvatarCerceve from "../components/AvatarCerceve.jsx";
 import SohbetKutusu from "../components/SohbetKutusu.jsx";
+import IsimEfekti from "../components/IsimEfekti.jsx";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
 import { hataTuru, hataTuruMesaji } from "../lib/hata.js";
@@ -125,7 +126,7 @@ export default function MesajlarPage() {
                   ? tt("{ad} ile sohbet, {0} okunmamış", { ad: s.gorunen_ad, 0: okunmamis })
                   : tt("{0} ile sohbet", { 0: s.gorunen_ad })}
                 bas={<AvatarCerceve profile={s} userId={s.kisi_id} boyut={48} />}
-                baslik={<span className="ls-ad">{s.gorunen_ad}</span>}
+                baslik={<span className="ls-ad"><IsimEfekti userId={s.kisi_id}>{s.gorunen_ad}</IsimEfekti></span>}
                 alt={
                   <span className="ms-onizleme">
                     {s.son_benden ? <b>{tt("Sen:")} </b> : null}{ilkSatir}

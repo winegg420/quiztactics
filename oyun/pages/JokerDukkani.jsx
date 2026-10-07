@@ -9,6 +9,7 @@ import SkillRozeti from "../components/SkillRozeti.jsx";
 import JokerSatinAlModal from "../components/JokerSatinAlModal.jsx";
 import DukkanKozmetik, { DukkanAvatarlar, useKozmetikDukkan } from "../components/DukkanKozmetik.jsx";
 import { DUKKAN_TURLERI, dukkandaGorunur } from "../lib/kozmetik.js";
+import { DUKKAN_PREMIUM_CERCEVE_ACIK } from "../lib/ozellikBayraklari.js";
 import { jokerKurallari } from "../lib/jokerKurallari.js";
 import { h5AdsYapilandirildi, odulluVideoGoster } from "../lib/h5ads.js";
 import { desteklenirMi, fiyatlariAl, satinAl, tuket } from "../lib/playFatura.js";
@@ -55,7 +56,7 @@ const [TUR_CERCEVE, TUR_ISIM] = DUKKAN_TURLERI;
 const SEKMELER = [
   { kod: "elmas",   ad: tt("Elmas|para"),     ikon: "elmas",   para: "elmas" },
   { kod: "joker",   ad: tt("Joker"),          ikon: "yildiz",  para: "coin" },
-  { kod: "cerceve", ad: tt("Çerçeve"),        ikon: "madalya", para: "elmas" },
+  ...(DUKKAN_PREMIUM_CERCEVE_ACIK ? [{ kod: "cerceve", ad: tt("Çerçeve"),        ikon: "madalya", para: "elmas" }] : []),   // dondurulmuş (ozellikBayraklari.js)
   { kod: "avatar",  ad: tt("Avatar ve İsim"), ikon: "kisi",    para: "elmas" },
 ];
 // COIN SEKMESİ YOK (2 Eki 2026): ürün satmıyordu — coin parayla satılmaz, elmasla coin dönüşümü de yok. İçindeki

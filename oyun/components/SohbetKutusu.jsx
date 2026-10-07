@@ -2,6 +2,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react
 import { createPortal } from "react-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import AvatarCerceve from "./AvatarCerceve.jsx";
+import IsimEfekti from "./IsimEfekti.jsx";
 import OyuncuKarti from "./OyuncuKarti.jsx";
 import { QtIkon, QtIkonDugme, QtDugme } from "../tasarim/index.js";
 import "../tasarim/ekranlar/l-sosyal.css";
@@ -365,7 +366,7 @@ export default function SohbetKutusu({ benId, kisiId, onGeri }) {
           aria-label={tt("{ad} profilini aç", { ad })}
         >
           <AvatarCerceve profile={kisi ?? {}} boyut={40} userId={kisiId} />
-          <span className="ms-kisi-ad">{kisi?.gorunen_ad ?? "…"}</span>
+          <span className="ms-kisi-ad"><IsimEfekti userId={kisiId}>{kisi?.gorunen_ad ?? "…"}</IsimEfekti></span>
           {/* Paket 42 J.3: dokununca profil açıldığını belli eden ok */}
           <QtIkon ad="ileri" boyut={18} className="ms-kisi-ok" />
         </button>

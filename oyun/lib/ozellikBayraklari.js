@@ -28,3 +28,10 @@
 
 export const MEYDAN_ACIK = false;
 export const GARDIROP_ACIK = false;
+
+// DÜKKÂN PREMIUM ÇERÇEVELER DONDURMA — 7 Ekim 2026 (Ida): Kraliyet, Şimşek, Galaksi, Alev, Sonbahar, Sakura
+// (pc_*) dükkândan kalktı. Sunucu kapısı migration 990 (kozmetikler.aktif=false: satın alma/takma reddedilir,
+// oyuncu kartı premium_cerceve=null → avatar lig çerçevesine düşer). Sahiplik/takılı veri SİLİNMEDİ.
+// Bu bayrak yalnız Dükkân › Çerçeve sekmesini gizler. Ejderha (pc_ejderha2) Battle Pass ödülüdür, dükkânda satılmaz.
+// GERİ AÇMA: bayrağı true yap + 990'daki geri alma satırını çalıştır.
+export const DUKKAN_PREMIUM_CERCEVE_ACIK = false;
