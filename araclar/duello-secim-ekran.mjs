@@ -190,9 +190,9 @@ for (const { dil, w, azalt } of KOSULAR) {
     await s.waitForTimeout(900);
     let o = await olc("01-sira-bende");
     ok("10 kart çizildi, birbirine binmiyor", o.kart === 10 && o.binme === 0, `${o.kart} kart · binme ${o.binme}`);
-    ok("SENİN SIRAN + Sen 0/5 · Rakip 0/5 + SEÇİM başlığı", (TR ? /SENİN SIRAN/ : /YOUR PICK/).test(o.metin) && (TR ? /SEÇİM/ : /DRAFT/).test(o.metin), o.metin.slice(0, 200));
+    ok("Senin sıran + Sen 0/7 · Rakip 0/7 + SEÇİM başlığı", (TR ? /senin sıran/i : /YOUR PICK/i).test(o.metin) && (TR ? /SEÇİM/ : /DRAFT/).test(o.metin), o.metin.slice(0, 200));
     ok("sayaç halkası + 10 seçim noktası + 7+7 yuva", await s.locator(".dsc-halka svg").count() === 1 && await s.locator(".dsc-pip").count() === 10 && await s.locator(".hk-yuva").count() === 14);
-    ok("yüzdeler kartın üstünde (Sen %X / Rakip %Y), verisiz kart \"Yeni\"", await s.locator(".dsc-yuzde--ben").count() === 10 && (TR ? /Yeni/ : /New/).test(o.metin) && /%\d+|\d+%/.test(o.metin));
+    ok("yüzdeler kartın üstünde (Sen %X / Rakip %Y), verisiz kart \"Yeni\"", await s.locator(".dsc-yuzde--ben").count() === 10 && (TR ? /Yeni/ : /New/).test(o.metin) && (TR ? /Sen \d+/ : /You \d+/).test(o.metin) && !/%\d|\d%/.test(o.metin));
     ok("ilk Düello ipucu görünür", await s.locator(".dsc-ipucu").count() === 1);
     ortak("01-sira-bende", o);
     await kaydet("01-sira-bende");
@@ -212,7 +212,7 @@ for (const { dil, w, azalt } of KOSULAR) {
     const alindi = await s.locator(`.dsc-kart--ben[data-kategori="${hedef}"]`).innerText().catch(() => "");
     ok("kart benim yuvama oturdu, ızgarada \"Aldın\"", benYuva === 1 && /ALDIN|Aldın|YOURS|Yours/.test(alindi) && await s.locator(".dsc-ucan").count() === 0, `${benYuva} · ${alindi}`);
     o = await olc("03-rakip-seciyor");
-    ok("sıra rakipte: RAKİP SEÇİYOR + Sen 1/5", (TR ? /RAKİP SEÇİYOR/ : /OPPONENT PICKING/).test(o.metin) && /1\/5/.test(o.metin), o.metin.slice(0, 200));
+    ok("sıra rakipte: RAKİP SEÇİYOR + Sen 1/7", (TR ? /rakip seçiyor/i : /opponent picking/i).test(o.metin) && /1[/]7/.test(o.metin), o.metin.slice(0, 200));
     ok("rakip sırasında kartlar dokunulmaz", await s.locator(".dsc-kart:not([disabled])").count() === 0);
     ortak("03-rakip-seciyor", o);
     await kaydet("03-rakip-seciyor");
@@ -234,7 +234,7 @@ for (const { dil, w, azalt } of KOSULAR) {
     await kaydet("05-oto");
     await s.waitForTimeout(1900);
     o = await olc("06-yine-ben");
-    ok("A-B-B-A: sıra yine bende, Sen 1/5 · Rakip 2/5, sonra yine sen", (TR ? /SENİN SIRAN/ : /YOUR PICK/).test(o.metin) && /1\/5/.test(o.metin) && /2\/5/.test(o.metin) && (TR ? /sonra yine sen/ : /then you again/).test(o.metin), o.metin.slice(0, 200));
+    ok("A-B-B-A: sıra yine bende, Sen 1/7 · Rakip 2/7, 2 seçim yap · sonra rakip ×2", (TR ? /senin sıran/i : /YOUR PICK/i).test(o.metin) && /1[/]7/.test(o.metin) && /2[/]7/.test(o.metin) && (TR ? /2 seçim yap · sonra rakip ×2/ : /Make 2 picks · then opponent ×2/).test(o.metin), o.metin.slice(0, 200));
 
     // 4) Son 2 sn gerilim
     st.yeniAn = Date.now(); st.bitisMs = 1600;

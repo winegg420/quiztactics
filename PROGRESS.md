@@ -10528,3 +10528,9 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
   4. Hâlâ yetmezse Pro plan (daha yüksek depolama); eski sürümleri toplu silmek yalnız Ida onayıyla ayrı iş.
 - **Ida'ya sorulacak:** saklama süresi (öneri 7 gün) · `ses/adaylar` taşıma işi yapılsın mı · eski sürümler silinsin mi · Pro plan.
 - **Dağıtım:** bu kayıt commit'i `[vercel skip]` ile atıldı (kod değişmedi, yeni sürüm üretilmez).
+
+## 7 Eki 2026 — Düello draft ekranı revizesi 2 (Ida onaylı eskiz)
+- **Ne:** `DuelloSecim.jsx` + `duello-secim.css` (+ TR/EN `ceviri/duello-secim.js`). Koyu lacivert "SENİN SIRAN" bandı → açık mavi, mavi çerçeveli bant ("Senin sıran" / "1 seçim yap · sonra rakip ×2", sağda beyaz ×n rozeti; rakip sırasında açık kırmızı bant). Kart: üstte 30 px ikon + ad; altta solda mavi "Sen 58", sağda kırmızı "Rakip 44" (% YOK), altında TEK çubuk (mavi soldan, kırmızı sağdan; toplam 100'ü aşarsa orantılanır, üst üste binmez); ince tek çerçeve (dudak/inset gölge kalktı). Rakibin aldığı kart Düello kırmızısı (`--qt-mod-duello`) tonlu + "Rakip aldı"; benimki mavi tonlu.
+- **Karar:** Üst kısım (halka, 10 nokta, yuva tahtası) aynen. Eski sınıf adları korundu; yeni blok CSS'in sonunda (revize 1'i ezer, silinmedi). Yeni çeviri anahtarları: "Senin sıran", "Rakip seçiyor…".
+- **Test:** `araclar/duello-secim-ekran.mjs` beklentileri güncellendi (yuva 0/7, % yok, büyük/küçük harf). TR 141/141 geçti (360+390, taşma/kesilme/kontrast/dokunma hedefi temiz), `koyu-zemin-tarama` 52/52, build temiz.
+- **Gözlem:** Bu makinede EN koşuları sözlük/Supabase 504'ü yüzünden Türkçeye düşebiliyor (aynı seans bir EN koşusu tam geçti: 390-en); EN metinleri `dil-en.js` içinde doğrulandı ("Your pick" …). Canlıda EN gözle bakılmalı.

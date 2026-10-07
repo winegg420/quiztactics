@@ -6,6 +6,8 @@ export default {
   "Seçim {n}/{t}": "Pick {n}/{t}",
   "SENİN SIRAN": "YOUR PICK",
   "RAKİP SEÇİYOR…": "OPPONENT PICKING…",
+  "Senin sıran": "Your pick",
+  "Rakip seçiyor…": "Opponent picking…",
   "Sen {a}/{n} · Rakip {b}/{n}": "You {a}/{n} · Opponent {b}/{n}",
   "sonra yine sen": "then you again",
   "sonra sen": "then you",

@@ -150,12 +150,12 @@ export function SecimKonsol({ d, sm, benSirada, sn, c, children }) {
           </>
         ) : benSirada ? (
           <>
-            <b>{c("SENİN SIRAN")}</b>
+            <b>{c("Senin sıran")}</b>
             <span>{`${bu > 1 ? c("{n} seçim yap", { n: bu }) : c("1 seçim yap")} · ${sonraMetni}`}</span>
           </>
         ) : (
           <>
-            <b>{c("RAKİP SEÇİYOR…")}</b>
+            <b>{c("Rakip seçiyor…")}</b>
             <span>{`${c("rakip ×{n}", { n: bu })} · ${sonraMetni}`}</span>
           </>
         )}
@@ -173,10 +173,14 @@ const oranOf = (profil, k) => {
 };
 const OK_ETIKET = { yukari: "sen önde", esit: "denk", asagi: "rakip önde" };
 
-function GucCubugu({ deger, taraf }) {
+/** Tek çubuk: mavi soldan (sen), kırmızı sağdan (rakip) dolar; toplam 100'ü aşarsa orantılanır — üst üste binmez. */
+function GucCubugu({ ben, rakip }) {
+  const b = ben ?? 0, r = rakip ?? 0;
+  const k = b + r > 100 ? 100 / (b + r) : 1;
   return (
-    <span className={sinif("dsc-guc", `dsc-guc--${taraf}`, deger === null && "dsc-guc--yeni")} aria-hidden="true">
-      <i style={{ transform: `scaleX(${deger === null ? 0 : Math.max(0.04, deger / 100)})` }} />
+    <span className={sinif("dsc-guc", ben === null && rakip === null && "dsc-guc--yeni")} aria-hidden="true">
+      <i className="dsc-guc-ben" style={{ width: `${ben === null ? 0 : Math.max(3, b * k)}%` }} />
+      <i className="dsc-guc-rakip" style={{ width: `${rakip === null ? 0 : Math.max(3, r * k)}%` }} />
     </span>
   );
 }
@@ -290,13 +294,10 @@ export function SecimKartlar({ d, hk, sm, ben, rakip, benSirada, basilan, calisa
                 // Draft revizesi: yüzdeler etiketli ("Sen %X" · "Rakip %Y") kartın ÜZERİNDE, altında ortada buluşan güç çubukları.
                 <span className="dsc-kart-guc" aria-hidden="true">
                   <span className="dsc-kart-yuzdeler">
-                    <b className={sinif("dsc-yuzde dsc-yuzde--ben", bo === null && "dsc-yuzde--yeni", ok === "yukari" && "dsc-yuzde--guclu")}>{c("Sen {n}", { n: yuzde(bo) })}</b>
-                    <b className={sinif("dsc-yuzde dsc-yuzde--rakip", ro === null && "dsc-yuzde--yeni", ok === "asagi" && "dsc-yuzde--guclu")}>{c("Rakip {n}", { n: yuzde(ro) })}</b>
+                    <b className={sinif("dsc-yuzde dsc-yuzde--ben", bo === null && "dsc-yuzde--yeni")}>{c("Sen {n}", { n: bo === null ? c("Yeni") : bo })}</b>
+                    <b className={sinif("dsc-yuzde dsc-yuzde--rakip", ro === null && "dsc-yuzde--yeni")}>{c("Rakip {n}", { n: ro === null ? c("Yeni") : ro })}</b>
                   </span>
-                  <span className="dsc-kart-cubuklar">
-                    <GucCubugu deger={bo} taraf="ben" />
-                    <GucCubugu deger={ro} taraf="rakip" />
-                  </span>
+                  <GucCubugu ben={bo} rakip={ro} />
                 </span>
               )}
             </button>
