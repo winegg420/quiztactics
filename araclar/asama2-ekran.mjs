@@ -23,7 +23,7 @@ const MOR_IZINLI = /qt-srozet|sy-|qt-kp-|qt-av-bolum|nadir|epik|lg-|lig|elli/;
 fs.mkdirSync(CIKTI, { recursive: true });
 const st = JSON.parse(fs.readFileSync(OTURUM, "utf8"));
 const origin = st.origins.find((o) => o.origin === new URL(ADRES).origin) || st.origins[0];
-// --dolu: Meydan Okumalar + Arkadaşlar için sahte satırlar (yalnız GET okumaları taklit edilir; sunucuya yazılmaz).
+// --dolu: Meydan Okumalar + Arkadaşlar + Turnuva lobisi için sahte satırlar (yalnız GET okumaları taklit edilir; sunucuya yazılmaz).
 // Uzun ad, gelen davet, sıra sende / rakip oynuyor, gönderilen (bekliyor) davet, gelen/giden arkadaşlık isteği.
 const benId = (() => {
   for (const x of origin.localStorage) if (/auth-token/.test(x.name)) { try { return JSON.parse(x.value).user.id; } catch { /* yok */ } }
@@ -41,6 +41,16 @@ async function doluTaklit(s) {
   const json = (r, veri) => r.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(veri) });
   const simdi = new Date().toISOString();
   const mac = (o) => ({ soru_ids: Array(20).fill(0), oyuncu1_soru: 0, oyuncu2_soru: 0, oyuncu1_skor: 0, oyuncu2_skor: 0, kategori: null, dereceli: true, jokersiz: false, created_at: simdi, ...o });
+  // Turnuva lobisi: 40 kişilik uzun liste (uzun adlar + 7. sırada "Sen"); yalnız lobi listesi sorgusu (profil gömülü).
+  await s.route(/\/rest\/v1\/tournament_players\?.*profil/, async (r) => {
+    if (r.request().method() !== "GET" || !benId) return r.fallback();
+    const tid = (decodeURIComponent(r.request().url()).match(/tournament_id=eq\.([0-9a-f-]+)/) || [])[1] ?? null;
+    const satir = (i) => {
+      const k = i === 6 ? { id: benId, gorunen_ad: "ArayuzDenetim" } : { ...KISI[i % KISI.length], id: sahte(200 + i) };
+      return { tournament_id: tid, user_id: k.id, puan: 0, joined_at: simdi, profil: { gorunen_ad: i === 6 ? k.gorunen_ad : `${k.gorunen_ad}${i}`, gorunen_avatar: null, gorunum: null, puan: 100 + i } };
+    };
+    return json(r, Array.from({ length: 40 }, (_, i) => satir(i)));
+  });
   await s.route(/\/rest\/v1\/(matches|duello_davetleri|kasa_davetleri|friendships|profiles)\?/, async (r) => {
     if (r.request().method() !== "GET" || !benId) return r.fallback();
     const u = decodeURIComponent(r.request().url());

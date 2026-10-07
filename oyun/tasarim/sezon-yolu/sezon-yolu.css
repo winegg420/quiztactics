@@ -481,7 +481,7 @@
   --sy-vurgu: var(--qt-vurgu);
   --sy-kutu: 64px;
   --sy-orta: 56px;
-  /* Renk rolleri (2 Eki 2026): mavi = ben ve ilerleme (SP çubuğu, düğümler) · altın = ödül/prestij (afiş, Battle Pass şeridi) · turuncu = eylem ("Al") */
+  /* Renk rolleri (2 Eki 2026): mavi = ben ve ilerleme (SP çubuğu, düğümler) · altın = ödül/prestij (afiş, Battle Pass şeridi) · yeşil = alma eylemi ("Al", 7 Eki 2026; önce turuncu) */
   --sy-ilerleme: var(--qt-ikinci);
   --sy-afis-zemin: var(--qt-coin-yazi);
   --sy-afis-zemin-2: var(--qt-coin-yazi);
@@ -634,7 +634,7 @@ button.sy-afis { cursor: pointer; -webkit-tap-highlight-color: transparent; touc
 .sy-kutu-not { font-weight: var(--qt-a-kalin); color: var(--qt-zemin-soluk); }
 .sy-kutu-al {
   display: grid; place-items: center; min-width: 44px; height: 18px; padding: 0 var(--qt-b-2); box-sizing: border-box; border-radius: var(--qt-r-hap);
-  background: var(--sy-vurgu); color: var(--qt-vurgu-yazi); font-weight: var(--qt-a-siyah);
+  background: var(--qt-dogru); color: var(--qt-dogru-yazi); font-weight: var(--qt-a-siyah);   /* AL = yeşil (renk rolleri, 7 Eki 2026) */
 }
 /* Zemin = ödül türü: coin altın · elmas mavi · joker yeşil; diğerleri nötr beyaz (yukarıdaki varsayılan). Çerçeve rengi nadirlikte kalır. */
 .sy-kutu[data-tur="coin"] .sy-kutu-cerceve { background: var(--sy-tur-coin); }
@@ -652,7 +652,7 @@ button.sy-afis { cursor: pointer; -webkit-tap-highlight-color: transparent; touc
   border: 2px solid var(--qt-yuzey); background: var(--qt-dogru); color: var(--qt-dogru-yazi);
 }
 .sy-kutu--alindi .sy-kutu-alindi { color: var(--qt-dogru-koyu); }
-.sy-kutu--alinabilir .sy-kutu-cerceve { border-color: var(--sy-vurgu); background: var(--qt-vurgu-acik); }
+.sy-kutu--alinabilir .sy-kutu-cerceve { border-color: var(--qt-dogru-dudak); background: var(--qt-dogru-acik); }
 .sy-kutu:disabled { cursor: default; }
 
 /* 28. seviye: yolun son satırı özel geniş kutu (iki ödül + sezon unvanı aynı kutuda) */

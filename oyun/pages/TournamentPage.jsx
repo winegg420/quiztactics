@@ -757,12 +757,13 @@ export default function TournamentPage() {
           {/* Satıra dokunmak oyuncu kartını açar; kılıç düğmesi ayrı KARDEŞ düğme
               (Paket 43 B: düğme içinde düğme geçersiz HTML). */}
           {suzulmusOyuncular.length > 0 && (
-            <QtListe etiket={tt("Lobideki oyuncular")}>
-              {suzulmusOyuncular.map((o) => (
+            <QtListe etiket={tt("Lobideki oyuncular")} className="m1-tv-lobi-liste">
+              {suzulmusOyuncular.map((o, i) => (
                 <QtListeSatiri
                   key={o.user_id}
                   vurgulu={o.user_id === user.id}
-                  bas={
+                  bas={<>
+                    <span className="m1-tv-sira qt-sayi" aria-hidden="true">{i + 1}</span>
                     <button
                       type="button"
                       className="m1-tv-oyuncu-ac"
@@ -771,7 +772,7 @@ export default function TournamentPage() {
                     >
                       <AvatarCerceve profile={o.profil} boyut={36} userId={o.user_id} />
                     </button>
-                  }
+                  </>}
                   baslik={
                     <OyuncuAdiDugmesi userId={o.user_id} profil={o.profil}
                                       onAc={() => setKartOyuncu({ id: o.user_id, ...(o.profil ?? {}) })}>
@@ -785,7 +786,7 @@ export default function TournamentPage() {
                       etiket={tt("{0} oyuncusuna meydan oku", { 0: o.profil?.gorunen_ad ?? tt("Oyuncu") })}
                       onClick={(e) => { e.stopPropagation(); meydanOku(o.user_id); }}
                     />
-                  ) : null}
+                  ) : <QtRozet ton="mor" boyut="k">{tt("Sen")}</QtRozet>}
                 />
               ))}
             </QtListe>

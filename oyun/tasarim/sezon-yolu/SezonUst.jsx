@@ -200,7 +200,7 @@ export function BonusSatiri({ bonus, islemde, mesgul, onAl }) {
       {bonus.alindi ? (
         <span className="sy-bonus-durum"><QtIkon ad="onay" boyut={14} />{tt("alındı")}</span>
       ) : hazir ? (
-        <QtDugme boyut="k" className="sy-bonus-al" yukleniyor={islemde} devreDisi={mesgul} onClick={onAl}
+        <QtDugme boyut="k" tur="dogru" className="sy-bonus-al" yukleniyor={islemde} devreDisi={mesgul} onClick={onAl}
                  aria-label={tt("Görevi al")}>{tt("Al|görev")}</QtDugme>
       ) : (
         <span className="sy-bonus-durum qt-sayi">{ilerleme} / {hedef}</span>

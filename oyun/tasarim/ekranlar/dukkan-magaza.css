@@ -360,6 +360,36 @@
   box-shadow: var(--qt-kabartma-kart);
 }
 .qt-dk-elmas-miktar { display: inline-flex; align-items: center; gap: var(--qt-b-1); color: var(--qt-ikinci-koyu); flex: none; }
+/* Aşama 2 (7 Eki 2026): "Oynayarak elmas kazan" — Görevler kartı dili. Kart derinliği (alt dudak), tür renginde
+   ikon kutusu (lig/level mavi · turnuva/seri/rozet altın), elmas çipi, basılınca dudağa iner. */
+.qt-dk-elmas-satir {
+  --_dk-renk: var(--qt-ikinci);
+  justify-content: flex-start;
+  min-height: 60px;
+  padding: var(--qt-b-2) var(--qt-b-3);
+  border: 1px solid var(--qt-cizgi);
+  box-shadow: 0 3px 0 var(--qt-cizgi-guclu);
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 120ms var(--qt-egri-cikis), box-shadow 120ms var(--qt-egri-cikis);
+}
+.qt-dk-elmas-satir--altin { --_dk-renk: var(--qt-madalyon-altin-koyu); }
+a.qt-dk-elmas-satir, a.qt-dk-elmas-satir:visited { color: var(--qt-metin); text-decoration: none; }
+a.qt-dk-elmas-satir * { text-decoration: none; }
+.qt-dk-elmas-satir:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--qt-cizgi-guclu); }
+.qt-dk-elmas-satir:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 2px; }
+@media (hover: hover) { .qt-dk-elmas-satir:hover { border-color: var(--qt-cizgi-guclu); } }
+.qt-dk-elmas-ik {
+  display: grid; place-items: center; flex: none; width: 44px; height: 44px;
+  border-radius: var(--qt-r-s); background: var(--_dk-renk); color: var(--qt-ikinci-yazi);
+}
+.qt-dk-elmas-ad { flex: 1; min-width: 0; font-weight: var(--qt-a-kalin); line-height: 1.25; overflow-wrap: anywhere; }
+.qt-dk-elmas-satir .qt-dk-elmas-miktar {
+  min-height: 30px; padding: 0 10px; border-radius: var(--qt-r-hap);
+  background: var(--qt-ikinci-acik); font-weight: var(--qt-a-siyah); white-space: nowrap;
+}
+.qt-dk-elmas-ok { display: grid; place-items: center; flex: none; color: var(--qt-metin-soluk); }
+@media (prefers-reduced-motion: reduce) { .qt-dk-elmas-satir { transition: none; } .qt-dk-elmas-satir:active { transform: none; } }
 .qt-dk-elmas-gorsel { display: flex; flex-wrap: wrap; justify-content: center; align-content: center; gap: 2px; color: var(--qt-ikinci); }
 .qt-dk-coin--elmas.qt-dk-coin--eniyi { box-shadow: inset 0 0 0 3px var(--qt-ikinci), 0 var(--qt-dudak-s) 0 var(--qt-ikinci-dudak); }
 .qt-dk-coin--elmas .qt-dk-coin-eniyi { background: var(--qt-ikinci); color: var(--qt-ikinci-yazi); box-shadow: 0 2px 0 var(--qt-ikinci-dudak); }

@@ -125,7 +125,7 @@ export default function OdulSayfasi({ odul, durum, dil, userId, profile, onKapat
       altlik={
         <div className="sy-alt-dugmeler">
           {odul.alinabilir && !odul.alindi ? (
-            <QtDugme tamGenislik boyut="b" ikon="hediye" onClick={al} yukleniyor={calisiyor} devreDisi={calisiyor} data-qt-ilk-odak>
+            <QtDugme tamGenislik boyut="b" tur="dogru" ikon="hediye" onClick={al} yukleniyor={calisiyor} devreDisi={calisiyor} data-qt-ilk-odak>
               {calisiyor ? tt("Alınıyor…") : tt("Ödülü al")}
             </QtDugme>
           ) : ucretli && !bpVar && !odul.alindi ? (

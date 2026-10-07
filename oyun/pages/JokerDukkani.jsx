@@ -143,6 +143,7 @@ export default function JokerDukkani() {
   const [odulCoin, setOdulCoin] = useState(null);
   const [tekFiyat, setTekFiyat] = useState({});
   const [ayar, setAyar] = useState(null);   // Paket 32 C: açıklamalardaki sayılar oyun_ayarlari'ndan
+  const [ayarBitti, setAyarBitti] = useState(false);   // ayar isteği bitti (başarılı/başarısız) — Elmas satırları iskeletten çıkar
   // Paket 2 B1/B2: skill_dukkani() — tür başına tek fiyat, 10'lu paket, kilit ve level (tek çağrı).
   const [skillDukkan, setSkillDukkan] = useState(null);
   const jokerSerbest = Number(ayar?.jokerler_ucretsiz ?? 0) > 0;   // Paket 34
@@ -161,7 +162,8 @@ export default function JokerDukkani() {
           .map((t) => [t, Number(o[`coin_joker_${t}`])])),
         ...onceki,
       }));
-    }).catch((e) => console.error("[Bildim] oyun ayarları okunamadı:", e));
+    }).catch((e) => console.error("[Bildim] oyun ayarları okunamadı:", e))
+      .finally(() => { if (aktif) setAyarBitti(true); });
     return () => { aktif = false; };
   }, []);
 
@@ -865,20 +867,30 @@ export default function JokerDukkani() {
             {/* Oyunla elmas — rakamlar oyun_ayarlari'ndan (okunamayan satır gösterilmez) */}
             <section className="qt-dk-bolum" aria-labelledby="qt-dk-elmas-kazan">
               <h2 id="qt-dk-elmas-kazan" className="qt-baslik-2">{tt("Oynayarak elmas kazan")}</h2>
+              {/* Aşama 2 (7 Eki 2026): satır = basılabilir kart (ilgili ekrana gider) · ikon kutusu tür renginde
+                  (lig/level mavi, turnuva/seri/rozet altın) · ödül elmas çipinde. Ayarlar inerken iskelet (zıplama yok). */}
+              {!ayarBitti ? (
+                <QtIskelet tur="satir" adet={4} />
+              ) : (
               <ul className="qt-dk-elmas-liste">
                 {[
-                  sayiMi(ayar?.elmas_lig_1) && [tt("Haftalık lig grubunda 1. / 2. / 3."), [ayar.elmas_lig_1, ayar.elmas_lig_2, ayar.elmas_lig_3].join(" / ")],
-                  sayiMi(ayar?.elmas_turnuva_1) && [tt("Turnuva birinciliği"), ayar.elmas_turnuva_1],
-                  sayiMi(ayar?.elmas_level) && [tt("Her {n} levelde bir", { n: ayar.elmas_level_aralik }), ayar.elmas_level],
-                  sayiMi(ayar?.elmas_seri) && [tt("{n} günlük seri", { n: ayar.elmas_seri_gun }), ayar.elmas_seri],
-                  [tt("Zor (elmas kademeli) rozetler"), "5–20"],
-                ].filter(Boolean).map(([ad, n]) => (
-                  <li key={ad} className="qt-dk-elmas-satir">
-                    <span>{ad}</span>
-                    <span className="qt-dk-elmas-miktar"><ElmasIkon boyut={16} /><b className="qt-sayi">{n}</b></span>
+                  sayiMi(ayar?.elmas_lig_1) && [tt("Haftalık lig grubunda 1. / 2. / 3."), [ayar.elmas_lig_1, ayar.elmas_lig_2, ayar.elmas_lig_3].join(" / "), "lig", "mavi", "/siralama"],
+                  sayiMi(ayar?.elmas_turnuva_1) && [tt("Turnuva birinciliği"), ayar.elmas_turnuva_1, "kupa", "altin", "/turnuva"],
+                  sayiMi(ayar?.elmas_level) && [tt("Her {n} levelde bir", { n: ayar.elmas_level_aralik }), ayar.elmas_level, "yildiz", "mavi", "/profil"],
+                  sayiMi(ayar?.elmas_seri) && [tt("{n} günlük seri", { n: ayar.elmas_seri_gun }), ayar.elmas_seri, "ates", "altin", "/"],
+                  [tt("Zor (elmas kademeli) rozetler"), "5–20", "madalya", "altin", "/profil?sekme=rozet"],
+                ].filter(Boolean).map(([ad, n, ikon, ton, yol]) => (
+                  <li key={ad}>
+                    <Link to={yol} className={`qt-dk-elmas-satir qt-dk-elmas-satir--${ton}`} aria-label={`${ad}, ${tt("{n} elmas", { n })}`}>
+                      <span className="qt-dk-elmas-ik" aria-hidden="true"><QtIkon ad={ikon} boyut={22} /></span>
+                      <span className="qt-dk-elmas-ad">{ad}</span>
+                      <span className="qt-dk-elmas-miktar"><ElmasIkon boyut={16} /><b className="qt-sayi">{n}</b></span>
+                      <span className="qt-dk-elmas-ok" aria-hidden="true"><QtIkon ad="ileri" boyut={18} /></span>
+                    </Link>
                   </li>
                 ))}
               </ul>
+              )}
             </section>
 
             {/* Elmas paketleri (gerçek para, yalnız Play Billing) — SATIN ALMA ŞU AN KAPALI */}

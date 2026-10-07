@@ -50,7 +50,7 @@ export default function TasmaSayfasi({ kol, durum, userId, onKapat, onBpAl, onAl
       altlik={
         <div className="sy-alt-dugmeler">
           {alinabilir > 0 ? (
-            <QtDugme tamGenislik boyut="b" ikon="hediye" onClick={al} yukleniyor={calisiyor} devreDisi={calisiyor} data-qt-ilk-odak>
+            <QtDugme tamGenislik boyut="b" tur="dogru" ikon="hediye" onClick={al} yukleniyor={calisiyor} devreDisi={calisiyor} data-qt-ilk-odak>
               {calisiyor ? tt("Alınıyor…") : tt("Ödülü al")}
             </QtDugme>
           ) : ucretli && !bpVar ? (

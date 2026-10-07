@@ -75,3 +75,20 @@
 /* Lobi › "Turnuva nasıl işler?" penceresi (Lig kurallarıyla aynı desen) */
 .m1-tv-kurallar { display: flex; flex-direction: column; gap: var(--qt-b-3); margin: 0; padding-left: 1.1em; font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); line-height: 1.45; }
 .m1-tv-odul-liste { margin: var(--qt-b-1) 0; padding-left: 1.1em; }
+
+/* Aşama 2 (7 Eki 2026): lobideki uzun oyuncu listesi — sabit satır yüksekliği (60 px), sıra · avatar · ad (tek satır,
+   üç nokta), "Sen" satırı mavi (açık mavi zemin + solda mavi şerit + dolu mavi "Sen" rozeti). Uzun listede
+   satırlar sayfayla kayar (iç kaydırma kutusu yok). */
+.m1-tv-lobi-liste .qt-satir { height: 60px; min-height: 60px; padding-block: 0; gap: var(--qt-b-2); }
+.m1-tv-lobi-liste .qt-satir-metin { display: flex; flex-direction: column; justify-content: center; align-items: stretch; align-self: stretch; }
+.m1-tv-sira {
+  flex: none; min-width: 2.2em; text-align: center;
+  font-size: var(--qt-y-s); font-weight: var(--qt-a-siyah); color: var(--qt-metin-soluk);
+}
+.m1-tv-lobi-liste .qt-satir-metin { flex: 1; min-width: 0; }
+.m1-tv-lobi-liste .qt-satir-baslik { display: block; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; overflow-wrap: normal; }
+.m1-tv-lobi-liste .qt-satir-baslik .ls-ad-dugme { display: flex; align-items: center; justify-content: flex-start; min-width: 0; max-width: 100%; text-align: start; }
+.m1-tv-lobi-liste .qt-satir-baslik .ls-ad-dugme > * { display: block; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.m1-tv-lobi-liste .qt-satir-kap--vurgulu { box-shadow: inset 4px 0 0 var(--qt-ikinci); }
+.m1-tv-lobi-liste .qt-satir-kap--vurgulu .m1-tv-sira { color: var(--qt-ikinci-koyu); }
+.m1-tv-lobi-liste .qt-satir-kap--vurgulu .qt-rozet { --_z: var(--qt-ikinci); --_y: var(--qt-ikinci-yazi); }
