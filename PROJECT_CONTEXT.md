@@ -92,6 +92,14 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
   reddedilir (`kategori_mac_uygun_mu`; istemci listesi `get_categories` + `kategori_mac_uygunlar()`). Boş `p_kategori` = Karışık;
   `profiles.tercih_kategori` yalnız son seçimi hatırlar (`useKategoriTercih`), aramaya sızmaz. Arayüz `KategoriSecici` (OYNA/Saf Bilgi
   penceresi + Modlar). Lig puanı/ödül aynı.
+- **Geç varış payı (991, Ida 7 Eki 2026): süre bitmeden işaretlenen cevap SAYILIR** — ağ/Supabase gecikmesi oyuncuyu
+  cezalandırmaz. İstemci dokunma anını (sunucu saatiyle ms) `x-qt-tik` başlığıyla yollar (`zaman.js › tikBasligiEkle`;
+  RPC imzaları aynı). Sunucu `cevap_gec_kabul`: varış ≤ bitiş + eski tolerans → kabul; değilse tık ≤ bitiş + tolerans
+  ve varış ≤ bitiş + pay → kabul. Pay `cevap_gec_varis_sn` 5 (cevaplar), `secim_gec_varis_sn` 3 (Hazine AÇ/DEVAM,
+  Düello seçim + kategori). Faz, cevaplamayan oyuncu için bitiş + pay dolunca kapanır; herkes cevapladıysa beklenmez
+  (Klasik'te süresi biten istemcinin `mac_soruyu_atla`sı da "cevap yok" sayılır). Kasa, Düello, Klasik/Saf Bilgi,
+  Grup, Turnuva, Hatalarım. Sahte tık beyanının kazancı en çok pay kadar; puan/hız beyana bağlı değil (`at` =
+  least(varış, bitiş)). Testler `araclar/gec-cevap-sql-testi.mjs` (ROLLBACK) + `araclar/gec-cevap-canli-testi.mjs`.
 - **Gösterim payı (325/326):** sunucu yeni fazın/sorunun bitişine pay ekler — Düello
   `duello_gosterim_payi_ms` 1500 (kategori + cevap), Klasik/Grup/Turnuva sonraki soru
   `soru_gosterim_payi_ms` 2000. İstemci sayacı pay bitene dek TAM süreyi gösterir, sonra gerçek
