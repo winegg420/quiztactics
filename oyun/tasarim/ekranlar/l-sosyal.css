@@ -573,3 +573,14 @@
 .ar-katla-ust svg { flex: none; color: var(--qt-metin-soluk); transition: transform var(--qt-s-kisa) var(--qt-egri-cikis); }
 .ar-katla[open] .ar-katla-ust svg { transform: rotate(180deg); }
 .ar-katla[open] > summary { margin-bottom: var(--qt-b-3); }
+
+/* ---------- Aşama 2 (7 Eki 2026): durum renkleri + boş durum ---------- */
+/* Maç başladı (davet kabul edildi) = YEŞİL şerit; yanıt bekleniyor kehribar kalır. */
+.ar-bekleyen--basladi { background: var(--qt-dogru-acik); color: var(--qt-dogru-koyu); }
+/* Ad + durum rozeti aynı satırda; uzun ad üç noktayla kırpılır, rozet küçülmez. */
+.ar-ad-rozet { display: flex; align-items: center; gap: 6px; min-width: 0; max-width: 100%; }
+.ar-ad-rozet > .ls-ad-dugme { min-width: 0; flex: 0 1 auto; }
+.ar-ad-rozet > .qt-rozet { flex: none; }
+.ar-sayfa .qt-satir-baslik .ls-ad-dugme { max-width: 100%; min-width: 0; }
+/* Boş arkadaş listesi: kart içinde büyük boş durum (kesik çizgili tek satır yerine) */
+.ar-bos .qt-bos { padding: var(--qt-b-5) var(--qt-b-4); }

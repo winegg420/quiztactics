@@ -17,7 +17,7 @@ import OyuncuAdiDugmesi from "../components/OyuncuAdiDugmesi.jsx";
 import IsimEfekti from "../components/IsimEfekti.jsx";
 import { useDmOkunmamis } from "../lib/mesajlar.js";
 import {
-  QtIkon, QtDugme, QtIkonDugme, QtKart, QtListe, QtListeSatiri, QtBosDurum,
+  QtIkon, QtDugme, QtIkonDugme, QtKart, QtListe, QtListeSatiri, QtBosDurum, QtRozet,
   QtIskelet, QtModal, QtSayiRozeti, QtAfis, sayiBicim, sinif, siraStili, useSiraliGiris, dokunus,
 } from "../tasarim/index.js";
 // Tasarım A (Faz 2, şerit L): Arkadaşlar · Davet · Mesajlar ortak stilleri
@@ -468,7 +468,7 @@ export default function FriendsPage() {
                 alt={tt("arkadaşlık isteği")}
                 sag={
                   <>
-                    <QtDugme tur="birincil" boyut="k" ikon="onay" onClick={() => { dokunus(); cevapla(f.id, true); }}>
+                    <QtDugme tur="dogru" boyut="k" ikon="onay" onClick={() => { dokunus(); cevapla(f.id, true); }}>
                       {tt("Kabul")}
                     </QtDugme>
                     {/* Paket 42 A: arkadaşlık isteği/davet reddi her yerde "Reddet" (kayıt silme "Sil") */}
@@ -520,7 +520,10 @@ export default function FriendsPage() {
           </QtKart>
         )}
         {listeDurum === "hazir" && arkadaslar.length === 0 && (
-          <QtBosDurum boyut="k" ikon="kisiler" baslik={tt("Henüz arkadaşın yok")} />
+          <QtKart className="ar-bos">
+            <QtBosDurum ikon="kisiler" baslik={tt("Henüz arkadaşın yok")}
+                        metin={tt("Davet bağlantını paylaş ya da arkadaşının davet koduyla ekle; sonra birlikte maç yapın.")} />
+          </QtKart>
         )}
 
         {listeDurum === "hazir" && arkadaslar.length > 0 && (
@@ -589,7 +592,8 @@ export default function FriendsPage() {
                     />
                   </div>
                   {aktifMac && (
-                    <div className="ar-bekleyen" role="status">
+                    <div className="ar-bekleyen ar-bekleyen--basladi" role="status">
+                      <QtIkon ad="onay" boyut={16} />
                       <span className="ar-bekleyen-metin">{tt("Maç başladı")}</span>
                       <span className="ar-bekleyen-dugmeler">
                         <QtDugme tur="birincil" boyut="k" onClick={() => navigate(y(aktifMac.tur === "duello" ? "/duello/" : aktifMac.tur === "kasa" ? "/kasa/" : "/mac/") + aktifMac.id)}>
@@ -639,8 +643,8 @@ export default function FriendsPage() {
               <QtListeSatiri
                 key={f.id}
                 bas={<AvatarCerceve profile={f.add} boyut={44} />}
-                baslik={<OyuncuAdiDugmesi userId={f.add?.id} profil={f.add} className="ls-ad">{f.add?.gorunen_ad}</OyuncuAdiDugmesi>}
-                alt={tt("cevap bekleniyor…")}
+                baslik={<span className="ar-ad-rozet"><OyuncuAdiDugmesi userId={f.add?.id} profil={f.add} className="ls-ad">{f.add?.gorunen_ad}</OyuncuAdiDugmesi><QtRozet ton="uyari" boyut="k" ikon="saat">{tt("Bekliyor|davet")}</QtRozet></span>}
+                alt={tt("arkadaşlık isteği")}
                 sag={
                   /* Paket 13: meydan okumadaki "Geri çek" gibi, gönderilen istek de geri alınır. */
                   <QtDugme

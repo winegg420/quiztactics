@@ -56,11 +56,11 @@
   color: #8a4200;
 }
 
-/* Çevrimiçi arkadaş: "Oyna" yeşil (mor yerine) — hemen oynanabilir */
+/* Çevrimiçi arkadaş: "Oyna" TURUNCU kalır (renk rolleri, 7 Eki 2026: OYNA = turuncu, yeşil yalnız AL/kabul/başarı);
+   hemen oynanabilir olduğu düğmenin çevresindeki yeşil halkayla gösterilir (yeşil nokta + "Çevrimiçi" etiketiyle aynı dil). */
 .qt-dugme.ar-oyna.ar-oyna--cevrimici:not(:disabled):not([aria-disabled="true"]) {
-  --_z: var(--qt-dogru, #2fd27a);
-  --_y: var(--qt-dogru-yazi, #0d2a1b);
-  --_d: var(--qt-dogru-dudak, #1c9a55);
+  outline: 3px solid var(--qt-dogru, #2fd27a);
+  outline-offset: 2px;
 }
 
 /* Koyu tema: `--qt-*` yüzey token'ları koyuda değişmiyor (kart beyaz kalıyor; koyu tema da şu an

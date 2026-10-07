@@ -8,7 +8,7 @@ import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
 import { hataTuru, hataTuruMesaji } from "../lib/hata.js";
 import GeriDugmesi from "../components/GeriDugmesi.jsx";
-import { QtKart, QtDugme, QtListe, QtListeSatiri, QtBosDurum, QtIskelet, QtSayiRozeti } from "../tasarim/index.js";
+import { QtKart, QtDugme, QtListe, QtListeSatiri, QtBosDurum, QtIskelet, QtSayiRozeti, QtAfis } from "../tasarim/index.js";
 import "../tasarim/ekranlar/l-sosyal.css";
 
 // ============================================================
@@ -72,14 +72,11 @@ export default function MesajlarPage() {
 
   return (
     <div className="ls-sayfa ms-sayfa">
-      {/* Paket 42 J.3: liste ekranında geri yolu yoktu (alt sekmede Mesajlar yok) */}
-      <GeriDugmesi />
-      <header className="ls-baslik">
-        <div className="ls-baslik-metin">
-          <h1 className="qt-baslik-1">{tt("Mesajlar")}</h1>
-          <p className="qt-soluk-zemin">{tt("Arkadaşlarınla yazış, maç ayarla.")}</p>
-        </div>
-      </header>
+      {/* Paket 42 J.3: liste ekranında geri yolu yoktu (alt sekmede Mesajlar yok).
+          Aşama 2 (7 Eki 2026): başlık Arkadaşlar ile aynı afiş dilinde; geri düğmesi afişin sağında (tam genişlik şerit kalktı). */}
+      <QtAfis ikon="mesaj" baslik={tt("Mesajlar")} ton="mor" sag={<GeriDugmesi />}>
+        <span className="qt-oyk-ozet-metin">{tt("Arkadaşlarınla yazış, maç ayarla.")}</span>
+      </QtAfis>
 
       {yukleniyor && liste.length === 0 && (
         <div className="qt-liste ls-iskelet" role="status" aria-busy="true">
