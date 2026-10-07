@@ -12,7 +12,7 @@
 
 import { Suspense, useEffect } from "react";
 // D-103/D-201: tembel sayfalar 1 yeniden denemeyle iner; inemezse Layout içindeki HataSiniri kartı.
-import { tembelYukle } from "./lib/tembelYukle.js";
+import { tembelYukle, bostaOnYukle } from "./lib/tembelYukle.js";
 import { Routes, Route, Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
 import { girisHedefiniAl, bilinenYol } from "./lib/girisHedefi.js";
 import { useAuth } from "./context/AuthContext.jsx";
@@ -67,6 +67,11 @@ const ModlarPage = tembelYukle(() => import("../oyun/pages/ModlarPage.jsx"));
 const DuelloPage = tembelYukle(() => import("../oyun/pages/DuelloPage.jsx"));
 const KasaPage = tembelYukle(() => import("../oyun/pages/KasaPage.jsx"));   // KASA (deneysel, 950)
 const CalismaPage = tembelYukle(() => import("../oyun/pages/CalismaPage.jsx"));
+// 8 Eki 2026: Klasik maç sayfası açılıştan ~4 sn sonra boşta iner (bkz. bostaOnYukle) —
+// eşleşme anında parça beklenmez; açık sekmede yeni dağıtım olsa da sayfa bellektedir. Düello ve
+// Ortak Hazine parçaları kendi CSS'ini taşır (önceden inerse stiller ana sayfada erken devreye girer):
+// onları parça yenileme kuralı korur (tembelYukle.js › parcaYenilemeKur).
+bostaOnYukle([MatchPage]);
 // Meydan (3B): three.js yalniz bu rotaya girilince iner (ayri chunk)
 const HaritaSayfasi = tembelYukle(() => import("../oyun/harita/HaritaSayfasi.jsx"));
 // Harita yenileme Aşama 1 test sahnesi (STIL.md) — oyunu etkilemez, ayrı rota
