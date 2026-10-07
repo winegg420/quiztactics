@@ -39,26 +39,6 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Quiz Tactics" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <!-- Şenlik tasarım dili: başlık/buton/skor Baloo 2, gövde metni Nunito.
-         İkisi de Türkçe karakterleri tam destekliyor. -->
-    <!-- Arayuz Yenileme (20 Eyl 2026): yazi tipleri YEREL paketlendi
-         (public/fonts/). Google Fonts baglantisi kaldirildi - dis bagimlilik
-         ve ilk yukleme gecikmesi istenmiyor. -->
-    <link rel="preload" as="font" type="font/woff2" href="/fonts/baloo-2-latin.woff2" crossorigin />
-    <link rel="preload" as="font" type="font/woff2" href="/fonts/nunito-latin.woff2" crossorigin />
-    <link rel="stylesheet" href="/fonts/yazitipleri.css" />
-    <!-- JavaScript ve uygulama stilleri inerken boş ekran gösterme. React ilk
-         çizimde bu küçük, metinsiz marka yükleyicisini kendiliğinden değiştirir. -->
-    <style>
-      #qt-ilk-yukleme{box-sizing:border-box;min-height:100vh;min-height:100svh;display:grid;place-items:center;background:#eef4ff;color:#3D8CE8}
-      #qt-ilk-yukleme>span{display:grid;place-items:center;gap:14px}
-      #qt-ilk-yukleme img{display:block;width:68px;height:68px}
-      .qt-ilk-noktalar{display:flex;gap:7px}
-      .qt-ilk-noktalar i{width:9px;height:9px;border-radius:50%;background:currentColor;animation:qt-ilk-nokta 1s ease-in-out infinite}
-      .qt-ilk-noktalar i:nth-child(2){animation-delay:.12s}.qt-ilk-noktalar i:nth-child(3){animation-delay:.24s}
-      @keyframes qt-ilk-nokta{0%,60%,100%{opacity:.28;transform:translateY(0)}30%{opacity:1;transform:translateY(-4px)}}
-      @media (prefers-reduced-motion:reduce){.qt-ilk-noktalar i{animation:none;opacity:.62}}
-    </style>
     <!--
       SOĞUK AÇILIŞ ÖN YÜKLEMESİ (7 Eki 2026). Eskiden belirteç yenilemesi ancak bütün JS inip
       çalışınca (normal ağda ~0,45 sn, yavaş 4G'de ~2,8 sn) başlıyor, profilim de onun ardından
@@ -69,7 +49,8 @@
       aynı belirteçle ikinci yenileme yapılmaz; AuthContext ilk profili buradan alır. Her hata
       sessizce eski yola düşer (supabase-js kendi yenilemesini yapar; geçersiz belirteçte yine
       SIGNED_OUT → giriş ekranı). OAuth dönüşünde (adreste kod/belirteç) hiçbir şey yapılmaz.
-      Safari 12 için düz ES5 + Promise.
+      Safari 12 için düz ES5 + Promise. Stil sayfası bağlantılarının ÖNÜNDE durur: arkalarında
+      olursa tarayıcı betiği o CSS inene kadar çalıştırmaz (canlıda ~300 ms gecikme ölçüldü).
     -->
     <script>
       (function () {
@@ -116,6 +97,26 @@
         } catch (e) { /* depolama kapalı / bozuk kayıt: uygulama normal yoldan açılır */ }
       })();
     </script>
+    <!-- Şenlik tasarım dili: başlık/buton/skor Baloo 2, gövde metni Nunito.
+         İkisi de Türkçe karakterleri tam destekliyor. -->
+    <!-- Arayuz Yenileme (20 Eyl 2026): yazi tipleri YEREL paketlendi
+         (public/fonts/). Google Fonts baglantisi kaldirildi - dis bagimlilik
+         ve ilk yukleme gecikmesi istenmiyor. -->
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/baloo-2-latin.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/nunito-latin.woff2" crossorigin />
+    <link rel="stylesheet" href="/fonts/yazitipleri.css" />
+    <!-- JavaScript ve uygulama stilleri inerken boş ekran gösterme. React ilk
+         çizimde bu küçük, metinsiz marka yükleyicisini kendiliğinden değiştirir. -->
+    <style>
+      #qt-ilk-yukleme{box-sizing:border-box;min-height:100vh;min-height:100svh;display:grid;place-items:center;background:#eef4ff;color:#3D8CE8}
+      #qt-ilk-yukleme>span{display:grid;place-items:center;gap:14px}
+      #qt-ilk-yukleme img{display:block;width:68px;height:68px}
+      .qt-ilk-noktalar{display:flex;gap:7px}
+      .qt-ilk-noktalar i{width:9px;height:9px;border-radius:50%;background:currentColor;animation:qt-ilk-nokta 1s ease-in-out infinite}
+      .qt-ilk-noktalar i:nth-child(2){animation-delay:.12s}.qt-ilk-noktalar i:nth-child(3){animation-delay:.24s}
+      @keyframes qt-ilk-nokta{0%,60%,100%{opacity:.28;transform:translateY(0)}30%{opacity:1;transform:translateY(-4px)}}
+      @media (prefers-reduced-motion:reduce){.qt-ilk-noktalar i{animation:none;opacity:.62}}
+    </style>
     <title>Quiz Tactics — Bilgi Yarışması</title>
   </head>
   <body>
