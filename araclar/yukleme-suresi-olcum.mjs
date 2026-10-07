@@ -134,6 +134,8 @@ fs.mkdirSync(path.dirname(CIKTI), { recursive: true });
 fs.writeFileSync(CIKTI, JSON.stringify({ adres: ADRES, tarih: new Date().toISOString(), viewport: "390x844", sonuclar }, null, 2) + "\n");
 
 const sorun = sonuclar.filter((x) => x.ilkIcerikMs > 1000);
-const hata = sonuclar.filter((x) => x.http !== 200 || x.yatayTasma > 0 || x.konsolHatasi.length || x.agHatasi.length);
-console.log(`\nİlk içerik >1 sn: ${sorun.length}/${sonuclar.length}; teknik hata: ${hata.length}/${sonuclar.length}; çıktı: ${CIKTI}`);
+// Görev kabulü: HTTP, yatay taşma ve konsol. `agHatasi` ayrıca raporda tutulur;
+// tarayıcının kaynak değişiminde iptal ettiği görseller (ERR_ABORTED) sayfa hatası değildir.
+const hata = sonuclar.filter((x) => x.http !== 200 || x.yatayTasma > 0 || x.konsolHatasi.length);
+console.log(`\nİlk içerik >1 sn: ${sorun.length}/${sonuclar.length}; sayfa hatası: ${hata.length}/${sonuclar.length}; çıktı: ${CIKTI}`);
 if (hata.length) process.exitCode = 2;

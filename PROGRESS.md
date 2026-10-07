@@ -10336,4 +10336,26 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 
 - Canlı `quiztactics.vercel.app`, gerçek mevcut test oturumu, 390×844: Ana Sayfa/Lig/Arkadaşlar/Dükkân × normal/yavaş 4G × soğuk/sıcak = 16 ölçüm. Soğuk normal ilk sayfa içeriği sırasıyla **5295 / 4469 / 4001 / 4520 ms**; soğuk yavaş 4G **9336 / 5483 / 5050 / 6050 ms**. 14/16 koşu 1 sn eşiğini aştı. Ön ölçüm: `tasarim/yukleme-suresi/olcum-once.json`.
 - Kök neden: `index.html` içindeki `#root` boştu; React yükleyicisi ancak ana JS/CSS indikten sonra çiziliyordu (soğuk FCP 1936–3940 ms). Sayfa iskeletleri/veri sorguları değiştirilmedi. React devralana kadar yerel Q simgeli, sabit ölçülü ilk yükleme görünümü eklendi; hareketi azalt ayarında noktalar durur.
-- Build ve Safari 12.1 ayrıştırma denetimi temiz. Canlı sonrası ölçüm dağıtımın ardından eklenecek.
+- Build ve Safari 12.1 ayrıştırma denetimi temiz. Canlı sonrası ölçüm (`tasarim/yukleme-suresi/olcum-sonra.json`; ms):
+
+| Ekran | Ağ | Ziyaret | Önce ilk sayfa | Sonra ilk görsel | Sonra sayfa | Önce tam veri | Sonra tam veri |
+|---|---|---:|---:|---:|---:|---:|---:|
+| Ana sayfa | normal | soğuk | 5295 | 1712 | 4945 | 8422 | 7818 |
+| Ana sayfa | normal | sıcak | 1278 | 638 | 1093 | 4294 | 2965 |
+| Lig | normal | soğuk | 4469 | 1832 | 4004 | 7087 | 5900 |
+| Lig | normal | sıcak | 845 | 514 | 867 | 2807 | 2070 |
+| Arkadaşlar | normal | soğuk | 4001 | 1488 | 3373 | 9410 | 5984 |
+| Arkadaşlar | normal | sıcak | 892 | 505 | 881 | 2455 | 2141 |
+| Dükkân | normal | soğuk | 4520 | 2370 | 3764 | 9245 | 4916 |
+| Dükkân | normal | sıcak | 1087 | 704 | 1071 | 15120 | 1999 |
+| Ana sayfa | yavaş 4G | soğuk | 9336 | 3665 | 6416 | 15059 | 8901 |
+| Ana sayfa | yavaş 4G | sıcak | 3330 | 687 | 1332 | 5927 | 3598 |
+| Lig | yavaş 4G | soğuk | 5483 | 3378 | 4975 | 7558 | 7236 |
+| Lig | yavaş 4G | sıcak | 1021 | 561 | 930 | 2482 | 2666 |
+| Arkadaşlar | yavaş 4G | soğuk | 5050 | 3483 | 5598 | 6500 | 8525 |
+| Arkadaşlar | yavaş 4G | sıcak | 1025 | 656 | 1075 | 2216 | 2664 |
+| Dükkân | yavaş 4G | soğuk | 6050 | 3384 | 6053 | 7582 | 12745 |
+| Dükkân | yavaş 4G | sıcak | 1129 | 1122 | 1506 | 2284 | 2492 |
+
+- İlk boşluk ortalaması: normal soğuk **4571→1850 ms (-%60)**, normal sıcak **1026→590 ms (-%42)**, yavaş 4G soğuk **6480→3478 ms (-%46)**, yavaş 4G sıcak **1626→756 ms (-%53)**. Soğukta kalan 1 sn üstü süre HTML/edge yanıtından önceki bekleme; istemci bu aşamada henüz çizim yapamaz. Tam veri süreleri canlı RPC/ağ oynaklığı taşıyor; veri çağrıları değiştirilmedi.
+- 16/16 HTTP 200, yatay taşma 0, konsol hatası 0. Ana Sayfa/Lig'de profil görseli kaynak değişirken `robot-k15.svg` / `vampir-y19.svg` için `ERR_ABORTED` (tarayıcı isteği iptali) görüldü; ekranda kırık görsel veya konsol hatası üretmedi, bu işte değiştirilmedi.
