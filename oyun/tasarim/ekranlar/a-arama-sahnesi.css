@@ -133,6 +133,7 @@
   font-weight: var(--qt-a-siyah);
   color: var(--qt-mac-metin);
 }
+.ara-kart-avatar { margin-bottom: var(--qt-b-3); }
 .ara-kart-ad--soluk { color: var(--qt-mac-soluk); font-family: var(--qt-f-govde); font-size: var(--qt-y-s); }
 .ara-kart-rozetler { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--qt-b-1); min-height: 28px; }
 

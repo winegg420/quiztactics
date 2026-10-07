@@ -10189,6 +10189,14 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 - Takılabilir kapalı kalemlerin düğmesi test vurgusu olmadan mevcut **“Tak” / “Equip”** metnini kullanıyor.
 - `lib/ceviri/kozmetik.js` içindeki eski “Test modunda açık” satırı artık kullanılmıyor; talimat gereği silinmedi.
 
+## 2026-10-07 — VS/arama çerçevesi ile oyuncu adı çakışması
+**Araç:** Codex
+**Neden:** Klasik, Düello, Ortak Hazine, Grup ve Saf Bilgi girişlerinde çerçeveli avatarın taşan alt parçaları oyuncu adının üstüne çiziliyordu.
+
+- Kök neden uzun ad değil, `CerceveGorseli` parçalarının avatar yerleşim kutusunun dışına taşmasıydı. Mevcut ortak `adKisalt` + CSS ellipsis kuralı korundu.
+- Güneş Halkası VS kartında çerçeve taşması için 16–22 px uyarlanan pay, Klasik/Saf Bilgi hazır kapısındaki ortak `VsKarti` avatarına 12 px pay ayrıldı; başka ekran/çerçeve değişmedi.
+- Gerçek üretim bileşeni sahte profillerle, DB yazmadan ölçüldü. Gümüş/Altın çerçeveli uzun adda avatar–isim yerleşim boşluğu 390×844'te yaklaşık 5 px'ten 26,4 px'e, 360×800'de 25,2 px'e çıktı. Kısa ve uzun ad, Klasik/Düello/Ortak Hazine/Saf Bilgi rozet varyantları ile Grup araması; ayrıca hazır kapısı 360 ve 390 px'te ekran görüntüsüyle doğrulandı. Yatay taşma ve ad/çerçeve çakışması kalmadı.
+
 ## 2026-10-07 — 985 ve 986 canlıya uygulandı
 - `npx supabase db push` ile 20260612000985 (Hazine joker sınırları) ve 20260612000986 (Düello gösterim payı 2 sn; Ida onayıyla) uygulandı. `--include-all` kullanılmadı.
 - Canlı doğrulama (pg-mini): 6 `kasa_joker_*` anahtarı İkinci Şans 1 · 50:50 2 · Ek Süre 2 · Zaman Baskısı 3 · toplam 4 · soru başı 1; `duello_gosterim_payi_ms` 1500 → 2000; `klasik_skill_*` (soru başı 1, toplam 6, tur başı 2) değişmedi.

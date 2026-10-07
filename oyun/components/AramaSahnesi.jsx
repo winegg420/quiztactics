@@ -88,7 +88,7 @@ export function VsKarti({ profil, kart, taraf = "ben", className, children, vsKa
   return (
     <div className={sinif("ara-kart", `ara-kart--${taraf}`, vsTema && "qt-vs", className) + kartArkaPlanSinifi(arkaPlanSanat)} data-vs={vsTema ?? undefined}>
       <KartArkaPlanKatmani sanat={arkaPlanSanat} hareketli yukseklik={200} duzen="dikey" />
-      <CerceveliAvatar profile={profil} userId={profil?.id} boyut={92} hareketli {...(kart ? { kart } : {})} />
+      <CerceveliAvatar profile={profil} userId={profil?.id} boyut={92} hareketli className="ara-kart-avatar" {...(kart ? { kart } : {})} />
       {/* Ajan C: ada dokununca oyuncu kartı (önizlemelerde — vsKarti/isimEfekti verilince — kapalı) */}
       <OyuncuAdiDugmesi userId={adAcik ? profil?.id : null} profil={profil} className="ara-kart-ad">
         <IsimEfekti userId={profil?.id} {...(ef !== undefined ? { ef } : {})} koyu hareketli>{adKisalt(profil?.gorunen_ad) ?? tt("Sen")}</IsimEfekti>
