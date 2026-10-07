@@ -36,7 +36,7 @@ import { HazirKapisi, KopukPerde, GeriSayim } from "../components/MacHazirlik.js
 import { macBittiReklam } from "../lib/reklam.js";
 import { y } from "../lib/yol.js";
 import { GB_MS } from "../lib/geriBildirim.js";
-import { sunucuOffsetMs, tikBasligiEkle } from "../lib/zaman.js";
+import { sunucuOffsetMs, tikBasligiEkle, GEC_VARIS_EK_MS } from "../lib/zaman.js";
 
 // Maç başı geri sayımda ekranda görünen en büyük rakam (sunucu mac_geri_sayim_sn = 3).
 const GERI_SAYIM_RAKAM = 3;
@@ -719,7 +719,11 @@ export default function MatchPage() {
     advanceKilidi.current = true;
     try {
       // 991: cevap hâlâ yoldaysa önce onu bekle — süre dolumu satırı (−1) gecikmeli geçerli cevabın önüne geçmesin
-      if (cevapIstegiRef.current) await cevapIstegiRef.current.catch(() => {});
+      // Bekleme SINIRLI: sunucu geç varan cevabı zaten en çok pay kadar kabul eder; askıda kalan (yanıtsız)
+      // istek atlamayı sonsuza dek kilitleyip maçı bu oyuncu için dondurmasın.
+      if (cevapIstegiRef.current) {
+        await Promise.race([cevapIstegiRef.current.catch(() => {}), new Promise((r) => setTimeout(r, GEC_VARIS_EK_MS + 2000))]);
+      }
       // Zaman aşımı şart: sekme arka plandayken açılan RPC soket koptuğu için
       // ne çözülüyor ne reddediliyordu, kilit sonsuza kadar kapalı kalıyordu.
       const { data, error } = await zamanAsimiyla(
