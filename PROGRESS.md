@@ -10438,3 +10438,11 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 - Vercel (quiztactics-app): `quiztactics.com` ve `www.quiztactics.com` projeye eklendi; www → quiztactics.com 308 yönlendirmesi ayarlandı.
 - Cloudflare DNS'e HENÜZ kayıt eklenmedi (CLI/token yok, Chrome eklentisi bağlı değil). Eklenecek (Proxy KAPALI, DNS only): `A @ 76.76.21.21`, `CNAME www cname.vercel-dns.com`. MX/TXT'ye dokunulmaz.
 - Bekleyenler: DNS sonrası Vercel doğrulama/HTTPS, Supabase Auth Redirect URL'ye https://quiztactics.com ve https://www.quiztactics.com ekleme, `vite.config.js` VARSAYILAN_SITE + `index.html` og:url değerlendirmesi, test.
+
+### 2026-10-07 — quiztactics.com TAMAMLANDI
+**Araç:** Claude Code (Sonnet 5.5)
+- Cloudflare DNS (A @ 76.76.21.21, CNAME www → cname.vercel-dns.com, DNS only) Ida tarafından eklendi. Doğrulama: `https://quiztactics.com` 200 (geçerli HTTPS), `www` → 308 → `https://quiztactics.com/`. MX (route1/2/3.mx.cloudflare.net) bozulmadı.
+- Supabase Auth (proje zfpnxzybcpkxsotwdsey) Redirect URLs'e `https://quiztactics.com/**` eklendi (www apex'e yönlendiği için ayrıca gerekmedi). Site URL ve eski vercel.app girdisi DOKUNULMADI.
+- Kod: uygulama `window.location.origin` kullandığı için iki alanda da çalışır. Yalnız statik adresler `https://quiztactics.com`a alındı: `index.html` (og:url, og:image, twitter:image) ve `vite.config.js › VARSAYILAN_SITE` (robots/sitemap). quiztactics.vercel.app çalışmaya devam ediyor.
+- Not: Vercel'de VITE_SITE_URL tanımlıysa o önceliklidir; sitemap'in .com'u göstermesi için onun da .com olması gerekir (kontrol edilmedi — Vercel CLI yok).
+- Test (Ida): quiztactics.com'da Google/e-posta girişi bir kez denenmeli (redirect doğrulaması).

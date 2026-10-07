@@ -122,7 +122,7 @@ export default defineConfig(({ mode }) => {
   // yazıyordu ama o alan adı hiç alınmamıştı (nslookup: NXDOMAIN) ve sitemap
   // var olmayan bir adresi duyuruyordu. Gerçek alan adı (quiztactics.com)
   // alınınca hem burası hem Vercel'deki VITE_SITE_URL güncellenmeli.
-  const VARSAYILAN_SITE = "https://quiztactics.vercel.app";
+  const VARSAYILAN_SITE = "https://quiztactics.com";
   const siteUrl = (env.VITE_SITE_URL || VARSAYILAN_SITE).replace(/\/+$/, "");
 
   return {
