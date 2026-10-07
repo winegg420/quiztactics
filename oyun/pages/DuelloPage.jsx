@@ -59,7 +59,7 @@ import "./DuelloPage.a.css";
 import "../styles/duello-tahta.css";
 import { QtBosDurum, QtDugme, QtIkon, QtModal, QtSayac, QT_KIRILMA_MS, sinif } from "../tasarim/index.js";
 import { rpcDene } from "../lib/rpcDene.js";
-import { sayacKaymasi, sayacGoster, sayacSinirMs, saatFarkiOrnekle } from "../lib/zaman.js";
+import { sayacKaymasi, sayacGoster, sayacSinirMs, saatFarkiOrnekle, tikBasligiEkle } from "../lib/zaman.js";
 
 // Bu istemcinin çizebildiği en yüksek Düello sürümü. 23 Eyl 2026: canlıdaki eski paket
 // (yalnız v1 arayüzü) v2 maçını v1 gibi çizdi — saldıran tarafın şıkları kapalı kaldı.
@@ -1150,12 +1150,13 @@ function DuelloMac({ id }) {
   // Cevap gönderimi — eski ve Düello 1.0 arayüzü aynı RPC'yi (duello_cevap) çağırır.
   // v2'de sunucu doğru/yanlışı burada SÖYLEMEZ; yalnız İkinci Şans'ın tekrar hakkı döner.
   const cevapVer = async (i) => {
+    const tikMs = Date.now() + farkRef.current;   // 991: tıklama anı (sunucu saati) — geç varsa da süre içinde sayılır
     sesDokunus(); titret(10);
     setSecim(i);
     setHata(null);
     setCalisan("cevap");
     try {
-      const { data, error } = await supabase.rpc("duello_cevap", { p_id: id, p_cevap: i });
+      const { data, error } = await tikBasligiEkle(supabase.rpc("duello_cevap", { p_id: id, p_cevap: i }), tikMs);
       if (error) throw error;
       if (data?.tekrar_hakki) {
         sesYanlis(); titret(18);
@@ -1204,11 +1205,12 @@ function DuelloMac({ id }) {
   // Kategori seçimi (alt çubuktaki eylem düğmesi). Kategori tam o an kilitlendiyse sunucu "Bu kategori
   // şu an seçilemez" döner — ham hata yerine ekran tazelenir.
   const kategoriSec = async (k) => {
+    const tikMs = Date.now() + farkRef.current;   // 991
     sesDokunus();
     setHata(null);
     setCalisan("kategori");
     try {
-      const { error } = await supabase.rpc("duello_kategori_sec", { p_id: id, p_kategori: k });
+      const { error } = await tikBasligiEkle(supabase.rpc("duello_kategori_sec", { p_id: id, p_kategori: k }), tikMs);
       if (error) throw error;
       await yukle();
     } catch (e) {
@@ -1222,12 +1224,13 @@ function DuelloMac({ id }) {
   // 960 · seçim fazı: sıra bendeyken karta dokununca seçer (tek dokunuş; yılan sırası, süre ve çift seçim reddi sunucuda —
   // mevcut duello_kategori_sec RPC'si). Süre tam o an dolduysa / kart az önce alındıysa ham hata yerine ekran tazelenir.
   const secimYap = async (k) => {
+    const tikMs = Date.now() + farkRef.current;   // 991
     sesDokunus(); titret(8);
     setHata(null);
     setSecimBasilan(k);
     setCalisan("secim");
     try {
-      const { error } = await supabase.rpc("duello_kategori_sec", { p_id: id, p_kategori: k });
+      const { error } = await tikBasligiEkle(supabase.rpc("duello_kategori_sec", { p_id: id, p_kategori: k }), tikMs);
       if (error) throw error;
       await yukle();
     } catch (e) {

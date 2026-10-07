@@ -40,7 +40,7 @@ import { y } from "../lib/yol.js";
 import { useAyar } from "../lib/ayarlar.js";
 import { rpcDene } from "../lib/rpcDene.js";
 import { useOyunModu } from "../lib/oyunModu.js";
-import { sayacKaymasi, sayacGoster, sayacSinirMs, saatFarkiOrnekle } from "../lib/zaman.js";
+import { sayacKaymasi, sayacGoster, sayacSinirMs, saatFarkiOrnekle, tikBasligiEkle } from "../lib/zaman.js";
 import { soruUzunlukSinifi } from "../lib/soruUzunluk.js";
 import { kategoriAdi } from "../lib/kategoriler.js";
 import { titret } from "../lib/geriBildirim.js";
@@ -919,12 +919,13 @@ function KasaMac({ id }) {
 
   // ---------------- eylemler ----------------
   const cevapVer = async (i) => {
+    const tikMs = Date.now() + farkRef.current;   // 991: tıklama anı (sunucu saati) — geç varsa da süre içinde sayılır
     sesDokunus(); titret(10);
     setSecim(i);
     setHata(null);
     setCalisan("cevap");
     try {
-      const { data, error } = await supabase.rpc("kasa_cevap", { p_id: id, p_cevap: i });
+      const { data, error } = await tikBasligiEkle(supabase.rpc("kasa_cevap", { p_id: id, p_cevap: i }), tikMs);
       if (error) throw error;
       // 951 İkinci Şans: ilk yanlış sayılmadı — şık elenir, aynı sayaçla yeniden seçilir (yalnız ben görürüm)
       if (data?.ikinci_sans) {
@@ -945,12 +946,13 @@ function KasaMac({ id }) {
     }
   };
   const kararVer = async (ac) => {
+    const tikMs = Date.now() + farkRef.current;   // 991
     sesDokunus(); titret(ac ? 20 : 8);
     setHata(null);
     setCalisan(ac ? "karar-ac" : "karar-devam");
     try {
       if (!ac) devamBekleRef.current = Number(dGuncelRef.current?.tur);
-      const { error } = await supabase.rpc("kasa_karar", { p_id: id, p_ac: ac });
+      const { error } = await tikBasligiEkle(supabase.rpc("kasa_karar", { p_id: id, p_ac: ac }), tikMs);
       if (error) { devamBekleRef.current = null; throw error; }
       await yukle();
     } catch (e) {

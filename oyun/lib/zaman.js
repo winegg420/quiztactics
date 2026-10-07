@@ -289,3 +289,15 @@ export function sayacSinirMs(kalan, { kayma, k0 }) {
   if (kayma > 0) kalanN = n < k0 - kayma ? n / (1 - kayma / k0) : n + kayma;
   return Math.max(1, Math.round((kalan - kalanN) * 1000));
 }
+
+// ---- 991: süre içinde işaretlenen cevap kabul ----
+// Cevap/seçim RPC'sine tıklama anını (sunucu saatiyle, epoch ms) `x-qt-tik` başlığıyla ekler. Sunucu (cevap_gec_kabul)
+// süre içinde tıklanıp ağ/Supabase gecikmesiyle geç varan cevabı, geç varış payı (oyun_ayarlari.cevap_gec_varis_sn,
+// seçim/karar: secim_gec_varis_sn) içinde kabul eder. Başlıksız istek eski kurala (varış anı) tabidir.
+export const TIK_BASLIGI = "x-qt-tik";
+export function tikBasligiEkle(sorgu, tikMs) {
+  if (!Number.isFinite(tikMs) || typeof sorgu?.setHeader !== "function") return sorgu;
+  return sorgu.setHeader(TIK_BASLIGI, String(Math.round(tikMs)));
+}
+// Cevaplamayan oyuncu varken sunucunun soruyu kapatmadan beklediği EK süre (cevap_gec_varis_sn 5 − eski tolerans 1).
+export const GEC_VARIS_EK_MS = 4000;
