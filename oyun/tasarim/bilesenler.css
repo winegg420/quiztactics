@@ -152,6 +152,8 @@
 }
 .qt-dugme--ikincil { --_z: var(--qt-yuzey); --_y: var(--qt-metin); --_d: var(--qt-cizgi); }
 .qt-dugme--mor, .qt-dugme--mavi { --_z: var(--qt-ikinci); --_y: var(--qt-ikinci-yazi); --_d: var(--qt-ikinci-dudak); }
+/* Renk rolleri (7 Eki 2026): AL / satın al / kabul = YEŞİL (başarı). Turuncu ana eylem (Oyna/Klasik) olarak kalır. */
+.qt-dugme--dogru { --_z: var(--qt-dogru); --_y: var(--qt-dogru-yazi); --_d: var(--qt-dogru-dudak); }
 .qt-dugme--tehlike { --_z: var(--qt-yanlis); --_y: var(--qt-yanlis-yazi); --_d: var(--qt-yanlis-dudak); }
 .qt-dugme--hayalet { --_z: transparent; --_y: currentColor; --_d: transparent; --_dudak: 0px; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 2px; }
 .qt-dugme--k { min-height: var(--qt-dokunma); padding: 0 var(--qt-b-4); font-size: var(--qt-y-m); --_dudak: 4px; }

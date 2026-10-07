@@ -150,7 +150,7 @@ export default function DukkanAuralar({ elmasYetmedi, onBilgi, onHata, elmasBaki
             ) : c.sahip ? (
               <QtDugme tamGenislik ikon="onay" yukleniyor={islem === "tak"} onClick={() => { dokunus(); tak(c.anahtar); }}>{tt("Tak")}</QtDugme>
             ) : c.satilik && c.fiyat != null ? (
-              <QtDugme tamGenislik yukleniyor={islem === "al"} onClick={() => { dokunus(); setOnayAcik(true); }}
+              <QtDugme tur="dogru" tamGenislik yukleniyor={islem === "al"} onClick={() => { dokunus(); setOnayAcik(true); }}
                        aria-haspopup="dialog"
                        aria-label={tt("{ad} arka planını satın al — {n} elmas", { ad: ad(c), n: c.fiyat })}>
                 <span className="qt-dc-fiyat">{tt("Satın al")} <ElmasFiyat fiyat={c.fiyat} boyut={18} /></span>

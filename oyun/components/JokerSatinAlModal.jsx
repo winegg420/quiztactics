@@ -101,7 +101,7 @@ export default function JokerSatinAlModal({
           <QtDugme tur="ikincil" onClick={onKapat} devreDisi={calisiyor}>
             {tt("Vazgeç")}
           </QtDugme>
-          <QtDugme onClick={onayla} devreDisi={!yeterli || calisiyor} yukleniyor={calisiyor} data-qt-ilk-odak>
+          <QtDugme tur="dogru" onClick={onayla} devreDisi={!yeterli || calisiyor} yukleniyor={calisiyor} data-qt-ilk-odak>
             {calisiyor ? tt("Alınıyor…") : onayMetni ?? (yalnizAl ? tt("Al") : tt("Al ve kullan"))}
           </QtDugme>
         </div>

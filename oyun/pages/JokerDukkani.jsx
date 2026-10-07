@@ -617,7 +617,7 @@ export default function JokerDukkani() {
                         <div className="qt-dk-skill-al">
                           {kilitli ? (
                             <QtDugme
-                              tur="birincil"
+                              tur="dogru"
                               boyut="k"
                               devreDisi={levelYetmez}
                               yukleniyor={alinan === `kilit:${tur}`}
@@ -638,6 +638,7 @@ export default function JokerDukkani() {
                             <>
                               {tekVar && (
                                 <QtDugme
+                                  tur="dogru"
                                   boyut="k"
                                   devreDisi={jokerSerbest || yetmez}
                                   yukleniyor={alinan === `tek:${tur}`}
@@ -722,6 +723,7 @@ export default function JokerDukkani() {
                         </ul>
                         {/* Düğme PASİF DEĞİL: coin yetmezse basınca söyler ve "Coin nasıl kazanılır?" bölümüne götürür. */}
                         <QtDugme
+                          tur="dogru"
                           boyut="k"
                           tamGenislik
                           devreDisi={jokerSerbest}
@@ -917,6 +919,7 @@ export default function JokerDukkani() {
                           {bonus > 0 && <span className="qt-kucuk qt-dk-coin-ek">{tt("+{n} bonus elmas", { n: sayiBicim(bonus) })}</span>}
                           <span className="qt-kucuk qt-soluk qt-dk-coin-ad">{ttSunucu(p.ad) || f?.ad}</span>
                           <QtDugme
+                            tur="dogru"
                             boyut="k"
                             tamGenislik
                             devreDisi={!alinabilir}

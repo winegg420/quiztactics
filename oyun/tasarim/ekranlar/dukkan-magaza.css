@@ -463,3 +463,7 @@
   .qt-dk-skill-rozetler { margin-top: 0; }
   .qt-dk-skill-al > .qt-dugme { min-height: var(--qt-dokunma); }
 }
+
+/* Renk rolleri (Aşama 2, 7 Eki 2026): satın alma = YEŞİL (QtDugme tur="dogru"); 10'lu paket beyaz kalır ama yeşil dudak
+   alır — iki düğme aynı eylem ailesi. Coin simgesi altın (CoinIkon), sayı koyu. */
+.qt-dk-skill-al > .qt-dugme--ikincil:not(:disabled):not([aria-disabled="true"]) { --_d: var(--qt-dogru-dudak); }

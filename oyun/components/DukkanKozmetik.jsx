@@ -314,7 +314,7 @@ function KozmetikEylemDugmesi({ c, sahipHesap, eylem }) {
           ) : !takilir && (c.sahip || sahipHesap) ? (
             <QtDugme tur="ikincil" tamGenislik devreDisi ikon="onay">{c.sahip ? tt("Sende var") : tt("Kullanılabilir")}</QtDugme>
           ) : c.satilik && c.fiyat != null ? (
-            <QtDugme tamGenislik yukleniyor={islem === "al"} onClick={onayAc} aria-haspopup="dialog"
+            <QtDugme tur="dogru" tamGenislik yukleniyor={islem === "al"} onClick={onayAc} aria-haspopup="dialog"
                      aria-label={tt("{ad} satın al — {n} elmas", { ad: kozmetikAdi(c), n: c.fiyat })}>
               <span className="qt-dc-fiyat">{tt("Satın al")} <ElmasFiyat fiyat={c.fiyat} boyut={18} /></span>
             </QtDugme>
@@ -558,7 +558,7 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
               {tt("Tak")}
             </QtDugme>
           ) : !c.kapali && c.fiyat_elmas != null ? (
-            <QtDugme tamGenislik yukleniyor={islem === "al"} onClick={() => { dokunus(); setOnayAcik(true); }} aria-haspopup="dialog">
+            <QtDugme tur="dogru" tamGenislik yukleniyor={islem === "al"} onClick={() => { dokunus(); setOnayAcik(true); }} aria-haspopup="dialog">
               <span className="qt-dc-fiyat">{tt("Satın al")} <ElmasFiyat fiyat={c.fiyat_elmas} boyut={18} /></span>
             </QtDugme>
           ) : (
