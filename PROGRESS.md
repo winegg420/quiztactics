@@ -10380,3 +10380,45 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 - **Kalan / karar gereken:** (1) Jokerlerin veride nadirliği YOK — kartlar jokerin kendi rozet rengini taşıyor; "joker kartı nadirlik renginde" için her jokere nadirlik atanması ürün kararı (Ida). (2) Sezon Yolu "Al" düğmesi PROJECT_CONTEXT'e göre turuncu — yeni AL=yeşil kuralına çekilsin mi? dokunulmadı. (3) Dükkân › Elmas sekmesindeki "Oynayarak elmas kazan" satırları hâlâ düz beyaz liste; Turnuva lobisindeki uzun oyuncu listesi sade — bu turda dokunulmadı. (4) Ortak Hazine düğmesinde süresi dolmuş davet gösterimi yok (veri yalnız "bekliyor" çekiliyor; süresi dolan listeden düşer) — rozet eklenmedi.
 - Başka işe ait kirli dosyalar (`oyun/lib/ceviri/mac.js`, `src/BildimApp.jsx`, `oyun/tasarim/duello-tahta/`, `araclar/_gecici-*`) commit edilmedi.
 - **Canlı (7 Eki 2026):** push GitHub'ın geçici 500 hatası yüzünden 3. denemede geçti; Vercel dağıtımı (c40ba20b) başarılı. Canlıda `asama2-ekran.mjs --adres=https://quiztactics.vercel.app --dolu` Meydan/Arkadaşlar/Joker/Mesajlar 4/4 temiz, yeşil düğme sınıfı canlı CSS'te.
+
+## 2026-10-07 — Soğuk açılış performansı (Bölüm 1)
+**Araç:** Claude Code (Opus 5.5) — yalnız ön yüz; migration/RPC/kural/görünüm değişmedi.
+**Neden:** Ida — gerçek içerik soğuk açılışta geç geliyordu (Codex 7 Eki ölçümü: normal soğuk ilk görsel ~1850 ms, yavaş 4G ~3478 ms).
+
+- **Önce (paket):** ilk açılışta inen: `main.js` 543 KB (173 KB gz) · `main.css` 576 KB (105 KB gz, `<head>`de çizimi ENGELLİYOR) · react 60 KB gz · supabase 55 KB gz · router 15 KB gz · fontlar 73 KB. En büyük parçalar: three 633 KB (tembel), main.js, dil-en 290 KB (yalnız EN), supabase 216 KB, react 193 KB, lottie 169 KB (tembel), dunya 118 KB, DuelloPage 99 KB… Ana JS'in içinde `ChallengesPage` (67 KB) + `MatchPage` (45 KB) + `MacSonuKutlama` (37 KB) vb. vardı (ilk ekranda gereksiz). Ana CSS'in ~%55'i global (`tema.css` 165 KB, `yeni.css` 124 KB, `styles.css` 41 KB).
+- **Kritik yol (iz, yerel üretim derlemesi):** normalde JS 60 ms'de iner ama ana sayfa `auth/token` yenilemesi (0,5–0,7 sn, belirteç eskiyse) → `profilim` (0,4–1,5 sn) bitmeden çizilmiyordu; `profilim` iki kez çağrılıyordu (TOKEN_REFRESHED + INITIAL_SESSION). Yavaş 4G'de 105 KB(gz) CSS satır içi Q yükleyicisini bile ~2,5 sn bekletiyordu; arama sahnesi parçası boşta hemen inip 31 avatar SVG'sini veriyle yarıştırıyordu.
+- **Değişenler:**
+  1. `src/context/AuthContext.jsx`: cihazda kayıtlı supabase oturumu (supabase-js'in kendi anahtarı) ilk çizimde kullanılır, yenileme arka planda (supabase-js istekleri yenileme bitene kadar bekletir); son profil `qt_profil_onbellek`'te (yalnız aynı kullanıcı kimliğiyle okunur, çıkışta silinir); TOKEN_REFRESHED'de profilim/davet işleri tekrar çalışmaz; `user` nesnesi içerik aynıysa korunur (`[user]` etkileri boşuna yeniden kurulmaz); `kalp_at` kimliğe bağlı. OAuth dönüşünde (adreste kod/belirteç) kayıtlı oturum kullanılmaz.
+  2. `vite.config.js › uygulamaOnYukleme`: ana CSS `rel=preload as=style` (stylesheet değil) — Vite ön yükleyicisi uygulamayı CSS inmeden çalıştırmaz, FOUC yok.
+  3. `src/BildimApp.jsx`: Meydan (`ChallengesPage`) + Klasik maç (`MatchPage`) `tembelYukle` ile tembel; ana JS 173 → 124 KB gz. Bu sayfaların 6 CSS'i (a-meydan, m1-mac, satin-al-onay, mac-sonu-kutlama, mac-oyuncu, mac-ses) eski sırasıyla ana pakette bırakıldı — doğrulama: ana CSS bayt bayt aynı çıktı (aynı hash). Tembel parçaya geçselerdi global stillerin ARKASINA düşüp eşit özgüllükte onları ezeceklerdi.
+  4. `oyun/components/AramaSahnesi.jsx`: arama sahnesi + avatar ön yüklemesi açılıştan 5 sn sonra (arama erken açılırsa lazy zaten indirir).
+  5. `oyun/components/Layout.jsx` + `hata-kurtarma.css`: tembel sayfa inerken kabuk içinde Q logo + üç nokta (açılış yükleyicisiyle aynı; hareketi azaltta noktalar durur). Parça hatası akışı (1 yeniden deneme → sayfa içi kart "Tekrar dene / Sayfayı yenile" → yeni sürümde bir kez yenile) zaten vardı, korunup test edildi.
+  6. `araclar/yukleme-suresi-olcum.mjs`: `--profil-onbellek` (dönen oyuncu: cihazda profil kaydı var, belirteç yine ESKİMİŞ → yenileme yapılır; en kötü olağan durum).
+- **Ölçüm (canlı, Codex'in aracı, 390×844; "ilk" = Q yükleyicisi ya da sayfa görünür, "sayfa" = sayfanın kendi kabı; ms):** önce `tasarim/yukleme-suresi/olcum-once-2.json` (bugün, değişiklikten önce canlıda), sonra `olcum-sonra-2.json` (aynı yöntem: profil kaydı YOK, ilk kez giren cihaz) ve `olcum-sonra-2-donen.json` (`--profil-onbellek`).
+
+| Ekran | Ağ | Ziyaret | Önce ilk | Önce sayfa | Sonra ilk | Sonra sayfa | Sonra sayfa (dönen) |
+|---|---|---|---:|---:|---:|---:|---:|
+| Ana sayfa | normal | soğuk | 878 | 2510 | 626 | 2621 | 499 |
+| Ana sayfa | normal | sıcak | 194 | 518 | 219 | 278 | 207 |
+| Lig | normal | soğuk | 723 | 1678 | 642 | 996 | 847 |
+| Lig | normal | sıcak | 387 | 387 | 536 | 536 | 414 |
+| Arkadaşlar | normal | soğuk | 380 | 1273 | 509 | 846 | 869 |
+| Arkadaşlar | normal | sıcak | 182 | 347 | 192 | 392 | 458 |
+| Dükkân | normal | soğuk | 497 | 1284 | 480 | 844 | 828 |
+| Dükkân | normal | sıcak | 201 | 360 | 411 | 411 | 377 |
+| Ana sayfa | yavaş 4G | soğuk | 2728 | 4311 | 728 | 3852 | 2836 |
+| Ana sayfa | yavaş 4G | sıcak | 748 | 748 | 481 | 481 | 447 |
+| Lig | yavaş 4G | soğuk | 2707 | 4212 | 839 | 3341 | 3250 |
+| Lig | yavaş 4G | sıcak | 478 | 805 | 779 | 779 | 778 |
+| Arkadaşlar | yavaş 4G | soğuk | 2736 | 4153 | 730 | 3208 | 3131 |
+| Arkadaşlar | yavaş 4G | sıcak | 467 | 757 | 793 | 793 | 766 |
+| Dükkân | yavaş 4G | soğuk | 2702 | 4361 | 823 | 3441 | 3350 |
+| Dükkân | yavaş 4G | sıcak | 452 | 800 | 440 | 776 | 763 |
+
+- **Ortalamalar (4 ekran):** normal soğuk ilk 620→564, sayfa **1686→1327** (dönen oyuncu **761**); yavaş 4G soğuk ilk **2718→780 (-%71)**, sayfa **4259→3461** (dönen **3142**, -%26); sıcak ziyaretler değişmedi (±100 ms ağ oynaklığı). Yerel üretim derlemesinde (ağ gecikmesiz) normal soğuk ana sayfa 1669→**122 ms** (dönen), yavaş 4G ilk 2500→480 ms.
+- **Not:** bugünkü "önce" değerleri Codex'in sabahki ölçümünden düşük (ağ/edge farkı). Karşılaştırma yalnız bugünkü önce/sonra çiftiyle yapıldı.
+- **Hedef (normal soğuk ≤1000 ms):** dönen oyuncuda tuttu (ana sayfa 499, diğerleri 828–869). İLK KEZ giren cihazda ana sayfa tutmadı (2621): profil kaydı yokken çizim `auth/token` yenilemesi + `profilim` (canlıda ~2 sn, Supabase gecikmesi) bekler — istemcide kısaltılamaz (profilim geçerli belirteç ister). Yavaş 4G soğuk sayfa ~3,1–3,4 sn bant genişliğiyle sınırlı: ilk pakette hâlâ ~430 KB gz (main.js 124 · main.css 105 · fontlar 73 · react 60 · supabase 55 · router 15). Kalan en büyük parçalar: global CSS (`tema.css` + `yeni.css` ≈ 290 KB ham — bölmek kaskadı değiştirir, görünüm riski), ana sayfanın kendi kodu (Ikon 26 KB, parcalar 23 KB, amblemler 19 KB, ses.js 19 KB, KartArkaPlan + sabit-tasarim 36 KB). Lig/Arkadaşlar/Dükkân'da tembel sayfa parçası ana JS'ten sonra istenir (bir tur); bu adreslerle doğrudan açılışta sayfa parçasını HTML'de ön yüklemek sonraki fırsat (PWA "/" ile açıldığından bu turda yapılmadı).
+- **Bilinen yan etki:** kayıtlı yenileme belirteci geçersizse (başka cihazda şifre değişimi vb.) ana sayfa bir an çizilir, sorgular 401 alır (konsolda hata satırları), ardından giriş ekranı gelir ve profil kaydı silinir. Eski davranışta doğrudan giriş ekranı vardı. Nadir durum; normal akışta konsol temiz.
+- **Test:** `npm run build` temiz (Safari 12 ayrıştırma temiz); başka aracın dosyaları olmadan sahnelenen ağaç ayrı kopyada derlendi. `asama2-ekran.mjs` TR 17/17 · EN 17/17 · 360 px hareketi azalt 17/17; `renk-rolleri-ekran.mjs` 80/80. Üretim önizlemesinde 12 tembel sayfa gidiş-dönüş TR+EN 28/28, konsol temiz; ProfilePage parçası engellenince sayfa içi kart çıktı, "Tekrar dene" sayfayı getirdi. Kenar: geçersiz oturum → giriş ekranı + kayıt silindi; oturumsuz → giriş; `/mac/<yok>` tembel MatchPage "Maç açılamadı" kartı.
+- **Canlı:** 3 commit (6adc5cb5, 35af7d2b, 89fc0ee0) push edildi, Vercel başarılı; canlı HTML'de CSS preload var. `/`, `/duello`, `/kasa`, `/profil`, `/joker`, `/meydan` HTTP 200; canlıda gezinti TR+EN konsol temiz.
+- Başka işe ait kirli dosyalar (`oyun/lib/ceviri/mac.js`, `src/BildimApp.jsx`'teki Düello tahta satırları, `oyun/tasarim/duello-tahta/`, `araclar/_gecici-*`, docs/tasarim görüntüleri) commit edilmedi.

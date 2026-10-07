@@ -414,6 +414,10 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
 - **Hata kurtarma:** `HataSiniri` Layout'ta rota içeriğini sarar (alt menü kalır), `tembelYukle` (1 yeniden deneme),
   vite:preloadError'da bir kez yenile, "Bağlantı yok" şeridi. Dükkân alımları onay penceresiyle (`JokerSatinAlModal`);
   misafir çıkışında uyarı (`CikisOnayi`); ağ hatası metni tek yerden (`hataMesaji`) ve hata TÜRÜNE göre ayrışır (`hata.js › hataTuru`: çevrimdışı / zaman aşımı / sunucu / sunucuya ulaşılamıyor; "İnternetini kontrol et" her hatada yazılmaz).
+  **Soğuk açılış (7 Eki 2026):** ilk çizim cihazdaki supabase oturumu + son profil kaydıyla (`AuthContext`, `qt_profil_onbellek`;
+  yenileme/profilim arka planda, başarısız yenilemede giriş ekranı); ana CSS `<head>`de `preload` (çizimi engellemez — başlatıcı
+  yüklerken bekler); Meydan + Klasik maç tembel, ama stilleri `BildimApp.jsx`'te eski sırasıyla ana pakette (tembel parçaya
+  geçen CSS global stillerin arkasına düşer, görünüm değişir). Ölçüm: `araclar/yukleme-suresi-olcum.mjs [--profil-onbellek]`.
   **Meydan okuma kabulü:** davet eden başka maçın içinde değilse `meydan_kabul`/`duello_kabul` bildirimiyle doğrudan maça geçer (`BildirimToast`); kaçırılırsa Arkadaşlar satırında "Maç başladı · Maça gir".
 - **Ana sayfa "devam eden maçın var" kartı (28 Eyl 2026, `useDevamEdenMaclar` + `DevamEdenMaclarKarti`):**
   ana sayfa açılır açılmaz (Oyna'ya basmadan), bütün modlarda (Klasik/Saf Bilgi, Düello, Grup, Turnuva)
