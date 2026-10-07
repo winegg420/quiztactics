@@ -309,10 +309,10 @@ function KozmetikEylemDugmesi({ c, sahipHesap, eylem }) {
             <QtDugme tur="ikincil" tamGenislik yukleniyor={islem === "tak"} onClick={() => { dokunus(); tak(null); }}>{tt("Çıkar")}</QtDugme>
           ) : takilir && (c.sahip || testModu) ? (
             <QtDugme tamGenislik ikon="onay" yukleniyor={islem === "tak"} onClick={() => { dokunus(); tak(c.anahtar); }}>
-              {testModu ? tt("Test için tak") : tt("Tak")}
+              {tt("Tak")}
             </QtDugme>
           ) : !takilir && (c.sahip || sahipHesap) ? (
-            <QtDugme tur="ikincil" tamGenislik devreDisi ikon="onay">{c.sahip ? tt("Sende var") : tt("Test modunda açık")}</QtDugme>
+            <QtDugme tur="ikincil" tamGenislik devreDisi ikon="onay">{c.sahip ? tt("Sende var") : tt("Kullanılabilir")}</QtDugme>
           ) : c.satilik && c.fiyat != null ? (
             <QtDugme tamGenislik yukleniyor={islem === "al"} onClick={onayAc} aria-haspopup="dialog"
                      aria-label={tt("{ad} satın al — {n} elmas", { ad: kozmetikAdi(c), n: c.fiyat })}>
@@ -555,7 +555,7 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
             <QtDugme tur="ikincil" tamGenislik devreDisi ikon="onay">{tt("Takılı")}</QtDugme>
           ) : c.kullanabilir ? (
             <QtDugme tamGenislik ikon="onay" yukleniyor={islem === "tak"} onClick={() => { dokunus(); tak(); }}>
-              {c.kapali && sahipHesap ? tt("Test için tak") : tt("Tak")}
+              {tt("Tak")}
             </QtDugme>
           ) : !c.kapali && c.fiyat_elmas != null ? (
             <QtDugme tamGenislik yukleniyor={islem === "al"} onClick={() => { dokunus(); setOnayAcik(true); }} aria-haspopup="dialog">

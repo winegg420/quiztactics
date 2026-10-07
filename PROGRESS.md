@@ -10180,3 +10180,11 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 - **Test** `araclar/kasa-joker-sinir-sql-testi.mjs` (BEGIN … 985 … ROLLBACK): **26/26** — tür sınırları (50:50 3. ret, İkinci Şans 2. ret, Zaman Baskısı 4. ret), toplam 4 reddi, soru başı 1, ücretsiz 50:50 tür sınırı ve toplam doluyken de çalışıyor ve kayda yazılmıyor, rakip cevapladı reddi, Altın Soru reddi, `kalan_haklar`, klasik_skill_* + Klasik joker fonksiyonları md5 aynı, yetki aynı; rollback sonrası canlıda `kasa_joker_*` ayarı 0.
 - **Arayüz:** `JokerCubugu.jsx` Hazine'de tür sınırını `tur_sinirlari`'ndan okur (yoksa eski `tur_basi_sinir` — 985 uygulanana dek davranış aynı, sayaç görünmez); her jokerde sol üstte "kalan/sınır" sayacı (ör. `1/2`), hak bitince düğme mevcut "kullanildi" (pasif) durumuna geçer. `QtSkill` (`tasarim/oyun.jsx`) isteğe bağlı `sayac` prop'u + `.qt-skill-sayac` (`bilesenler.css`). Erişilebilir etiket "Kalan hak: 1/2" / EN "Uses left: 1/2" (`ceviri/kasa.js`). Taklit ölçüm (990 aracının geçici kopyası, 985 verisiyle; 360/390, TR/EN): 184/0, sayaçlar 0/2 pasif · 1/2 · 3/3 · 1/1 görüldü.
 - `npm run build` temiz. **Uygulamak için:** `npx supabase db push` (ya da 985 dosyasını SQL düzenleyicide). Not: eski `araclar/kasa-sql-testi.mjs` 951'i yeniden oynattığı için kendi içinde sinir 6 bekler — 985 sonrası da o test kendi transaction'ında geçer.
+
+## 2026-10-07 — Kozmetiklerde oyuncuya görünen test ifadeleri kaldırıldı
+**Araç:** Codex
+**Neden:** Yayın öncesi sahip hesabında da oyuncuya test ortamı izlenimi veren etiketleri temizlemek.
+
+- Koleksiyon ve Dükkân'da sahip olunmayan fakat sahip hesabında kullanılabilen kalemlerin durumu **“Kullanılabilir” / “Available”** oldu; davranış değişmedi.
+- Takılabilir kapalı kalemlerin düğmesi test vurgusu olmadan mevcut **“Tak” / “Equip”** metnini kullanıyor.
+- `lib/ceviri/kozmetik.js` içindeki eski “Test modunda açık” satırı artık kullanılmıyor; talimat gereği silinmedi.

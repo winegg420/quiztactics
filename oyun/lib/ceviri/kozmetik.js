@@ -186,6 +186,7 @@ export default {
   "Satışta değil — yalnız sen görüyorsun": "Not on sale — only you can see this",
   "Test için tak": "Equip for testing",
   "Test modunda açık": "Unlocked in test mode",
+  "Kullanılabilir": "Available",
   "{ad} satın al — {n} elmas": "Buy {ad} — {n} diamonds",
   "Satılmıyor": "Not for sale",
   "Aldıkların Profil › Koleksiyon'da; oradan takıp çıkarabilirsin.": "Your purchases are in Profile › Collection; equip or remove them there.",

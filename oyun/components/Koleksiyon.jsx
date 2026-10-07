@@ -328,7 +328,7 @@ export default function Koleksiyon() {
                       <div className="qt-cs-oge">
                         <KozmetikSimge kalem={x} profile={profile} boyut={56} />
                         <span className="qt-cs-ad">{kozmetikAdi(x)}</span>
-                        <span className="qt-cs-durum">{x.sahip ? tt("Maçta hazır") : tt("Test modunda açık")}</span>
+                        <span className="qt-cs-durum">{x.sahip ? tt("Maçta hazır") : tt("Kullanılabilir")}</span>
                       </div>
                     ) : (
                       <Link className="qt-cs-oge qt-cs-oge--kilitli" to={y(`/joker?sekme=${s.kod}`)}
