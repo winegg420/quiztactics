@@ -98,6 +98,8 @@ export default {
   "Seviye {n} için {sp} SP": "{sp} SP to Level {n}",
   "Battle Pass aktif": "Battle Pass active",
   "Battle Pass al": "Get Battle Pass",
+  "Battle Pass al · {n} elmas": "Get Battle Pass · {n} gems",
+  "Ödülleri al": "Claim rewards",
   "Battle Pass al, {n} elmas": "Get Battle Pass, {n} gems",
   "Altın isim": "Gold name",
   "SP ×{c}": "SP ×{c}",

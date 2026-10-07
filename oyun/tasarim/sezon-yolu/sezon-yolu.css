@@ -499,6 +499,8 @@
   --sy-tur-coin: var(--qt-coin-acik);
   --sy-tur-elmas: var(--qt-ikinci-acik);
   --sy-tur-joker: var(--qt-dogru-acik);
+  --sy-tur-tepki: #ffd9ec;
+  --sy-tur-avatar: var(--qt-nadir-epik-acik);
 }
 /* Ara tonlar token karışımıdır; color-mix bilmeyen eski iOS (< 16.2) yukarıdaki düz token yedeğinde kalır */
 @supports (color: color-mix(in srgb, red 50%, blue)) {
@@ -511,6 +513,8 @@
     --sy-tur-coin: color-mix(in srgb, var(--qt-coin) 55%, var(--qt-yuzey));
     --sy-tur-elmas: color-mix(in srgb, var(--qt-ikinci) 22%, var(--qt-yuzey));
     --sy-tur-joker: color-mix(in srgb, var(--qt-dogru) 28%, var(--qt-yuzey));
+    --sy-tur-tepki: color-mix(in srgb, var(--qt-tas-pembe) 24%, var(--qt-yuzey));
+    --sy-tur-avatar: color-mix(in srgb, var(--qt-nadir-epik) 22%, var(--qt-yuzey));
   }
 }
 .sy-sahne p { margin: 0; }
@@ -600,7 +604,7 @@ button.sy-afis { cursor: pointer; -webkit-tap-highlight-color: transparent; touc
 .sy-dugum b { font-weight: inherit; }
 /* Düğümler (renk rolü: mavi = ben ve ilerleme): geçilen mavi dolu · şimdiki BÜYÜK mavi halka (beyaz iç) · gelecek nötr */
 .sy-satir--acik .sy-dugum { border-color: var(--sy-ilerleme); background: var(--sy-ilerleme); color: var(--qt-ikinci-yazi); }
-.sy-satir--simdi .sy-dugum { width: 44px; height: 44px; border: 5px solid var(--sy-ilerleme); background: var(--qt-yuzey); color: var(--qt-ikinci-koyu); box-shadow: 0 0 0 3px var(--qt-yuzey); font-size: var(--qt-y-xl); }
+.sy-satir--simdi .sy-dugum { width: 44px; height: 44px; border: 5px solid var(--sy-vurgu); background: var(--sy-vurgu); color: var(--qt-vurgu-yazi); box-shadow: 0 0 0 3px var(--qt-yuzey); font-size: var(--qt-y-xl); }
 
 /* Ödül kutusu: 64 px çerçeve (nadirlik = çerçeve rengi) + altında durum satırı ("Al" / "alındı") */
 .sy-kutu {
@@ -636,6 +640,8 @@ button.sy-afis { cursor: pointer; -webkit-tap-highlight-color: transparent; touc
 .sy-kutu[data-tur="coin"] .sy-kutu-cerceve { background: var(--sy-tur-coin); }
 .sy-kutu[data-tur="elmas"] .sy-kutu-cerceve { background: var(--sy-tur-elmas); }
 .sy-kutu[data-tur="joker"] .sy-kutu-cerceve { background: var(--sy-tur-joker); }
+.sy-kutu[data-tur="tepki_paketi"] .sy-kutu-cerceve { background: var(--sy-tur-tepki); }
+.sy-kutu[data-tur="avatar"] .sy-kutu-cerceve { background: var(--sy-tur-avatar); }
 /* Efsanevi çerçeve altın şeridin üstünde kaybolmasın: koyu altın */
 .sy-kutu[data-nadirlik="efsanevi"] { --sy-kenar: var(--qt-nadir-efsanevi-koyu); }
 /* Alınmış: soluk (içerik + çerçeve) + köşede yeşil tik · alınabilir: tek vurgu rengi çerçeve · kilitli: nötr (kural yok) */
@@ -670,8 +676,14 @@ button.sy-afis { cursor: pointer; -webkit-tap-highlight-color: transparent; touc
 .sy-kutu--doldu .sy-kutu-cerceve { animation: sy-doldu 520ms var(--qt-egri-yay) both; }
 
 /* ---------- Alt yuva: sıradaki büyük ödül KARTI (altın-krem iç, nadirlik çerçeveli 48 px görsel, üç satır yazı) ---------- */
-.sy-sirada--kart { gap: var(--qt-b-3); min-height: 60px; padding: 4px var(--qt-b-3) 4px 4px; border-color: var(--qt-coin-dudak); background: var(--qt-coin-acik); }
-.sy-sirada--kart .sy-sirada-yuva { width: 48px; height: 48px; }
+.sy-sirada--kart { gap: var(--qt-b-3); min-height: 68px; box-shadow: 0 3px 0 var(--qt-coin-dudak); padding: 4px var(--qt-b-3) 4px 4px; border-color: var(--qt-coin-dudak); background: var(--qt-coin-acik); }
+.sy-sirada--kart .sy-sirada-yuva { width: 56px; height: 56px; }
+.sy-sirada--kart .sy-sirada-yuva[data-tur="coin"] { background: var(--sy-tur-coin); }
+.sy-sirada--kart .sy-sirada-yuva[data-tur="elmas"] { background: var(--sy-tur-elmas); }
+.sy-sirada--kart .sy-sirada-yuva[data-tur="joker"] { background: var(--sy-tur-joker); }
+.sy-sirada--kart .sy-sirada-yuva[data-tur="tepki_paketi"] { background: var(--sy-tur-tepki); }
+.sy-sirada--kart .sy-sirada-yuva[data-tur="avatar"] { background: var(--sy-tur-avatar); }
+.sy-hepsini[disabled] { opacity: 0.6; }
 .sy-sirada-yuva[data-nadirlik="efsanevi"] { --sy-kenar: var(--qt-nadir-efsanevi-koyu); }
 .sy-sirada--kart .sy-sirada-metin { display: grid; gap: 1px; }
 .sy-sirada--kart .sy-sirada-metin > * { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

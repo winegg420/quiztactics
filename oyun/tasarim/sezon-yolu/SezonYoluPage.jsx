@@ -287,7 +287,10 @@ export default function SezonYoluPage() {
                 ref={topluRef} onClick={topluAl}>
                 {tt("Ödülleri al ({n})", { n: alinabilirSayi })}
               </QtDugme>
-            ) : !bpVar && <BpAlDugmesi durum={durum} onAl={bpAcilsin} />}
+            ) : bpVar && (
+              <QtDugme tamGenislik ikon="hediye" className="sy-hepsini" devreDisi>{tt("Ödülleri al")}</QtDugme>
+            )}
+            {!bpVar && <BpAlDugmesi durum={durum} onAl={bpAcilsin} />}
           </>
         )}>
         <DikeyYol durum={d} toplam={toplam} bpVar={bpVar} harita={harita} yeniAlinan={yeniAlinan} yeniAcilan={yeniAcilan}

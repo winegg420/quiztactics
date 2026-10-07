@@ -22,7 +22,7 @@ export default function SiradakiOdul({ durum, toplam, harita, dil, onGit }) {
   return (
     <button type="button" className="sy-sirada sy-sirada--kart" onClick={() => onGit(n)}
       aria-label={`${tt("Sıradaki büyük ödül")}: ${tt("{n}. seviye", { n })}, ${ad}. ${tt("{n} seviye kaldı", { n: kalan })}`}>
-      <span className="sy-sirada-yuva" data-nadirlik={odul.nadirlik ?? "siradan"}><OdulGorsel odul={odul} boyut={odulCerceveSanati(odul) ? 40 : 32} /></span>
+      <span className="sy-sirada-yuva" data-tur={odul.placeholder ? "yakinda" : odul.tur} data-nadirlik={odul.nadirlik ?? "siradan"}><OdulGorsel odul={odul} boyut={odulCerceveSanati(odul) ? 40 : 32} /></span>
       <span className="sy-sirada-metin">
         <span className="sy-sirada-etiket">{tt("Sıradaki büyük ödül")}</span>
         <b>{tt("Sv {n}: {ad}", { n, ad })}</b>

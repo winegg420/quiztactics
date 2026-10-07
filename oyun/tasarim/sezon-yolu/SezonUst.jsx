@@ -215,8 +215,7 @@ export function BpAlDugmesi({ durum, onAl }) {
   return (
     <QtDugme tamGenislik className="sy-dugme-altin sy-bp-dugme" onClick={onAl} aria-label={tt("Battle Pass al, {n} elmas", { n: fiyat })}>
       <TacIkon boyut={20} />
-      <span>{tt("Battle Pass al")}</span>
-      <span className="sy-fiyat-cip"><ElmasIkon boyut={16} />{fiyat}</span>
+      <span>{tt("Battle Pass al · {n} elmas", { n: fiyat })}</span>
     </QtDugme>
   );
 }

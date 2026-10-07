@@ -10287,3 +10287,9 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 - **Test** (taklit RPC, sunucuya yazmaz; geçici betik silindi): 390×844 · 390×664 · 360×640 × TR/EN × (boş, kısmi, hazır, sandık hazır, alınmış) = 30 görünüm: yatay/öğe taşması 0, <44 px hedef 0, konsol hatası 0. Görüntüler `tasarim/gorevler-oyun-hissi/`. Kısa ekranda (≤720 px) üst kart sıkışır.
 - **Bilinen:** `araclar/gorevler-ekran.mjs` 2 Eki'nden beri eski beklentiler taşıyor (sandık üstte, turuncu vurgu, beyaz AL, "alt not") — artık güncel değil. "1 more quests" çoğul sorunu sürüyor (genel sözlük sorunu).
 - **Aynı sorun başka ekranlarda (yalnız rapor, bakılmadı/düzeltilmedi):** QtSahne/nötr satır kullanan ChallengesPage (Meydan Okumalar), FriendsPage, JokerDukkani ve Sezon Yolu aynı "tek tip" riskini taşıyabilir; görsel ölçüm yapılmadı.
+
+## 2026-10-07 — Sezon Yolu (Battle Pass) oyun hissi revizyonu
+- Yalnız görsel: tepki=pembe, avatar=mor ödül kutuları; şimdiki seviye turuncu düğüm; sıradaki büyük ödül kartı büyütüldü ve türüne göre renkli.
+- Alt düğme: "Battle Pass al · 500 elmas" artık BP yokken alınacak ödül olsa da görünür (önceden "Ödülleri al" onu gizliyordu); BP sahibinde alınacak yoksa pasif "Ödülleri al".
+- TR/EN çeviri eklendi. Test: araclar/sahne-ekran-sezon.mjs 519/519 (eski "düğme yok" beklentisi güncellendi). Görüntüler: tasarim/battle-pass-oyun-hissi/.
+- Lig BP plakası: yapılmadı (limit).

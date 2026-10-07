@@ -213,7 +213,7 @@ const OLC = () => {
   const simdi = document.querySelector(".sy-satir--simdi");
   let ortaFark = null;
   if (simdi) { const r = simdi.getBoundingClientRect(); ortaFark = Math.round((r.top + r.height / 2) - (gr.top + gr.height / 2)); }
-  const altDugme = alt ? [...alt.querySelectorAll(".qt-dugme")].filter(gor).filter((e) => !e.classList.contains("sy-bonus-al")) : [];
+  const altDugme = alt ? [...alt.querySelectorAll(".qt-dugme")].filter(gor).filter((e) => !e.classList.contains("sy-bonus-al") && !e.disabled) : [];
   const sabitTransform = [];
   for (const e of document.querySelectorAll("body *")) {
     const s = getComputedStyle(e);
@@ -311,7 +311,7 @@ for (const [ad, uret] of Object.entries(DURUMLAR)) {
   await sayfa.waitForTimeout(1200);
   ok("toplu alma: bp_toplu_al çağrıldı", kap.cagri.includes("bp_toplu_al"));
   ok("toplu alma: coin uçuşu oynadı", ucusGoruldu);
-  ok("toplu alma: düğme kalktı (alınacak yok)", (await sayfa.locator(".qt-sahne-alt .sy-hepsini").count()) === 0, onceYazi);
+  ok("toplu alma: düğme kalktı (alınacak yok)", (await sayfa.locator(".qt-sahne-alt .sy-hepsini:not([disabled])").count()) === 0, onceYazi);
   console.log(`  · alma akışı (başarı): tek + toplu ("${onceYazi}") tamam`);
   await baglam.close();
 }
