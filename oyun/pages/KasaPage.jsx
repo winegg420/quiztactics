@@ -1250,7 +1250,7 @@ function KasaMac({ id }) {
          data-kat={d.soru?.kategori || undefined}
          // 980: tekrarlayan anlar dokunarak geçilir (dokunuş alttaki düğmeye de gider: şık seçimi engellenmez)
          onPointerDown={an || cifteAn || rakipKarar || savunmaAn ? anlariBitir : undefined}
-         className={sinif("m2-mac ks-mac qt-sahne-mac", `ks-mac--${d.faz}`, (gerilim || kararGerilim) && "qt-h-gerilim", d.altin && "ks-mac--altin",
+         className={sinif("m2-mac ks-mac qt-sahne-mac qt-sahne-gok", `ks-mac--${d.faz}`, (gerilim || kararGerilim) && "qt-h-gerilim", d.altin && "ks-mac--altin",
                           anAc?.sars && "ks-mac--sars", girisAktif && "ks-mac--giris")}>
       <MacUstSerit onCik={() => setTerkOnay(true)} cikisEtiketi={c("Maçtan çık")}
                    rozet={c("Ortak Hazine")} />
