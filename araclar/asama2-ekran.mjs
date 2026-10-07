@@ -114,7 +114,7 @@ for (const dil of DILLER) {
     try {
       await s.goto(ADRES + yol, { waitUntil: "domcontentloaded" });
       // yükleyici / iskelet / "Yükleniyor" kalkana dek bekle (en çok 15 sn)
-      await s.waitForFunction(() => document.querySelector("nav, .tabbar") && !/Yükleniyor|Loading/.test(document.body.innerText) && !document.querySelector(".qt-iskelet"), null, { timeout: 15000 }).catch(() => {});
+      await s.waitForFunction(() => document.querySelector("nav, .tabbar") && !/Yükleniyor|Loading/.test(document.body.innerText) && !document.querySelector(".qt-iskelet, .qt-sayfa-yukleniyor"), null, { timeout: 15000 }).catch(() => {});
       await s.waitForTimeout(1200);
       const o = await s.evaluate((izin) => {
         const de = document.documentElement; const mor = [], tasan = [], kucuk = []; const re = new RegExp(izin);

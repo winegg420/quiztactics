@@ -25,6 +25,7 @@ for (const dil of ["tr", "en"]) for (const azalt of [false, true]) for (const [w
     s.on("pageerror", (e) => konsol.push("pageerror " + e.message.slice(0, 100)));
     try {
       await s.goto(ADRES + yol, { waitUntil: "domcontentloaded" }); await s.waitForTimeout(2200);
+      await s.waitForFunction(() => !document.querySelector(".qt-sayfa-yukleniyor, #qt-ilk-yukleme"), null, { timeout: 10000 }).catch(() => {});   // tembel sayfa yükleyicisi kalksın
       const o = await s.evaluate((izin) => {
         const de = document.documentElement; const mor = [];
         const re = new RegExp(izin);
