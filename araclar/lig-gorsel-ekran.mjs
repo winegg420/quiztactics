@@ -70,8 +70,9 @@ async function taklitKur(sayfa, lig, benId) {
       const yeni = Array.isArray(veri) ? veri.map((k) => ({ ...k, lig })) : veri;
       return r.fulfill({ response: yanit, body: JSON.stringify(yeni), headers: { ...yanit.headers(), "content-type": "application/json" } });
     } catch (e) {
-      console.log("  · oyuncu_kartlari taklidi düştü:", e.message);
-      return r.continue();
+      // bağlam kapandıktan sonra gelen geç istek: sessizce bırak
+      if (!/disposed|closed/i.test(e.message)) console.log("  · oyuncu_kartlari taklidi düştü:", e.message.split("\n")[0]);
+      return r.continue().catch(() => {});
     }
   });
 }
@@ -166,7 +167,7 @@ for (const dil of DILLER) {
           await sayfa.screenshot({ path: path.join(CIKTI, `dunya-${w}x${h}-${dil}.png`) });
         }
         await sayfa.goto(ADRES + "/profil", { waitUntil: "domcontentloaded" });
-        await sayfa.waitForSelector(".qt-pf-ok[data-lig]", { timeout: 25000 });
+        await sayfa.waitForSelector(`.qt-pf-ok[data-lig="${lig}"]`, { timeout: 30000 });
         await sayfa.waitForTimeout(1200);
         const op = await sayfa.evaluate(OLC_PROFIL);
         await (await sayfa.$(".qt-pf-ok")).screenshot({ path: path.join(CIKTI, `profil-${ad}.png`) });

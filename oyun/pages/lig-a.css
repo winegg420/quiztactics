@@ -52,6 +52,7 @@
     var(--_sahne);
   color: var(--qt-lig-yazi);
   /* üst kenarda ince ışık, altta ligin renginde kalın dudak (stil rehberi: 2-3 ton gölge) */
+  box-shadow: inset 0 2px 0 rgb(255 255 255 / 0.7), 0 var(--qt-dudak) 0 var(--_cerceve); /* color-mix yedeği (eski iOS) */
   box-shadow: inset 0 2px 0 rgb(255 255 255 / 0.7), 0 var(--qt-dudak) 0 color-mix(in srgb, var(--_cerceve) 72%, #0b1220);
 }
 .lg-pankart-gumus { --_lig: var(--qt-lig-gumus); --_lig-dudak: var(--qt-lig-gumus-dudak);
@@ -463,6 +464,7 @@
   border-radius: 50%;
   background: radial-gradient(circle at 34% 28%, #fff 0 14%, var(--_sahne) 42%, var(--_isik) 78%, var(--_lig) 100%);
   border: 3px solid var(--qt-lig-yazi);
+  box-shadow: inset 0 0 0 3px var(--_cerceve), 0 4px 0 var(--_cerceve);
   box-shadow: inset 0 0 0 3px var(--_cerceve), 0 4px 0 color-mix(in srgb, var(--_cerceve) 72%, #0b1220);
 }
 .lg-arma--amblem > :not(.lg-arma-isik) { position: relative; z-index: 1; }
