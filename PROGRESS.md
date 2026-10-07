@@ -10359,3 +10359,10 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 
 - İlk boşluk ortalaması: normal soğuk **4571→1850 ms (-%60)**, normal sıcak **1026→590 ms (-%42)**, yavaş 4G soğuk **6480→3478 ms (-%46)**, yavaş 4G sıcak **1626→756 ms (-%53)**. Soğukta kalan 1 sn üstü süre HTML/edge yanıtından önceki bekleme; istemci bu aşamada henüz çizim yapamaz. Tam veri süreleri canlı RPC/ağ oynaklığı taşıyor; veri çağrıları değiştirilmedi.
 - 16/16 HTTP 200, yatay taşma 0, konsol hatası 0. Ana Sayfa/Lig'de profil görseli kaynak değişirken `robot-k15.svg` / `vampir-y19.svg` için `ERR_ABORTED` (tarayıcı isteği iptali) görüldü; ekranda kırık görsel veya konsol hatası üretmedi, bu işte değiştirilmedi.
+
+## 2026-10-07 — Kolay soru partileri (kolay_01 + kolay_02a–e): doğrulandı, canlıda
+**Araç:** Claude Code (Opus 5.5)
+**Neden:** PROGRESS'te 1 Eki kaydı "uygulanmadı, commit edilmedi" diyordu; sonraki kayıt yoktu.
+- **Sonuç: zaten uygulanmış, dokunulmadı.** Uygulama commit'i `77120f64` (1 Eki, `[progress-yok]` etiketiyle PROGRESS'e yazılmamıştı). Dosyalar repoda, izleniyor.
+- **Canlı ölçüm (pg-mini, salt-okunur):** `schema_migrations`'ta 840 ve 842–846 kayıtlı. Dosyalardaki soru metinleri canlıda birebir: 840=50 · 842=100 · 843=86 · 844=85 · 845=71 · 846=149 → **541/541**, hepsi zorluk 2; 538'i aktif, 3'ü (02a 1 · 02b 1 · 02d 1) sonradan pasif. Havuzda aynı `soru` metniyle tekrar satır: **0**. Toplam soru 15.945, aktif zorluk-2 2.931.
+- Uygulama yapılmadığı için geri alma notu yazılmadı.
