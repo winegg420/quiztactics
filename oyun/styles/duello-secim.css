@@ -147,8 +147,74 @@
   .dsc-kart { padding: 0 6px 0 5px; column-gap: 5px; }
 }
 
+/* ============================================================
+   DRAFT REVİZESİ (7 Eki 2026) — canlı renk rolleri, net sıra, okunur yüzdeler, ekranı dolduran kartlar
+   Konsol dolu takım renginde (sen mavi / rakip Düello kırmızısı, beyaz yazı) + "×n" bu sıradaki seçim sayısı.
+   Kartlar: sol üstten ışık (beyaz → zemin), alt dudak, 2 px kontur; "Sen %X" / "Rakip %Y" etiketli ve büyük; altta
+   ortada buluşan güç çubukları. Alınan kart sahibinin renginde (soluklaştırma yok), damga vuruşu yalnız seçim anında.
+   Sonsuz döngü YOK: son 2 sn nabzı sınırlı tekrar.
+   ============================================================ */
+.hk-mac--secim > .hk-sahne { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; }
+.hk-mac--secim .dsc-kok { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; gap: 6px; }
+.hk-mac--secim .dsc-izgara { flex: 1 1 auto; min-height: 0; grid-auto-rows: minmax(0, 1fr); gap: 6px; }
+.hk-mac--secim .dsc-kart {
+  --dudak: #c9d6e6;
+  height: auto; min-height: 52px; max-height: 96px; grid-template-rows: auto auto; column-gap: 9px; row-gap: 4px;
+  padding: 6px 10px 6px 8px; border-radius: 14px;
+  background: linear-gradient(150deg, #fff 0%, var(--z) 70%);
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, .85), 0 3px 0 var(--dudak);
+}
+.hk-mac--secim .dsc-izgara--ben .dsc-kart:not(:disabled) { --c: var(--hk-mavi); --z: #f3f8fe; --dudak: var(--hk-mavi-kenar); }
+.hk-mac--secim .dsc-kart-ikon { width: 38px !important; height: 38px !important; border-radius: 11px; }
+.hk-mac--secim .dsc-kart-ad { font-size: 15px; white-space: normal; line-height: 1.08; }
+.dsc-kart-guc { display: grid; gap: 4px; min-width: 0; grid-template-columns: minmax(0, 1fr); }
+.dsc-kart-yuzdeler { display: flex; justify-content: space-between; align-items: baseline; gap: 4px; min-width: 0; }
+.dsc-kart-yuzdeler .dsc-yuzde { white-space: nowrap; font-size: 12px; }
+.dsc-kart-yuzdeler .dsc-yuzde--yeni { font-size: 11px; }
+.dsc-kart-cubuklar { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.dsc-kart-cubuklar .dsc-guc { height: 8px; border-radius: 4px; }
+/* alındı: sahibinin renginde dolu, okunur (eski .55 soluklaştırma kalktı); damga büyük */
+.hk-mac--secim .dsc-kart--alindi { opacity: 1; box-shadow: inset 0 2px 0 rgba(255, 255, 255, .6); }
+.hk-mac--secim .dsc-kart--ben { --z: var(--hk-mavi-zemin); background: linear-gradient(150deg, #f7fbff 0%, var(--hk-mavi-zemin) 60%); }
+.hk-mac--secim .dsc-kart--rakip { --z: var(--hk-kirmizi-zemin); background: linear-gradient(150deg, #fff8f8 0%, var(--hk-kirmizi-zemin) 60%); }
+.hk-mac--secim .dsc-kart--alindi .dsc-kart-ikon { opacity: .8; }
+.hk-mac--secim .dsc-kart-damga { font-size: 11px; line-height: 17px; padding: 0 8px; border-radius: 8px; box-shadow: 0 2px 0 rgba(29, 33, 82, .18); }
+/* seçim anı (olay): kart kısa vuruş + damga iner — DuelloSecim uçuş inişinde sınıfı bir kez ekler */
+.dsc-kart--damga-an { animation: dsc-kart-vur .5s var(--qt-egri-yay, cubic-bezier(.34,1.56,.64,1)) both; }
+.dsc-kart--damga-an .dsc-kart-damga { animation: dsc-damga-in .45s cubic-bezier(.2, .9, .3, 1.3) both; }
+@keyframes dsc-kart-vur { 0% { transform: scale(.94); } 45% { transform: scale(1.05); } 100% { transform: none; } }
+@keyframes dsc-damga-in { 0% { opacity: 0; transform: scale(1.8) rotate(-8deg); } 100% { opacity: 1; transform: none; } }
+/* sıra rakipteyken alınmamış kartlar: kesikli, dokunulmaz ama okunur */
+.hk-mac--secim .dsc-izgara--rakip .dsc-kart:not(.dsc-kart--alindi) { --dudak: transparent; box-shadow: none; }
+/* konsol: dolu takım rengi, beyaz yazı + bu sıradaki seçim sayısı */
+.hk-mac .hk-mesaj.dsc-konsol--ben { background: linear-gradient(135deg, var(--hk-mavi-kenar) 0%, #134f8a 75%); border-color: var(--hk-mavi-kenar); color: #fff;
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, .3), 0 3px 0 var(--hk-mavi-metin); }
+.hk-mac .hk-mesaj.dsc-konsol--rakip { background: linear-gradient(135deg, var(--qt-mod-duello, #c93030) 0%, #a92626 75%); border-color: var(--qt-mod-duello-dudak, #8f1f27); color: #fff;
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, .3), 0 3px 0 var(--qt-mod-duello-dudak, #8f1f27); }
+.hk-mac .dsc-konsol--ben .hk-mesaj-yazi span, .hk-mac .dsc-konsol--rakip .hk-mesaj-yazi span { color: #fff; opacity: .95; }
+.hk-mac .dsc-konsol--ben .dsc-konsol-ikon, .hk-mac .dsc-konsol--rakip .dsc-konsol-ikon { background: rgba(255, 255, 255, .22); color: #fff; }
+.dsc-konsol-adet {
+  flex: none; display: grid; place-items: center; min-width: 40px; height: 32px; padding: 0 8px; box-sizing: border-box; border-radius: 10px;
+  background: #fff; color: var(--hk-mavi-kenar); font-family: var(--qt-f-baslik, inherit); font-size: 18px; font-weight: 900;
+}
+.dsc-konsol--rakip .dsc-konsol-adet { color: var(--qt-mod-duello, #c93030); }
+/* son 2 sn: sınırlı nabız (sonsuz değil) */
+.hk-mesaj.dsc-konsol--son { animation-iteration-count: 4; }
+.dsc-halka--son { animation-iteration-count: 4; }
+@media (max-height: 700px) {
+  .hk-mac--secim .dsc-kart { padding-block: 4px; row-gap: 3px; }
+  .hk-mac--secim .dsc-kart-ikon { width: 32px !important; height: 32px !important; }
+  .hk-mac--secim .dsc-kart-ad { font-size: 14px; }
+  .hk-mac--secim .dsc-izgara, .hk-mac--secim .dsc-kok { gap: 4px; }
+}
+@media (max-width: 380px) {
+  .hk-mac--secim .dsc-kart { padding-inline: 6px 7px; column-gap: 6px; }
+  .dsc-kart-yuzdeler .dsc-yuzde { font-size: 11px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .dsc-halka--son, .dsc-konsol--son, .hk-yuva--indi-ben, .hk-yuva--indi-rakip { animation: none !important; }
+  .dsc-kart--damga-an, .dsc-kart--damga-an .dsc-kart-damga { animation: none !important; }
   .dsc-halka-dolu, .dsc-guc i, .dsc-kart { transition: none; }
   .dsc-basla-panel { animation-name: dsc-basla-sol; }
   @keyframes dsc-basla-sol { 0% { opacity: 0; } 12%, 82% { opacity: 1; } 100% { opacity: 0; } }

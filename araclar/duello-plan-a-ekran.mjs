@@ -29,9 +29,10 @@ const SORU = { soru: "Türkiye'nin başkenti neresidir?", secenekler: ["İstanbu
 const AYAR = { duello_secim_modu: true, duello_hakimiyet_esik: 7, duello_max_tur: 20, duello_secim_sn: 5, duello_puan_modu: "yeni",
   duello_puan_hedef: 12, duello_puan_kategori_yolu: 4, duello_puan_max_tur: 20, duello_ban_acik: false };
 
-// Açılış: seçim fazı, 4 seçim yapılmış (rakip 2 · ben 2), sıra bende.
+const SIRASI = (ben) => Array.from({ length: 10 }, (_, i) => (Math.floor((i + 1) / 2) % 2 === 0 ? RAKIP : ben));
+// Açılış: seçim fazı, 5 seçim yapılmış (rakip 3 · ben 2), sıra bende.
 function yeniDurum(ben) {
-  const ilk = [["spor", RAKIP], ["bilim", ben], ["edebiyat", ben], ["sanat", RAKIP]];
+  const ilk = [["spor", RAKIP], ["bilim", ben], ["edebiyat", ben], ["sanat", RAKIP], ["sinema", RAKIP]];   // yılan: R B B R R → sıra 5 bende (×2)
   const sahiplik = Object.fromEntries(ilk);
   const secimler = ilk.map(([k, u], i) => ({ k, u, oto: false, sira: i + 1 }));
   return { ben, sahiplik, secimler, faz: "secim", saldiran: ben, tur: 3, kategori: null, puan: { [ben]: 3, [RAKIP]: 2 },
@@ -48,7 +49,8 @@ function durum(st) {
     puan: st.puan[id], dogru: 0, profil: { oranlar: Object.fromEntries(K.map((k, j) => [k, j === 2 && i ? null : 30 + ((j * (i ? 23 : 17)) % 55)])) }, unvan: null });
   return {
     surum: 2, id: ID, durum: st.durum, dereceli: true, tur: st.tur, max_tur: 20, saldiri_sirasi: 0, uzatma: false,
-    faz: st.faz, faz_bitis: bitis, sunucu_zamani: new Date(simdi).toISOString(), ben: st.ben, saldiran: st.saldiran, savunan: sav,
+    faz: st.faz, faz_bitis: bitis, sunucu_zamani: new Date(simdi).toISOString(), ben: st.ben,
+    saldiran: st.faz === "secim" ? SIRASI(st.ben)[st.secimler.length] : st.saldiran, savunan: sav,
     hakimiyet: { acik: true, esik: 7, kilit_tur: 2, sahiplik: st.sahiplik, kilitler: st.kilitler, yuvalar: { [st.ben]: say(st.ben), [RAKIP]: say(RAKIP) },
       rol_joker: st.faz === "cevap" ? (st.saldiran === st.ben ? "baskin" : "kalkan") : null, rol_joker_hak: 1, avantaj_esik: 10 },
     puan: { acik: true, hedef: 12, kategori_yolu: 4, puanlar: st.puan, alinan: { [st.ben]: alinan(st.ben), [RAKIP]: alinan(RAKIP) },
@@ -68,7 +70,7 @@ function durum(st) {
     ban: { acik: false, sure: 7, kategori: null, onceki: null, uygun: null },
     secim: st.faz === "secim"
       ? { acik: true, sira: st.secimler.length, toplam: 10, ilk_secen: RAKIP, sure: 5, secimler: st.secimler, kalan: K.filter((k) => !st.sahiplik[k]),
-          sirasi: Array.from({ length: 10 }, (_, i) => (Math.floor((i + 1) / 2) % 2 === 0 ? RAKIP : st.ben)) }
+          sirasi: SIRASI(st.ben) }
       : { acik: true, sira: 10, toplam: 10, ilk_secen: RAKIP, sure: 5, sirasi: [], secimler: st.secimler, kalan: null },
   };
 }
@@ -183,19 +185,29 @@ for (const { dil, boy, azalt } of KOSULAR) {
     await s.waitForTimeout(1000);
     let o = await olc("01-draft-sira-bende");
     ortak("01-draft", o);
-    plan("draft: yüzdeler kartın üzerinde (her alınmamış kartta iki yüzde)", await s.locator(".dsc-kart:not(.dsc-kart--alindi) .dsc-yuzde").count() === 12);
+    plan("draft: yüzdeler kartın üzerinde, etiketli (Sen %X · Rakip %Y)", await s.locator(".dsc-kart:not(.dsc-kart--alindi) .dsc-yuzde").count() === 10
+      && (TR ? /Sen %\d+/ : /You \d+%/).test(await s.locator(".dsc-kart:not(.dsc-kart--alindi)").first().innerText()));
+    plan("draft: konsol sıra bende ×2", /×2/.test(await s.locator(".dsc-konsol").innerText()) && await s.locator(".dsc-konsol--ben").count() === 1);
     await kaydet("01-draft-sira-bende");
-    // draft — rakip seçiyor (rakip 1 seçim yaptı)
-    st.secimler.push({ k: "cografya", u: st.ben, oto: false, sira: 5 }); st.sahiplik.cografya = st.ben;
+    // draft — ben 2 seçim yaptım → rakip seçiyor (×2)
+    st.secimler.push({ k: "cografya", u: st.ben, oto: false, sira: 6 }); st.sahiplik.cografya = st.ben;
     st.yeniAn = Date.now(); await yenile(1400);
-    st.secimler.push({ k: "teknoloji", u: RAKIP, oto: false, sira: 6 }); st.sahiplik.teknoloji = RAKIP; st.yeniAn = Date.now();
+    st.secimler.push({ k: "genel_kultur", u: st.ben, oto: false, sira: 7 }); st.sahiplik.genel_kultur = st.ben;
+    st.yeniAn = Date.now(); await yenile(1400);
+    o = await olc("03-draft-rakip");
+    ortak("03-draft-rakip", o);
+    plan("draft: konsol rakip seçiyor (kırmızı)", await s.locator(".dsc-konsol--rakip").count() === 1);
+    await kaydet("03-draft-rakip");
+    const dOnce = await s.evaluate(() => ({ t: window.__titresim.length, ses: window.__ses }));
+    st.secimler.push({ k: "teknoloji", u: RAKIP, oto: false, sira: 8 }); st.sahiplik.teknoloji = RAKIP; st.yeniAn = Date.now();
     await s.evaluate(() => document.dispatchEvent(new Event("visibilitychange")));
     await s.waitForTimeout(250);
     await kaydet("02-draft-ucus");
     await s.waitForTimeout(1200);
-    o = await olc("03-draft-rakip");
-    ortak("03-draft-rakip", o);
-    await kaydet("03-draft-rakip");
+    await yenile(600); await yenile(600);
+    plan("draft: rakip seçimi damgası tek sefer (yeniden okumada yok)", await s.locator(".dsc-kart--damga-an").count() === 0);
+    const dSonra = await s.evaluate(() => ({ t: window.__titresim.length, ses: window.__ses }));
+    plan("draft: seçim sesi yeniden okumada tekrar çalmaz", dSonra.ses - dOnce.ses <= 2, JSON.stringify([dOnce, dSonra]));
 
     // seçim bitti → kategori fazı (saldıran ben)
     st.sahiplik = {}; for (const k of K) st.sahiplik[k] = BEN_K.includes(k) ? st.ben : RAKIP;

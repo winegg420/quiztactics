@@ -50,4 +50,11 @@ export default {
   // Sunucu hataları (duello_kategori_sec, seçim fazı)
   "Şu an seçim sırası sende değil": "It's not your pick right now",
   "Bu kategori zaten alındı": "That category is already taken",
+  // Draft revizesi (7 Eki 2026): yılan sırası blokları
+  "{n} seçim yap": "Make {n} picks",
+  "1 seçim yap": "Make 1 pick",
+  "rakip ×{n}": "opponent ×{n}",
+  "sonra sen ×{n}": "then you ×{n}",
+  "sonra rakip ×{n}": "then opponent ×{n}",
+  "son seçim": "last pick",
 };

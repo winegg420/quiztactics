@@ -123,8 +123,19 @@ export function SecimKonsol({ d, sm, benSirada, sn, c, children }) {
 
   const rakam = Math.max(0, Math.ceil(Number(sn) || 0));
   const son = benSirada && rakam > 0 && rakam <= 2;
-  const sayim = c("Sen {a}/{n} · Rakip {b}/{n}", { a: sm.benSay, b: sm.rakipSay, n: sm.kisiBasi });
-  const sonrakiBen = sm.sirasi[sm.sira + 1] === d.ben;
+  // Draft revizesi (7 Eki 2026): yılan sırası blok blok okunur — bu sırada kaç seçim, sonra kim kaç seçim.
+  // ("Sen 3/5 · Rakip 3/5" sayımı yuva tahtasında zaten yazılı; burada tekrar edilmez.)
+  const bloklar = [];
+  for (let i = sm.sira; i < sm.sirasi.length; i++) {
+    const benMi = sm.sirasi[i] === d.ben;
+    if (bloklar.length && bloklar[bloklar.length - 1].ben === benMi) bloklar[bloklar.length - 1].n++;
+    else bloklar.push({ ben: benMi, n: 1 });
+  }
+  const bu = bloklar[0]?.n ?? 1;
+  const sonraki = bloklar[1] ?? null;
+  const sonraMetni = sonraki
+    ? (sonraki.ben ? c("sonra sen ×{n}", { n: sonraki.n }) : c("sonra rakip ×{n}", { n: sonraki.n }))
+    : c("son seçim");
   return (
     <div className={sinif("hk-mesaj dsc-konsol", benSirada ? "dsc-konsol--ben" : "dsc-konsol--rakip", son && "dsc-konsol--son",
                           oto && "dsc-konsol--oto")}>
@@ -140,15 +151,16 @@ export function SecimKonsol({ d, sm, benSirada, sn, c, children }) {
         ) : benSirada ? (
           <>
             <b>{c("SENİN SIRAN")}</b>
-            <span>{sonrakiBen ? `${sayim} · ${c("sonra yine sen")}` : sayim}</span>
+            <span>{`${bu > 1 ? c("{n} seçim yap", { n: bu }) : c("1 seçim yap")} · ${sonraMetni}`}</span>
           </>
         ) : (
           <>
             <b>{c("RAKİP SEÇİYOR…")}</b>
-            <span>{sonrakiBen ? `${sayim} · ${c("sonra sen")}` : sayim}</span>
+            <span>{`${c("rakip ×{n}", { n: bu })} · ${sonraMetni}`}</span>
           </>
         )}
       </div>
+      {!oto && <span className="dsc-konsol-adet" aria-hidden="true">×{bu}</span>}
       {children}
     </div>
   );
@@ -196,6 +208,12 @@ export function SecimKartlar({ d, hk, sm, ben, rakip, benSirada, basilan, calisa
       const yuva = sahne.querySelector(`.hk-yuva[data-kategori="${s.k}"]`);
       const kartIkon = kok.querySelector(`.dsc-kart[data-kategori="${s.k}"] .dsc-kart-ikon`);
       const in_ = () => {
+        // Draft revizesi: kart yerinde kısa "damga" vuruşu — yalnız bu seçim olayında, tek sefer (yeniden okumada yok)
+        const kart = kok.querySelector(`.dsc-kart[data-kategori="${s.k}"]`);
+        if (kart && !azalt) {
+          kart.classList.add("dsc-kart--damga-an");
+          setTimeout(() => kart.classList.remove("dsc-kart--damga-an"), 700);
+        }
         if (yuva) {
           yuva.classList.remove("hk-yuva--gelecek");
           yuva.classList.add(benim ? "hk-yuva--indi-ben" : "hk-yuva--indi-rakip");
@@ -269,11 +287,16 @@ export function SecimKartlar({ d, hk, sm, ben, rakip, benSirada, basilan, calisa
                 <span className={`dsc-kart-damga dsc-kart-damga--${kimin}`}>{kimin === "ben" ? c("Aldın") : c("Rakip aldı")}</span>
               ) : (
                 // Güçlü taraf (fark ≥ avantaj eşiği) yüzdesi dolu rozet: kime güçlü olduğu bir bakışta okunur.
+                // Draft revizesi: yüzdeler etiketli ("Sen %X" · "Rakip %Y") kartın ÜZERİNDE, altında ortada buluşan güç çubukları.
                 <span className="dsc-kart-guc" aria-hidden="true">
-                  <b className={sinif("dsc-yuzde dsc-yuzde--ben", bo === null && "dsc-yuzde--yeni", ok === "yukari" && "dsc-yuzde--guclu")}>{yuzde(bo)}</b>
-                  <GucCubugu deger={bo} taraf="ben" />
-                  <GucCubugu deger={ro} taraf="rakip" />
-                  <b className={sinif("dsc-yuzde dsc-yuzde--rakip", ro === null && "dsc-yuzde--yeni", ok === "asagi" && "dsc-yuzde--guclu")}>{yuzde(ro)}</b>
+                  <span className="dsc-kart-yuzdeler">
+                    <b className={sinif("dsc-yuzde dsc-yuzde--ben", bo === null && "dsc-yuzde--yeni", ok === "yukari" && "dsc-yuzde--guclu")}>{c("Sen {n}", { n: yuzde(bo) })}</b>
+                    <b className={sinif("dsc-yuzde dsc-yuzde--rakip", ro === null && "dsc-yuzde--yeni", ok === "asagi" && "dsc-yuzde--guclu")}>{c("Rakip {n}", { n: yuzde(ro) })}</b>
+                  </span>
+                  <span className="dsc-kart-cubuklar">
+                    <GucCubugu deger={bo} taraf="ben" />
+                    <GucCubugu deger={ro} taraf="rakip" />
+                  </span>
                 </span>
               )}
             </button>
