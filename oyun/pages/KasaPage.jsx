@@ -22,7 +22,7 @@ import DereceliAnahtari from "../components/DereceliAnahtari.jsx";
 import AramaSahnesi, { ARAMA_GECIS_MS } from "../components/AramaSahnesi.jsx";
 import { GeriSayim } from "../components/MacHazirlik.jsx";
 import BulunamadiPage from "./BulunamadiPage.jsx";
-import { KasaKadran, KasaSkor, KasaUst, KasaKarar, KasaSonucBandi, KasaAcKilit, kasaKararMetni, carpanYazisi } from "../components/KasaParcalari.jsx";
+import { KasaKadran, KasaSkor, KasaUst, KasaKarar, KasaSonucBandi, KasaAcKilit, kasaKararMetni, kasaSonucArtisi, carpanYazisi } from "../components/KasaParcalari.jsx";
 import JokerCubugu from "../components/JokerCubugu.jsx";
 import CerceveliAvatar from "../components/CerceveliAvatar.jsx";
 import KategoriIkon from "../components/KategoriIkon.jsx";
@@ -804,12 +804,13 @@ function KasaMac({ id }) {
           setCifteAn(an);
           jokerZaman(() => setCifteAn((x) => (x === an ? null : x)), CIFTE_MS);
         }
-        if (!s.altin && Number(s.artis) > 0) {
+        const gercekArtis = kasaSonucArtisi(s);
+        if (!s.altin && gercekArtis > 0) {
           // +2 / +6: bant → mini kasa altın uçuşu; sahip değiştiyse anahtar uçar.
           const buyuk = Number(s.artis) >= Number(d.ikisi_artis ?? 6);
           const sahipDegisti = Boolean(s.sahip_sonra) && s.sahip_sonra !== s.sahip_once;
           const kim = (u) => (!u ? null : u === d.ben ? "ben" : "rakip");
-          anBaslat({ tip: "sonuc", kasaOnce: Number(s.kasa_once ?? 0), artis: Number(s.artis), buyuk,
+          anBaslat({ tip: "sonuc", kasaOnce: Number(s.kasa_once ?? 0), artis: gercekArtis, buyuk,
                      sahipOnce: s.sahip_once ?? null, sahipDegisti, anahtarDen: kim(s.sahip_once), anahtarA: kim(s.sahip_sonra) }, [
             [950, { varis: true }, () => { sesCoin(); titret(buyuk ? [12, 40, 18] : 10); }],
             ...(buyuk ? [[1180, null, sesXpDolma]] : []),
@@ -1190,7 +1191,7 @@ function KasaMac({ id }) {
           )
           : <KasaAcKilit d={d} c={c} />}
         {sonucMu && <Konfeti aktif={Boolean(d.sonuc?.ben_dogru)} adet={d.sonuc?.rakip_dogru ? 12 : 18} />}
-        {sonucMu && cifteAn && <KasaCifteBandi key={cifteAn} artis={Number(d.sonuc?.artis ?? d.ikisi_artis ?? 6)} c={c} />}
+        {sonucMu && cifteAn && <KasaCifteBandi key={cifteAn} artis={kasaSonucArtisi(d.sonuc, d.ikisi_artis ?? 6)} c={c} />}
         {anAc && <KasaAcAni key={anAc.id} deger={anAc.deger} benim={anAc.benim} seviye={anAc.seviye} olcek={anAc.olcek} c={c} />}
         {/* 990: rakibin kararı — kapalı kart → AÇTI / DEVAM ETTİ (dokunarak geçilir) */}
         {rakipKarar && d.faz === "cevap" && (

@@ -10219,3 +10219,11 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 - Soru kartına yerelleştirilmiş kategori adı ve mevcut kategori ikonu eklendi. Normal soruda yalnız kategori, Altın Soru'da kategori ile “Altın Soru” satırı birlikte görünür.
 - Sahte maç verisiyle 360×844 ve 390×844'te TR/EN; Bilim, Tarih, Spor ve Müzik kategorileri ölçüldü: yatay/dikey taşma yok, şıklar 60 px yüksekliğinde ve kategori etiketi kesilmedi. Konsol uyarı/hatası görülmedi.
 - Ortak hareket azaltma kuralı kategori geçişini kapatıyor; normal harekette yalnız `background-color` geçişi var, döngülü animasyon eklenmedi.
+
+## 2026-10-07 — Ortak Hazine artış sayacı tutarlılığı
+**Araç:** Codex
+**Neden:** Kasa tavana yaklaşınca sunucu nominal `artis` değerini (+6/+2) döndürürken gerçek artış tavan nedeniyle daha küçük olabiliyordu.
+
+- Normal turda `ÇİFTE! +6` ve tek bilen `+2`, üstteki yeni hazine toplamıyla tutarlıydı; büyük sayı artışı, üst sayaç toplamı gösteriyor.
+- Sahte veride tavan kırpması doğrulandı: 28→30 ÇİFTE sonucunda bant +2 iken animasyon +6; 29→30 tek bilen sonucunda bant +1 iken animasyon +2 gösteriyordu.
+- Sonuç bandının zaten kullandığı `kasa_sonra − kasa_once` hesabı ortak yardımcıya alındı ve ÇİFTE bandı ile mini kasa artış animasyonunda da kullanıldı. Diğer Hazine sonuç ekranlarında farklı bir artış hesabı kalmadı.

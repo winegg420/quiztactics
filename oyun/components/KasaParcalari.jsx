@@ -25,6 +25,14 @@ export function kasaSahibi(d) {
   return d.sahip === d.ben ? "ben" : "rakip";
 }
 
+/** Tavan nominal artışı kırptığında ekranda gerçekten kasaya eklenen değeri kullan. */
+export function kasaSonucArtisi(sonuc, varsayilan = 0) {
+  if (!sonuc) return Number(varsayilan) || 0;
+  return sonuc.tavan_kirpti
+    ? Math.max(0, Number(sonuc.kasa_sonra) - Number(sonuc.kasa_once))
+    : Number(sonuc.artis ?? varsayilan) || 0;
+}
+
 /**
  * Kasa: altın/pirinç kasa görseli (KasaEfekt › KasaKasasi) + değer plakası + sahip etiketi. Doluluk arttıkça büyür.
  * kucuk: soru/sonuç fazında üst şeritte mini kasa (değer hep görünür).
@@ -268,7 +276,7 @@ export function kasaSonucMetni(d, c) {
     return { ton: "notr", baslik: c("Kimse tek başına bilemedi"), alt: c("Yeni Altın Soru geliyor") };
   }
   // 955: tavana kırpıldıysa gerçek artış (kasa_sonra − kasa_once) yazılır; tavandaysa "Kasa dolu"
-  const artis = s.tavan_kirpti ? Math.max(0, Number(s.kasa_sonra) - Number(s.kasa_once)) : s.artis;
+  const artis = kasaSonucArtisi(s);
   const alt = s.tavan_kirpti ? c("Hazine dolu: {k}", { k: s.kasa_sonra }) : c("Hazine {k}", { k: s.kasa_sonra });
   const altArti = s.tavan_kirpti ? alt : c("+{n} · Hazine {k}", { n: artis, k: s.kasa_sonra });
   if (ben && rakip) return { ton: "altin", baslik: c("İkiniz de bildiniz +{n}", { n: artis }), alt };
