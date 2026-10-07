@@ -7,7 +7,7 @@ import { useAuth } from "../../src/context/AuthContext.jsx";
 import RankBadge from "../components/RankBadge.jsx";
 import SayanSayi from "../components/SayanSayi.jsx";
 import KonumSecici from "../components/KonumSecici.jsx";
-import { haftaBitisi, sureMetni } from "../lib/konum.js";
+import { haftaBitisi, sureMetni, sureKisa } from "../lib/konum.js";
 import Bayrak from "../components/Bayrak.jsx";
 import OyuncuKarti from "../components/OyuncuKarti.jsx";
 import { useArkadaslik } from "../lib/arkadaslik.js";
@@ -414,16 +414,19 @@ export default function LeaderboardPage() {
         <section className={`lg-pankart lg-pankart-${ligKod}${siraliOge(0).className ? " " + siraliOge(0).className : ""}`} style={siraliOge(0).style} aria-labelledby="lg-pankart-baslik">
           <div className="lg-pankart-ust">
             {/* 25 Eyl: lig arması = yeni lig amblemi (Fasetli Yıldız), vitrin boyu, üst ligler ışıldar */}
+            {/* 7 Eki: arma = ligin kendi madalyonu (açık zemin + ligin rengi halka + sol üstten ışık), amblem ortada */}
             <span className="lg-arma lg-arma--amblem" aria-hidden="true">
-              <LigAmblemi lig={grupBilgi.lig} boyut={52} hareketli />
+              <i className="lg-arma-isik" />
+              <LigAmblemi lig={grupBilgi.lig} boyut={56} hareketli />
             </span>
             <div className="lg-pankart-metin">
               <h1 id="lg-pankart-baslik" className="qt-baslik-2">
                 {tt("{lig} Ligi", { lig: LIG_ADLARI[grupBilgi.lig] ?? grupBilgi.lig })}
               </h1>
-              <p className="lg-sure">
-                <QtIkon ad="saat" boyut={20} />
-                <span>{tt("Hafta bitimine {sure}", { sure: sureMetni(kalanSezon) })}</span>
+              {/* 7 Eki: geri sayım TEK SATIR kısa hap ("5g 3sa"); tam metin erişilebilir etikette */}
+              <p className="lg-sure" aria-label={tt("Hafta bitimine {sure}", { sure: sureMetni(kalanSezon) })}>
+                <QtIkon ad="saat" boyut={16} />
+                <span aria-hidden="true">{sureKisa(kalanSezon)}</span>
               </p>
             </div>
             <QtIkonDugme ikon="bilgi" tur="saydam" className="lg-kural-dugme" etiket={tt("Lig kuralları")} onClick={() => setKuralAcik(true)} />
@@ -461,10 +464,12 @@ export default function LeaderboardPage() {
                 const elmas = ay(`elmas_lig_${n}`);
                 if (coin === null && elmas === null) return null;
                 return (
-                  <li key={n} className="qt-oyk-cip">
-                    <b>{n}.</b>
-                    {coin !== null && <><CoinIkon boyut={16} /><span>{coin}</span></>}
-                    {elmas !== null && <><ElmasIkon boyut={16} /><span>{elmas}</span></>}
+                  <li key={n} className={`lg-odul lg-odul-${n}`} aria-label={tt("{n}. sıra ödülü", { n })}>
+                    <b className="lg-odul-madalya qt-sayi" aria-hidden="true">{n}</b>
+                    <span className="lg-odul-degerler">
+                      {coin !== null && <span className="lg-odul-deger"><CoinIkon boyut={15} /><span className="qt-sayi">{coin}</span></span>}
+                      {elmas !== null && <span className="lg-odul-deger"><ElmasIkon boyut={15} /><span className="qt-sayi">{elmas}</span></span>}
+                    </span>
                   </li>
                 );
               })}

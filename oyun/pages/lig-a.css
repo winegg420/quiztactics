@@ -24,25 +24,44 @@
 .lg-baslik { --oyk-serit: var(--qt-lig-altin); }
 
 /* ---------- Lig pankartı ---------- */
+/* 7 Eki 2026 — profil lig sahnesiyle AYNI dil (oyuncu-vitrin-karti.css › .qt-ok--lig-sahnesi): ligin AÇIK zemini +
+   HAREKETSİZ iki tonlu ışın deseni (merkez armanın arkası = sol üstten ışık) + ligin sahne çerçevesi; alt yarıda zemin
+   rengine yumuşak geçiş (çubuk ve ödüller sakin zeminde okunur). Yazılar --qt-lig-yazi (#1d2152): beş ligin zemini ve
+   ışın tonunda ≥ 7:1. Animasyon yok → hareketi azaltta değişen bir şey yok. */
 .lg-pankart {
   --_lig: var(--qt-lig-bronz);
   --_lig-dudak: var(--qt-lig-bronz-dudak);
+  --_sahne: var(--qt-lig-bronz-sahne);
+  --_isik: var(--qt-lig-bronz-sahne-isik);
+  --_cerceve: var(--qt-lig-bronz-sahne-cerceve);
+  --_isin-x: 52px;
+  --_isin-y: 50px;
+  position: relative;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
   gap: var(--qt-b-3);
   padding: var(--qt-b-4);
   border-radius: var(--qt-r-xl);
-  /* Lig bayrağı: lig renginde dolu zemin + 3 px kontur + kabartma. Yazılar --qt-lig-yazi (#1d2152): beş lig zemininde ≥ 4,5:1. */
-  border: 3px solid var(--oyk-kontur, var(--qt-metin));
-  background: var(--_lig);
-  background: linear-gradient(180deg, color-mix(in srgb, var(--_lig) 82%, #fff), var(--_lig) 70%);
+  border: 3px solid var(--_cerceve);
+  background: var(--_sahne);
+  background:
+    linear-gradient(180deg, transparent 0 34%, color-mix(in srgb, var(--_sahne) 78%, transparent) 62%, var(--_sahne) 100%),
+    radial-gradient(circle at var(--_isin-x) var(--_isin-y), rgb(255 255 255 / 0.85) 0, rgb(255 255 255 / 0) 120px),
+    repeating-conic-gradient(from 0deg at var(--_isin-x) var(--_isin-y), var(--_sahne) 0deg 12deg, var(--_isik) 12deg 24deg),
+    var(--_sahne);
   color: var(--qt-lig-yazi);
-  box-shadow: 0 var(--qt-dudak) 0 var(--oyk-kontur, var(--qt-metin));
+  /* üst kenarda ince ışık, altta ligin renginde kalın dudak (stil rehberi: 2-3 ton gölge) */
+  box-shadow: inset 0 2px 0 rgb(255 255 255 / 0.7), 0 var(--qt-dudak) 0 color-mix(in srgb, var(--_cerceve) 72%, #0b1220);
 }
-.lg-pankart-gumus { --_lig: var(--qt-lig-gumus); --_lig-dudak: var(--qt-lig-gumus-dudak); }
-.lg-pankart-altin { --_lig: var(--qt-lig-altin); --_lig-dudak: var(--qt-lig-altin-dudak); }
-.lg-pankart-elmas { --_lig: var(--qt-lig-elmas); --_lig-dudak: var(--qt-lig-elmas-dudak); }
-.lg-pankart-efsane { --_lig: var(--qt-lig-efsane); --_lig-dudak: var(--qt-lig-efsane-dudak); }
+.lg-pankart-gumus { --_lig: var(--qt-lig-gumus); --_lig-dudak: var(--qt-lig-gumus-dudak);
+  --_sahne: var(--qt-lig-gumus-sahne); --_isik: var(--qt-lig-gumus-sahne-isik); --_cerceve: var(--qt-lig-gumus-sahne-cerceve); }
+.lg-pankart-altin { --_lig: var(--qt-lig-altin); --_lig-dudak: var(--qt-lig-altin-dudak);
+  --_sahne: var(--qt-lig-altin-sahne); --_isik: var(--qt-lig-altin-sahne-isik); --_cerceve: var(--qt-lig-altin-sahne-cerceve); }
+.lg-pankart-elmas { --_lig: var(--qt-lig-elmas); --_lig-dudak: var(--qt-lig-elmas-dudak);
+  --_sahne: var(--qt-lig-elmas-sahne); --_isik: var(--qt-lig-elmas-sahne-isik); --_cerceve: var(--qt-lig-elmas-sahne-cerceve); }
+.lg-pankart-efsane { --_lig: var(--qt-lig-efsane); --_lig-dudak: var(--qt-lig-efsane-dudak);
+  --_sahne: var(--qt-lig-efsane-sahne); --_isik: var(--qt-lig-efsane-sahne-isik); --_cerceve: var(--qt-lig-efsane-sahne-cerceve); }
 
 .lg-pankart-ust { display: flex; align-items: center; gap: var(--qt-b-3); min-width: 0; }
 .lg-arma {
@@ -58,13 +77,23 @@
 }
 .lg-pankart-metin { min-width: 0; }
 .lg-pankart-metin h1 { margin: 0; overflow-wrap: anywhere; color: inherit; }
+/* 7 Eki: tek satır kısa geri sayım hapı ("5g 3sa") — eskiden "Hafta bitimine 5 gün 3 saat" iki satıra kırılıyordu */
 .lg-sure {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: var(--qt-b-1);
-  margin: var(--qt-b-1) 0 0;
-  font-size: var(--qt-y-s);
-  font-weight: var(--qt-a-kalin);
+  gap: 4px;
+  width: max-content;
+  max-width: 100%;
+  min-height: 26px;
+  margin: 6px 0 0;
+  padding: 0 10px 0 7px;
+  border-radius: var(--qt-r-hap);
+  background: rgb(255 255 255 / 0.82);
+  border: 2px solid var(--_cerceve);
+  font-size: 13px;
+  font-weight: var(--qt-a-siyah);
+  line-height: 1;
+  white-space: nowrap;
   color: var(--qt-lig-yazi);
 }
 .lg-sure .qt-ikon, .lg-sure svg { flex: none; }
@@ -90,9 +119,28 @@
 .lg-ilerleme { display: flex; flex-direction: column; gap: var(--qt-b-1); }
 .lg-ilerleme-not { font-size: var(--qt-y-s); font-weight: var(--qt-a-siyah); color: var(--qt-lig-yazi); }
 /* Ödül şeridi: "1. → coin + elmas" çipleri (sayılar oyun_ayarlari'ndan) */
-.lg-oduller { display: flex; flex-wrap: wrap; gap: var(--qt-b-2); margin: 0; padding: 0; list-style: none; }
-.lg-oduller .qt-oyk-cip { min-height: 28px; }
-.lg-oduller .qt-oyk-cip svg { flex: none; }
+/* 7 Eki: üç madalya karosu TEK satırda — altın / gümüş / bronz madalya diski + coin ve elmas alt alta. Karo zemini
+   madalyanın açık tonu, koyu lacivert kontur + madalyanın koyu tonunda dudak. */
+.lg-oduller { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--qt-b-2); margin: 0; padding: 0; list-style: none; }
+.lg-odul {
+  --_m: var(--qt-madalyon-altin); --_m-acik: var(--qt-madalyon-altin-acik); --_m-koyu: var(--qt-madalyon-altin-koyu);
+  display: flex; align-items: center; gap: 6px; min-width: 0; min-height: 46px; padding: 5px 6px 5px 5px;
+  border-radius: var(--qt-r-m);
+  background: linear-gradient(160deg, #fff 0%, var(--_m-acik) 70%);
+  border: 2px solid var(--qt-lig-yazi);
+  box-shadow: 0 3px 0 var(--_m-koyu);
+}
+.lg-odul-2 { --_m: var(--qt-madalyon-gumus); --_m-acik: var(--qt-madalyon-gumus-acik); --_m-koyu: var(--qt-madalyon-gumus-koyu); }
+.lg-odul-3 { --_m: var(--qt-madalyon-bronz); --_m-acik: var(--qt-madalyon-bronz-acik); --_m-koyu: var(--qt-madalyon-bronz-koyu); }
+.lg-odul-madalya {
+  flex: none; display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--_m-acik) 0 22%, var(--_m) 60%, var(--_m-koyu) 100%);
+  border: 2px solid var(--qt-lig-yazi);
+  color: var(--qt-lig-yazi); font: 900 13px/1 var(--qt-f-baslik);
+}
+.lg-odul-degerler { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.lg-odul-deger { display: inline-flex; align-items: center; gap: 3px; min-width: 0; font-size: 13px; font-weight: var(--qt-a-siyah); line-height: 1.1; white-space: nowrap; color: var(--qt-lig-yazi); }
+.lg-odul-deger svg { flex: none; }
 /* D-211: lig kuralları düğmesi + penceresi */
 .lg-pankart-ust .lg-kural-dugme { margin-left: auto; align-self: flex-start; flex: none; }
 .lg-kurallar { display: flex; flex-direction: column; gap: var(--qt-b-3); margin: 0; padding-left: 1.1em; font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); line-height: 1.45; }
@@ -407,7 +455,19 @@
 /* Durum rozetindeki "ok" ikonu yukarıyı göstersin (ikon seti sağa bakar). */
 .lg-durum .qt-rozet--dogru svg { transform: rotate(-90deg); }
 /* 25 Eyl: armada yeni lig amblemi — lacivert levha, metal yıldız öne çıksın */
-.lg-arma--amblem { background: #1d2152; box-shadow: 0 var(--qt-dudak-s) 0 #0b1220; }
+/* 7 Eki: arma = ligin madalyonu — eski ağır lacivert kutu yerine içte ligin açık sahne tonu → ışın tonu (sol üstten
+   ışık), ligin sahne çerçevesi halka, koyu lacivert kontur + ligin koyu dudağı; amblem (Fasetli Yıldız) ortada büyür. */
+.lg-arma--amblem {
+  position: relative;
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 28%, #fff 0 14%, var(--_sahne) 42%, var(--_isik) 78%, var(--_lig) 100%);
+  border: 3px solid var(--qt-lig-yazi);
+  box-shadow: inset 0 0 0 3px var(--_cerceve), 0 4px 0 color-mix(in srgb, var(--_cerceve) 72%, #0b1220);
+}
+.lg-arma--amblem > :not(.lg-arma-isik) { position: relative; z-index: 1; }
+/* sabit ışık lekesi — sol üst */
+.lg-arma-isik { position: absolute; left: 12px; top: 9px; width: 22px; height: 12px; border-radius: 50%; background: rgb(255 255 255 / 0.7); rotate: -28deg; pointer-events: none; }
 /* 25 Eyl: satırda unvan (Kurdele, küçük) — sığmazsa kısalır; rütbe ve konum yanında küçülmez */
 .lg-detay .qt-unvan { flex: 0 1 auto; min-width: 0; }
 .lg-detay .qt-unvan ~ .lg-konum { display: none; }

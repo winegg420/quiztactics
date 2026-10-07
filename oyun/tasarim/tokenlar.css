@@ -114,6 +114,14 @@
   --qt-lig-elmas-sahne: #dff6fc;    --qt-lig-elmas-sahne-isik: #9fe3f4;
   --qt-lig-efsane-sahne: #f1e6ff;   --qt-lig-efsane-sahne-isik: #d2b1ff;
   --qt-lig-notr-sahne: var(--qt-ikinci-acik);  --qt-lig-notr-sahne-isik: #c7e0fa;
+  /* Sahne çerçevesi (7 Eki 2026): profil sahnesi + Lig pankartı. Dört ligde *-dudak ile aynı; Gümüş'te gri dudak (#8793a8)
+     mavi ışınlarla ton çatıştırıyor ve zeminde 2,65:1 kalıyordu → çelik mavisi #5b7db0 (zemin 3,58:1, sayfa 2,94:1;
+     Altın 2,62 · Bronz 4,39 aralığında). Genel --qt-lig-gumus-dudak (ana sayfa çipi, 2. sıra madalyası) DEĞİŞMEDİ. */
+  --qt-lig-bronz-sahne-cerceve: var(--qt-lig-bronz-dudak);
+  --qt-lig-gumus-sahne-cerceve: #5b7db0;
+  --qt-lig-altin-sahne-cerceve: var(--qt-lig-altin-dudak);
+  --qt-lig-elmas-sahne-cerceve: var(--qt-lig-elmas-dudak);
+  --qt-lig-efsane-sahne-cerceve: var(--qt-lig-efsane-dudak);
 
   /* ---------- 7b. Kozmetik: çerçeve nadirliği + rozet madalyonu malzemesi ----------
      Nadirlik renk kodu her yerde aynı (çerçeve, dükkân etiketi, önizleme):

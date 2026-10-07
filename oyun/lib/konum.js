@@ -119,3 +119,14 @@ export function sureMetni(ms) {
   if (saat > 0) return tt("{0} saat {1} dk", { 0: saat, 1: dk });
   return `${dk} dk`;
 }
+
+/** Kısa geri sayım (tek satır hap): "5g 3sa" · "4sa 12dk" · "9dk". Tam metin erişilebilir etikette sureMetni ile. */
+export function sureKisa(ms) {
+  const sn = Math.max(0, Math.floor(ms / 1000));
+  const gun = Math.floor(sn / 86400);
+  const saat = Math.floor((sn % 86400) / 3600);
+  const dk = Math.floor((sn % 3600) / 60);
+  if (gun > 0) return tt("{0}g {1}sa", { 0: gun, 1: saat });
+  if (saat > 0) return tt("{0}sa {1}dk", { 0: saat, 1: dk });
+  return tt("{0}dk", { 0: dk });
+}
