@@ -241,3 +241,11 @@
 @media (max-width: 379px) {
   .gv-kahraman .gv-kah-resim, .gv-kahraman .gv-kah-resim img { width: 60px; height: 60px; }
 }
+
+/* Hazır görevin nabzı yeşil (AL düğmesiyle aynı renk); kısa ekranda üst kart sıkışır ki satırlar ilk ekranda görünsün */
+.gv-kart--alinabilir.qt-h-nabiz { --nabiz-renk: var(--qt-dogru); }
+@media (max-height: 720px) {
+  .gv-gun-kart .gv-kah-resim, .gv-gun-kart .gv-kah-resim img { width: 56px; height: 56px; }
+  .gv-gun-kart { padding: 8px 10px; }
+  .gv-gun-kart .gv-kah-govde { gap: 4px; }
+}
