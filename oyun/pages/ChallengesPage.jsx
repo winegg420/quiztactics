@@ -3,7 +3,7 @@ import OyuncuAdiDugmesi from "../components/OyuncuAdiDugmesi.jsx";   // Ajan C: 
 import KategoriIkon from "../components/KategoriIkon.jsx";
 import {
   QtKart, QtDugme, QtIkonDugme, QtIkon, QtModKart, QtListe, QtListeSatiri, QtRozet, QtCip, QtIlerleme,
-  QtModal, QtToast, QtToastYuvasi, QtAfis, QtIskelet, sinif, dokunus, siraStili, useSiraliGiris,
+  QtModal, QtToast, QtToastYuvasi, QtAfis, QtIskelet, QtBosDurum, sinif, dokunus, siraStili, useSiraliGiris,
 } from "../tasarim/index.js";
 import { sesKategoriSecildi, sesRakipBulundu } from "../lib/ses.js";
 import "../tasarim/ekranlar/a-meydan.css";
@@ -891,12 +891,15 @@ export default function ChallengesPage() {
   const cevapDugmeleri = (kabul, ret, ilk = false) => (
     <>
       <span className={sinif("a-meydan-davet-kabul", ilk && "qt-h-hop")}>
-        <QtDugme boyut="k" className="qt-oyk-al" onClick={() => { dokunus(); sesRakipBulundu(); kabul(); }}>{tt("Kabul")}</QtDugme>
+        <QtDugme tur="dogru" boyut="k" className="qt-oyk-al" onClick={() => { dokunus(); sesRakipBulundu(); kabul(); }}>{tt("Kabul")}</QtDugme>
       </span>
       <QtIkonDugme ikon="carpi" etiket={tt("Reddet")} onClick={ret} className="a-meydan-ret" />
     </>
   );
   // Gelen davet = alınabilir oyun kartı (turuncu kontur). Bir ekranda en çok 1 nabız: yalnız İLK davet nabız + zıplama alır.
+  // Ekranda hiçbir maç/davet satırı yoksa boş durum çizilir (yalnız sayaçlar; sunucu çağrısı yok).
+  const bosListe = [duelloGelen, kasaGelen, gelen, hizliGelen, grupGelen, aktif, grupAktif, hizliAktif, giden, duelloBeklenen, kasaBeklenen, grupBeklenen, hizliBeklenen]
+    .every((l) => !l || l.length === 0);
   const ilkDavet = duelloGelen[0]?.id ?? kasaGelen[0]?.id ?? gelen[0]?.id ?? hizliGelen[0]?.id ?? grupGelen[0]?.id ?? null;
   const davetKarti = ({ id, serit, ton, bas, baslik, alt, kabul, ret }) => (
     <li key={id} className={sinif("qt-oyk qt-oyk--alinabilir a-meydan-davet", ton && `qt-oyk--ton-${ton}`, id === ilkDavet && "qt-h-nabiz")} style={serit ? { "--oyk-serit": serit } : undefined}>
@@ -985,6 +988,12 @@ export default function ChallengesPage() {
         </section>
       )}
 
+      {/* Boş durum (Aşama 2, 7 Eki 2026): gelen/süren/gönderilen hiçbir şey yokken tek satır — liste bölümleri hiç çizilmiyordu */}
+      {!macHata && bosListe && (
+        <QtBosDurum boyut="k" ikon="duello" ton="vurgu" className="a-meydan-bos"
+                    baslik={tt("Şu an süren maçın ya da davetin yok. Aşağıdan rakibini seç.")} />
+      )}
+
       {/* ---------- Devam eden maçlar (1 Eki 2026: gelen davetlerin hemen altına taşındı) ---------- */}
       <div className="a-meydan-suren">
         {aktif.length > 0 && (
@@ -1006,13 +1015,15 @@ export default function ChallengesPage() {
                     baslik={
                       <span className="a-meydan-bot-ad">
                         <OyuncuAdiDugmesi userId={benP1 ? m.oyuncu2 : m.oyuncu1} profil={rakip(m)}>{oyuncuAdi(rakip(m), benP1 ? m.oyuncu2 : m.oyuncu1)}</OyuncuAdiDugmesi>
-                        {siraSende && <QtRozet ton="vurgu" boyut="k">{tt("Sıra sende")}</QtRozet>}
+                        {siraSende
+                          ? <QtRozet ton="mor" boyut="k" ikon="oyna">{tt("Sıra sende")}</QtRozet>
+                          : <QtRozet ton="notr" boyut="k" ikon="saat">{tt("Rakip oynuyor")}</QtRozet>}
                       </span>
                     }
                     /* Skor DAİMA "senin - rakibin" sırasında. Konumsal yazılırsa
                        (oyuncu1 - oyuncu2) rakip seni davet ettiğinde sen sağa
                        geçiyorsun ve satır tersine okunuyor. */
-                    alt={`${benP1 ? m.oyuncu1_skor : m.oyuncu2_skor} - ${benP1 ? m.oyuncu2_skor : m.oyuncu1_skor} · ${benimSoru}/${toplam} ${tt("soru")}${!siraSende ? tt(" · rakip oynuyor") : ""}`}
+                    alt={`${benP1 ? m.oyuncu1_skor : m.oyuncu2_skor} - ${benP1 ? m.oyuncu2_skor : m.oyuncu1_skor} · ${benimSoru}/${toplam} ${tt("soru")}`}
                     sag={
                       <>
                         <QtDugme boyut="k" tur={siraSende ? "birincil" : "ikincil"} onClick={() => navigate(y(`/mac/${m.id}`))}>
@@ -1425,8 +1436,8 @@ export default function ChallengesPage() {
                 <QtListeSatiri
                   key={d.id}
                   bas={<AvatarCerceve profile={kisi(d.rakip)} boyut={40} />}
-                  baslik={<OyuncuAdiDugmesi userId={d.rakip} profil={kisi(d.rakip)}>{kisi(d.rakip)?.gorunen_ad ?? tt("Rakip")}</OyuncuAdiDugmesi>}
-                  alt={`${tt("Düello · yanıt bekleniyor")} · ${d.dereceli ? tt("Dereceli") : tt("Serbest")}`}
+                  baslik={<span className="a-meydan-bot-ad"><OyuncuAdiDugmesi userId={d.rakip} profil={kisi(d.rakip)}>{kisi(d.rakip)?.gorunen_ad ?? tt("Rakip")}</OyuncuAdiDugmesi><QtRozet ton="uyari" boyut="k" ikon="saat">{tt("Bekliyor|davet")}</QtRozet></span>}
+                  alt={`${tt("Düello")} · ${d.dereceli ? tt("Dereceli") : tt("Serbest")}`}
                   sag={
                     <QtDugme boyut="k" tur="ikincil" yukleniyor={iptalEdilen === d.id} onClick={() => duelloDavetIptal(d.id)}>
                       {iptalEdilen === d.id ? tt("Geri alınıyor…") : tt("Geri al")}
@@ -1439,8 +1450,8 @@ export default function ChallengesPage() {
                 <QtListeSatiri
                   key={d.id}
                   bas={<AvatarCerceve profile={kisi(d.rakip)} boyut={40} />}
-                  baslik={<OyuncuAdiDugmesi userId={d.rakip} profil={kisi(d.rakip)}>{kisi(d.rakip)?.gorunen_ad ?? tt("Rakip")}</OyuncuAdiDugmesi>}
-                  alt={`${tt("Ortak Hazine · yanıt bekleniyor")} · ${d.dereceli ? tt("Dereceli") : tt("Serbest")}`}
+                  baslik={<span className="a-meydan-bot-ad"><OyuncuAdiDugmesi userId={d.rakip} profil={kisi(d.rakip)}>{kisi(d.rakip)?.gorunen_ad ?? tt("Rakip")}</OyuncuAdiDugmesi><QtRozet ton="uyari" boyut="k" ikon="saat">{tt("Bekliyor|davet")}</QtRozet></span>}
+                  alt={`${tt("Ortak Hazine")} · ${d.dereceli ? tt("Dereceli") : tt("Serbest")}`}
                   sag={
                     <QtDugme boyut="k" tur="ikincil" yukleniyor={iptalEdilen === d.id} onClick={() => kasaDavetIptal(d.id)}>
                       {iptalEdilen === d.id ? tt("Geri alınıyor…") : tt("Geri al")}
@@ -1452,8 +1463,8 @@ export default function ChallengesPage() {
                 <QtListeSatiri
                   key={m.id}
                   bas={<AvatarCerceve profile={m.p2} />}
-                  baslik={<OyuncuAdiDugmesi userId={m.p2?.id ?? m.oyuncu2} profil={m.p2}>{m.p2?.gorunen_ad}</OyuncuAdiDugmesi>}
-                  alt={tt("cevap bekleniyor…")}
+                  baslik={<span className="a-meydan-bot-ad"><OyuncuAdiDugmesi userId={m.p2?.id ?? m.oyuncu2} profil={m.p2}>{m.p2?.gorunen_ad}</OyuncuAdiDugmesi><QtRozet ton="uyari" boyut="k" ikon="saat">{tt("Bekliyor|davet")}</QtRozet></span>}
+                  alt={`${m.jokersiz ? tt("Saf Bilgi") : tt("Klasik")} · ${m.dereceli === false ? tt("Serbest") : tt("Dereceli")}`}
                   sag={
                     <QtIkonDugme ikon="carpi" tur="saydam" etiket={tt("Daveti geri al")}
                                  disabled={iptalEdilen === m.id} onClick={() => setIptalSorulan(m)}

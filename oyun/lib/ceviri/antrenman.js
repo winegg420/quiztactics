@@ -14,4 +14,9 @@ export default {
   "Seçimin:": "Your pick:",
   // Arkadaşlar › gelen istek satırı alt metni (1 Eki 2026): 360 px'te 2 satıra sığsın diye kısaltıldı
   "arkadaşlık isteği": "friend request",
+  // Aşama 2 (7 Eki 2026): Meydan Okumalar + Arkadaşlar durum rozetleri ve boş durumlar
+  "Rakip oynuyor": "Opponent playing",
+  "Bekliyor|davet": "Pending",
+  "Şu an süren maçın ya da davetin yok. Aşağıdan rakibini seç.": "No matches or invites right now. Pick an opponent below.",
+  "Davet bağlantını paylaş ya da arkadaşının davet koduyla ekle; sonra birlikte maç yapın.": "Share your invite link or add a friend with their invite code, then play together.",
 };

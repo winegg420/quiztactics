@@ -348,3 +348,24 @@
   .a-meydan-kat, .a-meydan-kisi--ekle, .a-meydan-antrenman-kart, .a-meydan-panel-ok, .a-meydan-katlanir > summary::after { transition: none; }
   .a-meydan-panel-govde { animation: none; }
 }
+
+/* ---------- Aşama 2 (7 Eki 2026): görünüm standardı ---------- */
+/* Dört mod kartı (Ortak Hazine açıkken) telefonda 2 × 2: üç sütunda tek kalan kartın uzun adı ikon diskinin altına
+   taşıyordu ("Ortak Hazine" iki satır + alt yazı iki satır). İkon diskinin yeri her kartta ayrılır. */
+.a-meydan-modlar:has(> :nth-child(4)) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.a-meydan-modlar .qt-mod:not(.qt-mod--genis) { padding-top: calc(var(--qt-b-2) + 46px); }
+@media (min-width: 560px) {
+  .a-meydan-modlar:has(> :nth-child(4)) { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .a-meydan-modlar .qt-mod:not(.qt-mod--genis) { padding-top: calc(var(--qt-b-3) + 58px); }
+}
+/* Uzun oyuncu adı tek satırda üç noktayla kırpılır (davet kartı, devam eden, gönderdiğin). Rozet adın yanında/altında kalır. */
+.a-meydan :is(.qt-satir-baslik, .qt-oyk-ad) .ls-ad-dugme { min-width: 0; max-width: 100%; }
+.a-meydan :is(.qt-satir-baslik, .qt-oyk-ad) .ls-ad-dugme > * { display: block; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.a-meydan :is(.qt-satir-baslik, .qt-oyk-ad) { min-width: 0; overflow-wrap: normal; }
+.a-meydan-bot-ad { max-width: 100%; min-width: 0; }
+.a-meydan-bot-ad .qt-rozet { flex: none; }
+/* Boş durum: sayfanın üstünde tek satır, kesik çizgili kutu yerine hafif kart */
+.a-meydan .a-meydan-bos { border: 2px solid var(--qt-cizgi-guclu); background: var(--qt-yuzey); box-shadow: 0 3px 0 var(--qt-cizgi-guclu); }
+/* "Kime?" kartı: arkadaş adı tek satır + üç nokta (uzun ad kartı üç satıra uzatıyordu) */
+.a-meydan-kisi-ad .ls-ad-dugme { max-width: 100%; min-width: 0; }
+.a-meydan-kisi-ad .ls-ad-dugme > * { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
