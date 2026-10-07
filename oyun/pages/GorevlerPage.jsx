@@ -203,6 +203,7 @@ function SandikKahraman({ s, sezonAcik, islemde, mesgul, onAc, ucan, sira, siral
         </span>
         {(spVar || jokerAdet > 0) && (
           <span className="gv-kah-oduller">
+            <span className="gv-kah-etiket">{tt("Sandık ödülü")}</span>
             {spVar && <b className="gv-kah-cip">{sayiMetni(sp)} SP</b>}
             {jokerAdet > 0 && <b className="gv-kah-cip">{jokerAd} ×{jokerAdet}</b>}
           </span>
@@ -429,11 +430,6 @@ export default function GorevlerPage() {
           <>
             {gunAdet > 0 && <GunlukKart ozet={ozet} gorevler={gun.gorevler} gunBitti={gunBitti} sira={0} sirali={sirali} />}
 
-            {hft.sandik && (
-              <SandikKahraman s={hft.sandik} sezonAcik={sezonAcik} sira={1} sirali={sirali} islemde={islem === "sandik"} mesgul={Boolean(islem)}
-                              onAc={() => { dokunus(); sandikAc(); }} ucan={ucan("sandik")} nabiz={ilkAlinabilir === "sandik"} />
-            )}
-
             <Bolum id="gv-gunluk" etiket={tt("Günlük|bölüm")}
                    baslik={<GunBaslik id="gv-gunluk" etiket={tt("Günlük|bölüm")} ozet={ozet} gun={gun} okunma={okunma} bitti={yukle} gunBitti={gunBitti} tamamAni={tamamAni} />}>
               {gun.gorevler.map((g, i) => (
@@ -450,6 +446,11 @@ export default function GorevlerPage() {
                              onAl={() => { dokunus(); gorevAlIslem("haftalik", g); }} ucan={ucan(`haftalik:${g.quest_id}`)} nabiz={ilkAlinabilir === `haftalik:${g.quest_id}`} />
               ))}
             </HaftalikBolum>
+
+            {hft.sandik && (
+              <SandikKahraman s={hft.sandik} sezonAcik={sezonAcik} sira={gunAdet + hft.gorevler.length + 1} sirali={sirali} islemde={islem === "sandik"} mesgul={Boolean(islem)}
+                              onAc={() => { dokunus(); sandikAc(); }} ucan={ucan("sandik")} nabiz={ilkAlinabilir === "sandik"} />
+            )}
           </>
         )}
       </div>

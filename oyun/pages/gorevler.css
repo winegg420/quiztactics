@@ -230,3 +230,14 @@
 .gv-alt-satir .gv-tik { border-color: var(--qt-dogru-dudak); background: var(--qt-dogru); color: var(--qt-dogru-yazi); }
 .gv-kart--alindi[class*="gv-tur--"] { opacity: 0.8; }
 .gv-kart--alindi[class*="gv-tur--"] .gv-ik { opacity: 0.6; }
+
+/* Haftalık sandık ödül kartı (7 Eki 2026): büyük sandık, "Sandık ödülü" etiketi + parlak ödül çipleri; hazırken altın ışık */
+.gv-kahraman { box-shadow: 0 4px 0 var(--qt-coin-dudak); }
+.gv-kahraman .gv-kah-resim, .gv-kahraman .gv-kah-resim img { width: 80px; height: 80px; }
+.gv-kah-etiket { align-self: center; font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); color: var(--qt-coin-yazi); }
+.gv-kahraman .gv-kah-cip { background: var(--qt-coin); border-color: var(--qt-coin-dudak); font-size: var(--qt-y-s); }
+.gv-kahraman--alinabilir { box-shadow: 0 0 0 2px var(--qt-coin), 0 4px 0 var(--qt-coin-dudak); }
+.gv-kahraman .gv-kah-parca--dolu { background: var(--qt-dogru); border-color: var(--qt-dogru-dudak); }
+@media (max-width: 379px) {
+  .gv-kahraman .gv-kah-resim, .gv-kahraman .gv-kah-resim img { width: 60px; height: 60px; }
+}

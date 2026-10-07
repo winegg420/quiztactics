@@ -43,6 +43,7 @@ export default {
   "{n} görev daha, sandık açılır": "{n} more quests to open the chest",
   "{n} görev daha, bugünlük tamam": "{n} more quests to finish today",
   "Ödüllerin hazır!": "Your rewards are ready!",
+  "Sandık ödülü": "Chest reward",
   "Sandık alındı": "Chest claimed",
   "Sandık hazır!": "Chest ready!",
 
