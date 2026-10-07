@@ -10559,3 +10559,11 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 - **Araç:** `araclar/yenileme-olcum.mjs` — oturum açıkken sayfayı N kez yeniler (`--eski`, `--ag=yavas`, `--takil=auth`, `--oturum=`), içerik süresi + başarısız/askıda istekler; yenilenen belirteci oturum dosyasına geri yazar.
 - **Ida'ya (yalnız o yapabilir):** Supabase panelinde Reports › Database: CPU/RAM/Disk IO (burst budget) grafikleri 7 Eki 18:00 sonrası. Doluysa compute yükseltmesi en hızlı çare. Kod tarafında yükü azaltma (ayrı iş, karar gerektirir): `bildim-bot-oyna` 2 sn → 5 sn, canlı DB'ye karşı ağır SQL testlerini (DO blokları) azaltmak.
 - **Yan etki:** test sırasında 5173 portundaki bir geliştirme sunucusu (başka sekmenin olabilir) kapatıldı; gerekirse `npm run dev` yeniden başlatılmalı. Ana klasördeki `.arayuz-denetim-oturum.json` yenileme belirteci bu oturumdaki testlerde tüketildi; araçlar oturum düşmüşse misafir hesabı yeniden açar.
+
+## 2026-10-08 — bildim-bot-oyna iş varken 2 sn → 5 sn (migration 992)
+**Araç:** Claude Code (Opus 5.5)
+**Neden:** Ida kararı — Supabase kesintili donmalarında en sık çalışan iş (iş varken saatte 1800 koşu) yükü azaltılsın.
+
+- `20260612000992_bot_oyna_5sn.sql`: `cron_bot_oyna` iş varken '5 seconds' ister; `cron_aralik_ayarla` izin listesine '5 seconds' eklendi (imza/GRANT aynı: postgres + service_role); canlı iş hemen 5 sn'ye alındı. Boşta 15 sn ve `duello_tik` değişmedi.
+- Etki: bot cevabı planlanan anından en çok 5 sn sonra işlenir; `bot_gecikme_tavan` 8 sn ile en kötü bekleme 10 → 13 sn (15 sn'lik soru içinde).
+- Doğrulama: prova + uygulama başarılı; `cron.job` schedule '5 seconds', son 8 koşu 5 sn arayla 0,02–0,04 sn. Canlı Klasik oyuncu testi GEÇTİ (20/20 soru sunucuya ulaştı, sayaç hızlı adım 0), bot rakip 20/20 soruyu cevapladı.

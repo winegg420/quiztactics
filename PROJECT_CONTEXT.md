@@ -861,7 +861,7 @@ ayrı test ortamına (yerel `supabase start` — Docker gerekir — ya da ayrı 
 Yerelde de aynı anda tek koşu; oyuncu testini canlıda tekrar tekrar çalıştırma (her maç DB yükü).
 - **Disk IO (23 Eyl 2026):** pg_cron çalışma kayıtları saatlik budanır (`bildim-cron-kayit-budama`,
   6 saat); `duello_kilitle` son görülmeyi 5 sn'de bir yazar; Düello istemcisi Realtime bağlıyken
-  4 sn'de bir yedek yoklar, `duello_baglanti` 5 sn'de bir. Oyun cron'ları (bot_oyna, duello_tik) iş varken 2 sn,
+  4 sn'de bir yedek yoklar, `duello_baglanti` 5 sn'de bir. Oyun cron'ları iş varken bot_oyna 5 sn (992, Ida 8 Eki), duello_tik 2 sn;
   boşta 15 sn (830/831 sarmalayıcıları `cron_*`; 850: gizli bot nabzına kapı, bot_oyna kapısı insana giden bekleyen daveti iş saymaz,
   bot tepki kuyruğunu sayar). Zamanlamayı seyreltmek ürün kararıdır. Yük envanteri ve 12 Eki sonrası ölçüm listesi: `docs/YUK_AZALTMA.md`.
 - **İstemci yük kuralları (2 Eki 2026):** biten/iptal maçta nabız atılmaz; arama yoklamaları önceki istek bitmeden yenisini atmaz;
