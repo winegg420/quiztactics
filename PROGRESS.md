@@ -10942,3 +10942,18 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - Normal maç `soru_sec` 4 gruba bölündü (Z1 · Z2 · Z3 · Z4–5); ayarlar `soru_agirlik_z1=10`, `soru_agirlik_z2=60`, `soru_agirlik_orta=27`, `soru_agirlik_zor=3`. `soru_agirlik_kolay` artık kullanılmıyor (satır duruyor).
 - Ölçüm (10.000 soru): Z1 %9,78 · Z2 %59,83 · Z3 %27,44 · Z4 %2,06 · Z5 %0,89. Turnuva (841) değişmedi. Kategori maçı 20 soru döndürüyor, boş kategori null (tasarım).
 - Canlıya uygulandı. Geri alma: docs/soru-agirlik-geri-alma-1010.sql (çalıştırılmadı).
+
+## 2026-10-09 — Ortak Hazine 988 eki: 80'de süre dolumu = otomatik AÇ; 988 canlıya uygulandı, push
+**Araç:** Claude Code (Opus 5.5)
+**Neden:** Ida — 80'de ekran yalnız AÇ gösterirken sunucu süre dolumunu DEVAM sayıyordu; aynı 988'e eklensin.
+
+- 988'e `kasa_karar_uygula` eklendi (canlı tanım = 987): `p_sure_doldu` + tavan > 0 + tavan ≥ hedef + hazine tavanda → AÇ dalı
+  (`son_karar` + `oto`/`sure_doldu`, `kasa_hamleler.karar` 'ac' — maç sonu özeti `karar === "ac"` saydığı için ayrı değer
+  verilmedi). Bilerek DEVAM (API), bot, tavan < hedef maçları değişmedi. Geri alma dosyasına 987 tanımı eklendi.
+- Ekran: tavanda not "Süre dolarsa otomatik AÇ sayılır." (EN "If time runs out, it opens automatically.").
+- Test: SQL 34/34 (yeni 7. bölüm gerçek `kasa_ilerlet` yolu; not: 991 karar payı yüzünden testte `faz_bitis` ≥ 3 sn geride
+  olmalı), ekran 350/350 (7 koşu), build temiz.
+- `db push --include-all` → yalnız 988 uygulandı; canlı doğrulama: schema_migrations kaydı, iki fonksiyon yeni tanım,
+  anon/authenticated yetkisi yok (değişmedi), idle-in-transaction 0. PROJECT_CONTEXT Hazine satırı güncellendi.
+- Depoda bu oturuma ait OLMAYAN değişiklikler vardı (DukkanKozmetik, avatar-satis çevirisi, dukkan-cerceve.css,
+  soru-temizlik/claude-cagri.mjs) — dokunulmadı, commit'e girmedi.
