@@ -10804,3 +10804,17 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - `sik-ipucu-api.mjs --sinirda-cikar` (yeni mod, API/Jev çağrısı yok): 67 soru 997 ve 1001–1006'dan çıkarıldı, migration'lar yeniden üretildi, CSV'de bu satırlar `isaretli_kaldi` oldu. Migration'larda 213 soru.
 - Rollback provası 7/7 geçti; `db push --dry-run` listesi yalnız 997, 1000 (ses_adaylari_kovasi), 1001–1006; ardından `npx supabase db push` uygulandı. 1000 başka işe ait, aynı itmeyle gitti (Ida istedi).
 - git push YAPILMADI.
+
+## 2026-10-08 — Ses adayları kovaya yüklendi, push
+**Araç:** Claude Code
+**Neden:** d126387e'nin canlıya çıkabilmesi için önce kova + dosyalar gerekiyordu (servis anahtarı istenmedi).
+
+- Migration 1000 bu oturumdan önce şık ipucu sekmesinin `db push`'uyla uygulanmıştı (997–1006 ile birlikte);
+  `db push --dry-run` "güncel" dedi, kova/politika pg-mini ile doğrulandı (public, 10 MB, 4 MIME, yalnız SELECT).
+- Yükleme `supabase storage cp --linked --experimental -r` ile (anahtarsız, CLI oturumu). Bulgular:
+  · Windows mutlak yolu `Unsupported operation` verir → depoya göreli yol kullan.
+  · `-r klasör ss:///kova` klasör adını önek yapar → klasörü `ses-adaylar` adlandırıp hedef `ss:///`.
+  · WAV `audio/wave` algılanır, kova reddeder (415) → türe göre üç grup, `--content-type` açık.
+  · Arada iki kez "IPv6 is not supported … no such host" (aralıklı ağ); üçüncü denemede geçti.
+- Doğrulama: kovada 142 nesne, adlar sesAdayKova.js ile birebir (diff boş); 4 örnek adres 200 + doğru
+  MIME, CORS `*`; GET `Cache-Control: public, max-age=31536000` (HEAD'de no-cache görünür, yanıltıcı).
