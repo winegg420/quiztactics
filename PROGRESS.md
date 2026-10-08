@@ -10786,3 +10786,14 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - **SIRA (Ida):** (1) migration 1000'i uygula, (2) servis anahtarını .env.local'e ekleyip
   `node araclar/ses-adaylari-yukle.mjs`, (3) ANCAK SONRA push. Ters sırada seçili sesler osilatöre düşer, müzik önizlemesi susar.
 - Yalnız yerel commit; push/migration/yükleme yok.
+
+## 2026-10-08 — Şık ipucu düzeltmesi: Claude API ile tam koşu (zorluk 1–3, parti 4–10)
+**Araç:** Claude Code
+**Neden:** `sik_ipucu_jev` işaretli kolay/orta soruların yanlış şıklarını elle yerine Claude API ile (claude-sonnet-5-5) yeniden yazdırmak; Ida'nın talimatı (deneme 12/20 iyi çıktı → tam koşu).
+- Script: `araclar/soru-temizlik/sik-ipucu-api.mjs` (`--tam` partili + ilerleme dosyası `.tmp/sik-ipucu-tam/ilerleme.json`, aynı komut kaldığı yerden devam eder; `--kuru`, `--butce-usd`, `--parti-boyut`). Yeni paket yok, `fetch` ile Messages API.
+- Kapılar: kural işareti (ağırlık<2) → Jev ipucu **p ≤ 0,75** (0,80'den sıkılaştı; 0,70–0,75 "sinirda") → Jev tek-doğru → **4. kapı: yanlış şık başına AYRI Claude hakem çağrısı** (kesin_yanlis | tartismali). Soru başına en çok 3 deneme.
+- Sonuç: 664 soru, **280 geçti**, 384 kaldı (Jev ipucu 258, kural işareti 86, hakem 26, şema 12, tek-doğru 2); sınırda 67. Harcama Claude $8,43 + Jev $0,04.
+- Migration'lar (CANLIYA UYGULANMADI): `…000997_parti_4`, `…001001` ~ `…001006` (parti 5–10). 998–1000 başka işe ait, numara atlaması bundan. CSV'ye 664 satır eklendi (geçen `duzeltildi`, kalan `isaretli_kaldi`; ikisi de sonraki koşuda hariç tutulur).
+- Doğrulama: her migration tek işlemde çalıştırılıp geri alındı (rollback; DO bloğu doğrulamaları geçti). `sik-ipucu-geri-al.mjs --parti N` prova: CSV'yi okuyor; migration uygulanmadığı için "atlandı" tam sayı çıkıyor — gerçek gidiş-dönüş uygulamadan prova edilemedi.
+- Gözlem: 7 soruda (örn. parti 4) Claude şıkları değiştirmeyip aynı verdi; bu sorular Jev'in yeni ölçümünde zaten ≤ 0,75 olduğu için geçti (migration no-op + işaret kalkar).
+- Karar (Ida): zorluk 4–5 AYRI iş, yapılmadı. Push yok, yalnız yerel commit.
