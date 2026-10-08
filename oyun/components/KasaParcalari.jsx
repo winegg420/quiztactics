@@ -228,36 +228,52 @@ export function KasaKarar({ d, c, calisan, onKarar, kalan = null, carpanYazi = n
   const acKilit = deger < Number(d.acma_min ?? 0);
   // 955: DEVAM çarpanı (tavandaki kasa büyümez) ve tavan
   const tavan = Math.max(0, Number(d.tavan) || 0);
-  const carpanVar = Boolean(carpanYazi) && !(tavan > 0 && deger >= tavan);
+  // 8 Eki 2026 (Ida): düğmeler kararın SONUCUNU gösterir — rakamlar kasa_durum'dan (puan, hazine, çarpan, tavan)
+  const dolu = tavan > 0 && deger >= tavan;   // hazine tavanda: DEVAM büyütmez → yalnız AÇ
+  const hedef = Number(d.hedef) || 0;
+  const benimPuan = Number((d.oyuncular ?? []).find((o) => o?.id === d.ben)?.puan) || 0;
+  const devamCarpan = Number(d.devam_carpan) || 1;
+  const devamYeni = Math.min(devamCarpan > 1 ? Math.ceil(deger * devamCarpan) : deger, tavan > 0 ? tavan : Infinity);
+  const hakVar = Array.isArray(d.savunma_hak) && d.savunma_hak.includes(d.ben);
+  const hakKazanir = Boolean(d.savunma_acik) && !hakVar;   // bilerek DEVAM → Savunma Hakkı (987)
   return (
     <div className="ks-karar">
       <KasaKadran d={d} c={c} hareket={hareket} />
       <p className="ks-karar-baslik">{c("Hazine sende: {k} puan", { k: deger })}</p>
       <div className="ks-karar-eylem">
         <QtDugme tamGenislik boyut="b" ikon={acKilit ? "kilit" : "coin"} yukleniyor={calisan === "karar-ac"}
-                 devreDisi={!!calisan || acKilit} className={acKilit ? "ks-ac-kilitli" : undefined}
+                 devreDisi={!!calisan || acKilit} className={sinif("ks-karar-dugme", acKilit && "ks-ac-kilitli")}
                  onClick={() => { if (!acKilit) onKarar(true); }}>
-          {acKilit ? c("AÇ · En az {m} hazine", { m: d.acma_min }) : c("AÇ · +{k} puan", { k: deger })}
+          {acKilit ? c("AÇ · En az {m} hazine", { m: d.acma_min }) : (
+            <span className="ks-karar-dugme-ic">
+              <b>{c("AÇ → +{k}", { k: deger })}</b>
+              {hedef > 0 && <small className="qt-sayi">{c("Skor {s}/{h}", { s: benimPuan + deger, h: hedef })}</small>}
+            </span>
+          )}
         </QtDugme>
-        <QtDugme tur="ikincil" tamGenislik boyut="b" ikon="ileri" yukleniyor={calisan === "karar-devam"} devreDisi={!!calisan}
-                 onClick={() => onKarar(false)}>
-          {/* 987: bilerek DEVAM → Savunma Hakkı (954 ücretsiz 50:50 kalktı) · 953 maçı: şans yazılır */}
-          {carpanVar ? c("DEVAM {x}", { x: carpanYazi })
-            : Number(d.devam_sans) > 0 ? c("DEVAM · %{p} joker şansı", { p: Number(d.devam_sans) }) : c("DEVAM · hazine büyüsün")}
-        </QtDugme>
+        {!dolu && (
+          <QtDugme tur="ikincil" tamGenislik boyut="b" ikon="ileri" yukleniyor={calisan === "karar-devam"} devreDisi={!!calisan}
+                   className="ks-karar-dugme" onClick={() => onKarar(false)}>
+            {/* 987: bilerek DEVAM → Savunma Hakkı (954 ücretsiz 50:50 kalktı) · 953 maçı: şans yazılır */}
+            <span className="ks-karar-dugme-ic">
+              <b>
+                {c("DEVAM → Hazine {y}", { y: devamYeni })}
+                {hakKazanir && <SavunmaRozeti c={c} boyut={14} />}
+              </b>
+              {Number(d.devam_sans) > 0 ? <small>{c("%{p} joker şansı", { p: Number(d.devam_sans) })}</small>
+                : d.devam_birakir ? <small>{c("Hazine sahipsiz kalır")}</small> : null}
+            </span>
+          </QtDugme>
+        )}
       </div>
-      {d.savunma_acik && (
+      {d.savunma_acik && !dolu && (
         <p className="ks-karar-hak">
           <SavunmaRozeti c={c} boyut={13} />
-          <span>{Array.isArray(d.savunma_hak) && d.savunma_hak.includes(d.ben)
-            ? c("{h} sende (en fazla 1)", { h: c(SAVUNMA_HAKKI) })
-            : c("DEVAM de: {h} kazan", { h: c(SAVUNMA_HAKKI) })}</span>
+          <span>{hakVar ? c("{h} sende (en fazla 1)", { h: c(SAVUNMA_HAKKI) }) : c("DEVAM de: {h} kazan", { h: c(SAVUNMA_HAKKI) })}</span>
         </p>
       )}
       <p className="ks-karar-not">
-        {carpanYazi && tavan > 0 && deger >= tavan ? c("Hazine dolu ({t}): DEVAM büyütmez.", { t: tavan })
-          : carpanVar && d.devam_birakir ? c("DEVAM: hazine {x} büyür, sahipsiz kalır.", { x: carpanYazi })   // 7 Eki 2026: kısa not
-          : d.devam_birakir ? c("DEVAM: hazine sahipsiz kalır.") : null}
+        {dolu ? c("Hazine dolu ({t}): yalnız AÇ.", { t: tavan }) : null}
         {/* 7 Eki 2026 (Ida): süre dolumu kuralı tek kısa cümle olarak her zaman */}
         {" "}{c("Süre dolarsa DEVAM sayılır.")}
       </p>

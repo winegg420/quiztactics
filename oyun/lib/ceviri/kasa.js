@@ -215,4 +215,12 @@ export default {
   "sen açtın": "you opened it",
   "rakip açtı": "your opponent opened it",
   "Hiç hazine açılmadı · en yüksek {k}": "No treasure opened · peaked at {k}",
+
+  // 8 Eki 2026: AÇ / DEVAM düğmeleri kararın sonucunu gösterir
+  "AÇ → +{k}": "OPEN → +{k}",
+  "Skor {s}/{h}": "Score {s}/{h}",
+  "DEVAM → Hazine {y}": "KEEP → Treasure {y}",
+  "%{p} joker şansı": "{p}% joker chance",
+  "Hazine sahipsiz kalır": "The treasure becomes unclaimed",
+  "Hazine dolu ({t}): yalnız AÇ.": "The treasure is full ({t}): OPEN only.",
 };
