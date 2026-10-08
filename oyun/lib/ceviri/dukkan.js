@@ -146,6 +146,7 @@ export default {
   "Dükkân kuralı": "Shop rule",
   "coin ile alınır": "cost coins",
   "elmas ile alınır": "cost gems",
+  "Epik ve Efsanevi avatarlar elmasla alınır; Yaygın ve Nadir olanlar bedava.": "Epic and Legendary avatars are bought with gems; Common and Rare ones are free.",
   "Epik ve Efsanevi avatarlar. Diğer avatarlar profilinde, bedava.": "Epic and Legendary avatars. Other avatars are free in your profile.",
   "İsim": "Name",
   "Adın her yerde bu görünümle yazılır.": "Your name is shown in this style everywhere.",

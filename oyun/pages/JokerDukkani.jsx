@@ -527,9 +527,9 @@ export default function JokerDukkani() {
             <section className="qt-dk-bolum" aria-labelledby="qt-dk-avatarlar">
               <div className="qt-dk-bolum-ust qt-dk-bolum-ust--elmas">
                 <h2 id="qt-dk-avatarlar" className="qt-baslik-2">{tt("Avatarlar")}</h2>
-                <p className="qt-kucuk">{tt("Epik ve Efsanevi avatarlar. Diğer avatarlar profilinde, bedava.")}</p>
+                <p className="qt-kucuk">{tt("Epik ve Efsanevi avatarlar elmasla alınır; Yaygın ve Nadir olanlar bedava.")}</p>
               </div>
-              <DukkanAvatarlar yalnizUcretli avatarlar={kozmetik.avatarlar} sahipHesap={kozmetik.sahipHesap} yenile={kozmetik.yenile} sirali={sirali}
+              <DukkanAvatarlar avatarlar={kozmetik.avatarlar} sahipHesap={kozmetik.sahipHesap} yenile={kozmetik.yenile} sirali={sirali}
                 elmasYetmedi={elmasKazanGoster} elmasBakiye={elmas.bakiye}
                 onBilgi={(m) => { setHata(null); setBilgi(m); }} onHata={(m) => { setBilgi(null); setHata(m); }} />
             </section>

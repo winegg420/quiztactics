@@ -489,7 +489,7 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
     return () => { aktif = false; };
   }, []);
   const c = liste.find((a) => a.anahtar === secili) ?? liste[0] ?? null;
-  if (yalnizUcretli && !sahiplikOkundu) return <QtIskelet tur="kart" adet={2} />;
+  if (!sahiplikOkundu) return <QtIskelet tur="kart" adet={2} />;
   if (!c) return <QtBosDurum boyut="k" ikon="dukkan" ton="mor" baslik={tt("Bu bölümde şu an satışta bir şey yok.")} />;
   const ad = (a) => (aktifDil() === "en" ? a.ad_en : a.ad_tr) ?? a.ad_tr;
   const takili = profile?.avatar_url === c.url;
@@ -595,7 +595,7 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
                   <span className="qt-dc-ad">{ad(a)}</span>
                   <span className="qt-dc-durum">
                     {profile?.avatar_url === a.url ? tt("Takılı") : a.ucretli ? (a.sahibim ? <span className="qt-dc-sahip"><QtIkon ad="onay" boyut={12} /> {tt("Sahip olunan")}</span> : a.fiyat_elmas != null && !a.kapali ? <ElmasFiyat fiyat={a.fiyat_elmas} /> : <><QtIkon ad="kilit" boyut={12} /> {tt("Kapalı")}</>)
-                      : a.sahibim ? tt("Sende var") : a.tur === "gunluk" || a.tur === "hazir" || (a.kullanabilir && !(a.fiyat_elmas > 0)) ? tt("Bedava")
+                      : a.sahibim || a.tur === "gunluk" || a.tur === "hazir" || (a.kullanabilir && !(a.fiyat_elmas > 0)) ? <span className="qt-dc-sahip"><QtIkon ad="onay" boyut={12} /> {tt("Sahip olunan")}</span>
                       : a.fiyat_elmas != null && !a.kapali ? <ElmasFiyat fiyat={a.fiyat_elmas} /> : <><QtIkon ad="kilit" boyut={12} /> {tt("Kapalı")}</>}
                   </span>
                 </button>

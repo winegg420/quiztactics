@@ -10929,3 +10929,11 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
   karıştırma sonrası TR ve EN doğru şık kaynakla birebir (48/48). Aktif toplam 12.694 → **12.551**; aktif zorluk
   1/2/3 = **975 / 2.965 / 5.077**. Teknoloji: 1.305 aktif (z1 39 · z2 251 · z3 396) — yeterli.
 - Push yapılmadı (Ida topluca atacak).
+
+## 2026-10-09 — Dükkân › Avatar: ücretsiz avatarlar da listelenir (920 kısmen geri alındı)
+**Araç:** Claude Code
+**Neden:** Ida: sahip olunan HER avatar (ücretsiz dahil) Dükkân'da "Sahip olunan" / "Owned" etiketiyle görünsün.
+
+- **Karar:** en küçük yol — `JokerDukkani.jsx`'te `DukkanAvatarlar`'dan `yalnizUcretli` kaldırıldı (bileşendeki prop/filtre silinmedi); iskelet beklemesi artık her zaman sahiplik okunana dek. Ücretsiz kartta "Bedava" yerine "Sahip olunan" (takılıda "Takılı"); ücretsizde satın alma düğmesi yok (yalnız Tak). Satın alma akışı ve fiyatlara dokunulmadı. Başlık metni güncellendi (TR+EN).
+- **Diğer ekranlar:** profil seçici, koleksiyon, kurulum yalnız kilit rozeti gösterir (seçim/koleksiyon listeleri), değiştirilmedi.
+- **Test:** ekran 33/33 (390×844, 360×640 × TR/EN; taşma yok, ücretsiz kartta Satın al yok); build temiz. `avatar-satis-ekran.mjs` "Yaygın/Nadir bölümü YOK" beklentisi artık eskidir.
