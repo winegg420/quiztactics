@@ -10937,3 +10937,8 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - **Karar:** en küçük yol — `JokerDukkani.jsx`'te `DukkanAvatarlar`'dan `yalnizUcretli` kaldırıldı (bileşendeki prop/filtre silinmedi); iskelet beklemesi artık her zaman sahiplik okunana dek. Ücretsiz kartta "Bedava" yerine "Sahip olunan" (takılıda "Takılı"); ücretsizde satın alma düğmesi yok (yalnız Tak). Satın alma akışı ve fiyatlara dokunulmadı. Başlık metni güncellendi (TR+EN).
 - **Diğer ekranlar:** profil seçici, koleksiyon, kurulum yalnız kilit rozeti gösterir (seçim/koleksiyon listeleri), değiştirilmedi.
 - **Test:** ekran 33/33 (390×844, 360×640 × TR/EN; taşma yok, ücretsiz kartta Satın al yok); build temiz. `avatar-satis-ekran.mjs` "Yaygın/Nadir bölümü YOK" beklentisi artık eskidir.
+
+## 9 Eki 2026 — Soru zorluk dağılımı (migration 1010)
+- Normal maç `soru_sec` 4 gruba bölündü (Z1 · Z2 · Z3 · Z4–5); ayarlar `soru_agirlik_z1=10`, `soru_agirlik_z2=60`, `soru_agirlik_orta=27`, `soru_agirlik_zor=3`. `soru_agirlik_kolay` artık kullanılmıyor (satır duruyor).
+- Ölçüm (10.000 soru): Z1 %9,78 · Z2 %59,83 · Z3 %27,44 · Z4 %2,06 · Z5 %0,89. Turnuva (841) değişmedi. Kategori maçı 20 soru döndürüyor, boş kategori null (tasarım).
+- Canlıya uygulandı. Geri alma: docs/soru-agirlik-geri-alma-1010.sql (çalıştırılmadı).
