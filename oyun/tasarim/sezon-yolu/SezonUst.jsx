@@ -161,7 +161,8 @@ export function SeviyeUst({ durum, finalOdul = null, dil = "tr", onFinal }) {
     <div className="sy-ust">
       <Afis className="sy-afis" {...(tiklanir ? { type: "button", onClick: () => onFinal(finalOdul), "aria-label": `${sezonYazi}. ${tt("Sezon sonu ödülü")}: ${finalAd}` } : {})}>
         <span className={`sy-afis-vitrin${cerceveMi ? " sy-afis-vitrin--cerceve" : ""}`} data-nadirlik={finalOdul?.nadirlik ?? "efsanevi"}>
-          {finalOdul && <OdulGorsel odul={finalOdul} boyut={cerceveMi ? 64 : 34} />}
+          {/* 8 Eki: çerçeve ödülü (Ejderha) silüetiyle birlikte afişin İÇİNE sığar (taşma/kırpma yok) */}
+          {finalOdul && <OdulGorsel odul={finalOdul} boyut={cerceveMi ? 46 : 34} />}
           <TacGorsel boyut={finalOdul ? 22 : 30} className={finalOdul ? "sy-afis-tac" : ""} />
         </span>
         <span className="sy-afis-metin">
@@ -180,7 +181,8 @@ export function SeviyeUst({ durum, finalOdul = null, dil = "tr", onFinal }) {
             : <><SayanSayi deger={ilerDeger} bicim={sayiBicim} /> / {sayiBicim(ilerEn)} SP</>}
         </span>
       </div>
-      <div className="sy-ust-kollar" aria-hidden="true">
+      {/* Sütun başlıkları (sekme değil): iki aynı hap; oyuncunun açık kolu dolu — BP sahibinde Battle Pass, değilse Ücretsiz */}
+      <div className={`sy-ust-kollar${durum.bp?.aktif ? " sy-ust-kollar--bp" : ""}`} aria-hidden="true">
         <span>{tt("Ücretsiz")}</span>
         <span />
         <span className="sy-ust-kol-bp"><TacGorsel boyut={16} />{tt("Battle Pass")}</span>

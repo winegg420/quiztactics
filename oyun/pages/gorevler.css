@@ -231,6 +231,22 @@
 .gv-kart--alindi[class*="gv-tur--"] { opacity: 0.8; }
 .gv-kart--alindi[class*="gv-tur--"] .gv-ik { opacity: 0.6; }
 
+/* 8 Eki 2026: hazır görevde "Al" + ödül kendi sütununda (ikon · gövde · eylem), ince ayırıcı çizgiyle; dikeyde ortalı */
+.gv-kart--alinabilir { grid-template-columns: auto minmax(0, 1fr) auto; }
+.gv-kart--alinabilir > .gv-al-kutu {
+  align-self: stretch; align-content: center; gap: 4px; padding-left: var(--qt-b-3);
+  border-left: 2px dashed var(--qt-dogru-acik);
+}
+.gv-kart--alinabilir > .gv-al-kutu .gv-al { min-width: 64px; }
+/* Zorluk noktaları + görünür ad ("Kolay / Orta / Zor") */
+.gv-noktalar-ic { display: inline-flex; align-items: center; gap: 4px; }
+.gv-noktalar { gap: 6px; }
+.gv-zor-ad { font-size: 11px; font-weight: var(--qt-a-siyah); line-height: 1.5; color: var(--qt-metin-soluk); }
+@media (max-width: 379px) {
+  .gv-kart--alinabilir > .gv-al-kutu { padding-left: 10px; }
+  .gv-kart--alinabilir > .gv-al-kutu .gv-al { min-width: 56px; }
+}
+
 /* Haftalık sandık ödül kartı (7 Eki 2026): büyük sandık, "Sandık ödülü" etiketi + parlak ödül çipleri; hazırken altın ışık */
 .gv-kahraman { box-shadow: 0 4px 0 var(--qt-coin-dudak); }
 .gv-kahraman .gv-kah-resim, .gv-kahraman .gv-kah-resim img { width: 80px; height: 80px; }

@@ -93,8 +93,9 @@ function LigSatiri({ s, vurgu = false, sirIdx = -1, kapsam, benimId, bolge, sira
           <span className="lg-bilgi">
             <span className="lg-ad">
               <span className="lg-ad-metin"><IsimEfekti userId={s.user_id}>{s.gorunen_ad}</IsimEfekti></span>
-              {/* 560: lig amblemi (satırda lig yoksa oyuncu kartından — avatarla aynı toplu çağrı) */}
-              <OyuncuLigAmblemi lig={s.lig} userId={s.user_id} boyut={20} />
+              {/* 560: lig amblemi (satırda lig yoksa oyuncu kartından — avatarla aynı toplu çağrı).
+                  8 Eki: lig grubunda herkes aynı ligde (amblem başlıkta) → satırda tekrar etmez; diğer sekmelerde kalır. */}
+              {kapsam !== "lig" && <OyuncuLigAmblemi lig={s.lig} userId={s.user_id} boyut={20} />}
               {s.bot && (
                 <span className="lg-yapay" title={tt("Yapay rakip")}>
                   <QtIkon ad="robot" boyut={14} etiket={tt("Yapay rakip")} />

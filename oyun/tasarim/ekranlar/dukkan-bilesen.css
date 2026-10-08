@@ -152,6 +152,13 @@
 .qt-dk-ustalik-seviye--efsane { background: #fff1c9; color: #5c3d00; }
 /* Gümüş çubuk açık izde 2,9:1 idi → koyu gümüş (5,1:1) */
 .qt-dk-ustalik .qt-ilerleme--lig-gumus { --_r: #5b6985; }
+/* 8 Eki: Çırak çipi düz gri yerine kendi kategorisinin hafif tonu (satır --kp-r taşır); yazı lacivert → ≥ 9:1 */
+@supports (color: color-mix(in srgb, red, blue)) {
+  .qt-dk-ustalik-satir .qt-dk-ustalik-seviye--cirak {
+    background: color-mix(in srgb, var(--kp-r, #8a96b0) 18%, #fff); color: #1f2a5c;
+    box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--kp-r, #8a96b0) 55%, #fff);
+  }
+}
 .qt-dk-ustalik-alt { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); }
 
 /* ——— KategoriProfili ——— */

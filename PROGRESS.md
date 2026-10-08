@@ -10609,3 +10609,14 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 - **8 Alt menü:** Arkadaşlar/Lig/Dükkân/Profil'de aynı kalın ikon + mavi etkin hap; tek fark: ana sayfa zemini #BFDBF7, öteki sayfalar #B9DCFF (gözle ayırt edilmez, dokunulmadı).
 - **Test:** yerel dev, 360×640 + 390×844, taşma 0, kırpma yok; build TEMİZ. EN koşuları yerelde sözlük yüzünden TR'ye düşüyor (bilinen); yeni metin eklenmedi.
 - **Dağıtım:** f2d06251 Vercel success (8 Eki 2026).
+
+## 2026-10-08 — Oyun sahnesi turu 2: Sezon afişi, Elmas sekmesi, Profil plakası, Görevler, Lig
+**Araç:** Claude Code (Opus 5.5). Migration/RLS/veri değişikliği yok.
+- **Sezon Yolu:** koyu kahve afiş → krem→açık altın degrade, altın çerçeve + hardal dudak, lacivert yazı. Ejderha çerçevesi 46 px çizim / 60 px kutu, afişin İÇİNDE (üst clip-path kalktı; taç kesilmiyor). "Ücretsiz / Battle Pass" sekme DEĞİL sütun başlığı (aria-hidden): ikisi aynı hap, oyuncunun açık kolu dolu+kalın (BP yoksa Ücretsiz mavi, BP varsa Battle Pass altın).
+- **Dükkân › Elmas:** "isim" metinden kalktı (TR+EN, 2 cümle). "Haftalık lig: ilk 3" (bölünmez boşluk, en çok 2 satır, ad 2 satırla sınırlı). Satırlar `Link` (lig/turnuva/profil/rozet) → oklar BIRAKILDI. Başlık ışınlı açık mavi şerit + Pırlanta elması; satır ikonları tek renk (mavi). Üstteki "Jokerler coin ile / Kozmetikler elmas ile" kodda `<li>` bilgi etiketi (tıklanmaz) → kutu/çerçeve kalktı, düz yazı + ayırıcı.
+- **Profil plakası:** lig sahnesinde koyu lacivert → krem #FFF3C9 + #EBCB72 çizgi + hardal dudak (OyuncuKarti açılır kartı da aynı bileşen); IsimEfekti orada `koyu` almaz. Altın isim konturu #1d2152 ↔ krem ≈ 13,9:1.
+- **Profil alt:** kategori çubukları Sekme 3'te (KategoriProfili) renklenmişti, dokunulmadı. UstalikIzgarasi "Çırak" çipi kategorinin hafif tonu + lacivert yazı (@supports içinde; eski iOS gri yedekte).
+- **Görevler:** ●○○ = zorluk (kolay/orta/zor, `ZORLUK_NOKTA`) → yanına görünür "Kolay/Orta/Zor" etiketi. Hazır görevde "Al" + ödül kartın sağında kendi sütununda (kesikli ayırıcı).
+- **Lig:** satırdaki amblem lig grubunda (`lig_grubum` tek lig) herkes için aynıydı → "Ligim" sekmesinde gizli, Şehir/Ülke/Dünya'da duruyor. Puan "232 P" tek satır (≤380 px'te birim zaten gizli).
+- **Alt menü/zemin:** ekranlarda tutarlı, değişiklik yok.
+- **Test:** yerel dev, 360×640 + 390×844, Sezon/Görev/Lig/Ustalık taklit veriyle; taşma 0, konsol hatası 0. EN koşusu yerelde yine TR'ye düştü (bilinen). Eski `.arayuz-denetim-oturum.json` belirteci ölüydü; yeni misafir hesabı (Deneme1797) açıldı. `arayuz-denetim --sadece-oturum` yerelde boş oturum kaydediyor (kurulum adımı Avatar seçicide takılıyor) — not.

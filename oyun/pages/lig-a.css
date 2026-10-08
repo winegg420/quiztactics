@@ -337,6 +337,8 @@
   color: var(--qt-metin);
 }
 .lg-puan-birim { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); }
+/* 8 Eki: "232 P" tek satır (sayı ve birim alt alta düşmesin) */
+.lg-puan { flex-direction: row; align-items: baseline; gap: 3px; white-space: nowrap; }
 
 /* Çok dar ekran (≤ 380 px): konum ve "puan" birimi düşer, ad ve puan kalır. */
 @media (max-width: 380px) {

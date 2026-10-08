@@ -104,7 +104,7 @@ export default function OyuncuVitrinKarti({ userId, profile, kart: verilenKart, 
         {avatarEk}
       </div>
       <p className="qt-ok-ad">
-        <span className="qt-ok-ad-metin"><IsimEfekti userId={userId} kart={kart ?? undefined} koyu hareketli={hareketli}>{ad}</IsimEfekti></span>
+        <span className="qt-ok-ad-metin"><IsimEfekti userId={userId} kart={kart ?? undefined} koyu={!ligSahnesi} hareketli={hareketli}>{ad}</IsimEfekti></span>
         {adEk}
       </p>
       {kart?.unvan && <UnvanYazisi unvan={kart.unvan} boy={kompakt ? "k" : "o"} />}

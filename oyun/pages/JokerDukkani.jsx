@@ -856,7 +856,14 @@ export default function JokerDukkani() {
 
             {/* Oyunla elmas — rakamlar oyun_ayarlari'ndan (okunamayan satır gösterilmez) */}
             <section className="qt-dk-bolum" aria-labelledby="qt-dk-elmas-kazan">
-              <h2 id="qt-dk-elmas-kazan" className="qt-baslik-2">{tt("Oynayarak elmas kazan")}</h2>
+              {/* 8 Eki 2026: bölüm başlığı küçük elmas sahnesi (ışın deseni + Pırlanta elması); hareket yok */}
+              <div className="qt-dk-elmas-hero">
+                <span className="qt-dk-elmas-hero-gorsel" aria-hidden="true"><ElmasIkon boyut={48} /></span>
+                <span className="qt-dk-elmas-hero-metin">
+                  <h2 id="qt-dk-elmas-kazan" className="qt-baslik-2">{tt("Oynayarak elmas kazan")}</h2>
+                  <span className="qt-kucuk">{tt("Lig, turnuva, level ve serilerden gelir")}</span>
+                </span>
+              </div>
               {/* Aşama 2 (7 Eki 2026): satır = basılabilir kart (ilgili ekrana gider) · ikon kutusu tür renginde
                   (lig/level mavi, turnuva/seri/rozet altın) · ödül elmas çipinde. Ayarlar inerken iskelet (zıplama yok). */}
               {!ayarBitti ? (
@@ -864,7 +871,7 @@ export default function JokerDukkani() {
               ) : (
               <ul className="qt-dk-elmas-liste">
                 {[
-                  sayiMi(ayar?.elmas_lig_1) && [tt("Haftalık lig grubunda 1. / 2. / 3."), [ayar.elmas_lig_1, ayar.elmas_lig_2, ayar.elmas_lig_3].join(" / "), "lig", "mavi", "/siralama"],
+                  sayiMi(ayar?.elmas_lig_1) && [tt("Haftalık lig: ilk 3"), [ayar.elmas_lig_1, ayar.elmas_lig_2, ayar.elmas_lig_3].join(" / "), "lig", "mavi", "/siralama"],
                   sayiMi(ayar?.elmas_turnuva_1) && [tt("Turnuva birinciliği"), ayar.elmas_turnuva_1, "kupa", "altin", "/turnuva"],
                   sayiMi(ayar?.elmas_level) && [tt("Her {n} levelde bir", { n: ayar.elmas_level_aralik }), ayar.elmas_level, "yildiz", "mavi", "/profil"],
                   sayiMi(ayar?.elmas_seri) && [tt("{n} günlük seri", { n: ayar.elmas_seri_gun }), ayar.elmas_seri, "ates", "altin", "/"],
@@ -889,8 +896,8 @@ export default function JokerDukkani() {
               <p className="qt-dk-not qt-dk-not--bilgi">
                 <QtIkon ad="bilgi" boyut={20} />
                 <span>{elmasPaketleriListe.some((p) => p.satista)
-                  ? tt("Satın alma yalnızca Android uygulamasında yapılabilir. Elmas yalnızca çerçeve, avatar ve isim gibi görünüm eşyaları alır; oyunda avantaj sağlamaz.")
-                  : tt("Elmas paketleri yakında satışta. Elmas yalnızca çerçeve, avatar ve isim gibi görünüm eşyaları alır; oyunda avantaj sağlamaz.")}</span>
+                  ? tt("Satın alma yalnızca Android uygulamasında yapılabilir. Elmas yalnızca çerçeve ve avatar gibi görünüm eşyaları alır; oyunda avantaj sağlamaz.")
+                  : tt("Elmas paketleri yakında satışta. Elmas yalnızca çerçeve ve avatar gibi görünüm eşyaları alır; oyunda avantaj sağlamaz.")}</span>
               </p>
               {elmasPaketleriListe.length === 0 ? (
                 <QtBosDurum boyut="k" ikon="elmas" ton="mor" baslik={tt("Şu an satışta elmas paketi yok")} />

@@ -554,6 +554,34 @@ button.sy-afis { cursor: pointer; -webkit-tap-highlight-color: transparent; touc
 /* Ekran turu (05/21): ejderha başı/kanatları yukarı taşıp geri düğmesinin alt kenarına biniyordu → üst taşma 4 px'e sınırlı (yan/alt serbest);
    afiş yüksekliği ve ilk ekran bütçesi aynı. */
 .sy-afis-vitrin--cerceve { clip-path: inset(-4px -10px -10px -10px); }
+
+/* 8 Eki 2026 — açık krem/altın afiş (koyu kahve zemin kalktı): krem → açık altın degrade, altın çerçeve + hardal dudak,
+   lacivert yazı (≥ 10:1), ödül adı koyu altın-kahve. Ejderha çerçevesi afişin İÇİNDE (46 px çizim, 60 px kutu): kafa/kanat
+   ve taç kesilmez, geri düğmesine binmez → üst kırpma (clip-path) ve taşma kalktı. Yükseklik aynı (68 / 64). */
+.sy-sahne {
+  --sy-afis-zemin: #fff3c9;
+  --sy-afis-zemin-2: #fbe39a;
+  --sy-afis-yazi: #1f2a5c;
+  --sy-afis-soluk: #6b4a12;
+}
+.sy-afis { border-color: #d8a53a; box-shadow: inset 0 0 0 2px rgb(255 255 255 / 0.7), 0 3px 0 #b8892a; }
+.sy-afis-odul b { color: #7a4f0c; }
+.sy-afis-vitrin--cerceve { width: 60px; height: 60px; clip-path: none; }
+.sy-afis-vitrin--cerceve .sy-afis-tac { top: 0; left: 0; }
+.sy-afis:has(.sy-afis-vitrin--cerceve) { overflow: hidden; }
+/* Sütun başlıkları: iki AYNI hap. Oyuncunun açık kolu DOLU + kalın (BP yoksa Ücretsiz mavi, BP varsa Battle Pass altın);
+   diğeri açık zeminli, ince çerçeveli. */
+.sy-ust-kollar span:first-child, .sy-ust-kollar .sy-ust-kol-bp {
+  justify-self: center; max-width: 100%; min-height: 24px; padding: 0 var(--qt-b-3); box-sizing: border-box; overflow: hidden; white-space: nowrap;
+  border: 2px solid #8db3db; border-radius: var(--qt-r-hap); background: #f5f9ff; color: #3b4a7a; font-weight: var(--qt-a-kalin); box-shadow: none;
+}
+.sy-ust-kollar .sy-ust-kol-bp { border-color: var(--qt-coin-dudak); background: #fff3c9; }
+.sy-ust-kollar:not(.sy-ust-kollar--bp) span:first-child {
+  border-color: var(--qt-ikinci-dudak); background: var(--qt-ikinci); color: var(--qt-ikinci-yazi); font-weight: var(--qt-a-siyah); box-shadow: 0 2px 0 var(--qt-ikinci-dudak);
+}
+.sy-ust-kollar--bp .sy-ust-kol-bp {
+  background: var(--qt-coin); color: #1f2a5c; font-weight: var(--qt-a-siyah); box-shadow: 0 2px 0 var(--qt-coin-dudak);
+}
 .sy-tac-gorsel { display: block; flex: none; object-fit: contain; }
 .sy-afis-metin { display: grid; gap: 3px; flex: 1 1 auto; min-width: 0; line-height: 1.2; }
 .sy-afis-sezon, .sy-afis-odul { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

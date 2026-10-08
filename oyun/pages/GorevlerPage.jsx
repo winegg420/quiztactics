@@ -79,8 +79,12 @@ function Tik({ etiket }) {
 function ZorlukNoktalari({ zorluk }) {
   const dolu = ZORLUK_NOKTA[zorluk] ?? 0;
   return (
-    <span className={sinif("gv-noktalar", `gv-zor gv-zor--${zorluk}`)} role="img" aria-label={tt(ZORLUK[zorluk] ?? zorluk)}>
-      {[0, 1, 2].map((i) => <i key={i} className={sinif("gv-nokta", i < dolu && "gv-nokta--dolu")} />)}
+    <span className={sinif("gv-noktalar", `gv-zor gv-zor--${zorluk}`)}>
+      <span className="gv-noktalar-ic" aria-hidden="true">
+        {[0, 1, 2].map((i) => <i key={i} className={sinif("gv-nokta", i < dolu && "gv-nokta--dolu")} />)}
+      </span>
+      {/* 8 Eki: noktaların anlamı görünür etiketle (zorluk) */}
+      <span className="gv-zor-ad">{tt(ZORLUK[zorluk] ?? zorluk)}</span>
     </span>
   );
 }
@@ -125,15 +129,16 @@ function GorevSatiri({ g, gunluk, dil, sezonAcik, islemde, mesgul, onAl, ucan, s
                       aria-valuemax={hedef} aria-valuenow={ilerleme} aria-valuetext={tt("{a} / {b}", { a: ilerleme, b: hedef })} />
           <b className="gv-sayi" aria-hidden="true">{tt("{a} / {b}", { a: ilerleme, b: hedef })}</b>
           {durum === "alindi" && <Tik etiket={tt("Alındı")} />}
-          {durum === "alinabilir" && (
-            <span className="gv-al-kutu">
-              <QtDugme boyut="k" className="qt-oyk-al gv-al" yukleniyor={islemde} devreDisi={mesgul && !islemde}
-                       aria-label={tt("{ad} ödülünü al", { ad })} onClick={onAl}>{tt("Al|görev")}</QtDugme>
-              <OdulSatiri odul={g.odul} sezonAcik={sezonAcik} />
-            </span>
-          )}
         </div>
       </div>
+      {/* 8 Eki: "Al" + ödül satırın sağında kendi sütununda (çubuk ve ödül metniyle sıkışmasın) */}
+      {durum === "alinabilir" && (
+        <span className="gv-al-kutu">
+          <QtDugme boyut="k" className="qt-oyk-al gv-al" yukleniyor={islemde} devreDisi={mesgul && !islemde}
+                   aria-label={tt("{ad} ödülünü al", { ad })} onClick={onAl}>{tt("Al|görev")}</QtDugme>
+          <OdulSatiri odul={g.odul} sezonAcik={sezonAcik} />
+        </span>
+      )}
       <OdulAni aktif={Boolean(ucan)} ucanSinif="gv-ucan">{ucan && <UcanIcerik coin={ucan.coin} sp={ucan.sp} />}</OdulAni>
     </li>
   );

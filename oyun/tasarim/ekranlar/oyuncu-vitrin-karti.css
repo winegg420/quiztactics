@@ -50,11 +50,12 @@
 }
 /* 2 Eki: filigran kapalı — 140 px yıldız kolları avatarın altından gri üçgen izi gibi taşıyordu (hata gibi duruyordu) */
 .qt-ok-filigran { position: absolute; inset: 0; z-index: -1; display: none; place-items: center; opacity: .12; pointer-events: none; }
-/* İSİM PLAKASI: açık zeminde efektli/altın isimler kaybolmasın diye koyu lacivert plaka + ligin dudak çerçevesi
-   (IsimEfekti zaten `koyu` prop'uyla koyu zemine göre tasarlı — plaka bu zemini sağlar). */
+/* İSİM PLAKASI (8 Eki 2026): koyu lacivert levha → ana sayfa profil kartıyla aynı açık krem plaka (#FFF3C9) + altın
+   iç çizgi + hardal dudak, lacivert yazı. IsimEfekti burada `koyu` almaz (açık zemin paleti). Altın isim (BP) okunur:
+   lacivert konturu #1d2152 ↔ krem 13,9:1. Lig sahnesi/çerçevesi değişmez. */
 .qt-ok--lig-sahnesi .qt-ok-ad {
-  background: var(--qt-metin); color: #fff; border: 2px solid var(--sahne-cerceve);
-  border-radius: var(--qt-r-hap); padding: 6px 16px; box-shadow: 0 2px 0 rgba(10, 16, 40, .25);
+  background: #fff3c9; color: #1f2a5c; border: 2px solid #ebcb72;
+  border-radius: var(--qt-r-hap); padding: 6px 16px; box-shadow: 0 2px 0 #d8a53a;
 }
 /* BATTLE PASS KAPLAMASI — ÇİFT ALTIN ÇERÇEVE, Lig ekranının altın plaka dili (lig-a.css › lg-bp): KÖŞELİ, pahlı kesik
    köşe (clip-path), dışta koyu kahve çizgi + kabartmalı altın bant + içte ince açık altın çizgi, 4 köşede elmas perçin.

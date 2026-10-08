@@ -390,6 +390,22 @@ a.qt-dk-elmas-satir * { text-decoration: none; }
 }
 .qt-dk-elmas-ok { display: grid; place-items: center; flex: none; color: var(--qt-metin-soluk); }
 @media (prefers-reduced-motion: reduce) { .qt-dk-elmas-satir { transition: none; } .qt-dk-elmas-satir:active { transform: none; } }
+/* 8 Eki 2026: Elmas sekmesi oyun sahnesi — bölüm başlığı açık mavi ışınlı şerit + Pırlanta elması (ana sayfa mod kartı dili,
+   hareketsiz). Satır ikonları tek renk (elmas mavisi); ad en çok 2 satır, ödül hapı sabit. */
+.qt-dk-elmas-hero {
+  display: flex; align-items: center; gap: var(--qt-b-3); min-width: 0; padding: var(--qt-b-2) var(--qt-b-3);
+  border-radius: var(--qt-r-m); color: #1f2a5c;
+  background:
+    radial-gradient(circle at 40px 50%, #fff 0, rgb(255 255 255 / 0) 64px),
+    repeating-conic-gradient(from 0deg at 40px 50%, #d7e8fb 0deg 11deg, #f1f7ff 11deg 22deg);
+  box-shadow: inset 0 0 0 2px #fff, 0 3px 0 #8db3db;
+}
+.qt-dk-elmas-hero-gorsel { display: grid; place-items: center; flex: none; width: 56px; height: 56px; filter: drop-shadow(0 3px 0 rgb(31 42 92 / 0.18)); }
+.qt-dk-elmas-hero-metin { display: grid; gap: 2px; min-width: 0; }
+.qt-dk-elmas-hero-metin .qt-baslik-2 { margin: 0; color: #1f2a5c; }
+.qt-dk-elmas-hero-metin .qt-kucuk { color: #3b4a7a; font-weight: var(--qt-a-kalin); }
+.qt-dk-elmas-liste .qt-dk-elmas-satir { --_dk-renk: var(--qt-ikinci); }
+.qt-dk-elmas-ad { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; overflow-wrap: normal; }
 .qt-dk-elmas-gorsel { display: flex; flex-wrap: wrap; justify-content: center; align-content: center; gap: 2px; color: var(--qt-ikinci); }
 .qt-dk-coin--elmas.qt-dk-coin--eniyi { box-shadow: inset 0 0 0 3px var(--qt-ikinci), 0 var(--qt-dudak-s) 0 var(--qt-ikinci-dudak); }
 .qt-dk-coin--elmas .qt-dk-coin-eniyi { background: var(--qt-ikinci); color: var(--qt-ikinci-yazi); box-shadow: 0 2px 0 var(--qt-ikinci-dudak); }
@@ -432,6 +448,16 @@ a.qt-dk-elmas-satir * { text-decoration: none; }
 .qt-dk-kural-oge small { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); line-height: 1.25; }
 .qt-dk-kural-oge--coin.qt-dk-kural-oge--acik { background: var(--qt-coin-acik); border-color: var(--qt-coin-dudak); color: var(--qt-coin-yazi); }
 .qt-dk-kural-oge--elmas.qt-dk-kural-oge--acik { background: var(--qt-ikinci-acik); border-color: var(--qt-ikinci); color: var(--qt-ikinci-koyu); }
+/* 8 Eki 2026: kural şeridi BİLGİ etiketidir (li, tıklanmaz) — düğme/sekme gibi görünmesin: kutu/çerçeve yok, düz yazı +
+   ikon; açık sekmenin para birimi yalnız yazı rengiyle vurgulu, ikisi arasında ince ayırıcı. */
+.qt-dk-kural { gap: 0; }
+.qt-dk-kural-oge, .qt-dk-kural-oge--coin.qt-dk-kural-oge--acik, .qt-dk-kural-oge--elmas.qt-dk-kural-oge--acik {
+  padding: 2px var(--qt-b-2); border: 0; border-radius: 0; background: transparent; cursor: default;
+}
+.qt-dk-kural-oge + .qt-dk-kural-oge { border-left: 1.5px solid rgb(31 42 92 / 0.18); }
+.qt-dk-kural-oge { color: #3b4a7a; }
+.qt-dk-kural-oge--coin.qt-dk-kural-oge--acik { color: var(--qt-coin-yazi); }
+.qt-dk-kural-oge--elmas.qt-dk-kural-oge--acik { color: var(--qt-ikinci-koyu); }
 /* Elmasla satılan bölümlerin başlık çubuğu (Avatar ve İsim sekmesi) */
 .qt-dk-bolum-ust--elmas { --_bm: var(--qt-ikinci); }
 @media (prefers-reduced-motion: reduce) {

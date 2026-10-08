@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
 import { kategoriAdi } from "../lib/kategoriler.js";
-import KategoriIkon from "./KategoriIkon.jsx";
+import KategoriIkon, { KATEGORI_RENK } from "./KategoriIkon.jsx";
 import { JOKER_BILGI } from "../lib/jokerler.js";
 import SkillRozeti from "./SkillRozeti.jsx";
 import { tt, ttSunucu } from "../lib/dil.js";
@@ -119,7 +119,7 @@ export default function UstalikIzgarasi({ sirali = "", sira = null }) {
         ) : (
           <ul className="qt-dk-ustalik">
             {seviyeler.map((s) => (
-              <li key={s.kategori} className="qt-dk-ustalik-satir">
+              <li key={s.kategori} className="qt-dk-ustalik-satir" style={{ "--kp-r": KATEGORI_RENK[s.kategori] ?? KATEGORI_RENK.karisik }}>
                 <div className="qt-dk-ustalik-ust">
                   {/* Paket 20 VII: kategori rengi Düello / profil / soru kartıyla aynı (KategoriIkon) */}
                   <span className="qt-dk-ustalik-ad">
