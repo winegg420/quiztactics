@@ -589,7 +589,7 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
                 <button type="button" className={"qt-dc-oge" + (a.ucretli && !a.sahibim ? " qt-av-kilitli" : "")} aria-pressed={a.anahtar === c.anahtar} onClick={() => { dokunus(); setSecili(a.anahtar); }}>
                   {etiketNadirligi(nadirlik(a)) && <NadirlikEtiketi nadirlik={etiketNadirligi(nadirlik(a))} />}
                   <span className="qt-av-kilit-kutu">
-                    <NadirlikImg className="qt-kz-avatar-simge" src={a.url} alt="" width="64" height="64" loading="lazy" decoding="async" />
+                    <CerceveliAvatar profile={{ ...(profile ?? {}), gorunen_avatar: a.url, avatar_url: a.url }} userId={user?.id} boyut={64} />
                     {a.ucretli && !a.sahibim && <AvatarKilitRozeti />}
                   </span>
                   <span className="qt-dc-ad">{ad(a)}</span>

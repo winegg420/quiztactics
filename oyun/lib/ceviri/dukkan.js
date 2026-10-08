@@ -34,8 +34,11 @@ export default {
 
   // ——— Profil ———
   "Maç sırası ve davetler için haber veririz.": "We'll let you know when it's your turn or someone invites you.",
-  "Kapalı — izin var ama bu cihaz bağlı değil. Açmak için dokun.": "Off — permission is granted but this device isn't connected. Tap to turn on.",
-  "Kapalı — henüz izin verilmedi. Açınca tarayıcı izin isteyecek.": "Off — no permission yet. Turn it on and your browser will ask.",
+  "Kapalı. Açmak için dokun.": "Off. Tap to turn on.",
+  "Kapalı. Açınca tarayıcı izin isteyecek.": "Off. Your browser will ask for permission.",
+  "Kapalı. Tarayıcı bildirimleri engellemiş; site ayarlarından izin ver.": "Off. Your browser is blocking notifications; allow them in site settings.",
+  "Kapalı. iPhone'da önce Paylaş → Ana Ekrana Ekle, sonra uygulamayı oradan aç.": "Off. On iPhone, tap Share → Add to Home Screen first, then open the app from there.",
+  "Kapalı. Bu tarayıcı bildirimleri desteklemiyor.": "Off. This browser doesn't support notifications.",
   "Quiz Tactics'te benimle yarışmaya var mısın? Bu linkle gel, ikimiz de {n} coin kazanalım: {link}":
     "Up for a Quiz Tactics challenge? Join with this link and we both get {n} coins: {link}",
   "Quiz Tactics'te benimle yarışmaya var mısın? Bu linkle gel, ikimiz de coin kazanalım: {link}":

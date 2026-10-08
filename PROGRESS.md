@@ -10707,3 +10707,13 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - **İş 3 (yerel dev 5188, taklit RPC; her betik en fazla bir tam koşu):** Plan A 360×640 TR: 66 ✓ / 2 ✗ — (1) "draft yüzdeler 10 kart" beklentisi bayat (mock durumu yarı draft; 5 kartta yüzde var, görüntü doğru), (2) konsol 401 (sahte-süreli oturum). duello-secim (TR+azalt): 138 ✓ / 3 ✗ hepsi konsol 401. kasa-ekran: 280 ✓ / 12 ✗ (ana sayfa şerit kontrolleri + konsol 401, 4 koşuda aynı). kasa-savunma: 4 koşu da `.ks-ozet` zaman aşımı, "JWT expired".
 - **Neden:** `.arayuz-denetim-oturum.json` misafir belirteci 7 Eki'de süresi dolmuş ve yenilenemiyor; yerelde `arayuz-denetim --sadece-oturum` boş oturum yazıyor (yeni misafir açılamıyor). Geçici çözüm: dosyadaki `expires_at` yerel kopyada ileri alındı (ağ yok) → taklit RPC'li ekranlar çalışır, canlı okumalar (profil/ana sayfa/savunma) 401 alır. Bu yüzden ana sayfa ve Savunma sonuçları **ürün hatası değil, ortam** — doğru oturumla yeniden koşulmalı (Ida: gerçek test hesabı oturumu `--oturum=` ile).
 - Testlerin eski betikleri değişmedi; üretilen görüntüler commit'e girmedi. Dev sunucusu/tarayıcılar kapatıldı.
+
+## 2026-10-08 — Profil/Ayarlar, Dükkân Avatar, Turnuva lobisi küçük görsel/metin düzeltmeleri (yalnız görünüm)
+**Araç:** Claude Code (Sonnet 5.5).
+- **Ayarlar › Bildirimler:** metinler sadeleştirildi ("Kapalı. Açmak için dokun." vb.; izin yok / engelli / iPhone / desteklenmiyor ayrı kısa metin), TR+EN `ceviri/dukkan.js`. Kapalı anahtar ray/top rengi `dukkan-profil.css` içinde Profil kartlarına özel koyulaştırıldı (ortak `.qt-anahtar` değişmedi).
+- **Profil sekme çubuğu:** etiketsiz ikon sekmelere `aria-label` + `title` (ProfilePage effect'i; ortak QtSekmeler'e dokunulmadı).
+- **Takma ad / Avatar "Değiştir":** iki satır `qt-pf-ayar-satir--duzenle` — nowrap, düğme sağda, aynı stil.
+- **Dükkân Avatar:** liste kartları `CerceveliAvatar` (büyük önizlemeyle aynı bileşen); kilitli kart opaklığı 0.45→0.8, kilit rozeti 26 px (yalnız `.qt-dc-oge` kapsamı); elmas bakiyesi sekme satırında kırpılmaz (wrap + nowrap pil).
+- **Turnuva lobisi:** "Lobiden ayrıl" amber kontur + çıkış ikonu (Düello kırmızısından ayrı); kılıç düğmesi kontur/koyu ikon; liste avatarı `CerceveliAvatar` 40 px, 44 px sabit kutu.
+- **Karar/not:** ortak dosyalara (bilesenler.css, temel.jsx) dokunulmadı; kapsamlı override. Görsel doğrulama yapılamadı: kayıtlı misafir oturumu süresi dolmuş (giriş ekranı geldi), canlıya yük bindirmemek için yenilenmedi. Elmas kırpılması ve lobi avatar tutarsızlığının kök nedeni ekranda ölçülemedi — önlem CSS'te; sahibi telefonda bakmalı.
+- **Build:** temiz.

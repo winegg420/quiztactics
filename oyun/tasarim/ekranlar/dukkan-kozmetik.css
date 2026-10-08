@@ -128,3 +128,8 @@
 /* 820/821: sahnede (seçili kalemin başlığı altında) nadirlik etiketi — köşe etiketi burada normal akışta durur */
 .qt-kz-nadirlik-satir { display: inline-flex; }
 .qt-kz-nadirlik-satir > .qt-dc-nadirlik { position: static; }
+
+/* Dükkân › Avatar listesi: kilitli kart solmaz — avatar tanınır, kilit rozeti büyük ve net (ortak .qt-av-kilitli'ye dokunmaz) */
+.qt-dc-oge.qt-av-kilitli img { opacity: 0.8; }
+.qt-dc-oge.qt-av-kilitli .qt-av-kilit { width: 26px; height: 26px; border-width: 2px; box-shadow: 0 2px 0 rgba(29, 33, 82, 0.25); }
+.qt-dc-oge .qt-av-kilit-kutu > .qt-av-kilit { right: -4px; bottom: -4px; }

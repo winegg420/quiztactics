@@ -695,7 +695,7 @@ export default function TournamentPage() {
           <SkillSeti macTur="turnuva" />
           <div className="m1-tv-dugmeler">
             {benimKayit ? (
-              <QtDugme tur="ikincil" tamGenislik onClick={lobidenAyril}>
+              <QtDugme tur="ikincil" tamGenislik ikon="cikis" className="m1-tv-ayril" onClick={lobidenAyril}>
                 {tt("Lobiden ayrıl")}
               </QtDugme>
             ) : (
@@ -782,7 +782,7 @@ export default function TournamentPage() {
                       onClick={() => setKartOyuncu({ id: o.user_id, ...(o.profil ?? {}) })}
                       aria-label={tt("{0} — kartını aç", { 0: o.profil?.gorunen_ad ?? tt("Oyuncu") })}
                     >
-                      <AvatarCerceve profile={o.profil} boyut={36} userId={o.user_id} />
+                      <CerceveliAvatar profile={{ ...(o.profil ?? {}), id: o.user_id }} boyut={40} userId={o.user_id} />
                     </button>
                   </>}
                   baslik={
@@ -795,6 +795,7 @@ export default function TournamentPage() {
                     <QtIkonDugme
                       ikon="kilic"
                       tur="yuzey"
+                      className="m1-tv-kilic"
                       etiket={tt("{0} oyuncusuna meydan oku", { 0: o.profil?.gorunen_ad ?? tt("Oyuncu") })}
                       onClick={(e) => { e.stopPropagation(); meydanOku(o.user_id); }}
                     />

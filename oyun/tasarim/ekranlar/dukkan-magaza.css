@@ -523,3 +523,8 @@ a.qt-dk-elmas-satir * { text-decoration: none; }
 /* Renk rolleri (Aşama 2, 7 Eki 2026): satın alma = YEŞİL (QtDugme tur="dogru"); 10'lu paket beyaz kalır ama yeşil dudak
    alır — iki düğme aynı eylem ailesi. Coin simgesi altın (CoinIkon), sayı koyu. */
 .qt-dk-skill-al > .qt-dugme--ikincil:not(:disabled):not([aria-disabled="true"]) { --_d: var(--qt-dogru-dudak); }
+
+/* Elmas bakiyesi sekme çubuğuyla kırpılmasın: pil hiç daralmaz/kesilmez, sığmazsa alt satıra iner (sağda) */
+.qt-dk-sekme-satiri { flex-wrap: wrap; row-gap: var(--qt-b-2); }
+.qt-dk-sekme-satiri > .qt-dk-sekmeler { flex: 1 1 240px; }
+.qt-dk-sekme-satiri > .qt-dk-bakiye { position: relative; z-index: 1; flex: 0 0 auto; margin-left: auto; white-space: nowrap; overflow: visible; }

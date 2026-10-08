@@ -92,3 +92,10 @@
 .m1-tv-lobi-liste .qt-satir-kap--vurgulu { box-shadow: inset 4px 0 0 var(--qt-ikinci); }
 .m1-tv-lobi-liste .qt-satir-kap--vurgulu .m1-tv-sira { color: var(--qt-ikinci-koyu); }
 .m1-tv-lobi-liste .qt-satir-kap--vurgulu .qt-rozet { --_z: var(--qt-ikinci); --_y: var(--qt-ikinci-yazi); }
+
+/* Lobi: "Lobiden ayrıl" ikincil-tehlike — beyaz zemin, amber kontur/yazı (Düello kırmızısıyla karışmaz) */
+.m1-tv-ayril.qt-dugme { --_y: var(--qt-uyari-koyu); --_d: var(--qt-uyari); border: 2px solid var(--qt-uyari); font-weight: var(--qt-a-siyah); }
+/* Meydan okuma kılıcı: soluk yüzey yerine belirgin kontur ve koyu ikon */
+.m1-tv-lobi-liste .m1-tv-kilic.qt-ikon-dugme { --_y: var(--qt-metin); --_d: var(--qt-cizgi-guclu); border: 2px solid var(--qt-cizgi-guclu); }
+/* Liste avatarı: her satırda aynı 44 px kutu, çerçeve kutudan taşıp komşuya binmez */
+.m1-tv-oyuncu-ac { width: 44px; height: 44px; flex: none; }

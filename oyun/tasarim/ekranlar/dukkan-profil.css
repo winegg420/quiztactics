@@ -241,3 +241,15 @@
 /* 25 Eyl: tek oyuncu kartı (qt-ok) başta tam genişlik; 1 Eki: alt kenarı şeride bitişir (köşeler düz, kabartma şeridin) */
 .qt-pf-ok { width: 100%; }
 .qt-pf-kimlik > .qt-pf-ok { border-bottom-left-radius: 0; border-bottom-right-radius: 0; border-bottom-width: 0; box-shadow: none; }
+
+/* ——— Takma ad / Avatar satırı: "Değiştir" iki kartta da sağda, aynı stilde (alta düşmez) ——— */
+.qt-pf-ayar-satir--duzenle { flex-wrap: nowrap; gap: var(--qt-b-3); }
+.qt-pf-ayar-satir--duzenle > .qt-pf-ayar-metin { flex: 1 1 0; }
+.qt-pf-ayar-satir--duzenle > .qt-dugme { flex: none; margin-left: auto; }
+
+/* ——— Anahtar kapalı hâli: ray ve top daha belirgin (ortak .qt-anahtar'a dokunmadan, yalnız Profil kartlarında) ——— */
+.qt-pf-bolum .qt-anahtar:not(.qt-anahtar--acik) .qt-anahtar-ray {
+  background: color-mix(in srgb, var(--qt-metin) 30%, var(--qt-yuzey-3));
+  box-shadow: inset 0 2px 0 rgba(29, 33, 82, 0.18);
+}
+.qt-pf-bolum .qt-anahtar:not(.qt-anahtar--acik) .qt-anahtar-top { box-shadow: 0 2px 0 var(--qt-metin-soluk), 0 2px 6px rgba(29, 33, 82, 0.22); }

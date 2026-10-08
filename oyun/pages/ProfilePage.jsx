@@ -128,6 +128,19 @@ export default function ProfilePage() {
     };
   }, []);
 
+  // Dar ekranda etiketsiz kalan sekme ikonlarına erişilebilir ad + ipucu (QtSekmeler ortak; burada öznitelik eklenir)
+  const sekmeAdlari = { istatistik: tt("İstatistiklerim"), ayarlar: tt("Ayarlar"), rozet: tt("Rozetler"), koleksiyon: tt("Koleksiyon"), davet: tt("Davet") };
+  useEffect(() => {
+    try {
+      document.querySelectorAll("#profil-sekmeler [role=tab][data-kod]").forEach((el) => {
+        const ad = sekmeAdlari[el.getAttribute("data-kod")];
+        if (!ad) return;
+        el.setAttribute("aria-label", ad);
+        el.setAttribute("title", ad);
+      });
+    } catch (e) { console.error("[Bildim] sekme adları yazılamadı:", e); }
+  }, [sekme, !!profile]); // eslint-disable-line react-hooks/exhaustive-deps
+
   if (!profile) {
     return (
       <div className="qt-pf">
@@ -167,14 +180,14 @@ export default function ProfilePage() {
   const bildirimAciklama = bildirim === "acik"
     ? tt("Maç sırası ve davetler için haber veririz.")
     : bildirim === "engelli"
-      ? tt("Kapalı — tarayıcı ayarlarından engellenmiş. Açmak için adres çubuğundaki site ayarlarından bildirimlere izin ver.")
+      ? tt("Kapalı. Tarayıcı bildirimleri engellemiş; site ayarlarından izin ver.")
       : bildirim === "desteklenmiyor"
         ? (iosSekmesi()
-          ? tt("Kapalı — iPhone'da bildirimler yalnız ana ekrandaki uygulamada çalışır. Paylaş → Ana Ekrana Ekle, sonra oradan aç.")
-          : tt("Kapalı — bu tarayıcı bildirimleri desteklemiyor."))
+          ? tt("Kapalı. iPhone'da önce Paylaş → Ana Ekrana Ekle, sonra uygulamayı oradan aç.")
+          : tt("Kapalı. Bu tarayıcı bildirimleri desteklemiyor."))
         : pushDestekleniyor() && Notification.permission === "granted"
-          ? tt("Kapalı — izin var ama bu cihaz bağlı değil. Açmak için dokun.")
-          : tt("Kapalı — henüz izin verilmedi. Açınca tarayıcı izin isteyecek.");
+          ? tt("Kapalı. Açmak için dokun.")
+          : tt("Kapalı. Açınca tarayıcı izin isteyecek.");
 
 
   const silKapat = () => { setSilOnay(false); setSilMetin(""); };

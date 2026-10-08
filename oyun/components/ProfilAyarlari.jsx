@@ -154,7 +154,7 @@ export default function ProfilAyarlari() {
             </div>
           </>
         ) : (
-          <div className="qt-pf-ayar-satir">
+          <div className="qt-pf-ayar-satir qt-pf-ayar-satir--duzenle">
             <div className="qt-pf-ayar-metin">
               <span className="qt-pf-takma-ad">{profile.gorunen_ad}</span>
               <span className="qt-kucuk qt-soluk">
@@ -234,7 +234,7 @@ export default function ProfilAyarlari() {
             </div>
           </>
         ) : (
-          <div className="qt-pf-ayar-satir">
+          <div className="qt-pf-ayar-satir qt-pf-ayar-satir--duzenle">
             {/* Paket 37 H: neyi değiştireceğin görünsün (lig çerçevesi dahil) */}
             <span className="qt-pf-avatar-onizleme">
               <AvatarCerceve profile={profile} boyut={44} userId={profile.id} />
