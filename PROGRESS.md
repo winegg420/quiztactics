@@ -10901,3 +10901,15 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - **Karar değişikliği** PROJECT_CONTEXT + SORU_STIL_PROFILI'ye yazıldı (yalnız zorluk 2 → %70/%30; EN artık yapılır).
 - **Bekleyen:** `db push` 1007 + 1008 ile birlikte 988'i (Kasa, ayrı onay) de iter → 1007/1008 tek dosya olarak
   `araclar/migration-uygula.mjs` ile uygulanmalı. Push Ida'ya soruldu.
+
+## 2026-10-09 — 6 yeni avatar + Dükkân › Avatar "Sahip olunan" etiketi
+**Araç:** Claude Code
+**Neden:** Ida 20 çizimden 6 avatarı onayladı; Dükkân'da elindeki avatarlar "Sahip olunan" diye görünsün istedi.
+
+- **Avatar:** `araclar/avatar-yeni-kaynak/` → `public/avatars/pro2/` (`kovboy-y40`, `korkuluk-y41`, `kurt-adam-y42`, `balkabagi-adam-y43`, `gunes-kral-y44`, `ay-tanricasi-y45`). c2pa üst verisi (AI iz bloğu) ayıklandı; ilk `<rect>` Sahne olduğu doğrulandı (`sahneyiBoya` çalışır). `avatar-pro-uret.mjs` ÇALIŞTIRILMADI.
+- **Migration `20260612001009_avatar_6_yeni.sql` (UYGULANMADI):** katalog 6 satır (aktif, onay=girsin, sıra 40–45) + nitelik 6 satır. Kovboy/Korkuluk nadir-ücretsiz · Kurt Adam/Balkabağı epik-elmas · Güneş Kralı/Ay Tanrıçası efsanevi-elmas. Gruplar: Kovboy kahraman · Korkuluk/Kurt Adam/Balkabağı/Ay Tanrıçası fantastik · Güneş Kralı insan (Kral ile aynı). Fiyat nadirlikten (820). `avatar_katalogu.nadirlik` (Koleksiyon Puanı) boş bırakıldı; gizli botlar yeniden dağıtılmadı. 1008 numarasını başka pencere (soru partisi) almıştı → 1009.
+- **Karar:** pro2 avatarları katalogdan gelir; 31 hazır liste / `avatar_onayla` sabit listesine eklenmedi.
+- **Dükkân (önceki durum):** avatar sekmesi yalnız ücretli (Epik/Efsanevi) avatarları listeler (920); sahip olunan ücretli kartta "Sahipsin", takılıda "Takılı". Ücretsizler Dükkân'da yok (profilde seçilir).
+- **Değişiklik:** "Sahipsin" → onay ikonlu "Sahip olunan" (EN "Owned"); `.qt-dc-sahip` (nowrap). Takılı avatar "Takılı" göstermeye devam eder. sw.js v19 → v20.
+- **Test:** SQL provası (BEGIN…ROLLBACK, 13/13); ekran 43/43 (390×844, 390×664, 360×640 × TR/EN, taşma/kırpılma/44px/Sahne rengi/konsol; yanıtlar tarayıcıda taklit, sunucuya yazılmadı); `npm run build` temiz. Görüntüler `tasarim/avatar-1009/`.
+- **Bekleyen:** migration 1009 canlıya (ayrı onay). `db push` 988 + 1007 + 1008'i de iter → tek dosya uygulama (`araclar/migration-uygula.mjs`). `/avatar-nadirlik` sayfası sahip hesabı ister, taklitle ölçülmedi (aynı RPC verisi).
