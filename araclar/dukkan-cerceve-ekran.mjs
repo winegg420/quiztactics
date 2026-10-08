@@ -50,7 +50,7 @@ for (const dil of ["tr", "en"]) for (const [w, h] of [[360, 640], [390, 844]]) {
     ok(`${etiket} Dükkân ?sekme=cerceve: çerçeve ızgarası yok, varsayılana düştü`, !(await s.locator("[id=qt-panel-cerceve]").count()) && sec.length === 1, sec.join("|"));
     await git("/joker?sekme=avatar", "[role=tablist]");
     const panel = (await s.locator("[role=tabpanel]").innerText().catch(() => "")) || "";
-    ok(`${etiket} Dükkân Avatar ve İsim: Altın isim yok`, !/Altın|Gold/.test(panel) && !/Kraliyet|Royal|Şimşek|Lightning|Galaksi|Galaxy|Sönmeyen|Eternal/.test(panel), panel.slice(0, 160).replace(/\n/g, " | "));
+    ok(`${etiket} Dükkân Avatar: Altın isim yok`, !/Altın|Gold/.test(panel) && !/Kraliyet|Royal|Şimşek|Lightning|Galaksi|Galaxy|Sönmeyen|Eternal/.test(panel), panel.slice(0, 160).replace(/\n/g, " | "));
     await s.screenshot({ path: path.join(CIKTI, `${etiket}-dukkan-avatar.png`), fullPage: true });
     await tasmaYok("Dükkân Avatar");
     // --- Sezon Yolu (Battle Pass)

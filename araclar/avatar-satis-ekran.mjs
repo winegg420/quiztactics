@@ -136,7 +136,7 @@ for (const dil of DILLER) {
       ok("Dükkân › Avatar: 24 kilitli (26 ücretli − 2 sahip olunan), her birinde kilit rozeti", o.kilitli === 24 && o.kilitRozeti === 24, `${o.kilitli}/${o.kilitRozeti}`);
       ok("Dükkân › Avatar: yalnız Epik · 18 ve Efsanevi · 8 bölümleri (Yaygın / Nadir bölümü YOK)", o.bolumler.length === 2 && /18$/.test(o.bolumler[0]) && /8$/.test(o.bolumler[1]), JSON.stringify(o.bolumler));
       const sekmeler = await s.locator("[role=tab]").allInnerTexts();
-      const trAd = ["Elmas", "Joker", "Çerçeve", "Avatar ve İsim"];   // TR sözleşmesi; EN'de yalnız sayı + yasak adlar ölçülür
+      const trAd = ["Elmas", "Joker", "Çerçeve", "Avatar"];   // TR sözleşmesi; EN'de yalnız sayı + yasak adlar ölçülür
       ok("Dükkân: 4 sekme; Kıyafet / Arka Plan / VS Kartı / Zafer Efekti / Tepki sekmesi YOK",
         sekmeler.length === 4 && (dil === "en" || trAd.every((x, i) => sekmeler[i].includes(x))) && !/Kıyafet|Arka Plan|VS|Zafer|Tepki|Outfit|Background|Victory|Reaction/i.test(sekmeler.join("|")), JSON.stringify(sekmeler));
       ok("Dükkân › Avatar: dokunma hedefi ≥ 44 px", o.kucukHedef === 0, String(o.kucukHedef));

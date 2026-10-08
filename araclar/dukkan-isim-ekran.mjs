@@ -1,4 +1,4 @@
-// Dükkân › Avatar ve İsim: Altın isim satışı kalktı (Battle Pass'e ait) — ekran ölçümü, SUNUCUYA YAZMAZ.
+// Dükkân › Avatar: İsim bölümü yok (Altın isim Battle Pass'e ait; sahibi olana da dükkânda görünmez) — ekran ölçümü, SUNUCUYA YAZMAZ.
 // kozmetik_katalogu cevabı tarayıcıda taklit edilir: (a) Altın satılık + sahipsiz, Alev satılık → Altın GÖRÜNMEZ, Alev kalır;
 // (b) Altın sahipli → "Sende var" olarak görünmeye devam eder. 360×640 ve 390×844 × TR/EN. Ölçer: yatay taşma, konsol hatası.
 // Kullanım: npm run dev -- --port 5193 (başka kabukta) · node araclar/dukkan-isim-ekran.mjs [--adres=http://localhost:5193]
@@ -45,21 +45,15 @@ for (const dil of ["tr", "en"]) for (const [w, h] of [[360, 640], [390, 844]]) f
   try {
     await s.goto(ADRES + "/", { waitUntil: "domcontentloaded", timeout: 30000 }); await s.waitForTimeout(2500);
     await s.goto(ADRES + "/joker?sekme=avatar", { waitUntil: "domcontentloaded", timeout: 30000 });
-    await s.waitForSelector("#qt-dk-isim", { timeout: 30000 }).catch(() => {});
+    await s.waitForSelector("#qt-dk-avatarlar", { timeout: 30000 }).catch(() => {});
     await s.waitForTimeout(1200);
-    const bolum = s.locator("section[aria-labelledby=qt-dk-isim]");
-    const metin = (await bolum.innerText().catch(() => "")) || "";
-    const altin = /Altın|Gold/.test(metin);
-    ok(`${etiket}: İsim bölümü var (diğer isimler sağlam: Alev/Flame, Buz/Ice)`, /Alev|Flame/.test(metin) && /Buz|Ice/.test(metin), metin.slice(0, 120).replace(/\n/g, " | "));
-    if (!sahip) ok(`${etiket}: Altın isim satışı GÖRÜNMEZ`, !altin, metin.slice(0, 160).replace(/\n/g, " | "));
-    else {
-      ok(`${etiket}: Altın sahibi oyuncuda kalem görünür`, altin);
-      ok(`${etiket}: sahipli Altın "Sende var" / "Owned" (satın al değil)`, /Sende var|You own it|Owned|Takılı|Equipped/i.test(metin) && !/Satın al|Buy/.test(await s.locator("section[aria-labelledby=qt-dk-isim] .qt-dc-oge").first().innerText().catch(() => "")), metin.slice(0, 160).replace(/\n/g, " | "));
-    }
+    const isimBolumu = await s.locator("#qt-dk-isim").count();
+    const panel = (await s.locator("[role=tabpanel]").innerText().catch(() => "")) || "";
+    ok(`${etiket}: İsim bölümü YOK (Altın sahibinde de)`, isimBolumu === 0 && !/Altın|Gold/.test(panel), panel.slice(0, 160).replace(/\n/g, " | "));
     const tasma = await s.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
     ok(`${etiket}: yatay taşma yok`, tasma <= 0, `taşma=${tasma}`);
-    const ic = await s.evaluate(() => [...document.querySelectorAll("section[aria-labelledby=qt-dk-isim] *")].filter((e) => { const r = e.getBoundingClientRect(); if (!(r.width > 0 && r.right > window.innerWidth + 0.5)) return false; for (let p = e.parentElement; p; p = p.parentElement) { const ox = getComputedStyle(p).overflowX; if ((ox === "auto" || ox === "scroll") && p.scrollWidth > p.clientWidth) return false; if ((ox === "hidden" || ox === "clip") && p.getBoundingClientRect().right <= window.innerWidth + 0.5) return false; } return true; }).length); // kaydırmalı şerit içindekiler ve ekran içindeki kırpıcı (overflow:hidden) atanın taşan çocuğu görünmez
-    const kim = ic ? await s.evaluate(() => [...document.querySelectorAll("section[aria-labelledby=qt-dk-isim] *")].filter((e) => e.getBoundingClientRect().right > window.innerWidth + 0.5 && e.getBoundingClientRect().width > 0).map((e) => e.tagName + "." + String(e.className).slice(0, 40) + ":" + Math.round(e.getBoundingClientRect().right) + "/" + innerWidth + " ox=" + getComputedStyle(e.parentElement).overflowX).slice(0, 4).join(" ; ")) : "";
+    const ic = await s.evaluate(() => [...document.querySelectorAll("section[aria-labelledby=qt-dk-avatarlar] *")].filter((e) => { const r = e.getBoundingClientRect(); if (!(r.width > 0 && r.right > window.innerWidth + 0.5)) return false; for (let p = e.parentElement; p; p = p.parentElement) { const ox = getComputedStyle(p).overflowX; if ((ox === "auto" || ox === "scroll") && p.scrollWidth > p.clientWidth) return false; if ((ox === "hidden" || ox === "clip") && p.getBoundingClientRect().right <= window.innerWidth + 0.5) return false; } return true; }).length); // kaydırmalı şerit içindekiler ve ekran içindeki kırpıcı (overflow:hidden) atanın taşan çocuğu görünmez
+    const kim = ic ? await s.evaluate(() => [...document.querySelectorAll("section[aria-labelledby=qt-dk-avatarlar] *")].filter((e) => e.getBoundingClientRect().right > window.innerWidth + 0.5 && e.getBoundingClientRect().width > 0).map((e) => e.tagName + "." + String(e.className).slice(0, 40) + ":" + Math.round(e.getBoundingClientRect().right) + "/" + innerWidth + " ox=" + getComputedStyle(e.parentElement).overflowX).slice(0, 4).join(" ; ")) : "";
     ok(`${etiket}: İsim bölümünde ekran dışına taşan öğe yok`, ic === 0, `taşan=${ic} ${kim}`);
     await bolum.scrollIntoViewIfNeeded().catch(() => {});
     await s.screenshot({ path: path.join(CIKTI, `${etiket}.png`), fullPage: true });

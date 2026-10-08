@@ -574,7 +574,7 @@ const EKRANLAR = [
   ["dukkan-joker-duello", "Dükkân › Joker › Düello", "/joker?mod=duello"],
   ["dukkan-elmas", "Dükkân › Elmas", "/joker?sekme=elmas"],
   ["dukkan-cerceve", "Dükkân › Çerçeve", "/joker?sekme=cerceve"],
-  ["dukkan-avatar-isim", "Dükkân › Avatar ve İsim", "/joker?sekme=avatar"],
+  ["dukkan-avatar-isim", "Dükkân › Avatar", "/joker?sekme=avatar"],
   ["arkadaslar", "Arkadaşlar", "/arkadaslar"],
   ["meydan-okumalar", "Meydan Okumalar", "/meydan"],
   ["modlar", "Modlar (kategori şeridi)", "/modlar"],

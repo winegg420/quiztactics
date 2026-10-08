@@ -168,3 +168,6 @@ bitirirsin:
 
 **İstisna:** yalnızca sahibinin bilebileceği bir şey varsa (gerçek şifre,
 API anahtarı doğruluğu, ürün kararı) sor.
+
+- **İş biriktir, tek push:** aynı işin parçalarını tek commit/tek push ile gönder. Günlük 100 Vercel deploy sınırı var; her küçük adıma push atma.
+- **Canlı Supabase'e ağır test yükü gönderme:** ekran/akış testleri toplu koşulmaz, sorgu döngüsü yok. Nano compute yük altında donuyor.

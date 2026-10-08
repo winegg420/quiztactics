@@ -138,7 +138,7 @@ export default {
   "Satın alma yalnızca Android uygulamasında yapılabilir. Elmas yalnızca çerçeve, avatar ve isim gibi görünüm eşyaları alır; oyunda avantaj sağlamaz.": "Purchases are only available in the Android app. Gems only buy cosmetics like frames, avatars and name styles; they give no in-game advantage.",
   "Elmas paketleri yakında satışta. Elmas yalnızca çerçeve, avatar ve isim gibi görünüm eşyaları alır; oyunda avantaj sağlamaz.": "Gem packs are coming soon. Gems only buy cosmetics like frames, avatars and name styles; they give no in-game advantage.",
   // ——— 920: sade dükkân (dört sekme + tek kural) ———
-  "Avatar ve İsim": "Avatar & Name",
+  "Avatar": "Avatar",
   "Dükkân kuralı": "Shop rule",
   "coin ile alınır": "cost coins",
   "elmas ile alınır": "cost gems",

@@ -10567,3 +10567,11 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 - `20260612000992_bot_oyna_5sn.sql`: `cron_bot_oyna` iş varken '5 seconds' ister; `cron_aralik_ayarla` izin listesine '5 seconds' eklendi (imza/GRANT aynı: postgres + service_role); canlı iş hemen 5 sn'ye alındı. Boşta 15 sn ve `duello_tik` değişmedi.
 - Etki: bot cevabı planlanan anından en çok 5 sn sonra işlenir; `bot_gecikme_tavan` 8 sn ile en kötü bekleme 10 → 13 sn (15 sn'lik soru içinde).
 - Doğrulama: prova + uygulama başarılı; `cron.job` schedule '5 seconds', son 8 koşu 5 sn arayla 0,02–0,04 sn. Canlı Klasik oyuncu testi GEÇTİ (20/20 soru sunucuya ulaştı, sayaç hızlı adım 0), bot rakip 20/20 soruyu cevapladı.
+
+## 2026-10-08 — Dükkân "Avatar ve İsim" → "Avatar"; CLAUDE.md iki kural
+**Araç:** Claude Code (Sonnet 5.5)
+**Neden:** Ida kararı — Altın isim Battle Pass'e ait; Dükkân'da İsim bölümü sahibi olana da görünmesin, sekme adı sadeleşsin.
+
+- `oyun/pages/JokerDukkani.jsx`: sekme adı `tt("Avatar")`; Avatar sekmesindeki "İsim" bölümü (DukkanKozmetik, isim_efekti) kaldırıldı; kullanılmayan `TUR_ISIM` çıkarıldı; yorumlar tutarlı. `dukkan.js` EN anahtarı "Avatar ve İsim" → "Avatar". Profil › Koleksiyon, `kozmetik.js` (DUKKANDAN_KALKAN) ve sunucuya dokunulmadı.
+- Araçlar tutarlı yapıldı: `avatar-satis-ekran`, `dukkan-cerceve-ekran`, `ekran-turu`, `dukkan-isim-ekran` (artık "İsim bölümü YOK" ölçer; ekran koşulmadı — canlı yük kuralı). CLAUDE.md sonuna iki kural eklendi (tek push, canlı Supabase yükü).
+- Supabase sağlık ölçümü (yalnız ölçüm): Auth /health 5 istek 200, 0,27–0,41 sn; REST kök 5 istek 401 (anahtar kök yola izin vermiyor, gateway yanıtı) 0,23–0,74 sn; 5xx yok, 1 sn üstü yok. `npm run build` temiz.

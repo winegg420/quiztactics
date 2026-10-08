@@ -39,10 +39,10 @@ import "../tasarim/ekranlar/dukkan-magaza.css";
 import { CoinIkon, ElmasIkon } from "../components/ParaIkonlari.jsx";
 
 // DÜKKÂN — SADE HÂLİ (2 Eki 2026, Ida: "gereksiz hiçbir şey kalmasın, çekirdeğe odaklan"). Sabit sekmeler:
-// Elmas · Joker · Çerçeve · Avatar ve İsim. TEK KURAL ekranda yazar (kural şeridi): JOKERLER COİN'le (coin yalnız
+// Elmas · Joker · Çerçeve · Avatar. TEK KURAL ekranda yazar (kural şeridi): JOKERLER COİN'le (coin yalnız
 // oynayarak kazanılır, parayla satılmaz), KOZMETİKLER ELMAS'la (elmas parayla alınır + oyunla kazanılır) — pay to win yok.
 //   Çerçeve        → premium hareketli çerçeveler (kozmetikler › premium_cerceve)
-//   Avatar ve İsim → Epik / Efsanevi avatarlar (820, avatar_satin_al) + Altın isim (isim_efekti)
+//   Avatar → Epik / Efsanevi avatarlar (820, avatar_satin_al); İsim bölümü yok (Altın isim BP'ye ait)
 // DÜKKÂNDAN ÇIKANLAR (veri ve sahiplik durur, alınmış eşya Profil › Koleksiyon'da): Kıyafet (gardırop dondurulmuş —
 // vitrin oyun/vitrin/, bayrak ozellikBayraklari.js › GARDIROP_ACIK), Arka Plan (dondurulmuş, oyun_ayarlari.arka_plan_acik),
 // VS Kartı · Zafer Efekti · Tepki paketi (920: kozmetikler.satis_pasif; tepki paketleri Battle Pass ödülü).
@@ -51,13 +51,13 @@ import { CoinIkon, ElmasIkon } from "../components/ParaIkonlari.jsx";
 // Oyun hissi (1 Eki 2026, OKU.md §11): sayfa afişi, oyun kartı dili (qt-oyk), ilk açılışta sıralı kart girişi, eylem
 // düğmelerinde dokunus(). SATIN ALMA ANI (parıltı + uçan çip + ses + titreşim) YALNIZ sunucu başarı döndükten sonra
 // oynar (kutla); hata / yetersiz coin dalında kutlama yoktur. Ürünler vitrinde fiyatıyla, doğrudan satılır.
-const [TUR_CERCEVE, TUR_ISIM] = DUKKAN_TURLERI;
+const [TUR_CERCEVE] = DUKKAN_TURLERI;
 // `para`: sekmedeki ürünlerin para birimi — kural şeridinde o yarı vurgulanır.
 const SEKMELER = [
   { kod: "elmas",   ad: tt("Elmas|para"),     ikon: "elmas",   para: "elmas" },
   { kod: "joker",   ad: tt("Joker"),          ikon: "yildiz",  para: "coin" },
   ...(DUKKAN_PREMIUM_CERCEVE_ACIK ? [{ kod: "cerceve", ad: tt("Çerçeve"),        ikon: "madalya", para: "elmas" }] : []),   // dondurulmuş (ozellikBayraklari.js)
-  { kod: "avatar",  ad: tt("Avatar ve İsim"), ikon: "kisi",    para: "elmas" },
+  { kod: "avatar",  ad: tt("Avatar"), ikon: "kisi",    para: "elmas" },
 ];
 // COIN SEKMESİ YOK (2 Eki 2026): ürün satmıyordu — coin parayla satılmaz, elmasla coin dönüşümü de yok. İçindeki
 // "Coin nasıl kazanılır?" notu ve (reklam yapılandırılmışsa) ödüllü video Joker sekmesinin altına taşındı.
@@ -170,7 +170,7 @@ export default function JokerDukkani() {
 
   // Sekme adres çubuğunda tutulur: bağlantıyla açılabilsin, geri tuşu da beklendiği gibi çalışsın.
   const [arama, setArama] = useSearchParams();
-  // Kozmetik + avatar kataloğu tek yerde, bir kez (Çerçeve ve Avatar ve İsim sekmeleri aynı veriyi kullanır).
+  // Kozmetik + avatar kataloğu tek yerde, bir kez (Çerçeve ve Avatar sekmeleri aynı veriyi kullanır).
   const kozmetik = useKozmetikDukkan();
   const dukkanKatalogu = useMemo(() => kozmetik.katalog.filter(dukkandaGorunur), [kozmetik.katalog]);   // Altın isim dükkândan kalktı (BP'ye ait)
   const istenenSekme = ESKI_SEKME[arama.get("sekme")] ?? arama.get("sekme");
@@ -521,7 +521,7 @@ export default function JokerDukkani() {
             onBilgi={(m) => { setHata(null); setBilgi(m); }} onHata={(m) => { setBilgi(null); setHata(m); }} />
         )}
 
-        {/* ---------- AVATAR VE İSİM: Epik / Efsanevi avatarlar (820) + isim efekti (elmasla) ---------- */}
+        {/* ---------- AVATAR: Epik / Efsanevi avatarlar (820); İsim bölümü yok (Altın isim Battle Pass'e ait) ---------- */}
         {sekme === "avatar" && kozmetik.hazir && (
           <>
             <section className="qt-dk-bolum" aria-labelledby="qt-dk-avatarlar">
@@ -533,17 +533,6 @@ export default function JokerDukkani() {
                 elmasYetmedi={elmasKazanGoster} elmasBakiye={elmas.bakiye}
                 onBilgi={(m) => { setHata(null); setBilgi(m); }} onHata={(m) => { setBilgi(null); setHata(m); }} />
             </section>
-            {dukkanKatalogu.some((x) => x.tur === TUR_ISIM) && (
-              <section className="qt-dk-bolum" aria-labelledby="qt-dk-isim">
-                <div className="qt-dk-bolum-ust qt-dk-bolum-ust--elmas">
-                  <h2 id="qt-dk-isim" className="qt-baslik-2">{tt("İsim")}</h2>
-                  <p className="qt-kucuk">{tt("Adın her yerde bu görünümle yazılır.")}</p>
-                </div>
-                <DukkanKozmetik tur={TUR_ISIM} katalog={dukkanKatalogu} sahipHesap={kozmetik.sahipHesap} yenile={kozmetik.yenile}
-                  elmasYetmedi={elmasKazanGoster} elmasBakiye={elmas.bakiye}
-                  onBilgi={(m) => { setHata(null); setBilgi(m); }} onHata={(m) => { setBilgi(null); setHata(m); }} />
-              </section>
-            )}
           </>
         )}
 
