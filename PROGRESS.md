@@ -10818,3 +10818,14 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
   · Arada iki kez "IPv6 is not supported … no such host" (aralıklı ağ); üçüncü denemede geçti.
 - Doğrulama: kovada 142 nesne, adlar sesAdayKova.js ile birebir (diff boş); 4 örnek adres 200 + doğru
   MIME, CORS `*`; GET `Cache-Control: public, max-age=31536000` (HEAD'de no-cache görünür, yanıltıcı).
+
+## 2026-10-08 — Lig sahnesi yeniden tasarım: adım 1 (önizleme) — ONAY BEKLİYOR
+**Araç:** Claude Code (Opus 5.5)
+**Neden:** Ida — profil kartında avatar arkasındaki lig sahnesi her ligde aynı konik ışın, yalnız renk değişiyor; özellikle Gümüş zayıf. YZ SVG çizimleri reddedilmişti → oyunun kendi dili (kalın kontur, düz renk, 3 ton, sol üst ışık, parlama/bulanıklık/parçacık yok).
+
+- **İmza öğeleri** (`oyun/tasarim/lig-sahnesi/LigSahnesiImza.jsx`, tek SVG, renkler yalnız CSS değişkeni): Bronz **flama şeridi** (kenarlardan avatarın başına sarkan ip, turuncu/krem flamalar, sağ yarıda koyu ton + avatarın arkasında düz sıcak disk) — başlangıç ligi, bayram/turnuva hissi; Gümüş **perçinli çelik plaka şeridi** (avatar yüksekliğinde, üstte açık kenar, altta koyu dudak, ek yerlerinde perçinler) + zemin soluk mavi yerine çelik mavisi; Altın **değişmedi** (ışın + hale, referans); Elmas **tek kesme kristal** (taç + köşk fasetleri, sol üst açık → sağ koyu); Efsane **tek yıldız** (her kol iki yüz, ışığa bakan yüz açık). Taç düşünülmedi: Efsane çerçevesinde zaten taç var.
+- Bağlantı: `OyuncuVitrinKarti` yeni `sahneImza` (varsayılan KAPALI) → `.qt-ok--sahne-v2`; çizim kartla kırpılan ayrı katmanda (z −1), kartta overflow:hidden yok. Oyundaki kartlar DEĞİŞMEDİ.
+- Jetonlar (`tokenlar.css` 7c): `--qt-lig-sahne-kontur`, `--qt-lig-{bronz,gumus,elmas,efsane}-imza-acik/-imza/-imza-koyu`, `--qt-lig-gumus-sahne-celik`.
+- **Önizleme:** `/lig-sahne-onizleme` (menüde yok, girişli herkes, sunucuya istek yok): 5 lig gerçek kart + gerçek lig çerçevesi + gerçek avatar, Eski/Yeni sekmesi + Battle Pass çerçevesi kutusu. TR/EN (`ceviri/lig.js`).
+- Ölçüm (yerel, 1100 ve 360 px): yatay taşma 0, kart içi taşma 0, konsol hatası 0; çizim merkezi avatar merkeziyle hizalı. `npm run build` TEMİZ. Hareket yok.
+- Sıradaki: Ida telefonda onaylayınca adım 3 (profil, oyuncu kartı penceresi; ana sayfa lig kartı + Lig pankartı ayrı CSS ile aynı ışını kullanıyor — onlar ayrıca ele alınmalı).

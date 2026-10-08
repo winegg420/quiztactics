@@ -48,6 +48,33 @@
     radial-gradient(circle at 50% 36%, rgb(255 255 255 / 0.8) 0, rgb(255 255 255 / 0) 110px),
     repeating-conic-gradient(from 0deg at 50% 36%, var(--sahne-zemin) 0deg 20deg, var(--sahne-isik) 20deg 40deg);
 }
+/* YENİ SAHNE (8 Eki 2026, `sahneImza` → .qt-ok--sahne-v2): ışın + hale yalnız Altın'da kalır; Bronz/Gümüş/Elmas/Efsane
+   düz zemin + avatarın arkasında TEK imza çizimi (LigSahnesiImza.jsx). Çizim kartla kırpılan ayrı katmanda (-1):
+   kartın kendisinde overflow:hidden yok, avatar/çerçeve kırpılmaz. --ok-av = avatar dış çapı (bileşen verir). */
+.qt-ok--sahne-v2 { --ok-av-ust: 40px; }
+.qt-ok--sahne-v2.qt-ok--kompakt { --ok-av-ust: 30px; }
+.qt-ok--sahne-v2[data-lig="gumus"] { --sahne-zemin: var(--qt-lig-gumus-sahne-celik); }
+.qt-ok--sahne-v2[data-lig="bronz"]  { --_acik: var(--qt-lig-bronz-imza-acik);  --_orta: var(--qt-lig-bronz-imza);  --_koyu: var(--qt-lig-bronz-imza-koyu); }
+.qt-ok--sahne-v2[data-lig="gumus"]  { --_acik: var(--qt-lig-gumus-imza-acik);  --_orta: var(--qt-lig-gumus-imza);  --_koyu: var(--qt-lig-gumus-imza-koyu); }
+.qt-ok--sahne-v2[data-lig="elmas"]  { --_acik: var(--qt-lig-elmas-imza-acik);  --_orta: var(--qt-lig-elmas-imza);  --_koyu: var(--qt-lig-elmas-imza-koyu); }
+.qt-ok--sahne-v2[data-lig="efsane"] { --_acik: var(--qt-lig-efsane-imza-acik); --_orta: var(--qt-lig-efsane-imza); --_koyu: var(--qt-lig-efsane-imza-koyu); }
+.qt-ok--sahne-v2:is([data-lig="bronz"], [data-lig="gumus"], [data-lig="elmas"], [data-lig="efsane"])::before { background: var(--sahne-zemin); }
+.qt-ok-sahne { position: absolute; inset: 0; z-index: -1; overflow: hidden; border-radius: inherit; pointer-events: none; }
+.qt-ok-sahne-svg { position: absolute; left: 50%; top: calc(var(--ok-av-ust) + var(--ok-av, 88px) / 2 - 130px); margin-left: -220px;
+  display: block; max-width: none; }
+.qt-ok-sahne .lsi-acik { fill: var(--_acik); }
+.qt-ok-sahne .lsi-isik { fill: var(--sahne-isik); }
+.qt-ok-sahne .lsi-orta { fill: var(--_orta); }
+.qt-ok-sahne .lsi-koyu { fill: var(--_koyu); }
+.qt-ok-sahne .lsi-golge { fill: var(--_koyu); fill-opacity: .32; }
+.qt-ok-sahne .lsi-zemin2 { fill: var(--sahne-isik); }
+.qt-ok-sahne .lsi-faset { stroke: var(--qt-lig-sahne-kontur); stroke-width: 1.5; stroke-linejoin: round; }
+.qt-ok-sahne .lsi-kontur { fill: none; stroke: var(--qt-lig-sahne-kontur); stroke-width: 3; stroke-linejoin: round; }
+.qt-ok-sahne .lsi-kontur-ince { stroke: var(--qt-lig-sahne-kontur); stroke-width: 2; }
+.qt-ok-sahne .lsi-ip, .qt-ok-sahne .lsi-kenar { fill: none; stroke: var(--qt-lig-sahne-kontur); stroke-width: 3; stroke-linecap: round; }
+.qt-ok-sahne .lsi-cizgi { stroke: var(--qt-lig-sahne-kontur); stroke-width: 2.5; }
+.qt-ok-sahne .lsi-cizgi-acik { stroke: var(--_acik); stroke-width: 2; }
+.qt-ok-sahne .lsi-parlama { stroke: var(--_acik); stroke-width: 4; stroke-linecap: round; }
 /* 2 Eki: filigran kapalı — 140 px yıldız kolları avatarın altından gri üçgen izi gibi taşıyordu (hata gibi duruyordu) */
 .qt-ok-filigran { position: absolute; inset: 0; z-index: -1; display: none; place-items: center; opacity: .12; pointer-events: none; }
 /* İSİM PLAKASI (8 Eki 2026): koyu lacivert levha → ana sayfa profil kartıyla aynı açık krem plaka (#FFF3C9) + altın

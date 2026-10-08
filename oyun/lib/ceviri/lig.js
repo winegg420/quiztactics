@@ -65,4 +65,11 @@ export default {
   "Haftalık ödül": "Weekly reward",
   // ---------- Lig satırı sadeleştirme (2 Eki 2026) ----------
   "P": "pts",
+  // ---------- Lig sahnesi önizleme (8 Eki 2026) ----------
+  "Lig sahnesi önizleme": "League scene preview",
+  "Profil kartında avatarın arkasındaki sahne. Eski ile yeniyi karşılaştır.": "The scene behind the avatar on the profile card. Compare old and new.",
+  "Sahne sürümü": "Scene version",
+  "Eski": "Old",
+  "Yeni": "New",
+  "Battle Pass çerçevesi": "Battle Pass frame",
 };

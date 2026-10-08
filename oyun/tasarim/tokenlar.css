@@ -122,6 +122,15 @@
   --qt-lig-altin-sahne-cerceve: var(--qt-lig-altin-dudak);
   --qt-lig-elmas-sahne-cerceve: var(--qt-lig-elmas-dudak);
   --qt-lig-efsane-sahne-cerceve: var(--qt-lig-efsane-dudak);
+  /* Sahne imza öğesi (8 Eki 2026, yeni sahne — LigSahnesiImza.jsx): her ligin TEK çizimi için 3 ton hücre gölgesi
+     (açık = sol üst ışık · orta · koyu = sağ alt) + ortak koyu kontur. Altın imzası mevcut ışın desenidir (jeton almaz). */
+  --qt-lig-sahne-kontur: #0b1220;
+  --qt-lig-bronz-imza-acik: #fff4e8;  --qt-lig-bronz-imza: var(--qt-lig-bronz);  --qt-lig-bronz-imza-koyu: var(--qt-lig-bronz-dudak);
+  --qt-lig-gumus-imza-acik: #f7faff;  --qt-lig-gumus-imza: #e3ecf9;              --qt-lig-gumus-imza-koyu: var(--qt-lig-gumus-sahne-cerceve);
+  --qt-lig-elmas-imza-acik: #f2fcff;  --qt-lig-elmas-imza: var(--qt-lig-elmas);  --qt-lig-elmas-imza-koyu: var(--qt-lig-elmas-dudak);
+  --qt-lig-efsane-imza-acik: #fbf6ff; --qt-lig-efsane-imza: var(--qt-lig-efsane); --qt-lig-efsane-imza-koyu: var(--qt-lig-efsane-dudak);
+  /* Gümüş yeni sahne zemini: soluk açık mavi yerine çelik mavisi (plaka bu zeminde açık-orta-koyu okunur) */
+  --qt-lig-gumus-sahne-celik: #c8d9f0;
 
   /* ---------- 7b. Kozmetik: çerçeve nadirliği + rozet madalyonu malzemesi ----------
      Nadirlik renk kodu her yerde aynı (çerçeve, dükkân etiketi, önizleme):
