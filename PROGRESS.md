@@ -10608,3 +10608,4 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 - **7 Ban fazı 360×640:** ikonlu alt çubuk kısa ekranda sıkılaştı (`duello-tahta.css`); alt 649→635/640 (15 px taşma gitti). duello-puan-ekran 250/0.
 - **8 Alt menü:** Arkadaşlar/Lig/Dükkân/Profil'de aynı kalın ikon + mavi etkin hap; tek fark: ana sayfa zemini #BFDBF7, öteki sayfalar #B9DCFF (gözle ayırt edilmez, dokunulmadı).
 - **Test:** yerel dev, 360×640 + 390×844, taşma 0, kırpma yok; build TEMİZ. EN koşuları yerelde sözlük yüzünden TR'ye düşüyor (bilinen); yeni metin eklenmedi.
+- **Dağıtım:** f2d06251 Vercel success (8 Eki 2026).
