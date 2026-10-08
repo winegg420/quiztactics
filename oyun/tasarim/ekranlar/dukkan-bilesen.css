@@ -107,6 +107,21 @@
   text-align: center;
 }
 .qt-dk-sayilar svg { color: var(--qt-ikinci-koyu); }
+/* Oyun hissi: kalın çerçeve + alt dudak + ikon rozeti; renk = kutunun anlamı (seri turuncu · rekor altın · skill mavi · video gri-mavi) */
+.qt-dk-sayilar li {
+  --_k: var(--qt-ikinci-dudak); --_z: var(--qt-ikinci-acik); --_i: var(--qt-ikinci-koyu);
+  background: var(--_z);
+  border: 2.5px solid var(--_k);
+  box-shadow: 0 3px 0 var(--_k);
+}
+.qt-dk-sayilar li:nth-child(1) { --_k: var(--qt-vurgu-dudak); --_z: var(--qt-vurgu-acik); --_i: #a03a06; }
+.qt-dk-sayilar li:nth-child(2) { --_k: var(--qt-coin-dudak); --_z: var(--qt-coin-acik); --_i: #7a5300; }
+.qt-dk-sayilar li:nth-child(4) { --_k: #5b6985; --_z: #e9edf5; --_i: #354158; }
+.qt-dk-sayilar li > svg {
+  box-sizing: content-box; width: 20px; height: 20px; padding: 6px; border-radius: 50%;
+  background: #fff; border: 2px solid var(--_k); color: var(--_i);
+}
+.qt-dk-sayilar li > span { color: var(--_i); }
 .qt-dk-sayilar b { font-family: var(--qt-f-baslik); font-size: var(--qt-y-2xl); font-weight: var(--qt-a-siyah); line-height: 1.1; }
 .qt-dk-sayilar span { font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); }
 .qt-dk-envanter { display: flex; flex-wrap: wrap; gap: var(--qt-b-2); margin: 0; padding: 0; list-style: none; }
@@ -120,6 +135,8 @@
   color: var(--qt-ikinci-koyu);
   font-weight: var(--qt-a-siyah);
   font-size: var(--qt-y-s);
+  border: 2.5px solid var(--qt-ikinci-dudak);   /* oyun hissi: kalın çerçeve + alt dudak */
+  box-shadow: 0 2px 0 var(--qt-ikinci-dudak);
 }
 .qt-dk-ustalik { display: grid; gap: var(--qt-b-4); margin: 0; padding: 0; list-style: none; }
 @media (min-width: 700px) { .qt-dk-ustalik { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--qt-b-6); } }
@@ -154,6 +171,11 @@
 .qt-dk-kprofil-yok { grid-column: 3 / -1; justify-self: end; color: var(--qt-metin-soluk); font-weight: var(--qt-a-kalin); }
 .qt-dk-kprofil-yuzde { text-align: right; font-weight: var(--qt-a-siyah); }
 .qt-dk-kprofil--kucuk .qt-dk-kprofil-satir { font-size: var(--qt-y-xs); }
+/* Kategori çubuğu kendi kategori renginde (ikon plakasıyla aynı; koyuya %14 karıştırılır → açık izde seçilir) */
+.qt-dk-kprofil-satir .qt-ilerleme { --_r: var(--kp-r, var(--qt-dogru)); }
+@supports (color: color-mix(in srgb, red, blue)) {
+  .qt-dk-kprofil-satir .qt-ilerleme { --_r: color-mix(in srgb, var(--kp-r, var(--qt-dogru)) 86%, #0b1220); }
+}
 
 /* ——— LigCerceveSecici ——— */
 /* 327: loadout yuvasında hak sayısı / "Hakkın yok" işareti */

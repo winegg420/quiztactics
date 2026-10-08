@@ -66,3 +66,18 @@
 /* Koyu tema: `--qt-*` yüzey token'ları koyuda değişmiyor (kart beyaz kalıyor; koyu tema da şu an
    KOYU_TEMA_KAPALI ile kapalı) → ayrı koyu kural YOK. Hap kendi zeminini taşıdığı, nokta da
    --qt-yuzey ile halkalandığı için yüzey ileride koyulaşsa da okunur kalır. */
+
+/* 8 Eki 2026 (Ida): her satırda aynı turuncu "Oyna" fazla turuncuydu → sakin ikincil (açık mavi zemin, mavi yazı + dudak).
+   Ana turuncu eylem sayfada tek kalır (Arkadaş ekle / davet). Çevrimiçi halkası yukarıda aynen. */
+.ar-sayfa .qt-dugme.ar-oyna {
+  --_z: var(--qt-ikinci-acik);
+  --_y: var(--qt-ikinci-koyu);
+  --_d: var(--qt-ikinci-dudak);
+}
+
+/* Bütün arkadaş avatarları çerçeveli görünsün: takılı çerçevesi olmayanda da aynı kalınlıkta lacivert halka
+   (çerçeveli olanlar kendi çerçevesini taşır; çerçeve sistemi/lig çerçevelerine dokunulmaz — yalnız bu sayfada). */
+.ar-sayfa .ar-avatar-kap .qt-cerceve--yok .qt-cerceve-halka {
+  background: var(--qt-yuzey);
+  box-shadow: 0 0 0 2.5px var(--qt-ikinci-dudak), 0 2px 0 2.5px var(--qt-ikinci-dudak) !important;
+}

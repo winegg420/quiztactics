@@ -1062,14 +1062,14 @@ a.as-cip:active { transform: translateY(2px); }
 /* ============================================================
    8 Eki 2026 — OYUN SAHNESİ (Ida onaylı eskiz; renkler sabit)
    zemin #BFDBF7 · lacivert metin #1F2A5C · turuncu #EE7F45 (TEK ana eylem: Klasik) · kırmızı #B93C3A ·
-   hardal #D8A53A · turnuva sarı #F6CF5A · yeşil #3FA568 (katıl / devam) · krem #FFF3C9.
+   hardal #D8A53A · turnuva sarı #F6CF5A · yeşil #2B8450 (katıl / devam) · krem #FFF3C9.
    Mod kartları: kama ışın sahnesi + büyük figür (rozet amblemleri + mevcut sandık/şimşek/parıltı görselleri).
    Profil kartı: açık ışınlı sahne + krem isim plakası. Turnuva: halo kalktı, KATIL yeşil. Koyu zemin yok.
    Hareket yok (ışınlar durağan) → hareketi azaltta değişen bir şey yok. Lig kartı / lig çerçevelerine dokunulmadı.
    ============================================================ */
 :root {
   --as-s-zemin: #bfdbf7; --as-s-lacivert: #1f2a5c; --as-s-turuncu: #ee7f45; --as-s-kirmizi: #b93c3a;
-  --as-s-hardal: #d8a53a; --as-s-sari: #f6cf5a; --as-s-yesil: #3fa568; --as-s-krem: #fff3c9;
+  --as-s-hardal: #d8a53a; --as-s-sari: #f6cf5a; --as-s-yesil: #2b8450; --as-s-krem: #fff3c9;
 }
 html.as-kaydirmasiz { --qt-zemin: var(--as-s-zemin); }
 
@@ -1152,7 +1152,7 @@ html.as-kaydirmasiz { --qt-zemin: var(--as-s-zemin); }
 .as-sahne .as-serit--lobi::after { content: none; }   /* turuncu-somon halo + nabız halkası kalktı */
 .as-sahne .as-serit--canli { background: radial-gradient(120% 120% at 100% 0%, rgb(255 255 255 / 0.45), transparent 60%), var(--as-s-sari); }
 .as-sahne .as-serit-katil:not(.as-serit-katil--tamam) {
-  background: var(--as-s-yesil); color: #fff; box-shadow: 0 4px 0 #276b42;
+  background: var(--as-s-yesil); color: #fff; box-shadow: 0 4px 0 #1b5a35;
   font-size: 19px; letter-spacing: .02em; text-shadow: 0 1px 0 rgb(0 0 0 / 0.22);   /* 19 px kalın = büyük metin (≥ 3:1) */
 }
 /* Masaüstü sağ sütunu dar (320 px): KATIL turnuva başlığını kısaltmasın */

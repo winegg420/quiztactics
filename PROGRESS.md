@@ -10596,3 +10596,15 @@ Yeni: `supabase/migrations/20260612000750_lig_grup_boyu_tek_tanim.sql` · `aracl
 - **Engel 2 — dağıtım yapılamıyor:** bu makinedeki Supabase CLI oturumu başka hesaba bağlı (`projects list` → quiztactics projesi `zfpnxzybcpkxsotwdsey` yok; `functions list` 403). Fonksiyonu yeniden dağıtmak için doğru hesapla `supabase login` ya da SUPABASE_ACCESS_TOKEN gerekir.
 - **Gerekli kod değişiklikleri (dağıtımla birlikte, henüz yapılmadı):** (a) gövdede `kategori` + `adet` ile hedef seçimi — mevcut kod yalnız aktif<1000 olan en az kategoriye üretir; bugün yalnız `genel_kultur` (596) altında, diğerleri 1157–1734; (b) yanıta `usage` (token) toplamı → $ takibi (claude-opus-5: 5/25 $ per 1M); (c) üretilen sorularda şık sırası karıştırma (model doğru indeksi dengeli vermiyor); (d) `mod:"dogrula"` — %20 örneklem için ikinci geçiş; (e) üretim sonrası pg_trgm yakın-tekrar taraması (aktif=false).
 - **Havuz sayımı (aktif):** genel_kultur 596 · spor 1157 · tarih 1249 · sanat 1263 · edebiyat 1279 · teknoloji 1304 · sinema 1311 · bilim 1314 · muzik 1333 · cografya 1734 (toplam 12.540; EN çeviri 12.355).
+
+## 2026-10-08 — Sekiz maddelik görsel iş (KATIL kontrast · profil · arkadaşlar · joker · Detay paneli · ban)
+**Araç:** Claude Code (Sonnet 5.5). Migration/RLS/GRANT yok; lig çerçevelerine, ana sayfa yerleşimine dokunulmadı.
+- **1 KATIL:** `anasayfa.css` yalnız renk (`--as-s-yesil` #3FA568 → #2B8450, alt dudak #1B5A35; beyaz yazıyla 4,65:1); `l-kart.css` bi-serit açık ikonu aynı yeşil. Başka yerde yeşil+beyaz yazı yok (öteki yeşil düğmeler koyu yazılı).
+- **2 Profil:** kategori çubukları kendi kategori renginde (`KategoriProfili` `--kp-r` = KATEGORI_RENK; color-mix `@supports` ardında); Seri kutuları kalın çerçeve + alt dudak + ikon rozeti (seri turuncu, rekor altın, skill mavi, video gri-mavi), joker çipleri kalın çerçeveli. (`dukkan-bilesen.css`)
+- **3 Arkadaşlar:** puana göre azalan sıralama (eşitlikte çevrimiçi → maçta → sunucu sırası; eski "önce çevrimiçi" kararı puanın altına indi, Ida isteği); çerçevesiz avatarlara aynı kalınlıkta lacivert halka (yalnız `.ar-sayfa`); "Oyna" turuncu → sakin açık-mavi ikincil. **Çevrimiçi göstergesi ZATEN VAR** (Realtime Presence, migration 590: yeşil nokta + "Çevrimiçi"/"Maçta"); son görülme yok, yeni tablo yapılmadı.
+- **4 Dükkân joker:** dar ekranda açıklama 1 satıra kırpılıyordu → kırpma kalktı (`dukkan-magaza.css`). 360/390 kırpma yok.
+- **5 Lig altı:** 360/390'da kesilme/boşluk/kontrast sorunu yok (liste kartı tam, alt menü üstünde); düzeltme gerekmedi.
+- **6 Detay paneli:** `.msk-panel` zemini #CFE4FB (açık), serbest yazı koyu (`mac-sonu-kutlama.css`).
+- **7 Ban fazı 360×640:** ikonlu alt çubuk kısa ekranda sıkılaştı (`duello-tahta.css`); alt 649→635/640 (15 px taşma gitti). duello-puan-ekran 250/0.
+- **8 Alt menü:** Arkadaşlar/Lig/Dükkân/Profil'de aynı kalın ikon + mavi etkin hap; tek fark: ana sayfa zemini #BFDBF7, öteki sayfalar #B9DCFF (gözle ayırt edilmez, dokunulmadı).
+- **Test:** yerel dev, 360×640 + 390×844, taşma 0, kırpma yok; build TEMİZ. EN koşuları yerelde sözlük yüzünden TR'ye düşüyor (bilinen); yeni metin eklenmedi.

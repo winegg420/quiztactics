@@ -341,11 +341,11 @@ export default function FriendsPage() {
   // 590: kabul edilmiş arkadaşların Presence kanalları dinlenir (ilk DINLEME_UST_SINIR kişi).
   // Çevrimdışı arkadaş haritada yoktur → satırda hiçbir şey çizilmez.
   const cevrimici = useArkadasCevrimici(arkadaslarHam.map((f) => digerProfil(f)?.id));
-  // Sıra: çevrimiçi → maçta → çevrimdışı; grup içinde sunucudan gelen sıra korunur.
+  // Sıra: puan çoktan aza (Ida, 8 Eki 2026); eşit puanda çevrimiçi → maçta → çevrimdışı, sonra sunucu sırası.
   const DURUM_SIRA = { cevrimici: 0, mac: 1 };
   const arkadaslar = arkadaslarHam
-    .map((f, i) => ({ f, i, s: DURUM_SIRA[cevrimici.get(digerProfil(f)?.id)] ?? 2 }))
-    .sort((a, b) => a.s - b.s || a.i - b.i)
+    .map((f, i) => ({ f, i, p: Number(digerProfil(f)?.puan ?? 0) || 0, s: DURUM_SIRA[cevrimici.get(digerProfil(f)?.id)] ?? 2 }))
+    .sort((a, b) => b.p - a.p || a.s - b.s || a.i - b.i)
     .map((x) => x.f);
 
 
@@ -570,7 +570,7 @@ export default function FriendsPage() {
                         Paket 35 D: bekleyen meydan okuma varken ikinci kez meydan okunamaz. */}
                     <span className={sinif("ar-oyna-kap", f.id === ilkCevrimiciId && "qt-h-hop")}>
                     <QtDugme
-                      tur="birincil"
+                      tur="ikincil"
                       boyut="k"
                       ikon="oyna"
                       className={durum === "cevrimici" && !bekleyen ? "ar-oyna ar-oyna--cevrimici" : "ar-oyna"}

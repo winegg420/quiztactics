@@ -489,7 +489,7 @@ a.qt-dk-elmas-satir * { text-decoration: none; }
   .qt-dk-bolum-ust { gap: 0; }
   .qt-oyk.qt-dk-skill { padding: var(--qt-b-2) var(--qt-b-2) var(--qt-b-2) calc(var(--qt-b-2) + 6px); gap: var(--qt-b-2); }
   .qt-dk-skill-metin { gap: 2px; }
-  .qt-dk-skill-metin p { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1; line-clamp: 1; overflow: hidden; }
+  .qt-dk-skill-metin p { line-height: 1.3; }   /* açıklama tam okunur (8 Eki: 1 satıra kırpılıyordu) */
   .qt-dk-skill-rozetler { margin-top: 0; }
   .qt-dk-skill-al > .qt-dugme { min-height: var(--qt-dokunma); }
 }

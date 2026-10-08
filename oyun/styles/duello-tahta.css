@@ -274,6 +274,8 @@
 .hk-kazan { font-style: normal; color: var(--hk-vurgu-metin); }
 .hk-cubuk-dugme { flex: none; min-width: 112px; }
 .hk-cubuk--savunan { min-height: 50px; }
+/* Ban fazı, kısa ekran (360×640): ikonlu alt çubuk (ban/ipucu) sıkılaşır — sayfa 15 px taşıyordu */
+@media (max-height: 680px) { .hk-cubuk:has(> .hk-cubuk-ikon) { min-height: 36px; padding-block: 1px; } }
 
 /* ---------------------------------------------------------------- cevap / sonuç: sıkı düzen
    390×640'ta üst çubuk + başlık + yuva şeridi + mesaj + soru + 4 şık + joker şeridi KAYDIRMASIZ sığmalı. */

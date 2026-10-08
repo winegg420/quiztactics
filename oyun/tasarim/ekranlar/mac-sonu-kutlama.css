@@ -664,7 +664,11 @@ html.msk-acik .mobile-nav, html.msk-acik .a-kabuk .a-altmenu { display: none !im
   -webkit-overflow-scrolling: touch;
   background: var(--msk-z3);
   background: color-mix(in srgb, var(--msk-z3) 94%, var(--qt-zemin-metin));
+  /* 8 Eki 2026 (Ida): koyu zemin yasak → Detay paneli açık (site zemini); kartlar beyaz kalır, serbest yazı koyu */
+  background: #cfe4fb;
+  color: var(--qt-metin);
 }
+.msk-panel .msk-ek .m1-ss-not { color: var(--qt-metin); text-shadow: none; }
 .msk-panel[hidden] { display: none; }
 /* Panel kapalıyken (display:none) giriş animasyonu işlemez; açılınca t.son gecikmesiyle 2,6 sn görünmez kalıyordu */
 .msk-panel .msk-ek, .msk-panel .msk-detay-govde { animation: none; }

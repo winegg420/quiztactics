@@ -6,7 +6,7 @@
  */
 import { useEffect, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
-import KategoriIkon from "./KategoriIkon.jsx";
+import KategoriIkon, { KATEGORI_RENK } from "./KategoriIkon.jsx";
 import { kategoriAdi, kategorileriSirala } from "../lib/kategoriler.js";
 import { unvanAdi } from "../lib/unvanlar.js";
 import { useDil } from "../lib/dilKanca.js";
@@ -80,7 +80,7 @@ export default function KategoriProfili({ userId, profil: disaridan = null, kucu
             const yok = k.yuzde === null || k.yuzde === undefined;
             const sifir = !yok && Number(k.yuzde) === 0;   // %0 çubuğu çizilmez (boş iz gürültü); yüzde yazısı kalır
             return (
-              <li key={k.kategori} className="qt-dk-kprofil-satir">
+              <li key={k.kategori} className="qt-dk-kprofil-satir" style={{ "--kp-r": KATEGORI_RENK[k.kategori] ?? KATEGORI_RENK.karisik }}>
                 <KategoriIkon anahtar={k.kategori} boyut={18} plaka />
                 <span className="qt-dk-kprofil-ad">{ad}</span>
                 {yok || sifir ? (
