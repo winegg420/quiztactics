@@ -10674,3 +10674,4 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - **Uygulanan kod değişikliği: yok** — gerçek oyuncu yükü küçük (~3.000 istek/gün, ~5 MB Storage/gün); anlamlı kazanç kalan kod yolu bulunmadı.
 - **Onay bekleyen öneri:** canlıya karşı headless koşuları sınırlamak (CLAUDE.md'ye kural) → log ~250 → ~40–60 MB/gün. `avatarlar` kovası temizliği (yalnız liste + onay; kazanç ~0).
 - **Yarın/13 Eki yapılacak:** aynı log sorgusuyla 24 sa postgres_logs ve Storage baytı; yeni dönemde panel rakamı.
+- **Dağıtım:** 35f9dde1 main'e push (ed6f4463 dahil), Vercel success (8 Eki 2026); site 200. Bu not yerel commit — bir sonraki push ile gider.
