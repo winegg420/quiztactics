@@ -7,7 +7,7 @@ export default {
   "Unvan": "Title",
   "Kozmetik": "Cosmetics",
   "{n} adet": "{n} items",
-  "{n} kalemin nadirliği henüz belirlenmedi; puana girmiyor.": "{n} items don't have a rarity yet, so they don't count toward your score.",
+  "Puana girmeyen {n} kalem var.": "{n} item(s) not counted in your score yet.",
   "Sıradan {a} · Nadir {b} · Epik {c} · Efsanevi {e} puan": "Common {a} · Rare {b} · Epic {c} · Legendary {e} points",
   "Koleksiyoncular": "Collectors",
   "Oyuncu kimliği": "Player identity",

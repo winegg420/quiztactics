@@ -24,3 +24,32 @@
 /* Zemine göre: koyu kartta (profil vitrini; Yağan Kar arka planında 4,0:1 idi) açık sarı; arama ekranı VS karesi açık gök zemin → koyu amber (1,02:1 idi) */
 .qt-ok .qt-ok-kp { color: #ffe27a; }
 .gh-vs-kart .qt-ok-kp, .qt-ok--lig-sahnesi .qt-ok-kp { color: #6b4200; }
+
+/* 8 Eki 2026 ("düz beyaz liste" turu): Koleksiyon döküm tablosu → renkli kategori kartları.
+   Her satır: renkli ikon plakası · ad · "N adet" rozet çipi · altın puan çipi. Renk --kk (kenar) / --kz (zemin) ile gelir. */
+.qt-kp-liste { gap: 10px; }
+.qt-kp-liste li.qt-kp-kat {
+  --kk: var(--qt-ikinci-dudak); --kz: var(--qt-ikinci-acik); --ki: var(--qt-ikinci);
+  grid-template-columns: auto minmax(0, 1fr) auto auto; gap: 8px; min-height: 52px; padding: 6px 10px 6px 8px;
+  border: 2.5px solid var(--kk); border-radius: 14px; background: linear-gradient(180deg, #fff 0%, var(--kz) 100%); box-shadow: 0 3px 0 var(--kk);
+}
+.qt-kp-kat--rozet   { --kk: #c39a2c; --kz: #fff1c9; --ki: #e8a812; }
+.qt-kp-kat--cerceve { --kk: var(--qt-ikinci-dudak); --kz: var(--qt-ikinci-acik); --ki: var(--qt-ikinci); }
+.qt-kp-kat--aura    { --kk: #1c7f78; --kz: #d9f3f0; --ki: #2a9d94; }
+.qt-kp-kat--unvan   { --kk: var(--qt-vurgu-dudak); --kz: var(--qt-vurgu-acik); --ki: var(--qt-vurgu); }
+.qt-kp-kat--kozmetik { --kk: #b2406f; --kz: #ffe3ee; --ki: #d9568a; }
+.qt-kp-kat--avatar  { --kk: var(--qt-dogru-dudak); --kz: var(--qt-dogru-acik); --ki: var(--qt-dogru); }
+.qt-kp-kat-ik {
+  display: grid; place-items: center; width: 34px; height: 34px; border: 2.5px solid var(--oyk-kontur, #1d2152); border-radius: 10px;
+  background: var(--ki); color: #1d2152;
+}
+.qt-kp-kat-ad { min-width: 0; font-weight: var(--qt-a-siyah); color: var(--qt-metin); overflow-wrap: anywhere; }
+.qt-kp-kat-adet, .qt-kp-kat-puan {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 26px; padding: 0 10px; border-radius: var(--qt-r-hap);
+  font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); white-space: nowrap; color: var(--qt-metin);
+}
+.qt-kp-kat-adet { background: #fff; box-shadow: inset 0 0 0 2px var(--kk); }
+.qt-kp-kat-puan { background: var(--oyk-altin-acik, #fff1c9); box-shadow: inset 0 0 0 2px #ebcb72; font-size: var(--qt-y-s); }
+/* Notlar: oyuncu dili, kırpılmaz, alt satıra sarar */
+.qt-kp-liste li.qt-kp-not { padding: 6px 10px; border-radius: 10px; background: var(--qt-yuzey-2); color: var(--qt-metin); line-height: 1.4; overflow-wrap: anywhere; white-space: normal; }
+@media (max-width: 379px) { .qt-kp-liste li.qt-kp-kat { grid-template-columns: auto minmax(0, 1fr) auto; } .qt-kp-kat-ik { grid-row: 1 / span 2; align-self: center; } .qt-kp-kat-adet { grid-column: 2; justify-self: start; } .qt-kp-kat-puan { grid-column: 3; grid-row: 1 / span 2; align-self: center; } }

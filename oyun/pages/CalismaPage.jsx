@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import KategoriIkon from "../components/KategoriIkon.jsx";
+import KategoriIkon, { KATEGORI_RENK } from "../components/KategoriIkon.jsx";
 import "../tasarim/ekranlar/ikon-disk.css";
 import MacUstSerit from "../components/MacUstSerit.jsx";
 import Konfeti from "../components/Konfeti.jsx";
@@ -311,17 +311,17 @@ export default function CalismaPage() {
         ) : (
           <QtKart className="m1-cal-ozet">
             <div className="m1-cal-sayilar">
-              <div><b className="qt-sayi">{banka.bekleyen}</b><span>{tt("soru bankanda")}</span></div>
-              <div><b className="qt-sayi">{banka.ogrenilen}</b><span>{tt("öğrenildi")}</span></div>
+              <div className="m1-cal-sayi m1-cal-sayi--bekleyen"><b className="qt-sayi">{banka.bekleyen}</b><span>{tt("soru bankanda")}</span></div>
+              <div className="m1-cal-sayi m1-cal-sayi--ogrenilen"><b className="qt-sayi">{banka.ogrenilen}</b><span>{tt("öğrenildi")}</span></div>
             </div>
             {banka.kategoriler.length > 0 && (
               <div className="m1-cal-cubuklar">
                 {banka.kategoriler.map((k) => {
                   const enCok = Math.max(...banka.kategoriler.map((x) => x.kategori_adet), 1);
                   return (
-                    <div key={k.kategori} className="m1-cal-cubuk">
-                      <span className="m1-cal-cubuk-ad">{kategoriEtiket(k.kategori)}</span>
-                      <QtIlerleme deger={k.kategori_adet} en={enCok} ton="vurgu" etiket={kategoriEtiket(k.kategori)} />
+                    <div key={k.kategori} className="m1-cal-cubuk" style={{ "--kp-r": KATEGORI_RENK[k.kategori] ?? KATEGORI_RENK.karisik }}>
+                      <span className="m1-cal-cubuk-ad"><KategoriIkon anahtar={k.kategori} boyut={28} plaka /><span>{kategoriEtiket(k.kategori)}</span></span>
+                      <QtIlerleme deger={k.kategori_adet} en={enCok} ton="vurgu" konturlu etiket={kategoriEtiket(k.kategori)} />
                       <b className="qt-sayi">{k.kategori_adet}</b>
                     </div>
                   );
@@ -332,7 +332,7 @@ export default function CalismaPage() {
         )}
 
         <section className="m1-cal-bolum" aria-labelledby="m1-cal-kat">
-          <h2 id="m1-cal-kat" className="qt-baslik-3">{tt("Kategori")}</h2>
+          <h2 id="m1-cal-kat" className="qt-baslik-3 qt-plaka">{tt("Kategori")}</h2>
           <div className={`m1-cal-serit${seritDevam ? " m1-cal-serit--devam" : ""}`} ref={seritRef} onScroll={seritOlc}>
             <QtCip secili={kategori === null} onClick={() => setKategori(null)}>
               <span className="m1-cal-cip"><KategoriIkon anahtar="karisik" boyut={18} />{tt("Tümü")}</span>
@@ -346,7 +346,7 @@ export default function CalismaPage() {
         </section>
 
         <section className="m1-cal-bolum" aria-labelledby="m1-cal-adet">
-          <h2 id="m1-cal-adet" className="qt-baslik-3">{tt("Soru sayısı")}</h2>
+          <h2 id="m1-cal-adet" className="qt-baslik-3 qt-plaka">{tt("Soru sayısı")}</h2>
           <div className="m1-cal-adetler" role="group" aria-labelledby="m1-cal-adet">
             {bankaSecenegi && (
               <QtCip

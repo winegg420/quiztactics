@@ -769,13 +769,13 @@ export default function TournamentPage() {
           {/* Satıra dokunmak oyuncu kartını açar; kılıç düğmesi ayrı KARDEŞ düğme
               (Paket 43 B: düğme içinde düğme geçersiz HTML). */}
           {suzulmusOyuncular.length > 0 && (
-            <QtListe etiket={tt("Lobideki oyuncular")} className="m1-tv-lobi-liste">
+            <QtListe etiket={tt("Lobideki oyuncular")} className="qt-liste--kartli m1-tv-lobi-liste">
               {suzulmusOyuncular.map((o, i) => (
                 <QtListeSatiri
                   key={o.user_id}
                   vurgulu={o.user_id === user.id}
                   bas={<>
-                    <span className="m1-tv-sira qt-sayi" aria-hidden="true">{i + 1}</span>
+                    <span className={`m1-tv-sira qt-sayi${i < 3 && !suzuluyor ? ` m1-tv-sira--${i + 1}` : ""}`} aria-hidden="true">{i + 1}</span>
                     <button
                       type="button"
                       className="m1-tv-oyuncu-ac"

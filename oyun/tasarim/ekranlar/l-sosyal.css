@@ -584,3 +584,16 @@
 .ar-sayfa .qt-satir-baslik .ls-ad-dugme { max-width: 100%; min-width: 0; }
 /* Boş arkadaş listesi: kart içinde büyük boş durum (kesik çizgili tek satır yerine) */
 .ar-bos .qt-bos { padding: var(--qt-b-5) var(--qt-b-4); }
+
+/* 8 Eki 2026 ("düz beyaz liste" turu): sohbet listesi — her sohbet kendi kartı (.qt-liste--kartli), çerçeveli avatar,
+   son mesaj tek satır, saat/tarih krem hap, okunmamış sohbet mavi kart + büyük kırmızı sayı rozeti. Sohbet ekranı aynen. */
+.ms-liste .ms-satir { min-height: 68px; gap: var(--qt-b-3); padding: 8px 12px; }
+.ms-liste .ms-saat {
+  padding: 0 9px; border-radius: var(--qt-r-hap); line-height: 1.6; color: var(--qt-metin);
+  background: var(--oyk-altin-acik, #fff1c9); box-shadow: inset 0 0 0 2px #ebcb72; font-weight: var(--qt-a-siyah);
+}
+.ms-liste .ms-rozet { min-width: 24px; height: 24px; border-radius: 12px; font-size: var(--qt-y-s); font-weight: var(--qt-a-siyah); box-shadow: 0 0 0 2px #fff; }
+.qt-liste.qt-liste--kartli > .qt-satir-kap.ms-kap--okunmamis {
+  --kart-k: var(--qt-ikinci-dudak); background: linear-gradient(180deg, #fff 0%, var(--qt-ikinci-acik) 100%);
+}
+.ms-liste .ms-satir--okunmamis .ms-saat { background: var(--qt-ikinci); color: var(--qt-ikinci-yazi); box-shadow: none; }

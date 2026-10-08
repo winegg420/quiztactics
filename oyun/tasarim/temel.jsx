@@ -360,11 +360,11 @@ export function QtListe({ children, etiket, className }) {
  * ikon: bas yerine renkli ikon kutusu. vurgulu: "sen" satırı.
  * Satır tıklanırsa (onClick/as) `sag` içine düğme KOYMA (iç içe düğme olmaz).
  */
-export function QtListeSatiri({ bas, ikon, ikonTon = "mor", baslik, alt, sag, ok = false, vurgulu = false, onClick, as, className, type, ...rest }) {
+export function QtListeSatiri({ bas, ikon, ikonTon = "mor", baslik, alt, sag, ok = false, vurgulu = false, onClick, as, className, kapSinif, type, ...rest }) {
   const Oge = as ?? (onClick ? "button" : "div");
   const tiklanir = Oge !== "div";
   return (
-    <div role="listitem" className={sinif("qt-satir-kap", vurgulu && "qt-satir-kap--vurgulu")}>
+    <div role="listitem" className={sinif("qt-satir-kap", vurgulu && "qt-satir-kap--vurgulu", kapSinif)}>
       <Oge
         className={sinif("qt-satir", tiklanir && "qt-satir--tiklanir", className)}
         onClick={onClick}

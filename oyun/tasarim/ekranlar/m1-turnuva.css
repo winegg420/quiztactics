@@ -99,3 +99,17 @@
 .m1-tv-lobi-liste .m1-tv-kilic.qt-ikon-dugme { --_y: var(--qt-metin); --_d: var(--qt-cizgi-guclu); border: 2px solid var(--qt-cizgi-guclu); }
 /* Liste avatarı: her satırda aynı 44 px kutu, çerçeve kutudan taşıp komşuya binmez */
 .m1-tv-oyuncu-ac { width: 44px; height: 44px; flex: none; }
+
+/* 8 Eki 2026 ("düz beyaz liste" turu): lobi oyuncuları = her oyuncu kendi kartı (.qt-liste--kartli: 3 px lacivert kontur + alt dudak).
+   Sıra rozeti yuvarlak; ilk 3 altın / gümüş / bronz (yalnız süzgeç yokken — süzülmüş listede sıra anlamı değişir).
+   "Sen" kartı mavi kenar + açık mavi zemin (ortak kural). Avatar çerçevesi aynı CerceveliAvatar bileşeni. */
+.m1-tv-lobi-liste.qt-liste--kartli .qt-satir { padding-inline: 10px 12px; }
+.m1-tv-lobi-liste .m1-tv-sira {
+  display: inline-grid; place-items: center; min-width: 0; width: 32px; height: 32px; padding: 0; border-radius: 50%;
+  background: #fff; color: var(--qt-metin); box-shadow: inset 0 0 0 2.5px var(--qt-metin);
+  font-size: var(--qt-y-s); line-height: 1;
+}
+.m1-tv-lobi-liste .m1-tv-sira--1 { background: #ffd23a; box-shadow: inset 0 0 0 2.5px #8f5a00, 0 2px 0 #8f5a00; }
+.m1-tv-lobi-liste .m1-tv-sira--2 { background: #e3e8f0; box-shadow: inset 0 0 0 2.5px #5b6985, 0 2px 0 #5b6985; }
+.m1-tv-lobi-liste .m1-tv-sira--3 { background: #f0a86a; box-shadow: inset 0 0 0 2.5px #8a4b1c, 0 2px 0 #8a4b1c; }
+.m1-tv-lobi-liste .qt-satir-kap--vurgulu .m1-tv-sira { color: var(--qt-metin); }

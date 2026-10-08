@@ -59,3 +59,28 @@
 @media (prefers-reduced-motion: reduce) {
   .m1-cal-buyuk { animation: none; }
 }
+
+/* 8 Eki 2026 ("düz beyaz liste" turu): Hatalarım özet kartı. İki sayaç kalın lacivert kenarlı renkli kutu (bankadaki soru = turuncu,
+   öğrenildi = YEŞİL vurgu); kategori çubukları kendi kategori renginde, ikon plakalı, konturlu kalın çubuk. Mantık aynı. */
+.m1-cal-ozet .m1-cal-sayi {
+  padding: var(--qt-b-3) var(--qt-b-2); border: 3px solid var(--qt-metin); border-radius: 14px; box-shadow: 0 3px 0 var(--qt-metin);
+}
+.m1-cal-ozet .m1-cal-sayi--bekleyen { background: linear-gradient(180deg, #fff 0%, var(--qt-vurgu-acik) 100%); }
+.m1-cal-ozet .m1-cal-sayi--bekleyen b { color: #a03a06; }
+.m1-cal-ozet .m1-cal-sayi--ogrenilen { background: linear-gradient(180deg, #fff 0%, var(--qt-dogru-acik) 100%); border-color: var(--qt-dogru-dudak); box-shadow: 0 3px 0 var(--qt-dogru-dudak); }
+.m1-cal-ozet .m1-cal-sayi--ogrenilen b { color: var(--qt-dogru-koyu); }
+.m1-cal-ozet .m1-cal-sayilar span { font-weight: var(--qt-a-siyah); color: var(--qt-metin); }
+.m1-cal-ozet .m1-cal-cubuklar { gap: 10px; }
+.m1-cal-ozet .m1-cal-cubuk { grid-template-columns: minmax(0, 8.5rem) minmax(0, 1fr) 2.75rem; }
+.m1-cal-ozet .m1-cal-cubuk:lang(en) { grid-template-columns: minmax(0, 9.5rem) minmax(0, 1fr) 2.75rem; }
+.m1-cal-ozet .m1-cal-cubuk-ad { display: flex; align-items: center; gap: 8px; min-width: 0; font-weight: var(--qt-a-siyah); }
+.m1-cal-ozet .m1-cal-cubuk-ad > span:last-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.m1-cal-ozet .m1-cal-cubuk-ad .bd-kat-plaka { width: 28px !important; height: 28px !important; border: 2.5px solid var(--qt-metin); border-radius: 9px; box-sizing: border-box; }
+.m1-cal-ozet .m1-cal-cubuk-ad .bd-kat-plaka svg { width: 16px; height: 16px; }
+.m1-cal-ozet .m1-cal-cubuk .qt-ilerleme--konturlu { height: 16px; --_r: var(--kp-r, var(--qt-vurgu)); }
+@supports (color: color-mix(in srgb, red, blue)) {
+  .m1-cal-ozet .m1-cal-cubuk .qt-ilerleme--konturlu { --_r: color-mix(in srgb, var(--kp-r, var(--qt-vurgu)) 86%, #0b1220); }
+}
+.m1-cal-ozet .m1-cal-cubuk b { font-weight: var(--qt-a-siyah); }
+/* Bölüm başlıkları krem plaka: zemin üstündeki düz yazı yerine (plaka kendi zeminini taşır, yazı lacivert) */
+.m1-cal-bolum .qt-baslik-3.qt-plaka { color: var(--qt-metin); }

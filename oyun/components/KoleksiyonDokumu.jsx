@@ -12,6 +12,7 @@ import { QtBosDurum, QtIkon, QtKart, sinif, siraStili, useSiraliGiris } from "..
 import "../tasarim/ekranlar/koleksiyon-puani.css";
 
 const KATEGORI_AD = { rozet: "Rozet", cerceve: "Çerçeve", aura: "Arka Plan", unvan: "Unvan", kozmetik: "Kozmetik", avatar: "Avatar" };
+const KATEGORI_IKON = { rozet: "madalya", cerceve: "palet", aura: "elmas", unvan: "kupa", kozmetik: "yildiz", avatar: "kisi" };
 const NADIR = [["siradan", "Sıradan"], ["nadir", "Nadir"], ["epik", "Epik"], ["efsanevi", "Efsanevi"]];
 
 // Profil sekmeleri açılıp kapanınca bileşen yeniden kurulur: sıralı giriş oturum başına BİR kez oynar (sekme değişiminde tekrar etmez).
@@ -40,7 +41,7 @@ export default function KoleksiyonDokumu({ tam = false, sirali = "", sira = null
   const bos = !tam && rozet === 0 && unvan === 0;
   return (
     <QtKart as="section" className={sinif("qt-kp", sirali)} style={sira != null ? siraStili(sira) : undefined} aria-labelledby="qt-kp-b">
-      <h2 id="qt-kp-b" className="qt-baslik-3 qt-kp-baslik"><QtIkon ad="yildiz" boyut={20} /> {tt("Koleksiyon")}</h2>
+      <h2 id="qt-kp-b" className="qt-baslik-3 qt-kp-baslik qt-plaka"><QtIkon ad="yildiz" boyut={20} /> {tt("Koleksiyon")}</h2>
       {bos ? (
         <QtBosDurum boyut="k" ikon="madalya" ton="mor" baslik={tt("İlk rozetin için maç oyna")} />
       ) : (
@@ -65,10 +66,15 @@ export default function KoleksiyonDokumu({ tam = false, sirali = "", sira = null
       {tam && (
         <ul className="qt-kp-liste">
           {Object.entries(KATEGORI_AD).filter(([a]) => k[a]).map(([a, ad]) => (
-            <li key={a}><span>{tt(ad)}</span><span>{tt("{n} adet", { n: k[a].adet })}</span><b className="qt-sayi">{koleksiyonSayi(k[a].puan)}</b></li>
+            <li key={a} className={`qt-kp-kat qt-kp-kat--${a}`}>
+              <span className="qt-kp-kat-ik" aria-hidden="true"><QtIkon ad={KATEGORI_IKON[a] ?? "yildiz"} boyut={18} /></span>
+              <span className="qt-kp-kat-ad">{tt(ad)}</span>
+              <span className="qt-kp-kat-adet">{tt("{n} adet", { n: k[a].adet })}</span>
+              <b className="qt-kp-kat-puan qt-sayi">{koleksiyonSayi(k[a].puan)}</b>
+            </li>
           ))}
           {(d.nadirlik?.tanimsiz?.adet ?? 0) > 0 && (
-            <li className="qt-kp-not">{tt("{n} kalemin nadirliği henüz belirlenmedi; puana girmiyor.", { n: d.nadirlik.tanimsiz.adet })}</li>
+            <li className="qt-kp-not">{tt("Puana girmeyen {n} kalem var.", { n: d.nadirlik.tanimsiz.adet })}</li>
           )}
           <li className="qt-kp-not">{tt("Sıradan {a} · Nadir {b} · Epik {c} · Efsanevi {e} puan", { a: d.agirliklar?.siradan, b: d.agirliklar?.nadir, c: d.agirliklar?.epik, e: d.agirliklar?.efsanevi })}</li>
         </ul>

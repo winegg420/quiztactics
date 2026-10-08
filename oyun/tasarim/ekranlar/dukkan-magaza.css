@@ -528,3 +528,26 @@ a.qt-dk-elmas-satir * { text-decoration: none; }
 .qt-dk-sekme-satiri { flex-wrap: wrap; row-gap: var(--qt-b-2); }
 .qt-dk-sekme-satiri > .qt-dk-sekmeler { flex: 1 1 240px; }
 .qt-dk-sekme-satiri > .qt-dk-bakiye { position: relative; z-index: 1; flex: 0 0 auto; margin-left: auto; white-space: nowrap; overflow: visible; }
+
+/* 8 Eki 2026 ("düz beyaz liste" turu): "Oynayarak elmas kazan" satırları — "Oynayarak elmas kazan" şeridinin dili:
+   kalın lacivert kontur + alt dudak, açık ışınlı gök zemin, büyük renkli ikon plakası, elmas çipi. Sağ ok kalktı
+   (bilgi satırı; kart basılınca ilgili ekrana gider, basış çökmesi durur). */
+.qt-dk-elmas-liste { gap: 10px; }
+.qt-dk-elmas-liste .qt-dk-elmas-satir {
+  min-height: 64px; padding: 8px 12px 8px 10px; gap: 12px;
+  border: 3px solid #1d2152; border-radius: 16px; box-shadow: 0 4px 0 #1d2152;
+  background:
+    radial-gradient(circle at 34px 50%, #fff 0, rgb(255 255 255 / 0) 52px),
+    repeating-conic-gradient(from 0deg at 34px 50%, #d7e8fb 0deg 11deg, #f1f7ff 11deg 22deg);
+}
+.qt-dk-elmas-liste .qt-dk-elmas-satir--altin {
+  background:
+    radial-gradient(circle at 34px 50%, #fffdf3 0, rgb(255 255 255 / 0) 52px),
+    repeating-conic-gradient(from 0deg at 34px 50%, #ffefb8 0deg 11deg, #fff8dc 11deg 22deg);
+}
+.qt-dk-elmas-liste .qt-dk-elmas-satir:active { transform: translateY(3px); box-shadow: 0 1px 0 #1d2152; }
+.qt-dk-elmas-liste .qt-dk-elmas-ik { width: 46px; height: 46px; border: 3px solid #1d2152; border-radius: 13px; box-shadow: 0 2px 0 rgb(29 33 82 / 0.25); }
+.qt-dk-elmas-liste .qt-dk-elmas-ad { color: #1d2152; font-weight: var(--qt-a-siyah); }
+.qt-dk-elmas-liste .qt-dk-elmas-satir .qt-dk-elmas-miktar { min-height: 32px; padding: 0 12px; background: #fff; box-shadow: inset 0 0 0 2.5px var(--qt-ikinci-dudak); }
+.qt-dk-elmas-liste .qt-dk-elmas-satir--altin .qt-dk-elmas-miktar { box-shadow: inset 0 0 0 2.5px #c39a2c; color: #5c3d00; }
+@media (max-width: 379px) { .qt-dk-elmas-liste .qt-dk-elmas-satir { gap: 8px; padding-inline: 8px; } .qt-dk-elmas-liste .qt-dk-elmas-ik { width: 40px; height: 40px; } }

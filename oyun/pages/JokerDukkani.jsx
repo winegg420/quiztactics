@@ -882,7 +882,6 @@ export default function JokerDukkani() {
                       <span className="qt-dk-elmas-ik" aria-hidden="true"><QtIkon ad={ikon} boyut={22} /></span>
                       <span className="qt-dk-elmas-ad">{ad}</span>
                       <span className="qt-dk-elmas-miktar"><ElmasIkon boyut={16} /><b className="qt-sayi">{n}</b></span>
-                      <span className="qt-dk-elmas-ok" aria-hidden="true"><QtIkon ad="ileri" boyut={18} /></span>
                     </Link>
                   </li>
                 ))}

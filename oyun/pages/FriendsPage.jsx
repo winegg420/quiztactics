@@ -529,7 +529,7 @@ export default function FriendsPage() {
         )}
 
         {listeDurum === "hazir" && arkadaslar.length > 0 && (
-          <QtListe etiket={tt("Arkadaşların")}>
+          <QtListe etiket={tt("Arkadaşların")} className="qt-liste--kartli ar-liste">
             {arkadaslar.map((f, i) => {
               const p = digerProfil(f);
               const bekleyen = bekleyenMeydan.get(p?.id);

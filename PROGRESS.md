@@ -10756,3 +10756,9 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - Hazine "AÇ" anı ve maç sonu açılış sahnesi (kazandı + kaybetti): koyu kahve zemin → giriş sahnesiyle aynı sıcak açık altın; yazı koyu kahve (kontrast ≥ 6:1 hesaplandı), skor çipi koyu kalır.
 - Bayat test beklentileri: duello-puan-ekran (hedef satırı yeni cümle), kasa-efekt-ekran (DEVAM düğmesi 987'de "ÜCRETSİZ 50:50" taşımıyor ×2; DEVAM ödülü kartı "Joker kazandın!").
 - Not: test oturumu yenilenemedi (misafir girişi boş oturum yazdı); ekran testleri bu turda koşulamadı, yalnız build doğrulandı.
+
+## 8 Eki 2026 — "Düz beyaz liste" 7 sayfa oyun diline (Sonnet; yalnız görünüm/metin)
+- Ortak: `oyun-hissi.css` §8 → `.qt-plaka` (krem/altın başlık plakası) + `.qt-liste--kartli` (her satır kendi kartı); `QtListeSatiri` yeni `kapSinif` prop'u.
+- Arkadaşlar: satırlar kart (durum kenar rengi: çevrimiçi yeşil, maçta amber), puan altın hap, ad 2 satıra sarar. Profil: kategori mini kartları (kategori renkli ikon plakası + konturlu çubuk + rütbe çipi), başlıklar plaka. Koleksiyon: kategori kartları + "Puana girmeyen {n} kalem var." (TR/EN). Dükkân Elmas: ışınlı kartlar, ok kalktı. Turnuva lobisi: kart + yuvarlak sıra rozeti (ilk 3 altın/gümüş/bronz, süzgeç yokken). Hatalarım: renkli sayaç kutuları (öğrenildi yeşil) + kategori renkli konturlu çubuk. Mesajlar: sohbet kartı, saat hapı, okunmamış mavi kart.
+- Not: Dükkân Elmas satırları kodda `Link` (ilgili ekrana gider); "tıklanmıyor" varsayımı yanlış, gezinme korundu, yalnız ok kaldırıldı. Mod penceresi "Serbest — puan yok" satırı 360'ta kutuya binmiyor → dokunulmadı.
+- Test: yerel taklit önizleme (gerçek bileşen + CSS, ağ yok) 360/390: taşma 0. Gerçek sayfalar oturum gerektirdiği için açılmadı.

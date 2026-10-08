@@ -183,3 +183,22 @@
   .qt-oyk--altin { padding-left: 14px; }
   .qt-oyk-ad { font-size: var(--qt-y-m); }
 }
+
+/* ---------- 8. Oyun listesi + başlık plakası (8 Eki 2026, "düz beyaz liste" turu) ----------
+   .qt-plaka: bölüm başlığı krem/altın plaka (ana sayfa isim plakasıyla aynı dil).
+   .qt-liste--kartli: QtListe'ye eklenir; beyaz tek levha yerine her satır kendi kartı (3 px lacivert kontur + alt dudak).
+   Satır renkleri sayfa CSS'inde (--kart-z / --kart-k ile) ayarlanır. Hareket yok; fixed/transform yok. */
+.qt-plaka {
+  display: inline-flex; align-items: center; gap: 6px; width: fit-content; max-width: 100%; margin: 0;
+  padding: 3px 12px 2px; border-radius: 10px; background: var(--oyk-altin-acik); color: var(--qt-metin);
+  box-shadow: inset 0 0 0 2px #ebcb72, 0 2px 0 #c39a2c;
+}
+.qt-liste.qt-liste--kartli { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; overflow: visible; padding-bottom: 4px; background: transparent; box-shadow: none; border-radius: 0; }
+.qt-liste.qt-liste--kartli > .qt-satir-kap {
+  --kart-k: var(--oyk-kontur);
+  position: relative; border: 3px solid var(--kart-k); border-radius: 16px;
+  background: linear-gradient(180deg, #fff 0%, #eef5ff 100%); box-shadow: 0 4px 0 var(--kart-k);
+}
+.qt-liste.qt-liste--kartli > .qt-satir-kap + .qt-satir-kap { box-shadow: 0 4px 0 var(--kart-k); }
+.qt-liste.qt-liste--kartli > .qt-satir-kap--vurgulu { --kart-k: var(--qt-ikinci-dudak); background: linear-gradient(180deg, #fff 0%, var(--qt-ikinci-acik) 100%); }
+.qt-liste.qt-liste--kartli > .qt-satir-kap > .qt-satir { border-radius: 13px; }

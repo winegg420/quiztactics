@@ -113,7 +113,7 @@ export default function MesajlarPage() {
       )}
 
       {liste.length > 0 && (
-        <QtListe etiket={tt("Sohbetler")}>
+        <QtListe etiket={tt("Sohbetler")} className="qt-liste--kartli ms-liste">
           {liste.map((s) => {
             const ilkSatir = String(s.son_metin ?? "").split("\n")[0];
             const okunmamis = Number(s.okunmamis) || 0;
@@ -121,6 +121,7 @@ export default function MesajlarPage() {
               <QtListeSatiri
                 key={s.kisi_id}
                 className={`ms-satir${okunmamis > 0 ? " ms-satir--okunmamis" : ""}`}
+                kapSinif={okunmamis > 0 ? "ms-kap--okunmamis" : undefined}
                 onClick={() => navigate(y(`/mesajlar/${s.kisi_id}`))}
                 aria-label={okunmamis > 0
                   ? tt("{ad} ile sohbet, {0} okunmamış", { ad: s.gorunen_ad, 0: okunmamis })

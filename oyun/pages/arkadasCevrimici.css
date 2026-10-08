@@ -81,3 +81,25 @@
   background: var(--qt-yuzey);
   box-shadow: 0 0 0 2.5px var(--qt-ikinci-dudak), 0 2px 0 2.5px var(--qt-ikinci-dudak) !important;
 }
+
+/* 8 Eki 2026 ("düz beyaz liste" turu): her arkadaş kendi kartı (kalın lacivert kontur + alt dudak, açık gök zemin).
+   Durum kartın kenar rengine de yansır: çevrimiçi yeşil · maçta amber (nokta + etiket de durur → yalnız renge bağlı değil).
+   Puan kart içinde altın/krem hap. "Oyna" düğmesi mevcut stilinde. Sol şerit kalktı (kenar rengi aynı işi görür). */
+.qt-liste.qt-liste--kartli.ar-liste > .ar-kap::before { content: none; }
+.qt-liste.qt-liste--kartli.ar-liste > .ar-kap { background: linear-gradient(180deg, #fff 0%, var(--qt-ikinci-acik) 100%); }
+.qt-liste.qt-liste--kartli.ar-liste > .ar-kap--cevrimici { --kart-k: var(--qt-dogru-dudak); background: linear-gradient(180deg, #fff 0%, var(--qt-dogru-acik) 100%); }
+.qt-liste.qt-liste--kartli.ar-liste > .ar-kap--mac { --kart-k: var(--qt-uyari-dudak); background: linear-gradient(180deg, #fff 0%, var(--qt-uyari-acik) 100%); }
+.ar-liste .ar-satir { padding-block: 2px; }
+.ar-liste .ar-ac { padding-left: var(--qt-b-3); }
+.ar-liste .ar-detay {
+  align-self: flex-start; padding: 0 9px 0 6px; border-radius: var(--qt-r-hap); line-height: 1.6;
+  background: var(--oyk-altin-acik); color: var(--qt-metin); font-weight: var(--qt-a-siyah);
+  box-shadow: inset 0 0 0 2px #ebcb72;
+}
+.ar-liste .ar-detay svg { color: #a86d00; }
+.ar-liste .ar-durum-etiket { font-weight: var(--qt-a-siyah); box-shadow: inset 0 0 0 1.5px currentColor; }
+.ar-liste .ar-durum-nokta { width: 16px; height: 16px; }
+.ar-liste .ar-detay { white-space: nowrap; }
+.ar-liste .ar-ac { gap: var(--qt-b-2); }
+.ar-liste .ar-satir { gap: 2px; padding-right: 4px; }
+.ar-liste .ar-bilgi .ls-ad { white-space: normal; overflow-wrap: anywhere; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; text-overflow: clip; }

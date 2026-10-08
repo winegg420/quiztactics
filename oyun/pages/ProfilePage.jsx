@@ -286,7 +286,7 @@ export default function ProfilePage() {
         {sekme === "istatistik" && (<>
           {/* Kategori başarısı + unvan (Paket 14, 4.8/4.10) */}
           <QtKart as="section" className={sinif("qt-pf-bolum", sirali)} style={siraStili(6)} aria-labelledby="qt-pf-kategori">
-            <h2 id="qt-pf-kategori" className="qt-baslik-3">{tt("Kategori başarın")}</h2>
+            <h2 id="qt-pf-kategori" className="qt-baslik-3 qt-plaka">{tt("Kategori başarın")}</h2>
             <KategoriProfili userId={user?.id} />
           </QtKart>
           <UstalikIzgarasi sirali={sirali} sira={7} />

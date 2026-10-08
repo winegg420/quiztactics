@@ -87,7 +87,7 @@ export default function KategoriProfili({ userId, profil: disaridan = null, kucu
                   <span className="qt-dk-kprofil-yok">{yok ? ceviri("veri yok") : ceviri("%{0}", { 0: k.yuzde })}</span>
                 ) : (
                   <>
-                    <QtIlerleme deger={Number(k.yuzde)} en={100} ton="dogru"
+                    <QtIlerleme deger={Number(k.yuzde)} en={100} ton="dogru" konturlu={!kucuk}
                                 etiket={ceviri("{0}: doğru oranı", { 0: ad })} className="qt-dk-kprofil-bar" />
                     <span className="qt-dk-kprofil-yuzde qt-sayi">{ceviri("%{0}", { 0: k.yuzde })}</span>
                   </>
