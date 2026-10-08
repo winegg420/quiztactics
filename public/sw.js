@@ -15,8 +15,8 @@
 //     Herhangi bir hata → istek olduğu gibi ağa gider (eski davranış).
 //   · Aynı desen /ses-secim adayları için (8 Eki 2026): Storage `ses-adaylar` kovası
 //     …/ses-adaylar/<ad>-<sha>.(wav|mp3|aac) ayrı önbellekte (qt-ses-aday-v1) kalıcı tutulur.
-const KABUK = "qt-kabuk-v19";
-const VARLIK = "qt-varlik-v19";
+const KABUK = "qt-kabuk-v20";
+const VARLIK = "qt-varlik-v20";
 const VARLIK_SINIR = 400;
 // Müzik önbelleğinin sürümü kabukla birlikte ARTIRILMAZ (artarsa bütün parçalar yeniden iner).
 const MUZIK = "qt-muzik-v1";

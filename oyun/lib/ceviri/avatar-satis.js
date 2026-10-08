@@ -11,6 +11,7 @@ export default {
   "{nadirlik} avatar — bedava.": "{nadirlik} avatar — free.",
   "{nadirlik} avatar — elmasla alınır.": "{nadirlik} avatar — bought with gems.",
   "{nadirlik} avatar — senin.": "{nadirlik} avatar — yours.",
+  "Sahip olunan": "Owned",
   "{nadirlik} avatar — şu an satışta değil.": "{nadirlik} avatar — not on sale right now.",
 
   // Kilitli avatar (profil, kurulum, koleksiyon)

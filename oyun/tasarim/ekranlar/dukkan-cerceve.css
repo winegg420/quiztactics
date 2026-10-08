@@ -36,6 +36,7 @@
 .qt-dc-oge[aria-pressed="true"] { box-shadow: var(--qt-kabartma-kart), inset 0 0 0 3px var(--qt-ikinci); }
 .qt-dc-ad { margin-top: var(--qt-b-2); font-size: var(--qt-y-s); font-weight: var(--qt-a-siyah); color: var(--qt-metin); text-align: center; line-height: 1.2; }
 .qt-dc-durum { display: inline-flex; align-items: center; gap: 2px; font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); color: var(--qt-metin-soluk); }
+.qt-dc-sahip { display: inline-flex; align-items: center; gap: 2px; white-space: nowrap; }
 
 /* Nadirlik kart kenarı — "1: Köşe etiketi + kalın kenar" (görsel revizyon, Ida seçimi 25 Eyl 2026;
    tasarim/SECIMLER_GORSEL_REVIZYON.md madde 3). Renk eşyaya değil kartın KENARINA ve KÖŞE etiketine

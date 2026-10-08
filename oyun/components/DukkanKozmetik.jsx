@@ -594,7 +594,7 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
                   </span>
                   <span className="qt-dc-ad">{ad(a)}</span>
                   <span className="qt-dc-durum">
-                    {profile?.avatar_url === a.url ? tt("Takılı") : a.ucretli ? (a.sahibim ? tt("Sahipsin") : a.fiyat_elmas != null && !a.kapali ? <ElmasFiyat fiyat={a.fiyat_elmas} /> : <><QtIkon ad="kilit" boyut={12} /> {tt("Kapalı")}</>)
+                    {profile?.avatar_url === a.url ? tt("Takılı") : a.ucretli ? (a.sahibim ? <span className="qt-dc-sahip"><QtIkon ad="onay" boyut={12} /> {tt("Sahip olunan")}</span> : a.fiyat_elmas != null && !a.kapali ? <ElmasFiyat fiyat={a.fiyat_elmas} /> : <><QtIkon ad="kilit" boyut={12} /> {tt("Kapalı")}</>)
                       : a.sahibim ? tt("Sende var") : a.tur === "gunluk" || a.tur === "hazir" || (a.kullanabilir && !(a.fiyat_elmas > 0)) ? tt("Bedava")
                       : a.fiyat_elmas != null && !a.kapali ? <ElmasFiyat fiyat={a.fiyat_elmas} /> : <><QtIkon ad="kilit" boyut={12} /> {tt("Kapalı")}</>}
                   </span>
