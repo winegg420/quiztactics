@@ -10739,3 +10739,13 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - **Klasik 4 bekleme ekranı:** dokunulmadı (karar).
 - **Test (yerel, taklit ağ — canlıya istek yok):** `araclar/_sekmeC/` geçici düzenek (commit'e girmez) ile 390×844 ve 360×640: 3-2-1 (3/2/1, hareket azalt), Hazır, arama (Klasik Dereceli, Düello Serbest), VS, maç sonu 6 hâl (kazandın, kaybettin, berabere, terk-ben, terk-rakip, turnuva şampiyon, Düello kaybetti 360). Yatay taşma 0, sayfa hatası 0. Build temiz, tarayıcı uyumluluk TEMİZ. Dev sunucusu kapatıldı.
 - **Dağıtım:** 05d6ca63 main'e push (54a38d99 Hazine ve 7494de52 D işleri dahil), Vercel success (8 Eki 2026); site 200, canlı `main-*.css` yeni kuralları taşıyor. Bu not yerel commit — bir sonraki push ile gider.
+
+## 2026-10-08 — Düello görünüm/metin düzeltmeleri (Sekme B)
+**Araç:** Claude Code
+**Neden:** Ida'nın Düello listesi: Rakip ara alt menü arkasında yarım, kural metni üç farklı anlatımda, Hâkimiyet ekranı soluk, sayaç anlaşılmıyor, perde arkası fazla solgun.
+
+- **Kural (TEK cümle):** sunucu 970 › hedef puana ilk ulaşan ya da rakibin BAŞLANGIÇTAKİ kategorilerinden `kategori_yolu` (4) tanesini elinde tutan kazanır. Cümle: "12 puan ya da rakibin 4 kategorisini alan kazanır" — lobi kartı, HÂKİMİYET BAŞLIYOR perdesi, puan şeridi (eski "5'ten 4'ünü al" + EK_DEN/EK_UNU kalktı), mesaj satırı, arama ipucu, tanıtım. Yeni anahtarlar `ceviri/duello-puan.js` (TR/EN eşit). **Kalan:** `ModSecimPenceresi.jsx:127` ("{h} puan ya da {y} kategori kazanır.") ortak dosya — dokunulmadı, Ida'ya bildirildi.
+- **Lobi** (`DuelloPage.a.css`, `.m2-giris:not(.ks-giris)` kapsamı, Kasa etkilenmez): eylem sarmalayıcısı `display: contents`, "Rakip ara" alt menünün üstüne `position: sticky` (fixed değil). Kırmızı kart açıklaması 4 → 2 satır. "Hakkın yok" kırmızı yerine soluk not (SkillSeti ortak bileşenine dokunulmadı, yalnız Düello seçicisi).
+- **Hâkimiyet** (`duello-tahta.css`, `DuelloPage.jsx`): geri sayım halkası görünür + altta küçük "sn" (`.hk-sayac-kutu`; kısa ekranda 38 px — 40 px'te 360×640 soru ekranı 2 px taşıyordu). Saldırırken kendi kartların opaklığı .62 → .9; seçimsiz "Seç" kan kırmızısı açık ton (gri değil); sıra rakipteyken "Rakip seçiyor…" kırmızı çerçeve + kırmızı başlık.
+- **Perde** (`duello-secim.css`): zemin .82 → .5.
+- **Test (yerel 5188, taklit RPC):** Plan A ekranı 390×664 TR/EN + 360×640 TR: 66 ✓ / 2 ✗ — ikisi de bilinen ortam (draft yüzde beklentisi bayat, konsol 401 süresi dolmuş oturum). Oturum dosyası scratchpad'de origin 5188 + `expires_at` ileri alınarak kullanıldı. Lobi: düğme alt menünün üstünde (584 < 595), açıklama 2 satır. Build temiz.

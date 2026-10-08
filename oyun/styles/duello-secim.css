@@ -131,7 +131,8 @@
 .dsc-basla-rakip { color: var(--hk-kirmizi-metin); }
 .dsc-basla-skor i { color: var(--hk-soluk); font-style: normal; }
 .dsc-basla-alt { padding: 3px 10px; border-radius: 999px; background: var(--hk-vurgu-zemin); color: var(--hk-vurgu-metin); font-size: 12.5px; font-weight: 800; }
-@keyframes dsc-basla-perde { 0% { background: rgba(244, 248, 253, 0); } 10%, 85% { background: rgba(244, 248, 253, .82); } 100% { background: rgba(244, 248, 253, 0); } }
+/* 8 Eki 2026: perde .82 → .5 — arkadaki tahta (kategoriler, puan şeridi) görünür kalsın; kart zaten opak beyaz */
+@keyframes dsc-basla-perde { 0% { background: rgba(244, 248, 253, 0); } 10%, 85% { background: rgba(244, 248, 253, .5); } 100% { background: rgba(244, 248, 253, 0); } }
 @keyframes dsc-basla-panel {
   0% { opacity: 0; transform: scale(.94) translateY(8px); }
   12%, 82% { opacity: 1; transform: none; }

@@ -37,7 +37,7 @@ const ADIMLAR = [
     pMetin: "Önce 10 kategoriyi sırayla seçersiniz. Herkes {k} kategori alır. Süre dolarsa en iyi bildiğin seçilir.", not: "En iyi bildiğin kategorileri seç, onları sen savunursun." },
   { ikon: "bayrak", baslik: "{n} yuva: ilk dolduran kazanır", metin: "Herkes 0-0 başlar, 10 kategorinin hepsi boştur. Kazandığın kategoriler senin yuvandır. {n} yuvaya ilk ulaşan maçı anında kazanır.",
     sMetin: "Seçimden sonra {k}-{k} başlarsınız, boş kategori yoktur. Yuva kazanmanın tek yolu rakibin kategorisini elinden almaktır. {n} yuvaya ilk ulaşan maçı anında kazanır.",
-    pBaslik: "{h} puan ya da {y} kategori", pMetin: "{h} puana ilk ulaşan kazanır. Ya da rakibin {y} kategorisini al. Aynı anda olursa Altın Soru." },
+    pBaslik: "{h} puan ya da {y} kategori", pMetin: "{h} puan ya da rakibin {y} kategorisini alan kazanır. Aynı anda olursa Altın Soru." },
   { ikon: "onay", baslik: "Hamle kuralı", metin: "Hamlenin tutması için saldıran doğru, savunan yanlış bilmelidir. Boş kategoride kural biraz farklı: sen yanlış, rakip doğru bilirse kategoriyi rakip alır. Yani boşta bilen alır.", ek: "Boş kategoride ikiniz de bilirseniz saldıran alır.",
     sMetin: "Hamlenin tutması için saldıran doğru, savunan yanlış bilmelidir. Tutarsa rakibin kategorisi sana geçer; tutmazsa kategori savunanda kalır.",
     pBaslik: "Puan kuralı", pMetin: "Bildiğin her soru +1. Sen bilip rakip bilemezse +2 ve kategori senin. Kendi kategorine saldıramazsın." },
@@ -62,7 +62,7 @@ const P_ADIMLAR = [
   { ikon: "liste", secim: true, baslik: "Önce sırayla seçim", metin: "10 kategoriyi sırayla seçersiniz, herkes {k} alır. Süre dolarsa en iyi bildiğin seçilir." },
   { ikon: "duello", baslik: "Saldır, puan topla", metin: "Saldıran rakibin bir kategorisini seçer, soru ikinize aynı anda gelir. Doğru +1. Sen bilip rakip bilemezse +2 ve kategori senin." },
   { ...ADIMLAR.find((x) => x.ban), metin: ADIMLAR.find((x) => x.ban).pMetin },
-  { ikon: "bayrak", baslik: "{h} puan ya da {y} kategori", metin: "{h} puana ya da rakibin {y} kategorisine ilk ulaşan kazanır. {t} tur bitince puanı çok olan; eşitlikte Altın Soru." },
+  { ikon: "bayrak", baslik: "{h} puan ya da {y} kategori", metin: "{h} puan ya da rakibin {y} kategorisini alan kazanır. {t} tur bitince puanı çok olan; eşitlikte Altın Soru." },
   { ikon: "hedef", baslik: "Renkler ve kilit", metin: "Kırmızı: kategorin saldırı altında. Mavi: saldırı sende. El değiştiren kategori 2 tur seçilemez." },
   { ikon: "kalkan", baslik: "Jokerler", metin: "Baskın: rakibin cevabı sayılmaz. Kalkan: kategorin sende kalır. İkisi de maçta 1 kez; toplam 4 joker, soru başına 1." },
 ];

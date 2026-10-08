@@ -573,3 +573,17 @@
   --_y: var(--qt-mod-duello-yazi);
   --_d: var(--qt-mod-duello-dudak);
 }
+
+/* 8 Eki 2026 · Düello lobisi (Kasa'nın .ks-giris'i hariç):
+   "Rakip ara" alt menünün arkasında yarım kalmasın — düğme alt menünün hemen üstüne yapışır (position: sticky; fixed
+   DEĞİL, iOS kuralı). Yapışma kabı .m2-giris olsun diye eylem sarmalayıcısı kutu üretmez (display: contents); not ve
+   "Kurallar" bağlantısı akışta, düğmenin altında kalır. */
+.m2-giris:not(.ks-giris) > .m2-giris-eylem { display: contents; }
+.m2-giris:not(.ks-giris) > .m2-giris-eylem > * { justify-self: center; }
+.m2-giris:not(.ks-giris) > .m2-giris-eylem > .qt-dugme--birincil {
+  justify-self: stretch; position: sticky; z-index: 3;
+  bottom: calc(var(--qt-altmenu-yukseklik) + env(safe-area-inset-bottom, 0px) + var(--qt-b-2));
+}
+.m2-giris:not(.ks-giris) > .m2-giris-eylem > .m2-giris-not { margin-top: calc(var(--qt-b-2) - var(--qt-b-4)); }
+/* "Hakkın yok": alarm kırmızısı yerine sade soluk not (joker hâlâ maçta coin'le alınabilir) */
+.m2-giris:not(.ks-giris) .qt-dk-seti-yuva .qt-dk-seti-adet--yok { color: var(--qt-metin-soluk); font-weight: var(--qt-a-normal); }

@@ -200,9 +200,6 @@ function YuvaTarafi({ taraf, hk, liste, ad, sayi, c, durum = null, durumKategori
 }
 
 // ---------------------------------------------------------------- 970 · puan şeridi (Plan A, 7 Eki 2026)
-// Türkçe sayı ekleri (hedef satırı "5'ten 4'ünü al"): ayrılma hâli ve iyelik + belirtme. İngilizcede kullanılmaz.
-const EK_DEN = { 1: "'den", 2: "'den", 3: "'ten", 4: "'ten", 5: "'ten", 6: "'dan", 7: "'den", 8: "'den", 9: "'dan", 10: "'dan" };
-const EK_UNU = { 1: "'ini", 2: "'sini", 3: "'ünü", 4: "'ünü", 5: "'ini", 6: "'sını", 7: "'sini", 8: "'ini", 9: "'unu", 10: "'unu" };
 
 /** Oyuncunun başlangıç (draft) kategorileri; başlangıç kaydı yoksa şu an elinde tuttukları. Sıra: kategori listesi. */
 function baslangicKategorileri(hk, sahipId, kategoriler) {
@@ -257,13 +254,12 @@ function SeritTaraf({ taraf, hk, ad, puan, kategoriler, c, vurus = null, durum =
 }
 
 /**
- * Puan şeridi: üstte sen (mavi), ortada hedef satırı ("12 puan ya da 5'ten 4'ünü al" ya da bitişe yakınlık uyarısı),
+ * Puan şeridi: üstte sen (mavi), ortada hedef satırı (tek kural cümlesi "12 puan ya da rakibin 4 kategorisini alan kazanır" ya da bitişe yakınlık uyarısı),
  * altta rakip (kırmızı). Boş kutu yok: her satır draft'tan gelen 5 kategoriyle dolu başlar.
  */
 function PuanTahtasi({ d, hk, c, kucuk, durum, vurus = null }) {
   const durumKategori = durum ? d?.kategori ?? null : null;
   const kat = d?.kategoriler;
-  const n = Math.max(1, baslangicKategorileri(hk, hk.rakipId, kat).length || 5);
   const bitti = d?.faz === "bitti";   // maç sonu tahtası: bitişe yakınlık uyarısı/halkası yok
   const rakipKritik = !bitti && puanKritik(hk, "rakip");
   const benKritik = !bitti && puanKritik(hk, "ben");
@@ -271,7 +267,7 @@ function PuanTahtasi({ d, hk, c, kucuk, durum, vurus = null }) {
     ? { ton: "rakip", metin: c("Rakip bitişe yakın: {p}/{h} puan · {a}/{y} kategori", { p: hk.rakipP, h: hk.hedef, a: hk.rakipAlinan, y: hk.yol }) }
     : benKritik
       ? { ton: "ben", metin: c("Bitişe yakınsın: {p}/{h} puan · {a}/{y} kategori", { p: hk.benP, h: hk.hedef, a: hk.benAlinan, y: hk.yol }) }
-      : { ton: "notr", metin: c("{h} puan ya da {nE} {yE} al", { h: hk.hedef, n, y: hk.yol, nE: `${n}${EK_DEN[n] ?? "'den"}`, yE: `${hk.yol}${EK_UNU[hk.yol] ?? "'ini"}` }) };
+      : { ton: "notr", metin: c("{h} puan ya da rakibin {y} kategorisini alan kazanır", { h: hk.hedef, y: hk.yol }) };
   const v = (id) => (vurus ? { n: Number(vurus[id] ?? 0), anahtar: vurus.anahtar } : null);
   return (
     <section className={sinif("hk-tahta hk-tahta--puan hk-tahta--serit", kucuk && "hk-tahta--kucuk", d?.uzatma && "hk-tahta--altin",
@@ -424,7 +420,7 @@ export function hkSonucMesaji(d, hk, benId, c) {
  */
 export function hkMesaj({ d, hk, ben, rakip, benSaldiran, c, ezeli }) {
   // 970 · puan modu: kural = hedef puan ya da kategori yolu; uyarı = bitişe yakınlık (puanKritik).
-  const kuralL1 = hk.puan ? c("{h} puan ya da {y} kategori alan kazanır", { h: hk.hedef, y: hk.yol }) : c("{n} yuvaya ilk ulaşan kazanır", { n: hk.esik });
+  const kuralL1 = hk.puan ? c("{h} puan ya da rakibin {y} kategorisini alan kazanır", { h: hk.hedef, y: hk.yol }) : c("{n} yuvaya ilk ulaşan kazanır", { n: hk.esik });
   const kuralL2 = hk.puan ? c("Doğru +1 · kategoriyi alırsan +2") : c("Hamle tutması için: sen doğru, rakip yanlış");
   const rakipKritik = hk.puan ? puanKritik(hk, "rakip") : hk.rakipY === hk.esik - 1;
   const benKritik = hk.puan ? puanKritik(hk, "ben") : hk.benY === hk.esik - 1;

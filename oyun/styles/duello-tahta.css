@@ -621,3 +621,27 @@
 .hk-ele-yok { color: var(--qt-metin-soluk); font-weight: 800; }
 .hk-ele-sayi { font-size: var(--qt-y-m, 15px); font-weight: 900; color: var(--qt-metin); }
 .hk-ele-not { margin: 0; font-size: var(--qt-y-xs, 12px); font-weight: 700; color: var(--qt-metin-soluk); }
+
+/* ---------------------------------------------------------------- 8 Eki 2026 · okunurluk */
+/* Büyük rakam geri sayım: halka görünür (süre azaldıkça kapanır), rakam halkanın içinde, altında küçük "sn". */
+.hk-mac .hk-sayac-kutu { position: relative; display: inline-grid; place-items: center; width: 44px; height: 44px; }
+.hk-mac .hk-sayac-kutu .hk-sayac.qt-sayac { width: 44px; min-width: 44px; height: 44px; border-radius: 50%; --_r: var(--hk-mavi); }
+.hk-mac .hk-sayac-kutu .hk-sayac svg { display: block; }
+.hk-mac .hk-sayac-kutu .hk-sayac .qt-sayac-sayi { font-size: 18px; margin-top: -7px; }
+.hk-mac .hk-sayac-kutu .hk-sayac.qt-sayac--gerilim { --_r: var(--hk-kirmizi-kenar); }
+.hk-sayac-birim { position: absolute; left: 0; right: 0; bottom: 9px; text-align: center; font-size: 9px; font-weight: 800;
+  line-height: 1; letter-spacing: .03em; color: var(--hk-soluk); pointer-events: none; }
+@media (max-height: 700px) {
+  .hk-mac .hk-sayac-kutu, .hk-mac .hk-sayac-kutu .hk-sayac.qt-sayac { width: 38px; min-width: 38px; height: 38px; }
+  .hk-mac .hk-sayac-kutu .hk-sayac .qt-sayac-sayi { font-size: 15px; margin-top: -6px; }
+  .hk-sayac-birim { bottom: 7px; font-size: 8.5px; }
+}
+/* Sıra sende (saldırı): kendi kartların seçilemez ama okunur kalır — soluk/devre dışı görünmez. */
+.hk-kart.hk-kart--pasif, .hk-mac--seritli .hk-kart.hk-kart--pasif { opacity: .9; }
+/* Seçim yokken "Seç" de kan kırmızısı (açık ton): gri devre dışı düğme gibi durmaz; seçince tam kırmızı "Saldır". */
+.hk-mac .hk-cubuk-dugme.qt-dugme:disabled:not(.qt-dugme--yukleniyor) {
+  --_z: var(--qt-mod-duello, #c93030); --_y: var(--qt-mod-duello-yazi, #fff); --_d: var(--qt-mod-duello-dudak, #8f1f27); opacity: .72;
+}
+/* Sıra rakipte: "Rakip seçiyor…" açıkça okunsun */
+.hk-cubuk--savunan:not(.hk-cubuk--ipucu):not(.hk-cubuk--ban) { border-color: var(--hk-kirmizi-kenar); }
+.hk-cubuk--savunan:not(.hk-cubuk--ipucu):not(.hk-cubuk--ban) .hk-cubuk-yazi b { color: var(--hk-kirmizi-kenar); font-size: 15px; }

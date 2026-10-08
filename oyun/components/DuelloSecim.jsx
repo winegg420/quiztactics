@@ -330,7 +330,7 @@ export function HakimiyetBasliyor({ hk, c }) {
           <span className="dsc-basla-rakip"><b className="qt-sayi">{hk.rakipY}</b> {c("Rakip")}</span>
         </span>
         <span className="dsc-basla-alt">{hk.puan   // 970: puan modunda kazanma kuralı
-          ? c("{h} puan ya da {y} kategori alan kazanır", { h: hk.hedef, y: hk.yol })
+          ? c("{h} puan ya da rakibin {y} kategorisini alan kazanır", { h: hk.hedef, y: hk.yol })
           : c("{n} yuvaya ulaşan kazanır", { n: hk.esik })}</span>
       </div>
     </div>

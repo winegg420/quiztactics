@@ -136,9 +136,8 @@ function DuelloGiris() {
           <h1 className="qt-baslik-1">{ceviri("Düello")}</h1>
           <p>{(puanModu ? [
             // 7 Eki 2026: kısa anlatım (ayrıntı "Kurallar nasıl işliyor?" tanıtımında)
-            ceviri("Kategorileri sırayla seçersiniz."),
-            ceviri("Rakibin kategorisine saldır: bilirsen +1, alırsan +2."),
-            ceviri("{h} puan ya da {y} kategori kazandırır.", { h: hedef, y: yol }),
+            // 8 Eki 2026: kart iki satır — yalnız tek kural cümlesi (+1/+2 ayrıntısı "Kurallar nasıl işliyor?" tanıtımında)
+            ceviri("{h} puan ya da rakibin {y} kategorisini alan kazanır.", { h: hedef, y: yol }),
           ] : secimModu ? [
             ceviri("Maç başında 10 kategoriyi sırayla seçersiniz, 5'er tane."),
             ceviri("{n} yuvayı ilk dolduran kazanır.", { n: esik }),
@@ -223,7 +222,7 @@ const PUAN_IPUCLARI = [
   "Yalnız rakibin kategorisine saldırabilirsin.",
   "Bildiğin her soru +1 puan.",
   "Sen bilir, rakip bilemezse kategori senin: +2.",
-  "{h} puana ya da rakibin {y} kategorisine ilk ulaşan kazanır.",
+  "{h} puan ya da rakibin {y} kategorisini alan kazanır.",
   "{t} tur sonunda puanlar eşitse Altın Soru.",
 ];
 const ARAMA_IPUCLARI = [
@@ -1507,7 +1506,11 @@ function DuelloMac({ id }) {
   const sayacNode = secimFaz
     ? <SecimHalka sn={kopukDonukSn ?? gosterSn} oran={(kopukDonukSn ?? kalanGoster) / Math.max(1, toplamSn)} ben={benSaldiran} c={c2} />
     : sayacGosterilir
-    ? <QtSayac kalan={gosterSn} toplam={toplamSn} esik={d.faz === "ban" ? 2 : 5} boyut="k" durdu={kilitli || kopukDonukSn != null || (banFazi && !!banBekleyen)} ekBalon={ekBalon} className="hk-sayac" />
+    // 8 Eki 2026: büyük rakam geri sayım olduğu anlaşılsın — halka görünür, altında küçük "sn" birimi.
+    ? <span className="hk-sayac-kutu">
+        <QtSayac kalan={gosterSn} toplam={toplamSn} esik={d.faz === "ban" ? 2 : 5} boyut="k" durdu={kilitli || kopukDonukSn != null || (banFazi && !!banBekleyen)} ekBalon={ekBalon} className="hk-sayac" />
+        <small className="hk-sayac-birim" aria-hidden="true">{c2("sn")}</small>
+      </span>
     : <span className="hk-sayac hk-sayac--sonuc" aria-hidden="true">·</span>;
   const sureOrani = sayacGosterilir ? (kopukDonukSn ?? kalanGoster) / Math.max(1, toplamSn) : 0;
   // Ban → kategori: açıklama yalnız faz TAZE iken oynar (sayaç hâlâ tam sürede = sunucunun gösterim payı içinde;

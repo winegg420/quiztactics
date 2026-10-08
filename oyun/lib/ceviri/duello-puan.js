@@ -9,6 +9,14 @@ export default {
   "Çalınan kategori {n}/{y}": "Stolen categories {n}/{y}",
   // Mesaj satırı
   "{h} puan ya da {y} kategori alan kazanır": "First to {h} points or {y} categories wins",
+  // 8 Eki 2026 · TEK kural cümlesi (lobi, perde, puan şeridi, arama ipucu, tanıtım). Sunucu (970): hedef puana ilk
+  // ulaşan ya da rakibin başlangıçtaki kategorilerinden kategori_yolu kadarını elinde tutan kazanır.
+  "{h} puan ya da rakibin {y} kategorisini alan kazanır": "First to {h} points or {y} of the opponent's categories wins",
+  "{h} puan ya da rakibin {y} kategorisini alan kazanır.": "First to {h} points or {y} of the opponent's categories wins.",
+  "{h} puan ya da rakibin {y} kategorisini alan kazanır. Aynı anda olursa Altın Soru.":
+    "First to {h} points or {y} of the opponent's categories wins. If both happen at once: Golden Question.",
+  "{h} puan ya da rakibin {y} kategorisini alan kazanır. {t} tur bitince puanı çok olan; eşitlikte Altın Soru.":
+    "First to {h} points or {y} of the opponent's categories wins. After {t} turns, most points wins; a tie goes to a Golden Question.",
   "Doğru +1 · kategoriyi alırsan +2": "Right +1 · take the category for +2",
   "Rakip bitişe yakın: {p}/{h} puan · {a}/{y} kategori": "Opponent is close: {p}/{h} pts · {a}/{y} categories",
   "Bitişe yakınsın: {p}/{h} puan · {a}/{y} kategori": "You're close: {p}/{h} pts · {a}/{y} categories",
