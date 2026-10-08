@@ -55,6 +55,13 @@
 .a-meydan-kime::-webkit-scrollbar { display: none; }
 .a-meydan-kime > [role="listitem"], .a-meydan-kime > .qt-iskelet { flex: none; display: flex; width: 140px; }
 .a-meydan-kime > .qt-iskelet { height: auto; min-height: 148px; }
+/* 8 Eki 2026: QtIskelet bir grup kabında gelir — kab şerit boyunca yayılıp dev gri kutu oluyordu; kart boyunda yer tutucular */
+.a-meydan-kime > .qt-iskelet-grup { flex: none; display: flex; gap: var(--qt-b-2); width: auto; }
+.a-meydan-kime > .qt-iskelet-grup > .qt-iskelet { flex: none; width: 140px; height: 148px; }
+.a-meydan .a-meydan-kime-bos { margin-top: var(--qt-b-1); }
+/* Düello mod kartı: kırmızı zeminde lacivert kalan ikon/işaret de beyaz (kontrast) */
+.a-meydan .qt-mod--duello, .a-meydan .qt-mod--duello :is(.qt-mod-ad, .qt-mod-alt, .qt-mod-metin) { color: #fff; }
+.a-meydan .qt-mod--duello .qt-mod-ikon { background: rgb(255 255 255 / 0.2); color: #fff; }
 .a-meydan-kisi {
   display: flex;
   flex-direction: column;

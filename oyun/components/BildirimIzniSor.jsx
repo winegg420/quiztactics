@@ -23,7 +23,7 @@ const yaz = (k) => { try { localStorage.setItem(k, "1"); } catch { /* özel mod 
  * teknik hata konsola yazılır, kartta gösterilir, tekrar denenebilir.
  * iPhone Safari sekmesinde push yok (Apple) → kart yerine "ana ekrana ekle" ipucu (bir kez).
  */
-export default function BildirimIzniSor() {
+export default function BildirimIzniSor({ serit = false }) {   // serit: ana sayfadaki tek satırlık sıkı şerit (8 Eki 2026)
   const [durum, setDurum] = useState(null);   // null | "sor" | "ios" | "acik"
   const [calisiyor, setCalisiyor] = useState(false);
   const [hata, setHata] = useState(null);
@@ -39,6 +39,51 @@ export default function BildirimIzniSor() {
   }, []);
 
   if (!durum) return null;
+
+  const kapat = () => { yaz(DEPO); setDurum(null); };
+  const ac = async () => {
+    setCalisiyor(true);
+    setHata(null);
+    try {
+      await bildirimleriAc();
+      yaz(DEPO);
+      setDurum("acik");
+    } catch (e) {
+      console.error("[Bildim] bildirim aboneliği başarısız:", e);
+      if (typeof Notification !== "undefined" && Notification.permission === "denied") kapat();   // oyuncu reddetti
+      else setHata(hataMesaji(e, tt("Bildirimler açılamadı. Tekrar dene.")));
+    } finally {
+      setCalisiyor(false);
+    }
+  };
+
+  // Ana sayfa şeridi: tek satır (ikon · kısa metin · düğme · kapat). Ekranı kaplamaz, kaydırma açmaz.
+  // Zil ikonu dolu ve sabit (eski kartta yarı saydam halkalı zil düğmede yükleniyor çarkına benziyordu).
+  if (serit) {
+    const ios = durum === "ios", acik = durum === "acik";
+    const metin = hata ?? (acik ? tt("Bildirimler açık") : ios ? tt("iPhone: Paylaş → Ana Ekrana Ekle") : tt("Bir sonraki maçı kaçırma"));
+    return (
+      <div className={`bi-serit${acik ? " bi-serit--acik" : ""}`} role="region"
+           aria-label={ios ? tt("iPhone'da bildirim almak için") : tt("Bir sonraki maçı kaçırma")}>
+        <span className="bi-serit-ikon" aria-hidden="true"><QtIkon ad={acik ? "onay" : "zil"} boyut={18} /></span>
+        <p className={`bi-serit-metin${hata ? " bi-serit-metin--hata" : ""}`} role={hata ? "alert" : undefined}
+           title={ios ? tt("Quiz Tactics'i ana ekrana ekle (Paylaş → Ana Ekrana Ekle) ve oradan aç. Apple bildirimleri yalnız ana ekrandaki uygulamaya izin veriyor.") : undefined}>
+          {metin}
+        </p>
+        {durum === "sor" && (
+          <button type="button" className="bi-serit-ac" onClick={ac} disabled={calisiyor} aria-busy={calisiyor || undefined}>
+            {calisiyor ? "…" : tt("Aç")}
+          </button>
+        )}
+        {!acik && (
+          <button type="button" className="bi-serit-kapat" aria-label={ios ? tt("Anladım") : tt("Şimdi değil")}
+                  onClick={ios ? () => { yaz(DEPO_IOS); setDurum(null); } : kapat}>
+            <QtIkon ad="kapat" boyut={16} />
+          </button>
+        )}
+      </div>
+    );
+  }
 
   if (durum === "acik") {
     return (
@@ -58,8 +103,6 @@ export default function BildirimIzniSor() {
     );
   }
 
-  const kapat = () => { yaz(DEPO); setDurum(null); };
-
   return (
     <IzinKart
       ikon="zil"
@@ -72,21 +115,7 @@ export default function BildirimIzniSor() {
         boyut="k"
         ikon="zil"
         yukleniyor={calisiyor}
-        onClick={async () => {
-          setCalisiyor(true);
-          setHata(null);
-          try {
-            await bildirimleriAc();
-            yaz(DEPO);
-            setDurum("acik");
-          } catch (e) {
-            console.error("[Bildim] bildirim aboneliği başarısız:", e);
-            if (typeof Notification !== "undefined" && Notification.permission === "denied") kapat();   // oyuncu reddetti
-            else setHata(hataMesaji(e, tt("Bildirimler açılamadı. Tekrar dene.")));
-          } finally {
-            setCalisiyor(false);
-          }
-        }}
+        onClick={ac}
       >
         {tt("Bildirimleri aç")}
       </QtDugme>

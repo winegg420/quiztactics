@@ -314,7 +314,11 @@ export default function ChallengesPage() {
       // Emekli bot (bot_aktif=false) listelenmez: sütunu NULL gelir (migration 193).
       .not("acik_bot_isabet", "is", null)
       .order("acik_bot_isabet", { ascending: true })
-      .then(({ data }) => setBotlar(data ?? []));
+      .then(({ data, error }) => {
+        if (error) throw error;
+        setBotlar(data ?? []);
+      })
+      .catch((e) => console.warn("[Bildim] açık botlar alınamadı:", e?.message ?? e));
     arkadaslariYukle();
     rpcDene("get_categories").then(({ data }) => setKategoriler(data ?? []));
   }, [user.id]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -916,6 +920,9 @@ export default function ChallengesPage() {
   const secimOnayi = (secili, ek) => (secili
     ? <span className={sinif("a-meydan-onay-isareti", ek, secimYapildi && "qt-h-zipla")} aria-hidden="true"><QtIkon ad="onay" boyut={14} /></span>
     : undefined);
+  // Kime? şeridi: süren maçı olmayan açık botlar; arkadaş da bot da yoksa boş durum mesajı (8 Eki 2026)
+  const kimeBotlar = botlar.filter((b) => !maclar.some((m) => (m.oyuncu1 === b.id || m.oyuncu2 === b.id) && ["bekliyor", "aktif"].includes(m.durum)));
+  const kimeBos = oyuncuDurum === "hazir" && oyuncular.length === 0 && kimeBotlar.length === 0;
 
   return (
     <div className="a-meydan">
@@ -1115,10 +1122,17 @@ export default function ChallengesPage() {
             ].filter(Boolean).join(" · ")}
           </span>
         </div>
+        {/* Arkadaş da açık bot da yoksa boş gri şerit yerine kısa mesaj + arkadaş ekleme bağlantısı */}
+        {kimeBos && (
+          <QtBosDurum boyut="k" ikon="kisiler" ton="vurgu" className="a-meydan-bos a-meydan-kime-bos"
+                      baslik={tt("Henüz meydan okuyabileceğin bir arkadaşın yok.")}
+                      eylem={<Link to={y("/arkadaslar")} className="qt-dugme qt-dugme--ikincil qt-dugme--k">{tt("Arkadaş ekle")}</Link>} />
+        )}
+        {!kimeBos && (
         <div className="a-meydan-kime-serit">
           <div className="a-meydan-kime" role="list" aria-labelledby="a-meydan-kime-b">
-            {/* Arkadaşlar yüklenirken yer tutucu: botlar sonradan sağa kaymasın */}
-            {oyuncuDurum === "yukleniyor" && <QtIskelet tur="kart" />}
+            {/* Arkadaşlar yüklenirken yer tutucu: kart boyunda (eskiden şerit genişliğinde dev gri kutu) */}
+            {oyuncuDurum === "yukleniyor" && <QtIskelet tur="kart" adet={2} />}
             {oyuncuDurum === "hazir" && oyuncular.length === 0 && (
               <div role="listitem">
                 <Link to={y("/arkadaslar")} className="a-meydan-kisi a-meydan-kisi--ekle">
@@ -1146,15 +1160,7 @@ export default function ChallengesPage() {
                 </div>
               );
             })}
-            {botlar
-              .filter(
-                (b) =>
-                  !maclar.some(
-                    (m) =>
-                      (m.oyuncu1 === b.id || m.oyuncu2 === b.id) &&
-                      ["bekliyor", "aktif"].includes(m.durum)
-                  )
-              )
+            {kimeBotlar
               .map((b, i) => {
                 const isabet = Number(b.acik_bot_isabet);
                 const z = botZorluk(isabet);
@@ -1178,6 +1184,7 @@ export default function ChallengesPage() {
               })}
           </div>
         </div>
+        )}
         {oyuncuDurum === "hata" && (
           <QtKart><DurumKutusu durum={oyuncuDurum} kucuk satir={2} onTekrar={arkadaslariYukle} /></QtKart>
         )}

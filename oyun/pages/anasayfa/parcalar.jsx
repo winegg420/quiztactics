@@ -19,6 +19,7 @@ import { geriSayim, sonrakiTurnuva, turnuvaSaatleri, turnuvaSaatiGoster, yerelSa
 import { y } from "../../lib/yol.js";
 import { CoinIkon } from "../../components/ParaIkonlari.jsx";
 import { useGorevler, gorevOzeti } from "../../lib/gorevler.js";
+import { AMBLEMLER } from "../../tasarim/rozet/amblemler.jsx";
 
 const sayi = (n) => new Intl.NumberFormat("tr-TR").format(Number(n) || 0);
 const MADALYA_TON = ["altin", "gumus", "bronz"];   // turnuva ödül sırası: 1. 2. 3.
@@ -392,6 +393,42 @@ export function GorevListesi({ v, sinir = 3 }) {
         );
       })}
     </ul>
+  );
+}
+
+/** Amblem sembolü (rozet setinin kalın konturlu çizimi) tek başına, ±17 birimlik tuvalde. */
+function AmblemSembolu({ ad, className }) {
+  const Sembol = AMBLEMLER[ad]?.Sembol;
+  if (!Sembol) return null;
+  return <svg className={className} viewBox="-17 -17 34 34" aria-hidden="true" focusable="false"><Sembol /></svg>;
+}
+
+/**
+ * Mod kartı sahne figürü (8 Eki 2026, onaylı eskiz): yalnız mevcut varlıklar — rozet amblemleri
+ * (soru, kılıçlar) ve dükkân/kozmetik görselleri (sandık, şimşek, parıltı; Noto Emoji 3D, Apache 2.0).
+ * Süs; düğmenin etiketi aria-label'da.
+ */
+export function ModFiguru({ tur }) {
+  if (tur === "klasik") {
+    return (
+      <span className="as-figur as-figur--klasik" aria-hidden="true">
+        <AmblemSembolu ad="soru" className="as-figur-ana" />
+        <img className="as-figur-yan" src="/dukkan/parilti.webp" alt="" width="40" height="40" decoding="async" />
+      </span>
+    );
+  }
+  if (tur === "duello") {
+    return (
+      <span className="as-figur as-figur--duello" aria-hidden="true">
+        <img className="as-figur-arka" src="/kozmetik/simsek.webp" alt="" width="48" height="48" decoding="async" />
+        <AmblemSembolu ad="kiliclar" className="as-figur-ana" />
+      </span>
+    );
+  }
+  return (
+    <span className="as-figur as-figur--kasa" aria-hidden="true">
+      <img className="as-figur-ana" src="/dukkan/sandik.webp" alt="" width="64" height="64" decoding="async" />
+    </span>
   );
 }
 

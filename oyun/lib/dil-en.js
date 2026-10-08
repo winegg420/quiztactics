@@ -31,5 +31,6 @@ import enKasa from "./ceviri/kasa.js";   // KASA (deneysel, 950)
 import enDuelloSecim from "./ceviri/duello-secim.js";   // Düello 960: sırayla kategori seçimi
 import enDuelloPuan from "./ceviri/duello-puan.js";   // Düello 970: yeni puan kuralı
 import enKisaMetin from "./ceviri/kisa-metin.js";   // Kısa mod anlatımları (7 Eki 2026)
+import enAnaSahne from "./ceviri/ana-sahne.js";   // Ana sayfa oyun sahnesi (8 Eki 2026)
 
-export default Object.assign({}, temel, enMac, enAna, enLig, enDukkan, enGiris, enTasarim, enKozmetik, enAntrenman, enMacSonuOnizleme, enArama, enPremium, enCikisOnay, enGuvenlik, enKoleksiyon, enSunucu, enTarama, enDenetim5, enDenetim6, enHakimiyet, enHakimiyetEkran, enHakimiyetJoker, enSezonYolu, enSezonYoluParca, enGorevler, enAvatarSatis, enKategoriMaci, enKasa, enDuelloSecim, enDuelloPuan, enKisaMetin);
+export default Object.assign({}, temel, enMac, enAna, enLig, enDukkan, enGiris, enTasarim, enKozmetik, enAntrenman, enMacSonuOnizleme, enArama, enPremium, enCikisOnay, enGuvenlik, enKoleksiyon, enSunucu, enTarama, enDenetim5, enDenetim6, enHakimiyet, enHakimiyetEkran, enHakimiyetJoker, enSezonYolu, enSezonYoluParca, enGorevler, enAvatarSatis, enKategoriMaci, enKasa, enDuelloSecim, enDuelloPuan, enKisaMetin, enAnaSahne);

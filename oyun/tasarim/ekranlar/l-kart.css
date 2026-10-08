@@ -270,6 +270,36 @@ body.bd-oyun-modu .bz-toast { display: none; } /* maç sırasında oyunu bölmez
   .bi-kart { grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; }
   .bi-dugmeler { grid-column: auto; }
 }
+/* Ana sayfa şeridi (8 Eki 2026): tek satır, krem zemin; ikon dolu sabit zil (yükleniyor çarkına benzemez). Turuncu yok — ana eylem Klasik. */
+.bi-serit {
+  display: flex; align-items: center; gap: 8px; min-height: 48px; padding: 2px 2px 2px 8px; border-radius: 14px;
+  background: #fff3c9; color: #1f2a5c; box-shadow: inset 0 0 0 2px #d8a53a, 0 3px 0 #b88a2c;
+}
+.bi-serit-ikon {
+  flex: none; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%;
+  background: #f6cf5a; color: #1f2a5c; box-shadow: inset 0 0 0 2px #1f2a5c;
+}
+.bi-serit-ikon .qt-ikon .qt-ikon-d { fill-opacity: 1; }
+.bi-serit--acik .bi-serit-ikon { background: #3fa568; color: #fff; box-shadow: none; }
+.bi-serit-metin {
+  flex: 1 1 auto; min-width: 0; margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font: var(--qt-a-siyah) 13px/1.2 var(--qt-f-govde);
+}
+.bi-serit-metin--hata { color: #b93c3a; white-space: normal; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; }
+.bi-serit-ac {
+  flex: none; min-width: 56px; height: 36px; padding: 0 14px; border: 0; border-radius: 999px; cursor: pointer;
+  background: var(--qt-ikinci); color: var(--qt-ikinci-yazi); font: var(--qt-a-siyah) 14px/1 var(--qt-f-govde); box-shadow: 0 3px 0 var(--qt-ikinci-dudak);
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation; position: relative;
+}
+.bi-serit-ac::after { content: ""; position: absolute; inset: -4px -2px; }   /* dokunma alanı 44 px */
+.bi-serit-ac:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--qt-ikinci-dudak); }
+.bi-serit-ac:disabled { opacity: .75; cursor: default; }
+.bi-serit-kapat {
+  flex: none; display: grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 50%; padding: 0;
+  background: transparent; color: #1f2a5c; cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.bi-serit-ac:focus-visible, .bi-serit-kapat:focus-visible { outline: 3px solid var(--qt-odak, #1f2a5c); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .bi-serit-ac:active { transform: none; } }
 
 @media (prefers-reduced-motion: reduce) {
   .bz-panel { animation: bz-ortu-gel var(--qt-s-kisa) linear; }

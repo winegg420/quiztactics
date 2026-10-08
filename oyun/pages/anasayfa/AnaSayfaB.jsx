@@ -7,6 +7,7 @@ import { useAyar } from "../../lib/ayarlar.js";
 import { useDuelloKurallari } from "../../lib/duelloKurallari.js";
 import { LIG_ADLARI } from "../../lib/lig.js";
 import { useAnaSayfaVerisi, useOyunBaslat } from "./veri.jsx";
+import { useCoin } from "../../lib/coin.js";
 import {
   OyuncuAvatari, XpSatiri, LigCipi, CoinCipi, RutbeCipi, SeriCipi, modListesi, etkinlikler,
   EtkinlikSatiri, TurnuvaKarti, GorevListesi, Susleme,
@@ -15,7 +16,8 @@ import "./anasayfa.css";
 
 export default function AnaSayfaB() {
   const { tur: turSayisi } = useDuelloKurallari();   // Düello tur sayısı metne gömülmez (960: seçim modunda 20, kapalıysa eski 16)
-  const v = useAnaSayfaVerisi();
+  const { bakiye } = useCoin();   // bakiye bu seçenekte görünür (coin çipi); A göstermez
+  const v = useAnaSayfaVerisi({ bakiye });
   const b = useOyunBaslat();
   if (!v.profile) return <div className="as-yukleniyor" aria-busy="true" />;
   const olaylar = etkinlikler(v);

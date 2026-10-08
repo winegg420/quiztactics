@@ -7,6 +7,7 @@ import { QtIkon } from "../../tasarim/index.js";
 import { tt } from "../../lib/dil.js";
 import { LIG_ADLARI } from "../../lib/lig.js";
 import { useAnaSayfaVerisi, useOyunBaslat } from "./veri.jsx";
+import { useCoin } from "../../lib/coin.js";
 import {
   OyuncuAvatari, XpSatiri, LigCipi, SeriCipi, modListesi, etkinlikler, EtkinlikSatiri,
   TurnuvaKarti, GorevListesi, Susleme,
@@ -14,7 +15,8 @@ import {
 import "./anasayfa.css";
 
 export default function AnaSayfaC() {
-  const v = useAnaSayfaVerisi();
+  const { bakiye } = useCoin();   // bakiye bu seçenekte görünür (coin çipi); A göstermez
+  const v = useAnaSayfaVerisi({ bakiye });
   const b = useOyunBaslat();
   const [sekme, setSekme] = useState("oyna");
   if (!v.profile) return <div className="as-yukleniyor" aria-busy="true" />;

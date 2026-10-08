@@ -21,7 +21,6 @@ import { rpcDene } from "../../lib/rpcDene.js";
 import { ligGrubumOzet } from "../../lib/lig.js";
 import { ayar, ayarlar } from "../../lib/ayarlar.js";
 import { duelloKurallari } from "../../lib/duelloKurallari.js";
-import { useCoin } from "../../lib/coin.js";
 import { useKategoriTercih } from "../../lib/kategoriTercih.js";
 import { useDereceliTercih } from "../../lib/dereceli.js";
 import { hataMesaji } from "../../lib/hata.js";
@@ -31,7 +30,32 @@ import RakipAra from "../../components/RakipAra.jsx";
 import YarimMacPenceresi from "../../components/YarimMac.jsx";
 import ModSecimPenceresi from "../../components/ModSecimPenceresi.jsx";
 
-export function useAnaSayfaVerisi({ gorevYukle = true } = {}) {   // gorevYukle=false: eski get_daily_quests okunmaz (AnaSayfaA görevleri /gorevler'den alır)
+// Açılışta iki kanca (maç listesi + devam eden maçlar) aynı satırları okuyordu (matches ×2, tournaments ×2).
+// Eşzamanlı ya da 1,5 sn içindeki aynı okuma TEK isteği paylaşır (yalnız bu sayfanın modülünde; sonuç değiştirilmez).
+const PAYLASIM_MS = 1500;
+const paylasim = new Map();
+function paylasimliOku(anahtar, sorgu) {
+  const k = paylasim.get(anahtar);
+  if (k && (!k.bitti || Date.now() - k.bitti < PAYLASIM_MS)) return k.soz;
+  const yeni = { bitti: 0, soz: null };
+  yeni.soz = Promise.resolve().then(sorgu).finally(() => { yeni.bitti = Date.now(); });
+  paylasim.set(anahtar, yeni);
+  return yeni.soz;
+}
+/** Aktif Klasik/Saf Bilgi maçlarım: maç listesi (sıra sende / kabuller) ve "Devam et" kartı aynı satırları kullanır. */
+const aktifMaclarim = (uid) => paylasimliOku(`maclar:${uid}`, () => supabase.from("matches")
+  .select(`id, oyuncu1, oyuncu2, oyuncu1_soru, oyuncu2_soru, soru_ids, kabul_at, aktif_soru, jokersiz,
+           p1:profiles!matches_oyuncu1_fkey(gorunen_ad, gorunen_avatar, acik_bot),
+           p2:profiles!matches_oyuncu2_fkey(gorunen_ad, gorunen_avatar, acik_bot)`)
+  .eq("durum", "aktif").or(`oyuncu1.eq.${uid},oyuncu2.eq.${uid}`).limit(20));
+/** Canlı + lobi turnuvaları: turnuva şeridi ve "Devam et" kartı (yalnız aktif olanlar) aynı okumayı kullanır. */
+const aktifTurnuvalar = () => paylasimliOku("turnuvalar", () => supabase.from("tournaments")
+  .select("id, durum, tarih, seans").in("durum", ["aktif", "lobi"]).limit(20));
+
+// gorevYukle=false: eski get_daily_quests okunmaz (AnaSayfaA görevleri /gorevler'den alır).
+// bakiye: coin bakiyesini gösteren seçenek (B/C) kendi useCoin'inden verir; A bakiyeyi göstermez (üst çubuk hapı
+// zaten okur) → A'da ikinci coin_bakiyem isteği atılmaz.
+export function useAnaSayfaVerisi({ gorevYukle = true, bakiye = null } = {}) {
   const { user, profile, refreshProfile } = useAuth();
   const uid = user?.id;
   const [gorevler, setGorevler] = useState([]);
@@ -47,7 +71,6 @@ export function useAnaSayfaVerisi({ gorevYukle = true } = {}) {   // gorevYukle=
   // Turnuva şeridi rakamları oyun_ayarlari'ndan: ödüller ve lobinin "açık" sayıldığı dakika.
   const [turnuvaAyar, setTurnuvaAyar] = useState({ oduller: [], lobiAcilisDk: null });
   const [mesaj, setMesaj] = useState(null);
-  const { bakiye } = useCoin();
 
   const gorevleriYukle = useCallback(() => {
     if (!gorevYukle) return;
@@ -100,8 +123,7 @@ export function useAnaSayfaVerisi({ gorevYukle = true } = {}) {   // gorevYukle=
     if (!uid) return;
     let tlar = [];
     try {
-      const { data, error } = await supabase.from("tournaments").select("id, durum, tarih, seans")
-        .in("durum", ["aktif", "lobi"]).limit(20);
+      const { data, error } = await aktifTurnuvalar();
       if (error) throw error;
       tlar = data ?? [];
     } catch (e) {
@@ -143,11 +165,7 @@ export function useAnaSayfaVerisi({ gorevYukle = true } = {}) {   // gorevYukle=
   const siraYukle = useCallback(async () => {
     if (!uid) return;
     try {
-      const { data, error } = await supabase.from("matches")
-        .select(`id, oyuncu1, oyuncu2, oyuncu1_soru, oyuncu2_soru, soru_ids, kabul_at,
-                 p1:profiles!matches_oyuncu1_fkey(gorunen_ad, gorunen_avatar, acik_bot),
-                 p2:profiles!matches_oyuncu2_fkey(gorunen_ad, gorunen_avatar, acik_bot)`)
-        .eq("durum", "aktif").or(`oyuncu1.eq.${uid},oyuncu2.eq.${uid}`).limit(20);
+      const { data, error } = await aktifMaclarim(uid);
       if (error) throw error;
       const benim = (data ?? []).map((m) => {
         const p1 = m.oyuncu1 === uid;
@@ -337,10 +355,7 @@ export function useDevamEdenMaclar() {
     const sonuc = [];
 
     try {
-      const { data, error } = await supabase.from("matches")
-        .select(`id, oyuncu1, oyuncu2, aktif_soru, soru_ids, jokersiz,
-                 p1:profiles!matches_oyuncu1_fkey(gorunen_ad), p2:profiles!matches_oyuncu2_fkey(gorunen_ad)`)
-        .eq("durum", "aktif").or(`oyuncu1.eq.${uid},oyuncu2.eq.${uid}`).limit(20);
+      const { data, error } = await aktifMaclarim(uid);
       if (error) throw error;
       for (const m of data ?? []) {
         const benim1 = m.oyuncu1 === uid;
@@ -410,10 +425,9 @@ export function useDevamEdenMaclar() {
     }
 
     try {
-      const { data: aktifTurnuvalar, error } = await supabase.from("tournaments")
-        .select("id").eq("durum", "aktif").limit(5);
+      const { data: turnuvalar, error } = await aktifTurnuvalar();
       if (error) throw error;
-      const ids = (aktifTurnuvalar ?? []).map((t) => t.id);
+      const ids = (turnuvalar ?? []).filter((t) => t.durum === "aktif").slice(0, 5).map((t) => t.id);
       if (ids.length) {
         const { data: oyuncular, error: e2 } = await supabase.from("tournament_players")
           .select("tournament_id, dogru_sayisi").eq("user_id", uid).eq("elendi", false).in("tournament_id", ids);

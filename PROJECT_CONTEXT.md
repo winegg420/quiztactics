@@ -702,11 +702,18 @@ karakter, Hızlı Mod hariç — dondurulmuş) bu sistemle yeniden yazıldı.
   tek odak, tek vurgu rengi (turuncu) + en çok 3 ton, kırmızı yok (hata şeridi kehribar), en çok 1 nabız. Sahnede coin hapı hedefi `QT_SAHNE_COIN_HAPI`.
 - **Ana sayfa telefonda HİÇ kaydırılmaz:** `AnaSayfaA` `<html>`e `.as-kaydirmasiz` koyar, kabuk
   100dvh esnek sütun + overflow hidden + overscroll-behavior none; sahne kalan alanı doldurur,
-  kısa ekranda avatar küçülür (container query). Diğer sayfalar kaydırılır.
+  kısa ekranda avatar küçülür (container query). Diğer sayfalar kaydırılır. Durum bantları (bildirim
+  şeridi, devam eden maç, acil) açılınca `useSigdir` 0→8 kademe sıkıştırır (`data-s1…s8`; hiçbir öğe
+  gizlenmez, lig kartı kabı artık kırpmaz). Profil gelmeden sayfa çizilir; oyuncu + lig kartı iskelet.
+- **Ana sayfa "oyun sahnesi" (8 Eki 2026, Ida onaylı eskiz):** zemin #BFDBF7 · metin #1F2A5C · turuncu
+  #EE7F45 YALNIZ Klasik (tek ana eylem) · Düello kırmızı #B93C3A beyaz yazı · Ortak Hazine hardal #D8A53A ·
+  turnuva sarı #F6CF5A, halo yok, KATIL yeşil #3FA568 · krem isim plakası #FFF3C9. Mod kartları kama ışın +
+  büyük figür (`ModFiguru`: rozet amblemleri soru/kılıçlar + sandık/şimşek/parıltı webp). Bildirim izni ana
+  sayfada tek satır şerit (`BildirimIzniSor serit`). Alt menü ikonları kalın lacivert kontur + dolu iç.
 - **Ana sayfa = seçenek A (lobi, kaydırmasız)** — `oyun/pages/anasayfa/AnaSayfaA.jsx`, veri `veri.jsx`,
   parçalar `parcalar.jsx`. Sıra: kompakt oyuncu kartı (çerçeveli avatar, level + XP, lig, seri) → canlı
   lig kartı (`lig_grubum_ozet`: üstümdeki 2 · ben · altımdaki 2, yükselme/düşme çizgisi, fark) → turnuva
-  şeridi (lacivert zemin + altın kupa/vurgu, KATIL turuncu; komşularla 12–14 px) → OYNA/DÜELLO (en çok 92 px) → kısayollar
+  şeridi (sarı zemin + kupa, KATIL yeşil; komşularla 12–14 px) → OYNA/DÜELLO (en çok 92 px) → kısayollar
   (Meydan Okumalar · Grup Maçı · Saf Bilgi · Hatalarım) → **Sezon Yolu şeridi** (`SezonSeridi`, 1 Eki 2026) → görev şeridi. Lig kartı "Sıra 15/25".
   Şerit: "Sezon N · Seviye X/28 · ilerleme · sıradaki ödül · X gün kaldı"; BP sahibi değilse altın "Battle Pass" çipi, alınabilir ödül varsa altın nokta + sayı;
   bütün şerit tek bağlantı (/sezon-yolu); yalnız `sezon_yolu_durumum().acik` iken (test sezonu değil) çizilir; veri sezon_ozetim + sezon_yolu_durumum (yeni RPC yok).

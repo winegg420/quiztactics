@@ -243,6 +243,13 @@ body.bd-oyun-modu .a-kabuk .a-altmenu { display: none; }
   animation: none;
 }
 
+/* 8 Eki 2026 (ana sayfa oyun sahnesi): alt menü ikonları tek tarz — kalın lacivert kontur + dolu açık iç
+   (oyun tarzı, yarı saydam dolgu yerine). Etkin sekmede mavi hap içinde beyaz kontur + sarı iç. */
+.app .a-altmenu.mobile-nav .qt-altmenu-ikon .qt-ikon { stroke-width: 2.8; }
+.app .a-altmenu.mobile-nav .qt-altmenu-oge:not(.qt-altmenu-oge--aktif) .qt-altmenu-ikon { color: #1f2a5c; }
+.app .a-altmenu.mobile-nav .qt-altmenu-ikon .qt-ikon .qt-ikon-d { fill: #bfdbf7; fill-opacity: 1; }
+.app .a-altmenu.mobile-nav .qt-altmenu-oge--aktif .qt-altmenu-ikon .qt-ikon .qt-ikon-d { fill: #f6cf5a; }
+
 /* Üst çubuk menü düğmesi: dişli, 44×44 */
 .a-menu-dugme { width: 44px; height: 44px; color: var(--qt-metin-soluk); }
 
