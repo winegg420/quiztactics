@@ -1,0 +1,1245 @@
+[
+ {
+  "id": "K03-01",
+  "k": "sanat",
+  "yerel": false,
+  "s": "Anish Kapoor'un 'Fasulye' lakaplı ayna gibi parlak 'Cloud Gate' heykeli hangi şehirdedir?",
+  "d": "Chicago",
+  "y": [
+   "New York",
+   "Seattle",
+   "Boston"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Anish Kapoor's mirrored sculpture Cloud Gate, nicknamed 'The Bean', stands in which city?",
+   "d": "Chicago",
+   "y": [
+    "New York",
+    "Seattle",
+    "Boston"
+   ]
+  },
+  "olgu": "Anish Kapoor'un 'The Bean' lakaplı Cloud Gate heykeli Chicago'daki Millennium Park'tadır.",
+  "jev_p": 0.07,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-02",
+  "k": "sanat",
+  "yerel": false,
+  "s": "Edward Hopper'ın 'Nighthawks' tablosu gece hangi tür mekânın içini gösterir?",
+  "d": "Lokanta",
+  "y": [
+   "Sinema",
+   "Otel lobisi",
+   "Tren garı"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Edward Hopper's 'Nighthawks' shows people inside what kind of place at night?",
+   "d": "A diner",
+   "y": [
+    "A cinema",
+    "A hotel lobby",
+    "A train station"
+   ]
+  },
+  "olgu": "Hopper'ın 'Nighthawks' tablosu gece vakti bir köşe lokantasındaki (diner) müşterileri gösterir.",
+  "jev_p": 0.09,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-03",
+  "k": "sanat",
+  "yerel": false,
+  "s": "Michelangelo'nun Davut heykeli sol omzunda hangi silahı tutar?",
+  "d": "Sapan",
+  "y": [
+   "Kılıç",
+   "Mızrak",
+   "Yay"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "What weapon does Michelangelo's David hold over his left shoulder?",
+   "d": "A sling",
+   "y": [
+    "A sword",
+    "A spear",
+    "A bow"
+   ]
+  },
+  "olgu": "Michelangelo'nun Davut heykeli sapanını sol omzunun üzerinde tutar.",
+  "jev_p": 0.14,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-04",
+  "k": "sanat",
+  "yerel": false,
+  "s": "Hiyerogliflerin çözülmesini sağlayan Rosetta Taşı hangi müzede sergilenir?",
+  "d": "British Museum",
+  "y": [
+   "Louvre Müzesi",
+   "Metropolitan Müzesi",
+   "Kahire Mısır Müzesi"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "The Rosetta Stone is on display in which museum?",
+   "d": "The British Museum",
+   "y": [
+    "The Louvre",
+    "The Metropolitan Museum",
+    "The Egyptian Museum in Cairo"
+   ]
+  },
+  "olgu": "Rosetta Taşı Londra'daki British Museum'da sergilenmektedir.",
+  "jev_p": 0.24,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-05",
+  "k": "sanat",
+  "yerel": false,
+  "s": "New York'taki Özgürlük Heykeli sol elinde ne tutar?",
+  "d": "Tablet",
+  "y": [
+   "Kılıç",
+   "Terazi",
+   "Kalkan"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "What does the Statue of Liberty hold in her left hand?",
+   "d": "A tablet",
+   "y": [
+    "A sword",
+    "Scales",
+    "A shield"
+   ]
+  },
+  "olgu": "Özgürlük Heykeli sağ elinde meşale, sol elinde üzerinde tarih yazılı bir tablet tutar.",
+  "jev_p": 0.27,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-06",
+  "k": "sanat",
+  "yerel": false,
+  "s": "Louise Bourgeois'nın dev 'Maman' heykeli hangi hayvanı betimler?",
+  "d": "Örümcek",
+  "y": [
+   "Akrep",
+   "Yengeç",
+   "Karınca"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Louise Bourgeois's giant sculpture 'Maman' depicts which creature?",
+   "d": "Spider",
+   "y": [
+    "Scorpion",
+    "Crab",
+    "Ant"
+   ]
+  },
+  "olgu": "Louise Bourgeois'nın 'Maman' adlı dev heykeli bir örümceği betimler.",
+  "jev_p": 0.29,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-07",
+  "k": "sanat",
+  "yerel": false,
+  "s": "Magritte'in 'İnsanoğlu' tablosunda adamın yüzünü hangi meyve kapatır?",
+  "d": "Elma",
+  "y": [
+   "Armut",
+   "Portakal",
+   "Ayva"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In Magritte's 'The Son of Man', which fruit hides the man's face?",
+   "d": "Apple",
+   "y": [
+    "Pear",
+    "Orange",
+    "Quince"
+   ]
+  },
+  "olgu": "René Magritte'in 'İnsanoğlu' tablosunda melon şapkalı adamın yüzünü yeşil bir elma kapatır.",
+  "jev_p": 0.45,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-08",
+  "k": "sanat",
+  "yerel": false,
+  "s": "Frank Gehry'nin titanyum kaplı Guggenheim Müzesi hangi İspanyol şehrindedir?",
+  "d": "Bilbao",
+  "y": [
+   "San Sebastián",
+   "Valensiya",
+   "Málaga"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Frank Gehry's titanium-clad Guggenheim Museum is in which Spanish city?",
+   "d": "Bilbao",
+   "y": [
+    "San Sebastian",
+    "Valencia",
+    "Malaga"
+   ]
+  },
+  "olgu": "Frank Gehry tasarımı titanyum kaplı Guggenheim Müzesi Bilbao'dadır.",
+  "jev_p": 0.58,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-09",
+  "k": "sanat",
+  "yerel": false,
+  "s": "Dalí'nin sürrealist telefon heykelinde ahize hangi hayvan biçimindedir?",
+  "d": "Istakoz",
+  "y": [
+   "Yengeç",
+   "Karides",
+   "Balık"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In Dali's surrealist telephone sculpture, the handset is shaped like what animal?",
+   "d": "A lobster",
+   "y": [
+    "A crab",
+    "A shrimp",
+    "A fish"
+   ]
+  },
+  "olgu": "Salvador Dalí'nin 'Istakoz Telefon' eserinde ahize bir ıstakoz biçimindedir.",
+  "jev_p": 0.15,
+  "hakem_tahmin": 3
+ },
+ {
+  "id": "K03-10",
+  "k": "sanat",
+  "yerel": false,
+  "s": "Van Gogh'un 'Yıldızlı Gece' tablosunun ön planında yükselen ağaç hangisidir?",
+  "d": "Selvi",
+  "y": [
+   "Kavak",
+   "Çam",
+   "Zeytin"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "What kind of tree rises in the foreground of Van Gogh's The Starry Night?",
+   "d": "Cypress",
+   "y": [
+    "Poplar",
+    "Pine",
+    "Olive"
+   ]
+  },
+  "olgu": "'Yıldızlı Gece' tablosunun ön planında alev gibi yükselen ağaç bir selvidir.",
+  "jev_p": 0.27,
+  "hakem_tahmin": 3
+ },
+ {
+  "id": "K03-11",
+  "k": "sanat",
+  "yerel": false,
+  "s": "Leonardo da Vinci'nin Krakov'daki ünlü kadın portresinde kadının kucağında hangi hayvan vardır?",
+  "d": "Kakım",
+  "y": [
+   "Kedi",
+   "Tavşan",
+   "Köpek"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In Leonardo da Vinci's famous portrait of a woman now in Krakow, what animal is she holding?",
+   "d": "Ermine",
+   "y": [
+    "Cat",
+    "Rabbit",
+    "Dog"
+   ]
+  },
+  "olgu": "Leonardo'nun Krakov'daki portresi 'Kakımlı Kadın' (Lady with an Ermine) olarak bilinir.",
+  "jev_p": 0.31,
+  "hakem_tahmin": 3
+ },
+ {
+  "id": "K03-12",
+  "k": "sanat",
+  "yerel": false,
+  "s": "Berlin'deki Reichstag binasını kumaşla tamamen saran sanatçı çifti kimdir?",
+  "d": "Christo ve Jeanne-Claude",
+  "y": [
+   "Gilbert ve George",
+   "Marina Abramović ve Ulay",
+   "Bernd ve Hilla Becher"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which artist couple famously wrapped Berlin's Reichstag building in fabric?",
+   "d": "Christo and Jeanne-Claude",
+   "y": [
+    "Gilbert and George",
+    "Marina Abramovic and Ulay",
+    "Bernd and Hilla Becher"
+   ]
+  },
+  "olgu": "Reichstag binası 1995'te Christo ve Jeanne-Claude tarafından kumaşla sarılmıştır.",
+  "jev_p": 0.39,
+  "hakem_tahmin": 3
+ },
+ {
+  "id": "K03-13",
+  "k": "muzik",
+  "yerel": false,
+  "s": "Defalarca yeniden yorumlanan 'Hallelujah' şarkısını yazan sanatçı kimdir?",
+  "d": "Leonard Cohen",
+  "y": [
+   "Jeff Buckley",
+   "Bob Dylan",
+   "Gordon Lightfoot"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Who wrote the much-covered song 'Hallelujah'?",
+   "d": "Leonard Cohen",
+   "y": [
+    "Jeff Buckley",
+    "Bob Dylan",
+    "Gordon Lightfoot"
+   ]
+  },
+  "olgu": "'Hallelujah' şarkısını Leonard Cohen yazmıştır.",
+  "jev_p": 0.1,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-14",
+  "k": "muzik",
+  "yerel": false,
+  "s": "'Livin' on a Prayer' ve 'It's My Life' şarkılarıyla tanınan rock grubu hangisidir?",
+  "d": "Bon Jovi",
+  "y": [
+   "Def Leppard",
+   "Van Halen",
+   "Journey"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which rock band is known for 'Livin' on a Prayer' and 'It's My Life'?",
+   "d": "Bon Jovi",
+   "y": [
+    "Def Leppard",
+    "Van Halen",
+    "Journey"
+   ]
+  },
+  "olgu": "'Livin' on a Prayer' ve 'It's My Life' Bon Jovi'nin şarkılarıdır.",
+  "jev_p": 0.11,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-15",
+  "k": "muzik",
+  "yerel": false,
+  "s": "Elvis Presley'in ünlü malikânesi Graceland hangi şehirdedir?",
+  "d": "Memphis",
+  "y": [
+   "Nashville",
+   "Tupelo",
+   "New Orleans"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In which city is Elvis Presley's famous mansion, Graceland, located?",
+   "d": "Memphis",
+   "y": [
+    "Nashville",
+    "Tupelo",
+    "New Orleans"
+   ]
+  },
+  "olgu": "Elvis Presley'in malikânesi Graceland, Tennessee eyaletinin Memphis şehrindedir.",
+  "jev_p": 0.27,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-16",
+  "k": "muzik",
+  "yerel": false,
+  "s": "Debbie Harry'nin vokalistliğini yaptığı, 'Heart of Glass' şarkılı grup hangisidir?",
+  "d": "Blondie",
+  "y": [
+   "The Pretenders",
+   "The Go-Go's",
+   "Eurythmics"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Fronted by Debbie Harry, which band had a hit with 'Heart of Glass'?",
+   "d": "Blondie",
+   "y": [
+    "The Pretenders",
+    "The Go-Go's",
+    "Eurythmics"
+   ]
+  },
+  "olgu": "Debbie Harry'nin solisti olduğu Blondie 'Heart of Glass' şarkısını seslendirmiştir.",
+  "jev_p": 0.27,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-17",
+  "k": "muzik",
+  "yerel": false,
+  "s": "'The Sound of Silence' şarkısını seslendiren ünlü ikili hangisidir?",
+  "d": "Simon & Garfunkel",
+  "y": [
+   "The Everly Brothers",
+   "Hall & Oates",
+   "The Righteous Brothers"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which famous duo recorded 'The Sound of Silence'?",
+   "d": "Simon & Garfunkel",
+   "y": [
+    "The Everly Brothers",
+    "Hall & Oates",
+    "The Righteous Brothers"
+   ]
+  },
+  "olgu": "'The Sound of Silence' Simon & Garfunkel ikilisinin şarkısıdır.",
+  "jev_p": 0.33,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-18",
+  "k": "muzik",
+  "yerel": false,
+  "s": "Country ile rap'i karıştıran 'Old Town Road' şarkısının sahibi kimdir?",
+  "d": "Lil Nas X",
+  "y": [
+   "Post Malone",
+   "Travis Scott",
+   "Lil Uzi Vert"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Who had a massive country-rap hit with 'Old Town Road'?",
+   "d": "Lil Nas X",
+   "y": [
+    "Post Malone",
+    "Travis Scott",
+    "Lil Uzi Vert"
+   ]
+  },
+  "olgu": "'Old Town Road' Lil Nas X'in şarkısıdır.",
+  "jev_p": 0.43,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-19",
+  "k": "muzik",
+  "yerel": false,
+  "s": "Beyoncé'nin 2008 albümüne adını veren sahne kişiliğinin adı nedir?",
+  "d": "Sasha Fierce",
+  "y": [
+   "Roman Zolanski",
+   "Chris Gaines",
+   "Ziggy Stardust"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "What is the name of Beyonce's stage alter ego that gave its name to her 2008 album?",
+   "d": "Sasha Fierce",
+   "y": [
+    "Roman Zolanski",
+    "Chris Gaines",
+    "Ziggy Stardust"
+   ]
+  },
+  "olgu": "Beyoncé'nin sahne kişiliği Sasha Fierce, 'I Am... Sasha Fierce' albümüne adını vermiştir.",
+  "jev_p": 0.13,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-20",
+  "k": "muzik",
+  "yerel": false,
+  "s": "Michael Jackson'ın yanından ayırmadığı ünlü şempanzenin adı nedir?",
+  "d": "Bubbles",
+  "y": [
+   "Cheeta",
+   "Bonzo",
+   "Coco"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "What was the name of Michael Jackson's famous pet chimpanzee?",
+   "d": "Bubbles",
+   "y": [
+    "Cheeta",
+    "Bonzo",
+    "Coco"
+   ]
+  },
+  "olgu": "Michael Jackson'ın ünlü evcil şempanzesinin adı Bubbles'dır.",
+  "jev_p": 0.56,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-21",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Mavi kirpi Sonic hangi oyun şirketinin maskotudur?",
+  "d": "Sega",
+  "y": [
+   "Nintendo",
+   "Atari",
+   "Capcom"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Sonic the Hedgehog is the mascot of which video game company?",
+   "d": "Sega",
+   "y": [
+    "Nintendo",
+    "Atari",
+    "Capcom"
+   ]
+  },
+  "olgu": "Sonic the Hedgehog, Sega'nın maskot karakteridir.",
+  "jev_p": 0.03,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-22",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Bill Gates ile birlikte Microsoft'u kuran kişi kimdir?",
+  "d": "Paul Allen",
+  "y": [
+   "Steve Ballmer",
+   "Steve Wozniak",
+   "Gary Kildall"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Who co-founded Microsoft with Bill Gates?",
+   "d": "Paul Allen",
+   "y": [
+    "Steve Ballmer",
+    "Steve Wozniak",
+    "Gary Kildall"
+   ]
+  },
+  "olgu": "Microsoft, Bill Gates ve Paul Allen tarafından kurulmuştur.",
+  "jev_p": 0.12,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-23",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Hareket algılayan kumandasıyla ünlü, Nintendo'nun 2006'da çıkardığı konsol hangisidir?",
+  "d": "Wii",
+  "y": [
+   "GameCube",
+   "Switch",
+   "Nintendo 64"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which Nintendo console, launched in 2006, was famous for its motion-sensing controller?",
+   "d": "Wii",
+   "y": [
+    "GameCube",
+    "Switch",
+    "Nintendo 64"
+   ]
+  },
+  "olgu": "Nintendo'nun 2006'da çıkardığı hareket algılayan kumandalı konsolu Wii'dir.",
+  "jev_p": 0.14,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-24",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Microsoft'un kendi ürettiği tablet ve dizüstü bilgisayar serisinin adı nedir?",
+  "d": "Surface",
+  "y": [
+   "Galaxy Tab",
+   "ThinkPad",
+   "Pixelbook"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "What is the name of Microsoft's own line of tablets and laptops?",
+   "d": "Surface",
+   "y": [
+    "Galaxy Tab",
+    "ThinkPad",
+    "Pixelbook"
+   ]
+  },
+  "olgu": "Microsoft'un kendi tablet ve dizüstü bilgisayar serisi Surface'tır.",
+  "jev_p": 0.19,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-25",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Klasik arcade oyunu Pac-Man'i geliştiren Japon şirketi hangisidir?",
+  "d": "Namco",
+  "y": [
+   "Sega",
+   "Konami",
+   "Capcom"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which Japanese company created the classic arcade game Pac-Man?",
+   "d": "Namco",
+   "y": [
+    "Sega",
+    "Konami",
+    "Capcom"
+   ]
+  },
+  "olgu": "Pac-Man, 1980'de Japon şirketi Namco tarafından geliştirildi.",
+  "jev_p": 0.25,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-26",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Şeker eşleştirme oyunu Candy Crush Saga'yı geliştiren şirket hangisidir?",
+  "d": "King",
+  "y": [
+   "Zynga",
+   "PopCap",
+   "Gameloft"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which company makes the candy-matching game Candy Crush Saga?",
+   "d": "King",
+   "y": [
+    "Zynga",
+    "PopCap",
+    "Gameloft"
+   ]
+  },
+  "olgu": "Candy Crush Saga, King tarafından geliştirilmiştir.",
+  "jev_p": 0.28,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-27",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Twitter'ın mavi kuş logosuna verilen ad nedir?",
+  "d": "Larry",
+  "y": [
+   "Tweety",
+   "Robin",
+   "Jack"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "What name was given to Twitter's blue bird logo?",
+   "d": "Larry",
+   "y": [
+    "Tweety",
+    "Robin",
+    "Jack"
+   ]
+  },
+  "olgu": "Twitter'ın mavi kuş logosu, basketbolcu Larry Bird'e atfen Larry olarak adlandırıldı.",
+  "jev_p": 0.06,
+  "hakem_tahmin": 3
+ },
+ {
+  "id": "K03-28",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Windows XP'nin yeşil tepeli, mavi gökyüzlü varsayılan duvar kâğıdının adı nedir?",
+  "d": "Bliss",
+  "y": [
+   "Serenity",
+   "Harmony",
+   "Meadow"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "What is the name of Windows XP's default wallpaper showing a green hill and blue sky?",
+   "d": "Bliss",
+   "y": [
+    "Serenity",
+    "Harmony",
+    "Meadow"
+   ]
+  },
+  "olgu": "Windows XP'nin ünlü varsayılan duvar kâğıdının adı Bliss'tir.",
+  "jev_p": 0.13,
+  "hakem_tahmin": 3
+ },
+ {
+  "id": "K03-29",
+  "k": "spor",
+  "yerel": false,
+  "s": "Futbolcu Gareth Bale hangi ülkenin milli takımında oynamıştır?",
+  "d": "Galler",
+  "y": [
+   "İskoçya",
+   "İrlanda",
+   "İngiltere"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which national team did footballer Gareth Bale play for?",
+   "d": "Wales",
+   "y": [
+    "Scotland",
+    "Ireland",
+    "England"
+   ]
+  },
+  "olgu": "Gareth Bale Galler milli takımında oynamıştır.",
+  "jev_p": 0.03,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-30",
+  "k": "spor",
+  "yerel": false,
+  "s": "Cristiano Ronaldo 2003'te Manchester United'a hangi Portekiz kulübünden transfer oldu?",
+  "d": "Sporting",
+  "y": [
+   "Benfica",
+   "Porto",
+   "Boavista"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "From which Portuguese club did Cristiano Ronaldo join Manchester United in 2003?",
+   "d": "Sporting",
+   "y": [
+    "Benfica",
+    "Porto",
+    "Boavista"
+   ]
+  },
+  "olgu": "Ronaldo 2003'te Sporting Lizbon'dan Manchester United'a transfer oldu.",
+  "jev_p": 0.04,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-31",
+  "k": "spor",
+  "yerel": false,
+  "s": "Lionel Messi'nin İspanyolca lakabı 'La Pulga' hangi canlıyı ifade eder?",
+  "d": "Pire",
+  "y": [
+   "Karınca",
+   "Sivrisinek",
+   "Arı"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Lionel Messi's nickname 'La Pulga' refers to which creature?",
+   "d": "Flea",
+   "y": [
+    "Ant",
+    "Mosquito",
+    "Bee"
+   ]
+  },
+  "olgu": "Messi'nin lakabı 'La Pulga' İspanyolcada 'pire' anlamına gelir.",
+  "jev_p": 0.07,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-32",
+  "k": "spor",
+  "yerel": false,
+  "s": "'All Blacks' lakabıyla bilinen rugby milli takımı hangi ülkenindir?",
+  "d": "Yeni Zelanda",
+  "y": [
+   "Avustralya",
+   "Güney Afrika",
+   "Fiji"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which country's national rugby team is nicknamed the 'All Blacks'?",
+   "d": "New Zealand",
+   "y": [
+    "Australia",
+    "South Africa",
+    "Fiji"
+   ]
+  },
+  "olgu": "Yeni Zelanda erkek rugby milli takımı 'All Blacks' lakabıyla bilinir.",
+  "jev_p": 0.07,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-33",
+  "k": "spor",
+  "yerel": false,
+  "s": "Cristiano Ronaldo hangi adada doğmuştur?",
+  "d": "Madeira",
+  "y": [
+   "Sicilya",
+   "Sardinya",
+   "Korsika"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "On which island was Cristiano Ronaldo born?",
+   "d": "Madeira",
+   "y": [
+    "Sicily",
+    "Sardinia",
+    "Corsica"
+   ]
+  },
+  "olgu": "Cristiano Ronaldo, Portekiz'e bağlı Madeira adasının Funchal kentinde doğmuştur.",
+  "jev_p": 0.1,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-34",
+  "k": "spor",
+  "yerel": false,
+  "s": "Ali ile Foreman arasındaki 'Rumble in the Jungle' maçı hangi ülkede yapıldı?",
+  "d": "Zaire",
+  "y": [
+   "Nijerya",
+   "Kenya",
+   "Gana"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In which country did Ali and Foreman fight the 'Rumble in the Jungle'?",
+   "d": "Zaire",
+   "y": [
+    "Nigeria",
+    "Kenya",
+    "Ghana"
+   ]
+  },
+  "olgu": "1974'teki 'Rumble in the Jungle' maçı Zaire'nin başkenti Kinşasa'da yapıldı.",
+  "jev_p": 0.22,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-35",
+  "k": "spor",
+  "yerel": false,
+  "s": "David Beckham 2007'de Real Madrid'den ayrılıp hangi ABD kulübüne transfer oldu?",
+  "d": "LA Galaxy",
+  "y": [
+   "NY Red Bulls",
+   "Inter Miami",
+   "Seattle Sounders"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which American club did David Beckham join after leaving Real Madrid in 2007?",
+   "d": "LA Galaxy",
+   "y": [
+    "NY Red Bulls",
+    "Inter Miami",
+    "Seattle Sounders"
+   ]
+  },
+  "olgu": "David Beckham 2007'de Real Madrid'den MLS ekibi LA Galaxy'ye transfer oldu.",
+  "jev_p": 0.34,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-36",
+  "k": "spor",
+  "yerel": false,
+  "s": "Golfte Masters turnuvasının kazananına giydirilen ceket hangi renktir?",
+  "d": "Yeşil",
+  "y": [
+   "Kırmızı",
+   "Lacivert",
+   "Beyaz"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "What color jacket is awarded to the winner of golf's Masters tournament?",
+   "d": "Green",
+   "y": [
+    "Red",
+    "Navy blue",
+    "White"
+   ]
+  },
+  "olgu": "Masters turnuvasının kazananına geleneksel olarak yeşil ceket giydirilir.",
+  "jev_p": 0.46,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-37",
+  "k": "spor",
+  "yerel": false,
+  "s": "Pelé lakabıyla tanınan Brezilyalı futbol efsanesinin gerçek ilk adı nedir?",
+  "d": "Edson",
+  "y": [
+   "Arthur",
+   "Manoel",
+   "Jair"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "What is the real first name of the Brazilian football legend known as Pele?",
+   "d": "Edson",
+   "y": [
+    "Arthur",
+    "Manoel",
+    "Jair"
+   ]
+  },
+  "olgu": "Pelé'nin gerçek adı Edson Arantes do Nascimento'dur.",
+  "jev_p": 0.26,
+  "hakem_tahmin": 3
+ },
+ {
+  "id": "K03-38",
+  "k": "spor",
+  "yerel": false,
+  "s": "Formula 1'de 'Gümüş Oklar' lakabıyla anılan takım hangisidir?",
+  "d": "Mercedes",
+  "y": [
+   "Ferrari",
+   "Williams",
+   "Renault"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which Formula 1 team is nicknamed the 'Silver Arrows'?",
+   "d": "Mercedes",
+   "y": [
+    "Ferrari",
+    "Williams",
+    "Renault"
+   ]
+  },
+  "olgu": "Mercedes F1 takımı 'Silver Arrows' (Gümüş Oklar) lakabıyla anılır.",
+  "jev_p": 0.28,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-39",
+  "k": "spor",
+  "yerel": false,
+  "s": "Tenisçi Rafael Nadal hangi İspanyol adasında doğmuştur?",
+  "d": "Mallorca",
+  "y": [
+   "Ibiza",
+   "Menorca",
+   "Tenerife"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "On which Spanish island was Rafael Nadal born?",
+   "d": "Mallorca",
+   "y": [
+    "Ibiza",
+    "Menorca",
+    "Tenerife"
+   ]
+  },
+  "olgu": "Rafael Nadal, Mallorca adasındaki Manacor kasabasında doğmuştur.",
+  "jev_p": 0.33,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-40",
+  "k": "tarih",
+  "yerel": false,
+  "s": "Charles Darwin, Galapagos Adaları'nı da ziyaret ettiği ünlü yolculuğunu hangi gemiyle yaptı?",
+  "d": "HMS Beagle",
+  "y": [
+   "HMS Endeavour",
+   "HMS Bounty",
+   "HMS Victory"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Charles Darwin made his famous voyage, including a stop at the Galapagos, aboard which ship?",
+   "d": "HMS Beagle",
+   "y": [
+    "HMS Endeavour",
+    "HMS Bounty",
+    "HMS Victory"
+   ]
+  },
+  "olgu": "Darwin 1831-1836 arasındaki dünya yolculuğunu HMS Beagle gemisiyle yaptı.",
+  "jev_p": 0.34,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-41",
+  "k": "tarih",
+  "yerel": false,
+  "s": "Amiral Nelson, Trafalgar Savaşı'nda hangi gemisinin güvertesinde ölümcül yaralandı?",
+  "d": "HMS Victory",
+  "y": [
+   "HMS Bounty",
+   "HMS Beagle",
+   "HMS Endeavour"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Aboard which ship was Admiral Nelson fatally wounded at the Battle of Trafalgar?",
+   "d": "HMS Victory",
+   "y": [
+    "HMS Bounty",
+    "HMS Beagle",
+    "HMS Endeavour"
+   ]
+  },
+  "olgu": "Nelson, Trafalgar'da amiral gemisi HMS Victory'de ölümcül yaralandı.",
+  "jev_p": 0.47,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-42",
+  "k": "tarih",
+  "yerel": false,
+  "s": "Paskalya Adası'ndaki dev taş insan başı heykellerine ne ad verilir?",
+  "d": "Moai",
+  "y": [
+   "Tiki",
+   "Totem",
+   "Menhir"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "What are the giant stone head statues on Easter Island called?",
+   "d": "Moai",
+   "y": [
+    "Tiki",
+    "Totem",
+    "Menhir"
+   ]
+  },
+  "olgu": "Paskalya Adası'ndaki dev taş heykellere Moai denir.",
+  "jev_p": 0.58,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-43",
+  "k": "tarih",
+  "yerel": false,
+  "s": "Kennedy suikastının zanlısı Lee Harvey Oswald'ı iki gün sonra vurarak öldüren kişi kimdir?",
+  "d": "Jack Ruby",
+  "y": [
+   "James Earl Ray",
+   "Sirhan Sirhan",
+   "Frank Sturgis"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Who shot and killed Lee Harvey Oswald two days after the Kennedy assassination?",
+   "d": "Jack Ruby",
+   "y": [
+    "James Earl Ray",
+    "Sirhan Sirhan",
+    "Frank Sturgis"
+   ]
+  },
+  "olgu": "Lee Harvey Oswald, 24 Kasım 1963'te Dallas'ta Jack Ruby tarafından vurularak öldürüldü.",
+  "jev_p": 0.18,
+  "hakem_tahmin": 3
+ },
+ {
+  "id": "K03-44",
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Schindler'in Listesi' filminde Oskar Schindler'i canlandıran oyuncu kimdir?",
+  "d": "Liam Neeson",
+  "y": [
+   "Ralph Fiennes",
+   "Gary Oldman",
+   "Daniel Day-Lewis"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Who played Oskar Schindler in 'Schindler's List'?",
+   "d": "Liam Neeson",
+   "y": [
+    "Ralph Fiennes",
+    "Gary Oldman",
+    "Daniel Day-Lewis"
+   ]
+  },
+  "olgu": "Schindler's List'te Oskar Schindler'i Liam Neeson oynar.",
+  "jev_p": 0.08,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-45",
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Örümcek Adam' filmlerinde Peter Parker'ı büyüten amcasının adı nedir?",
+  "d": "Ben",
+  "y": [
+   "Frank",
+   "George",
+   "Harry"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In the 'Spider-Man' films, what is the first name of the uncle who raised Peter Parker?",
+   "d": "Ben",
+   "y": [
+    "Frank",
+    "George",
+    "Harry"
+   ]
+  },
+  "olgu": "Spider-Man'de Peter Parker'ı büyüten amcası Ben Parker'dır.",
+  "jev_p": 0.17,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-46",
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Rüzgâr Gibi Geçti' filminde Rhett Butler'ı canlandıran oyuncu kimdir?",
+  "d": "Clark Gable",
+  "y": [
+   "Cary Grant",
+   "Gregory Peck",
+   "Errol Flynn"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Who played Rhett Butler in 'Gone with the Wind'?",
+   "d": "Clark Gable",
+   "y": [
+    "Cary Grant",
+    "Gregory Peck",
+    "Errol Flynn"
+   ]
+  },
+  "olgu": "Gone with the Wind'de Rhett Butler'ı Clark Gable oynar.",
+  "jev_p": 0.2,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-47",
+  "k": "sinema",
+  "yerel": true,
+  "s": "Şener Şen'in Baran'ı oynadığı 'Eşkıya' filminin yönetmeni kimdir?",
+  "d": "Yavuz Turgul",
+  "y": [
+   "Ertem Eğilmez",
+   "Zeki Ökten",
+   "Atıf Yılmaz"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Yerel TR sorusu (kapsam=yerel); İngilizce oyuncu için anlamsız",
+  "olgu": "Eşkıya (1996) filmini Yavuz Turgul yönetmiştir.",
+  "jev_p": 0.22,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-48",
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Dövüş Kulübü' filminde Tyler Durden'ı canlandıran oyuncu kimdir?",
+  "d": "Brad Pitt",
+  "y": [
+   "Edward Norton",
+   "Jared Leto",
+   "Matt Damon"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Who played Tyler Durden in 'Fight Club'?",
+   "d": "Brad Pitt",
+   "y": [
+    "Edward Norton",
+    "Jared Leto",
+    "Matt Damon"
+   ]
+  },
+  "olgu": "Fight Club'da Tyler Durden'ı Brad Pitt canlandırır.",
+  "jev_p": 0.42,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-49",
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Harry Potter' filmlerinde Hagrid'in kulübesinde yaşayan iri köpeğin adı nedir?",
+  "d": "Fang",
+  "y": [
+   "Fluffy",
+   "Norbert",
+   "Buckbeak"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In the 'Harry Potter' films, what is the name of the big dog that lives in Hagrid's hut?",
+   "d": "Fang",
+   "y": [
+    "Fluffy",
+    "Norbert",
+    "Buckbeak"
+   ]
+  },
+  "olgu": "Hagrid'in kulübesinde birlikte yaşadığı köpeğin adı Fang'dir.",
+  "jev_p": 0.17,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K03-50",
+  "k": "sinema",
+  "yerel": false,
+  "s": "Scorsese'nin 'Sıkı Dostlar' filminde Henry Hill'i canlandıran oyuncu kimdir?",
+  "d": "Ray Liotta",
+  "y": [
+   "Joe Pesci",
+   "Robert De Niro",
+   "Paul Sorvino"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Who played Henry Hill in Martin Scorsese's 'Goodfellas'?",
+   "d": "Ray Liotta",
+   "y": [
+    "Joe Pesci",
+    "Robert De Niro",
+    "Paul Sorvino"
+   ]
+  },
+  "olgu": "Goodfellas filminde Henry Hill'i Ray Liotta canlandırmıştır.",
+  "jev_p": 0.25,
+  "hakem_tahmin": 3
+ }
+]

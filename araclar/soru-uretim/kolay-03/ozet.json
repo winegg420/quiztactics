@@ -1,0 +1,80 @@
+{
+  "klasor": "kolay-03",
+  "tarih": "2026-10-08",
+  "uretici": "claude-opus-5-5",
+  "hakem": "claude-sonnet-5-5",
+  "kota_gerekce": "Aktif zorluk 2 sayısı az olan kategoriye çok (ağırlık = en kalabalık + 25 − kategori)",
+  "z2_olcum": {
+    "sanat": 222,
+    "muzik": 251,
+    "teknoloji": 245,
+    "spor": 230,
+    "tarih": 277,
+    "sinema": 251
+  },
+  "kota": {
+    "sanat": 12,
+    "muzik": 8,
+    "teknoloji": 8,
+    "spor": 11,
+    "tarih": 4,
+    "sinema": 7
+  },
+  "z3_hedef": {
+    "sanat": 4,
+    "muzik": 2,
+    "teknoloji": 2,
+    "spor": 3,
+    "tarih": 1,
+    "sinema": 2
+  },
+  "taslak": 125,
+  "gecen": 68,
+  "secilen": 50,
+  "kategori": {
+    "sanat": 12,
+    "muzik": 8,
+    "teknoloji": 8,
+    "spor": 11,
+    "tarih": 4,
+    "sinema": 7
+  },
+  "zorluk": {
+    "2": 36,
+    "3": 14
+  },
+  "yerel": 1,
+  "en": 49,
+  "eksik": {},
+  "elenen_sebep": {
+    "hakem: tartışmalı": 10,
+    "benzer": 9,
+    "Jev ipucu": 13,
+    "biçim/kural": 11,
+    "hakem: eskiyebilir": 1,
+    "uyarı": 3,
+    "cevap soruda": 3,
+    "hakem: aşırı kolay": 7
+  },
+  "harcama_usd": {
+    "claude": 3.181,
+    "jev": 0.0032,
+    "toplam": 3.185,
+    "jeton": {
+      "claude-opus-5-5": {
+        "girdi": 205173,
+        "cikti": 70262,
+        "cagri": 19,
+        "onbellek_yaz": 91368,
+        "onbellek_oku": 0
+      },
+      "claude-sonnet-5-5": {
+        "girdi": 135174,
+        "cikti": 22825,
+        "cagri": 86,
+        "onbellek_yaz": 0,
+        "onbellek_oku": 0
+      }
+    }
+  }
+}

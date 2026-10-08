@@ -33,6 +33,8 @@ const pp = String(parti).padStart(2, '0');
 const klasorAd = arg('--klasor') || `parti-${pp}`;
 const dosyaAd = arg('--ad') || `soru_uretim_parti_${pp}`;
 const cevirisiz = process.argv.includes('--cevirisiz');
+//   --api  Claude API hattı (api-uret.mjs): kalite paragrafı o hattın kapılarını yazar
+const apiHatti = process.argv.includes('--api');
 const GIRDI = new URL(`./${klasorAd}/sorular.json`, import.meta.url);
 const DOSYA = `2026061200${String(no).padStart(4, '0')}_${dosyaAd}.sql`;
 const HEDEF = new URL(`../../supabase/migrations/${DOSYA}`, import.meta.url);
@@ -68,17 +70,22 @@ function sql(kayitlar) {
 -- Yerel (kapsam='yerel', ulke='TR'): ${yerel} · zorluk 1–5: ${zd.join('/')}
 -- İngilizce çeviri: ${cevirisiz ? 'YAPILMADI (arayüz kararı: soru çevirisi şimdilik yok)' : `${ceviri.length} · çevrilmeyen (ceviri_atlanan, kod 'cevrilemez'): ${cevrilmez.length}`}
 --
--- Kalite: her soru Jev kapısından geçti (doğru cevap verilmeden, şıklar karıştırılarak;
+${apiHatti ? `-- Kalite (araclar/soru-uretim/api-uret.mjs; üretim claude-opus-5-5, hakem claude-sonnet-5-5):
+-- biçim + şık denge (TR/EN), havuzla birebir ve anlamca tekrar (aynı cevap + Jaccard ≥ 0,3),
+-- cevap soru metninde değil, soru_kural_isaretleri (ağırlık ≥ 2 yok), Jev şık ipucu testi
+-- (soru gizli, doğru şıkka p ≤ 0,75), Jev tek doğru, Claude hakem (doğru şık kesin, yanlış
+-- şıklar kesin yanlış, yasak tip yok: genel kavram / tanımlama / okuduğunu anlama / mantıkla
+-- bulunur; tek olgu, eskimez, EN aynı sırada ve doğal, zorluk tahmini etiketle uyumlu).` : `-- Kalite: her soru Jev kapısından geçti (doğru cevap verilmeden, şıklar karıştırılarak;
 -- Jev >0,9 güvenle başka şık diyen soru elendi ya da düzeltilip yeniden soruldu), şık
 -- denge kapısı (soru_kural_isaretleri, ağırlık ≥ 2) veritabanında doğrulandı, havuzla
 -- birebir ve anlamca tekrar tarandı. Zorluk: yazar etiketi; Jev puanıyla açık çelişkide
--- düzeltildi (araclar/soru-uretim/birlestir-parti.mjs).${cevirisiz ? '' : " İngilizce taraf da Jev'den geçti."}
+-- düzeltildi (araclar/soru-uretim/birlestir-parti.mjs).${cevirisiz ? '' : " İngilizce taraf da Jev'den geçti."}`}
 --
 -- Sıra: sorular doğru şık 0'da eklenir, çeviriler aynı sırayla yazılır, sonunda YALNIZ
 -- bu işlemde eklenen satırların şıkları karıştırılır — TR ve EN AYNI permütasyonla
 -- (dogru_cevap indeksi ortak olduğu için şart). \`created_at >= transaction_timestamp()\`
 -- koşulu ZORUNLUDUR; onsuz tüm havuz karışır ve oynanan maçlarda indeks kayar.
--- Üretici: node araclar/soru-uretim/uret-migration-parti.mjs --parti ${parti} --no ${no}${arg('--klasor') ? ` --klasor ${klasorAd}` : ''}${arg('--ad') ? ` --ad ${dosyaAd}` : ''}${cevirisiz ? ' --cevirisiz' : ''}
+-- Üretici: node araclar/soru-uretim/uret-migration-parti.mjs --parti ${parti} --no ${no}${arg('--klasor') ? ` --klasor ${klasorAd}` : ''}${arg('--ad') ? ` --ad ${dosyaAd}` : ''}${cevirisiz ? ' --cevirisiz' : ''}${apiHatti ? ' --api' : ''}
 -- ============================================================
 
 insert into public.questions (soru, secenekler, dogru_cevap, kategori, kapsam, ulke, zorluk) values

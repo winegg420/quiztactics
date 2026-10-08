@@ -69,3 +69,11 @@ Durum: `durum.json › kolay_seri`. Klasör `kolay-NN/`, migration `20260612000N
 - Migration, Ida örnekleri onaylamadan uygulanmaz ve commit edilmez.
 
 - **Jev zorluk eşiği (1 Eki 2026, kolay_02):** zorluk-2 kabulü Jev puanı < 2,4. Ölçüm: kolay-01'in Ida onaylı 50 sorusunda puan 1,12–2,39 (medyan 1,79; %16'sı ≥ 2,03). Puan ≥ 2,82 (seviye 4) alınmaz. Doygunluk: havuzla anlamca tekrar (aynı cevap + kök-kelime Jaccard ≥ 0,3) taslakların %20-30'unu eler; sanat/müzik/edebiyat en zor kategoriler.
+
+## Claude API hattı — `api-uret.mjs` (9 Eki 2026, kolay_03)
+Üretim `claude-opus-5-5`, hakem `claude-sonnet-5-5` (ortak çağrı: `../soru-temizlik/claude-cagri.mjs`, anahtar `.env.local`).
+Karışım ~%70 zorluk 2 / ~%30 zorluk 3, global sorulara İngilizce (stil: `docs/SORU_STIL_PROFILI.md`, 2026-10-09 kaydı).
+Kota: 6 kategori (sanat, müzik, teknoloji, spor, tarih, sinema), aktif zorluk 2 az olana çok. Kapılar ve komutlar
+dosyanın başında; `--kuru`, `--butce-usd`, `--adet 20` (deneme → `.tmp/api-uret/<klasor>-deneme`, tam koşu devralır),
+`--cikar 3,17` (Ida'nın çıkardıkları → `cikarilan.json`). Migration: `uret-migration-parti.mjs ... --api` (çevirili).
+kolay_03 ölçümü: 125 taslak → 68 geçti (%54; deneme turları dahil) → 50 seçildi; $3,19 toplam (Opus ağırlıklı).

@@ -20,10 +20,11 @@ export function anahtarOku() {
 
 /** Model başına {girdi, cikti, cagri}; önceki koşudan devam için dışarıdan doldurulabilir. */
 export const harcama = {};
+// Önbellek: yazma 1,25×, okuma 0,1× girdi fiyatı.
 export const apiUsd = () => Object.entries(harcama).reduce((t, [m, h]) => {
   const f = FIYAT[m];
   if (!f) throw new Error(`Fiyat tablosunda yok: ${m}`);
-  return t + (h.girdi / 1e6) * f.girdi + (h.cikti / 1e6) * f.cikti;
+  return t + ((h.girdi + 1.25 * (h.onbellek_yaz ?? 0) + 0.1 * (h.onbellek_oku ?? 0)) / 1e6) * f.girdi + (h.cikti / 1e6) * f.cikti;
 }, 0);
 
 const bekle = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -31,7 +32,8 @@ const bekle = (ms) => new Promise((r) => setTimeout(r, ms));
 /**
  * Tek Messages API çağrısı (yapılandırılmış JSON çıktı); 429/5xx/ağ hatasında en çok 3 deneme.
  * @param {string} anahtar
- * @param {{model:string, sistem:string, sema:object, istem:string, maxJeton?:number, effort?:string}} p
+ * @param {{model:string, sistem:string, sema:object, istem:string|object[], maxJeton?:number, effort?:string}} p
+ *   istem: düz metin ya da içerik blokları (ör. cache_control taşıyan sabit blok + değişen blok)
  * @returns {Promise<object>} ayrıştırılmış JSON
  * 401/403 → e.kritik = true (çağıran durmalı).
  */
@@ -55,7 +57,9 @@ export async function claudeCagir(anahtar, { model, sistem, sema, istem, maxJeto
       if (yanit.ok) {
         const g = await yanit.json();
         const h = (harcama[model] ??= { girdi: 0, cikti: 0, cagri: 0 });
-        h.girdi += (g.usage?.input_tokens ?? 0) + (g.usage?.cache_creation_input_tokens ?? 0) + (g.usage?.cache_read_input_tokens ?? 0);
+        h.girdi += g.usage?.input_tokens ?? 0;
+        h.onbellek_yaz = (h.onbellek_yaz ?? 0) + (g.usage?.cache_creation_input_tokens ?? 0);
+        h.onbellek_oku = (h.onbellek_oku ?? 0) + (g.usage?.cache_read_input_tokens ?? 0);
         h.cikti += g.usage?.output_tokens ?? 0;
         h.cagri += 1;
         if (g.stop_reason === 'refusal') throw Object.assign(new Error('Claude reddetti (refusal)'), { kalici: true });

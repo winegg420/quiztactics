@@ -53,3 +53,12 @@ Her partinin sonunda Ida'nın "şu numaralılar iyi / şunlar az olsun" notu bur
 - _(henüz kayıt yok — ilk pilot parti: `kolay_01`, 50 soru)_
 
 - **2026-10-01 — kolay_01 + kolay_02: 541 soru Ida onayıyla canlıya alındı** (kolay_01 50 + kolay_02 491; migration 000840, 000842–000846; hepsi zorluk 2). Canlı doğrulama: +541 aktif, yinelenen yok, doğru cevap indeksi kaynakla birebir, şık denge kapısı temiz. Aktif zorluk 2: 2.961 / 12.669 (%23,4).
+
+- **2026-10-09 — Ida: hedef değişti → zorluk 2 tarzı + ~%30 "bir tık daha zor" (zorluk 3).** Yukarıdaki "SADECE zorluk 2"
+  ve "İngilizce çeviri yapılmaz" maddeleri bu tarihten itibaren GEÇERSİZ: global sorulara doğal İngilizce (aynı şık sırası)
+  yazılır, yerel TR soruda EN boş. **Yasak tipler** (Ida'nın şikâyeti, örn. "Bir belgeselin amacı nedir?"): (a) "X'in
+  amacı/işlevi nedir" genel kavram, (b) "X ne demektir" tanımlama, (c) okuduğunu anlama — cevap soru metninden çıkar,
+  (d) mantıkla / doğru şıkkın en genel olmasından bulunan. Bir şeyin ÖZEL ADINI sormak serbest (Origami). Kategori
+  önceliği (Ida): sanat, müzik, teknoloji, spor, tarih, sinema. Ölçüm (aktif zorluk 2, 9 Eki): sanat 222 · genel_kultur 227 ·
+  spor 230 · edebiyat 239 · teknoloji 245 · müzik 251 · sinema 251 · tarih 277 (genel_kultur ve edebiyat da az ama
+  Ida'nın listesinde yok). Pilot `kolay_03` (50 soru, Claude API) Ida'nın numara çıkarmasını bekliyor.

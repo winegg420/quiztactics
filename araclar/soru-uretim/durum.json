@@ -1083,6 +1083,40 @@
         }
       },
       "toplam_soru": 491
+    },
+    "kolay_03": {
+      "aciklama": "Claude API hattı (api-uret.mjs): ~%70 zorluk 2 / ~%30 zorluk 3, global sorulara EN. Ida numara çıkaracak; sonra migration yeniden üretilir ve onayla uygulanır.",
+      "klasor": "kolay-03",
+      "durum": "migration yazıldı, UYGULANMADI (Ida listeden numara çıkaracak)",
+      "migration": "20260612001008_soru_parti_kolay_03",
+      "tarih": "2026-10-09",
+      "soru": 50,
+      "kategori": {
+        "sanat": 12,
+        "muzik": 8,
+        "teknoloji": 8,
+        "spor": 11,
+        "tarih": 4,
+        "sinema": 7
+      },
+      "zorluk": {
+        "2": 36,
+        "3": 14
+      },
+      "yerel_tr": 1,
+      "ceviri_en": 49,
+      "taslak": 125,
+      "elenen": {
+        "hakem: tartışmalı": 10,
+        "benzer": 9,
+        "Jev ipucu": 13,
+        "biçim/kural": 11,
+        "hakem: eskiyebilir": 1,
+        "uyarı": 3,
+        "cevap soruda": 3,
+        "hakem: aşırı kolay": 7
+      },
+      "harcama_usd": 3.185
     }
   }
 }

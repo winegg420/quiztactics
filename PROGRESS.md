@@ -10873,3 +10873,31 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
   zorluk 1 1.166 → 822. Kategori (kapanan / kalan z1): bilim 40/234 · coğrafya 46/119 · edebiyat 36/65 · genel_kültür 34/81 ·
   müzik 14/55 · sanat 48/40 · sinema 45/55 · spor 57/75 · tarih 8/68 · **teknoloji 16/30 (sınırda)**.
   Geri alma `docs/asiri-basit-z1-geri-al.sql`. Liste + gerekçe `araclar/soru-temizlik/asiri-basit-rapor.csv`.
+
+## 2026-10-09 — kolay_03: Claude API ile 50 soruluk pilot parti (zorluk 2 tarzı + %30 zorluk 3, EN'li) — migration 1008 (uygulanmadı)
+**Araç:** Claude Code (Opus 5.5; betik içi üretim claude-opus-5-5, hakem claude-sonnet-5-5)
+**Neden:** Ida — zorluk 2 tarzı (kısa, tek net olgu) yeni sorular + bir kısmı "bir tık daha zor"; global sorulara İngilizce.
+
+- **Betik** `araclar/soru-uretim/api-uret.mjs`: kategori başına Opus'a taslak yazdırır (stil: profil + kolay-01, havuzdaki
+  doğru cevaplar "tekrar sorma" listesi olarak, önbellekli blokta), sonra 6 kapı: biçim/şık denge + EN kontrolleri
+  (`kayitDenetle`) → yinelenen (birebir · aynı cevap + Jaccard ≥ 0,3 · Jaccard ≥ 0,6 · cevap soruda) → `soru_kural_isaretleri`
+  → Jev şık ipucu p ≤ 0,75 → Jev tek doğru → Sonnet hakem (doğru şık kesin, yanlışlar kesin_yanlis, YASAK TİP yok, tek olgu,
+  eskimez, EN uygun, zorluk tahmini). `--kuru`, `--butce-usd`, `--adet 20` deneme, `--cikar 3,17`, kaldığı yerden devam.
+- **Kota ölçümü** (aktif zorluk 2): sanat 222 · spor 230 · teknoloji 245 · müzik 251 · sinema 251 · tarih 277 → kota
+  sanat 12 · spor 11 · müzik 8 · teknoloji 8 · sinema 7 · tarih 4 (az olana çok). genel_kultur 227 ve edebiyat 239 da az ama
+  Ida'nın listesinde yok — üretilmedi.
+- **Sonuç:** 125 taslak (20'lik deneme dahil) → 68 geçti → **50 seçildi**: zorluk 2: 36 / zorluk 3: 14 · global 49 (EN'li) ·
+  yerel 1 (EN boş, `ceviri_atlanan`). Elenen 57: Jev ipucu 13 · biçim/kural 11 · hakem tartışmalı şık 10 · benzer 9 ·
+  hakem aşırı kolay 7 · cevap soruda 3 · uyarı 3 · eskiyebilir 1. **Harcama $3,19** (Opus ~%80; Jev $0,003).
+- **Gözlem:** hakem tartışmalı şıkta titiz (ör. Toy Story Andy/Sid, Baba Brando/De Niro elendi). Kendi okumamda dikkat:
+  #04 Rosetta Taşı (denemede hakem "eskiyebilir" demişti, bu turda geçti), #40/#41 aynı HMS çeldirici seti.
+- **Çıktı:** `araclar/soru-uretim/kolay-03/` (sorular.json, liste.md — numaralı TR+EN, ozet.json). Migration
+  `20260612001008_soru_parti_kolay_03.sql` YAZILDI, UYGULANMADI (Ida listeden numara çıkaracak → `--cikar` → migration
+  yeniden üretilir: `uret-migration-parti.mjs --parti 3 --no 1008 --klasor kolay-03 --ad soru_parti_kolay_03 --api`).
+  `uret-migration-parti.mjs`'e `--api` bayrağı (kalite paragrafı bu hattın kapılarını yazar).
+- **Başka yerde aynı sorun:** aktif 665 sorunun EN çevirisi yok ve `ceviri_atlanan`'da da değil — hepsi son 15 günün
+  çevirisiz kolay serisi (599'u global). Kategoriler arası birebir aynı metin: 1 çift ("Türk Dil Kurumu hangi yıl
+  kurulmuştur?" genel_kultur + tarih, zorluk 3). İkisine dokunulmadı.
+- **Karar değişikliği** PROJECT_CONTEXT + SORU_STIL_PROFILI'ye yazıldı (yalnız zorluk 2 → %70/%30; EN artık yapılır).
+- **Bekleyen:** `db push` 1007 + 1008 ile birlikte 988'i (Kasa, ayrı onay) de iter → 1007/1008 tek dosya olarak
+  `araclar/migration-uygula.mjs` ile uygulanmalı. Push Ida'ya soruldu.
