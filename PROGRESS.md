@@ -10797,3 +10797,10 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - Doğrulama: her migration tek işlemde çalıştırılıp geri alındı (rollback; DO bloğu doğrulamaları geçti). `sik-ipucu-geri-al.mjs --parti N` prova: CSV'yi okuyor; migration uygulanmadığı için "atlandı" tam sayı çıkıyor — gerçek gidiş-dönüş uygulamadan prova edilemedi.
 - Gözlem: 7 soruda (örn. parti 4) Claude şıkları değiştirmeyip aynı verdi; bu sorular Jev'in yeni ölçümünde zaten ≤ 0,75 olduğu için geçti (migration no-op + işaret kalkar).
 - Karar (Ida): zorluk 4–5 AYRI iş, yapılmadı. Push yok, yalnız yerel commit.
+
+## 2026-10-08 — Şık ipucu: sınırda 67 soru çıkarıldı, migration'lar CANLIYA uygulandı
+**Araç:** Claude Code
+**Neden:** Ida kararı — p 0,70–0,75 "sınırda" geçenler migration'a girmesin (işaretli kalsın); kalanlar uygulansın.
+- `sik-ipucu-api.mjs --sinirda-cikar` (yeni mod, API/Jev çağrısı yok): 67 soru 997 ve 1001–1006'dan çıkarıldı, migration'lar yeniden üretildi, CSV'de bu satırlar `isaretli_kaldi` oldu. Migration'larda 213 soru.
+- Rollback provası 7/7 geçti; `db push --dry-run` listesi yalnız 997, 1000 (ses_adaylari_kovasi), 1001–1006; ardından `npx supabase db push` uygulandı. 1000 başka işe ait, aynı itmeyle gitti (Ida istedi).
+- git push YAPILMADI.

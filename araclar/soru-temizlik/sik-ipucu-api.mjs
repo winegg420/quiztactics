@@ -18,6 +18,10 @@
 //   .tmp/sik-ipucu-tam/ilerleme.json'a yazar (yarıda kalırsa aynı komut kaldığı yerden devam eder).
 //   Biten her parti için yeni numaralı migration dosyası + CSV satırları üretir; CANLIYA UYGULAMAZ.
 //   Çıktı: .tmp/sik-ipucu-tam/rapor.md
+// SINIRDA ÇIKAR: node araclar/soru-temizlik/sik-ipucu-api.mjs --sinirda-cikar
+//   Biten partilerdeki "sinirda" (p 0,70–0,75) geçenleri migration'dan ve CSV 'duzeltildi'den çıkarır
+//   (soru işaretli kalır, 'isaretli_kaldi'); migration dosyalarını yeniden üretir. API/Jev çağrısı yok.
+//   Yalnız migration henüz CANLIYA uygulanmamışken kullan.
 // Anahtar: .env.local › ANTHROPIC_API_KEY (hiçbir yere yazdırılmaz/loglanmaz).
 import fs from 'node:fs';
 import path from 'node:path';
@@ -46,6 +50,7 @@ const arg = (ad, varsayilan) => {
 };
 const ADET = Number(arg('--adet', 20));
 const TAM = process.argv.includes('--tam');
+const SINIRDA_CIKAR = process.argv.includes('--sinirda-cikar');
 const BUTCE = Number(arg('--butce-usd', TAM ? 12 : 5));
 const PARTI_BOYUT = Number(arg('--parti-boyut', 100));
 const KURU = process.argv.includes('--kuru');
@@ -477,14 +482,14 @@ function csvEkle(parti, migrasyon, durum) {
   return yeni.length;
 }
 
-const nedenTuru = (g) => (/^kural/.test(g) ? 'kural işareti' : /^Jev ipucu/.test(g) ? `Jev ipucu p>${ESIK_P}` : /^yanlış şık da/.test(g) ? 'Jev tek-doğru' : /^hakem/.test(g) ? 'hakem: tartışmalı şık' : /^API|^kapı hatası/.test(g) ? 'API/kapı hatası' : /^şema/.test(g) ? 'şema/değişmezlik' : 'diğer');
+const nedenTuru = (g) => (/^sınırda/.test(g) ? 'sınırda (elle çıkarıldı)' : /^kural/.test(g) ? 'kural işareti' : /^Jev ipucu/.test(g) ? `Jev ipucu p>${ESIK_P}` : /^yanlış şık da/.test(g) ? 'Jev tek-doğru' : /^hakem/.test(g) ? 'hakem: tartışmalı şık' : /^API|^kapı hatası/.test(g) ? 'API/kapı hatası' : /^şema/.test(g) ? 'şema/değişmezlik' : 'diğer');
 
 function raporTam(st) {
   const satir = [], neden = {}, sinirdaListe = [], kalanListe = [];
   let gecen = 0, kalan = 0, sinirda = 0, bekleyen = 0;
   for (const p of st.planlar) {
     const r = p.sorular.map((s) => ({ s, ...bosSonuc(), ...(st.sonuclar[s.id] ?? {}) }));
-    const g = r.filter((x) => x.sonuc === 'gecti'), k = r.filter((x) => x.sonuc === 'kaldi'), b = r.filter((x) => x.sonuc === 'bekliyor');
+    const g = r.filter((x) => x.sonuc === 'gecti'), k = r.filter((x) => x.sonuc === 'kaldi' || x.sonuc === 'sinirda_cikarildi'), b = r.filter((x) => x.sonuc === 'bekliyor');
     const sn = g.filter((x) => x.sinirda);
     gecen += g.length; kalan += k.length; sinirda += sn.length; bekleyen += b.length;
     for (const x of k) { const t = nedenTuru(x.geri); neden[t] = (neden[t] || 0) + 1; kalanListe.push(`- p${p.parti} ${x.s.id} (${x.s.kategori}): ${x.geri}`); }
@@ -516,6 +521,43 @@ ${kalanListe.join('\n') || '—'}
   fs.mkdirSync(TAM_KLASOR, { recursive: true });
   fs.writeFileSync(path.join(TAM_KLASOR, 'rapor.md'), md);
   return { gecen, kalan, bekleyen, sinirda };
+}
+
+/** Biten partilerde sınırda geçenleri çıkarır: durum, CSV satırı ve migration dosyası yeniden yazılır. */
+function sinirdaCikar() {
+  if (!fs.existsSync(ILERLEME)) throw new Error('ilerleme.json yok');
+  const st = JSON.parse(fs.readFileSync(ILERLEME, 'utf8'));
+  Object.assign(harcama, st.harcama); jev.jeton = st.jevJeton;
+  let csv = fs.readFileSync(CSV_YOLU, 'utf8');
+  const p3 = (v) => (v == null ? '' : v.toFixed(3));
+  let toplam = 0;
+  for (const p of st.planlar) {
+    if (!p.bitti) continue;
+    const durum = p.sorular.map((s) => ({ s, ...bosSonuc(), ...(st.sonuclar[s.id] ?? {}) }));
+    const cikar = durum.filter((d) => d.sonuc === 'gecti' && d.sinirda);
+    for (const d of cikar) {
+      d.sonuc = 'sinirda_cikarildi';
+      d.geri = `sınırda: Jev p ${d.jev_p_sonra.toFixed(2)} (${SINIR_ALT}–${ESIK_P}) — migration dışı, işaretli kalır`;
+      const enVar = Array.isArray(d.s.secenekler_en) && d.s.secenekler_en.length === 4;
+      const satir = [d.s.id, p.parti, '', d.s.kategori, d.s.zorluk, d.s.dogru_cevap, JSON.stringify(d.s.secenekler), '', enVar ? JSON.stringify(d.s.secenekler_en) : '', '', p3(d.jev_p_once), '', 'isaretli_kaldi'].map(csvAlan).join(',');
+      const satirlar = csv.split('\n');
+      const i = satirlar.findIndex((l) => l.startsWith(`${d.s.id},`));
+      if (i < 0) throw new Error(`CSV satırı yok: ${d.s.id}`);
+      satirlar[i] = satir;
+      csv = satirlar.join('\n');
+    }
+    for (const d of cikar) st.sonuclar[d.s.id] = { sonuc: d.sonuc, deneme: d.deneme, geri: d.geri, jev_p_once: d.jev_p_once, jev_p_sonra: d.jev_p_sonra, yeni: d.yeni, sinirda: d.sinirda, once_denendi: d.once_denendi };
+    const kalanGecen = durum.filter((d) => d.sonuc === 'gecti');
+    if (!p.migration) continue;
+    if (!kalanGecen.length) throw new Error(`Parti ${p.parti}: geçen kalmadı — migration dosyasını elle sil`);
+    fs.writeFileSync(path.join(MIGRASYON_KLASOR, `${p.migration}.sql`), migrasyonMetni(p.parti, p.migration.slice(0, 14), kalanGecen), 'utf8');
+    console.log(`Parti ${p.parti}: ${cikar.length} çıkarıldı · migration'da ${kalanGecen.length} soru`);
+    toplam += cikar.length;
+  }
+  fs.writeFileSync(CSV_YOLU, csv, 'utf8');
+  ilerlemeKaydet(st);
+  const o = raporTam(st);
+  console.log(`Toplam çıkarılan ${toplam} · geçen ${o.gecen} · kalan ${o.kalan}`);
 }
 
 async function tam() {
@@ -580,4 +622,4 @@ async function tam() {
   }
 }
 
-(TAM ? tam() : deneme()).catch((e) => { console.error('HATA:', String(e.message).slice(0, 500)); process.exit(1); });
+(SINIRDA_CIKAR ? Promise.resolve().then(sinirdaCikar) : TAM ? tam() : deneme()).catch((e) => { console.error('HATA:', String(e.message).slice(0, 500)); process.exit(1); });
