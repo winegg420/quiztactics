@@ -10975,3 +10975,7 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - Uygulama `migration-uygula.mjs` ile (1011, 1012); 988'e dokunulmadı. Geri alma: `docs/z2-tarama-geri-al.sql` (51 id).
 - Sonuç: aktif z1/z2/z3/z4-5 = 975 / 2.914 / 5.077 / 3.534. Z2 kategori: bilim 499 · coğrafya 476 · edebiyat 235 · genel_kültür 226 · müzik 254 · sanat 222 · sinema 245 · spor 232 · tarih 278 · teknoloji 247.
 - Oyun oranı (1010: 10/60/27/3) grup ağırlığıyla seçildiği için havuz boyutundan etkilenmez; her grup/kategori dolu. Push yapılmadı.
+
+## 9 Eki 2026 — Zorluk 2 yanlış/çift adaylarına Opus ikinci bakış
+- `araclar/soru-temizlik/z2-opus-ikinci.mjs` (claude-opus-5-5, effort high): z2 taramasındaki 35 yanlış/çift adayı (1012'de açılan 2 yanlış alarm dahil) yeniden incelendi, $0,135.
+- Sonuç: 34 "doğru", 1 "çift" (güven 0,5: gitar "Pena" — mızrap da savunulabilir) → eşik 0,85 altında. **Kapanan 0**, migration/geri alma dosyası üretilmedi. Rapor: `z2-opus-ikinci-rapor.csv`.
