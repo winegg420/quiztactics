@@ -10675,3 +10675,4 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - **Onay bekleyen öneri:** canlıya karşı headless koşuları sınırlamak (CLAUDE.md'ye kural) → log ~250 → ~40–60 MB/gün. `avatarlar` kovası temizliği (yalnız liste + onay; kazanç ~0).
 - **Yarın/13 Eki yapılacak:** aynı log sorgusuyla 24 sa postgres_logs ve Storage baytı; yeni dönemde panel rakamı.
 - **Dağıtım:** 35f9dde1 main'e push (ed6f4463 dahil), Vercel success (8 Eki 2026); site 200. Bu not yerel commit — bir sonraki push ile gider.
+- **8 Eki 2026 — CLAUDE.md kuralı:** "Otomatik ekran testi ve canlı veri yükü" bölümü eklendi (yerelde mock, canlıya tek seferlik, döngü yok, süreçleri kapat, canlıda yük testi yok); gerekçe: API isteklerinin %96,5'i bu makinedeki testlerden. Önceki "onay bekleyen öneri" maddesi uygulandı.

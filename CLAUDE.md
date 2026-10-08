@@ -171,3 +171,17 @@ API anahtarı doğruluğu, ürün kararı) sor.
 
 - **İş biriktir, tek push:** aynı işin parçalarını tek commit/tek push ile gönder. Günlük 100 Vercel deploy sınırı var; her küçük adıma push atma.
 - **Canlı Supabase'e ağır test yükü gönderme:** ekran/akış testleri toplu koşulmaz, sorgu döngüsü yok. Nano compute yük altında donuyor.
+
+## Otomatik ekran testi (Playwright vb.) ve canlı veri yükü
+
+- Test mümkünse yerelde, taklit (mock) veriyle koşar. Canlı Supabase'e karşı
+  yalnız gerçekten gerekliyse ve tek seferde koşar.
+- Testler döngüyle/sürekli yoklayarak çalışmaz; her sayfa/akış en fazla bir kez
+  açılır, gereksiz yeniden yükleme yapılmaz.
+- İş bitince açık tarayıcı sayfaları, görünmez tarayıcı süreçleri ve yerel
+  geliştirme sunucuları kapatılır.
+- Canlı siteye karşı toplu/ardışık istek atan betik yazılmaz; yük testi
+  canlıda yapılmaz.
+- Gerekçe: 8 Eki 2026 ölçümünde canlı API isteklerinin %96,5'i (24 saatte
+  85.576 isteğin ~76 bini) bu bilgisayarın otomatik testlerinden geliyordu ve
+  Supabase log kotasını aşırıyordu.
