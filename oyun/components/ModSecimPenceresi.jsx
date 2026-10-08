@@ -124,7 +124,7 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
       ikon: "duello",
       ad: tt("Düello (Taktik Maçı)"),
       aciklama: duelloPuan
-        ? tt("Kategorileri seç, rakibinkine saldır. {h} puan ya da {y} kategori kazanır.", { h: duelloHedef, y: duelloYol })
+        ? tt("Kategorileri seç, rakibinkine saldır. {h} puan ya da rakibin {y} kategorisini alan kazanır.", { h: duelloHedef, y: duelloYol })
         : duelloSecim
         ? tt("Kategorileri sırayla seçin, {n} yuvayı ilk dolduran kazanır. Rakibin kategorisini almak için sen doğru, rakip yanlış bilmelisin. {t} tur, eşitlikte Altın Soru.", { t: turSayisi, n: duelloEsik })
         : tt("{n} yuvayı ilk dolduran kazanır. Hamle için sen doğru, rakip yanlış bilmelisin. {t} tur, eşitlikte Altın Soru.", { t: turSayisi, n: duelloEsik }),

@@ -159,7 +159,8 @@
 .ks-ac-an {
   position: absolute; inset: -4px; z-index: 5; display: grid; place-items: center; align-content: center; gap: 10px;
   border-radius: var(--qt-r-l); overflow: hidden; pointer-events: none;
-  background: radial-gradient(circle at 50% 42%, #5c3a05 0%, #2a1a00 70%);
+  /* 8 Eki 2026: koyu kahve zemin kalktı — giriş sahnesiyle aynı sıcak açık altın */
+  background: radial-gradient(circle at 50% 48%, #fffaf0 0%, var(--qt-mod-kasa-acik) 45%, #ffe39a 100%);
   /* 980: 1550 → 1250 (soru gösterim payında biter; KasaPage AC_AN_MS). --ks-ac-olcek: veri geç geldiyse an hızlanır */
   animation: ks-ac-kat calc(1250ms * var(--ks-ac-olcek, 1)) ease-out both;
 }
@@ -176,7 +177,7 @@
 .ks-ac-an .ks-kasa-cerceve { stroke: var(--qt-coin); }
 .ks-ac-isin {
   position: absolute; left: 50%; top: 42%; width: 640px; height: 640px; margin: -320px 0 0 -320px; z-index: 1; border-radius: 50%;
-  background: repeating-conic-gradient(rgba(255, 214, 90, .55) 0 9deg, rgba(255, 214, 90, 0) 9deg 24deg);
+  background: repeating-conic-gradient(rgba(224, 161, 0, .3) 0 9deg, rgba(224, 161, 0, 0) 9deg 24deg);
   -webkit-mask: radial-gradient(closest-side, #000 20%, transparent 100%); mask: radial-gradient(closest-side, #000 20%, transparent 100%);
   opacity: 0; animation: ks-isin calc(1040ms * var(--ks-ac-olcek, 1)) ease-out calc(320ms * var(--ks-ac-olcek, 1)) both;
 }
@@ -189,10 +190,10 @@
 @keyframes ks-flas { 0% { opacity: 0; transform: scale(.5); } 20% { opacity: 1; } 100% { opacity: 0; transform: scale(2.6); } }
 .ks-ac-yazi {
   position: relative; z-index: 4; display: grid; justify-items: center; gap: 2px; text-align: center;
-  font: var(--qt-a-siyah) 24px/1.1 var(--qt-f-baslik); color: #fff4cf; text-shadow: 0 3px 0 #1f1400;
+  font: var(--qt-a-siyah) 24px/1.1 var(--qt-f-baslik); color: var(--qt-mod-kasa-yazi); text-shadow: 0 2px 0 rgba(255, 250, 240, .85);
   animation: ks-ac-yazi calc(880ms * var(--ks-ac-olcek, 1)) var(--qt-egri-cikis) calc(340ms * var(--ks-ac-olcek, 1)) both;
 }
-.ks-ac-yazi span { font-size: 46px; color: var(--qt-coin); text-shadow: 0 4px 0 #1f1400, 0 0 18px rgba(255, 201, 51, .7); }
+.ks-ac-yazi span { font-size: 46px; color: #6b4300; text-shadow: 0 3px 0 rgba(255, 250, 240, .85); }
 @keyframes ks-ac-yazi { 0% { opacity: 0; transform: translateY(14px) scale(.9); } 30% { opacity: 1; transform: none; } 100% { opacity: 1; } }
 
 /* ---------- 990: rakibin kararı — kapalı kart → AÇTI / DEVAM ETTİ vuruşu ---------- */
@@ -405,11 +406,13 @@
 .ks-final {
   position: relative; display: grid; place-content: center; justify-items: center; gap: 14px; padding: 24px 16px;
   min-height: min(620px, calc(100dvh - 190px)); overflow: hidden; border-radius: var(--qt-r-l); text-align: center;
-  background: radial-gradient(circle at 50% 38%, #5c3a05 0%, #1f1400 75%);
+  /* 8 Eki 2026: koyu kahve zemin kalktı — giriş sahnesiyle aynı sıcak açık altın (koyu kahve yalnız çip/yazıda) */
+  background: radial-gradient(circle at 50% 38%, #fffaf0 0%, var(--qt-mod-kasa-acik) 45%, #ffe39a 100%);
+  color: var(--qt-mod-kasa-yazi);
 }
 .ks-final-isin {
   position: absolute; left: 50%; top: 38%; width: 760px; height: 760px; margin: -380px 0 0 -380px; border-radius: 50%; z-index: 1;
-  background: repeating-conic-gradient(rgba(255, 214, 90, .6) 0 8deg, rgba(255, 214, 90, 0) 8deg 21deg);
+  background: repeating-conic-gradient(rgba(224, 161, 0, .35) 0 8deg, rgba(224, 161, 0, 0) 8deg 21deg);
   -webkit-mask: radial-gradient(closest-side, #000 15%, transparent 100%); mask: radial-gradient(closest-side, #000 15%, transparent 100%);
   opacity: 0;
 }
@@ -417,9 +420,9 @@
 .ks-final-kasa .ks-kasa { width: 100%; height: auto; }
 .ks-final-baslik {
   position: relative; z-index: 3; display: grid; justify-items: center; gap: 2px;
-  font: var(--qt-a-siyah) 30px/1.1 var(--qt-f-baslik); color: #fff4cf; text-shadow: 0 3px 0 #1f1400; opacity: 0;
+  font: var(--qt-a-siyah) 30px/1.1 var(--qt-f-baslik); color: var(--qt-mod-kasa-yazi); text-shadow: 0 2px 0 rgba(255, 250, 240, .85); opacity: 0;
 }
-.ks-final-baslik span { font-size: 50px; color: var(--qt-coin); text-shadow: 0 4px 0 #1f1400, 0 0 20px rgba(255, 201, 51, .75); }
+.ks-final-baslik span { font-size: 50px; color: #6b4300; text-shadow: 0 3px 0 rgba(255, 250, 240, .85); }
 .ks-final-skor {
   position: relative; z-index: 3; display: inline-flex; align-items: baseline; gap: 2px; padding: 8px 20px; border-radius: var(--qt-r-hap);
   background: #3a2600; color: var(--qt-coin); box-shadow: 0 3px 0 #1f1400, inset 0 0 0 2px #c28b00;
@@ -451,18 +454,18 @@
   45% { transform: translate(-5px, 3px); } 60% { transform: translate(4px, -2px); } 80% { transform: translate(-2px, 1px); }
 }
 /* kaybeden: rakibin kasası açık başlar, kapanır (gümleme), kararır */
-.ks-final--kaybetti { --ks-k: var(--qt-mod-duello); background: radial-gradient(circle at 50% 38%, #3a3020 0%, #121008 78%); animation: ks-final-gum 300ms linear 1320ms; }
+.ks-final--kaybetti { --ks-k: var(--qt-mod-duello); background: radial-gradient(circle at 50% 38%, #fffaf0 0%, #f1e6cc 50%, #e2d3ae 100%); animation: ks-final-gum 300ms linear 1320ms; }
 .ks-final--kaybetti .ks-final-kasa { animation: ks-final-karar 3200ms ease-in-out both; }
 @keyframes ks-final-karar {
   0% { opacity: 0; transform: scale(.92); filter: none; } 8% { opacity: 1; }
   40% { transform: scale(1); filter: none; } 44% { transform: scale(.94) translateY(4px); } 50% { transform: scale(1); }
-  100% { transform: scale(.96); filter: brightness(.38) grayscale(.75); }
+  100% { transform: scale(.96); filter: brightness(.6) grayscale(.75); }
 }
 .ks-final--kaybetti .ks-kasa-kapi { animation: ks-final-kapan 520ms cubic-bezier(.6, 0, .9, .4) 800ms both; }
 @keyframes ks-final-kapan { from { transform: rotate(-34deg) translateY(-6%); } to { transform: rotate(0); } }
 .ks-final--kaybetti .ks-kasa-isik { opacity: 0; transition: none; }
-.ks-final--kaybetti .ks-final-baslik { color: #d9cfb8; animation: ks-final-yazi 700ms var(--qt-egri-cikis) 1500ms both; }
-.ks-final--kaybetti .ks-final-baslik span { color: #b9a77a; text-shadow: 0 3px 0 #1f1400; }
+.ks-final--kaybetti .ks-final-baslik { color: #4a3f28; animation: ks-final-yazi 700ms var(--qt-egri-cikis) 1500ms both; }
+.ks-final--kaybetti .ks-final-baslik span { color: #5a4a22; text-shadow: 0 3px 0 rgba(255, 250, 240, .85); }
 .ks-final--kaybetti .ks-final-skor { color: #ff8a80; animation: ks-final-yazi 600ms var(--qt-egri-cikis) 1400ms both; }
 @keyframes ks-final-gum { 0%, 100% { transform: translateY(0); } 35% { transform: translateY(5px); } 70% { transform: translateY(-2px); } }
 

@@ -344,7 +344,7 @@ for (const [w, h] of EKRANLAR) {
     {
       await ac("karar-955", ".ks-karar-eylem");
       const devamDugme = s.locator(".ks-karar-eylem button").nth(1);
-      ok("z9-devam-955: düğme 'DEVAM ×2 · ÜCRETSİZ 50:50'", /DEVAM ×2 · ÜCRETSİZ 50:50/.test(await devamDugme.innerText()), await devamDugme.innerText());
+      ok("z9-devam-955: düğme 'DEVAM ×2' (987: ücretsiz 50:50 kalktı)", /DEVAM ×2/.test(await devamDugme.innerText()) && !/ÜCRETSİZ/.test(await devamDugme.innerText()), await devamDugme.innerText());
       ok("z9-devam-955: not 'en çok 60' + plaka 10/60", /en çok 60/.test(await s.locator(".ks-karar-not").innerText()) && /10\s*\/60/.test(await s.locator(".ks-kadran-plaka").innerText()));
       await kaydet("z9-devam-955-0-karar");
       kararSonrasi = "cevap-devam-955";
@@ -381,7 +381,7 @@ for (const [w, h] of EKRANLAR) {
       ok(`z10-karar-kucuk: karar kartı ${tGel} ms'de geldi, ${tTam} ms'de tam görünür (≤ 900)`, tTam <= 900);
       ok("z10-karar-kucuk: AÇ etkin 'AÇ · +2 puan' (kilit yok)", (await acD.isEnabled()) && /AÇ · \+2 puan/.test(await acD.innerText())
         && !(await acD.getAttribute("class") || "").includes("ks-ac-kilitli"), await acD.innerText());
-      ok("z10-karar-kucuk: DEVAM ×2 · ÜCRETSİZ 50:50 + plaka 2/60", /DEVAM ×2 · ÜCRETSİZ 50:50/.test(await devD.innerText()) && /2\s*\/60/.test(await s.locator(".ks-kadran-plaka").innerText()));
+      ok("z10-karar-kucuk: DEVAM ×2 + plaka 2/60", /DEVAM ×2/.test(await devD.innerText()) && !/ÜCRETSİZ/.test(await devD.innerText()) && /2\s*\/60/.test(await s.locator(".ks-kadran-plaka").innerText()));
       await tekEkran("z10-karar-kucuk");
       const kucukH = await s.evaluate(() => [...document.querySelectorAll(".ks-karar-eylem button")].filter((e) => { const r = e.getBoundingClientRect(); return r.width < 44 || r.height < 44; }).length);
       ok("z10-karar-kucuk: karar düğmeleri ≥ 44 px", kucukH === 0);
@@ -438,7 +438,7 @@ for (const [w, h] of EKRANLAR) {
       ok(`${ad}: ${q} çizildi`, true);
       for (const ms of kazandi ? [80, 350, 700, 1300] : [150, 600]) { const b = t0 + ms - Date.now(); if (b > 0) await s.waitForTimeout(b); await kaydet(`${ad}-${String(ms).padStart(4, "0")}`); }
       if (kazandi) {
-        ok(`${ad}: metin "ÜCRETSİZ 50:50" + "Hazine açılana kadar"`, /ÜCRETSİZ 50:50/.test(await s.locator(q).innerText()) && /Hazine açılana kadar/.test(await s.locator(q).innerText()));
+        ok(`${ad}: metin "Joker kazandın!" + "50:50 · bu soru için ücretsiz"`, /Joker kazandın!/.test(await s.locator(q).innerText()) && /50:50 · bu soru için ücretsiz/.test(await s.locator(q).innerText()));
         ok(`${ad}: kasa SAHİPSİZ rozeti, karar satırı gizli`, /SAHİPSİZ/.test(await s.locator(".ks-kadran-sahipsiz").innerText().catch(() => "")) && await s.locator(".ks-karar-satir").count() === 0);
       }
       else ok(`${ad}: metin "Bu sefer yok"`, /Bu sefer yok/.test(await s.locator(q).innerText()));

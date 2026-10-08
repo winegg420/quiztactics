@@ -207,7 +207,7 @@ for (const { dil, w, azalt } of KOSULAR) {
     const kendiPasif = await s.locator(".hk-kart--ben.hk-kart--pasif:disabled").count();
     const rakipAcik = await s.locator(".hk-kart--rakip:not(:disabled):not(.hk-kart--banli)").count();
     ok("kendi 5 kartın pasif (disabled), rakibin banlı olmayan 4 kartı seçilebilir", kendiPasif === 5 && rakipAcik === 4, `${kendiPasif} / ${rakipAcik}`);
-    ok("hedef satırı (şeritte): 12 puan ya da 5'ten 4'ünü al", (TR ? /12 puan ya da 5'ten 4'ünü al/ : /12 points or take 4 of 5/).test(o.tahtaMetin), o.tahtaMetin);   // Plan A: kategori fazında mesaj satırı yok
+    ok("hedef satırı (şeritte): 12 puan ya da rakibin 4 kategorisini alan kazanır", (TR ? /12 puan ya da rakibin 4 kategorisini alan kazanır/ : /First to 12 points or 4 of the opponent's categories wins/).test(o.tahtaMetin), o.tahtaMetin);   // Plan A: kategori fazında mesaj satırı yok
     ortak("01-saldiri", o);
     await kaydet("01-saldiri");
     await s.locator('.hk-kart--ben[data-kategori="bilim"]').click({ force: true, timeout: 2000 }).catch(() => {});

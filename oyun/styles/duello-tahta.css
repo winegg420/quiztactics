@@ -85,7 +85,7 @@
 .hk-ust .qt-oyuncu { gap: 6px; }
 .hk-ust .qt-oyuncu-ad { font-size: 13px; }
 .hk-ust .qt-oyuncu-yazi { gap: 1px; }
-.hk-ust .mo-bayrak, .hk-ust .mo-amblem, .hk-ust .mo-lig, .hk-ust .mo-unvan { display: none !important; }
+.hk-ust .mo-amblem, .hk-ust .mo-lig, .hk-ust .mo-unvan { display: none !important; }
 /* ad düğmesi 44 px yükseklik şişirmesin: dokunma alanı ::after ile zaten 44 px (l-kart.css) */
 .hk-ust .ls-ad-dugme { min-height: 0; }
 /* "kategoriyi seçen" kılıç rozeti avatarın dış köşesinde (ada binmez) */

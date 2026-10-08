@@ -4,7 +4,7 @@
 export default {
   // Mod seçim penceresi
   "Aynı sorular, en çok bilen kazanır.": "Same questions, most correct wins.",
-  "Kategorileri seç, rakibinkine saldır. {h} puan ya da {y} kategori kazanır.": "Pick categories, attack theirs. {h} points or {y} categories wins.",
+  "Kategorileri seç, rakibinkine saldır. {h} puan ya da rakibin {y} kategorisini alan kazanır.": "Pick categories, attack theirs. First to {h} points or {y} of the opponent's categories wins.",
   "Tek bilen hazineyi alır, doğru anda aç.": "Answer alone to take the treasure, open it at the right time.",
   // Düello lobisi
   "Kategorileri sırayla seçersiniz.": "You take turns picking categories.",

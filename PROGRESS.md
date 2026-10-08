@@ -10749,3 +10749,10 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - **Hâkimiyet** (`duello-tahta.css`, `DuelloPage.jsx`): geri sayım halkası görünür + altta küçük "sn" (`.hk-sayac-kutu`; kısa ekranda 38 px — 40 px'te 360×640 soru ekranı 2 px taşıyordu). Saldırırken kendi kartların opaklığı .62 → .9; seçimsiz "Seç" kan kırmızısı açık ton (gri değil); sıra rakipteyken "Rakip seçiyor…" kırmızı çerçeve + kırmızı başlık.
 - **Perde** (`duello-secim.css`): zemin .82 → .5.
 - **Test (yerel 5188, taklit RPC):** Plan A ekranı 390×664 TR/EN + 360×640 TR: 66 ✓ / 2 ✗ — ikisi de bilinen ortam (draft yüzde beklentisi bayat, konsol 401 süresi dolmuş oturum). Oturum dosyası scratchpad'de origin 5188 + `expires_at` ileri alınarak kullanıldı. Lobi: düğme alt menünün üstünde (584 < 595), açıklama 2 satır. Build temiz.
+
+## 8 Eki 2026 — Dört küçük temizlik (Sonnet)
+- Mod seçim penceresi Düello açıklaması tek kural cümlesine çekildi ("{h} puan ya da rakibin {y} kategorisini alan kazanır"); EN karşılığı kisa-metin.js'te eşit. Eski anlatım yalnız Düello'ya aitti; başka yerde kalmadı (tasarım önizleme sayfasındaki "5 kategori kazanır" önizleme verisidir, dokunulmadı).
+- Düello maç şeridinde ülke bayrağı görünür (duello-tahta.css gizlemesi kalktı; ülkesiz oyuncuda MacUstSerit zaten çizmez).
+- Hazine "AÇ" anı ve maç sonu açılış sahnesi (kazandı + kaybetti): koyu kahve zemin → giriş sahnesiyle aynı sıcak açık altın; yazı koyu kahve (kontrast ≥ 6:1 hesaplandı), skor çipi koyu kalır.
+- Bayat test beklentileri: duello-puan-ekran (hedef satırı yeni cümle), kasa-efekt-ekran (DEVAM düğmesi 987'de "ÜCRETSİZ 50:50" taşımıyor ×2; DEVAM ödülü kartı "Joker kazandın!").
+- Not: test oturumu yenilenemedi (misafir girişi boş oturum yazdı); ekran testleri bu turda koşulamadı, yalnız build doğrulandı.
