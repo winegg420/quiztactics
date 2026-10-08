@@ -10661,3 +10661,16 @@ Canlı ölçüm: tek test kimliğiyle 10 sn arayla 7 kalp_at (60 sn): o profilin
 Migration: 995, 996 (canlıya uygulandı). İstemci dosyası değişmedi → build gerekmedi.
 
 - **Dağıtım:** 6f345a26 main'e push (d0b8285e dahil), Vercel success (8 Eki 2026); site 200. Bu not yerel commit — bir sonraki push ile gider.
+
+## 2026-10-08 — Supabase Aşama 3: kota ölçümü (cached egress + log), salt okuma
+**Araç:** Claude Code (Opus 5.5)
+**Neden:** Panel cached egress 10,9/5 GB, Log 5,1/1 GB; grace 1 Kasım. Kaynağı rakamla bulmak, cron.log_statement kapatmanın etkisini ölçmek.
+
+Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya silinmedi/taşınmadı. Okuma: `pg-mini` (`begin read only`) + Management API log/kullanım uç noktaları (CLI belirteci Kimlik Yöneticisi'nden yalnız alt sürece verildi, yazılmadı). Kurum kullanım/fatura uç noktası PAT ile 401 → panel rakamı ve dönem tarihi API'den doğrulanamadı. Ayrıntı ve tekrar sorguları: `docs/YUK_AZALTMA.md` › D.
+- **Cached egress = Storage müzik.** Son 24 sa 25 istek / 20,8 MB (botlar 10,3 · Ida'nın masaüstü Chrome'u 5,2 · gerçek telefonlar 5,1). Günlük Storage isteği 1 Eki 2.468 → 2 Eki'den beri 0–206. 2 Eki SW düzeltmesi tutuyor; 10,9 GB'nin ~10,4'ü 2 Eki öncesinden. `avatarlar` 95 dosya/2 MB, 1 profil kullanıyor, 24 sa 0 istek. cacheControl: müzik 1 yıl, avatar 1 sa.
+- **API/log kaynağı = bu bilgisayardaki headless Playwright.** 24 sa 85.576 edge isteğinin 82.594'ü (%96,5) bu makinenin IP'sinden, ~76.150'si headless (localhost dev sunucuları + canlı). Diğer IP'ler ~3.000. Log metin hacmi ~250 MB/gün: edge_logs %85, postgres_logs %12.
+- **cron.log_statement etkisi:** postgres_logs ~26 satır/dk → ~0,7 satır/dk (−%97; 22 dk'lık pencere, yarın 24 sa ile tekrar ölçülmeli).
+- **pg_stat_statements:** uygulama sorgusunda büyük satır döndüren yok; en üstte tam tablo COPY'leri (2 kez, yedek deseni, sahibi doğrulanmadı), pg_timezone_names, Realtime WAL.
+- **Uygulanan kod değişikliği: yok** — gerçek oyuncu yükü küçük (~3.000 istek/gün, ~5 MB Storage/gün); anlamlı kazanç kalan kod yolu bulunmadı.
+- **Onay bekleyen öneri:** canlıya karşı headless koşuları sınırlamak (CLAUDE.md'ye kural) → log ~250 → ~40–60 MB/gün. `avatarlar` kovası temizliği (yalnız liste + onay; kazanç ~0).
+- **Yarın/13 Eki yapılacak:** aynı log sorgusuyla 24 sa postgres_logs ve Storage baytı; yeni dönemde panel rakamı.

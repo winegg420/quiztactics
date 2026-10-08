@@ -242,3 +242,69 @@ Canlıya uygulandıktan sonra doğrulama sorgusu ÇALIŞTIRILMADI (izinli okumal
 9. `node araclar/arayuz-denetim.mjs` ve `oyuncu-testi.mjs` (Klasik + Düello + Grup): maç akışı, biten maçta
    `mac_nabiz` isteği olmadığı, ana sayfa "devam eden maç" kartının ≤ 3 sn'de gelmesi.
 10. Bota karşı maç sonunda bot tepkisinin/mesajının gelmesi (850, madde 2).
+
+---
+
+## D. Aşama 3 — kota ölçümü (8 Ekim 2026, salt okuma)
+
+**Panel (Ida):** cached egress 10,9 / 5 GB · Log 5,1 / 1 GB · grace 1 Kasım. Ölçüm penceresi: 7 Eki 12:46 –
+8 Eki 12:49 UTC (ücretsiz planda log saklama 1 gün; daha eskisi okunamaz).
+
+**Nasıl ölçüldü (tekrar için):** Management API `GET /v1/projects/<ref>/analytics/endpoints/logs`
+(`sql`, `iso_timestamp_start/end`; ClickHouse sözdizimi, tek tablo `logs`, kaynak sütunu `source`,
+alanlar `log_attributes['request.path']`, `['response.headers.content_length']`,
+`['request.headers.cf_connecting_ip']`…). Günlük istek sayısı: `.../usage.api-counts?interval=7day`.
+Belirteç: Supabase CLI'nin Windows Kimlik Yöneticisi kaydı (`Supabase CLI:supabase`), yalnız alt sürece
+ortam değişkeniyle verildi, hiçbir yere yazılmadı. Kurum kullanım/fatura uç noktası PAT ile **401** —
+panel rakamları ve dönem tarihi API'den okunamadı. Storage/DB: `pg-mini`, `begin read only`.
+
+### Önbellekli egress = yalnız Storage (müzik)
+
+| | |
+|---|---|
+| `muzik` kovası | 32 dosya, 31 MB (22 tam parça 27,3 MB + 10 önizleme 3,5 MB), hepsi `cacheControl max-age=31536000` |
+| `avatarlar` kovası | 95 dosya, 2,0 MB (85'i `botlar/`), `max-age=3600`; 322 profilden **1**'i Storage avatarı kullanıyor; 24 saatte **0** istek |
+| Son 24 saat Storage | **25 istek, 20,8 MB** (hepsi müzik; CDN HIT 18,7 MB + MISS 2,1 MB) |
+| ↳ kimden | veri merkezi botları (Scaleway, Amazon ×3, HostRoyale; `quiztactics.com` yönlendirmesi, ilk ziyaret) 10,3 MB · bu bilgisayar (Ida'nın masaüstü Chrome'u, headless değil) 5,2 MB · gerçek telefonlar 5,1 MB |
+| Günlük Storage isteği | 1 Eki **2.468** → 2 Eki 5 · 3 Eki 0 · 4 Eki 129 · 5 Eki 197 · 6 Eki 206 · 7 Eki 20 (4–6 Eki bayt ölçülemedi) |
+
+Sonuç: 2 Ekim düzeltmesi (`3753501c`, SW kalıcı önbelleği + `preload="none"`) tutuyor. Gerçek cihazların logunda
+SW deseni görülüyor (Range'siz tek `200`, sonra istek yok). Range'li `206` istekleri yalnız SW'nin henüz
+denetlemediği ilk ziyaretlerde. 10,9 GB büyük ölçüde 2 Ekim öncesinden birikmiş; panel 2 Eki'de 10,4 GB
+gösteriyordu → o günden bu yana ~0,5 GB.
+
+### API isteği ve log hacmi — kaynak bu bilgisayardaki otomasyon
+
+Son 24 saat edge (API ağ geçidi) logu: **85.576 istek**. `5.27.43.240` (bu bilgisayarın dış IP'si, ölçüldü):
+**82.594 (%96,5)**; bunun **~76.150'si headless Playwright** (yönlendirme: `localhost:5173/5174/5188/5230/
+4173/4199/5193/5199` yerel dev sunucuları + canlı site). Diğer tüm IP'ler toplam ~3.000 istek. Saatlik dağılım
+çalışma oturumlarını izliyor (gece 22–09 UTC arası ~0). REST yanıt baytı ölçülemedi (yanıtlar chunked,
+`content_length` yok).
+
+| Log kaynağı (24 sa) | Satır | Metin boyutu (tahmin) |
+|---|---|---|
+| edge_logs (her HTTP isteği 1 satır) | 85.576 | ~212 MB (%85) |
+| postgres_logs | 44.871 | ~29 MB (%12) — satırların ~%97'si `cron job N starting/completed` |
+| postgrest · auth · realtime · diğer | ~15.000 | ~9 MB |
+
+Boyut = `event_message` + öznitelik metni; Supabase'in "Log" sayacının neyi nasıl ölçtüğü belgede yok
+(fatura SSS'si ücretsiz plan için log kotası tanımlamıyor) — oran olarak okunmalı.
+
+**cron.log_statement kapatma etkisi (12:25 UTC):** postgres_logs önceki 58 dk 1.500 satır (~26/dk) → sonraki
+22 dk 16 satır (~0,7/dk), cron satırı 0. **~%97 düşüş**; pencere kısa, yarın aynı sorguyla 24 saat tekrar bakılmalı.
+
+### pg_stat_statements (7 Eki 21:49'dan beri, dönen satıra göre)
+
+Uygulama sorgularında büyük satır döndüren yok. En üsttekiler: tam tablo `COPY … TO stdout` (her tabloda
+2 çağrı — günlük yedek desenine benziyor; kimin çalıştırdığı doğrulanmadı; DB 118 MB, tablo verisi 44 MB),
+`pg_timezone_names` 31 × 1.196 satır (panel/şema), Realtime WAL yoklaması 19.525 × 1 satır.
+
+### Öneriler (Ida onayına)
+
+1. **Canlı Supabase'e karşı headless koşuları sınırla** (süreç kuralı, kod değil). Kazanç: API isteğinin ~%89'u,
+   log hacminin ~%75'i (~250 → ~40–60 MB/gün). Risk: ekran doğrulaması azalır → taklit veriyle yerel ölçüm,
+   tek koşu, işi bitince dev sayfasını kapatma. İş: CLAUDE.md'ye 1–2 satır.
+2. Müzik için yeni iş gerekmiyor. Vercel'e taşıma kazancı bugün ≤ 20 MB/gün; Ida'nın "Storage'da kalsın" kararı
+   duruyor.
+3. `avatarlar` kovası (95 dosya, 2 MB) neredeyse kullanılmıyor — silme yalnız liste + onayla; egress kazancı ~0.
+4. Uygulama kodunda değişiklik önerilmiyor: gerçek oyuncu trafiği ~3.000 istek/gün, Storage ~5 MB/gün.
