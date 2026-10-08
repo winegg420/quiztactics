@@ -10829,3 +10829,30 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - **Önizleme:** `/lig-sahne-onizleme` (menüde yok, girişli herkes, sunucuya istek yok): 5 lig gerçek kart + gerçek lig çerçevesi + gerçek avatar, Eski/Yeni sekmesi + Battle Pass çerçevesi kutusu. TR/EN (`ceviri/lig.js`).
 - Ölçüm (yerel, 1100 ve 360 px): yatay taşma 0, kart içi taşma 0, konsol hatası 0; çizim merkezi avatar merkeziyle hizalı. `npm run build` TEMİZ. Hareket yok.
 - Sıradaki: Ida telefonda onaylayınca adım 3 (profil, oyuncu kartı penceresi; ana sayfa lig kartı + Lig pankartı ayrı CSS ile aynı ışını kullanıyor — onlar ayrıca ele alınmalı).
+
+## 2026-10-09 — Ortak Hazine: Kalkan 80'de + AÇ–DEVAM sonucu + rakibin izleme ekranı (988 UYGULANMADI, push YOK)
+**Araç:** Claude Code (Opus 5.5)
+**Neden:** Ida (8 Eki) — hazine 80'e ulaşınca Savunma Sorusu açılmıyordu; AÇ/DEVAM düğmeleri sonucu göstermiyordu; izleyen rakip basılamayan şıklara bakıyordu.
+
+- **988 `kasa_savunma_80de` (yazıldı, canlıya UYGULANMADI — Ida onayı bekleniyor):** yalnız `kasa_cozumle`; tetikten
+  `v_kasa < hedef` ve `< tavan` kalktı. Kalanlar: son tur (`k.tur < k.max_tur`), Altın Soru (altın dalı bloğa girmez).
+  Canlı tanım = 987 tanımı (pg_get_functiondef ile doğrulandı). `kasa_savunma_ac/_cozumle` hazineye dokunmaz → 80 sabit,
+  `tavan_kirpti` false. Kural `savunma_acik` maçlarında bir sonraki çözümlemeden itibaren geçerli; ölçümde süren maç 0.
+  Geri alma `docs/kasa-geri-alma-988.sql`. `db push --dry-run --include-all` yalnız 988'i listeliyor (numara 1006'dan küçük).
+- **SQL testi** `araclar/kasa-savunma-80-sql-testi.mjs` (BEGIN…ROLLBACK, lock 3 sn / statement 15 sn) **27/27**: 78+2=80 tetik →
+  başarılı (80'de sahipsiz, maç sürer, sonra tek bilen sahip → AÇ → bitti) / başarısız (rakip karar → AÇ → bitti);
+  zaten 80 (+2 kırpılır) yine açılır; ikisi bilirse, son turda, Altın Soru'da açılmaz; bot savunan; bot rakip tavanda AÇ;
+  ROLLBACK sonrası canlı kasa_* md5 aynı. Not: eski `kasa-savunma-sql-testi.mjs` 987'yi transaction içinde yeniden uyguladığı
+  için 988 canlıdayken de 987 davranışını (80'de açılmaz) sınar.
+- **AÇ–DEVAM (KasaParcalari › KasaKarar):** "AÇ → +24 / Skor 42/80", "DEVAM → Hazine 48" + kalkan (hak kazanılacaksa) /
+  "Hazine sahipsiz kalır"; rakamlar kasa_durum'dan (oyuncular[].puan, karar.deger, devam_carpan, tavan). Tavanda DEVAM
+  düğmesi yok, not "Hazine dolu (80): yalnız AÇ." Hak satırı DEVAM düğmesinin altında kaldı (simgeyi açıklıyor).
+- **İzleme (KasaPage, yalnız sunum):** `.ks-izle-bant` büyük kalkan + "Rakip hazinesini savunuyor" + büyük sayaç (mevcut
+  gosterSn) + "Sen izliyorsun · bilemezse karar senin"; `.ks-mac--izle` şıkları soluk/pasif. Savunan ekranı, zamanlama aynı.
+- **Ekran** `kasa-savunma-ekran.mjs` (390×844 eklendi, `--taklit-profil=` yeni: sahte oturum + tüm REST/Auth taklit, canlıya
+  istek yok — misafir oturumu süresi dolu olduğu için): 360×640 · 390×664 · 390×844 × TR/EN + azalt = **343/343**, taşma 0,
+  konsol 0, EN'de Türkçe kalmadı. Görüntüler `tasarim/kasa-savunma/` (commit'e girmedi). `npm run build` temiz.
+- **Yapılamadı:** canlı uçtan uca iki hesaplı maç (`kasa-canli-testi.mjs`) — test hesaplarının oturumu yok ve 988 / ön yüz
+  canlıda değil. Push + migration onayından sonra koşulmalı.
+- **Açık soru (Ida):** 80'de süre dolarsa sunucu hâlâ DEVAM sayıyor (hazine 80'de sahipsiz kalır); ekran yalnız AÇ gösteriyor.
+- Kalmış 5188 Vite süreci (17:30'dan) kapatıldı.
