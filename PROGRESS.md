@@ -10967,3 +10967,11 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
   regex düzeltildi ve dosyadan doğrulandı, canlıya üçüncü maç açılmadı. İlk koşu (maç a8be3ed7…) aynı akış, 23/25 (aynı regex).
 - Oturumlar: eski anonim dosyalardaki yenileme jetonları denendi (2 istek), geçen iki hesap `.arayuz-denetim-oturum.json`'a
   yazıldı (git'e girmez; kaynak dosyalara da yeni jeton yazıldı).
+
+## 9 Eki 2026 — Zorluk 2 taraması (migration 1011 + 1012)
+**Araç:** Claude Code
+- `araclar/soru-temizlik/z2-tara.mjs` (claude-cagri.mjs altyapısı): aktif z2 2.965 soru, claude-sonnet-5-5, A) aşırı basit B) yanlış/çift cevap. Örneklem 200 → $0,19; tam tarama toplam **$2,79**. Rapor: `z2-tarama-rapor.csv` (799 şüpheli; kapananlar "evet").
+- Eşik 0,9: aşırı basit 51 kapandı (766 işaretli) · yanlış/çift: 2 aday ≥0,9 ama ikisi de yanlış alarm (gerekçe işaretli cevabın doğru olduğunu söylüyor: toplardamar, Portekiz) → 1012 ile yeniden açıldı; **yanlış cevap olarak kapanan 0**. 35 yanlış/çift adayın kalanı <0,9, açık, yalnız CSV'de.
+- Uygulama `migration-uygula.mjs` ile (1011, 1012); 988'e dokunulmadı. Geri alma: `docs/z2-tarama-geri-al.sql` (51 id).
+- Sonuç: aktif z1/z2/z3/z4-5 = 975 / 2.914 / 5.077 / 3.534. Z2 kategori: bilim 499 · coğrafya 476 · edebiyat 235 · genel_kültür 226 · müzik 254 · sanat 222 · sinema 245 · spor 232 · tarih 278 · teknoloji 247.
+- Oyun oranı (1010: 10/60/27/3) grup ağırlığıyla seçildiği için havuz boyutundan etkilenmez; her grup/kategori dolu. Push yapılmadı.

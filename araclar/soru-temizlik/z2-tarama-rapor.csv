@@ -1,0 +1,800 @@
+id,kategori,tur,kapatildi,guven_a,guven_b,soru,dogru,gerekce
+58dcbc2f-b5d2-4d90-8122-09bcc2fbbd7e,cografya,asiri_basit,evet,0.90,0.97,Kırık (fay) hatlarının depremle ilişkisi nedir?,Depremler genelde faylarda olur,"Genel kavram sorusu; doğru şık açıkça mantıklı olan, çeldiriciler saçma."
+917b70ed-43e3-41ce-bdf4-38935f825715,cografya,asiri_basit,evet,0.90,0.90,Mısır uygarlığının Nil'e bağımlılığı neyi gösterir?,Coğrafyanın uygarlığa etkisini,"Cevap soru metninden (coğrafya) çıkarılabiliyor, genel kavram soruluyor."
+759e4ba7-4c50-4208-aa29-1225bfe300c5,cografya,asiri_basit,evet,0.93,0.97,Toprak analizinin çiftçiye yararı nedir?,Doğru gübreleme yapabilmek,"Işlev sorusu, çeldiriciler saçma; doğru şık belli."
+5719c78e-8011-4ae3-8afa-640835c878c7,cografya,asiri_basit,evet,0.90,0.95,Kar örtüsünün tarımdaki yararı nedir?,Toprağı dondan koruyup su sağlaması,"Genel bir yarar sorusu; çeldiriciler saçma, doğru şık mantıkla bulunuyor."
+f1d30c43-e4c7-4506-802c-d7e795603518,cografya,asiri_basit,evet,0.90,0.95,Tarımsal ilaç kullanımının riski nedir?,Kalıntı ve çevre kirliliği,"Genel risk sorusu; çeldiriciler saçma, doğru şık açıkça mantıklı olan."
+b45c1333-d584-45d2-afab-4f1a18dfb993,cografya,asiri_basit,evet,0.93,0.98,Çığ riski en çok nerede vardır?,Dik karlı yamaçlarda,Cevap mantıkla belli; çeldiriciler konu dışı.
+0ff63ad3-10ae-435a-a5d1-26b870ed7d4d,cografya,asiri_basit,evet,0.90,0.93,Çölleşmeyi önlemek için ne yapılır?,Ağaçlandırma ve su yönetimi,"Çeldiriciler saçma, mantıkla bulunur."
+458c6ffa-fd09-475c-81c2-ef4ad323ebce,cografya,asiri_basit,evet,0.90,0.92,Bir bölgenin turizm potansiyelini artıran etken hangisidir?,Ulaşım ve konaklama imkânı,"Genel kavram sorusu, doğru şık açıkça en mantıklı olan."
+3a9ef9ca-9558-4e15-b6fe-400075ed3004,cografya,asiri_basit,evet,0.90,0.90,Ağaçlandırmada tür seçimi neye göre yapılmalıdır?,Yörenin iklim ve toprağına,"Mantıkla çözülür, genel kavram; çeldiriciler zayıf."
+c1545673-877c-413d-a51a-58facadce18e,cografya,asiri_basit,evet,0.90,0.95,Kentsel risk azaltma planlarının temel amacı nedir?,Can ve mal kaybını en aza indirmek,"Amaç sorusu; en mantıklı şık belli, çeldiriciler konu dışı."
+d26e8b24-7c34-4f6b-8cb1-a6c6e542eec6,cografya,asiri_basit,evet,0.90,0.93,Kuş göç yollarının korunmasının amacı nedir?,Biyolojik çeşitliliği sürdürmek,"Amaç sorusu; doğru şık açıkça mantıklı olan, çeldiriciler saçma."
+fbab201a-99ea-4893-8d0c-f7487f156af7,cografya,asiri_basit,evet,0.95,0.90,Bir ülkenin lojistik merkez olması neye bağlıdır?,"Konum, altyapı ve ulaşım ağına","Genel kavram sorusu; en mantıklı şık belli, çeldiriciler zayıf."
+175acbaa-815c-4ed3-b8c1-267bff8c5ea9,cografya,asiri_basit,evet,0.92,0.90,Harita okumada ilk bakılması gereken öğe nedir?,"Başlık, ölçek ve lejant","Çeldiriciler saçma, mantıkla belli."
+5d30f47e-a6b5-459e-b4ee-429abaf225be,cografya,asiri_basit,evet,0.90,0.97,Uydu görüntüleri meteorolojide ne sağlar?,Bulut ve sistem hareketinin izlenmesi,"Çeldiriciler konu dışı, genel işlev sorusu."
+3b994c32-e3e8-431f-9947-a1e224a62236,edebiyat,asiri_basit,evet,0.93,0.92,'Edebiyat atölyesi' katılımcıya ne kazandırır?,Yazma pratiği ve geri bildirim,"Genel işlev sorusu; doğru şık mantıkla belli, diğerleri alakasız."
+1e98b4e6-62bf-4e0a-9945-0b08532fc976,edebiyat,asiri_basit,evet,0.93,0.95,Bir romanda 'mekân' öğesinin işlevi nedir?,Olayı ve karakteri anlamlandırmak,"Genel işlev sorusu; çeldiriciler saçma, doğru şık bariz."
+57a31a7b-0b08-4037-b83b-2c3978129d16,edebiyat,asiri_basit,evet,0.90,0.97,'Karakterin iç çatışması' neye dayanır?,Kendi içindeki çelişkiye,İç çatışma ifadesinin anlamından cevap belli.
+64333163-4012-4d18-aeaf-e32f41be8bac,edebiyat,asiri_basit,evet,0.90,0.95,Edebî eleştirinin amacı nedir?,Eseri değerlendirmek,"Genel amaç sorusu; mantıkla çözülür, çeldiriciler zayıf."
+60b48a45-c819-40a6-b865-2371305e2df1,genel_kultur,asiri_basit,evet,0.95,0.95,Kalite kontrol ne amaçlar?,Standartlara uygunluk,
+73b8dbeb-2fad-4823-b4e9-7362e2bd67f3,muzik,asiri_basit,evet,0.93,0.96,'Müzikle terapi' neyi hedefler?,Sağlık ve iyilik hâlini desteklemeyi,Amaç sorusu; çeldiriciler konu dışı.
+7688e806-a953-4e06-bd46-a81b5487be20,muzik,asiri_basit,evet,0.92,0.90,'Vokal koçu' neyi geliştirir?,Ses tekniğini,Vokal koçu = ses tekniği; cevap sözcüğün anlamından belli.
+bdf1486f-995a-4cb9-9b4b-0dfb97881e7f,muzik,asiri_basit,evet,0.90,0.97,Dünya çapında YouTube rekorları kıran 'Baby Shark' çocuk şarkısı hangi hayvanı anlatır?,Köpek balığı,Cevap soru adında geçiyor (Shark = köpek balığı).
+3e521b36-56c6-4aec-80cd-dcd98c694c50,sanat,asiri_basit,evet,0.90,0.93,'Işık kumandası' hangi işi yapar?,Işık sahnelerini yönetir,Cevap soru sözcüğünden belli (ışık kumandası ışık yönetir).
+4ae5186c-a4de-445a-9be7-452bc3671a40,sanat,asiri_basit,evet,0.93,0.93,'Sanat eleştirisi' neye dayanmalıdır?,Gerekçelendirilmiş değerlendirmeye,"Çeldiriciler saçma, mantıkla bulunur."
+667d3653-4b29-4aff-999d-b9d49e453fe7,sanat,asiri_basit,evet,0.90,0.95,'Renk psikolojisi' neyi inceler?,Rengin duygusal etkisini,Cevap 'psikoloji' sözcüğünden ve açıkça en mantıklı şıktan belli.
+35adc19b-6337-453f-a5d7-c2f045adb095,sanat,asiri_basit,evet,0.90,0.90,Portre fotoğrafında genelde hangi ışık tercih edilir?,Yumuşak ışık,"Çeldiriciler saçma, doğru şık bariz."
+60bc0d80-63bc-47fc-8e33-c65c7dc6ebce,sanat,asiri_basit,evet,0.90,0.95,'Portfolyo' sanatçı için ne sunar?,Çalışmalarının seçkisini,"Sözcük anlamından belli, çeldiriciler saçma."
+1044fa1f-5bb0-4ba2-bafb-81bd3f727bb5,sanat,asiri_basit,evet,0.93,0.90,Endüstriyel tasarımın amacı nedir?,Seri üretilebilir işlevsel ürün,Amaç sorusu; çeldiriciler konu dışı.
+fc346ba3-9b60-462a-8eb2-89e0f7bd89ed,sanat,asiri_basit,evet,0.92,0.95,Bir müzenin 'geçici sergi' düzenlemesinin amacı nedir?,Belirli bir temayı süreli sunmak,Amaç sorusu; çeldiriciler saçma.
+7633c5cb-f6c5-4090-8ab3-85a73c25ba20,sanat,asiri_basit,evet,0.90,0.90,'Tiyatro sahnesinde' dekor ne sağlar?,Mekan izlenimini,Dekorun işlevi sorulan genel kavram; cevap mantıkla belli.
+e3067598-8f79-4911-b56d-a30d9a440a0d,sinema,asiri_basit,evet,0.90,0.98,Donald Duck hangi hayvandır?,Ördek,Cevap karakterin adında geçiyor (Duck = ördek).
+d3e4a9a3-f5ad-4702-8e6c-d416e661bbe0,sinema,asiri_basit,evet,0.95,0.95,Sinemada 'gerilim' türünün temel aracı nedir?,Beklenti ve tedirginlik,"Cevap mantıkla belli, çeldiriciler saçma."
+74c24233-056b-49a9-a0bd-abbff2619bc2,sinema,asiri_basit,evet,0.90,0.93,Film eleştirisinin işlevi nedir?,Yapıtı çözümleyip değerlendirmek,"İşlev sorusu, doğru şık açıkça en mantıklısı."
+0abd07b9-5138-40e2-b475-9da47c198587,sinema,asiri_basit,evet,0.93,0.95,'Jüri' festivalde ne yapar?,Ödülleri belirler,"Jürinin görevi sorusu, çeldiriciler saçma."
+de6bd89a-76a3-445e-9356-22f1c48d5670,sinema,asiri_basit,evet,0.90,0.95,'Tür karması' filmde ne demektir?,Birden çok türün birleşmesi,"Terimin anlamı sözcükten belli, çeldiriciler alakasız."
+6d809b0a-2731-4b62-8370-ed1bc39e3ac6,sinema,asiri_basit,evet,0.92,0.97,Sinemada 'karakter motivasyonu' neyi açıklar?,Eylemlerinin nedenini,'Motivasyon' sözcüğünün anlamı cevabı veriyor; çeldiriciler konu dışı.
+50a17adc-1706-4ce9-ae9c-789608346c0e,sinema,asiri_basit,evet,0.93,0.93,'Müzikal' filmde şarkılar ne yapar?,Öyküyü ilerletir,"İşlev sorusu, çeldiriciler saçma."
+19fd72ec-6593-4ad0-b21a-2e17c23cc8a4,sinema,asiri_basit,evet,0.93,0.95,'Kısa metraj yarışması' hangi filmleri kapsar?,Kısa süreli filmleri,Cevap sorudaki 'kısa' sözcüğünden belli.
+75e55e32-2cbf-4fc4-beda-1ceb0b46831d,sinema,asiri_basit,evet,0.90,0.95,Dış ses (voice-over) neyi sağlar?,Görüntü dışından anlatım,Terimin anlamı cevabı veriyor.
+183e764e-31ac-4ca1-ae4d-e71e5d50a605,sinema,asiri_basit,evet,0.90,0.95,'Sinematik evren' ne sağlar?,Filmlerin ortak dünyada geçmesi,"Kavramın anlamı sorulmuş, çeldiriciler saçma."
+2d57e107-9b72-4ebb-a030-21ed243488de,spor,asiri_basit,evet,0.90,0.85,Türkiye'nin güreşte olimpiyat şampiyonu efsane sporcusu 'Yaşar Doğu' hangi branştandır?,Güreş,Soru metni 'güreşte' diyerek cevabı veriyor.
+7f1ea8b9-0106-4f18-82d7-98642c47db9e,spor,asiri_basit,evet,0.93,0.98,'Takım kaptanlığı bandı' neyi belirtir?,Kaptanlık görevini,Cevap sorudaki 'kaptanlığı' sözcüğünde geçiyor.
+501bcd32-263a-4548-a6d5-7e4bc26d95b1,spor,asiri_basit,evet,0.93,0.96,'Fizyoterapi' sporcuda ne sağlar?,İyileşme ve hareket kazanımı,Işlev sorusu; doğru şık en mantıklısı.
+75037ff5-575a-45af-b414-37418622db69,spor,asiri_basit,evet,0.90,0.90,Basketbolda 'üçlük' çizgisinin işlevi nedir?,Üç sayılık bölgeyi ayırmak,Cevap sorudaki 'üçlük' sözcüğünden belli.
+d4829cf2-3a57-4605-a4ae-653ef03e213b,spor,asiri_basit,evet,0.93,0.90,'Kaleci antrenörü' neye odaklanır?,Kaleye özgü teknik çalışmaya,Cevap 'kaleci' sözcüğünden belli.
+458f7dfe-49c8-4611-a987-81bb2ccea45c,spor,asiri_basit,evet,0.90,0.85,'Devre arası' takıma ne kazandırır?,Dinlenme ve taktik düzeltme,"Mantıkla çözülür, çeldiriciler saçma."
+eb0ed58c-1363-4a37-9e89-80be1f8eb028,tarih,asiri_basit,evet,0.90,0.95,'Kervansaray' hangi amaca hizmet ederdi?,Yolcu ve kervan konaklamasına,Kervansaray sözcüğünden ve genel işlev sorusundan cevap belli.
+1aea0c29-5c7c-42c9-bba0-ea8c42ed0058,teknoloji,asiri_basit,evet,0.90,0.95,Erişilebilirlik (accessibility) tasarımda neyi amaçlar?,Herkesin kullanabilmesini,"Amacı soran genel kavram sorusu, mantıkla bulunur."
+52e3181a-8526-4c6e-a107-9d1dd4fbe851,teknoloji,asiri_basit,evet,0.90,0.95,Akıllı şehir uygulamalarının amacı nedir?,Kaynakları verimli yönetmek,"Amaç sorusu; diğer şıklar saçma, mantıkla bulunur."
+230bafe7-4940-4c31-9b9d-020bf9655317,teknoloji,asiri_basit,evet,0.95,0.97,Kişisel verilerin korunmasının amacı nedir?,Bireyin mahremiyetini güvence altına almak,"Genel amaç sorusu, doğru şık açıkça mantıklı olan."
+00d37c42-72a4-418d-8080-73e9e8d1e70e,teknoloji,asiri_basit,evet,0.90,0.90,Veri sıkıştırmanın amacı nedir?,Daha az yer kaplaması,"Amaç sorusu, cevap sözcükten belli."
+2d74846f-3935-4980-a0d0-d239753ab194,bilim,yanlis_cevap,hayir,0.85,0.93,Vücuttan kalbe kan taşıyan damarlara ne denir?,Toplardamar,"Kalbe kan taşıyan damarlar toplardamardır, ancak işaretli B doğru; atardamar kalpten götürür. Bu nedenle B doğrudur."
+1badd06f-ace5-4cf8-a647-81021955fef7,cografya,yanlis_cevap,hayir,0.85,0.97,Akdeniz'e kıyısı olmayan ülke hangisidir?,Portekiz,"Fransa, İtalya ve İspanya'nın Akdeniz kıyısı vardır; Portekiz'in yoktur, bu yüzden işaretli D doğru. Ancak Fransa da Akdeniz'e kıyıdır, dolayısıyla tek doğru Portekiz'dir."
+52e8ef96-f6e8-4a52-864b-6f4f47f6f868,bilim,asiri_basit,hayir,0.60,0.97,'Kara delik' hangi özelliğe sahiptir?,Işığın kaçamadığı çekim,"Çeldiriciler saçma, doğru şık belli."
+c7e1be1e-3c99-46cb-9727-6939dab9772a,bilim,asiri_basit,hayir,0.55,0.96,'Karbon 14 tarihlendirmesi' neyi ölçer?,Organik kalıntının yaşını,
+140d9248-b870-4b84-9559-dc046ea76348,bilim,asiri_basit,hayir,0.60,0.93,'Verim' bir makinede neyi ölçer?,Yararlı enerjinin oranını,
+02af93da-9215-4cdc-baf8-6e83598c0770,bilim,asiri_basit,hayir,0.60,0.60,Bilimsel yasa neyi ifade eder?,Değişmez bir ilişkiyi,Genel kavram sorusu.
+f8785e07-621d-4ccf-9b24-a5e78fb7067e,bilim,asiri_basit,hayir,0.60,0.92,'Kimyasal element' kaç tür atomdan oluşur?,Tek,Element tek tür atomdan oluşur; tanım gereği belli.
+c913b456-fe9b-447b-a855-e68ce6121c17,bilim,asiri_basit,hayir,0.85,0.95,Deneyin tekrarlanabilir olması neden önemlidir?,Sonucun güvenilirliğini göstermesi,Genel kavram sorusu; doğru şık mantıkla belli.
+9e10f188-6252-4891-8861-e8be99dc5623,bilim,asiri_basit,hayir,0.75,0.93,'Uzay teleskopu' hangi avantaja sahiptir?,Atmosfer bozulmasından kurtulma,Genel avantaj sorusu; doğru şık belirgin.
+0f355c86-b1e3-443f-8c78-22530fed8057,bilim,asiri_basit,hayir,0.60,0.93,Kesikte kanamayı azaltmak için uzuv nasıl tutulur?,Kalp seviyesinden yukarıda,
+0d063aec-dbc9-4e74-98be-d2dd69ccc05c,bilim,asiri_basit,hayir,0.55,0.90,'Bileşik' nedir?,Elementlerin kimyasal birleşimi,Genel kavram tanımı; şıklar arasında doğru olan belli.
+2ca230ca-1d06-4d59-8015-5dc868e405cb,bilim,asiri_basit,hayir,0.60,0.93,'Vücut kompozisyonu' neyi gösterir?,Yağ ve kas oranını,
+0bf7a0ba-e9ef-4405-8d4c-dfae3bcbf4f6,bilim,asiri_basit,hayir,0.55,0.90,Doymuş çözelti ne demektir?,Daha fazla çözünmeyen,
+0b58ffc7-a5fc-471b-a5fe-5404066e6794,bilim,asiri_basit,hayir,0.60,0.90,'Genetiği değiştirilmiş organizma' nasıl elde edilir?,Gen aktarımıyla,Adın kendisi gen aktarımını ima ediyor.
+f0e6f042-f8b6-4d98-a654-ce03b01df087,bilim,asiri_basit,hayir,0.80,0.98,DNA'nın açılımında hangi asit yer alır?,Deoksiribonükleik asit,Cevap sorudaki DNA açılımından belli.
+121a4f0a-b485-4648-a4d3-bb697fc402a2,bilim,asiri_basit,hayir,0.60,0.93,Hücre zarının temel görevi nedir?,Madde geçişini denetlemek,
+16e28571-e584-465b-bf72-481536fc39c0,bilim,asiri_basit,hayir,0.55,0.93,'Rehabilitasyon' süreci neyi hedefler?,İşlevin geri kazanılmasını,
+05b7cadd-3d72-43a6-bb8a-6010824f6a98,bilim,asiri_basit,hayir,0.70,0.95,Bir maddenin ısıyı iletme özelliğine ne denir?,Isı iletkenliği,Cevap soru metnindeki ifadeyle neredeyse aynı.
+249bbf50-802f-4b6b-9fad-8a6c859b0f03,bilim,asiri_basit,hayir,0.55,0.93,'Eğik düzlem' hangi kolaylığı sağlar?,Gereken kuvveti azaltır,Eğik düzlemin işlevi genel kavram; ama bilgi gerektirir.
+c6a75e41-9f7a-4b0a-8e6d-b99a92f6ee45,bilim,asiri_basit,hayir,0.60,0.95,Priz ve fişte topraklama neyi önler?,Elektrik çarpmasını,Topraklamanın işlevi mantıkla bulunur.
+4091f596-c7cf-4224-927f-bf5028bc49ff,bilim,asiri_basit,hayir,0.75,0.97,'Jeotermal enerji' neye dayanır?,Yer altı ısısına,Jeo (yer) ve termal (ısı) sözcüklerinden cevap belli.
+33f4ef63-0c16-4b51-94ef-0211501df118,bilim,asiri_basit,hayir,0.60,0.95,Biyoçeşitliliğin azalmasının başlıca nedeni nedir?,Habitat kaybı,"Doğru şık açıkça en mantıklı, çeldiriciler saçma."
+001b9805-7f4e-4375-b17a-fb11fd8feacf,bilim,asiri_basit,hayir,0.55,0.95,'Lazer' ışığının özelliği nedir?,Tek dalga boylu ve düzenli,"Çeldiriciler saçma, doğru şık belli."
+2ba6c248-1364-45b9-95aa-3591dab696eb,bilim,asiri_basit,hayir,0.75,0.93,Bir ilacın prospektüsü ne içerir?,Kullanım bilgisi,"Çeldiriciler konu dışı, genel bilgiyle bulunur."
+77b2a150-a1d8-455e-9073-98b53a06f602,bilim,asiri_basit,hayir,0.70,0.90,'Rezonans' ses üretiminde ne sağlar?,Sesin güçlenmesini,Genel işlev sorusu.
+59a3ddcd-11df-402b-84b3-0a43b155c63f,bilim,asiri_basit,hayir,0.70,0.95,Lifli besinler öncelikle hangi sistemi destekler?,Sindirim,Lifli besin-sindirim ilişkisi mantıkla bulunur.
+798bf606-eb35-4be2-a248-a4adae19dc4b,bilim,asiri_basit,hayir,0.85,0.95,Plastiklerin doğada kalıcı olmasının sebebi nedir?,Zor çözünmeleri,Zor çözünme mantıkla belli.
+e8ceff2f-2022-4c08-80a4-b573f83e3f5b,bilim,asiri_basit,hayir,0.55,0.90,Siyah cisimler ışığa ne yapar?,Soğurur,
+4db1bf80-a857-4b43-8d1e-66835b73a3f4,bilim,asiri_basit,hayir,0.60,0.97,'Enzim' biyolojik olarak ne yapar?,Tepkimeyi hızlandırır,
+c6440598-77ca-4980-bdb5-7499c5d1f27c,bilim,asiri_basit,hayir,0.85,0.97,'Nanoteknoloji' hangi ölçekte çalışır?,Nanometre,Cevap 'nano' sözcüğünden belli.
+06aca1d5-6363-40c0-963f-cd70c88885e7,bilim,asiri_basit,hayir,0.70,0.90,'Manyetik kutup' ile 'coğrafi kutup' farkı nedir?,Konumları farklıdır,Fark sorusu mantıkla çözülür; diğer şıklar saçma.
+dd4dfff6-28e1-4131-99a4-fdbe96e73519,bilim,asiri_basit,hayir,0.80,0.93,Kontrollü deneyde kontrol grubunun amacı nedir?,Karşılaştırma sağlamak,Genel amaç sorusu; kontrol grubu adından karşılaştırma anlaşılıyor.
+1961e4b1-befa-45c4-a8b3-57af07cee6c4,bilim,asiri_basit,hayir,0.60,0.88,Hipotezin özelliği nedir?,Sınanabilir olması,
+cfc9dfcd-2d29-4619-bab6-d5731b2eac78,bilim,asiri_basit,hayir,0.70,0.97,Alerjiye yol açan maddelere ne denir?,Alerjen,"Alerjiye yol açan = alerjen, sözcük kendini cevaplıyor."
+368a4129-9942-4de2-a303-3f9245f73370,bilim,asiri_basit,hayir,0.60,0.90,Bitkilerde kök çürümesinin yaygın nedeni nedir?,Aşırı sulama,Genel mantıkla cevap belli; aşırı sulama açık en makul şık.
+05ac7c13-edb1-4186-a8ee-19b6348d776c,bilim,asiri_basit,hayir,0.60,0.95,Kontrol grubunun deneydeki işlevi nedir?,Karşılaştırma sağlamak,
+e79a6196-90f5-408c-a790-c8ed5184ae15,bilim,asiri_basit,hayir,0.55,0.93,Bir iletkenin direnci neye bağlıdır?,"Uzunluk, kesit ve cinsi",
+a93dd2ae-66c0-4f43-8404-e762cc91e912,bilim,asiri_basit,hayir,0.60,0.93,'Kılcal damar' hangi işlevi görür?,Doku ile madde alışverişi,İşlev sorusu; doğru şık en mantıklı olanı.
+418fd995-d443-4988-bdb3-dc74efa3d3da,bilim,asiri_basit,hayir,0.55,0.96,'Sismograf' ne kaydeder?,Yer sarsıntılarını,
+1e66253a-6413-4e80-ba1d-c02d5ddbc38f,bilim,asiri_basit,hayir,0.80,0.93,Mutasyonun evrimdeki rolü nedir?,Çeşitliliğe kaynak sağlamak,"Genel kavram sorusu; mantıklı şık belli, çeldiriciler saçma."
+89002c24-602b-43f8-949f-96fd644c79b7,bilim,asiri_basit,hayir,0.70,0.90,'Mineral' ile 'kayaç' arasındaki fark nedir?,Kayacın minerallerden oluşması,"Genel kavram sorusu; kayaç minerallerden oluşur, diğer şıklar konu dışı."
+0c11330b-fee2-4639-a403-6289a1f51dbb,bilim,asiri_basit,hayir,0.60,0.93,'Elektromıknatıs' neyle güçlendirilir?,Sarım sayısı ve akımla,"Çeldiriciler saçma, mantıkla bulunur."
+4658c691-f98b-4199-9bd0-8f0af251c3b9,bilim,asiri_basit,hayir,0.60,0.93,'Santrifüj' neye göre ayırır?,Yoğunluk farkına,
+e569f676-2005-4c51-a1e8-2d40d989a99a,bilim,asiri_basit,hayir,0.55,0.95,Yapay seçilim nedir?,İstenen özelliğin seçilerek üretilmesi,
+1acd0bb7-8ad3-4ca2-bf01-b76fab953568,bilim,asiri_basit,hayir,0.85,0.95,Biyoçeşitliliğin azalması neye yol açar?,Ekosistemin zayıflamasına,
+10c8ee06-6647-4b5a-8373-fb3df8ec2eec,bilim,asiri_basit,hayir,0.70,0.92,Bilimsel teori ne demektir?,Kanıtlarla desteklenmiş açıklama,"Genel kavram sorusu, doğru şık en mantıklı şık."
+f97bfb83-17db-43f5-b998-e4d8a9f0c4ed,bilim,asiri_basit,hayir,0.70,0.93,'Dişli çark' sistemlerinde ne aktarılır?,Hareket ve tork,Genel işlev sorusu; doğru şık belli.
+94341c14-b141-46c2-bd1d-c539c5cc0f5d,bilim,asiri_basit,hayir,0.70,0.90,Uzay giysisinin temel görevi nedir?,Basınç ve oksijen sağlamak,"Işlev sorusu; mantıkla bulunur, çeldiriciler saçma."
+65af8dd7-4c73-4f69-81b3-374e09d04941,bilim,asiri_basit,hayir,0.70,0.90,Doğal seçilim neye dayanır?,Uyum sağlayanın daha çok üremesine,"Genel kavram sorusu, doğru şık en mantıklı olanı."
+03d49497-044a-4a68-b9be-d12c313b1926,bilim,asiri_basit,hayir,0.85,0.80,'Yinelenebilirlik' neden önemlidir?,Sonucun doğrulanması için,"Genel kavram sorusu, mantıkla çözülür."
+ce0f611a-9a40-4971-9eb4-5586dd02238a,bilim,asiri_basit,hayir,0.55,0.95,'Basit makine' olarak kaldıraç ne sağlar?,Kuvvet kazancı,
+db24a0cf-37b3-4974-bc55-6afcd4d6f9f5,bilim,asiri_basit,hayir,0.50,0.85,Sivri uçlu cisimler neden daha kolay batar?,"Alan küçük, basınç büyük",Alan küçük basınç büyük cevabı; A ve B de kısmen savunulabilir ama C en tam.
+e03c8dfc-4627-4f78-b55a-9f5babf6cd0b,bilim,asiri_basit,hayir,0.65,0.95,'Teleskop türlerinden biri' hangisidir?,Yansıtmalı teleskop,Sorudaki 'teleskop' sözcüğü cevabı veriyor; diğer şıklar başka aletler.
+32e7b9ec-e751-4ad6-a1b4-3c3c5a43617e,bilim,asiri_basit,hayir,0.70,0.92,'Sera etkisi' neyle oluşur?,Isıyı tutan gazlarla,Cevap soruyu mantıkla çözülebilir; diğer şıklar konu dışı.
+86cd8ed2-00f2-4eb7-8493-c0ba67451f9d,bilim,asiri_basit,hayir,0.60,0.92,Bitki sulamada sabah saatleri neden tercih edilir?,Buharlaşma az olduğu için,
+dbc2cac6-fb39-46ac-82f5-f679737ca0ce,bilim,asiri_basit,hayir,0.70,0.90,'Bilimsel kuşkuculuk' neyi savunur?,Kanıt talep etmeyi,
+de544bf9-962c-4652-93f4-4c02618b44a4,bilim,asiri_basit,hayir,0.60,0.80,'Direnç' devrede ne yapar?,Akımı zorlaştırır,Genel işlev sorusu; direnç akıma karşı zorluk gösterir.
+f9a16bcd-f271-41f4-b5f0-285f2cbace6e,bilim,asiri_basit,hayir,0.70,0.97,Röntgen ışınlarını keşfeden bilim insanı kimdir?,Wilhelm Röntgen,Cevap soruda geçen ışının adından (Röntgen) belli.
+e9e6dc44-05e8-4b3b-8f21-5ef0e3d141b5,bilim,asiri_basit,hayir,0.55,0.95,'Elektromanyetik tayf' neyi sıralar?,Dalga boylarına göre ışımayı,
+5910a9a3-f541-4276-9bb6-a2f89f74e2fd,bilim,asiri_basit,hayir,0.60,0.95,Büyük Patlama kuramı neyi açıklar?,Evrenin genişleyerek oluşumunu,Çeldiriciler konu dışı; cevap neredeyse kendiliğinden belli.
+887b0c1b-a448-4187-9eb6-b1ae0fb26993,bilim,asiri_basit,hayir,0.60,0.95,Enzimlerin etkinliği hangi etkenlere duyarlıdır?,Sıcaklık ve pH'a,Çeldiriciler 'sadece' ifadeli ve saçma; doğru şık belli.
+7cfed935-3d59-4c8a-820b-a4d19e253c48,bilim,asiri_basit,hayir,0.70,0.95,'Simbiyoz' neyi tanımlar?,İki türün birlikte yaşamasını,
+57dc74ef-5105-4fae-be79-3f30862740d0,bilim,asiri_basit,hayir,0.60,0.97,Kara delik nedir?,Çekimi ışığı bile bırakmayan cisim,
+916b9324-63f3-490c-ae10-01d688c8ac36,bilim,asiri_basit,hayir,0.55,0.95,Transformatörün işlevi nedir?,Gerilim düzeyini değiştirmek,"İşlev sorusu, çeldiriciler saçma."
+f656c283-45d9-4bb7-ab33-15c72f63b04e,bilim,asiri_basit,hayir,0.50,0.95,'Kök hücre'nin özelliği nedir?,Farklı hücrelere dönüşebilmesi,
+7411408c-5396-4402-8edd-7615a1b8c24f,bilim,asiri_basit,hayir,0.80,0.95,'Merkezcil kuvvet' neyi sağlar?,Dairesel harekette merkeze çekmeyi,"Ad kendini açıklıyor, çeldiriciler saçma."
+79546bf7-6d3d-44a6-a704-1bdb9b86e8d3,bilim,asiri_basit,hayir,0.55,0.80,'Bakteri' ile 'virüs' arasındaki temel fark nedir?,Bakterinin hücre olması,
+a76f57b4-fd2f-4500-9da4-7245506b2e8c,bilim,asiri_basit,hayir,0.75,0.95,Kara deliğin en belirgin özelliği nedir?,Işığın bile kaçamayacağı çekim,Cevap soruda ima ediliyor; diğer şıklar belirgin biçimde zayıf.
+6b1391f6-3632-4a03-b673-e6f393eeaa50,bilim,asiri_basit,hayir,0.60,0.97,Sonar hangi ortamda kullanılır?,Su altında,
+19337dd8-5a55-4df8-b697-23b7386dc70a,bilim,asiri_basit,hayir,0.75,0.95,'Biyoyakıt' neyden elde edilir?,Biyokütleden,Biyo- öneki cevabı veriyor.
+95164a6b-0aab-4083-aeb4-768d4191c0c9,bilim,asiri_basit,hayir,0.70,0.95,Uçakta kabin basıncı neden ayarlanır?,Yolcuların rahat solunumu için,"Doğru şık en mantıklı, çeldiriciler konu dışı."
+5c13746a-d197-4509-9f56-db5e70198852,bilim,asiri_basit,hayir,0.75,0.95,Nükleer santrallerde enerji nasıl elde edilir?,Çekirdek tepkimesiyle,"Nükleer sözcüğü cevabı veriyor, çeldiriciler konu dışı."
+4cae0887-f7d9-41db-8d49-19b0a0bef4d6,bilim,asiri_basit,hayir,0.55,0.97,Parazitlik ilişkisinde ne olur?,"Biri yararlanır, diğeri zarar görür",
+2e24f474-4e53-46f7-855e-12c1b0ffdbe5,bilim,asiri_basit,hayir,0.60,0.93,'Refleks' hangi yolu izler?,Omurilik üzerinden hızlı yanıt,Refleks omurilik üzerinden gerçekleşir; soru genel kavram soruyor.
+ba691c22-df2a-4310-8265-7d5e2b574a02,bilim,asiri_basit,hayir,0.60,0.95,Kırık şüphesinde bölgeye ne uygulanır?,Atel ile sabitleme,Genel ilk yardım mantığı; çeldiriciler belirgin biçimde yanlış.
+fc85713b-68e6-484f-850e-fe499e25fa99,bilim,asiri_basit,hayir,0.60,0.95,Uluslararası Uzay İstasyonu'nun kısaltması nedir?,ISS,"Kısaltma ISS, soru metninden doğrudan çıkarılabilir."
+73f83b7e-b00a-4369-97f3-3dd1f0e2024d,bilim,asiri_basit,hayir,0.60,0.95,Genin tanımı nedir?,Kalıtsal bilgi taşıyan DNA parçası,Genel kavram tanımı soruluyor.
+3510be1d-2e52-4d7b-823c-a4233efa467d,bilim,asiri_basit,hayir,0.60,0.95,'İyonlaştırıcı radyasyon' neden zararlıdır?,Hücre ve DNA'ya zarar verdiği için,
+c7b75a5e-ef6c-42cd-babc-2c2ec0bc77a4,bilim,asiri_basit,hayir,0.60,0.95,Pankreasın sindirimdeki rolü nedir?,Enzim salgılamak,
+2e3c931e-bb2b-46dd-8817-5c384de6a428,bilim,asiri_basit,hayir,0.65,0.70,Termosun ısıyı korumasının sebebi nedir?,Yalıtım,
+f87d9f7d-5c39-4824-8ea3-8490b3003722,cografya,asiri_basit,hayir,0.65,0.93,Kültürel yayılma (difüzyon) ne demektir?,Kültür öğelerinin başka alanlara geçmesi,
+3784e2a8-c62a-40ac-9670-91d6fd28c89a,cografya,asiri_basit,hayir,0.55,0.98,Türkiye'de tuz üretiminde öne çıkan göl hangisidir?,Tuz Gölü,
+9edaa9f4-16fd-4559-ac92-a32d50ca4c99,cografya,asiri_basit,hayir,0.55,0.90,Çölleşmenin başlıca insan kaynaklı nedeni nedir?,Aşırı otlatma ve ormansızlaşma,
+ec948327-b6e6-41c5-a5eb-1d0af46cb2db,cografya,asiri_basit,hayir,0.60,0.92,Türkiye'de çeltik tarımının su ihtiyacı neden yüksektir?,Sürekli su altında yetişmesi,
+8e6c9296-d991-4d2f-a387-710ffb56ed5c,cografya,asiri_basit,hayir,0.80,0.93,Taşkın (sel) riskini azaltmanın en etkili yolu nedir?,Havzayı ağaçlandırmak,"Çeldiriciler saçma, mantıkla bulunur."
+69b80481-db9d-4dab-a931-e828d0f79c5a,cografya,asiri_basit,hayir,0.60,0.95,Kent ekonomisinde 'hizmet sektörü' hangi işleri kapsar?,"Ticaret, eğitim, sağlık, ulaşım","Kavramsal soru; çeldiriciler diğer sektörleri sayıyor, cevap belli."
+6c55cbee-1f85-4015-a18e-0d8b3dc678b8,cografya,asiri_basit,hayir,0.85,0.93,Türkiye'de sulak alanların azalmasının başlıca nedeni nedir?,Kurutma ve aşırı su çekimi,"Mantıkla çözülür, çeldiriciler konu dışı."
+813a3050-c7b0-44ad-b326-f9ef3b1949be,cografya,asiri_basit,hayir,0.60,0.92,Kişi başına gelirin yanıltıcı olabilmesinin nedeni nedir?,Gelir dağılımını göstermemesi,
+53363a41-b845-4717-bb59-14d088132d2a,cografya,asiri_basit,hayir,0.60,0.96,Paris İklim Anlaşması'nın temel hedefi nedir?,Küresel sıcaklık artışını sınırlamak,
+5000bb83-be64-4197-84a7-c98834c55d1f,cografya,asiri_basit,hayir,0.75,0.95,Rüzgâr santralleri için en uygun alanlar nerelerdir?,Sürekli rüzgâr alan kıyı ve tepeler,Genel kavram sorusu; çeldiriciler saçma.
+9e2e4ea8-01a4-4ebc-b4ac-99a4921b4dc9,cografya,asiri_basit,hayir,0.85,0.95,Yerel tohum kullanımının avantajı nedir?,Yöre koşullarına uyumlu olması,Genel avantaj sorusu; çeldiriciler abartılı.
+af156f9b-a3e3-415f-848b-563f91bb8957,cografya,asiri_basit,hayir,0.65,0.95,Heyelanın en önemli tetikleyicisi nedir?,Aşırı yağış ve eğim,
+e2ea396f-208b-4d55-a16d-8bf8efdbd300,cografya,asiri_basit,hayir,0.70,0.90,Bir ülkenin coğrafi konumunun stratejik olması ne demektir?,Ticaret ve askerî yolların kesişmesi,"Genel kavram sorusu; diğer şıklar konu dışı, mantıkla bulunur."
+92e5c116-cfef-49ce-aabd-6552afa68595,cografya,asiri_basit,hayir,0.60,0.90,Yeraltı suyunun beslenmesi öncelikle neyle olur?,Yağış sızmasıyla,
+20df9a12-79cd-4fb2-9ace-c45c8939445c,cografya,asiri_basit,hayir,0.85,0.93,Türkiye'de karaca ve yaban keçisi hangi ortamda yaşar?,Dağlık ve ormanlık alanlarda,Çeldiriciler saçma; mantıkla bulunur.
+ff79ee3c-048e-45cc-841f-fddc3eff2fc7,cografya,asiri_basit,hayir,0.55,0.90,İngilizcenin dünya çapında yaygınlaşmasının başlıca nedeni nedir?,Sömürgecilik ve ekonomik etki,"Gerekçeli genel soru, doğru şık belli."
+2d08ddd7-eb46-4511-a18f-304b606bb175,cografya,asiri_basit,hayir,0.70,0.95,Hortum (tornado) hangi koşulda oluşur?,Güçlü fırtına bulutlarında,Çeldiriciler konu dışı.
+f1b26765-610c-407c-820f-556d9b626c2f,cografya,asiri_basit,hayir,0.70,0.93,Aktif nüfus hangi yaş grubunu kapsar?,Çalışma çağındakileri,
+dfb5a225-65b2-49f9-8bd1-e218df46f6d8,cografya,asiri_basit,hayir,0.60,0.90,Antarktika kıtasında kalıcı yerleşim var mıdır?,Sadece araştırma istasyonları,Çeldiriciler mantıksız; cevap genel bilgiyle belli.
+2416da4a-05de-4d31-9c57-be0c5dfcc33d,cografya,asiri_basit,hayir,0.80,0.88,Boğazların Türkiye için önemi öncelikle nedir?,Jeopolitik ve ticari,Önem sorusu genel; diğer şıklar konu dışı.
+1db4254c-d3aa-4ad2-a97e-9381fdfddf2d,cografya,asiri_basit,hayir,0.85,0.95,Organize sanayi bölgelerinin amacı nedir?,Sanayiyi planlı bir alanda toplamak,"Amaç sorusu, ad cevabı veriyor (organize = planlı)."
+85ff6b89-bba7-4667-aa67-cee303f0cadd,cografya,asiri_basit,hayir,0.50,0.90,Türkiye'nin kuzeyi ile güneyi arasındaki iklim farkının nedeni nedir?,Enlem farkı ve dağ sıraları,
+1a27b68f-8244-458e-aff4-760e346e5fa7,cografya,asiri_basit,hayir,0.60,0.93,İstilacı tür ne demektir?,Yeni ortamda dengeyi bozan yabancı tür,
+2f2ae679-fde5-4f01-9c77-019eb1d802da,cografya,asiri_basit,hayir,0.80,0.90,Sulak alanların ekolojik önemi nedir?,Kuş ve canlı yaşam alanı,
+ceb720e3-82a7-40c7-a9cb-a83745ebcd1d,cografya,asiri_basit,hayir,0.60,0.93,Doğal denge kavramı neyi ifade eder?,Ekosistemdeki karşılıklı düzeni,Genel kavram sorusu; çeldiriciler konu dışı.
+05bb51b8-3879-49cb-b752-07525a9815ce,cografya,asiri_basit,hayir,0.60,0.88,Küresel ısınmadan en çok etkilenecek yerleşimler hangileridir?,Alçak kıyı yerleşmeleri,Deniz seviyesi yükselmesi mantıkla çıkarılabilir.
+57e4ce76-a3c0-4ce6-acc4-50ed3e9f7350,cografya,asiri_basit,hayir,0.60,0.95,Toprak koruma tedbirlerinden biri hangisidir?,Nöbetleşe ekim,"Diğer şıklar açıkça zararlı uygulamalar, mantıkla bulunur."
+62102760-115f-46f4-8c9c-338ca15f7ca1,cografya,asiri_basit,hayir,0.75,0.95,Kültür bölgesi kavramı neyi ifade eder?,Ortak kültürel özellik gösteren alanı,Cevap 'kültür' sözcüğünden belli.
+34ce6c01-e36e-4d95-b252-d5d9e8cd75e8,cografya,asiri_basit,hayir,0.55,0.85,Dağların yağış alan yamacına ne denir?,Rüzgâra bakan yamaç,
+b264fc3a-3c50-4c27-a9e5-5f1e42b68a01,cografya,asiri_basit,hayir,0.55,0.97,Kutup gecesinin görüldüğü bölge neresidir?,Kutup daireleri içi,Cevap neredeyse sözcükten belli (kutup gecesi → kutup daireleri).
+4a88beb3-3513-4901-aa50-3417c68d26ab,cografya,asiri_basit,hayir,0.70,0.97,Akarsu havzası kavramı neyi kapsar?,Bir akarsuyu besleyen tüm alanı,"Çeldiriciler 'yalnız' ile belli, kavram tanımı."
+4e2c83a3-2917-4058-ba3f-47af47bbe387,cografya,asiri_basit,hayir,0.60,0.80,İklim değişikliğinin tarımsal etkisi ne olabilir?,Ürün kuşaklarının kayması,"Genel kavram sorusu, çeldiriciler mantıksız."
+52bdf6be-948c-472b-9676-0af1fca21163,cografya,asiri_basit,hayir,0.60,0.90,İpek Yolu'nun coğrafi önemi neydi?,Doğu-batı ticaretini sağlaması,"Genel kavram sorusu, doğru şık en mantıklı olan."
+f1a9ed3d-1888-497e-be90-b478282fccb9,cografya,asiri_basit,hayir,0.75,0.80,Katı atık düzenli depolama alanının amacı nedir?,Çevreye sızıntıyı engellemek,Amaç sorusu; ancak geri dönüşüm ve enerji şıkları da savunulabilir olsa da asıl amaç sızıntıyı önlemek.
+29a6d334-aeb5-46be-854a-e8a8b67c6d4e,cografya,asiri_basit,hayir,0.60,0.88,Akarsuların rejimi düzensizse bunun nedeni nedir?,Yağışın düzensizliği,Cevap mantıkla çıkarılıyor.
+b439870b-6f3d-41f1-b6ba-f680ce14a477,cografya,asiri_basit,hayir,0.80,0.93,Bir sanayi tesisinin kurulacağı yer seçilirken en önemli etken nedir?,Hammadde ve ulaşım,"Çeldiriciler konu dışı, mantıkla bulunur."
+67a85f02-7b3c-4420-b983-a1f82fa52546,cografya,asiri_basit,hayir,0.85,0.90,Kent içinde sanayinin dışarı taşınmasının nedeni nedir?,Kirlilik ve trafik yükünü azaltmak,"Doğru şık açıkça en mantıklı olanıdır, çeldiriciler saçma."
+f98a1a22-758a-4deb-9c4a-a4b50d40cb1c,cografya,asiri_basit,hayir,0.65,0.95,Türkiye'de deniz turizmi en çok hangi kıyılarda gelişmiştir?,Ege ve Akdeniz,"Çeldiriciler zayıf, mantıkla bulunur."
+094b692a-fab7-4654-9468-787044f6d1c6,cografya,asiri_basit,hayir,0.85,0.85,Türkiye'de tarım alanlarının amaç dışı kullanımı neye yol açar?,Verimli toprak kaybına,Genel sonuç sorusu; mantıkla cevap belli.
+d950a9c8-7ff1-4298-b223-b53201722fc1,cografya,asiri_basit,hayir,0.75,0.92,Bir bölgede bitki örtüsünün tahrip edilmesi ilk olarak neyi artırır?,Erozyonu,"Mantıkla belli, çeldiriciler saçma."
+318488cc-44b4-4d6b-b707-258e6de0c5a8,cografya,asiri_basit,hayir,0.60,0.90,Harita ölçeği büyüdükçe ayrıntı nasıl değişir?,Artar,Ölçek büyüdükçe ayrıntı artar.
+5f732f4e-874e-40dc-91b2-afaee2fe133c,cografya,asiri_basit,hayir,0.60,0.85,Bir ülkede tarımın milli gelirdeki payının azalması neyi gösterir?,Sanayileşmeyi,Mantıkla çıkarılabilir; diğer şıklar zayıf.
+b3fb1aef-1c78-4da2-b6af-2b474d1aaa0b,cografya,asiri_basit,hayir,0.70,0.93,Türkiye'de hemen her tarım ürününün yetişebilmesinin nedeni nedir?,İklim ve yer şekli çeşitliliği,Genel kavram sorusu; doğru şık açıkça mantıklı olan.
+1f7b398f-44d6-4fcc-8541-ce7834e5c0a4,cografya,asiri_basit,hayir,0.75,0.92,Ekoturizm hangi ilkeyi esas alır?,Doğaya zarar vermeden gezmeyi,Ekoturizm sözcüğü ve çeldiriciler cevabı belli ediyor.
+0647aaeb-6428-4f6d-a2eb-8fa3185873a3,cografya,asiri_basit,hayir,0.85,0.93,Sanayide baca filtrelerinin işlevi nedir?,Kirleticileri tutmak,"İşlev sorusu, filtre mantığından belli."
+fe384c1b-9cfc-4eb2-9c7e-9397ba630066,cografya,asiri_basit,hayir,0.85,0.90,Bir yerleşimin ticaret merkezi olmasında en önemli etken nedir?,Ulaşım yollarının kesişmesi,"Genel kavram sorusu, doğru şık açıkça mantıklı olan."
+42a24b16-4bc7-4cba-b39f-e32f101e1045,cografya,asiri_basit,hayir,0.60,0.90,Japonya'nın deprem riskinin yüksek olmasının nedeni nedir?,Levha sınırında yer alması,
+403abc9d-94e3-4e03-92f2-45b84a5f6d1b,cografya,asiri_basit,hayir,0.85,0.93,Göreceli (özel) konum neyi ifade eder?,Çevresine göre konumunu,Cevap terimin anlamından belli.
+2c1a0ab1-8028-4a52-acc1-8f109dbddf18,cografya,asiri_basit,hayir,0.60,0.93,Bangladeş'in sık sel yaşamasının nedeni nedir?,Alçak delta ülkesi olması,
+753dae39-c259-4c0f-9abd-4a3b0220c3c4,cografya,asiri_basit,hayir,0.80,0.95,Deniz çöplerinin ekosisteme etkisi nedir?,Canlıların yutması ve dolanması,
+7f7ebd16-78e3-4d64-b4b1-2326cb46da9d,cografya,asiri_basit,hayir,0.75,0.93,Bir kentin 'nüfus çekim gücü' neye bağlıdır?,"İş, eğitim ve hizmet olanaklarına",
+4eeb5804-4468-4f58-a44d-a7fad986cbb5,cografya,asiri_basit,hayir,0.75,0.93,Bir kıyının turizme uygunluğunu belirleyen temel etken nedir?,İklim ve kıyı yapısı,
+35ecfff8-57c2-4d25-bd47-126cd6caa12e,cografya,asiri_basit,hayir,0.75,0.95,Rüzgâr perdesi (ağaç şeridi) hangi amaçla dikilir?,Rüzgâr erozyonunu azaltmak,Amaç sorusu; cevap mantıkla ve adından anlaşılıyor.
+345215c3-32b2-4798-8d91-e977fadb849c,cografya,asiri_basit,hayir,0.80,0.90,Amazon ormanlarının küresel önemi nedir?,Oksijen üretimi ve karbon tutumu,Genel kavram sorusu; doğru şık en mantıklı olanı.
+0dbaf040-bfa1-4aea-8239-966951c7452d,cografya,asiri_basit,hayir,0.70,0.95,Levha hareketleri neye yol açar?,Deprem ve volkanizma,Çeldiriciler konu dışı; doğru şık belli.
+6f813808-47f7-45da-a5bd-274c5b092da2,cografya,asiri_basit,hayir,0.80,0.85,Bir bölgede sanayinin kurulmasında en önemli etken nedir?,"Hammadde, enerji ve ulaşım",
+e75c4e29-ebaf-4616-95ea-29bc62a6f425,cografya,asiri_basit,hayir,0.75,0.90,Kişi başına düşen gelirin yüksekliği neyi gösterir?,Refah düzeyinin yüksekliğini,
+c712e199-2e5e-4d11-8060-133f8e99bee5,cografya,asiri_basit,hayir,0.70,0.90,Radar meteorolojide neyi ölçer?,Yağış yoğunluğu ve hareketini,
+4813e439-87e3-4c37-998b-de592c6d3c54,cografya,asiri_basit,hayir,0.60,0.95,Mülteci hareketleri hangi göç türüne girer?,Zorunlu göç,Mülteci hareketleri sözcüğün anlamından zorunlu göç olarak belli.
+ad15bf88-a34f-4283-b9fd-2a4a84cb06e5,cografya,asiri_basit,hayir,0.65,0.90,Nehir ağızlarında tuzluluğun düşmesinin nedeni nedir?,Tatlı su karışması,Cevap mantıkla bulunabilir.
+9bbc3c46-6804-4b3f-b813-91c90e8c1f23,cografya,asiri_basit,hayir,0.80,0.97,Rölyef (yer şekli) terimi neyi ifade eder?,Yüzeyin engebe durumunu,Genel kavram sorusu; çeldiriciler konu dışı.
+e4b4211d-515f-4a48-98eb-bbc8d3bbc62f,cografya,asiri_basit,hayir,0.85,0.93,İlk kentlerin nehir kıyısında kurulmasının nedeni nedir?,Su ve verimli toprak,Mantıkla çıkarılabilir; çeldiriciler zayıf.
+19b62228-2a73-4f7a-821e-500411f6646a,cografya,asiri_basit,hayir,0.60,0.95,Çanakkale'nin stratejik önemi nedir?,Boğaz geçişini denetlemesi,"Genel stratejik önem sorusu, çeldiriciler konu dışı."
+fe71d6a2-5d33-4b79-8f27-e3c64e776ea0,cografya,asiri_basit,hayir,0.85,0.95,Kentleşme oranı neyi gösterir?,Kentte yaşayan nüfusun payını,Terimin anlamından belli.
+182e0533-c1d8-4556-aa87-497c46c27219,cografya,asiri_basit,hayir,0.70,0.95,Türkiye'nin biyoçeşitlilik bakımından zengin olmasının nedeni nedir?,Farklı iklim ve yer şekilleri,"Genel neden sorusu, doğru şık belli."
+373043c2-323b-4173-9fe9-0edd0114f22b,cografya,asiri_basit,hayir,0.60,0.85,Türkiye'de tarımsal üretimi sınırlayan başlıca doğal etken nedir?,Su yetersizliği,
+19923f04-e4ab-4428-84bc-5c6f287f1c25,cografya,asiri_basit,hayir,0.80,0.95,Toprak kirliliğinin başlıca kaynağı nedir?,Sanayi atığı ve tarım kimyasalları,
+3095e0e5-f63e-4929-9296-2e724d172a26,cografya,asiri_basit,hayir,0.60,0.90,Yıllık sıcaklık farkı nasıl bulunur?,En sıcak ve en soğuk ay farkı,
+da0507cd-b938-4950-8e46-65a94b03c566,cografya,asiri_basit,hayir,0.70,0.85,Bir bölgede sanayinin gelişmesi nüfusu nasıl etkiler?,Göçle nüfusu artırır,"Mantıkla çözülür, çeldiriciler zayıf."
+348db667-3b01-482b-8300-e809bee532cc,cografya,asiri_basit,hayir,0.75,0.92,Şehirlerde gecekondulaşmanın temel nedeni nedir?,Plansız hızlı göç,"Çeldiriciler saçma, cevap mantıkla belli."
+2d498cc0-cf0c-4268-a32e-5080d2be27c3,cografya,asiri_basit,hayir,0.70,0.85,Anadolu'nun kuzeyindeki dağ sırasına ne ad verilir?,Kuzey Anadolu Dağları,Cevap soruda ima ediliyor (kuzey).
+ccbb18af-b8bc-410c-a4d4-76837ad1fddc,cografya,asiri_basit,hayir,0.70,0.95,Bir ülkede doğurganlık hızının düşmesi neye yol açar?,Nüfusun yaşlanmasına,Mantıkla çözülür.
+f812d3e2-f458-4879-b491-17af5ebcc3ed,cografya,asiri_basit,hayir,0.70,0.97,Dere yataklarına yapılaşmanın sonucu nedir?,Sel riskinin artması,Cevap mantıkla belli.
+989da90f-8c60-4523-b2dd-2d3a38a51d77,cografya,asiri_basit,hayir,0.65,0.93,Kutup çölü kavramı neyi ifade eder?,Yağışı çok az olan soğuk bölge,Cevap kavramın adından belli.
+33c59a4d-de03-4177-8f7e-0ec2bf072ed7,cografya,asiri_basit,hayir,0.85,0.90,Toplu taşımada raylı sistemin avantajı nedir?,Yüksek kapasite ve düzenli sefer,"Genel avantaj sorusu; doğru şık belli, çeldiriciler zayıf."
+a84e19d1-8a22-431b-aac3-472baa4f3a35,cografya,asiri_basit,hayir,0.70,0.95,Yağış rejimi düzensiz olan bir bölgede tarımın riski nedir?,Verimin yıldan yıla değişmesi,
+5f688b73-856c-4c49-86fd-244c94ea4b52,cografya,asiri_basit,hayir,0.80,0.90,Bakının (yamaç yönünün) sıcaklığa etkisi nedir?,Güneşe bakan yamaç daha sıcaktır,Cevap mantıkla belli; genel kavram soruluyor.
+47050ea6-6ead-448b-9601-eb074ec8c25e,cografya,asiri_basit,hayir,0.60,0.85,Kutup buzullarının erimesinin denizcilikteki olası sonucu nedir?,Kuzey deniz yollarının açılması,
+e2f73848-8992-4cf6-8dc2-2b3704554b07,cografya,asiri_basit,hayir,0.75,0.95,Arı popülasyonunun azalmasının tarımsal sonucu nedir?,Ürün veriminin düşmesi,Cevap mantıkla belli; çeldiriciler anlamsız.
+4164202b-68a7-4c31-9af3-9cc16762fe8a,cografya,asiri_basit,hayir,0.50,0.90,Aşırı gübrelemenin çevresel sonucu nedir?,Su kaynaklarının kirlenmesi,
+a24674e8-5037-40d8-9b0c-42c1c33b80e4,cografya,asiri_basit,hayir,0.55,0.95,Finlandiya hangi özelliğiyle anılır?,Binlerce göle sahip olması,
+9a29bd63-4005-4ef3-a035-009a927168a9,cografya,asiri_basit,hayir,0.70,0.93,Tundra topraklarının tarıma elverişsiz olmasının nedeni nedir?,Donmuş ve verimsiz olması,"Çeldiriciler mantıksız, doğru şık belli."
+49572315-c484-4afe-80df-24443fb8747c,cografya,asiri_basit,hayir,0.50,0.93,Lityumun teknolojideki önemi nedir?,Pil üretiminde kullanılması,
+00c4c96b-0c19-4cc4-b76d-255f3aaeb720,cografya,asiri_basit,hayir,0.75,0.90,Doğal sit alanı ile arkeolojik sit alanı arasındaki fark nedir?,Korunan değerin türü,"Adlardan cevap belli: doğal ve arkeolojik, korunan değerin türünü belirtir."
+65143b5c-1bbd-4206-b76f-8a46858ebc6b,cografya,asiri_basit,hayir,0.70,0.90,Küçükbaş hayvancılık hangi arazi tipinde yaygındır?,Bozkır ve dağlık meralar,Çeldiriciler elenir; bozkır ve dağ meraları belli.
+c1828904-6df5-4f15-902e-73578bdcb70c,cografya,asiri_basit,hayir,0.75,0.95,Bir bölgenin doğal bitki örtüsünü bozan insan etkinliği hangisidir?,Aşırı otlatma,"Diğer şıklar koruyucu etkinlikler, mantıkla çözülür."
+71513d2f-3e9d-48ab-9ab4-9d57a5a45527,cografya,asiri_basit,hayir,0.85,0.90,Fay hattı üzerindeki yerleşimlerde alınan temel önlem nedir?,Depreme dayanıklı yapı,
+3888fead-7af7-401e-bdff-884b7ab5539a,cografya,asiri_basit,hayir,0.60,0.85,Sıcaklık ortalamasının hesabında hangi veriler kullanılır?,Günlük en yüksek ve en düşük,"Çeldiriciler konu dışı, doğru şık belli."
+6b782834-3dea-452f-b355-15621e31da20,cografya,asiri_basit,hayir,0.70,0.85,Kentleşmenin en önemli nedeni nedir?,İş olanaklarının kentte toplanması,Genel kavram sorusu; doğru şık en mantıklı olanı.
+7c3cf6b1-f100-4b37-9f47-fad65b14ff95,cografya,asiri_basit,hayir,0.80,0.95,Sera gazı salımı en yüksek sektörlerden biri hangisidir?,Enerji üretimi,"Çeldiriciler konu dışı, doğru şık mantıkla bulunur."
+00bb37ff-c040-41ac-bdd7-bc5fb3dabaf8,cografya,asiri_basit,hayir,0.70,0.90,Organik tarımın temel ilkesi nedir?,Kimyasal girdi kullanmamak,Genel ilke sorusu; 'organik' sözcüğünden ve şıklardan belli.
+65e5cb79-9d13-4fb9-aee3-6bbcc16a6831,cografya,asiri_basit,hayir,0.85,0.92,Deniz kirliliğinin en yaygın nedeni nedir?,Atık ve petrol deşarjı,"Mantıkla bulunur, çeldiriciler doğal olaylar."
+13881cd2-6944-4bf8-b04b-97b2aa4f2940,cografya,asiri_basit,hayir,0.70,0.93,Süveyş ve Panama kanallarının ortak sonucu nedir?,Deniz ticaretini kısaltması,
+29211df6-9b2b-4058-b234-0ae0b50ce41a,cografya,asiri_basit,hayir,0.75,0.95,Kompost tesisinin çıktısı nedir?,Toprak iyileştirici organik gübre,Kompost sözcüğü ve çeldiricilerin konu dışı olması cevabı belli ediyor.
+83daa2b8-fcd3-4b85-bff1-eda1c378f322,cografya,asiri_basit,hayir,0.60,0.90,Akış haritası neyi gösterir?,Hareket ve yönelimleri,Kavramsal soru; akış haritası adından hareketi gösterdiği anlaşılıyor.
+7bbd4253-27b8-41a5-a80f-0eebb4ca2f75,cografya,asiri_basit,hayir,0.85,0.95,Deprem yönetmeliğinin amacı nedir?,Yapıların dayanımını güvenceye almak,"Amaç sorusu genel; doğru şık mantıkla belli, diğerleri saçma."
+542b1393-e0fb-4fbd-b959-a2167d44fce0,cografya,asiri_basit,hayir,0.75,0.90,Kentleşme oranının artması neyi gösterir?,Kent nüfusunun payının artışını,Kentleşme oranı tanımı gereği kent nüfus payını gösterir.
+bca46d45-a6e6-49f5-811e-8f7ae22abd34,cografya,asiri_basit,hayir,0.70,0.95,Tropikal siklonlar hangi kuşakta oluşur?,Tropikal denizler,"Adında tropikal geçiyor, cevap belli."
+856faf98-9751-4a84-b11b-a8a1e42992e9,cografya,asiri_basit,hayir,0.80,0.92,Küreselleşmenin coğrafi sonucu nedir?,Mekânsal etkileşimin artması,"Diğer şıklar saçma, doğru şık belli."
+a373cd4f-7b42-48d4-bb56-d854410e272f,cografya,asiri_basit,hayir,0.80,0.90,Işık kirliliği hangi alanı olumsuz etkiler?,Gökyüzü gözlemi ve gece canlıları,Işık kirliliği ile gökyüzü ilişkisi sözcükten belli; diğer şıklar konu dışı.
+1f373012-9eef-43b4-bea7-47af256f77e3,cografya,asiri_basit,hayir,0.70,0.90,Bir ülkenin 'jeopolitik konumu' neyi anlatır?,Siyasi ve stratejik önemini,
+ce509665-cdfc-4cfc-bdbb-5a9e7cb11413,cografya,asiri_basit,hayir,0.55,0.90,Dağların denize bakan yamaçları neden daha çok yağış alır?,Nemli hava yükselir,Neden sorusu; doğru şık belli ve diğerleri zayıf.
+2439b88d-c0fc-4f7f-9ea5-3d3fcc354e1d,cografya,asiri_basit,hayir,0.80,0.93,Türkiye'nin dağlık ve engebeli olmasının ulaşıma etkisi nedir?,Yol maliyetini artırması,"Doğru şık mantıkla belli, çeldiriciler saçma."
+6af8e6ac-a0eb-449a-97ae-f3b60fb0b0d7,cografya,asiri_basit,hayir,0.55,0.97,İzlanda hangi doğal olayla anılır?,Volkan ve jeotermal kaynaklar,Çeldiriciler konu dışı.
+ecd7fe9a-8f33-485a-8f85-02138d7c4f6e,cografya,asiri_basit,hayir,0.60,0.95,Ekvator çevresinde alçak basıncın nedeni nedir?,Havanın ısınıp yükselmesi,
+82a3adab-ec5a-4c59-b404-7c97097d83bb,cografya,asiri_basit,hayir,0.55,0.90,Turunçgillerin yetişme koşulu nedir?,Kışı ılık geçen kıyı iklimi,
+23111079-2f23-4bb8-8a70-79781a283bb8,cografya,asiri_basit,hayir,0.80,0.93,Sıcak su akıntılarının kıyılara etkisi nedir?,Sıcaklığı artırır,
+69013ce9-0fdf-4ddc-b593-13bf8c93d9ad,cografya,asiri_basit,hayir,0.85,0.97,Anız yakmanın zararı nedir?,Toprak canlılarını yok etmesi,"Çeldiriciler saçma, mantıkla bulunur."
+0c65cbdc-5362-4c38-91ef-f88bb4826ef8,cografya,asiri_basit,hayir,0.75,0.95,Türkiye'nin transit ticarette avantajı nereden gelir?,Asya-Avrupa arasında olmasından,
+b965ecec-9fde-4194-94ae-209c86436912,cografya,asiri_basit,hayir,0.50,0.70,Karayolu ulaşımının Türkiye'de yaygınlaşmasının nedeni nedir?,Kapıdan kapıya taşıma esnekliği,
+19827296-6c53-46ab-b87a-ca3a15ab4b2e,cografya,asiri_basit,hayir,0.70,0.85,Bir bölgede tarım ürünü çeşitliliğinin fazla olması neyi gösterir?,İklim çeşitliliğini,Genel kavram sorusu; mantıkla çözülür.
+1b7b9e23-42cd-4310-90a9-e5d8aec2a683,cografya,asiri_basit,hayir,0.55,0.93,Bir gölün kapalı havzada olması ne anlama gelir?,Suyunun denize ulaşmaması,
+475f467f-0caa-4b50-bac1-88469e2f60b2,cografya,asiri_basit,hayir,0.75,0.97,Sismoloji bilimi neyi inceler?,Depremleri,"Sismoloji sözcüğü depremle ilgili; ad cevabı veriyor, genel kavram sorusu."
+1517ae79-9e8c-494c-8be1-1518779b947c,cografya,asiri_basit,hayir,0.60,0.95,Bebek ölüm hızı hangi alanı yansıtır?,Sağlık ve refah düzeyini,Genel kavram sorusu; bebek ölümü ile sağlık ilişkisi mantıkla bulunur.
+5636c63e-7835-4382-b382-fe9d3ef2207f,cografya,asiri_basit,hayir,0.80,0.95,Drenaj sisteminin tarımsal işlevi nedir?,Fazla suyu uzaklaştırmak,İşlev sorusu; drenaj sözcüğünün anlamından cevap belli.
+ac75001c-2942-4a20-9c40-b278df8b0c4d,cografya,asiri_basit,hayir,0.75,0.93,Süveyş Kanalı'nın kapanması neyi etkiler?,Deniz ticaret yollarını,"Kanal bir deniz yoludur, cevap mantıkla belli."
+0ae03ee4-e36a-4f88-8f60-e4734b44f39d,cografya,asiri_basit,hayir,0.60,0.90,Yayla yerleşmesi hangi ekonomik faaliyete bağlıdır?,Hayvancılık,"Yayla ve hayvancılık ilişkisi genel bilgi, mantıkla bulunur."
+edbde11c-5c3b-449d-97cb-52dfa73674c9,cografya,asiri_basit,hayir,0.60,0.96,Bir bölgenin 'kıtasal iklime' sahip olması ne demektir?,"Denizden uzak, sıcaklık farkı yüksek","Tanım sorusu, tek şık makul."
+1d276d81-230c-4057-ac59-275192c438d2,cografya,asiri_basit,hayir,0.60,0.95,Gelişmiş ülkelerde tarımın milli gelirdeki payı nasıldır?,Düşüktür,Çeldiriciler saçma; genel kavram sorusu.
+a59ae69d-5582-4901-a908-62c4107de40a,cografya,asiri_basit,hayir,0.75,0.95,Sulama suyunda tuzluluk artarsa ne olur?,Bitki gelişimi engellenir,"Mantıkla bulunur, çeldiriciler saçma."
+24c0a5e4-5af0-4699-a49d-280f342d2f12,cografya,asiri_basit,hayir,0.75,0.85,Türkiye'de tarımsal üretimin yıllara göre değişmesinin başlıca nedeni nedir?,Yağış düzensizliği,"Mantıkla çıkarılabilir, tarımın yağışa bağlılığı en belirgin şık."
+0f013327-3cd2-490b-a42d-c9ddc8cd1dfa,cografya,asiri_basit,hayir,0.75,0.85,Partikül madde (PM) neden sağlık riski taşır?,Solunumla derinlere ulaşması,"Genel kavram sorusu, çeldiriciler saçma."
+c4a95033-2b07-4a46-9f14-2a7f82060dba,cografya,asiri_basit,hayir,0.70,0.90,Panama Kanalı'nın ekonomik önemi nedir?,Deniz yolunu kısaltması,"Önemi genel bir kavram, doğru şık belli."
+35a17da9-3d22-4754-8f5a-8cdd84f3b092,cografya,asiri_basit,hayir,0.85,0.85,Bir bölgede yer adlarının kökeni neyi gösterebilir?,Geçmiş yerleşim ve kültürleri,"Cevap mantıkla belli, genel kavram."
+4a2f0b65-c3d0-45fa-9efc-86ecf7058a0d,cografya,asiri_basit,hayir,0.70,0.88,Hava kirliliğinin kışın artmasının nedeni nedir?,Isınma amaçlı yakıt kullanımı,Mantıkla çözülür.
+1468e93c-5f23-4c32-b6d3-f532d0477e7f,cografya,asiri_basit,hayir,0.60,0.90,Avustralya'nın iç kesimlerinin genel özelliği nedir?,Kurak ve çöl,
+4bc32fc6-0a55-4918-9596-5e08bd51eb02,cografya,asiri_basit,hayir,0.60,0.95,Boru hattı taşımacılığı hangi ürünlerde kullanılır?,Petrol ve doğal gaz,
+b80585e7-e0b4-4c4a-8d59-f7e8dd1b1b46,cografya,asiri_basit,hayir,0.70,0.90,Güneş panellerinin verimini en çok ne etkiler?,Işınım süresi ve açısı,
+e296d402-db0b-4e28-979d-04622eb1b1e2,cografya,asiri_basit,hayir,0.85,0.97,Nükleer santralin çalışma ilkesi nedir?,Çekirdek bölünmesiyle ısı üretmek,Genel ilke sorusu; nükleer sözcüğünden ve saçma çeldiricilerden cevap belli.
+0ec8b9c1-bd7b-4834-ba89-908c0f3f743e,cografya,asiri_basit,hayir,0.85,0.90,Kirlilik yükünün taşınmasında en etkili ortam hangisidir?,Su ve hava,Mantıkla çözülür; çeldiriciler katı ortamlar.
+50980c01-29f9-4128-9e63-f0443f77dfae,cografya,asiri_basit,hayir,0.75,0.93,Maden suyunun oluşumu neye bağlıdır?,Suyun mineralli katmanlardan geçmesine,"Cevap 'maden' sözcüğünden çıkarılabilir, diğer şıklar alakasız."
+6c270c8f-42df-4515-ae41-55603920bd3e,cografya,asiri_basit,hayir,0.70,0.92,Buzulların aşındırmasıyla oluşan U şekilli vadiye ne denir?,Buzul vadisi,Cevap soruda geçiyor (buzulların... buzul vadisi).
+56d52f6b-82cc-405e-92a6-d9f0c0349425,cografya,asiri_basit,hayir,0.60,0.95,Sibirya'da kışların çok sert geçmesinin nedeni nedir?,Denizden uzaklık ve yüksek enlem,
+0a739a91-9ad4-438e-add6-c9f3b753eb4a,cografya,asiri_basit,hayir,0.85,0.95,Bir kentte hava kalitesi izleme istasyonları neyi ölçer?,Kirletici madde derişimlerini,"Genel işlev sorusu, cevap sözcükten belli."
+6da0acf5-63b0-4e05-89bd-80f5efcc5b3a,cografya,asiri_basit,hayir,0.80,0.92,Nüfusun kıyı bölgelerinde yoğunlaşmasının nedeni nedir?,"Ulaşım, ticaret ve ılıman iklim",Genel kavram sorusu; doğru şık açıkça en mantıklı olanı.
+8ee713b3-c82d-4340-9129-415e68bdc0b1,cografya,asiri_basit,hayir,0.85,0.95,Bir ülkenin coğrafi konumu iklimini nasıl etkiler?,Enlem ve denizellik yoluyla,Çeldiriciler saçma; cevap mantıkla bulunur.
+8ba478cd-5e61-4eaa-a1b9-f740a6421d61,cografya,asiri_basit,hayir,0.55,0.96,Delta ovası nasıl oluşur?,Akarsu alüvyonu denizde biriktirir,
+894c4137-bacf-4347-a451-7c028077319a,cografya,asiri_basit,hayir,0.70,0.85,Kentsel nüfusun kırsal nüfusu geçmesi neyi gösterir?,Ekonomik yapının değiştiğini,
+1d315c34-74b6-43c4-a4aa-5ec477e4953f,cografya,asiri_basit,hayir,0.85,0.95,Av yasağı dönemlerinin gerekçesi nedir?,Üreme dönemini korumak,"Genel gerekçe sorusu; çeldiriciler saçma, doğru şık mantıkla belli."
+ffb71d7a-e2f4-4b49-9abc-ab7848d47f07,cografya,asiri_basit,hayir,0.80,0.85,Sanayileşmekte olan ülkelerin ortak özelliği nedir?,Kentleşme ve göçün hızlanması,"Genel kavram sorusu, çeldiriciler saçma."
+6b748573-8748-411b-914e-a67cdf5e0890,cografya,asiri_basit,hayir,0.70,0.93,Doğal sınır kavramına örnek hangisidir?,Nehir veya dağ,Doğal sınır kavramı sözcükten belli; çeldiriciler yapay.
+d98051ec-8a87-4f48-84e8-edd8df1e7860,cografya,asiri_basit,hayir,0.75,0.90,Bir havzada baraj yapımının olumsuz etkisi ne olabilir?,Yerleşim alanlarının su altında kalması,'Olumsuz etki' sorusunda tek olumsuz şık belli.
+0596f062-6311-41d4-9a7e-ab1a239ee7f8,cografya,asiri_basit,hayir,0.70,0.96,Erozyonu artıran başlıca insan etkinliği nedir?,Bitki örtüsünün yok edilmesi,Diğer şıklar erozyonu azaltan uygulamalar olduğundan mantıkla bulunur.
+02952b2a-be23-49d2-98f0-525d580fe750,cografya,asiri_basit,hayir,0.60,0.95,Biyokütle enerjisi neyden elde edilir?,Organik atıklardan,Biyo sözcüğü ve şıklardan cevap belli.
+648d4892-0929-4a5a-9d4c-021101635944,cografya,asiri_basit,hayir,0.85,0.90,Aşırı turizmin (overtourism) sonucu nedir?,Doğal ve kültürel dokunun yıpranması,"Genel kavram sorusu; diğer şıklar saçma, cevap mantıkla bulunuyor."
+2c0d8712-80b5-4a74-99c8-ca54419a3078,cografya,asiri_basit,hayir,0.75,0.88,Bir ülkede tarımda çalışan nüfus oranının düşmesi neyi gösterir?,Sanayi ve hizmetin geliştiğini,Mantıkla çıkarılabilir genel yorum sorusu.
+926a006d-6731-42fc-bf92-6d70da8009e2,cografya,asiri_basit,hayir,0.60,0.90,Sulama olanağının artması tarımda neyi sağlar?,Üretimin iklime bağımlılığını azaltır,
+925c46d7-0e92-40d0-a2e8-5123846edf32,cografya,asiri_basit,hayir,0.75,0.92,Denizlerdeki akıntıların balıkçılığa etkisi nedir?,Besin taşıyarak balık toplar,"Mantıkla çıkarılabilir, çeldiriciler saçma."
+cd43ebf9-2762-4eae-b265-30f9f775864a,cografya,asiri_basit,hayir,0.75,0.97,Mikroplastik kirliliğinin ana kaynaklarından biri nedir?,Parçalanan plastik atıklar,"Cevap mikroplastik sözcüğünden belli, çeldiriciler saçma."
+652f67b6-287e-441c-9816-bca4e9c67850,edebiyat,asiri_basit,hayir,0.55,0.93,'Parodi' ne yapar?,Bir yapıtı güldürüyle taklit eder,
+5518bfa3-515d-4b5b-bbb7-008f86e6a411,edebiyat,asiri_basit,hayir,0.85,0.90,'Dünya edebiyatında epik' ne anlatır?,Kahramanlık öyküsünü,Genel kavram sorusu; epik sözcüğünden ve şıklardan cevap belli.
+3efa7586-0f66-4138-9bdc-0d3b9628b905,edebiyat,asiri_basit,hayir,0.60,0.95,"Türk edebiyatında ""Cumhuriyet Dönemi"" ne zaman başlar?",1923 sonrası,
+bb85d3cd-0935-4ebf-940e-f353fbd54945,edebiyat,asiri_basit,hayir,0.50,0.60,Bir eserde karşıt karakter için kullanılan terim nedir?,Karşı güç,Terim antagonist; 'karşı güç' kabul edilebilir ama şıklar belirsiz.
+30f19073-4d16-4dbb-a96a-129fcff65e0a,edebiyat,asiri_basit,hayir,0.70,0.92,'Realizm' neyi esas alır?,Gözleme dayalı gerçeği,
+74070648-a64e-445d-86cf-cad9e340e867,edebiyat,asiri_basit,hayir,0.80,0.90,Uzak yerlerin anlatıldığı yazı türü hangisidir?,Gezi yazısı,Gezi yazısı adı sorudaki tanımdan belli.
+5993f505-f11a-48e7-b01c-f69d8d7576a4,edebiyat,asiri_basit,hayir,0.85,0.90,'Öyküleme' hangi ögeyi öne çıkarır?,Olayların akışını,Öyküleme sözcüğü olayların akışını ima ediyor; kavramsal soru.
+22b837ec-c1be-4294-baf4-dcb6d1c765ef,edebiyat,asiri_basit,hayir,0.80,0.95,'Yergi' (hiciv) neyi hedefler?,Eleştirip alaya almayı,Yergi sözcüğünün anlamı cevabı veriyor.
+5254758b-30b6-4af2-a5b1-3a3ad45126a8,edebiyat,asiri_basit,hayir,0.85,0.93,'Satirik şiir' hangi tonu taşır?,Alaycı ve eleştirel,"Satirik sözcüğü cevabı veriyor, çeldiriciler zayıf."
+5943e4de-4694-45f7-90e5-10089a2ba5c0,edebiyat,asiri_basit,hayir,0.85,0.95,Geriye dönüş tekniği neyi sağlar?,Geçmiş olayları aktarmayı,Terimin adı cevabı veriyor.
+325b167e-0c79-4edf-add9-f204c80ca9a0,edebiyat,asiri_basit,hayir,0.60,0.90,'Fıkra' (köşe yazısı) neyi ele alır?,Güncel bir konuyu,
+2c6e4f28-582c-4b6c-9f39-6d08052b77e3,edebiyat,asiri_basit,hayir,0.75,0.95,'Edebiyat tarihi' neyi inceler?,Yapıt ve akımların gelişimini,
+6d6bcdd7-d585-47f0-af67-76920de04cdf,edebiyat,asiri_basit,hayir,0.80,0.90,Anlatıda 'zaman' öğesi neyi belirler?,Olayların akış düzenini,"Genel kavram sorusu, çeldiriciler saçma."
+fd59272a-37d0-4ef8-92e2-4d963a4d7ffa,edebiyat,asiri_basit,hayir,0.55,0.60,'Mektup' türü hangi özelliğiyle belgeye dönüşür?,Gerçek kişilere yazılmasıyla,Soru muğlak ama işaretli şık yaygın kabul gören mantıklı cevap.
+29c9d916-a528-4efa-951a-8b19e662c5ba,edebiyat,asiri_basit,hayir,0.60,0.90,Distopya neyi anlatır?,Kötüye giden kurgusal düzeni,
+cdd6e995-a985-4bc6-bcea-5c92c7c304c6,edebiyat,asiri_basit,hayir,0.60,0.70,'Özetleme' anlatıda ne sağlar?,Zamanın hızlanmasını,Özetleme zamanı hızlandırır; genel kavram sorusu.
+dbf6fb2f-7655-4125-a169-10ddcd6f9e0e,edebiyat,asiri_basit,hayir,0.85,0.90,Peri masalları hangi kitap türüne girer?,Masal,"Soru 'masal' sözcüğünü zaten içeriyor, cevap kendini veriyor."
+f6238189-5f73-493b-a7be-9d81bc58b411,edebiyat,asiri_basit,hayir,0.75,0.95,'Öznel anlatım' hangi ögeyi taşır?,Kişisel değerlendirmeyi,Öznel sözcüğünün anlamından cevap çıkıyor.
+49aa11c4-9c6c-454c-b1a7-924773abe70a,edebiyat,asiri_basit,hayir,0.60,0.93,Makale türünün temel amacı nedir?,Bir savı kanıtlarla savunmak,"Genel kavram sorusu, amaç soruluyor."
+1609a497-0d94-425b-8d6a-4c01bdde486c,edebiyat,asiri_basit,hayir,0.60,0.95,'Öyküleme' neyi aktarır?,Olayların akışını,Öykülemenin anlamından belli.
+c1abd35c-a212-43e9-8898-8fd8c2a65427,edebiyat,asiri_basit,hayir,0.60,0.90,'Şarkı' nazım biçimi hangi özelliğiyle bilinir?,Besteyle söylenmek üzere yazılmasıyla,"Şarkı sözcüğünün anlamından cevap belli, diğer şıklar saçma."
+3dd440db-241f-483f-bc4b-be7c7b99bfb7,edebiyat,asiri_basit,hayir,0.60,0.90,'Röportaj' türünde ne öne çıkar?,Yerinde gözlem ve görüşme,Röportaj sözcüğünden ve çeldiricilerden çıkarılabilir.
+6c586999-7ace-4418-ab0e-f8bcc8b87f8e,edebiyat,asiri_basit,hayir,0.55,0.95,'İntihal' ne demektir?,Başkasının eserini kendine mal etme,Sözlük anlamı soruluyor; çeldiriciler belirgin biçimde farklı.
+3fe21f0b-3aee-4cd4-94ce-ea1d93f407b4,edebiyat,asiri_basit,hayir,0.60,0.90,Aşık Veysel'in şiirlerinde öne çıkan tema nedir?,Doğa ve insan sevgisi,
+4f51c2c1-a355-4441-a001-967797d44128,edebiyat,asiri_basit,hayir,0.75,0.92,'Anlatıcı' birinci kişide kim olur?,Öykünün içindeki ben,"Birinci kişi anlatıcı 'ben' demektir, soru kendini cevaplıyor."
+b21fea60-535d-4924-8cee-8813825e2108,edebiyat,asiri_basit,hayir,0.75,0.90,'İroni' hangi etkiyi üretir?,Söylenenin tersini sezdirmeyi,"Kavramın tanımı soruluyor, genel bir kavram sorusu."
+4fd2a0e2-d573-46f1-8197-a776f4a3c548,edebiyat,asiri_basit,hayir,0.60,0.93,'Dil devrimi' neyi hedefledi?,Türkçenin sadeleşmesini,
+7926c5c9-3253-4cf9-bd0e-a6e4a85f867d,edebiyat,asiri_basit,hayir,0.70,0.90,Yalın anlatımın özelliği nedir?,Süssüz ve açık olması,Yalın sözcüğünün anlamından cevap belli.
+1419f208-bd81-4d3a-8813-190f3f793705,edebiyat,asiri_basit,hayir,0.60,0.85,'Mektup' türünde temel öge nedir?,Belirli bir muhataba seslenme,
+ebdcb4d8-c0e9-44dc-9fe4-fac83a936988,edebiyat,asiri_basit,hayir,0.75,0.95,'Doruk noktası' öyküde nerededir?,Çatışmanın zirvesinde,Jenerik ve fragman öyküyle ilgisiz çeldiriciler.
+0c437230-5bfb-45a4-9f5b-7ebeaea5cde0,edebiyat,asiri_basit,hayir,0.70,0.93,'Parodi' bir metni nasıl ele alır?,Gülünçleştirerek taklit eder,
+1addc4ea-5038-4c71-a3d0-e7221019e306,edebiyat,asiri_basit,hayir,0.55,0.95,Tezat sanatı neye dayanır?,Karşıt kavramların bir arada kullanımına,
+08421ab9-d93b-407f-81c5-71559c73edcb,edebiyat,asiri_basit,hayir,0.70,0.97,'Hece ölçüsü' neyi sayar?,Dizedeki hece sayısını,Hece ölçüsü adından hece sayısını saydığı anlaşılıyor.
+f5b0bbad-7298-4738-b0d9-e489ae8290f0,edebiyat,asiri_basit,hayir,0.55,0.97,'Odysseia' destanı kimin yolculuğunu anlatır?,Odysseus,"Odysseia adı Odysseus'u çağrıştırıyor, ama olgu sorusu."
+bff54e93-a44d-452f-bc0f-66f1320f4a37,edebiyat,asiri_basit,hayir,0.85,0.95,Destanların ortak özelliği nedir?,Olağanüstü olaylar ve kahramanlık,"Genel kavram sorusu, çeldiriciler saçma."
+9a13c26b-eccc-45b4-94e1-579ce87664b1,edebiyat,asiri_basit,hayir,0.60,0.80,Eserleri değerlendiren yazıya ne ad verilir?,Eleştiri,Eserleri değerlendiren yazı eleştiridir; sözcüğün anlamından belli.
+1a3193c3-653d-4c1b-871e-6e563e899cf0,edebiyat,asiri_basit,hayir,0.80,0.85,'Olay örgüsü' neyi düzenler?,Olayların birbirine bağlanışını,Olay örgüsü kavramının anlamı cevabı veriyor.
+606c1556-90e3-4670-a270-9796a36ba99c,edebiyat,asiri_basit,hayir,0.60,0.90,Röportaj türünün ayırt edici yanı nedir?,Yerinde araştırma ve görüşmeye dayanması,
+06f1bfc3-dc9f-48ed-aae7-7b800e4b5600,edebiyat,asiri_basit,hayir,0.65,0.90,'Günce' (günlük) türünde zaman nasıldır?,Tarih düşülerek yazılır,Günlüğün tarih düşülerek yazıldığı sözcük anlamından ve mantıktan belli.
+1e50c3ed-d2c9-4792-9683-15da79f2c50b,edebiyat,asiri_basit,hayir,0.60,0.85,'Tartışma' anlatım biçiminde ne yapılır?,Karşı görüş çürütülür,
+4ce5c44b-c931-4cd7-a4df-3e7c78310681,edebiyat,asiri_basit,hayir,0.80,0.90,'Simge' nasıl işler?,Somut bir şeyle soyutu anlatarak,"Genel kavram sorusu, çeldiriciler konu dışı."
+7927b9a5-08e7-4838-9185-56322788840b,edebiyat,asiri_basit,hayir,0.80,0.93,Dipnot ne için kullanılır?,Açıklama ve kaynak vermek,Genel kavram sorusu; en mantıklı şık belli.
+6a4f30ba-1ff0-433c-9f6d-d9cccd51e181,edebiyat,asiri_basit,hayir,0.80,0.88,'Roman' ile 'öykü' arasındaki temel fark nedir?,Kapsam ve genişlik,Genel kavram sorusu; en genel şık doğru.
+4fbf9145-07ff-4952-9b1c-96202b1dce2d,edebiyat,asiri_basit,hayir,0.60,0.90,Romanda 'bakış açısı' neyi belirler?,Olayın kimin gözünden anlatıldığını,Bakış açısı sözcüğünün anlamı cevabı veriyor.
+7fc43861-00af-4db2-a2e5-ee5b6b06a0f0,edebiyat,asiri_basit,hayir,0.75,0.90,'Roman' türünün temel özelliği nedir?,Uzun kurmaca anlatı,"Genel kavram sorusu, cevap en mantıklı şık."
+58336523-4d2b-4af8-bd3b-9692d449b783,edebiyat,asiri_basit,hayir,0.65,0.85,'Sayısal veri kullanımı' anlatıma ne katar?,İnandırıcılık,
+e0b26851-32e2-481f-ab7c-3985f8a671e2,edebiyat,asiri_basit,hayir,0.80,0.95,'Ön ipucu' (foreshadowing) ne sağlar?,İleride olacağın sezdirilmesi,Cevap kavramın anlamından belli.
+468a8ce0-263d-444d-ae0f-cd02a5a89ab6,edebiyat,asiri_basit,hayir,0.70,0.90,Öyküleyici anlatımda ne öne çıkar?,Olay akışı,Öyküleyici anlatım sözcüğünden olay akışı çıkarımı yapılabilir.
+19705903-1f6e-4465-96da-f1111ce7b8d4,edebiyat,asiri_basit,hayir,0.60,0.93,'Epik şiir' neyi anlatır?,Kahramanlık ve büyük olayları,
+1b1540b9-81df-465f-ae70-ee0f72f617f6,edebiyat,asiri_basit,hayir,0.85,0.97,'Gezi yazısı' neyi aktarır?,Görülen yerleri ve izlenimleri,Gezi yazısı adı cevabı veriyor; çeldiriciler konu dışı.
+346764e0-1d36-4374-8bff-e7af9165c206,edebiyat,asiri_basit,hayir,0.55,0.95,Bir metinde intihal ne demektir?,Başkasının eserini sahiplenme,Kavram tanımı; diğer şıklar açıkça meşru işlemler.
+4a15672e-c6ad-4515-a12a-6f96b5b4faaa,edebiyat,asiri_basit,hayir,0.80,0.95,Peter Pan'ın baş düşmanı Kaptan Hook'un elinin yerine taktığı şey nedir?,Kanca,Soruda 'Hook' (kanca) adı cevabı veriyor.
+194c3f90-b88d-477e-8c03-572b6b44d17a,edebiyat,asiri_basit,hayir,0.70,0.80,'Çözülme' bölümü ne yapar?,Sonrasını bağlar,"Genel kavram sorusu, mantıkla bulunur."
+5fddf345-48bd-4bd8-a826-d0b661ddca0c,edebiyat,asiri_basit,hayir,0.70,0.90,Şiirde 'imge' ne işlev görür?,Zihinde görüntü uyandırır,Genel kavram sorusu; çeldiriciler şiirin başka unsurları.
+b0825ed1-6a36-4f83-9b51-49ee1389b95a,edebiyat,asiri_basit,hayir,0.60,0.90,Tiyatroda 'trajedi' türünün temel özelliği nedir?,Acıklı sonla biten ciddi olay,"Genel kavram sorusu, çeldiriciler belirgin biçimde yanlış."
+de0baf05-dae5-47d1-b53c-23a592e670f5,edebiyat,asiri_basit,hayir,0.70,0.93,'Dipnot' metinde ne sağlar?,Açıklama ve kaynak,"Genel işlev sorusu, çeldiriciler saçma."
+d49905d2-0ab3-4f08-9241-38dd87f3b1d2,edebiyat,asiri_basit,hayir,0.70,0.93,Teşbih (benzetme) sanatı neye dayanır?,İki şeyin ortak yönle eşlenmesine,"Kavram tanımı, doğru şık en açıklayıcı şık."
+7ca77966-9d4e-4e89-bc57-f3bc9f7ee6ad,edebiyat,asiri_basit,hayir,0.85,0.90,'Diyalog' metinde ne sağlar?,Karakterleri konuşturarak canlılık,Genel kavram sorusu; diyalog sözcüğü zaten konuşturmayı çağrıştırıyor.
+1850ca7a-d4e2-4c77-99c0-c8155ec45d30,edebiyat,asiri_basit,hayir,0.85,0.92,'Distopik roman' neyi anlatır?,Karanlık bir gelecek düzenini,'Distopik' sözcüğü zaten karanlık düzeni ima ediyor; çeldiriciler zayıf.
+b2f4faa7-dcf4-4b63-a4ec-ada154ede5c1,edebiyat,asiri_basit,hayir,0.60,0.92,'Romantizm' neye öncelik verir?,Duygu ve hayale,
+7a3f1074-4c43-4f1e-9ad8-521c2da4435d,edebiyat,asiri_basit,hayir,0.75,0.95,Kitapları basıp dağıtan kuruma ne ad verilir?,Yayınevi,Cevap sözcüğün anlamından belli.
+51228e97-8a3b-4006-9691-a7f0f36e2332,edebiyat,asiri_basit,hayir,0.85,0.95,Bir eserde çatışma neyi sağlar?,Olay örgüsünü ilerletmeyi,"Genel kavram sorusu, doğru şık en mantıklı olan."
+4a010c85-5142-4269-bd3b-989b9d69bbaa,edebiyat,asiri_basit,hayir,0.70,0.75,Anlatım bozukluğunun yaygın nedeni nedir?,Gereksiz sözcük kullanımı,"Genel kavram sorusu, mantıkla bulunur."
+852446fd-8f8d-411e-a9f0-bfe5f5ee2798,edebiyat,asiri_basit,hayir,0.75,0.90,'Genç yetişkin edebiyatı' neyi işler?,Ergenlik ve geçiş dönemini,Genç yetişkin ifadesinden cevap belli.
+32d394c3-91de-4e1e-9ab1-3daab1915417,edebiyat,asiri_basit,hayir,0.85,0.95,Eleştiri türünün ölçütü ne olmalıdır?,Nesnel değerlendirme,"Diğer şıklar saçma, mantıkla bulunur."
+392c00bc-430f-4960-830e-938c4a1e4ed3,edebiyat,asiri_basit,hayir,0.60,0.93,'İlahi bakış açısı' anlatıcıya ne verir?,Her şeyi bilme,İlahi sözcüğü cevabı ele veriyor.
+494dd22e-9ebe-4d4c-b573-0d8793109ef3,edebiyat,asiri_basit,hayir,0.85,0.85,'Makale' neyi amaçlar?,Bir savı kanıtlamayı,"Genel kavram sorusu; makale savı kanıtlamayı amaçlar, mantıkla bulunur."
+092bd8f2-d747-4bf2-92b2-463fdc5fcb03,edebiyat,asiri_basit,hayir,0.80,0.95,'Süreli yayın' neyi ifade eder?,Belirli aralıkla çıkan yayını,Cevap sözcüğün anlamından belli (süreli = belirli aralıkla).
+4352798f-7210-489d-8e91-0c0bc34747e5,edebiyat,asiri_basit,hayir,0.60,0.93,'İç monolog' nedir?,Kişinin kendi kendine düşünmesi,
+3d17539e-35c2-41c6-b161-8b9f56663287,edebiyat,asiri_basit,hayir,0.60,0.90,Destan türünün özelliği nedir?,Olağanüstü kahramanları anlatması,"Genel kavram sorusu, doğru şık en mantıklı olan."
+1f69b167-ee82-4220-b213-a349794ddbb2,edebiyat,asiri_basit,hayir,0.55,0.85,'Efsane' neye dayandırılır?,Bir yer veya olaya bağlanan anlatıya,
+4e020cae-c573-4946-83af-ed055e5308ec,edebiyat,asiri_basit,hayir,0.70,0.90,Günlük türünün ayırt edici özelliği nedir?,Tarih atılarak yazılması,Günlüğün tanımından cevap belli; genel kavram sorusu.
+75fb4ac6-a00f-4b42-8b4e-f4d88d74d7af,genel_kultur,asiri_basit,hayir,0.60,0.90,Sürdürülebilir kalkınma ne demektir?,Gelecek kuşakları gözeten kalkınma,
+3678296e-6c59-4105-af2a-8dd956cb59c9,genel_kultur,asiri_basit,hayir,0.80,0.93,Arz ve talep neyi belirler?,Fiyatı,"Genel kavram sorusu, cevap mantıkla bulunur."
+57049c97-4293-4be7-9ce1-c6802a08891a,genel_kultur,asiri_basit,hayir,0.75,0.90,Bir ülkenin turizm gelirinin artması dış ticarette neye katkı yapar?,Döviz gelirine,Cevap mantıkla belli.
+3f098067-9e2e-4860-954d-9c15d28c7f8e,genel_kultur,asiri_basit,hayir,0.55,0.90,Trafik kazasında yaralı ne zaman hareket ettirilmelidir?,Hayati tehlike varsa,
+28703b1f-9a60-4b0f-bb7c-e6e8ade5372c,genel_kultur,asiri_basit,hayir,0.60,0.97,Döviz kuru neyi ifade eder?,İki para biriminin değişim oranı,
+7a939b14-07eb-46db-b559-958d0817f910,genel_kultur,asiri_basit,hayir,0.70,0.85,Ölçü kaşığı ile çay kaşığı farkı nedir?,Standart hacim,
+7353ebcb-2a41-4b61-9b1a-c65e14d0b45e,genel_kultur,asiri_basit,hayir,0.60,0.85,Küresel tedarik zinciri kavramı neyi anlatır?,Üretimin ülkelere yayılmış olmasını,Kavram tanımı; cevap 'küresel' sözcüğünden çıkarılabilir.
+0fa20dcf-2c94-4757-b084-6563eb735399,genel_kultur,asiri_basit,hayir,0.60,0.97,Bütçe açığı ne demektir?,Giderin gelirden fazla olması,
+9bd2c45a-1378-49be-b4cc-8db5cf52204a,genel_kultur,asiri_basit,hayir,0.60,0.90,"Bir ürünün ""son tüketim"" ile ""tavsiye edilen tüketim"" tarihi farkı nedir?","Biri güvenlik, diğeri kalite",Kavramsal soru; en mantıklı şık belli.
+bc7cc6a4-7457-40c3-a1ae-dda4ab97ae9b,genel_kultur,asiri_basit,hayir,0.55,0.90,Kültürel asimilasyon neyi anlatır?,Bir grubun baskın kültüre karışması,
+4ce84939-f716-47fa-8085-e0adba0d5d25,genel_kultur,asiri_basit,hayir,0.75,0.97,Enflasyonun alım gücüne etkisi nedir?,Azaltır,
+006a05a9-e876-49eb-b453-a2936fa42063,genel_kultur,asiri_basit,hayir,0.85,0.90,Bir ürünün garanti süresi neyi ifade eder?,Ücretsiz onarım süresini,Günlük mantıkla cevaplanabilen genel kavram sorusu.
+7c069fe2-493b-47f7-87c5-9937af31e0d5,genel_kultur,asiri_basit,hayir,0.60,0.95,Atık pillerin ayrı toplanmasının nedeni nedir?,Ağır metal kirliliğini önlemek,
+731e635b-14cf-450b-81db-7d16ac28484d,genel_kultur,asiri_basit,hayir,0.75,0.90,Noterin temel görevi nedir?,İşlemleri resmen onaylamak,"Genel işlev sorusu, cevap mantıkla bulunur."
+f3b88c09-78e6-4c05-a9d7-b1ba800a8ca5,genel_kultur,asiri_basit,hayir,0.55,0.97,İltica hakkı neyi ifade eder?,Zulümden kaçana sığınma hakkı,
+4fdd0b03-dea7-4b28-ae07-d1e1bc20e6d7,genel_kultur,asiri_basit,hayir,0.55,0.95,Denizcilikte 'rota' ne anlama gelir?,İzlenecek yol doğrultusu,
+d0fd01e9-b8fe-4d16-b891-49e91232e067,genel_kultur,asiri_basit,hayir,0.60,0.93,Veto yetkisi neyi ifade eder?,Bir kararı geri çevirme,
+af6d6517-ebde-4c4c-a230-99d9d5153a79,genel_kultur,asiri_basit,hayir,0.65,0.90,Buharda pişirmenin avantajı nedir?,Besin değerini korur,"Doğru şık en mantıklı şık, çeldiriciler konu dışı."
+74d479ca-40b6-4ed4-be7a-070442a3ab41,genel_kultur,asiri_basit,hayir,0.85,0.95,Kamuoyu kavramı neyi ifade eder?,Toplumun ortak eğilimini,Genel kavram sorusu; çeldiriciler konu dışı.
+3950009f-6beb-43c2-9618-ee98e0334b8e,genel_kultur,asiri_basit,hayir,0.60,0.95,TÜBİTAK hangi alanda çalışır?,Bilimsel araştırma,
+1d3b005f-ed81-4084-bd4e-dfbb7d85d06c,genel_kultur,asiri_basit,hayir,0.75,0.95,Asansörün güvenliğini artıran fren sistemi neyi önler?,Serbest düşüşü,"Asansör freni düşmeyi önler, mantıkla bulunur."
+63843f4c-11df-4a3f-bec0-015e29aa8418,genel_kultur,asiri_basit,hayir,0.85,0.97,Bilgi edinme hakkı neyi sağlar?,Kamu bilgilerine erişebilmeyi,"Kamu bilgilerine erişim, kavramın adından belli; çeldiriciler anlamsız."
+69a9af3f-6fb9-4533-b2f6-53aa1c4c2e28,genel_kultur,asiri_basit,hayir,0.60,0.97,UNESCO hangi alanlarda çalışan bir kuruluştur?,"Eğitim, bilim ve kültür","UNESCO adının açılımı (eğitim, bilim, kültür) cevabı veriyor."
+37cc75ff-1ddc-4775-b7b0-8de0737a98f3,genel_kultur,asiri_basit,hayir,0.60,0.95,Organik tarımda neyin kullanımı sınırlıdır?,Sentetik kimyasallar,"Organik kavramı cevabı sezdiriyor, genel kavram sorusu."
+90c9e1e4-6e1e-4ed7-8bcf-ac5fa1d98677,genel_kultur,asiri_basit,hayir,0.70,0.93,Lastik basıncının düşük olması neye yol açar?,Yakıt tüketiminin artmasına,
+2a7bddb9-676c-4354-9e87-54d5404a8a22,genel_kultur,asiri_basit,hayir,0.70,0.95,"Kredi kartında ""limit"" ne anlama gelir?",Harcanabilecek üst sınır,"Kavram sorusu, doğru şık açıkça en mantıklısı."
+7a64238c-4992-4d3d-960d-971894a894d8,genel_kultur,asiri_basit,hayir,0.75,0.90,Marka bilinirliği neyi ölçer?,Tüketicinin markayı tanıma düzeyini,Sorudaki 'bilinirlik' sözcüğü cevabı (tanıma düzeyi) veriyor.
+30f8fd5d-dd12-41a4-9b9f-d0560bca068d,genel_kultur,asiri_basit,hayir,0.55,0.90,Havalimanlarında uçakları yönlendiren birim hangisidir?,Kule,
+5dfa93f7-b6a1-4c50-9cd5-a9169b1ec35a,genel_kultur,asiri_basit,hayir,0.55,0.90,Bankada vadeli hesabın vadesiz hesaptan farkı nedir?,Belirli süre bekletilir,
+40096801-3d31-4f8c-8172-31152035b610,genel_kultur,asiri_basit,hayir,0.60,0.90,Kefil ne yapar?,Borcu garanti eder,Kavram sorusu; kefilin anlamı sözcükten ve mantıkla belli.
+087eaaa4-df37-4ffa-ac0d-057df8f25820,genel_kultur,asiri_basit,hayir,0.85,0.95,Sigortanın atmasının yaygın nedeni nedir?,Aşırı yüklenme,"Mantıkla bulunur, diğer şıklar konu dışı."
+9cfdb289-0159-40de-9d37-47dc3e33a0aa,genel_kultur,asiri_basit,hayir,0.55,0.85,Garanti belgesi neyi güvence altına alır?,Belirli süre onarım ve değişim hakkını,Genel kavram sorusu; garanti belgesinin işlevi soruluyor.
+4c183ad8-7c62-4079-9f07-f27111082b30,genel_kultur,asiri_basit,hayir,0.60,0.95,Bir işletmenin gelir ve giderlerini kaydeden dal hangisidir?,Muhasebe,
+d510f133-4085-4f96-bad4-cab62d189ebe,genel_kultur,asiri_basit,hayir,0.65,0.93,Yılbaşında evlerde süslenen ağaç türü hangisidir?,Çam,
+7bc21bcf-dcf3-4c3b-b957-056e90e6a268,genel_kultur,asiri_basit,hayir,0.70,0.70,Bisiklet yollarının kentsel yararı nedir?,Emisyon ve trafiği azaltması,"Genel kavram sorusu; ancak gürültü azaltma da savunulabilir, yine de emisyon/trafik asıl yarar."
+2452e982-4681-48a0-9c4d-72c78ae9787d,genel_kultur,asiri_basit,hayir,0.75,0.80,'Terim sözlüğü' kime yöneliktir?,Belirli alan uzmanlarına,Genel kavram sorusu; sözcük anlamından çıkarılabilir.
+f1181a9a-25f8-4bda-9c9c-9123012d0748,genel_kultur,asiri_basit,hayir,0.80,0.93,'Kalkınma planı' neyi düzenler?,Ekonomik hedef ve yatırımları,Genel kavram sorusu; çeldiriciler konu dışı.
+b48cb8b2-4345-4611-bce3-c15113c3c888,genel_kultur,asiri_basit,hayir,0.70,0.97,Miras hukuku neyi düzenler?,Ölen kişinin mal paylaşımını,"Miras sözcüğünden cevap belli, çeldiriciler konu dışı."
+27255261-dd1f-4d0d-b63b-bf3cdc50aa48,genel_kultur,asiri_basit,hayir,0.55,0.60,Kumaşın çekmesini önlemek için ne yapılır?,Uygun sıcaklıkta yıkamak,Şıklar belirsiz; ama uygun sıcaklık en yaygın cevap.
+60416d3a-7e97-458f-a90b-712f43e208c9,genel_kultur,asiri_basit,hayir,0.60,0.93,Patent neyi korur?,Buluşu,
+45828b01-4479-4773-b87e-1e7575070940,genel_kultur,asiri_basit,hayir,0.65,0.90,Emeklilik primi hangi kuruma ödenir?,Sosyal güvenlik kurumuna,
+0a46d4aa-37a1-4752-af2f-1c95796ad80e,genel_kultur,asiri_basit,hayir,0.85,0.85,Sıfır atık yaklaşımının amacı nedir?,Atığı en aza indirmek,
+abea9f65-6ade-428a-8350-d97133e254a6,genel_kultur,asiri_basit,hayir,0.60,0.70,Bir ülkenin sanayi ürünü ihracatının artması neyi gösterir?,Katma değerin yükseldiğini,Genel çıkarım sorusu; ham madde ihracatı da artabilir ama katma değer en mantıklısı.
+5c85adfb-ef3c-4c81-b979-431d31e96f60,genel_kultur,asiri_basit,hayir,0.60,0.95,'Planlı ekonomi' hangi ilkeye dayanır?,Merkezî üretim planına,Planlı ekonomi sözcüğünden cevap belli.
+4ec64789-8fd9-43bb-be51-7ba5d8a17842,genel_kultur,asiri_basit,hayir,0.70,0.97,Beyaz eşyada enerji sınıfı neyi gösterir?,Enerji verimliliğini,Enerji sınıfı sözcüğü cevabı zaten ele veriyor.
+964e4e8a-fd8c-4712-a5bb-a3b5f3df4640,genel_kultur,asiri_basit,hayir,0.80,0.85,Monopoly'de oyuncular neyi alıp satarak zengin olmaya çalışır?,Mülk,Monopoly mülk alıp satma oyunudur; cevap belli.
+6028eaa9-a8a4-449e-88c4-191c6f4d29cd,genel_kultur,asiri_basit,hayir,0.55,0.95,Üniter devlet yapısının özelliği nedir?,Tek merkezden yönetim,Üniter sözcüğü tek merkezi ima ediyor.
+709ee1e5-1e6b-4183-8268-dc66aedc3e56,muzik,asiri_basit,hayir,0.85,0.97,'Ses kontrolü' (soundcheck) ne zaman yapılır?,Konser öncesi,"Sözcüğün anlamından (ses kontrolü, öncesinde yapılır) belli."
+a46445a1-73ac-459b-b920-8fc1d50a946a,muzik,asiri_basit,hayir,0.60,0.95,'Punk' müziğin öne çıkan tavrı nedir?,Sade ve başkaldıran ses,
+2703ec68-28cb-406c-bf1f-3015e690babc,muzik,asiri_basit,hayir,0.75,0.90,'Vokal harmonisi' ne yapar?,Ana ezgiyi başka seslerle destekler,"Genel kavram, çeldiriciler zayıf."
+00bc1c71-13ae-4968-960f-3cca953aa033,muzik,asiri_basit,hayir,0.55,0.93,Elvis Presley'in ünlü şarkısı 'Jailhouse Rock' neyi anlatır?,Hapishane partisini,Şarkı adındaki 'Jailhouse' hapishaneyi ima ediyor.
+3ddc82d2-fa7b-43ea-8073-84576bb85ca4,muzik,asiri_basit,hayir,0.60,0.95,'Mızıka' (armonika) nasıl çalınır?,Nefesle,
+9c922b1b-488c-40b6-b7f9-634ba807bb90,muzik,asiri_basit,hayir,0.55,0.85,Piyanoda pedalın işlevi nedir?,Sesi uzatmak veya kısmak,
+3ac586b5-5543-4cfd-83a5-6ca1eb043701,muzik,asiri_basit,hayir,0.60,0.98,Metallica hangi müzik türüyle anılır?,Metal,
+b7c2208f-bcb4-4f43-846c-9a66a7077b78,muzik,asiri_basit,hayir,0.80,0.85,Vokal 'ikinci ses' (back vokal) ne yapar?,Ana sese eşlik eder,"Back vokal adından belli, ana sese eşlik eder."
+e0a25f0f-c69a-4c59-99a7-6db8d927f7c3,muzik,asiri_basit,hayir,0.60,0.93,'İlahi' hangi tür bir eserdir?,Dinî içerikli ezgi,Tür tanımı sözcük anlamından ve şıklardan belli.
+89604e24-2308-4e49-b8f3-5c7732cb0c66,muzik,asiri_basit,hayir,0.60,0.97,'Müslüm Baba' lakabıyla bilinen arabesk sanatçı kimdir?,Müslüm Gürses,Cevap lakapta (Müslüm) geçiyor.
+65ccdb32-acbc-4a96-9185-303790d7c9d2,muzik,asiri_basit,hayir,0.80,0.90,Konser salonlarında akustik tasarımın amacı nedir?,Sesin dengeli yayılmasını sağlamak,Akustik sözcüğü cevabı veriyor.
+c555fab8-b373-4cd6-bff7-83dc4c44141b,muzik,asiri_basit,hayir,0.85,0.97,Rapçi Snoop Dogg'un adındaki hayvan hangisidir?,Köpek,"Dogg sözcüğü köpek demek, cevap adın içinde."
+868160b4-dfd9-4a0d-a15a-62b1ad314433,muzik,asiri_basit,hayir,0.70,0.95,Konçerto neyi öne çıkarır?,Solo çalgıyı,Genel kavram sorusu; solo çalgı en mantıklı şık.
+11e7644c-5e6f-490f-bff4-ced62b56ec69,muzik,asiri_basit,hayir,0.70,0.93,'Nakarat' şarkıda ne işlev görür?,Yinelenerek akılda kalır,Genel işlev sorusu; mantıkla çözülür.
+18fb47a0-777a-4917-ba5b-2ae96d3ea2e8,muzik,asiri_basit,hayir,0.70,0.92,'Akustik bilimi' müzikte neyi açıklar?,Sesin fiziksel davranışını,Akustik sözcüğünden ve çeldiricilerden cevap belli.
+0d9c21d4-5737-44f4-9f1f-54a9371fbc6d,muzik,asiri_basit,hayir,0.80,0.93,Orkestra şefinin bagetle verdiği temel bilgi nedir?,Tempo ve giriş işaretleri,Genel işlev sorusu; çeldiriciler konu dışı.
+1c074a31-593c-4dcd-9371-df3a5fc38b9d,muzik,asiri_basit,hayir,0.85,0.90,'Ritim çalışması' neyi geliştirir?,Zamanlama duygusunu,"Ritim zamanlamayla ilgili, genel kavram."
+02cd1ca5-2b1c-480e-88f1-231b5f172476,muzik,asiri_basit,hayir,0.60,0.90,"Müzikte ""armoni"" nedir?",Seslerin uyumlu kullanımı,
+035a7aed-083f-4316-92c0-1b787a800c4e,muzik,asiri_basit,hayir,0.80,0.90,'Orkestra şefi' temel olarak neyi sağlar?,Bütünlük ve yorum birliğini,"Genel işlev sorusu; çeldiriciler konu dışı, cevap mantıkla belli."
+3bccbbc7-8451-4712-9a88-c129817b1bfc,muzik,asiri_basit,hayir,0.60,0.97,Mikrofona şarkı söyleyen gruptaki ana şarkıcıya ne ad verilir?,Solist,Soru metni şarkı söyleyen kişiyi tarif ediyor.
+49921498-fd21-4dbb-bc34-c05bca0c0312,muzik,asiri_basit,hayir,0.85,0.95,'Elektronik dans müziği' neyi merkeze alır?,Sentetik ritim ve döngüyü,Adın kendisi cevabı veriyor (elektronik = sentetik).
+23390c18-b7ca-44e7-a7ac-19f2ed8b266e,muzik,asiri_basit,hayir,0.60,0.93,'Akor' nasıl oluşur?,Aynı anda duyulan üç veya daha çok sesle,
+de53970b-51fa-412b-b1fe-7f232c6c8271,muzik,asiri_basit,hayir,0.55,0.93,Bir davul takımında en büyük davul hangisidir?,Bas davul,
+d090ef66-ff42-46df-8705-aacd465f2b88,muzik,asiri_basit,hayir,0.55,0.90,Bir albümde 'single' ne anlama gelir?,Tanıtım için öne çıkarılan tek parça,"Single sözcüğü tek parça anlamına geliyor, cevap belli."
+02ad7346-4305-4cdd-8ef5-b6aad9fe8e56,muzik,asiri_basit,hayir,0.80,0.97,Konservatuvarın işlevi nedir?,Müzik ve sahne sanatı eğitimi,Genel işlev sorusu; çeldiriciler konu dışı.
+601406cd-36bb-48b5-abe6-39324130ba07,muzik,asiri_basit,hayir,0.75,0.95,Canlı albüm neyi içerir?,Konser kaydını,Canlı kelimesi cevabı veriyor: konser kaydı.
+6d39dfb1-f5e1-41c6-8e24-0686c7a52fc3,muzik,asiri_basit,hayir,0.75,0.95,Elektro gitarda ses nasıl güçlendirilir?,Amfi ile,
+93022673-6d0e-4606-b2d5-4a9cd685fbd8,muzik,asiri_basit,hayir,0.55,0.85,Bir müzik eserinin ilk bölümüne ne ad verilir?,Giriş,İlk bölüm için giriş belirgin biçimde mantıksal cevap.
+c291dc14-681c-4596-8321-365a580af134,muzik,asiri_basit,hayir,0.85,0.96,'Anonim eser' ne demektir?,Bestecisi bilinmeyen,Anonim sözcüğünün anlamından cevap belli.
+31f7e77d-af29-434a-97ee-6bb672401f88,muzik,asiri_basit,hayir,0.75,0.90,'Stüdyo müzisyeni' hangi işi yapar?,Kayıtlarda çalgı çalar,Sözcüğün anlamından belli.
+f5189805-6aa5-4445-82e3-b642eea11156,muzik,asiri_basit,hayir,0.70,0.94,Hip hop kültüründe müzikle birlikte anılan öğe nedir?,Rap ve DJ'lik,"Çeldiriciler konu dışı, doğru şık belli."
+467629e8-1202-456b-a74f-0dd5be6d5816,muzik,asiri_basit,hayir,0.85,0.95,'Geri vokal' ne işlev görür?,Ana vokali destekler,"Kavramsal işlev sorusu, cevap sözcükten belli."
+7c7c6178-10e9-4bfd-bca6-3a131eecdf32,muzik,asiri_basit,hayir,0.85,0.95,Bas gitarın işlevi nedir?,Kalın ses ve ritim temeli,"Genel işlev sorusu, doğru şık açıkça en mantıklısı."
+78456a7f-5d5a-4541-b56b-65b39b142137,muzik,asiri_basit,hayir,0.80,0.97,Bateri çalan müzisyene ne ad verilir?,Davulcu,Bateri çalana davulcu denir; sözcükten belli.
+738d3787-0216-4d3a-8c57-dda4bf92a91c,muzik,asiri_basit,hayir,0.50,0.95,Metronom neyi belirlemeye yarar?,Tempoyu,Metronom tempoyu belirler.
+41d65ab3-223f-4bd0-920b-1e2dc36fe58c,muzik,asiri_basit,hayir,0.55,0.90,'Ritim gitar' ne yapar?,Akor ve ritim eşliği verir,
+6afa2d87-8b41-4787-9d00-169850c23779,muzik,asiri_basit,hayir,0.80,0.90,Türkiye'de Devlet Opera ve Balesi hangi alanda hizmet verir?,Sahne sanatları,"Opera ve bale sahne sanatıdır, cevap isimden belli."
+7c97b225-b623-46e3-bd8d-bbbc2827aaae,muzik,asiri_basit,hayir,0.55,0.93,'Es' (sus) işareti neyi gösterir?,Sessizlik süresini,
+bb1c3ed8-cb60-4b35-a11a-c8f64d92ca22,muzik,asiri_basit,hayir,0.70,0.95,'Senfonik orkestra' hangi grupları içerir?,Yaylı üflemeli ve vurmalıları,Çeldiriciler 'yalnız' ifadeli saçma şıklar; genel tanım sorusu.
+10e9eeff-3fb4-4da4-aa14-1de66aeb3b87,sanat,asiri_basit,hayir,0.60,0.97,Kolaj tekniğinde ne yapılır?,Farklı malzemeler yapıştırılır,
+9519c76c-f948-4e43-ab02-746c24f2a09a,sanat,asiri_basit,hayir,0.85,0.95,'Seramik sırlama' neyi sağlar?,Su geçirmezlik ve parlaklık,"Sırın işlevi genel kavram, çeldiriciler saçma."
+bf416d6b-d70d-4186-a5cd-f5cb8e25c93c,sanat,asiri_basit,hayir,0.70,0.93,'Realizm' neyi resmetmeyi seçer?,Gündelik gerçekliği,Realizm sözcüğünün anlamından cevap belli.
+27064601-6ce9-47b3-a54b-ab7ca10134fb,sanat,asiri_basit,hayir,0.70,0.90,"Heykelde ""yontma"" ne demektir?",Malzemeden parça çıkarmak,Terimin tanımı mantıkla bulunabilir; çeldiriciler konu dışı.
+4243824d-6fa7-4d05-b13a-dfcf72d8f50f,sanat,asiri_basit,hayir,0.85,0.90,Sanat eğitiminde 'desen' çalışmasının amacı nedir?,Gözlem ve çizim becerisini geliştirmek,Genel amaç sorusu; doğru şık en mantıklı olan.
+29ba991e-fcdd-4974-8eed-290472efef2d,sanat,asiri_basit,hayir,0.60,0.93,Minimalizm neyi amaçlar?,Az öğeyle yalın anlatım,Sözcüğün anlamı (minimal) cevabı ele veriyor.
+30a2f3c9-cf99-4b74-91ce-aa2d2aed64ec,sanat,asiri_basit,hayir,0.85,0.90,Konservasyon (koruma) çalışmasının amacı nedir?,Eserin bozulmasını yavaşlatmak,"Amaç sorusu, mantıkla en genel şık seçilir."
+0d0e3fe9-b5f2-403d-9e9b-2914fce417ab,sanat,asiri_basit,hayir,0.80,0.85,'Çömlekçi çarkı' ne sağlar?,Simetrik biçimlendirmeyi,"Çarkın işlevi sorusu, genel kavram."
+242dd6a8-0dda-45e3-a2c3-5073b95a836f,sanat,asiri_basit,hayir,0.85,0.90,'Sahne kostümü' neyi gözetir?,Hareket rahatlığı ve görünürlüğü,
+5f470a13-19b4-457e-ad63-49e64fc11221,sanat,asiri_basit,hayir,0.60,0.85,Karakalem çalışmalarda temel malzeme nedir?,Kurşun kalem,Karakalem adından kurşun kalem olduğu belli.
+7c1f43c0-f5fc-46ee-b31b-f8570ceef0ef,sanat,asiri_basit,hayir,0.60,0.95,Peyzaj mimarlığı neyi tasarlar?,Açık alan ve yeşil düzenlemeleri,Genel kavram sorusu; ad ve şıklardan çıkarılabilir.
+36612e73-6d48-4be1-8ecc-f3bec203ca8f,sanat,asiri_basit,hayir,0.70,0.93,'Romantizm' sanatta neyi vurgular?,Duygu ve doğayı,"Genel kavram sorusu, çeldiriciler zayıf."
+2666d6aa-a371-4c12-8c0a-e6e9684a3ce4,sanat,asiri_basit,hayir,0.60,0.85,'Kontrast' neyi artırır?,Vurguyu,Genel kavram sorusu; kontrast vurguyu artırır.
+6265cb34-7d85-4dc0-b21e-5d8e8fc07100,sanat,asiri_basit,hayir,0.80,0.90,'Atölye' geleneğinde 'usta-çırak' ilişkisi neyi sağlar?,Tekniğin aktarımını,"Genel kavram sorusu, cevap mantıkla belli."
+f8a33cf2-3ac0-478b-918f-d91912a5c3e5,sanat,asiri_basit,hayir,0.60,0.90,'Ambalaj tasarımı' hangi işlevleri dengeler?,Koruma ve iletişimi,Ambalaj için koruma ve iletişim mantıkla anlaşılır.
+65e973ca-c89d-4613-9eb1-d19f66ba1e23,sanat,asiri_basit,hayir,0.85,0.95,'Sanat terapisi' neyi amaçlar?,İyileşme ve ifadeyi desteklemeyi,"Genel amaç sorusu, doğru şık en mantıklı olanı."
+198d453d-65fd-42b9-b403-c605b37ac71d,sanat,asiri_basit,hayir,0.60,0.88,Siyah-beyaz fotoğrafta neye dikkat edilir?,Ton ve kontrast,Renksiz fotoğrafta ton ve kontrast mantıkla belli.
+69d1207d-337f-4ffd-8ef0-d04e963dcdc5,sanat,asiri_basit,hayir,0.85,0.97,Sit alanı ilan edilmesi neyi sağlar?,Bölgenin koruma altına alınmasını,Sit alanının amacı koruma; çeldiriciler saçma.
+5781c254-8008-4e45-9885-55838ff634a2,sanat,asiri_basit,hayir,0.75,0.95,Konser salonlarında akustik neyi ifade eder?,Ses kalitesi,Kavram sorusu; en mantıklı şık belli.
+76ee9d48-fecb-4614-9bb5-98c5b88b7e83,sanat,asiri_basit,hayir,0.85,0.90,'Katalog' sergide neyi belgeler?,Eserleri ve metinleri,"Genel işlev sorusu, cevap mantıkla bulunur."
+5b2c44bb-dd48-477c-8eed-cbd7debf7edf,sanat,asiri_basit,hayir,0.70,0.90,'Eskiz' ne amaçla yapılır?,Hızlı ön çalışma için,Genel kavram sorusu; eskiz sözcüğü ön çalışmayı çağrıştırıyor.
+581399d3-0328-4312-97fb-9cb80442986c,sanat,asiri_basit,hayir,0.60,0.92,Müzelerde 'restorasyon' ne demektir?,Eseri özgün hâline yaklaştırarak onarmak,
+0c19da9a-00dc-4865-9e65-c0cabfe867d9,sanat,asiri_basit,hayir,0.70,0.80,'Sanat piyasası' neyi belirler?,Eserin ekonomik değerini,Genel kavram sorusu; 'piyasa' sözcüğü cevabı ele veriyor.
+b21e4345-639c-4848-98d1-2795c989530b,sanat,asiri_basit,hayir,0.60,0.97,'Pandomim' hangi araçla anlatır?,Beden ve jestle,
+6810cfb8-c387-4680-a25b-917ba85204aa,sanat,asiri_basit,hayir,0.70,0.90,'Rölyef harita' ile 'kabartma' arasındaki ortak yan nedir?,Yüzeyden yükselen biçim,"Kabartma kavramı doğru şıkkı kendiliğinden gösteriyor, çeldiriciler anlamsız."
+76300cb4-adbf-487c-a1d8-5759f75caa70,sanat,asiri_basit,hayir,0.85,0.93,'Sürdürülebilir tasarım' neyi önceler?,Çevresel etkiyi azaltmayı,"Sürdürülebilir kelimesi cevabı belli ediyor, genel kavram."
+0225b140-381d-4cce-9810-f3c0bf260086,sanat,asiri_basit,hayir,0.85,0.93,Video art hangi araçla üretilir?,Hareketli görüntü,
+35868d9e-2327-4ffe-9508-f6592d12bdf7,sanat,asiri_basit,hayir,0.85,0.85,'Anıt' hangi işlevi taşır?,Belleği canlı tutmayı,"Genel işlev sorusu, cevap mantıkla belli."
+32e46a0a-c0ed-44c5-93da-65c97f8c81dc,sanat,asiri_basit,hayir,0.85,0.90,'Bağış ve vakıf desteği' sanatta ne yapar?,Sürdürülebilir kaynak sağlar,"Genel işlev sorusu, en mantıklı şık belli."
+06c63ef0-2eb3-4f8c-bc69-2e23f47b5fa5,sanat,asiri_basit,hayir,0.60,0.90,Müzecilikte 'restorasyon' ne yapar?,Eseri onarır ve korur,
+2189190a-7af4-49e6-ad38-4d7bfa93d812,sanat,asiri_basit,hayir,0.75,0.88,'Görsel doku' ile 'gerçek doku' farkı nedir?,Biri yalnızca göze hitap eder,"Sözcük anlamından belli, çeldiriciler saçma."
+5e70fee5-a67d-4693-82b9-3a4c89166822,sanat,asiri_basit,hayir,0.70,0.90,'Sanat sponsorluğu' ne sağlar?,Kaynak desteği,Sponsorluğun anlamından belli.
+379c5dc2-9647-484c-9080-f4399d86cf6c,sanat,asiri_basit,hayir,0.50,0.95,"Resimde fırçayla kâğıda sürülen şeffaf, suyla inceltilen boyaya ne denir?",Suluboya,
+c90434f8-25d2-499c-bbbb-7aaa9574234a,sanat,asiri_basit,hayir,0.60,0.80,Kemer mimaride ne sağlar?,Açıklık geçmek,
+3ba34f53-e2be-4a94-9ff7-c7ef7de4b183,sanat,asiri_basit,hayir,0.85,0.93,'Peruk ve saç tasarımı' ne sağlar?,Karakter ve dönem görünümü,"Genel işlev sorusu, çeldiriciler konu dışı."
+043d3d20-ebea-4c64-aee6-43ddda4ce95c,sanat,asiri_basit,hayir,0.60,0.93,Heykelde 'döküm' yöntemi neyi gerektirir?,Kalıp ve eriyik metali,
+f4c37de5-290a-42f6-939a-a70c6e4a5073,sanat,asiri_basit,hayir,0.65,0.85,'Fırınlama' seramikte ne yapar?,Kili sertleştirir,"Fırınlama işlevi sorusu, çeldiriciler zayıf."
+93272c55-0d7c-44a0-9076-432bf3a729b9,sanat,asiri_basit,hayir,0.70,0.90,'Dövme metal işçiliği' neyi kullanır?,Çekiç ve ısıyı,"Dövme adından belli, çeldiriciler zayıf."
+7c19e1c8-8671-449f-ad17-167886b4d039,sanat,asiri_basit,hayir,0.85,0.85,'Mobilya ölçeği' neye göre belirlenir?,İnsan boyutlarına,Mobilya ölçeği doğal olarak insan boyutlarına göre belirlenir; soru kendini cevaplıyor.
+2da3ecb9-7e38-4d31-b400-c2b754c07b83,sanat,asiri_basit,hayir,0.60,0.90,'Grafiti' sanatı hangi mekânda doğmuştur?,Kent duvarlarında,
+06d2d84e-9314-4666-b731-873d237b7293,sanat,asiri_basit,hayir,0.60,0.85,'Galeri' ile 'müze' farkı nedir?,Galeri genelde satış yapar,
+1274af71-7e37-41a0-837d-3534c15f2ca3,sanat,asiri_basit,hayir,0.85,0.80,Bir afişte en önemli unsur nedir?,Mesajın hızlı anlaşılması,"Genel kavram sorusu; mantıkla bulunur, çeldiriciler konu dışı."
+dff58540-f2a7-469e-a371-4438ea9b9d72,sanat,asiri_basit,hayir,0.60,0.85,"Heykelde ""modelleme"" hangi malzemeyle yapılır?",Kil,
+2bd1f6a1-157e-4daa-b912-03d49b11bfed,sanat,asiri_basit,hayir,0.50,0.90,'Şablon baskı' nasıl çalışır?,Kesilmiş boşluklardan boya geçirerek,Şablon kavramı gereği boşluklardan boya geçirme belli.
+35b6f1a5-f22b-46b6-913f-f9f444ac5504,sanat,asiri_basit,hayir,0.70,0.92,Bir yapının iç mekân düzenlemesine ne denir?,İç mimari,İç mekân düzenlemesi ifadesi cevabı (iç mimari) neredeyse veriyor.
+4bc74f7d-ea86-4b26-bb56-3a37d6e597a4,sanat,asiri_basit,hayir,0.85,0.95,'Doğaçlama tiyatro' neye dayanır?,Anlık üretime,Doğaçlama sözcüğü cevabı veriyor.
+3d6fcfd4-cf29-4864-ac61-87f70f465f62,sanat,asiri_basit,hayir,0.85,0.90,'Prova salonu' dansçıya ne sağlar?,Ayna ve barla çalışma ortamı,"Genel işlev sorusu; doğru şık uzun ve belli, çeldiriciler zayıf."
+4f747f1a-2d85-45a7-a53b-690f5552c1d2,sanat,asiri_basit,hayir,0.80,0.92,'Bronz döküm' hangi yöntemle yapılır?,Kalıba erimiş metal dökme,Yöntem tanımı genel; doğru şık açıkça mantıklı.
+52684bc3-0eb9-4d62-b89e-7e9df53e6fd5,sanat,asiri_basit,hayir,0.75,0.80,'Siyah beyaz fotoğraf' neyi öne çıkarır?,Biçim ve tonu,"Genel kavram sorusu, cevap mantıkla çıkarılabilir."
+f708c5aa-a4b0-440e-b2e1-ac392227c122,sanat,asiri_basit,hayir,0.80,0.93,Kolaj tekniği neye dayanır?,Farklı malzemelerin yapıştırılmasına,Kolaj sözcüğü yapıştırma anlamına gelir; cevap belli.
+13e0262b-8119-43ae-b85d-3b6b66fffd5b,sanat,asiri_basit,hayir,0.70,0.97,Sanatta 'minimalizm' neyi savunur?,Sadeliği,'Minimal' sözcüğünden cevap belli; çeldiriciler zıt anlamlı.
+daa537fa-ade9-4c4c-b287-3e660d35c170,sanat,asiri_basit,hayir,0.70,0.85,"Sanat yapıtında ""orijinal"" ile ""reprodüksiyon"" farkı nedir?",Reprodüksiyon çoğaltmadır,
+2bb0c5cc-ac9f-45a4-98d7-9177c9b83810,sanat,asiri_basit,hayir,0.80,0.85,'Sahne ışığı' oyunda neyi yönlendirir?,İzleyicinin dikkatini,Genel işlev sorusu; cevap mantıkla belli.
+02d49bcb-a26c-4bf2-a865-fae68379b642,sanat,asiri_basit,hayir,0.85,0.93,Ergonomi tasarımda neyi gözetir?,İnsan vücuduna uygunluğu,Ergonomi sözcüğünün anlamı ve genel kavram sorusu; cevap belli.
+c58e4d71-ff5a-448b-add3-5fc38f720e23,sanat,asiri_basit,hayir,0.70,0.93,"Moda tasarımında ""koleksiyon"" ne demektir?",Bir tema etrafındaki ürün dizisi,"Sözcük tanımı sorusu, çeldiriciler zayıf."
+16d9b6fc-a8bf-4772-b40d-51e86ea0c4c8,sanat,asiri_basit,hayir,0.85,0.90,'Logo tasarımında' aranan temel nitelik nedir?,Ayırt edicilik ve sadelik,"Genel kavram sorusu; çeldiriciler saçma, cevap mantıkla bulunur."
+79bcbdc5-397b-4a9a-a3f4-0c3a536a68d9,sanat,asiri_basit,hayir,0.70,0.85,Sanatçının çalıştığı mekâna ne ad verilir?,Atölye,Sözcük anlamından ve mantıkla bulunur.
+4f465775-f3d4-4dd3-b785-1eb739e83024,sanat,asiri_basit,hayir,0.60,0.88,"Sanatta ""içerik"" ne demektir?",Eserin anlattığı anlam,
+c4295fd2-d948-4c35-853e-9572125fb7cd,sanat,asiri_basit,hayir,0.60,0.97,Estetik hangi soruyla ilgilenir?,Güzel nedir,"Estetik güzelin felsefesidir; diğer şıklar konu dışı, ancak genel kavram sorusu."
+5571dc91-c985-4e8a-acb7-437f00541ea8,sanat,asiri_basit,hayir,0.65,0.90,Medrese yapılarının işlevi neydi?,Eğitim,Medrese sözcüğü eğitimi çağrıştırıyor.
+b25da678-6444-413f-a499-ecb20adab6f0,sanat,asiri_basit,hayir,0.85,0.97,'Etkileşimli sanat' neyi gerektirir?,İzleyici katılımını,"Sözcüğün anlamından belli, çeldiriciler saçma."
+e6516d83-b689-4403-af3e-7a03dabde464,sinema,asiri_basit,hayir,0.60,0.93,IMAX formatının ayırt edici özelliği nedir?,Çok büyük perde ve yüksek çözünürlük,
+40cf4096-5eca-4f64-aab2-71eec6ecfe50,sinema,asiri_basit,hayir,0.75,0.80,'Fragman' ne amaçla hazırlanır?,Filmi tanıtmak için,Fragman tanıtım içindir; 'özetlemek' şıkkı da kısmen savunulabilir ama tanıtmak daha doğru.
+d1198f0e-13e9-49c2-9166-3cc19f9c9eb2,sinema,asiri_basit,hayir,0.85,0.90,'Müzikal' türünde şarkılar ne işlev görür?,Anlatıyı ilerletme,"Genel işlev sorusu, çeldiriciler saçma."
+8ff24cbe-ade0-4111-8bf1-706521c3d32a,sinema,asiri_basit,hayir,0.60,0.97,'Güzel ve Çirkin' filmindeki prensin lanetli hâline ne denir?,Canavar,Cevap filmin adındaki 'Çirkin' ve genel bilgiyle belli; çok kolay.
+0191f372-3373-4c4c-8d26-57a64332420a,sinema,asiri_basit,hayir,0.60,0.97,"Sinemada ""kare hızı"" (fps) neyi gösterir?",Saniyedeki kare sayısını,
+0c4099c4-db9a-402d-8394-99d6e9ce61c6,sinema,asiri_basit,hayir,0.70,0.95,Bir filmde 'açık son' ne demektir?,Sonucun yoruma bırakılması,
+1fb90ba5-7b3f-4a7b-aee7-38ed68f71a36,sinema,asiri_basit,hayir,0.70,0.95,Sinemada 'senaryo' neyi içerir?,Diyalog ve sahneler,
+38702aaf-2476-4896-9bc1-1a009039ffe4,sinema,asiri_basit,hayir,0.75,0.95,'Geri dönüş' (flashback) neyi gösterir?,Geçmiş olayı,Geri dönüş sözcüğü anlamı zaten geçmişi gösteriyor.
+2c4f3937-9aa6-4602-a840-9ff696c79ec0,sinema,asiri_basit,hayir,0.70,0.90,'Figüran' filmde nasıl rol alır?,Arka planda,
+51503fac-cfa6-4671-8aab-7e94905cf3ef,sinema,asiri_basit,hayir,0.55,0.95,'Dağıtımcı' bir filmde ne yapar?,Salonlara ulaştırır,Sözcüğün anlamından çıkarılabilir.
+626795e7-6716-4080-a44e-e16f86365670,sinema,asiri_basit,hayir,0.70,0.96,'Gişe rekortmeni' ne anlama gelir?,Çok bilet satan film,"Gişe sözcüğünden anlam belli, soru kendini cevaplıyor."
+9273e777-6761-4130-94e9-53aa682357c0,sinema,asiri_basit,hayir,0.60,0.95,Yeşil perde (green screen) ne için kullanılır?,Arka planı sonradan değiştirmek,Genel işlev sorusu; diğer şıklar konu dışı.
+5d5fee4c-ae1b-4917-b8ac-7a7dd0593569,sinema,asiri_basit,hayir,0.60,0.90,'Bağımsız sinema' neyle tanımlanır?,Büyük stüdyo dışı yapımla,"Kavram tanımı soruluyor, çeldiriciler belirgin biçimde zayıf."
+dc63a8c9-f9f2-4250-b67f-f2e0f5a330f6,sinema,asiri_basit,hayir,0.85,0.90,'Sessizlik' bir sahnede ne işlev görür?,Gerilim ve vurgu yaratır,"Genel işlev sorusu, diğer şıklar konu dışı."
+7e1d7a91-a647-4981-93c1-5d92f91a042c,sinema,asiri_basit,hayir,0.60,0.92,Kurgu (montaj) aşamasında ne yapılır?,Çekimler sıralanıp birleştirilir,"Genel kavram sorusu, doğru şık en mantıklı olanı."
+5fc76612-0112-4192-ba2a-8415283ce80e,sinema,asiri_basit,hayir,0.80,0.90,'Satirik film' neyi hedefler?,Toplumsal eleştiriyi,"Satirin anlamı eleştiri olduğundan kavram sorusu, çeldiriciler konu dışı."
+3d60026d-6418-478d-ad8d-7eca41dd193a,sinema,asiri_basit,hayir,0.85,0.90,"Sinemada ""gerçekçilik"" anlayışı neyi hedefler?",Yaşamı olduğu gibi yansıtmak,"Gerçekçilik sözcüğünün anlamı cevabı veriyor, genel kavram sorusu."
+07c54990-827d-414b-ad32-b5a920d256de,sinema,asiri_basit,hayir,0.85,0.93,'Kamera açısı' seçimi neyi etkiler?,İzleyicinin bakış ve duygusunu,"Genel kavram sorusu; doğru şık belli, çeldiriciler konu dışı."
+062e0e75-b455-4be4-a497-5ce4558e8398,sinema,asiri_basit,hayir,0.60,0.93,'Doğaçlama sahne' ne demektir?,Senaryosuz üretilen sahne,Doğaçlama sözcüğünün anlamından cevap belli.
+265f066d-b881-4246-ad1e-6b480b08718b,sinema,asiri_basit,hayir,0.85,0.90,'Savaş filmi' hangi bakışı sunabilir?,Kahramanlık veya karşıtlık,"Diğer şıklar konu dışı, cevap mantıkla bulunur."
+e56bd513-5cd3-4392-a673-9dffafaf4ea8,sinema,asiri_basit,hayir,0.85,0.95,'Road movie' türünde anlatı neye bağlıdır?,Yolculuğa,Road (yol) sözcüğü cevabı veriyor.
+71de62c0-3876-4c64-a741-cca3632501e2,sinema,asiri_basit,hayir,0.70,0.93,Sinemada 'tür karması' ne demektir?,Birden çok türün birleştirilmesi,
+d9f38266-d1b6-4d30-89df-af8470fadf97,sinema,asiri_basit,hayir,0.80,0.95,"Sinemada ""surround ses"" ne sağlar?",Çevresel ses deneyimi,Surround sözcüğü cevabı veriyor; çeldiriciler saçma.
+9ddadf09-7659-4ff4-a01c-c7d9ef414e03,sinema,asiri_basit,hayir,0.55,0.70,Film serisi (franchise) kavramı neyi anlatır?,Ortak evrende süren yapımlar bütünü,
+6ab961dd-94f6-4166-866f-2ab87b529fd5,sinema,asiri_basit,hayir,0.85,0.92,"Sinemada ""senaryo taslağı"" neyi içerir?",Hikâyenin yazılı planını,"Kavram sorusu, sözcüğün anlamından belli."
+6818bc4e-f79d-4776-91ef-eabe4299f54e,sinema,asiri_basit,hayir,0.75,0.90,Film arşivciliğinin amacı nedir?,Filmleri koruyup geleceğe aktarmak,
+68539bd2-3ab7-4ac4-9816-987a7a1726fe,sinema,asiri_basit,hayir,0.70,0.90,Bir filmin 'atmosferi' neyle kurulur?,"Görüntü, ses ve mekân bütünlüğüyle",Genel kavram sorusu; çeldiriciler konu dışı.
+459f393e-6758-4295-839b-fa655095f087,sinema,asiri_basit,hayir,0.85,0.90,"Bir filmin ""uluslararası versiyonu"" neden hazırlanır?",Farklı ülkelerde gösterim için,"Cevap soru metninden ('uluslararası') çıkıyor, çeldiriciler saçma."
+0bcc81ec-69db-4537-b61e-e8a40f3236e2,sinema,asiri_basit,hayir,0.60,0.90,Dijital sinemaya geçişin en belirgin sonucu nedir?,Film şeridi yerine dosya kullanımı,
+6f7b3e08-a900-4fcc-acf3-83a0f358e8d1,sinema,asiri_basit,hayir,0.75,0.85,'Yaka mikrofonu' neyi hedefler?,Oyuncunun sesini yakından almayı,
+18133765-28a0-45f2-ae14-c3f658a25276,sinema,asiri_basit,hayir,0.85,0.93,Sinemada 'açık son' izleyiciye ne bırakır?,Yorumlama boşluğu,Açık son sözcüğünün anlamından cevap belli.
+1ad0fb7e-3816-43e3-adee-23870ed9555d,sinema,asiri_basit,hayir,0.60,0.95,'Stop motion' tekniği nasıl çalışır?,Nesneyi kare kare oynatarak,
+63f2d6b2-aa32-4d0b-bc52-87e91d06e846,sinema,asiri_basit,hayir,0.85,0.90,"Sinemada ""restorasyon"" neyi amaçlar?",Eski filmleri yenilemek,Restorasyon sözcüğünün anlamı cevabı veriyor; genel kavram sorusu.
+474390f4-2087-4a08-ba35-e12123dd0841,sinema,asiri_basit,hayir,0.75,0.90,'Yapımcı' filmde asıl neyi üstlenir?,Finans ve organizasyonu,Yapımcının rolü genel kavram; şık açıkça en mantıklı.
+4b8b0c05-5ee6-4b07-93d8-14f0960595e4,sinema,asiri_basit,hayir,0.60,0.90,'Slapstick' komedi neye dayanır?,Abartılı bedensel mizaha,
+12400c53-ccf4-4da1-8078-267390b37e45,sinema,asiri_basit,hayir,0.70,0.93,"Sinemada ""uyarlama"" ne demektir?",Bir eserden filme çevirme,Genel kavram sorusu; 'uyarlama' sözcüğü ve şıklar cevabı belli ediyor.
+28f5d1a8-8de3-4723-a44e-a038131ba14f,sinema,asiri_basit,hayir,0.80,0.92,Yapımcının filmdeki temel rolü nedir?,Finansman ve süreç yönetimi,"Genel rol sorusu, diğer şıklar başka mesleklerin işi."
+21bdc9b8-b636-4383-adc0-48cb0cfb140d,sinema,asiri_basit,hayir,0.85,0.90,'Festival seçkisi' neyi belirler?,Gösterilecek filmleri,"Genel kavram sorusu; festival seçkisi gösterilecek filmleri belirler, cevap mantıkla bulunur."
+d6485039-7417-4d8e-930e-c8a128f1567e,sinema,asiri_basit,hayir,0.75,0.95,'Kara komedi' neyi birleştirir?,Karanlık konu ve mizah,Kara ve komedi sözcüklerinden cevap çıkıyor.
+5692e644-bcf2-4f92-9153-ebf4534432e3,sinema,asiri_basit,hayir,0.85,0.92,'Afiş tasarımı' neyi hedefler?,Filmi tek görselle anlatmayı,Genel kavram sorusu; diğer şıklar konu dışı.
+0a8fd605-ab5a-432b-8dc9-cf91141b3da3,sinema,asiri_basit,hayir,0.60,0.93,Sinemada 'yeniden gösterim' ne demektir?,Eski filmin tekrar vizyona girmesi,
+cc3b238a-eed0-4f8a-955a-47420ffd50e5,sinema,asiri_basit,hayir,0.75,0.90,'Kuş bakışı' çekim neyi vurgular?,Genel konum ve düzeni,"Genel kavram sorusu, çeldiriciler zayıf."
+e0b05664-f62a-45ee-8970-d6ae08c7ee78,sinema,asiri_basit,hayir,0.70,0.80,Akış (streaming) platformlarının yapım alanındaki rolü nedir?,Kendi içeriklerini üretmeleri,Genel rol sorusu; çeldiriciler zayıf ve cevap mantıkla bulunuyor.
+4afea9d5-1ac5-4e1c-b63b-5778e64c02be,sinema,asiri_basit,hayir,0.55,0.95,'Zaman atlamalı' (time lapse) çekim neyi gösterir?,Uzun süreci kısa sürede,"Kavram tanımı soruluyor, doğru şık en mantıklı olan."
+0a321da4-025d-4af7-884f-43eaa5c4bb6f,sinema,asiri_basit,hayir,0.55,0.95,Kurgucu (montajcı) ne yapar?,Çekimleri birleştirip düzenler,
+5466a00b-0617-454e-b8da-a5918865a058,sinema,asiri_basit,hayir,0.80,0.95,'Uyarlama' filmde neye dayanır?,Başka bir esere,"Uyarlama sözcüğünün anlamından cevap belli, çeldiriciler konu dışı."
+50b83e73-1ce7-42f4-aa0c-de4b17a7528b,sinema,asiri_basit,hayir,0.75,0.95,'Eleştirmen puan ortalaması' neyi yansıtır?,Uzman değerlendirmelerini,Eleştirmen puanı sözcüğünden cevap belli.
+c63519ae-e3c6-4995-98f9-3338ec81dee6,sinema,asiri_basit,hayir,0.65,0.95,'Kare hızı' (fps) neyi etkiler?,Hareketin akıcılığını,
+5c4e9db4-2e56-4f48-a522-cfff12dcc355,sinema,asiri_basit,hayir,0.75,0.95,"Sinemada ""dağıtımcı"" ne yapar?",Filmi salonlara ulaştırır,
+1cfa5fb0-b6d6-4287-ba86-e956cfa4a071,sinema,asiri_basit,hayir,0.70,0.80,'Stüdyo çekimi' hangi avantajı sunar?,Denetimli koşullar,
+47e328b9-dc14-4e3a-96d1-df22093107bc,sinema,asiri_basit,hayir,0.80,0.80,"Sinemada ""karakter tanıtımı"" genellikle nerede yapılır?",Filmin ilk bölümünde,Cevap mantıkla belli: karakterler filmin başında tanıtılır.
+2bd5fe33-d68f-4830-b28a-e1f32c639e2d,sinema,asiri_basit,hayir,0.80,0.85,Bir belgeselde 'arşiv görüntüsü' neyi sağlar?,Geçmişe dair kanıt ve bağlam,Genel kavram sorusu; doğru şık en mantıklı olanı.
+39b4e276-65c1-432d-aa57-b6341f94af3a,sinema,asiri_basit,hayir,0.80,0.93,'Surround ses' izleyiciye ne verir?,Çevresel ses alanı,"Surround sözcüğü çevresel anlamına geliyor, cevap sözcükten belli."
+ff97b415-adf7-4411-8278-a21f55840d2f,sinema,asiri_basit,hayir,0.75,0.90,Bir filmin 'yeniden değerlendirilmesi' ne demektir?,Zamanla değerinin yeniden tartışılması,"Kavramın anlamı ifadeden belli, şıklar da yönlendirici."
+2e19dfbd-cec4-4f0a-8cf4-e4bcdf22573d,sinema,asiri_basit,hayir,0.60,0.90,'Bağımsız film' kavramı neyi vurgular?,Büyük stüdyo dışında üretilmesini,Kavramın anlamı sözcükten çıkarılabilir.
+4d39a4e9-1812-4efc-b1c1-269947a1be6c,sinema,asiri_basit,hayir,0.70,0.80,Seslendirme (dublaj) hangi aşamada yapılır?,Çekim sonrasında,"Dublaj doğası gereği çekim sonrası yapılır, mantıkla belli."
+057b36f8-2d43-449f-a58e-8bad6031ca1d,sinema,asiri_basit,hayir,0.70,0.93,Kuşbakışı çekim neyi sağlar?,Yukarıdan geniş bakış,Cevap sözcüğün anlamından belli.
+0a21f6f8-489a-43f1-8735-e174a7b7d597,sinema,asiri_basit,hayir,0.75,0.90,"Filmde ""ironi"" nasıl ortaya çıkar?",Beklenen ile olan karşıtlığıyla,"Genel kavram sorusu, doğru şık en mantıklısı."
+831b0b78-aa92-4f85-b2de-988ea003c1bb,sinema,asiri_basit,hayir,0.70,0.90,'Distopya' filmi neyi anlatır?,Baskıcı karanlık geleceği,Distopya sözcüğünün anlamı cevabı veriyor.
+a85b0b76-f93b-4957-81e0-075a4b8826f9,sinema,asiri_basit,hayir,0.60,0.95,"Sinemada ""doruk nokta"" (klimaks) nedir?",Gerilimin en yüksek anı,Kavram tanımı; çeldiriciler belirgin biçimde konu dışı.
+21ce87dc-fa3c-41d8-bf31-268a3666e5e5,sinema,asiri_basit,hayir,0.60,0.95,Gişe filmi (blockbuster) kavramı neyi anlatır?,"Yüksek bütçeli, geniş kitlelik film",
+a94dc018-e383-4792-943f-4f6cc23cd0ce,sinema,asiri_basit,hayir,0.75,0.97,'Korku' türünde 'jump scare' nedir?,Ani irkiltme,Terimin anlamı çeldiricilerden ayırt edilebilir.
+6d87a36c-d292-4754-b443-fa764fae43f9,sinema,asiri_basit,hayir,0.75,0.95,'Dağıtımcı' filmde ne yapar?,Filmi salonlara ulaştırır,"Rol tanımı, sözcük anlamından belli."
+1d61035d-47b5-4253-9201-a6ec6980c7e2,sinema,asiri_basit,hayir,0.75,0.90,Bir filmde 'yapımcı' temel olarak neyden sorumludur?,Finansman ve organizasyondan,"Genel rol sorusu, çeldiriciler diğer rollere ait."
+61cd460c-9c9a-4d1d-b676-e552005059ba,sinema,asiri_basit,hayir,0.70,0.90,'Sinema salonu ses sistemi' olarak 'surround' ne yapar?,Sesi mekâna yayar,Surround sözcüğünün anlamından cevap belli.
+22bb0241-3caa-4331-bdcf-d51b8fc53b10,sinema,asiri_basit,hayir,0.85,0.95,"Sinemada ""senaryo"" hangi aşamada hazırlanır?",Çekimden önce,"Mantıkla belli, çeldiriciler saçma."
+e73749f9-8374-4730-bdc4-ccff22fb5f75,sinema,asiri_basit,hayir,0.55,0.85,'Yaka mikrofonu' nerede kullanılır?,Oyuncuya gizlenmiş biçimde,
+aa8ec8e8-5a16-418e-9a56-d74d183d144f,sinema,asiri_basit,hayir,0.65,0.98,'Jurassic Park' filminde laboratuvarda yeniden canlandırılan yaratıklar nelerdir?,Dinozorlar,Cevap film adından ve yaygın bilgiden belli.
+fdf9606e-041b-4ae3-981b-592319d5e8b5,spor,asiri_basit,hayir,0.88,0.97,Milli güreşçi Hamza Yerlikaya hangi sporla anılır?,Güreş,"Soruda 'güreşçi' geçiyor, cevap soru metninde."
+1d157b39-6d84-4129-b553-c892edf893fd,spor,asiri_basit,hayir,0.80,0.90,'Spor psikolojisi' neyle ilgilenir?,Zihinsel performans ile,Cevap sözcük anlamından belli.
+07d9d933-c89b-43d4-81b1-d31aab1bb361,spor,asiri_basit,hayir,0.60,0.90,'Bilek güreşi' neyi ölçer?,Kol kuvveti ve tekniği,Cevap sözcükten belli (kol kuvveti).
+0a7b2531-73cc-4990-8dc6-350e4b5b2ea5,spor,asiri_basit,hayir,0.55,0.93,Judo ve karatede kuşak rengi neyi gösterir?,Seviye,
+fe413f11-0102-4b83-aa5c-f56534b4e757,spor,asiri_basit,hayir,0.70,0.80,'Serbest vuruş' türlerinden biri nedir?,Direkt serbest vuruş,Cevap soru metnindeki 'serbest vuruş' ifadesini tekrar eden tek şık; çeldiriciler anlamsız.
+c1f016d7-7b32-411d-94aa-75aa4d28a335,spor,asiri_basit,hayir,0.85,0.95,'Kondisyon testi' neyi ölçer?,Fiziksel uygunluğu,Kondisyon testi adından fiziksel uygunluğu ölçtüğü belli.
+3f0e1f27-ef36-4bc9-87dc-0b0bb0015933,spor,asiri_basit,hayir,0.80,0.96,Bir kulübün 'altyapısı' neyi ifade eder?,Genç sporcu yetiştirme yapısı,Kavram sorusu; çeldiriciler konu dışı.
+099f4e81-8911-4977-aae3-3ac6f65a932a,spor,asiri_basit,hayir,0.60,0.95,Judo sporunda kuşak renkleri neyi gösterir?,Derece ve deneyimi,Kuşak renginin derece ve deneyimi göstermesi mantıkla çıkarılabilir.
+6a0da466-cc4b-45c3-8337-adc64cc12e41,spor,asiri_basit,hayir,0.50,0.85,'Motokros' hangi zeminde yarışılır?,Toprak parkurda,
+3369dc57-29ad-4817-ac3e-909eaa8d1cd1,spor,asiri_basit,hayir,0.60,0.95,"Voleybolda ""blok"" hangi amaçla yapılır?",Rakip smacını engellemek,
+31bc08ad-0ffc-476f-b71c-a5c830d2d70a,spor,asiri_basit,hayir,0.60,0.90,Patlayıcı kuvvet hangi sporlarda kritiktir?,Sıçrama ve atmalarda,Diğer şıklar belirgin biçimde konu dışı; 'patlayıcı' sözcüğü cevabı ele veriyor.
+951ea4ea-c688-4680-988e-4e2bd781e072,spor,asiri_basit,hayir,0.55,0.98,Kış Olimpiyatları'nda 'curling' hangi zeminde oynanır?,Buz,
+6bcc89d5-5d5c-47fe-9e26-c361373dc40c,spor,asiri_basit,hayir,0.60,0.95,'Motokros' hangi zeminde yapılır?,Toprak parkur,
+26657dcb-1bb6-4288-99ec-4318323d6b15,spor,asiri_basit,hayir,0.55,0.88,'Ağızlık' hangi sporlarda zorunludur?,Temaslı sporlarda,Genel soru; temaslı sporlar açıkça mantıklı şık.
+4be6990c-dc31-4889-b8f4-fa8becaa8f8e,spor,asiri_basit,hayir,0.75,0.93,'Amatör sporcu' tanımının temel ölçütü nedir?,Spordan kazanç sağlamaması,"Kavramın anlamından belli, çeldiriciler konu dışı."
+21f06f37-957d-4a26-a1f6-8a32bbc8748d,spor,asiri_basit,hayir,0.70,0.60,'Suni çim' hangi avantajı sunar?,Her koşulda kullanılabilirlik,Genel avantaj sorusu; yumuşaklık ve doğal görünüm de savunulabilir.
+7e5d4607-54e0-4e33-8758-dec7e28a38bc,spor,asiri_basit,hayir,0.55,0.95,Dağ bisikletinde 'downhill' ne demektir?,Yokuş aşağı iniş,
+78557bd1-eee2-4275-8ce8-eced0e673789,spor,asiri_basit,hayir,0.55,0.99,Real Madrid ve Barcelona hangi ülkenin kulüpleridir?,İspanya,
+7052c21f-958f-4427-b7ea-18b46536047d,spor,asiri_basit,hayir,0.60,0.90,"Basketbolda ""adım hatası"" ne demektir?",Top sürmeden fazla adım atmak,Terimin adı cevabı veriyor.
+98b11720-efc9-4109-a23f-7e9719db323f,spor,asiri_basit,hayir,0.60,0.93,'Fotofiniş' ne için kullanılır?,Bitişte sıralama tespiti,
+52ad8b1e-eb5d-4577-97d2-654f3362ca52,spor,asiri_basit,hayir,0.80,0.85,'Grup aşaması' nasıl işler?,Gruplarda karşılıklı maçlar,
+668840d2-69d3-4fb7-ab01-ab4067885f54,spor,asiri_basit,hayir,0.60,0.90,Lig usulünde takımlar nasıl karşılaşır?,Herkes herkesle oynar,Lig usulünün tanımı genel kavram; cevap mantıkla bulunur.
+6003e6c8-3064-4801-b91c-734c52229731,spor,asiri_basit,hayir,0.70,0.90,Futbolda hakemin yardımcılarına ne denir?,Yardımcı hakem,Cevap soruda ima ediliyor (yardımcı).
+f838562d-e208-465b-832f-1d7122fd245e,spor,asiri_basit,hayir,0.55,0.95,Atletizmde çıkış takozları hangi yarışlarda kullanılır?,Sürat koşuları,Çıkış takozu sürat koşularında kullanılır; çeldiriciler uzun mesafe olduğundan mantıkla da çıkarılabilir.
+0ca7ea59-2626-47f6-b8cd-0bcc1a0c6c2b,spor,asiri_basit,hayir,0.60,0.95,Futbolda bir takımın yedeklerinin oturduğu yere ne ad verilir?,Yedek kulübesi,
+1bd29601-9c42-43aa-8a02-6f88cdea266d,spor,asiri_basit,hayir,0.85,0.90,Cirit atmada kullanılan alet nasıldır?,Uzun ve ince,"Genel nitelik sorusu, çeldiriciler belirgin biçimde uyumsuz."
+debccd72-1abd-4d7a-9668-068c60268bb3,spor,asiri_basit,hayir,0.85,0.95,Artistik patinajda puanlama neyi değerlendirir?,Teknik öğeler ve sanatsal sunum,Diğer şıklar saçma; mantıkla bulunur.
+34a8a33f-b2bf-4478-a589-190d8e54912c,spor,asiri_basit,hayir,0.75,0.93,Basketbolda üç sayılık atış çizgi neresinden yapılır?,Üç sayı çizgisi dışından,Cevap soruda neredeyse geçiyor.
+02002fc2-ba1f-4c2b-bfcc-fde89a73b125,spor,asiri_basit,hayir,0.70,0.97,E-spor ne anlama gelir?,Elektronik oyun müsabakaları,
+0564fc5b-4186-40ce-a9e5-8d1237ce100e,spor,asiri_basit,hayir,0.60,0.85,Sporda kondisyon ne anlama gelir?,Dayanıklılık düzeyi,
+73b11e97-0c24-48a3-bc67-0aea2a27cbc4,spor,asiri_basit,hayir,0.75,0.85,'Yüksek atlamada' başarısızlık ne zaman olur?,Çıta düşünce,Cevap mantıkla belli; çıta düşünce başarısızlık olur.
+1fc7d812-5db9-4b63-8e74-a230e2e0db77,spor,asiri_basit,hayir,0.75,0.93,'Amatör lig' ile 'profesyonel lig' farkı nedir?,Sporcuların ücret durumu,"Fark mantıkla belli, çeldiriciler konu dışı."
+5d994f52-7748-4411-8fe6-101ea6876df2,spor,asiri_basit,hayir,0.60,0.80,'Lisanslı sporcu' ne anlama gelir?,Resmî tescilli sporcu,
+5a7cde30-0760-4eb7-af41-97297072d4fd,spor,asiri_basit,hayir,0.60,0.93,Aerobik egzersizin temel özelliği nedir?,Uzun süreli ve oksijenli,"Aerobik sözcüğü oksijenli anlamına gelir, doğru şık belli."
+26a4553e-146a-40f5-8c30-243f3b3d79c8,spor,asiri_basit,hayir,0.60,0.85,Çekiç atma hangi hareketle yapılır?,Dönerek savurma,
+4a7e22fc-c7e8-4e01-bbed-3ed25f1edf89,spor,asiri_basit,hayir,0.75,0.95,Isınmada 'genel ısınma' bölümünde ne yapılır?,Hafif tempolu koşu ve hareket,
+25a7caa4-3689-46b1-b183-04d258116f5d,spor,asiri_basit,hayir,0.70,0.90,'Yamaç paraşütü' neyden yararlanır?,Hava akımlarından,Cevap mantıkla bulunur; çeldiriciler saçma.
+103a09df-8715-4494-bc68-4e4414fc9344,spor,asiri_basit,hayir,0.75,0.95,'Spor psikolojisi' neyi çalışır?,Zihinsel dayanıklılık ve isteği,"Psikoloji sözcüğünden cevap belli, çeldiriciler konu dışı."
+3a5037db-33a9-4314-a084-2633db94704a,spor,asiri_basit,hayir,0.70,0.95,'Yoga' hangi ögeleri birleştirir?,Duruş nefes ve odaklanmayı,Diğer şıklar başka spor türlerini anlatıyor.
+7df1effb-63f2-42fe-8c61-826496e5c742,spor,asiri_basit,hayir,0.70,0.90,'Amatör küme' hangi düzeyi anlatır?,Profesyonel olmayan lig düzeyini,Amatör sözcüğü profesyonel olmayan anlamına gelir; cevap sözcükten belli.
+0f26f712-3b16-4b56-920b-da00da4917e1,spor,asiri_basit,hayir,0.75,0.90,Takım sporlarında 'kaptan bandı' neyi simgeler?,Saha içi liderliği,"Kaptan bandının liderliği simgelediği mantıkla bellidir, çeldiriciler zayıf."
+7f6bc959-933f-43b6-b6a9-e8bb57ccc44d,spor,asiri_basit,hayir,0.80,0.90,'Masaj' sporcuda ne sağlar?,Kas gevşemesi ve dolaşım,"Genel işlev sorusu, doğru şık en mantıklısı."
+37d15ca8-2053-4fef-99db-f81f797ec5d9,spor,asiri_basit,hayir,0.60,0.90,"Sporda ""derbi"" ne anlama gelir?",Önemli rakipler arası maç,
+0db3f070-2981-432d-a96d-17b6e644b161,spor,asiri_basit,hayir,0.60,0.93,'Voleybolda blok' hangi anda yapılır?,Rakip smaç vururken,
+3d9fc303-077a-494f-b2aa-67844a4c4ba3,spor,asiri_basit,hayir,0.60,0.93,'Soğuma' (cool down) neyi hedefler?,Toparlanmayı hızlandırmak,
+544de89e-4ba6-4814-adc5-7a92e5cb1160,spor,asiri_basit,hayir,0.60,0.90,'Laktik asit' birikimi sporcuda neye yol açar?,Yanma ve yorgunluğa,Çeldiriciler saçma; en mantıklı şık belli.
+141bfbff-3668-497e-9122-4a5bfce497e5,spor,asiri_basit,hayir,0.70,0.80,Sporda 'ev sahibi avantajı' neye dayanır?,Taraftar desteği ve alışkanlık,"Genel kavram sorusu, en mantıklı şık belli."
+47d205b7-e513-48d1-99af-f3650ccdee86,spor,asiri_basit,hayir,0.75,0.95,'Kick boks' hangi teknikleri birleştirir?,Yumruk ve tekme,Ad zaten yumruk ve tekmeyi çağrıştırıyor.
+8329e2b7-3a88-4c5a-a900-e0563f8e36da,spor,asiri_basit,hayir,0.60,0.90,Sporda 'çeviklik' ne demektir?,Hızla yön değiştirebilme,
+e6768984-5c79-4f57-a071-97606784e638,spor,asiri_basit,hayir,0.75,0.93,Sporcu 'transfer bedeli' neyi ifade eder?,Kulüpler arası geçiş için ödenen ücret,"Kavram tanımı, en mantıklı şık belli."
+3c4a99da-6496-4f61-9651-e70fce0dfd62,spor,asiri_basit,hayir,0.70,0.93,Futbolda kalecilerin topu tutmasına yardım eden giysi hangisidir?,Eldiven,
+5fcbaf30-957c-4c90-a9fe-8869d7352c63,spor,asiri_basit,hayir,0.60,0.90,Yüzmede kulvar çizgilerinin işlevi nedir?,Dalga etkisini azaltmak,İşlev sorusu; çeldiriciler saçma.
+a8955360-0910-4753-b876-33afe744b581,spor,asiri_basit,hayir,0.60,0.95,"Formula 1'de ""pit stop"" ne için yapılır?",Lastik değişimi ve bakım,
+82cc3c13-eba1-43e8-a9cc-68170ef7e735,spor,asiri_basit,hayir,0.80,0.85,'Sporda kural değişikliği' kim tarafından yapılır?,Yetkili federasyon veya kurul,"Mantıkla belli, genel kavram sorusu."
+1bc9c920-9a08-4dae-8806-b9f050641817,spor,asiri_basit,hayir,0.70,0.97,"Sporda ""transfer"" ne demektir?",Sporcunun kulüp değiştirmesi,Sözcüğün anlamını soran basit tanım sorusu.
+66cc21fb-5eb1-4577-904d-dc92a33896dd,spor,asiri_basit,hayir,0.75,0.95,"Sporcularda ""rehabilitasyon"" ne demektir?",Sakatlık sonrası toparlanma süreci,"Sözcük tanımı sorusu, çeldiriciler konu dışı."
+7168bae1-7b3f-4826-9fe6-87dca5676476,spor,asiri_basit,hayir,0.65,0.95,'Yayın hakları' kime satılır?,Televizyon ve dijital platformlara,"Mantıkla çıkarılabilen genel soru, çeldiriciler saçma."
+851e0c3b-cb02-47f7-a087-77dc6099f0f0,spor,asiri_basit,hayir,0.80,0.90,Sporda 'zihinsel hazırlık' neyi içerir?,Odaklanma ve baskıyla başa çıkma,Genel kavram sorusu; doğru şık açıkça en mantıklı.
+80a48027-54ea-40ed-96f1-7f011fc1866f,spor,asiri_basit,hayir,0.75,0.90,'Yüzmede kulvar' neyi sağlar?,Dalgayı azaltıp yarışçıyı ayırmayı,Kulvarın işlevi genel bir kavram; diğer şıklar saçma.
+cea5e0ed-3aa4-40db-b705-0d129565c34c,tarih,asiri_basit,hayir,0.70,0.95,Aydınlanma Çağı'nın temel vurgusu nedir?,Akıl,"Çeldiriciler saçma, akıl açıkça belli."
+00bfd277-6db7-4fd5-8d08-97d6cf9bf67b,tarih,asiri_basit,hayir,0.82,0.93,'Tersane' Osmanlı'da ne işlevi görürdü?,Gemi yapımı,İşlev sorusu; tersane sözcüğünden cevap belli.
+6b3953e0-1832-4c3e-932f-0b599bb4c19b,tarih,asiri_basit,hayir,0.70,0.93,'Sözlü tarih' yöntemi neye dayanır?,Tanıklık anlatılarına,'Sözlü' sözcüğünden tanıklık anlatıları çıkarılabilir.
+4f080dd5-e436-46f5-a78d-04b4a0e97083,tarih,asiri_basit,hayir,0.55,0.90,Aydınlanma Çağı'nın temel dayanağı nedir?,Akıl ve bilim,
+2a9c9eb3-d429-4803-a6ed-fc495b363a37,tarih,asiri_basit,hayir,0.60,0.90,'Küba Füze Krizi' neyi tehdit etti?,Nükleer savaş riskini artırdı,
+c8b3dd13-8ca1-440a-9bd5-e857f2886261,tarih,asiri_basit,hayir,0.80,0.97,'Roma su kemerleri' ne amaçla yapılmıştır?,Kente su taşımak,"Su kemerinin amacı adından belli, genel kavram sorusu."
+7405892d-13ed-4431-b937-e4154735dcdb,tarih,asiri_basit,hayir,0.70,0.93,'Osmanlı'da nüfus sayımı' hangi amaçla yapıldı?,Vergi ve asker tespiti,Amaç sorusu; çeldiriciler konu dışı ve doğru şık belli.
+6f7cb779-c63c-4b63-a091-c2e97cc671ff,tarih,asiri_basit,hayir,0.60,0.95,İlk buharlı gemi hangi alanda devrim yaptı?,Deniz taşımacılığı,Gemi kelimesinden cevap çıkıyor.
+0c0476e7-f0a6-48cc-bc11-a8d9228e1ebf,tarih,asiri_basit,hayir,0.80,0.70,'Tarihsel bağlam' neden önemlidir?,Olayı kendi koşullarında anlamak,Genel kavram sorusu; B şıkkı da savunulabilir ama D daha yaygın cevap.
+e8b7b8cb-eaf2-462f-a39d-af709c591700,tarih,asiri_basit,hayir,0.70,0.90,'Demir yolu' 19. yüzyılda neyi hızlandırdı?,Ulaşım ve ticareti,"Çeldiriciler 'yalnızca' ifadeleriyle belli, doğru şık mantıkla bulunur."
+acb08aa4-4c5d-4b97-8215-552b9b661117,tarih,asiri_basit,hayir,0.60,0.90,'Mumyalama' hangi inanca dayanır?,Öldükten sonraki yaşam,"Çeldiriciler mantıksız, cevap kolayca çıkarılıyor."
+5185aa1e-d5aa-4e98-83a7-464a8b0c93b9,tarih,asiri_basit,hayir,0.50,0.90,'Yeni Dünya bitkileri' Avrupa'da neyi değiştirdi?,Beslenme ve tarımı,Bitkilerden söz edildiği için beslenme ve tarım şıkkı belli.
+bf8e420d-d4b9-4695-85d6-2a5b33814875,tarih,asiri_basit,hayir,0.60,0.85,'Buharlı gemi' denizcilikte neyi değiştirdi?,Rüzgara bağımlılığı,"Buharlı gemi rüzgara bağımlılığı azalttı; mantıkla bulunabilir, çeldiriciler zayıf."
+15a30781-10f9-40a3-81a3-90e75f7f3bfa,tarih,asiri_basit,hayir,0.80,0.93,'Baharat Yolu' hangi ürünlerin ticaretini sağlardı?,Doğu kökenli baharatlar,Cevap adın içinde (baharat).
+93f23c0b-4ecd-4037-aedd-924e8535941b,tarih,asiri_basit,hayir,0.70,0.90,'Köyden kente göç' hangi sorunu büyüttü?,Kentleşme ve konut sorununu,"Mantıkla çıkarılabilir, çeldiriciler zayıf."
+f27accce-0c77-4602-9305-421667b7e60d,tarih,asiri_basit,hayir,0.60,0.90,Coğrafi keşiflerin tarımsal sonucu ne olmuştur?,Ürünlerin kıtalar arasında yayılması,"Çeldiriciler saçma, mantıkla bulunur."
+a555a55e-b300-4a83-a649-be21c03b5315,tarih,asiri_basit,hayir,0.60,0.90,'Emperyalizm' 19. yüzyılda neyi hedefledi?,Hammadde ve pazar denetimini,"Genel kavram sorusu, çeldiriciler zayıf."
+442c9c51-b4f1-4418-82c8-5a66ba26097e,tarih,asiri_basit,hayir,0.80,0.90,'Göçmen yerleştirme' hangi sorunu doğurur?,Barınma ve uyum ihtiyacını,
+0007bbf6-f736-4be2-949e-05a01e316953,tarih,asiri_basit,hayir,0.70,0.95,'Sanayi Devrimi' öncesinde üretim nasıl yapılırdı?,El emeğiyle atölyede,"Diğer şıklar sonraki dönemlere ait, mantıkla çözülür."
+9303a903-e36b-4889-bed0-107545c4af2d,tarih,asiri_basit,hayir,0.55,0.90,Tekke ve zaviyelerin kapatılması hangi amaçla yapıldı?,Laik düzeni güçlendirmek,
+41063a35-3541-473c-a3eb-7c1bcf53c478,tarih,asiri_basit,hayir,0.60,0.93,Soğuk Savaş'ın taraflarını hangi iki blok oluşturur?,Batı ve Doğu blokları,Çeldiriciler anlamsız; Batı-Doğu blokları belli.
+2eaa7aa7-2aaf-4fa2-9dc4-25599fa2e8da,tarih,asiri_basit,hayir,0.60,0.85,'Sendika' hareketinin doğuşu neyle ilişkilidir?,İşçi sınıfının oluşumuyla,
+ed598739-d2d0-446e-8110-64120687a375,tarih,asiri_basit,hayir,0.70,0.97,'Mekteb-i Tıbbiye' hangi alanda açıldı?,Tıp,"Adında 'Tıbbiye' geçiyor, cevap sözcükten belli."
+04b28217-2ea3-46bd-8c5c-a15018bda050,tarih,asiri_basit,hayir,0.70,0.85,Orta Çağ şövalyelerinin vücutlarını korumak için giydiği metal giysiye ne denir?,Zırh,Metal giysi tanımı zırhı belli ediyor.
+5233673e-6dfc-48b4-8b86-b5d31583a580,tarih,asiri_basit,hayir,0.60,0.90,'Bilimsel Devrim' neyi değiştirdi?,Doğayı açıklama yöntemini,"Genel kavram sorusu, en genel şık doğru."
+7a69b92f-8ac0-49e0-a8b6-6942f39d339d,tarih,asiri_basit,hayir,0.60,0.93,'Büyük Taarruz' hangi sonuçla bitti?,Zaferle,Büyük Taarruz Türk zaferiyle sonuçlandı; 'Büyük' sözcüğü ipucu veriyor.
+e277b968-af01-4a0b-b4d0-845619723839,tarih,asiri_basit,hayir,0.60,0.75,'Belge dijitalleştirme' neyi korur?,Özgün belgeyi yıpranmadan,Genel kavram; doğru şık mantıkla bulunuyor.
+95e340f2-d2cb-49d2-b6f9-c41ecad854b2,tarih,asiri_basit,hayir,0.60,0.93,'Reform' hareketi neyi hedefledi?,Kilise düzeninin değişmesini,Reform sözcüğü ve Kilise şıkkı cevabı kolayca ele veriyor.
+64c76727-3866-40ee-8170-33b218f0cae6,tarih,asiri_basit,hayir,0.60,0.90,'Ekonomik tarih' hangi veriyi kullanır?,Üretim ve fiyat kayıtlarını,
+0200a1b0-aed3-47c6-8f42-e024372eaae2,tarih,asiri_basit,hayir,0.60,0.93,Sanayi Devrimi'nin toplumsal sonuçlarından biri nedir?,İşçi sınıfının doğuşu,"Çeldiriciler feodal/ortaçağ kavramları; genel kavram sorusu, cevap mantıkla bulunur."
+7e973915-623d-4800-9004-eccf773e8e7c,tarih,asiri_basit,hayir,0.60,0.70,'Başkentin Ankara olması' neyi gösterir?,Güvenlik ve merkezîlik tercihini,Genel yorum sorusu; Ankara'nın merkezî konumu yaygın kabul gören cevap.
+9c0a151e-f73c-4677-bd94-44357d19c8d2,tarih,asiri_basit,hayir,0.75,0.85,'Aile tarihi' araştırmasında hangi kaynak kullanılır?,Nüfus kayıtları,"Diğer şıklar konu dışı, cevap mantıkla bulunur."
+88b4dbbb-43cf-4abb-a6db-44e9ef7707df,tarih,asiri_basit,hayir,0.55,0.93,Rönesans hangi alanda başlamıştır?,Sanat ve edebiyat,"Çeldiriciler konu dışı, genel kavram."
+1cf3b682-4e42-434c-b906-d5983b6bda86,tarih,asiri_basit,hayir,0.60,0.93,İspanyolcanın Latin Amerika'da yaygın olmasının nedeni nedir?,Sömürge geçmişi,
+d7721659-1ab1-4ce0-a20f-27a5ffe7ff75,tarih,asiri_basit,hayir,0.70,0.93,'Telgraf hattı' devletlere ne kazandırdı?,Hızlı haberleşme,Telgrafın işlevi sözcükten belli; genel kavram soruluyor.
+6bbae1d0-c3a2-42a5-8ccc-e4dbd788f9c8,tarih,asiri_basit,hayir,0.55,0.93,'Rönesans insanı' kavramı neyi anlatır?,Çok alanda yetkin kişiyi,
+0c26afe8-71a2-46e0-b805-e235c85d442e,tarih,asiri_basit,hayir,0.85,0.88,'Sanayi bölgeleri' kurulmasının amacı nedir?,Planlı üretim ve istihdam,"Amaç sorusu; en mantıklı şık belli, çeldiriciler konu dışı."
+7cbff9e2-7c8e-48f2-8311-dc3a93e4d0e2,tarih,asiri_basit,hayir,0.70,0.85,'Matbaanın' Avrupa'da yaygınlaşması neyi hızlandırmıştır?,Bilginin yayılmasını,Cevap mantıkla belli; ticaret de savunulabilir ama bilginin yayılması en doğrudan etki.
+0b91d928-b6d0-4acd-9ecb-1f9cb04fce43,tarih,asiri_basit,hayir,0.55,0.88,'Hindistan'ın bağımsızlığı' hangi yöntemle kazanıldı?,Ağırlıkla şiddetsiz direnişle,
+c9324569-fac2-45b0-8c11-689a4ab17161,tarih,asiri_basit,hayir,0.70,0.98,Fransız Devrimi hangi ülkede olmuştur?,Fransa,Cevap soru metninde ima ediliyor (Fransız Devrimi → Fransa).
+3b328eb3-e94f-4474-a774-60d9bb3795c3,tarih,asiri_basit,hayir,0.85,0.93,Sömürgeciliğin temel amacı neydi?,Hammadde ve pazar elde etmek,"Genel amaç sorusu, doğru şık açıkça en mantıklısı."
+9dfb9e33-92b7-4def-b1f3-e0263b952270,teknoloji,asiri_basit,hayir,0.60,0.95,Bilgisayarda yazı yazılan Microsoft programı hangisidir?,Word,"Yazı yazma programı Word, oldukça belli."
+98c4d5f9-bfb5-4e3e-bc77-ce4ea471e874,teknoloji,asiri_basit,hayir,0.60,0.97,Kesintisiz güç kaynağı (UPS) ne sağlar?,Elektrik kesildiğinde geçici besleme,UPS'in işlevi genel kavram; doğru şık açıkça en mantıklı olan.
+b5a4158c-30b4-4357-a0a9-9b28f1367f87,teknoloji,asiri_basit,hayir,0.80,0.98,Arkeolog Lara Croft'un başrolde olduğu oyun serisi hangisidir?,Tomb Raider,Arkeolog ipucu ve Tomb Raider adı çok bilinen bir olgu; yine de çok kolay.
+276388ca-2956-4316-83b7-586f41b97b96,teknoloji,asiri_basit,hayir,0.70,0.93,SSD'nin sabit diske göre avantajı nedir?,Daha hızlı olması,Avantaj sorusu; en mantıklı şık hız.
+8c2492e0-5281-4dca-9dbe-0c0d739760df,teknoloji,asiri_basit,hayir,0.80,0.93,Elektronik atıkların (e-atık) sorunu nedir?,Zararlı madde içermesi,"Doğru şık açıkça mantıklı, çeldiriciler saçma."
+874240a2-0499-414f-90a8-f321250e0f63,teknoloji,asiri_basit,hayir,0.55,0.97,Sanal insanların hayatını yönettiğimiz ünlü oyun serisi hangisidir?,The Sims,
+5bc9884f-6239-4b81-94e1-43f8880cea61,teknoloji,asiri_basit,hayir,0.75,0.90,Bir veri tabanında bilgiler nasıl saklanır?,Tablolarda,Genel kavram; çeldiriciler konu dışı.
+467ed718-2b91-4d8e-9048-142396ea5f55,teknoloji,asiri_basit,hayir,0.80,0.97,Router (yönlendirici) ne işe yarar?,Ağ trafiğini yönlendirmek,Genel işlev sorusu; çeldiriciler saçma.
+22a10f3f-8bdf-4328-9371-53764625bb36,teknoloji,asiri_basit,hayir,0.80,0.98,Algoritma nedir?,Bir sorunu çözen adım dizisi,"Çeldiriciler saçma, tanım açık."
+d58f19e5-88b0-4627-9950-de2e1c52c923,teknoloji,asiri_basit,hayir,0.80,0.97,'Yapay sinir ağı' neyden esinlenir?,Beyin hücrelerinden,Sinir ağı sözcüğü beyni çağrıştırır.
+1793e321-e7c6-48b7-9aac-e40bec876965,teknoloji,asiri_basit,hayir,0.60,0.97,İnternetten bir dosyayı kendi cihazımıza kaydetmeye ne denir?,İndirme,
+f5b40b80-a674-484c-8db8-2d6b51da5f04,teknoloji,asiri_basit,hayir,0.80,0.90,PDF formatının amacı nedir?,Belgeyi biçimi bozulmadan taşımak,Genel amaç sorusu; çeldiriciler belirgin biçimde yanlış.
+151e9c70-2827-4522-9087-80ebb0ffa087,teknoloji,asiri_basit,hayir,0.80,0.90,'Bilgisayarla görü' neyi işler?,Görüntü verisini,Terimin anlamı cevabı veriyor (görü → görüntü).
+3de18810-4cd9-4073-af73-01571243604d,teknoloji,asiri_basit,hayir,0.85,0.95,Bitcoin ne tür bir para birimidir?,Dijital,Bitcoin'in dijital olduğu genel bilgiyle ve şıkların saçmalığıyla belli.
+feb616fb-36c1-46bf-a003-e5396707cf79,teknoloji,asiri_basit,hayir,0.60,0.95,IP adresinin işlevi nedir?,Cihazı ağda adreslemek,
+1876e0fa-51f9-4796-b518-5f5d1ec824c7,teknoloji,asiri_basit,hayir,0.85,0.95,Bir uygulamanın 'gizlilik politikası' neyi açıklar?,Hangi verinin nasıl işlendiğini,
+6bb0d0af-2334-4874-bfa5-513add6a8579,teknoloji,asiri_basit,hayir,0.60,0.95,"Bilgisayarda ""görev yöneticisi"" ne gösterir?",Çalışan işlemleri ve kaynak kullanımını,Görev yöneticisi sorusu genel işlev sorusu; ad zaten ipucu veriyor.
+3c8fc7ab-e7c3-49dd-bc25-f44059106c06,teknoloji,asiri_basit,hayir,0.55,0.97,"""Sıcak nokta"" (hotspot) özelliği ne sağlar?",Cihazın internetini paylaşmayı,"Genel kavram sorusu, çeldiriciler zayıf."
+7cc32c2a-8149-42d1-a85b-379bf875e317,teknoloji,asiri_basit,hayir,0.60,0.95,Konuşma tanıma sistemi ne yapar?,Sesi metne çevirir,Adından belli işlev sorusu.
+667864be-91ff-4eca-80fc-a6f1d9675525,teknoloji,asiri_basit,hayir,0.70,0.95,"Yapay zekâda ""veri seti"" ne demektir?",Öğrenme için kullanılan veriler,Genel kavram; çeldiriciler saçma.
+ac705c5c-f598-4e35-8746-0419f118f163,teknoloji,asiri_basit,hayir,0.55,0.95,Casus yazılım (spyware) ne yapar?,Kullanıcı bilgisini gizlice toplar,
+aab0978e-5a7a-4561-8136-b9690ca5c5c6,teknoloji,asiri_basit,hayir,0.50,0.97,İkili sayı sisteminde kaç rakam kullanılır?,2,
+1e48efc2-d15c-4750-b567-003136c44493,teknoloji,asiri_basit,hayir,0.55,0.95,HTTPS'in HTTP'den farkı nedir?,Şifreli iletişim,"Çeldiriciler saçma, şifreli iletişim açıkça en mantıklı şık."
+79ea2a21-8f58-4b68-aeb9-ae48cb106478,teknoloji,asiri_basit,hayir,0.85,0.95,Uygulama izinlerinin sınırlanması neyi korur?,Kullanıcı gizliliğini,"İzin sınırlama gizlilikle ilgili, mantıkla bulunur."
+79ad55af-2955-4265-9568-746d170a46d1,teknoloji,asiri_basit,hayir,0.70,0.85,QR kod ne yapar?,Bilgiyi iki boyutlu desen olarak taşır,Genel işlev sorusu.
+d8432ae7-c9d5-4934-b277-151b78bf59d9,teknoloji,asiri_basit,hayir,0.60,0.99,Apple'ın bileğe takılan akıllı saati hangisidir?,Apple Watch,Cevap soruda ('Apple') geçiyor.
+98af29a6-f98f-49c2-85c5-9f710a343f39,teknoloji,asiri_basit,hayir,0.60,0.93,Barkod okuyucular hangi teknolojiyi kullanır?,Optik okuma,Barkod okuyucular optik okuma kullanır; çeldiriciler zayıf.
+6892510a-7e1e-431b-bdf4-1c48e1af4a88,teknoloji,asiri_basit,hayir,0.70,0.80,'QR kod' neyi saklar?,Kodlanmış veriyi,Kodlanmış veri neredeyse tanım gereği; ancak QR kod görüntü olarak da düşünülebilir.
+5637c1a0-f934-4ba2-8d22-de870ff099d5,teknoloji,asiri_basit,hayir,0.60,0.90,'USB' arayüzü ne için geliştirilmiştir?,Evrensel çevre birimi bağlantısı,Evrensel seri veriyolu adından cevap çıkıyor.
+3e368665-58c3-41e3-99aa-7ced0eac8bb3,teknoloji,asiri_basit,hayir,0.55,0.90,Alan adı (domain) neyi ifade eder?,Sitenin insan okunur adresini,"Genel kavram sorusu, çeldiriciler zayıf."
+4402f8e6-2479-4eaa-84a7-637457d9bbee,teknoloji,asiri_basit,hayir,0.60,0.88,'Alan adı uzantısı' neyi gösterir?,Adresin üst düzey grubunu,Genel kavram sorusu; çeldiriciler konu dışı.
+75cc0999-a952-4db2-964c-fb555f4db581,teknoloji,asiri_basit,hayir,0.75,0.95,Çerezler (cookie) ne işe yarar?,Site tercihlerini saklamak,"İşlev sorusu, çeldiriciler saçma."
+ad712898-ae93-4a2f-b476-9ee9292f629f,teknoloji,asiri_basit,hayir,0.60,0.97,Netflix'in kırmızı logosunda hangi harf yer alır?,N,"Netflix adı N ile başlar, ipucu soruda zaten var."
+03313322-9db4-4b15-b68c-842e1ad4fb21,teknoloji,asiri_basit,hayir,0.75,0.97,Veri tabanı ne için kullanılır?,Veriyi düzenli saklayıp sorgulamak,"Genel işlev sorusu, çeldiriciler konu dışı."
+eb3c4ef2-1599-426a-93e8-05ead3184fc9,teknoloji,asiri_basit,hayir,0.60,0.95,Sony'nin ilki 1994'te çıkan oyun konsolu serisinin adı nedir?,PlayStation,
+4a752d40-3102-4abb-8e1c-4fbbd62dfd82,teknoloji,asiri_basit,hayir,0.60,0.90,Sunucu (server) ne demektir?,Hizmet sunan bilgisayar,
+01c9bc01-f606-4bfb-b1fc-7d85e084cfb7,teknoloji,asiri_basit,hayir,0.65,0.95,Ekran kartının görevi nedir?,Görüntü işlemek,Ekran kartı adı görevini belli ediyor.
+0ad8fcc2-760d-4b1f-b033-8620539da576,teknoloji,asiri_basit,hayir,0.55,0.90,Yazılım ve bilişim hizmetlerinde öne çıkan ülke hangisidir?,Hindistan,"Çeldiriciler saçma ülkeler, Hindistan açıkça en mantıklı şık."
+4eb4fb54-d980-4d16-8db7-27d450325f1f,teknoloji,asiri_basit,hayir,0.60,0.96,İşletim sisteminin temel görevi nedir?,Donanım ve yazılım arasında yönetim,İşletim sisteminin görevi genel kavram sorusu.
+3d0c88e4-b95e-46d1-9f05-ca2e92edcc4a,teknoloji,asiri_basit,hayir,0.60,0.95,5G teknolojisinin öne çıkan özelliği nedir?,Düşük gecikme ve yüksek hız,Genel özellik sorusu; çeldiriciler saçma.
+02e02fcc-466f-48b4-a60b-1d83f3e14676,teknoloji,asiri_basit,hayir,0.60,0.97,'SSD' ne tür bir depolama birimidir?,Katı hal sürücüsü,"SSD açılımı katı hal sürücüsüdür, doğru."
+4b9c98e8-8448-4cc8-97d6-2a3402daef10,teknoloji,asiri_basit,hayir,0.60,0.90,Pinterest en çok neyi paylaşmak için kullanılır?,Görselleri,"Pinterest görsel paylaşım platformudur, doğru."
+b30b1549-aa13-42e3-87a0-002008502838,teknoloji,asiri_basit,hayir,0.70,0.97,Sesi kaydetmek için kullanılan aygıt hangisidir?,Mikrofon,"Kayıt aygıtı mikrofon, mantıkla bulunur."
+44b259c8-630f-4d1f-9ffc-ecce24dbc526,teknoloji,asiri_basit,hayir,0.70,0.98,Bilgisayarı virüslerden korumak için kullanılan program hangisidir?,Antivirüs,Soru kelimesi cevabı veriyor (virüsten koruma → antivirüs).
+1a18f0b9-a9de-4597-b376-626502f3127d,teknoloji,asiri_basit,hayir,0.80,0.93,'Sanal gerçeklik' kullanıcıya ne sunar?,Tümüyle sanal ortam,
+2f5d0773-f746-44a6-832c-98c079be5c70,teknoloji,asiri_basit,hayir,0.85,0.97,İki faktörlü doğrulama neyi artırır?,Hesap güvenliğini,Cevap mantıkla belli; diğer şıklar konu dışı.
+25f4805b-78c8-45c1-8a50-5db1c5c625a7,teknoloji,asiri_basit,hayir,0.60,0.95,'En boy oranı' neyi ifade eder?,Görüntünün genişlik yükseklik oranını,Terimin anlamı şıkta açıkça yazıyor (genişlik yükseklik oranı).
+039b0687-c527-4e7e-8ec5-f0f270d1e5cf,teknoloji,asiri_basit,hayir,0.70,0.90,PDF biçiminin avantajı nedir?,Biçimin korunması,Avantaj sorusu genel; çeldiriciler saçma.
+504054da-201f-48fe-923b-2da27a05ec71,teknoloji,asiri_basit,hayir,0.70,0.95,Microsoft PowerPoint ile ne hazırlanır?,Sunum,"Çeldiriciler saçma, cevap belli."
+1cd58c32-52fa-4a61-960b-59eb7457c2e2,teknoloji,asiri_basit,hayir,0.85,0.95,Güvenlik duvarı ne işe yarar?,Ağ trafiğini denetler,"Ne işe yarar sorusu, çeldiriciler saçma."
+6bbbe52b-5a9d-4440-8abf-f49717a8caa5,teknoloji,asiri_basit,hayir,0.70,0.96,Ethernet kablosu ne için kullanılır?,Kablolu ağ bağlantısı,"İşlev sorusu, ad ve çeldiriciler cevabı belli ediyor."
+70770d57-ced2-42cf-aad0-9bc6e47473a7,teknoloji,asiri_basit,hayir,0.80,0.93,'Kuyruk sistemi' neyi düzenler?,İşlerin sırayla işlenmesini,Kuyruk sözcüğünden ve konu dışı çeldiricilerden cevap belli.
+634b13d5-ba76-491e-b813-33aaa7143832,teknoloji,asiri_basit,hayir,0.85,0.95,'Zaman dilimi' verisi neden önemlidir?,Doğru saat gösterimi için,Genel kavram sorusu; cevap sözcükten belli.
+153a0a5f-2da5-4032-aa89-cd9ecc1a1f8a,teknoloji,asiri_basit,hayir,0.85,0.95,Sensörün robotikteki işlevi nedir?,Çevreden veri toplamak,"İşlev sorusu, çeldiriciler belirgin biçimde yanlış."
+d02e5235-8fd5-4200-99d7-c04ee03f0786,teknoloji,asiri_basit,hayir,0.85,0.95,Sahibinden.com hangi amaçla kullanılır?,İlan,Sitenin ilan sitesi olduğu genel bilgiyle ve diğer şıkların konu dışı olmasıyla belli.
+fc92a0d0-7531-4471-8803-e4e9cff32078,teknoloji,asiri_basit,hayir,0.55,0.97,Dizüstü bilgisayarın İngilizce adı nedir?,Laptop,"Dizüstü=laptop, sözcük bilgisi düzeyinde basit."
+0bc5830f-5dcb-439a-93d8-85db6f96cb51,teknoloji,asiri_basit,hayir,0.80,0.90,Hızlı şarj teknolojisi neyi artırır?,Şarj gücünü ve hızını,"Cevap sorudaki ifadeden belli, çeldiriciler saçma."
+048e74c3-b034-447d-af15-985850e4b9d4,teknoloji,asiri_basit,hayir,0.70,0.92,Anlık bildirim (push) ne sağlar?,Uygulama kapalıyken haber vermeyi,
+d62cb875-384e-4df9-b392-49acf9ac5265,teknoloji,asiri_basit,hayir,0.65,0.92,"Bir uygulamanın ""izinleri"" neyi belirler?",Hangi verilere erişebileceğini,İzin kavramı doğrudan veri erişimini ima ediyor.
+b76c4360-2079-45e2-8a35-8625d05fa29b,teknoloji,asiri_basit,hayir,0.60,0.95,"Bir bilgisayarda ""algoritma"" nedir?",Adım adım çözüm yolu,"Çeldiriciler saçma, doğru şık tek mantıklı tanım."
+1af8ee9f-6762-40c6-ab5a-4d3bdea3d082,teknoloji,asiri_basit,hayir,0.55,0.97,Bir bilgisayar dosyasının uzantısı neyi gösterir?,Dosya türünü,
+545d8731-e8f4-4b4c-9575-20fdcc297a47,teknoloji,asiri_basit,hayir,0.70,0.90,Bulut depolamanın avantajı nedir?,Her yerden erişim,
+c81da4d9-27da-4c55-bd47-2418003ebd55,teknoloji,asiri_basit,hayir,0.70,0.90,'Mikroişlemci' ne yapar?,Komutları işler,Genel 'ne yapar' sorusu; işlemci komut işler.
+209baf4e-af7a-4f22-9792-9a1cfbcedb62,teknoloji,asiri_basit,hayir,0.60,0.95,Bir bilgisayar ağında IP ne işe yarar?,Cihazı adresler,
+6b9d39b9-6d91-4e0c-865a-03600bfae92f,teknoloji,asiri_basit,hayir,0.60,0.97,Otomobilde ABS ne işe yarar?,Frende tekerlek kilitlenmesini önler,
+20bd0186-2e97-40b6-b902-74e4dc3845d5,teknoloji,asiri_basit,hayir,0.60,0.90,Bilgisayarlı görü hangi veriyle çalışır?,Görüntü ve video,
+2b8a3da1-01e3-4f07-b8a2-5b06c20c7948,teknoloji,asiri_basit,hayir,0.75,0.70,Çoklu görev (multitasking) ne sağlar?,Birden çok işin sırayla yürütülmesi,Kavramın anlamından belli; şıklar da zayıf.
+462e3d0a-1d13-469d-8437-42035259f15e,teknoloji,asiri_basit,hayir,0.60,0.95,Instagram'da bir gönderiyi beğenmek için hangi simge kullanılır?,Kalp,Kalp simgesi herkesin bildiği bir olgu; şıklar da basit.
+1b68e9c3-1c86-4768-ad92-40f71faea03b,teknoloji,asiri_basit,hayir,0.60,0.97,Telefonla çekilen kendi fotoğrafımıza ne ad verilir?,Selfie,
+694f72bc-eda4-46ab-9654-bde64f679758,teknoloji,asiri_basit,hayir,0.60,0.97,Trendyol ve Hepsiburada hangi alanda hizmet verir?,Alışveriş,
+d74daa78-24b3-4a55-a72f-a35dd29462ba,teknoloji,asiri_basit,hayir,0.80,0.95,E-imza hangi işlemde kullanılır?,Belgenin yasal olarak imzalanmasında,"Genel işlev sorusu; doğru şık açıkça en mantıklı olanı, çeldiriciler konu dışı."
+67336186-3830-4b9d-a72d-1938e33fc826,teknoloji,asiri_basit,hayir,0.65,0.93,'VPN' kullanımının başlıca amacı nedir?,Güvenli ve gizli bağlantı,Amaç sorusu genel bir kavram; doğru şık en mantıklı olan.
+43617504-b6e3-4dfd-a22d-0787fa986472,teknoloji,asiri_basit,hayir,0.60,0.97,Dosya boyutunu küçültme işlemine ne ad verilir?,Sıkıştırma,
+00dea4dc-9d81-42ff-bd83-7f82364c1362,teknoloji,asiri_basit,hayir,0.70,0.93,'Bulut depolama' verinin nerede tutulduğunu belirtir?,Uzak sunucularda,"Bulut depolamanın tanımı mantıkla bulunur, çeldiriciler zayıf."
+f5bf6f5c-b56d-43cb-8a4d-4d0d3fba4780,teknoloji,asiri_basit,hayir,0.60,0.90,Bilgisayarda dosyaların bulunduğu kutu simgesine ne denir?,Klasör,
+a1ae128d-4a65-4c89-954a-b621a3a8957e,teknoloji,asiri_basit,hayir,0.60,0.90,Fotoğraf ve belgeleri bilgisayara aktaran cihaz hangisidir?,Tarayıcı,
+40fbd2b6-7155-4feb-893f-8b07e795393f,teknoloji,asiri_basit,hayir,0.70,0.85,Yazılımların düzenli yenilenmesi neden önemlidir?,Bilinen açıkları kapatması,"Genel kavram sorusu, mantıklı şık belli."
+48e6bdc4-e185-4e59-92aa-4eee739c0f91,teknoloji,asiri_basit,hayir,0.60,0.93,Dijital ayak izi ne demektir?,İnternette bıraktığımız veri izi,
+9a61b9d7-ab1d-4931-b5dd-8daec6c8fb23,teknoloji,asiri_basit,hayir,0.85,0.96,Uydu iletişiminde gecikmenin nedeni nedir?,Sinyalin uzun mesafe kat etmesi,"Diğer şıklar saçma, cevap mantıkla belli."
+6a17a980-e413-4ee2-895f-4438f0ce610f,teknoloji,asiri_basit,hayir,0.60,0.90,Modem ne yapar?,Sinyalleri dönüştürerek internet bağlantısı sağlar,"Genel işlev sorusu, çeldiriciler konu dışı."
+2fd69aa9-b3b2-459b-aee0-2a9f9f04a2fd,teknoloji,asiri_basit,hayir,0.80,0.97,Artırılmış gerçeklik ne yapar?,Gerçek görüntüye dijital öğe ekler,
+746dfce9-54f3-4900-a9c1-86472844e3ee,teknoloji,asiri_basit,hayir,0.70,0.97,Yönlendirici (router) ne yapar?,Ağlar arasında veri paketi yönlendirir,Ne işe yarar tipi genel soru.
+22d062bf-d2a3-4742-8698-49ff7b703e0c,teknoloji,asiri_basit,hayir,0.80,0.95,Drone teknolojisinin sivil kullanımına örnek nedir?,Haritalama ve tarımsal izleme,Sivil kullanım örneği şıklar arasında bariz; diğerleri konu dışı.
+d1a7c671-a8a9-4020-8b64-1f4b82b23726,teknoloji,asiri_basit,hayir,0.80,0.70,'Klavye ile gezinme' neden önemlidir?,Fare kullanamayanlar için,Genel kavram sorusu; hız da savunulabilir ama erişilebilirlik yaygın cevap.
+0551cdc3-8393-41e3-822b-bfc62754c839,teknoloji,asiri_basit,hayir,0.60,0.97,İnternette IP adresi ne işe yarar?,Cihazı ağda adreslemek,"Genel 'ne işe yarar' sorusu, çeldiriciler konu dışı."
+63287feb-f8aa-4b3d-8540-a694004faed8,teknoloji,asiri_basit,hayir,0.65,0.97,Verinin kopyasının ayrıca saklanmasına ne ad verilir?,Yedekleme,Tanım sözcüğün anlamından belli (yedek).
+e4119364-e96f-40d2-ae61-6f75e1051d3d,teknoloji,asiri_basit,hayir,0.60,0.97,Duolingo uygulaması ne öğrenmek için kullanılır?,Dil,"Duolingo bilinen bir dil uygulaması, ama soru çok kolay."
+4d960d4f-e257-4d14-ad78-c66a568ff864,teknoloji,asiri_basit,hayir,0.75,0.90,Yazıcılarda lazer teknolojisinin avantajı nedir?,Hızlı ve net metin baskısı,"Çeldiriciler saçma, doğru şık en mantıklısı."
+82b055de-6c4c-49af-9940-1f7ca514dcbb,teknoloji,asiri_basit,hayir,0.85,0.95,'Biyometrik doğrulama' neyi kullanır?,Bedensel özellikleri,'Biyo' ön eki cevabı veriyor; çeldiriciler konu dışı.
+b551cc78-dc7a-4e2f-905e-74baa4139bd3,teknoloji,asiri_basit,hayir,0.80,0.95,Bluetooth hangi mesafe için tasarlanmıştır?,Kısa mesafe,"Çeldiriciler saçma, mantıkla bulunur."
+2afe9668-442e-42ea-9c5f-e57f62f92945,teknoloji,asiri_basit,hayir,0.60,0.95,HTTP ile HTTPS arasındaki fark nedir?,HTTPS'in şifreli olması,
+769aed0e-a930-4d5d-aa45-12ada443d4f6,teknoloji,asiri_basit,hayir,0.60,0.97,Adobe Photoshop hangi iş için kullanılır?,Fotoğraf düzenleme,Photoshop fotoğraf düzenleme yazılımıdır; 'ne işe yarar' tipi basit soru.
+716ff0a9-1769-4548-973f-792febc24cdd,teknoloji,asiri_basit,hayir,0.60,0.95,Bulut bilişim ne anlama gelir?,Verilerin uzak sunucularda tutulması,Çeldiriciler saçma.
+e8d192f9-a56d-45e4-86fb-cb17859f0556,teknoloji,asiri_basit,hayir,0.75,0.93,'Gösterge paneli' (dashboard) ne yapar?,Ölçümleri görselleştirir,"Genel kavramın işlevi soruluyor, diğer şıklar konu dışı."
+7e8631d3-3e88-4c81-810a-359bf2df75ad,teknoloji,asiri_basit,hayir,0.80,0.95,'Sensör' hangi işlevi görür?,Fiziksel büyüklüğü ölçer,"Genel işlev sorusu, çeldiriciler konu dışı."
+3909b00c-b748-422b-966c-723b25f872e8,teknoloji,asiri_basit,hayir,0.75,0.97,'Metinden sese' teknolojisi ne yapar?,Yazıyı konuşmaya çevirir,Cevap terimin anlamından belli.
+33523ec8-6312-47c8-bbf5-fc91734bf934,teknoloji,asiri_basit,hayir,0.60,0.93,'Nesnelerin İnterneti' neyi tanımlar?,Cihazların ağa bağlanmasını,Genel bir kavram soruluyor ve ad kendini açıklıyor.
+6815cd0c-d4f7-4059-95b1-693f4ef50af2,teknoloji,asiri_basit,hayir,0.85,0.85,Bir ürünün prototipi ne işe yarar?,Fikri denemeye,"Genel kavram sorusu, çeldiriciler saçma."
+1fdd6a6b-1718-4aaa-a43b-b3bbf3e01a36,teknoloji,asiri_basit,hayir,0.80,0.95,'Hareket yakalama' (motion capture) ne kaydeder?,Oyuncunun hareketini,"Cevap soruda ima ediliyor, diğer şıklar saçma."
+ab084585-f9d9-45d5-aa58-d11f06c3cc3f,bilim,cift_cevap,hayir,0.80,0.60,İstemsiz çalışan kas türü hangisidir?,Düz kas,Kalp kası da istemsizdir ama şıklarda düz kas en uygun; yine de belirsizlik var.
+b467c2c9-4a3c-4320-9561-987c0523e1ee,bilim,cift_cevap,hayir,0.50,0.60,'Kızılötesi' ışınım hangi duyuyla algılanabilir?,Sıcaklık olarak,"Kızılötesi görünmez, sıcaklık olarak hissedilir; ancak 'duyu' sorulduğu için şıklar tutarsız, görme de yanlış değil sayılmaz."
+5cc7a98f-4ec6-482c-a8c3-7250d341d354,bilim,cift_cevap,hayir,0.70,0.60,Oda sıcaklığında sıvı olan tek metal hangisidir?,Cıva,"Galyum oda sıcaklığına yakın erir (29,8 °C) ve sıcak odada sıvı olabilir; ancak cıva yaygın doğru cevaptır."
+51b746ee-689b-4e91-b404-5658b8b21904,bilim,cift_cevap,hayir,0.70,0.60,Kemik erimesini önlemede etkili vitamin hangisidir?,D vitamini,D vitamini doğru ama K vitamini de kemik sağlığında etkili.
+ad408066-eee4-419f-8e87-86d2833f179c,cografya,cift_cevap,hayir,0.80,0.60,Volkanik dağların tepesindeki çukurluğa ne denir?,Krater,Volkanın tepesindeki çukurluk krater; kaldera da büyük çöküntü çukuru olarak savunulabilir ama krater yaygın cevap.
+d41a2ebc-6727-4dc3-85ec-976c2f4e08a2,cografya,cift_cevap,hayir,0.85,0.60,Türkiye'de fındık üretimiyle ünlü il hangisidir?,Giresun,"Giresun ünlü ama Ordu ve Sakarya da fındıkla ünlü; yine de şıklarda tek Giresun var, Rize çay."
+13900d7a-9c3b-480d-b01a-66443c761b37,cografya,cift_cevap,hayir,0.90,0.60,Kaçkar Dağları hangi bölgemizdedir?,Karadeniz,"Kaçkarlar Karadeniz Bölgesi'nde (Rize), kısmen Doğu Anadolu sınırına yakın ama doğru Karadeniz."
+84e35851-58bd-45a1-b47b-53d863232edf,edebiyat,cift_cevap,hayir,0.60,0.50,Şiirde 'ahenk' neyle sağlanır?,"Ölçü, kafiye ve ses yinelemeleriyle","Ahenk ses yinelemeleriyle sağlanır; diğer şıklar ahenkle ilgili değil, ama tartışmalı olabilir."
+27343be7-aa69-4e30-98bc-709c95540ee6,edebiyat,cift_cevap,hayir,0.80,0.60,Hansel ve Gretel masalında kardeşler ormanda yollarını bulmak için ne bırakır?,Ekmek kırıntıları,"Masalda önce çakıl taşları, sonra ekmek kırıntıları bırakılır; soru belirsiz."
+98bf6c21-9aa0-479c-8f22-2d5e704d4c09,genel_kultur,cift_cevap,hayir,0.80,0.60,Hangi ülkenin bayrağı sadece kırmızı ve beyazdan oluşur?,Polonya,"Polonya bayrağı kırmızı-beyazdır ama Fransa ve İtalya üç renklidir; Almanya siyah-kırmızı-sarı; tek doğru Polonya, ancak Endonezya vb. dışta kalır, şıklarda tek doğru var."
+f9373392-1b00-4d78-9817-7b30ca2bf47e,genel_kultur,cift_cevap,hayir,0.70,0.60,"Yufka, ceviz ve şerbetle yapılan tatlı hangisidir?",Baklava,"Yufka ve cevizle yapılan baklava doğru, ancak kadayıf da şerbetli ve cevizli yapılabilir."
+79c6c3da-9f36-41f3-a971-17fd01d5773e,muzik,cift_cevap,hayir,0.80,0.60,Gitar tellerini titretmek için kullanılan parçaya ne denir?,Pena,Mızrap ve pena aynı parçanın adlarıdır; mızrap da savunulabilir (mızrap bağlama için kullanılır).
+6e183e4c-df34-4b4c-b7f8-5b4f3f075f8a,muzik,cift_cevap,hayir,0.70,0.60,Beşinci Senfoni hangi bestecinin eseridir?,Beethoven,Beşinci Senfoni hem Beethoven hem Çaykovski'nin eseri; soru belirsiz.
+f8824e04-9a02-40b4-ba50-55aee7211d4a,muzik,cift_cevap,hayir,0.50,0.60,'Gitar' klasik türde neyle çalınır?,Parmak ucuyla,Klasik gitar parmak ucuyla çalınır ama pena ile de çalınabilir; soru belirsiz.
+031ab159-a11f-4290-9631-3dc9a5807729,sanat,cift_cevap,hayir,0.80,0.60,Gotik mimarinin simgesi olan Paris'teki katedral hangisidir?,Notre Dame,"Saint-Denis ve Chartres da gotik katedral, ancak Paris'teki simge Notre Dame."
+78652d62-0bd3-4d59-9501-538f1d36a534,sanat,cift_cevap,hayir,0.60,0.50,Venedik Karnavalı'nda katılımcılar yüzlerine ne takar?,Maske,Karnavalda maske takılır ama soru basit; peçe de savunulabilir fakat maske yaygın cevap.
+f26a040e-a292-4606-9169-dd3921065138,sanat,cift_cevap,hayir,0.60,0.60,Tiyatroda sahneyi düzenleyen öğelere ne denir?,Dekor,"Işık da sahneyi düzenleyen öğedir; soru belirsiz, dekor en yaygın cevap."
+20add12c-498b-4e46-b48a-db3357db797b,sinema,cift_cevap,hayir,0.60,0.50,Bir filmin başrol oyuncusuna ne ad verilir?,Protagonist,Başrol oyuncusu için protagonist kabul edilir ama terim kesin değil.
+3f400960-fdb2-4fb3-bc94-d8f142c20256,spor,cift_cevap,hayir,0.85,0.50,Basketbol hangi ülkede icat edilmiştir?,ABD,"Basketbol ABD'de icat edildi; ancak mucit Naismith Kanadalıdır, yine de ABD doğru."
+03b1ea90-e787-4711-b3ed-2ab5116c69cb,spor,cift_cevap,hayir,0.70,0.60,Ritmik jimnastikte kullanılan araçlardan biri hangisidir?,Kurdele,Ritmik jimnastikte hem kurdele hem halka (çember) araç; halka burada belirsiz ama çember denir.
+26b78055-0bd4-4dc5-97f9-05c27a9612ce,spor,cift_cevap,hayir,0.60,0.55,Galibiyette takıma kaç puan verilir?,3,"Spor dalı belirtilmemiş; futbolda 3 ama voleybol vb. farklı olabilir, yine de 3 yaygın cevap."
+f39de106-a805-4624-8a26-ed107dc75298,tarih,cift_cevap,hayir,0.60,0.50,Coğrafi Keşifleri hızlandıran teknik gelişme nedir?,Pusula ve gemicilik bilgisi,Barut ve matbaa da savunulabilir ama pusula yaygın cevap.
+0b719425-751c-4ae9-ad35-4f19878144ef,tarih,cift_cevap,hayir,0.90,0.60,Rus Devrimi hangi yıl gerçekleşmiştir?,1917,1905 Devrimi de Rus Devrimi olarak anılır; ancak 1917 yaygın kabul görür.
+b7e2bf68-5d4c-4296-9f79-c3bd2ec9e312,tarih,cift_cevap,hayir,0.85,0.60,Birinci Dünya Savaşı'nda Osmanlı hangi cephede başarı kazanmıştır?,Çanakkale,Osmanlı Çanakkale'de başarı kazandı ama Kafkas'ta ağır yenilgi; Kanal cephesi ve Filistin başarısız. Çanakkale tek doğru; yine de Kut gibi seçenekler yok.
+48caf2da-002c-41c8-a892-846fc067dced,tarih,cift_cevap,hayir,0.90,0.60,Osmanlı Devleti I. Dünya Savaşı'nda hangi blokta yer almıştır?,İttifak Devletleri,"Osmanlı İttifak Devletleri'nde yer aldı; ancak 'Müttefik Devletler' ifadesi de Türkçede bazen aynı blok için kullanılır, bu yüzden belirsizlik var."
+cd466899-82b2-4695-9626-03749342b9ba,bilim,yanlis_cevap,hayir,0.60,0.60,'Mercek' türlerinden ince kenarlı olan ne yapar?,Işığı toplar,İnce kenarlı mercek ışığı toplar; soru muğlak ama doğru kabul edilir.
+a8732fac-0b7a-41c7-b9f0-4a903a20e109,bilim,yanlis_cevap,hayir,0.70,0.70,Baskın (dominant) gen ne anlama gelir?,Etkisini her durumda gösteren gen,"Baskın gen, heterozigotta bile etkisini gösterir ama 'her durumda' ifadesi kesin değildir; yine de en yakın şık budur."
+f8fe8aee-fbdb-4091-8e00-95ec1f0e6eed,cografya,yanlis_cevap,hayir,0.75,0.80,Fay kaynaklarının en belirgin özelliği nedir?,Sıcak ve mineralli olması,"Soru muhtemelen kaplıca/kaynak ile karışmış; fay kaynaklarının en belirgin özelliği sıcak ve mineralli olmasıdır, ancak 'fay kaynağı' ifadesi belirsiz."
+794e2423-56a5-4c6c-b8d4-ca0c167d95b1,cografya,yanlis_cevap,hayir,0.75,0.80,Aynı boylam üzerindeki iki nokta için ortak olan nedir?,Yerel saat,"Aynı boylamdaki noktalarda yerel saat aynıdır; ancak bu doğrudur, yine de 'yerel saat' standart cevaptır."
+2d897c5c-d113-4e57-afdb-e285076f171c,cografya,yanlis_cevap,hayir,0.85,0.60,Marmara Denizi'ni Ege'ye bağlayan boğaz hangisidir?,Çanakkale Boğazı,"Marmara'yı Ege'ye bağlayan Çanakkale Boğazı'dır; işaretli doğru, sorun yok."
+213ee1b2-89d5-4c8d-a221-d916cef10f0f,edebiyat,yanlis_cevap,hayir,0.70,0.85,Sıfat tamlamasında tamlayan ne görevindedir?,Niteleyici,"Sıfat tamlamasında tamlayan yoktur; niteleyici sıfat, tamlanan addır. Soru hatalı; işaretli şık tartışmalı."
+524359b2-5d1a-4b0f-a800-5e07707f1639,spor,yanlis_cevap,hayir,0.85,0.60,Futbolda uzatma devresi kaç dakikadır?,15,"Futbolda uzatma 2x15 dakikadır (toplam 30); tek devre 15 olduğundan savunulabilir, ancak soru belirsiz."
+4ccf14d9-5633-4bf8-8413-d10f31ff104a,tarih,yanlis_cevap,hayir,0.93,0.70,Ankara hangi yıl başkent olmuştur?,1923,Ankara 13 Ekim 1923'te başkent oldu; 1923 doğru.
