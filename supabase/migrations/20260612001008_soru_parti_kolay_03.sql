@@ -1,9 +1,9 @@
 -- ============================================================
--- 1008 — soru_parti_kolay_03 (stil: docs/SORU_STIL_PROFILI.md): 50 soru · 2026-10-08
+-- 1008 — soru_parti_kolay_03 (stil: docs/SORU_STIL_PROFILI.md): 48 soru · 2026-10-08
 --
--- Kategori: muzik 8 · sanat 12 · sinema 7 · spor 11 · tarih 4 · teknoloji 8
--- Yerel (kapsam='yerel', ulke='TR'): 1 · zorluk 1–5: 0/36/14/0/0
--- İngilizce çeviri: 49 · çevrilmeyen (ceviri_atlanan, kod 'cevrilemez'): 1
+-- Kategori: muzik 8 · sanat 12 · sinema 6 · spor 11 · tarih 3 · teknoloji 8
+-- Yerel (kapsam='yerel', ulke='TR'): 0 · zorluk 1–5: 0/34/14/0/0
+-- İngilizce çeviri: 48 · çevrilmeyen (ceviri_atlanan, kod 'cevrilemez'): 0
 --
 -- Kalite (araclar/soru-uretim/api-uret.mjs; üretim claude-opus-5-5, hakem claude-sonnet-5-5):
 -- biçim + şık denge (TR/EN), havuzla birebir ve anlamca tekrar (aynı cevap + Jaccard ≥ 0,3),
@@ -60,13 +60,11 @@ insert into public.questions (soru, secenekler, dogru_cevap, kategori, kapsam, u
 ('Formula 1''de ''Gümüş Oklar'' lakabıyla anılan takım hangisidir?', '["Mercedes","Ferrari","Williams","Renault"]'::jsonb, 0, 'spor', 'global', null, 3),
 ('Tenisçi Rafael Nadal hangi İspanyol adasında doğmuştur?', '["Mallorca","Ibiza","Menorca","Tenerife"]'::jsonb, 0, 'spor', 'global', null, 3),
 ('Charles Darwin, Galapagos Adaları''nı da ziyaret ettiği ünlü yolculuğunu hangi gemiyle yaptı?', '["HMS Beagle","HMS Endeavour","HMS Bounty","HMS Victory"]'::jsonb, 0, 'tarih', 'global', null, 2),
-('Amiral Nelson, Trafalgar Savaşı''nda hangi gemisinin güvertesinde ölümcül yaralandı?', '["HMS Victory","HMS Bounty","HMS Beagle","HMS Endeavour"]'::jsonb, 0, 'tarih', 'global', null, 2),
 ('Paskalya Adası''ndaki dev taş insan başı heykellerine ne ad verilir?', '["Moai","Tiki","Totem","Menhir"]'::jsonb, 0, 'tarih', 'global', null, 2),
 ('Kennedy suikastının zanlısı Lee Harvey Oswald''ı iki gün sonra vurarak öldüren kişi kimdir?', '["Jack Ruby","James Earl Ray","Sirhan Sirhan","Frank Sturgis"]'::jsonb, 0, 'tarih', 'global', null, 3),
 ('''Schindler''in Listesi'' filminde Oskar Schindler''i canlandıran oyuncu kimdir?', '["Liam Neeson","Ralph Fiennes","Gary Oldman","Daniel Day-Lewis"]'::jsonb, 0, 'sinema', 'global', null, 2),
 ('''Örümcek Adam'' filmlerinde Peter Parker''ı büyüten amcasının adı nedir?', '["Ben","Frank","George","Harry"]'::jsonb, 0, 'sinema', 'global', null, 2),
 ('''Rüzgâr Gibi Geçti'' filminde Rhett Butler''ı canlandıran oyuncu kimdir?', '["Clark Gable","Cary Grant","Gregory Peck","Errol Flynn"]'::jsonb, 0, 'sinema', 'global', null, 2),
-('Şener Şen''in Baran''ı oynadığı ''Eşkıya'' filminin yönetmeni kimdir?', '["Yavuz Turgul","Ertem Eğilmez","Zeki Ökten","Atıf Yılmaz"]'::jsonb, 0, 'sinema', 'yerel', 'TR', 2),
 ('''Dövüş Kulübü'' filminde Tyler Durden''ı canlandıran oyuncu kimdir?', '["Brad Pitt","Edward Norton","Jared Leto","Matt Damon"]'::jsonb, 0, 'sinema', 'global', null, 2),
 ('''Harry Potter'' filmlerinde Hagrid''in kulübesinde yaşayan iri köpeğin adı nedir?', '["Fang","Fluffy","Norbert","Buckbeak"]'::jsonb, 0, 'sinema', 'global', null, 3),
 ('Scorsese''nin ''Sıkı Dostlar'' filminde Henry Hill''i canlandıran oyuncu kimdir?', '["Ray Liotta","Joe Pesci","Robert De Niro","Paul Sorvino"]'::jsonb, 0, 'sinema', 'global', null, 3)
@@ -116,7 +114,6 @@ select q.id, 'en', v.en_soru, v.en_secenekler
   ('Formula 1''de ''Gümüş Oklar'' lakabıyla anılan takım hangisidir?', 'Which Formula 1 team is nicknamed the ''Silver Arrows''?', '["Mercedes","Ferrari","Williams","Renault"]'::jsonb),
   ('Tenisçi Rafael Nadal hangi İspanyol adasında doğmuştur?', 'On which Spanish island was Rafael Nadal born?', '["Mallorca","Ibiza","Menorca","Tenerife"]'::jsonb),
   ('Charles Darwin, Galapagos Adaları''nı da ziyaret ettiği ünlü yolculuğunu hangi gemiyle yaptı?', 'Charles Darwin made his famous voyage, including a stop at the Galapagos, aboard which ship?', '["HMS Beagle","HMS Endeavour","HMS Bounty","HMS Victory"]'::jsonb),
-  ('Amiral Nelson, Trafalgar Savaşı''nda hangi gemisinin güvertesinde ölümcül yaralandı?', 'Aboard which ship was Admiral Nelson fatally wounded at the Battle of Trafalgar?', '["HMS Victory","HMS Bounty","HMS Beagle","HMS Endeavour"]'::jsonb),
   ('Paskalya Adası''ndaki dev taş insan başı heykellerine ne ad verilir?', 'What are the giant stone head statues on Easter Island called?', '["Moai","Tiki","Totem","Menhir"]'::jsonb),
   ('Kennedy suikastının zanlısı Lee Harvey Oswald''ı iki gün sonra vurarak öldüren kişi kimdir?', 'Who shot and killed Lee Harvey Oswald two days after the Kennedy assassination?', '["Jack Ruby","James Earl Ray","Sirhan Sirhan","Frank Sturgis"]'::jsonb),
   ('''Schindler''in Listesi'' filminde Oskar Schindler''i canlandıran oyuncu kimdir?', 'Who played Oskar Schindler in ''Schindler''s List''?', '["Liam Neeson","Ralph Fiennes","Gary Oldman","Daniel Day-Lewis"]'::jsonb),
@@ -126,15 +123,6 @@ select q.id, 'en', v.en_soru, v.en_secenekler
   ('''Harry Potter'' filmlerinde Hagrid''in kulübesinde yaşayan iri köpeğin adı nedir?', 'In the ''Harry Potter'' films, what is the name of the big dog that lives in Hagrid''s hut?', '["Fang","Fluffy","Norbert","Buckbeak"]'::jsonb),
   ('Scorsese''nin ''Sıkı Dostlar'' filminde Henry Hill''i canlandıran oyuncu kimdir?', 'Who played Henry Hill in Martin Scorsese''s ''Goodfellas''?', '["Ray Liotta","Joe Pesci","Robert De Niro","Paul Sorvino"]'::jsonb)
   ) v(soru, en_soru, en_secenekler)
-  join public.questions q on q.soru = v.soru and q.created_at >= transaction_timestamp()
-on conflict (question_id, dil) do nothing;
-
--- ---------------------------------------------------- Çevrilmeyenler
-insert into public.ceviri_atlanan (question_id, dil, neden, kod)
-select q.id, 'en', v.neden, 'cevrilemez'
-  from (values
-  ('Şener Şen''in Baran''ı oynadığı ''Eşkıya'' filminin yönetmeni kimdir?', 'Yerel TR sorusu (kapsam=yerel); İngilizce oyuncu için anlamsız')
-  ) v(soru, neden)
   join public.questions q on q.soru = v.soru and q.created_at >= transaction_timestamp()
 on conflict (question_id, dil) do nothing;
 

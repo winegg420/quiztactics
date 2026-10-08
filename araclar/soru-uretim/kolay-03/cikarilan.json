@@ -1,0 +1,47 @@
+[
+ {
+  "id": "K03-41",
+  "k": "tarih",
+  "yerel": false,
+  "s": "Amiral Nelson, Trafalgar Savaşı'nda hangi gemisinin güvertesinde ölümcül yaralandı?",
+  "d": "HMS Victory",
+  "y": [
+   "HMS Bounty",
+   "HMS Beagle",
+   "HMS Endeavour"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Aboard which ship was Admiral Nelson fatally wounded at the Battle of Trafalgar?",
+   "d": "HMS Victory",
+   "y": [
+    "HMS Bounty",
+    "HMS Beagle",
+    "HMS Endeavour"
+   ]
+  },
+  "olgu": "Nelson, Trafalgar'da amiral gemisi HMS Victory'de ölümcül yaralandı.",
+  "jev_p": 0.47,
+  "hakem_tahmin": 2,
+  "cikarildi": "2026-10-08"
+ },
+ {
+  "id": "K03-47",
+  "k": "sinema",
+  "yerel": true,
+  "s": "Şener Şen'in Baran'ı oynadığı 'Eşkıya' filminin yönetmeni kimdir?",
+  "d": "Yavuz Turgul",
+  "y": [
+   "Ertem Eğilmez",
+   "Zeki Ökten",
+   "Atıf Yılmaz"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Yerel TR sorusu (kapsam=yerel); İngilizce oyuncu için anlamsız",
+  "olgu": "Eşkıya (1996) filmini Yavuz Turgul yönetmiştir.",
+  "jev_p": 0.22,
+  "hakem_tahmin": 2,
+  "cikarildi": "2026-10-08"
+ }
+]

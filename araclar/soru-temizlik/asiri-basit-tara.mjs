@@ -17,7 +17,8 @@ import { sorgu, KOK } from '../soru_denetim/ortak.mjs';
 import { anahtarOku, claudeCagir, harcama, apiUsd, havuz } from './claude-cagri.mjs';
 
 const MODEL = 'claude-sonnet-5-5';
-const GUVEN_ESIK = 0.8;
+// Ida (9 Eki 2026): kapatma yalnız guven ≥ 0,85 (`--guven-esik 0.85`); 0,8 olanlar açık kalır.
+const GUVEN_ESIK = Number(process.argv.includes('--guven-esik') ? process.argv[process.argv.indexOf('--guven-esik') + 1] : 0.8);
 const KATEGORI_UYARI = 30;
 const ESZAMANLI = 4;
 const KLASOR = path.join(KOK, '.tmp', 'asiri-basit');
@@ -33,7 +34,7 @@ const ORNEKLEM = Number(arg('--orneklem', 0));
 const ADET = Number(arg('--adet', 0));
 const BUTCE = Number(arg('--butce-usd', 3));
 const PARTI = Number(arg('--parti-boyut', 20));
-if (![1, 2].includes(ZORLUK) || !(BUTCE > 0) || !Number.isInteger(PARTI) || PARTI < 1 || !Number.isInteger(ADET) || !Number.isInteger(ORNEKLEM)) {
+if (!(GUVEN_ESIK > 0 && GUVEN_ESIK <= 1) || ![1, 2].includes(ZORLUK) || !(BUTCE > 0) || !Number.isInteger(PARTI) || PARTI < 1 || !Number.isInteger(ADET) || !Number.isInteger(ORNEKLEM)) {
   throw new Error('Geçersiz --zorluk (1|2) / --butce-usd / --parti-boyut / --adet / --orneklem');
 }
 const CIKTI = path.join(KLASOR, ZORLUK === 2 ? 'z2-orneklem.json' : ADET ? 'deneme-z1.json' : 'z1.json');
@@ -180,7 +181,9 @@ function rapor() {
   const satirlar = Object.entries(kat).sort().map(([k, v]) => ({ k, ...v, kalan: v.once - v.kapanan }));
   const uyarilar = satirlar.filter((s) => s.kalan < KATEGORI_UYARI);
 
-  const no = sonrakiMigrasyonNo();
+  // Önceden yazılmış (henüz uygulanmamış) dosya varsa aynı numarayla yeniden yazılır
+  const onceki = fs.readdirSync(MIGRASYON_KLASOR).find((f) => f.endsWith('_asiri_basit_z1_kapat.sql'));
+  const no = onceki ? onceki.slice(0, 14) : sonrakiMigrasyonNo();
   const dosya = `${no}_asiri_basit_z1_kapat.sql`;
   const idListe = secilen.map((x) => `  '${x.id}'`).join(',\n');
   const tablo = satirlar.map((s) => `--   ${s.k.padEnd(13)} ${String(s.kapanan).padStart(3)} kapanır · kalan aktif z1 ${s.kalan}`).join('\n');

@@ -10913,3 +10913,19 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - **Değişiklik:** "Sahipsin" → onay ikonlu "Sahip olunan" (EN "Owned"); `.qt-dc-sahip` (nowrap). Takılı avatar "Takılı" göstermeye devam eder. sw.js v19 → v20.
 - **Test:** SQL provası (BEGIN…ROLLBACK, 13/13); ekran 43/43 (390×844, 390×664, 360×640 × TR/EN, taşma/kırpılma/44px/Sahne rengi/konsol; yanıtlar tarayıcıda taklit, sunucuya yazılmadı); `npm run build` temiz. Görüntüler `tasarim/avatar-1009/`.
 - **Bekleyen:** migration 1009 canlıya (ayrı onay). `db push` 988 + 1007 + 1008'i de iter → tek dosya uygulama (`araclar/migration-uygula.mjs`). `/avatar-nadirlik` sayfası sahip hesabı ister, taklitle ölçülmedi (aynı RPC verisi).
+
+## 2026-10-09 — 1007 (0,85 eşiği) + 1008 (48 soru) canlıya uygulandı
+**Araç:** Claude Code (Opus 5.5)
+**Neden:** Ida onayı — kolay_03'ten 41 ve 47 çıkar, aşırı basit kapatmayı güven ≥ 0,85 ile sınırla, ikisini uygula.
+
+- **kolay_03:** `--cikar 41,47` (K03-41 Nelson/HMS Victory, K03-47 yerel Eşkıya) → 48 soru; 1008 aynı numarayla yeniden
+  üretildi (`--api`): zorluk 2: 34 / 3: 14, hepsi global, 48 EN. Çıkarılanlar `kolay-03/cikarilan.json`.
+- **1007:** `asiri-basit-tara.mjs --rapor --guven-esik 0.85` (yeni bayrak; mevcut `_asiri_basit_z1_kapat.sql` varsa aynı
+  numaraya yazar) → **191 soru** (0,8 olan 153 açık kaldı). CSV ve geri alma SQL'i 191'e göre yenilendi.
+  Kategori (kapanan / kalan z1): bilim 20/254 · coğrafya 26/139 · edebiyat 20/81 · genel_kültür 20/95 · müzik 10/59 ·
+  sanat 28/60 · sinema 32/68 · spor 26/106 · tarih 2/74 · teknoloji 7/39.
+- **Uygulama:** `araclar/migration-uygula.mjs` ile tek tek, önce 1007 sonra 1008 (`db push` yok; 988 Kasa dokunulmadı).
+- **Canlı doğrulama:** 1007 listesindeki 191 sorunun 191'i pasif. 1008: 48/48 aktif, 48 EN çeviri (4 şık), z2 34 / z3 14,
+  karıştırma sonrası TR ve EN doğru şık kaynakla birebir (48/48). Aktif toplam 12.694 → **12.551**; aktif zorluk
+  1/2/3 = **975 / 2.965 / 5.077**. Teknoloji: 1.305 aktif (z1 39 · z2 251 · z3 396) — yeterli.
+- Push yapılmadı (Ida topluca atacak).
