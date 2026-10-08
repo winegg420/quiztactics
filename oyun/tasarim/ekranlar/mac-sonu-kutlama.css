@@ -851,3 +851,81 @@ html.msk-acik .mobile-nav, html.msk-acik .a-kabuk .a-altmenu { display: none !im
   animation: msk-yuksel var(--qt-s-uzun) var(--qt-egri-cikis) calc(var(--t-coin) - 300ms) backwards;
 }
 @media (prefers-reduced-motion: reduce) { .msk-mod-ozet { animation: none; } }
+
+/* =====================================================================
+   8 Eki 2026 — AÇIK SAHNE (bütün modlar; ana sayfa "oyun sahnesi" dili)
+   Koyu lacivert bant, koyu skor kutusu ve koyu lacivert/mor zemin kalktı. Renkler ana sayfayla aynı:
+   lacivert #1F2A5C · turuncu #EE7F45 · sarı #F6CF5A · yeşil #2B8450 · krem #FFF3C9.
+   Kazandın: sıcak sarı ışın sahnesi + turuncu afiş. Kaybettin: açık gök sahnesi + beyaz afiş (kasvetsiz,
+   "tekrar dene" tonu). Berabere: nane yeşili. Terk ("Maçtan ayrıldın"): kaybettin ile aynı açık gök.
+   Afiş, alt yazı, isim hapı ve skor kutusu kalın lacivert kontur + lacivert dudak.
+   ===================================================================== */
+.msk {
+  --msk-lac: #1f2a5c;
+  --msk-z1: #fffbea;
+  --msk-z2: #ffe6a3;
+  --msk-z3: #f6c75a;
+  --msk-afis-z: #ee7f45;
+  --msk-afis-d: var(--msk-lac);
+  --msk-isin: rgb(255 255 255 / 0.55);
+}
+.msk--kaybetti, .msk--sade.msk--kaybetti {
+  --msk-z1: #f4faff;
+  --msk-z2: #cfe5fa;
+  --msk-z3: #9ccaf2;
+  --msk-afis-z: #ffffff;
+  --msk-afis-d: var(--msk-lac);
+  --msk-isin: rgb(255 255 255 / 0.6);
+}
+.msk--berabere {
+  --msk-z1: #f3fcf6;
+  --msk-z2: #cdeedb;
+  --msk-z3: #98d6b2;
+  --msk-afis-z: #fff3c9;
+  --msk-afis-d: var(--msk-lac);
+  --msk-isin: rgb(255 255 255 / 0.6);
+}
+.msk-zemin { background: radial-gradient(120% 75% at 50% 22%, var(--msk-z1) 0%, var(--msk-z2) 52%, var(--msk-z3) 100%); }
+.msk-huzme,
+.msk--sade.msk--kaybetti .msk-huzme {
+  background: none;
+  background: repeating-conic-gradient(from 0deg, var(--msk-isin) 0deg 9deg, transparent 9deg 22.5deg);
+}
+
+/* Afiş: dolu renk + kalın lacivert kontur + lacivert dudak; yazı lacivert (turuncu üstünde 5,3:1, beyaz/kremde 13:1) */
+.msk-afis {
+  border: 4px solid var(--msk-lac);
+  background: radial-gradient(120% 90% at 50% 0%, rgb(255 255 255 / 0.4), rgb(255 255 255 / 0) 60%), var(--msk-afis-z);
+  box-shadow: 0 6px 0 var(--msk-lac), var(--qt-golge-yuzen);
+}
+.msk-baslik { color: var(--msk-lac); text-shadow: 0 2px 0 rgb(255 255 255 / 0.55); }
+
+/* Alt yazı: koyu yarı saydam bant yerine krem plaka */
+.msk-alt {
+  border: 2.5px solid var(--msk-lac);
+  background: #fff3c9;
+  color: var(--msk-lac);
+  box-shadow: 0 3px 0 var(--msk-lac);
+}
+
+/* İsim hapı ve skor kutusu: beyaz + kalın lacivert kontur (koyu skor kutusu kalktı) */
+.msk-isim { border: 2.5px solid var(--msk-lac); color: var(--msk-lac); box-shadow: 0 3px 0 var(--msk-lac); }
+.msk-skor {
+  border: 3px solid var(--msk-lac);
+  background: #fff;
+  color: var(--msk-lac);
+  box-shadow: 0 5px 0 var(--msk-lac);
+}
+.msk-skor-etiket { color: #4a5583; }
+.msk--kazandi .msk-skor { background: #fff3c9; }
+/* Kaybeden avatar yalnız hafif soluk — cezalandırıcı gri değil */
+.msk-taraf--kaybeden .msk-avatar > :last-child { filter: saturate(0.85); }
+/* Açık zeminde zemin üstü notlar lacivert */
+.msk-ek .m1-ss-not { color: var(--msk-lac); text-shadow: none; }
+/* Dönen huzme yalnız kutlamada; öteki hâllerde zemin durağan ışınla canlı kalır */
+.msk-zemin {
+  background:
+    repeating-conic-gradient(from 0deg at 50% 22%, rgb(255 255 255 / 0.32) 0deg 9deg, rgb(255 255 255 / 0) 9deg 22.5deg),
+    radial-gradient(120% 75% at 50% 22%, var(--msk-z1) 0%, var(--msk-z2) 52%, var(--msk-z3) 100%);
+}
+.msk-kart { border: 3px solid var(--msk-lac); box-shadow: 0 5px 0 var(--msk-lac); }

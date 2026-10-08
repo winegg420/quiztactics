@@ -856,12 +856,12 @@ export default function MatchPage() {
           tabela={
             // Ajan I: arama sahnesiyle aynı VS kartları (çerçeve, ad, level, lig) + hazır rozeti
             <div className="ara-vs">
-              <VsKarti profil={benimProfil} kart={seviyeler[benimProfil?.id]} taraf="ben">
-                <QtRozet boyut="k" ton={nabiz?.ben_hazir ? "dogru" : "koyu"}>{nabiz?.ben_hazir ? tt("hazır") : tt("hazır değil")}</QtRozet>
+              <VsKarti profil={benimProfil} kart={seviyeler[benimProfil?.id]} taraf="ben" acik>
+                <QtRozet boyut="k" ton={nabiz?.ben_hazir ? "dogru" : "uyari"}>{nabiz?.ben_hazir ? tt("hazır") : tt("hazır değil")}</QtRozet>
               </VsKarti>
               <span className="ara-vs-rozet" aria-hidden="true"><span>VS</span></span>
-              <VsKarti profil={rakipProfil} kart={seviyeler[rakipProfil?.id]} taraf="rakip">
-                <QtRozet boyut="k" ton={nabiz?.rakip_hazir ? "dogru" : "koyu"}>{nabiz?.rakip_hazir ? tt("hazır") : tt("hazır değil")}</QtRozet>
+              <VsKarti profil={rakipProfil} kart={seviyeler[rakipProfil?.id]} taraf="rakip" acik>
+                <QtRozet boyut="k" ton={nabiz?.rakip_hazir ? "dogru" : "uyari"}>{nabiz?.rakip_hazir ? tt("hazır") : tt("hazır değil")}</QtRozet>
               </VsKarti>
             </div>
           }

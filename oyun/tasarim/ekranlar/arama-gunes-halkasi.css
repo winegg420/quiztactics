@@ -462,3 +462,56 @@
 .gh-vs-kart .gh-unvan { max-width: calc(100% - 10px); }
 /* 646: VS anında Koleksiyon Puanı — koyu sahnede altın sarısı */
 .gh-vs-kart .gh-kp { font-size: 12px; }
+
+/* =====================================================================
+   8 Eki 2026 — ana sayfa diline uyum (renkler ana sayfa "oyun sahnesi" ile aynı:
+   lacivert #1F2A5C · turuncu #EE7F45 · sarı #F6CF5A · kırmızı #B93C3A · hardal #D8A53A · krem #FFF3C9).
+   ===================================================================== */
+/* Haplar: lacivert kontur yerine dolu renk + kendi koyu dudağı + üstte ince ışık (ana sayfa mod kartları gibi) */
+.gh-rozet {
+  --_hz: #fff; --_hd: #8db3db; --_hy: #1f2a5c;
+  min-height: 32px;
+  padding: 0 14px;
+  border: 0;
+  background: var(--_hz);
+  color: var(--_hy);
+  box-shadow: inset 0 2px 0 rgb(255 255 255 / 0.45), 0 3px 0 var(--_hd);
+}
+.gh-rozet--klasik { --_hz: #ee7f45; --_hd: #b9531f; background: var(--_hz); }
+.gh-rozet--saf { --_hz: #7fd8ff; --_hd: #3a9bc9; background: var(--_hz); }
+.gh-rozet--duello { --_hz: #b93c3a; --_hd: #7d2422; --_hy: #fff; background: var(--_hz); box-shadow: inset 0 2px 0 rgb(255 255 255 / 0.3), 0 3px 0 var(--_hd); color: var(--_hy); }
+.gh-rozet--kasa { --_hz: #d8a53a; --_hd: #9a721f; background: var(--_hz); box-shadow: inset 0 2px 0 rgb(255 255 255 / 0.45), 0 3px 0 var(--_hd); color: var(--_hy); }
+.gh-rozet--dereceli { --_hz: #f6cf5a; --_hd: #c39a2c; background: var(--_hz); }
+.gh-rozet--serbest { --_hz: #fff; --_hd: #8db3db; background: var(--_hz); }
+.gh-rozet--grup { --_hz: #b8f0c8; --_hd: #2b8450; background: var(--_hz); }
+.gh-rozet--kisi { --_hz: #dff0ff; --_hd: #8db3db; background: var(--_hz); }
+
+/* Avatar: çerçevesiz avatar ana sayfadaki gibi beyaz halka + lacivert kontur; dudak halkanın kendisinde
+   (eski .gh-vs-av gölgesi satır kutusuna göre çiziliyor, halkayla hizasız bir hilal bırakıyordu) */
+.gh-vs-av { display: grid; place-items: center; line-height: 0; box-shadow: none; }
+.gh :is(.gh-ben, .gh-vs-av) .qt-cerceve--yok .qt-cerceve-halka {
+  background: #fff;
+  box-shadow: 0 0 0 3px var(--gh-lac), 0 4px 0 3px var(--gh-lac);
+}
+.gh-ben .qt-cerceve--yok .qt-cerceve-halka { box-shadow: 0 0 0 2.5px var(--gh-lac), 0 3px 0 2.5px var(--gh-lac); }
+.gh :is(.gh-ben, .gh-vs-av) .qt-cerceve--yok .qt-cerceve-ic .avatar { overflow: hidden; border-radius: 50%; }
+
+/* Kimlik satırı: bayrak · Lv · lig amblemi (maç şeridindeki sırayla) */
+.gh-kimlik { display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+.gh-bayrak { flex: none; border-radius: 3px; box-shadow: 0 0 0 1.5px var(--gh-lac); }
+
+/* ☆ Koleksiyon rozeti: düz kahverengi yazı yerine krem isim plakası (ana sayfa profil kartı plakası) */
+.gh-vs-kart .gh-kp.qt-ok-kp {
+  gap: 4px;
+  padding: 2px 10px 3px;
+  border-radius: 9px;
+  background: #fff3c9;
+  color: #1f2a5c;
+  box-shadow: inset 0 0 0 2px #ebcb72, 0 2px 0 #d8a53a;
+  font-size: 12.5px;
+  line-height: 1.3;
+}
+.gh-vs-kart .gh-kp.qt-ok-kp svg { color: #d8a53a; fill: #f6cf5a; }
+
+/* Vazgeç: maç akışının tek "vazgeç" düğmesi (QtDugme ikincil); sahnede tam genişlik */
+.gh-vazgec { width: 100%; }

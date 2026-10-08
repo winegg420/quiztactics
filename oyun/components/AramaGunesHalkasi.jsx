@@ -24,6 +24,8 @@ import { KartUnvani, KartKoleksiyonu } from "./OyuncuVitrinKarti.jsx";
 import OyuncuAdiDugmesi from "./OyuncuAdiDugmesi.jsx";
 import { adKisalt } from "../lib/adKisalt.js";
 import OyuncuLigAmblemi from "./OyuncuLigAmblemi.jsx";
+import Bayrak from "./Bayrak.jsx";
+import { QtDugme } from "../tasarim/index.js";
 import { HAZIR_AVATARLAR, kilitliAvatarKumesi, kilitliAvatarlariYukle } from "../lib/avatarKatalogu.js";
 import { aktifDil, tt } from "../lib/dil.js";
 import { YUMUSAK, yumusakHareketKur, yumusakMu } from "../tasarim/yumusakHareket.js";
@@ -141,6 +143,8 @@ function Zemin() {
 /** VS anındaki oyuncu: çerçeveli avatar, ad (isim efekti), Lv. */
 function VsOyuncu({ profil, kart, taraf, boyut }) {
   const level = kart?.level ?? profil?.level;
+  const ulke = kart?.ulke ?? profil?.ulke;
+  const lig = LIGLER.includes(kart?.lig ?? profil?.lig) ? (kart?.lig ?? profil?.lig) : null;
   return (
     <span className={`gh-vs-kart gh-vs-kart--${taraf}`}>
       <span className="gh-vs-av">
@@ -150,7 +154,12 @@ function VsOyuncu({ profil, kart, taraf, boyut }) {
       <OyuncuAdiDugmesi userId={profil?.id} profil={profil} oge="b" className="gh-ad" dugmeSinifi="gh-ad-dugme">
         <IsimEfekti userId={profil?.id}>{adKisalt(profil?.gorunen_ad) ?? tt("Sen")}</IsimEfekti>
       </OyuncuAdiDugmesi>
-      {level != null && <span className="gh-lv">{tt("Lv {0}", { 0: level })}</span>}
+      {/* 8 Eki 2026: maç şeridiyle tek biçim — bayrak · Lv · lig amblemi (ülke yoksa bayrak çizilmez) */}
+      <span className="gh-kimlik">
+        {ulke ? <Bayrak kod={ulke} boyut={18} className="gh-bayrak" /> : null}
+        {level != null && <span className="gh-lv">{tt("Lv {0}", { 0: level })}</span>}
+        {lig && <OyuncuLigAmblemi lig={lig} boyut={22} />}
+      </span>
       {/* 643: unvan — tek oyuncu kartının küçük hâli (oyuncu_kartlari; aynı toplu çağrı) */}
       <KartUnvani userId={profil?.id} kart={kart?.unvan !== undefined ? kart : undefined} className="gh-unvan" />
       {/* 646: Koleksiyon Puanı tek sayı (VS ekranı) */}
@@ -229,6 +238,7 @@ export default function AramaGunesHalkasi({
               <IsimEfekti userId={ben?.id}>{adKisalt(ben?.gorunen_ad) ?? tt("Sen")}</IsimEfekti>
             </OyuncuAdiDugmesi>
             <span className="gh-ben-alt">
+              {(benKart?.ulke ?? ben?.ulke) ? <Bayrak kod={benKart?.ulke ?? ben?.ulke} boyut={18} className="gh-bayrak" /> : null}
               {benLevel != null && <span className="gh-lv">{tt("Lv {0}", { 0: benLevel })}</span>}
               {lig && <OyuncuLigAmblemi lig={lig} boyut={22} />}
             </span>
@@ -327,7 +337,8 @@ export default function AramaGunesHalkasi({
             <b>{tt("Maç başlıyor…")}</b>
           </span>
         ) : (
-          <button ref={iptalRef} type="button" className="gh-dugme" onClick={onIptal}>{tt("İptal")}</button>
+          // 8 Eki 2026: maç akışında tek kelime + tek stil — "Vazgeç", QtDugme ikincil (Hazır kapısı, mod seçimi ile aynı)
+          <QtDugme ref={iptalRef} tur="ikincil" tamGenislik className="gh-vazgec" onClick={onIptal}>{tt("Vazgeç")}</QtDugme>
         )}
       </footer>
     </div>

@@ -27,13 +27,14 @@ import CerceveliAvatar from "./CerceveliAvatar.jsx";
 import { KartArkaPlanKatmani, kartArkaPlanSinifi, useKartArkaPlani } from "../tasarim/arka-plan/kayit.jsx";
 import IsimEfekti from "./IsimEfekti.jsx";
 import OyuncuAdiDugmesi from "./OyuncuAdiDugmesi.jsx";
+import Bayrak from "./Bayrak.jsx";
 import { adKisalt } from "../lib/adKisalt.js";
 import OyuncuLigAmblemi from "./OyuncuLigAmblemi.jsx";
 import { kozmetikTemasi } from "../lib/kozmetik.js";
 import { useOyuncuSeviyeleri } from "../lib/oyuncuSeviye.js";
 import { sesVsAni } from "../lib/ses.js";
 import { tt } from "../lib/dil.js";
-import { QtRozet, sinif } from "../tasarim/index.js";
+import { QtDugme, QtRozet, sinif } from "../tasarim/index.js";
 import "../tasarim/ekranlar/a-arama-sahnesi.css";
 
 // Güneş Halkası görünümü tembel parçada; tarayıcı boşta kalınca önceden indirilir (arama açılınca beklemesin).
@@ -57,11 +58,10 @@ function YukleniyorYedek({ baslik, onIptal, iptalEdilebilir }) {
                   background: "linear-gradient(180deg, #74c1ff 0%, #dff0ff 78%, #eef8ff 100%)", color: "#1d2152" }}>
       <h1 id="ara-baslik" style={{ margin: 0, fontFamily: "var(--qt-f-baslik)", fontSize: 26 }}>{baslik}</h1>
       {iptalEdilebilir && (
-        <button type="button" onClick={onIptal}
-                style={{ minHeight: 50, width: "min(100%, 420px)", border: "3px solid #1d2152", borderRadius: 16,
-                         background: "#fff", color: "#1d2152", font: "800 18px/1 var(--qt-f-baslik)" }}>
-          {tt("İptal")}
-        </button>
+        // 8 Eki 2026: maç akışında tek kelime + tek stil — "Vazgeç", QtDugme ikincil (Hazır kapısı, mod seçimi ile aynı)
+        <div style={{ width: "min(100%, 420px)" }}>
+          <QtDugme tur="ikincil" tamGenislik onClick={onIptal}>{tt("Vazgeç")}</QtDugme>
+        </div>
       )}
     </div>
   );
@@ -79,14 +79,16 @@ const LIGLER = ["bronz", "gumus", "altin", "elmas", "efsane"];
  * 540: kartın arka planı oyuncunun VS kartı teması (kart.vs_karti), adı isim efektiyle (kart.isim_efekti) —
  * ikisi de oyuncu kartından (oyuncu_kartlari; ek sorgu yok). `vsKarti` / `isimEfekti` verilirse onlar (önizleme).
  * Ada dokununca oyuncu kartı açılır; önizlemede (vsKarti/isimEfekti verilince) kapalı — `adDokunur` ile zorlanır.
+ * `acik`: kart açık zeminde (Hazır kapısı, 8 Eki 2026) — isim efekti açık paletle çizilir (tema/arka plan yoksa).
  */
-export function VsKarti({ profil, kart, taraf = "ben", className, children, vsKarti, isimEfekti, adDokunur, arkaPlan }) {
+export function VsKarti({ profil, kart, taraf = "ben", className, children, vsKarti, isimEfekti, adDokunur, arkaPlan, acik = false }) {
   // 30 Eyl: herkes KENDİ kart arka planıyla (oyuncu kartından; ek sorgu yok). `arkaPlan` verilirse (dükkân önizlemesi) o.
   const kartArkaPlani = useKartArkaPlani(arkaPlan !== undefined ? null : profil?.id, kart ?? undefined);
   const arkaPlanSanat = arkaPlan !== undefined ? arkaPlan : kartArkaPlani;
   const adAcik = adDokunur ?? (vsKarti === undefined && isimEfekti === undefined);
   const lig = LIGLER.includes(kart?.lig ?? profil?.lig) ? (kart?.lig ?? profil?.lig) : null;
   const level = kart?.level ?? profil?.level;
+  const ulke = kart?.ulke ?? profil?.ulke;
   const vsTema = kozmetikTemasi(vsKarti !== undefined ? vsKarti : kart?.vs_karti);
   const ef = isimEfekti !== undefined ? isimEfekti : kart && "isim_efekti" in kart ? kart.isim_efekti : undefined;
   return (
@@ -95,9 +97,11 @@ export function VsKarti({ profil, kart, taraf = "ben", className, children, vsKa
       <CerceveliAvatar profile={profil} userId={profil?.id} boyut={92} hareketli className="ara-kart-avatar" {...(kart ? { kart } : {})} />
       {/* Ajan C: ada dokununca oyuncu kartı (önizlemelerde — vsKarti/isimEfekti verilince — kapalı) */}
       <OyuncuAdiDugmesi userId={adAcik ? profil?.id : null} profil={profil} className="ara-kart-ad">
-        <IsimEfekti userId={profil?.id} {...(ef !== undefined ? { ef } : {})} koyu hareketli>{adKisalt(profil?.gorunen_ad) ?? tt("Sen")}</IsimEfekti>
+        <IsimEfekti userId={profil?.id} {...(ef !== undefined ? { ef } : {})} koyu={!acik || Boolean(vsTema) || Boolean(arkaPlanSanat)} hareketli>{adKisalt(profil?.gorunen_ad) ?? tt("Sen")}</IsimEfekti>
       </OyuncuAdiDugmesi>
       <span className="ara-kart-rozetler">
+        {/* 8 Eki 2026: maç şeridiyle tek biçim — bayrak · Lv · lig amblemi (ülke yoksa bayrak çizilmez) */}
+        {ulke ? <Bayrak kod={ulke} boyut={18} className="ara-kart-bayrak" /> : null}
         {level != null && <QtRozet boyut="k" ton="koyu">{tt("Lv {0}", { 0: level })}</QtRozet>}
         {/* 560: lig amblemi (önizlemedeki gibi, isim yanında; lig adı erişilebilir adında) */}
         {lig && <OyuncuLigAmblemi lig={lig} boyut={24} />}

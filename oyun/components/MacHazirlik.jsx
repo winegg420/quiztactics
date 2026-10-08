@@ -104,7 +104,7 @@ export function HazirKapisi({
       )}
 
       <div className="m1-hazir-durum">
-        <QtRozet ton={hepsiHazir ? "dogru" : "koyu"} ikon={hepsiHazir ? "onay" : "kisiler"}>
+        <QtRozet ton={hepsiHazir ? "dogru" : "bilgi"} ikon={hepsiHazir ? "onay" : "kisiler"}>
           {tt("{0}/{1} hazır", { 0: hazirSayisi, 1: toplamOyuncu })}
         </QtRozet>
         {!hepsiHazir && bekleyenAdlar.length > 0 && (
@@ -152,9 +152,8 @@ export function HazirKapisi({
             {tt("Hazırsın — diğerleri bekleniyor")}
           </div>
         )}
-        <QtDugme tur="hayalet" tamGenislik onClick={onCik}>
-          {bekleyenSn >= LOBI_BEKLEME_SN ? tt("İptal et") : tt("Vazgeç")}
-        </QtDugme>
+        {/* 8 Eki 2026: maç akışında tek kelime + tek stil — "Vazgeç", QtDugme ikincil (arama, mod seçimi ile aynı) */}
+        <QtDugme tur="ikincil" tamGenislik onClick={onCik}>{tt("Vazgeç")}</QtDugme>
       </div>
     </div>
   );
@@ -167,10 +166,15 @@ export function HazirKapisi({
  */
 export function GeriSayim({ kalan }) {
   const n = Math.max(1, Math.ceil(kalan));
+  // 8 Eki 2026: donuk gri perde yerine açık gök + ışın sahnesi; her rakam kendi renginde (3 kırmızı · 2 sarı · 1 yeşil)
   return (
-    <div className="m1-sayim" role="status" aria-live="assertive">
+    <div className="m1-sayim" data-n={Math.min(n, 3)} role="status" aria-live="assertive">
+      <span className="m1-sayim-isin" aria-hidden="true" />
       <div className="m1-sayim-kutu">
-        <span className="m1-sayim-sayi" key={n}>{n}</span>
+        <span className="m1-sayim-yuva" key={n}>
+          <span className="m1-sayim-halka" aria-hidden="true" />
+          <span className="m1-sayim-sayi">{n}</span>
+        </span>
         <span className="m1-sayim-not">{tt("Hazır ol!")}</span>
       </div>
     </div>

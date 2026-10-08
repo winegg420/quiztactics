@@ -533,7 +533,7 @@ export default function GroupMatchPage() {
               const hazir = k.user_id === user.id
                 ? Boolean(nabiz?.ben_hazir)
                 : !(nabiz?.bekleyenler ?? []).includes(k.profil?.gorunen_ad);
-              return <QtRozet boyut="k" ton={hazir ? "dogru" : "notr"}>{hazir ? tt("hazır") : tt("hazır değil")}</QtRozet>;
+              return <QtRozet boyut="k" ton={hazir ? "dogru" : "uyari"}>{hazir ? tt("hazır") : tt("hazır değil")}</QtRozet>;
             })}
           </div>
         }

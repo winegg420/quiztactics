@@ -90,16 +90,26 @@
 :is(.qt-sahne-mac[data-kat], .qt-sahne-gok:not([data-kat])) .m2-skill-kilit,
 :is(.qt-sahne-mac[data-kat], .qt-sahne-gok:not([data-kat])) .m1-vs-rozet { color: var(--qt-uyari-koyu); }
 
-/* Gökte VS kartları lacivert levha (Güneş Halkası konturu); isim efekti koyu paletini korur.
-   Kozmetik VS teması (.qt-vs) kendi zeminini çizer, ona dokunulmaz. */
+/* Gökte VS kartları (8 Eki 2026, ana sayfa dili): koyu lacivert levha kalktı → açık ışınlı kart + kalın
+   lacivert kontur; sen sıcak (krem/turuncu), rakip gök tonu. İsim efekti açık paletle (VsKarti `acik`).
+   Kozmetik VS teması (.qt-vs) ve kart arka planı (.abp-sahip) kendi zeminini çizer, onlara dokunulmaz. */
 .qt-sahne-gok:not([data-kat]) .ara-kart:not(.qt-vs) {
-  --qt-mac-zemin-2: #1d2152;
-  --qt-mac-metin: #ffffff;
-  --qt-mac-soluk: #d6dcff;
-  background: #1d2152;
-  box-shadow: 0 5px 0 #0e1136;
-  color: #ffffff;
+  --qt-mac-zemin-2: #ffffff;
+  --qt-mac-metin: #1f2a5c;
+  --qt-mac-soluk: #4a5583;
+  border: 3px solid #1f2a5c;
+  background:
+    radial-gradient(circle at 50% 32%, #fff 0, rgb(255 255 255 / 0) 62%),
+    repeating-conic-gradient(from 0deg at 50% 32%, #dcebfb 0deg 11deg, #f3f8ff 11deg 22deg);
+  box-shadow: 0 5px 0 #1f2a5c;
+  color: #1f2a5c;
 }
+.qt-sahne-gok:not([data-kat]) .ara-kart--ben:not(.qt-vs) {
+  background:
+    radial-gradient(circle at 50% 32%, #fff 0, rgb(255 255 255 / 0) 62%),
+    repeating-conic-gradient(from 0deg at 50% 32%, #ffe6c9 0deg 11deg, #fff6e6 11deg 22deg);
+}
+.qt-sahne-gok:not([data-kat]) .ara-kart.abp-sahip:not(.qt-vs) { color: #fff; --qt-mac-metin: #fff; --qt-mac-soluk: #e6ebff; }
 .qt-sahne-gok:not([data-kat]) .ara-vs-rozet span {
   display: grid;
   place-items: center;

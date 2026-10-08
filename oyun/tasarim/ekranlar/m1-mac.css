@@ -228,32 +228,79 @@
 .m1-kart-metin { color: var(--qt-metin); text-align: left; font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); }
 .m1-kart-metin b { font-weight: var(--qt-a-siyah); }
 
-/* 3-2-1 geri sayımı — sabit katman, kendisinde transform yok */
+/* 3-2-1 geri sayımı — sabit katman, kendisinde transform yok.
+   8 Eki 2026: gri yarı saydam perde kalktı → ana sayfa dili: açık gök zemin, dönen ışın, kalın lacivert kontur;
+   rakam rengi sayıya göre (3 kırmızı · 2 sarı · 1 yeşil), her rakamda pop + dışa yayılan halka. */
 .m1-sayim {
+  --_lac: #1f2a5c;
+  --_r: #b93c3a; --_rd: #7d2422; --_ry: #fff;
   position: fixed;
   inset: 0;
   z-index: var(--qt-z-ortu);
   display: grid;
   place-items: center;
-  background: var(--qt-ortu);
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 46%, #fff 0, rgb(255 255 255 / 0) 42%), linear-gradient(180deg, #8fc8f5 0%, #bfdbf7 45%, #e4f1fd 100%);
 }
-.m1-sayim-kutu { display: flex; flex-direction: column; align-items: center; gap: var(--qt-b-2); }
+.m1-sayim[data-n="2"] { --_r: #f6cf5a; --_rd: #c39a2c; --_ry: var(--_lac); }
+.m1-sayim[data-n="1"] { --_r: #2b8450; --_rd: #1b5a35; --_ry: #fff; }
+/* Işınlar ayrı katmanda döner (sabit kökte transform yok — iOS) */
+.m1-sayim-isin {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: 180vmax;
+  height: 180vmax;
+  margin: -90vmax 0 0 -90vmax;
+  border-radius: 50%;
+  background: repeating-conic-gradient(from 0deg, rgb(255 255 255 / 0.55) 0deg 9deg, rgb(255 255 255 / 0) 9deg 22.5deg);
+  -webkit-mask-image: radial-gradient(closest-side, #000 8%, transparent 70%);
+  mask-image: radial-gradient(closest-side, #000 8%, transparent 70%);
+  animation: qt-h-donen 24s linear infinite;
+  pointer-events: none;
+}
+.m1-sayim-kutu { position: relative; display: flex; flex-direction: column; align-items: center; gap: var(--qt-b-4); }
+.m1-sayim-yuva { position: relative; display: grid; place-items: center; }
 .m1-sayim-sayi {
+  position: relative;
   display: grid;
   place-items: center;
-  width: 128px;
-  height: 128px;
+  width: 148px;
+  height: 148px;
+  border: 5px solid var(--_lac);
   border-radius: 50%;
-  background: var(--qt-vurgu);
-  color: var(--qt-vurgu-yazi);
-  box-shadow: 0 var(--qt-dudak-b) 0 var(--qt-vurgu-dudak);
+  background: radial-gradient(circle at 50% 30%, rgb(255 255 255 / 0.4), rgb(255 255 255 / 0) 55%), var(--_r);
+  color: var(--_ry);
+  box-shadow: inset 0 -8px 0 var(--_rd), 0 8px 0 var(--_lac);
   font-family: var(--qt-f-baslik);
   font-weight: var(--qt-a-siyah);
-  font-size: var(--qt-y-4xl);
+  font-size: 88px;
   line-height: 1;
-  animation: qt-h-pop-gir var(--qt-s-uzun) var(--qt-egri-yay);
+  text-shadow: none;
+  animation: m1-sayim-pop 520ms var(--qt-egri-yay) both;
 }
-.m1-sayim-not { color: var(--qt-mac-metin); font-family: var(--qt-f-baslik); font-weight: var(--qt-a-siyah); font-size: var(--qt-y-xl); }
+.m1-sayim-halka {
+  position: absolute;
+  inset: -6px;
+  border: 6px solid var(--_r);
+  border-radius: 50%;
+  opacity: 0;
+  animation: m1-sayim-halka 900ms var(--qt-egri-cikis) 120ms both;
+}
+.m1-sayim-not {
+  padding: 4px 18px 5px;
+  border: 3px solid var(--_lac);
+  border-radius: var(--qt-r-hap);
+  background: #fff3c9;
+  box-shadow: 0 4px 0 var(--_lac);
+  color: var(--_lac);
+  font-family: var(--qt-f-baslik);
+  font-weight: var(--qt-a-siyah);
+  font-size: var(--qt-y-xl);
+  line-height: 1.2;
+}
+@keyframes m1-sayim-pop { 0% { opacity: 0; transform: scale(0.4) rotate(-12deg); } 60% { opacity: 1; transform: scale(1.12) rotate(3deg); } 100% { transform: none; } }
+@keyframes m1-sayim-halka { 0% { opacity: 0.9; transform: scale(0.9); } 100% { opacity: 0; transform: scale(1.7); } }
 
 /* Kopuk perde */
 .m1-kopuk {
@@ -277,6 +324,8 @@
   .m1-seri, .m1-balon, .m1-sayim-sayi { animation: qt-h-solgun-gir var(--qt-s-kisa) ease; }
   .m1-skill .qt-skill.m1-skill--parla { animation: none; }
   .m1-kopuk-halka, .m1-hazir-nokta { animation: none; }
+  .m1-sayim-isin { animation: none; }
+  .m1-sayim-halka { display: none; }
 }
 
 /* ---------- Skill satın alma (JokerSatinAlModal, alt sayfa) ---------- */
@@ -582,6 +631,11 @@ body.bd-oyun-modu .m1-mac { min-height: 100dvh; }
 }
 .m1-hazir-ipucu .qt-ikon { flex: none; margin-top: 1px; color: var(--qt-uyari-koyu); }
 .m1-hazir .ara-vs { max-width: 420px; }
+/* 8 Eki 2026 — ana sayfa dili: bilgi kartı kalın lacivert kontur + lacivert dudak; bayrak VS kartında Lv'nin solunda */
+.m1-hazir .m1-hazir-bilgi { border: 3px solid #1f2a5c; box-shadow: 0 5px 0 #1f2a5c; }
+.m1-hazir .m1-hazir-hap { background: #fff3c9; box-shadow: inset 0 0 0 2px #ebcb72; color: #1f2a5c; }
+.m1-hazir .m1-hazir-hap .qt-ikon { color: #b9531f; }
+.ara-kart-bayrak { flex: none; align-self: center; border-radius: 3px; box-shadow: 0 0 0 1.5px #1f2a5c; }
 
 @media (max-width: 560px) {
   body.bd-oyun-modu .shell:has(> .m1-mac > .m1-hazir) { padding: 0; }
