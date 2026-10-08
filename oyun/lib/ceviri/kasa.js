@@ -223,6 +223,7 @@ export default {
   "%{p} joker şansı": "{p}% joker chance",
   "Hazine sahipsiz kalır": "The treasure becomes unclaimed",
   "Hazine dolu ({t}): yalnız AÇ.": "The treasure is full ({t}): OPEN only.",
+  "Süre dolarsa otomatik AÇ sayılır.": "If time runs out, it opens automatically.",
   "Rakip hazinesini savunuyor": "Opponent is defending the treasure",
   "Sen izliyorsun · bilemezse karar senin": "You're watching · if they miss, you decide",
 };

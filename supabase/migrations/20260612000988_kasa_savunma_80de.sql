@@ -1,5 +1,7 @@
--- 988: ORTAK HAZİNE — Savunma Hakkı hazine hedefe/tavana (80) ulaştığında da tetiklenir (Ida, 8 Eki 2026).
+-- 988: ORTAK HAZİNE — Savunma Hakkı hazine hedefe/tavana (80) ulaştığında da tetiklenir (Ida, 8 Eki 2026)
+--      + hazine 80'deyken karar süresi dolarsa otomatik AÇ (Ida, 9 Eki 2026).
 --
+-- (1) SAVUNMA TETİĞİ 80'DE
 -- 987'de kasa_cozumle'deki tetik koşulu `v_kasa < k.hedef and (k.kasa_tavan = 0 or v_kasa < k.kasa_tavan)`
 -- taşıyordu: hazine 80 olunca Savunma Sorusu açılmıyor, rakip hazineyi doğrudan alıyordu. Bu iki koşul kalktı.
 -- KALANLAR: son tur (k.tur < k.max_tur) ve Altın Soru (altın dalı bu bloğa hiç girmez) → açılmaz, hak kalır.
@@ -10,10 +12,16 @@
 --  · Başarılı → rakibin kararı iptal, hazine 80'de SAHİPSİZ, maç sürer (sonraki soruda tek başına bilen sahip olur;
 --    karar fazında AÇ maçı bitirir). Başarısız → rakip sahip olur, karar fazı (AÇ maçı bitirir).
 --
--- Yalnız kasa_cozumle değişti (canlı tanım = 987 tanımı, 8 Eki 2026 pg_get_functiondef ile doğrulandı); imza aynı →
--- GRANT değişmez. Şema / ayar değişmedi. Kural 987'deki gibi maç satırındaki savunma_acik'e bağlı: savunma_acik
--- olan SÜREN maçlarda da bir sonraki çözümlemeden itibaren geçerli (yeni kolon/sabitleme yok).
--- GERİ ALMA: docs/kasa-geri-alma-988.sql (987 kasa_cozumle tanımı)
+-- (2) 80'de süre dolumu = OTOMATİK AÇ (Ida, 9 Eki 2026): kasa_karar_uygula'da tavan > 0, tavan ≥ hedef ve hazine
+--     tavandayken karar süresi dolarsa DEVAM yerine AÇ uygulanır (AÇ maçı bitirir). son_karar 'oto'/'sure_doldu',
+--     kasa_hamleler.karar 'ac' (maç sonu özeti sayar). Bilerek DEVAM (API) ve bot kararı değişmedi (bot tavanda zaten AÇ der).
+--     Tavan < hedef olan eski maçlarda (ör. 60/80) süre dolumu yine DEVAM.
+--
+-- Değişen iki fonksiyon: kasa_cozumle (Savunma tetiği) + kasa_karar_uygula (otomatik AÇ). İkisinin de canlı tanımı =
+-- 987 tanımı (8–9 Eki 2026 pg_get_functiondef ile doğrulandı); imzalar aynı → GRANT değişmez. Şema / ayar değişmedi.
+-- Savunma kuralı 987'deki gibi maç satırındaki savunma_acik'e bağlı; iki kural da SÜREN maçlarda bir sonraki
+-- çözümlemeden / karardan itibaren geçerli (yeni kolon/sabitleme yok).
+-- GERİ ALMA: docs/kasa-geri-alma-988.sql (987 kasa_cozumle + kasa_karar_uygula tanımları)
 
 CREATE OR REPLACE FUNCTION public.kasa_cozumle(p_id uuid)
  RETURNS void
@@ -102,4 +110,99 @@ begin
      set dogru1 = v_d1, dogru2 = v_d2, artis = v_artis, kasa_sonra = v_kasa, sahip_sonra = v_sahip,
          puan1_sonra = k.puan1, puan2_sonra = k.puan2, soru_id = k.soru_id, kategori = v_kat
    where kasa_id = p_id and tur = k.tur;
+end $function$;
+
+-- kasa_karar_uygula (988)
+CREATE OR REPLACE FUNCTION public.kasa_karar_uygula(p_id uuid, p_ac boolean, p_sure_doldu boolean DEFAULT false)
+ RETURNS void
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'public'
+AS $function$
+declare
+  k public.kasa_maclari%rowtype;
+  v_p1 int; v_p2 int;
+  v_ms int;
+  v_odul boolean := false;
+  v_hak boolean := false;
+  v_yeni int;
+  v_oto boolean := false;   -- 988: hazine dolu (tavan ≥ hedef) iken süre doldu → otomatik AÇ
+begin
+  select * into k from public.kasa_maclari where id = p_id;
+  if k.durum <> 'aktif' or k.faz <> 'karar' or k.sahip is null then return; end if;
+  v_ms := greatest(0, round(extract(epoch from (now() - coalesce(k.karar_baslangic, now()) - public.kasa_gosterim_payi())) * 1000))::int;
+
+  -- 988: tavan hedefe eşit/üstünde ve hazine tavanda → DEVAM anlamsız (büyümez); süre dolumu AÇ sayılır, maç biter
+  v_oto := coalesce(p_sure_doldu, false) and not coalesce(p_ac, false)
+           and k.kasa_tavan > 0 and k.kasa_tavan >= k.hedef and k.kasa >= k.kasa_tavan;
+  if (coalesce(p_ac, false) or v_oto) and k.kasa >= k.acma_min then
+    v_p1 := k.puan1 + case when k.sahip = k.oyuncu1 then k.kasa else 0 end;
+    v_p2 := k.puan2 + case when k.sahip = k.oyuncu2 then k.kasa else 0 end;
+    update public.kasa_maclari
+       set puan1 = v_p1, puan2 = v_p2,
+           acma_sayisi1 = acma_sayisi1 + (k.sahip = k.oyuncu1)::int,
+           acma_sayisi2 = acma_sayisi2 + (k.sahip = k.oyuncu2)::int,
+           acma_toplam1 = acma_toplam1 + case when k.sahip = k.oyuncu1 then k.kasa else 0 end,
+           acma_toplam2 = acma_toplam2 + case when k.sahip = k.oyuncu2 then k.kasa else 0 end,
+           kasa = 0, sahip = null,
+           -- 954: kasa açıldı → iki oyuncunun da ücretsiz 50:50 hakkı biter
+           joker = joker - '_hak',
+           -- 987: hazine açıldı → kullanılmamış Savunma Hakları silinir
+           savunma_hak = '{}'::uuid[],
+           son_karar = jsonb_build_object('veren', k.sahip, 'ac', true, 'deger', k.kasa)
+                       || case when v_oto then jsonb_build_object('sure_doldu', true, 'oto', true) else '{}'::jsonb end,
+           son_hareket = now()
+     where id = p_id;
+    update public.kasa_hamleler
+       set karar = 'ac', karar_veren = k.sahip, karar_ms = v_ms, acilan_deger = k.kasa,
+           puan1_sonra = v_p1, puan2_sonra = v_p2
+     where kasa_id = p_id and tur = k.tur;
+    -- AÇ sonrası hedef kontrolü
+    if (case when k.sahip = k.oyuncu1 then v_p1 else v_p2 end) >= k.hedef then
+      perform public.kasa_bitir(p_id, k.sahip, 'hedef');
+      return;
+    end if;
+  else
+    -- 954: bilerek DEVAM (süre dolumu değil) → kasa açılana kadar her soruda ücretsiz 50:50
+    v_hak := k.devam_elli and k.jokerli and not coalesce(p_ac, false) and not coalesce(p_sure_doldu, false);
+    -- 955: DEVAM (bilerek ya da süre dolumu) → ceil(kasa × çarpan), sonra tavan (çarpan 1 / tavan 0 = eski davranış)
+    v_yeni := k.kasa;
+    if coalesce(k.devam_carpan, 1) > 1 then v_yeni := ceil(k.kasa * k.devam_carpan)::int; end if;
+    if k.kasa_tavan > 0 then v_yeni := least(v_yeni, k.kasa_tavan); end if;
+    update public.kasa_maclari
+       set son_karar = jsonb_build_object('veren', k.sahip, 'ac', false, 'deger', k.kasa,
+                                          'sure_doldu', coalesce(p_sure_doldu, false))
+                       || case when k.devam_birakir then jsonb_build_object('birakti', true) else '{}'::jsonb end
+                       -- 955: çarpan anı (eski → yeni değer; istemci sayarak gösterir)
+                       || case when coalesce(k.devam_carpan, 1) > 1 then jsonb_build_object('carpan', k.devam_carpan, 'yeni', v_yeni,
+                                 'tavan', k.kasa_tavan > 0 and v_yeni >= k.kasa_tavan) else '{}'::jsonb end,
+           kasa = v_yeni,
+           -- 954: DEVAM sahipliği bırakır (kasa değeri korunur)
+           sahip = case when k.devam_birakir then null else sahip end,
+           joker = case when v_hak and not (coalesce(joker -> '_hak', '[]'::jsonb) ? k.sahip::text)
+                        then joker || jsonb_build_object('_hak', coalesce(joker -> '_hak', '[]'::jsonb) || to_jsonb(k.sahip::text))
+                        else joker end,
+           -- 987: bilerek DEVAM (bot dahil; süre dolumu değil) → Savunma Hakkı (oyuncu başı en fazla 1, süresiz)
+           savunma_hak = case when k.savunma_acik and not coalesce(p_sure_doldu, false)
+                                   and not (k.sahip = any(savunma_hak))
+                              then array_append(savunma_hak, k.sahip) else savunma_hak end,
+           son_hareket = now()
+     where id = p_id;
+    update public.kasa_hamleler
+       set karar = case when p_sure_doldu then 'sure_doldu' else 'devam' end,
+           karar_veren = k.sahip, karar_ms = v_ms
+     where kasa_id = p_id and tur = k.tur;
+    -- 953 maçları (devam_sans > 0): eski şanslı ödül; yalnız bilerek DEVAM, karar fazı gerçekten açıkken
+    v_odul := not coalesce(p_ac, false) and not coalesce(p_sure_doldu, false)
+              and coalesce(k.devam_sans, 0) > 0 and k.kasa > 0 and k.kasa >= k.acma_min;
+  end if;
+  perform public.kasa_soru_ac(p_id);   -- 954: hak varsa ücretsiz 50:50 burada dağıtılır
+  if v_odul then perform public.kasa_devam_odulu(p_id, k.sahip); end if;
+  if v_hak then
+    -- DEVAM anı (yalnız sahibine dönen 953 'devam' kaydı; ekranda "Ücretsiz 50:50" kartı)
+    update public.kasa_maclari
+       set joker = joker || jsonb_build_object(k.sahip::text, coalesce(joker -> k.sahip::text, '{}'::jsonb)
+                     || jsonb_build_object('devam', jsonb_build_object('tur', k.tur, 'kazandi', true, 'joker', 'elli')))
+     where id = p_id and durum = 'aktif' and faz = 'cevap';
+  end if;
 end $function$;

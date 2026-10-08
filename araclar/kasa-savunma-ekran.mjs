@@ -208,6 +208,7 @@ for (const { dil, w, h, azalt } of KOSULAR) {
     const dolu = await s.locator(".ks-karar-eylem button").allInnerTexts();
     ok("karar (80): yalnız AÇ — DEVAM yok", dolu.length === 1 && (dil === "en" ? /OPEN → \+80/.test(tek(dolu[0])) : /AÇ → \+80/.test(tek(dolu[0]))), JSON.stringify(dolu));
     ok("karar (80): 'yalnız AÇ' notu", dil === "en" ? /OPEN only/.test(await metin(".ks-karar-not")) : /yalnız AÇ/.test(await metin(".ks-karar-not")));
+    ok("karar (80): süre dolumu = otomatik AÇ notu (988)", dil === "en" ? /opens automatically/.test(await metin(".ks-karar-not")) : /otomatik AÇ/.test(await metin(".ks-karar-not")));
     ok("karar (80): taşma yok", (await kararOlc()).tasan === 0);
     await kaydet("s2b-karar-80");
     await tasma("karar 80");

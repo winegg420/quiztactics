@@ -5,6 +5,7 @@
 //   · başarısız → rakip sahip, karar → AÇ maçı bitirir
 //   · zaten 80 (+2 kırpılır) → yine açılır · ikisi bilirse açılmaz · son tur açılmaz · Altın Soru açılmaz
 //   · bot savunan · bot rakip (başarısız savunmadan sonra tavanda AÇ)
+//   · 80'de karar süresi dolarsa otomatik AÇ (maç biter); bilerek DEVAM / 40'ta süre / tavan<hedef maçı değişmez
 // Kullanım: node araclar/kasa-savunma-80-sql-testi.mjs
 import { PgIstemci, baglantiDizgisi } from './pg-mini.mjs';
 import fs from 'node:fs';
@@ -171,6 +172,37 @@ try {
   await db.sorgu(`select kasa_ilerlet('${id}')`);
   k = await m();
   ok('maç bitti, kazanan bot', k.durum === 'bitti' && k.kazanan === BOT);
+
+  console.log('7) 80\'de süre dolumu = otomatik AÇ');
+  const kararFazi = (kasa, sahip, ek = '') => db.sorgu(`update kasa_maclari set faz = 'karar', sahip = '${sahip}', kasa = ${kasa},
+      savunma = null, puan1 = 20, puan2 = 30, karar_baslangic = now() - interval '20 seconds',
+      faz_bitis = now() - interval '10 seconds'${ek} where id = '${id}'`);
+  const yeniMac = async () => { id = await tek(`select kasa_olustur('${A}', '${B}', true, false)`); await ilerlet(); return (await m()).oyuncu1; };
+  let S = await yeniMac();
+  const turK = (await m()).tur;
+  await kararFazi(80, S);
+  await db.sorgu(`select kasa_ilerlet('${id}')`);               // gerçek yol: faz_bitis geçti → süre dolumu
+  k = await m();
+  ok('80 + süre doldu → AÇ uygulandı, maç bitti, kazanan sahip (hedef)', k.durum === 'bitti' && k.kazanan === S && k.sonuc_neden === 'hedef', `${k.durum}/${k.sonuc_neden}`);
+  ok('son_karar: ac + oto + sure_doldu, değer 80', k.son_karar?.ac === true && k.son_karar?.oto === true && k.son_karar?.sure_doldu === true && k.son_karar?.deger === 80, JSON.stringify(k.son_karar));
+  ok('kasa_hamleler.karar = ac, acilan_deger 80 (maç sonu özeti sayar)', (await tek(`select karar || '|' || acilan_deger from kasa_hamleler where kasa_id = '${id}' and tur = ${turK}`)) === 'ac|80');
+  S = await yeniMac();
+  await kararFazi(80, S);
+  await db.sorgu(`select kasa_karar_uygula('${id}', false, false)`);   // bilerek DEVAM (API) — değişmedi
+  k = await m();
+  ok('80 + bilerek DEVAM → eski davranış (maç sürer, sahipsiz, 80)', k.durum === 'aktif' && k.sahip === null && k.kasa === 80 && k.son_karar?.ac === false);
+  await kararFazi(40, S);
+  await db.sorgu(`select kasa_ilerlet('${id}')`);
+  k = await m();
+  ok('40 + süre doldu → DEVAM (×2 → 80), maç sürer', k.durum === 'aktif' && k.kasa === 80 && k.son_karar?.ac === false && k.son_karar?.sure_doldu === true);
+  await kararFazi(60, S, ', kasa_tavan = 60');
+  await db.sorgu(`select kasa_ilerlet('${id}')`);
+  k = await m();
+  ok('eski maç (tavan 60 < hedef 80) + süre doldu → DEVAM', k.durum === 'aktif' && k.son_karar?.ac === false && k.kasa === 60);
+  await kararFazi(80, S, ', kasa_tavan = 80');
+  await db.sorgu(`select kasa_karar_uygula('${id}', true, false)`);    // bilerek AÇ — değişmedi
+  k = await m();
+  ok('80 + bilerek AÇ → bitti, oto işareti yok', k.durum === 'bitti' && k.son_karar?.oto === undefined);
 } catch (e) {
   kaldi++;
   console.log('  ✗ HATA', e.message);

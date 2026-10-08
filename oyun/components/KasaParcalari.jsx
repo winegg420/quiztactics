@@ -275,7 +275,8 @@ export function KasaKarar({ d, c, calisan, onKarar, kalan = null, carpanYazi = n
       <p className="ks-karar-not">
         {dolu ? c("Hazine dolu ({t}): yalnız AÇ.", { t: tavan }) : null}
         {/* 7 Eki 2026 (Ida): süre dolumu kuralı tek kısa cümle olarak her zaman */}
-        {" "}{c("Süre dolarsa DEVAM sayılır.")}
+        {/* 988: hazine dolu (tavan ≥ hedef) iken süre dolumu sunucuda otomatik AÇ */}
+        {" "}{dolu && tavan >= hedef ? c("Süre dolarsa otomatik AÇ sayılır.") : c("Süre dolarsa DEVAM sayılır.")}
       </p>
     </div>
   );
