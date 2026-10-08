@@ -10957,3 +10957,13 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
   anon/authenticated yetkisi yok (değişmedi), idle-in-transaction 0. PROJECT_CONTEXT Hazine satırı güncellendi.
 - Depoda bu oturuma ait OLMAYAN değişiklikler vardı (DukkanKozmetik, avatar-satis çevirisi, dukkan-cerceve.css,
   soru-temizlik/claude-cagri.mjs) — dokunulmadı, commit'e girmedi.
+- **Canlı uçtan uca (yeni `araclar/kasa-savunma-canli-testi.mjs`, quiztactics.vercel.app, iki gerçek hesap ArayuzDenetim934 / 758):**
+  maç c0838b80… gerçek-gerçek, savunma_acik, hedef/tavan 80, ×2. A doğru/B yanlış → A sahip → karar ekranı
+  "KEEP → Treasure 4 · unclaimed" + kalkan → DEVAM → A yanlış/B doğru → iki tarafta tetik bandı → Savunma Sorusu: B'de izleme
+  bandı + büyük sayaç + şıklar pasif, A'da Savunma satırı; **sayaç farkı 0 sn** ([15,15],[14,14],[14,14]) → A doğru →
+  "Savundun" / "Rakip savundu", sunucuda sahipsiz → sonraki tur sahipsiz soru (karar yok). Kalkan anı tarafta 2 kez (tetik +
+  sonuç, beklenen), izleme bandı 1 kez, aynı ses üst üste 0, konsol hatası 0; temizlik: A maçtan çıktı (bitti/terk).
+  Sonuç 24/25 — tek ✗ testin AÇ regex'i yalnız TR arıyordu, hesap profili EN (metin doğruydu: "OPEN → +2 Score 2/80");
+  regex düzeltildi ve dosyadan doğrulandı, canlıya üçüncü maç açılmadı. İlk koşu (maç a8be3ed7…) aynı akış, 23/25 (aynı regex).
+- Oturumlar: eski anonim dosyalardaki yenileme jetonları denendi (2 istek), geçen iki hesap `.arayuz-denetim-oturum.json`'a
+  yazıldı (git'e girmez; kaynak dosyalara da yeni jeton yazıldı).
