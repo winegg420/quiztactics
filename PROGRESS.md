@@ -10979,3 +10979,10 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 ## 9 Eki 2026 — Zorluk 2 yanlış/çift adaylarına Opus ikinci bakış
 - `araclar/soru-temizlik/z2-opus-ikinci.mjs` (claude-opus-5-5, effort high): z2 taramasındaki 35 yanlış/çift adayı (1012'de açılan 2 yanlış alarm dahil) yeniden incelendi, $0,135.
 - Sonuç: 34 "doğru", 1 "çift" (güven 0,5: gitar "Pena" — mızrap da savunulabilir) → eşik 0,85 altında. **Kapanan 0**, migration/geri alma dosyası üretilmedi. Rapor: `z2-opus-ikinci-rapor.csv`.
+
+## 9 Eki 2026 — Yeni Düello ekran taslağı: /duello-onizleme
+**Araç:** Claude Code
+- SADECE görünüm: `oyun/tasarim/duello-onizleme/` (sayfa + `duello-onizleme.css`, `dop-` öneki) + `oyun/lib/ceviri/duello-onizleme.js` (EN) + rota/giriş hedefi satırları (`BildimApp.jsx`, `girisHedefi.js`, `dil-en.js`). Oyun mantığı/DB/realtime/bot yok; mevcut Düello'ya bağlantı yok; menüde link yok (girişli herkes).
+- 11 ekran: nötr soru · kontrol anı · kontrol sahibi A (rakibe gönder, 7 sn) · B (kendine seç) · rakip ekranı (seçiyor/açıldı) · soru turu · tur sonucu (saldırı/el değişti/nötr) · seri 1/3–2/3 (2/3'te gerilim) · 3/3 kazanıldı · kontrol el değiştirdi · Son Düello. Üstte "ben/rakip kontrol sahibi" anahtarı (ekran 3–5 bakış açısı sabit, sayfada belirtilir).
+- Karar: butonlar `--qt-mod-duello` kırmızısı; sen mavi / rakip kırmızı (mevcut hk- dili); gerçek CerceveliAvatar + KategoriIkon, yeni ikon çizilmedi; hareket yalnız `prefers-reduced-motion: no-preference` içinde.
+- Ölçüm: `araclar/duello-onizleme-ekran.mjs` (Supabase istekleri sahte, canlıya yük yok) → `tasarim/duello-onizleme/` 390×844 + 360×640 × TR/EN: yatay taşma 0, ≥44 px hedef, kesik metin 0, konsol hatası 0; `npm run build` temiz.

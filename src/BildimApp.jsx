@@ -112,6 +112,7 @@ const PremiumOnizlemePage = tembelYukle(() => import("../oyun/tasarim/premium/Pr
 const IkonOnizlemePage = tembelYukle(() => import("../oyun/tasarim/ikon/IkonOnizlemePage.jsx"));   // uygulama ikonu adayları (Ajan B) — yalnız sahip, yalnız adresle (girişli)
 const TasarimOnizlemePage = tembelYukle(() => import("../oyun/tasarim/onizleme/TasarimOnizlemePage.jsx"));   // altın isim + rakip arama ekranı adayları — yalnız sahip, yalnız adresle (girişli)
 const StilRehberiPage = tembelYukle(() => import("../oyun/tasarim/stil-rehberi/StilRehberiPage.jsx"));   // kalıcı stil rehberi (görsel revizyon 0; Ida onayı) — girişli herkes, menüde yok
+const DuelloOnizlemePage = tembelYukle(() => import("../oyun/tasarim/duello-onizleme/DuelloOnizlemePage.jsx"));   // yeni Düello ekran taslağı (9 Eki 2026) — girişli herkes, menüde yok
 const LigSahneOnizlemePage = tembelYukle(() => import("../oyun/tasarim/lig-sahnesi/LigSahneOnizlemePage.jsx"));   // lig sahnesi eski/yeni (8 Eki 2026) — girişli herkes, menüde yok
 const GorselRevizyonPage =tembelYukle(() => import("../oyun/tasarim/gorsel-revizyon/GorselRevizyonPage.jsx"));   // görsel revizyon adayları (tasarim/BRIEF_GORSEL_REVIZYON.md) — girişli herkes, menüde yok
 const YonetimSikayetlerPage = tembelYukle(() => import("../oyun/pages/YonetimSikayetlerPage.jsx"));   // 620: şikâyet yönetimi — yalnız yönetici (sunucu), menüde yok
@@ -158,7 +159,7 @@ export default function BildimApp() {
     // kozmetik-onizleme, mac-sonu-onizleme) artık bağımsız DEĞİL: giriş + sahip kapısı (SahipKapisi).
     // Yalnız yerel geliştirme (.env yok): önizlemeleri ölçmek için; üretimde DEV false → girişli + sahip kontrolü
     (import.meta.env.DEV && !supabaseHazir && (
-      pathname.startsWith("/premium-onizleme") || pathname.startsWith("/tasarim-onizleme") || pathname.startsWith("/gorsel-revizyon") || pathname.startsWith("/lig-sahne-onizleme") ||
+      pathname.startsWith("/premium-onizleme") || pathname.startsWith("/tasarim-onizleme") || pathname.startsWith("/gorsel-revizyon") || pathname.startsWith("/lig-sahne-onizleme") || pathname.startsWith("/duello-onizleme") ||
       pathname.startsWith("/insan-prototip") || pathname.startsWith("/preview/") || pathname.startsWith("/tasarim-yonleri") ||
       pathname.startsWith("/tasarim-sistemi") || pathname.startsWith("/kozmetik-onizleme") || pathname.startsWith("/mac-sonu-onizleme"))) ||
     pathname.startsWith("/gizlilik") || pathname.startsWith("/kosullar");
@@ -224,6 +225,7 @@ export default function BildimApp() {
         <Route path="/gorsel-revizyon" element={<GorselRevizyonPage />} />
         <Route path="/stil-rehberi" element={<StilRehberiPage />} />
         <Route path="/lig-sahne-onizleme" element={<LigSahneOnizlemePage />} />
+        <Route path="/duello-onizleme" element={<DuelloOnizlemePage />} />
 
         <Route path="/" element={<Layout />}>
           <Route index element={<AnaSayfa />} />

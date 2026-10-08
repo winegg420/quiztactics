@@ -1,0 +1,1150 @@
+{
+ "01-notr-soru-390x844-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 527
+ },
+ "02-kontrol-sende-390x844-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 537
+ },
+ "03-kontrol-a-rakibe-gonder-390x844-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 569
+ },
+ "04-kontrol-b-kendine-sec-390x844-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 575
+ },
+ "05-rakip-ekrani-bekliyor-390x844-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 622
+ },
+ "05b-rakip-ekrani-acildi-390x844-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 502
+ },
+ "06-soru-turu-390x844-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 557
+ },
+ "07a-sonuc-basarili-saldiri-390x844-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 500
+ },
+ "07b-sonuc-kontrol-degisti-390x844-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 506
+ },
+ "07c-sonuc-notr-390x844-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 506
+ },
+ "08b-seri-2-3-390x844-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 511
+ },
+ "08a-seri-1-3-390x844-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 500
+ },
+ "09-duello-kazanildi-390x844-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 500
+ },
+ "10-kontrol-el-degistirdi-390x844-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 500
+ },
+ "11-son-duello-390x844-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 573
+ },
+ "r02-kontrol-rakipte-390x844-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 540
+ },
+ "r06-soru-turu-390x844-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 557
+ },
+ "r07a-sonuc-rakip-saldirdi-390x844-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 500
+ },
+ "r07b-sonuc-kontrol-bende-390x844-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 500
+ },
+ "r08b-seri-2-3-390x844-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 532
+ },
+ "r09-duello-kaybedildi-390x844-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 500
+ },
+ "r10-kontrol-bende-390x844-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 500
+ },
+ "konsol-390x844-tr": [],
+ "01-notr-soru-360x640-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 527
+ },
+ "02-kontrol-sende-360x640-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 533
+ },
+ "03-kontrol-a-rakibe-gonder-360x640-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 561
+ },
+ "04-kontrol-b-kendine-sec-360x640-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 581
+ },
+ "05-rakip-ekrani-bekliyor-360x640-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 622
+ },
+ "05b-rakip-ekrani-acildi-360x640-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 502
+ },
+ "06-soru-turu-360x640-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 557
+ },
+ "07a-sonuc-basarili-saldiri-360x640-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 502
+ },
+ "07b-sonuc-kontrol-degisti-360x640-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 502
+ },
+ "07c-sonuc-notr-360x640-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 502
+ },
+ "08b-seri-2-3-360x640-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 532
+ },
+ "08a-seri-1-3-360x640-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 500
+ },
+ "09-duello-kazanildi-360x640-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 500
+ },
+ "10-kontrol-el-degistirdi-360x640-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 500
+ },
+ "11-son-duello-360x640-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 598
+ },
+ "r02-kontrol-rakipte-360x640-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 536
+ },
+ "r06-soru-turu-360x640-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 557
+ },
+ "r07a-sonuc-rakip-saldirdi-360x640-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 500
+ },
+ "r07b-sonuc-kontrol-bende-360x640-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 502
+ },
+ "r08b-seri-2-3-360x640-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 532
+ },
+ "r09-duello-kaybedildi-360x640-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 500
+ },
+ "r10-kontrol-bende-360x640-tr": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 500
+ },
+ "konsol-360x640-tr": [],
+ "01-notr-soru-390x844-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 527
+ },
+ "02-kontrol-sende-390x844-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 537
+ },
+ "03-kontrol-a-rakibe-gonder-390x844-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 569
+ },
+ "04-kontrol-b-kendine-sec-390x844-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 575
+ },
+ "05-rakip-ekrani-bekliyor-390x844-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 649
+ },
+ "05b-rakip-ekrani-acildi-390x844-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 502
+ },
+ "06-soru-turu-390x844-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 532
+ },
+ "07a-sonuc-basarili-saldiri-390x844-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 506
+ },
+ "07b-sonuc-kontrol-degisti-390x844-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 533
+ },
+ "07c-sonuc-notr-390x844-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 506
+ },
+ "08b-seri-2-3-390x844-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 532
+ },
+ "08a-seri-1-3-390x844-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 500
+ },
+ "09-duello-kazanildi-390x844-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 500
+ },
+ "10-kontrol-el-degistirdi-390x844-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 500
+ },
+ "11-son-duello-390x844-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 598
+ },
+ "r02-kontrol-rakipte-390x844-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 540
+ },
+ "r06-soru-turu-390x844-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 532
+ },
+ "r07a-sonuc-rakip-saldirdi-390x844-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 500
+ },
+ "r07b-sonuc-kontrol-bende-390x844-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 506
+ },
+ "r08b-seri-2-3-390x844-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 532
+ },
+ "r09-duello-kaybedildi-390x844-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 500
+ },
+ "r10-kontrol-bende-390x844-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 500
+ },
+ "konsol-390x844-en": [],
+ "01-notr-soru-360x640-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 527
+ },
+ "02-kontrol-sende-360x640-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 536
+ },
+ "03-kontrol-a-rakibe-gonder-360x640-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 561
+ },
+ "04-kontrol-b-kendine-sec-360x640-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 563
+ },
+ "05-rakip-ekrani-bekliyor-360x640-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 649
+ },
+ "05b-rakip-ekrani-acildi-360x640-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 502
+ },
+ "06-soru-turu-360x640-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 532
+ },
+ "07a-sonuc-basarili-saldiri-360x640-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 502
+ },
+ "07b-sonuc-kontrol-degisti-360x640-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 502
+ },
+ "07c-sonuc-notr-360x640-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 502
+ },
+ "08b-seri-2-3-360x640-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 549
+ },
+ "08a-seri-1-3-360x640-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 500
+ },
+ "09-duello-kazanildi-360x640-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 500
+ },
+ "10-kontrol-el-degistirdi-360x640-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 500
+ },
+ "11-son-duello-360x640-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 598
+ },
+ "r02-kontrol-rakipte-360x640-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 536
+ },
+ "r06-soru-turu-360x640-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 557
+ },
+ "r07a-sonuc-rakip-saldirdi-360x640-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 502
+ },
+ "r07b-sonuc-kontrol-bende-360x640-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 502
+ },
+ "r08b-seri-2-3-360x640-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "button.qt-sekme",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 549
+ },
+ "r09-duello-kaybedildi-360x640-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 500
+ },
+ "r10-kontrol-bende-360x640-en": {
+  "yatayTasma": 0,
+  "tasan": [
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme",
+   "span",
+   "button.qt-sekme"
+  ],
+  "kucuk": [],
+  "kesik": [],
+  "sahneYuk": 500
+ },
+ "konsol-360x640-en": []
+}

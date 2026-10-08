@@ -17,7 +17,7 @@ const OMUR_MS = 15 * 60 * 1000;
 const BILINEN = new Set(["", "giris", "turnuva", "meydan", "mac", "grup-mac", "hizli-mac", "siralama", "arkadaslar",
   "mesajlar", "davet", "joker", "hizli-mod", "duello", "kasa", "calisma", "harita", "harita-deneme", "gorunum",
   "gorunum-3b", "profil", "gizlilik", "kosullar", "insan-prototip", "oyun", "bildim", "ses-secim",
-  "cerceve-onizleme", "avatar-onizleme", "avatar-nadirlik", "premium-onizleme", "ikon-onizleme", "tasarim-onizleme", "yonetim", "gorsel-revizyon", "lig-sahne-onizleme"]);
+  "cerceve-onizleme", "avatar-onizleme", "avatar-nadirlik", "premium-onizleme", "ikon-onizleme", "tasarim-onizleme", "yonetim", "gorsel-revizyon", "lig-sahne-onizleme", "duello-onizleme"]);
 export function bilinenYol(yol) {
   if (typeof yol !== "string") return false;
   return BILINEN.has(yol.split("?")[0].split("/")[1] ?? "");
