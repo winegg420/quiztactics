@@ -10659,3 +10659,5 @@ Prova (begin…rollback, tek işlemde 995+996, gerçek düello+kasa satırı): S
 Uygulama: 995 → okundu (tablo `u`, RLS t, 4 fonksiyon yeni) → 996 prova + uygula → okundu (6 fonksiyon yeni, ACL'ler aynı: kalp_at authenticated'a açık, diğerleri değil).
 Canlı ölçüm: tek test kimliğiyle 10 sn arayla 7 kalp_at (60 sn): o profilin last_seen'i 2 kez yazıldı (ilk + 50 sn sonra; eskiden 7), oyuncu_nabiz 1 ins + güncellemelerin %100'ü HOT. Aynı dakikada profiles toplamı +11 (diğer 9'u 12:30'daki */10 bot işleri). Ardından 65 sn sessiz pencerede profiles +0. Cron hata 0.
 Migration: 995, 996 (canlıya uygulandı). İstemci dosyası değişmedi → build gerekmedi.
+
+- **Dağıtım:** 6f345a26 main'e push (d0b8285e dahil), Vercel success (8 Eki 2026); site 200. Bu not yerel commit — bir sonraki push ile gider.
