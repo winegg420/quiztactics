@@ -27,7 +27,7 @@ import { adKisalt } from "../lib/adKisalt.js";
 import { kaydirIpucuBagla } from "../lib/kaydirIpucu.js";
 import QuestionCard from "../components/QuestionCard.jsx";
 import { y } from "../lib/yol.js";
-import { kanalBekleme, useGorunurlukTazele, zamanAsimiyla } from "../lib/gorunurluk.js";
+import { kanalBekleme, kanalYenilenmeli, useGorunurlukTazele, zamanAsimiyla } from "../lib/gorunurluk.js";
 import { tikBasligiEkle, GEC_VARIS_EK_MS } from "../lib/zaman.js";
 import { useMacNabiz } from "../lib/nabiz.js";
 import { HazirKapisi, KopukPerde } from "../components/MacHazirlik.jsx";
@@ -246,6 +246,8 @@ export default function GroupMatchPage() {
     macYukle();
     // Arka planda setTimeout donduğu için bekleyen ilerletme burada çalışır.
     if (bekleyenIlerletme.current) ilerletmeyiDene();
+    // Aşama 2: kanal bağlıysa ve kısa gizlenmeyse (pencere odağı vb.) yıkılıp kurulmaz.
+    if (!kanalYenilenmeli(kanalRef.current)) return;
     try {
       const eskiKanal = kanalRef.current;   // Paket 20 VI: önce ref, sonra kapat
       kanalRef.current = null;

@@ -27,7 +27,7 @@ import AvatarDugmesi from "../components/AvatarDugmesi.jsx";
 import OyuncuAdiDugmesi from "../components/OyuncuAdiDugmesi.jsx";
 import { useNavigate } from "react-router-dom";
 import { y } from "../lib/yol.js";
-import { kanalBekleme, useGorunurlukTazele, zamanAsimiyla } from "../lib/gorunurluk.js";
+import { kanalBekleme, kanalYenilenmeli, useGorunurlukTazele, zamanAsimiyla } from "../lib/gorunurluk.js";
 import { GB_MS } from "../lib/geriBildirim.js";
 import { tt } from "../lib/dil.js";
 import { sesOnYukle, sesTurnuvaBasladi } from "../lib/ses.js";
@@ -37,7 +37,7 @@ import "../tasarim/ekranlar/m1-sonuc.css";
 import "../tasarim/ekranlar/m1-turnuva.css";
 
 // Oyuncu listesi değişimlerinde (katılım, puan) yeniden okuma aralığı — bkz. oyuncuTazele.
-const OYUNCU_TAZELE_MS = 1500;
+const OYUNCU_TAZELE_MS = 3000;   // Aşama 2: 1,5 → 3 sn (oyuncu listesi değişimleri tek okumada birleşir)
 
 /** Elenen/izleyen oyuncuya soru sayacı (Paket 41 M.2). Sunucu saatiyle hizalı. */
 function IzleyiciSayac({ soru }) {
@@ -226,6 +226,7 @@ export default function TournamentPage() {
   useEffect(() => () => clearTimeout(oyuncuTazeleRef.current), []);
 
   // Kanal kurulumu ayrı fonksiyonda: sekmeden dönüşte ölmüş soket yeniden kurulur.
+  const turnuvaKimlik = turnuva?.id ?? null;
   const kanalKur = useCallback(() => {
     const kanal = supabase
       .channel("turnuva")
@@ -240,9 +241,12 @@ export default function TournamentPage() {
           turnuvaYukle();
         }
       )
+      // Aşama 2: yalnız açık turnuvanın oyuncuları (eskiden HER turnuvanın her puan yazması geliyordu).
+      // Turnuva henüz bilinmiyorsa dinlenmez; kimlik gelince kanal bu süzgeçle yeniden kurulur.
       .on(
         "postgres_changes",
-        { event: "*", schema: "public", table: "tournament_players" },
+        { event: "*", schema: "public", table: "tournament_players",
+          filter: `tournament_id=eq.${turnuvaKimlik ?? "00000000-0000-0000-0000-000000000000"}` },
         () => oyuncuTazele()
       )
       // Kanal ölürse sessizce kalmasın: Realtime kopmasi (ag dalgalanmasi,
@@ -271,7 +275,7 @@ export default function TournamentPage() {
       });
     kanalRef.current = kanal;
     return kanal;
-  }, [turnuvaYukle, oyuncuTazele]);
+  }, [turnuvaYukle, oyuncuTazele, turnuvaKimlik]);
 
   // İlk yükleme + realtime
   // Kanal izleyicisi kanalKur'u çağırabilsin (kanalKur kendi tanımına
@@ -293,8 +297,9 @@ export default function TournamentPage() {
     return () => { iptal = true; };
   }, []);
 
+  useEffect(() => { turnuvaYukle(); }, [turnuvaYukle]);
+  // Kanal ayrı: turnuva kimliği değişince (süzgeç) yalnız kanal yeniden kurulur, ilk okuma tekrarlanmaz.
   useEffect(() => {
-    turnuvaYukle();
     kanalKur();
     return () => {
       const eskiKanal = kanalRef.current;   // Paket 20 VI: CLOSED eşzamanlı gelir — önce ref boşalır, sonra kapanır
@@ -302,7 +307,7 @@ export default function TournamentPage() {
       if (eskiKanal) supabase.removeChannel(eskiKanal);
       if (yenidenBaglaRef.current) clearTimeout(yenidenBaglaRef.current);
     };
-  }, [turnuvaYukle, kanalKur]);
+  }, [kanalKur]);
 
   // Sekmeden dönünce: sunucudaki güncel durumu çek + Realtime kanalını yenile.
   // Ortak soru saati olduğu için istemci ekstra atlama tetiklemez.
@@ -316,6 +321,8 @@ export default function TournamentPage() {
     turnuvaYukle();
     // Arka planda setTimeout donduğu için bekleyen ilerletme burada çalışır.
     if (bekleyenIlerletme.current) ilerletmeyiDene();
+    // Aşama 2: kanal bağlıysa ve kısa gizlenmeyse (pencere odağı vb.) yıkılıp kurulmaz.
+    if (!kanalYenilenmeli(kanalRef.current)) return;
     try {
       const eskiKanal = kanalRef.current;   // Paket 20 VI: önce ref, sonra kapat
       kanalRef.current = null;

@@ -9,6 +9,7 @@ import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
 import { bildirimMetni } from "../lib/konum.js";
 import { useDmOkunmamis, dmTazele } from "../lib/mesajlar.js";
+import { bildirimDinle } from "../lib/bildirimKanali.js";
 
 const TIP_IKON = {
   mac_daveti: "kilic",
@@ -216,23 +217,11 @@ export default function BildirimZili() {
     }
   }, [user]);
 
+  // Aşama 2: BildirimToast ile ortak tek kanal (lib/bildirimKanali).
   useEffect(() => {
     yukle();
-    if (!user) return;
-    const kanal = supabase
-      .channel("bildirimlerim")
-      .on(
-        "postgres_changes",
-        {
-          event: "INSERT",
-          schema: "public",
-          table: "bildirimler",
-          filter: `user_id=eq.${user.id}`,
-        },
-        yukle
-      )
-      .subscribe();
-    return () => supabase.removeChannel(kanal);
+    if (!user?.id) return undefined;
+    return bildirimDinle(user.id, () => { yukle(); });
   }, [user, yukle]);
 
   // Panelin ekran konumunu zil düğmesine göre ölç (sticky/başlık bloğu panelin

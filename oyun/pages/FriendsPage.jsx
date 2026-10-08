@@ -96,9 +96,11 @@ export default function FriendsPage() {
     bekleyenleriYukle();
     const kanal = supabase
       .channel("arkadas-meydan")
-      .on("postgres_changes", { event: "*", schema: "public", table: "matches" }, bekleyenleriYukle)
+      // Aşama 2: maç yalnız benimkiler (süzgeç tek kolon alır → iki dinleyici). `duellolar` aboneliği
+      // kalktı: tablo supabase_realtime yayınında değil ve istemciye kapalı → hiç olay getirmiyordu.
+      .on("postgres_changes", { event: "*", schema: "public", table: "matches", filter: `oyuncu1=eq.${user.id}` }, bekleyenleriYukle)
+      .on("postgres_changes", { event: "*", schema: "public", table: "matches", filter: `oyuncu2=eq.${user.id}` }, bekleyenleriYukle)
       .on("postgres_changes", { event: "*", schema: "public", table: "duello_davetleri" }, bekleyenleriYukle)
-      .on("postgres_changes", { event: "*", schema: "public", table: "duellolar" }, bekleyenleriYukle)
       .on("postgres_changes", { event: "*", schema: "public", table: "kasa_davetleri" }, bekleyenleriYukle)   // 957
       // D-455: kabul bildirimi geldiği anda satır tazelenir (matches olayı geç/kaçarsa "yanıt bekleniyor" bayat kalmasın)
       .on("postgres_changes", { event: "INSERT", schema: "public", table: "bildirimler", filter: `user_id=eq.${user.id}` }, bekleyenleriYukle)

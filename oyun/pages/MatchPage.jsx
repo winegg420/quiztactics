@@ -30,7 +30,7 @@ import MacYukleniyor from "../components/MacYukleniyor.jsx";
 import SesliSohbet from "../components/SesliSohbet.jsx";
 import { useOyunModu } from "../lib/oyunModu.js";
 import { soruCek } from "../lib/soruCek.js";
-import { kanalBekleme, useGorunurlukTazele, zamanAsimiyla } from "../lib/gorunurluk.js";
+import { kanalBekleme, kanalYenilenmeli, useGorunurlukTazele, zamanAsimiyla } from "../lib/gorunurluk.js";
 import { useMacNabiz } from "../lib/nabiz.js";
 import { HazirKapisi, KopukPerde, GeriSayim } from "../components/MacHazirlik.jsx";
 import { macBittiReklam } from "../lib/reklam.js";
@@ -374,7 +374,9 @@ export default function MatchPage() {
     kanalKur();
     // Realtime kopsa bile skor akmaya devam etsin (rakip puanı canlı artar)
     pollRef.current = setInterval(() => {
-      if (kanalHazirRef.current && Date.now() - sonYoklamaRef.current < YEDEK_YOKLAMA_MS - 100) return;
+      // Sekme gizliyken yoklama yok (Aşama 2): dönüşte useGorunurlukTazele zaten macYukle() çağırır.
+      if (document.visibilityState !== "visible") return;
+      if (kanalHazirRef.current &&Date.now() - sonYoklamaRef.current < YEDEK_YOKLAMA_MS - 100) return;
       sonYoklamaRef.current = Date.now();
       macYukle();
     }, 2000);
@@ -393,8 +395,10 @@ export default function MatchPage() {
   // beklerken arka plana düşülüp maç aktife geçerse (Turnuva'daki lobi →
   // aktif kaçırma bugu ile aynı desen, 27 Eyl 2026) dinleyici hiç
   // kurulmadığı için geri dönüşte ekran eski durumda takılı kalıyordu.
+  // Aşama 2: kanal bağlıysa ve kısa gizlenmeyse (pencere odağı vb.) yıkılıp kurulmaz.
   useGorunurlukTazele(() => {
     macYukle();
+    if (!kanalYenilenmeli(kanalRef.current)) return;
     try {
       const eskiKanal = kanalRef.current;   // Paket 20 VI: önce ref, sonra kapat
       kanalRef.current = null;

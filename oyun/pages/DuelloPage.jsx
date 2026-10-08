@@ -59,6 +59,7 @@ import "./DuelloPage.a.css";
 import "../styles/duello-tahta.css";
 import { QtBosDurum, QtDugme, QtIkon, QtModal, QtSayac, QT_KIRILMA_MS, sinif } from "../tasarim/index.js";
 import { rpcDene } from "../lib/rpcDene.js";
+import { aramaAraligiSn } from "../lib/gorunurluk.js";
 import { sayacKaymasi, sayacGoster, sayacSinirMs, saatFarkiOrnekle, tikBasligiEkle } from "../lib/zaman.js";
 
 // Bu istemcinin çizebildiği en yüksek Düello sürümü. 23 Eyl 2026: canlıdaki eski paket
@@ -316,6 +317,7 @@ function DuelloArama({ dereceli, onBulundu, onIptal, ipuclari: tumIpuclari = ARA
     };
     dene();
     let sn = 0;
+    let sonrakiSn = aramaAraligiSn(0);   // Aşama 2: yoklama 2 → 3 → 5 sn (sayaç yine saniyede bir)
     const zaman = setInterval(() => {
       sn += 1;
       if (sn >= DUELLO_ARAMA_SINIR_SN && !bittiRef.current) {
@@ -325,7 +327,8 @@ function DuelloArama({ dereceli, onBulundu, onIptal, ipuclari: tumIpuclari = ARA
         rpcDene("duello_aramadan_cik");
         return;
       }
-      setGecen((g) => g + 1); dene();
+      setGecen((g) => g + 1);
+      if (sn >= sonrakiSn) { sonrakiSn = sn + aramaAraligiSn(sn); dene(); }
     }, 1000);
     return () => {
       iptal = true;

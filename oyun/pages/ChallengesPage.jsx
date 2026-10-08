@@ -52,6 +52,7 @@ import { tt } from "../lib/dil.js";
 import { botAdi } from "../lib/botAdi.js";
 import { KLASIK_JOKERLER, DUELLO_JOKERLER } from "../lib/jokerler.js";
 import { rpcDene } from "../lib/rpcDene.js";
+import { aramaAraligiSn } from "../lib/gorunurluk.js";
 import AramaSahnesi from "../components/AramaSahnesi.jsx";
 
 // "Hızlı Olan Kazanır" DONDURULDU (Paket 14, 3.6): kurulum paneli arayüzden
@@ -391,7 +392,9 @@ export default function ChallengesPage() {
     yukle();
     const kanal = supabase
       .channel("maclar")
-      .on("postgres_changes", { event: "*", schema: "public", table: "matches" }, yukle)
+      // Aşama 2: yalnız benim maçlarım (süzgeç tek kolon alır → iki dinleyici)
+      .on("postgres_changes", { event: "*", schema: "public", table: "matches", filter: `oyuncu1=eq.${user.id}` }, yukle)
+      .on("postgres_changes", { event: "*", schema: "public", table: "matches", filter: `oyuncu2=eq.${user.id}` }, yukle)
       .subscribe();
     return () => supabase.removeChannel(kanal);
   }, [yukle]);
@@ -777,9 +780,13 @@ export default function ChallengesPage() {
   useEffect(() => {
     if (!grupKuyrukAcMi) return;
     let istekte = false;   // önceki grup_ara bitmeden yenisi atılmaz (yavaş sunucuda üst üste binmesin)
+    let sn = 0;
+    let sonrakiSn = aramaAraligiSn(0);   // Aşama 2: yoklama 2 → 3 → 5 sn (sayaç yine saniyede bir)
     const tik = setInterval(async () => {
       setGrupKuyrukSn((s) => s + 1);
-      if (istekte) return;
+      sn += 1;
+      if (sn < sonrakiSn || istekte) return;
+      sonrakiSn = sn + aramaAraligiSn(sn);
       istekte = true;
       try {
         const { data, error } = await supabase.rpc("grup_ara", { p_kategori: kategori });

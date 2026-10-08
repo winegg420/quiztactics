@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../../src/lib/supabase.js";
+import { bildirimDinle } from "../lib/bildirimKanali.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import { QtToast, QtToastYuvasi, QtDugme } from "../tasarim/index.js";
 import "../tasarim/ekranlar/l-kart.css";
@@ -66,33 +66,22 @@ export default function BildirimToast() {
     }, 220);
   }, []);
 
+  // Aşama 2: BildirimZili ile ortak tek kanal (lib/bildirimKanali); kimliğe bağlı, oturum yenilemesinde kurulmaz.
+  const uid = user?.id ?? null;
   useEffect(() => {
-    if (!user) return;
-    const kanal = supabase
-      .channel("bildirim-toast")
-      .on(
-        "postgres_changes",
-        {
-          event: "INSERT",
-          schema: "public",
-          table: "bildirimler",
-          filter: `user_id=eq.${user.id}`,
-        },
-        (yuk) => {
-          const b = yuk.new;
-          if (!b || BANTTA_GOSTERILEN.has(b.tip)) return;
-          // D-455: davet edilen kabul etti, maçı açıp ekranında bekliyor (Klasik ~48 sn'ye kadar). Şerit kaçırılabildiği için
-          // davet eden, başka bir maçın içinde değilse (maç modunda toast zaten gizli) doğrudan maça geçer.
-          if (OTOMATIK_GIRIS.has(b.tip) && b.yol && !document.body.classList.contains("bd-oyun-modu")) {
-            navigateRef.current(b.yol);
-            return;
-          }
-          setKuyruk((k) => (k.some((x) => x.id === b.id) ? k : [...k, b].slice(-4)));
-        }
-      )
-      .subscribe();
-    return () => supabase.removeChannel(kanal);
-  }, [user]);
+    if (!uid) return undefined;
+    return bildirimDinle(uid, (yuk) => {
+      const b = yuk?.new;
+      if (!b || BANTTA_GOSTERILEN.has(b.tip)) return;
+      // D-455: davet edilen kabul etti, maçı açıp ekranında bekliyor (Klasik ~48 sn'ye kadar). Şerit kaçırılabildiği için
+      // davet eden, başka bir maçın içinde değilse (maç modunda toast zaten gizli) doğrudan maça geçer.
+      if (OTOMATIK_GIRIS.has(b.tip) && b.yol && !document.body.classList.contains("bd-oyun-modu")) {
+        navigateRef.current(b.yol);
+        return;
+      }
+      setKuyruk((k) => (k.some((x) => x.id === b.id) ? k : [...k, b].slice(-4)));
+    });
+  }, [uid]);
 
   const aktif = kuyruk[0] ?? null;
 

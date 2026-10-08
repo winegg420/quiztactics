@@ -206,10 +206,14 @@ export function useAnaSayfaVerisi({ gorevYukle = true, bakiye = null } = {}) {
   useEffect(() => {
     siraYukle();
     // Ana sayfayla aynı: maç satırı değişince liste tazelenir (ayrı kanal adı).
+    // Aşama 2: yalnız benim maçlarım (süzgeç tek kolon alır → iki dinleyici)
+    if (!uid) return undefined;
     const kanal = supabase.channel("secenek-sira")
-      .on("postgres_changes", { event: "*", schema: "public", table: "matches" }, siraYukle).subscribe();
+      .on("postgres_changes", { event: "*", schema: "public", table: "matches", filter: `oyuncu1=eq.${uid}` }, siraYukle)
+      .on("postgres_changes", { event: "*", schema: "public", table: "matches", filter: `oyuncu2=eq.${uid}` }, siraYukle)
+      .subscribe();
     return () => { supabase.removeChannel(kanal); };
-  }, [siraYukle]);
+  }, [siraYukle, uid]);
 
   const odulAl = async (id) => {
     try {
@@ -458,9 +462,13 @@ export function useDevamEdenMaclar() {
     };
     document.addEventListener("visibilitychange", tetikle);
     window.addEventListener("focus", tetikle);
+    // Aşama 2: maç yalnız benimkiler (süzgeç tek kolon alır → iki dinleyici). uid yoksa liste de boş.
+    // `duellolar` aboneliği kalktı: tablo supabase_realtime yayınında değil ve istemciye kapalı → hiç
+    // olay getirmiyordu (düello listesi odak/görünürlük tazelemesiyle güncellenir, eskisi gibi).
+    const ben = uid ?? "00000000-0000-0000-0000-000000000000";
     const kanal = supabase.channel("as-devam-eden")
-      .on("postgres_changes", { event: "*", schema: "public", table: "matches" }, tetikle)
-      .on("postgres_changes", { event: "*", schema: "public", table: "duellolar" }, tetikle)
+      .on("postgres_changes", { event: "*", schema: "public", table: "matches", filter: `oyuncu1=eq.${ben}` }, tetikle)
+      .on("postgres_changes", { event: "*", schema: "public", table: "matches", filter: `oyuncu2=eq.${ben}` }, tetikle)
       .on("postgres_changes", { event: "*", schema: "public", table: "group_matches" }, tetikle)
       .on("postgres_changes", { event: "*", schema: "public", table: "tournament_players", ...(uid ? { filter: `user_id=eq.${uid}` } : {}) }, tetikle)
       .subscribe();

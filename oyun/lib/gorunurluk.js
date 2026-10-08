@@ -43,6 +43,36 @@ export function useGorunurlukTazele(fn, aktif = true) {
   }, [aktif]);
 }
 
+// Sekmenin son gizli kalma süresi. Kısa gizlenmede (pencere odağı, bildirim perdesi, başka sekmeye
+// bir bakış) Realtime soketi yaşar; kanalı yıkıp kurmak sunucuda boşuna abonelik çalkantısı yapar
+// (Supabase Aşama 2, 8 Eki 2026: 45 kullanıcıya 4.527 kanal açılışı).
+const KANAL_YENILE_GIZLI_MS = 30000;
+let gizlendiAn = 0;
+let uzunGizlendi = false;
+if (typeof document !== "undefined" && typeof window !== "undefined") {
+  const gizlendi = () => { if (!gizlendiAn) gizlendiAn = Date.now(); };
+  const dondu = (e) => {
+    if (e?.persisted) uzunGizlendi = true;   // bfcache dönüşü: soket kesin kopmuştur
+    if (gizlendiAn && Date.now() - gizlendiAn >= KANAL_YENILE_GIZLI_MS) uzunGizlendi = true;
+    gizlendiAn = 0;
+  };
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") gizlendi(); else dondu();
+  });
+  window.addEventListener("pagehide", gizlendi);
+  window.addEventListener("pageshow", dondu);
+}
+
+/**
+ * Dönüşte kanal yeniden kurulmalı mı? Kanal bağlı değilse ya da sekme uzun süre (≥ 30 sn)
+ * gizli kaldıysa evet. Uzun gizlenme bilgisini tüketir (bir dönüş = bir yeniden kurma).
+ */
+export function kanalYenilenmeli(kanal) {
+  const uzun = uzunGizlendi;
+  uzunGizlendi = false;
+  return uzun || !kanal || kanal.state !== "joined";
+}
+
 /**
  * Bir sözü (promise) süre sınırına bağlar.
  *
@@ -59,6 +89,13 @@ export function useGorunurlukTazele(fn, aktif = true) {
  * yoklamayla akmaya devam eder.
  */
 export const kanalBekleme = (deneme) => Math.min(2000 * 2 ** Math.max(0, deneme), 30000);
+
+/**
+ * Rakip arama yoklamasının (duello_ara / kasa_ara / grup_ara) aralığı, aramanın kaçıncı saniyesinde
+ * olunduğuna göre: ilk 10 sn 2 sn, 30 sn'ye kadar 3 sn, sonra 5 sn (Aşama 2; eskiden her saniye).
+ * Sunucu kuyruğu 90 sn tutar, hız sınırı 90/dk → en uzun aralık bile kuyrukta kalmaya yeter.
+ */
+export const aramaAraligiSn = (sn) => (sn < 10 ? 2 : sn < 30 ? 3 : 5);
 
 export function zamanAsimiyla(soz, ms = 10000, etiket = "istek") {
   return Promise.race([

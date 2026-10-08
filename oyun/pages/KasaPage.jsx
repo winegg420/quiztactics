@@ -39,6 +39,7 @@ import { zamanAsimindaYenidenDene } from "../lib/yenidene.js";
 import { y } from "../lib/yol.js";
 import { useAyar } from "../lib/ayarlar.js";
 import { rpcDene } from "../lib/rpcDene.js";
+import { aramaAraligiSn } from "../lib/gorunurluk.js";
 import { useOyunModu } from "../lib/oyunModu.js";
 import { sayacKaymasi, sayacGoster, sayacSinirMs, saatFarkiOrnekle, tikBasligiEkle } from "../lib/zaman.js";
 import { soruUzunlukSinifi } from "../lib/soruUzunluk.js";
@@ -286,6 +287,7 @@ function KasaArama({ dereceli, onBulundu, onIptal, bilgi = null }) {
     };
     dene();
     let sn = 0;
+    let sonrakiSn = aramaAraligiSn(0);   // Aşama 2: yoklama 2 → 3 → 5 sn (sayaç yine saniyede bir)
     const zaman = setInterval(() => {
       sn += 1;
       if (sn >= KASA_ARAMA_SINIR_SN && !bittiRef.current) {
@@ -295,7 +297,8 @@ function KasaArama({ dereceli, onBulundu, onIptal, bilgi = null }) {
         rpcDene("kasa_aramadan_cik");
         return;
       }
-      setGecen((g) => g + 1); dene();
+      setGecen((g) => g + 1);
+      if (sn >= sonrakiSn) { sonrakiSn = sn + aramaAraligiSn(sn); dene(); }
     }, 1000);
     return () => {
       iptal = true;

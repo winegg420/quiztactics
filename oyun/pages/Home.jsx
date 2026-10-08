@@ -158,7 +158,9 @@ export default function Home() {
     siraYukle();
     const kanal = supabase
       .channel("sira-sende")
-      .on("postgres_changes", { event: "*", schema: "public", table: "matches" }, siraYukle)
+      // Aşama 2: yalnız benim maçlarım (süzgeç tek kolon alır → iki dinleyici)
+      .on("postgres_changes", { event: "*", schema: "public", table: "matches", filter: `oyuncu1=eq.${user.id}` }, siraYukle)
+      .on("postgres_changes", { event: "*", schema: "public", table: "matches", filter: `oyuncu2=eq.${user.id}` }, siraYukle)
       .subscribe();
     return () => supabase.removeChannel(kanal);
   }, [siraYukle]);
