@@ -10856,3 +10856,20 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
   canlıda değil. Push + migration onayından sonra koşulmalı.
 - **Açık soru (Ida):** 80'de süre dolarsa sunucu hâlâ DEVAM sayıyor (hazine 80'de sahipsiz kalır); ekran yalnız AÇ gösteriyor.
 - Kalmış 5188 Vite süreci (17:30'dan) kapatıldı.
+
+## 2026-10-09 — Aşırı basit zorluk 1 soruları: Claude taraması + kapatma migration'ı (1007)
+**Araç:** Claude Code (Opus 5.5; betik içi tarama claude-sonnet-5-5)
+**Neden:** Ida — zorluk 1 havuzunda cevabı bilgi gerektirmeden mantıktan/sözcük anlamından belli sorular var ("Bir belgeselin amacı nedir?").
+
+- **Ortak katman** `araclar/soru-temizlik/claude-cagri.mjs`: düz fetch (yeni paket yok), JSON şema çıktısı, 429/5xx'te 3 deneme,
+  model başına jeton/harcama (Sonnet 5.5 $2/$10, Opus 5.5 $4/$20). `sik-ipucu-api.mjs` değiştirilmedi.
+- **Tarama** `asiri-basit-tara.mjs` (`--kuru`, `--butce-usd`, `--adet`, `--zorluk 2 --orneklem 200`, `--rapor`; yarıda kalırsa devam):
+  1166 aktif zorluk 1 soru 20'şerlik partilerle tarandı, **$1,05**. asiri_basit 391, guven ≥ 0,8 → **344** (%29,5).
+  Elle örneklem: "X'in amacı / ne işe yarar / ne demektir" kalıbı ağırlıkta, isabet yüksek; guven = 0,8 grubunda (142)
+  birkaç sınırda olgu sorusu var (ör. "Sırıkla atlamada… → Çıta"). Eşik Ida'nın verdiği 0,8'de bırakıldı.
+- **Zorluk 2 örneklemi** (200 rastgele, md5 sırası, $0,12): 42'si (%21) aynı tipte — yalnız sayıldı, KAPATILMADI.
+  ~2.900 zorluk 2 içinde ~600 benzer soru olabilir; ayrı karar Ida'nın.
+- **Migration 1007** `asiri_basit_z1_kapat` (id listesiyle `aktif=false`, YAZILDI, UYGULANMADI): aktif 12.694 → 12.350,
+  zorluk 1 1.166 → 822. Kategori (kapanan / kalan z1): bilim 40/234 · coğrafya 46/119 · edebiyat 36/65 · genel_kültür 34/81 ·
+  müzik 14/55 · sanat 48/40 · sinema 45/55 · spor 57/75 · tarih 8/68 · **teknoloji 16/30 (sınırda)**.
+  Geri alma `docs/asiri-basit-z1-geri-al.sql`. Liste + gerekçe `araclar/soru-temizlik/asiri-basit-rapor.csv`.

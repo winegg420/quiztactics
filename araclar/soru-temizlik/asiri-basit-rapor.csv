@@ -1,0 +1,345 @@
+id,kategori,soru,dogru,guven,gerekce
+7e7855ef-227e-4d39-8dd3-1f51b2891b4f,bilim,Konser salonlarında akustik neden önemlidir?,Sesin dengeli yayılması için,0.90,"Akustiğin amacı sorusu, diğer şıklar konu dışı."
+7883fd55-ff99-495b-8dc3-288e93366bf6,bilim,'Hidroelektrik santral' hangi enerjiyi kullanır?,Suyun potansiyel enerjisini,0.90,"Hidro sözcüğü suyu işaret ediyor, cevap sözcükten çıkıyor."
+7a31cd03-1999-4adf-8fcf-8ea935bb6f13,bilim,100 sayısının yarısı kaçtır?,50,0.90,"Basit aritmetik, bilgi gerektirmeden mantıkla çözülür."
+47cc7425-f6ab-4005-8281-613210ead7de,bilim,'Mikroskop' hangi büyütmeyi sağlar?,Küçük cisimlerin,0.88,"Mikroskop küçük cisimleri büyütür, işlev sorusu ve belli."
+3291ec8a-92b2-4b27-a6fb-3b3d971c15f4,bilim,'Biyoçeşitlilik' neyi ölçer?,Canlı türlerinin çeşitliliğini,0.85,Biyoçeşitlilik sözcüğünün anlamı cevabı veriyor.
+67cd5c01-0c0e-4c76-94df-218aa84058a3,bilim,Kan bağışının en temel şartı nedir?,Sağlıklı olmak,0.85,"Sağlıklı olmak sağduyuyla en mantıklı şıktır, çeldiriciler saçmadır."
+0d0ca815-8cd3-47e9-94ea-a4543de1a1b3,bilim,Aşı neyi sağlar?,Bağışıklık,0.85,"Aşı ne sağlar sorusunun cevabı bağışıklık, sağduyuyla bulunur."
+71dd23f8-abe9-4db6-957e-e605c326429c,bilim,"Bir pilin üzerindeki ""+"" işareti neyi gösterir?",Artı kutbu,0.85,"""+"" işareti artı kutbu gösterir, cevap sorunun içinde."
+538f0812-2748-4ea7-b0cf-4362e474bb66,bilim,'Kamuflaj' canlıya ne sağlar?,Çevreye karışarak korunmayı,0.85,Kamuflajın işlevi kavramın anlamından belli.
+399062ec-28cc-49a2-8bee-d405771d8ba7,bilim,Amfibilerin yaşam döngüsündeki özellik nedir?,Suda ve karada yaşayabilmeleri,0.85,Amfibi sözcüğü zaten hem suda hem karada yaşam anlamına gelir ve diğer şıklar mantıksızdır.
+5e4d5bb5-ddef-43e9-82f1-88f9a4e66f7d,bilim,'Omurgalı' hayvanların ortak özelliği nedir?,Omurga,0.85,Omurgalı sözcüğü cevabı (omurga) zaten içeriyor.
+dc619111-bb0c-4b7a-b14e-408f954edb0b,bilim,'Hidroelektrik santral' neye dayanır?,Suyun düşme enerjisine,0.85,Hidro-elektrik sözcüğü ve mantık suyu gösteriyor.
+ed4653f7-6505-43ae-ab5d-19c0c89d3bcd,bilim,Saksı bitkisinin toprağı neden değiştirilir?,Besin tükendiği için,0.85,"Diğer şıklar saçma, mantıklı cevap besin tükenmesi."
+7bae7e45-d9fc-42d8-b551-155bd2c3ea9c,bilim,Mantarlar hangi canlı grubundandır?,Mantarlar alemi,0.85,Cevap soruda ve şıkta kelimenin kendisinde geçiyor.
+d094d658-6339-4ebb-98de-608a45a2a1af,bilim,Sera etkisiyle serada ne artar?,Sıcaklık,0.85,Sera etkisi sözcüğünden cevap sıcaklık artışı olduğu belli.
+0d1b9731-3597-48de-8848-5961576be3fc,bilim,Yalıtım malzemesi ne sağlar?,Isı geçişini azaltır,0.85,"Yalıtım sözcüğünün anlamından cevap belli, işlev sorusu."
+15b694cc-ffe3-4546-9de6-bf222b05f890,bilim,Hayvanlar âleminde omurgalıların ortak özelliği nedir?,Sırtta omurga bulunması,0.85,Omurgalı sözcüğü cevabı veriyor: omurga bulunması.
+33951ba0-ff12-4e7a-9376-d72f33c1dedd,bilim,Uyku düzeninin sağlığa etkisi nedir?,Bağışıklık ve odaklanmayı desteklemesi,0.85,"Uykunun sağlığa yararı sağduyuyla belli, diğer şıklar saçma."
+43f742c8-544d-42e4-9586-cdc763dbbd6d,bilim,'Fosil' neyi kanıtlar?,Geçmişteki canlı yaşamını,0.85,Fosilin geçmiş yaşamı kanıtladığı sağduyuyla ve diğer şıkların alakasızlığıyla belli.
+90afe695-55ac-42e8-b12a-17b2d6698acb,bilim,'Radyo teleskop' neyi algılar?,Radyo dalgalarını,0.85,Radyo teleskop adı radyo dalgalarını söylüyor.
+5b200f00-270d-4c61-bfdc-0f26cd7cd579,bilim,'Biyoçeşitlilik' neyi ifade eder?,Canlı çeşitliliğini,0.82,Biyoçeşitlilik sözcüğü canlı çeşitliliği demektir.
+0f64d491-7725-4e63-b7f4-0d1319651811,bilim,Elektrik motoru hangi dönüşümü yapar?,Elektriği harekete,0.80,Elektrik motoru adından ve mantıkla elektriği harekete çevirir.
+161dc082-e638-4b25-92e3-b1ed5cd0d382,bilim,Sesin boşlukta yayılamamasının sebebi nedir?,Madde olmaması,0.80,Boşlukta madde olmadığı sorunun mantığından çıkar.
+3d4f0238-aa31-4b19-8c72-6ba6c5c352b1,bilim,Aşının çalışma ilkesi nedir?,Bağışıklık belleği oluşturmak,0.80,"Aşının amacı bağışıklık oluşturmaktır, çeldiriciler konu dışı ve mantıkla elenir."
+76b32cf2-2447-49d5-8e7d-d1f1d5c8106c,bilim,Karışımı ayırmak için kullanılan yöntemlerden biri hangisidir?,Süzme,0.80,"Çeldiriciler saçma, süzme açıkça mantıklı ayırma yöntemidir."
+06030adb-83af-4769-8a4a-1bd717f50bac,bilim,Böbreğin temel görevi nedir?,Kanı süzüp atık uzaklaştırmak,0.80,"'Böbreğin temel görevi' kalıbı; doğru şık en mantıklısı, çeldiriciler başka organlara ait."
+022c98b1-9f8d-4da3-9d9c-bc32b3f435dc,bilim,Bal arısının kovandaki görevlerinden biri nedir?,Nektar toplamak,0.80,"Arıların nektar toplaması sağduyudur, çeldiriciler konu dışı."
+07b636b7-bd57-47c6-8282-714240263fea,bilim,Mıknatısla ayırma hangi durumda kullanılır?,Manyetik madde varsa,0.80,Mıknatıs sözcüğü manyetik maddeyi işaret ediyor.
+fe5f2f10-f958-466b-bacb-20fcd0457e05,bilim,Nesli tükenmekte olan tür ne demektir?,Yok olma riski yüksek tür,0.80,Terimin anlamı sözcüğün kendisinden çıkarılır.
+f7151070-6490-4735-80bd-dd983028a0c0,bilim,Yıldızları inceleyen bilim dalı hangisidir?,Astronomi,0.80,"Astronomi, yıldız sözcüğüyle ilişkili ve en bariz şık; yine de çok kolay bir tanım."
+50594cf3-042e-44d4-967f-9b14797ea6e5,bilim,Bir türün tamamen yok olmasına ne denir?,Nesli tükenme,0.80,"Soru tanımı veriyor, nesli tükenme ifadesi anlamdan belli."
+3f84aae9-936f-4103-be54-111ba6442cf4,bilim,'Ses telleri kısıklığı' ne zaman oluşur?,Aşırı zorlama ve yorgunlukta,0.80,"Kısıklık zorlamayla oluşur, sağduyuyla bulunur; diğer şıklar saçma."
+1000ab93-b4dc-487d-8c1b-70cc2aa11345,bilim,Tohumun çimlenmesi için gerekli koşullardan biri nedir?,Uygun sıcaklık ve nem,0.80,"Diğer şıklar saçma, doğru şık sağduyuyla belli."
+b3f00614-85b8-4320-a467-5070143d1824,bilim,'Plastiğin doğada kalma süresi' neden uzundur?,Doğal ayrışmaya dirençli olduğu için,0.80,Uzun kalma nedeni ayrışmaya direnç; mantıkla çıkarılır.
+ff0839af-ab60-4eea-a768-0f571b45d93a,bilim,Ter bezlerinin görevi nedir?,Vücut sıcaklığını düzenlemek,0.80,"Ter bezlerinin işlevi genel bir kavram ve doğru şık en mantıklısı, çeldiriciler alakasız."
+1c72d7cd-e12d-43b6-9d3d-c069776627a7,bilim,'Fosil' ne sağlar?,Geçmiş yaşam hakkında kanıt,0.80,"Fosilin ne sağladığı sorusu sağduyuyla cevaplanır, çeldiriciler zayıf."
+7ac3e744-9554-4bee-b94a-448a6d3500cf,bilim,Adaptasyon (uyum) ne demektir?,Ortama uygun özellik kazanmak,0.80,Uyum sözcüğünün anlamı cevabı veriyor.
+41699247-fe29-4373-bbb7-3de1ccf4ca45,bilim,Sürtünme kuvvetinin yönü nasıldır?,Harekete zıt,0.80,"Sürtünme adı gereği harekete karşı koyar, sağduyuyla bulunur."
+e459cf7e-c0d6-440b-92d3-bd9245b8ed2d,bilim,Su döngüsünde buharlaşma nerede en çoktur?,Okyanuslarda,0.80,"Okyanuslar en geniş su kütlesidir, diğer şıklar mantıken elenir."
+be027b06-88fd-4f96-a802-20169d7d2b19,bilim,'Su döngüsü' hangi süreçleri içerir?,Buharlaşma yoğuşma ve yağışı,0.80,"Tek tamamlayıcı şık belli, diğerleri yalnız diyerek eksik."
+2b3079f1-5668-4c5b-af8c-7731e464e1ae,cografya,Yaban hayatı koruma sahasının amacı nedir?,Türlerin yaşam alanını güvenceye almak,0.92,Koruma sahasının amacı sözcüğün anlamından belli.
+358a0859-dcfc-4618-9f7b-570076cea2cc,cografya,Kuraklığın tarımsal sonucu nedir?,Verimin düşmesi,0.92,"Kuraklığın verimi düşürmesi sağduyuyla bellidir, çeldiriciler mantıksız."
+19983549-8993-4948-80d8-7f25e3f33290,cografya,Meteorolojik uyarı sisteminin amacı nedir?,Riskli hava olaylarına hazırlık,0.92,Uyarı sisteminin amacı sorusu; cevap mantıkla belli.
+e24daffa-965d-4daa-9acc-83cd40c4d411,cografya,Bir kentte toplu taşımanın yaygınlaşmasının çevresel yararı nedir?,Emisyonun azalması,0.90,Toplu taşımanın yararı emisyon azalması sağduyuyla bulunur.
+6c8a6c72-e5cd-4e70-95f5-66a5a7c76e0e,cografya,Bir bölgeden dışarıya sürekli göç verilmesi neye yol açar?,Nüfusun azalmasına,0.90,"Dışarı göç nüfusu azaltır, mantıkla çözülür."
+7c9fdd74-cea6-416d-9764-04bb71a894a5,cografya,Sınır kapısının işlevi nedir?,Ülkeler arası resmî giriş çıkış,0.90,İşlev sorusu; cevap sözcüğün anlamından belli.
+4207f6f6-8928-4ea5-8d12-a091d27dafb6,cografya,Bir ülkede doğum oranının ölüm oranından fazla olması neye yol açar?,Nüfus artışına,0.90,"Doğum fazlalığı nüfus artışına yol açar, mantıkla çıkar."
+9fa4f56c-d9df-40dc-a43a-9e8829ddc77a,cografya,Tarım arazilerinin yerleşime açılmasının sonucu nedir?,Tarım alanı azalır,0.90,Cevap mantıksal çıkarımla belli: yerleşim açılınca tarım alanı azalır.
+0b2dc6ef-5f81-4d28-ae87-6d9508db5365,cografya,Yüksek dağ ve kutup bölgelerinde nüfusun az olmasının nedeni nedir?,Yaşam koşullarının zorluğu,0.90,Yaşam koşullarının zorluğu mantıkla belli.
+b8411c7d-2bf2-4f19-a3c7-833c6919a46d,cografya,Kum fırtınasının tarıma etkisi nedir?,Ekinleri örtüp zarar vermesi,0.90,"Kum fırtınasının ekinlere zarar vereceği sağduyuyla belli, diğer şıklar saçma."
+fd561eaf-29d5-409d-b5d2-e28d33e4d2f4,cografya,Turizmin bir bölgeye olumsuz etkisi ne olabilir?,Doğal alanların tahribi,0.90,"Olumsuz etki sorusunda tek olumsuz şık tahribat, mantıkla çözülür."
+fc5d7e13-5877-4124-83d9-748d350b3edf,cografya,Tünel yapımının coğrafi gerekçesi nedir?,Dağlık engeli aşmak,0.88,Tünelin gerekçesi sağduyuyla belli: dağı aşmak.
+04b1946e-7129-42b8-a4d7-b91d128169f2,cografya,Denizden yüksekliğin ölçüldüğü sıfır noktası neresidir?,Deniz seviyesi,0.85,Soru deniz seviyesini zaten ima ediyor (denizden yükseklik).
+3bf8670a-07f5-44a7-958c-e4e49c10ca59,cografya,Bir bölgenin ekonomik faaliyeti neye göre şekillenir?,Doğal koşullar ve kaynaklar,0.85,"Diğer şıklar konu dışı, doğru şık sağduyuyla bulunur."
+0b052a8e-eb20-439d-b40b-21a19744028c,cografya,Gürültü kirliliğinin insan üzerindeki etkisi nedir?,Stres ve işitme sorunları,0.85,"Gürültünün stres ve işitme sorunu yaptığı sağduyuyla belli, diğer şıklar saçma."
+d679098a-b9ef-43e4-8529-23b9c4bd9bf4,cografya,Çöllerde nüfusun vahalarda toplanmasının nedeni nedir?,Su varlığı,0.85,"Çölde vahada toplanma nedeni su, sağduyu yeterli."
+d1b1a3dc-e2ee-42d9-949a-3b08f736498f,cografya,Hidroelektrik santraller enerjiyi neyden üretir?,Akan suyun gücünden,0.85,Hidro sözcüğü ve su ipucu cevabı veriyor.
+ee31b840-18a9-4853-a870-fdadd00578fd,cografya,Depremde en çok hasarın nedeni nedir?,Yapıların dayanıksız olması,0.85,"Doğru şık sağduyuyla belli, çeldiriciler konu dışı."
+1b21ef94-4829-4998-a546-ddfa70344acc,cografya,Termal turizm hangi doğal kaynağa dayanır?,Sıcak su kaynakları,0.85,Termal sözcüğü sıcak su kaynaklarını doğrudan çağrıştırıyor.
+16a79e8f-2aad-45c3-86a6-8d7809424327,cografya,Buzlanmanın karayolundaki etkisi nedir?,Tutunmayı azaltması,0.85,"Buzlanmanın tutunmayı azaltması sağduyuyla bellidir, diğer şıklar saçma."
+de9c6540-17c4-4d5e-9938-59d33d188ddd,cografya,Ulaşımda emisyonu azaltmanın etkili yolu nedir?,Toplu ve raylı sisteme geçiş,0.85,"Sağduyuyla en mantıklı şık toplu taşıma, diğerleri emisyonu artırır."
+a01dcb5b-fc6b-4c82-8d99-4ea5e6297fe1,cografya,Bir ülkede ortalama yaşam süresinin uzaması neyi gösterir?,Sağlık koşullarının iyileştiğini,0.85,"Uzun yaşam sağlık koşullarının iyileşmesini gösterir, sağduyuyla çözülür."
+4810ad81-e305-40b8-bb38-22223444b58d,cografya,Yenilenebilir enerjinin çevresel avantajı nedir?,Daha az sera gazı,0.85,"Yenilenebilir enerjinin avantajı sağduyuyla bulunur, diğer şıklar saçma."
+b788bcdf-b132-4161-9f55-c3b5a8f7077c,cografya,Meteoroloji istasyonlarının kurulma amacı nedir?,Atmosfer verilerini düzenli ölçmek,0.85,"Meteorolojinin amacı sorusu, cevap sözcüğün anlamından ve mantıktan belli."
+485b65cd-c4da-4273-b823-b26c49fb1369,cografya,Aşırı avlanmanın sonucu nedir?,Stokların tükenmesi,0.85,Aşırı avlanmanın sonucu mantıkla stokların tükenmesidir.
+58910348-692f-4ef0-8d0d-31442785948d,cografya,Kültür turizmi hangi kaynağa dayanır?,Tarihî ve arkeolojik miras,0.85,Kültür turizmi sözcüğü cevabı kendiliğinden gösteriyor.
+70e8b6c3-89b8-4239-b747-3190526d324a,cografya,Deniz feneri ve şamandıraların ortak işlevi nedir?,Seyir yardımcısı olmak,0.82,Fener ve şamandıranın işlevi mantıkla çıkarılır; çeldiriciler saçma.
+2e87b9ae-ec6d-4fb8-a971-1a807ee09de2,cografya,Denize kıyısı olmayan ülkelere ne ad verilir?,Karayla çevrili ülke,0.82,Cevap sorudaki ifadeden çıkıyor: karayla çevrili.
+4dcae754-c355-4269-a6a9-09fdbd46679d,cografya,İklim ile hava durumu arasındaki fark nedir?,İklimin uzun süreli ortalama olması,0.82,Doğru şık sözcüklerin anlamından ve mantıktan belli; çeldiriciler saçma.
+70dd0e9a-7944-436a-8d80-0b3dbad6309a,cografya,Şehirleşmenin en önemli sonuçlarından biri nedir?,Kırdan kente göç,0.80,"Şehirleşmenin sonucu kırdan kente göç, diğer şıklar mantıksız."
+03e17e40-c2a0-4019-8092-65f2e4ff3496,cografya,Orman yangınlarını artıran hava koşulu nedir?,"Sıcak, kuru ve rüzgârlı",0.80,"Sıcak, kuru ve rüzgârlı seçeneği sağduyuyla belli."
+0022e374-f386-488e-9aad-f4c221f5c305,cografya,Kuraklık göstergesi olarak hangi veri izlenir?,Yağış ve toprak nemi,0.80,"Kuraklık yağış ve nemle ilgilidir, mantıkla bulunur."
+451895ac-fdfe-4c07-849a-bf0cbd5d7d4e,cografya,Antarktika kıtasının en belirgin özelliği nedir?,Buz örtüsüyle kaplı olması,0.80,Antarktika'nın buzlu olması genel bilgi ve çeldiriciler saçma.
+f9b62262-e700-41db-9b69-f4f3c0d6dfdb,cografya,Deniz seviyesi yükselmesinden en çok etkilenecek ülke tipi hangisidir?,Alçak ada devletleri,0.80,Deniz seviyesi yükselmesinden alçak ada devletlerinin etkileneceği mantıkla bellidir.
+14b17a85-19ef-4d8c-847f-ba195dcee529,cografya,Dağlık alanlarda nüfusun seyrek olmasının temel nedeni nedir?,Tarım ve ulaşım güçlüğü,0.80,Dağlık yerde tarım ve ulaşım güçlüğü sağduyuyla en mantıklı şık.
+4a7c8ec7-686c-448b-99bb-d8ecb9ce0021,cografya,Kruvaziyer turizmi hangi ulaşımla ilişkilidir?,Deniz yolu,0.80,"Kruvaziyer deniz yolculuğu demek, cevap belli."
+0131f558-0fdd-47e6-a978-79a4579eb976,cografya,Aşırı otlatmanın sonucu nedir?,Bitki örtüsünün seyrelmesi,0.80,"Aşırı otlatmanın bitki örtüsünü azaltacağı mantıkla çıkar, diğer şıklar saçma."
+440af05f-09ac-4838-9691-2ae72561a12b,cografya,Buzulların eriyip denize karışmasının sonucu nedir?,Deniz yükselmesi,0.80,"Buzul erimesi deniz yükselmesi, mantıkla çıkarılır."
+cc8ed594-3638-4cc2-bc1d-083d3f7a7e12,cografya,Kartografya bilimi neyle ilgilenir?,Harita yapımı ve tasarımıyla,0.80,Kartografya sözcüğü ve 'harita' şıkkı açık biçimde eşleşiyor; genel kavram sorusu.
+5a29cfc0-e73c-4f04-9829-f6a69c217f6f,cografya,Metropol kent ne demektir?,Çok büyük ve etki alanı geniş kent,0.80,"Metropol sözcüğünün anlamı sorulıyor, doğru şık belli."
+ae1ad271-f5b2-4d9a-a41f-07f4aa5e74a8,cografya,Bir yerin iklimini etkileyen faktörlerden biri nedir?,Denize uzaklık,0.80,Diğer şıklar iklimle ilgisiz olduğundan mantıkla denize uzaklık seçilir.
+70060919-1e32-4703-b68c-1820ce2e98ed,cografya,Kompostlaştırma hangi atık türüne uygulanır?,Organik atıklara,0.80,"Kompost sözcüğü organik atığı çağrıştırır, çeldiriciler konu dışı."
+fcce7950-82a5-4d75-ac60-fee7c71aa3d8,cografya,Yeşil alanların kentteki iklimsel yararı nedir?,Sıcaklığı düşürmesi,0.80,Yeşil alanların serinletici etkisi sağduyuyla bulunur.
+05d350fd-0554-4324-b650-6ff8035966a3,cografya,Hidroelektrik santralin kurulması için gereken koşul nedir?,Su ve eğim,0.80,Hidroelektrik sözcüğü su içerir ve mantıkla su ve eğim bulunur.
+98a13949-289a-448b-8003-90faef1fdadb,cografya,Ölü Deniz hangi özelliğiyle bilinir?,Yüksek tuzluluk,0.80,Ölü Deniz'in tuzlulukla bilinmesi sağduyuyla ve diğer şıkların saçmalığıyla bulunur ama yine de olgu.
+bc485228-f1a6-495e-833c-c35505f7ec43,cografya,Kutup kuşağında yıllık sıcaklık nasıldır?,Sürekli düşük,0.80,"Kutup kuşağı denince soğuk olduğu sağduyuyla bilinir, çeldiriciler mantıksız."
+7a0f311c-15f9-40d2-809e-f1e2304e4f75,edebiyat,'Sesli kitap' neyi sağlar?,Dinleyerek erişimi,0.92,Sesli kitap adı gereği dinleyerek erişim sağlar.
+6295da69-91c3-4b0b-bbf0-46b13cd5a5e6,edebiyat,'Ödül jürisi' edebiyatta ne yapar?,Yapıtları değerlendirir,0.90,Jürinin ne yaptığı sözcüğün anlamından ve sağduyudan belli.
+4c39c2ad-9ee2-48f3-94ab-f2ba390b0978,edebiyat,'Betimleme' neyi yapar?,Görüntüyü sözle canlandırır,0.90,"Betimleme sözcüğünün anlamı cevabı veriyor, görüntüyü sözle canlandırmak."
+240911d0-963b-4fd5-85e9-074de80b112d,edebiyat,'Yinelenen sözcük' anlatımda neye yol açabilir?,Gereksiz tekrara,0.90,"Yinelenen sözcük gereksiz tekrara yol açar, anlamdan belli."
+153627c4-f4bc-428b-b6c3-62b458c0c7f6,edebiyat,Yardımcı düşüncelerin işlevi nedir?,Ana düşünceyi desteklemek,0.88,Yardımcı sözcüğünden destekleme anlamı çıkar.
+3b86d783-39ea-40f6-ab4a-256794847d82,edebiyat,'Son söz' ne yapar?,Kapanış düşüncesini sunar,0.85,Son sözün kapanış olduğu sözcükten belli.
+4828cb8b-dc52-4ef6-a7f6-b00929a3b2ea,edebiyat,'Yardımcı düşünce' ne yapar?,Ana düşünceyi destekler,0.85,Yardımcı düşüncenin ana düşünceyi desteklediği addan belli.
+441ade3b-3171-4cd4-842e-9ce02d24e485,edebiyat,'Mecaz anlam' neye dayanır?,Gerçek anlamın dışına çıkmaya,0.85,Mecaz anlamın tanımı sözcüğün anlamından belli.
+739eb00f-532b-40ba-a069-70bf5b7d935d,edebiyat,'Anı' türünde anlatılan nedir?,Yaşanmış olaylar,0.85,Anı sözcüğünün anlamı yaşanmış olayları işaret eder.
+3f5b9b69-fece-4dee-ba80-93f5aba08197,edebiyat,'Çocuk edebiyatı' hangi ölçütü gözetir?,Yaş düzeyine uygunluğu,0.85,"Çocuk edebiyatı sözcüğü yaş düzeyini işaret eder, çeldiriciler konu dışı."
+1a23e527-4a4c-4532-9ab8-424a99245f42,edebiyat,'Polisiye roman' neyi merkeze alır?,Suç ve çözümü,0.85,"Polisiye sözcüğü polis ve suçu çağrıştırır, cevap sözcükten anlaşılır."
+f31c0153-ed23-45bd-b702-19aa3d6bfefc,edebiyat,Betimleme neyi anlatır?,Görüntüyü sözle canlandırmayı,0.85,"Betimleme sözcüğünün anlamı cevabı veriyor, diğer şıklar uyumsuz."
+7dd6919d-3659-4cb3-9213-188fe79971cf,edebiyat,'Yazım kılavuzu' neyi düzenler?,Doğru yazımı,0.85,Yazım kılavuzu adından doğru yazımı düzenlediği anlaşılıyor.
+4b90dbfb-971f-4051-be72-5eedbb146417,edebiyat,'Örneklendirme' neyi kolaylaştırır?,Anlaşılmayı,0.85,Örneklendirmenin anlaşılmayı kolaylaştırdığı mantıkla belli.
+480d85e7-6387-412a-90cc-5a3f012b03af,edebiyat,'Sohbet' türünün dili nasıldır?,Samimi ve konuşma havasında,0.85,Sohbet sözcüğünün anlamından cevap samimi dil olarak belli.
+64745759-fc99-418d-9307-385aaf9df972,edebiyat,'Yardımcı karakter' ne işlev görür?,Ana karakteri destekler,0.85,Yardımcı karakter sözcüğü ana karakteri desteklediğini söylüyor.
+1242e670-224f-4e76-a58f-568dd631d48c,edebiyat,'Tanımlama' anlatımda ne yapar?,Kavramı açıklar,0.85,Tanımlama sözcüğünün anlamından cevap (kavramı açıklar) belli.
+3e38e1e8-f1c7-4346-ac1c-fb445e1912aa,edebiyat,'Atasözü' neyi aktarır?,Toplumsal deneyim ve öğüdü,0.85,Atasözünün toplumsal deneyim ve öğüt aktardığı kavramın anlamından çıkar.
+b3f8b942-e034-46d9-a005-a73c42b2b5c3,edebiyat,Olayı aktaran sese ne ad verilir?,Anlatıcı,0.85,Olayı aktaran ses tanımı anlatıcıyı doğrudan verir.
+44428793-d87f-4e0e-aaf1-74c32697adbe,edebiyat,'Köken bilgisi sözlüğü' neyi gösterir?,Sözcüğün geldiği kaynağı,0.85,Köken bilgisi ifadesi sözcüğün kaynağını zaten söylüyor.
+99dee0bc-8e59-414a-8d77-f53ab0d28a80,edebiyat,Bir eseri başka dile aktaran kişiye ne denir?,Çevirmen,0.82,Çeviri yapan kişi sözcüğün anlamından çevirmendir.
+cf8bf151-724a-4047-90c9-f47d0ddcf86e,edebiyat,'Güzel adlandırma' neyi hedefler?,Kaba sözü yumuşatmayı,0.80,"Güzel adlandırma ifadesi kendi anlamını veriyor, doğru şık belli."
+110266b0-d954-43d9-a153-27efeaec4bab,edebiyat,'Tarihî roman' neye dayanır?,Geçmiş dönem ve olaylara,0.80,Tarihî roman adından geçmişe dayandığı anlaşılır.
+806f73eb-eb41-458a-beb7-7315e5339871,edebiyat,Bir eserin değerlendirildiği yazı türü hangisidir?,Eleştiri,0.80,"Bir eseri değerlendiren yazı türü eleştiridir, sorunun kendisi cevabı veriyor."
+e889d59a-9bce-41b4-965d-3f9b08076b93,edebiyat,Bir metinde 'paragraf' neye göre ayrılır?,Düşünce bütünlüğüne,0.80,"Paragrafın düşünce bütünlüğüne göre ayrıldığı sağduyudan çıkar, diğer şıklar mantıksız."
+4d5bbfbf-218e-42fe-ba2e-a0ec73ffb5aa,edebiyat,Atasözünün özelliği nedir?,Kalıplaşmış ve öğüt verici olması,0.80,"Atasözünün özelliği genel kavram sorusu, doğru şık en belirgin olanı."
+3109c695-fd11-406c-8a31-74efb82befd4,edebiyat,Anı (hatıra) türü neye dayanır?,Yazarın yaşadıklarına,0.80,"Anı sözcüğünün anlamı yazarın yaşadıklarını gösteriyor, çeldiriciler zayıf."
+08d03831-3ec3-4539-8c55-5add70caba13,edebiyat,"Anlatıcının olayları ""ben"" diliyle aktarmasına ne denir?",Birinci kişi anlatım,0.80,Soruda 'ben' diliyle denmesi cevabı birinci kişi olarak veriyor.
+21c10ce5-57f8-45fa-b76e-e38210ea22ba,edebiyat,Metinde 'tutarlılık' neyi ifade eder?,Düşüncelerin çelişmemesini,0.80,"Tutarlılık sözcüğünün anlamı cevabı veriyor, kavram sorusu."
+4dea5f18-1b4f-49ee-b24c-1acce3853f9a,edebiyat,'Eleştiri' türü neyi yapar?,Yapıtı değerlendirir,0.80,Eleştiri sözcüğünün anlamı cevabı veriyor.
+80f53995-07dc-4284-97c3-40970a087446,edebiyat,'Betimleme' hangi amaçla yapılır?,Görüntü oluşturmak,0.80,"Betimleme sözcüğünün anlamı ve amacı sorusu, mantıkla cevaplanır."
+d0f09b03-3153-4fdd-9fca-d52a795c4979,edebiyat,'Editör' kitapta hangi rolü üstlenir?,Metnin yayına hazırlanması,0.80,Editörün işi metni yayına hazırlamaktır; sözcüğün anlamından ve şıklardan belli.
+7708b01a-7ca2-4583-bdd5-ae5fcea8f446,edebiyat,Bilim kurgu türü neye dayanır?,Bilimsel varsayımlar ve gelecek,0.80,"Bilim kurgu sözcüğü cevabı veriyor, diğer şıklar konu dışı."
+abbd836a-6e31-48e8-a5ab-0195f93f05d2,edebiyat,Türkçede sözcük türetmenin temel yolu nedir?,Yapım eki getirmek,0.80,"Sözcük türetmenin yolu yapım eki sorusu, sözcüğün anlamından ve genel mantıktan belli."
+14a4dbe7-f1bc-4e2a-b869-4b28512f734f,edebiyat,'Komedi' hangi amaçla yazılır?,Güldürerek eleştirmek,0.80,Komedinin amacı sözcüğün anlamından ve sağduyudan çıkar.
+0d596711-117c-4741-8021-7803aa0379a0,edebiyat,'Açıklama' anlatım biçimi neyi hedefler?,Bilgi vermeyi,0.80,Açıklamanın bilgi vermek olduğu sözcükten anlaşılır.
+7e3b0826-449b-42f3-bea9-fe8fa7256e70,genel_kultur,Bir belgeselin amacı nedir?,Bilgilendirmek,0.92,Belgeselin amacı sözcüğün anlamından belli: bilgilendirmek.
+c0dd69fd-c868-44b9-b23c-139d6e2fea64,genel_kultur,Reklamın temel amacı nedir?,Tanıtım,0.90,Reklamın amacı genel kavram sorusudur ve cevap belli.
+07ef6ff0-d7b3-4405-a3f2-f2cafa160133,genel_kultur,Kamu spotunun amacı nedir?,Toplum yararına bilgilendirmek,0.90,Kamu spotu sözcüğünden amaç toplumu bilgilendirmek olarak anlaşılır.
+6622b126-6ab5-405b-8bc2-4a1e02f42c26,genel_kultur,Gönüllülük çalışmasının topluma katkısı nedir?,Dayanışma ve hizmet üretimi,0.90,"Gönüllülük sözcüğünden dayanışma çıkar, diğer şıklar konu dışı."
+4154efb4-5716-4514-a2c8-191c1c197aff,genel_kultur,Bir toplantıda gündem ne işe yarar?,Konuları sıralar,0.90,Gündemin işlevi kavramsal ve sağduyuyla belli.
+b860baae-fccb-4101-977e-6c52fc44200c,genel_kultur,Sel sırasında ne yapılmamalıdır?,Su birikintisine girmek,0.85,Sağduyu su birikintisine girmemeyi söyler.
+5e3b4cba-7323-443e-aed6-913f0a872077,genel_kultur,Gıda zehirlenmesini önlemenin temel yolu nedir?,Uygun saklama ve pişirme,0.85,Gıda zehirlenmesini önleme sağduyuyla uygun saklama ve pişirmedir.
+9c9fa247-ab20-44eb-adbd-9d195cd3b00c,genel_kultur,İlk yardımın temel amacı nedir?,Yardım gelene dek durumu korumak,0.85,İlk yardımın amacı sorusu genel bir kavram; mantıkla en uygun şık belli.
+72c9909b-2d13-489d-b6a3-467fec1f2ea2,genel_kultur,Doğrulama (fact-checking) neyi amaçlar?,İddianın kanıtla sınanmasını,0.85,Doğrulama sözcüğünün anlamı cevabı veriyor.
+63c64629-4722-426a-a9ff-d6f332226b56,genel_kultur,Bir kurumun logosu neyi temsil eder?,Kimliğini,0.85,Logonun neyi temsil ettiği mantıkla kimlik olarak belli.
+58bd94bc-e4a8-4c86-9c44-0890a23ea94f,genel_kultur,Çocuk oto koltuğunun gerekliliği neye dayanır?,Çocuğun bedenine uygun koruma,0.85,Oto koltuğunun amacı koruma; sağduyuyla belli.
+84c929ab-7690-4ef7-80e8-85c96da2f2a4,genel_kultur,Sigorta ne işe yarar?,Riski karşılamaya,0.85,Sigortanın işlevi genel kavramdır ve doğru şık en mantıklısıdır.
+1a7da5c1-4d20-42f0-a1e4-69d7f4593337,genel_kultur,Toplumsal cinsiyet eşitliği kavramı neyi hedefler?,Fırsat ve haklara eşit erişimi,0.85,Eşitlik sözcüğü cevabı veriyor: eşit erişim.
+49292a24-8bd2-4393-a714-f861e785ec70,genel_kultur,Pasaportun işlevi nedir?,Uluslararası kimlik ve seyahat belgesi,0.85,Pasaportun işlevi sorusu genel kavram; kimlik ve seyahat belgesi açıkça en mantıklı şık.
+19519f26-184a-496b-a9f2-774eb366b638,genel_kultur,Alkollü araç kullanmanın en temel riski nedir?,Tepki süresinin uzaması,0.85,"Sağduyu, çeldiriciler konu dışı."
+1516c00b-b3d7-45d8-afb2-528dd17ec412,genel_kultur,Yaz saati uygulamasının amacı nedir?,Gün ışığından çok yararlanmak,0.85,"Yaz saatinin amacı sorusu genel kavram, gün ışığından yararlanmak sağduyuyla bulunur."
+8bad0037-1eee-4eea-b0ba-53a84713fa79,genel_kultur,Bir binada asansör yangında neden kullanılmaz?,Arıza ve kapanma riski,0.85,Doğru şık sağduyuyla açıkça en mantıklı olandır.
+6f81034a-f090-4cd5-beb5-39ea6a5024d4,genel_kultur,Puzzle (yapboz) neyi geliştirir?,Görsel algı ve sabır,0.85,"Yapbozun işlevi sağduyuyla bulunur, çeldiriciler konu dışı."
+81a60c07-e4cf-4f88-8d37-a705b5240c7d,genel_kultur,Bir ürünün üreticiden tüketiciye ulaşmasına ne denir?,Dağıtım,0.85,Üreticiden tüketiciye ulaştırma sözcüğün anlamından dağıtım olarak belli.
+2c6571cd-3a9b-40e2-b28a-5694df5b66d6,genel_kultur,Bir ülkenin bayrağındaki renk ve simgeler neyi temsil eder?,Ulusal değer ve tarihi,0.85,"Bayrak simgelerinin ulusal değer ve tarihi temsil ettiği sağduyuyla belli, çeldiriciler konu dışı."
+b5505fb6-bfc0-468e-80e8-71992cccbe8b,genel_kultur,Deprem sırasında araç kullanan kişi ne yapmalıdır?,Güvenli yerde durmak,0.82,"Güvenli yerde durmak en mantıklı şıktır, diğerleri tehlikeli."
+b39bab70-30b9-4f7d-aa64-352796cc8544,genel_kultur,Antropoloji bilimi hangi konuyu araştırır?,İnsanı ve kültürlerini,0.80,"Antropoloji sözcüğü insan anlamını taşıyor, çeldiriciler konu dışı."
+c0da0a9b-eced-4fd8-b66e-7221bc236415,genel_kultur,Kırmızı Haç örgütü hangi alanda çalışır?,Yardım,0.80,Kırmızı Haç'ın yardım alanında çalıştığı sağduyuyla bulunur.
+9684d3a4-6ea3-4d8d-a4ba-c37972d91d80,genel_kultur,Ağaç dikmenin en uygun mevsimi genellikle hangisidir?,Sonbahar veya ilkbahar,0.80,"Çeldiriciler aşırı sıcak ve soğuk dönemler, sağduyu ilkbahar ya da sonbaharı gösteriyor."
+e10a2e69-fbef-412c-baf6-e59c81ff4c0e,genel_kultur,Çamaşır etiketindeki çarpı işaretli simge ne anlatır?,Yapılmaması gerekeni,0.80,Çarpı işaretinin anlamı sağduyuyla çıkar.
+53abb466-f4e1-426f-bef4-9be4a84d7ce2,genel_kultur,'Sendika' hangi amaçla kurulmuştur?,İşçi haklarını savunmak,0.80,Amaç sorusu ve doğru şık en mantıklı olanıdır.
+67f54974-5e62-47e3-9e11-2c22e5d2f1f3,genel_kultur,Telgrafın icadı hangi alanı değiştirmiştir?,İletişim,0.80,Telgraf iletişim aracı olduğundan cevap mantıkla belli.
+3f1a176a-7ff6-4db9-ac85-029230a12716,genel_kultur,Deprem sonrası binaya girmeden önce ne yapılmalı?,Yetkili kontrolü beklenmeli,0.80,Sağduyu yetkili kontrolünü bekleme şıkkını gösteriyor.
+ea556b07-a6c5-46cf-90ab-4b1772d57dd9,genel_kultur,Düzenli uykunun yetişkin için önerilen süresi nedir?,7-8 saat,0.80,"Diğer şıklar mantıksız, 7-8 saat genel sağduyuyla bulunur."
+5c140dcd-3684-4c72-b64f-0f17ecd3a4c7,genel_kultur,Ansiklopedi ne tür bir kaynaktır?,Başvuru kaynağı,0.80,"Ansiklopedinin başvuru kaynağı olduğu sağduyuyla anlaşılır, diğer şıklar konu dışı."
+fd9ce03f-a23f-4858-b02f-54c782ca2da8,genel_kultur,Kuru baklagiller pişirmeden önce neden ıslatılır?,Pişme süresini kısaltmak,0.80,Islatmanın amacı sağduyuyla pişme süresini kısaltmaktır.
+a83f6ac3-472d-402b-8132-6d1a5808996b,genel_kultur,Elektrik çarpmasında ilk yapılacak nedir?,Akımı kesmek,0.80,Akımı kesmek sağduyuyla en mantıklı ilk adım.
+2dc86cb7-39d8-4a69-95c4-f3bc66641702,genel_kultur,Bir dilekçede bulunması gereken bilgi hangisidir?,"Ad, soyad ve imza",0.80,"Ad, soyad ve imza en mantıklı şık, diğerleri konu dışı."
+67a9b42b-895c-41a7-9e40-51d6654ce428,genel_kultur,Kızılay ve Kızılhaç hangi alanda faaliyet gösterir?,İnsani yardım,0.80,"Kızılay ve Kızılhaç'ın faaliyet alanı genel kavram, çeldiriciler saçma."
+1ace8c8c-f2df-4eb9-b3ab-825d1f90ed07,muzik,Ses yalıtımı stüdyoda neden önemlidir?,İstenmeyen sesleri engellemek,0.92,"Ses yalıtımının amacı mantıkla belli, diğer şıklar saçma."
+489ae20b-bb9b-47fd-b43f-7ff17161fb3a,muzik,Stüdyo kayıtlarında mikrofon ne işe yarar?,Sesi kaydetmek,0.90,Mikrofonun işlevi sorudaki sözcükten ve sağduyudan belli.
+d9289fc4-3990-4971-bd34-48eb9d008b98,muzik,'Çalma listesi' dinleyiciye ne sunar?,Sıralı parça seçkisi,0.90,Çalma listesinin ne sunduğu sözcükten ve sağduyudan belli.
+186c34da-ccf3-473a-8dea-ec26296982c5,muzik,'Müzik videosu' hangi işlevi görür?,Görsel anlatım ve tanıtım,0.90,Müzik videosunun işlevi sözcüğün anlamından ve şıklardan belli.
+10d1276c-b021-4600-9c10-812ef19077e6,muzik,'Müzik arşivi' neyi korur?,Kayıt ve notaları,0.88,"Müzik arşivi kayıt ve notaları korur, sözcükten belli."
+2c1d3ff8-cc15-42b9-9fe1-73a4c1b3aa65,muzik,'Turne' müzisyene ne kazandırır?,Canlı dinleyici ve gelir,0.85,"Turnenin müzisyene canlı dinleyici ve gelir kazandırdığı mantıkla anlaşılıyor, olgu bilgisi gerekmiyor."
+3c158448-c5bd-45e5-b6a1-26bce6a007c3,muzik,"Müzikte ""prova"" ne demektir?",Performans öncesi çalışma,0.85,Prova sözcüğünün anlamı mantıkla bellidir.
+f53d3bff-231f-4902-a473-aa402344756c,muzik,'Konser programı' neyi bildirir?,Çalınacak eserleri ve sırayı,0.85,Konser programının ne bildirdiği sözcüğün anlamından belli.
+1cda23a8-a229-4501-aabd-4615bddfdf73,muzik,'Halk oyunlarında müzik' ne sağlar?,Ritim ve figür uyumunu,0.85,"Müziğin halk oyunlarında ritim sağlaması mantıkla belli, diğer şıklar konu dışı."
+4a582735-c0d8-4edb-bbf7-daeb957b4204,muzik,"Müzikte ""nota"" ne ifade eder?",Sesin yazıya dökülmüş hali,0.85,Nota tanımı sorudaki kavramın anlamından ve sağduyudan çıkar.
+aaf25968-6b13-4cfa-95fe-aed99aedfa62,muzik,Akustik gitarda ses neyle üretilir?,Tellerle,0.80,"Gitarda tel olduğu sağduyuyla bilinir, çeldiriciler uygunsuz."
+13fe3722-5cfc-422b-8126-c7cee7b67c5e,muzik,Hoparlör ne yapar?,Elektrik sinyalini sese çevirir,0.80,"Hoparlör ne yapar kalıbı, işlev sağduyuyla bulunur."
+b5267abb-d542-464a-9df4-5bc5f682f020,muzik,Marş müzikleri genelde nerede çalınır?,Törenlerde,0.80,"Marşın çalındığı yer sağduyuyla belli, çeldiriciler saçma."
+ee10af47-f5eb-4d23-9e18-3a39b6cc98bf,muzik,Bir şarkının sözlerini yazan kişiye ne ad verilir?,Söz yazarı,0.80,"Söz yazan kişi söz yazarıdır, cevap sözcükte belli."
+0737329e-1ad9-4e36-a270-2d43cd6a554d,sanat,'Ses yerleştirmesi' hangi duyuya seslenir?,İşitmeye,0.92,Ses yerleştirmesi sözcüğündeki 'ses' cevabı işitme olarak veriyor.
+19c7f55c-419e-4764-a7fa-40955162eb8f,sanat,Karikatürün temel amacı nedir?,Eleştiri ve mizah,0.90,Karikatürün amacı genel bir kavram sorusudur ve cevap sağduyuyla belli.
+7e875257-1836-4d14-a0cf-135414b50437,sanat,Bir resmin çerçevelenmesinin amacı nedir?,Korumak,0.90,"Çerçevenin amacı sağduyuyla korumaktır, diğer şıklar saçma."
+717ee41b-35fb-4ea2-8489-14804d522d82,sanat,"""Manzara"" resminde konu nedir?",Doğa görünümü,0.90,Manzara sözcüğünün anlamı cevabı veriyor.
+46007ade-b220-4ffd-8cd1-ab8921990877,sanat,Bale gösterilerinde müzik nasıl kullanılır?,Dansa eşlik eder,0.90,"Balede müziğin dansa eşlik ettiği sağduyuyla bellidir, çeldiriciler saçma."
+1222795e-76b1-4fc8-9466-7055d5ace7c4,sanat,Grafik tasarımda logo ne işe yarar?,Kimlik oluşturmak,0.90,"Logo ne işe yarar kalıbı, cevap sağduyuyla belli."
+649cfa9b-f36d-4f92-b191-35a8b121ac29,sanat,'Sokak sanatı' hangi ortamda görülür?,Kamusal alanda,0.90,Sokak sanatı sözcüğünün anlamı kamusal alanı belli ediyor.
+2d1e785f-6eea-4142-82df-80f11a74186f,sanat,'Çocuk tiyatrosu' neyi gözetir?,Yaşa uygun dil ve içeriği,0.90,Çocuk tiyatrosunun yaşa uygun olması sorudan belli.
+1054e5f2-9a6b-41a2-945a-08b34bd57e25,sanat,"Sanat eğitiminde ""atölye"" ne sağlar?",Uygulamalı üretim ortamı,0.90,Atölyenin uygulamalı üretim ortamı olduğu sözcüğün anlamından belli.
+159175b9-e026-42b9-a2ac-affe2ec1fb27,sanat,"Bir müzikalde dans, müzik ve oyunculuk nasıl bulunur?",Bir arada,0.90,"Soru kendi cevabını içeriyor, müzikalde üçü bir arada bulunur."
+40f6ef0f-20f4-4f08-b13f-6efbf544779b,sanat,Dijital sanatta eser hangi ortamda üretilir?,Bilgisayar ortamı,0.90,Dijital sanatın bilgisayar ortamında üretildiği sözcüğün anlamından belli.
+449f9f78-b915-44f2-a1c2-db8ee18677b9,sanat,Minimalizm neyi savunur?,Sadeliği,0.90,"Minimalizm sözcüğünün anlamı sadeliği ima eder, cevap sözcükten çıkar."
+80154e41-4b95-4a05-8375-5616fd7c6028,sanat,Portre resmin amacı nedir?,Kişiyi betimlemek,0.90,"Portre sözcüğü kişiyi betimlemeyi ima eder, amaç sorusu."
+054a87b8-110f-4aeb-b764-7fa4aef31f97,sanat,Afiş tasarımının işlevi nedir?,Kısa sürede mesaj iletmek,0.88,"Afişin işlevi sağduyuyla bulunur, diğer şıklar saçma."
+05b3e4eb-6ece-4e84-9efb-8a3240623834,sanat,Bir sanat eserinin özgünlüğü neyi ifade eder?,Kendine ait olması,0.88,Özgünlük sözcüğünün anlamı cevabı veriyor.
+31609d3a-3cd4-45c7-a86d-52dbf272d2c5,sanat,Halk dansları neyi yansıtır?,Yerel kültürü,0.85,Halk danslarının yerel kültürü yansıttığı sözcüğün anlamından belli.
+2a2f322b-fd41-46b1-bdff-3fe20aaf36d5,sanat,Maket neyi temsil eder?,Küçültülmüş model,0.85,Maketin anlamı sözcükten ve şıklardan mantıkla çıkarılır.
+0951944b-ac0c-4510-915f-3c80b4c060d8,sanat,"Bir sanatçının ""üslubu"" nedir?",Kendine özgü anlatım biçimi,0.85,"Üslup sözcüğünün anlamı cevabı veriyor, genel kavram sorusu."
+374d2284-3f5b-4131-9ee4-3d7a15f90507,sanat,Sanat eserinde 'imza' neyi belirtir?,Yaratıcısını,0.85,İmzanın yaratıcıyı belirttiği sözcüğün anlamından belli.
+7dc17d36-94da-44d8-9742-7924dbf74490,sanat,'Sanat eğitimi müfredatı' neyi hedefler?,Yaratıcı ve eleştirel gelişimi,0.85,Eğitim müfredatının hedefi sorudan ve şıklardan mantıkla çıkar; diğer şıklar konu dışı.
+7ebb5480-90db-4a92-bbd1-922a116db431,sanat,'Ses yerleştirmesi' hangi duyuya odaklanır?,İşitme,0.85,Ses sözcüğü işitme duyusunu doğrudan gösterir.
+07a52aa9-3aea-4077-a953-cab3b84846cd,sanat,Otoportre nedir?,Sanatçının kendi portresi,0.85,Otoportre sözcüğünün anlamından cevap çıkar (oto = kendi).
+3ca39dbf-f180-4ea5-b6e1-483b39aa12de,sanat,"Sanat eserinde ""özgünlük"" ne anlama gelir?",Kopya olmaması,0.85,Özgünlük sözcüğünün anlamından cevap belli.
+3a2c3be4-3f9f-43e4-bda6-434c507cbd88,sanat,Belgesel fotoğrafın amacı nedir?,Gerçeği tanıklıkla aktarmak,0.85,Amaç sorusu; belgesel sözcüğü ve gerçeği aktarma mantığı cevabı gösteriyor.
+37f33232-cdca-4d36-946d-a5294769e896,sanat,Hat sanatı neyin güzel yazılması sanatıdır?,Yazı,0.85,Hat sanatı 'yazı' ile ilgili; cevap sözcükten ve soru metninden belli.
+6d514943-b7fa-4b5c-a46c-059165cfce8a,sanat,Suluboyanın kâğıda sürüldüğü araç nedir?,Fırça,0.85,Boyayı kâğıda sürmek için fırça kullanılacağı sağduyuyla belli.
+41f589a8-794a-4416-bb76-4c14ce5c643f,sanat,Bir renge siyah eklenirse ne oluşur?,Koyu ton,0.85,Siyah eklenince rengin koyulaşması sağduyuyla bellidir.
+63674e83-91f8-4d9d-a88e-2e92bda0bb67,sanat,Dijital sanatın ayırt edici yanı nedir?,Sayısal araçlarla üretilmesi,0.85,Dijital sözcüğünden cevap sayısal araçlar olarak belli.
+766663e8-92f8-40f4-9ede-36a16d189dc5,sanat,Kostüm tasarımı neye hizmet eder?,Karakteri görsel olarak anlatmak,0.82,"İşlev sorusu, doğru şık en mantıklısı."
+655088b4-3964-413f-b9b0-24603008d715,sanat,Heykelde 'kaide' ne işe yarar?,Eseri taşıyıp sunmak,0.82,"Kaide ne işe yarar kalıbı ve çeldiriciler saçma, mantıkla bulunur."
+5cc7d0aa-2532-45a4-8fc3-278b46b6d927,sanat,'Restorasyon' eserde ne yapar?,Bozulmuş kısmı onarır,0.80,"Restorasyon sözcüğünün anlamı onarmaktır, soru işlevi soruyor."
+137f228a-ef5b-4221-baa6-2e8b86957b39,sanat,İllüstrasyon ne işe yarar?,Metni görselle desteklemek,0.80,"İllüstrasyon sözcüğü görselle destek anlamına gelir, ne işe yarar kalıbı."
+03c5f568-128a-4d9e-8623-22f3f42a4de6,sanat,'Kukla tiyatrosu' hangi ögeyi kullanır?,Canlandırılan nesneleri,0.80,"Kukla zaten canlandırılan nesnedir, soru kendini cevaplıyor."
+0245c614-673a-4da6-b1b3-171071cbc583,sanat,Çizgi roman hangi iki öğeyi birleştirir?,Görsel ve metin,0.80,"Çizgi roman sözcüğünden görsel ve metin çıkarılır, diğer şıklar saçma."
+dbc2258b-387a-486c-bc59-0ce4f553990a,sanat,'Mermer heykelde' sanatçı ne yapar?,Fazlalığı yontar,0.80,"Mermer heykelde yontmak mantıkla bulunur, diğer şıklar uygunsuz."
+7a1c8cf8-3629-4b77-b9c8-45f78d9e991b,sanat,'Portre fotoğrafında' temel amaç nedir?,Kişiliği yansıtmak,0.80,Portre kavramından kişiliği yansıtmak mantıkla çıkar.
+406635ac-89d8-4ded-9bb7-263f0d54d490,sanat,Heykelde kullanılan malzemelerden biri hangisidir?,Mermer,0.80,"Çeldiriciler 'yalnızca' ve su gibi saçma, mermer açıkça doğru şık."
+68564d0f-b90e-49ca-9b00-c4f24edced2d,sanat,'Doğal ışık' mekanda ne sağlar?,Mekanın canlı ve ferah algısı,0.80,Doğal ışığın ferah algısı sağlaması sağduyuyla bulunur.
+52cfa4a9-80f9-4e71-b28f-e132dd51d56c,sanat,Vernik neden sürülür?,Yüzeyi korumak ve parlaklık vermek,0.80,"Vernik amacı mantıkla belli, diğer şıklar saçma."
+41b64cf1-977f-467c-87df-0dba88142d39,sanat,'İllüstrasyon' hangi işlevi görür?,Metni veya fikri görselleştirme,0.80,İllüstrasyonun işlevi sorudaki kavramdan ve sağduyudan anlaşılır.
+68ca00db-c5c2-48e1-8ef1-c9d15e1ef484,sanat,Pandomim hangi anlatım biçimini kullanır?,Beden dili,0.80,"Pandomim sessiz beden anlatımıdır, sözcük ve şıklardan belli."
+77d6e47c-5450-4fca-86a6-9ab9d490744d,sanat,Grafik tasarımın temel amacı nedir?,Görsel iletişim kurmak,0.80,Grafik tasarımın amacı sözcükten ve sağduyudan belli.
+6759c1e5-8c42-472f-ad40-0137b93513d8,sanat,'Mozaik' hangi malzemeyle oluşturulur?,Küçük renkli parçalarla,0.80,"Mozaik sözcüğünün anlamı küçük parçalarla oluşturulduğunu çağrıştırır, ama çeldiriciler makul olduğundan sınırda."
+89e1b3aa-2d2a-402d-9e18-735e183874af,sanat,Animasyonda hareket nasıl elde edilir?,Ardışık karelerin hızlı gösterimi,0.80,Animasyonun nasıl çalıştığı genel kavram sorusudur ve cevap sağduyuyla bulunur.
+44517e8f-a3b8-4de6-befe-d583147a7ec0,sanat,'Karikatür' neyi öne çıkarır?,Abartılı çizgi ve eleştiriyi,0.80,Karikatür sözcüğünün anlamı abartı ve eleştiriyi ele veriyor.
+764381cf-5ce2-4f64-9c01-b10062e2a34a,sanat,Perspektif neyi sağlar?,Derinlik duygusu,0.80,"Perspektifin işlevi çeldiricilerin saçmalığıyla belli, derinlik duygusu."
+fa75cef6-4230-4f3a-9ae2-4fda98ae15f2,sanat,Logo tasarımında aranan özellik nedir?,Akılda kalıcılık ve sadelik,0.80,"Logo için sadelik ve akılda kalıcılık sağduyuyla belli, çeldiriciler uyumsuz."
+2867aae5-d440-40d2-ba74-225c855da281,sanat,Simetri ile asimetri arasındaki fark nedir?,Asimetride eşitliğin bozulması,0.80,Asimetri sözcüğünün anlamından cevap çıkıyor.
+4b224916-40af-44ea-85d8-4de395fe93f6,sinema,Sinema salonunda perdenin işlevi nedir?,Görüntünün yansıtılması,0.95,"Perdenin işlevi sorusu, cevap sağduyuyla belli."
+9ce3e83d-9b38-4f9d-89d7-c77286efdf64,sinema,'Korku' türündeki filmlerin temel amacı nedir?,Gerilim yaratmak,0.92,"Korku filminin amacı gerilim yaratmaktır, çeldiriciler saçma ve cevap sağduyuyla bulunur."
+068de8d4-581d-4b32-aa4b-1728d54efd96,sinema,Altyazının işlevi nedir?,Konuşmaları yazıyla aktarmak,0.92,Altyazı sözcüğü işlevini zaten söylüyor.
+e27183a0-aa52-459e-91a8-23ba54094ccd,sinema,'Sinema eleştirisi' neyi değerlendirir?,Filmin biçim ve içeriğini,0.90,"Eleştirinin filmi değerlendireceği sözcükten belli, çeldiriciler saçma."
+34ae1b6d-8519-4108-8305-745b7fe0687d,sinema,Bilim kurgu sinemasının temel konusu nedir?,Bilim ve teknolojinin kurgusal sonuçları,0.90,"Bilim kurgu adından konusu belli, genel kavram sorusu."
+43f1a1f6-c572-48f5-9431-7c37273f6bd4,sinema,Bir filmin 'ana teması' neyi ifade eder?,Anlatının temel izleğini,0.90,Ana tema sözcüğünün anlamı cevabı veriyor.
+2042e5d2-64af-44b0-afdf-9d05b19e02e4,sinema,'Biyografik film' neye dayanır?,Gerçek bir kişinin yaşamına,0.90,Biyografi sözcüğünün anlamı cevabı veriyor.
+0985807c-e739-4288-8a44-63025cddebf6,sinema,'Yaş sınırı' işareti neyi bildirir?,İzleyici uygunluğunu,0.90,"Yaş sınırı işaretinin anlamı sözcüğün kendisinden belli, çeldiriciler saçma."
+2acf1235-be6f-4752-bd73-d4bb274ffe3e,sinema,'Kısa film' hangi ölçütle tanımlanır?,Süresinin kısalığıyla,0.90,Kısa film adından süresinin kısalığı anlaşılıyor.
+1019cd99-54fb-460c-a9a8-498cbf28907b,sinema,'Kostüm tasarımcısı' neyi belirler?,Karakterlerin giysilerini,0.90,Kostüm tasarımcısı sözcüğü cevabı veriyor: giysiler.
+7c53921c-260c-4b72-aed7-9188fc145099,sinema,Belgesel film neyi anlatır?,Gerçek olayları,0.90,Belgeselin gerçek olayları anlattığı sözcüğün anlamından belli.
+3c2165c6-2cde-460f-ba85-d145350f2298,sinema,Korku türünün amacı nedir?,Gerilim ve korku yaratmak,0.88,"Korku türünün amacı sözcükten belli, genel kavram sorusu."
+73cdc318-3bcb-4384-87e6-a42d5c244033,sinema,Kostüm tasarımcısının işlevi nedir?,Karakterlerin giysilerini kurgulamak,0.88,Kostüm tasarımcısı sözcüğü giysi tasarlamayı çağrıştırır.
+847ce648-5bf1-4517-9aa8-cd05ee4a1e33,sinema,Biyografi filmi neyi konu alır?,Gerçek bir kişinin yaşamını,0.85,Biyografi sözcüğünün anlamı doğru cevabı veriyor.
+838535aa-7ff2-4eb7-90a1-5499cf4093e1,sinema,Film festivallerinin temel amacı nedir?,Filmleri tanıtmak,0.85,"Festivalin amacı sorusu, genel kavram ve mantıklı şık."
+6ced521b-3b9b-4586-ac51-03fc65ae55be,sinema,İzleyici ödülü nasıl belirlenir?,Seyirci oylarıyla,0.85,Cevap 'izleyici ödülü' sözcüğünden çıkıyor.
+53cab24f-b813-4196-b810-94b6052aab5e,sinema,Gerilim (thriller) filmlerinde izleyicide amaçlanan duygu nedir?,Sürekli merak ve tedirginlik,0.85,"Gerilim türünün amacı sağduyuyla bulunur, çeldiriciler konu dışı."
+1ae93621-289a-48f8-80eb-ce6f71c05ed9,sinema,'Makyaj efekti' hangi amaçla kullanılır?,Görünümü dönüştürmek,0.85,Makyajın amacı sözcüğün anlamından ve sağduyudan belli.
+125b4b8c-3230-442a-86ce-c4cc7b21d2b6,sinema,'Belgesel' hangi malzemeye dayanır?,Gerçek olay ve kişilere,0.85,"Belgesel kavramı gerçek olaylara dayanır, sözcüğün anlamından belli."
+0a3999f7-ac70-4601-9c3c-45780979e4d0,sinema,'Sinema salonu doluluk oranı' neyi ölçer?,Satılan koltuk yüzdesini,0.85,Doluluk oranı teriminin anlamından cevap (satılan koltuk yüzdesi) doğrudan çıkıyor.
+0a3e428d-f383-43af-b3ee-6deaf3b63bb7,sinema,"Sinemada ""kamera arkası"" görüntüleri ne gösterir?",Yapım sürecini,0.85,Kamera arkası ifadesi anlamıyla cevabı veriyor.
+3d077e29-cf5a-46b3-a250-004d2dbfa353,sinema,'Casus filmi' hangi ögeyi öne çıkarır?,Gizli görev ve entrikayı,0.85,"Casus filmi gizli görev ve entrika içerir, anlam gereği belli."
+238be37a-bd49-4961-a0a1-bc034b40edab,sinema,Sinemada 'sansür' uygulamasının amacı olarak neye başvurulur?,İçeriğin sınırlanmasına,0.85,Sansürün amacı sözcüğün anlamından belli.
+6ca4e27f-364f-4ec6-9c44-04335499329c,sinema,'Kostüm tasarımcısı' neye katkı verir?,Karakterin görsel kimliğine,0.85,"Kostüm tasarımcısının görsel kimliğe katkısı mantıkla belli, diğer şıklar konu dışı."
+5f568923-aa5c-4413-8a5f-60f953f7fc5d,sinema,'Projeksiyon makinesi' ne yapar?,Görüntüyü perdeye yansıtır,0.85,Projeksiyon sözcüğünün anlamı ve sağduyu cevabı veriyor.
+0cfc3c3c-61a9-43af-bc00-b0cccff0166f,sinema,'Spor filmi' anlatısı genelde neye dayanır?,Zorluğu aşma ve başarıya,0.85,"Diğer şıklar konu dışı, spor filminin başarıya dayanması sağduyuyla bulunur."
+781f7035-fc3e-4b4a-910b-62c5eb72583f,sinema,'Sinema eleştirmeni' ne üretir?,Değerlendirme yazısı,0.85,"Eleştirmen değerlendirme yazısı üretir, anlamdan belli."
+3fe54f2b-02ef-4982-bb2d-39e5cc0d83c7,sinema,Bir filmin yapımında kostümleri hazırlayan kişiye ne denir?,Kostüm tasarımcısı,0.85,Kostümleri hazırlayan kişi adından belli: kostüm tasarımcısı.
+376fd609-31e8-4507-976a-34f9b1b9c4ec,sinema,'Film arşivi' ne yapar?,Kopyaları korur ve saklar,0.85,"Arşivin ne yaptığı sözcüğün anlamından belli, çeldiriciler konu dışı."
+ffdc3b91-034b-4af3-a1f0-78c9cc882305,sinema,Film müziklerini besteleyen kişiye ne ad verilir?,Besteci,0.85,"Müzik besteleyen kişiye besteci denir, soru kendini cevaplıyor."
+2daf3bdc-91f9-4b4e-8b96-9089b6e4f112,sinema,Belgesel çekiminde en önemli unsur nedir?,Gerçeğe bağlılık,0.85,"Belgeselin gerçeğe dayandığı sözcüğün anlamından belli, çeldiriciler konu dışı."
+08509ad8-c1b2-4007-980d-c095ce058e07,sinema,'Açık hava sineması' hangi mevsimde yaygındır?,Yaz,0.85,Açık havada film izlemek için sağduyu gereği sıcak mevsim olan yaz seçilir.
+3f0973a5-4f34-4214-8786-5d782fd5eb95,sinema,'Animasyon' filmde görüntü nasıl oluşur?,Ardışık karelerin canlandırılmasıyla,0.80,Animasyonun nasıl yapıldığı sözcüğün anlamından ve şıklardan belli.
+1b1d8337-b138-4038-bac5-4a7b6442816d,sinema,Film müziği (score) ne sağlar?,Duygusal atmosfer,0.80,Müziğin işlevi sağduyuyla duygusal atmosfer olarak bulunur.
+297dbe8e-e338-4f37-b7be-30486f7f476c,sinema,"Filmde ""efekt sesi"" ne sağlar?",Ortam ve olay seslerini,0.80,Efekt sesi sözcüğünün anlamından ortam ve olay sesleri olduğu anlaşılır.
+0068ef5f-0794-4f97-a730-fdc8ef901599,sinema,"Sinemada ""tür"" (janr) ne demektir?",Filmin kategorisi,0.80,Tür kavramının genel tanımı sorulıyor ve en mantıklı şık kategori.
+71d56a3e-609e-4569-9126-aecedc8e45c2,sinema,Sinemada 'devam filmi' (sequel) nedir?,Hikâyenin sonrasını anlatan yapım,0.80,Devam filmi sözcüğünün anlamı cevabı doğrudan veriyor.
+7e50dce6-45d0-4f93-9d1a-6da2a6e5f394,sinema,Gerilim (thriller) türünde öne çıkan öğe nedir?,Merak ve tempo,0.80,"Gerilim türünün öğesi merak ve tempo mantıkla belli, çeldiriciler saçma."
+4cf870fa-31a3-4ee3-860f-5c9ee40de3b2,sinema,Bilim kurgu filmleri neyi konu edinir?,Gelecek ve teknoloji,0.80,"Bilim kurgu adından gelecek ve teknoloji anlaşılır, diğer şıklar uyumsuz."
+57f6d72f-5f77-498a-ae66-b20723d17130,sinema,Aksiyon filmlerinde kurgu genellikle nasıldır?,Hızlı ve kısa planlı,0.80,Aksiyon sözcüğünden hızlı kurgu mantıkla çıkarılır.
+3cd1aaee-1894-47da-9cca-e43ef442b45b,sinema,'Devam filmi' (sequel) ne yapar?,Öyküyü ileri taşır,0.80,Devam filmi sözcüğünün anlamından cevap belli.
+d6815abb-bc20-48ca-b398-f5601761c469,sinema,Sinemada 'yavaş çekim' hangi etkiyi yaratır?,Anı uzatıp vurgulamak,0.80,Yavaş çekimin etkisi sözcüğün anlamından çıkar.
+407f319e-ba46-4250-8f97-fa5d94783844,sinema,Bir filmde kamera arkasındaki en üst sorumlu kimdir?,Yönetmen,0.80,En üst sorumlu sözcüğünden yönetmen mantıkla çıkar.
+389a9ce4-f1c6-45af-9684-8ef2609d788a,sinema,"Sinemada ""arşiv görüntüsü"" ne demektir?",Daha önce çekilmiş kayıtlar,0.80,Terimin anlamı sözcüklerden ('arşiv') çıkarılabilir.
+755be283-f5f6-4010-a634-64601e088cb7,sinema,Sinemada 'altyazı' ile 'dublaj' arasındaki fark nedir?,Dublajda ses yeniden kaydedilir,0.80,Dublaj ve altyazı farkı sağduyuyla bilinir.
+765a2fcd-204e-4afb-8847-14a9247b32b7,spor,Sırtüstü yüzmede sporcu nasıl konumlanır?,Sırt üstü,0.95,Sırtüstü sözcüğü cevabı doğrudan veriyor.
+31484c26-abf1-463e-9dae-191ffc59879c,spor,Bir spor kulübünün altyapısı ne amaçla kurulur?,Genç sporcu yetiştirmek,0.90,"Altyapının amacı sorusu, cevap mantıkla genç sporcu yetiştirmek."
+305f1884-2cf8-4efc-826a-0d25c1ba5af5,spor,Sporda 'engelli erişimi' tesislerde neyi gerektirir?,Rampa ve uygun donanımı,0.90,Engelli erişimi için rampa sağduyuyla bulunur.
+26d365cf-bbae-4e9d-8f96-6eb53a2e63e7,spor,Hakem kararına itiraz mekanizmasının amacı nedir?,Hatalı kararı düzeltmek,0.90,"İtiraz mekanizmasının amacı hatayı düzeltmek, mantıkla belli."
+4247eefa-19cf-454a-806d-80ab0d9308d4,spor,'Atlet formasının numarası' ne işe yarar?,Sporcunun tanınmasına,0.90,Forma numarasının işlevi sağduyuyla bellidir.
+5530ee37-7a3d-437e-b4b4-eb3028dc68e1,spor,'Sporda hedef belirleme' neyi artırır?,Motivasyon ve odaklanmayı,0.90,"Hedef belirlemenin motivasyonu artırması sağduyuyla bulunur, çeldiriciler saçma."
+0ab10bfa-47be-4ab6-8e41-b66fe9c411bd,spor,Atletizmde 'engelli koşu' hangi zorluğu içerir?,Belirli aralıklarla engel aşmak,0.90,"Engelli koşu adından belli, engel aşmak; çeldiriciler saçma."
+e5a4a3b4-8ceb-4b4c-b054-c04b3e982568,spor,'Video toplantısı' takımda ne sağlar?,Ortak taktik anlayış,0.90,"Toplantının ortak taktik anlayış sağlaması mantıkla belli, diğer şıklar saçma."
+29bdde39-8e29-4132-8ac0-178ba239e9ea,spor,'Takım ruhu' neyi güçlendirir?,Ortak hedefe bağlılığı,0.88,Takım ruhunun ortak hedefe bağlılığı güçlendirdiği mantıkla belli.
+59fa7f9d-83bb-45a5-a5d8-306345736f9f,spor,'Adım sayar' hangi veriyi toplar?,Günlük hareket miktarını,0.88,Adım sayar adından ne ölçtüğü belli.
+0c1f112a-21f0-458a-9145-d5e8301f1ba3,spor,'Spor hekimi' hangi konuda yetkilidir?,Sağlık değerlendirmesinde,0.85,Hekim sözcüğü sağlıkla ilgili olduğunu zaten söylüyor.
+3b27bcb8-7993-4ef3-b1b1-fd2bd94c9587,spor,Atletizmde 'sırıkla yüksek atlama' neyi ölçer?,Aşılan yükseklik,0.85,Yüksek atlama sözcüğünden cevap yükseklik olarak belli.
+21426d58-cdce-427f-a7e8-3bb0ccc474d5,spor,Fair play ödülü neye verilir?,Sportmenlik davranışına,0.85,"Fair play sözcüğü sportmenliği ima ediyor, cevap anlamdan belli."
+010d5c0d-4d15-4bd8-b5d4-90746cb0cc5a,spor,'Sporcu kampı' hangi amaca hizmet eder?,Yoğun hazırlık,0.85,Kamp amacı sağduyuyla yoğun hazırlık olarak belli.
+19f9b785-86b2-40c9-8e44-9096055050f8,spor,"Turnuvada ""kura çekimi"" ne için yapılır?",Eşleşmeleri belirlemek,0.85,Kura çekiminin amacı sağduyuyla eşleşmeleri belirlemektir.
+6c8cabde-7c4a-4f98-9526-e1fb25abdbdd,spor,Sporda 'rekor' kavramı neyi ifade eder?,Resmî olarak ölçülmüş en iyi derece,0.85,"Rekor sözcüğünün anlamı gereği en iyi derece, diğer şıklar mantıksız."
+2934ba18-0c75-4d98-8acd-d37ab7c065bb,spor,'Sağlık ekibi' sahada ne yapar?,İlk müdahaleyi,0.85,"Sağlık ekibinin işi sağduyuyla ilk müdahale, diğer şıklar hakem görevleri."
+2f8f7d05-8e81-49f8-9049-48adc0714add,spor,Takım sporlarında kaptanın görevi nedir?,Takımı temsil etmek,0.85,"Diğer şıklar saçma, kaptanın takımı temsil ettiği sağduyuyla belli."
+6665bcb1-0ff9-4691-8189-e21fd7c228e7,spor,"Sporda ""grup aşaması"" ne anlama gelir?",Takımların gruplarda karşılaşması,0.85,Grup aşaması ifadesi kendi anlamını veriyor.
+0adf570d-06a9-4e87-806a-e333cff71276,spor,Sporda esneme hareketlerinin amacı nedir?,Sakatlanmayı azaltmak,0.85,Esnemenin amacı sorusu 'X'in amacı nedir' kalıbında ve sakatlanmayı azaltmak en mantıklı şık.
+4c126de4-d210-48c9-8684-f1eabee35ee5,spor,'Kaleci eldiveni' neyi artırır?,Kavrama ve koruma,0.85,"Eldivenin amacı kavrama ve korumadır, mantıkla çıkar."
+35fb956b-95f6-4206-a8c2-cad82890af7f,spor,Olimpiyatlarda 'maskot' ne işlevi görür?,Tanıtım ve simge,0.85,Maskotun işlevi sorusu genel kavramdır; doğru şık en mantıklı olandır.
+4e4d3349-2431-42c2-b4c8-0af003197f29,spor,"Futbolda ""kaleci eldiveni"" hangi amaçla kullanılır?",Kavrama ve koruma,0.85,"Eldivenin amacı sorusu, sağduyuyla kavrama ve koruma şıkkı belli."
+2b35aeea-745f-456d-8468-11d8921f0999,spor,'Dizlik' hangi amaçla kullanılır?,Koruma ve destek,0.85,"Dizliğin amacı sorusu, doğru şık sağduyuyla belli."
+517753b2-135c-44d9-9b9f-eaa96f90c657,spor,Sporun toplumsal işlevlerinden biri nedir?,Kaynaşma ve sağlıklı yaşam,0.85,"Sporun işlevi sorusu; diğer şıklar saçma, doğru şık sağduyuyla belli."
+503135b8-449e-4592-b874-e3cdfd099eeb,spor,Kış Olimpiyatları hangi sporları içerir?,Kar ve buz sporları,0.85,Kış Olimpiyatları adından kar ve buz sporları çıkar.
+41cc749d-506e-44dc-ac9a-2d162a171564,spor,'Kura çekimi' turnuvada neyi belirler?,Eşleşmeleri,0.82,Kura çekiminin eşleşmeleri belirlediği sağduyuyla bellidir.
+6009d67e-06de-4198-acd5-13c68fb316c5,spor,Sporda 'rekor' hangi durumda tescillenir?,Resmi koşullarda ölçülürse,0.82,Rekorun resmi koşullarda tescillenmesi sağduyudur.
+383dfe6b-be94-43c4-966e-f028c2f1aaba,spor,"Sporda ""amatör"" ne anlama gelir?",Kazanç amacı gütmeden yapmak,0.82,"Sözcük anlamını soran genel kavram sorusu, doğru şık açıkça belli."
+1dcd73b2-7ef0-4105-ae27-573869dec185,spor,"Sporda ""kaptan"" kimdir?",Takımı sahada temsil eden oyuncu,0.80,"Kaptan sözcüğünün anlamı ve sağduyu doğru şıkkı gösteriyor, diğerleri farklı roller."
+26b701ec-e114-4b0d-a507-f224baf2f8d5,spor,'Spor federasyonu' ne yapar?,Branşı düzenler ve yönetir,0.80,"Federasyonun işlevi sorusu, doğru şık en mantıklı olanı."
+3a671fee-09d5-4953-b826-122f73b01926,spor,Paten sporunda kullanılan ayakkabıda ne bulunur?,Tekerlek veya bıçak,0.80,"Çeldiriciler saçma, sağduyuyla tekerlek veya bıçak bulunur."
+589526c9-4ad8-44a4-b009-98ade067057a,spor,"Sporda ""masör""ün görevi nedir?",Kas bakımı ve masaj,0.80,"Masör sözcüğü masajı çağrıştırır, görev sorusu."
+2a053c48-af13-4cb0-b28c-5e625a41fad5,spor,'Spor hekimliği' hangi konuya odaklanır?,Sporcu sağlığı ve sakatlıklarına,0.80,Spor hekimliği ifadesinin anlamından cevap belli.
+b4e94981-1ad1-4983-a250-7c89e1f7008c,spor,Sırıkla yüksek atlamada sporcu neyin üzerinden geçer?,Çıta,0.80,"Yüksek atlamada geçilen şeyin çıta olması sağduyuyla bellidir, diğer şıklar saçma."
+418ac2bd-11e1-4495-9664-b459b07644d7,spor,Rafting hangi ortamda yapılır?,Akarsu,0.80,"Rafting akarsuda yapılır, çeldiriciler saçma olduğundan sağduyuyla bulunur."
+57d1515c-6b63-4627-809e-46b5366f42b3,spor,'Tramplen atlama' hangi yapıdan yapılır?,Esnek atlama tahtasından,0.80,Tramplen sözcüğü ve şıklar esnek tahtayı açıkça işaret ediyor.
+6cf3f828-aa0f-45c7-95de-d3c5a98270a8,spor,'Bayrak yarışında' değişim neyle yapılır?,Bayrak çubuğuyla,0.80,Bayrak yarışında bayrak çubuğu sağduyuyla belli.
+f2aabf0d-1eab-4ed4-abd1-8ec489d931c6,spor,Tırmanış duvarında güvenlik için kullanılan ekipman nedir?,Emniyet ipi ve kemer,0.80,Güvenlik için emniyet ipi ve kemer sağduyuyla belli.
+59ae79ed-3496-4fb5-8199-8cda1744242a,spor,Futbolda topu ayakla ileriye taşımaya ne denir?,Sürme,0.80,"Topu ayakla taşımak sözcüğün anlamından sürme olarak çıkar, diğer şıklar konu dışı."
+94bf145a-515b-4d8d-bdc2-840c156f1e0a,spor,Reaksiyon zamanı neyi ölçer?,Uyarana tepki süresini,0.80,Reaksiyon zamanı sözcüğünün anlamından cevap çıkar.
+6858b24c-daa9-4c8c-b2e5-c71e67213906,spor,'Paraşütle atlama' hangi kategoridedir?,Hava sporu,0.80,Paraşütle atlama havada yapıldığı için hava sporu olduğu sözcükten anlaşılır.
+62ad1b80-899a-42e7-9f59-7f692df14e9c,spor,'Milli takım' hangi düzeyde yarışır?,Uluslararası düzeyde,0.80,Milli takım sözcüğünün anlamından uluslararası düzey çıkar.
+1f101dcc-c6a6-44e2-8dff-f96790588f86,spor,Bir maçta oyuncu değişikliği neden yapılır?,Performans ve sakatlık,0.80,"Oyuncu değişikliği nedeni sağduyuyla bulunur, çeldiriciler zayıf."
+3b9e7662-c291-4d20-9b51-78e583c244a9,spor,'Direnç antrenmanı' neyi artırır?,Kas gücünü,0.80,"Direnç antrenmanı kas gücünü artırır, sağduyuyla bulunur."
+23605093-6d3b-432c-a19e-21e0ed2c1629,spor,Paralimpik Oyunlar kimler için düzenlenir?,Engelli sporcular,0.80,Paralimpik sözcüğü ve şıklar sağduyuyla engelli sporcuları işaret ediyor.
+002c722e-75af-4ed2-b990-37a224cc61c7,spor,Bir ligde takımların sıralandığı tabloya ne denir?,Puan durumu,0.80,Takımların sıralandığı tablo doğrudan puan durumu olarak anlaşılır.
+031057ed-843d-4aa8-bcff-7536bf059c93,spor,Sörf hangi doğal etkenden yararlanır?,Dalga,0.80,"Sörf için dalga olduğu mantıkla belli, çeldiriciler konu dışı."
+1b454fb2-912e-4d11-a79a-76deb12cdfed,spor,Esneme egzersizlerinin faydası nedir?,Hareket açıklığını artırmak,0.80,"Esneme hareket açıklığı sağlar, sağduyuyla bulunur."
+302d5314-faf9-4c13-a66b-8c3cb8078271,spor,Futbolda korner atışı sahanın neresinden yapılır?,Köşe noktası,0.80,"Korner sözcüğü köşe demektir, cevap sözcükten belli."
+301b1aca-c5dc-4c9b-8bf0-cab0359ec9f7,spor,'Atıcılık' sporunda hedef genelde nasıl değerlendirilir?,Merkeze yakınlığa göre,0.80,Atıcılıkta hedefin merkezine yakınlık mantıkla belli.
+faa5f8be-aeb8-40ee-80da-da281d51d994,spor,Yelken sporunda tekneyi iten temel güç nedir?,Rüzgâr,0.80,Yelkenli tekneyi rüzgârın ittiği sağduyuyla bilinir.
+40062992-c4a7-45d8-b956-b7f5cc7e9f69,spor,Spor sakatlığında 'buz uygulaması' ne sağlar?,Şişliği azaltma,0.80,"Buzun şişliği azaltması sağduyuyla bulunur, çeldiriciler mantıksız."
+6c668785-02ef-4d98-9f29-21f9f4e940fb,spor,'Taraftar grubu' stadyumda neyi etkiler?,Atmosferi,0.80,Taraftarın atmosferi etkilemesi sağduyuyla belli.
+6cff6589-7f0a-4a2e-99e8-8407617e4691,spor,'Esneklik' antrenmanı neyi artırır?,Eklem hareket açıklığını,0.80,Esneklik antrenmanı eklem hareket açıklığını artırır; sözcükten belli.
+1b234866-578e-4ae6-b154-7e20613b9110,spor,Bir spor federasyonunun görevi nedir?,Branşı düzenlemek ve yönetmek,0.80,"Federasyonun görevi genel kavram sorusu, doğru şık en mantıklısı."
+4462105d-5157-4dc7-a245-0238501b4485,spor,"Sporda ""kondisyon"" neyi ifade eder?",Genel fiziksel uygunluk,0.80,"Kondisyon kavramının anlamı sorusu, sözcük anlamı ve sağduyuyla çözülür."
+1a060a4b-b599-4691-9c74-8e00eac48941,tarih,'Yerel tarih' çalışması neye odaklanır?,Belirli bir yerin geçmişine,0.90,Yerel tarih sözcüğünün anlamı cevabı veriyor.
+5b5fb190-b82e-4384-9d41-b632314363ff,tarih,'Tarih eğitimi' neyi geliştirmeyi amaçlar?,Eleştirel düşünmeyi,0.85,"Eğitimin amacı sorusu, eleştirel düşünme en mantıklı şık."
+46dc45b0-800c-4846-9f39-8427886dbba8,tarih,"""Fatih"" unvanı II. Mehmed'e neden verilmiştir?",İstanbul'u fethettiği için,0.80,"Fatih unvanı fethetmekten gelir, sözcüğün anlamından belli."
+d2a228cd-3c42-4b4a-a9f0-4c8f193ce477,tarih,'Matbaanın yaygınlaşması' neyi hızlandırdı?,Bilginin yayılmasını,0.80,Matbaanın etkisi mantıkla bilginin yayılması olarak çıkar.
+67e692fd-0bca-4e43-b24c-59db150e7fa8,tarih,Sanayi Devrimi'nde üretimin merkezi neresi olmuştur?,Fabrika,0.80,"Sanayi için fabrika cevabı sağduyudan belli, çeldiriciler uygunsuz."
+326d39a5-3026-4dcc-a938-de610d76e55f,tarih,Roma'da su kemerleri ne için yapılmıştır?,Şehre su taşımak,0.80,Su kemeri adından su taşıdığı anlaşılır.
+5f8adcbf-282a-4209-9072-ff2f48362314,tarih,'Cumhuriyetin ilanı' neyi getirdi?,Devlet başkanlığı ve yönetim biçimini,0.80,"Cumhuriyet sözcüğünden yönetim biçimi çıkarılır, çeldiriciler elenir."
+79af0431-7bd5-4185-beff-008bc39d28b7,tarih,'Kronoloji' tarihte neyi sağlar?,Olayların zaman sırasını,0.80,"Kronoloji sözcüğünün anlamı zaman sırası, işlev sorusu."
+3a1e320c-a284-4f9c-bf4d-cd601db255de,teknoloji,Veri görselleştirmenin amacı nedir?,Veriyi anlaşılır biçimde sunmak,0.92,Görselleştirme sözcüğünden amaç anlaşılır sunmak olarak belli.
+56d0c81f-0271-4ec7-b1b0-b1394e4c3ff2,teknoloji,'Gürültü bastırma' neyi hedefler?,İstenmeyen sesi azaltmayı,0.90,Gürültü bastırma ifadesi anlamıyla cevabı veriyor.
+592190b4-ff9b-4063-8619-3e0828dba74e,teknoloji,Bir cihazın fabrika ayarlarına dönmesi ne yapar?,Ayarları sıfırlar,0.90,"Fabrika ayarına dönmek ayarları sıfırlamaktır, ifade kendini açıklıyor."
+34c26712-e8da-49e6-8994-f779f676b594,teknoloji,Konuşma tanıma sistemleri ne yapar?,Sesi metne dönüştürür,0.85,Konuşma tanıma adından sesi metne çevirdiği anlaşılır.
+b1f04e90-e626-4d29-89f4-7888e96521ee,teknoloji,'Ses tanıma' hangi çıktıyı üretir?,Metin,0.85,"Ses tanıma adından anlaşılır, sesi metne çevirir."
+109e6e50-7094-442a-bb0f-f4a6ed1960c8,teknoloji,Ekran okuyucu yazılımı kimin için geliştirilmiştir?,Görme engelli kullanıcılar,0.85,Ekran okuyucunun kimin için olduğu mantıkla görme engelliler olarak belli.
+1cb79b9b-3052-4b04-b70a-419effc677e1,teknoloji,Bir cihazın şarj süresini etkileyen temel bileşen hangisidir?,Batarya,0.85,Şarj süresi ile batarya ilişkisi sağduyuyla belli.
+3ea71d33-1a0f-42fc-8718-f792f0bc6726,teknoloji,Akıllı saatler hangi verileri ölçebilir?,Adım ve nabız,0.80,"Çeldiriciler saçma, akıllı saatin adım ve nabız ölçtüğü sağduyuyla bulunur."
+6786576b-9cdf-45a6-a81e-f213f2cb733a,teknoloji,"Robotikte ""sensör"" ne yapar?",Çevreden veri toplar,0.80,Sensör sözcüğünün anlamı ve şıklar cevabı kendiliğinden gösteriyor; 'ne yapar' kalıbı.
+6cf2b0fa-0a81-4de0-bb2d-a736819ce2d4,teknoloji,Elektrikli araçların çevresel avantajı nedir?,Egzoz salımı olmaması,0.80,Çevresel avantaj sorusunda egzoz salımı olmaması en mantıklı şık.
+5a316a17-2798-41e3-bca5-25fffc295424,teknoloji,Dokunmatik ekranlar hangi hareketi algılar?,Parmak teması,0.80,Dokunmatik sözcüğü cevabı veriyor.
+806d476a-bfbf-4165-8905-7759bba6d03d,teknoloji,'Bilgisayarlı görü' hangi veriyi işler?,Görüntü,0.80,Bilgisayarlı görü adından görüntü işlediği anlaşılıyor.
+848b6779-9b8d-4bf5-858b-6137f49322a6,teknoloji,Dokunmatik ekranlarda çoklu dokunma ne sağlar?,Yakınlaştırma gibi hareketler,0.80,Çoklu dokunmanın ne sağladığı sorusu mantıkla çözülür.
+a33952cc-c712-4e4e-a139-b20d7372a551,teknoloji,'Yüz tanıma' hangi endişeyi doğurur?,Gizlilik,0.80,Yüz tanımanın doğurduğu endişe sağduyuyla gizlilik olarak bulunur.
+62144f6f-2ce9-4368-8d5f-f3cbad071359,teknoloji,GPS teknolojisi ne işe yarar?,Konum belirleme,0.80,'X ne işe yarar' kalıbı; GPS konum belirler.
+0b609182-a998-488e-8c01-a4d5ff1bd177,teknoloji,Tarayıcı (scanner) ne yapar?,Belgeyi dijital görüntüye çevirir,0.80,"Tarayıcının işlevi sorusu genel kavramdır, sağduyuyla bulunur."
