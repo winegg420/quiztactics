@@ -58,6 +58,9 @@ export async function cerceveSatinAl(anahtar) {
 
 const onbellek = new Map();   // user_id → kart | null
 let kuyruk = new Map();       // user_id → [coz, ...]
+// Uçuştaki RPC'nin çözücü listeleri (user_id → [coz, ...]). Yanıt beklenirken aynı kimlik yeniden
+// istenirse ikinci bir oyuncu_kartlari çağrısı açılmaz, bu listeye eklenir (açılışta ×2 idi).
+let ucusta = new Map();
 let zamanlayici = null;
 const dinleyiciler = new Set();
 
@@ -65,6 +68,8 @@ async function kuyrugaBak() {
   const istekler = kuyruk;
   kuyruk = new Map();
   zamanlayici = null;
+  const buUcus = ucusta;
+  for (const [id, cozucler] of istekler) ucusta.set(id, cozucler);
   const sonuc = new Map();
   try {
     const { data, error } = await supabase.rpc("oyuncu_kartlari", { p_idler: [...istekler.keys()] });
@@ -73,12 +78,17 @@ async function kuyrugaBak() {
   } catch (e) {
     console.error("[Bildim] oyuncu_kartlari başarısız:", e?.message ?? e);
     // Önbelleğe yazılmaz: bir sonraki istek yeniden dener.
-    for (const cozucler of istekler.values()) for (const coz of cozucler) coz(null);
+    for (const [id, cozucler] of istekler) {
+      if (buUcus.get(id) === cozucler) buUcus.delete(id);
+      for (const coz of cozucler) coz(null);
+    }
     return;
   }
   for (const [id, cozucler] of istekler) {
     const k = sonuc.get(id) ?? null;
-    onbellek.set(id, k);
+    // Uçuş sırasında oyuncuKartiUnut çağrıldıysa (liste ayrıldı) eski yanıt önbelleğe yazılmaz.
+    if (buUcus === ucusta && ucusta.get(id) === cozucler) onbellek.set(id, k);
+    if (buUcus.get(id) === cozucler) buUcus.delete(id);
     for (const coz of cozucler) coz(k);
   }
 }
@@ -87,6 +97,8 @@ async function kuyrugaBak() {
 export function oyuncuKarti(userId) {
   if (!userId) return Promise.resolve(null);
   if (onbellek.has(userId)) return Promise.resolve(onbellek.get(userId));
+  const bekleyen = ucusta.get(userId);
+  if (bekleyen) return new Promise((coz) => { bekleyen.push(coz); });
   return new Promise((coz) => {
     const liste = kuyruk.get(userId) ?? [];
     liste.push(coz);
@@ -103,6 +115,8 @@ export function oyuncuKartlari(idler) {
 /** Önbellekten düşür (kendi çerçevem/vitrinim değişince). userId yoksa hepsi. */
 export function oyuncuKartiUnut(userId) {
   if (userId) onbellek.delete(userId); else onbellek.clear();
+  // Uçuştaki eski yanıta yeni istekler katılmasın (önbelleğe de yazılmaz; bkz. kuyrugaBak).
+  if (userId) ucusta.delete(userId); else ucusta = new Map();
   for (const f of dinleyiciler) {
     try { f(userId ?? null); } catch (e) { console.error("[Bildim] oyuncu kartı dinleyicisi:", e); }
   }

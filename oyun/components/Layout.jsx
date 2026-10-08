@@ -7,7 +7,34 @@ import { supabase } from "../../src/lib/supabase.js";
 import RankUpOverlay from "./RankUpOverlay.jsx";
 
 import BildirimZili from "./BildirimZili.jsx";
-import KurulumSihirbazi from "./KurulumSihirbazi.jsx";
+import { tembelYukle } from "../../src/lib/tembelYukle.js";
+// Tembel KurulumSihirbazi'nin stilleri ana CSS'te, eski sırasıyla kalır: tembel parçaya geçselerdi
+// global stillerin ARKASINA düşüp eşit özgüllükte onları ezerlerdi (görünüm değişirdi).
+import "../tasarim/ekranlar/g-modal.css";
+import "../tasarim/ekranlar/sehir-arama.css";
+import "../tasarim/ekranlar/l-sosyal.css";
+import "../tasarim/cerceveler/cerceveler.css";
+import "./sezon/sezon.css";
+import "../tasarim/ekranlar/kozmetik.css";
+import "../tasarim/ekranlar/altin-isim.css";
+import "../tasarim/ekranlar/l-kart.css";
+// (Kurulum → OyuncuAdiDugmesi → OyuncuKarti zinciri; sıra derleme çıktısından alındı)
+import "../tasarim/gorsel-revizyon/a/cizim/ortak.css";
+import "../tasarim/rozet/madalyon.css";
+import "../tasarim/ekranlar/rozet-panel.css";
+import "../tasarim/ekranlar/unvan.css";
+import "../tasarim/arka-plan/arka-plan.css";
+import "../tasarim/arka-plan/arka-plan-tam.css";
+import "../tasarim/arka-plan/arka-plan-yeni.css";
+import "../tasarim/ekranlar/oyuncu-vitrin-karti.css";
+import "../tasarim/ekranlar/koleksiyon-puani.css";
+import "../tasarim/ekranlar/lig-amblemi.css";
+import "../tasarim/ekranlar/dukkan-bilesen.css";
+import "../tasarim/ekranlar/sikayet.css";
+import "../tasarim/ekranlar/davet-karti.css";
+import "../tasarim/ekranlar/avatar-bolum.css";
+import "../tasarim/ekranlar/g-ortak.css";
+import "../tasarim/ekranlar/g-kurulum.css";
 import DavetBandi from "./DavetBandi.jsx";
 import Tanitim from "./Tanitim.jsx";
 import { useBildimManifest } from "../lib/manifest.js";
@@ -33,6 +60,9 @@ import { tt } from "../lib/dil.js";
 import { useDil } from "../lib/dilKanca.js";
 import { sesSayfaGecis } from "../lib/ses.js";
 import { useCevrimiciDurumum } from "../lib/cevrimici.js";
+
+// Kurulum yalnız yeni oyuncuda açılır: ilk yük paketinde taşınmaz (8 Eki 2026, soğuk açılış).
+const KurulumSihirbazi = tembelYukle(() => import("./KurulumSihirbazi.jsx"));
 
 // Ajan H: üst/alt menüden sekme değişince "sayfa geçişi" sesi (NavLink'in aynısı + ses).
 function SesliBaglanti({ onClick, ...p }) {
@@ -167,7 +197,7 @@ export default function Layout() {
           }}
         />
       ) : (
-        kurulumEksik && <KurulumSihirbazi />
+        kurulumEksik && <Suspense fallback={null}><KurulumSihirbazi /></Suspense>
       )}
 
       {/* ============ ÜST ÇUBUK (Tasarım Adım 2 · Yön A, Şerit A) ============

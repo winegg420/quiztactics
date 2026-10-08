@@ -11,7 +11,7 @@
 // (canlı mı, sıradaki lobi ve anı, lobidekiler, ödül ve lobi açılış ayarı),
 // Hatalarım bankası.
 // ============================================================
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "../../../src/lib/supabase.js";
 import { useAuth } from "../../../src/context/AuthContext.jsx";
@@ -26,9 +26,25 @@ import { useDereceliTercih } from "../../lib/dereceli.js";
 import { hataMesaji } from "../../lib/hata.js";
 import { y } from "../../lib/yol.js";
 import { tt } from "../../lib/dil.js";
-import RakipAra from "../../components/RakipAra.jsx";
+// Tembel RakipAra + ModSecimPenceresi'nin stilleri ana CSS'te, eski sırasıyla kalır (tembel parçada
+// global stillerin arkasına düşüp onları ezerlerdi). Sıra eski import sırasıdır: RakipAra, YarimMac, ModSecim.
+import "../../tasarim/arka-plan/arka-plan.css";
+import "../../tasarim/arka-plan/arka-plan-tam.css";
+import "../../tasarim/arka-plan/arka-plan-yeni.css";
+import "../../tasarim/ekranlar/lig-amblemi.css";
+import "../../tasarim/ekranlar/a-arama-sahnesi.css";
 import YarimMacPenceresi from "../../components/YarimMac.jsx";
-import ModSecimPenceresi from "../../components/ModSecimPenceresi.jsx";
+import "../../tasarim/ekranlar/a-modlar.css";
+import "../../tasarim/ekranlar/a-ortak.css";
+import "../../tasarim/ekranlar/a-kategori-secici.css";
+import "../../tasarim/ekranlar/skill-rozet.css";
+import { tembelYukle, bostaOnYukle } from "../../../src/lib/tembelYukle.js";
+
+// Arama ekranı + mod penceresi dokununca açılır: ilk yük paketinde taşınmaz, açılıştan sonra boşta
+// önceden iner (8 Eki 2026, soğuk açılış).
+const RakipAra = tembelYukle(() => import("../../components/RakipAra.jsx"));
+const ModSecimPenceresi = tembelYukle(() => import("../../components/ModSecimPenceresi.jsx"));
+bostaOnYukle([RakipAra, ModSecimPenceresi]);
 
 // Açılışta iki kanca (maç listesi + devam eden maçlar) aynı satırları okuyordu (matches ×2, tournaments ×2).
 // Eşzamanlı ya da 1,5 sn içindeki aynı okuma TEK isteği paylaşır (yalnız bu sayfanın modülünde; sonuç değiştirilmez).
@@ -302,8 +318,9 @@ export function useOyunBaslat() {
     setArama({ dereceli, jokersiz, kategori: kategoriTercih });
   };
 
+  // Suspense: tembel pencere inerken sayfanın kendisi (Layout'un Suspense'i) yükleyiciye dönmesin.
   const katmanlar = (
-    <>
+    <Suspense fallback={null}>
       {yarim && (
         <YarimMacPenceresi mac={yarim}
           onDevam={() => { const id = yarim.id; setYarim(null); navigate(y(`/mac/${id}`)); }}
@@ -331,7 +348,7 @@ export function useOyunBaslat() {
           onBulundu={(macId) => { setArama(null); navigate(y(`/mac/${macId}`)); }}
           onIptal={() => setArama(null)} />
       )}
-    </>
+    </Suspense>
   );
 
   return {

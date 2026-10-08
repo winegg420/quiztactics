@@ -10676,3 +10676,25 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - **Yarın/13 Eki yapılacak:** aynı log sorgusuyla 24 sa postgres_logs ve Storage baytı; yeni dönemde panel rakamı.
 - **Dağıtım:** 35f9dde1 main'e push (ed6f4463 dahil), Vercel success (8 Eki 2026); site 200. Bu not yerel commit — bir sonraki push ile gider.
 - **8 Eki 2026 — CLAUDE.md kuralı:** "Otomatik ekran testi ve canlı veri yükü" bölümü eklendi (yerelde mock, canlıya tek seferlik, döngü yok, süreçleri kapat, canlıda yük testi yok); gerekçe: API isteklerinin %96,5'i bu makinedeki testlerden. Önceki "onay bekleyen öneri" maddesi uygulandı.
+
+## 2026-10-08 — Soğuk açılış (Bölüm 3): ilk yük paketi küçüldü, oyuncu_kartlari uçuş paylaşımı, /assets uzun önbellek
+**Araç:** Claude Code (Opus 5.5) — yalnız açılış/paket/istek paylaşımı. Görünüm, migration, RPC, güvenlik kuralı değişmedi.
+- **Durum tespiti:** Bölüm 1–2 + 0a771892 ile iskelet (profil gelmeden çizim) ve coin/tournaments/matches birleşmesi ZATEN yapılmıştı; tekrarlanmadı. Kalan: `oyuncu_kartlari` ×2 (cerceve.js uçuştaki isteği paylaşmıyordu) + ilk yük baytları + önbellek başlıkları.
+- **Bulgu (canlı, tek curl):** Vercel `/assets/*` dosyalarını `Cache-Control: public, max-age=0, must-revalidate` ile veriyordu (`public/_headers` yalnız Cloudflare içindi, Vercel okumaz). SW etkin değilken (ilk ziyaret, iOS'un sildiği SW önbelleği) her açılışta her parça yeniden doğrulanıyordu (~0,4 sn TTFB).
+- **Değişenler:**
+  1. `vercel.json`: `/assets/(.*)` → `public, max-age=31536000, immutable` (dosya adları içerik özetli).
+  2. `oyun/lib/cerceve.js`: uçuştaki `oyuncu_kartlari` RPC'sine aynı kimlik için gelen çağrı yeni RPC açmaz, bekleyen listeye eklenir. Uçuş sırasında `oyuncuKartiUnut` çağrılırsa eski yanıt önbelleğe yazılmaz (önceden yazılıyordu). Hata yolu aynı (null, önbelleğe yazılmaz).
+  3. Tembel yükleme (`tembelYukle` + yerel `<Suspense fallback={null}>`): `KurulumSihirbazi` (Layout; yalnız yeni oyuncu), `ModSecimPenceresi` + `RakipAra` (veri.jsx; açılıştan 4 sn sonra boşta önceden iner — `bostaOnYukle`), `OyuncuKarti` (AvatarDugmesi, OyuncuAdiDugmesi; dokununca).
+  4. **CSS sırası korundu:** bu modüllerin CSS'leri (21 dosya) eski yerlerinde açık import olarak ana pakette bırakıldı; sıra derleme çıktısından (Rollup modül sırası) alındı. Doğrulama: ana CSS `main-P6uBhHkd.css` önce/sonra **bayt bayt aynı** (aynı hash) → görünüm değişmez.
+- **Paket (ilk yük, gz):** main.js 125,9 → **99,4 KB** (ham 389,7 → 304,8 KB); main.css 108,1 KB aynı; toplam /assets ilk yük 366 → 339 KB (aktarım). react 60 · supabase 55 · router 14 KB değişmedi. Sentry ilk yükte yok (zaten yalnız DSN varsa, ayrı parça); ses/müzik parçaları sayfa çizildikten sonra iniyor.
+- **Ölçüm (yerel üretim önizlemesi + TAKLİT Supabase — canlıya istek yok; 390×844, soğuk önbellek, SW kapalı, ilk kez giren cihaz, 3 tekrar; taklit gecikme normal 250 ms / yavaş 4G 600 ms; ms):**
+
+| Ağ | Önce sayfa | Sonra sayfa | Önce profil kartı | Sonra profil kartı |
+|---|---|---|---|---|
+| normal | 193 · 168 · 154 | 166 · 174 · 155 | 536 · 324 · 307 | 516 · 311 · 306 |
+| yavaş 4G | 2718 · 2758 · 2729 | 2564 · 2621 · 2643 | 2747 · 2806 · 2776 | 2595 · 2683 · 2686 |
+
+  Yavaş 4G medyan sayfa 2729 → 2621 (−~110 ms). Supabase istek sayısı açılışta 26, taklit veride tekrarlanan istek 0 (önce de 0 — boş veride oyuncu_kartlari açılışta çağrılmıyor; gerçek veride ×2 durumu yukarıdaki uçuş paylaşımıyla kapandı, birim testi aşağıda). Telefon/canlı ölçülmedi.
+- **Kalan darboğaz (yapılmadı, karar gerekir):** yavaş 4G'de ana CSS (105 KB gz, bütün sayfaların stili) ve fontlar (70 KB, yüksek öncelik) bant genişliğini paylaşıyor; sayfa ~2,6 sn. Daha fazlası için (a) sayfa CSS'lerini tembel parçalara bölmek — kaskad sırası değişir, görsel denetim ister; (b) SW'de HTML'i "önce önbellek, arkada yenile" yapmak — telefonda kapat/aç'ta Vercel turunu (~0,3–0,8 sn) kaldırır ama yeni sürüm bir açılış geç gelir.
+- **Test (taklit, scratchpad):** davranış 12/14 — profil kartı tembel açılıyor, Klasik → mod penceresi, kurulumu eksik oyuncuda sihirbaz, çıkış → giriş ekranı (oturum + profil kaydı silindi), misafirle yeniden giriş, yenilemede oturum korunuyor, sayfa hatası 0. İki ✗ test varsayımıydı (kart açılınca 1 oyuncu_kartlari normal; giriş ekranındaki `auth/v1/settings` Login'in mevcut isteği). cerceve.js uçuş testi 6/6. Google girişi yerelde sınanamaz (OAuth); auth koduna dokunulmadı. `araclar/ana-sayfa-olcum.mjs` koşulmadı: gerçek Supabase'e 6+ yükleme yapıyor; ana CSS ve ana sayfa bileşenleri değişmediği için gerek yok.
+- **Build:** temiz, tarayıcı uyumluluk TEMİZ.
