@@ -185,11 +185,12 @@
   font-size: 13px; font-weight: var(--qt-a-siyah); text-align: center;
 }
 .ks-bant {
-  display: grid; gap: 2px; justify-items: center; text-align: center;
-  padding: 8px 12px; border-radius: var(--qt-r-l); color: #fff;
+  /* 8 Eki 2026: ağır blok yerine sade hap — tek satır (dar ekranda iki), soru kartını itmez */
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0 8px; text-align: center;
+  align-self: center; max-width: 100%; padding: 5px 14px; border-radius: var(--qt-r-hap); color: #fff;
 }
-.ks-bant b { font: var(--qt-a-siyah) 16px/1.2 var(--qt-f-baslik); }
-.ks-bant span { font-size: 13px; font-weight: var(--qt-a-siyah); }
+.ks-bant b { font: var(--qt-a-siyah) 14px/1.25 var(--qt-f-baslik); }
+.ks-bant span { font-size: 12px; font-weight: var(--qt-a-siyah); line-height: 1.25; }
 .ks-bant--iyi { background: var(--qt-ikinci); box-shadow: 0 3px 0 var(--qt-ikinci-dudak); }
 .ks-bant--kotu { background: var(--qt-mod-duello); box-shadow: 0 3px 0 var(--qt-mod-duello-dudak); }
 .ks-bant--notr { background: var(--qt-yuzey); color: var(--qt-metin); box-shadow: 0 3px 0 var(--qt-cizgi); }
@@ -230,8 +231,8 @@
   .ks-karar { gap: 8px; }
   .ks-karar-eylem .qt-dugme { min-height: 50px; }
   .ks-mac .ks-soru { padding-block: 10px; }
-  .ks-bant { padding: 6px 10px; }
-  .ks-bant b { font-size: 15px; }
+  .ks-bant { padding: 4px 12px; }
+  .ks-bant b { font-size: 13px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

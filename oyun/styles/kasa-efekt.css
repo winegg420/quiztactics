@@ -198,34 +198,36 @@
 /* ---------- 990: rakibin kararı — kapalı kart → AÇTI / DEVAM ETTİ vuruşu ---------- */
 /* Sahnenin üstünde (soru/şıklar örtülür; sayaç da bu sürede gizli — KasaPage). Kökte transform yok. */
 .ks-rk {
-  position: absolute; inset: -4px; z-index: 6; display: grid; place-items: center; pointer-events: none;
-  border-radius: var(--qt-r-l); background: rgba(22, 14, 0, .78);
+  /* 8 Eki 2026: perde kalktı — soru/şıklar görünür kalır; sahnenin üstünde (karar satırının yerinde) küçük hap */
+  position: absolute; left: 0; right: 0; top: 0; z-index: 6; display: flex; justify-content: center; pointer-events: none;
   animation: ks-rk-gir 140ms ease-out both;
 }
 @keyframes ks-rk-gir { from { opacity: 0; } to { opacity: 1; } }
-.ks-rk-kart { position: relative; width: min(250px, 72%); aspect-ratio: 5 / 3; perspective: 700px; }
+.ks-rk-kart { position: relative; width: min(270px, 100%); height: 42px; perspective: 700px; }
 .ks-rk-yuz {
-  position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 4px; text-align: center;
-  border-radius: 18px; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  position: absolute; inset: 0; display: flex; flex-wrap: wrap; align-content: center; justify-content: center; align-items: center;
+  gap: 0 8px; padding: 0 14px; text-align: center; white-space: nowrap;
+  border-radius: var(--qt-r-hap); backface-visibility: hidden; -webkit-backface-visibility: hidden;
   transition: transform 220ms var(--qt-egri-cikis, ease-out), opacity 160ms ease-out;
 }
 .ks-rk-yuz--arka {
-  background: repeating-linear-gradient(45deg, #3a2600 0 10px, #2c1d00 10px 20px); color: #fff4cf;
-  box-shadow: 0 5px 0 #1f1400, inset 0 0 0 3px var(--qt-coin);
+  background: var(--qt-yuzey); color: var(--qt-metin);
+  box-shadow: 0 3px 0 var(--qt-coin-dudak), inset 0 0 0 2px var(--qt-coin);
 }
-.ks-rk-yuz--arka b { font: var(--qt-a-siyah) 17px/1.15 var(--qt-f-baslik); }
+.ks-rk-yuz--arka svg { width: 18px; height: 18px; color: var(--qt-coin-yazi); }
+.ks-rk-yuz--arka b { font: var(--qt-a-siyah) 15px/1.15 var(--qt-f-baslik); }
 .ks-rk-yuz--on { transform: rotateY(180deg); color: #fff; }
-.ks-rk--ac .ks-rk-yuz--on { background: var(--qt-coin); color: var(--qt-coin-yazi); box-shadow: 0 5px 0 var(--qt-coin-dudak); }
-.ks-rk--devam .ks-rk-yuz--on { background: var(--qt-mod-duello); box-shadow: 0 5px 0 var(--qt-mod-duello-dudak); }
-.ks-rk-yuz--on small { font: var(--qt-a-siyah) 12px/1 var(--qt-f-govde); letter-spacing: .08em; text-transform: uppercase; opacity: .9; }
-.ks-rk-yuz--on b { font: var(--qt-a-siyah) 34px/1 var(--qt-f-baslik); letter-spacing: .01em; }
-.ks-rk-yuz--on em { font: var(--qt-a-siyah) 18px/1 var(--qt-f-baslik); font-style: normal; }
+.ks-rk--ac .ks-rk-yuz--on { background: var(--qt-coin); color: var(--qt-coin-yazi); box-shadow: 0 3px 0 var(--qt-coin-dudak); }
+.ks-rk--devam .ks-rk-yuz--on { background: var(--qt-mod-duello); box-shadow: 0 3px 0 var(--qt-mod-duello-dudak); }
+.ks-rk-yuz--on small { flex-basis: 100%; font: var(--qt-a-siyah) 10px/1.1 var(--qt-f-govde); letter-spacing: .08em; text-transform: uppercase; }
+.ks-rk-yuz--on b { font: var(--qt-a-siyah) 19px/1.05 var(--qt-f-baslik); letter-spacing: .01em; }
+.ks-rk-yuz--on em { font: var(--qt-a-siyah) 15px/1.05 var(--qt-f-baslik); font-style: normal; }
 .ks-rk--kapali .ks-rk-kart { animation: ks-rk-titre 300ms linear both; }
 @keyframes ks-rk-titre { 0%, 100% { transform: none; } 30% { transform: rotate(-2deg); } 60% { transform: rotate(2deg); } }
 .ks-rk--acik .ks-rk-yuz--arka { transform: rotateY(-180deg); }
 .ks-rk--acik .ks-rk-yuz--on { transform: none; }
 .ks-rk--acik .ks-rk-kart { animation: ks-rk-vurus 360ms var(--qt-egri-cikis, ease-out) 120ms both; }
-@keyframes ks-rk-vurus { 0% { transform: scale(1); } 45% { transform: scale(1.12); } 100% { transform: scale(1); } }
+@keyframes ks-rk-vurus { 0% { transform: scale(1); } 45% { transform: scale(1.06); } 100% { transform: scale(1); } }
 @media (prefers-reduced-motion: reduce) {
   .ks-rk, .ks-rk-kart { animation: none !important; }
   .ks-rk-yuz { transition: opacity 120ms linear; transform: none !important; }
@@ -319,16 +321,18 @@
 .ks-giris-an {
   position: absolute; inset: 0; z-index: 20; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
   padding: 16px; text-align: center; overflow: hidden; border-radius: var(--qt-r-l);
-  background: radial-gradient(circle at 50% 48%, #6b4609 0%, #2a1a00 72%);
+  /* 8 Eki 2026: koyu kahve zemin kalktı — sıcak açık altın (koyu kahve yalnız çip/yazıda) */
+  background: radial-gradient(circle at 50% 48%, #fffaf0 0%, var(--qt-mod-kasa-acik) 45%, #ffe39a 100%);
+  color: var(--qt-mod-kasa-yazi);
 }
 .ks-giris-isik {
   position: absolute; left: 50%; top: 52%; width: 680px; height: 680px; margin: -340px 0 0 -340px; border-radius: 50%;
-  background: repeating-conic-gradient(rgba(255, 214, 90, .5) 0 8deg, rgba(255, 214, 90, 0) 8deg 22deg);
+  background: repeating-conic-gradient(rgba(224, 161, 0, .2) 0 8deg, rgba(224, 161, 0, 0) 8deg 22deg);
   -webkit-mask: radial-gradient(closest-side, #000 18%, transparent 100%); mask: radial-gradient(closest-side, #000 18%, transparent 100%);
   opacity: 0; animation: ks-giris-isin 6000ms linear var(--ks-gec, 0ms) both;
 }
 @keyframes ks-giris-isin { 0% { opacity: 0; transform: scale(.35) rotate(0); } 12% { opacity: .55; } 50% { opacity: .45; } 100% { opacity: 1; transform: scale(1.1) rotate(120deg); } }
-.ks-giris-an--sayim .ks-giris-isik { filter: brightness(1.25); }
+.ks-giris-an--sayim .ks-giris-isik { filter: saturate(1.3); }
 .ks-giris-kasa { position: relative; z-index: 2; width: min(200px, 28dvh, 56vw); animation: ks-giris-in 900ms var(--qt-egri-cikis) var(--ks-gec, 0ms) both; }
 .ks-giris-kasa .ks-kasa { width: 100%; height: auto; }
 .ks-giris-zipla { display: block; }
@@ -358,21 +362,21 @@
 }
 @keyframes ks-giris-halka { 0% { opacity: 0; transform: scale(.6); } 25% { opacity: 1; } 100% { opacity: 0; transform: scale(1.5); } }
 .ks-giris-baslik {
-  position: relative; z-index: 2; font: var(--qt-a-siyah) 46px/1 var(--qt-f-baslik); letter-spacing: .14em; color: var(--qt-coin);
-  text-shadow: 0 4px 0 #1f1400, 0 0 22px rgba(255, 201, 51, .75);
+  position: relative; z-index: 2; font: var(--qt-a-siyah) 46px/1 var(--qt-f-baslik); letter-spacing: .14em; color: var(--qt-mod-kasa-yazi);
+  text-shadow: 0 4px 0 var(--qt-coin), 0 0 22px rgba(255, 255, 255, .9);
   animation: ks-giris-yazi 800ms var(--qt-egri-cikis) calc(var(--ks-gec, 0ms) + 400ms) both;
 }
 @keyframes ks-giris-yazi { 0% { opacity: 0; transform: scale(1.8); letter-spacing: .5em; } 60% { opacity: 1; transform: scale(.96); } 100% { opacity: 1; transform: none; } }
 /* sayaç yuvası: sabit yükseklik (sayı gelince düzen kaymaz), sandığın hemen üstünde */
 .ks-giris-sayac { position: relative; z-index: 3; display: grid; place-items: center; height: 76px; margin-bottom: -10px; }
 .ks-giris-sayi {
-  font: var(--qt-a-siyah) 76px/1 var(--qt-f-baslik); color: #fff4cf;
-  text-shadow: 0 5px 0 #7a4f0e, 0 0 26px rgba(255, 201, 51, .9);
+  font: var(--qt-a-siyah) 76px/1 var(--qt-f-baslik); color: var(--qt-mod-kasa-yazi);
+  text-shadow: 0 5px 0 var(--qt-coin), 0 0 26px rgba(255, 255, 255, .95);
   animation: ks-giris-sayi 1000ms var(--qt-egri-cikis) both;
 }
 @keyframes ks-giris-sayi { 0% { opacity: 0; transform: scale(2.2); } 18% { opacity: 1; transform: scale(.92); } 30% { transform: scale(1.04); } 42%, 82% { opacity: 1; transform: scale(1); } 100% { opacity: .2; transform: scale(.8); } }
 .ks-giris-hazir {
-  padding: 5px 14px; border-radius: var(--qt-r-hap); background: rgba(31, 20, 0, .55); color: #fff4cf;
+  padding: 6px 14px; border-radius: var(--qt-r-hap); background: var(--qt-coin-yazi); color: #fff4cf; box-shadow: 0 3px 0 var(--qt-coin-dudak);
   font: var(--qt-a-siyah) 15px/1 var(--qt-f-govde); letter-spacing: .06em;
   animation: ks-giris-alt 600ms var(--qt-egri-cikis) calc(var(--ks-gec, 0ms) + 900ms) both;
 }
@@ -384,7 +388,7 @@
 }
 .ks-giris-hedef b { font: var(--qt-a-siyah) 24px/1 var(--qt-f-baslik); color: var(--qt-coin); }
 .ks-giris-not {
-  position: relative; z-index: 2; max-width: 100%; color: #fff4cf; font-size: 13px; font-weight: var(--qt-a-siyah); opacity: .9;
+  position: relative; z-index: 2; max-width: 100%; color: var(--qt-mod-kasa-yazi); font-size: 13px; font-weight: var(--qt-a-siyah);
   animation: ks-giris-alt 600ms var(--qt-egri-cikis) calc(var(--ks-gec, 0ms) + 1100ms) both;
 }
 @keyframes ks-giris-alt { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
@@ -649,3 +653,30 @@
   .ks-devam-an--kazandi, .ks-devam-an--yok, .ks-devam-an-ikon, .ks-joker-yuva .qt-skill.m1-skill--bedava { animation: none !important; }
   .ks-devam-an--kazandi::after { display: none; }
 }
+
+/* ---------- 8 Eki 2026: rakibin AÇ anı küçük düz hap (perde yok; soru/şıklar görünür) ----------
+   Kendi AÇ anım (ks-ac-an--ben) büyük sahne olarak kalır. Hap karar satırının yerinde durur (KasaPage satırı gizler). */
+.ks-ac-an--rakip {
+  inset: 0 0 auto; margin: 0 auto; width: fit-content; max-width: 100%; height: 42px; overflow: visible;
+  display: flex; align-items: center; gap: 6px; padding: 0 14px 0 6px; border-radius: var(--qt-r-hap);
+  background: var(--qt-coin); color: var(--qt-coin-yazi); box-shadow: 0 3px 0 var(--qt-coin-dudak);
+  animation-name: ks-ac-hap;   /* süre ks-ac-an'dan; uzun yarı saydam sönüş yok (yazı perde üstünde okunmuyordu) */
+}
+@keyframes ks-ac-hap { 0% { opacity: 0; } 6%, 90% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
+.ks-ac-an--rakip .ks-ac-isin, .ks-ac-an--rakip .ks-ac-flas { display: none; }
+.ks-ac-an--rakip .ks-ac-kasa { width: 34px; flex: none; }
+.ks-ac-an--rakip .ks-ac-yazi {
+  display: flex; align-items: baseline; gap: 8px; white-space: nowrap; animation-delay: 0ms;
+  font: var(--qt-a-siyah) 15px/1 var(--qt-f-baslik); color: var(--qt-coin-yazi); text-shadow: none;
+}
+.ks-ac-an--rakip .ks-ac-yazi span { font-size: 20px; color: var(--qt-coin-yazi); text-shadow: none; }
+@media (max-width: 380px) { .ks-ac-an--rakip .ks-ac-yazi { font-size: 13px; } .ks-ac-an--rakip .ks-ac-yazi span { font-size: 18px; } }
+
+/* ---------- 8 Eki 2026: kilitli joker çubuğu okunur (ortak .m1-joker-yuva--pasif 0,45 opaklığı yerine) ----------
+   Basılamaz kalır (inert + pointer-events); kilit gri yüzey + koyu kilit rozetiyle anlaşılır. */
+.ks-joker-yuva.m1-joker-yuva--pasif { opacity: 1; }
+.ks-joker-yuva .qt-skill--kilitli, .ks-joker-yuva.m1-joker-yuva--pasif .qt-skill { --_z: var(--qt-yuzey-3); color: var(--qt-metin-soluk); }
+.ks-joker-yuva .qt-skill--kilitli .qt-skill-ad, .ks-joker-yuva.m1-joker-yuva--pasif .qt-skill-ad { color: var(--qt-metin-soluk); }
+.ks-joker-yuva .qt-skill--kilitli .qt-skill-ikon, .ks-joker-yuva.m1-joker-yuva--pasif .qt-skill-ikon { filter: grayscale(.55); opacity: .8; }
+.ks-joker-yuva .qt-skill-rozet--kilit { background: var(--qt-metin); color: #fff; box-shadow: 0 0 0 2px var(--qt-yuzey); }
+.ks-joker-yuva .qt-skill--kullanildi { opacity: .6; }

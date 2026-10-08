@@ -10717,3 +10717,12 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - **Turnuva lobisi:** "Lobiden ayrıl" amber kontur + çıkış ikonu (Düello kırmızısından ayrı); kılıç düğmesi kontur/koyu ikon; liste avatarı `CerceveliAvatar` 40 px, 44 px sabit kutu.
 - **Karar/not:** ortak dosyalara (bilesenler.css, temel.jsx) dokunulmadı; kapsamlı override. Görsel doğrulama yapılamadı: kayıtlı misafir oturumu süresi dolmuş (giriş ekranı geldi), canlıya yük bindirmemek için yenilenmedi. Elmas kırpılması ve lobi avatar tutarsızlığının kök nedeni ekranda ölçülemedi — önlem CSS'te; sahibi telefonda bakmalı.
 - **Build:** temiz.
+
+## 2026-10-08 — Ortak Hazine görsel düzeltmeleri (Sekme A; yalnız görünüm, mantık/DB yok)
+- Giriş sahnesi + "Hazır ol!": koyu kahve zemin → sıcak açık altın (#fffaf0 → --qt-mod-kasa-acik → #ffe39a); HAZİNE başlığı ve 3-2-1 koyu kahve yazı + altın gölge; "Hazır ol!" / "Hedef" koyu kahve küçük çip.
+- Rakibin AÇ anı: tam perde yerine karar satırının yerinde düz altın hap (sandık + "Rakip hazineyi açtı! +N"), uzun yarı saydam sönüş yok; karar satırı an süresince gizli. Kendi AÇ anım büyük sahne olarak kaldı.
+- Rakip karar kartı (kapalı "Rakip karar verdi" → DEVAM ETTİ/AÇTI): koyu perde kalktı, 42 px hap (kapalı yüz beyaz + altın kenar; DEVAM kan kırmızısı). Sonuç bandı (.ks-bant, ör. "Rakip tek başına bildi") blok yerine kompakt hap.
+- Kilitli joker çubuğu: Hazine'de yuva opaklığı 1; kilitli düğme gri yüzey + koyu yazı, kilit rozeti koyu zemin beyaz ikon; kullanılmış 0,6.
+- Kategori pastel zeminleri: Hazine yazıları metin/metin-soluk rolünde (≥ 5:1) — değişiklik gerekmedi. Lobi: başlık ikonu coin → sandık (ana sayfa kartıyla aynı); diğer parçalar zaten altın rolünde.
+- Dosyalar: oyun/styles/kasa-efekt.css, oyun/styles/kasa.css, oyun/pages/KasaPage.jsx. Test: kasa-efekt-ekran 390 (taklit) 110 ✓ / 6 ✗ (bayat metin beklentisi 5 + konsol 401 — test oturumu 7 Eki'de dolmuş, scratch kopyada expires_at ileri alındı). Lobi ekranı canlı profil okuması istediği için açılamadı (oturum).
+- Kalan (kapsam dışı, not): kendi AÇ anım, maç sonu açılış sahnesi (.ks-final) ve küçük kadran hâlâ koyu kahve zeminli.

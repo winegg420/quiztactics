@@ -174,7 +174,8 @@ function KasaGiris() {
   return (
     <div className="m2-giris ks-giris">
       <header className="m2-giris-kafa ks-giris-kafa qt-h-gir">
-        <span className="m2-giris-ikon" aria-hidden="true"><QtIkon ad="coin" boyut={40} /></span>
+        {/* 8 Eki 2026: ana sayfa Ortak Hazine kartıyla aynı ikon (sandık) */}
+        <span className="m2-giris-ikon" aria-hidden="true"><QtIkon ad="sandik" boyut={40} /></span>
         <div className="m2-giris-yazi">
           <h1 className="qt-baslik-1">{ceviri("Ortak Hazine")}</h1>
           <p>{ceviri("Ortada ikinizin ortak hazinesi büyür.")}</p>
@@ -1229,7 +1230,7 @@ function KasaMac({ id }) {
             </p>
           )
           : kararMetni ? (
-            <p className={sinif("ks-karar-satir qt-h-gir", (devamAn?.kazandi || rk) && "ks-karar-satir--gizli")} role="status">
+            <p className={sinif("ks-karar-satir qt-h-gir", (devamAn?.kazandi || rk || (anAc && !anAc.benim)) && "ks-karar-satir--gizli")} role="status">
               {kararMetni}
               {/* 953: DEVAM ödülü çıkmadı — satırın sonunda küçük, sessiz not (yalnız bende) */}
               {devamAn && !devamAn.kazandi && <span key={devamAn.anahtar} className="ks-devam-an ks-devam-an--yok"> · {c("Bu sefer yok")}</span>}
