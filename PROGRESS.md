@@ -10762,3 +10762,27 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - Arkadaşlar: satırlar kart (durum kenar rengi: çevrimiçi yeşil, maçta amber), puan altın hap, ad 2 satıra sarar. Profil: kategori mini kartları (kategori renkli ikon plakası + konturlu çubuk + rütbe çipi), başlıklar plaka. Koleksiyon: kategori kartları + "Puana girmeyen {n} kalem var." (TR/EN). Dükkân Elmas: ışınlı kartlar, ok kalktı. Turnuva lobisi: kart + yuvarlak sıra rozeti (ilk 3 altın/gümüş/bronz, süzgeç yokken). Hatalarım: renkli sayaç kutuları (öğrenildi yeşil) + kategori renkli konturlu çubuk. Mesajlar: sohbet kartı, saat hapı, okunmamış mavi kart.
 - Not: Dükkân Elmas satırları kodda `Link` (ilgili ekrana gider); "tıklanmıyor" varsayımı yanlış, gezinme korundu, yalnız ok kaldırıldı. Mod penceresi "Serbest — puan yok" satırı 360'ta kutuya binmiyor → dokunulmadı.
 - Test: yerel taklit önizleme (gerçek bileşen + CSS, ağ yok) 360/390: taşma 0. Gerçek sayfalar oturum gerektirdiği için açılmadı.
+
+## 2026-10-08 — Ses adayları public/ dışına: Supabase Storage `ses-adaylar` kovası
+**Araç:** Claude Code
+**Neden:** dist/ küçülsün; public/ses/adaylar (142 dosya, 8,5 MB) her dağıtıma giriyordu.
+
+- Ölçüm: klasör ölü yük değil — oyun `ses_secimleri`'ndeki 31 efekt seçimini (+ muzik_menu-2 /
+  muzik_turnuva-3 önizleme yedeği) buradan çalıyordu; seçili dosyaların hepsi klasörde vardı.
+  Yeni müziklerin (5–9) önizleme yedeği zaten `muzik` kovasındaydı ama sesArkaPlan public yolunu
+  deniyordu (olmayan dosya) — artık önce `muzik` › onizleme/, sonra `ses-adaylar`.
+- Migration `20260612001000_ses_adaylari_kovasi.sql` (UYGULANMADI): kova public, 10 MB,
+  wav/x-wav/mpeg/aac; yalnız SELECT politikası, yazma yok; idempotent.
+- `araclar/ses-adaylari-yukle.mjs` (yalnız `--kuru` çalıştı): ad `<aday>-<sha10>.<uzantı>`, cache 1 yıl,
+  sırayla yükler, kovada olanı atlar; anahtar `.env.local › SUPABASE_SERVICE_ROLE_KEY` (şu an YOK).
+  Eşlemeyi `oyun/lib/sesAdayKova.js`'e üretir (tek KOVA sabiti, `sesAdayUrl`).
+- Kod: `ses.js › adayYolu` = kova adresi; adres yoksa `ADAY_YOK` → osilatör yedeği; tam adres
+  fetch'i SES_KLASORU'süz. `/ses-secim` (adaylar.js) aynı kuralı kullanır, adres yoksa "Ses çalınamadı".
+  `sw.js`: `qt-ses-aday-v1` (müzik önbelleği kodu ad/sınır parametresiyle, sınır 60, yalnız cors).
+- `git mv public/ses/adaylar → araclar/ses-adaylar-kaynak`; `KAYNAKLAR.md → docs/ses-kaynaklari.md`;
+  VARLIK_LISANSLARI, PROJECT_CONTEXT, kod yorumları güncellendi.
+- Doğrulama: build temiz; dist 17.705.487 → 9.142.347 bayt; `sw-muzik-testi` 13/13 (3 yeni);
+  derlenmiş pakette kova adresi doğru; kod/doküman grep'inde eski yol yalnız "eskiden" notlarında.
+- **SIRA (Ida):** (1) migration 1000'i uygula, (2) servis anahtarını .env.local'e ekleyip
+  `node araclar/ses-adaylari-yukle.mjs`, (3) ANCAK SONRA push. Ters sırada seçili sesler osilatöre düşer, müzik önizlemesi susar.
+- Yalnız yerel commit; push/migration/yükleme yok.

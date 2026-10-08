@@ -7,6 +7,8 @@ import vm from "node:vm";
 const KOK = "https://proje.supabase.co/storage/v1/object/public/muzik/";
 const A = `${KOK}muzik_menu-1-00b7cbbffc.aac`;
 const B = `${KOK}muzik_mac-5-8258198fe7.aac`;
+// /ses-secim adayları (8 Eki 2026): ayrı kova + ayrı önbellek (qt-ses-aday-v1).
+const ADAY_KOK = "https://proje.supabase.co/storage/v1/object/public/ses-adaylar/";
 
 /** Service worker'ı taklit ortamda kurar. */
 function kur({ agHatasi = false, durum = 200 } = {}) {
@@ -151,7 +153,8 @@ await ok("kapsam dışı: içerik özeti olmayan ad, başka kökenden no-cors, m
   const s = kur();
   assert.equal(await s.iste(`${KOK}muzik_menu-1.aac`, { range: "bytes=0-" }), null);
   assert.equal(await s.iste(A, { range: "bytes=0-", mode: "no-cors" }), null);
-  assert.equal(await s.iste("https://quiztactics.vercel.app/ses/adaylar/muzik_menu-1.aac", { range: "bytes=0-", mode: "no-cors" }), null);
+  assert.equal(await s.iste(`${ADAY_KOK}muzik_menu-1-1234567890.aac`, { range: "bytes=0-", mode: "no-cors" }), null);
+  assert.equal(await s.iste(`${ADAY_KOK}dogru-k1.wav`), null);
   assert.equal(await s.iste("https://proje.supabase.co/rest/v1/rpc/kalp_at"), null);
   assert.equal(s.agIstekleri.length, 0);
 });
@@ -163,15 +166,40 @@ await ok("aynı kökenli /muzik/ (ileride Vercel) ve onizleme/ alt klasörü de 
   assert.equal(s.agIstekleri.length, 2);
 });
 
-await ok("activate: eski kabuk/varlık önbellekleri silinir, müzik önbelleği KALIR", async () => {
+await ok("ses adayı (wav/mp3/aac, cors fetch): tek indirme, ayrı önbellek, ikinci istek ağsız", async () => {
+  const s = kur();
+  const W = `${ADAY_KOK}dogru-k1-0123456789.wav`;
+  const M = `${ADAY_KOK}coin-p1-abcdef0123.mp3`;
+  const O = `${ADAY_KOK}muzik_menu-2-fedcba9876.aac`;
+  assert.equal((await s.iste(W)).status, 200);
+  assert.equal(await metin(await s.iste(W)), s.dosya(W).toString());
+  assert.equal((await s.iste(M)).status, 200);
+  assert.equal((await s.iste(O, { range: "bytes=0-" })).status, 206);
+  assert.deepEqual(s.agIstekleri.map((x) => x.adres), [W, M, O]);
+  assert.equal(s.depolar.get("qt-ses-aday-v1")?.size, 3);
+  assert.equal(s.depolar.get("qt-muzik-v1")?.size ?? 0, 0);
+});
+
+await ok("ses adayı inemezse (404 / ağ yok): önbelleğe girmez, istek ağa düşer", async () => {
+  const W = `${ADAY_KOK}dogru-k1-0123456789.wav`;
+  const s = kur({ durum: 404 });
+  assert.equal((await s.iste(W)).status, 404);
+  assert.equal(s.depolar.get("qt-ses-aday-v1")?.size ?? 0, 0);
+  await assert.rejects(kur({ agHatasi: true }).iste(W));
+});
+
+await ok("activate: eski kabuk/varlık önbellekleri silinir, müzik ve ses adayı önbellekleri KALIR", async () => {
   const s = kur();
   await s.iste(A, { range: "bytes=0-" });
+  await s.iste(`${ADAY_KOK}dogru-k1-0123456789.wav`);
+  assert.equal(s.depolar.has("qt-ses-aday-v1"), true);
   s.depolar.set("qt-kabuk-v1", new Map());
   s.depolar.set("qt-varlik-v1", new Map());
   let is = null;
   s.dinleyiciler.activate({ waitUntil: (p) => { is = p; } });
   await is;
   assert.equal(s.depolar.has("qt-muzik-v1"), true);
+  assert.equal(s.depolar.has("qt-ses-aday-v1"), true);
   assert.equal(s.depolar.has("qt-kabuk-v1"), false);
   assert.equal(s.depolar.has("qt-varlik-v1"), false);
 });

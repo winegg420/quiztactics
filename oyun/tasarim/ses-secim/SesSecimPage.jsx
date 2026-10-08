@@ -1,6 +1,6 @@
 // /ses-secim — Ida'nın kulağıyla ses seçimi (Ajan F, 23 Eyl 2026).
 // Menüde yok; yalnız sahip hesabıyla açılır (sunucu: sahip_mi(), migration 380).
-// Adaylar public/ses/adaylar/ altında ve YALNIZ ▶ Çal'a basınca indirilir (ana pakete girmez).
+// Adaylar Storage `ses-adaylar` kovasında (sesAdayKova.js) ve YALNIZ ▶ Çal'a basınca indirilir (dağıtıma girmez).
 // Seçim oyuna HEMEN geçer (Ajan H): oyun ses_secimleri_oyun(sürüm) ile okur, ses.js seçilen dosyayı çalar.
 // Müzik anları (Ajan M, migration 450): 1–4 parça SIRALI çalma listesi (ses_listesi_kaydet); oyun tam parçayı çalar.
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -66,6 +66,7 @@ function durdur() {
 
 /** Çalar; bitince `bitti()` çağrılır. Hata atarsa çağıran yakalar. */
 async function cal(url, { seviye = 0.8, dongu = false, bitti }) {
+  if (!url) throw new Error("aday adresi yok (VITE_SUPABASE_URL / sesAdayKova.js)");   // → "Ses çalınamadı"
   const c = baglam();
   if (c.state === "suspended") c.resume();   // iOS: dokunuşla aynı işleyicide
   durdur();

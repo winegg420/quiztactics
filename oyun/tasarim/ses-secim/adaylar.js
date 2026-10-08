@@ -1,11 +1,13 @@
 // /ses-secim — ses anları ve adayları (Ajan F, 23 Eyl 2026).
-// Dosyalar `public/ses/adaylar/` altında; YALNIZ bu sayfa açılınca istenir (ana pakete girmez).
+// Dosyalar Supabase Storage `ses-adaylar` kovasında (adres: oyun/lib/sesAdayKova.js; kaynak kopyalar
+// araclar/ses-adaylar-kaynak/); YALNIZ ▶ Çal'a basınca istenir (dağıtıma girmez).
 // "Mevcut" aday oyunda bugün çalan dosyadır (`public/ses/`); null → o an bugün sessiz.
-// Kaynak/lisans ayrıntısı: public/ses/adaylar/KAYNAKLAR.md (+ docs/VARLIK_LISANSLARI.md).
-// Seçim oyuna hemen geçer (Ajan H: ses.js › AN eşlemesi + sesArkaPlan.js). Yeni aday/an: public/ses/adaylar/KAYNAKLAR.md başı.
+// Kaynak/lisans ayrıntısı: docs/ses-kaynaklari.md (+ docs/VARLIK_LISANSLARI.md).
+// Seçim oyuna hemen geçer (Ajan H: ses.js › AN eşlemesi + sesArkaPlan.js). Yeni aday/an: docs/ses-kaynaklari.md başı.
 // Aday id'si listedeki sıradan üretilir (adayKur) — yeni adayı listenin SONUNA ekle.
 
 import { muzikOnizlemeUrl, muzikTamUrl } from "../../lib/muzikParcalari.js";
+import { sesAdayUrl } from "../../lib/sesAdayKova.js";
 
 /** Kenney paketleri — hepsi CC0. */
 export const KENNEY = {
@@ -128,21 +130,20 @@ const MUZIK_TANIM = [
       p(549132, "ShtakalBerry", "Champions Anthem", "music/world-champions-anthem-549132")]],
 ];
 
-const KLASOR = "/ses/adaylar/";
-
+// Aday dosyası = kova adresi (tek kural: sesAdayKova.js › sesAdayUrl); yoksa null → "Ses çalınamadı".
 function adayKur(an, a, i, sayac) {
   if (a.kaynak === "kenney") {
     sayac.k += 1;
     const id = `${an}-k${sayac.k}`;
     const pk = KENNEY[a.paket];
-    return { id, dosya: `${KLASOR}${id}.wav`, kaynak: "Kenney", baslik: `${pk.ad} › ${a.parca}`, yazar: "Kenney", url: pk.url, lisans: "CC0" };
+    return { id, dosya: sesAdayUrl(id), kaynak: "Kenney", baslik: `${pk.ad} › ${a.parca}`, yazar: "Kenney", url: pk.url, lisans: "CC0" };
   }
   sayac.p += 1;
   // Müzik: ilk 30 sn, AAC (ADTS) 96 kbps stereo — iOS dahil çalar, 10 MB sınırına sığar.
   const muzik = an.startsWith("muzik_");
   const id = muzik ? `${an}-${i + 1}` : `${an}-p${sayac.p}`;
-  // Müzik: `dosya` = 30 sn önizleme (yeni adaylarınki Storage'da), `tam` = oyunun çaldığı tam parça (Storage).
-  const dosya = (muzik && muzikOnizlemeUrl(id)) || `${KLASOR}${id}.${muzik ? "aac" : "mp3"}`;
+  // Müzik: `dosya` = 30 sn önizleme (yeni adaylarınki `muzik` kovasında), `tam` = oyunun çaldığı tam parça (Storage).
+  const dosya = (muzik && muzikOnizlemeUrl(id)) || sesAdayUrl(id);
   return { id, dosya, tam: muzik ? muzikTamUrl(id) : null, kaynak: "Pixabay", baslik: a.ad, yazar: a.yazar, url: a.url, lisans: "Pixabay İçerik Lisansı" };
 }
 

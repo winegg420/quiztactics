@@ -740,8 +740,11 @@ karakter, Hızlı Mod hariç — dondurulmuş) bu sistemle yeniden yazıldı.
 ### Ses
 
 - Kaynaklar: Kenney (CC0) + **Pixabay** (İçerik Lisansı, efekt + müzik) — Ida kararı, 23 Eyl 2026.
-  Eski dosyalar `public/ses/` (lisans `LISANS.txt`), adaylar `public/ses/adaylar/` (kaynaklar `KAYNAKLAR.md`,
-  `docs/VARLIK_LISANSLARI.md`). Pixabay'de yapay zekâ üretimi ve Content ID kayıtlı parça alınmaz.
+  Eski dosyalar `public/ses/` (lisans `LISANS.txt`). **Adaylar (8 Eki 2026) Supabase Storage `ses-adaylar`
+  kovasında** (migration 1000; dist'e girmez), adres tek yerde `oyun/lib/sesAdayKova.js` (üretici
+  `araclar/ses-adaylari-yukle.mjs`, ad içerik sürümlü, cihaz önbelleği `sw.js › qt-ses-aday-v1`); adres
+  yoksa efekt osilatör yedeğine düşer. Kaynak kopyalar `araclar/ses-adaylar-kaynak/`, lisanslar
+  `docs/ses-kaynaklari.md` + `docs/VARLIK_LISANSLARI.md`. Pixabay'de yapay zekâ üretimi ve Content ID kayıtlı parça alınmaz.
 - **Hafif müzik VAR** (Ida kararı, 23 Eyl 2026): üç döngü — menü/lobi · maç (Klasik, Düello, Grup,
   turnuva maçı, Hatalarım çalışma) · turnuva lobisi. Rota tabanlı, 0,8 sn geçiş, soru ekrandayken
   seviye × `muzik_kisik_oran` (0,3), sekme gizliyken durur, ilk dokunuştan sonra başlar, tembel iner.
@@ -758,7 +761,8 @@ karakter, Hızlı Mod hariç — dondurulmuş) bu sistemle yeniden yazıldı.
 - **`/ses-secim` kalıcı araçtır** (menüde yok, yalnız sahip — `sahip_mi()`): Ida bir sesi orada
   değiştirince oyun yeni dağıtım olmadan değişir (`ses_secimleri` → `ses_secimleri_oyun(sürüm)`,
   migration 380 + 400; istemci açılışta sürümle doğrular). **Seçilmeyen adaylar silinmez** (ileride
-  değiştirmek için). Yeni aday / yeni an ekleme: `public/ses/adaylar/KAYNAKLAR.md` başı.
+  değiştirmek için). Yeni aday / yeni an ekleme: `docs/ses-kaynaklari.md` başı (yeni aday = önce kovaya
+  yükle, sonra push).
 
 ### Profil avatarları
 

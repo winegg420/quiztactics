@@ -3,7 +3,7 @@
 //
 // Dosyalar: Kenney Interface Sounds / UI Audio / Impact Sounds / Music Jingles, CC0
 // (public/ses/LISANS.txt). Hangi an hangi fonksiyon: public/ses/OKU.md (Şerit M için).
-// Ajan H (23 Eyl 2026): Ida'nın /ses-secim seçimleri (public/ses/adaylar/, Kenney CC0 + Pixabay)
+// Ajan H (23 Eyl 2026): Ida'nın /ses-secim seçimleri (Storage `ses-adaylar` kovası, Kenney CC0 + Pixabay)
 // sunucudan okunur ve bugünkü dosyaların yerine çalar — aşağıdaki "/ses-secim seçimleri" bölümü.
 // Format: mp3 (eski 10 dosya) + 16 bit PCM mono WAV 32 kHz (Faz 3 dosyaları). İkisi de
 // iOS Safari dahil her tarayıcıda decodeAudioData ile çözülür; Ogg Vorbis BİLEREK yok.
@@ -22,6 +22,8 @@
 //
 // iOS/Android kuralı: AudioContext yalnız bir kullanıcı hareketinden sonra
 // çalışır. Bu yüzden ilk dokunuş/tıklama/tuşta context açılır (sesKilidiAc).
+
+import { sesAdayUrl } from "./sesAdayKova.js";
 
 const DEPO_ANAHTARI = "bildim_ses";
 
@@ -81,7 +83,8 @@ const DOSYA = {
 // ------------------------------------------------------------ /ses-secim seçimleri (Ajan H)
 // Ida `/ses-secim`'de her "an" için bir aday seçer; seçim sunucuda (`ses_secimleri`) durur,
 // `sesArkaPlan.js` açılışta sürümle doğrulayıp buraya yazar (yerel önbellek: SECIM_ANAHTARI).
-// Aday id'si → dosya: `adaylar/<id>.wav` (Kenney, "-kN") · `.aac` (müzik) · `.mp3` (Pixabay, "-pN").
+// Aday id'si → dosya: Storage `ses-adaylar` kovasındaki tam adres (sesAdayKova.js, 8 Eki 2026; eskiden
+// public/ses/adaylar/). Adres yoksa (VITE_SUPABASE_URL boş / eşlemede yok) → osilatör yedeği.
 // "mevcut" ya da seçim yok → bugünkü dosya (DOSYA / <rol>.mp3); "sessiz" → çalmaz.
 const SECIM_ANAHTARI = "bildim_ses_secim";
 let secimler = {};
@@ -101,8 +104,12 @@ const AN = {
 };
 // Bugün dosyası OLMAYAN anlar: seçim yoksa sessiz.
 for (const r of ["sayfa_gecis", "vs_ani", "kategori_secildi", "rakip_cevapladi", "beraberlik", "satin_alma", "xp_dolma", "rozet", "bildirim", "hata_uyari"]) DOSYA[r] = null;
-/** Aday id'sinin dosya yolu (SES_KLASORU'ne göre). Kural adaylar.js › adayKur ile aynı. */
-export const adayYolu = (id) => `adaylar/${id}.${/-k\d+$/.test(id) ? "wav" : id.startsWith("muzik_") ? "aac" : "mp3"}`;
+/** Aday id'sinin TAM adresi (kova); yoksa null. Tek kural: sesAdayKova.js › sesAdayUrl. */
+export const adayYolu = (id) => sesAdayUrl(id);
+// Seçili adayın adresi yoksa dosyaAdi bunu döner → cal() yedek tonu çalar (indirme denenmez).
+const ADAY_YOK = "aday-yok";
+/** Kovadan gelen aday mı (tam adres) — SES_KLASORU'ne göre yol değil. */
+const adayMi = (dosya) => /^https?:\/\//.test(dosya);
 /** Bir anın seçimi (aday id'si · "mevcut" · "sessiz" · undefined). */
 export const sesSecimi = (an) => secimler[an];
 /** Seçimleri değiştir (sesArkaPlan.js çağırır; önbelleğe o yazar). */
@@ -112,7 +119,7 @@ const adayVar = (an) => { const s = secimler[an]; return Boolean(s) && s !== "me
 function dosyaAdi(rol) {
   const s = AN[rol] ? secimler[AN[rol]] : undefined;
   if (s === "sessiz") return null;
-  if (s && s !== "mevcut") return adayYolu(s);
+  if (s && s !== "mevcut") return adayYolu(s) ?? ADAY_YOK;
   return rol in DOSYA ? DOSYA[rol] : `${rol}.mp3`;
 }
 // Seçilmiş aday dosyaları /ses-secim'de 0.8 ile dinlendi; oyunda da öyle (dokunuş kısık).
@@ -348,7 +355,7 @@ function indir(dosya) {
   let s = indirmeler.get(dosya);
   if (s) return s;
   s = (async () => {
-    const yanit = await fetch(`${SES_KLASORU}${dosya}`);
+    const yanit = await fetch(adayMi(dosya) ? dosya : `${SES_KLASORU}${dosya}`);
     if (!yanit.ok) throw new Error(`ses ${dosya}: HTTP ${yanit.status}`);
     return yanit.arrayBuffer();
   })();
@@ -437,10 +444,10 @@ function cal(rol, yedek, { carpan = 1, hiz = 1 } = {}) {
   if (simdi - (sonCalma.get(rol) ?? -Infinity) < ARKA_ARKAYA_MS) return;
   sonCalma.set(rol, simdi);
 
-  if (bozuk.has(dosya)) { yedek(); return; }
+  if (dosya === ADAY_YOK || bozuk.has(dosya)) { yedek(); return; }
   const c = context();
   if (!c) return;
-  const hacim = (dosya.startsWith("adaylar/") ? HACIM_ADAY[rol] ?? 0.8 : HACIM[rol] ?? 0.8) * carpan;
+  const hacim = (adayMi(dosya) ? HACIM_ADAY[rol] ?? 0.8 : HACIM[rol] ?? 0.8) * carpan;
 
   const hazir = tamponlar.get(dosya);
   if (hazir) { tamponCal(c, hazir, hacim, hiz, rol); return; }
@@ -540,7 +547,7 @@ export function sesOnYukle(grup = "mac") {
       : GRUPLAR[grup] ?? [];
     const aktif = !(typeof navigator !== "undefined" && navigator.userActivation && !navigator.userActivation.hasBeenActive);
     const c = aktif ? context() : null;   // dokunuş yoksa context açılmaz (Chrome uyarısı olmasın)
-    for (const rol of new Set(roller.map(dosyaAdi).filter(Boolean))) {
+    for (const rol of new Set(roller.map(dosyaAdi).filter((d) => d && d !== ADAY_YOK))) {
       if (bozuk.has(rol) || tamponlar.has(rol)) continue;
       (c ? yukleDosya(c, rol) : indir(rol)).catch(() => { /* yedek ton devreye girer */ });
     }

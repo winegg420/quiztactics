@@ -1,16 +1,24 @@
-# public/ses/adaylar — ses adaylarının kaynakları ve lisansları
+# Ses adaylarının kaynakları ve lisansları
 
 `/ses-secim` (kalıcı araç, yalnız sahip) bu dosyaları dinletir; Ida'nın seçtiği aday OYUNDA çalar
 (sunucudan okunur, yeni dağıtım gerekmez — Ajan H, 23 Eyl 2026). Seçilmeyenler SİLİNMEZ. Ana pakete
 girmez; bir dosya yalnız seçilince ve ilk gerektiğinde iner. Üretici: Ajan F, 23 Eyl 2026.
 
-### Yeni aday eklemek (tek adım)
+**Yer (8 Eki 2026'dan beri):** dosyalar Supabase Storage `ses-adaylar` kovasından çalar (migration
+1000; ad içerik sürümlü `<aday>-<sha10>.<uzantı>`, cache 1 yıl). Kaynak kopyalar depoda
+`araclar/ses-adaylar-kaynak/` altında durur ve dağıtıma (dist/) GİRMEZ. Eskiden `public/ses/adaylar/`
+idi; bu belge oradaki `KAYNAKLAR.md`'dir (aşağıdaki "bu klasör" = `araclar/ses-adaylar-kaynak/`).
 
-1. Dosyayı buraya koy, `oyun/tasarim/ses-secim/adaylar.js`'te o anın aday listesinin **SONUNA** bir satır
+### Yeni aday eklemek
+
+1. Dosyayı `araclar/ses-adaylar-kaynak/`'a koy, `oyun/tasarim/ses-secim/adaylar.js`'te o anın aday listesinin **SONUNA** bir satır
    ekle: Kenney → `k("IS", "parca")`, Pixabay → `p(id, "yazar", "ad", "sound-effects/…")`.
    Dosya adı listedeki sıradan gelir: `<an>-k<N>.wav` (N'inci Kenney), `<an>-p<N>.mp3` (N'inci Pixabay),
    müzik `<an>-<N>.aac`. **Araya ekleme** — sonraki adayların numarası kayar ve kayıtlı seçim başka
-   dosyaya işaret eder. Bu dosyaya kaynak satırını da yaz. Sayfa yeni adayı hemen gösterir.
+   dosyaya işaret eder. Bu dosyaya kaynak satırını da yaz.
+2. `node araclar/ses-adaylari-yukle.mjs` (servis anahtarı `.env.local` › `SUPABASE_SERVICE_ROLE_KEY`):
+   kovaya yükler ve `oyun/lib/sesAdayKova.js` eşlemesini yeniden üretir. Eşleme dağıtımla gider —
+   yeni aday sayfada push'tan sonra çalar. Önce yükle, sonra push (tersi sesi susturur).
 
 ### Tam parça eklemek (müzik — Ajan M, 24 Eyl 2026)
 

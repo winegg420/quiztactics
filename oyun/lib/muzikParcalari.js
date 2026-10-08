@@ -2,7 +2,7 @@
 // Site dağıtımına (public/) GİRMEZ: oyun o an çalan parçayı buradan akış olarak çalar, tarayıcı
 // önbelleğe alır (yükleme cacheControl = 1 yıl; ad içerik sürümlü → dosya değişirse ad da değişir).
 // Yalnız tembel parçalar içe aktarır (sesArkaPlan.js, /ses-secim) — ana pakete girmez.
-// Yeni parça: public/ses/adaylar/KAYNAKLAR.md › "Tam parça eklemek".
+// Yeni parça: docs/ses-kaynaklari.md › "Tam parça eklemek".
 
 /** Aday id → [kovadaki tam parça (AAC/ADTS 96 kbps stereo 44,1 kHz), gerçek süre sn].
  *  Süre burada çünkü ADTS'de tarayıcının `duration`'ı bit hızından TAHMİN (±%2; iOS'ta Infinity
@@ -32,7 +32,7 @@ const TAM = {
   "muzik_turnuva-4": ["muzik_turnuva-4-55151e6555.aac", 83.1],
 };
 
-/** Yeni adayların 30 sn önizlemesi de kovada (public/'e girmesin diye). Eski adaylarınki public/ses/adaylar/. */
+/** Yeni adayların 30 sn önizlemesi de kovada (public/'e girmesin diye). Eski adaylarınki `ses-adaylar` kovasında (sesAdayKova.js). */
 const ONIZLEME = {
   "muzik_menu-5": "onizleme/muzik_menu-5-0c5857b973.aac",
   "muzik_menu-6": "onizleme/muzik_menu-6-9ec8ae0fe0.aac",

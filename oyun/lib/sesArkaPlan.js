@@ -9,7 +9,8 @@
 //    24 Eyl 2026; migration 450): `listeler[an]` (2–4 aday) ya da tek seçim `secimler[an]`.
 //    Seçim yoksa / "sessiz" ise müzik yok.
 //    * Parça = TAM hâli, Supabase Storage `muzik` kovasından akış (muzikParcalari.js);
-//      tam hâli yoksa/indirilemezse 30 sn önizleme (public/ses/adaylar/). Yalnız çalan
+//      tam hâli yoksa/indirilemezse 30 sn önizleme (`muzik` › onizleme/ ya da `ses-adaylar`
+//      kovası — sesAdayKova.js; ikisi de yoksa müzik susar). Yalnız çalan
 //      parça iner (sıradaki, geçiş anında); tarayıcı önbelleğe alır (1 yıl, ad sürümlü).
 //    * Liste sırayla çalar, parça sonu 1,5 sn çapraz geçişle sonrakine karışır, liste bitince
 //      başa döner. Odaya her girişte rastgele bir parçadan başlar. Tek parça = kendine
@@ -28,13 +29,12 @@
 
 import { supabase } from "../../src/lib/supabase.js";
 import { adayYolu, muzikAcikMi, muzikDinle, sesBaglami, sesMuzikKancasi, sesSecimi, sesSecimleriniAyarla, sesTaniAcik } from "./ses.js";
-import { muzikTamSure, muzikTamUrl } from "./muzikParcalari.js";
+import { muzikOnizlemeUrl, muzikTamSure, muzikTamUrl } from "./muzikParcalari.js";
 
 const SECIM_ANAHTARI = "bildim_ses_secim";   // ses.js ile aynı anahtar
 const GECIS_SN = 0.8;            // ekran değişince odalar arası geçiş
 const PARCA_GECIS_SN = 1.5;      // parça sonu → sonraki parça çapraz geçişi
 const HAVUZ_EN_COK = 4;          // aynı anda en çok bu kadar <audio> (oda geçişi + parça geçişi)
-const SES_KLASORU = `${import.meta.env?.BASE_URL ?? "/"}ses/`;
 
 let onbellek = null;   // {surum, secimler, listeler, muzik_seviye, muzik_kisik_oran}
 try { onbellek = JSON.parse(localStorage.getItem(SECIM_ANAHTARI) || "null"); } catch { /* özel mod */ }
@@ -129,7 +129,8 @@ function odaListesi(an) {
   return [s];
 }
 
-const onizlemeUrl = (id) => `${SES_KLASORU}${adayYolu(id)}`;
+// 30 sn önizleme: yeni adaylarınki `muzik` kovasında, eskilerinki `ses-adaylar` kovasında; yoksa null.
+const onizlemeUrl = (id) => muzikOnizlemeUrl(id) ?? adayYolu(id);
 
 // 10 ms sessiz WAV (8 kHz mono; iOS kilidi için: her <audio> bir kez dokunuşla çalınmalı).
 const SESSIZ = `data:audio/wav;base64,UklGRsQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YaAAAAA${"A".repeat(213)}`;
@@ -224,7 +225,7 @@ function parcaBaslat(c, oda, i, girisSn) {
     // Tam parça inemezse bu oturumda 30 sn önizlemeye düş (bir kez).
     if (oda.bitti || iz !== oda || o.id !== id) return;
     const yedek = onizlemeUrl(id);
-    if (o.el.src && !o.el.src.endsWith(yedek)) { o.sure = null; console.warn("müzik tam parça inemedi, önizleme çalıyor:", id); o.el.src = yedek; oynat(o); }
+    if (yedek && o.el.src && !o.el.src.endsWith(yedek)) { o.sure = null; console.warn("müzik tam parça inemedi, önizleme çalıyor:", id); o.el.src = yedek; oynat(o); }
   };
   o.el.onended = () => { if (!oda.bitti && iz === oda && oda.calan === o) sonrakine(c, oda); };
   o.kaynak = tam ?? onizlemeUrl(id);   // adres oynat() içinde verilir (gizli sekmede indirme yok)

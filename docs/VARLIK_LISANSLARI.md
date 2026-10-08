@@ -28,16 +28,18 @@ vermeyen kaynak kullanılmaz.
 
 ## Ses adayları (`/ses-secim`, 23 Eyl 2026)
 
-27 efekt anı + 3 müzik anı, 112 dosya, 7,1 MB (`public/ses/adaylar/`). Dosya başına kaynak, yazar,
-bağlantı ve lisans: **`public/ses/adaylar/KAYNAKLAR.md`**. 23 Eyl 2026'dan beri Ida'nın `/ses-secim`'de
+27 efekt anı + 3 müzik anı, 112 dosya, 7,1 MB (23 Eyl; 8 Eki 2026'da 142 dosya, 8,5 MB). Dosyalar
+8 Eki 2026'dan beri Supabase Storage **`ses-adaylar`** kovasında (migration 1000; dağıtıma girmez),
+kaynak kopyalar `araclar/ses-adaylar-kaynak/` (eskiden `public/ses/adaylar/`). Dosya başına kaynak, yazar,
+bağlantı ve lisans: **`docs/ses-kaynaklari.md`** (eski `KAYNAKLAR.md`). 23 Eyl 2026'dan beri Ida'nın `/ses-secim`'de
 seçtiği adaylar OYUNDA ÇALAR (efekt + müzik; Ajan H). Seçilmeyenler SİLİNMEZ (Ida kararı: ileride
 değiştirmek için), yalnız seçilince indirilir.
 
 | Grup | Kaynak | Lisans | Bağlantı |
 |---|---|---|---|
 | 81 efekt adayı (WAV) | Kenney — Interface Sounds, UI Audio, Impact Sounds, Digital Audio, Music Jingles, Casino Audio | CC0 1.0 | https://kenney.nl/assets · paket lisansları `public/ses/LISANS.txt` |
-| 19 efekt adayı (mp3, kırpılmış) | Pixabay ses efektleri (yazarlar KAYNAKLAR.md'de) | Pixabay İçerik Lisansı — ticari kullanım serbest, atıf gerekmez, dosyayı tek başına yeniden dağıtmak/satmak yasak | https://pixabay.com/service/license-summary/ |
-| 12 müzik önizlemesi (AAC, 30 sn) | Pixabay Music (yazarlar KAYNAKLAR.md'de) | Pixabay İçerik Lisansı (aynı) | https://pixabay.com/service/license-summary/ |
+| 19 efekt adayı (mp3, kırpılmış) | Pixabay ses efektleri (yazarlar ses-kaynaklari.md'de) | Pixabay İçerik Lisansı — ticari kullanım serbest, atıf gerekmez, dosyayı tek başına yeniden dağıtmak/satmak yasak | https://pixabay.com/service/license-summary/ |
+| 12 müzik önizlemesi (AAC, 30 sn) | Pixabay Music (yazarlar ses-kaynaklari.md'de) | Pixabay İçerik Lisansı (aynı) | https://pixabay.com/service/license-summary/ |
 
 Pixabay'de yapay zekâ üretimi ve YouTube Content ID kayıtlı parçalar bilerek elendi.
 
@@ -47,12 +49,12 @@ Pixabay'de yapay zekâ üretimi ve YouTube Content ID kayıtlı parçalar bilere
 | Grup | Kaynak | Lisans | Bağlantı |
 |---|---|---|---|
 | 21 efekt adayı (WAV) | Kenney — Interface Sounds, Impact Sounds, Digital Audio, Music Jingles, Casino Audio, **Sci-Fi Sounds**, **RPG Audio** | CC0 1.0 | https://kenney.nl/assets/sci-fi-sounds · https://kenney.nl/assets/rpg-audio (diğerleri yukarıda) |
-| 7 efekt adayı (mp3, ≤ 3 sn kırpılmış) | Pixabay ses efektleri — Universfield, freesound_community, DRAGON-STUDIO, Epic_Stock_Media, EdR (parça parça KAYNAKLAR.md'de) | Pixabay İçerik Lisansı (aynı) | https://pixabay.com/service/license-summary/ |
+| 7 efekt adayı (mp3, ≤ 3 sn kırpılmış) | Pixabay ses efektleri — Universfield, freesound_community, DRAGON-STUDIO, Epic_Stock_Media, EdR (parça parça ses-kaynaklari.md'de) | Pixabay İçerik Lisansı (aynı) | https://pixabay.com/service/license-summary/ |
 
 **Tam müzik parçaları + 10 yeni müzik adayı (Ajan M, 24 Eyl 2026):** 22 müzik adayının TAM hâli
 (12 eski + 10 yeni; AAC 96 kbps) ve yeni 10 adayın 30 sn önizlemesi **Supabase Storage `muzik`
 kovasında** (site dağıtımına girmez; migration 450). 32 dosya, 30,7 MB. Parça parça kaynak,
-yazar ve indirme tarihi: `public/ses/adaylar/KAYNAKLAR.md` › "Tam parçalar".
+yazar ve indirme tarihi: `docs/ses-kaynaklari.md` › "Tam parçalar".
 
 | Grup | Kaynak | Lisans | Bağlantı |
 |---|---|---|---|

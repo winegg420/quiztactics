@@ -13,6 +13,8 @@
 //     inmez. <audio> Range ister; tam dosya BİR kez (Range'siz) indirilir, sonraki her istek
 //     (Range dahil) önbellekten 206 dilimiyle cevaplanır. Yarıda bırakılan parça da önbelleğe girer.
 //     Herhangi bir hata → istek olduğu gibi ağa gider (eski davranış).
+//   · Aynı desen /ses-secim adayları için (8 Eki 2026): Storage `ses-adaylar` kovası
+//     …/ses-adaylar/<ad>-<sha>.(wav|mp3|aac) ayrı önbellekte (qt-ses-aday-v1) kalıcı tutulur.
 const KABUK = "qt-kabuk-v19";
 const VARLIK = "qt-varlik-v19";
 const VARLIK_SINIR = 400;
@@ -24,6 +26,11 @@ const MUZIK = "qt-muzik-v1";
 const MUZIK_SINIR = 14;
 // Supabase Storage `muzik` kovası ya da aynı kökenli /muzik/ (taban adres: oyun/lib/muzikParcalari.js › KOVA).
 const MUZIK_YOL = /(?:^|\/storage\/v1\/object\/public)\/muzik\/(?:[^/]+\/)?[^/]+-[0-9a-f]{10}\.aac$/i;
+// Ses adayları (efektler + eski müziklerin 30 sn önizlemesi; taban adres: oyun/lib/sesAdayKova.js › KOVA).
+// Sürümü ARTIRILMAZ (ad içerik sürümlü). Sınır = seçili efektler + /ses-secim'de dinlenenler için pay.
+const ADAY = "qt-ses-aday-v1";
+const ADAY_SINIR = 60;
+const ADAY_YOL = /\/storage\/v1\/object\/public\/ses-adaylar\/[^/]+-[0-9a-f]{10}\.(?:wav|mp3|aac)$/i;
 const STATIK = /.(?:svg|png|jpe?g|webp|gif|ico|woff2?|css|js|json|glb)$/i;
 
 self.addEventListener("install", (event) => {
@@ -42,7 +49,7 @@ self.addEventListener("activate", (event) => {
   event.waitUntil((async () => {
     try {
       const adlar = await caches.keys();
-      await Promise.all(adlar.filter((a) => a !== KABUK && a !== VARLIK && a !== MUZIK).map((a) => caches.delete(a)));
+      await Promise.all(adlar.filter((a) => a !== KABUK && a !== VARLIK && a !== MUZIK && a !== ADAY).map((a) => caches.delete(a)));
     } catch { /* önemli değil */ }
     await self.clients.claim();
   })());
@@ -109,11 +116,12 @@ async function agOnce(istek) {
 // ---------- müzik: kalıcı önbellek + Range ----------
 const muzikInen = new Map();   // adres → süren indirme (aynı parça aynı anda iki kez inmesin)
 
-/** Parçanın tamamı: önbellekte varsa oradan, yoksa ağdan BİR kez (Range'siz) indirip önbelleğe yazar. */
-async function muzikTam(adres) {
+/** Parçanın tamamı: önbellekte varsa oradan, yoksa ağdan BİR kez (Range'siz) indirip önbelleğe yazar.
+ *  `ad`/`sinir`: hangi önbellek (müzik ya da ses adayları) ve en çok kaç dosya. */
+async function muzikTam(adres, ad = MUZIK, sinir = MUZIK_SINIR) {
   let cache = null;
   try {
-    cache = await caches.open(MUZIK);
+    cache = await caches.open(ad);
     const bulunan = await cache.match(adres);
     if (bulunan) return { blob: await bulunan.blob(), tur: bulunan.headers.get("content-type") || "audio/aac" };
   } catch { /* önbellek kullanılamıyor (özel mod, kota) → ağdan */ }
@@ -129,7 +137,7 @@ async function muzikTam(adres) {
         if (cache) {
           await cache.put(adres, new Response(blob, { status: 200, headers: { "Content-Type": tur, "Content-Length": String(blob.size) } }));
           const anahtarlar = await cache.keys();
-          for (let i = 0; i < anahtarlar.length - MUZIK_SINIR; i++) await cache.delete(anahtarlar[i]);
+          for (let i = 0; i < anahtarlar.length - sinir; i++) await cache.delete(anahtarlar[i]);
         }
       } catch { /* kota doldu → bu seferlik bellekten çalar */ }
       return { blob, tur };
@@ -160,9 +168,9 @@ function muzikCevap(tam, range) {
   });
 }
 
-async function muzik(istek) {
+async function muzik(istek, ad = MUZIK, sinir = MUZIK_SINIR) {
   try {
-    const tam = await muzikTam(istek.url.split("#")[0]);
+    const tam = await muzikTam(istek.url.split("#")[0], ad, sinir);
     if (tam) return muzikCevap(tam, istek.headers.get("range"));
   } catch { /* aşağıda ağa düş */ }
   return fetch(istek);
@@ -174,6 +182,10 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(istek.url);
   if (MUZIK_YOL.test(url.pathname) && (url.origin === self.location.origin || istek.mode === "cors")) {
     event.respondWith(muzik(istek));
+    return;
+  }
+  if (ADAY_YOL.test(url.pathname) && istek.mode === "cors") {
+    event.respondWith(muzik(istek, ADAY, ADAY_SINIR));
     return;
   }
   if (istek.headers.has("range")) return;
