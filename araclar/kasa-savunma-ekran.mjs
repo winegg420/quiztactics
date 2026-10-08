@@ -1,10 +1,12 @@
 // 987 · Ortak Hazine Savunma Hakkı — TAKLİT VERİYLE ekran ölçümü (sunucuya YAZMAZ; RPC'ler tarayıcıda taklit).
-// Koşular: 360×640 ve 390×664, TR + EN, ayrıca 360×640 hareket azaltma. Çıktı: tasarim/kasa-savunma/*.png
+// Koşular: 360×640, 390×664 ve 390×844, TR + EN, ayrıca 360×640 hareket azaltma. Çıktı: tasarim/kasa-savunma/*.png
 //   · lobi: tam kurallarda Savunma Hakkı satırı var, 954 "ücretsiz 50:50" satırı yok
-//   · karar: DEVAM düğmesinde "ÜCRETSİZ 50:50" yok, hak satırı görünür
+//   · karar (8 Eki 2026): AÇ "→ +24 · Skor 42/80", DEVAM "→ Hazine 48" + kalkan + "sahipsiz kalır"; hak varsa kalkan yok;
+//     hazine 80'de yalnız AÇ (DEVAM düğmesi yok)
 //   · hak simgesi: iki oyuncunun avatarında (kimde varsa) görünür
 //   · tetik anı (sonuç bandı + kalkan anı ~1,5 sn), yeniden okumada TEKRAR OYNAMAZ, dokunarak geçilir
-//   · Savunma Sorusu: savunan şık seçebilir, Zaman Baskısı pasif; izleyen şık seçemez, joker çubuğu pasif; geri sayım var
+//   · Savunma Sorusu: savunan şık seçebilir, Zaman Baskısı pasif; izleyen (8 Eki 2026): kalkanlı seyir bandı + büyük sayaç,
+//     şıklar soluk, şık seçemez, joker çubuğu pasif
 //   · savundu / düştü anı + bant metni
 // Her ekranda: yatay taşma yok · konsol hatası yok.
 // Kullanım: npm run dev -- --port 5188 (başka kabukta) · node araclar/kasa-savunma-ekran.mjs [--adres=…] [--dil=tr] [--en=360]
@@ -18,7 +20,10 @@ const ADRES = ARG.adres || "http://localhost:5188";
 const OTURUM = path.resolve(typeof ARG.oturum === "string" ? ARG.oturum : ".arayuz-denetim-oturum.json");   // --oturum=dosya: kendi test hesabın
 const CIKTI = path.resolve("tasarim/kasa-savunma");
 fs.mkdirSync(CIKTI, { recursive: true });
-if (!fs.existsSync(OTURUM)) { console.error("Oturum yok: önce node araclar/arayuz-denetim.mjs"); process.exit(1); }
+// --taklit-profil=dosya.json (8 Eki 2026): misafir oturumu süresi dolduğunda — sahte oturum + BÜTÜN REST/Auth taklit,
+// canlıya hiç istek gitmez. Dosya: bir profilim() çıktısı (ör. test hesabının).
+const TAKLIT = typeof ARG["taklit-profil"] === "string" ? JSON.parse(fs.readFileSync(ARG["taklit-profil"], "utf8")) : null;
+if (!TAKLIT && !fs.existsSync(OTURUM)) { console.error("Oturum yok: önce node araclar/arayuz-denetim.mjs"); process.exit(1); }
 
 const KASA_ID = "0b6f6800-0000-4000-8000-0000000987aa";
 const KR = "0b6f6800-0000-4000-8000-0000000987bb";
@@ -50,6 +55,8 @@ function kasaDurum(ad, ben, t0) {
   switch (ad) {
     case "karar-ben": return { ...temel, faz: "karar", sahip: ben, soru: null, cevap: null, faz_bitis: isoT(6500), karar: { veren: ben, deger: 24 },
       sureler: { ...temel.sureler, gosterim_bas: isoT(1500) } };
+    case "karar-hakvar": return { ...kasaDurum("karar-ben", ben, t0), savunma_hak: [ben] };
+    case "karar-dolu": return { ...kasaDurum("karar-ben", ben, t0), kasa: 80, karar: { veren: ben, deger: 80 } };
     case "cevap-hak-ben": return { ...temel, savunma_hak: [ben] };
     case "cevap-hak-rakip": return { ...temel, savunma_hak: [KR] };
     // tetik: savunan yanlış, rakip tek doğru (normal tur sonucu; kasa +2)
@@ -69,20 +76,29 @@ const jokerDurum = (ks) => ({ sinir: 4, kullanilan: 0, ucretsiz_elli_kaldi: fals
   tur_sinirlari: { elli: 2, sure: 2, zaman_baskisi: 3, ikinci_sans: 1 }, kalan_haklar: { elli: 2, sure: 2, zaman_baskisi: 3, ikinci_sans: 1 },
   bedava: null, soru_turleri: [] });
 
+const b64 = (o) => Buffer.from(JSON.stringify(o)).toString("base64url");
+const TAKLIT_KULLANICI = TAKLIT && { id: TAKLIT.id, aud: "authenticated", role: "authenticated", email: "", is_anonymous: true,
+  app_metadata: { provider: "anonymous" }, user_metadata: {}, created_at: "2026-01-01T00:00:00Z" };
+function taklitOturum() {
+  const ref = new URL(fs.readFileSync(".env", "utf8").match(/VITE_SUPABASE_URL=(\S+)/)[1]).hostname.split(".")[0];
+  const jwt = `${b64({ alg: "HS256", typ: "JWT" })}.${b64({ sub: TAKLIT.id, role: "authenticated", aud: "authenticated", exp: 4102444800 })}.taklit`;
+  const oturum = { access_token: jwt, refresh_token: "taklit", token_type: "bearer", expires_in: 3600, expires_at: 4102444800, user: TAKLIT_KULLANICI };
+  return { cookies: [], origins: [{ origin: kok, localStorage: [{ name: `sb-${ref}-auth-token`, value: JSON.stringify(oturum) }] }] };
+}
 const CEVIRI = await ceviriToplayici();   // 7 Eki 2026: İngilizce koşuda maç içi/maç sonu Türkçe metin taraması
 const tarayici = await chromium.launch({ channel: "chrome", headless: true });
 const kok = new URL(ADRES).origin;
 let gecti = 0, kaldi = 0;
 const ok = (ad, kosul, ek = "") => { if (kosul) { gecti++; console.log("  ✓", ad); } else { kaldi++; console.log("  ✗", ad, ek); } };
 const DILLER = ARG.dil ? [ARG.dil] : ["tr", "en"];
-const BOYUT = ARG.en ? [[Number(ARG.en), 640]] : [[360, 640], [390, 664]];
+const BOYUT = ARG.en ? [[Number(ARG.en), Number(ARG.boy) || 640]] : [[360, 640], [390, 664], [390, 844]];
 const KOSULAR = [];
 for (const dil of DILLER) for (const [w, h] of BOYUT) KOSULAR.push({ dil, w, h, azalt: false });
 if (!ARG.dil || ARG.dil === "tr") KOSULAR.push({ dil: "tr", w: 360, h: 640, azalt: true });
 
 for (const { dil, w, h, azalt } of KOSULAR) {
-  const etiket = `${dil}-${w}${azalt ? "-azalt" : ""}`;
-  const durumDosya = JSON.parse(fs.readFileSync(OTURUM, "utf8"));
+  const etiket = `${dil}-${w}x${h}${azalt ? "-azalt" : ""}`;
+  const durumDosya = TAKLIT ? taklitOturum() : JSON.parse(fs.readFileSync(OTURUM, "utf8"));
   durumDosya.origins = (durumDosya.origins || []).map((o) => ({ ...o, origin: kok,
     localStorage: [...(o.localStorage || []).filter((x) => !["bildim_dil", "bildim_tanitim", "qt_profil_onbellek"].includes(x.name)),
       { name: "bildim_dil", value: dil }, { name: "bildim_tanitim", value: "1" }] }));
@@ -94,6 +110,15 @@ for (const { dil, w, h, azalt } of KOSULAR) {
   s.on("pageerror", (e) => konsol.push("SAYFA: " + String(e).slice(0, 200)));
   let ks = "cevap", ksT0 = Date.now();
   const jwtSub = (req) => { try { const t = (req.headers()["authorization"] || "").split(" ")[1]; return JSON.parse(Buffer.from(t.split(".")[1], "base64url").toString()).sub; } catch { return null; } };
+  if (TAKLIT) await s.route(/\/(rest|auth|storage|functions)\/v1\//, (r) => {
+    const u = r.request().url();
+    const json = (veri) => r.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(veri) });
+    if (u.includes("/auth/v1/")) return json(TAKLIT_KULLANICI);
+    if (u.includes("/rpc/profilim")) return json({ ...TAKLIT, dil });
+    if (u.includes("/rest/v1/oyun_ayarlari")) return json(Object.entries(KASA_AYAR).map(([anahtar, deger]) => ({ anahtar, deger })));
+    if (u.includes("/rest/v1/profiles")) return json([{ ...TAKLIT, dil }]);
+    return json(u.includes("/rpc/") ? null : []);
+  });
   await s.route(/\/rest\/v1\/(oyun_ayarlari|rpc\/|profiles)/, async (r) => {
     const req = r.request(); const u = req.url();
     const json = (veri, status = 200) => r.fulfill({ status, contentType: "application/json", body: JSON.stringify(veri) });
@@ -103,6 +128,7 @@ for (const { dil, w, h, azalt } of KOSULAR) {
       if (u.includes("/rpc/kasa_giris")) return json({ durum: "aktif", rakip_geldi: true, kalan_sn: 0, baglanmayan: null });
       if (u.includes("/rpc/kasa_aktif_benim")) return json([]);
       if (/\/rpc\/kasa_(cevap|karar|terk|ara|davet|aramadan|joker\b)/.test(u)) return json({ message: "Ölçüm aracı: yazma kapalı" }, 400);
+      if (TAKLIT) return r.fallback();
       const y = await r.fetch();
       let m = await y.text();
       if (u.includes("/rest/v1/profiles") || u.includes("/rpc/profilim")) {
@@ -158,10 +184,33 @@ for (const { dil, w, h, azalt } of KOSULAR) {
     const karar = await metin(".ks-karar");
     ok("karar: ÜCRETSİZ 50:50 yok", !/ÜCRETSİZ|FREE 50/.test(karar));
     ok("karar: hak satırı görünür", (await s.locator(".ks-karar-hak .ks-hak").count()) === 1);
-    const kararTasan = await s.evaluate(() => [...document.querySelectorAll(".ks-karar-eylem button, .ks-karar-hak")].filter((e) => e.scrollWidth > e.clientWidth + 1).length);
-    ok("karar: düğme/satır metni taşmıyor", kararTasan === 0);
+    const dugmeler = await s.locator(".ks-karar-eylem button").allInnerTexts();
+    const tek = (x) => x.replace(/\s+/g, " ").trim();
+    ok("karar: AÇ → +24 · Skor 42/80", dil === "en" ? /OPEN → \+24.*Score 42\/80/i.test(tek(dugmeler[0] ?? "")) : /AÇ → \+24.*Skor 42\/80/i.test(tek(dugmeler[0] ?? "")), dugmeler[0]);
+    ok("karar: DEVAM → Hazine 48 · sahipsiz kalır", dil === "en" ? /KEEP → Treasure 48.*unclaimed/i.test(tek(dugmeler[1] ?? "")) : /DEVAM → Hazine 48.*sahipsiz kalır/i.test(tek(dugmeler[1] ?? "")), dugmeler[1]);
+    ok("karar: DEVAM düğmesinde kalkan (hak kazanılacak)", (await s.locator(".ks-karar-eylem button:nth-child(2) .ks-hak").count()) === 1);
+    const kararOlc = () => s.evaluate(() => ({
+      tasan: [...document.querySelectorAll(".ks-karar-eylem button, .ks-karar-eylem button *, .ks-karar-hak, .ks-karar-not")]
+        .filter((e) => e.scrollWidth > e.clientWidth + 1 || e.getBoundingClientRect().right > innerWidth + 0.5 || e.getBoundingClientRect().left < -0.5).length,
+      alt: Math.max(...[...document.querySelectorAll(".ks-karar-eylem button, .ks-karar-not")].map((e) => e.getBoundingClientRect().bottom)),
+      kirik: [...document.querySelectorAll(".ks-karar-dugme-ic b")].filter((e) => e.getClientRects().length > 1 || e.getBoundingClientRect().height > 40).length,
+    }));
+    const ko = await kararOlc();
+    ok("karar: düğme/satır metni taşmıyor", ko.tasan === 0, JSON.stringify(ko));
+    ok("karar: düğme başlığı tek satır", ko.kirik === 0, JSON.stringify(ko));
+    ok(`karar: eylemler ekranda (alt ${Math.round(ko.alt)} ≤ ${h})`, ko.alt <= h, JSON.stringify(ko));
     await kaydet("s2-karar");
     await tasma("karar");
+    await kasaAc("karar-hakvar", ".ks-karar-eylem");
+    ok("karar (hak var): DEVAM'da kalkan yok, 'sende' satırı", (await s.locator(".ks-karar-eylem .ks-hak").count()) === 0
+      && (dil === "en" ? /You hold/.test(await metin(".ks-karar-hak")) : /sende/.test(await metin(".ks-karar-hak"))));
+    await kasaAc("karar-dolu", ".ks-karar-eylem");
+    const dolu = await s.locator(".ks-karar-eylem button").allInnerTexts();
+    ok("karar (80): yalnız AÇ — DEVAM yok", dolu.length === 1 && (dil === "en" ? /OPEN → \+80/.test(tek(dolu[0])) : /AÇ → \+80/.test(tek(dolu[0]))), JSON.stringify(dolu));
+    ok("karar (80): 'yalnız AÇ' notu", dil === "en" ? /OPEN only/.test(await metin(".ks-karar-not")) : /yalnız AÇ/.test(await metin(".ks-karar-not")));
+    ok("karar (80): taşma yok", (await kararOlc()).tasan === 0);
+    await kaydet("s2b-karar-80");
+    await tasma("karar 80");
 
     // ---- hak simgesi iki oyuncuya ----
     await kasaAc("cevap-hak-ben", ".qt-sik");
@@ -229,14 +278,25 @@ for (const { dil, w, h, azalt } of KOSULAR) {
     await s.waitForTimeout(80);
     ok("tetik: dokununca an geçilir", (await s.locator(".ks-savunma-an").count()) === 0);
     await gec("savunma-izle");
-    await s.waitForSelector(".ks-savunma-satir--izle", { timeout: 5000 });
+    await s.waitForSelector(".ks-izle-bant", { timeout: 5000 });
     await s.waitForTimeout(1900);
     await kaydet("s8-savunma-izle");
     const iz = await s.evaluate(() => ({
       tik: [...document.querySelectorAll(".qt-sik")].filter((e) => e.tagName === "BUTTON" && !e.disabled && e.getAttribute("aria-disabled") !== "true" && !/kilitli/.test(e.className)).length,
       yuvaPasif: document.querySelector(".ks-joker-yuva")?.classList.contains("m1-joker-yuva--pasif") ?? null,
       sayac: document.querySelectorAll(".ks-ust .qt-sayac").length,
+      bant: document.querySelector(".ks-izle-bant")?.innerText ?? "",
+      buyukSayac: Number(document.querySelector(".ks-izle-sayac")?.childNodes[0]?.textContent ?? NaN),
+      kalkan: document.querySelectorAll(".ks-izle-kalkan .qt-ikon, .ks-izle-kalkan svg").length,
+      soluk: Math.max(...[...document.querySelectorAll(".qt-sik")].map((e) => Number(getComputedStyle(e).opacity))),
+      tasan: [...document.querySelectorAll(".ks-izle-bant, .ks-izle-bant *")].filter((e) => e.getBoundingClientRect().right > innerWidth + 0.5 || e.getBoundingClientRect().left < -0.5).length,
+      sikAlt: Math.max(...[...document.querySelectorAll(".qt-sik")].map((e) => e.getBoundingClientRect().bottom)),
     }));
+    ok("izleyen: kalkan + 'Rakip hazinesini savunuyor'", iz.kalkan >= 1 && (dil === "en" ? /Opponent is defending the treasure/.test(iz.bant) : /Rakip hazinesini savunuyor/.test(iz.bant)), iz.bant);
+    ok(`izleyen: büyük sayaç (${iz.buyukSayac})`, iz.buyukSayac >= 1 && iz.buyukSayac <= 15);
+    ok(`izleyen: şıklar soluk (opaklık ${iz.soluk})`, iz.soluk <= 0.6);
+    ok("izleyen: bant ekrana sığıyor", iz.tasan === 0);
+    ok(`izleyen: şıklar ekranda (alt ${Math.round(iz.sikAlt)} ≤ ${h})`, iz.sikAlt <= h);
     ok(`izleyen: şık seçemez (${iz.tik})`, iz.tik === 0, JSON.stringify(iz));
     ok("izleyen: joker çubuğu pasif", iz.yuvaPasif === true);
     ok("izleyen: geri sayım görünür", iz.sayac === 1);
@@ -254,7 +314,8 @@ for (const { dil, w, h, azalt } of KOSULAR) {
     kaldi++; console.log("  ✗ HATA", String(e).slice(0, 300));
     await kaydet("hata").catch(() => {});
   }
-  const gercekHata = konsol.filter((x) => !/Ölçüm aracı|400 \(\)|status of 400|Failed to load resource/.test(x));
+  const gercekHata = konsol.filter((x) => !/Ölçüm aracı|400 \(\)|status of 400|Failed to load resource/.test(x)
+    && !(TAKLIT && /Görev verisi boş geldi/.test(x)));   // taklit: görev RPC'si boş döner (yalnız ortam)
   ok(`konsol hatası yok (${gercekHata.length})`, gercekHata.length === 0, gercekHata.slice(0, 3).join(" | "));
   await b.close();
 }

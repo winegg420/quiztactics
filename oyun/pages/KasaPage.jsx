@@ -1221,6 +1221,20 @@ function KasaMac({ id }) {
     sahne = (
       <>
         {sonucMu ? <KasaSonucBandi d={d} c={c} />
+          : sav?.izliyorum ? (
+            // 8 Eki 2026 (Ida): rakip için seyir anı — büyük kalkan, belirgin sayaç, şıklar pasif (yalnız sunum)
+            <div className="ks-izle-bant qt-h-gir" role="status">
+              <span className="ks-izle-kalkan" aria-hidden="true"><QtIkon ad="kalkan" boyut={30} /></span>
+              <span className="ks-izle-metin">
+                <b>{c("Rakip hazinesini savunuyor")}</b>
+                <small>{c("Sen izliyorsun · bilemezse karar senin")}</small>
+              </span>
+              <span className={sinif("ks-izle-sayac qt-sayi", gosterSn > 0 && gosterSn <= 5 && "ks-izle-sayac--az")}
+                    aria-label={c("{0} saniye kaldı", { 0: Math.ceil(gosterSn) })}>
+                {Math.ceil(gosterSn)}<small>{c("sn")}</small>
+              </span>
+            </div>
+          )
           : sav ? (
             // 987: Savunma Sorusu — yalnız hak sahibi cevaplar, rakip izler
             <p className={sinif("ks-savunma-satir qt-h-gir", sav.izliyorum && "ks-savunma-satir--izle")} role="status">
@@ -1272,7 +1286,7 @@ function KasaMac({ id }) {
          // 980: tekrarlayan anlar dokunarak geçilir (dokunuş alttaki düğmeye de gider: şık seçimi engellenmez)
          onPointerDown={an || cifteAn || rakipKarar || savunmaAn ? anlariBitir : undefined}
          className={sinif("m2-mac ks-mac qt-sahne-mac qt-sahne-gok", `ks-mac--${d.faz}`, (gerilim || kararGerilim) && "qt-h-gerilim", d.altin && "ks-mac--altin",
-                          anAc?.sars && "ks-mac--sars", girisAktif && "ks-mac--giris")}>
+                          anAc?.sars && "ks-mac--sars", girisAktif && "ks-mac--giris", sav?.izliyorum && "ks-mac--izle")}>
       <MacUstSerit onCik={() => setTerkOnay(true)} cikisEtiketi={c("Maçtan çık")}
                    rozet={c("Ortak Hazine")} />
       <KasaUst d={d} ben={ben} rakip={rakip} c={c} seviyeler={seviyeler} tepkiBalonlar={tepki.balonlar}

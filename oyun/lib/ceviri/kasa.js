@@ -216,11 +216,13 @@ export default {
   "rakip açtı": "your opponent opened it",
   "Hiç hazine açılmadı · en yüksek {k}": "No treasure opened · peaked at {k}",
 
-  // 8 Eki 2026: AÇ / DEVAM düğmeleri kararın sonucunu gösterir
+  // 8 Eki 2026: AÇ / DEVAM düğmeleri kararın sonucunu gösterir + rakibin Savunma Sorusu izleme anı
   "AÇ → +{k}": "OPEN → +{k}",
   "Skor {s}/{h}": "Score {s}/{h}",
   "DEVAM → Hazine {y}": "KEEP → Treasure {y}",
   "%{p} joker şansı": "{p}% joker chance",
   "Hazine sahipsiz kalır": "The treasure becomes unclaimed",
   "Hazine dolu ({t}): yalnız AÇ.": "The treasure is full ({t}): OPEN only.",
+  "Rakip hazinesini savunuyor": "Opponent is defending the treasure",
+  "Sen izliyorsun · bilemezse karar senin": "You're watching · if they miss, you decide",
 };
