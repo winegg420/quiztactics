@@ -11243,3 +11243,13 @@ Kök sebep: `.m2-giris-kafa` (DuelloPage.a.css) ile `.ks-giris-kafa` (kasa.css) 
 ## 2026-10-09 — Ortak Hazine karar ekranı sadeleşti (Ida kararı: yazılar azalsın)
 **Araç:** Claude Code
 Kaldırıldı: "Hazine sende: {k} puan" başlığı, AÇ alt yazısı "Skor x/y", ayrı "DEVAM de: Savunma Hakkı kazan" / "Savunma Hakkı sende" satırı, "Süre dolarsa DEVAM sayılır." Kalan: DEVAM alt yazısı tek satır (hak kazanılıyorsa "Sahipsiz kalır · Savunma Hakkı", hak varsa "Savunma Hakkı sende", yoksa "Hazine sahipsiz kalır"; joker şansı yazısı aynen); tavanda "Süre dolarsa otomatik AÇ sayılır." Kural/sunucu/düğme davranışı değişmedi. Dosyalar: `KasaParcalari.jsx`, `ceviri/kasa.js` (+2 anahtar, eskiler silinmedi), `kasa-savunma-ekran.mjs`/`kasa-efekt-ekran.mjs` beklentileri. Ayrıntı: `RAPOR-karar-ekrani.md`.
+
+## 9 Eki 2026 — Ses ↔ görsel zamanlaması (Claude)
+**Araç:** Claude Code
+**Neden:** Ida telefonda Düello'da soru ekrana gelince sesin sonradan geldiğini gördü.
+- Ölçüm (taklit, `araclar/ses-zamanlama-olcum.mjs`): v4 saldırı sorusunda panel sunucu saatiyle kalkıyor, ses faz gelişinden sabit 2000 ms sonra → kayma = faz gecikmesi (300 → 251 ms, 800 → 674 ms); 3000 ms gecikmede ses sonraki nötr soruda geç patlıyordu. Düzeltme sonrası −8…−6 ms; 3000 ms'de çalmıyor.
+- `Duello4Arena`: soru sesi panelin kalktığı sunucu anına zamanlanır, o an yeniden çizim (panel 200 ms tikini beklemez); > 500 ms geride → sessiz; panel görünmediyse kategori sesi yok.
+- `KasaPage`: soru sesi üç yerden tek `soruSesi` (anahtar `soru:<tur>`); Hazine maç sesleri artık ön yükleniyor (önceden hiç yoktu).
+- `ses.js`: ses seçimleri geç gelince istenmiş ön yükleme grupları seçilen aday dosyayla yeniden iner. Ölçüm: ön yükleme seçimden önce eski dosyayı indiriyor, aday dosya 250 ms'de inmeyince ilk ses atlanıyordu (800 ms indirme: sessiz → çalıyor).
+- Dokunulmadı: Klasik/Grup/Turnuva (QuestionCard), Çalışma, v4 nötr/tik/rakip/kart — ses görselin çizildiği efektte (≤ 6 ms). Eski Düello (surum 2) 300 ms kasıtlı aralık; v4 herkese açık olduğundan yeni maçı yok.
+- Testler: duello-v4-ekran 105/5 (5 hata değişiklikten önce de aynı — kart dblclick zaman aşımı), kasa-ekran 292/0, build temiz. Gerçek telefon testi Ida'da.

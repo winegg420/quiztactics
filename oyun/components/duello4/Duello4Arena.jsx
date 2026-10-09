@@ -31,6 +31,7 @@ const SARSINTI_MS = varsayilanSure("duello4_sarsinti");   // geçerli: sure() �
 // duyuru süresi (duello4_kart_duyuru_ms) boyunca yazı vurgulanır, kartlar kilitli, sayaç durur (gosterim_bas = duyuru bitişi).
 // false → eski akış (kart seç + alt eylem düğmesiyle onayla); sunucu tarafı için docs/duello-v4-kart-akisi-geri-al.sql.
 const KART_TEK_DOKUNUS = true;
+const GEC_SES_MS = 500;   // olay anı bundan çok geride kaldıysa (yenileme/geç katılım) sesi çalınmaz
 const yuzde = (v) => (v === null || v === undefined ? "?" : aktifDil() === "en" ? `${v}%` : `%${v}`);
 
 // ---------------------------------------------------------------- küçük parçalar
@@ -195,11 +196,21 @@ export default function Duello4Arena({
   const zamanRef = useRef([]);
   useEffect(() => () => zamanRef.current.forEach(clearTimeout), []);
   const sonra = (ms, f) => { zamanRef.current.push(setTimeout(f, ms)); };
+  const [, setAcilisBitti] = useState(0);
   const soruMetni = d.soru?.soru ?? null;
   useEffect(() => {
     if (d.durum !== "aktif") return;
     if (d.faz === "kart" && benKontrol) birKez(`kart:${v.tur}`, () => { sesTurGecis(); titret(20); });
-    if (d.faz === "cevap" && soruMetni) birKez(`acilis:${v.soru_no}`, () => { sesKategoriSecildi(); sonra(sure("duello4_acilis"), () => sesSoruGeldi()); });
+    if (d.faz === "cevap" && soruMetni) birKez(`acilis:${v.soru_no}`, () => {
+      // Soru sesi panelin kalktığı SUNUCU anına bağlı (faz cihaza geç gelse de görselle aynı an); o an yeniden
+      // çizim zorlanır, panel 200 ms'lik saat tikini beklemez. Çok geride kaldıysa (yenileme/geç katılım) çalmaz.
+      if (!gosterimBas) { sesKategoriSecildi(); sonra(sure("duello4_acilis"), () => sesSoruGeldi()); return; }
+      const bekle = gosterimBas - payiMs + sure("duello4_acilis") - (Date.now() + farkMs);
+      if (bekle > 0) {
+        sesKategoriSecildi();   // panel hâlâ ekranda
+        sonra(Math.ceil(bekle) + 1, () => { setAcilisBitti(Date.now()); sesSoruGeldi(); });
+      } else if (bekle > -GEC_SES_MS) sesSoruGeldi();
+    });
     if ((d.faz === "notr" || d.faz === "son") && soruMetni) birKez(`soru:${v.soru_no}`, () => sesSoruGeldi());
     if (h && sm) {
       birKez(`sonuc:${h.no}`, () => {
