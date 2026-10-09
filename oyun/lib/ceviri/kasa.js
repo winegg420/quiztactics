@@ -187,7 +187,9 @@ export default {
   // 987: DEVAM ödülü = Savunma Hakkı (954 ücretsiz 50:50 yerine). Oyuncuya görünen ad TEK yerde: ilk satır.
   "Savunma Hakkı": "Defense Right",
   "Savunma Sorusu": "Defense Question",
-  "{h} sende (en fazla 1)": "You hold a {h} (max 1)",
+  "Sahipsiz kalır · {h}": "Unclaimed · {h}",
+  "{h} sende": "You hold a {h}",
+  "{h} sende (en fazla 1)":"You hold a {h} (max 1)",
   "DEVAM de: {h} kazan": "Choose KEEP: earn a {h}",
   "{h} devrede!": "{h} activated!",
   "Rakip bildi · {s} geliyor": "Opponent got it · {s} coming",

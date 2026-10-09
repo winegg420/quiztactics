@@ -428,7 +428,7 @@ for (const [w, h] of EKRANLAR) {
       await ac(once, ".ks-karar-eylem");
       const devamDugme = s.locator(".ks-karar-eylem button").nth(1);
       ok(`${ad}: DEVAM düğmesinde ${dugmeMetni.source}`, dugmeMetni.test(await devamDugme.innerText()), await devamDugme.innerText());
-      if (kazandi) ok(`${ad}: karar notunda "sahipsiz kalır"`, /sahipsiz kalır/.test(await s.locator(".ks-karar-not").innerText()));
+      if (kazandi) ok(`${ad}: DEVAM alt yazısında "sahipsiz kalır"`, /sahipsiz kalır/i.test(await devamDugme.innerText()));
       await kaydet(`${ad}-0-karar`);
       kararSonrasi = sonra;
       await devamDugme.click();

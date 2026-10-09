@@ -171,7 +171,7 @@ for (const { dil, w, h, azalt } of KOSULAR) {
     // ---- lobi ----
     await s.goto(`${ADRES}/kasa`, { waitUntil: "domcontentloaded" });
     await s.waitForSelector(".ks-ozet", { timeout: 20000 });
-    await s.locator(".ks-kurallar-tum > summary").click();
+    await s.locator(".ks-kurallar-tum > summary").click({ force: true, timeout: 8000 });
     await s.waitForTimeout(300);
     const kurallar = await metin(".ks-kurallar-tum");
     ok("lobi: Savunma Hakkı kuralı var", dil === "en" ? /Defense Right/.test(kurallar) && /Defense Question/.test(kurallar) : /Savunma Hakkı/.test(kurallar) && /Savunma Sorusu/.test(kurallar));
@@ -183,11 +183,12 @@ for (const { dil, w, h, azalt } of KOSULAR) {
     await kasaAc("karar-ben", ".ks-karar-eylem");
     const karar = await metin(".ks-karar");
     ok("karar: ÜCRETSİZ 50:50 yok", !/ÜCRETSİZ|FREE 50/.test(karar));
-    ok("karar: hak satırı görünür", (await s.locator(".ks-karar-hak .ks-hak").count()) === 1);
+    ok("karar: ayrı hak satırı ve başlık yok (bilgi DEVAM alt yazısında)", (await s.locator(".ks-karar-hak, .ks-karar-baslik").count()) === 0);
+    ok("karar: 'Süre dolarsa DEVAM sayılır' yazısı yok", !/Süre dolarsa DEVAM|counts as KEEP/.test(karar), karar);
     const dugmeler = await s.locator(".ks-karar-eylem button").allInnerTexts();
     const tek = (x) => x.replace(/\s+/g, " ").trim();
-    ok("karar: AÇ → +24 · Skor 42/80", dil === "en" ? /OPEN → \+24.*Score 42\/80/i.test(tek(dugmeler[0] ?? "")) : /AÇ → \+24.*Skor 42\/80/i.test(tek(dugmeler[0] ?? "")), dugmeler[0]);
-    ok("karar: DEVAM → Hazine 48 · sahipsiz kalır", dil === "en" ? /KEEP → Treasure 48.*unclaimed/i.test(tek(dugmeler[1] ?? "")) : /DEVAM → Hazine 48.*sahipsiz kalır/i.test(tek(dugmeler[1] ?? "")), dugmeler[1]);
+    ok("karar: AÇ → +24 (Skor alt yazısı yok)", (dil === "en" ? /OPEN → \+24/i : /AÇ → \+24/i).test(tek(dugmeler[0] ?? "")) && !/Skor|Score/.test(dugmeler[0] ?? ""), dugmeler[0]);
+    ok("karar: DEVAM → Hazine 48 · Sahipsiz kalır · Savunma Hakkı", dil === "en" ? /KEEP → Treasure 48.*Unclaimed · Defense Right/i.test(tek(dugmeler[1] ?? "")) : /DEVAM → Hazine 48.*Sahipsiz kalır · Savunma Hakkı/i.test(tek(dugmeler[1] ?? "")), dugmeler[1]);
     ok("karar: DEVAM düğmesinde kalkan (hak kazanılacak)", (await s.locator(".ks-karar-eylem button:nth-child(2) .ks-hak").count()) === 1);
     const kararOlc = () => s.evaluate(() => ({
       tasan: [...document.querySelectorAll(".ks-karar-eylem button, .ks-karar-eylem button *, .ks-karar-hak, .ks-karar-not")]
@@ -202,8 +203,8 @@ for (const { dil, w, h, azalt } of KOSULAR) {
     await kaydet("s2-karar");
     await tasma("karar");
     await kasaAc("karar-hakvar", ".ks-karar-eylem");
-    ok("karar (hak var): DEVAM'da kalkan yok, 'sende' satırı", (await s.locator(".ks-karar-eylem .ks-hak").count()) === 0
-      && (dil === "en" ? /You hold/.test(await metin(".ks-karar-hak")) : /sende/.test(await metin(".ks-karar-hak"))));
+    ok("karar (hak var): DEVAM'da kalkan yok, alt yazı 'sende'", (await s.locator(".ks-karar-eylem .ks-hak").count()) === 0
+      && (dil === "en" ? /You hold/.test(await metin(".ks-karar-eylem button:nth-child(2)")) : /sende/.test(await metin(".ks-karar-eylem button:nth-child(2)"))));
     await kasaAc("karar-dolu", ".ks-karar-eylem");
     const dolu = await s.locator(".ks-karar-eylem button").allInnerTexts();
     ok("karar (80): yalnız AÇ — DEVAM yok", dolu.length === 1 && (dil === "en" ? /OPEN → \+80/.test(tek(dolu[0])) : /AÇ → \+80/.test(tek(dolu[0]))), JSON.stringify(dolu));
