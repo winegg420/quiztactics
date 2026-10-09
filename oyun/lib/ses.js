@@ -112,8 +112,14 @@ const ADAY_YOK = "aday-yok";
 const adayMi = (dosya) => /^https?:\/\//.test(dosya);
 /** Bir anın seçimi (aday id'si · "mevcut" · "sessiz" · undefined). */
 export const sesSecimi = (an) => secimler[an];
+// Seçim sunucudan geç gelirse (ilk ziyaret / seçim değişti) önceden istenen gruplar seçilen dosyalarla yeniden iner;
+// yoksa ilk çalışta seçilen aday dosya ILK_CALMA_SINIRI_MS içinde inmez ve ilk ses atlanır (ölçüm 9 Eki 2026).
+const istenenOnYuklemeler = new Map();   // anahtar → grup
 /** Seçimleri değiştir (sesArkaPlan.js çağırır; önbelleğe o yazar). */
-export function sesSecimleriniAyarla(yeni) { secimler = yeni || {}; }
+export function sesSecimleriniAyarla(yeni) {
+  secimler = yeni || {};
+  for (const grup of istenenOnYuklemeler.values()) sesOnYukle(grup);
+}
 const adayVar = (an) => { const s = secimler[an]; return Boolean(s) && s !== "mevcut" && s !== "sessiz"; };
 /** Rolün çalacağı dosya; null → sessiz. */
 function dosyaAdi(rol) {
@@ -541,6 +547,7 @@ export function sesSis(kalkis = false) {
  */
 export function sesOnYukle(grup = "mac") {
   try {
+    istenenOnYuklemeler.set(JSON.stringify(grup), grup);
     if (!sesAcikMi() || typeof fetch === "undefined") return;
     const roller = Array.isArray(grup) ? grup
       : grup === "hepsi" ? Object.values(GRUPLAR).flat()
