@@ -52,3 +52,7 @@ araclar/jev-tarama/zorluk-dondurma-ikinci-ham.jsonl
 
 # Düello v4 simülasyonu: ham maç sonuçları (her koşuda yeniden üretilir)
 araclar/.duello-v4-simulasyon-son.json
+
+# Test hesabı silme yedeği (kişisel veri içerebilir)
+docs/test-hesap-yedek-*.json
+RAPOR.md

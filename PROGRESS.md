@@ -11106,3 +11106,11 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - **B — tikler (migration 1036, canlıya uygulandı):** ölçüm: boşta alt işlerin mantığı toplam ~12 ms, kapılar ucuz (tablolar < 8 bin satır). Paneldeki ortalama 276 ms test dönemlerinden (30 dk'lık sim işlemlerinin kilitleri, 2 sn'lik düello tikleri) ve her pg_cron koşusunun soğuk arka uç maliyetinden. Boştaki hızlı tik 15 → 30 sn (`cron_aralik_ayarla` 30 sn'yi kabul eder; `cron_duello_tik`/`cron_bot_oyna` boşta 30 ister; `cron_hizli_tik` 30'a geçebilir). İş varken 2/5 sn aynı. `bot_tepki_bekleyen` INSERT'ine uyandırma tetikleyicisi. Geri alma: `docs/yuk-geri-al-1036.sql`. `cron_dakika_tik` ve `bot_puan_tik` değiştirilmedi (gerekçe RAPOR.md).
 - **C — Realtime:** yayındaki 16 tablonun hepsini dinleyen istemci kodu var; çıkarma yapılmadı.
 - **Doğrulama:** `IZIN_CANLI_TEST=1 node araclar/duello-v4-canli-bot-testi.mjs --tek-mac` (yeni bayrak: rövanşsız tek maç) → 14/14; tik 30 sn'den uyanıp maçtan sonra 30 sn'ye döndü. Build temiz.
+
+## 2026-10-09 — Canlı test hesaplarının temizliği
+**Araç:** Claude Code
+**Neden:** Ida kalıcı kararı: test hesapları sormadan silinir (sahip ve botlar hariç).
+
+- 86 anonim test hesabı (ArayuzDenetim*, Senkron*, Duel*, Gorev*, Gecikme*, YenilemeTest*, Deneme1797 vb.) canlıdan silindi; 349 → 263 profil, bot 160 ve sahip hesabı değişmedi. Yedek `docs/test-hesap-yedek-2026-10-09.json` (gitignore).
+- Yeni araç `araclar/test-hesap-temizle.mjs` (DRY-RUN varsayılan, `--uygula` yedekler + tek transaction `delete from auth.users`, cascade). AGENTS.md'ye kural satırı eklendi.
+- Belirsiz bırakılanlar: ~45 maçsız anonim "Oyuncu", gerçek e-postalılar, maçlı anonim takma adlılar (sila, YüceBaran vb.).

@@ -239,3 +239,5 @@ varsa (ya da dosya okunamazsa) yine sorar (db push'ta en yeni 10 migration taran
 Jev'in yapamadıkları (Claude/Codex'te kalır): resim/ekran görüntüsü değerlendirme, kod/metin yazma, çok adımlı akıl yürütme.
 Aday dosyaları bulmak için (Claude Code) salt-okunur `dosya-arayici` alt ajanı (Haiku) kullanılabilir; sıralamayı Jev yapar.
 Harcama: `node C:/Users/ida/.claude/jev/jev.mjs rapor` (proje ve güne göre çağrı / token).
+
+- Test hesapları iş bitince sormadan silinir (sahip ve botlar hariç). Araç: `IZIN_CANLI_TEST=1 node araclar/test-hesap-temizle.mjs [--uygula]` (varsayılan DRY-RUN).
