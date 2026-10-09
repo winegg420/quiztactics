@@ -2,6 +2,14 @@
 // Başka sözlükte zaten olan anahtarlar (Sen, Rakip, Doğru, SON DÜELLO …) burada TEKRARLANMAZ — genel çeviri değişmesin.
 // Sözlük: kontrol = control · seri = streak · saldırı = attack · tur = round · Son Düello = Last Duel · nötr = neutral.
 export default {
+  "Kontrolü al, aynı kategoride üst üste 3 doğru yap, düelloyu kazan.": "Take control, get 3 in a row in the same category, win the duel.",
+  "Nötr soru, tek bilen kontrolü alır": "Neutral question: the sole correct answer takes control",
+  "İkinize aynı soru gelir. Yalnız biriniz bilirse kontrol onda olur.": "You both get the same question. If only one of you knows it, that player takes control.",
+  "Kartlar: rakibe gönder, kendine seç": "Cards: send one, pick one",
+  "Kontrol sende: 4 karttan birini rakibe gönderir, birini kendine seçersin. Her biriniz kendi kategorinizin sorusunu cevaplarsınız.": "With control, you send one of 4 cards to your opponent and pick another for yourself. Each of you answers your own category's question.",
+  "Üst üste 3 doğru": "3 in a row",
+  "Tur sınırına ya da art arda 5 nötr soruya gelinirse Son Düello başlar: aynı soru, joker yok, tek bilen kazanır.": "If the round limit or 5 neutral questions in a row is reached, the Last Duel starts: same question, no jokers, the sole correct answer wins.",
+  "50:50, Ek Süre, İkinci Şans, Zaman Baskısı ve Soru Değiştir. Soru başına en çok 1 joker; Son Düello'da joker yok.": "50:50, Extra Time, Second Chance, Time Pressure and Swap Question. At most 1 joker per question; no jokers in the Last Duel.",
   "Tur {n}": "Round {n}",
   "NÖTR": "NEUTRAL",
   "BAŞLA": "GO",
@@ -17,7 +25,7 @@ export default {
   "Süre doldu · otomatik seçiliyor": "Time's up · auto-picking",
   "Seçimin": "Your pick",
   "Rakipten": "From opponent",
-  "Rakip: {k}": "Opponent: {k}",
+  "Rakibin sorusu: {k}": "Opponent's question: {k}",
   "SON DÜELLO SENİN": "LAST DUEL IS YOURS",
   "SON DÜELLO RAKİBİN": "OPPONENT WINS LAST DUEL",
   "Tek doğru bilen sendin": "Only you got it right",

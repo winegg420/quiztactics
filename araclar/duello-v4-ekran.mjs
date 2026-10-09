@@ -174,7 +174,7 @@ for (const { dil, w, h, azalt } of KOSULAR) {
     await an("06-acilis", (o) => ok("açılış: SANA GÖNDERDİ / KENDİNE ALDI + otomatik", (TR ? /SANA GÖNDERDİ.*KENDİNE ALDI.*otomatik/ : /SENT TO YOU.*THEY TOOK.*auto-picked/).test(o.metin), o.metin));
     // 07 saldırı sorusu (rakip kontrolde, benim sorum rakibin gönderdiği) + joker şeridi
     st.gosterimFark = -500; st.oto = false; st.yeniAn = Date.now(); st.bitisMs = 14000;
-    await an("07-soru", (o) => ok("soru: 4 şık + joker şeridi + rakip kategorisi", (TR ? /Rakip: Müzik/ : /Opponent: Music/).test(o.metin), o.metin));
+    await an("07-soru", (o) => ok("soru: 4 şık + joker şeridi + rakip kategorisi", (TR ? /Rakibin sorusu: Müzik/ : /Opponent's question: Music/).test(o.metin), o.metin));
     ok("joker şeridi görünür", await s.locator(".d4-arena .m2-skill").count() === 1 && await s.locator(".d4-arena .qt-sik").count() === 4);
     await s.locator(".d4-arena .qt-sik").nth(1).click();
     await s.waitForTimeout(500);

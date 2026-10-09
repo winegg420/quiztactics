@@ -279,6 +279,9 @@ function MacSonuKutlama({
   }), [ek]);
   const gorevListesi = (gorevler ?? []).filter((g) => g && g.hedef > 0 && !g.alindi).slice(0, 3);
   const rozet = (rozetler ?? [])[0] ?? null;
+  // Ödül henüz yazılmadıysa (özet erken geldi) kart boş beyaz kutu olarak durmasın; veri gelince açılır.
+  const kartDolu = coin > 0 || Boolean(xpv) || Boolean(lig && (lig.puan > 0 || lig.siraSonra)) || gorevListesi.length > 0
+    || Boolean(durum === "kaybetti" && eylemler.onHatalar);
   const toplamMs = t.son + (rozet ? ROZET_MS + 300 : 0);
 
   const coinYaz = useCallback((n) => {
@@ -601,7 +604,7 @@ function MacSonuKutlama({
 
       {asama >= 1 && modOzet && !benTerk && <div className="msk-mod-ozet">{modOzet}</div>}
 
-      {asama >= 2 && !benTerk && <section ref={kartRef} className="msk-kart" aria-label={tt("Maç ödülleri")}>
+      {asama >= 2 && !benTerk && kartDolu && <section ref={kartRef} className="msk-kart" aria-label={tt("Maç ödülleri")}>
         {coin > 0 && (
           <div className="msk-coin msk-a">
             <div className="msk-coin-patlama"><MacSonuLottie ref={lottie.coin} ad="coin" hiz={1.5} hazirlaMs={400} /></div>

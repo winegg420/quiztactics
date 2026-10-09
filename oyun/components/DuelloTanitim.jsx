@@ -67,17 +67,26 @@ const P_ADIMLAR = [
   { ikon: "kalkan", baslik: "Jokerler", metin: "Baskın: rakibin cevabı sayılmaz. Kalkan: kategorin sende kalır. İkisi de maçta 1 kez; toplam 4 joker, soru başına 1." },
 ];
 
+// Düello v4 (1013–1018): kontrol / kart / 3 seri / Son Düello — eski yuva-puan anlatımı v4 açıkken gösterilmez.
+const V4_ADIMLAR = [
+  { ikon: "duello", baslik: "Nötr soru, tek bilen kontrolü alır", metin: "İkinize aynı soru gelir. Yalnız biriniz bilirse kontrol onda olur." },
+  { ikon: "liste", baslik: "Kartlar: rakibe gönder, kendine seç", metin: "Kontrol sende: 4 karttan birini rakibe gönderir, birini kendine seçersin. Her biriniz kendi kategorinizin sorusunu cevaplarsınız." },
+  { ikon: "bayrak", baslik: "Üst üste 3 doğru", metin: "Kontrolü al, aynı kategoride üst üste 3 doğru yap, düelloyu kazan." },
+  { ikon: "terazi", baslik: "Son Düello", metin: "Tur sınırına ya da art arda 5 nötr soruya gelinirse Son Düello başlar: aynı soru, joker yok, tek bilen kazanır." },
+  { ikon: "yariyari", baslik: "Jokerler", metin: "50:50, Ek Süre, İkinci Şans, Zaman Baskısı ve Soru Değiştir. Soru başına en çok 1 joker; Son Düello'da joker yok." },
+];
+
 export default function DuelloTanitim({ onKapat }) {
   const [adim, setAdim] = useState(0);
   // 960: tur sayısı ve eşik metne gömülmez; seçim modu açıksa seçim adımı + boşsuz metinler (sMetin/sBaslik).
-  const { secim: secimModu, puan: puanModu, esik, tur: turSayisi, hedef, yol, ban: banAcik } = useDuelloKurallari();   // 970: puan modu · 982: ban
+  const { secim: secimModu, puan: puanModu, esik, tur: turSayisi, hedef, yol, ban: banAcik, v4 } = useDuelloKurallari();   // 970: puan modu · 982: ban
   const secimSn = useAyar("duello_secim_sn", 5);
   const bosSaldiran = useAyar("duello_bos_ikisi_dogru_saldiran", 1) >= 1;
   const banSn = useAyar("duello_ban_sn", 7);
   const kapat = () => { isaretle(); onKapat?.(); };
   // 982: ban adımı yalnız ban açıkken (kapalı: tur akışı sonuç → saldırı seçimi → soru)
   const uygun = (x) => (!x.secim || secimModu) && (!x.ban || banAcik);
-  const adimlar = puanModu ? P_ADIMLAR.filter(uygun) : ADIMLAR.filter(uygun)
+  const adimlar = v4 ? V4_ADIMLAR : puanModu ? P_ADIMLAR.filter(uygun) : ADIMLAR.filter(uygun)
     .map((x) => (secimModu ? { ...x, baslik: x.sBaslik ?? x.baslik, metin: x.sMetin ?? x.metin, ek: x.sMetin ? null : x.ek } : x))
     // 970: puan modu metinleri (pBaslik/pMetin) seçim metinlerinin üstüne; boş kategori satırı (ek) yok
     .map((x, i) => { const o = ADIMLAR.filter(uygun)[i]; return puanModu ? { ...x, baslik: o.pBaslik ?? x.baslik, metin: o.pMetin ?? x.metin, ek: null } : x; });

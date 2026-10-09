@@ -13,6 +13,7 @@ import {
 import { tt } from "../lib/dil.js";
 import { y } from "../lib/yol.js";
 import { hataMesaji } from "../lib/hata.js";
+import { useDuelloKurallari } from "../lib/duelloKurallari.js";
 import { QtDugme, QtIkon, QtKart } from "../tasarim/index.js";
 import SkillRozeti from "./SkillRozeti.jsx";
 import "../tasarim/ekranlar/dukkan-bilesen.css";
@@ -33,14 +34,18 @@ import "../tasarim/ekranlar/dukkan-bilesen.css";
  */
 export default function SkillSeti({ macTur = "1v1", acikBaslar = false }) {
   const loadoutModu = LOADOUT_MODLARI.includes(macTur);
+  // Düello v4'te Baskın ve Kalkan yok: seçim listesinde ve yuvalarda gösterilmez.
+  const { v4 } = useDuelloKurallari();
+  const v4Gizli = macTur === "duello" && v4 ? ["baskin", "kalkan"] : [];
   const [kapali, setKapali] = useState(null);   // null: henüz bilinmiyor
   const [slot, setSlot] = useState(SKILL_SLOT_VARSAYILAN);
-  const [secili, setSecili] = useState(() => skillSetiOku(undefined, macTur));
+  const [seciliHam, setSecili] = useState(() => skillSetiOku(undefined, macTur));
+  const secili = seciliHam.filter((id) => !v4Gizli.includes(id));
   const [bilgi, setBilgi] = useState({});      // tur → { adet, acik }
   const [acik, setAcik] = useState(acikBaslar);
   const [hata, setHata] = useState(null);
   const [kaydediliyor, setKaydediliyor] = useState(false);
-  const uygunlar = AKTIF_MAC_SKILLERI.filter((id) => SKILL_TANIMLARI[id].allowedModes?.includes(macTur));
+  const uygunlar = AKTIF_MAC_SKILLERI.filter((id) => SKILL_TANIMLARI[id].allowedModes?.includes(macTur) && !v4Gizli.includes(id));
 
   useEffect(() => {
     if (!loadoutModu) return undefined;

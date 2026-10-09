@@ -361,7 +361,7 @@ export default function Duello4Arena({
         </QtSikler>
         {d.faz === "cevap" && v.rakip_kategori && (
           // Otomatik seçim bilgisi burada da durur: istemci soruyu açılış anından geç görürse (ağ / sekme) bilgi kaybolmasın.
-          <p className="d4-rakip-kat"><KategoriIkon anahtar={v.rakip_kategori} boyut={16} />{c("Rakip: {k}", { k: c(kategoriAdi(v.rakip_kategori)) })}
+          <p className="d4-rakip-kat"><KategoriIkon anahtar={v.rakip_kategori} boyut={16} />{c("Rakibin sorusu: {k}", { k: c(kategoriAdi(v.rakip_kategori)) })}
             {v.oto && <span className="d4-oto-etiket"> · {c("Süre doldu · otomatik seçildi")}</span>}</p>
         )}
       </div>

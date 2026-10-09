@@ -15,11 +15,11 @@
 .d4-oy-av { position: relative; flex: none; display: grid; place-items: center; border-radius: 50%; }
 .d4-oy--kontrol.d4-oy--ben .d4-oy-av { box-shadow: 0 0 0 3px var(--hk-mavi), 0 0 14px 2px rgb(55 138 221 / .55); }
 .d4-oy--kontrol.d4-oy--rakip .d4-oy-av { box-shadow: 0 0 0 3px var(--hk-kirmizi), 0 0 14px 2px rgb(226 75 74 / .55); }
-.d4-oy-onay { position: absolute; right: -3px; bottom: -3px; display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%;
+.d4-oy-onay { position: absolute; left: -3px; bottom: -3px; display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%;
   background: var(--hk-mavi); color: #fff; box-shadow: 0 0 0 2px #fff; }
-.d4-oy--rakip .d4-oy-onay { right: auto; left: -3px; background: var(--hk-kirmizi); }
-.d4-oy-tepki { position: absolute; top: -6px; right: -6px; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; color: #fff; box-shadow: 0 0 0 2px #fff; }
-.d4-oy--rakip .d4-oy-tepki { right: auto; left: -6px; }
+.d4-oy--rakip .d4-oy-onay { left: auto; right: -3px; background: var(--hk-kirmizi); }
+.d4-oy-tepki { position: absolute; top: -6px; left: -6px; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; color: #fff; box-shadow: 0 0 0 2px #fff; }
+.d4-oy--rakip .d4-oy-tepki { left: auto; right: -6px; }
 .d4-oy--dogru .d4-oy-tepki { background: var(--qt-dogru, #1f9d5b); }
 .d4-oy--yanlis .d4-oy-tepki { background: var(--hk-kirmizi-kenar); }
 .d4-oy-yazi { display: grid; gap: 3px; min-width: 0; }
@@ -68,11 +68,11 @@
 .d4-yuk i { width: 9px; height: 9px; border-radius: 50%; background: var(--hk-kirmizi); }
 
 /* Kartlar: kategori renkli kalın kenar; iki oyuncunun oranı; "rakibe" kırmızı dolu, "sana" mavi dolu */
-.d4-kartlar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.d4-kartlar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: minmax(96px, 1fr); align-content: stretch; flex: 1 1 auto; gap: 8px; }
 .d4-kart { position: relative; display: grid; align-content: start; gap: 8px; min-width: 0; min-height: 112px; padding: 10px 10px 10px 12px; border: 0; border-radius: var(--qt-r-m);
   text-align: left; cursor: pointer; font: inherit; color: var(--hk-metin); background: #fff;
   box-shadow: 0 3px 0 var(--hk-cizgi), inset 0 0 0 3px var(--kat), inset 8px 0 0 var(--kat); }
-.d4-arena .d4-kart { min-height: 112px; }   /* genel düğme kuralı (44 px) ezmesin */
+.d4-arena .d4-kart { min-height: 112px; align-content: center; }   /* genel düğme kuralı (44 px) ezmesin */
 .d4-kart:disabled { cursor: default; }
 .d4-kart-ust { display: flex; align-items: center; gap: 8px; min-width: 0; }
 .d4-kart-ad { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--qt-f-baslik); font-size: 17px; font-weight: 800; }
@@ -109,12 +109,13 @@
 /* Soru */
 .d4-soru { gap: 6px; }
 .d4-soru-kart { border-radius: var(--qt-r-l); }
+.d4-soru-kart > .qt-soru-ust { padding: 8px 14px 0; }
 .d4-soru--ben .d4-soru-kart { box-shadow: inset 0 0 0 3px var(--hk-mavi); }
 .d4-soru--rakip .d4-soru-kart { box-shadow: inset 0 0 0 3px var(--hk-kirmizi); }
 .d4-soru--son .d4-soru-kart { box-shadow: inset 0 0 0 3px var(--hk-kirmizi-kenar); }
 .d4-son-bant { margin: 0; display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 32px; border-radius: var(--qt-r-m);
   background: var(--hk-kirmizi-kenar); color: #fff; font-family: var(--qt-f-baslik); font-weight: 800; font-size: 16px; letter-spacing: .04em; }
-.d4-rakip-kat { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 2px 6px; font-size: 12px; font-weight: 800; color: var(--hk-kirmizi-metin); }
+.d4-rakip-kat { margin: 4px 0 0; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 2px 6px; padding: 6px 10px; border-radius: var(--qt-r-m); background: var(--hk-kirmizi-zemin); box-shadow: inset 0 0 0 2px var(--hk-kirmizi); font-size: 13px; font-weight: 800; color: var(--hk-kirmizi-metin); }
 .d4-oto-etiket { color: var(--hk-soluk); }
 
 /* Tur sonucu anı */
@@ -126,6 +127,9 @@
 .d4-sonuc--iyi .d4-sonuc-baslik { color: var(--hk-mavi-metin); }
 .d4-sonuc--kotu .d4-sonuc-baslik { color: var(--hk-kirmizi-metin); }
 .d4-sonuc--bitis .d4-sonuc-baslik { font-size: 32px; }
+.d4-sonuc .d4-sonuc-alt { color: var(--hk-metin); font-size: 15px; }
+.d4-sonuc--kotu .d4-sonuc-alt { color: var(--hk-kirmizi-metin); }
+.d4-sonuc--iyi .d4-sonuc-alt { color: var(--hk-mavi-metin); }
 .d4-cevaplar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; width: 100%; }
 .d4-cevap { display: grid; justify-items: center; gap: 4px; padding: 10px 6px; border-radius: var(--qt-r-m); background: #fff; }
 .d4-cevap--ben { box-shadow: inset 0 0 0 3px var(--hk-mavi); }

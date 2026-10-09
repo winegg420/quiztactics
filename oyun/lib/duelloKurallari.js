@@ -18,9 +18,11 @@ const coz = (secim, esik, tur, bosEsik, bosTur, puan, hedef, yol, puanTur) => (s
 
 // duello_puan_modu metin ayarıdır ("yeni" | "eski"); useAyar sayı okur — bu yüzden ayrı okunur.
 const puanModuOku = (o) => (o?.duello_puan_modu === undefined ? VARSAYILAN.puan : o.duello_puan_modu === "yeni");
+// Düello v4 (1013–1018): duello_v4_acik "acik" iken herkes v4 oynar ("test" yalnız test hesapları — istemci ayırt edemez, eski sayılır).
+const v4Oku = (o) => o?.duello_v4_acik === "acik";
 const banOku = (o) => (o?.duello_ban_acik === undefined ? VARSAYILAN.ban : [true, 1, "1", "true"].includes(o.duello_ban_acik));
 
-/** { secim, puan, esik, tur, hedef, yol, ban } — yeni açılacak Düello maçının kuralı (ayarlar okunamazsa varsayılanlar). */
+/** { secim, puan, esik, tur, hedef, yol, ban, v4 } — yeni açılacak Düello maçının kuralı (ayarlar okunamazsa varsayılanlar). */
 export function useDuelloKurallari() {
   const secim = useAyar("duello_secim_modu", VARSAYILAN.secim ? 1 : 0) >= 1;
   const esik = useAyar("duello_hakimiyet_esik", VARSAYILAN.esik);
@@ -32,12 +34,13 @@ export function useDuelloKurallari() {
   const puanTur = useAyar("duello_puan_max_tur", VARSAYILAN.puanTur);
   const [puan, setPuan] = useState(VARSAYILAN.puan);
   const [ban, setBan] = useState(VARSAYILAN.ban);
+  const [v4, setV4] = useState(false);
   useEffect(() => {
     let aktif = true;
-    ayarlar().then((o) => { if (aktif) { setPuan(puanModuOku(o)); setBan(banOku(o)); } }, () => {});
+    ayarlar().then((o) => { if (aktif) { setPuan(puanModuOku(o)); setBan(banOku(o)); setV4(v4Oku(o)); } }, () => {});
     return () => { aktif = false; };
   }, []);
-  return { ...coz(secim, esik, tur, bosEsik, bosTur, puan, hedef, yol, puanTur), ban };
+  return { ...coz(secim, esik, tur, bosEsik, bosTur, puan, hedef, yol, puanTur), ban, v4 };
 }
 
 /** Aynı kural, kanca dışı (async) kullanım için. Hata olursa varsayılanlar. */
@@ -49,9 +52,9 @@ export async function duelloKurallari() {
       ayar("duello_puan_hedef", VARSAYILAN.hedef), ayar("duello_puan_kategori_yolu", VARSAYILAN.yol),
       ayar("duello_puan_max_tur", VARSAYILAN.puanTur), ayarlar(),
     ]);
-    return { ...coz(secim >= 1, esik, tur, bosEsik, bosTur, puanModuOku(o), hedef, yol, puanTur), ban: banOku(o) };
+    return { ...coz(secim >= 1, esik, tur, bosEsik, bosTur, puanModuOku(o), hedef, yol, puanTur), ban: banOku(o), v4: v4Oku(o) };
   } catch (e) {
     console.warn("[Bildim] düello kuralları okunamadı:", e?.message ?? e);
-    return { secim: VARSAYILAN.secim, puan: VARSAYILAN.puan, esik: VARSAYILAN.esik, tur: VARSAYILAN.puanTur, hedef: VARSAYILAN.hedef, yol: VARSAYILAN.yol, ban: VARSAYILAN.ban };
+    return { secim: VARSAYILAN.secim, puan: VARSAYILAN.puan, esik: VARSAYILAN.esik, tur: VARSAYILAN.puanTur, hedef: VARSAYILAN.hedef, yol: VARSAYILAN.yol, ban: VARSAYILAN.ban, v4: false };
   }
 }
