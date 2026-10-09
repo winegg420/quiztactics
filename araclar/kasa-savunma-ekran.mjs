@@ -14,6 +14,7 @@ import { chromium } from "playwright-core";
 import fs from "node:fs";
 import path from "node:path";
 import { ceviriToplayici } from "./ceviri-dom.mjs";
+import { sure as sureGecerli } from "../oyun/lib/sureler.js";
 
 const ARG = Object.fromEntries(process.argv.slice(2).map((a) => { const [k, v] = a.replace(/^--/, "").split("="); return [k, v ?? true]; }));
 const ADRES = ARG.adres || "http://localhost:5188";
@@ -100,8 +101,11 @@ for (const { dil, w, h, azalt } of KOSULAR) {
   const etiket = `${dil}-${w}x${h}${azalt ? "-azalt" : ""}`;
   const durumDosya = TAKLIT ? taklitOturum() : JSON.parse(fs.readFileSync(OTURUM, "utf8"));
   durumDosya.origins = (durumDosya.origins || []).map((o) => ({ ...o, origin: kok,
-    localStorage: [...(o.localStorage || []).filter((x) => !["bildim_dil", "bildim_tanitim", "qt_profil_onbellek"].includes(x.name)),
-      { name: "bildim_dil", value: dil }, { name: "bildim_tanitim", value: "1" }] }));
+    // Skill seti sabitlenir: sonuç test hesabının envanterine/profilindeki dile bağlı kalmasın
+    // (varsayılan set elli·sure·soru_degistir — "Zaman Baskısı pasif" denetimi için zaman_baskisi yuvada olmalı).
+    localStorage: [...(o.localStorage || []).filter((x) => !["bildim_dil", "bildim_tanitim", "qt_profil_onbellek", "quiztactics:skill-seti:v1"].includes(x.name)),
+      { name: "bildim_dil", value: dil }, { name: "bildim_tanitim", value: "1" },
+      { name: "quiztactics:skill-seti:v1", value: JSON.stringify(["elli", "sure", "zaman_baskisi"]) }] }));
   const b = await tarayici.newContext({ storageState: durumDosya, viewport: { width: w, height: h }, hasTouch: true, serviceWorkers: "block",
     reducedMotion: azalt ? "reduce" : "no-preference" });
   const s = await b.newPage();
@@ -230,7 +234,10 @@ for (const { dil, w, h, azalt } of KOSULAR) {
     await s.waitForTimeout(350);
     await kaydet("s4-tetik-ben");
     const an1 = await anOlc;
-    ok(`tetik: kalkan anı ${an1.sure} ms (1200–1900)`, an1.sure >= 1200 && an1.sure <= 1900, JSON.stringify(an1));
+    // Beklenti sureler.js'teki geçerli süreden türer (sabit sayı yok): ölçülen an, süre × 0,8 … × 1,27 aralığında olmalı.
+    const anHedef = sureGecerli("kasa_savunma");
+    const anAlt = Math.round(anHedef * 0.8), anUst = Math.round(anHedef * 1.27);
+    ok(`tetik: kalkan anı ${an1.sure} ms (${anAlt}–${anUst}, süre ${anHedef})`, an1.sure >= anAlt && an1.sure <= anUst, JSON.stringify(an1));
     ok("tetik: bant metni", dil === "en" ? /Defense Right activated/i.test(await metin(".ks-bant")) : /Savunma Hakkı devrede/i.test(await metin(".ks-bant")));
     await s.evaluate(() => window.dispatchEvent(new Event("online")));
     const tekrar = await sureOlc(".ks-savunma-an", 1200);
