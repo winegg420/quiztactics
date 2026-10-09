@@ -273,29 +273,6 @@ function Serit({ k, ic, d, f }) {
 }
 const DORT = ["u", "a", "s", "g"];
 const Cizgi4 = ({ ic, d, f }) => DORT.map((k) => <Serit key={k} k={k} ic={ic} d={d} f={f} />);
-/** Kabartma çubuk çerçeve: orta dolgu, üst/sol kenar açık, alt/sağ kenar koyu */
-function Cubuk({ ic, d, t, b = 3 }) {
-  return (
-    <g>
-      <Cizgi4 ic={ic} d={d} f={t.orta} />
-      <Serit k="u" ic={ic} d={b} f={t.acik} /><Serit k="u" ic={ic + d - b} d={b} f={t.koyu} />
-      <Serit k="s" ic={ic} d={b} f={t.acik} /><Serit k="s" ic={ic + d - b} d={b} f={t.koyu} />
-      <Serit k="a" ic={ic + d - b} d={b} f={t.acik} /><Serit k="a" ic={ic} d={b} f={t.koyu} />
-      <Serit k="g" ic={ic + d - b} d={b} f={t.acik} /><Serit k="g" ic={ic} d={b} f={t.koyu} />
-    </g>
-  );
-}
-/** Kabartma dikdörtgen (mutlak koordinat): orta + sol-üst açık pah + sağ-alt koyu pah + kontur */
-function Kabara({ x, y, w, h, t = ALTIN, b = 3, k = 3 }) {
-  return (
-    <g>
-      <rect x={x} y={y} width={w} height={h} fill={t.orta} />
-      <polygon points={cokgen([[x, y], [x + w, y], [x + w - b, y + b], [x + b, y + b], [x + b, y + h - b], [x, y + h]])} fill={t.acik} />
-      <polygon points={cokgen([[x + w, y], [x + w, y + h], [x, y + h], [x + b, y + h - b], [x + w - b, y + h - b], [x + w - b, y + b]])} fill={t.koyu} />
-      <rect x={x} y={y} width={w} height={h} fill="none" stroke={K} strokeWidth={k} />
-    </g>
-  );
-}
 /** Köşe çapası: sx/sy = +1 sol/üst, −1 sağ/alt. `ciz(kutu, nokta, ikincil)`: içeri doğru ölçüyü mutlak kutuya çevirir
  *  (ışık yönü her köşede aynı kalsın diye ayna/transform yok). */
 function Kose({ sx, sy, ciz }) {
@@ -307,216 +284,122 @@ const KOSELER = [[1, 1], [-1, 1], [1, -1], [-1, -1]];
 const Koseler = ({ ciz }) => KOSELER.map(([sx, sy]) => <Kose key={`${sx}${sy}`} sx={sx} sy={sy} ciz={ciz} />);
 const Orta = ({ alt = false, children }) => <svg x="50%" y={alt ? "100%" : 0} overflow="visible">{children}</svg>;
 
-/** Yuvarlak kaboşon taş (mutlak merkez) */
-function Kabason({ x, y, r, t = AL }) {
+/* 9 Eki (5. tur): çerçeveler "kalın ve ucuz" bulundu → üçü İNCE (toplam 6,6 px ≈ kart genişliğinin %2–3'ü, üçünde aynı).
+   Katmanlar: dış lacivert kontur 1,2 · metalik altın bant (5 duraklı geçiş: koyu bronz → zengin altın → krem → altın → bronz)
+   · üst/sol kenarda ince krem parlama · içte ince koyu gölge. Köşeler düz 90°; süsler bant içinde/kenarında küçük kalır. */
+const METAL = [["0", "#7A4E0E"], [".3", "#C98F1A"], [".52", "#FFE7A3"], [".74", "#E2AA2C"], ["1", "#8A5A12"]];
+const KREM = "#FFF4CC";
+const KALIN = 6.6;
+function Metal({ id }) {
+  return (
+    <>
+      {[["y", 0, 1], ["x", 1, 0]].map(([ad, x2, y2]) => (
+        <linearGradient key={ad} id={`${id}${ad}`} x1="0" y1="0" x2={x2} y2={y2}>
+          {METAL.map(([o, c]) => <stop key={o} offset={o} stopColor={c} />)}
+        </linearGradient>
+      ))}
+    </>
+  );
+}
+/** Metalik bant: ic kenardan derinlik, d kalınlık; üst/alt dikey, sol/sağ yatay geçiş */
+function MetalBant({ id, ic, d }) {
+  return DORT.map((k) => <Serit key={k} k={k} ic={ic} d={d} f={`url(#${id}${k === "u" || k === "a" ? "y" : "x"})`} />);
+}
+/** Ortak ince gövde. `iki` = çift çizgi (dış orta-kalın bant + iç çok ince çizgi) */
+function InceGovde({ id, iki = false }) {
   return (
     <g>
-      <circle cx={x} cy={y} r={r} fill={t.orta} />
-      <path d={`M${r1(x - r * 0.55)} ${r1(y + r * 0.1)}A${r * 0.6} ${r * 0.6} 0 0 1 ${r1(x + r * 0.1)} ${r1(y - r * 0.55)}`} fill="none" stroke={t.acik} strokeWidth={r1(r * 0.36)} strokeLinecap="round" />
-      <path d={`M${r1(x + r * 0.6)} ${r1(y - r * 0.05)}A${r * 0.62} ${r * 0.62} 0 0 1 ${r1(x - r * 0.05)} ${r1(y + r * 0.62)}`} fill="none" stroke={t.koyu} strokeWidth={r1(r * 0.32)} strokeLinecap="round" />
-      <circle cx={x} cy={y} r={r} fill="none" stroke={K} strokeWidth="2.4" />
+      <Cizgi4 ic={0} d={1.2} f={K} />
+      <MetalBant id={id} ic={1.2} d={iki ? 3.2 : 4.4} />
+      {iki && <><Cizgi4 ic={4.4} d={0.6} f={K} /><Cizgi4 ic={5} d={0.6} f="#F2C64E" /></>}
+      <Serit k="u" ic={1.2} d={0.7} f={KREM} /><Serit k="s" ic={1.2} d={0.7} f={KREM} />
+      <Cizgi4 ic={5.6} d={1} f="rgba(31,42,68,.55)" />
     </g>
   );
 }
+const KREM_VURGU = ({ ikincil }) => (!ikincil ? <line x1="18" y1="1.9" x2="30" y2="1.9" stroke="#fff" strokeWidth="0.9" strokeLinecap="round" /> : null);
 
-/* 9 Eki (4. tur): önceki üç BP çerçevesi beğenilmedi → üçü SIFIRDAN. Dört köşe düz 90° (pah/kesik/yuvarlak yok). */
-
-/** Dik açılı (ortogonal) çokgen kabartma: her kenara içe pah; üst/sol bakan kenar açık, alt/sağ bakan kenar koyu.
- *  Ayna çapalarda yön değişince alan işaretinden içe normal yeniden bulunur → ışık her köşede sol-üstten kalır. */
-function KabaraCokgen({ n, t = ALTIN, b = 3.5, k = 3 }) {
-  const alan = n.reduce((s, [x, y], i) => { const [x2, y2] = n[(i + 1) % n.length]; return s + x * y2 - x2 * y; }, 0);
-  const yon = alan > 0 ? 1 : -1;
+function KartV1() {   // Sade ince altın: çift çizgi + dört köşede küçük L vurgu
+  const id = useId().replace(/:/g, "");
   return (
     <g>
-      <polygon points={cokgen(n)} fill={t.orta} />
-      {n.map(([x, y], i) => {
-        const [x2, y2] = n[(i + 1) % n.length], L = Math.hypot(x2 - x, y2 - y) || 1;
-        const nx = (-(y2 - y) / L) * yon, ny = ((x2 - x) / L) * yon;
-        const renk = ny > 0.5 || nx > 0.5 ? t.acik : t.koyu;
-        return <polygon key={i} points={cokgen([[x, y], [x2, y2], [r1(x2 + nx * b), r1(y2 + ny * b)], [r1(x + nx * b), r1(y + ny * b)]])} fill={renk} />;
-      })}
-      <polygon points={cokgen(n)} fill="none" stroke={K} strokeWidth={k} strokeLinejoin="miter" />
-    </g>
-  );
-}
-/** Basamak kesim kare taş: dış kare + iç tabla, dört pah tonlu (sol/üst açık, sağ/alt koyu) */
-function KareTas({ x, y, s, t = AL, i = 0.28 }) {
-  const d = r1(s * i), A = [x, y], B = [x + s, y], C = [x + s, y + s], D = [x, y + s];
-  const a = [x + d, y + d], b = [x + s - d, y + d], c = [x + s - d, y + s - d], e = [x + d, y + s - d];
-  return (
-    <g>
-      <polygon points={cokgen([A, B, b, a])} fill={t.acik} />
-      <polygon points={cokgen([A, a, e, D])} fill={t.acik} />
-      <polygon points={cokgen([B, C, c, b])} fill={t.koyu} />
-      <polygon points={cokgen([D, e, c, C])} fill={t.koyu} />
-      <rect x={a[0]} y={a[1]} width={r1(s - 2 * d)} height={r1(s - 2 * d)} fill={t.orta} stroke={K} strokeWidth="1.2" />
-      <path d={`M${A.join(" ")}L${a.join(" ")}M${B.join(" ")}L${b.join(" ")}M${C.join(" ")}L${c.join(" ")}M${D.join(" ")}L${e.join(" ")}`} stroke={K} strokeWidth="1.2" />
-      <rect x={x} y={y} width={s} height={s} fill="none" stroke={K} strokeWidth="2.2" />
-    </g>
-  );
-}
-/** Sol/sağ kenarın ortası (y = %50) */
-const Yan = ({ sag = false, children }) => <svg x={sag ? "100%" : 0} y="50%" overflow="visible">{children}</svg>;
-const MAVI = { koyu: "#1B3C8F", orta: "#2F5FD0", acik: "#7FA6F5" };
-const kare = (x, y, w, h) => [[x, y], [x + w, y], [x + w, y + h], [x, y + h]];
-
-function KartV1() {   // Kabartmalı altın levha: kalın pahlı bant + ince iç çizgi + dört köşede kalın L parça + üst/alt yakut levha
-  return (
-    <g>
-      <Cubuk ic={0} d={14} t={ALTIN} b={3.5} />
-      <Cizgi4 ic={14} d={2.5} f={K} />
-      <Cizgi4 ic={16.5} d={2} f={ALTIN.acik} />
-      <Cizgi4 ic={18.5} d={1.5} f={K} />
+      <defs><Metal id={id} /></defs>
+      <InceGovde id={id} iki />
       <Koseler ciz={(kutu, nokta, ikincil) => {
-        const L = [[0, 0], [46, 0], [46, 22], [22, 22], [22, 46], [0, 46]].map(([x, y]) => nokta(x, y));
-        const [cx, cy] = nokta(11, 11), [ax, ay] = nokta(35, 11), [bx, by] = nokta(11, 35);
+        const L = [[0, 0], [15, 0], [15, 4.4], [4.4, 4.4], [4.4, 15], [0, 15]].map(([x, y]) => nokta(x, y));
+        const c = kutu(1.6, 1.6, 2.2, 2.2);
         return (
           <g>
-            <KabaraCokgen n={L} b={4} />
-            <circle cx={cx} cy={cy} r="5.2" fill={ALTIN.orta} stroke={K} strokeWidth="2.2" />
-            <path d={`M${cx - 3} ${cy + 0.5}A3 3 0 0 1 ${cx + 0.5} ${cy - 3}`} fill="none" stroke={ALTIN.acik} strokeWidth="1.8" strokeLinecap="round" />
-            {[[ax, ay], [bx, by]].map(([x, y]) => <circle key={`${x}${y}`} cx={x} cy={y} r="2.6" fill={ALTIN.acik} stroke={K} strokeWidth="1.6" />)}
-            {!ikincil && <line x1="26" y1="5" x2="38" y2="5" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" />}
+            <polygon points={cokgen(L)} fill={ALTIN.orta} stroke={K} strokeWidth="1" strokeLinejoin="miter" />
+            <rect x={c.x} y={c.y} width="2.2" height="2.2" fill={KREM} />
+            <KREM_VURGU ikincil={ikincil} />
           </g>
         );
       }} />
-      <Orta>
-        <KabaraCokgen n={kare(-26, 0, 52, 24)} b={3.5} />
-        <rect x="-15" y="4" width="30" height="16" fill={K} />
-        <Gem y={11} s={10} t={AL} sw={2.4} sw2={1.2} />
-      </Orta>
-      <Orta alt>
-        <KabaraCokgen n={kare(-26, -24, 52, 24)} b={3.5} />
-        <rect x="-15" y="-20" width="30" height="16" fill={K} />
-        <Gem y={-13} s={10} t={AL} sw={2.4} sw2={1.2} />
-      </Orta>
     </g>
   );
 }
 
-function KartV2() {   // Çift şeritli kraliyet: dış kalın altın + lacivert mineli kanalda altın baklava dizisi + iç ince şerit; köşede kare taş yuvası
+function KartV2() {   // İnce altın + bant boyunca minik baklava dizisi + köşede küçük kare mücevher
   const id = useId().replace(/:/g, "");
   const desen = (ad, x, y, dikey) => {
-    const w = dikey ? 10 : 14, h = dikey ? 14 : 10, cx = w / 2, cy = h / 2, a = dikey ? 3.6 : 5, b = dikey ? 5 : 3.6;
-    const kenar = cokgen([[cx, cy - b], [cx + a, cy], [cx, cy + b], [cx - a, cy]]);
+    const w = dikey ? 4.4 : 7, h = dikey ? 7 : 4.4, cx = w / 2, cy = h / 2, a = dikey ? 1.3 : 1.7, b = dikey ? 1.7 : 1.3;
     return (
-      <pattern id={`${id}${ad}`} patternUnits="userSpaceOnUse" x={x} y={y} width={w} height={h}>
-        <rect width={w} height={h} fill={MAVI.orta} />
-        <rect width={dikey ? 2 : w} height={dikey ? h : 2} fill={MAVI.koyu} />
-        <polygon points={kenar} fill={ALTIN.orta} />
-        <polygon points={cokgen([[cx, cy - b], [cx, cy], [cx - a, cy]])} fill={ALTIN.acik} />
-        <polygon points={cokgen([[cx + a, cy], [cx, cy + b], [cx, cy]])} fill={ALTIN.koyu} />
-        <polygon points={kenar} fill="none" stroke={K} strokeWidth="1.2" strokeLinejoin="round" />
-        <circle cx={dikey ? cx : 0} cy={dikey ? 0 : cy} r="1.3" fill={ALTIN.acik} />
+      <pattern key={ad} id={`${id}${ad}`} patternUnits="userSpaceOnUse" x={x} y={y} width={w} height={h}>
+        <polygon points={cokgen([[cx, cy - b], [cx + a, cy], [cx, cy + b], [cx - a, cy]])} fill={KREM} stroke="#6B430C" strokeWidth=".45" />
       </pattern>
     );
   };
   return (
     <g>
-      <defs>{desen("u", 0, 9.5, false)}{desen("a", 0, -19.5, false)}{desen("s", 9.5, 0, true)}{desen("g", -19.5, 0, true)}</defs>
-      <Cubuk ic={0} d={8} t={ALTIN} b={2.5} />
-      <Cizgi4 ic={8} d={1.5} f={K} />
-      <rect x="0" y="9.5" width="100%" height="10" fill={`url(#${id}u)`} />
-      <svg y="100%" overflow="visible"><rect x="0" y="-19.5" width="100%" height="10" fill={`url(#${id}a)`} /></svg>
-      <rect x="9.5" y="0" width="10" height="100%" fill={`url(#${id}s)`} />
-      <svg x="100%" overflow="visible"><rect x="-19.5" y="0" width="10" height="100%" fill={`url(#${id}g)`} /></svg>
-      <Cizgi4 ic={19.5} d={1.5} f={K} />
-      <Cubuk ic={21} d={4} t={ALTIN} b={1.3} />
-      <Cizgi4 ic={25} d={1.5} f={K} />
+      <defs><Metal id={id} />{desen("u", 0, 1.2, false)}{desen("a", 0, -5.6, false)}{desen("s", 1.2, 0, true)}{desen("g", -5.6, 0, true)}</defs>
+      <InceGovde id={id} />
+      <rect x="0" y="1.2" width="100%" height="4.4" fill={`url(#${id}u)`} />
+      <svg y="100%" overflow="visible"><rect x="0" y="-5.6" width="100%" height="4.4" fill={`url(#${id}a)`} /></svg>
+      <rect x="1.2" y="0" width="4.4" height="100%" fill={`url(#${id}s)`} />
+      <svg x="100%" overflow="visible"><rect x="-5.6" y="0" width="4.4" height="100%" fill={`url(#${id}g)`} /></svg>
       <Koseler ciz={(kutu, nokta, ikincil) => {
-        const dis = kutu(0, 0, 36, 36), yuva = kutu(7, 7, 22, 22), tas = kutu(9.5, 9.5, 17, 17);
+        const d = kutu(0, 0, 9, 9), y = kutu(1.6, 1.6, 5.8, 5.8), t = kutu(2.6, 2.6, 3.8, 3.8), p = kutu(3, 3, 1.3, 1.3);
         return (
           <g>
-            <KabaraCokgen n={kare(dis.x, dis.y, 36, 36)} b={4} />
-            <rect x={yuva.x} y={yuva.y} width="22" height="22" fill={K} />
-            <KareTas x={tas.x} y={tas.y} s={17} t={AL} />
-            {!ikincil && <line x1="6" y1="4" x2="16" y2="4" stroke="#fff" strokeWidth="2" strokeLinecap="round" />}
+            <rect x={d.x} y={d.y} width="9" height="9" fill={`url(#${id}y)`} stroke={K} strokeWidth="1.2" />
+            <rect x={y.x} y={y.y} width="5.8" height="5.8" fill={AL.koyu} stroke={K} strokeWidth=".7" />
+            <rect x={t.x} y={t.y} width="3.8" height="3.8" fill={AL.orta} />
+            <rect x={p.x} y={p.y} width="1.3" height="1.3" fill="#fff" opacity=".85" />
+            <KREM_VURGU ikincil={ikincil} />
           </g>
         );
       }} />
-      {[false, true].map((alt) => (
-        <Orta key={String(alt)} alt={alt}>
-          <g transform={alt ? "translate(0 -14.5)" : "translate(0 14.5)"}>
-            <polygon points="-22,0 0,-11 22,0 0,11" fill={ALTIN.orta} />
-            <polygon points="-22,0 0,-11 0,0" fill={ALTIN.acik} />
-            <polygon points="22,0 0,11 0,0" fill={ALTIN.koyu} />
-            <polygon points="-22,0 0,-11 22,0 0,11" fill="none" stroke={K} strokeWidth="2.6" strokeLinejoin="round" />
-            <KareTas x={-5.5} y={-5.5} s={11} t={MAVI} i={0.3} />
-          </g>
-        </Orta>
-      ))}
-      {[false, true].map((sag) => (
-        <Yan key={String(sag)} sag={sag}>
-          <g transform={sag ? "translate(-14.5 0)" : "translate(14.5 0)"}>
-            <polygon points="0,-18 9,0 0,18 -9,0" fill={ALTIN.orta} />
-            <polygon points="0,-18 0,0 -9,0" fill={ALTIN.acik} />
-            <polygon points="9,0 0,18 0,0" fill={ALTIN.koyu} />
-            <polygon points="0,-18 9,0 0,18 -9,0" fill="none" stroke={K} strokeWidth="2.4" strokeLinejoin="round" />
-          </g>
-        </Yan>
-      ))}
     </g>
   );
 }
 
-function KartV3() {   // Oyma altın rölyef: kıvrımlı sarmaşık kabartma bant + kare madalyon köşe (gül oyma) + üstte taç tepelik
+function KartV3() {   // İnce altın + köşede küçük oymalı kıvrım süsü + üst ortada minik taç/elmas
   const id = useId().replace(/:/g, "");
-  const sarmasik = (ad, x, y, dikey) => {
-    const ic = (
-      <g>
-        <path d="M0 9C5 2 8 2 13 9S21 16 26 9" fill="none" stroke={ALTIN.koyu} strokeWidth="2.4" strokeLinecap="round" />
-        <path d="M6.5 5.2C4 1 8 -0.5 10.5 1.5C10 4 8.5 5.5 6.5 5.2Z" fill={ALTIN.acik} stroke={K} strokeWidth="1.1" strokeLinejoin="round" />
-        <path d="M19.5 12.8C22 17 18 18.5 15.5 16.5C16 14 17.5 12.5 19.5 12.8Z" fill={ALTIN.koyu} stroke={K} strokeWidth="1.1" strokeLinejoin="round" />
-        <circle cx="13" cy="9" r="1.9" fill={ALTIN.acik} stroke={K} strokeWidth="1" />
-        <circle cx="2.5" cy="14" r="1.1" fill={ALTIN.koyu} /><circle cx="23.5" cy="4" r="1.1" fill={ALTIN.acik} />
-      </g>
-    );
-    return (
-      <pattern id={`${id}${ad}`} patternUnits="userSpaceOnUse" x={x} y={y} width={dikey ? 18 : 26} height={dikey ? 26 : 18}>
-        {dikey ? <g transform="translate(18 0) rotate(90)">{ic}</g> : ic}
-      </pattern>
-    );
-  };
   return (
     <g>
-      <defs>{sarmasik("u", 0, 0, false)}{sarmasik("a", 0, -18, false)}{sarmasik("s", 0, 0, true)}{sarmasik("g", -18, 0, true)}</defs>
-      <Cubuk ic={0} d={18} t={ALTIN} b={2.5} />
-      <rect x="0" y="0" width="100%" height="18" fill={`url(#${id}u)`} />
-      <svg y="100%" overflow="visible"><rect x="0" y="-18" width="100%" height="18" fill={`url(#${id}a)`} /></svg>
-      <rect x="0" y="0" width="18" height="100%" fill={`url(#${id}s)`} />
-      <svg x="100%" overflow="visible"><rect x="-18" y="0" width="18" height="100%" fill={`url(#${id}g)`} /></svg>
-      <Cizgi4 ic={18} d={2.5} f={K} />
-      <Cizgi4 ic={20.5} d={2} f={ALTIN.acik} />
-      <Cizgi4 ic={22.5} d={1.5} f={K} />
+      <defs><Metal id={id} /></defs>
+      <InceGovde id={id} />
       <Koseler ciz={(kutu, nokta, ikincil) => {
-        const d = kutu(0, 0, 40, 40), ic = kutu(6, 6, 28, 28), [cx, cy] = nokta(20, 20);
+        const P = (pts) => pts.map(([x, y]) => nokta(x, y).join(" "));
+        const [a, b, c, d] = P([[6.6, 13.5], [10.6, 13.2], [11.2, 8.2], [8.6, 8.6]]);
+        const [e, f, g, h] = P([[13.5, 6.6], [13.2, 10.6], [8.2, 11.2], [8.6, 8.6]]);
+        const kivrim = `M${a}C${b} ${c} ${d}M${e}C${f} ${g} ${h}`;
+        const [mx, my] = nokta(3.3, 3.3);
         return (
           <g>
-            <KabaraCokgen n={kare(d.x, d.y, 40, 40)} b={4} />
-            <rect x={ic.x} y={ic.y} width="28" height="28" fill={ALTIN.koyu} stroke={K} strokeWidth="1.8" />
-            {[0, 45, 90, 135, 180, 225, 270, 315].map((a) => (
-              <ellipse key={a} cx={cx} cy={cy - 7} rx="3.3" ry="6.2" transform={`rotate(${a} ${cx} ${cy})`}
-                       fill={a >= 225 || a === 0 ? ALTIN.acik : ALTIN.orta} stroke={K} strokeWidth="1.4" />
-            ))}
-            <Kabason x={cx} y={cy} r={4.6} />
-            {!ikincil && <line x1="6" y1="4.2" x2="18" y2="4.2" stroke="#fff" strokeWidth="2" strokeLinecap="round" />}
+            <path d={kivrim} fill="none" stroke={K} strokeWidth="2.4" strokeLinecap="round" />
+            <path d={kivrim} fill="none" stroke={ALTIN.orta} strokeWidth="1.2" strokeLinecap="round" />
+            <rect x={mx - 2.3} y={my - 2.3} width="4.6" height="4.6" fill={ALTIN.acik} stroke={K} strokeWidth=".9" transform={`rotate(45 ${mx} ${my})`} />
+            <KREM_VURGU ikincil={ikincil} />
           </g>
         );
       }} />
       <Orta>
-        <KabaraCokgen n={kare(-36, 0, 72, 24)} b={3} />
-        <path d="M-32 12C-28 5 -22 5 -19 12M32 12C28 5 22 5 19 12" fill="none" stroke={ALTIN.koyu} strokeWidth="2" strokeLinecap="round" />
-        <g transform="translate(0 66) scale(0.6)">
-          <polygon points="-22,-68 -22,-84 -11,-76 0,-91 11,-76 22,-84 22,-68" fill={ALTIN.acik} />
-          <polygon points="0,-68 0,-91 11,-76 22,-84 22,-68" fill={ALTIN.orta} />
-          <polygon points="-22,-68 -22,-84 -11,-76 0,-91 11,-76 22,-84 22,-68" fill="none" stroke={K} strokeWidth="3.6" strokeLinejoin="round" />
-          <rect x="-23" y="-72" width="46" height="8" fill={ALTIN.koyu} stroke={K} strokeWidth="3" />
-          {[[-22, -86], [0, -93], [22, -86]].map(([x, y]) => <circle key={x} cx={x} cy={y} r="3.6" fill={AL.orta} stroke={K} strokeWidth="2" />)}
-        </g>
-      </Orta>
-      <Orta alt>
-        <KabaraCokgen n={kare(-24, -22, 48, 22)} b={3} />
-        <Yildiz y={-11} r={8} t={ALTIN} sw={2} />
+        <polygon points="-7,6 -7,-1 -3.5,2.4 0,-3 3.5,2.4 7,-1 7,6" fill={ALTIN.orta} stroke={K} strokeWidth="1" strokeLinejoin="round" />
+        <polygon points="-7,6 -7,-1 -3.5,2.4 0,-3 0,6" fill={ALTIN.acik} />
+        <polygon points="-7,6 -7,-1 -3.5,2.4 0,-3 3.5,2.4 7,-1 7,6" fill="none" stroke={K} strokeWidth="1" strokeLinejoin="round" />
+        <Gem y={3.4} s={2.2} t={AL} sw={0.7} sw2={0.4} />
       </Orta>
     </g>
   );

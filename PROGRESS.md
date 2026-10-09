@@ -11152,3 +11152,8 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - Yeni arka plan: LigSahneArka.jsx (a1 sade, a2 orta, a3 zengin; lige özgü motif, yarım-ton köşe). Prop: sahneArka, ligVaryant.
 - Canlı değişmedi (yeni proplar yalnız önizlemede). Test: taklit Supabase ile yerel ekran, 11 kombinasyon, 480+390 px, taşma/konsol hatası yok.
 - Düzeltme (Ida): kartlar yeniden yan yana; "alt alta" talebi ızgara düzeni değişikliği değildi, eski auto-fill ızgara geri geldi.
+
+## 9 Eki 2026 — Lig sahne önizleme 5. tur: ince BP çerçeve + Eski tabanlı arka plan (Claude)
+- BP kart çerçeveleri (BpCizimler.jsx KartV1-3) yeniden: üçü aynı 6,6 px kalınlık (lacivert kontur + 5 duraklı metalik altın geçiş + üst/sol krem parlama + iç gölge). 1 çift çizgi + L köşe; 2 minik baklava dizisi + kare yakut köşe; 3 köşe kıvrım + üst orta minik taç. Kullanılmayan kalın yardımcılar silindi. `.qt-ok--bpk` kenarlığı 0, iç boşluk normal kartla aynı.
+- LigSahneArka.jsx: motif/yıldız/yarım-ton atıldı; Eski'nin 18 ışınlı kompozisyonu. a1 yumuşak parlama, a2 + iki tonlu ışın + vinyet, a3 + merkezden kenara renk geçişi + yumuşak ışın kenarı.
+- Test: yerel geçici kabuk (giriş yok, hesap açılmadı), 9 kombinasyon 1100 px + 3 kombinasyon 390 px, taşma yok. Görseller tasarim/lig-sahne-v-adim4/ (commit dışı).

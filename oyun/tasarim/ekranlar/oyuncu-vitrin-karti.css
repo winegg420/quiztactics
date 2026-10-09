@@ -179,5 +179,6 @@
 /* 9 Eki (3. tur): BP kart çerçevesi artık SVG (BpCizimler.jsx › BpKartCerceve, .qt-ok-bpk-cerceve); avatar arkası halka
    yok. Eski kutu-gölge bandı ve perçinler bu varyantlarda gizli; iç boşluk çerçeve kalınlığı kadar açılır. Canlı etkilenmez. */
 .qt-ok--bpk::after, .qt-ok--bpk .qt-ok-percin { display: none; }
-.qt-ok--bpk { padding: 50px 28px 30px; }
+/* 9 Eki (5. tur): ince çerçeve (~6 px) — kenar konturu SVG'de; kart iç alanı normal kartla aynı (border 3 px yerine padding) */
+.qt-ok--bpk { border-width: 0; padding: 43px 17px 19px; }
 .qt-ok-bpk-cerceve { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: visible; }
