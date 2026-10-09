@@ -26,6 +26,7 @@ export {
 } from "./temel.jsx";
 export { QtMarka, QtUstCubuk, QtUstMenu, QtAltMenu, QtModal, QtToast, QtToastYuvasi } from "./kabuk.jsx";
 export { default as QtSahne, QT_SAHNE_COIN_HAPI } from "./sahne/QtSahne.jsx";
+export { default as SayfaBasligi } from "./SayfaBasligi.jsx";
 export {
   QtModKart,
   QtSik,

@@ -18,7 +18,7 @@ import IsimEfekti from "../components/IsimEfekti.jsx";
 import { useDmOkunmamis } from "../lib/mesajlar.js";
 import {
   QtIkon, QtDugme, QtIkonDugme, QtKart, QtListe, QtListeSatiri, QtBosDurum, QtRozet,
-  QtIskelet, QtModal, QtSayiRozeti, QtAfis, sayiBicim, sinif, siraStili, useSiraliGiris, dokunus,
+  QtIskelet, QtModal, QtSayiRozeti, SayfaBasligi, sayiBicim, sinif, siraStili, useSiraliGiris, dokunus,
 } from "../tasarim/index.js";
 // Tasarım A (Faz 2, şerit L): Arkadaşlar · Davet · Mesajlar ortak stilleri
 import "../tasarim/ekranlar/l-sosyal.css";
@@ -374,7 +374,7 @@ export default function FriendsPage() {
       {/* ---------- SAYFA BAŞLIĞI (Tasarım A) ----------
           Sahte sayı yok: çevrimiçi / haftalık maç gibi şeritler gerçek veriden
           gelmediği için çizilmez. Mesajlar alt menüde değil, buradan açılır. */}
-      <QtAfis
+      <SayfaBasligi
         ikon="kisiler"
         baslik={tt("Arkadaşlar")}
         ton="mor"
@@ -398,7 +398,7 @@ export default function FriendsPage() {
             {cevrimiciSayisi > 0 && <span className="qt-oyk-ozet-hazir">{tt("{n} çevrimiçi", { n: sayiBicim(cevrimiciSayisi) })}</span>}
           </>
         )}
-      </QtAfis>
+      </SayfaBasligi>
 
       {hata && (
         <p className="ls-uyari ls-uyari-hata" role="alert">

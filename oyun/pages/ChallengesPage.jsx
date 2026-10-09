@@ -3,7 +3,7 @@ import OyuncuAdiDugmesi from "../components/OyuncuAdiDugmesi.jsx";   // Ajan C: 
 import KategoriIkon from "../components/KategoriIkon.jsx";
 import {
   QtKart, QtDugme, QtIkonDugme, QtIkon, QtModKart, QtListe, QtListeSatiri, QtRozet, QtCip, QtIlerleme,
-  QtModal, QtToast, QtToastYuvasi, QtAfis, QtIskelet, QtBosDurum, sinif, dokunus, siraStili, useSiraliGiris,
+  QtModal, QtToast, QtToastYuvasi, SayfaBasligi, QtIskelet, QtBosDurum, sinif, dokunus, siraStili, useSiraliGiris,
 } from "../tasarim/index.js";
 import { sesKategoriSecildi, sesRakipBulundu } from "../lib/ses.js";
 import "../tasarim/ekranlar/a-meydan.css";
@@ -936,7 +936,7 @@ export default function ChallengesPage() {
   return (
     <div className="a-meydan">
       {/* Sayfa başlığı: afiş (1 Eki 2026 — açıklama cümlesi kalktı) */}
-      <QtAfis ikon="duello" ton="vurgu" baslik={tt("Meydan Oku")} />
+      <SayfaBasligi ikon="duello" ton="vurgu" baslik={tt("Meydan Oku")} />
       {hata && <p className="a-meydan-hata" role="alert">{hata}</p>}
       {macHata && (
         <QtKart><DurumKutusu durum="hata" kucuk metin={tt("Maç ve davet listen alınamadı.")} onTekrar={yukle} /></QtKart>

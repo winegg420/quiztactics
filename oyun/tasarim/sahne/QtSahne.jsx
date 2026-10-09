@@ -18,13 +18,9 @@
 // sahnedekidir → seçici QT_SAHNE_COIN_HAPI (ziplat(QT_SAHNE_COIN_HAPI)).
 // iOS: kök `position: fixed` ve HAREKETSİZ; giriş geçişi (sağdan kayma) içteki sarmalayıcıda. Stil: sahne.css (qt-sahne-*).
 // ============================================================
-import { useCallback } from "react";
-import { useNavigate } from "react-router-dom";
-import { QtIkonDugme, sinif } from "../temel.jsx";
-import CoinHapi from "../../components/CoinHapi.jsx";
+import { sinif } from "../temel.jsx";
+import SayfaBasligi from "../SayfaBasligi.jsx";
 import { useOyunModu } from "../../lib/oyunModu.js";
-import { tt } from "../../lib/dil.js";
-import { y } from "../../lib/yol.js";
 import "./sahne.css";
 
 /** Sahnedeki coin hapının seçicisi (ziplat hedefi, coin uçuşunun varış noktası). */
@@ -32,27 +28,12 @@ export const QT_SAHNE_COIN_HAPI = ".qt-sahne-coin .bd-coin-hap";
 
 export default function QtSahne({ baslik, altBaslik, sag, ust, alt, children, govdeRef, onGeri, className, ...rest }) {
   useOyunModu(true);
-  const navigate = useNavigate();
-  const geri = useCallback(() => {
-    if (onGeri) { onGeri(); return; }
-    try {
-      if (window.history.length > 1) { navigate(-1); return; }
-    } catch { /* geçmiş okunamadı */ }
-    navigate(y("/"));
-  }, [navigate, onGeri]);
   const altVar = alt != null && alt !== false;
 
   return (
     <div className={sinif("qt-sahne-kok", className)} {...rest}>
       <div className="qt-sahne-ic">
-        <header className="qt-sahne-ust">
-          <QtIkonDugme ikon="geri" etiket={tt("Geri")} tur="yuzey" className="qt-sahne-geri" onClick={geri} />
-          <div className="qt-sahne-baslik">
-            <h1>{baslik}</h1>
-            {altBaslik != null && altBaslik !== false && <span className="qt-sahne-altbaslik">{altBaslik}</span>}
-          </div>
-          <div className="qt-sahne-coin">{sag ?? <CoinHapi />}</div>
-        </header>
+        <SayfaBasligi tur="sahne" baslik={baslik} altYazi={altBaslik} sag={sag} onGeri={onGeri} />
         {ust != null && ust !== false && <div className="qt-sahne-sabit">{ust}</div>}
         <div className="qt-sahne-govde" ref={govdeRef}>{children}</div>
         {altVar && <div className="qt-sahne-alt">{alt}</div>}

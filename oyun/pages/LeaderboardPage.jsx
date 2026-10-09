@@ -22,7 +22,7 @@ import { tt } from "../lib/dil.js";
 import { ayarlar } from "../lib/ayarlar.js";
 import {
   QtIkon, QtIkonDugme, QtDugme, QtSekmeler, QtCip, QtRozet, QtIlerleme,
-  QtBosDurum, QtIskelet, QtModal, QtAfis, siraStili, useSiraliGiris, dokunus,
+  QtBosDurum, QtIskelet, QtModal, SayfaBasligi, siraStili, useSiraliGiris, dokunus,
 } from "../tasarim/index.js";
 import { CoinIkon, ElmasIkon } from "../components/ParaIkonlari.jsx";
 // Tasarım A (Faz 2, şerit L): sayfa stilleri lig-a.css'te. Eski lig.css
@@ -478,7 +478,7 @@ export default function LeaderboardPage() {
           )}
         </section>
       ) : (
-        <QtAfis className={`lg-baslik ${siraliOge(0).className}`.trim()} style={siraliOge(0).style} ikon="lig" baslik={tt("Lig")} />
+        <SayfaBasligi className={`lg-baslik ${siraliOge(0).className}`.trim()} style={siraliOge(0).style} ikon="lig" baslik={tt("Lig")} />
       )}
 
       {hata && (

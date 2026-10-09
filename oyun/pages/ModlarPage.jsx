@@ -21,7 +21,7 @@ import { KLASIK_JOKERLER, DUELLO_JOKERLER, DUELLO_V4_JOKERLER } from "../lib/jok
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
 import { useDil } from "../lib/dilKanca.js";
-import { QtModKart, QtListe, QtListeSatiri, QtAfis, dokunus, siraStili, useSiraliGiris } from "../tasarim/index.js";
+import { QtModKart, QtListe, QtListeSatiri, SayfaBasligi, dokunus, siraStili, useSiraliGiris } from "../tasarim/index.js";
 import "../tasarim/ekranlar/a-modlar.css";
 
 // Gerçek joker sayıları — prototipteki "6 JOKER / 5 JOKER" yazıları uydurmaydı.
@@ -59,7 +59,7 @@ export default function ModlarPage() {
         />
       )}
 
-      <QtAfis ikon="oyna" baslik={tt("Tarzını seç, bilgini göster")} className="a-modlar-afis" />
+      <SayfaBasligi ikon="oyna" baslik={tt("Tarzını seç, bilgini göster")} className="a-modlar-afis" />
 
       {/* Dereceli/serbest ayrımı tek anahtarla — ana sayfadakiyle AYNI tercih
           (localStorage + profiles.dereceli_tercih). */}
