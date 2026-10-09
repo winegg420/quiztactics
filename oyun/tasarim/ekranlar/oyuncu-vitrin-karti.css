@@ -175,3 +175,9 @@
   background: var(--qt-altin-plaka-acik); border: 2px solid var(--qt-lig-sahne-kontur); box-shadow: inset -2px -2px 0 var(--qt-altin-plaka-koyu); }
 .qt-ok--bpk-v3 .qt-ok-percin--ust-sol { top: -3px; left: -3px; }    .qt-ok--bpk-v3 .qt-ok-percin--ust-sag { top: -3px; right: -3px; }
 .qt-ok--bpk-v3 .qt-ok-percin--alt-sol { bottom: -3px; left: -3px; } .qt-ok--bpk-v3 .qt-ok-percin--alt-sag { bottom: -3px; right: -3px; }
+
+/* 9 Eki (3. tur): BP kart çerçevesi artık SVG (BpCizimler.jsx › BpKartCerceve, .qt-ok-bpk-cerceve); avatar arkası halka
+   yok. Eski kutu-gölge bandı ve perçinler bu varyantlarda gizli; iç boşluk çerçeve kalınlığı kadar açılır. Canlı etkilenmez. */
+.qt-ok--bpk::after, .qt-ok--bpk .qt-ok-percin { display: none; }
+.qt-ok--bpk { padding: 50px 28px 30px; }
+.qt-ok-bpk-cerceve { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: visible; }

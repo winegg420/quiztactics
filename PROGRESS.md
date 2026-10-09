@@ -11137,3 +11137,10 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
   hepsi varsayılan null → canlı değişmez (Eski sekmesi önce/sonra PNG md5 birebir aynı).
 - Test: kayıtlı misafir oturumu geçersizdi; yeni hesap açmadan sayfa yerelde geçici HTML kabukla açıldı (dosyalar silindi).
   Görseller: tasarim/lig-sahne-v-adim2/ (commit edilmedi).
+
+## 9 Eki 2026 — Lig sahne önizleme V1/V2/V3, 3. tur (Claude)
+- Avatar arkası BP halkası tamamen kaldırıldı (BpHalka silindi). BP'yi yalnız köşeli kart çerçevesi temsil eder.
+- Yeni BP kart çerçevesi SVG (BpCizimler.jsx › BpKartCerceve; iç içe `<svg x="100%">` çapalarıyla keskin 90° köşe):
+  V1 kabartmalı levha + L köşe + üst/alt yakut; V2 çift kenar + baklava kanalı + kare mücevher yuvası; V3 yaprak oymalı rölyef + kare madalyon + yıldızlı tepelik.
+- Elmas/Efsane çerçeveleri Bronz/Gümüş/Altın ailesinden (aynı gövde r56–74, 8 perçin, tepelik, ayak plakası) sıfırdan: V1 sade, V2 işlemeli, V3 zengin.
+- Canlı değişmedi (yalnız `varyant` prop'u). Ekranlar: tasarim/lig-sahne-v-adim3/ (commit dışı). Test misafiri silindi.

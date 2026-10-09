@@ -1,14 +1,15 @@
 /**
  * BP VARYANT ÇİZİMLERİ (9 Eki 2026, /lig-sahne-onizleme V1/V2/V3 — yalnız önizleme; canlıda hiçbir yer `varyant` vermez).
- * - <BpHalka varyant boyut />      : avatarın ARKASINDA Battle Pass halkası. Lig çerçevesinin dışında (iç yarıçap 82 birim >
- *                                    çerçeve 74), çerçevenin altında (z -1) → avatarı bölmez, çerçeveyle çakışmaz. 5 ligde aynı.
+ * - <BpKartCerceve varyant />     : köşeli (90°) Battle Pass KART çerçevesi, kartın üstüne tam boy SVG. Avatar arkasında
+ *                                    BP halkası YOK (9 Eki, 3. tur: BP'yi yalnız kart çerçevesi temsil eder).
  * - <LigCerceveVaryant lig varyant />: Elmas / Efsane lig çerçevesinin yeni yorumu (LigCerceveSvg `varyant` ile çağırır).
  * Birim düzeni lig çerçeveleriyle aynı: viewBox "-140 -140 280 280", avatar deliği r56 (boş), halka dışı r74.
  * Dil: kalın #1f2a44 kontur, 3 ton (koyu/orta/açık), ışık sol-üstten, TEK beyaz vurgu. Hareket yok.
  */
+import { useId } from "react";
+
 const K = "#1f2a44";
 const ALTIN = { koyu: "#C58F0E", orta: "#F5C542", acik: "#FFE27A" };
-const ELMAS = { koyu: "#1E7FB0", orta: "#4FC3E8", acik: "#B6F0FF" };
 const EFSANE = { koyu: "#5B2A9E", orta: "#9B5CF0", acik: "#D3B3FF" };
 const AL = { koyu: "#A3243B", orta: "#E8455F", acik: "#FF9DAD" };
 
@@ -28,240 +29,213 @@ function yay(r, a0, a1) {
 }
 const cokgen = (n) => n.map((p) => p.join(",")).join(" ");
 
-/** 3 tonlu yuvarlak bant: kontur + orta + sağ-alt gölge + sol-üst açık yay (+ isteğe bağlı tek beyaz vurgu) */
-function Bant({ ro, ri, t, beyaz = false, kontur = 3 }) {
-  const ort = (ro + ri) / 2, gen = ro - ri;
+
+/* ===================== ELMAS / EFSANE — Bronz·Gümüş·Altın AİLESİ (9 Eki 2026, 3. tur) =====================
+   Aile kuralı (tasarim/lig-cerceveleri/uretici.js ile aynı ölçü): gövde r56–74, sağ-alt koyu dilim (20°→200°),
+   sol-üstte açık yay, iç çizgi r60, 8 perçin (r65.5, 22.5° + 45k), tepelik y −70 üstünde, ayak plakası y 72–94.
+   Fark yalnız renk + tepelik/ayak motifi. V1 sade · V2 işlemeli · V3 en zengin. Avatar deliği (r56) hep boş. */
+const BUZ = { koyu: "#3B97C9", orta: "#8ED8F5", acik: "#E2F7FF" };
+const TAS_MAVI = { koyu: "#1E7DB0", orta: "#4DBDEB", acik: "#C4F1FF" };
+const SEKIZ = [22.5, 67.5, 112.5, 157.5, 202.5, 247.5, 292.5, 337.5];
+
+/** Pırlanta (önden): taç + kuşak + sivri alt; sol açık, sağ koyu (uretici.js › gem ile aynı kesim) */
+function Gem({ x = 0, y = 0, s, t, sw = 3.6, sw2 = 1.8 }) {
+  const GL = [-s, 0], GR = [s, 0], TL = [-0.55 * s, -0.62 * s], TR = [0.55 * s, -0.62 * s], B = [0, s], ML = [-0.4 * s, 0], MR = [0.4 * s, 0];
+  const p = (a) => a.map(([px, py]) => `${r1(x + px)},${r1(y + py)}`).join(" ");
   return (
     <g>
-      <path d={halkaYolu(ro + kontur / 2, ri - kontur / 2)} fill={K} fillRule="evenodd" />
-      <path d={halkaYolu(ro - kontur / 2, ri + kontur / 2)} fill={t.orta} fillRule="evenodd" />
-      <path d={dilim(ro - kontur / 2, ort, 20, 200)} fill={t.koyu} />
-      <path d={yay(ort, 205, 255)} fill="none" stroke={t.acik} strokeWidth={Math.max(2.5, gen * 0.32)} strokeLinecap="round" />
-      {beyaz && <path d={yay(ort, 222, 238)} fill="none" stroke="#fff" strokeWidth={Math.max(1.6, gen * 0.14)} strokeLinecap="round" />}
+      <polygon points={p([GL, GR, B])} fill={t.orta} />
+      <polygon points={p([GL, ML, B])} fill={t.acik} />
+      <polygon points={p([MR, GR, B])} fill={t.koyu} />
+      <polygon points={p([GL, TL, ML])} fill={t.orta} />
+      <polygon points={p([TL, TR, MR, ML])} fill={t.acik} />
+      <polygon points={p([TR, GR, MR])} fill={t.koyu} />
+      <polyline points={p([TL, ML, B, MR, TR])} fill="none" stroke={K} strokeWidth={sw2} strokeLinejoin="round" />
+      <polygon points={p([GL, TL, TR, GR, B])} fill="none" stroke={K} strokeWidth={sw} strokeLinejoin="round" />
     </g>
   );
 }
 
-/** Taş (önden pırlanta): üst taç + alt sivri; sol açık, orta orta, sağ koyu */
-function Tas({ x = 0, y = 0, w = 30, h = 26, t, beyaz = false }) {
-  const u = h * 0.36, a = w / 2, b = w * 0.3;
-  return (
-    <g transform={`translate(${x} ${y})`}>
-      <polygon points={cokgen([[-b, -u], [b, -u], [a, 0], [0, h - u], [-a, 0]])} fill={t.orta} stroke={K} strokeWidth="3" strokeLinejoin="round" />
-      <polygon points={cokgen([[-b, -u], [-b * 0.35, 0], [-a, 0]])} fill={t.acik} />
-      <polygon points={cokgen([[b, -u], [a, 0], [b * 0.35, 0]])} fill={t.koyu} />
-      <polygon points={cokgen([[b * 0.35, 0], [a, 0], [0, h - u]])} fill={t.koyu} />
-      <polygon points={cokgen([[-a, 0], [-b * 0.35, 0], [0, h - u]])} fill={t.acik} opacity=".55" />
-      <polyline points={cokgen([[-a, 0], [a, 0]])} stroke={K} strokeWidth="1.6" />
-      <polyline points={cokgen([[-b, -u], [-b * 0.35, 0], [0, h - u], [b * 0.35, 0], [b, -u]])} fill="none" stroke={K} strokeWidth="1.4" strokeLinejoin="round" />
-      <polygon points={cokgen([[-b, -u], [b, -u], [a, 0], [0, h - u], [-a, 0]])} fill="none" stroke={K} strokeWidth="3" strokeLinejoin="round" />
-      {beyaz && <line x1={-b * 0.75} y1={-u * 0.45} x2={-b * 0.2} y2={-u * 0.45} stroke="#fff" strokeWidth="2.2" strokeLinecap="round" />}
-    </g>
-  );
-}
-
-/** Kristal sivri (altıgen prizma), uç yukarı; dönüş a derece (0 = yukarı) */
-function Kristal({ x, y, w, h, a = 0, t }) {
-  const p = [[0, -h], [w / 2, -h + w * 0.6], [w / 2, 0], [-w / 2, 0], [-w / 2, -h + w * 0.6]];
-  return (
-    <g transform={`translate(${x} ${y}) rotate(${a})`}>
-      <polygon points={cokgen(p)} fill={t.orta} stroke={K} strokeWidth="3" strokeLinejoin="round" />
-      <polygon points={cokgen([[0, -h], [0, 0], [-w / 2, 0], [-w / 2, -h + w * 0.6]])} fill={t.acik} />
-      <polygon points={cokgen([[0, -h], [w / 2, -h + w * 0.6], [w / 2, 0], [w * 0.18, 0], [w * 0.18, -h + w * 0.7]])} fill={t.koyu} />
-      <line x1="0" y1={-h + 2} x2="0" y2="-2" stroke={K} strokeWidth="1.4" opacity=".6" />
-      <polygon points={cokgen(p)} fill="none" stroke={K} strokeWidth="3" strokeLinejoin="round" />
-    </g>
-  );
-}
-
-/** Tüy / yaprak (uç yukarı, sol yarı açık, sağ yarı koyu) */
-function Tuy({ x, y, w, h, a, t }) {
-  const d = `M0 0Q${w} ${-h * 0.45} 0 ${-h}Q${-w} ${-h * 0.45} 0 0Z`;
-  return (
-    <g transform={`translate(${x} ${y}) rotate(${a})`}>
-      <path d={d} fill={t.orta} />
-      <path d={`M0 0Q${-w} ${-h * 0.45} 0 ${-h}Q${-w * 0.25} ${-h * 0.45} 0 0Z`} fill={t.acik} />
-      <path d={`M0 0Q${w} ${-h * 0.45} 0 ${-h}Q${w * 0.35} ${-h * 0.45} 0 0Z`} fill={t.koyu} />
-      <path d={d} fill="none" stroke={K} strokeWidth="2.8" strokeLinejoin="round" />
-    </g>
-  );
-}
-
-/** Alev dili (uç dışa) */
-function Alev({ a, r, h, w, t }) {
-  const [x, y] = nok(r, a);
-  const d = `M${-w} 0C${-w} ${-h * 0.45} ${-w * 0.2} ${-h * 0.6} 0 ${-h}C${w * 0.1} ${-h * 0.62} ${w} ${-h * 0.5} ${w} 0Z`;
-  return (
-    <g transform={`translate(${x} ${y}) rotate(${a + 90})`}>
-      <path d={d} fill={t.orta} stroke={K} strokeWidth="3" strokeLinejoin="round" />
-      <path d={`M${-w * 0.45} 0C${-w * 0.5} ${-h * 0.3} ${-w * 0.1} ${-h * 0.45} 0 ${-h * 0.72}C${w * 0.05} ${-h * 0.4} ${w * 0.45} ${-h * 0.3} ${w * 0.45} 0Z`} fill={t.acik} />
-      <path d={`M${w * 0.55} 0C${w * 0.8} ${-h * 0.3} ${w * 0.4} ${-h * 0.5} ${w * 0.15} ${-h * 0.8}C${w * 0.9} ${-h * 0.5} ${w} ${-h * 0.25} ${w} 0Z`} fill={t.koyu} />
-      <path d={d} fill="none" stroke={K} strokeWidth="3" strokeLinejoin="round" />
-    </g>
-  );
-}
-
-/** Taç (altın, 3 uçlu ya da 5 uçlu); taban y = 0, ortalı */
-function Tac({ y, w, h, uc = 3, tas = null }) {
-  const a = w / 2, adim = w / (uc - 1);
-  const p = [[-a, 0]];
-  for (let i = 0; i < uc; i += 1) {
-    const x = -a + i * adim;
-    const yuk = i === (uc - 1) / 2 ? h : h * 0.72;
-    if (i > 0) p.push([x - adim / 2, -h * 0.3]);
-    p.push([x, -yuk]);
-  }
-  p.push([a, 0]);
-  return (
-    <g transform={`translate(0 ${y})`}>
-      <polygon points={cokgen(p)} fill={ALTIN.orta} stroke={K} strokeWidth="3" strokeLinejoin="round" />
-      <polygon points={cokgen(p.filter(([x]) => x <= 0).concat([[0, 0]]))} fill={ALTIN.acik} opacity=".7" />
-      <polygon points={cokgen(p.filter(([x]) => x >= 0).concat([[0, 0]]))} fill={ALTIN.koyu} opacity=".75" />
-      <polygon points={cokgen(p)} fill="none" stroke={K} strokeWidth="3" strokeLinejoin="round" />
-      <rect x={-a - 2} y="-3" width={w + 4} height="9" rx="2" fill={ALTIN.orta} stroke={K} strokeWidth="3" />
-      <rect x={-a + 1} y="1.5" width={w - 2} height="3" fill={ALTIN.koyu} />
-      {Array.from({ length: uc }, (_, i) => {
-        const x = -a + i * adim, yuk = i === (uc - 1) / 2 ? h : h * 0.72;
-        return <circle key={i} cx={x} cy={-yuk} r="3.6" fill={i === (uc - 1) / 2 && tas ? tas.orta : ALTIN.acik} stroke={K} strokeWidth="2.2" />;
-      })}
-    </g>
-  );
-}
-
-/** Alt plaka (köşeli kısa levha + ortada taş) — Bronz/Gümüş/Altın'daki alt plakanın dili */
-function AltPlaka({ y = 72, w = 46, t, tas }) {
-  return (
-    <g>
-      <rect x={-w / 2} y={y} width={w} height="20" rx="6" fill={t.orta} stroke={K} strokeWidth="3.5" />
-      <path d={`M${-w / 2} ${y + 11}H${w / 2}V${y + 14}Q${w / 2} ${y + 20} ${w / 2 - 6} ${y + 20}H${-w / 2 + 6}Q${-w / 2} ${y + 20} ${-w / 2} ${y + 14}Z`} fill={t.koyu} />
-      <rect x={-w / 2} y={y} width={w} height="20" rx="6" fill="none" stroke={K} strokeWidth="3.5" />
-      <Tas y={y + 9} w={14} h={12} t={tas} />
-    </g>
-  );
-}
-
-const Delik = () => <circle r="56" fill="none" stroke={K} strokeWidth="3.5" />;
-const IcCizgi = () => <circle r="60" fill="none" stroke={K} strokeWidth="3" />;
-
-/* ---------------------------- ELMAS ---------------------------- */
-function ElmasV1() {   // Kesme taş: 12 yüzlü faset halka + büyük pırlanta tepe + alt plaka
-  const n = 12, ro = 76, ri = 58;
-  const yuzler = Array.from({ length: n }, (_, i) => {
-    const a0 = (360 / n) * i - 90, a1 = a0 + 360 / n, am = a0 + 180 / n;
-    const isik = Math.cos(((am - 225) * Math.PI) / 180);   // sol-üst = 1, sağ-alt = -1
-    const renk = isik > 0.35 ? ELMAS.acik : isik < -0.35 ? ELMAS.koyu : ELMAS.orta;
-    return <polygon key={i} points={cokgen([nok(ro, a0), nok(ro, a1), nok(ri, a1), nok(ri, a0)])} fill={renk} stroke={K} strokeWidth="1.6" strokeLinejoin="round" />;
+/** Yıldız: n kollu, iç yarıçap oranı i; sol yarı açık, sağ yarı orta */
+function Yildiz({ x = 0, y = 0, r, n = 5, i = 0.48, t, sw = 2.4 }) {
+  const p = Array.from({ length: n * 2 }, (_, k) => {
+    const rr = k % 2 ? r * i : r, a = (Math.PI / n) * k - Math.PI / 2;
+    return [r1(x + rr * Math.cos(a)), r1(y + rr * Math.sin(a))];
   });
-  const dis = Array.from({ length: n }, (_, i) => nok(ro, (360 / n) * i - 90));
+  const sag = p.filter(([px]) => px >= x - 0.01);
   return (
     <g>
-      <polygon points={cokgen(dis)} fill="none" stroke={K} strokeWidth="6" strokeLinejoin="round" />
-      <path d={halkaYolu(60, 55)} fill={K} fillRule="evenodd" />
-      {yuzler}
-      <polygon points={cokgen(dis)} fill="none" stroke={K} strokeWidth="3.5" strokeLinejoin="round" />
-      <AltPlaka t={ELMAS} tas={ELMAS} />
-      <Tas y={-86} w={40} h={34} t={ELMAS} beyaz />
-      <IcCizgi /><Delik />
-    </g>
-  );
-}
-function ElmasV2() {   // Kristal taç: yuvarlak bant + tepede 5 kristal yelpaze + yanlarda kristal
-  return (
-    <g>
-      <Kristal x={-26} y={-60} w={15} h={34} a={-32} t={ELMAS} />
-      <Kristal x={26} y={-60} w={15} h={34} a={32} t={ELMAS} />
-      <Kristal x={-13} y={-68} w={17} h={42} a={-14} t={ELMAS} />
-      <Kristal x={13} y={-68} w={17} h={42} a={14} t={ELMAS} />
-      <Kristal x={0} y={-70} w={20} h={52} t={ELMAS} />
-      <Kristal x={-70} y={4} w={14} h={30} a={-100} t={ELMAS} />
-      <Kristal x={70} y={4} w={14} h={30} a={100} t={ELMAS} />
-      <Bant ro={74} ri={58} t={ELMAS} beyaz />
-      {[45, 135].map((a) => { const [x, y] = nok(66, a); return <Tas key={a} x={x} y={y - 2} w={13} h={11} t={ELMAS} />; })}
-      <AltPlaka t={ELMAS} tas={ELMAS} />
-      <IcCizgi /><Delik />
-    </g>
-  );
-}
-function ElmasV3() {   // Buz kalkanı: yan eşkenar dörtgen kanatlar + çapraz taş çiviler + tepe taşı
-  const kanat = (s) => (
-    <g transform={`scale(${s} 1)`}>
-      <polygon points="66,-30 116,0 66,30" fill={ELMAS.orta} stroke={K} strokeWidth="3.5" strokeLinejoin="round" />
-      <polygon points="66,-30 116,0 88,0" fill={s > 0 ? ELMAS.acik : ELMAS.koyu} />
-      <polygon points="66,30 116,0 88,0" fill={s > 0 ? ELMAS.koyu : ELMAS.acik} opacity=".85" />
-      <path d="M66 -30L88 0L66 30M88 0H116" fill="none" stroke={K} strokeWidth="1.6" />
-      <polygon points="66,-30 116,0 66,30" fill="none" stroke={K} strokeWidth="3.5" strokeLinejoin="round" />
-    </g>
-  );
-  return (
-    <g>
-      {kanat(1)}{kanat(-1)}
-      <Bant ro={74} ri={58} t={ELMAS} beyaz />
-      <circle r="66" fill="none" stroke={ELMAS.koyu} strokeWidth="2" strokeDasharray="3 7" />
-      {[225, 315, 45, 135].map((a) => { const [x, y] = nok(70, a); return <Tas key={a} x={x} y={y - 3} w={16} h={14} t={ELMAS} />; })}
-      <Tas y={-84} w={28} h={24} t={ELMAS} />
-      <AltPlaka t={ELMAS} tas={ELMAS} />
-      <IcCizgi /><Delik />
+      <polygon points={cokgen(p)} fill={t.acik} />
+      <polygon points={cokgen([[x, y + r * i], ...sag])} fill={t.orta} />
+      <polygon points={cokgen(p)} fill="none" stroke={K} strokeWidth={sw} strokeLinejoin="round" />
     </g>
   );
 }
 
-/* ---------------------------- EFSANE ---------------------------- */
-function EfsaneV1() {  // Ejder kanadı: iki yanda 3 katlı mor tüy kanat + altın taç
-  const kanat = (s) => (
-    <g transform={`scale(${s} 1)`}>
-      {[[62, -16, 72, 74, 10], [66, 6, 64, 88, 10], [62, 28, 52, 108, 9]].map(([x, y, h, a, w], i) => (
-        <Tuy key={i} x={x} y={y} w={w * 2.3} h={h} a={a} t={EFSANE} />
-      ))}
-      {[[60, -32, 44, 52], [56, -50, 34, 34]].map(([x, y, h, a], i) => <Tuy key={`u${i}`} x={x} y={y} w={15} h={h} a={a} t={EFSANE} />)}
-    </g>
-  );
+/** Ailenin gövdesi: kontur + orta + sağ-alt koyu dilim + sol-üst açık yay + iç çizgi (+ tek beyaz vurgu) */
+function Govde({ t, ro = 74, beyaz = true }) {
   return (
     <g>
-      {kanat(1)}{kanat(-1)}
-      <Bant ro={74} ri={58} t={EFSANE} beyaz />
-      <Tac y={-70} w={46} h={28} uc={3} tas={AL} />
-      <AltPlaka t={EFSANE} tas={AL} />
-      <IcCizgi /><Delik />
+      <path d={halkaYolu(ro, 54.5)} fill={K} fillRule="evenodd" />
+      <path d={halkaYolu(ro - 3, 56)} fill={t.orta} fillRule="evenodd" />
+      <path d={dilim(ro - 3, 59, 20, 200)} fill={t.koyu} />
+      <path d={yay(65, 208, 252)} fill="none" stroke={t.acik} strokeWidth="5" strokeLinecap="round" />
+      {beyaz && <path d={yay(65, 222, 232)} fill="none" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" />}
+      <circle r="60" fill="none" stroke={K} strokeWidth="3" />
     </g>
   );
 }
-function EfsaneV2() {  // Yıldız taç: halkanın arkasında 5 kollu altın yıldız + 5 uçlu taç + yan taşlar
-  const y = Array.from({ length: 10 }, (_, i) => nok(i % 2 ? 70 : 112, i * 36 - 90));
+/** 16 dilimli faset gövde: her dilimin tonu ışığa (sol-üst) göre; kontur dilimler arasında */
+function FasetGovde({ t, ro = 74, n = 16 }) {
+  const st = 360 / n;
   return (
     <g>
-            {Array.from({ length: 5 }, (_, i) => {
-        const a = i * 72 - 90, uc = nok(112, a), sol = nok(70, a - 36), sag = nok(70, a + 36);
-        const isik = Math.cos(((a - 225) * Math.PI) / 180);
+      <path d={halkaYolu(ro, 54.5)} fill={K} fillRule="evenodd" />
+      {Array.from({ length: n }, (_, k) => {
+        const a0 = k * st - 90, m = ((a0 + st / 2) * Math.PI) / 180, v = Math.sin(m) + Math.cos(m);
+        const renk = v > 0.6 ? t.koyu : v > -0.6 ? t.orta : t.acik;
+        return <path key={k} d={dilim(ro - 3, 59, a0, a0 + st)} fill={renk} stroke={K} strokeWidth="1.6" strokeLinejoin="round" />;
+      })}
+      <path d={yay(66, 222, 232)} fill="none" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" />
+      <path d={halkaYolu(59, 56)} fill={t.orta} fillRule="evenodd" />
+      <circle r="60" fill="none" stroke={K} strokeWidth="3" />
+    </g>
+  );
+}
+const Percinler = ({ renk, cizgi = 2, r = 3.8 }) => SEKIZ.map((a) => {
+  const [x, y] = nok(65.5, a);
+  return <circle key={a} cx={x} cy={y} r={r} fill={renk} stroke={K} strokeWidth={cizgi} />;
+});
+/** Ayak plakası (uretici.js › plate): 48×22, alt yarı koyu; isteğe bağlı yan kuyruklar */
+function Plaka({ t, kuyruk = null, children }) {
+  return (
+    <g>
+      {kuyruk && <>
+        <polygon points="-22,74 -42,72 -35,83 -42,94 -22,90" fill={kuyruk} stroke={K} strokeWidth="3" strokeLinejoin="round" />
+        <polygon points="22,74 42,72 35,83 42,94 22,90" fill={kuyruk} stroke={K} strokeWidth="3" strokeLinejoin="round" />
+      </>}
+      <rect x="-24" y="72" width="48" height="22" rx="7" fill={t.orta} />
+      <path d="M-24 83H24V87Q24 94 17 94H-17Q-24 94 -24 87Z" fill={t.koyu} />
+      <rect x="-24" y="72" width="48" height="22" rx="7" fill="none" stroke={K} strokeWidth="3.5" />
+      {children}
+    </g>
+  );
+}
+/** Düz, dik taç (uretici.js › crown): taban gövdenin üstünde, ölçek sc taban çevresinde */
+function DikTac({ sc = 1.2, uc = "#fff", taslar = ["#4C8DF0", "#E24B4A", "#4C8DF0"] }) {
+  return (
+    <g transform={`translate(0 -66) scale(${sc}) translate(0 66)`}>
+      <polygon points="-22,-68 -22,-84 -11,-76 0,-91 11,-76 22,-84 22,-68" fill={ALTIN.acik} stroke={K} strokeWidth="3.5" strokeLinejoin="round" />
+      <polygon points="0,-68 0,-91 11,-76 22,-84 22,-68" fill={ALTIN.orta} />
+      <polygon points="-22,-68 -22,-84 -11,-76 0,-91 11,-76 22,-84 22,-68" fill="none" stroke={K} strokeWidth="3.5" strokeLinejoin="round" />
+      <rect x="-23" y="-73" width="46" height="9" rx="3" fill={ALTIN.orta} stroke={K} strokeWidth="3" />
+      <rect x="-20.5" y="-68" width="41" height="2.5" fill={ALTIN.koyu} />
+      {[-11, 0, 11].map((x, k) => <circle key={x} cx={x} cy="-68.5" r={k === 1 ? 3 : 2.6} fill={taslar[k]} stroke={K} strokeWidth="1.5" />)}
+      {[[-22, -86], [0, -93], [22, -86]].map(([x, y]) => <circle key={x} cx={x} cy={y} r="3" fill={uc} stroke={K} strokeWidth="2" />)}
+    </g>
+  );
+}
+
+function ElmasV1() {   // Sade: buz gövde + hafif faset çizgileri + 8 perçin + pırlanta tepelik + elmaslı plaka
+  return (
+    <g>
+      <Govde t={BUZ} />
+      {Array.from({ length: 16 }, (_, k) => {
+        const a = k * 22.5 + 11.25, [x0, y0] = nok(60, a), [x1, y1] = nok(71, a);
+        return <line key={k} x1={x0} y1={y0} x2={x1} y2={y1} stroke={K} strokeWidth="1.3" opacity=".3" />;
+      })}
+      <Percinler renk={BUZ.acik} />
+      <Gem y={-84} s={16} t={TAS_MAVI} />
+      <Plaka t={BUZ}><Gem y={81} s={8} t={TAS_MAVI} sw={2.4} sw2={1.2} /></Plaka>
+    </g>
+  );
+}
+function ElmasV2() {   // İşlemeli: gövdede zikzak faset oyma + elmas perçinler + yuvalı pırlanta + kuyruklu plaka
+  const zik = Array.from({ length: 49 }, (_, k) => nok(k % 2 ? 69 : 62, k * 7.5 - 90));
+  return (
+    <g>
+      <Govde t={BUZ} />
+      <polyline points={cokgen(zik)} fill="none" stroke={BUZ.koyu} strokeWidth="1.6" strokeLinejoin="round" />
+      {SEKIZ.map((a) => {
+        const [x, y] = nok(65.5, a);
+        const kare = cokgen([[x, y - 5.5], [x + 5.5, y], [x, y + 5.5], [x - 5.5, y]]);
         return (
-          <g key={i}>
-            <polygon points={cokgen([uc, sol, nok(62, a)])} fill={isik > -0.3 ? EFSANE.acik : EFSANE.orta} />
-            <polygon points={cokgen([uc, sag, nok(62, a)])} fill={isik > 0.3 ? EFSANE.orta : EFSANE.koyu} />
-            <line x1={uc[0]} y1={uc[1]} x2={nok(62, a)[0]} y2={nok(62, a)[1]} stroke={K} strokeWidth="1.6" />
+          <g key={a}>
+            <polygon points={kare} fill={TAS_MAVI.orta} />
+            <polygon points={cokgen([[x, y - 5.5], [x, y], [x - 5.5, y]])} fill={TAS_MAVI.acik} />
+            <polygon points={cokgen([[x + 5.5, y], [x, y + 5.5], [x, y]])} fill={TAS_MAVI.koyu} />
+            <polygon points={kare} fill="none" stroke={K} strokeWidth="2" strokeLinejoin="round" />
           </g>
         );
       })}
-      <polygon points={cokgen(y)} fill="none" stroke={K} strokeWidth="3.5" strokeLinejoin="round" />
-      <Bant ro={74} ri={58} t={EFSANE} beyaz />
-      <Tac y={-70} w={62} h={30} uc={5} tas={AL} />
-      {[180, 0].map((a) => { const [x, yy] = nok(66, a); return <Tas key={a} x={x} y={yy - 3} w={15} h={13} t={AL} />; })}
-      <AltPlaka t={EFSANE} tas={AL} />
-      <IcCizgi /><Delik />
+      <rect x="-15" y="-81" width="30" height="10" rx="3" fill={BUZ.orta} stroke={K} strokeWidth="3" />
+      <rect x="-12.5" y="-75" width="25" height="2.5" fill={BUZ.koyu} />
+      <Gem y={-90} s={17} t={TAS_MAVI} />
+      <Plaka t={BUZ} kuyruk={BUZ.koyu}><Gem y={81} s={8.5} t={TAS_MAVI} sw={2.4} sw2={1.2} /></Plaka>
     </g>
   );
 }
-function EfsaneV3() {  // Alev hale: üst yarıda mor alev dilleri + çift bant + alt plaka
-  const alevler = [-90, -62, -118, -36, -144, -10, -170].map((a, i) => (
-    <Alev key={a} a={a} r={70} h={i === 0 ? 64 : i < 3 ? 54 : i < 5 ? 44 : 32} w={i === 0 ? 17 : 14} t={EFSANE} />
-  ));
+function ElmasV3() {   // Zengin: 16 faset dilimli gövde + taş perçinler + üçlü pırlanta tepelik + kuyruklu taşlı plaka
   return (
     <g>
-      {alevler}
-      <Bant ro={74} ri={58} t={EFSANE} beyaz />
-      <path d={halkaYolu(80, 76)} fill={ALTIN.orta} stroke={K} strokeWidth="2.5" fillRule="evenodd" />
-      <path d={dilim(80, 76, 20, 200)} fill={ALTIN.koyu} />
-      <Tas y={-80} w={22} h={19} t={AL} />
-      <AltPlaka t={EFSANE} tas={AL} />
-      <IcCizgi /><Delik />
+      <FasetGovde t={BUZ} />
+      {SEKIZ.map((a) => { const [x, y] = nok(65.5, a); return <Gem key={a} x={x} y={y - 1.2} s={5} t={TAS_MAVI} sw={1.8} sw2={0.9} />; })}
+      <rect x="-30" y="-81" width="60" height="10" rx="3" fill={BUZ.orta} stroke={K} strokeWidth="3" />
+      <rect x="-27.5" y="-75" width="55" height="2.5" fill={BUZ.koyu} />
+      <Gem x={-21} y={-85} s={8.5} t={TAS_MAVI} sw={2.6} sw2={1.3} />
+      <Gem x={21} y={-85} s={8.5} t={TAS_MAVI} sw={2.6} sw2={1.3} />
+      <Gem y={-92} s={18} t={TAS_MAVI} />
+      <Plaka t={BUZ} kuyruk={TAS_MAVI.koyu}>
+        <Gem y={81} s={9} t={TAS_MAVI} sw={2.4} sw2={1.2} />
+        <circle cx="-15" cy="83" r="2.6" fill={BUZ.acik} stroke={K} strokeWidth="1.6" />
+        <circle cx="15" cy="83" r="2.6" fill={BUZ.acik} stroke={K} strokeWidth="1.6" />
+      </Plaka>
+    </g>
+  );
+}
+
+function EfsaneV1() {  // Sade: mor gövde + altın perçin + dik altın taç + yıldızlı mor plaka
+  return (
+    <g>
+      <Govde t={EFSANE} />
+      <Percinler renk={ALTIN.orta} />
+      <DikTac sc={1.15} />
+      <Plaka t={EFSANE}><Yildiz y={83} r={9.5} t={ALTIN} sw={2.2} /></Plaka>
+    </g>
+  );
+}
+function EfsaneV2() {  // İşlemeli: mor gövde + altın iç şerit + altın perçin + büyük dik taç + kuyruklu yıldız plaka
+  return (
+    <g>
+      <Govde t={EFSANE} />
+      <path d={halkaYolu(63.5, 59)} fill={ALTIN.orta} fillRule="evenodd" />
+      <path d={dilim(63.5, 61.2, 20, 200)} fill={ALTIN.koyu} />
+      <circle r="63.5" fill="none" stroke={K} strokeWidth="1.8" />
+      <circle r="60" fill="none" stroke={K} strokeWidth="3" />
+      {SEKIZ.map((a) => {
+        const [x, y] = nok(68.5, a);
+        return <circle key={a} cx={x} cy={y} r="3.6" fill={ALTIN.orta} stroke={K} strokeWidth="2" />;
+      })}
+      <DikTac sc={1.28} />
+      <Plaka t={EFSANE} kuyruk={ALTIN.orta}><Yildiz y={83} r={10} t={ALTIN} sw={2.2} /></Plaka>
+    </g>
+  );
+}
+function EfsaneV3() {  // Zengin: altın dış kasnak + faset mor gövde + yıldız perçin + taşlı büyük taç + altın plaka, 3 yıldız
+  return (
+    <g>
+      <path d={halkaYolu(79.5, 70)} fill={K} fillRule="evenodd" />
+      <path d={halkaYolu(77, 72)} fill={ALTIN.orta} fillRule="evenodd" />
+      <path d={dilim(77, 74.5, 20, 200)} fill={ALTIN.koyu} />
+      <path d={yay(75.5, 205, 255)} fill="none" stroke={ALTIN.acik} strokeWidth="2.2" strokeLinecap="round" />
+      <FasetGovde t={EFSANE} ro={72.5} />
+      {SEKIZ.map((a) => { const [x, y] = nok(65.5, a); return <Yildiz key={a} x={x} y={y} r={5.6} t={ALTIN} sw={1.6} />; })}
+      <DikTac sc={1.38} taslar={[EFSANE.orta, "#E24B4A", EFSANE.orta]} />
+      <Plaka t={ALTIN} kuyruk={EFSANE.orta}>
+        <Yildiz y={83.5} r={9.5} t={EFSANE} sw={2.2} />
+        <Yildiz x={-15} y={83} r={4.6} t={EFSANE} sw={1.5} />
+        <Yildiz x={15} y={83} r={4.6} t={EFSANE} sw={1.5} />
+      </Plaka>
     </g>
   );
 }
@@ -274,80 +248,206 @@ export function LigCerceveVaryant({ lig, varyant, style }) {
   const C = CERCEVE[lig]?.[varyant];
   if (!C) return null;
   return (
-    <svg viewBox="-140 -140 280 280" aria-hidden="true" focusable="false" style={style}><C /></svg>
+    <svg viewBox="-140 -140 280 280" aria-hidden="true" focusable="false" style={style}>
+      <C />
+      <circle r="56" fill="none" stroke={K} strokeWidth="3.5" />
+    </svg>
   );
 }
 
-/* ---------------------------- BP HALKASI ---------------------------- */
-function HalkaV1() {   // Kalın tek altın halka + 12 kesik
+/* ===================== BP KART ÇERÇEVESİ (köşeli, 90°) — V1 / V2 / V3 =====================
+   Kartın üstüne tek SVG (inset 0, ölçeksiz px). Kenarlar yüzde ölçülü şeritler; sağ/alt kenar ve köşeler iç içe
+   <svg x="100%"> çapalarıyla çizilir → kart hangi boyda olursa olsun köşeler keskin 90°. Işık sol-üstten: her çubuğun
+   üst/sol kenarı açık, alt/sağ kenarı koyu. Tek beyaz vurgu sol-üst köşede. Avatar arkasında halka YOK. */
+
+/** Bir kenara şerit: k = "u" üst · "a" alt · "s" sol · "g" sağ; ic = kenardan içeri derinlik, d = kalınlık */
+function Serit({ k, ic, d, f }) {
+  if (k === "u") return <rect x="0" y={ic} width="100%" height={d} fill={f} />;
+  if (k === "s") return <rect x={ic} y="0" width={d} height="100%" fill={f} />;
+  if (k === "a") return <svg y="100%" overflow="visible"><rect x="0" y={-ic - d} width="100%" height={d} fill={f} /></svg>;
+  return <svg x="100%" overflow="visible"><rect x={-ic - d} y="0" width={d} height="100%" fill={f} /></svg>;
+}
+const DORT = ["u", "a", "s", "g"];
+const Cizgi4 = ({ ic, d, f }) => DORT.map((k) => <Serit key={k} k={k} ic={ic} d={d} f={f} />);
+/** Kabartma çubuk çerçeve: orta dolgu, üst/sol kenar açık, alt/sağ kenar koyu */
+function Cubuk({ ic, d, t, b = 3 }) {
   return (
     <g>
-      <Bant ro={97} ri={82} t={ALTIN} beyaz kontur={3.5} />
-      {Array.from({ length: 12 }, (_, i) => {
-        const a = i * 30 + 15, [x0, y0] = nok(82, a), [x1, y1] = nok(97, a);
-        return <line key={i} x1={x0} y1={y0} x2={x1} y2={y1} stroke={K} strokeWidth="3.5" />;
-      })}
+      <Cizgi4 ic={ic} d={d} f={t.orta} />
+      <Serit k="u" ic={ic} d={b} f={t.acik} /><Serit k="u" ic={ic + d - b} d={b} f={t.koyu} />
+      <Serit k="s" ic={ic} d={b} f={t.acik} /><Serit k="s" ic={ic + d - b} d={b} f={t.koyu} />
+      <Serit k="a" ic={ic + d - b} d={b} f={t.acik} /><Serit k="a" ic={ic} d={b} f={t.koyu} />
+      <Serit k="g" ic={ic + d - b} d={b} f={t.acik} /><Serit k="g" ic={ic} d={b} f={t.koyu} />
     </g>
   );
 }
-function HalkaV2() {   // Üç tonlu kabartma (bevel) + 8 perçin
+/** Kabartma dikdörtgen (mutlak koordinat): orta + sol-üst açık pah + sağ-alt koyu pah + kontur */
+function Kabara({ x, y, w, h, t = ALTIN, b = 3, k = 3 }) {
   return (
     <g>
-      <path d={halkaYolu(97, 81)} fill={K} fillRule="evenodd" />
-      <path d={halkaYolu(95, 83)} fill={ALTIN.orta} fillRule="evenodd" />
-      <path d={dilim(95, 89, 200, 380)} fill={ALTIN.acik} />
-      <path d={dilim(95, 89, 20, 200)} fill={ALTIN.koyu} />
-      <path d={dilim(89, 83, 20, 200)} fill={ALTIN.acik} />
-      <path d={dilim(89, 83, 200, 380)} fill={ALTIN.koyu} />
-      <circle r="89" fill="none" stroke={K} strokeWidth="1.2" opacity=".55" />
-      <path d={yay(93, 222, 238)} fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" />
-      {Array.from({ length: 8 }, (_, i) => {
-        const [x, y] = nok(89, i * 45 + 22.5);
+      <rect x={x} y={y} width={w} height={h} fill={t.orta} />
+      <polygon points={cokgen([[x, y], [x + w, y], [x + w - b, y + b], [x + b, y + b], [x + b, y + h - b], [x, y + h]])} fill={t.acik} />
+      <polygon points={cokgen([[x + w, y], [x + w, y + h], [x, y + h], [x + b, y + h - b], [x + w - b, y + h - b], [x + w - b, y + b]])} fill={t.koyu} />
+      <rect x={x} y={y} width={w} height={h} fill="none" stroke={K} strokeWidth={k} />
+    </g>
+  );
+}
+/** Köşe çapası: sx/sy = +1 sol/üst, −1 sağ/alt. `ciz(kutu, nokta, ikincil)`: içeri doğru ölçüyü mutlak kutuya çevirir
+ *  (ışık yönü her köşede aynı kalsın diye ayna/transform yok). */
+function Kose({ sx, sy, ciz }) {
+  const kutu = (x, y, w, h) => ({ x: sx > 0 ? x : -x - w, y: sy > 0 ? y : -y - h, w, h });
+  const nokta = (x, y) => [sx * x, sy * y];
+  return <svg x={sx > 0 ? 0 : "100%"} y={sy > 0 ? 0 : "100%"} overflow="visible">{ciz(kutu, nokta, sx < 0 || sy < 0)}</svg>;
+}
+const KOSELER = [[1, 1], [-1, 1], [1, -1], [-1, -1]];
+const Koseler = ({ ciz }) => KOSELER.map(([sx, sy]) => <Kose key={`${sx}${sy}`} sx={sx} sy={sy} ciz={ciz} />);
+const Orta = ({ alt = false, children }) => <svg x="50%" y={alt ? "100%" : 0} overflow="visible">{children}</svg>;
+
+/** Yuvarlak kaboşon taş (mutlak merkez) */
+function Kabason({ x, y, r, t = AL }) {
+  return (
+    <g>
+      <circle cx={x} cy={y} r={r} fill={t.orta} />
+      <path d={`M${r1(x - r * 0.55)} ${r1(y + r * 0.1)}A${r * 0.6} ${r * 0.6} 0 0 1 ${r1(x + r * 0.1)} ${r1(y - r * 0.55)}`} fill="none" stroke={t.acik} strokeWidth={r1(r * 0.36)} strokeLinecap="round" />
+      <path d={`M${r1(x + r * 0.6)} ${r1(y - r * 0.05)}A${r * 0.62} ${r * 0.62} 0 0 1 ${r1(x - r * 0.05)} ${r1(y + r * 0.62)}`} fill="none" stroke={t.koyu} strokeWidth={r1(r * 0.32)} strokeLinecap="round" />
+      <circle cx={x} cy={y} r={r} fill="none" stroke={K} strokeWidth="2.4" />
+    </g>
+  );
+}
+
+function KartV1() {   // Kabartmalı altın levha: kalın kabartma bant + iç ince çizgi + kalın L köşe + üst/alt mücevher
+  return (
+    <g>
+      <Cubuk ic={0} d={12} t={ALTIN} />
+      <Cizgi4 ic={12} d={2.5} f={K} />
+      <Cizgi4 ic={14.5} d={2} f={ALTIN.orta} />
+      <Cizgi4 ic={16.5} d={1.5} f={K} />
+      <Koseler ciz={(kutu, nokta, ikincil) => {
+        const [cx, cy] = nokta(12, 12);
         return (
-          <g key={i}>
-            <circle cx={x} cy={y} r="5" fill={ALTIN.orta} stroke={K} strokeWidth="2.4" />
-            <path d={`M${x - 2.6} ${y + 1.6}A3 3 0 0 1 ${x + 1.6} ${y - 2.6}`} fill="none" stroke={ALTIN.acik} strokeWidth="1.8" strokeLinecap="round" />
+          <g>
+            <Kabara {...kutu(18, 0, 28, 18)} /><Kabara {...kutu(0, 18, 18, 28)} /><Kabara {...kutu(0, 0, 24, 24)} b={4} />
+            <circle cx={cx} cy={cy} r="4.6" fill={ALTIN.acik} stroke={K} strokeWidth="2" />
+            <path d={`M${cx - 0.5} ${cy + 3}A3 3 0 0 0 ${cx + 3} ${cy - 0.5}`} fill="none" stroke={ALTIN.koyu} strokeWidth="1.6" />
+            {!ikincil && <line x1="6" y1="5.5" x2="12" y2="5.5" stroke="#fff" strokeWidth="2" strokeLinecap="round" />}
           </g>
         );
-      })}
+      }} />
+      <Orta><Kabara x={-17} y={0} w={34} h={19} /><Kabason x={0} y={9.5} r={5.6} /></Orta>
+      <Orta alt><Kabara x={-17} y={-19} w={34} h={19} /><Kabason x={0} y={-9.5} r={5.6} /></Orta>
     </g>
   );
 }
-function HalkaV3() {   // Işın / taç uçlu: üst yarıda altın ışınlar, tepede 3 taç ucu
-  const isinlar = [];
-  for (let a = -180; a <= 0; a += 15) {
-    const tac = a === -90 || a === -60 || a === -120;
-    const uzun = tac ? 122 : (a / 15) % 2 ? 104 : 112;
-    const g = tac ? 9 : 6;
-    const uc = nok(uzun, a), sol = nok(88, a - g), sag = nok(88, a + g);
-    isinlar.push(
-      <g key={a}>
-        <polygon points={cokgen([sol, uc, sag])} fill={ALTIN.orta} stroke={K} strokeWidth="2.8" strokeLinejoin="round" />
-        <polygon points={cokgen([sol, uc, nok(88, a)])} fill={a < -90 ? ALTIN.acik : ALTIN.orta} />
-        <polygon points={cokgen([nok(88, a), uc, sag])} fill={a < -90 ? ALTIN.orta : ALTIN.koyu} />
-        <polygon points={cokgen([sol, uc, sag])} fill="none" stroke={K} strokeWidth="2.8" strokeLinejoin="round" />
-        {tac && <circle cx={uc[0]} cy={uc[1]} r="4.2" fill={ALTIN.acik} stroke={K} strokeWidth="2.2" />}
-      </g>,
+
+function KartV2() {   // Çift kenarlı kraliyet: dış kalın bant + koyu kanal içinde baklava dizisi + iç ince şerit + kare mücevher yuvası
+  const id = useId().replace(/:/g, "");
+  const KANAL = "#141a46";
+  const desen = (ad, x, y, dikey) => {
+    const w = dikey ? 7 : 12, h = dikey ? 12 : 7, cx = w / 2, cy = h / 2, a = dikey ? 2.9 : 4, b = dikey ? 4 : 2.9;
+    const kenar = cokgen([[cx, cy - b], [cx + a, cy], [cx, cy + b], [cx - a, cy]]);
+    return (
+      <pattern id={`${id}${ad}`} patternUnits="userSpaceOnUse" x={x} y={y} width={w} height={h}>
+        <polygon points={kenar} fill={ALTIN.orta} />
+        <polygon points={cokgen([[cx, cy - b], [cx, cy], [cx - a, cy]])} fill={ALTIN.acik} />
+        <polygon points={cokgen([[cx + a, cy], [cx, cy + b], [cx, cy]])} fill={ALTIN.koyu} />
+        <polygon points={kenar} fill="none" stroke={K} strokeWidth="1" strokeLinejoin="round" />
+      </pattern>
     );
-  }
+  };
   return (
     <g>
-      {isinlar}
-      <Bant ro={92} ri={82} t={ALTIN} beyaz kontur={3} />
+      <defs>{desen("u", 0, 11.5, false)}{desen("a", 0, -18.5, false)}{desen("s", 11.5, 0, true)}{desen("g", -18.5, 0, true)}</defs>
+      <Cubuk ic={0} d={10} t={ALTIN} />
+      <Cizgi4 ic={10} d={1.5} f={K} />
+      <Cizgi4 ic={11.5} d={7} f={KANAL} />
+      <rect x="0" y="11.5" width="100%" height="7" fill={`url(#${id}u)`} />
+      <svg y="100%" overflow="visible"><rect x="0" y="-18.5" width="100%" height="7" fill={`url(#${id}a)`} /></svg>
+      <rect x="11.5" y="0" width="7" height="100%" fill={`url(#${id}s)`} />
+      <svg x="100%" overflow="visible"><rect x="-18.5" y="0" width="7" height="100%" fill={`url(#${id}g)`} /></svg>
+      <Cizgi4 ic={18.5} d={1.5} f={K} />
+      <Cubuk ic={20} d={4} t={ALTIN} b={1.3} />
+      <Cizgi4 ic={24} d={1.5} f={K} />
+      <Koseler ciz={(kutu, nokta, ikincil) => {
+        const yuva = kutu(8, 8, 16, 16);
+        return (
+          <g>
+            <Kabara {...kutu(0, 0, 32, 32)} b={4} />
+            <rect x={yuva.x} y={yuva.y} width="16" height="16" fill={KANAL} stroke={K} strokeWidth="2" />
+            <Kabara {...kutu(10.5, 10.5, 11, 11)} t={AL} b={3} k={2} />
+            {!ikincil && <line x1="5" y1="4.5" x2="11" y2="4.5" stroke="#fff" strokeWidth="2" strokeLinecap="round" />}
+          </g>
+        );
+      }} />
     </g>
   );
 }
-const HALKA = { v1: HalkaV1, v2: HalkaV2, v3: HalkaV3 };
 
-/** `boyut` = avatarın dış çapı (çerçeve kutusu, 148 birim). Avatar kutusunun ortasına oturur. */
-export function BpHalka({ varyant, boyut = 88 }) {
-  const H = HALKA[varyant];
-  if (!H) return null;
-  const w = (boyut * 280) / 148;
+function KartV3() {   // Oyma altın rölyef: yaprak/kıvrım kabartmalı bant + kare madalyon köşe + üstte yıldızlı tepelik
+  const id = useId().replace(/:/g, "");
+  const yaprak = (ad, x, y, dikey) => {
+    const icerik = (
+      <g>
+        <path d="M11 7.5C8 2.5 3.5 2.5 1.5 6C3 8.5 7 10 11 7.5Z" fill={ALTIN.acik} stroke={ALTIN.koyu} strokeWidth="1.3" strokeLinejoin="round" />
+        <path d="M11 7.5C14 12.5 18.5 12.5 20.5 9C19 6.5 15 5 11 7.5Z" fill={ALTIN.orta} stroke={ALTIN.koyu} strokeWidth="1.3" strokeLinejoin="round" />
+        <path d="M2 11.5Q6 13 9 10.5M20 3.5Q16 2 13 4.5" fill="none" stroke={ALTIN.koyu} strokeWidth="1.3" strokeLinecap="round" />
+        <circle cx="11" cy="7.5" r="1.7" fill={K} />
+      </g>
+    );
+    return (
+      <pattern id={`${id}${ad}`} patternUnits="userSpaceOnUse" x={x} y={y} width={dikey ? 15 : 22} height={dikey ? 22 : 15}>
+        {dikey ? <g transform="translate(15 0) rotate(90)">{icerik}</g> : icerik}
+      </pattern>
+    );
+  };
   return (
-    <svg className="qt-ok-bp-halka" viewBox="-140 -140 280 280" width={w} height={w} aria-hidden="true" focusable="false"
-         style={{ marginLeft: -w / 2, marginTop: -w / 2 }}>
-      <H />
-    </svg>
+    <g>
+      <defs>{yaprak("u", 0, 0.5, false)}{yaprak("a", 0, -15.5, false)}{yaprak("s", 0.5, 0, true)}{yaprak("g", -15.5, 0, true)}</defs>
+      <Cubuk ic={0} d={16} t={ALTIN} b={2.5} />
+      <rect x="0" y="0.5" width="100%" height="15" fill={`url(#${id}u)`} />
+      <svg y="100%" overflow="visible"><rect x="0" y="-15.5" width="100%" height="15" fill={`url(#${id}a)`} /></svg>
+      <rect x="0.5" y="0" width="15" height="100%" fill={`url(#${id}s)`} />
+      <svg x="100%" overflow="visible"><rect x="-15.5" y="0" width="15" height="100%" fill={`url(#${id}g)`} /></svg>
+      <Cizgi4 ic={16} d={2.5} f={K} />
+      <Cizgi4 ic={18.5} d={2} f={ALTIN.acik} />
+      <Cizgi4 ic={20.5} d={1.5} f={K} />
+      <Koseler ciz={(kutu, nokta, ikincil) => {
+        const [cx, cy] = nokta(17, 17), ic = kutu(6, 6, 22, 22);
+        return (
+          <g>
+            <Kabara {...kutu(0, 0, 34, 34)} b={4} />
+            <rect x={ic.x} y={ic.y} width="22" height="22" fill="none" stroke={ALTIN.koyu} strokeWidth="1.5" />
+            {[0, 90, 180, 270].map((a) => (
+              <ellipse key={a} cx={cx} cy={cy - 5.5} rx="3.4" ry="5.5" transform={`rotate(${a} ${cx} ${cy})`}
+                       fill={a === 0 || a === 270 ? ALTIN.acik : ALTIN.koyu} stroke={K} strokeWidth="1.6" />
+            ))}
+            <circle cx={cx} cy={cy} r="3.4" fill={AL.orta} stroke={K} strokeWidth="1.8" />
+            {!ikincil && <line x1="5" y1="4.5" x2="11" y2="4.5" stroke="#fff" strokeWidth="2" strokeLinecap="round" />}
+          </g>
+        );
+      }} />
+      <Orta>
+        <polygon points="-30,0 30,0 24,20 -24,20" fill={ALTIN.orta} />
+        <polygon points="-30,0 30,0 27,3 -27,3" fill={ALTIN.acik} />
+        <polygon points="24,20 -24,20 -25,17 25,17" fill={ALTIN.koyu} />
+        <polygon points="-30,0 30,0 24,20 -24,20" fill="none" stroke={K} strokeWidth="3" strokeLinejoin="round" />
+        <path d="M-22 6Q-16 14 -9 9M22 6Q16 14 9 9" fill="none" stroke={ALTIN.koyu} strokeWidth="1.6" strokeLinecap="round" />
+        <Yildiz y={10} r={9} t={ALTIN} sw={2.2} />
+      </Orta>
+      <Orta alt>
+        <Kabara x={-16} y={-17} w={32} h={17} />
+        <circle cx="0" cy="-8.5" r="4" fill={AL.orta} stroke={K} strokeWidth="1.8" />
+        <path d="M-12 -8.5Q-8 -13 -5 -8.5M12 -8.5Q8 -13 5 -8.5" fill="none" stroke={ALTIN.koyu} strokeWidth="1.5" strokeLinecap="round" />
+      </Orta>
+    </g>
+  );
+}
+
+const KART = { v1: KartV1, v2: KartV2, v3: KartV3 };
+/** Köşeli BP kart çerçevesi — yalnız /lig-sahne-onizleme (`varyant`). Kartın üstüne tam boy, tıklamayı geçirir. */
+export function BpKartCerceve({ varyant }) {
+  const C = KART[varyant];
+  if (!C) return null;
+  return (
+    <svg className="qt-ok-bpk-cerceve" width="100%" height="100%" aria-hidden="true" focusable="false"><C /></svg>
   );
 }
