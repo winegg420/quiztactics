@@ -19,3 +19,7 @@
 .a-dereceli-secim .qt-sekme { flex: 1 1 0; font-weight: var(--qt-a-siyah); }
 .a-dereceli-secim .qt-sekme--secili[data-dereceli="1"] { background: var(--qt-ikinci); color: var(--qt-ikinci-yazi); box-shadow: 0 var(--qt-dudak-s) 0 var(--qt-ikinci-dudak); }
 .a-dereceli-aciklama { margin: 0; padding-inline: var(--qt-b-2); font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); color: var(--qt-metin-soluk); text-align: center; }
+
+/* Mod seçim penceresi (9 Eki 2026): açıklama satırı levhanın alt kenarına yapışıp kırpılmasın */
+.a-modsecim-dereceli { padding-bottom: var(--qt-b-3); flex-shrink: 0; }
+.a-modsecim-dereceli .a-dereceli-aciklama { line-height: 1.4; min-height: 1.4em; overflow: visible; }

@@ -753,3 +753,14 @@ button.sy-afis { cursor: pointer; -webkit-tap-highlight-color: transparent; touc
 
 /* Sahnede hata şeridi kehribar (kırmızı yalnız Düello/rakip rengidir); alt sayfalardaki .sy-hata değişmez */
 .sy-sahne .sy-hata--sayfa { border-color: var(--qt-uyari-dudak); background: var(--qt-uyari-acik); color: var(--qt-uyari-koyu); }
+
+/* ---------- Alt yuvalar sıkı (9 Eki 2026): yol listesi için daha çok yükseklik; hiçbir öğe kaldırılmadı, yalnız boşluklar ---------- */
+.sy-sahne .qt-sahne-alt { gap: 4px; padding-block: 4px 6px; }
+.sy-sahne .sy-sirada--kart { min-height: 56px; padding-block: 2px; }
+.sy-sahne .sy-sirada--kart .sy-sirada-yuva { width: 48px; height: 48px; }
+.sy-sahne .sy-hepsini, .sy-sahne .qt-sahne-alt .qt-dugme { min-height: var(--qt-dokunma, 44px); }
+@media (max-height: 899px) {
+  .sy-sahne .sy-ust { gap: var(--qt-b-1); }
+  .sy-sahne .sy-afis { height: 64px; padding-block: 2px; }
+  .sy-sahne .sy-serit { padding-block: var(--qt-b-1); }
+}

@@ -254,7 +254,7 @@ a.as-cip:active { transform: translateY(2px); }
   background: var(--qt-yuzey); color: var(--qt-uyari-koyu); box-shadow: 0 3px 0 rgba(29, 33, 82, .15);
 }
 .as-serit-metin { display: grid; gap: 2px; min-width: 0; }
-.as-serit-metin b { font: var(--qt-a-siyah) 17px/1.15 var(--qt-f-baslik); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.as-serit-metin b { font: var(--qt-a-siyah) 17px/1.15 var(--qt-f-baslik); overflow: hidden; text-overflow: ellipsis; white-space: normal; text-wrap: balance; }
 .as-serit-metin small { display: flex; align-items: center; gap: 8px; min-width: 0; font-size: 13px; font-weight: 800; white-space: nowrap; overflow: hidden; }
 .as-serit-metin .qt-sayi { font-variant-numeric: tabular-nums; }
 .as-serit-lobi-bilgi { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
@@ -600,9 +600,9 @@ a.as-cip:active { transform: translateY(2px); }
 .as-ko-ust { display: flex; align-items: center; gap: 8px; min-width: 0; }
 .as-ko-ad { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: var(--qt-a-siyah) var(--qt-y-l)/1.15 var(--qt-f-baslik); }
 .as-ko-ust .qt-rozet { flex: none; }
-.as-ko-alt { display: flex; align-items: center; gap: 8px; min-width: 0; font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); color: var(--qt-metin-soluk); white-space: nowrap; }
+.as-ko-alt { display: flex; align-items: center; gap: 8px; min-width: 0; font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); color: var(--qt-metin-soluk); white-space: nowrap; flex-wrap: wrap; row-gap: 2px; }
 .as-ko-lv { color: var(--qt-ikinci-koyu); }
-.as-ko-rutbe { overflow: hidden; text-overflow: ellipsis; }
+.as-ko-rutbe { overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 .as-ko-seri { margin-left: auto; flex: none; }
 .as-ko-seri .bd-seri-serit { display: inline-flex; align-items: center; gap: 4px; }
 .as-ko-seri .bd-seri-serit span { display: none; }   /* yalnız alev + gün sayısı */
