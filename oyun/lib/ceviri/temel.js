@@ -755,6 +755,7 @@ export default {
     "Pelerin": "Cape",
     // ---- Paket 24 · C: grup maçı eşleştirme kuyruğu ----
     "Rastgele oyuncularla oyna": "Play with random players",
+    "Rastgele oyna": "Play random",
     "Aramayı durdur": "Stop searching",
     "Oyuncu aranıyor…": "Looking for players…",
     "ya da arkadaşlarını seç:": "or pick your friends:",

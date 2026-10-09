@@ -1338,7 +1338,7 @@ export default function ChallengesPage() {
               onClick={grupKuyrukAcMi ? grupAramadanCik : grupAramaBaslat}
               yukleniyor={grupAramaCalisiyor}
             >
-              {grupKuyrukAcMi ? tt("Aramayı durdur") : tt("Rastgele oyuncularla oyna")}
+              {grupKuyrukAcMi ? tt("Aramayı durdur") : tt("Rastgele oyna")}
             </QtDugme>
             {/* Grup araması da Güneş Halkası görünümünde (yalnız görünüm): kuyruk, 1 sn'lik yoklama ve
                 grup_ara / grup_aramadan_cik çağrıları aynen yukarıda. Bulununca sayfa zaten /grup-mac'a geçer
