@@ -11091,3 +11091,9 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - İstemci yedek değerleri `?? 7` → `?? 10` (Duello4Arena.jsx, DuelloPage.jsx). Test/sim: sql-testi 7→10, simulasyon 2+7+3 → 2+10+3, canlı bot testine "sayaç 10'dan başlar" kontrolü.
 - Geri alma: `docs/duello-v4-sure-10-geri-al.sql`. PROJECT_CONTEXT satır 131 güncellendi.
 - Test: sql-testi 70/0 (ROLLBACK); canlı bot maçı: sayaç 10→10 duyuruda sabit, sunucu 9,7 sn ≈ istemci, oto-seçim, 2/3, el değişimi, 3/3, Son Düello geçti.
+
+### 9 Eki 2026 — Sezon Yolu son üç "?" yuvası avatar oldu (migration 1037)
+- 19 → Şövalye, 22 → Büyücü, 23 → Kral (ücretli kol, Nadir, ücretsiz edinilen, dondurulmamış pro avatarlar). Epik/Efsanevi ve elmasla satılan yok; BP'de zaten verilen avatarlar tekrarlanmadı.
+- Değiştirmek tek satır: 1037'deki update'te anahtar. Ad/nadirlik/url `trg_bp_odul_doldur` ile dolar. Geri alma: `docs/1037-geri-al.sql`. Sezon 2+ Sezon 1'i tekrar ettiği için ayrı veri yazılmadı.
+- DB ölçümü: `placeholder=true` satır sayısı 0. Build temiz.
+- "Test modunda açık" yazısı: kodda gösteren yer YOK (önceki işte kaldırılmış, bkz. yukarıdaki kayıt); yalnız çeviri anahtarı duruyor (silinmedi). Kod değişikliği gerekmedi.
