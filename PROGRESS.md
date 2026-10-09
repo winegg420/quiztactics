@@ -11029,3 +11029,13 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - Sorun: liste dokunuşu yalnız sayfanın üstündeki önizleme kartını güncelliyordu; Satın al orada, ekran dışında kalıyordu.
 - `DukkanKozmetik.jsx`: avatar listesinde dokunuş → satın alınabilirse onay sayfası (ElmasliSatinAlOnayi, "Satın al"), değilse Tak/Takılı penceresi (sonuç mesajı pencerede). Diğer kozmetik sekmelerinde (VS, zafer, tepki…) dokunuş artık her tür için büyük önizleme penceresini açar (eskiden yalnız premium). `DukkanAuralar.jsx`: satın alınabilir aura dokunuşta onay açar. `JokerSatinAlModal.jsx`: elmas yetmezken düğme "Yetersiz elmas".
 - Test: `araclar/dukkan-avatar-pencere-ekran.mjs` (yazmalar taklit) 360×640 + 390×844 × TR/EN: 32/32. Build temiz.
+
+## 9 Eki 2026 — Zorluk 2 aşırı basit şüphelilerinin Opus ikinci incelemesi (migration 1032)
+**Araç:** Claude Code
+**Neden:** z2 taramasında (1011) açık kalan 715 "aşırı basit" şüpheli Z2'nin (%60 ağırlık) kalitesini düşürüyordu; Ida kararı bana bıraktı.
+- `araclar/soru-temizlik/z2-asiri-basit-ikinci.mjs` (claude-opus-5-5, effort high, 12'lik parti): 1011 ile aynı kriter (cevap sorudan/sözcüğün anlamından/sağduyudan belli, genel kavram sorusu, saçma çeldiriciler) + yanlış alarm uyarısı (terim tanımı, belirli olgu → TUT) + ayrı doğruluk kontrolü.
+- Kural: KAPAT = karar kapat VE güven ≥ 0,85 VE doğruluk "tamam". Kapat ama güven < 0,85 → ŞÜPHELİ (açık). Doğruluk sorunu olan kapatılmaz. Taban: z2 aktif < 2.000 olacaksa migration üretilmez.
+- Deneme 50 soru ($0,22): 19 KAPAT elle kontrol edildi, hepsi gerçekten aşırı basit. Tam: **KAPAT 217 · TUT 182 · ŞÜPHELİ 313 · DOGRULUK_SORUNU 3**; toplam **$3,15**. KAPAT listesinin 217'si de elle okundu.
+- 1032 `migration-uygula.mjs` ile uygulandı. Canlı: z2 aktif **2.914 → 2.697**; z1/z3/z4/z5 = 975/5.077/2.408/1.126 değişmedi, toplam satır sayıları aynı (silinen yok). Z2 kategori: bilim 491 · coğrafya 416 · edebiyat 225 · genel_kültür 215 · müzik 245 · sanat 206 · sinema 219 · spor 210 · tarih 260 · teknoloji 210.
+- Raporlar: `z2-asiri-basit-ikinci-rapor.csv` (715, karar+gerekçe), `z2-dogruluk-sorunlari.csv` (3 "çift": yüksek atlama süre, erozyon nadas, klavye gezinme — açık bırakıldı). Geri alma `docs/z2-asiri-basit-2-geri-al.sql`.
+- Not: ŞÜPHELİ 313'ün çoğu "kapat ama güven 0,65–0,80"; istenirse ileride üçüncü bakış yapılabilir.
