@@ -8,7 +8,7 @@
 //              kök içinde [data-ks-hedef="…"] ile bulunur, koordinatlar köke göre ölçülür; hareket yalnız transform.
 // KasaAcAni  : AÇ anı (kapı açılır, ışık patlar, altın skor çubuğuna uçar). Soru gösterim payının (1,5 sn) içinde biter.
 // KasaAltinYagmuru: maç sonu kazanana altın yağmuru (sabit katman transform'suz; hareket içteki span'larda — iOS).
-// 951: KasaGirisSahnesi (maç başı; 955: tek katman ~6 sn, 3-2-1 sandığın üstünde) · KasaFinalSahnesi (maç sonu yavaş açılış ~4 sn / kaybedende kapanış) ·
+// 951: KasaGirisSahnesi (maç başı; 955: tek katman ~4 sn (1038), 3-2-1 sandığın üstünde) · KasaFinalSahnesi (maç sonu yavaş açılış ~4 sn / kaybedende kapanış) ·
 //      KasaCifteBandi (ikisi de bildi). Hepsi kök .ks-mac / .ks-bitti içinde mutlak katman.
 // Kural yok: yalnız sunum. prefers-reduced-motion → parçacık/yağmur çizilmez, kapı/kadran durağan (kasa-efekt.css).
 // ============================================================

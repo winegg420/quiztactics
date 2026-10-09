@@ -449,12 +449,12 @@ export function sahneOlustur(anahtar) {
 }
 
 // ---------------------------------------------------------------- Hazine giriş sahnesi (sunucuya bağlı; sureler.js'te değil)
-export const GIRIS_VARSAYILAN = 6000;
+export const GIRIS_VARSAYILAN = 4000;
 export const GIRIS_SINIR = { min: 3000, max: 8000, oneri: 4000 };
 export function girisSahnesi(ms) {
-  // Animasyon 6 sn'lik CSS akışı: kısa seçimde baştan kırpılır (canlıda geç gelen istemci de böyle görür), 3-2-1 bitişe göre.
+  // Animasyon 4 sn'lik CSS akışı: kısa seçimde baştan kırpılır (canlıda geç gelen istemci de böyle görür), 3-2-1 bitişe göre.
   return { sure: ms, kuyruk: 300, olcu: ".ks-giris-an", yontem: "gerçek bileşen (KasaGirisSahnesi, sunucu süresi yerine seçilen süre)",
-    canli: "Canlıda süreyi sunucu belirler (maç başı → ilk soru gösterimi ≈6 sn); bu kaydırıcı yalnız önizlemedir, oyuna yazılmaz.",
+    canli: "Canlıda süreyi sunucu belirler (giriş sahnesi = oyun_ayarlari.kasa_giris_sahne_ms, 4000 ms); bu kaydırıcı yalnız önizlemedir, oyuna yazılmaz.",
     ses: [[650, sesCoin], [1300, sesRozet], [ms - 3000, () => sesTik(3)], [ms - 2000, () => sesTik(2)], [ms - 1000, () => sesTik(1)]].filter(([t]) => t >= 0),
     ciz: (g, ctx) => (
       <div className="m2-mac ks-mac qt-sahne-mac qt-sahne-gok ks-mac--giris">

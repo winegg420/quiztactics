@@ -49,7 +49,7 @@ noindex + robots.txt). Seçim yalnız o tarayıcıda (localStorage `qt-sure-ayar
 
 | Mod | Olay | Ne yapıyor | Mevcut | Ölçülen | Not / dosya |
 |---|---|---|---|---|---|
-| Hazine | Giriş sahnesi (sandık + 3-2-1) | maç başı | 6000 | 6842–6908 | **U, S** — sunucunun ilk soru gösterimine bağlı; öneri 4000 (sunucu `kasa` başlangıç süresiyle birlikte) · KasaPage.jsx:87 |
+| Hazine | Giriş sahnesi (sandık + 3-2-1) | maç başı | 4000 (1038; sunucu ayarı `kasa_giris_sahne_ms` ile aynı kaynak) | 6842–6908 | **U, S** — sunucunun ilk soru gösterimine bağlı; 1038 ile 4000 yapıldı · KasaPage.jsx › useAyar |
 | Hazine | Giriş sesleri | düşüş/coin/rozet | 650 / 1300 | — | KasaPage.jsx:671 |
 | Hazine | Final sayı sayımı | skor hedefe sayar | 2350 / 1500 | — | final süresiyle ölçeklenir · KasaEfekt.jsx:316 |
 | Hazine | AÇ alt adımları | sars / varış / coin | 340 / 690 / 980 | — | AÇ süresiyle ölçeklenir · KasaPage.jsx:900 |

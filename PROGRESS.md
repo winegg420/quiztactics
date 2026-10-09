@@ -11225,3 +11225,11 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - README baştan kısaltıldı: Klasik, Düello v4, Ortak Hazine, turnuva saatleri (10/14/18/20/24 TSİ), lig, Sezon Yolu; Gece Turnuvası / 15 sn / Bildim anlatımı kalktı. Kurulum bölümü korundu.
 - CLAUDE.md'ye kural: bayrak/ayar DB'de değişince PROJECT_CONTEXT satırı, özellik değişince README aynı işte güncellenir.
 - Karar: Ida'nın sorusu yok; "test" bayrağı gerçekten "acik" olduğu için belgeye ölçülen değer yazıldı.
+
+## 10 Eki 2026 — Hazine giriş sahnesi 4000 ms, sunucu ve istemci tek kaynak (Claude)
+**Araç:** Claude Code
+**Neden:** Ida kararı: sunucu `kasa_giris_sahne_ms`=3000, istemci `GIRIS_SAHNE_MS`=6000 uyuşmuyordu; ikisi 4000.
+- Bağ: sunucu bu ayarı yalnız `kasa_olustur`da başlangıç fazına ekler (faz_bitis = now + 3 + 2 + giriş); istemci sahneyi `faz_bitis + gosterim_payi` bitişine hizalar, başlangıcı bitiş − süre. Sunucuda başka bekleme/kilit yok → süre değişimi yarış/kilit mantığına dokunmaz.
+- Migration `1038`: ayar 4000 (geri alma `docs/kasa-giris-4000-geri-al.sql`). `KasaPage`: sabit 6000 kalktı, süre `useAyar("kasa_giris_sahne_ms", 4000)`; sahne başlayınca sabit. CSS ışık animasyonu 6000 → 4000 ms. `/sure-ayar` Hazine giriş varsayılanı 4000.
+- 4000 = ~1 sn düşüş + 3 sn tam 3-2-1 (3-2-1 son 3 sn'de, yarım kalmaz). Yan etki: maç kuruluşundan sahne başına kadar bekleme 4 → 7 sn (952'nin asıl tasarımı: 3+2+pay).
+- PROJECT_CONTEXT (952/1038 satırı, sunum süreleri), docs/sure-olcum.md güncellendi.

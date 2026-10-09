@@ -315,9 +315,9 @@
   100% { opacity: 0; transform: translate(var(--x), calc(var(--y) + 46px)) scale(.6) rotate(var(--don)); }
 }
 
-/* ---------- MAÇ BAŞI giriş sahnesi — 955: TEK KATMAN (~6 sn; --ks-gec: geç gelen istemci ortasından katılır) ----------
+/* ---------- MAÇ BAŞI giriş sahnesi — 955: TEK KATMAN (~4 sn, 1038; --ks-gec: geç gelen istemci ortasından katılır) ----------
    Opak, kökü tamamen örter (altta soru çizilmez). Sıra: ışık + sandık düşer (0–0,9 sn) → başlık/hedef/kural (0,4–1,2 sn) →
-   kapak ara ara sarsılır → son 3 sn'de sandığın ÜSTÜNDE 3-2-1, her sayıda kapak zıplar (.ks-giris-zipla anahtarı). */
+   kapak ara ara sarsılır → son 3 sn'de (4 sn sahnede düşüşten hemen sonra) sandığın ÜSTÜNDE 3-2-1, her sayıda kapak zıplar (.ks-giris-zipla anahtarı). */
 /* kök .ks-mac zaten görünür alanı doldurur (kasa.css) — sahne onu örter */
 .ks-giris-an {
   position: absolute; inset: 0; z-index: 20; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
@@ -330,7 +330,7 @@
   position: absolute; left: 50%; top: 52%; width: 680px; height: 680px; margin: -340px 0 0 -340px; border-radius: 50%;
   background: repeating-conic-gradient(rgba(224, 161, 0, .2) 0 8deg, rgba(224, 161, 0, 0) 8deg 22deg);
   -webkit-mask: radial-gradient(closest-side, #000 18%, transparent 100%); mask: radial-gradient(closest-side, #000 18%, transparent 100%);
-  opacity: 0; animation: ks-giris-isin 6000ms linear var(--ks-gec, 0ms) both;
+  opacity: 0; animation: ks-giris-isin 4000ms linear var(--ks-gec, 0ms) both;
 }
 @keyframes ks-giris-isin { 0% { opacity: 0; transform: scale(.35) rotate(0); } 12% { opacity: .55; } 50% { opacity: .45; } 100% { opacity: 1; transform: scale(1.1) rotate(120deg); } }
 .ks-giris-an--sayim .ks-giris-isik { filter: saturate(1.3); }

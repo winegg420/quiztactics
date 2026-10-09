@@ -81,8 +81,10 @@ const GECIKME_BANT_MS = 4000;
 const KASA_ARAMA_SINIR_SN = 60;
 const IPUCU_SN = 3;
 // 951 anları (kasa-efekt.css süreleriyle eşleşir)
-// 955: giriş sahnesi TEK KATMAN — sandık düşüşü (3 sn) + sandığın üstünde 3-2-1 (3 sn); ilk sorunun gösterim başlangıcında biter
-const GIRIS_SAHNE_MS = 6000;
+// 955: giriş sahnesi TEK KATMAN — sandık düşüşü + sandığın üstünde 3-2-1; ilk sorunun gösterim başlangıcında biter.
+// Süre sunucu ayarından gelir (oyun_ayarlari.kasa_giris_sahne_ms, tek kaynak — 1038); okunamazsa bu varsayılan.
+// 4000 = ~1 sn sandık düşüşü + 3 sn tam 3-2-1.
+const GIRIS_SAHNE_VARSAYILAN_MS = 4000;
 const DEVAM_AN_MS = varsayilanSure("kasa_devam_an");      // 955: DEVAM ×1,25 anı (mini sandık sarsılır, çarpan patlar, kasa sayarak yükselir); 980: 1700 → 1400 (gösterim payında biter)
 const AC_AN_MS = varsayilanSure("kasa_ac_an");         // 980: AÇ anı (1600 → 1280) — soru gösterim payının (1,5 sn) içinde biter
 // 990: AÇ / DEVAM anı geç veride bile en az AN_TABAN_MS GÖRÜNÜR (atlanmaz; 980'deki %40 sıkıştırma kalktı). An bitene
@@ -653,6 +655,11 @@ function KasaMac({ id }) {
   const girisDurumRef = useRef({ bitis: null, basladi: false, bitti: false });
   const gd = girisDurumRef.current;
   if (!gd.basladi && girisBitisHam != null) gd.bitis = girisBitisHam;
+  // Sahne süresi sunucu ayarından; sahne başlayınca SABİT (bitiş gibi), maç ortasında ayar değişse sahne kaymaz
+  const girisAyarMs = useAyar("kasa_giris_sahne_ms", GIRIS_SAHNE_VARSAYILAN_MS);
+  const girisSureRef = useRef(GIRIS_SAHNE_VARSAYILAN_MS);
+  if (!gd.basladi && girisAyarMs > 0) girisSureRef.current = girisAyarMs;
+  const GIRIS_SAHNE_MS = girisSureRef.current;
   const girisBitis = gd.bitti ? null : gd.bitis;
   const girisGecen = girisBitis != null ? sunucuSimdiMs - (girisBitis - GIRIS_SAHNE_MS) : null;
   // Sahne erken açılırsa (arama geçişi) bitişe kadar ekranda kalır (gecikme 0'dan başlar)
