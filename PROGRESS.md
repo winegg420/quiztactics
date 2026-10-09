@@ -10998,3 +10998,10 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - Son Düello galibiyeti `uzatma` = true → Altın Dokunuş ölçütü sayar (eski Altın Soru gibi).
 - Test `araclar/duello-v4-sql-testi.mjs` (ROLLBACK): uygulamadan önce 69/69 (iki koşu; md5: yalnız 9 hedef fonksiyon değişti), uygulandıktan sonra 68/68. Geri alma `docs/duello-geri-alma-v4.sql` (hızlı: bayrak "kapali"; tam: 9 fonksiyonun 1015 öncesi hâli + v4 fonksiyonlarını kaldır).
 - İstemci değişmedi (Aşama 3); surum 4 maçı eski istemcide "yenile" uyarısına düşer (`DUELLO_EN_YUKSEK_SURUM` 2). Push yapılmadı.
+
+## 9 Eki 2026 — Düello v4 Aşama 2: simülasyon (1080 maç, ROLLBACK)
+**Araç:** Claude Code
+**Neden:** Bot ve sunucu mantığını canlıya iz bırakmadan çok sayıda maçla sınamak (takılma/hata, tur, Son Düello oranı, bot kartı).
+- `araclar/duello-v4-simulasyon.mjs`: tek işlem + ROLLBACK; sahte oyuncular (auth.users), ödül/sayaç/cron/sezon/rozet yan etkileri işlem içinde etkisiz; bot-bot / insan-insan / insan-bot × eşit / biraz / çok güçlü; `--ayar duello4_*=x` ile işlem içi ayar denemesi. İlk koşu tek işlemde biriken satır sürümleri yüzünden giderek yavaşladı ve 40 dk bekçiye takıldı (ROLLBACK, artık bağlantı kapatıldı) → 20 maçta bir kayıt noktasına dönülüyor, süre doğrusal (1080 maç ~8 dk).
+- Sonuç (15 tur): hata 0, takılma 0, bitmeyen 0, boş alan 0; tur ort 9,0; süre ort ~3,5 dk (medyan 3,3, %90 5,9); 3/3 %71,3; güçlü kazandı %67 (çok güçlüde %88–98); 5 nötr kuralı 77 maçta; havuz yeniden açılması ~0,9/maç; bot kartı en zayıfı gönderdi %65 / en güçlüyü aldı %72.
+- **Sapma:** Son Düello %28,7 (Ida beklentisi %7–15). İşlem içi deneme: `duello4_max_tur` 20 → %13,6 (süre aynı), 25 → %11,9. Kural değişikliği Ida'ya soruldu; canlıda değişiklik YOK, migration yok (hata bulunmadı). Rapor `docs/duello-v4-simulasyon-raporu.md`.

@@ -49,3 +49,6 @@ araclar/jev-tarama/kapsam-calisma.log
 araclar/jev-tarama/zorluk-dondurma-ham.jsonl
 araclar/jev-tarama/zorluk-dondurma-ikinci-ham.jsonl
 .sezon-*-oturum.json
+
+# Düello v4 simülasyonu: ham maç sonuçları (her koşuda yeniden üretilir)
+araclar/.duello-v4-simulasyon-son.json
