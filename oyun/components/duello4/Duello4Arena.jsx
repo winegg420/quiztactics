@@ -262,12 +262,15 @@ export default function Duello4Arena({
     const gonderilen = kart.gonderilen ?? null;
     if (benKontrol) {
       const ikinci = adim >= 1 && gonderilen;
+      // Süre doldu: sunucu ~3 sn geç varış payından sonra iki kartı kendisi seçer — bu arada dokunuş kabul edilmez.
+      const sureBitti = !(gosterSn > 0) && !d.kopuk;
       panel = (
         <div className="d4-panel">
           <div className="d4-baslik">
             <span className="d4-adim">{ikinci ? "2/2" : "1/2"}</span>
             <h2>{ikinci ? c("KENDİNE SEÇ") : c("RAKİBE GÖNDER")}</h2>
           </div>
+          {sureBitti && <p className="d4-alt d4-oto-not" role="status">{c("Süre doldu · otomatik seçiliyor")}</p>}
           <div className="d4-kartlar">
             {kartlar.map((x, i) => {
               const durum = x.k === gonderilen ? "rakibe"
@@ -275,7 +278,7 @@ export default function Duello4Arena({
                 : "normal";
               return (
                 <Kart key={x.k} k={x.k} ben={x.ben} rakip={x.rakip} c={c} rakipAd={oranRakip} durum={durum} sira={i}
-                      devreDisi={x.k === gonderilen || adim >= 2 || Boolean(calisan)}
+                      devreDisi={x.k === gonderilen || adim >= 2 || Boolean(calisan) || sureBitti}
                       onClick={() => { setSecili(x.k); titret(8); }} />
               );
             })}
@@ -284,7 +287,7 @@ export default function Duello4Arena({
       );
       eylem = (
         <QtDugme tur="birincil" tamGenislik ikon={ikinci ? "onay" : "gonder"} className="d4-dugme"
-                 devreDisi={!secili || adim >= 2 || Boolean(calisan)} yukleniyor={calisan === "kategori"}
+                 devreDisi={!secili || adim >= 2 || Boolean(calisan) || !(gosterSn > 0)} yukleniyor={calisan === "kategori"}
                  onClick={() => secili && onKart(secili)}>
           {ikinci ? c("Kendine seç") : c("Rakibe gönder")}
         </QtDugme>
@@ -357,7 +360,9 @@ export default function Duello4Arena({
           })}
         </QtSikler>
         {d.faz === "cevap" && v.rakip_kategori && (
-          <p className="d4-rakip-kat"><KategoriIkon anahtar={v.rakip_kategori} boyut={16} />{c("Rakip: {k}", { k: c(kategoriAdi(v.rakip_kategori)) })}</p>
+          // Otomatik seçim bilgisi burada da durur: istemci soruyu açılış anından geç görürse (ağ / sekme) bilgi kaybolmasın.
+          <p className="d4-rakip-kat"><KategoriIkon anahtar={v.rakip_kategori} boyut={16} />{c("Rakip: {k}", { k: c(kategoriAdi(v.rakip_kategori)) })}
+            {v.oto && <span className="d4-oto-etiket"> · {c("Süre doldu · otomatik seçildi")}</span>}</p>
         )}
       </div>
     );
@@ -398,7 +403,7 @@ export default function Duello4Arena({
   }
 
   return (
-    <div className={sinif("m2-mac hk-mac d4-arena", `d4-arena--${d.faz}`, v.son && "d4-arena--son")}>
+    <div className={sinif("m2-mac hk-mac d4-arena", `d4-arena--${d.faz}`, v.son && "d4-arena--sonduello")}>
       <MacUstSerit onCik={onCik} cikisEtiketi={c("Düellodan çık")} rozet={c("Düello")} />
       {ust}
       {kopukBant && (

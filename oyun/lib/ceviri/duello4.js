@@ -14,6 +14,7 @@ export default {
   "RAKİBE GÖNDERDİN": "YOU SENT",
   "KENDİNE ALDI": "THEY TOOK",
   "Aynı soru · joker yok": "Same question · no jokers",
+  "Süre doldu · otomatik seçiliyor": "Time's up · auto-picking",
   "Seçimin": "Your pick",
   "Rakipten": "From opponent",
   "Rakip: {k}": "Opponent: {k}",

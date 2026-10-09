@@ -7,7 +7,7 @@
   "ekran": 844,
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen NÖTR Deniz Yıld… DÜELLO 3 Tek bilen KONTROLÜ alır · 3/3 seri kazanır",
+  "metin": "Düello Sen NÖTR Deniz Yıld… DÜELLO 2 Tek bilen KONTROLÜ alır · 3/3 seri kazanır",
   "cekirdek": "d4-hat d4-hat--orta",
   "kartH": 0,
   "kartMin": null
@@ -176,7 +176,7 @@
   "ekran": 640,
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen NÖTR 14 Deniz Yıld… Bilim Aynı soru Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs 50:50 3 Ek Süre +5 sn 2 Zaman Baskısı -5 sn 1",
+  "metin": "Düello Sen NÖTR 13 Deniz Yıld… Bilim Aynı soru Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs 50:50 3 Ek Süre +5 sn 2 Zaman Baskısı -5 sn 1",
   "cekirdek": "d4-hat d4-hat--orta",
   "kartH": 0,
   "kartMin": null
@@ -202,7 +202,7 @@
   "ekran": 640,
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen Tur 1/20 9 Deniz Yıld… 1/2 RAKİBE GÖNDER Tarih Sen %74 Rakip %28 Sinema Sen %38 Rakip %72 Müzik Sen %66 Rakip %40 Bilim Sen ? Rakip %55 Rakibe gönder",
+  "metin": "Düello Sen Tur 1/20 8 Deniz Yıld… 1/2 RAKİBE GÖNDER Tarih Sen %74 Rakip %28 Sinema Sen %38 Rakip %72 Müzik Sen %66 Rakip %40 Bilim Sen ? Rakip %55 Rakibe gönder",
   "cekirdek": "d4-hat d4-hat--ben",
   "kartH": 104,
   "kartMin": "96px"
@@ -215,7 +215,7 @@
   "ekran": 640,
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen Tur 1/20 7 Deniz Yıld… 2/2 KENDİNE SEÇ Tarih Sen %74 Rakip %28 RAKİBE Sinema Sen %38 Rakip %72 Müzik Sen %66 Rakip %40 Bilim Sen ? Rakip %55 Kendine seç",
+  "metin": "Düello Sen Tur 1/20 6 Deniz Yıld… 2/2 KENDİNE SEÇ Tarih Sen %74 Rakip %28 RAKİBE Sinema Sen %38 Rakip %72 Müzik Sen %66 Rakip %40 Bilim Sen ? Rakip %55 Kendine seç",
   "cekirdek": "d4-hat d4-hat--ben",
   "kartH": 104,
   "kartMin": "96px"
@@ -254,7 +254,7 @@
   "ekran": 640,
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen Tur 1/20 14 Deniz Yıld… Tarih Rakipten Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs Rakip: Müzik 50:50 3 Ek Süre +5 sn 2 Zaman Baskısı -5 sn 1",
+  "metin": "Düello Sen Tur 1/20 13 Deniz Yıld… Tarih Rakipten Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs Rakip: Müzik 50:50 3 Ek Süre +5 sn 2 Zaman Baskısı -5 sn 1",
   "cekirdek": "d4-hat d4-hat--rakip",
   "kartH": 0,
   "kartMin": null
@@ -306,7 +306,7 @@
   "ekran": 640,
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen SON DÜELLO 14 Deniz Yıld… SON DÜELLO Coğrafya Joker yok Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs",
+  "metin": "Düello Sen SON DÜELLO 13 Deniz Yıld… SON DÜELLO Coğrafya Joker yok Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs",
   "cekirdek": "d4-hat d4-hat--son",
   "kartH": 0,
   "kartMin": null
@@ -488,7 +488,7 @@
   "ekran": 640,
   "kucuk": [],
   "kesik": [],
-  "metin": "Duel You NEUTRAL 14 Deniz Yıld… Science Same question Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs 50:50 3 Extra Time +5 s 2 Time Pressure -5 s 1",
+  "metin": "Duel You NEUTRAL 13 Deniz Yıld… Science Same question Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs 50:50 3 Extra Time +5 s 2 Time Pressure -5 s 1",
   "cekirdek": "d4-hat d4-hat--orta",
   "kartH": 0,
   "kartMin": null
@@ -514,7 +514,7 @@
   "ekran": 640,
   "kucuk": [],
   "kesik": [],
-  "metin": "Duel You Round 1/20 9 Deniz Yıld… 1/2 SEND TO OPPONENT History You 74% Opponent 28% Cinema You 38% Opponent 72% Music You 66% Opponent 40% Science You ? Opponent 55% Send to opponent",
+  "metin": "Duel You Round 1/20 8 Deniz Yıld… 1/2 SEND TO OPPONENT History You 74% Opponent 28% Cinema You 38% Opponent 72% Music You 66% Opponent 40% Science You ? Opponent 55% Send to opponent",
   "cekirdek": "d4-hat d4-hat--ben",
   "kartH": 104,
   "kartMin": "96px"
@@ -527,7 +527,7 @@
   "ekran": 640,
   "kucuk": [],
   "kesik": [],
-  "metin": "Duel You Round 1/20 7 Deniz Yıld… 2/2 PICK FOR ME History You 74% Opponent 28% TO THEM Cinema You 38% Opponent 72% Music You 66% Opponent 40% Science You ? Opponent 55% Pick for me",
+  "metin": "Duel You Round 1/20 6 Deniz Yıld… 2/2 PICK FOR ME History You 74% Opponent 28% TO THEM Cinema You 38% Opponent 72% Music You 66% Opponent 40% Science You ? Opponent 55% Pick for me",
   "cekirdek": "d4-hat d4-hat--ben",
   "kartH": 104,
   "kartMin": "96px"
@@ -540,7 +540,7 @@
   "ekran": 640,
   "kucuk": [],
   "kesik": [],
-  "metin": "Duel You Round 1/20 6 Deniz Yıld… OPPONENT IS PICKING 2/2 History You 74% Opponent 28% Cinema You 38% Opponent 72% Music You 66% Opponent 40% Science You ? Opponent 55%",
+  "metin": "Duel You Round 1/20 5 Deniz Yıld… OPPONENT IS PICKING 2/2 History You 74% Opponent 28% Cinema You 38% Opponent 72% Music You 66% Opponent 40% Science You ? Opponent 55%",
   "cekirdek": "d4-hat d4-hat--rakip",
   "kartH": 104,
   "kartMin": "96px"
@@ -566,7 +566,7 @@
   "ekran": 640,
   "kucuk": [],
   "kesik": [],
-  "metin": "Duel You Round 1/20 14 Deniz Yıld… History From opponent Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs Opponent: Music 50:50 3 Extra Time +5 s 2 Time Pressure -5 s 1",
+  "metin": "Duel You Round 1/20 13 Deniz Yıld… History From opponent Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs Opponent: Music 50:50 3 Extra Time +5 s 2 Time Pressure -5 s 1",
   "cekirdek": "d4-hat d4-hat--rakip",
   "kartH": 0,
   "kartMin": null
@@ -618,7 +618,7 @@
   "ekran": 640,
   "kucuk": [],
   "kesik": [],
-  "metin": "Duel You LAST DUEL 14 Deniz Yıld… LAST DUEL Geography No jokers Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs",
+  "metin": "Duel You LAST DUEL 13 Deniz Yıld… LAST DUEL Geography No jokers Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs",
   "cekirdek": "d4-hat d4-hat--son",
   "kartH": 0,
   "kartMin": null
@@ -644,7 +644,7 @@
   "ekran": 640,
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen NÖTR 14 Deniz Yıld… Bilim Aynı soru Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs 50:50 3 Ek Süre +5 sn 2 Zaman Baskısı -5 sn 1",
+  "metin": "Düello Sen NÖTR 13 Deniz Yıld… Bilim Aynı soru Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs 50:50 3 Ek Süre +5 sn 2 Zaman Baskısı -5 sn 1",
   "cekirdek": "d4-hat d4-hat--orta",
   "kartH": 0,
   "kartMin": null
@@ -670,7 +670,7 @@
   "ekran": 640,
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen Tur 1/20 9 Deniz Yıld… 1/2 RAKİBE GÖNDER Tarih Sen %74 Rakip %28 Sinema Sen %38 Rakip %72 Müzik Sen %66 Rakip %40 Bilim Sen ? Rakip %55 Rakibe gönder",
+  "metin": "Düello Sen Tur 1/20 8 Deniz Yıld… 1/2 RAKİBE GÖNDER Tarih Sen %74 Rakip %28 Sinema Sen %38 Rakip %72 Müzik Sen %66 Rakip %40 Bilim Sen ? Rakip %55 Rakibe gönder",
   "cekirdek": "d4-hat d4-hat--ben",
   "kartH": 104,
   "kartMin": "96px"
@@ -683,7 +683,7 @@
   "ekran": 640,
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen Tur 1/20 7 Deniz Yıld… 2/2 KENDİNE SEÇ Tarih Sen %74 Rakip %28 RAKİBE Sinema Sen %38 Rakip %72 Müzik Sen %66 Rakip %40 Bilim Sen ? Rakip %55 Kendine seç",
+  "metin": "Düello Sen Tur 1/20 6 Deniz Yıld… 2/2 KENDİNE SEÇ Tarih Sen %74 Rakip %28 RAKİBE Sinema Sen %38 Rakip %72 Müzik Sen %66 Rakip %40 Bilim Sen ? Rakip %55 Kendine seç",
   "cekirdek": "d4-hat d4-hat--ben",
   "kartH": 104,
   "kartMin": "96px"
@@ -696,7 +696,7 @@
   "ekran": 640,
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen Tur 1/20 6 Deniz Yıld… RAKİP SEÇİYOR 2/2 Tarih Sen %74 Rakip %28 Sinema Sen %38 Rakip %72 Müzik Sen %66 Rakip %40 Bilim Sen ? Rakip %55",
+  "metin": "Düello Sen Tur 1/20 5 Deniz Yıld… RAKİP SEÇİYOR 2/2 Tarih Sen %74 Rakip %28 Sinema Sen %38 Rakip %72 Müzik Sen %66 Rakip %40 Bilim Sen ? Rakip %55",
   "cekirdek": "d4-hat d4-hat--rakip",
   "kartH": 104,
   "kartMin": "96px"
@@ -722,7 +722,7 @@
   "ekran": 640,
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen Tur 1/20 14 Deniz Yıld… Tarih Rakipten Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs Rakip: Müzik 50:50 3 Ek Süre +5 sn 2 Zaman Baskısı -5 sn 1",
+  "metin": "Düello Sen Tur 1/20 13 Deniz Yıld… Tarih Rakipten Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs Rakip: Müzik 50:50 3 Ek Süre +5 sn 2 Zaman Baskısı -5 sn 1",
   "cekirdek": "d4-hat d4-hat--rakip",
   "kartH": 0,
   "kartMin": null
@@ -774,7 +774,7 @@
   "ekran": 640,
   "kucuk": [],
   "kesik": [],
-  "metin": "Düello Sen SON DÜELLO 14 Deniz Yıld… SON DÜELLO Coğrafya Joker yok Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs",
+  "metin": "Düello Sen SON DÜELLO 13 Deniz Yıld… SON DÜELLO Coğrafya Joker yok Hangi gezegen Güneş Sistemi'nin en büyüğüdür? A Satürn B Jüpiter C Neptün D Uranüs",
   "cekirdek": "d4-hat d4-hat--son",
   "kartH": 0,
   "kartMin": null

@@ -721,14 +721,15 @@ function DuelloMac({ id }) {
   const bitisAnahtar = d?.durum === "aktif" && !d.kopuk
     ? ["cevap", "notr", "son"].includes(d.faz) && d.cevap   // v4: nötr ve Son Düello da kişisel bitişli
       ? `c|${d.cevap.benim_bitis}|${d.cevap.rakip_bitis}`
-      : `f|${d.faz_bitis}`
+      : d.surum === 4 && d.faz === "kart" ? `k|${d.faz_bitis}` : `f|${d.faz_bitis}`
     : "";
   useEffect(() => {
     if (!bitisAnahtar) { fazBitisRef.current = null; return undefined; }
     const [tur, ...zamanlar] = bitisAnahtar.split("|");
     const t = zamanlar.map((x) => new Date(x).getTime()).filter(Number.isFinite);
     if (!t.length) { fazBitisRef.current = null; return undefined; }
-    const hedef = Math.max(...t) + (tur === "c" ? CEVAP_TOLERANS_MS : 60);
+    // v4 kart: sunucu otomatik seçimi faz bitişi + secim_gec_varis_sn (3) sonra yapar → okuma o ana kurulur.
+    const hedef = Math.max(...t) + (tur === "c" ? CEVAP_TOLERANS_MS : tur === "k" ? 3100 : 60);
     fazBitisRef.current = hedef;   // yedek yoklama bitişe yakın sıklaşsın
     const bekleMs = hedef - (Date.now() + farkRef.current);
     if (bekleMs < -2000 || bekleMs > 10 * 60 * 1000) return undefined;
