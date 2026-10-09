@@ -5,6 +5,6 @@
 .lso-arac { display: flex; flex-wrap: wrap; align-items: center; gap: var(--qt-b-3); min-width: 0; }
 .lso-bp { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-weight: 800; cursor: pointer; }
 .lso-bp input { width: 22px; height: 22px; margin: 0; }
-.lso-izgara { display: grid; grid-template-columns: minmax(0, 1fr); max-width: 440px; width: 100%; justify-self: center; gap: var(--qt-b-4); min-width: 0; }
+.lso-izgara { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--qt-b-4); min-width: 0; }
 .lso-hucre { display: grid; min-width: 0; }
 @media (max-width: 380px) { .lso-izgara { grid-template-columns: minmax(0, 1fr); } }

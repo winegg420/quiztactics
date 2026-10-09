@@ -11151,3 +11151,4 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - Elmas/Efsane V2 onaylı → `ONAYLI_LIG_CERCEVE` (varyant "onayli"); canlıya bağlı değil.
 - Yeni arka plan: LigSahneArka.jsx (a1 sade, a2 orta, a3 zengin; lige özgü motif, yarım-ton köşe). Prop: sahneArka, ligVaryant.
 - Canlı değişmedi (yeni proplar yalnız önizlemede). Test: taklit Supabase ile yerel ekran, 11 kombinasyon, 480+390 px, taşma/konsol hatası yok.
+- Düzeltme (Ida): kartlar yeniden yan yana; "alt alta" talebi ızgara düzeni değişikliği değildi, eski auto-fill ızgara geri geldi.
