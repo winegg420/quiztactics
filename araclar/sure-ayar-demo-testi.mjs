@@ -13,8 +13,8 @@ const ADRES = ARG.adres || "http://localhost:5188";
 const CIKTI = path.resolve("tasarim/sure-ayar-demo");
 fs.mkdirSync(CIKTI, { recursive: true });
 
-const DUELLO = ["ortak_arama_gecis", "duello_ban_giris", "duello_ban_aciklama", "duello_ban_onay", "duello_ban_bilgi", "duello_ban_sira", "duello_ban_sira_bilgi",
-  "duello_secim_oto", "duello_kart_ucus", "duello_hakimiyet_gecis", "duello_calma", "duello_vurus", "duello_skill_efekt", "duello4_acilis", "duello4_sarsinti"];
+// Yalnız CANLI (Düello v4) sahneleri; eski ban/hâkimiyet/tahta sahneleri sayfada yok (10 Eki 2026)
+const DUELLO = ["ortak_arama_gecis", "duello_skill_efekt", "duello4_acilis", "duello4_sarsinti", "duello4_baski", "duello4_konfeti", "duello4_kart_duyuru", "duello4_sonuc"];
 const KASA = ["kasa_ac_an", "kasa_devam_an", "kasa_an_taban", "kasa_kapali_karar", "kasa_devam_vurus", "kasa_sonuc_ucus", "kasa_final_sahne", "kasa_final_kapanis",
   "kasa_cifte", "kasa_savunma", "kasa_joker_bilgi", "kasa_devam_odul", "kasa_rakip_joker", "kasa_giris"];
 
@@ -76,6 +76,10 @@ try {
   }));
   await s.screenshot({ path: path.join(CIKTI, "00-sayfa-390.png"), fullPage: false });
 
+  const eskiler = ["duello_ban_giris", "duello_ban_aciklama", "duello_ban_onay", "duello_ban_bilgi", "duello_ban_sira", "duello_ban_sira_bilgi", "duello_secim_oto", "duello_kart_ucus", "duello_hakimiyet_gecis", "duello_calma", "duello_vurus"];
+  await sekme("Düello");
+  const sayfadaEski = await s.evaluate((l) => l.filter((k) => document.querySelector(`[data-anahtar="${k}"]`)), eskiler);
+  console.log(`${sayfadaEski.length ? "✗" : "✓"} eski sahne sayfada: ${sayfadaEski.length}`);
   for (const [ad, liste] of [["Düello", DUELLO], ["Ortak Hazine", KASA]]) {
     await sekme(ad);
     for (const k of liste) {
@@ -90,7 +94,7 @@ try {
         await s.locator(".sa-telefon").screenshot({ path: path.join(CIKTI, `${k}-${ek}.png`) });
       }
       const o = await olcum;
-      if (["ortak_arama_gecis", "kasa_sonuc_ucus", "duello_kart_ucus"].includes(k)) await s.screenshot({ path: path.join(CIKTI, `${k}-oynatici-390.png`) });
+      if (["ortak_arama_gecis", "kasa_sonuc_ucus", "duello4_kart_duyuru"].includes(k)) await s.screenshot({ path: path.join(CIKTI, `${k}-oynatici-390.png`) });
       const ust = await s.evaluate(() => { const r = document.querySelector(".sa-sahne-alt").getBoundingClientRect(); return { tasma: document.documentElement.scrollWidth - innerWidth, alt: Math.round(r.bottom) }; });
       sonuc.push({ anahtar: k, ...o, oynadi: o.gorunen > 0, ust });
       console.log(`${o.gorunen > 0 ? "✓" : "✗"} ${k.padEnd(24)} süre ${String(sure).padStart(5)} · öğe ${String(o.gorunen).padStart(5)} ms (${o.secici})`);
@@ -101,7 +105,7 @@ try {
   // Kaydırıcı: 3 sahne, en kısa / en uzun
   console.log("== kaydırıcı → süre");
   const kaydirici = [];
-  for (const [ad, k, a, z] of [["Ortak Hazine", "kasa_joker_bilgi", 1000, 3000], ["Düello", "duello_vurus", 700, 2500], ["Düello", "duello4_acilis", 800, 2500]]) {
+  for (const [ad, k, a, z] of [["Ortak Hazine", "kasa_joker_bilgi", 1000, 3000], ["Düello", "duello4_baski", 1500, 3500], ["Düello", "duello4_acilis", 800, 2500]]) {
     await sekme(ad);
     await oynat(k);
     await s.waitForFunction(() => document.querySelector(".sa-telefon")?.dataset.durum === "bitti", null, { timeout: 15000 });
@@ -134,7 +138,7 @@ try {
   // "Hepsini sırayla oynat": ilk iki sahne art arda
   await sekme("Düello");
   await s.getByRole("button", { name: "Hepsini sırayla oynat" }).click();
-  await s.waitForFunction(() => document.querySelector(".sa-telefon")?.dataset.sahne === "duello_ban_giris", null, { timeout: 12000 });
+  await s.waitForFunction(() => document.querySelector(".sa-telefon")?.dataset.sahne === "duello_skill_efekt", null, { timeout: 12000 });
   const sira = await s.locator(".sa-sahne-alt h2").innerText();
   console.log(`✓ sırayla oynat: 2. sahneye geçti (${sira.replace(/\s+/g, " ")})`);
   await kapat();

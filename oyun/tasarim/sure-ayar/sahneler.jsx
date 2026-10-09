@@ -112,21 +112,21 @@ function SecimSahnesi({ secimler, sn = 4 }) {
 }
 
 // Düello v4 (tek arena) — araclar/duello-v4-ekran.mjs'teki taklit durumun kısaltılmışı
-function v4Maci({ faz, kontrol, t0, pay = 60000, sonHamle = null }) {
+function v4Maci({ faz, kontrol, t0, pay = 60000, sonHamle = null, kart = null, gosterimBas = null, seri = 1 }) {
   const bitis = new Date(t0 + 15000 + 60000).toISOString();
   const soruFazi = ["notr", "cevap", "son"].includes(faz);
   return {
     surum: 4, id: "sa-v4", durum: "aktif", dereceli: true, faz, faz_bitis: bitis, sunucu_zamani: new Date(t0).toISOString(),
     ben: BEN, rakip: RAKIP, oyuncular: [{ ...benP, dogru: 3 }, { ...rakipP, dogru: 2 }],
-    v4: { kontrol, seri: 1, seri_hedef: 3, tur: 3, max_tur: 20, notr_seri: 0, notr_max: 5, son: false, soru_no: 5, kullanilan: [], ilk_mac: false,
-          kart: null, benim_kategori: "muzik", rakip_kategori: "tarih", oto: false },
+    v4: { kontrol, seri, seri_hedef: 3, tur: 3, max_tur: 20, notr_seri: 0, notr_max: 5, son: false, soru_no: 5, kullanilan: [], ilk_mac: false,
+          kart, benim_kategori: "muzik", rakip_kategori: "tarih", oto: false },
     soru: soruFazi ? { ...SORU, kategori: "muzik" } : null,
     cevap: soruFazi ? { benim_bitis: bitis, rakip_bitis: bitis, ben_cevapladim: false, benim_cevabim: null, rakip_cevapladi: false, elli_kapali: null, ikinci_sans_ilk_cevap: null } : null,
     son_hamle: sonHamle,
     skill: { kapali: false, set: ["elli", "sure", "zaman_baskisi"], izinli: ["elli", "sure", "soru_degistir", "zaman_baskisi", "ikinci_sans"], toplam_hak: 4, tur_basi_hak: 2,
              soru_basi_hak: 1, kullanilan: 0, sayilar: {}, bu_soruda: 0, rakip_bu_soruda: false, soru_degistir_kilit: null, envanter: { elli: 3, sure: 2, zaman_baskisi: 1 }, fiyatlar: {}, coin: 120 },
     // Taklit gösterim payı geniş (60 sn): açılış paneli tam seçilen süre kadar görünür (canlıda sunucu payı sınırlar)
-    sureler: { kart: 7, cevap: 15, sonuc: 3, ek_sure: 5, zaman_baskisi_eksi: 5, nabiz: 10, kopuk: 25, gosterim_payi_ms: pay, gosterim_bas: new Date(t0 + pay).toISOString() },
+    sureler: { kart: 7, cevap: 15, sonuc: 3, ek_sure: 5, zaman_baskisi_eksi: 5, nabiz: 10, kopuk: 25, gosterim_payi_ms: pay, gosterim_bas: new Date(gosterimBas ?? t0 + pay).toISOString() },
     kazanan: null, terk_eden: null, odul: null, ezeli: null, gecmis: null, rovans: { isteyen: null, id: null, gecerli: false },
   };
 }
@@ -134,11 +134,11 @@ const v4Hamle = { surum: 4, tip: "saldiri", no: 4, tur: 3, kazanan: null, seri_h
   sonuc: "el_degisti", kontrol_once: BEN, kontrol_sonra: RAKIP, seri_once: 2, seri_sonra: 1,
   oyuncular: { [BEN]: { soru_id: "a", kategori: "muzik", cevap: 0, dogru: false, yanitsiz: false, dogru_cevap: 1 },
                [RAKIP]: { soru_id: "b", kategori: "tarih", cevap: 2, dogru: true, yanitsiz: false, dogru_cevap: 2 } } };
-function Arena4({ d, simdi }) {
+function Arena4({ d, simdi, sn = 15, ekBalon = null }) {
   return (
-    <Duello4Arena d={d} ben={benP} rakip={rakipP} c={c} seviyeler={SEVIYELER} gosterSn={15} oran={1} farkMs={0} simdi={simdi}
+    <Duello4Arena d={d} ben={benP} rakip={rakipP} c={c} seviyeler={SEVIYELER} gosterSn={sn} oran={sn / 15} farkMs={0} simdi={simdi}
                   kopukBant={null} yenidenBant={false} hata={null} calisan={null} secim={null} ikinciSansElendi={[]} kiriliyor={[]}
-                  ekBalon={null} jokerSerbest={false} sonKullanilan={null} skillDeger={{ ek: 5, baski: 5 }}
+                  ekBalon={ekBalon} jokerSerbest={false} sonKullanilan={null} skillDeger={{ ek: 5, baski: 5 }}
                   onCevap={bos} onKart={bos} onJoker={bos} onYenile={bos} onCik={bos} />
   );
 }
@@ -318,21 +318,12 @@ export function sahneOlustur(anahtar) {
     }
     case "duello_skill_efekt": {
       const s = sure(anahtar);
-      return { sure: s, on: 150, kuyruk: 400, olcu: ".qt-sayac-balon", yontem: "gerçek bileşen (QtSayac ek süre balonu, Düello cevap ekranı)",
+      return { sure: s, on: 150, kuyruk: 400, olcu: ".qt-sayac-balon", yontem: "gerçek bileşen (Duello4Arena, sayaç ek süre balonu)",
         ses: [[150, () => sesSkill("sure")]],
-        ciz: (g) => {
-          const d = { ...puanMaci("cevap", { [BEN]: 5, [RAKIP]: 3 }), soru: SORU };
-          const hk = hkModel(d, benP, rakipP);
+        ciz: (g, ctx) => {
           const acik = g >= 150 && g < 150 + s;
-          return (
-            <DuelloKabuk d={d} faz="cevap" sayac={sayacKutu(acik || g >= 150 + s ? 14 : 9, 20, acik ? { anahtar: "sa-ek", metin: "+5" } : null)}
-                         tahta={<HkYuvalar d={d} hk={hk} c={c} kucuk />}>
-              <div className="m2-sahne hk-sahne">
-                <QtSoruKarti className="m2-soru" metin={SORU.soru} sira={c("Soru")} />
-                <QtSikler etiket={c("Şıklar")}>{SORU.secenekler.map((x, i) => <QtSik key={x} harf={"ABCD"[i]} metin={x} durum="normal" />)}</QtSikler>
-              </div>
-            </DuelloKabuk>
-          );
+          return <Arena4 d={v4Maci({ faz: "notr", kontrol: null, t0: ctx.t0 })} simdi={ctx.t0 + g} sn={acik || g >= 150 + s ? 14 : 9}
+                         ekBalon={acik ? { anahtar: "sa-ek", metin: "+5" } : null} />;
         } };
     }
     // ---------------- düello v4
@@ -343,6 +334,18 @@ export function sahneOlustur(anahtar) {
       const on = 120;
       return { sure: sure(anahtar), on, kuyruk: 500, olcu: ".d4-sahne--sarsinti", yontem: "gerçek bileşen (Duello4Arena, kontrol el değiştirir)",
         ciz: (g, ctx) => <Arena4 d={v4Maci({ faz: "sonuc", kontrol: g < on ? BEN : RAKIP, t0: ctx.t0, sonHamle: v4Hamle })} simdi={ctx.t0 + g} /> };
+    }
+    case "duello4_baski": {
+      const s = sure(anahtar);
+      return { sure: s, kuyruk: 500, olcu: ".d4-baski", yontem: "gerçek bileşen (Duello4Arena sonuç paneli, seri 2/3)",
+        ciz: (g, ctx) => <Arena4 d={v4Maci({ faz: "sonuc", kontrol: BEN, t0: ctx.t0, seri: 2, sonHamle: { ...v4Hamle, sonuc: "basarili", kontrol_once: BEN, kontrol_sonra: BEN, seri_once: 1, seri_sonra: 2,
+          oyuncular: { [BEN]: { ...v4Hamle.oyuncular[BEN], dogru: true, dogru_cevap: 0 }, [RAKIP]: { ...v4Hamle.oyuncular[RAKIP], dogru: false, dogru_cevap: 0, cevap: 2 } } } })} simdi={ctx.t0 + g} /> };
+    }
+    case "duello4_konfeti": {
+      const s = sure(anahtar);
+      return { sure: Math.round(s * 2460 / 1800), kuyruk: 500, olcu: ".d4-konfeti", yontem: "gerçek bileşen (Duello4Arena sonuç paneli, 3/3 düello kazanıldı)",
+        ciz: (g, ctx) => <Arena4 d={v4Maci({ faz: "sonuc", kontrol: BEN, t0: ctx.t0, seri: 3, sonHamle: { ...v4Hamle, sonuc: "basarili", kontrol_once: BEN, kontrol_sonra: BEN, seri_once: 2, seri_sonra: 3, kazanan: BEN,
+          oyuncular: { [BEN]: { ...v4Hamle.oyuncular[BEN], dogru: true, dogru_cevap: 0 }, [RAKIP]: { ...v4Hamle.oyuncular[RAKIP], dogru: false, dogru_cevap: 0, cevap: 2 } } } })} simdi={ctx.t0 + g} /> };
     }
     // ---------------- hazine
     case "kasa_ac_an": {
@@ -447,5 +450,34 @@ export function girisSahnesi(ms) {
       <div className="m2-mac ks-mac qt-sahne-mac qt-sahne-gok ks-mac--giris">
         <KasaGirisSahnesi hedef={80} acmaMin={10} gecenMs={Math.max(0, GIRIS_VARSAYILAN - ms)} bitisMs={ctx.t0 + ms} c={c} />
       </div>
+    ) };
+}
+
+// ---------------------------------------------------------------- Düello v4 · sunucuya bağlı sahneler (sureler.js'te yok; yalnız önizleme)
+export const D4_KART_VARSAYILAN = 900;
+export const D4_SONUC_VARSAYILAN = 3000;
+const KATLAR = [{ k: "tarih", ben: 74, rakip: 28 }, { k: "sinema", ben: 38, rakip: 72 }, { k: "muzik", ben: 66, rakip: 40 }, { k: "bilim", ben: 41, rakip: 55 }];
+/** Kart gönder (1/2) → kendine seç (2/2): her adımın başında sunucunun duyuru süresi (sayaç durur, kartlar kilitli). */
+export function d4KartSahnesi(ms) {
+  const bekle = 700;   // duyurudan sonra oyuncunun dokunuşuna kadar
+  const adim = ms + bekle;
+  return { sure: 2 * adim, kuyruk: 500, olcu: ".d4-kart-yazi", yontem: "gerçek bileşen (Duello4Arena kart fazı, 1/2 ve 2/2)",
+    canli: "Duyuru süresi sunucuda (duello4_kart_duyuru_ms): bu kaydırıcı yalnız önizlemeyi değiştirir, oyuna yazılmaz ve kopyalanan seçimlere girmez.",
+    ses: [[0, sesTurGecis], [adim, sesTurGecis]],
+    ciz: (g, ctx) => {
+      const ikinci = g >= adim;
+      const bas = ikinci ? adim : 0;
+      const d = v4Maci({ faz: "kart", kontrol: BEN, t0: ctx.t0, gosterimBas: ctx.t0 + bas + ms,
+        kart: { adim: ikinci ? 1 : 0, kartlar: KATLAR, gonderilen: ikinci ? "tarih" : null } });
+      return <Arena4 d={d} simdi={ctx.t0 + g} sn={7} />;
+    } };
+}
+/** Sonuç paneli (seri artışı): sunucu sonuç fazı kadar görünür, sonra sıradaki soru. */
+export function d4SonucSahnesi(ms) {
+  return { sure: ms, kuyruk: 400, olcu: ".d4-sonuc", yontem: "gerçek bileşen (Duello4Arena sonuç paneli, seri 1/3)",
+    canli: "Sonuç fazı süresi sunucuda (sureler.sonuc): bu kaydırıcı yalnız önizlemeyi değiştirir, oyuna yazılmaz ve kopyalanan seçimlere girmez.",
+    ciz: (g, ctx) => g >= ms ? <Son metin="Oyun burada sıradaki soruya geçer." /> : (
+      <Arena4 d={v4Maci({ faz: "sonuc", kontrol: BEN, t0: ctx.t0, seri: 1, sonHamle: { ...v4Hamle, sonuc: "basarili", kontrol_once: BEN, kontrol_sonra: BEN, seri_once: 0, seri_sonra: 1,
+        oyuncular: { [BEN]: { ...v4Hamle.oyuncular[BEN], dogru: true, dogru_cevap: 0 }, [RAKIP]: { ...v4Hamle.oyuncular[RAKIP], dogru: false, dogru_cevap: 0, cevap: 2 } } } })} simdi={ctx.t0 + g} />
     ) };
 }

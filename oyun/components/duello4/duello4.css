@@ -188,8 +188,8 @@
   .d4-bilet-kap:nth-child(2) .d4-bilet { animation-delay: .18s; }
   .d4-sonuc-baslik, .d4-giris-sayi, .d4-amblem { animation: d4-damga .4s cubic-bezier(.3, 1.4, .5, 1) both; }
   .d4-cevap { animation: d4-damga .36s cubic-bezier(.3, 1.4, .5, 1) .12s both; }
-  .d4-baski { animation: d4-baski 1.6s cubic-bezier(.3, 1.4, .5, 1) .75s both; }
-  .d4-konfeti i { animation: d4-konfeti 1.8s ease-out calc(var(--i) * 60ms) both; }
+  .d4-baski { animation: d4-baski calc(1600ms * var(--sr-duello4_baski, 1)) cubic-bezier(.3, 1.4, .5, 1) calc(750ms * var(--sr-duello4_baski, 1)) both; }
+  .d4-konfeti i { animation: d4-konfeti calc(1800ms * var(--sr-duello4_konfeti, 1)) ease-out calc(var(--i) * 60ms * var(--sr-duello4_konfeti, 1)) both; }
 }
 @keyframes d4-ucus { 0% { scale: 1; } 45% { scale: 1.45; } 100% { scale: 1; } }
 @keyframes d4-sarsinti { 0%, 100% { transform: none; } 20% { transform: translateX(-6px); } 40% { transform: translateX(6px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(3px); } }

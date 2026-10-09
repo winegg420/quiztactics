@@ -2,11 +2,12 @@
 // Menüde yok; yalnız doğrudan adresle açılır, arama motorlarına kapalı (noindex + robots.txt).
 // Seçimler YALNIZ BU TARAYICIDA (localStorage, lib/sureler.js); diğer oyuncular etkilenmez. "Seçimlerimi kopyala" tek JSON verir.
 // "Oynat": sahne, oyundaki GERÇEK bileşeniyle taklit maç verisiyle telefon çerçevesinde oynar (sahneler.jsx), varsa sesiyle.
-// Oynatıcıdaki kaydırıcı değişince sahne yeni süreyle hemen baştan oynar. "Hepsini sırayla oynat" 28 sahneyi art arda oynatır.
+// Oynatıcıdaki kaydırıcı değişince sahne yeni süreyle hemen baştan oynar. "Hepsini sırayla oynat" listedeki bütün sahneleri art arda oynatır.
+// Yalnız CANLI oyunda görünen sahneler listelenir: ESKİ Düello sahneleri (ban, hâkimiyet/draft, kategori tahtası) sureler.js › eski: true ile dışarıda (10 Eki 2026).
 import { useEffect, useMemo, useRef, useState } from "react";
 import { SURELER, sure, sureAyarla, sureleriSifirla, sureSecimleri, sureDinle, sureDeposuAcik } from "../../lib/sureler.js";
 import { sesAcikMi, sesAyarla, sesKilidiAc } from "../../lib/ses.js";
-import { sahneOlustur, girisSahnesi, GIRIS_VARSAYILAN, GIRIS_SINIR } from "./sahneler.jsx";
+import { sahneOlustur, girisSahnesi, GIRIS_VARSAYILAN, GIRIS_SINIR, d4KartSahnesi, d4SonucSahnesi, D4_KART_VARSAYILAN, D4_SONUC_VARSAYILAN } from "./sahneler.jsx";
 import { QtDugme, QtKart, sinif } from "../index.js";
 import "./sure-ayar.css";
 
@@ -18,9 +19,23 @@ const GIRIS_KAYIT = { anahtar: GIRIS, mod: "kasa", baslik: "Giriş sahnesi (sand
   varsayilan: GIRIS_VARSAYILAN, oneri: GIRIS_SINIR.oneri, min: GIRIS_SINIR.min, max: GIRIS_SINIR.max, sunucu: true,
   not: "Süresi sunucuda: bu kaydırıcı yalnız önizlemeyi değiştirir, oyuna yazılmaz ve kopyalanan seçimlere girmez." };
 
-/** Bir sahne tanımı: kayıt (sureler.js satırı) + seçili değer. */
-function tanim(anahtar, girisMs) {
-  return anahtar === GIRIS ? girisSahnesi(girisMs) : sahneOlustur(anahtar);
+const D4_KART = "duello4_kart_duyuru";
+const D4_SONUC = "duello4_sonuc";
+const D4_KART_KAYIT = { anahtar: D4_KART, mod: "duello", baslik: "v4 · kart gönder / kendine seç", aciklama: "Kontrol sahibi kartı rakibe gönderir, sonra kendine seçer; her adımın başında duyuru.",
+  varsayilan: D4_KART_VARSAYILAN, min: 400, max: 2000, sunucu: true,
+  not: "Duyuru süresi sunucuda: bu kaydırıcı yalnız önizlemeyi değiştirir, oyuna yazılmaz ve kopyalanan seçimlere girmez." };
+const D4_SONUC_KAYIT = { anahtar: D4_SONUC, mod: "duello", baslik: "v4 · sonuç paneli (seri artışı)", aciklama: "Soru sonunda kim bildi, seri artışı / kontrol; sonra sıradaki soru.",
+  varsayilan: D4_SONUC_VARSAYILAN, min: 1500, max: 5000, sunucu: true,
+  not: "Sonuç fazı sunucuda: bu kaydırıcı yalnız önizlemeyi değiştirir, oyuna yazılmaz ve kopyalanan seçimlere girmez." };
+const SUNUCU_KAYITLARI = [GIRIS_KAYIT, D4_KART_KAYIT, D4_SONUC_KAYIT];
+const SUNUCU_VARSAYILAN = Object.fromEntries(SUNUCU_KAYITLARI.map((k) => [k.anahtar, k.varsayilan]));
+
+/** Bir sahne tanımı: kayıt (sureler.js satırı) + seçili değer (sunucuya bağlı sahnelerde önizleme değeri). */
+function tanim(anahtar, ms) {
+  if (anahtar === GIRIS) return girisSahnesi(ms);
+  if (anahtar === D4_KART) return d4KartSahnesi(ms);
+  if (anahtar === D4_SONUC) return d4SonucSahnesi(ms);
+  return sahneOlustur(anahtar);
 }
 
 /** Tek oynatma: on + sure + kuyruk; ses zamanlayıcıları sahne ömrüne bağlı. Bitince son karede kalır. */
@@ -62,15 +77,15 @@ function Sahne({ anahtar, deger, girisMs, bitti }) {
 }
 
 /** Tam ekran oynatıcı: çerçeve + kaydırıcı (değişince hemen yeniden oynar) + tekrar / bugünkü değer / sıra. */
-function Oynatici({ liste, baslangic = 0, sirali, girisMs, setGirisMs, onKapat }) {
+function Oynatici({ liste, baslangic = 0, sirali, sunucuMs, setSunucuMs, onKapat }) {
   const [i, setI] = useState(baslangic);
   const [tekrar, setTekrar] = useState(0);
   const [tam, setTam] = useState(false);   // tam ekran: denetim paneli gizli, sahneye dokununca geri gelir
   const [, yenile] = useState(0);
   useEffect(() => sureDinle(() => yenile((x) => x + 1)), []);
   const s = liste[i];
-  const deger = s.sunucu ? girisMs : sure(s.anahtar);
-  const ayarla = (v) => { if (s.sunucu) setGirisMs(v ?? s.varsayilan); else sureAyarla(s.anahtar, v); };
+  const deger = s.sunucu ? sunucuMs[s.anahtar] : sure(s.anahtar);
+  const ayarla = (v) => { if (s.sunucu) setSunucuMs((o) => ({ ...o, [s.anahtar]: v ?? s.varsayilan })); else sureAyarla(s.anahtar, v); };
   const sonrakiRef = useRef(null);
   useEffect(() => () => clearTimeout(sonrakiRef.current), []);
   const bitti = () => {
@@ -89,7 +104,7 @@ function Oynatici({ liste, baslangic = 0, sirali, girisMs, setGirisMs, onKapat }
     <div className={sinif("sa-sahne", tam && "sa-sahne--tam")} role="dialog" aria-modal="true" aria-label={`Önizleme: ${s.baslik}`}>
       {tam && <button type="button" className="sa-panel-goster" onClick={() => setTam(false)}>Paneli göster</button>}
       <div className="sa-sahne-ic" onClick={tam ? () => setTam(false) : undefined}>
-        <Sahne key={`${s.anahtar}:${deger}:${tekrar}`} anahtar={s.anahtar} deger={deger} girisMs={girisMs} bitti={bitti} />
+        <Sahne key={`${s.anahtar}:${deger}:${tekrar}`} anahtar={s.anahtar} deger={deger} girisMs={deger} bitti={bitti} />
       </div>
       <div className="sa-sahne-alt">
         <div className="sa-kart-bas">
@@ -120,7 +135,7 @@ export default function SureAyarPage() {
   const [, yenile] = useState(0);
   const [oynat, setOynat] = useState(null);   // { liste, baslangic, sirali }
   const [oynanan, setOynanan] = useState(() => new Set());
-  const [girisMs, setGirisMs] = useState(GIRIS_VARSAYILAN);
+  const [sunucuMs, setSunucuMs] = useState(SUNUCU_VARSAYILAN);
   const [kopyaDurum, setKopyaDurum] = useState(null);
   const [sesAcik, setSesAcik] = useState(() => sesAcikMi());
   const depoAcik = useMemo(() => sureDeposuAcik(), []);
@@ -149,8 +164,9 @@ export default function SureAyarPage() {
   }, [oynat]);
 
   const secimler = sureSecimleri();
-  const liste = [...SURELER.filter((s) => s.mod === mod || s.mod === "ortak"), ...(mod === "kasa" ? [GIRIS_KAYIT] : [])];
-  const tumu = SURELER;   // "Hepsini sırayla oynat": ayarlanabilir 28 sahne
+  const canliSureler = SURELER.filter((s) => !s.eski);   // yalnız canlı oyunda görünen sahneler
+  const liste = [...canliSureler.filter((s) => s.mod === mod || s.mod === "ortak"), ...SUNUCU_KAYITLARI.filter((k) => k.mod === mod)];
+  const tumu = [...canliSureler, ...SUNUCU_KAYITLARI];   // "Hepsini sırayla oynat"
   const degisenSayi = Object.keys(secimler).length;
 
   const ac = (l, baslangic = 0, sirali = false) => {
@@ -196,10 +212,10 @@ export default function SureAyarPage() {
 
       <ul className="sa-liste">
         {liste.map((s, idx) => {
-          const deger = s.sunucu ? girisMs : sure(s.anahtar);
+          const deger = s.sunucu ? sunucuMs[s.anahtar] : sure(s.anahtar);
           const degisti = deger !== s.varsayilan;
-          const ayarla = (v) => { if (s.sunucu) setGirisMs(v ?? s.varsayilan); else sureAyarla(s.anahtar, v); };
-          const canli = tanim(s.anahtar, girisMs)?.canli;
+          const ayarla = (v) => { if (s.sunucu) setSunucuMs((o) => ({ ...o, [s.anahtar]: v ?? s.varsayilan })); else sureAyarla(s.anahtar, v); };
+          const canli = tanim(s.anahtar, deger)?.canli;
           return (
             <li key={s.anahtar}>
               <QtKart dolgu="o" className={sinif("sa-kart", degisti && !s.sunucu && "sa-kart--degisti")} data-anahtar={s.anahtar}>
@@ -230,7 +246,7 @@ export default function SureAyarPage() {
 
       {oynat && (
         <Oynatici key={oynat.id} liste={oynat.liste} baslangic={oynat.baslangic} sirali={oynat.sirali}
-                  girisMs={girisMs} setGirisMs={setGirisMs} onKapat={() => setOynat(null)} />
+                  sunucuMs={sunucuMs} setSunucuMs={setSunucuMs} onKapat={() => setOynat(null)} />
       )}
     </main>
   );

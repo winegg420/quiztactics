@@ -11188,3 +11188,11 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - Çerçeve ÖLÇEKLENMEZ: transform ölçeği uçuşları (getBoundingClientRect ile hedef bulan altın/kart/anahtar) yanlış yere indiriyordu; `contain: layout paint` fixed katmanları telefon içinde tutar.
 - Canlıya dokunan (varsayılanda aynı) üç küçük ek: KasaPage'deki joker bilgi / DEVAM ödülü / rakip joker anları aynı işaretlemeyle `KasaParcalari.jsx`'e bileşen olarak taşındı; `ks-joker-bilgi`, `ks-rakip-joker` ve Düello sayaç balonu CSS süreleri `--sr-*` ile ölçekleniyor (önce seçim bu üçünün görünür süresini uzatamıyordu). Seçim yokken 1,8 / 2,2 / 0,9 sn — ölçüldü.
 - Test: `araclar/sure-ayar-demo-testi.mjs` (geçici girişsiz kabuk, Supabase engelli) 29/29 sahne oynadı; kaydırıcı 3 sahnede süreyi orantılı değiştirdi; 390 px taşma yok, hedefler ≥44 px. Ekranlar tasarim/sure-ayar-demo/ (commit dışı). Hesap açılmadı. Rapor RAPOR.md.
+
+## 10 Eki 2026 — /sure-ayar yalnız canlı (Düello v4) sahneleri gösteriyor (Claude)
+**Araç:** Claude Code
+**Neden:** Sayfa oyunda artık görünmeyen ESKİ Düello sahnelerini (ban×6, seçim/hâkimiyet, çalma, puan vuruşu) içeriyordu; v4 canlı.
+- `sureler.js`: 11 eski sahne `eski: true` (kod, anahtar, bileşen duruyor; yalnız sayfadan çıktı). Yeni süre: `duello4_baski` (2/3 SON BASKI, 2350), `duello4_konfeti` (3/3, 1800) — `duello4.css` calc(… var(--sr-…,1)) ile bağlı, varsayılanda aynı.
+- Sunucuya bağlı önizleme sahneleri (oyuna yazılmaz): v4 kart gönder/kendine seç (duyuru 900), v4 sonuç paneli (3 sn). Sayfa sunucu kayıtlarını genelledi (`sunucuMs`).
+- `duello_skill_efekt` önizlemesi eski tahta yerine v4 arenasıyla çiziliyor. "Hepsini oynat" 22 sahne (Hazine giriş dahil).
+- Test: `araclar/sure-ayar-demo-testi.mjs` güncellendi (22/22 oynadı, eski sahne 0, 390 px taşma 0). Test hesabı açılmadı. Rapor: RAPOR.md (commit dışı).
