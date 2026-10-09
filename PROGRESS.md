@@ -11030,6 +11030,16 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - `DukkanKozmetik.jsx`: avatar listesinde dokunuş → satın alınabilirse onay sayfası (ElmasliSatinAlOnayi, "Satın al"), değilse Tak/Takılı penceresi (sonuç mesajı pencerede). Diğer kozmetik sekmelerinde (VS, zafer, tepki…) dokunuş artık her tür için büyük önizleme penceresini açar (eskiden yalnız premium). `DukkanAuralar.jsx`: satın alınabilir aura dokunuşta onay açar. `JokerSatinAlModal.jsx`: elmas yetmezken düğme "Yetersiz elmas".
 - Test: `araclar/dukkan-avatar-pencere-ekran.mjs` (yazmalar taklit) 360×640 + 390×844 × TR/EN: 32/32. Build temiz.
 
+## 9 Eki 2026 — Canlı tarama metin/kozmetik düzeltmeleri (8 madde)
+**Araç:** Claude Code
+- 1) Düello kartı (Modlar + Meydan Okuma): v4 açıkken "5 joker türü · 20 tur" + "Kontrolü al, üst üste 3 doğru yap." (`DUELLO_V4_JOKERLER` = Baskın/Kalkan hariç; sayı koddan). Ida'nın yazdığı "aynı kategoride" ifadesi kurala uymuyor (kontrol döneminde kategoriler tekrar etmez) → yazılmadı.
+- 2) Profil "Puan" → "Toplam puan" (`profiles.puan`, birikimli); ana sayfa kartı "Puan" → "Lig puanı" (haftalık lig özeti). Değerler aynı.
+- 3) Koleksiyon "Avatar" → "Edinilen avatar": ücretsiz avatarlar sahiplik satırı almaz (`oyuncu_avatarlari`), koleksiyon yalnız edinilenleri sayar; sayım doğru.
+- 4) Profil yatay taşma: `.qt-pf` overflow-x clip (misafir hesapta taşma yeniden üretilemedi, önlem).
+- 5) Ana kart rütbe satırı sarar; turnuva bandı başlığı 2 satıra inebilir. 6) Mod seçim açıklama satırına boşluk/shrink önlemi (yeniden üretilemedi). 7) Sezon Yolu alt yuvalar ve üst afiş sıkılaştırıldı (+~34 px liste).
+- 8) Profil sekmeleri `?sekme=` yazar (replace; kaydırma yalnız dış bağlantıda).
+- Test: `araclar/_gecici-tara.mjs` (tek misafir hesabı; geçici, commit dışı).
+
 ## 9 Eki 2026 — Zorluk 2 aşırı basit şüphelilerinin Opus ikinci incelemesi (migration 1032)
 **Araç:** Claude Code
 **Neden:** z2 taramasında (1011) açık kalan 715 "aşırı basit" şüpheli Z2'nin (%60 ağırlık) kalitesini düşürüyordu; Ida kararı bana bıraktı.
