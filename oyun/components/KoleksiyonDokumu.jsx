@@ -11,7 +11,7 @@ import { tt } from "../lib/dil.js";
 import { QtBosDurum, QtIkon, QtKart, sinif, siraStili, useSiraliGiris } from "../tasarim/index.js";
 import "../tasarim/ekranlar/koleksiyon-puani.css";
 
-const KATEGORI_AD = { rozet: "Rozet", cerceve: "Çerçeve", aura: "Arka Plan", unvan: "Unvan", kozmetik: "Kozmetik", avatar: "Avatar" };
+const KATEGORI_AD = { rozet: "Rozet", cerceve: "Çerçeve", aura: "Arka Plan", unvan: "Unvan", kozmetik: "Kozmetik", avatar: "Edinilen avatar" };
 const KATEGORI_IKON = { rozet: "madalya", cerceve: "palet", aura: "elmas", unvan: "kupa", kozmetik: "yildiz", avatar: "kisi" };
 const NADIR = [["siradan", "Sıradan"], ["nadir", "Nadir"], ["epik", "Epik"], ["efsanevi", "Efsanevi"]];
 

@@ -1665,6 +1665,7 @@ export default {
     "Hazır cümleler": "Quick phrases",
     "Puan": "Points",
     "Toplam puan": "Total points",
+    "Edinilen avatar": "Avatars earned",
     "Lig puanı": "League points",
     "Şampiyonluk": "Titles",
     "Turnuvaya kaldı": "Until tournament",
