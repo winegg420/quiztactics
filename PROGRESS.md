@@ -11083,3 +11083,11 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - Cümle her yerde "Kontrolü al, üst üste 3 doğru yap, düelloyu kazan." (EN: "Take control, get 3 correct in a row, win the duel."): DuelloPage, ModSecimPenceresi, DuelloTanitim, ceviri/duello4.js.
 - Kök sebep: `useDuelloKurallari` `v4`'ü `false` ile başlatıp ayarlar gelince çeviriyordu → önce eski (puan modu) metin çiziliyordu. Kanca artık `hazir` döndürür; DuelloGiris kural paragrafı ve ModSecimPenceresi Düello açıklaması ayarlar okunana kadar boş (nbsp, yükseklik korunur).
 - Test: yerel önizleme, oyun_ayarlari isteği 1,5 sn geciktirilerek 390/1536 EN oturumlarla ölçüldü: eski metin hiç çizilmedi; build temiz. (360 aynı kod yolu; TR hesabı da EN dilinde açıldı.)
+
+## 2026-10-09 — Düello v4 kart seçim süresi 7 → 10 sn (migration 1035)
+**Araç:** Claude Code (Sonnet 5.5)
+**Neden:** Ida: kart seçim ekranının kullanılabilir süresi 10 sn olsun; duyuru (0,9 sn) ve yazıda duran sayaç aynen kalsın.
+- Süre tek kaynaktan gelir: `oyun_ayarlari.duello4_kart_sn` (1013'te 7). 1035 yalnız bunu 10 yaptı; `duello4_kart_ac` / `kart_uygula` / `durum` / `bot_tik` zaten bu ayardan hesapladığı için sunucu son tarihi, ekran sayacı (`faz_bitis − max(şimdi, gosterim_bas)`) ve botlar (t1 ≤ kalan−2, t2 ≤ kalan−0,5) otomatik 10'a uydu. Oto-seçim kuralları değişmedi.
+- İstemci yedek değerleri `?? 7` → `?? 10` (Duello4Arena.jsx, DuelloPage.jsx). Test/sim: sql-testi 7→10, simulasyon 2+7+3 → 2+10+3, canlı bot testine "sayaç 10'dan başlar" kontrolü.
+- Geri alma: `docs/duello-v4-sure-10-geri-al.sql`. PROJECT_CONTEXT satır 131 güncellendi.
+- Test: sql-testi 70/0 (ROLLBACK); canlı bot maçı: sayaç 10→10 duyuruda sabit, sunucu 9,7 sn ≈ istemci, oto-seçim, 2/3, el değişimi, 3/3, Son Düello geçti.

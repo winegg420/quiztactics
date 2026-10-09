@@ -128,7 +128,7 @@ begin
         update public.duellolar set faz_bitis = now() - interval '20 seconds' where id = m;
         perform public.duello4_ilerlet(m);
         oto := oto + 1;
-        sure := sure + 2 + 7 + 3;
+        sure := sure + 2 + 10 + 3;
       else
         if random() < 0.5 then
           select k into g from unnest(kartlar) k order by coalesce(public.duello4_oran(rprof, k), 50), random() limit 1;

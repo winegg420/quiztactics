@@ -183,6 +183,7 @@ try {
   ok("kart: rakibe gönder + kendine seç (UI, tek dokunuş)", m1.kartSecildi);
   ok("1034: onay düğmesi yok", !dugmeGoruldu);
   ok("1034: duyuru sırasında sayaç ilerlemiyor", duyurular.length > 0 && duyurular.every((x) => x.ayni), JSON.stringify(duyurular));
+  ok("1035: sayaç 10 sn'den başlıyor (duyuruda 10'da duruyor)", duyurular.length > 0 && /^10$/.test(duyurular[0].a), JSON.stringify(duyurular[0]));
   ok("1034: sunucu kalan ≈ istemci sayacı (±1 sn)", esitlik.length > 0 && esitlik.every((x) => Math.abs(x.istemci - Math.ceil(x.sunucu)) <= 1), JSON.stringify(esitlik));
   ok("2/3 SON BASKI görüldü", m1.baskiGoruldu);
   ok("kontrol el değişimi görüldü (ekran + kayıt)", m1.elDegisti && Number(r1.el) >= 1, `el=${r1.el}`);

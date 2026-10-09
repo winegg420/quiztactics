@@ -1482,7 +1482,7 @@ function DuelloMac({ id }) {
     const ekBalon4 = skillEfekt?.tur === "sure"
       ? { anahtar: `s${skillEfekt.deger}${fazAnahtari}`, metin: `+${skillEfekt.deger}` }
       : skillEfekt?.tur === "zaman_baskisi" ? { anahtar: `z${skillEfekt.deger}${fazAnahtari}`, metin: `−${skillEfekt.deger}` } : null;
-    const toplam4 = d.faz === "kart" ? Number(d.sureler?.kart ?? 7) : Math.max(Number(d.sureler?.cevap ?? 15), Math.ceil(kalanSn));
+    const toplam4 = d.faz === "kart" ? Number(d.sureler?.kart ?? 10) : Math.max(Number(d.sureler?.cevap ?? 15), Math.ceil(kalanSn));
     return (
       <>
         <Duello4Arena d={d} ben={ben} rakip={rakip} c={c2} seviyeler={seviyeler}

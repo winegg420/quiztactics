@@ -186,7 +186,7 @@ try {
     const t = (await db.sorgu(`select extract(epoch from faz_bitis - now())::float8::text f, extract(epoch from v4_duyuru_bitis - now())::float8::text du,
       (select deger::text from oyun_ayarlari where anahtar = 'duello4_kart_duyuru_ms') dms from duellolar where id = '${m}'`))[0];
     const D = Number(t.dms) / 1000;
-    ok('1034: 2. duyuru → sayaç durur, kalan 7 sn korunur (faz_bitis = şimdi + D + 7)', Math.abs(Number(t.du) - D) < 0.01 && Math.abs(Number(t.f) - D - 7) < 0.01, JSON.stringify(t));
+    ok('1034: 2. duyuru → sayaç durur, kalan 10 sn korunur (faz_bitis = şimdi + D + 10)', Math.abs(Number(t.du) - D) < 0.01 && Math.abs(Number(t.f) - D - 10) < 0.01, JSON.stringify(t));
   }
   dB = await durum(B, m);
   ok('bekleyen: adım 1, hangi kart olduğu gizli', dB.v4.kart.adim === 1 && dB.v4.kart.gonderilen === null);

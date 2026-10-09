@@ -226,7 +226,7 @@ export default function Duello4Arena({
   const tepkiBen = h && sm ? (h.oyuncular?.[benId]?.dogru ? "dogru" : "yanlis") : null;
   const tepkiRakip = h && sm ? (h.oyuncular?.[rakip.id]?.dogru ? "dogru" : "yanlis") : null;
   const sayacVar = (soruFazi && Boolean(soruMetni) && !acilisAcik) || d.faz === "kart";
-  const toplamSn = d.faz === "kart" ? Number(d.sureler?.kart ?? 7) : Math.max(Number(d.sureler?.cevap ?? 15), Math.ceil(gosterSn ?? 0));
+  const toplamSn = d.faz === "kart" ? Number(d.sureler?.kart ?? 10) : Math.max(Number(d.sureler?.cevap ?? 15), Math.ceil(gosterSn ?? 0));
   const rakipSeciyor = d.faz === "kart" && !benKontrol;
   const ust = (
     <header className={sinif("d4-ust", v.son && "d4-ust--son")}>
