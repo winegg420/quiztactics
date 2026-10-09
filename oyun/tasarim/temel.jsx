@@ -190,22 +190,31 @@ export function QtSekmeler({ sekmeler = [], aktif, onSec, etiket, className }) {
   }, [sekmeSayisi]);
   useEffect(() => {
     const cubuk = kok.current;
-    if (!cubuk || cubuk.scrollWidth <= cubuk.clientWidth + 1) return;
-    const el = cubuk.querySelector(`[data-kod="${CSS.escape(String(aktif ?? ""))}"]`);
-    if (!el) return;
-    try {
-      const c = cubuk.getBoundingClientRect();
-      const e = el.getBoundingClientRect();
-      const pay = 16;
-      let hedef = null;
-      if (e.left < c.left + pay) hedef = cubuk.scrollLeft - (c.left + pay - e.left);
-      else if (e.right > c.right - pay) hedef = cubuk.scrollLeft + (e.right - (c.right - pay));
-      if (hedef == null) return;
-      const azalt = typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-      cubuk.scrollTo({ left: Math.max(0, hedef), behavior: azalt ? "auto" : "smooth" });
-    } catch {
-      /* eski tarayıcı: kaydırma yok, sekme yine seçilir */
-    }
+    if (!cubuk) return undefined;
+    let iptal = false;
+    // 9 Eki 2026 (denetim): kenar payı solma genişliğinden (28–36 px) büyük olmalı; 16 px'te seçili sekme
+    // solmanın altında kalıp "sağ kenarda sıkışıyor" görünüyordu. Yazı tipi gelince genişlikler değişir → bir kez daha hizala.
+    const goster = (yumusak) => {
+      if (iptal || cubuk.scrollWidth <= cubuk.clientWidth + 1) return;
+      const el = cubuk.querySelector(`[data-kod="${CSS.escape(String(aktif ?? ""))}"]`);
+      if (!el) return;
+      try {
+        const c = cubuk.getBoundingClientRect();
+        const e = el.getBoundingClientRect();
+        const pay = 44;
+        let hedef = null;
+        if (e.left < c.left + pay) hedef = cubuk.scrollLeft - (c.left + pay - e.left);
+        else if (e.right > c.right - pay) hedef = cubuk.scrollLeft + (e.right - (c.right - pay));
+        if (hedef == null) return;
+        const azalt = typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+        cubuk.scrollTo({ left: Math.max(0, hedef), behavior: azalt || !yumusak ? "auto" : "smooth" });
+      } catch {
+        /* eski tarayıcı: kaydırma yok, sekme yine seçilir */
+      }
+    };
+    goster(true);
+    try { document.fonts?.ready?.then(() => goster(false)); } catch { /* yazı tipi beklenemedi */ }
+    return () => { iptal = true; };
   }, [aktif, sekmeSayisi]);
   const tus = (e, i) => {
     const yon = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
