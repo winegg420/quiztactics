@@ -45,7 +45,7 @@ import { soruUzunlukSinifi } from "../lib/soruUzunluk.js";
 import { kategoriAdi } from "../lib/kategoriler.js";
 import { titret } from "../lib/geriBildirim.js";
 import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesDokunus, sesRakipBulundu, sesSoruGeldi,
-  sesTurGecis, sesRakipCevapladi, sesCoin, sesRozet, sesJoker, sesXpDolma, sesSkill } from "../lib/ses.js";
+  sesTurGecis, sesRakipCevapladi, sesCoin, sesRozet, sesJoker, sesXpDolma, sesSkill, sesOnYukle } from "../lib/ses.js";
 import { KasaAcAni, KasaAltinYagmuru, UcanParcalar, kasaSeviye, KasaGirisSahnesi, KasaFinalSahnesi,
   KasaCifteBandi, KasaRakipKarar, KasaSavunmaAni } from "../components/KasaEfekt.jsx";
 import Konfeti from "../components/Konfeti.jsx";
@@ -435,6 +435,7 @@ function KasaMac({ id }) {
   // İlk yükleme + Realtime sinyali + yedek yoklama + görünürlük/ağ dönüşü
   useEffect(() => {
     sesKilidiAc();
+    sesOnYukle("mac"); sesOnYukle("skill"); sesOnYukle(["coin", "rozet", "xp_dolma"]);   // maç sesleri önceden insin (ilk soru/tik sessiz kalmasın)
     yukle();
     const kanal = supabase
       .channel(`kasa-${id}`)
@@ -614,6 +615,8 @@ function KasaMac({ id }) {
     calinanRef.current.add(anahtar);
     return true;
   }, []);
+  // Soru sesi TEK kaynak: giriş sahnesi kalkışı / faz gelişi / AÇ anı bitişi — hangisi soruyu görünür kıldıysa o çalar, sorunun anahtarıyla bir kez
+  const soruSesi = useCallback((dd) => { if (birKez(`soru:${turAnahtari(dd)}`) && !gorunurDegil()) sesSoruGeldi(); }, [birKez]);
   const anBaslat = useCallback((yeni, adimlar) => {
     anZamanRef.current.forEach(clearTimeout);
     anZamanRef.current = [];
@@ -688,7 +691,7 @@ function KasaMac({ id }) {
   useEffect(() => {
     const once = girisOncekiRef.current;
     girisOncekiRef.current = girisAktif;
-    if (once && !girisAktif && d?.durum === "aktif" && d?.faz === "cevap" && birKez(`soru:${turAnahtari(d)}`) && !gorunurDegil()) sesSoruGeldi();
+    if (once && !girisAktif && d?.durum === "aktif" && d?.faz === "cevap") soruSesi(d);
   }, [girisAktif]);   // eslint-disable-line react-hooks/exhaustive-deps
 
   // ---------------- 951: maç sonu açılış sahnesi (aktif → bitti geçişi görüldüyse) ----------------
@@ -823,7 +826,7 @@ function KasaMac({ id }) {
       const acildi = d.faz === "cevap" && d.son_karar?.ac && !d.son_karar.son && !kasaSavunma(d);
       // Giriş sahnesi sürerken ilk sorunun bandı/sesi sahnenin altında kalmasın (sahne kendi sesini çalar)
       if (yeniTur && (d.faz === "karar" || d.faz === "cevap") && !girisAktifRef.current) { turBantFazRef.current = d.faz; setTurBant(Date.now()); }
-      if (d.faz === "cevap" && !acildi) { if (!girisAktifRef.current) sesSoruGeldi(); }
+      if (d.faz === "cevap" && !acildi) { if (!girisAktifRef.current) soruSesi(d); }
       else if (d.faz === "karar") sesTurGecis();
       else if (d.faz === "sonuc" && d.sonuc) {
         const s = d.sonuc;
@@ -909,7 +912,7 @@ function KasaMac({ id }) {
             [m(690), { sars: false }],
             // kısalmış anda coin sesi düşer (sesler üst üste binmesin; açılış + soru sesi kalır)
             [m(980), { varis: true }, payO >= 0.75 ? sesCoin : null],
-            [m(AC_AN_MS), "bitir", sesSoruGeldi],
+            [m(AC_AN_MS), "bitir", () => soruSesi(d)],
           ]);
         if (kapaliMs) kararZaman(basla, kapaliMs); else basla();
       }
