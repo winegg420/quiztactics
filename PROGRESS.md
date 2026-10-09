@@ -11253,3 +11253,25 @@ Kaldırıldı: "Hazine sende: {k} puan" başlığı, AÇ alt yazısı "Skor x/y"
 - `ses.js`: ses seçimleri geç gelince istenmiş ön yükleme grupları seçilen aday dosyayla yeniden iner. Ölçüm: ön yükleme seçimden önce eski dosyayı indiriyor, aday dosya 250 ms'de inmeyince ilk ses atlanıyordu (800 ms indirme: sessiz → çalıyor).
 - Dokunulmadı: Klasik/Grup/Turnuva (QuestionCard), Çalışma, v4 nötr/tik/rakip/kart — ses görselin çizildiği efektte (≤ 6 ms). Eski Düello (surum 2) 300 ms kasıtlı aralık; v4 herkese açık olduğundan yeni maçı yok.
 - Testler: duello-v4-ekran 105/5 (5 hata değişiklikten önce de aynı — kart dblclick zaman aşımı), kasa-ekran 292/0, build temiz. Gerçek telefon testi Ida'da.
+
+## 2026-10-09 — Avatar edinme = ilerleme (1039)
+**Araç:** Claude Code
+**Neden:** Ida onaylı tasarım: avatarlar ilerlemeye bağlansın; her avatarın tek, ekranda yazan edinme yolu olsun.
+
+- **Migration 1039 canlıda** (`20260612001039_avatar_edinme_ilerleme.sql`; ROLLBACK provası + geri alma provası temiz). `avatar_nitelikleri.edinme`
+  artık `ucretsiz | level | sezon | coin | elmas` (+ `edinme_level`, `edinme_sezon_seviye`). Dağılım: yaygın/ücretsiz 21 · nadir/level 6
+  (Lv 3 Kedili Kız · 10 Viking · 15 Dedektif · 25 Şövalye · 35 Büyücü · 50 Kral) · nadir/sezon 2 (ücretsiz kol 10 Kovboy · 24 Korkuluk;
+  eski 5 elmas yuvaları) · nadir/coin 9 (`coin_avatar_nadir` 750, TEST) · epik/elmas 20 · efsanevi/elmas 10.
+- Sezon Yolu ücretli kol 19/22/23 (1037: Şövalye/Büyücü/Kral) → Kurt Adam / Balkabağı Adam / Vampir (Epik).
+- Level avatarı `xp_ver` level döngüsünde `level_avatar_ver` (iç) ile; zaten sahipse `level_avatar_sahipse_coin` 200 (coin_ekle 'seviye',
+  referans `level_avatar:<anahtar>` tekil). `level_kazancim` → `avatarlar`. 20 coin / skill / rütbe 100 aynen.
+- **"İade yok" değişti:** 822'de `bp_odul_ver_ic` zaten sahip olunan avatar ödülünü `zaten_sahip` diye işaretleyip hiçbir şey vermiyordu
+  (`bp_odul_uygula` on conflict do nothing). Artık avatar ödülünde `bp_avatar_sahipse_coin` 200 coin (`sezon_yolu`, referans `…:sahip`);
+  arka plan ödülü eski kuralda.
+- Coin ile satın alma: yeni fonksiyon yok, `avatar_satin_al`'a coin dalı (`coin_harca`, FOR UPDATE, çift alım reddi, `kozmetik_satis_acik`).
+  `avatar_sahiplik_durumu` + `edinme, edinme_level, edinme_sezon_seviye, bp_ucretli_seviye` (DROP+CREATE, GRANT authenticated aynen — Ida onayı).
+- Koleksiyon Puanı avatarları SAYMIYORDU (`avatar_katalogu.nadirlik` boş + 31 hazır avatar katalogda yok) → `koleksiyon_kalemleri`
+  avatar nadirliğini `avatar_nitelikleri`'nden alır (yaygın → sıradan); avatar sahiplerinin puanı yeniden hesaplandı.
+- Geçiş (yalnız insan): takılı avatarı kilitlenen 1 hesaba `hediye` (Kedili Kız), level'ı eşiği geçen 2 hesaba 5 `level` sahipliği
+  (Lv 26: Kedili Kız, Viking, Dedektif, Şövalye · Lv 10: Viking). Botlara satır yok; `avatar_onayla` değişmedi.
+- Test: `node araclar/avatar-edinme-1039-sql-testi.mjs` (ROLLBACK, 45/45; canlıdan sonra `--canli`). Geri alma `docs/avatar-edinme-1039-geri-al.sql`.
