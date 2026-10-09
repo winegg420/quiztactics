@@ -45,6 +45,18 @@ s.on("console", (m) => { if (m.type() === "error" && !/status of 400|Failed to l
 s.on("pageerror", (e) => konsol.push("SAYFA: " + String(e).slice(0, 200)));
 
 const goruldu = new Set();
+// 1034 ölçümleri: duyuru sırasında sayaç (a = başta, b = 450 ms sonra; ikisi aynı olmalı) · onay düğmesi · sunucu/istemci kalan
+const duyurular = [], esitlik = [];
+let dugmeGoruldu = false;
+const duyuruOlc = async () => {
+  const yazi = await s.locator(".d4-kartlar--duyuru").count();
+  if (!yazi) return null;
+  const a = (await s.locator(".d4-sayac").innerText().catch(() => "")).trim();
+  await s.waitForTimeout(450);
+  if (!(await s.locator(".d4-kartlar--duyuru").count())) return null;
+  const b = (await s.locator(".d4-sayac").innerText().catch(() => "")).trim();
+  return { a, b, ayni: a === b };
+};
 const ekran = async (ad) => { if (goruldu.has(ad)) return; goruldu.add(ad); await s.screenshot({ path: path.join(CIKTI, `canli-${ad}-390x844-en.png`) }); console.log("  📷", ad); };
 const DOM = () => {
   const a = document.querySelector(".d4-arena");
@@ -115,12 +127,22 @@ async function macOyna(no, { sonDuelloZorla }) {
       if (d.benKontrol) {
         if (!otoDenendi) { otoDenendi = true; await ekran(`m${no}-kart-bekle-oto`); console.log("  · kart: süre dolumunu bekliyorum");
           await s.waitForFunction(() => !document.querySelector(".d4-arena--kart"), null, { timeout: 25000 }).catch(() => {}); continue; }
-        if (d.kartlar >= 4 && /1\/2/.test(d.adim ?? "")) {
-          await s.locator(".d4-kart:not(:disabled)").nth(0).click(); await s.waitForTimeout(150); await ekran(`m${no}-kart-gonder`);
-          await s.locator(".d4-dugme:not(:disabled)").click({ timeout: 2500 }).catch(() => {}); await s.waitForTimeout(700);
-        } else if (/2\/2/.test(d.adim ?? "")) {
-          await s.locator(".d4-kart:not(:disabled)").nth(0).click(); await s.waitForTimeout(150); await ekran(`m${no}-kart-sec`);
-          if (await s.locator(".d4-dugme:not(:disabled)").click({ timeout: 2500 }).then(() => true, () => false)) kartSecildi = true; await s.waitForTimeout(700);
+        // 1034: tek dokunuş (onay düğmesi yok); her adımın duyurusunda sayaç durur.
+        if (/[12]\/2/.test(d.adim ?? "")) {
+          const ikinci = /2\/2/.test(d.adim ?? "");
+          const du = await duyuruOlc();
+          if (du) { duyurular.push(du); console.log(`  · duyuru (${ikinci ? 2 : 1}/2): sayaç ${du.a} → ${du.b}`); }
+          await s.locator(".d4-kart:not(:disabled)").first().click({ timeout: 3000 }).catch(() => {});
+          if ((await s.locator(".d4-dugme").count()) > 0) dugmeGoruldu = true;
+          if (!ikinci) {
+            const t = (await db.sorgu(`select extract(epoch from faz_bitis - greatest(now(), v4_duyuru_bitis))::float8::text k from duellolar where id = ${alintila(id)} and faz = 'kart'`))[0];
+            const du2 = await duyuruOlc();
+            if (du2) { duyurular.push(du2); console.log(`  · duyuru (2/2): sayaç ${du2.a} → ${du2.b}`); }
+            const ist = await s.locator(".d4-sayac").innerText().catch(() => "");
+            if (t) { esitlik.push({ sunucu: Number(t.k), istemci: Number((ist.match(/\d+/) ?? [])[0]) }); console.log(`  · kalan: sunucu ${Number(t.k).toFixed(2)} sn · istemci "${ist.trim()}"`); }
+          } else kartSecildi = true;
+          await ekran(`m${no}-kart-${ikinci ? "sec" : "gonder"}`);
+          await s.waitForTimeout(300);
         }
       } else await ekran(`m${no}-bekleyen`);
       continue;
@@ -158,7 +180,10 @@ try {
   console.log("  maç 1:", JSON.stringify(r1));
   ok("maç 1 bitti (zaman aşımı yok)", !m1.zamanAsimi && r1.durum === "bitti");
   ok("kart süresi dolumu → otomatik seçim (açılışta ya da soru satırında 'otomatik')", goruldu.has("m1-acilis-oto") || goruldu.has("m1-soru-oto"), [...goruldu].join(","));
-  ok("kart: rakibe gönder + kendine seç (UI)", m1.kartSecildi);
+  ok("kart: rakibe gönder + kendine seç (UI, tek dokunuş)", m1.kartSecildi);
+  ok("1034: onay düğmesi yok", !dugmeGoruldu);
+  ok("1034: duyuru sırasında sayaç ilerlemiyor", duyurular.length > 0 && duyurular.every((x) => x.ayni), JSON.stringify(duyurular));
+  ok("1034: sunucu kalan ≈ istemci sayacı (±1 sn)", esitlik.length > 0 && esitlik.every((x) => Math.abs(x.istemci - Math.ceil(x.sunucu)) <= 1), JSON.stringify(esitlik));
   ok("2/3 SON BASKI görüldü", m1.baskiGoruldu);
   ok("kontrol el değişimi görüldü (ekran + kayıt)", m1.elDegisti && Number(r1.el) >= 1, `el=${r1.el}`);
   ok("maç 1: 3/3 ile bitti, kazanan belli", ["f", "false"].includes(r1.son) && r1.k && Number(r1.seri) >= 3, JSON.stringify(r1));

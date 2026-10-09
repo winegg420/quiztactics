@@ -26,6 +26,10 @@ import "./duello4.css";
 const HARFLER = ["A", "B", "C", "D"];
 const ACILIS_MS = 1600;     // saldırı sorusu açılınca "kim neyi aldı" paneli (sunucu gösterim payının içinde)
 const SARSINTI_MS = 520;
+// 1034 · Kart seçimi tek dokunuş (onay düğmesi yok): 1. dokunuş rakibe, 2. dokunuş kendine. Her adımın başında sunucunun
+// duyuru süresi (duello4_kart_duyuru_ms) boyunca yazı vurgulanır, kartlar kilitli, sayaç durur (gosterim_bas = duyuru bitişi).
+// false → eski akış (kart seç + alt eylem düğmesiyle onayla); sunucu tarafı için docs/duello-v4-kart-akisi-geri-al.sql.
+const KART_TEK_DOKUNUS = true;
 const yuzde = (v) => (v === null || v === undefined ? "?" : aktifDil() === "en" ? `${v}%` : `%${v}`);
 
 // ---------------------------------------------------------------- küçük parçalar
@@ -174,12 +178,15 @@ export default function Duello4Arena({
     return undefined;
   }, [kontrol]);
 
-  // Kart seçimi (kontrol sahibi): dokunulan kart, eylem düğmesiyle onaylanır. Adım değişince sıfırlanır.
+  // Kart seçimi (kontrol sahibi): tek dokunuşla gider (KART_TEK_DOKUNUS); eski akışta eylem düğmesiyle onaylanır. Adım değişince sıfırlanır.
   const kart = v.kart ?? null;
   const adim = Number(kart?.adim ?? 0);
   const [secili, setSecili] = useState(null);
   const kartAnahtar = `${v.soru_no}-${v.tur}-${d.faz}-${adim}`;
   useEffect(() => { setSecili(null); }, [kartAnahtar]);
+  // Çift dokunuş kalkanı: aynı adımda istek yoldayken ikinci dokunuş gönderilmez (sunucu da aynı kartı yok sayar).
+  const kartGonderRef = useRef(null);
+  useEffect(() => { if (!calisan) kartGonderRef.current = null; }, [calisan, kartAnahtar]);
 
   // ---------------- sesler (her olay anahtarına bağlı tek sefer; gizli sekmede ses.js zaten çalmaz)
   const sesRef = useRef(new Set());
@@ -229,7 +236,7 @@ export default function Duello4Arena({
         <div className="d4-orta">
           <span className="d4-tur">{v.son ? c("SON DÜELLO") : kontrol == null ? c("NÖTR") : <>{c("Tur")} <b className="qt-sayi">{v.tur}/{v.max_tur}</b></>}</span>
           {sayacVar
-            ? <QtSayac kalan={gosterSn} toplam={toplamSn} esik={d.faz === "kart" ? 3 : 5} boyut="k" durdu={kilitli || d.kopuk != null} ekBalon={ekBalon} className="d4-sayac" />
+            ? <QtSayac kalan={gosterSn} toplam={toplamSn} esik={d.faz === "kart" ? 3 : 5} boyut="k" durdu={kilitli || d.kopuk != null || (d.faz === "kart" && gosterimBas != null && sunucuSimdi < gosterimBas)} ekBalon={ekBalon} className="d4-sayac" />
             : <span className="d4-sayac d4-sayac--bos" aria-hidden="true" />}
         </div>
         <Oyuncu o={rakip} c={c} rakipMi kontrolde={kontrol === rakip.id} seri={Number(v.seri ?? 0)} hedef={hedef} tepki={tepkiRakip}
@@ -264,28 +271,41 @@ export default function Duello4Arena({
       const ikinci = adim >= 1 && gonderilen;
       // Süre doldu: sunucu ~3 sn geç varış payından sonra iki kartı kendisi seçer — bu arada dokunuş kabul edilmez.
       const sureBitti = !(gosterSn > 0) && !d.kopuk;
+      const duyuruda = KART_TEK_DOKUNUS && adim < 2 && gosterimBas != null && sunucuSimdi < gosterimBas;
+      const dokun = (k) => {
+        if (!KART_TEK_DOKUNUS) { setSecili(k); titret(8); return; }
+        const a = `${v.tur}:${adim}`;
+        if (duyuruda || kartGonderRef.current === a) return;
+        kartGonderRef.current = a;
+        setSecili(k); titret(8);
+        onKart(k);
+      };
       panel = (
         <div className="d4-panel">
           <div className="d4-baslik">
             <span className="d4-adim">{ikinci ? "2/2" : "1/2"}</span>
-            <h2>{ikinci ? c("KENDİNE SEÇ") : c("RAKİBE GÖNDER")}</h2>
+            {KART_TEK_DOKUNUS
+              ? <h2 key={ikinci ? "k2" : "k1"} className={sinif("d4-kart-yazi", duyuruda && "d4-kart-yazi--duyuru")} role="status">
+                  {ikinci ? c("Kendi kategorini seç") : c("Rakibe gönderilecek kategoriyi seç")}
+                </h2>
+              : <h2>{ikinci ? c("KENDİNE SEÇ") : c("RAKİBE GÖNDER")}</h2>}
           </div>
           {sureBitti && <p className="d4-alt d4-oto-not" role="status">{c("Süre doldu · otomatik seçiliyor")}</p>}
-          <div className="d4-kartlar">
+          <div className={sinif("d4-kartlar", duyuruda && "d4-kartlar--duyuru")}>
             {kartlar.map((x, i) => {
               const durum = x.k === gonderilen ? "rakibe"
                 : secili === x.k ? (ikinci ? "sana" : "rakibe")
                 : "normal";
               return (
                 <Kart key={x.k} k={x.k} ben={x.ben} rakip={x.rakip} c={c} rakipAd={oranRakip} durum={durum} sira={i}
-                      devreDisi={x.k === gonderilen || adim >= 2 || Boolean(calisan) || sureBitti}
-                      onClick={() => { setSecili(x.k); titret(8); }} />
+                      devreDisi={x.k === gonderilen || adim >= 2 || Boolean(calisan) || sureBitti || duyuruda}
+                      onClick={() => dokun(x.k)} />
               );
             })}
           </div>
         </div>
       );
-      eylem = (
+      if (!KART_TEK_DOKUNUS) eylem = (
         <QtDugme tur="birincil" tamGenislik ikon={ikinci ? "onay" : "gonder"} className="d4-dugme"
                  devreDisi={!secili || adim >= 2 || Boolean(calisan) || !(gosterSn > 0)} yukleniyor={calisan === "kategori"}
                  onClick={() => secili && onKart(secili)}>

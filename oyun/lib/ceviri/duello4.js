@@ -16,6 +16,8 @@ export default {
   "Tek bilen KONTROLÜ alır · 3/3 seri kazanır": "Sole correct answer takes CONTROL · 3/3 streak wins",
   "Rakibe gönder": "Send to opponent",
   "Kendine seç": "Pick for me",
+  "Rakibe gönderilecek kategoriyi seç": "Pick a category to send your opponent",
+  "Kendi kategorini seç": "Pick your own category",
   "RAKİP SEÇİYOR": "OPPONENT IS PICKING",
   "KENDİNE ALDIN": "YOU TOOK",
   "SANA GÖNDERDİ": "SENT TO YOU",

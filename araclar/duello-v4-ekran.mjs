@@ -148,18 +148,18 @@ for (const { dil, w, h, azalt } of KOSULAR) {
     await an("02-kontrol-sende", (o) => ok("sonuç: KONTROL SENDE + çekirdek bende", (TR ? /KONTROL SENDE/ : /YOU HAVE CONTROL/).test(o.metin) && /d4-hat--ben/.test(o.cekirdek), o.cekirdek));
     // 03 kart 1/2
     st.faz = "kart"; st.tur = 1; st.adim = 0; st.yeniAn = Date.now(); st.bitisMs = 9000; st.gosterimFark = -500; st.sonHamle = null; st.cevapladim = false;
-    await an("03-kart-gonder", (o) => ok("kart 1/2: 4 kart + RAKİBE GÖNDER, '?' veri yok", (TR ? /RAKİBE GÖNDER/ : /SEND TO OPPONENT/).test(o.metin) && /\?/.test(o.metin), o.metin));
-    ok("düğme kart seçilmeden kapalı", await s.locator(".d4-dugme:disabled").count() === 1);
-    await s.locator(".d4-kart").first().click();
+    await an("03-kart-gonder", (o) => ok("kart 1/2: 4 kart + 'Rakibe gönderilecek kategoriyi seç', '?' veri yok", (TR ? /Rakibe gönderilecek kategoriyi seç/ : /Pick a category to send your opponent/).test(o.metin) && /\?/.test(o.metin), o.metin));
+    ok("1034: onay düğmesi yok", await s.locator(".d4-dugme").count() === 0);
+    const istekOnce = istekler.length;
+    await s.locator(".d4-kart").first().dblclick();
     await s.waitForTimeout(250);
     ok("karta dokun → RAKİBE damgası", await s.locator(".d4-kart--rakibe .d4-damga").count() === 1);
     await kaydet("03b-kart-damga");
-    await s.locator(".d4-dugme").click();
     await s.waitForTimeout(400);
-    ok("Rakibe gönder → istek tarih", istekler.at(-1) === "tarih", String(istekler.at(-1)));
+    ok("tek dokunuş → istek tarih (çift tıklamada tek istek)", istekler.at(-1) === "tarih" && istekler.length - istekOnce === 1, String(istekler.slice(istekOnce)));
     // 04 kart 2/2
     st.adim = 1; st.gonderilen = "tarih";
-    await an("04-kart-sec", (o) => ok("kart 2/2: KENDİNE SEÇ, gönderilen kart kırmızı + pasif", (TR ? /KENDİNE SEÇ/ : /PICK FOR ME/).test(o.metin)));
+    await an("04-kart-sec", (o) => ok("kart 2/2: 'Kendi kategorini seç', gönderilen kart kırmızı + pasif", (TR ? /Kendi kategorini seç/ : /Pick your own category/).test(o.metin)));
     ok("gönderilen kart pasif", await s.locator(".d4-kart--rakibe:disabled").count() === 1);
     await s.locator(".d4-kart:not(:disabled)").nth(1).click();
     await s.waitForTimeout(250);

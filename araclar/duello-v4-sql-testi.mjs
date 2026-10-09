@@ -4,9 +4,9 @@
 // İşlem içinde now() sabittir → "zaman geçti" satırdaki süreler geriye çekilerek taklit edilir (gec / ac).
 //
 // Sınar: bayrak (kapali / test / acik; test listesi; bot rakip) · nötr soru (ikisi doğru / tek bilen kontrolü alır)
-// · 4 kart + sıra (önce rakibe gönder, sonra kendine seç; yetkisiz / tekrar / geçersiz ret) · iki farklı soru, aynı zorluk
+// · 4 kart + sıra (önce rakibe gönder, sonra kendine seç; yetkisiz / geçersiz ret; aynı kart tekrar = sessiz, 1034) · iki farklı soru, aynı zorluk
 // · başarılı saldırı (seri +1) · el değişimi (yeni sahip 1/3, kullanım listesi sıfır) · ikisi doğru / ikisi yanlış (değişmez)
-// · kart süresi dolumu (sunucu iki farklı kart seçer) · kategori tekrar kuralı + havuz yeniden açılması · seri 3/3 → bitti
+// · kart süresi dolumu (rakibin en zayıfı / kendi en güçlüsü, 1034) · duyuru duraklaması (1034) · kategori tekrar kuralı + havuz yeniden açılması · seri 3/3 → bitti
 // (ödül, geçmiş, rozet ölçütleri hatasız ve v4'ü saymaz) · 15 tur → Son Düello (aynı soru, jokersiz, tek bilen kazanır,
 // ikisi aynıysa yeni soru) · art arda 5 nötr → Son Düello · jokerler (50:50 kendi sorusu, Zaman Baskısı rakip süresi,
 // Soru Değiştir aynı kategori+zorluk yalnız kendi sorusu, soruda 1, Baskın/Kalkan ret) · durum() şekli (gizli gönderim)
@@ -182,10 +182,16 @@ try {
   ok('kart dışı kategori reddedilir', e && /seçilemez/.test(e), e);
   e = await kartSec(A, m, kk[0]);
   ok('ilk dokunuş: rakibe gönder', e === null && (await satir(m)).v4_gonderilen === kk[0], e);
+  {
+    const t = (await db.sorgu(`select extract(epoch from faz_bitis - now())::float8::text f, extract(epoch from v4_duyuru_bitis - now())::float8::text du,
+      (select deger::text from oyun_ayarlari where anahtar = 'duello4_kart_duyuru_ms') dms from duellolar where id = '${m}'`))[0];
+    const D = Number(t.dms) / 1000;
+    ok('1034: 2. duyuru → sayaç durur, kalan 7 sn korunur (faz_bitis = şimdi + D + 7)', Math.abs(Number(t.du) - D) < 0.01 && Math.abs(Number(t.f) - D - 7) < 0.01, JSON.stringify(t));
+  }
   dB = await durum(B, m);
   ok('bekleyen: adım 1, hangi kart olduğu gizli', dB.v4.kart.adim === 1 && dB.v4.kart.gonderilen === null);
   e = await kartSec(A, m, kk[0]);
-  ok('gönderilen kart kendine seçilemez', e && /rakibe gönderdin/.test(e), e);
+  ok('aynı kart tekrar (çift dokunuş) sessizce yok sayılır, adım 1 kalır', e === null && (await satir(m)).v4_secilen === null, e);
   e = await kartSec(A, m, kk[1]);
   s = await satir(m);
   ok('ikinci dokunuş: kendine seç → soru fazı', e === null && s.faz === 'cevap' && s.v4_secilen === kk[1], e);
@@ -232,6 +238,13 @@ try {
   await gec(m); await durum(A, m); s = await satir(m);
   ok('kart süresi doldu → sunucu iki FARKLI kart seçer', s.faz === 'cevap' && s.v4_kart_oto === 't' && s.v4_gonderilen && s.v4_secilen
      && s.v4_gonderilen !== s.v4_secilen && kk2.includes(s.v4_gonderilen) && kk2.includes(s.v4_secilen));
+  {
+    const o = (await db.sorgu(`with x as (select d.*, case when d.v4_kontrol = d.oyuncu1 then d.profil1 else d.profil2 end pb,
+        case when d.v4_kontrol = d.oyuncu1 then d.profil2 else d.profil1 end pr from duellolar d where id = '${m}')
+      select (coalesce(duello4_oran(pr, v4_gonderilen), 50) = (select min(coalesce(duello4_oran(pr, k), 50)) from unnest(v4_kartlar) k))::text zayif,
+             (coalesce(duello4_oran(pb, v4_secilen), 50) = (select max(coalesce(duello4_oran(pb, k), 50)) from unnest(v4_kartlar) k where k <> v4_gonderilen))::text guclu from x`))[0];
+    ok('1034 oto: rakibe rakibin en zayıfı, kendine kendi en güçlüsü', o.zayif === 'true' && o.guclu === 'true', JSON.stringify(o));
+  }
   // Soru Değiştir: B kendi sorusunu (aynı kategori, aynı zorluk)
   await ac(m);
   const sdOnce = await satir(m);
@@ -353,7 +366,8 @@ try {
     if (s.durum !== 'aktif') break;
     if (s.faz === 'kart') {
       if (s.v4_kontrol === A) { const k = kartlar(s); await kartSec(A, m, k[3]); await kartSec(A, m, k[2]); }
-      else { await db.sorgu(`update duellolar set faz_bitis = now() + interval '0.3 seconds' where id = '${m}'`); await ben(null); await db.sorgu(`select duello4_bot_tik('${m}')`);
+      else { await ben(null);
+        for (let b = 0; b < 2; b++) { await db.sorgu(`update duellolar set v4_duyuru_bitis = now() - interval '10 seconds', faz_bitis = now() + interval '0.3 seconds' where id = '${m}' and faz = 'kart'`); await db.sorgu(`select duello4_bot_tik('${m}')`); }
         const s2 = await satir(m); if (s2.faz === 'cevap' && s2.v4_kart_oto === 'f') botKart++; }
     } else if (['notr', 'cevap', 'son'].includes(s.faz)) {
       await db.sorgu(`update duellolar set soru_baslangic = now() - interval '40 seconds' where id = '${m}'`);

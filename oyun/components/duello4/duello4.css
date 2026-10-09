@@ -60,6 +60,12 @@
 .d4-giris-sayi { font-family: var(--qt-f-baslik); font-size: 56px; font-weight: 800; line-height: 1; color: var(--qt-mod-duello-dudak); }
 
 .d4-baslik { display: flex; align-items: center; gap: 8px; min-width: 0; }
+/* 1034 · tek dokunuş kart akışı: adım yazısı; duyuru sırasında vurgulanır, kartlar kilitli (sayaç durur) */
+.d4-kart-yazi { font-size: 19px !important; text-wrap: balance; }
+.d4-kart-yazi--duyuru { color: var(--qt-vurgu, #FFD34D) !important; animation: d4-kart-duyuru 0.45s ease-out both; }
+@keyframes d4-kart-duyuru { from { opacity: 0; scale: 0.92; } to { opacity: 1; scale: 1; } }
+.d4-kartlar--duyuru { opacity: 0.72; transition: opacity 0.2s; }
+@media (prefers-reduced-motion: reduce) { .d4-kart-yazi--duyuru { animation: none; } }
 .d4-baslik h2 { margin: 0; font-family: var(--qt-f-baslik); font-weight: 800; font-size: 22px; line-height: 1.1; color: var(--hk-metin); }
 .d4-baslik--orta { justify-content: center; }
 .d4-adim { flex: none; padding: 3px 10px; border-radius: var(--qt-r-hap); background: var(--qt-mod-duello); color: #fff; font-weight: 900; font-size: 13px; }
