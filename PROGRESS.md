@@ -11157,3 +11157,8 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - BP kart çerçeveleri (BpCizimler.jsx KartV1-3) yeniden: üçü aynı 6,6 px kalınlık (lacivert kontur + 5 duraklı metalik altın geçiş + üst/sol krem parlama + iç gölge). 1 çift çizgi + L köşe; 2 minik baklava dizisi + kare yakut köşe; 3 köşe kıvrım + üst orta minik taç. Kullanılmayan kalın yardımcılar silindi. `.qt-ok--bpk` kenarlığı 0, iç boşluk normal kartla aynı.
 - LigSahneArka.jsx: motif/yıldız/yarım-ton atıldı; Eski'nin 18 ışınlı kompozisyonu. a1 yumuşak parlama, a2 + iki tonlu ışın + vinyet, a3 + merkezden kenara renk geçişi + yumuşak ışın kenarı.
 - Test: yerel geçici kabuk (giriş yok, hesap açılmadı), 9 kombinasyon 1100 px + 3 kombinasyon 390 px, taşma yok. Görseller tasarim/lig-sahne-v-adim4/ (commit dışı).
+
+## 9 Eki 2026 — Lig sahne önizleme 6. tur: Arka plan 2 sabit + Çerçeve 1 ailesi (Claude)
+- Arka plan 2 onaylandı: önizlemede varsayılan a2, seçici gizli (`false &&`); a1/a3 kodda.
+- BP çerçeve seçicisi artık Çerçeve 1 dilinin üç kalınlığı (BpCizimler.jsx › KartAile): 1 = 1,5× (~9,9 px), 2 = 2× (~13,2 px, iç çizgi belirgin, büyük L), 3 = 2,5× (~16,5 px, <%5, köşede kare yakut). Eski KartV1-3 `s1-s3` anahtarıyla kodda, seçicide yok.
+- Test: yerel girişsiz kabuk, 3 çerçeve × 1100/390 px; taşma yok, arka plan seçicisi görünmüyor. Görseller tasarim/lig-sahne-v-adim4/t6-* (commit dışı).

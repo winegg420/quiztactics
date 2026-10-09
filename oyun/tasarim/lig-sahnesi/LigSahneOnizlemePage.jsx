@@ -31,7 +31,7 @@ const kartYap = (lig, i, bp) => ({
 export default function LigSahneOnizlemePage() {
   const [surum, setSurum] = useState("yeni");
   const [cerceve, setCerceve] = useState("v1");
-  const [arka, setArka] = useState("a1");
+  const [arka, setArka] = useState("a2");
   const yeni = surum === "yeni";
   const [bp, setBp] = useState(false);
   useEffect(() => {
@@ -56,8 +56,9 @@ export default function LigSahneOnizlemePage() {
           <div className="lso-arac">
             <QtSekmeler etiket={tt("Çerçeve")} aktif={cerceve} onSec={setCerceve}
               sekmeler={[1, 2, 3].map((n) => ({ kod: `v${n}`, ad: tt("Çerçeve {n}", { n }) }))} />
-            <QtSekmeler etiket={tt("Arka plan")} aktif={arka} onSec={setArka}
-              sekmeler={[1, 2, 3].map((n) => ({ kod: `a${n}`, ad: tt("Arka plan {n}", { n }) }))} />
+            {/* 9 Eki (6. tur): Arka plan 2 onaylandı → seçici gizli (a1/a3 LigSahneArka.jsx içinde durur) */}
+            {false && <QtSekmeler etiket={tt("Arka plan")} aktif={arka} onSec={setArka}
+              sekmeler={[1, 2, 3].map((n) => ({ kod: `a${n}`, ad: tt("Arka plan {n}", { n }) }))} />}
           </div>
         )}
         <div className="lso-izgara">

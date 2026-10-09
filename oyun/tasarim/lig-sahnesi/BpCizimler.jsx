@@ -406,7 +406,47 @@ function KartV3() {   // İnce altın + köşede küçük oymalı kıvrım süs�
 }
 
 
-const KART = { v1: KartV1, v2: KartV2, v3: KartV3 };
+/* 9 Eki (6. tur): Çerçeve 1 dili onaylandı; seçicideki 1/2/3 artık bu ailenin üç GÖRÜNÜRLÜK yorumu (o = kalınlık katı;
+   eski 1. çerçeve = 6,6 px). Baklava (KartV2) ve kıvrım/taç (KartV3) kodda durur, seçicide yok. En kalın ≈ 16,5 px (<%5). */
+function KartAile({ o, icGuclu = false, Lk = 1, mucevher = false }) {
+  const id = useId().replace(/:/g, "");
+  const kon = r1(1.2 + 0.3 * (o - 1)), bant = r1(3.2 * o), bosluk = r1(0.6 * o), ic = r1((icGuclu ? 0.9 : 0.6) * o);
+  const t1 = kon + bant, t2 = t1 + bosluk, t3 = t2 + ic;
+  const Lb = 15 * Lk + (t3 - 6.6), Lw = r1(t1 + 0.6);
+  return (
+    <g>
+      <defs><Metal id={id} /></defs>
+      <Cizgi4 ic={0} d={kon} f={K} />
+      <MetalBant id={id} ic={kon} d={bant} />
+      <Cizgi4 ic={t1} d={bosluk} f={K} />
+      <Cizgi4 ic={t2} d={ic} f={icGuclu ? "#F7CF5A" : "#F2C64E"} />
+      <Serit k="u" ic={kon} d={r1(0.7 * Math.sqrt(o))} f={KREM} /><Serit k="s" ic={kon} d={r1(0.7 * Math.sqrt(o))} f={KREM} />
+      <Cizgi4 ic={t3} d={1} f="rgba(31,42,68,.55)" />
+      <Koseler ciz={(kutu, nokta, ikincil) => {
+        const L = [[0, 0], [Lb, 0], [Lb, Lw], [Lw, Lw], [Lw, Lb], [0, Lb]].map(([x, y]) => nokta(r1(x), r1(y)));
+        const s = r1(Lw - 2 * kon), c = kutu(kon + 0.4, kon + 0.4, s, s);
+        return (
+          <g>
+            <polygon points={cokgen(L)} fill={ALTIN.orta} stroke={K} strokeWidth={r1(0.8 + 0.2 * o)} strokeLinejoin="miter" />
+            {mucevher ? (
+              <g>
+                <rect x={c.x} y={c.y} width={s} height={s} fill={AL.koyu} stroke={K} strokeWidth=".8" />
+                <rect x={r1(c.x + s * 0.2)} y={r1(c.y + s * 0.2)} width={r1(s * 0.6)} height={r1(s * 0.6)} fill={AL.orta} />
+                <rect x={r1(c.x + s * 0.25)} y={r1(c.y + s * 0.25)} width={r1(s * 0.22)} height={r1(s * 0.22)} fill="#fff" opacity=".85" />
+              </g>
+            ) : <rect x={c.x} y={c.y} width={r1(s * 0.7)} height={r1(s * 0.7)} fill={KREM} />}
+            {!ikincil && <line x1={Lb + 4} y1={r1(kon + 0.7)} x2={Lb + 16} y2={r1(kon + 0.7)} stroke="#fff" strokeWidth="0.9" strokeLinecap="round" />}
+          </g>
+        );
+      }} />
+    </g>
+  );
+}
+const KartA1 = () => <KartAile o={1.5} />;
+const KartA2 = () => <KartAile o={2} icGuclu Lk={1.25} />;
+const KartA3 = () => <KartAile o={2.5} icGuclu Lk={1.35} mucevher />;
+
+const KART = { v1: KartA1, v2: KartA2, v3: KartA3, s1: KartV1, s2: KartV2, s3: KartV3 };
 /** Köşeli BP kart çerçevesi — yalnız /lig-sahne-onizleme (`varyant`). Kartın üstüne tam boy, tıklamayı geçirir. */
 export function BpKartCerceve({ varyant }) {
   const C = KART[varyant];
