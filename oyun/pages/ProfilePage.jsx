@@ -245,7 +245,7 @@ export default function ProfilePage() {
             {/* D-504: lig puanı coin ikonuyla karışıyordu → lig (kalkan) ikonu */}
             <span className="qt-pf-sayi-ikon" aria-hidden="true"><QtIkon ad="lig" boyut={20} /></span>
             <b className="qt-sayi"><SayanSayi deger={profile.puan} bicim={(n) => sayiBicim(n)} /></b>
-            <span>{tt("Puan")}</span>
+            <span>{tt("Toplam puan")}</span>
           </div>
         </li>
         {/* Boş durum: kocaman bir "0" yerine hedefi göster. */}

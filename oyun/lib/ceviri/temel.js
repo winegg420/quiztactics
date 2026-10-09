@@ -1664,6 +1664,8 @@ export default {
     "Tepkiler": "Reactions",
     "Hazır cümleler": "Quick phrases",
     "Puan": "Points",
+    "Toplam puan": "Total points",
+    "Lig puanı": "League points",
     "Şampiyonluk": "Titles",
     "Turnuvaya kaldı": "Until tournament",
     "Günlük Seri": "Daily Streak",

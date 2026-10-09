@@ -478,7 +478,7 @@ export function KompaktOyuncu({ v }) {
       <span className="as-ko-stat">
         {benPuan != null && (
           <span className="as-ko-stat-oge">
-            <span className="as-ko-stat-etiket"><QtIkon ad="yildiz" boyut={13} />{tt("Puan")}</span>
+            <span className="as-ko-stat-etiket"><QtIkon ad="yildiz" boyut={13} />{tt("Lig puanı")}</span>
             <b className="qt-sayi">{sayi(benPuan)}</b>
           </span>
         )}
