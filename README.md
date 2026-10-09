@@ -1,21 +1,22 @@
 # Quiz Tactics 🧠⚡
 
-Türkçe bilgi yarışması uygulaması — her gece 22:00'de eleme usulü **Gece Turnuvası** ve 7/24 **1v1 Meydan Okuma**.
+Türkçe bilgi yarışması — 1v1 maçlar, günde 5 turnuva seansı, haftalık lig ve sezonluk Battle Pass. Canlı: https://quiztactics.vercel.app
 
-## Özellikler
+## Oyun
 
-- 🌙 **Gece Turnuvası** — Her gece 22:00'de (TSİ) otomatik başlar (Supabase pg_cron). Soru başına 15 saniye; yanlış cevap veya süre aşımı = eleme. Son kalan oyuncu kazanır: +250 puan + 🏆 şampiyonluk rozeti.
-- ⚔️ **Meydan Okuma (7/24)** — İstediğin oyuncuya meydan oku; kabul ederse 5 soruluk 1v1 başlar. Daha çok doğru yapan kazanır: +20 puan.
-- 🎖️ **Rütbeler** — Çaylak → Bilge (100) → Üstat (500) → Kahin (1500) → Efsane (5000).
-- 📊 **Sıralama** — Genel ve arkadaşlar arası ayrı liderlik tabloları.
-- 👥 **Arkadaş sistemi** — Ekle, isteği kabul et, arkadaşına tek dokunuşla meydan oku.
-- 🤖 **Claude API ile soru üretimi** — Sorular Edge Function üzerinden üretilir, veritabanına kaydedilir, asla tekrar sorulmaz.
-- 👍 **Soru adillik oylaması** — Her sorunun altında "Bu soru adil miydi?"; 5+ oyda adil oranı %35'in altına düşen sorular otomatik devre dışı kalır.
-- 🔐 **Sosyal giriş** — Google, Facebook, X (Twitter) + e-posta sihirli bağlantı.
+- ⚡ **Klasik** — 1v1 bilgi maçı. Süre içinde doğru cevaplayan herkes aynı puanı alır (hız bonusu yok); jokerlerle desteklenir. **Dereceli** (lig puanı + tam coin) ya da **Serbest** (lig puanı yok, coin %50).
+- 🥊 **Düello v4** — Taktik maçı. Kimin doğru bildiği kontrolü belirler; kontrol sahibi rakibe kategori gönderir, ardışık doğrularla seriyi 3/3'e çıkaran kazanır. 20 saldırı turundan sonra jokersiz **Son Düello**.
+- 💰 **Ortak Hazine** — İki oyuncu ortak hazineyi büyütür; tek başına bilen **AÇ** (puanı al) ya da **DEVAM** (hazine ×2) der. Hedef 80 puan; DEVAM ile kazanılan Savunma Hakkı.
+- 🌙 **Turnuva** — Günde 5 seans, TSİ **10:00 · 14:00 · 18:00 · 20:00 · 24:00**; eleme usulü, eşitlikte Altın Soru.
+- 🏅 **Lig** — Bronz → Gümüş → Altın → Elmas → Efsane; 25 kişilik gruplar, ilk 5 yükselir, son 5 düşer, pazartesi 00:00 (TSİ) sıfırlanır.
+- 🎟️ **Sezon Yolu (Battle Pass)** — 28 günlük sezon; Sezon Puanı herkese ödül verir, Battle Pass (elmasla) ek ödüller açar.
+- 👥 Arkadaşlar, meydan okuma, rövanş, grup maçı, saf bilgi, hatalarım, görevler, dükkân ve koleksiyon.
+- 🤖 **Claude API ile soru üretimi** — Sorular Edge Function ile üretilir ve veritabanına kaydedilir.
+- 🔐 Google / Facebook / X ile giriş, e-posta sihirli bağlantı ve misafir oyun.
 
 ## Teknolojiler
 
-React + Vite · Supabase (Auth, Realtime, Postgres, Edge Functions, pg_cron) · Vercel · Claude API
+React 19 + Vite 7 + React Router 7 · three.js · Supabase (Auth, Realtime, Postgres, Edge Functions, pg_cron) · Vercel · Claude API
 
 ## Kurulum
 
@@ -30,7 +31,7 @@ npm run dev
 ```bash
 npx supabase login
 npx supabase link --project-ref <PROJE_REF>
-npx supabase db push                          # şema + 40 başlangıç sorusu + cron
+npx supabase db push                          # şema + migration'lar + cron
 npx supabase functions deploy generate-questions
 npx supabase secrets set ANTHROPIC_API_KEY=sk-ant-... CRON_SECRET=<rastgele-gizli>
 ```
@@ -78,6 +79,6 @@ vercel --prod
 ## Mimari notlar
 
 - **Sorular istemciden okunamaz** (doğru cevap sızmasın diye); soru çekme ve cevap kontrolü tamamen `security definer` RPC'lerle yapılır.
-- **Zamanlama sunucu taraflıdır**: 15 sn + 1 sn tolerans sunucuda doğrulanır; istemci saat sapması telafi edilir.
-- **Turnuva ilerleyişi** istemcilerin tetiklediği idempotent `advance_tournament` RPC'si + dakikalık pg_cron emniyet göreviyle yürür.
+- **Zamanlama sunucu taraflıdır**: cevap süresi ve geç varış payı sunucuda doğrulanır; istemci saat sapması telafi edilir.
+- **Turnuva ilerleyişi** dakikalık pg_cron zamanlayıcısıyla (`turnuva_zamanlayici_tik`) yürür; saatler `oyun_ayarlari.turnuva_saatleri` tablosundan okunur.
 - **Puanlar** yalnızca sunucu tarafında değişir (kolon bazlı yetkilerle istemci güncellemesi engellidir).

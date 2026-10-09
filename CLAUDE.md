@@ -147,6 +147,7 @@ push'ta sessizce silinir; 13 Eyl'de tam olarak bu oldu.
   kolonu UNIQUE olduğundan `on conflict (soru) do nothing`.
 - **Yeni paket kurma.** Tailwind, Framer Motion, styled-components ve
   benzeri yasak. Mevcut yapı: düz CSS + CSS değişkenleri.
+- **Bayrak veya ayar veritabanında değişince PROJECT_CONTEXT.md'deki satırı da aynı işte güncelle. Oyunun özellikleri değişince README.md'yi de güncelle.**
 - Git/teknik terim kullanırken kısa bir sadeleştirme ekle
   (ör. "rebase yaptım (commit'ini güncel hale getirdim)").
 

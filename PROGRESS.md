@@ -11216,3 +11216,12 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - Bağlanan sabitler: `RakipAra.jsx` maça geçiş beklemesi sabit ARAMA_GECIS_MS yerine `sure("ortak_arama_gecis")`; `Duello4Arena.jsx` el değişimi sesi 650 ms × sarsıntı oranı, SON BASKI sesi 650 ms × baskı oranı.
 - Sunucu payları ölçüldü (oyun_ayarlari, salt okunur): `duello_gosterim_payi_ms` = `kasa_gosterim_payi_ms` = 2000; `kasa_sonuc_sn` 3, `duello4_sonuc_sn` 3. Seçilen hiçbir süre sunucu tavanını aşmadı (AÇ 1820 < 2000−60; v4 açılış 2000 = pay; SON BASKI 2950 < 3000; sonuç uçuşu 2910 < 3000). Tek sınır: rakip AÇ/DEVAM kararında kapalı kart 700 ms sunucu payından yer alır → kalan 1240 ms < an tabanı 1380 ms; an tabanına kadar uzar (Ida'nın seçtiği taban, soru sayacından ~140 ms yer alır).
 - DB/migration/sunucu ayarına dokunulmadı. Test: sure-ayar-demo-testi 23/23, 390 px taşma yok, build temiz; test hesabı açılmadı.
+
+## 9 Eki 2026 — Dokümanlar gerçek duruma getirildi (Claude)
+**Araç:** Claude Code
+**Neden:** PROJECT_CONTEXT/README canlı DB ve koddan geride kalmıştı.
+- Canlı DB salt-okunur ölçüldü: `duello_v4_acik` = **"acik"** (belgede "test" yazıyordu → düzeltildi), `kasa_giris_sahne_ms` 3000, `duello4_kart_sn` 10, `duello4_kart_duyuru_ms` 900, `kasa_gosterim_payi_ms` 2000. İstemci `GIRIS_SAHNE_MS` 6000 (3 sn düşüş + 3 sn 3-2-1; DB'deki 3000 ile aynı şey değil). `sureler.js` bugünkü varsayılanları PROJECT_CONTEXT "Sunum süreleri" satırına yazıldı.
+- PROJECT_CONTEXT: "İki aktif mod" → üç mod (Ortak Hazine). Eski satırlar yerinde değiştirildi.
+- README baştan kısaltıldı: Klasik, Düello v4, Ortak Hazine, turnuva saatleri (10/14/18/20/24 TSİ), lig, Sezon Yolu; Gece Turnuvası / 15 sn / Bildim anlatımı kalktı. Kurulum bölümü korundu.
+- CLAUDE.md'ye kural: bayrak/ayar DB'de değişince PROJECT_CONTEXT satırı, özellik değişince README aynı işte güncellenir.
+- Karar: Ida'nın sorusu yok; "test" bayrağı gerçekten "acik" olduğu için belgeye ölçülen değer yazıldı.
