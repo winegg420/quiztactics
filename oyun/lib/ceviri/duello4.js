@@ -2,7 +2,7 @@
 // Başka sözlükte zaten olan anahtarlar (Sen, Rakip, Doğru, SON DÜELLO …) burada TEKRARLANMAZ — genel çeviri değişmesin.
 // Sözlük: kontrol = control · seri = streak · saldırı = attack · tur = round · Son Düello = Last Duel · nötr = neutral.
 export default {
-  "Kontrolü al, aynı kategoride üst üste 3 doğru yap, düelloyu kazan.": "Take control, get 3 in a row in the same category, win the duel.",
+  "Kontrolü al, üst üste 3 doğru yap, düelloyu kazan.": "Take control, get 3 correct in a row, win the duel.",
   "Nötr soru, tek bilen kontrolü alır": "Neutral question: the sole correct answer takes control",
   "İkinize aynı soru gelir. Yalnız biriniz bilirse kontrol onda olur.": "You both get the same question. If only one of you knows it, that player takes control.",
   "Kartlar: rakibe gönder, kendine seç": "Cards: send one, pick one",

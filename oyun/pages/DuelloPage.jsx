@@ -111,7 +111,7 @@ function DuelloGiris() {
   // 870: kazanma eşiği ve "boşta ikisi doğru → saldıran alır" kuralı metne gömülmez, ayardan okunur.
   // 960: seçim modu açıksa maç sırayla kategori seçimiyle başlar (boş kategori yok) — metin buna göre.
   // 970: puan modunda kural metni hedef puan + kategori yolu (ayardan).
-  const { secim: secimModu, puan: puanModu, esik, hedef, yol, v4 } = useDuelloKurallari();
+  const { secim: secimModu, puan: puanModu, esik, hedef, yol, v4, hazir: kuralHazir } = useDuelloKurallari();
   const bosSaldiran = useAyar("duello_bos_ikisi_dogru_saldiran", 1) >= 1;
   const [dereceli, setDereceli] = useDereceliTercih();
   // 410 (Ajan I): rakip düelloya bağlanamadı → sunucu cezasız iptal etti, DuelloMac buraya
@@ -136,8 +136,8 @@ function DuelloGiris() {
         <span className="m2-giris-ikon" aria-hidden="true"><QtIkon ad="duello" boyut={40} /></span>
         <div className="m2-giris-yazi">
           <h1 className="qt-baslik-1">{ceviri("Düello")}</h1>
-          <p>{(v4 ? [
-            ceviri("Kontrolü al, aynı kategoride üst üste 3 doğru yap, düelloyu kazan."),
+          <p aria-busy={!kuralHazir || undefined}>{!kuralHazir ? " " : (v4 ? [
+            ceviri("Kontrolü al, üst üste 3 doğru yap, düelloyu kazan."),
           ] : puanModu ? [
             // 7 Eki 2026: kısa anlatım (ayrıntı "Kurallar nasıl işliyor?" tanıtımında)
             // 8 Eki 2026: kart iki satır — yalnız tek kural cümlesi (+1/+2 ayrıntısı "Kurallar nasıl işliyor?" tanıtımında)

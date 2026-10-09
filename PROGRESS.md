@@ -11076,3 +11076,10 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - Kod: `sezonTemalari.jsx › sezonTemasi` — tema kaydı olmayan sezon artık düz mavi VARSAYILAN yerine Sezon 1 temasına (Yıldızlı Gece) düşer.
 - Sentry: Vercel'de `VITE_SENTRY_DSN` Production+Preview'da tanımlı; canlı paket `sentry-*.js` chunk'ını ve `ingest.de.sentry.io` içeriyor → bağlı.
 - Test edilecek: 29 Eki 00:00 TSİ sonrası ~5 dk içinde Sezon 2'nin açılması ve /sezon-yolu'nda Yıldızlı Gece temasının görünmesi.
+
+## 2026-10-09 — Düello v4 kural cümlesi + açılışta eski metin parlaması
+**Araç:** Claude Code (Sonnet 5.5)
+**Neden:** Ida: kural cümlesi yanlıştı (kontrol döneminde kategori tekrar etmiyor); sayfa açılırken eski Hâkimiyet metni kısa süre görünüyordu.
+- Cümle her yerde "Kontrolü al, üst üste 3 doğru yap, düelloyu kazan." (EN: "Take control, get 3 correct in a row, win the duel."): DuelloPage, ModSecimPenceresi, DuelloTanitim, ceviri/duello4.js.
+- Kök sebep: `useDuelloKurallari` `v4`'ü `false` ile başlatıp ayarlar gelince çeviriyordu → önce eski (puan modu) metin çiziliyordu. Kanca artık `hazir` döndürür; DuelloGiris kural paragrafı ve ModSecimPenceresi Düello açıklaması ayarlar okunana kadar boş (nbsp, yükseklik korunur).
+- Test: yerel önizleme, oyun_ayarlari isteği 1,5 sn geciktirilerek 390/1536 EN oturumlarla ölçüldü: eski metin hiç çizilmedi; build temiz. (360 aynı kod yolu; TR hesabı da EN dilinde açıldı.)

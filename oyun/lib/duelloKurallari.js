@@ -35,12 +35,13 @@ export function useDuelloKurallari() {
   const [puan, setPuan] = useState(VARSAYILAN.puan);
   const [ban, setBan] = useState(VARSAYILAN.ban);
   const [v4, setV4] = useState(false);
+  const [hazir, setHazir] = useState(false);   // ayarlar okunana kadar v4 bilinmez — eski kural metni çizilmesin
   useEffect(() => {
     let aktif = true;
-    ayarlar().then((o) => { if (aktif) { setPuan(puanModuOku(o)); setBan(banOku(o)); setV4(v4Oku(o)); } }, () => {});
+    ayarlar().then((o) => { if (aktif) { setPuan(puanModuOku(o)); setBan(banOku(o)); setV4(v4Oku(o)); setHazir(true); } }, () => { if (aktif) setHazir(true); });
     return () => { aktif = false; };
   }, []);
-  return { ...coz(secim, esik, tur, bosEsik, bosTur, puan, hedef, yol, puanTur), ban, v4 };
+  return { ...coz(secim, esik, tur, bosEsik, bosTur, puan, hedef, yol, puanTur), ban, v4, hazir };
 }
 
 /** Aynı kural, kanca dışı (async) kullanım için. Hata olursa varsayılanlar. */

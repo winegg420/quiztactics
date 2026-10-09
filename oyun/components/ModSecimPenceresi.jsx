@@ -45,7 +45,7 @@ import { CoinIkon } from "./ParaIkonlari.jsx";
 export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekleMetni, alttan = false,
                                             dereceli, onDereceli, kategori = null, onKategori, modlar, loadout = false }) {
   // 960: tur, eşik ve akış (sırayla seçim) ayardan — useDuelloKurallari
-  const { secim: duelloSecim, puan: duelloPuan, esik: duelloEsik, tur: turSayisi, hedef: duelloHedef, yol: duelloYol, v4: duelloV4 } = useDuelloKurallari();   // 970: puan modu
+  const { secim: duelloSecim, puan: duelloPuan, esik: duelloEsik, tur: turSayisi, hedef: duelloHedef, yol: duelloYol, v4: duelloV4, hazir: duelloHazir } = useDuelloKurallari();   // 970: puan modu
   // 957: Kasa da ortak mod listesinde (kapalıyken gösterilmez)
   const kasaAcik = useAyar("kasa_modu_acik", 0) >= 1;
   const [calisan, setCalisan] = useState(null);   // "klasik" | "duello" | null
@@ -123,8 +123,10 @@ export default function ModSecimPenceresi({ profil, onSec, onKapat, baslik, bekl
       mod: "duello",
       ikon: "duello",
       ad: tt("Düello (Taktik Maçı)"),
-      aciklama: duelloV4
-        ? tt("Kontrolü al, aynı kategoride üst üste 3 doğru yap, düelloyu kazan.")
+      aciklama: !duelloHazir
+        ? " "
+        : duelloV4
+        ? tt("Kontrolü al, üst üste 3 doğru yap, düelloyu kazan.")
         : duelloPuan
         ? tt("Kategorileri seç, rakibinkine saldır. {h} puan ya da rakibin {y} kategorisini alan kazanır.", { h: duelloHedef, y: duelloYol })
         : duelloSecim

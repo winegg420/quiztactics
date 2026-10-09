@@ -71,7 +71,7 @@ const P_ADIMLAR = [
 const V4_ADIMLAR = [
   { ikon: "duello", baslik: "Nötr soru, tek bilen kontrolü alır", metin: "İkinize aynı soru gelir. Yalnız biriniz bilirse kontrol onda olur." },
   { ikon: "liste", baslik: "Kartlar: rakibe gönder, kendine seç", metin: "Kontrol sende: 4 karttan birini rakibe gönderir, birini kendine seçersin. Her biriniz kendi kategorinizin sorusunu cevaplarsınız." },
-  { ikon: "bayrak", baslik: "Üst üste 3 doğru", metin: "Kontrolü al, aynı kategoride üst üste 3 doğru yap, düelloyu kazan." },
+  { ikon: "bayrak", baslik: "Üst üste 3 doğru", metin: "Kontrolü al, üst üste 3 doğru yap, düelloyu kazan." },
   { ikon: "terazi", baslik: "Son Düello", metin: "Tur sınırına ya da art arda 5 nötr soruya gelinirse Son Düello başlar: aynı soru, joker yok, tek bilen kazanır." },
   { ikon: "yariyari", baslik: "Jokerler", metin: "50:50, Ek Süre, İkinci Şans, Zaman Baskısı ve Soru Değiştir. Soru başına en çok 1 joker; Son Düello'da joker yok." },
 ];
