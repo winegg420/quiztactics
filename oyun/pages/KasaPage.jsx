@@ -200,9 +200,6 @@ function KasaGiris() {
         <QtDugme tamGenislik boyut="b" ikon="coin" onClick={() => { sesKilidiAc(); sesDokunus(); setArama(true); }}>
           {ceviri("Rakip ara")}
         </QtDugme>
-        <p className="m2-giris-not">
-          {dereceli ? ceviri("Klasik ile aynı lig puanı ve coin ödülü") : ceviri("Serbest: lig puanı yok, coin yarı.")}
-        </p>
       </div>
       <details className="ks-kurallar-tum">
         <summary>

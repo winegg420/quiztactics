@@ -180,9 +180,7 @@ function DuelloGiris() {
                      onClick={() => { sesKilidiAc(); sesDokunus(); if (duelloTanitimGoruldu()) setArama(true); else setTanitim("arama"); }}>
               {ceviri("Rakip ara")}
             </QtDugme>
-            <p className="m2-giris-not">
-              {dereceli ? ceviri("Klasik ile aynı lig puanı ve coin ödülü") : ceviri("Serbest: lig puanı yok, coin yarı.")}
-            </p>
+            {/* Serbest/Dereceli açıklaması DereceliAnahtari'nın hemen altında; burada tekrar edilmez (9 Eki 2026) */}
           </>
         )}
         {/* Paket 20 IV.1: kurallar her zaman yeniden açılabilir */}

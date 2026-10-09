@@ -298,10 +298,13 @@ export default function HizliModPage() {
           <div className="bd-hizli-buyuk">{TOPLAM_SN}</div>
           <div className="alt-yazi">
             {tt("saniyede kaç soru bilebilirsin? Soru başına")} <b>{SORU_SN} {tt("saniye")}</b>{tt(", doğru")} <b>+1</b>{tt(", yanlışın cezası yok.")}
-            <br />
-            {dereceli
-              ? ceviri("Dereceli: doğru başına +{dogru} lig puanı ve coin (en çok {tavan}).", odul)
-              : ceviri("Serbest: lig puanı yok, coin yarı.")}
+            {/* Serbest açıklaması anahtarın altında zaten var; yalnız Dereceli'de ödül sayıları burada */}
+            {dereceli && (
+              <>
+                <br />
+                {ceviri("Dereceli: doğru başına +{dogru} lig puanı ve coin (en çok {tavan}).", odul)}
+              </>
+            )}
           </div>
           {ozet && (
             <div className="bd-hizli-ozet">
