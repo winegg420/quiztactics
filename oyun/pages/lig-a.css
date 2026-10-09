@@ -183,7 +183,7 @@
 .lg-eylemler { display: flex; flex-wrap: wrap; gap: var(--qt-b-2); justify-content: center; }
 .lg-iskelet { padding: var(--qt-b-2) var(--qt-b-4); }
 /* Kontur KARTA, satıra değil: liste tek konturlu kutu; yalnız "ben" satırı ayrı ağırlık alır. */
-.lg-liste, .lg-benim { border: 3px solid var(--oyk-kontur, var(--qt-metin)); border-radius: 16px; box-shadow: 0 4px 0 var(--oyk-kontur, var(--qt-metin)); }
+.lg-liste, .lg-benim, .qt-liste.lg-liste, .qt-liste.lg-benim { border: 3px solid var(--oyk-kontur, var(--qt-metin)); border-radius: 16px; box-shadow: 0 4px 0 var(--oyk-kontur, var(--qt-metin)); }
 
 /* ---------- Satır ---------- */
 .lg-satir-kap { position: relative; }

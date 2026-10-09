@@ -131,4 +131,4 @@
 }
 
 /* Tanıtım ikon diski (maskot yerine) — kartın mod rengi */
-.g-tanitim-disk { --_boy: 104px; --_z: #fff; background: #fff; color: var(--_i); box-shadow: 0 var(--qt-dudak-s) 0 var(--_d, var(--qt-ikinci-dudak)); }
+.g-tanitim-disk, .qt-ikon-disk.g-tanitim-disk { --_boy: 104px; --_z: #fff; background: #fff; color: var(--_i); box-shadow: 0 var(--qt-dudak-s) 0 var(--_d, var(--qt-ikinci-dudak)); }

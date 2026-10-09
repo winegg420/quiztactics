@@ -51,7 +51,7 @@
   white-space: nowrap;
 }
 .qt-kz-isim-zemin--acik { background: var(--qt-zemin); color: var(--qt-metin); }
-.qt-kz-isim-zemin--koyu { background: var(--qt-mac-zemin); color: var(--qt-mac-metin); }
+.qt-kz-isim-zemin--koyu, .qt-kz-isim-zemin--koyu.qt-sahne-mac { background: var(--qt-mac-zemin); color: var(--qt-mac-metin); }
 
 .qt-kz-zafer-kutu {
   position: relative;

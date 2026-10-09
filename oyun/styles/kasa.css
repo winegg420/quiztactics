@@ -6,7 +6,7 @@
    ============================================================ */
 
 /* ---------- giriş ---------- */
-.ks-giris-kafa { background: var(--qt-mod-kasa); box-shadow: 0 var(--qt-dudak-b) 0 var(--qt-mod-kasa-dudak); color: var(--qt-mod-kasa-yazi); }
+.m2-giris-kafa.ks-giris-kafa { background: var(--qt-mod-kasa); box-shadow: 0 var(--qt-dudak-b) 0 var(--qt-mod-kasa-dudak); color: var(--qt-mod-kasa-yazi); }
 .ks-giris-kafa .m2-giris-ikon { box-shadow: 0 var(--qt-dudak-s) 0 var(--qt-mod-kasa-dudak); }
 .ks-giris-kafa .m2-giris-yazi .qt-baslik-1 { color: var(--qt-mod-kasa-yazi); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .ks-deneysel {

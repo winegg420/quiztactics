@@ -1,6 +1,7 @@
 /* Koleksiyon Puanı (KoleksiyonDokumu, oyuncu kartı çipi) — qt-kp- / qt-ok-kp öneki. Stil rehberi: lacivert kontur, düz renk, nadirlik renkleri paletten. */
 .qt-kp { display: grid; gap: var(--qt-b-2); min-width: 0; }
 .qt-kp h2, .qt-kp p { margin: 0; }
+.qt-kp-baslik.qt-plaka { display: inline-flex; }
 .qt-kp-baslik { display: flex; align-items: center; gap: 6px; }
 /* Boş koleksiyonda tek satır hedef (QtBosDurum boyut=k): kart içinde ekstra kutu/çizgi taşımaz */
 .qt-kp .qt-bos--k { padding: 0; border: 0; background: transparent; box-shadow: none; }

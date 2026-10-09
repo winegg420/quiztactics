@@ -59,7 +59,7 @@
 .eg-bos { margin: 0; color: var(--qt-metin-soluk); font-size: var(--qt-y-s); }
 
 /* Yönetim › Şikâyetler */
-.yk-sayfa { display: grid; gap: var(--qt-b-3); }
+.yk-sayfa, .ls-sayfa.yk-sayfa { display: grid; gap: var(--qt-b-3); }
 .yk-filtre { display: flex; gap: var(--qt-b-2); flex-wrap: wrap; }
 .yk-kart { display: grid; gap: var(--qt-b-2); }
 .yk-ust { display: flex; flex-wrap: wrap; gap: 6px var(--qt-b-2); align-items: center; font-size: var(--qt-y-s); color: var(--qt-metin-soluk); }

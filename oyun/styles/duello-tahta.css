@@ -205,7 +205,7 @@
 
 /* ---------------------------------------------------------------- sahne + kartlar */
 .hk-sahne { display: grid; gap: 4px; animation-duration: .18s; }
-.hk-hata { margin: 0; padding: 4px 10px; font-size: 12px; }
+.hk-hata, .m2-hata.hk-hata { margin: 0; padding: 4px 10px; font-size: 12px; }
 .hk-kartlar { display: grid; gap: 3px; }
 .hk-grup { display: grid; gap: 2px; }
 .hk-grup-baslik { margin: 0; padding-left: 2px; font-size: 11px; line-height: 1.15; font-weight: 800; color: var(--hk-gri-metin); }

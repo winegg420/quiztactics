@@ -11233,3 +11233,9 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - Migration `1038`: ayar 4000 (geri alma `docs/kasa-giris-4000-geri-al.sql`). `KasaPage`: sabit 6000 kalktı, süre `useAyar("kasa_giris_sahne_ms", 4000)`; sahne başlayınca sabit. CSS ışık animasyonu 6000 → 4000 ms. `/sure-ayar` Hazine giriş varsayılanı 4000.
 - 4000 = ~1 sn düşüş + 3 sn tam 3-2-1 (3-2-1 son 3 sn'de, yarım kalmaz). Yan etki: maç kuruluşundan sahne başına kadar bekleme 4 → 7 sn (952'nin asıl tasarımı: 3+2+pay).
 - PROJECT_CONTEXT (952/1038 satırı, sunum süreleri), docs/sure-olcum.md güncellendi.
+
+## 2026-10-09 — CSS yükleme sırası çakışmaları: Hazine başlığı kırmızı görünüyordu
+**Araç:** Claude Code
+**Neden:** Canlıda Ortak Hazine lobisi başlık kartı altın yerine Düello kırmızısıydı.
+
+Kök sebep: `.m2-giris-kafa` (DuelloPage.a.css) ile `.ks-giris-kafa` (kasa.css) aynı özgüllükte, ayrı lazy CSS parçalarında; hangisi sonra yüklenirse o kazanıyordu. Statik tarama (JSX'te aynı öğedeki sınıf çiftleri × farklı dosyada aynı özellik) 11 üretim çifti buldu; derlenmiş CSS'i iki sırayla yükleyen ölçümle 2'si gerçekten sıraya bağlıydı (Hazine başlığı, Düello tahta hata yazı boyu 12↔14 px), diğerleri bugün sabit ama dosya sırasına bağlıydı. Hepsi bileşik seçiciyle sabitlendi: kasa.css, duello-tahta.css, lig-a.css, g-kurulum.css (tanıtım diski artık kodun niyetindeki beyaz; önceden qt-ikon-disk ezip açık mavi yapıyordu), sikayet.css, dukkan-kozmetik.css, koleksiyon-puani.css. PROJECT_CONTEXT'e "CSS sıra kuralı" eklendi. Ayrıntı: RAPOR.md (commit edilmez).
