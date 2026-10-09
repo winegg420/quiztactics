@@ -511,7 +511,8 @@
 .ks-kadran-mini > .ks-kasa, .ks-kadran-govde > .ks-kasa { position: relative; z-index: 1; }
 
 /* ---------- tur başı sarsıntısı · son 3 sn titreme (mini kasa) ---------- */
-.ks-kadran--tur-sars .ks-kadran-mini { animation: ks-tur-sars 520ms linear; }
+.ks-kadran--tur-sars .ks-kadran-mini { animation: ks-tur-sars calc(520ms * var(--sr-kasa_tur_bant, 1)) linear; }
+.ks-sahne > .m2-gecis > span { animation-duration: calc((var(--qt-s-kirilma) + var(--qt-s-kisa)) * var(--sr-kasa_tur_bant, 1)); }   /* Tur bandı: yalnız Hazine; Düello m2-gecis aynen */
 @keyframes ks-tur-sars {
   0%, 100% { transform: rotate(0); } 15% { transform: rotate(-9deg) scale(1.08); } 32% { transform: rotate(8deg); }
   50% { transform: rotate(-5deg); } 68% { transform: rotate(3deg); } 84% { transform: rotate(-1deg); }

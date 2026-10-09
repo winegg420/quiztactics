@@ -1158,13 +1158,13 @@ function KasaMac({ id }) {
     eskiPuan: skD.ac ? Math.max(0, Number(rkVeren?.puan ?? 0) - Number(skD.deger ?? 0)) : null } : null);
   const anOrtu = d.faz === "cevap" && Boolean(anAc || anDevam || rk || devamBekliyor);
   const soruOrtulu = d.faz === "cevap" && Boolean(anAc || rk);
-  const turBantGoster = turBant && simdi - turBant < 900 && !anAc && turBantFazRef.current === d.faz;
+  const turBantGoster = turBant && simdi - turBant < sure("kasa_tur_bant") && !anAc && turBantFazRef.current === d.faz;
   const miniHareket = (anSonuc?.varis && !anSonuc.bitti
     ? (anSonuc.buyuk ? ["vardi", "patla"] : ["vardi"]).concat(anSonuc.anahtarVaris ? ["yeni-sahip"] : [])
     : [])
     // 951: her tur başında kısa sarsıntı · cevap süresinin son 3 sn'sinde titreme
     .concat(anDevam ? (anDevam.varis ? ["vardi"] : ["devam-sars"]) : [])
-    .concat(turBant && simdi - turBant < 650 && turBantFazRef.current === d.faz ? ["tur-sars"] : [])
+    .concat(turBant && simdi - turBant < Math.round(650 * sureOlcek("kasa_tur_bant")) && turBantFazRef.current === d.faz ? ["tur-sars"] : [])
     .concat(sonUcSn ? ["gergin"] : []);
   const miniKadran = (
     <KasaKadran d={d} c={c} kucuk

@@ -11196,3 +11196,7 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - Sunucuya bağlı önizleme sahneleri (oyuna yazılmaz): v4 kart gönder/kendine seç (duyuru 900), v4 sonuç paneli (3 sn). Sayfa sunucu kayıtlarını genelledi (`sunucuMs`).
 - `duello_skill_efekt` önizlemesi eski tahta yerine v4 arenasıyla çiziliyor. "Hepsini oynat" 22 sahne (Hazine giriş dahil).
 - Test: `araclar/sure-ayar-demo-testi.mjs` güncellendi (22/22 oynadı, eski sahne 0, 390 px taşma 0). Test hesabı açılmadı. Rapor: RAPOR.md (commit dışı).
+
+## 10 Eki 2026 — /sure-ayar Hazine sahneleri canlı akışla doğrulandı (Claude)
+- Canlı DB ayarları ölçüldü (savunma, DEVAM bırakır/çarpan 2, joker, ödül hep açık): 14 Hazine sahnesinin hepsi canlıda tetikleniyor, çıkarılan yok.
+- Eksik canlı sahne eklendi: Tur bandı (`kasa_tur_bant`, 900; KasaPage + kasa-efekt.css bağlandı, varsayılanda aynı). Sayfa görünümü canlıyla aynı (ESKI_GORUNUM=false). Test 23/23. Not: `kasa_giris_sahne_ms`=3000 ↔ istemci GIRIS_SAHNE_MS=6000 farkı gözlendi, dokunulmadı.

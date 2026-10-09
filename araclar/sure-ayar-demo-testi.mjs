@@ -16,7 +16,7 @@ fs.mkdirSync(CIKTI, { recursive: true });
 // Yalnız CANLI (Düello v4) sahneleri; eski ban/hâkimiyet/tahta sahneleri sayfada yok (10 Eki 2026)
 const DUELLO = ["ortak_arama_gecis", "duello_skill_efekt", "duello4_acilis", "duello4_sarsinti", "duello4_baski", "duello4_konfeti", "duello4_kart_duyuru", "duello4_sonuc"];
 const KASA = ["kasa_ac_an", "kasa_devam_an", "kasa_an_taban", "kasa_kapali_karar", "kasa_devam_vurus", "kasa_sonuc_ucus", "kasa_final_sahne", "kasa_final_kapanis",
-  "kasa_cifte", "kasa_savunma", "kasa_joker_bilgi", "kasa_devam_odul", "kasa_rakip_joker", "kasa_giris"];
+  "kasa_cifte", "kasa_savunma", "kasa_joker_bilgi", "kasa_devam_odul", "kasa_rakip_joker", "kasa_tur_bant", "kasa_giris"];
 
 const t = await chromium.launch({ channel: "chrome", headless: true });
 const b = await t.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, serviceWorkers: "block", deviceScaleFactor: 1 });

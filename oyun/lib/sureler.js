@@ -42,6 +42,7 @@ export const SURELER = [
   { anahtar: "kasa_joker_bilgi", mod: "kasa", baslik: "Joker bilgi satırı", aciklama: "\"İkinci Şans: bir kez daha dene!\" vb.", varsayilan: 1800, oneri: 2000, min: 1000, max: 3500, kaynak: "pages/KasaPage.jsx › jokerBilgiGoster (1800)", dene: "genel" },
   { anahtar: "kasa_devam_odul", mod: "kasa", baslik: "DEVAM ödülü bandı", aciklama: "DEVAM'ın açtığı soruda ödül (kaybedince ×0,6).", varsayilan: 2000, oneri: 1800, min: 1000, max: 3500, kaynak: "pages/KasaPage.jsx › devamAn (2000 / 1200)", dene: "genel" },
   { anahtar: "kasa_rakip_joker", mod: "kasa", baslik: "Rakip joker kullandı", aciklama: "Rakip avatarının altında joker ikonu.", varsayilan: 2200, oneri: 1500, min: 1000, max: 3500, kaynak: "pages/KasaPage.jsx › rakipJokerAn (2200)", dene: "genel" },
+  { anahtar: "kasa_tur_bant", mod: "kasa", baslik: "Tur bandı (\"Tur 6/12\")", aciklama: "Her yeni turun başında üstten kayan tur etiketi + hazine sandığının kısa sarsıntısı.", varsayilan: 900, min: 500, max: 2000, kaynak: "pages/KasaPage.jsx › turBantGoster (900) · styles/kasa-efekt.css › ks-tur-sars (520)" },
 ];
 
 const TABLO = Object.fromEntries(SURELER.map((s) => [s.anahtar, s]));

@@ -429,6 +429,16 @@ export function sahneOlustur(anahtar) {
         canli: "Ödül kaybedilince \"Bu sefer yok\" notu seçilen sürenin 0,6 katı kalır.",
         ciz: (g) => <KasaKabuk d={kasaMaci("cevap", { sahip: null })} ust={g < s ? <KasaDevamOdul an={{ kazandi: true, joker: "elli" }} c={c} /> : null} /> };
     }
+    case "kasa_tur_bant": {
+      const s = sure(anahtar);
+      const sars = Math.round(650 * sureOlcek(anahtar));
+      return { sure: s, kuyruk: 300, olcu: ".m2-gecis > span", yontem: "gerçek bileşen (Tur bandı + KasaKadran tur sarsıntısı)", ses: [[0, sesSoruGeldi]],
+        ciz: (g) => {
+          const d = kasaMaci("cevap");
+          return <KasaKabuk d={d} sahne={g < s ? <span className="m2-gecis" aria-hidden="true"><span>{c("Tur {n}/{t}", { n: d.tur, t: d.max_tur })}</span></span> : null}
+                            kadran={<KasaKadran d={d} c={c} kucuk hareket={g < sars ? ["tur-sars"] : []} />} />;
+        } };
+    }
     case "kasa_rakip_joker": {
       const s = sure(anahtar);
       return { sure: s, kuyruk: 300, olcu: ".ks-rakip-joker-an", yontem: "gerçek bileşen (KasaRakipJokerAn + avatar ikonu)", ses: [[0, sesJoker]],
