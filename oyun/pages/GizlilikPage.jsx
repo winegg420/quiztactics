@@ -61,9 +61,6 @@ export default function GizlilikPage() {
           <b>{tt("Konum bilgisi:")}</b> {tt("yalnızca kendi seçtiğin")} <b>{tt("şehir ve ülke")}</b>{tt(". Cihazının GPS konumunu")} <b>{tt("almıyoruz")}</b>{tt(". Bu bilgi şehir/ülke liglerinde herkese görünür.")}
         </li>
         <li>
-          <b>{tt("Reklam:")}</b> {tt("uygulamada Google H5 Games Ads (AdSense) üzerinden ödüllü video ve maç arası geçiş reklamı gösterilir. Reklam ağı kendi çerez/reklam kimliğini kullanır; biz kişisel verini reklam ağına")} <b>{tt("göndermiyoruz")}</b>.
-        </li>
-        <li>
           <b>{tt("Bildirim izni:")}</b> {tt("bildirimleri açarsan tarayıcının verdiği abonelik anahtarı. İstediğin an profil sayfasından kapatabilirsin.")}
         </li>
         <li>

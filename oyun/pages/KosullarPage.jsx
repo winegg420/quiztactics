@@ -107,70 +107,62 @@ export default function KosullarPage() {
           {tt("Uygulama içi satın alma yalnızca Android uygulamasında ve Google Play faturalandırması üzerinden yapılır. İade talepleri Google Play'in iade politikasına tabidir.")}
         </li>
         <li>
-          {tt("Ödüllü reklam izleyerek kazanılan öğeler reklam ağının o an reklam sunabilmesine bağlıdır; sürekli erişim garanti edilmez.")}
-        </li>
-        <li>
           {tt("Hizmeti sonlandırmamız hâlinde sanal öğeler için bedel iadesi yapılmaz.")}
         </li>
       </ul>
 
-      <h2>{tt("7. Reklamlar")}</h2>
-      <p>
-        {tt("Hizmette Google H5 Games Ads (AdSense) üzerinden ödüllü video ve maç arası reklam gösterilebilir. Reklam içeriği reklam ağı tarafından belirlenir ve bizim denetimimizde değildir.")}
-      </p>
-
-      <h2>{tt("8. Sorular ve içerik doğruluğu")}</h2>
+      <h2>{tt("7. Sorular ve içerik doğruluğu")}</h2>
       <p>
         {tt("Soru havuzu insan denetiminden geçse de hata içerebilir. Hatalı bulduğun soruyu oyun içinden bildirebilirsin; bildirimler değerlendirilip soru havuzdan çıkarılabilir. Sorular genel kültür amaçlıdır; profesyonel tavsiye yerine geçmez.")}
       </p>
 
-      <h2>{tt("9. Hizmetteki değişiklikler")}</h2>
+      <h2>{tt("8. Hizmetteki değişiklikler")}</h2>
       <p>
         {tt("Oyun kurallarını, puanlama formüllerini, ödülleri ve özellikleri geliştirmek için değiştirebiliriz. Önemli değişiklikleri uygulama içinde duyururuz. Hizmeti tamamen durdurmamız hâlinde makul bir süre önce bilgilendirme yaparız.")}
       </p>
 
-      <h2>{tt("10. Askıya alma ve fesih")}</h2>
+      <h2>{tt("9. Askıya alma ve fesih")}</h2>
       <p>
         {tt("Bu koşulları ihlal etmen hâlinde hesabını uyarı yaparak veya ağır durumlarda doğrudan askıya alabilir ya da kapatabiliriz. Kararı haksız buluyorsan aşağıdaki adresten itiraz edebilirsin.")}
       </p>
 
-      <h2>{tt("11. Garanti reddi")}</h2>
+      <h2>{tt("10. Garanti reddi")}</h2>
       <p>
         {tt("Hizmet \"olduğu gibi\" sunulur. Kesintisiz veya hatasız çalışacağını garanti etmeyiz. Sunucu, ağ veya üçüncü taraf hizmetlerinden kaynaklanan kesintiler olabilir.")}
       </p>
 
-      <h2>{tt("12. Sorumluluk sınırı")}</h2>
+      <h2>{tt("11. Sorumluluk sınırı")}</h2>
       <p>
         {tt("Yürürlükteki hukukun izin verdiği ölçüde; dolaylı zararlardan, veri kaybından veya kâr kaybından sorumlu değiliz. Hizmet ücretsiz olduğundan, doğrudan zararlara ilişkin toplam sorumluluğumuz son 12 ayda bize ödediğin tutarla (yoksa sıfırla) sınırlıdır.")}
       </p>
 
-      <h2>{tt("13. Fikri mülkiyet")}</h2>
+      <h2>{tt("12. Fikri mülkiyet")}</h2>
       <p>
         {tt("Oyunun adı, logosu, arayüz tasarımı, maskotu ve soru havuzu bize aittir. Kişisel kullanım dışında çoğaltılamaz, dağıtılamaz veya ticari amaçla kullanılamaz.")}
       </p>
 
-      <h2>{tt("14. Gizlilik")}</h2>
+      <h2>{tt("13. Gizlilik")}</h2>
       <p>
         {tt("Kişisel verilerinin nasıl işlendiğini")}{" "}
         <Link to="/gizlilik">{tt("Gizlilik Politikası")}</Link> {tt("sayfasında bulabilirsin. Gizlilik politikası bu koşulların ayrılmaz parçasıdır.")}
       </p>
 
-      <h2>{tt("15. Uygulanacak hukuk")}</h2>
+      <h2>{tt("14. Uygulanacak hukuk")}</h2>
       <p>
         {tt("Bu koşullara Türkiye Cumhuriyeti hukuku uygulanır. Tüketici olarak sahip olduğun yasal haklar saklıdır; tüketici hakem heyetlerine ve tüketici mahkemelerine başvuru hakkın etkilenmez.")}
       </p>
 
-      <h2>{tt("16. Değişiklikler")}</h2>
+      <h2>{tt("15. Değişiklikler")}</h2>
       <p>
         {tt("Bu koşulları güncellersek bu sayfadaki tarihi değiştiririz. Değişiklikten sonra hizmeti kullanmaya devam etmen güncel koşulları kabul ettiğin anlamına gelir.")}
       </p>
 
-      <h2>{tt("17. İletişim")}</h2>
+      <h2>{tt("16. İletişim")}</h2>
       <p>
         {tt("Sorular, itirazlar ve bildirimler için:")} <b>{ILETISIM}</b>
       </p>
 
-      <h2>{tt("18. Üçüncü taraf verileri ve lisanslar")}</h2>
+      <h2>{tt("17. Üçüncü taraf verileri ve lisanslar")}</h2>
       <p>
         {tt("Türkiye dışındaki ülkelerin şehir listesi GeoNames verisinden alınmıştır ve Creative Commons Atıf 4.0 lisansıyla kullanılır:")}{" "}
         <a href="https://www.geonames.org" target="_blank" rel="noopener noreferrer">GeoNames</a>
