@@ -11290,3 +11290,15 @@ Kaldırıldı: "Hazine sende: {k} puan" başlığı, AÇ alt yazısı "Skor x/y"
 - Ekran testi `araclar/avatar-edinme-ekran.mjs` (taklit; REST yanıtları süreç içinde önbellekli → canlıya her istek en çok bir kez):
   TR 96/96, EN 360+390 tam geçti. Not: art arda tam matris koşuları canlı ağ geçidinde Gateway Timeout üretti → önbellek eklendi.
   `npm run build` temiz.
+
+## 2026-10-10 — ChatGPT 9 Eki denetimi (kalan 7 madde, kapanışta yarım kalan iş)
+**Araç:** Claude Code
+**Neden:** Bilgisayar kapanınca iş yarım kalmıştı; çalışma ağacındaki düzeltmeler incelenip doğrulandı, eksikler tamamlandı.
+
+- Yarım kalanlar doğruydu, korundu: "Rastgele oyna" (2), OYNA penceresi rozeti köşe sekmesi (3), toplu "Ödülü al"/"Ödülleri al" yeşil (4),
+  Serbest/Dereceli açıklaması tek yerde — Düello, Hazine, Hızlı Mod (5), QtSekmeler kenar payı 44 px + yazı tipi sonrası hizalama (6), kasa-savunma testi (7).
+- Eksik olan tamamlandı: Görevler tekil "Al" ve "Sandığı aç" da `tur="dogru"` (yeşil). Sezon Yolu'nda tekil "Al" zaten kutu ödülü; bonus "Al" yeşildi.
+- Test aracı `denetim-9eki-ekran.mjs`: EN koşusu profil önbelleği yüzünden dil değiştirip yeniden yüklüyordu → `qt_profil_onbellek` ayıklandı.
+- Sonuç: denetim-9eki 68/0, kasa-savunma 357/0, duello-v4 360/0, `arayuz-denetim` temiz, build temiz.
+- Canlı: test aracıyla (DRY-RUN → --uygula) 1 misafir hesap silindi (ArayuzDenetim846, 0 maç); sahip/bot dokunulmadı.
+- Not: `.arayuz-denetim-oturum.json` silinen hesaba aitti, kaldırıldı; sonraki denetimde yeniden oluşur.
