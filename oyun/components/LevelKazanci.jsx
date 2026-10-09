@@ -5,7 +5,8 @@ import { SKILL_TANIMLARI } from "../lib/jokerler.js";
 import SkillRozeti from "./SkillRozeti.jsx";
 import { QtIlerleme, QtRozet } from "../tasarim/index.js";
 import { sesLevel, sesXpDolma } from "../lib/ses.js";
-import { tt } from "../lib/dil.js";
+import { aktifDil, tt } from "../lib/dil.js";
+import { NadirlikImg } from "./AvatarNadirlikGoruntu.jsx";
 import "../tasarim/ekranlar/m1-sonuc.css";
 
 /**
@@ -79,6 +80,7 @@ export default function LevelKazanci({ kaynak }) {
   const yuzde = (x) => Math.max(0, Math.min(100, (x / gereken) * 100));
   const levelCoin = (Number(v.level_coin) || 0) + (Number(v.rutbe_coin) || 0);
   const skiller = Array.isArray(v.skiller) ? v.skiller : [];
+  const avatarlar = Array.isArray(v.avatarlar) ? v.avatarlar.filter((x) => x?.url) : [];   // 1039: level avatarı
 
   return (
     <div className="m1-level m1-ss-sira" aria-label={tt("Level ilerlemesi")}>
@@ -98,6 +100,15 @@ export default function LevelKazanci({ kaynak }) {
               {tt("Level {n} ödülü: {adet} {skill} hakkı", { n: s.level, adet: s.adet ?? 1, skill: SKILL_TANIMLARI[s.skill]?.ad ?? s.skill })}
             </span>
           ))}
+          {avatarlar.map((a) => {
+            const avAd = (aktifDil() === "en" ? a.ad_en : a.ad_tr) ?? a.ad_tr ?? "";
+            return (
+              <span key={a.anahtar} className="m1-level-skill">
+                <NadirlikImg src={a.url} alt="" width="28" height="28" decoding="async" />
+                {a.sahipti ? tt("{ad} zaten sende · +{n} coin", { ad: avAd, n: a.coin }) : tt("Yeni avatar: {ad}", { ad: avAd })}
+              </span>
+            );
+          })}
         </div>
       )}
       <QtIlerleme

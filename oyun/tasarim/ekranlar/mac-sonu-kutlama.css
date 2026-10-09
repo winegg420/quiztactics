@@ -416,6 +416,21 @@ html.msk-acik .mobile-nav, html.msk-acik .a-kabuk .a-altmenu { display: none !im
   min-height: 84px;
 }
 .msk-levelup-lottie { width: 84px; height: 84px; flex: none; }
+/* 1039: level avatarı — level rozetinin hemen ardından aynı pop ile */
+.msk-levelup-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--qt-b-2);
+  min-width: 0;
+  font-weight: var(--qt-a-siyah);
+  font-size: var(--qt-y-s);
+  color: var(--qt-metin);
+  animation: msk-pop var(--qt-s-an) var(--qt-egri-yay) calc(var(--t-xp) + 800ms) backwards;
+}
+.msk-levelup-avatar img { flex: none; width: 44px; height: 44px; border-radius: 50%; }
+.msk-levelup-avatar span { min-width: 0; overflow-wrap: anywhere; }
+@media (prefers-reduced-motion: reduce) { .msk-levelup-avatar { animation: none; } }
 .msk-levelup-rozet {
   padding: var(--qt-b-2) var(--qt-b-4);
   border-radius: var(--qt-r-hap);

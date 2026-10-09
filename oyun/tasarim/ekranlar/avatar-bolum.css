@@ -39,6 +39,26 @@
   color: #fff;
   pointer-events: none;
 }
+/* 1039: kilit yerine edinme işareti — Lv rakamı (mavi = level), Sezon Yolu bayrağı (altın), coin / elmas ikonu. */
+.qt-av-kilit--level {
+  width: auto;
+  min-width: 22px;
+  padding: 0 5px;
+  border-radius: 11px;
+  background: var(--qt-ikinci, #2f6fe0);
+  font-size: 0.625rem;
+  font-weight: 800;
+  line-height: 1;
+  white-space: nowrap;
+}
+/* Dükkân kartı kilidi 26 px sabit genişlik verir (dukkan-kozmetik.css) — Lv rakamı sığsın */
+.qt-dc-oge.qt-av-kilitli .qt-av-kilit.qt-av-kilit--level { width: auto; min-width: 26px; padding: 0 6px; border-radius: 13px; font-size: 0.6875rem; }
+.qt-av-kilit--sezon { background: var(--qt-coin, #e0a21a); color: var(--qt-metin, #1d2152); }
+.qt-av-kilit--para { background: var(--qt-yuzey, #fff); border-color: var(--qt-yuzey, #fff); box-shadow: 0 1px 2px rgba(29, 33, 82, 0.3); }
+.qt-av-edinme-satir { margin: 0; font-weight: 800; text-align: center; }
+.qt-av-edinme-satir--ek { font-weight: 600; color: var(--qt-metin-soluk); font-size: 0.875rem; }
+.qt-av-edinme-fiyat { display: inline-flex; align-items: center; gap: 6px; }
+
 /* Kart içinde (dükkân, koleksiyon): rozet kartın değil RESMİN köşesine otursun diye resim bu kutuya sarılır. */
 .qt-av-kilit-kutu { position: relative; display: inline-block; line-height: 0; }
 .qt-av-kilit-kutu > .qt-av-kilit { right: -2px; bottom: -2px; }

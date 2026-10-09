@@ -18,6 +18,7 @@ import VitrinRozetleri from "../components/VitrinRozetleri.jsx";
 import DavetKarti from "../components/DavetKarti.jsx";
 import OyuncuAdiDugmesi from "../components/OyuncuAdiDugmesi.jsx";
 import LevelCubugu from "../components/LevelCubugu.jsx";
+import LevelOdulleri from "../components/LevelOdulleri.jsx";
 import SayanSayi from "../components/SayanSayi.jsx";
 import KonumSecici from "../components/KonumSecici.jsx";
 import ProfilAyarlari from "../components/ProfilAyarlari.jsx";
@@ -244,6 +245,8 @@ export default function ProfilePage() {
             </div>
           )}
           <LevelCubugu profile={profile} canli levelYok />
+          {/* 1039: sıradaki 3 level ödülü (avatar · skill · rütbe) */}
+          <LevelOdulleri level={profile?.level} />
         </div>
       </section>
 

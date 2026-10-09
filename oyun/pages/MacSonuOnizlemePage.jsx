@@ -105,7 +105,9 @@ const HALLER = [
       durum: "kazandi", mod: "klasik",
       ben: { profil: BEN, skor: 15, cerceve: "dukkan_anka" }, rakip: { profil: RAKIP, skor: 12, cerceve: "dukkan_yakut" },
       oduller: [{ ikon: "coin", deger: 42, etiket: "coin" }],
-      level: xp(60, 4, 35, 450, { level_once: 3, level_sonra: 4, level_coin: 20, level_xp_once: 375, level_gereken_once: 400 }),
+      level: xp(60, 4, 35, 450, { level_once: 3, level_sonra: 4, level_coin: 20, level_xp_once: 375, level_gereken_once: 400,
+        // 1039: level atlarken kazanılan avatar (örnek)
+        avatarlar: [{ level: 4, anahtar: "kedili-kiz-y37", url: "/avatars/pro2/kedili-kiz-y37.svg", ad_tr: "Kedili Kız", ad_en: "Kitten Friend", nadirlik: "nadir", sahipti: false, coin: 0 }] }),
       gorevler: GOREVLER,
     },
   },

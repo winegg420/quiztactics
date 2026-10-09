@@ -14,7 +14,7 @@ import { auraTanimiBul } from "../tasarim/cerceveler/tanimlar.js";
 import DurumKutusu from "./DurumKutusu.jsx";
 import { auraKatalogu, auraSatinAl, auraTak } from "../lib/cerceve.js";
 import { elmasTazele, useElmas } from "../lib/elmas.js";
-import { ElmasIkon } from "./ParaIkonlari.jsx";
+import { CoinIkon, ElmasIkon } from "./ParaIkonlari.jsx";
 // D-302: ham ağ hatası yerine "Bağlantı yok…" — kozmetikHatasi = hataMesaji + "Yetersiz elmas" → "Elmas yetmiyor" (elmasHatasi ile aynı)
 import { kozmetikHatasi } from "../lib/kozmetik.js";
 import JokerSatinAlModal from "./JokerSatinAlModal.jsx";
@@ -27,6 +27,16 @@ import "../tasarim/ekranlar/dukkan-cerceve.css";
 import NadirlikEtiketi from "./NadirlikEtiketi.jsx";
 
 export { default as NadirlikEtiketi } from "./NadirlikEtiketi.jsx";
+
+/** 1039: coin fiyatı (coin ile satılan Nadir avatar): "● 750" */
+export function CoinFiyat({ fiyat, boyut = 16 }) {
+  return (
+    <span className="qt-dc-fiyat qt-dc-fiyat--coin">
+      <CoinIkon boyut={boyut} />
+      <span className="qt-sayi">{sayiBicim(Number(fiyat))}</span>
+    </span>
+  );
+}
 
 /** Elmas fiyatı: "◆ 150" */
 export function ElmasFiyat({ fiyat, boyut = 16 }) {

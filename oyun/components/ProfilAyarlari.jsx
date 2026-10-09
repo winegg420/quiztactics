@@ -12,6 +12,7 @@ import { tt } from "../lib/dil.js";
 import { HAZIR_AVATARLAR, avatarKilitliMi, useAvatarSahiplik, useHazirAvatarlar, useKatalogAvatarlari } from "../lib/avatarKatalogu.js";
 import { nadirligeGoreBolumle, useNadirlikHaritasi } from "../../src/lib/avatarNadirlik.js";
 import { AvatarBolumBasligi, AvatarKilitRozeti, NadirlikImg } from "./AvatarNadirlikGoruntu.jsx";
+import { AvatarEdinmeKarti } from "./AvatarEdinme.jsx";
 import { QtAnahtar, QtDugme, QtIkon, QtKart } from "../tasarim/index.js";
 import "../tasarim/ekranlar/dukkan-profil.css";
 
@@ -30,6 +31,7 @@ export default function ProfilAyarlari() {
   const [adHata, setAdHata] = useState(null);
   const [avatarDuzenle, setAvatarDuzenle] = useState(false);
   const [avatarHata, setAvatarHata] = useState(null);
+  const [edinmeAvatar, setEdinmeAvatar] = useState(null);   // 1039: kilitli avatara dokununca edinme kartı
   // 550: 27 yeni avatar (ücretsiz) sunucu kataloğundan; migration yoksa boş → yalnız 31 hazır avatar
   const katalogAvatarlari = useKatalogAvatarlari(avatarDuzenle);
   const hazirAvatarlar = useHazirAvatarlar();   // 701: açılmamış hazır avatarlar süzülür
@@ -206,10 +208,10 @@ export default function ProfilAyarlari() {
                         aria-disabled={kilitli || undefined}
                         title={a.ad}
                         disabled={calisiyor}
-                        onClick={() => (kilitli ? setAvatarHata(tt("Bu avatar kilitli. Dükkân › Avatar bölümünden elmasla alabilirsin.")) : avatarKaydet(a.url))}
+                        onClick={() => (kilitli ? setEdinmeAvatar(a) : avatarKaydet(a.url))}
                       >
                         <NadirlikImg src={a.url} alt="" loading="lazy" decoding="async" />
-                        {kilitli && <AvatarKilitRozeti />}
+                        {kilitli && <AvatarKilitRozeti s={avatarSahiplik.get(a.url)} />}
                       </button>
                     );
                   })}
@@ -217,6 +219,11 @@ export default function ProfilAyarlari() {
               ))}
             </div>
             {avatarHata && <p className="qt-pf-hata" role="alert">{avatarHata}</p>}
+            {edinmeAvatar && (
+              <AvatarEdinmeKarti url={edinmeAvatar.url} ad={edinmeAvatar.ad} s={avatarSahiplik.get(edinmeAvatar.url)}
+                onKapat={() => setEdinmeAvatar(null)}
+                onTak={(url) => { setEdinmeAvatar(null); avatarKaydet(url); }} />
+            )}
             <div className="qt-pf-dugme-sira">
               {googleFoto && (
                 <QtDugme tur="ikincil" boyut="k" devreDisi={calisiyor} onClick={() => avatarKaydet(googleFoto)}>

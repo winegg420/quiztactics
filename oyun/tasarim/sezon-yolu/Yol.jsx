@@ -15,6 +15,7 @@ import { OdulGorsel, kisaYazi, anahtar, tasMi } from "./OdulGorsel.jsx";
 import { odulCerceveSanati } from "./CerceveOdulGorsel.jsx";
 import { SonsuzIkon } from "./simgeler.jsx";
 import { tasmaAdimi } from "./tasma.js";
+import { useAyar } from "../../lib/ayarlar.js";
 
 function Yuva({ odul, durum, yeniAlindi, yeniAcildi, bpVar, onSec, toplam }) {
   const acik = odul.seviye <= durum.seviye;
@@ -135,17 +136,19 @@ function miktarYazi(o) {
   return "";
 }
 
-function Kutu({ odul, durum, bpVar, yeniAlindi, mesgul, onSec, onAl }) {
+function Kutu({ odul, durum, bpVar, yeniAlindi, mesgul, onSec, onAl, sahipCoin = 0 }) {
   const bpKilit = odul.kol === "ucretli" && !bpVar;
   const al = Boolean(odul.alinabilir) && !odul.alindi;
   const s = odul.alindi ? "alindi" : al ? "alinabilir" : "kilitli";
   const kolAdi = odul.kol === "ucretli" ? tt("Battle Pass kolu") : tt("Ücretsiz kol");
   const durumYazi = odul.alindi ? tt("alındı") : al ? tt("alınabilir") : tt("kilitli");
   const miktar = miktarYazi(odul);
+  // 1039: avatar ödülüne zaten sahipse avatar yerine coin (sunucu bp_avatar_sahipse_coin)
+  const sahipCoinli = odul.tur === "avatar" && odul.sahip && !odul.alindi && sahipCoin > 0;
   return (
     <button type="button" className={`sy-kutu sy-kutu--${s}${yeniAlindi ? " sy-kutu--doldu" : ""}`}
       data-nadirlik={odul.nadirlik ?? "siradan"} data-tur={odul.placeholder ? "yakinda" : odul.tur} data-yuva={anahtar(odul)} disabled={al && mesgul}
-      aria-label={`${tt("{n}. seviye", { n: odul.seviye })}, ${kolAdi}: ${odul.placeholder ? tt("Yakında") : odulAdi(odul, durum.dil)}, ${durumYazi}`}
+      aria-label={`${tt("{n}. seviye", { n: odul.seviye })}, ${kolAdi}: ${odul.placeholder ? tt("Yakında") : odulAdi(odul, durum.dil)}, ${durumYazi}${sahipCoinli ? `, ${tt("Sahipsin · +{n} coin", { n: sahipCoin })}` : ""}`}
       onClick={() => (al ? onAl(odul) : onSec(odul))}>
       <span className="sy-kutu-cerceve">
         <OdulGorsel odul={odul} boyut={odulCerceveSanati(odul) ? 52 : 38} />
@@ -154,7 +157,8 @@ function Kutu({ odul, durum, bpVar, yeniAlindi, mesgul, onSec, onAl }) {
         {odul.alindi && <span className="sy-kutu-tik" aria-hidden="true"><QtIkon ad="onay" boyut={12} /></span>}
       </span>
       <span className="sy-kutu-alt" aria-hidden="true">
-        {al && <span className="sy-kutu-al">{tt("Al|görev")}</span>}
+        {al && <span className="sy-kutu-al">{tt("Al|görev")}{sahipCoinli && <> · +{sahipCoin} <CoinIkon boyut={11} /></>}</span>}
+        {!al && sahipCoinli && <span className="sy-kutu-not sy-kutu-sahip">{tt("Sahipsin")} · +{sahipCoin} <CoinIkon boyut={11} /></span>}
         {odul.alindi && <span className="sy-kutu-alindi"><QtIkon ad="onay" boyut={11} />{tt("alındı")}</span>}
       </span>
     </button>
@@ -188,10 +192,11 @@ function TasmaKutu({ kol, durum, bpVar, onTasma }) {
 export default function DikeyYol({ durum, toplam, bpVar, harita, yeniAlinan, yeniAcilan, mesgul, onSec, onAl, onTasma, parla = null, finalUnvan = null }) {
   const duraklar = Array.from({ length: toplam }, (_, i) => i + 1);
   const seviye = Number(durum.seviye ?? 0);
+  const sahipCoin = useAyar("bp_avatar_sahipse_coin", 200);   // 1039
   const kutu = (n, kol) => {
     const o = harita.get(`${n}:${kol}`);
     if (!o) return <span className="sy-kutu-bos" />;
-    return <Kutu odul={o} durum={durum} bpVar={bpVar} yeniAlindi={yeniAlinan.has(`${n}:${kol}`)} mesgul={mesgul} onSec={onSec} onAl={onAl} />;
+    return <Kutu odul={o} durum={durum} bpVar={bpVar} yeniAlindi={yeniAlinan.has(`${n}:${kol}`)} mesgul={mesgul} onSec={onSec} onAl={onAl} sahipCoin={sahipCoin} />;
   };
   return (
     <ol className={`sy-dikey sy-dikey--bp-${bpVar ? "var" : "yok"}`} aria-label={tt("Sezon Yolu ödülleri")}>

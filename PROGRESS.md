@@ -11275,3 +11275,18 @@ Kaldırıldı: "Hazine sende: {k} puan" başlığı, AÇ alt yazısı "Skor x/y"
 - Geçiş (yalnız insan): takılı avatarı kilitlenen 1 hesaba `hediye` (Kedili Kız), level'ı eşiği geçen 2 hesaba 5 `level` sahipliği
   (Lv 26: Kedili Kız, Viking, Dedektif, Şövalye · Lv 10: Viking). Botlara satır yok; `avatar_onayla` değişmedi.
 - Test: `node araclar/avatar-edinme-1039-sql-testi.mjs` (ROLLBACK, 45/45; canlıdan sonra `--canli`). Geri alma `docs/avatar-edinme-1039-geri-al.sql`.
+
+## 2026-10-10 — Avatar edinme (1039) ekranları
+**Araç:** Claude Code
+**Neden:** 1039'un edinme kuralları oyuncuya tek, kısa satırla görünsün (Ida onaylı tasarım, 9 Eki 2026).
+
+- Kilitli avatar kartı `components/AvatarEdinme.jsx` (Dükkân, Profil › avatar, Koleksiyon, Kurulum aynı bileşen): büyük görsel + nadirlik +
+  tek satır "Lv 25'te açılır · sen Lv 12" / "Sezon Yolu · Ücretsiz kol · Seviye 10" / "750 coin · Al" / "150 elmas · Al" (+ "ya da Sezon Yolu ·
+  Seviye 19"); alınca "Tak". Elmas alımı Dükkân'da mevcut D-301 onayından. Köşe işareti `AvatarKilitRozeti s=…` (Lv · bayrak · coin · elmas).
+- Dükkân: coin'li Nadir avatarlar coin fiyatıyla, level/Sezon Yolu avatarları durum satırında "Lv 25" / "Sezon Yolu"; kural şeridi
+  "Jokerler · Nadir avatarlar — coin" / "Öteki kozmetikler — elmas".
+- Profil level alanı `LevelOdulleri` (sıradaki 3 ödül). Maç sonu (`MacSonuKutlama`, `LevelKazanci`) "Yeni avatar: X" / "X zaten sende · +200 coin".
+  Sezon Yolu yuvası "Sahipsin · +200 ●", ödül sayfası "yerine 200 coin". README avatar satırı, PROJECT_CONTEXT (avatar, dükkân, level, Sezon Yolu).
+- Ekran testi `araclar/avatar-edinme-ekran.mjs` (taklit; REST yanıtları süreç içinde önbellekli → canlıya her istek en çok bir kez):
+  TR 96/96, EN 360+390 tam geçti. Not: art arda tam matris koşuları canlı ağ geçidinde Gateway Timeout üretti → önbellek eklendi.
+  `npm run build` temiz.

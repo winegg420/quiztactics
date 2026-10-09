@@ -20,7 +20,8 @@ import { supabase } from "../../src/lib/supabase.js";
 import CerceveliAvatar from "./CerceveliAvatar.jsx";
 import IsimEfekti from "./IsimEfekti.jsx";
 import { VsKarti } from "./AramaSahnesi.jsx";
-import { ElmasFiyat, ElmasliSatinAlOnayi } from "./DukkanAuralar.jsx";
+import { CoinFiyat, ElmasFiyat, ElmasliSatinAlOnayi } from "./DukkanAuralar.jsx";
+import { AvatarEdinmeKarti } from "./AvatarEdinme.jsx";
 import { KAYIT as ARKA_PLAN_KAYIT } from "../tasarim/arka-plan/kayit.jsx";
 import { useArkaPlanAcik } from "../lib/arkaPlanBayrak.js";
 import { KOZMETIK_TANIMLARI, TEPKI_TANIMLARI, kozmetikHatasi, kozmetikKatalogu, kozmetikSatinAl, kozmetikTak, kozmetikTemasi, sahipMi, tepkiGorseli } from "../lib/kozmetik.js";
@@ -471,16 +472,18 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
   const sahiplik = useAvatarSahiplik();
   const ucretli = (a) => {
     const s = sahiplik.get(a.url);
-    return s ? { ...a, ucretli: true, fiyat_elmas: s.fiyat, sahibim: s.sahibim, kullanabilir: s.sahibim, kapali: !s.sahibim && !s.satilik } : a;
+    // 1039: para = coin | elmas (Dükkân'da satılan); level / sezon avatarları satılmaz (para null)
+    return s ? { ...a, ucretli: true, para: s.edinme === "coin" || s.edinme === "elmas" ? s.edinme : null, fiyat_elmas: s.fiyat, sahibim: s.sahibim, kullanabilir: s.sahibim, kapali: !s.sahibim && !s.satilik } : a;
   };
   const liste = [
     ...hazirAvatarlar.map((a, i) => ({ anahtar: a.url, url: a.url, ad_tr: a.ad, ad_en: a.ad, tur: "hazir", fiyat_elmas: 0,
       sira: -100 + i, kullanabilir: true, kapali: false, sahibim: false })),
     ...[...(avatarlar ?? [])].sort((a, b) => (a.sira ?? 0) - (b.sira ?? 0)),
-  ].map(ucretli).filter((a) => !yalnizUcretli || a.ucretli);
+  ].map(ucretli).filter((a) => !yalnizUcretli || (a.ucretli && a.para));   // 1039: Dükkân'da yalnız coin / elmasla satılanlar
   const [secili, setSecili] = useState(() => liste.find((a) => profile?.avatar_url === a.url)?.anahtar ?? liste[0]?.anahtar ?? null);
   const [islem, setIslem] = useState(null);
   const [onayAcik, setOnayAcik] = useState(false);   // D-301
+  const [edinmeAcik, setEdinmeAcik] = useState(false);   // 1039: kilitli avatar kartı (coin alımı burada; elmas → D-301 onayı)
   const [takPenceresi, setTakPenceresi] = useState(false);   // listeden dokunuş: sahip olunan / bedava avatar için Tak penceresi
   const [pencereMesaj, setPencereMesaj] = useState(null);    // pencerenin içinde görünür sonuç mesajı
   // Yalnız ücretli liste sahiplik durumundan süzülür: durum okunana dek "satışta bir şey yok" yerine iskelet (okunamazsa boş durum).
@@ -538,7 +541,8 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
   const listedenSec = (a) => {
     setSecili(a.anahtar);
     setPencereMesaj(null);
-    if (!a.kullanabilir && !a.kapali && a.fiyat_elmas != null) setOnayAcik(true);
+    if (a.ucretli && !a.sahibim) setEdinmeAcik(true);
+    else if (!a.kullanabilir && !a.kapali && a.fiyat_elmas != null) setOnayAcik(true);
     else setTakPenceresi(true);
   };
 
@@ -557,6 +561,7 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
           <p className="qt-kucuk qt-soluk">
             {c.ucretli ? (c.sahibim ? tt("{nadirlik} avatar — senin.", { nadirlik: nadirlikAdi(c) ?? "" }).trim()
                 : c.kapali ? tt("{nadirlik} avatar — şu an satışta değil.", { nadirlik: nadirlikAdi(c) ?? "" }).trim()
+                : c.para === "coin" ? tt("{nadirlik} avatar — coin'le alınır.", { nadirlik: nadirlikAdi(c) ?? "" }).trim()
                 : tt("{nadirlik} avatar — elmasla alınır.", { nadirlik: nadirlikAdi(c) ?? "" }).trim())
               : nadirlikAdi(c) ? tt("{nadirlik} avatar — bedava.", { nadirlik: nadirlikAdi(c) })
               : c.tur === "kostumlu" ? (c.fiyat_elmas > 0 ? tt("Kostümlü avatar — elmasla alınır.") : tt("Kostümlü avatar — bedava.")) : tt("Günlük avatar — bedava.")}
@@ -570,8 +575,8 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
               {tt("Tak")}
             </QtDugme>
           ) : !c.kapali && c.fiyat_elmas != null ? (
-            <QtDugme tur="dogru" tamGenislik yukleniyor={islem === "al"} onClick={() => { dokunus(); setOnayAcik(true); }} aria-haspopup="dialog">
-              <span className="qt-dc-fiyat">{tt("Satın al")} <ElmasFiyat fiyat={c.fiyat_elmas} boyut={18} /></span>
+            <QtDugme tur="dogru" tamGenislik yukleniyor={islem === "al"} onClick={() => { dokunus(); if (c.para === "coin") setEdinmeAcik(true); else setOnayAcik(true); }} aria-haspopup="dialog">
+              <span className="qt-dc-fiyat">{tt("Satın al")} {c.para === "coin" ? <CoinFiyat fiyat={c.fiyat_elmas} boyut={18} /> : <ElmasFiyat fiyat={c.fiyat_elmas} boyut={18} />}</span>
             </QtDugme>
           ) : (
             <QtDugme tur="ikincil" tamGenislik devreDisi ikon="kilit">{tt("Satılmıyor")}</QtDugme>
@@ -592,6 +597,13 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
           onOnay={satinAl}
           onKapat={() => setOnayAcik(false)}
         />
+      )}
+      {edinmeAcik && c.ucretli && (
+        <AvatarEdinmeKarti url={c.url} ad={ad(c)} s={sahiplik.get(c.url)}
+          onKapat={() => setEdinmeAcik(false)}
+          onElmasAl={() => { setEdinmeAcik(false); setOnayAcik(true); }}
+          onAlindi={() => { onBilgi?.(tt("{ad} senin. Şimdi takabilirsin.", { ad: ad(c) })); yenile?.(); kutla(c.anahtar, {}, { his: "buyuk" }); }}
+          onTak={() => { setEdinmeAcik(false); tak(); }} />
       )}
       {takPenceresi && (
         <QtModal acik tur="altSayfa" onKapat={() => setTakPenceresi(false)} baslik={ad(c)}
@@ -630,11 +642,14 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
                   {etiketNadirligi(nadirlik(a)) && <NadirlikEtiketi nadirlik={etiketNadirligi(nadirlik(a))} />}
                   <span className="qt-av-kilit-kutu">
                     <CerceveliAvatar profile={{ ...(profile ?? {}), gorunen_avatar: a.url, avatar_url: a.url }} userId={user?.id} boyut={64} />
-                    {a.ucretli && !a.sahibim && <AvatarKilitRozeti />}
+                    {a.ucretli && !a.sahibim && <AvatarKilitRozeti s={sahiplik.get(a.url)} />}
                   </span>
                   <span className="qt-dc-ad">{ad(a)}</span>
                   <span className="qt-dc-durum">
-                    {profile?.avatar_url === a.url ? tt("Takılı") : a.ucretli ? (a.sahibim ? <span className="qt-dc-sahip"><QtIkon ad="onay" boyut={12} /> {tt("Sahip olunan")}</span> : a.fiyat_elmas != null && !a.kapali ? <ElmasFiyat fiyat={a.fiyat_elmas} /> : <><QtIkon ad="kilit" boyut={12} /> {tt("Kapalı")}</>)
+                    {profile?.avatar_url === a.url ? tt("Takılı") : a.ucretli ? (a.sahibim ? <span className="qt-dc-sahip"><QtIkon ad="onay" boyut={12} /> {tt("Sahip olunan")}</span> : a.fiyat_elmas != null && !a.kapali ? (a.para === "coin" ? <CoinFiyat fiyat={a.fiyat_elmas} /> : <ElmasFiyat fiyat={a.fiyat_elmas} />)
+                      : sahiplik.get(a.url)?.edinme === "level" ? <><QtIkon ad="kilit" boyut={12} /> {tt("Lv {n}", { n: sahiplik.get(a.url).edinme_level })}</>
+                      : sahiplik.get(a.url)?.edinme === "sezon" ? <><QtIkon ad="bayrak" boyut={12} /> {tt("Sezon Yolu")}</>
+                      : <><QtIkon ad="kilit" boyut={12} /> {tt("Kapalı")}</>)
                       : a.sahibim || a.tur === "gunluk" || a.tur === "hazir" || (a.kullanabilir && !(a.fiyat_elmas > 0)) ? <span className="qt-dc-sahip"><QtIkon ad="onay" boyut={12} /> {tt("Sahip olunan")}</span>
                       : a.fiyat_elmas != null && !a.kapali ? <ElmasFiyat fiyat={a.fiyat_elmas} /> : <><QtIkon ad="kilit" boyut={12} /> {tt("Kapalı")}</>}
                   </span>

@@ -54,7 +54,8 @@ import { sesMacSonu, sesMuzikSahne } from "../lib/ses.js";
 import { coinTazele } from "../lib/coin.js";
 import { sezonTazele, useSezonOzeti } from "../lib/sezonYolu.js";
 import SezonZaferSeridi from "./sezon/SezonZaferSeridi.jsx";
-import { tt, ttSunucu } from "../lib/dil.js";
+import { aktifDil, tt, ttSunucu } from "../lib/dil.js";
+import { NadirlikImg } from "./AvatarNadirlikGoruntu.jsx";
 import { adKisalt } from "../lib/adKisalt.js";
 import "../tasarim/ekranlar/mac-sonu-kutlama.css";
 
@@ -118,7 +119,9 @@ function xpOranlari(v) {
   } else {
     a = (simdi - xp) / gereken;
   }
-  return { a: yuzde(a), b: yuzde(simdi / gereken), atladi, xp, level: Number(v.level_sonra ?? v.level) || 1, kalan: Math.max(0, gereken - simdi) };
+  // 1039: level atlarken kazanılan avatar(lar) — sunucu level_kazancim.avatarlar
+  const avatarlar = atladi && Array.isArray(v.avatarlar) ? v.avatarlar.filter((x) => x?.url) : [];
+  return { a: yuzde(a), b: yuzde(simdi / gereken), atladi, xp, level: Number(v.level_sonra ?? v.level) || 1, kalan: Math.max(0, gereken - simdi), avatarlar };
 }
 
 /** Karşılaşmadaki bir taraf. rol: kazanan | kaybeden | esit */
@@ -631,6 +634,15 @@ function MacSonuKutlama({
                 <span className="msk-levelup-rozet" role="status">{tt("LEVEL {n}!", { n: xpv.level })}</span>
               </div>
             )}
+            {xpv.atladi && xpv.avatarlar.map((av) => {
+              const avAd = (aktifDil() === "en" ? av.ad_en : av.ad_tr) ?? av.ad_tr ?? "";
+              return (
+                <div key={av.anahtar} className="msk-levelup-avatar" role="status">
+                  <NadirlikImg src={av.url} alt="" width="44" height="44" decoding="async" />
+                  <span>{av.sahipti ? tt("{ad} zaten sende · +{n} coin", { ad: avAd, n: av.coin }) : tt("Yeni avatar: {ad}", { ad: avAd })}</span>
+                </div>
+              );
+            })}
             <span className="msk-xp-kalan">{tt("Level {n} için {xp} XP", { n: xpv.level + 1, xp: xpv.kalan })}</span>
           </div>
         )}

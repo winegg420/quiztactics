@@ -660,6 +660,7 @@ button.sy-afis { cursor: pointer; -webkit-tap-highlight-color: transparent; touc
 .sy-kutu-alt { display: grid; place-items: center; height: 18px; font-size: var(--qt-y-xs); line-height: 1; white-space: nowrap; }
 .sy-kutu-alindi { display: inline-flex; align-items: center; gap: 3px; font-weight: var(--qt-a-kalin); color: var(--qt-zemin-soluk); }
 .sy-kutu-not { font-weight: var(--qt-a-kalin); color: var(--qt-zemin-soluk); }
+.sy-kutu-sahip, .sy-kutu-al:has(svg) { display: inline-flex; align-items: center; gap: 2px; }   /* 1039: "Sahipsin · +200 ●" */
 .sy-kutu-al {
   display: grid; place-items: center; min-width: 44px; height: 18px; padding: 0 var(--qt-b-2); box-sizing: border-box; border-radius: var(--qt-r-hap);
   background: var(--qt-dogru); color: var(--qt-dogru-yazi); font-weight: var(--qt-a-siyah);   /* AL = yeşil (renk rolleri, 7 Eki 2026) */

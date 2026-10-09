@@ -498,11 +498,11 @@ export default function JokerDukkani() {
       <ul className="qt-dk-kural" aria-label={tt("Dükkân kuralı")}>
         <li className={sinif("qt-dk-kural-oge qt-dk-kural-oge--coin", sekmeParasi === "coin" && "qt-dk-kural-oge--acik")}>
           <CoinIkon boyut={22} />
-          <span><b>{tt("Jokerler")}</b><small>{tt("coin ile alınır")}</small></span>
+          <span><b>{tt("Jokerler · Nadir avatarlar")}</b><small>{tt("coin ile alınır")}</small></span>
         </li>
         <li className={sinif("qt-dk-kural-oge qt-dk-kural-oge--elmas", sekmeParasi === "elmas" && "qt-dk-kural-oge--acik")}>
           <ElmasIkon boyut={22} />
-          <span><b>{tt("Kozmetikler")}</b><small>{tt("elmas ile alınır")}</small></span>
+          <span><b>{tt("Öteki kozmetikler")}</b><small>{tt("elmas ile alınır")}</small></span>
         </li>
       </ul>
 
@@ -527,7 +527,7 @@ export default function JokerDukkani() {
             <section className="qt-dk-bolum" aria-labelledby="qt-dk-avatarlar">
               <div className="qt-dk-bolum-ust qt-dk-bolum-ust--elmas">
                 <h2 id="qt-dk-avatarlar" className="qt-baslik-2">{tt("Avatarlar")}</h2>
-                <p className="qt-kucuk">{tt("Epik ve Efsanevi avatarlar elmasla alınır; Yaygın ve Nadir olanlar bedava.")}</p>
+                <p className="qt-kucuk">{tt("Nadir avatarlar coin'le, öteki kozmetikler elmasla.")}</p>
               </div>
               <DukkanAvatarlar avatarlar={kozmetik.avatarlar} sahipHesap={kozmetik.sahipHesap} yenile={kozmetik.yenile} sirali={sirali}
                 elmasYetmedi={elmasKazanGoster} elmasBakiye={elmas.bakiye}

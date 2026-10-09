@@ -30,6 +30,7 @@ import { aktifDil } from "../lib/dil.js";
 import { avatarKilitliMi, useAvatarSahiplik, useHazirAvatarlar } from "../lib/avatarKatalogu.js";
 import { nadirligeGoreBolumle, useNadirlikHaritasi } from "../../src/lib/avatarNadirlik.js";
 import { AvatarBolumBasligi, AvatarKilitRozeti, NadirlikImg } from "./AvatarNadirlikGoruntu.jsx";
+import { AvatarEdinmeKarti } from "./AvatarEdinme.jsx";
 import { cerceveKatalogu, cerceveTak, auraKatalogu, auraTak, oyuncuKartiUnut } from "../lib/cerceve.js";
 import { LIG_ADLARI } from "../lib/lig.js";
 import { hataMesaji } from "../lib/hata.js";
@@ -56,6 +57,7 @@ export default function Koleksiyon() {
   const hazirAvatarlar = useHazirAvatarlar();   // 701: açılmamış hazır avatarlar süzülür
   const nadirlikHaritasi = useNadirlikHaritasi();   // 770: bayrak açıkken nadirliğe göre bölümler
   const avatarSahiplik = useAvatarSahiplik();   // 820: Epik / Efsanevi avatar kilitli görünür, seçilemez
+  const [edinmeAvatar, setEdinmeAvatar] = useState(null);   // 1039: kilitli avatara dokununca edinme kartı
   const { user, profile, refreshProfile } = useAuth();
   const [cerceveler, setCerceveler] = useState(null);
   const [auralar, setAuralar] = useState(null);
@@ -357,7 +359,7 @@ export default function Koleksiyon() {
         {/* 820: kilitli avatar (sahip olunmayan Epik / Efsanevi) seçilemez — nereden alınacağı burada yazar */}
         {[...avatarSahiplik.values()].some((s) => !s.sahibim) && (
           <p className="qt-kucuk qt-soluk">
-            {tt("Kilitli avatarlar Dükkân'da elmasla alınır ya da Sezon Yolu'nda kazanılır.")}{" "}
+            {tt("Kilitli avatarlar level, Sezon Yolu ya da Dükkân ile açılır.")}{" "}
             <Link to={y("/joker?sekme=avatar")}>{tt("Dükkân'a git")}</Link>
           </p>
         )}
@@ -378,10 +380,10 @@ export default function Koleksiyon() {
                     <button type="button" className={"qt-cs-oge qt-ks-avatar" + (kilitli ? " qt-av-kilitli" : "")} aria-pressed={secili} disabled={Boolean(mesgul)}
                             aria-disabled={kilitli || undefined}
                             aria-label={kilitli ? tt("{ad} — kilitli", { ad: a.ad }) : tt("{0} avatarını seç", { 0: a.ad })}
-                            onClick={() => { if (!kilitli) avatarSec(a.url); }}>
+                            onClick={() => { if (kilitli) setEdinmeAvatar(a); else avatarSec(a.url); }}>
                       <span className="qt-av-kilit-kutu">
                         <NadirlikImg src={a.url} alt="" loading="lazy" decoding="async" width="56" height="56" />
-                        {kilitli && <AvatarKilitRozeti />}
+                        {kilitli && <AvatarKilitRozeti s={avatarSahiplik.get(a.url)} />}
                       </span>
                       <span className="qt-cs-ad">{a.ad}</span>
                     </button>
@@ -391,6 +393,11 @@ export default function Koleksiyon() {
             </Fragment>
           ))}
         </ul>
+        {edinmeAvatar && (
+          <AvatarEdinmeKarti url={edinmeAvatar.url} ad={edinmeAvatar.ad} s={avatarSahiplik.get(edinmeAvatar.url)}
+            onKapat={() => setEdinmeAvatar(null)}
+            onTak={(url) => { setEdinmeAvatar(null); avatarSec(url); }} />
+        )}
       </QtKart>
     </div>
   );

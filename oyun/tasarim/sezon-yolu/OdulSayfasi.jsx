@@ -16,6 +16,7 @@ import UnvanYazisi from "../../components/UnvanYazisi.jsx";
 import "../ekranlar/dukkan-cerceve.css";   // .qt-dc-nadirlik (NadirlikEtiketi'nin stili)
 import { ArkaPlanOdulGorsel, OdulGorsel, odulArkaPlani, odulAvatarAdresi } from "./OdulGorsel.jsx";
 import { TacIkon } from "./simgeler.jsx";
+import { useAyar } from "../../lib/ayarlar.js";
 
 /** Ödül avatarının adresi (822: veri.url; eski alanlar da okunur) — tek kaynak OdulGorsel.jsx. */
 const avatarAdresi = odulAvatarAdresi;
@@ -93,6 +94,7 @@ function Onizleme({ odul, ad, profile, userId }) {
 export default function OdulSayfasi({ odul, durum, dil, userId, profile, onKapat, onBpAl, onAlindi }) {
   const [calisiyor, setCalisiyor] = useState(false);
   const [hata, setHata] = useState(null);
+  const sahipCoin = useAyar("bp_avatar_sahipse_coin", 200);   // 1039: sahip olunan avatar ödülü yerine coin
   const canli = useRef(true);
   useEffect(() => { canli.current = true; return () => { canli.current = false; }; }, []);
   const bpVar = Boolean(durum.bp?.aktif);
@@ -150,7 +152,9 @@ export default function OdulSayfasi({ odul, durum, dil, userId, profile, onKapat
           {/* 822: avatar / arka plan ödülüne dükkândan ya da önceki ödülden zaten sahip */}
           {odul.sahip && <QtRozet ton="bilgi" ikon="onay">{tt("Zaten sahipsin")}</QtRozet>}
         </div>
-        {odul.sahip && !odul.alindi && <p className="sy-not">{tt("Bu ödül sende var. Alınca alınmış sayılır; yeniden verilmez.")}</p>}
+        {odul.sahip && !odul.alindi && <p className="sy-not">{odul.tur === "avatar" && sahipCoin > 0
+          ? tt("Bu avatar sende var. Alınca yerine {n} coin alırsın.", { n: sahipCoin })
+          : tt("Bu ödül sende var. Alınca alınmış sayılır; yeniden verilmez.")}</p>}
         {nedenler.length > 0 && (
           <ul className="sy-neden" role="status">
             {nedenler.map((n) => <li key={n}><QtIkon ad="kilit" boyut={16} /><span>{n}</span></li>)}

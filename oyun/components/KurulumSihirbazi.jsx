@@ -14,6 +14,7 @@ import { DavetKoduGir } from "./DavetKarti.jsx";
 import { avatarKilitliMi, useAvatarSahiplik, useHazirAvatarlar, useKatalogAvatarlari } from "../lib/avatarKatalogu.js";
 import { nadirligeGoreBolumle, useNadirlikHaritasi } from "../../src/lib/avatarNadirlik.js";
 import { AvatarBolumBasligi, AvatarKilitRozeti, NadirlikImg } from "./AvatarNadirlikGoruntu.jsx";
+import { AvatarEdinmeKarti } from "./AvatarEdinme.jsx";
 import "../tasarim/ekranlar/g-ortak.css";
 import "../tasarim/ekranlar/g-kurulum.css";
 
@@ -37,6 +38,7 @@ export default function KurulumSihirbazi({ onTamam }) {
   const hazirAvatarlar = useHazirAvatarlar();   // 701: açılmamış hazır avatarlar süzülür
   const nadirlikHaritasi = useNadirlikHaritasi();   // 770: bayrak açıkken nadirliğe göre bölümler
   const avatarSahiplik = useAvatarSahiplik();   // 820: Epik / Efsanevi avatar kilitli görünür, seçilemez
+  const [edinmeAvatar, setEdinmeAvatar] = useState(null);   // 1039: kilitli avatara dokununca edinme kartı
   const [googleFoto, setGoogleFoto] = useState(null);
   const [ulkeler, setUlkeler] = useState([]);
   const [sehirler, setSehirler] = useState([]);
@@ -242,19 +244,24 @@ export default function KurulumSihirbazi({ onTamam }) {
                         aria-label={kilitli ? ceviri("{ad} — kilitli", { ad: ceviri(a.ad) }) : ceviri("{ad} avatarını seç", { ad: ceviri(a.ad) })}
                         title={ceviri(a.ad)}
                         onClick={() => {
-                          if (kilitli) { setHata(ceviri("Bu avatar kilitli. Kurulumdan sonra Dükkân'dan elmasla alabilirsin.")); return; }
+                          if (kilitli) { setHata(null); setEdinmeAvatar({ url: a.url, ad: ceviri(a.ad) }); return; }
                           setHata(null);
                           setSecilenAvatar(a.url);
                         }}
                       >
                         <NadirlikImg src={a.url} alt="" loading="lazy" />
-                        {kilitli && <AvatarKilitRozeti />}
+                        {kilitli && <AvatarKilitRozeti s={avatarSahiplik.get(a.url)} />}
                       </button>
                     );
                   })}
                 </Fragment>
               ))}
             </div>
+            {edinmeAvatar && (
+              <AvatarEdinmeKarti url={edinmeAvatar.url} ad={edinmeAvatar.ad} s={avatarSahiplik.get(edinmeAvatar.url)}
+                onKapat={() => setEdinmeAvatar(null)}
+                onTak={(url) => { setEdinmeAvatar(null); setHata(null); setSecilenAvatar(url); }} />
+            )}
 
             {hataNotu}
 
