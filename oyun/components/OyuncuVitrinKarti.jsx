@@ -22,6 +22,7 @@ import { oyuncuKarti, oyuncuKartiDinle } from "../lib/cerceve.js";
 import { KartArkaPlanKatmani, kartArkaPlanSinifi, useKartArkaPlani } from "../tasarim/arka-plan/kayit.jsx";
 import { LIG_ADLARI } from "../lib/lig.js";
 import { BpKartCerceve } from "../tasarim/lig-sahnesi/BpCizimler.jsx";
+import LigSahneArka from "../tasarim/lig-sahnesi/LigSahneArka.jsx";
 import LigSahnesiImza from "../tasarim/lig-sahnesi/LigSahnesiImza.jsx";
 import { tt } from "../lib/dil.js";
 import "../tasarim/ekranlar/oyuncu-vitrin-karti.css";
@@ -83,9 +84,10 @@ export function KartLigSatiri({ lig, level, yazi = true, amblem = 22, bp = false
 }
 
 export default function OyuncuVitrinKarti({ userId, profile, kart: verilenKart, boyut = 88, hareketli = false, kompakt = false,
-  className = "", avatarEk = null, adEk = null, arkaPlan = false, ligSahnesi = false, sahneImza = false, koleksiyonCipi = true, bp, bpHalkasiYok = false, varyant = null, children }) {
+  className = "", avatarEk = null, adEk = null, arkaPlan = false, ligSahnesi = false, sahneImza = false, koleksiyonCipi = true, bp, bpHalkasiYok = false, varyant = null, ligVaryant = null, sahneArka = null, children }) {
   // 9 Eki: `varyant` ("v1"|"v2"|"v3") yalnız /lig-sahne-onizleme verir — köşeli BP kart çerçevesi (SVG; avatar arkası halka yok)
   // + Elmas/Efsane yeni çerçeve. null (canlıdaki her kullanım) → DOM ve görünüm eskisiyle aynı.
+  // 9 Eki (4. tur): ligVaryant (Elmas/Efsane çizimi, ör. "onayli") ve sahneArka ("a1"|"a2"|"a3" yeni arka plan) yalnız önizleme.
   const kart = useOyuncuKarti(userId, verilenKart);
   // 30 Eyl: arkaPlan → takılı kart arka planı kartın arkasında (yalnız profil sayfası ister; diğer kullananlar aynı)
   const arkaPlanSanat = useKartArkaPlani(arkaPlan ? userId : null, kart ?? undefined);
@@ -102,13 +104,14 @@ export default function OyuncuVitrinKarti({ userId, profile, kart: verilenKart, 
       {bpAktif && varyant && <BpKartCerceve varyant={varyant} />}
       <KartArkaPlanKatmani sanat={arkaPlanSanat} hareketli={hareketli} yukseklik={220} duzen="dikey" />
       {imza && <LigSahnesiImza lig={kart?.lig} />}
+      {ligSahnesi && sahneArka && kart?.lig && <LigSahneArka lig={kart.lig} seviye={sahneArka} />}
       {ligSahnesi && kart?.lig && (
         <span className="qt-ok-filigran" aria-hidden="true">
           <LigAmblemi lig={kart.lig} boyut={140} />
         </span>
       )}
       <div className="qt-ok-avatar">
-        <CerceveliAvatar profile={profil} userId={userId} boyut={boyut} hareketli={hareketli} {...(kart ? { kart } : {})} {...(bpHalkasiYok ? { sezonBp: false } : {})} {...(varyant ? { ligVaryant: varyant } : {})} />
+        <CerceveliAvatar profile={profil} userId={userId} boyut={boyut} hareketli={hareketli} {...(kart ? { kart } : {})} {...(bpHalkasiYok ? { sezonBp: false } : {})} {...(ligVaryant || varyant ? { ligVaryant: ligVaryant ?? varyant } : {})} />
         {avatarEk}
       </div>
       <p className="qt-ok-ad">

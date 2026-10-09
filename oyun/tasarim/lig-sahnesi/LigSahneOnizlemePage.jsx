@@ -2,6 +2,8 @@
 // Menüde yok; giriş yapmış herkese açık (veri yok, sunucuya istek atmaz); tembel parça. Kartlar OYUNDAKİ gerçek
 // OyuncuVitrinKarti + gerçek lig çerçevesi + gerçek avatarla çizilir; 9 Eki: "Yeni" sekmesi kaldırıldı; V1/V2/V3 = Eski + `varyant`
 // (köşeli BP kart çerçevesi, avatar arkası BP halkası, Elmas/Efsane yeni çerçeve — BpCizimler.jsx).
+// 9 Eki (4. tur): sekmeler "Eski" / "Yeni". Yeni = onaylı Elmas/Efsane (V2) + bağımsız "Çerçeve 1/2/3" (BP açıkken)
+// ve "Arka plan 1/2/3" (LigSahneArka.jsx) seçicileri; her kombinasyon 5 ligi alt alta gösterir.
 import { useEffect, useState } from "react";
 import OyuncuVitrinKarti from "../../components/OyuncuVitrinKarti.jsx";
 import { LIG_ADLARI } from "../../lib/lig.js";
@@ -27,7 +29,10 @@ const kartYap = (lig, i, bp) => ({
 });
 
 export default function LigSahneOnizlemePage() {
-  const [surum, setSurum] = useState("v1");
+  const [surum, setSurum] = useState("yeni");
+  const [cerceve, setCerceve] = useState("v1");
+  const [arka, setArka] = useState("a1");
+  const yeni = surum === "yeni";
   const [bp, setBp] = useState(false);
   useEffect(() => {
     try { document.title = `Quiz Tactics — ${tt("Lig sahnesi önizleme")}`; } catch { /* başlık kritik değil */ }
@@ -41,18 +46,26 @@ export default function LigSahneOnizlemePage() {
         </header>
         <div className="lso-arac">
           <QtSekmeler etiket={tt("Sahne sürümü")} aktif={surum} onSec={setSurum}
-            sekmeler={[{ kod: "eski", ad: tt("Eski") },
-              { kod: "v1", ad: "V1" }, { kod: "v2", ad: "V2" }, { kod: "v3", ad: "V3" }]} />
+            sekmeler={[{ kod: "eski", ad: tt("Eski") }, { kod: "yeni", ad: tt("Yeni") }]} />
           <label className="lso-bp">
             <input type="checkbox" checked={bp} onChange={(e) => setBp(e.target.checked)} />
             <span>{tt("Battle Pass çerçevesi")}</span>
           </label>
         </div>
+        {yeni && (
+          <div className="lso-arac">
+            <QtSekmeler etiket={tt("Çerçeve")} aktif={cerceve} onSec={setCerceve}
+              sekmeler={[1, 2, 3].map((n) => ({ kod: `v${n}`, ad: tt("Çerçeve {n}", { n }) }))} />
+            <QtSekmeler etiket={tt("Arka plan")} aktif={arka} onSec={setArka}
+              sekmeler={[1, 2, 3].map((n) => ({ kod: `a${n}`, ad: tt("Arka plan {n}", { n }) }))} />
+          </div>
+        )}
         <div className="lso-izgara">
           {LIGLER.map((lig, i) => (
             <section key={lig} className="lso-hucre" aria-label={tt("{lig} Lig", { lig: tt(LIG_ADLARI[lig] ?? lig) })}>
-              <OyuncuVitrinKarti key={`${lig}-${surum}-${bp}`} kart={kartYap(lig, i, bp)} boyut={88} ligSahnesi
-                bpHalkasiYok={surum !== "eski"} varyant={surum === "eski" ? null : surum} koleksiyonCipi={false} />
+              <OyuncuVitrinKarti key={`${lig}-${surum}-${cerceve}-${arka}-${bp}`} kart={kartYap(lig, i, bp)} boyut={88} ligSahnesi
+                bpHalkasiYok={yeni} varyant={yeni ? cerceve : null} ligVaryant={yeni ? "onayli" : null}
+                sahneArka={yeni ? arka : null} koleksiyonCipi={false} />
             </section>
           ))}
         </div>

@@ -11144,3 +11144,10 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
   V1 kabartmalı levha + L köşe + üst/alt yakut; V2 çift kenar + baklava kanalı + kare mücevher yuvası; V3 yaprak oymalı rölyef + kare madalyon + yıldızlı tepelik.
 - Elmas/Efsane çerçeveleri Bronz/Gümüş/Altın ailesinden (aynı gövde r56–74, 8 perçin, tepelik, ayak plakası) sıfırdan: V1 sade, V2 işlemeli, V3 zengin.
 - Canlı değişmedi (yalnız `varyant` prop'u). Ekranlar: tasarim/lig-sahne-v-adim3/ (commit dışı). Test misafiri silindi.
+
+## 9 Eki 2026 — Lig sahne önizleme 4. tur (Claude)
+- Sekmeler "Eski" / "Yeni". Yeni: bağımsız "Çerçeve 1/2/3" (BP açıkken) × "Arka plan 1/2/3", 5 lig alt alta.
+- BP kart çerçevesi sıfırdan (BpCizimler.jsx KartV1-3, düz 90° köşe): 1 kabartmalı levha + L köşe + yakut levha; 2 lacivert mineli kanallı kraliyet + kare taş yuvası; 3 sarmaşık oyma + gül madalyon + taç tepelik.
+- Elmas/Efsane V2 onaylı → `ONAYLI_LIG_CERCEVE` (varyant "onayli"); canlıya bağlı değil.
+- Yeni arka plan: LigSahneArka.jsx (a1 sade, a2 orta, a3 zengin; lige özgü motif, yarım-ton köşe). Prop: sahneArka, ligVaryant.
+- Canlı değişmedi (yeni proplar yalnız önizlemede). Test: taklit Supabase ile yerel ekran, 11 kombinasyon, 480+390 px, taşma/konsol hatası yok.
