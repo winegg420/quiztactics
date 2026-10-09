@@ -11097,3 +11097,12 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - Değiştirmek tek satır: 1037'deki update'te anahtar. Ad/nadirlik/url `trg_bp_odul_doldur` ile dolar. Geri alma: `docs/1037-geri-al.sql`. Sezon 2+ Sezon 1'i tekrar ettiği için ayrı veri yazılmadı.
 - DB ölçümü: `placeholder=true` satır sayısı 0. Build temiz.
 - "Test modunda açık" yazısı: kodda gösteren yer YOK (önceki işte kaldırılmış, bkz. yukarıdaki kayıt); yalnız çeviri anahtarı duruyor (silinmedi). Kod değişikliği gerekmedi.
+
+## 2026-10-09 — Disk IO kök azaltma (canlı test kilidi, boşta tik 30 sn)
+**Araç:** Claude Code (Opus 5.5)
+**Neden:** Panel "Disk IO budget about to deplete"; sorgu süresinin ~%25'i `pg_temp.sim_mac` (test simülasyonu), ~%20'si `cron_hizli_tik`.
+
+- **A — canlı test kilidi:** `araclar/pg-mini.mjs › canliTestEngeli()`: giriş dosyasının adında test/simulasyon/yuk geçen betik canlı (yerel olmayan) DB'ye yalnız `IZIN_CANLI_TEST=1` ile bağlanır; `baglantiDizgisi()` null döner (node --test dosyaları ATLANIR), `PgIstemci.baglan()` hata atar (SUPABASE_DB_URL ile doğrudan gelen de yakalanır). Yerel Supabase (127.0.0.1/localhost) serbest. Ölçüm/migration/yedek araçları etkilenmez. Gece CI `testler.yml` sırrı canlıya baktığı için artık testleri atlar. `oyun/_test/` altında kendi `pg` bağlantısını kuran 4 eski test (`pg` paketi kurulu değil, zaten çalışmıyor) değiştirilmedi. AGENTS.md'ye tek satır kural.
+- **B — tikler (migration 1036, canlıya uygulandı):** ölçüm: boşta alt işlerin mantığı toplam ~12 ms, kapılar ucuz (tablolar < 8 bin satır). Paneldeki ortalama 276 ms test dönemlerinden (30 dk'lık sim işlemlerinin kilitleri, 2 sn'lik düello tikleri) ve her pg_cron koşusunun soğuk arka uç maliyetinden. Boştaki hızlı tik 15 → 30 sn (`cron_aralik_ayarla` 30 sn'yi kabul eder; `cron_duello_tik`/`cron_bot_oyna` boşta 30 ister; `cron_hizli_tik` 30'a geçebilir). İş varken 2/5 sn aynı. `bot_tepki_bekleyen` INSERT'ine uyandırma tetikleyicisi. Geri alma: `docs/yuk-geri-al-1036.sql`. `cron_dakika_tik` ve `bot_puan_tik` değiştirilmedi (gerekçe RAPOR.md).
+- **C — Realtime:** yayındaki 16 tablonun hepsini dinleyen istemci kodu var; çıkarma yapılmadı.
+- **Doğrulama:** `IZIN_CANLI_TEST=1 node araclar/duello-v4-canli-bot-testi.mjs --tek-mac` (yeni bayrak: rövanşsız tek maç) → 14/14; tik 30 sn'den uyanıp maçtan sonra 30 sn'ye döndü. Build temiz.

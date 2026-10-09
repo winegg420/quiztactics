@@ -40,6 +40,7 @@ class PgHata extends Error {}
 
 export class PgIstemci {
   constructor(baglantiDizgisi) {
+    if (!baglantiDizgisi) throw new Error('Veritabanı bağlantı dizgisi yok (SUPABASE_DB_URL / .env.local) ya da canlı test kilidi devrede.');
     const u = new URL(baglantiDizgisi);
     this.sunucu = u.hostname;
     this.port = Number(u.port || 5432);
@@ -51,6 +52,8 @@ export class PgIstemci {
   }
 
   async baglan() {
+    const engel = canliTestEngeli(`postgresql://x@${this.sunucu}/`);
+    if (engel) throw new Error(engel);
     const ham = await new Promise((coz, at) => {
       const s = net.connect(this.port, this.sunucu);
       s.once('error', at);
@@ -266,6 +269,33 @@ export class PgIstemci {
  * Bulamazsa null döner — testler o zaman atlanır, kırılmaz.
  */
 export async function baglantiDizgisi() {
+  const dizgi = await hamBaglantiDizgisi();
+  const engel = dizgi && canliTestEngeli(dizgi);
+  if (engel) { console.warn(engel); return null; }
+  return dizgi;
+}
+
+/**
+ * CANLI TEST KİLİDİ (9 Eki 2026, Disk IO kotası): test/simülasyon betikleri canlı
+ * veritabanına yalnız IZIN_CANLI_TEST=1 ile bağlanır. Yerel Supabase
+ * (`supabase start` → SUPABASE_DB_URL=postgresql://postgres:postgres@127.0.0.1:54322/postgres)
+ * serbesttir. Test betiği = giriş dosyasının adında test / simulasyon / yuk geçen betik
+ * (`node --test` altında koşan *.test.mjs dahil). Ölçüm, migration ve yedek araçları etkilenmez.
+ * Engel varsa açıklama metni, yoksa null döner.
+ */
+export function canliTestEngeli(dizgi) {
+  if (process.env.IZIN_CANLI_TEST === '1') return null;
+  let sunucu = '';
+  try { sunucu = new URL(dizgi).hostname; } catch { return null; }
+  if (/^(localhost|127\.0\.0\.1|::1|\[::1\]|host\.docker\.internal)$/i.test(sunucu)) return null;
+  const betik = (process.argv[1] || '').split(/[\\/]/).pop();
+  if (!/test|simulasyon|yuk/i.test(betik)) return null;
+  return `CANLI TEST KİLİDİ: "${betik}" canlı veritabanına (${sunucu}) bağlanmak istedi. `
+    + 'Yerel Supabase kullan (supabase start + SUPABASE_DB_URL=postgresql://postgres:postgres@127.0.0.1:54322/postgres) '
+    + 'ya da gerçekten gerekiyorsa tek sefer IZIN_CANLI_TEST=1 ver.';
+}
+
+async function hamBaglantiDizgisi() {
   if (process.env.SUPABASE_DB_URL) return process.env.SUPABASE_DB_URL;
   try {
     const fs = await import('node:fs');

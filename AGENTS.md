@@ -129,6 +129,7 @@ push'ta sessizce silinir; 13 Eyl'de tam olarak bu oldu.
 ## Kurallar
 
 - **Türkçe yaz** — kod, yorum, commit, yanıtlar.
+- **Canlı DB'de test/simülasyon koşturma** — yerel Supabase (`supabase start`) kullan; `pg-mini.mjs` canlıyı yalnız `IZIN_CANLI_TEST=1` ile açar (9 Eki 2026, Disk IO kotası).
 - **Minimal değişiklik** — mevcut kodu silme/bozma, sınıf adlarını koru.
   Dosyayı baştan yazmak yerine hedefli düzenleme yap.
 - **Hata için özür dileme.** Doğrudan bul ve düzelt. Bir hatayı

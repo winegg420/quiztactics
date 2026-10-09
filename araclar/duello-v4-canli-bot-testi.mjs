@@ -5,7 +5,7 @@
 // Akış: giriş → nötr → KONTROL → kart süresi dolumu (otomatik seçim) → kart: rakibe gönder + kendine seç → 2/3 SON BASKI
 // → bilerek yanlış (el değişimi) → kontrolü geri al → 3/3 → maç sonu (ödül) → Rövanş → Son Düello → maç sonu.
 // Ekran: 390×844, EN (hesabın dili). Görüntüler: tasarim/duello-v4/canli-*.png
-// Kullanım: npm run dev -- --port 5188 · node araclar/duello-v4-canli-bot-testi.mjs [--adres=http://localhost:5188] [--bot=<uuid>]
+// Kullanım: npm run dev -- --port 5188 · node araclar/duello-v4-canli-bot-testi.mjs [--adres=http://localhost:5188] [--bot=<uuid>] [--tek-mac]
 import { chromium } from "playwright-core";
 import fs from "node:fs";
 import path from "node:path";
@@ -190,6 +190,11 @@ try {
   ok("maç 1: 3/3 ile bitti, kazanan belli", ["f", "false"].includes(r1.son) && r1.k && Number(r1.seri) >= 3, JSON.stringify(r1));
   ok("ödül: kazanan bensem coin yazıldı", r1.k !== A || Number(r1.coin) > 0, r1.coin);
 
+  // --tek-mac: canlı yükü en aza indirmek için rövanş/Son Düello atlanır (yalnız maç 1).
+  if (ARG["tek-mac"]) {
+    ok("konsol hatası yok", konsol.length === 0, konsol.slice(0, 3).join(" | "));
+    throw Object.assign(new Error("tek-mac"), { tekMac: true });
+  }
   // Rövanş (bot hemen kabul eder)
   const rov = s.getByRole("button", { name: /^(Rematch|Rövanş)$/ });
   await rov.click({ timeout: 10000 });
@@ -206,8 +211,10 @@ try {
   ok("maç 2 Son Düello ile bitti", r2.durum === "bitti" && ["t", "true"].includes(r2.son) && Number(r2.sonsoru) >= 1 && r2.k, JSON.stringify(r2));
   ok("konsol hatası yok", konsol.length === 0, konsol.slice(0, 3).join(" | "));
 } catch (e) {
+  if (e.tekMac) { /* tek maç bitti, rövanş atlandı */ } else {
   kaldi++; console.log("  ✗ HATA", e.message.slice(0, 300));
   await s.screenshot({ path: path.join(CIKTI, "canli-hata-390x844-en.png") }).catch(() => {});
+  }
 } finally {
   await db.sorgu(`update duellolar set durum = 'iptal', bitis = now() where durum = 'aktif' and ${alintila(A)} in (oyuncu1, oyuncu2)`).catch(() => {});
   await b.close(); await tarayici.close(); await db.kapat();
