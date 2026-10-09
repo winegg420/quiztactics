@@ -1,0 +1,402 @@
+{
+ "2-360x640-tr": {
+  "d1": {
+   "metin": "Rastgele oyna",
+   "kesik": false,
+   "tasan": false,
+   "h": 44
+  },
+  "d2": {
+   "metin": "Aramayı durdur",
+   "kesik": false,
+   "tasan": false,
+   "h": 44
+  }
+ },
+ "3-360x640-tr": [
+  {
+   "mod": "klasik",
+   "h": 106,
+   "adSatir": 1,
+   "aciklamaSatir": 1,
+   "rozet": false,
+   "tasan": false
+  },
+  {
+   "mod": "duello",
+   "h": 139,
+   "adSatir": 1,
+   "aciklamaSatir": 2,
+   "rozet": true,
+   "tasan": false
+  },
+  {
+   "mod": "saf",
+   "h": 106,
+   "adSatir": 1,
+   "aciklamaSatir": 1,
+   "rozet": false,
+   "tasan": false
+  },
+  {
+   "mod": "kasa",
+   "h": 125,
+   "adSatir": 1,
+   "aciklamaSatir": 2,
+   "rozet": false,
+   "tasan": false
+  }
+ ],
+ "4-360x640-tr": {
+  "al": "rgb(47, 210, 122)",
+  "toplu": "rgb(47, 210, 122)"
+ },
+ "5/duello-360x640-tr": [],
+ "5/kasa-360x640-tr": [
+  "a-dereceli-aciklama: Lig puanı + tam coin"
+ ],
+ "6-360x640-tr": [
+  {
+   "kod": "lig",
+   "solPay": 3,
+   "sagPay": 254,
+   "sagFade": true,
+   "taşar": true
+  },
+  {
+   "kod": "sehir",
+   "solPay": 90,
+   "sagPay": 170,
+   "sagFade": true,
+   "taşar": true
+  },
+  {
+   "kod": "ulke",
+   "solPay": 174,
+   "sagPay": 89,
+   "sagFade": true,
+   "taşar": true
+  },
+  {
+   "kod": "global",
+   "solPay": 208,
+   "sagPay": 44,
+   "sagFade": true,
+   "taşar": true
+  },
+  {
+   "kod": "arkadas",
+   "solPay": 195,
+   "sagPay": 44,
+   "sagFade": true,
+   "taşar": true
+  },
+  {
+   "kod": "koleksiyon",
+   "solPay": 185,
+   "sagPay": 4,
+   "sagFade": false,
+   "taşar": true
+  }
+ ],
+ "2-360x640-en": {
+  "d1": {
+   "metin": "Play random",
+   "kesik": false,
+   "tasan": false,
+   "h": 44
+  },
+  "d2": {
+   "metin": "Stop searching",
+   "kesik": false,
+   "tasan": false,
+   "h": 44
+  }
+ },
+ "3-360x640-en": [
+  {
+   "mod": "klasik",
+   "h": 125,
+   "adSatir": 1,
+   "aciklamaSatir": 2,
+   "rozet": false,
+   "tasan": false
+  },
+  {
+   "mod": "duello",
+   "h": 139,
+   "adSatir": 1,
+   "aciklamaSatir": 2,
+   "rozet": true,
+   "tasan": false
+  },
+  {
+   "mod": "saf",
+   "h": 125,
+   "adSatir": 1,
+   "aciklamaSatir": 2,
+   "rozet": false,
+   "tasan": false
+  },
+  {
+   "mod": "kasa",
+   "h": 125,
+   "adSatir": 1,
+   "aciklamaSatir": 2,
+   "rozet": false,
+   "tasan": false
+  }
+ ],
+ "4-360x640-en": {
+  "al": "rgb(47, 210, 122)",
+  "toplu": "rgb(47, 210, 122)"
+ },
+ "5/duello-360x640-en": [],
+ "5/kasa-360x640-en": [
+  "a-dereceli-aciklama: League points + full coins"
+ ],
+ "6-360x640-en": [
+  {
+   "kod": "lig",
+   "solPay": 3,
+   "sagPay": 223,
+   "sagFade": true,
+   "taşar": true
+  },
+  {
+   "kod": "sehir",
+   "solPay": 121,
+   "sagPay": 146,
+   "sagFade": true,
+   "taşar": true
+  },
+  {
+   "kod": "ulke",
+   "solPay": 197,
+   "sagPay": 44,
+   "sagFade": true,
+   "taşar": true
+  },
+  {
+   "kod": "global",
+   "solPay": 208,
+   "sagPay": 44,
+   "sagFade": true,
+   "taşar": true
+  },
+  {
+   "kod": "arkadas",
+   "solPay": 201,
+   "sagPay": 44,
+   "sagFade": true,
+   "taşar": true
+  },
+  {
+   "kod": "koleksiyon",
+   "solPay": 224,
+   "sagPay": 3,
+   "sagFade": false,
+   "taşar": true
+  }
+ ],
+ "2-390x844-tr": {
+  "d1": {
+   "metin": "Rastgele oyna",
+   "kesik": false,
+   "tasan": false,
+   "h": 44
+  },
+  "d2": {
+   "metin": "Aramayı durdur",
+   "kesik": false,
+   "tasan": false,
+   "h": 44
+  }
+ },
+ "3-390x844-tr": [
+  {
+   "mod": "klasik",
+   "h": 108,
+   "adSatir": 1,
+   "aciklamaSatir": 1,
+   "rozet": false,
+   "tasan": false
+  },
+  {
+   "mod": "duello",
+   "h": 141,
+   "adSatir": 1,
+   "aciklamaSatir": 2,
+   "rozet": true,
+   "tasan": false
+  },
+  {
+   "mod": "saf",
+   "h": 108,
+   "adSatir": 1,
+   "aciklamaSatir": 1,
+   "rozet": false,
+   "tasan": false
+  },
+  {
+   "mod": "kasa",
+   "h": 108,
+   "adSatir": 1,
+   "aciklamaSatir": 1,
+   "rozet": false,
+   "tasan": false
+  }
+ ],
+ "4-390x844-tr": {
+  "al": "rgb(47, 210, 122)",
+  "toplu": "rgb(47, 210, 122)"
+ },
+ "5/duello-390x844-tr": [],
+ "5/kasa-390x844-tr": [
+  "a-dereceli-aciklama: Lig puanı + tam coin"
+ ],
+ "6-390x844-tr": [
+  {
+   "kod": "lig",
+   "solPay": 3,
+   "sagPay": 278,
+   "sagFade": true,
+   "taşar": true
+  },
+  {
+   "kod": "sehir",
+   "solPay": 90,
+   "sagPay": 194,
+   "sagFade": true,
+   "taşar": true
+  },
+  {
+   "kod": "ulke",
+   "solPay": 174,
+   "sagPay": 113,
+   "sagFade": true,
+   "taşar": true
+  },
+  {
+   "kod": "global",
+   "solPay": 232,
+   "sagPay": 44,
+   "sagFade": true,
+   "taşar": true
+  },
+  {
+   "kod": "arkadas",
+   "solPay": 219,
+   "sagPay": 44,
+   "sagFade": true,
+   "taşar": true
+  },
+  {
+   "kod": "koleksiyon",
+   "solPay": 209,
+   "sagPay": 4,
+   "sagFade": false,
+   "taşar": true
+  }
+ ],
+ "2-390x844-en": {
+  "d1": {
+   "metin": "Play random",
+   "kesik": false,
+   "tasan": false,
+   "h": 44
+  },
+  "d2": {
+   "metin": "Stop searching",
+   "kesik": false,
+   "tasan": false,
+   "h": 44
+  }
+ },
+ "3-390x844-en": [
+  {
+   "mod": "klasik",
+   "h": 108,
+   "adSatir": 1,
+   "aciklamaSatir": 1,
+   "rozet": false,
+   "tasan": false
+  },
+  {
+   "mod": "duello",
+   "h": 141,
+   "adSatir": 1,
+   "aciklamaSatir": 2,
+   "rozet": true,
+   "tasan": false
+  },
+  {
+   "mod": "saf",
+   "h": 127,
+   "adSatir": 1,
+   "aciklamaSatir": 2,
+   "rozet": false,
+   "tasan": false
+  },
+  {
+   "mod": "kasa",
+   "h": 127,
+   "adSatir": 1,
+   "aciklamaSatir": 2,
+   "rozet": false,
+   "tasan": false
+  }
+ ],
+ "4-390x844-en": {
+  "al": "rgb(47, 210, 122)",
+  "toplu": "rgb(47, 210, 122)"
+ },
+ "5/duello-390x844-en": [],
+ "5/kasa-390x844-en": [
+  "a-dereceli-aciklama: League points + full coins"
+ ],
+ "6-390x844-en": [
+  {
+   "kod": "lig",
+   "solPay": 3,
+   "sagPay": 247,
+   "sagFade": true,
+   "taşar": true
+  },
+  {
+   "kod": "sehir",
+   "solPay": 121,
+   "sagPay": 170,
+   "sagFade": true,
+   "taşar": true
+  },
+  {
+   "kod": "ulke",
+   "solPay": 198,
+   "sagPay": 67,
+   "sagFade": true,
+   "taşar": true
+  },
+  {
+   "kod": "global",
+   "solPay": 232,
+   "sagPay": 44,
+   "sagFade": true,
+   "taşar": true
+  },
+  {
+   "kod": "arkadas",
+   "solPay": 225,
+   "sagPay": 44,
+   "sagFade": true,
+   "taşar": true
+  },
+  {
+   "kod": "koleksiyon",
+   "solPay": 248,
+   "sagPay": 3,
+   "sagFade": false,
+   "taşar": true
+  }
+ ]
+}
