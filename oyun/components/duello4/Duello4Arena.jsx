@@ -20,7 +20,7 @@ import { secenekleriCoz } from "../DuelloV2.jsx";
 import { QtDugme, QtIkon, QtSayac, QtSik, QtSikler, QtSoruKarti, sinif } from "../../tasarim/index.js";
 import { sesDogru, sesYanlis, sesTik, sesKategoriGeriSayim, sesTurGecis, sesCanKaybi, sesSoruGeldi,
   sesKategoriSecildi, sesRakipCevapladi, sesSonSaniyeler } from "../../lib/ses.js";
-import { sure, varsayilanSure } from "../../lib/sureler.js";
+import { sure, sureOlcek, varsayilanSure } from "../../lib/sureler.js";
 import { titret } from "../../lib/geriBildirim.js";
 import "./duello4.css";
 
@@ -206,8 +206,8 @@ export default function Duello4Arena({
         const benimki = h.oyuncular?.[benId];
         if (benimki?.dogru) { sesDogru(); titret(10); } else { sesYanlis(); titret(40); }
         if (sm.el || (h.tip === "notr" && h.sonuc === "kontrol_aldi")) {
-          sonra(650, () => { if (h.kontrol_sonra === benId) { sesTurGecis(); titret([20, 40, 30]); } else { sesCanKaybi(); titret(45); } });
-        } else if (sm.baski) sonra(650, () => { sesSonSaniyeler(); titret([30, 50, 30]); });
+          sonra(Math.round(650 * sureOlcek("duello4_sarsinti")), () => { if (h.kontrol_sonra === benId) { sesTurGecis(); titret([20, 40, 30]); } else { sesCanKaybi(); titret(45); } });
+        } else if (sm.baski) sonra(Math.round(650 * sureOlcek("duello4_baski")), () => { sesSonSaniyeler(); titret([30, 50, 30]); });
       });
     }
   }, [d.faz, d.durum, soruMetni, h?.no, benKontrol]);   // eslint-disable-line react-hooks/exhaustive-deps

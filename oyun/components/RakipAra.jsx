@@ -2,7 +2,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import { kategoriEtiket } from "../lib/kategoriler.js";
-import AramaSahnesi, { ARAMA_GECIS_MS } from "./AramaSahnesi.jsx";
+import AramaSahnesi from "./AramaSahnesi.jsx";
+import { sure } from "../lib/sureler.js";
 import { tt } from "../lib/dil.js";
 import { sesRakipBulundu } from "../lib/ses.js";
 import { rpcDene } from "../lib/rpcDene.js";
@@ -97,7 +98,7 @@ export default function RakipAra({ kategori, dereceli = true, jokersiz = false, 
       }
       setBulundu(true);
       sesRakipBulundu();   // Paket 29 E.2: "Rakip bulundu" yazısıyla aynı an
-      window.setTimeout(() => bulunduRef.current(macId), ARAMA_GECIS_MS);
+      window.setTimeout(() => bulunduRef.current(macId), sure("ortak_arama_gecis"));
     },
     [user?.id]
   );

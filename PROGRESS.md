@@ -11208,3 +11208,11 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - Düzeltme (`oyuncu-vitrin-karti.css`): `.qt-pf-kimlik > .qt-pf-ok.qt-ok--bp.qt-ok--bpk { clip-path: none; üst köşe radius 0 }`. Eski görünüm (bpk sınıfı yok) aynen pahlı kalır.
 - Başka ekran taraması: `.qt-ok--bp` ile clip-path veren tek ezen kural bu; ana sayfa/lig/rakip profili aynı bileşeni bpk ile kullanıyor, etkilenmiyordu.
 - Ölçüm: önizlemede (390 px, Altın, BP açık) profil sarmalayıcısıyla hesaplanmış `clip-path: none`, köşeler tam; build temiz.
+
+## 10 Eki 2026 — /sure-ayar seçimleri oyunun varsayılanı oldu (Claude)
+**Araç:** Claude Code
+**Neden:** Ida /sure-ayar'da 18 süre seçti; bunlar oyundaki varsayılan olsun.
+- `sureler.js`: 18 anahtarın `varsayilan`ı yeni değer; eski değer `taban` alanında (kodun/CSS'in yazıldığı süre). Adım zamanları, `sureOlcek` ve CSS `--sr-*` oranı TABAN üzerinden hesaplanır (`varsayilanSure()` artık taban döner; `sure()` geçerli süreyi — seçim yoksa yeni varsayılanı — verir). Böylece CSS'teki `calc(Nms * var(--sr-…))` tabanları elle değiştirilmeden yeni süreye ölçeklenir; /sure-ayar "Bugünkü" yeni değeri gösterir, "Bugünkü" düğmesi yeni değere döner.
+- Bağlanan sabitler: `RakipAra.jsx` maça geçiş beklemesi sabit ARAMA_GECIS_MS yerine `sure("ortak_arama_gecis")`; `Duello4Arena.jsx` el değişimi sesi 650 ms × sarsıntı oranı, SON BASKI sesi 650 ms × baskı oranı.
+- Sunucu payları ölçüldü (oyun_ayarlari, salt okunur): `duello_gosterim_payi_ms` = `kasa_gosterim_payi_ms` = 2000; `kasa_sonuc_sn` 3, `duello4_sonuc_sn` 3. Seçilen hiçbir süre sunucu tavanını aşmadı (AÇ 1820 < 2000−60; v4 açılış 2000 = pay; SON BASKI 2950 < 3000; sonuç uçuşu 2910 < 3000). Tek sınır: rakip AÇ/DEVAM kararında kapalı kart 700 ms sunucu payından yer alır → kalan 1240 ms < an tabanı 1380 ms; an tabanına kadar uzar (Ida'nın seçtiği taban, soru sayacından ~140 ms yer alır).
+- DB/migration/sunucu ayarına dokunulmadı. Test: sure-ayar-demo-testi 23/23, 390 px taşma yok, build temiz; test hesabı açılmadı.
