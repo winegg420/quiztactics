@@ -33,5 +33,6 @@ import enDuelloPuan from "./ceviri/duello-puan.js";   // Düello 970: yeni puan 
 import enKisaMetin from "./ceviri/kisa-metin.js";   // Kısa mod anlatımları (7 Eki 2026)
 import enAnaSahne from "./ceviri/ana-sahne.js";   // Ana sayfa oyun sahnesi (8 Eki 2026)
 import enDuelloOnizleme from "./ceviri/duello-onizleme.js";   // /duello-onizleme ekran taslağı (9 Eki 2026)
+import enDuello4 from "./ceviri/duello4.js";   // Düello v4 tek arena (9 Eki 2026)
 
-export default Object.assign({}, temel, enMac, enAna, enLig, enDukkan, enGiris, enTasarim, enKozmetik, enAntrenman, enMacSonuOnizleme, enArama, enPremium, enCikisOnay, enGuvenlik, enKoleksiyon, enSunucu, enTarama, enDenetim5, enDenetim6, enHakimiyet, enHakimiyetEkran, enHakimiyetJoker, enSezonYolu, enSezonYoluParca, enGorevler, enAvatarSatis, enKategoriMaci, enKasa, enDuelloSecim, enDuelloPuan, enKisaMetin, enAnaSahne, enDuelloOnizleme);
+export default Object.assign({}, temel, enMac, enAna, enLig, enDukkan, enGiris, enTasarim, enKozmetik, enAntrenman, enMacSonuOnizleme, enArama, enPremium, enCikisOnay, enGuvenlik, enKoleksiyon, enSunucu, enTarama, enDenetim5, enDenetim6, enHakimiyet, enHakimiyetEkran, enHakimiyetJoker, enSezonYolu, enSezonYoluParca, enGorevler, enAvatarSatis, enKategoriMaci, enKasa, enDuelloSecim, enDuelloPuan, enKisaMetin, enAnaSahne, enDuelloOnizleme, enDuello4);

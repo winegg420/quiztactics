@@ -44,6 +44,8 @@ import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesJoker, sesDokunus, sesRaki
 import { titret } from "../lib/geriBildirim.js";
 import { useOyunModu } from "../lib/oyunModu.js";
 import SkillSeti from "../components/SkillSeti.jsx";
+// Düello v4 (1013–1016): tek arena — yalnız surum 4 maçında çizilir; eski ekran ve kodu aynen durur.
+import Duello4Arena, { D4Gecmis, d4AltYazi } from "../components/duello4/Duello4Arena.jsx";
 // Maç ekranı parçaları (Tasarım A).
 import { V2Ust, V2Kategori, V2SecimCubugu, V2Cevap, V2Sonuc, V2Skill, V2Gecmis } from "../components/DuelloV2.jsx";
 // 680 · Hâkimiyet tahtası: yuvalar, mesaj satırı, maç sonu tahtası (kartlar/alt çubuk DuelloV2 üzerinden).
@@ -65,7 +67,7 @@ import { sayacKaymasi, sayacGoster, sayacSinirMs, saatFarkiOrnekle, tikBasligiEk
 // Bu istemcinin çizebildiği en yüksek Düello sürümü. 23 Eyl 2026: canlıdaki eski paket
 // (yalnız v1 arayüzü) v2 maçını v1 gibi çizdi — saldıran tarafın şıkları kapalı kaldı.
 // Tanımadığı sürümde maç çizilmez, yenileme istenir.
-const DUELLO_EN_YUKSEK_SURUM = 2;
+const DUELLO_EN_YUKSEK_SURUM = 4;   // 4 = Düello v4 (Duello4Arena)
 
 // Kategori geri sayım sesi yalnız son KATEGORI_SES_ESIK_SN saniyede çalar (küçük hata, 27 Eyl 2026):
 // eskiden 15 sn'lik kategori süresinin tamamında tik çalıyordu.
@@ -553,9 +555,10 @@ function DuelloMac({ id }) {
       if (error) throw error;
       if (data) {
         const onceki = skillDurumRef.current;
-        const faz = `${data.tur}:${data.saldiri_sirasi}:${data.faz}`;
+        // v4: her soru kendi numarasıyla (tur/saldırı sırası yok) — yeni soruda bitiş sıçraması "Ek Süre" sanılmasın.
+        const faz = data.surum === 4 ? `4:${data.v4?.soru_no}:${data.faz}` : `${data.tur}:${data.saldiri_sirasi}:${data.faz}`;
         let efekt = null;
-        if (data.surum === 2) {
+        if (data.surum === 2 || data.surum === 4) {
           // Düello 1.0: skill izleri kişisel bitişten ve cevap nesnesinden okunur.
           const cv = data.cevap ?? {};
           const bitis = cv.benim_bitis ? new Date(cv.benim_bitis).getTime() : null;
@@ -571,7 +574,7 @@ function DuelloMac({ id }) {
         else if (onceki?.faz === faz && !onceki.ek_sure && data.ek_sure) efekt = { tur: "sure", deger: skillDeger.ek };
         else if (onceki?.faz === faz && !(onceki.elli_kapali?.length) && data.elli_kapali?.length) efekt = { tur: "elli" };
         else if (onceki?.faz === faz && onceki.soru_anahtar && data.soru?.soru && onceki.soru_anahtar !== data.soru.soru) efekt = { tur: "soru_degistir", asama: "giriyor" };
-        if (data.surum !== 2) skillDurumRef.current = { faz, zaman_baskisi: Boolean(data.zaman_baskisi), ek_sure: Boolean(data.ek_sure), elli_kapali: data.elli_kapali, soru_anahtar: data.soru?.soru };
+        if (data.surum !== 2 && data.surum !== 4) skillDurumRef.current = { faz, zaman_baskisi: Boolean(data.zaman_baskisi), ek_sure: Boolean(data.ek_sure), elli_kapali: data.elli_kapali, soru_anahtar: data.soru?.soru };
         if (efekt) {
           setSkillEfekt(efekt);
           clearTimeout(skillTimerRef.current);
@@ -716,7 +719,7 @@ function DuelloMac({ id }) {
   // 760: rakip (ya da ben) kopukken sunucu fazı dondurur ve her ilerletmede bitişi ileri iter — bu bitiş
   // gerçek değildir: zamanlayıcı kurulmaz, bitişe yakın sık yoklama da yapılmaz (dönüşte sinyal/yoklama getirir).
   const bitisAnahtar = d?.durum === "aktif" && !d.kopuk
-    ? d.faz === "cevap" && d.cevap
+    ? ["cevap", "notr", "son"].includes(d.faz) && d.cevap   // v4: nötr ve Son Düello da kişisel bitişli
       ? `c|${d.cevap.benim_bitis}|${d.cevap.rakip_bitis}`
       : `f|${d.faz_bitis}`
     : "";
@@ -838,7 +841,7 @@ function DuelloMac({ id }) {
   // Hamle sonucu sesi
   useEffect(() => {
     const h = d?.son_hamle;
-    if (!h || d.faz !== "sonuc") return;
+    if (!h || d.faz !== "sonuc" || d.surum === 4) return;   // v4: sonuç sesleri Duello4Arena'da
     const anahtar = `${h.tur}-${h.saldiran}-${h.soru_id}`;
     if (sonHamleRef.current === anahtar) return;
     sonHamleRef.current = anahtar;
@@ -927,10 +930,11 @@ function DuelloMac({ id }) {
 
   // Düello 1.0 cevap fazında sayaç KİŞİSEL bitiştir (Ek Süre / Zaman Baskısı kişiye özel);
   // öteki fazlarda ortak faz_bitis. İkisi de sunucu saatine göre (farkRef).
-  const hedefBitis = d?.surum === 2 && d?.faz === "cevap" && d?.cevap?.benim_bitis ? d.cevap.benim_bitis : d?.faz_bitis;
+  const hedefBitis = ((d?.surum === 2 && d?.faz === "cevap") || (d?.surum === 4 && ["notr", "cevap", "son"].includes(d?.faz)))
+    && d?.cevap?.benim_bitis ? d.cevap.benim_bitis : d?.faz_bitis;
   // 325: sunucu faz bitişine gösterim payı ekler; sayaç `gosterim_bas`a kadar TAM süreyi
   // gösterir, sonra gerçek zamanla akar. Ekran fazı geç görse de sayaç yetişmek için hızlanmaz.
-  const gosterimBas = d?.sureler?.gosterim_bas && ["kategori", "cevap", "ban", "secim"].includes(d?.faz)
+  const gosterimBas = d?.sureler?.gosterim_bas && ["kategori", "cevap", "ban", "secim", "notr", "kart", "son"].includes(d?.faz)
     ? new Date(d.sureler.gosterim_bas).getTime() : null;
   const kalanSn = useMemo(() => {
     if (!hedefBitis) return 0;
@@ -972,10 +976,10 @@ function DuelloMac({ id }) {
   const gosterSn = useMemo(() => {
     if (kopukDonukSn != null) return kopukDonukSn;
     if (!(kalanSn > 0) || !d) return 0;
-    const anahtar = `${d.tur}-${d.saldiri_sirasi}-${d.uzatma ?? ""}-${d.faz}-${d.faz === "secim" ? d.secim?.sira : ""}`;
+    const anahtar = `${d.tur}-${d.saldiri_sirasi}-${d.uzatma ?? ""}-${d.faz}-${d.faz === "secim" ? d.secim?.sira : ""}-${d.v4?.soru_no ?? ""}`;
     if (fazKaymaRef.current.anahtar !== anahtar) fazKaymaRef.current = { anahtar, ...sayacKaymasi(kalanGoster) };
     return sayacGoster(kalanGoster, fazKaymaRef.current);
-  }, [kalanGoster, kalanSn, kopukDonukSn, d?.tur, d?.saldiri_sirasi, d?.uzatma, d?.faz, d?.secim?.sira]);   // eslint-disable-line react-hooks/exhaustive-deps
+  }, [kalanGoster, kalanSn, kopukDonukSn, d?.tur, d?.saldiri_sirasi, d?.uzatma, d?.faz, d?.secim?.sira, d?.v4?.soru_no]);   // eslint-disable-line react-hooks/exhaustive-deps
   // Rakam tam saniye sınırında değişsin: 200 ms'lik saat tikine ek olarak bir sonraki
   // sınıra kurulmuş tek zamanlayıcı (adımlar 800/1200 ms diye titremez).
   useEffect(() => {
@@ -1000,7 +1004,7 @@ function DuelloMac({ id }) {
 
   // Son 3 saniyede tik
   useEffect(() => {
-    if (!d || d.durum !== "aktif" || !["cevap", "altin"].includes(d.faz)) return;   // maç sonu ekranında tik yok
+    if (!d || d.durum !== "aktif" || !["cevap", "altin"].includes(d.faz) || d.surum === 4) return;   // maç sonu ekranında tik yok; v4 tik'i arenada
     if (d.surum === 2 && d.cevap?.ben_cevapladim) return;   // cevabı kilitleyene tik çalınmaz
     const sn = Math.ceil(gosterSn);
     // 980: anahtar faz + rakam (yalnız rakam değil) — aynı fazda sayaç geri sıçrasa da aynı saniye ikinci kez çalmaz;
@@ -1112,7 +1116,7 @@ function DuelloMac({ id }) {
   // 50:50 anı: kapanan iki şık kırılıp düşer, QT_KIRILMA_MS sonra "elendi" olur.
   // Rakibin Zaman Baskısı: skill sesi + titreşim (sayaçta "−N" balonu).
   useEffect(() => {
-    if (!skillEfekt || d?.surum !== 2) return;
+    if (!skillEfekt || (d?.surum !== 2 && d?.surum !== 4)) return;
     if (skillEfekt.tur === "zaman_baskisi") { sesSkill("zaman_baskisi"); titret(30); }
     if (skillEfekt.tur !== "elli") return;
     const kapali = Array.isArray(d.cevap?.elli_kapali) ? d.cevap.elli_kapali.map(Number) : [];
@@ -1347,6 +1351,7 @@ function DuelloMac({ id }) {
           ? (kazandim ? ceviri("Eşit ({a}-{b}) — Altın Soru'yu sen bildin", yuvaSkor) : ceviri("Eşit ({a}-{b}) — Altın Soru'yu rakip bildi", yuvaSkor))
           : (kazandim ? ceviri("{a}-{b} önde, kazandın", yuvaSkor) : ceviri("{a}-{b} geride, kaybettin", yuvaSkor));
     // A.3: yeni sahne — veriler mac_sonu_ozet'ten (tek çağrı). Özet gelene dek sahne kurulmaz.
+    const v4Mac = d.surum === 4;
     if (d.durum === "bitti" && !macSonuOzet) return <div className="bd-duello"><div className="msk-bekle" aria-busy="true" /></div>;
     const sahne = ozettenSahne(d.durum === "bitti" ? macSonuOzet : null);
     return (
@@ -1356,10 +1361,10 @@ function DuelloMac({ id }) {
           mod="duello"
           terk={sahne.terk}
           baslik={d.durum === "iptal" ? ceviri("Düello iptal edildi") : undefined}
-          altYazi={sahne.terk ? undefined : altYazi ?? undefined}
-          ben={{ profil: ben, skor: hkS.acik && !hkS.puan ? hkS.benY : Number(ben.puan ?? 0) }}
-          rakip={{ profil: rakip, skor: hkS.acik && !hkS.puan ? hkS.rakipY : Number(rakip.puan ?? 0) }}
-          skorEtiket={hkS.acik && !hkS.puan ? ceviri("yuva") : ceviri("puan")}
+          altYazi={sahne.terk ? undefined : (v4Mac ? d4AltYazi(d, ceviri) : altYazi) ?? undefined}
+          ben={{ profil: ben, skor: v4Mac ? Number(ben.dogru ?? 0) : hkS.acik && !hkS.puan ? hkS.benY : Number(ben.puan ?? 0) }}
+          rakip={{ profil: rakip, skor: v4Mac ? Number(rakip.dogru ?? 0) : hkS.acik && !hkS.puan ? hkS.rakipY : Number(rakip.puan ?? 0) }}
+          skorEtiket={v4Mac ? ceviri("doğru") : hkS.acik && !hkS.puan ? ceviri("yuva") : ceviri("puan")}
           oduller={sahne.oduller}
           level={sahne.level}
           lig={sahne.lig}
@@ -1370,9 +1375,9 @@ function DuelloMac({ id }) {
             <>
               {d.durum === "bitti" && <OdulDokumu kaynak={`duello:${d.id}`} veri={macSonuOzet?.dokum} gorevleriGoster={false} />}
               {/* Son tahta: iki tarafın yuvaları (ikonlarla) */}
-              {d.durum === "bitti" && <HkSonTahta d={d} ben={ben} rakip={rakip} c={c2} />}
+              {d.durum === "bitti" && !v4Mac && <HkSonTahta d={d} ben={ben} rakip={rakip} c={c2} />}
               {/* Her soru: hamle sonucu (Aldın / Tutmadı / Kontra…), doğru cevap ve "şık işaretlenmedi" notu (sunucu: gecmis) */}
-              <V2Gecmis gecmis={d.gecmis} maxTur={d.max_tur} benId={d.ben} c={c2} />
+              {v4Mac ? <D4Gecmis gecmis={d.gecmis} c={c2} /> : <V2Gecmis gecmis={d.gecmis} maxTur={d.max_tur} benId={d.ben} c={c2} />}
               {ezeliMetin && <div className="bd-duello-ezeli">{ezeliMetin}</div>}
             </>
           ) : null}
@@ -1461,6 +1466,43 @@ function DuelloMac({ id }) {
       }}
     />
   );
+
+  // ================= Düello v4: tek arena =================
+  // 760 kopukluk bandı aynı kaynaklardan (durum okumasındaki `kopuk`, yoksa 5 sn'lik duello_baglanti).
+  if (d.surum === 4) {
+    const kopukBant4 = d.kopuk
+      ? { benMi: Boolean(d.kopuk.ben_mi), kalan: d.kopuk.bitis ? Math.max(0, Math.ceil((new Date(d.kopuk.bitis).getTime() - (simdi + farkRef.current)) / 1000)) : null }
+      : baglanti?.kopuk
+        ? { benMi: Boolean(baglanti.ben_mi), kalan: baglanti.kalan_sn == null ? null : Math.max(0, baglanti.kalan_sn - Math.floor((simdi - (baglanti.alindi ?? simdi)) / 1000)) }
+        : null;
+    const gecikmis4 = fazBitisRef.current != null ? simdi + farkRef.current - fazBitisRef.current : 0;
+    const ekBalon4 = skillEfekt?.tur === "sure"
+      ? { anahtar: `s${skillEfekt.deger}${fazAnahtari}`, metin: `+${skillEfekt.deger}` }
+      : skillEfekt?.tur === "zaman_baskisi" ? { anahtar: `z${skillEfekt.deger}${fazAnahtari}`, metin: `−${skillEfekt.deger}` } : null;
+    const toplam4 = d.faz === "kart" ? Number(d.sureler?.kart ?? 7) : Math.max(Number(d.sureler?.cevap ?? 15), Math.ceil(kalanSn));
+    return (
+      <>
+        <Duello4Arena d={d} ben={ben} rakip={rakip} c={c2} seviyeler={seviyeler}
+                      gosterSn={kopukDonukSn ?? gosterSn} oran={(kopukDonukSn ?? kalanGoster) / Math.max(1, toplam4)}
+                      farkMs={farkRef.current} simdi={simdi} kopukBant={kopukBant4}
+                      yenidenBant={!kopukBant4 && (yenidenBaglaniyor || (["notr", "cevap", "son", "kart"].includes(d.faz) && !d.cevap?.ben_cevapladim && gecikmis4 > GECIKME_BANT_MS))}
+                      hata={hata} calisan={calisan} secim={secim} ikinciSansElendi={ikinciSansElendi} kiriliyor={kiriliyor}
+                      ekBalon={ekBalon4} jokerSerbest={jokerSerbest} sonKullanilan={sonKullanilan} skillDeger={skillDeger}
+                      onCevap={cevapVer} onKart={kategoriSec} onJoker={v2SkillKullan} onYenile={() => { yukle().catch(() => {}); }}
+                      onCik={() => setTerkOnay(true)} />
+        {satinAlPenceresi}
+        <QtModal acik={terkOnay} onKapat={() => setTerkOnay(false)} baslik={ceviri("Düellodan çık")}
+                 aciklama={ceviri("Düellodan çıkarsan hükmen kaybedersin. Emin misin?")}
+                 altlik={
+                   <div className="m2-onay-eylem">
+                     <QtDugme tur="ikincil" data-qt-ilk-odak onClick={() => setTerkOnay(false)}>{ceviri("Vazgeç")}</QtDugme>
+                     <QtDugme tur="tehlike" devreDisi={!!calisan}
+                              onClick={() => { setTerkOnay(false); eylem("terk", "duello_terk", {}); }}>{ceviri("Çık")}</QtDugme>
+                   </div>
+                 } />
+      </>
+    );
+  }
 
   // ================= Maç ekranı (Tasarım A · 680 Hâkimiyet tahtası) =================
   const kilitli = Boolean(d.cevap?.ben_cevapladim);

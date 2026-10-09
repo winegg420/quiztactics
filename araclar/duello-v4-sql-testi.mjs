@@ -147,7 +147,8 @@ try {
   let s = await satir(m);
   ok('test, A + B → surum 4, nötr faz', s.surum === '4' && s.faz === 'notr', `${s.surum}/${s.faz}`);
   ok('nötr: iki oyuncuya aynı soru', s.soru_id1 && s.soru_id1 === s.soru_id2 && s.soru_id === s.soru_id1);
-  ok('maça sabit: 15 tur / seri 3 / 5 nötr / 4 kart', s.v4_max_tur === '15' && s.v4_seri_hedef === '3' && s.v4_notr_max === '5' && s.v4_kart_sayisi === '4');
+  const MAX_TUR = await tek(`select deger #>> '{}' from oyun_ayarlari where anahtar = 'duello4_max_tur'`);
+  ok(`maça sabit: ${MAX_TUR} tur (ayar) / seri 3 / 5 nötr / 4 kart`, s.v4_max_tur === MAX_TUR && s.v4_seri_hedef === '3' && s.v4_notr_max === '5' && s.v4_kart_sayisi === '4');
   ok('eski modlar kapalı (hakimiyet/puan/seçim/ban)', s.hakimiyet === 'f' && s.puan_modu === 'f' && s.secim_modu === 'f' && s.ban_acik === 'f');
   ok('giriş payı: soru henüz açılmadı', (await tek(`select (soru_baslangic > now())::text from duellolar where id = '${m}'`)) === 'true');
   const e0 = await cevapla(A, m, true);
@@ -286,13 +287,13 @@ try {
   ok('3 kalan → liste sıfır, 4 yeni kart, kontrol/seri aynı', s.faz === 'kart' && kullanilan(s).length === 0 && kartlar(s).length === 4 && s.v4_kontrol === A);
 
   console.log('8) 15 tur → Son Düello');
-  await db.sorgu(`update duellolar set v4_tur = 15 where id = '${m}'`);
+  await db.sorgu(`update duellolar set v4_tur = v4_max_tur where id = '${m}'`);   // kart fazı = son saldırı turu
   await gec(m); await durum(A, m);   // kart süresi → tur 15'in sorusu
   s = await satir(m);
-  ok('tur 15', s.v4_tur === '15' && s.faz === 'cevap');
+  ok('son saldırı turu', s.v4_tur === s.v4_max_tur && s.faz === 'cevap');
   await ac(m); await cevapla(A, m, true); await cevapla(B, m, true);
   await ilerle(m); s = await satir(m);
-  ok('15 tur bitti → SON DÜELLO: aynı soru, uzatma', s.faz === 'son' && s.v4_son === 't' && s.uzatma === 't' && s.soru_id1 === s.soru_id2);
+  ok('tur sınırı doldu → SON DÜELLO: aynı soru, uzatma', s.faz === 'son' && s.v4_son === 't' && s.uzatma === 't' && s.soru_id1 === s.soru_id2);
   await ac(m); await ben(A); await temizSayac();
   e = await hata(`select duello_savunma_jokeri('${m}', 'elli')`);
   ok('Son Düello\'da joker yok', e && /Son Düello/.test(e), e);
