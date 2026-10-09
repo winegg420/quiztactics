@@ -11200,3 +11200,11 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 ## 10 Eki 2026 — /sure-ayar Hazine sahneleri canlı akışla doğrulandı (Claude)
 - Canlı DB ayarları ölçüldü (savunma, DEVAM bırakır/çarpan 2, joker, ödül hep açık): 14 Hazine sahnesinin hepsi canlıda tetikleniyor, çıkarılan yok.
 - Eksik canlı sahne eklendi: Tur bandı (`kasa_tur_bant`, 900; KasaPage + kasa-efekt.css bağlandı, varsayılanda aynı). Sayfa görünümü canlıyla aynı (ESKI_GORUNUM=false). Test 23/23. Not: `kasa_giris_sahne_ms`=3000 ↔ istemci GIRIS_SAHNE_MS=6000 farkı gözlendi, dokunulmadı.
+
+## 10 Eki 2026 — Profil kartı BP çerçevesi üst köşe kesiği (Claude)
+**Araç:** Claude Code
+**Neden:** Profil kartında yeni BP çerçevesinin üst köşeleri 14 px pahla kesik görünüyordu.
+- Kök sebep: `.qt-pf-kimlik > .qt-pf-ok.qt-ok--bp` (özgüllük 0,3,0) `clip-path: polygon(...)` veriyordu; `.qt-ok--bpk { clip-path: none }` (0,1,0) onu eziyordu.
+- Düzeltme (`oyuncu-vitrin-karti.css`): `.qt-pf-kimlik > .qt-pf-ok.qt-ok--bp.qt-ok--bpk { clip-path: none; üst köşe radius 0 }`. Eski görünüm (bpk sınıfı yok) aynen pahlı kalır.
+- Başka ekran taraması: `.qt-ok--bp` ile clip-path veren tek ezen kural bu; ana sayfa/lig/rakip profili aynı bileşeni bpk ile kullanıyor, etkilenmiyordu.
+- Ölçüm: önizlemede (390 px, Altın, BP açık) profil sarmalayıcısıyla hesaplanmış `clip-path: none`, köşeler tam; build temiz.

@@ -127,6 +127,8 @@
    Canlıda hiçbir kart bu sınıfı almaz; .qt-ok--bp (pahlı) aynen durur. Avatar arkası halka: .qt-ok-bp-halka (z -1:
    sahne ::before -2'nin üstünde, avatar/çerçeve ve isim plakasının ALTINDA → avatarı bölmez). */
 .qt-ok--bpk { clip-path: none; border-radius: 0; border: 3px solid var(--qt-lig-sahne-kontur); }
+/* Profil kimlik kartı kuralı (.qt-pf-kimlik > .qt-pf-ok.qt-ok--bp) özgüllükle üst köşeleri kesiyordu; yeni çerçevede 90° köşe */
+.qt-pf-kimlik > .qt-pf-ok.qt-ok--bp.qt-ok--bpk { clip-path: none; border-top-left-radius: 0; border-top-right-radius: 0; }
 .qt-ok-bp-halka { position: absolute; left: 50%; top: 50%; z-index: -1; pointer-events: none; overflow: visible; max-width: none; }
 .qt-ok--bpk .qt-ok-percin { box-shadow: none; clip-path: none; background: none; }
 .qt-ok--bpk .qt-ok-percin::before { content: ""; position: absolute; }
