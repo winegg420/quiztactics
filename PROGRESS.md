@@ -11114,3 +11114,8 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - 86 anonim test hesabı (ArayuzDenetim*, Senkron*, Duel*, Gorev*, Gecikme*, YenilemeTest*, Deneme1797 vb.) canlıdan silindi; 349 → 263 profil, bot 160 ve sahip hesabı değişmedi. Yedek `docs/test-hesap-yedek-2026-10-09.json` (gitignore).
 - Yeni araç `araclar/test-hesap-temizle.mjs` (DRY-RUN varsayılan, `--uygula` yedekler + tek transaction `delete from auth.users`, cascade). AGENTS.md'ye kural satırı eklendi.
 - Belirsiz bırakılanlar: ~45 maçsız anonim "Oyuncu", gerçek e-postalılar, maçlı anonim takma adlılar (sila, YüceBaran vb.).
+
+## 2026-10-09 — Maç sonu kral tacı yamukluğu
+- Ölçüm: tac.webp siluet simetri ekseni 0° (sapma %0,07) → görsel yamuk değil; ayna (scaleX) silueti değiştirmiyor. Eğim kaynağı: `.msk-tac` içindeki ±12° döndürme (sol -12°, sağ +12°, mac-sonu-kutlama.css).
+- Düzeltme: `--msk-tac-don` iki tarafta 0deg. CerceveGorseli `*_tac` parçaları r/ayna ile değişmedi (silüet simetrik, eğim yok); çerçeveli kazananda sahne tacı zaten gizli.
+- Doğrulama: 390 px sahte sayfa, önce sol -12°/sağ 12°, sonra 0°/0°.

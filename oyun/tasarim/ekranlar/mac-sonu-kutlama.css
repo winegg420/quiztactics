@@ -221,7 +221,7 @@ html.msk-acik .mobile-nav, html.msk-acik .a-kabuk .a-altmenu { display: none !im
   box-shadow: 0 0 0 4px var(--qt-coin), 0 0 0 7px var(--qt-coin-dudak), 0 0 24px 6px color-mix(in srgb, var(--qt-coin) 65%, transparent);
 }
 .msk-tac {
-  --msk-tac-don: -12deg;
+  --msk-tac-don: 0deg; /* ölçüm: tac.webp siluet ekseni 0°; eski ±12° dönüş taçı yamuk gösteriyordu */
   position: absolute;
   z-index: 2;
   top: -30px;
@@ -232,7 +232,7 @@ html.msk-acik .mobile-nav, html.msk-acik .a-kabuk .a-altmenu { display: none !im
   transform: rotate(var(--msk-tac-don));
   animation: msk-tac 420ms var(--qt-egri-yay) calc(var(--t-avatar) + 400ms) backwards;
 }
-.msk-taraf--sag .msk-tac { --msk-tac-don: 12deg; }
+.msk-taraf--sag .msk-tac { --msk-tac-don: 0deg; }
 /* 550 · B1: kazananın çerçevesinde (ya da aurasında) taç süsü varsa sahnenin taç emojisi gizlenir — iki taç
    üst üste binmesin. Çerçeve işareti: CerceveGorseli / DenemeCerceve › data-tac. Taçsız çerçevede aynen. */
 .msk-avatar:has([data-tac]) > .msk-tac { display: none; }
