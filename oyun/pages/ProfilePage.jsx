@@ -5,7 +5,7 @@ import { kozmetikTemasi, tepkiGizleAyarla, useTepkiGizli } from "../lib/kozmetik
 import IsimEfekti, { useKartAlani } from "../components/IsimEfekti.jsx";
 import { sesMetni } from "../lib/ceviri/ses.js";
 import { hataMesaji } from "../lib/hata.js";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import AvatarCerceve from "../components/AvatarCerceve.jsx";
@@ -73,10 +73,22 @@ export default function ProfilePage() {
   const [cikisOnay, setCikisOnay] = useState(false);
   // Paket 41 C: avatar menüsündeki "Ayarlar" → /profil?sekme=ayarlar doğrudan Ayarlar sekmesini açar
   const konum = useLocation();
+  const git = useNavigate();
+  // Madde 8: sekme tıklanınca adres satırı ?sekme=… olur (replace: geri tuşu profilden çıkar, sekme geçmişi şişmez);
+  // yenilemede aynı sekme açılır. state.sekmeTik: aşağıdaki kaydırma yalnız dışarıdan gelen bağlantılarda çalışır.
+  const sekmeSec = (k) => {
+    setSekme(k);
+    try {
+      const p = new URLSearchParams(konum.search);
+      p.set("sekme", k); p.delete("bagla");
+      git({ pathname: konum.pathname, search: `?${p.toString()}` }, { replace: true, state: { sekmeTik: true } });
+    } catch (e) { console.error("[Bildim] sekme adresi yazılamadı:", e); }
+  };
   useEffect(() => {
     const s = new URLSearchParams(konum.search).get("sekme");
     if (!s || !SEKME_KODLARI.includes(s)) return;
     setSekme(s);
+    if (konum.state?.sekmeTik) return undefined;
     const bagla = new URLSearchParams(konum.search).get("bagla") === "1";
     const t = setTimeout(() => {
       // Üst çubuk yapışkan: sekmeler onun hemen altına gelsin
@@ -279,7 +291,7 @@ export default function ProfilePage() {
 
       {/* ---------- SEKMELER ---------- */}
       <div id="profil-sekmeler" className={sinif("qt-pf-sekmeler", sirali)} style={siraStili(5)}>
-        <QtSekmeler etiket={tt("Profil bölümleri")} sekmeler={sekmeler} aktif={sekme} onSec={setSekme} />
+        <QtSekmeler etiket={tt("Profil bölümleri")} sekmeler={sekmeler} aktif={sekme} onSec={sekmeSec} />
       </div>
 
       <div id={`qt-panel-${sekme}`} role="tabpanel" className="qt-pf-panel">
