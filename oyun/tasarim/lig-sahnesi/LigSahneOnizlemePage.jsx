@@ -40,7 +40,8 @@ export default function LigSahneOnizlemePage() {
         </header>
         <div className="lso-arac">
           <QtSekmeler etiket={tt("Sahne sürümü")} aktif={surum} onSec={setSurum}
-            sekmeler={[{ kod: "eski", ad: tt("Eski") }, { kod: "yeni", ad: tt("Yeni") }]} />
+            sekmeler={[{ kod: "eski", ad: tt("Eski") }, { kod: "yeni", ad: tt("Yeni") },
+              { kod: "v1", ad: "V1" }, { kod: "v2", ad: "V2" }, { kod: "v3", ad: "V3" }]} />
           <label className="lso-bp">
             <input type="checkbox" checked={bp} onChange={(e) => setBp(e.target.checked)} />
             <span>{tt("Battle Pass çerçevesi")}</span>
@@ -50,7 +51,7 @@ export default function LigSahneOnizlemePage() {
           {LIGLER.map((lig, i) => (
             <section key={lig} className="lso-hucre" aria-label={tt("{lig} Lig", { lig: tt(LIG_ADLARI[lig] ?? lig) })}>
               <OyuncuVitrinKarti key={`${lig}-${surum}-${bp}`} kart={kartYap(lig, i, bp)} boyut={88} ligSahnesi
-                sahneImza={surum === "yeni"} koleksiyonCipi={false} />
+                sahneImza={surum !== "eski"} bpHalkasiYok={surum.startsWith("v")} koleksiyonCipi={false} />
             </section>
           ))}
         </div>

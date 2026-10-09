@@ -11119,3 +11119,10 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - Ölçüm: tac.webp siluet simetri ekseni 0° (sapma %0,07) → görsel yamuk değil; ayna (scaleX) silueti değiştirmiyor. Eğim kaynağı: `.msk-tac` içindeki ±12° döndürme (sol -12°, sağ +12°, mac-sonu-kutlama.css).
 - Düzeltme: `--msk-tac-don` iki tarafta 0deg. CerceveGorseli `*_tac` parçaları r/ayna ile değişmedi (silüet simetrik, eğim yok); çerçeveli kazananda sahne tacı zaten gizli.
 - Doğrulama: 390 px sahte sayfa, önce sol -12°/sağ 12°, sonra 0°/0°.
+
+## 2026-10-09 — Lig sahnesi önizleme: V1/V2/V3 altyapısı + BP halkası (Adım 1/4)
+**Araç:** Claude Code
+- Avatarın etrafındaki sarı halka: `CerceveliAvatar` (`sezonBp`/`kart.sezon_bp`) → `components/sezon/AltinHalka.jsx` (SVG, `sz-halka`). Kart kenarındaki çift altın çerçeve/perçinler (`qt-ok--bp`, `qt-ok-percin`) ayrı ve duruyor.
+- `OyuncuVitrinKarti`'na `bpHalkasiYok` prop'u (varsayılan false → canlı aynı): avatara `sezonBp:false` geçer. Önizlemede V1/V2/V3 sekmeleri bu prop'la, `sahneImza` açık çizilir; Eski/Yeni değişmedi.
+- Doğrulama: build temiz; önizlemede halka sayısı Eski/Yeni bp=1 → 5, V1-3 bp=1 → 0.
+- Aynı halka mantığı: LeaderboardPage (bpAktif), sezon-yolu/Kutlama.jsx, MacSonuKutlama.jsx, IsimEfekti.jsx — dokunulmadı.

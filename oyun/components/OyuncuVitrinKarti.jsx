@@ -82,7 +82,7 @@ export function KartLigSatiri({ lig, level, yazi = true, amblem = 22, bp = false
 }
 
 export default function OyuncuVitrinKarti({ userId, profile, kart: verilenKart, boyut = 88, hareketli = false, kompakt = false,
-  className = "", avatarEk = null, adEk = null, arkaPlan = false, ligSahnesi = false, sahneImza = false, koleksiyonCipi = true, bp, children }) {
+  className = "", avatarEk = null, adEk = null, arkaPlan = false, ligSahnesi = false, sahneImza = false, koleksiyonCipi = true, bp, bpHalkasiYok = false, children }) {
   const kart = useOyuncuKarti(userId, verilenKart);
   // 30 Eyl: arkaPlan → takılı kart arka planı kartın arkasında (yalnız profil sayfası ister; diğer kullananlar aynı)
   const arkaPlanSanat = useKartArkaPlani(arkaPlan ? userId : null, kart ?? undefined);
@@ -104,7 +104,7 @@ export default function OyuncuVitrinKarti({ userId, profile, kart: verilenKart, 
         </span>
       )}
       <div className="qt-ok-avatar">
-        <CerceveliAvatar profile={profil} userId={userId} boyut={boyut} hareketli={hareketli} {...(kart ? { kart } : {})} />
+        <CerceveliAvatar profile={profil} userId={userId} boyut={boyut} hareketli={hareketli} {...(kart ? { kart } : {})} {...(bpHalkasiYok ? { sezonBp: false } : {})} />
         {avatarEk}
       </div>
       <p className="qt-ok-ad">
