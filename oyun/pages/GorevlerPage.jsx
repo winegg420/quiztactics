@@ -134,7 +134,7 @@ function GorevSatiri({ g, gunluk, dil, sezonAcik, islemde, mesgul, onAl, ucan, s
       {/* 8 Eki: "Al" + ödül satırın sağında kendi sütununda (çubuk ve ödül metniyle sıkışmasın) */}
       {durum === "alinabilir" && (
         <span className="gv-al-kutu">
-          <QtDugme boyut="k" className="qt-oyk-al gv-al" yukleniyor={islemde} devreDisi={mesgul && !islemde}
+          <QtDugme tur="dogru" boyut="k" className="qt-oyk-al gv-al" yukleniyor={islemde} devreDisi={mesgul && !islemde}
                    aria-label={tt("{ad} ödülünü al", { ad })} onClick={onAl}>{tt("Al|görev")}</QtDugme>
           <OdulSatiri odul={g.odul} sezonAcik={sezonAcik} />
         </span>
@@ -214,7 +214,7 @@ function SandikKahraman({ s, sezonAcik, islemde, mesgul, onAc, ucan, sira, siral
           </span>
         )}
         {durum === "alinabilir" && (
-          <QtDugme boyut="k" className="qt-oyk-al gv-al gv-kah-dugme" yukleniyor={islemde} devreDisi={mesgul && !islemde} onClick={onAc}>{tt("Sandığı aç")}</QtDugme>
+          <QtDugme tur="dogru" boyut="k" className="qt-oyk-al gv-al gv-kah-dugme" yukleniyor={islemde} devreDisi={mesgul && !islemde} onClick={onAc}>{tt("Sandığı aç")}</QtDugme>
         )}
       </div>
       {durum === "alinabilir" && <span className="qt-h-isilti qt-h-isilti--dongu" style={{ "--isilti-kose": "14px" }} aria-hidden="true" />}
@@ -406,7 +406,7 @@ export default function GorevlerPage() {
     <>
       {mesaj && <p className="gv-mesaj" role="alert">{mesaj}</p>}
       {hazir > 0 && (
-        <QtDugme tamGenislik boyut="o" className="gv-toplu" yukleniyor={islem === "toplu"} devreDisi={Boolean(islem) && islem !== "toplu"}
+        <QtDugme tur="dogru" tamGenislik boyut="o" className="gv-toplu" yukleniyor={islem === "toplu"} devreDisi={Boolean(islem) && islem !== "toplu"}
                  onClick={() => { dokunus(); topluAl(); }}>{tt("Ödülü al ({n})", { n: sayiMetni(hazir) })}</QtDugme>
       )}
     </>

@@ -283,7 +283,7 @@ export default function SezonYoluPage() {
             {bpVar && bonus && <BonusSatiri bonus={bonus} islemde={islem === "bonus"} mesgul={Boolean(islem)} onAl={bonusAl} />}
             {/* Tek büyük düğme: alınabilir ödül varsa "Ödülleri al (n)"; yoksa ve Battle Pass yoksa altın "Battle Pass al"; BP varsa satın alma düğmesi yok */}
             {alinabilirSayi > 0 ? (
-              <QtDugme tamGenislik ikon="hediye" className="sy-hepsini" yukleniyor={islem === "toplu"} devreDisi={Boolean(islem)}
+              <QtDugme tur="dogru" tamGenislik ikon="hediye" className="sy-hepsini" yukleniyor={islem === "toplu"} devreDisi={Boolean(islem)}
                 ref={topluRef} onClick={topluAl}>
                 {tt("Ödülleri al ({n})", { n: alinabilirSayi })}
               </QtDugme>
