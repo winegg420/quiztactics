@@ -220,3 +220,12 @@ update public.questions
   '75cc0999-a952-4db2-964c-fb555f4db581',
   'b551cc78-dc7a-4e2f-905e-74baa4139bd3'
 );
+
+-- 20260612001033_z2_dogruluk_3_pasif.sql geri alma: pasife alınan 3 doğruluk sorunlu zorluk 2 soruyu yeniden açar. Yalnız elle çalıştırılır.
+update public.questions
+   set aktif = true
+ where not aktif and zorluk = 2 and id in (
+  '0596f062-6311-41d4-9a7e-ab1a239ee7f8',
+  '73b11e97-0c24-48a3-bc67-0aea2a27cbc4',
+  'd1a7c671-a8a9-4020-8b64-1f4b82b23726'
+);

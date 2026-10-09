@@ -11049,3 +11049,7 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - 1032 `migration-uygula.mjs` ile uygulandı. Canlı: z2 aktif **2.914 → 2.697**; z1/z3/z4/z5 = 975/5.077/2.408/1.126 değişmedi, toplam satır sayıları aynı (silinen yok). Z2 kategori: bilim 491 · coğrafya 416 · edebiyat 225 · genel_kültür 215 · müzik 245 · sanat 206 · sinema 219 · spor 210 · tarih 260 · teknoloji 210.
 - Raporlar: `z2-asiri-basit-ikinci-rapor.csv` (715, karar+gerekçe), `z2-dogruluk-sorunlari.csv` (3 "çift": yüksek atlama süre, erozyon nadas, klavye gezinme — açık bırakıldı). Geri alma `docs/z2-asiri-basit-2-geri-al.sql`.
 - Not: ŞÜPHELİ 313'ün çoğu "kapat ama güven 0,65–0,80"; istenirse ileride üçüncü bakış yapılabilir.
+
+## 2026-10-09 — Z2 doğruluk sorunlu 3 soru pasife alındı
+- Migration 20260612001033: yüksek atlama "süre dolunca", erozyon "nadas", klavyeyle gezinme "hız için" soruları aktif=false (silinmedi); canlıya uygulandı, Z2 aktif 2.697 → 2.694, toplam aktif 12.283 → 12.280, başka soru değişmedi.
+- Geri alma SQL'i docs/z2-asiri-basit-2-geri-al.sql sonuna eklendi.
