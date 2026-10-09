@@ -33,6 +33,8 @@ export default {
   "{n} joker türü · 3 can": "{n} joker types · 3 lives",
   "{n} joker türü · aynı anda": "{n} joker types · live",
   "{n} joker türü · sıra sende": "{n} joker types · take turns",
+  "{n} joker türü · kontrolü al": "{n} joker types · take control",
+  "Kontrolü al, üst üste 3 doğru yap.": "Take control and get 3 correct in a row.",
   "Skillsiz": "No jokers",
   "Her gün": "Every day",
   "3–5 arkadaş · ödülsüz. Aynı sorularda eğlencesine yarış.": "3–5 friends · just for fun. Same questions, pure bragging rights.",

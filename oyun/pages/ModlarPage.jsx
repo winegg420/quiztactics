@@ -17,7 +17,7 @@ import DereceliAnahtari from "../components/DereceliAnahtari.jsx";
 import KategoriSecici from "../components/KategoriSecici.jsx";
 import { useDereceliTercih } from "../lib/dereceli.js";
 import { useKategoriTercih } from "../lib/kategoriTercih.js";
-import { KLASIK_JOKERLER, DUELLO_JOKERLER } from "../lib/jokerler.js";
+import { KLASIK_JOKERLER, DUELLO_JOKERLER, DUELLO_V4_JOKERLER } from "../lib/jokerler.js";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
 import { useDil } from "../lib/dilKanca.js";
@@ -29,7 +29,7 @@ const DUELLO_JOKER = DUELLO_JOKERLER.length;
 const KLASIK_JOKER = KLASIK_JOKERLER.length;
 
 export default function ModlarPage() {
-  const { tur: turSayisi } = useDuelloKurallari();   // Düello tur sayısı metne gömülmez (960: seçim modunda 20, kapalıysa eski 16)
+  const { tur: turSayisi, v4 } = useDuelloKurallari();   // Düello tur sayısı metne gömülmez (960: seçim modunda 20, kapalıysa eski 16)
   // KASA (deneysel, 950): ayar satırı yoksa (migration uygulanmamış) ya da 0 ise kart kilitli + kapalı notu
   const kasaAcik = useAyar("kasa_modu_acik", 0) >= 1;
   const kasaHedef = useAyar("kasa_hedef_puan", 80);
@@ -84,8 +84,8 @@ export default function ModlarPage() {
           className={sirali}
           style={siraStili(1)}
           ad={ceviri("Düello")}
-          alt={tt("Skillerini doğru anda kullan. Rakibinin planını boz ve taktik üstünlük kur.")}
-          rozet={tt("{n} joker türü · {t} tur", { n: DUELLO_JOKER, t: turSayisi })}
+          alt={v4 ? tt("Kontrolü al, üst üste 3 doğru yap.") : tt("Skillerini doğru anda kullan. Rakibinin planını boz ve taktik üstünlük kur.")}
+          rozet={tt("{n} joker türü · {t} tur", { n: v4 ? DUELLO_V4_JOKERLER.length : DUELLO_JOKER, t: turSayisi })}
           onClick={sec(() => navigate(y("/duello")))}
         />
         <QtModKart

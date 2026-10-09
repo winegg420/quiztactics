@@ -50,7 +50,8 @@ import { useDereceliTercih } from "../lib/dereceli.js";
 import { useDil } from "../lib/dilKanca.js";
 import { tt } from "../lib/dil.js";
 import { botAdi } from "../lib/botAdi.js";
-import { KLASIK_JOKERLER, DUELLO_JOKERLER } from "../lib/jokerler.js";
+import { KLASIK_JOKERLER, DUELLO_JOKERLER, DUELLO_V4_JOKERLER } from "../lib/jokerler.js";
+import { useDuelloKurallari } from "../lib/duelloKurallari.js";
 import { rpcDene } from "../lib/rpcDene.js";
 import { aramaAraligiSn } from "../lib/gorunurluk.js";
 import AramaSahnesi from "../components/AramaSahnesi.jsx";
@@ -105,6 +106,7 @@ function BekleyenKurulum({ baslik, kategori, katilimcilar, onIptal, iptalEdilen,
 
 export default function ChallengesPage() {
   const { user } = useAuth();
+  const { v4: duelloV4 } = useDuelloKurallari();
   const navigate = useNavigate();
   const [maclar, setMaclar] = useState([]);
   const [hata, setHata] = useState(null);
@@ -1246,7 +1248,7 @@ export default function ChallengesPage() {
           <QtModKart mod="klasik" ad={tt("Klasik Mod|meydan")} alt={tt("{n} joker türü · aynı anda", { n: KLASIK_JOKERLER.length })}
                      secili={meydanModu === "normal"} rozet={secimOnayi(meydanModu === "normal")}
                      onClick={() => { secimHissi(); setMeydanModu("normal"); }} />
-          <QtModKart mod="duello" ad={tt("Düello")} alt={tt("{n} joker türü · sıra sende", { n: DUELLO_JOKERLER.length })}
+          <QtModKart mod="duello" ad={tt("Düello")} alt={duelloV4 ? tt("{n} joker türü · kontrolü al", { n: DUELLO_V4_JOKERLER.length }) : tt("{n} joker türü · sıra sende", { n: DUELLO_JOKERLER.length })}
                      secili={meydanModu === "duello"} rozet={secimOnayi(meydanModu === "duello")}
                      onClick={() => { secimHissi(); setMeydanModu("duello"); }} />
           <QtModKart mod="saf" ad={tt("Saf Bilgi")} alt={tt("skill yok")}
