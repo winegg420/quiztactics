@@ -11053,3 +11053,9 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 ## 2026-10-09 — Z2 doğruluk sorunlu 3 soru pasife alındı
 - Migration 20260612001033: yüksek atlama "süre dolunca", erozyon "nadas", klavyeyle gezinme "hız için" soruları aktif=false (silinmedi); canlıya uygulandı, Z2 aktif 2.697 → 2.694, toplam aktif 12.283 → 12.280, başka soru değişmedi.
 - Geri alma SQL'i docs/z2-asiri-basit-2-geri-al.sql sonuna eklendi.
+
+## 2026-10-09 — Madde 9-10: tek sayfa genişliği + ortak sayfa başlığı
+**Araç:** Claude Code
+- 9) `--sayfa-genislik: 640px` (tokenlar.css); `--qt-sutun` ve `--qt-sutun-dukkan` buna bağlandı, `.qt-sahne-ic` max-width onu okur. Ölçüm 1536'da: Modlar, Meydan, Profil, Lig, Dükkân, Görevler, Sezon Yolu hepsi 640 (önce Dükkân 740, Görevler/Sezon Yolu 560). Yatay taşma 1536/390/360'ta yok. Ana Sayfa kasıtlı olarak masaüstü paneli (1180) kalır.
+- 10) `oyun/tasarim/SayfaBasligi.jsx`: `tur="afis"` (QtAfis) ve `tur="sahne"` (QtSahne üst şeridi, aynı işaretleme) + geri düğmesi + alt yazı. Modlar, Meydan, Lig, Arkadaşlar, Mesajlar, Görevler, Sezon Yolu kullanıyor. Profil ve Dükkân'da görünür başlık yoktu; eklenmedi. `QtAfis` ve eski CSS yerinde; kullanılmayanlar ayrı commit'te temizlenecek.
+- Test: yerel sunucu, 1536/390/360, EN oturumlar; build temiz.
