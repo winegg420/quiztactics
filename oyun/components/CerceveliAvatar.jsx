@@ -37,13 +37,16 @@ import { tt } from "../lib/dil.js";
 import { premiumSanat } from "../lib/kozmetik.js";
 import { kazanilanMi } from "../tasarim/kazanilan/anahtarlar.js";
 import AltinHalka from "./sezon/AltinHalka.jsx";
+import { ESKI_GORUNUM, CANLI_LIG_VARYANT } from "../tasarim/lig-sahnesi/canliGorunum.js";
 
 const PremiumAvatarCizim = lazy(() => import("./PremiumAvatarCizim.jsx"));
 
 const alanVar = (o, ad) => o != null && Object.prototype.hasOwnProperty.call(o, ad);
 
 export default function CerceveliAvatar({ profile, userId, boyut = 44, cerceve, kart, aura, premiumCerceve, premiumAura,
-  hareketli = false, className = "", sezonBp, ligVaryant = null }) {
+  hareketli = false, className = "", sezonBp, ligVaryant: ligVaryantProp = null, eskiGorunum = ESKI_GORUNUM }) {
+  // 9 Eki (canlıya alma): eskiGorunum false → BP avatar halkası çizilmez, Elmas/Efsane onaylı V2. true → eski hâl.
+  const ligVaryant = eskiGorunum ? ligVaryantProp : (ligVaryantProp ?? CANLI_LIG_VARYANT);
   const kimlik = userId ?? profile?.id ?? profile?.user_id ?? null;
   const cerceveVerildi = cerceve !== undefined || kart !== undefined;
   const auraVerildi = aura !== undefined || alanVar(kart, "aura");
@@ -96,7 +99,7 @@ export default function CerceveliAvatar({ profile, userId, boyut = 44, cerceve, 
   );
   // Sezon Yolu: prop > kart alanı > okunan kart. Yoksa/false → aşağıdaki çizim değişmeden döner.
   const bp = sezonBp !== undefined ? sezonBp === true : alanVar(kart, "sezon_bp") ? kart.sezon_bp === true : okunan?.sezon_bp === true;
-  const halkali = (cizim) => (bp ? (
+  const halkali = (cizim) => (bp && eskiGorunum ? (
     <span className="sz-halka-kap" style={{ "--sz-b": `${boyut}px` }}>
       {cizim}
       <AltinHalka boyut={boyut} hareketli={hareketli && boyut > 48} />

@@ -24,6 +24,7 @@ import { LIG_ADLARI } from "../lib/lig.js";
 import { BpKartCerceve } from "../tasarim/lig-sahnesi/BpCizimler.jsx";
 import LigSahneArka from "../tasarim/lig-sahnesi/LigSahneArka.jsx";
 import LigSahnesiImza from "../tasarim/lig-sahnesi/LigSahnesiImza.jsx";
+import { ESKI_GORUNUM, CANLI_BP_CERCEVE, CANLI_LIG_VARYANT, CANLI_SAHNE_ARKA } from "../tasarim/lig-sahnesi/canliGorunum.js";
 import { tt } from "../lib/dil.js";
 import "../tasarim/ekranlar/oyuncu-vitrin-karti.css";
 import "../tasarim/ekranlar/koleksiyon-puani.css";
@@ -84,7 +85,14 @@ export function KartLigSatiri({ lig, level, yazi = true, amblem = 22, bp = false
 }
 
 export default function OyuncuVitrinKarti({ userId, profile, kart: verilenKart, boyut = 88, hareketli = false, kompakt = false,
-  className = "", avatarEk = null, adEk = null, arkaPlan = false, ligSahnesi = false, sahneImza = false, koleksiyonCipi = true, bp, bpHalkasiYok = false, varyant = null, ligVaryant = null, sahneArka = null, children }) {
+  className = "", avatarEk = null, adEk = null, arkaPlan = false, ligSahnesi = false, sahneImza = false, koleksiyonCipi = true, bp, bpHalkasiYok: bpHalkasiYokProp = false, varyant: varyantProp = null, ligVaryant: ligVaryantProp = null, sahneArka: sahneArkaProp = null,
+  eskiGorunum = ESKI_GORUNUM, children }) {
+  // 9 Eki (canlıya alma): eskiGorunum false (varsayılan) → onaylı görünüm (BP Çerçeve 2, halka yok, Arka plan 2, Elmas/Efsane V2).
+  // true → proplar eskisi gibi elle verilir (önizleme "Eski" sekmesi, geri alma). Ayar: tasarim/lig-sahnesi/canliGorunum.js
+  const bpHalkasiYok = eskiGorunum ? bpHalkasiYokProp : true;
+  const varyant = eskiGorunum ? varyantProp : (varyantProp ?? CANLI_BP_CERCEVE);
+  const ligVaryant = eskiGorunum ? ligVaryantProp : (ligVaryantProp ?? CANLI_LIG_VARYANT);
+  const sahneArka = eskiGorunum ? sahneArkaProp : (sahneArkaProp ?? CANLI_SAHNE_ARKA);
   // 9 Eki: `varyant` ("v1"|"v2"|"v3") yalnız /lig-sahne-onizleme verir — köşeli BP kart çerçevesi (SVG; avatar arkası halka yok)
   // + Elmas/Efsane yeni çerçeve. null (canlıdaki her kullanım) → DOM ve görünüm eskisiyle aynı.
   // 9 Eki (4. tur): ligVaryant (Elmas/Efsane çizimi, ör. "onayli") ve sahneArka ("a1"|"a2"|"a3" yeni arka plan) yalnız önizleme.
@@ -111,7 +119,7 @@ export default function OyuncuVitrinKarti({ userId, profile, kart: verilenKart, 
         </span>
       )}
       <div className="qt-ok-avatar">
-        <CerceveliAvatar profile={profil} userId={userId} boyut={boyut} hareketli={hareketli} {...(kart ? { kart } : {})} {...(bpHalkasiYok ? { sezonBp: false } : {})} {...(ligVaryant || varyant ? { ligVaryant: ligVaryant ?? varyant } : {})} />
+        <CerceveliAvatar profile={profil} userId={userId} boyut={boyut} hareketli={hareketli} {...(kart ? { kart } : {})} {...(bpHalkasiYok ? { sezonBp: false } : {})} {...(ligVaryant || varyant ? { ligVaryant: ligVaryant ?? varyant } : {})} eskiGorunum={eskiGorunum} />
         {avatarEk}
       </div>
       <p className="qt-ok-ad">

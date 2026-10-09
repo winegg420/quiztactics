@@ -11162,3 +11162,9 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - Arka plan 2 onaylandı: önizlemede varsayılan a2, seçici gizli (`false &&`); a1/a3 kodda.
 - BP çerçeve seçicisi artık Çerçeve 1 dilinin üç kalınlığı (BpCizimler.jsx › KartAile): 1 = 1,5× (~9,9 px), 2 = 2× (~13,2 px, iç çizgi belirgin, büyük L), 3 = 2,5× (~16,5 px, <%5, köşede kare yakut). Eski KartV1-3 `s1-s3` anahtarıyla kodda, seçicide yok.
 - Test: yerel girişsiz kabuk, 3 çerçeve × 1100/390 px; taşma yok, arka plan seçicisi görünmüyor. Görseller tasarim/lig-sahne-v-adim4/t6-* (commit dışı).
+
+## 9 Eki 2026 — Canlıya alma: onaylı lig sahnesi / BP çerçevesi (Claude)
+- Varsayılan canlı görünüm: BP Çerçeve 2 (KartA2), Arka plan 2 (a2), Elmas/Efsane onaylı V2; BP avatar halkası (AltinHalka) hiçbir yerde çizilmez.
+- Tek ayar: `oyun/tasarim/lig-sahnesi/canliGorunum.js` (`ESKI_GORUNUM = true` → eski hâl). OyuncuVitrinKarti + CerceveliAvatar `eskiGorunum` prop'u; önizleme "Eski" sekmesi bunu verir.
+- Kutlama.jsx metni "altın halka" → "Battle Pass çerçevesi" (EN sözlük eklendi). IsimEfekti (altın isim), MacSonuKutlama (zafer şeridi), Leaderboard satır perçinleri dokunulmadı (halka çizmiyorlar).
+- Test: yerel girişsiz geçici kabuk, 1280/390 px; Yeni halka 0/BP çerçeve 5, Eski halka 5/0; taşma yok. Görseller tasarim/lig-sahne-v-canli/ (commit dışı).

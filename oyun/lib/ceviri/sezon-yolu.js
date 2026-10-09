@@ -69,6 +69,7 @@ export default {
   // Kutlama
   "Battle Pass aktif!": "Battle Pass active!",
   "Altın isim ve altın halka artık sende.": "You now have the gold name and gold ring.",
+  "Altın isim ve Battle Pass çerçevesi artık sende.": "You now have the gold name and the Battle Pass frame.",
   "Geriye dönük ödüllerin:": "Your back-dated rewards:",
   "Verilen ödüller": "Rewards given",
 

@@ -66,7 +66,7 @@ export default function LigSahneOnizlemePage() {
             <section key={lig} className="lso-hucre" aria-label={tt("{lig} Lig", { lig: tt(LIG_ADLARI[lig] ?? lig) })}>
               <OyuncuVitrinKarti key={`${lig}-${surum}-${cerceve}-${arka}-${bp}`} kart={kartYap(lig, i, bp)} boyut={88} ligSahnesi
                 bpHalkasiYok={yeni} varyant={yeni ? cerceve : null} ligVaryant={yeni ? "onayli" : null}
-                sahneArka={yeni ? arka : null} koleksiyonCipi={false} />
+                sahneArka={yeni ? arka : null} eskiGorunum={!yeni} koleksiyonCipi={false} />
             </section>
           ))}
         </div>

@@ -21,7 +21,7 @@ export default function Kutlama({ verilen, profile, userId, onKapat }) {
   const liste = (Array.isArray(verilen) ? verilen : []).slice(0, 12);
   const fazla = Math.max(0, (Array.isArray(verilen) ? verilen.length : 0) - liste.length);
   return (
-    <QtModal acik baslik={tt("Battle Pass aktif!")} aciklama={tt("Altın isim ve altın halka artık sende.")} onKapat={onKapat}
+    <QtModal acik baslik={tt("Battle Pass aktif!")} aciklama={tt("Altın isim ve Battle Pass çerçevesi artık sende.")} onKapat={onKapat}
       altlik={<QtDugme tamGenislik onClick={onKapat} data-qt-ilk-odak>{tt("Harika")}</QtDugme>}>
       <div className="sy-kutlama" data-yumusak>
         <div className="sy-kutlama-sahne">
