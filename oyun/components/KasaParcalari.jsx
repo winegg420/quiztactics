@@ -362,3 +362,31 @@ export function KasaSonucBandi({ d, c }) {
     </div>
   );
 }
+
+// Sahnenin üstündeki kısa anlar (KasaPage; /sure-ayar önizlemesi de aynı bileşenleri çizer). Ömür çağıranda (sure()).
+/** Joker bilgi satırı ("İkinci Şans: bir kez daha dene!" vb.). */
+export function KasaJokerBilgi({ bilgi }) {
+  return <p className="ks-joker-bilgi" role="status" aria-live="polite">{bilgi.metin}</p>;
+}
+/** 953: DEVAM ödülü kazanıldı — altın parıltılı kart. */
+export function KasaDevamOdul({ an, c }) {
+  return (
+    <p className="ks-devam-an ks-devam-an--kazandi" role="status" aria-live="polite">
+      <span className="ks-devam-an-ikon" aria-hidden="true">🃏</span>
+      <span className="ks-devam-an-yazi">
+        <b>{c("Joker kazandın!")}</b>
+        {an.joker && <span>{c("{j} · bu soru için ücretsiz", { j: jokerBilgi(an.joker, "kasa").ad })}</span>}
+      </span>
+    </p>
+  );
+}
+/** 951: rakip joker kullandı — ikon + kısa yazı (etkisi gizli). */
+export function KasaRakipJokerAn({ an, c }) {
+  return (
+    <p className="ks-rakip-joker-an" role="status" aria-live="polite">
+      <SkillRozeti tur={an.tur} boyut={28} />
+      <span>{an.tur === "zaman_baskisi" ? c("Rakip süreni kısalttı!")
+        : c("Rakip {j} kullandı", { j: jokerBilgi(an.tur, "kasa").ad })}</span>
+    </p>
+  );
+}

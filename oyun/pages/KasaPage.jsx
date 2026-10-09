@@ -23,13 +23,11 @@ import AramaSahnesi from "../components/AramaSahnesi.jsx";
 import { GeriSayim } from "../components/MacHazirlik.jsx";
 import BulunamadiPage from "./BulunamadiPage.jsx";
 import { KasaKadran, KasaSkor, KasaUst, KasaKarar, KasaSonucBandi, KasaAcKilit, kasaKararMetni, kasaSonucArtisi, carpanYazisi,
-         kasaSavunma, SavunmaRozeti, SAVUNMA_HAKKI, SAVUNMA_SORUSU } from "../components/KasaParcalari.jsx";
+         kasaSavunma, SavunmaRozeti, SAVUNMA_HAKKI, SAVUNMA_SORUSU, KasaJokerBilgi, KasaDevamOdul, KasaRakipJokerAn } from "../components/KasaParcalari.jsx";
 import JokerCubugu from "../components/JokerCubugu.jsx";
 import CerceveliAvatar from "../components/CerceveliAvatar.jsx";
 import KategoriIkon from "../components/KategoriIkon.jsx";
 import { TepkiCubugu, useMacTepki } from "../components/Tepki.jsx";
-import SkillRozeti from "../components/SkillRozeti.jsx";
-import { jokerBilgi } from "../lib/jokerler.js";
 import { useOyuncuSeviyeleri } from "../lib/oyuncuSeviye.js";
 import { useMacSonuOzet, ozettenSahne } from "../lib/macSonuOzet.js";
 import { useDereceliTercih } from "../lib/dereceli.js";
@@ -1334,29 +1332,12 @@ function KasaMac({ id }) {
           </span>
         )}
         {sahne}
-        {jokerBilgiMetni && ["cevap", "sonuc"].includes(d.faz) && (
-          <p key={jokerBilgiMetni.anahtar} className="ks-joker-bilgi" role="status" aria-live="polite">{jokerBilgiMetni.metin}</p>
-        )}
-        {devamAn?.kazandi && d.faz === "cevap" && (
-          // 953: DEVAM ödülü kazanıldı — altın parıltılı kart (yalnız bende; kazanamayınca karar satırında küçük not)
-          (
-            <p key={devamAn.anahtar} className="ks-devam-an ks-devam-an--kazandi" role="status" aria-live="polite">
-              <span className="ks-devam-an-ikon" aria-hidden="true">🃏</span>
-              <span className="ks-devam-an-yazi">
-                <b>{c("Joker kazandın!")}</b>
-                {devamAn.joker && <span>{c("{j} · bu soru için ücretsiz", { j: jokerBilgi(devamAn.joker, "kasa").ad })}</span>}
-              </span>
-            </p>
-          )
-        )}
-        {rakipJokerAn && d.faz === "cevap" && (
-          // 951: rakip joker kullandı — ikon + kısa efekt (etkisi gizli; yalnız adı). Sahnenin üstünde, sayacı kapatmaz.
-          <p key={rakipJokerAn.anahtar} className="ks-rakip-joker-an" role="status" aria-live="polite">
-            <SkillRozeti tur={rakipJokerAn.tur} boyut={28} />
-            <span>{rakipJokerAn.tur === "zaman_baskisi" ? c("Rakip süreni kısalttı!")
-              : c("Rakip {j} kullandı", { j: jokerBilgi(rakipJokerAn.tur, "kasa").ad })}</span>
-          </p>
-        )}
+        {/* Üç an KasaParcalari'nda (aynı işaretleme; /sure-ayar önizlemesi de bunları çizer) */}
+        {jokerBilgiMetni && ["cevap", "sonuc"].includes(d.faz) && <KasaJokerBilgi key={jokerBilgiMetni.anahtar} bilgi={jokerBilgiMetni} />}
+        {/* 953: DEVAM ödülü kazanıldı — altın parıltılı kart (yalnız bende; kazanamayınca karar satırında küçük not) */}
+        {devamAn?.kazandi && d.faz === "cevap" && <KasaDevamOdul key={devamAn.anahtar} an={devamAn} c={c} />}
+        {/* 951: rakip joker kullandı — ikon + kısa efekt (etkisi gizli; yalnız adı). Sahnenin üstünde, sayacı kapatmaz. */}
+        {rakipJokerAn && d.faz === "cevap" && <KasaRakipJokerAn key={rakipJokerAn.anahtar} an={rakipJokerAn} c={c} />}
       </div>
       {jokerYuva}
       {girisAktif && (

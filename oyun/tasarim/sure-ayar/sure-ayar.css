@@ -27,14 +27,36 @@
 .sa-kart-eylem { display: flex; flex-wrap: wrap; gap: 8px; }
 .sa-kart-eylem > * { flex: 1 1 140px; min-height: 44px; }
 
-/* Önizleme sahnesi: tam ekran, dokununca kapanır */
-.sa-sahne { position: fixed; inset: 0; z-index: 900; display: grid; grid-template-rows: 1fr auto; background: rgba(12, 18, 30, .72); height: 100dvh; }
-.sa-sahne-ic { position: relative; overflow: hidden; display: grid; place-items: center; }
-.sa-sahne-alt { display: grid; gap: 6px; padding: 12px 16px calc(14px + env(safe-area-inset-bottom)); background: var(--qt-yuzey); color: var(--qt-metin); font-size: 14px; font-weight: 700; }
-.sa-sahne-alt small { font-weight: 600; color: var(--qt-metin-soluk); }
-.sa-cubuk { display: block; height: 6px; border-radius: 3px; background: var(--qt-cizgi); overflow: hidden; }
+/* Oynatıcı: tam ekran; üstte telefon çerçevesinde gerçek sahne, altta süre denetimi (kaydırıcı değişince yeniden oynar) */
+.sa-sahne { position: fixed; inset: 0; z-index: 900; display: grid; grid-template-rows: minmax(0, 1fr) auto; background: #0c121e; height: 100dvh; }
+.sa-sahne-ic { min-height: 0; display: grid; grid-template-rows: minmax(0, 1fr) auto; justify-items: center; gap: 6px; padding: 10px 12px 6px; }
+/* Çerçeve: contain → oyundaki position:fixed katmanlar (giriş, final, arama) telefonun içinde kalır. Transform/ölçek YOK:
+   hem iOS kuralı hem oyundaki uçuşlar (getBoundingClientRect ile hedef bulur) ölçekte yanlış yere iner. */
+.sa-telefon { position: relative; width: min(390px, 100%); height: 100%; max-height: 844px; min-height: 0; overflow: hidden; contain: layout paint;
+  border-radius: 18px; isolation: isolate; box-shadow: 0 0 0 3px #1d2152, 0 10px 30px rgba(0, 0, 0, .45); background: var(--qt-zemin); }
+.sa-telefon-ic { position: absolute; inset: 0; overflow: hidden; }
+.sa-telefon-ic > .m2-mac { min-height: 100%; margin-bottom: 0; box-sizing: border-box; }
+.sa-ortala { position: absolute; inset: 0; display: grid; place-items: center; }
+.sa-oynat-durum { width: min(390px, 100%); display: grid; gap: 4px; color: #e8eefc; font-size: 12px; }
+.sa-oynat-durum small { line-height: 1.3; }
+.sa-canli { color: #ffd88a; }
+.sa-sahne-alt { display: grid; gap: 6px; padding: 10px 14px calc(10px + env(safe-area-inset-bottom)); background: var(--qt-yuzey); color: var(--qt-metin); max-height: 42dvh; overflow-y: auto; }
+.sa-sahne-alt .sa-kart-bas h2 { font-size: 15px; }
+.sa-sahne-alt .sa-kaydirici { min-height: 40px; }
+.sa-oynat-eylem { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 6px; }
+.sa-oynat-eylem > * { min-height: 44px; min-width: 0; padding-inline: 6px; }
+.sa-son { position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; text-align: center; font: 700 15px/1.4 var(--qt-f-govde, inherit); color: var(--qt-metin-soluk); }
+.sa-sahne-alt h2 small { font-weight: 600; color: var(--qt-metin-soluk); }
+.sa-cubuk { display: block; height: 6px; border-radius: 3px; background: rgba(255, 255, 255, .25); overflow: hidden; }
 .sa-cubuk > i { display: block; height: 100%; background: var(--qt-ikinci); }
-.sa-ks-mac { position: relative; width: 100%; height: 100%; }
-.sa-genel { display: grid; gap: 6px; justify-items: center; padding: 18px 22px; border-radius: 16px; background: var(--qt-yuzey); color: var(--qt-metin); text-align: center; animation: qt-h-pop-gir .25s ease-out both; }
-.sa-genel b { font-size: 18px; }
-@media (prefers-reduced-motion: reduce) { .sa-genel { animation: none; } }
+.sa-degerler { margin: 0; display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 13px; color: var(--qt-metin-soluk); }
+.sa-degerler b { color: var(--qt-metin); }
+.sa-bag { border: 0; background: none; padding: 0; min-height: 44px; font: inherit; font-weight: 800; color: var(--qt-ikinci); text-decoration: underline; cursor: pointer; }
+
+/* Tam ekran: panel gizli, sahne oyundaki gibi bütün ekranı kaplar; dokununca panel geri gelir */
+.sa-sahne--tam { grid-template-rows: minmax(0, 1fr); }
+.sa-sahne--tam .sa-sahne-alt, .sa-sahne--tam .sa-oynat-durum { display: none; }
+.sa-sahne--tam .sa-sahne-ic { padding: 0; grid-template-rows: minmax(0, 1fr); }
+.sa-sahne--tam .sa-telefon { width: 100%; max-height: none; border-radius: 0; box-shadow: none; }
+.sa-panel-goster { position: absolute; z-index: 2; right: 10px; bottom: calc(10px + env(safe-area-inset-bottom)); min-height: 44px; padding: 0 16px; border: 0; border-radius: 22px;
+  background: rgba(12, 18, 30, .82); color: #fff; font: 800 14px var(--qt-f-govde, inherit); cursor: pointer; }

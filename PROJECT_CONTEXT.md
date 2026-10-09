@@ -663,7 +663,7 @@ Ida "kendin doldur" dedi; hepsi test değeridir, yayından önce yeniden bakıla
 
 ## Arayüz ve Görsel Kararlar
 
-- **Sunum süreleri (9 Eki 2026):** Düello + Ortak Hazine geçiş/animasyon süreleri tek yerde `oyun/lib/sureler.js`; ince ayar gizli `/sure-ayar` (yalnız o tarayıcı, localStorage). Envanter/ölçüm `docs/sure-olcum.md`. Değer değişikliği = `sureler.js` varsayılanı.
+- **Sunum süreleri (9 Eki 2026):** Düello + Ortak Hazine geçiş/animasyon süreleri tek yerde `oyun/lib/sureler.js`; ince ayar gizli `/sure-ayar` (yalnız o tarayıcı, localStorage). Envanter/ölçüm `docs/sure-olcum.md`. Değer değişikliği = `sureler.js` varsayılanı. Sayfadaki "Oynat" her sahneyi gerçek bileşenle taklit veriyle oynatır (`oyun/tasarim/sure-ayar/sahneler.jsx`; oyun bu dosyayı yüklemez).
 
 **Görsel dil: Yön A "Şeker Kutusu" (Tasarım Adım 2, 23 Eyl 2026 — canlıda).** Parlak,
 yuvarlak, oyuncak gibi kabarık düğmeler. Bütün ekranlar (harita/meydan, gardırop,

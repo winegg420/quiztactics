@@ -645,3 +645,6 @@
 /* Sıra rakipte: "Rakip seçiyor…" açıkça okunsun */
 .hk-cubuk--savunan:not(.hk-cubuk--ipucu):not(.hk-cubuk--ban) { border-color: var(--hk-kirmizi-kenar); }
 .hk-cubuk--savunan:not(.hk-cubuk--ipucu):not(.hk-cubuk--ban) .hk-cubuk-yazi b { color: var(--hk-kirmizi-kenar); font-size: 15px; }
+
+/* /sure-ayar: Düello'da sayaç balonu (+süre / −süre) "Skill efekti" seçimiyle ölçeklenir (varsayılanda 1 → 900 ms, bugünkü hâl) */
+.hk-mac .qt-sayac-balon, .d4-arena .qt-sayac-balon { animation-duration: calc(900ms * var(--sr-duello_skill_efekt, 1)); }

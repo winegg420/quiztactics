@@ -549,7 +549,7 @@
   max-width: calc(100% - 16px); padding: 4px 12px 4px 4px; border-radius: var(--qt-r-hap); pointer-events: none;
   background: var(--qt-mod-duello); color: #fff; box-shadow: 0 3px 0 var(--qt-mod-duello-dudak), 0 6px 18px rgba(0, 0, 0, .25);
   font: var(--qt-a-siyah) 14px/1.15 var(--qt-f-govde);
-  animation: ks-rakip-joker 2200ms var(--qt-egri-cikis) both;
+  animation: ks-rakip-joker calc(2200ms * var(--sr-kasa_rakip_joker, 1)) var(--qt-egri-cikis) both;   /* /sure-ayar (varsayılanda 1) */
 }
 @keyframes ks-rakip-joker {
   0% { opacity: 0; transform: translateX(40px) scale(.8); } 12% { opacity: 1; transform: translateX(-4px) scale(1.06); }
@@ -560,7 +560,7 @@
   position: absolute; left: 8px; right: 8px; top: 4px; z-index: 7; margin: 0 auto; width: fit-content; max-width: calc(100% - 16px);
   padding: 6px 14px; border-radius: var(--qt-r-hap); pointer-events: none; text-align: center;
   background: var(--qt-ikinci); color: #fff; box-shadow: 0 3px 0 var(--qt-ikinci-dudak);
-  font: var(--qt-a-siyah) 13px/1.2 var(--qt-f-govde); animation: ks-joker-bilgi 1800ms ease-out both;
+  font: var(--qt-a-siyah) 13px/1.2 var(--qt-f-govde); animation: ks-joker-bilgi calc(1800ms * var(--sr-kasa_joker_bilgi, 1)) ease-out both;
 }
 @keyframes ks-joker-bilgi { 0% { opacity: 0; transform: translateY(8px) scale(.9); } 12% { opacity: 1; transform: none; } 80% { opacity: 1; } 100% { opacity: 0; transform: translateY(-6px); } }
 .ks-sayac--kisaldi { animation: ks-kisaldi 700ms ease-out; border-radius: 50%; }
