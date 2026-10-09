@@ -418,8 +418,8 @@ export default function DukkanKozmetik({ tur, katalog, sahipHesap = false, yenil
             {b.ogeler.map((x, j) => (
               <li key={x.anahtar} className={b.bas + j < 8 ? giris : undefined} style={siraStili(b.bas + j)}>
                 <button type="button" className="qt-dc-oge" aria-pressed={x.anahtar === c.anahtar}
-                        aria-haspopup={premium ? "dialog" : undefined}
-                        onClick={() => { dokunus(); setSecili(x.anahtar); if (premium) setPencere(x.anahtar); }}>
+                        aria-haspopup="dialog"
+                        onClick={() => { dokunus(); setSecili(x.anahtar); setPencere(x.anahtar); }}>
                   {etiketNadirligi(dukkanNadirligi(x)) && <NadirlikEtiketi nadirlik={etiketNadirligi(dukkanNadirligi(x))} />}
                   <KozmetikSimge kalem={x} profile={profile} hareketli={premium} />
                   <span className="qt-dc-ad">{kozmetikAdi(x)}</span>
@@ -438,7 +438,7 @@ export default function DukkanKozmetik({ tur, katalog, sahipHesap = false, yenil
         {tt("Aldıkların Profil › Koleksiyon'da; oradan takıp çıkarabilirsin.")}{" "}
         <Link to={y("/profil?sekme=koleksiyon")}>{tt("Koleksiyonuna bak")}</Link>
       </p>
-      {premium && (
+      {(
         <KozmetikOnizlemePenceresi kalem={liste.find((x) => x.anahtar === pencere) ?? null} onKapat={() => setPencere(null)}
           sahipHesap={sahipHesap} yenile={yenile} elmasYetmedi={() => { setPencere(null); elmasYetmedi?.(); }} onBilgi={onBilgi} onHata={onHata}
           elmasBakiye={elmasBakiye} />
@@ -481,6 +481,8 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
   const [secili, setSecili] = useState(() => liste.find((a) => profile?.avatar_url === a.url)?.anahtar ?? liste[0]?.anahtar ?? null);
   const [islem, setIslem] = useState(null);
   const [onayAcik, setOnayAcik] = useState(false);   // D-301
+  const [takPenceresi, setTakPenceresi] = useState(false);   // listeden dokunuş: sahip olunan / bedava avatar için Tak penceresi
+  const [pencereMesaj, setPencereMesaj] = useState(null);    // pencerenin içinde görünür sonuç mesajı
   // Yalnız ücretli liste sahiplik durumundan süzülür: durum okunana dek "satışta bir şey yok" yerine iskelet (okunamazsa boş durum).
   const [sahiplikOkundu, setSahiplikOkundu] = useState(() => sahiplik.size > 0);
   useEffect(() => {
@@ -523,11 +525,21 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
       await refreshProfile?.(user.id);
       oyuncuKartiUnut(user?.id);
       onBilgi?.(tt("Avatar değişti."));
+      setPencereMesaj({ ton: "bilgi", metin: tt("Avatar değişti.") });
     } catch (e) {
-      onHata?.(kozmetikHatasi(e));
+      const m = kozmetikHatasi(e);
+      onHata?.(m);
+      setPencereMesaj({ ton: "hata", metin: m });
     } finally {
       setIslem(null);
     }
+  };
+  // Liste dokunuşu: satın alınabilirse onay sayfası, değilse Tak penceresi — sonuç hep dokunulan yerde görünür
+  const listedenSec = (a) => {
+    setSecili(a.anahtar);
+    setPencereMesaj(null);
+    if (!a.kullanabilir && !a.kapali && a.fiyat_elmas != null) setOnayAcik(true);
+    else setTakPenceresi(true);
   };
 
   return (
@@ -575,10 +587,38 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
           gorsel={<NadirlikImg src={c.url} alt="" width="80" height="80" decoding="async" />}
           nadirlik={etiketNadirligi(nadirlik(c)) ?? undefined}
           fiyat={c.fiyat_elmas}
+          onayMetni={tt("Satın al")}
           yetersizEylem={() => elmasYetmedi?.()}
           onOnay={satinAl}
           onKapat={() => setOnayAcik(false)}
         />
+      )}
+      {takPenceresi && (
+        <QtModal acik tur="altSayfa" onKapat={() => setTakPenceresi(false)} baslik={ad(c)}
+                 altlik={(
+                   <div className="m1-sat-dugmeler">
+                     <QtDugme tur="ikincil" onClick={() => setTakPenceresi(false)}>{tt("Kapat")}</QtDugme>
+                     {takili ? (
+                       <QtDugme tur="ikincil" devreDisi ikon="onay">{tt("Takılı")}</QtDugme>
+                     ) : c.kullanabilir ? (
+                       <QtDugme ikon="onay" yukleniyor={islem === "tak"} devreDisi={Boolean(islem)} onClick={() => { dokunus(); tak(); }} data-qt-ilk-odak>{tt("Tak")}</QtDugme>
+                     ) : (
+                       <QtDugme tur="ikincil" devreDisi ikon="kilit">{tt("Satılmıyor")}</QtDugme>
+                     )}
+                   </div>
+                 )}>
+          <div className="m1-sat">
+            <span className="m1-sat-ikon qt-sat-gorsel" aria-hidden="true">
+              <NadirlikImg src={c.url} alt="" width="96" height="96" decoding="async" />
+            </span>
+            {etiketNadirligi(nadirlik(c)) && <NadirlikEtiketi nadirlik={etiketNadirligi(nadirlik(c))} />}
+            {pencereMesaj && (
+              <div className={"m1-bant" + (pencereMesaj.ton === "hata" ? " m1-bant--hata" : "")} role={pencereMesaj.ton === "hata" ? "alert" : "status"}>
+                <span>{pencereMesaj.metin}</span>
+              </div>
+            )}
+          </div>
+        </QtModal>
       )}
       <ul className="qt-dc-izgara">
         {siraliBolumler(nadirligeGoreBolumle(liste, (a) => a.url, nadirlikHaritasi)).map((b) => (
@@ -586,7 +626,7 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
             {b.nadirlik && <AvatarBolumBasligi as="li" nadirlik={b.nadirlik} sayi={b.ogeler.length} />}
             {b.ogeler.map((a, j) => (
               <li key={a.anahtar} className={b.bas + j < 8 ? sirali : undefined} style={siraStili(b.bas + j)}>
-                <button type="button" className={"qt-dc-oge" + (a.ucretli && !a.sahibim ? " qt-av-kilitli" : "")} aria-pressed={a.anahtar === c.anahtar} onClick={() => { dokunus(); setSecili(a.anahtar); }}>
+                <button type="button" className={"qt-dc-oge" + (a.ucretli && !a.sahibim ? " qt-av-kilitli" : "")} aria-pressed={a.anahtar === c.anahtar} aria-haspopup="dialog" onClick={() => { dokunus(); listedenSec(a); }}>
                   {etiketNadirligi(nadirlik(a)) && <NadirlikEtiketi nadirlik={etiketNadirligi(nadirlik(a))} />}
                   <span className="qt-av-kilit-kutu">
                     <CerceveliAvatar profile={{ ...(profile ?? {}), gorunen_avatar: a.url, avatar_url: a.url }} userId={user?.id} boyut={64} />

@@ -11023,3 +11023,9 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - **İş 2** (`en-eksik-ceviri.mjs`, ceviri.ts hattı ceviri-paket.mjs ile aynen): EN'siz 728 aktif soru: 129 kapsam=yerel (çevrilmedi, 66'sı ceviri_atlanan'a 'cevrilemez' yazıldı), 2 önceden atlanmış, 597 evrensel → **489 çevrildi**, 108 geçemedi (özel isim 68+, hakem, geri kontrol çoklu, sayı, benzer şık; ceviri_atlanan'a yazıldı). Çeviri: Opus; geri kontrol + anlam hakemi: Sonnet. Rapor `en-eksik-ceviri-rapor.csv`; geri alma `docs/en-ceviri-eksik-geri-al.sql`.
 - Maliyet: iş 1 ≈ $18,0 (Claude 17,95 + Jev 0,03, sınıflama dahil) + iş 2 ≈ $4,2 → **~$22,2** (örneklemlerle birlikte). Uygulama `migration-uygula.mjs` ile tek tek; canlı doğrulama: aktif 12.500 (değişmedi), zorluk ve kategori sayıları aynı, EN çeviri 12.426 → 12.915, DB'deki 256 TR/EN şık ve 489 yeni EN kaynakla birebir, şık sayısı uyuşmazlığı 0.
 - Karar: sınırda (p 0,70–0,75) geçenler ilk turdaki emsale uyularak uygulanmadı. Push yapılmadı.
+
+## 9 Eki 2026 — Dükkân › Avatar: listeden dokunuşta satın alma/Tak penceresi
+**Araç:** Claude Code
+- Sorun: liste dokunuşu yalnız sayfanın üstündeki önizleme kartını güncelliyordu; Satın al orada, ekran dışında kalıyordu.
+- `DukkanKozmetik.jsx`: avatar listesinde dokunuş → satın alınabilirse onay sayfası (ElmasliSatinAlOnayi, "Satın al"), değilse Tak/Takılı penceresi (sonuç mesajı pencerede). Diğer kozmetik sekmelerinde (VS, zafer, tepki…) dokunuş artık her tür için büyük önizleme penceresini açar (eskiden yalnız premium). `DukkanAuralar.jsx`: satın alınabilir aura dokunuşta onay açar. `JokerSatinAlModal.jsx`: elmas yetmezken düğme "Yetersiz elmas".
+- Test: `araclar/dukkan-avatar-pencere-ekran.mjs` (yazmalar taklit) 360×640 + 390×844 × TR/EN: 32/32. Build temiz.

@@ -119,7 +119,7 @@ export default function DukkanAuralar({ elmasYetmedi, onBilgi, onHata, elmasBaki
 
   const kutu = (x) => (
     <li key={x.anahtar}>
-      <button type="button" className="qt-dc-oge" aria-pressed={x.anahtar === secili} onClick={() => { dokunus(); setSecili(x.anahtar); }}>
+      <button type="button" className="qt-dc-oge" aria-pressed={x.anahtar === secili} onClick={() => { dokunus(); setSecili(x.anahtar); if (!x.sahip && x.satilik && x.fiyat != null) setOnayAcik(true); }}>
         <CerceveliAvatar profile={profile ?? {}} userId={user?.id} aura={x.anahtar} boyut={64} />
         <span className="qt-dc-ad">{ad(x)}</span>
         <NadirlikEtiketi nadirlik={x.nadirlik} />
