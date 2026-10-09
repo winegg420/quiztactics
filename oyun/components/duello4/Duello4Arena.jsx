@@ -20,12 +20,13 @@ import { secenekleriCoz } from "../DuelloV2.jsx";
 import { QtDugme, QtIkon, QtSayac, QtSik, QtSikler, QtSoruKarti, sinif } from "../../tasarim/index.js";
 import { sesDogru, sesYanlis, sesTik, sesKategoriGeriSayim, sesTurGecis, sesCanKaybi, sesSoruGeldi,
   sesKategoriSecildi, sesRakipCevapladi, sesSonSaniyeler } from "../../lib/ses.js";
+import { sure, varsayilanSure } from "../../lib/sureler.js";
 import { titret } from "../../lib/geriBildirim.js";
 import "./duello4.css";
 
 const HARFLER = ["A", "B", "C", "D"];
-const ACILIS_MS = 1600;     // saldırı sorusu açılınca "kim neyi aldı" paneli (sunucu gösterim payının içinde)
-const SARSINTI_MS = 520;
+const ACILIS_MS = varsayilanSure("duello4_acilis");     // saldırı sorusu açılınca "kim neyi aldı" paneli (sunucu gösterim payının içinde)
+const SARSINTI_MS = varsayilanSure("duello4_sarsinti");   // geçerli: sure() — lib/sureler.js
 // 1034 · Kart seçimi tek dokunuş (onay düğmesi yok): 1. dokunuş rakibe, 2. dokunuş kendine. Her adımın başında sunucunun
 // duyuru süresi (duello4_kart_duyuru_ms) boyunca yazı vurgulanır, kartlar kilitli, sayaç durur (gosterim_bas = duyuru bitişi).
 // false → eski akış (kart seç + alt eylem düğmesiyle onayla); sunucu tarafı için docs/duello-v4-kart-akisi-geri-al.sql.
@@ -162,7 +163,7 @@ export default function Duello4Arena({
   }, [d.faz, Boolean(d.soru), soruBasMs]);   // eslint-disable-line react-hooks/exhaustive-deps
 
   // Saldırı sorusu açılışı: kim neyi aldı (gösterim payının ilk ~1,6 sn'si).
-  const acilisAcik = d.faz === "cevap" && gosterimBas && sunucuSimdi < gosterimBas - payiMs + ACILIS_MS;
+  const acilisAcik = d.faz === "cevap" && gosterimBas && sunucuSimdi < gosterimBas - payiMs + sure("duello4_acilis");
 
   // Kontrol çekirdeği: el değişince uçuş + sarsıntı (TEK SEFER, anahtar = soru no).
   const oncekiKontrolRef = useRef(kontrol);
@@ -172,7 +173,7 @@ export default function Duello4Arena({
     oncekiKontrolRef.current = kontrol;
     if (once && kontrol && once !== kontrol && document.visibilityState !== "hidden") {
       setSarsinti(Date.now());
-      const t = setTimeout(() => setSarsinti(null), SARSINTI_MS);
+      const t = setTimeout(() => setSarsinti(null), sure("duello4_sarsinti"));
       return () => clearTimeout(t);
     }
     return undefined;
@@ -198,7 +199,7 @@ export default function Duello4Arena({
   useEffect(() => {
     if (d.durum !== "aktif") return;
     if (d.faz === "kart" && benKontrol) birKez(`kart:${v.tur}`, () => { sesTurGecis(); titret(20); });
-    if (d.faz === "cevap" && soruMetni) birKez(`acilis:${v.soru_no}`, () => { sesKategoriSecildi(); sonra(ACILIS_MS, () => sesSoruGeldi()); });
+    if (d.faz === "cevap" && soruMetni) birKez(`acilis:${v.soru_no}`, () => { sesKategoriSecildi(); sonra(sure("duello4_acilis"), () => sesSoruGeldi()); });
     if ((d.faz === "notr" || d.faz === "son") && soruMetni) birKez(`soru:${v.soru_no}`, () => sesSoruGeldi());
     if (h && sm) {
       birKez(`sonuc:${h.no}`, () => {

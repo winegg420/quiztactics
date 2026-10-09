@@ -18,6 +18,7 @@ import { hareketAzaltildiMi } from "../tasarim/hareket.js";
 import { QtIkon, sinif } from "../tasarim/index.js";
 import SayanSayi from "./SayanSayi.jsx";
 import "../styles/kasa-efekt.css";
+import { sureOlcek } from "../lib/sureler.js";
 
 /**
  * Kasa doluluk seviyesi: bos · az · orta · dolu (· tavan).
@@ -185,11 +186,11 @@ export function UcanParcalar({ kokRef, kaynak, hedef, adet = 6, tur = "coin", ge
   ));
 }
 
-/** AÇ anı katmanı (sahnenin üstünde, ~1,3 sn). 980: olcek (0,4–1) — kalan gösterim payına sığmak için hızlanır (CSS --ks-ac-olcek). */
+/** AÇ anı katmanı (sahnenin üstünde, ~1,3 sn). 980: olcek (0,1–3; 1 = varsayılan) — kalan gösterim payına sığmak için hızlanır, /sure-ayar seçimiyle uzar/kısalır (CSS --ks-ac-olcek). */
 export function KasaAcAni({ deger, benim, seviye, olcek = 1, c }) {
   return (
     <div className={sinif("ks-ac-an", benim ? "ks-ac-an--ben" : "ks-ac-an--rakip")} aria-hidden="true"
-         style={{ "--ks-ac-olcek": Math.max(0.1, Math.min(1, Number(olcek) || 1)) }}>
+         style={{ "--ks-ac-olcek": Math.max(0.1, Math.min(3, Number(olcek) || 1)) }}>
       <span className="ks-ac-isin" />
       <span className="ks-ac-flas" />
       <div className="ks-ac-kasa" data-ks-hedef="ac-kasa">
@@ -312,7 +313,7 @@ export function KasaGirisSahnesi({ hedef, acmaMin, tavan = 0, carpanYazi = null,
 export function KasaFinalSahnesi({ kazandim, puanOnce, puanSonra, hedef, deger, c }) {
   const [sayi, setSayi] = useState(puanOnce);
   useLayoutEffect(() => {
-    const t = setTimeout(() => setSayi(puanSonra), hareketAzaltildiMi() ? 0 : kazandim ? 2350 : 1500);
+    const t = setTimeout(() => setSayi(puanSonra), hareketAzaltildiMi() ? 0 : kazandim ? Math.round(2350 * sureOlcek("kasa_final_sahne")) : Math.round(1500 * sureOlcek("kasa_final_kapanis")));
     return () => clearTimeout(t);
   }, [puanSonra, kazandim]);
   return (

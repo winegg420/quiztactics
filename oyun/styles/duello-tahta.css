@@ -42,7 +42,7 @@
 .hk-tahta-kap { position: relative; }
 .hk-calma { position: absolute; inset: 0; z-index: 7; pointer-events: none; display: grid; align-items: center; overflow: visible; }
 .hk-calma-yol { --cm-bas: -25%; --cm-son: 25%; display: grid; justify-items: center; width: 100%;
-  animation: hk-calma-git 820ms cubic-bezier(.3, .7, .2, 1) both; }
+  animation: hk-calma-git calc(820ms * var(--sr-duello_calma, 1)) cubic-bezier(.3, .7, .2, 1) both; }
 .hk-calma--rakip-ben .hk-calma-yol { --cm-bas: 25%; --cm-son: -25%; }
 @keyframes hk-calma-git {
   0% { opacity: 0; transform: translateX(var(--cm-bas)) scale(.85); }
@@ -61,7 +61,7 @@
 .hk-calma-kart b { font: var(--qt-a-siyah) 15px/1.1 var(--qt-f-baslik); }
 .hk-calma-kart small { font: var(--qt-a-siyah) 11px/1 var(--qt-f-govde); letter-spacing: .04em; color: var(--_cm-renk, var(--qt-metin-soluk)); text-transform: uppercase; }
 /* iniş: kart yeni sahibin yuvasına çöker, kısa ışık; sonra kaybolur (CALMA_MS) */
-.hk-calma--inis .hk-calma-kart { animation: hk-calma-in 980ms ease-in both; }
+.hk-calma--inis .hk-calma-kart { animation: hk-calma-in calc(980ms * var(--sr-duello_calma, 1)) ease-in both; }
 @keyframes hk-calma-in {
   0% { transform: scale(1); opacity: 1; }
   18% { transform: scale(1.14); opacity: 1; }
@@ -70,7 +70,7 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .hk-calma-yol { animation: none; transform: translateX(var(--cm-son)); }
-  .hk-calma--inis .hk-calma-kart { animation: hk-calma-sonuk 980ms linear both; }
+  .hk-calma--inis .hk-calma-kart { animation: hk-calma-sonuk calc(980ms * var(--sr-duello_calma, 1)) linear both; }
   @keyframes hk-calma-sonuk { 0%, 70% { opacity: 1; } 100% { opacity: 0; } }
 }
 .hk-mac .m2-secen .qt-oyuncu-ad { color: var(--hk-vurgu-metin); }
@@ -504,7 +504,7 @@
 .hk-vurus {
   position: absolute; z-index: 6; left: calc(100% + 2px); top: -12px; pointer-events: none;
   display: grid; place-items: center;
-  animation: hk-vurus 1.4s cubic-bezier(.2, .9, .3, 1.2) both;
+  animation: hk-vurus calc(1400ms * var(--sr-duello_vurus, 1)) cubic-bezier(.2, .9, .3, 1.2) both;
 }
 .hk-vurus b {
   display: block; padding: 2px 9px; border-radius: 999px; background: var(--dudak); color: #fff;
@@ -513,7 +513,7 @@
 }
 .hk-vurus::before {
   content: ""; position: absolute; inset: -6px; border-radius: 999px; border: 3px solid var(--c);
-  animation: hk-vurus-halka .7s ease-out both;
+  animation: hk-vurus-halka calc(700ms * var(--sr-duello_vurus, 1)) ease-out both;
 }
 @keyframes hk-vurus {
   0% { opacity: 0; transform: translateY(10px) scale(.3); }
@@ -523,8 +523,8 @@
   100% { opacity: 0; transform: translateY(-14px) scale(.9); }
 }
 @keyframes hk-vurus-halka { 0% { opacity: .9; transform: scale(.6); } 100% { opacity: 0; transform: scale(1.9); } }
-.hk-serit--vurus { animation: hk-serit-vurus .7s ease-out both; }
-.hk-serit--vurus .hk-serit-puan b { display: inline-block; animation: hk-puan-vur .6s var(--qt-egri-yay, cubic-bezier(.34,1.56,.64,1)) both; }
+.hk-serit--vurus { animation: hk-serit-vurus calc(700ms * var(--sr-duello_vurus, 1)) ease-out both; }
+.hk-serit--vurus .hk-serit-puan b { display: inline-block; animation: hk-puan-vur calc(600ms * var(--sr-duello_vurus, 1)) var(--qt-egri-yay, cubic-bezier(.34,1.56,.64,1)) both; }
 @keyframes hk-serit-vurus {
   0% { box-shadow: inset 0 2px 0 rgba(255, 255, 255, .8), 0 3px 0 var(--dudak), 0 0 0 0 var(--c); }
   35% { box-shadow: inset 0 2px 0 rgba(255, 255, 255, .8), 0 3px 0 var(--dudak), 0 0 0 6px var(--c); }

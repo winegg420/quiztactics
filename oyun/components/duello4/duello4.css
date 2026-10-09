@@ -173,8 +173,8 @@
 /* ---------------------------------------------------------------- hareket (azaltılmışta kapalı) */
 @media (prefers-reduced-motion: no-preference) {
   .d4-cekirdek { transition: left .62s cubic-bezier(.3, .8, .25, 1), background-color .3s, box-shadow .3s; }
-  .d4-cekirdek--ucus { animation: d4-ucus .62s cubic-bezier(.3, .8, .25, 1); }
-  .d4-sahne--sarsinti { animation: d4-sarsinti .42s ease-in-out; }
+  .d4-cekirdek--ucus { animation: d4-ucus calc(620ms * var(--sr-duello4_sarsinti, 1)) cubic-bezier(.3, .8, .25, 1); }
+  .d4-sahne--sarsinti { animation: d4-sarsinti calc(420ms * var(--sr-duello4_sarsinti, 1)) ease-in-out; }
   .d4-panel { animation: d4-gir .24s ease-out both; }
   .d4-oy--aktif .d4-oy-av { animation: d4-aktif 1.1s ease-in-out infinite; }
   .d4-oy--dogru .d4-oy-av { animation: d4-zipla .5s cubic-bezier(.3, 1.5, .5, 1); }

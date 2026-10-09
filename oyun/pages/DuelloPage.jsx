@@ -37,7 +37,7 @@ import { y } from "../lib/yol.js";
 import { coinTazele } from "../lib/coin.js";
 import { ayar, useAyar } from "../lib/ayarlar.js";
 import { useDuelloKurallari } from "../lib/duelloKurallari.js";
-import AramaSahnesi, { ARAMA_GECIS_MS } from "../components/AramaSahnesi.jsx";
+import AramaSahnesi from "../components/AramaSahnesi.jsx";
 import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesJoker, sesDokunus, sesRakipBulundu,
   sesOnYukle, sesKategoriGeriSayim, sesSoruGeldi, sesTurGecis, sesSkill,
   sesKategoriSecildi, sesRakipCevapladi, sesHataUyari, sesCoin } from "../lib/ses.js";
@@ -50,17 +50,18 @@ import Duello4Arena, { D4Gecmis, d4AltYazi } from "../components/duello4/Duello4
 import { V2Ust, V2Kategori, V2SecimCubugu, V2Cevap, V2Sonuc, V2Skill, V2Gecmis } from "../components/DuelloV2.jsx";
 // 680 · Hâkimiyet tahtası: yuvalar, mesaj satırı, maç sonu tahtası (kartlar/alt çubuk DuelloV2 üzerinden).
 import { hkModel, hkKategoriDurumu, durumIpucuSirasi, HkYuvalar, HkMesaj, hkMesaj, HkSonTahta, HkEleGecenler, V2BanCubugu,
-  CalmaAni, CALMA_INIS_MS, CALMA_MS } from "../components/DuelloTahta.jsx";
+  CalmaAni, CALMA_INIS_MS } from "../components/DuelloTahta.jsx";
 import { hareketAzaltildiMi } from "../tasarim/hareket.js";
 // Savunma banının "an"ları (yalnız sunum): durum satırı, giriş damgası, ban açıklaması, kırmızı → mavi geçiş.
 import { BanKonsol, BanGirisAni, BanAciklama, banIpucuGoster } from "../components/DuelloBanAni.jsx";
 // 960 · sırayla kategori seçimi (draft): halka, noktalar, konsol, kartlar + uçuş, HÂKİMİYET BAŞLIYOR geçişi
-import { secimModel, secimIpucuGoster, SecimHalka, SecimPipler, SecimKonsol, SecimKartlar, HakimiyetBasliyor, HAKIMIYET_GECIS_MS } from "../components/DuelloSecim.jsx";
+import { secimModel, secimIpucuGoster, SecimHalka, SecimPipler, SecimKonsol, SecimKartlar, HakimiyetBasliyor } from "../components/DuelloSecim.jsx";
 // Tasarım A görünümü (m2- önekli). Eski duello-v2.css artık yüklenmez (dosya Faz 4'e kadar durur).
 import "./DuelloPage.a.css";
 import "../styles/duello-tahta.css";
 import { QtBosDurum, QtDugme, QtIkon, QtModal, QtSayac, QT_KIRILMA_MS, sinif } from "../tasarim/index.js";
 import { rpcDene } from "../lib/rpcDene.js";
+import { sure, sureOlcek } from "../lib/sureler.js";
 import { aramaAraligiSn } from "../lib/gorunurluk.js";
 import { sayacKaymasi, sayacGoster, sayacSinirMs, saatFarkiOrnekle, tikBasligiEkle } from "../lib/zaman.js";
 
@@ -274,7 +275,7 @@ function DuelloArama({ dereceli, onBulundu, onIptal, ipuclari: tumIpuclari = ARA
   const karsilas = useCallback(async (duelloId) => {
     setBulundu(true);
     sesRakipBulundu();
-    gecisRef.current = window.setTimeout(() => bulunduRef.current(duelloId), ARAMA_GECIS_MS);
+    gecisRef.current = window.setTimeout(() => bulunduRef.current(duelloId), sure("ortak_arama_gecis"));
     try {
       const { data, error } = await supabase.rpc("duello_durum", { p_id: duelloId });
       if (error) throw error;
@@ -580,7 +581,7 @@ function DuelloMac({ id }) {
         if (efekt) {
           setSkillEfekt(efekt);
           clearTimeout(skillTimerRef.current);
-          skillTimerRef.current = setTimeout(() => setSkillEfekt(null), 720);
+          skillTimerRef.current = setTimeout(() => setSkillEfekt(null), sure("duello_skill_efekt"));
         }
         // Saat farkı (980): istek/yanıt orta noktası + son 60 sn'nin en kısa gidiş-dönüşlü örneği (lib/zaman.js ›
         // saatFarkiOrnekle; Klasik nabiz.js ile aynı). Eskisi yanıt anı + en büyük farktı (dönüş gecikmesi kadar geride).
@@ -860,7 +861,7 @@ function DuelloMac({ id }) {
       clearTimeout(vurusZamanRef.current);
       setVurus({ ...kaz, anahtar });
       if (benKaz > 0) { sesCoin(); titret(benKaz >= 2 ? [18, 40, 30] : [12, 30, 16]); }
-      vurusZamanRef.current = setTimeout(() => setVurus((v) => (v?.anahtar === anahtar ? null : v)), 1500);
+      vurusZamanRef.current = setTimeout(() => setVurus((v) => (v?.anahtar === anahtar ? null : v)), sure("duello_vurus"));
     };
     // 990: kategori el değiştirdi → çalma anı (hamle anahtarına bağlı, TEK SEFER; gizli sekmede oynamaz). Kart eski
     // sahipten yeniye kayar, inişte puan artışı görünür (+ kısa ses). Faz değişse de an sürer (tahtanın üstünde).
@@ -874,8 +875,8 @@ function DuelloMac({ id }) {
         setTimeout(() => {
           yama({ inis: true }); sesKategoriSecildi();
           if (benKaz > 0) vurusBaslat(); else { titret(24); vurusBaslat(); }
-        }, azalt ? 300 : CALMA_INIS_MS),
-        setTimeout(() => yama(null), azalt ? 1600 : CALMA_MS),
+        }, azalt ? 300 : Math.round(CALMA_INIS_MS * sureOlcek("duello_calma"))),
+        setTimeout(() => yama(null), azalt ? 1600 : sure("duello_calma")),
       ];
     } else {
       // sesDogru ile üst üste binmesin: vuruş sesi kısa gecikmeyle (vuruş görseli aynı anda başlar)
@@ -1065,7 +1066,7 @@ function DuelloMac({ id }) {
   // Seçim bitti → tur 1: HÂKİMİYET BAŞLIYOR geçişi (tur bandı yerine; tur 1 ban fazının açılış payı içinde).
   useEffect(() => {
     if (!hkBasla) return undefined;
-    const t = setTimeout(() => setHkBasla(null), HAKIMIYET_GECIS_MS);
+    const t = setTimeout(() => setHkBasla(null), sure("duello_hakimiyet_gecis"));
     return () => clearTimeout(t);
   }, [hkBasla]);
 
@@ -1172,7 +1173,7 @@ function DuelloMac({ id }) {
         setIkinciSansElendi((onceki) => [...new Set([...onceki, i])]);
         setSkillEfekt({ tur: "ikinci_sans" });
         clearTimeout(skillTimerRef.current);
-        skillTimerRef.current = setTimeout(() => setSkillEfekt(null), 680);
+        skillTimerRef.current = setTimeout(() => setSkillEfekt(null), Math.round(680 * sureOlcek("duello_skill_efekt")));
         setTimeout(() => setSecim(null), 260);
       }
       await yukle();
@@ -1668,7 +1669,7 @@ function DuelloMac({ id }) {
            key={`${d.faz}-${d.tur}-${d.saldiri_sirasi}-${d.uzatma}`}>
         {/* Savunanın ban girişinde tur bandı çıkmaz: giriş damgası tur numarasını da taşır (iki katman üst üste binmesin). */}
         {/* 960: seçim bitti → HÂKİMİYET BAŞLIYOR; savunanın ban girişi geçiş bitince oynar (iki katman üst üste binmesin) */}
-        {banFazi && !benSaldiran && kopukDonukSn == null && !(hkBasla && simdi - hkBasla < HAKIMIYET_GECIS_MS) && (
+        {banFazi && !benSaldiran && kopukDonukSn == null && !(hkBasla && simdi - hkBasla < sure("duello_hakimiyet_gecis")) && (
           <BanGirisAni anahtar={`${d.id}:${fazAnahtari}`} tur={d.tur} maxTur={d.max_tur} c={c2} />
         )}
         {banTaze && (
@@ -1682,7 +1683,7 @@ function DuelloMac({ id }) {
         {sahne2}
       </div>
       {/* sahnenin dışında: ban → kategori geçişinde sahne yeniden kurulsa da geçiş baştan oynamaz */}
-      {hkBasla && simdi - hkBasla < HAKIMIYET_GECIS_MS && !secimFaz && <HakimiyetBasliyor hk={hk} c={c2} />}
+      {hkBasla && simdi - hkBasla < sure("duello_hakimiyet_gecis") && !secimFaz && <HakimiyetBasliyor hk={hk} c={c2} />}
       {hata && <p className="m2-hata hk-hata" role="alert"><QtIkon ad="uyari" boyut={18} /> {hata}</p>}
       {d.faz === "cevap" && (
         <V2Skill d={d} calisan={calisan} kalanSn={kalanSn} serbest={jokerSerbest}

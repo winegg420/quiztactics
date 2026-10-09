@@ -19,15 +19,16 @@ import { QtIkon, sinif } from "../tasarim/index.js";
 import { titret } from "../lib/geriBildirim.js";
 import { sesSonSaniyeler, sesHataUyari, sesKategoriSecildi, sesTurGecis } from "../lib/ses.js";
 import "../styles/duello-ban.css";
+import { sure, varsayilanSure } from "../lib/sureler.js";
 
 /** Savunanın faz girişi damgası (ms). Ban fazının gösterim payı (duello_gosterim_payi_ms) içinde kalır. */
-const GIRIS_MS = 1000;
+const GIRIS_MS = varsayilanSure("duello_ban_giris");   // geçerli: sure() — lib/sureler.js
 /** Saldırana ban açıklaması (ms) — sunucudaki duello_ban_gosterim_ms (880) ile aynı: seçme süresinden yemez. */
-export const BAN_ACIKLAMA_MS = 1200;
-const ONAY_MS = 1000;      // savunan: "BANLADIN"
-const BILGI_MS = 1700;     // savunan: "BAN KULLANILMADI"
-const SIRA_MS = 900;       // saldıran: mavi "SIRA SENDE"
-const SIRA_BILGI_MS = 1500; // saldıran, rakip banlamadıysa: bilgi satırıyla biraz uzun
+export const BAN_ACIKLAMA_MS = varsayilanSure("duello_ban_aciklama");
+const ONAY_MS = varsayilanSure("duello_ban_onay");      // savunan: "BANLADIN"
+const BILGI_MS = varsayilanSure("duello_ban_bilgi");     // savunan: "BAN KULLANILMADI"
+const SIRA_MS = varsayilanSure("duello_ban_sira");       // saldıran: mavi "SIRA SENDE"
+const SIRA_BILGI_MS = varsayilanSure("duello_ban_sira_bilgi"); // saldıran, rakip banlamadıysa: bilgi satırıyla biraz uzun
 
 // Ses + titreşim faz başına BİR kez (StrictMode çift efekti ve yeniden bağlanma çift çalmasın).
 const calinanlar = new Set();
@@ -103,12 +104,12 @@ export function BanGirisAni({ anahtar, tur, maxTur, c }) {
       titret([40, 60, 40]);
       setTimeout(() => sesSonSaniyeler(), 160);   // tur geçiş sesinin hemen ardından (üst üste binmesin)
     });
-    const zaman = setTimeout(() => setAcik(false), GIRIS_MS);
+    const zaman = setTimeout(() => setAcik(false), sure("duello_ban_giris"));
     return () => clearTimeout(zaman);
   }, [anahtar]);
   if (!acik) return null;
   return (
-    <div className="hk-banan hk-banan--giris" data-yumusak="" aria-hidden="true" style={{ "--ban-ms": `${GIRIS_MS}ms` }}>
+    <div className="hk-banan hk-banan--giris" data-yumusak="" aria-hidden="true" style={{ "--ban-ms": `${sure("duello_ban_giris")}ms` }}>
       <span className="hk-banan-perde" />
       <div className="hk-banan-panel hk-banan-panel--kirmizi">
         <span className="hk-banan-etiket">{c("Tur {n}/{t}", { n: tur, t: maxTur })}</span>
@@ -133,8 +134,8 @@ export function BanAciklama({ anahtar, benSaldiran, kategori, c }) {
   const kokRef = useRef(null);
   const panelRef = useRef(null);
   const [asama, setAsama] = useState(benSaldiran && !kategori ? "sira" : "acik");
-  const acikMs = benSaldiran ? BAN_ACIKLAMA_MS : kategori ? ONAY_MS : BILGI_MS;
-  const siraMs = kategori ? SIRA_MS : SIRA_BILGI_MS;
+  const acikMs = sure(benSaldiran ? "duello_ban_aciklama" : kategori ? "duello_ban_onay" : "duello_ban_bilgi");
+  const siraMs = sure(kategori ? "duello_ban_sira" : "duello_ban_sira_bilgi");
 
   useEffect(() => {
     const zamanlar = [];

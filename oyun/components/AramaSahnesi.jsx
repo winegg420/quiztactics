@@ -36,6 +36,7 @@ import { sesVsAni } from "../lib/ses.js";
 import { tt } from "../lib/dil.js";
 import { QtDugme, QtRozet, sinif } from "../tasarim/index.js";
 import "../tasarim/ekranlar/a-arama-sahnesi.css";
+import { sure, varsayilanSure } from "../lib/sureler.js";
 
 // Güneş Halkası görünümü tembel parçada; tarayıcı boşta kalınca önceden indirilir (arama açılınca beklemesin).
 const sahneYukle = () => import("./AramaGunesHalkasi.jsx");
@@ -68,7 +69,7 @@ function YukleniyorYedek({ baslik, onIptal, iptalEdilebilir }) {
 }
 
 /** Rakip bulunduktan sonra maça/kapıya geçmeden önce VS anının süresi (ms). */
-export const ARAMA_GECIS_MS = 2000;
+export const ARAMA_GECIS_MS = varsayilanSure("ortak_arama_gecis");   // geçerli değer: sure("ortak_arama_gecis") (lib/sureler.js)
 /** VS sesi rakip kartı yerine oturduğunda çalar (ms, bulunma anından). */
 const VS_SES_MS = 450;
 
@@ -174,7 +175,7 @@ export default function AramaSahnesi({
         mod={mod} dereceli={dereceli} gecen={gecen} durum={durum} rakip={rakip} ezeli={ezeli} bilgi={bilgi}
         alt={alt} hata={hata} onIptal={onIptal} onTekrar={onTekrar} baslik={baslik}
         ben={profile ? { ...profile, id: user?.id } : { id: user?.id }} kartlar={kartlar}
-        gecisMs={ARAMA_GECIS_MS} iptalRef={iptalRef}
+        gecisMs={sure("ortak_arama_gecis")} iptalRef={iptalRef}
       />
     </Suspense>,
     document.body,

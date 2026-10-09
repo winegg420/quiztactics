@@ -302,12 +302,12 @@
 /* tetik / savundu / düştü anı (sonuç fazında, ~1,5 sn) */
 .ks-savunma-an {
   position: absolute; left: 0; right: 0; top: 30%; z-index: 5; display: grid; justify-items: center; gap: 4px;
-  pointer-events: none; animation: ks-cifte-kat 1500ms ease-out both;
+  pointer-events: none; animation: ks-cifte-kat calc(1500ms * var(--sr-kasa_savunma, 1)) ease-out both;
 }
 .ks-savunma-an-kalkan {
   display: grid; place-items: center; width: 72px; height: 72px; border-radius: 50%;
   background: radial-gradient(circle, #fff4cf 0, var(--qt-coin) 62%, rgba(255, 201, 51, 0) 72%);
-  animation: ks-savunma-kalkan 1500ms var(--qt-egri-cikis) both;
+  animation: ks-savunma-kalkan calc(1500ms * var(--sr-kasa_savunma, 1)) var(--qt-egri-cikis) both;
 }
 .ks-savunma-an-kalkan path { fill: var(--qt-coin-yazi); stroke: #fff4cf; stroke-width: 1.4; stroke-linejoin: round; }
 @keyframes ks-savunma-kalkan { 0% { transform: scale(.4); } 25% { transform: scale(1.12); } 40%, 100% { transform: scale(1); } }
@@ -321,7 +321,7 @@
 @media (max-width: 400px) { .ks-savunma-an-yazi { font-size: 24px; } }
 @media (prefers-reduced-motion: reduce) {
   .ks-hak--aktif, .ks-savunma-an-kalkan { animation: none !important; }
-  .ks-savunma-an { animation: ks-cifte-kat 1500ms linear both; }
+  .ks-savunma-an { animation: ks-cifte-kat calc(1500ms * var(--sr-kasa_savunma, 1)) linear both; }
 }
 
 /* Renk rolleri (7 Eki 2026): Ortak Hazine = altın. Ana eylem düğmeleri altın (koyu yazı ≥ 8:1); turuncu Klasik'e ait. */

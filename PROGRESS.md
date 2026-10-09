@@ -11168,3 +11168,13 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - Tek ayar: `oyun/tasarim/lig-sahnesi/canliGorunum.js` (`ESKI_GORUNUM = true` → eski hâl). OyuncuVitrinKarti + CerceveliAvatar `eskiGorunum` prop'u; önizleme "Eski" sekmesi bunu verir.
 - Kutlama.jsx metni "altın halka" → "Battle Pass çerçevesi" (EN sözlük eklendi). IsimEfekti (altın isim), MacSonuKutlama (zafer şeridi), Leaderboard satır perçinleri dokunulmadı (halka çizmiyorlar).
 - Test: yerel girişsiz geçici kabuk, 1280/390 px; Yeni halka 0/BP çerçeve 5, Eski halka 5/0; taşma yok. Görseller tasarim/lig-sahne-v-canli/ (commit dışı).
+
+## 9 Eki 2026 — Düello + Ortak Hazine süre ölçümü ve /sure-ayar (Claude)
+**Araç:** Claude Code
+**Neden:** Ida geçiş/animasyon sürelerini telefondan canlı ayarlayıp seçimini iletmek istiyor; önce envanter + ölçüm.
+- Merkez: `oyun/lib/sureler.js` (28 süre: anahtar, açıklama, varsayılan = bugünkü, min, max). Orijinal sabitler `varsayilanSure()` ile buraya bağlı; oyun `sure()`/`sureOlcek()` okur. CSS animasyonları `calc(Nms * var(--sr-<anahtar>, 1))` (değişken yalnız seçim varsa yazılır → varsayılan aynı).
+- Sayfa `/sure-ayar` (`oyun/tasarim/sure-ayar/`): menüde yok, noindex + robots.txt + bilinen yol; kaydırıcı, bugünkü değere dön, "Bu süreyi dene" (gerçek bileşen: AÇ, rakip kararı, final ×2, ÇİFTE, Savunma, ban ×5, Hâkimiyet, çalma; diğerleri süre çubuğu), "Seçimlerimi kopyala" (JSON). Seçim yalnız o tarayıcıda (localStorage `qt-sure-ayar-v1`, try-catch; kapalıysa sekme içinde geçerli + uyarı).
+- Kasa AÇ/DEVAM `--ks-ac-olcek` sınırı 1 → 3 (uzatma için); varsayılanda 1.
+- Ölçüm: `araclar/sure-olcum.mjs` + `sure-olcum-izci.mjs` (mevcut taklit ekran araçlarını izciyle koşar, ekran kaydı tasarim/sure-olcum/). Öncesi/sonrası 19 sahne aynı; ayarlı koşuda seçimler oyuna yansıdı. `araclar/sure-ayar-testi.mjs` 15/15. Tablo + öneriler: `docs/sure-olcum.md`.
+- Ortak oturum dosyası süresi dolmuştu (başka sekme); geçici misafir ArayuzDenetim336 açıldı, iş bitince `hesabimi_sil` ile silindi (doğrulandı).
+- Değerler DEĞİŞMEDİ; Ida seçince ayrıca uygulanacak. Not: v4 açılış paneli gerçekte ~0,96 sn görünüyor (gösterim payı < 1,6 sn).

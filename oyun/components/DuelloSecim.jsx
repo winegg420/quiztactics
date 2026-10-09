@@ -21,10 +21,11 @@ import { hareketAzaltildiMi } from "../tasarim/hareket.js";
 import { titret } from "../lib/geriBildirim.js";
 import { sesKategoriSecildi } from "../lib/ses.js";
 import "../styles/duello-secim.css";
+import { sure, varsayilanSure } from "../lib/sureler.js";
 
 /** Uçuş süresi (ms). Seçim süresi 5 sn; gösterim payı (1,5 sn) içinde kalır. */
-const UCUS_MS = 460;
-const OTO_MS = 1800;
+const UCUS_MS = varsayilanSure("duello_kart_ucus");   // geçerli: sure() — lib/sureler.js
+const OTO_MS = varsayilanSure("duello_secim_oto");
 const EGRI_GECIS = "cubic-bezier(0.77, 0, 0.175, 1)";   // --qt-egri-gecis (tasarim tokenı; WAAPI CSS değişkeni okumaz)
 
 /** duello_durum › secim → sade görünüm. */
@@ -117,7 +118,7 @@ export function SecimKonsol({ d, sm, benSirada, sn, c, children }) {
   // Satır kendi süresince kalır; arada yeni seçim gelse de kapanış zamanlayıcısı kaybolmaz.
   useEffect(() => {
     if (!oto) return undefined;
-    const t = setTimeout(() => setOto(null), OTO_MS);
+    const t = setTimeout(() => setOto(null), sure("duello_secim_oto"));
     return () => clearTimeout(t);
   }, [oto?.an]);   // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -252,11 +253,11 @@ export function SecimKartlar({ d, hk, sm, ben, rakip, benSirada, basilan, calisa
           { transform: "translate(0px, 0px) scale(1)", opacity: 1 },
           { transform: `translate(${dx * 0.45}px, ${dy * 0.45 - 18}px) scale(${Math.max(1.25, olcek * 1.1)})`, opacity: 1, offset: 0.45 },
           { transform: `translate(${dx}px, ${dy}px) scale(${olcek})`, opacity: 1 },
-        ], { duration: UCUS_MS, easing: EGRI_GECIS, fill: "forwards" });
+        ], { duration: sure("duello_kart_ucus"), easing: EGRI_GECIS, fill: "forwards" });
         an.onfinish = kapat;
         an.oncancel = kapat;
       } catch { kapat(); }
-      setTimeout(kapat, UCUS_MS + 400);   // güvenlik: animasyon olayı gelmezse yuva gizli kalmasın
+      setTimeout(kapat, sure("duello_kart_ucus") + 400);   // güvenlik: animasyon olayı gelmezse yuva gizli kalmasın
     });
   }, [sm.secimler.length]);   // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -317,10 +318,10 @@ export function SecimKartlar({ d, hk, sm, ben, rakip, benSirada, basilan, calisa
 // ---------------------------------------------------------------- geçiş: HÂKİMİYET BAŞLIYOR
 /** Seçim bitti → saldırı turları (ban açıksa ban/saldırı). Sahnenin üstünde ~2 sn; dokunuşu engellemez (982: ban yokken
  *  tur 1 doğrudan kategori fazıdır — katman sayacın gösterim payıyla örtüşür, saldıran kartlara alttan dokunabilir). */
-export const HAKIMIYET_GECIS_MS = 2100;
+export const HAKIMIYET_GECIS_MS = varsayilanSure("duello_hakimiyet_gecis");   // geçerli: sure("duello_hakimiyet_gecis")
 export function HakimiyetBasliyor({ hk, c }) {
   return (
-    <div className="dsc-basla" data-yumusak="" role="status" style={{ "--dsc-basla-ms": `${HAKIMIYET_GECIS_MS}ms` }}>
+    <div className="dsc-basla" data-yumusak="" role="status" style={{ "--dsc-basla-ms": `${sure("duello_hakimiyet_gecis")}ms` }}>
       <div className="dsc-basla-panel">
         <span className="dsc-basla-etiket">{c("Seçim tamam")}</span>
         <b className="dsc-basla-baslik">{c("HÂKİMİYET BAŞLIYOR")}</b>

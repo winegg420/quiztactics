@@ -20,6 +20,7 @@ import { kategoriAdi } from "../lib/kategoriler.js";
 import { QtDugme, QtIkon, sinif } from "../tasarim/index.js";
 import { aktifDil } from "../lib/dil.js";
 import { animasyonuYenidenOynat } from "../tasarim/hareket.js";
+import { varsayilanSure } from "../lib/sureler.js";
 
 // Türkçe belirtme hâli (Rakip Sanat'ı aldı). Anahtar = çeviri anahtarı; İngilizcesi düz ad.
 const BELIRTME = {
@@ -313,8 +314,8 @@ function YuvaTahtasi({ d, hk, c, kucuk = false, durum = null }) {
  * CALMA_MS (≥ 1,5 sn okunur); dokunarak geçilir (DuelloPage). Hareket azaltma: kayma yok — kart yeni tarafta
  * sabit, yalnız saydamlık. Yalnız sunum; tahtanın üstünde, dokunuşu engellemez.
  */
-export const CALMA_INIS_MS = 820;
-export const CALMA_MS = 1800;
+export const CALMA_INIS_MS = 820;   // iniş anı; geçerli: CALMA_INIS_MS × sureOlcek("duello_calma")
+export const CALMA_MS = varsayilanSure("duello_calma");   // geçerli: sure("duello_calma") — lib/sureler.js
 export function CalmaAni({ kat, once, sonra, inis, c }) {
   return (
     <div className={sinif("hk-calma", `hk-calma--${once}-${sonra}`, inis && "hk-calma--inis")} aria-hidden="true">
