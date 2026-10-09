@@ -11067,3 +11067,12 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - İstemci: `Duello4Arena.jsx` `KART_TEK_DOKUNUS` bayrağı (false = eski onaylı akış); yazılar "Rakibe gönderilecek kategoriyi seç" / "Kendi kategorini seç"; duyuruda kartlar kilitli + yazı vurgulu; çift dokunuş kalkanı (ref). EN çeviri eklendi.
 - Geri alma: `docs/duello-v4-kart-akisi-geri-al.sql` (1014'teki eski 6 fonksiyon) + bayrak false.
 - Test: SQL provası 70/70 (yeni: duyuru duraklaması, çift dokunuş, oto en zayıf/en güçlü; bot maçında bot 9 kez iki adımı kendisi seçti). Taklit ekran 216/216 (onay düğmesi yok, çift tıklamada tek istek). Yerel → canlı DB bot maçı 16/16: duyuru 1/2'de sayaç 7→7 durdu, sunucu kalan 6,3–6,8 sn ↔ istemci "7", oto seçim, 3/3, el değişimi, Son Düello, rövanş. 2/2 duyurusundaki duruş tarayıcıda ölçülemedi (istek dönmeden ölçüldü); SQL testinde doğrulandı.
+
+## 2026-10-09 — Sezon Yolu: açılış doğrulaması + Sezon 2+ tema yedeği; Sentry kontrolü
+**Araç:** Claude Code (Sonnet 5.5)
+**Neden:** Ida: Sezon Yolu herkese açılsın; Sezon 2 ve sonrası Sezon 1 temasını/ödül tablosunu aynen kullansın; Sentry bağlı mı bakılsın.
+- Bayrak ZATEN açıktı: canlı DB `sezon_yolu_acik = true` (1 Eki 2026'dan beri, Sezon 1 id 46, bitiş 28 Eki 21:00 UTC). Yeni migration / geri alma SQL'i GEREKMEDİ (üzerine yazılacak bir değişiklik yok).
+- Sezon geçişi okundu (`sezon_tik` → `sezon_kapat` → `sezon_ac`): biten sezon kapanır (hak edilip alınmamış ödüller verilir, BP/altın isim kapanır), `sezon_tik` 5 dk cron'la yeni sezonu `max(no)+1` olarak otomatik açar; ödül tablosu (`bp_seviye_odulleri`) sezondan bağımsız tek tablo, alımlar `oyuncu_bp_odul_alimi` sezon+oyuncu+seviye+kol anahtarlı → Sezon 2'de aynı ödüller yeniden alınabilir; unvan her sezon için ayrı (`sezon_N_final`); idempotent, advisory lock'lı. Çökme/veri bozulma riski bulunmadı. Kalıcı kozmetik (avatar/çerçeve) zaten sahipse "zaten_sahip" sayılır, çift kayıt yok. `sezon-kapanis-sql-testi` (ROLLBACK) 21/22: tek ✗ "A hesabında placeholder yuva kaydı yok" — A oyuncusu "?" yuvalara (ücretli 19/22/23) hiç ulaşmadığı için; kapanış mantığıyla ilgisiz test beklentisi.
+- Kod: `sezonTemalari.jsx › sezonTemasi` — tema kaydı olmayan sezon artık düz mavi VARSAYILAN yerine Sezon 1 temasına (Yıldızlı Gece) düşer.
+- Sentry: Vercel'de `VITE_SENTRY_DSN` Production+Preview'da tanımlı; canlı paket `sentry-*.js` chunk'ını ve `ingest.de.sentry.io` içeriyor → bağlı.
+- Test edilecek: 29 Eki 00:00 TSİ sonrası ~5 dk içinde Sezon 2'nin açılması ve /sezon-yolu'nda Yıldızlı Gece temasının görünmesi.
