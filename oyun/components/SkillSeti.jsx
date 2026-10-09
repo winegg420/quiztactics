@@ -80,6 +80,32 @@ export default function SkillSeti({ macTur = "1v1", acikBaslar = false }) {
     return () => { aktif = false; };
   }, [loadoutModu, macTur]);
 
+  // v4: kayıtlı sette artık geçersiz (Baskın/Kalkan) olanlar atılır, boş yuvalar en çok stoku olan v4 jokerlerle dolar.
+  // Yalnız geçersiz olan gider; oyuncunun diğer seçimi korunur. "Değiştir" ile yine elle seçilebilir.
+  useEffect(() => {
+    if (macTur !== "duello" || !v4 || kapali !== false) return undefined;
+    const temiz = seciliHam.filter((id) => !v4Gizli.includes(id));
+    const yeni = [...temiz];
+    uygunlar
+      .filter((id) => !yeni.includes(id) && bilgi[id]?.acik !== false)
+      .sort((a, b) => (bilgi[b]?.adet ?? 0) - (bilgi[a]?.adet ?? 0))
+      .forEach((id) => { if (yeni.length < slot) yeni.push(id); });
+    if (yeni.length === seciliHam.length && yeni.every((id, i) => id === seciliHam[i])) return undefined;
+    let aktif = true;
+    setSecili(skillSetiKaydet(yeni, slot, macTur));
+    (async () => {
+      try {
+        const { error } = await supabase.rpc("skill_setimi_kaydet", { p_skiller: yeni, p_mod: macTur });
+        if (error) throw error;
+      } catch (e) {
+        if (aktif) console.warn("[Bildim] v4 joker seti kaydedilemedi:", e?.message ?? e);
+      }
+    })();
+    return () => { aktif = false; };
+    // seciliHam bilerek bağımlılık değil: yalnız bayrak / yükleme / stok değişince bir kez düzeltilir.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [v4, kapali, bilgi, slot]);
+
   const degistir = async (id) => {
     let yeni;
     if (secili.includes(id)) yeni = secili.filter((x) => x !== id);

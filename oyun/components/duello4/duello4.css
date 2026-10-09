@@ -128,8 +128,10 @@
 .d4-sonuc--kotu .d4-sonuc-baslik { color: var(--hk-kirmizi-metin); }
 .d4-sonuc--bitis .d4-sonuc-baslik { font-size: 32px; }
 .d4-sonuc .d4-sonuc-alt { color: var(--hk-metin); font-size: 15px; }
-.d4-sonuc--kotu .d4-sonuc-alt { color: var(--hk-kirmizi-metin); }
-.d4-sonuc--iyi .d4-sonuc-alt { color: var(--hk-mavi-metin); }
+.d4-sonuc--kotu .d4-sonuc-alt { color: #4a1010; font-weight: 900; }
+.d4-sonuc--kotu .d4-sonuc-baslik { color: #4a1010; }
+.d4-sonuc--iyi .d4-sonuc-alt { color: #0f2f5c; font-weight: 900; }
+.d4-sonuc--iyi .d4-sonuc-baslik { color: #0f2f5c; }
 .d4-cevaplar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; width: 100%; }
 .d4-cevap { display: grid; justify-items: center; gap: 4px; padding: 10px 6px; border-radius: var(--qt-r-m); background: #fff; }
 .d4-cevap--ben { box-shadow: inset 0 0 0 3px var(--hk-mavi); }
