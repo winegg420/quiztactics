@@ -95,3 +95,18 @@
     animation: qt-h-zipla 360ms var(--qt-egri-cikis) calc(min(var(--sira, 0), 7) * 60ms + 320ms) backwards;
   }
 }
+
+/* 9 Eki 2026 (denetim): "En çok ödül" rozeti metin sütununu daraltmıyordu ama sağda geniş yer tutup başlığı/açıklamayı
+   3+ satıra bölüyordu (360 px). Rozet kartın sağ üst köşesine küçük sekme olarak çıkarıldı; metin sütunu kart genişliğini
+   öteki kartlarla aynı kullanır, kartın üstüne rozet yüksekliği kadar pay eklenir. */
+.a-modsecim-liste .qt-mod--genis:has(.qt-mod-rozet) { position: relative; padding-top: calc(var(--qt-b-3) + 14px); }
+.a-modsecim-liste .qt-mod--genis .qt-mod-rozet {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 3px 10px 4px;
+  border-radius: 0 var(--qt-r-l) 0 var(--qt-r-m);
+  font-size: 11px;
+  line-height: 1.2;
+}
