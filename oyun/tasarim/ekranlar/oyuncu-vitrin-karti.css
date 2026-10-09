@@ -121,3 +121,57 @@
   background: var(--qt-madalyon-altin-acik); color: var(--qt-coin-yazi); border: 1.5px solid var(--qt-madalyon-altin-koyu);
   font-weight: 900; font-size: 11px; white-space: nowrap;
 }
+
+/* ---------- BP VARYANTLARI (9 Eki 2026, yalnız /lig-sahne-onizleme V1/V2/V3 — `varyant` prop'u → .qt-ok--bpk) ----------
+   KÖŞELİ: dört köşe düz 90° (pah/clip-path/yuvarlak yok). Kalın 3 tonlu altın (koyu/orta/açık) + koyu kontur.
+   Canlıda hiçbir kart bu sınıfı almaz; .qt-ok--bp (pahlı) aynen durur. Avatar arkası halka: .qt-ok-bp-halka (z -1:
+   sahne ::before -2'nin üstünde, avatar/çerçeve ve isim plakasının ALTINDA → avatarı bölmez). */
+.qt-ok--bpk { clip-path: none; border-radius: 0; border: 3px solid var(--qt-lig-sahne-kontur); }
+.qt-ok-bp-halka { position: absolute; left: 50%; top: 50%; z-index: -1; pointer-events: none; overflow: visible; max-width: none; }
+.qt-ok--bpk .qt-ok-percin { box-shadow: none; clip-path: none; background: none; }
+.qt-ok--bpk .qt-ok-percin::before { content: ""; position: absolute; }
+
+/* V1 — perçinli köşe plakaları: düz kalın bant (koyu dış · orta · açık iç çizgi · kontur) + köşede kare plaka + perçin */
+.qt-ok--bpk-v1::after {
+  box-shadow:
+    inset 0 0 0 2px var(--qt-altin-plaka-koyu),
+    inset 0 0 0 9px var(--qt-altin-plaka-bant),
+    inset 0 0 0 11px var(--qt-altin-plaka-acik),
+    inset 0 0 0 14px var(--qt-lig-sahne-kontur);
+}
+.qt-ok--bpk-v1 .qt-ok-percin { width: 26px; height: 26px; background: var(--qt-altin-plaka-bant);
+  border: 3px solid var(--qt-lig-sahne-kontur);
+  box-shadow: inset 3px 3px 0 var(--qt-altin-plaka-acik), inset -3px -3px 0 var(--qt-altin-plaka-koyu); }
+.qt-ok--bpk-v1 .qt-ok-percin::before { left: 50%; top: 50%; width: 8px; height: 8px; margin: -4px 0 0 -4px; border-radius: 50%;
+  background: var(--qt-altin-plaka-acik); border: 2px solid var(--qt-lig-sahne-kontur); box-shadow: inset -2px -2px 0 var(--qt-altin-plaka-koyu); }
+.qt-ok--bpk-v1 .qt-ok-percin--ust-sol { top: -3px; left: -3px; }    .qt-ok--bpk-v1 .qt-ok-percin--ust-sag { top: -3px; right: -3px; }
+.qt-ok--bpk-v1 .qt-ok-percin--alt-sol { bottom: -3px; left: -3px; } .qt-ok--bpk-v1 .qt-ok-percin--alt-sag { bottom: -3px; right: -3px; }
+
+/* V2 — kabartmalı kenar: 12 px bevel (üst/sol açık, alt/sağ koyu; köşeler 45° gönye ama dış köşe 90°) + iç kontur +
+   köşede küçük kare kabara */
+.qt-ok--bpk-v2::after {
+  border: 12px solid; border-color: var(--qt-altin-plaka-acik) var(--qt-altin-plaka-koyu) var(--qt-altin-plaka-koyu) var(--qt-altin-plaka-acik);
+  box-shadow: inset 0 0 0 3px var(--qt-lig-sahne-kontur), 0 0 0 0 transparent;
+  outline: 4px solid var(--qt-altin-plaka-bant); outline-offset: -8px;
+}
+.qt-ok--bpk-v2 .qt-ok-percin { width: 16px; height: 16px; background: var(--qt-altin-plaka-bant);
+  border: 2.5px solid var(--qt-lig-sahne-kontur);
+  box-shadow: inset 2px 2px 0 var(--qt-altin-plaka-acik), inset -2px -2px 0 var(--qt-altin-plaka-koyu); }
+.qt-ok--bpk-v2 .qt-ok-percin--ust-sol { top: -1px; left: -1px; }    .qt-ok--bpk-v2 .qt-ok-percin--ust-sag { top: -1px; right: -1px; }
+.qt-ok--bpk-v2 .qt-ok-percin--alt-sol { bottom: -1px; left: -1px; } .qt-ok--bpk-v2 .qt-ok-percin--alt-sag { bottom: -1px; right: -1px; }
+
+/* V3 — oyma desenli kenar: 12 px bantta çapraz oyma (orta/koyu/açık şerit) + iki kontur çizgisi + köşede kare blok ve
+   içinde elmas kakma */
+.qt-ok--bpk-v3::after {
+  border: 12px solid transparent;
+  border-image: repeating-linear-gradient(45deg, var(--qt-altin-plaka-bant) 0 5px, var(--qt-altin-plaka-koyu) 5px 7px,
+    var(--qt-altin-plaka-acik) 7px 9px) 12;
+  box-shadow: inset 0 0 0 3px var(--qt-lig-sahne-kontur);
+}
+.qt-ok--bpk-v3 .qt-ok-percin { width: 24px; height: 24px; background: var(--qt-altin-plaka-bant);
+  border: 3px solid var(--qt-lig-sahne-kontur);
+  box-shadow: inset 3px 3px 0 var(--qt-altin-plaka-acik), inset -3px -3px 0 var(--qt-altin-plaka-koyu); }
+.qt-ok--bpk-v3 .qt-ok-percin::before { left: 50%; top: 50%; width: 9px; height: 9px; margin: -4.5px 0 0 -4.5px; transform: rotate(45deg);
+  background: var(--qt-altin-plaka-acik); border: 2px solid var(--qt-lig-sahne-kontur); box-shadow: inset -2px -2px 0 var(--qt-altin-plaka-koyu); }
+.qt-ok--bpk-v3 .qt-ok-percin--ust-sol { top: -3px; left: -3px; }    .qt-ok--bpk-v3 .qt-ok-percin--ust-sag { top: -3px; right: -3px; }
+.qt-ok--bpk-v3 .qt-ok-percin--alt-sol { bottom: -3px; left: -3px; } .qt-ok--bpk-v3 .qt-ok-percin--alt-sag { bottom: -3px; right: -3px; }

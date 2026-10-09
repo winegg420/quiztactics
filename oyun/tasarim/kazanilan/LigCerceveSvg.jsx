@@ -12,6 +12,7 @@
  */
 import { Children, cloneElement, isValidElement } from "react";
 import PremiumCerceve from "../premium/PremiumCerceve.jsx";
+import { LigCerceveVaryant, ligCerceveVaryantVar } from "../lig-sahnesi/BpCizimler.jsx";
 
 const CIZIM = (lig) => `/lig-cerceveleri/cerceve-${lig}.svg`;
 const DELIK = 112;   // avatar çapı (birim) — deliğin çapı
@@ -19,7 +20,8 @@ const KUTU = 148;    // tam çizimde kutu = halka dış çapı (2 × 74)
 const KIRPIK = 168;  // ≤ 48 px'te kutu = viewBox "-84 -84 168 168"
 const CIZIM_GENISLIK = 280;
 
-export default function LigCerceveSvg({ lig, aura = null, boyut = 64, etiket, className = "", children }) {
+// 9 Eki: `varyant` (yalnız /lig-sahne-onizleme V1-V3) → Elmas/Efsane yeni çizim (BpCizimler.jsx); null → bugünkü dosya.
+export default function LigCerceveSvg({ lig, aura = null, boyut = 64, etiket, className = "", varyant = null, children }) {
   const kucuk = boyut <= 48;
   const kutu = kucuk ? KIRPIK : KUTU;
   const ic = Math.round((boyut * DELIK) / kutu);
@@ -27,7 +29,9 @@ export default function LigCerceveSvg({ lig, aura = null, boyut = 64, etiket, cl
   const kayma = -(genislik - boyut) / 2;
   const avatar = Children.map(children, (c) => (isValidElement(c) ? cloneElement(c, { boyut: ic }) : c));
 
-  const cizim = (
+  const konum = { position: "absolute", left: kayma, top: kayma, width: genislik, height: genislik, maxWidth: "none",
+                  pointerEvents: "none", userSelect: "none" };
+  const cizim = ligCerceveVaryantVar(lig, varyant) ? <LigCerceveVaryant lig={lig} varyant={varyant} style={konum} /> : (
     <img src={CIZIM(lig)} alt="" aria-hidden="true" draggable="false" decoding="async"
          style={{ position: "absolute", left: kayma, top: kayma, width: genislik, height: genislik, maxWidth: "none",
                   pointerEvents: "none", userSelect: "none" }} />

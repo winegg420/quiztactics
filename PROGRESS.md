@@ -11126,3 +11126,14 @@ Canlıda yazma YOK: migration/ayar/Storage değişikliği yapılmadı, dosya sil
 - `OyuncuVitrinKarti`'na `bpHalkasiYok` prop'u (varsayılan false → canlı aynı): avatara `sezonBp:false` geçer. Önizlemede V1/V2/V3 sekmeleri bu prop'la, `sahneImza` açık çizilir; Eski/Yeni değişmedi.
 - Doğrulama: build temiz; önizlemede halka sayısı Eski/Yeni bp=1 → 5, V1-3 bp=1 → 0.
 - Aynı halka mantığı: LeaderboardPage (bpAktif), sezon-yolu/Kutlama.jsx, MacSonuKutlama.jsx, IsimEfekti.jsx — dokunulmadı.
+
+## 2026-10-09 — Lig sahne önizleme: BP V1/V2/V3 (halka + köşeli kart çerçevesi + Elmas/Efsane çerçeve)
+- "Yeni" sekmesi kaldırıldı; sekmeler Eski · V1 · V2 · V3. V'ler Eski'yi baz alır (arka planlar ve Bronz/Gümüş/Altın aynen).
+- Yeni `oyun/tasarim/lig-sahnesi/BpCizimler.jsx` (kodla çizilmiş SVG): avatar arkası BP halkası (V1 kalın + kesik, V2 kabartma + perçin,
+  V3 üst yarı ışın + taç uçları; r82-97 birim → çerçevenin (r74) dışında, z -1 ile altında) ve Elmas/Efsane çerçeve yorumları
+  (Elmas: faset/kristal taç/buz kalkanı · Efsane: tüy kanat/yıldız taç/alev hale).
+- Köşeli BP kart çerçevesi `.qt-ok--bpk-v1..3` (perçinli köşe plakası · bevel kenar · çapraz oyma); clip-path yok, 90° köşe.
+- Zincir: OyuncuVitrinKarti `varyant` → CerceveliAvatar/PremiumAvatarCizim/KazanilanCerceve `ligVaryant` → LigCerceveSvg `varyant`,
+  hepsi varsayılan null → canlı değişmez (Eski sekmesi önce/sonra PNG md5 birebir aynı).
+- Test: kayıtlı misafir oturumu geçersizdi; yeni hesap açmadan sayfa yerelde geçici HTML kabukla açıldı (dosyalar silindi).
+  Görseller: tasarim/lig-sahne-v-adim2/ (commit edilmedi).

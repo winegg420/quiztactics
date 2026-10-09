@@ -1,6 +1,7 @@
 // /lig-sahne-onizleme — profil kartı lig sahnesi ESKİ / YENİ karşılaştırması (8 Eki 2026, Ida onayı için).
 // Menüde yok; giriş yapmış herkese açık (veri yok, sunucuya istek atmaz); tembel parça. Kartlar OYUNDAKİ gerçek
-// OyuncuVitrinKarti + gerçek lig çerçevesi + gerçek avatarla çizilir; "Yeni" = `sahneImza` (LigSahnesiImza.jsx).
+// OyuncuVitrinKarti + gerçek lig çerçevesi + gerçek avatarla çizilir; 9 Eki: "Yeni" sekmesi kaldırıldı; V1/V2/V3 = Eski + `varyant`
+// (köşeli BP kart çerçevesi, avatar arkası BP halkası, Elmas/Efsane yeni çerçeve — BpCizimler.jsx).
 import { useEffect, useState } from "react";
 import OyuncuVitrinKarti from "../../components/OyuncuVitrinKarti.jsx";
 import { LIG_ADLARI } from "../../lib/lig.js";
@@ -26,7 +27,7 @@ const kartYap = (lig, i, bp) => ({
 });
 
 export default function LigSahneOnizlemePage() {
-  const [surum, setSurum] = useState("yeni");
+  const [surum, setSurum] = useState("v1");
   const [bp, setBp] = useState(false);
   useEffect(() => {
     try { document.title = `Quiz Tactics — ${tt("Lig sahnesi önizleme")}`; } catch { /* başlık kritik değil */ }
@@ -40,7 +41,7 @@ export default function LigSahneOnizlemePage() {
         </header>
         <div className="lso-arac">
           <QtSekmeler etiket={tt("Sahne sürümü")} aktif={surum} onSec={setSurum}
-            sekmeler={[{ kod: "eski", ad: tt("Eski") }, { kod: "yeni", ad: tt("Yeni") },
+            sekmeler={[{ kod: "eski", ad: tt("Eski") },
               { kod: "v1", ad: "V1" }, { kod: "v2", ad: "V2" }, { kod: "v3", ad: "V3" }]} />
           <label className="lso-bp">
             <input type="checkbox" checked={bp} onChange={(e) => setBp(e.target.checked)} />
@@ -51,7 +52,7 @@ export default function LigSahneOnizlemePage() {
           {LIGLER.map((lig, i) => (
             <section key={lig} className="lso-hucre" aria-label={tt("{lig} Lig", { lig: tt(LIG_ADLARI[lig] ?? lig) })}>
               <OyuncuVitrinKarti key={`${lig}-${surum}-${bp}`} kart={kartYap(lig, i, bp)} boyut={88} ligSahnesi
-                sahneImza={surum !== "eski"} bpHalkasiYok={surum.startsWith("v")} koleksiyonCipi={false} />
+                bpHalkasiYok={surum !== "eski"} varyant={surum === "eski" ? null : surum} koleksiyonCipi={false} />
             </section>
           ))}
         </div>

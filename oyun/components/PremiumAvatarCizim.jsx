@@ -32,7 +32,7 @@ const TUR2_AD = { alev: "Sönmeyen Alev", simsek: "Şimşek", kraliyet: "Kraliye
 import { tt } from "../lib/dil.js";
 
 export default function PremiumAvatarCizim({ profile, boyut, hareketli = false, premiumCerceve = null, premiumAura = null,
-  cerceveAnahtar = null, cerceveSatir, cerceveVar = false, kazanilan = null, etiket, className = "" }) {
+  cerceveAnahtar = null, cerceveSatir, cerceveVar = false, kazanilan = null, etiket, className = "", ligVaryant = null }) {
   const t2 = premiumCerceve ? TUR2_SANAT[premiumCerceve] ?? null : null;
   const C = premiumCerceve && CERCEVELER[premiumCerceve] ? premiumCerceve : null;
   const A = premiumAura && AURALAR[premiumAura] ? premiumAura : null;
@@ -45,7 +45,7 @@ export default function PremiumAvatarCizim({ profile, boyut, hareketli = false, 
   if (!t2 && !C && kazanilan) {
     const adK = [etiket, A && tt(AURALAR[A]?.ad)].filter(Boolean).join(" · ");
     return (
-      <KazanilanCerceve anahtar={kazanilan} aura={A} boyut={boyut} hareketli={hareketli} className={className} etiket={adK || undefined}>
+      <KazanilanCerceve anahtar={kazanilan} aura={A} boyut={boyut} hareketli={hareketli} className={className} etiket={adK || undefined} ligVaryant={ligVaryant}>
         <Avatar profile={avatarProfil} boyut={boyut} />
       </KazanilanCerceve>
     );

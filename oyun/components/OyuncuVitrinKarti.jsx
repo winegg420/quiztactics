@@ -21,6 +21,7 @@ import { koleksiyonSayi } from "../lib/koleksiyon.js";
 import { oyuncuKarti, oyuncuKartiDinle } from "../lib/cerceve.js";
 import { KartArkaPlanKatmani, kartArkaPlanSinifi, useKartArkaPlani } from "../tasarim/arka-plan/kayit.jsx";
 import { LIG_ADLARI } from "../lib/lig.js";
+import { BpHalka } from "../tasarim/lig-sahnesi/BpCizimler.jsx";
 import LigSahnesiImza from "../tasarim/lig-sahnesi/LigSahnesiImza.jsx";
 import { tt } from "../lib/dil.js";
 import "../tasarim/ekranlar/oyuncu-vitrin-karti.css";
@@ -82,7 +83,9 @@ export function KartLigSatiri({ lig, level, yazi = true, amblem = 22, bp = false
 }
 
 export default function OyuncuVitrinKarti({ userId, profile, kart: verilenKart, boyut = 88, hareketli = false, kompakt = false,
-  className = "", avatarEk = null, adEk = null, arkaPlan = false, ligSahnesi = false, sahneImza = false, koleksiyonCipi = true, bp, bpHalkasiYok = false, children }) {
+  className = "", avatarEk = null, adEk = null, arkaPlan = false, ligSahnesi = false, sahneImza = false, koleksiyonCipi = true, bp, bpHalkasiYok = false, varyant = null, children }) {
+  // 9 Eki: `varyant` ("v1"|"v2"|"v3") yalnız /lig-sahne-onizleme verir — köşeli BP kart çerçevesi + avatar arkası BP halkası
+  // + Elmas/Efsane yeni çerçeve. null (canlıdaki her kullanım) → DOM ve görünüm eskisiyle aynı.
   const kart = useOyuncuKarti(userId, verilenKart);
   // 30 Eyl: arkaPlan → takılı kart arka planı kartın arkasında (yalnız profil sayfası ister; diğer kullananlar aynı)
   const arkaPlanSanat = useKartArkaPlani(arkaPlan ? userId : null, kart ?? undefined);
@@ -93,7 +96,7 @@ export default function OyuncuVitrinKarti({ userId, profile, kart: verilenKart, 
   // 8 Eki: yeni lig sahnesi (imza çizimi) — yalnız ligSahnesi + sahneImza birlikteyken
   const imza = ligSahnesi && sahneImza;
   return (
-    <div className={`qt-ok${kompakt ? " qt-ok--kompakt" : ""}${ligSahnesi ? " qt-ok--lig-sahnesi" : ""}${imza ? " qt-ok--sahne-v2" : ""}${bpAktif ? " qt-ok--bp" : ""}${kartArkaPlanSinifi(arkaPlanSanat)} ${className}`.trim()}
+    <div className={`qt-ok${kompakt ? " qt-ok--kompakt" : ""}${ligSahnesi ? " qt-ok--lig-sahnesi" : ""}${imza ? " qt-ok--sahne-v2" : ""}${bpAktif ? " qt-ok--bp" : ""}${bpAktif && varyant ? ` qt-ok--bpk qt-ok--bpk-${varyant}` : ""}${kartArkaPlanSinifi(arkaPlanSanat)} ${className}`.trim()}
       {...(ligSahnesi ? { "data-lig": kart?.lig ?? "" } : {})} {...(imza ? { style: { "--ok-av": `${boyut}px` } } : {})}>
       {bpAktif && ligSahnesi && ["ust-sol", "ust-sag", "alt-sol", "alt-sag"].map((k) => <i key={k} className={`qt-ok-percin qt-ok-percin--${k}`} aria-hidden="true" />)}
       <KartArkaPlanKatmani sanat={arkaPlanSanat} hareketli={hareketli} yukseklik={220} duzen="dikey" />
@@ -104,7 +107,8 @@ export default function OyuncuVitrinKarti({ userId, profile, kart: verilenKart, 
         </span>
       )}
       <div className="qt-ok-avatar">
-        <CerceveliAvatar profile={profil} userId={userId} boyut={boyut} hareketli={hareketli} {...(kart ? { kart } : {})} {...(bpHalkasiYok ? { sezonBp: false } : {})} />
+        <CerceveliAvatar profile={profil} userId={userId} boyut={boyut} hareketli={hareketli} {...(kart ? { kart } : {})} {...(bpHalkasiYok ? { sezonBp: false } : {})} {...(varyant ? { ligVaryant: varyant } : {})} />
+        {bpAktif && varyant && <BpHalka varyant={varyant} boyut={boyut} />}
         {avatarEk}
       </div>
       <p className="qt-ok-ad">

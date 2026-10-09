@@ -43,7 +43,7 @@ const PremiumAvatarCizim = lazy(() => import("./PremiumAvatarCizim.jsx"));
 const alanVar = (o, ad) => o != null && Object.prototype.hasOwnProperty.call(o, ad);
 
 export default function CerceveliAvatar({ profile, userId, boyut = 44, cerceve, kart, aura, premiumCerceve, premiumAura,
-  hareketli = false, className = "", sezonBp }) {
+  hareketli = false, className = "", sezonBp, ligVaryant = null }) {
   const kimlik = userId ?? profile?.id ?? profile?.user_id ?? null;
   const cerceveVerildi = cerceve !== undefined || kart !== undefined;
   const auraVerildi = aura !== undefined || alanVar(kart, "aura");
@@ -107,7 +107,7 @@ export default function CerceveliAvatar({ profile, userId, boyut = 44, cerceve, 
       <Suspense fallback={bugunku}>
         <PremiumAvatarCizim profile={profile} boyut={boyut} hareketli={hareketli} premiumCerceve={pc} premiumAura={pa}
                             cerceveAnahtar={anahtar} cerceveSatir={{ nadirlik }} cerceveVar={!!tanim} kazanilan={kazanilan}
-                            etiket={etiket} className={className} />
+                            etiket={etiket} className={className} ligVaryant={ligVaryant} />
       </Suspense>
     );
   }

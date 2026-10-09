@@ -25,12 +25,12 @@ function cizimBul(t) {
 }
 const cizimler = new Map();
 
-export default function KazanilanCerceve({ anahtar, aura = null, boyut = 64, hareketli = false, etiket, className = "", children }) {
+export default function KazanilanCerceve({ anahtar, aura = null, boyut = 64, hareketli = false, etiket, className = "", ligVaryant = null, children }) {
   const t = KAZANILAN[anahtar];
   if (!t) return null;
   // 30 Eyl: lig çerçeveleri (Bronz…Efsane) yeni statik SVG çizimle — LigCerceveSvg. Eski Set A / Cerceve2 çizimleri dosyada durur.
   if (t.tur === "lig") {
-    return <LigCerceveSvg lig={t.lig} aura={aura} boyut={boyut} etiket={etiket} className={className}>{children}</LigCerceveSvg>;
+    return <LigCerceveSvg lig={t.lig} aura={aura} boyut={boyut} etiket={etiket} className={className} varyant={ligVaryant}>{children}</LigCerceveSvg>;
   }
   if (!cizimler.has(anahtar)) cizimler.set(anahtar, cizimBul(t));
   const { cizim, efekt } = cizimler.get(anahtar);
