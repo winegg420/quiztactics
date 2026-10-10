@@ -1,10 +1,10 @@
 // Sezon Yolu v3 CANLI doğrulama (hafif): 360×640 TR, tek tarayıcı, sayfa başına tek tur, sunucuya YAZMAZ (yalnız okuma; satın alma açılır, onaylanmaz).
 //  1) yükleme iskeleti: çizim parçası geciktirilir → hero'da iskelet var, "?" yok
 //  2) BP satın alma vitrini: Ejderha çizildi + metinlerin gerçek piksel kontrastı ≥ 4,5 (çizim parçası normal)
-// Oturum: .sezon-b-oturum.json (misafir; git'e girmez). Kullanım: node araclar/sezon-yolu-v3-canli.mjs [--adres=https://quiztactics.vercel.app]
+// Oturum: .sezon-b-oturum.json (misafir; git'e girmez). Kullanım: node araclar/sezon-yolu-v3-canli.mjs [--adres=https://quiztactics.com]
 import { chromium } from "playwright-core";
 import fs from "node:fs";
-const ADRES = (process.argv.find((a) => a.startsWith("--adres=")) ?? "--adres=https://quiztactics.vercel.app").slice(8);
+const ADRES = (process.argv.find((a) => a.startsWith("--adres=")) ?? "--adres=https://quiztactics.com").slice(8);
 const origin = new URL(ADRES).origin;
 const oturum = JSON.parse(fs.readFileSync(".sezon-b-oturum.json", "utf8"));
 const kaynak = oturum.origins.find((o) => o.localStorage?.some((x) => x.name.includes("auth-token")));

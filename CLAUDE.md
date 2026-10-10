@@ -115,9 +115,9 @@ girmez). Gerçek iOS kontrolü sahibinin telefonunda yapılır.
 
 - **Tek dal: `main`** (23 Eyl 2026, Ida kararı — oyunun henüz oyuncusu yok,
   inşa aşamasında). Doğrudan `main`'de çalışılır; her iş bitince `main`'e
-  push edilir ve canlı (quiztactics.vercel.app) güncellenir.
+  push edilir ve canlı (quiztactics.com) güncellenir.
 - `gelistirme` dalı ve önizleme linki artık kullanılmaz.
-- Canlıda doğrulama: `node araclar/oyuncu-testi.mjs --adres=https://quiztactics.vercel.app`.
+- Canlıda doğrulama: `node araclar/oyuncu-testi.mjs --adres=https://quiztactics.com`.
 
 ## Yayın
 

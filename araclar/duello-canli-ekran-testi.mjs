@@ -13,7 +13,7 @@
 //   · doğru şık veritabanından OKUNUR (saldıran doğru, savunan yanlış cevaplar → yuvalar dolar, çerçeve renkleri çeşitlenir)
 //
 // Kullanım:
-//   node araclar/duello-canli-ekran-testi.mjs [--adres=https://quiztactics.vercel.app] [--a=ArayuzDenetim648]
+//   node araclar/duello-canli-ekran-testi.mjs [--adres=https://quiztactics.com] [--a=ArayuzDenetim648]
 //        [--b=ArayuzDenetim327] [--tur=4] [--cikti=docs/ekran-turu]
 // Çıktı: <cikti>/duello-*.jpg · duello-olcum.json · (konsol çıktısı çağıran tarafından dosyaya alınır)
 // ============================================================
@@ -27,7 +27,7 @@ const ARG = Object.fromEntries(process.argv.slice(2).map((a) => {
   const [k, v] = a.replace(/^--/, "").split("=");
   return [k, v ?? true];
 }));
-const ADRES = String(ARG.adres || "https://quiztactics.vercel.app").replace(/\/$/, "");
+const ADRES = String(ARG.adres || "https://quiztactics.com").replace(/\/$/, "");
 const KOKEN = new URL(ADRES).origin;
 const AD_A = String(ARG.a || "ArayuzDenetim648");
 const AD_B = String(ARG.b || "ArayuzDenetim327");

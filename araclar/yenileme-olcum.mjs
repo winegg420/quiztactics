@@ -4,7 +4,7 @@
 // Oturum açıkken bir sayfayı (varsayılan /joker = Dükkân) açar ve N kez yeniler; her yüklemede
 // içeriğin (açılış + tembel sayfa yükleyicisi gidip sayfa çizilince) kaç ms'de geldiğini,
 // konsol hatalarını, başarısız ve askıda kalan istekleri yazar.
-//   --adres=https://quiztactics.vercel.app   --sayfa=/joker   --tekrar=4
+//   --adres=https://quiztactics.com   --sayfa=/joker   --tekrar=4
 //   --eski       : her yenilemeden önce erişim belirtecinin süresi dolmuş sayılır (expires_at geçmiş)
 //   --ag=yavas   : yavaş 4G taklidi (400 ms gecikme, ~1,6 Mbit)
 //   --takil=auth : belirteç yenileme isteği 25 sn yanıtsız kalır (askıda istek taklidi)
@@ -18,7 +18,7 @@ const ARG = Object.fromEntries(process.argv.slice(2).map((a) => {
   const [k, v] = a.replace(/^--/, "").split("=");
   return [k, v ?? true];
 }));
-const ADRES = String(ARG.adres || "https://quiztactics.vercel.app").replace(/\/$/, "");
+const ADRES = String(ARG.adres || "https://quiztactics.com").replace(/\/$/, "");
 const SAYFA = String(ARG.sayfa || "/joker");
 const TEKRAR = Number(ARG.tekrar || 4);
 const SINIR_MS = 25000;

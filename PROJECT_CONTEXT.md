@@ -15,7 +15,7 @@ Bu dosya projenin BUGÜNKÜ gerçeğini tutar, tarihçesini değil.
 ## Mevcut Ürün
 
 **Quiz Tactics** (GitHub: `winegg420/quiztactics`) — Türkçe bilgi yarışması,
-PWA. Tek depo, tek Vercel projesi: quiztactics.vercel.app.
+PWA. Tek depo, tek Vercel projesi; ana adres **quiztactics.com** (10 Eki 2026: quiztactics.vercel.app → quiztactics.com kalıcı yönlendirme, `vercel.json › redirects`, yalnız bu host; www Vercel alan ayarıyla yönlenir; önizleme *.vercel.app adresleri etkilenmez).
 
 18 Eylül 2026'da `idagggamecenter` hub'ından kendi deposuna ayrıldı.
 Supabase **aynı** projedir — veri, anahtarlar ve tablolar taşınmadı.
@@ -907,7 +907,7 @@ Yerelde de aynı anda tek koşu; oyuncu testini canlıda tekrar tekrar çalışt
   düşen Realtime kanalı 2→30 sn geri çekilmeyle yeniden kurulur (`gorunurluk.js › kanalBekleme`); ana sayfa "devam eden maçlar" olayları
   3 sn'ye toplar ve gizli sekmede okumaz. Yeni yoklama eklerken: gizli sekmede dur, unmount'ta temizle, üst üste binmeyi engelle.
 
-Her pakette: `node araclar/oyuncu-testi.mjs [--adres=https://quiztactics.vercel.app]`.
+Her pakette: `node araclar/oyuncu-testi.mjs [--adres=https://quiztactics.com]`.
 
 - Oyuncunun cevap vermesi gereken HER soruda şıklar dokunulabilir olmalı;
   değilse test ANINDA başarısız. "Açık şık varsa dokun" yazılmaz — eski betik

@@ -42,7 +42,7 @@ function kur({ agHatasi = false, durum = 200 } = {}) {
     return new Response(dosya(adres), { status: 200, headers: { "content-type": "audio/aac" } });
   };
   const self = {
-    location: { origin: "https://quiztactics.vercel.app" },
+    location: { origin: "https://quiztactics.com" },
     addEventListener: (ad, f) => { dinleyiciler[ad] = f; },
     skipWaiting: async () => {}, clients: { claim: async () => {} }, registration: {},
   };
@@ -161,7 +161,7 @@ await ok("kapsam dışı: içerik özeti olmayan ad, başka kökenden no-cors, m
 
 await ok("aynı kökenli /muzik/ (ileride Vercel) ve onizleme/ alt klasörü de önbelleğe girer", async () => {
   const s = kur();
-  assert.equal((await s.iste("https://quiztactics.vercel.app/muzik/muzik_menu-1-00b7cbbffc.aac", { range: "bytes=0-", mode: "no-cors" })).status, 206);
+  assert.equal((await s.iste("https://quiztactics.com/muzik/muzik_menu-1-00b7cbbffc.aac", { range: "bytes=0-", mode: "no-cors" })).status, 206);
   assert.equal((await s.iste(`${KOK}onizleme/muzik_menu-5-0c5857b973.aac`, { range: "bytes=0-" })).status, 206);
   assert.equal(s.agIstekleri.length, 2);
 });

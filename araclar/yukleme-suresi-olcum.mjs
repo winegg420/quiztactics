@@ -1,6 +1,6 @@
 // Canlı site açılış ölçümü — salt okunur. Dört sayfa × normal/yavaş 4G × soğuk/sıcak ziyaret.
 // Mevcut .arayuz-denetim-oturum.json oturumunu hedef origin'e kopyalar; yeni hesap/veri oluşturmaz.
-// Kullanım: node araclar/yukleme-suresi-olcum.mjs [--adres=https://quiztactics.vercel.app] [--cikti=...json] [--profil-onbellek]
+// Kullanım: node araclar/yukleme-suresi-olcum.mjs [--adres=https://quiztactics.com] [--cikti=...json] [--profil-onbellek]
 //   [--oturum=dosya.json] (varsayılan .arayuz-denetim-oturum.json) [--belirtec-eski] [--sayfa=ana,lig] [--ag=normal] [--tekrar=3]
 import { chromium } from "playwright-core";
 import fs from "node:fs";
@@ -10,7 +10,7 @@ const ARG = Object.fromEntries(process.argv.slice(2).map((a) => {
   const [k, v] = a.replace(/^--/, "").split("=");
   return [k, v ?? true];
 }));
-const ADRES = String(ARG.adres || "https://quiztactics.vercel.app").replace(/\/$/, "");
+const ADRES = String(ARG.adres || "https://quiztactics.com").replace(/\/$/, "");
 const CIKTI = path.resolve(String(ARG.cikti || "tasarim/yukleme-suresi/olcum-once.json"));
 const OTURUM = path.resolve(typeof ARG.oturum === "string" ? ARG.oturum : ".arayuz-denetim-oturum.json");
 if (!fs.existsSync(OTURUM)) throw new Error(`Oturum yok: ${OTURUM}`);

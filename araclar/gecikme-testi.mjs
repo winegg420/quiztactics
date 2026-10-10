@@ -7,7 +7,7 @@
 // Her sayfa ekran olaylarını (3-2-1 rakamı, soru metni, sayaç rakamı) ms damgasıyla kaydeder.
 //
 // Kullanım:
-//   node araclar/gecikme-testi.mjs [--adres=https://quiztactics.vercel.app] [--gecikme=300]
+//   node araclar/gecikme-testi.mjs [--adres=https://quiztactics.com] [--gecikme=300]
 //        [--hazir-fark=2000]  (B, A'dan kaç ms sonra "Hazırım"a basar)  [--soru=5] [--sessiz=2,4] [--sil]
 //   --sil : test hesaplarını (hesabimi_sil) sonunda siler.
 // Çıktı: geri sayımın her sayfada hangi rakamdan başladığı, her sorunun iki ekranda görünme farkı,

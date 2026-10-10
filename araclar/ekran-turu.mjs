@@ -20,7 +20,7 @@
 // "en" gösterilir (veritabanına yazılmaz). Canlı site 403 dönerse durur.
 //
 // Kullanım:
-//   node araclar/ekran-turu.mjs [--adres=https://quiztactics.vercel.app] [--oturum=dosya]
+//   node araclar/ekran-turu.mjs [--adres=https://quiztactics.com] [--oturum=dosya]
 //        [--bolum=statik,dar,duello,klasik,en] [--ekle] [--rapor] [--cikti=docs/ekran-turu]
 //   --ekle  : olcum.json'daki başka bölümlerin kayıtları korunur (tek bölüm yeniden çekilirken)
 //   --rapor : tarayıcı açmaz, olcum.json'dan RAPOR.md'yi yeniden yazar
@@ -33,7 +33,7 @@ const ARG = Object.fromEntries(process.argv.slice(2).map((a) => {
   const [k, v] = a.replace(/^--/, "").split("=");
   return [k, v ?? true];
 }));
-const ADRES = String(ARG.adres || "https://quiztactics.vercel.app").replace(/\/$/, "");
+const ADRES = String(ARG.adres || "https://quiztactics.com").replace(/\/$/, "");
 const KOKEN = new URL(ADRES).origin;
 const OTURUM = path.resolve(typeof ARG.oturum === "string" ? ARG.oturum : ".arayuz-denetim-oturum.json");
 const CIKTI = path.resolve(typeof ARG.cikti === "string" ? ARG.cikti : "docs/ekran-turu");

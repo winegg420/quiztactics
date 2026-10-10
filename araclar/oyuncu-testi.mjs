@@ -18,7 +18,7 @@
 //
 // Kullanım:
 //   npm run dev                                   (yerel için, başka kabukta)
-//   node araclar/oyuncu-testi.mjs [--adres=https://quiztactics.vercel.app]
+//   node araclar/oyuncu-testi.mjs [--adres=https://quiztactics.com]
 //        [--mod=duello,klasik,turnuva] [--gorsel] [--mac=2] [--genislik=390,360,1280] [--dil=en] [--ulke=DE]
 //   --gorsel : her ekranın 360/390 görüntüsü oyuncu-testi-gorseller/ altına
 //   --mac    : Düello'da kapsam (3 saldıran + 3 savunan) dolmazsa en çok kaç maç

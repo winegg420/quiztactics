@@ -2,7 +2,7 @@
 // Maddeler: 2 Meydan "Rastgele oyna" düğmesi · 3 OYNA penceresi Düello kartı · 4 Görevler ödül rengi ·
 // 5 Düello/Hazine lobisi tek açıklama · 6 Lig sekmeleri. Sunucuya YAZMAZ: gorevlerim taklit; grup araması başlatılmaz.
 // Kullanım: npm run dev (başka kabukta) · node araclar/denetim-9eki-ekran.mjs --adres=http://localhost:5189 --etiket=sonra
-// "önce" için canlı site: --adres=https://quiztactics.vercel.app --etiket=once (oturum yalnız localhost'a yazıldığından
+// "önce" için canlı site: --adres=https://quiztactics.com --etiket=once (oturum yalnız localhost'a yazıldığından
 // canlıda oturumsuz giriş sayfası gelir; bu yüzden önce görüntüleri yerel dev + git stash'siz kod için --etiket=once ile
 // düzeltmeden ÖNCE alınır). Oturum: .arayuz-denetim-oturum.json (git'e girmez).
 // Çıktı: tasarim/denetim-9eki/*.png ve olcum.json

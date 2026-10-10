@@ -1,5 +1,5 @@
 // ============================================================
-// DÜELLO 960 · SEÇİM FAZI CANLI UÇTAN UCA TESTİ (quiztactics.vercel.app + canlı DB)
+// DÜELLO 960 · SEÇİM FAZI CANLI UÇTAN UCA TESTİ (quiztactics.com + canlı DB)
 //
 // Maç gerçek sunucu fonksiyonuyla açılır (duello_olustur — arama/davet/rövanş hepsi bunu çağırır): seçim fazı, yılan
 // sırası, süre dolumu, bot seçimi ve tur 1 geçişi CANLI kodla oynanır. Oyuncu(lar) gerçek tarayıcıda oynar:
@@ -19,7 +19,7 @@ import { PgIstemci, baglantiDizgisi, alintila } from "./pg-mini.mjs";
 import { duelloTanitimAnahtari } from "./duello-tanitim-anahtar.mjs";
 
 const ARG = Object.fromEntries(process.argv.slice(2).map((a) => { const [k, v] = a.replace(/^--/, "").split("="); return [k, v ?? true]; }));
-const ADRES = String(ARG.adres || "https://quiztactics.vercel.app").replace(/\/$/, "");
+const ADRES = String(ARG.adres || "https://quiztactics.com").replace(/\/$/, "");
 const MOD = ARG.mod === "gercek" ? "gercek" : "bot";
 const DIL = ARG.dil === "en" ? "en" : "tr";
 const EN = Number(ARG.en || 390);

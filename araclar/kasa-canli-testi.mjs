@@ -30,7 +30,7 @@
 //
 // Kullanım:
 //   node araclar/kasa-canli-testi.mjs [--senaryo=gercek] [--a=ArayuzDenetim648] [--b=ArayuzDenetim327]
-//        [--adres=https://quiztactics.vercel.app] [--boyut=390x844] [--dil=tr] [--azalt] [--joker]
+//        [--adres=https://quiztactics.com] [--boyut=390x844] [--dil=tr] [--azalt] [--joker]
 //        [--yenile=4] [--geri=6] [--kopma=5] [--terk=7] [--etiket=x] [--ss]
 // Çıktı: .tmp/kasa-canli-<etiket>.json (+ --ss ile .tmp/kasa-canli-<etiket>-*.jpg)
 // Canlıya yazmaz (yalnız oyuncu RPC'leri; veritabanından yalnız doğru şık OKUNUR).
@@ -44,7 +44,7 @@ const ARG = Object.fromEntries(process.argv.slice(2).map((a) => {
   const [k, v] = a.replace(/^--/, "").split("=");
   return [k, v ?? true];
 }));
-const ADRES = String(ARG.adres || "https://quiztactics.vercel.app").replace(/\/$/, "");
+const ADRES = String(ARG.adres || "https://quiztactics.com").replace(/\/$/, "");
 const KOKEN = new URL(ADRES).origin;
 const SENARYO = String(ARG.senaryo || "gercek");
 const AD_A = String(ARG.a || "ArayuzDenetim648");

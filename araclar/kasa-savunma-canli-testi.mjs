@@ -10,7 +10,7 @@
 //   üst üste çalması (≤ 250 ms içinde aynı rol), konsol hatası, yatay taşma.
 // Yük: veritabanından yalnız soru başına BİR okuma (doğru şık); yoklama yalnız yerel DOM.
 // Kullanım: node araclar/kasa-savunma-canli-testi.mjs [--a=ArayuzDenetim934] [--b=ArayuzDenetim758]
-//           [--adres=https://quiztactics.vercel.app] [--boyut=390x844] [--dil=tr]
+//           [--adres=https://quiztactics.com] [--boyut=390x844] [--dil=tr]
 // Oturumlar: .arayuz-denetim-oturum.json (her origin bir hesap; git'e girmez).
 // ============================================================
 import { chromium, devices } from "playwright-core";
@@ -19,7 +19,7 @@ import path from "node:path";
 import { PgIstemci, baglantiDizgisi, alintila } from "./pg-mini.mjs";
 
 const ARG = Object.fromEntries(process.argv.slice(2).map((a) => { const [k, v] = a.replace(/^--/, "").split("="); return [k, v ?? true]; }));
-const ADRES = String(ARG.adres || "https://quiztactics.vercel.app").replace(/\/$/, "");
+const ADRES = String(ARG.adres || "https://quiztactics.com").replace(/\/$/, "");
 const KOKEN = new URL(ADRES).origin;
 const AD_A = String(ARG.a || "ArayuzDenetim934"), AD_B = String(ARG.b || "ArayuzDenetim758");
 const [GEN, YUK] = String(ARG.boyut || "390x844").split("x").map(Number);

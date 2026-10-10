@@ -1,6 +1,6 @@
 # Quiz Tactics 🧠⚡
 
-Türkçe bilgi yarışması — 1v1 maçlar, günde 5 turnuva seansı, haftalık lig ve sezonluk Battle Pass. Canlı: https://quiztactics.vercel.app
+Türkçe bilgi yarışması — 1v1 maçlar, günde 5 turnuva seansı, haftalık lig ve sezonluk Battle Pass. Canlı: https://quiztactics.com
 
 ## Oyun
 
