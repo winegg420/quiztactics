@@ -376,6 +376,16 @@ async function uret() {
   const havuzu = havuzCek();
   console.log(`Havuz ${havuzu.length} soru (aktif + pasif)`);
 
+  // Önceki koşuda bütçe yüzünden kapıya girmemiş taslaklar yeniden kapıya alınır (üretim parası boşa gitmesin)
+  const bekletilen = st.taslaklar.filter((t) => t.sonuc === 'elendi' && t.neden === 'bütçe durdurdu');
+  if (bekletilen.length && !butceDoldu()) {
+    console.log(`Kapıya alınmamış ${bekletilen.length} taslak yeniden kapıya sokuluyor`);
+    for (const t of bekletilen) { t.sonuc = 'bekliyor'; t.neden = ''; }
+    await kapilar(bekletilen, anahtar);
+    for (const t of bekletilen) if (t.sonuc === 'bekliyor') { t.sonuc = 'elendi'; t.neden = 'bütçe durdurdu'; }
+    durumYaz(st);
+    console.log(`  geçen toplam ${st.taslaklar.filter((t) => t.sonuc === 'gecti').length}/${st.taslaklar.length} · ${toplamUsd().toFixed(3)}`);
+  }
   while (st.tur < TUR_SAYISI && !butceDoldu()) {
     const eksik = eksikler(st, sec(st));
     if (!Object.keys(eksik).length) break;
@@ -393,7 +403,9 @@ async function uret() {
         if (toplamUsd() + 0.4 > BUTCE) return;
         let boy = Math.min(CAGRI_TAVAN, kalan2 + kalan3), kucultuldu = false;
         for (;;) {
-          const c3 = Math.min(kalan3, Math.round(boy * (z3 / Math.max(1, z2 + z3)))), c2 = Math.min(kalan2, boy - c3);
+          let c3 = Math.min(kalan3, Math.ceil(boy * (z3 / Math.max(1, z2 + z3)))), c2 = Math.min(kalan2, boy - c3);
+          if (c2 + c3 < 1) { kalan2 = kalan3 = 0; break; } // boş istek yok (yuvarlama döngüsü koruması)
+          if (c2 + c3 < Math.min(boy, kalan2 + kalan3)) { c2 = Math.min(kalan2, boy - c3); c3 = Math.min(kalan3, boy - c2); }
           const onceki = [...st.taslaklar, ...yeni].filter((t) => t.k === k).map((t) => t.s);
           try {
             const y = await claudeCagir(anahtar, { model: URETICI, sistem: GEN_SISTEM, sema: GEN_SEMA, istem: genIstem(k, c2, c3, havuzCevap, onceki), maxJeton: 16000, effort: 'medium' });
