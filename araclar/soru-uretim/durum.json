@@ -1282,5 +1282,42 @@
       },
       "harcama_usd": 9.95
     }
+  },
+  "codex_seri": {
+    "stil": "docs/SORU_STIL_PROFILI.md",
+    "kurallar": "araclar/soru-uretim/CODEX.md",
+    "uretici": "Codex",
+    "claude_api": false,
+    "normal_hedef": 200,
+    "partiler": [
+      {
+        "klasor": "codex-01",
+        "hedef": 50,
+        "durum": "Claude incelemesi bekliyor",
+        "migration_uygulandi": false,
+        "taslak": 183,
+        "net": 50,
+        "zorluk": {
+          "2": 35,
+          "3": 15
+        },
+        "kota": {
+          "sanat": 8,
+          "muzik": 4,
+          "teknoloji": 9,
+          "spor": 6,
+          "tarih": 1,
+          "sinema": 6,
+          "genel_kultur": 11,
+          "edebiyat": 5
+        },
+        "yerel": 1,
+        "en": 49,
+        "kapilar": "1–5 geçti; Claude hakem ayrı",
+        "migration": "codex-01/bekleyen.sql",
+        "jev_usd": 0.005298426,
+        "jev_kapilar_usd": 0.003609606
+      }
+    ]
   }
 }

@@ -1,0 +1,105 @@
+{
+  "klasor": "codex-01",
+  "tarih": "2026-10-10T10:23:58.767Z",
+  "uretici": "Codex",
+  "hakem": "Claude ayrı inceleme — bekliyor",
+  "hedef": 50,
+  "kota_gerekce": "Aktif z2+3, sik_ipucu_jev işaretsiz; az olana çok (tavan+25−sayı)",
+  "olcum_z2_z3": {
+    "sanat": 727,
+    "muzik": 803,
+    "teknoloji": 703,
+    "spor": 757,
+    "tarih": 890,
+    "sinema": 774,
+    "genel_kultur": 655,
+    "edebiyat": 786
+  },
+  "kota": {
+    "sanat": 8,
+    "muzik": 4,
+    "teknoloji": 9,
+    "spor": 6,
+    "tarih": 1,
+    "sinema": 6,
+    "genel_kultur": 11,
+    "edebiyat": 5
+  },
+  "z3": {
+    "sanat": 2,
+    "muzik": 1,
+    "teknoloji": 3,
+    "spor": 2,
+    "tarih": 0,
+    "sinema": 2,
+    "genel_kultur": 3,
+    "edebiyat": 2
+  },
+  "taslak": 183,
+  "gecen": 92,
+  "secilen": 50,
+  "kategori": {
+    "sanat": {
+      "z2": 6,
+      "z3": 2
+    },
+    "muzik": {
+      "z2": 3,
+      "z3": 1
+    },
+    "teknoloji": {
+      "z2": 6,
+      "z3": 3
+    },
+    "spor": {
+      "z2": 4,
+      "z3": 2
+    },
+    "tarih": {
+      "z2": 1,
+      "z3": 0
+    },
+    "sinema": {
+      "z2": 4,
+      "z3": 2
+    },
+    "genel_kultur": {
+      "z2": 8,
+      "z3": 3
+    },
+    "edebiyat": {
+      "z2": 3,
+      "z3": 2
+    }
+  },
+  "zorluk": {
+    "2": 35,
+    "3": 15
+  },
+  "yerel": 1,
+  "global": 49,
+  "en": 49,
+  "elenen_sebep": {
+    "benzer": 31,
+    "şık dengesi": 30,
+    "yazar ön incelemesi": 12,
+    "biçim/kural": 13,
+    "cevap soruda": 2,
+    "Jev ipucu": 3
+  },
+  "eksik": {},
+  "harcama_usd": {
+    "claude": 0,
+    "jev": 0.003609606,
+    "jev_jeton": 85943,
+    "is_akisi_jev_jeton": 40210,
+    "is_akisi_jev": 0.0016888200000000002,
+    "toplam_jev": 0.005298426
+  },
+  "migration": "bekleyen.sql — hazır, Claude incelemesi bekliyor; uygulanmadı",
+  "ilk_taslak": 125,
+  "ek_taslak": 58,
+  "migration_no_taslak": 1046,
+  "migration_no_aciklama": "Numara ayrılmadı; Claude onayından sonra son migration + 1 yeniden ölçülecek",
+  "testler": "codex-kapi.test.mjs: 6 test; eşikler, eksik yanıt, tekrar, EN-null ve sıkı şık dengesi; npm run build + postbuild başarılı; kapsam ve SQL çıktısı doğrulandı"
+}

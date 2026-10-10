@@ -35,9 +35,14 @@ const dosyaAd = arg('--ad') || `soru_uretim_parti_${pp}`;
 const cevirisiz = process.argv.includes('--cevirisiz');
 //   --api  Claude API hattı (api-uret.mjs): kalite paragrafı o hattın kapılarını yazar
 const apiHatti = process.argv.includes('--api');
+const codexHatti = process.argv.includes('--codex');
+const bekleyen = process.argv.includes('--bekleyen');
+// Codex'te migration klasörü ancak ayrı Claude onayı alındıktan sonra açılır.
+if (codexHatti && !bekleyen && !process.argv.includes('--onayli')) throw new Error('Codex: önce --bekleyen; ayrı Claude onayından sonra --onayli');
+if (bekleyen && (!codexHatti || !/^codex-\d{2}$/.test(klasorAd))) throw new Error('--bekleyen yalnız --codex --klasor codex-NN ile kullanılır');
 const GIRDI = new URL(`./${klasorAd}/sorular.json`, import.meta.url);
 const DOSYA = `2026061200${String(no).padStart(4, '0')}_${dosyaAd}.sql`;
-const HEDEF = new URL(`../../supabase/migrations/${DOSYA}`, import.meta.url);
+const HEDEF = bekleyen ? new URL(`./${klasorAd}/bekleyen.sql`, import.meta.url) : new URL(`../../supabase/migrations/${DOSYA}`, import.meta.url);
 
 const lit = (s) => `'${String(s).replace(/'/g, "''")}'`;
 const jsonLit = (a) => `${lit(JSON.stringify(a))}::jsonb`;
@@ -70,7 +75,7 @@ function sql(kayitlar) {
 -- Yerel (kapsam='yerel', ulke='TR'): ${yerel} · zorluk 1–5: ${zd.join('/')}
 -- İngilizce çeviri: ${cevirisiz ? 'YAPILMADI (arayüz kararı: soru çevirisi şimdilik yok)' : `${ceviri.length} · çevrilmeyen (ceviri_atlanan, kod 'cevrilemez'): ${cevrilmez.length}`}
 --
-${apiHatti ? `-- Kalite (araclar/soru-uretim/api-uret.mjs; üretim claude-opus-5-5, hakem claude-sonnet-5-5):
+${codexHatti ? `-- Kalite: Codex yazımı; codex-kapi.mjs kapı 1–5 (TR/EN biçim ve şık denge,\n-- havuz/parti birebir ve Jaccard tekrar, cevap soruda değil, DB kural kapısı,\n-- Jev şık ipucu p ≤ 0,75 ve tek doğru yanlış şık p < 0,5).\n-- Claude API kullanılmadı. Son Claude incelemesi AYRI; bekleyen SQL onaysız UYGULANMAZ.` : apiHatti ? `-- Kalite (araclar/soru-uretim/api-uret.mjs; üretim claude-opus-5-5, hakem claude-sonnet-5-5):
 -- biçim + şık denge (TR/EN), havuzla birebir ve anlamca tekrar (aynı cevap + Jaccard ≥ 0,3),
 -- cevap soru metninde değil, soru_kural_isaretleri (ağırlık ≥ 2 yok), Jev şık ipucu testi
 -- (soru gizli, doğru şıkka p ≤ 0,75), Jev tek doğru, Claude hakem (doğru şık kesin, yanlış
@@ -85,7 +90,7 @@ ${apiHatti ? `-- Kalite (araclar/soru-uretim/api-uret.mjs; üretim claude-opus-5
 -- bu işlemde eklenen satırların şıkları karıştırılır — TR ve EN AYNI permütasyonla
 -- (dogru_cevap indeksi ortak olduğu için şart). \`created_at >= transaction_timestamp()\`
 -- koşulu ZORUNLUDUR; onsuz tüm havuz karışır ve oynanan maçlarda indeks kayar.
--- Üretici: node araclar/soru-uretim/uret-migration-parti.mjs --parti ${parti} --no ${no}${arg('--klasor') ? ` --klasor ${klasorAd}` : ''}${arg('--ad') ? ` --ad ${dosyaAd}` : ''}${cevirisiz ? ' --cevirisiz' : ''}${apiHatti ? ' --api' : ''}
+-- Üretici: node araclar/soru-uretim/uret-migration-parti.mjs --parti ${parti} --no ${no}${arg('--klasor') ? ` --klasor ${klasorAd}` : ''}${arg('--ad') ? ` --ad ${dosyaAd}` : ''}${cevirisiz ? ' --cevirisiz' : ''}${apiHatti ? ' --api' : ''}${codexHatti ? ' --codex' : ''}${bekleyen ? ' --bekleyen' : ''}${codexHatti && !bekleyen ? ' --onayli' : ''}
 -- ============================================================
 
 insert into public.questions (soru, secenekler, dogru_cevap, kategori, kapsam, ulke, zorluk) values
@@ -166,7 +171,7 @@ async function main() {
   if (kontrol) return;
   const temiz = sorular.filter((t) => !cakisan.includes(t.s));
   fs.writeFileSync(HEDEF, sql(temiz));
-  console.log(`Yazıldı: supabase/migrations/${DOSYA} (${temiz.length} soru)`);
+  console.log(`Yazıldı: ${bekleyen ? `araclar/soru-uretim/${klasorAd}/bekleyen.sql` : `supabase/migrations/${DOSYA}`} (${temiz.length} soru)`);
 }
 
 main().catch((e) => { console.error('HATA:', e.message); process.exit(1); });

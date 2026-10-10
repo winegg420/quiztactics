@@ -1,0 +1,4222 @@
+[
+  {
+    "id": "C01-T001",
+    "k": "sanat",
+    "z": 2,
+    "yerel": false,
+    "s": "Edward Hopper'ın 'Nighthawks' tablosunda insanlar hangi mekânda oturur?",
+    "d": "Lokanta",
+    "y": [
+      "Otel lobisi",
+      "Tren vagonu",
+      "Sinema salonu"
+    ],
+    "en": {
+      "s": "Where are the people sitting in Edward Hopper's Nighthawks?",
+      "d": "Diner",
+      "y": [
+        "Hotel lobby",
+        "Train carriage",
+        "Movie theater"
+      ]
+    },
+    "olgu": "Hopper'ın 1942 tarihli Nighthawks tablosu gece açık bir lokantayı gösterir."
+  },
+  {
+    "id": "C01-T002",
+    "k": "sanat",
+    "z": 2,
+    "yerel": false,
+    "s": "Grant Wood'un 'American Gothic' tablosundaki adam elinde ne tutar?",
+    "d": "Dirgen",
+    "y": [
+      "Tırpan",
+      "Kürek",
+      "Balta"
+    ],
+    "en": {
+      "s": "What does the man hold in Grant Wood's American Gothic?",
+      "d": "Pitchfork",
+      "y": [
+        "Scythe",
+        "Shovel",
+        "Axe"
+      ]
+    },
+    "olgu": "American Gothic tablosundaki adam üç dişli bir dirgen tutar."
+  },
+  {
+    "id": "C01-T003",
+    "k": "sanat",
+    "z": 2,
+    "yerel": false,
+    "s": "Degas'nın sahne ve prova resimlerinde sıkça görülen dans türü hangisidir?",
+    "d": "Bale",
+    "y": [
+      "Flamenko",
+      "Tango",
+      "Vals"
+    ],
+    "en": {
+      "s": "Which form of dance appears in many of Degas's rehearsal and stage paintings?",
+      "d": "Ballet",
+      "y": [
+        "Flamenco",
+        "Tango",
+        "Waltz"
+      ]
+    },
+    "olgu": "Edgar Degas bale dansçılarını sahnede ve prova sırasında sıkça resmetmiştir.",
+    "ele_neden": "yazar ön incelemesi: Degas bale konusu havuzda zaten var"
+  },
+  {
+    "id": "C01-T004",
+    "k": "sanat",
+    "z": 2,
+    "yerel": false,
+    "s": "Toulouse-Lautrec'in ünlü afişler yaptığı Paris kabarelerinden biri hangisidir?",
+    "d": "Moulin Rouge",
+    "y": [
+      "Folies Bergère",
+      "Le Lido",
+      "Crazy Horse"
+    ],
+    "en": {
+      "s": "Which Paris cabaret featured in Toulouse-Lautrec's famous posters?",
+      "d": "Moulin Rouge",
+      "y": [
+        "Folies Bergere",
+        "Le Lido",
+        "Crazy Horse"
+      ]
+    },
+    "olgu": "Toulouse-Lautrec 1891'de Moulin Rouge için ünlü La Goulue afişini yaptı."
+  },
+  {
+    "id": "C01-T005",
+    "k": "sanat",
+    "z": 2,
+    "yerel": false,
+    "s": "Henri Matisse geç dönem kâğıt kesmelerini hazırlarken hangi aracı kullanırdı?",
+    "d": "Makas",
+    "y": [
+      "Pergel",
+      "Testere",
+      "Törpü"
+    ],
+    "en": {
+      "s": "What tool did Henri Matisse use to make his late paper cut-outs?",
+      "d": "Scissors",
+      "y": [
+        "Compass",
+        "Saw",
+        "File"
+      ]
+    },
+    "olgu": "Matisse geç dönem kesme eserlerini boyalı kâğıtları makasla keserek oluşturdu."
+  },
+  {
+    "id": "C01-T006",
+    "k": "sanat",
+    "z": 2,
+    "yerel": false,
+    "s": "Roy Lichtenstein'ın 'Whaam!' tablosunda hangi taşıtlar görülür?",
+    "d": "Savaş uçakları",
+    "y": [
+      "Yarış arabaları",
+      "Yelkenli tekneler",
+      "Buharlı trenler"
+    ],
+    "en": {
+      "s": "What vehicles appear in Roy Lichtenstein's Whaam!?",
+      "d": "Fighter planes",
+      "y": [
+        "Racing cars",
+        "Sailing boats",
+        "Steam trains"
+      ]
+    },
+    "olgu": "Lichtenstein'ın Whaam! tablosu bir savaş uçağının diğer uçağı vurmasını gösterir.",
+    "ele_neden": "yazar ön incelemesi: Whaam savaş uçağı olgusu havuz sorusunda verilmiş"
+  },
+  {
+    "id": "C01-T007",
+    "k": "sanat",
+    "z": 2,
+    "yerel": false,
+    "s": "Christo ve Jeanne-Claude 1995'te Berlin'deki hangi yapıyı kumaşla sardı?",
+    "d": "Reichstag",
+    "y": [
+      "Brandenburg Kapısı",
+      "Berlin Katedrali",
+      "Charlottenburg Sarayı"
+    ],
+    "en": {
+      "s": "Which Berlin building did Christo and Jeanne-Claude wrap in fabric in 1995?",
+      "d": "Reichstag",
+      "y": [
+        "Brandenburg Gate",
+        "Berlin Cathedral",
+        "Charlottenburg Palace"
+      ]
+    },
+    "olgu": "Christo ve Jeanne-Claude 1995'te Reichstag binasını kumaşla sardı."
+  },
+  {
+    "id": "C01-T008",
+    "k": "sanat",
+    "z": 2,
+    "yerel": false,
+    "s": "Duchamp'ın 'Çeşme' adlı hazır nesne eserinde kullanılan eşya hangisidir?",
+    "d": "Pisuar",
+    "y": [
+      "Küvet",
+      "Lavabo",
+      "Bide"
+    ],
+    "en": {
+      "s": "What object did Duchamp use for his readymade Fountain?",
+      "d": "Urinal",
+      "y": [
+        "Bathtub",
+        "Washbasin",
+        "Bidet"
+      ]
+    },
+    "olgu": "Marcel Duchamp'ın 1917 tarihli Çeşme eseri bir pisuardır.",
+    "ele_neden": "yazar ön incelemesi: Duchamp pisuar olgusu havuz sorusunda verilmiş"
+  },
+  {
+    "id": "C01-T009",
+    "k": "sanat",
+    "z": 2,
+    "yerel": false,
+    "s": "Rodin'in 'Düşünen Adam' heykelinde figür hangi konumdadır?",
+    "d": "Oturur",
+    "y": [
+      "Yürür",
+      "Uzanır",
+      "Diz çöker"
+    ],
+    "en": {
+      "s": "What is the figure doing in Rodin's The Thinker?",
+      "d": "Sitting",
+      "y": [
+        "Walking",
+        "Lying down",
+        "Kneeling"
+      ]
+    },
+    "olgu": "Rodin'in Düşünen Adam heykelindeki figür oturarak düşünür."
+  },
+  {
+    "id": "C01-T010",
+    "k": "sanat",
+    "z": 2,
+    "yerel": false,
+    "s": "Edvard Munch'un 'Çığlık' tablosunda ana figür ellerini nereye götürür?",
+    "d": "Başına",
+    "y": [
+      "Göğsüne",
+      "Dizlerine",
+      "Bel kısmına"
+    ],
+    "en": {
+      "s": "Where does the central figure place its hands in Edvard Munch's The Scream?",
+      "d": "Its head",
+      "y": [
+        "Its chest",
+        "Its knees",
+        "Its waist"
+      ]
+    },
+    "olgu": "Çığlık tablosunun ana figürü ellerini başının iki yanına götürür."
+  },
+  {
+    "id": "C01-T011",
+    "k": "sanat",
+    "z": 2,
+    "yerel": false,
+    "s": "Jeff Koons'un 'Balloon Dog' heykelleri hangi hayvanı gösterir?",
+    "d": "Köpek",
+    "y": [
+      "Tavşan",
+      "Maymun",
+      "Fil"
+    ],
+    "en": {
+      "s": "Which animal is depicted in Jeff Koons's Balloon Dog sculptures?",
+      "d": "Dog",
+      "y": [
+        "Rabbit",
+        "Monkey",
+        "Elephant"
+      ]
+    },
+    "olgu": "Jeff Koons'un Balloon Dog heykelleri balondan yapılmış köpek biçimindedir."
+  },
+  {
+    "id": "C01-T012",
+    "k": "sanat",
+    "z": 2,
+    "yerel": false,
+    "s": "Michelangelo'nun Sistina Şapeli tavanındaki Âdem'e uzanan el kime aittir?",
+    "d": "Tanrı",
+    "y": [
+      "Musa",
+      "İbrahim",
+      "Davud"
+    ],
+    "en": {
+      "s": "Whose hand reaches toward Adam in Michelangelo's Sistine Chapel ceiling?",
+      "d": "God",
+      "y": [
+        "Moses",
+        "Abraham",
+        "David"
+      ]
+    },
+    "olgu": "Michelangelo'nun Âdem'in Yaratılışı freskinde Âdem'e elini uzatan figür Tanrı'dır."
+  },
+  {
+    "id": "C01-T013",
+    "k": "sanat",
+    "z": 2,
+    "yerel": false,
+    "s": "Botticelli'nin 'Venüs'ün Doğuşu' tablosunda Venüs neyin üzerinde durur?",
+    "d": "Deniz kabuğu",
+    "y": [
+      "Taş sütun",
+      "Ahşap sal",
+      "Mermer basamak"
+    ],
+    "en": {
+      "s": "What does Venus stand on in Botticelli's The Birth of Venus?",
+      "d": "Seashell",
+      "y": [
+        "Stone column",
+        "Wooden raft",
+        "Marble step"
+      ]
+    },
+    "olgu": "Venüs'ün Doğuşu tablosunda Venüs büyük bir deniz kabuğunun üzerinde durur."
+  },
+  {
+    "id": "C01-T014",
+    "k": "sanat",
+    "z": 2,
+    "yerel": false,
+    "s": "René Magritte'in 'Âşıklar' tablosundaki çiftin yüzlerini ne örter?",
+    "d": "Beyaz kumaş",
+    "y": [
+      "Siyah maske",
+      "Kırmızı perde",
+      "Mavi tül"
+    ],
+    "en": {
+      "s": "What covers the couple's faces in Rene Magritte's The Lovers?",
+      "d": "White cloth",
+      "y": [
+        "Black masks",
+        "Red curtains",
+        "Blue veils"
+      ]
+    },
+    "olgu": "Magritte'in Âşıklar tablosunda çiftin başlarını beyaz kumaş örter."
+  },
+  {
+    "id": "C01-T015",
+    "k": "sanat",
+    "z": 3,
+    "yerel": false,
+    "s": "Vermeer'in 'İnci Küpeli Kız' tablosunda kızın başındaki giysi hangisidir?",
+    "d": "Türban",
+    "y": [
+      "Bere",
+      "Bone",
+      "Şapka"
+    ],
+    "en": {
+      "s": "What does the girl wear on her head in Vermeer's Girl with a Pearl Earring?",
+      "d": "Turban",
+      "y": [
+        "Beret",
+        "Bonnet",
+        "Hat"
+      ]
+    },
+    "olgu": "İnci Küpeli Kız tablosundaki kız mavi ve sarı bir türban takar."
+  },
+  {
+    "id": "C01-T016",
+    "k": "sanat",
+    "z": 3,
+    "yerel": false,
+    "s": "Goya'nın '3 Mayıs 1808' tablosundaki kurbanın açık kollarıyla görülen gömleği hangi renktir?",
+    "d": "Beyaz",
+    "y": [
+      "Siyah",
+      "Mavi",
+      "Yeşil"
+    ],
+    "en": {
+      "s": "What color is the shirt of the man with outstretched arms in Goya's The Third of May 1808?",
+      "d": "White",
+      "y": [
+        "Black",
+        "Blue",
+        "Green"
+      ]
+    },
+    "olgu": "Goya'nın 3 Mayıs 1808 tablosundaki merkezî kurban beyaz gömlek giyer."
+  },
+  {
+    "id": "C01-T017",
+    "k": "sanat",
+    "z": 3,
+    "yerel": false,
+    "s": "Van Gogh, Gauguin ile birlikte yaşadığı Arles'taki evini hangi renkle anmıştır?",
+    "d": "Sarı",
+    "y": [
+      "Mavi",
+      "Yeşil",
+      "Beyaz"
+    ],
+    "en": {
+      "s": "What color names the house in Arles where Van Gogh lived with Gauguin?",
+      "d": "Yellow",
+      "y": [
+        "Blue",
+        "Green",
+        "White"
+      ]
+    },
+    "olgu": "Van Gogh ile Gauguin 1888'de Arles'taki Sarı Ev'de birlikte kaldı.",
+    "ele_neden": "yazar ön incelemesi: Sarı Ev olgusu havuzda var"
+  },
+  {
+    "id": "C01-T018",
+    "k": "sanat",
+    "z": 3,
+    "yerel": false,
+    "s": "Picasso'nun 'Guernica' tablosunda kucağında ölü çocuğunu taşıyan figür kimdir?",
+    "d": "Bir anne",
+    "y": [
+      "Bir asker",
+      "Bir rahip",
+      "Bir kral"
+    ],
+    "en": {
+      "s": "Who holds a dead child in Picasso's Guernica?",
+      "d": "A mother",
+      "y": [
+        "A soldier",
+        "A priest",
+        "A king"
+      ]
+    },
+    "olgu": "Guernica'da tablonun solunda bir anne ölü çocuğunu taşır.",
+    "ele_neden": "yazar ön incelemesi: Anne ve çocuk ilişkisi şıklardan mantıkla çıkarılabilir"
+  },
+  {
+    "id": "C01-T019",
+    "k": "sanat",
+    "z": 3,
+    "yerel": false,
+    "s": "Marc Chagall'ın 1964'te resimlediği tavan hangi Paris yapısındadır?",
+    "d": "Palais Garnier",
+    "y": [
+      "Grand Palais",
+      "Petit Palais",
+      "Palais Royal"
+    ],
+    "en": {
+      "s": "Which Paris building has a ceiling painted by Marc Chagall in 1964?",
+      "d": "Palais Garnier",
+      "y": [
+        "Grand Palais",
+        "Petit Palais",
+        "Palais Royal"
+      ]
+    },
+    "olgu": "Chagall 1964'te Paris'teki Palais Garnier operasının tavanını resimledi."
+  },
+  {
+    "id": "C01-T020",
+    "k": "sanat",
+    "z": 3,
+    "yerel": false,
+    "s": "Ai Weiwei'nin Tate Modern'deki 'Sunflower Seeds' eserindeki tohumlar hangi malzemedendi?",
+    "d": "Porselen",
+    "y": [
+      "Bronz",
+      "Mermer",
+      "Cam"
+    ],
+    "en": {
+      "s": "What material were the seeds in Ai Weiwei's Sunflower Seeds at Tate Modern made of?",
+      "d": "Porcelain",
+      "y": [
+        "Bronze",
+        "Marble",
+        "Glass"
+      ]
+    },
+    "olgu": "Ai Weiwei'nin Sunflower Seeds yerleştirmesindeki ayçiçeği tohumları el yapımı porselendi."
+  },
+  {
+    "id": "C01-T021",
+    "k": "muzik",
+    "z": 2,
+    "yerel": false,
+    "s": "'Take on Me'nin çizimlerle canlı görüntüyü birleştiren klibi hangi gruba aittir?",
+    "d": "a-ha",
+    "y": [
+      "Duran Duran",
+      "Tears for Fears",
+      "Depeche Mode"
+    ],
+    "en": {
+      "s": "Which band made the video for Take on Me that mixes live action with pencil drawings?",
+      "d": "a-ha",
+      "y": [
+        "Duran Duran",
+        "Tears for Fears",
+        "Depeche Mode"
+      ]
+    },
+    "olgu": "1985 tarihli Take on Me klibi Norveçli a-ha grubuna aittir."
+  },
+  {
+    "id": "C01-T022",
+    "k": "muzik",
+    "z": 2,
+    "yerel": false,
+    "s": "'Never Gonna Give You Up' şarkısının 1987'deki yorumcusu kimdir?",
+    "d": "Rick Astley",
+    "y": [
+      "George Michael",
+      "Phil Collins",
+      "Billy Ocean"
+    ],
+    "en": {
+      "s": "Who recorded Never Gonna Give You Up in 1987?",
+      "d": "Rick Astley",
+      "y": [
+        "George Michael",
+        "Phil Collins",
+        "Billy Ocean"
+      ]
+    },
+    "olgu": "Rick Astley 1987'de Never Gonna Give You Up şarkısını yayımladı."
+  },
+  {
+    "id": "C01-T023",
+    "k": "muzik",
+    "z": 2,
+    "yerel": false,
+    "s": "'Seven Nation Army' şarkısını hangi ikili kaydetmiştir?",
+    "d": "The White Stripes",
+    "y": [
+      "The Black Keys",
+      "The Kills",
+      "Daft Punk"
+    ],
+    "en": {
+      "s": "Which duo recorded Seven Nation Army?",
+      "d": "The White Stripes",
+      "y": [
+        "The Black Keys",
+        "The Kills",
+        "Daft Punk"
+      ]
+    },
+    "olgu": "Seven Nation Army The White Stripes'ın 2003 tarihli Elephant albümündedir."
+  },
+  {
+    "id": "C01-T024",
+    "k": "muzik",
+    "z": 2,
+    "yerel": false,
+    "s": "'Gangnam Style' şarkısıyla ünlenen Güney Koreli müzisyen kimdir?",
+    "d": "PSY",
+    "y": [
+      "Rain",
+      "G-Dragon",
+      "Taeyang"
+    ],
+    "en": {
+      "s": "Which South Korean performer became famous worldwide for Gangnam Style?",
+      "d": "PSY",
+      "y": [
+        "Rain",
+        "G-Dragon",
+        "Taeyang"
+      ]
+    },
+    "olgu": "PSY 2012'de Gangnam Style şarkısını yayımladı."
+  },
+  {
+    "id": "C01-T025",
+    "k": "muzik",
+    "z": 2,
+    "yerel": false,
+    "s": "'Blue Monday' adlı 1983 şarkısını hangi grup kaydetti?",
+    "d": "New Order",
+    "y": [
+      "Depeche Mode",
+      "Pet Shop Boys",
+      "Erasure"
+    ],
+    "en": {
+      "s": "Which band recorded the 1983 song Blue Monday?",
+      "d": "New Order",
+      "y": [
+        "Depeche Mode",
+        "Pet Shop Boys",
+        "Erasure"
+      ]
+    },
+    "olgu": "Blue Monday 1983'te New Order tarafından yayımlandı."
+  },
+  {
+    "id": "C01-T026",
+    "k": "muzik",
+    "z": 2,
+    "yerel": false,
+    "s": "'Nothing Else Matters' şarkısı hangi grubun 1991 tarihli albümünde yer alır?",
+    "d": "Metallica",
+    "y": [
+      "Megadeth",
+      "Slayer",
+      "Anthrax"
+    ],
+    "en": {
+      "s": "Which band's 1991 album includes Nothing Else Matters?",
+      "d": "Metallica",
+      "y": [
+        "Megadeth",
+        "Slayer",
+        "Anthrax"
+      ]
+    },
+    "olgu": "Nothing Else Matters Metallica'nın 1991 tarihli kendi adını taşıyan albümündedir."
+  },
+  {
+    "id": "C01-T027",
+    "k": "muzik",
+    "z": 2,
+    "yerel": false,
+    "s": "'Careless Whisper' kaydındaki girişte hangi çalgı duyulur?",
+    "d": "Saksafon",
+    "y": [
+      "Trompet",
+      "Klarnet",
+      "Obua"
+    ],
+    "en": {
+      "s": "Which instrument plays the famous opening of Careless Whisper?",
+      "d": "Saxophone",
+      "y": [
+        "Trumpet",
+        "Clarinet",
+        "Oboe"
+      ]
+    },
+    "olgu": "Careless Whisper'ın girişindeki ünlü solo saksafonla çalınır."
+  },
+  {
+    "id": "C01-T028",
+    "k": "muzik",
+    "z": 3,
+    "yerel": false,
+    "s": "'Walk This Way'in 1986 yorumunda Run-DMC hangi rock grubuyla bir araya geldi?",
+    "d": "Aerosmith",
+    "y": [
+      "Van Halen",
+      "Bon Jovi",
+      "Def Leppard"
+    ],
+    "en": {
+      "s": "Which rock band joined Run-DMC for the 1986 version of Walk This Way?",
+      "d": "Aerosmith",
+      "y": [
+        "Van Halen",
+        "Bon Jovi",
+        "Def Leppard"
+      ]
+    },
+    "olgu": "Run-DMC 1986'da Walk This Way'i Aerosmith üyeleriyle yeniden kaydetti."
+  },
+  {
+    "id": "C01-T029",
+    "k": "muzik",
+    "z": 3,
+    "yerel": false,
+    "s": "Santana'nın 'Smooth' şarkısındaki konuk vokalist kimdir?",
+    "d": "Rob Thomas",
+    "y": [
+      "Adam Levine",
+      "Gavin Rossdale",
+      "Scott Weiland"
+    ],
+    "en": {
+      "s": "Who is the guest vocalist on Santana's Smooth?",
+      "d": "Rob Thomas",
+      "y": [
+        "Adam Levine",
+        "Gavin Rossdale",
+        "Scott Weiland"
+      ]
+    },
+    "olgu": "Santana'nın 1999 tarihli Smooth kaydında Rob Thomas vokal yapar."
+  },
+  {
+    "id": "C01-T030",
+    "k": "muzik",
+    "z": 3,
+    "yerel": false,
+    "s": "'Video Killed the Radio Star'ı kaydeden grup hangisidir?",
+    "d": "The Buggles",
+    "y": [
+      "The Cars",
+      "The Human League",
+      "The Pretenders"
+    ],
+    "en": {
+      "s": "Which band recorded Video Killed the Radio Star?",
+      "d": "The Buggles",
+      "y": [
+        "The Cars",
+        "The Human League",
+        "The Pretenders"
+      ]
+    },
+    "olgu": "Video Killed the Radio Star The Buggles'ın 1979 tarihli şarkısıdır."
+  },
+  {
+    "id": "C01-T031",
+    "k": "teknoloji",
+    "z": 2,
+    "yerel": false,
+    "s": "'Portal' oyununda testleri yöneten yapay zekânın adı nedir?",
+    "d": "GLaDOS",
+    "y": [
+      "SHODAN",
+      "Cortana",
+      "EDI"
+    ],
+    "en": {
+      "s": "What is the name of the AI that runs the tests in Portal?",
+      "d": "GLaDOS",
+      "y": [
+        "SHODAN",
+        "Cortana",
+        "EDI"
+      ]
+    },
+    "olgu": "Portal'ın test tesisini yöneten yapay zekâ GLaDOS'tur."
+  },
+  {
+    "id": "C01-T032",
+    "k": "teknoloji",
+    "z": 2,
+    "yerel": false,
+    "s": "'Half-Life' oyunlarında Gordon Freeman'ın ikonik yakın dövüş aracı hangisidir?",
+    "d": "Levye",
+    "y": [
+      "Balta",
+      "Çekiç",
+      "Kürek"
+    ],
+    "en": {
+      "s": "What is Gordon Freeman's iconic melee weapon in the Half-Life games?",
+      "d": "Crowbar",
+      "y": [
+        "Axe",
+        "Hammer",
+        "Shovel"
+      ]
+    },
+    "olgu": "Gordon Freeman Half-Life oyunlarında levye kullanır."
+  },
+  {
+    "id": "C01-T033",
+    "k": "teknoloji",
+    "z": 2,
+    "yerel": false,
+    "s": "'Stardew Valley'de oyuncunun çiftliğinin yanındaki kasabanın adı nedir?",
+    "d": "Pelican Town",
+    "y": [
+      "Pallet Town",
+      "Lavender Town",
+      "Twinleaf Town"
+    ],
+    "en": {
+      "s": "What is the name of the town beside the player's farm in Stardew Valley?",
+      "d": "Pelican Town",
+      "y": [
+        "Pallet Town",
+        "Lavender Town",
+        "Twinleaf Town"
+      ]
+    },
+    "olgu": "Stardew Valley'deki çiftliğin yakınındaki kasaba Pelican Town'dır."
+  },
+  {
+    "id": "C01-T034",
+    "k": "teknoloji",
+    "z": 2,
+    "yerel": false,
+    "s": "'Animal Crossing' oyunlarında kullanılan ana para biriminin adı nedir?",
+    "d": "Bells",
+    "y": [
+      "Rupees",
+      "Gil",
+      "Septims"
+    ],
+    "en": {
+      "s": "What is the main currency in the Animal Crossing games called?",
+      "d": "Bells",
+      "y": [
+        "Rupees",
+        "Gil",
+        "Septims"
+      ]
+    },
+    "olgu": "Animal Crossing serisinin ana para birimi Bells'tir."
+  },
+  {
+    "id": "C01-T035",
+    "k": "teknoloji",
+    "z": 2,
+    "yerel": false,
+    "s": "'Crash Bandicoot' oyunlarında kahramanı koruyan tahta maskenin adı nedir?",
+    "d": "Aku Aku",
+    "y": [
+      "Uka Uka",
+      "N. Gin",
+      "N. Tropy"
+    ],
+    "en": {
+      "s": "What is the name of the wooden mask that protects the hero in Crash Bandicoot?",
+      "d": "Aku Aku",
+      "y": [
+        "Uka Uka",
+        "N. Gin",
+        "N. Tropy"
+      ]
+    },
+    "olgu": "Crash Bandicoot serisinde koruyucu maske Aku Aku'dur."
+  },
+  {
+    "id": "C01-T036",
+    "k": "teknoloji",
+    "z": 2,
+    "yerel": false,
+    "s": "Linux'un Tux adlı maskotu hangi hayvandır?",
+    "d": "Penguen",
+    "y": [
+      "Fok",
+      "Martı",
+      "Deniz aygırı"
+    ],
+    "en": {
+      "s": "What animal is Tux, the Linux mascot?",
+      "d": "Penguin",
+      "y": [
+        "Seal",
+        "Seagull",
+        "Walrus"
+      ]
+    },
+    "olgu": "Linux maskotu Tux bir penguendir."
+  },
+  {
+    "id": "C01-T037",
+    "k": "teknoloji",
+    "z": 2,
+    "yerel": false,
+    "s": "VLC medya oynatıcısının simgesi hangi nesnedir?",
+    "d": "Trafik konisi",
+    "y": [
+      "Cankurtaran simidi",
+      "Yangın söndürücü",
+      "İlk yardım çantası"
+    ],
+    "en": {
+      "s": "What object appears in the VLC media player's icon?",
+      "d": "Traffic cone",
+      "y": [
+        "Life ring",
+        "Fire extinguisher",
+        "First-aid kit"
+      ]
+    },
+    "olgu": "VLC'nin simgesinde turuncu ve beyaz bir trafik konisi bulunur."
+  },
+  {
+    "id": "C01-T038",
+    "k": "teknoloji",
+    "z": 2,
+    "yerel": false,
+    "s": "Amazon'un 2007'de çıkardığı e-kitap okuyucu serisinin adı nedir?",
+    "d": "Kindle",
+    "y": [
+      "Kobo",
+      "Nook",
+      "PocketBook"
+    ],
+    "en": {
+      "s": "What is the name of the e-reader series Amazon launched in 2007?",
+      "d": "Kindle",
+      "y": [
+        "Kobo",
+        "Nook",
+        "PocketBook"
+      ]
+    },
+    "olgu": "Amazon 2007'de ilk Kindle e-kitap okuyucusunu çıkardı.",
+    "ele_neden": "yazar ön incelemesi: Amazon Kindle olgusu havuzda başka ifadeyle var"
+  },
+  {
+    "id": "C01-T039",
+    "k": "teknoloji",
+    "z": 2,
+    "yerel": false,
+    "s": "ThinkPad dizüstülerindeki TrackPoint işaretçi düğmesi hangi renktir?",
+    "d": "Kırmızı",
+    "y": [
+      "Mavi",
+      "Yeşil",
+      "Sarı"
+    ],
+    "en": {
+      "s": "What color is the TrackPoint pointing stick on classic ThinkPad laptops?",
+      "d": "Red",
+      "y": [
+        "Blue",
+        "Green",
+        "Yellow"
+      ]
+    },
+    "olgu": "ThinkPad'in klasik TrackPoint işaretçi düğmesi kırmızıdır."
+  },
+  {
+    "id": "C01-T040",
+    "k": "teknoloji",
+    "z": 2,
+    "yerel": false,
+    "s": "İlk 'Pokémon' oyunlarındaki Profesör Oak oyuncuya kaç başlangıç Pokémon'u arasından seçim sunar?",
+    "d": "Üç",
+    "y": [
+      "İki",
+      "Dört",
+      "Beş"
+    ],
+    "en": {
+      "s": "How many starter Pokemon can the player choose from in the original Pokemon games?",
+      "d": "Three",
+      "y": [
+        "Two",
+        "Four",
+        "Five"
+      ]
+    },
+    "olgu": "Pokémon Red ve Blue'da Profesör Oak Bulbasaur, Charmander ve Squirtle arasında seçim sunar."
+  },
+  {
+    "id": "C01-T041",
+    "k": "teknoloji",
+    "z": 2,
+    "yerel": false,
+    "s": "'The Sims' serisinde seçili karakterin başının üstündeki simge hangi biçimdedir?",
+    "d": "Elmas",
+    "y": [
+      "Yıldız",
+      "Daire",
+      "Kalp"
+    ],
+    "en": {
+      "s": "What shape is the icon above the selected character's head in The Sims?",
+      "d": "Diamond",
+      "y": [
+        "Star",
+        "Circle",
+        "Heart"
+      ]
+    },
+    "olgu": "The Sims'in Plumbob simgesi elmas biçimindedir."
+  },
+  {
+    "id": "C01-T042",
+    "k": "teknoloji",
+    "z": 2,
+    "yerel": false,
+    "s": "'Overwatch'taki Winston karakteri hangi hayvandır?",
+    "d": "Goril",
+    "y": [
+      "Şempanze",
+      "Orangutan",
+      "Babun"
+    ],
+    "en": {
+      "s": "What animal is Winston in Overwatch?",
+      "d": "Gorilla",
+      "y": [
+        "Chimpanzee",
+        "Orangutan",
+        "Baboon"
+      ]
+    },
+    "olgu": "Overwatch karakteri Winston bir gorildir."
+  },
+  {
+    "id": "C01-T043",
+    "k": "teknoloji",
+    "z": 2,
+    "yerel": false,
+    "s": "'Pac-Man'deki Blinky adlı hayalet hangi renktir?",
+    "d": "Kırmızı",
+    "y": [
+      "Mavi",
+      "Turuncu",
+      "Pembe"
+    ],
+    "en": {
+      "s": "What color is the ghost Blinky in Pac-Man?",
+      "d": "Red",
+      "y": [
+        "Blue",
+        "Orange",
+        "Pink"
+      ]
+    },
+    "olgu": "Klasik Pac-Man oyununda Blinky kırmızı hayalettir."
+  },
+  {
+    "id": "C01-T044",
+    "k": "teknoloji",
+    "z": 2,
+    "yerel": false,
+    "s": "'Sonic' oyunlarında kahramanın topladığı halkalar hangi renktedir?",
+    "d": "Altın",
+    "y": [
+      "Gümüş",
+      "Bakır",
+      "Mor"
+    ],
+    "en": {
+      "s": "What color are the rings Sonic collects in the classic games?",
+      "d": "Gold",
+      "y": [
+        "Silver",
+        "Copper",
+        "Purple"
+      ]
+    },
+    "olgu": "Klasik Sonic oyunlarındaki toplanabilir halkalar altın rengindedir."
+  },
+  {
+    "id": "C01-T045",
+    "k": "teknoloji",
+    "z": 3,
+    "yerel": false,
+    "s": "'Kirby' oyunlarının kahramanının memleketi olan yıldız biçimli gezegen hangisidir?",
+    "d": "Popstar",
+    "y": [
+      "Mobius",
+      "Zebes",
+      "Tallon IV"
+    ],
+    "en": {
+      "s": "What is the name of Kirby's star-shaped home planet?",
+      "d": "Popstar",
+      "y": [
+        "Mobius",
+        "Zebes",
+        "Tallon IV"
+      ]
+    },
+    "olgu": "Kirby'nin memleketi yıldız biçimli Planet Popstar'dır.",
+    "kaynak": "https://www.nintendo.com/en-gb/News/2016/June/Save-Planet-Popstar-from-a-robotic-army-when-Kirby-Planet-Robobot-launches-on-Nintendo-3DS-this-Friday-1111911.html"
+  },
+  {
+    "id": "C01-T046",
+    "k": "teknoloji",
+    "z": 2,
+    "yerel": false,
+    "s": "'Tomb Raider' serisinin arkeolog kahramanının soyadı nedir?",
+    "d": "Croft",
+    "y": [
+      "Drake",
+      "Kennedy",
+      "Redfield"
+    ],
+    "en": {
+      "s": "What is the surname of the archaeologist who stars in Tomb Raider?",
+      "d": "Croft",
+      "y": [
+        "Drake",
+        "Kennedy",
+        "Redfield"
+      ]
+    },
+    "olgu": "Tomb Raider'ın kahramanı Lara Croft'tur."
+  },
+  {
+    "id": "C01-T047",
+    "k": "teknoloji",
+    "z": 3,
+    "yerel": false,
+    "s": "Twitter'ın eski kuş logosuna verilen 'Larry' adı hangi basketbolcudan esinlenmiştir?",
+    "d": "Larry Bird",
+    "y": [
+      "Larry Johnson",
+      "Larry Nance",
+      "Larry Hughes"
+    ],
+    "en": {
+      "s": "Which basketball player inspired the name Larry for Twitter's former bird logo?",
+      "d": "Larry Bird",
+      "y": [
+        "Larry Johnson",
+        "Larry Nance",
+        "Larry Hughes"
+      ]
+    },
+    "olgu": "Twitter'ın eski kuş maskotu Larry adını Larry Bird'den almıştır."
+  },
+  {
+    "id": "C01-T048",
+    "k": "teknoloji",
+    "z": 3,
+    "yerel": false,
+    "s": "Reddit'in antenli uzaylı maskotunun adı nedir?",
+    "d": "Snoo",
+    "y": [
+      "Tux",
+      "Clippy",
+      "Domo"
+    ],
+    "en": {
+      "s": "What is the name of Reddit's antenna-wearing alien mascot?",
+      "d": "Snoo",
+      "y": [
+        "Tux",
+        "Clippy",
+        "Domo"
+      ]
+    },
+    "olgu": "Reddit'in uzaylı maskotunun adı Snoo'dur."
+  },
+  {
+    "id": "C01-T049",
+    "k": "teknoloji",
+    "z": 3,
+    "yerel": false,
+    "s": "Windows XP'nin 'Bliss' duvar kâğıdını çeken fotoğrafçı kimdir?",
+    "d": "Charles O'Rear",
+    "y": [
+      "Steve McCurry",
+      "Ansel Adams",
+      "William Eggleston"
+    ],
+    "en": {
+      "s": "Who took the photograph used for Windows XP's Bliss wallpaper?",
+      "d": "Charles O'Rear",
+      "y": [
+        "Steve McCurry",
+        "Ansel Adams",
+        "William Eggleston"
+      ]
+    },
+    "olgu": "Bliss fotoğrafını Charles O'Rear 1996'da çekti."
+  },
+  {
+    "id": "C01-T050",
+    "k": "teknoloji",
+    "z": 3,
+    "yerel": false,
+    "s": "'Super Metroid'in zırhlı kahramanı Samus'ın soyadı nedir?",
+    "d": "Aran",
+    "y": [
+      "Valentine",
+      "Vance",
+      "Lawson"
+    ],
+    "en": {
+      "s": "What is the surname of Samus, the armored hero of Super Metroid?",
+      "d": "Aran",
+      "y": [
+        "Valentine",
+        "Vance",
+        "Lawson"
+      ]
+    },
+    "olgu": "Metroid serisinin kahramanının tam adı Samus Aran'dır."
+  },
+  {
+    "id": "C01-T051",
+    "k": "teknoloji",
+    "z": 3,
+    "yerel": false,
+    "s": "'Final Fantasy VII'de Cloud'un taşıdığı büyük kılıcın adı nedir?",
+    "d": "Buster Sword",
+    "y": [
+      "Masamune",
+      "Gunblade",
+      "Excalibur"
+    ],
+    "en": {
+      "s": "What is the name of Cloud's huge sword in Final Fantasy VII?",
+      "d": "Buster Sword",
+      "y": [
+        "Masamune",
+        "Gunblade",
+        "Excalibur"
+      ]
+    },
+    "olgu": "Final Fantasy VII'de Cloud Strife'ın ikonik kılıcı Buster Sword'dur."
+  },
+  {
+    "id": "C01-T052",
+    "k": "teknoloji",
+    "z": 3,
+    "yerel": false,
+    "s": "'Street Fighter' serisinde Ryu'nun mavi enerji saldırısı hangi adla bilinir?",
+    "d": "Hadouken",
+    "y": [
+      "Shoryuken",
+      "Tatsumaki",
+      "Shun Goku Satsu"
+    ],
+    "en": {
+      "s": "What is Ryu's blue energy attack called in the Street Fighter series?",
+      "d": "Hadouken",
+      "y": [
+        "Shoryuken",
+        "Tatsumaki",
+        "Shun Goku Satsu"
+      ]
+    },
+    "olgu": "Ryu'nun enerji topu saldırısının adı Hadouken'dir."
+  },
+  {
+    "id": "C01-T053",
+    "k": "teknoloji",
+    "z": 3,
+    "yerel": false,
+    "s": "'The Secret of Monkey Island'ın korsan olmak isteyen kahramanı kimdir?",
+    "d": "Guybrush Threepwood",
+    "y": [
+      "Manny Calavera",
+      "Roger Wilco",
+      "Zak McKracken"
+    ],
+    "en": {
+      "s": "Who is the aspiring pirate at the center of The Secret of Monkey Island?",
+      "d": "Guybrush Threepwood",
+      "y": [
+        "Manny Calavera",
+        "Roger Wilco",
+        "Zak McKracken"
+      ]
+    },
+    "olgu": "The Secret of Monkey Island'ın kahramanı Guybrush Threepwood'dur."
+  },
+  {
+    "id": "C01-T054",
+    "k": "spor",
+    "z": 2,
+    "yerel": false,
+    "s": "2004 Avrupa Futbol Şampiyonası finalinde Portekiz'i yenerek kupayı hangi ülke aldı?",
+    "d": "Yunanistan",
+    "y": [
+      "Çekya",
+      "Danimarka",
+      "Hollanda"
+    ],
+    "en": {
+      "s": "Which country beat Portugal in the Euro 2004 final?",
+      "d": "Greece",
+      "y": [
+        "Czechia",
+        "Denmark",
+        "Netherlands"
+      ]
+    },
+    "olgu": "Yunanistan Euro 2004 finalinde Portekiz'i 1-0 yenerek şampiyon oldu."
+  },
+  {
+    "id": "C01-T055",
+    "k": "spor",
+    "z": 2,
+    "yerel": false,
+    "s": "2016 NBA Finalleri'nde Golden State'i yenerek şampiyon olan takım hangisidir?",
+    "d": "Cleveland Cavaliers",
+    "y": [
+      "Miami Heat",
+      "Boston Celtics",
+      "San Antonio Spurs"
+    ],
+    "en": {
+      "s": "Which team beat Golden State to win the 2016 NBA Finals?",
+      "d": "Cleveland Cavaliers",
+      "y": [
+        "Miami Heat",
+        "Boston Celtics",
+        "San Antonio Spurs"
+      ]
+    },
+    "olgu": "Cleveland Cavaliers 2016 NBA Finalleri'nde Golden State Warriors'ı yendi."
+  },
+  {
+    "id": "C01-T056",
+    "k": "spor",
+    "z": 2,
+    "yerel": false,
+    "s": "1976 Montreal Olimpiyatları'nda Nadia Comăneci hangi ülkeyi temsil etti?",
+    "d": "Romanya",
+    "y": [
+      "Macaristan",
+      "Bulgaristan",
+      "Çekoslovakya"
+    ],
+    "en": {
+      "s": "Which country did Nadia Comaneci represent at the 1976 Olympics?",
+      "d": "Romania",
+      "y": [
+        "Hungary",
+        "Bulgaria",
+        "Czechoslovakia"
+      ]
+    },
+    "olgu": "Nadia Comăneci 1976 Montreal Olimpiyatları'nda Romanya adına yarıştı."
+  },
+  {
+    "id": "C01-T057",
+    "k": "spor",
+    "z": 2,
+    "yerel": false,
+    "s": "Muhammed Ali'nin 'Rumble in the Jungle' maçında yendiği boksör kimdir?",
+    "d": "George Foreman",
+    "y": [
+      "Joe Frazier",
+      "Ken Norton",
+      "Sonny Liston"
+    ],
+    "en": {
+      "s": "Who did Muhammad Ali beat in the Rumble in the Jungle?",
+      "d": "George Foreman",
+      "y": [
+        "Joe Frazier",
+        "Ken Norton",
+        "Sonny Liston"
+      ]
+    },
+    "olgu": "Muhammed Ali 1974'teki Rumble in the Jungle maçında George Foreman'ı yendi."
+  },
+  {
+    "id": "C01-T058",
+    "k": "spor",
+    "z": 2,
+    "yerel": false,
+    "s": "Diego Maradona'nın 'Tanrı'nın Eli' golü 1986 Dünya Kupası'nda hangi ülkeye karşı atıldı?",
+    "d": "İngiltere",
+    "y": [
+      "Belçika",
+      "İtalya",
+      "Almanya"
+    ],
+    "en": {
+      "s": "Against which country did Diego Maradona score the Hand of God goal at the 1986 World Cup?",
+      "d": "England",
+      "y": [
+        "Belgium",
+        "Italy",
+        "Germany"
+      ]
+    },
+    "olgu": "Maradona 1986 Dünya Kupası çeyrek finalinde İngiltere'ye elle gol attı."
+  },
+  {
+    "id": "C01-T059",
+    "k": "spor",
+    "z": 2,
+    "yerel": false,
+    "s": "2005 Şampiyonlar Ligi finalinde Milan karşısında geri dönüp kupayı alan takım hangisidir?",
+    "d": "Liverpool",
+    "y": [
+      "Chelsea",
+      "Arsenal",
+      "Manchester United"
+    ],
+    "en": {
+      "s": "Which team came back against Milan to win the 2005 Champions League final?",
+      "d": "Liverpool",
+      "y": [
+        "Chelsea",
+        "Arsenal",
+        "Manchester United"
+      ]
+    },
+    "olgu": "Liverpool 2005 finalinde Milan karşısında 3-0'dan dönerek penaltılarla kupayı aldı."
+  },
+  {
+    "id": "C01-T060",
+    "k": "spor",
+    "z": 2,
+    "yerel": false,
+    "s": "Usain Bolt 2008 Pekin Olimpiyatları'nda hangi ülke adına yarıştı?",
+    "d": "Jamaika",
+    "y": [
+      "Bahamalar",
+      "Barbados",
+      "Trinidad ve Tobago"
+    ],
+    "en": {
+      "s": "Which country did Usain Bolt represent at the 2008 Beijing Olympics?",
+      "d": "Jamaica",
+      "y": [
+        "Bahamas",
+        "Barbados",
+        "Trinidad and Tobago"
+      ]
+    },
+    "olgu": "Usain Bolt 2008 Pekin Olimpiyatları'nda Jamaika adına yarıştı.",
+    "ele_neden": "yazar ön incelemesi: Usain Bolt Jamaika olgusu havuzda var"
+  },
+  {
+    "id": "C01-T061",
+    "k": "spor",
+    "z": 2,
+    "yerel": false,
+    "s": "1995 Rugby Dünya Kupası'nda Nelson Mandela'nın desteklediği şampiyon ülke hangisiydi?",
+    "d": "Güney Afrika",
+    "y": [
+      "Yeni Zelanda",
+      "Avustralya",
+      "İngiltere"
+    ],
+    "en": {
+      "s": "Which country won the 1995 Rugby World Cup with Nelson Mandela cheering them on?",
+      "d": "South Africa",
+      "y": [
+        "New Zealand",
+        "Australia",
+        "England"
+      ]
+    },
+    "olgu": "Güney Afrika 1995 Rugby Dünya Kupası'nda finalde Yeni Zelanda'yı yendi."
+  },
+  {
+    "id": "C01-T062",
+    "k": "spor",
+    "z": 2,
+    "yerel": false,
+    "s": "Shaquille O'Neal 2000-2002 arasında üç NBA şampiyonluğunu hangi takımla kazandı?",
+    "d": "Los Angeles Lakers",
+    "y": [
+      "Orlando Magic",
+      "Miami Heat",
+      "Boston Celtics"
+    ],
+    "en": {
+      "s": "With which team did Shaquille O'Neal win three NBA titles from 2000 to 2002?",
+      "d": "Los Angeles Lakers",
+      "y": [
+        "Orlando Magic",
+        "Miami Heat",
+        "Boston Celtics"
+      ]
+    },
+    "olgu": "Shaquille O'Neal 2000, 2001 ve 2002'de Los Angeles Lakers ile NBA şampiyonu oldu."
+  },
+  {
+    "id": "C01-T063",
+    "k": "spor",
+    "z": 2,
+    "yerel": false,
+    "s": "2006 Dünya Kupası finalinde Zinedine Zidane kafa darbesini hangi oyuncuya vurdu?",
+    "d": "Marco Materazzi",
+    "y": [
+      "Fabio Cannavaro",
+      "Gennaro Gattuso",
+      "Andrea Pirlo"
+    ],
+    "en": {
+      "s": "Which player did Zinedine Zidane headbutt in the 2006 World Cup final?",
+      "d": "Marco Materazzi",
+      "y": [
+        "Fabio Cannavaro",
+        "Gennaro Gattuso",
+        "Andrea Pirlo"
+      ]
+    },
+    "olgu": "Zidane 2006 Dünya Kupası finalinde Marco Materazzi'ye kafa darbesi vurdu."
+  },
+  {
+    "id": "C01-T064",
+    "k": "spor",
+    "z": 3,
+    "yerel": false,
+    "s": "2012 Şampiyonlar Ligi finalinde Chelsea'nin eşitlik golünü atan oyuncu kimdir?",
+    "d": "Didier Drogba",
+    "y": [
+      "Frank Lampard",
+      "Salomon Kalou",
+      "Florent Malouda"
+    ],
+    "en": {
+      "s": "Who scored Chelsea's equalizer in the 2012 Champions League final?",
+      "d": "Didier Drogba",
+      "y": [
+        "Frank Lampard",
+        "Salomon Kalou",
+        "Florent Malouda"
+      ]
+    },
+    "olgu": "Didier Drogba 2012 finalinde Chelsea'nin 88. dakikadaki eşitlik golünü attı."
+  },
+  {
+    "id": "C01-T065",
+    "k": "spor",
+    "z": 3,
+    "yerel": false,
+    "s": "1986 Dünya Kupası'nı kazanan Arjantin'in teknik direktörü kimdi?",
+    "d": "Carlos Bilardo",
+    "y": [
+      "César Menotti",
+      "Alfio Basile",
+      "Marcelo Bielsa"
+    ],
+    "en": {
+      "s": "Who coached Argentina to victory at the 1986 World Cup?",
+      "d": "Carlos Bilardo",
+      "y": [
+        "Cesar Menotti",
+        "Alfio Basile",
+        "Marcelo Bielsa"
+      ]
+    },
+    "olgu": "Arjantin 1986 Dünya Kupası'nı Carlos Bilardo yönetiminde kazandı."
+  },
+  {
+    "id": "C01-T066",
+    "k": "spor",
+    "z": 3,
+    "yerel": false,
+    "s": "Johan Cruyff'un klasik Ajax ve Hollanda formalarında kullandığı numara hangisidir?",
+    "d": "14",
+    "y": [
+      "11",
+      "12",
+      "15"
+    ],
+    "en": {
+      "s": "What number did Johan Cruyff famously wear for Ajax and the Netherlands?",
+      "d": "14",
+      "y": [
+        "11",
+        "12",
+        "15"
+      ]
+    },
+    "olgu": "Johan Cruyff Ajax ve Hollanda millî takımında 14 numarayla tanındı."
+  },
+  {
+    "id": "C01-T067",
+    "k": "spor",
+    "z": 3,
+    "yerel": false,
+    "s": "1999 Şampiyonlar Ligi finalinde Manchester United'ın galibiyet golünü kim attı?",
+    "d": "Ole Gunnar Solskjær",
+    "y": [
+      "Teddy Sheringham",
+      "Dwight Yorke",
+      "Andy Cole"
+    ],
+    "en": {
+      "s": "Who scored Manchester United's winning goal in the 1999 Champions League final?",
+      "d": "Ole Gunnar Solskjær",
+      "y": [
+        "Teddy Sheringham",
+        "Dwight Yorke",
+        "Andy Cole"
+      ]
+    },
+    "olgu": "Ole Gunnar Solskjær 1999 finalinin uzatma dakikalarında galibiyet golünü attı."
+  },
+  {
+    "id": "C01-T068",
+    "k": "spor",
+    "z": 3,
+    "yerel": false,
+    "s": "2010 Dünya Kupası finalinin tek golünü atan İspanyol oyuncu kimdir?",
+    "d": "Andrés Iniesta",
+    "y": [
+      "Xavi Hernández",
+      "David Villa",
+      "Fernando Torres"
+    ],
+    "en": {
+      "s": "Which Spanish player scored the only goal in the 2010 World Cup final?",
+      "d": "Andres Iniesta",
+      "y": [
+        "Xavi Hernandez",
+        "David Villa",
+        "Fernando Torres"
+      ]
+    },
+    "olgu": "Andrés Iniesta 2010 Dünya Kupası finalinde Hollanda'ya karşı tek golü attı."
+  },
+  {
+    "id": "C01-T069",
+    "k": "tarih",
+    "z": 2,
+    "yerel": false,
+    "s": "Napolyon'un 1815'te yenildiği Waterloo Savaşı'ndaki İngiliz komutan kimdi?",
+    "d": "Wellington",
+    "y": [
+      "Nelson",
+      "Marlborough",
+      "Montgomery"
+    ],
+    "en": {
+      "s": "Who commanded the British forces that defeated Napoleon at Waterloo in 1815?",
+      "d": "Wellington",
+      "y": [
+        "Nelson",
+        "Marlborough",
+        "Montgomery"
+      ]
+    },
+    "olgu": "Waterloo'da İngiliz müttefik ordusuna Wellington Dükü komuta etti."
+  },
+  {
+    "id": "C01-T070",
+    "k": "tarih",
+    "z": 2,
+    "yerel": false,
+    "s": "Çin'in ilk imparatorunun mezarıyla bulunan ünlü askerler hangi malzemeden yapılmıştır?",
+    "d": "Pişmiş toprak",
+    "y": [
+      "Dökme bronz",
+      "Yeşim taşı",
+      "Beyaz mermer"
+    ],
+    "en": {
+      "s": "What are the famous soldiers found near China's first emperor's tomb made of?",
+      "d": "Terracotta",
+      "y": [
+        "Cast bronze",
+        "Jade",
+        "White marble"
+      ]
+    },
+    "olgu": "Qin Shi Huang'ın mezarı yakınındaki Terracotta Ordusu pişmiş topraktan yapılmıştır."
+  },
+  {
+    "id": "C01-T071",
+    "k": "tarih",
+    "z": 2,
+    "yerel": false,
+    "s": "1945'teki Yalta Konferansı'na Roosevelt ve Churchill ile katılan Sovyet lider kimdi?",
+    "d": "Stalin",
+    "y": [
+      "Lenin",
+      "Troçki",
+      "Hruşçov"
+    ],
+    "en": {
+      "s": "Which Soviet leader joined Roosevelt and Churchill at the 1945 Yalta Conference?",
+      "d": "Stalin",
+      "y": [
+        "Lenin",
+        "Trotsky",
+        "Khrushchev"
+      ]
+    },
+    "olgu": "Yalta Konferansı'na Sovyetler Birliği adına Stalin katıldı."
+  },
+  {
+    "id": "C01-T072",
+    "k": "sinema",
+    "z": 2,
+    "yerel": false,
+    "s": "'Kung Fu Panda'da Po'nun babası Bay Ping hangi hayvandır?",
+    "d": "Kaz",
+    "y": [
+      "Ördek",
+      "Turna",
+      "Pelikan"
+    ],
+    "en": {
+      "s": "What kind of bird is Mr. Ping, Po's father in Kung Fu Panda?",
+      "d": "Goose",
+      "y": [
+        "Duck",
+        "Crane",
+        "Pelican"
+      ]
+    },
+    "olgu": "Kung Fu Panda'daki Bay Ping bir kazdır."
+  },
+  {
+    "id": "C01-T073",
+    "k": "sinema",
+    "z": 2,
+    "yerel": false,
+    "s": "'Inside Out'ta Riley'nin annesiyle babasının taşındığı şehir hangisidir?",
+    "d": "San Francisco",
+    "y": [
+      "Los Angeles",
+      "Seattle",
+      "Boston"
+    ],
+    "en": {
+      "s": "Which city does Riley's family move to in Inside Out?",
+      "d": "San Francisco",
+      "y": [
+        "Los Angeles",
+        "Seattle",
+        "Boston"
+      ]
+    },
+    "olgu": "Inside Out'ta Riley'nin ailesi Minnesota'dan San Francisco'ya taşınır."
+  },
+  {
+    "id": "C01-T074",
+    "k": "sinema",
+    "z": 2,
+    "yerel": false,
+    "s": "'Coco'da Miguel'in çaldığı beyaz gitarın gövdesi hangi biçimdedir?",
+    "d": "Kafatası",
+    "y": [
+      "Kalp",
+      "Yıldız",
+      "Kelebek"
+    ],
+    "en": {
+      "s": "What shape is the body of the white guitar Miguel plays in Coco?",
+      "d": "Skull",
+      "y": [
+        "Heart",
+        "Star",
+        "Butterfly"
+      ]
+    },
+    "olgu": "Coco'daki Ernesto de la Cruz gitarının gövdesi kafatası biçimindedir."
+  },
+  {
+    "id": "C01-T075",
+    "k": "sinema",
+    "z": 2,
+    "yerel": false,
+    "s": "'Yukarı Bak' filminde Carl'ın evini uçuran şeyler nelerdir?",
+    "d": "Balonlar",
+    "y": [
+      "Uçurtmalar",
+      "Pervaneler",
+      "Kanatlar"
+    ],
+    "en": {
+      "s": "What lifts Carl's house into the air in Up?",
+      "d": "Balloons",
+      "y": [
+        "Kites",
+        "Propellers",
+        "Wings"
+      ]
+    },
+    "olgu": "Yukarı Bak filminde Carl evine bağladığı balonlarla havalanır."
+  },
+  {
+    "id": "C01-T076",
+    "k": "sinema",
+    "z": 2,
+    "yerel": false,
+    "s": "'Zootopia'da polis olan Judy Hopps hangi hayvandır?",
+    "d": "Tavşan",
+    "y": [
+      "Tilki",
+      "Kurt",
+      "Geyik"
+    ],
+    "en": {
+      "s": "What animal is police officer Judy Hopps in Zootopia?",
+      "d": "Rabbit",
+      "y": [
+        "Fox",
+        "Wolf",
+        "Deer"
+      ]
+    },
+    "olgu": "Zootopia'nın polis kahramanı Judy Hopps bir tavşandır."
+  },
+  {
+    "id": "C01-T077",
+    "k": "sinema",
+    "z": 2,
+    "yerel": false,
+    "s": "'The Incredibles'ta süper kahraman kostümlerini tasarlayan kişinin adı nedir?",
+    "d": "Edna Mode",
+    "y": [
+      "Mirage",
+      "Helen Parr",
+      "Evelyn Deavor"
+    ],
+    "en": {
+      "s": "Who designs the superhero costumes in The Incredibles?",
+      "d": "Edna Mode",
+      "y": [
+        "Mirage",
+        "Helen Parr",
+        "Evelyn Deavor"
+      ]
+    },
+    "olgu": "The Incredibles'ta süper kahramanların kostümlerini Edna Mode tasarlar."
+  },
+  {
+    "id": "C01-T078",
+    "k": "sinema",
+    "z": 2,
+    "yerel": false,
+    "s": "'The Lion King'de Simba'nın çocukluk arkadaşı olan dişi aslan kimdir?",
+    "d": "Nala",
+    "y": [
+      "Sarabi",
+      "Sarafina",
+      "Kiara"
+    ],
+    "en": {
+      "s": "Who is Simba's childhood friend in The Lion King?",
+      "d": "Nala",
+      "y": [
+        "Sarabi",
+        "Sarafina",
+        "Kiara"
+      ]
+    },
+    "olgu": "Aslan Kral'da Simba'nın çocukluk arkadaşı Nala'dır."
+  },
+  {
+    "id": "C01-T079",
+    "k": "sinema",
+    "z": 2,
+    "yerel": false,
+    "s": "'Moana' filminde kahramana eşlik eden Heihei hangi hayvandır?",
+    "d": "Horoz",
+    "y": [
+      "Ördek",
+      "Güvercin",
+      "Papağan"
+    ],
+    "en": {
+      "s": "What kind of bird is Heihei in Moana?",
+      "d": "Rooster",
+      "y": [
+        "Duck",
+        "Pigeon",
+        "Parrot"
+      ]
+    },
+    "olgu": "Moana'nın Heihei adlı yol arkadaşı bir horozdur."
+  },
+  {
+    "id": "C01-T080",
+    "k": "sinema",
+    "z": 2,
+    "yerel": false,
+    "s": "'Toy Story'de Andy'nin kovboy oyuncağının adı nedir?",
+    "d": "Woody",
+    "y": [
+      "Buzz",
+      "Rex",
+      "Slinky"
+    ],
+    "en": {
+      "s": "What is the name of Andy's cowboy toy in Toy Story?",
+      "d": "Woody",
+      "y": [
+        "Buzz",
+        "Rex",
+        "Slinky"
+      ]
+    },
+    "olgu": "Toy Story'deki kovboy oyuncak Woody'dir.",
+    "ele_neden": "yazar ön incelemesi: Woody kovboy oyuncak olgusu havuzda var"
+  },
+  {
+    "id": "C01-T081",
+    "k": "sinema",
+    "z": 2,
+    "yerel": false,
+    "s": "'Spirited Away'de Chihiro'yu koruyan Haku hangi yaratığa dönüşür?",
+    "d": "Ejderha",
+    "y": [
+      "Kurt",
+      "Kaplan",
+      "Kartal"
+    ],
+    "en": {
+      "s": "What creature does Haku turn into in Spirited Away?",
+      "d": "Dragon",
+      "y": [
+        "Wolf",
+        "Tiger",
+        "Eagle"
+      ]
+    },
+    "olgu": "Ruhların Kaçışı filminde Haku beyaz bir ejderhaya dönüşür."
+  },
+  {
+    "id": "C01-T082",
+    "k": "sinema",
+    "z": 3,
+    "yerel": false,
+    "s": "'Ratatouille'de Remy'nin peşinden Paris'e gelen kardeşinin adı nedir?",
+    "d": "Emile",
+    "y": [
+      "Gusteau",
+      "Skinner",
+      "Django"
+    ],
+    "en": {
+      "s": "What is the name of Remy's brother in Ratatouille?",
+      "d": "Emile",
+      "y": [
+        "Gusteau",
+        "Skinner",
+        "Django"
+      ]
+    },
+    "olgu": "Ratatouille filminde Remy'nin kardeşinin adı Emile'dir."
+  },
+  {
+    "id": "C01-T083",
+    "k": "sinema",
+    "z": 3,
+    "yerel": false,
+    "s": "'Finding Nemo'daki akvaryum balıklarını yöneten, yüzgeci yaralı balığın adı nedir?",
+    "d": "Gill",
+    "y": [
+      "Bloat",
+      "Bubbles",
+      "Gurgle"
+    ],
+    "en": {
+      "s": "What is the name of the injured fish who leads the tank gang in Finding Nemo?",
+      "d": "Gill",
+      "y": [
+        "Bloat",
+        "Bubbles",
+        "Gurgle"
+      ]
+    },
+    "olgu": "Finding Nemo'da tank grubunun lideri Gill'dir."
+  },
+  {
+    "id": "C01-T084",
+    "k": "sinema",
+    "z": 3,
+    "yerel": false,
+    "s": "'Shrek 2'de Fiona'nın babası Kral Harold hangi hayvana dönüşür?",
+    "d": "Kurbağa",
+    "y": [
+      "Kertenkele",
+      "Fare",
+      "Yarasa"
+    ],
+    "en": {
+      "s": "What animal does King Harold turn into in Shrek 2?",
+      "d": "Frog",
+      "y": [
+        "Lizard",
+        "Mouse",
+        "Bat"
+      ]
+    },
+    "olgu": "Shrek 2'de Kral Harold kurbağaya dönüşür."
+  },
+  {
+    "id": "C01-T085",
+    "k": "sinema",
+    "z": 3,
+    "yerel": false,
+    "s": "'WALL-E'de insanların yaşadığı büyük uzay gemisinin adı nedir?",
+    "d": "Axiom",
+    "y": [
+      "Nostromo",
+      "Discovery",
+      "Serenity"
+    ],
+    "en": {
+      "s": "What is the name of the spaceship where the humans live in WALL-E?",
+      "d": "Axiom",
+      "y": [
+        "Nostromo",
+        "Discovery",
+        "Serenity"
+      ]
+    },
+    "olgu": "WALL-E filminde insanlar Axiom adlı uzay gemisinde yaşar."
+  },
+  {
+    "id": "C01-T086",
+    "k": "sinema",
+    "z": 3,
+    "yerel": false,
+    "s": "'Frozen'da Anna ile Elsa'nın krallığının adı nedir?",
+    "d": "Arendelle",
+    "y": [
+      "Corona",
+      "DunBroch",
+      "Atlantica"
+    ],
+    "en": {
+      "s": "What is the name of Anna and Elsa's kingdom in Frozen?",
+      "d": "Arendelle",
+      "y": [
+        "Corona",
+        "DunBroch",
+        "Atlantica"
+      ]
+    },
+    "olgu": "Frozen filminde Anna ve Elsa'nın krallığı Arendelle'dir."
+  },
+  {
+    "id": "C01-T087",
+    "k": "genel_kultur",
+    "z": 2,
+    "yerel": false,
+    "s": "'Peanuts' çizgi romanında Snoopy'nin sahibi olan çocuk kimdir?",
+    "d": "Charlie Brown",
+    "y": [
+      "Linus van Pelt",
+      "Schroeder",
+      "Franklin"
+    ],
+    "en": {
+      "s": "Which child owns Snoopy in the Peanuts comic strip?",
+      "d": "Charlie Brown",
+      "y": [
+        "Linus van Pelt",
+        "Schroeder",
+        "Franklin"
+      ]
+    },
+    "olgu": "Peanuts'ta Snoopy'nin sahibi Charlie Brown'dır."
+  },
+  {
+    "id": "C01-T088",
+    "k": "genel_kultur",
+    "z": 2,
+    "yerel": false,
+    "s": "Garfield'ın en sevdiği yemek olarak tanınan İtalyan yemeği hangisidir?",
+    "d": "Lazanya",
+    "y": [
+      "Risotto",
+      "Ravioli",
+      "Gnocchi"
+    ],
+    "en": {
+      "s": "Which Italian dish is Garfield famously fond of?",
+      "d": "Lasagna",
+      "y": [
+        "Risotto",
+        "Ravioli",
+        "Gnocchi"
+      ]
+    },
+    "olgu": "Garfield çizgi romanında lazanyaya düşkünlüğüyle tanınır."
+  },
+  {
+    "id": "C01-T089",
+    "k": "genel_kultur",
+    "z": 2,
+    "yerel": false,
+    "s": "Tintin'in beyaz köpeğinin Fransızca özgün adı nedir?",
+    "d": "Milou",
+    "y": [
+      "Idefix",
+      "Rantanplan",
+      "Snoopy"
+    ],
+    "en": {
+      "s": "What is the name of Tintin's white dog in the original French comics?",
+      "d": "Milou",
+      "y": [
+        "Idefix",
+        "Rantanplan",
+        "Snoopy"
+      ]
+    },
+    "olgu": "Hergé'nin Tintin çizgi romanında köpeğin Fransızca özgün adı Milou'dur.",
+    "kaynak": "https://www.tintin.com/en/characters/snowy"
+  },
+  {
+    "id": "C01-T090",
+    "k": "genel_kultur",
+    "z": 2,
+    "yerel": false,
+    "s": "Şirinler'de Gargamel'in kedisinin adı nedir?",
+    "d": "Azman",
+    "y": [
+      "Tom",
+      "Felix",
+      "Sylvester"
+    ],
+    "en": {
+      "s": "What is the name of Gargamel's cat in The Smurfs?",
+      "d": "Azrael",
+      "y": [
+        "Tom",
+        "Felix",
+        "Sylvester"
+      ]
+    },
+    "olgu": "Şirinler'deki Gargamel'in kedisi Türkçede Azman, İngilizcede Azrael adıyla bilinir."
+  },
+  {
+    "id": "C01-T091",
+    "k": "genel_kultur",
+    "z": 2,
+    "yerel": false,
+    "s": "'The Flintstones'ta ailenin evcil dinozorunun adı nedir?",
+    "d": "Dino",
+    "y": [
+      "Hoppy",
+      "Bam-Bam",
+      "Gazoo"
+    ],
+    "en": {
+      "s": "What is the name of the Flintstone family's pet dinosaur?",
+      "d": "Dino",
+      "y": [
+        "Hoppy",
+        "Bam-Bam",
+        "Gazoo"
+      ]
+    },
+    "olgu": "Çakmaktaş ailesinin evcil dinozorunun adı Dino'dur."
+  },
+  {
+    "id": "C01-T092",
+    "k": "genel_kultur",
+    "z": 2,
+    "yerel": false,
+    "s": "Winnie the Pooh'un sık sık üzgün görünen eşek arkadaşının adı nedir?",
+    "d": "Eeyore",
+    "y": [
+      "Tigger",
+      "Piglet",
+      "Roo"
+    ],
+    "en": {
+      "s": "What is the name of Winnie the Pooh's often gloomy donkey friend?",
+      "d": "Eeyore",
+      "y": [
+        "Tigger",
+        "Piglet",
+        "Roo"
+      ]
+    },
+    "olgu": "Winnie the Pooh'un eşek arkadaşının adı Eeyore'dur."
+  },
+  {
+    "id": "C01-T093",
+    "k": "genel_kultur",
+    "z": 2,
+    "yerel": false,
+    "s": "Paddington'ın şapkasında sakladığı sandviçin dolgusu nedir?",
+    "d": "Marmelat",
+    "y": [
+      "Peynir",
+      "Fıstık ezmesi",
+      "Çikolata kreması"
+    ],
+    "en": {
+      "s": "What filling does Paddington put in the sandwich he keeps under his hat?",
+      "d": "Marmalade",
+      "y": [
+        "Cheese",
+        "Peanut butter",
+        "Chocolate spread"
+      ]
+    },
+    "olgu": "Paddington şapkasında marmelatlı sandviç saklar."
+  },
+  {
+    "id": "C01-T094",
+    "k": "genel_kultur",
+    "z": 2,
+    "yerel": false,
+    "s": "Grinch'in köpeğinin adı nedir?",
+    "d": "Max",
+    "y": [
+      "Rex",
+      "Spot",
+      "Buddy"
+    ],
+    "en": {
+      "s": "What is the name of the Grinch's dog?",
+      "d": "Max",
+      "y": [
+        "Rex",
+        "Spot",
+        "Buddy"
+      ]
+    },
+    "olgu": "Dr. Seuss'un Grinch hikâyesindeki köpeğin adı Max'tir."
+  },
+  {
+    "id": "C01-T095",
+    "k": "genel_kultur",
+    "z": 2,
+    "yerel": false,
+    "s": "İtalyan tatlısı tiramisuda bisküviler geleneksel olarak hangi içeceğe batırılır?",
+    "d": "Kahve",
+    "y": [
+      "Çay",
+      "Limonata",
+      "Sıcak çikolata"
+    ],
+    "en": {
+      "s": "What drink are the biscuits traditionally dipped in when making tiramisu?",
+      "d": "Coffee",
+      "y": [
+        "Tea",
+        "Lemonade",
+        "Hot chocolate"
+      ]
+    },
+    "olgu": "Tiramisudaki savoiardi bisküvileri geleneksel olarak kahveye batırılır."
+  },
+  {
+    "id": "C01-T096",
+    "k": "genel_kultur",
+    "z": 2,
+    "yerel": false,
+    "s": "Fransız tatlısı tarte Tatin'in klasik tarifinde hangi meyve bulunur?",
+    "d": "Elma",
+    "y": [
+      "Armut",
+      "Erik",
+      "Kayısı"
+    ],
+    "en": {
+      "s": "Which fruit is used in a classic tarte Tatin?",
+      "d": "Apple",
+      "y": [
+        "Pear",
+        "Plum",
+        "Apricot"
+      ]
+    },
+    "olgu": "Klasik tarte Tatin karamelize elmayla hazırlanır."
+  },
+  {
+    "id": "C01-T097",
+    "k": "genel_kultur",
+    "z": 2,
+    "yerel": false,
+    "s": "Toblerone'un klasik ambalajındaki dağın adı nedir?",
+    "d": "Matterhorn",
+    "y": [
+      "Mont Blanc",
+      "Jungfrau",
+      "Eiger"
+    ],
+    "en": {
+      "s": "Which mountain appeared on the classic Toblerone packaging?",
+      "d": "Matterhorn",
+      "y": [
+        "Mont Blanc",
+        "Jungfrau",
+        "Eiger"
+      ]
+    },
+    "olgu": "Toblerone'un klasik ambalajında Matterhorn dağı gösterilirdi.",
+    "ele_neden": "yazar ön incelemesi: Toblerone Matterhorn olgusu havuzda var"
+  },
+  {
+    "id": "C01-T098",
+    "k": "genel_kultur",
+    "z": 2,
+    "yerel": false,
+    "s": "'Asterix' çizgi romanında sihirli iksiri hazırlayan köy büyücüsü kimdir?",
+    "d": "Büyüfiks",
+    "y": [
+      "Obeliks",
+      "Toptoriks",
+      "Düzenbaziks"
+    ],
+    "en": {
+      "s": "Who brews the magic potion in the Asterix comics?",
+      "d": "Getafix",
+      "y": [
+        "Obelix",
+        "Vitalstatistix",
+        "Cacofonix"
+      ]
+    },
+    "olgu": "Asterix'in köyündeki büyücü Türkçede Büyüfiks, İngilizcede Getafix olarak bilinir.",
+    "ele_neden": "yazar ön incelemesi: Türkçe şık adlarının İngilizce eşleşmesi güvenilir değil"
+  },
+  {
+    "id": "C01-T099",
+    "k": "genel_kultur",
+    "z": 2,
+    "yerel": false,
+    "s": "'Scooby-Doo'da Scooby'nin yeşil tişörtlü yakın arkadaşının adı nedir?",
+    "d": "Shaggy",
+    "y": [
+      "Fred",
+      "Scrappy",
+      "Vincent"
+    ],
+    "en": {
+      "s": "What is the name of Scooby-Doo's best friend who wears a green shirt?",
+      "d": "Shaggy",
+      "y": [
+        "Fred",
+        "Scrappy",
+        "Vincent"
+      ]
+    },
+    "olgu": "Scooby-Doo'nun yeşil tişörtlü arkadaşı Shaggy'dir."
+  },
+  {
+    "id": "C01-T100",
+    "k": "genel_kultur",
+    "z": 2,
+    "yerel": false,
+    "s": "'SpongeBob SquarePants'ta Bob'un evcil salyangozunun adı nedir?",
+    "d": "Gary",
+    "y": [
+      "Patrick",
+      "Sandy",
+      "Pearl"
+    ],
+    "en": {
+      "s": "What is the name of SpongeBob's pet snail?",
+      "d": "Gary",
+      "y": [
+        "Patrick",
+        "Sandy",
+        "Pearl"
+      ]
+    },
+    "olgu": "SpongeBob'un evcil salyangozunun adı Gary'dir."
+  },
+  {
+    "id": "C01-T101",
+    "k": "genel_kultur",
+    "z": 2,
+    "yerel": false,
+    "s": "'The Simpsons'ta Bart'ın kız kardeşlerinden saksafon çalan kimdir?",
+    "d": "Lisa",
+    "y": [
+      "Maggie",
+      "Patty",
+      "Selma"
+    ],
+    "en": {
+      "s": "Which of Bart's sisters plays the saxophone in The Simpsons?",
+      "d": "Lisa",
+      "y": [
+        "Maggie",
+        "Patty",
+        "Selma"
+      ]
+    },
+    "olgu": "Simpsonlar'da Lisa Simpson saksafon çalar."
+  },
+  {
+    "id": "C01-T102",
+    "k": "genel_kultur",
+    "z": 2,
+    "yerel": false,
+    "s": "'The Muppets'taki kurbağa sunucunun adı nedir?",
+    "d": "Kermit",
+    "y": [
+      "Gonzo",
+      "Fozzie",
+      "Rowlf"
+    ],
+    "en": {
+      "s": "What is the name of the frog host in The Muppets?",
+      "d": "Kermit",
+      "y": [
+        "Gonzo",
+        "Fozzie",
+        "Rowlf"
+      ]
+    },
+    "olgu": "The Muppets'ın kurbağa karakteri Kermit'tir."
+  },
+  {
+    "id": "C01-T103",
+    "k": "genel_kultur",
+    "z": 2,
+    "yerel": false,
+    "s": "McDonald's'ın Ronald adlı maskotu hangi kostümle tanınır?",
+    "d": "Palyaço",
+    "y": [
+      "Kovboy",
+      "Korsan",
+      "Sihirbaz"
+    ],
+    "en": {
+      "s": "What costume is McDonald's mascot Ronald known for?",
+      "d": "Clown",
+      "y": [
+        "Cowboy",
+        "Pirate",
+        "Magician"
+      ]
+    },
+    "olgu": "Ronald McDonald palyaço kıyafetiyle tanınır."
+  },
+  {
+    "id": "C01-T104",
+    "k": "genel_kultur",
+    "z": 2,
+    "yerel": false,
+    "s": "Pringles kutularındaki maskotun yüzündeki belirgin özellik hangisidir?",
+    "d": "Bıyık",
+    "y": [
+      "Sakal",
+      "Gözlük",
+      "Göz bandı"
+    ],
+    "en": {
+      "s": "What distinctive feature appears on the face of the Pringles mascot?",
+      "d": "Mustache",
+      "y": [
+        "Beard",
+        "Glasses",
+        "Eyepatch"
+      ]
+    },
+    "olgu": "Pringles'ın Julius Pringles maskotunun belirgin bir bıyığı vardır."
+  },
+  {
+    "id": "C01-T105",
+    "k": "genel_kultur",
+    "z": 2,
+    "yerel": false,
+    "s": "Dondurma markası Häagen-Dazs ilk olarak hangi ülkede kurulmuştur?",
+    "d": "ABD",
+    "y": [
+      "Danimarka",
+      "İsveç",
+      "İsviçre"
+    ],
+    "en": {
+      "s": "In which country was the ice cream brand Haagen-Dazs founded?",
+      "d": "USA",
+      "y": [
+        "Denmark",
+        "Sweden",
+        "Switzerland"
+      ]
+    },
+    "olgu": "Häagen-Dazs 1960'ta New York'ta kuruldu."
+  },
+  {
+    "id": "C01-T106",
+    "k": "genel_kultur",
+    "z": 3,
+    "yerel": false,
+    "s": "M&M's markasındaki iki M, Mars ve hangi soyadını temsil eder?",
+    "d": "Murrie",
+    "y": [
+      "Milton",
+      "Morgan",
+      "Merrill"
+    ],
+    "en": {
+      "s": "The two M's in M&M's stand for Mars and which other surname?",
+      "d": "Murrie",
+      "y": [
+        "Milton",
+        "Morgan",
+        "Merrill"
+      ]
+    },
+    "olgu": "M&M's adı Forrest Mars ve Bruce Murrie'nin soyadlarından gelir.",
+    "kaynak": "https://www.m-ms.jp/history/"
+  },
+  {
+    "id": "C01-T107",
+    "k": "genel_kultur",
+    "z": 3,
+    "yerel": false,
+    "s": "Pepsi'nin 1898'den önce kullanılan ilk adı neydi?",
+    "d": "Brad's Drink",
+    "y": [
+      "Doc's Tonic",
+      "Caleb's Cola",
+      "Carolina Pop"
+    ],
+    "en": {
+      "s": "What was Pepsi called before it took that name in 1898?",
+      "d": "Brad's Drink",
+      "y": [
+        "Doc's Tonic",
+        "Caleb's Cola",
+        "Carolina Pop"
+      ]
+    },
+    "olgu": "Caleb Bradham'ın içeceği Pepsi adını almadan önce Brad's Drink olarak satıldı."
+  },
+  {
+    "id": "C01-T108",
+    "k": "genel_kultur",
+    "z": 3,
+    "yerel": false,
+    "s": "Sezar salatasının ilk hazırlandığı Meksika şehri hangisidir?",
+    "d": "Tijuana",
+    "y": [
+      "Monterrey",
+      "Guadalajara",
+      "Veracruz"
+    ],
+    "en": {
+      "s": "In which Mexican city was the Caesar salad first created?",
+      "d": "Tijuana",
+      "y": [
+        "Monterrey",
+        "Guadalajara",
+        "Veracruz"
+      ]
+    },
+    "olgu": "Sezar salatası 1924'te Caesar Cardini'nin Tijuana'daki restoranında ortaya çıktı.",
+    "ele_neden": "yazar ön incelemesi: yemek icadının ilkliği tartışmalı kaynaklara açık"
+  },
+  {
+    "id": "C01-T109",
+    "k": "genel_kultur",
+    "z": 3,
+    "yerel": false,
+    "s": "New York'taki Waldorf otelinde doğan salatanın klasik tarifindeki meyve hangisidir?",
+    "d": "Elma",
+    "y": [
+      "Armut",
+      "Şeftali",
+      "Mandalina"
+    ],
+    "en": {
+      "s": "Which fruit was used in the original Waldorf salad created at the New York hotel?",
+      "d": "Apple",
+      "y": [
+        "Pear",
+        "Peach",
+        "Mandarin"
+      ]
+    },
+    "olgu": "Waldorf salatasının özgün tarifi elma, kereviz ve mayonezden oluşurdu."
+  },
+  {
+    "id": "C01-T110",
+    "k": "genel_kultur",
+    "z": 3,
+    "yerel": false,
+    "s": "Klasik İngiliz 'Cluedo' oyununda öldürülen ev sahibinin adı nedir?",
+    "d": "Dr. Black",
+    "y": [
+      "Dr. Green",
+      "Dr. White",
+      "Dr. Grey"
+    ],
+    "en": {
+      "s": "What is the murdered host called in the classic British version of Cluedo?",
+      "d": "Dr. Black",
+      "y": [
+        "Dr. Green",
+        "Dr. White",
+        "Dr. Grey"
+      ]
+    },
+    "olgu": "Cluedo'nun klasik İngiliz sürümündeki kurban Dr. Black'tir."
+  },
+  {
+    "id": "C01-T111",
+    "k": "genel_kultur",
+    "z": 3,
+    "yerel": false,
+    "s": "'Calvin and Hobbes' çizgi romanında Hobbes hangi hayvan biçimindedir?",
+    "d": "Kaplan",
+    "y": [
+      "Aslan",
+      "Leopar",
+      "Jaguar"
+    ],
+    "en": {
+      "s": "What animal is Hobbes in the Calvin and Hobbes comic strip?",
+      "d": "Tiger",
+      "y": [
+        "Lion",
+        "Leopard",
+        "Jaguar"
+      ]
+    },
+    "olgu": "Calvin'in Hobbes adlı pelüş arkadaşı bir kaplandır."
+  },
+  {
+    "id": "C01-T112",
+    "k": "genel_kultur",
+    "z": 3,
+    "yerel": false,
+    "s": "'Peanuts'ta Snoopy'nin küçük sarı kuş arkadaşının adı nedir?",
+    "d": "Woodstock",
+    "y": [
+      "Tweety",
+      "Road Runner",
+      "Zazu"
+    ],
+    "en": {
+      "s": "What is the name of Snoopy's small yellow bird friend in Peanuts?",
+      "d": "Woodstock",
+      "y": [
+        "Tweety",
+        "Road Runner",
+        "Zazu"
+      ]
+    },
+    "olgu": "Peanuts çizgi romanında Snoopy'nin kuş arkadaşı Woodstock'tur.",
+    "kaynak": "https://www.peanuts.com/about/woodstock"
+  },
+  {
+    "id": "C01-T113",
+    "k": "genel_kultur",
+    "z": 3,
+    "yerel": false,
+    "s": "'The Muppet Show'daki Animal karakteri hangi çalgıyı çalar?",
+    "d": "Davul",
+    "y": [
+      "Trompet",
+      "Gitar",
+      "Piyano"
+    ],
+    "en": {
+      "s": "What instrument does Animal play in The Muppet Show?",
+      "d": "Drums",
+      "y": [
+        "Trumpet",
+        "Guitar",
+        "Piano"
+      ]
+    },
+    "olgu": "Muppet karakteri Animal Electric Mayhem grubunun davulcusudur."
+  },
+  {
+    "id": "C01-T114",
+    "k": "edebiyat",
+    "z": 2,
+    "yerel": false,
+    "s": "'Moby Dick'te Beyaz Balina'yı kovalayan kaptanın adı nedir?",
+    "d": "Ahab",
+    "y": [
+      "Nemo",
+      "Flint",
+      "Smollett"
+    ],
+    "en": {
+      "s": "What is the name of the captain who hunts the white whale in Moby-Dick?",
+      "d": "Ahab",
+      "y": [
+        "Nemo",
+        "Flint",
+        "Smollett"
+      ]
+    },
+    "olgu": "Herman Melville'in Moby Dick romanında balinayı Kaptan Ahab kovalar."
+  },
+  {
+    "id": "C01-T115",
+    "k": "edebiyat",
+    "z": 2,
+    "yerel": false,
+    "s": "'Hayvan Çiftliği'ndeki Napolyon karakteri hangi hayvandır?",
+    "d": "Domuz",
+    "y": [
+      "At",
+      "Keçi",
+      "Köpek"
+    ],
+    "en": {
+      "s": "What kind of animal is Napoleon in Animal Farm?",
+      "d": "Pig",
+      "y": [
+        "Horse",
+        "Goat",
+        "Dog"
+      ]
+    },
+    "olgu": "George Orwell'ın Hayvan Çiftliği romanındaki Napolyon bir domuzdur.",
+    "ele_neden": "yazar ön incelemesi: Napolyon domuz olgusu havuzda ters yönde sorulmuş"
+  },
+  {
+    "id": "C01-T116",
+    "k": "edebiyat",
+    "z": 2,
+    "yerel": false,
+    "s": "'Küçük Prens'in dünyada evcilleştirdiği hayvan hangisidir?",
+    "d": "Tilki",
+    "y": [
+      "Kurt",
+      "Çakal",
+      "Vaşak"
+    ],
+    "en": {
+      "s": "Which animal does the Little Prince tame on Earth?",
+      "d": "Fox",
+      "y": [
+        "Wolf",
+        "Jackal",
+        "Lynx"
+      ]
+    },
+    "olgu": "Saint-Exupéry'nin Küçük Prens eserinde küçük prens tilkiyi evcilleştirir."
+  },
+  {
+    "id": "C01-T117",
+    "k": "edebiyat",
+    "z": 2,
+    "yerel": false,
+    "s": "'Narnia Günlükleri'ndeki Aslan karakteri hangi hayvandır?",
+    "d": "Aslan",
+    "y": [
+      "Kaplan",
+      "Leopar",
+      "Jaguar"
+    ],
+    "en": {
+      "s": "What animal is the character Aslan in The Chronicles of Narnia?",
+      "d": "Lion",
+      "y": [
+        "Tiger",
+        "Leopard",
+        "Jaguar"
+      ]
+    },
+    "olgu": "C. S. Lewis'in Narnia Günlükleri'ndeki Aslan bir aslandır."
+  },
+  {
+    "id": "C01-T118",
+    "k": "edebiyat",
+    "z": 2,
+    "yerel": false,
+    "s": "'Don Kişot'un atının adı nedir?",
+    "d": "Rocinante",
+    "y": [
+      "Bucephalus",
+      "Pegasus",
+      "Bucefalo"
+    ],
+    "en": {
+      "s": "What is the name of Don Quixote's horse?",
+      "d": "Rocinante",
+      "y": [
+        "Bucephalus",
+        "Pegasus",
+        "Bucefalo"
+      ]
+    },
+    "olgu": "Cervantes'in Don Kişot romanında kahramanın atının adı Rocinante'dir."
+  },
+  {
+    "id": "C01-T119",
+    "k": "edebiyat",
+    "z": 2,
+    "yerel": false,
+    "s": "'Harry Potter'da Hagrid'in üç başlı köpeğinin adı nedir?",
+    "d": "Fluffy",
+    "y": [
+      "Fang",
+      "Padfoot",
+      "Norbert"
+    ],
+    "en": {
+      "s": "What is the name of Hagrid's three-headed dog in Harry Potter?",
+      "d": "Fluffy",
+      "y": [
+        "Fang",
+        "Padfoot",
+        "Norbert"
+      ]
+    },
+    "olgu": "Harry Potter ve Felsefe Taşı'ndaki üç başlı köpeğin adı Fluffy'dir."
+  },
+  {
+    "id": "C01-T120",
+    "k": "edebiyat",
+    "z": 2,
+    "yerel": false,
+    "s": "'Hobbit'te Bilbo'nun bulduğu küçük kılıca verdiği ad nedir?",
+    "d": "Sting",
+    "y": [
+      "Glamdring",
+      "Orcrist",
+      "Anduril"
+    ],
+    "en": {
+      "s": "What name does Bilbo give the small sword he finds in The Hobbit?",
+      "d": "Sting",
+      "y": [
+        "Glamdring",
+        "Orcrist",
+        "Anduril"
+      ]
+    },
+    "olgu": "Bilbo Baggins Hobbit'te kılıcına Sting adını verir."
+  },
+  {
+    "id": "C01-T121",
+    "k": "edebiyat",
+    "z": 2,
+    "yerel": false,
+    "s": "'Dracula' romanında vampirle mücadele eden Profesörün soyadı nedir?",
+    "d": "Van Helsing",
+    "y": [
+      "Moriarty",
+      "Harker",
+      "Renfield"
+    ],
+    "en": {
+      "s": "What is the professor's surname in Bram Stoker's Dracula?",
+      "d": "Van Helsing",
+      "y": [
+        "Moriarty",
+        "Harker",
+        "Renfield"
+      ]
+    },
+    "olgu": "Dracula'daki vampir avcısı profesör Abraham Van Helsing'dir."
+  },
+  {
+    "id": "C01-T122",
+    "k": "edebiyat",
+    "z": 3,
+    "yerel": false,
+    "s": "'Küçük Prens'in yaşadığı asteroidin adı nedir?",
+    "d": "B-612",
+    "y": [
+      "B-214",
+      "B-415",
+      "B-817"
+    ],
+    "en": {
+      "s": "What is the designation of the Little Prince's home asteroid?",
+      "d": "B-612",
+      "y": [
+        "B-214",
+        "B-415",
+        "B-817"
+      ]
+    },
+    "olgu": "Küçük Prens'in yaşadığı asteroid B-612'dir."
+  },
+  {
+    "id": "C01-T123",
+    "k": "edebiyat",
+    "z": 3,
+    "yerel": false,
+    "s": "'Hayvan Çiftliği'ndeki çalışkan araba atının adı nedir?",
+    "d": "Boxer",
+    "y": [
+      "Benjamin",
+      "Mollie",
+      "Snowball"
+    ],
+    "en": {
+      "s": "What is the name of the hardworking cart horse in Animal Farm?",
+      "d": "Boxer",
+      "y": [
+        "Benjamin",
+        "Mollie",
+        "Snowball"
+      ]
+    },
+    "olgu": "Hayvan Çiftliği romanındaki güçlü ve çalışkan atın adı Boxer'dır."
+  },
+  {
+    "id": "C01-T124",
+    "k": "edebiyat",
+    "z": 3,
+    "yerel": false,
+    "s": "'Charlie'nin Çikolata Fabrikası'nda Charlie'nin büyükbabasının adı nedir?",
+    "d": "Joe",
+    "y": [
+      "George",
+      "Henry",
+      "Albert"
+    ],
+    "en": {
+      "s": "What is the name of the grandfather who accompanies Charlie to the chocolate factory?",
+      "d": "Joe",
+      "y": [
+        "George",
+        "Henry",
+        "Albert"
+      ]
+    },
+    "olgu": "Roald Dahl'ın romanında fabrikaya Charlie ile Büyükbaba Joe gider."
+  },
+  {
+    "id": "C01-T125",
+    "k": "edebiyat",
+    "z": 3,
+    "yerel": false,
+    "s": "'Dune' romanındaki çöl gezegeninin adı nedir?",
+    "d": "Arrakis",
+    "y": [
+      "Caladan",
+      "Kaitain",
+      "Giedi Prime"
+    ],
+    "en": {
+      "s": "What is the name of the desert planet in Frank Herbert's Dune?",
+      "d": "Arrakis",
+      "y": [
+        "Caladan",
+        "Kaitain",
+        "Giedi Prime"
+      ]
+    },
+    "olgu": "Frank Herbert'in Dune romanındaki çöl gezegeni Arrakis'tir."
+  },
+  {
+    "id": "C01-T126",
+    "k": "edebiyat",
+    "z": 2,
+    "yerel": false,
+    "s": "'Otostopçunun Galaksi Rehberi'ndeki Dünyalı kahramanın adı nedir?",
+    "d": "Arthur Dent",
+    "y": [
+      "Ford Prefect",
+      "Zaphod Beeblebrox",
+      "Trillian Astra"
+    ],
+    "en": {
+      "s": "What is the name of the human protagonist in The Hitchhiker's Guide to the Galaxy?",
+      "d": "Arthur Dent",
+      "y": [
+        "Ford Prefect",
+        "Zaphod Beeblebrox",
+        "Trillian Astra"
+      ]
+    },
+    "olgu": "Douglas Adams'ın Otostopçunun Galaksi Rehberi eserinin Dünyalı kahramanı Arthur Dent'tir."
+  },
+  {
+    "id": "C01-T127",
+    "k": "edebiyat",
+    "z": 2,
+    "yerel": false,
+    "s": "'Açlık Oyunları'nda Katniss Everdeen hangi mıntıkadan gelir?",
+    "d": "12",
+    "y": [
+      "10",
+      "11",
+      "13"
+    ],
+    "en": {
+      "s": "Which district is Katniss Everdeen from in The Hunger Games?",
+      "d": "12",
+      "y": [
+        "10",
+        "11",
+        "13"
+      ]
+    },
+    "olgu": "Suzanne Collins'in Açlık Oyunları romanında Katniss 12. Mıntıka'dandır."
+  },
+  {
+    "id": "C01-T128",
+    "k": "edebiyat",
+    "z": 2,
+    "yerel": false,
+    "s": "'Gurur ve Önyargı' romanındaki Elizabeth'in soyadı nedir?",
+    "d": "Bennet",
+    "y": [
+      "Dashwood",
+      "Woodhouse",
+      "Elliot"
+    ],
+    "en": {
+      "s": "What is Elizabeth's surname in Pride and Prejudice?",
+      "d": "Bennet",
+      "y": [
+        "Dashwood",
+        "Woodhouse",
+        "Elliot"
+      ]
+    },
+    "olgu": "Jane Austen'ın Gurur ve Önyargı romanının kahramanı Elizabeth Bennet'tir."
+  },
+  {
+    "id": "C01-T129",
+    "k": "edebiyat",
+    "z": 2,
+    "yerel": false,
+    "s": "'Narnia Günlükleri'nde dört kardeşin soyadı nedir?",
+    "d": "Pevensie",
+    "y": [
+      "Weasley",
+      "Baudelaire",
+      "March"
+    ],
+    "en": {
+      "s": "What is the surname of the four siblings in The Chronicles of Narnia?",
+      "d": "Pevensie",
+      "y": [
+        "Weasley",
+        "Baudelaire",
+        "March"
+      ]
+    },
+    "olgu": "Peter, Susan, Edmund ve Lucy'nin soyadı Pevensie'dir."
+  },
+  {
+    "id": "C01-T130",
+    "k": "edebiyat",
+    "z": 2,
+    "yerel": false,
+    "s": "'Harry Potter'da Draco Malfoy'un okul binası hangisidir?",
+    "d": "Slytherin",
+    "y": [
+      "Gryffindor",
+      "Ravenclaw",
+      "Hufflepuff"
+    ],
+    "en": {
+      "s": "Which Hogwarts house does Draco Malfoy belong to in Harry Potter?",
+      "d": "Slytherin",
+      "y": [
+        "Gryffindor",
+        "Ravenclaw",
+        "Hufflepuff"
+      ]
+    },
+    "olgu": "Harry Potter serisinde Draco Malfoy Slytherin öğrencisidir."
+  },
+  {
+    "id": "C01-T131",
+    "k": "edebiyat",
+    "z": 2,
+    "yerel": false,
+    "s": "'Matilda' romanında kahramanın sevdiği öğretmenin soyadı nedir?",
+    "d": "Honey",
+    "y": [
+      "Trunchbull",
+      "Wormwood",
+      "Phelps"
+    ],
+    "en": {
+      "s": "What is the surname of Matilda's beloved teacher in Roald Dahl's novel?",
+      "d": "Honey",
+      "y": [
+        "Trunchbull",
+        "Wormwood",
+        "Phelps"
+      ]
+    },
+    "olgu": "Roald Dahl'ın Matilda romanındaki sevecen öğretmen Miss Honey'dir."
+  },
+  {
+    "id": "C01-T132",
+    "k": "edebiyat",
+    "z": 2,
+    "yerel": false,
+    "s": "'Küçük Kadınlar'da yazar olmayı isteyen March kardeş hangisidir?",
+    "d": "Jo",
+    "y": [
+      "Meg",
+      "Beth",
+      "Amy"
+    ],
+    "en": {
+      "s": "Which March sister wants to become a writer in Little Women?",
+      "d": "Jo",
+      "y": [
+        "Meg",
+        "Beth",
+        "Amy"
+      ]
+    },
+    "olgu": "Louisa May Alcott'ın Küçük Kadınlar romanında Jo March yazar olmayı ister."
+  },
+  {
+    "id": "C01-T133",
+    "k": "edebiyat",
+    "z": 2,
+    "yerel": false,
+    "s": "'Harry Potter'da Ron'un evcil faresinin adı nedir?",
+    "d": "Scabbers",
+    "y": [
+      "Crookshanks",
+      "Hedwig",
+      "Pigwidgeon"
+    ],
+    "en": {
+      "s": "What is the name of Ron's pet rat in Harry Potter?",
+      "d": "Scabbers",
+      "y": [
+        "Crookshanks",
+        "Hedwig",
+        "Pigwidgeon"
+      ]
+    },
+    "olgu": "Harry Potter serisinde Ron Weasley'nin evcil faresi Scabbers'tır."
+  },
+  {
+    "id": "C01-T134",
+    "k": "edebiyat",
+    "z": 3,
+    "yerel": false,
+    "s": "'Muhteşem Gatsby'de Gatsby'nin arabası hangi renktir?",
+    "d": "Sarı",
+    "y": [
+      "Yeşil",
+      "Mavi",
+      "Kırmızı"
+    ],
+    "en": {
+      "s": "What color is Gatsby's car in The Great Gatsby?",
+      "d": "Yellow",
+      "y": [
+        "Green",
+        "Blue",
+        "Red"
+      ]
+    },
+    "olgu": "F. Scott Fitzgerald'ın Muhteşem Gatsby romanında Gatsby'nin arabası sarıdır."
+  },
+  {
+    "id": "C01-T135",
+    "k": "edebiyat",
+    "z": 3,
+    "yerel": false,
+    "s": "'Uğultulu Tepeler'de Catherine'in evlendiği Edgar'ın soyadı nedir?",
+    "d": "Linton",
+    "y": [
+      "Earnshaw",
+      "Heathcliff",
+      "Lockwood"
+    ],
+    "en": {
+      "s": "What is Edgar's surname in Wuthering Heights?",
+      "d": "Linton",
+      "y": [
+        "Earnshaw",
+        "Heathcliff",
+        "Lockwood"
+      ]
+    },
+    "olgu": "Emily Brontë'nin romanında Catherine Earnshaw Edgar Linton ile evlenir."
+  },
+  {
+    "id": "C01-T136",
+    "k": "edebiyat",
+    "z": 3,
+    "yerel": false,
+    "s": "'Açlık Oyunları'nda Katniss'in küçük kız kardeşinin adı nedir?",
+    "d": "Primrose",
+    "y": [
+      "Madge",
+      "Johanna",
+      "Annie"
+    ],
+    "en": {
+      "s": "What is the name of Katniss's younger sister in The Hunger Games?",
+      "d": "Primrose",
+      "y": [
+        "Madge",
+        "Johanna",
+        "Annie"
+      ]
+    },
+    "olgu": "Açlık Oyunları romanlarında Katniss'in kız kardeşi Primrose Everdeen'dir."
+  },
+  {
+    "id": "C01-T137",
+    "k": "edebiyat",
+    "z": 3,
+    "yerel": false,
+    "s": "'Harry Potter'da Hogwarts'ın okul poltergeistının adı nedir?",
+    "d": "Peeves",
+    "y": [
+      "Dobby",
+      "Kreacher",
+      "Winky"
+    ],
+    "en": {
+      "s": "What is the name of Hogwarts's resident poltergeist in the Harry Potter books?",
+      "d": "Peeves",
+      "y": [
+        "Dobby",
+        "Kreacher",
+        "Winky"
+      ]
+    },
+    "olgu": "Harry Potter kitaplarında Hogwarts'ta yaşayan poltergeist Peeves'tir."
+  },
+  {
+    "id": "C01-T138",
+    "k": "edebiyat",
+    "z": 3,
+    "yerel": false,
+    "s": "'Dracula'da Transilvanya'ya giden genç avukat Jonathan'ın soyadı nedir?",
+    "d": "Harker",
+    "y": [
+      "Seward",
+      "Holmwood",
+      "Renfield"
+    ],
+    "en": {
+      "s": "What is Jonathan's surname in Bram Stoker's Dracula?",
+      "d": "Harker",
+      "y": [
+        "Seward",
+        "Holmwood",
+        "Renfield"
+      ]
+    },
+    "olgu": "Dracula romanında Transilvanya'ya giden avukat Jonathan Harker'dır."
+  },
+  {
+    "id": "C01-T139",
+    "k": "edebiyat",
+    "z": 3,
+    "yerel": false,
+    "s": "'Hobbit'te cüceler Bilbo'yu hangi görev için ekibe alır?",
+    "d": "Hırsız",
+    "y": [
+      "Aşçı",
+      "Ozan",
+      "Hekim"
+    ],
+    "en": {
+      "s": "What role do the dwarves hire Bilbo for in The Hobbit?",
+      "d": "Burglar",
+      "y": [
+        "Cook",
+        "Bard",
+        "Healer"
+      ]
+    },
+    "olgu": "Hobbit'te Bilbo cücelerin ekibine hırsız olarak alınır."
+  },
+  {
+    "id": "C01-T140",
+    "k": "spor",
+    "z": 2,
+    "yerel": false,
+    "s": "1998 Dünya Kupası finalinde Brezilya'yı 3-0 yenen ülke hangisidir?",
+    "d": "Fransa",
+    "y": [
+      "İtalya",
+      "Arjantin",
+      "Hollanda"
+    ],
+    "en": {
+      "s": "Which country beat Brazil 3-0 in the 1998 World Cup final?",
+      "d": "France",
+      "y": [
+        "Italy",
+        "Argentina",
+        "Netherlands"
+      ]
+    },
+    "olgu": "Fransa 1998 Dünya Kupası finalinde Brezilya'yı 3-0 yendi."
+  },
+  {
+    "id": "C01-T141",
+    "k": "spor",
+    "z": 2,
+    "yerel": false,
+    "s": "2004 NBA Finalleri'nde Los Angeles Lakers'ı yenerek şampiyon olan takım hangisidir?",
+    "d": "Detroit Pistons",
+    "y": [
+      "Indiana Pacers",
+      "New Jersey Nets",
+      "Sacramento Kings"
+    ],
+    "en": {
+      "s": "Which team beat the Los Angeles Lakers in the 2004 NBA Finals?",
+      "d": "Detroit Pistons",
+      "y": [
+        "Indiana Pacers",
+        "New Jersey Nets",
+        "Sacramento Kings"
+      ]
+    },
+    "olgu": "Detroit Pistons 2004 NBA Finalleri'nde Lakers'ı 4-1 yendi."
+  },
+  {
+    "id": "C01-T142",
+    "k": "spor",
+    "z": 2,
+    "yerel": false,
+    "s": "1994 Dünya Kupası finalinde penaltısını üstten dışarı atan İtalyan yıldız kimdi?",
+    "d": "Roberto Baggio",
+    "y": [
+      "Paolo Maldini",
+      "Franco Baresi",
+      "Alessandro Costacurta"
+    ],
+    "en": {
+      "s": "Which Italian star sent his penalty over the bar at the end of the 1994 World Cup final?",
+      "d": "Roberto Baggio",
+      "y": [
+        "Paolo Maldini",
+        "Franco Baresi",
+        "Alessandro Costacurta"
+      ]
+    },
+    "olgu": "Roberto Baggio'nun kaçırdığı son penaltıyla Brezilya 1994 finalini kazandı."
+  },
+  {
+    "id": "C01-T143",
+    "k": "spor",
+    "z": 2,
+    "yerel": false,
+    "s": "1992 Barcelona Olimpiyatları'nda 'Rüya Takım' basketbolda hangi ülkeyi temsil etti?",
+    "d": "ABD",
+    "y": [
+      "Kanada",
+      "Avustralya",
+      "İspanya"
+    ],
+    "en": {
+      "s": "Which country did basketball's Dream Team represent at the 1992 Barcelona Olympics?",
+      "d": "USA",
+      "y": [
+        "Canada",
+        "Australia",
+        "Spain"
+      ]
+    },
+    "olgu": "1992 Barcelona'da Rüya Takım ABD adına yarıştı."
+  },
+  {
+    "id": "C01-T144",
+    "k": "spor",
+    "z": 2,
+    "yerel": false,
+    "s": "1991 Rugby Dünya Kupası'nı hangi ülke kazandı?",
+    "d": "Avustralya",
+    "y": [
+      "Yeni Zelanda",
+      "Güney Afrika",
+      "Arjantin"
+    ],
+    "en": {
+      "s": "Which country won the 1991 Rugby World Cup?",
+      "d": "Australia",
+      "y": [
+        "New Zealand",
+        "South Africa",
+        "Argentina"
+      ]
+    },
+    "olgu": "Avustralya 1991 Rugby Dünya Kupası finalinde İngiltere'yi yendi."
+  },
+  {
+    "id": "C01-T145",
+    "k": "spor",
+    "z": 2,
+    "yerel": false,
+    "s": "2011 NBA Finalleri'nde Miami Heat'i yenerek şampiyon olan takım hangisidir?",
+    "d": "Dallas Mavericks",
+    "y": [
+      "Denver Nuggets",
+      "Phoenix Suns",
+      "Portland Trail Blazers"
+    ],
+    "en": {
+      "s": "Which team beat Miami Heat to win the 2011 NBA Finals?",
+      "d": "Dallas Mavericks",
+      "y": [
+        "Denver Nuggets",
+        "Phoenix Suns",
+        "Portland Trail Blazers"
+      ]
+    },
+    "olgu": "Dallas Mavericks 2011 NBA Finalleri'nde Miami Heat'i 4-2 yendi."
+  },
+  {
+    "id": "C01-T146",
+    "k": "spor",
+    "z": 2,
+    "yerel": false,
+    "s": "1996 Formula 1 dünya şampiyonluğunu kazanan İngiliz pilot kimdir?",
+    "d": "Damon Hill",
+    "y": [
+      "Nigel Mansell",
+      "David Coulthard",
+      "Johnny Herbert"
+    ],
+    "en": {
+      "s": "Which British driver won the 1996 Formula One world championship?",
+      "d": "Damon Hill",
+      "y": [
+        "Nigel Mansell",
+        "David Coulthard",
+        "Johnny Herbert"
+      ]
+    },
+    "olgu": "Damon Hill 1996'da Williams ile Formula 1 dünya şampiyonu oldu."
+  },
+  {
+    "id": "C01-T147",
+    "k": "spor",
+    "z": 2,
+    "yerel": false,
+    "s": "2004'te 'Yenilmezler' olarak Premier League'i bitiren takım hangisidir?",
+    "d": "Arsenal",
+    "y": [
+      "Chelsea",
+      "Liverpool",
+      "Manchester United"
+    ],
+    "en": {
+      "s": "Which team completed the 2004 Premier League season as the Invincibles?",
+      "d": "Arsenal",
+      "y": [
+        "Chelsea",
+        "Liverpool",
+        "Manchester United"
+      ]
+    },
+    "olgu": "Arsenal 2003-04 Premier League sezonunu yenilmeden şampiyon tamamladı."
+  },
+  {
+    "id": "C01-T148",
+    "k": "spor",
+    "z": 2,
+    "yerel": false,
+    "s": "2008 NBA Finalleri'nde Lakers'ı yenerek kupayı alan takım hangisidir?",
+    "d": "Boston Celtics",
+    "y": [
+      "Detroit Pistons",
+      "Cleveland Cavaliers",
+      "Orlando Magic"
+    ],
+    "en": {
+      "s": "Which team beat the Lakers to win the 2008 NBA Finals?",
+      "d": "Boston Celtics",
+      "y": [
+        "Detroit Pistons",
+        "Cleveland Cavaliers",
+        "Orlando Magic"
+      ]
+    },
+    "olgu": "Boston Celtics 2008 NBA Finalleri'nde Lakers'ı yendi."
+  },
+  {
+    "id": "C01-T149",
+    "k": "spor",
+    "z": 3,
+    "yerel": false,
+    "s": "2000 Avrupa Futbol Şampiyonası finalinde Fransa'nın altın golünü kim attı?",
+    "d": "David Trezeguet",
+    "y": [
+      "Thierry Henry",
+      "Sylvain Wiltord",
+      "Nicolas Anelka"
+    ],
+    "en": {
+      "s": "Who scored France's golden goal in the Euro 2000 final?",
+      "d": "David Trezeguet",
+      "y": [
+        "Thierry Henry",
+        "Sylvain Wiltord",
+        "Nicolas Anelka"
+      ]
+    },
+    "olgu": "David Trezeguet Euro 2000 finalinde İtalya'ya karşı altın golü attı."
+  },
+  {
+    "id": "C01-T150",
+    "k": "spor",
+    "z": 3,
+    "yerel": false,
+    "s": "2004 Avrupa Şampiyonası finalinde Yunanistan'ın golünü atan oyuncu kimdi?",
+    "d": "Angelos Charisteas",
+    "y": [
+      "Giorgos Karagounis",
+      "Theodoros Zagorakis",
+      "Stelios Giannakopoulos"
+    ],
+    "en": {
+      "s": "Who scored Greece's goal in the Euro 2004 final?",
+      "d": "Angelos Charisteas",
+      "y": [
+        "Giorgos Karagounis",
+        "Theodoros Zagorakis",
+        "Stelios Giannakopoulos"
+      ]
+    },
+    "olgu": "Angelos Charisteas Euro 2004 finalinin tek golünü attı."
+  },
+  {
+    "id": "C01-T151",
+    "k": "spor",
+    "z": 3,
+    "yerel": false,
+    "s": "2007 Formula 1 dünya şampiyonluğunu Ferrari ile kazanan pilot kimdir?",
+    "d": "Kimi Räikkönen",
+    "y": [
+      "Felipe Massa",
+      "Fernando Alonso",
+      "Lewis Hamilton"
+    ],
+    "en": {
+      "s": "Who won the 2007 Formula One world championship driving for Ferrari?",
+      "d": "Kimi Raikkonen",
+      "y": [
+        "Felipe Massa",
+        "Fernando Alonso",
+        "Lewis Hamilton"
+      ]
+    },
+    "olgu": "Kimi Räikkönen 2007'de Ferrari ile dünya şampiyonu oldu."
+  },
+  {
+    "id": "C01-T152",
+    "k": "spor",
+    "z": 3,
+    "yerel": false,
+    "s": "1995 NBA şampiyonu Houston Rockets'ın Nijerya doğumlu pivotu kimdi?",
+    "d": "Hakeem Olajuwon",
+    "y": [
+      "Patrick Ewing",
+      "David Robinson",
+      "Dikembe Mutombo"
+    ],
+    "en": {
+      "s": "Who was the Nigerian-born center on the 1995 NBA champion Houston Rockets?",
+      "d": "Hakeem Olajuwon",
+      "y": [
+        "Patrick Ewing",
+        "David Robinson",
+        "Dikembe Mutombo"
+      ]
+    },
+    "olgu": "Hakeem Olajuwon 1995'te Houston Rockets ile NBA şampiyonu oldu."
+  },
+  {
+    "id": "C01-T153",
+    "k": "spor",
+    "z": 3,
+    "yerel": false,
+    "s": "'Malice at the Palace' kavgasındaki 2004 maçında Detroit'in rakibi hangi takımdı?",
+    "d": "Indiana Pacers",
+    "y": [
+      "Chicago Bulls",
+      "New Jersey Nets",
+      "Cleveland Cavaliers"
+    ],
+    "en": {
+      "s": "Which team faced Detroit in the 2004 game known for the Malice at the Palace brawl?",
+      "d": "Indiana Pacers",
+      "y": [
+        "Chicago Bulls",
+        "New Jersey Nets",
+        "Cleveland Cavaliers"
+      ]
+    },
+    "olgu": "Malice at the Palace kavgası Pistons ile Indiana Pacers arasındaki maçta çıktı."
+  },
+  {
+    "id": "C01-T154",
+    "k": "sanat",
+    "z": 2,
+    "yerel": true,
+    "s": "'Kaplumbağa Terbiyecisi' tablosundaki yaşlı adam elinde hangi çalgıyı tutar?",
+    "d": "Ney",
+    "y": [
+      "Kaval",
+      "Zurna",
+      "Klarnet"
+    ],
+    "en": null,
+    "olgu": "Osman Hamdi Bey'in Kaplumbağa Terbiyecisi tablosundaki adam elinde ney tutar.",
+    "en_neden": "Türkiye’ye özgü eser; stil profiline göre yerel soru İngilizce havuza eklenmez."
+  },
+  {
+    "id": "C01-T155",
+    "k": "sanat",
+    "z": 2,
+    "yerel": false,
+    "s": "Magritte'in 'Golconda' tablosunda havada asılı duran erkekler hangi şapkayı takar?",
+    "d": "Melon",
+    "y": [
+      "Fötr",
+      "Silindir",
+      "Kasket"
+    ],
+    "en": {
+      "s": "What kind of hats do the men wear in Magritte's Golconda?",
+      "d": "Bowler",
+      "y": [
+        "Fedora",
+        "Top hat",
+        "Flat cap"
+      ]
+    },
+    "olgu": "Magritte'in Golconda tablosundaki erkekler melon şapka takar."
+  },
+  {
+    "id": "C01-T156",
+    "k": "sanat",
+    "z": 2,
+    "yerel": false,
+    "s": "Van Gogh'un 'Gece Kahvesi' tablosunun ortasında hangi oyun masası bulunur?",
+    "d": "Bilardo",
+    "y": [
+      "Satranç",
+      "Rulet",
+      "Langırt"
+    ],
+    "en": {
+      "s": "What kind of game table stands in the middle of Van Gogh's The Night Cafe?",
+      "d": "Billiards",
+      "y": [
+        "Chess",
+        "Roulette",
+        "Foosball"
+      ]
+    },
+    "olgu": "Van Gogh'un Gece Kahvesi tablosunun ortasında bilardo masası bulunur."
+  },
+  {
+    "id": "C01-T157",
+    "k": "sanat",
+    "z": 2,
+    "yerel": false,
+    "s": "Picasso'nun 'Yaşlı Gitarist' tablosunda figür hangi çalgıyı tutar?",
+    "d": "Gitar",
+    "y": [
+      "Keman",
+      "Çello",
+      "Mandolin"
+    ],
+    "en": {
+      "s": "What instrument does the figure hold in Picasso's The Old Guitarist?",
+      "d": "Guitar",
+      "y": [
+        "Violin",
+        "Cello",
+        "Mandolin"
+      ]
+    },
+    "olgu": "Picasso'nun Yaşlı Gitarist tablosundaki figür gitar tutar."
+  },
+  {
+    "id": "C01-T158",
+    "k": "sanat",
+    "z": 2,
+    "yerel": false,
+    "s": "Jan van Eyck'ın 'Arnolfini Portresi'nde çiftin arkasındaki duvarda ne asılıdır?",
+    "d": "Ayna",
+    "y": [
+      "Harita",
+      "Haç",
+      "Saat"
+    ],
+    "en": {
+      "s": "What hangs on the wall behind the couple in Jan van Eyck's Arnolfini Portrait?",
+      "d": "Mirror",
+      "y": [
+        "Map",
+        "Cross",
+        "Clock"
+      ]
+    },
+    "olgu": "Arnolfini Portresi'nde çiftin arkasındaki duvarda dışbükey ayna bulunur."
+  },
+  {
+    "id": "C01-T159",
+    "k": "sanat",
+    "z": 2,
+    "yerel": false,
+    "s": "Dürer'in 'Genç Tavşan' adlı suluboya resminde hangi hayvan vardır?",
+    "d": "Tavşan",
+    "y": [
+      "Sincap",
+      "Tilki",
+      "Fare"
+    ],
+    "en": {
+      "s": "Which animal is shown in Albrecht Durer's Young Hare?",
+      "d": "Hare",
+      "y": [
+        "Squirrel",
+        "Fox",
+        "Mouse"
+      ]
+    },
+    "olgu": "Dürer'in 1502 tarihli Genç Tavşan eseri bir tavşanı gösterir."
+  },
+  {
+    "id": "C01-T160",
+    "k": "sanat",
+    "z": 3,
+    "yerel": false,
+    "s": "Velázquez'in 'Nedimeler' tablosundaki küçük prensesin adı nedir?",
+    "d": "Margarita",
+    "y": [
+      "Isabella",
+      "Maria",
+      "Catalina"
+    ],
+    "en": {
+      "s": "What is the name of the young princess in Velazquez's Las Meninas?",
+      "d": "Margarita",
+      "y": [
+        "Isabella",
+        "Maria",
+        "Catalina"
+      ]
+    },
+    "olgu": "Nedimeler tablosunun merkezindeki çocuk İnfanta Margarita Teresa'dır."
+  },
+  {
+    "id": "C01-T161",
+    "k": "sanat",
+    "z": 3,
+    "yerel": false,
+    "s": "Rembrandt'ın 'Gece Devriyesi' tablosundaki küçük kızın belinde hangi hayvan görülür?",
+    "d": "Tavuk",
+    "y": [
+      "Tavşan",
+      "Ördek",
+      "Güvercin"
+    ],
+    "en": {
+      "s": "What animal hangs from the little girl's waist in Rembrandt's The Night Watch?",
+      "d": "Chicken",
+      "y": [
+        "Rabbit",
+        "Duck",
+        "Pigeon"
+      ]
+    },
+    "olgu": "Gece Devriyesi'ndeki küçük kızın belinde bir tavuk asılıdır."
+  },
+  {
+    "id": "C01-T162",
+    "k": "sanat",
+    "z": 3,
+    "yerel": false,
+    "s": "Salvador Dalí'nin 'Belleğin Azmi' tablosunda eriyen saatlerden biri neye asılıdır?",
+    "d": "Ağaç dalına",
+    "y": [
+      "Kapı koluna",
+      "Sandalye sırtına",
+      "Pencere çerçevesine"
+    ],
+    "en": {
+      "s": "What does one of the melting watches hang from in Dali's The Persistence of Memory?",
+      "d": "A tree branch",
+      "y": [
+        "A door handle",
+        "A chair back",
+        "A window frame"
+      ]
+    },
+    "olgu": "Belleğin Azmi'ndeki eriyen saatlerden biri kuru ağacın dalına asılmıştır."
+  },
+  {
+    "id": "C01-T163",
+    "k": "muzik",
+    "z": 2,
+    "yerel": false,
+    "s": "'Sweet Dreams (Are Made of This)' şarkısını kaydeden ikili hangisidir?",
+    "d": "Eurythmics",
+    "y": [
+      "Pet Shop Boys",
+      "The Buggles",
+      "Tears for Fears"
+    ],
+    "en": {
+      "s": "Which duo recorded Sweet Dreams (Are Made of This)?",
+      "d": "Eurythmics",
+      "y": [
+        "Pet Shop Boys",
+        "The Buggles",
+        "Tears for Fears"
+      ]
+    },
+    "olgu": "Sweet Dreams (Are Made of This) Eurythmics'in 1983 tarihli şarkısıdır."
+  },
+  {
+    "id": "C01-T164",
+    "k": "muzik",
+    "z": 2,
+    "yerel": false,
+    "s": "'Enjoy the Silence' şarkısı hangi grubun 1990 tarihli kaydıdır?",
+    "d": "Depeche Mode",
+    "y": [
+      "New Order",
+      "Duran Duran",
+      "Pet Shop Boys"
+    ],
+    "en": {
+      "s": "Which band recorded Enjoy the Silence in 1990?",
+      "d": "Depeche Mode",
+      "y": [
+        "New Order",
+        "Duran Duran",
+        "Pet Shop Boys"
+      ]
+    },
+    "olgu": "Enjoy the Silence Depeche Mode'un 1990 tarihli Violator albümündedir."
+  },
+  {
+    "id": "C01-T165",
+    "k": "muzik",
+    "z": 2,
+    "yerel": false,
+    "s": "'Zombie' adlı 1994 şarkısı hangi gruba aittir?",
+    "d": "The Cranberries",
+    "y": [
+      "The Corrs",
+      "The Cardigans",
+      "The Pretenders"
+    ],
+    "en": {
+      "s": "Which band recorded the 1994 song Zombie?",
+      "d": "The Cranberries",
+      "y": [
+        "The Corrs",
+        "The Cardigans",
+        "The Pretenders"
+      ]
+    },
+    "olgu": "Zombie The Cranberries'in 1994 tarihli şarkısıdır."
+  },
+  {
+    "id": "C01-T166",
+    "k": "muzik",
+    "z": 3,
+    "yerel": false,
+    "s": "Nirvana'nın 'Nevermind' albüm kapağındaki bebek neyin peşinden yüzer?",
+    "d": "Banknot",
+    "y": [
+      "Anahtar",
+      "Oyuncak",
+      "Madeni para"
+    ],
+    "en": {
+      "s": "What does the baby swim toward on Nirvana's Nevermind album cover?",
+      "d": "Banknote",
+      "y": [
+        "Key",
+        "Toy",
+        "Coin"
+      ]
+    },
+    "olgu": "Nevermind kapağındaki bebek oltaya takılmış bir banknota doğru yüzer."
+  },
+  {
+    "id": "C01-T167",
+    "k": "muzik",
+    "z": 3,
+    "yerel": false,
+    "s": "'Under Pressure' şarkısında Queen'e eşlik eden şarkıcı kimdir?",
+    "d": "David Bowie",
+    "y": [
+      "Elton John",
+      "George Michael",
+      "Rod Stewart"
+    ],
+    "en": {
+      "s": "Who joined Queen on the song Under Pressure?",
+      "d": "David Bowie",
+      "y": [
+        "Elton John",
+        "George Michael",
+        "Rod Stewart"
+      ]
+    },
+    "olgu": "Queen 1981 tarihli Under Pressure'ı David Bowie ile kaydetti."
+  },
+  {
+    "id": "C01-T168",
+    "k": "teknoloji",
+    "z": 2,
+    "yerel": false,
+    "s": "'God of War' serisindeki Kratos'un oğlunun adı nedir?",
+    "d": "Atreus",
+    "y": [
+      "Deimos",
+      "Baldur",
+      "Brok"
+    ],
+    "en": {
+      "s": "What is the name of Kratos's son in God of War?",
+      "d": "Atreus",
+      "y": [
+        "Deimos",
+        "Baldur",
+        "Brok"
+      ]
+    },
+    "olgu": "God of War'un 2018 tarihli oyununda Kratos'un oğlu Atreus'tur."
+  },
+  {
+    "id": "C01-T169",
+    "k": "teknoloji",
+    "z": 2,
+    "yerel": false,
+    "s": "'Red Dead Redemption 2'nin ana kahramanının soyadı nedir?",
+    "d": "Morgan",
+    "y": [
+      "Marston",
+      "Bell",
+      "Escuella"
+    ],
+    "en": {
+      "s": "What is the surname of the main protagonist in Red Dead Redemption 2?",
+      "d": "Morgan",
+      "y": [
+        "Marston",
+        "Bell",
+        "Escuella"
+      ]
+    },
+    "olgu": "Red Dead Redemption 2'nin ana kahramanı Arthur Morgan'dır."
+  },
+  {
+    "id": "C01-T170",
+    "k": "teknoloji",
+    "z": 2,
+    "yerel": false,
+    "s": "'BioShock'taki su altı şehrinin adı nedir?",
+    "d": "Rapture",
+    "y": [
+      "Columbia",
+      "Dunwall",
+      "Midgar"
+    ],
+    "en": {
+      "s": "What is the name of the underwater city in BioShock?",
+      "d": "Rapture",
+      "y": [
+        "Columbia",
+        "Dunwall",
+        "Midgar"
+      ]
+    },
+    "olgu": "2007 tarihli BioShock oyunu Rapture adlı su altı şehrinde geçer."
+  },
+  {
+    "id": "C01-T171",
+    "k": "teknoloji",
+    "z": 2,
+    "yerel": false,
+    "s": "'Fallout' serisinin mavi tulumlu, sarı saçlı maskotunun adı nedir?",
+    "d": "Vault Boy",
+    "y": [
+      "Pip-Boy",
+      "Dogmeat",
+      "Codsworth"
+    ],
+    "en": {
+      "s": "What is the name of Fallout's blond mascot in a blue jumpsuit?",
+      "d": "Vault Boy",
+      "y": [
+        "Pip-Boy",
+        "Dogmeat",
+        "Codsworth"
+      ]
+    },
+    "olgu": "Fallout serisinin sarı saçlı maskotu Vault Boy'dur."
+  },
+  {
+    "id": "C01-T172",
+    "k": "teknoloji",
+    "z": 2,
+    "yerel": false,
+    "s": "'Mass Effect'te Shepard'ın uzay gemisinin adı nedir?",
+    "d": "Normandy",
+    "y": [
+      "Tempest",
+      "Hyperion",
+      "Destiny"
+    ],
+    "en": {
+      "s": "What is the name of Shepard's spaceship in Mass Effect?",
+      "d": "Normandy",
+      "y": [
+        "Tempest",
+        "Hyperion",
+        "Destiny"
+      ]
+    },
+    "olgu": "Mass Effect'te Komutan Shepard Normandy adlı gemiyi kullanır."
+  },
+  {
+    "id": "C01-T173",
+    "k": "teknoloji",
+    "z": 3,
+    "yerel": false,
+    "s": "'Resident Evil 2'de Raccoon City'ye ilk iş günü gelen polis kimdir?",
+    "d": "Leon Kennedy",
+    "y": [
+      "Chris Redfield",
+      "Barry Burton",
+      "Albert Wesker"
+    ],
+    "en": {
+      "s": "Who arrives for his first day as a police officer in Resident Evil 2?",
+      "d": "Leon Kennedy",
+      "y": [
+        "Chris Redfield",
+        "Barry Burton",
+        "Albert Wesker"
+      ]
+    },
+    "olgu": "Resident Evil 2'de Leon S. Kennedy ilk iş gününde Raccoon City'ye gelir."
+  },
+  {
+    "id": "C01-T174",
+    "k": "teknoloji",
+    "z": 3,
+    "yerel": false,
+    "s": "'The Last of Us'ta Joel'in öykü başında hayatını kaybeden kızının adı nedir?",
+    "d": "Sarah",
+    "y": [
+      "Ellie",
+      "Tess",
+      "Maria"
+    ],
+    "en": {
+      "s": "What is the name of Joel's daughter who dies at the start of The Last of Us?",
+      "d": "Sarah",
+      "y": [
+        "Ellie",
+        "Tess",
+        "Maria"
+      ]
+    },
+    "olgu": "The Last of Us'ın açılışında Joel'in kızı Sarah hayatını kaybeder."
+  },
+  {
+    "id": "C01-T175",
+    "k": "teknoloji",
+    "z": 3,
+    "yerel": false,
+    "s": "'Uncharted' oyunlarında Nathan Drake'in akıl hocası Sully'nin adı nedir?",
+    "d": "Victor Sullivan",
+    "y": [
+      "Samuel Drake",
+      "Rafe Adler",
+      "Charlie Cutter"
+    ],
+    "en": {
+      "s": "What is Sully's full name in the Uncharted games?",
+      "d": "Victor Sullivan",
+      "y": [
+        "Samuel Drake",
+        "Rafe Adler",
+        "Charlie Cutter"
+      ]
+    },
+    "olgu": "Uncharted serisinde Sully'nin tam adı Victor Sullivan'dır."
+  },
+  {
+    "id": "C01-T176",
+    "k": "sinema",
+    "z": 2,
+    "yerel": false,
+    "s": "'Yukarı Bak'ta Carl'a yolculuğunda eşlik eden izci çocuğun adı nedir?",
+    "d": "Russell",
+    "y": [
+      "Elliott",
+      "Miguel",
+      "Hiccup"
+    ],
+    "en": {
+      "s": "What is the name of the young scout who joins Carl on his journey in Up?",
+      "d": "Russell",
+      "y": [
+        "Elliott",
+        "Miguel",
+        "Hiccup"
+      ]
+    },
+    "olgu": "Yukarı Bak filminde Carl'ın evine gelen izci çocuğun adı Russell'dır."
+  },
+  {
+    "id": "C01-T177",
+    "k": "sinema",
+    "z": 2,
+    "yerel": false,
+    "s": "'Karlar Ülkesi'nde Olaf hangi mevsimi görmeyi hayal eder?",
+    "d": "Yaz",
+    "y": [
+      "İlkbahar",
+      "Sonbahar",
+      "Kış"
+    ],
+    "en": {
+      "s": "Which season does Olaf dream of experiencing in Frozen?",
+      "d": "Summer",
+      "y": [
+        "Spring",
+        "Autumn",
+        "Winter"
+      ]
+    },
+    "olgu": "Frozen filminde Olaf In Summer şarkısıyla yazı deneyimlemek istediğini anlatır."
+  },
+  {
+    "id": "C01-T178",
+    "k": "sinema",
+    "z": 2,
+    "yerel": false,
+    "s": "'Zootopia'daki yavaş konuşan trafik dairesi çalışanının adı nedir?",
+    "d": "Flash",
+    "y": [
+      "Finnick",
+      "Clawhauser",
+      "Bogo"
+    ],
+    "en": {
+      "s": "What is the name of the slow-speaking DMV employee in Zootopia?",
+      "d": "Flash",
+      "y": [
+        "Finnick",
+        "Clawhauser",
+        "Bogo"
+      ]
+    },
+    "olgu": "Zootopia'nın trafik dairesindeki tembel hayvanın adı Flash'tir."
+  },
+  {
+    "id": "C01-T179",
+    "k": "sinema",
+    "z": 2,
+    "yerel": false,
+    "s": "'Ejderhanı Nasıl Eğitirsin'de Dişsiz'in türünün özgün adı nedir?",
+    "d": "Night Fury",
+    "y": [
+      "Deadly Nadder",
+      "Gronckle",
+      "Monstrous Nightmare"
+    ],
+    "en": {
+      "s": "What type of dragon is Toothless in How to Train Your Dragon?",
+      "d": "Night Fury",
+      "y": [
+        "Deadly Nadder",
+        "Gronckle",
+        "Monstrous Nightmare"
+      ]
+    },
+    "olgu": "How to Train Your Dragon'daki Toothless bir Night Fury ejderhasıdır.",
+    "kaynak": "https://www.dreamworks.com/downloads/HTTYD_ACTIVITY_BOOKLET_Complete.pdf"
+  },
+  {
+    "id": "C01-T180",
+    "k": "sinema",
+    "z": 2,
+    "yerel": false,
+    "s": "'Kung Fu Panda 2'nin kötü karakteri Lord Shen hangi kuştur?",
+    "d": "Tavus kuşu",
+    "y": [
+      "Akbaba",
+      "Leylek",
+      "Flamingo"
+    ],
+    "en": {
+      "s": "What kind of bird is the villain Lord Shen in Kung Fu Panda 2?",
+      "d": "Peacock",
+      "y": [
+        "Vulture",
+        "Stork",
+        "Flamingo"
+      ]
+    },
+    "olgu": "Kung Fu Panda 2'de Lord Shen bir tavus kuşudur."
+  },
+  {
+    "id": "C01-T181",
+    "k": "sinema",
+    "z": 2,
+    "yerel": false,
+    "s": "'Ters Yüz'de Neşe karakterinin saçları hangi renktir?",
+    "d": "Mavi",
+    "y": [
+      "Yeşil",
+      "Mor",
+      "Turuncu"
+    ],
+    "en": {
+      "s": "What color is Joy's hair in Inside Out?",
+      "d": "Blue",
+      "y": [
+        "Green",
+        "Purple",
+        "Orange"
+      ]
+    },
+    "olgu": "Inside Out filmindeki Joy karakterinin saçları mavidir."
+  },
+  {
+    "id": "C01-T182",
+    "k": "sinema",
+    "z": 2,
+    "yerel": false,
+    "s": "'Arabalar' filmindeki Sally hangi otomobil markasının modelidir?",
+    "d": "Porsche",
+    "y": [
+      "Ferrari",
+      "Chevrolet",
+      "Mercedes"
+    ],
+    "en": {
+      "s": "What car brand is Sally in Cars?",
+      "d": "Porsche",
+      "y": [
+        "Ferrari",
+        "Chevrolet",
+        "Mercedes"
+      ]
+    },
+    "olgu": "Pixar'ın Arabalar filminde Sally bir Porsche 911'dir.",
+    "kaynak": "https://www.porsche.com/stories/culture/porsche-x-pixar-meet-the-real-life-sally-carrera/"
+  },
+  {
+    "id": "C01-T183",
+    "k": "sinema",
+    "z": 2,
+    "yerel": false,
+    "s": "'Kayıp Balık Nemo'da balık yememeye çalışan büyük beyaz köpekbalığının adı nedir?",
+    "d": "Bruce",
+    "y": [
+      "Anchor",
+      "Chum",
+      "Nigel"
+    ],
+    "en": {
+      "s": "What is the name of the great white shark who tries not to eat fish in Finding Nemo?",
+      "d": "Bruce",
+      "y": [
+        "Anchor",
+        "Chum",
+        "Nigel"
+      ]
+    },
+    "olgu": "Finding Nemo filmindeki büyük beyaz köpekbalığının adı Bruce'tur."
+  }
+]

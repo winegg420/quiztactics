@@ -1,0 +1,1700 @@
+[
+  {
+    "id": "C01-01",
+    "taslak_id": "C01-T009",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Rodin'in 'Düşünen Adam' heykelinde figür hangi konumdadır?",
+    "d": "Oturur",
+    "y": [
+      "Yürür",
+      "Uzanır",
+      "Diz çöker"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What is the figure doing in Rodin's The Thinker?",
+      "d": "Sitting",
+      "y": [
+        "Walking",
+        "Lying down",
+        "Kneeling"
+      ]
+    },
+    "olgu": "Rodin'in Düşünen Adam heykelindeki figür oturarak düşünür.",
+    "jev_p": 0.15,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-02",
+    "taslak_id": "C01-T014",
+    "k": "sanat",
+    "yerel": false,
+    "s": "René Magritte'in 'Âşıklar' tablosundaki çiftin yüzlerini ne örter?",
+    "d": "Beyaz kumaş",
+    "y": [
+      "Siyah maske",
+      "Kırmızı perde",
+      "Mavi tül"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What covers the couple's faces in Rene Magritte's The Lovers?",
+      "d": "White cloth",
+      "y": [
+        "Black masks",
+        "Red curtains",
+        "Blue veils"
+      ]
+    },
+    "olgu": "Magritte'in Âşıklar tablosunda çiftin başlarını beyaz kumaş örter.",
+    "jev_p": 0.17,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-03",
+    "taslak_id": "C01-T155",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Magritte'in 'Golconda' tablosunda havada asılı duran erkekler hangi şapkayı takar?",
+    "d": "Melon",
+    "y": [
+      "Fötr",
+      "Silindir",
+      "Kasket"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What kind of hats do the men wear in Magritte's Golconda?",
+      "d": "Bowler",
+      "y": [
+        "Fedora",
+        "Top hat",
+        "Flat cap"
+      ]
+    },
+    "olgu": "Magritte'in Golconda tablosundaki erkekler melon şapka takar.",
+    "jev_p": 0.34,
+    "jev_tek_dogru_p": 0.15,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-04",
+    "taslak_id": "C01-T012",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Michelangelo'nun Sistina Şapeli tavanındaki Âdem'e uzanan el kime aittir?",
+    "d": "Tanrı",
+    "y": [
+      "Musa",
+      "İbrahim",
+      "Davud"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Whose hand reaches toward Adam in Michelangelo's Sistine Chapel ceiling?",
+      "d": "God",
+      "y": [
+        "Moses",
+        "Abraham",
+        "David"
+      ]
+    },
+    "olgu": "Michelangelo'nun Âdem'in Yaratılışı freskinde Âdem'e elini uzatan figür Tanrı'dır.",
+    "jev_p": 0.41,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-05",
+    "taslak_id": "C01-T010",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Edvard Munch'un 'Çığlık' tablosunda ana figür ellerini nereye götürür?",
+    "d": "Başına",
+    "y": [
+      "Göğsüne",
+      "Dizlerine",
+      "Bel kısmına"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Where does the central figure place its hands in Edvard Munch's The Scream?",
+      "d": "Its head",
+      "y": [
+        "Its chest",
+        "Its knees",
+        "Its waist"
+      ]
+    },
+    "olgu": "Çığlık tablosunun ana figürü ellerini başının iki yanına götürür.",
+    "jev_p": 0.45,
+    "jev_tek_dogru_p": 0.06,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-06",
+    "taslak_id": "C01-T154",
+    "k": "sanat",
+    "yerel": true,
+    "s": "'Kaplumbağa Terbiyecisi' tablosundaki yaşlı adam elinde hangi çalgıyı tutar?",
+    "d": "Ney",
+    "y": [
+      "Kaval",
+      "Zurna",
+      "Klarnet"
+    ],
+    "zorluk": 2,
+    "en": null,
+    "en_neden": "Türkiye’ye özgü eser; stil profiline göre yerel soru İngilizce havuza eklenmez.",
+    "olgu": "Osman Hamdi Bey'in Kaplumbağa Terbiyecisi tablosundaki adam elinde ney tutar.",
+    "jev_p": 0.58,
+    "jev_tek_dogru_p": 0.07,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-07",
+    "taslak_id": "C01-T016",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Goya'nın '3 Mayıs 1808' tablosundaki kurbanın açık kollarıyla görülen gömleği hangi renktir?",
+    "d": "Beyaz",
+    "y": [
+      "Siyah",
+      "Mavi",
+      "Yeşil"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What color is the shirt of the man with outstretched arms in Goya's The Third of May 1808?",
+      "d": "White",
+      "y": [
+        "Black",
+        "Blue",
+        "Green"
+      ]
+    },
+    "olgu": "Goya'nın 3 Mayıs 1808 tablosundaki merkezî kurban beyaz gömlek giyer.",
+    "jev_p": 0.29,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-08",
+    "taslak_id": "C01-T162",
+    "k": "sanat",
+    "yerel": false,
+    "s": "Salvador Dalí'nin 'Belleğin Azmi' tablosunda eriyen saatlerden biri neye asılıdır?",
+    "d": "Ağaç dalına",
+    "y": [
+      "Kapı koluna",
+      "Sandalye sırtına",
+      "Pencere çerçevesine"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What does one of the melting watches hang from in Dali's The Persistence of Memory?",
+      "d": "A tree branch",
+      "y": [
+        "A door handle",
+        "A chair back",
+        "A window frame"
+      ]
+    },
+    "olgu": "Belleğin Azmi'ndeki eriyen saatlerden biri kuru ağacın dalına asılmıştır.",
+    "jev_p": 0.49,
+    "jev_tek_dogru_p": 0.14,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-09",
+    "taslak_id": "C01-T025",
+    "k": "muzik",
+    "yerel": false,
+    "s": "'Blue Monday' adlı 1983 şarkısını hangi grup kaydetti?",
+    "d": "New Order",
+    "y": [
+      "Depeche Mode",
+      "Pet Shop Boys",
+      "Erasure"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which band recorded the 1983 song Blue Monday?",
+      "d": "New Order",
+      "y": [
+        "Depeche Mode",
+        "Pet Shop Boys",
+        "Erasure"
+      ]
+    },
+    "olgu": "Blue Monday 1983'te New Order tarafından yayımlandı.",
+    "jev_p": 0.07,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-10",
+    "taslak_id": "C01-T022",
+    "k": "muzik",
+    "yerel": false,
+    "s": "'Never Gonna Give You Up' şarkısının 1987'deki yorumcusu kimdir?",
+    "d": "Rick Astley",
+    "y": [
+      "George Michael",
+      "Phil Collins",
+      "Billy Ocean"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who recorded Never Gonna Give You Up in 1987?",
+      "d": "Rick Astley",
+      "y": [
+        "George Michael",
+        "Phil Collins",
+        "Billy Ocean"
+      ]
+    },
+    "olgu": "Rick Astley 1987'de Never Gonna Give You Up şarkısını yayımladı.",
+    "jev_p": 0.56,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-11",
+    "taslak_id": "C01-T024",
+    "k": "muzik",
+    "yerel": false,
+    "s": "'Gangnam Style' şarkısıyla ünlenen Güney Koreli müzisyen kimdir?",
+    "d": "PSY",
+    "y": [
+      "Rain",
+      "G-Dragon",
+      "Taeyang"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which South Korean performer became famous worldwide for Gangnam Style?",
+      "d": "PSY",
+      "y": [
+        "Rain",
+        "G-Dragon",
+        "Taeyang"
+      ]
+    },
+    "olgu": "PSY 2012'de Gangnam Style şarkısını yayımladı.",
+    "jev_p": 0.7,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-12",
+    "taslak_id": "C01-T028",
+    "k": "muzik",
+    "yerel": false,
+    "s": "'Walk This Way'in 1986 yorumunda Run-DMC hangi rock grubuyla bir araya geldi?",
+    "d": "Aerosmith",
+    "y": [
+      "Van Halen",
+      "Bon Jovi",
+      "Def Leppard"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which rock band joined Run-DMC for the 1986 version of Walk This Way?",
+      "d": "Aerosmith",
+      "y": [
+        "Van Halen",
+        "Bon Jovi",
+        "Def Leppard"
+      ]
+    },
+    "olgu": "Run-DMC 1986'da Walk This Way'i Aerosmith üyeleriyle yeniden kaydetti.",
+    "jev_p": 0.2,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-13",
+    "taslak_id": "C01-T046",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "'Tomb Raider' serisinin arkeolog kahramanının soyadı nedir?",
+    "d": "Croft",
+    "y": [
+      "Drake",
+      "Kennedy",
+      "Redfield"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What is the surname of the archaeologist who stars in Tomb Raider?",
+      "d": "Croft",
+      "y": [
+        "Drake",
+        "Kennedy",
+        "Redfield"
+      ]
+    },
+    "olgu": "Tomb Raider'ın kahramanı Lara Croft'tur.",
+    "jev_p": 0.07,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-14",
+    "taslak_id": "C01-T034",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "'Animal Crossing' oyunlarında kullanılan ana para biriminin adı nedir?",
+    "d": "Bells",
+    "y": [
+      "Rupees",
+      "Gil",
+      "Septims"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What is the main currency in the Animal Crossing games called?",
+      "d": "Bells",
+      "y": [
+        "Rupees",
+        "Gil",
+        "Septims"
+      ]
+    },
+    "olgu": "Animal Crossing serisinin ana para birimi Bells'tir.",
+    "jev_p": 0.14,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-15",
+    "taslak_id": "C01-T033",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "'Stardew Valley'de oyuncunun çiftliğinin yanındaki kasabanın adı nedir?",
+    "d": "Pelican Town",
+    "y": [
+      "Pallet Town",
+      "Lavender Town",
+      "Twinleaf Town"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What is the name of the town beside the player's farm in Stardew Valley?",
+      "d": "Pelican Town",
+      "y": [
+        "Pallet Town",
+        "Lavender Town",
+        "Twinleaf Town"
+      ]
+    },
+    "olgu": "Stardew Valley'deki çiftliğin yakınındaki kasaba Pelican Town'dır.",
+    "jev_p": 0.15,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-16",
+    "taslak_id": "C01-T168",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "'God of War' serisindeki Kratos'un oğlunun adı nedir?",
+    "d": "Atreus",
+    "y": [
+      "Deimos",
+      "Baldur",
+      "Brok"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What is the name of Kratos's son in God of War?",
+      "d": "Atreus",
+      "y": [
+        "Deimos",
+        "Baldur",
+        "Brok"
+      ]
+    },
+    "olgu": "God of War'un 2018 tarihli oyununda Kratos'un oğlu Atreus'tur.",
+    "jev_p": 0.18,
+    "jev_tek_dogru_p": 0.09,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-17",
+    "taslak_id": "C01-T042",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "'Overwatch'taki Winston karakteri hangi hayvandır?",
+    "d": "Goril",
+    "y": [
+      "Şempanze",
+      "Orangutan",
+      "Babun"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What animal is Winston in Overwatch?",
+      "d": "Gorilla",
+      "y": [
+        "Chimpanzee",
+        "Orangutan",
+        "Baboon"
+      ]
+    },
+    "olgu": "Overwatch karakteri Winston bir gorildir.",
+    "jev_p": 0.19,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-18",
+    "taslak_id": "C01-T171",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "'Fallout' serisinin mavi tulumlu, sarı saçlı maskotunun adı nedir?",
+    "d": "Vault Boy",
+    "y": [
+      "Pip-Boy",
+      "Dogmeat",
+      "Codsworth"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What is the name of Fallout's blond mascot in a blue jumpsuit?",
+      "d": "Vault Boy",
+      "y": [
+        "Pip-Boy",
+        "Dogmeat",
+        "Codsworth"
+      ]
+    },
+    "olgu": "Fallout serisinin sarı saçlı maskotu Vault Boy'dur.",
+    "jev_p": 0.29,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-19",
+    "taslak_id": "C01-T045",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "'Kirby' oyunlarının kahramanının memleketi olan yıldız biçimli gezegen hangisidir?",
+    "d": "Popstar",
+    "y": [
+      "Mobius",
+      "Zebes",
+      "Tallon IV"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What is the name of Kirby's star-shaped home planet?",
+      "d": "Popstar",
+      "y": [
+        "Mobius",
+        "Zebes",
+        "Tallon IV"
+      ]
+    },
+    "olgu": "Kirby'nin memleketi yıldız biçimli Planet Popstar'dır.",
+    "kaynak": "https://www.nintendo.com/en-gb/News/2016/June/Save-Planet-Popstar-from-a-robotic-army-when-Kirby-Planet-Robobot-launches-on-Nintendo-3DS-this-Friday-1111911.html",
+    "jev_p": 0.11,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-20",
+    "taslak_id": "C01-T048",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "Reddit'in antenli uzaylı maskotunun adı nedir?",
+    "d": "Snoo",
+    "y": [
+      "Tux",
+      "Clippy",
+      "Domo"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What is the name of Reddit's antenna-wearing alien mascot?",
+      "d": "Snoo",
+      "y": [
+        "Tux",
+        "Clippy",
+        "Domo"
+      ]
+    },
+    "olgu": "Reddit'in uzaylı maskotunun adı Snoo'dur.",
+    "jev_p": 0.15,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-21",
+    "taslak_id": "C01-T174",
+    "k": "teknoloji",
+    "yerel": false,
+    "s": "'The Last of Us'ta Joel'in öykü başında hayatını kaybeden kızının adı nedir?",
+    "d": "Sarah",
+    "y": [
+      "Ellie",
+      "Tess",
+      "Maria"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What is the name of Joel's daughter who dies at the start of The Last of Us?",
+      "d": "Sarah",
+      "y": [
+        "Ellie",
+        "Tess",
+        "Maria"
+      ]
+    },
+    "olgu": "The Last of Us'ın açılışında Joel'in kızı Sarah hayatını kaybeder.",
+    "jev_p": 0.23,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-22",
+    "taslak_id": "C01-T056",
+    "k": "spor",
+    "yerel": false,
+    "s": "1976 Montreal Olimpiyatları'nda Nadia Comăneci hangi ülkeyi temsil etti?",
+    "d": "Romanya",
+    "y": [
+      "Macaristan",
+      "Bulgaristan",
+      "Çekoslovakya"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which country did Nadia Comaneci represent at the 1976 Olympics?",
+      "d": "Romania",
+      "y": [
+        "Hungary",
+        "Bulgaria",
+        "Czechoslovakia"
+      ]
+    },
+    "olgu": "Nadia Comăneci 1976 Montreal Olimpiyatları'nda Romanya adına yarıştı.",
+    "jev_p": 0.13,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-23",
+    "taslak_id": "C01-T147",
+    "k": "spor",
+    "yerel": false,
+    "s": "2004'te 'Yenilmezler' olarak Premier League'i bitiren takım hangisidir?",
+    "d": "Arsenal",
+    "y": [
+      "Chelsea",
+      "Liverpool",
+      "Manchester United"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which team completed the 2004 Premier League season as the Invincibles?",
+      "d": "Arsenal",
+      "y": [
+        "Chelsea",
+        "Liverpool",
+        "Manchester United"
+      ]
+    },
+    "olgu": "Arsenal 2003-04 Premier League sezonunu yenilmeden şampiyon tamamladı.",
+    "jev_p": 0.2,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-24",
+    "taslak_id": "C01-T140",
+    "k": "spor",
+    "yerel": false,
+    "s": "1998 Dünya Kupası finalinde Brezilya'yı 3-0 yenen ülke hangisidir?",
+    "d": "Fransa",
+    "y": [
+      "İtalya",
+      "Arjantin",
+      "Hollanda"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which country beat Brazil 3-0 in the 1998 World Cup final?",
+      "d": "France",
+      "y": [
+        "Italy",
+        "Argentina",
+        "Netherlands"
+      ]
+    },
+    "olgu": "Fransa 1998 Dünya Kupası finalinde Brezilya'yı 3-0 yendi.",
+    "jev_p": 0.21,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-25",
+    "taslak_id": "C01-T145",
+    "k": "spor",
+    "yerel": false,
+    "s": "2011 NBA Finalleri'nde Miami Heat'i yenerek şampiyon olan takım hangisidir?",
+    "d": "Dallas Mavericks",
+    "y": [
+      "Denver Nuggets",
+      "Phoenix Suns",
+      "Portland Trail Blazers"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which team beat Miami Heat to win the 2011 NBA Finals?",
+      "d": "Dallas Mavericks",
+      "y": [
+        "Denver Nuggets",
+        "Phoenix Suns",
+        "Portland Trail Blazers"
+      ]
+    },
+    "olgu": "Dallas Mavericks 2011 NBA Finalleri'nde Miami Heat'i 4-2 yendi.",
+    "jev_p": 0.23,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-26",
+    "taslak_id": "C01-T153",
+    "k": "spor",
+    "yerel": false,
+    "s": "'Malice at the Palace' kavgasındaki 2004 maçında Detroit'in rakibi hangi takımdı?",
+    "d": "Indiana Pacers",
+    "y": [
+      "Chicago Bulls",
+      "New Jersey Nets",
+      "Cleveland Cavaliers"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Which team faced Detroit in the 2004 game known for the Malice at the Palace brawl?",
+      "d": "Indiana Pacers",
+      "y": [
+        "Chicago Bulls",
+        "New Jersey Nets",
+        "Cleveland Cavaliers"
+      ]
+    },
+    "olgu": "Malice at the Palace kavgası Pistons ile Indiana Pacers arasındaki maçta çıktı.",
+    "jev_p": 0.12,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-27",
+    "taslak_id": "C01-T149",
+    "k": "spor",
+    "yerel": false,
+    "s": "2000 Avrupa Futbol Şampiyonası finalinde Fransa'nın altın golünü kim attı?",
+    "d": "David Trezeguet",
+    "y": [
+      "Thierry Henry",
+      "Sylvain Wiltord",
+      "Nicolas Anelka"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "Who scored France's golden goal in the Euro 2000 final?",
+      "d": "David Trezeguet",
+      "y": [
+        "Thierry Henry",
+        "Sylvain Wiltord",
+        "Nicolas Anelka"
+      ]
+    },
+    "olgu": "David Trezeguet Euro 2000 finalinde İtalya'ya karşı altın golü attı.",
+    "jev_p": 0.13,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-28",
+    "taslak_id": "C01-T069",
+    "k": "tarih",
+    "yerel": false,
+    "s": "Napolyon'un 1815'te yenildiği Waterloo Savaşı'ndaki İngiliz komutan kimdi?",
+    "d": "Wellington",
+    "y": [
+      "Nelson",
+      "Marlborough",
+      "Montgomery"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who commanded the British forces that defeated Napoleon at Waterloo in 1815?",
+      "d": "Wellington",
+      "y": [
+        "Nelson",
+        "Marlborough",
+        "Montgomery"
+      ]
+    },
+    "olgu": "Waterloo'da İngiliz müttefik ordusuna Wellington Dükü komuta etti.",
+    "jev_p": 0.33,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-29",
+    "taslak_id": "C01-T182",
+    "k": "sinema",
+    "yerel": false,
+    "s": "'Arabalar' filmindeki Sally hangi otomobil markasının modelidir?",
+    "d": "Porsche",
+    "y": [
+      "Ferrari",
+      "Chevrolet",
+      "Mercedes"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What car brand is Sally in Cars?",
+      "d": "Porsche",
+      "y": [
+        "Ferrari",
+        "Chevrolet",
+        "Mercedes"
+      ]
+    },
+    "olgu": "Pixar'ın Arabalar filminde Sally bir Porsche 911'dir.",
+    "kaynak": "https://www.porsche.com/stories/culture/porsche-x-pixar-meet-the-real-life-sally-carrera/",
+    "jev_p": 0.07,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-30",
+    "taslak_id": "C01-T176",
+    "k": "sinema",
+    "yerel": false,
+    "s": "'Yukarı Bak'ta Carl'a yolculuğunda eşlik eden izci çocuğun adı nedir?",
+    "d": "Russell",
+    "y": [
+      "Elliott",
+      "Miguel",
+      "Hiccup"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What is the name of the young scout who joins Carl on his journey in Up?",
+      "d": "Russell",
+      "y": [
+        "Elliott",
+        "Miguel",
+        "Hiccup"
+      ]
+    },
+    "olgu": "Yukarı Bak filminde Carl'ın evine gelen izci çocuğun adı Russell'dır.",
+    "jev_p": 0.17,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-31",
+    "taslak_id": "C01-T072",
+    "k": "sinema",
+    "yerel": false,
+    "s": "'Kung Fu Panda'da Po'nun babası Bay Ping hangi hayvandır?",
+    "d": "Kaz",
+    "y": [
+      "Ördek",
+      "Turna",
+      "Pelikan"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What kind of bird is Mr. Ping, Po's father in Kung Fu Panda?",
+      "d": "Goose",
+      "y": [
+        "Duck",
+        "Crane",
+        "Pelican"
+      ]
+    },
+    "olgu": "Kung Fu Panda'daki Bay Ping bir kazdır.",
+    "jev_p": 0.22,
+    "jev_tek_dogru_p": 0.06,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-32",
+    "taslak_id": "C01-T077",
+    "k": "sinema",
+    "yerel": false,
+    "s": "'The Incredibles'ta süper kahraman kostümlerini tasarlayan kişinin adı nedir?",
+    "d": "Edna Mode",
+    "y": [
+      "Mirage",
+      "Helen Parr",
+      "Evelyn Deavor"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Who designs the superhero costumes in The Incredibles?",
+      "d": "Edna Mode",
+      "y": [
+        "Mirage",
+        "Helen Parr",
+        "Evelyn Deavor"
+      ]
+    },
+    "olgu": "The Incredibles'ta süper kahramanların kostümlerini Edna Mode tasarlar.",
+    "jev_p": 0.26,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-33",
+    "taslak_id": "C01-T082",
+    "k": "sinema",
+    "yerel": false,
+    "s": "'Ratatouille'de Remy'nin peşinden Paris'e gelen kardeşinin adı nedir?",
+    "d": "Emile",
+    "y": [
+      "Gusteau",
+      "Skinner",
+      "Django"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What is the name of Remy's brother in Ratatouille?",
+      "d": "Emile",
+      "y": [
+        "Gusteau",
+        "Skinner",
+        "Django"
+      ]
+    },
+    "olgu": "Ratatouille filminde Remy'nin kardeşinin adı Emile'dir.",
+    "jev_p": 0.06,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-34",
+    "taslak_id": "C01-T084",
+    "k": "sinema",
+    "yerel": false,
+    "s": "'Shrek 2'de Fiona'nın babası Kral Harold hangi hayvana dönüşür?",
+    "d": "Kurbağa",
+    "y": [
+      "Kertenkele",
+      "Fare",
+      "Yarasa"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What animal does King Harold turn into in Shrek 2?",
+      "d": "Frog",
+      "y": [
+        "Lizard",
+        "Mouse",
+        "Bat"
+      ]
+    },
+    "olgu": "Shrek 2'de Kral Harold kurbağaya dönüşür.",
+    "jev_p": 0.13,
+    "jev_tek_dogru_p": 0.07,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-35",
+    "taslak_id": "C01-T104",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Pringles kutularındaki maskotun yüzündeki belirgin özellik hangisidir?",
+    "d": "Bıyık",
+    "y": [
+      "Sakal",
+      "Gözlük",
+      "Göz bandı"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What distinctive feature appears on the face of the Pringles mascot?",
+      "d": "Mustache",
+      "y": [
+        "Beard",
+        "Glasses",
+        "Eyepatch"
+      ]
+    },
+    "olgu": "Pringles'ın Julius Pringles maskotunun belirgin bir bıyığı vardır.",
+    "jev_p": 0.04,
+    "jev_tek_dogru_p": 0.08,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-36",
+    "taslak_id": "C01-T089",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Tintin'in beyaz köpeğinin Fransızca özgün adı nedir?",
+    "d": "Milou",
+    "y": [
+      "Idefix",
+      "Rantanplan",
+      "Snoopy"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What is the name of Tintin's white dog in the original French comics?",
+      "d": "Milou",
+      "y": [
+        "Idefix",
+        "Rantanplan",
+        "Snoopy"
+      ]
+    },
+    "olgu": "Hergé'nin Tintin çizgi romanında köpeğin Fransızca özgün adı Milou'dur.",
+    "kaynak": "https://www.tintin.com/en/characters/snowy",
+    "jev_p": 0.08,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-37",
+    "taslak_id": "C01-T100",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "'SpongeBob SquarePants'ta Bob'un evcil salyangozunun adı nedir?",
+    "d": "Gary",
+    "y": [
+      "Patrick",
+      "Sandy",
+      "Pearl"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What is the name of SpongeBob's pet snail?",
+      "d": "Gary",
+      "y": [
+        "Patrick",
+        "Sandy",
+        "Pearl"
+      ]
+    },
+    "olgu": "SpongeBob'un evcil salyangozunun adı Gary'dir.",
+    "jev_p": 0.14,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-38",
+    "taslak_id": "C01-T093",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Paddington'ın şapkasında sakladığı sandviçin dolgusu nedir?",
+    "d": "Marmelat",
+    "y": [
+      "Peynir",
+      "Fıstık ezmesi",
+      "Çikolata kreması"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What filling does Paddington put in the sandwich he keeps under his hat?",
+      "d": "Marmalade",
+      "y": [
+        "Cheese",
+        "Peanut butter",
+        "Chocolate spread"
+      ]
+    },
+    "olgu": "Paddington şapkasında marmelatlı sandviç saklar.",
+    "jev_p": 0.17,
+    "jev_tek_dogru_p": 0.05,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-39",
+    "taslak_id": "C01-T094",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Grinch'in köpeğinin adı nedir?",
+    "d": "Max",
+    "y": [
+      "Rex",
+      "Spot",
+      "Buddy"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What is the name of the Grinch's dog?",
+      "d": "Max",
+      "y": [
+        "Rex",
+        "Spot",
+        "Buddy"
+      ]
+    },
+    "olgu": "Dr. Seuss'un Grinch hikâyesindeki köpeğin adı Max'tir.",
+    "jev_p": 0.17,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-40",
+    "taslak_id": "C01-T090",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Şirinler'de Gargamel'in kedisinin adı nedir?",
+    "d": "Azman",
+    "y": [
+      "Tom",
+      "Felix",
+      "Sylvester"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What is the name of Gargamel's cat in The Smurfs?",
+      "d": "Azrael",
+      "y": [
+        "Tom",
+        "Felix",
+        "Sylvester"
+      ]
+    },
+    "olgu": "Şirinler'deki Gargamel'in kedisi Türkçede Azman, İngilizcede Azrael adıyla bilinir.",
+    "jev_p": 0.33,
+    "jev_tek_dogru_p": 0.12,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-41",
+    "taslak_id": "C01-T091",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "'The Flintstones'ta ailenin evcil dinozorunun adı nedir?",
+    "d": "Dino",
+    "y": [
+      "Hoppy",
+      "Bam-Bam",
+      "Gazoo"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What is the name of the Flintstone family's pet dinosaur?",
+      "d": "Dino",
+      "y": [
+        "Hoppy",
+        "Bam-Bam",
+        "Gazoo"
+      ]
+    },
+    "olgu": "Çakmaktaş ailesinin evcil dinozorunun adı Dino'dur.",
+    "jev_p": 0.36,
+    "jev_tek_dogru_p": 0.08,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-42",
+    "taslak_id": "C01-T103",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "McDonald's'ın Ronald adlı maskotu hangi kostümle tanınır?",
+    "d": "Palyaço",
+    "y": [
+      "Kovboy",
+      "Korsan",
+      "Sihirbaz"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What costume is McDonald's mascot Ronald known for?",
+      "d": "Clown",
+      "y": [
+        "Cowboy",
+        "Pirate",
+        "Magician"
+      ]
+    },
+    "olgu": "Ronald McDonald palyaço kıyafetiyle tanınır.",
+    "jev_p": 0.39999999999999997,
+    "jev_tek_dogru_p": 0.04,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-43",
+    "taslak_id": "C01-T106",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "M&M's markasındaki iki M, Mars ve hangi soyadını temsil eder?",
+    "d": "Murrie",
+    "y": [
+      "Milton",
+      "Morgan",
+      "Merrill"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "The two M's in M&M's stand for Mars and which other surname?",
+      "d": "Murrie",
+      "y": [
+        "Milton",
+        "Morgan",
+        "Merrill"
+      ]
+    },
+    "olgu": "M&M's adı Forrest Mars ve Bruce Murrie'nin soyadlarından gelir.",
+    "kaynak": "https://www.m-ms.jp/history/",
+    "jev_p": 0.06,
+    "jev_tek_dogru_p": 0.07,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-44",
+    "taslak_id": "C01-T110",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "Klasik İngiliz 'Cluedo' oyununda öldürülen ev sahibinin adı nedir?",
+    "d": "Dr. Black",
+    "y": [
+      "Dr. Green",
+      "Dr. White",
+      "Dr. Grey"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What is the murdered host called in the classic British version of Cluedo?",
+      "d": "Dr. Black",
+      "y": [
+        "Dr. Green",
+        "Dr. White",
+        "Dr. Grey"
+      ]
+    },
+    "olgu": "Cluedo'nun klasik İngiliz sürümündeki kurban Dr. Black'tir.",
+    "jev_p": 0.21,
+    "jev_tek_dogru_p": 0.06,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-45",
+    "taslak_id": "C01-T112",
+    "k": "genel_kultur",
+    "yerel": false,
+    "s": "'Peanuts'ta Snoopy'nin küçük sarı kuş arkadaşının adı nedir?",
+    "d": "Woodstock",
+    "y": [
+      "Tweety",
+      "Road Runner",
+      "Zazu"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What is the name of Snoopy's small yellow bird friend in Peanuts?",
+      "d": "Woodstock",
+      "y": [
+        "Tweety",
+        "Road Runner",
+        "Zazu"
+      ]
+    },
+    "olgu": "Peanuts çizgi romanında Snoopy'nin kuş arkadaşı Woodstock'tur.",
+    "kaynak": "https://www.peanuts.com/about/woodstock",
+    "jev_p": 0.22,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-46",
+    "taslak_id": "C01-T130",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "'Harry Potter'da Draco Malfoy'un okul binası hangisidir?",
+    "d": "Slytherin",
+    "y": [
+      "Gryffindor",
+      "Ravenclaw",
+      "Hufflepuff"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "Which Hogwarts house does Draco Malfoy belong to in Harry Potter?",
+      "d": "Slytherin",
+      "y": [
+        "Gryffindor",
+        "Ravenclaw",
+        "Hufflepuff"
+      ]
+    },
+    "olgu": "Harry Potter serisinde Draco Malfoy Slytherin öğrencisidir.",
+    "jev_p": 0.04,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-47",
+    "taslak_id": "C01-T131",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "'Matilda' romanında kahramanın sevdiği öğretmenin soyadı nedir?",
+    "d": "Honey",
+    "y": [
+      "Trunchbull",
+      "Wormwood",
+      "Phelps"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What is the surname of Matilda's beloved teacher in Roald Dahl's novel?",
+      "d": "Honey",
+      "y": [
+        "Trunchbull",
+        "Wormwood",
+        "Phelps"
+      ]
+    },
+    "olgu": "Roald Dahl'ın Matilda romanındaki sevecen öğretmen Miss Honey'dir.",
+    "jev_p": 0.06,
+    "jev_tek_dogru_p": 0.06,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-48",
+    "taslak_id": "C01-T129",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "'Narnia Günlükleri'nde dört kardeşin soyadı nedir?",
+    "d": "Pevensie",
+    "y": [
+      "Weasley",
+      "Baudelaire",
+      "March"
+    ],
+    "zorluk": 2,
+    "en": {
+      "s": "What is the surname of the four siblings in The Chronicles of Narnia?",
+      "d": "Pevensie",
+      "y": [
+        "Weasley",
+        "Baudelaire",
+        "March"
+      ]
+    },
+    "olgu": "Peter, Susan, Edmund ve Lucy'nin soyadı Pevensie'dir.",
+    "jev_p": 0.35,
+    "jev_tek_dogru_p": 0.03,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-49",
+    "taslak_id": "C01-T135",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "'Uğultulu Tepeler'de Catherine'in evlendiği Edgar'ın soyadı nedir?",
+    "d": "Linton",
+    "y": [
+      "Earnshaw",
+      "Heathcliff",
+      "Lockwood"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What is Edgar's surname in Wuthering Heights?",
+      "d": "Linton",
+      "y": [
+        "Earnshaw",
+        "Heathcliff",
+        "Lockwood"
+      ]
+    },
+    "olgu": "Emily Brontë'nin romanında Catherine Earnshaw Edgar Linton ile evlenir.",
+    "jev_p": 0.03,
+    "jev_tek_dogru_p": 0.08,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  },
+  {
+    "id": "C01-50",
+    "taslak_id": "C01-T137",
+    "k": "edebiyat",
+    "yerel": false,
+    "s": "'Harry Potter'da Hogwarts'ın okul poltergeistının adı nedir?",
+    "d": "Peeves",
+    "y": [
+      "Dobby",
+      "Kreacher",
+      "Winky"
+    ],
+    "zorluk": 3,
+    "en": {
+      "s": "What is the name of Hogwarts's resident poltergeist in the Harry Potter books?",
+      "d": "Peeves",
+      "y": [
+        "Dobby",
+        "Kreacher",
+        "Winky"
+      ]
+    },
+    "olgu": "Harry Potter kitaplarında Hogwarts'ta yaşayan poltergeist Peeves'tir.",
+    "jev_p": 0.14,
+    "jev_tek_dogru_p": 0.02,
+    "kapilar": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "claude_inceleme": "bekliyor"
+  }
+]
