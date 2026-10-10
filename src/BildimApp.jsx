@@ -103,7 +103,8 @@ const QLogoLabPage = tembelYukle(() => import("../oyun/pages/QLogoLabPage.jsx"))
 const TasarimYonleriPage = tembelYukle(() => import("../oyun/tasarim-yonleri/TasarimYonleriPage.jsx"));   // Tasarım Adım 1 — yalnız adresle
 const TasarimSistemiPage = tembelYukle(() => import("../oyun/tasarim/TasarimSistemiPage.jsx"));   // Tasarım Adım 2 — yalnız adresle
 const KozmetikOnizlemePage = tembelYukle(() => import("../oyun/tasarim/cerceveler/KozmetikOnizlemePage.jsx"));   // çerçeve + rozet önizleme — yalnız adresle
-const MacSonuOnizlemePage = tembelYukle(() => import("../oyun/pages/MacSonuOnizlemePage.jsx"));   // maç sonu kutlama önizlemesi (Ajan G) — yalnız adresle
+const MacSonuOnizlemePage = tembelYukle(() => import("../oyun/pages/MacSonuOnizlemePage.jsx"));
+const EkranRevizyonOnizlemePage = tembelYukle(() => import("../oyun/pages/EkranRevizyonOnizlemePage.jsx"));   // Hatalarım · Profil · boş durum A/B (10 Eki 2026) — yalnız sahip   // maç sonu kutlama önizlemesi (Ajan G) — yalnız adresle
 const SesSecimPage = tembelYukle(() => import("../oyun/tasarim/ses-secim/SesSecimPage.jsx"));   // ses seçimi — yalnız sahip, yalnız adresle (girişli)
 const SureAyarPage = tembelYukle(() => import("../oyun/tasarim/sure-ayar/SureAyarPage.jsx"));   // Düello + Hazine süre ince ayarı (9 Eki 2026) — menüde yok, yalnız adresle, seçim yalnız bu tarayıcıda
 const AvatarOnizlemePage = tembelYukle(() => import("../oyun/tasarim/avatar-onizleme/AvatarOnizlemePage.jsx"));   // yeni avatar onayı (Ajan A) — yalnız sahip, yalnız adresle (girişli)
@@ -164,7 +165,7 @@ export default function BildimApp() {
     (import.meta.env.DEV && !supabaseHazir && (
       pathname.startsWith("/premium-onizleme") || pathname.startsWith("/tasarim-onizleme") || pathname.startsWith("/gorsel-revizyon") || pathname.startsWith("/lig-sahne-onizleme") || pathname.startsWith("/duello-onizleme") ||
       pathname.startsWith("/insan-prototip") || pathname.startsWith("/preview/") || pathname.startsWith("/tasarim-yonleri") ||
-      pathname.startsWith("/tasarim-sistemi") || pathname.startsWith("/kozmetik-onizleme") || pathname.startsWith("/mac-sonu-onizleme"))) ||
+      pathname.startsWith("/tasarim-sistemi") || pathname.startsWith("/kozmetik-onizleme") || pathname.startsWith("/mac-sonu-onizleme") || pathname.startsWith("/ekran-revizyon-onizleme"))) ||
     pathname.startsWith("/gizlilik") || pathname.startsWith("/kosullar");
 
   if (!supabaseHazir && !bagimsizModul) {
@@ -217,6 +218,7 @@ export default function BildimApp() {
         <Route path="/tasarim-sistemi" element={<SahipKapisi><TasarimSistemiPage /></SahipKapisi>} />
         <Route path="/kozmetik-onizleme" element={<SahipKapisi><KozmetikOnizlemePage /></SahipKapisi>} />
         <Route path="/mac-sonu-onizleme" element={<SahipKapisi><MacSonuOnizlemePage /></SahipKapisi>} />
+        <Route path="/ekran-revizyon-onizleme" element={<SahipKapisi><EkranRevizyonOnizlemePage /></SahipKapisi>} />
         <Route path="/ses-secim" element={<SesSecimPage />} />
         <Route path="/sure-ayar" element={<SureAyarPage />} />
         <Route path="/avatar-onizleme" element={<AvatarOnizlemePage />} />

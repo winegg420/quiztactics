@@ -71,7 +71,7 @@ export function secimleriTazele() {
 // ------------------------------------------------------------ müzik
 /** Rota → oda anı (null → müzik yok). */
 function donguSec(yol) {
-  if (/^\/(ses-secim|mac-sonu-onizleme|tasarim|kozmetik-onizleme|preview|insan-prototip|gizlilik|kosullar)/.test(yol)) return null;
+  if (/^\/(ses-secim|mac-sonu-onizleme|ekran-revizyon-onizleme|tasarim|kozmetik-onizleme|preview|insan-prototip|gizlilik|kosullar)/.test(yol)) return null;
   if (/^\/(mac|grup-mac|duello|kasa|calisma)(\/|$)/.test(yol)) return "muzik_mac";   // 957: Kasa da maç müziği
   if (/^\/turnuva(\/|$)/.test(yol)) return turnuvaMacta ? "muzik_mac" : "muzik_turnuva";
   return "muzik_menu";

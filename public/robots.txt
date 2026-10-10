@@ -11,6 +11,7 @@ Disallow: /avatar-onizleme
 Disallow: /cerceve-onizleme
 Disallow: /premium-onizleme
 Disallow: /ikon-onizleme
+Disallow: /ekran-revizyon-onizleme
 Disallow: /ses-secim
 Disallow: /gorsel-revizyon
 Disallow: /stil-rehberi

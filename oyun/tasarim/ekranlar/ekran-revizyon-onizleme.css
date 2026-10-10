@@ -1,0 +1,81 @@
+/* ============================================================
+   EKRAN REVİZYONU ÖNİZLEMESİ — /ekran-revizyon-onizleme (10 Eki 2026, Aşama 1)
+   er-* sınıfları yalnız bu sayfada. Seçilen varyant Aşama 2'de sayfanın kendi CSS'ine taşınır.
+   iOS: yapışkan öğede ve atalarında transform/filter/perspective YOK; yükseklik dvh.
+   ============================================================ */
+.er-sayfa { display: grid; gap: var(--qt-b-8); padding: var(--qt-b-4) 16px var(--qt-b-8); max-width: 1320px; margin: 0 auto; color: var(--qt-zemin-metin); }
+.er-ust { display: grid; gap: var(--qt-b-2); }
+.er-ust p { margin: 0; font-weight: var(--qt-a-kalin); }
+.er-dil, .er-secici { display: flex; flex-wrap: wrap; align-items: center; gap: var(--qt-b-2); }
+.er-secici-ad { font-weight: var(--qt-a-siyah); }
+.er-hata { color: var(--qt-yanlis-koyu); }
+.er-bolum { display: grid; gap: var(--qt-b-3); min-width: 0; }
+.er-bolum-baslik { margin: 0; font: var(--qt-a-siyah) var(--qt-y-xl)/1.2 var(--qt-f-baslik); }
+
+/* Telefon çerçeveleri: geniş ekranda yan yana, dar ekranda alt alta */
+.er-teller { display: flex; flex-wrap: wrap; gap: var(--qt-b-5, 20px); align-items: flex-start; }
+.er-tel { display: grid; gap: var(--qt-b-2); width: 390px; max-width: 100%; margin: 0; }
+.er-tel-etiket { display: flex; align-items: baseline; gap: var(--qt-b-2); font-weight: var(--qt-a-kalin); }
+.er-tel-etiket b { display: inline-grid; place-items: center; min-width: 32px; height: 28px; padding: 0 8px; border: 2px solid #1d2152; border-radius: 8px; background: var(--qt-yuzey); font-family: var(--qt-f-baslik); }
+.er-tel-ekran {
+  position: relative; height: 760px; max-height: 92dvh; overflow-y: auto; overscroll-behavior: contain;
+  padding: 12px 16px 24px; border: 3px solid #1d2152; border-radius: 28px;
+  background: var(--qt-zemin); background-image: var(--qt-zemin-desen);
+}
+.er-tel-ekran--uzun { height: auto; max-height: none; overflow: visible; }
+
+/* ---------- 1. Hatalarım ---------- */
+.er-cal { max-width: none; }
+.er-afis-sayi { display: inline-flex; align-items: baseline; gap: 4px; padding: 2px 10px; border: 2px solid #1d2152; border-radius: 999px; background: var(--qt-yuzey); }
+.er-afis-sayi b { font: var(--qt-a-siyah) 22px/1 var(--qt-f-baslik); color: var(--qt-vurgu-dudak); }
+.er-afis-sayi small { font-weight: var(--qt-a-kalin); font-size: 13px; }
+.er-kat-izgara { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--qt-b-2); }
+.er-kat-kart {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 8px; min-height: 56px; padding: 8px 10px;
+  border: 2px solid #1d2152; border-radius: 14px; background: var(--qt-yuzey); color: var(--qt-metin); box-shadow: 0 3px 0 #1d2152;
+  font: inherit; text-align: left; cursor: pointer;
+}
+.er-kat-kart[aria-pressed="true"] { background: var(--qt-ikinci-acik); outline: 3px solid var(--qt-ikinci); outline-offset: -5px; }
+.er-kat-kart:active { box-shadow: 0 1px 0 #1d2152; translate: 0 2px; }
+.er-kat-ad { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: var(--qt-a-siyah); }
+.er-kat-sayi { min-width: 28px; padding: 2px 6px; border-radius: 999px; background: var(--qt-vurgu-acik); color: var(--qt-vurgu-dudak); text-align: center; }
+.er-cal-ilerleme { display: grid; gap: var(--qt-b-2); }
+.er-cal-ilerleme-ust { display: flex; justify-content: space-between; gap: var(--qt-b-2); font-weight: var(--qt-a-kalin); }
+.er-cal-ilerleme-ust b { font: var(--qt-a-siyah) 22px/1 var(--qt-f-baslik); }
+.er-cip-sarmal { display: flex; flex-wrap: wrap; gap: var(--qt-b-2); }
+
+/* ---------- 2. Profil ---------- */
+.er-pf-oduller { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--qt-b-2); }
+.er-pf-odul {
+  display: grid; justify-items: center; gap: 2px; padding: 8px 4px; border: 2px solid #1d2152; border-radius: 12px;
+  background: var(--qt-yuzey); color: var(--qt-metin); font-size: 13px;
+}
+.er-pf-odul small { color: var(--qt-metin-soluk); font-weight: var(--qt-a-kalin); }
+.er-pf-koleksiyon { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; }
+.er-pf-koleksiyon-alt { flex-basis: 100%; color: var(--qt-metin-soluk); font-size: 14px; font-weight: var(--qt-a-kalin); }
+.er-pf-kisa { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 4px 12px; }
+.er-pf-kisa-metin { display: grid; gap: 4px; min-width: 0; }
+.er-pf-ad { font: var(--qt-a-siyah) var(--qt-y-xl)/1.1 var(--qt-f-baslik); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.er-pf-kisa-alt { display: flex; flex-wrap: wrap; gap: 6px; }
+.er-pf-kisa-cubuk { grid-column: 1 / -1; }
+.er-pf-odul-bolum { display: grid; gap: var(--qt-b-3); }
+.er-pf-ayarlar { display: grid; gap: 0; }
+.er-pf-davet { display: grid; justify-items: center; gap: var(--qt-b-2); text-align: center; }
+.er-pf-kod { padding: 6px 12px; border: 2px dashed var(--qt-cizgi-guclu); border-radius: 10px; font: var(--qt-a-siyah) 18px/1.2 var(--qt-f-baslik); letter-spacing: 0.06em; }
+/* B: tek satırlık yatay ödül şeridi (kaydırılır) */
+.er-pf-serit { display: flex; gap: var(--qt-b-2); overflow-x: auto; scrollbar-width: none; padding: 2px 2px 6px; }
+.er-pf-serit::-webkit-scrollbar { display: none; }
+.er-pf-cip {
+  display: inline-flex; flex: none; align-items: center; gap: 6px; min-height: 36px; padding: 4px 12px;
+  border: 2px solid #1d2152; border-radius: 999px; background: var(--qt-yuzey); color: var(--qt-metin); font-weight: var(--qt-a-kalin); white-space: nowrap;
+}
+.er-pf-cip--mavi { background: var(--qt-ikinci-acik); }
+.er-pf-cip--altin { background: var(--qt-coin-acik); }
+.er-pf-cip--turuncu { background: var(--qt-vurgu-acik); }
+/* B: yapışkan sekmeler — sticky öğede ve atalarında transform yok; zemin rengiyle altı örtülür */
+.er-pf-yapiskan { position: sticky; top: -12px; z-index: 3; margin: 0 -16px; padding: 12px 16px 8px; background: var(--qt-zemin); }
+
+/* ---------- 3. Boş durumlar ---------- */
+.er-bos-liste { display: grid; gap: var(--qt-b-4); }
+.er-bos-oge { display: grid; gap: var(--qt-b-2); }
+.er-bos-sayfa { margin: 0; font: var(--qt-a-siyah) var(--qt-y-l, 18px)/1.2 var(--qt-f-baslik); }

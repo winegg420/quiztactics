@@ -28,7 +28,7 @@ const SAYFA_ADI = {
 };
 
 // Kendi başlığını kendisi koyan geliştirici/önizleme sayfaları: dokunulmaz.
-const KENDI_BASLIGI = /^\/(preview\/|tasarim-yonleri|mac-sonu-onizleme)/;
+const KENDI_BASLIGI = /^\/(preview\/|tasarim-yonleri|mac-sonu-onizleme|ekran-revizyon-onizleme)/;
 
 const anaBaslik = () => (aktifDil() === "en" ? `${MARKA} — Trivia Game` : `${MARKA} — Bilgi Yarışması`);
 

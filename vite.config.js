@@ -19,7 +19,7 @@ import path from "node:path";
 const ROBOTS_YASAK = [
   "/insan-prototip", "/preview/", "/tasarim-yonleri", "/tasarim-sistemi", "/tasarim-onizleme",
   "/kozmetik-onizleme", "/mac-sonu-onizleme", "/avatar-onizleme", "/avatar-nadirlik", "/cerceve-onizleme", "/premium-onizleme",
-  "/ikon-onizleme", "/ses-secim", "/sure-ayar", "/gorsel-revizyon", "/stil-rehberi", "/yonetim/",
+  "/ikon-onizleme", "/ekran-revizyon-onizleme", "/ses-secim", "/sure-ayar", "/gorsel-revizyon", "/stil-rehberi", "/yonetim/",
 ];
 
 function yayinDosyalari(siteUrl) {
