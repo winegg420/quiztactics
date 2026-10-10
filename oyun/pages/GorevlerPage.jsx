@@ -53,6 +53,8 @@ const ACIL_SN = 3600;          // yenilenmeye bundan az kaldıysa süre metni ke
 const TOPLU_ARA_MS = 650;      // "Ödülü al (n)": iki alma arasında, kutlama görünsün diye kısa bekleme
 
 const sayiMetni = (n) => Number(n ?? 0).toLocaleString(aktifDil() === "en" ? "en-US" : "tr-TR");
+// Sayının yanındaki gizli birim: EN'de "1 coin" / "15 coins" (tt'nin tekil kuralıyla).
+const coinBirimi = (n) => " " + tt("{n} coin", { n: Number(n) || 0 }).replace(/^\S+\s*/, "");
 const bekle = (ms) => new Promise((r) => setTimeout(r, ms));
 const alinabilirMi = (g) => Boolean(g?.alinabilir) && !g.alindi;
 
@@ -64,7 +66,7 @@ function OdulSatiri({ odul, sezonAcik }) {
   if (!(coin > 0) && !spVar) return null;
   return (
     <span className="gv-odul">
-      {coin > 0 && <><CoinIkon boyut={14} /><b>{sayiMetni(coin)}</b><span className="qt-gizli"> coin</span></>}
+      {coin > 0 && <><CoinIkon boyut={14} /><b>{sayiMetni(coin)}</b><span className="qt-gizli">{coinBirimi(coin)}</span></>}
       {coin > 0 && spVar && <span aria-hidden="true">·</span>}
       {spVar && <b>{sayiMetni(sp)} SP</b>}
     </span>
@@ -167,7 +169,7 @@ function GunlukKart({ ozet, gorevler, gunBitti, sira, sirali }) {
         </span>
         {kalanCoin > 0 && (
           <span className="gv-kah-oduller">
-            <b className="gv-kah-cip"><CoinIkon boyut={14} />{sayiMetni(kalanCoin)}<span className="qt-gizli"> coin</span></b>
+            <b className="gv-kah-cip"><CoinIkon boyut={14} />{sayiMetni(kalanCoin)}<span className="qt-gizli">{coinBirimi(kalanCoin)}</span></b>
           </span>
         )}
       </div>
