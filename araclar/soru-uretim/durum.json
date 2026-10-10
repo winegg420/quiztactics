@@ -1330,13 +1330,13 @@
       {
         "klasor": "codex-02",
         "hedef": 200,
-        "durum": "Claude incelemesi bekliyor",
-        "migration_uygulandi": false,
+        "durum": "bitti_canlida",
+        "migration_uygulandi": true,
         "taslak": 731,
-        "net": 200,
+        "net": 198,
         "zorluk": {
-          "2": 140,
-          "3": 60
+          "2": 139,
+          "3": 59
         },
         "kota": {
           "sanat": 31,
@@ -1349,11 +1349,26 @@
           "edebiyat": 21
         },
         "yerel": 0,
-        "en": 200,
+        "en": 198,
         "kapilar": "1–5 geçti; çeşitlilik sınırları sağlandı; Claude hakem ayrı",
-        "migration": "codex-02/bekleyen.sql",
+        "migration": "supabase/migrations/20260612001048_soru_parti_codex_02.sql",
         "jev_usd": 0.035604282,
-        "jev_kapilar_usd": 0.021058212000000003
+        "jev_kapilar_usd": 0.021058212000000003,
+        "aktif_once": 13028,
+        "aktif_sonra": 13226,
+        "onay_cikar": [
+          24,
+          128
+        ],
+        "onay_duzeltmeler": [
+          15,
+          25,
+          26,
+          148,
+          185,
+          182
+        ],
+        "onay_jev_usd": 0.000209706
       }
     ]
   }

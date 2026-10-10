@@ -57,4 +57,4 @@ Kapı 6 yok: api-uret.mjs değiştirilmez ve içe aktarılmaz. Claude incelemesi
 - Aynı anda en çok dört iş, tarayıcı açma, yeni paket kurma. .env.local ve gizli anahtarlar yazdırılmaz/loglanmaz.
 - Kesintide durum dosyasını koru ve aşağıdaki Son durum satırını nerede kalındığıyla güncelle; tamamlanmayan kapılar geçmiş gösterilmez.
 
-Son durum: codex-01 onaylı migration 1046 ile canlıda (+50; aktif 12978 → 13028). codex-02 hazır; 731 taslaktan net 200 (140×z2, 60×z3), kapı 1–5 ve çeşitlilik geçti. bekleyen.sql yalnız parti klasöründe; migration uygulanmadı, Claude incelemesi bekliyor. Ara kayıt .tmp/codex/codex-02/durum.json.
+Son durum: codex-02 onaylandı; 24/128 çıkarıldı, altı düzeltme kapı 1–5 geçti. Migration 1048 uygulandı; aktif 13028 → 13226 (+198). codex-03 hazırlanacak.

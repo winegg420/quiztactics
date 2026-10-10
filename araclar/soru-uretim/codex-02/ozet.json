@@ -2,7 +2,7 @@
   "klasor": "codex-02",
   "tarih": "2026-10-10T11:16:13.257Z",
   "uretici": "Codex",
-  "hakem": "Claude ayrı inceleme — bekliyor",
+  "hakem": "Claude incelemesi kullanıcı tarafından onaylandı",
   "hedef": 200,
   "kota_gerekce": "Aktif z2+3, sik_ipucu_jev işaretsiz; az olana çok (tavan+25−sayı)",
   "olcum_z2_z3": {
@@ -37,11 +37,11 @@
   },
   "taslak": 731,
   "gecen": 320,
-  "secilen": 200,
+  "secilen": 198,
   "kategori": {
     "sanat": {
       "z2": 22,
-      "z3": 9
+      "z3": 8
     },
     "muzik": {
       "z2": 13,
@@ -60,7 +60,7 @@
       "z3": 1
     },
     "sinema": {
-      "z2": 16,
+      "z2": 15,
       "z3": 7
     },
     "genel_kultur": {
@@ -73,12 +73,12 @@
     }
   },
   "zorluk": {
-    "2": 140,
-    "3": 60
+    "2": 139,
+    "3": 59
   },
   "yerel": 0,
-  "global": 200,
-  "en": 200,
+  "global": 198,
+  "en": 198,
   "elenen_sebep": {
     "benzer": 214,
     "biçim/kural": 66,
@@ -96,7 +96,9 @@
     "jev_jeton": 501386,
     "is_akisi_jev_jeton": 346335,
     "is_akisi_jev": 0.01454607,
-    "toplam_jev": 0.035604282
+    "toplam_jev": 0.035604282,
+    "onay_jev_jeton": 4993,
+    "onay_jev": 0.000209706
   },
   "cesitlilik": {
     "kalip": {
@@ -531,10 +533,10 @@
       "genel_kultur:marka_maskot_cizgi": 16
     }
   },
-  "migration": "bekleyen.sql — hazır; Claude incelemesi bekliyor; uygulanmadı",
+  "migration": "supabase/migrations/20260612001048_soru_parti_codex_02.sql",
   "ilk_taslak": 522,
   "ek_taslak": 209,
-  "migration_uygulandi": false,
+  "migration_uygulandi": true,
   "migration_no_taslak": 1047,
   "migration_no_aciklama": "Taslak numara ayrılmaz; onay sonrası o andaki son migration +1 yeniden ölçülür",
   "testler": "8 kapı/çeşitlilik testi geçti; npm run build + postbuild başarılı; 200 kaydın kapı içerik özeti ve SQL/EN eşliği doğrulandı",
@@ -549,5 +551,27 @@
     },
     "belirsiz_not": "Yazar metinleri ve havuz eşleşmelerini inceledi; EN iyelik/kelime sırası, geliştirici kişi-stüdyo ayrımı ve şık türleri düzeltildi. Zorluk değerlendirmesi göreli; son hakemlik Claude incelemesinde.",
     "claude_api": false
+  },
+  "onay": {
+    "cikar": [
+      24,
+      128
+    ],
+    "duzelt": [
+      15,
+      25,
+      26,
+      148,
+      185,
+      182
+    ],
+    "denge_ek_duzeltme": "148: Defne → Peygamber çiçeği / Cornflower",
+    "kapilar": "198 kayıt geçti; altı değişiklik 1–5 yeniden geçti",
+    "prova": "başarılı",
+    "uygulama": "başarılı",
+    "aktif_once": 13028,
+    "aktif_sonra": 13226,
+    "canli_eslesme": 198,
+    "en_eslesme": 198
   }
 }

@@ -11458,3 +11458,9 @@ Kaldırıldı: "Hazine sende: {k} puan" başlığı, AÇ alt yazısı "Skor x/y"
 - **Doğrulama:** canlı salt-okuma (has_function_privilege, storage.buckets, reloptions; prova artığı 0, `idle in transaction` 0) ·
   build temiz · `arayuz-denetim` TEMİZ (açtığı misafir hesabı `hesabimi_sil` ile silindi, DB'de 0) · oturumsuz `/`, `/gizlilik`, `/kosullar`
   konsol temiz, yalnız `ses_secimleri_oyun` 200. Google girişi otomatik denenemez; girişli ana sayfa misafir oturumuyla denetlendi.
+
+## 2026-10-10 — Codex soru hattı: codex-02 onaylı 198 soru canlıda
+**Araç:** Codex
+- Claude onayı: 24/128 çıkarıldı; 15/25/26/148/185/182 düzeltildi. TR/EN şık anlamları birlikte korundu; 148'de Gelincik doğru cevabının uzunluk dengesi için Defne → Peygamber çiçeği (Cornflower). Altı değişiklik kapı 1–5 yeniden geçti; toplam 198 kayıt geçti.
+- Migration 1048: prova ve uygulama başarılı. Aktif 13028 → 13226 (+198); 198 TR/EN doğru cevabı ve şık sırası toplu sorguyla doğrulandı.
+- Oyun koduna dokunulmadı. codex-03 yeni kalıp/çeldirici kurallarıyla hazırlanacak ve ayrı Claude onayı olmadan uygulanmayacak.
