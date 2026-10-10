@@ -188,6 +188,8 @@ async function kurulumuTamamla(sayfa) {
 async function misafirGiris(sayfa) {
   await sayfa.goto(ADRES + "/", { waitUntil: "domcontentloaded" });
   const dugme = sayfa.getByRole("button", { name: /Misafir olarak dene/i });
+  // Düğme çizilmeden sayılırsa 0 çıkıyor, oturum açılmadan boş oturum kaydediliyordu (10 Eki 2026)
+  await dugme.waitFor({ timeout: 15000 }).catch(() => {});
   if (!(await dugme.count())) return false;
   await dugme.click();
   await sayfa.waitForFunction(() => !/Giriş yapılıyor/.test(document.body.innerText) && !document.body.innerText.includes("Misafir olarak dene"), null, { timeout: 60000 }).catch(() => {});   // yavaş Supabase
