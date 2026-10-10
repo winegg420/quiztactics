@@ -511,6 +511,51 @@ export function D4Gecmis({ gecmis, c }) {
   );
 }
 
+// Maç sonu "Düello özeti" (v4, 11 Eki 2026): duello_durum.gecmis'ten istemcide — ek istek yok. Kontrol N tur = saldırı
+// turlarında kontrolün o oyuncuda olduğu tur sayısı; en uzun seri = o oyuncunun kontrolde ulaştığı en yüksek seri.
+export function d4OzetHesapla(gecmis, benId) {
+  if (!Array.isArray(gecmis) || !gecmis.length || !benId) return null;
+  const k = { ben: 0, rakip: 0 }, seri = { ben: 0, rakip: 0 };
+  let onceki = null, el = 0, sonTur = 0, son = false;
+  for (const g of gecmis) {
+    const sonra = g.kontrol_sonra ?? null;
+    if (g.tip === "saldiri" && onceki) k[onceki === benId ? "ben" : "rakip"]++;
+    if (g.sonuc === "el_degisti") el++;
+    if (sonra) { const t = sonra === benId ? "ben" : "rakip"; seri[t] = Math.max(seri[t], Number(g.seri_sonra ?? 0)); }
+    if (g.tip === "son") son = true;
+    if (Number(g.tur) > sonTur) sonTur = Number(g.tur);
+    onceki = sonra;
+  }
+  return { k, seri, el, sonTur, son };
+}
+
+export function D4Ozet({ gecmis, benId, hedef = 3, c }) {
+  const o = d4OzetHesapla(gecmis, benId);
+  if (!o) return null;
+  const nokta = (n) => Array.from({ length: hedef }, (_, i) => (i < Math.min(n, hedef) ? "●" : "○")).join("");
+  const satir = (taraf, ad) => (
+    <div className={`hk-ele-satir hk-ele-satir--${taraf} d4-ozet-satir`}>
+      <span className="hk-ele-ad">{ad}</span>
+      <span className="hk-ele-liste">
+        <span className="hk-ele-k d4-ozet-hap">{c("Kontrol {n} tur", { n: o.k[taraf] })}</span>
+        <span className="hk-ele-k d4-ozet-hap" aria-label={c("En uzun seri {n}/{t}", { n: o.seri[taraf], t: hedef })}>
+          {c("En uzun seri")} <span className="d4-ozet-nokta" aria-hidden="true">{nokta(o.seri[taraf])}</span> {o.seri[taraf]}/{hedef}
+        </span>
+      </span>
+    </div>
+  );
+  return (
+    <section className="hk-ele d4-ozet" aria-label={c("Düello özeti")}>
+      <h3 className="hk-ele-baslik"><QtIkon ad="kilic" boyut={16} />{c("DÜELLO ÖZETİ")}</h3>
+      {satir("ben", c("Sen"))}
+      {satir("rakip", c("Rakip"))}
+      <p className="hk-ele-not">
+        {c("Kontrol {n} kez el değiştirdi", { n: o.el })} · {o.son ? c("Son Düello'da bitti") : c("{n}. turda bitti", { n: o.sonTur })}
+      </p>
+    </section>
+  );
+}
+
 // Maç sonu alt yazısı (v4): 3/3 seri ya da Son Düello.
 export function d4AltYazi(d, c) {
   const h = d.son_hamle;

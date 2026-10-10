@@ -50,4 +50,12 @@ export default {
   "Son Düello'yu rakip bildi": "Your opponent won the Last Duel",
   "3/3 seri — düello senin": "3/3 streak — the duel is yours",
   "Rakip 3/3 seriye ulaştı": "Your opponent reached a 3/3 streak",
+  // Maç sonu Düello özeti (11 Eki 2026)
+  "Düello özeti": "Duel summary",
+  "DÜELLO ÖZETİ": "DUEL SUMMARY",
+  "Kontrol {n} tur": "Control {n} rounds",
+  "En uzun seri {n}/{t}": "Longest streak {n}/{t}",
+  "Kontrol {n} kez el değiştirdi": "Control changed hands {n} times",
+  "Son Düello'da bitti": "Ended in the Last Duel",
+  "{n}. turda bitti": "Ended in round {n}",
 };

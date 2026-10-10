@@ -257,3 +257,8 @@
   .d4-amblem { width: 72px; height: 72px; }
 }
 
+/* Maç sonu "Düello özeti" (11 Eki 2026): .hk-ele mod özeti ailesi (beyaz zemin, 2 px Düello kırmızısı + 3 px dudak);
+   satırlarda iki hap (ben mavi / rakip kırmızı — .hk-ele-k renkleri). 360 px'te haplar alt satıra iner, kesilmez. */
+.d4-ozet .hk-ele-satir { grid-template-columns: 48px minmax(0, 1fr); }
+.d4-ozet .hk-ele-k { overflow: visible; padding: 3px 9px; gap: 3px; white-space: nowrap; font-size: 12px; }
+.d4-ozet-nokta { letter-spacing: 1px; font-size: 11px; line-height: 1; }

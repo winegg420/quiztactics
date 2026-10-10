@@ -45,7 +45,7 @@ import { titret } from "../lib/geriBildirim.js";
 import { useOyunModu } from "../lib/oyunModu.js";
 import SkillSeti from "../components/SkillSeti.jsx";
 // Düello v4 (1013–1016): tek arena — yalnız surum 4 maçında çizilir; eski ekran ve kodu aynen durur.
-import Duello4Arena, { D4Gecmis, d4AltYazi } from "../components/duello4/Duello4Arena.jsx";
+import Duello4Arena, { D4Gecmis, D4Ozet, d4AltYazi } from "../components/duello4/Duello4Arena.jsx";
 // Maç ekranı parçaları (Tasarım A).
 import { V2Ust, V2Kategori, V2SecimCubugu, V2Cevap, V2Sonuc, V2Skill, V2Gecmis } from "../components/DuelloV2.jsx";
 // 680 · Hâkimiyet tahtası: yuvalar, mesaj satırı, maç sonu tahtası (kartlar/alt çubuk DuelloV2 üzerinden).
@@ -1395,7 +1395,9 @@ function DuelloMac({ id }) {
           lig={sahne.lig}
           gorevler={sahne.gorevler}
           rozetler={sahne.rozetler}
-          modOzet={d.durum === "bitti" && hkS.puan ? <HkEleGecenler d={d} ben={ben} rakip={rakip} c={c2} /> : null}
+          modOzet={d.durum !== "bitti" || sahne.terk ? null
+            : v4Mac ? <D4Ozet gecmis={d.gecmis} benId={d.ben} hedef={Number(d.son_hamle?.seri_hedef ?? 3)} c={c2} />
+            : hkS.puan ? <HkEleGecenler d={d} ben={ben} rakip={rakip} c={c2} /> : null}
           detay={d.durum === "bitti" || ezeliMetin || d.gecmis?.length ? (
             <>
               {d.durum === "bitti" && <OdulDokumu kaynak={`duello:${d.id}`} veri={macSonuOzet?.dokum} gorevleriGoster={false} />}

@@ -37,7 +37,7 @@ function durum(st) {
   const soruFazi = ["notr", "cevap", "son"].includes(st.faz);
   const oyuncu = (id, ad, dogru) => ({ id, gorunen_ad: ad, gorunen_avatar: id === RAKIP ? "/avatars/pro2/samuray-y15.svg" : "/avatars/pro/tilki-k04.svg", gorunum: null, dogru, unvan: null });
   return {
-    surum: 4, id: ID, durum: "aktif", dereceli: true, faz: st.faz, faz_bitis: bitis, sunucu_zamani: new Date(simdi).toISOString(),
+    surum: 4, id: ID, durum: st.durum ?? "aktif", dereceli: true, faz: st.faz, faz_bitis: bitis, sunucu_zamani: new Date(simdi).toISOString(),
     ben: st.ben, rakip: RAKIP,
     oyuncular: [oyuncu(st.ben, "Sen", 3), oyuncu(RAKIP, "Deniz Yıldırımoğlu", 2)],
     v4: {
@@ -54,7 +54,7 @@ function durum(st) {
     skill: { kapali: st.son, set: ["elli", "sure", "zaman_baskisi"], izinli: ["elli", "sure", "soru_degistir", "zaman_baskisi", "ikinci_sans"], toplam_hak: 4, tur_basi_hak: 2,
       soru_basi_hak: 1, kullanilan: 0, sayilar: {}, bu_soruda: 0, rakip_bu_soruda: false, soru_degistir_kilit: null, envanter: { elli: 3, sure: 2, zaman_baskisi: 1 }, fiyatlar: {}, coin: 120 },
     sureler: { kart: 7, cevap: 15, sonuc: 3, ek_sure: 5, zaman_baskisi_eksi: 5, nabiz: 10, kopuk: 25, gosterim_payi_ms: 2000, gosterim_bas: gb },
-    kazanan: null, terk_eden: null, odul: null, ezeli: null, gecmis: null, rovans: { isteyen: null, id: null, gecerli: false },
+    kazanan: st.kazanan ?? null, terk_eden: null, odul: null, ezeli: null, gecmis: st.gecmis ?? null, rovans: { isteyen: null, id: null, gecerli: false },
   };
 }
 const hamle = (st, o) => ({ surum: 4, tip: "saldiri", no: st.soruNo, tur: st.tur, kazanan: null, seri_hedef: 3, notr_seri: 0, gonderilen: "tarih", secilen: "muzik", oto: false,
@@ -71,7 +71,32 @@ const OLC = () => {
     .filter((e) => gorunur(e) && e.scrollWidth > e.clientWidth + 1).map((e) => `${yol(e)}: ${e.textContent.trim().slice(0, 30)}`);
   const kok = document.querySelector(".d4-arena");
   const altKenar = kok ? Math.max(...[...kok.querySelectorAll("*")].filter((e) => gorunur(e) && !e.closest(".d4-konfeti")).map((e) => e.getBoundingClientRect().bottom)) : 0;
+  // 11 Eki: tur sonucu paneli — parçalar örtüşmez, panelden taşmaz, içerik dikeyde ortalı, iki avatar
+  const sp = document.querySelector(".d4-sonuc");
+  let sonucPanel = null;
+  if (sp && gorunur(sp)) {
+    const P = sp.getBoundingClientRect();
+    const parca = [".d4-sonuc-baslik", ".d4-sonuc-alt", ".d4-cevaplar", ".d4-baski"].map((q) => sp.querySelector(q)).filter((e) => e && gorunur(e));
+    const R = parca.map((e) => [yol(e), e.getBoundingClientRect()]);
+    const ortusme = [];
+    for (let i = 0; i < R.length; i++) for (let j = i + 1; j < R.length; j++) {
+      const a = R[i][1], b = R[j][1];
+      if (Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top) > 1 && Math.min(a.right, b.right) - Math.max(a.left, b.left) > 1) ortusme.push(R[i][0] + " × " + R[j][0]);
+    }
+    const ust = Math.min(...R.map((x) => x[1].top)), alt = Math.max(...R.map((x) => x[1].bottom));
+    sonucPanel = { ortusme, tasma: R.filter((x) => x[1].bottom > P.bottom + 1 || x[1].top < P.top - 1).map((x) => x[0]),
+      ustBosluk: Math.round(ust - P.top), altBosluk: Math.round(P.bottom - alt), panelH: Math.round(P.height),
+      avatar: [...sp.querySelectorAll(".d4-cevap-av")].map((e) => Math.round(e.getBoundingClientRect().width)),
+      rozet: [...sp.querySelectorAll(".d4-cevap-isaret")].map((e) => Math.round(e.getBoundingClientRect().width)),
+      baslikPx: parseFloat(getComputedStyle(sp.querySelector(".d4-sonuc-baslik")).fontSize),
+      altPx: parseFloat(getComputedStyle(sp.querySelector(".d4-sonuc-alt")).fontSize),
+      soluk: [...sp.querySelectorAll(".d4-cevap--yanlis .d4-cevap-halka > *")].map((e) => getComputedStyle(e).opacity) };
+  }
+  const ozet = document.querySelector(".d4-ozet");
+  const ozetOlc = ozet && gorunur(ozet) ? { metin: ozet.innerText.replace(/\s+/g, " ").trim(),
+    kesik: [...ozet.querySelectorAll(".hk-ele-k, .hk-ele-not, .hk-ele-baslik")].filter((e) => e.scrollWidth > e.clientWidth + 1 || e.getBoundingClientRect().right > ozet.getBoundingClientRect().right + 1).map((e) => e.textContent.trim().slice(0, 30)) } : null;
   return {
+    sonucPanel, ozet: ozetOlc,
     yatayTasma: document.documentElement.scrollWidth - window.innerWidth, tasan,
     dikeyTasma: Math.round(document.documentElement.scrollHeight - window.innerHeight), altKenar: Math.round(altKenar), ekran: window.innerHeight,
     kucuk, kesik, metin: (kok?.innerText ?? "").replace(/\s+/g, " ").slice(0, 400),
@@ -101,7 +126,7 @@ for (const { dil, w, h, azalt } of KOSULAR) {
     reducedMotion: azalt ? "reduce" : "no-preference" });
   const s = await b.newPage();
   const konsol = [];
-  s.on("console", (m) => { if (m.type() === "error" && !/status of 400/.test(m.text())) konsol.push(m.text().slice(0, 200)); });
+  s.on("console", (m) => { if (m.type() === "error" && !/status of 400|mac_sonu_ozet başarısız/.test(m.text())) konsol.push(m.text().slice(0, 200)); });
   s.on("pageerror", (e) => konsol.push("SAYFA: " + String(e).slice(0, 200)));
   const jwtSub = (req) => { try { const t = (req.headers()["authorization"] || "").split(" ")[1]; return JSON.parse(Buffer.from(t.split(".")[1], "base64url").toString()).sub; } catch { return null; } };
   let st = null;
@@ -128,6 +153,14 @@ for (const { dil, w, h, azalt } of KOSULAR) {
     ok(`${ad}: tek ekran (kaydırma yok, alt ${o.altKenar}/${o.ekran})`, o.dikeyTasma <= 1 && o.altKenar <= o.ekran + 1, `kaydırma ${o.dikeyTasma}`);
     ok(`${ad}: dokunma hedefi ≥ 44 px`, o.kucuk.length === 0, o.kucuk.slice(0, 4).join(" | "));
     ok(`${ad}: kesik metin yok`, o.kesik.length === 0, o.kesik.slice(0, 4).join(" | "));
+    if (o.sonucPanel) {
+      const p = o.sonucPanel, kisa = h <= 700;
+      ok(`${ad}: sonuç paneli — örtüşme/taşma yok`, !p.ortusme.length && !p.tasma.length, JSON.stringify(p));
+      ok(`${ad}: iki avatar (${kisa ? 64 : 80} px) + 38 px rozet`, p.avatar.length === 2 && p.avatar.every((x) => Math.abs(x - (kisa ? 64 : 80)) <= 1) && p.rozet.every((x) => Math.abs(x - 38) <= 1), JSON.stringify(p.avatar) + JSON.stringify(p.rozet));
+      ok(`${ad}: başlık ${p.baslikPx} px, alt yazı 17 px hap`, p.baslikPx >= (kisa ? 30 : 36) && p.altPx === 17, String(p.baslikPx));
+      ok(`${ad}: içerik dikeyde ortalı (üst ${p.ustBosluk} / alt ${p.altBosluk})`, Math.abs(p.ustBosluk - p.altBosluk) <= 26, JSON.stringify(p));
+      ok(`${ad}: yanlış/yanıtsız avatar soluk`, p.soluk.every((x) => Math.abs(Number(x) - 0.75) < 0.02));
+    }
   };
   const yenile = async (ms = 900) => { await s.evaluate(() => document.dispatchEvent(new Event("visibilitychange"))); await s.waitForTimeout(ms); };
   const an = async (ad, kontrol, ms = 900) => { await yenile(ms); const o = await olc(ad); ortak(ad, o); if (kontrol) kontrol(o); await kaydet(ad); return o; };
@@ -195,11 +228,54 @@ for (const { dil, w, h, azalt } of KOSULAR) {
     st.soruNo++; st.kontrol = st.ben; st.seri = 3; st.yeniAn = Date.now();
     st.sonHamle = hamle(st, { sonuc: "basarili", kontrol_once: st.ben, kontrol_sonra: st.ben, seri_once: 2, seri_sonra: 3 });
     await an("10-kazanildi", (o) => ok("3/3: DÜELLO KAZANILDI", (TR ? /DÜELLO KAZANILDI/ : /DUEL WON/).test(o.metin), o.metin), 1200);
+    await s.waitForTimeout(400);
+    // 12 RAKİP SALDIRDI + SON BASKI (rakip 2/3; ben yanıtsız)
+    st.soruNo++; st.kontrol = RAKIP; st.seri = 2; st.yeniAn = Date.now(); st.durum = "aktif";
+    st.sonHamle = hamle(st, { sonuc: "basarili", kontrol_once: RAKIP, kontrol_sonra: RAKIP, seri_once: 1, seri_sonra: 2,
+      oyuncular: { [st.ben]: { kategori: "tarih", dogru: false, yanitsiz: true }, [RAKIP]: { kategori: "muzik", dogru: true, yanitsiz: false } } });
+    await an("12-rakip-baski", (o) => ok("RAKİP SALDIRDI + SON BASKI + Yanıtsız", (TR ? /RAKİP SALDIRDI.*Yanıtsız.*SON BASKI/ : /OPPONENT LANDED.*FINAL PUSH/).test(o.metin), o.metin), 1600);
+    // 13 SERİ DEĞİŞMEDİ (ikisi yanlış)
+    st.soruNo++; st.yeniAn = Date.now();
+    st.sonHamle = hamle(st, { sonuc: "ikisi_yanlis", kontrol_once: RAKIP, kontrol_sonra: RAKIP, seri_once: 2, seri_sonra: 2,
+      oyuncular: { [st.ben]: { kategori: "tarih", dogru: false, yanitsiz: false }, [RAKIP]: { kategori: "muzik", dogru: false, yanitsiz: false } } });
+    await an("13-seri-degismedi", (o) => ok("SERİ DEĞİŞMEDİ", (TR ? /SERİ DEĞİŞMEDİ/ : /STREAK UNCHANGED/).test(o.metin), o.metin));
+    // 14 KONTROL RAKİPTE (nötr)
+    st.soruNo++; st.kontrol = RAKIP; st.seri = 0; st.yeniAn = Date.now();
+    st.sonHamle = hamle(st, { tip: "notr", sonuc: "kontrol_aldi", kontrol_once: null, kontrol_sonra: RAKIP, seri_once: 0, seri_sonra: 0,
+      oyuncular: { [st.ben]: { kategori: "bilim", dogru: false, yanitsiz: false }, [RAKIP]: { kategori: "bilim", dogru: true, yanitsiz: false } } });
+    await an("14-kontrol-rakipte", (o) => ok("KONTROL RAKİPTE", (TR ? /KONTROL RAKİPTE/ : /OPPONENT HAS CONTROL/).test(o.metin), o.metin));
+    // 15 KONTROLÜ ALDIN (el değişti, bana)
+    st.soruNo++; st.kontrol = st.ben; st.seri = 1; st.yeniAn = Date.now();
+    st.sonHamle = hamle(st, { sonuc: "el_degisti", kontrol_once: RAKIP, kontrol_sonra: st.ben, seri_once: 0, seri_sonra: 1,
+      oyuncular: { [st.ben]: { kategori: "sanat", dogru: true, yanitsiz: false }, [RAKIP]: { kategori: "spor", dogru: false, yanitsiz: false } } });
+    await an("15-kontrolu-aldin", (o) => ok("KONTROLÜ ALDIN", (TR ? /KONTROLÜ ALDIN/ : /CONTROL/).test(o.metin), o.metin), 300);
+    await s.waitForTimeout(700);
     // 11 Son Düello
     st.soruNo++; st.faz = "son"; st.son = true; st.kontrol = null; st.seri = 0; st.tur = 20; st.benimKat = "cografya"; st.cevapladim = false;
     st.yeniAn = Date.now(); st.bitisMs = 14000; st.gosterimFark = -500; st.sonHamle = null;
     await an("11-son-duello", (o) => ok("SON DÜELLO: aynı soru, joker şeridi yok", (TR ? /SON DÜELLO/ : /LAST DUEL/).test(o.metin), o.metin));
     ok("Son Düello'da joker şeridi yok", await s.locator(".d4-arena .m2-skill").count() === 0);
+    // 16 maç sonu: Düello özeti (taklit gecmis; ek istek yok)
+    const G = (tip, tur, sonuc, k, seri) => ({ tip, tur, sonuc, kontrol_sonra: k, seri_sonra: seri, kategori: "tarih", soru: "Soru", ben_dogru: true, rakip_dogru: false });
+    st.gecmis = [G("notr", 0, "kontrol_aldi", st.ben, 0), G("saldiri", 1, "basarili", st.ben, 1), G("saldiri", 2, "basarili", st.ben, 2),
+      G("saldiri", 3, "el_degisti", RAKIP, 1), G("saldiri", 4, "basarili", RAKIP, 2), G("saldiri", 5, "el_degisti", st.ben, 1),
+      G("saldiri", 6, "basarili", st.ben, 2), G("saldiri", 7, "basarili", st.ben, 3)];
+    st.faz = "sonuc"; st.son = false; st.durum = "bitti"; st.kazanan = st.ben; st.yeniAn = Date.now();
+    st.sonHamle = hamle(st, { sonuc: "basarili", kontrol_once: st.ben, kontrol_sonra: st.ben, seri_once: 2, seri_sonra: 3 });
+    await yenile(900);
+    await s.waitForSelector(".d4-ozet", { timeout: 15000 }).catch(() => {});
+    await s.waitForTimeout(1500);
+    const oz = await olc("16-mac-sonu-ozet");
+    ok("maç sonu: Düello özeti görünür", Boolean(oz.ozet), oz.metin.slice(0, 120));
+    if (oz.ozet) {
+      ok("özet: Sen Kontrol 5 tur · en uzun 3/3, Rakip Kontrol 2 tur · 2/3, 2 kez el değişti · 7. tur", (TR
+        ? /Sen Kontrol 5 tur En uzun seri ●●● 3\/3 Rakip Kontrol 2 tur En uzun seri ●●○ 2\/3 Kontrol 2 kez el değiştirdi · 7\. turda bitti/
+        : /You Control 5 rounds Longest streak ●●● 3\/3 Opponent Control 2 rounds Longest streak ●●○ 2\/3 Control changed hands 2 times · Ended in round 7/).test(oz.ozet.metin), oz.ozet.metin);
+      ok("özet: kesik/taşan metin yok", oz.ozet.kesik.length === 0, oz.ozet.kesik.join(" | "));
+      ok("özet: yatay taşma yok", oz.yatayTasma <= 0, JSON.stringify(oz.tasan));
+    }
+    await s.locator(".d4-ozet").first().scrollIntoViewIfNeeded().catch(() => {});
+    await kaydet("16-mac-sonu-ozet");
     ok("konsol hatası yok", konsol.length === 0, konsol.slice(0, 3).join(" | "));
   } catch (e) { kaldi++; console.log("  ✗ HATA", e.message.slice(0, 300)); await kaydet("hata").catch(() => {}); }
   await b.close();

@@ -11629,3 +11629,10 @@ bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute k
 
 - `Duello4Arena › satir()` + `duello4.css` (yalnız sunum): içerik paneli doldurur (space-evenly, dikeyde ortalı); başlık 36 px (bitiş 40); alt yazı kendi renginde 2 px kenarlı beyaz hap 17 px; her kartın üstünde oyuncunun gerçek avatarı (CerceveliAvatar, çerçevesiz 80 px daire, halka sen mavi / rakip kırmızı 4 px) + sağ altında 38 px Doğru/Yanlış/Yanıtsız rozeti (3 px beyaz kenar); yanlış/yanıtsız avatar gri + %75 opaklık; altında ad 14 px lacivert, kategori, sonuç 20 px. SON BASKI bandı artık akışta (kartların altında; eskiden absolute, kartların üstüne biniyordu) ve sönmeden kalır. Kısa ekran (≤ 700 px): avatar 64, başlık 30.
 - Test: `duello-v4-ekran.mjs` sonuç paneli ölçümü (örtüşme/taşma, avatar/rozet boyu, başlık/alt yazı px, ortalama, soluk avatar) + yeni anlar (RAKİP SALDIRDI + SON BASKI + Yanıtsız, SERİ DEĞİŞMEDİ, KONTROL RAKİPTE, KONTROLÜ ALDIN) — 390×844 / 360×640, TR+EN, hareket azaltma: 680/680.
+
+## 2026-10-11 — Düello maç sonu "Düello özeti" (v4)
+**Araç:** Claude Code
+**Neden:** Ida onayı — v4 maçlarında `MacSonuKutlama › modOzet` boştu (HkEleGecenler yalnız eski puan modunda).
+
+- `Duello4Arena › D4Ozet` + `d4OzetHesapla` (istemcide, `duello_durum.gecmis`ten; ek istek/RPC/migration yok): "⚔ DÜELLO ÖZETİ", Sen/Rakip satırı — "Kontrol N tur" (saldırı turunda kontrol kimdeydi) + "En uzun seri ●●○ x/3"; altta "Kontrol K kez el değiştirdi · T. turda bitti" (Son Düello'ya gittiyse "Son Düello'da bitti"). Görünüm `.hk-ele` mod özeti ailesi (beyaz, 2 px Düello kırmızısı + 3 px dudak, haplar `.hk-ele-k` renkleri). DuelloPage: surum 4 + bitti → D4Ozet; terk ile biten maçta yok; eski puan modu aynen.
+- Test: `duello-v4-ekran.mjs` 16. an (taklit gecmis 8 satır): metin birebir, 360/390 TR+EN kesik/taşma yok.
