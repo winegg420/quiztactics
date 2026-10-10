@@ -1,6 +1,7 @@
 // Test hesaplarını temizler. Varsayılan DRY-RUN; --uygula ile yedekler ve tek transaction'da siler.
 // Kural (Ida): test hesapları iş bitince sormadan silinir; sahip, botlar ve gerçek oyuncular ASLA.
-// Kullanım: IZIN_CANLI_TEST=1 node araclar/test-hesap-temizle.mjs [--uygula]
+// Kullanım: IZIN_CANLI_TEST=1 node araclar/test-hesap-temizle.mjs [--uygula] [--id=uuid,uuid]
+// --id: ad deseni yerine bu kimlikler (dış denetim hesabı, adı "Oyuncu" kalmış deneme misafiri); öteki süzgeçler aynen geçerli.
 // Aday = anonim + e-postasız + bot değil + hile_yetkisi yok + push aboneliği yok + test betiği adlandırması.
 // Adı belirsiz hesaplar (ör. "Oyuncu", "sila") silinmez; "belirsiz" diye listelenir.
 import fs from 'node:fs';
@@ -9,6 +10,8 @@ import { PgIstemci, baglantiDizgisi } from './pg-mini.mjs';
 const SAHIP_ID = 'e4f6006f-d6bb-4ca8-be67-3bdf9efc9708';
 const TEST_AD = '^(deneme[0-9]*|test[a-z]*[0-9]*|testoyuncu[0-9]+|quiztestida|squaretest[0-9]+|arayuzdeneme|arayuzdenetim[0-9]+|hisdenetim[0-9]+|senkron[ab][0-9]+|aja[nı][a-z]*[0-9]+|duel[ab][0-9]+|gorev[ab][0-9]+|gecikme[ab][0-9]+|yenioyuncu[0-9]+|perftest[0-9]+|m1test[0-9]+|yenilemetest[0-9]+|canlitest[0-9]+|sahnetest[0-9]+)$';
 const uygula = process.argv.includes('--uygula');
+const kimlikler = (process.argv.find((a) => a.startsWith('--id=')) ?? '').slice(5).split(',').filter((i) => /^[0-9a-f-]{36}$/.test(i));
+const secim = kimlikler.length ? `p.id in (${kimlikler.map((i) => `'${i}'`).join(',')})` : `p.gorunen_ad ~* '${TEST_AD}'`;
 const tarih = new Date().toISOString().slice(0, 10);
 
 const db = await new PgIstemci(await baglantiDizgisi()).baglan();
@@ -16,7 +19,7 @@ try {
   const aday = await db.sorgu(`select p.id, p.gorunen_ad ad, to_char(p.created_at,'YYYY-MM-DD') olusma, p.toplam_mac::int mac
     from public.profiles p join auth.users u on u.id = p.id
     where p.id <> '${SAHIP_ID}' and coalesce(p.is_bot,false) = false and coalesce(p.hile_yetkisi,false) = false
-      and u.is_anonymous and coalesce(u.email,'') = '' and p.gorunen_ad ~* '${TEST_AD}'
+      and u.is_anonymous and coalesce(u.email,'') = '' and ${secim}
       and not exists (select 1 from public.push_subscriptions s where s.user_id = p.id)
     order by p.created_at`);
   const idler = aday.map((a) => a.id).filter((i) => /^[0-9a-f-]{36}$/.test(i));
