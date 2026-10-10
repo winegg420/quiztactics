@@ -94,6 +94,7 @@ const SINYAL_BIRLESTIR_MS = 30;    // aynı anda gelen Realtime sinyallerini tek
 // "Bağlantı yeniden kuruluyor…" bandı çıkar; son bilinen sunucu fazı ekranda kalır, ilk başarılı okumada toparlanır.
 // Hata sürerken yedek yoklama DURUR (yeniden deneme zamanlayıcısı tek kaynak) — sunucuya ek yük binmez.
 const HATA_GERI_CEKILME_MS = [1000, 2000, 4000, 8000];
+const DURUM_ZAMAN_ASIMI_MS = 10000;   // 1055: statement_timeout 8 sn + ağ payı
 // Faz bitişi geçtiği hâlde yeni faz gelmediyse (cron/DB takılması) yoklama 4 sn yerine 2 sn'de bir sürer
 // (her durum okuması sunucuda fazı tembel ilerletir) ve GECIKME_BANT_MS'den sonra bant görünür.
 const GECIKMIS_YOKLAMA_MS = 2000;
@@ -540,6 +541,7 @@ function DuelloMac({ id }) {
   const yukleTek = useCallback(async () => {
     yukleniyorRef.current = true;
     sonYukleRef.current = Date.now();
+    let kesZamani = null;
     try {
       // Paket 24 · A.4: bağlantı durumu AYNI ANDA sorulur — ek gecikme olmaz.
       // duello_durum 150 satırlık bir fonksiyon; onu genişletmek yerine ayrı, ucuz çağrı.
@@ -548,9 +550,13 @@ function DuelloMac({ id }) {
       // 980: saat farkı için duello_durum'un kendi gidiş/dönüş anları (bağlantı çağrısı beklenmeden)
       const durumGonderildi = Date.now();
       let durumAlindi = null;
+      // 1055 (Kasa takılması ile aynı kalıp): yanıtsız kalan okuma kesilir — askıda kalan tek istek yukleSozRef'i
+      // tuttuğunda sonraki bütün yoklamalar ona zincirleniyor, sunucu düzelse de ekran donuyordu.
+      const kes = new AbortController();
+      kesZamani = window.setTimeout(() => kes.abort(), DURUM_ZAMAN_ASIMI_MS);
       const [durumCevap, baglantiCevap] = await Promise.all([
-        supabase.rpc("duello_durum", { p_id: id }).then((r) => { durumAlindi = Date.now(); return r; }),
-        baglantiSor ? supabase.rpc("duello_baglanti", { p_id: id }) : Promise.resolve(null),
+        supabase.rpc("duello_durum", { p_id: id }).abortSignal(kes.signal).then((r) => { durumAlindi = Date.now(); return r; }),
+        baglantiSor ? supabase.rpc("duello_baglanti", { p_id: id }).abortSignal(kes.signal) : Promise.resolve(null),
       ]);
       const { data, error } = durumCevap;
       if (error) throw error;
@@ -625,6 +631,7 @@ function DuelloMac({ id }) {
         }, ms);
       }
     } finally {
+      window.clearTimeout(kesZamani);
       yukleniyorRef.current = false;
     }
   }, [id, ceviri, skillDeger]);

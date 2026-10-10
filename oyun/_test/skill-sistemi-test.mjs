@@ -19,10 +19,10 @@ test("aktif maç skill listesi yeni Klasik skilllerini içerir", () => {
   assert.deepEqual(VARSAYILAN_SKILL_SETI, ["elli", "sure", "soru_degistir"]);
 });
 
-test("Sigorta ve 2X yalnız Klasik, İkinci Şans Klasik ve Düello içindir", () => {
+test("Sigorta ve 2X yalnız Klasik, İkinci Şans Klasik, Düello ve Kasa içindir", () => {
   assert.deepEqual(SKILL_TANIMLARI.sigorta.allowedModes, ["1v1"]);
   assert.deepEqual(SKILL_TANIMLARI.cifte_puan.allowedModes, ["1v1"]);
-  assert.deepEqual(SKILL_TANIMLARI.ikinci_sans.allowedModes, ["1v1", "duello"]);
+  assert.deepEqual(SKILL_TANIMLARI.ikinci_sans.allowedModes, ["1v1", "duello", "kasa"]);   // 951: Kasa jokerleri
 });
 
 test("kaldırılan combat skillleri geçmiş uyumluluğu için kayıtlı ama pasif ve mağazada gizli", () => {

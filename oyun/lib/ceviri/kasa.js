@@ -228,4 +228,7 @@ export default {
   "Süre dolarsa otomatik AÇ sayılır.": "If time runs out, it opens automatically.",
   "Rakip hazinesini savunuyor": "Opponent is defending the treasure",
   "Sen izliyorsun · bilemezse karar senin": "You're watching · if they miss, you decide",
+  // 1055: takılma düzeltmesi
+  "Cevabın sunucuya ulaşmadı. Süre bitmediyse şıkkı yeniden seç.": "Your answer didn't reach the server. If time is left, pick again.",
+  "Maç yükleniyor…": "Loading match…",
 };

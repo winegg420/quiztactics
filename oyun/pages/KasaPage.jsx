@@ -32,7 +32,7 @@ import { useOyuncuSeviyeleri } from "../lib/oyuncuSeviye.js";
 import { useMacSonuOzet, ozettenSahne } from "../lib/macSonuOzet.js";
 import { useDereceliTercih } from "../lib/dereceli.js";
 import { useDil } from "../lib/dilKanca.js";
-import { hataMesaji, islemHatasi } from "../lib/hata.js";
+import { hataMesaji, hataTuru, islemHatasi } from "../lib/hata.js";
 import { zamanAsimindaYenidenDene } from "../lib/yenidene.js";
 import { y } from "../lib/yol.js";
 import { useAyar } from "../lib/ayarlar.js";
@@ -78,6 +78,9 @@ const SON_YOKLAMA_MS = 500;
 const CEVAP_TOLERANS_MS = 1100;   // kasa_cevap_tolerans_sn (1 sn) + pay
 const SINYAL_BIRLESTIR_MS = 30;
 const HATA_GERI_CEKILME_MS = [1000, 2000, 4000, 8000];
+const DURUM_ZAMAN_ASIMI_MS = 10000;   // statement_timeout 8 sn + ağ payı; daha uzun süren kasa_durum kesilir
+// 1055: sunucu/ağ yetişemedi mi (iş kuralı hatası değil) — cevap gönderimi yalnız bunda yeniden denenir
+const sunucuYetisemedi = (e) => ["zaman_asimi", "sunucu", "ag"].includes(hataTuru(e));
 const GECIKMIS_YOKLAMA_MS = 2000;
 const GECIKMIS_PENCERE_MS = 30000;
 const GECIKME_BANT_MS = 4000;
@@ -383,12 +386,24 @@ function KasaMac({ id }) {
   const hataSayisiRef = useRef(0);
   const yenidenDeneRef = useRef(null);
   const [yenidenBaglaniyor, setYenidenBaglaniyor] = useState(false);
+  // 1055: ilk veri 8 sn'de gelmezse yükleniyor ikonu yerine okunur "Maç açılamadı" + "Tekrar dene" (arka planda deneme sürer)
+  const [yuklemeGecikti, setYuklemeGecikti] = useState(false);
+  const veriVar = Boolean(d);
+  useEffect(() => {
+    if (veriVar) { setYuklemeGecikti(false); return undefined; }
+    const z = window.setTimeout(() => setYuklemeGecikti(true), 8000);
+    return () => window.clearTimeout(z);
+  }, [veriVar, id]);
 
   const yukleTek = useCallback(async () => {
     sonYukleRef.current = Date.now();
+    // 1055: yanıtsız kalan istek kesilir. Eskiden askıda kalan tek istek yukleSozRef'i tutuyordu; sonraki bütün
+    // yoklamalar ona zincirlendiği için sunucu düzelse de ekran donuyordu (10 Eki, 16:02 UTC'den sonra istek yok).
+    const kes = new AbortController();
+    const kesZamani = window.setTimeout(() => kes.abort(), DURUM_ZAMAN_ASIMI_MS);
     try {
       const gonderildi = Date.now();
-      const { data, error } = await supabase.rpc("kasa_durum", { p_id: id });
+      const { data, error } = await supabase.rpc("kasa_durum", { p_id: id }).abortSignal(kes.signal);
       const alindi = Date.now();
       if (error) throw error;
       if (data) {
@@ -416,6 +431,8 @@ function KasaMac({ id }) {
         const ms = HATA_GERI_CEKILME_MS[Math.min(n, HATA_GERI_CEKILME_MS.length - 1)];
         yenidenDeneRef.current = window.setTimeout(() => { yenidenDeneRef.current = null; yukleRef.current?.(); }, ms);
       }
+    } finally {
+      window.clearTimeout(kesZamani);
     }
   }, [id]);
 
@@ -958,8 +975,22 @@ function KasaMac({ id }) {
     setSecim(i);
     setHata(null);
     setCalisan("cevap");
+    const tur0 = dGuncelRef.current?.tur;
+    const gonder = () => tikBasligiEkle(supabase.rpc("kasa_cevap", { p_id: id, p_cevap: i }), tikMs);
     try {
-      const { data, error } = await tikBasligiEkle(supabase.rpc("kasa_cevap", { p_id: id, p_cevap: i }), tikMs);
+      let { data, error } = await gonder();
+      // 1055: sunucu yetişemediyse (500 zaman aşımı / ağ) aynı tur sürerken BİR kez sessizce yeniden dene.
+      // Tıklama anı başlıkla gittiği için geç varış payı içinde cevap yine sayılır.
+      if (error && sunucuYetisemedi(error)) {
+        await new Promise((coz) => window.setTimeout(coz, 700));
+        const g = dGuncelRef.current;
+        if (g?.durum === "aktif" && g?.faz === "cevap" && g?.tur === tur0) {
+          ({ data, error } = await gonder());
+          // İlk istek aslında işlenmişse sunucu "zaten cevapladın" der: cevap kayıtlı, hata değil.
+          if (error && /zaten cevapladın/i.test(error.message ?? "")) { data = null; error = null; }
+        }
+        if (error && sunucuYetisemedi(error)) error = Object.assign(new Error("cevap ulaşmadı"), { ulasmadi: true });
+      }
       if (error) throw error;
       // 951 İkinci Şans: ilk yanlış sayılmadı — şık elenir, aynı sayaçla yeniden seçilir (yalnız ben görürüm)
       if (data?.ikinci_sans) {
@@ -972,8 +1003,9 @@ function KasaMac({ id }) {
       }
       await yukle();
     } catch (e) {
-      setHata(c(hataMesaji(e)));
+      setHata(e?.ulasmadi ? c("Cevabın sunucuya ulaşmadı. Süre bitmediyse şıkkı yeniden seç.") : c(hataMesaji(e)));
       setSecim(null);
+      if (e?.ulasmadi) yukle().catch(() => {});
       if (/Süre doldu|Şu an cevap verilemez/i.test(e?.message ?? "")) yukle().catch(() => {});
     } finally {
       setCalisan(null);
@@ -1017,12 +1049,14 @@ function KasaMac({ id }) {
   if (!d) {
     return (
       <div className="m2-mac ks-mac qt-sahne-mac qt-sahne-gok">
-        {yuklemeHatasi ? (
-          <MacYukleniyor hata={yuklemeHatasi} onTekrarDene={() => { setYuklemeHatasi(null); yukle(); }}
+        {yuklemeHatasi || yuklemeGecikti ? (
+          <MacYukleniyor hata={yuklemeHatasi || true}
+                         onTekrarDene={() => { setYuklemeHatasi(null); setYuklemeGecikti(false); window.clearTimeout(yenidenDeneRef.current); yenidenDeneRef.current = null; yukle(); }}
                          donusYolu={y("/kasa")} donusMetni={c("Ortak Hazine'ye dön")} />
         ) : (
-          <div className="m2-yukleniyor" aria-busy="true" aria-label={c("Yükleniyor…")}>
+          <div className="m2-yukleniyor ks-yukleniyor" role="status" aria-busy="true">
             <span className="m2-yukleniyor-ikon" aria-hidden="true"><QtIkon ad="coin" boyut={36} /></span>
+            <span className="ks-yukleniyor-metin">{c("Maç yükleniyor…")}</span>
           </div>
         )}
       </div>

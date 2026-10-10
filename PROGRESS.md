@@ -11551,3 +11551,13 @@ Kaldırıldı: "Hazine sende: {k} puan" başlığı, AÇ alt yazısı "Skor x/y"
 - Karar: kategori kısıtı sabit liste değil biçim (`^[a-z0-9_]{1,40}$`); liste doğrulaması RPC'de zaten var, yeni kategori migration istemesin.
 - Edge Function kodu (dağıtılmadı): sabit zamanlı secret karşılaştırma (`_shared/gizli.ts`), `send-push` boş user_ids = 400 + gövde try, `satin_alma_dogrula` kullanıcı başına 10/dk. `vercel.json`: nosniff + Referrer-Policy.
 - Test: `araclar/guvenlik-c-prova.mjs` prova 56/56, canlı sonrası 56/56 (ROLLBACK, iz 0) · build temiz · arayuz-denetim TEMİZ (misafir silindi) · `npm test` tek kırmızı önceden var (skill testi Kasa'yı beklemiyor). Geri alma `docs/guvenlik-c-geri-al.sql`. Ayrıntı: RAPOR.md › Güvenlik C.
+
+## 2026-10-10 — Kasa takılması: kök neden + düzeltme (migration 1055)
+**Araç:** Claude Code
+**Neden:** Ida — Ortak Hazine canlıda oynanamıyordu (maç 7647d891, 16:00–16:05 UTC: açılışta 10 sn boş ekran, kasa_cevap/kasa_durum 500, sonra ekran donup kaldı).
+
+- Kök neden (loglarla kanıtlı): 16:00–16:05 UTC DB genel yavaşladı (checkpoint + 12–22 sn süren `cron_hizli_tik` + grup maçı `group_matches` kilit yığılması; basit SELECT'ler bile 8 sn `statement_timeout`'a düştü). `kasa_durum` her yoklamada maç satırını FOR UPDATE kilitlediği için çağrılar sıraya girip 500 döndü. 1052/1053/1054 doğrudan sebep değil (kasa_durum hız sınırı 950'den beri var).
+- Donmanın asıl sebebi istemcide: 16:02:15'ten sonra sayfa HİÇ kasa_durum isteği atmadı — askıda kalan tek istek `yukleSozRef`'i tuttu, sonraki bütün yoklamalar ona zincirlendi. Düello'da aynı kalıp vardı; Klasik'te yok (bağımsız yoklama).
+- 1055 (canlı): `kasa_durum` `SET lock_timeout 2s`; kilit alınamazsa kilitsiz görünüm (200). Canlı kilit testi: satır kilitliyken 2,1 sn'de 200.
+- İstemci: KasaPage + DuelloPage durum okuması 10 sn'de AbortController ile kesilir; Kasa cevabı sunucu/ağ hatasında aynı turda bir kez yeniden denenir ("zaten cevapladın" = kayıtlı), olmazsa net mesaj; yükleniyor ekranı Kasa renginde "Maç yükleniyor…", 8 sn'de "Maç açılamadı" + "Tekrar dene".
+- `skill-sistemi-test` İkinci Şans beklentisi `["1v1","duello","kasa"]`. Ayrıntı: RAPOR.md › Kasa takılması.

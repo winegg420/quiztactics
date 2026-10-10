@@ -348,3 +348,8 @@
 .ks-acilan-taraf small { font-size: var(--qt-y-s, 13px); font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ks-acilan-en { margin: 0; font-size: var(--qt-y-s, 13px); font-weight: 800; }
 .ks-acilan-en b { font-size: var(--qt-y-m, 15px); }
+
+/* 1055: yükleniyor durumu — boş mavi alan yerine Kasa renginde ikon + okunur metin */
+.ks-yukleniyor { grid-auto-flow: row; align-content: center; gap: var(--qt-b-3, 12px); }
+.ks-yukleniyor .m2-yukleniyor-ikon { background: var(--qt-mod-kasa); }
+.ks-yukleniyor-metin { font-weight: 800; font-size: var(--qt-y-m, 15px); color: var(--qt-metin, #1d2152); }
