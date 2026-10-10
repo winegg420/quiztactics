@@ -1162,6 +1162,45 @@
         "hakem: eskiyebilir": 3
       },
       "harcama_usd": 15.01
+    },
+    "kolay_05": {
+      "klasor": "kolay-05",
+      "durum": "bitti_canlida (2026-10-10; +198 aktif)",
+      "migration": "20260612001043_soru_parti_kolay_05",
+      "soru": 198,
+      "kategori": {
+        "sanat": 30,
+        "muzik": 20,
+        "teknoloji": 38,
+        "spor": 23,
+        "tarih": 3,
+        "sinema": 21,
+        "genel_kultur": 40,
+        "edebiyat": 23
+      },
+      "zorluk": {
+        "2": 137,
+        "3": 61
+      },
+      "yerel_tr": 17,
+      "ceviri_en": 181,
+      "taslak": 634,
+      "gecen": 246,
+      "elenen": {
+        "hakem: aşırı kolay": 32,
+        "Jev ipucu": 52,
+        "hakem: tartışmalı": 40,
+        "biçim/kural": 55,
+        "benzer": 145,
+        "birebir var": 30,
+        "hakem: yasak tip mantikla_bulunur": 3,
+        "uyarı": 11,
+        "cevap soruda": 12,
+        "hakem: doğru şık tartismali": 4,
+        "hakem: eskiyebilir": 2,
+        "hakem: EN uygun değil": 2
+      },
+      "harcama_usd": 10.12
     }
   }
 }

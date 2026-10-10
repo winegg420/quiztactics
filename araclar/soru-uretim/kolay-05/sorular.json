@@ -1,0 +1,4833 @@
+[
+ {
+  "id": "K05-01",
+  "k": "sanat",
+  "yerel": false,
+  "s": "Besteci Frédéric Chopin hangi ülkede doğmuştur?",
+  "d": "Polonya",
+  "y": [
+   "Fransa",
+   "Avusturya",
+   "Macaristan"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In which country was the composer Frederic Chopin born?",
+   "d": "Poland",
+   "y": [
+    "France",
+    "Austria",
+    "Hungary"
+   ]
+  },
+  "olgu": "Chopin, Polonya'da Żelazowa Wola'da doğmuştur.",
+  "jev_p": 0.07,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-02",
+  "k": "sanat",
+  "yerel": false,
+  "s": "'Fındıkkıran' balesinde Fındıkkıran ve oyuncak askerler hangi hayvanların kralıyla savaşır?",
+  "d": "Fareler",
+  "y": [
+   "Kediler",
+   "Kurtlar",
+   "Yarasalar"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In the ballet 'The Nutcracker', the Nutcracker and his toy soldiers battle the king of which animals?",
+   "d": "Mice",
+   "y": [
+    "Cats",
+    "Wolves",
+    "Bats"
+   ]
+  },
+  "olgu": "Çaykovski'nin Fındıkkıran balesinde Fındıkkıran, Fare Kral ve ordusuyla savaşır.",
+  "jev_p": 0.1,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-03",
+  "k": "sanat",
+  "yerel": false,
+  "s": "Çizgi roman kahramanları Asteriks ile Oburiks hangi halktandır?",
+  "d": "Galyalılar",
+  "y": [
+   "Romalılar",
+   "Vikingler",
+   "Gotlar"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Comic heroes Asterix and Obelix belong to which ancient people?",
+   "d": "Gauls",
+   "y": [
+    "Romans",
+    "Vikings",
+    "Goths"
+   ]
+  },
+  "olgu": "Asteriks ve Oburiks, Romalılara direnen bir Galya köyünde yaşayan Galyalılardır.",
+  "jev_p": 0.11,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-04",
+  "k": "sanat",
+  "yerel": false,
+  "s": "Chicago'daki aynalı paslanmaz çelik 'Cloud Gate' heykeli halk arasında ne diye anılır?",
+  "d": "Fasulye",
+  "y": [
+   "Damla",
+   "Bezelye",
+   "Yumurta"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Chicago's mirrored stainless steel sculpture 'Cloud Gate' is popularly known by what nickname?",
+   "d": "The Bean",
+   "y": [
+    "The Drop",
+    "The Pea",
+    "The Egg"
+   ]
+  },
+  "olgu": "Anish Kapoor'un Chicago'daki Cloud Gate heykeli halk arasında 'The Bean' (Fasulye) diye anılır.",
+  "jev_p": 0.11,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-05",
+  "k": "sanat",
+  "yerel": false,
+  "s": "'Arzu Tramvayı' oyununun yazarı kimdir?",
+  "d": "Tennessee Williams",
+  "y": [
+   "Eugene O'Neill",
+   "Lorraine Hansberry",
+   "Arthur Miller"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Who wrote the play 'A Streetcar Named Desire'?",
+   "d": "Tennessee Williams",
+   "y": [
+    "Eugene O'Neill",
+    "Lorraine Hansberry",
+    "Arthur Miller"
+   ]
+  },
+  "olgu": "'Arzu Tramvayı' (A Streetcar Named Desire) Tennessee Williams'ın oyunudur.",
+  "jev_p": 0.12,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-06",
+  "k": "sanat",
+  "yerel": false,
+  "s": "'Sesler Müziği' müzikali ve filmi hangi ülkede geçer?",
+  "d": "Avusturya",
+  "y": [
+   "İsviçre",
+   "Almanya",
+   "Macaristan"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In which country is 'The Sound of Music' set?",
+   "d": "Austria",
+   "y": [
+    "Switzerland",
+    "Germany",
+    "Hungary"
+   ]
+  },
+  "olgu": "'The Sound of Music' Avusturya'nın Salzburg kentinde geçer.",
+  "jev_p": 0.13,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-07",
+  "k": "sanat",
+  "yerel": false,
+  "s": "Dubai'deki Burj Al Arab oteli neyin biçimini andırır?",
+  "d": "Yelken",
+  "y": [
+   "Lale",
+   "Hilal",
+   "Damla"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Dubai's Burj Al Arab hotel is designed to resemble what?",
+   "d": "A sail",
+   "y": [
+    "A tulip",
+    "A crescent",
+    "A teardrop"
+   ]
+  },
+  "olgu": "Burj Al Arab oteli bir geminin yelkeni biçiminde tasarlanmıştır.",
+  "jev_p": 0.13,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-08",
+  "k": "sanat",
+  "yerel": false,
+  "s": "The Beatles'ın 'Abbey Road' albüm kapağında dörtlü nerede yürür?",
+  "d": "Yaya geçidi",
+  "y": [
+   "Asma köprü",
+   "Tren rayı",
+   "Kum plajı"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "On the cover of The Beatles' 'Abbey Road', where are the four band members walking?",
+   "d": "A zebra crossing",
+   "y": [
+    "A suspension bridge",
+    "A railway track",
+    "A sandy beach"
+   ]
+  },
+  "olgu": "Abbey Road kapağında Beatles üyeleri bir yaya geçidinden geçer.",
+  "jev_p": 0.14,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-09",
+  "k": "sanat",
+  "yerel": false,
+  "s": "Oscar heykelciğindeki şövalye figürü elinde ne tutar?",
+  "d": "Kılıç",
+  "y": [
+   "Meşale",
+   "Asa",
+   "Kalkan"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "What is the knight on the Oscar statuette holding?",
+   "d": "A sword",
+   "y": [
+    "A torch",
+    "A scepter",
+    "A shield"
+   ]
+  },
+  "olgu": "Oscar heykelciği, film makarası üzerinde duran ve kılıç tutan bir şövalyedir.",
+  "jev_p": 0.16,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-10",
+  "k": "sanat",
+  "yerel": false,
+  "s": "Washington'daki Lincoln Anıtı'nda Lincoln heykeli hangi duruştadır?",
+  "d": "Oturmuş",
+  "y": [
+   "Ayakta",
+   "Atlı",
+   "Diz çökmüş"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "How is Abraham Lincoln posed in the statue at the Lincoln Memorial?",
+   "d": "Seated",
+   "y": [
+    "Standing",
+    "On horseback",
+    "Kneeling"
+   ]
+  },
+  "olgu": "Lincoln Anıtı'ndaki Lincoln heykeli oturur hâlde betimlenmiştir.",
+  "jev_p": 0.17,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-11",
+  "k": "sanat",
+  "yerel": false,
+  "s": "'The King and I' (Kral ve Ben) müzikali hangi krallıkta geçer?",
+  "d": "Siyam",
+  "y": [
+   "Burma",
+   "Çin",
+   "Hindistan"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In which kingdom is the musical 'The King and I' set?",
+   "d": "Siam",
+   "y": [
+    "Burma",
+    "China",
+    "India"
+   ]
+  },
+  "olgu": "'The King and I' müzikali Siyam (bugünkü Tayland) krallığında geçer.",
+  "jev_p": 0.2,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-12",
+  "k": "sanat",
+  "yerel": false,
+  "s": "Andy Warhol'a göre gelecekte herkes kaç dakikalığına dünyaca ünlü olacak?",
+  "d": "15",
+  "y": [
+   "10",
+   "5",
+   "30"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Andy Warhol predicted everyone would be world-famous for how many minutes?",
+   "d": "15",
+   "y": [
+    "10",
+    "5",
+    "30"
+   ]
+  },
+  "olgu": "Warhol'un ünlü sözüne göre gelecekte herkes 15 dakikalığına ünlü olacaktır.",
+  "jev_p": 0.24,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-13",
+  "k": "sanat",
+  "yerel": false,
+  "s": "Vatikan'daki 'Laokoon ve Oğulları' heykelinde rahip ve oğullarına hangi hayvanlar saldırır?",
+  "d": "Yılanlar",
+  "y": [
+   "Aslanlar",
+   "Kartallar",
+   "Kurtlar"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In the ancient sculpture 'Laocoon and His Sons', what creatures attack the priest and his sons?",
+   "d": "Snakes",
+   "y": [
+    "Lions",
+    "Eagles",
+    "Wolves"
+   ]
+  },
+  "olgu": "Laokoon heykel grubunda rahip ve oğulları yılanlar tarafından saldırıya uğrar.",
+  "jev_p": 0.26,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-14",
+  "k": "sanat",
+  "yerel": false,
+  "s": "Paslanmaz çelikten dev 'Gateway Arch' kemeri hangi ABD şehrindedir?",
+  "d": "St. Louis",
+  "y": [
+   "Kansas City",
+   "Denver",
+   "Pittsburgh"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "The giant stainless steel Gateway Arch stands in which US city?",
+   "d": "St. Louis",
+   "y": [
+    "Kansas City",
+    "Denver",
+    "Pittsburgh"
+   ]
+  },
+  "olgu": "Gateway Arch, Missouri eyaletindeki St. Louis şehrindedir.",
+  "jev_p": 0.31,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-15",
+  "k": "sanat",
+  "yerel": false,
+  "s": "'Bitmemiş Senfoni' adıyla bilinen 8. Senfoni hangi besteciye aittir?",
+  "d": "Schubert",
+  "y": [
+   "Schumann",
+   "Brahms",
+   "Mendelssohn"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which composer's Symphony No. 8 is known as the 'Unfinished Symphony'?",
+   "d": "Schubert",
+   "y": [
+    "Schumann",
+    "Brahms",
+    "Mendelssohn"
+   ]
+  },
+  "olgu": "'Bitmemiş Senfoni' olarak bilinen 8. Senfoni Franz Schubert'e aittir.",
+  "jev_p": 0.5,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-16",
+  "k": "sanat",
+  "yerel": false,
+  "s": "'Güzel Mavi Tuna' valsinin bestecisi kimdir?",
+  "d": "Johann Strauss",
+  "y": [
+   "Franz Lehár",
+   "Johannes Brahms",
+   "Franz Schubert"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Who composed the waltz 'The Blue Danube'?",
+   "d": "Johann Strauss",
+   "y": [
+    "Franz Lehar",
+    "Johannes Brahms",
+    "Franz Schubert"
+   ]
+  },
+  "olgu": "'Güzel Mavi Tuna' valsini Johann Strauss (oğul) bestelemiştir.",
+  "jev_p": 0.58,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-17",
+  "k": "sanat",
+  "yerel": false,
+  "s": "İçine sırtı dönük bozuk para atılan ünlü Trevi Çeşmesi hangi şehirdedir?",
+  "d": "Roma",
+  "y": [
+   "Floransa",
+   "Venedik",
+   "Napoli"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In which city would you find the famous Trevi Fountain?",
+   "d": "Rome",
+   "y": [
+    "Florence",
+    "Venice",
+    "Naples"
+   ]
+  },
+  "olgu": "Trevi Çeşmesi Roma'dadır.",
+  "jev_p": 0.63,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-18",
+  "k": "sanat",
+  "yerel": false,
+  "s": "Aslan başlı, balık gövdeli 'Merlion' heykeli hangi şehrin simgesidir?",
+  "d": "Singapur",
+  "y": [
+   "Hong Kong",
+   "Bangkok",
+   "Manila"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "The lion-headed, fish-bodied Merlion statue is the symbol of which city?",
+   "d": "Singapore",
+   "y": [
+    "Hong Kong",
+    "Bangkok",
+    "Manila"
+   ]
+  },
+  "olgu": "Merlion heykeli Singapur'un simgesidir.",
+  "jev_p": 0.65,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-19",
+  "k": "sanat",
+  "yerel": false,
+  "s": "Kırmızı tabanlı ayakkabılarıyla ünlü Fransız tasarımcı kimdir?",
+  "d": "Christian Louboutin",
+  "y": [
+   "Manolo Blahnik",
+   "Salvatore Ferragamo",
+   "Roger Vivier"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which French designer is famous for shoes with red soles?",
+   "d": "Christian Louboutin",
+   "y": [
+    "Manolo Blahnik",
+    "Salvatore Ferragamo",
+    "Roger Vivier"
+   ]
+  },
+  "olgu": "Kırmızı tabanlı ayakkabılar Fransız tasarımcı Christian Louboutin'in imzasıdır.",
+  "jev_p": 0.68,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-20",
+  "k": "sanat",
+  "yerel": false,
+  "s": "Klarnet glissandosuyla açılan 'Rhapsody in Blue' eserinin bestecisi kimdir?",
+  "d": "George Gershwin",
+  "y": [
+   "Leonard Bernstein",
+   "Aaron Copland",
+   "Cole Porter"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Who composed 'Rhapsody in Blue', which opens with a famous clarinet glissando?",
+   "d": "George Gershwin",
+   "y": [
+    "Leonard Bernstein",
+    "Aaron Copland",
+    "Cole Porter"
+   ]
+  },
+  "olgu": "Rhapsody in Blue, George Gershwin'in eseridir.",
+  "jev_p": 0.69,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-21",
+  "k": "sanat",
+  "yerel": false,
+  "s": "Çizgi roman kahramanı Tenten'in yaratıcısı kimdir?",
+  "d": "Hergé",
+  "y": [
+   "Uderzo",
+   "Goscinny",
+   "Peyo"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Who created the comic book hero Tintin?",
+   "d": "Hergé",
+   "y": [
+    "Uderzo",
+    "Goscinny",
+    "Peyo"
+   ]
+  },
+  "olgu": "Tenten (Tintin) Belçikalı çizer Hergé tarafından yaratılmıştır.",
+  "jev_p": 0.71,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-22",
+  "k": "sanat",
+  "yerel": false,
+  "s": "'Moulin de la Galette'te Balo' tablosunun ressamı kimdir?",
+  "d": "Renoir",
+  "y": [
+   "Monet",
+   "Degas",
+   "Pissarro"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which Impressionist painted 'Bal du moulin de la Galette'?",
+   "d": "Renoir",
+   "y": [
+    "Monet",
+    "Degas",
+    "Pissarro"
+   ]
+  },
+  "olgu": "Bal du moulin de la Galette tablosunu Pierre-Auguste Renoir yapmıştır.",
+  "jev_p": 0.04,
+  "hakem_tahmin": 3
+ },
+ {
+  "id": "K05-23",
+  "k": "sanat",
+  "yerel": false,
+  "s": "'My Fair Lady' müzikali hangi yazarın oyununa dayanır?",
+  "d": "Shaw",
+  "y": [
+   "Wilde",
+   "Coward",
+   "Barrie"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "'My Fair Lady' is based on a play by which writer?",
+   "d": "Shaw",
+   "y": [
+    "Wilde",
+    "Coward",
+    "Barrie"
+   ]
+  },
+  "olgu": "'My Fair Lady' George Bernard Shaw'un 'Pygmalion' oyununa dayanır.",
+  "jev_p": 0.16,
+  "hakem_tahmin": 3
+ },
+ {
+  "id": "K05-24",
+  "k": "sanat",
+  "yerel": false,
+  "s": "Pink Floyd'un 'Animals' albüm kapağında santralin üzerinde hangi şişme hayvan uçar?",
+  "d": "Domuz",
+  "y": [
+   "Koyun",
+   "Köpek",
+   "İnek"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "On the cover of Pink Floyd's 'Animals', what inflatable animal floats above the power station?",
+   "d": "A pig",
+   "y": [
+    "A sheep",
+    "A dog",
+    "A cow"
+   ]
+  },
+  "olgu": "'Animals' kapağında Battersea Santrali üzerinde şişme bir domuz uçmaktadır.",
+  "jev_p": 0.18,
+  "hakem_tahmin": 3
+ },
+ {
+  "id": "K05-25",
+  "k": "sanat",
+  "yerel": false,
+  "s": "Quino'nun çizgi kahramanı küçük Mafalda'nın nefret ettiği yemek hangisidir?",
+  "d": "Çorba",
+  "y": [
+   "Ispanak",
+   "Brokoli",
+   "Karnabahar"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which food does Quino's little comic heroine Mafalda famously hate?",
+   "d": "Soup",
+   "y": [
+    "Spinach",
+    "Broccoli",
+    "Cauliflower"
+   ]
+  },
+  "olgu": "Quino'nun karakteri Mafalda çorbadan nefret eder.",
+  "jev_p": 0.34,
+  "hakem_tahmin": 3
+ },
+ {
+  "id": "K05-26",
+  "k": "sanat",
+  "yerel": false,
+  "s": "Londra'daki 30 St Mary Axe gökdeleni halk arasında hangi sebzenin adıyla anılır?",
+  "d": "Kornişon",
+  "y": [
+   "Patlıcan",
+   "Havuç",
+   "Kabak"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "London's 30 St Mary Axe skyscraper is popularly nicknamed after which vegetable?",
+   "d": "Gherkin",
+   "y": [
+    "Eggplant",
+    "Carrot",
+    "Zucchini"
+   ]
+  },
+  "olgu": "30 St Mary Axe binası 'The Gherkin' (kornişon) lakabıyla bilinir.",
+  "jev_p": 0.36,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-27",
+  "k": "sanat",
+  "yerel": false,
+  "s": "Dünyanın en büyük Budist tapınağı sayılan Borobudur hangi ülkededir?",
+  "d": "Endonezya",
+  "y": [
+   "Tayland",
+   "Myanmar",
+   "Sri Lanka"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "The great Buddhist temple of Borobudur is located in which country?",
+   "d": "Indonesia",
+   "y": [
+    "Thailand",
+    "Myanmar",
+    "Sri Lanka"
+   ]
+  },
+  "olgu": "Borobudur tapınağı Endonezya'nın Cava adasındadır.",
+  "jev_p": 0.42,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-28",
+  "k": "sanat",
+  "yerel": false,
+  "s": "Çaykovski'nin '1812 Uvertürü'nün finalinde hangi silahın atışları duyulur?",
+  "d": "Top",
+  "y": [
+   "Tüfek",
+   "Tabanca",
+   "Roket"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Tchaikovsky's '1812 Overture' famously features the firing of which weapon?",
+   "d": "Cannon",
+   "y": [
+    "Rifle",
+    "Pistol",
+    "Rocket"
+   ]
+  },
+  "olgu": "1812 Uvertürü'nün partisyonunda top atışları yer alır.",
+  "jev_p": 0.48,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-29",
+  "k": "sanat",
+  "yerel": false,
+  "s": "Puantiyeli dev balkabağı heykelleriyle tanınan Japon sanatçı kimdir?",
+  "d": "Yayoi Kusama",
+  "y": [
+   "Takashi Murakami",
+   "Yoshitomo Nara",
+   "Yoko Ono"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which Japanese artist is known for her giant polka-dotted pumpkin sculptures?",
+   "d": "Yayoi Kusama",
+   "y": [
+    "Takashi Murakami",
+    "Yoshitomo Nara",
+    "Yoko Ono"
+   ]
+  },
+  "olgu": "Yayoi Kusama puantiyeli balkabağı heykelleriyle tanınır.",
+  "jev_p": 0.51,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-30",
+  "k": "sanat",
+  "yerel": false,
+  "s": "Puccini'nin 'Tosca' operası hangi şehirde geçer?",
+  "d": "Roma",
+  "y": [
+   "Floransa",
+   "Venedik",
+   "Napoli"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In which city is Puccini's opera 'Tosca' set?",
+   "d": "Rome",
+   "y": [
+    "Florence",
+    "Venice",
+    "Naples"
+   ]
+  },
+  "olgu": "'Tosca' operası Roma'da geçer.",
+  "jev_p": 0.69,
+  "hakem_tahmin": 3
+ },
+ {
+  "id": "K05-31",
+  "k": "muzik",
+  "yerel": false,
+  "s": "Kızılderili, kovboy ve polis kostümleriyle sahneye çıkan 'Y.M.C.A.' grubu hangisidir?",
+  "d": "Village People",
+  "y": [
+   "Bee Gees",
+   "Boney M.",
+   "KC and the Sunshine Band"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which costumed group, featuring a cowboy, a cop and a Native American, sang 'Y.M.C.A.'?",
+   "d": "Village People",
+   "y": [
+    "Bee Gees",
+    "Boney M.",
+    "KC and the Sunshine Band"
+   ]
+  },
+  "olgu": "'Y.M.C.A.' şarkısı kostümleriyle bilinen Village People grubuna aittir.",
+  "jev_p": 0.1,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-32",
+  "k": "muzik",
+  "yerel": false,
+  "s": "Ünlü gitar riffiyle bilinen 'Smoke on the Water' hangi grubun şarkısıdır?",
+  "d": "Deep Purple",
+  "y": [
+   "Black Sabbath",
+   "Uriah Heep",
+   "Led Zeppelin"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which band recorded 'Smoke on the Water', famous for its guitar riff?",
+   "d": "Deep Purple",
+   "y": [
+    "Black Sabbath",
+    "Uriah Heep",
+    "Led Zeppelin"
+   ]
+  },
+  "olgu": "'Smoke on the Water' Deep Purple grubunun şarkısıdır.",
+  "jev_p": 0.1,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-33",
+  "k": "muzik",
+  "yerel": true,
+  "s": "2018 yapımı 'Müslüm' filminde Müslüm Gürses'i canlandıran oyuncu kimdir?",
+  "d": "Timuçin Esen",
+  "y": [
+   "Kıvanç Tatlıtuğ",
+   "Haluk Bilginer",
+   "Engin Akyürek"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Yerel TR sorusu (kapsam=yerel); İngilizce oyuncu için anlamsız",
+  "olgu": "'Müslüm' (2018) filminde Müslüm Gürses'i Timuçin Esen canlandırmıştır.",
+  "jev_p": 0.13,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-34",
+  "k": "muzik",
+  "yerel": false,
+  "s": "Queen grubunun gitaristi ve 'We Will Rock You' şarkısının yazarı kimdir?",
+  "d": "Brian May",
+  "y": [
+   "Jimmy Page",
+   "Eric Clapton",
+   "Ritchie Blackmore"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Who is Queen's guitarist and the writer of 'We Will Rock You'?",
+   "d": "Brian May",
+   "y": [
+    "Jimmy Page",
+    "Eric Clapton",
+    "Ritchie Blackmore"
+   ]
+  },
+  "olgu": "Queen'in gitaristi Brian May'dir ve 'We Will Rock You'yu o yazmıştır.",
+  "jev_p": 0.2,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-35",
+  "k": "muzik",
+  "yerel": false,
+  "s": "'Hey Ya!' şarkısıyla 2003'te listeleri sallayan hip hop ikilisi hangisidir?",
+  "d": "OutKast",
+  "y": [
+   "Run-DMC",
+   "Black Eyed Peas",
+   "Fugees"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which hip hop duo shook up the charts in 2003 with 'Hey Ya!'?",
+   "d": "OutKast",
+   "y": [
+    "Run-DMC",
+    "Black Eyed Peas",
+    "Fugees"
+   ]
+  },
+  "olgu": "'Hey Ya!' OutKast'in şarkısıdır.",
+  "jev_p": 0.21,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-36",
+  "k": "muzik",
+  "yerel": false,
+  "s": "Annie Lennox'un sesiyle bilinen 'Sweet Dreams (Are Made of This)' hangi ikilinin şarkısıdır?",
+  "d": "Eurythmics",
+  "y": [
+   "Tears for Fears",
+   "Pet Shop Boys",
+   "Roxette"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which duo, fronted by Annie Lennox, recorded 'Sweet Dreams (Are Made of This)'?",
+   "d": "Eurythmics",
+   "y": [
+    "Tears for Fears",
+    "Pet Shop Boys",
+    "Roxette"
+   ]
+  },
+  "olgu": "'Sweet Dreams (Are Made of This)' Annie Lennox ve Dave Stewart'tan oluşan Eurythmics'in şarkısıdır.",
+  "jev_p": 0.27,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-37",
+  "k": "muzik",
+  "yerel": false,
+  "s": "Dolores O'Riordan'ın solistliğini yaptığı, 'Zombie' şarkısıyla bilinen İrlandalı grup hangisidir?",
+  "d": "The Cranberries",
+  "y": [
+   "The Corrs",
+   "Garbage",
+   "The Smashing Pumpkins"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Fronted by Dolores O'Riordan, which band had a hit with 'Zombie'?",
+   "d": "The Cranberries",
+   "y": [
+    "The Corrs",
+    "Garbage",
+    "The Smashing Pumpkins"
+   ]
+  },
+  "olgu": "'Zombie' Dolores O'Riordan'ın solisti olduğu The Cranberries'in şarkısıdır.",
+  "jev_p": 0.28,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-38",
+  "k": "muzik",
+  "yerel": false,
+  "s": "Küçük oğlunun ölümünün ardından 'Tears in Heaven' şarkısını yazan müzisyen kimdir?",
+  "d": "Eric Clapton",
+  "y": [
+   "Phil Collins",
+   "Rod Stewart",
+   "Elton John"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which musician wrote 'Tears in Heaven' after the death of his young son?",
+   "d": "Eric Clapton",
+   "y": [
+    "Phil Collins",
+    "Rod Stewart",
+    "Elton John"
+   ]
+  },
+  "olgu": "'Tears in Heaven' Eric Clapton'ın oğlunun ölümü üzerine yazdığı şarkıdır.",
+  "jev_p": 0.35,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-39",
+  "k": "muzik",
+  "yerel": false,
+  "s": "'U Can't Touch This' şarkısı ve bol şalvar pantolonuyla ünlenen rapçi kimdir?",
+  "d": "MC Hammer",
+  "y": [
+   "Vanilla Ice",
+   "Coolio",
+   "Young MC"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which rapper was famous for 'U Can't Touch This' and his baggy parachute pants?",
+   "d": "MC Hammer",
+   "y": [
+    "Vanilla Ice",
+    "Coolio",
+    "Young MC"
+   ]
+  },
+  "olgu": "'U Can't Touch This' MC Hammer'ın şarkısıdır.",
+  "jev_p": 0.37,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-40",
+  "k": "muzik",
+  "yerel": false,
+  "s": "Rob Thomas ile seslendirdiği 'Smooth' şarkısıyla Grammy toplayan gitarist kimdir?",
+  "d": "Carlos Santana",
+  "y": [
+   "Stevie Ray Vaughan",
+   "Mark Knopfler",
+   "George Benson"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which guitarist teamed up with Rob Thomas on the Grammy-winning hit 'Smooth'?",
+   "d": "Carlos Santana",
+   "y": [
+    "Stevie Ray Vaughan",
+    "Mark Knopfler",
+    "George Benson"
+   ]
+  },
+  "olgu": "'Smooth' Carlos Santana ile Rob Thomas'ın birlikte seslendirdiği şarkıdır.",
+  "jev_p": 0.37,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-41",
+  "k": "muzik",
+  "yerel": false,
+  "s": "1990'da 'Ice Ice Baby' şarkısıyla listelerin zirvesine çıkan rapçi kimdir?",
+  "d": "Vanilla Ice",
+  "y": [
+   "Marky Mark",
+   "Kid Rock",
+   "Sir Mix-a-Lot"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which rapper topped the charts in 1990 with 'Ice Ice Baby'?",
+   "d": "Vanilla Ice",
+   "y": [
+    "Marky Mark",
+    "Kid Rock",
+    "Sir Mix-a-Lot"
+   ]
+  },
+  "olgu": "'Ice Ice Baby' Vanilla Ice'ın 1990'daki hit şarkısıdır.",
+  "jev_p": 0.41,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-42",
+  "k": "muzik",
+  "yerel": false,
+  "s": "2018 yapımı 'Bohemian Rhapsody' filminde Freddie Mercury'yi canlandıran oyuncu kimdir?",
+  "d": "Rami Malek",
+  "y": [
+   "Ben Whishaw",
+   "Dev Patel",
+   "Eddie Redmayne"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Who played Freddie Mercury in the 2018 film 'Bohemian Rhapsody'?",
+   "d": "Rami Malek",
+   "y": [
+    "Ben Whishaw",
+    "Dev Patel",
+    "Eddie Redmayne"
+   ]
+  },
+  "olgu": "'Bohemian Rhapsody' (2018) filminde Freddie Mercury'yi Rami Malek canlandırmıştır.",
+  "jev_p": 0.45,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-43",
+  "k": "muzik",
+  "yerel": false,
+  "s": "'My Way' şarkısıyla özdeşleşen, 'Ol' Blue Eyes' lakaplı şarkıcı kimdir?",
+  "d": "Frank Sinatra",
+  "y": [
+   "Dean Martin",
+   "Sammy Davis Jr.",
+   "Bing Crosby"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which singer nicknamed 'Ol' Blue Eyes' is synonymous with 'My Way'?",
+   "d": "Frank Sinatra",
+   "y": [
+    "Dean Martin",
+    "Sammy Davis Jr.",
+    "Bing Crosby"
+   ]
+  },
+  "olgu": "'My Way' şarkısıyla özdeşleşen 'Ol' Blue Eyes' Frank Sinatra'dır.",
+  "jev_p": 0.52,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-44",
+  "k": "muzik",
+  "yerel": false,
+  "s": "Rapçi Eminem'in gerçek adı nedir?",
+  "d": "Marshall Mathers",
+  "y": [
+   "Curtis Jackson",
+   "Christopher Wallace",
+   "Shawn Carter"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "What is rapper Eminem's real name?",
+   "d": "Marshall Mathers",
+   "y": [
+    "Curtis Jackson",
+    "Christopher Wallace",
+    "Shawn Carter"
+   ]
+  },
+  "olgu": "Eminem'in gerçek adı Marshall Mathers'tır.",
+  "jev_p": 0.59,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-45",
+  "k": "muzik",
+  "yerel": false,
+  "s": "'2001: Uzay Macerası'nın açılışında çalan 'Böyle Buyurdu Zerdüşt'ün bestecisi kimdir?",
+  "d": "Richard Strauss",
+  "y": [
+   "Gustav Mahler",
+   "Richard Wagner",
+   "Anton Bruckner"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Who composed 'Also sprach Zarathustra', heard at the start of '2001: A Space Odyssey'?",
+   "d": "Richard Strauss",
+   "y": [
+    "Gustav Mahler",
+    "Richard Wagner",
+    "Anton Bruckner"
+   ]
+  },
+  "olgu": "'Also sprach Zarathustra' Richard Strauss'un eseridir ve '2001: A Space Odyssey'de kullanılmıştır.",
+  "jev_p": 0.06,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-46",
+  "k": "muzik",
+  "yerel": false,
+  "s": "Michael Jackson'ın 'Thriller' klibini yöneten yönetmen kimdir?",
+  "d": "John Landis",
+  "y": [
+   "Steven Spielberg",
+   "John Carpenter",
+   "Martin Scorsese"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Who directed Michael Jackson's 'Thriller' music video?",
+   "d": "John Landis",
+   "y": [
+    "Steven Spielberg",
+    "John Carpenter",
+    "Martin Scorsese"
+   ]
+  },
+  "olgu": "'Thriller' klibini John Landis yönetmiştir.",
+  "jev_p": 0.13,
+  "hakem_tahmin": 3
+ },
+ {
+  "id": "K05-47",
+  "k": "muzik",
+  "yerel": false,
+  "s": "Yaylılar örneğiyle açılan 'Bitter Sweet Symphony' hangi İngiliz grubun şarkısıdır?",
+  "d": "The Verve",
+  "y": [
+   "Suede",
+   "The Charlatans",
+   "Pulp"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which British band recorded 'Bitter Sweet Symphony', with its sweeping string sample?",
+   "d": "The Verve",
+   "y": [
+    "Suede",
+    "The Charlatans",
+    "Pulp"
+   ]
+  },
+  "olgu": "'Bitter Sweet Symphony' The Verve grubunun şarkısıdır.",
+  "jev_p": 0.16,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-48",
+  "k": "muzik",
+  "yerel": false,
+  "s": "Verdi'nin ünlü aryası 'La donna è mobile' hangi operasında yer alır?",
+  "d": "Rigoletto",
+  "y": [
+   "La Traviata",
+   "Il Trovatore",
+   "Otello"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Verdi's famous aria 'La donna e mobile' comes from which of his operas?",
+   "d": "Rigoletto",
+   "y": [
+    "La Traviata",
+    "Il Trovatore",
+    "Otello"
+   ]
+  },
+  "olgu": "'La donna è mobile' Verdi'nin 'Rigoletto' operasındaki aryadır.",
+  "jev_p": 0.18,
+  "hakem_tahmin": 3
+ },
+ {
+  "id": "K05-49",
+  "k": "muzik",
+  "yerel": false,
+  "s": "Fransızca şanson klasiği 'Ne me quitte pas' şarkısını yazıp seslendiren kimdir?",
+  "d": "Jacques Brel",
+  "y": [
+   "Charles Aznavour",
+   "Serge Gainsbourg",
+   "Georges Brassens"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Who wrote and first sang the chanson classic 'Ne me quitte pas'?",
+   "d": "Jacques Brel",
+   "y": [
+    "Charles Aznavour",
+    "Serge Gainsbourg",
+    "Georges Brassens"
+   ]
+  },
+  "olgu": "'Ne me quitte pas' Jacques Brel'in yazıp seslendirdiği şarkıdır.",
+  "jev_p": 0.33,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-50",
+  "k": "muzik",
+  "yerel": false,
+  "s": "Elton John'un hayatını anlatan 'Rocketman' filminde Elton John'u oynayan oyuncu kimdir?",
+  "d": "Taron Egerton",
+  "y": [
+   "Richard Madden",
+   "Jamie Bell",
+   "Eddie Redmayne"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Who played Elton John in the biopic 'Rocketman'?",
+   "d": "Taron Egerton",
+   "y": [
+    "Richard Madden",
+    "Jamie Bell",
+    "Eddie Redmayne"
+   ]
+  },
+  "olgu": "'Rocketman' (2019) filminde Elton John'u Taron Egerton canlandırmıştır.",
+  "jev_p": 0.37,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-51",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Google'ın kurucuları Larry Page ve Sergey Brin hangi üniversitede tanıştı?",
+  "d": "Stanford",
+  "y": [
+   "MIT",
+   "Harvard",
+   "Berkeley"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "At which university did Google founders Larry Page and Sergey Brin meet?",
+   "d": "Stanford",
+   "y": [
+    "MIT",
+    "Harvard",
+    "Berkeley"
+   ]
+  },
+  "olgu": "Page ve Brin, Stanford Üniversitesi'nde doktora öğrencisiyken tanıştı.",
+  "jev_p": 0.07,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-52",
+  "k": "teknoloji",
+  "yerel": true,
+  "s": "1961'de Eskişehir'de üretilen ilk yerli Türk otomobilinin adı nedir?",
+  "d": "Devrim",
+  "y": [
+   "Anadol",
+   "Murat",
+   "Togg"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Yerel TR sorusu (kapsam=yerel); İngilizce oyuncu için anlamsız",
+  "olgu": "1961'de Eskişehir'de üretilen ilk yerli Türk otomobili Devrim'dir.",
+  "jev_p": 0.13,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-53",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "İnternet tarayıcılarında yeni bir sekme açmak için kullanılan klavye kısayolu hangisidir?",
+  "d": "Ctrl+T",
+  "y": [
+   "Ctrl+N",
+   "Ctrl+W",
+   "Ctrl+Tab"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which keyboard shortcut opens a new tab in most web browsers?",
+   "d": "Ctrl+T",
+   "y": [
+    "Ctrl+N",
+    "Ctrl+W",
+    "Ctrl+Tab"
+   ]
+  },
+  "olgu": "Tarayıcılarda Ctrl+T yeni sekme açar.",
+  "jev_p": 0.13,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-54",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Mario ilk kez hangi atari oyununda sahneye çıkmıştır?",
+  "d": "Donkey Kong",
+  "y": [
+   "Mario Bros.",
+   "Pac-Man",
+   "Popeye"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In which arcade game did Mario make his first appearance?",
+   "d": "Donkey Kong",
+   "y": [
+    "Mario Bros.",
+    "Pac-Man",
+    "Popeye"
+   ]
+  },
+  "olgu": "Mario ilk kez 1981'deki Donkey Kong atari oyununda göründü.",
+  "jev_p": 0.15,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-55",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "İnternet tarayıcılarında sayfayı yenilemek için basılan işlev tuşu hangisidir?",
+  "d": "F5",
+  "y": [
+   "F1",
+   "F11",
+   "F12"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which function key refreshes the page in most web browsers?",
+   "d": "F5",
+   "y": [
+    "F1",
+    "F11",
+    "F12"
+   ]
+  },
+  "olgu": "Tarayıcılarda F5 tuşu sayfayı yeniler.",
+  "jev_p": 0.16,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-56",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Windows'ta bilgisayarı anında kilitleyen klavye kısayolu hangisidir?",
+  "d": "Win+L",
+  "y": [
+   "Win+D",
+   "Win+E",
+   "Win+R"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In Windows, which keyboard shortcut instantly locks the computer?",
+   "d": "Win+L",
+   "y": [
+    "Win+D",
+    "Win+E",
+    "Win+R"
+   ]
+  },
+  "olgu": "Windows'ta Win+L kısayolu bilgisayarı kilitler.",
+  "jev_p": 0.17,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-57",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "PUBG'de maçı kazanınca ekranda çıkan ünlü zafer yazısında hangi yemek geçer?",
+  "d": "Tavuk",
+  "y": [
+   "Pizza",
+   "Hamburger",
+   "Biftek"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In PUBG, which food appears in the famous victory message shown to the winner?",
+   "d": "Chicken",
+   "y": [
+    "Pizza",
+    "Burger",
+    "Steak"
+   ]
+  },
+  "olgu": "PUBG'de kazanan 'Winner Winner Chicken Dinner' yazısını görür.",
+  "jev_p": 0.2,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-58",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Microsoft'un Internet Explorer'ın yerine getirdiği tarayıcının adı nedir?",
+  "d": "Edge",
+  "y": [
+   "Safari",
+   "Opera",
+   "Vivaldi"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which browser did Microsoft introduce to replace Internet Explorer?",
+   "d": "Edge",
+   "y": [
+    "Safari",
+    "Opera",
+    "Vivaldi"
+   ]
+  },
+  "olgu": "Microsoft, Internet Explorer'ın yerine Edge tarayıcısını getirdi.",
+  "jev_p": 0.22,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-59",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Sonic oyunlarında Sonic'in baş düşmanı olan bıyıklı bilim insanı kimdir?",
+  "d": "Dr. Eggman",
+  "y": [
+   "Dr. Wily",
+   "Dr. Neo Cortex",
+   "Dr. Nefarious"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which mustachioed scientist is Sonic the Hedgehog's archenemy?",
+   "d": "Dr. Eggman",
+   "y": [
+    "Dr. Wily",
+    "Dr. Neo Cortex",
+    "Dr. Nefarious"
+   ]
+  },
+  "olgu": "Sonic'in baş düşmanı Dr. Eggman'dir (Dr. Robotnik).",
+  "jev_p": 0.25,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-60",
+  "k": "teknoloji",
+  "yerel": true,
+  "s": "Bayraktar TB2 insansız hava aracını üreten Türk şirketi hangisidir?",
+  "d": "Baykar",
+  "y": [
+   "Aselsan",
+   "Roketsan",
+   "TUSAŞ"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Yerel TR sorusu (kapsam=yerel); İngilizce oyuncu için anlamsız",
+  "olgu": "Bayraktar TB2'yi Baykar şirketi üretir.",
+  "jev_p": 0.29,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-61",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Steve Jobs'un ardından 2011'de Apple'ın CEO'su olan kişi kimdir?",
+  "d": "Tim Cook",
+  "y": [
+   "Jony Ive",
+   "Phil Schiller",
+   "Scott Forstall"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Who succeeded Steve Jobs as Apple's CEO in 2011?",
+   "d": "Tim Cook",
+   "y": [
+    "Jony Ive",
+    "Phil Schiller",
+    "Scott Forstall"
+   ]
+  },
+  "olgu": "Tim Cook 2011'de Steve Jobs'un yerine Apple CEO'su oldu.",
+  "jev_p": 0.32,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-62",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Sonic oyunlarında Sonic'in uçabilen tilki yardımcısının adı nedir?",
+  "d": "Tails",
+  "y": [
+   "Knuckles",
+   "Shadow",
+   "Silver"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In the Sonic games, what is the name of Sonic's flying fox sidekick?",
+   "d": "Tails",
+   "y": [
+    "Knuckles",
+    "Shadow",
+    "Silver"
+   ]
+  },
+  "olgu": "Sonic'in tilki yardımcısı Miles 'Tails' Prower'dır.",
+  "jev_p": 0.34,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-63",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Pokémon animesinde Team Rocket'e eşlik eden, insan gibi konuşan Pokémon hangisidir?",
+  "d": "Meowth",
+  "y": [
+   "Psyduck",
+   "Jigglypuff",
+   "Togepi"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In the Pokemon anime, which Pokemon travels with Team Rocket and can talk like a human?",
+   "d": "Meowth",
+   "y": [
+    "Psyduck",
+    "Jigglypuff",
+    "Togepi"
+   ]
+  },
+  "olgu": "Pokémon animesinde Team Rocket'in konuşabilen Pokémon'u Meowth'tur.",
+  "jev_p": 0.34,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-64",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "SpaceX'in iniş yapıp yeniden kullanılabilen roket ailesinin adı nedir?",
+  "d": "Falcon",
+  "y": [
+   "Atlas",
+   "Ariane",
+   "Soyuz"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "What is the name of SpaceX's family of reusable, self-landing rockets?",
+   "d": "Falcon",
+   "y": [
+    "Atlas",
+    "Ariane",
+    "Soyuz"
+   ]
+  },
+  "olgu": "SpaceX'in yeniden kullanılabilir roket ailesi Falcon'dur.",
+  "jev_p": 0.36,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-65",
+  "k": "teknoloji",
+  "yerel": true,
+  "s": "TÜBİTAK'ın geliştirdiği yerli Linux tabanlı işletim sisteminin adı nedir?",
+  "d": "Pardus",
+  "y": [
+   "Kartal",
+   "Anadolu",
+   "Toros"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Yerel TR sorusu (kapsam=yerel); İngilizce oyuncu için anlamsız",
+  "olgu": "TÜBİTAK'ın geliştirdiği Linux tabanlı yerli işletim sistemi Pardus'tur.",
+  "jev_p": 0.4,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-66",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Chrome'da internet bağlantısı yokken çıkan oyunda hangi hayvan koşar?",
+  "d": "Dinozor",
+  "y": [
+   "Kanguru",
+   "Tavşan",
+   "Timsah"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In Chrome's offline game, which animal does the player control?",
+   "d": "Dinosaur",
+   "y": [
+    "Kangaroo",
+    "Rabbit",
+    "Crocodile"
+   ]
+  },
+  "olgu": "Chrome'un çevrim dışı oyununda bir T-Rex dinozoru koşar.",
+  "jev_p": 0.4,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-67",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Minecraft'ta lav ve ateşle dolu cehennemsi boyutun adı nedir?",
+  "d": "Nether",
+  "y": [
+   "The End",
+   "Overworld",
+   "Aether"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In Minecraft, what is the name of the hellish dimension full of lava and fire?",
+   "d": "The Nether",
+   "y": [
+    "The End",
+    "The Overworld",
+    "The Aether"
+   ]
+  },
+  "olgu": "Minecraft'ın lavlarla dolu cehennemsi boyutu Nether'dır.",
+  "jev_p": 0.41,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-68",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "'Assassin's Creed II'de Rönesans İtalyası'nda geçen hikâyenin kahramanı kimdir?",
+  "d": "Ezio",
+  "y": [
+   "Altaïr",
+   "Connor",
+   "Edward"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Who is the hero of Assassin's Creed II, set in Renaissance Italy?",
+   "d": "Ezio",
+   "y": [
+    "Altair",
+    "Connor",
+    "Edward"
+   ]
+  },
+  "olgu": "Assassin's Creed II'nin kahramanı Ezio Auditore'dir.",
+  "jev_p": 0.43,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-69",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Google'ın çatı şirketi olarak 2015'te kurulan holdingin adı nedir?",
+  "d": "Alphabet",
+  "y": [
+   "Oracle",
+   "Verizon",
+   "Nvidia"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "What is the name of the parent company created for Google in 2015?",
+   "d": "Alphabet",
+   "y": [
+    "Oracle",
+    "Verizon",
+    "Nvidia"
+   ]
+  },
+  "olgu": "Google'ın çatı şirketi 2015'te kurulan Alphabet Inc.'dir.",
+  "jev_p": 0.44,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-70",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Samsung'un amiral gemisi akıllı telefon serisinin adı nedir?",
+  "d": "Galaxy",
+  "y": [
+   "Xperia",
+   "Pixel",
+   "Lumia"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "What is the name of Samsung's flagship smartphone line?",
+   "d": "Galaxy",
+   "y": [
+    "Xperia",
+    "Pixel",
+    "Lumia"
+   ]
+  },
+  "olgu": "Samsung'un akıllı telefon serisi Galaxy'dir.",
+  "jev_p": 0.45,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-71",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "'Halo' oyun serisinin zırhlı kahramanı hangi lakapla bilinir?",
+  "d": "Master Chief",
+  "y": [
+   "Doom Slayer",
+   "Solid Snake",
+   "Big Boss"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "By what title is the armored hero of the 'Halo' series known?",
+   "d": "Master Chief",
+   "y": [
+    "Doom Slayer",
+    "Solid Snake",
+    "Big Boss"
+   ]
+  },
+  "olgu": "Halo serisinin kahramanı Master Chief lakabıyla bilinir.",
+  "jev_p": 0.48,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-72",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Google'ın 'Bard' adlı yapay zekâ sohbet botu 2024'te hangi adı almıştır?",
+  "d": "Gemini",
+  "y": [
+   "Copilot",
+   "Grok",
+   "Llama"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In 2024, Google's AI chatbot Bard was renamed to what?",
+   "d": "Gemini",
+   "y": [
+    "Copilot",
+    "Grok",
+    "Llama"
+   ]
+  },
+  "olgu": "Google'ın Bard sohbet botu 2024'te Gemini adını aldı.",
+  "jev_p": 0.5,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-73",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "'Grand Theft Auto V' hangi kurgusal şehirde geçer?",
+  "d": "Los Santos",
+  "y": [
+   "Liberty City",
+   "Vice City",
+   "San Fierro"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In which fictional city is 'Grand Theft Auto V' set?",
+   "d": "Los Santos",
+   "y": [
+    "Liberty City",
+    "Vice City",
+    "San Fierro"
+   ]
+  },
+  "olgu": "GTA V, Los Angeles'tan esinlenen kurgusal Los Santos şehrinde geçer.",
+  "jev_p": 0.53,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-74",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "'Half-Life' serisinin levye taşıyan bilim insanı kahramanı kimdir?",
+  "d": "Gordon Freeman",
+  "y": [
+   "Isaac Clarke",
+   "Adam Jensen",
+   "Commander Shepard"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Who is the crowbar-wielding scientist hero of the Half-Life series?",
+   "d": "Gordon Freeman",
+   "y": [
+    "Isaac Clarke",
+    "Adam Jensen",
+    "Commander Shepard"
+   ]
+  },
+  "olgu": "Half-Life serisinin kahramanı fizikçi Gordon Freeman'dır.",
+  "jev_p": 0.54,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-75",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Vikipedi'yi Larry Sanger ile birlikte kuran kişi kimdir?",
+  "d": "Jimmy Wales",
+  "y": [
+   "Craig Newmark",
+   "Pierre Omidyar",
+   "Reid Hoffman"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Who co-founded Wikipedia with Larry Sanger?",
+   "d": "Jimmy Wales",
+   "y": [
+    "Craig Newmark",
+    "Pierre Omidyar",
+    "Reid Hoffman"
+   ]
+  },
+  "olgu": "Vikipedi, Jimmy Wales ve Larry Sanger tarafından kuruldu.",
+  "jev_p": 0.57,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-76",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "'Uncharted' oyun serisinin hazine avcısı kahramanı kimdir?",
+  "d": "Nathan Drake",
+  "y": [
+   "Sam Fisher",
+   "Max Payne",
+   "Marcus Fenix"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Who is the treasure-hunting hero of the Uncharted video game series?",
+   "d": "Nathan Drake",
+   "y": [
+    "Sam Fisher",
+    "Max Payne",
+    "Marcus Fenix"
+   ]
+  },
+  "olgu": "Uncharted serisinin kahramanı hazine avcısı Nathan Drake'tir.",
+  "jev_p": 0.57,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-77",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Zelda serisinde Ganon'un ele geçirmek istediği kutsal altın emanetin adı nedir?",
+  "d": "Triforce",
+  "y": [
+   "Master Sword",
+   "Ocarina",
+   "Moon Pearl"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In the Zelda series, what sacred golden relic does Ganon seek to possess?",
+   "d": "Triforce",
+   "y": [
+    "Master Sword",
+    "Ocarina",
+    "Moon Pearl"
+   ]
+  },
+  "olgu": "Zelda serisinde Ganon'un peşinde olduğu kutsal emanet Triforce'tur.",
+  "jev_p": 0.61,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-78",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "'Portal' oyununda 'yalan' olduğu söylenen vaat edilmiş ödül nedir?",
+  "d": "Pasta",
+  "y": [
+   "Madalya",
+   "Kurabiye",
+   "Dondurma"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In the game 'Portal', what promised reward is said to be 'a lie'?",
+   "d": "Cake",
+   "y": [
+    "A medal",
+    "Cookies",
+    "Ice cream"
+   ]
+  },
+  "olgu": "Portal'da vaat edilen ödül pastadır; 'The cake is a lie' sözü ünlüdür.",
+  "jev_p": 0.03,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-79",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "İlk 'BioShock' oyunu hangi su altı şehrinde geçer?",
+  "d": "Rapture",
+  "y": [
+   "Columbia",
+   "Atlantis",
+   "Eden"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "The original 'BioShock' is set in which underwater city?",
+   "d": "Rapture",
+   "y": [
+    "Columbia",
+    "Atlantis",
+    "Eden"
+   ]
+  },
+  "olgu": "İlk BioShock oyunu su altı şehri Rapture'da geçer.",
+  "jev_p": 0.08,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-80",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Nokia, 1865'te kurulduğunda hangi işle uğraşan bir şirketti?",
+  "d": "Kâğıt üretimi",
+  "y": [
+   "Gemi yapımı",
+   "Tekstil üretimi",
+   "Madencilik"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "When Nokia was founded in 1865, what kind of business was it?",
+   "d": "Paper making",
+   "y": [
+    "Shipbuilding",
+    "Textile making",
+    "Mining"
+   ]
+  },
+  "olgu": "Nokia 1865'te bir kâğıt hamuru/kâğıt fabrikası olarak kuruldu.",
+  "jev_p": 0.11,
+  "hakem_tahmin": 3
+ },
+ {
+  "id": "K05-81",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Tesla'nın geliştirdiği insansı robotun adı nedir?",
+  "d": "Optimus",
+  "y": [
+   "Atlas",
+   "ASIMO",
+   "Digit"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "What is the name of the humanoid robot being developed by Tesla?",
+   "d": "Optimus",
+   "y": [
+    "Atlas",
+    "ASIMO",
+    "Digit"
+   ]
+  },
+  "olgu": "Tesla'nın insansı robotunun adı Optimus'tur.",
+  "jev_p": 0.17,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-82",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "eBay'de satılan ilk ürün olarak bilinen bozuk eşya nedir?",
+  "d": "Lazer işaretleyici",
+  "y": [
+   "Cep hesap makinesi",
+   "Dijital kol saati",
+   "Kaset çalar"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "What broken item is known as the first thing ever sold on eBay?",
+   "d": "Laser pointer",
+   "y": [
+    "Pocket calculator",
+    "Digital wristwatch",
+    "Cassette player"
+   ]
+  },
+  "olgu": "eBay'de satılan ilk ürün bozuk bir lazer işaretleyiciydi.",
+  "jev_p": 0.25,
+  "hakem_tahmin": 3
+ },
+ {
+  "id": "K05-83",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Instagram'ı Mike Krieger ile birlikte kuran kişi kimdir?",
+  "d": "Kevin Systrom",
+  "y": [
+   "Evan Spiegel",
+   "Jack Dorsey",
+   "Jan Koum"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Who co-founded Instagram with Mike Krieger?",
+   "d": "Kevin Systrom",
+   "y": [
+    "Evan Spiegel",
+    "Jack Dorsey",
+    "Jan Koum"
+   ]
+  },
+  "olgu": "Instagram, Kevin Systrom ve Mike Krieger tarafından kuruldu.",
+  "jev_p": 0.25,
+  "hakem_tahmin": 3
+ },
+ {
+  "id": "K05-84",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "Vikipedi'nin logosunda hangi nesne yer alır?",
+  "d": "Yapboz parçalı küre",
+  "y": [
+   "Sayfaları açık kitap",
+   "Tüy kalem ve hokka",
+   "Büyüteç tutan el"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "What object is shown in Wikipedia's logo?",
+   "d": "Jigsaw puzzle globe",
+   "y": [
+    "Open book",
+    "Quill and inkwell",
+    "Hand with magnifier"
+   ]
+  },
+  "olgu": "Vikipedi'nin logosu yapboz parçalarından oluşan bir küredir.",
+  "jev_p": 0.32,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-85",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "'Red Dead Redemption 2'nin ana karakteri kimdir?",
+  "d": "Arthur Morgan",
+  "y": [
+   "Cole Phelps",
+   "Niko Bellic",
+   "Tommy Vercetti"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Who is the main protagonist of Red Dead Redemption 2?",
+   "d": "Arthur Morgan",
+   "y": [
+    "Cole Phelps",
+    "Niko Bellic",
+    "Tommy Vercetti"
+   ]
+  },
+  "olgu": "Red Dead Redemption 2'nin ana oynanabilir karakteri Arthur Morgan'dır.",
+  "jev_p": 0.37,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-86",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "'The Legend of Zelda' serisinde kullanılan para biriminin adı nedir?",
+  "d": "Rupee",
+  "y": [
+   "Gil",
+   "Zenny",
+   "Bells"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "What is the name of the currency used in 'The Legend of Zelda' series?",
+   "d": "Rupee",
+   "y": [
+    "Gil",
+    "Zenny",
+    "Bells"
+   ]
+  },
+  "olgu": "Zelda serisinin para birimi rupee'dir.",
+  "jev_p": 0.37,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-87",
+  "k": "teknoloji",
+  "yerel": false,
+  "s": "PlayStation 5'in standart kumandasının adı nedir?",
+  "d": "DualSense",
+  "y": [
+   "DualShock",
+   "Sixaxis",
+   "WaveBird"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "What is the name of the standard PlayStation 5 controller?",
+   "d": "DualSense",
+   "y": [
+    "DualShock",
+    "Sixaxis",
+    "WaveBird"
+   ]
+  },
+  "olgu": "PlayStation 5'in standart kumandası DualSense'tir.",
+  "jev_p": 0.4,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-88",
+  "k": "teknoloji",
+  "yerel": true,
+  "s": "'Mount & Blade' oyun serisini geliştiren Türk şirketi hangisidir?",
+  "d": "TaleWorlds",
+  "y": [
+   "Peak Games",
+   "Gram Games",
+   "Dream Games"
+  ],
+  "zorluk": 3,
+  "en": null,
+  "en_neden": "Yerel TR sorusu (kapsam=yerel); İngilizce oyuncu için anlamsız",
+  "olgu": "Mount & Blade serisi Ankara merkezli TaleWorlds Entertainment tarafından geliştirildi.",
+  "jev_p": 0.44,
+  "hakem_tahmin": 3
+ },
+ {
+  "id": "K05-89",
+  "k": "spor",
+  "yerel": false,
+  "s": "Clint Eastwood'un 'Invictus' filmi 1995'te hangi sporun Dünya Kupası'nı konu alır?",
+  "d": "Ragbi",
+  "y": [
+   "Futbol",
+   "Kriket",
+   "Basketbol"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Clint Eastwood's 'Invictus' centers on the 1995 World Cup of which sport?",
+   "d": "Rugby",
+   "y": [
+    "Football",
+    "Cricket",
+    "Basketball"
+   ]
+  },
+  "olgu": "'Invictus' 1995 Ragbi Dünya Kupası'nı anlatır.",
+  "jev_p": 0.02,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-90",
+  "k": "spor",
+  "yerel": false,
+  "s": "'Sarı Duvar' adlı dev güney tribünüyle ünlü Alman kulübü hangisidir?",
+  "d": "Borussia Dortmund",
+  "y": [
+   "Bayern Münih",
+   "Schalke 04",
+   "Bayer Leverkusen"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which German club is famous for its giant 'Yellow Wall' stand?",
+   "d": "Borussia Dortmund",
+   "y": [
+    "Bayern Munich",
+    "Schalke 04",
+    "Bayer Leverkusen"
+   ]
+  },
+  "olgu": "'Yellow Wall' tribünü Borussia Dortmund'un stadındadır.",
+  "jev_p": 0.08,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-91",
+  "k": "spor",
+  "yerel": false,
+  "s": "'Cool Runnings' filmi, Jamaika'nın hangi kış sporundaki takımını anlatır?",
+  "d": "Bobsled",
+  "y": [
+   "Skeleton",
+   "Curling",
+   "Biatlon"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "'Cool Runnings' follows a Jamaican team competing in which winter sport?",
+   "d": "Bobsleigh",
+   "y": [
+    "Skeleton",
+    "Curling",
+    "Biathlon"
+   ]
+  },
+  "olgu": "Cool Runnings, Jamaika bobsled takımının hikâyesidir.",
+  "jev_p": 0.1,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-92",
+  "k": "spor",
+  "yerel": false,
+  "s": "FIFA'nın yılın en güzel golüne verdiği ödül hangi efsane futbolcunun adını taşır?",
+  "d": "Ferenc Puskás",
+  "y": [
+   "Alfredo Di Stéfano",
+   "Pelé",
+   "Eusébio"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "FIFA's award for the goal of the year is named after which legendary player?",
+   "d": "Ferenc Puskas",
+   "y": [
+    "Alfredo Di Stefano",
+    "Pele",
+    "Eusebio"
+   ]
+  },
+  "olgu": "FIFA'nın yılın golü ödülü Puskás Ödülü'dür.",
+  "jev_p": 0.11,
+  "hakem_tahmin": 3
+ },
+ {
+  "id": "K05-93",
+  "k": "spor",
+  "yerel": false,
+  "s": "'Jerry Maguire' filminde Tom Cruise'un canlandırdığı karakterin mesleği nedir?",
+  "d": "Spor menajeri",
+  "y": [
+   "Antrenör",
+   "Spor muhabiri",
+   "Takım doktoru"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "What is Tom Cruise's character's job in 'Jerry Maguire'?",
+   "d": "Sports agent",
+   "y": [
+    "Coach",
+    "Sports reporter",
+    "Team doctor"
+   ]
+  },
+  "olgu": "Jerry Maguire, Tom Cruise'un oynadığı bir spor menajeridir.",
+  "jev_p": 0.14,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-94",
+  "k": "spor",
+  "yerel": false,
+  "s": "Ballon d'Or sahibi orta saha oyuncusu Luka Modrić hangi ülkelidir?",
+  "d": "Hırvatistan",
+  "y": [
+   "Sırbistan",
+   "Slovenya",
+   "Bosna-Hersek"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Ballon d'Or-winning midfielder Luka Modric represents which country?",
+   "d": "Croatia",
+   "y": [
+    "Serbia",
+    "Slovenia",
+    "Bosnia and Herzegovina"
+   ]
+  },
+  "olgu": "Luka Modrić Hırvat bir futbolcudur.",
+  "jev_p": 0.15,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-95",
+  "k": "spor",
+  "yerel": false,
+  "s": "Denzel Washington'ın 'Titanları Hatırla' filminde çalıştırdığı lise takımı hangi sporu oynar?",
+  "d": "Amerikan futbolu",
+  "y": [
+   "Basketbol",
+   "Buz hokeyi",
+   "Avustralya futbolu"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In 'Remember the Titans', Denzel Washington coaches a high school team in which sport?",
+   "d": "American football",
+   "y": [
+    "Basketball",
+    "Ice hockey",
+    "Australian rules football"
+   ]
+  },
+  "olgu": "'Remember the Titans' filminde Denzel Washington bir lise Amerikan futbolu takımını çalıştırır.",
+  "jev_p": 0.23,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-96",
+  "k": "spor",
+  "yerel": false,
+  "s": "İlk 'Rocky' filminde Rocky Balboa hangi şehirde yaşayan bir boksördür?",
+  "d": "Philadelphia",
+  "y": [
+   "Pittsburgh",
+   "Indianapolis",
+   "Boston"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In the original 'Rocky', which city is boxer Rocky Balboa from?",
+   "d": "Philadelphia",
+   "y": [
+    "Pittsburgh",
+    "Indianapolis",
+    "Boston"
+   ]
+  },
+  "olgu": "Rocky Balboa, Philadelphia'da yaşayan bir boksördür.",
+  "jev_p": 0.28,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-97",
+  "k": "spor",
+  "yerel": false,
+  "s": "David Beckham, Spice Girls'ün hangi üyesiyle evlenmiştir?",
+  "d": "Victoria Adams",
+  "y": [
+   "Geri Halliwell",
+   "Emma Bunton",
+   "Melanie Brown"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which Spice Girl did David Beckham marry?",
+   "d": "Victoria Adams",
+   "y": [
+    "Geri Halliwell",
+    "Emma Bunton",
+    "Melanie Brown"
+   ]
+  },
+  "olgu": "David Beckham, 'Posh Spice' Victoria Adams ile evlendi.",
+  "jev_p": 0.29,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-98",
+  "k": "spor",
+  "yerel": true,
+  "s": "Fenerbahçe'nin Şükrü Saracoğlu Stadyumu İstanbul'un hangi ilçesindedir?",
+  "d": "Kadıköy",
+  "y": [
+   "Beşiktaş",
+   "Şişli",
+   "Üsküdar"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Yerel TR sorusu (kapsam=yerel); İngilizce oyuncu için anlamsız",
+  "olgu": "Şükrü Saracoğlu Stadyumu Kadıköy'dedir.",
+  "jev_p": 0.31,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-99",
+  "k": "spor",
+  "yerel": false,
+  "s": "Margot Robbie'nin 'I, Tonya' filminde canlandırdığı sporcu hangi branştadır?",
+  "d": "Artistik patinaj",
+  "y": [
+   "Sürat pateni",
+   "Artistik jimnastik",
+   "Kayakla atlama"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In 'I, Tonya', Margot Robbie plays an athlete from which sport?",
+   "d": "Figure skating",
+   "y": [
+    "Speed skating",
+    "Artistic gymnastics",
+    "Ski jumping"
+   ]
+  },
+  "olgu": "'I, Tonya' filminde Margot Robbie artistik patinajcı Tonya Harding'i canlandırır.",
+  "jev_p": 0.46,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-100",
+  "k": "spor",
+  "yerel": false,
+  "s": "'Rocky III' filmiyle özdeşleşen 'Eye of the Tiger' şarkısını hangi grup seslendirir?",
+  "d": "Survivor",
+  "y": [
+   "Journey",
+   "Foreigner",
+   "Toto"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which band performed 'Eye of the Tiger', the song made famous by 'Rocky III'?",
+   "d": "Survivor",
+   "y": [
+    "Journey",
+    "Foreigner",
+    "Toto"
+   ]
+  },
+  "olgu": "'Eye of the Tiger' Survivor grubunun şarkısıdır.",
+  "jev_p": 0.47,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-101",
+  "k": "spor",
+  "yerel": false,
+  "s": "'Ted Lasso' dizisinde Ted, İngiltere'de hangi futbol kulübünü çalıştırır?",
+  "d": "AFC Richmond",
+  "y": [
+   "Brentford FC",
+   "Fulham FC",
+   "Millwall FC"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In the series 'Ted Lasso', which English football club does Ted coach?",
+   "d": "AFC Richmond",
+   "y": [
+    "Brentford FC",
+    "Fulham FC",
+    "Millwall FC"
+   ]
+  },
+  "olgu": "Ted Lasso dizide kurgusal AFC Richmond kulübünü çalıştırır.",
+  "jev_p": 0.48,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-102",
+  "k": "spor",
+  "yerel": false,
+  "s": "Adidas'ın kurucusu Adi Dassler'in ağabeyi Rudolf Dassler hangi markayı kurmuştur?",
+  "d": "Puma",
+  "y": [
+   "Reebok",
+   "Fila",
+   "Kappa"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Adidas founder Adi Dassler's older brother Rudolf founded which sportswear brand?",
+   "d": "Puma",
+   "y": [
+    "Reebok",
+    "Fila",
+    "Kappa"
+   ]
+  },
+  "olgu": "Adi Dassler'in ağabeyi Rudolf Dassler Puma'yı kurmuştur.",
+  "jev_p": 0.51,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-103",
+  "k": "spor",
+  "yerel": false,
+  "s": "2001 yapımı 'Ali' filminde Muhammad Ali'yi hangi oyuncu canlandırır?",
+  "d": "Will Smith",
+  "y": [
+   "Denzel Washington",
+   "Jamie Foxx",
+   "Cuba Gooding Jr."
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Who played Muhammad Ali in the 2001 film 'Ali'?",
+   "d": "Will Smith",
+   "y": [
+    "Denzel Washington",
+    "Jamie Foxx",
+    "Cuba Gooding Jr."
+   ]
+  },
+  "olgu": "'Ali' (2001) filminde Muhammad Ali'yi Will Smith canlandırır.",
+  "jev_p": 0.53,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-104",
+  "k": "spor",
+  "yerel": false,
+  "s": "Quarterback Tom Brady uzun yıllar hangi Brezilyalı süpermodelle evli kaldı?",
+  "d": "Gisele Bündchen",
+  "y": [
+   "Adriana Lima",
+   "Alessandra Ambrosio",
+   "Izabel Goulart"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "NFL quarterback Tom Brady was married for years to which Brazilian supermodel?",
+   "d": "Gisele Bundchen",
+   "y": [
+    "Adriana Lima",
+    "Alessandra Ambrosio",
+    "Izabel Goulart"
+   ]
+  },
+  "olgu": "Tom Brady, Gisele Bündchen ile evliydi.",
+  "jev_p": 0.54,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-105",
+  "k": "spor",
+  "yerel": false,
+  "s": "Ballon d'Or sahibi George Weah sonradan hangi ülkenin devlet başkanı oldu?",
+  "d": "Liberya",
+  "y": [
+   "Gana",
+   "Nijerya",
+   "Kamerun"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Ballon d'Or winner George Weah later became president of which country?",
+   "d": "Liberia",
+   "y": [
+    "Ghana",
+    "Nigeria",
+    "Cameroon"
+   ]
+  },
+  "olgu": "George Weah 2018'de Liberya devlet başkanı oldu.",
+  "jev_p": 0.05,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-106",
+  "k": "spor",
+  "yerel": false,
+  "s": "Karate, bugün Japonya'ya bağlı olan hangi adada doğup gelişmiştir?",
+  "d": "Okinawa",
+  "y": [
+   "Hokkaido",
+   "Kyushu",
+   "Shikoku"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Karate originated on which island that is now part of Japan?",
+   "d": "Okinawa",
+   "y": [
+    "Hokkaido",
+    "Kyushu",
+    "Shikoku"
+   ]
+  },
+  "olgu": "Karate Okinawa adasında gelişmiştir.",
+  "jev_p": 0.19,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-107",
+  "k": "spor",
+  "yerel": false,
+  "s": "'Rush' (2013) filminde Niki Lauda'nın büyük rakibi olan İngiliz pilot kimdir?",
+  "d": "James Hunt",
+  "y": [
+   "Jackie Stewart",
+   "Nigel Mansell",
+   "Graham Hill"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In 'Rush' (2013), which British driver is Niki Lauda's great rival?",
+   "d": "James Hunt",
+   "y": [
+    "Jackie Stewart",
+    "Nigel Mansell",
+    "Graham Hill"
+   ]
+  },
+  "olgu": "Rush filmi Niki Lauda ile James Hunt rekabetini anlatır.",
+  "jev_p": 0.2,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-108",
+  "k": "spor",
+  "yerel": false,
+  "s": "Fransa Açık'ın stadına adını veren Roland Garros aslen ne olarak tanınır?",
+  "d": "Havacı",
+  "y": [
+   "Tenisçi",
+   "Mimar",
+   "Bisikletçi"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Roland Garros, after whom the French Open stadium is named, was famous as what?",
+   "d": "Aviator",
+   "y": [
+    "Tennis player",
+    "Architect",
+    "Cyclist"
+   ]
+  },
+  "olgu": "Roland Garros, I. Dünya Savaşı döneminin ünlü bir Fransız havacısıdır.",
+  "jev_p": 0.33,
+  "hakem_tahmin": 3
+ },
+ {
+  "id": "K05-109",
+  "k": "spor",
+  "yerel": true,
+  "s": "2008'de NBA'de 'En Çok Gelişme Gösteren Oyuncu' ödülünü alan Türk basketbolcu kimdir?",
+  "d": "Hedo Türkoğlu",
+  "y": [
+   "Mehmet Okur",
+   "Ersan İlyasova",
+   "Enes Kanter"
+  ],
+  "zorluk": 3,
+  "en": null,
+  "en_neden": "Yerel TR sorusu (kapsam=yerel); İngilizce oyuncu için anlamsız",
+  "olgu": "Hidayet 'Hedo' Türkoğlu 2008'de NBA Most Improved Player ödülünü aldı.",
+  "jev_p": 0.33,
+  "hakem_tahmin": 3
+ },
+ {
+  "id": "K05-110",
+  "k": "spor",
+  "yerel": false,
+  "s": "Russell Crowe 'Cinderella Man' filminde hangi gerçek boksörü canlandırır?",
+  "d": "James J. Braddock",
+  "y": [
+   "Jack Dempsey",
+   "Jersey Joe Walcott",
+   "Max Baer"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Which real-life boxer does Russell Crowe play in 'Cinderella Man'?",
+   "d": "James J. Braddock",
+   "y": [
+    "Jack Dempsey",
+    "Jersey Joe Walcott",
+    "Max Baer"
+   ]
+  },
+  "olgu": "Russell Crowe 'Cinderella Man'de boksör James J. Braddock'u canlandırır.",
+  "jev_p": 0.34,
+  "hakem_tahmin": 3
+ },
+ {
+  "id": "K05-111",
+  "k": "spor",
+  "yerel": false,
+  "s": "Steve Carell ve Channing Tatum'lu 'Foxcatcher' filmi hangi sporu konu alır?",
+  "d": "Güreş",
+  "y": [
+   "Boks",
+   "Kürek",
+   "Eskrim"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "The film 'Foxcatcher', starring Steve Carell and Channing Tatum, centers on which sport?",
+   "d": "Wrestling",
+   "y": [
+    "Boxing",
+    "Rowing",
+    "Fencing"
+   ]
+  },
+  "olgu": "'Foxcatcher' filmi Olimpiyat güreşçileri Schultz kardeşleri anlatır.",
+  "jev_p": 0.43,
+  "hakem_tahmin": 3
+ },
+ {
+  "id": "K05-112",
+  "k": "tarih",
+  "yerel": false,
+  "s": "Atı Incitatus'u konsül yapmayı planladığı anlatılan Roma imparatoru kimdir?",
+  "d": "Caligula",
+  "y": [
+   "Nero",
+   "Commodus",
+   "Tiberius"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which Roman emperor is said to have planned to make his horse Incitatus a consul?",
+   "d": "Caligula",
+   "y": [
+    "Nero",
+    "Commodus",
+    "Tiberius"
+   ]
+  },
+  "olgu": "Antik kaynaklar, Caligula'nın atı Incitatus'u konsül yapmayı planladığını anlatır.",
+  "jev_p": 0.16,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-113",
+  "k": "tarih",
+  "yerel": false,
+  "s": "1911'de Louvre'dan çalınıp iki yıl sonra bulunan ünlü tablo hangisidir?",
+  "d": "Mona Lisa",
+  "y": [
+   "Çığlık",
+   "Yıldızlı Gece",
+   "İnci Küpeli Kız"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which famous painting was stolen from the Louvre in 1911 and recovered two years later?",
+   "d": "Mona Lisa",
+   "y": [
+    "The Scream",
+    "The Starry Night",
+    "Girl with a Pearl Earring"
+   ]
+  },
+  "olgu": "Mona Lisa 1911'de Louvre'dan çalınmış ve 1913'te Floransa'da bulunmuştur.",
+  "jev_p": 0.63,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-114",
+  "k": "tarih",
+  "yerel": false,
+  "s": "Kristof Kolomb'un ilk seferindeki amiral gemisinin adı nedir?",
+  "d": "Santa María",
+  "y": [
+   "Victoria",
+   "Golden Hind",
+   "São Gabriel"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "What was the name of Christopher Columbus's flagship on his first voyage?",
+   "d": "Santa Maria",
+   "y": [
+    "Victoria",
+    "Golden Hind",
+    "Sao Gabriel"
+   ]
+  },
+  "olgu": "Kolomb'un 1492 seferindeki amiral gemisi Santa María'ydı.",
+  "jev_p": 0.22,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-115",
+  "k": "sinema",
+  "yerel": false,
+  "s": "'İnanılmaz Aile' filminde süper kahraman kostümleri tasarlayan kısa boylu tasarımcının adı nedir?",
+  "d": "Edna",
+  "y": [
+   "Mirage",
+   "Evelyn",
+   "Helen"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In 'The Incredibles', what is the first name of the tiny designer who makes the superhero suits?",
+   "d": "Edna",
+   "y": [
+    "Mirage",
+    "Evelyn",
+    "Helen"
+   ]
+  },
+  "olgu": "'The Incredibles' filminde kahraman kostümlerini tasarlayan karakter Edna Mode'dur.",
+  "jev_p": 0.05,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-116",
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Harry Potter ve Felsefe Taşı'nda taşı koruyan üç başlı köpeğin adı nedir?",
+  "d": "Fluffy",
+  "y": [
+   "Fang",
+   "Norbert",
+   "Şahgaga"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In 'Harry Potter and the Sorcerer's Stone', what is the name of the three-headed dog guarding the stone?",
+   "d": "Fluffy",
+   "y": [
+    "Fang",
+    "Norbert",
+    "Buckbeak"
+   ]
+  },
+  "olgu": "Felsefe Taşı'nı koruyan üç başlı köpeğin adı Fluffy'dir.",
+  "jev_p": 0.07,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-117",
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Titanic' filminde Leonardo DiCaprio'nun canlandırdığı Jack'in soyadı nedir?",
+  "d": "Dawson",
+  "y": [
+   "Dalton",
+   "Dixon",
+   "Dawes"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In 'Titanic', what is the surname of Leonardo DiCaprio's character Jack?",
+   "d": "Dawson",
+   "y": [
+    "Dalton",
+    "Dixon",
+    "Dawes"
+   ]
+  },
+  "olgu": "Titanic'te DiCaprio'nun karakteri Jack Dawson'dır.",
+  "jev_p": 0.08,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-118",
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Yüzüklerin Efendisi'nde Tek Yüzük yok edilmek için hangi dağa götürülür?",
+  "d": "Hüküm Dağı",
+  "y": [
+   "Yalnız Dağ",
+   "Caradhras",
+   "Rüzgâr Tepesi"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In 'The Lord of the Rings', to which mountain must the One Ring be taken to be destroyed?",
+   "d": "Mount Doom",
+   "y": [
+    "The Lonely Mountain",
+    "Caradhras",
+    "Weathertop"
+   ]
+  },
+  "olgu": "Tek Yüzük, yapıldığı Hüküm Dağı'nın (Mount Doom) ateşinde yok edilmelidir.",
+  "jev_p": 0.08,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-119",
+  "k": "sinema",
+  "yerel": false,
+  "s": "Disney'in 'Encanto' filminde Madrigal ailesi hangi ülkede yaşar?",
+  "d": "Kolombiya",
+  "y": [
+   "Meksika",
+   "Peru",
+   "Venezuela"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In Disney's 'Encanto', which country is the Madrigal family's home?",
+   "d": "Colombia",
+   "y": [
+    "Mexico",
+    "Peru",
+    "Venezuela"
+   ]
+  },
+  "olgu": "Encanto filmi Kolombiya'da geçer.",
+  "jev_p": 0.13,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-120",
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Yeni Hayat' (Cast Away) filminde Chuck Noland hangi kargo şirketinde çalışır?",
+  "d": "FedEx",
+  "y": [
+   "UPS",
+   "DHL",
+   "TNT"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In 'Cast Away', which delivery company does Chuck Noland work for?",
+   "d": "FedEx",
+   "y": [
+    "UPS",
+    "DHL",
+    "TNT"
+   ]
+  },
+  "olgu": "Cast Away'de Tom Hanks'in karakteri Chuck Noland FedEx çalışanıdır.",
+  "jev_p": 0.16,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-121",
+  "k": "sinema",
+  "yerel": false,
+  "s": "Pixar'ın 'Cesur' (Brave) filmi hangi ülkede geçer?",
+  "d": "İskoçya",
+  "y": [
+   "İrlanda",
+   "Galler",
+   "Norveç"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In which country is Pixar's 'Brave' set?",
+   "d": "Scotland",
+   "y": [
+    "Ireland",
+    "Wales",
+    "Norway"
+   ]
+  },
+  "olgu": "Pixar'ın Brave filmi İskoçya'da geçer.",
+  "jev_p": 0.16,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-122",
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Karlar Ülkesi' filminde Elsa ile Anna'nın krallığının adı nedir?",
+  "d": "Arendelle",
+  "y": [
+   "Corona",
+   "Agrabah",
+   "Atlantica"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In 'Frozen', what is the name of the kingdom ruled by Elsa and Anna's family?",
+   "d": "Arendelle",
+   "y": [
+    "Corona",
+    "Agrabah",
+    "Atlantica"
+   ]
+  },
+  "olgu": "Frozen'da Elsa ve Anna Arendelle krallığının prensesleridir.",
+  "jev_p": 0.21,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-123",
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Sevimli Canavarlar' filminde Sulley'nin bağlandığı küçük kızın adı nedir?",
+  "d": "Boo",
+  "y": [
+   "Dot",
+   "Lily",
+   "Mia"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In 'Monsters, Inc.', what name does Sulley give the little girl who wanders into Monstropolis?",
+   "d": "Boo",
+   "y": [
+    "Dot",
+    "Lily",
+    "Mia"
+   ]
+  },
+  "olgu": "Monsters, Inc.'te canavarlar dünyasına giren küçük kıza Boo denir.",
+  "jev_p": 0.22,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-124",
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Black Panther' filminde Wakanda'nın zenginliğinin kaynağı olan kurgusal metal hangisidir?",
+  "d": "Vibranyum",
+  "y": [
+   "Adamantiyum",
+   "Kriptonit",
+   "Mithril"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In 'Black Panther', which fictional metal is the source of Wakanda's wealth?",
+   "d": "Vibranium",
+   "y": [
+    "Adamantium",
+    "Kryptonite",
+    "Mithril"
+   ]
+  },
+  "olgu": "'Black Panther'da Wakanda'nın zenginliği vibranyum metaline dayanır.",
+  "jev_p": 0.23,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-125",
+  "k": "sinema",
+  "yerel": true,
+  "s": "'Eşkıya' (1996) filminde Şener Şen'in canlandırdığı karakterin adı nedir?",
+  "d": "Baran",
+  "y": [
+   "Cumali",
+   "Memo",
+   "Haydar"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Yerel TR sorusu (kapsam=yerel); İngilizce oyuncu için anlamsız",
+  "olgu": "Eşkıya filminde Şener Şen, hapisten çıkan eşkıya Baran'ı oynar.",
+  "jev_p": 0.24,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-126",
+  "k": "sinema",
+  "yerel": true,
+  "s": "'Hababam Sınıfı' filmlerinde Halit Akçatepe'nin canlandırdığı karakter kimdir?",
+  "d": "Güdük Necmi",
+  "y": [
+   "İnek Şaban",
+   "Hayta İsmail",
+   "Domdom Ali"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Yerel TR sorusu (kapsam=yerel); İngilizce oyuncu için anlamsız",
+  "olgu": "'Hababam Sınıfı'nda Halit Akçatepe Güdük Necmi'yi canlandırır.",
+  "jev_p": 0.26,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-127",
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Alacakaranlık' serisinde Jacob Black hangi hayvana dönüşür?",
+  "d": "Kurt",
+  "y": [
+   "Ayı",
+   "Puma",
+   "Kartal"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In the 'Twilight' saga, what animal does Jacob Black transform into?",
+   "d": "Wolf",
+   "y": [
+    "Bear",
+    "Cougar",
+    "Eagle"
+   ]
+  },
+  "olgu": "Twilight serisinde Jacob Black kurda dönüşür.",
+  "jev_p": 0.27,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-128",
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Madagaskar' filminde hayvanat bahçesinden kaçan dörtlüden Gloria hangi hayvandır?",
+  "d": "Hipopotam",
+  "y": [
+   "Gergedan",
+   "Karıncayiyen",
+   "Zürafa"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In 'Madagascar', what kind of animal is Gloria?",
+   "d": "Hippo",
+   "y": [
+    "Rhino",
+    "Anteater",
+    "Giraffe"
+   ]
+  },
+  "olgu": "'Madagascar' filminde Gloria bir hipopotamdır.",
+  "jev_p": 0.28,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-129",
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Yaralı Yüz' (1983) filminde Tony Montana ABD'ye hangi ülkeden gelir?",
+  "d": "Küba",
+  "y": [
+   "Kolombiya",
+   "Meksika",
+   "Porto Riko"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In 'Scarface' (1983), which country does Tony Montana come to the US from?",
+   "d": "Cuba",
+   "y": [
+    "Colombia",
+    "Mexico",
+    "Puerto Rico"
+   ]
+  },
+  "olgu": "'Scarface' (1983) filminde Tony Montana Küba'dan ABD'ye gelen bir göçmendir.",
+  "jev_p": 0.29,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-130",
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Neşeli Günler' (The Sound of Music) filmi Avusturya'nın hangi şehrinde geçer?",
+  "d": "Salzburg",
+  "y": [
+   "Viyana",
+   "Innsbruck",
+   "Graz"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In which Austrian city is 'The Sound of Music' set?",
+   "d": "Salzburg",
+   "y": [
+    "Vienna",
+    "Innsbruck",
+    "Graz"
+   ]
+  },
+  "olgu": "The Sound of Music, von Trapp ailesinin yaşadığı Salzburg'da geçer.",
+  "jev_p": 0.05,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-131",
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Oyuncak Hikâyesi'nde oyuncaklara eziyet eden komşu çocuğun adı nedir?",
+  "d": "Sid",
+  "y": [
+   "Hank",
+   "Max",
+   "Pete"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In 'Toy Story', what is the name of Andy's toy-torturing neighbor?",
+   "d": "Sid",
+   "y": [
+    "Hank",
+    "Max",
+    "Pete"
+   ]
+  },
+  "olgu": "Toy Story'de oyuncakları parçalayan komşu çocuk Sid Phillips'tir.",
+  "jev_p": 0.1,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-132",
+  "k": "sinema",
+  "yerel": false,
+  "s": "İlk 'Star Wars' filminde İmparatorluğun yok ettiği, Prenses Leia'nın büyüdüğü gezegen hangisidir?",
+  "d": "Alderaan",
+  "y": [
+   "Naboo",
+   "Tatooine",
+   "Corellia"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In the original 'Star Wars', which planet, Princess Leia's home, is destroyed by the Empire?",
+   "d": "Alderaan",
+   "y": [
+    "Naboo",
+    "Tatooine",
+    "Corellia"
+   ]
+  },
+  "olgu": "Leia'nın büyüdüğü Alderaan gezegeni ilk Star Wars filminde Ölüm Yıldızı ile yok edilir.",
+  "jev_p": 0.11,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-133",
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Altıncı His' filminde ölüleri gördüğünü söyleyen küçük çocuğun adı nedir?",
+  "d": "Cole",
+  "y": [
+   "Danny",
+   "Tommy",
+   "Kevin"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In 'The Sixth Sense', what is the first name of the boy who sees dead people?",
+   "d": "Cole",
+   "y": [
+    "Danny",
+    "Tommy",
+    "Kevin"
+   ]
+  },
+  "olgu": "'The Sixth Sense' filminde ölüleri gören çocuk Cole Sear'dır.",
+  "jev_p": 0.17,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-134",
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Zor Ölüm' (Die Hard) filminde rehine dramı hangi şirketin gökdeleninde yaşanır?",
+  "d": "Nakatomi",
+  "y": [
+   "Tyrell",
+   "Weyland",
+   "Cyberdyne"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In 'Die Hard', which corporation's skyscraper is taken over by the hostage-takers?",
+   "d": "Nakatomi",
+   "y": [
+    "Tyrell",
+    "Weyland",
+    "Cyberdyne"
+   ]
+  },
+  "olgu": "Die Hard filmindeki rehine olayı Nakatomi Plaza'da geçer.",
+  "jev_p": 0.18,
+  "hakem_tahmin": 3
+ },
+ {
+  "id": "K05-135",
+  "k": "sinema",
+  "yerel": false,
+  "s": "'Ratatuy' filminde Remy'nin saçını çekerek yönettiği genç aşçının adı nedir?",
+  "d": "Linguini",
+  "y": [
+   "Skinner",
+   "Gusteau",
+   "Horst"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In 'Ratatouille', what is the name of the young cook Remy controls by pulling his hair?",
+   "d": "Linguini",
+   "y": [
+    "Skinner",
+    "Gusteau",
+    "Horst"
+   ]
+  },
+  "olgu": "'Ratatouille' filminde Remy, genç aşçı Alfredo Linguini'yi saçından yönlendirir.",
+  "jev_p": 0.21,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-136",
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "The Beatles grubu hangi İngiliz şehrinde kurulmuştur?",
+  "d": "Liverpool",
+  "y": [
+   "Manchester",
+   "Londra",
+   "Birmingham"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In which English city were The Beatles formed?",
+   "d": "Liverpool",
+   "y": [
+    "Manchester",
+    "London",
+    "Birmingham"
+   ]
+  },
+  "olgu": "The Beatles Liverpool'da kurulmuştur.",
+  "jev_p": 0.05,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-137",
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "'Breaking Bad' dizisinde Walter White'ın asıl mesleği nedir?",
+  "d": "Kimya öğretmeni",
+  "y": [
+   "Fizik öğretmeni",
+   "Biyoloji öğretmeni",
+   "Eczacı"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In 'Breaking Bad', what is Walter White's original job?",
+   "d": "Chemistry teacher",
+   "y": [
+    "Physics teacher",
+    "Biology teacher",
+    "Pharmacist"
+   ]
+  },
+  "olgu": "Walter White lisede kimya öğretmenidir.",
+  "jev_p": 0.08,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-138",
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Uçamayan kivi kuşu hangi ülkenin ulusal simgesidir?",
+  "d": "Yeni Zelanda",
+  "y": [
+   "Avustralya",
+   "Güney Afrika",
+   "Kosta Rika"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "The flightless kiwi bird is the national symbol of which country?",
+   "d": "New Zealand",
+   "y": [
+    "Australia",
+    "South Africa",
+    "Costa Rica"
+   ]
+  },
+  "olgu": "Kivi kuşu Yeni Zelanda'nın ulusal simgesidir.",
+  "jev_p": 0.11,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-139",
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Ninja Kaplumbağalar'ı yetiştiren bilge fare ustanın adı nedir?",
+  "d": "Splinter",
+  "y": [
+   "Shredder",
+   "Krang",
+   "Bebop"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "What is the name of the wise rat who trains the Teenage Mutant Ninja Turtles?",
+   "d": "Splinter",
+   "y": [
+    "Shredder",
+    "Krang",
+    "Bebop"
+   ]
+  },
+  "olgu": "Ninja Kaplumbağaların ustası fare Splinter'dır.",
+  "jev_p": 0.17,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-140",
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "James Cameron'ın 'Avatar' filmindeki Na'vi halkının yaşadığı uydunun adı nedir?",
+  "d": "Pandora",
+  "y": [
+   "Arrakis",
+   "Tatooine",
+   "Kripton"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In James Cameron's 'Avatar', what is the name of the moon where the Na'vi live?",
+   "d": "Pandora",
+   "y": [
+    "Arrakis",
+    "Tatooine",
+    "Krypton"
+   ]
+  },
+  "olgu": "'Avatar' filminde Na'vi halkı Pandora adlı uyduda yaşar.",
+  "jev_p": 0.21,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-141",
+  "k": "genel_kultur",
+  "yerel": true,
+  "s": "'Yaprak Dökümü' romanının yazarı kimdir?",
+  "d": "Reşat Nuri Güntekin",
+  "y": [
+   "Halit Ziya Uşaklıgil",
+   "Yakup Kadri",
+   "Peyami Safa"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Yerel TR sorusu (kapsam=yerel); İngilizce oyuncu için anlamsız",
+  "olgu": "'Yaprak Dökümü' Reşat Nuri Güntekin'in romanıdır.",
+  "jev_p": 0.23,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-142",
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "'Aslan Kral' filmindeki Timon ve Pumbaa ikilisinden Timon hangi hayvandır?",
+  "d": "Mirket",
+  "y": [
+   "Gelincik",
+   "Sincap",
+   "Rakun"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In The Lion King, what kind of animal is Timon?",
+   "d": "Meerkat",
+   "y": [
+    "Weasel",
+    "Squirrel",
+    "Raccoon"
+   ]
+  },
+  "olgu": "'Aslan Kral'da Timon bir mirket, Pumbaa bir yaban domuzudur.",
+  "jev_p": 0.23,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-143",
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Disney'in 'Pinokyo' filminde Pinokyo'nun vicdanı olan cırcır böceğinin adı nedir?",
+  "d": "Jiminy",
+  "y": [
+   "Timothy",
+   "Sebastian",
+   "Flounder"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In Disney's 'Pinocchio', what is the name of the cricket who acts as Pinocchio's conscience?",
+   "d": "Jiminy",
+   "y": [
+    "Timothy",
+    "Sebastian",
+    "Flounder"
+   ]
+  },
+  "olgu": "Disney'in 'Pinokyo' filminde Pinokyo'nun vicdanı Jiminy Cricket adlı cırcır böceğidir.",
+  "jev_p": 0.24,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-144",
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Caz efsanesi Louis Armstrong en çok hangi enstrümanıyla ünlüdür?",
+  "d": "Trompet",
+  "y": [
+   "Saksafon",
+   "Trombon",
+   "Klarnet"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Jazz legend Louis Armstrong was best known for playing which instrument?",
+   "d": "Trumpet",
+   "y": [
+    "Saxophone",
+    "Trombone",
+    "Clarinet"
+   ]
+  },
+  "olgu": "Louis Armstrong trompetiyle ünlüdür.",
+  "jev_p": 0.25,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-145",
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Hokusai'nin ünlü 'Büyük Dalga' baskısında dalga hangi yerin açığındadır?",
+  "d": "Kanagawa",
+  "y": [
+   "Osaka",
+   "Nagasaki",
+   "Hiroşima"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Hokusai's famous print shows The Great Wave off which Japanese location?",
+   "d": "Kanagawa",
+   "y": [
+    "Osaka",
+    "Nagasaki",
+    "Hiroshima"
+   ]
+  },
+  "olgu": "Hokusai'nin eserinin tam adı 'Kanagawa Açıklarında Büyük Dalga'dır.",
+  "jev_p": 0.25,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-146",
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "'Stranger Things' dizisi hangi kurgusal kasabada geçer?",
+  "d": "Hawkins",
+  "y": [
+   "Derry",
+   "Castle Rock",
+   "Riverdale"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Stranger Things is set in which fictional town?",
+   "d": "Hawkins",
+   "y": [
+    "Derry",
+    "Castle Rock",
+    "Riverdale"
+   ]
+  },
+  "olgu": "'Stranger Things' dizisi Indiana'daki kurgusal Hawkins kasabasında geçer.",
+  "jev_p": 0.25,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-147",
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Koyun işkembesinde pişirilen haggis hangi ülkenin ulusal yemeğidir?",
+  "d": "İskoçya",
+  "y": [
+   "İrlanda",
+   "Galler",
+   "İzlanda"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Haggis, traditionally cooked in a sheep's stomach, is the national dish of which country?",
+   "d": "Scotland",
+   "y": [
+    "Ireland",
+    "Wales",
+    "Iceland"
+   ]
+  },
+  "olgu": "Haggis İskoçya'nın ulusal yemeğidir.",
+  "jev_p": 0.25,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-148",
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Leonardo DiCaprio ilk Oscar'ını hangi filmle kazanmıştır?",
+  "d": "Diriliş",
+  "y": [
+   "Başlangıç",
+   "Aviator",
+   "Köstebek"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "For which film did Leonardo DiCaprio win his first Oscar?",
+   "d": "The Revenant",
+   "y": [
+    "Inception",
+    "The Aviator",
+    "The Departed"
+   ]
+  },
+  "olgu": "DiCaprio ilk En İyi Erkek Oyuncu Oscar'ını The Revenant (Diriliş) ile kazandı.",
+  "jev_p": 0.32,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-149",
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Flamenko dansı İspanya'nın hangi bölgesiyle özdeşleşmiştir?",
+  "d": "Endülüs",
+  "y": [
+   "Katalonya",
+   "Galiçya",
+   "Bask Bölgesi"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Flamenco is most closely associated with which region of Spain?",
+   "d": "Andalusia",
+   "y": [
+    "Catalonia",
+    "Galicia",
+    "Basque Country"
+   ]
+  },
+  "olgu": "Flamenko, İspanya'nın Endülüs bölgesine özgü bir müzik ve dans geleneğidir.",
+  "jev_p": 0.32,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-150",
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Çizgi film köpeği Scooby-Doo'nun en yakın arkadaşı ve sahibi kimdir?",
+  "d": "Shaggy",
+  "y": [
+   "Fred",
+   "Velma",
+   "Daphne"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Who is Scooby-Doo's owner and best friend?",
+   "d": "Shaggy",
+   "y": [
+    "Fred",
+    "Velma",
+    "Daphne"
+   ]
+  },
+  "olgu": "Scooby-Doo'nun sahibi ve en yakın arkadaşı Shaggy'dir.",
+  "jev_p": 0.34,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-151",
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Endülüs'teki ünlü Mağribi sarayı El Hamra (Alhambra) hangi şehirdedir?",
+  "d": "Granada",
+  "y": [
+   "Sevilla",
+   "Kurtuba",
+   "Toledo"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "The famous Moorish palace complex of the Alhambra is in which Spanish city?",
+   "d": "Granada",
+   "y": [
+    "Seville",
+    "Cordoba",
+    "Toledo"
+   ]
+  },
+  "olgu": "Alhambra sarayı İspanya'nın Granada şehrindedir.",
+  "jev_p": 0.35,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-152",
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "'Asteriks' çizgi romanlarında Oburiks'in küçük köpeğinin adı nedir?",
+  "d": "Idefix",
+  "y": [
+   "Milou",
+   "Pluto",
+   "Rantanplan"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In the Asterix comics, what is the name of Obelix's little dog?",
+   "d": "Dogmatix",
+   "y": [
+    "Snowy",
+    "Pluto",
+    "Rantanplan"
+   ]
+  },
+  "olgu": "Asteriks serisinde Oburiks'in (Obelix) köpeğinin adı Idefix'tir (İngilizcede Dogmatix).",
+  "jev_p": 0.43,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-153",
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "The Beatles grubunun ünlü kadrosunda davulları çalan isim kimdir?",
+  "d": "Ringo Starr",
+  "y": [
+   "Keith Moon",
+   "Charlie Watts",
+   "Phil Collins"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Who played drums in the classic line-up of The Beatles?",
+   "d": "Ringo Starr",
+   "y": [
+    "Keith Moon",
+    "Charlie Watts",
+    "Phil Collins"
+   ]
+  },
+  "olgu": "The Beatles'ın davulcusu Ringo Starr'dır.",
+  "jev_p": 0.48,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-154",
+  "k": "genel_kultur",
+  "yerel": true,
+  "s": "'Minik Serçe' lakabıyla anılan şarkıcı kimdir?",
+  "d": "Sezen Aksu",
+  "y": [
+   "Ajda Pekkan",
+   "Nilüfer",
+   "Emel Sayın"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Yerel TR sorusu (kapsam=yerel); İngilizce oyuncu için anlamsız",
+  "olgu": "Sezen Aksu 'Minik Serçe' lakabıyla anılır.",
+  "jev_p": 0.51,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-155",
+  "k": "genel_kultur",
+  "yerel": true,
+  "s": "'Behzat Ç.' dizisi hangi şehirde geçer?",
+  "d": "Ankara",
+  "y": [
+   "İstanbul",
+   "İzmir",
+   "Eskişehir"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Yerel TR sorusu (kapsam=yerel); İngilizce oyuncu için anlamsız",
+  "olgu": "Komiser Behzat Ç.'nin hikâyesini anlatan 'Behzat Ç.' dizisi Ankara'da geçer.",
+  "jev_p": 0.55,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-156",
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "'Pippi Uzuncorap' kitaplarının yazarı kimdir?",
+  "d": "Astrid Lindgren",
+  "y": [
+   "Selma Lagerlöf",
+   "Tove Jansson",
+   "H. C. Andersen"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Who wrote the Pippi Longstocking books?",
+   "d": "Astrid Lindgren",
+   "y": [
+    "Selma Lagerlof",
+    "Tove Jansson",
+    "H. C. Andersen"
+   ]
+  },
+  "olgu": "Pippi Uzuncorap'ın yazarı İsveçli Astrid Lindgren'dir.",
+  "jev_p": 0.57,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-157",
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Ajan James Bond hangi İngiliz istihbarat servisi için çalışır?",
+  "d": "MI6",
+  "y": [
+   "MI5",
+   "GCHQ",
+   "SAS"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which British intelligence service does James Bond work for?",
+   "d": "MI6",
+   "y": [
+    "MI5",
+    "GCHQ",
+    "SAS"
+   ]
+  },
+  "olgu": "James Bond, İngiliz dış istihbarat servisi MI6'nın ajanıdır.",
+  "jev_p": 0.59,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-158",
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "James Bond'un 'çalkalanmış, karıştırılmamış' olarak istediği kokteyl hangisidir?",
+  "d": "Martini",
+  "y": [
+   "Mojito",
+   "Negroni",
+   "Manhattan"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Which cocktail does James Bond famously order 'shaken, not stirred'?",
+   "d": "Martini",
+   "y": [
+    "Mojito",
+    "Negroni",
+    "Manhattan"
+   ]
+  },
+  "olgu": "James Bond martinisini 'shaken, not stirred' ister.",
+  "jev_p": 0.65,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-159",
+  "k": "genel_kultur",
+  "yerel": true,
+  "s": "'Selvi Boylum Al Yazmalım' filminde Asya karakterini canlandıran oyuncu kimdir?",
+  "d": "Türkan Şoray",
+  "y": [
+   "Hülya Koçyiğit",
+   "Fatma Girik",
+   "Filiz Akın"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Yerel TR sorusu (kapsam=yerel); İngilizce oyuncu için anlamsız",
+  "olgu": "'Selvi Boylum Al Yazmalım' filminde Asya'yı Türkan Şoray canlandırmıştır.",
+  "jev_p": 0.72,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-160",
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Korku klasiği 'Kuşlar' (The Birds) filminin yönetmeni kimdir?",
+  "d": "Alfred Hitchcock",
+  "y": [
+   "Stanley Kubrick",
+   "Steven Spielberg",
+   "Roman Polanski"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Who directed the horror classic 'The Birds'?",
+   "d": "Alfred Hitchcock",
+   "y": [
+    "Stanley Kubrick",
+    "Steven Spielberg",
+    "Roman Polanski"
+   ]
+  },
+  "olgu": "The Birds (1963) filmini Alfred Hitchcock yönetmiştir.",
+  "jev_p": 0.74,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-161",
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Mısır'daki Büyük Sfenks hangi şehrin yakınındadır?",
+  "d": "Gize",
+  "y": [
+   "Luksor",
+   "Asvan",
+   "İskenderiye"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "Near which Egyptian city does the Great Sphinx stand?",
+   "d": "Giza",
+   "y": [
+    "Luxor",
+    "Aswan",
+    "Alexandria"
+   ]
+  },
+  "olgu": "Büyük Sfenks, Gize piramitlerinin yanında yer alır.",
+  "jev_p": 0.74,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-162",
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "İspanyol mutfağının ünlü pilavı paella hangi bölgenin yemeğidir?",
+  "d": "Valensiya",
+  "y": [
+   "Endülüs",
+   "Katalonya",
+   "Galiçya"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Paella, Spain's famous rice dish, originally comes from which region?",
+   "d": "Valencia",
+   "y": [
+    "Andalusia",
+    "Catalonia",
+    "Galicia"
+   ]
+  },
+  "olgu": "Paella, İspanya'nın Valensiya bölgesinden çıkmıştır.",
+  "jev_p": 0.04,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-163",
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Kristof Kolomb'un 1492'deki ilk seferinde komuta ettiği en büyük gemi hangisidir?",
+  "d": "Santa María",
+  "y": [
+   "La Pinta",
+   "La Niña",
+   "San Salvador"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "On Columbus's first voyage in 1492, which was the largest ship, his flagship?",
+   "d": "Santa Maria",
+   "y": [
+    "La Pinta",
+    "La Nina",
+    "San Salvador"
+   ]
+  },
+  "olgu": "Kolomb'un 1492 seferindeki amiral gemisi Santa María'ydı; diğerleri Pinta ve Niña idi.",
+  "jev_p": 0.06,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-164",
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Dört ABD başkanının yüzünün oyulduğu Rushmore Dağı hangi eyalettedir?",
+  "d": "Güney Dakota",
+  "y": [
+   "Kuzey Dakota",
+   "Montana",
+   "Wyoming"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In which US state is Mount Rushmore located?",
+   "d": "South Dakota",
+   "y": [
+    "North Dakota",
+    "Montana",
+    "Wyoming"
+   ]
+  },
+  "olgu": "Rushmore Dağı Anıtı Güney Dakota eyaletindedir.",
+  "jev_p": 0.06,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-165",
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Van Gogh kulağını, yaşadığı hangi Güney Fransa kasabasında kesmiştir?",
+  "d": "Arles",
+  "y": [
+   "Nice",
+   "Avignon",
+   "Marsilya"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In which southern French town did Van Gogh cut off his ear?",
+   "d": "Arles",
+   "y": [
+    "Nice",
+    "Avignon",
+    "Marseille"
+   ]
+  },
+  "olgu": "Van Gogh 1888'de Arles'da kulağını kesmiştir.",
+  "jev_p": 0.16,
+  "hakem_tahmin": 3
+ },
+ {
+  "id": "K05-166",
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "'Jurassic Park' romanının yazarı kimdir?",
+  "d": "Michael Crichton",
+  "y": [
+   "Stephen King",
+   "Arthur C. Clarke",
+   "Ray Bradbury"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Who wrote the novel 'Jurassic Park'?",
+   "d": "Michael Crichton",
+   "y": [
+    "Stephen King",
+    "Arthur C. Clarke",
+    "Ray Bradbury"
+   ]
+  },
+  "olgu": "'Jurassic Park' romanını Michael Crichton yazmıştır.",
+  "jev_p": 0.16,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-167",
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "'The Big Bang Theory' dizisindeki Sheldon'un soyadı nedir?",
+  "d": "Cooper",
+  "y": [
+   "Hofstadter",
+   "Wolowitz",
+   "Koothrappali"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "On The Big Bang Theory, what is Sheldon's surname?",
+   "d": "Cooper",
+   "y": [
+    "Hofstadter",
+    "Wolowitz",
+    "Koothrappali"
+   ]
+  },
+  "olgu": "The Big Bang Theory'deki Sheldon'un soyadı Cooper'dır.",
+  "jev_p": 0.16,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-168",
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "'How I Met Your Mother' dizisinde arkadaşların takıldığı barın adı nedir?",
+  "d": "MacLaren's",
+  "y": [
+   "Paddy's Pub",
+   "Moe's",
+   "Cheers"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In How I Met Your Mother, what is the name of the gang's regular bar?",
+   "d": "MacLaren's",
+   "y": [
+    "Paddy's Pub",
+    "Moe's",
+    "Cheers"
+   ]
+  },
+  "olgu": "'How I Met Your Mother' dizisinde ekibin buluştuğu bar MacLaren's'tır.",
+  "jev_p": 0.16,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-169",
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "'Friends' dizisinde Ross'un evcil maymununun adı nedir?",
+  "d": "Marcel",
+  "y": [
+   "Bubbles",
+   "Bobo",
+   "Mojo"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "On Friends, what is the name of Ross's pet monkey?",
+   "d": "Marcel",
+   "y": [
+    "Bubbles",
+    "Bobo",
+    "Mojo"
+   ]
+  },
+  "olgu": "Friends'te Ross'un kapuçin maymununun adı Marcel'dir.",
+  "jev_p": 0.27,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-170",
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "İzlenimcilik akımına adını veren Monet tablosunun adı 'İzlenim, ...' diye nasıl sürer?",
+  "d": "Gün Doğumu",
+  "y": [
+   "Gün Batımı",
+   "Sabah Sisi",
+   "Nilüferler"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "Monet's painting that gave Impressionism its name is 'Impression,' what?",
+   "d": "Sunrise",
+   "y": [
+    "Sunset",
+    "Morning Mist",
+    "Water Lilies"
+   ]
+  },
+  "olgu": "İzlenimciliğe adını veren tablo Monet'nin 'İzlenim, Gün Doğumu' eseridir.",
+  "jev_p": 0.28,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-171",
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "'Friends'te Joey'nin Dr. Drake Ramoray'i oynadığı pembe dizi hangisidir?",
+  "d": "Days of Our Lives",
+  "y": [
+   "General Hospital",
+   "Santa Barbara",
+   "The Bold and the Beautiful"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "On Friends, which soap opera does Joey star in as Dr. Drake Ramoray?",
+   "d": "Days of Our Lives",
+   "y": [
+    "General Hospital",
+    "Santa Barbara",
+    "The Bold and the Beautiful"
+   ]
+  },
+  "olgu": "'Friends'te Joey, 'Days of Our Lives' dizisinde Dr. Drake Ramoray'i canlandırır.",
+  "jev_p": 0.34,
+  "hakem_tahmin": 3
+ },
+ {
+  "id": "K05-172",
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "'Star Wars'taki Chewbacca hangi türden bir yaratıktır?",
+  "d": "Wookiee",
+  "y": [
+   "Ewok",
+   "Jawa",
+   "Twi'lek"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In 'Star Wars', what species is Chewbacca?",
+   "d": "Wookiee",
+   "y": [
+    "Ewok",
+    "Jawa",
+    "Twi'lek"
+   ]
+  },
+  "olgu": "Chewbacca bir Wookiee'dir.",
+  "jev_p": 0.44,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-173",
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "'Game of Thrones'ta Stark ailesinin kuzeydeki kalesinin adı nedir?",
+  "d": "Winterfell",
+  "y": [
+   "Casterly Rock",
+   "Riverrun",
+   "Highgarden"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In 'Game of Thrones', what is the name of the Stark family's castle in the North?",
+   "d": "Winterfell",
+   "y": [
+    "Casterly Rock",
+    "Riverrun",
+    "Highgarden"
+   ]
+  },
+  "olgu": "Stark ailesinin atalarından kalma kalesi Winterfell'dir.",
+  "jev_p": 0.52,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-174",
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "Suşi rulolarını sarmakta kullanılan kurutulmuş deniz yosunu yaprağının adı nedir?",
+  "d": "Nori",
+  "y": [
+   "Kombu",
+   "Wakame",
+   "Hijiki"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "What is the dried seaweed sheet used to wrap sushi rolls called?",
+   "d": "Nori",
+   "y": [
+    "Kombu",
+    "Wakame",
+    "Hijiki"
+   ]
+  },
+  "olgu": "Suşi rulolarını sarmak için kurutulmuş nori yosunu yaprakları kullanılır.",
+  "jev_p": 0.62,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-175",
+  "k": "genel_kultur",
+  "yerel": false,
+  "s": "'Yüzüklerin Efendisi'nde Gollum'un yüzüğü bulmadan önceki asıl adı nedir?",
+  "d": "Sméagol",
+  "y": [
+   "Déagol",
+   "Gríma",
+   "Radagast"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In 'The Lord of the Rings', what was Gollum's original name?",
+   "d": "Smeagol",
+   "y": [
+    "Deagol",
+    "Grima",
+    "Radagast"
+   ]
+  },
+  "olgu": "Gollum'un asıl adı Sméagol'dür.",
+  "jev_p": 0.64,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-176",
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Peter Pan'da Peter'ın Londra'da tanıştığı en büyük Darling kardeşin adı nedir?",
+  "d": "Wendy",
+  "y": [
+   "Alice",
+   "Lucy",
+   "Dorothy"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In 'Peter Pan', what is the name of the eldest Darling child whom Peter meets in London?",
+   "d": "Wendy",
+   "y": [
+    "Alice",
+    "Lucy",
+    "Dorothy"
+   ]
+  },
+  "olgu": "Peter Pan'da Darling kardeşlerin en büyüğü Wendy'dir.",
+  "jev_p": 0.03,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-177",
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Selma Lagerlöf'ün kitabında küçülen Nils, hangi kuşun sırtında İsveç'i dolaşır?",
+  "d": "Kaz",
+  "y": [
+   "Leylek",
+   "Kartal",
+   "Turna"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In Selma Lagerlof's book, on the back of which bird does the shrunken Nils travel across Sweden?",
+   "d": "Goose",
+   "y": [
+    "Stork",
+    "Eagle",
+    "Crane"
+   ]
+  },
+  "olgu": "Nils Holgersson İsveç'i bir kazın sırtında dolaşır.",
+  "jev_p": 0.09,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-178",
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Monte Kristo Kontu kimliğine bürünen genç denizcinin ilk adı nedir?",
+  "d": "Edmond",
+  "y": [
+   "Fernand",
+   "Albert",
+   "Gérard"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "What is the first name of the young sailor who becomes the Count of Monte Cristo?",
+   "d": "Edmond",
+   "y": [
+    "Fernand",
+    "Albert",
+    "Gerard"
+   ]
+  },
+  "olgu": "Monte Kristo Kontu'nun asıl kimliği Edmond Dantès'tır.",
+  "jev_p": 0.15,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-179",
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Kipling'in 'Orman Kitabı'nda Mowgli'yi koruyup kollayan kara panterin adı nedir?",
+  "d": "Bagheera",
+  "y": [
+   "Shere Khan",
+   "Kaa",
+   "Akela"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In Kipling's 'The Jungle Book', what is the name of the black panther who protects Mowgli?",
+   "d": "Bagheera",
+   "y": [
+    "Shere Khan",
+    "Kaa",
+    "Akela"
+   ]
+  },
+  "olgu": "Orman Kitabı'nda Mowgli'yi koruyan kara panter Bagheera'dır.",
+  "jev_p": 0.15,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-180",
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Oliver Twist'te Oliver'ın yetimhanede \"biraz daha\" istediği yemek nedir?",
+  "d": "Yulaf lapası",
+  "y": [
+   "Mercimek çorbası",
+   "Patates püresi",
+   "Etli güveç"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In 'Oliver Twist', what food does Oliver famously ask for more of in the workhouse?",
+   "d": "Gruel",
+   "y": [
+    "Lentil soup",
+    "Mashed potatoes",
+    "Meat stew"
+   ]
+  },
+  "olgu": "Oliver Twist yetimhanede bir kase daha yulaf lapası (gruel) ister.",
+  "jev_p": 0.15,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-181",
+  "k": "edebiyat",
+  "yerel": true,
+  "s": "Sabahattin Ali'nin 'Kuyucaklı Yusuf' romanında Yusuf'un evlendiği kız kimdir?",
+  "d": "Muazzez",
+  "y": [
+   "Şahinde",
+   "Mihriban",
+   "Leman"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Yerel TR sorusu (kapsam=yerel); İngilizce oyuncu için anlamsız",
+  "olgu": "Kuyucaklı Yusuf'ta Yusuf, Salahattin Bey'in kızı Muazzez ile evlenir.",
+  "jev_p": 0.17,
+  "hakem_tahmin": 3
+ },
+ {
+  "id": "K05-182",
+  "k": "edebiyat",
+  "yerel": true,
+  "s": "Dede Korkut hikâyelerinde Tepegöz'ü öldüren yiğit kimdir?",
+  "d": "Basat",
+  "y": [
+   "Bamsı Beyrek",
+   "Kan Turalı",
+   "Salur Kazan"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Yerel TR sorusu (kapsam=yerel); İngilizce oyuncu için anlamsız",
+  "olgu": "Dede Korkut'ta Tepegöz'ü Basat öldürür.",
+  "jev_p": 0.17,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-183",
+  "k": "edebiyat",
+  "yerel": true,
+  "s": "Yaşar Kemal'in 'İnce Memed' romanında Memed'in dağa çıkmasına yol açan zalim ağa kimdir?",
+  "d": "Abdi Ağa",
+  "y": [
+   "Hüseyin Ağa",
+   "Kerim Ağa",
+   "Rıza Ağa"
+  ],
+  "zorluk": 2,
+  "en": null,
+  "en_neden": "Yerel TR sorusu (kapsam=yerel); İngilizce oyuncu için anlamsız",
+  "olgu": "İnce Memed'de Memed'in başkaldırdığı zalim ağa Abdi Ağa'dır.",
+  "jev_p": 0.2,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-184",
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Dickens'ın 'Noel Şarkısı'ndaki cimri Scrooge'un ilk adı nedir?",
+  "d": "Ebenezer",
+  "y": [
+   "Jeremiah",
+   "Bartholomew",
+   "Nathaniel"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In Dickens's 'A Christmas Carol', what is miserly Scrooge's first name?",
+   "d": "Ebenezer",
+   "y": [
+    "Jeremiah",
+    "Bartholomew",
+    "Nathaniel"
+   ]
+  },
+  "olgu": "'A Christmas Carol'daki Scrooge'un adı Ebenezer'dir.",
+  "jev_p": 0.27,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-185",
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Odysseia'da Odysseus'un mağarada gözünü kör ettiği tepegöz devin adı nedir?",
+  "d": "Polyphemos",
+  "y": [
+   "Prokrustes",
+   "Talos",
+   "Antaios"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In the 'Odyssey', what is the name of the Cyclops whom Odysseus blinds in his cave?",
+   "d": "Polyphemus",
+   "y": [
+    "Procrustes",
+    "Talos",
+    "Antaeus"
+   ]
+  },
+  "olgu": "Odysseus, Kyklop Polyphemos'un gözünü kör eder.",
+  "jev_p": 0.28,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-186",
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'İlyada'da Hektor'un öldürdüğü, Akhilleus'un en yakın dostu kimdir?",
+  "d": "Patroklos",
+  "y": [
+   "Agamemnon",
+   "Menelaos",
+   "Aias"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In the 'Iliad', which close friend of Achilles is killed by Hector?",
+   "d": "Patroclus",
+   "y": [
+    "Agamemnon",
+    "Menelaus",
+    "Ajax"
+   ]
+  },
+  "olgu": "İlyada'da Akhilleus'un dostu Patroklos Hektor tarafından öldürülür.",
+  "jev_p": 0.33,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-187",
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Dracula'da kontun şatosuna Transilvanya'ya giden genç avukatın soyadı nedir?",
+  "d": "Harker",
+  "y": [
+   "Seward",
+   "Holmwood",
+   "Morris"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In 'Dracula', what is the surname of the young solicitor who travels to the Count's castle?",
+   "d": "Harker",
+   "y": [
+    "Seward",
+    "Holmwood",
+    "Morris"
+   ]
+  },
+  "olgu": "Dracula romanında kontun şatosuna giden avukat Jonathan Harker'dır.",
+  "jev_p": 0.36,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-188",
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Da Vinci Şifresi'nin kahramanı olan Harvard'lı simgebilimcinin soyadı nedir?",
+  "d": "Langdon",
+  "y": [
+   "Teabing",
+   "Saunière",
+   "Fache"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In 'The Da Vinci Code', what is the surname of the Harvard symbologist hero?",
+   "d": "Langdon",
+   "y": [
+    "Teabing",
+    "Sauniere",
+    "Fache"
+   ]
+  },
+  "olgu": "Da Vinci Şifresi'nin kahramanı simgebilimci Robert Langdon'dır.",
+  "jev_p": 0.36,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-189",
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Shakespeare'in 'Julius Caesar'ında Sezar'ın ölürken \"Sen de mi?\" diye seslendiği kişi kimdir?",
+  "d": "Brutus",
+  "y": [
+   "Cassius",
+   "Antonius",
+   "Octavius"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In Shakespeare's 'Julius Caesar', to whom does the dying Caesar say 'Et tu'?",
+   "d": "Brutus",
+   "y": [
+    "Cassius",
+    "Antony",
+    "Octavius"
+   ]
+  },
+  "olgu": "Shakespeare'in oyununda Sezar 'Et tu, Brute?' sözünü Brutus'a söyler.",
+  "jev_p": 0.37,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-190",
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Muhteşem Gatsby'de Gatsby'nin geceleri izlediği, Daisy'nin iskelesindeki ışık ne renktir?",
+  "d": "Yeşil",
+  "y": [
+   "Kırmızı",
+   "Mavi",
+   "Mor"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In 'The Great Gatsby', what color is the light at the end of Daisy's dock?",
+   "d": "Green",
+   "y": [
+    "Red",
+    "Blue",
+    "Purple"
+   ]
+  },
+  "olgu": "Gatsby, Daisy'nin iskelesinin ucundaki yeşil ışığa bakar.",
+  "jev_p": 0.38,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-191",
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Jane Austen'ın 'Aşk ve Gurur' romanında Elizabeth'in ailesinin soyadı nedir?",
+  "d": "Bennet",
+  "y": [
+   "Bingley",
+   "Wickham",
+   "Lucas"
+  ],
+  "zorluk": 2,
+  "en": {
+   "s": "In Jane Austen's 'Pride and Prejudice', what is Elizabeth's family name?",
+   "d": "Bennet",
+   "y": [
+    "Bingley",
+    "Wickham",
+    "Lucas"
+   ]
+  },
+  "olgu": "Aşk ve Gurur'un kahramanı Elizabeth Bennet'tır.",
+  "jev_p": 0.44,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-192",
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Gulliver'in Gezileri'nde Gulliver'in devlerle karşılaştığı ülkenin adı nedir?",
+  "d": "Brobdingnag",
+  "y": [
+   "Lilliput",
+   "Blefuscu",
+   "Glubbdubdrib"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In 'Gulliver's Travels', what is the name of the land of giants?",
+   "d": "Brobdingnag",
+   "y": [
+    "Lilliput",
+    "Blefuscu",
+    "Glubbdubdrib"
+   ]
+  },
+  "olgu": "Gulliver'in Gezileri'nde devlerin ülkesi Brobdingnag'dır.",
+  "jev_p": 0.03,
+  "hakem_tahmin": 3
+ },
+ {
+  "id": "K05-193",
+  "k": "edebiyat",
+  "yerel": true,
+  "s": "'Tutunamayanlar'da intihar eden ve Turgut'un izini sürdüğü arkadaşının adı nedir?",
+  "d": "Selim",
+  "y": [
+   "Süleyman",
+   "Hikmet",
+   "Olric"
+  ],
+  "zorluk": 3,
+  "en": null,
+  "en_neden": "Yerel TR sorusu (kapsam=yerel); İngilizce oyuncu için anlamsız",
+  "olgu": "Tutunamayanlar'da Turgut Özben, intihar eden arkadaşı Selim Işık'ın hayatını araştırır.",
+  "jev_p": 0.11,
+  "hakem_tahmin": 3
+ },
+ {
+  "id": "K05-194",
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "H.G. Wells'in 'Zaman Makinesi'nde yeraltında yaşayan yaratıklara ne ad verilir?",
+  "d": "Morloklar",
+  "y": [
+   "Eloiler",
+   "Selenitler",
+   "Marslılar"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In H.G. Wells's 'The Time Machine', what are the underground-dwelling creatures called?",
+   "d": "Morlocks",
+   "y": [
+    "Eloi",
+    "Selenites",
+    "Martians"
+   ]
+  },
+  "olgu": "'The Time Machine'de yeraltında yaşayan yaratıklar Morloklardır.",
+  "jev_p": 0.12,
+  "hakem_tahmin": 3
+ },
+ {
+  "id": "K05-195",
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Jane Eyre'de Jane'in mürebbiye olarak çalıştığı malikânenin adı nedir?",
+  "d": "Thornfield",
+  "y": [
+   "Pemberley",
+   "Netherfield",
+   "Lowood"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In 'Jane Eyre', at which house does Jane work as a governess?",
+   "d": "Thornfield",
+   "y": [
+    "Pemberley",
+    "Netherfield",
+    "Lowood"
+   ]
+  },
+  "olgu": "Jane Eyre, Bay Rochester'ın Thornfield Hall malikânesinde mürebbiye olur.",
+  "jev_p": 0.13,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-196",
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "'Sineklerin Tanrısı'nda Ralph'ın gözlüklü, tombul arkadaşı hangi adla anılır?",
+  "d": "Piggy",
+  "y": [
+   "Jack",
+   "Simon",
+   "Roger"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In 'Lord of the Flies', what name is Ralph's bespectacled, overweight companion known by?",
+   "d": "Piggy",
+   "y": [
+    "Jack",
+    "Simon",
+    "Roger"
+   ]
+  },
+  "olgu": "Sineklerin Tanrısı'nda gözlüklü tombul çocuk Piggy lakabıyla anılır.",
+  "jev_p": 0.18,
+  "hakem_tahmin": 2
+ },
+ {
+  "id": "K05-197",
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Tolstoy'un 'Savaş ve Barış' romanındaki Pierre'in soyadı nedir?",
+  "d": "Bezuhov",
+  "y": [
+   "Bolkonski",
+   "Rostov",
+   "Kuragin"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In Tolstoy's 'War and Peace', what is Pierre's surname?",
+   "d": "Bezukhov",
+   "y": [
+    "Bolkonsky",
+    "Rostov",
+    "Kuragin"
+   ]
+  },
+  "olgu": "Savaş ve Barış'ın ana karakterlerinden Pierre'in soyadı Bezuhov'dur.",
+  "jev_p": 0.2,
+  "hakem_tahmin": 3
+ },
+ {
+  "id": "K05-198",
+  "k": "edebiyat",
+  "yerel": false,
+  "s": "Hemingway'in 'Yaşlı Adam ve Deniz'inde Santiago'ya bağlı genç çocuğun adı nedir?",
+  "d": "Manolin",
+  "y": [
+   "Pablo",
+   "Miguel",
+   "Diego"
+  ],
+  "zorluk": 3,
+  "en": {
+   "s": "In Hemingway's 'The Old Man and the Sea', what is the name of the boy devoted to Santiago?",
+   "d": "Manolin",
+   "y": [
+    "Pablo",
+    "Miguel",
+    "Diego"
+   ]
+  },
+  "olgu": "Yaşlı Adam ve Deniz'de Santiago'ya yardım eden çocuk Manolin'dir.",
+  "jev_p": 0.44,
+  "hakem_tahmin": 3
+ }
+]
