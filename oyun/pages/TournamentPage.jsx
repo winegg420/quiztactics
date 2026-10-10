@@ -667,7 +667,7 @@ export default function TournamentPage() {
           <Countdown bicim="qt" />
           <BugunKalanTurnuvalar className="m1-tv-kalanlar" />
           {haftalikGiysi?.ad && (
-            <QtRozet ton="coin" ikon="hediye">{tt("Bu haftanın ilk 3 ödülü: {ad}", { ad: haftalikGiysi.ad })}</QtRozet>
+            <QtRozet ton="coin" ikon="hediye">{tt("Bu haftanın ilk 3 ödülü: {ad}", { ad: tt(haftalikGiysi.ad) })}</QtRozet>
           )}
           {hataBandi}
           <div className="m1-tv-dugmeler">
@@ -833,7 +833,7 @@ export default function TournamentPage() {
                 {katilim !== null && katilim > 0 && (
                   <li>{tt("Katılan herkese {n} coin verilir.", { n: katilim })} {tt("Turnuvadan yarıda çıkarsan katılım ödülü de gitmez.")}</li>
                 )}
-                {haftalikGiysi?.ad && <li>{tt("Bu haftanın ilk 3 ödülü: {ad}", { ad: haftalikGiysi.ad })}</li>}
+                {haftalikGiysi?.ad && <li>{tt("Bu haftanın ilk 3 ödülü: {ad}", { ad: tt(haftalikGiysi.ad) })}</li>}
               </ul>
             );
           })()}
