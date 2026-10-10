@@ -79,14 +79,19 @@ export function cesitlilikHata(t) {
   if(sahip&&sahip!==t.k)return 'biçim: sınırlı alt tür yanlış kategoride';
   return null;
 }
+export const kalipSiniri = st => Number(st.klasor.slice(-2))>=3 ? 4 : Math.floor(st.adet*.05);
+export const yanlisUclu = (t, dil='tr') => {
+  const y=dil==='en'?t.en?.y:t.y;
+  return Array.isArray(y)?JSON.stringify(y.map(normalize).sort()):null;
+};
 export function cesitlilikSay(secilen, st) {
-  const kalip={},konu={},alt={};
-  for(const t of secilen){kalip[t.kalip]=(kalip[t.kalip]??0)+1;for(const x of t.konular??[])konu[t.k+':'+x]=(konu[t.k+':'+x]??0)+1;const key=t.k+':'+t.alt_tur;alt[key]=(alt[key]??0)+1;}
-  return {kalip,konu,alt_tur:alt,kalip_siniri:Math.floor(st.adet*.05),konu_siniri:2,alt_sinir:Object.fromEntries(Object.entries(ALT_SINIR).map(([k,[a,p]])=>[k+':'+a,Math.floor(st.plan.kota[k]*p)]))};
+  const kalip={},konu={},alt={},yanlis_uclu={tr:{},en:{}};
+  for(const t of secilen){kalip[t.kalip]=(kalip[t.kalip]??0)+1;for(const x of t.konular??[])konu[t.k+':'+x]=(konu[t.k+':'+x]??0)+1;const key=t.k+':'+t.alt_tur;alt[key]=(alt[key]??0)+1;for(const dil of ['tr','en']){const u=yanlisUclu(t,dil);if(u)yanlis_uclu[dil][u]=(yanlis_uclu[dil][u]??0)+1;}}
+  return {yanlis_uclu,yanlis_uclu_siniri:Number(st.klasor.slice(-2))>=3?2:null,kalip,konu,alt_tur:alt,kalip_siniri:kalipSiniri(st),konu_siniri:2,alt_sinir:Object.fromEntries(Object.entries(ALT_SINIR).map(([k,[a,p]])=>[k+':'+a,Math.floor(st.plan.kota[k]*p)]))};
 }
 export function sec(st, adaylar) {
   const yeni=Number(st.klasor.slice(-2))>=2;
-  const kalip={},konu={},alt={};const secilen=[];let yerel=0;
+  const kalip={},konu={},alt={},uclu={tr:{},en:{}};const ucuncu=Number(st.klasor.slice(-2))>=3;const secilen=[];let yerel=0;
   // En dar aday kovalari önce: kalıp ortak sınırı geniş kategorinin dar kotayı kapatmasını önler.
   const kovalar=KATEGORI.flatMap(k=>[2,3].map(z=>({k,z,h:z===3?st.plan.z3[k]:st.plan.kota[k]-st.plan.z3[k],a:adaylar.filter(t=>t.k===k&&t.z===z&&t.sonuc==='gecti')})));
   kovalar.sort((a,b)=>(a.a.length/Math.max(1,a.h))-(b.a.length/Math.max(1,b.h)));
@@ -96,8 +101,10 @@ export function sec(st, adaylar) {
       if(say===h)break;
       if(t.yerel&&(yerel>=Math.floor(st.adet*.1)||(['tarih','edebiyat'].includes(k)&&secilen.filter(x=>x.k===k&&x.yerel).length>=Math.floor(st.plan.kota[k]*.3))))continue;
       const ak=k+':'+t.alt_tur,lim=ALT_SINIR[k];
-      if(yeni&&((kalip[t.kalip]??0)>=Math.floor(st.adet*.05)||(t.konular??[]).some(x=>(konu[k+':'+x]??0)>=2)||(lim&&t.alt_tur===lim[0]&&(alt[ak]??0)>=Math.floor(st.plan.kota[k]*lim[1]))))continue;
+      if(yeni&&((kalip[t.kalip]??0)>=kalipSiniri(st)||(t.konular??[]).some(x=>(konu[k+':'+x]??0)>=2)||(lim&&t.alt_tur===lim[0]&&(alt[ak]??0)>=Math.floor(st.plan.kota[k]*lim[1]))))continue;
+      if(ucuncu&&['tr','en'].some(dil=>{const u=yanlisUclu(t,dil);return u&&(uclu[dil][u]??0)>=2;}))continue;
       secilen.push(t);say++;if(t.yerel)yerel++;
+      for(const dil of ['tr','en']){const u=yanlisUclu(t,dil);if(u)uclu[dil][u]=(uclu[dil][u]??0)+1;}
       kalip[t.kalip]=(kalip[t.kalip]??0)+1;alt[ak]=(alt[ak]??0)+1;for(const x of t.konular??[])konu[k+':'+x]=(konu[k+':'+x]??0)+1;
     }
   }

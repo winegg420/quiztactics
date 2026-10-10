@@ -24,6 +24,13 @@ Stilin tek kaynağı: docs/SORU_STIL_PROFILI.md. Bu dosya sonraki “CODEX.md'ye
 - Taslakta ek alanlar zorunlu: kalip (anlamsal olgu türü), konular (eser/seri/kişi kimlikleri dizisi), alt_tur. Sınırlı alt türler: video_oyunu_maskot, animasyon, tablo_gorsel, marka_maskot_cizgi. Kalan soruların alt türü gerçek içeriği belirtir. Yazar etiketleri içerikle karşılaştırır; etiket sınırı aşmak için değiştirilmez.
 - Seçimde oranların tam sayı üst sınırı aşağı yuvarlanır. ozet.json çeşitlilik sayımını ve sınırları taşır; kota/çeşitlilik açığı varsa parti hazır sayılmaz. codex-01 onaylı listesine bu yeni sınırlar geriye dönük uygulanmaz.
 
+### Çeşitlilik — codex-03’ten itibaren
+- Aynı soru kalıbı parti başına EN ÇOK 4 kez (önceki %5 sınırının yerine). Örnek: “X hangi grubun üyesiydi”, “kitabının yazarı kimdir”, “hangi şirket üretti”, “hangi yıl çıktı”, “makarnası hangi biçimdedir”, “hangi müzede”. Aynı bilgiyi farklı soru biçimleriyle sor: tersten sor, bağlam ver veya bir ayrıntı üzerinden sor. Sadece sözcükleri değiştirmek ya da kalıp etiketini bölmek çeşitlilik değildir; içerik ve soru yapısı gerçekten değişir. Aynı olgu havuzda veya partide yeniden sorulmaz.
+- Yanlış şıklar sorunun kendi alt alanından ve eşit inandırıcıdır: sporcu sorusunda benzer ülke/dönemin sporcuları, besteci sorusunda aynı dönemin bestecileri. Aynı yanlış şık üçlüsü partide en çok 2 kez; sıra değişikliği yeni üçlü sayılmaz. Araç hem TR hem EN normalleştirilmiş üçlüleri sayar.
+- Türkçede aynı şeyi anlatabilen sözcükler yanlış şık olamaz: sıçan/fare, mürebbiye/öğretmen gibi anlam örtüşmelerini ayrıca denetle.
+- Eser adlarında bilinen Türkçe yayın adını kullan; yoksa özgün adı yaz. TR ve EN eser kimliği aynı kalır.
+- Diğer kategori alt tür oranları ve eser/seri/kişi başına 2 sınırı sürer. codex-02 onaylı listesine bu kurallar geriye dönük uygulanmaz.
+
 ## Komutlar ve kapılar
 1. node araclar/soru-uretim/codex-kapi.mjs --klasor codex-NN --adet 200 --olc (codex-01 için 50).
 2. Kavramları incele; taslakları araclar/soru-uretim/codex-NN/taslaklar.json içine yaz.
@@ -57,4 +64,4 @@ Kapı 6 yok: api-uret.mjs değiştirilmez ve içe aktarılmaz. Claude incelemesi
 - Aynı anda en çok dört iş, tarayıcı açma, yeni paket kurma. .env.local ve gizli anahtarlar yazdırılmaz/loglanmaz.
 - Kesintide durum dosyasını koru ve aşağıdaki Son durum satırını nerede kalındığıyla güncelle; tamamlanmayan kapılar geçmiş gösterilmez.
 
-Son durum: codex-02 onaylandı; 24/128 çıkarıldı, altı düzeltme kapı 1–5 geçti. Migration 1048 uygulandı; aktif 13028 → 13226 (+198). codex-03 hazırlanacak.
+Son durum: codex-02 migration 1048 ile canlıda (+198; aktif 13028 → 13226). codex-03 hazır; 759 taslaktan net 200 (140×z2, 60×z3), kapı 1–5 ve çeşitlilik geçti. bekleyen.sql yalnız parti klasöründe; migration uygulanmadı, Claude incelemesi bekliyor. Ara kayıt .tmp/codex/codex-03/durum.json.

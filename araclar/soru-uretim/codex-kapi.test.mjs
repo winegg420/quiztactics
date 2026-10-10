@@ -27,3 +27,16 @@ const st={klasor:'codex-02',adet:200,plan:{kota,z3:Object.fromEntries(Object.key
 const a=['sanat','muzik'].flatMap(k=>Array.from({length:8},(_,i)=>({id:k+i,k,z:2,yerel:false,kalip:'ayni-anlamsal-kalip',alt_tur:'eser',konular:['eser'+i],sonuc:'gecti',jev_p:0.2})));
 assert.equal(sec(st,a).length,10);assert.equal(sec({...st,klasor:'codex-01'},a).length,16);
 });
+
+import {kalipSiniri,yanlisUclu} from './codex-kapi.mjs';
+test('codex03 dört kalıbı ve sıra bağımsız iki yanlış üçlüyü TR/EN korur; codex02 değişmez',()=>{
+const ks=['sanat','muzik','teknoloji','spor','tarih','sinema','genel_kultur','edebiyat'];
+const kota=Object.fromEntries(ks.map(k=>[k,k==='muzik'?12:0]));
+const st={klasor:'codex-03',adet:200,plan:{kota,z3:Object.fromEntries(ks.map(k=>[k,0]))}};
+const a=Array.from({length:12},(_,i)=>({id:String(i),k:'muzik',z:2,yerel:false,kalip:'p'+Math.floor(i/6),konular:['konu'+i],alt_tur:'album',y:i<6?['Do','Re','Mi']:['La','Si','Fa'],en:{y:i<6?['Doh','Ray','Me']:['Lah','See','Fah']},sonuc:'gecti',jev_p:i/100}));
+assert.equal(kalipSiniri(st),4);assert.equal(kalipSiniri({...st,klasor:'codex-02'}),10);
+assert.equal(yanlisUclu(a[0]),yanlisUclu({...a[0],y:['Mi','Do','Re']}));
+assert.equal(sec(st,a).length,4);assert.equal(sec({...st,klasor:'codex-02'},a).length,12);
+const c=cesitlilikSay(sec(st,a),st);assert.ok(Math.max(...Object.values(c.kalip))<=4);assert.ok(Math.max(...Object.values(c.yanlis_uclu.tr))<=2);assert.ok(Math.max(...Object.values(c.yanlis_uclu.en))<=2);
+const b=a.map((t,i)=>({...t,kalip:'ortak',y:['bir'+i,'iki'+i,'uc'+i],en:{y:['one'+i,'two'+i,'three'+i]}}));assert.equal(sec(st,b).length,4);
+});
