@@ -1121,6 +1121,47 @@
         "K03-41",
         "K03-47"
       ]
+    },
+    "kolay_04": {
+      "klasor": "kolay-04",
+      "durum": "bitti_canlida (2026-10-10; +194 aktif)",
+      "migration": "20260612001042_soru_parti_kolay_04",
+      "soru": 194,
+      "kategori": {
+        "sanat": 30,
+        "muzik": 20,
+        "teknoloji": 39,
+        "spor": 23,
+        "tarih": 3,
+        "sinema": 21,
+        "genel_kultur": 35,
+        "edebiyat": 23
+      },
+      "zorluk": {
+        "2": 132,
+        "3": 62
+      },
+      "yerel_tr": 16,
+      "ceviri_en": 178,
+      "taslak": 645,
+      "gecen": 284,
+      "elenen": {
+        "benzer": 124,
+        "biçim/kural": 52,
+        "hakem: tartışmalı": 35,
+        "Jev ipucu": 46,
+        "hakem: aşırı kolay": 42,
+        "cevap soruda": 11,
+        "hakem: yasak tip mantikla_bulunur": 6,
+        "birebir var": 20,
+        "uyarı": 14,
+        "hakem: doğru şık tartismali": 2,
+        "hakem: yasak tip okudugunu_anlama": 1,
+        "hakem: doğru şık yanlis": 1,
+        "hakem: EN uygun değil": 4,
+        "hakem: eskiyebilir": 3
+      },
+      "harcama_usd": 15.01
     }
   }
 }

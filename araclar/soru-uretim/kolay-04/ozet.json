@@ -1,0 +1,103 @@
+{
+  "klasor": "kolay-04",
+  "tarih": "2026-10-10",
+  "uretici": "claude-opus-5-5",
+  "hakem": "claude-sonnet-5-5",
+  "kota_gerekce": "Aktif zorluk 2 sayısı az olan kategoriye çok (ağırlık = en kalabalık + 25 − kategori)",
+  "z2_olcum": {
+    "sanat": 627,
+    "muzik": 723,
+    "teknoloji": 550,
+    "spor": 688,
+    "tarih": 877,
+    "sinema": 711,
+    "genel_kultur": 526,
+    "edebiyat": 695
+  },
+  "kota": {
+    "sanat": 30,
+    "muzik": 20,
+    "teknoloji": 39,
+    "spor": 23,
+    "tarih": 3,
+    "sinema": 21,
+    "genel_kultur": 41,
+    "edebiyat": 23
+  },
+  "z3_hedef": {
+    "sanat": 9,
+    "muzik": 6,
+    "teknoloji": 12,
+    "spor": 7,
+    "tarih": 1,
+    "sinema": 6,
+    "genel_kultur": 12,
+    "edebiyat": 7
+  },
+  "taslak": 645,
+  "gecen": 284,
+  "secilen": 194,
+  "kategori": {
+    "sanat": 30,
+    "muzik": 20,
+    "teknoloji": 39,
+    "spor": 23,
+    "tarih": 3,
+    "sinema": 21,
+    "genel_kultur": 35,
+    "edebiyat": 23
+  },
+  "zorluk": {
+    "2": 132,
+    "3": 62
+  },
+  "yerel": 16,
+  "en": 178,
+  "eksik": {
+    "sanat": {
+      "z2": 1,
+      "z3": 0
+    },
+    "genel_kultur": {
+      "z2": 7,
+      "z3": 0
+    }
+  },
+  "elenen_sebep": {
+    "benzer": 124,
+    "biçim/kural": 52,
+    "hakem: tartışmalı": 35,
+    "Jev ipucu": 46,
+    "hakem: aşırı kolay": 42,
+    "cevap soruda": 11,
+    "hakem: yasak tip mantikla_bulunur": 6,
+    "birebir var": 20,
+    "uyarı": 14,
+    "hakem: doğru şık tartismali": 2,
+    "hakem: yasak tip okudugunu_anlama": 1,
+    "hakem: doğru şık yanlis": 1,
+    "hakem: EN uygun değil": 4,
+    "hakem: eskiyebilir": 3
+  },
+  "harcama_usd": {
+    "claude": 14.998,
+    "jev": 0.0137,
+    "toplam": 15.012,
+    "jeton": {
+      "claude-opus-5-5": {
+        "girdi": 992967,
+        "cikti": 327715,
+        "cagri": 250,
+        "onbellek_yaz": 131467,
+        "onbellek_oku": 4058725
+      },
+      "claude-sonnet-5-5": {
+        "girdi": 592404,
+        "cikti": 100628,
+        "cagri": 378,
+        "onbellek_yaz": 0,
+        "onbellek_oku": 0
+      }
+    }
+  }
+}
