@@ -1,0 +1,61 @@
+{
+ "cerceve": {
+  "okunan_kart": 106,
+  "cercevesiz": 0
+ },
+ "ana-sayfa": {
+  "yatayTasma": 0,
+  "avatar": 2,
+  "parla": 2,
+  "acik": 2,
+  "parlasiz": []
+ },
+ "profil": {
+  "yatayTasma": 0,
+  "avatar": 1,
+  "parla": 1,
+  "acik": 1,
+  "parlasiz": []
+ },
+ "lig-listesi": {
+  "yatayTasma": 0,
+  "avatar": 25,
+  "parla": 25,
+  "acik": 9,
+  "parlasiz": []
+ },
+ "dunya-siralamasi": {
+  "yatayTasma": 0,
+  "avatar": 100,
+  "parla": 100,
+  "acik": 10,
+  "parlasiz": []
+ },
+ "duello-mac": {
+  "yatayTasma": 0,
+  "avatar": 2,
+  "parla": 2,
+  "acik": 2,
+  "parlasiz": []
+ },
+ "mac-sonu": {
+  "yatayTasma": 0,
+  "avatar": 2,
+  "parla": 2,
+  "acik": 2,
+  "parlasiz": []
+ },
+ "dukkan-avatar-prestij": {
+  "yatayTasma": 0,
+  "avatar": 70,
+  "parla": 1,
+  "acik": 1,
+  "parlasiz": [
+   " 67px",
+   " 48px",
+   " 48px",
+   " 48px"
+  ]
+ },
+ "dukkanDugme": "Prestij · 2.500 coin"
+}
