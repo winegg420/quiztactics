@@ -455,8 +455,8 @@ export default function JokerDukkani() {
   // Sıralı kart girişi yalnız İLK açılışta (sekme değişince / veri yenilenince yeniden oynamaz); kozmetik sekmelerine prop ile iner.
   const sirali = useSiraliGiris(kozmetikSekmesi ? kozmetik.hazir : hazir);
   // Bölüme kaydır (üst çubuk yapışkan — payı düşülür). Bağlantıyla da istenir: ?sekme=elmas&bolum=kazan (Koleksiyon),
-  // eski ?sekme=coin (Joker sekmesine düşer, coin bölümüne iner).
-  const adresBolum = arama.get("bolum") === "kazan" && sekme === "elmas" ? "elmas" : arama.get("sekme") === "coin" ? "coin" : null;
+  // ?sekme=joker&bolum=coin ve eski ?sekme=coin (Joker sekmesine düşer, coin bölümüne iner).
+  const adresBolum = arama.get("bolum") === "kazan" && sekme === "elmas" ? "elmas" : arama.get("sekme") === "coin" || (arama.get("bolum") === "coin" && sekme === "joker") ? "coin" : null;
   const kaydirHedef = kaydir ?? adresBolum;
   useEffect(() => {
     if (!kaydirHedef || !hazir) return undefined;

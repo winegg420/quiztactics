@@ -304,7 +304,7 @@ export default function KarakterPage() {
       <div className="alt-yazi" style={{ textAlign: "center", margin: "12px 0 4px" }}>
         {tt("Coin bakiyen:")} <b>{bakiye.toLocaleString("tr-TR")}</b> {tt("· Renkler ücretsiz")}
       </div>
-      <button className="btn ikincil" onClick={() => navigate(y("/joker?sekme=gorunum"))}>
+      <button className="btn ikincil" onClick={() => navigate(y("/joker?sekme=avatar"))}>
         {tt("Dükkânda tüm parçalar")}
       </button>
 

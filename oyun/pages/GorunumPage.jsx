@@ -180,7 +180,7 @@ export default function GorunumPage() {
     } catch (e) {
       const m = coinHatasi(e);
       setHata(m);
-      if (m === "Coin yetmiyor") navigate(y("/joker?sekme=coin"));
+      if (m === "Coin yetmiyor") navigate(y("/joker?sekme=joker&bolum=coin"));
     } finally {
       setAlinan(null);
     }

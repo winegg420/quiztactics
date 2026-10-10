@@ -37,8 +37,13 @@ import { LIG_ADLARI } from "../lib/lig.js";
 import { hataMesaji } from "../lib/hata.js";
 import { tt } from "../lib/dil.js";
 import { y } from "../lib/yol.js";
+import { DUKKAN_PREMIUM_CERCEVE_ACIK } from "../lib/ozellikBayraklari.js";
 import { QtDugme, QtIkon, QtKart, dokunus, sinif, siraStili } from "../tasarim/index.js";
 import "../tasarim/ekranlar/cerceve-secici.css";
+
+// Koleksiyon bölümü → Dükkân sekmesi (JokerDukkani.jsx › SEKMELER: elmas · joker · [cerceve] · avatar · efekt).
+// Dükkânda kendi sekmesi olmayan kozmetik (arka plan, VS kartı, isim, zafer, tepki) en yakın kozmetik sekmesine (Avatar) gider.
+const dukkanSekmesi = (kod) => (kod === "efekt" ? "efekt" : kod === "pcerceve" && DUKKAN_PREMIUM_CERCEVE_ACIK ? "cerceve" : "avatar");
 
 /** Kazanılmamış çerçevenin nasıl kazanılacağı (kosul: "lig:gumus" | "level:25" | "turnuva:1" | "etkinlik:yilbasi"). */
 export function kosulMetni(kosul) {
@@ -269,7 +274,7 @@ export default function Koleksiyon() {
                     <span className="qt-cs-durum">{durumYazi(a.takili, `a:${a.anahtar}`)}</span>
                   </button>
                 ) : (
-                  <Link className="qt-cs-oge qt-cs-oge--kilitli" to={y("/joker?sekme=aura")}
+                  <Link className="qt-cs-oge qt-cs-oge--kilitli" to={y("/joker?sekme=avatar")}
                         aria-label={a.satilik ? tt("{ad} — Dükkân'da {n} elmas", { ad, n: a.fiyat }) : tt("{ad} — etkinlik ödülü", { ad })}>
                     <CerceveliAvatar profile={profile ?? {}} userId={user?.id} aura={a.anahtar} boyut={64} />
                     <span className="qt-cs-ad">{ad}</span>
@@ -283,7 +288,7 @@ export default function Koleksiyon() {
             );
           })}
         </ul>
-        <QtDugme as={Link} to={y("/joker?sekme=aura")} tur="ikincil" ikon="dukkan" tamGenislik>{tt("Dükkân'da arka planlar")}</QtDugme>
+        <QtDugme as={Link} to={y("/joker?sekme=avatar")} tur="ikincil" ikon="dukkan" tamGenislik>{tt("Dükkân'da arka planlar")}</QtDugme>
       </QtKart>
       )}
 
@@ -334,7 +339,7 @@ export default function Koleksiyon() {
                         <span className="qt-cs-durum">{x.sahip ? tt("Maçta hazır") : tt("Kullanılabilir")}</span>
                       </div>
                     ) : (
-                      <Link className="qt-cs-oge qt-cs-oge--kilitli" to={y(`/joker?sekme=${s.kod}`)}
+                      <Link className="qt-cs-oge qt-cs-oge--kilitli" to={y(`/joker?sekme=${dukkanSekmesi(s.kod)}`)}
                             aria-label={kozmetikParasi(x) === "coin"
                               ? tt("{ad} — Dükkân'da {n} coin", { ad: kozmetikAdi(x), n: x.fiyat ?? "" })
                               : tt("{ad} — Dükkân'da {n} elmas", { ad: kozmetikAdi(x), n: x.fiyat ?? "" })}>
