@@ -257,3 +257,26 @@
 /* Profil sayfası/penceresi: yatay taşma yok (9 Eki 2026) */
 .qt-pf { max-width: 100%; overflow-x: clip; }
 .qt-pf > * { min-width: 0; max-width: 100%; }
+
+/* ——— Ekran revizyonu A (Ida, 10 Eki 2026): kompakt kimlik tek satır + Ödüllerim (İstatistik sekmesinin başı) ———
+   iOS: bu öğelerde ve atalarında transform/filter yok (arka plan katmanı z-index ile, .abp-sahip isolation). */
+.qt-pf-kisa {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 12px; min-width: 0;
+  padding: 12px 14px; border: 3px solid var(--oyk-kontur, #0b1220); border-radius: 22px;
+  background: var(--qt-yuzey); box-shadow: 0 4px 0 var(--oyk-kontur, #0b1220); color: var(--qt-metin); overflow: hidden;
+}
+.qt-pf-kimlik > .qt-pf-kisa:not(:last-child) { border-bottom-left-radius: 0; border-bottom-right-radius: 0; box-shadow: none; }
+.qt-pf-kisa-metin { display: grid; gap: 4px; min-width: 0; justify-items: start; }
+.qt-pf-kisa-ad { margin: 0; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: var(--qt-a-siyah) var(--qt-y-xl)/1.15 var(--qt-f-baslik); }
+.qt-pf-kisa-alt { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; min-width: 0; }
+.qt-pf-kisa-alt .qt-ok-satir { justify-content: flex-start; }
+.qt-pf-kisa .qt-ok-lig { color: inherit; }
+.qt-pf-kisa.abp-sahip { color: #fff; text-shadow: 0 1px 2px rgba(10, 20, 40, .55); --qt-metin: #fff; --qt-metin-soluk: #fff; }
+.qt-pf-kisa.abp-sahip .qt-rozet { text-shadow: none; }
+.qt-pf-kimlik > .qt-pf-serit { border-top: 0; }
+.qt-pf-oduller { display: grid; gap: var(--qt-b-3); min-width: 0; }
+.qt-pf-oduller-baslik { justify-self: start; margin: 0; }
+.qt-pf-vitrin { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--qt-b-2); }
+.qt-pf-vitrin-baslik, .qt-pf-level-odul .qt-dk-level-odul-baslik { font-size: var(--qt-y-xs); font-weight: var(--qt-a-siyah); color: var(--qt-metin-soluk); text-transform: uppercase; letter-spacing: 0.04em; }
+.qt-pf-level-odul { padding: var(--qt-b-3) var(--qt-b-4); border: 3px solid var(--oyk-kontur, #0b1220); border-radius: 18px; background: var(--qt-yuzey); box-shadow: 0 4px 0 var(--oyk-kontur, #0b1220); }
+.qt-pf-level-odul:empty { display: none; }

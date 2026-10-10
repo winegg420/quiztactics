@@ -12,7 +12,11 @@ import AvatarCerceve from "../components/AvatarCerceve.jsx";
 import OyuncuLigAmblemi from "../components/OyuncuLigAmblemi.jsx";
 import RozetlerPaneli from "../components/RozetlerPaneli.jsx";
 import Koleksiyon from "../components/Koleksiyon.jsx";
-import OyuncuVitrinKarti from "../components/OyuncuVitrinKarti.jsx";
+import { KartLigSatiri, useOyuncuKarti } from "../components/OyuncuVitrinKarti.jsx";
+import CerceveliAvatar from "../components/CerceveliAvatar.jsx";
+import UnvanYazisi from "../components/UnvanYazisi.jsx";
+import { KartArkaPlanKatmani, kartArkaPlanSinifi, useKartArkaPlani } from "../tasarim/arka-plan/kayit.jsx";
+import { gorunenAd } from "../lib/oyuncu.js";
 import KoleksiyonDokumu from "../components/KoleksiyonDokumu.jsx";
 import VitrinRozetleri from "../components/VitrinRozetleri.jsx";
 import DavetKarti from "../components/DavetKarti.jsx";
@@ -71,6 +75,14 @@ export default function ProfilePage() {
   const { dil, dilDegistir } = useDil();
   // Profil dört sekmeye ayrıldı; varsayılan İstatistiklerim.
   const [sekme, setSekme] = useState("istatistik");
+  // Ekran revizyonu A (Ida, 10 Eki 2026): Ayarlar/Davet'e doğrudan gelinince (/profil?sekme=…) üstte yalnız kısa kimlik satırı
+  // (level çubuğu yok). Sekme tıklamaları bunu değiştirmez; dışarıdan gelen her bağlantı yeniden belirler.
+  const [kisaKimlik, setKisaKimlik] = useState(() => {
+    try { return ["ayarlar", "davet"].includes(new URLSearchParams(window.location.search).get("sekme")); } catch { return false; }
+  });
+  // Kimlik satırı + Ödüllerim (vitrin rozetleri) için oyuncu kartı; takılı kart arka planı satırın arkasında
+  const kart = useOyuncuKarti(user?.id);
+  const arkaPlan = useKartArkaPlani(user?.id, kart ?? undefined);
   const [cikisOnay, setCikisOnay] = useState(false);
   // Paket 41 C: avatar menüsündeki "Ayarlar" → /profil?sekme=ayarlar doğrudan Ayarlar sekmesini açar
   const konum = useLocation();
@@ -87,6 +99,7 @@ export default function ProfilePage() {
   };
   useEffect(() => {
     const s = new URLSearchParams(konum.search).get("sekme");
+    if (!konum.state?.sekmeTik) setKisaKimlik(s === "ayarlar" || s === "davet");
     if (!s || !SEKME_KODLARI.includes(s)) return;
     setSekme(s);
     if (konum.state?.sekmeTik) return undefined;
@@ -233,26 +246,42 @@ export default function ProfilePage() {
       {/* ---------- Kimlik: avatar (lig çerçevesiyle), takma ad, rütbe, level ---------- */}
       {/* Oyun hissi: kart içinde kart yok — oyuncu kartı tek afiş, rütbe + level çubuğu ona bitişik şerit.
           Lig sahnesi (2 Eki 2026): koyu levha yerine ligin açık zemini — bkz. OyuncuVitrinKarti `ligSahnesi`. */}
+      {/* Ekran revizyonu A (Ida, 10 Eki 2026): kompakt kimlik tek satır — çerçeveli avatar (takılı kart arka planı arkada),
+          isim efekti, unvan, lig + level (+BP), misafir; altında level/XP çubuğu. Eski dikey vitrin kartının bilgileri burada,
+          ödüller (sayılar, vitrin rozetleri, level ödülleri, koleksiyon) İstatistik › Ödüllerim'de. Başkasının kartı aynen. */}
       <section className={sinif("qt-pf-kimlik", sirali)} style={siraStili(0)} aria-label={tt("Oyuncu kimliği")}>
-        {/* Görsel revizyon (25 Eyl): tek oyuncu kartı — başkalarının gördüğü kartın aynısı (avatar + çerçeve + arka plan,
-            isim, unvan, lig + level, vitrin rozetleri). */}
-        <OyuncuVitrinKarti userId={user?.id} profile={profile} boyut={88} hareketli arkaPlan ligSahnesi koleksiyonCipi={false} className="qt-pf-ok" />
-        <div className="qt-pf-serit">
-          {/* Rütbe etiketi kaldırıldı (2 Eki 2026): LevelCubugu zaten "Level N · {rütbe}" gösteriyor, tekrardı. */}
-          {misafirMi(user) && (
-            <div className="qt-pf-rozetler">
-              <QtRozet ton="uyari" ikon="kisi">{tt("Misafir")}</QtRozet>
-            </div>
-          )}
-          <LevelCubugu profile={profile} canli levelYok />
-          {/* 1039: sıradaki 3 level ödülü (avatar · skill · rütbe) */}
-          <LevelOdulleri level={profile?.level} />
+        <div className={`qt-pf-kisa${kartArkaPlanSinifi(arkaPlan)}`}>
+          <KartArkaPlanKatmani sanat={arkaPlan} hareketli yukseklik={100} />
+          <CerceveliAvatar profile={profile} userId={user?.id} boyut={64} hareketli {...(kart ? { kart } : {})} />
+          <div className="qt-pf-kisa-metin">
+            <p className="qt-pf-kisa-ad">
+              <IsimEfekti userId={user?.id} kart={kart ?? undefined} koyu={Boolean(arkaPlan)} hareketli>{gorunenAd(kart?.ad ?? profile?.gorunen_ad)}</IsimEfekti>
+            </p>
+            {kart?.unvan && <UnvanYazisi unvan={kart.unvan} boy="k" />}
+            <span className="qt-pf-kisa-alt">
+              <KartLigSatiri lig={kart?.lig} level={kart?.level ?? level} amblem={20} bp={kart?.sezon_bp === true} />
+              {misafirMi(user) && <QtRozet ton="uyari" ikon="kisi" boyut="k">{tt("Misafir")}</QtRozet>}
+            </span>
+          </div>
         </div>
+        {!kisaKimlik && (
+          <div className="qt-pf-serit">
+            {/* Rütbe etiketi kaldırıldı (2 Eki 2026): LevelCubugu zaten "Level N · {rütbe}" gösteriyor, tekrardı. */}
+            <LevelCubugu profile={profile} canli levelYok />
+          </div>
+        )}
       </section>
 
-      {/* 646: Koleksiyon Puanı özeti (rozet · unvan · puan + nadirlik dağılımı); tam döküm Koleksiyon sekmesinde */}
-      <KoleksiyonDokumu sirali={sirali} sira={1} />
+      {/* ---------- SEKMELER (revizyon A: ilk ekranda) ---------- */}
+      <div id="profil-sekmeler" className={sinif("qt-pf-sekmeler", sirali)} style={siraStili(1)}>
+        <QtSekmeler etiket={tt("Profil bölümleri")} sekmeler={sekmeler} aktif={sekme} onSec={sekmeSec} />
+      </div>
 
+      <div id={`qt-panel-${sekme}`} role="tabpanel" className="qt-pf-panel">
+        {sekme === "istatistik" && (<>
+      {/* ---------- Ödüllerim (revizyon A): eskiden kimlik kartının altındaydı ---------- */}
+      <section className="qt-pf-oduller" aria-labelledby="qt-pf-oduller-b">
+      <h2 id="qt-pf-oduller-b" className={sinif("qt-baslik-3 qt-plaka qt-pf-oduller-baslik", sirali)} style={siraStili(2)}>{tt("Ödüllerim")}</h2>
       {/* ---------- Üç sayı: puan mor · kupa altın · seri turuncu (oyun kartı dili); hedefi olan kart soluk ---------- */}
       <ul className="qt-pf-sayilar">
         <li className={sirali} style={siraStili(2)}>
@@ -291,14 +320,19 @@ export default function ProfilePage() {
           </div>
         </li>
       </ul>
+      {/* Vitrin rozetleri (en çok 3; eskiden vitrin kartında) */}
+      {kart?.vitrin?.length > 0 && (
+        <QtKart className={sinif("qt-pf-vitrin", sirali)} style={siraStili(5)}>
+          <span className="qt-pf-vitrin-baslik">{tt("Vitrin rozetleri")}</span>
+          <VitrinRozetleri vitrin={kart.vitrin} boyut={36} />
+        </QtKart>
+      )}
+      {/* 1039: sıradaki 3 level ödülü (avatar · skill · rütbe) */}
+      <div className={sinif("qt-pf-level-odul", sirali)} style={siraStili(5)}><LevelOdulleri level={profile?.level} /></div>
+      {/* 646: Koleksiyon Puanı özeti (rozet · unvan · puan + nadirlik dağılımı); tam döküm Koleksiyon sekmesinde */}
+      <KoleksiyonDokumu sirali={sirali} sira={6} />
+      </section>
 
-      {/* ---------- SEKMELER ---------- */}
-      <div id="profil-sekmeler" className={sinif("qt-pf-sekmeler", sirali)} style={siraStili(5)}>
-        <QtSekmeler etiket={tt("Profil bölümleri")} sekmeler={sekmeler} aktif={sekme} onSec={sekmeSec} />
-      </div>
-
-      <div id={`qt-panel-${sekme}`} role="tabpanel" className="qt-pf-panel">
-        {sekme === "istatistik" && (<>
           {/* Kategori başarısı + unvan (Paket 14, 4.8/4.10) */}
           <QtKart as="section" className={sinif("qt-pf-bolum", sirali)} style={siraStili(6)} aria-labelledby="qt-pf-kategori">
             <h2 id="qt-pf-kategori" className="qt-baslik-3 qt-plaka">{tt("Kategori başarın")}</h2>
