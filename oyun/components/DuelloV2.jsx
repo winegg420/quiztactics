@@ -24,6 +24,7 @@ import CerceveliAvatar from "./CerceveliAvatar.jsx";
 import IsimEfekti from "./IsimEfekti.jsx";
 import { TepkiAvatar } from "./Tepki.jsx";
 import { soruUzunlukSinifi } from "../lib/soruUzunluk.js";
+import { BasiliTut } from "../lib/useBasiliTut.js";
 import { hkGecmisSonucu } from "./DuelloTahta.jsx";
 
 const HARFLER = ["A", "B", "C", "D"];
@@ -142,17 +143,22 @@ export function V2Cevap({ d, rakip, secenekler, secim, ikinciSansElendi, calisan
           : d.uzatma ? c("Altın Soru · joker yok") : c("Aynı soru · aynı anda")}
         metin={d.soru?.soru}
       />
-      <QtSikler etiket={c("Şıklar")}>
-        {secenekler.map((s, i) => {
-          const dr = durum(i);
-          return (
-            <QtSik key={`${d.soru?.soru ?? ""}-${i}`} harf={HARFLER[i]} metin={s} durum={dr}
-                   kiriliyor={kiriliyor.includes(i)}
-                   className={dr === "elendi" || kiriliyor.includes(i) ? "elendi" : undefined}
-                   onClick={() => onCevap(i)} />
-          );
-        })}
-      </QtSikler>
+      {/* Basılı tut (3 sn) → doğru şık: yalnız sunucu dogru_cevap verdiyse ve yalnız kendi cevap hakkım varken */}
+      <BasiliTut dogruCevap={d.soru?.dogru_cevap} etkin={tiklanabilir} anahtar={`${d.tur}-${d.saldiri_sirasi}-${d.soru?.soru ?? ""}`} onTetik={onCevap}>
+        {(bt) => (
+          <QtSikler etiket={c("Şıklar")}>
+            {secenekler.map((s, i) => {
+              const dr = durum(i);
+              return (
+                <QtSik key={`${d.soru?.soru ?? ""}-${i}`} harf={HARFLER[i]} metin={s} durum={dr}
+                       kiriliyor={kiriliyor.includes(i)}
+                       onClick={() => onCevap(i)}
+                       {...bt.sikProps(i, dr === "elendi" || kiriliyor.includes(i) ? "elendi" : undefined)} />
+              );
+            })}
+          </QtSikler>
+        )}
+      </BasiliTut>
     </div>
   );
 }

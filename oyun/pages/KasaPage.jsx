@@ -42,6 +42,7 @@ import { aramaAraligiSn } from "../lib/gorunurluk.js";
 import { useOyunModu } from "../lib/oyunModu.js";
 import { sayacKaymasi, sayacGoster, sayacSinirMs, saatFarkiOrnekle, tikBasligiEkle } from "../lib/zaman.js";
 import { soruUzunlukSinifi } from "../lib/soruUzunluk.js";
+import { BasiliTut } from "../lib/useBasiliTut.js";
 import { kategoriAdi } from "../lib/kategoriler.js";
 import { titret } from "../lib/geriBildirim.js";
 import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesDokunus, sesRakipBulundu, sesSoruGeldi,
@@ -1284,13 +1285,19 @@ function KasaMac({ id }) {
                      kategori={d.soru?.kategori ? <><KategoriIkon anahtar={d.soru.kategori} boyut={16} /> {c(kategoriAdi(d.soru.kategori))}</> : null}
                      sira={d.altin ? c("Altın Soru") : sav ? c(SAVUNMA_SORUSU) : c("Aynı soru · aynı anda")}
                      metin={d.soru?.soru} sevinc={sonucMu && Boolean(d.sonuc?.ben_dogru)} />
-        <QtSikler etiket={c("Şıklar")}>
-          {secenekler.map((s, i) => (
-            <QtSik key={`${d.soru?.soru ?? ""}-${i}`} harf={HARFLER[i]} metin={s} durum={durum(i)}
-                   kiriliyor={kirilan.includes(i)}
-                   onClick={tiklanabilir && !kapali.includes(i) && i !== elenen ? () => cevapVer(i) : undefined} />
-          ))}
-        </QtSikler>
+        {/* Basılı tut (3 sn) → doğru şık: yalnız sunucu dogru_cevap verdiyse; normal cevapVer yolundan */}
+        <BasiliTut dogruCevap={d.soru?.dogru_cevap} etkin={tiklanabilir} anahtar={`${turAnahtari(d)}-${d.soru?.soru ?? ""}`} onTetik={cevapVer}>
+          {(bt) => (
+            <QtSikler etiket={c("Şıklar")}>
+              {secenekler.map((s, i) => (
+                <QtSik key={`${d.soru?.soru ?? ""}-${i}`} harf={HARFLER[i]} metin={s} durum={durum(i)}
+                       kiriliyor={kirilan.includes(i)}
+                       onClick={tiklanabilir && !kapali.includes(i) && i !== elenen ? () => cevapVer(i) : undefined}
+                       {...bt.sikProps(i)} />
+              ))}
+            </QtSikler>
+          )}
+        </BasiliTut>
         <p className="qt-gizli" aria-live="polite">
           {sav?.izliyorum ? c("Rakip savunuyor · bilemezse karar senin")
             : <>{kilitli ? c("Cevabın kilitlendi") : c("düşünüyor…")} · {c("Rakip")}: {d.cevap?.rakip_cevapladi ? c("cevapladı") : c("düşünüyor…")}</>}

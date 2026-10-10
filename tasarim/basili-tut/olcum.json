@@ -1,0 +1,40 @@
+{
+  "tarih": "2026-10-10T15:18:55.370Z",
+  "gecti": 35,
+  "kaldi": 0,
+  "olcum": {
+    "kasa-yetkili": {
+      "cevaplar": [
+        {
+          "rpc": "kasa_cevap",
+          "p_cevap": 1,
+          "an": 1791645482500
+        }
+      ],
+      "basiliVar": 0,
+      "konsol": []
+    },
+    "duello-yetkili": {
+      "cevaplar": [
+        {
+          "rpc": "duello_cevap",
+          "p_cevap": 1,
+          "an": 1791645501145
+        }
+      ],
+      "basiliVar": 0,
+      "konsol": []
+    },
+    "calisma-yetkili": {
+      "cevaplar": [
+        {
+          "rpc": "calisma_cevap",
+          "p_cevap": 1,
+          "an": 1791645525481
+        }
+      ],
+      "basiliVar": 0,
+      "konsol": []
+    }
+  }
+}

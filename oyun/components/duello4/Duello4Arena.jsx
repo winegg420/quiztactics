@@ -17,6 +17,7 @@ import { adKisalt } from "../../lib/adKisalt.js";
 import { aktifDil } from "../../lib/dil.js";
 import { soruUzunlukSinifi } from "../../lib/soruUzunluk.js";
 import { secenekleriCoz } from "../DuelloV2.jsx";
+import { BasiliTut } from "../../lib/useBasiliTut.js";
 import { QtDugme, QtIkon, QtSayac, QtSik, QtSikler, QtSoruKarti, sinif } from "../../tasarim/index.js";
 import { sesDogru, sesYanlis, sesTik, sesKategoriGeriSayim, sesTurGecis, sesCanKaybi, sesSoruGeldi,
   sesKategoriSecildi, sesRakipCevapladi, sesSonSaniyeler } from "../../lib/ses.js";
@@ -383,15 +384,21 @@ export default function Duello4Arena({
           sira={etiket}
           metin={soruMetni}
         />
-        <QtSikler etiket={c("Şıklar")}>
-          {secenekler.map((s, i) => {
-            const dr = durum(i);
-            return (
-              <QtSik key={`${soruMetni}-${i}`} harf={HARFLER[i]} metin={s} durum={dr} kiriliyor={kiriliyor.includes(i)}
-                     className={dr === "elendi" || kiriliyor.includes(i) ? "elendi" : undefined} onClick={() => onCevap(i)} />
-            );
-          })}
-        </QtSikler>
+        {/* Basılı tut (3 sn) → doğru şık: yalnız sunucu dogru_cevap verdiyse ve yalnız kendi cevap hakkım varken */}
+        <BasiliTut dogruCevap={d.soru?.dogru_cevap} etkin={tiklanabilir} anahtar={`${v.soru_no}-${soruMetni}`} onTetik={onCevap}>
+          {(bt) => (
+            <QtSikler etiket={c("Şıklar")}>
+              {secenekler.map((s, i) => {
+                const dr = durum(i);
+                return (
+                  <QtSik key={`${soruMetni}-${i}`} harf={HARFLER[i]} metin={s} durum={dr} kiriliyor={kiriliyor.includes(i)}
+                         onClick={() => onCevap(i)}
+                         {...bt.sikProps(i, dr === "elendi" || kiriliyor.includes(i) ? "elendi" : undefined)} />
+                );
+              })}
+            </QtSikler>
+          )}
+        </BasiliTut>
         {d.faz === "cevap" && v.rakip_kategori && (
           // Otomatik seçim bilgisi burada da durur: istemci soruyu açılış anından geç görürse (ağ / sekme) bilgi kaybolmasın.
           <p className="d4-rakip-kat"><KategoriIkon anahtar={v.rakip_kategori} boyut={16} />{c("Rakibin sorusu: {k}", { k: c(kategoriAdi(v.rakip_kategori)) })}

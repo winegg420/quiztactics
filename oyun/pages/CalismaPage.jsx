@@ -20,6 +20,7 @@ import MacSorulari from "../components/MacSorulari.jsx";
 import { useOyunModu } from "../lib/oyunModu.js";
 import { rpcDene } from "../lib/rpcDene.js";
 import { soruUzunlukSinifi } from "../lib/soruUzunluk.js";
+import { BasiliTut } from "../lib/useBasiliTut.js";
 
 const SORU_SN = 20;
 const HARFLER = ["A", "B", "C", "D"];
@@ -469,17 +470,24 @@ export default function CalismaPage() {
               sayac={<QtSayac kalan={kalan} toplam={SORU_SN} durdu={secim !== null} esik={3} />}
             />
 
-            <QtSikler etiket={tt("Şıklar")}>
-              {secenekler.map((s, i) => (
-                <QtSik
-                  key={`${soru.soru_index}-${i}`}
-                  harf={HARFLER[i]}
-                  metin={s}
-                  durum={sikDurumu(i)}
-                  onClick={() => cevapla(i)}
-                />
-              ))}
-            </QtSikler>
+            {/* Basılı tut (3 sn) → doğru şık: yalnız sunucu dogru_cevap verdiyse; normal cevapla yolundan */}
+            <BasiliTut dogruCevap={soru.dogru_cevap} etkin={secim === null && kalan > 0}
+                       anahtar={`${soru.question_id}-${soru.soru_index}`} onTetik={cevapla}>
+              {(bt) => (
+                <QtSikler etiket={tt("Şıklar")}>
+                  {secenekler.map((s, i) => (
+                    <QtSik
+                      key={`${soru.soru_index}-${i}`}
+                      harf={HARFLER[i]}
+                      metin={s}
+                      durum={sikDurumu(i)}
+                      onClick={() => cevapla(i)}
+                      {...bt.sikProps(i)}
+                    />
+                  ))}
+                </QtSikler>
+              )}
+            </BasiliTut>
 
             <QtSonucBandi ton={geriBildirim?.ton} metin={geriBildirim?.metin} anahtar={`${soru.soru_index}-${geriBildirim?.ton ?? ""}`} />
           </div>

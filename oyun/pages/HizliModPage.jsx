@@ -39,6 +39,7 @@ import { useDereceliTercih } from "../lib/dereceli.js";
 import { useDil } from "../lib/dilKanca.js";
 import { tt } from "../lib/dil.js";
 import { rpcDene } from "../lib/rpcDene.js";
+import { BasiliTut } from "../lib/useBasiliTut.js";
 
 // Süreler sunucudan gelir (oyun_ayarlari: hizli_mod_sure_sn / hizli_mod_soru_sure_sn;
 // oturum açılınca hizli_mod_baslat da döndürür). Bunlar yalnız ilk çizim içindir.
@@ -405,6 +406,10 @@ export default function HizliModPage() {
               {soru.soru}
             </div>
 
+            {/* Basılı tut (3 sn) → doğru şık: yalnız sunucu dogru_cevap verdiyse; normal cevapla yolundan */}
+            <BasiliTut dogruCevap={soru.dogru_cevap} etkin={secim === null && kalanSoru > 0}
+                       anahtar={`${soru.question_id}-${soru.soru_index}`} onTetik={cevapla}>
+              {(bt) => (
             <div className="bd-secenekler">
               {secenekler.map((s, i) => {
                 let sinif = "bd-secenek";
@@ -416,9 +421,9 @@ export default function HizliModPage() {
                 return (
                   <button
                     key={i}
-                    className={sinif}
                     disabled={secim !== null}
                     onClick={() => cevapla(i)}
+                    {...bt.sikProps(i, sinif)}
                   >
                     <span className="bd-harf">{HARFLER[i]}</span>
                     <span className="bd-secenek-metin">{s}</span>
@@ -426,6 +431,8 @@ export default function HizliModPage() {
                 );
               })}
             </div>
+              )}
+            </BasiliTut>
           </>
         )}
         {hata && <div className="hata-kutu">{hata}</div>}

@@ -55,6 +55,11 @@ hatırlanır (localStorage + `profiles.dereceli_tercih`).
 
 ### Ortak mekanik
 
+- **Basılı tut (3 sn) → doğru şık — yalnız `profiles.hile_yetkisi` hesabı** (Ida, 10 Eki 2026; migration 1052):
+  bütün cevap ekranlarında (Klasik · Turnuva · Grup · Hızlı Maç · Kasa · Çalışma · Hızlı Mod · Düello v2/v4).
+  Sunucu `dogru_cevap`ı yalnız `hileli_mi()` hesabına ve yalnız kendi cevap hakkı sürerken verir; normal oyuncu/anon
+  null. İstemci ortak kanca `oyun/lib/useBasiliTut.js`; tetik modun normal cevap fonksiyonunu çağırır.
+  Prova: `IZIN_CANLI_TEST=1 node araclar/basili-tut-guvenlik-sql-testi.mjs` (ROLLBACK).
 - **Hız bonusu yok** — süre içinde doğru cevaplayan herkes aynı puanı alır.
 - Normal maçta **berabere olabilir**. Turnuvada **altın soru**: biri
   kazanana kadar, skillsiz, kullanılmamış sorulardan.

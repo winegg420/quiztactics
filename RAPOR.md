@@ -1,57 +1,82 @@
-# Basılı tut (3 sn) → doğru şık — mod taraması (10 Eki 2026)
+# Basılı tut (3 sn) → doğru şık — bütün modlar (10 Eki 2026)
 
-**Temel bulgu:** Özellik herkese açık değil; sunucu `get_match_question` / `get_group_match_question` / `get_tournament_question` içinde `dogru_cevap`ı yalnız `hileli_mi()` (profiles.hile_yetkisi) olan hesaba veriyor. Normal oyuncuda alan `null`, özellik çalışmaz. Güvenlik kuralı gereği başka mod için doğru cevap istemciye taşınmadı, migration yazılmadı.
+Ida'nın isteği: özellik Klasik/Turnuva/Grup dışındaki modlara da (Düello dahil) yayılsın, yalnız yetkili hesapta.
+Önceki tarama (aynı gün, ab0a9a6f) diğer modları "doğru cevap istemcide yok" diye atlamıştı; bu iş o eksiği kapatır.
 
-| Mod | Durum | Neden |
-|---|---|---|
-| Klasik 1v1 (MatchPage) | Çalışır (QuestionCard) | `dogru_cevap` yetkili hesaba geliyor |
-| Turnuva (TournamentPage) | Çalışır (QuestionCard) | aynı |
-| Grup maçı (GroupMatchPage) | Çalışır (QuestionCard) | aynı |
-| Hızlı Maç (HizliMacPage) | QuestionCard bağlı; sunucu `get_hizli_soru` alanı vermiyor, mod zaten DONDURULMUŞ | yapılamadı, çünkü doğru cevap istemcide yok |
-| Hızlı Mod (HizliModPage) | Yapılamadı | doğru cevap istemcide yok (cevaptan sonra `hizli_mod_cevap` veriyor) |
-| Çalışma (CalismaPage) | Yapılamadı | doğru cevap istemcide yok (`calisma_cevap` sonrası) |
-| Kasa / Ortak Kasa (KasaPage) | Yapılamadı | doğru cevap istemcide yok; `sonuc.dogru_cevap` yalnız sonuç fazında |
-| Düello (DuelloPage) | Yapılamadı | doğru cevap istemcide yok (`duello_cevap` sonrası). Rakip bekleyen çok oyunculu modda hile yetkisiyle cevap taşımak adaleti bozar; bu yüzden eklenmedi |
+**Kapı aynen korundu:** sunucu `dogru_cevap`ı yalnız `hileli_mi()` (`profiles.hile_yetkisi`) hesabına verir. Şu an
+yetkili tek hesap: `idagg`. Normal oyuncu ve anon için alan `null` (TABLE dönenlerde) ya da hiç yok (jsonb dönenlerde).
 
-## Yapılan değişiklik
-- `QuestionCard.jsx` (4 modun ortak kartı): davranış aynı; ek olarak basılan şıkta 3 sn dolan mavi çizgi, `prefers-reduced-motion` açıksa sade dolgu, uzun basış menüsü/metin seçimi/büyüteç engeli (`touch-action`, `user-select`, `-webkit-touch-callout`, `onContextMenu`). Görsel yalnız `dogru_cevap` gelen hesapta görünür. Aynı soruda ikinci tetikleme `cevapla` içindeki `secim !== null` korumasıyla engelli.
-- `bilesenler.css`: `.qt-sik--tutulur`, `.qt-sik--basili`.
+## Mod tablosu
+
+| Mod | Durum | Sunucu (soru RPC'si) | İstemci | Tarayıcı denemesi |
+|---|---|---|---|---|
+| Klasik 1v1 | Çalışıyor | `get_match_question` (önceden vardı) | QuestionCard | 3 sn ✓ · 1 sn ✓ |
+| Turnuva | Çalışıyor | `get_tournament_question` (önceden vardı) | QuestionCard (aynı kart) | Klasik kartıyla aynı bileşen |
+| Grup maçı | Çalışıyor | `get_group_match_question` (önceden vardı) | QuestionCard (aynı kart) | Klasik kartıyla aynı bileşen |
+| Ortak Hazine (Kasa) | Çalışıyor | `kasa_durum` — yalnız `faz=cevap`, maç aktif, ben henüz cevaplamadım | KasaPage | 3 sn ✓ · 1 sn ✓ · azaltma ✓ |
+| Düello v4 (yeni çekirdek) | Çalışıyor | `duello4_durum` — yalnız `notr/cevap/son`, soru açık, ben henüz cevaplamadım | Duello4Arena | 3 sn ✓ · 1 sn ✓ · cevap verilmişken tetik yok ✓ |
+| Düello v2 | Çalışıyor (kod hazır) | `duello2_durum` — yalnız `faz=cevap`, ben henüz cevaplamadım | DuelloV2 › V2Cevap | yapılmadı: yeni maçlar v4; sunucu kapısı SQL ile doğrulandı |
+| Çalışma | Çalışıyor | `calisma_soru` (+ `dogru_cevap` sütunu) | CalismaPage | 3 sn ✓ · 1 sn ✓ · azaltma ✓ |
+| Hızlı Mod | Hazır, mod DONDURULMUŞ | `hizli_mod_soru` (+ `dogru_cevap` sütunu) | HizliModPage | yapılmadı: rota `BulunamadiPage kapaliMod`; sunucu SQL ile doğrulandı |
+| Hızlı Maç | Hazır, mod DONDURULMUŞ | `get_hizli_soru` (+ `dogru_cevap` sütunu) | QuestionCard | yapılmadı: rota kapalı; kart Klasik denemesiyle aynı, sunucu SQL ile doğrulandı |
+| Düello v1 (eski) | Eklenmedi | `duello_durum` eski dalı | — | son v1 maçı 22 Eyl; erişilen akış değil |
+
+Düello kuralı: basılı tut yalnız oyuncunun **kendi cevap hakkı varken** çalışır (sunucu koşulu + istemcide
+`tiklanabilir`: cevaplamadım, süre var, istek yolda değil). Kart fazında, cevap verdikten sonra ya da rakip
+beklerken alan gelmez ve tetik olmaz. Tetik `duello_cevap`ı normal yoldan çağırır; kontrol / 4 kart / 3-3 seri
+sunucu kurallarına dokunulmadı (`duello4_cevap` değişmedi).
+
+## Migration
+
+`supabase/migrations/20260612001052_basili_tut_tum_modlar.sql` — **1052**, canlıya uygulandı (origin/main'deki son 1051'di).
+- `calisma_soru`, `hizli_mod_soru`, `get_hizli_soru`: dönüş tipine `dogru_cevap smallint` (DROP + CREATE; yetkiler
+  aynen: `authenticated`, `service_role`; `public`/`anon` REVOKE).
+- `kasa_durum`, `duello4_durum`, `duello2_durum`: `soru` nesnesine koşullu `dogru_cevap` (CREATE OR REPLACE, yetkiler aynı).
+- Gövdeler canlı tanımdan alındı; tek fark eklenen satırlar. Cevap RPC'lerine (`*_cevap`) dokunulmadı.
+- Yetki listesi uygulama sonrası ölçüldü: önceki hâliyle birebir aynı; anon hiçbirinde EXECUTE yok.
+
+## Güvenlik testi (canlı, tek transaction, ROLLBACK — canlıda iz yok)
+
+`IZIN_CANLI_TEST=1 node araclar/basili-tut-guvenlik-sql-testi.mjs` → **21/21 geçti**
+
+| Deneme | Sonuç |
+|---|---|
+| anon: `calisma_soru`, `hizli_mod_soru`, `get_hizli_soru`, `kasa_durum`, `duello_durum` | 5/5 `permission denied` |
+| Çalışma · Hızlı Mod · Hızlı Maç — yetkili | `dogru_cevap` = doğru şık |
+| Çalışma · Hızlı Mod · Hızlı Maç — yetkisiz (normal hesap) | `dogru_cevap` = null |
+| Kasa yetkili (cevap fazı) / yetkisiz / yetkili cevap verdikten sonra | var / yok / yok |
+| Düello v4 yetkili / yetkisiz / cevap verdikten sonra / kart fazı | var / yok / yok / yok |
+| Düello v2 yetkili / yetkisiz | var / yok |
+| Klasik `get_match_question` kapısı (regresyon) | yerinde |
+
+Test, bitmiş eski maç satırlarını transaction içinde geçici açar, Hızlı Mod/Maç bayraklarını geçici açar; sonunda
+ROLLBACK. Sonradan ölçüldü: maç `bitti`, bayraklar `false`, oturum satırı yok.
+
+## İstemci
+
+- Yeni ortak kanca `oyun/lib/useBasiliTut.js` (+ erken dönüşlü sayfalar için `<BasiliTut>` sarmalayıcı).
+  QuestionCard da artık bu kancayı kullanıyor; davranış aynı.
+- Görsel: `.qt-sik--tutulur` / `.qt-sik--basili` (bilesenler.css, değişmedi) — 3 sn dolan mavi çizgi, hareket
+  azaltmada sade dolgu; mobilde menü/metin seçimi/büyüteç yok.
+- İptal: parmak kalkar, 12 px'den fazla kayar, pointercancel, cevap verilir, süre biter, soru değişir.
+  Aynı soruda ikinci tetik yok. Tetikten sonra parmak kalkınca gelen tıklama yutulur (tutulan yanlış şık gitmez).
+- dogru_cevap gelmeyen hesapta şıklara hiçbir sınıf/olay eklenmez.
+
+**Yakalanan hata:** İlk sürümde QuestionCard'da kanca `soru` tanımlanmadan önce çağrılıyordu ("Cannot access 'soru'
+before initialization") — Klasik/Turnuva/Grup kartını tamamen kırardı. Tarayıcı denemesi yakaladı, yayından önce düzeltildi.
 
 ## Test
-- `npm run build` temiz.
-- Tarayıcıda 3 sn / 1 sn testi YAPILMADI: yetkili hesap gerektiriyor ve canlı Supabase'e test yükü gönderme kuralı var (CLAUDE.md). Ekran görüntüsü alınmadı.
 
----
-
-# Oyun hissi — kalan 3 iş (10 Eki 2026)
-
-## Değişen dosyalar
-| Dosya | Ne / neden |
-|---|---|
-| `oyun/tasarim/sezon-yolu/sezon-yolu.css` | **İŞ 1.** Ejderha hero: yan yana düzen yerine dikey/ortalı (124 px kutu, çizim ×1,4; kısa ekranda 92 px, ×1,05). Ejderha başı/kanadı sol üstteki geri düğmesine biniyordu (hero sola yaslıydı, çizim kutudan taşıyordu). Ortalanınca geri düğmesi ve başlıkla yatayda kesişmiyor, kırpılmıyor. Altında final ödülü + sezon + sıradaki hap, onun altında seviye/ilerleme, sonra ödül yolu. Renk rolleri ve `prefers-reduced-motion` kuralları dokunulmadı (yalnız boyut/konum). |
-| `oyun/pages/gorevler/gorevler-oyun.css` | **İŞ 2.** Liste alanının altına boşluk (`.gk-sayfa` padding-bottom 8 px). **İŞ 3 bulgusu:** görev adı `line-clamp` 2 → 3 (EN "Answer 50 questions correctly" "…" ile kırpılıyordu; kart yüksekliği değişmedi). |
-| `oyun/pages/anasayfa/anasayfa.css` | **İŞ 3 bulgusu.** 390×700 EN'de ana sayfa kısayol çipleri kelimeyi ortadan kırıyordu ("Challen/ges", "Knowled/ge"). ≤700 px yükseklikte de ikonsuz çip (≤660 kademesindeki kural) + `overflow-wrap: break-word`. |
-| `araclar/oyun-hissi-duzeltme-sezon.mjs`, `araclar/oyun-hissi-duzeltme-gorevler.mjs` | Önce/sonra ölçüm betikleri (taklit veri; canlı Supabase'e yazmaz). |
-| `tasarim/oyun-hissi-duzeltme/` | Önce (`*-once-*`) / sonra (`*-sonra-*`) görüntüleri, ana sayfa, maç sonu, BP tanıtımı. |
-
-## İŞ 2 — kök sebep notu
-Görevler sahnesinde alt eylem alanı **akışta** (kaydırılan bölgenin altında bir kardeş öğe); kartların üstüne binmesi yapısal olarak mümkün değil. 320×568, 360×640, 375×667, 390×600/664/700/844 ölçüldü: son kart ile alt şerit arası ≥ 8 px, AL düğmeleri kaydırılan bölgenin içinde ve tıklanabilir. Bildirilen çakışma bu ölçümlerde **yeniden üretilemedi**; istenen alt boşluk yine de eklendi (boşluk 8 → 16–20 px). Gerçek cihazda hâlâ görülürse cihaz/boyut bilgisi gerekir.
-
-## İŞ 3 — görsel doğrulama (390×700 ve 390×844, TR + EN)
-| Ekran | Sonuç |
-|---|---|
-| Ana sayfa EN | Kısayol çipleri kırılıyordu → düzeltildi. Sezon/Görev kartları ve "Reward ready" etiketi temiz. |
-| Maç sonu EN | Temiz (SP şeridi, "Level 13!", "Claim in Season Path"); taşma yok. |
-| Görevler TR + EN | EN kart adı "…" ile kırpılıyordu → 3 satıra izin; sonrası temiz, "Claim reward (3)" ekranda. |
-| Sezon Yolu TR + EN | Ejderha düzeltildi (İŞ 1); EN metinler çevrili, anahtar adı görünmüyor. |
-| "Ödül hazır / Reward ready" altın etiketi | Ana sayfa Sezon kartı ve sezon çubuğunda doğru, taşma/kırpma yok. |
-
-Çeviri eksiği (anahtar adının ekranda görünmesi) bulunmadı.
-
-## Test notları
-- `npm run build` temiz (eski iPhone color-mix denetimi TEMİZ).
-- Test altyapısı: `.arayuz-denetim-oturum-en.json` geçersizdi; profil önbelleğindeki `dil` "en" yapılarak yeniden üretildi (git'e girmez). Önceki oturumların "EN görüntüler TR metinli" notu buradan gelir.
-- Maç sonu önizlemesinde `oyuncu_kartlari ... uuid "onizleme-ben"` konsol uyarısı: önizleme sayfasının sahte kimliği, üretimde yok.
-- Aynı hata sınıfı (kısa ekranda kırpılma / alt boşluk) benzer ekranlarda arandı: Sezon "Ödül yolu" alt şeridi ve BP tanıtımı (390×700) temiz.
+- `npm run build`: temiz (eski iPhone ayrıştırma denetimi TEMİZ).
+- `npm test`: sunucu testleri geçti; `test:kurallar` içinde **1 eski başarısızlık** — `skill-sistemi-test.mjs:22`
+  "İkinci Şans yalnız Klasik ve Düello" beklentisi, gerçekte Kasa'da da var. Bu işle ilgisi yok (skill ayarına
+  dokunulmadı). `test:dans` geçti.
+- Tarayıcı (yerel, taklit veri, canlıya yazma yok): `node araclar/basili-tut-ekran.mjs` → **35/35 geçti**.
+  Her modda: yetkili 1 sn + kaydırma → cevap yok · 3 sn → tek cevap, doğru şık · contextmenu engelli ·
+  user-select none · hareket azaltmada animasyonsuz dolgu · yetkisizde sınıf yok ve 3,5 sn'de cevap yok.
+- Ekran görüntüleri: `tasarim/basili-tut/` (basılı 1,5 sn · 3 sn sonrası · azaltma · yetkisiz · Düello cevap verilmiş).
+- **Yapılmadı:** gerçek `idagg` hesabıyla canlı maçta deneme — hesabın şifresi bende yok ve canlıya test yükü
+  gönderme kuralı var; sunucu tarafı SQL ile, istemci taklit veriyle doğrulandı. Gerçek iOS dokunuşu
+  (uzun basış menüsü/büyüteç) bu makinede denenemez; Chrome dokunmatik öykünmesiyle ölçüldü.
 
 RAPOR HAZIR — Ida'ya iletilecek.

@@ -11522,3 +11522,13 @@ Kaldırıldı: "Hazine sende: {k} puan" başlığı, AÇ alt yazısı "Skor x/y"
 - Sezon Yolu hero dikey/ortalı ve büyük (geri düğmesiyle çakışma bitti); Görevler listesine alt boşluk + EN kart adı 3 satır; ana sayfa kısayol çipleri 700 px yükseklikte ikonsuz (EN kelime kırılması).
 - Görevler "AL / Ödülü al" çakışması ölçümlerde üretilemedi (alt alan akışta); ayrıntı RAPOR.md. Migration yok.
 - Test aracı: `.arayuz-denetim-oturum-en.json` profil önbelleğindeki `dil` "en" yapılarak geçerli EN oturumu üretildi (eski dosya TR dönüyordu).
+
+## 2026-10-10 — Basılı tut bütün modlara (migration 1052)
+**Araç:** Claude Code
+**Neden:** Ida, 3 sn basılı tut → doğru şık özelliğini kendi (hile_yetkisi) hesabı için Düello dahil bütün modlarda istedi.
+
+- Sunucu (1052, canlıda): `calisma_soru`, `hizli_mod_soru`, `get_hizli_soru` dönüşüne `dogru_cevap` (DROP+CREATE, yetkiler aynı); `kasa_durum`, `duello4_durum`, `duello2_durum` soru nesnesine koşullu `dogru_cevap` — yalnız `hileli_mi()` ve yalnız kendi cevap hakkı sürerken. Gövdeler canlı tanımdan alındı.
+- İstemci: ortak kanca `oyun/lib/useBasiliTut.js` (+ `<BasiliTut>`); QuestionCard, KasaPage, CalismaPage, HizliModPage, Duello4Arena, DuelloV2 › V2Cevap. Tetik modun normal cevap fonksiyonunu çağırır; parmak kalkınca gelen tıklama yutulur.
+- Karar: Düello v1 eski dalı eklenmedi (son maç 22 Eyl). Hızlı Mod/Maç dondurulmuş ama kod + sunucu hazır.
+- Kök sebep yakalandı: ilk sürümde QuestionCard'da kanca `soru`dan önce çağrılıyordu (TDZ) — tarayıcı denemesi yakaladı, yayından önce düzeltildi.
+- Test: güvenlik SQL 21/21 (ROLLBACK), tarayıcı 35/35 (taklit), build temiz. `skill-sistemi-test` 1 eski başarısızlık (Kasa İkinci Şans beklentisi, bu işle ilgisiz). Detay: RAPOR.md
