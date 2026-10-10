@@ -159,6 +159,8 @@ async function kurulumuTamamla(sayfa) {
   await tanitimiKapat(sayfa);
   // 1) Takma ad
   const alan = sayfa.locator(".bd-modal-katman input").first();
+  // Sihirbaz tembel yüklenir ve profil gelince açılır: beklemeden sayınca adımlar atlanıyordu (10 Eki 2026)
+  await alan.waitFor({ timeout: 10000 }).catch(() => {});
   if (await alan.count()) {
     await alan.fill("ArayuzDenetim" + Math.floor(Math.random() * 900 + 100));
     await sayfa.getByRole("button", { name: /^(Devam|Continue)$/ }).first().click();
