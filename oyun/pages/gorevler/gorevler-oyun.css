@@ -119,7 +119,7 @@
   box-shadow: 0 3px 0 rgba(0, 0, 0, 0.22);
 }
 .gk-ad {
-  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; width: 100%; min-height: 2.4em;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; width: 100%; min-height: 2.4em;
   font: var(--qt-a-siyah) 12px/1.2 var(--qt-f-govde); overflow-wrap: anywhere; hyphens: auto;
 }
 .gk-zorluk { display: flex; align-items: center; justify-content: center; min-height: 14px; }
@@ -214,3 +214,7 @@
   .gk-yuzler, .gk-cizgi::after, .gk-sd-kapak, .gk-sd-altin, .gk-sd-kilit { transition: none; }
   .gk-ac-sd { transform: scale(1.3); }
 }
+
+/* 10 Eki 2026 — kısa ekran: alt eylem alanı akışta (kaydırılan bölgenin altında, üstüne binmez); son kartın AL düğmesi ve 3B dudağı
+   alt şeridin kenarına yapışmasın diye listenin altına boşluk (ölçüm: 320×568…390×700 arası son kart ile alt şerit arası ≥ 8 px → ≥ 16 px). */
+.gk-sahne .gk-sayfa { padding-bottom: var(--qt-b-2, 8px); }

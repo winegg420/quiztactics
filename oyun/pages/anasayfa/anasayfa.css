@@ -1332,3 +1332,10 @@ html.as-kaydirmasiz { --qt-zemin: var(--as-s-zemin); }
   .oc-gorsel { animation: none; }
   .oc--hazir::after { animation: none; opacity: 0; }
 }
+
+/* 10 Eki 2026 — oyun hissi düzeltmesi: 390×700 EN'de kısayol adları kelime ortasından kırılıyordu ("Challen/ges", "Knowled/ge"):
+   ikon yanında kalan ~47 px ada yetmiyor. Bu kademede de ≤660 kademesindeki gibi yalnız ad (ikonsuz) çip; kelime ortadan bölünmez. */
+@media (max-width: 1023px) and (max-height: 700px) {
+  .as-a2 .as-kisayol-ikon { display: none; }
+  .as-a2 .as-kisayol-ad { font-size: 12px; text-align: center; overflow-wrap: break-word; }
+}

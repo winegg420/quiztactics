@@ -916,3 +916,19 @@ button.sy-afis { cursor: pointer; -webkit-tap-highlight-color: transparent; touc
   .sy-altin-cubuk-dolu { transition: none; }
   .sy-altin-cubuk-parilti { display: none; }
 }
+
+/* 10 Eki 2026 — oyun hissi düzeltmesi: Ejderha hero büyük + yatayda ortalı (geri düğmesi ve başlıkla çakışmaz, kırpılmaz);
+   altında sezon/final satırı ve sıradaki ödül hapı ortalı, onun altında seviye/ilerleme. Yalnız boyut/konum; renk rolleri ve hareket aynı. */
+.sy-hero2 { flex-direction: column; justify-content: center; gap: 6px; text-align: center; }
+.sy-hero2-vitrin { width: 124px; height: 124px; margin-block: 10px 2px; }
+.sy-hero2-vitrin > :not(.sy-hero2-isilti) { scale: 1.4; }
+.sy-hero2-vitrin .sy-hero2-isilti { inset: 0; }
+.sy-hero2-metin { flex: none; width: 100%; justify-items: center; text-align: center; }
+.sy-hero2-final { justify-content: center; max-width: 100%; }
+.sy-hero2-sezon { max-width: 100%; }
+.sy-hero2-metin .sy-sirada-hap { justify-self: center; }
+@media (max-height: 760px) {
+  .sy-hero2 { gap: 3px; }
+  .sy-hero2-vitrin { width: 92px; height: 92px; margin-block: 8px 0; }
+  .sy-hero2-vitrin > :not(.sy-hero2-isilti) { scale: 1.05; }
+}

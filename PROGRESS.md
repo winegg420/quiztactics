@@ -11516,3 +11516,9 @@ Kaldırıldı: "Hazine sende: {k} puan" başlığı, AÇ alt yazısı "Skor x/y"
 
 ## 2026-10-10 — Basılı tut tüm modlar taraması
 - Özellik yalnız hileli_mi() hesaplarda (sunucu dogru_cevap veriyor). QuestionCard modları (Klasik/Turnuva/Grup) çalışıyor; Kasa/Düello/Çalışma/Hızlı Mod için doğru cevap istemcide yok, güvenlik kuralıyla atlandı. QuestionCard'a ilerleme çizgisi + mobil menü engeli eklendi. Detay: RAPOR.md
+
+## 2026-10-10 — Oyun hissi kalan 3 iş: Ejderha hero, Görevler alt boşluk, görsel doğrulama
+**Araç:** Claude Code
+- Sezon Yolu hero dikey/ortalı ve büyük (geri düğmesiyle çakışma bitti); Görevler listesine alt boşluk + EN kart adı 3 satır; ana sayfa kısayol çipleri 700 px yükseklikte ikonsuz (EN kelime kırılması).
+- Görevler "AL / Ödülü al" çakışması ölçümlerde üretilemedi (alt alan akışta); ayrıntı RAPOR.md. Migration yok.
+- Test aracı: `.arayuz-denetim-oturum-en.json` profil önbelleğindeki `dil` "en" yapılarak geçerli EN oturumu üretildi (eski dosya TR dönüyordu).
