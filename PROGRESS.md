@@ -11513,3 +11513,6 @@ Kaldırıldı: "Hazine sende: {k} puan" başlığı, AÇ alt yazısı "Skor x/y"
 - Ana sayfa: Sezon ve Görevler oyun kartları (alt ajan). Maç sonu SP şeridi + seviye kutlaması ve BP tanıtım penceresi + migration 1050 (alt ajan, ayrı kayıt yukarıda).
 - Kararlar: günlük sandık sunucuda ödülsüz olduğu için yalnız görsel; kapalı sandık hâli repoda yok → SVG sandık çizildi; ödül/SP/fiyat mantığına dokunulmadı.
 - Test: build temiz; taklit veriyle 390×844/390×664/360×640/1440 TR+EN ölçüm — taşma yok, alt alan ekranda, konsol hatası yok, reduced-motion'da sonsuz animasyon 0. EN oturum dosyası geçersiz → EN dil zorlanarak ölçüldü.
+
+## 2026-10-10 — Basılı tut tüm modlar taraması
+- Özellik yalnız hileli_mi() hesaplarda (sunucu dogru_cevap veriyor). QuestionCard modları (Klasik/Turnuva/Grup) çalışıyor; Kasa/Düello/Çalışma/Hızlı Mod için doğru cevap istemcide yok, güvenlik kuralıyla atlandı. QuestionCard'a ilerleme çizgisi + mobil menü engeli eklendi. Detay: RAPOR.md

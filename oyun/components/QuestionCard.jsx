@@ -86,6 +86,7 @@ export default function QuestionCard({
   const offsetRef = useRef(0);   // 991: sayacın kullandığı saat farkı — tıklama anı sunucu saatiyle bildirilir
   const sureDolduMu = useRef(false);
   const basiliTutTimer = useRef(null);
+  const [basiliSik, setBasiliSik] = useState(null); // basılı tut: dolan şık (yalnız dogru_cevap gelen hesaplarda)
   // Ses: son 5 saniyede saniyede bir tik. Efekt içinden okunabilmesi için ref.
   const cevapVerildiRef = useRef(false);
   const ilkBaslangicRef = useRef({ anahtar: null, bas: null });
@@ -165,6 +166,7 @@ export default function QuestionCard({
     sonTikRef.current = null;
     yenidenDeneRef.current = 0;
     clearTimeout(basiliTutTimer.current);
+    setBasiliSik(null);
     // Yeni soru ekrana geldi — soru başına bir kez (StrictMode çift efektine karşı ref).
     const anahtar = soru ? `${soru.question_id}-${soru.soru_index}` : null;
     if (anahtar && soruSesiRef.current !== anahtar) {
@@ -359,12 +361,14 @@ export default function QuestionCard({
     }
   };
 
-  const basiliTutmayaBasla = () => {
+  const basiliTutmayaBasla = (i) => {
     if (soru.dogru_cevap == null || secim !== null || kalan <= 0) return;
     clearTimeout(basiliTutTimer.current);
-    basiliTutTimer.current = setTimeout(() => cevapla(soru.dogru_cevap), 3000);
+    setBasiliSik(i);
+    basiliTutTimer.current = setTimeout(() => { setBasiliSik(null); cevapla(soru.dogru_cevap); }, 3000);
   };
-  const basiliTutmayiBirak = () => clearTimeout(basiliTutTimer.current);
+  const basiliTutmayiBirak = () => { clearTimeout(basiliTutTimer.current); setBasiliSik(null); };
+  const basiliOzellikVar = soru?.dogru_cevap != null;
 
   // Ek Süre sunucuda oyuncuya özel soru başlangıcını değiştirir. Yerel sayacı
   // tahminen artırmak yerine aynı soru RPC'sinden yetkili başlangıcı yeniden
@@ -534,7 +538,9 @@ export default function QuestionCard({
             durum={sikDurumu(i)}
             kiriliyor={kirilan.includes(i)}
             onClick={() => cevapla(i)}
-            onPointerDown={basiliTutmayaBasla}
+            className={basiliOzellikVar ? ("qt-sik--tutulur" + (basiliSik === i && secim === null ? " qt-sik--basili" : "")) : undefined}
+            onContextMenu={basiliOzellikVar ? (e) => e.preventDefault() : undefined}
+            onPointerDown={() => basiliTutmayaBasla(i)}
             onPointerUp={basiliTutmayiBirak}
             onPointerLeave={basiliTutmayiBirak}
             onPointerCancel={basiliTutmayiBirak}

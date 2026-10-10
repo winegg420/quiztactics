@@ -1122,6 +1122,17 @@ html:not(.msk-acik) body:not(.bd-oyun-modu):has(.a-ust-blok):not(:has(.qt-ortu))
 }
 .qt-sik:disabled { cursor: default; }
 .qt-sik:active:not(:disabled) { transform: translateY(var(--qt-dudak)); box-shadow: 0 0 0 var(--_d); }
+/* Basılı tut (3 sn): yalnız sunucu dogru_cevap verdiyse. Mobilde menü/seçim/büyüteç açılmaz. */
+.qt-sik--tutulur { touch-action: manipulation; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; position: relative; overflow: hidden; }
+.qt-sik--basili::before {
+  content: ""; position: absolute; left: 0; bottom: 0; height: 4px; width: 100%;
+  background: #2f80ff; transform-origin: left center; transform: scaleX(0);
+  animation: qt-sik-basili-dol 3s linear forwards; pointer-events: none;
+}
+@keyframes qt-sik-basili-dol { to { transform: scaleX(1); } }
+@media (prefers-reduced-motion: reduce) {
+  .qt-sik--basili::before { animation: none; transform: scaleX(1); height: 100%; opacity: .18; }
+}
 .qt-sik-harf {
   flex: none;
   display: grid;
