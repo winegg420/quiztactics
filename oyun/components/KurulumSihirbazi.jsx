@@ -17,6 +17,7 @@ import { AvatarBolumBasligi, AvatarKilitRozeti, NadirlikImg } from "./AvatarNadi
 import { AvatarEdinmeKarti } from "./AvatarEdinme.jsx";
 import "../tasarim/ekranlar/g-ortak.css";
 import "../tasarim/ekranlar/g-kurulum.css";
+import { oyuncuKartiUnut } from "../lib/cerceve.js";
 
 // Profesyonel avatar seti (31) — tek liste oyun/lib/avatarKatalogu.js (profil, Koleksiyon, Dükkân › Avatar ile aynı).
 
@@ -123,6 +124,7 @@ export default function KurulumSihirbazi({ onTamam }) {
       const { error } = await supabase.rpc("takma_ad_sec", { p_ad: takmaAd.trim() });
       if (error) throw error;
       await refreshProfile(user.id);
+      oyuncuKartiUnut(user.id);   // kart önbelleği eski adı/avatarı tutmasın (profil kartı kart.ad okur)
       setAdim(2);
     } catch (e) {
       setHata(hataMesaji(e, ceviri("Takma ad kaydedilemedi.")));
@@ -138,6 +140,7 @@ export default function KurulumSihirbazi({ onTamam }) {
       const { error } = await supabase.rpc("avatar_onayla", { p_url: url });
       if (error) throw error;
       await refreshProfile(user.id);
+      oyuncuKartiUnut(user.id);   // kart önbelleği eski adı/avatarı tutmasın (profil kartı kart.ad okur)
       setAdim(3);
     } catch (e) {
       setHata(hataMesaji(e, ceviri("Avatar kaydedilemedi.")));
@@ -160,6 +163,7 @@ export default function KurulumSihirbazi({ onTamam }) {
       });
       if (error) throw error;
       await refreshProfile(user.id);
+      oyuncuKartiUnut(user.id);   // kart önbelleği eski adı/avatarı tutmasın (profil kartı kart.ad okur)
       onTamam?.();
     } catch (e) {
       setHata(hataMesaji(e, ceviri("Konum kaydedilemedi.")));

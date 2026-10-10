@@ -15,6 +15,7 @@ import { AvatarBolumBasligi, AvatarKilitRozeti, NadirlikImg } from "./AvatarNadi
 import { AvatarEdinmeKarti } from "./AvatarEdinme.jsx";
 import { QtAnahtar, QtDugme, QtIkon, QtKart } from "../tasarim/index.js";
 import "../tasarim/ekranlar/dukkan-profil.css";
+import { oyuncuKartiUnut } from "../lib/cerceve.js";
 
 // Profesyonel avatar seti (31) — liste oyun/lib/avatarKatalogu.js'te (Dükkân › Avatar da kullanır; profil
 // sayfası paketini dükkâna taşımasın diye). Buradan dışa aktarım geriye uyum için durur.
@@ -85,6 +86,7 @@ export default function ProfilAyarlari() {
       const { error } = await supabase.rpc("takma_ad_sec", { p_ad: yeniAd.trim() });
       if (error) throw error;
       await refreshProfile(user.id);
+      oyuncuKartiUnut(user.id);   // kart önbelleği eski adı/avatarı tutmasın (profil kartı kart.ad okur)
       setAdDuzenle(false);
     } catch (e) {
       setAdHata(hataMesaji(e, tt("Takma ad kaydedilemedi.")));
@@ -100,6 +102,7 @@ export default function ProfilAyarlari() {
       const { error } = await supabase.rpc("avatar_onayla", { p_url: url });
       if (error) throw error;
       await refreshProfile(user.id);
+      oyuncuKartiUnut(user.id);   // kart önbelleği eski adı/avatarı tutmasın (profil kartı kart.ad okur)
       setAvatarDuzenle(false);
     } catch (e) {
       setAvatarHata(hataMesaji(e, tt("Avatar kaydedilemedi.")));

@@ -20,6 +20,7 @@ import "../tasarim/ekranlar/dukkan-bilesen.css";
 import "../tasarim/ekranlar/sikayet.css";
 import { tt } from "../lib/dil.js";
 import "../tasarim/ekranlar/l-kart.css";
+import { gorunenAd } from "../lib/oyuncu.js";
 
 // Profil kartı dokununca açılır: ilk yük paketinde taşınmaz (8 Eki 2026, soğuk açılış).
 const OyuncuKarti = tembelYukle(() => import("./OyuncuKarti.jsx"));
@@ -30,7 +31,7 @@ export default function AvatarDugmesi({ userId, profil, kendi = false, children 
   return (
     <>
       <button type="button" className="ls-avatar-dugme"
-              aria-label={tt("{0} — kartını aç", { 0: profil?.gorunen_ad ?? tt("Oyuncu") })}
+              aria-label={tt("{0} — kartını aç", { 0: gorunenAd(profil?.gorunen_ad) })}
               onClick={(e) => { e.stopPropagation(); setAcik(true); }}>
         {children}
       </button>

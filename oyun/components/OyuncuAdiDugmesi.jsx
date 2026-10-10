@@ -32,6 +32,7 @@ import "../tasarim/ekranlar/sikayet.css";
 import IsimEfekti from "./IsimEfekti.jsx";
 import { tt } from "../lib/dil.js";
 import { botAdi } from "../lib/botAdi.js";
+import { gorunenAd } from "../lib/oyuncu.js";
 import "../tasarim/ekranlar/l-kart.css";
 
 // Profil kartı dokununca açılır: ilk yük paketinde taşınmaz (8 Eki 2026, soğuk açılış).
@@ -71,7 +72,7 @@ export default function OyuncuAdiDugmesi({
   // İsim efekti her yerde (Ida, 24 Eyl 2026 — altın isim: arkadaşlar, meydan okumalar, turnuva, davetler…)
   const children = !efektsiz && userId && typeof cocuk === "string" ? <IsimEfekti userId={userId}>{cocuk}</IsimEfekti> : cocuk;
   if (!userId) return <Oge className={className || undefined} {...rest}>{children}</Oge>;
-  const gorunen = botAdi(ad ?? profil?.gorunen_ad ?? tt("Oyuncu"));
+  const gorunen = gorunenAd(ad ?? profil?.gorunen_ad);
   return (
     <>
       <button

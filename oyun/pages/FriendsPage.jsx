@@ -25,6 +25,7 @@ import "../tasarim/ekranlar/l-sosyal.css";
 // 590: çevrimiçi durumu YALNIZ bu listede (Realtime Presence; oyunun başka yerinde gösterilmez)
 import { useArkadasCevrimici } from "../lib/cevrimici.js";
 import "./arkadasCevrimici.css";
+import { gorunenAd } from "../lib/oyuncu.js";
 
 const DOSTLUK_SECIMI = `id, requester, addressee, durum,
   req:profiles!friendships_requester_fkey(id, gorunen_ad, gorunen_avatar, gorunum, puan),
@@ -210,7 +211,7 @@ export default function FriendsPage() {
       });
       if (error) throw error;
       const sonuc = Array.isArray(data) ? data[0] : data;
-      const ad = sonuc?.gorunen_ad ?? tt("Oyuncu");
+      const ad = gorunenAd(sonuc?.gorunen_ad);
       const mesajlar = {
         istek_gonderildi: tt("{0} kişisine arkadaşlık isteği gönderildi", { 0: ad }),
         arkadas_oldu: tt("{0} artık arkadaşın!", { 0: ad }),
@@ -478,7 +479,7 @@ export default function FriendsPage() {
                       ikon="carpi"
                       tur="saydam"
                       className="ls-reddet"
-                      etiket={tt("{ad} isteğini reddet", { ad: f.req?.gorunen_ad ?? tt("Oyuncu") })}
+                      etiket={tt("{ad} isteğini reddet", { ad: f.gorunenAd(req?.gorunen_ad) })}
                       onClick={() => cevapla(f.id, false)}
                     />
                   </>
@@ -653,7 +654,7 @@ export default function FriendsPage() {
                     tur="ikincil"
                     boyut="k"
                     onClick={() => geriCek(f.id)}
-                    aria-label={tt("{ad} kişisine gönderilen isteği geri çek", { ad: f.add?.gorunen_ad ?? tt("Oyuncu") })}
+                    aria-label={tt("{ad} kişisine gönderilen isteği geri çek", { ad: f.gorunenAd(add?.gorunen_ad) })}
                   >
                     {tt("Geri çek")}
                   </QtDugme>

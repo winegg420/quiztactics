@@ -35,6 +35,7 @@ import { QtBosDurum, QtDugme, QtIkon, QtIkonDugme, QtIskelet, QtKart, QtListe, Q
 import "../tasarim/ekranlar/m1-mac.css";
 import "../tasarim/ekranlar/m1-sonuc.css";
 import "../tasarim/ekranlar/m1-turnuva.css";
+import { gorunenAd } from "../lib/oyuncu.js";
 
 // Oyuncu listesi değişimlerinde (katılım, puan) yeniden okuma aralığı — bkz. oyuncuTazele.
 const OYUNCU_TAZELE_MS = 3000;   // Aşama 2: 1,5 → 3 sn (oyuncu listesi değişimleri tek okumada birleşir)
@@ -780,7 +781,7 @@ export default function TournamentPage() {
                       type="button"
                       className="m1-tv-oyuncu-ac"
                       onClick={() => setKartOyuncu({ id: o.user_id, ...(o.profil ?? {}) })}
-                      aria-label={tt("{0} — kartını aç", { 0: o.profil?.gorunen_ad ?? tt("Oyuncu") })}
+                      aria-label={tt("{0} — kartını aç", { 0: o.gorunenAd(profil?.gorunen_ad) })}
                     >
                       <CerceveliAvatar profile={{ ...(o.profil ?? {}), id: o.user_id }} boyut={40} userId={o.user_id} />
                     </button>
@@ -796,7 +797,7 @@ export default function TournamentPage() {
                       ikon="kilic"
                       tur="yuzey"
                       className="m1-tv-kilic"
-                      etiket={tt("{0} oyuncusuna meydan oku", { 0: o.profil?.gorunen_ad ?? tt("Oyuncu") })}
+                      etiket={tt("{0} oyuncusuna meydan oku", { 0: o.gorunenAd(profil?.gorunen_ad) })}
                       onClick={(e) => { e.stopPropagation(); meydanOku(o.user_id); }}
                     />
                   ) : <QtRozet ton="mor" boyut="k">{tt("Sen")}</QtRozet>}
@@ -956,7 +957,7 @@ export default function TournamentPage() {
             // Ajan C: rozetin tamamı ada dokunma alanı (ad çeviri kalıbının içinde)
             <OyuncuAdiDugmesi key={o.user_id} userId={o.user_id} profil={o.profil}>
               <QtRozet ton={o.user_id === user.id ? "vurgu" : "notr"} boyut="k">
-                {tt("{ad} · {n} doğru", { ad: o.profil?.gorunen_ad ?? tt("Oyuncu"), n: o.dogru_sayisi ?? 0 })}
+                {tt("{ad} · {n} doğru", { ad: o.gorunenAd(profil?.gorunen_ad), n: o.dogru_sayisi ?? 0 })}
               </QtRozet>
             </OyuncuAdiDugmesi>
           ))}

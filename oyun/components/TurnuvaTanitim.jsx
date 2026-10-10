@@ -7,6 +7,7 @@ import "../tasarim/ekranlar/m1-turnuva.css";
 import { turnuvaSaatleri, turnuvaSaatleriniGoster, yerelSaatGoster } from "../lib/zaman.js";
 import { useSaatAyari } from "./TurnuvaSaatleri.jsx";
 import { tt } from "../lib/dil.js";
+import { gorunenAd } from "../lib/oyuncu.js";
 
 /**
  * Turnuva sayfasındaki boş ekranı dolduran tanıtım bloğu:
@@ -104,7 +105,7 @@ export default function TurnuvaTanitim() {
                 key={o.user_id}
                 vurgulu={i === 0}
                 bas={<CerceveliAvatar profile={o.profil} userId={o.user_id} boyut={40} />}
-                baslik={<>{`${i + 1}. `}<OyuncuAdiDugmesi userId={o.user_id} profil={o.profil}>{o.profil?.gorunen_ad ?? tt("Oyuncu")}</OyuncuAdiDugmesi></>}
+                baslik={<>{`${i + 1}. `}<OyuncuAdiDugmesi userId={o.user_id} profil={o.profil}>{o.gorunenAd(profil?.gorunen_ad)}</OyuncuAdiDugmesi></>}
                 sag={<QtRozet ton={i === 0 ? "coin" : "dogru"} boyut="k" ikon="onay">{o.dogru_sayisi ?? 0}</QtRozet>}
               />
             ))}

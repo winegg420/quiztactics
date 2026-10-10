@@ -29,3 +29,12 @@ export function kisaKimlik(id) {
   const s = String(id ?? "").replace(/-/g, "");
   return s.slice(-4) || "????";
 }
+
+/**
+ * Tek kişinin görünen adı (kart, profil, ana sayfa). Sunucudaki varsayılan "Oyuncu" ya da boş ad
+ * dile göre çevrilir ("Player"); açık bot adı EN'de çevrilir. Başka her ad olduğu gibi döner.
+ */
+export function gorunenAd(ad) {
+  const a = typeof ad === "string" ? ad.trim() : "";
+  return !a || a === "Oyuncu" ? tt("Oyuncu") : botAdi(a);
+}

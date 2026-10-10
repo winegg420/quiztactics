@@ -26,6 +26,7 @@ import DereceliAnahtari from "../components/DereceliAnahtari.jsx";
 import { useDereceliTercih } from "../lib/dereceli.js";
 import { useDil } from "../lib/dilKanca.js";
 import { tt, ttSunucu } from "../lib/dil.js";
+import { gorunenAd } from "../lib/oyuncu.js";
 import { LIG_ADLARI } from "../lib/lig.js";
 import { rpcDene } from "../lib/rpcDene.js";
 import {
@@ -507,7 +508,7 @@ export default function Home() {
               <AvatarCerceve profile={profile} boyut={64} userId={user.id} />
             </span>
             <div className="a-ana-oyuncu-bilgi">
-              <p className="a-ana-oyuncu-ad">{profile?.gorunen_ad ?? tt("Oyuncu")}</p>
+              <p className="a-ana-oyuncu-ad">{gorunenAd(profile?.gorunen_ad)}</p>
               <p className="a-ana-oyuncu-rutbe">
                 <RankBadge level={level} sadeceRozet boyut={16} /> {rutbe.ad} · {tt("Level {n}", { n: level })}
               </p>

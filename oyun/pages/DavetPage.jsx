@@ -7,6 +7,7 @@ import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
+import { gorunenAd } from "../lib/oyuncu.js";
 
 const DEPO_ANAHTAR = "bildim_davet_kodu";
 
@@ -65,7 +66,7 @@ export default function DavetPage() {
         });
         if (error) throw error;
         const sonuc = Array.isArray(data) ? data[0] : data;
-        const ad = sonuc?.gorunen_ad ?? tt("Oyuncu");
+        const ad = gorunenAd(sonuc?.gorunen_ad);
         const mesajlar = {
           istek_gonderildi: tt("{0} kişisine arkadaşlık isteği gönderildi", { 0: ad }),
           arkadas_oldu: tt("{0} artık arkadaşın!", { 0: ad }),

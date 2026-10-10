@@ -28,6 +28,7 @@ import { ESKI_GORUNUM, CANLI_BP_CERCEVE, CANLI_LIG_VARYANT, CANLI_SAHNE_ARKA } f
 import { tt } from "../lib/dil.js";
 import "../tasarim/ekranlar/oyuncu-vitrin-karti.css";
 import "../tasarim/ekranlar/koleksiyon-puani.css";
+import { gorunenAd } from "../lib/oyuncu.js";
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -99,7 +100,7 @@ export default function OyuncuVitrinKarti({ userId, profile, kart: verilenKart, 
   const kart = useOyuncuKarti(userId, verilenKart);
   // 30 Eyl: arkaPlan → takılı kart arka planı kartın arkasında (yalnız profil sayfası ister; diğer kullananlar aynı)
   const arkaPlanSanat = useKartArkaPlani(arkaPlan ? userId : null, kart ?? undefined);
-  const ad = kart?.ad ?? profile?.gorunen_ad ?? tt("Oyuncu");
+  const ad = gorunenAd(kart?.ad ?? profile?.gorunen_ad);
   const profil = profile ?? (kart ? { id: kart.id, gorunen_ad: kart.ad, gorunen_avatar: kart.avatar } : {});
   // Sezon Yolu (720): BP sahipliği kart'ta zaten var (oyuncu_kartlari.sezon_bp) — yeni sorgu yok.
   const bpAktif = bp !== undefined ? bp : kart?.sezon_bp === true;

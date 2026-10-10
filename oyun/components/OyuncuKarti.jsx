@@ -27,6 +27,7 @@ import { tt } from "../lib/dil.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
 import SikayetPenceresi, { EngelPenceresi, useIletisimDurumu } from "./SikayetPenceresi.jsx";
 import "../tasarim/ekranlar/sikayet.css";
+import { gorunenAd } from "../lib/oyuncu.js";
 
 const ALANLAR =
   // `is_bot` BİLEREK YOK: gizli botlar gerçek oyuncudan ayırt edilmemeli
@@ -118,11 +119,11 @@ export default function OyuncuKarti({
   const sayi = (n) => sayiBicim(Number(n ?? 0));
 
   if (pencere === "sikayet") {
-    return <SikayetPenceresi kisiId={userId} kisiAd={p?.gorunen_ad ?? tt("Oyuncu")} engelliMi={Boolean(iletisim?.engelledim)}
+    return <SikayetPenceresi kisiId={userId} kisiAd={gorunenAd(p?.gorunen_ad)} engelliMi={Boolean(iletisim?.engelledim)}
                              onKapat={() => setPencere(null)} onTamam={() => iletisimYenile()} />;
   }
   if (pencere === "engel") {
-    return <EngelPenceresi kisiId={userId} kisiAd={p?.gorunen_ad ?? tt("Oyuncu")} engelliMi={Boolean(iletisim?.engelledim)}
+    return <EngelPenceresi kisiId={userId} kisiAd={gorunenAd(p?.gorunen_ad)} engelliMi={Boolean(iletisim?.engelledim)}
                            onKapat={() => setPencere(null)} onTamam={() => iletisimYenile()} />;
   }
 

@@ -39,6 +39,7 @@ import "../../tasarim/ekranlar/a-ortak.css";
 import "../../tasarim/ekranlar/a-kategori-secici.css";
 import "../../tasarim/ekranlar/skill-rozet.css";
 import { tembelYukle, bostaOnYukle } from "../../../src/lib/tembelYukle.js";
+import { gorunenAd } from "../../lib/oyuncu.js";
 
 // Arama ekranı + mod penceresi dokununca açılır: ilk yük paketinde taşınmaz, açılıştan sonra boşta
 // önceden iner (8 Eki 2026, soğuk açılış).
@@ -257,7 +258,7 @@ export function useAnaSayfaVerisi({ gorevYukle = true, bakiye = null } = {}) {
 
   const level = Number(profile?.level) || 1;
   const oyuncu = useMemo(() => ({
-    ad: profile?.gorunen_ad ?? tt("Oyuncu"),
+    ad: gorunenAd(profile?.gorunen_ad),
     level,
     xp: Math.max(0, Number(profile?.level_xp) || 0),
     xpGereken: Number(profile?.level_gereken) || 0,

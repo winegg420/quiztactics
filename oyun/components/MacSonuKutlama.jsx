@@ -58,6 +58,7 @@ import { aktifDil, tt, ttSunucu } from "../lib/dil.js";
 import { NadirlikImg } from "./AvatarNadirlikGoruntu.jsx";
 import { adKisalt } from "../lib/adKisalt.js";
 import "../tasarim/ekranlar/mac-sonu-kutlama.css";
+import { gorunenAd } from "../lib/oyuncu.js";
 
 export const MS_ZAMAN = { afis: 0, kupa: 150, avatar: 300, konfeti: 700, coin: 1000, xp: 1400, lig: 1800, gorev: 2000, son: 2600 };
 const LEVEL_EK_MS = 800;
@@ -89,7 +90,7 @@ function AdDugmesi({ userId, profil, children }) {
   return (
     <>
       <button type="button" className="msk-isim-dugme"
-              aria-label={tt("{0} — kartını aç", { 0: profil?.gorunen_ad ?? tt("Oyuncu") })}
+              aria-label={tt("{0} — kartını aç", { 0: gorunenAd(profil?.gorunen_ad) })}
               onClick={(e) => { e.stopPropagation(); setAcik(true); }}>
         {children}
       </button>
