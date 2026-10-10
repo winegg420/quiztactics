@@ -76,7 +76,7 @@ export default function ProfilePage() {
   // Profil dört sekmeye ayrıldı; varsayılan İstatistiklerim.
   const [sekme, setSekme] = useState("istatistik");
   // Ekran revizyonu A (Ida, 10 Eki 2026): Ayarlar/Davet'e doğrudan gelinince (/profil?sekme=…) üstte yalnız kısa kimlik satırı
-  // (level çubuğu yok). Sekme tıklamaları bunu değiştirmez; dışarıdan gelen her bağlantı yeniden belirler.
+  // (level çubuğu yok; İstatistik/Rozet/Koleksiyon sekmesine geçince çubuk gelir). Dışarıdan gelen her bağlantı yeniden belirler.
   const [kisaKimlik, setKisaKimlik] = useState(() => {
     try { return ["ayarlar", "davet"].includes(new URLSearchParams(window.location.search).get("sekme")); } catch { return false; }
   });
@@ -264,7 +264,7 @@ export default function ProfilePage() {
             </span>
           </div>
         </div>
-        {!kisaKimlik && (
+        {!(kisaKimlik && (sekme === "ayarlar" || sekme === "davet")) && (
           <div className="qt-pf-serit">
             {/* Rütbe etiketi kaldırıldı (2 Eki 2026): LevelCubugu zaten "Level N · {rütbe}" gösteriyor, tekrardı. */}
             <LevelCubugu profile={profile} canli levelYok />

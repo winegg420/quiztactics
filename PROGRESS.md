@@ -11386,3 +11386,25 @@ Kaldırıldı: "Hazine sende: {k} puan" başlığı, AÇ alt yazısı "Skor x/y"
   /arkadaslar, 404 → farklı piksel %0,00 (canlı ekranlar değişmedi) · misafir hesapla /ekran-revizyon-onizleme → "Bu sayfa yalnız sahibe açık" · sahip
   hesabıyla (Chrome) sayfa açılıyor. Denetim misafiri ArayuzDenetim685 silindi. Görüntüler `tasarim/ekran-revizyon/once-*.png`, `sonra-*.png`.
 - **Sırada (Aşama 2, Ida onayı bekliyor):** her bölüm için A/B seçimi; seçilen varyant ilgili sayfaya taşınacak.
+
+## 2026-10-10 — Ekran revizyonu Aşama 2: seçilen varyantlar canlıda + Cevap İmzası Düello'dan çıktı
+**Araç:** Claude Code
+**Neden:** Ida /ekran-revizyon-onizleme'de seçti: Hatalarım A · Profil A · boş durumlar A (Hatalarım, Mesajlar, Bildirimler, 404) / B (Arkadaşlar, Lig › Arkadaşlar). Ek: imza v4 sonuç penceresinde güzel durmuyor.
+
+- **Hatalarım** (`CalismaPage`, `m1-calisma.css › .m1-cal-afis-sayi/.m1-cal-kat-*`): `QtAfis` (kitap, turuncu; sağda bekleyen / "Temiz"; şerit öğrenilen/toplam,
+  hiç kayıt yoksa eski alt başlık) + 2 sütun (≥700 px 3) kategori kartı. Kararlar: kartlar BÜTÜN kategoriler (eski şerit gibi; yeni soruyla pratik
+  seçimi kaybolmasın), bankadakiler önde, sayı rozeti yalnız > 0; kategori dağılım çubukları kartlardaki sayıya devredildi. Boş hâl: QtBosDurum sahne A,
+  kategori + soru sayısı + "Pratik turuna başla" altta durur (önizlemedeki kart içi düğme yerine — tek düğme, seçim kaybolmasın). Migration yok.
+- **Profil** (`ProfilePage`, `dukkan-profil.css › .qt-pf-kisa/.qt-pf-oduller/.qt-pf-vitrin/.qt-pf-level-odul`): dikey vitrin kartı → tek satır kimlik
+  (CerceveliAvatar 64 hareketli + takılı kart arka planı `KartArkaPlanKatmani`, IsimEfekti, unvan, `KartLigSatiri` lig+Lv+BP, misafir) + level şeridi;
+  sekmeler hemen altta. İstatistik başı "Ödüllerim": 3 sayı (boş hedefleriyle), vitrin rozetleri, LevelOdulleri, KoleksiyonDokumu (hepsi gerçek veri).
+  `?sekme=ayarlar|davet` dışarıdan gelince level şeridi yok; öteki sekmeye geçince gelir. Bırakılan tek şey lig sahnesi filigran amblemi (dekor).
+  `OyuncuVitrinKarti` dokunulmadı. Eski araçlar `.qt-pf-kimlik > .qt-pf-ok` arıyorsa (denetim-10eki-ekran, lig-gorsel-ekran) artık geçersiz.
+- **Boş durumlar:** Mesajlar, BildirimZili (`bz-bos-gorsel`, + "Maç yap" → ana sayfa), 404 (kapalı mod/bölüm notu aynen ikonlu) → sahne; Arkadaşlar
+  (davet kartı hemen üstte olduğu için ek düğme yok) ve Lig "tek başınasın" (şehir metni aynen, iki düğme aynen) → rozet. Metinler önizlemedeki kısa hâl.
+- **Cevap İmzası:** `Duello4Arena` satırı + import + `useTakiliImza` kaldırıldı; öteki modlar aynen. Dükkân/çeviride Düello'ya özel metin yoktu.
+  `cevap-imzasi-ekran.mjs` Düello bölümü artık imzanın OYNAMADIĞINI sınar: klasik + duello 64/64 (taklit).
+- **Önizleme:** sayfa duruyor, başına "Aşama 2 uygulandı — Şu anki sütunu eski hâl" notu (TR/EN). Kaldırmak Ida kararı.
+- **Doğrulama:** build temiz · `arayuz-denetim` TEMİZ · `araclar/ekran-revizyon-asama2.mjs` (yeni; misafir oturumu, Hatalarım dolu hâli taklit yanıt,
+  EN için profilim dili yalnız tarayıcıda) 11 ekran × 360/390 × TR/EN = 44 kare önce/sonra `tasarim/ekran-revizyon/asama2/`: taşma 0, konsol 0
+  (son kısmi koşuda bir kez Supabase 504 `cihaz_bildir` — sunucu tarafı, geçici). Not: aynı klasördeki eski Vite (5173) kullanıldı, iş sonunda kapatıldı.
