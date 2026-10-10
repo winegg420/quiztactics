@@ -21,6 +21,7 @@
 import { sinif } from "../temel.jsx";
 import SayfaBasligi from "../SayfaBasligi.jsx";
 import { useOyunModu } from "../../lib/oyunModu.js";
+import { OdulPatlamasiKatmani } from "./OdulPatlamasi.jsx";
 import "./sahne.css";
 
 /** Sahnedeki coin hapının seçicisi (ziplat hedefi, coin uçuşunun varış noktası). */
@@ -38,6 +39,7 @@ export default function QtSahne({ baslik, altBaslik, sag, ust, alt, children, go
         <div className="qt-sahne-govde" ref={govdeRef}>{children}</div>
         {altVar && <div className="qt-sahne-alt">{alt}</div>}
       </div>
+      <OdulPatlamasiKatmani />
     </div>
   );
 }

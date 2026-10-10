@@ -14,6 +14,23 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
 import { tt } from "./dil.js";
+import { useAuth } from "../../src/context/AuthContext.jsx";
+
+// Önbellek (anında açılış): son başarılı okuma kullanıcı kimliğine bağlı saklanır; sayfa onu hemen çizer, arka planda yeniler.
+// `okunma` önbelleğe yazıldığı andır → geri sayım (yenilenme_sn − geçen süre) eski veride de doğru kalır.
+const ONBELLEK_ANAHTAR = "bildim_gorevler:";
+const ONBELLEK_OMUR_MS = 36 * 3600 * 1000;
+function onbellekOku(uid) {
+  try {
+    if (!uid) return null;
+    const o = JSON.parse(window.localStorage.getItem(ONBELLEK_ANAHTAR + uid) || "null");
+    if (!o?.gunluk || !o?.haftalik || !(Date.now() - Number(o.okunma) < ONBELLEK_OMUR_MS)) return null;
+    return o;
+  } catch { return null; }
+}
+function onbellekYaz(uid, veri) {
+  try { if (uid) window.localStorage.setItem(ONBELLEK_ANAHTAR + uid, JSON.stringify(veri)); } catch { /* dolu/engelli: önbellek şart değil */ }
+}
 
 const OLAY = "bildim-gorev-degisti";
 
@@ -67,12 +84,18 @@ export function gorevOzeti(veri) {
  * Hata olursa eski veri ekranda kalır (hata yalnız hiç veri yokken `hata=true`).
  */
 export function useGorevler() {
-  const [veri, setVeri] = useState(null);
+  const { user } = useAuth();
+  const uid = user?.id ?? null;
+  const uidRef = useRef(uid);
+  uidRef.current = uid;
+  const [veri, setVeri] = useState(() => onbellekOku(uid));
   const [hata, setHata] = useState(false);
   const istek = useRef(0);
   const canli = useRef(true);
 
   const sonOkuma = useRef(0);
+  // Kimlik sonradan gelirse (oturum geç çözülürse) önbellek o zaman okunur; taze veri varsa dokunulmaz.
+  useEffect(() => { if (uid) setVeri((v) => v ?? onbellekOku(uid)); }, [uid]);
 
   const yukle = useCallback(async () => {
     const no = ++istek.current;
@@ -80,8 +103,10 @@ export function useGorevler() {
       const d = await gorevlerimOku();
       if (no !== istek.current || !canli.current) return;
       sonOkuma.current = Date.now();
-      setVeri({ ...d, okunma: Date.now() });
+      const taze = { ...d, okunma: Date.now() };
+      setVeri(taze);
       setHata(false);
+      onbellekYaz(uidRef.current, taze);
     } catch (e) {
       console.error("[Bildim] görevler alınamadı:", e?.message ?? e);
       if (no === istek.current && canli.current) setHata(true);

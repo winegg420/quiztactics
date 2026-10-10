@@ -7,14 +7,17 @@
  * Veri: sezon_ozetim (hafif, seviye · SP · BP · alınabilir; sezonYolu.js önbelleği) + sezon_yolu_durumum (sezon no, kalan gün,
  * sıradaki ödül; seviye/BP/sezon değişince bir kez, 5 dk önbellekli). YENİ RPC YOK; ödül/BP mantığına dokunulmaz.
  */
-import { useEffect, useState } from "react";
+import { Component, lazy, Suspense, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { odulAdi, sezonDurumu, useSezonOzeti } from "../../lib/sezonYolu.js";
 import { QtIkon } from "../../tasarim/index.js";
+import { useAuth } from "../../../src/context/AuthContext.jsx";
 import { aktifDil, tt } from "../../lib/dil.js";
 import { y } from "../../lib/yol.js";
 import "./sezon.css";
 
+// Ejderha çerçevesi (pc_ejderha2) ağır sanattır: tembel yüklenir; inerken/hatada taç görseli yedeği (ana paket büyümez).
+const PremiumAvatarCizim = lazy(() => import("../PremiumAvatarCizim.jsx"));
 const ONBELLEK_MS = 5 * 60 * 1000;
 let onbellek = null;   // { anahtar, durum, an } — sayfalar arası dönüşte aynı RPC'yi yinelememek için
 
@@ -43,15 +46,34 @@ function useSeridiDurumu(ozet) {
   return durum;
 }
 
-/** Sezon kartı simgesi: taç görseli (dekoratif); yüklenemezse eski yıldız ikonu yedeği. */
+/** Taç görseli (dekoratif); yüklenemezse eski yıldız ikonu yedeği. */
 function TacIkon() {
   const [yok, setYok] = useState(false);
-  if (yok) return <QtIkon ad="yildiz" boyut={18} />;
-  return <img className="sz-ser-tac" src="/dukkan/tac.webp" alt="" aria-hidden="true" width="16" height="16" decoding="async" onError={() => setYok(true)} />;
+  if (yok) return <QtIkon ad="yildiz" boyut={28} />;
+  return <img className="sz-ser-tac" src="/dukkan/tac.webp" alt="" aria-hidden="true" width="32" height="32" decoding="async" onError={() => setYok(true)} />;
+}
+
+class Sinir extends Component {
+  state = { hata: false };
+  static getDerivedStateFromError() { return { hata: true }; }
+  componentDidCatch(e) { console.error("[Bildim] Sezon kartı çerçeve çizimi başarısız:", e?.message ?? e); }
+  render() { return this.state.hata ? this.props.yedek : this.props.children; }
+}
+
+/** Kartın ortasındaki küçük Ejderha çerçevesi (oyuncunun kendi avatarıyla; hareketsiz çizim, süzülmeyi CSS yapar). */
+function EjderhaGorsel({ profil }) {
+  return (
+    <Sinir yedek={<TacIkon />}>
+      <Suspense fallback={<TacIkon />}>
+        <PremiumAvatarCizim profile={profil ?? null} boyut={46} premiumCerceve="ejderha2" />
+      </Suspense>
+    </Sinir>
+  );
 }
 
 export default function SezonSeridi() {
   const { ozet } = useSezonOzeti();
+  const { profile } = useAuth();
   const durum = useSeridiDurumu(ozet);
   try {
     if (!ozet?.gorunur || !durum || durum.acik !== true || durum.test) return null;
@@ -72,31 +94,21 @@ export default function SezonSeridi() {
       .sort((a, b) => Number(a.seviye) - Number(b.seviye) || (a.kol === "ucretsiz" ? -1 : 1))[0] ?? null;
     const siradakiAd = siradaki ? odulAdi(siradaki, aktifDil()) : "";
     const siradakiYazi = siradaki && siradakiAd ? tt("Sv {n}: {ad}", { n: siradaki.seviye, ad: siradakiAd }) : null;
-    const nadir = siradaki?.nadirlik === "epik" || siradaki?.nadirlik === "efsanevi";
     const etiket = [
       tt("Sezon {n}", { n: no }), tt("Seviye {n}/{m}", { n: seviye, m: toplam }), kalanYazi, siradakiYazi,
       alinabilir > 0 ? tt("Alınabilir ödül: {n}", { n: alinabilir }) : null,
       tt("Sezon Yolu"),
     ].filter(Boolean).join(". ");
+    const durumYazi = alinabilir > 0 ? tt("Ödül hazır") : siradakiAd ? tt("Sıradaki: {ad}", { ad: siradakiAd }) : kalanYazi;
     return (
-      <Link to={y("/sezon-yolu")} className={`sz-ser${bp ? " sz-ser--bp" : ""}`} aria-label={etiket}>
-        <span className="sz-ser-ikon" aria-hidden="true"><TacIkon /></span>
-        <span className="sz-ser-metin" aria-hidden="true">
-          <b>{tt("Sezon {n}", { n: no })}<span className="sz-ser-seviye qt-sayi"> · {tt("Sv {n}/{m}", { n: seviye, m: toplam })}</span></b>
-          <span className="sz-ser-cubuk"><span className="sz-ser-dolgu" style={{ "--sz-oran": oran.toFixed(3) }} /></span>
-          {siradakiYazi && (
-            <small className="sz-ser-odul">
-              {nadir && <i className="sz-ser-nadir" />}
-              <span>{siradakiYazi}</span>
-            </small>
-          )}
+      <Link to={y("/sezon-yolu")} className={`sz-ser oc oc--sezon${bp ? " sz-ser--bp" : ""}${alinabilir > 0 ? " oc--hazir" : ""}`} aria-label={etiket}>
+        {alinabilir > 0 && <span className="oc-nokta" aria-hidden="true" />}
+        <span className="oc-gorsel" aria-hidden="true"><EjderhaGorsel profil={profile} /></span>
+        <b className="oc-baslik" aria-hidden="true">{tt("Sezon · Sv {n}", { n: seviye })}</b>
+        <span className="oc-cubuk" aria-hidden="true"><span className="oc-dolgu" style={{ "--sz-oran": oran.toFixed(3) }} /></span>
+        <span className={`oc-durum${alinabilir > 0 ? " oc-durum--altin" : ""}`} aria-hidden="true">
+          <span>{durumYazi}</span>
         </span>
-        {(!bp || alinabilir > 0) && (
-          <span className="sz-ser-yan" aria-hidden="true">
-            {!bp && <span className="sz-ser-bp">{tt("BP")}</span>}
-            {alinabilir > 0 && <span className="sz-ser-adet">{alinabilir > 99 ? "99+" : alinabilir}</span>}
-          </span>
-        )}
       </Link>
     );
   } catch (e) {

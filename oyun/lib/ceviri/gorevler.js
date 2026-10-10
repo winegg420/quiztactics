@@ -47,6 +47,17 @@ export default {
   "Sandık alındı": "Chest claimed",
   "Sandık hazır!": "Chest ready!",
 
+  // Oyun ekranı (10 Eki 2026): sekmeler · yıldız yolu · oyun kartları · sandık açılış perdesi
+  "Haftalık|bölüm": "Weekly",
+  "Aç|sandık": "Open",
+  "Topla": "Collect",
+  "TAMAM": "DONE",
+  "1 yıldız daha, sandık açılır": "1 more star to open the chest",
+  "{n} yıldız daha, sandık açılır": "{n} more stars to open the chest",
+  "Yarın yeni sandık · {s}": "New chest tomorrow · {s}",
+  "{n} farklı kategori": "{n} different categories",
+  "{k}: {n} doğru": "{k}: {n} correct",
+
   // Ana sayfa şeridi
   "Günlük {a}/{b} · Haftalık {c}/{d}": "Daily {a}/{b} · Weekly {c}/{d}",
   "Görevler. Günlük {a}/{b}, haftalık {c}/{d}.": "Quests. Daily {a}/{b}, weekly {c}/{d}.",

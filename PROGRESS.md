@@ -11494,8 +11494,22 @@ Kaldırıldı: "Hazine sende: {k} puan" başlığı, AÇ alt yazısı "Skor x/y"
 - Not: 5199'daki başka Vite'e dokunulmadı; kendi sunucum 5211'de açılıp kapatıldı. Çalışma sırasında Codex `codex-03` commit'ini push etti
   (benim migration commit'im de onunla gitti); geçmiş doğrusal, çakışma yok.
 
+## 2026-10-10 — Maç sonu SP şeridi + seviye atlama, BP tanıtım penceresi (migration 1050)
+- Yapılan: `sezon_mac_sp_ozetim(p_ref)` ve `bp_tanitim_gosterilsin_mi()` RPC'leri + `bp_tanitim_gosterimleri` tablosu (1050, canlıya uygulandı); `SezonSpSeridi` (MacSonuKutlama › Klasik, Düello, Kasa, Turnuva), `BpTanitimPenceresi` (AnaSayfaA'ya tek satır), `SezonYoluPage`'e `state.bpSatinAl` okuyan 7 satır.
+- Karar: SP istemcide hesaplanmaz; "günde 1" kaydı sunucuda; başka pencere/süren maç varken RPC çağrılmaz (çağrı günü tüketir). Grup Maçı SP vermez, Hızlı Mod dondurulmuş → bağlanmadı.
+- Test: `mac-sonu-sp-sql-testi` 15/15 (ROLLBACK); ekran görüntüleri `tasarim/mac-sonu-sp-bp/`. EN görüntüler TR metinli (EN oturumu geçersiz); EN sözlüğü `ceviri/mac-sonu-sp-bp.js`.
+
 ## 2026-10-10 — Codex soru hattı: codex-03 onaylı 191 soru canlıda
 **Araç:** Codex
 - Claude onayı: 9/21/34/84/97/161/183/185/196 çıkarıldı; istenen soru, şık, EN ve olgu düzeltmeleri uygulandı. 196 çıkarıldığı için ek düzeltmesi yalnız onay kaydında saklandı. Ek kapı uyarlamaları: ["Kullanıcı ek onayı: 97 çıkarıldı; net 191","01: aynı anlamdaki ziyaret sorusu metin benzerliğini giderdi; EN ilk onaydaki gibi","148: her turda geçilen köşe ifadesi Başla/başlangıç kök çakışmasını giderdi; TR şıklar ilk onaydaki gibi, EN şıklar değişmedi"].
 - 191 kayıt kapı 1–5 geçti. Migration 1051: prova ve uygulama başarılı. Aktif 13226 → 13417 (+191); tüm TR/EN doğru cevaplar ve dört şıkkın ortak sırası toplu sorguyla doğrulandı.
 - Sonraki parti için CODEX.md: tarih payını artır, genel kültürde ülke yığılmasını önle, birbirinin cevabını yanlış şık veren çiftleri seçme. Oyun koduna dokunulmadı.
+
+## 2026-10-10 — Oyun hissi: Sezon Yolu, Görevler, ana sayfa kartları, maç sonu SP, BP tanıtımı
+**Araç:** Claude Code (Opus 5.5 ana oturum + 3 Sonnet alt ajan)
+- Ortak ödül anı `oyun/tasarim/sahne/OdulPatlamasi.jsx` (QtSahne'ye takılı): 7 ikon coin hapına uçar, kısa konfeti, titreşim, kuyrukla sıralı; reduced-motion'da yok.
+- Sezon Yolu: koyu lacivert sahne, Ejderha hero, turuncu seviye + altın çubuk, büyük kutular/kilometre taşları, altın ışıma, alınmış renkli + tik, renkli BP kolu, turuncu nabızlı düğme / "sıradaki ödül" şeridi; sıradaki büyük ödül hero'ya taşındı (alt sıkışıklık bitti).
+- Görevler: liste kalktı → sekmeler, sandık sahnesi, yıldız yolu, 3'lü flip kartlar, haftalık sandık açılış perdesi; önbellekten anında açılış.
+- Ana sayfa: Sezon ve Görevler oyun kartları (alt ajan). Maç sonu SP şeridi + seviye kutlaması ve BP tanıtım penceresi + migration 1050 (alt ajan, ayrı kayıt yukarıda).
+- Kararlar: günlük sandık sunucuda ödülsüz olduğu için yalnız görsel; kapalı sandık hâli repoda yok → SVG sandık çizildi; ödül/SP/fiyat mantığına dokunulmadı.
+- Test: build temiz; taklit veriyle 390×844/390×664/360×640/1440 TR+EN ölçüm — taşma yok, alt alan ekranda, konsol hatası yok, reduced-motion'da sonsuz animasyon 0. EN oturum dosyası geçersiz → EN dil zorlanarak ölçüldü.

@@ -136,7 +136,7 @@ function miktarYazi(o) {
   return "";
 }
 
-function Kutu({ odul, durum, bpVar, yeniAlindi, mesgul, onSec, onAl, sahipCoin = 0 }) {
+function Kutu({ odul, durum, bpVar, yeniAlindi, mesgul, onSec, onAl, sahipCoin = 0, tas = false, sirada = false }) {
   const bpKilit = odul.kol === "ucretli" && !bpVar;
   const al = Boolean(odul.alinabilir) && !odul.alindi;
   const s = odul.alindi ? "alindi" : al ? "alinabilir" : "kilitli";
@@ -146,12 +146,12 @@ function Kutu({ odul, durum, bpVar, yeniAlindi, mesgul, onSec, onAl, sahipCoin =
   // 1039: avatar ödülüne zaten sahipse avatar yerine coin (sunucu bp_avatar_sahipse_coin)
   const sahipCoinli = odul.tur === "avatar" && odul.sahip && !odul.alindi && sahipCoin > 0;
   return (
-    <button type="button" className={`sy-kutu sy-kutu--${s}${yeniAlindi ? " sy-kutu--doldu" : ""}`}
+    <button type="button" className={`sy-kutu sy-kutu--${s}${yeniAlindi ? " sy-kutu--doldu" : ""}${tas ? " sy-kutu--tas" : ""}${sirada ? " sy-kutu--sirada" : ""}${bpKilit ? " sy-kutu--bp-kilit" : ""}`}
       data-nadirlik={odul.nadirlik ?? "siradan"} data-tur={odul.placeholder ? "yakinda" : odul.tur} data-yuva={anahtar(odul)} disabled={al && mesgul}
       aria-label={`${tt("{n}. seviye", { n: odul.seviye })}, ${kolAdi}: ${odul.placeholder ? tt("Yakında") : odulAdi(odul, durum.dil)}, ${durumYazi}${sahipCoinli ? `, ${tt("Sahipsin · +{n} coin", { n: sahipCoin })}` : ""}`}
       onClick={() => (al ? onAl(odul) : onSec(odul))}>
       <span className="sy-kutu-cerceve">
-        <OdulGorsel odul={odul} boyut={odulCerceveSanati(odul) ? 52 : 38} />
+        <OdulGorsel odul={odul} boyut={odulCerceveSanati(odul) ? (tas ? 66 : 58) : (tas ? 50 : 42)} />
         {miktar && <span className="sy-kutu-miktar" aria-hidden="true">{miktar}</span>}
         {s === "kilitli" && bpKilit && <span className="sy-kutu-kilit" aria-hidden="true"><QtIkon ad="kilit" boyut={12} /></span>}
         {odul.alindi && <span className="sy-kutu-tik" aria-hidden="true"><QtIkon ad="onay" boyut={12} /></span>}
@@ -193,10 +193,11 @@ export default function DikeyYol({ durum, toplam, bpVar, harita, yeniAlinan, yen
   const duraklar = Array.from({ length: toplam }, (_, i) => i + 1);
   const seviye = Number(durum.seviye ?? 0);
   const sahipCoin = useAyar("bp_avatar_sahipse_coin", 200);   // 1039
+  const siradaki = (() => { for (let n = seviye + 1; n <= toplam; n += 1) if (tasMi(n, toplam)) return n; return null; })();
   const kutu = (n, kol) => {
     const o = harita.get(`${n}:${kol}`);
     if (!o) return <span className="sy-kutu-bos" />;
-    return <Kutu odul={o} durum={durum} bpVar={bpVar} yeniAlindi={yeniAlinan.has(`${n}:${kol}`)} mesgul={mesgul} onSec={onSec} onAl={onAl} sahipCoin={sahipCoin} />;
+    return <Kutu odul={o} durum={durum} bpVar={bpVar} yeniAlindi={yeniAlinan.has(`${n}:${kol}`)} mesgul={mesgul} onSec={onSec} onAl={onAl} sahipCoin={sahipCoin} tas={tasMi(n, toplam)} sirada={n === siradaki} />;
   };
   return (
     <ol className={`sy-dikey sy-dikey--bp-${bpVar ? "var" : "yok"}`} aria-label={tt("Sezon Yolu ödülleri")}>
@@ -205,7 +206,7 @@ export default function DikeyYol({ durum, toplam, bpVar, harita, yeniAlinan, yen
         const son = n === toplam;
         const c = [
           "sy-satir", n <= seviye && "sy-satir--acik", n < seviye && "sy-satir--gecildi", simdi && "sy-satir--simdi",
-          n === 1 && "sy-satir--ilk", son && "sy-satir--final", son && !durum.tasma && "sy-satir--son",
+          n === 1 && "sy-satir--ilk", tasMi(n, toplam) && "sy-satir--tas", son && "sy-satir--final", son && !durum.tasma && "sy-satir--son",
           yeniAcilan.has(n) && "sy-satir--acildi", parla === n && simdi && "sy-satir--parla",
         ].filter(Boolean).join(" ");
         return (

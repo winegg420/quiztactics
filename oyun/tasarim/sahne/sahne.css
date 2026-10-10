@@ -104,3 +104,9 @@ html.qt-cevrimdisi .qt-sahne-ic { padding-top: 0; }
 @media (prefers-reduced-motion: reduce) {
   .qt-sahne-ic { animation: none; }
 }
+
+/* Ödül patlaması (OdulPatlamasi.jsx): parçalar body'de, kök hareketsiz; hareket yalnız transform/opacity */
+.qt-op-kok { position: fixed; inset: 0; pointer-events: none; z-index: 1250; }
+.qt-op-parca { position: absolute; left: -10px; top: -10px; width: 20px; height: 20px; display: grid; place-items: center; will-change: transform, opacity; opacity: 0; }
+.qt-op-sp { font: 800 11px/1 var(--qt-font, system-ui); color: #fff; background: var(--qt-ikinci); border-radius: 999px; padding: 3px 5px; }
+@media (prefers-reduced-motion: reduce) { .qt-op-kok { display: none; } }

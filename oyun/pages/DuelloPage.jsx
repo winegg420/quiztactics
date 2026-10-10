@@ -1361,6 +1361,7 @@ function DuelloMac({ id }) {
         <MacSonuKutlama
           durum={durum}
           mod="duello"
+          sezonMacRef={id}
           terk={sahne.terk}
           baslik={d.durum === "iptal" ? ceviri("Düello iptal edildi") : undefined}
           altYazi={sahne.terk ? undefined : (v4Mac ? d4AltYazi(d, ceviri) : altYazi) ?? undefined}

@@ -765,3 +765,154 @@ button.sy-afis { cursor: pointer; -webkit-tap-highlight-color: transparent; touc
   .sy-sahne .sy-afis { height: 64px; padding-block: 2px; }
   .sy-sahne .sy-serit { padding-block: var(--qt-b-1); }
 }
+
+/* =====================================================================
+   OYUN HİSSİ (10 Eki 2026) — Sezon 1 sahnesi: sabit koyu lacivert zemin (sayfaya özel; oyuncunun arka planıyla ilgisi yok;
+   Sezon 2+ aynı temayı kullanır), hero (büyük Ejderha + altın ışıltı), turuncu seviye dairesi + altın çubuk, büyük kutular,
+   belirgin kilometre taşları, altın ışımalı alınabilir kutu, renkli alınmış (yeşil tik) ve renkli kilitli Battle Pass kolu.
+   Hareket yalnız transform/opacity; hareketi azaltta hepsi durur (son hâl).
+   ===================================================================== */
+.qt-sahne-kok.sy-sahne {
+  --qt-zemin: #12224d;
+  --qt-zemin-2: rgb(255 255 255 / 0.1);
+  --qt-zemin-metin: #ffffff;
+  --qt-zemin-soluk: rgb(255 255 255 / 0.74);
+  --sy-kutu: 72px;
+  --sy-orta: 52px;
+  background:
+    radial-gradient(1.5px 1.5px at 12% 18%, rgb(255 255 255 / 0.55) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 78% 9%, rgb(255 255 255 / 0.45) 50%, transparent 51%),
+    radial-gradient(1px 1px at 44% 31%, rgb(255 255 255 / 0.5) 50%, transparent 51%),
+    radial-gradient(1px 1px at 90% 42%, rgb(255 255 255 / 0.4) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 22% 64%, rgb(255 255 255 / 0.35) 50%, transparent 51%),
+    radial-gradient(120% 60% at 50% 0%, #2a4592 0%, transparent 60%),
+    linear-gradient(180deg, #172c62 0%, #0d1a3d 100%);
+  color: #fff;
+}
+.sy-sahne .qt-sahne-alt { background: rgb(9 19 46 / 0.92); border-top-color: rgb(244 196 64 / 0.35); }
+.sy-sahne .qt-sahne-sabit { border-bottom-color: rgb(244 196 64 / 0.3); }
+
+/* Hero */
+.sy-hero2 { display: flex; align-items: center; gap: var(--qt-b-3); min-width: 0; }
+.sy-hero2-vitrin {
+  position: relative; display: grid; place-items: center; flex: none; width: 92px; height: 92px; padding: 0; margin: 0;
+  border: 0; border-radius: 50%; background: none; color: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.sy-hero2-vitrin:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 2px; }
+.sy-hero2-vitrin > :not(.sy-hero2-isilti) { position: relative; z-index: 1; animation: sy-hero2-nabiz 2.4s ease-in-out infinite; }
+.sy-hero2-isilti {
+  position: absolute; inset: -6px; border-radius: 50%;
+  background: radial-gradient(circle, rgb(255 214 92 / 0.75) 0%, rgb(255 190 40 / 0.28) 45%, transparent 70%);
+  animation: sy-hero2-isilti 2.4s ease-in-out infinite;
+}
+@keyframes sy-hero2-nabiz { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+@keyframes sy-hero2-isilti { 0%, 100% { opacity: 0.55; transform: scale(0.92); } 50% { opacity: 1; transform: scale(1.06); } }
+.sy-hero2-metin { display: grid; gap: 4px; flex: 1 1 auto; min-width: 0; line-height: 1.2; }
+.sy-hero2-final { display: flex; align-items: center; gap: 4px; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+  font-size: var(--qt-y-xs); font-weight: var(--qt-a-kalin); letter-spacing: 0.02em; color: #ffd75e; }
+.sy-hero2-final b { font-weight: var(--qt-a-siyah); overflow: hidden; text-overflow: ellipsis; }
+.sy-hero2-sezon { font-family: var(--qt-f-baslik); font-size: var(--qt-y-l); font-weight: var(--qt-a-siyah); color: #fff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sy-sirada-hap {
+  display: flex; align-items: center; gap: 6px; min-width: 0; max-width: 100%; min-height: 32px; padding: 2px 10px 2px 3px; box-sizing: border-box;
+  border: 2px solid #d8a53a; border-radius: var(--qt-r-hap); background: rgb(255 214 92 / 0.14); color: #fff;
+  font: inherit; font-size: var(--qt-y-xs); text-align: start; cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.sy-sirada-hap:focus-visible { outline: 3px solid var(--qt-odak); outline-offset: 2px; }
+.sy-sirada-hap-yuva { display: grid; place-items: center; flex: none; width: 26px; height: 26px; border-radius: 50%; background: #fff3c9; overflow: hidden; }
+.sy-sirada-hap-metin { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: rgb(255 255 255 / 0.85); }
+.sy-sirada-hap-metin b { color: #ffd75e; font-weight: var(--qt-a-siyah); }
+
+/* Seviye: turuncu daire + altın çubuk */
+.sy-seviye2 { display: flex; align-items: center; gap: var(--qt-b-2); min-width: 0; }
+.sy-seviye2-daire {
+  display: grid; place-items: center; flex: none; width: 38px; height: 38px; border-radius: 50%; box-sizing: border-box;
+  border: 3px solid #fff; background: var(--qt-vurgu); color: var(--qt-vurgu-yazi, #fff); box-shadow: 0 3px 0 var(--qt-vurgu-dudak, #b4471a);
+  font-family: var(--qt-f-baslik); font-size: var(--qt-y-l); font-weight: var(--qt-a-siyah); line-height: 1; font-variant-numeric: tabular-nums;
+}
+.sy-seviye2-sayi { flex: none; font-size: var(--qt-y-s); font-weight: var(--qt-a-siyah); color: #ffd75e; white-space: nowrap; }
+.sy-altin-cubuk {
+  position: relative; flex: 1 1 0; min-width: 40px; height: 14px; overflow: hidden; border-radius: var(--qt-r-hap);
+  background: rgb(0 0 0 / 0.35); box-shadow: inset 0 0 0 2px rgb(216 165 58 / 0.7);
+}
+.sy-altin-cubuk-dolu {
+  position: absolute; inset: 0; transform-origin: left center; border-radius: inherit;
+  background: linear-gradient(180deg, #ffe58a 0%, #f4c440 50%, #d89a1c 100%);
+  transition: transform 700ms cubic-bezier(.2, .8, .2, 1);
+}
+.sy-altin-cubuk-parilti {
+  position: absolute; top: 0; bottom: 0; left: 0; width: 40%;
+  background: linear-gradient(100deg, transparent, rgb(255 255 255 / 0.85), transparent);
+  transform: translateX(-120%); animation: sy-parilti 900ms ease-out 1 forwards;
+}
+@keyframes sy-parilti { to { transform: translateX(320%); } }
+[dir="rtl"] .sy-altin-cubuk-dolu { transform-origin: right center; }
+
+/* Sütun başlıkları koyu zeminde */
+.sy-sahne .sy-ust-kollar { color: rgb(255 255 255 / 0.8); }
+
+/* Kutular: büyük; kilometre taşı daha büyük + kalın altın kenar */
+.sy-sahne .sy-kutu--tas { --sy-kutu: 86px; }
+.sy-sahne .sy-kutu--tas .sy-kutu-cerceve { border-width: 5px; border-color: #f4c440; box-shadow: 0 0 0 2px #a8740f, 0 4px 0 #a8740f; }
+.sy-sahne .sy-kutu--sirada .sy-kutu-cerceve { box-shadow: 0 0 0 2px #a8740f, 0 0 18px rgb(255 214 92 / 0.65), 0 4px 0 #a8740f; }
+.sy-sahne .sy-satir--tas .sy-dugum { border-color: #f4c440; }
+
+/* Alınabilir: altın ışıma nabzı (ayrı katman: yalnız opacity/transform) */
+.sy-sahne .sy-kutu--alinabilir .sy-kutu-cerceve { border-color: #f4c440; }
+.sy-sahne .sy-kutu--alinabilir { position: relative; isolation: isolate; }
+.sy-sahne .sy-kutu--alinabilir::before {
+  content: ""; position: absolute; inset: -3px -3px 18px; z-index: -1; border-radius: calc(var(--qt-r-m) + 3px);
+  background: rgb(255 214 92 / 0.5); box-shadow: 0 0 16px 7px rgb(255 200 50 / 0.85);
+  animation: sy-isima 1.6s ease-in-out infinite; pointer-events: none;
+}
+@keyframes sy-isima { 0%, 100% { opacity: 0.45; transform: scale(0.94); } 50% { opacity: 1; transform: scale(1.06); } }
+
+/* Alınmış: SOLUK DEĞİL — renkli kalır, köşede yeşil tik */
+.sy-sahne .sy-kutu.sy-kutu--alindi .sy-kutu-cerceve { border-color: var(--sy-kenar, var(--qt-nadir-siradan)); background: var(--qt-yuzey); }
+.sy-sahne .sy-kutu.sy-kutu--alindi[data-tur="coin"] .sy-kutu-cerceve { background: var(--sy-tur-coin); }
+.sy-sahne .sy-kutu.sy-kutu--alindi[data-tur="elmas"] .sy-kutu-cerceve { background: var(--sy-tur-elmas); }
+.sy-sahne .sy-kutu.sy-kutu--alindi[data-tur="joker"] .sy-kutu-cerceve { background: var(--sy-tur-joker); }
+.sy-sahne .sy-kutu.sy-kutu--alindi[data-tur="avatar"] .sy-kutu-cerceve { background: var(--sy-tur-avatar); }
+.sy-sahne .sy-kutu.sy-kutu--alindi[data-tur="tepki_paketi"] .sy-kutu-cerceve { background: var(--sy-tur-tepki); }
+.sy-sahne .sy-kutu--alindi .sy-kutu-cerceve > :not(.sy-kutu-tik) { opacity: 1; }
+.sy-sahne .sy-kutu--alindi .sy-kutu-alindi { color: #7ee2a0; }
+.sy-sahne .sy-kutu-tik { width: 26px; height: 26px; border-color: #fff; }
+
+/* Battle Pass kolu, BP yokken: renkli ve çekici (soluk gri değil) + altın kilit rozeti */
+.sy-sahne .sy-dikey--bp-yok { --sy-serit-zemin: var(--sy-serit-zemin-tam, rgb(244 196 64 / 0.3)); --sy-serit-dis: var(--qt-coin-dudak); --sy-serit-ic: var(--qt-coin); }
+.sy-sahne .sy-dikey::before { background: linear-gradient(180deg, #7a5513 0%, #5a3d0c 100%); border-color: #f4c440; box-shadow: inset 0 0 0 2px #a8740f, 0 0 14px rgb(244 196 64 / 0.25); }
+.sy-sahne .sy-kutu--bp-kilit .sy-kutu-kilit { width: 26px; height: 26px; border-color: #fff; background: linear-gradient(180deg, #ffd75e, #d89a1c); color: #3b2604; }
+
+/* Düğüm çizgisi koyu zeminde */
+.sy-sahne .sy-dugum-hucre::before { background: rgb(255 255 255 / 0.22); }
+.sy-sahne .sy-satir--gecildi .sy-dugum-hucre::before { background: var(--sy-ilerleme); }
+
+/* "Ödülleri al": TURUNCU (eylem) + nabız (yalnız alınacak varken) */
+.sy-hepsini--nabiz { animation: sy-dugme-nabiz 1.4s ease-in-out infinite; }
+@keyframes sy-dugme-nabiz { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); } }
+.sy-sonraki-bilgi {
+  display: flex; align-items: center; justify-content: center; gap: 6px; min-height: var(--qt-dokunma, 44px); padding: 0 var(--qt-b-3); box-sizing: border-box;
+  border: 2px solid rgb(255 214 92 / 0.45); border-radius: var(--qt-r-m); background: rgb(255 214 92 / 0.1);
+  font-size: var(--qt-y-s); font-weight: var(--qt-a-kalin); color: #fff; text-align: center;
+}
+.sy-sonraki-bilgi svg { color: #ffd75e; flex: none; }
+
+/* Kısa ekran (390×664, 360×640): hero küçülür, yol yer kazanır */
+@media (max-height: 760px) {
+  .sy-hero2-vitrin { width: 70px; height: 70px; }
+  .sy-hero2-vitrin > :not(.sy-hero2-isilti) { scale: 0.8; }
+  .sy-hero2-sezon { font-size: var(--qt-y-m); }
+  .sy-seviye2-daire { width: 32px; height: 32px; font-size: var(--qt-y-m); }
+  .qt-sahne-kok.sy-sahne { --sy-kutu: 64px; }
+  .sy-sahne .sy-kutu--tas { --sy-kutu: 76px; }
+}
+@media (max-width: 370px) {
+  .qt-sahne-kok.sy-sahne { --sy-orta: 46px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sy-hero2-vitrin > :not(.sy-hero2-isilti), .sy-hero2-isilti, .sy-hepsini--nabiz,
+  .sy-sahne .sy-kutu--alinabilir::before { animation: none; }
+  .sy-hero2-isilti { opacity: 0.8; }
+  .sy-altin-cubuk-dolu { transition: none; }
+  .sy-altin-cubuk-parilti { display: none; }
+}

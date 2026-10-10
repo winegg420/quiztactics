@@ -12,13 +12,25 @@ export function sonrakiTas(seviye, toplam) {
   return null;
 }
 
-export default function SiradakiOdul({ durum, toplam, harita, dil, onGit }) {
+export default function SiradakiOdul({ durum, toplam, harita, dil, onGit, kompakt = false }) {
   const n = sonrakiTas(durum.seviye, toplam);
   if (n == null) return null;
   const odul = harita.get(`${n}:ucretli`) ?? harita.get(`${n}:ucretsiz`);
   if (!odul) return null;
   const kalan = n - Number(durum.seviye);
   const ad = odul.placeholder ? tt("Yakında") : odulAdi(odul, dil);
+  // 10 Eki 2026: hero'nun içinde tek satır hap (alt yuvadaki kart kalktı; sıkışıklık giderildi)
+  if (kompakt) {
+    return (
+      <button type="button" className="sy-sirada-hap" onClick={() => onGit(n)}
+        aria-label={`${tt("Sıradaki büyük ödül")}: ${tt("{n}. seviye", { n })}, ${ad}. ${tt("{n} seviye kaldı", { n: kalan })}`}>
+        <span className="sy-sirada-hap-yuva" data-tur={odul.placeholder ? "yakinda" : odul.tur} data-nadirlik={odul.nadirlik ?? "siradan"}>
+          <OdulGorsel odul={odul} boyut={odulCerceveSanati(odul) ? 26 : 20} />
+        </span>
+        <span className="sy-sirada-hap-metin"><b>{tt("Sv {n}: {ad}", { n, ad })}</b> · {tt("{n} seviye kaldı", { n: kalan })}</span>
+      </button>
+    );
+  }
   return (
     <button type="button" className="sy-sirada sy-sirada--kart" onClick={() => onGit(n)}
       aria-label={`${tt("Sıradaki büyük ödül")}: ${tt("{n}. seviye", { n })}, ${ad}. ${tt("{n} seviye kaldı", { n: kalan })}`}>

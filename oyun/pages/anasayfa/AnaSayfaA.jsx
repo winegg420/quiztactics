@@ -12,6 +12,7 @@ import { useAyar } from "../../lib/ayarlar.js";
 import { useAuth } from "../../../src/context/AuthContext.jsx";
 import DurumKutusu, { useZamanAsimi } from "../../components/DurumKutusu.jsx";
 import SezonSeridi from "../../components/sezon/SezonSeridi.jsx";
+import BpTanitimPenceresi from "../../components/sezon/BpTanitimPenceresi.jsx";
 import { useAnaSayfaVerisi, useOyunBaslat, useDevamEdenMaclar, sonModuYaz, sonModuOku } from "./veri.jsx";
 import {
   KompaktOyuncu, LigKarti, GorevSeridi, modListesi, etkinlikler, EtkinlikSatiri,
@@ -128,6 +129,7 @@ export default function AnaSayfaA() {
          aria-busy={profilHazir ? undefined : "true"}>
       <h1 className="qt-gizli">{tt("Ana sayfa")}</h1>
       {b.katmanlar}
+      <BpTanitimPenceresi engel={devamEden?.length > 0} />
 
       <section className="as-a2-kol as-a2-kol--sol" aria-label={tt("Oyuncu")}>
         {bildirimSor && <div className="as-a2-bildirim"><BildirimIzniSor serit /></div>}

@@ -12,4 +12,12 @@ export default {
   "Sezon": "Season",
   "Sv {n}/{m}": "Lv {n}/{m}",
   "Sv {n}: {ad}": "Lv {n}: {ad}",
+  // Ana sayfa oyun kartları (10 Eki 2026)
+  "Sezon · Sv {n}": "Season · Lv {n}",
+  "Ödül hazır": "Reward ready",
+  "Sıradaki: {ad}": "Next: {ad}",
+  "Görevler · {a}/{b}": "Quests · {a}/{b}",
+  "{n} görev hazır": "{n} quest ready",
+  "{n} görev hazır|çoğul": "{n} quests ready",
+  "Yenilenme: {k}": "Resets in {k}",
 };

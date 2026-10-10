@@ -11,6 +11,11 @@ export default {
   "Bugünkü bonus görevi zaten aldın": "You already claimed today's bonus task",
   "Görev henüz tamamlanmadı": "The task isn't finished yet",
 
+  // Oyun hissi (10 Eki 2026)
+  "Final ödülü": "Final reward",
+  "Sıradaki ödül: Sv {n} · {sp} SP kaldı": "Next reward: Lv {n} · {sp} SP to go",
+  "Bütün ödüller alındı": "All rewards claimed",
+
   // Üst bölüm
   "Sezon Yolu": "Season Path",
   "Sezon {n}": "Season {n}",

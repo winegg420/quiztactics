@@ -12,7 +12,8 @@
 // Hareketi azalt: patlama/parlama/uçuş sadeleşir (oyun/tasarim/yumusakHareket.js; CSS @media); yol mevcut seviyeye anında gelir.
 // ============================================================
 import { useCallback, useEffect, useRef, useState } from "react";
-import { QtKart, QtDugme, QtIkon, QtBosDurum, QtIskelet, QtSahne, dokunus } from "../index.js";
+import { useLocation } from "react-router-dom";
+import { QtKart, QtDugme, QtIkon, QtBosDurum, QtIskelet, QtSahne, dokunus, sayiBicim } from "../index.js";
 import { useAuth } from "../../../src/context/AuthContext.jsx";
 import { tt } from "../../lib/dil.js";
 import { useDil } from "../../lib/dilKanca.js";
@@ -30,6 +31,7 @@ import TasmaSayfasi from "./TasmaSayfasi.jsx";
 import SatinAlSayfasi from "./SatinAlSayfasi.jsx";
 import Kutlama from "./Kutlama.jsx";
 import SezonUcus from "./SezonUcus.jsx";
+import { odulPatlat, kisaKonfeti, titret } from "../sahne/OdulPatlamasi.jsx";
 import SezonAcilisPerdesi from "./SezonAcilisPerdesi.jsx";
 import { ACILIS_MS, PARLA_MS, azaltMi, perdeGerekliMi } from "./acilis.js";
 import { anahtar, paraMiktari } from "./OdulGorsel.jsx";
@@ -48,6 +50,12 @@ export default function SezonYoluPage() {
   const [secili, setSecili] = useState(null);          // açık ödül alt sayfası (anahtar)
   const [tasmaKol, setTasmaKol] = useState(null);      // açık taşma alt sayfası ("ucretsiz" | "ucretli")
   const [satinAlAcik, setSatinAlAcik] = useState(false);
+  // BP tanıtım penceresi (ana sayfa) "Battle Pass al" ile gelirse satın alma sayfası bir kez kendiliğinden açılır
+  const konumBp = useLocation().state?.bpSatinAl === true;
+  const bpOtoRef = useRef(false);
+  useEffect(() => {
+    if (konumBp && !bpOtoRef.current && durum?.gorunur && !durum?.bp?.aktif) { bpOtoRef.current = true; setSatinAlAcik(true); }
+  }, [konumBp, durum]);
   const [kutlama, setKutlama] = useState(null);        // { verilen }
   const [ucus, setUcus] = useState(null);              // { kaynak } — coin uçuşu
   const [yeniAcilan, setYeniAcilan] = useState(() => new Set());
@@ -180,14 +188,17 @@ export default function SezonYoluPage() {
     }
   };
 
-  /** Ödül alındı: coin ise ses + üst çubuktaki coin çipine uçuş; değilse yalnız rozet sesi. Bakiye çipte kendiliğinden sayar. */
-  const odulAlindi = (odul, yuvaAnahtar) => {
-    const coin = odul?.tur === "coin" ? paraMiktari(odul) : 0;
-    try { if (coin > 0) sesCoin(); else sesRozet(); } catch { /* ses yok */ }
-    if (coin > 0) {
-      const kaynak = document.querySelector(`[data-yuva="${yuvaAnahtar}"]`) ?? topluRef.current;
-      setUcus({ kaynak });
-    }
+  /** Ödül alındı (10 Eki 2026, ortak ödül anı): coin/elmas ise kutudan sahnedeki coin hapına 7 ikon uçar + kısa konfeti + titreşim;
+   *  diğer ödüllerde kutunun üstünde kısa konfeti + titreşim. Bakiye hapta eski değerden yeniye sayar (coinTazele, sezonYolu.js). */
+  const odulAlindi = (odul, yuvaAnahtar, kisa = false) => {
+    const para = (odul?.tur === "coin" || odul?.tur === "elmas") ? paraMiktari(odul) : 0;
+    try { if (para > 0) sesCoin(); else sesRozet(); } catch { /* ses yok */ }
+    const kaynak = document.querySelector(`[data-yuva="${yuvaAnahtar}"]`) ?? topluRef.current;
+    if (para > 0) return odulPatlat({ kaynak, tur: odul.tur, kisa });
+    const r = kaynak?.getBoundingClientRect?.();
+    if (r) kisaKonfeti({ x: (r.left + r.width / 2) / window.innerWidth, y: (r.top + r.height / 2) / window.innerHeight }, kisa ? 18 : 30);
+    titret(30);
+    return Promise.resolve();
   };
 
   if (durum && durum.gorunur === false) return <BulunamadiPage kapaliMod kapaliOzellik />;
@@ -228,6 +239,9 @@ export default function SezonYoluPage() {
   const final = durum.final_unvan;
   const tema = sezonTemasi(durum.sezon?.no);
   const finalOdul = harita.get(`${toplam}:ucretli`);
+  // "Sıradaki ödül ne zaman": sunucunun eşiklerinden (yalnız gösterim) — bir sonraki seviye ve ona kalan SP
+  const sonrakiOdulSeviye = durum.sonraki_esik == null ? null : Number(durum.seviye ?? 0) + 1;
+  const sonrakiOdulSp = Math.max(0, Number(durum.sonraki_esik ?? 0) - Number(durum.sp ?? 0));
 
   const bpSatinAlOnay = async () => {
     const r = await bpSatinAl(userId);   // hata → sayfa içinde gösterilir (SatinAlSayfasi catch)
@@ -243,8 +257,12 @@ export default function SezonYoluPage() {
     dokunus();
     const r = await bpTopluAl(userId);
     const liste = [...(Array.isArray(r?.verilen) ? r.verilen : []), ...(Array.isArray(r?.tasma_verilen) ? r.tasma_verilen : [])];
-    const coin = liste.filter((o) => o.tur === "coin").reduce((t, o) => t + paraMiktari(o), 0);
-    odulAlindi({ tur: coin > 0 ? "coin" : "diger", miktar: coin }, "toplu");
+    // Birden çok ödül: kutudan kutuya SIRAYLA ve kısa (en çok 6 an); bakiye zaten sunucudaki tek doğru değere sayar
+    const anlar = liste.slice(0, 6);
+    for (const o of anlar) {
+      const yuva = o.seviye != null && o.kol ? `${o.seviye}:${o.kol}` : "toplu";
+      await odulAlindi(o, yuva, anlar.length > 1);
+    }
   }, tt("Ödüller alınamadı. Tekrar dener misin?"));
 
   /** Yoldaki alınabilir kutuya tek dokunuş: mevcut bp_odul_al. Ses/uçuş yalnız sunucu başarı cevabından sonra (hata → kutlama yok). */
@@ -275,20 +293,25 @@ export default function SezonYoluPage() {
     <OdulKimlik.Provider value={{ profile }}>
       <QtSahne className="sy-sahne" govdeRef={yolRef}
         baslik={tt("Sezon Yolu")}
-        ust={<SeviyeUst durum={durum} finalOdul={finalOdul} dil={dil} onFinal={(o) => setSecili(anahtar(o))} />}
+        ust={<SeviyeUst durum={durum} finalOdul={finalOdul} dil={dil} onFinal={(o) => setSecili(anahtar(o))}
+          sirada={<SiradakiOdul kompakt durum={durum} toplam={toplam} harita={harita} dil={dil} onGit={(n) => kaydir(n, true)} />} />}
         alt={(
           <>
             {islemHata && <p className="sy-hata sy-hata--sayfa" role="alert">{islemHata}</p>}
-            <SiradakiOdul durum={durum} toplam={toplam} harita={harita} dil={dil} onGit={(n) => kaydir(n, true)} />
             {bpVar && bonus && <BonusSatiri bonus={bonus} islemde={islem === "bonus"} mesgul={Boolean(islem)} onAl={bonusAl} />}
-            {/* Tek büyük düğme: alınabilir ödül varsa "Ödülleri al (n)"; yoksa ve Battle Pass yoksa altın "Battle Pass al"; BP varsa satın alma düğmesi yok */}
+            {/* Tek büyük düğme (10 Eki 2026): alınabilir ödül varsa TURUNCU nabızlı "Ödülleri al (n)"; yoksa sade bilgi şeridi "sıradaki ödül ne zaman"
+                (silik/devre dışı düğme değil); BP yoksa altın "Battle Pass al". Sıradaki büyük ödül hero'ya taşındı. */}
             {alinabilirSayi > 0 ? (
-              <QtDugme tur="dogru" tamGenislik ikon="hediye" className="sy-hepsini" yukleniyor={islem === "toplu"} devreDisi={Boolean(islem)}
+              <QtDugme tamGenislik ikon="hediye" className="sy-hepsini sy-hepsini--nabiz" yukleniyor={islem === "toplu"} devreDisi={Boolean(islem)}
                 ref={topluRef} onClick={topluAl}>
                 {tt("Ödülleri al ({n})", { n: alinabilirSayi })}
               </QtDugme>
             ) : bpVar && (
-              <QtDugme tamGenislik ikon="hediye" className="sy-hepsini" devreDisi>{tt("Ödülleri al")}</QtDugme>
+              <p className="sy-sonraki-bilgi" role="status" ref={topluRef}>
+                <QtIkon ad="hediye" boyut={16} />
+                {sonrakiOdulSeviye == null ? tt("Bütün ödüller alındı")
+                  : tt("Sıradaki ödül: Sv {n} · {sp} SP kaldı", { n: sonrakiOdulSeviye, sp: sayiBicim(sonrakiOdulSp) })}
+              </p>
             )}
             {!bpVar && <BpAlDugmesi durum={durum} onAl={bpAcilsin} />}
           </>

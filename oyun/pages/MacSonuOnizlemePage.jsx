@@ -311,6 +311,7 @@ export default function MacSonuOnizlemePage() {
         ben={veri.ben ? { ...veri.ben, lig: LIG_BEN, ...(CERCEVE_ONIZLEME ? { cerceve: CERCEVE_ONIZLEME } : {}), ...PREMIUM_BEN } : undefined}
         rakip={veri.rakip ? { ...veri.rakip, lig: "gumus" } : undefined}
         coinHedefSecici="[data-ms-coin-hedef]"
+        sezonMacRef="onizleme"
         onCoinVaris={onCoinVaris}
         eylemler={eylemler}
         zaferEfekti={ZAFER_ONIZLEME}

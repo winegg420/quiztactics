@@ -17,7 +17,7 @@ import { tt, ttSunucu } from "../../lib/dil.js";
 import { geriSayim, sonrakiTurnuva, turnuvaSaatleri, turnuvaSaatiGoster, yerelSaatGoster } from "../../lib/zaman.js";
 import { y } from "../../lib/yol.js";
 import { CoinIkon } from "../../components/ParaIkonlari.jsx";
-import { useGorevler, gorevOzeti } from "../../lib/gorevler.js";
+import { useGorevler, gorevOzeti, kalanMetni, useKalanSn } from "../../lib/gorevler.js";
 import { AMBLEMLER } from "../../tasarim/rozet/amblemler.jsx";
 
 const sayi = (n) => new Intl.NumberFormat("tr-TR").format(Number(n) || 0);
@@ -587,35 +587,42 @@ export function LigKarti({ v }) {
 }
 
 /**
- * Görev şeridi (tek satır): "Görevler · Günlük 1/3 · Haftalık 2/3", alınabilir ödül varsa sessiz nokta (sayı yok;
- * sayı yalnız ekran okuyucuda), dokununca /gorevler (ödül alma orada). Veri gorevlerim() RPC'sinden (lib/gorevler.js).
- * Veri gelmezse sahte "0/3" gösterilmez: yalnız başlık durur, şerit yine sayfaya götürür.
+ * Görev kartı (10 Eki 2026, oyun kartı): altın-krem zemin, ortada süzülen sandık, "Görevler · a/b" (günlük),
+ * parçalı ilerleme çubuğu (biten parça yeşil), alt etiket: alınabilir ödül varsa yeşil "N görev hazır", yoksa günlük yenilenmeye kalan süre
+ * (sunucu yenilenme_sn'si, okunma anından geri sayılır). Alınabilir ödülde köşede kırmızı nokta + hafif nabız. Dokununca /gorevler.
+ * Veri gelmezse sahte "0/3" gösterilmez: başlık + sandık durur, kart yine sayfaya götürür. Veri gorevlerim() RPC'sinden (lib/gorevler.js).
  */
 export function GorevSeridi() {
-  const { veri } = useGorevler();
+  const { veri, yukle } = useGorevler();
   const o = veri ? gorevOzeti(veri) : null;
   const bekleyen = (o?.alinabilir ?? 0) > 0;
+  const kalanSn = useKalanSn(veri?.gunluk?.yenilenme_sn, veri?.okunma, yukle);
   const sayilar = o ? { a: o.gunTamam, b: o.gunToplam, c: o.hftTamam, d: o.hftToplam } : null;
   const etiket = sayilar
     ? `${tt("Görevler. Günlük {a}/{b}, haftalık {c}/{d}.", sayilar)}${bekleyen ? ` ${tt("Alınabilir ödül var.")}` : ""}`
     : tt("Görevler");
+  const durumYazi = bekleyen
+    ? tt(o.alinabilir === 1 ? "{n} görev hazır" : "{n} görev hazır|çoğul", { n: o.alinabilir })
+    : veri?.gunluk?.yenilenme_sn != null ? tt("Yenilenme: {k}", { k: kalanMetni(kalanSn) }) : null;
   return (
-    <Link to={y("/gorevler")} className="as-gs" aria-label={etiket}>
-      <span className="as-gs-ikon" aria-hidden="true"><QtIkon ad="hediye" boyut={18} /></span>
-      <span className="as-gs-metin" aria-hidden="true">
-        <b>{tt("Görevler")}</b>
-        {/* Günlük görev parçaları: tamamlanan kadarı dolu (en çok 6 parça; veri yoksa çubuk çizilmez) */}
-        {sayilar && sayilar.b > 0 && (
-          <span className="as-gs-parcalar">
-            {Array.from({ length: Math.min(sayilar.b, 6) }, (_, i) => (
-              <i key={i} className={i < sayilar.a ? "as-gs-parca as-gs-parca--dolu" : "as-gs-parca"} />
-            ))}
-          </span>
-        )}
-        {sayilar && <small>{tt("Günlük {a}/{b} · Haftalık {c}/{d}", sayilar)}</small>}
+    <Link to={y("/gorevler")} className={`as-gs oc oc--gorev${bekleyen ? " oc--hazir" : ""}`} aria-label={etiket}>
+      {bekleyen && <span className="oc-nokta" aria-hidden="true" />}
+      <span className="oc-gorsel" aria-hidden="true"><SandikGorsel /></span>
+      <b className="oc-baslik" aria-hidden="true">{sayilar ? tt("Görevler · {a}/{b}", sayilar) : tt("Görevler")}</b>
+      {/* Günlük görev parçaları: tamamlanan kadarı dolu yeşil (en çok 6 parça; veri yoksa çubuk çizilmez) */}
+      <span className="oc-parcalar" aria-hidden="true">
+        {sayilar && sayilar.b > 0 && Array.from({ length: Math.min(sayilar.b, 6) }, (_, i) => (
+          <i key={i} className={i < sayilar.a ? "oc-parca oc-parca--dolu" : "oc-parca"} />
+        ))}
       </span>
-      {bekleyen && <span className="as-gs-nokta" aria-hidden="true" />}
-      <QtIkon ad="ileri" boyut={18} className="as-gs-ok" />
+      <span className={`oc-durum${bekleyen ? " oc-durum--yesil" : ""}`} aria-hidden="true"><span>{durumYazi}</span></span>
     </Link>
   );
+}
+
+/** Sandık görseli (repodaki public/dukkan/sandik.webp, dekoratif); yüklenemezse hediye ikonu yedeği. */
+function SandikGorsel() {
+  const [yok, setYok] = useState(false);
+  if (yok) return <QtIkon ad="hediye" boyut={30} />;
+  return <img className="oc-sandik" src="/dukkan/sandik.webp" alt="" width="46" height="46" decoding="async" onError={() => setYok(true)} />;
 }

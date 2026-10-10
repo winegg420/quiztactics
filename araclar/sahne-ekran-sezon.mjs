@@ -139,12 +139,13 @@ async function taklitKur(sayfa, kap, { hataAd = null } = {}) {
 const tarayici = await chromium.launch({ channel: "chrome", headless: true });
 // Dil profildeki tercihten gelir: İngilizce ölçüm için dili EN olan ikinci hesap (.arayuz-denetim-oturum-en.json) kullanılır.
 const OTURUM_EN = path.resolve(".arayuz-denetim-oturum-en.json");
-const oturumOku = (dosya) => {
+const oturumOku = (dosya, zorunlu = true) => {
   const k = JSON.parse(fs.readFileSync(dosya, "utf8")).origins.find((o) => o.localStorage?.some((x) => x.name.includes("auth-token")));
+  if (!k && !zorunlu) return null;
   if (!k) { console.error("Oturum dosyasında giriş bilgisi yok:", dosya); process.exit(1); }
   return k.localStorage;
 };
-const KAYNAK = { tr: oturumOku(OTURUM), en: fs.existsSync(OTURUM_EN) ? oturumOku(OTURUM_EN) : null };
+const KAYNAK = { tr: oturumOku(OTURUM), en: (fs.existsSync(OTURUM_EN) && oturumOku(OTURUM_EN, false)) || oturumOku(OTURUM) };   // EN oturumu yoksa: aynı hesap, dil "en"
 if (!KAYNAK.en) console.log("· İngilizce oturum yok (.arayuz-denetim-oturum-en.json) — EN ölçümü atlanıyor");
 const ls = (dil) => [
   ...KAYNAK[dil].filter((x) => x.name !== "bildim_dil" && !x.name.startsWith("bildim_sezon_perde")),

@@ -1,0 +1,685 @@
+{
+ "390x844-tr": {
+  "sezon": {
+   "x": 12,
+   "g": 179,
+   "ust": 478,
+   "alt": 607,
+   "y": 129
+  },
+  "gorev": {
+   "x": 199,
+   "g": 179,
+   "ust": 478,
+   "alt": 607,
+   "y": 129
+  },
+  "altMenu": 774,
+  "yatayTasma": 0,
+  "kirpilan": [],
+  "tasan": [],
+  "gorsel": [
+   {
+    "anim": "oc-suzul",
+    "kutu": {
+     "x": 76,
+     "g": 52,
+     "ust": 484,
+     "alt": 536,
+     "y": 52
+    },
+    "canvasVeyaSvgVar": true
+   },
+   {
+    "anim": "oc-suzul",
+    "kutu": {
+     "x": 263,
+     "g": 52,
+     "ust": 484,
+     "alt": 536,
+     "y": 52
+    },
+    "canvasVeyaSvgVar": true
+   }
+  ],
+  "nokta": 2,
+  "nabiz": [
+   "oc-nabiz",
+   "oc-nabiz"
+  ],
+  "metin": [
+   "Sezon · Sv 12 Ödül hazır",
+   "Görevler · 1/3 1 görev hazır"
+  ],
+  "kucuk": 0,
+  "pencere": [
+   390,
+   844
+  ],
+  "konsol": []
+ },
+ "390x664-tr": {
+  "sezon": {
+   "x": 12,
+   "g": 179,
+   "ust": 403,
+   "alt": 488,
+   "y": 85
+  },
+  "gorev": {
+   "x": 199,
+   "g": 179,
+   "ust": 403,
+   "alt": 488,
+   "y": 85
+  },
+  "altMenu": 594,
+  "yatayTasma": 0,
+  "kirpilan": [],
+  "tasan": [],
+  "gorsel": [
+   {
+    "anim": "oc-suzul",
+    "kutu": {
+     "x": 86,
+     "g": 32,
+     "ust": 405,
+     "alt": 437,
+     "y": 32
+    },
+    "canvasVeyaSvgVar": true
+   },
+   {
+    "anim": "oc-suzul",
+    "kutu": {
+     "x": 273,
+     "g": 32,
+     "ust": 404,
+     "alt": 436,
+     "y": 32
+    },
+    "canvasVeyaSvgVar": true
+   }
+  ],
+  "nokta": 2,
+  "nabiz": [
+   "oc-nabiz",
+   "oc-nabiz"
+  ],
+  "metin": [
+   "Sezon · Sv 12 Ödül hazır",
+   "Görevler · 1/3 1 görev hazır"
+  ],
+  "kucuk": 0,
+  "pencere": [
+   390,
+   664
+  ],
+  "konsol": []
+ },
+ "360x640-tr": {
+  "sezon": {
+   "x": 9,
+   "g": 167,
+   "ust": 403,
+   "alt": 488,
+   "y": 85
+  },
+  "gorev": {
+   "x": 184,
+   "g": 167,
+   "ust": 403,
+   "alt": 488,
+   "y": 85
+  },
+  "altMenu": 570,
+  "yatayTasma": 0,
+  "kirpilan": [],
+  "tasan": [],
+  "gorsel": [
+   {
+    "anim": "oc-suzul",
+    "kutu": {
+     "x": 77,
+     "g": 32,
+     "ust": 405,
+     "alt": 437,
+     "y": 32
+    },
+    "canvasVeyaSvgVar": true
+   },
+   {
+    "anim": "oc-suzul",
+    "kutu": {
+     "x": 252,
+     "g": 32,
+     "ust": 405,
+     "alt": 437,
+     "y": 32
+    },
+    "canvasVeyaSvgVar": true
+   }
+  ],
+  "nokta": 2,
+  "nabiz": [
+   "oc-nabiz",
+   "oc-nabiz"
+  ],
+  "metin": [
+   "Sezon · Sv 12 Ödül hazır",
+   "Görevler · 1/3 1 görev hazır"
+  ],
+  "kucuk": 0,
+  "pencere": [
+   360,
+   640
+  ],
+  "konsol": []
+ },
+ "1440x900-tr": {
+  "sezon": {
+   "x": 968,
+   "g": 156,
+   "ust": 367,
+   "alt": 496,
+   "y": 129
+  },
+  "gorev": {
+   "x": 1132,
+   "g": 156,
+   "ust": 367,
+   "alt": 496,
+   "y": 129
+  },
+  "altMenu": 0,
+  "yatayTasma": 0,
+  "kirpilan": [],
+  "tasan": [],
+  "gorsel": [
+   {
+    "anim": "oc-suzul",
+    "kutu": {
+     "x": 1020,
+     "g": 52,
+     "ust": 373,
+     "alt": 425,
+     "y": 52
+    },
+    "canvasVeyaSvgVar": true
+   },
+   {
+    "anim": "oc-suzul",
+    "kutu": {
+     "x": 1184,
+     "g": 52,
+     "ust": 374,
+     "alt": 426,
+     "y": 52
+    },
+    "canvasVeyaSvgVar": true
+   }
+  ],
+  "nokta": 2,
+  "nabiz": [
+   "oc-nabiz",
+   "oc-nabiz"
+  ],
+  "metin": [
+   "Sezon · Sv 12 Ödül hazır",
+   "Görevler · 1/3 1 görev hazır"
+  ],
+  "kucuk": 0,
+  "pencere": [
+   1440,
+   900
+  ],
+  "konsol": []
+ },
+ "390x844-en": {
+  "sezon": {
+   "x": 12,
+   "g": 179,
+   "ust": 478,
+   "alt": 607,
+   "y": 129
+  },
+  "gorev": {
+   "x": 199,
+   "g": 179,
+   "ust": 478,
+   "alt": 607,
+   "y": 129
+  },
+  "altMenu": 774,
+  "yatayTasma": 0,
+  "kirpilan": [],
+  "tasan": [],
+  "gorsel": [
+   {
+    "anim": "oc-suzul",
+    "kutu": {
+     "x": 76,
+     "g": 52,
+     "ust": 483,
+     "alt": 535,
+     "y": 52
+    },
+    "canvasVeyaSvgVar": true
+   },
+   {
+    "anim": "oc-suzul",
+    "kutu": {
+     "x": 263,
+     "g": 52,
+     "ust": 484,
+     "alt": 536,
+     "y": 52
+    },
+    "canvasVeyaSvgVar": true
+   }
+  ],
+  "nokta": 2,
+  "nabiz": [
+   "oc-nabiz",
+   "oc-nabiz"
+  ],
+  "metin": [
+   "Sezon · Sv 12 Ödül hazır",
+   "Görevler · 1/3 1 görev hazır"
+  ],
+  "kucuk": 0,
+  "pencere": [
+   390,
+   844
+  ],
+  "konsol": []
+ },
+ "390x664-en": {
+  "sezon": {
+   "x": 12,
+   "g": 179,
+   "ust": 403,
+   "alt": 488,
+   "y": 85
+  },
+  "gorev": {
+   "x": 199,
+   "g": 179,
+   "ust": 403,
+   "alt": 488,
+   "y": 85
+  },
+  "altMenu": 594,
+  "yatayTasma": 0,
+  "kirpilan": [],
+  "tasan": [],
+  "gorsel": [
+   {
+    "anim": "oc-suzul",
+    "kutu": {
+     "x": 86,
+     "g": 32,
+     "ust": 406,
+     "alt": 438,
+     "y": 32
+    },
+    "canvasVeyaSvgVar": true
+   },
+   {
+    "anim": "oc-suzul",
+    "kutu": {
+     "x": 273,
+     "g": 32,
+     "ust": 404,
+     "alt": 436,
+     "y": 32
+    },
+    "canvasVeyaSvgVar": true
+   }
+  ],
+  "nokta": 2,
+  "nabiz": [
+   "oc-nabiz",
+   "oc-nabiz"
+  ],
+  "metin": [
+   "Sezon · Sv 12 Ödül hazır",
+   "Görevler · 1/3 1 görev hazır"
+  ],
+  "kucuk": 0,
+  "pencere": [
+   390,
+   664
+  ],
+  "konsol": []
+ },
+ "360x640-en": {
+  "sezon": {
+   "x": 9,
+   "g": 167,
+   "ust": 403,
+   "alt": 488,
+   "y": 85
+  },
+  "gorev": {
+   "x": 184,
+   "g": 167,
+   "ust": 403,
+   "alt": 488,
+   "y": 85
+  },
+  "altMenu": 570,
+  "yatayTasma": 0,
+  "kirpilan": [],
+  "tasan": [],
+  "gorsel": [
+   {
+    "anim": "oc-suzul",
+    "kutu": {
+     "x": 77,
+     "g": 32,
+     "ust": 405,
+     "alt": 437,
+     "y": 32
+    },
+    "canvasVeyaSvgVar": true
+   },
+   {
+    "anim": "oc-suzul",
+    "kutu": {
+     "x": 252,
+     "g": 32,
+     "ust": 404,
+     "alt": 436,
+     "y": 32
+    },
+    "canvasVeyaSvgVar": true
+   }
+  ],
+  "nokta": 2,
+  "nabiz": [
+   "oc-nabiz",
+   "oc-nabiz"
+  ],
+  "metin": [
+   "Sezon · Sv 12 Ödül hazır",
+   "Görevler · 1/3 1 görev hazır"
+  ],
+  "kucuk": 0,
+  "pencere": [
+   360,
+   640
+  ],
+  "konsol": []
+ },
+ "1440x900-en": {
+  "sezon": {
+   "x": 968,
+   "g": 156,
+   "ust": 367,
+   "alt": 496,
+   "y": 129
+  },
+  "gorev": {
+   "x": 1132,
+   "g": 156,
+   "ust": 367,
+   "alt": 496,
+   "y": 129
+  },
+  "altMenu": 0,
+  "yatayTasma": 0,
+  "kirpilan": [],
+  "tasan": [],
+  "gorsel": [
+   {
+    "anim": "oc-suzul",
+    "kutu": {
+     "x": 1020,
+     "g": 52,
+     "ust": 373,
+     "alt": 425,
+     "y": 52
+    },
+    "canvasVeyaSvgVar": true
+   },
+   {
+    "anim": "oc-suzul",
+    "kutu": {
+     "x": 1184,
+     "g": 52,
+     "ust": 374,
+     "alt": 426,
+     "y": 52
+    },
+    "canvasVeyaSvgVar": true
+   }
+  ],
+  "nokta": 2,
+  "nabiz": [
+   "oc-nabiz",
+   "oc-nabiz"
+  ],
+  "metin": [
+   "Sezon · Sv 12 Ödül hazır",
+   "Görevler · 1/3 1 görev hazır"
+  ],
+  "kucuk": 0,
+  "pencere": [
+   1440,
+   900
+  ],
+  "konsol": []
+ },
+ "390x844-tr-hazirdegil": {
+  "sezon": {
+   "x": 12,
+   "g": 179,
+   "ust": 478,
+   "alt": 607,
+   "y": 129
+  },
+  "gorev": {
+   "x": 199,
+   "g": 179,
+   "ust": 478,
+   "alt": 607,
+   "y": 129
+  },
+  "altMenu": 774,
+  "yatayTasma": 0,
+  "kirpilan": [],
+  "tasan": [],
+  "gorsel": [
+   {
+    "anim": "oc-suzul",
+    "kutu": {
+     "x": 76,
+     "g": 52,
+     "ust": 483,
+     "alt": 535,
+     "y": 52
+    },
+    "canvasVeyaSvgVar": true
+   },
+   {
+    "anim": "oc-suzul",
+    "kutu": {
+     "x": 263,
+     "g": 52,
+     "ust": 484,
+     "alt": 536,
+     "y": 52
+    },
+    "canvasVeyaSvgVar": true
+   }
+  ],
+  "nokta": 0,
+  "nabiz": [],
+  "metin": [
+   "Sezon · Sv 12 Sıradaki: 300 coin",
+   "Görevler · 1/3 Yenilenme: 6 sa 12 dk"
+  ],
+  "kucuk": 0,
+  "pencere": [
+   390,
+   844
+  ],
+  "konsol": []
+ },
+ "390x844-en-hazirdegil": {
+  "sezon": {
+   "x": 12,
+   "g": 179,
+   "ust": 478,
+   "alt": 607,
+   "y": 129
+  },
+  "gorev": {
+   "x": 199,
+   "g": 179,
+   "ust": 478,
+   "alt": 607,
+   "y": 129
+  },
+  "altMenu": 774,
+  "yatayTasma": 0,
+  "kirpilan": [],
+  "tasan": [],
+  "gorsel": [
+   {
+    "anim": "oc-suzul",
+    "kutu": {
+     "x": 76,
+     "g": 52,
+     "ust": 488,
+     "alt": 540,
+     "y": 52
+    },
+    "canvasVeyaSvgVar": true
+   },
+   {
+    "anim": "oc-suzul",
+    "kutu": {
+     "x": 263,
+     "g": 52,
+     "ust": 484,
+     "alt": 536,
+     "y": 52
+    },
+    "canvasVeyaSvgVar": true
+   }
+  ],
+  "nokta": 0,
+  "nabiz": [],
+  "metin": [
+   "Season · Lv 12 Next: 300 coins",
+   "Quests · 1/3 Resets in 6 h 12 min"
+  ],
+  "kucuk": 0,
+  "pencere": [
+   390,
+   844
+  ],
+  "konsol": []
+ },
+ "390x844-tr-sezonkapali": {
+  "sezon": null,
+  "gorev": {
+   "x": 12,
+   "g": 366,
+   "ust": 478,
+   "alt": 607,
+   "y": 129
+  },
+  "altMenu": 774,
+  "yatayTasma": 0,
+  "kirpilan": [],
+  "tasan": [],
+  "gorsel": [
+   {
+    "anim": "oc-suzul",
+    "kutu": {
+     "x": 169,
+     "g": 52,
+     "ust": 484,
+     "alt": 536,
+     "y": 52
+    },
+    "canvasVeyaSvgVar": true
+   }
+  ],
+  "nokta": 1,
+  "nabiz": [
+   "oc-nabiz"
+  ],
+  "metin": [
+   "Görevler · 1/3 1 görev hazır"
+  ],
+  "kucuk": 0,
+  "pencere": [
+   390,
+   844
+  ],
+  "konsol": []
+ },
+ "390x844-tr-azalt": {
+  "sezon": {
+   "x": 12,
+   "g": 179,
+   "ust": 478,
+   "alt": 607,
+   "y": 129
+  },
+  "gorev": {
+   "x": 199,
+   "g": 179,
+   "ust": 478,
+   "alt": 607,
+   "y": 129
+  },
+  "altMenu": 774,
+  "yatayTasma": 0,
+  "kirpilan": [],
+  "tasan": [],
+  "gorsel": [
+   {
+    "anim": "none",
+    "kutu": {
+     "x": 76,
+     "g": 52,
+     "ust": 486,
+     "alt": 538,
+     "y": 52
+    },
+    "canvasVeyaSvgVar": true
+   },
+   {
+    "anim": "none",
+    "kutu": {
+     "x": 263,
+     "g": 52,
+     "ust": 486,
+     "alt": 538,
+     "y": 52
+    },
+    "canvasVeyaSvgVar": true
+   }
+  ],
+  "nokta": 2,
+  "nabiz": [
+   "none",
+   "none"
+  ],
+  "metin": [
+   "Sezon · Sv 12 Ödül hazır",
+   "Görevler · 1/3 1 görev hazır"
+  ],
+  "kucuk": 0,
+  "pencere": [
+   390,
+   844
+  ],
+  "konsol": []
+ }
+}

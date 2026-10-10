@@ -1,0 +1,40 @@
+/* BP tanıtım penceresi. Altın = Battle Pass, turuncu = eylem. Kaplama fixed ve transform'suz (iOS); kart animasyonlu. */
+.bpt-kap {
+  position: fixed; inset: 0; z-index: 1200;
+  display: grid; place-items: center; padding: 16px;
+  background: rgba(10, 13, 40, 0.62);
+  min-height: 100dvh; height: 100dvh;
+  animation: bpt-sol 200ms ease-out backwards;
+}
+.bpt-kart {
+  position: relative; width: min(100%, 360px); max-height: calc(100dvh - 32px); overflow: auto;
+  display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center;
+  padding: 40px 18px 14px; border-radius: 22px;
+  background: linear-gradient(180deg, #1b2257 0%, #121741 100%);
+  box-shadow: 0 0 0 2px var(--qt-coin), 0 18px 48px rgba(0, 0, 0, 0.45);
+  color: #fff6dc;
+  animation: bpt-gir 320ms cubic-bezier(0.34, 1.4, 0.64, 1) backwards;
+}
+.bpt-hero { display: grid; place-items: center; width: 160px; height: 160px; }
+.bpt-nabiz { display: inline-grid; place-items: center; animation: bpt-nabiz 1800ms ease-in-out infinite; will-change: transform; }
+.bpt-baslik { margin: 0; font-family: var(--qt-f-baslik); font-weight: var(--qt-a-siyah); font-size: 22px; line-height: 1.2; color: var(--qt-coin); }
+.bpt-fayda {
+  margin: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 2px 8px;
+  font-size: 14px; font-weight: var(--qt-a-kalin); line-height: 1.35; color: #e8ecff;
+}
+.bpt-fayda i { font-style: normal; color: var(--qt-coin); }
+.bpt-kart .qt-dugme { margin-top: 4px; }
+.bpt-sonra {
+  min-height: 44px; padding: 0 20px; border: 0; background: transparent; cursor: pointer;
+  color: #b9c2f2; font: inherit; font-size: 14px; font-weight: var(--qt-a-kalin);
+}
+@keyframes bpt-sol { from { opacity: 0; } to { opacity: 1; } }
+@keyframes bpt-gir { from { opacity: 0; transform: translateY(16px) scale(0.96); } to { opacity: 1; transform: none; } }
+@keyframes bpt-nabiz { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+@media (prefers-reduced-motion: reduce) {
+  .bpt-kap, .bpt-kart, .bpt-nabiz { animation: none; }
+}
+@media (max-height: 699px) {
+  .bpt-hero { width: 136px; height: 136px; }
+  .bpt-kart { gap: 8px; padding-top: 30px; }
+}

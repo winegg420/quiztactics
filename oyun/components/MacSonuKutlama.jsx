@@ -54,6 +54,7 @@ import { sesMacSonu, sesMuzikSahne } from "../lib/ses.js";
 import { coinTazele } from "../lib/coin.js";
 import { sezonTazele, useSezonOzeti } from "../lib/sezonYolu.js";
 import SezonZaferSeridi from "./sezon/SezonZaferSeridi.jsx";
+import SezonSpSeridi from "./sezon/SezonSpSeridi.jsx";
 import { aktifDil, tt, ttSunucu } from "../lib/dil.js";
 import { NadirlikImg } from "./AvatarNadirlikGoruntu.jsx";
 import { adKisalt } from "../lib/adKisalt.js";
@@ -216,6 +217,7 @@ function MacSonuKutlama({
   skorEtiket,
   zaferEfekti,
   sezonBp,
+  sezonMacRef,
 }) {
   // Terk eden: ödül bölümü hiç yok, kaybetti renginde sade sahne. Kalan: galibiyet, fanfarsız.
   const benTerk = terk === "ben";
@@ -696,6 +698,8 @@ function MacSonuKutlama({
           </div>
         )}
       </section>}
+      {/* Sezon SP şeridi (1050): maç/düello/kasa/turnuva kimliği verilen modlarda; SP yoksa/sezon kapalıysa hiçbir şey çizmez */}
+      {asama >= 2 && !benTerk && sezonMacRef && <SezonSpSeridi macRef={sezonMacRef} atla={atlandi || az} />}
 
       {/* Terk (ben): eylemler yalnız alttaki eylem çubuğunda (Yeni maç / ana sayfa) — kartta ikinci set yok. */}
 

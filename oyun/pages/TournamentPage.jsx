@@ -604,6 +604,7 @@ export default function TournamentPage() {
         <MacSonuKutlama
           durum={sampiyonBenim ? "kazandi" : "berabere"}
           mod="turnuva"
+          sezonMacRef={turnuva.id}
           terk={benSatir?.terk_at ? "ben" : null}
           baslik={benSatir?.terk_at ? undefined : sampiyonBenim ? tt("ŞAMPİYON!") : tt("Turnuva bitti")}
           altYazi={benSatir?.terk_at ? undefined : kazanan && !sampiyonBenim ? tt("Şampiyon: {ad}", { ad: kazanan.profil?.gorunen_ad ?? "" }) : undefined}

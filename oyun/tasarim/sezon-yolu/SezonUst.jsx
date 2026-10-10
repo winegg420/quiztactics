@@ -1,5 +1,6 @@
 // Sezon Yolu üst blok: tema bandı (Sezon N · başlık · kalan gün + sezon finali kartı), seviye satırı (seviye İÇİ ilerleme),
 // Battle Pass düğmesi (taç, altın, fiyat çipi; sahibiyse "aktif"). Bütün sayılar sunucudan; burada hesap yok, yalnız çizim.
+import { useEffect, useRef, useState } from "react";
 import { QtDugme, QtIlerleme, QtIkon, sayiBicim } from "../index.js";
 import { tt } from "../../lib/dil.js";
 import { odulAdi } from "../../lib/sezonYolu.js";
@@ -143,7 +144,7 @@ export function Lejant() {
  * "Sezon N · K gün kaldı" ve "Sezon sonu ödülü: <ad>") + tek satır "Seviye N · mavi SP çubuğu · x / y SP" + iki sütun başlığı
  * (Ücretsiz | Battle Pass). Afişe dokununca sezon sonu ödülünün önizlemesi açılır (onFinal). Son seviyede çubuk taşma ilerlemesidir.
  */
-export function SeviyeUst({ durum, finalOdul = null, dil = "tr", onFinal }) {
+export function SeviyeUst({ durum, finalOdul = null, dil = "tr", onFinal, sirada = null }) {
   const son = durum.sonraki_esik == null;
   const tasma = durum.tasma;
   const onceki = Number(durum.onceki_esik ?? 0);
@@ -156,27 +157,29 @@ export function SeviyeUst({ durum, finalOdul = null, dil = "tr", onFinal }) {
   const cerceveMi = Boolean(odulCerceveSanati(finalOdul));
   const finalAd = finalOdul ? (finalOdul.placeholder ? tt("Yakında") : odulAdi(finalOdul, dil)) : "";
   const tiklanir = Boolean(finalOdul && onFinal);
-  const Afis = tiklanir ? "button" : "div";
+  const Vitrin = tiklanir ? "button" : "span";
+  const deger = son ? (tasmaKalan == null || !adim ? 1 : Math.max(0, adim - tasmaKalan)) : ilerDeger;
+  const en = son ? (tasmaKalan == null || !adim ? 1 : adim) : ilerEn;
   return (
     <div className="sy-ust">
-      <Afis className="sy-afis" {...(tiklanir ? { type: "button", onClick: () => onFinal(finalOdul), "aria-label": `${sezonYazi}. ${tt("Sezon sonu ödülü")}: ${finalAd}` } : {})}>
-        <span className={`sy-afis-vitrin${cerceveMi ? " sy-afis-vitrin--cerceve" : ""}`} data-nadirlik={finalOdul?.nadirlik ?? "efsanevi"}>
-          {/* 8 Eki: çerçeve ödülü (Ejderha) silüetiyle birlikte afişin İÇİNE sığar (taşma/kırpma yok) */}
-          {finalOdul && <OdulGorsel odul={finalOdul} boyut={cerceveMi ? 46 : 34} />}
-          <TacGorsel boyut={finalOdul ? 22 : 30} className={finalOdul ? "sy-afis-tac" : ""} />
+      {/* HERO (10 Eki 2026, oyun hissi): büyük sezon sonu ödülü (Ejderha, oyuncunun kendi avatarıyla) + altın ışıltı/nabız; sağda sezon + sıradaki büyük ödül */}
+      <div className="sy-hero2">
+        <Vitrin className={`sy-hero2-vitrin${cerceveMi ? " sy-hero2-vitrin--cerceve" : ""}`} data-nadirlik={finalOdul?.nadirlik ?? "efsanevi"}
+          {...(tiklanir ? { type: "button", onClick: () => onFinal(finalOdul), "aria-label": `${tt("Final ödülü")}: ${finalAd}` } : {})}>
+          <span className="sy-hero2-isilti" aria-hidden="true" />
+          {finalOdul ? <OdulGorsel odul={finalOdul} boyut={cerceveMi ? 76 : 44} hareketli={cerceveMi} /> : <TacGorsel boyut={40} />}
+        </Vitrin>
+        <span className="sy-hero2-metin">
+          {finalOdul && <span className="sy-hero2-final"><TacIkon boyut={13} />{tt("Final ödülü")} · <b>{finalAd}</b></span>}
+          <b className="sy-hero2-sezon">{sezonYazi}</b>
+          {sirada}
         </span>
-        <span className="sy-afis-metin">
-          <b className="sy-afis-sezon">{sezonYazi}</b>
-          {finalOdul && <span className="sy-afis-odul">{tt("Sezon sonu ödülü")}: <b>{finalAd}</b></span>}
-        </span>
-      </Afis>
-      <div className="sy-ust-satir sy-ust-satir--cubuklu">
-        <b>{son ? tt("Sezon yolu tamam") : tt("Seviye {n}", { n: durum.seviye })}</b>
-        <QtIlerleme ton="ikinci" canli className="sy-ust-cubuk"
-          deger={son ? (tasmaKalan == null || !adim ? 1 : Math.max(0, adim - tasmaKalan)) : ilerDeger}
-          en={son ? (tasmaKalan == null || !adim ? 1 : adim) : ilerEn}
-          etiket={son ? tt("Taşma ödülüne ilerleme") : tt("Sonraki seviyeye ilerleme")} />
-        <span className="qt-sayi">
+      </div>
+      {/* Seviye: turuncu daire + altın çubuk (dolarken parıltı) + "x / y SP" */}
+      <div className="sy-seviye2">
+        <span className="sy-seviye2-daire" aria-label={son ? tt("Sezon yolu tamam") : tt("Seviye {n}", { n: durum.seviye })}>{durum.seviye}</span>
+        <AltinCubuk deger={deger} en={en} etiket={son ? tt("Taşma ödülüne ilerleme") : tt("Sonraki seviyeye ilerleme")} />
+        <span className="qt-sayi sy-seviye2-sayi">
           {son ? (tasma ? tt("Taşma {n} / {m}", { n: tasma.kazanilan ?? 0, m: tasma.azami ?? 0 }) : "")
             : <><SayanSayi deger={ilerDeger} bicim={sayiBicim} /> / {sayiBicim(ilerEn)} SP</>}
         </span>
@@ -191,6 +194,22 @@ export function SeviyeUst({ durum, finalOdul = null, dil = "tr", onFinal }) {
   );
 }
 
+/** Altın ilerleme çubuğu: dolum yalnız transform (scaleX); değer artınca üstünden bir kez parıltı geçer (hareketi azaltta yok). */
+export function AltinCubuk({ deger, en, etiket }) {
+  const oran = Math.max(0, Math.min(1, Number(deger) / Math.max(1, Number(en))));
+  const onceki = useRef(oran);
+  const [parilti, setParilti] = useState(0);
+  useEffect(() => {
+    if (oran > onceki.current + 0.001) setParilti((n) => n + 1);
+    onceki.current = oran;
+  }, [oran]);
+  return (
+    <span className="sy-altin-cubuk" role="progressbar" aria-label={etiket} aria-valuemin={0} aria-valuemax={Number(en)} aria-valuenow={Number(deger)}>
+      <span className="sy-altin-cubuk-dolu" style={{ transform: `scaleX(${oran})` }} />
+      {parilti > 0 && <span key={parilti} className="sy-altin-cubuk-parilti" aria-hidden="true" />}
+    </span>
+  );
+}
 /** "alt" yuvası: Battle Pass günlük bonus görevi, tek ince satır ("Bugün N maç oyna · +X SP"; alınabilirse "Al"). */
 export function BonusSatiri({ bonus, islemde, mesgul, onAl }) {
   const hedef = Math.max(1, Number(bonus.hedef ?? 1));

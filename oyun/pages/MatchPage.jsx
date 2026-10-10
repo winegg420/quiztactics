@@ -940,6 +940,7 @@ export default function MatchPage() {
         <MacSonuKutlama
           durum={durumSinifi}
           mod="klasik"
+          sezonMacRef={id}
           terk={sahne.terk}
           altYazi={altYazi}
           ben={{ profil: benimProfil, skor: benimSkor }}

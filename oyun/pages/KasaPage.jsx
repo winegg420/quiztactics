@@ -1102,6 +1102,7 @@ function KasaMac({ id }) {
         <MacSonuKutlama
           durum={durum}
           mod="kasa"
+          sezonMacRef={id}
           terk={sahne.terk}
           baslik={d.durum === "iptal" ? c("Maç iptal edildi") : undefined}
           altYazi={sahne.terk ? undefined : altYazi ?? undefined}
