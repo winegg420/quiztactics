@@ -11,6 +11,7 @@ Türkçe bilgi yarışması — 1v1 maçlar, günde 5 turnuva seansı, haftalık
 - 🏅 **Lig** — Bronz → Gümüş → Altın → Elmas → Efsane; 25 kişilik gruplar, ilk 5 yükselir, son 5 düşer, pazartesi 00:00 (TSİ) sıfırlanır.
 - 🎟️ **Sezon Yolu (Battle Pass)** — 28 günlük sezon; Sezon Puanı herkese ödül verir, Battle Pass (elmasla) ek ödüller açar.
 - 🧑‍🎨 **Avatarlar** — Yaygın avatarlar ücretsiz; Nadir avatarlar level atladıkça, Sezon Yolu'nun ücretsiz kolunda ya da Dükkân'da coinle açılır; Epik ve Efsanevi elmasla (bazıları Battle Pass ödülü).
+- ✨ **Cevap İmzası** — doğru cevapta doğru şıkta oynayan, yalnız oyuncunun kendisinin gördüğü kişisel efekt (Dükkân › Efekt; Nadir coinle, Epik/Efsanevi elmasla; satışa açılması onay bekliyor).
 - 👥 Arkadaşlar, meydan okuma, rövanş, grup maçı, saf bilgi, hatalarım, görevler, dükkân ve koleksiyon.
 - 🤖 **Claude API ile soru üretimi** — Sorular Edge Function ile üretilir ve veritabanına kaydedilir.
 - 🔐 Google / Facebook / X ile giriş, e-posta sihirli bağlantı ve misafir oyun.

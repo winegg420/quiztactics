@@ -509,6 +509,16 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
   `elmas_arka_plan_<nadirlik>` **Nadir 100 · Epik 200 · Efsanevi 300**; `kozmetikler.nadirlik` (Koleksiyon Puanı, hepsi efsanevi) AYRI ve değişmedi.
   Arka plan takılı değilse **lig arka planı**: `arka-plan/kayit.jsx` › `lig_<lig>` satırı — **çizimleri henüz yok**, o yüzden kart düz kalır.
   Arka plan satışı testi: `node araclar/avatar-arkaplan-satis-sql-testi.mjs` (ROLLBACK) · ekran `node araclar/avatar-satis-ekran.mjs` (RPC taklitli).
+- **Cevap İmzası (1040 canlıda, Ida 10 Eki 2026):** doğru cevapta doğru şıkkın üstünde ~0,8–1,3 sn oynayan kişisel efekt; YALNIZ sahibi görür
+  (sunucuya/Realtime'a bir şey gitmez; takılı `profiles.takili_cevap_imzasi` authenticated'a açık değil, `oyuncu_kartlari`'nda yok; istemci
+  `profilim()`'den okur — `lib/cevapImzasi.js › useTakiliImza`). Yeni ses / pay-to-win / hareketi azalt sürümü yok. 5 ürün (`kozmetikler.tur = 'cevap_imzasi'`):
+  Neon Tik · Yıldız Patlaması (Nadir, **coin** `coin_cevap_imzasi_nadir` 750) · Bilgi Ampulü · Elektrik Akımı (Epik, elmas `elmas_cevap_imzasi_epik` 150) ·
+  Yanan Kart (Efsanevi, elmas `elmas_cevap_imzasi_efsanevi` 300) — fiyatlar TEST; para `icerik.para`. `kozmetik_satin_al` coin dalı (1039 deseni).
+  **Satış kapısı `cevap_imzasi_satis_acik` = false** (canlı DB, 10 Eki 2026) → Dükkân › Efekt yalnız sahip hesapta (test modu: satın almadan takar);
+  Ida telefonda onaylayınca true. Görsel kaynak `docs/cevap-imzasi-referans.txt` (maket birebir; Yanan Kart ızgara adımı 2 → 3 px, ImageData ile çizim —
+  performans, görünüm aynı). Ortak bileşen `components/CevapImzasi.jsx`: QuestionCard (Klasik/Saf Bilgi/Grup/Turnuva/Hatalarım), KasaPage (Savunma dahil),
+  Duello4Arena (sonuç fazında "Sen · Doğru" satırında). Dükkân kartında demo (`DukkanCevapImzasi.jsx`), Koleksiyon grubu. Zafer Efekti satışa açılmaz.
+  Geri alma `docs/cevap-imzasi-1040-geri-al.sql`; testler `araclar/cevap-imzasi-sql-testi.mjs` (ROLLBACK) · `araclar/cevap-imzasi-ekran.mjs` (taklit).
 - **Kart arka planı (30 Eyl 2026, Ida onayı):** `premium_aura` (Arka Plan) artık avatarın ARKASINDA değil oyuncu KARTININ arkasında çizilir
   (`CerceveliAvatar` `premiumAura`'yı yok sayar; eski çizim `premium/sanatAuralar.jsx` durur). Yer: ana sayfa kompakt kart (hareketli), profil vitrin kartı
   (hareketli), maç başı VS kartları (`VsKarti`, herkes kendi arka planıyla; Düello dahil), lig sayfasında yalnız kendi satırım (sabit), dükkân/koleksiyon
@@ -532,8 +542,9 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
   yeniden çizilecek. Maç sonu: çerçevede taç varsa sahnenin taç emojisi gizli.
 - **Etkinlik eşyaları satılmaz** (Taç, Pelerin, Uzay Kıyafeti) — yalnız
   turnuva ödülüdür. Dükkânda kilitli görünür.
-- **Dükkân sade (2 Eki 2026, Ida; migration 920 canlıda):** dört sabit sekme — **Elmas · Joker · Çerçeve · Avatar ve İsim**; açılış sekmesi Joker.
-  Tek kural ekranda yazar (kural şeridi): **jokerler ve Nadir avatarlar coin'le, öteki kozmetikler elmasla** (1039). Çerçeve = premium hareketli çerçeveler; Avatar ve İsim =
+- **Dükkân sade (2 Eki 2026, Ida; migration 920 canlıda):** sekmeler — **Elmas · Joker · Avatar · Efekt** (Çerçeve sekmesi `ozellikBayraklari.js › DUKKAN_PREMIUM_CERCEVE_ACIK` ile kapalı;
+  Efekt yalnız katalogda Cevap İmzası varken görünür — 1040); açılış sekmesi Joker.
+  Tek kural ekranda yazar (kural şeridi): **jokerler, Nadir avatar ve imzalar coin'le, öteki kozmetikler elmasla** (1039/1040). Çerçeve = premium hareketli çerçeveler; Avatar ve İsim =
   bütün avatarlar (coin'li Nadir + elmaslı Epik/Efsanevi satılır, level/Sezon Yolu avatarları edinme işaretiyle kilitli görünür; 1039) + Altın isim. Satılan kozmetik türleri tek kaynak `kozmetik.js › DUKKAN_TURLERI`. **Satılmayanlar:** VS kartı,
   zafer efekti, tepki paketi (`kozmetikler.satis_pasif = true`; satır/sahiplik/takılı kayıt durur, sahibi Koleksiyon'da görür; geri açmak
   `satis_pasif = false`), Kıyafet (gardırop dondurulmuş) ve Arka Plan (dondurulmuş) sekmeleri. **Tepki paketleri Battle Pass ödülüdür** (Sezon 1:

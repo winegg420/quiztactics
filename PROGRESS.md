@@ -11302,3 +11302,27 @@ Kaldırıldı: "Hazine sende: {k} puan" başlığı, AÇ alt yazısı "Skor x/y"
 - Sonuç: denetim-9eki 68/0, kasa-savunma 357/0, duello-v4 360/0, `arayuz-denetim` temiz, build temiz.
 - Canlı: test aracıyla (DRY-RUN → --uygula) 1 misafir hesap silindi (ArayuzDenetim846, 0 maç); sahip/bot dokunulmadı.
 - Not: `.arayuz-denetim-oturum.json` silinen hesaba aitti, kaldırıldı; sonraki denetimde yeniden oluşur.
+
+## 2026-10-10 — Cevap İmzası: yeni satılık kozmetik ailesi (migration 1040)
+**Araç:** Claude Code
+**Neden:** Ida'nın onayladığı 5 "Cevap İmzası" ürünü (doğru cevapta doğru şıkta oynayan kişisel efekt) Dükkân'a ve maçlara.
+
+- **DB (1040, canlıda):** `kozmetikler.tur` += `cevap_imzasi`; 5 kalem (Neon Tik, Yıldız Patlaması — nadir/coin; Bilgi Ampulü, Elektrik Akımı — epik/elmas;
+  Yanan Kart — efsanevi/elmas; para `icerik.para`); `profiles.takili_cevap_imzasi` (authenticated'a AÇILMADI — rakip okuyamaz; kendi `profilim()`'de);
+  ayarlar `cevap_imzasi_satis_acik` false · `coin_cevap_imzasi_nadir` 750 · `elmas_cevap_imzasi_epik` 150 · `elmas_cevap_imzasi_efsanevi` 300 (TEST).
+  CREATE OR REPLACE (imza/yetki aynı): `kozmetik_fiyati` (3 arg), `kozmetik_satista`, `kozmetik_satin_al` (coin dalı: FOR UPDATE, coin_harca, çift alım reddi),
+  `kozmetik_tak`, `kozmetik_katalogu`. GRANT/RLS değişikliği yok. Geri alma `docs/cevap-imzasi-1040-geri-al.sql`.
+  Test `araclar/cevap-imzasi-sql-testi.mjs` 47/47 (ROLLBACK, canlıda --canli ile de).
+- **İstemci:** `components/CevapImzasi.jsx` (maket birebir; seçiciler `.ci-katman` altında, keyframe'ler `ci-` önekli), `lib/cevapImzasi.js › useTakiliImza`;
+  QuestionCard / KasaPage / Duello4Arena (sonuç fazında şık yok → "Sen · Doğru" satırı). Dükkân › Efekt (`DukkanCevapImzasi.jsx`, kartta demo), Koleksiyon grubu.
+- **Kararlar / gözlemler:** maketteki `--neon`, `--altin`, ampul konturu `K` referans dosyada tanımsızdı → proje karşılıkları (#3dff9e, --qt-coin #ffc933, --qt-metin #1d2152).
+  Canvas kırpma yarıçapı şıkkın gerçek köşe yarıçapı (maket 9 px). Düello'da satırın giriş "damga"sı sürerken imza görünmüyordu → hedefin sonlu giriş
+  animasyonu bitince (≤ 0,8 sn) başlar. Konfeti korundu (kartın üstünde, imza şıkta; kalabalık değil). StrictMode (yalnız geliştirme) efekti iki kez
+  çalıştırıyor; ilk katman doğru biçimde anında temizleniyor.
+- **Kare süresi (4× CPU, başsız Chrome yazılım çizimi, 390 px, 3 koşu):** Yanan Kart ilk hâlde p95 100 ms (JS ~14 ms/kare) → hücreler ImageData + tek drawImage,
+  kül tek setTransform + globalAlpha (piksel aynı), ızgara adımı 2 → 3 px (gürültü ölçeği + parçacık olasılığı alan oranıyla dengeli) → p95 33,4 ms,
+  medyan 16,7, kaçan kare %7–13 (imzasız taban %5–6); JS çizim p95 ~10,5 ms. Elektrik: JS 1,6 ms, p95 17–33 (tabanla aynı gürültü). Hedef "< 33" sınırda.
+- **Doğrulama:** `araclar/cevap-imzasi-ekran.mjs` 155/155 (taklit; Dükkân demosu, Koleksiyon, Klasik, Hazine, Düello v4 × 5 imza × 360/390 × 3 kare = 120 kare
+  `tasarim/cevap-imzasi/`; rakip ekranında imza yok + ağında imza yok; tıklamayı engellemez; soru kalkınca anında temizlik). `arayuz-denetim` TEMİZ, build temiz.
+  Test misafiri (ArayuzDenetim200) açıldı ve `test-hesap-temizle --uygula` ile silindi. Satın alma/+SP/Sıfırla'ya basılmadı.
+- **Açık:** Ida telefonda bakıp onaylayınca `update oyun_ayarlari set deger='true' where anahtar='cevap_imzasi_satis_acik'` (+ PROJECT_CONTEXT satırı).
