@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
+import { bulunamadiIsaretle } from "../lib/bulunamadiSayfa.js";
 import { QtBosDurum, QtDugme, QtKart } from "../tasarim/index.js";
 import "../tasarim/ekranlar/g-sayfalar.css";
 
@@ -17,6 +18,8 @@ const YONLENDIRME_MS = 2500;
 // dondurulmuş bir BÖLÜM (meydan / gardırop). Metin ona göre değişir.
 export default function BulunamadiPage({ kapaliMod = false, kapaliOzellik = false }) {
   const navigate = useNavigate();
+  // Gerçek 404: misafirin zorunlu kurulum penceresi bu sayfanın üstüne çıkmaz (Layout okur). Kapalı mod notu ana sayfaya döner, muaf değil.
+  useEffect(() => (kapaliMod ? undefined : bulunamadiIsaretle()), [kapaliMod]);
   useEffect(() => {
     if (!kapaliMod) return undefined;
     const t = setTimeout(() => navigate(y(), { replace: true }), YONLENDIRME_MS);

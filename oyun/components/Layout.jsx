@@ -60,6 +60,7 @@ import { tt } from "../lib/dil.js";
 import { useDil } from "../lib/dilKanca.js";
 import { sesSayfaGecis } from "../lib/ses.js";
 import { useCevrimiciDurumum } from "../lib/cevrimici.js";
+import { useBulunamadiAcik } from "../lib/bulunamadiSayfa.js";
 
 // Kurulum yalnız yeni oyuncuda açılır: ilk yük paketinde taşınmaz (8 Eki 2026, soğuk açılış).
 const KurulumSihirbazi = tembelYukle(() => import("./KurulumSihirbazi.jsx"));
@@ -180,8 +181,10 @@ export default function Layout() {
   }, [user]);
 
   // Zorunlu kurulum: takma ad → avatar → şehir tamamlanmadan oyun açılmaz.
+  // 404 sayfası muaf (10 Eki denetimi): bilinmeyen adreste pencere açılmaz; başka her sayfada davranış aynı.
+  const bulunamadiAcik = useBulunamadiAcik();
   const kurulumEksik =
-    Boolean(profile) &&
+    Boolean(profile) && !bulunamadiAcik &&
     (!profile.takma_ad_secildi || !profile.avatar_onayli || !profile.ulke);
 
   return (
