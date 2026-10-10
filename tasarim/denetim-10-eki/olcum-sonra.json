@@ -1,0 +1,82 @@
+{
+  "tr": {
+    "profil_ad": "ArayuzDenetim297",
+    "profil_baslik": "Profil — Quiz Tactics",
+    "canonical": "https://quiztactics.com/profil",
+    "ana_ad": null,
+    "kart_tasma": {
+      "pencere": true,
+      "tasan": []
+    },
+    "gorev_odul": [
+      "15 coin·10 SP",
+      "15 coin·10 SP",
+      "15 coin·10 SP"
+    ],
+    "gorevler_baslik": "Görevler — Quiz Tactics",
+    "sezon_swap": false,
+    "sezon_change": false,
+    "kosullar_misafir": true,
+    "kosullar_baslik": "Kullanım Koşulları — Quiz Tactics",
+    "gizlilik_yarim": false,
+    "gizlilik_diamond": false,
+    "turnuva_yardim": "Turnuva nasıl işler?\nHerkese aynı soru gelir. Yanlış ya da süre aşımı eler; son kalan kazanır.\nÖdüller:\n1. sıra 150 coin · 10 elmas\n2. sıra 75 coin\n3. sıra 40 coin\nKatılan herkese 10 coin verilir. Turnuvadan yarıda çıkarsan katılım ödülü de gitmez.\nBu haftanın ilk 3 ödülü: Taç",
+    "meydan_grup_panel": true,
+    "meydan_tr_bot": true,
+    "meydan_en_bot": false,
+    "koleksiyon_linkler": [
+      "/joker?sekme=avatar",
+      "/joker?sekme=efekt"
+    ],
+    "basliklar": {
+      "/siralama": "Lig — Quiz Tactics",
+      "/joker": "Dükkân — Quiz Tactics",
+      "/arkadaslar": "Arkadaşlar — Quiz Tactics"
+    },
+    "konsol": [],
+    "bulunamadi_pencere": 0,
+    "bulunamadi_metin": "10.000 |  | Bu sayfa yok. |  | Adres yanlış yazılmış ya da sayfa kaldırılmış olabilir. |  | Ana sayfaya dön | Ana Sayfa | Arkadaşlar | Lig",
+    "lig_kurulum_pencere": 1,
+    "konsol_404": []
+  },
+  "en": {
+    "profil_ad": "ArayuzDenetim297",
+    "profil_baslik": "Profile — Quiz Tactics",
+    "canonical": "https://quiztactics.com/profil",
+    "ana_ad": null,
+    "kart_tasma": {
+      "pencere": true,
+      "tasan": []
+    },
+    "gorev_odul": [
+      "15 coins·10 SP",
+      "15 coins·10 SP",
+      "15 coins·10 SP"
+    ],
+    "gorevler_baslik": "Quests — Quiz Tactics",
+    "sezon_swap": false,
+    "sezon_change": false,
+    "kosullar_misafir": true,
+    "kosullar_baslik": "Terms of Use — Quiz Tactics",
+    "gizlilik_yarim": false,
+    "gizlilik_diamond": false,
+    "turnuva_yardim": "How does the tournament work?\nEveryone gets the same question. A wrong answer or timeout knocks you out; last one standing wins.\nRewards:\nPlace 1 150 coins · 10 gems\nPlace 2 75 coins\nPlace 3 40 coins\nEveryone who takes part gets 10 coins. If you quit a tournament midway you also lose the participation reward.\nThis week's top-3 prize: Crown",
+    "meydan_grup_panel": true,
+    "meydan_tr_bot": false,
+    "meydan_en_bot": true,
+    "koleksiyon_linkler": [
+      "/joker?sekme=avatar",
+      "/joker?sekme=efekt"
+    ],
+    "basliklar": {
+      "/siralama": "League — Quiz Tactics",
+      "/joker": "Shop — Quiz Tactics",
+      "/arkadaslar": "Friends — Quiz Tactics"
+    },
+    "konsol": [],
+    "bulunamadi_pencere": 0,
+    "bulunamadi_metin": "This page doesn't exist. |  | The address may be mistyped or the page may have been removed. |  | Back to home | Home | Friends | Leag",
+    "lig_kurulum_pencere": 0,
+    "konsol_404": []
+  }
+}
