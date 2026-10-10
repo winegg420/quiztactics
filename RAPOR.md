@@ -433,3 +433,72 @@ Not: LSN farkıyla ölçülen ham WAL hızı güvenilir değil (yeniden başlatm
 **Migration:** 1056 (`20260612001056_grup_mac_kilit.sql`) + 1057 (`20260612001057_grup_mac_tik_kilitsiz_bakis.sql`) — ikisi de canlıda uygulandı.
 
 RAPOR HAZIR — Ida'ya iletilecek.
+
+---
+
+# Maç düzeltmeleri — Ida'nın 10 Eki ~21:15–21:35 canlı testi + disk bütçesi (migration 1058)
+
+## 1. Hazine Tur 7 takılması (maç 47d9d421) — kalıcı sunucu hatası DEĞİL; test sekmesi arka plandaydı
+**Kanıt (edge logu + maç satırı):**
+- Maç boyunca (18:21–18:28 UTC) **hiç `kalp_at` isteği yok**. KasaPage nabzı yalnız sekme görünürken atar → sekme baştan sona gizliydi (Claude in Chrome arka plan sekmesi). 18:15 Düello'sunda da `kalp_at` yok.
+- `kasa_durum` yalnız `kasa_tik` cron'unun (30 sn) sinyalinden hemen sonra çağrılmış (18:22:02, :32, 18:23:02 …); turlar da tam 30,1 sn arayla açılmış (`kasa_hamleler.created_at` 18:22:01, :31, 18:23:01 …). Gizli sekmede yedek yoklama ve faz bitişi zamanlayıcısı çalışmaz, yalnız Realtime sinyali okuma yapar.
+- Tur 7 18:25:02'de açıldı; o turda `kasa_cevap` isteği hiç gitmedi (sayaç 0'dayken dokunuş kabul edilmez). 18:25:03 → 18:25:34 arası 30 sn istek yok → nabız 25 sn eşiğini geçti → 18:25:32 tikinde `kasa_kopuk_kim` Ida'yı kopuk saydı, faz dondu (`bot_cevap_at` 2,4 sn kaydırılmış = kopukluk kayması). Sinyalle gelen okuma nabzı yazıp kopukluğu kaldırıyor, 30 sn sonraki tik yine kopuk buluyordu ("süre 0'da, bant gitmiyor" döngüsü). 18:27:02'den sonra okuma gelmedi; 45 sn sonra 18:28:03'te `sonuc_neden = kopuk` ile bitti.
+- 1057 / kilit testiyle ilgisi yok: o dakikalardaki bütün `kasa_durum`'lar 200 ve 78–178 ms; Postgres logunda kilit/zaman aşımı satırı yok.
+
+**İstemcinin toparlanması:** sekme görünür olunca hemen `kasa_durum` + `kalp_at` gider (taklit testi K3: 7 ms) → nabız yazılır, kopukluk kalkar, faz kalan süreyle sürer (45 sn dolmadıysa). Gizli sekmede nabız atılmaması bilinçli (oyuncu uygulamadan çıktıysa kopuk sayılmalı). Arka plan sekmesinde yapılan canlı testler bu yüzden her zaman takılır.
+
+## 2. Yanlış "Bağlantı yeniden kuruluyor" bandı
+**Kök neden:** bant, faz bitişinden 4 sn sonra yeni faz gelmemesini de bağlantı sorunu sayıyordu. Sunucu cevapsız oyuncu için **5 sn geç varış payı** (991) bekler ve fazı ancak bir okuma ilerletir → neredeyse her tur geçişinde bant çıkıyordu. Bant akış içindeydi: çıkınca şıkları/kartları **48 px** aşağı itiyordu (dokunuş yanlış yere düşüyor, "kilitli" hissi). Boş soru metni yeniden üretilemedi (taklit testinde bant varken metin hep yerinde; gizli sekmede giriş animasyonu durdurulduğu için ekran görüntüsünde boş görünmüş olabilir).
+
+**Düzeltme (Hazine + Düello):** bant yalnız okuma hata veriyor **ve** son başarılı yanıttan beri ≥ 10 sn geçtiyse. Bant ve kopukluk bandı kaydırmasız üst katman (`.m2-bant--katman`, dokunuşu geçirir). Şıklar bantla kilitlenmez.
+
+## 3. "Rakip ara" ilk tıklama
+- **Düello:** düğme önce çizilip Skill seti yüklenince **~1,2 sn'de 223 px aşağı kayıyordu** (327 → 550, ölçüldü) → ilk dokunuş boşa. Düzeltme: düğme kural metni + Skill seti yerleşince çizilir (`SkillSeti onHazir`, 2,5 sn yedek). Canlıda ilk tıkta arama başladı.
+- **Hazine:** kayma yok (491 px sabit); üretim derlemesinde 0/150/600/2500 ms'de tek tık hep aramayı başlattı. Logda ilk tıklamaya ait istek yok — en olası açıklama arka plan sekmesi (eski ekran karesi). Kod değişikliği gerekmedi.
+
+## 4. Düello kategori seçimi
+- (a) **1058:** her adımın kendi süresi (10 sn + 0,9 sn duyuru). Süre dolumu adım adım: 1. adım dolarsa yalnız rakibe giden kart otomatik, 2. adım yine 10 sn ile açılır.
+- (b) Kayma üç kaynaktan: bağlantı bandı, kartların ÜSTÜNDE çıkan "Süre doldu · otomatik seçiliyor" notu, EN'de 1. adım başlığı 2 satır / 2. adım 1 satır. Düzeltme: bant katman, not kartların altında, iki başlık aynı hücrede üst üste. Önce 9–26 px kayma → sonra 0.
+- (c) Ida'nın 18:15 maçında 9 saldırı turunun 7'sinde gerçekten bir adım otomatik seçilmişti (çoğu turda tek `kategori_sec` gitti: 2. dokunuş kayan karta düştü ya da paylaşılan süre bitti). Artık hangi adımın otomatik olduğu saklanıyor (`v4_oto_gonder` / `v4_oto_sec`), "otomatik seçildi" yalnız o kategoride yazıyor.
+
+## 5. Cevap sonrası
+Sayaç cevap anında durur (`useDonukSayac`), joker şeridi "Cevabın gitti · rakip bekleniyor" (rakip de cevapladıysa "Cevabın gitti"). Eskiden sayaç akıp "Süren doldu — sonuç bekleniyor" yazıyordu (taklit: 10 → 7).
+
+## 6. Maç sonu boş sayfa
+Kök: `DuelloPage` maç bitince özet (`mac_sonu_ozet`) gelene dek boş `msk-bekle` döndürüyordu (taklitte 2,3 sn). Artık arena ekranda kalır; özet hata verirse sahne özetsiz kurulur.
+
+## 7. Aynı kalıplar öteki modlarda
+| Kalıp | Hazine | Klasik | Grup | Turnuva |
+|---|---|---|---|---|
+| Yanlış bant (2) | düzeltildi | bant yok | bant yok | bant yok |
+| İlk tık (3) | kayma yok | — | — | — |
+| Cevap sonrası sayaç (5) | akıyordu → durdu | QuestionCard sayacı akıyordu → durdu | aynı kart → durdu | aynı kart → durdu |
+| Maç sonu boşluk (6) | 2,3 sn boş → final/maç sahnesi kalır | perde vardı; **özet hata verirse sonsuza dek boş** ve rakip terk edince perde yoktu → düzeltildi | özet hatasında sonsuza dek boş → düzeltildi | özet gelene dek boş → "Turnuva bitti / ŞAMPİYON!" perdesi |
+
+## 8. Disk bütçesi
+- Budama zaten vardı (job 124: saatte bir, 6 sa'ten eski `job_run_details`). 1058 onu `kayit_budama()`'ya çevirdi: + takılı 'starting' satırları (1 gün), süresi geçmiş `rpc_sayac` satırları (2 gün; ilk koşuda 237'nin 193'ü), `net._http_response` (1 gün).
+- Ölçüm (`pg_stat_statements`, yeniden başlatmadan beri): 17:56–19:26 UTC sorgu WAL'ı 7,11 MB (78 KB/dk); bunun **1,38 MB'ı (%19,5) `cron.job_run_details` yazımları** (her koşuda 1 insert + 4 update). Budama bu yazımı azaltmaz, tabloyu küçük tutar: `job_run_details` 1,45–1,50 MB / ~3.200–3.400 satırda sabit (önce ve sonra). 1058 sonrası 19:26–19:56: cron kayıt WAL'ı 5,7 KB/dk (önce 15,2 KB/dk — fark büyük ölçüde 1036'nın boşta 30 sn tikinden; bu pencerede iki canlı test maçı ve migration DDL'i de vardı, toplam 142 KB/dk). Ham LSN örneği (258 KB/sn) `archive_timeout` segment kapanmasına denk geldi, güvenilir değil.
+- Asıl büyük kalem için seçenek (yapılmadı): `cron.log_run = off` — Supabase'de süper kullanıcı ve yeniden başlatma ister.
+
+## 9. Hız sınırı sayacı: `rpc_sayac` → UNLOGGED (neden)
+- Seçenekler: (a) UNLOGGED, (b) seyrek güncelleme (satır kilitliyse sayma / N'de bir yaz), (c) bellekte sayaç.
+- **(a) seçildi:** davranış birebir aynı (aynı fonksiyon, pencere, hata), yetkiler/RLS aynı (provada ACL önce/sonra eşit). Sayaç yazımı WAL üretmez; yalnız sayaç yazan RPC'ler (`duello_durum`, `kasa_durum` yoklamaları) commit'te disk senkronu beklemez → Nano'nun G/Ç bütçesi korunur, satır kilidi daha kısa tutulur. Bedeli: çökme/yeniden başlatmada sayaçlar sıfırlanır → en çok bir pencere boyu ek hak (24 saatlik davet tavanı dahil); kabul edilebilir.
+- (b) reddedildi: kilitliyken saymamak paralel isteklerle sınırı delmeye açık, seyrek yazmak sınırı gevşetir. (c) Postgres'te bağlantılar arası paylaşılan bellek yok.
+- Not: "aynı satırda 8 bekleyen" kilit, sayacın çağıran RPC bitene kadar kilitli kalmasından (ör. `kasa_durum` maç kilidini 2 sn beklerken). UNLOGGED süreyi kısaltır ama kalıbı kaldırmaz.
+
+## Migration
+**1058** `20260612001058_mac_duzeltme_kart_sayac_budama.sql` — canlıda (19:28 UTC). Prova (BEGIN…ROLLBACK) → canlı. Geri alma `docs/mac-duzeltme-1058-geri-al.sql` (begin/commit yok, provayla çalıştırılmadı). Prova aracı `araclar/mac-duzeltme-1058-prova.mjs`: **16/16** (uygulamadan önce ve sonra).
+
+## Test
+- `npm run build` temiz · `npm test` TÜMÜ GEÇTİ · `arayuz-denetim` **TEMİZ**.
+- Taklit (`araclar/mac-duzeltme-ekran.mjs`, aynı senaryolar): **eski kod 9 kırmızı → yeni kod 21/21**: tur geçişinde bant 8. sn'de → yok; bant 48 px kaydırma → 0; maç sonu Hazine/Düello 2,3 sn boş → 0; cevap sonrası sayaç 10→7 → sabit; kart 2. adımda 9–26 px → 0; gerçek 16 sn kopmada bant 12,7 sn'de çıkıp yanıtla kalkıyor. Yakalanan hata: kart başlığında `aria-hidden` dize oluyordu (iki yazı üst üste) → düzeltildi, araca kalıcı kontrol eklendi. Görüntüler `tasarim/mac-duzeltme-10eki/once-*` / `sonra-*`.
+- **Canlı, test hesabı (ArayuzDenetim903), görünür sekme:**
+  - Serbest Hazine, bota karşı (`37c6595a`): 19 tur, `bitti/hedef` 86-0. **Bant 0**, sayaç 0'da takılma 0, boş ekran 0, faz geri dönüşü 0, karar düğmesi kullanılabilir 6,7–6,9 sn. Aracın 4 kırmızısı eski beklentiler (DEVAM'da "ÜCRETSİZ 50:50/×2", `devam_odul`, "Yeni Kasa maçı" → artık "Yeni maç").
+  - Serbest Düello, bota karşı (`dc42ef0b`): ilk tıkta arama başladı, 28 faz geçişi, **bant 0**, 0'da bekleme 0, cevaptan sonra sayaç 10/10 durdu ("Cevabın gitti · rakip bekleniyor"), kart 1→2 adım 8/8 yerinde, maç sonu boşluk 0 ms, `bitti`. Test hesabında 5 Klasik maç olmadığı için `duello_acilis_mac_esigi` yalnız arama süresince (~15 sn) 0 yapıldı, maç kurulunca 5'e geri alındı (doğrulandı).
+  - Test hesabı `hesabimi_sil` → "tam" (profil 0).
+- 1058 sonrası (19:29–19:56 UTC): `hizli_tik` 117 koşu, ort. 55 ms, p95 136 ms, maks. 947 ms, 0 hata · `dakika_tik` 28 koşu, ort. 235 ms, p95 515 ms, maks. 1.507 ms (tek koşu), 0 hata. `hizli_tik` boşta 30 sn'de bir koşuyor — 1036 tasarımı (Kasa'da da 30 sn), elle değişiklik değil.
+
+## Dikkat
+- Bu iş sürerken Codex aynı klasörde commit/push yaptı (`b467fe95`, soru üretimi); 1058 commit'im onun push'uyla birlikte gitti. Migration çakışması yok.
+
+RAPOR HAZIR — Ida'ya iletilecek.

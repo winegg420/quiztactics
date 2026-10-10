@@ -1,0 +1,352 @@
+{
+ "adres": "https://quiztactics.com",
+ "tarih": "2026-10-10T19:53:23.051Z",
+ "gecisler": [
+  {
+   "t": 16.6,
+   "faz": "notr"
+  },
+  {
+   "t": 22.6,
+   "faz": "sonuc"
+  },
+  {
+   "t": 25.2,
+   "faz": "notr"
+  },
+  {
+   "t": 32.8,
+   "faz": "sonuc"
+  },
+  {
+   "t": 35.2,
+   "faz": "kart"
+  },
+  {
+   "t": 39.6,
+   "faz": "cevap"
+  },
+  {
+   "t": 46.5,
+   "faz": "sonuc"
+  },
+  {
+   "t": 49.4,
+   "faz": "kart"
+  },
+  {
+   "t": 54.6,
+   "faz": "cevap"
+  },
+  {
+   "t": 63.4,
+   "faz": "sonuc"
+  },
+  {
+   "t": 66,
+   "faz": "kart"
+  },
+  {
+   "t": 70.1,
+   "faz": "cevap"
+  },
+  {
+   "t": 77.8,
+   "faz": "sonuc"
+  },
+  {
+   "t": 79.9,
+   "faz": "kart"
+  },
+  {
+   "t": 84.3,
+   "faz": "cevap"
+  },
+  {
+   "t": 91.4,
+   "faz": "sonuc"
+  },
+  {
+   "t": 94.3,
+   "faz": "kart"
+  },
+  {
+   "t": 98.4,
+   "faz": "cevap"
+  },
+  {
+   "t": 104,
+   "faz": "sonuc"
+  },
+  {
+   "t": 106.4,
+   "faz": "kart"
+  },
+  {
+   "t": 110.7,
+   "faz": "cevap"
+  },
+  {
+   "t": 119.3,
+   "faz": "sonuc"
+  },
+  {
+   "t": 120.6,
+   "faz": "kart"
+  },
+  {
+   "t": 124.4,
+   "faz": "cevap"
+  },
+  {
+   "t": 131.8,
+   "faz": "sonuc"
+  },
+  {
+   "t": 134.4,
+   "faz": "kart"
+  },
+  {
+   "t": 138.5,
+   "faz": "cevap"
+  },
+  {
+   "t": 146,
+   "faz": "sonuc"
+  }
+ ],
+ "bant": [],
+ "sifirBekleme": [],
+ "cevapSonrasi": [
+  {
+   "t": 19.4,
+   "sayac": [
+    "15",
+    "15"
+   ],
+   "durdu": true,
+   "metin": "Cevabın gitti · rakip bekleniyor"
+  },
+  {
+   "t": 28,
+   "sayac": [
+    "15",
+    "15"
+   ],
+   "durdu": true,
+   "metin": "Cevabın gitti · rakip bekleniyor"
+  },
+  {
+   "t": 42.8,
+   "sayac": [
+    "15",
+    "15"
+   ],
+   "durdu": true,
+   "metin": "Cevabın gitti · rakip bekleniyor"
+  },
+  {
+   "t": 58.1,
+   "sayac": [
+    "15",
+    "15"
+   ],
+   "durdu": true,
+   "metin": "Cevabın gitti · rakip bekleniyor"
+  },
+  {
+   "t": 73.4,
+   "sayac": [
+    "15",
+    "15"
+   ],
+   "durdu": true,
+   "metin": "Cevabın gitti · rakip bekleniyor"
+  },
+  {
+   "t": 87.5,
+   "sayac": [
+    "15",
+    "15"
+   ],
+   "durdu": true,
+   "metin": "Cevabın gitti · rakip bekleniyor"
+  },
+  {
+   "t": 101.6,
+   "sayac": [
+    "15",
+    "15"
+   ],
+   "durdu": true,
+   "metin": "Cevabın gitti · rakip bekleniyor"
+  },
+  {
+   "t": 114,
+   "sayac": [
+    "15",
+    "15"
+   ],
+   "durdu": true,
+   "metin": "Cevabın gitti · rakip bekleniyor"
+  },
+  {
+   "t": 127.5,
+   "sayac": [
+    "15",
+    "15"
+   ],
+   "durdu": true,
+   "metin": "Cevabın gitti · rakip bekleniyor"
+  },
+  {
+   "t": 141.8,
+   "sayac": [
+    "15",
+    "15"
+   ],
+   "durdu": true,
+   "metin": "Cevabın gitti · rakip bekleniyor"
+  }
+ ],
+ "kart": [
+  {
+   "t": 37.9,
+   "once": [
+    219,
+    219,
+    528,
+    528
+   ],
+   "sonra": [
+    219,
+    219,
+    528,
+    528
+   ],
+   "ayni": true
+  },
+  {
+   "t": 52.1,
+   "once": [
+    219,
+    219,
+    528,
+    528
+   ],
+   "sonra": [
+    219,
+    219,
+    528,
+    528
+   ],
+   "ayni": true
+  },
+  {
+   "t": 68.4,
+   "once": [
+    219,
+    219,
+    528,
+    528
+   ],
+   "sonra": [
+    219,
+    219,
+    528,
+    528
+   ],
+   "ayni": true
+  },
+  {
+   "t": 82.6,
+   "once": [
+    219,
+    219,
+    528,
+    528
+   ],
+   "sonra": [
+    219,
+    219,
+    528,
+    528
+   ],
+   "ayni": true
+  },
+  {
+   "t": 96.8,
+   "once": [
+    219,
+    219,
+    528,
+    528
+   ],
+   "sonra": [
+    219,
+    219,
+    528,
+    528
+   ],
+   "ayni": true
+  },
+  {
+   "t": 109.1,
+   "once": [
+    219,
+    219,
+    528,
+    528
+   ],
+   "sonra": [
+    219,
+    219,
+    528,
+    528
+   ],
+   "ayni": true
+  },
+  {
+   "t": 122.5,
+   "once": [
+    219,
+    219,
+    528,
+    528
+   ],
+   "sonra": [
+    219,
+    219,
+    528,
+    528
+   ],
+   "ayni": true
+  },
+  {
+   "t": 136.8,
+   "once": [
+    219,
+    219,
+    528,
+    528
+   ],
+   "sonra": [
+    219,
+    219,
+    528,
+    528
+   ],
+   "ayni": true
+  }
+ ],
+ "macSonuBosMs": 0,
+ "ilkTik": true,
+ "mac": "dc42ef0b-de31-47b1-8a15-9d9d56ff83b9",
+ "bitti": true,
+ "sunucu": {
+  "durum": "bitti",
+  "k": "2a64845e-71a3-4c94-a292-7a2185b70491",
+  "tur": "8",
+  "soru": "10"
+ }
+}
