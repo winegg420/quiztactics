@@ -431,22 +431,29 @@ export default function Duello4Arena({
   } else if (d.faz === "sonuc" && sm) {
     const benimki = h.oyuncular?.[benId] ?? {};
     const rakibinki = h.oyuncular?.[rakip.id] ?? {};
-    const satir = (x, ad, kim) => (
-      <div className={sinif("d4-cevap", `d4-cevap--${kim}`, x.dogru ? "d4-cevap--dogru" : "d4-cevap--yanlis")}>
+    // Tur sonucu kartı: üstte oyuncunun gerçek avatarı (üst bilgideki CerceveliAvatar; çerçevesiz düz daire, halka oyuncu rengi) + sağ altında
+    // Doğru/Yanlış/Yanıtsız rozeti; altında ad · kategori · sonuç. Yanlış/yanıtsız avatar soluk.
+    const satir = (x, o, ad, kim) => (
+      <div className={sinif("d4-cevap", `d4-cevap--${kim}`, x.dogru ? "d4-cevap--dogru" : "d4-cevap--yanlis", x.yanitsiz && "d4-cevap--yanitsiz")}>
+        <span className="d4-cevap-av">
+          <span className="d4-cevap-halka"><CerceveliAvatar profile={o} userId={o.id} boyut={80} cerceve={null} aura={null} className="d4-cevap-foto" /></span>
+          <span className="d4-cevap-isaret" role="img" aria-label={x.dogru ? c("Doğru") : x.yanitsiz ? c("Yanıtsız") : c("Yanlış")}>
+            <QtIkon ad={x.dogru ? "onay" : x.yanitsiz ? "saat" : "carpi"} boyut={20} />
+          </span>
+        </span>
         <span className="d4-cevap-kim">{ad}</span>
-        {x.kategori && <KategoriIkon anahtar={x.kategori} boyut={26} plaka />}
-        <span className="d4-cevap-isaret"><QtIkon ad={x.dogru ? "onay" : x.yanitsiz ? "saat" : "carpi"} boyut={26} /></span>
+        {x.kategori && <KategoriIkon anahtar={x.kategori} boyut={22} plaka />}
         <b>{x.dogru ? c("Doğru") : x.yanitsiz ? c("Yanıtsız") : c("Yanlış")}</b>
       </div>
     );
     panel = (
-      <div className={sinif("d4-panel d4-panel--orta d4-sonuc", `d4-sonuc--${sm.ton}`, sm.bitis && "d4-sonuc--bitis")} key={`s${h.no}`}>
+      <div className={sinif("d4-panel d4-panel--orta d4-sonuc", `d4-sonuc--${sm.ton}`, sm.bitis && "d4-sonuc--bitis", sm.baski && "d4-sonuc--baski")} key={`s${h.no}`}>
         {sm.bitis && sm.ton === "iyi" && <span className="d4-konfeti" aria-hidden="true">{Array.from({ length: 12 }, (_, i) => <i key={i} style={{ "--i": i }} />)}</span>}
         <h2 className="d4-sonuc-baslik">{sm.baslik}</h2>
         <p className="d4-alt d4-sonuc-alt">{sm.alt}</p>
         <div className="d4-cevaplar">
-          {satir(benimki, c("Sen"), "ben")}
-          {satir(rakibinki, rakipAd, "rakip")}
+          {satir(benimki, ben, c("Sen"), "ben")}
+          {satir(rakibinki, rakip, rakipAd, "rakip")}
         </div>
         {sm.baski && (
           <div className={sinif("d4-baski", h.kontrol_sonra === benId ? "d4-baski--ben" : "d4-baski--rakip")} role="alert">

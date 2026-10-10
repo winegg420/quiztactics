@@ -128,34 +128,60 @@
 .d4-rakip-kat { margin: 4px 0 0; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 2px 6px; padding: 6px 10px; border-radius: var(--qt-r-m); background: var(--hk-kirmizi-zemin); box-shadow: inset 0 0 0 2px var(--hk-kirmizi); font-size: 13px; font-weight: 800; color: var(--hk-kirmizi-metin); }
 .d4-oto-etiket { color: var(--hk-soluk); }
 
-/* Tur sonucu anı */
-.d4-sonuc { position: relative; border-radius: var(--qt-r-l); padding: 12px 8px; overflow: hidden; }
+/* Tur sonucu anı (11 Eki 2026): an büyür, oyuncular görünür. İçerik paneli doldurur ve dikeyde ortalı; başlık 36 px
+   (bitiş 40), alt yazı kendi renginde kenarlı beyaz hap, her kartın üstünde oyuncunun gerçek avatarı (80 px, halka sen mavi /
+   rakip kırmızı) + sağ altında Doğru/Yanlış/Yanıtsız rozeti. Kısa ekranda (≤ 700 px yükseklik) avatar 64, başlık 30;
+   SON BASKI bandı kartların üstüne binmez — akışta, kartların altında durur. */
+.d4-sonuc { position: relative; border-radius: var(--qt-r-l); padding: 14px 10px; overflow: hidden; justify-content: space-evenly; gap: 12px; }
 .d4-sonuc--iyi { background: var(--hk-mavi-zemin); }
 .d4-sonuc--kotu { background: var(--hk-kirmizi-zemin); }
 .d4-sonuc--notr { background: #fff; }
-.d4-sonuc-baslik { margin: 0; font-family: var(--qt-f-baslik); font-weight: 800; font-size: 28px; line-height: 1.05; text-wrap: balance; }
+.d4-sonuc-baslik { margin: 0; font-family: var(--qt-f-baslik); font-weight: 800; font-size: 36px; line-height: 1.02; text-wrap: balance; }
 .d4-sonuc--iyi .d4-sonuc-baslik { color: var(--hk-mavi-metin); }
 .d4-sonuc--kotu .d4-sonuc-baslik { color: var(--hk-kirmizi-metin); }
-.d4-sonuc--bitis .d4-sonuc-baslik { font-size: 32px; }
-.d4-sonuc .d4-sonuc-alt { color: var(--hk-metin); font-size: 15px; }
-.d4-sonuc--kotu .d4-sonuc-alt { color: #4a1010; font-weight: 900; }
+.d4-sonuc--bitis .d4-sonuc-baslik { font-size: 40px; }
+.d4-sonuc .d4-sonuc-alt { display: inline-block; max-width: 100%; padding: 5px 16px; border-radius: 999px; background: #fff;
+  border: 2px solid var(--hk-cizgi); color: var(--hk-metin); font-size: 17px; font-weight: 900; line-height: 1.2; }
+.d4-sonuc--kotu .d4-sonuc-alt { color: #4a1010; border-color: var(--hk-kirmizi); }
 .d4-sonuc--kotu .d4-sonuc-baslik { color: #4a1010; }
-.d4-sonuc--iyi .d4-sonuc-alt { color: #0f2f5c; font-weight: 900; }
+.d4-sonuc--iyi .d4-sonuc-alt { color: #0f2f5c; border-color: var(--hk-mavi); }
 .d4-sonuc--iyi .d4-sonuc-baslik { color: #0f2f5c; }
-.d4-cevaplar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; width: 100%; }
-.d4-cevap { position: relative; display: grid; justify-items: center; gap: 4px; padding: 10px 6px; border-radius: var(--qt-r-m); background: #fff; }
+.d4-sonuc--notr .d4-sonuc-alt { border-color: var(--hk-soluk); }
+.d4-cevaplar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; width: 100%; }
+.d4-cevap { position: relative; display: grid; justify-items: center; align-content: start; gap: 5px; padding: 12px 6px 10px; border-radius: var(--qt-r-m); background: #fff; min-width: 0; }
 .d4-cevap--ben { box-shadow: inset 0 0 0 3px var(--hk-mavi); }
 .d4-cevap--rakip { box-shadow: inset 0 0 0 3px var(--hk-kirmizi); }
-.d4-cevap-kim { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; font-weight: 900; color: var(--hk-soluk); }
-.d4-cevap-isaret { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; color: #fff; }
+.d4-cevap-av { --d4-av: 80px; position: relative; display: grid; place-items: center; width: var(--d4-av); height: var(--d4-av); margin: 4px 0 8px; }
+.d4-cevap-halka { display: grid; place-items: center; width: 100%; height: 100%; border-radius: 50%; background: #fff; }
+.d4-cevap--ben .d4-cevap-halka { box-shadow: 0 0 0 4px var(--hk-mavi); }
+.d4-cevap--rakip .d4-cevap-halka { box-shadow: 0 0 0 4px var(--hk-kirmizi); }
+.d4-cevap-halka > * { width: 100%; height: 100%; }
+.d4-cevap--yanlis .d4-cevap-halka > * { filter: grayscale(.85); opacity: .75; }
+.d4-cevap-isaret { position: absolute; right: -6px; bottom: -6px; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%;
+  color: #fff; border: 3px solid #fff; box-sizing: border-box; }
 .d4-cevap--dogru .d4-cevap-isaret { background: var(--qt-dogru, #1f9d5b); }
 .d4-cevap--yanlis .d4-cevap-isaret { background: var(--hk-kirmizi-kenar); }
-.d4-cevap > b { font-family: var(--qt-f-baslik); font-size: 18px; font-weight: 800; }
-.d4-baski { position: absolute; inset: auto 8px 8px; display: grid; gap: 2px; justify-items: center; padding: 10px; border-radius: var(--qt-r-m); color: #fff; }
+.d4-cevap--yanitsiz .d4-cevap-isaret { background: var(--hk-soluk); }
+.d4-cevap-kim { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; font-weight: 900; color: var(--qt-metin, #1d2152); }
+.d4-cevap > b { font-family: var(--qt-f-baslik); font-size: 20px; font-weight: 800; line-height: 1.1; }
+.d4-cevap--dogru > b { color: #146c3f; }
+.d4-cevap--yanlis > b { color: var(--hk-kirmizi-metin); }
+/* SON BASKI: akışta (kartların altında) — kartların üstüne binmez */
+.d4-baski { position: relative; display: grid; gap: 2px; justify-items: center; width: 100%; box-sizing: border-box; padding: 10px; border-radius: var(--qt-r-m); color: #fff; }
 .d4-baski--ben { background: var(--hk-mavi); box-shadow: 0 4px 0 var(--hk-mavi-kenar); }
 .d4-baski--rakip { background: var(--hk-kirmizi); box-shadow: 0 4px 0 var(--hk-kirmizi-kenar); }
 .d4-baski b { font-family: var(--qt-f-baslik); font-size: 30px; font-weight: 800; line-height: 1; letter-spacing: .03em; }
 .d4-baski span { font-size: 13px; font-weight: 800; }
+@media (max-height: 700px) {
+  .d4-sonuc { padding: 10px 8px; gap: 8px; }
+  .d4-sonuc-baslik { font-size: 30px; }
+  .d4-sonuc--bitis .d4-sonuc-baslik { font-size: 34px; }
+  .d4-cevap-av { --d4-av: 64px; }
+  .d4-cevap { padding: 10px 6px 8px; gap: 3px; }
+  .d4-sonuc--baski .d4-cevap > b { font-size: 18px; }
+  .d4-baski { padding: 6px 8px; }
+  .d4-baski b { font-size: 24px; }
+}
 .d4-konfeti { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
 .d4-konfeti i { position: absolute; top: 20%; left: calc(6% + var(--i) * 7.6%); width: 8px; height: 14px; border-radius: 2px; background: hsl(calc(var(--i) * 47), 85%, 58%); opacity: 0; }
 
@@ -206,14 +232,13 @@
 @keyframes d4-yuk { 0%, 100% { opacity: .3; transform: scale(.8); } 50% { opacity: 1; transform: scale(1.15); } }
 @keyframes d4-sec { from { transform: scale(.96); } to { transform: none; } }
 @keyframes d4-damga { from { opacity: 0; transform: scale(.7); } to { opacity: 1; transform: none; } }
-@keyframes d4-baski { 0% { opacity: 0; transform: scale(.6); } 18% { opacity: 1; transform: scale(1.08); } 30% { transform: scale(1); } 85% { opacity: 1; } 100% { opacity: 0; transform: scale(.98); } }
+@keyframes d4-baski { 0% { opacity: 0; transform: scale(.6); } 18% { opacity: 1; transform: scale(1.08); } 30%, 100% { opacity: 1; transform: none; } }   /* akışta: kalır */
 @keyframes d4-konfeti { 0% { opacity: 1; transform: translateY(0) rotate(0); } 100% { opacity: 0; transform: translateY(170px) rotate(240deg); } }
 
 @media (max-width: 380px) {
   .d4-arena .d4-kart { min-height: 104px; padding: 8px 8px 8px 10px; }
   .d4-kart-ad { font-size: 15px; }
   .d4-oran { grid-template-columns: minmax(0, max-content) minmax(12px, 1fr) 36px; }
-  .d4-sonuc-baslik { font-size: 24px; }
   .d4-baslik h2 { font-size: 19px; }
   .d4-dev { font-size: 26px; }
 }
@@ -231,3 +256,4 @@
   .d4-bilet { min-height: 96px; }
   .d4-amblem { width: 72px; height: 72px; }
 }
+
