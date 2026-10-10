@@ -1,6 +1,7 @@
 // Codex taslakları → mevcut kapı 1–5. Claude API yok; canlıya yazmaz.
 import fs from 'node:fs';
 import path from 'node:path';
+import {yerelSorgu} from './codex-yerel.mjs';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { sorgu, KOK } from '../soru_denetim/ortak.mjs';
@@ -64,13 +65,15 @@ export function tekDogruOlasilik(yanit) {
 }
 export function ipucuGecer(p) { return typeof p==='number' && Number.isFinite(p) && p>=0 && p<=0.75; }
 
-function olcum(adet) {
+function olcum(adet, seri='codex-01') {
   // Tek toplu sorgu: tüm tekrar havuzu + kota ölçümü. Veritabanında yazma yok.
   const havuz=sorgu("select soru,kategori,aktif,zorluk,secenekler->>dogru_cevap dogru, ('sik_ipucu_jev'=any(coalesce(supheli_isaretler,'{}'))) ipuculu from public.questions");
   const say=Object.fromEntries(KATEGORI.map(k=>[k,havuz.filter(t=>t.kategori===k&&t.aktif&&[2,3].includes(Number(t.zorluk))&&!t.ipuculu).length]));
   const tavan=Math.max(...Object.values(say))+25;
-  const kota=paylastir(Object.fromEntries(KATEGORI.map(k=>[k,tavan-say[k]])),adet);
-  return {havuz,plan:{olcum_z2_z3:say,kota,z3:paylastir(kota,Math.round(adet*0.3)),tarih:new Date().toISOString()}};
+  let kota=paylastir(Object.fromEntries(KATEGORI.map(k=>[k,tavan-say[k]])),adet);
+  const dorduncu=Number(seri.slice(-2))>=4;
+  if(dorduncu){const tarih=Math.max(kota.tarih,Math.ceil(adet*.15));kota={...paylastir(Object.fromEntries(KATEGORI.filter(k=>k!=='tarih').map(k=>[k,tavan-say[k]])),adet-tarih),tarih};}
+  return {havuz,plan:{olcum_z2_z3:say,kota,...(dorduncu?{kota_gerekce:'Aktif z2+3 az olana çok; kullanıcı notuyla tarih en az %15, kalan kota diğer kategorilere ölçüm ağırlığıyla',tarih_alt_pay:.15}:{}),z3:paylastir(kota,Math.round(adet*0.3)),tarih:new Date().toISOString()}};
 }
 export const ALT_SINIR = {teknoloji:['video_oyunu_maskot',0.35],sinema:['animasyon',0.35],sanat:['tablo_gorsel',0.4],genel_kultur:['marka_maskot_cizgi',0.4]};
 export function cesitlilikHata(t) {
@@ -85,12 +88,18 @@ export const yanlisUclu = (t, dil='tr') => {
   return Array.isArray(y)?JSON.stringify(y.map(normalize).sort()):null;
 };
 export function cesitlilikSay(secilen, st) {
+  const ulke_odak={};let karsilikli_cift=0;
+  for(let i=0;i<secilen.length;i++){const t=secilen[i];if(t.k==='genel_kultur')ulke_odak[t.ulke_odak??'eksik']=(ulke_odak[t.ulke_odak??'eksik']??0)+1;for(let j=0;j<i;j++)if(karsilikliCevap(t,secilen[j]))karsilikli_cift++;}
   const kalip={},konu={},alt={},yanlis_uclu={tr:{},en:{}};
   for(const t of secilen){kalip[t.kalip]=(kalip[t.kalip]??0)+1;for(const x of t.konular??[])konu[t.k+':'+x]=(konu[t.k+':'+x]??0)+1;const key=t.k+':'+t.alt_tur;alt[key]=(alt[key]??0)+1;for(const dil of ['tr','en']){const u=yanlisUclu(t,dil);if(u)yanlis_uclu[dil][u]=(yanlis_uclu[dil][u]??0)+1;}}
-  return {yanlis_uclu,yanlis_uclu_siniri:Number(st.klasor.slice(-2))>=3?2:null,kalip,konu,alt_tur:alt,kalip_siniri:kalipSiniri(st),konu_siniri:2,alt_sinir:Object.fromEntries(Object.entries(ALT_SINIR).map(([k,[a,p]])=>[k+':'+a,Math.floor(st.plan.kota[k]*p)]))};
+  return {ulke_odak,karsilikli_cift,yanlis_uclu,yanlis_uclu_siniri:Number(st.klasor.slice(-2))>=3?2:null,kalip,konu,alt_tur:alt,kalip_siniri:kalipSiniri(st),konu_siniri:2,alt_sinir:Object.fromEntries(Object.entries(ALT_SINIR).map(([k,[a,p]])=>[k+':'+a,Math.floor(st.plan.kota[k]*p)]))};
+}
+const karsilikNorm=s=>normalize(s.toLowerCase()).replaceAll('ı','i');
+export function karsilikliCevap(a,b) {
+  return ['tr','en'].some(dil=>{const x=dil==='en'?a.en:a,y=dil==='en'?b.en:b;return x&&y&&Array.isArray(x.y)&&Array.isArray(y.y)&&typeof x.d==='string'&&typeof y.d==='string'&&x.y.map(karsilikNorm).includes(karsilikNorm(y.d))&&y.y.map(karsilikNorm).includes(karsilikNorm(x.d));});
 }
 export function sec(st, adaylar) {
-  const yeni=Number(st.klasor.slice(-2))>=2;
+  const yeni=Number(st.klasor.slice(-2))>=2;const dorduncu=Number(st.klasor.slice(-2))>=4;const ulkeler={};
   const kalip={},konu={},alt={},uclu={tr:{},en:{}};const ucuncu=Number(st.klasor.slice(-2))>=3;const secilen=[];let yerel=0;
   // En dar aday kovalari önce: kalıp ortak sınırı geniş kategorinin dar kotayı kapatmasını önler.
   const kovalar=KATEGORI.flatMap(k=>[2,3].map(z=>({k,z,h:z===3?st.plan.z3[k]:st.plan.kota[k]-st.plan.z3[k],a:adaylar.filter(t=>t.k===k&&t.z===z&&t.sonuc==='gecti')})));
@@ -103,6 +112,10 @@ export function sec(st, adaylar) {
       const ak=k+':'+t.alt_tur,lim=ALT_SINIR[k];
       if(yeni&&((kalip[t.kalip]??0)>=kalipSiniri(st)||(t.konular??[]).some(x=>(konu[k+':'+x]??0)>=2)||(lim&&t.alt_tur===lim[0]&&(alt[ak]??0)>=Math.floor(st.plan.kota[k]*lim[1]))))continue;
       if(ucuncu&&['tr','en'].some(dil=>{const u=yanlisUclu(t,dil);return u&&(uclu[dil][u]??0)>=2;}))continue;
+      if(dorduncu&&secilen.some(x=>karsilikliCevap(t,x)))continue;
+      if(dorduncu&&t.k==='genel_kultur'&&!t.ulke_odak)continue;
+      if(dorduncu&&t.k==='genel_kultur'&&t.ulke_odak&&t.ulke_odak!=='global'&&(ulkeler[t.ulke_odak]??0)>=3)continue;
+      if(t.k==='genel_kultur'&&t.ulke_odak&&t.ulke_odak!=='global')ulkeler[t.ulke_odak]=(ulkeler[t.ulke_odak]??0)+1;
       secilen.push(t);say++;if(t.yerel)yerel++;
       for(const dil of ['tr','en']){const u=yanlisUclu(t,dil);if(u)uclu[dil][u]=(uclu[dil][u]??0)+1;}
       kalip[t.kalip]=(kalip[t.kalip]??0)+1;alt[ak]=(alt[ak]??0)+1;for(const x of t.konular??[])konu[k+':'+x]=(konu[k+':'+x]??0)+1;
@@ -122,7 +135,7 @@ function sonYaz(st, adaylar, klasor) {
   for(const t of adaylar.filter(t=>t.sonuc==='elendi')) {
     const ad=t.neden.replace(/[:(].*$/,'').trim();sebep[ad]=(sebep[ad]??0)+1;
   }
-  const cikti=secilen.map((t,i)=>({id:st.klasor.replace('codex-','C')+'-'+String(i+1).padStart(2,'0'),taslak_id:t.id,k:t.k,yerel:t.yerel,s:t.s,d:t.d,y:t.y,zorluk:t.z,en:t.en??null,...(!t.en?{en_neden:t.en_neden}:{}),olgu:t.olgu,...(t.kalip?{kalip:t.kalip,konular:t.konular,alt_tur:t.alt_tur}:{}),...(t.kaynak?{kaynak:t.kaynak}:{}),jev_p:t.jev_p,jev_tek_dogru_p:t.tek_dogru_p,kapilar:[1,2,3,4,5],claude_inceleme:'bekliyor'}));
+  const cikti=secilen.map((t,i)=>({id:st.klasor.replace('codex-','C')+'-'+String(i+1).padStart(2,'0'),taslak_id:t.id,k:t.k,yerel:t.yerel,s:t.s,d:t.d,y:t.y,zorluk:t.z,en:t.en??null,...(!t.en?{en_neden:t.en_neden}:{}),olgu:t.olgu,...(t.kalip?{kalip:t.kalip,konular:t.konular,alt_tur:t.alt_tur}:{}),...(t.ulke_odak?{ulke_odak:t.ulke_odak}:{}),...(t.kaynak?{kaynak:t.kaynak}:{}),jev_p:t.jev_p,jev_tek_dogru_p:t.tek_dogru_p,kapilar:[1,2,3,4,5],claude_inceleme:'bekliyor'}));
   const sy=path.join(klasor,'sorular.json'), by=path.join(klasor,'bekleyen.sql');
   if(fs.existsSync(by)&&(!fs.existsSync(sy)||ozetHash(oku(sy))!==ozetHash(cikti))) fs.unlinkSync(by);
   const kategori=Object.fromEntries(KATEGORI.map(k=>[k,{z2:cikti.filter(t=>t.k===k&&t.zorluk===2).length,z3:cikti.filter(t=>t.k===k&&t.zorluk===3).length}]));
@@ -149,14 +162,19 @@ export async function main(argv=process.argv) {
   const klasor=path.join(KOK,'araclar','soru-uretim',ad);
   fs.mkdirSync(klasor,{recursive:true});
   let st=fs.existsSync(dy)?oku(dy):null;
+  const saltYerel=argv.includes('--yerel');
+  const seriDurum=oku(path.join(KOK,'araclar/soru-uretim/durum.json')).codex_seri?.partiler?.find(x=>x.klasor===ad);
+  if((st?.canli_yasak||seriDurum?.canli_yasak)&&!saltYerel)throw new Error('Bu parti canlı bağlantıya kapalı; --yerel zorunlu');
+  if(saltYerel&&(!st||argv.includes('--havuzu-yenile')||argv.includes('--olc')))throw new Error('Yerel kipte ölçüm/havuz yenileme yasak; mevcut havuz kopyası gerekir');
+  if(saltYerel){st.denetime_ortam='Yerel PostgreSQL 17; repo SQL 222/227/298; varsayılan eşikler 1.4/3/2; havuz önceki snapshot';}
   if(st&&st.adet!==adet) throw new Error('Parti hedefi değiştirilemez; yeni parti kullan');
-  if(!st){const {havuz,plan}=olcum(adet);st={surum:1,klasor:ad,adet,plan,jev_jeton:0,kayitlar:{},asama:'olculdu'};atomik(path.join(ara,'havuz.json'),havuz);atomik(dy,st);
+  if(!st){const {havuz,plan}=olcum(adet,ad);st={surum:1,klasor:ad,adet,plan,jev_jeton:0,kayitlar:{},asama:'olculdu'};atomik(path.join(ara,'havuz.json'),havuz);atomik(dy,st);
     const kavram=KATEGORI.map(k=>'## '+k+'\n'+havuz.filter(t=>t.kategori===k).map(t=>t.soru+' → '+t.dogru+' | '+[...kokler(t.soru)].join(' ')).join('\n')).join('\n\n');
     fs.writeFileSync(path.join(ara,'kavramlar.md'),kavram);
   }
   if(argv.includes('--olc')){console.log(JSON.stringify(st.plan));return;}
   if(argv.includes('--havuzu-yenile')) {
-    const yeni=olcum(adet); atomik(path.join(ara,'havuz.json'),yeni.havuz);
+    const yeni=olcum(adet,ad); atomik(path.join(ara,'havuz.json'),yeni.havuz);
     // Onay sonrası kota korunur; yeni havuz yalnız tekrar denetimi içindir.
     st.havuz_yenileme=new Date().toISOString(); atomik(dy,st);
   }
@@ -174,9 +192,9 @@ export async function main(argv=process.argv) {
   }
   const kaydet=()=>{st.girdi_hash=ozetHash(ham);st.guncelleme=new Date().toISOString();atomik(dy,st);};
   if(argv.includes('--on-denetle')){atomik(path.join(ara,'on-denetim.json'),adaylar.map(t=>({id:t.id,k:t.k,z:t.z,s:t.s,sonuc:t.sonuc,neden:t.neden??null})));kaydet();console.log(JSON.stringify({taslak:ham.length,yerel_gecen:adaylar.filter(t=>t.sonuc!=='elendi').length,elenen:adaylar.filter(t=>t.sonuc==='elendi').map(t=>({id:t.id,neden:t.neden}))}));return;}
-  const gereken=adaylar.filter(t=>t.sonuc!=='elendi'&&t.kapi<3);
-  if(gereken.length){const rows=sorgu(hamKapiSorgusu(gereken.map(t=>({anahtar:t.id,soru:t.s,secenekler:[t.d,...t.y],dogru_cevap:0}))));const map=new Map(rows.map(r=>[r.anahtar,r]));
-    for(const t of gereken){const row=map.get(t.id);if(!row)throw new Error('Kural kapısında satır eksik; işlem durdu');const r=st.kayitlar[t.id];r.kapi=3;if(row.agir){r.sonuc='elendi';r.neden='kural işareti: '+row.agir;}Object.assign(t,r);}kaydet();
+  const gereken=adaylar.filter(t=>t.sonuc!=='elendi'&&(saltYerel||t.kapi<3));
+  if(gereken.length){const rows=(saltYerel?yerelSorgu:sorgu)(hamKapiSorgusu(gereken.map(t=>({anahtar:t.id,soru:t.s,secenekler:[t.d,...t.y],dogru_cevap:0}))));const map=new Map(rows.map(r=>[r.anahtar,r]));
+    for(const t of gereken){const row=map.get(t.id);if(!row)throw new Error('Kural kapısında satır eksik; işlem durdu');const r=st.kayitlar[t.id];r.kapi=Math.max(3,r.kapi??0);if(saltYerel)r.kapi3_ortam='yerel SQL';if(row.agir){r.sonuc='elendi';r.neden='kural işareti: '+row.agir;}Object.assign(t,r);}kaydet();
   }
   // Tek işçi: en fazla dört sınırının altında; her başarılı aşama anında kaydedilir.
   for(const t of adaylar.filter(t=>t.sonuc!=='elendi'&&t.sonuc!=='gecti')){

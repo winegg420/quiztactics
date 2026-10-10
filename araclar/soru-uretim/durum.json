@@ -1420,6 +1420,34 @@
           148
         ],
         "onay_jev_usd": 0.000343434
+      },
+      {
+        "klasor": "codex-04",
+        "hedef": 200,
+        "net": 200,
+        "durum": "Claude incelemesi bekliyor; Ida onayı yok",
+        "migration_uygulandi": false,
+        "migration": "codex-04/bekleyen.sql",
+        "taslak": 802,
+        "zorluk": {
+          "2": 140,
+          "3": 60
+        },
+        "kota": {
+          "sanat": 27,
+          "muzik": 16,
+          "teknoloji": 29,
+          "spor": 23,
+          "sinema": 20,
+          "genel_kultur": 36,
+          "edebiyat": 19,
+          "tarih": 30
+        },
+        "yerel": 0,
+        "en": 200,
+        "kapilar": "1–5; kapı 3 yerel SQL, havuz önceki kopya",
+        "canli_yasak": true,
+        "jev_usd": 0.035296044
       }
     ]
   }

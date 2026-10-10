@@ -40,3 +40,20 @@ assert.equal(sec(st,a).length,4);assert.equal(sec({...st,klasor:'codex-02'},a).l
 const c=cesitlilikSay(sec(st,a),st);assert.ok(Math.max(...Object.values(c.kalip))<=4);assert.ok(Math.max(...Object.values(c.yanlis_uclu.tr))<=2);assert.ok(Math.max(...Object.values(c.yanlis_uclu.en))<=2);
 const b=a.map((t,i)=>({...t,kalip:'ortak',y:['bir'+i,'iki'+i,'uc'+i],en:{y:['one'+i,'two'+i,'three'+i]}}));assert.equal(sec(st,b).length,4);
 });
+
+import {karsilikliCevap,main} from './codex-kapi.mjs';
+test('codex04 karşılıklı cevap TR/EN ve genel kültür ülke sınırı',()=>{
+ const ks=['sanat','muzik','teknoloji','spor','tarih','sinema','genel_kultur','edebiyat'];
+ const st={klasor:'codex-04',adet:200,plan:{kota:Object.fromEntries(ks.map(k=>[k,k==='genel_kultur'?10:0])),z3:Object.fromEntries(ks.map(k=>[k,0]))}};
+ const a=Array.from({length:10},(_,i)=>({id:String(i),k:'genel_kultur',z:2,yerel:false,kalip:'p'+i,konular:['konu'+i],alt_tur:'gelenek',ulke_odak:'JP',d:'d'+i,y:['a'+i,'b'+i,'c'+i],sonuc:'gecti',jev_p:.1}));
+ assert.equal(sec(st,a).length,3);assert.equal(sec(st,a.map(t=>({...t,ulke_odak:'global'}))).length,10);
+ assert.equal(sec(st,a.map(t=>({...t,ulke_odak:undefined}))).length,0);
+ const x={d:'Paris',y:['London','Rome','Berlin']},y={d:'London',y:['PARIS','Athens','Lima']};
+ assert.equal(karsilikliCevap(x,y),true);assert.equal(karsilikliCevap(x,{...y,y:['Athens','Lima','Oslo']}),false);
+ assert.equal(karsilikliCevap({d:'A',y:['B'],en:x},{d:'C',y:['D'],en:y}),true);
+ const b=a.map((t,i)=>({...t,ulke_odak:'global',...(i===0?x:i===1?y:{})}));assert.equal(sec(st,b).length,9);
+ assert.equal(cesitlilikSay(sec(st,b),st).karsilikli_cift,0);
+});
+test('yerel kip yeni parti için canlı ölçüme düşmez',async()=>{await assert.rejects(main(['node','test','--klasor','codex-99','--adet','200','--yerel','--olc']),/Yerel kipte/);});
+
+test('kalıcı parti kaydı canlı bağlantıyı engeller',async()=>{await assert.rejects(main(['node','test','--klasor','codex-04','--adet','200','--olc']),/canlı bağlantıya kapalı/);});

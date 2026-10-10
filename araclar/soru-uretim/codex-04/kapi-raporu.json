@@ -1,0 +1,3040 @@
+{
+  "tarih": "2026-10-10T19:41:05.751Z",
+  "ortam": {
+    "kapi3": "Yerel PostgreSQL 17; repo SQL 222/227/298; aynı hamKapiSorgusu",
+    "esikler": "Repo varsayılanları 1.4/3/2; son canlı ayarlar okunmadı",
+    "havuz_tarihi": "2026-10-10T14:50:48.092Z",
+    "havuz_kayit": 17284,
+    "canli_kisit": "Yeni talimattan sonra canlı sorgu, prova, uygulama veya yük testi yok; önceki havuz kopyası kullanıldı",
+    "tr_en_permutsayon": 1600
+  },
+  "kayitlar": [
+    {
+      "id": "C04-01",
+      "taslak_id": "C04-R322",
+      "icerik_sha256": "7b81e3d4c31cc4d21cea3884719a1cc7bd613b1debec1a7781fc8526cc5798f2",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.71,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-02",
+      "taslak_id": "C04-R390",
+      "icerik_sha256": "ccea24b7d2f9b01822b0955335f73ba67345dba5a296d8d5d17ca103582f5478",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.48,
+      "yanlis_en_yuksek_p": 0.09
+    },
+    {
+      "id": "C04-03",
+      "taslak_id": "C04-R408",
+      "icerik_sha256": "3efb21fae544727dee66cb90c4c1c579505431d386209548b38026adc5ed34b7",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.57,
+      "yanlis_en_yuksek_p": 0.16
+    },
+    {
+      "id": "C04-04",
+      "taslak_id": "C04-R409",
+      "icerik_sha256": "b6ab0c9ec404a392dec141d69a00ecb90c57e7b94148ae84cd63219c431e4a91",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.65,
+      "yanlis_en_yuksek_p": 0.07
+    },
+    {
+      "id": "C04-05",
+      "taslak_id": "C04-T538",
+      "icerik_sha256": "c3a1256544a5c297c2bbe64ca8af6c4fcd7099853b3fea83739083656d463fb6",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.1,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-06",
+      "taslak_id": "C04-T539",
+      "icerik_sha256": "1e0f3af1dc83129e215245c57658f41b292e1a78e2a1f926bfcd94379ddaeb26",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.04,
+      "yanlis_en_yuksek_p": 0.06
+    },
+    {
+      "id": "C04-07",
+      "taslak_id": "C04-T544",
+      "icerik_sha256": "e8cf9dbfadfe6a663462d97ab948d8bbfe7a656ebedf783888d2adfc5435c260",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.08,
+      "yanlis_en_yuksek_p": 0.11
+    },
+    {
+      "id": "C04-08",
+      "taslak_id": "C04-T546",
+      "icerik_sha256": "bb325cf57d87128010d191b274ebdeddc36ae36e8694ab0ff7ff6ee1b3821739",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.26,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-09",
+      "taslak_id": "C04-T552",
+      "icerik_sha256": "37554aa651a01dcc7a784ac66279500539f15f19e159c4982b22b0e1ba602ceb",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.14,
+      "yanlis_en_yuksek_p": 0.08
+    },
+    {
+      "id": "C04-10",
+      "taslak_id": "C04-T554",
+      "icerik_sha256": "71a3e8e06f6ac1d518c6da8f5e08e894269d987e5c10c1f27f8290db84f22f7a",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.33,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-11",
+      "taslak_id": "C04-T555",
+      "icerik_sha256": "e57950197f9cc380cf5542f89d8ed3ca7a43566693f1c2d8962f5f0f76386fd8",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.23,
+      "yanlis_en_yuksek_p": 0.07
+    },
+    {
+      "id": "C04-12",
+      "taslak_id": "C04-T556",
+      "icerik_sha256": "eb4d31ea0d2cb9186f16fa87be04a004e7938e7a5fbf7b048a9bf6fcb14bef55",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.22,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-13",
+      "taslak_id": "C04-T559",
+      "icerik_sha256": "1e409ff761fee7b94eb1f94b9365e987bd9ed6608f59b2993bd7b51dcfef4cba",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.12,
+      "yanlis_en_yuksek_p": 0.02
+    },
+    {
+      "id": "C04-14",
+      "taslak_id": "C04-T560",
+      "icerik_sha256": "2d0d93b508761b130578a52547ba360adb70c610e96de185389c3e3d147a8e04",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.14,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-15",
+      "taslak_id": "C04-T756",
+      "icerik_sha256": "83131236ee14ed990ea6b8c0fea4e81964a19d78d636513b5c339f50d93d3e61",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.52,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-16",
+      "taslak_id": "C04-T758",
+      "icerik_sha256": "406c252220eedcd06816f0fe39e7904e34f24ce6111261cd5a849fd021924af8",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.22,
+      "yanlis_en_yuksek_p": 0.09
+    },
+    {
+      "id": "C04-17",
+      "taslak_id": "C04-T775",
+      "icerik_sha256": "22d4144d5ab7498fb6b000cd534c30e5fed68f4a70ccf76a0dde0e1de1092af6",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.22,
+      "yanlis_en_yuksek_p": 0.06
+    },
+    {
+      "id": "C04-18",
+      "taslak_id": "C04-T776",
+      "icerik_sha256": "f4806388cd2f09fd03342e29818bdb718d4928ae72170d9e60626170eebff845",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.29000000000000004,
+      "yanlis_en_yuksek_p": 0.06
+    },
+    {
+      "id": "C04-19",
+      "taslak_id": "C04-T777",
+      "icerik_sha256": "7665d0513b552385c86d5fde2c514980899c8360c65d128bb0b92bbb4f879eea",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.44,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-20",
+      "taslak_id": "C04-R021",
+      "icerik_sha256": "eac939c3458cc021ec11ed799270be4364229dbfeb5a422f5576680a870777df",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.29,
+      "yanlis_en_yuksek_p": 0.23
+    },
+    {
+      "id": "C04-21",
+      "taslak_id": "C04-R026",
+      "icerik_sha256": "58f5a5d12323d01f0c58b0143aca8edb35314ddf53bce843c216f9652d0447eb",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.31,
+      "yanlis_en_yuksek_p": 0.14
+    },
+    {
+      "id": "C04-22",
+      "taslak_id": "C04-R323",
+      "icerik_sha256": "de5a1169b4af9e64b665f2926b85ac7074803aebdf09d6fb0bebed15562a327e",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.55,
+      "yanlis_en_yuksek_p": 0.02
+    },
+    {
+      "id": "C04-23",
+      "taslak_id": "C04-R328",
+      "icerik_sha256": "c27f8c086930fb5c53940c4110ce1bf588d87c52f73e8007283aa985316939bf",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.43,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-24",
+      "taslak_id": "C04-R364",
+      "icerik_sha256": "934bf774f21eaf6b626e45287af58849a8b88543e16596b2071356cf0df1cba6",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.39,
+      "yanlis_en_yuksek_p": 0.06
+    },
+    {
+      "id": "C04-25",
+      "taslak_id": "C04-R397",
+      "icerik_sha256": "071cedacbe3ff2ddf1482a0c9506f2e25506885b6508116b14f34e1627fe5b58",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.29,
+      "yanlis_en_yuksek_p": 0.15
+    },
+    {
+      "id": "C04-26",
+      "taslak_id": "C04-T772",
+      "icerik_sha256": "d026b41ccc74c46944068946bfce7856e467c786df6fa161fc5849e90fa1f79a",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.43,
+      "yanlis_en_yuksek_p": 0.24
+    },
+    {
+      "id": "C04-27",
+      "taslak_id": "C04-T774",
+      "icerik_sha256": "ebaec57b8ad72bf2c147e1f0c9e5701aaaa32a91e867a43f71fc6b487c520211",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.41000000000000003,
+      "yanlis_en_yuksek_p": 0.12
+    },
+    {
+      "id": "C04-28",
+      "taslak_id": "C04-R053",
+      "icerik_sha256": "db8cf28d223b58eec40605da1b2a5efd91efaa64e03460911c3a0b50dfe40dbc",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.52,
+      "yanlis_en_yuksek_p": 0.02
+    },
+    {
+      "id": "C04-29",
+      "taslak_id": "C04-R060",
+      "icerik_sha256": "588cd6862311c41c6902cdb3bc90520fd23fbc1aed0b934134018389312de117",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.55,
+      "yanlis_en_yuksek_p": 0.02
+    },
+    {
+      "id": "C04-30",
+      "taslak_id": "C04-R064",
+      "icerik_sha256": "8e1fcfd9a06ecb191ff55afecabb9b339d2d87b02a5767504bab0aec9732d9da",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.58,
+      "yanlis_en_yuksek_p": 0.1
+    },
+    {
+      "id": "C04-31",
+      "taslak_id": "C04-T563",
+      "icerik_sha256": "a92ca5784284bffd07d5883770f7db76af271238a60805e230a0705a924d58ed",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.16,
+      "yanlis_en_yuksek_p": 0.06
+    },
+    {
+      "id": "C04-32",
+      "taslak_id": "C04-T570",
+      "icerik_sha256": "4d2e393ae0d9646573bb502c877de3cea72453920c29caf44cf37520ef8599a2",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.34,
+      "yanlis_en_yuksek_p": 0.02
+    },
+    {
+      "id": "C04-33",
+      "taslak_id": "C04-T571",
+      "icerik_sha256": "8c6ee0a818a7c31005d4c48a1735fcb986b04302a8b7ce6089c5ff86168c72ef",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.17,
+      "yanlis_en_yuksek_p": 0.02
+    },
+    {
+      "id": "C04-34",
+      "taslak_id": "C04-T574",
+      "icerik_sha256": "e7fef5254f2998d86fc040c11a3caef2b014029fb23dc9c5f8288144390fce3f",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.29,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-35",
+      "taslak_id": "C04-T704",
+      "icerik_sha256": "95b9a24f25436ecfa443b1aa5dca31721dc708b3ba001e3796f0bcc8d81efc16",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.61,
+      "yanlis_en_yuksek_p": 0.1
+    },
+    {
+      "id": "C04-36",
+      "taslak_id": "C04-T705",
+      "icerik_sha256": "5b1ca88280d9e80738a98792a8b71a75b1d006847b68716b37e213af7b95b867",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.21,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-37",
+      "taslak_id": "C04-T707",
+      "icerik_sha256": "6c1036f4ae2e3edec1e5a298e0151b1e54a6ec4498cd56fb5533d337022a1ffd",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.04,
+      "yanlis_en_yuksek_p": 0.05
+    },
+    {
+      "id": "C04-38",
+      "taslak_id": "C04-T708",
+      "icerik_sha256": "a672a49513c2af837389283fe9c08754e3d481dc7d0c5742258eef9b14cf1afa",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.19,
+      "yanlis_en_yuksek_p": 0.08
+    },
+    {
+      "id": "C04-39",
+      "taslak_id": "C04-T575",
+      "icerik_sha256": "3363e8e0b1b08877d8c211225ed574b264490bc6ea31f6ea491f73e8fb586a76",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.33,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-40",
+      "taslak_id": "C04-T578",
+      "icerik_sha256": "448d5a1707f351bab8a647c261f50a12665c1fba376ea92dd9ed772818078867",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.29,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-41",
+      "taslak_id": "C04-T579",
+      "icerik_sha256": "28ed1f282a22e24d6642eca87721907741e538a9b165b3c81b92ed19a93652ab",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.12,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-42",
+      "taslak_id": "C04-T580",
+      "icerik_sha256": "855ab44f8b51ddf390ebc85d4eeb3c0f9905a918c437b702241c7ea01d623899",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.18,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-43",
+      "taslak_id": "C04-T581",
+      "icerik_sha256": "273a6d93321ffa7940740029d92adf8c29deb274c49cba053e2899c4016b8c63",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.05,
+      "yanlis_en_yuksek_p": 0.05
+    },
+    {
+      "id": "C04-44",
+      "taslak_id": "C04-R075",
+      "icerik_sha256": "871f91cd936cfd8622ba2323f0fb3b1a72bc6e03df400446e300dd76e8d8be2e",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.48,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-45",
+      "taslak_id": "C04-R077",
+      "icerik_sha256": "9491d3ae604deed78e5f855144034c6c30145cc825864619e5f94f5053202d89",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.52,
+      "yanlis_en_yuksek_p": 0.13
+    },
+    {
+      "id": "C04-46",
+      "taslak_id": "C04-R082",
+      "icerik_sha256": "e7a8eabc1e955ab1e0923558f4bcfcbd6a950547238d03385fba851fa185ab45",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.45,
+      "yanlis_en_yuksek_p": 0.06
+    },
+    {
+      "id": "C04-47",
+      "taslak_id": "C04-T587",
+      "icerik_sha256": "ac891182bb69a0ba60355b7c0eda2b0e2a995891be9fc4d70b62120022ee5051",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.29,
+      "yanlis_en_yuksek_p": 0.09
+    },
+    {
+      "id": "C04-48",
+      "taslak_id": "C04-T594",
+      "icerik_sha256": "e3aa43ba4fea05425bb5af90cea28e291a5e1889d86d4139625dcfac40ded094",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.18,
+      "yanlis_en_yuksek_p": 0.1
+    },
+    {
+      "id": "C04-49",
+      "taslak_id": "C04-T595",
+      "icerik_sha256": "a858036639fea85039dba145908e364ebf4c665c675acd026cb0654854610b6e",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.42,
+      "yanlis_en_yuksek_p": 0.05
+    },
+    {
+      "id": "C04-50",
+      "taslak_id": "C04-T597",
+      "icerik_sha256": "e4a3b2493cb0886f33619dcc900497bf4d9a1be8124bc9ab644b4907ebc8ea57",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.35,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-51",
+      "taslak_id": "C04-T600",
+      "icerik_sha256": "a9c89b98c52da8ded432165ce89487c2f0c5ac975f4f98f79dc5891f4d5b091e",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.18,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-52",
+      "taslak_id": "C04-T604",
+      "icerik_sha256": "51474493b71ca1f9d25139183107167203583a1b82f55b7c2ad5fcbf4092102b",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.52,
+      "yanlis_en_yuksek_p": 0.16
+    },
+    {
+      "id": "C04-53",
+      "taslak_id": "C04-T605",
+      "icerik_sha256": "ae7996c456b05734b004019dd0110c492f5ff147962289fa849065d3bd53fd15",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.35,
+      "yanlis_en_yuksek_p": 0.06
+    },
+    {
+      "id": "C04-54",
+      "taslak_id": "C04-T609",
+      "icerik_sha256": "99697ec19d4f529b1be47bf0eba01da8063e4ed93accbde830cecdb1f46d6f06",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.12,
+      "yanlis_en_yuksek_p": 0.11
+    },
+    {
+      "id": "C04-55",
+      "taslak_id": "C04-T611",
+      "icerik_sha256": "689c3e4c4051456de440203233a0f9f008c6af3818127e321e7c817352adb365",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.18,
+      "yanlis_en_yuksek_p": 0.1
+    },
+    {
+      "id": "C04-56",
+      "taslak_id": "C04-T710",
+      "icerik_sha256": "2534052984722ad0af2aeddc5a9aaaf1fc72d135afd89560d78ecc9eec85d9db",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.13,
+      "yanlis_en_yuksek_p": 0.14
+    },
+    {
+      "id": "C04-57",
+      "taslak_id": "C04-T719",
+      "icerik_sha256": "5a47815bd3d6dc5475a607224418b43541a819aa837678e7ac95793c5f49c606",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.14,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-58",
+      "taslak_id": "C04-T721",
+      "icerik_sha256": "76e74881c636377f396c62acf6086b8d728164e811c169bcfb71ed295a68b4b3",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.24,
+      "yanlis_en_yuksek_p": 0.09
+    },
+    {
+      "id": "C04-59",
+      "taslak_id": "C04-T780",
+      "icerik_sha256": "82cd2fad352b5573d2f4468c30f70e359c363247c97d6d83eac0e46ae22cfa44",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.1,
+      "yanlis_en_yuksek_p": 0.02
+    },
+    {
+      "id": "C04-60",
+      "taslak_id": "C04-T788",
+      "icerik_sha256": "7f574c35f1e7cc09ca35437490c9912f8abc54734368a47d41e1ae66e27922c2",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.34,
+      "yanlis_en_yuksek_p": 0.05
+    },
+    {
+      "id": "C04-61",
+      "taslak_id": "C04-T797",
+      "icerik_sha256": "d623aaa16be54f9b0ee3cad9f9da6dd15ff25e26223904b926cb3c35a2de0aad",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.22,
+      "yanlis_en_yuksek_p": 0.09
+    },
+    {
+      "id": "C04-62",
+      "taslak_id": "C04-T798",
+      "icerik_sha256": "510e6a56301a6d39b4a5bf35589f0633e3f79ff83fb648ac10f645f2043eb81d",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.09,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-63",
+      "taslak_id": "C04-T801",
+      "icerik_sha256": "5f1e4b333149f6e5cbb6562ba2ec3fa8e2e311ea4257b9f43c1d5f47c3138c73",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.26,
+      "yanlis_en_yuksek_p": 0.05
+    },
+    {
+      "id": "C04-64",
+      "taslak_id": "C04-T802",
+      "icerik_sha256": "1ec241801dba616dfceb480e70a7619fbaddc6e84bfdca73691ead66f562a769",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.12,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-65",
+      "taslak_id": "C04-R339",
+      "icerik_sha256": "701a8afc46f1be1f11eba56def5d3b98841d88f153f6a498ee26d1441c19094c",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.43,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-66",
+      "taslak_id": "C04-R371",
+      "icerik_sha256": "f069886a2f38694e4519bc7faf273d4076b4f8fb420874e2123c1897d7eac4ed",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.39,
+      "yanlis_en_yuksek_p": 0.17
+    },
+    {
+      "id": "C04-67",
+      "taslak_id": "C04-T619",
+      "icerik_sha256": "d563a457c899136e5d40c8f14d7bdde4f517312132969994d5a56773f00ea8bb",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.19,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-68",
+      "taslak_id": "C04-T620",
+      "icerik_sha256": "c8d72f1fecda4a971f8984de19079ad1d0831eb7c3616dc29cada9121bf13d56",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.08,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-69",
+      "taslak_id": "C04-T621",
+      "icerik_sha256": "590fe49e5c69d60271ced4060a7ddf7448c7cb21be11136274d5744cff1f0a78",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.37,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-70",
+      "taslak_id": "C04-T622",
+      "icerik_sha256": "334bf760b97848270441f680984aef9cfbf874760266f80ee00a6eb8d58186a9",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.12,
+      "yanlis_en_yuksek_p": 0.05
+    },
+    {
+      "id": "C04-71",
+      "taslak_id": "C04-T623",
+      "icerik_sha256": "069fc335f266fb3eca39e953aea3d6e0918a8f3db62d22c7e501b3c69a2fd74c",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.39,
+      "yanlis_en_yuksek_p": 0.06
+    },
+    {
+      "id": "C04-72",
+      "taslak_id": "C04-T725",
+      "icerik_sha256": "f0456809ab7b99b332c2ac16a649cdfd1e1102538464b87684e647a18a06a229",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.22,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-73",
+      "taslak_id": "C04-R123",
+      "icerik_sha256": "4d8169e792a30e28783ebb4a0bd0b734d103910f3593b9cff1ea134cc377a9ed",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.37,
+      "yanlis_en_yuksek_p": 0.02
+    },
+    {
+      "id": "C04-74",
+      "taslak_id": "C04-R290",
+      "icerik_sha256": "709b45cff278c953c2fd314e2aded7b2ffa9581e16672bb0cc84d93b1c5ea10d",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.61,
+      "yanlis_en_yuksek_p": 0.02
+    },
+    {
+      "id": "C04-75",
+      "taslak_id": "C04-R344",
+      "icerik_sha256": "dad5c1519c873a0ab60c65b39b136e437a1f2edc59f4442c0b157b1e2ee63944",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.43,
+      "yanlis_en_yuksek_p": 0.02
+    },
+    {
+      "id": "C04-76",
+      "taslak_id": "C04-T627",
+      "icerik_sha256": "fb9dbd4ae03eefc25020f6f8eb2ea5fe614801dc83e714adcbc4fb65dbcd7d32",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.14,
+      "yanlis_en_yuksek_p": 0.08
+    },
+    {
+      "id": "C04-77",
+      "taslak_id": "C04-T630",
+      "icerik_sha256": "70bcd0b3a9f9459b5902c8c8a2b592cb3cb7841406668e9d2bfc81b1dd2fabb7",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.31,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-78",
+      "taslak_id": "C04-T634",
+      "icerik_sha256": "bf5e2dc698f6ab625ea0e5f88a3f40efbdcd9c25e33711cdbec8f3825cc001e6",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.58,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-79",
+      "taslak_id": "C04-T635",
+      "icerik_sha256": "ddd0c4e6b67a486645c1d0ae79461d648ebfc7d5d2fd56490981b0ec7e5c7cae",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.2,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-80",
+      "taslak_id": "C04-T636",
+      "icerik_sha256": "4052802cec59dafc73e4f72b6ef126120be787a0df2dbaa5fa11ecb272664f1e",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.23,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-81",
+      "taslak_id": "C04-T637",
+      "icerik_sha256": "6c3b72da62abcd56d5d1f73723b980e9bffb119898dd256e6aef25e5a21dc8fd",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.45,
+      "yanlis_en_yuksek_p": 0.11
+    },
+    {
+      "id": "C04-82",
+      "taslak_id": "C04-T639",
+      "icerik_sha256": "2508bdbecfe894b32f215dc98fae31d3784b9c4a8e7d9b1c7ac138f52f96bbf0",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.05,
+      "yanlis_en_yuksek_p": 0.06
+    },
+    {
+      "id": "C04-83",
+      "taslak_id": "C04-T640",
+      "icerik_sha256": "0be0c652842d1791d4c7af9bd7c21e3fe1b0c5697b5c04fd46fe78a15503e703",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.11,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-84",
+      "taslak_id": "C04-T641",
+      "icerik_sha256": "e3a01958f4a6a642b20c032e2c0eefbde00a5a4938cf6bb0ab94ed7c496c49bd",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.05,
+      "yanlis_en_yuksek_p": 0.1
+    },
+    {
+      "id": "C04-85",
+      "taslak_id": "C04-T642",
+      "icerik_sha256": "ba0452def7c5f8d7105d130dee37cce53d19f29d51cf36fa62ca0d51bd567df0",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.39999999999999997,
+      "yanlis_en_yuksek_p": 0.08
+    },
+    {
+      "id": "C04-86",
+      "taslak_id": "C04-T644",
+      "icerik_sha256": "fea2f2f71ab09976d182db4228c586926b9a9f93b1adfe0a7034a030302932f5",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.35,
+      "yanlis_en_yuksek_p": 0.06
+    },
+    {
+      "id": "C04-87",
+      "taslak_id": "C04-T728",
+      "icerik_sha256": "7cfd65841c8da7f2e941d0af83bdbc35a6f71dbcdcc8a56c5f4ba5b8494dea7f",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.06,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-88",
+      "taslak_id": "C04-T729",
+      "icerik_sha256": "cf7db4f7d4768799f8785f17a9457b13760e78ca33f748eca3198da2b05fd6d2",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.23,
+      "yanlis_en_yuksek_p": 0.08
+    },
+    {
+      "id": "C04-89",
+      "taslak_id": "C04-T651",
+      "icerik_sha256": "25dba9c3886880243a6371af3e055265e4e69c83ea71a3eedbe506e1499d8c11",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.2,
+      "yanlis_en_yuksek_p": 0.13
+    },
+    {
+      "id": "C04-90",
+      "taslak_id": "C04-T657",
+      "icerik_sha256": "35b5fd485253eca7910e0b46e52b61f02db49bf31b9331fb26617113dedfb6da",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.38,
+      "yanlis_en_yuksek_p": 0.02
+    },
+    {
+      "id": "C04-91",
+      "taslak_id": "C04-T658",
+      "icerik_sha256": "39ee505c8292a11b1c8d724c9f0f0dab91281d0484d30d17b37a0d7f00c34b99",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.33,
+      "yanlis_en_yuksek_p": 0.07
+    },
+    {
+      "id": "C04-92",
+      "taslak_id": "C04-T659",
+      "icerik_sha256": "547c9911eb6a7b01109ee41c20378feed19512fd52fe9a6d718cbb028d639d3e",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.28,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-93",
+      "taslak_id": "C04-T663",
+      "icerik_sha256": "ec7554834e4b22d681c0cb6fbb391bfb812693388cbc78cdc27e1c77bf2299b4",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.38,
+      "yanlis_en_yuksek_p": 0.07
+    },
+    {
+      "id": "C04-94",
+      "taslak_id": "C04-T736",
+      "icerik_sha256": "24c937431c118bf4a648b02313671902f629cc36b32b13e110598e7e22bad835",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.29,
+      "yanlis_en_yuksek_p": 0.05
+    },
+    {
+      "id": "C04-95",
+      "taslak_id": "C04-T737",
+      "icerik_sha256": "c8c9e478918daea348d0142c7f3961645f786e343116b8d28bce63c858265d5b",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.28,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-96",
+      "taslak_id": "C04-R402",
+      "icerik_sha256": "f627cedf9faf9ed8d2fc80bf340003de7d415dce428bb9219946703b9c080bb0",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.4,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-97",
+      "taslak_id": "C04-R419",
+      "icerik_sha256": "b73567837291ecf349588d07373c6538cad702f90223271a218ab494e76d947d",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.64,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-98",
+      "taslak_id": "C04-T427",
+      "icerik_sha256": "0c96879e8d726ae560f90d903a92daf2b4029b9a0e9122c9e138770663a3179b",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.26,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-99",
+      "taslak_id": "C04-T428",
+      "icerik_sha256": "4826a1299140a45a4b945c21189ab2c30db9b9fef9b200b246fb1f625b84757a",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.15,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-100",
+      "taslak_id": "C04-T430",
+      "icerik_sha256": "8d9d70d19bb8311ac28ea0e6160a7beca7108a8a01747675e9ff4fb339f2b11d",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.38,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-101",
+      "taslak_id": "C04-T432",
+      "icerik_sha256": "827b7862bb3c192179000dd396d28780680634c0ab0153a2d1ca8ec5b03d2899",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.36,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-102",
+      "taslak_id": "C04-T433",
+      "icerik_sha256": "dfae720a9ff941fc2daf66f8c5e1dc9b66a28d2479303d9a18b0d1d6984351e7",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.58,
+      "yanlis_en_yuksek_p": 0.06
+    },
+    {
+      "id": "C04-103",
+      "taslak_id": "C04-T434",
+      "icerik_sha256": "b16df25c1af9803a69d88655a17f77214e7f7d1b2562653591cb1a35ea22c965",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.23,
+      "yanlis_en_yuksek_p": 0.15
+    },
+    {
+      "id": "C04-104",
+      "taslak_id": "C04-T440",
+      "icerik_sha256": "67c07ac9ea6ef6e61d1333b1a01a1b0f527e586f9719c1758e7d888ff00a815b",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.42,
+      "yanlis_en_yuksek_p": 0.08
+    },
+    {
+      "id": "C04-105",
+      "taslak_id": "C04-T441",
+      "icerik_sha256": "fc1bcd503c5bbf0a9d6fe108ea5faea6d15f25454deaffa89121c51c13e4f3da",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.11,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-106",
+      "taslak_id": "C04-T442",
+      "icerik_sha256": "58fbd7bf282894c8f422d6194849440042ef916995234352f318796b81ba6e9c",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.7,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-107",
+      "taslak_id": "C04-T443",
+      "icerik_sha256": "b08440b7685ae3898ccd9b756b5e3a80f600d64299b3f9d359f08ee33a2995e4",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.42,
+      "yanlis_en_yuksek_p": 0.05
+    },
+    {
+      "id": "C04-108",
+      "taslak_id": "C04-T447",
+      "icerik_sha256": "797d4a46e729fba8420a62fd66ddd6b7b47da7de2723bbd26b579a37a3dce7d6",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.13,
+      "yanlis_en_yuksek_p": 0.05
+    },
+    {
+      "id": "C04-109",
+      "taslak_id": "C04-T450",
+      "icerik_sha256": "31e8c23d2dc6267d73a7fb74427678a3123a2756c51daef573611b0e1c04f80b",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.53,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-110",
+      "taslak_id": "C04-T451",
+      "icerik_sha256": "242fb0581e280d29373bb7ddfa863b83548df0c7342c8f3652f351bc04a1687c",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.73,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-111",
+      "taslak_id": "C04-T452",
+      "icerik_sha256": "4c995a5ef6d2fe71cb365deb230e8f8cd5b5e2b79a976de6f259dbb4717d99b3",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.05,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-112",
+      "taslak_id": "C04-T453",
+      "icerik_sha256": "f8a9afe6d266efed345fb2cdb54c0e2a14f6c5138220fdbe1ba55796c5c03efc",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.11,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-113",
+      "taslak_id": "C04-T699",
+      "icerik_sha256": "717e4f170f1384fcaad557968f8b3fbfb8b640a4709530388b791527a8ee1b21",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.19,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-114",
+      "taslak_id": "C04-T700",
+      "icerik_sha256": "5126e8f7b7560d73a15fef72197bca3f5196a61843945b66ed53b85cb01401d1",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.67,
+      "yanlis_en_yuksek_p": 0.05
+    },
+    {
+      "id": "C04-115",
+      "taslak_id": "C04-T766",
+      "icerik_sha256": "ee09efcec99ce2a82cdd54c09842af5d0dc9ba7a43fb961fcfc172e1e66b21ce",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.32,
+      "yanlis_en_yuksek_p": 0.02
+    },
+    {
+      "id": "C04-116",
+      "taslak_id": "C04-T767",
+      "icerik_sha256": "0c7e491dfc88aa3843da083a4bd61d0130aecf2eddbc27367992829339903091",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.21,
+      "yanlis_en_yuksek_p": 0.02
+    },
+    {
+      "id": "C04-117",
+      "taslak_id": "C04-T456",
+      "icerik_sha256": "21ee08f2b63d80835b56bbb255983d866cfc8204c3557346c36eab54424d1c06",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.21,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-118",
+      "taslak_id": "C04-T460",
+      "icerik_sha256": "a5d52af9243306cee1454b723d6551a3a03410a5ae48e916f92d1c3c55b60d24",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.22,
+      "yanlis_en_yuksek_p": 0.11
+    },
+    {
+      "id": "C04-119",
+      "taslak_id": "C04-T461",
+      "icerik_sha256": "041231c4a58b79e1fdbb693c978eaac75b86894219d5cfa392c2641b162fb53c",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.45,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-120",
+      "taslak_id": "C04-T463",
+      "icerik_sha256": "740c7e8f929d83e5e08ddb597534e446445460eafb4eff19ab1a8d094504374f",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.14,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-121",
+      "taslak_id": "C04-T464",
+      "icerik_sha256": "f58a0aded383641885353fe02a9f55030a7ed685001b884e555d1a803d1a3971",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.13,
+      "yanlis_en_yuksek_p": 0.05
+    },
+    {
+      "id": "C04-122",
+      "taslak_id": "C04-T466",
+      "icerik_sha256": "4993389870cb817b362eb59aed36e4ea5fe8bf6f8ae55b1c376501d388fd5231",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.3,
+      "yanlis_en_yuksek_p": 0.02
+    },
+    {
+      "id": "C04-123",
+      "taslak_id": "C04-T467",
+      "icerik_sha256": "86f55872596a7dabc57de5516a7218a4dc7a722010998cca41aabe3109a1e1e7",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.11,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-124",
+      "taslak_id": "C04-T469",
+      "icerik_sha256": "10a4c9c6cdca83db7adbc943d8c7c1b79e6f85a15b78407b5334ac9526785117",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.09,
+      "yanlis_en_yuksek_p": 0.05
+    },
+    {
+      "id": "C04-125",
+      "taslak_id": "C04-T768",
+      "icerik_sha256": "23577f401c13509f2ee31de31f877850f2e45b804e8f7e38da083957151ba29a",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.12,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-126",
+      "taslak_id": "C04-R173",
+      "icerik_sha256": "3eb1de64dab5263a93cedb0c0b8bd401809fd8f6a98bbb6ff46385e82c6cf046",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.21,
+      "yanlis_en_yuksek_p": 0.02
+    },
+    {
+      "id": "C04-127",
+      "taslak_id": "C04-R176",
+      "icerik_sha256": "586403692e33ab30b61931edd76dff07e1d902834bc847ecf6c2c7f1784daab4",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.57,
+      "yanlis_en_yuksek_p": 0.02
+    },
+    {
+      "id": "C04-128",
+      "taslak_id": "C04-R178",
+      "icerik_sha256": "4310ca9a8e279effecfd6ac1445b38050e8f9753de1b5a9b0b970f3536e8824a",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.61,
+      "yanlis_en_yuksek_p": 0.02
+    },
+    {
+      "id": "C04-129",
+      "taslak_id": "C04-R180",
+      "icerik_sha256": "0dc2149808a21bd93ca5e027323f4f8e936ca9bfae18515c4b14b303ce0b36cb",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.57,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-130",
+      "taslak_id": "C04-R189",
+      "icerik_sha256": "9c7b332a809c8129a9a0fcc3af855eab0f377d32abe0fa7b7baec681d2b5886f",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.37,
+      "yanlis_en_yuksek_p": 0.02
+    },
+    {
+      "id": "C04-131",
+      "taslak_id": "C04-R190",
+      "icerik_sha256": "e4286e373e7fc3243143aed50d1074bdd1fc070effaa8b874e2d1d9fee5d6db5",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.31,
+      "yanlis_en_yuksek_p": 0.02
+    },
+    {
+      "id": "C04-132",
+      "taslak_id": "C04-R191",
+      "icerik_sha256": "207559be821d35091421266516fe2fa9f5f4d8b8f982e615e16c0b0473fd50ac",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.17,
+      "yanlis_en_yuksek_p": 0.02
+    },
+    {
+      "id": "C04-133",
+      "taslak_id": "C04-R308",
+      "icerik_sha256": "186e700323593e13be06123a133270bdc63b39bcccd9e41d4e2261814381d717",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.61,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-134",
+      "taslak_id": "C04-R347",
+      "icerik_sha256": "d4322895a0a7834513a4124385a7e3a8c15d2ddc4bac3dccac9a03ae11634421",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.48,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-135",
+      "taslak_id": "C04-R349",
+      "icerik_sha256": "3ce249304afca7310048e600dbc9e5528b5e746366536b1488f557d31b6026df",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.3,
+      "yanlis_en_yuksek_p": 0.05
+    },
+    {
+      "id": "C04-136",
+      "taslak_id": "C04-R350",
+      "icerik_sha256": "c5b0ebeca4052d2ff40b82fb87c588ad3d23766c2d654233de7642b7576bcb97",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.52,
+      "yanlis_en_yuksek_p": 0.08
+    },
+    {
+      "id": "C04-137",
+      "taslak_id": "C04-R380",
+      "icerik_sha256": "65478788a5dff8cd5d313a28e42d96c5c104413bda02ad997caa49780598a8eb",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.39,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-138",
+      "taslak_id": "C04-R381",
+      "icerik_sha256": "31571edc43d46b50e47eca7221170dc84650194d4d35f9b82884082b79967c21",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.42,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-139",
+      "taslak_id": "C04-R382",
+      "icerik_sha256": "a2546225d4efb63144c79a323715c53f7e12b842ee46fcd34d7ab265d7ef38c4",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.47,
+      "yanlis_en_yuksek_p": 0.12
+    },
+    {
+      "id": "C04-140",
+      "taslak_id": "C04-T664",
+      "icerik_sha256": "5b3cc4339edea3d7786702858d1110e27b9e565d342b85423503873b4ba582aa",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.39,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-141",
+      "taslak_id": "C04-T666",
+      "icerik_sha256": "c97f510cd16d78839b6e650ece343ca1057ffd2e1d3ad664f2442a5c7be802cf",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.02,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-142",
+      "taslak_id": "C04-T667",
+      "icerik_sha256": "54a4821a23f8e6e77ad01146e3045d173c0ddb13d838db359220721c322a76b2",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.51,
+      "yanlis_en_yuksek_p": 0.22
+    },
+    {
+      "id": "C04-143",
+      "taslak_id": "C04-T672",
+      "icerik_sha256": "cf582650f5707b81ba308c325745fb4bd61082e45fbd5b742464fdaf9566bf96",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.13,
+      "yanlis_en_yuksek_p": 0.05
+    },
+    {
+      "id": "C04-144",
+      "taslak_id": "C04-T675",
+      "icerik_sha256": "50ca06e2d79447511acc00ada23d101a414567a4822dde86b43f702260b40a13",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.53,
+      "yanlis_en_yuksek_p": 0.07
+    },
+    {
+      "id": "C04-145",
+      "taslak_id": "C04-T676",
+      "icerik_sha256": "f33186ed69f5fc7dd7ca440977fa77ebab754fac9a0c6d62f1e671e421be092a",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.44,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-146",
+      "taslak_id": "C04-T477",
+      "icerik_sha256": "1976bab30522f65702e375d01fc4dd373b58114c80657b563e53e15e46bd388b",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.36,
+      "yanlis_en_yuksek_p": 0.05
+    },
+    {
+      "id": "C04-147",
+      "taslak_id": "C04-T478",
+      "icerik_sha256": "ab28732ed8f4e88958acb490b7d75f71a67f118ce18fffe131410f208d7b2a5d",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.32,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-148",
+      "taslak_id": "C04-T482",
+      "icerik_sha256": "45b0f04232ff1358facc8cd1c4e0f32d910cb4c0850ef0641d4ebe76229c2e98",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.15,
+      "yanlis_en_yuksek_p": 0.07
+    },
+    {
+      "id": "C04-149",
+      "taslak_id": "C04-T483",
+      "icerik_sha256": "efb81455d2b225997cff6657f1137dc730653097699b9a10c88b1ed28a36f4e6",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.45,
+      "yanlis_en_yuksek_p": 0.05
+    },
+    {
+      "id": "C04-150",
+      "taslak_id": "C04-T485",
+      "icerik_sha256": "9d5f8f8dae4869eb3700e6f28b17246d06818e50808b77295af86a2f34c769e1",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.31,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-151",
+      "taslak_id": "C04-T486",
+      "icerik_sha256": "3d8ecbf4f9caf918bc212839fe5e1c8c8a243d1edfa932560b2f795a14b8bf41",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.19,
+      "yanlis_en_yuksek_p": 0.09
+    },
+    {
+      "id": "C04-152",
+      "taslak_id": "C04-T487",
+      "icerik_sha256": "14db7b783b113a40b67b8c742d2069a9fbca8affec311f93f0932b864aa94f72",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.41,
+      "yanlis_en_yuksek_p": 0.08
+    },
+    {
+      "id": "C04-153",
+      "taslak_id": "C04-T488",
+      "icerik_sha256": "cb117e56b88bfad8a47d8431fef541dadcc3eb4982ef7929fdd049d73038a881",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.39,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-154",
+      "taslak_id": "C04-T489",
+      "icerik_sha256": "3d93922e664be5d9fb9f0a01e886c1b57d8ef5cdca33d6ebc9adefdb3553407f",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.59,
+      "yanlis_en_yuksek_p": 0.07
+    },
+    {
+      "id": "C04-155",
+      "taslak_id": "C04-T490",
+      "icerik_sha256": "d437990ae53880f28003773ecebbba8e3ffb4fd3d24d3e554aff02d771193676",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.41,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-156",
+      "taslak_id": "C04-T491",
+      "icerik_sha256": "48d5c3b0dc21b4169d2ae90eabe55a0be17778ebc3b247f00082b503e9f6c876",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.19,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-157",
+      "taslak_id": "C04-T492",
+      "icerik_sha256": "608dca5852b770e35e4aa773a329913089cac82fbd655324bc2b8973e7bcf524",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.15,
+      "yanlis_en_yuksek_p": 0.08
+    },
+    {
+      "id": "C04-158",
+      "taslak_id": "C04-T493",
+      "icerik_sha256": "d4c17e8e5ccbc698b5eddbc8adfdfb6ba5789f9f3e05a4b6cfad8d1552cb8ffc",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.24,
+      "yanlis_en_yuksek_p": 0.11
+    },
+    {
+      "id": "C04-159",
+      "taslak_id": "C04-T495",
+      "icerik_sha256": "5924bb0ba075cd4f9e23d92551256d601e6cfb4d3baa0ac91a26165ea7df6af0",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.43,
+      "yanlis_en_yuksek_p": 0.14
+    },
+    {
+      "id": "C04-160",
+      "taslak_id": "C04-T499",
+      "icerik_sha256": "fcb44e176b0fa12db1fc5f6683dd807039d6317676d05e612d314ba40b604fb4",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.06,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-161",
+      "taslak_id": "C04-T500",
+      "icerik_sha256": "07f05a6a1cfa59287d2d135a5ae0e256a89b02f84da238a4142cb45714331b90",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.14,
+      "yanlis_en_yuksek_p": 0.11
+    },
+    {
+      "id": "C04-162",
+      "taslak_id": "C04-T519",
+      "icerik_sha256": "20af40c580b1fcce5d1fe597c1779e37161449219030dd6b04f96bfb81451f0d",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.19,
+      "yanlis_en_yuksek_p": 0.07
+    },
+    {
+      "id": "C04-163",
+      "taslak_id": "C04-T520",
+      "icerik_sha256": "d951a25a28b284c1df994e9a08d69489fd3f84ae1402dcb69d31580d38515207",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.16,
+      "yanlis_en_yuksek_p": 0.15
+    },
+    {
+      "id": "C04-164",
+      "taslak_id": "C04-T521",
+      "icerik_sha256": "ad138e78276404b01d15d93d4e8c973d25955a654850c6de8e484fb032d515a9",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.53,
+      "yanlis_en_yuksek_p": 0.05
+    },
+    {
+      "id": "C04-165",
+      "taslak_id": "C04-T525",
+      "icerik_sha256": "3fa57b07299d5c085c8888db76959ac12368af8c561f97970776c44ae37fee2b",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.27,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-166",
+      "taslak_id": "C04-T527",
+      "icerik_sha256": "00fdfd37f5334bb7955129c8acd7b4bfb8ad8e9b97937fc685865d2dcbfd0482",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.47,
+      "yanlis_en_yuksek_p": 0.06
+    },
+    {
+      "id": "C04-167",
+      "taslak_id": "C04-T529",
+      "icerik_sha256": "c71c8b61261649df25a0000baebc90775094823519b40fb173bb0e23ffc16895",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.17,
+      "yanlis_en_yuksek_p": 0.05
+    },
+    {
+      "id": "C04-168",
+      "taslak_id": "C04-T789",
+      "icerik_sha256": "af9a170635a2c0eda46577e9563782cb9180a5293f724df4a00480196c268789",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.04,
+      "yanlis_en_yuksek_p": 0.05
+    },
+    {
+      "id": "C04-169",
+      "taslak_id": "C04-T790",
+      "icerik_sha256": "72ce91b6ad6ab929814c91c6a23001d23893d9c1ed59cdb9e370ad09b1693414",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.37,
+      "yanlis_en_yuksek_p": 0.09
+    },
+    {
+      "id": "C04-170",
+      "taslak_id": "C04-T792",
+      "icerik_sha256": "30f6b4c80207c510224bbec234ce029c8e67a5735db421fc991ab0c3bebd8427",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.14,
+      "yanlis_en_yuksek_p": 0.09
+    },
+    {
+      "id": "C04-171",
+      "taslak_id": "C04-T501",
+      "icerik_sha256": "fb534fefce530ba1a53c937ed5c3316b51c9d2365a0de27ede8ec44c221e7928",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.21,
+      "yanlis_en_yuksek_p": 0.23
+    },
+    {
+      "id": "C04-172",
+      "taslak_id": "C04-T504",
+      "icerik_sha256": "63aba7057622d87f686c34200314adc3d63e679b70c1f2f728117208d2d077e8",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.03,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-173",
+      "taslak_id": "C04-T509",
+      "icerik_sha256": "ea59c218aedc54aaabd2e4069038a9a77b1698bc24cb8e0d03877e6d9277e36c",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.17,
+      "yanlis_en_yuksek_p": 0.06
+    },
+    {
+      "id": "C04-174",
+      "taslak_id": "C04-T512",
+      "icerik_sha256": "38baa54ba2797b94821899450e74b3fe79657474b2282a573817fd1f59ab53bf",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.57,
+      "yanlis_en_yuksek_p": 0.07
+    },
+    {
+      "id": "C04-175",
+      "taslak_id": "C04-T513",
+      "icerik_sha256": "9e2f9c6b04556b80c717fd9ed18ceff0cbd77e721825f430149b17b4c4810e94",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.17,
+      "yanlis_en_yuksek_p": 0.05
+    },
+    {
+      "id": "C04-176",
+      "taslak_id": "C04-T514",
+      "icerik_sha256": "42b6fcac0ca294e89722e25333afb11f7cc1ff3d9394cc3ad70a9d138fd1dbfd",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.15,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-177",
+      "taslak_id": "C04-T516",
+      "icerik_sha256": "6c17eb47a4eb05968d1f33b689695a5145a06b5e0b608840b6856f3867c3af98",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.13,
+      "yanlis_en_yuksek_p": 0.08
+    },
+    {
+      "id": "C04-178",
+      "taslak_id": "C04-T517",
+      "icerik_sha256": "85c28c5202102207d14a6d83503114cdc90cb1d6a7225499fde760d79bcc6a2e",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.14,
+      "yanlis_en_yuksek_p": 0.09
+    },
+    {
+      "id": "C04-179",
+      "taslak_id": "C04-T535",
+      "icerik_sha256": "34d156fa9ae5ffe15b6d62037a7315c7056c61b646821557c0605448a2292dd8",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.49,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-180",
+      "taslak_id": "C04-T536",
+      "icerik_sha256": "f76e8eb4c39021e89dbfddadaf738441f47ec6579e997021d65be70e21561a69",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.42,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-181",
+      "taslak_id": "C04-T537",
+      "icerik_sha256": "7eae631b45e61dbbff9ed0c5b7aebc8597bfb048f97400053071c93e6497f5c6",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.22,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-182",
+      "taslak_id": "C04-R217",
+      "icerik_sha256": "dfcfc26480f56d8e7e645a1f745553030413c3f5be3823ad71da29a77585f39d",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.23,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-183",
+      "taslak_id": "C04-R219",
+      "icerik_sha256": "3557608cb7ae3183bb322f88a6cd99de4a1ce665f42f9a29789e35eda73d0458",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.08,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-184",
+      "taslak_id": "C04-R238",
+      "icerik_sha256": "ba697a9a58a0cfd7adfce7170b4396e7f9839a402c09fd05321532e6204e5d74",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.63,
+      "yanlis_en_yuksek_p": 0.32
+    },
+    {
+      "id": "C04-185",
+      "taslak_id": "C04-R241",
+      "icerik_sha256": "7df2dd2c9e9c8878f3b956b767b8d96b0a321119b32ba949752c7623805157c1",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.53,
+      "yanlis_en_yuksek_p": 0.02
+    },
+    {
+      "id": "C04-186",
+      "taslak_id": "C04-R303",
+      "icerik_sha256": "84a149a11886b637c6cac34507acfc55ed675adefdd7b380e55105e288924814",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.38,
+      "yanlis_en_yuksek_p": 0.18
+    },
+    {
+      "id": "C04-187",
+      "taslak_id": "C04-R357",
+      "icerik_sha256": "4e7c47bf1693d11daf159752f74fdfd2fb3145081b38d71e5f40b91acf28a1a8",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.08,
+      "yanlis_en_yuksek_p": 0.05
+    },
+    {
+      "id": "C04-188",
+      "taslak_id": "C04-R359",
+      "icerik_sha256": "609719a534e1f2dcc85112f624098dc8ef1ebbbe5f748deb5f9cebe31fc7328c",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.52,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-189",
+      "taslak_id": "C04-R360",
+      "icerik_sha256": "e739d7110ee8ddc655a4e4822a600e771699cf8d0e728f3f04c632cbd5f8637f",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.51,
+      "yanlis_en_yuksek_p": 0.05
+    },
+    {
+      "id": "C04-190",
+      "taslak_id": "C04-R383",
+      "icerik_sha256": "c2ad2b3efb1871e5efadfcce118f1c1d550b5846f9855bac29d38a4f89c4e124",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.45,
+      "yanlis_en_yuksek_p": 0.06
+    },
+    {
+      "id": "C04-191",
+      "taslak_id": "C04-R387",
+      "icerik_sha256": "f406f2e79357ea7e9c5841fe3e96df063dddb7924fb2525d739b08772844d7b3",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.54,
+      "yanlis_en_yuksek_p": 0.03
+    },
+    {
+      "id": "C04-192",
+      "taslak_id": "C04-T741",
+      "icerik_sha256": "2573e0e9e42c10583b36ce1a94e7c8cda8f155f34adec11d9319889d9caa302d",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.1,
+      "yanlis_en_yuksek_p": 0.05
+    },
+    {
+      "id": "C04-193",
+      "taslak_id": "C04-T742",
+      "icerik_sha256": "e82023e8f2370d936a1daea654f1891b4295ce650c1a7d5195f1085ce1587de0",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.17,
+      "yanlis_en_yuksek_p": 0.05
+    },
+    {
+      "id": "C04-194",
+      "taslak_id": "C04-T744",
+      "icerik_sha256": "64cfc474eea0ae488c8be4cd80b27a51ae339bac465e035696bf3e3b42811519",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.17,
+      "yanlis_en_yuksek_p": 0.04
+    },
+    {
+      "id": "C04-195",
+      "taslak_id": "C04-T683",
+      "icerik_sha256": "44e293beadb0c4308602b7f3ce118f85fc11328ca904556b560c9126d2c50079",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.17,
+      "yanlis_en_yuksek_p": 0.05
+    },
+    {
+      "id": "C04-196",
+      "taslak_id": "C04-T687",
+      "icerik_sha256": "31996fcff3140584443d84aaae17983e6274b22a10b0e665c35ad5787cb79bd1",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.15,
+      "yanlis_en_yuksek_p": 0.09
+    },
+    {
+      "id": "C04-197",
+      "taslak_id": "C04-T689",
+      "icerik_sha256": "ad247f1a588576b9c06a721d5b9413eb0e436ca38cef73c9f663419d45f7714e",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.28,
+      "yanlis_en_yuksek_p": 0.11
+    },
+    {
+      "id": "C04-198",
+      "taslak_id": "C04-T692",
+      "icerik_sha256": "3651a1c8a999cdea3b395e584ac50f690cc92db5d49dcf794b9391f5fcc0f51b",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.17,
+      "yanlis_en_yuksek_p": 0.05
+    },
+    {
+      "id": "C04-199",
+      "taslak_id": "C04-T748",
+      "icerik_sha256": "141ab4aa01047cfa0f4445c85c42860092b0b768c81709e80664c294fa5e14b3",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.18,
+      "yanlis_en_yuksek_p": 0.19
+    },
+    {
+      "id": "C04-200",
+      "taslak_id": "C04-T749",
+      "icerik_sha256": "6f1245167084f2d4cbb26d1c1d58c5f3b1131f4e886623b0db849589c37d491e",
+      "kapilar": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "kapi3_ortam": "yerel SQL",
+      "ipucu_p": 0.08,
+      "yanlis_en_yuksek_p": 0.09
+    }
+  ],
+  "jev_on_kontrol": {
+    "evet": 472,
+    "belirsiz": 128
+  },
+  "yazar_tekrar_degerlendirmesi": [
+    {
+      "taslak_id": "C04-R357",
+      "karar": "farklı olgu",
+      "gerekce": "Yara izinin biçimi; eşleşmeler yazar, okul ve Peeves kimliği."
+    },
+    {
+      "taslak_id": "C04-R064",
+      "karar": "farklı olgu",
+      "gerekce": "Come Together albümü; eşleşme albüm kapak görüntüsü."
+    },
+    {
+      "taslak_id": "C04-T433",
+      "karar": "farklı olgu",
+      "gerekce": "Einstein mektup imzası; eşleşme göreliliği geliştirmesi."
+    },
+    {
+      "taslak_id": "C04-T675",
+      "karar": "farklı olgu",
+      "gerekce": "Alex karakterinin müzik tutkusu; eşleşme Beethoven senfonileri."
+    }
+  ],
+  "not": "600 EN/kategori/zorluk kontrolünde belirsizler yazar tarafından değerlendirildi. Göreli zorluk ve son doğruluk Claude hakemliğinde; Jev onayı tek başına doğruluk garantisi değildir."
+}

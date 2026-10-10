@@ -12,6 +12,7 @@
 //
 // Kullanım: node araclar/soru-uretim/uret-migration-parti.mjs --parti 1 --no 291 [--kontrol]
 import fs from 'node:fs';
+import {yerelDb} from './codex-yerel.mjs';
 import { PgIstemci, baglantiDizgisi } from '../pg-mini.mjs';
 import { hamKapiSorgusu } from '../soru_denetim/kapi.mjs';
 import { kuralIsaretleri, agirIsaretler } from '../soru-parti-1000/kural.mjs';
@@ -90,7 +91,7 @@ ${codexHatti ? `-- Kalite: Codex yazımı; codex-kapi.mjs kapı 1–5 (TR/EN bi�
 -- bu işlemde eklenen satırların şıkları karıştırılır — TR ve EN AYNI permütasyonla
 -- (dogru_cevap indeksi ortak olduğu için şart). \`created_at >= transaction_timestamp()\`
 -- koşulu ZORUNLUDUR; onsuz tüm havuz karışır ve oynanan maçlarda indeks kayar.
--- Üretici: node araclar/soru-uretim/uret-migration-parti.mjs --parti ${parti} --no ${no}${arg('--klasor') ? ` --klasor ${klasorAd}` : ''}${arg('--ad') ? ` --ad ${dosyaAd}` : ''}${cevirisiz ? ' --cevirisiz' : ''}${apiHatti ? ' --api' : ''}${codexHatti ? ' --codex' : ''}${bekleyen ? ' --bekleyen' : ''}${codexHatti && !bekleyen ? ' --onayli' : ''}
+-- Üretici: node araclar/soru-uretim/uret-migration-parti.mjs --parti ${parti} --no ${no}${arg('--klasor') ? ` --klasor ${klasorAd}` : ''}${arg('--ad') ? ` --ad ${dosyaAd}` : ''}${cevirisiz ? ' --cevirisiz' : ''}${apiHatti ? ' --api' : ''}${codexHatti ? ' --codex' : ''}${bekleyen ? ' --bekleyen' : ''}${process.argv.includes('--yerel') ? ' --yerel' : ''}${codexHatti && !bekleyen ? ' --onayli' : ''}
 -- ============================================================
 
 insert into public.questions (soru, secenekler, dogru_cevap, kategori, kapsam, ulke, zorluk) values
@@ -151,7 +152,11 @@ async function main() {
     console.error(`KAPI 1 (biçim/kural) — ${bicim.length} soru takıldı:\n` + bicim.join('\n'));
     process.exit(1);
   }
-  const db = await new PgIstemci(await baglantiDizgisi()).baglan();
+  const codexDurum=new URL('../../.tmp/codex/'+klasorAd+'/durum.json',import.meta.url);
+  const seriDurum=codexHatti?JSON.parse(fs.readFileSync(new URL('./durum.json',import.meta.url),'utf8')).codex_seri?.partiler?.find(x=>x.klasor===klasorAd):null;
+  if(codexHatti&&(seriDurum?.canli_yasak||(fs.existsSync(codexDurum)&&JSON.parse(fs.readFileSync(codexDurum,'utf8')).canli_yasak))&&!process.argv.includes('--yerel'))throw new Error('Parti canlı bağlantıya kapalı; --yerel zorunlu');
+  if(process.argv.includes('--yerel')&&!bekleyen)throw new Error('Yerel kip yalnız bekleyen migration hazırlayabilir');
+  const db = process.argv.includes('--yerel') ? yerelDb() : await new PgIstemci(await baglantiDizgisi()).baglan();
   let takilan, cakisan;
   try {
     const kayit = sorular.map((t, i) => ({ anahtar: String(i), soru: t.s, secenekler: [t.d, ...t.y], dogru_cevap: 0 }));

@@ -32,8 +32,8 @@ Stilin tek kaynağı: docs/SORU_STIL_PROFILI.md. Bu dosya sonraki “CODEX.md'ye
 - Diğer kategori alt tür oranları ve eser/seri/kişi başına 2 sınırı sürer. codex-02 onaylı listesine bu kurallar geriye dönük uygulanmaz.
 
 ### Sonraki parti — codex-04’ten itibaren
-- Tarih payını artır; codex-03’teki 5/200 dağılımını tekrarlama. Havuz ölçümünden sonra tarih için daha yüksek pay ayır ve kota gerekçesini kaydet.
-- Genel kültürde tek ülkeye yığılma olmasın; ülke/geleneği ayrıca sayıp dağıt (codex-03’te altı Japonya geleneği vardı).
+- Tarih payını artır; codex-03’teki 5/200 dağılımını tekrarlama. Uygulama tercihi: tarih en az %15 (200'de en az 30); kalan kota ölçüm ağırlıklarıyla dağıtılır. Havuz ölçümünden sonra tarih için daha yüksek pay ayır ve kota gerekçesini kaydet.
+- Genel kültürde tek ülkeye yığılma olmasın; ülke/geleneği ulke_odak alanıyla ayrıca sayıp dağıt; genel kültürde bir ülkeye odaklı en çok 3 soru (ülkeye özgü olmayan için global) (codex-03’te altı Japonya geleneği vardı).
 - Aynı partide birbirinin doğru cevabını yanlış şık olarak veren soru çifti olmasın; TR ve EN için karşılıklı cevap/yanlış şık eşleşmesini son seçimde denetle.
 
 ## Komutlar ve kapılar
@@ -48,6 +48,13 @@ Kapı 3: soru_denetim/kapi.mjs hamKapiSorgusu, soru_kural_isaretleri ağırlık 
 Kapı 4: aynı modül sikIpucuTesti; soru gizli, doğru şık olasılığı ≤0,75.
 Kapı 5: araclar/jev.mjs jevSor/noul, her yanlış şık “bu da doğru olabilir mi?” olasılığı <0,5. Eksik/geçersiz yanıt asla geçmez.
 Kapı 6 yok: api-uret.mjs değiştirilmez ve içe aktarılmaz. Claude incelemesi ayrıca beklenir.
+
+### Canlı sorgu yasaksa yerel kip
+- Ida'nın canlı sorgu yasağı sürerken ölçüm/yenileme, canlı prova ve uygulama yapılmaz. Mevcut havuz kopyası kullanılır; tarih ve güncellik sınırı özetlenir.
+- Yerel PostgreSQL 17 yalnız 127.0.0.1:15439 adresinde bağımsız .tmp/codex/yerel-postgres kümesidir. codex-yerel-kur.mjs mevcut havuz kopyasını ve repo SQL 222/227/298 içindeki aynı soru_kural_isaretleri fonksiyonlarını yükler. Canlı ayarlar okunmaz; repo eşikleri (1.4/3/2) kullanılır ve sınırlama raporlanır. Yerel SQL kapısı atlanmaz.
+- Kurulum: node araclar/soru-uretim/codex-yerel-kur.mjs --klasor codex-NN. Kapılar: node araclar/soru-uretim/codex-kapi.mjs --klasor codex-NN --adet 200 --yerel. Ön tarama için aynı komuta --on-denetle eklenir. --yerel kipinde ölçüm/yenileme ve canlıya otomatik dönüş yoktur.
+- Bu partinin durum.json kaydında canli_yasak:true tutulur; --yerel unutulursa komut durur. Bekleyen SQL üretiminde de --yerel zorunludur. Yeni havuz kopyası gerekirse kendiliğinden canlıdan alınmaz.
+- İş sonunda yalnız bu yerel kümeyi durdur: node araclar/soru-uretim/codex-yerel-kur.mjs --durdur. Ida onayı gelene kadar hiçbir migration uygulanmaz.
 
 ## Çıktı ve bekleme
 - Kotaya göre geçenlerden sorular.json, ozet.json, okunur-liste.md hazırlanır. Liste başında kategori × zorluk, yerel/global ve elenme sebepleri; sonra her soru TEK satır:
@@ -69,4 +76,4 @@ Kapı 6 yok: api-uret.mjs değiştirilmez ve içe aktarılmaz. Claude incelemesi
 - Aynı anda en çok dört iş, tarayıcı açma, yeni paket kurma. .env.local ve gizli anahtarlar yazdırılmaz/loglanmaz.
 - Kesintide durum dosyasını koru ve aşağıdaki Son durum satırını nerede kalındığıyla güncelle; tamamlanmayan kapılar geçmiş gösterilmez.
 
-Son durum: codex-03 kullanıcı onayıyla 191 soru; kapı 1–5 geçti, migration 1051 prova ve canlı uygulama başarılı. Aktif 13226 → 13417 (+191); TR/EN dört şık sırası doğrulandı. Sonraki parti notları B bölümünde.
+Son durum: codex-03 migration 1051 ile canlıda (+191). codex-04 hazır: 802 taslaktan net 200 (140×z2, 60×z3; tarih 30). Kapı 1–5 geçti, kapı 3 yerel SQL; tekrar/kota önceki havuz kopyasından. Canlı bağlantı kapalı. bekleyen.sql yalnız parti klasöründe, uygulanmadı; Claude incelemesi ve Ida onayı bekliyor. Ara kayıt .tmp/codex/codex-04/durum.json; devamda --yerel zorunlu.
