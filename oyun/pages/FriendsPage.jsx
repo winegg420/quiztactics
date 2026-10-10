@@ -524,8 +524,9 @@ export default function FriendsPage() {
         )}
         {listeDurum === "hazir" && arkadaslar.length === 0 && (
           <QtKart className="ar-bos">
-            <QtBosDurum ikon="kisiler" baslik={tt("Henüz arkadaşın yok")}
-                        metin={tt("Davet bağlantını paylaş ya da arkadaşının davet koduyla ekle; sonra birlikte maç yapın.")} />
+            {/* Ekran revizyonu: boş durum B (büyük ikon rozeti). Davet kartı hemen üstte → ayrı "davet et" düğmesi yok. */}
+            <QtBosDurum ikon="kisiler" gorsel="arkadaslar" gorselTarz="rozet" baslik={tt("Henüz arkadaşın yok")}
+                        metin={tt("Davet bağlantını paylaş, birlikte maç yapın.")} />
           </QtKart>
         )}
 

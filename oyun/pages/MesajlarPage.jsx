@@ -105,6 +105,8 @@ export default function MesajlarPage() {
         <QtKart>
           <QtBosDurum
             ikon="sohbet"
+            gorsel="mesajlar"
+            gorselTarz="sahne"
             baslik={tt("Henüz mesajın yok")}
             metin={tt("Arkadaşlarına ilk mesajı sen at.")}
             eylem={<QtDugme ikon="kisiler" onClick={() => navigate(y("/arkadaslar"))}>{tt("Arkadaşlar")}</QtDugme>}

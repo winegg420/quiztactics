@@ -567,9 +567,12 @@ export default function LeaderboardPage() {
           <div className="qt-kart qt-kart--yuzey qt-kart--dolgu-o">
             <QtBosDurum
               ikon="kisiler"
+              gorsel="arkadaslar"
+              gorselTarz="rozet"
               baslik={kapsam === "sehir"
                 ? tt("Şehrinde ilk oyuncu sensin! Arkadaşlarını çağır, şehrini zirveye taşıyın.")
-                : tt("Bu ligde şimdilik tek başınasın. Arkadaşlarını davet et.")}
+                : tt("Bu ligde tek başınasın")}
+              metin={kapsam === "sehir" ? undefined : tt("Arkadaşlarını çağır, sıralamayı birlikte zorlayın.")}
               eylem={
                 <div className="lg-eylemler">
                   <QtDugme ikon="kisiEkle" onClick={() => navigate(y("/arkadaslar"))}>{tt("Arkadaş davet et")}</QtDugme>

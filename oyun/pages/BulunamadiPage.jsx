@@ -30,19 +30,21 @@ export default function BulunamadiPage({ kapaliMod = false, kapaliOzellik = fals
     ? tt("Bu bölüm şu an kapalı.")
     : kapaliMod
       ? tt("Bu mod şu an kapalı.")
-      : tt("Bu sayfa yok.");
+      : tt("Bu soru kartı kaybolmuş");
 
   return (
     <div className="g-bulunamadi" role="status">
       <QtKart dolgu="b" className="g-bulunamadi-kart">
         <QtBosDurum
           ikon={kapaliMod ? "kilit" : "haritaPini"}
+          gorsel={kapaliMod || kapaliOzellik ? undefined : "bulunamadi"}
+          gorselTarz="sahne"
           ton={kapaliMod ? "vurgu" : "mor"}
           baslik={<span role="heading" aria-level={1}>{baslik}</span>}
           metin={
             kapaliMod
               ? tt("Seni ana sayfaya götürüyoruz…")
-              : tt("Adres yanlış yazılmış ya da sayfa kaldırılmış olabilir.")
+              : tt("Adres yanlış ya da sayfa kaldırılmış.")
           }
           eylem={
             <QtDugme ikon="ev" onClick={() => navigate(y(), { replace: true })}>

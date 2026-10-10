@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../src/lib/supabase.js";
 import { useAuth } from "../../src/context/AuthContext.jsx";
-import { QtIkon, QtIkonDugme, QtDugme, QtListeSatiri } from "../tasarim/index.js";
+import { QtBosDurum, QtIkon, QtIkonDugme, QtDugme, QtListeSatiri } from "../tasarim/index.js";
 import "../tasarim/ekranlar/l-kart.css";
 import { y } from "../lib/yol.js";
 import { tt } from "../lib/dil.js";
@@ -366,11 +366,16 @@ export default function BildirimZili() {
               <QtDugme tur="ikincil" boyut="k" ikon="yenile" onClick={yukle}>{tt("Tekrar dene")}</QtDugme>
             </div>
           ) : liste.length === 0 && dmOkunmamis === 0 ? (
-            <div className="bz-bos">
-              <span className="bz-bos-ikon" aria-hidden="true"><QtIkon ad="zil" boyut={28} /></span>
-              <p className="bz-bos-baslik">{tt("Henüz bildirim yok.")}</p>
-              <p>{tt("Maç davetleri, lig hareketleri ve arkadaşlık istekleri burada görünür.")}</p>
-            </div>
+            /* Ekran revizyonu: boş durum A (küçük sahne çizimi: uyuyan zil) */
+            <QtBosDurum
+              ikon="zil"
+              gorsel="bildirimler"
+              gorselTarz="sahne"
+              className="bz-bos-gorsel"
+              baslik={tt("Henüz bildirim yok")}
+              metin={tt("Davetler ve maç haberleri burada çıkar.")}
+              eylem={<QtDugme boyut="k" ikon="oyna" onClick={() => { setAcik(false); navigate(y()); }}>{tt("Maç yap")}</QtDugme>}
+            />
           ) : (
             liste.map((b) => (
               <QtListeSatiri

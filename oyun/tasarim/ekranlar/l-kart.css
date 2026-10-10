@@ -355,3 +355,6 @@ body.bd-oyun-modu .bz-toast { display: none; } /* maç sırasında oyunu bölmez
 .ls-ad-dugme.ls-ad-dugme--esnek { flex: 1 1 0; min-width: 0; }
 /* 25 Eyl: tek oyuncu kartı pencerenin tam genişliğinde */
 .ok-ust > .qt-ok { align-self: stretch; }
+
+/* Ekran revizyonu (10 Eki 2026): bildirim panelinde görselli boş durum (QtBosDurum gorsel) — panel içi dolgu */
+.bz-bos-gorsel { padding: var(--qt-b-5) var(--qt-b-4); }
