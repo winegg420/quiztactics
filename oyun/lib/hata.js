@@ -1,5 +1,6 @@
 import { tt, ttSunucu } from "./dil.js";
 import { sesHataUyari } from "./ses.js";
+import { hataBildir } from "../../src/lib/hataIzleme.js";
 // Supabase/ağ hatalarını kullanıcıya gösterilebilir Türkçe mesaja çevirir.
 // HAM SQL HATASI ASLA EKRANA ÇIKMAZ (Hızlı Mod'da "column reference dogru is
 // ambiguous" kullanıcıya görünmüştü — bir daha olmasın).
@@ -16,7 +17,11 @@ const BILINEN = [
 
 // Ham veritabanı/altyapı hatası kalıpları — kullanıcıya asla gösterilmez
 const TEKNIK =
-  /(column|relation|function|operator|syntax error|ambiguous|violates|constraint|permission denied|pgrst|duplicate key|null value)/i;
+  /(column|relation|function|operator|syntax error|ambiguous|violates|constraint|permission denied|pgrst|duplicate key|null value|does not exist|schema cache|could not find|invalid input (syntax|value)|out of range|value too long|row-level security|json object requested|multiple \(or no\) rows|query returned (no|more than one) row|division by zero|stack depth|malformed|insufficient_privilege)/i;
+
+// İç hata kodları (SQLSTATE / PostgREST): 22 veri, 23 bütünlük, 42 sözdizimi/yetki, P0002/P0003 (strict into),
+// PGRSTxxx. Sunucunun bilinçli Türkçe iş kuralı mesajları `raise exception` ile P0001 taşır → buraya girmez.
+const TEKNIK_KOD = /^(22|23|42|P0002$|P0003$|PGRST)/i;
 
 // D-407 / D-503: her ağ/sunucu hatası "İnternetini kontrol et" demesin — hata türüne göre ayrışır.
 // Tür yalnız hatanın kendisinden okunur (PostgREST kodu + metin); HTTP durumu supabase-js hata nesnesinde yoktur.
@@ -78,9 +83,12 @@ export function hataMesaji(hata, yedek = tt("Bir şeyler ters gitti. Tekrar dene
   for (const [kalip, karsilik] of BILINEN) {
     if (kalip.test(ham)) return karsilik ?? ttSunucu(ham);
   }
-  // Teknik hata: konsola yaz, kullanıcıya genel mesaj göster
-  if (TEKNIK.test(ham)) {
+  // Teknik hata: konsola yaz + hata izlemeye (Sentry, kuruluysa) gönder, kullanıcıya genel mesaj göster
+  if (TEKNIK.test(ham) || TEKNIK_KOD.test(String(hata?.code ?? ""))) {
     console.error("[Bildim] teknik hata:", ham);
+    try {
+      hataBildir(hata instanceof Error ? hata : new Error(`[sunucu ${hata?.code ?? "?"}] ${ham}`));
+    } catch { /* raporlama kritik değil */ }
     return yedek;
   }
   // Sunucunun kendi Türkçe iş kuralı mesajları (raise exception) olduğu gibi

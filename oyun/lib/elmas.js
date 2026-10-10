@@ -8,6 +8,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { supabase } from "../../src/lib/supabase.js";
 import { tt } from "./dil.js";
+import { hataMesaji } from "./hata.js";
 
 const OLAY = "bildim-elmas-degisti";
 
@@ -66,5 +67,6 @@ export async function elmasPaketleri() {
 export function elmasHatasi(e) {
   const m = String(e?.message ?? e ?? "");
   if (m.includes("Yetersiz elmas")) return tt("Elmas yetmiyor");
-  return m || tt("İşlem tamamlanamadı");
+  // Ham sunucu metni doğrudan dönmez: teknik/ağ hatası hataMesaji'nde genel mesaja çevrilir (coinHatasi ile aynı)
+  return hataMesaji(e, tt("İşlem tamamlanamadı"));
 }
