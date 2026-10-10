@@ -29,6 +29,7 @@ import { kozmetikHatasi, kozmetikParasi, kozmetikTak } from "../lib/kozmetik.js"
 import { ImzaFiyat } from "./DukkanCevapImzasi.jsx";
 import { aktifDil } from "../lib/dil.js";
 import { avatarKilitliMi, useAvatarSahiplik, useHazirAvatarlar } from "../lib/avatarKatalogu.js";
+import { prestijAnahtari, usePrestijlerim } from "../lib/avatarPrestij.js";
 import { nadirligeGoreBolumle, useNadirlikHaritasi } from "../../src/lib/avatarNadirlik.js";
 import { AvatarBolumBasligi, AvatarKilitRozeti, NadirlikImg } from "./AvatarNadirlikGoruntu.jsx";
 import { AvatarEdinmeKarti } from "./AvatarEdinme.jsx";
@@ -63,8 +64,10 @@ export default function Koleksiyon() {
   const hazirAvatarlar = useHazirAvatarlar();   // 701: açılmamış hazır avatarlar süzülür
   const nadirlikHaritasi = useNadirlikHaritasi();   // 770: bayrak açıkken nadirliğe göre bölümler
   const avatarSahiplik = useAvatarSahiplik();   // 820: Epik / Efsanevi avatar kilitli görünür, seçilemez
+  const prestijlerim = usePrestijlerim();   // 1049: prestijli avatar kartında "Prestij" etiketi + kendi avatarımda pırıltı
   const [edinmeAvatar, setEdinmeAvatar] = useState(null);   // 1039: kilitli avatara dokununca edinme kartı
   const { user, profile, refreshProfile } = useAuth();
+  const benPrestij = prestijlerim.has(prestijAnahtari(profile?.avatar_url));   // takılı avatarım prestijli mi
   const [cerceveler, setCerceveler] = useState(null);
   const [auralar, setAuralar] = useState(null);
   const [hata, setHata] = useState(null);
@@ -212,7 +215,7 @@ export default function Koleksiyon() {
             <button type="button" className="qt-cs-oge" aria-pressed={takiliCerceve === null} disabled={Boolean(mesgul)}
                     onClick={() => cerceveSec(null)}>
               <CerceveGorseli anahtar={null} boyut={64}>
-                <Avatar profile={profile ?? {}} boyut={icBoyut(64, false)} />
+                <Avatar profile={profile ?? {}} boyut={icBoyut(64, false)} prestij={benPrestij} kimlik={user?.id} />
               </CerceveGorseli>
               <span className="qt-cs-ad">{tt("Çerçevesiz")}</span>
               <span className="qt-cs-durum">{prestijDurum(takiliCerceve === null, "c:yok")}</span>
@@ -229,10 +232,10 @@ export default function Koleksiyon() {
                         onClick={() => cerceveSec(c.anahtar)}>
                   {kazanilanMi(c.anahtar) ? (
                     // lig / level / turnuva: yeni çizim (tembel; listede durağan)
-                    <CerceveliAvatar profile={profile ?? {}} cerceve={c.anahtar} aura={null} premiumCerceve={null} premiumAura={null} boyut={64} />
+                    <CerceveliAvatar profile={profile ?? {}} cerceve={c.anahtar} aura={null} premiumCerceve={null} premiumAura={null} boyut={64} prestij={benPrestij} />
                   ) : (
                     <CerceveGorseli anahtar={c.anahtar} satir={c} boyut={64}>
-                      <Avatar profile={profile ?? {}} boyut={icBoyut(64, !!tanim)} />
+                      <Avatar profile={profile ?? {}} boyut={icBoyut(64, !!tanim)} prestij={benPrestij} kimlik={user?.id} />
                     </CerceveGorseli>
                   )}
                   <span className="qt-cs-ad">{ad}</span>
@@ -397,6 +400,7 @@ export default function Koleksiyon() {
                         {kilitli && <AvatarKilitRozeti s={avatarSahiplik.get(a.url)} />}
                       </span>
                       <span className="qt-cs-ad">{a.ad}</span>
+                      {prestijlerim.has(prestijAnahtari(a.url)) && <span className="qt-cs-kaynak qt-ks-prestij">{tt("Prestij")}</span>}
                     </button>
                   </li>
                 );

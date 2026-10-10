@@ -37,6 +37,8 @@ import { NADIRLIKLAR, NADIRLIK_AD, nadirligeGoreBolumle, useNadirlikHaritasi } f
 import { AvatarBolumBasligi, AvatarKilitRozeti, NadirlikImg, etiketNadirligi } from "./AvatarNadirlikGoruntu.jsx";
 import NadirlikEtiketi from "./NadirlikEtiketi.jsx";
 import { ImzaSimgesi } from "./CevapImzasi.jsx";
+import { avatarPrestijAl, prestijAnahtari, prestijHatasi, usePrestijlerim } from "../lib/avatarPrestij.js";
+import { useAyar } from "../lib/ayarlar.js";
 import "../tasarim/ekranlar/dukkan-cerceve.css";
 import "../tasarim/ekranlar/dukkan-kozmetik.css";
 
@@ -463,6 +465,60 @@ const ACIKLAMA = {
 };
 
 /**
+ * Dükkân › Avatar › PRESTİJ (1049) — avatarın tek seferlik pırıltısı (tek kademe). Büyük önizleme pırıltılı; tek düğme
+ * "Prestij · 2.500 coin" (fiyat/bayrak oyun_ayarlari'ndan). Sahip değilse kilitli "Önce avatarı al", alınmışsa "Alındı".
+ * Satın alma sunucuda (avatar_prestij_al); başarıda kart önbelleği + bakiye tazelenir, an yalnız sunucu onayından sonra.
+ */
+function AvatarPrestijBolumu({ url, ad, sahibim, baslik, onBilgi, onHata, kutla }) {
+  const { user, profile } = useAuth();
+  const prestijlerim = usePrestijlerim();
+  const fiyat = useAyar("avatar_prestij_fiyat", 2500);
+  const acik = useAyar("avatar_prestij_acik", 1) > 0;
+  const [islem, setIslem] = useState(false);
+  const anahtar = prestijAnahtari(url);
+  if (!anahtar) return null;   // Google fotoğrafı / bilinmeyen adres prestijlenemez
+  const alindi = prestijlerim.has(anahtar);
+  const al = async () => {
+    if (islem || alindi || !sahibim || !acik) return;
+    setIslem(true);
+    try {
+      await avatarPrestijAl(url, user?.id);
+      onBilgi?.(tt("{ad} artık prestijli!", { ad }));
+      kutla?.(`prestij:${anahtar}`, {}, { his: "buyuk" });   // sunucu onayladı → an
+    } catch (e) {
+      sesHataUyari();
+      onHata?.(prestijHatasi(e));
+    } finally {
+      setIslem(false);
+    }
+  };
+  return (
+    <QtKart className="qt-dc-sahne qt-dc-sahne--yatay qt-dc-prestij" aria-live="polite">
+      <div className="qt-dc-onizleme">
+        <CerceveliAvatar profile={{ ...(profile ?? {}), gorunen_avatar: url, avatar_url: url }} userId={user?.id} boyut={88} hareketli prestij />
+      </div>
+      <div className="qt-dc-sahne-bilgi">
+        <h2 className="qt-baslik-2">{tt("Prestij")}{baslik ? ` · ${baslik}` : ""}</h2>
+        <p className="qt-kucuk qt-soluk">{tt("Avatarına tek seferlik pırıltı: her yerde, herkes görür. Güç vermez.")}</p>
+      </div>
+      <div className="qt-dc-sahne-eylem">
+        {alindi ? (
+          <QtDugme tur="ikincil" tamGenislik devreDisi ikon="onay">{tt("Alındı|prestij")}</QtDugme>
+        ) : !sahibim ? (
+          <QtDugme tur="ikincil" tamGenislik devreDisi ikon="kilit">{tt("Önce avatarı al")}</QtDugme>
+        ) : !acik ? (
+          <QtDugme tur="ikincil" tamGenislik devreDisi ikon="kilit">{tt("Prestij şu an kapalı.")}</QtDugme>
+        ) : (
+          <QtDugme tur="dogru" tamGenislik yukleniyor={islem} onClick={() => { dokunus(); al(); }}>
+            {tt("Prestij · {n} coin", { n: Number(fiyat).toLocaleString(aktifDil() === "en" ? "en-US" : "tr-TR") })}
+          </QtDugme>
+        )}
+      </div>
+    </QtKart>
+  );
+}
+
+/**
  * Dükkân › Avatar — Ajan A'nın kataloğu (avatar_katalogu_oyun / avatar_satin_al / avatar_onayla).
  * `yalnizUcretli` (920): yalnız elmasla alınan (Epik / Efsanevi) avatarlar — bedava avatarlar profilde seçilir.
  */
@@ -470,6 +526,7 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
   const { user, profile, refreshProfile } = useAuth();
   const { kutla, ucan } = useOdulAni();   // satın alma anı: yalnız sunucu alımı onaylayınca
   const hazirAvatarlar = useHazirAvatarlar();   // 701: açılmamış hazır avatarlar süzülür
+  const prestijlerim = usePrestijlerim();   // 1049: önizleme benim kimliğimle başka avatar çizer → prestij açıkça verilir
   const nadirlikHaritasi = useNadirlikHaritasi();   // 770: bayrak açıkken nadirliğe göre bölümler
   // 31 hazır profesyonel avatar (bedava, avatar_onayla kabul eder) + katalogdaki 27 — profil ve kurulumla aynı
   // sıra; eskiden burada yalnız katalog (27) vardı → "yalnız son eklenen avatarlar görünüyor".
@@ -556,7 +613,8 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
       {/* Önizleme kartı yatay ve küçük (solda avatar, sağda ad; altında düğme) → ızgara ilk ekrana girer (denetim §3.2 madde 6) */}
       <QtKart className="qt-dc-sahne qt-dc-sahne--yatay" aria-live="polite">
         <div className="qt-dc-onizleme">
-          <CerceveliAvatar profile={{ ...(profile ?? {}), gorunen_avatar: c.url, avatar_url: c.url }} userId={user?.id} boyut={88} hareketli />
+          <CerceveliAvatar profile={{ ...(profile ?? {}), gorunen_avatar: c.url, avatar_url: c.url }} userId={user?.id} boyut={88} hareketli
+                           prestij={prestijlerim.has(prestijAnahtari(c.url))} />
         </div>
         <div className="qt-dc-sahne-bilgi">
           <h2 className="qt-baslik-2">{ad(c)}</h2>
@@ -589,6 +647,12 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
         </div>
         <SatinAlmaAni aktif={ucan(c.anahtar)} />
       </QtKart>
+      {/* 1049: seçili avatarın Prestij'i; takılı avatar listede yoksa (ücretsiz avatar) onun Prestij'i de */}
+      <AvatarPrestijBolumu url={c.url} ad={ad(c)} sahibim={!c.ucretli || c.sahibim} onBilgi={onBilgi} onHata={onHata} kutla={kutla} />
+      {profile?.avatar_url && !liste.some((a) => a.url === profile.avatar_url) && (
+        <AvatarPrestijBolumu url={profile.avatar_url} ad={hazirAvatarlar.find((a) => a.url === profile.avatar_url)?.ad ?? tt("Avatarın")} baslik={tt("Takılı avatarın")} sahibim
+                             onBilgi={onBilgi} onHata={onHata} kutla={kutla} />
+      )}
       {onayAcik && (
         <ElmasliSatinAlOnayi
           bakiye={elmasBakiye}
@@ -646,7 +710,8 @@ export function DukkanAvatarlar({ avatarlar, sahipHesap = false, yenile, elmasYe
                 <button type="button" className={"qt-dc-oge" + (a.ucretli && !a.sahibim ? " qt-av-kilitli" : "")} aria-pressed={a.anahtar === c.anahtar} aria-haspopup="dialog" onClick={() => { dokunus(); listedenSec(a); }}>
                   {etiketNadirligi(nadirlik(a)) && <NadirlikEtiketi nadirlik={etiketNadirligi(nadirlik(a))} />}
                   <span className="qt-av-kilit-kutu">
-                    <CerceveliAvatar profile={{ ...(profile ?? {}), gorunen_avatar: a.url, avatar_url: a.url }} userId={user?.id} boyut={64} />
+                    <CerceveliAvatar profile={{ ...(profile ?? {}), gorunen_avatar: a.url, avatar_url: a.url }} userId={user?.id} boyut={64}
+                                     prestij={prestijlerim.has(prestijAnahtari(a.url))} />
                     {a.ucretli && !a.sahibim && <AvatarKilitRozeti s={sahiplik.get(a.url)} />}
                   </span>
                   <span className="qt-dc-ad">{ad(a)}</span>
