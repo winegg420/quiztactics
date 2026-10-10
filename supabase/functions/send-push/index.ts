@@ -28,7 +28,9 @@ Deno.serve(async (req) => {
   }
   const { data: abonelikler, error } = await sorgu;
   if (error) {
-    return new Response(JSON.stringify({ hata: error.message }), { status: 500 });
+    // İç DB ayrıntısı yanıtta değil, fonksiyon günlüğünde
+    console.error(JSON.stringify({ olay: "abonelik_okunamadi", hata: error.message }));
+    return new Response(JSON.stringify({ hata: "Abonelikler okunamadı" }), { status: 500 });
   }
 
   let basarili = 0;

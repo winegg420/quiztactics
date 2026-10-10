@@ -63,6 +63,7 @@ Deno.serve(async (req) => {
   } catch (e) {
     const mesaj = String(e instanceof Error ? e.message : e);
     console.error(JSON.stringify({ olay: "iade_taramasi_beklenmeyen", hata: mesaj }));
-    return yanit({ hata: mesaj }, 500);
+    // Ayrıntı yukarıda günlükte; yanıt genel kalır
+    return yanit({ hata: "Beklenmeyen hata (ayrıntı fonksiyon günlüğünde)" }, 500);
   }
 });

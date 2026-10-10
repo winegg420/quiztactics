@@ -38,14 +38,9 @@ Deno.serve(async (req) => {
     const saHam = Deno.env.get("PLAY_SERVICE_ACCOUNT");
     const paket = Deno.env.get("PLAY_PACKAGE_NAME");
     if (!saHam || !paket) {
-      // Sahte onay YOK: yapılandırma eksikse açıkça söyle.
-      return yanit(
-        {
-          hata: "Satın alma doğrulaması yapılandırılmamış.",
-          detay: "PLAY_SERVICE_ACCOUNT ve PLAY_PACKAGE_NAME secret'ları eksik.",
-        },
-        503,
-      );
+      // Sahte onay YOK: yapılandırma eksikse açıkça söyle. Eksik secret adları yalnız günlüğe.
+      console.error(JSON.stringify({ olay: "yapilandirma_eksik", detay: "PLAY_SERVICE_ACCOUNT ve PLAY_PACKAGE_NAME secret'ları eksik." }));
+      return yanit({ hata: "Satın alma doğrulaması yapılandırılmamış." }, 503);
     }
 
     // --- Kullanıcıyı JWT'den çöz ---
@@ -95,6 +90,7 @@ Deno.serve(async (req) => {
     return yanit(sonuc.govde, sonuc.durum);
   } catch (e) {
     console.error(JSON.stringify({ olay: "beklenmeyen_hata", hata: String(e instanceof Error ? e.message : e) }));
-    return yanit({ hata: String(e instanceof Error ? e.message : e) }, 500);
+    // İç ayrıntı (Play/DB/JSON hatası) istemciye gitmez; günlükte yukarıda
+    return yanit({ hata: "Satın alma şu an doğrulanamadı. Biraz sonra tekrar dene." }, 500);
   }
 });

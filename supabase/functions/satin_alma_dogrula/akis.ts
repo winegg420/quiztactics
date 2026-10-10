@@ -70,6 +70,15 @@ export function makbuzDegerlendir(makbuz: Makbuz, beklenenHesap: string): Yanit 
   return null;
 }
 
+// Postgres/PostgREST iç hata kalıpları: istemciye gitmez (günlüğe zaten `kaydet` ile düşer).
+// RPC'lerin bilinçli Türkçe `raise exception` mesajları ("zaten işlendi" vb.) olduğu gibi geçer.
+const IC_HATA =
+  /(duplicate key|violates|constraint|column|relation|function|does not exist|permission denied|null value|syntax error|schema cache|pgrst|invalid input|out of range|value too long)/i;
+
+function kullaniciMesaji(mesaj: string): string {
+  return IC_HATA.test(mesaj) ? "Satın alma kaydedilemedi. Tekrar dene." : mesaj;
+}
+
 function rpcHataDurumu(mesaj: string): number {
   if (/başka bir hesaba ait|başka bir jetonla/i.test(mesaj)) return 403;
   if (/zaten işlendi|iade edilmiş|duplicate key/i.test(mesaj)) return 409;
@@ -88,7 +97,8 @@ export async function satinAlmaDogrula(
   const play = await d.play.urunGetir(urun_id, purchase_token);
   if (!play.tamam) {
     d.kaydet("play_dogrulama_hatasi", { userId, urun_id, durum: play.durum, hata: play.hata });
-    return { durum: 402, govde: { hata: "Satın alma doğrulanamadı", detay: play.hata } };
+    // Play'in ham yanıt metni istemciye gitmez; ayrıntı yukarıdaki `kaydet` ile günlükte
+    return { durum: 402, govde: { hata: "Satın alma doğrulanamadı" } };
   }
   const makbuz = play.veri;
 
@@ -119,7 +129,7 @@ export async function satinAlmaDogrula(
     if (error || !data) {
       const mesaj = error?.message ?? "Satın alma kaydedilemedi";
       d.kaydet("coin_kayit_hatasi", { userId, urun_id, orderId: makbuz.orderId ?? null, hata: mesaj });
-      return { durum: rpcHataDurumu(mesaj), govde: { hata: mesaj } };
+      return { durum: rpcHataDurumu(mesaj), govde: { hata: kullaniciMesaji(mesaj) } };
     }
     bakiye = data.bakiye;
     tekrar = data.durum === "tekrar";
@@ -129,7 +139,7 @@ export async function satinAlmaDogrula(
     const { data, error } = await d.jokerIsle({ p_user: userId, p_urun_id: urun_id, p_play_token: purchase_token });
     if (error) {
       d.kaydet("joker_kayit_hatasi", { userId, urun_id, hata: error.message });
-      return { durum: rpcHataDurumu(error.message), govde: { hata: error.message } };
+      return { durum: rpcHataDurumu(error.message), govde: { hata: kullaniciMesaji(error.message) } };
     }
     bakiye = data;
   }
