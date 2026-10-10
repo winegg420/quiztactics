@@ -11532,3 +11532,12 @@ Kaldırıldı: "Hazine sende: {k} puan" başlığı, AÇ alt yazısı "Skor x/y"
 - Karar: Düello v1 eski dalı eklenmedi (son maç 22 Eyl). Hızlı Mod/Maç dondurulmuş ama kod + sunucu hazır.
 - Kök sebep yakalandı: ilk sürümde QuestionCard'da kanca `soru`dan önce çağrılıyordu (TDZ) — tarayıcı denemesi yakaladı, yayından önce düzeltildi.
 - Test: güvenlik SQL 21/21 (ROLLBACK), tarayıcı 35/35 (taklit), build temiz. `skill-sistemi-test` 1 eski başarısızlık (Kasa İkinci Şans beklentisi, bu işle ilgisiz). Detay: RAPOR.md
+
+## 2026-10-10 — Soru üretim maliyet tahmini düzeltmesi
+**Araç:** Claude Code
+**Neden:** Ida, `api-uret.mjs` maliyet tahmininin gerçek harcamanın ~%20 altında çıktığını bildirdi.
+
+- Hesap ortak katmanda: `araclar/soru-temizlik/claude-cagri.mjs` (`apiUsd`, `claudeCagir`). Migration yok; codex dosyalarına dokunulmadı.
+- Kök sebep (kodda kanıtlı): zaman aşımı/kopan çağrılarda `usage` gelmediği için jeton sayılmıyordu ama sunucu faturalıyor; `api-uret` bu durumda isteği küçültüp yeniden gönderiyor. Ek: önbellek okuma sabit 0,1× idi (Opus 5.5 için 0,05× — yukarı hata), 1 sa yazma (2×) ayrışmıyordu.
+- Düzeltme: `FIYAT.okuma`, `modelUsd`, `kullanimEkle`, `iptalEkle` (iptal çağrısı tahmini `durum.json › harcama › iptal_*`). Test: `node araclar/soru-temizlik/claude-cagri.test.mjs` (elle hesapla eşleşti, API çağrısı yok).
+- Not: gerçek fatura görülemediği için %20 rakamsal olarak doğrulanamadı; iptal kalemi koşudaki zaman aşımı sayısına bağlı. `sik-ipucu-api.mjs` kendi hesabını yapıyor (önbelleği tam fiyatla sayar, iptali saymaz) — dokunulmadı, RAPOR.md'de.
