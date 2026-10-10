@@ -14,6 +14,7 @@ Türkçe bilgi yarışması — 1v1 maçlar, günde 5 turnuva seansı, haftalık
 - ✨ **Avatar Prestij** — Sahip olduğun avatarı 2.500 coin'le bir kez geliştir: avatarının fotoğrafında ara ara beyaz yıldızlar çakar; her ekranda herkes görür. Saf kozmetik, güç vermez.
 - 🏅 **Herkes çerçeveli** — Her oyuncunun avatarında en az ligin çerçevesi görünür (yeni oyuncu Bronz'dan başlar); kazanılmış başka çerçeve takılıysa o görünür.
 - ✨ **Cevap İmzası** — doğru cevapta doğru şıkta oynayan, yalnız oyuncunun kendisinin gördüğü kişisel efekt (Dükkân › Efekt; Nadir coinle, Epik/Efsanevi elmasla).
+- 📶 **Bağlantı koparsa 60 sn** — Klasik, Saf Bilgi, Düello ve Ortak Hazine'de bağlantın koparsa ya da uygulamadan çıkarsan maç 60 saniye bekler: süre/soru kaybetmezsin, dönünce kaldığın yerden sürer; rakibin kalan süreyi görür.
 - 👥 Arkadaşlar, meydan okuma, rövanş, grup maçı, saf bilgi, hatalarım, görevler, dükkân ve koleksiyon.
 - 🤖 **Claude API ile soru üretimi** — Sorular Edge Function ile üretilir ve veritabanına kaydedilir.
 - 🔐 Google / Facebook / X ile giriş, e-posta sihirli bağlantı ve misafir oyun.
