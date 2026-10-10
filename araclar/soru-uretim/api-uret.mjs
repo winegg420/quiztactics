@@ -36,6 +36,9 @@ const YEREL_PAY = 0.1;
 const ESIK_P = 0.75;
 const TUR_SAYISI = 3;
 const ESZAMANLI = 4;
+const CAGRI_TAVAN = 20; // tek çağrıda en çok soru (zaman aşımı + bellek)
+const CAGRI_KUCUK = 10; // zaman aşımında bir kez küçültülmüş istek
+const GLOBAL_AGIRLIK = { edebiyat: 0.7, tarih: 0.7 }; // bu kategorilerde yeni soruların en az %70'i global
 
 const arg = (ad, v) => { const i = process.argv.indexOf(ad); return i > 0 ? process.argv[i + 1] : v; };
 const KLASOR_AD = arg('--klasor');
@@ -153,6 +156,7 @@ const GEN_SEMA = {
 function genIstem(k, z2, z3, havuzCevap, onceki) {
   const sabit = [
     `Kategori: ${k}.`,
+    GLOBAL_AGIRLIK[k] ? `Bu kategoride soruların EN AZ %${Math.round(GLOBAL_AGIRLIK[k] * 100)}'i "global" olsun: Türkiye dışındaki oyuncunun da bilebileceği dünya edebiyatı/tarihi konuları. "yerel" en çok %${Math.round((1 - GLOBAL_AGIRLIK[k]) * 100)}.` : '',
     `\nStil referansı (onaylı; aynen kullanma, ilk şık doğru):\n${stilOrnekleri(k)}`,
     `\nBu kategoride havuzdaki soruların doğru cevapları (bu olguları tekrar sorma; aynı cevabı BAŞKA bir olguyla sormak ancak gerçekten farklıysa):\n${havuzCevap.join(' · ')}`,
   ].join('\n');
@@ -295,7 +299,12 @@ function durumYaz(st) {
 function sec(st) {
   const secilen = [];
   for (const k of KATEGORI) {
-    const g = st.taslaklar.filter((t) => t.k === k && t.sonuc === 'gecti').sort((a, b) => a.jev_p - b.jev_p);
+    let g = st.taslaklar.filter((t) => t.k === k && t.sonuc === 'gecti').sort((a, b) => a.jev_p - b.jev_p);
+    if (GLOBAL_AGIRLIK[k]) { // yerel payı tavanı (kategori kotasına göre)
+      const yTavan = Math.floor(st.plan.kota[k] * (1 - GLOBAL_AGIRLIK[k]));
+      let y = 0;
+      g = g.filter((t) => !t.yerel || y++ < yTavan);
+    }
     const z3 = g.filter((t) => t.zorluk === 3).slice(0, st.plan.z3[k]);
     const z2 = g.filter((t) => t.zorluk === 2).slice(0, st.plan.kota[k] - z3.length);
     const ek = g.filter((t) => !z3.includes(t) && !z2.includes(t)).slice(0, st.plan.kota[k] - z3.length - z2.length);
@@ -378,15 +387,31 @@ async function uret() {
       const fazla = st.tur === 1 ? 2.5 : 3; // elenme payı (20'lik denemede geçen %41)
       const z2 = Math.ceil(e.z2 * fazla), z3 = Math.ceil(e.z3 * fazla);
       const havuzCevap = [...new Set(havuzu.filter((m) => m.kategori === k && m.aktif && m.dogru).map((m) => m.dogru))];
-      const onceki = st.taslaklar.filter((t) => t.k === k).map((t) => t.s);
-      try {
-        const y = await claudeCagir(anahtar, { model: URETICI, sistem: GEN_SISTEM, sema: GEN_SEMA, istem: genIstem(k, z2, z3, havuzCevap, onceki), maxJeton: 32000, effort: 'medium' });
-        const gelen = (y.sorular ?? []).map((r) => taslakKur(k, r));
-        console.log(`  ${k}: ${gelen.length} taslak (istenen ${z2 + z3}) · $${toplamUsd().toFixed(3)}`);
-        yeni.push(...gelen);
-      } catch (e2) {
-        if (e2.kritik) throw new Error(`Anahtar reddedildi, durduruldu: ${e2.message.slice(0, 160)}`);
-        console.error(`  ${k}: üretim hatası ${String(e2.message).slice(0, 160)}`);
+      const zamanAsimi = (m) => /timeout|aborted|zaman/i.test(m);
+      let kalan2 = z2, kalan3 = z3;
+      while (kalan2 + kalan3 > 0) {
+        if (toplamUsd() + 0.4 > BUTCE) return;
+        let boy = Math.min(CAGRI_TAVAN, kalan2 + kalan3), kucultuldu = false;
+        for (;;) {
+          const c3 = Math.min(kalan3, Math.round(boy * (z3 / Math.max(1, z2 + z3)))), c2 = Math.min(kalan2, boy - c3);
+          const onceki = [...st.taslaklar, ...yeni].filter((t) => t.k === k).map((t) => t.s);
+          try {
+            const y = await claudeCagir(anahtar, { model: URETICI, sistem: GEN_SISTEM, sema: GEN_SEMA, istem: genIstem(k, c2, c3, havuzCevap, onceki), maxJeton: 16000, effort: 'medium' });
+            const gelen = (y.sorular ?? []).map((r) => taslakKur(k, r));
+            console.log(`  ${k}: ${gelen.length} taslak (istenen ${c2 + c3}) · $${toplamUsd().toFixed(3)}`);
+            yeni.push(...gelen);
+            kalan2 -= c2; kalan3 -= c3;
+            break;
+          } catch (e2) {
+            if (e2.kritik) throw new Error(`Anahtar reddedildi, durduruldu: ${e2.message.slice(0, 160)}`);
+            const m = String(e2.message);
+            if (zamanAsimi(m) && !kucultuldu && boy > CAGRI_KUCUK) { kucultuldu = true; boy = CAGRI_KUCUK; console.error(`  ${k}: zaman aşımı, ${CAGRI_KUCUK}'luk istekle yeniden denenecek`); continue; }
+            console.error(`  ${k}: üretim hatası, kategori atlandı: ${m.slice(0, 160)}`);
+            (st.atlanan ??= []).push({ tur: st.tur, k, neden: m.slice(0, 160) });
+            kalan2 = kalan3 = 0;
+            break;
+          }
+        }
       }
     });
     // Yerel kapılar (partiyle tekrar dahil)
