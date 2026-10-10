@@ -11414,3 +11414,25 @@ Kaldırıldı: "Hazine sende: {k} puan" başlığı, AÇ alt yazısı "Skor x/y"
 - Claude incelemesi sonrası 07/33/50 TR ve 02 EN (René) düzeltildi; değişen dört kayıt mevcut kapı 1–5’ten tekrar geçti. Çıkarılan yok.
 - Migration 1046 prova → uygulama başarılı. Aktif havuz 12978 → 13028 (+50); 50 TR doğru cevabı ve 49 EN çeviri/şık sırası toplu sorguyla doğrulandı.
 - Oyun koduna dokunulmadı. codex-02 çeşitlilik kurallarıyla hazırlanacak; ayrı onay gelmeden uygulanmayacak.
+
+## 2026-10-10 — Yayın öncesi güvenlik denetimi (salt okuma) + düşük riskli düzeltmeler
+**Araç:** Claude Code
+**Neden:** Ida — yayın öncesi listesinin 1–6, 8, 11. maddeleri; güvenlik kuralı değiştirilmeden incele, raporla.
+
+- **Rapor:** `docs/GUVENLIK-DENETIMI-2026-10-10.md` — 0 Acil, 24 Öneri (12'si Ida onayı gereken yetki kuralı, önem sırasıyla bölüm A).
+  Git geçmişinde döndürülmesi gereken canlı anahtar yok (eski CRON_SECRET migration'larda, 18 Eyl'de döndürülmüş). 169 public tablonun hepsinde RLS
+  açık; search_path'siz definer fonksiyon 0; ödül veren iç fonksiyonlar istemciye kapalı. En önemli öneriler: push aboneliği endpoint doğrulaması
+  (SSRF + devralma), misafir girişe captcha (Auth'ta kapalı; anonim IP başına saatte 30), PatiRun/DidaGP tablolarında istemci puan yazımı,
+  `facebook_kimligi_kaydet` doğrulamasız, 57 fonksiyonda PUBLIC EXECUTE, reklam ödülünde SSV yok.
+- **Yöntem:** canlı DB yalnız katalog sorgusu (pg-mini, birkaç toplu sorgu); Auth ayarı Management API'den okundu (belirteç yazdırılmadı);
+  canlı siteye 4 istek (başlık + paket). Dört alt ajan paralel (anahtar, yetki, RPC/girdi/hız, Edge/hata).
+- **Düzeltmeler:** kök hata ekranı oyun stilinde (`HataSiniri` → QtKart + QtBosDurum `bulunamadi`, TR/EN; ham hata metni yalnız
+  `import.meta.env.DEV`); `hata.js › hataMesaji` daha çok Postgres/PostgREST kalıbı + SQLSTATE (22/23/42/P0002/P0003/PGRST) tanır ve
+  Sentry'ye bildirir (P0001 Türkçe mesajlar aynen); `elmasHatasi` → `hataMesaji`; Edge Function hata yanıtlarında iç ayrıntı yok
+  (satin_alma_dogrula, satin_alma_iade_tara, send-push) — **DAĞITILMADI**: canlı sürümler depodan geride (bkz. PROJECT_CONTEXT › Açık İşler);
+  `.gitignore`'a oturum belirteci taşıyan yerel dosyalar (önceden yalnız `.git/info/exclude`).
+- **Araçlar:** `lig-gorsel-ekran` ve `denetim-10eki-ekran` yeni profil kimlik satırına (`.qt-pf-kimlik .qt-pf-kisa`, lig amblem aria-label'ından) uyarlandı.
+- **Doğrulama:** build temiz · `arayuz-denetim` TEMİZ · `lig-gorsel-ekran --hizli` 5/5 · `denetim-10eki-ekran` TR+EN ad bulundu, konsol temiz ·
+  kök hata ekranı bilerek çökertildi (390 TR / 360 EN, taşma yok). Canlıda Sentry DSN var (`ingest.de.sentry.io`).
+- Not: 5199'daki başka bir Vite (Supabase ortamı olmadan) dokunulmadı; kendi sunucum 5205'te açılıp kapatıldı. Test oturumu `.arayuz-denetim-oturum.json` yerel
+  (eski oturum süresi dolmuştu; arayuz-denetim yeni misafir hesabı açtı — iş sonunda silindi).

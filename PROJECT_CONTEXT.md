@@ -926,6 +926,10 @@ Her pakette: `node araclar/oyuncu-testi.mjs [--adres=https://quiztactics.com]`.
   `satin_alma_iade_tara` depoda hazır, canlıda değil — CLI 403 (makinedeki Supabase belirteci
   başka hesaba ait), Chrome eklentisi bağlı değildi. Migration'lar (304–306) uygulandı; canlıdaki
   eski fonksiyon `coin_satin_alma_isle` üzerinden yeni deftere devreder. Satın alma zaten kapalı.
+  10 Eki ölçümü: canlı `satin_alma_dogrula` 9 Eyl sürümü, `send-push` 12 Haz sürümü, `satin_alma_iade_tara` yok.
+  `send-push` canlıda `verify_jwt = false` ama `config.toml`'da kaydı yok → dağıtırken `--no-verify-jwt`.
+- **Güvenlik denetimi (10 Eki 2026): 0 Acil, 12 yetki kuralı önerisi Ida onayı bekliyor** —
+  `docs/GUVENLIK-DENETIMI-2026-10-10.md › A` (push aboneliği doğrulaması, misafir captcha, yan oyun tabloları, FB kimliği, PUBLIC EXECUTE).
 
 
 - **1000 soru partisi + Jev zorluk (270–274) beklemede.** Üretildi ve provadan
