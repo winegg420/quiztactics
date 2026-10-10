@@ -366,3 +366,70 @@ RAPOR HAZIR — Ida'ya iletilecek.
   canlıya karşı koşan testler.
 
 RAPOR HAZIR — Ida'ya iletilecek.
+
+---
+
+# Grup maçı kilidi — bütün modları yavaşlatan kilit yığılması (10 Eki 2026, migration 1056 + 1057)
+
+## Ölçüm (önce, canlı, salt okuma)
+- `pg_stat_statements` (7 Eki'den beri): `cron_hizli_tik` 13.031 çağrı, **ort. 231 ms, maks. 81,4 sn**; `cron_bot_oyna` maks. 45,6 sn; `advance_group_match` (istemci) 227 çağrı, ort. 475 ms, maks. 7,8 sn; `mac_nabiz` 800 çağrı, maks. 7,7 sn.
+- `cron.job_run_details` (bugün): `hizli_tik` saatlik en uzun tur 11–24 sn; **39 tur "job startup timeout"** (pg_cron bağlantı bile açamadı, 10:29–16:56).
+- Kilit kalıbı:
+  - `hizli_tik` tek işlemde Düello + Kasa + `bot_oyna` koşturuyordu.
+  - `bot_oyna`'nın 8) adımı `group_matches` satırını `FOR UPDATE` alıp **tik bitene kadar** tutuyordu; 9) adımı `advance_group_match` ile başka maçın satırını **süresiz** bekliyordu.
+  - İstemci 3 sn'de bir `grup_mac_nabiz`, cevaptan sonra 2,5 sn'de bir `advance_group_match` atıyordu (ikisi de FOR UPDATE) ve **önceki yanıtı beklemeden** yenisini gönderiyordu → aynı satırda 8 bekleyenli kuyruklar.
+- İki bağlantılı kilit testi (`araclar/grup-kilit-testi.mjs`; satır 6 sn kilitli, B'nin işlemi geri alınır): `grup_mac_nabiz` 5.677 ms · `advance_group_match` 5.790 ms · `mac_nabiz` 5.776 ms · `advance_match` 5.705 ms. Yani çağrılar **kilit bırakılana kadar tam bekliyor**.
+- Aynı kalıp öteki modlarda da var: `advance_match`, `advance_hizli_mac`, `advance_tournament`, `mac_nabiz`, `hizli_mac_nabiz` aynı süresiz `FOR UPDATE`'i kullanıyor. Düello (`cron_duello_tik`) ve Kasa (`kasa_tik_hepsi`, `SKIP LOCKED`) zaten beklemiyor.
+- `gorevlerim` (ort. 1,16 sn): yeni bağlantıdaki ilk çağrı 783 ms, ikincisi 63 ms. Sayaç başına süre soğukta 50–120 ms, sıcakta 1–10 ms. Maliyet bağlantı başına plpgsql derlemesinden, soğuk önbellekten ve DB yavaşken ölçülen çağrılardan geliyor. Eksik index yok → **değiştirilmedi**. `get_categories` (1,13 sn) sıcakta 81 ms; aynı neden, düzeltilmedi.
+
+## Kök neden
+1. **Tetikleyici: disk G/Ç kısılması.** 17:38 UTC'de checkpoint 391 tamponu (≈3 MB) yazmak için **153 sn** harcadı (normalde ~33 sn). Nano sunucunun disk G/Ç bütçesi tükenince her şey yavaşlıyor. Bütçeyi tüketen başlıca yük 9 Eki'deki **Düello v4 simülasyonu** (`pg_temp.sim_mac`, ~3.100 çağrı, ROLLBACK'li): 7 Eki'den beri üretilen 1,3 GB WAL'ın **~700 MB'ı** ondan.
+2. **Büyütücü: kilit yığılması.** DB yavaşken cron'un tuttuğu grup maçı satırı ve istemcinin üst üste binen istekleri bağlantıları doldurdu. Kilitle ilgisi olmayan sorgular da 8 sn'de düştü (`rpc_sayac` satırında 8 bekleyen görüldü).
+
+## Düzeltme
+| | |
+|---|---|
+| **1056** (canlı) | `hizli_tik` artık `call public.cron_hizli_tik_islem()` çalıştırıyor. Önce eski tik (Düello/Kasa/öteki botlar) **COMMIT** ediliyor. Sonra her aktif grup maçı **ayrı kısa işlemde** ilerliyor (`bot_grup_mac_tik` → `bot_grup_adimlari`; bot_oyna'nın 8+9 adımı, gövde aynen taşındı). Hata ya da kilit yalnız o maçı etkiliyor. |
+| 1056 | `advance_group_match` / `advance_match` / `advance_hizli_mac` / `advance_tournament`: `lock_timeout 2s`. Kilit 2 sn'de alınamazsa çağrı sessiz dönüyor; ilerletmeyi yalnız kilidi alan çağrı yapıyor. |
+| 1056 | `grup_mac_nabiz` / `mac_nabiz` / `hizli_mac_nabiz`: kilit alınamazsa kilitsiz görünüm dönüyor (1055 deseni). Başlatma/duraklatma/terk geçişleri yalnız kilidi alan çağrıda. Grup/hızlıda oyuncunun kendi nabzı yine yazılıyor; `mac_nabiz`'de bir sonraki tike kalıyor. |
+| 1056 | Yeni iç yordamların yetkisi `bot_oyna` ile aynı (postgres + service_role). Mevcut fonksiyonların ACL'si değişmedi (provada doğrulandı). Geri alma: `docs/grup-mac-kilit-1056-geri-al.sql`. |
+| **1057** (canlı) | `bot_grup_mac_tik` her tikte, iş olmasa da maç satırını kilitliyordu (satır kilidi diske yazar). Bu kalktı; kilidi artık yalnız işi olan adım alıyor. |
+| İstemci | `oyun/lib/nabiz.js` (Klasik/Grup/Hızlı ortak) ve `GroupMatchPage` ilerletmesi: yanıtlanmamış istek varken yenisi gönderilmiyor; takılan istek **10 sn'de AbortController ile kesiliyor**. Uçuştayken gelen ilerletme denemesi kaybolmuyor, yanıttan sonra bir kez tekrarlanıyor. Aralıklar (3 sn / 2,5 sn) aynı kaldı, akıcılık değişmedi. |
+| CLAUDE.md | Yeni kural: canlı DB'de simülasyon, toplu deneme ve yük testi yasak — ROLLBACK edilse bile. |
+| Temizlik | `pg_temp.sim_mac` ve öteki `sim_*` nesneleri kalmadı (geçici şema yeniden başlatmayla temizlendi; sorguyla doğrulandı). |
+
+## Önce / sonra
+| Ölçüm | Önce | 1056 sonrası | 1057 sonrası (18:16–18:31 UTC, 15 dk) |
+|---|---|---|---|
+| `hizli_tik` tur süresi | ort. 231 ms, maks. 81 sn; bugün 39 başlatma zaman aşımı | 17:15–17:32: 0,03–0,28 sn · yeniden başlatma sonrası (17:58–18:15): 190 tur, ort. 34 ms, maks. 77 ms | **267 tur, ort. 39 ms, p95 73 ms, maks. 439 ms, 0 hata** |
+| `dakika_tik` | — | 17:58–18:15: ort. 94 ms, p95 385 ms, maks. 474 ms | **ort. 80 ms, p95 253 ms, maks. 336 ms, 0 hata** |
+| Kilitli satırda nabız/ilerletme | 5,7 sn (kilit bitene kadar) | **2,1 sn'de 200** | aynı |
+| Grup maçı istemcisi (canlı, bota karşı) | nabızlar üst üste biniyordu | nabız ort. 190 ms, maks. 470 ms · ilerletme ort. 200 ms, maks. 521 ms · **aynı anda uçuşta en çok 1 nabız** | — |
+| Sorgu kaynaklı WAL | `sim_mac` ~700 MB | — | yeniden başlatmadan beri toplam ~2,5 MB (≈70 KB/dk) |
+
+Not: LSN farkıyla ölçülen ham WAL hızı güvenilir değil (yeniden başlatma sonrası 0,5 KB/sn, 1057 sonrası 272 KB/sn). `archive_timeout=120` her 2 dakikada 16 MB'lık segmenti kapatıyor; ölçüm penceresine düşen kapanma rakamı şişiriyor. Gerçek yazı `pg_stat_statements.wal_bytes`'tan okundu. Yeniden başlatmadan beri en çok yazanlar: `cron_dakika_tik` 543 kB, `bot_puan_tik` 440 kB, `hizli_tik` 432 kB.
+
+## Kesinti (17:32–17:56 UTC)
+- 1056 uygulandıktan 17 dk sonra, canlı Kasa duman testi sürerken G/Ç kısılması yeniden başladı: checkpoint 153 sn sürdü, pg_cron bağlantı açamadı, API 20 sn'de yanıt vermedi.
+- Trafik ~1 istek/sn'ydi ve hepsi test makinesinden geliyordu.
+- Aynı tablo 1056'dan önce de gün boyunca vardı (39 zaman aşımı). Kesintiyi 1056'nın başlattığını gösteren bir iz yok. Yine de 1056'daki gereksiz satır kilidi 1057 ile kaldırıldı.
+- Ida Supabase'i yeniden başlattı (17:56). Sonrasında bağlantı ~0,6 sn, `select 1` 70–200 ms.
+
+## Test
+- Canlı, test hesabı (ArayuzDenetim913):
+  - Grup maçı, bota karşı (`8696c498`): 20 soru, takılma yok, `bitti`.
+  - Serbest Hazine (`30868a03`): `bitti`. Aracın "DEVAM ×2 / ücretsiz 50:50" kırmızıları eski beklentiler; o kural şu an kapalı (Kasa raporundaki gibi).
+  - Klasik: 20/20 cevap sunucuya ulaştı. Ana sayfada 390 px'te 3 px çakışma kırmızısı önceden bilinen, bu işle ilgisiz bir bulgu.
+  - Test hesabı `hesabimi_sil` ile silindi ("tam"; ArayuzDenetim profili 0).
+- Prova (BEGIN…ROLLBACK): 1056 ve 1057 hatasız, ACL'ler korundu, cron komutu değişti. pg_cron altında CALL + maç başına COMMIT çalışıyor.
+- `npm run build` temiz · `npm test` TÜMÜ GEÇTİ · `arayuz-denetim` **TEMİZ**.
+- Yük testi canlıda yapılmadı. Yerelde Supabase yok (Docker kurulu değil), bu yüzden "birkaç bot grup maçı + Kasa" senaryosu yerine canlıda tek seferlik iki bağlantılı kilit testi yapıldı: 4 çağrı, hepsi geri alındı.
+
+## Açık kalanlar (karar gerekir)
+- Nano sunucunun disk G/Ç bütçesi dar. 2–5 sn'lik `hizli_tik` ve `cron.job_run_details` kayıtları sürekli küçük yazı üretiyor. Kalıcı çözüm: compute yükseltme ya da cron kayıt budamasını sıklaştırma.
+- `rpc_sayac` (hız sınırı, 1053/1054) her çağrıda yazıyor; kesintide aynı satırda 8 bekleyen görüldü. Ayrı iş olarak ele alınmalı.
+- Grup maçında `group_matches` okuması ~51/dk (gerçek zamanlı kanal + her ilerletmeden sonra yeniden okuma). Çağrı ucuz (ort. ~23 ms); akıcılık için dokunulmadı.
+
+**Migration:** 1056 (`20260612001056_grup_mac_kilit.sql`) + 1057 (`20260612001057_grup_mac_tik_kilitsiz_bakis.sql`) — ikisi de canlıda uygulandı.
+
+RAPOR HAZIR — Ida'ya iletilecek.

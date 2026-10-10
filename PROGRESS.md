@@ -11601,3 +11601,4 @@ Canlıya karşı koşan `kasa-canli-testi.mjs` durduruldu. Ölçüm: kilit yığ
 bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute kararı Ida'da. Ayrıntı: RAPOR.md "Canlı kesinti".
 - Ek (aynı gün): Ida onayıyla proje API'den yeniden başlatıldı (17:51 UTC), 17:56'da sağlıklı. Ana sayfa kartları ve
   Dükkân canlıda doğrulandı; 15 dk izlemede hizli_tik ≤0,53 sn, dakika_tik ≤0,47 sn, hata/kilit 0.
+- (devam) 17:32–17:56 UTC kesinti: disk G/Ç kısılması (checkpoint 153 sn); 9 Eki Düello v4 simülasyonu (pg_temp.sim_mac) ~700 MB WAL üretmişti; Ida Supabase'i yeniden başlattı. 1057: bot_grup_mac_tik ön kilidi kalktı. 1057 sonrası 15 dk: hizli_tik 267 tur ort. 39 ms, maks. 439 ms, 0 hata; dakika_tik ort. 80 ms. CLAUDE.md: canlı DB'de simülasyon/toplu deneme/yük testi yasak (ROLLBACK'li bile). Canlı duman: grup 20 soru, Kasa bitti, Klasik 20/20; test hesabı silindi. Araçlar: grup-canli-testi.mjs, cron-wal-olcum.mjs.

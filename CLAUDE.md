@@ -183,6 +183,12 @@ API anahtarı doğruluğu, ürün kararı) sor.
   geliştirme sunucuları kapatılır.
 - Canlı siteye karşı toplu/ardışık istek atan betik yazılmaz; yük testi
   canlıda yapılmaz.
+- **Canlı veritabanında HİÇBİR simülasyon, toplu deneme ya da yük testi çalıştırılmaz
+  — ROLLBACK edilse bile** (Ida, 10 Eki 2026). Geri alınan işlem de WAL ve disk yazar;
+  9 Eki'deki Düello v4 simülasyonu (`pg_temp.sim_mac`, ~3.100 çağrı) 3 günlük WAL'ın
+  yarısından fazlasını (~700 MB) üretti, nano sunucunun disk G/Ç bütçesini tüketti ve
+  10 Eki'de DB'yi kilitledi (yeniden başlatma gerekti). Simülasyon yerelde ya da
+  bellekte (JS) yapılır; canlıda yalnız tek seferlik salt okuma ölçümü ve tek maçlık duman testi.
 - Gerekçe: 8 Eki 2026 ölçümünde canlı API isteklerinin %96,5'i (24 saatte
   85.576 isteğin ~76 bini) bu bilgisayarın otomatik testlerinden geliyordu ve
   Supabase log kotasını aşırıyordu.
