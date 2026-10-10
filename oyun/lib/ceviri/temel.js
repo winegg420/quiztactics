@@ -770,6 +770,8 @@ export default {
     "Grup maçın başlıyor": "Your group match is starting",
     "Rakibin bağlantısı koptu — düello durduruldu.": "Your opponent disconnected — the duel is paused.",
     "Bağlantın koptu — düello bekliyor.": "You're disconnected — the duel is waiting.",
+    "Rakibin bağlantısı koptu, bekleniyor": "Your opponent disconnected — waiting",
+    "Rakibin bağlantısı koptu": "Your opponent disconnected",
     // ---- Düello daveti (arkadaşa düello modunda meydan okuma) ----
     "Meydan okuma modu": "Challenge mode",
     "bota ve arkadaşına": "for bots and friends",

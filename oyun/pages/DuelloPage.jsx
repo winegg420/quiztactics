@@ -1651,7 +1651,7 @@ function DuelloMac({ id }) {
         <p className="m2-bant m2-bant--uyari" role="status">
           <QtIkon ad="uyari" boyut={18} />
           <span>
-            {kopukBant.benMi ? ceviri("Bağlantın koptu — düello bekliyor.") : ceviri("Rakibin bağlantısı koptu — düello durduruldu.")}
+            {kopukBant.benMi ? ceviri("Bağlantın koptu — düello bekliyor.") : ceviri("Rakibin bağlantısı koptu, bekleniyor")}
             {kopukBant.kalan == null ? "" : ` ${kopukBant.kalan} ${ceviri("sn")}`}
           </span>
         </p>

@@ -33,7 +33,7 @@ import { useOyunModu } from "../lib/oyunModu.js";
 import { soruCek } from "../lib/soruCek.js";
 import { kanalBekleme, kanalYenilenmeli, useGorunurlukTazele, zamanAsimiyla } from "../lib/gorunurluk.js";
 import { useMacNabiz } from "../lib/nabiz.js";
-import { HazirKapisi, KopukPerde, GeriSayim } from "../components/MacHazirlik.jsx";
+import { HazirKapisi, KopukPerde, GeriSayim, useKopukToplamSn } from "../components/MacHazirlik.jsx";
 import { macBittiReklam } from "../lib/reklam.js";
 import { y } from "../lib/yol.js";
 import { GB_MS } from "../lib/geriBildirim.js";
@@ -541,6 +541,7 @@ export default function MatchPage() {
 
   const duraklatildi = Boolean(nabiz?.duraklatildi) && mac?.durum === "aktif";
   const duraklamaSn = nabiz?.duraklama_sn ?? 0;
+  const kopukToplamSn = useKopukToplamSn();   // 1059: kopma anından toplam bekleme (60)
 
   // 3-2-1: maç başladı ama soru saati henüz gelmedi (sunucu 3 sn ileri kurdu).
   // Sunucu saatiyle kendi saatimiz arasındaki farkı nabızdan öğreniyoruz;
@@ -1172,6 +1173,8 @@ export default function MatchPage() {
           <KopukPerde
             bekleyenAdlar={rakipProfil?.gorunen_ad ? [rakipProfil.gorunen_ad] : []}
             gecenSn={duraklamaSn}
+            toplamSn={kopukToplamSn}
+            baslik={tt("Rakibin bağlantısı koptu, bekleniyor")}
           />
         )}
 
@@ -1182,7 +1185,7 @@ export default function MatchPage() {
           rozet={mac.jokersiz ? tt("Saf Bilgi · jokersiz") : tt("Klasik Mod")}
         />
         {/* A.1 terk kuralı: başlamış maçtan çıkan hükmen mağlup, ödül almaz (sunucu: mac_iptal → 460).
-            Onaysız çıkış da (sekme kapanması) 45 sn sonra aynı sonuca varır (mac_nabiz / advance_match). */}
+            Onaysız çıkış da (sekme kapanması) kopma anından 60 sn (mac_kopuk_toplam_sn) sonra aynı sonuca varır (mac_nabiz / advance_match). */}
         <QtModal
           acik={cikisOnay}
           onKapat={() => setCikisOnay(false)}

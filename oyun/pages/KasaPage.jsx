@@ -1384,7 +1384,7 @@ function KasaMac({ id }) {
         <p className="m2-bant m2-bant--uyari m2-bant--katman" role="status">
           <QtIkon ad="uyari" boyut={18} />
           <span>
-            {kopukBant.benMi ? c("Bağlantın koptu — maç bekliyor.") : c("Rakibin bağlantısı koptu — maç durduruldu.")}
+            {kopukBant.benMi ? c("Bağlantın koptu — maç bekliyor.") : c("Rakibin bağlantısı koptu, bekleniyor")}
             {kopukBant.kalan == null ? "" : ` ${kopukBant.kalan} ${c("sn")}`}
           </span>
         </p>

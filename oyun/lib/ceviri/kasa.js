@@ -140,6 +140,7 @@ export default {
   // bağlantı
   "Bağlantın koptu — maç bekliyor.": "You're disconnected — the match is waiting.",
   "Rakibin bağlantısı koptu — maç durduruldu.": "Your opponent disconnected — the match is paused.",
+  "Rakibin bağlantısı koptu, bekleniyor": "Your opponent disconnected — waiting",
 
   // 957: Kasa ortak özellikler — arkadaş daveti, rövanş, lobi
   "Klasik jokerlerin geçer": "Your Classic jokers apply",

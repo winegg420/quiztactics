@@ -10,8 +10,24 @@ import "../tasarim/ekranlar/m1-mac.css";
 import { tt } from "../lib/dil.js";
 import SkillSeti from "./SkillSeti.jsx";
 
-/** Rakip dönmezse maçın hükmen biteceği süre (sunucudaki değerle aynı). */
+/** Rakip dönmezse maçın hükmen biteceği süre — Grup/Hızlı (sunucudaki değerle aynı). */
 export const TERK_SN = 45;
+
+/** 1059: iki kişilik maçlarda kopma anından toplam bekleme; asıl değer oyun_ayarlari.mac_kopuk_toplam_sn. */
+export const KOPUK_TOPLAM_SN = 60;
+
+/** mac_kopuk_toplam_sn ayarı (okunamazsa 60). Klasik / Saf Bilgi perdesi bunu gösterir. */
+export function useKopukToplamSn() {
+  const [sn, setSn] = useState(KOPUK_TOPLAM_SN);
+  useEffect(() => {
+    let iptal = false;
+    ayar("mac_kopuk_toplam_sn", KOPUK_TOPLAM_SN)
+      .then((v) => { if (!iptal && v > 0) setSn(v); })
+      .catch(() => {});
+    return () => { iptal = true; };
+  }, []);
+  return sn;
+}
 
 /** Bu süre sonunda "Asenkron bırak" seçeneği çıkar (oyun_ayarlari ile aynı). */
 export const LOBI_BEKLEME_SN = 120;
@@ -187,15 +203,17 @@ export function GeriSayim({ kalan }) {
  *
  * @param {string[]} p.bekleyenAdlar
  * @param {number} p.gecenSn  kopmadan bu yana geçen saniye
+ * @param {string} [p.baslik]  başlık (Klasik: "Rakibin bağlantısı koptu, bekleniyor")
+ * @param {number} [p.toplamSn]  kopma anından terk sayılana kadar (Grup/Hızlı: TERK_SN; Klasik: mac_kopuk_toplam_sn)
  */
-export function KopukPerde({ bekleyenAdlar = [], gecenSn = 0 }) {
-  const kalan = Math.max(0, TERK_SN - gecenSn);
+export function KopukPerde({ bekleyenAdlar = [], gecenSn = 0, toplamSn = TERK_SN, baslik = null }) {
+  const kalan = Math.max(0, toplamSn - gecenSn);
   const kim = bekleyenAdlar.length ? bekleyenAdlar.join(", ") : tt("Rakibin");
   return (
     <div className="m1-kopuk" role="alert" aria-live="assertive">
       <QtKart className="m1-kopuk-kutu">
         <span className="m1-kopuk-halka" aria-hidden="true" />
-        <h2 className="qt-baslik-2">{tt("Rakip bekleniyor")}</h2>
+        <h2 className="qt-baslik-2">{baslik ?? tt("Rakip bekleniyor")}</h2>
         <p className="qt-kucuk">
           {tt("{0} oyundan ayrıldı. Maç duraklatıldı — süre işlemiyor, bu yüzden bir şey kaybetmiyorsun.", { 0: kim })}
         </p>
