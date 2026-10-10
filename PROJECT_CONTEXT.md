@@ -514,8 +514,8 @@ Aktif dokuz maç skill'i vardır (Baskın ve Kalkan 680'de eklendi, yalnız Düe
   `profilim()`'den okur — `lib/cevapImzasi.js › useTakiliImza`). Yeni ses / pay-to-win / hareketi azalt sürümü yok. 5 ürün (`kozmetikler.tur = 'cevap_imzasi'`):
   Neon Tik · Yıldız Patlaması (Nadir, **coin** `coin_cevap_imzasi_nadir` 750) · Bilgi Ampulü · Elektrik Akımı (Epik, elmas `elmas_cevap_imzasi_epik` 150) ·
   Yanan Kart (Efsanevi, elmas `elmas_cevap_imzasi_efsanevi` 300) — fiyatlar TEST; para `icerik.para`. `kozmetik_satin_al` coin dalı (1039 deseni).
-  **Satış kapısı `cevap_imzasi_satis_acik` = false** (canlı DB, 10 Eki 2026) → Dükkân › Efekt yalnız sahip hesapta (test modu: satın almadan takar);
-  Ida telefonda onaylayınca true. Görsel kaynak `docs/cevap-imzasi-referans.txt` (maket birebir; Yanan Kart ızgara adımı 2 → 3 px, ImageData ile çizim —
+  **Satış kapısı `cevap_imzasi_satis_acik` = true** (canlı DB, 10 Eki 2026, Ida onayı) → Dükkân › Efekt herkese açık; false yapılırsa yalnız sahip hesap görür (test modu);
+  Görsel kaynak `docs/cevap-imzasi-referans.txt` (maket birebir; Yanan Kart ızgara adımı 2 → 3 px, ImageData ile çizim —
   performans, görünüm aynı). Ortak bileşen `components/CevapImzasi.jsx`: QuestionCard (Klasik/Saf Bilgi/Grup/Turnuva/Hatalarım), KasaPage (Savunma dahil),
   Duello4Arena (sonuç fazında "Sen · Doğru" satırında). Dükkân kartında demo (`DukkanCevapImzasi.jsx`), Koleksiyon grubu. Zafer Efekti satışa açılmaz.
   Geri alma `docs/cevap-imzasi-1040-geri-al.sql`; testler `araclar/cevap-imzasi-sql-testi.mjs` (ROLLBACK) · `araclar/cevap-imzasi-ekran.mjs` (taklit).

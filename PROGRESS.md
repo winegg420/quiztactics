@@ -11326,3 +11326,10 @@ Kaldırıldı: "Hazine sende: {k} puan" başlığı, AÇ alt yazısı "Skor x/y"
   `tasarim/cevap-imzasi/`; rakip ekranında imza yok + ağında imza yok; tıklamayı engellemez; soru kalkınca anında temizlik). `arayuz-denetim` TEMİZ, build temiz.
   Test misafiri (ArayuzDenetim200) açıldı ve `test-hesap-temizle --uygula` ile silindi. Satın alma/+SP/Sıfırla'ya basılmadı.
 - **Açık:** Ida telefonda bakıp onaylayınca `update oyun_ayarlari set deger='true' where anahtar='cevap_imzasi_satis_acik'` (+ PROJECT_CONTEXT satırı).
+
+## 2026-10-10 — Cevap İmzası satışa açıldı
+**Araç:** Claude Code
+**Neden:** Ida onayı: `cevap_imzasi_satis_acik` = true.
+
+- Canlı DB: `update oyun_ayarlari set deger='true' where anahtar='cevap_imzasi_satis_acik'` uygulandı; 5 imzanın `kozmetik_satista` = true (ölçüldü).
+  Dükkân › Efekt artık herkese görünür. Kapatmak: aynı satır 'false'. PROJECT_CONTEXT ve README güncellendi.
