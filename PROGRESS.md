@@ -11382,3 +11382,7 @@ Kaldırıldı: "Hazine sende: {k} puan" başlığı, AÇ alt yazısı "Skor x/y"
 - **Hata/ders:** istek parçalamada yuvarlama (`round`) 0 soru isteyen ~216 boş çağrı döngüsü yarattı (~$5 boşa). Düzeltildi (`ceil` + boş istek koruması).
 - **Gözlem:** benzer/tekrar elemesi taslakların ~%25'i; havuz doygunlaştı (tarih/sanat/müzik zor). Zorluk kapısı hakem tahmini ile yapıldı (kolay_03 yöntemi); ayrı Jev zorluk puanı bu hatta yok.
 - **Okunur liste:** `araclar/soru-uretim/kolay-0N/okunur-liste.md`. Ida onayı beklenmedi (görev gereği).
+- **Doğrulama (canlı, 10 Eki):** build temiz · `arayuz-denetim` TEMİZ · `araclar/ekran-revizyon-once-sonra.mjs` önce/sonra 390 px TR: /calisma, /profil, /mesajlar,
+  /arkadaslar, 404 → farklı piksel %0,00 (canlı ekranlar değişmedi) · misafir hesapla /ekran-revizyon-onizleme → "Bu sayfa yalnız sahibe açık" · sahip
+  hesabıyla (Chrome) sayfa açılıyor. Denetim misafiri ArayuzDenetim685 silindi. Görüntüler `tasarim/ekran-revizyon/once-*.png`, `sonra-*.png`.
+- **Sırada (Aşama 2, Ida onayı bekliyor):** her bölüm için A/B seçimi; seçilen varyant ilgili sayfaya taşınacak.
