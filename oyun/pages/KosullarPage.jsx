@@ -10,7 +10,7 @@ import "../tasarim/ekranlar/g-yasal.css";
 // Kullanım Koşulları. Gizlilik politikasıyla aynı biçimde, girişsiz erişilir.
 // Bu bir TASLAKTIR; yayına almadan önce hizmet sağlayıcı kimliği (şahıs mı
 // şirket mi, unvan, adres) ve uygulanacak hukuk maddesi doldurulmalıdır.
-const GUNCELLEME = tt("25 Eylül 2026");
+const GUNCELLEME = tt("10 Ekim 2026");
 const ILETISIM = "quiztacticsapp@gmail.com";
 
 export default function KosullarPage() {

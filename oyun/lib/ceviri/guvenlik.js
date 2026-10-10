@@ -63,6 +63,7 @@ export default {
   "Hesabı askıya al": "Suspend account",
   // ——— Kullanım Koşulları eki ———
   "25 Eylül 2026": "25 September 2026",
+  "10 Ekim 2026": "10 October 2026",
   "Mesajlaşma: yasaklı içerik ve davranışlar": "Messaging: prohibited content and behaviour",
   "Özel mesajlaşma yalnız arkadaşlar arasındadır ve ilk mesajdan önce bu koşulları kabul etmen gerekir. Mesajlarda, takma adda, avatarda ve maç içi sohbette şunlar yasaktır:":
     "Private messaging is only between friends, and you must accept these terms before your first message. The following are not allowed in messages, usernames, avatars and in-match chat:",

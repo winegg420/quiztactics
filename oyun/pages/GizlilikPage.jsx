@@ -9,7 +9,7 @@ import "../tasarim/ekranlar/g-yasal.css";
 // Google Play zorunluluğu: mağaza kaydında gösterilecek gizlilik politikası.
 // Bu bir TASLAKTIR; yayına almadan önce iletişim e-postası ve şirket/kişi
 // bilgisi kontrol edilmelidir.
-const GUNCELLEME = tt("25 Eylül 2026");
+const GUNCELLEME = tt("10 Ekim 2026");
 const ILETISIM = "quiztacticsapp@gmail.com";
 
 export default function GizlilikPage() {
