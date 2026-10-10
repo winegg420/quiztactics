@@ -78,7 +78,8 @@ const metin = (s) => s.evaluate(() => document.body.innerText);
       }
       // 1) Profil: ad + kart taşması
       await git(s, "/profil");
-      o.profil_ad = await s.locator(".qt-pf-ok .qt-ok-ad, .qt-ok-ad").first().innerText().catch(() => null);
+      // 10 Eki (Aşama 2): profil kimliği tek satır (.qt-pf-kimlik .qt-pf-kisa-ad); eski .qt-pf-ok kartı yok
+      o.profil_ad = await s.locator(".qt-pf-kimlik .qt-pf-kisa-ad").first().innerText().catch(() => null);
       o.profil_baslik = await s.title();
       o.canonical = await s.evaluate(() => document.querySelector('link[rel="canonical"]')?.href ?? null);
       await kare(s, `profil-390-${dil}`);

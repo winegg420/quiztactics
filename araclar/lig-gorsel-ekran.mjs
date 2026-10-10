@@ -121,16 +121,22 @@ const OLC_LIG = () => {
   };
 };
 
+// 10 Eki (Ekran revizyonu Aşama 2): profilde dikey vitrin kartı (.qt-pf-ok[data-lig]) yerine tek satır kimlik
+// (.qt-pf-kimlik .qt-pf-kisa). Lig, satırdaki amblemin aria-label'ından ("Gümüş Lig" / "Silver League") okunur.
+const PROFIL_SECICI = ".qt-pf-kimlik .qt-pf-kisa";
 const OLC_PROFIL = () => {
   const iw = window.innerWidth;
   const sorun = [];
-  const k = document.querySelector(".qt-pf-ok");
-  if (!k) return { sorun: ["profil kartı yok"] };
+  const k = document.querySelector(".qt-pf-kimlik .qt-pf-kisa");
+  if (!k) return { sorun: ["profil kimlik satırı yok"] };
   const kr = k.getBoundingClientRect();
-  if (kr.right > iw + 0.5 || kr.left < -0.5) sorun.push("kart ekrandan taşıyor");
+  if (kr.right > iw + 0.5 || kr.left < -0.5) sorun.push("kimlik satırı ekrandan taşıyor");
   if (document.scrollingElement.scrollWidth > iw + 0.5) sorun.push("yatay taşma");
+  const etiket = k.querySelector(".qt-ok-lig .pp-amblem")?.getAttribute("aria-label") ?? "";
+  const ADLAR = { bronz: /^(Bronz|Bronze)\s/, gumus: /^(Gümüş|Silver)\s/, altin: /^(Altın|Gold|Golden)\s/, elmas: /^(Elmas|Diamond)\s/, efsane: /^(Efsane|Legend)\s/ };
+  const lig = Object.keys(ADLAR).find((l) => ADLAR[l].test(etiket)) ?? null;
   const s = getComputedStyle(k);
-  return { sorun, lig: k.dataset.lig, zemin: s.backgroundColor, cerceve: s.borderTopColor, yuk: Math.round(kr.height) };
+  return { sorun, lig, etiket, zemin: s.backgroundColor, yuk: Math.round(kr.height) };
 };
 
 const tarayici = await chromium.launch({ channel: "chrome", headless: true });
@@ -183,10 +189,10 @@ for (const dil of DILLER) {
           rapor.push({ ad, sorun: sr, lig: o }); await baglam.close(); continue;
         }
         await sayfa.goto(ADRES + "/profil", { waitUntil: "domcontentloaded" });
-        await sayfa.waitForSelector(`.qt-pf-ok[data-lig="${lig}"]`, { timeout: 30000 });
+        await sayfa.waitForSelector(`${PROFIL_SECICI} .qt-ok-lig .pp-amblem`, { timeout: 30000 });
         await sayfa.waitForTimeout(1200);
         const op = await sayfa.evaluate(OLC_PROFIL);
-        await (await sayfa.$(".qt-pf-ok")).screenshot({ path: path.join(CIKTI, `profil-${ad}.png`) });
+        await (await sayfa.$(".qt-pf-kimlik")).screenshot({ path: path.join(CIKTI, `profil-${ad}.png`) });
         const sorun = [...o.sorun, ...op.sorun.map((s) => "profil: " + s), ...(op.lig !== lig ? [`profil lig ${op.lig}`] : []), ...konsol.map((k) => "konsol: " + k)];
         if (sorun.length) { hata++; console.log("✗", ad, sorun.join(" | ")); } else console.log("✓", ad, `pankart ${o.pankartYuk}px · satır ${o.satirYuk} · "${o.sure}"`);
         rapor.push({ ad, sorun, lig: o, profil: op });
