@@ -11591,3 +11591,11 @@ Kaldırıldı: "Hazine sende: {k} puan" başlığı, AÇ alt yazısı "Skor x/y"
 - 1056 (canlı): `cron_hizli_tik_islem()` prosedürü (CALL; önce mevcut tik COMMIT, sonra her grup maçı ayrı işlem `bot_grup_mac_tik` → `bot_grup_adimlari`, kilitliyse atlar). `advance_*` (grup/klasik/hızlı/turnuva) ve `*_nabiz` (grup/klasik/hızlı): lock_timeout 2 sn, kilit yoksa sessiz dön / kilitsiz görünüm; geçişler yalnız kilidi alanda. Yeni iç yordamlar bot_oyna ile aynı ACL. Geri alma: `docs/grup-mac-kilit-1056-geri-al.sql`.
 - İstemci: `nabiz.js` (bütün modlar) ve `GroupMatchPage` ilerletmesi: uçuştaki istek varken yenisi yok, 10 sn'de AbortController ile kesme; uçuşta gelen ilerletme denemesi yanıt sonrası bir kez tekrarlanır.
 - Kilit testi (`araclar/grup-kilit-testi.mjs`, satır 6 sn kilitli): önce 5,7 sn bekleme → sonra 2,1 sn'de 200.
+
+## 2026-10-10 — Canlı kesinti ölçümü (20:30 TR), 1056 geri alınmadı
+**Araç:** Claude Code
+**Neden:** Site 20:30'dan beri yanıtsız; 1056 şüphesiyle ölçüm ve gerekirse geri alma istendi.
+
+Canlıya karşı koşan `kasa-canli-testi.mjs` durduruldu. Ölçüm: kilit yığılması yok, yük düşük; takılma deseni 1056'dan
+2,5 saat önce de var, 1056 sonrası 10 dk normal. Nano örneğinde kaynak tükenmesi (db/rest/auth UNHEALTHY, yeni
+bağlantı kabul edilmiyor). 1056 geri alınmadı. Yeniden başlatma / compute kararı Ida'da. Ayrıntı: RAPOR.md "Canlı kesinti".

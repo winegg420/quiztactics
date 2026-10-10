@@ -299,3 +299,49 @@ RAPOR HAZIR — Ida'ya iletilecek.
 Renkli zeminli kutu kalmadı. Not: Seri ve jokerler'deki iki sayı kartı Ödüllerim kalıbında olduğu için kendi çerçevesiyle kart içinde duruyor (istek "birebir aynı kalıp").
 
 RAPOR HAZIR — Ida'ya iletilecek.
+
+---
+
+# Canlı kesinti — 10 Eki 2026, 20:30 (TR) · 1056 GERİ ALINMADI
+
+## Ne yapıldı
+1. **Canlıya yük bindiren test durduruldu:** `araclar/kasa-canli-testi.mjs --senaryo=bot --adres=https://quiztactics.com`
+   bu bilgisayarda çalışıyordu (17:25–17:32 UTC arası dakikada 106–192 istek, çoğu `rpc/kasa_durum`). Süreç kapatıldı;
+   17:33'ten itibaren bu IP'den gelen istek dakikada ~10'a düştü.
+2. Salt-okuma ölçüm (pg-mini + Management API log/health). Hiçbir SQL değişikliği yapılmadı.
+
+## Ölçüm
+| | |
+|---|---|
+| Bağlantı / kilit (17:36–17:40 UTC) | 25–36 bağlantı, 0–5 aktif, **kilit bekleyen 0**, bekleyen `FOR UPDATE` yığını yok |
+| Basit katalog sorguları | `pg_stat_activity` sayımı 11–15 sn, `pg_stat_statements` 40 sn'de bile bitmedi; yeni bağlantı 14,6 sn |
+| İstek yükü (edge log, 17:15'ten beri) | 2.220 istek; **1.960'ı bu bilgisayardan** (Kasa testi), 256'sı tek gerçek kullanıcı. Yük düşük |
+| cron `hizli_tik` | 1056 sonrası **17:21–17:31 normal** (ort. 0,04–0,09 sn). 17:32'den itibaren `job startup timeout` |
+| Öteki cron işleri | `cron_dakika_tik` 121 sn, `cron_sezon_tik` 49 sn, `bot_puan_tik` / `turnuva_lobi_botlari` 12 sn ile düşüyor — 1056'nın dokunmadığı işler de |
+| Aynı desen 1056'dan ÖNCE | 14:45, 15:30, 16:00–16:45 UTC dilimlerinde `cron_dakika_tik` 16–31 sn, `hizli_tik` 11–24 sn, edge 5xx (16:35'te 17 adet) |
+| Health (17:41 UTC) | `db`, `rest`, `auth` **UNHEALTHY**; realtime sağlıklı. 17:42'de DB yeni bağlantı kabul etmiyor, REST 504/zaman aşımı |
+| Plan | Compute eklentisi yok → **Nano** (paylaşımlı CPU, 0,5 GB RAM, düşük disk IO tabanı). DB 119 MB, okuma %99,99 bellekten |
+
+## Kök neden değerlendirmesi
+- **1056 kaynağı değil.** Göstergeler: (a) 1056 uygulandıktan sonraki 10 dakika tikler normaldi; (b) aynı takılma deseni
+  1056'dan 2,5 saat önce de vardı (1056 zaten bunun için yazılmıştı); (c) şu an kilit bekleyen yok, 1056'nın hiç
+  dokunmadığı işler ve katalog sorguları bile yavaş; (d) test durduktan 10 dk sonra durum düzelmedi, kötüleşti.
+- Desen **örnek (instance) düzeyinde kaynak tükenmesi**: arka uç başlatma (`job startup timeout`), yeni bağlantı ve
+  diskten okuyan `pg_stat_statements` dakikalarca sürüyor, ama bellekteki sorgular hızlı. Nano'nun disk IO / CPU
+  bütçesinin tükenmesiyle uyumlu (9 Eki "Disk IO kotası" notu). Bütçe grafiği yalnız panelde; API'den okunamadı.
+- Yükü artıranlar: gün boyu bu bilgisayardan koşan canlı testler (Kasa botu) ve her 5 sn'de yeni arka uç açan `hizli_tik`.
+
+## Neden geri alınmadı
+Brif "sorun 1056'dan geliyorsa" diyordu; kanıt aksini gösteriyor. Ayrıca geri alma 10 fonksiyonu yeniden yazan DDL'dir:
+bu durumda (a) DB bağlantı kabul etmediği için uygulanamaz, (b) uygulanabilse kilit/IO yükünü artırır, (c) 1056'nın
+çözdüğü grup maçı kilit yığılmasını geri getirir. Geri alma dosyası hazır duruyor: `docs/grup-mac-kilit-1056-geri-al.sql`.
+
+## Ida'nın kararı gereken
+1. **Projeyi yeniden başlatma** (Supabase panel › Settings › General › Restart project, ya da benden iste — onayın olmadan
+   yapmadım). Kaynak tükenmesinde en hızlı düzeltme budur.
+2. Kalıcı çözüm seçeneği: Micro compute (~10 $/ay; 1 GB RAM, disk IO tabanı 87 MB/sn). Bu bir ücret kararı.
+3. Canlıya karşı test koşmayı durdurmak (CLAUDE.md kuralı zaten böyle; bugün yine çalışıyordu).
+
+Not: Bu bilgisayarda Codex süreçleri ve iki Vite geliştirme sunucusu (5199 ve varsayılan port) açık; onlara dokunmadım.
+
+RAPOR HAZIR — Ida'ya iletilecek.
