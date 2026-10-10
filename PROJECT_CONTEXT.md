@@ -957,6 +957,11 @@ Her pakette: `node araclar/oyuncu-testi.mjs [--adres=https://quiztactics.com]`.
   elenmemiş oyuncuya. `avatarlar` kovası 2 MB, png/jpeg/webp. Geri alma: `docs/guvenlik-a-geri-al.sql`.
   **Açık kalan:** A.2 captcha ve A.3 yan oyun tabloları (bu işin dışında); A.10 `net.http_*` migration ile yapılamıyor
   (sahibi `supabase_admin`, postgres geri alamıyor) — Supabase tarafı; supabase_admin'in varsayılan yetkileri de değiştirilemiyor.
+- **Güvenlik C (migration 1053 + 1054, 10 Eki 2026):** DM ve şikâyet açıklamasında görünmez karakter (kontrol, sıfır genişlik,
+  bidi) küfür filtresinden önce silinir (`gorunmez_temizle`; emoji arası ZWJ kalır). Arkadaşlık isteği 24 sa'te 100, Düello+Kasa
+  daveti ortak 24 sa'te 100, aynı kişiye 60 sn bekleme (açık bot hariç). `cihaz_bildir` 10/dk ve `kalp_at` 60/dk sınırda sessizce
+  atlar. `profiles.tercih_kategori` CHECK `^[a-z0-9_]{1,40}$`. Edge Function kod değişiklikleri (sabit zamanlı secret, `send-push`
+  boş user_ids = 400) yukarıdaki dağıtım işini bekliyor. Geri alma: `docs/guvenlik-c-geri-al.sql`.
 
 
 - **1000 soru partisi + Jev zorluk (270–274) beklemede.** Üretildi ve provadan

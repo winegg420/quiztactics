@@ -11541,3 +11541,13 @@ Kaldırıldı: "Hazine sende: {k} puan" başlığı, AÇ alt yazısı "Skor x/y"
 - Kök sebep (kodda kanıtlı): zaman aşımı/kopan çağrılarda `usage` gelmediği için jeton sayılmıyordu ama sunucu faturalıyor; `api-uret` bu durumda isteği küçültüp yeniden gönderiyor. Ek: önbellek okuma sabit 0,1× idi (Opus 5.5 için 0,05× — yukarı hata), 1 sa yazma (2×) ayrışmıyordu.
 - Düzeltme: `FIYAT.okuma`, `modelUsd`, `kullanimEkle`, `iptalEkle` (iptal çağrısı tahmini `durum.json › harcama › iptal_*`). Test: `node araclar/soru-temizlik/claude-cagri.test.mjs` (elle hesapla eşleşti, API çağrısı yok).
 - Not: gerçek fatura görülemediği için %20 rakamsal olarak doğrulanamadı; iptal kalemi koşudaki zaman aşımı sayısına bağlı. `sik-ipucu-api.mjs` kendi hesabını yapıyor (önbelleği tam fiyatla sayar, iptali saymaz) — dokunulmadı, RAPOR.md'de.
+
+## 2026-10-10 — Güvenlik C: girdi temizliği, spam tavanı, hız sınırı (migration 1053 + 1054)
+**Araç:** Claude Code
+**Neden:** Ida — güvenlik denetimi raporunun 3., 4., 5. maddeleri (captcha, SSV, yan oyun tabloları, CSP/X-Frame-Options hariç).
+
+- **1053** (canlı): `gorunmez_temizle` (kontrol/sıfır genişlik/bidi; ZWJ emoji arasında korunur) → DM tetikleyicisi küfür filtresinden önce + şikâyet açıklaması; arkadaşlık isteği ve Düello+Kasa daveti 24 sa'te 100 + aynı kişiye 60 sn bekleme (açık bot hariç, `hiz_siniri_mesajli`); `cihaz_bildir`, `claim_referral`, `arkadas_davet_kodu_ile_ekle`, `kalp_at`, `ikram_yanitla`'ya `hiz_siniri`; üç eski satın alma RPC'sine profil kilidi; `profiles_tercih_kategori_check` (canlı 266 satırın hepsi null).
+- **1054** (canlı): `cihaz_bildir` / `kalp_at` sınırda sessizce atlar — arayüz denetimi konsol hatası buldu.
+- Karar: kategori kısıtı sabit liste değil biçim (`^[a-z0-9_]{1,40}$`); liste doğrulaması RPC'de zaten var, yeni kategori migration istemesin.
+- Edge Function kodu (dağıtılmadı): sabit zamanlı secret karşılaştırma (`_shared/gizli.ts`), `send-push` boş user_ids = 400 + gövde try, `satin_alma_dogrula` kullanıcı başına 10/dk. `vercel.json`: nosniff + Referrer-Policy.
+- Test: `araclar/guvenlik-c-prova.mjs` prova 56/56, canlı sonrası 56/56 (ROLLBACK, iz 0) · build temiz · arayuz-denetim TEMİZ (misafir silindi) · `npm test` tek kırmızı önceden var (skill testi Kasa'yı beklemiyor). Geri alma `docs/guvenlik-c-geri-al.sql`. Ayrıntı: RAPOR.md › Güvenlik C.

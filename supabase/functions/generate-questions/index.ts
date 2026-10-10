@@ -22,6 +22,7 @@
 
 import Anthropic from "npm:@anthropic-ai/sdk";
 import { createClient } from "npm:@supabase/supabase-js@2";
+import { gizliEsitMi } from "../_shared/gizli.ts";
 
 import { KATEGORILER, normalize, nedenGecersiz, type Soru } from "./kalite.ts";
 import {
@@ -185,7 +186,7 @@ Deno.serve(async (req) => {
     return new Response("Method Not Allowed", { status: 405 });
   }
   const secret = Deno.env.get("CRON_SECRET");
-  if (!secret || req.headers.get("x-cron-secret") !== secret) {
+  if (!gizliEsitMi(req.headers.get("x-cron-secret"), secret)) {
     return new Response("Unauthorized", { status: 401 });
   }
 

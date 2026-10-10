@@ -17,6 +17,7 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { googleErisimJetonu, playIstemcisi } from "../satin_alma_dogrula/play.ts";
 import { iadeTara } from "./akis.ts";
+import { gizliEsitMi } from "../_shared/gizli.ts";
 
 function yanit(govde: unknown, durum = 200) {
   return new Response(JSON.stringify(govde), { status: durum, headers: { "Content-Type": "application/json" } });
@@ -25,7 +26,7 @@ function yanit(govde: unknown, durum = 200) {
 Deno.serve(async (req) => {
   if (req.method !== "POST") return yanit({ hata: "Yalnızca POST" }, 405);
   const gizli = Deno.env.get("CRON_SECRET");
-  if (!gizli || req.headers.get("x-cron-secret") !== gizli) return yanit({ hata: "Yetkisiz" }, 401);
+  if (!gizliEsitMi(req.headers.get("x-cron-secret"), gizli)) return yanit({ hata: "Yetkisiz" }, 401);
 
   try {
     const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);

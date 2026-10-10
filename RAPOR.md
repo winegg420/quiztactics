@@ -109,3 +109,51 @@ Gerçek faturayı (Anthropic konsolu) bu ortamdan göremediğim için "%20" fark
 - `soru-temizlik/sik-ipucu-api.mjs` kendi hesabını yapıyor: önbellek yazma/okuma jetonlarını tam girdi fiyatından sayıyor (yazma 1,25× yerine 1×, okuma 0,1× yerine 1×) ve iptal çağrısını saymıyor. Önbellekte **fazla**, zaman aşımında **eksik** tahmin eder; dokunulmadı (`claude-cagri.mjs`'e geçirilmesi önerilir).
 
 RAPOR HAZIR — Ida'ya iletilecek.
+
+---
+
+# Güvenlik C — girdi temizliği, spam tavanı, hız sınırı (10 Eki 2026)
+
+Kaynak: `docs/GUVENLIK-DENETIMI-2026-10-10.md` madde 3, 4, 5 + Ek. Kapsam dışı: captcha (A.2), reklam SSV, yan oyun tabloları (A.3), CSP / X-Frame-Options.
+
+## Migration'lar (ikisi de canlıda)
+- **1053** `20260612001053_guvenlik_c_girdi_hiz_siniri.sql` — asıl iş.
+- **1054** `20260612001054_guvenlik_c_sessiz_sinir.sql` — 1053 düzeltmesi: `cihaz_bildir` ve `kalp_at` arka planda çalışan çağrılar; sınır aşılınca hata atmak yerine sessizce atlıyorlar. Arayüz denetimi, hızlı sayfa açılışında `cihaz_bildir`'in 10/dk sınırına takılıp konsola hata yazdığını yakaladı.
+- Geri alma: `docs/guvenlik-c-geri-al.sql` (1053 öncesi canlı gövdelerden üretildi; ikisini birden geri alır).
+- Yetki: yalnız `CREATE OR REPLACE` kullanıldı (ACL korunur). Yeni iki iç yardımcı (`gorunmez_temizle`, `hiz_siniri_mesajli`) PUBLIC/anon/authenticated'a kapalı. anon'a açık fonksiyon hâlâ yalnız `ses_secimleri_oyun` (1047 kuralı korundu).
+
+## Yapılanlar
+1. **Görünmez karakter:** `gorunmez_temizle()` şu karakterleri siler: \u0001-\u0008, \u000B-\u001F, \u007F, ​-‏, ‪-‮, ⁠-⁩, ﻿. Sekme ve satır sonu kalır (rapordaki aralık da onları dışarıda bırakıyor). **ZWJ (U+200D) iki emoji/simge arasındaysa korunur**; yoksa 👨‍👩‍👧 / ❤️‍🔥 / 🏳️‍🌈 parçalanırdı. Harf arasındaki ZWJ silinir. `trg_dm_guvenlik` küfür filtresinden ÖNCE temizler; sonuç boşsa mevcut `Mesaj boş olamaz` hatası döner. `sikayet_et` açıklaması da temizlenir.
+2. **Spam tavanı:** Arkadaşlık isteği (`send_friend_request` + `arkadas_davet_kodu_ile_ekle`) ortak sayaçla 24 saatte en fazla 100; `send_friend_request` ile aynı kişiye 60 sn'de 1. Düello + Kasa daveti ortak sayaçla 24 saatte en fazla 100; aynı kişiye 60 sn içinde yeniden davet yok (reddedilse bile). **Açık botlar sayılmaz** (antrenman serbest kalır). Sayaçlar yalnız gerçek gönderimde artar (doğrulama hatasında işlem geri alındığı için sayılmaz). Mesajlar TR + EN (`oyun/lib/ceviri/sunucu.js`):
+   - "Bu oyuncuya az önce davet/istek gönderdin, biraz bekle." · "Bugün çok fazla davet / arkadaşlık isteği gönderdin, daha sonra tekrar dene."
+3. **Hız sınırı:** `cihaz_bildir` 10/dk (sessiz), `claim_referral` 10/dk, `arkadas_davet_kodu_ile_ekle` 10/dk, `kalp_at` 60/dk (sessiz; Düello/Kasa nabzı ve 60 sn'lik genel nabız bunun çok altında), `ikram_yanitla` 30/dk.
+4. **Eşzamanlı satın alma:** `esya_satin_al`, `karakter_satin_al`, `avatar3d_satin_al` başına `perform 1 from profiles where id = v_me for update` eklendi (hiz_siniri'nden hemen sonra; "zaten sende" kontrolü artık kilitten sonra yapılıyor). Başka mantık değişmedi.
+5. **tercih_kategori:** Canlıda 266 satırın hepsi `null`, uyumsuz satır yok. `profiles_tercih_kategori_check` eklendi: `null` ya da `^[a-z0-9_]{1,40}$` (canlıdaki 10 kategori anahtarının hepsi bu biçimde). Sabit liste yerine biçim kısıtı seçildi; böylece yeni kategori eklemek migration gerektirmez. Asıl liste doğrulaması `tercih_kategori_kaydet` RPC'sinde zaten var.
+6. **Edge Function kodu (DAĞITILMADI):** `_shared/gizli.ts › gizliEsitMi` ile sabit zamanlı karşılaştırma → `send-push`, `generate-questions`, `satin_alma_iade_tara`. `send-push`: `req.json()` try içine alındı (hatalı gövdede 400). Boş ya da eksik `user_ids` artık 400 döner, herkese gönderim yok. Ölçüldü: canlıdaki bütün çağıranlar (`push_gonder` ← `bildirim_yaz`, `haftalik_sonuc_bildir`, `notify_new_hizli_davet`) tek kişilik dizi yolluyor. Gövde ve ölü abonelik silme try-catch içinde. `satin_alma_dogrula`: kullanıcı başına 60 sn'de 10 istek (bellek içi, her sunucu örneği için ayrı sayar; asıl tekrar koruması token UNIQUE kısıtında). Dağıtım notları değişmedi: bkz. PROJECT_CONTEXT › Açık İşler (`send-push` `--no-verify-jwt` ile dağıtılmalı).
+7. **vercel.json:** Bütün yollara `X-Content-Type-Options: nosniff` + `Referrer-Policy: strict-origin-when-cross-origin` eklendi. X-Frame-Options / CSP eklenmedi.
+
+## Testler
+- `araclar/guvenlik-c-prova.mjs`: tek işlem, taklit kullanıcılar, sonunda ROLLBACK (geri alma). **Prova (migration işlem içinde): 56/56. Canlıda uygulandıktan sonra aynı set (migration'sız): 56/56.**
+  - Görünmez karakter: Türkçe karakter/noktalama, emoji (ten rengi, ZWJ aile, bayrak), boşluk/sekme/satır sonu değişmiyor; ZW/RLO/BEL/BOM/isolate ve harf arası ZWJ siliniyor.
+  - DM ve şikâyet: normal DM gidiyor; görünmez karakterli DM temizleniyor; yalnız görünmez karakterden oluşan mesaj "Mesaj boş olamaz" alıyor; şikâyet açıklaması temizleniyor (emoji kalıyor).
+  - Arkadaşlık: ilk istek gidiyor, 60 sn bekleme çalışıyor, 100. istek gidiyor, 101. istek doğru hatayı alıyor; davet kodu yolu da tavana tabi.
+  - Kasa: ilk davet gidiyor, red sonrası bekleme ve günlük tavan hatası doğru.
+  - Hız sınırı: 5 RPC sınır altında çalışıyor, üstünde duruyor (ikisi sessizce atlıyor).
+  - Satın alma: 3 RPC'de kilit var, iş hatası akışı bozulmamış.
+  - tercih_kategori: geçerli değer ve null yazılıyor, çöp değer reddediliyor.
+  - Yetki: 14 fonksiyon anon'a kapalı, iki yardımcı authenticated'a da kapalı; anon'a açık tek fonksiyon `ses_secimleri_oyun`.
+- İz kontrolü: test sonrası `prova-c-*` kullanıcı 0, yeni sayaç satırı 0, `idle in transaction` 0.
+- `npm run build` temiz · `arayuz-denetim` (1054 sonrası) **TEMİZ**. Denetimin açtığı misafir hesabı `hesabimi_sil` ile silindi (DB'de 0).
+- `npm test`: tek kırmızı test **bu işten bağımsız ve önceden vardı**: `oyun/_test/skill-sistemi-test.mjs` "İkinci Şans Klasik ve Düello içindir" `['1v1','duello']` bekliyor, ama kod `kasa`'yı da içeriyor (Kasa'ya İkinci Şans eklenmiş, test güncellenmemiş). DB testleri bağlantı olmadığı için atlandı.
+
+## Yapılamayan / dikkat
+- **Düello daveti tavanı canlı akışta uçtan uca denenemedi:** Yeni test hesabı, tavana gelmeden Düello açılış kilidine ("5 maç daha oyna") takılıyor. Kod bloğu Kasa ile birebir aynı ve katalogdan doğrulandı.
+- Edge Function'lar dağıtılmadı (talimat gereği). Yerelde Deno yok, bu yüzden TypeScript derleme denetimi yapılamadı. Değişiklikler küçük ve tip uyumlu yazıldı; dağıtırken `supabase functions deploy` paketlemesi ilk kontrol olur.
+- `docs/guvenlik-c-geri-al.sql` kendi `begin/commit`'ini taşıdığı için `migration-prova` ile denendiğinde canlıda gerçekten işledi. O anda 1053 henüz uygulanmamıştı, yani gövdeleri canlıdakiyle birebir aynı olarak yeniden yazdı. Ardından 13 fonksiyonun tanımı önceki dökümle karşılaştırıldı: **aynı**. Yeni fonksiyon ya da kısıt eklenmemişti.
+- Başka bir oturumdan kalan misafir hesabı `ArayuzDenetim131` (13:57 UTC) canlıda duruyor; bu işe ait olmadığı için dokunulmadı.
+
+## Madde 8 — aynı kalıp taraması
+- **Görünmez karakter:** Başkalarının gördüğü serbest metin alanı yalnız DM ve şikâyet açıklaması; ikisi de düzeltildi. Takma ad zaten sıkı bir karakter listesiyle sınırlı; maç/grup sohbeti sabit listeden. `profiles`'ta istemcinin doğrudan yazabildiği metin kolonları yalnız `dil` (CHECK var) ve `tercih_kategori` (artık CHECK var). Yan oyunların metin parametreleri (`kafatopu_*`, `gl_profil_kaydet`, `ses_*`) serbest metin değil, kod/kimlik değerleri.
+- **Hız sınırı olmayan yazma RPC'leri (authenticated'a açık, ~70):** Çoğu kendi satırını değiştiren ucuz işlemler (`dm_okundu`, `bildirimleri_oku`, `*_aramadan_cik`, `*_terk`, `*_iptal`, `*_nabiz`, tercih kaydetme) ya da maç durumunu `FOR UPDATE` ile ilerleten `advance_*` / `get_match_question`. Bunlara sınır gerekmiyor ya da sınır maç hızını bozar. Bu işte düzeltilmedi; ileride bakılabilecekler: `respond_challenge` / `respond_group_challenge` / `respond_hizli_davet`, `rovans_iste`, `engel_kaldir`, `kafatopu_odaya_katil` (oda kodu tahmini), `avatar_onay_kaydet` / `kozmetik_onay_kaydet`. Hiçbiri coin/elmas vermiyor, hepsi oturum istiyor.
+
+RAPOR HAZIR — Ida'ya iletilecek.

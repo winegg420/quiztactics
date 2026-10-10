@@ -3,14 +3,26 @@
 // Gövde: { user_ids?: string[], baslik: string, govde: string, url?: string }
 import { createClient } from "npm:@supabase/supabase-js@2";
 import webpush from "npm:web-push@3.6.7";
+import { gizliEsitMi } from "../_shared/gizli.ts";
 
 Deno.serve(async (req) => {
-  if (req.headers.get("x-cron-secret") !== Deno.env.get("CRON_SECRET")) {
+  if (!gizliEsitMi(req.headers.get("x-cron-secret"), Deno.env.get("CRON_SECRET"))) {
     return new Response("Yetkisiz", { status: 401 });
   }
 
-  const { user_ids, baslik, govde, url } = await req.json();
+  let girdi: { user_ids?: unknown; baslik?: string; govde?: string; url?: string };
+  try {
+    girdi = await req.json();
+  } catch {
+    return new Response(JSON.stringify({ hata: "Geçersiz istek gövdesi" }), { status: 400 });
+  }
+  const { user_ids, baslik, govde, url } = girdi ?? {};
+  // Boş / eksik user_ids artık "herkese gönder" DEĞİL (bütün çağıranlar push_gonder ile kişi listesi yolluyor).
+  if (!Array.isArray(user_ids) || user_ids.length === 0 || user_ids.length > 1000) {
+    return new Response(JSON.stringify({ hata: "user_ids gerekli" }), { status: 400 });
+  }
 
+  try {
   webpush.setVapidDetails(
     "mailto:idagureli@gmail.com",
     Deno.env.get("VAPID_PUBLIC_KEY")!,
@@ -22,11 +34,7 @@ Deno.serve(async (req) => {
     Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
   );
 
-  let sorgu = db.from("push_subscriptions").select("*");
-  if (Array.isArray(user_ids) && user_ids.length > 0) {
-    sorgu = sorgu.in("user_id", user_ids);
-  }
-  const { data: abonelikler, error } = await sorgu;
+  const { data: abonelikler, error } = await db.from("push_subscriptions").select("*").in("user_id", user_ids);
   if (error) {
     // İç DB ayrıntısı yanıtta değil, fonksiyon günlüğünde
     console.error(JSON.stringify({ olay: "abonelik_okunamadi", hata: error.message }));
@@ -52,7 +60,11 @@ Deno.serve(async (req) => {
         const kod = (hata as { statusCode?: number })?.statusCode;
         if (kod === 404 || kod === 410) {
           // Ölü abonelik: temizle
-          await db.from("push_subscriptions").delete().eq("endpoint", abone.endpoint);
+          try {
+            await db.from("push_subscriptions").delete().eq("endpoint", abone.endpoint);
+          } catch (e) {
+            console.error(JSON.stringify({ olay: "olu_abonelik_silinemedi", hata: String(e) }));
+          }
         }
       }
     }),
@@ -61,4 +73,8 @@ Deno.serve(async (req) => {
   return new Response(JSON.stringify({ basarili, basarisiz }), {
     headers: { "Content-Type": "application/json" },
   });
+  } catch (e) {
+    console.error(JSON.stringify({ olay: "beklenmeyen_hata", hata: String(e) }));
+    return new Response(JSON.stringify({ hata: "Beklenmeyen hata" }), { status: 500 });
+  }
 });

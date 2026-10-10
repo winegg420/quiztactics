@@ -30,6 +30,19 @@ function yanit(govde: unknown, durum = 200) {
   });
 }
 
+// Kullanıcı başına basit sınır: 60 sn'de 10 doğrulama (güvenlik denetimi madde 5). Bellek içi →
+// sınır örnek (instance) başınadır; asıl tekrar koruması purchase_token/play_token UNIQUE'te.
+const SINIR = 10, PENCERE_MS = 60_000;
+const istekler = new Map<string, number[]>();
+function sinirAsildi(kullanici: string): boolean {
+  const simdi = Date.now();
+  const son = (istekler.get(kullanici) ?? []).filter((t) => simdi - t < PENCERE_MS);
+  son.push(simdi);
+  istekler.set(kullanici, son);
+  if (istekler.size > 5000) for (const [k, v] of istekler) if (simdi - v[v.length - 1] >= PENCERE_MS) istekler.delete(k);
+  return son.length > SINIR;
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: KOSE });
   if (req.method !== "POST") return yanit({ hata: "Yalnızca POST" }, 405);
@@ -54,6 +67,7 @@ Deno.serve(async (req) => {
     );
     const { data: { user }, error: kimlikHata } = await kullaniciDb.auth.getUser();
     if (kimlikHata || !user) return yanit({ hata: "Geçersiz oturum" }, 401);
+    if (sinirAsildi(user.id)) return yanit({ hata: "Çok hızlı işlem yapıyorsun, biraz bekle." }, 429);
 
     let govde: unknown;
     try {
