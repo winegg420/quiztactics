@@ -84,3 +84,26 @@
 .m1-cal-ozet .m1-cal-cubuk b { font-weight: var(--qt-a-siyah); }
 /* Bölüm başlıkları krem plaka: zemin üstündeki düz yazı yerine (plaka kendi zeminini taşır, yazı lacivert) */
 .m1-cal-bolum .qt-baslik-3.qt-plaka { color: var(--qt-metin); }
+
+/* ---------- Ekran revizyonu A (Ida, 10 Eki 2026): afiş sayısı + 2 sütunlu kategori kartları ---------- */
+.m1-cal-afis-sayi { display: inline-flex; align-items: baseline; gap: 4px; padding: 2px 10px; border: 2px solid #1d2152; border-radius: 999px; background: var(--qt-yuzey); color: var(--qt-metin); }
+.m1-cal-afis-sayi b { font: var(--qt-a-siyah) 22px/1 var(--qt-f-baslik); color: var(--qt-vurgu-dudak); }
+.m1-cal-afis-sayi small { font-weight: var(--qt-a-kalin); font-size: 13px; }
+.m1-cal-kat-izgara { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--qt-b-2); }
+@media (min-width: 700px) { .m1-cal-kat-izgara { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.m1-cal-kat-kart {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 8px; min-height: 56px; padding: 8px;
+  border: 2px solid #1d2152; border-radius: 14px; background: var(--qt-yuzey); color: var(--qt-metin); box-shadow: 0 3px 0 #1d2152;
+  font: inherit; text-align: left; cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.m1-cal-kat-kart[aria-pressed="true"] { background: var(--qt-ikinci-acik); outline: 3px solid var(--qt-ikinci); outline-offset: -5px; }
+.m1-cal-kat-kart:active { box-shadow: 0 1px 0 #1d2152; translate: 0 2px; }
+.m1-cal-kat-kart:focus-visible { outline: 3px solid var(--qt-ikinci); outline-offset: 2px; }
+.m1-cal-kat-ad { min-width: 0; overflow: hidden; font-size: 15px; line-height: 1.15; font-weight: var(--qt-a-siyah); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.m1-cal-kat-sayi { min-width: 26px; padding: 2px 5px; border-radius: 999px; background: var(--qt-vurgu-acik); color: var(--qt-vurgu-dudak); text-align: center; }
+@media (prefers-reduced-motion: reduce) { .m1-cal-kat-kart:active { translate: none; } }
+/* Dar telefonda (360 px) "Geography/Coğrafya" tek kelime kartta bölünmeden sığsın */
+@media (max-width: 380px) {
+  .m1-cal-kat-kart { gap: 6px; padding: 8px 6px 8px 8px; }
+  .m1-cal-kat-ad { font-size: 14px; }
+}

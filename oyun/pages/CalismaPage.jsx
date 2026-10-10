@@ -1,11 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import KategoriIkon, { KATEGORI_RENK } from "../components/KategoriIkon.jsx";
-import "../tasarim/ekranlar/ikon-disk.css";
+import KategoriIkon from "../components/KategoriIkon.jsx";
 import MacUstSerit from "../components/MacUstSerit.jsx";
 import Konfeti from "../components/Konfeti.jsx";
 import { sesKilidiAc, sesTik, sesDogru, sesYanlis, sesKazandin, sesDokunus, sesOnYukle, sesSoruGeldi } from "../lib/ses.js";
-import { QtBosDurum, QtCip, QtDugme, QtIkon, QtIlerleme, QtIskelet, QtKart, QtRozet, QtSayac, QtSik, QtSikler, QtSonucBandi, QtSoruKarti } from "../tasarim/index.js";
+import { QtAfis, QtBosDurum, QtCip, QtDugme, QtIkon, QtIlerleme, QtIskelet, QtKart, QtRozet, QtSayac, QtSik, QtSikler, QtSonucBandi, QtSoruKarti } from "../tasarim/index.js";
 import "../tasarim/ekranlar/m1-mac.css";
 import "../tasarim/ekranlar/m1-calisma.css";
 import CevapEfekti from "../components/CevapEfekti.jsx";
@@ -41,19 +40,6 @@ export default function CalismaPage() {
   const [bankaHata, setBankaHata] = useState(false);
   const [kategoriler, setKategoriler] = useState([]);
   const [kategori, setKategori] = useState(null);
-  // Paket 37 G: kategori şeridi sağdan kesiliyordu — kaydırılacak içerik kaldıkça sağ kenar solar.
-  const seritRef = useRef(null);
-  const [seritDevam, setSeritDevam] = useState(false);
-  const seritOlc = useCallback(() => {
-    const e = seritRef.current;
-    if (!e) return;
-    setSeritDevam(e.scrollWidth - e.clientWidth - e.scrollLeft > 2);
-  }, []);
-  useEffect(() => {
-    seritOlc();
-    window.addEventListener("resize", seritOlc);
-    return () => window.removeEventListener("resize", seritOlc);
-  }, [seritOlc, kategoriler]);
   const [soruSayisi, setSoruSayisi] = useState(10);
   const [oturum, setOturum] = useState(null);
   const [soru, setSoru] = useState(null);
@@ -282,12 +268,33 @@ export default function CalismaPage() {
     const tahminBanka = Math.min(bankaKat, soruSayisi);
     const tahminYeni = Math.max(0, soruSayisi - tahminBanka);
     const bankaSecenegi = bankaKat > 0 && !SORU_SECENEKLERI.includes(bankaKadar);
+    // Ekran revizyonu A (Ida, 10 Eki 2026): kategori kartları — her kartta bankada bekleyen soru; bankada sorusu olanlar önde.
+    const katAdet = new Map((banka?.kategoriler ?? []).map((k) => [k.kategori, Number(k.kategori_adet) || 0]));
+    const katKartlari = [
+      { kategori: null, adet: banka?.bekleyen ?? 0 },
+      ...kategorileriSirala(kategoriler)
+        .map((k, i) => ({ kategori: k.kategori, adet: katAdet.get(k.kategori) ?? 0, i }))
+        .sort((a, b) => b.adet - a.adet || a.i - b.i),
+    ];
     return (
       <div className="m1-cal">
-        <header className="m1-cal-baslik">
-          <h1 className="qt-baslik-1">{tt("Hatalarım")}</h1>
-          <p className="qt-soluk-zemin">{tt("Yanlış yaptığın soruları tekrar et, açığını kapat.")}</p>
-        </header>
+        {/* Ekran revizyonu A: turuncu kitap afişi — sağda bekleyen sayı, şeritte gerçek ilerleme (öğrenilen / toplam) */}
+        <QtAfis
+          ikon="kitap"
+          ton="vurgu"
+          baslik={tt("Hatalarım")}
+          sag={yukleniyor || bankaHata ? null : (banka?.bekleyen ?? 0) > 0 ? (
+            <span className="m1-cal-afis-sayi" aria-label={tt("{n} soru bankanda", { n: banka.bekleyen })}>
+              <b className="qt-sayi">{banka.bekleyen}</b><small>{tt("soru")}</small>
+            </span>
+          ) : <QtRozet ton="dogru" ikon="onay" boyut="k">{tt("Temiz")}</QtRozet>}
+        >
+          {yukleniyor || bankaHata || !((banka?.toplam ?? 0) > 0)
+            ? tt("Yanlış yaptığın soruları tekrar et, açığını kapat.")
+            : (banka?.bekleyen ?? 0) > 0
+              ? tt("{o}/{t} soruyu öğrendin — iki kez doğru bil, bankadan çıksın.", { o: banka.ogrenilen, t: banka.toplam })
+              : tt("Bankan temiz — {o} soruyu öğrendin.", { o: banka?.ogrenilen ?? 0 })}
+        </QtAfis>
 
         {yukleniyor ? (
           <QtIskelet tur="kart" yukseklik={140} />
@@ -299,49 +306,37 @@ export default function CalismaPage() {
             eylem={<QtDugme tur="ikincil" boyut="k" ikon="yenile" onClick={() => { setYukleniyor(true); bankaYukle(); }}>{tt("Tekrar dene")}</QtDugme>}
           />
         ) : bos ? (
-          <QtKart className="m1-cal-bos">
-            {/* Baykuş maskot kaldırıldı (Ida, 24 Eyl 2026) */}
-            <span className="qt-ikon-disk qt-ikon-disk--turuncu" aria-hidden="true"><QtIkon ad="kitap" boyut={34} /></span>
-            <p>
-              {tt("Henüz yanlışın yok — maç yaptıkça burada birikecek.")}
-              <br />
-              {tt("Yine de genel havuzdan çalışabilirsin.")}
-            </p>
+          /* Ekran revizyonu: boş durum A (küçük sahne çizimi). Kategori + soru sayısı altta kalır → pratik turu açılır. */
+          <QtKart>
+            <QtBosDurum
+              gorsel="hatalarim"
+              gorselTarz="sahne"
+              baslik={tt("Hatalı sorun yok")}
+              metin={tt("Yanlış yaptığın sorular burada birikir.")}
+            />
           </QtKart>
-        ) : (
-          <QtKart className="m1-cal-ozet">
-            <div className="m1-cal-sayilar">
-              <div className="m1-cal-sayi m1-cal-sayi--bekleyen"><b className="qt-sayi">{banka.bekleyen}</b><span>{tt("soru bankanda")}</span></div>
-              <div className="m1-cal-sayi m1-cal-sayi--ogrenilen"><b className="qt-sayi">{banka.ogrenilen}</b><span>{tt("öğrenildi")}</span></div>
-            </div>
-            {banka.kategoriler.length > 0 && (
-              <div className="m1-cal-cubuklar">
-                {banka.kategoriler.map((k) => {
-                  const enCok = Math.max(...banka.kategoriler.map((x) => x.kategori_adet), 1);
-                  return (
-                    <div key={k.kategori} className="m1-cal-cubuk" style={{ "--kp-r": KATEGORI_RENK[k.kategori] ?? KATEGORI_RENK.karisik }}>
-                      <span className="m1-cal-cubuk-ad"><KategoriIkon anahtar={k.kategori} boyut={28} plaka /><span>{kategoriEtiket(k.kategori)}</span></span>
-                      <QtIlerleme deger={k.kategori_adet} en={enCok} ton="vurgu" konturlu etiket={kategoriEtiket(k.kategori)} />
-                      <b className="qt-sayi">{k.kategori_adet}</b>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </QtKart>
-        )}
+        ) : null}
 
         <section className="m1-cal-bolum" aria-labelledby="m1-cal-kat">
           <h2 id="m1-cal-kat" className="qt-baslik-3 qt-plaka">{tt("Kategori")}</h2>
-          <div className={`m1-cal-serit${seritDevam ? " m1-cal-serit--devam" : ""}`} ref={seritRef} onScroll={seritOlc}>
-            <QtCip secili={kategori === null} onClick={() => setKategori(null)}>
-              <span className="m1-cal-cip"><KategoriIkon anahtar="karisik" boyut={18} />{tt("Tümü")}</span>
-            </QtCip>
-            {kategorileriSirala(kategoriler).map((k) => (
-              <QtCip key={k.kategori} secili={kategori === k.kategori} onClick={() => setKategori(k.kategori)}>
-                <span className="m1-cal-cip"><KategoriIkon anahtar={k.kategori} boyut={18} />{kategoriEtiket(k.kategori)}</span>
-              </QtCip>
-            ))}
+          <div className="m1-cal-kat-izgara" role="group" aria-labelledby="m1-cal-kat">
+            {katKartlari.map((k) => {
+              const ad = k.kategori ? kategoriEtiket(k.kategori) : tt("Tümü");
+              return (
+                <button
+                  key={k.kategori ?? "tumu"}
+                  type="button"
+                  className="m1-cal-kat-kart"
+                  aria-pressed={kategori === k.kategori}
+                  aria-label={k.adet > 0 ? `${ad} · ${tt("{n} soru bankanda", { n: k.adet })}` : ad}
+                  onClick={() => setKategori(k.kategori)}
+                >
+                  <KategoriIkon anahtar={k.kategori ?? "karisik"} boyut={30} plaka />
+                  <span className="m1-cal-kat-ad">{ad}</span>
+                  {k.adet > 0 && <b className="qt-sayi m1-cal-kat-sayi" aria-hidden="true">{k.adet}</b>}
+                </button>
+              );
+            })}
           </div>
         </section>
 
