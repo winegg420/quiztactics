@@ -1241,6 +1241,46 @@
         "hakem: yasak tip tanimlama": 1
       },
       "harcama_usd": 11.24
+    },
+    "kolay_07": {
+      "klasor": "kolay-07",
+      "durum": "bitti_canlida (2026-10-10; +108 aktif)",
+      "migration": "20260612001045_soru_parti_kolay_07",
+      "soru": 108,
+      "kategori": {
+        "sanat": 10,
+        "muzik": 20,
+        "teknoloji": 38,
+        "tarih": 4,
+        "genel_kultur": 14,
+        "edebiyat": 22
+      },
+      "zorluk": {
+        "2": 69,
+        "3": 39
+      },
+      "yerel_tr": 5,
+      "ceviri_en": 103,
+      "taslak": 578,
+      "gecen": 124,
+      "elenen": {
+        "Jev ipucu": 44,
+        "hakem: aşırı kolay": 28,
+        "hakem: tartışmalı": 19,
+        "biçim/kural": 61,
+        "birebir var": 30,
+        "hakem: doğru şık yanlis": 1,
+        "benzer": 150,
+        "uyarı": 13,
+        "hakem: doğru şık tartismali": 5,
+        "hakem: eskiyebilir": 2,
+        "cevap soruda": 5,
+        "hakem: EN uygun değil": 2,
+        "hakem: yasak tip okudugunu_anlama": 1,
+        "hakem: yasak tip tanimlama": 1,
+        "kapı hatası": 92
+      },
+      "harcama_usd": 9.95
     }
   }
 }

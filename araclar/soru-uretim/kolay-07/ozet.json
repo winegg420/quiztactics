@@ -1,0 +1,118 @@
+{
+  "klasor": "kolay-07",
+  "tarih": "2026-10-10",
+  "uretici": "claude-opus-5-5",
+  "hakem": "claude-sonnet-5-5",
+  "kota_gerekce": "Aktif zorluk 2 sayısı az olan kategoriye çok (ağırlık = en kalabalık + 25 − kategori)",
+  "z2_olcum": {
+    "sanat": 717,
+    "muzik": 783,
+    "teknoloji": 665,
+    "spor": 757,
+    "tarih": 886,
+    "sinema": 774,
+    "genel_kultur": 641,
+    "edebiyat": 764
+  },
+  "kota": {
+    "sanat": 30,
+    "muzik": 20,
+    "teknoloji": 38,
+    "spor": 24,
+    "tarih": 4,
+    "sinema": 21,
+    "genel_kultur": 41,
+    "edebiyat": 22
+  },
+  "z3_hedef": {
+    "sanat": 9,
+    "muzik": 6,
+    "teknoloji": 11,
+    "spor": 7,
+    "tarih": 1,
+    "sinema": 6,
+    "genel_kultur": 12,
+    "edebiyat": 7
+  },
+  "taslak": 578,
+  "gecen": 124,
+  "secilen": 108,
+  "kategori": {
+    "sanat": 10,
+    "muzik": 20,
+    "teknoloji": 38,
+    "tarih": 4,
+    "genel_kultur": 14,
+    "edebiyat": 22
+  },
+  "zorluk": {
+    "2": 69,
+    "3": 39
+  },
+  "yerel": 5,
+  "en": 103,
+  "eksik": {
+    "sanat": {
+      "z2": 15,
+      "z3": 5
+    },
+    "spor": {
+      "z2": 17,
+      "z3": 7
+    },
+    "tarih": {
+      "z2": 0,
+      "z3": 1
+    },
+    "sinema": {
+      "z2": 15,
+      "z3": 6
+    },
+    "genel_kultur": {
+      "z2": 25,
+      "z3": 2
+    },
+    "edebiyat": {
+      "z2": 1,
+      "z3": 0
+    }
+  },
+  "elenen_sebep": {
+    "Jev ipucu": 44,
+    "hakem: aşırı kolay": 28,
+    "hakem: tartışmalı": 19,
+    "biçim/kural": 61,
+    "birebir var": 30,
+    "hakem: doğru şık yanlis": 1,
+    "benzer": 150,
+    "uyarı": 13,
+    "hakem: doğru şık tartismali": 5,
+    "hakem: eskiyebilir": 2,
+    "cevap soruda": 5,
+    "hakem: EN uygun değil": 2,
+    "hakem: yasak tip okudugunu_anlama": 1,
+    "hakem: yasak tip tanimlama": 1,
+    "kapı hatası": 92
+  },
+  "harcama_usd": {
+    "claude": 9.935,
+    "jev": 0.0102,
+    "toplam": 9.945,
+    "jeton": {
+      "claude-opus-5-5": {
+        "girdi": 49321,
+        "cikti": 383742,
+        "cagri": 35,
+        "onbellek_yaz": 171746,
+        "onbellek_oku": 325652
+      },
+      "claude-sonnet-5-5": {
+        "girdi": 286346,
+        "cikti": 50123,
+        "cagri": 183,
+        "onbellek_yaz": 0,
+        "onbellek_oku": 0
+      }
+    }
+  }
+}
